@@ -120,6 +120,9 @@ Source: "..\Release\styles\Separated.8.(2+3+4).xsl"; DestDir: "{app}\styles"; Fl
 Source: "..\Release\styles\XChat.xsl"; DestDir: "{app}\styles"; Flags: ignoreversion
 Source: "..\Release\styles\XChat2seconds.xsl"; DestDir: "{app}\styles"; Flags: ignoreversion
 Source: "..\Release\styles\XChat3fullDate.xsl"; DestDir: "{app}\styles"; Flags: ignoreversion
+Source: "..\Release\icons\sim.jisp"; DestDir: "{app}\icons"; Flags: ignoreversion
+Source: "..\Release\icons\smiles.jisp"; DestDir: "{app}\icons"; Flags: ignoreversion
+Source: "..\Release\icons\weather.jisp"; DestDir: "{app}\icons"; Flags: ignoreversion
 Source: "..\Release\po\bg.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\ca.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\cs.qm"; DestDir: "{app}\po"; Flags: ignoreversion
