@@ -40,7 +40,7 @@
 %x x_tag
 %%
 
-(http|https|ftp)"://"[A-Za-z0-9/\,\.\?\&\;\-_\+\%=~]+	{ return URL; }
+(http|https|ftp)"://"[A-Za-z0-9/\,\.\?\&\;\(\)\-_\+\%=~]+	{ return URL; }
 "&quot;"						{ return TXT; }
 "&amp;"							{ return TXT; }
 "&lt;"							{ return TXT; }

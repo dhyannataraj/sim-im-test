@@ -437,8 +437,7 @@ void UserBox::quit()
     btnInfo->setOn(false);
     btnHistory->setOn(false);
     MsgEdit *wnd = getWnd(tabs->currentTab());
-    if (wnd)
-        closeUser(wnd->Uin());
+    if (wnd) wnd->close();
 }
 
 void UserBox::removeChilds()

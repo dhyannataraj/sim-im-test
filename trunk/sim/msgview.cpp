@@ -675,8 +675,6 @@ void HistoryView::fill()
         u = pClient->getUser(m_nUin);
         if (u == NULL) return;
         h = new History(m_nUin);
-        colors.clear();
-        t = "";
         showProgress(0);
     }
     if ((u == NULL) || (h == NULL)) return;
@@ -687,32 +685,13 @@ void HistoryView::fill()
         showProgress(it.progress());
         for (unreadIt = u->unreadMsgs.begin(); unreadIt != u->unreadMsgs.end(); unreadIt++)
             if ((*unreadIt) == (*it)->Id) break;
-        t = makeMessage(*it, unreadIt != u->unreadMsgs.end()) + t;
-        unsigned long foreColor = 0;
-        unsigned long backColor = 0;
-        if (!pMain->UseOwnColors() && ((*it)->Type() == ICQ_MSGxMSG)){
-            ICQMsg *m = static_cast<ICQMsg*>(*it);
-            foreColor = m->ForeColor();
-            backColor = m->BackColor();
-        }
-        if (foreColor != backColor){
-            MsgBgColor pc;
-            pc.id = (*it)->Id;
-            pc.rgb = backColor;
-            colors.prepend(pc);
-        }
+        bBack = false;
+        addMessage(*it, unreadIt != u->unreadMsgs.end(), false);
+        bBack = true;
         QTimer::singleShot(0, this, SLOT(fill()));
         return;
     }
 
-    setText(t);
-    t = "";
-    int n = 0;
-    for (QValueList<MsgBgColor>::Iterator itCol = colors.begin(); itCol != colors.end(); ++itCol){
-        MsgBgColor pc = *itCol;
-        n = setMsgBgColor(m_nUin, pc.id, pc.rgb, n);
-    }
-    colors.clear();
     delete h;
     h = NULL;
     u = NULL;

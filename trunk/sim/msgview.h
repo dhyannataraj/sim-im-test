@@ -105,12 +105,6 @@ protected:
     unsigned long oldReceiveColor;
 };
 
-typedef struct MsgBgColor
-{
-    unsigned long id;
-    unsigned long rgb;
-} MsgBgColor;
-
 class ICQUser;
 class History;
 
@@ -131,8 +125,6 @@ protected:
     bool bFill;
     ICQUser *u;
     History *h;
-    QValueList<MsgBgColor> colors;
-    QString t;
 };
 
 #endif

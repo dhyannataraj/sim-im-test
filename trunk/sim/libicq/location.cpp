@@ -80,7 +80,7 @@ void ICQClient::sendCapability()
     Buffer cap(5 * sizeof(capability));
     capability c;
     memmove(c, capabilities[4], sizeof(c));
-    char ver[] = VERSION; 
+    char ver[] = VERSION;
     char pack_ver = (atol(ver) + 1) << 6;
     char *p = strchr(ver, '.');
     if (p) pack_ver += atol(p+1);

@@ -216,6 +216,8 @@ ICQMessage *History::loadMessage(std::fstream &f, string &type, unsigned long id
     return msg;
 }
 
+#define BLOCK_SIZE	1024
+
 bool History::iterator::operator ++()
 {
     if (msg){
@@ -226,31 +228,108 @@ bool History::iterator::operator ++()
         if (!f.is_open()){
             if (!h.open(false, f, &f_size))
                 return false;
-            for (;;){
-                getline(f, type);
-                if (f.eof()) return false;
-                if (*type.c_str() == '[') break;
-            }
+            start_block = f_size;
         }
-        unsigned long msgId = (unsigned long)f.tellg() - type.length();
+        if (msgs.size()){
+            unsigned long msgId = msgs.top();
+            msgs.pop();
+            f.clear();
+            f.seekg(msgId, ios::beg);
+            int eof = f.eof();
+            getline(f, type);
+            msg = h.loadMessage(f, type, msgId);
+            if (msg == NULL) continue;
+            return true;
+        }
+        if (start_block == 0)
+            return false;
+        loadBlock();
+    }
+    return true;
+}
+
+void History::iterator::loadBlock()
+{
+    if (start_block == 0) return;
+    unsigned long start = start_block;
+    for (;;){
+        f.clear();
+        if (start > BLOCK_SIZE){
+            start -= BLOCK_SIZE;
+            f.seekg(start, ios::beg);
+            getline(f, type);
+            if ((f.tellg() > start_block) || f.eof())
+                continue;
+        }else{
+            start = 0;
+            f.seekg(start, ios::beg);
+        }
+        string line;
+        for (;;){
+            getline(f, line);
+            if ((f.tellg() > start_block) || f.eof())
+                break;
+            if (*line.c_str() != '[') continue;
+            type = line.substr(1, line.length()-1);
+            int pos = type.find(']');
+            if (pos < 1) continue;
+            type = type.substr(0, pos);
+            message_type *t;
+            for (t = types; t->type; t++){
+                if (type == t->name) break;
+            }
+            if (t->type) break;
+        }
+        if ((f.tellg() > start_block) || f.eof()){
+            if (start == 0){
+                start_block = 0;
+                return;
+            }
+            continue;
+        }
+        unsigned long msgId = (unsigned long)f.tellg() - line.length();
 #ifdef WIN32
         msgId -= 2;
 #else
         msgId--;
 #endif
-        msg = h.loadMessage(f, type, msgId);
-        if (msg) break;
+        f.clear();
+        f.seekg(msgId);
         getline(f, type);
-        if (f.eof()) return false;
+        for (;;){
+            msgId = (unsigned long)f.tellg() - type.length();
+#ifdef WIN32
+            msgId -= 2;
+#else
+            msgId--;
+#endif
+            if ((msgId > start_block) || f.eof()) break;
+            msg = h.loadMessage(f, type, msgId);
+            if (msg){
+                msgs.push(msgId);
+                delete msg;
+                msg = NULL;
+            }else{
+                f.clear();
+                getline(f, type);
+            }
+        }
+        start_block = start;
+        return;
     }
-    return true;
 }
 
 int History::iterator::progress()
 {
     if (!f.is_open()) return 0;
-    if (f.eof() || (f_size == 0)) return 100;
-    int res = f.tellg() * 100 / f_size;
+    if (f_size == 0) return 100;
+    unsigned long p;
+    if (msgs.size()){
+        p = msgs.top();
+    }else{
+        p = start_block;
+    }
+    int res = (f_size - p) * 100 / f_size;
     if (res > 100) return 100;
     return res;
 }

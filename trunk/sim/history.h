@@ -23,6 +23,7 @@
 
 #include <fstream>
 #include <string>
+#include <stack>
 
 #ifdef WIN32
 #if _MSC_VER > 1020
@@ -54,6 +55,9 @@ protected:
     iterator(History &_h) : h(_h), f_size(0) { msg = NULL; }
         std::fstream f;
         unsigned long f_size;
+        unsigned long start_block;
+        void loadBlock();
+        stack<unsigned long> msgs;
         string type;
         ICQMessage *msg;
 
