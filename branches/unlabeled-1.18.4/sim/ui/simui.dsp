@@ -108,6 +108,10 @@ SOURCE=.\fontedit.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\intedit.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\linklabel.cpp
 # End Source File
 # Begin Source File
@@ -133,6 +137,10 @@ SOURCE=.\moc_editfile.cpp
 
 SOURCE=.\moc_fontedit.cpp
 # ADD CPP /W3
+# End Source File
+# Begin Source File
+
+SOURCE=.\moc_intedit.cpp
 # End Source File
 # Begin Source File
 
@@ -378,6 +386,39 @@ InputName=fontedit
 InputDir=.
 InputPath=.\fontedit.h
 InputName=fontedit
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\intedit.h
+
+!IF  "$(CFG)" == "simui - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\intedit.h
+InputName=intedit
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "simui - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\intedit.h
+InputName=intedit
 
 "$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
