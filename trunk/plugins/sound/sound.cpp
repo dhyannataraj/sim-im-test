@@ -359,19 +359,21 @@ void SoundPlugin::processQueue()
     // check whether file is available
     if (!QFile::exists(QString(sound.c_str())))
         return;
-    /* If there is an external player selected, don't use Qt */
-#ifdef WIN32
-    bool bSound = true;
-#else
-    bool bSound = QSound::available() && !getPlayer();
-#endif
 #ifdef USE_KDE
     if (getUseArts()){
         KAudioPlayer::play(sound.c_str());
         m_checkTimer->start(WAIT_SOUND_TIMEOUT);
-        return;
+        m_current = "";
+        return; // arts
     }
-    bSound = false;
+    bool bSound = false;
+#elif WIN32
+    bool bSound = true;
+#else
+    /* If there is an external player selected, don't use Qt
+    Check first for getPlayer() since QSound::available()
+    can take 5 seconds to return a value */
+    bool bSound = !getPlayer() && QSound::available();
 #endif
     if (bSound){
         if (!QSound::available()){
@@ -386,7 +388,8 @@ void SoundPlugin::processQueue()
 #else
         m_checkTimer->start(WAIT_SOUND_TIMEOUT);
 #endif
-        return;
+        m_current = "";
+        return; // QSound
     }
 #ifndef WIN32
     ExecParam p;
@@ -398,9 +401,10 @@ void SoundPlugin::processQueue()
     m_player = (int)e.process();
     if (m_player == NULL){
         log(L_WARN, "Can't execute player");
-        m_current = "";
         m_queue.clear();
     }
+    m_current = "";
+    return; // external Player
 #endif
 }
 

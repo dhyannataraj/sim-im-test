@@ -31,16 +31,17 @@ SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin)
 {
     m_plugin = plugin;
     user_cfg = NULL;
-#ifndef WIN32
-    bool bSound = QSound::available();
-#endif
 #ifdef USE_KDE
-    bSound = false;
+    bool bSound = false;
     connect(chkArts, SIGNAL(toggled(bool)), this, SLOT(artsToggled(bool)));
     chkArts->setChecked(plugin->getUseArts());
 #else
     chkArts->hide();
+#ifndef WIN32
+    bool bSound = QSound::available();
 #endif
+#endif
+
 #ifdef WIN32
     lblPlayer->hide();
     edtPlayer->hide();
@@ -82,11 +83,14 @@ void SoundConfig::apply()
         void *data = getContacts()->getUserData(m_plugin->user_data_id);
         user_cfg->apply(data);
     }
-    /* If there is an external player selected, don't use Qt */
-    bool bSound = QSound::available() && edtPlayer->text().isEmpty();
 #ifdef USE_KDE
     m_plugin->setUseArts(chkArts->isChecked());
-    bSound = false;
+    bool bSound = false;
+#else
+    /* If there is an external player selected, don't use Qt
+    Check first for edtPlayer->text().isEmpty() since QSound::available()
+    can take 5 seconds to return a value */
+    bool bSound = edtPlayer->text().isEmpty() && QSound::available();
 #endif
     if (bSound)
         m_plugin->setPlayer("");
