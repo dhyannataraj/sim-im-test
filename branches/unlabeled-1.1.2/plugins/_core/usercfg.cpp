@@ -325,7 +325,13 @@ void UserConfig::fill()
     }
 
     parentItem = NULL;
-    ClientDataIterator it(m_contact->clientData);
+    ClientUserData* data;
+    if (m_contact) {
+    	data = &m_contact->clientData;
+    } else {
+    	data = &m_group->clientData;
+    }
+    ClientDataIterator it(*data);
     list<unsigned> st;
     while (++it){
         if ((it.client()->protocol()->description()->flags & PROTOCOL_AR_USER) == 0)
