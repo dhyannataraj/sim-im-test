@@ -648,13 +648,20 @@ QTextCodec *Client::codecForUser(unsigned long uin)
     if (u){
         if (u->Encoding.c_str()){
             QTextCodec *res = QTextCodec::codecForName(u->Encoding.c_str());
-            if (res) return res;
+            if (res){
+		log(L_DEBUG, "Codec for %lu %s", uin, res->name());
+		return res;
+	    }
         }
     }
     if (pClient->Encoding.c_str()){
-        QTextCodec *res = QTextCodec::codecForName(u->Encoding.c_str());
-        if (res) return res;
+        QTextCodec *res = QTextCodec::codecForName(Encoding.c_str());
+        if (res){
+		log(L_DEBUG, "Codec for %lu %s", uin, res->name()); 
+		return res;
+	}
     }
+    log(L_DEBUG, "For user %lu default codec", uin);
     return QTextCodec::codecForLocale();
 }
 
@@ -689,8 +696,14 @@ QString Client::from8Bit(QTextCodec *codec, const string &str)
 
 void Client::setUserEncoding(unsigned long uin, int i)
 {
+    log(L_DEBUG, "Set user encoding: %u %u %u", uin, userEncoding(uin), i);
     if (userEncoding(uin) == i) return;
-    ICQUser *u = getUser(uin);
+    ICQUser *u = NULL;
+    if ((uin == 0) || (uin == pClient->Uin())){
+        u = pClient;
+    }else{
+        u = getUser(uin);
+    }
     if (u == NULL) return;
     QString name;
     if (i > 0){

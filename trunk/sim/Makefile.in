@@ -762,76 +762,12 @@ messages: rc.cpp
 .NOEXPORT:
 
 #>+ 3
-usertbl.moc: $(srcdir)/usertbl.h
-	$(MOC) $(srcdir)/usertbl.h -o usertbl.moc
-
-#>+ 3
-dock.moc: $(srcdir)/dock.h
-	$(MOC) $(srcdir)/dock.h -o dock.moc
-
-#>+ 3
-toolbtn.moc: $(srcdir)/toolbtn.h
-	$(MOC) $(srcdir)/toolbtn.h -o toolbtn.moc
-
-#>+ 3
-msgview.moc: $(srcdir)/msgview.h
-	$(MOC) $(srcdir)/msgview.h -o msgview.moc
-
-#>+ 3
-themes.moc: $(srcdir)/themes.h
-	$(MOC) $(srcdir)/themes.h -o themes.moc
-
-#>+ 3
-editspell.moc: $(srcdir)/editspell.h
-	$(MOC) $(srcdir)/editspell.h -o editspell.moc
-
-#>+ 3
-userbox.moc: $(srcdir)/userbox.h
-	$(MOC) $(srcdir)/userbox.h -o userbox.moc
-
-#>+ 3
 sim.moc: $(srcdir)/sim.h
 	$(MOC) $(srcdir)/sim.h -o sim.moc
 
 #>+ 3
-passwddlg.moc: $(srcdir)/passwddlg.h
-	$(MOC) $(srcdir)/passwddlg.h -o passwddlg.moc
-
-#>+ 3
-chatwnd.moc: $(srcdir)/chatwnd.h
-	$(MOC) $(srcdir)/chatwnd.h -o chatwnd.moc
-
-#>+ 3
-msgedit.moc: $(srcdir)/msgedit.h
-	$(MOC) $(srcdir)/msgedit.h -o msgedit.moc
-
-#>+ 3
-logindlg.moc: $(srcdir)/logindlg.h
-	$(MOC) $(srcdir)/logindlg.h -o logindlg.moc
-
-#>+ 3
-intedit.moc: $(srcdir)/intedit.h
-	$(MOC) $(srcdir)/intedit.h -o intedit.moc
-
-#>+ 3
-transparent.moc: $(srcdir)/transparent.h
-	$(MOC) $(srcdir)/transparent.h -o transparent.moc
-
-#>+ 3
 mainwin.moc: $(srcdir)/mainwin.h
 	$(MOC) $(srcdir)/mainwin.h -o mainwin.moc
-
-#>+ 3
-userview.moc: $(srcdir)/userview.h
-	$(MOC) $(srcdir)/userview.h -o userview.moc
-
-#>+ 3
-keys.moc: $(srcdir)/keys.h
-	$(MOC) $(srcdir)/keys.h -o keys.moc
-
-#>+ 3
-fontedit.moc: $(srcdir)/fontedit.h
-	$(MOC) $(srcdir)/fontedit.h -o fontedit.moc
 
 #>+ 3
 xosd.moc: $(srcdir)/xosd.h
@@ -842,8 +778,72 @@ client.moc: $(srcdir)/client.h
 	$(MOC) $(srcdir)/client.h -o client.moc
 
 #>+ 3
+usertbl.moc: $(srcdir)/usertbl.h
+	$(MOC) $(srcdir)/usertbl.h -o usertbl.moc
+
+#>+ 3
+themes.moc: $(srcdir)/themes.h
+	$(MOC) $(srcdir)/themes.h -o themes.moc
+
+#>+ 3
+keys.moc: $(srcdir)/keys.h
+	$(MOC) $(srcdir)/keys.h -o keys.moc
+
+#>+ 3
+msgedit.moc: $(srcdir)/msgedit.h
+	$(MOC) $(srcdir)/msgedit.h -o msgedit.moc
+
+#>+ 3
+fontedit.moc: $(srcdir)/fontedit.h
+	$(MOC) $(srcdir)/fontedit.h -o fontedit.moc
+
+#>+ 3
+userview.moc: $(srcdir)/userview.h
+	$(MOC) $(srcdir)/userview.h -o userview.moc
+
+#>+ 3
+editspell.moc: $(srcdir)/editspell.h
+	$(MOC) $(srcdir)/editspell.h -o editspell.moc
+
+#>+ 3
+intedit.moc: $(srcdir)/intedit.h
+	$(MOC) $(srcdir)/intedit.h -o intedit.moc
+
+#>+ 3
+toolbtn.moc: $(srcdir)/toolbtn.h
+	$(MOC) $(srcdir)/toolbtn.h -o toolbtn.moc
+
+#>+ 3
+chatwnd.moc: $(srcdir)/chatwnd.h
+	$(MOC) $(srcdir)/chatwnd.h -o chatwnd.moc
+
+#>+ 3
+userbox.moc: $(srcdir)/userbox.h
+	$(MOC) $(srcdir)/userbox.h -o userbox.moc
+
+#>+ 3
+dock.moc: $(srcdir)/dock.h
+	$(MOC) $(srcdir)/dock.h -o dock.moc
+
+#>+ 3
+passwddlg.moc: $(srcdir)/passwddlg.h
+	$(MOC) $(srcdir)/passwddlg.h -o passwddlg.moc
+
+#>+ 3
+msgview.moc: $(srcdir)/msgview.h
+	$(MOC) $(srcdir)/msgview.h -o msgview.moc
+
+#>+ 3
+logindlg.moc: $(srcdir)/logindlg.h
+	$(MOC) $(srcdir)/logindlg.h -o logindlg.moc
+
+#>+ 3
+transparent.moc: $(srcdir)/transparent.h
+	$(MOC) $(srcdir)/transparent.h -o transparent.moc
+
+#>+ 3
 clean-metasources:
-	-rm -f  usertbl.moc dock.moc toolbtn.moc msgview.moc themes.moc editspell.moc userbox.moc sim.moc passwddlg.moc chatwnd.moc msgedit.moc logindlg.moc intedit.moc transparent.moc mainwin.moc userview.moc keys.moc fontedit.moc xosd.moc client.moc
+	-rm -f  sim.moc mainwin.moc xosd.moc client.moc usertbl.moc themes.moc keys.moc msgedit.moc fontedit.moc userview.moc editspell.moc intedit.moc toolbtn.moc chatwnd.moc userbox.moc dock.moc passwddlg.moc msgview.moc logindlg.moc transparent.moc
 
 #>+ 2
 docs-am:
@@ -869,12 +869,12 @@ force-reedit:
 
 
 #>+ 15
-sim_meta_unload.cc:  dock.moc usertbl.moc msgview.moc toolbtn.moc editspell.moc themes.moc userbox.moc sim.moc passwddlg.moc chatwnd.moc msgedit.moc logindlg.moc intedit.moc transparent.moc mainwin.moc userview.moc keys.moc fontedit.moc xosd.moc client.moc
+sim_meta_unload.cc:  mainwin.moc sim.moc client.moc xosd.moc usertbl.moc themes.moc keys.moc msgedit.moc fontedit.moc userview.moc editspell.moc intedit.moc toolbtn.moc chatwnd.moc userbox.moc passwddlg.moc dock.moc msgview.moc logindlg.moc transparent.moc
 	@echo 'creating sim_meta_unload.cc'
 	@-rm -f sim_meta_unload.cc
 	@if test ${kde_qtver} = 2; then \
 		echo 'static const char * _metalist_sim[] = {' > sim_meta_unload.cc ;\
-		cat  dock.moc usertbl.moc msgview.moc toolbtn.moc editspell.moc themes.moc userbox.moc sim.moc passwddlg.moc chatwnd.moc msgedit.moc logindlg.moc intedit.moc transparent.moc mainwin.moc userview.moc keys.moc fontedit.moc xosd.moc client.moc | grep 'char.*className' | sed -e 's/.*[^A-Za-z0-9_:]\([A-Za-z0-9_:]*\)::className.*$$/\"\1\",/' | sort | uniq >> sim_meta_unload.cc ;\
+		cat  mainwin.moc sim.moc client.moc xosd.moc usertbl.moc themes.moc keys.moc msgedit.moc fontedit.moc userview.moc editspell.moc intedit.moc toolbtn.moc chatwnd.moc userbox.moc passwddlg.moc dock.moc msgview.moc logindlg.moc transparent.moc | grep 'char.*className' | sed -e 's/.*[^A-Za-z0-9_:]\([A-Za-z0-9_:]*\)::className.*$$/\"\1\",/' | sort | uniq >> sim_meta_unload.cc ;\
 		echo '0};' >> sim_meta_unload.cc ;\
 		echo '#include "defs.h"' >> sim_meta_unload.cc ;\
 		echo '#ifdef USE_KDE' >> sim_meta_unload.cc ;\
@@ -937,43 +937,43 @@ kde-rpo-clean:
 	-rm -f *.rpo
 
 #>+ 41
-keys.lo: keys.moc 
-fontedit.lo: fontedit.moc 
-chatwnd.o: chatwnd.moc 
-sim.o: sim.moc 
-usertbl.lo: usertbl.moc 
-msgview.lo: msgview.moc 
-logindlg.o: logindlg.moc 
-intedit.o: intedit.moc 
-transparent.o: transparent.moc 
-themes.lo: themes.moc 
-editspell.lo: editspell.moc 
-mainwin.o: mainwin.moc 
-userbox.lo: userbox.moc 
-chatwnd.lo: chatwnd.moc 
-sim.lo: sim.moc 
-keys.o: keys.moc 
 intedit.lo: intedit.moc 
-client.o: client.moc 
-mainwin.lo: mainwin.moc 
-dock.o: dock.moc 
-msgview.o: msgview.moc 
-themes.o: themes.moc 
-editspell.o: editspell.moc 
-userview.lo: userview.moc 
-userbox.o: userbox.moc 
-passwddlg.o: passwddlg.moc 
-xosd.lo: xosd.moc 
-client.lo: client.moc 
-dock.lo: dock.moc 
-msgedit.o: msgedit.moc 
-toolbtn.lo: toolbtn.moc 
-passwddlg.lo: passwddlg.moc 
-msgedit.lo: msgedit.moc 
-userview.o: userview.moc 
 logindlg.lo: logindlg.moc 
-fontedit.o: fontedit.moc 
+usertbl.lo: usertbl.moc 
+themes.o: themes.moc 
+userbox.lo: userbox.moc 
+dock.o: dock.moc 
+logindlg.o: logindlg.moc 
 transparent.lo: transparent.moc 
 xosd.o: xosd.moc 
-usertbl.o: usertbl.moc 
+client.o: client.moc 
+transparent.o: transparent.moc 
+toolbtn.lo: toolbtn.moc 
+keys.o: keys.moc 
+themes.lo: themes.moc 
+chatwnd.o: chatwnd.moc 
+userview.o: userview.moc 
+mainwin.o: mainwin.moc 
+fontedit.o: fontedit.moc 
+keys.lo: keys.moc 
+fontedit.lo: fontedit.moc 
+sim.o: sim.moc 
+intedit.o: intedit.moc 
 toolbtn.o: toolbtn.moc 
+chatwnd.lo: chatwnd.moc 
+msgedit.lo: msgedit.moc 
+msgview.o: msgview.moc 
+passwddlg.lo: passwddlg.moc 
+editspell.o: editspell.moc 
+mainwin.lo: mainwin.moc 
+sim.lo: sim.moc 
+msgedit.o: msgedit.moc 
+dock.lo: dock.moc 
+xosd.lo: xosd.moc 
+userbox.o: userbox.moc 
+msgview.lo: msgview.moc 
+usertbl.o: usertbl.moc 
+client.lo: client.moc 
+userview.lo: userview.moc 
+passwddlg.o: passwddlg.moc 
+editspell.lo: editspell.moc 

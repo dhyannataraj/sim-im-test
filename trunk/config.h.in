@@ -51,11 +51,11 @@
 /* Define if you have the <stdlib.h> header file. */
 #undef HAVE_STDLIB_H
 
-/* Define if you have the <strings.h> header file. */
-#undef HAVE_STRINGS_H
-
 /* Define if you have the <string.h> header file. */
 #undef HAVE_STRING_H
+
+/* Define if you have the <strings.h> header file. */
+#undef HAVE_STRINGS_H
 
 /* Define if you have the <sys/stat.h> header file. */
 #undef HAVE_SYS_STAT_H
@@ -78,6 +78,9 @@
 /* Define if you want Xinerama support */
 #undef HAVE_XINERAMA
 
+/* Compatibility define */
+#undef ksize_t
+
 /* Name of package */
 #undef PACKAGE
 
@@ -95,6 +98,9 @@
 
 /* The size of a `long', as computed by sizeof. */
 #undef SIZEOF_LONG
+
+/* Define the real type of socklen_t */
+#undef socklen_t
 
 /* Define if you have the ANSI C header files. */
 #undef STDC_HEADERS
@@ -117,9 +123,3 @@
 /* Define if `lex' declares `yytext' as a `char *' by default, not a `char[]'.
    */
 #undef YYTEXT_POINTER
-
-/* Compatibility define */
-#undef ksize_t
-
-/* Define the real type of socklen_t */
-#undef socklen_t

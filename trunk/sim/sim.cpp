@@ -22,6 +22,10 @@
 #include "about.h"
 #include "log.h"
 
+#ifndef WIN32
+#include <stdio.h>
+#endif
+
 #ifdef USE_KDE
 #include "sim.h"
 #include <kcmdlineargs.h>

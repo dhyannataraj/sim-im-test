@@ -23,6 +23,7 @@
 #include <sys/stat.h>
 #include <errno.h>
 #include <unistd.h>
+#include <stdio.h>
 #endif
 
 #include <qwidget.h>

@@ -145,7 +145,7 @@ const char *ICQClient::serverCharset(const char *p)
     if (p == NULL) p = localCharset();
     if (!strcasecmp(p, "KOI8-R")) return "CP1251";
     if (!strcasecmp(p, "KOI8-U")) return "CP1251";
-    if (!strcasecmp(p, "ISO8859-5")) return "CP1251";
+    if (!strcasecmp(p, "ISO 8859-5")) return "CP1251";
     return p;
 }
 
