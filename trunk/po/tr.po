@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
 "POT-Creation-Date: 2002-10-18 06:37+0400\n"
-"PO-Revision-Date: 2002-10-17 14:17+0300\n"
+"PO-Revision-Date: 2002-10-18 21:08+0300\n"
 "Last-Translator: ismail donmez <voidcartman@yahoo.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2204,11 +2204,11 @@ msgstr "&Gruba taşı"
 
 #: userbox.cpp:174
 msgid "User &info<br>with CTRL open in new window"
-msgstr ""
+msgstr "Kullanıcı &Bilgisi-<br>CTRL ile basılınca yeni pencerede açılır"
 
 #: userbox.cpp:180
 msgid "&History<br>with CTRL open in new window"
-msgstr ""
+msgstr "&Geçmiş<br>CTRL ile basılınca yeni pencerede açılır"
 
 #: userbox.cpp:193
 msgid "&Encoding"
@@ -3148,8 +3148,7 @@ msgstr "Global alarm ayarlarının üzerine yaz"
 
 #: ui/alertdialogbase.cpp:97
 msgid "Activate online alert when user returns from Away or NA"
-msgstr ""
-"Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
+msgstr "Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
 
 #: ui/alertdialogbase.cpp:102
 msgid "Online alert options"
@@ -3429,8 +3428,7 @@ msgid "Hide main window after"
 msgstr "Ana menüyü sakla"
 
 #: ui/statussetupbase.cpp:107
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "\"Uzakta\", \"N/A\", \"DND\" ve \"Meşgul\"-Listelerinde bağlı alamını "
 "iptal et "
@@ -3529,8 +3527,7 @@ msgstr "Zaman Dilimi:"
 
 #: ui/generalsecbase.cpp:124
 msgid "My &authorization is required before users add me to Contact List"
-msgstr ""
-"Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
+msgstr "Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
 
 #: ui/generalsecbase.cpp:128
 msgid "Don't show my &IP-address"
@@ -3935,3 +3932,4 @@ msgstr "Uzakta"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
