@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "POT-Creation-Date: 2002-12-13 08:04+0300\n"
-"PO-Revision-Date: 2002-12-12 18:54+0000\n"
+"PO-Revision-Date: 2002-12-13 16:49+0000\n"
 "Last-Translator: Jorge Lopez <jorgelt@terra.es>\n"
 "Language-Team: spain <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1975,7 +1975,7 @@ msgstr "Acerca de &KDE"
 
 #: mainwin.cpp:2712
 msgid "Change UIN"
-msgstr ""
+msgstr "Cambiar UIN"
 
 #: mainwin.cpp:2713
 msgid "Quit"
@@ -2548,7 +2548,7 @@ msgstr "La contraseña no concuerda"
 
 #: ui/generalsec.cpp:76
 msgid "Input current password"
-msgstr ""
+msgstr "Introduzca contraseña actual"
 
 #: ui/generalsec.cpp:81 ui/logindlg.cpp:85 ui/logindlg.cpp:165
 #: ui/logindlg.cpp:199
@@ -2577,7 +2577,7 @@ msgstr "Sincronización con libreta de direcciones"
 
 #: ui/miscsetup.cpp:93
 msgid "Success."
-msgstr ""
+msgstr "Exito."
 
 #: ui/moreinfo.cpp:73
 msgid "January"
@@ -3002,9 +3002,8 @@ msgid "&Proxy settings"
 msgstr "Configuracion del &Proxy"
 
 #: ui/logindlgbase.cpp:126
-#, fuzzy
 msgid "&Save password"
-msgstr "Cambiar contraseña"
+msgstr "Guardar contra&seña"
 
 #: ui/proxydlgbase.cpp:170
 msgid "Proxy settings"
@@ -3712,8 +3711,7 @@ msgid "Hide main window after"
 msgstr "Esconder ventana principal despues de"
 
 #: ui/statussetupbase.cpp:110
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Desactivar alertas online en \"Ausente\", \"N/A\", \"No molestar\" y "
 "\"Ocupado\""
@@ -3942,14 +3940,12 @@ msgid "New password:"
 msgstr "Contraseña nueva:"
 
 #: ui/generalsecbase.cpp:229
-#, fuzzy
 msgid "Current password:"
-msgstr "Contraseña nueva:"
+msgstr "Contraseña actual:"
 
 #: ui/generalsecbase.cpp:230
-#, fuzzy
 msgid "S&ave password"
-msgstr "Cambiar contraseña"
+msgstr "Gu&ardar contraseña"
 
 #: ui/generalsecbase.cpp:231
 msgid "&Password"
@@ -4025,7 +4021,7 @@ msgstr "Mostrar ventana de búsqueda"
 
 #: ui/logindlg.cpp:46
 msgid "<New UIN>"
-msgstr ""
+msgstr "<Nuevo UIN>"
 
 #: ui/logindlg.cpp:157
 msgid "Unknown login error"
@@ -4558,3 +4554,4 @@ msgstr "No se puede crear el fichero %1"
 
 #~ msgid "Reject messages"
 #~ msgstr "Rechazar mensajes"
+
