@@ -69,7 +69,7 @@ void AIMInfo::apply(Client *client, void *_data)
     set_str(&data->FirstName, edtFirst->text().utf8());
     set_str(&data->LastName, edtLast->text().utf8());
     set_str(&data->MiddleName, edtMiddle->text().utf8());
-    set_str(&data->LastName, edtMaiden->text().utf8());
+    set_str(&data->Maiden, edtMaiden->text().utf8());
     set_str(&data->Nick, edtNick->text().utf8());
     set_str(&data->Address, edtStreet->text().utf8());
     set_str(&data->City, edtCity->text().utf8());

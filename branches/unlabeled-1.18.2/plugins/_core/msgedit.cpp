@@ -213,6 +213,7 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd, bool bReceived)
 
 MsgEdit::~MsgEdit()
 {
+	typingStop();
     editLostFocus();
     Command cmd;
     cmd->id = CmdCustomInput;
@@ -340,7 +341,7 @@ bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
     return true;
 }
 
-Client *MsgEdit::client(void *&data, bool bCreate)
+Client *MsgEdit::client(void *&data, bool bCreate, bool bTyping)
 {
     data = NULL;
     Contact *contact = getContacts()->contact(m_userWnd->id());
@@ -354,6 +355,8 @@ Client *MsgEdit::client(void *&data, bool bCreate)
             Client *client = getContacts()->getClient(cs[i].client);
             if (client->canSend(m_type, cs[i].data)){
                 data = cs[i].data;
+				if (bTyping)
+					changeTyping(client, data);
                 return client;
             }
         }
@@ -370,10 +373,14 @@ Client *MsgEdit::client(void *&data, bool bCreate)
                     if (bCreate)
                         client->createData(cs[i].data, contact);
                     data = cs[i].data;
+					if (bTyping)
+						changeTyping(client, data);
                     return client;
                 }
             }
         }
+		if (bTyping)
+			changeTyping(NULL, NULL);
         return NULL;
     }
     if (contact == NULL)
@@ -383,9 +390,13 @@ Client *MsgEdit::client(void *&data, bool bCreate)
     while ((d = ++it) != NULL){
         if (m_client == it.client()->dataName(d)){
             data = d;
+			if (bTyping)
+				changeTyping(it.client(), data);
             return it.client();
         }
     }
+	if (bTyping)
+		changeTyping(NULL, NULL);
     return NULL;
 }
 
@@ -796,7 +807,7 @@ bool MsgEdit::send()
         if (client_str.empty()){
             vector<ClientStatus> cs;
             getWays(cs, contact);
-            Client *c = client(data, true);
+            Client *c = client(data, true, false);
             if (c){
                 bSent = c->send(m_msg, data);
             }else{
@@ -1091,6 +1102,55 @@ void *MsgEdit::processEvent(Event *e)
     return NULL;
 }
 
+void MsgEdit::changeTyping(Client *client, void *data)
+{
+	if (!m_bTyping)
+		return;
+	if (client == NULL){
+		typingStop();
+		return;
+	}
+	if (client->dataName(data) == m_typingClient)
+		return;
+	typingStop();
+	typingStart();
+}
+
+void MsgEdit::typingStart()
+{
+	typingStop();
+	void *data = NULL;
+	Client *cl = client(data, false, false);
+	if (cl == NULL)
+		return;
+	Message *msg = new Message(MessageTypingStart);
+	if (cl->send(msg, data)){
+		m_typingClient = cl->dataName(data);
+	}else{
+		delete msg;
+	}
+}
+
+void MsgEdit::typingStop()
+{
+	if (m_typingClient.empty())
+		return;
+	Contact *contact = getContacts()->contact(m_userWnd->m_id);
+	if (contact == NULL)
+		return;
+	ClientDataIterator it(contact->clientData);
+	clientData *data;
+	while ((data = ++it) != NULL){
+		if (it.client()->dataName(data) == m_typingClient){
+			Message *msg = new Message(MessageTypingStop);
+			if (!it.client()->send(msg, data))
+				delete msg;
+			break;
+		}
+	}
+	m_typingClient = "";
+}
+
 void MsgEdit::editTextChanged()
 {
     bool bTyping = !m_edit->text().isEmpty();
@@ -1099,17 +1159,19 @@ void MsgEdit::editTextChanged()
     if (m_bTyping == bTyping)
         return;
     m_bTyping = bTyping;
-    Event e(bTyping ? EventStartTyping : EventStopTyping, (void*)m_userWnd->m_id);
-    e.process();
+	if (m_bTyping){
+		typingStart();
+	}else{
+		typingStop();
+	}
 }
 
 void MsgEdit::editLostFocus()
 {
     if (!m_bTyping)
         return;
+	typingStop();
     m_bTyping = false;
-    Event e(EventStopTyping, (void*)m_userWnd->m_id);
-    e.process();
 }
 
 void MsgEdit::insertSmile(int id)

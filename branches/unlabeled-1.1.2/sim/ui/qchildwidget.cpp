@@ -30,7 +30,10 @@ void QChildWidget::childEvent(QChildEvent *e)
 {
     if (!m_bInit){
         m_bInit = true;
-        e->child()->installEventFilter(this);
+		if (e->child()->inherits("QWidget")){
+			if (!static_cast<QWidget*>(e->child())->testWFlags(WType_Popup))
+				e->child()->installEventFilter(this);
+		}
     }
     QWidget::childEvent(e);
 }

@@ -792,11 +792,12 @@ JabberClient::MessageRequest::MessageRequest(JabberClient *client)
     m_errorCode = 0;
 	m_bBody = false;
 	m_bCompose = false;
+	m_bEvent = false;
 }
 
 JabberClient::MessageRequest::~MessageRequest()
 {
-    if (m_from.empty() || m_body.empty())
+    if (m_from.empty())
         return;
     Contact *contact;
     JabberUserData *data = m_client->findContact(m_from.c_str(), NULL, false, contact);
@@ -835,10 +836,12 @@ JabberClient::MessageRequest::~MessageRequest()
 		}
 	}
     if (m_errorCode || !m_error.empty()){
-        JabberMessageError *m = new JabberMessageError;
-        m->setError(QString::fromUtf8(m_error.c_str()));
-        m->setCode(m_errorCode);
-        msg = m;
+		if (!m_bEvent){
+			JabberMessageError *m = new JabberMessageError;
+			m->setError(QString::fromUtf8(m_error.c_str()));
+			m->setCode(m_errorCode);
+			msg = m;
+		}
     }else if (m_bBody){
 		if (m_subj.empty()){
 			msg = new Message(MessageGeneric);
@@ -887,6 +890,10 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
 	if (!strcmp(el, "id")){
 		m_data = &m_id;
 		return;
+	}
+	if (!strcmp(el, "x")){
+		if (JabberClient::get_attr("xmlns", attr) == "jabber:x:event")
+			m_bEvent = true;
 	}
 }
 

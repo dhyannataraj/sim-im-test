@@ -109,7 +109,11 @@ void JabberConfig::apply()
 #endif
     m_client->setUseVHost(chkVHost->isChecked());
 	m_client->setTyping(chkTyping->isChecked());
-	m_client->setProtocolIcons(chkIcons->isChecked());
+	if (m_client->getProtocolIcons() != chkIcons->isChecked()){
+		m_client->setProtocolIcons(chkIcons->isChecked());
+		Event e(EventRepaintView);
+		e.process();
+	}
     set_str(&m_client->data.owner.Resource, edtResource->text().utf8());
     m_client->setPriority(atol(edtPriority->text().latin1()));
     if (chkVHost->isChecked())

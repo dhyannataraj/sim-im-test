@@ -1088,7 +1088,9 @@ static void addIcon(string *s, const char *icon, const char *statusIcon)
 {
     if (s == NULL)
         return;
+
 	if (statusIcon && !strcmp(statusIcon, icon))
+
 		return;
     string str = *s;
     while (!str.empty()){
@@ -1647,9 +1649,13 @@ string ICQClient::clientName(ICQUserData *data)
         return res;
     }
 	if (hasCap(data, CAP_AIM_BUDDYCON)){
+
 		res += "gaim";
+
 		return res;
+
 	}
+
     if ((data->InfoUpdateTime & 0xFF7F0000L) == 0x7D000000L){
         unsigned ver = data->InfoUpdateTime & 0xFFFF;
         if (ver % 10){
@@ -2259,6 +2265,8 @@ void ICQClient::updateInfo(Contact *contact, void *_data)
         Client::updateInfo(contact, _data);
         return;
     }
+	if (data == NULL)
+		data = &this->data.owner;
     if (data->Uin){
         addFullInfoRequest(data->Uin, false);
         addPluginInfoRequest(data->Uin, PLUGIN_QUERYxINFO);
@@ -2801,28 +2809,6 @@ void *ICQClient::processEvent(Event *e)
             eCmd.process();
         }
     }
-    if ((e->type() == EventStartTyping) || (e->type() == EventStopTyping)){
-        if (getState() != Connected)
-            return NULL;
-        Contact *contact = getContacts()->contact((unsigned long)(e->param()));
-        if (contact == NULL)
-            return NULL;
-        ClientDataIterator it(contact->clientData, this);
-        ICQUserData *data = (ICQUserData*)(++it);
-        if (data == NULL)
-            return NULL;
-        if (getInvisible()){
-            if (data->VisibleId == 0)
-                return NULL;
-        }else{
-            if (data->InvisibleId)
-                return NULL;
-        }
-        if (!hasCap(data, CAP_TYPING))
-            return NULL;
-        sendMTN(screen(data).c_str(), (e->type() == EventStartTyping) ? ICQ_MTN_START : ICQ_MTN_FINISH);
-        return e->param();
-    }
     if (e->type() == EventOpenMessage){
         Message *msg = (Message*)(e->param());
         if ((msg->type() != MessageOpenSecure) &&
@@ -2943,6 +2929,27 @@ bool ICQClient::send(Message *msg, void *_data)
             return data->Direct->sendMessage(msg);
         }
         return false;
+	case MessageTypingStart:
+        if ((data == NULL) || !getTypingNotification())
+            return false;
+        if (getInvisible()){
+            if (data->VisibleId == 0)
+                return false;
+        }else{
+            if (data->InvisibleId)
+                return false;
+        }
+        if (!hasCap(data, CAP_TYPING) && !hasCap(data, CAP_AIM_BUDDYCON))
+            return false;
+        sendMTN(screen(data).c_str(), ICQ_MTN_START);
+		delete msg;
+        return true;
+	case MessageTypingStop:
+        if (data == NULL)
+            return false;
+        sendMTN(screen(data).c_str(), ICQ_MTN_FINISH);
+		delete msg;
+        return true;	
 #ifdef USE_OPENSSL
     case MessageOpenSecure:
         if (data == NULL)
@@ -3255,6 +3262,15 @@ void ICQClient::retry(int n, void *p)
     cmd->param = m->edit;
     Event e(EventCommandExec, cmd);
     e.process();
+}
+
+bool ICQClient::isOwnData(const char *screen)
+{
+	if ((screen == NULL) || (data.owner.Screen == NULL))
+		return false;
+	QString s1(screen);
+	QString s2(data.owner.Screen);
+	return (s1.lower() == s2.lower());
 }
 
 #ifndef WIN32

@@ -653,9 +653,6 @@ const unsigned EventOpenMessage		= 0x1104;
 const unsigned EventMessageRead		= 0x1105;
 const unsigned EventMessageAcked	= 0x1106;
 
-const unsigned EventStartTyping		= 0x1200;
-const unsigned EventStopTyping		= 0x1201;
-
 const unsigned EventFetchDone		= 0x1300;
 
 typedef struct fetchData
@@ -853,6 +850,8 @@ const unsigned MessageAuthRefused	= 6;
 const unsigned MessageAdded			= 7;
 const unsigned MessageRemoved		= 8;
 const unsigned MessageStatus		= 9;
+const unsigned MessageTypingStart	= 10;
+const unsigned MessageTypingStop	= 11;
 
 // Message flags:
 

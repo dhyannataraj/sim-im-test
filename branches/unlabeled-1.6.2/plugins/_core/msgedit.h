@@ -56,7 +56,7 @@ public:
     bool sendMessage(Message *msg);
     static void setupMessages();
     void		getWays(vector<ClientStatus> &cs, Contact *contact);
-    Client		*client(void *&data, bool bCreate);
+    Client		*client(void *&data, bool bCreate, bool bSendTyping);
     bool		m_bReceived;
     unsigned	m_flags;
 signals:
@@ -77,7 +77,11 @@ protected:
     void resizeEvent(QResizeEvent*);
     void stopSend(bool bCheck=true);
     void showCloseSend(bool bShow);
-    bool m_bTyping;
+	void typingStart();
+	void typingStop();
+	void changeTyping(Client *client, void *data);
+    bool	m_bTyping;
+	string	m_typingClient;
     bool send();
     list<unsigned> multiply;
     list<unsigned>::iterator multiply_it;

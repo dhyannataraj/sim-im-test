@@ -208,7 +208,7 @@ void JabberPlugin::registerMessages()
     cmd->param		 = &defJabberOffline;
     eMsg.process();
 
-    cmd->id			 = MessageJabberOffline;
+    cmd->id			 = MessageJabberError;
     cmd->text		 = I18N_NOOP("Error");
     cmd->icon		 = "error";
     cmd->param		 = &defJabberError;

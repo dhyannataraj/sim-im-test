@@ -631,6 +631,9 @@ protected:
     bool sendThruServer(Message *msg, void *data);
     string getUserCellular(Contact *contact);
     void setMainInfo(ICQUserData *d);
+	void setAIMInfo(ICQUserData *data);
+	void setProfile(ICQUserData *data);
+	bool isOwnData(const char *screen);
     void packInfoList(char *str);
     string createRTF(const QString &text, unsigned long foreColor, const char *encoding);
     QString removeImages(const QString &text, unsigned maxSmile);
@@ -661,6 +664,7 @@ protected:
     void fetchProfiles();
     void setAwayMessage(const char *msg);
     void encodeString(const QString &text, const char *type, unsigned charsetTlv, unsigned infoTlv);
+	void encodeString(const char *_str, unsigned nTlv, bool bWide);
     ICQUserData *findInfoRequest(unsigned short seq, Contact *&contact);
     INFO_REQ_MAP m_info_req;
     QString clearTags(const QString &text);

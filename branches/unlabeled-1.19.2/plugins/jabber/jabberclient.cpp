@@ -99,6 +99,7 @@ static DataDef jabberUserData[] =
         { "Group", DATA_UTF, 1, 0 },
         { "", DATA_BOOL, 1, 0 },			// bChecked
 		{ "", DATA_STRING, 1, 0 },			// TypingId
+		{ "", DATA_ULONG, 1, 0 },			// ComposeId
         { NULL, 0, 0, 0 }
     };
 
@@ -176,6 +177,7 @@ JabberClient::JabberClient(JabberProtocol *protocol, const char *cfg)
     m_bXML		 = false;
     m_bSSL		 = false;
     m_curRequest = NULL;
+	m_msg_id	 = 0;
     init();
 }
 
@@ -859,22 +861,39 @@ JabberUserData *JabberClient::findContact(const char *alias, const char *name, b
     return data;
 }
 
+
 static void addIcon(string *s, const char *icon, const char *statusIcon)
+
 {
+
     if (s == NULL)
+
         return;
+
 	if (statusIcon && !strcmp(statusIcon, icon))
+
 		return;
+
     string str = *s;
+
     while (!str.empty()){
+
         string item = getToken(str, ',');
+
         if (item == icon)
+
             return;
+
     }
+
     if (!s->empty())
+
         *s += ',';
+
     *s += icon;
+
 }
+
 
 void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &style, const char *&statusIcon, string *icons)
 {
@@ -886,6 +905,68 @@ void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &
     }
     if ((def == NULL) || (def->text == NULL))
         return;
+	const char *dicon = def->icon;
+	if (getProtocolIcons()){
+		char *host = strchr(data->ID, '@');
+		if (host){
+			string h = host + 1;
+			char *p = strchr((char*)(h.c_str()), '.');
+			if (p)
+				*p = 0;
+			if (strcmp(h.c_str(), "icq") == 0){
+				switch (data->Status){
+				case STATUS_ONLINE:
+					dicon = "ICQ_online";
+					break;
+				case STATUS_OFFLINE:
+					dicon = "ICQ_offline";
+					break;
+				case STATUS_AWAY:
+					dicon = "ICQ_away";
+					break;
+				case STATUS_NA:
+					dicon = "ICQ_na";
+					break;
+				case STATUS_DND:
+					dicon = "ICQ_dnd";
+					break;
+				case STATUS_FFC:
+					dicon = "ICQ_ffc";
+					break;
+				}
+			}else if (strcmp(h.c_str(), "aim") == 0){
+				switch (data->Status){
+				case STATUS_ONLINE:
+					dicon = "AIM_online";
+					break;
+				case STATUS_OFFLINE:
+					dicon = "AIM_offline";
+					break;
+				case STATUS_AWAY:
+					dicon = "AIM_away";
+					break;
+				}
+			}else if (strcmp(h.c_str(), "msn") == 0){
+				switch (data->Status){
+				case STATUS_ONLINE:
+					dicon = "MSN_online";
+					break;
+				case STATUS_OFFLINE:
+					dicon = "MSN_offline";
+					break;
+				case STATUS_AWAY:
+					dicon = "MSN_away";
+					break;
+				case STATUS_NA:
+					dicon = "MSN_na";
+					break;
+				case STATUS_DND:
+					dicon = "MSN_dnd";
+					break;
+				}
+			}
+		}
+	}
     if (data->Status > curStatus){
         curStatus = data->Status;
         if (statusIcon && icons){
@@ -894,12 +975,12 @@ void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &
             if (iconSave.length())
                 addIcon(icons, iconSave.c_str(), statusIcon);
         }
-        statusIcon = def->icon;
+        statusIcon = dicon;
     }else{
         if (statusIcon){
-            addIcon(icons, def->icon, statusIcon);
+            addIcon(icons, dicon, statusIcon);
         }else{
-            statusIcon = def->icon;
+            statusIcon = dicon;
         }
     }
     if (((data->Subscribe & SUBSCRIBE_TO) == 0) && !isAgent(data->ID))
@@ -962,8 +1043,20 @@ QString JabberClient::contactTip(void *_data)
         res += "<img src=\"icon:";
         res += statusIcon;
         res += "\">";
+		const char *pStatus = strchr(statusIcon, '_');
+		if (pStatus){
+			pStatus++;
+		}else{
+			pStatus = statusIcon;
+		}
         for (const CommandDef *cmd = protocol()->statusList(); cmd->text; cmd++){
-            if (!strcmp(cmd->icon, statusIcon)){
+			const char *pCmd = strchr(cmd->icon, '_');
+			if (pCmd){
+				pCmd++;
+			}else{
+				pCmd = cmd->icon;
+			}
+            if (!strcmp(pCmd, pStatus)){
                 res += " ";
                 statusText += i18n(cmd->text);
                 res += statusText;
@@ -1010,6 +1103,7 @@ QString JabberClient::contactTip(void *_data)
 void JabberClient::setOffline(JabberUserData *data)
 {
     data->Status = STATUS_OFFLINE;
+	data->composeId = 0;
 	if (data->TypingId && *data->TypingId){
 		set_str(&data->TypingId, NULL);
 		Contact *contact;
@@ -1275,6 +1369,8 @@ void JabberClient::updateInfo(Contact *contact, void *data)
         Client::updateInfo(contact, data);
         return;
     }
+	if (data == NULL)
+		data = &this->data.owner;
     info_request((JabberUserData*)data);
 }
 
@@ -1304,7 +1400,7 @@ bool JabberClient::canSend(unsigned type, void *_data)
 
 bool JabberClient::send(Message *msg, void *_data)
 {
-    if (getState() != Connected)
+    if ((getState() != Connected) || (_data == NULL))
         return false;
     JabberUserData *data = (JabberUserData*)_data;
     switch (msg->type()){
@@ -1423,6 +1519,41 @@ bool JabberClient::send(Message *msg, void *_data)
             return true;
         }
         break;
+	case MessageTypingStart:
+		if (getTyping()){
+			data->composeId = ++m_msg_id;
+			string msg_id = "msg";
+			msg_id += number(data->composeId);
+            m_socket->writeBuffer.packetStart();
+            m_socket->writeBuffer
+            << "<message to=\""
+            << data->ID
+            << "\"><x xmlns='jabber:x:event'><composing/><id>"
+			<< msg_id.c_str()
+			<< "</id></x></message>";
+            sendPacket();
+			delete msg;
+			return true;
+		}
+		break;
+	case MessageTypingStop:
+		if (getTyping()){
+			if (data->composeId == 0)
+				return false;
+			string msg_id = "msg";
+			msg_id += number(data->composeId);
+            m_socket->writeBuffer.packetStart();
+            m_socket->writeBuffer
+            << "<message to=\""
+            << data->ID
+            << "\"><x xmlns='jabber:x:event'><id>"
+			<< msg_id.c_str()
+			<< "</id></x></message>";
+            sendPacket();
+			delete msg;
+			return true;
+		}
+		break;
     }
     return false;
 }
