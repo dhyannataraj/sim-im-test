@@ -983,7 +983,7 @@ void UserBox::showProgress(int n)
 void UserBox::messageReceived(ICQMessage *msg)
 {
     if (curWnd && (msg->getUin() == curWnd->Uin()) &&
-            (qApp->activeWindow() == this) &&
+            (qApp->activeWindow() == this) && !pMain->SimpleMode() &&
             ((msg->Type() == ICQ_MSGxMSG) || (msg->Type() == ICQ_MSGxURL) ||
              (msg->Type() == ICQ_MSGxSMS))){
         pClient->markAsRead(msg);
