@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
-"POT-Creation-Date: 2002-12-04 03:58+0300\n"
+"POT-Creation-Date: 2002-12-04 11:51+0300\n"
 "PO-Revision-Date: 2002-12-02 19:41+0200\n"
 "Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -41,7 +41,7 @@ msgstr "Кантонська"
 msgid "Catalan"
 msgstr "Каталонська"
 
-#: libicq/country.cpp:13 ui/themesetup.cpp:57
+#: libicq/country.cpp:13 ui/themesetup.cpp:58
 msgid "Chinese"
 msgstr "Китайська"
 
@@ -153,7 +153,7 @@ msgstr "Малайська"
 msgid "Norwegian"
 msgstr "Норвезька"
 
-#: libicq/country.cpp:41
+#: libicq/country.cpp:41 ui/themesetup.cpp:54
 msgid "Polish"
 msgstr "Польська"
 
@@ -165,7 +165,7 @@ msgstr "Португальська"
 msgid "Romanian"
 msgstr "Румунська"
 
-#: libicq/country.cpp:44 ui/themesetup.cpp:54
+#: libicq/country.cpp:44 ui/themesetup.cpp:55
 msgid "Russian"
 msgstr "Російська"
 
@@ -209,11 +209,11 @@ msgstr "Татарська"
 msgid "Thai"
 msgstr "Тайська"
 
-#: client.cpp:96 client.cpp:97 libicq/country.cpp:55 ui/themesetup.cpp:55
+#: client.cpp:96 client.cpp:97 libicq/country.cpp:55 ui/themesetup.cpp:56
 msgid "Turkish"
 msgstr "Турецька"
 
-#: client.cpp:99 libicq/country.cpp:56 ui/themesetup.cpp:56
+#: client.cpp:99 libicq/country.cpp:56 ui/themesetup.cpp:57
 msgid "Ukrainian"
 msgstr "Українська"
 
@@ -1753,7 +1753,8 @@ msgstr "%1 від %2"
 
 #: mainwin.cpp:1267 ui/logindlg.cpp:140
 msgid "Can't connect to proxy server"
-msgstr "Неможливо з'єднатися з проксі-сервером"
+msgstr ""
+"Неможливо з'єднатися з проксі-сервером"
 
 #: mainwin.cpp:1274 ui/logindlg.cpp:147
 msgid "Proxy server require authorization"
@@ -1785,7 +1786,8 @@ msgstr "&Ні"
 
 #: mainwin.cpp:1958
 msgid "Add %1 to ignore list ?"
-msgstr "Додати \"%1\" в список тих що ігноруються?"
+msgstr ""
+"Додати \"%1\" в список тих що ігноруються?"
 
 #: mainwin.cpp:2022
 msgid "In visible list"
@@ -2180,7 +2182,8 @@ msgstr "Розмір: %1 / Максимальний: %2"
 
 #: msgedit.cpp:1538
 msgid "Message will be split"
-msgstr "Повідомлення буде розділено на частини"
+msgstr ""
+"Повідомлення буде розділено на частини"
 
 #: msgedit.cpp:1713
 msgid "Decline reason"
@@ -2772,11 +2775,12 @@ msgstr "Основна"
 msgid "System"
 msgstr "Система"
 
-#: ui/themesetup.cpp:149
+#: ui/themesetup.cpp:150
 msgid "Need restart SIM for change language"
-msgstr "Потрібно перестартувати SIM для зміни мови"
+msgstr ""
+"Потрібно перестартувати SIM для зміни мови"
 
-#: ui/themesetup.cpp:159
+#: ui/themesetup.cpp:160
 msgid "Default icons"
 msgstr "Іконки по-замовчуванню"
 
@@ -3132,7 +3136,8 @@ msgstr "Закрити після відправки"
 # #
 #: ui/acceptbase.cpp:173 ui/msgbase.cpp:94
 msgid "Automaitcaly open window"
-msgstr "Автоматично відкривати вікно повідомлень"
+msgstr ""
+"Автоматично відкривати вікно повідомлень"
 
 #: ui/acceptbase.cpp:174 ui/acceptbase.cpp:177 ui/msgbase.cpp:90
 msgid "Override global settings"
@@ -3493,9 +3498,10 @@ msgid ""
 "You can change only those numbers which have entered.\n"
 "It is impossible to change numbers which were received from the user."
 msgstr ""
-"Примітка: "
-"Ви можете вносити зміни тільки в номери введені Вами. "
-"Неможливо змінити номери якщо вони отримані від користувача."
+"Примітка: Ви можете вносити зміни тільки "
+"в номери введені Вами. Неможливо змінити "
+"номери якщо вони отримані від "
+"користувача."
 
 #: ui/phonebookbase.cpp:136
 msgid "&Phonebook"
@@ -3643,7 +3649,8 @@ msgstr "&Прозорість"
 
 #: ui/themesetupbase.cpp:200
 msgid "Show main window in task manager"
-msgstr "Показувати основне вікно в панелі задач"
+msgstr ""
+"Показувати основне вікно в панелі задач"
 
 #: ui/themesetupbase.cpp:201
 msgid "Show user window in task manager"
@@ -3674,7 +3681,8 @@ msgid "Hide main window after"
 msgstr "Сховати головне вікно"
 
 #: ui/statussetupbase.cpp:141
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Заборонити попередження в стані "
 "\"Відійшов\", \"Не активний\", \"Зайнятий\""
@@ -3865,7 +3873,8 @@ msgstr ""
 
 #: ui/generalsecbase.cpp:196
 msgid "Reject &URL from unknown users"
-msgstr "Відкидати &URL від невідомих користувачів"
+msgstr ""
+"Відкидати &URL від невідомих користувачів"
 
 #: ui/generalsecbase.cpp:197
 msgid "Reject &World Wide pager messages"
@@ -4022,7 +4031,8 @@ msgstr "..."
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr "Ця програма поширюється під ліцензією GPL v2"
+msgstr ""
+"Ця програма поширюється під ліцензією GPL v2"
 
 #: editspell.cpp:307
 msgid "Spell check"
@@ -4691,4 +4701,3 @@ msgstr "? Невідомий статус %1"
 
 #~ msgid "Spell"
 #~ msgstr "Проверка орфографии"
-

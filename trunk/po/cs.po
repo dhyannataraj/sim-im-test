@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
-"POT-Creation-Date: 2002-12-04 03:58+0300\n"
+"POT-Creation-Date: 2002-12-04 11:51+0300\n"
 "PO-Revision-Date: 2002-12-03 01:29+0100\n"
 "Last-Translator: Pavel Rousar <rousarp@fel.cvut.cz>\n"
 "Language-Team: Čeština <cs@li.org>\n"
@@ -40,7 +40,7 @@ msgstr "Kantonsky"
 msgid "Catalan"
 msgstr "Katalánsky"
 
-#: libicq/country.cpp:13 ui/themesetup.cpp:57
+#: libicq/country.cpp:13 ui/themesetup.cpp:58
 msgid "Chinese"
 msgstr "Čínsky"
 
@@ -152,7 +152,7 @@ msgstr "Malaysky"
 msgid "Norwegian"
 msgstr "Norsky"
 
-#: libicq/country.cpp:41
+#: libicq/country.cpp:41 ui/themesetup.cpp:54
 msgid "Polish"
 msgstr "Polsky"
 
@@ -164,7 +164,7 @@ msgstr "Portugalsky"
 msgid "Romanian"
 msgstr "Rumunsky"
 
-#: libicq/country.cpp:44 ui/themesetup.cpp:54
+#: libicq/country.cpp:44 ui/themesetup.cpp:55
 msgid "Russian"
 msgstr "Rusky"
 
@@ -208,11 +208,11 @@ msgstr "Tatarsky"
 msgid "Thai"
 msgstr "Thaisky"
 
-#: client.cpp:96 client.cpp:97 libicq/country.cpp:55 ui/themesetup.cpp:55
+#: client.cpp:96 client.cpp:97 libicq/country.cpp:55 ui/themesetup.cpp:56
 msgid "Turkish"
 msgstr "Turecky"
 
-#: client.cpp:99 libicq/country.cpp:56 ui/themesetup.cpp:56
+#: client.cpp:99 libicq/country.cpp:56 ui/themesetup.cpp:57
 msgid "Ukrainian"
 msgstr "Ukrajinsky"
 
@@ -2769,11 +2769,11 @@ msgstr "Obecné"
 msgid "System"
 msgstr "Systém"
 
-#: ui/themesetup.cpp:149
+#: ui/themesetup.cpp:150
 msgid "Need restart SIM for change language"
 msgstr "Pro změnu jazyka je třeba restartovat SIM"
 
-#: ui/themesetup.cpp:159
+#: ui/themesetup.cpp:160
 msgid "Default icons"
 msgstr "Standardní ikony"
 

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
-"POT-Creation-Date: 2002-12-04 03:58+0300\n"
+"POT-Creation-Date: 2002-12-04 11:51+0300\n"
 "PO-Revision-Date: 2002-11-27 17:50+0000\n"
 "Last-Translator: Jorge Lopez <jorgelt@terra.es>\n"
 "Language-Team: spain <es@li.org>\n"
@@ -39,7 +39,7 @@ msgstr ""
 msgid "Catalan"
 msgstr ""
 
-#: libicq/country.cpp:13 ui/themesetup.cpp:57
+#: libicq/country.cpp:13 ui/themesetup.cpp:58
 msgid "Chinese"
 msgstr ""
 
@@ -151,7 +151,7 @@ msgstr ""
 msgid "Norwegian"
 msgstr ""
 
-#: libicq/country.cpp:41
+#: libicq/country.cpp:41 ui/themesetup.cpp:54
 msgid "Polish"
 msgstr ""
 
@@ -163,7 +163,7 @@ msgstr ""
 msgid "Romanian"
 msgstr ""
 
-#: libicq/country.cpp:44 ui/themesetup.cpp:54
+#: libicq/country.cpp:44 ui/themesetup.cpp:55
 msgid "Russian"
 msgstr ""
 
@@ -207,11 +207,11 @@ msgstr ""
 msgid "Thai"
 msgstr ""
 
-#: client.cpp:96 client.cpp:97 libicq/country.cpp:55 ui/themesetup.cpp:55
+#: client.cpp:96 client.cpp:97 libicq/country.cpp:55 ui/themesetup.cpp:56
 msgid "Turkish"
 msgstr ""
 
-#: client.cpp:99 libicq/country.cpp:56 ui/themesetup.cpp:56
+#: client.cpp:99 libicq/country.cpp:56 ui/themesetup.cpp:57
 msgid "Ukrainian"
 msgstr ""
 
@@ -2775,11 +2775,11 @@ msgstr "General"
 msgid "System"
 msgstr ""
 
-#: ui/themesetup.cpp:149
+#: ui/themesetup.cpp:150
 msgid "Need restart SIM for change language"
 msgstr ""
 
-#: ui/themesetup.cpp:159
+#: ui/themesetup.cpp:160
 msgid "Default icons"
 msgstr "Iconos por defecto"
 
