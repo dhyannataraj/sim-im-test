@@ -63,6 +63,21 @@ void KabcSync::close(void)
     StdAddressBook::save();
 }
 
+void KabcSync::addPhone(QString phone,int type,Addressee& pers)
+{
+	PhoneNumber::List li=pers.phoneNumbers(type);
+	PhoneNumber::List::Iterator it=li.begin();
+	
+	while (it!=li.end())
+	{
+		if ((*it).number()==phone)
+			return;
+		it++;
+	}
+	
+	pers.insertPhoneNumber(PhoneNumber(phone,type));
+}
+
 Addressee KabcSync::addresseeFromUser(SIMUser& u,Addressee* oldPers=NULL)
 {
     Addressee pers;
@@ -102,11 +117,16 @@ Addressee KabcSync::addresseeFromUser(SIMUser& u,Addressee* oldPers=NULL)
     if (pers.organization().isEmpty())
         pers.setOrganization(QString::fromLocal8Bit(u.WorkName.c_str()));
 
-    pers.insertPhoneNumber(PhoneNumber(QString::fromLocal8Bit(u.HomePhone.c_str()),PhoneNumber::Home));
-    pers.insertPhoneNumber(PhoneNumber(QString::fromLocal8Bit(u.HomeFax.c_str()),PhoneNumber::Home|PhoneNumber::Fax));
-    pers.insertPhoneNumber(PhoneNumber(QString::fromLocal8Bit(u.PrivateCellular.c_str()),PhoneNumber::Cell));
-    pers.insertPhoneNumber(PhoneNumber(QString::fromLocal8Bit(u.WorkPhone.c_str()),PhoneNumber::Work));
-    pers.insertPhoneNumber(PhoneNumber(QString::fromLocal8Bit(u.WorkFax.c_str()),PhoneNumber::Work|PhoneNumber::Fax));
+	if (!u.HomePhone.empty())
+    	addPhone(QString::fromLocal8Bit(u.HomePhone.c_str()),PhoneNumber::Home,pers);
+    if (!u.HomeFax.empty())
+		addPhone(QString::fromLocal8Bit(u.HomeFax.c_str()),PhoneNumber::Home|PhoneNumber::Fax,pers);
+	if (!u.PrivateCellular.empty())
+    	addPhone(QString::fromLocal8Bit(u.PrivateCellular.c_str()),PhoneNumber::Cell,pers);
+	if (!u.WorkPhone.empty())
+    	addPhone(QString::fromLocal8Bit(u.WorkPhone.c_str()),PhoneNumber::Work,pers);
+	if (!u.WorkFax.empty())
+    	addPhone(QString::fromLocal8Bit(u.WorkFax.c_str()),PhoneNumber::Work|PhoneNumber::Fax,pers);
 
     Address home,work;
     home.setType(Address::Home);
