@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sim\n"
 "POT-Creation-Date: 2003-09-29 11:48+0400\n"
-"PO-Revision-Date: 2003-09-29 12:28+0100\n"
+"PO-Revision-Date: 2003-09-29 12:30+0100\n"
 "Last-Translator: Lapo Luchini <lapo@lapo.it>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2528,9 +2528,8 @@ msgid "Contact Request"
 msgstr "Richiesta di contatti"
 
 #: plugins/icq/icqmessage.cpp:1390
-#, fuzzy
 msgid "Web panel"
-msgstr "Sito web:"
+msgstr ""
 
 #: plugins/icq/icqmessage.cpp:1397
 msgid "Email pager"
@@ -4060,9 +4059,8 @@ msgid "Plain text"
 msgstr "Testo in chiaro"
 
 #: plugins/icq/encodingdlgbase.cc:83
-#, fuzzy
 msgid "Choose default encoding"
-msgstr "Scegli tipo di contatto"
+msgstr "Scegli codifica di default"
 
 #: plugins/icq/encodingdlgbase.cc:84
 msgid ""
@@ -4910,9 +4908,8 @@ msgid "Aruba"
 msgstr "Aruba"
 
 #: sim/api/country.cpp:36
-#, fuzzy
 msgid "Ascension Island"
-msgstr "Mayotte, Isole"
+msgstr ""
 
 #: sim/api/country.cpp:37
 msgid "Australia"
@@ -5047,14 +5044,12 @@ msgid "China"
 msgstr "Cina"
 
 #: sim/api/country.cpp:70
-#, fuzzy
 msgid "Christmas Island"
-msgstr "Mayotte, Isole"
+msgstr ""
 
 #: sim/api/country.cpp:71
-#, fuzzy
 msgid "Cocos-Keeling Islands"
-msgstr "Vergini, Isole"
+msgstr ""
 
 #: sim/api/country.cpp:72
 msgid "Colombia"
@@ -5581,9 +5576,8 @@ msgid "Republic of Macedonia"
 msgstr "Macedonia"
 
 #: sim/api/country.cpp:203
-#, fuzzy
 msgid "Reunion Island"
-msgstr "Mayotte, Isole"
+msgstr ""
 
 #: sim/api/country.cpp:204
 msgid "Romania"
@@ -5670,14 +5664,12 @@ msgid "St. Helena"
 msgstr "Sant'Elena"
 
 #: sim/api/country.cpp:225
-#, fuzzy
 msgid "St. Kitts"
-msgstr "Sant'Elena"
+msgstr ""
 
 #: sim/api/country.cpp:226
-#, fuzzy
 msgid "St. Pierre and Miquelon"
-msgstr "St. Vincent e Grenadines"
+msgstr ""
 
 #: sim/api/country.cpp:227
 msgid "St. Vincent and the Grenadines"
@@ -6519,9 +6511,8 @@ msgid "Minimize"
 msgstr "Minimizza"
 
 #: sim/ui/qt3/i18n.cpp:293
-#, fuzzy
 msgid "Restore Down"
-msgstr "Srotola"
+msgstr ""
 
 #: sim/ui/qt3/i18n.cpp:295
 msgid "Maximize"
@@ -6532,9 +6523,8 @@ msgid "Roll up"
 msgstr "Arrotola"
 
 #: sim/ui/qt3/i18n.cpp:299
-#, fuzzy
 msgid "Restore Up"
-msgstr "A&rrotola"
+msgstr ""
 
 #: sim/ui/qt3/i18n.cpp:301
 msgid "Roll down"
