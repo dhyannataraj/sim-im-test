@@ -19,6 +19,7 @@
 #include "icqmessage.h"
 #include "core.h"
 
+#include <netinet/in.h>
 #include <stdio.h>
 #include <time.h>
 #include <vector>
@@ -32,7 +33,7 @@ const unsigned short ICQ_SNACxLISTS_REQxRIGHTS     = 0x0002;
 const unsigned short ICQ_SNACxLISTS_RIGHTS         = 0x0003;
 const unsigned short ICQ_SNACxLISTS_REQxROSTER     = 0x0005;
 const unsigned short ICQ_SNACxLISTS_ROSTER         = 0x0006;
-const unsigned short ICQ_SNACxLISTS_UNKNOWN		   = 0x0007;
+const unsigned short ICQ_SNACxLISTS_ACTIVATE       = 0x0007;
 const unsigned short ICQ_SNACxLISTS_CREATE         = 0x0008;
 const unsigned short ICQ_SNACxLISTS_RENAME         = 0x0009;
 const unsigned short ICQ_SNACxLISTS_DELETE         = 0x000A;
@@ -55,9 +56,10 @@ const unsigned short ICQ_INVISIBLE_LIST			= 0x0003;
 const unsigned short ICQ_INVISIBLE_STATE		= 0x0004;
 const unsigned short ICQ_IGNORE_LIST			= 0x000E;
 
-const unsigned short TLV_ALIAS		= 0x0131;
-const unsigned short TLV_WAIT_AUTH	= 0x0066;
-const unsigned short TLV_CELLULAR	= 0x013A;
+const unsigned short TLV_WAIT_AUTH  = 0x0066;
+const unsigned short TLV_SUBITEMS   = 0x00C8;
+const unsigned short TLV_ALIAS      = 0x0131;
+const unsigned short TLV_CELLULAR   = 0x013A;
 
 const unsigned LIST_REQUEST_TIMEOUT = 50;
 
@@ -125,7 +127,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             log(L_DEBUG,"Rosters");
             m_socket->readBuffer >> c;
             if (c){
-                log(L_WARN, "Bad first roster byte %02X", c);
+                log(L_WARN, "Unknown SSI-Version 0x%02X", c);
                 break;
             }
             bool bIgnoreTime = false;
@@ -207,7 +209,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                                 if (inf) tlv_name = (*inf)(TLV_ALIAS);
                                 if (tlv_name)
                                     alias = (char*)(*tlv_name);
-                                log(L_DEBUG, "User %s [%s] - %u", str.c_str(), alias.c_str(), grp_id);
+                                log(L_DEBUG, "User %s [%s] id %u - group %u", str.c_str(), alias.c_str(), id, grp_id);
                                 Contact *contact;
                                 Group *grp = NULL;
                                 ICQUserData *data = findGroup(grp_id, NULL, grp);
@@ -217,7 +219,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                                         data->WaitAuth.bValue = true;
                                         bChanged = true;
                                     }
-                                } else
+                                } else {
                                     /* if not TLV(WAIT_AUTH) we are authorized ... */
                                     if (inf && !(*inf)(TLV_WAIT_AUTH)) {
                                         if (data->WaitAuth.bValue){
@@ -225,6 +227,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                                             bChanged = true;
                                         }
                                     }
+                                }
                                 data->IcqID.value = id;
                                 data->GrpId.value = grp_id;
                                 Tlv *tlv_phone = NULL;
@@ -238,12 +241,6 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                                     bChanged |= contact->setPhones(phone_str, NULL);
                                 }else{
                                     set_str(&data->Cellular.ptr, NULL);
-                                }
-                                if ((unsigned)atol(str.c_str()) == getUin()) {
-                                    log(L_DEBUG,"Own Uin in contact list");
-                                    Event e(EventContactDeleted, contact);
-                                    e.process();
-                                    break;
                                 }
                                 if (bChanged){
                                     Event e(EventContactChanged, contact);
@@ -259,7 +256,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                     }
                 case ICQ_GROUPS:{
                         if (str.size() == 0) break;
-                        log(L_DEBUG, "group %s %u", str.c_str(), grp_id);
+						log(L_WARN, "group %s %u", str.c_str(), grp_id);
                         ListRequest *lr = findGroupListRequest(grp_id);
                         if (lr)
                             break;
@@ -417,7 +414,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
     case ICQ_SNACxLISTS_ROSTERxOK:	// FALLTHROUGH
         {
             log(L_DEBUG, "Rosters OK");
-            snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_UNKNOWN);
+            snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_ACTIVATE);
             sendPacket();
             QTimer::singleShot(PING_TIMEOUT * 1000, this, SLOT(ping()));
             setPreviousPassword(NULL);
