@@ -28,6 +28,9 @@
 #include <qwidgetlist.h>
 #include <qtimer.h>
 
+const unsigned BLINK_TIMEOUT	= 500;
+const unsigned BLINK_COUNT		= 8;
+
 Plugin *createFloatyPlugin(unsigned base, bool, const char*)
 {
     FloatyPlugin *plugin = new FloatyPlugin(base);
@@ -211,6 +214,13 @@ void *FloatyPlugin::processEvent(Event *e)
             }
             break;
         }
+    case EventContactOnline:{
+            Contact *contact = (Contact*)(e->param());
+            FloatyWnd *wnd = findFloaty(contact->id());
+            if (wnd)
+                wnd->startBlink();
+            break;
+        }
     case EventContactDeleted:{
             Contact *contact = (Contact*)(e->param());
             FloatyWnd *wnd = findFloaty(contact->id());
@@ -270,6 +280,13 @@ void FloatyPlugin::unreadBlink()
         ++it;
     }
     delete list;
+}
+
+void FloatyWnd::startBlink()
+{
+	m_blink = BLINK_COUNT * 2 + 1;
+	blinkTimer->start(BLINK_TIMEOUT);
+	repaint();
 }
 
 #ifdef WIN32
