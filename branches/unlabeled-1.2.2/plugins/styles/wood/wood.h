@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: wood.h,v 1.2 2004-05-11 18:43:33 chehrlic Exp $
+** $Id: wood.h,v 1.2.2.1 2004-06-04 16:16:00 shutoff Exp $
 **
 ** Definition of something or other
 **
@@ -15,97 +15,45 @@
 #ifndef WOOD_H
 #define WOOD_H
 
-
-#include <qpalette.h>
-
-#ifndef QT_NO_STYLE_WINDOWS
-
 #include <qwindowsstyle.h>
-#include <qstyleplugin.h>
+#include <qpalette.h>
 
 class NorwegianWoodStyle : public QWindowsStyle
 {
 public:
-    NorwegianWoodStyle();
+    NorwegianWoodStyle( int sbext = -1 );
     void polish( QApplication*);
     void polish( QWidget* );
     void unPolish( QWidget* );
     void unPolish( QApplication*);
 
-    void drawPrimitive( PrimitiveElement pe,
-                        QPainter *p,
-                        const QRect &r,
-                        const QColorGroup &cg,
-                        SFlags flags = Style_Default,
-                        const QStyleOption& = QStyleOption::Default ) const;
+    void drawButton( QPainter *p, int x, int y, int w, int h,
+                     const QColorGroup &g, bool sunken = FALSE,
+                     const QBrush *fill = 0 );
+    void drawBevelButton( QPainter *p, int x, int y, int w, int h,
+                          const QColorGroup &g, bool sunken = FALSE,
+                          const QBrush *fill = 0 );
+    QRect buttonRect( int x, int y, int w, int h);
+    void drawButtonMask( QPainter *p, int x, int y, int w, int h);
+    void drawComboButton( QPainter *p, int x, int y, int w, int h,
+                          const QColorGroup &g,
+                          bool /* sunken */,
+                          bool editable,
+                          bool /*enabled */,
+                          const QBrush *fb );
 
-    void drawControl( ControlElement element,
-                      QPainter *p,
-                      const QWidget *widget,
-                      const QRect &r,
-                      const QColorGroup &cg,
-                      SFlags how = Style_Default,
-                      const QStyleOption& = QStyleOption::Default ) const;
-
-    void drawControlMask( ControlElement element,
-                          QPainter *p,
-                          const QWidget *widget,
-                          const QRect &r,
-                          const QStyleOption& = QStyleOption::Default ) const;
-
-    void drawComplexControl( ComplexControl cc,
-                             QPainter *p,
-                             const QWidget *widget,
-                             const QRect &r,
-                             const QColorGroup &cg,
-                             SFlags how = Style_Default,
-                             SCFlags sub = SC_All,
-                             SCFlags subActive = SC_None,
-                             const QStyleOption& = QStyleOption::Default ) const;
-
-    void drawComplexControlMask( ComplexControl control,
-                                 QPainter *p,
-                                 const QWidget *widget,
-                                 const QRect &r,
-                                 const QStyleOption& = QStyleOption::Default ) const;
-
-    QRect querySubControlMetrics( ComplexControl control,
-                                  const QWidget *widget,
-                                  SubControl sc,
-                                  const QStyleOption& = QStyleOption::Default ) const;
-
-    QRect subRect( SubRect r, const QWidget *widget ) const;
-
+    void drawPushButton( QPushButton* btn, QPainter *p);
+    void drawPushButtonLabel( QPushButton* btn, QPainter *p);
+    void drawScrollBarControls( QPainter*,  const QScrollBar*, int sliderStart, uint controls, uint activeControl );
 
 private:
     void drawSemicircleButton(QPainter *p, const QRect &r, int dir,
-                              bool sunken, const QColorGroup &g ) const;
+                              bool sunken, const QColorGroup &g );
     QPalette oldPalette;
     QPixmap *sunkenDark;
     QPixmap *sunkenLight;
 
 };
 
-class NorwegianWoodStylePlugin : public QStylePlugin
-{
-public:
-	NorwegianWoodStylePlugin() {};
-	~NorwegianWoodStylePlugin() {};
-
-	QStringList keys() const { 
-            return QStringList() << "Norwegian Wood"; 
-        }
-	QStyle* create( const QString& key ) { 
-            if ( key.lower() == "norwegian wood" ) 
-                return new NorwegianWoodStyle();
-            return 0;
-	}
-};
-
-Q_EXPORT_PLUGIN( NorwegianWoodStylePlugin )
-
 #endif
-
-#endif
-
 

@@ -142,10 +142,15 @@ void ICQSearch::setAdv(bool bAdv)
 
 void ICQSearch::createContact(unsigned tmpFlags, Contact *&contact)
 {
-    if (!m_client->m_bAIM && grpScreen->isChecked() && !edtScreen->text().isEmpty())
-        add(edtScreen->text(), tmpFlags, contact);
-    if (m_client->m_bAIM && grpAOL->isChecked() && !edtAOL->text().isEmpty())
-        add(edtAOL->text(), tmpFlags, contact);
+    if (m_client->m_bAIM){
+		if (grpScreen->isChecked() && !edtScreen->text().isEmpty())
+			add(edtScreen->text(), tmpFlags, contact);
+		if (grpAOL_UIN->isChecked() && !edtAOL_UIN->text().isEmpty())
+			add(edtAOL_UIN->text(), tmpFlags, contact);
+	}else{
+		if (grpAOL->isChecked() && !edtAOL->text().isEmpty())
+			add(edtAOL->text(), tmpFlags, contact);
+	}
 }
 
 void ICQSearch::add(const QString &screen, unsigned tmpFlags, Contact *&contact)
