@@ -1231,6 +1231,7 @@ ViewParser::ViewParser(bool bIgnoreColors, bool bUseSmiles)
     m_bUseSmiles    = bUseSmiles;
     m_bInLink       = false;
     m_bInHead       = false;
+    m_bInParagraph  = false;
     m_bFirst     	= true;
     m_bSpan			= false;
     if (m_bUseSmiles){
