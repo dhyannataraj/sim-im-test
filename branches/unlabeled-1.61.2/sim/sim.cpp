@@ -201,12 +201,14 @@ int main(int argc, char *argv[])
     for (char **p = argv + 1; *p; ++p){
         char *arg = *p;
         // check if "-" or "--"
-        if ((arg[0] != '-') && (arg[1] != '-')) {
+        if (arg[0] != '-') {
             // wrong parameter :(
             argc--;
             continue;
         }
-        arg += 2;
+		arg++;
+		if (arg[0] == '-')
+			arg++;
         // if they are parameters with variable params we need
         // to skip the next param
         bool bSkip = false;
