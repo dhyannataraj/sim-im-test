@@ -186,7 +186,7 @@ void KabcSync::processUser(SIMUser& u)
 
     bool bFound=false;
 
-    if ((!u.inIgnore)&&(!u.notEnoughInfo()))
+    if ((u.IgnoreId==0)&&(!u.notEnoughInfo()))
     {
         Addressee newPers;
         if (!u.strKabUid.empty())
