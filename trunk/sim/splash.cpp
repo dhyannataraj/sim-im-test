@@ -17,11 +17,18 @@
 
 #include "splash.h"
 #include "mainwin.h"
+#include "log.h"
 
 #include <qwidget.h>
 #include <qpixmap.h>
 #include <qbitmap.h>
 #include <qapplication.h>
+
+#ifndef WIN32
+#include <sys/stat.h>
+#include <unistd.h>
+#include <errno.h>
+#endif
 
 #ifdef WIN32
 #if _MSC_VER > 1020
@@ -42,12 +49,12 @@ Splash::Splash()
     wnd = NULL;
 #ifdef USE_KDE
     string kdeDir;
-    buildFileName(kdeDir, "", true, false);
+    MainWindow::buildFileName(kdeDir, "", true, false);
     if (kdeDir.length()) kdeDir = kdeDir.substr(0, kdeDir.length()-1);
     struct stat st;
     if (stat(kdeDir.c_str(), &st) < 0){
         string mainDir;
-        buildFileName(mainDir, "", false, false);
+        MainWindow::buildFileName(mainDir, "", false, false);
         if (mainDir.length()) mainDir = mainDir.substr(0, mainDir.length()-1);
         if (stat(mainDir.c_str(), &st) >= 0){
             if (rename(mainDir.c_str(), kdeDir.c_str()) < 0)
