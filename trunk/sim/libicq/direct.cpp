@@ -1301,6 +1301,8 @@ void FileTransfer::connect_ready()
         if (m_nFiles == 0) sock->error_state(ErrorCancel);
         if (file->files.size() == 0)
             sock->error_state(ErrorCancel);
+		log(L_DEBUG, "Setup curName");
+		log(L_DEBUG, "Cur name - %s", file->files[0].name);
         curName = file->files[0].name;
         m_curSize = file->files[0].size;
     }
