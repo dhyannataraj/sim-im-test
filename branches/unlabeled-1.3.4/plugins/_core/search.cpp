@@ -21,6 +21,7 @@
 #include "listview.h"
 #include "nonim.h"
 #include "searchall.h"
+#include "toolbtn.h"
 
 #include <qpixmap.h>
 #include <qpushbutton.h>
@@ -29,6 +30,7 @@
 #include <qlineedit.h>
 #include <qvalidator.h>
 #include <qobjectlist.h>
+#include <qpopupmenu.h>
 
 SearchDialog::SearchDialog()
 {
@@ -61,6 +63,7 @@ SearchDialog::SearchDialog()
 	addResult(m_result);
 	showResult(NULL);
 	aboutToShow(wndCondition->visibleWidget());
+	connect(btnSearch, SIGNAL(clicked()), this, SLOT(searchClick()));
 }
 
 SearchDialog::~SearchDialog()
@@ -321,6 +324,47 @@ void SearchDialog::showResult(QWidget *w)
 	if (w == NULL)
 		w = m_result;
 	wndResult->raiseWidget(w);
+}
+
+const unsigned NO_GROUP = 0x10000;
+
+void SearchDialog::searchClick()
+{
+	if (m_bAdd){
+		if (CorePlugin::m_plugin->getGroupMode()){
+			QPopupMenu *popup = new QPopupMenu(this);
+			Group *grp;
+			ContactList::GroupIterator it;
+			while ((grp = ++it) != NULL){
+				if (grp->id() == 0)
+					continue;
+				popup->insertItem(grp->getName(), grp->id());
+			}
+			popup->insertItem(i18n("Not in list"), NO_GROUP);
+			connect(popup, SIGNAL(activated(int)), this, SLOT(addGroup(int)));
+			popup->popup(CToolButton::popupPos(btnSearch, popup));
+		}else{
+			if (m_current){
+				connect(this, SIGNAL(add(unsigned)), m_current, SLOT(add(unsigned)));
+				emit add(0);
+				disconnect(this, SIGNAL(add(unsigned)), m_current, SLOT(add(unsigned)));
+			}
+		}
+	}
+}
+
+void SearchDialog::addGroup(int n)
+{
+	if (n == NO_GROUP)
+		n = 0;
+	Group *grp = getContacts()->group(n);
+	if (grp == NULL)
+		return;
+			if (m_current){
+				connect(this, SIGNAL(add(unsigned)), m_current, SLOT(add(unsigned)));
+				emit add(n);
+				disconnect(this, SIGNAL(add(unsigned)), m_current, SLOT(add(unsigned)));
+			}
 }
 
 #ifndef WIN32

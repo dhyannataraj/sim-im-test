@@ -27,6 +27,7 @@
 #include <qtoolbar.h>
 #include <qtimer.h>
 #include <qlabel.h>
+#include <qapplication.h>
 
 const unsigned BROWSE_INFO	= 8;
 
@@ -36,7 +37,7 @@ JabberWizard::JabberWizard(QWidget *parent, const QString &title, const char *ic
     m_type = type;
     m_search = new JabberSearch(this, client, jid, node, title, m_type == "register");
     addPage(m_search, title);
-    m_result = new QLabel(m_result);
+    m_result = new QLabel(this);
     addPage(m_result, title);
     m_result->setText(i18n("Process"));
     helpButton()->hide();
@@ -127,6 +128,7 @@ JabberBrowser::JabberBrowser()
     m_bar->setParam(this);
     restoreToolbar(m_bar, JabberPlugin::plugin->data.browser_bar);
     m_bar->show();
+	resize(qApp->desktop()->width(), qApp->desktop()->height());
     setCentralWidget(m_list);
     m_historyPos = -1;
 

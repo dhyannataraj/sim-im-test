@@ -49,6 +49,10 @@ public slots:
 	void showResult(QWidget*);
 signals:
     void finished();
+	void add(unsigned grp_id);
+protected slots:
+	void searchClick();
+	void addGroup(int);
 protected:
 	vector<ClientWidget>	m_widgets;
 	ListView	*m_result;
