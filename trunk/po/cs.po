@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
-"POT-Creation-Date: 2002-12-14 03:56+0300\n"
+"POT-Creation-Date: 2002-12-14 20:59+0300\n"
 "PO-Revision-Date: 2002-12-13 22:42+0100\n"
 "Last-Translator: Pavel Rousar <rousarp@fel.cvut.cz>\n"
 "Language-Team: Čeština <cs@li.org>\n"
@@ -3004,7 +3004,7 @@ msgstr "Login"
 
 #: ui/logindlgbase.cpp:124
 #, fuzzy
-msgid "&No show this window"
+msgid "&Do not show this window"
 msgstr "Nezobrazovat tento dialog"
 
 #: ui/logindlgbase.cpp:125 ui/phonebookbase.cpp:132
@@ -3968,8 +3968,9 @@ msgid "S&ave password"
 msgstr "Uložit hes&lo"
 
 #: ui/generalsecbase.cpp:238
-msgid "&No show login dialog at start"
-msgstr ""
+#, fuzzy
+msgid "&Do not show login dialog at start"
+msgstr "Nezobrazovat tento dialog"
 
 #: ui/generalsecbase.cpp:239
 msgid "&Password"

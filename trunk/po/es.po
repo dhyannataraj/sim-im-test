@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
-"POT-Creation-Date: 2002-12-14 03:56+0300\n"
+"POT-Creation-Date: 2002-12-14 20:59+0300\n"
 "PO-Revision-Date: 2002-12-13 16:49+0000\n"
 "Last-Translator: Jorge Lopez <jorgelt@terra.es>\n"
 "Language-Team: spain <es@li.org>\n"
@@ -2990,7 +2990,7 @@ msgstr "Login"
 
 #: ui/logindlgbase.cpp:124
 #, fuzzy
-msgid "&No show this window"
+msgid "&Do not show this window"
 msgstr "No mostrar este dialogo"
 
 #: ui/logindlgbase.cpp:125 ui/phonebookbase.cpp:132
@@ -3953,8 +3953,9 @@ msgid "S&ave password"
 msgstr "Gu&ardar contraseña"
 
 #: ui/generalsecbase.cpp:238
-msgid "&No show login dialog at start"
-msgstr ""
+#, fuzzy
+msgid "&Do not show login dialog at start"
+msgstr "No mostrar este dialogo"
 
 #: ui/generalsecbase.cpp:239
 msgid "&Password"

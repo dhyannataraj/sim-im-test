@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
-"POT-Creation-Date: 2002-12-14 03:56+0300\n"
+"POT-Creation-Date: 2002-12-14 20:59+0300\n"
 "PO-Revision-Date: 2002-12-04 01:05+0100\n"
 "Last-Translator: Arend van Beelen jr. <junior@vergeetalles.nl>\n"
 "Language-Team: Nederlands <i18n@kde.nl>\n"
@@ -3045,7 +3045,7 @@ msgstr "Inloggen"
 
 #: ui/logindlgbase.cpp:124
 #, fuzzy
-msgid "&No show this window"
+msgid "&Do not show this window"
 msgstr "Dit dialoogvenster niet meer weergeven"
 
 #: ui/logindlgbase.cpp:125 ui/phonebookbase.cpp:132
@@ -4066,8 +4066,9 @@ msgid "S&ave password"
 msgstr "Wachtwoord veranderen"
 
 #: ui/generalsecbase.cpp:238
-msgid "&No show login dialog at start"
-msgstr ""
+#, fuzzy
+msgid "&Do not show login dialog at start"
+msgstr "Dit dialoogvenster niet meer weergeven"
 
 #: ui/generalsecbase.cpp:239
 #, fuzzy

@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"POT-Creation-Date: 2002-12-14 03:56+0300\n"
-"PO-Revision-Date: 2002-12-14 03:57+0300\n"
+"POT-Creation-Date: 2002-12-14 20:59+0300\n"
+"PO-Revision-Date: 2002-12-14 21:02+0300\n"
 "Last-Translator: Vladimir Shutoff <shutoff@mail.ru>\n"
 "Language-Team: Русский <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3732,7 +3732,7 @@ msgstr "Авторизация"
 
 # ui/autoreplybase.cpp:45
 #: ui/logindlgbase.cpp:124
-msgid "&No show this window"
+msgid "&Do not show this window"
 msgstr "&Не показывать это окно"
 
 # ui/phonebookbase.cpp:119
@@ -4946,7 +4946,7 @@ msgid "S&ave password"
 msgstr "С&охранить пароль"
 
 #: ui/generalsecbase.cpp:238
-msgid "&No show login dialog at start"
+msgid "&Do not show login dialog at start"
 msgstr "&Не показывать диалог входа при старте"
 
 # ui/setupdlg.cpp:172

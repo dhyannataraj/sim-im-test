@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: zh_TV\n"
-"POT-Creation-Date: 2002-12-14 03:56+0300\n"
+"POT-Creation-Date: 2002-12-14 20:59+0300\n"
 "PO-Revision-Date: 2002-07-24 12:05+0800\n"
 "Last-Translator: 劉盛光 <stacker_liew_200@yahoo.com.tw>\n"
 "Language-Team: zh_TW.Big5 <zh@li.org>\n"
@@ -3112,7 +3112,7 @@ msgstr "登入"
 
 #: ui/logindlgbase.cpp:124
 #, fuzzy
-msgid "&No show this window"
+msgid "&Do not show this window"
 msgstr "不顯示此對話盒"
 
 #: ui/logindlgbase.cpp:125 ui/phonebookbase.cpp:132
@@ -4156,8 +4156,9 @@ msgid "S&ave password"
 msgstr "變更密碼"
 
 #: ui/generalsecbase.cpp:238
-msgid "&No show login dialog at start"
-msgstr ""
+#, fuzzy
+msgid "&Do not show login dialog at start"
+msgstr "不顯示此對話盒"
 
 #: ui/generalsecbase.cpp:239
 #, fuzzy

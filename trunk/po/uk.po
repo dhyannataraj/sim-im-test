@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
-"POT-Creation-Date: 2002-12-14 03:56+0300\n"
+"POT-Creation-Date: 2002-12-14 20:59+0300\n"
 "PO-Revision-Date: 2002-12-13 08:02+0200\n"
 "Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -3015,7 +3015,7 @@ msgstr "Авторизація"
 
 #: ui/logindlgbase.cpp:124
 #, fuzzy
-msgid "&No show this window"
+msgid "&Do not show this window"
 msgstr "Більше не показувати це повідомлення"
 
 #: ui/logindlgbase.cpp:125 ui/phonebookbase.cpp:132
@@ -4007,8 +4007,9 @@ msgid "S&ave password"
 msgstr "З&берегти пароль"
 
 #: ui/generalsecbase.cpp:238
-msgid "&No show login dialog at start"
-msgstr ""
+#, fuzzy
+msgid "&Do not show login dialog at start"
+msgstr "Більше не показувати це повідомлення"
 
 #: ui/generalsecbase.cpp:239
 msgid "&Password"

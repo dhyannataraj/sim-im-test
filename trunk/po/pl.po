@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
-"POT-Creation-Date: 2002-12-14 03:56+0300\n"
+"POT-Creation-Date: 2002-12-14 20:59+0300\n"
 "PO-Revision-Date: 2002-12-04 06:57+0100\n"
 "Last-Translator: Rafal Bera <rexx@dione.ids.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -3003,7 +3003,7 @@ msgstr "Login"
 
 #: ui/logindlgbase.cpp:124
 #, fuzzy
-msgid "&No show this window"
+msgid "&Do not show this window"
 msgstr "Nie pokazuj tego okna"
 
 #: ui/logindlgbase.cpp:125 ui/phonebookbase.cpp:132
@@ -3973,8 +3973,9 @@ msgid "S&ave password"
 msgstr "Zmiana hasła"
 
 #: ui/generalsecbase.cpp:238
-msgid "&No show login dialog at start"
-msgstr ""
+#, fuzzy
+msgid "&Do not show login dialog at start"
+msgstr "Nie pokazuj tego okna"
 
 #: ui/generalsecbase.cpp:239
 msgid "&Password"
