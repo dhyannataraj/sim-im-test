@@ -521,7 +521,7 @@ package_merge()
 {
 catalogs=$POFILES
 for cat in $catalogs; do
-  msgmerge -o $cat.new $cat $PACKAGE.pot
+  msgmerge -w 5000 -o $cat.new $cat $PACKAGE.pot
   if test -s $cat.new; then
     grep -v "\"POT-Creation" $cat.new > $cat.new.2
     grep -v "\"POT-Creation" $cat >> $cat.new.1
@@ -591,12 +591,12 @@ for i in `ls -1 po.backup/*.pot 2>/dev/null | sed -e "s#po.backup/##" | egrep -v
 done
 for i in `ls -1 po/*.pot 2>/dev/null | sed -e "s#po/##"`; do
    sed -e 's,^"Content-Type: text/plain; charset=CHARSET\\n"$,"Content-Type: text/plain; charset=UTF-8\\n",' po/$i > po/$i.new && mv po/$i.new po/$i
-   msgmerge -q -o po/$i po/$i po/$i
+   msgmerge -w 5000 -q -o po/$i po/$i po/$i
    egrep -v '^#([^:]|$)' po/$i | egrep '^.*[^ ]+.*$' | grep -v "\"POT-Creation" > temp.pot
   if test -f po.backup/$i && test -n "`diff temp.pot po.backup/$i`"; then
 	echo "will update $i"
         sed -e 's,^"Content-Type: text/plain; charset=CHARSET\\n"$,"Content-Type: text/plain; charset=UTF-8\\n",' po.backup/$backup_$i > po/$i.new && mv po/$i.new po.backup/backup_$i
-	msgmerge -q po.backup/backup_$i po/$i > temp.pot
+	msgmerge -w 5000 -q po.backup/backup_$i po/$i > temp.pot
 	mv temp.pot po/$i
   else
     if test -f po.backup/backup_$i; then
