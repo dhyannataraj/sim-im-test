@@ -86,6 +86,8 @@ void TipLabel::setText(const QString &text)
     m_text = text;
 }
 
+static char DIV[] = "<br>__________<br>";
+
 void TipLabel::show(const QRect &tipRect, bool _bState)
 {
     int prevH = 0;
@@ -107,22 +109,19 @@ void TipLabel::show(const QRect &tipRect, bool _bState)
             for (QStringList::Iterator it = l.begin(); it != l.end(); ++it, i++){
                 string s;
                 s = (*it).local8Bit();
-                log(L_DEBUG, "%u %u (%u %u):\n%s", i, heights[i], h, hPart, s.c_str());
                 if (!part.isEmpty()){
                     if (heights[i] >= hPart){
-                        log(L_DEBUG, "Div---");
                         text += part;
                         text += "</td><td>";
                         part = "";
                         h = 0;
                     }else{
-                        part += "<hr>";
+                        part += DIV;
                     }
                 }
                 part += *it;
                 h += heights[i];
                 if (h >= hPart){
-                    log(L_DEBUG, "DDD");
                     text += part;
                     text += "</td><td>";
                     part = "";
@@ -160,13 +159,12 @@ void TipLabel::show(const QRect &tipRect, bool _bState)
         prevH = s.height();
         if (totalH == 0){
             totalH = prevH;
-            l = QStringList::split("<hr>", m_text);
+            l = QStringList::split(DIV, m_text);
             unsigned i = 0;
             for (QStringList::Iterator it = l.begin(); it != l.end(); ++it, i++){
                 QSimpleRichText richText(*it, font(), "", QStyleSheet::defaultSheet(), QMimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
                 richText.adjustSize();
                 heights.push_back(richText.height() + 8);
-                log(L_DEBUG, "H[%u]=%u", i, richText.height() + 8);
             }
         }
     }

@@ -256,6 +256,8 @@ void SIMClientSocket::connect(const char *_host, unsigned short _port)
 #endif
     log(L_DEBUG, "Connect to %s:%u", host.c_str(), port);
     if (inet_addr(host.c_str()) == INADDR_NONE){
+        if (!host.empty() && (host[host.length() - 1] != '.'))
+		host += ".";
         log(L_DEBUG, "Start resolve %s", host.c_str());
         SIMSockets *s = static_cast<SIMSockets*>(getSocketFactory());
         QObject::connect(s, SIGNAL(resolveReady(unsigned long, const char*)), this, SLOT(resolveReady(unsigned long, const char*)));
