@@ -149,8 +149,8 @@ void *NavigatePlugin::processEvent(Event *e)
         return e->param();
     }
     if (e->type() == EventEncodeText){
-        string *text = (string*)(e->param());
-        *text = parseUrl(text->c_str());
+        QString *text = (QString*)(e->param());
+        *text = parseUrl(*text);
         return e->param();
     }
     if (e->type() == EventCheckState){

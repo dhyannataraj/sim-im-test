@@ -559,11 +559,6 @@ const unsigned EventDrawItem = 0x0703;
 */
 const unsigned EventEncodeText = 0x0801;
 
-/* Event decode message text
-   param is string* (string in utf-8)
-*/
-const unsigned EventDecodeText = 0x0802;
-
 /* Event group created
    param is Group*
 */
@@ -1394,7 +1389,7 @@ EXPORT ContactList *getContacts();
 // ____________________________________________________________________________________
 // Url procs
 
-EXPORT string	unquoteText(const char *text);
+EXPORT QString	unquoteString(const QString &text);
 EXPORT QString  quoteString(const QString &str);
 
 // ____________________________________________________________________________________

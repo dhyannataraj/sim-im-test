@@ -33,7 +33,7 @@ MsgViewBase::~MsgViewBase()
 {
 }
 
-QString parseText(const string &text, bool bIgnoreColors, bool bUseSmiles);
+QString parseText(const char *text, bool bIgnoreColors, bool bUseSmiles);
 
 void MsgViewBase::setSelect(const QString &str)
 {
@@ -180,12 +180,9 @@ QString MsgViewBase::messageText(Message *msg)
                 msgText += "</p>";
             }
         }
-        string msg_text;
-        msg_text = msgText.utf8();
-        Event e(EventEncodeText, &msg_text);
+        Event e(EventEncodeText, &msgText);
         e.process();
-        //        s += parseText(msg_text.c_str(), CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
-        s += parseText(msg_text.c_str(), false, CorePlugin::m_plugin->getUseSmiles());
+        s += parseText(msgText.utf8(), false, CorePlugin::m_plugin->getUseSmiles());
     }
     return s;
 }
@@ -204,10 +201,10 @@ void MsgViewBase::setSource(const QString &url)
     unsigned msg_id = atol(getToken(id, ',').latin1());
     getToken(id, ',');
     id = getToken(id, '/');
-    string client = unquoteText(id.utf8());
-    if (client.empty())
-        client = number(m_id);
-    Message *msg = History::load(msg_id, client.c_str(), m_id);
+    QString client = SIM::unquoteString(id);
+    if (client.isEmpty())
+        client = QString::number(m_id);
+    Message *msg = History::load(msg_id, client.utf8(), m_id);
     if (msg){
         Event e(EventOpenMessage, msg);
         e.process();

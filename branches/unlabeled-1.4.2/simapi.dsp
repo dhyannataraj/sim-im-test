@@ -116,6 +116,41 @@ SOURCE=.\sim\api\country.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\sim\api\html.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\api\html.ll
+
+!IF  "$(CFG)" == "simapi - Win32 Release"
+
+# Begin Custom Build - Flex $(InputPath)
+InputDir=.\sim\api
+InputPath=.\sim\api\html.ll
+InputName=html
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	flex -o$(InputDir)\$(InputName).cpp $(InputPath)
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
+
+# Begin Custom Build - Flex $(InputPath)
+InputDir=.\sim\api
+InputPath=.\sim\api\html.ll
+InputName=html
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	flex -o$(InputDir)\$(InputName).cpp $(InputPath)
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
 SOURCE=.\sim\api\log.cpp
 # End Source File
 # Begin Source File
@@ -158,37 +193,6 @@ SOURCE=.\sim\api\translit.cpp
 
 SOURCE=.\sim\api\unquote.cpp
 # End Source File
-# Begin Source File
-
-SOURCE=.\sim\api\unquote.ll
-
-!IF  "$(CFG)" == "simapi - Win32 Release"
-
-# Begin Custom Build - Flex $(InputPath)
-InputDir=.\sim\api
-InputPath=.\sim\api\unquote.ll
-InputName=unquote
-
-"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	flex -o$(InputDir)\$(InputName).cpp $(InputPath)
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
-
-# Begin Custom Build - Flex $(InputPath)
-InputDir=.\sim\api
-InputPath=.\sim\api\unquote.ll
-InputName=unquote
-
-"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	flex -o$(InputDir)\$(InputName).cpp $(InputPath)
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
 # End Group
 # Begin Group "Header Files"
 
@@ -204,6 +208,10 @@ SOURCE=.\sim\api\buffer.h
 # Begin Source File
 
 SOURCE=.\sim\api\cjk_variants.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\api\html.h
 # End Source File
 # Begin Source File
 

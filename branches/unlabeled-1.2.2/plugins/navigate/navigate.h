@@ -37,7 +37,7 @@ public:
     virtual ~NavigatePlugin();
 protected:
     virtual void *processEvent(Event*);
-    string parseUrl(const char *text);
+    QString parseUrl(const QString &text);
     unsigned CmdMail;
     unsigned CmdMailList;
     unsigned MenuMail;

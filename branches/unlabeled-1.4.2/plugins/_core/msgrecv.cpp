@@ -28,7 +28,7 @@
 #include <qtimer.h>
 #include <qlayout.h>
 
-QString parseText(const string &text, bool bIgnoreColors, bool bUseSmiles);
+QString parseText(const char *text, bool bIgnoreColors, bool bUseSmiles);
 
 MsgReceived::MsgReceived(CToolCustom *parent, Message *msg)
         : QObject(parent)
@@ -94,11 +94,9 @@ MsgReceived::MsgReceived(CToolCustom *parent, Message *msg)
         QString p = msg->presentation();
         if (p.isEmpty())
             p = msg->getRichText();
-        string msg_text;
-        msg_text = p.utf8();
-        Event e(EventEncodeText, &msg_text);
+        Event e(EventEncodeText, &p);
         e.process();
-        p = parseText(msg_text.c_str(), CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
+        p = parseText(p.utf8(), CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
         m_edit->m_edit->setText(p);
         if ((msg->getBackground() != msg->getForeground()) && !CorePlugin::m_plugin->getOwnColors()){
             m_edit->m_edit->setBackground(msg->getBackground());

@@ -61,11 +61,7 @@ QString Message::getPlainText()
 {
     if (!(getFlags() & MESSAGE_RICHTEXT))
         return getText();
-    string text;
-    text = getText().utf8();
-    Event e(EventDecodeText, &text);
-    e.process();
-    return QString::fromUtf8(SIM::unquoteText(text.c_str()).c_str());
+    return unquoteString(getText());
 }
 
 QString Message::getRichText()

@@ -1433,7 +1433,7 @@ void JabberClient::auth_request(const char *jid, unsigned type, const char *text
     msg.setClient(dataName(data).c_str());
     msg.setFlags(MESSAGE_RECEIVED);
     if (text)
-        msg.setText(QString::fromUtf8(unquoteText(text).c_str()));
+        msg.setText(unquoteString(QString::fromUtf8(text)));
     Event e(EventMessageReceived, &msg);
     e.process();
 }

@@ -2372,11 +2372,11 @@ void *ICQClient::processEvent(Event *e)
         url = url.substr(proto.length() + 1);
         while (url[0] == '/')
             url = url.substr(1);
-        string s = unquoteText(url.c_str());
-        string screen = getToken(s, ',');
-        if (screen.length()){
+        QString s = unquoteString(url.c_str());
+        QString screen = getToken(s, ',');
+        if (!screen.isEmpty()){
             Contact *contact;
-            findContact(screen.c_str(), s.c_str(), true, contact);
+            findContact(screen.latin1(), s.utf8(), true, contact);
             Command cmd;
             cmd->id		 = MessageGeneric;
             cmd->menu_id = MenuMessage;

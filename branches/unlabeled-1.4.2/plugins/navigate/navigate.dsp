@@ -104,7 +104,7 @@ SOURCE=.\parseurl.ll
 
 !IF  "$(CFG)" == "navigate - Win32 Release"
 
-# Begin Custom Build - $(InputDir)\$(InputName).cpp
+# Begin Custom Build - Flex $(InputPath)
 InputDir=.
 InputPath=.\parseurl.ll
 InputName=parseurl
@@ -116,7 +116,7 @@ InputName=parseurl
 
 !ELSEIF  "$(CFG)" == "navigate - Win32 Debug"
 
-# Begin Custom Build - $(InputDir)\$(InputName).cpp
+# Begin Custom Build - Flex $(InputPath)
 InputDir=.
 InputPath=.\parseurl.ll
 InputName=parseurl
