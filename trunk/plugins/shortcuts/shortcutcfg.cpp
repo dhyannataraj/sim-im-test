@@ -69,6 +69,8 @@ void ShortcutsConfig::loadMenu(unsigned id, bool bCanGlobal)
             if ((s->id == 0) || s->popup_id || (s->flags & COMMAND_TITLE))
                 continue;
             QString title = i18n(s->text);
+            if (title == "_")
+            	continue;
             title = title.replace(QRegExp("&"), "");
             QString accel;
             int key = 0;
