@@ -7,13 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "POT-Creation-Date: 2002-12-18 11:44+0300\n"
-"PO-Revision-Date: 2002-12-13 16:49+0000\n"
+"PO-Revision-Date: 2002-12-19 19:42+0000\n"
 "Last-Translator: Jorge Lopez <jorgelt@terra.es>\n"
 "Language-Team: spain <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0beta2\n"
+"X-Generator: KBabel 1.1\n"
 
 #: client.cpp:57 client.cpp:58 libicq/country.cpp:7
 msgid "Arabic"
@@ -2841,27 +2841,27 @@ msgstr ""
 
 #: ui/alertdialog.cpp:55
 msgid "Left-bottom"
-msgstr "Fondo izquierdo"
+msgstr "Abajo izquierda"
 
 #: ui/alertdialog.cpp:56
 msgid "Left-top"
-msgstr "Cima izquierda"
+msgstr "Arriba izquierda"
 
 #: ui/alertdialog.cpp:57
 msgid "Right-bottom"
-msgstr "Fondo derecho"
+msgstr "Abajo derecha"
 
 #: ui/alertdialog.cpp:58
 msgid "Right-top"
-msgstr "Cima derecha"
+msgstr "Arriba derecha"
 
 #: ui/alertdialog.cpp:59
 msgid "Center-bottom"
-msgstr "Fondo"
+msgstr "Abajo"
 
 #: ui/alertdialog.cpp:60
 msgid "Center-top"
-msgstr "Cima"
+msgstr "Arriba"
 
 #: ui/alertmsg.cpp:41
 msgid "User "
@@ -2888,7 +2888,7 @@ msgstr "&Ok"
 
 #: ui/editfile.cpp:86
 msgid "Directory for incoming files"
-msgstr "Directorio de entrada para ficheros"
+msgstr "Directorio para ficheros recibidos"
 
 #: ui/editfile.cpp:123
 msgid "*.wav|Sounds"
@@ -3007,9 +3007,8 @@ msgid "<New UIN>"
 msgstr "<Nuevo UIN>"
 
 #: ui/logindlg.cpp:141 ui/logindlg.cpp:208
-#, fuzzy
 msgid "Can't initialize main window"
-msgstr "Ventana principal transparente"
+msgstr "No se puede inicializar la ventana principal"
 
 #: ui/logindlg.cpp:150 ui/searchdlg.cpp:107
 msgid "Cancel"
@@ -3021,16 +3020,16 @@ msgstr "Cerrar"
 
 #: ui/logindlg.cpp:219
 msgid "Unknown login error"
-msgstr "Error desconocido de la conexión"
+msgstr "Error desconocido en el login"
 
 #: ui/logindlg.cpp:223
 msgid "Rate limit"
 msgstr "Limitar ancho de banda"
 
 #: ui/logindlg.cpp:300
-#, fuzzy, c-format
+#, c-format
 msgid "Delete history and incoming files for %u?"
-msgstr "Directorio de entrada para ficheros"
+msgstr "Eliminar historial y ficheros recibidos de %u?"
 
 #: ui/maininfo.cpp:46
 msgid "Default"
@@ -3234,27 +3233,27 @@ msgstr "Gráficos(%1)"
 
 #: ui/themesetup.cpp:137
 msgid "Contact - left"
-msgstr ""
+msgstr "Contactos - izquierda"
 
 #: ui/themesetup.cpp:138
 msgid "Contact - scale"
-msgstr ""
+msgstr "Contactos - escalado"
 
 #: ui/themesetup.cpp:139
 msgid "Window - left top"
-msgstr ""
+msgstr "Ventana - izquierda arriba"
 
 #: ui/themesetup.cpp:140
 msgid "Window - left bottom"
-msgstr ""
+msgstr "Ventana - izquierda abajo"
 
 #: ui/themesetup.cpp:141
 msgid "Window - left center"
-msgstr ""
+msgstr "Ventana - izquierda centrado"
 
 #: ui/themesetup.cpp:142
 msgid "Window - scale"
-msgstr ""
+msgstr "Ventana - izquierda escalado"
 
 #: ui/themesetup.cpp:205
 msgid "Need restart SIM for change language"
@@ -3497,9 +3496,8 @@ msgid "Login"
 msgstr "Login"
 
 #: ui/logindlgbase.cpp:40
-#, fuzzy
 msgid "&Do not show this window"
-msgstr "No mostrar este dialogo"
+msgstr "No mos&trar esta ventana"
 
 #: ui/logindlgbase.cpp:45 ui/phonebookbase.cpp:104
 msgid "&Delete"
@@ -3672,7 +3670,7 @@ msgstr "Copiar"
 
 #: ui/fontsetupbase.cpp:130
 msgid "last messages from history to conversation"
-msgstr ""
+msgstr "últimos mensajes del historial a la conversación"
 
 #: ui/fontsetupbase.cpp:138
 msgid "Open"
@@ -4094,7 +4092,7 @@ msgstr "Fondo ventana principal:"
 
 #: ui/themesetupbase.cpp:153
 msgid "Icon margin:"
-msgstr ""
+msgstr "Margen del icono:"
 
 #: ui/themesetupbase.cpp:178
 msgid "Use &system colors"
@@ -4165,8 +4163,7 @@ msgid "Hide main window after"
 msgstr "Esconder ventana principal despues de"
 
 #: ui/statussetupbase.cpp:57
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Desactivar alertas online en \"Ausente\", \"N/A\", \"No molestar\" y "
 "\"Ocupado\""
@@ -4392,7 +4389,7 @@ msgstr "&Filtro spam"
 
 #: ui/generalsecbase.cpp:167
 msgid "Retype new password:"
-msgstr "Repita la contraseña nueva:"
+msgstr "Repetir contraseña nueva:"
 
 #: ui/generalsecbase.cpp:174
 msgid "New password:"
@@ -4407,9 +4404,8 @@ msgid "S&ave password"
 msgstr "Gu&ardar contraseña"
 
 #: ui/generalsecbase.cpp:213
-#, fuzzy
 msgid "&Do not show login dialog at start"
-msgstr "No mostrar este dialogo"
+msgstr "No mos&trar este dialogo al iniciar"
 
 #: ui/generalsecbase.cpp:216
 msgid "&Password"
@@ -4562,3 +4558,4 @@ msgstr "&Notas"
 
 #~ msgid "Reject messages"
 #~ msgstr "Rechazar mensajes"
+
