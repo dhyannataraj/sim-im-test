@@ -1,3 +1,4 @@
+# translation of de.po to Deutsch
 # translation of de.po to deutsch
 # Copyright (C) 2002,2003, 2004 Free Software Foundation, Inc.
 # Christoph Thielecke <crissi99@gmx.de>, 2002,2003, 2004.
@@ -7,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2004-02-09 12:28+0300\n"
-"PO-Revision-Date: 2004-01-26 17:13GMT\n"
+"PO-Revision-Date: 2004-02-11 02:27+0100\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
-"Language-Team: deutsch <de@li.org>\n"
+"Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1177,13 +1178,11 @@ msgstr "SSL-Fehler bei der SSL- Initialisierung"
 
 #: sim/api/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
-msgstr ""
-"Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
+msgstr "Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
 
 #: sim/api/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
 
 #: sim/api/message.cpp:465
 msgid "%1 Mbytes"
@@ -2673,7 +2672,6 @@ msgid "&Edit"
 msgstr "&Bearbeiten"
 
 #: plugins/_core/core.cpp:1501
-#, fuzzy
 msgid ""
 "&IP; - ip-address\n"
 "&Mail; - e-mail\n"
@@ -2692,6 +2690,8 @@ msgstr ""
 "&Nick; - Spitzname\n"
 "&Unread; - Anzahl der ungelesenen Nachrichten des Kontakts\n"
 "&Status; - Kontaktstatus\n"
+"&TimeStatus; - Zeit (in Sekunden), zu der der Status gesetzt wurde"
+"&IntervalStatus; - Zeit (in Sekunden), die nach dem Setzen des Status vergangen ist\n"
 "\n"
 "`<kommando>` - ruft <kommando> auf und ersetzt Kommandozeilenausgabe\n"
 
@@ -3498,8 +3498,7 @@ msgstr "Land:"
 
 #: plugins/_core/searchbase.cpp:74
 msgid "Choose type of contact which you want to find or add:"
-msgstr ""
-"Art des Kontaktes auswählen, der gefunden oder hinzugefügt werden soll"
+msgstr "Art des Kontaktes auswählen, der gefunden oder hinzugefügt werden soll"
 
 #: plugins/_core/searchbase.cpp:75
 msgid "Contact type:"
@@ -3890,8 +3889,7 @@ msgstr "\"Offline\"-Status setzen nach"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:109
 #: plugins/sound/soundconfigbase.cpp:107
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -4048,8 +4046,7 @@ msgstr "Nachrichten nur von &Benutzern der Kontaktliste empfangen"
 
 #: plugins/filter/filtercfgbase.cpp:67
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: plugins/filter/filtercfgbase.cpp:68
 msgid ""
@@ -4071,8 +4068,7 @@ msgstr "Floatings"
 
 #: plugins/floaty/floaty.cpp:44
 msgid "Plugin provides floating windows for contacts"
-msgstr ""
-"Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
+msgstr "Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
 
 #: plugins/floaty/floaty.cpp:88 plugins/floaty/floaty.cpp:162
 msgid "Floating on"
@@ -4084,8 +4080,7 @@ msgstr "Floating aus"
 
 #: plugins/forward/forwardcfgbase.cpp:71
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
-"Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
+msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
 
 #: plugins/forward/forwardcfgbase.cpp:72
 msgid ""
@@ -4866,7 +4861,7 @@ msgstr "Registriert in einem nicht registrierten Zustand"
 
 #: plugins/icq/icqlogin.cpp:196
 msgid "This client is outdated"
-msgstr ""
+msgstr "Der Client ist veraltet"
 
 #: plugins/icq/icqlogin.cpp:201
 msgid "Too many clients from same IP"
@@ -4886,29 +4881,27 @@ msgstr "Nicht-existierende UIN"
 
 #: plugins/icq/icqlogin.cpp:223
 msgid "Bad login procedure"
-msgstr ""
+msgstr "Falsche Loginprozedur"
 
 #: plugins/icq/icqlogin.cpp:234
-#, fuzzy
 msgid "Service temporarly unavailable"
-msgstr "Benutzer ist temporär nicht verfügbar"
+msgstr "Dienmst ist temporär nicht verfügbar"
 
 #: plugins/icq/icqlogin.cpp:238
-#, fuzzy
 msgid "Invalid SecureID"
-msgstr "Ungültiger Benutzername"
+msgstr "Ungültige Sicherheits-ID"
 
 #: plugins/icq/icqlogin.cpp:242
 msgid "Too young!"
-msgstr ""
+msgstr "Zu jung!"
 
 #: plugins/icq/icqlogin.cpp:246
 msgid "UIN was suspended"
-msgstr ""
+msgstr "UIN wurde suspendiert"
 
 #: plugins/icq/icqlogin.cpp:250
 msgid "Can't login to ICQ network - Please try again later"
-msgstr ""
+msgstr "Es kann nicht ins ICQ-Netzwerk eingeloggt werden - Bitte später erneut versuchen"
 
 #: plugins/icq/icqlogin.cpp:271
 msgid "Youur UIN is being used from another location"
@@ -4923,13 +4916,13 @@ msgid "Bad host address"
 msgstr "Fehlerhafte Hostadresse"
 
 #: plugins/icq/icqmessage.cpp:672
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: File message\n"
 "%n File messages"
 msgstr ""
-"Nachricht\n"
-"%n Nachrichten"
+"Dateinachricht\n"
+"%n Dateinachrichten"
 
 #: plugins/icq/icqmessage.cpp:688
 #, c-format
@@ -6235,8 +6228,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:48
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Plugin stellt Bildschirmbenachrichtigungen über Nachrichten und "
 "Kontaktstatus bereit"
@@ -6259,8 +6251,7 @@ msgstr "Bei Nachrichteneingang informieren (per OSD)"
 
 #: plugins/osd/osdconfigbase.cpp:62
 msgid "Enable &status notification"
-msgstr ""
-"Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
+msgstr "Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
 
 #: plugins/jabber/jabberconfigbase.cpp:266 plugins/osd/osdconfigbase.cpp:63
 msgid "Enable &typing notification"
@@ -6300,8 +6291,7 @@ msgstr "&Proxy"
 
 #: plugins/proxy/proxycfg.cpp:140
 msgid "<b>Note !</b><br>HTTP-proxy support only ICQ-protocol"
-msgstr ""
-"<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
+msgstr "<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
 
 #: plugins/proxy/proxycfg.cpp:209
 msgid "Default"
@@ -6345,8 +6335,7 @@ msgstr "Proxy"
 
 #: plugins/proxy/proxy.cpp:1539
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS and HTTP)"
-msgstr ""
-"Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
+msgstr "Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
 
 #: plugins/proxy/proxyerrorbase.cpp:78
 msgid "Proxy error"
@@ -6512,8 +6501,7 @@ msgstr "Aktualisieren"
 
 #: plugins/update/update.cpp:40
 msgid "Plugin provides notifications about update SIM software"
-msgstr ""
-"Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
+msgstr "Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
 
 #: plugins/update/update.cpp:153
 msgid "Show details"
@@ -7839,8 +7827,7 @@ msgstr "Aktion"
 
 #: plugins/action/action.cpp:34
 msgid "Plugin execute external programs on event or from contact menu"
-msgstr ""
-"Plugin führt externe Programme bei einem Ereignis oder von Kontaktmenü aus"
+msgstr "Plugin führt externe Programme bei einem Ereignis oder von Kontaktmenü aus"
 
 #: plugins/action/action.cpp:84
 msgid "&Action"
@@ -7863,8 +7850,7 @@ msgid "Navigate"
 msgstr "Navigation"
 
 #: plugins/navigate/navigate.cpp:199
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Plugin stellt Navigation von Hyperlinks bereit und ruft externe Browser- "
 "oder Mailprogramme auf"
@@ -7883,1248 +7869,69 @@ msgstr "Mailer:"
 
 #: plugins/yahoo/yahoo.cpp:74
 msgid "Yahoo!"
-msgstr ""
+msgstr "Yahoo!"
 
 #: plugins/yahoo/yahoo.cpp:77
 msgid ""
 "http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.ya"
 "hoo.com/&.redir_from=MESSENGER"
 msgstr ""
+"http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.ya"
+"hoo.com/&.redir_from=MESSENGER"
 
 #: plugins/yahoo/yahoocfg.cpp:43
 msgid "Get a Yahoo! ID"
-msgstr ""
+msgstr "Eine Yahoo!-ID holen"
 
 #: plugins/yahoo/yahooclient.cpp:262
 msgid "Yahoo! login lock"
-msgstr ""
+msgstr "Yahoo!-Loginsperre"
 
 #: plugins/yahoo/yahooclient.cpp:285
 msgid "Your account has been locked"
-msgstr ""
+msgstr "Der Zugang wurde gesperrt"
 
 #: plugins/yahoo/yahooclient.cpp:289 plugins/yahoo/yahooclient.cpp:302
-#, fuzzy
 msgid "Your account is being used from another location"
-msgstr "Ihre UIN wird gerade von einem anderen Ort aus benutzt"
+msgstr "Der Zugang wird gerade von einem anderen Ort aus benutzt"
 
 #: plugins/yahoo/yahooclient.cpp:1159
-#, fuzzy
 msgid "Not at home"
-msgstr "Keine Übereinstimmung"
+msgstr "Nicht zu Hause"
 
 #: plugins/yahoo/yahooclient.cpp:1162
 msgid "Not at my desk"
-msgstr ""
+msgstr "Nicht am Arbeitsplatz"
 
 #: plugins/yahoo/yahooclient.cpp:1165
 msgid "Not in the office"
-msgstr ""
+msgstr "Nicht im Büro"
 
 #: plugins/yahoo/yahooclient.cpp:1171
-#, fuzzy
 msgid "On vacation"
-msgstr "Beschäftigung:"
+msgstr "Im Urlaub"
 
 #: plugins/yahoo/yahooclient.cpp:1174
-#, fuzzy
 msgid "Out to lunch"
-msgstr "Zum Mittag"
+msgstr "Zu Mittag"
 
 #: plugins/yahoo/yahooclient.cpp:1177
-#, fuzzy
 msgid "Stepped out"
-msgstr "Zeitüberschreitung während des Sendens"
+msgstr "Austreten"
 
 #: plugins/yahoo/yahoocfgbase.cpp:120
-#, fuzzy
 msgid "&Yahoo!"
-msgstr "&Foto"
+msgstr "&Yahoo!"
 
 #: plugins/yahoo/yahoosearchbase.cpp:79
 msgid "Yahoo ID:"
-msgstr ""
+msgstr "Yahoo-ID:"
 
 #: plugins/yahoo/yahoosearch.cpp:56
-#, fuzzy
 msgid "Yahoo! search results"
-msgstr "AIM-Suchergebnisse"
+msgstr "Yahoo!-Suchergebnisse"
 
 #: plugins/yahoo/yahoosearch.cpp:129
-#, fuzzy
 msgid "Contact %1 added in group %2"
-msgstr "Der Kontakt %1 wurde zur Liste hinzugefügt."
+msgstr "Kontakt %1 wurde zur Gruppe %2 hinzugefügt"
 
-#~ msgid "Init string:"
-#~ msgstr "Initalisierungszeichenkette:"
-
-#~ msgid "Plugin provides posting to LiveJournal"
-#~ msgstr "Plugin erlaubt Beiträge an ein LiveJournal zu schreiben"
-
-#~ msgid "Month:"
-#~ msgstr "Monat:"
-
-#~ msgid "Day:"
-#~ msgstr "Tag:"
-
-#~ msgid "Year:"
-#~ msgstr "Jahr:"
-
-#~ msgid "Automaitcaly open window on receive message"
-#~ msgstr "Fenster beim &Nachrichtenempfang automatisch öffnen"
-
-#~ msgid "&Work info"
-#~ msgstr "&Arbeit-Info"
-
-#~ msgid "Registration failed"
-#~ msgstr "Registrierung fehlgeschlagen"
-
-#, fuzzy
-#~ msgid "Register success"
-#~ msgstr "Registrierte Agenten:"
-
-#, fuzzy
-#~ msgid "Register failed"
-#~ msgstr "Registrierung fehlgeschlagen"
-
-# msgid "Use &default path"
-# msgstr "Stan&dardpfad benutzen"
-#~ msgid "Path for config files:"
-#~ msgstr "Verzeichnis für die Konfigurationsdateien:"
-
-#~ msgid "Sending messages color"
-#~ msgstr "Farbe für gesendete Nachrichten"
-
-#~ msgid "Received messages color"
-#~ msgstr "Farbe für emfangene Nachrichten"
-
-#~ msgid "Others color"
-#~ msgstr "Farbe des anderen Chatpartners"
-
-#~ msgid "Own color"
-#~ msgstr "Farbe der eigenen Nachrichten"
-
-#~ msgid "*.msl|Smiles"
-#~ msgstr "*.msl|Smilies"
-
-#~ msgid "Smiles (*.msl)"
-#~ msgstr "Smilies (*.msl)"
-
-#~ msgid "Fonts"
-#~ msgstr "Schriftart"
-
-#~ msgid "Receive file"
-#~ msgstr "Datei empfangen"
-
-#~ msgid "Input"
-#~ msgstr "Eingabe"
-
-#~ msgid "Search:"
-#~ msgstr "Suchen:"
-
-#~ msgid " "
-#~ msgstr " "
-
-#~ msgid "Send in translit"
-#~ msgstr "In Translit senden"
-
-#~ msgid "&Text color"
-#~ msgstr "&Textfarbe"
-
-#~ msgid "Text &font"
-#~ msgstr "Schri&ftart"
-
-#~ msgid "URL:"
-#~ msgstr "URL:"
-
-#~ msgid "Drag users here"
-#~ msgstr "Benutzer hierher ziehen"
-
-#~ msgid ""
-#~ "You have default encoding UTF-8. \n"
-#~ "At its use you can have problems with reading offline messages and "
-#~ "installation of your personal information."
-#~ msgstr ""
-#~ "Standardkodierungs ist UTF-8.\n"
-#~ "Dabei kann es zu Problemen beim Lesen von Offline-Nachrichten und der "
-#~ "Installation von eigenen Informationen kommen."
-
-#~ msgid "Use &default path"
-#~ msgstr "Stan&dardverzeichnis benutzen"
-
-#~ msgid "Can't open file"
-#~ msgstr "Datei kann nicht geöffnet werden"
-
-#~ msgid "Bad ack sequence"
-#~ msgstr "Schlechte Bestätigungssequenz"
-
-#~ msgid "Search failed"
-#~ msgstr "Suchen fehlgeschlagen"
-
-#~ msgid "On line alert:"
-#~ msgstr "Onlinealarm:"
-
-#~ msgid "Screen name:"
-#~ msgstr "Nickname:"
-
-#~ msgid "Error proxy write"
-#~ msgstr "Fehler beim Schreiben auf Proxy-Server"
-
-#~ msgid "Error proxy read"
-#~ msgstr "Fehler beim Lesen vom Proxy-Server"
-
-#~ msgid "Error proxy connect"
-#~ msgstr "Fehler bei der Verbindung zum Proxy-Server"
-
-#~ msgid "Error proxy authorization"
-#~ msgstr "Fehler bei der Benutzerauthentisierung am Proxy-Server"
-
-#~ msgid "By &Status"
-#~ msgstr "Nach &Status"
-
-#~ msgid "By &Name"
-#~ msgstr "Nach &Namen"
-
-#~ msgid "Close after %n second"
-#~ msgstr "Nach %n Sekunden schließen"
-
-#~ msgid "Authorize request"
-#~ msgstr "Authorisierungsanfrage"
-
-#~ msgid "Authorization granted"
-#~ msgstr "Authorisierung gewährt"
-
-#~ msgid "Authorization refused"
-#~ msgstr "Authorisierung abgelehnt"
-
-#~ msgid "WWW-panel message"
-#~ msgstr "WWW-Feld Nachricht"
-
-#~ msgid "Email pager message"
-#~ msgstr "E-Mail Pager-Nachricht"
-
-#~ msgid "Contact request"
-#~ msgstr "Kontaktanfrage"
-
-#~ msgid "URL"
-#~ msgstr "URL"
-
-#~ msgid "Found 1 contact"
-#~ msgstr "Ein Kontakt gefunden."
-
-#, fuzzy
-#~ msgid "Not on list"
-#~ msgstr "Nicht in Liste"
-
-#~ msgid "New search"
-#~ msgstr "Neue Suche"
-
-#~ msgid "Chat Topic/Interests:"
-#~ msgstr "Chattitel/Interessen:"
-
-#~ msgid "&Request chat"
-#~ msgstr "Chat anfo&rdern"
-
-#~ msgid "Send &URL"
-#~ msgstr "&URL senden"
-
-#~ msgid "&Finding"
-#~ msgstr "&Suchen"
-
-#~ msgid "I want to be available to chat with a friend"
-#~ msgstr "Ich bin verfügbar für einen Chat mit einem Freund"
-
-#~ msgid "Chat topic/Interests:"
-#~ msgstr "Chattitel/Interessen:"
-
-#~ msgid "&Details"
-#~ msgstr "&Details"
-
-#~ msgid ""
-#~ "You case use:\n"
-#~ "&Alias; -  receipent name\n"
-#~ "&Uin; - receipent UIN\n"
-#~ "&MyAlias; - own name\n"
-#~ "&MyUin; - own UIN"
-#~ msgstr ""
-#~ "Es wird benutzt:\n"
-#~ "&Alias; -  Empfängername\n"
-#~ "&Uin; - Empfänger UIN\n"
-#~ "&MyAlias; - eigener Name\n"
-#~ "&MyUin; - eigene UIN"
-
-#~ msgid "&Signature"
-#~ msgstr "&Signatur"
-
-#~ msgid "Proxy settings"
-#~ msgstr "Proxy-Einstellungen"
-
-#~ msgid "Use proxy"
-#~ msgstr "Proxy-Server benutzen"
-
-#~ msgid "Proxy host:"
-#~ msgstr "Proxyhost:"
-
-#~ msgid "User proxy authorization"
-#~ msgstr "Proxy-Benutzerauthentfizierung"
-
-#~ msgid "Proxy port:"
-#~ msgstr "Proxy-Port:"
-
-#~ msgid "Server"
-#~ msgstr "Server"
-
-#~ msgid "&Do not show this window"
-#~ msgstr "Dieses Fenster nicht &anzeigen"
-
-#~ msgid "&Proxy settings"
-#~ msgstr "&Proxy-Einstellungen"
-
-#~ msgid "Column 1"
-#~ msgstr "Spalte 1"
-
-#~ msgid "Actions:"
-#~ msgstr "Aktionen:"
-
-#~ msgid "&Enable"
-#~ msgstr "&Aktivieren"
-
-#~ msgid "Send messages on \"Enter\""
-#~ msgstr "Nachrichten mit \"Enter\" senden"
-
-#~ msgid "&Key"
-#~ msgstr "&Tasten"
-
-#~ msgid "ICQ server:"
-#~ msgstr "ICQ-Server:"
-
-#~ msgid "&Server"
-#~ msgstr "&Server"
-
-#~ msgid "Use the following TCP listen ports:"
-#~ msgstr "Folgende hörende TCP-Ports verwenden:"
-
-#~ msgid "From:"
-#~ msgstr "Von:"
-
-#~ msgid "To:"
-#~ msgstr "bis:"
-
-#~ msgid "P&orts"
-#~ msgstr "P&orts"
-
-#~ msgid "1000000/100000"
-#~ msgstr "1000000/100000"
-
-#~ msgid "100000"
-#~ msgstr "100000"
-
-#~ msgid "Close after send"
-#~ msgstr "Nach dem Senden schließen"
-
-#~ msgid "Override global settings"
-#~ msgstr "Globale Einstellungen überschreiben"
-
-#~ msgid "Automaitcaly open window"
-#~ msgstr "Fenster automatisch öffnen"
-
-#~ msgid "Run external program"
-#~ msgstr "Externes Programm starten"
-
-#~ msgid "Split mode (&Chat style)"
-#~ msgstr "Chatmodus (&Zwei-Fenster-Modus)"
-
-#~ msgid "Simple mode (&Plain style)"
-#~ msgstr "Nachrichtenmodus (&Ein-Fenster-Modus)"
-
-#~ msgid "last messages from history to conversation"
-#~ msgstr "Nachrichten vom Verlauf kopieren"
-
-#~ msgid "&Each user in new container"
-#~ msgstr "Jeder Benutzer in einem &neuem Container"
-
-#~ msgid "&All users in one container"
-#~ msgstr "Alle Benutzer in &einem Container"
-
-#~ msgid "&User window"
-#~ msgstr "&Benutzerfenster"
-
-#~ msgid "Receivers color"
-#~ msgstr "Farbe des Emfängers"
-
-#~ msgid "Senders color"
-#~ msgstr "Farbe des Senders"
-
-#~ msgid "&Colors"
-#~ msgstr "&Farben"
-
-#~ msgid "Edit Email"
-#~ msgstr "E-Mail bearbeiten"
-
-#~ msgid "Don't publish my Email address"
-#~ msgstr "Meine E-Mail-Adresse nicht veröffentlichen"
-
-#~ msgid "Close after ...."
-#~ msgstr "Schließen nach..."
-
-#~ msgid "User is online"
-#~ msgstr "Benutzer ist online"
-
-#~ msgid "Customize message"
-#~ msgstr "Nachricht anpassen"
-
-#~ msgid "Don't show message dialog"
-#~ msgstr "Nachrichtendialog nicht anzeigen"
-
-#~ msgid "Tab 1"
-#~ msgstr "Tab 1"
-
-#~ msgid "Override global alert"
-#~ msgstr "Globalen Online-Alarm überschreiben"
-
-#~ msgid "Activate online alert when user returns from Away or NA"
-#~ msgstr ""
-#~ "Online-Alarm aktivieren, wenn der Benutzer von \"NA\" oder \"Weg\" "
-#~ "zurückkehrt"
-
-#~ msgid "Online alert options"
-#~ msgstr "Online-Alarm Optionen"
-
-#~ msgid "Blinking alert effect"
-#~ msgstr "Blinkalarmeffekt "
-
-#~ msgid "Play online alert sound"
-#~ msgstr "Onlineton abspielen"
-
-#~ msgid "On Screen notification"
-#~ msgstr "Bildschirmbenachrichtigung"
-
-#~ msgid "Popup online alert dialog"
-#~ msgstr "Onlinedialog anzeigen"
-
-#~ msgid "Open user window when online"
-#~ msgstr "Benutzerfenster öffnen, wenn Benutzer online"
-
-#~ msgid "Write to history"
-#~ msgstr "In Verlauf schreiben"
-
-#~ msgid "&Alert"
-#~ msgstr "&Alarm"
-
-#~ msgid "Enable notify on screen"
-#~ msgstr "Benachrichtigung auf Bildschirm (OSD) aktivieren"
-
-#~ msgid "On Screen"
-#~ msgstr "Bildschirmbenachrichtigung"
-
-#~ msgid "Publish in global directory"
-#~ msgstr "In globalem Verzeichnis publizieren"
-
-#~ msgid "Add phone"
-#~ msgstr "Telefonnummer hinzufügen"
-
-#~ msgid "Browser program path:"
-#~ msgstr "Browserprogramm:"
-
-#~ msgid "Email client:"
-#~ msgstr "E-Mailprogramm:"
-
-#~ msgid "&Miscellaneous"
-#~ msgstr "&Verschiedenes"
-
-#~ msgid "A&utomatically add new user to KAddressBook"
-#~ msgstr "A&utomatisch neuen Benutzer zum KDE-Adressbuch hinzufügen"
-
-#~ msgid "&Synchronize now"
-#~ msgstr "Jetzt &synchronisieren"
-
-#~ msgid "&Addressbook synchronization"
-#~ msgstr "&Adressbuchsynchronisation"
-
-#~ msgid "Check &all messages on send"
-#~ msgstr "&Alle Nachrichten beim Versenden prüfen"
-
-#~ msgid "&Spell check"
-#~ msgstr "Recht&schreibprüfung"
-
-#~ msgid "&Override sounds"
-#~ msgstr "&Klänge überschreiben"
-
-#~ msgid "Message:"
-#~ msgstr "Nachricht empfangen"
-
-#~ msgid "SMS:"
-#~ msgstr "SMS:"
-
-#~ msgid "Authorization:"
-#~ msgstr "Authorisierung:"
-
-#~ msgid "Incoming file:"
-#~ msgstr "Ankommende Datei:"
-
-#~ msgid "Chat Request:"
-#~ msgstr "Chatanfrage:"
-
-#~ msgid "Startup sound:"
-#~ msgstr "Startklang:"
-
-#~ msgid "&Sounds"
-#~ msgstr "&Klänge"
-
-#~ msgid "Program for play:"
-#~ msgstr "Programm zum Abspielen:"
-
-#~ msgid "UseArts"
-#~ msgstr "Arts benutzen"
-
-#~ msgid "User is currently available at:"
-#~ msgstr "Der Benutzer ist aktuell bei:"
-
-#~ msgid "Select style:"
-#~ msgstr "Stil auswählen:"
-
-#~ msgid "Icons:"
-#~ msgstr "Symbole:"
-
-#~ msgid "Add icons"
-#~ msgstr "Icons hinzufügen"
-
-#~ msgid "&Icons"
-#~ msgstr "&Icons"
-
-#~ msgid "Use &system colors"
-#~ msgstr "&Systemfarben benutzen"
-
-#~ msgid "Online contact color:"
-#~ msgstr "Offinekontaktfarbe:"
-
-#~ msgid "Offline contact color:"
-#~ msgstr "Onlinekontaktfarbe:"
-
-#~ msgid "B&ackground"
-#~ msgstr "&Hintergrund"
-
-#~ msgid "Transparent main window"
-#~ msgstr "Transparentes Hauptfenster"
-
-#~ msgid "Transparency"
-#~ msgstr "Transpararenz"
-
-#~ msgid "Transparent container"
-#~ msgstr "Transparenter Container"
-
-#~ msgid "&Transparency"
-#~ msgstr "&Transpararenz"
-
-#~ msgid "Show user window in task manager"
-#~ msgstr "Benutzerfenster in Fensterliste  anzeigen"
-
-#~ msgid "User window stays on &top"
-#~ msgstr "Benutzerfenster immer im &Vordergrund"
-
-#~ msgid "&Show splash window"
-#~ msgstr "Startbild &anzeigen"
-
-#~ msgid "Use double c&lick"
-#~ msgstr "Doppelk&lick benutzen"
-
-#~ msgid "Add"
-#~ msgstr "Hinzufügen"
-
-#~ msgid "Edit"
-#~ msgstr "Bearbeiten"
-
-#~ msgid "Remove"
-#~ msgstr "Löschen"
-
-#~ msgid "Set as default"
-#~ msgstr "Als Standard festlegen"
-
-#~ msgid "&EMail"
-#~ msgstr "&E-Mail"
-
-#~ msgid "Direct connection"
-#~ msgstr "Direktverbindung"
-
-#~ msgid "Reject &messages from unknown users"
-#~ msgstr "&Nachrichten von unbekannten Benutzern ablehnen"
-
-#~ msgid "Reject &URL from unknown users"
-#~ msgstr "&URLs von unbekannten Benutzern ablehnen"
-
-#~ msgid "Reject &World Wide pager messages"
-#~ msgstr "&Weltweite Pager-Nachrichten ablehnen"
-
-#~ msgid "Reject &EmailExpress messages"
-#~ msgstr "&E-Mailexpress-Nachrichten ablehnen"
-
-#~ msgid "Reject &other messages"
-#~ msgstr "&Andere Nachrichten ablehnen"
-
-#~ msgid "&Reject"
-#~ msgstr "&Ablehnen"
-
-#~ msgid "Spam &filter"
-#~ msgstr "Spam&filter"
-
-#~ msgid "S&ave password"
-#~ msgstr "Passwort s&peichern"
-
-#~ msgid "My notes:"
-#~ msgstr "Meine Bemerkungen:"
-
-#~ msgid "User is offline"
-#~ msgstr "Benutzer ist offline"
-
-#~ msgid "Packet was malformed"
-#~ msgstr "Packet war fehlerhaft"
-
-#~ msgid "ICQ AuthRequest"
-#~ msgstr "ICQ-Autherisierungsanfrage"
-
-#~ msgid "ICQ AuthGranted"
-#~ msgstr "ICQ-Authorisierung genehmigt"
-
-#~ msgid "ICQ AuthRefused"
-#~ msgstr "ICQ-Authorisierung abgelehnt"
-
-#~ msgid "AutoReplyDialog"
-#~ msgstr "Automatische Antwort Dialog"
-
-#~ msgid ""
-#~ "Plugin provides log output\n"
-#~ "You can set debug level from command line with -d <loglevel>"
-#~ msgstr ""
-#~ "Das Plugin sorgt für Logging-Ausgaben\n"
-#~ "Man kann die Debugstufe aus der Kommandozeile setzen mit -d <Debugstufe>"
-
-#~ msgid "Enter to chat"
-#~ msgstr "Chat betreten"
-
-#~ msgid ""
-#~ "Please do not disturb me now.\n"
-#~ "Disturb me later.\n"
-#~ "Only urgent messages, please!\n"
-#~ msgstr ""
-#~ "Bitte nicht stören. Versuchen Sie es bitte später.\n"
-#~ "Bitte nur dringende Nachrichten!\n"
-
-#~ msgid ""
-#~ "_n: Chat request\n"
-#~ "%n chat requests"
-#~ msgstr ""
-#~ "Chatanfrage\n"
-#~ "%n Chatanfragen"
-
-#~ msgid ""
-#~ "_n: External unknown message\n"
-#~ "%n unknown messages"
-#~ msgstr ""
-#~ "Externe unbekannte Nachricht\n"
-#~ "%n unbekannte Nachrichten"
-
-#~ msgid ""
-#~ "_n: SMS receipt\n"
-#~ "%n SMS receipts"
-#~ msgstr ""
-#~ "SMS empfangen\n"
-#~ "%n SMS empfangen"
-
-#~ msgid ""
-#~ "_n: Unknown message\n"
-#~ "%n unknown messages"
-#~ msgstr ""
-#~ "Unbekannte Nachricht\n"
-#~ "%n unbekannte Nachrichten"
-
-#~ msgid ""
-#~ "_: Ctrl+N\n"
-#~ "new"
-#~ msgstr "Strg+N"
-
-#~ msgid ""
-#~ "_: Ctrl+B\n"
-#~ "chat msg"
-#~ msgstr "Strg+B"
-
-#~ msgid ""
-#~ "_: Ctrl+F\n"
-#~ "File"
-#~ msgstr "Strg+F"
-
-#~ msgid ""
-#~ "_: Ctrl+L\n"
-#~ "URL"
-#~ msgstr "Strg+L"
-
-#~ msgid ""
-#~ "_: Ctrl+T\n"
-#~ "Contacts"
-#~ msgstr "Strg+T"
-
-#~ msgid ""
-#~ "_: Ctrl+S\n"
-#~ "SMS"
-#~ msgstr "Strg+S"
-
-#~ msgid ""
-#~ "_: Ctrl+E\n"
-#~ "EMail"
-#~ msgstr "Strg+E"
-
-#~ msgid "set status"
-#~ msgstr "Status setzen"
-
-#~ msgid "show/hide main window"
-#~ msgstr "Hauptfenster anzeigen/verstecken"
-
-#~ msgid "show/hide search window"
-#~ msgstr "Suchfenster anzeigen/verstecken"
-
-#~ msgid "show/hide dock"
-#~ msgstr "Docksymbol anzeigen/verstecken"
-
-#~ msgid "set notify mode"
-#~ msgstr "Benachrichtigungsmodus setzen"
-
-#~ msgid "get icon in xpm fomrat"
-#~ msgstr "Symbol im xpm-Format bekommen"
-
-#~ msgid "show popup"
-#~ msgstr "Popup anzeigen"
-
-#~ msgid "quit SIM"
-#~ msgstr "SIM beenden"
-
-#~ msgid "close session"
-#~ msgstr "Sitzung schließen"
-
-#~ msgid "command help information"
-#~ msgstr "Kommandohilfeinformation"
-
-#~ msgid "? Unknown command %1"
-#~ msgstr "? Unbekanntes Kommando %1"
-
-#~ msgid "? Bad arguments number. Try help %1"
-#~ msgstr "? Falsche Anzahl der Argumente. Versuchen Sie help %1"
-
-#~ msgid "? Unknown status %1"
-#~ msgstr "? Unbekannter Status %1"
-
-#~ msgid "Unknown"
-#~ msgstr "Unbekannt"
-
-#~ msgid "IM Address"
-#~ msgstr "IM-Adresse"
-
-#~ msgid "Find User"
-#~ msgstr "Benutzer suchen"
-
-#~ msgid "Current location"
-#~ msgstr "Aktueller Ort"
-
-#~ msgid "Phone Book"
-#~ msgstr "Adressbuch"
-
-#~ msgid "Open main window"
-#~ msgstr "Hauptfenster öffnen"
-
-#~ msgid "%1 from %2 received"
-#~ msgstr "%1 von %2 empfangen"
-
-#~ msgid "Invalid password for proxy"
-#~ msgstr "Ungültiges Passwort für Proxyserver"
-
-#~ msgid "In visible list"
-#~ msgstr "In Sichtbar-Liste"
-
-#~ msgid "In invisible list"
-#~ msgstr "In Unsichtbar-Liste"
-
-#~ msgid "In ignore list"
-#~ msgstr "In Ignorieren-Liste"
-
-#~ msgid "Delete"
-#~ msgstr "Löschen"
-
-#~ msgid ""
-#~ "_: Del\n"
-#~ "Delete"
-#~ msgstr ""
-#~ "Löschen\n"
-#~ "Löschen"
-
-#~ msgid "&User info"
-#~ msgstr "&Benutzerinformation"
-
-#~ msgid ""
-#~ "_: Ctrl+U\n"
-#~ "UserInfo"
-#~ msgstr "Strg+U"
-
-#~ msgid ""
-#~ "_: Ctrl+H\n"
-#~ "History"
-#~ msgstr "Strg+H"
-
-#~ msgid "Alert"
-#~ msgstr "Warnung"
-
-#~ msgid ""
-#~ "_: Ctrl+L\n"
-#~ "Alert"
-#~ msgstr "Strg+L"
-
-#~ msgid ""
-#~ "_: Ctrl+A\n"
-#~ "Accept"
-#~ msgstr "Strg+A"
-
-#~ msgid ""
-#~ "_: Ctrl+S\n"
-#~ "Sound"
-#~ msgstr "Strg+S"
-
-#~ msgid ""
-#~ "_: Ctrl+T\n"
-#~ "Floating"
-#~ msgstr "Strg+T"
-
-#~ msgid ""
-#~ "_: Ctrl+C\n"
-#~ "Close"
-#~ msgstr "Strg+C"
-
-#~ msgid "Alphabetically sort"
-#~ msgstr "Alphabetisch sortieren"
-
-#~ msgid ""
-#~ "_: Ctrl+B\n"
-#~ "Alphabetically sort"
-#~ msgstr "Strg+B"
-
-#~ msgid "Read %1 message"
-#~ msgstr "Nachricht %1 lesen"
-
-#~ msgid "Expand all"
-#~ msgstr "Alle aufklappen"
-
-#~ msgid "Collapse all"
-#~ msgstr "Alle zusammenklappen"
-
-#~ msgid "Phone \"Follow Me\""
-#~ msgstr "Telefonweiterleitungen"
-
-#~ msgid "Shared files"
-#~ msgstr "Freigegebene Dateien"
-
-#~ msgid "Change UIN"
-#~ msgstr "UIN wechseln"
-
-#~ msgid "&Reply"
-#~ msgstr "&Antwort"
-
-#~ msgid "Spell &check"
-#~ msgstr "&Rechtschreibprüfung"
-
-#~ msgid "Chat started"
-#~ msgstr "Chat gestartet"
-
-#~ msgid "Next"
-#~ msgstr "Weiter"
-
-#~ msgid "%1 (ICQ# %2) wrote:<br>\n"
-#~ msgstr "%1 (ICQ# %2) schrieb:<br>\n"
-
-#~ msgid "Save to"
-#~ msgstr "Speichern nach"
-
-#~ msgid "Please, input decline reason:"
-#~ msgstr "Bitte geben Sie einen Ablehnungsgrund ein:"
-
-#~ msgid "Contact list received"
-#~ msgstr "Kontakliste empfangen"
-
-#~ msgid "Contact list sent"
-#~ msgstr "Kontaktliste wird gesendet"
-
-#~ msgid "&Sort order"
-#~ msgstr "&Sortierordnung"
-
-#~ msgid ""
-#~ "text/plain|Text file\n"
-#~ "text/html|HTML file"
-#~ msgstr ""
-#~ "text/plain|Textdatei\n"
-#~ "text/html|HTML-Datei"
-
-#~ msgid "Text file(*.txt);;HTML file(*.htm *.html)"
-#~ msgstr "Textdatei(*.txt);;HTML-Datei(*.htm *.html)"
-
-#~ msgid ""
-#~ "File %1 exists\n"
-#~ "Overwrite?"
-#~ msgstr ""
-#~ "Datei %1 existiert bereits\n"
-#~ "Überschreiben?"
-
-#~ msgid "Directory for files"
-#~ msgstr "Verzeichnis für Dateien"
-
-#~ msgid "Control socket"
-#~ msgstr "Kontrollsocket"
-
-#~ msgid "No dock"
-#~ msgstr "Kein Docking benutzen"
-
-#~ msgid "Add to ignore &list"
-#~ msgstr "Zur Ignorieren-&Liste hinzufügen"
-
-#~ msgid "Move to &group"
-#~ msgstr "Zu &Gruppe verschieben"
-
-#~ msgid "&History<br>with CTRL open in new window"
-#~ msgstr "&Verlauf<br>mit STRG in einem neuem Fenster öffnen"
-
-#~ msgid "Close user &window"
-#~ msgstr "Benutzer&fenster schließen"
-
-#~ msgid "History loading"
-#~ msgstr "Lade Verlauf..."
-
-#~ msgid "Add group"
-#~ msgstr "Gruppe hinzufügen"
-
-#~ msgid "Add all"
-#~ msgstr "Alle hinzufügen"
-
-#~ msgid ""
-#~ "_: Ctrl+N\n"
-#~ "Create group"
-#~ msgstr "Strg+N"
-
-#~ msgid "User "
-#~ msgstr "Benutzer "
-
-#~ msgid " is online"
-#~ msgstr " ist online"
-
-#~ msgid "Close [%1 sec]"
-#~ msgstr "Schließen [%1 Sek]"
-
-#~ msgid "Close in %1 sec"
-#~ msgstr "Schließt in %1 Sek"
-
-#~ msgid ""
-#~ "_n: Receive %2 from %1\n"
-#~ "Receive %n files from %1"
-#~ msgstr ""
-#~ "Empfange %2 von %1 empfangen\n"
-#~ "Empfange %n Dateien von %1"
-
-#~ msgid ""
-#~ "_n: Send %2 to %1\n"
-#~ "Send %n files to %1"
-#~ msgstr ""
-#~ "Sende %2 zu %1\n"
-#~ "Sende %n Dateien zu %1"
-
-#~ msgid "Connect to %1 [%2]"
-#~ msgstr "Verbinde zu %1 [%2]"
-
-#~ msgid "Wait connect to %1 [%2]"
-#~ msgstr "Warte auf Verbindung zu %1 [%2]"
-
-#~ msgid "Send thru server to %1"
-#~ msgstr "Datei an %1 über Server senden"
-
-#~ msgid "[done]"
-#~ msgstr "[abgeschlossen]"
-
-#~ msgid "[fail]"
-#~ msgstr "[fehlgeschlagen]"
-
-#~ msgid "File transfer declined with reason %1"
-#~ msgstr "Dateiübertragung mit Ablehungsgrund %1 abgelehnt"
-
-#~ msgid "Receive file %1 of %2 files from %3"
-#~ msgstr "Empfange Datei %1 von %2 von %3"
-
-#~ msgid "Send file %1 of %2 files to %3"
-#~ msgstr "Sende Datei %1 von %2 an %3"
-
-#~ msgid "Double click on dock"
-#~ msgstr "Doppelklick zum Docken"
-
-#~ msgid "<New UIN>"
-#~ msgstr "<Neue UIN>"
-
-#~ msgid "Can't initialize main window"
-#~ msgstr "Hauptfenster konnte nicht initalisiert werden"
-
-#~ msgid "Delete history and incoming files for %u?"
-#~ msgstr "Verlauf und angekommene Dateien von %u löschen?"
-
-#~ msgid "Addressbook synchronization"
-#~ msgstr "Adressbuchsynchronisation"
-
-#~ msgid "Success."
-#~ msgstr "Erfolgreich"
-
-#~ msgid "No proxy"
-#~ msgstr "Kein Proxy"
-
-#~ msgid "SOCKS4"
-#~ msgstr "SOCKS4"
-
-#~ msgid "SOCKS5"
-#~ msgstr "SOCKS5"
-
-#~ msgid "HTTP"
-#~ msgstr "HTTP"
-
-#~ msgid "HTTPS"
-#~ msgstr "HTTPS"
-
-#~ msgid "Number"
-#~ msgstr "Nummer"
-
-#~ msgid "No users was found"
-#~ msgstr "Kein Benutzer wurde gefunden"
-
-#~ msgid "[Failed]"
-#~ msgstr "[fehlgeschlagen]"
-
-#~ msgid "Main info"
-#~ msgstr "Haupt-Info"
-
-#~ msgid "Preferences"
-#~ msgstr "Einstellungen"
-
-#~ msgid "Accept"
-#~ msgstr "Akzeptieren"
-
-#~ msgid "Miscellaneous"
-#~ msgstr "Verschiedenes"
-
-#~ msgid "Need restart SIM for change language"
-#~ msgstr "SIM muss zum Ändern der Sprache neu gestartet werden"
-
-#~ msgid "Default icons"
-#~ msgstr "Standard Icons"
-
-#~ msgid "%1 autoresponse for %2"
-#~ msgstr "Autoantwort von %1 für %2"
-
-#~ msgid "&Check again"
-#~ msgstr "&Erneut prüfen"
-
-#~ msgid "Ready"
-#~ msgstr "Bereit"
-
-#~ msgid "URL: "
-#~ msgstr "URL: "
-
-#~ msgid "Bold"
-#~ msgstr "Fett"
-
-#~ msgid "Italic"
-#~ msgstr "Kursiv"
-
-#~ msgid "Text color"
-#~ msgstr "Textfarbe"
-
-#~ msgid "UTF-8"
-#~ msgstr "UTF-8"
-
-#~ msgid "utf8"
-#~ msgstr "utf8"
-
-#~ msgid "Chat request"
-#~ msgstr "Chatanfrage"
-
-#~ msgid "Contacts request"
-#~ msgstr "Kontaktanfrage"
-
-#~ msgid "External unknown message"
-#~ msgstr "Externe unbekannte Nachricht"
-
-#~ msgid "SMS receipt"
-#~ msgstr "SMS-Empfänger"
-
-#~ msgid "Ctrl+N"
-#~ msgstr "Strg+N"
-
-#~ msgid "Ctrl+B"
-#~ msgstr "Strg+B"
-
-#~ msgid "Ctrl+F"
-#~ msgstr "Strg+F"
-
-#~ msgid "Ctrl+L"
-#~ msgstr "Strg+L"
-
-#~ msgid "Ctrl+R"
-#~ msgstr "Strg+R"
-
-#~ msgid "Ctrl+T"
-#~ msgstr "Strg+T"
-
-#~ msgid "Ctrl+S"
-#~ msgstr "Strg+S"
-
-#~ msgid "Ctrl+E"
-#~ msgstr "Strg+E"
-
-#~ msgid "Del"
-#~ msgstr "Entf"
-
-#~ msgid "Ctrl+U"
-#~ msgstr "Strg+U"
-
-#~ msgid "Ctrl+H"
-#~ msgstr "Strg+H"
-
-#~ msgid "Ctrl+A"
-#~ msgstr "Strg+A"
-
-#~ msgid "Ctrl+C"
-#~ msgstr "Strg+C"
-
-#~ msgid "Printer settings"
-#~ msgstr "Druckereinstellungen"
-
-#~ msgid "Print to printer:"
-#~ msgstr "Auf Drucker ausgeben:"
-
-#~ msgid "Host"
-#~ msgstr "Host"
-
-#~ msgid "From page:"
-#~ msgstr "Von Seite:"
-
-#~ msgid "To page:"
-#~ msgstr "Bis Seite:"
-
-#~ msgid "Number of copies:"
-#~ msgstr "Anzahl der Kopien:"
-
-#~ msgid "Portrait"
-#~ msgstr "Portrait"
-
-#~ msgid "Change password"
-#~ msgstr "Passwort ändern"
-
-#~ msgid "Case &sensitivy"
-#~ msgstr "Groß-/kleinschreibung &beachten"
-
-#~ msgid "Find &backwards"
-#~ msgstr "&Rückwärts suchen"
-
-#~ msgid "Autoforward"
-#~ msgstr "Automatisches weiterleiten"
-
-#~ msgid "Notify On Screen"
-#~ msgstr "Benachrichtigung auf Bildschirm"
-
-#~ msgid "Check all messages on send"
-#~ msgstr "Alle Nachrichten beim Versenden prüfen"
-
-#~ msgid "KabcSync"
-#~ msgstr "KDE-Adressbuchsynchronisation"
-
-#~ msgid ""
-#~ "_: Ctrl+H\n"
-#~ "Chat"
-#~ msgstr "Strg+H"
-
-#~ msgid "Synchronize with KDE address book"
-#~ msgstr "Mit KDE-Adressbuch sychronisieren"
-
-#~ msgid "&Miscelanious"
-#~ msgstr "&Verschiedenes"
-
-#~ msgid "Use WindowMaker applet"
-#~ msgstr "WindowMaker-Applet benutzen"
-
-#~ msgid "Lnaguage:"
-#~ msgstr "Sprache:"
-
-#~ msgid "Autoreply message for status \"%1\""
-#~ msgstr "Autoantwort für Status \"%1\""
-
-#~ msgid "Keyboard shortcuts"
-#~ msgstr "Tastaturkürzel"
-
-#~ msgid "User window mode"
-#~ msgstr "Benutzerfenstermodus"
-
-#~ msgid "Spell checking"
-#~ msgstr "Rechtschreibprüfung"
-
-#~ msgid "Ukrainan"
-#~ msgstr "Ukrainisch"
-
-#~ msgid "UTF16"
-#~ msgstr "UTF16"
-
-#~ msgid "User &info<br>with CTRL open in new window"
-#~ msgstr "Benutzer&information<br>mit STRG in einem neuem Fenster öffnen"
-
-#~ msgid "STATUS [offline|online|away|na|dnd|occupied|ffc]"
-#~ msgstr "STATUS [offline|online|weg|na|nicht stören|beschäftigt|ffc]"
-
-#~ msgid "INVISIBLE [on|off]"
-#~ msgstr "UNSICHTBAR [an|aus]"
-
-#~ msgid "MESSAGE <UIN|Name> <message>"
-#~ msgstr "NACHRICHT <UIN|Name> <nachricht>"
-
-#~ msgid "SMS <phone> <message>"
-#~ msgstr "SMS <telefon> <nachricht>"
-
-#~ msgid "MAINWINDOW [on|off]"
-#~ msgstr "HAUPTFENSTER [an|aus]"
-
-#~ msgid "SEARCHWINDOW [on|off]"
-#~ msgstr "SUCHFENSTER [an|aus]"
-
-#~ msgid "DOCK [on|off]"
-#~ msgstr "DOCK [an|aus]"
-
-#~ msgid "QUIT"
-#~ msgstr "BEENDEN"
-
-#~ msgid "CLOSE"
-#~ msgstr "SCHLIEßEN"
-
-#~ msgid "HELP [<cmd>]"
-#~ msgstr "HILFE [<kommando>]"
-
-#~ msgid "Find &next"
-#~ msgstr "&Nächsten suchen"
-
-#~ msgid ""
-#~ "End of document reached.\n"
-#~ "Continue from the beginning?"
-#~ msgstr ""
-#~ "Das Ende des Dokuments wurde erreicht.\n"
-#~ "Am Anfang fortsetzen?"
-
-#~ msgid ""
-#~ "Beginning of document reached.\n"
-#~ "Continue from the end?"
-#~ msgstr ""
-#~ "Der Anfang des Dokuments wurde erreicht.\n"
-#~ "Am Ende fortsetzen?"
-
-#~ msgid "Local file:"
-#~ msgstr "Lokale Datei:"
-
-#~ msgid ""
-#~ "_: Dear translator, please do not translate this string in any form, but "
-#~ "pick the _right_ value out of NoPlural/TwoForms/French..."
-#~ msgstr "TwoForms"
-
-#~ msgid "Transfer completed"
-#~ msgstr "Übertragung abgeschlossen"
