@@ -421,7 +421,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     // in one chunk (since it's more efficient and causes less redraws), and there's
     // no way to set block's background color directly in Qt's HTML), so we make a note
     // of it in the HTML and set it retroactively in setBackground.
-    if ((msg->getBackground() != 0xFFFFFFFF) && (msg->getForeground() != msg->getBackground()))
+    if (!CorePlugin::m_plugin->getOwnColors() && (msg->getBackground() != 0xFFFFFFFF) && (msg->getForeground() != msg->getBackground()))
         id += QString::number(msg->getBackground());
     // </hack>
     string client_str;
@@ -487,7 +487,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     ViewParser parser(CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
     msgText = parser.parse(msgText);
     s += "<body";
-    if ((msg->getForeground() != 0xFFFFFFFF) && (msg->getForeground() != msg->getBackground()))
+    if (!CorePlugin::m_plugin->getOwnColors() && (msg->getForeground() != 0xFFFFFFFF) && (msg->getForeground() != msg->getBackground()))
     {
         s += " fgcolor=\"#";
         s += QString::number(msg->getForeground(), 16).rightJustify(6, '0');
@@ -1418,9 +1418,11 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
                     break;
                 QString value = *it;
                 if ((name == "color") ||
+						(name == "background") ||
                         (name == "background-color") ||
                         (name == "font-size") ||
                         (name == "font-style") ||
+						(name == "font-variant") ||
                         (name == "font-weight") ||
                         (name == "font-family"))
                     continue;
