@@ -1280,14 +1280,14 @@ Client *ClientUserData::activeClient(void *&data, Client *client)
         if (((clientData*)((*it).data))->Sign.value != ((clientData*)data)->Sign.value)
             continue;
         if (client->compareData(data, (*it).data))
-            return client;
+            return NULL;
     }
     if (it == p->end())
         return NULL;
     if (client->getState() == Client::Connected)
         return client;
     for (++it; it != p->end(); ++it){
-        if (client->getState() != Client::Connected)
+        if ((*it).client->getState() != Client::Connected)
             continue;
         if (((clientData*)((*it).data))->Sign.value != ((clientData*)data)->Sign.value)
             continue;

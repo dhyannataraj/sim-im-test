@@ -155,6 +155,9 @@ public:
     QString toUnicode(const char *str, YahooUserData *client_data);
     string  fromUnicode(const QString &str, YahooUserData *client_data);
     QTextCodec *getCodec(const char *encoding);
+	static QTextCodec *_getCodec(const char *encoding);
+	static QString toUnicode(const char *serverText, const char *clientName, unsigned contactId);
+    void sendFile(FileMessage *msg, FileMessage::Iterator &it, YahooUserData *data);
 protected slots:
     void ping();
 protected:
@@ -199,8 +202,8 @@ protected:
     void removeBuddy(YahooUserData*);
     void moveBuddy(YahooUserData *data, const char *grp);
     void sendStatus(unsigned long status, const char *msg = NULL);
-    void sendFile(FileMessage *msg, FileMessage::Iterator &it, YahooUserData *data);
-    list<PARAM> m_values;
+    list<PARAM>			m_values;
+	list<FileMessage*>	m_waitMsg;
     unsigned long  m_session;
     unsigned long  m_pkt_status;
     unsigned short m_data_size;
@@ -226,8 +229,20 @@ public:
     PROP_STR(MsgText);
     PROP_STR(Url);
     virtual	string save();
+    virtual QString getText() const;
 protected:
     YahooFileData data;
+};
+
+class YahooFileTransfer : public FileTransfer
+{
+public:
+	YahooFileTransfer(FileMessage *msg, YahooUserData *data, YahooClient *client);
+protected:
+	FileMessage::Iterator m_it;
+	YahooClient		*m_client;
+	YahooUserData	*m_data;
+    virtual void startReceive(unsigned pos);
 };
 
 #endif

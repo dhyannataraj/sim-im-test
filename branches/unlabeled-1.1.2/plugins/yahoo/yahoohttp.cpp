@@ -18,7 +18,7 @@
 #include "yahooclient.h"
 #include "fetch.h"
 
-class YahooHttpPool : public Socket, public EventReceiver
+class YahooHttpPool : public Socket, public FetchClient
 {
 public:
     YahooHttpPool();
@@ -29,10 +29,9 @@ public:
     virtual void close();
     virtual Mode mode() { return Web; }
 protected:
-    void *processEvent(Event *e);
+	virtual bool done(unsigned code, Buffer &data, const char *headers);
     Buffer readData;
     Buffer *writeData;
-    unsigned m_fetch_id;
     virtual unsigned long localHost();
     virtual void pause(unsigned);
 };
@@ -41,7 +40,6 @@ protected:
 
 YahooHttpPool::YahooHttpPool()
 {
-    m_fetch_id = 0;
     writeData = new Buffer;
 }
 
@@ -66,10 +64,10 @@ static char YAHOO_HTTP[] = "http://shttp.msg.yahoo.com/notify/";
 void YahooHttpPool::write(const char *buf, unsigned size)
 {
     writeData->pack(buf, size);
-    if (m_fetch_id)
+    if (!isDone())
         return;
-    char headers[] = "Accept: application/octet-stream\x00\x00";
-    m_fetch_id = fetch(YAHOO_HTTP, writeData, headers);
+    char headers[] = "Accept: application/octet-stream";
+    fetch(YAHOO_HTTP, headers, writeData);
     writeData = new Buffer;
 }
 
@@ -77,7 +75,7 @@ void YahooHttpPool::close()
 {
     delete writeData;
     writeData = new Buffer;
-    m_fetch_id = 0;
+	stop();
 }
 
 void YahooHttpPool::connect(const char*, unsigned short)
@@ -86,27 +84,20 @@ void YahooHttpPool::connect(const char*, unsigned short)
         notify->connect_ready();
 }
 
-void *YahooHttpPool::processEvent(Event *e)
+bool YahooHttpPool::done(unsigned code, Buffer &data, const char*)
 {
-    if (e->type() == EventFetchDone){
-        fetchData *d = (fetchData*)(e->param());
-        if (d->req_id != m_fetch_id)
-            return NULL;
-        m_fetch_id = 0;
-        if (d->result != 200){
-            log(L_DEBUG, "HTTP result %u", d->result);
+        if (code != 200){
+            log(L_DEBUG, "HTTP result %u", code);
             error("Bad result");
-            return e->param();
+            return false;
         }
         unsigned long packet_id;
-        *d->data >> packet_id;
+        data >> packet_id;
         log(L_DEBUG, "Packet ID: %u %X");
-        readData.pack(d->data->data(d->data->readPos()), d->data->writePos() - d->data->readPos());
+        readData.pack(data.data(data.readPos()), data.writePos() - data.readPos());
         if (notify)
             notify->read_ready();
-        return e->param();
-    }
-    return NULL;
+		return false;
 }
 
 unsigned long YahooHttpPool::localHost()

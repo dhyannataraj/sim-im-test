@@ -110,6 +110,11 @@ YahooClient::YahooClient(Protocol *protocol, const char *cfg)
 
 YahooClient::~YahooClient()
 {
+	for (list<FileMessage*>::iterator it = m_waitMsg.begin(); it != m_waitMsg.end(); ++it){
+		(*it)->setError(i18n("Cancel send"));
+		Event e(EventMessageSent, *it);
+		e.process();
+	}
     TCPClient::setStatus(STATUS_OFFLINE, false);
     free_data(yahooClientData, &data);
 }
@@ -147,6 +152,11 @@ bool YahooClient::send(Message *msg, void *_data)
             sendMessage(msgText, msg, data);
             return true;
         }
+	case MessageFile:{
+			m_waitMsg.push_back(static_cast<FileMessage*>(msg));
+			new YahooFileTransfer(static_cast<FileMessage*>(msg), data, this);
+			return true;
+		}
     }
     return false;
 }
@@ -160,6 +170,7 @@ bool YahooClient::canSend(unsigned type, void *_data)
     switch (type){
     case MessageGeneric:
     case MessageUrl:
+	case MessageFile:
         return true;
     }
     return false;
@@ -1779,11 +1790,18 @@ void YahooClient::sendFile(FileMessage *msg, FileMessage::Iterator &it, YahooUse
     const QString *name = ++it;
     if (name == NULL)
         return;
+	QString fn = *name;
+#ifdef WIN32
+	fn = fn.replace(QRegExp("\\\\"), "/");
+#endif
+	int n = fn.findRev("/");
+	if (n > 0)
+		fn = fn.mid(n + 1);
     QString m = msg->getPlainText();
     addParam(0, getLogin().utf8());
     addParam(5, data->Login.ptr);
     addParam(14, fromUnicode(m, data).c_str());
-    addParam(27, fromUnicode(*name, data).c_str());
+    addParam(27, fromUnicode(fn, data).c_str());
     addParam(28, number(it.size()).c_str());
     sendPacket(YAHOO_SERVICE_FILETRANSFER);
 
@@ -1801,6 +1819,23 @@ void YahooClient::sendFile(FileMessage *msg, FileMessage::Iterator &it, YahooUse
 }
 
 const unsigned MessageYahooFile	= 0x700;
+
+static Message *createYahooFile(const char *cfg)
+{
+    return new YahooFileMessage(cfg);
+}
+
+static MessageDef defYahooFile =
+    {
+        NULL,
+        NULL,
+        MESSAGE_DEFAULT,
+        "File",
+        "%n files",
+        createYahooFile,
+        NULL,
+        NULL
+    };
 
 static DataDef yahoMessageFile[] =
     {
@@ -1825,10 +1860,40 @@ string YahooFileMessage::save()
     return save_data(yahoMessageFile, &data);
 }
 
+QString YahooFileMessage::getText() const
+{
+    const char *serverText = getMsgText();
+    if ((serverText == NULL) || (*serverText == 0))
+        return Message::getText();
+    return YahooClient::toUnicode(serverText, client(), contact());
+}
+
+void YahooPlugin::registerMessages()
+{
+    Command cmd;
+    cmd->id			= MessageYahooFile;
+    cmd->text		= "YahooFile";
+    cmd->icon		= "file";
+    cmd->param		= &defYahooFile;
+    Event eMsg(EventCreateMessageType, cmd);
+    eMsg.process();
+}
+
+void YahooPlugin::unregisterMessages()
+{
+    Event eFile(EventRemoveMessageType, (void*)MessageYahooFile);
+    eFile.process();
+}
+
 QTextCodec *YahooClient::getCodec(const char *encoding)
 {
     if ((encoding == NULL) || (*encoding == 0))
         encoding = data.owner.Encoding.ptr;
+	return _getCodec(encoding);
+}
+
+QTextCodec *YahooClient::_getCodec(const char *encoding)
+{
     QTextCodec *codec = NULL;
     if (encoding)
         codec = QTextCodec::codecForName(encoding);
@@ -1881,6 +1946,36 @@ string YahooClient::fromUnicode(const QString &str, YahooUserData *client_data)
     QCString cstr = codec->fromUnicode(s);
     res = (const char*)cstr;
     return res;
+}
+
+QString YahooClient::toUnicode(const char *serverText, const char *clientName, unsigned contactId)
+{
+    Contact *c = getContacts()->contact(contactId);
+    if (c){
+        void *data;
+        ClientDataIterator it(c->clientData);
+        while ((data = ++it) != NULL){
+            if (it.client()->dataName(data) != clientName)
+                continue;
+            QString res = static_cast<YahooClient*>(it.client())->toUnicode(serverText, (YahooUserData*)data);
+            return res.replace(QRegExp("\r"), "");
+        }
+    }
+    QTextCodec *codec = _getCodec(NULL);
+    QString res = codec->toUnicode(serverText, strlen(serverText));
+    return res.replace(QRegExp("\r"), "");
+}
+
+YahooFileTransfer::YahooFileTransfer(FileMessage *msg, YahooUserData *data, YahooClient *client)
+: FileTransfer(msg), m_it(*msg)
+{
+	m_client = client;
+	m_data   = data;
+	m_client->sendFile(m_msg, m_it, m_data);
+}
+
+void YahooFileTransfer::startReceive(unsigned)
+{
 }
 
 #ifndef WIN32

@@ -19,13 +19,16 @@
 #define _UPDATE_H
 
 #include "simapi.h"
+#include "fetch.h"
 
 typedef struct UpdateData
 {
     Data	Time;
 } UpdateData;
 
-class UpdatePlugin : public QObject, public Plugin, public EventReceiver
+class BalloonMsg;
+
+class UpdatePlugin : public QObject, public Plugin, public FetchClient
 {
     Q_OBJECT
 public:
@@ -36,12 +39,12 @@ protected slots:
     void showDetails(int, void*);
     void msgDestroyed();
 protected:
-    void *processEvent(Event*);
+    bool done(unsigned code, Buffer &data, const char *headers);
     virtual string getConfig();
     QWidget *getMainWindow();
     string getHeader(const char *name, const char *headers);
-    unsigned m_fetch_id;
     string   m_url;
+	BalloonMsg *m_msg;
     PROP_ULONG(Time);
     UpdateData data;
 };

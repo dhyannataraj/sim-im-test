@@ -806,16 +806,6 @@ const unsigned EventMessageDecline	= 0x1109;
 const unsigned EventMessageSend		= 0x110A;
 const unsigned EventSend			= 0x110B;
 
-const unsigned EventFetchDone		= 0x1300;
-
-typedef struct fetchData
-{
-    unsigned	req_id;
-    unsigned	result;
-    Buffer		*data;
-    const char	*headers;
-} fetchData;
-
 const unsigned EventClientError		= 0x1301;
 
 typedef struct clientErrorData
@@ -1731,11 +1721,6 @@ typedef struct pager_provider
 } pager_provider;
 
 EXPORT const pager_provider *getProviders();
-
-// _____________________________________________________________________________________
-// Fetch Data
-
-EXPORT unsigned fetch(const char *url, Buffer *postData=NULL, const char *headers=NULL, bool bRedirect=true);
 
 // _____________________________________________________________________________________
 // User interface

@@ -17,9 +17,71 @@
 
 #include "simapi.h"
 #include "fetch.h"
+#include "buffer.h"
+#include "socket.h"
+#include "stl.h"
 
 #include <qthread.h>
 #include <qtimer.h>
+
+typedef map<my_string, string> HEADERS_MAP;
+
+class FetchThread;
+
+class FetchClientPrivate : public ClientSocketNotify
+{
+public:
+	FetchClientPrivate(FetchClient*);
+	~FetchClientPrivate();
+protected:
+	void fetch(const char *url, const char *headers = NULL, Buffer *postData = NULL, bool bRedirect = true);;
+	void stop();
+	FetchClient *m_client;
+    void		fail();
+    string		m_uri;
+    string		m_hIn;
+    HEADERS_MAP	m_hOut;
+    unsigned	m_code;
+    bool		m_bRedirect;
+#ifdef WIN32
+    FetchThread	*m_thread;
+    string		m_err;
+    unsigned	m_errCode;
+#endif
+    virtual bool error_state(const char *err, unsigned code);
+    virtual void connect_ready();
+    virtual void packet_ready();
+    virtual void write_ready();
+    bool read_line(string&);
+    ClientSocket *m_socket;
+	unsigned	m_postSize;
+	unsigned	m_received;
+    unsigned	m_id;
+    bool		m_bDone;
+    bool		crackUrl(const char *url, string &proto, string &host, unsigned short &port, string &user, string &pass, string &uri, string &extra);
+    unsigned	m_size;
+    void		addHeader(const char *key, const char *value);
+    bool		findHeader(const char *key);
+	Buffer		m_data;
+	Buffer		*m_postData;
+    enum State{
+#ifdef USE_OPENSSL
+        SSLConnect,
+#endif
+        None,
+        Header,
+        Data,
+		Done,
+        Redirect
+    };
+    State		m_state;
+#ifdef USE_OPENSSL
+    bool		m_bHTTPS;
+#endif
+	friend class FetchManager;
+	friend class FetchThread;
+	friend class FetchClient;
+};
 
 #ifdef WIN32
 #include <windows.h>
@@ -37,29 +99,68 @@ static HINTERNET (WINAPI *_InternetConnect)(HINTERNET hInternet, LPCSTR lpszServ
 static HINTERNET (WINAPI *_HttpOpenRequest)(HINTERNET hConnect, LPCSTR lpszVerb,
         LPCSTR lpszObjectName, LPCSTR lpszVersion, LPCSTR lpszReferrer,
         LPCSTR *lplpszAcceptTypes, DWORD dwFlags, DWORD dwContext);
-static BOOL (WINAPI *_HttpSendRequest)(HINTERNET hRequest, LPCSTR lpszHeaders,
-                                       DWORD dwHeadersLength, LPVOID lpOptional, DWORD dwOptionalLength);
+static BOOL (WINAPI *_HttpSendRequestEx)(HINTERNET hRequest, 
+		LPINTERNET_BUFFERSA lpBuffersIn, LPINTERNET_BUFFERSA lpBuffersOut,
+		DWORD dwFlags, DWORD dwContext);
 static BOOL (WINAPI *_HttpQueryInfo)(HINTERNET hRequest, DWORD dwInfoLevel,
                                      LPVOID lpBuffer, LPDWORD lpdwBufferLength, LPDWORD lpdwIndex);
 static BOOL (WINAPI *_InternetReadFile)(HINTERNET hFile, LPVOID lpBuffer,
                                         DWORD dwNumberOfBytesToRead, LPDWORD lpdwNumberOfBytesRead);
+static BOOL (WINAPI *_InternetWriteFile)(HINTERNET hFile, LPVOID lpBuffer,
+                                        DWORD dwNumberOfBytesToRead, LPDWORD lpdwNumberOfBytesRead);
 static BOOL (WINAPI *_InternetQueryOption)(HINTERNET hInternet, DWORD dwOption,
         LPVOID lpBuffer, LPDWORD lpdwBufferLength);
+static BOOL (WINAPI *_HttpEndRequest)(HINTERNET hRequest, LPINTERNET_BUFFERS lpBuffersOut,
+		DWORD dwFlags, DWORD dwContext);
 
 static HINTERNET hInet = NULL;
 
 class FetchThread : public QThread
 {
 public:
-    FetchThread(FetchClient *client);
+    FetchThread(FetchClientPrivate *client);
+	~FetchThread();
+	bool m_bClose;
+	void close();
 protected:
+	HINTERNET hCon;
+	HINTERNET hReq;
+	void error(const char *name);
     void run();
-    FetchClient *m_client;
+    FetchClientPrivate *m_client;
 };
 
-FetchThread::FetchThread(FetchClient *client)
+FetchThread::FetchThread(FetchClientPrivate *client)
 {
     m_client = client;
+	m_bClose = false;
+	hCon = NULL;
+	hReq = NULL;
+}
+
+FetchThread::~FetchThread()
+{
+	close();
+}
+
+void FetchThread::close()
+{
+	if (hReq){
+        _InternetCloseHandle(hReq);
+		hReq = NULL;
+	}
+	if (hCon){
+        _InternetCloseHandle(hCon);
+		hCon = NULL;
+	}
+}
+
+void FetchThread::error(const char *name)
+{
+    m_client->m_errCode = GetLastError();
+    m_client->m_err     = name;
+	close();
+    FetchManager::manager->done(m_client->m_client);
 }
 
 void FetchThread::run()
@@ -68,6 +169,10 @@ void FetchThread::run()
     DWORD flags = INTERNET_FLAG_KEEP_CONNECTION | INTERNET_FLAG_PRAGMA_NOCACHE | INTERNET_FLAG_NO_UI | INTERNET_FLAG_NO_AUTH;
     if (!m_client->m_bRedirect)
         flags |= INTERNET_FLAG_NO_AUTO_REDIRECT;
+    const char *verb = "GET";
+	unsigned postSize = m_client->m_client->post_size();
+    if (postSize != NO_POSTSIZE)
+        verb = "POST";
     for (HEADERS_MAP::iterator it = m_client->m_hOut.begin(); it != m_client->m_hOut.end(); ++it){
         if (!headers.empty())
             headers += "\r\n";
@@ -96,75 +201,79 @@ void FetchThread::run()
     url.lpszExtraInfo	  = extra;
     url.dwExtraInfoLength = sizeof(extra);
     if (!_InternetCrackUrl(m_client->m_uri.c_str(), 0, ICU_DECODE, &url)){
-        m_client->m_errCode = GetLastError();
-        m_client->m_err     = "InternetCrackUrl";
-        FetchManager::manager->remove(m_client);
+		error("InternetCrackUrl");
         return;
     }
     if (url.nScheme == INTERNET_SCHEME_HTTPS){
         flags |= INTERNET_FLAG_SECURE;
     }else if (url.nScheme != INTERNET_SCHEME_HTTP){
-        m_client->m_errCode = GetLastError();
-        m_client->m_err     = "Unsupported scheme";
-        FetchManager::manager->remove(m_client);
+		error("Unsupported scheme");
         return;
     }
-    HINTERNET hCon = _InternetConnect(hInet, url.lpszHostName, url.nPort,
+    hCon = _InternetConnect(hInet, url.lpszHostName, url.nPort,
                                       url.lpszUserName, url.lpszPassword, INTERNET_SERVICE_HTTP, 0, 0);
     if (hCon == NULL){
-        m_client->m_errCode = GetLastError();
-        m_client->m_err     = "InternetConnect error";
-        FetchManager::manager->remove(m_client);
+        error("InternetConnect");
         return;
-    }
-    const char *verb = "GET";
-    char *post_data = NULL;
-    DWORD post_size = 0;
-    if (m_client->m_post){
-        verb = "POST";
-        post_data = m_client->m_post->data();
-        post_size = m_client->m_post->size();
     }
     string uri = url.lpszUrlPath;
     if (url.lpszExtraInfo)
         uri += url.lpszExtraInfo;
-    HINTERNET hReq = _HttpOpenRequest(hCon, verb, uri.c_str(), NULL, NULL, NULL,
-                                      flags, 0);
+    hReq = _HttpOpenRequest(hCon, verb, uri.c_str(), NULL, NULL, NULL, flags, 0);
     if (hReq == NULL){
-        m_client->m_errCode = GetLastError();
-        m_client->m_err     = "HttpOpenRequest error";
-        _InternetCloseHandle(hCon);
-        FetchManager::manager->remove(m_client);
+        error("HttpOpenRequest error");
         return;
     }
-    if (!_HttpSendRequest(hReq, headers.c_str(), headers.length(), post_data, post_size)){
-        m_client->m_errCode = GetLastError();
-        m_client->m_err     = "HttpSendRequest";
-        _InternetCloseHandle(hReq);
-        _InternetCloseHandle(hCon);
-        FetchManager::manager->remove(m_client);
+	INTERNET_BUFFERSA BufferIn;
+	memset(&BufferIn, 0, sizeof(BufferIn));
+	BufferIn.dwStructSize    = sizeof(INTERNET_BUFFERSA);
+    BufferIn.lpcszHeader     = headers.c_str();
+    BufferIn.dwHeadersLength = headers.length();
+    BufferIn.dwHeadersTotal  = headers.length();
+    BufferIn.dwBufferTotal   = (postSize != NO_POSTSIZE) ? postSize : 0;
+    if (!_HttpSendRequestEx(hReq, &BufferIn, NULL, HSR_INITIATE | HSR_SYNC, 0)){
+        error("HttpSendRequestEx");
         return;
     }
+    if (postSize != NO_POSTSIZE){
+		while (postSize){
+			char buff[4096];
+			unsigned tail = postSize;
+			if (tail > sizeof(buff))
+				tail = sizeof(buff);
+			const char *data = m_client->m_client->read_data(buff, tail);
+			if (data == NULL){
+				error("ReadStreamError");
+				return;
+			}
+			DWORD res;
+			if (m_bClose)
+				return;
+			if (!_InternetWriteFile(hReq, (void*)data, tail, &res)){
+				error("InternetWriteFile");
+		        return;
+			}
+			postSize -= tail;
+		}
+	}
+	if (m_bClose)
+		return;
+	    if(!_HttpEndRequest(hReq, NULL, 0, 0)){
+			error("HttpEndRequest");
+	        return;
+		}
     DWORD size = 0;
     DWORD err  = 0;
     _HttpQueryInfo(hReq, HTTP_QUERY_RAW_HEADERS_CRLF, NULL, &size, 0);
     err = GetLastError();
     if (err != ERROR_INSUFFICIENT_BUFFER ){
-        m_client->m_errCode = GetLastError();
-        m_client->m_err     = "HttpQueryInfo";
-        _InternetCloseHandle(hReq);
-        _InternetCloseHandle(hCon);
-        FetchManager::manager->remove(m_client);
+        error("HttpQueryInfo");
         return;
     }
     Buffer in_headers;
     in_headers.init(size);
     if (!_HttpQueryInfo(hReq, HTTP_QUERY_RAW_HEADERS_CRLF, in_headers.data(), &size, 0)){
-        m_client->m_errCode = GetLastError();
-        m_client->m_err     = "HttpQueryInfo";
-        _InternetCloseHandle(hReq);
-        _InternetCloseHandle(hCon);
-        FetchManager::manager->remove(m_client);
+        error("HttpQueryInfo");
         return;
     }
     in_headers.setWritePos(size);
@@ -187,31 +296,28 @@ void FetchThread::run()
         m_client->m_hIn += '\x00';
     }
     if (bFirst){
-        m_client->m_errCode = 0;
-        m_client->m_err     = "Bas answer";
-        _InternetCloseHandle(hReq);
-        _InternetCloseHandle(hCon);
-        FetchManager::manager->remove(m_client);
+        error("Bas answer");
         return;
     }
     for (;;){
         DWORD readn;
         char buff[4096];
         if (!_InternetReadFile(hReq, buff, sizeof(buff), &readn)){
-            m_client->m_errCode = GetLastError();
-            m_client->m_err     = "InternetReadFile";
-            _InternetCloseHandle(hReq);
-            _InternetCloseHandle(hCon);
-            FetchManager::manager->remove(m_client);
+            error("InternetReadFile");
             return;
         }
+		if (m_bClose)
+			return;
         if (readn == 0)
             break;
-        m_client->m_res.pack(buff, readn);
+        if (!m_client->m_client->write_data(buff, readn)){
+			error("Write error");
+	        return;
+		}
     }
-    _InternetCloseHandle(hReq);
-    _InternetCloseHandle(hCon);
-    FetchManager::manager->remove(m_client);
+	m_client->m_state = FetchClientPrivate::Done;
+	close();
+    FetchManager::manager->done(m_client->m_client);
 }
 
 #endif
@@ -276,8 +382,11 @@ const unsigned UNKNOWN_SIZE = (unsigned)(-1);
 
 static char _HTTP[] = "HTTP";
 
+static list<FetchClientPrivate*> *m_done = NULL;
+
 FetchManager::FetchManager()
 {
+	m_done = new list<FetchClientPrivate*>;
 #ifdef WIN32
     HINSTANCE hLib = LoadLibraryA("wininet.dll");
     if (hLib != NULL){
@@ -287,71 +396,109 @@ FetchManager::FetchManager()
         (DWORD&)_InternetCrackUrl = (DWORD)GetProcAddress(hLib, "InternetCrackUrlA");
         (DWORD&)_InternetConnect = (DWORD)GetProcAddress(hLib, "InternetConnectA");
         (DWORD&)_HttpOpenRequest = (DWORD)GetProcAddress(hLib, "HttpOpenRequestA");
-        (DWORD&)_HttpSendRequest = (DWORD)GetProcAddress(hLib, "HttpSendRequestA");
+        (DWORD&)_HttpSendRequestEx = (DWORD)GetProcAddress(hLib, "HttpSendRequestExA");
         (DWORD&)_HttpQueryInfo = (DWORD)GetProcAddress(hLib, "HttpQueryInfoA");
+        (DWORD&)_HttpEndRequest = (DWORD)GetProcAddress(hLib, "HttpEndRequestA");
         (DWORD&)_InternetReadFile = (DWORD)GetProcAddress(hLib, "InternetReadFile");
+        (DWORD&)_InternetWriteFile = (DWORD)GetProcAddress(hLib, "InternetWriteFile");
         (DWORD&)_InternetQueryOption = (DWORD)GetProcAddress(hLib, "InternetQueryOptionA");
     }
-    if (_InternetOpen){
-        hInet = _InternetOpen(PACKAGE "/" VERSION, INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
+    if (_InternetOpen && _HttpSendRequestEx){
+        hInet = _InternetOpen("Mozilla/4.08 [en] (WinNT; U ;Nav)" /*PACKAGE "/" VERSION*/, INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
         if (hInet == NULL)
             log(L_WARN, "Internet open error %u", GetLastError());
         return;
     }
 #endif
     getContacts()->addPacketType(HTTPPacket, _HTTP, true);
-    m_id    = 0;
 }
 
 FetchManager::~FetchManager()
 {
 #ifdef WIN32
-    if (hInet){
+    if (hInet)
         _InternetCloseHandle(hInet);
-        return;
-    }
 #endif
-    for (list<FetchClient*>::iterator it = m_clients.begin(); it != m_clients.end(); it = m_clients.begin())
-        delete *it;
     getContacts()->removePacketType(HTTPPacket);
+	delete m_done;
 }
 
-void *FetchManager::processEvent(Event*)
+void FetchManager::done(FetchClient *client)
 {
-    return NULL;
+    m_done->push_back(client->p);
+    QTimer::singleShot(0, this, SLOT(timeout()));
 }
 
-void FetchManager::remove(FetchClient *client)
+void FetchManager::timeout()
 {
-    m_remove.push_back(client);
-    QTimer::singleShot(0, this, SLOT(remove()));
+	list<FetchClientPrivate*> done = *m_done;
+    m_done->clear();
+    for (list<FetchClientPrivate*>::iterator it = done.begin(); it != done.end(); ++it){
+		if ((*it)->error_state("", 0))
+			delete *it;
+	}
 }
 
-void FetchManager::remove()
+FetchClient::FetchClient()
 {
-    for (list<FetchClient*>::iterator it = m_remove.begin(); it != m_remove.end(); ++it)
-        delete *it;
-    m_remove.clear();
+	p = new FetchClientPrivate(this);
 }
 
-FetchClient::FetchClient(const char *url_str, Buffer *postData, const char *headers, bool bRedirect)
+FetchClient::~FetchClient()
 {
-    m_id = ++FetchManager::manager->m_id;
-    FetchManager::manager->m_clients.push_back(this);
+	if (p){
+		p->stop();
+		p->m_client = NULL;
+		delete p;
+	}
+}
+
+void FetchClient::fetch(const char *url, const char *headers, Buffer *postData, bool bRedirect)
+{
+	p->fetch(url, headers, postData, bRedirect);
+}
+
+void FetchClient::stop()
+{
+	p->stop();
+}
+
+bool FetchClient::isDone()
+{
+	return p->m_bDone;
+}
+
+FetchClientPrivate::FetchClientPrivate(FetchClient *client)
+{
+	m_client = client;
     m_socket = NULL;
-    m_bDone  = false;
-    m_post   = postData;
+    m_bDone  = true;
+    m_postData = NULL;
     m_state  = None;
     m_code   = 0;
     m_size   = UNKNOWN_SIZE;
+	m_postSize = 0;
+#ifdef WIN32
+    m_thread	= NULL;
+#endif
+}
+
+void FetchClientPrivate::fetch(const char *url, const char *headers, Buffer *postData, bool bRedirect)
+{
+	stop();
+	m_bDone = false;
+	m_data.init(0);
+    m_postData  = postData;
     m_bRedirect = bRedirect;
-    m_uri	= url_str;
+    m_uri	    = url;
+	m_postSize  = 0;
 #ifdef WIN32
     m_thread	= NULL;
 #endif
     if (headers){
-        for (const char *h = headers; *h; h += strlen(h) + 1){
-            string header = h;
+		string head = headers;
+		while (!head.empty()){
+            string header = getToken(head, '\n');
             string key = getToken(header, ':');
             unsigned n;
             for (n = 0; n < header.length(); n++)
@@ -369,11 +516,7 @@ FetchClient::FetchClient(const char *url_str, Buffer *postData, const char *head
         return;
     }
 #endif
-    fetch();
-}
-
-void FetchClient::fetch()
-{
+	m_received = 0;
     m_socket = new ClientSocket(this);
 #ifdef USE_OPENSSL
     m_bHTTPS = false;
@@ -405,41 +548,46 @@ void FetchClient::fetch()
     m_socket->connect(host.c_str(), port, (TCPClient*)(-1));
 }
 
-FetchClient::~FetchClient()
+FetchClientPrivate::~FetchClientPrivate()
 {
-    if (m_id){
-        m_hIn += '\x00';
-        fetchData data;
-        data.req_id  = m_id;
-        data.result  = m_code;
-        data.data    = &m_res;
-        data.headers = m_hIn.c_str();
-        Event e(EventFetchDone, &data);
-        e.process();
-    }
-    if (m_id){
-        list<FetchClient*>::iterator it;
-        for (it = FetchManager::manager->m_clients.begin(); it != FetchManager::manager->m_clients.end(); ++it)
-            if ((*it) == this)
-                break;
-        if (it != FetchManager::manager->m_clients.end())
-            FetchManager::manager->m_clients.erase(it);
-    }
-#ifdef WIN32
-    if (!m_err.empty())
-        log(L_DEBUG, "Fetch error %s: %u", m_err.c_str(), m_errCode);
-    if (m_thread){
-        m_thread->wait();
-        delete m_thread;
-    }
-#endif
-    if (m_socket)
-        delete m_socket;
-    if (m_post)
-        delete m_post;
+	stop();
+	list<FetchClientPrivate*>::iterator it;
+	for (it = m_done->begin(); it != m_done->end(); ++it){
+		if ((*it) == this){
+			m_done->erase(it);
+			break;
+		}
+	}
+	if (m_client){
+		m_client->p = NULL;
+		delete m_client;
+	}
 }
 
-bool FetchClient::crackUrl(const char *_url, string &protocol, string &host, unsigned short &port, string &user, string &pass, string &uri, string &extra)
+void FetchClientPrivate::stop()
+{
+	m_hIn = "";
+#ifdef WIN32
+    if (m_thread){
+		m_thread->close();
+		m_thread->m_bClose = true;
+        m_thread->wait();
+        delete m_thread;
+		m_thread = NULL;
+    }
+#endif
+    if (m_socket){
+        delete m_socket;
+		m_socket = NULL;
+	}
+    if (m_postData){
+        delete m_postData;
+		m_postData = NULL;
+	}
+	m_bDone = true;
+}
+
+bool FetchClientPrivate::crackUrl(const char *_url, string &protocol, string &host, unsigned short &port, string &user, string &pass, string &uri, string &extra)
 {
     port = 80;
     string url(_url);
@@ -471,7 +619,7 @@ bool FetchClient::crackUrl(const char *_url, string &protocol, string &host, uns
     return true;
 }
 
-void FetchClient::addHeader(const char *key, const char *value)
+void FetchClientPrivate::addHeader(const char *key, const char *value)
 {
     HEADERS_MAP::iterator it = m_hOut.find(key);
     if (it == m_hOut.end()){
@@ -481,7 +629,7 @@ void FetchClient::addHeader(const char *key, const char *value)
     }
 }
 
-bool FetchClient::findHeader(const char *key)
+bool FetchClientPrivate::findHeader(const char *key)
 {
     HEADERS_MAP::iterator it = m_hOut.find(key);
     return (it != m_hOut.end());
@@ -507,32 +655,27 @@ string basic_auth(const char *user, const char *pass)
     return tobase64(auth.c_str());
 }
 
-bool FetchClient::error_state(const char *err, unsigned)
+bool FetchClientPrivate::error_state(const char *err, unsigned)
 {
     if (m_state == Redirect){
         delete m_socket;
         m_socket = NULL;
         m_code = 0;
         m_hIn  = "";
-        m_res.init(0);
-        if (m_post){
-            delete m_post;
-            m_post = NULL;
-        }
         m_state = None;
-        fetch();
+        fetch(m_uri.c_str());
         return false;
     }
-    if ((m_state == Data) && (m_size == UNKNOWN_SIZE))
-        return true;
-    if (*err){
+    if ((m_state != Done) && ((m_state != Data) || (m_size != UNKNOWN_SIZE))){
         m_code = 0;
         log(L_DEBUG, "HTTP: %s", err);
     }
-    return true;
+	m_bDone = true;
+	m_state = None;
+    return m_client->done(m_code, m_data, m_hIn.c_str());
 }
 
-void FetchClient::connect_ready()
+void FetchClientPrivate::connect_ready()
 {
 #ifdef USE_OPENSSL
     if ((m_state == None) & m_bHTTPS){
@@ -566,8 +709,9 @@ void FetchClient::connect_ready()
         uri += "?";
         uri += extra;
     }
+	unsigned postSize = m_client->post_size();
     m_socket->writeBuffer
-    << (m_post ? "POST " : "GET ")
+    << ((postSize != NO_POSTSIZE) ? "POST " : "GET ")
     << uri.c_str()
     << " HTTP/1.0\r\n";
     if (!findHeader("Host"))
@@ -583,12 +727,13 @@ void FetchClient::connect_ready()
         << "Authorization: basic "
         << basic_auth(user.c_str(), pass.c_str()).c_str()
         << "\r\n";
-    if (m_post){
+    if (postSize != NO_POSTSIZE){
         if (!findHeader("Content-Length"))
             m_socket->writeBuffer
             << "Content-Length: "
-            << number(m_post->size()).c_str()
+            << number(postSize).c_str()
             << "\r\n";
+		m_postSize = postSize;
     }
     for (HEADERS_MAP::iterator it = m_hOut.begin(); it != m_hOut.end(); ++it){
         m_socket->writeBuffer
@@ -599,15 +744,31 @@ void FetchClient::connect_ready()
     }
     m_socket->writeBuffer
     << "\r\n";
-    if (m_post)
-        m_socket->writeBuffer.pack(m_post->data(), m_post->size());
     log_packet(m_socket->writeBuffer, true, HTTPPacket);
     m_socket->write();
     m_socket->readBuffer.init(0);
     m_socket->readBuffer.packetStart();
 }
 
-void FetchClient::packet_ready()
+void FetchClientPrivate::write_ready()
+{
+	if (m_postSize == 0)
+		return;
+	char buff[4096];
+	unsigned tail = m_postSize;
+	if (tail > sizeof(buff))
+		tail = sizeof(buff);
+	const char *data = m_client->read_data(buff, tail);
+	if (data == NULL){
+		m_socket->error_state("Read error");
+		return;
+	}
+	m_postSize -= tail;
+	m_socket->writeBuffer.pack(data, tail);
+	m_socket->write();
+}
+
+void FetchClientPrivate::packet_ready()
 {
     if (m_socket->readBuffer.readPos() == m_socket->readBuffer.writePos())
         return;
@@ -615,9 +776,15 @@ void FetchClient::packet_ready()
     for (;;){
         if (m_state == Data){
             unsigned size = m_socket->readBuffer.writePos() - m_socket->readBuffer.readPos();
-            if (size)
-                m_res.pack(m_socket->readBuffer.data(m_socket->readBuffer.readPos()), size);
-            if (m_res.size() >= m_size){
+            if (size){
+                if (!m_client->write_data(m_socket->readBuffer.data(m_socket->readBuffer.readPos()), size)){
+					m_socket->error_state("Write error");
+					return;
+				}
+			}
+			m_received += size;
+            if (m_received >= m_size){
+				m_state = Done;
                 m_socket->error_state("");
                 return;
             }
@@ -703,7 +870,7 @@ void FetchClient::packet_ready()
     }
 }
 
-bool FetchClient::read_line(string &s)
+bool FetchClientPrivate::read_line(string &s)
 {
     while (m_socket->readBuffer.readPos() < m_socket->readBuffer.writePos()){
         char c;
@@ -717,19 +884,25 @@ bool FetchClient::read_line(string &s)
     return false;
 }
 
-
-unsigned SIM::fetch(const char *url, Buffer *postData, const char *headers, bool bRedirect)
+const char *FetchClient::read_data(const char*, unsigned &size)
 {
-#ifdef WIN32
-    bool bState;
-    if (get_connection_state(bState))
-        getSocketFactory()->setActive(bState);
-#endif
-    FetchClient *client = new FetchClient(url, postData, headers, bRedirect);
-    if (client->id())
-        return client->id();
-    delete client;
-    return 0;
+	if (p->m_postData == NULL)
+		return 0;
+	unsigned tail = p->m_postData->size() - p->m_postData->readPos();
+	if (size > tail)
+		size = tail;
+	return p->m_postData->data(p->m_postData->readPos());
+}
+
+bool FetchClient::write_data(const char *buf, unsigned size)
+{
+	p->m_data.pack(buf, size);
+	return true;
+}
+
+unsigned FetchClient::post_size()
+{
+	return p->m_postData ? p->m_postData->size() : NO_POSTSIZE;
 }
 
 #ifdef WIN32
@@ -758,6 +931,3 @@ bool get_connection_state(bool&)
 
 #endif
 
-#ifndef WIN32
-#include "fetch.moc"
-#endif

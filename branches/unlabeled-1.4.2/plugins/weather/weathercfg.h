@@ -20,6 +20,7 @@
 
 #include "simapi.h"
 #include "weathercfgbase.h"
+#include "fetch.h"
 
 #include <libxml/parser.h>
 #include "stl.h"
@@ -27,7 +28,7 @@
 class WeatherPlugin;
 class WIfaceCfg;
 
-class WeatherCfg : public WeatherCfgBase, public EventReceiver
+class WeatherCfg : public WeatherCfgBase, public EventReceiver, public FetchClient
 {
     Q_OBJECT
 public:
@@ -39,11 +40,11 @@ public slots:
     void activated(int index);
     void textChanged(const QString&);
 protected:
+	bool done(unsigned code, Buffer &data, const char *headers);
     void *processEvent(Event*);
     void fill();
     WeatherPlugin *m_plugin;
     WIfaceCfg	  *m_iface;
-    unsigned m_fetch_id;
     string   m_id;
     string	 m_data;
     vector<string>		m_ids;

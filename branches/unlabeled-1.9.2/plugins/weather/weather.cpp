@@ -18,7 +18,7 @@
 #include "weather.h"
 #include "weathercfg.h"
 #include "buffer.h"
-#include "fetch.h"
+#include "socket.h"
 #include "toolbtn.h"
 
 #include "xpm/0.xpm"
@@ -173,7 +173,6 @@ WeatherPlugin::WeatherPlugin(unsigned base, bool bInit, const char *config)
     Event eCmd(EventCommandCreate, cmd);
     eCmd.process();
     m_bar = NULL;
-    m_fetch_id = 0;
     if (!bInit){
         showBar();
         if (m_bar)
@@ -199,7 +198,7 @@ string WeatherPlugin::getConfig()
 
 void WeatherPlugin::timeout()
 {
-    if (!getSocketFactory()->isActive() || m_fetch_id || (*getID() == 0))
+    if (!getSocketFactory()->isActive() || !isDone() || (*getID() == 0))
         return;
     time_t now;
     time(&now);
@@ -216,7 +215,7 @@ void WeatherPlugin::timeout()
         url += "&dayf=";
         url += number(getForecast());
     }
-    m_fetch_id = fetch(url.c_str());
+    fetch(url.c_str());
 }
 
 void *WeatherPlugin::processEvent(Event *e)
@@ -235,12 +234,12 @@ void *WeatherPlugin::processEvent(Event *e)
             return e->param();
         }
     }
-    if (e->type() == EventFetchDone){
-        fetchData *d = (fetchData*)(e->param());
-        if (d->req_id != m_fetch_id)
-            return NULL;
-        m_fetch_id = 0;
-        if (d->result != 200)
+    return NULL;
+}
+
+bool WeatherPlugin::done(unsigned code, Buffer &data, const char*)
+{
+        if (code != 200)
             return NULL;
         m_data  = "";
         m_day   = 0;
@@ -249,7 +248,7 @@ void *WeatherPlugin::processEvent(Event *e)
         m_bUv	= false;
         m_bCC	= false;
         m_context = xmlCreatePushParserCtxt(&m_handler, this, "", 0, "");
-        if (xmlParseChunk(m_context, d->data->data(), d->data->size(), 0)){
+        if (xmlParseChunk(m_context, data.data(), data.size(), 0)){
             log(L_WARN, "XML parse error");
             xmlFreeParserCtxt(m_context);
             return NULL;
@@ -261,8 +260,7 @@ void *WeatherPlugin::processEvent(Event *e)
         updateButton();
         Event eUpdate(EventWeather);
         eUpdate.process();
-    }
-    return NULL;
+		return false;
 }
 
 void WeatherPlugin::barDestroyed()
@@ -482,6 +480,22 @@ i18n("weather", "steady")
 i18n("weather", "rising")
 i18n("weather", "falling")
 i18n("weather", "Unlimited")
+i18n("weather", "N")
+i18n("weather", "NNW")
+i18n("weather", "NW")
+i18n("weather", "NWW")
+i18n("weather", "W")
+i18n("weather", "SWW")
+i18n("weather", "SW")
+i18n("weather", "SSW")
+i18n("weather", "S")
+i18n("weather", "SSE")
+i18n("weather", "SE")
+i18n("weather", "SEE")
+i18n("weather", "E")
+i18n("weather", "NEE")
+i18n("weather", "NE")
+i18n("weather", "NNE")
 #endif
 
 static QString i18n_conditions(const QString &str)
@@ -508,12 +522,14 @@ QString WeatherPlugin::replace(const QString &text)
     res = res.replace(QRegExp("\\%d"), number(getDewPoint()) + QChar((unsigned short)176) + getUT());
     res = res.replace(QRegExp("\\%h"), number(getHumidity()) + "%");
     res = res.replace(QRegExp("\\%w"), number(getWind_speed()) + " " + getUS());
-    res = res.replace(QRegExp("\\%g"), getWindGust() ? QString("<") + i18n("gust ") + number(getWindGust()) + ")" : "");
+    res = res.replace(QRegExp("\\%x"), number(getWind_speed() * 10 / 36) + " m/s");
+    res = res.replace(QRegExp("\\%g"), getWindGust() ? QString("(") + i18n("gust ") + number(getWindGust()) + getUS() + ")" : "");
+    res = res.replace(QRegExp("\\%y"), getWindGust() ? QString("(") + i18n("gust ") + number(getWindGust() * 10 / 36) + " m/s)" : "");
     res = res.replace(QRegExp("\\%p"), number(getPressure()) + " " + getUP());
     res = res.replace(QRegExp("\\%a"), number(getPressure() * 75 / 100));
     res = res.replace(QRegExp("\\%q"), i18n("weather", getPressureD()));
     res = res.replace(QRegExp("\\%l"), getLocation());
-    res = res.replace(QRegExp("\\%b"), getWind());
+    res = res.replace(QRegExp("\\%b"), i18n("weather", getWind()));
     res = res.replace(QRegExp("\\%u"), getUpdated());
     res = res.replace(QRegExp("\\%r"), getSun_raise());
     res = res.replace(QRegExp("\\%s"), getSun_set());

@@ -22,6 +22,7 @@
 #include "stl.h"
 #include "buffer.h"
 #include "socket.h"
+#include "fetch.h"
 
 const unsigned JournalCmdBase			= 0x00070000;
 const unsigned MessageJournal			= JournalCmdBase;
@@ -131,7 +132,7 @@ protected:
 
 class QTimer;
 
-class LiveJournalClient : public TCPClient
+class LiveJournalClient : public TCPClient, public FetchClient
 {
     Q_OBJECT
 public:
@@ -158,6 +159,7 @@ public slots:
     void send();
     void messageUpdated();
 protected:
+	virtual bool done(unsigned code, Buffer &data, const char *headers);
     virtual string getConfig();
     virtual string name();
     virtual string dataName(void*);
@@ -180,7 +182,6 @@ protected:
     list<LiveJournalRequest*> m_requests;
     LiveJournalRequest		  *m_request;
     LiveJournalClientData	data;
-    unsigned	 m_fetchId;
     friend class LiveJournalCfg;
     friend class LiveJournalRequest;
 };

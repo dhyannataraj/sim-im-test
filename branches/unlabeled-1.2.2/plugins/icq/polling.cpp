@@ -64,7 +64,7 @@ class HttpRequest;
 class HttpPool : public Socket
 {
 public:
-    HttpPool();
+    HttpPool(bool bAIM);
     ~HttpPool();
     virtual void connect(const char *host, unsigned short port);
     virtual int  read(char *buf, unsigned size);
@@ -81,6 +81,7 @@ protected:
 
     string sid;
     string m_host;
+	string m_url;
 
     list<HttpPacket*> queue;
     unsigned seq;
@@ -96,6 +97,8 @@ protected:
     virtual unsigned long localHost();
     virtual void pause(unsigned);
 
+	bool m_bAIM;
+
     friend class HttpRequest;
     friend class HelloRequest;
     friend class MonitorRequest;
@@ -106,15 +109,13 @@ protected:
 
 static char ANSWER_ERROR[] = "Bad answer";
 
-class HttpRequest : public EventReceiver
+class HttpRequest : public FetchClient
 {
 public:
     HttpRequest(HttpPool *pool);
     void send();
-    bool isReady() { return m_fetch_id == 0; }
 protected:
-    unsigned m_fetch_id;
-    void *processEvent(Event*);
+	virtual bool done(unsigned code, Buffer &data, const char *headers);
     virtual HttpPacket *packet()     = 0;
     virtual const char *url()		 = 0;
     virtual void data_ready(Buffer*) = 0;
@@ -123,7 +124,6 @@ protected:
 
 HttpRequest::HttpRequest(HttpPool *pool)
 {
-    m_fetch_id = 0;
     m_pool     = pool;
 }
 
@@ -145,27 +145,20 @@ void HttpRequest::send()
         m_pool->queue.remove(p);
         delete p;
     }
-    char headers[] = "Cache-control: no-store, no-cache\x00"
-                     "Pragma: no-cache\x00\x00";
-    m_fetch_id = fetch(url(), postData, headers);
+    char headers[] = "Cache-control: no-store, no-cache\n"
+                     "Pragma: no-cache";
+    fetch(url(), headers, postData);
 }
 
-void *HttpRequest::processEvent(Event *e)
+bool HttpRequest::done(unsigned code, Buffer &data, const char*)
 {
-    if (e->type() == EventFetchDone){
-        fetchData *data = (fetchData*)(e->param());
-        if (data->req_id != m_fetch_id)
-            return NULL;
-        if (data->result != 200){
-            log(L_DEBUG, "Res: %u %s", data->result, url());
+        if (code != 200){
+            log(L_DEBUG, "Res: %u %s", code, url());
             m_pool->error(ANSWER_ERROR);
-            return e->param();
+            return false;
         }
-        m_fetch_id = 0;
-        data_ready(data->data);
-        return e->param();
-    }
-    return NULL;
+        data_ready(&data);
+        return true;
 }
 
 unsigned long HttpPool::localHost()
@@ -182,16 +175,18 @@ void HttpPool::pause(unsigned)
 class HelloRequest : public HttpRequest
 {
 public:
-    HelloRequest(HttpPool *poll);
+    HelloRequest(HttpPool *poll, bool bAIM);
 protected:
     virtual HttpPacket *packet();
     virtual const char *url();
     virtual void data_ready(Buffer*);
+	bool m_bAIM;
 };
 
-HelloRequest::HelloRequest(HttpPool *poll)
+HelloRequest::HelloRequest(HttpPool *poll, bool bAIM)
         : HttpRequest(poll)
 {
+	m_bAIM = bAIM;
     send();
 }
 
@@ -202,18 +197,23 @@ HttpPacket *HelloRequest::packet()
 
 const char *HelloRequest::url()
 {
-    return "http://http.proxy.icq.com/hello";
+    return m_bAIM ? "http://aimhttp.oscar.aol.com/hello" : "http://http.proxy.icq.com/hello";
 }
 
 void HelloRequest::data_ready(Buffer *bIn)
 {
+	m_pool->hello = NULL;
     bIn->incReadPos(12);
     unsigned long SID[4];
     (*bIn) >> SID[0] >> SID[1] >> SID[2] >> SID[3];
     char b[34];
     snprintf(b, sizeof(b), "%08lx%08lx%08lx%08lx", SID[0], SID[1], SID[2], SID[3]);
     m_pool->sid = b;
-    bIn->unpack(m_pool->m_host);
+	if (m_bAIM){
+		bIn->unpackStr(m_pool->m_host);
+	}else{
+		bIn->unpack(m_pool->m_host);
+	}
     m_pool->request();
 }
 
@@ -252,6 +252,7 @@ const char *MonitorRequest::url()
 
 void MonitorRequest::data_ready(Buffer *bIn)
 {
+	m_pool->monitor = NULL;
     m_pool->readn = 0;
     while (bIn->readPos() < bIn->size()){
         unsigned short len, ver, type;
@@ -269,9 +270,14 @@ void MonitorRequest::data_ready(Buffer *bIn)
         switch (type){
         case HTTP_PROXY_FLAP:
             if (len){
-                char *data = bIn->data(bIn->readPos());
-                m_pool->readData.pack(data, len);
-                m_pool->readn += len;
+				unsigned short nSock;
+				bIn->incReadPos(-2);
+				*bIn >> nSock;
+				if (nSock == m_pool->nSock){
+					char *data = bIn->data(bIn->readPos());
+					m_pool->readData.pack(data, len);
+					m_pool->readn += len;
+				}
                 bIn->incReadPos(len);
             }
             break;
@@ -329,13 +335,15 @@ const char *PostRequest::url()
 
 void PostRequest::data_ready(Buffer*)
 {
+	m_pool->post = NULL;
     m_pool->request();
 }
 
 // ______________________________________________________________________________________
 
-HttpPool::HttpPool()
+HttpPool::HttpPool(bool bAIM)
 {
+	m_bAIM = bAIM;
     hello = NULL;
     monitor = NULL;
     post = NULL;
@@ -373,6 +381,7 @@ void HttpPool::write(const char *buf, unsigned size)
 
 void HttpPool::close()
 {
+	readData.init(0);
 }
 
 void HttpPool::connect(const char *host, unsigned short port)
@@ -394,25 +403,13 @@ void HttpPool::connect(const char *host, unsigned short port)
 void HttpPool::request()
 {
     if (sid.length() == 0){
-        if (hello == NULL) hello = new HelloRequest(this);
+        if (hello == NULL) hello = new HelloRequest(this, m_bAIM);
         return;
-    }
-    if (hello){
-        delete hello;
-        hello = NULL;
-    }
-    if (monitor && monitor->isReady()){
-        delete monitor;
-        monitor = NULL;
-    }
-    if (monitor == NULL)
-        monitor = new MonitorRequest(this);
-    if (post && post->isReady()){
-        delete post;
-        post = NULL;
     }
     if (queue.size() && (post == NULL))
         post = new PostRequest(this);
+    if (monitor == NULL)
+        monitor = new MonitorRequest(this);
     if (readn && notify){
         if (state == None){
             state = Connected;
@@ -432,7 +429,7 @@ Socket *ICQClient::createSocket()
             m_bFirstTry = true;
     }
     if (m_bHTTP)
-        return new HttpPool();
+        return new HttpPool(m_bAIM);
     return NULL;
 }
 

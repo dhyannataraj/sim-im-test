@@ -20,7 +20,7 @@
 
 #include <openssl/sha.h>
 
-class JabberHttpPool : public Socket, public EventReceiver
+class JabberHttpPool : public Socket, public FetchClient
 {
 public:
     JabberHttpPool(const char *url);
@@ -32,10 +32,9 @@ public:
     virtual Mode mode() { return Web; }
 protected:
     string getKey();
-    void *processEvent(Event *e);
+	virtual bool done(unsigned code, Buffer &data, const char *headers);
     Buffer readData;
     Buffer writeData;
-    unsigned m_fetch_id;
     string m_url;
     string m_key;
     string m_seed;
@@ -49,7 +48,6 @@ protected:
 JabberHttpPool::JabberHttpPool(const char *url)
 {
     m_url = url;
-    m_fetch_id = 0;
     m_cookie = "0";
     Buffer k;
     for (unsigned i = 0; i < 48; i++){
@@ -100,20 +98,20 @@ int JabberHttpPool::read(char *buf, unsigned size)
 void JabberHttpPool::write(const char *buf, unsigned size)
 {
     writeData.pack(buf, size);
-    if (m_fetch_id)
+    if (!isDone())
         return;
     Buffer *packet = new Buffer;
     *packet << m_cookie.c_str() << ";" << getKey().c_str() << ",";
     packet->pack(writeData.data(), writeData.writePos());
-    char headers[] = "Content-Type: application/x-www-form-urlencoded\x00\x00";
-    m_fetch_id = fetch(m_url.c_str(), packet, headers);
+    char headers[] = "Content-Type: application/x-www-form-urlencoded";
+    fetch(m_url.c_str(), headers, packet);
     writeData.init(0);
 }
 
 void JabberHttpPool::close()
 {
     writeData.init(0);
-    m_fetch_id = 0;
+	stop();
 }
 
 void JabberHttpPool::connect(const char*, unsigned short)
@@ -122,20 +120,15 @@ void JabberHttpPool::connect(const char*, unsigned short)
         notify->connect_ready();
 }
 
-void *JabberHttpPool::processEvent(Event *e)
+bool JabberHttpPool::done(unsigned code, Buffer &data, const char *headers)
 {
-    if (e->type() == EventFetchDone){
-        fetchData *d = (fetchData*)(e->param());
-        if (d->req_id != m_fetch_id)
-            return NULL;
-        m_fetch_id = 0;
-        if (d->result != 200){
-            log(L_DEBUG, "HTTP result %u", d->result);
+        if (code != 200){
+            log(L_DEBUG, "HTTP result %u", code);
             error("Bad result");
-            return e->param();
+            return false;
         }
         string cookie;
-        for (const char *p = d->headers; *p; p += strlen(p) + 1){
+        for (const char *p = headers; *p; p += strlen(p) + 1){
             string h = p;
             if (getToken(h, ':') != "Set-Cookie")
                 continue;
@@ -163,14 +156,12 @@ void *JabberHttpPool::processEvent(Event *e)
                 break;
             }
             error(err);
-            return e->param();
+            return false;
         }
-        readData.pack(d->data->data(), d->data->writePos());
+        readData.pack(data.data(), data.writePos());
         if (notify)
             notify->read_ready();
-        return e->param();
-    }
-    return NULL;
+		return false;
 }
 
 unsigned long JabberHttpPool::localHost()

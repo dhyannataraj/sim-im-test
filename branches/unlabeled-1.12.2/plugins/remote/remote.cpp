@@ -439,13 +439,13 @@ void packBitmap(QString &out, HBITMAP hBmp)
     pbmi->bmiHeader.biCompression = BI_RGB;
     pbmi->bmiHeader.biSizeImage = ((pbmi->bmiHeader.biWidth * cClrBits +31) & ~31) /8
                                   * pbmi->bmiHeader.biHeight;
-    packData(out, pbmi, size);
-    out += "\n";
 
     HDC hDC = CreateCompatibleDC(NULL);
     void *bits = malloc(pbmi->bmiHeader.biSizeImage);
     GetDIBits(hDC, hBmp, 0, (WORD) pbmi->bmiHeader.biHeight, bits, pbmi, DIB_RGB_COLORS);
 
+    packData(out, pbmi, size);
+    out += "\n";
     packData(out, bits, pbmi->bmiHeader.biSizeImage);
 
     DeleteDC(hDC);
@@ -598,12 +598,14 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                 QString active;
                 active.sprintf("%08lX", 0xFFFFFFFF - contact->getLastActive());
                 if (core->getGroupMode()){
-                    unsigned index = 0;
-                    Group *grp = getContacts()->group(contact->getGroup());
-                    if (grp)
-                        index = getContacts()->groupIndex(grp->id());
+                    unsigned index = 0xFFFFFFFF;
+					if (contact->getGroup()){
+						Group *grp = getContacts()->group(contact->getGroup());
+						if (grp)
+							index = getContacts()->groupIndex(grp->id());
+					}
                     QString grpIndex;
-                    grpIndex.sprintf("%08lX", 0xFFFFFFFF - index);
+                    grpIndex.sprintf("%08lX", index);
                     info.key += grpIndex;
                 }
                 for (;;){

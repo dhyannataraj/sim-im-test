@@ -1060,6 +1060,8 @@ bool MsgEdit::adjustType()
     unsigned desired = m_userWnd->getMessageType();
     bool bSet = false;
     while ((c = ++itc) != NULL){
+		if (c->id == CmdContactClients)
+			continue;
         c->param = (void*)(m_userWnd->m_id);
         Event eCheck(EventCheckState, c);
         if (!eCheck.process())

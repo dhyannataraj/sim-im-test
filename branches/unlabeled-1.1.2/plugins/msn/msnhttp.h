@@ -20,10 +20,11 @@
 
 #include "simapi.h"
 #include "socket.h"
+#include "fetch.h"
 
 class MSNClient;
 
-class MSNHttpPool : public QObject, public Socket, public EventReceiver
+class MSNHttpPool : public QObject, public Socket, public FetchClient
 {
     Q_OBJECT
 public:
@@ -40,10 +41,9 @@ protected:
     string m_session_id;
     string m_host;
     string m_ip;
-    void *processEvent(Event *e);
     Buffer readData;
     Buffer *writeData;
-    unsigned m_fetch_id;
+	virtual bool done(unsigned code, Buffer &data, const char *headers);
     virtual unsigned long localHost();
     virtual void pause(unsigned);
     bool m_bSB;

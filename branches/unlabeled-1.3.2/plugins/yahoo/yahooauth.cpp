@@ -110,8 +110,8 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
     const char *operand_lookup = "+|&%/*^-";
     const char *delimit_lookup = ",;";
 
-    char *password_hash = (char*)malloc(25);
-    char *crypt_hash = (char*)malloc(25);
+    char password_hash[25];
+    char crypt_hash[25];
     char *crypt_result = NULL;
     char pass_hash_xor1[64];
     char pass_hash_xor2[64];

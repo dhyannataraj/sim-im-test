@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "update.h"
-#include "fetch.h"
+#include "socket.h"
 #include "core.h"
 #include "ballonmsg.h"
 
@@ -57,8 +57,8 @@ static DataDef updateData[] =
 UpdatePlugin::UpdatePlugin(unsigned base, const char *config)
         : Plugin(base)
 {
+	m_msg = NULL;
     load_data(updateData, &data, config);
-    m_fetch_id = 0;
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(timeout()));
     timer->start(60000);
@@ -67,6 +67,8 @@ UpdatePlugin::UpdatePlugin(unsigned base, const char *config)
 UpdatePlugin::~UpdatePlugin()
 {
     free_data(updateData, &data);
+	if (m_msg)
+		delete m_msg;
 }
 
 string UpdatePlugin::getConfig()
@@ -76,7 +78,7 @@ string UpdatePlugin::getConfig()
 
 void UpdatePlugin::timeout()
 {
-    if (!getSocketFactory()->isActive() || m_fetch_id)
+    if (!getSocketFactory()->isActive() || !isDone() || m_msg)
         return;
     time_t now;
     time(&now);
@@ -118,17 +120,13 @@ void UpdatePlugin::timeout()
                 url += (char)c;
             }
         }
-        m_fetch_id = fetch(url.c_str(), NULL, NULL, false);
+        fetch(url.c_str(), NULL, NULL, false);
     }
 }
 
-void *UpdatePlugin::processEvent(Event *e)
+bool UpdatePlugin::done(unsigned, Buffer&, const char *headers)
 {
-    if (e->type() == EventFetchDone){
-        fetchData *data = (fetchData*)(e->param());
-        if (data->req_id != m_fetch_id)
-            return NULL;
-        string h = getHeader("Location", data->headers);
+        string h = getHeader("Location", headers);
         if (h.empty()){
             time_t now;
             time(&now);
@@ -150,15 +148,12 @@ void *UpdatePlugin::processEvent(Event *e)
             l.append(i18n("Show details"));
             l.append(i18n("Remind later"));
             raiseWindow(main);
-            BalloonMsg *msg = new BalloonMsg(NULL, i18n("New version SIM is released"), l, statusWidget);
-            connect(msg, SIGNAL(action(int, void*)), this, SLOT(showDetails(int, void*)));
-            connect(msg, SIGNAL(finished()), this, SLOT(msgDestroyed()));
-            msg->show();
-            return NULL;
+            m_msg = new BalloonMsg(NULL, i18n("New version SIM is released"), l, statusWidget);
+            connect(m_msg, SIGNAL(action(int, void*)), this, SLOT(showDetails(int, void*)));
+            connect(m_msg, SIGNAL(finished()), this, SLOT(msgDestroyed()));
+            m_msg->show();
         }
-        m_fetch_id = 0;
-    }
-    return NULL;
+		return false;
 }
 
 string UpdatePlugin::getHeader(const char *name, const char *headers)
@@ -203,7 +198,6 @@ void UpdatePlugin::showDetails(int n, void*)
     time(&now);
     setTime(now);
     m_url = "";
-    m_fetch_id = 0;
     Event e(EventSaveState);
     e.process();
 }
@@ -213,7 +207,7 @@ void UpdatePlugin::msgDestroyed()
     time_t now;
     time(&now);
     setTime(now);
-    m_fetch_id = 0;
+	m_msg = NULL;
 }
 
 #ifdef WIN32

@@ -19,6 +19,8 @@
 #define _WEATHER_H
 
 #include "simapi.h"
+#include "fetch.h"
+
 #include <libxml/parser.h>
 
 class QToolBar;
@@ -62,7 +64,7 @@ typedef struct WeatherData
     Data	DayConditions;
 } WeatherData;
 
-class WeatherPlugin : public QObject, public Plugin, public EventReceiver
+class WeatherPlugin : public QObject, public Plugin, public EventReceiver, public FetchClient
 {
     Q_OBJECT
 public:
@@ -118,7 +120,6 @@ protected:
     QString forecastReplace(const QString&);
     unsigned BarWeather;
     unsigned CmdWeather;
-    unsigned m_fetch_id;
     string m_data;
     bool   m_bData;
     bool   m_bBar;
@@ -131,6 +132,7 @@ protected:
     bool isDay();
     bool parseTime(const char *str, int &h, int &m);
     virtual QWidget *createConfigWindow(QWidget *parent);
+	virtual bool done(unsigned code, Buffer &data, const char *headers);
     void *processEvent(Event*);
     WeatherData data;
     xmlSAXHandler		m_handler;

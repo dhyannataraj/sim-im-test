@@ -50,12 +50,14 @@ YahooPlugin::YahooPlugin(unsigned base)
     core = static_cast<CorePlugin*>(info->plugin);
     YahooPacket = registerType();
     getContacts()->addPacketType(YahooPacket, "Yahoo!");
+	registerMessages();
     m_protocol = new YahooProtocol(this);
 }
 
 YahooPlugin::~YahooPlugin()
 {
     delete m_protocol;
+	unregisterMessages();
     getContacts()->removePacketType(YahooPacket);
 }
 
