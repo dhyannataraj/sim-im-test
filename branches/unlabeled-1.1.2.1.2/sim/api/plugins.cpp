@@ -129,7 +129,15 @@ protected:
 
 static bool cmp_plugin(pluginInfo p1, pluginInfo p2)
 {
-    return strcmp(p1.name, p2.name) < 0;
+	const char *n1 = p1.name;
+	const char *n2 = p2.name;
+	for (; *n1 && *n2; n1++, n2++){
+		if (tolower(*n1) < tolower(*n2))
+			return true;
+		if (tolower(*n1) > tolower(*n2))
+			return false;
+	}
+	return (*n1 == 0) && (*n2 != 0);
 }
 
 PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
@@ -162,7 +170,11 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
         if (p > 0) f = f.left(p);
         pluginInfo info;
         info.plugin		 = NULL;
+#ifdef WIN32
+        info.name		 = strdup(f.lower().local8Bit());
+#else
         info.name		 = strdup(f.local8Bit());
+#endif
         info.config		 = NULL;
         info.bDisabled	 = false;
         info.bNoCreate	 = false;

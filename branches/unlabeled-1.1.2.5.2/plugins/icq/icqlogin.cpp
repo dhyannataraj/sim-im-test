@@ -48,14 +48,6 @@ const unsigned ICQ_LOGIN_ERRxIP_RATE_LIMIT			= 0x0015;
 const unsigned ICQ_LOGIN_ERRxIP_RATE_LIMIT1			= 0x0016;
 const unsigned ICQ_LOGIN_ERRxRATE_LIMIT				= 0x0018;
 
-const unsigned ICQ_LOGIN_ERRxBAD_PASSWD				= 0x0004;
-const unsigned ICQ_LOGIN_ERRxBAD_PASSWD1			= 0x0005;
-const unsigned ICQ_LOGIN_ERRxNOT_EXISTS				= 0x0007;
-const unsigned ICQ_LOGIN_ERRxNOT_EXISTS1			= 0x0008;
-const unsigned ICQ_LOGIN_ERRxIP_RATE_LIMIT			= 0x0015;
-const unsigned ICQ_LOGIN_ERRxIP_RATE_LIMIT1			= 0x0016;
-const unsigned ICQ_LOGIN_ERRxRATE_LIMIT				= 0x0018;
-
 void ICQClient::snac_login(unsigned short type, unsigned short)
 {
     unsigned long newUin;
@@ -196,7 +188,6 @@ void ICQClient::chn_close()
         unsigned short err = *tlv_error;
         string errString;
         switch (err){
-            <<<<<<< icqlogin.cpp
         case ICQ_LOGIN_ERRxIP_RATE_LIMIT:
         case ICQ_LOGIN_ERRxIP_RATE_LIMIT1:
             errString = I18N_NOOP("Too many clients from same IP");
@@ -218,29 +209,6 @@ void ICQClient::chn_close()
             m_reconnectTime = NO_RECONNECT;
             errorCode = LOGIN_ERROR;
             break;
-            =======
-            case ICQ_LOGIN_ERRxIP_RATE_LIMIT:
-        case ICQ_LOGIN_ERRxIP_RATE_LIMIT1:
-            errString = I18N_NOOP("Too many clients from same IP");
-            m_reconnectTime = RATE_LIMIT_RECONNECT;
-            break;
-        case ICQ_LOGIN_ERRxRATE_LIMIT:
-            errString = I18N_NOOP("Rate limit");
-            m_reconnectTime = RATE_LIMIT_RECONNECT;
-            break;
-        case ICQ_LOGIN_ERRxBAD_PASSWD:
-        case ICQ_LOGIN_ERRxBAD_PASSWD1:
-            errString = I18N_NOOP("Invalid UIN and password combination");
-            m_reconnectTime = NO_RECONNECT;
-            errorCode = LOGIN_ERROR;
-            break;
-        case ICQ_LOGIN_ERRxNOT_EXISTS:
-        case ICQ_LOGIN_ERRxNOT_EXISTS1:
-            errString = I18N_NOOP("Non-existant UIN");
-            m_reconnectTime = NO_RECONNECT;
-            errorCode = LOGIN_ERROR;
-            break;
-            >>>>>>> 1.1.2.3.2.1
         case 0:
             break;
         default:
