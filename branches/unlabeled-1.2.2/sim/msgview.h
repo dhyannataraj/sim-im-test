@@ -39,7 +39,7 @@ class TextShow : public QTextBrowser
 {
     Q_OBJECT
 public:
-    TextShow (QWidget *parent);
+    TextShow (QWidget *parent, const char *name=NULL);
     void addMessageText(ICQMessage*);
     QString makeMessageText(ICQMessage*);
     void setForeground(const QColor&);

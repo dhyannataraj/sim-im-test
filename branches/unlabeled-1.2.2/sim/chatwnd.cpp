@@ -36,9 +36,11 @@
 #include <qfile.h>
 
 #if USE_KDE
+#include <kcolordialog.h>
 #include <kfiledialog.h>
 #define QFileDialog	KFileDialog
 #else
+#include <qcolordialog.h>
 #include <qfiledialog.h>
 #endif
 
@@ -92,6 +94,11 @@ ChatWindow::ChatWindow(ICQChat *_chat)
     btnUnderline->setTextLabel(i18n("Underline"));
     btnUnderline->setToggleButton(true);
     connect(btnUnderline, SIGNAL(toggled(bool)), this, SLOT(toggleUnderline(bool)));
+
+    btnFgColor = new QToolButton(toolbar);
+    btnFgColor->setTextLabel(i18n("Text color"));
+    btnFgColor->setIconSet(Icon("fgcolor"));
+    connect(btnFgColor, SIGNAL(clicked()), this, SLOT(setFgColor()));
 
     chat = _chat;
     bInit = false;
@@ -150,6 +157,7 @@ ChatWindow::~ChatWindow()
 
 void ChatWindow::sendLine()
 {
+    QColor oldColor = edtChat->color();
     QString s = edtChat->text();
     s.replace(QRegExp("<br>"), "");
     s.replace(QRegExp("</?p>"), "");
@@ -180,6 +188,7 @@ void ChatWindow::sendLine()
         logFile->writeBlock(s, s.length());
         logFile->flush();
     }
+    edtChat->setColor(oldColor);
 }
 
 QString ChatWindow::chatHeader(unsigned long uin)
@@ -230,6 +239,10 @@ void ChatWindow::processEvent(ICQEvent *e)
             txtChat->setUnderline(chat->chat->fontFace & FONT_UNDERLINE);
         }
         break;
+    case CHAT_COLORxFG:
+        if (bClientMode)
+            txtChat->setColor(chatColor(chat->chat->fgColor));
+        break;
     case CHAT_TEXT:
         if (!bClientMode){
             txtChat->insertParagraph(chatHeader(e->Uin()), -1);
@@ -238,6 +251,7 @@ void ChatWindow::processEvent(ICQEvent *e)
             txtChat->setBold(chat->chat->fontFace & FONT_BOLD);
             txtChat->setItalic(chat->chat->fontFace & FONT_ITALIC);
             txtChat->setUnderline(chat->chat->fontFace & FONT_UNDERLINE);
+            txtChat->setColor(chatColor(chat->chat->fgColor));
             bClientMode = true;
         }
         txtChat->insert(QString::fromLocal8Bit(e->text.c_str()), false, false);
@@ -304,11 +318,11 @@ void ChatWindow::openLog()
         pMain->buildFileName(name, "ChatLog/");
         fname = QString::fromLocal8Bit(name.c_str());
     }
-#if WIN32
+#ifdef WIN32
     fname.replace(QRegExp("\\\\"), "/");
 #endif
     fname = QFileDialog::getSaveFileName(fname, QString::null, this);
-#if WIN32
+#ifdef WIN32
     fname.replace(QRegExp("/"), "\\");
 #endif
     if (fname.length() == 0) return;
@@ -341,6 +355,23 @@ void ChatWindow::openLog()
     txtChat->scrollToBottom();
     txtChat->moveCursor(QTextEdit::MoveEnd, false);
     logFile = newFile;
+}
+
+QColor ChatWindow::chatColor(unsigned long c)
+{
+    return QColor(c & 0xFF, (c >> 8) & 0xFF, (c >> 16) & 0xFF);
+}
+
+void ChatWindow::setFgColor()
+{
+#ifdef USE_KDE
+    QColor c = edtChat->color();
+    if (KColorDialog::getColor(c, this) != KColorDialog::Accepted) return;
+#else
+    QColor c = QColorDialog::getColor(edtChat->color(), this);
+    if (!c.isValid()) return;
+#endif
+    edtChat->setColor(c);
 }
 
 #ifndef _WINDOWS

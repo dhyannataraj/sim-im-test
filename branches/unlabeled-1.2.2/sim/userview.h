@@ -125,6 +125,7 @@ protected:
     void blink(QListViewItem*);
     virtual void userChanged() {}
 
+    virtual bool eventFilter(QObject*, QEvent*);
     virtual void styleChange(QStyle &old);
     virtual void paintEmptyArea(QPainter *p, const QRect &rc);
     virtual void resizeEvent(QResizeEvent *e);

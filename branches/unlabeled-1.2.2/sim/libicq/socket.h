@@ -117,7 +117,7 @@ public:
     void remove();
     void setHost(const char*);
 
-    bool getLocalAddr(char *&host, unsigned short &port);
+    bool getLocalAddr(char *&host, unsigned short &port, unsigned long remote_ip=0);
     bool connected() { return (m_fd != -1); }
 
     void dumpPacket(Buffer &b, unsigned start, const char *oper);

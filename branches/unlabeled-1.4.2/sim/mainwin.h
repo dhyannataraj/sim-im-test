@@ -44,6 +44,7 @@ class SetupDialog;
 class ICQMessage;
 class ICQUser;
 class TransparentTop;
+class QTranslator;
 
 const int mnuAction = 0;
 const int mnuMessage = 1;
@@ -182,6 +183,9 @@ public:
     ConfigUShort XOSD_FontWeight;
     ConfigBool   XOSD_FontItalic;
     ConfigUShort XOSD_timeout;
+    ConfigBool	 XOSD_Shadow;
+    ConfigBool	 XOSD_Background;
+    ConfigULong	 XOSD_BgColor;
 
     ConfigUShort ContainerMode;
 
@@ -250,6 +254,7 @@ public slots:
     void userFunction(unsigned long uin, int, unsigned long param=0);
     void goURL(const char*);
     void sendMail(unsigned long);
+    void sendMail(const char*);
     void toggleOnTop();
     void moveUser(int);
     void changeTransparent();
@@ -310,15 +315,18 @@ protected:
     SetupDialog *setupDlg;
     bool bInLogin;
 
+    void exec(const char *prg, const char *arg);
     void loadMenu();
     void showUser(unsigned long uin, int function, unsigned long param=0);
     void closeUser(unsigned long uin);
 
     TransparentTop *transparent;
-#if USE_KDE
     QDialog      *mAboutApp;
+#if USE_KDE
     KAboutKDE    *mAboutKDE;
 #endif
+    QTranslator	 *translator;
+    void initTranslator();
 };
 
 extern MainWindow *pMain;

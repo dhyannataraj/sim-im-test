@@ -30,8 +30,7 @@
 
 #if USE_KDE
 #if HAVE_KROOTPIXMAP_H
-#include <kdeversion.h>
-#if KDE_VERSION >= 300
+#if QT_VERSION >= 300
 #include <krootpixmap.h>
 #else
 #undef HAVE_KROOTPIXMAP_H
@@ -137,8 +136,8 @@ TransparentTop::TransparentTop(QWidget *parent,
         useTransparent(_useTransparent),
         transparent(_transparent)
 {
-#if USE_KDE
-#if HAVE_KROOTPIXMAP_H
+#ifdef USE_KDE
+#ifdef HAVE_KROOTPIXMAP_H
     rootpixmap = new KRootPixmap(parent);
     connect(rootpixmap, SIGNAL(backgroundUpdated(const QPixmap&)), SLOT(updateBackground(const QPixmap&)));
     rootpixmap->setCustomPainting(true);
@@ -166,12 +165,12 @@ void TransparentTop::updateBackground(const QPixmap &pm)
 
 void TransparentTop::transparentChanged()
 {
-#if WIN32
+#ifdef WIN32
     QWidget *p = static_cast<QWidget*>(parent());
     setTransparent(p,useTransparent, transparent);
 #else
-#if USE_KDE
-#if HAVE_KROOTPIXMAP_H
+#ifdef USE_KDE
+#ifdef HAVE_KROOTPIXMAP_H
     if (useTransparent()){
         QWidget *parentWidget = static_cast<QWidget*>(parent());
         rootpixmap->setFadeEffect(transparent / 100.,

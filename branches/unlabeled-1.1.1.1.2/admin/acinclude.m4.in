@@ -28,6 +28,30 @@ dnl
 dnl Single-module modifications are best placed in configure.in for kdelibs
 dnl and kdebase or configure.in.in if present.
 
+dnl
+dnl Checks to see if struct tm has the BSD tm_gmtoff member
+dnl
+dnl usage:
+dnl
+dnl AC_ACME_TM_GMTOFF
+dnl
+dnl results:
+dnl
+dnl HAVE_TM_GMTOFF (defined)
+dnl
+AC_DEFUN(AC_TM_GMTOFF,
+[AC_MSG_CHECKING(if struct tm has tm_gmtoff member)
+AC_TRY_COMPILE([
+# include <sys/types.h>
+# include <time.h>],
+[u_int i = sizeof(((struct tm *)0)->tm_gmtoff)],
+ac_cv_tm_has_tm_gmtoff=yes,
+ac_cv_tm_has_tm_gmtoff=no)
+AC_MSG_RESULT($ac_cv_tm_has_tm_gmtoff)
+if test "$ac_cv_tm_has_tm_gmtoff" = "yes" ; then
+AC_DEFINE(HAVE_TM_GMTOFF, 1, [Have tm_gmtoff])
+fi])
+
 dnl ------------------------------------------------------------------------
 dnl Forward compatibility macros (make autoconf 2.13 look like 2.50),
 dnl thanks to Raja R Harinath.
@@ -887,6 +911,7 @@ if test "$use_kde" = "yes" ; then
   KDE_FIND_PATH(kde-config, KDECONFIG, [$kde_default_bindirs])
   if test -z "$KDECONFIG" ; then
 	use_kde="no"
+	$default_prefix=`${KDECONFIG} --prefix` 
   fi
 fi
 
@@ -2344,7 +2369,7 @@ AC_DEFUN(AC_CHECK_COMPILERS,
     [kde_use_debug_code="no"
       kde_use_debug_define=no
   ])
-  if test kde_use_debug_code = "yes" ; then
+  if test "$kde_use_debug_code" = "yes" ; then
 	AC_DEFINE(DEBUG,1,[Debug verion])
   fi
 
@@ -2535,11 +2560,13 @@ AC_DEFUN(KDE_CHECK_TYPES,
 
 AC_DEFUN(KDE_DO_IT_ALL,
 [
+echo "DO it all"
 AC_CANONICAL_SYSTEM
 AC_ARG_PROGRAM
+echo "init automake"
 AM_INIT_AUTOMAKE($1, $2)
 AM_DISABLE_LIBRARIES
-AC_PREFIX_DEFAULT(${KDEDIR:-/usr/local/kde})
+AC_PREFIX_DEFAULT("$default_prefix")
 AC_CHECK_COMPILERS
 KDE_PROG_LIBTOOL
 AM_KDE_WITH_NLS
@@ -4092,8 +4119,20 @@ AC_DEFUN(KDE_CONF_FILES,
 AC_DEFUN(KDE_SET_PREFIX,
 [
   unset CDPATH
+  KDE_USE_QT
+  default_prefix=/usr/local
+  if test "$use_kde" = "yes" ; then
+   default_prefix="$KDEDIR"
+    if test "$default_prefix" = "" ; then
+      default_prefix=`$KDECONFIG --prefix`
+      if test "$default_prefix" = "" ; then
+        default_prefix="/usr/local/kde" 
+      fi
+    fi
+  fi
   dnl make $KDEDIR the default for the installation
-  AC_PREFIX_DEFAULT(${KDEDIR:-/usr/local/kde})
+  AC_PREFIX_DEFAULT("$default_prefix")
+  ac_default_prefix=$default_prefix
 
   if test "x$prefix" = "xNONE"; then
     prefix=$ac_default_prefix
@@ -4368,4 +4407,73 @@ Syntax Error
   JVMLIBS="-L$kde_cv_java_libjvmdir -ljvm -L$kde_cv_java_libhpidir -lhpi"
   AC_SUBST(JVMLIBS)
 fi
+])
+#serial AM2
+
+dnl From Bruno Haible.
+
+AC_DEFUN([AM_ICONV],
+[
+  dnl Some systems have iconv in libc, some have it in libiconv (OSF/1 and
+  dnl those with the standalone portable GNU libiconv installed).
+
+  AC_ARG_WITH([libiconv-prefix],
+[  --with-libiconv-prefix=DIR  search for libiconv in DIR/include and DIR/lib], [
+    for dir in `echo "$withval" | tr : ' '`; do
+      if test -d $dir/include; then CPPFLAGS="$CPPFLAGS -I$dir/include"; fi
+      if test -d $dir/lib; then LDFLAGS="$LDFLAGS -L$dir/lib"; fi
+    done
+   ])
+
+  AC_CACHE_CHECK(for iconv, am_cv_func_iconv, [
+    am_cv_func_iconv="no, consider installing GNU libiconv"
+    am_cv_lib_iconv=no
+    AC_TRY_LINK([#include <stdlib.h>
+#include <iconv.h>],
+      [iconv_t cd = iconv_open("","");
+       iconv(cd,NULL,NULL,NULL,NULL);
+       iconv_close(cd);],
+      am_cv_func_iconv=yes)
+    if test "$am_cv_func_iconv" != yes; then
+      am_save_LIBS="$LIBS"
+      LIBS="$LIBS -liconv"
+      AC_TRY_LINK([#include <stdlib.h>
+#include <iconv.h>],
+        [iconv_t cd = iconv_open("","");
+         iconv(cd,NULL,NULL,NULL,NULL);
+         iconv_close(cd);],
+        am_cv_lib_iconv=yes
+        am_cv_func_iconv=yes)
+      LIBS="$am_save_LIBS"
+    fi
+  ])
+  if test "$am_cv_func_iconv" = yes; then
+    AC_DEFINE(HAVE_ICONV, 1, [Define if you have the iconv() function.])
+    AC_MSG_CHECKING([for iconv declaration])
+    AC_CACHE_VAL(am_cv_proto_iconv, [
+      AC_TRY_COMPILE([
+#include <stdlib.h>
+#include <iconv.h>
+extern
+#ifdef __cplusplus
+"C"
+#endif
+#if defined(__STDC__) || defined(__cplusplus)
+size_t iconv (iconv_t cd, char * *inbuf, size_t *inbytesleft, char * *outbuf, size_t *outbytesleft);
+#else
+size_t iconv();
+#endif
+], [], am_cv_proto_iconv_arg1="", am_cv_proto_iconv_arg1="const")
+      am_cv_proto_iconv="extern size_t iconv (iconv_t cd, $am_cv_proto_iconv_arg1 char * *inbuf, size_t *inbytesleft, char * *outbuf, size_t *outbytesleft);"])
+    am_cv_proto_iconv=`echo "[$]am_cv_proto_iconv" | tr -s ' ' | sed -e 's/( /(/'`
+    AC_MSG_RESULT([$]{ac_t:-
+         }[$]am_cv_proto_iconv)
+    AC_DEFINE_UNQUOTED(ICONV_CONST, $am_cv_proto_iconv_arg1,
+      [Define as const if the declaration of iconv() needs const.])
+  fi
+  LIBICONV=
+  if test "$am_cv_lib_iconv" = yes; then
+    LIBICONV="-liconv"
+  fi
+  AC_SUBST(LIBICONV)
 ])

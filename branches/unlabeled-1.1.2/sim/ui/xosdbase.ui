@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>571</width>
-            <height>472</height>
+            <width>410</width>
+            <height>374</height>
         </rect>
     </property>
     <property>
@@ -82,44 +82,10 @@
             </hbox>
         </widget>
         <widget>
-            <class>Line</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>Line2</cstring>
-            </property>
-            <property>
-                <name>frameShape</name>
-                <enum>HLine</enum>
-            </property>
-            <property>
-                <name>frameShadow</name>
-                <enum>Sunken</enum>
-            </property>
-            <property>
-                <name>orientation</name>
-                <enum>Horizontal</enum>
-            </property>
-            <property>
-                <name>frameShape</name>
-                <enum>HLine</enum>
-            </property>
-        </widget>
-        <widget>
-            <class>QCheckBox</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>chkOn</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>Enable notify on screen</string>
-            </property>
-        </widget>
-        <widget>
             <class>QLayoutWidget</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>Layout6</cstring>
+                <cstring>Layout3</cstring>
             </property>
             <grid>
                 <property>
@@ -130,17 +96,28 @@
                     <name>spacing</name>
                     <number>6</number>
                 </property>
-                <widget row="1"  column="1" >
-                    <class>QSpinBox</class>
+                <widget row="5"  column="1" >
+                    <class>QColorButton</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>spnOffs</cstring>
+                        <cstring>btnColor</cstring>
                     </property>
                 </widget>
-                <spacer row="1"  column="2" >
+                <widget row="1"  column="0"  rowspan="1"  colspan="3" >
+                    <class>QCheckBox</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>chkOn</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Enable notify on screen</string>
+                    </property>
+                </widget>
+                <spacer row="9"  column="2" >
                     <property>
                         <name>name</name>
-                        <cstring>Spacer2</cstring>
+                        <cstring>Spacer5_2</cstring>
                     </property>
                     <property>
                         <name>orientation</name>
@@ -158,29 +135,15 @@
                         </size>
                     </property>
                 </spacer>
-                <widget row="3"  column="1" >
-                    <class>QColorButton</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>btnColor</cstring>
-                    </property>
-                </widget>
-                <widget row="4"  column="1"  rowspan="1"  colspan="2" >
-                    <class>FontEdit</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>edtFont</cstring>
-                    </property>
-                </widget>
-                <widget row="2"  column="0" >
+                <widget row="9"  column="0" >
                     <class>QLabel</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>TextLabel5</cstring>
+                        <cstring>lblBgColor</cstring>
                     </property>
                     <property>
                         <name>text</name>
-                        <string>Show time:</string>
+                        <string>Background color:</string>
                     </property>
                     <property>
                         <name>alignment</name>
@@ -190,14 +153,7 @@
                         <name>hAlign</name>
                     </property>
                 </widget>
-                <widget row="2"  column="1" >
-                    <class>QSpinBox</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>spnTimeout</cstring>
-                    </property>
-                </widget>
-                <spacer row="2"  column="2" >
+                <spacer row="4"  column="2" >
                     <property>
                         <name>name</name>
                         <cstring>Spacer3</cstring>
@@ -218,15 +174,43 @@
                         </size>
                     </property>
                 </spacer>
-                <widget row="0"  column="0" >
+                <spacer row="3"  column="2" >
+                    <property>
+                        <name>name</name>
+                        <cstring>Spacer2</cstring>
+                    </property>
+                    <property>
+                        <name>orientation</name>
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property>
+                        <name>sizeType</name>
+                        <enum>Expanding</enum>
+                    </property>
+                    <property>
+                        <name>sizeHint</name>
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget row="2"  column="1"  rowspan="1"  colspan="2" >
+                    <class>QComboBox</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>cmbPos</cstring>
+                    </property>
+                </widget>
+                <widget row="5"  column="0" >
                     <class>QLabel</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>TextLabel3</cstring>
+                        <cstring>TextLabel7</cstring>
                     </property>
                     <property>
                         <name>text</name>
-                        <string>Position:</string>
+                        <string>Color:</string>
                     </property>
                     <property>
                         <name>alignment</name>
@@ -236,7 +220,14 @@
                         <name>hAlign</name>
                     </property>
                 </widget>
-                <widget row="4"  column="0" >
+                <widget row="3"  column="1" >
+                    <class>QSpinBox</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>spnOffs</cstring>
+                    </property>
+                </widget>
+                <widget row="6"  column="0" >
                     <class>QLabel</class>
                     <property stdset="1">
                         <name>name</name>
@@ -254,7 +245,98 @@
                         <name>hAlign</name>
                     </property>
                 </widget>
-                <spacer row="3"  column="2" >
+                <widget row="4"  column="0" >
+                    <class>QLabel</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>TextLabel5</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Show time:</string>
+                    </property>
+                    <property>
+                        <name>alignment</name>
+                        <set>AlignVCenter|AlignRight</set>
+                    </property>
+                    <property>
+                        <name>hAlign</name>
+                    </property>
+                </widget>
+                <widget row="0"  column="0"  rowspan="1"  colspan="3" >
+                    <class>Line</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>Line2</cstring>
+                    </property>
+                    <property>
+                        <name>frameShape</name>
+                        <enum>HLine</enum>
+                    </property>
+                    <property>
+                        <name>frameShadow</name>
+                        <enum>Sunken</enum>
+                    </property>
+                    <property>
+                        <name>orientation</name>
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property>
+                        <name>frameShape</name>
+                        <enum>HLine</enum>
+                    </property>
+                </widget>
+                <widget row="4"  column="1" >
+                    <class>QSpinBox</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>spnTimeout</cstring>
+                    </property>
+                </widget>
+                <widget row="3"  column="0" >
+                    <class>QLabel</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>TextLabel4</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Offset:</string>
+                    </property>
+                    <property>
+                        <name>alignment</name>
+                        <set>AlignVCenter|AlignRight</set>
+                    </property>
+                    <property>
+                        <name>hAlign</name>
+                    </property>
+                </widget>
+                <widget row="2"  column="0" >
+                    <class>QLabel</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>TextLabel3</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Position:</string>
+                    </property>
+                    <property>
+                        <name>alignment</name>
+                        <set>AlignVCenter|AlignRight</set>
+                    </property>
+                    <property>
+                        <name>hAlign</name>
+                    </property>
+                </widget>
+                <widget row="9"  column="1" >
+                    <class>QColorButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>btnBgColor</cstring>
+                    </property>
+                </widget>
+                <spacer row="5"  column="2" >
                     <property>
                         <name>name</name>
                         <cstring>Spacer4</cstring>
@@ -275,47 +357,33 @@
                         </size>
                     </property>
                 </spacer>
-                <widget row="1"  column="0" >
-                    <class>QLabel</class>
+                <widget row="7"  column="0"  rowspan="1"  colspan="3" >
+                    <class>QCheckBox</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>TextLabel4</cstring>
+                        <cstring>chkShadow</cstring>
                     </property>
                     <property>
                         <name>text</name>
-                        <string>Offset:</string>
-                    </property>
-                    <property>
-                        <name>alignment</name>
-                        <set>AlignVCenter|AlignRight</set>
-                    </property>
-                    <property>
-                        <name>hAlign</name>
+                        <string>Shadow</string>
                     </property>
                 </widget>
-                <widget row="0"  column="1"  rowspan="1"  colspan="2" >
-                    <class>QComboBox</class>
+                <widget row="6"  column="1"  rowspan="1"  colspan="2" >
+                    <class>FontEdit</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>cmbPos</cstring>
+                        <cstring>edtFont</cstring>
                     </property>
                 </widget>
-                <widget row="3"  column="0" >
-                    <class>QLabel</class>
+                <widget row="8"  column="0"  rowspan="1"  colspan="3" >
+                    <class>QCheckBox</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>TextLabel7</cstring>
+                        <cstring>chkBackground</cstring>
                     </property>
                     <property>
                         <name>text</name>
-                        <string>Color:</string>
-                    </property>
-                    <property>
-                        <name>alignment</name>
-                        <set>AlignVCenter|AlignRight</set>
-                    </property>
-                    <property>
-                        <name>hAlign</name>
+                        <string>Background</string>
                     </property>
                 </widget>
             </grid>

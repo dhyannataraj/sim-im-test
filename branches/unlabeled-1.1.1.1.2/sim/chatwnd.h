@@ -45,6 +45,7 @@ protected slots:
     void toggleItalic(bool);
     void toggleUnderline(bool);
     void openLog();
+    void setFgColor();
 protected:
     bool bClientMode;
     QString chatHeader(unsigned long uin);
@@ -57,7 +58,9 @@ protected:
     QToolButton *btnBold;
     QToolButton *btnItalic;
     QToolButton *btnUnderline;
+    QToolButton *btnFgColor;
     QFile *logFile;
+    QColor chatColor(unsigned long c);
     bool bInit;
     TransparentTop *transparent;
 };

@@ -18,8 +18,10 @@
 #include "icons.h"
 #include "log.h"
 
+#ifdef WIN32
 #if _MSC_VER > 1020
 #pragma warning(disable:4786)
+#endif
 #endif
 
 #include <map>
@@ -477,7 +479,7 @@ static QPixmap addPict(const QPixmap &pict, const QPixmap &add)
         mask = QBitmap(pict.width(), pict.height());
         QPainter p(&mask);
         p.fillRect(0, 0, pict.width(), pict.height(),
-#if WIN32
+#ifdef WIN32
                    QColor(255, 255, 255)
 #else
                    QColor(0, 0, 0)
@@ -488,7 +490,7 @@ static QPixmap addPict(const QPixmap &pict, const QPixmap &add)
         r += QRegion(*pict.mask());
         p.setClipRegion(r);
         p.fillRect(0, 0, pict.width(), pict.height(),
-#if WIN32
+#ifdef WIN32
                    QColor(0, 0, 0)
 #else
                    QColor(255, 255, 255)

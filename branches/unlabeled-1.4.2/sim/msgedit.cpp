@@ -686,13 +686,13 @@ void MsgEdit::setParam(unsigned long param)
             QString name = QString::fromLocal8Bit(decodeName.c_str());
             if (name.left(5) == "file:"){
                 name = name.mid(5);
-#if WIN32
+#ifdef WIN32
                 name.replace(QRegExp("^/+"), "");
 #else
                 name.replace(QRegExp("^/+"), "/");
 #endif
             }
-#if WIN32
+#ifdef WIN32
             name.replace(QRegExp("/"), "\\");
 #endif
             fileEdit->setText(name);
@@ -951,7 +951,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                         if (*path.c_str() == 0)
                             pMain->buildFileName(path, "IncommingFiles/");
                         QString name = QString::fromLocal8Bit(path.c_str());
-#if WIN32
+#ifdef WIN32
                         name.replace(QRegExp("/"), "\\");
                         if ((name.length() == 0) || (name[(int)(name.length() - 1)] != '\\'))
                             name += "\\";

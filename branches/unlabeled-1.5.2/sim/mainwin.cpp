@@ -40,6 +40,7 @@
 #include "ui/ballonmsg.h"
 #include "ui/filetransfer.h"
 #include "chatwnd.h"
+#include "about.h"
 
 #ifndef _WINDOWS
 #include <pwd.h>
@@ -71,6 +72,8 @@
 #include <qstyle.h>
 #include <qwidgetlist.h>
 #include <qobjectlist.h>
+#include <qtranslator.h>
+#include <qregexp.h>
 
 #if USE_KDE
 #include <kwin.h>
@@ -109,15 +112,11 @@
 static char ICQ_CONF[] = "icq.conf";
 static char SIM_CONF[] = "sim.conf";
 
-#if WIN32
-
-#endif
-
 static string app_file_name;
 const char *app_file(const char *f)
 {
     app_file_name = "";
-#if WIN32
+#ifdef WIN32
     char buff[256];
     GetModuleFileNameA(NULL, buff, sizeof(buff));
     char *p = strrchr(buff, '\\');
@@ -135,7 +134,7 @@ const char *app_file(const char *f)
             return app_file_name.c_str();
         }
     }
-    if (lst.size()){
+    if (!lst.isEmpty()){
         app_file_name = (const char*)lst[0].local8Bit();
     }
 #else
@@ -149,7 +148,7 @@ const char *app_file(const char *f)
 static const char *sound(const char *vaw)
 {
     string s = "sounds";
-#if WIN32
+#ifdef WIN32
     s += "\\";
 #else
     s += "/";
@@ -186,8 +185,20 @@ MainWindow::MainWindow(const char *name)
         FileDone(this, "FileDone", sound("filedone.wav")),
         OnlineAlert(this, "OnlineAlert", sound("alert.wav")),
         BirthdayReminder(this, "BirthdayReminder", sound("birthday.wav")),
-        UrlViewer(this, "URLViewer"),
-        MailClient(this, "MailClient"),
+        UrlViewer(this, "URLViewer",
+#if USE_KDE
+                  "konqueror"
+#else
+                  "netscape"
+#endif
+                 ),
+        MailClient(this, "MailClient",
+#if USE_KDE
+                   "kmail"
+#else
+                   "netscape mailto:%s"
+#endif
+                  ),
         SoundPlayer(this, "SoundPlayer"),
         UseTransparent(this, "TransparentMain"),
         Transparent(this, "TransparencyMain", 80),
@@ -225,6 +236,9 @@ MainWindow::MainWindow(const char *name)
         XOSD_FontWeight(this, "XOSD_FontWeight"),
         XOSD_FontItalic(this, "XOSD_FontItalic"),
         XOSD_timeout(this, "XOSD_timeout", 10),
+        XOSD_Shadow(this, "XOSD_Shadow", true),
+        XOSD_Background(this, "XOSD_Background", false),
+        XOSD_BgColor(this, "XOSD_BgColor", colorGroup().background().rgb()),
         ContainerMode(this, "ContainerMode", ContainerModeGroup)
 
 {
@@ -234,14 +248,17 @@ MainWindow::MainWindow(const char *name)
     noToggle = false;
     bInLogin = false;
     lockFile = -1;
+    translator = NULL;
+    mAboutApp = NULL;
+
+    initTranslator();
 
 #ifdef USE_KDE
-    mAboutApp = NULL;
     mAboutKDE = NULL;
 #endif
 
     int tz;
-#ifdef WIN32
+#ifndef HAVE_TM_GMTOFF
     tz = _timezone / 2;
 #else
     time_t now;
@@ -338,10 +355,10 @@ MainWindow::MainWindow(const char *name)
     blinkTimer = new QTimer(this);
     connect(blinkTimer, SIGNAL(timeout()), this, SLOT(blink()));
     blinkTimer->start(800);
-#if WIN32
+#ifdef WIN32
     IdleTrackerInit();
 #endif
-#if USE_KDE
+#ifdef USE_KDE
     connect(kapp, SIGNAL(iconChanged(int)), this, SLOT(changeIcons(int)));
     kapp->addKipcEventMask(KIPC::IconChanged);
 #endif
@@ -405,7 +422,7 @@ MainWindow::~MainWindow()
     if (lockFile != -1) ::close(lockFile);
 #endif
     if (dock) delete dock;
-#if WIN32
+#ifdef WIN32
     IdleTrackerTerm();
 #endif
     pMain = NULL;
@@ -1059,7 +1076,7 @@ void MainWindow::setup()
 void MainWindow::phonebook()
 {
     if (setupDlg == NULL)
-        setupDlg = new SetupDialog(this, 18);
+        setupDlg = new SetupDialog(this, 108);
     setupDlg->show();
 #if USE_KDE
     KWin::setOnDesktop(setupDlg->winId(), KWin::currentDesktop());
@@ -1103,7 +1120,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
 void MainWindow::autoAway()
 {
-#if WIN32
+#ifdef WIN32
     unsigned long idle_time = (GetTickCount() - IdleTrackerGetLastTickCount()) / 1000;
 #endif
 #ifdef USE_SCRNSAVER
@@ -1126,7 +1143,7 @@ void MainWindow::autoAway()
     }
     unsigned long idle_time = (mit_info->idle / 1000);
 #endif
-#if USE_SCRNSAVER || WIN32
+#if defined(USE_SCRNSAVER) || defined(WIN32)
     if ((m_bAutoAway && (idle_time < AutoAwayTime)) ||
             (m_bAutoNA && (idle_time < AutoNATime))){
         m_bAutoAway = m_bAutoNA = false;
@@ -1563,21 +1580,10 @@ void MainWindow::adjustUserMenu(QPopupMenu *menu, ICQUser *u, bool haveTitle)
 
 void MainWindow::goURL(const char *url)
 {
-#if WIN32
+#ifdef WIN32
     ShellExecuteA(winId(), NULL, url, NULL, NULL, SW_SHOWNORMAL);
 #else
-    if (*(UrlViewer.c_str()) == 0) return;
-
-    const char *arglist[3];
-    arglist[0] = UrlViewer.c_str();
-    arglist[1] = url;
-    arglist[2] = NULL;
-
-    if(!fork()) {
-        execvp(arglist[0], (char**)arglist);
-        _exit(-1);
-    }
-
+    exec(UrlViewer.c_str(), url);
 #endif
 }
 
@@ -1594,31 +1600,54 @@ void MainWindow::sendMail(unsigned long uin)
             }
         }
     }
+    sendMail(mail);
+}
+
+void MainWindow::sendMail(const char *mail)
+{
     if (mail == NULL) return;
 
-#if WIN32
+#ifdef WIN32
     string s = "mailto:";
     s += mail;
     ShellExecuteA(winId(), NULL, s.c_str(), NULL, NULL, SW_SHOWNORMAL);
 #else
-    if (*(MailClient.c_str()) == 0) return;
+    exec(MailClient.c_str(), mail);
+#endif
+}
 
-    const char *arglist[3];
-    arglist[0] = MailClient.c_str();
-    arglist[1] = mail;
-    arglist[2] = NULL;
-
+void MainWindow::exec(const char *prg, const char *arg)
+{
+#ifndef WIN32
+    if (*prg == 0) return;
+    QString p = QString::fromLocal8Bit(prg);
+    if (p.find("%s") >= 0){
+        p.replace(QRegExp("%s"), arg);
+    }else{
+        p += QString::fromLocal8Bit(arg);
+    }
+    QStringList s = QStringList::split(" ", p);
+    char **arglist = new char*[s.count()+1];
+    unsigned i = 0;
+    for ( QStringList::Iterator it = s.begin(); it != s.end(); ++it, i++ ) {
+        string arg;
+        arg = (*it).local8Bit();
+        arglist[i] = strdup(arg.c_str());
+    }
+    arglist[i] = NULL;
     if(!fork()) {
-        execvp(arglist[0], (char**)arglist);
+        execvp(arglist[0], arglist);
         _exit(-1);
     }
-
+    for (char **p = arglist; *p != NULL; p++)
+        free(*p);
+    delete[] arglist;
 #endif
 }
 
 void MainWindow::playSound(const char *wav)
 {
-#if WIN32
+#ifdef WIN32
     sndPlaySoundA(wav, SND_ASYNC | SND_NODEFAULT);
 #else
 #if USE_KDE
@@ -1659,17 +1688,16 @@ void MainWindow::setFonts()
     }
 }
 
+extern KAboutData *appAboutData;
+
 void MainWindow::about()
 {
-#ifdef USE_KDE
-    const KAboutData *aboutData = KGlobal::instance()->aboutData();
     if( mAboutApp == 0 )
     {
-        mAboutApp = new KAboutApplication( aboutData, this, "about", false );
+        mAboutApp = new KAboutApplication( appAboutData, this, "about", false );
         connect( mAboutApp, SIGNAL(finished()), this, SLOT( dialogFinished()) );
     }
     mAboutApp->show();
-#endif
 }
 
 void MainWindow::about_kde()
@@ -1697,11 +1725,11 @@ void MainWindow::timerExpired()
     {
         delete mAboutKDE; mAboutKDE = NULL;
     }
+#endif
     if( mAboutApp != 0 && mAboutApp->isVisible() == false )
     {
         delete mAboutApp; mAboutApp = NULL;
     }
-#endif
 }
 
 void MainWindow::changeIcons(int)
@@ -1753,9 +1781,9 @@ void MainWindow::loadMenu()
     menuFunction->insertSeparator();
     menuFunction->insertItem(i18n("Always on top"), this, SLOT(toggleOnTop()), 0, mnuOnTop);
 #endif
-#ifdef USE_KDE
     menuFunction->insertSeparator();
     menuFunction->insertItem(Icon("licq"), i18n("&About SIM"), this, SLOT(about()));
+#ifdef USE_KDE
     menuFunction->insertItem(Icon("about_kde"), i18n("About &KDE"), this, SLOT(about_kde()));
 #endif
     menuFunction->insertSeparator();
@@ -1809,12 +1837,12 @@ QWidget *MainWindow::ftWindow(unsigned long uin, const string &fileName)
     QWidget *w;
     while ( (w=it.current()) != NULL) {
         ++it;
-        if (w->inherits("FileTransfer")){
+        if (w->inherits("FileTransferDlg")){
             FileTransferDlg *ft = static_cast<FileTransferDlg*>(w);
             if (ft->file && (ft->file->getUin() == uin) && (ft->file->shortName() == fileName))
                 res = ft;
         }else{
-            QObjectList *l = w->queryList("ChatWindow");
+            QObjectList *l = w->queryList("FileTransferDlg");
             QObjectListIt it(*l);
             QObject *obj;
             while ((obj=it.current()) != NULL){
@@ -1833,6 +1861,47 @@ QWidget *MainWindow::ftWindow(unsigned long uin, const string &fileName)
 void MainWindow::ftClose()
 {
     emit ftChanged();
+}
+
+void MainWindow::initTranslator()
+{
+    if (translator)
+        qApp->removeTranslator(translator);
+    translator = NULL;
+    string lang;
+#ifdef WIN32
+    char buff[256];
+    int res = GetLocaleInfoA(LOCALE_USER_DEFAULT, LOCALE_SABBREVLANGNAME, buff, sizeof(buff));
+    if (res){
+        lang += tolower(buff[0]);
+        lang += tolower(buff[1]);
+    }
+#else
+    char *p = getenv("LANG");
+    if (p){
+        for (; *p; p++){
+            if (*p == '.') break;
+            lang += *p;
+        }
+    }
+#endif
+    if (lang.size() == 0) return;
+    string s = "po";
+#if WIN32
+    s += "\\";
+#else
+    s += "/";
+#endif
+    for (const char *p = lang.c_str(); *p; p++)
+        s += tolower(*p);
+    s += ".qm";
+    QFile f(QString::fromLocal8Bit(app_file(s.c_str())));
+    if (!f.exists()) return;
+    translator = new QTranslator(this);
+    translator->load(f.name());
+    qApp->installTranslator(translator);
+    appAboutData->setTranslator(I18N_NOOP("_: NAME OF TRANSLATORS\nYour names"),
+                                I18N_NOOP("_: EMAIL OF TRANSLATORS\nYour emails"));
 }
 
 #ifndef _WINDOWS

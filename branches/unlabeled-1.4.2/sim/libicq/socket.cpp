@@ -490,7 +490,7 @@ void Socket::remove()
     m_delete = true;
 }
 
-bool Socket::getLocalAddr(char *&host, unsigned short &port)
+bool Socket::getLocalAddr(char *&host, unsigned short &port, unsigned long remote_ip)
 {
     struct sockaddr_in addr;
     socklen_t sizeofAddr = sizeof(addr);
@@ -498,6 +498,30 @@ bool Socket::getLocalAddr(char *&host, unsigned short &port)
         return false;
     host = inet_ntoa(addr.sin_addr);
     port = htons(addr.sin_port);
+    if (remote_ip || (addr.sin_addr.s_addr == 0x7F000001) || (addr.sin_addr.s_addr == 0)){
+        char hostname[128] ;
+        if(gethostname(hostname, sizeof(hostname)) >= 0){
+            struct hostent *phe = gethostbyname (hostname);
+            if (phe){
+                int n_match = 0;
+                unsigned long res = 0;
+                for (char **p_ip = phe->h_addr_list; *p_ip; p_ip++){
+                    unsigned long ip = *((unsigned long*)(*p_ip));
+                    unsigned n = 1 << 31;
+                    int n_ip_match;
+                    for (n_ip_match = 0; n_ip_match < 32; n_ip_match++, n = (n >> 1))
+                        if ((ip & n) != (remote_ip & n)) break;
+                    if (n_ip_match >= n_match){
+                        n_match = n_ip_match;
+                        res = ip;
+                    }
+                }
+                in_addr addr;
+                addr.s_addr = res;
+                host = inet_ntoa(addr);
+            }
+        }
+    }
     return true;
 }
 

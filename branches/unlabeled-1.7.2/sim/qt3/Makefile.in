@@ -1,5 +1,5 @@
 # Makefile.in generated automatically by automake 1.5 from Makefile.am.
-# KDE tags expanded automatically by am_edit - $Revision: 1.8 $ 
+# KDE tags expanded automatically by am_edit - $Revision: 1.14 $ 
 
 # Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
 # Free Software Foundation, Inc.
@@ -88,7 +88,6 @@ GCJFLAGS = @GCJFLAGS@
 GLINC = @GLINC@
 GLLIB = @GLLIB@
 GMSGFMT = @GMSGFMT@
-HAVE_LIB = @HAVE_LIB@
 IDL = @IDL@
 IDL_DEPENDENCIES = @IDL_DEPENDENCIES@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
@@ -111,7 +110,6 @@ KDE_USE_FINAL_FALSE = @KDE_USE_FINAL_FALSE@
 KDE_USE_FINAL_TRUE = @KDE_USE_FINAL_TRUE@
 KDE_XSL_STYLESHEET = @KDE_XSL_STYLESHEET@
 LEX = @LEX@
-LIB = @LIB@
 LIBCOMPAT = @LIBCOMPAT@
 LIBCRYPT = @LIBCRYPT@
 LIBDL = @LIBDL@
@@ -152,8 +150,6 @@ LIB_SMB = @LIB_SMB@
 LIB_X11 = @LIB_X11@
 LIB_XEXT = @LIB_XEXT@
 LN_S = @LN_S@
-LTLIB = @LTLIB@
-LTLIBICONV = @LTLIBICONV@
 MCOPIDL = @MCOPIDL@
 MEINPROC = @MEINPROC@
 MICO_INCLUDES = @MICO_INCLUDES@
@@ -574,7 +570,7 @@ clean-moc-classes:
 	-rm -f  libqt3_a_meta_unload.cpp
 
 #>+ 11
-libqt3_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/qtextbrowser.cpp $(srcdir)/qsimplerichtext.cpp $(srcdir)/qkeysequence.cpp $(srcdir)/qtextedit.cpp $(srcdir)/qstylesheet.cpp $(srcdir)/qrichtext_p.cpp $(srcdir)/qrichtext.cpp $(srcdir)/qcomplextext.cpp libqt3_a_meta_unload.cpp
+libqt3_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/qtextbrowser.cpp $(srcdir)/qsimplerichtext.cpp $(srcdir)/qkeysequence.cpp $(srcdir)/qtextedit.cpp $(srcdir)/qstylesheet.cpp $(srcdir)/qrichtext_p.cpp $(srcdir)/qrichtext.cpp $(srcdir)/qcomplextext.cpp $(srcdir)/libqt3_a_meta_unload.cpp
 	@echo 'creating libqt3_a.all_cpp.cpp ...'; \
 	rm -f libqt3_a.all_cpp.files libqt3_a.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> libqt3_a.all_cpp.final; \

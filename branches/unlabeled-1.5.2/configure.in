@@ -61,7 +61,12 @@ dnl PACKAGE set before
 AC_STDC_HEADERS
 AM_ICONV
 AM_PROG_LEX
+AC_CYGWIN
+if "$CYGWIN" = "yes"; then
+ LDFLAGS="$LDFLAGS --enable-auto-import"
+fi
 AC_CHECK_HEADERS(inttypes.h stdint.h unistd.h)
+AC_TM_GMTOFF
 XSS_LIBS="no"
 ac_save_CPPFLAGS="$CPPFLAGS"
 ac_save_LDFLAGS="$LDFLAGS"

@@ -24,9 +24,9 @@
 #include "icons.h"
 #include "transparent.h"
 
-#if USE_KDE
+#ifdef USE_KDE
 #include <kglobal.h>
-#if HAVE_KROOTPIXMAP_H
+#ifdef HAVE_KROOTPIXMAP_H
 #include <krootpixmap.h>
 #endif
 #endif
@@ -38,14 +38,16 @@
 #include <qpainter.h>
 #include <qregexp.h>
 
+#ifdef WIN32
 #if _MSC_VER > 1020
 #pragma warning(disable:4786)
+#endif
 #endif
 
 QString ParseText(const char *text);
 
-TextShow::TextShow(QWidget *p)
-        : QTextBrowser(p)
+TextShow::TextShow(QWidget *p, const char *name)
+        : QTextBrowser(p, name)
 {
     bg = new TransparentBg(this);
     baseBG = colorGroup().color(QColorGroup::Base);
@@ -396,18 +398,13 @@ void MsgView::addMessage(ICQMessage *msg, bool bUnread, bool bSet)
     int x = contentsX();
     int y = contentsY();
     QString s(makeMessage(msg, bUnread));
-    QString anchor;
-    if (bSet) QString::number(msg->getUin()) + "." + QString::number(msg->Id);
+    if (bSet) curAnchor = QString::number(msg->getUin()) + "." + QString::number(msg->Id);
     if (bBack){
-        setText(s + text(), anchor);
+        setText(s + text(), curAnchor);
     }else{
-        setText(text() + s, anchor);
+        setText(text() + s, curAnchor);
     }
-    if (bSet){
-        curAnchor = anchor;
-        scrollToAnchor(curAnchor);
-        return;
-    }
+    scrollToAnchor(curAnchor);
     setContentsPos(x, y);
 }
 

@@ -15,12 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
+#include "defs.h"
 #include "icons.h"
 #include "mainwin.h"
+#include "about.h"
 #include "log.h"
 
 #if USE_KDE
@@ -30,11 +28,12 @@
 #include <kglobal.h>
 #else
 #include <qapplication.h>
+#define I18N_NOOP(A)	(A)
 #endif
 
 MainWindow *pMain = NULL;
 
-#if USE_KDE
+#ifdef USE_KDE
 
 KApplication *kApp = NULL;
 
@@ -65,6 +64,19 @@ QString i18n(const char *text)
     return QObject::tr(text);
 }
 
+class SimApp : public QApplication
+{
+public:
+    SimApp(int &argc, char **argv)
+            : QApplication(argc, argv) {}
+protected:
+    void saveState(QSessionManager&);
+};
+
+#endif
+
+#if !defined(USE_KDE) || (QT_VERSION < 300)
+
 QString put_n_in(const QString &orig, unsigned long n)
 {
     QString ret = orig;
@@ -82,15 +94,6 @@ QString i18n(const char *singular, const char *plural, unsigned long n)
     return put_n_in(QObject::tr(plural), n);
 }
 
-class SimApp : public QApplication
-{
-public:
-    SimApp(int &argc, char **argv)
-            : QApplication(argc, argv) {}
-protected:
-    void saveState(QSessionManager&);
-};
-
 #endif
 
 void SimApp::saveState(QSessionManager &sm)
@@ -102,25 +105,29 @@ void SimApp::saveState(QSessionManager &sm)
 int _argc;
 char **_argv;
 
+KAboutData *appAboutData = NULL;
+
 int main(int argc, char *argv[])
 {
     _argc = argc;
     _argv = argv;
 
     QApplication::setColorSpec( QApplication::ManyColor );
-#if USE_KDE
+
     KAboutData aboutData(PACKAGE,
-                         I18N_NOOP(PACKAGE),
+                         I18N_NOOP("SIM"),
                          VERSION,
                          I18N_NOOP("ICQ client"),
                          KAboutData::License_GPL,
                          "Copyright (C) 2002, Vladimir Shutoff",
                          0,
-                         "http://sim.shutoff.spb.ru/",
-                         "shutoff@mail.ru");
+                         "http://sim-icq.sourceforge.net/",
+                         "sim-icq-main@lists.sourceforge.net");
 
     aboutData.addAuthor("Vladimir Shutoff",I18N_NOOP("Maintainer"),"shutoff@mail.ru");
+    appAboutData = &aboutData;
 
+#if USE_KDE
     KCmdLineArgs::init( argc, argv, &aboutData );
     KCmdLineOptions options[] =
         {
@@ -155,6 +162,7 @@ int main(int argc, char *argv[])
             log_level = atoi(argv[++i]);
     }
 #endif
+
     if (!pMain->init())
         return 0;
     app.setMainWidget(pMain);

@@ -1,5 +1,5 @@
 # Makefile.in generated automatically by automake 1.5 from Makefile.am.
-# KDE tags expanded automatically by am_edit - $Revision: 1.8 $ 
+# KDE tags expanded automatically by am_edit - $Revision: 1.14 $ 
 
 # Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
 # Free Software Foundation, Inc.
@@ -88,7 +88,6 @@ GCJFLAGS = @GCJFLAGS@
 GLINC = @GLINC@
 GLLIB = @GLLIB@
 GMSGFMT = @GMSGFMT@
-HAVE_LIB = @HAVE_LIB@
 IDL = @IDL@
 IDL_DEPENDENCIES = @IDL_DEPENDENCIES@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
@@ -111,7 +110,6 @@ KDE_USE_FINAL_FALSE = @KDE_USE_FINAL_FALSE@
 KDE_USE_FINAL_TRUE = @KDE_USE_FINAL_TRUE@
 KDE_XSL_STYLESHEET = @KDE_XSL_STYLESHEET@
 LEX = @LEX@
-LIB = @LIB@
 LIBCOMPAT = @LIBCOMPAT@
 LIBCRYPT = @LIBCRYPT@
 LIBDL = @LIBDL@
@@ -152,8 +150,6 @@ LIB_SMB = @LIB_SMB@
 LIB_X11 = @LIB_X11@
 LIB_XEXT = @LIB_XEXT@
 LN_S = @LN_S@
-LTLIB = @LTLIB@
-LTLIBICONV = @LTLIBICONV@
 MCOPIDL = @MCOPIDL@
 MEINPROC = @MEINPROC@
 MICO_INCLUDES = @MICO_INCLUDES@
@@ -232,11 +228,11 @@ noinst_LIBRARIES = libui.a
 
 #>- libui_a_METASOURCES = AUTO
 
-#>- libui_a_SOURCES = xosdsetup.cpp xosdbase.ui effect.cpp networkbase.ui network.cpp filetransferbase.ui filetransfer.cpp accept.cpp acceptbase.ui ballonmsg.cpp qcolorbutton.cpp fontsetupbase.ui fontsetup.cpp emaileditbase.ui emailedit.cpp pastinfo.cpp pastinfobase.ui autoreplybase.ui autoreply.cpp alertmsgbase.ui alertmsg.cpp interestsinfobase.ui interestsinfo.cpp msgdialogbase.ui msgdialog.cpp alertdialogbase.ui alertdialog.cpp phonedetails.cpp phonebase.ui pagerdetails.cpp pagerbase.ui addphonebase.ui addphone.cpp miscsetupbase.ui miscsetup.cpp soundsetupbase.ui soundsetup.cpp editfile.cpp phonebookbase.ui phonebook.cpp spellsetupbase.ui spellsetup.cpp userinfobase.ui userinfo.cpp setupdlgbase.ui setupdlg.cpp searchdlg.cpp enable.cpp workinfo.cpp themesetup.cpp statussetup.cpp searchbase.cpp moreinfo.cpp maininfo.cpp listsec.cpp homeinfo.cpp generalsec.cpp changepasswd.cpp workinfobase.ui themesetupbase.ui statussetupbase.ui searchbase.ui moreinfobase.ui maininfobase.ui listsecbase.ui homeinfobase.ui generalsecbase.ui changepasswdbase.ui aboutinfobase.ui aboutinfo.cpp 
+#>- libui_a_SOURCES = aboutdlgbase.ui aboutdlg.cpp xosdsetup.cpp xosdbase.ui effect.cpp networkbase.ui network.cpp filetransferbase.ui filetransfer.cpp accept.cpp acceptbase.ui ballonmsg.cpp qcolorbutton.cpp fontsetupbase.ui fontsetup.cpp emaileditbase.ui emailedit.cpp pastinfo.cpp pastinfobase.ui autoreplybase.ui autoreply.cpp alertmsgbase.ui alertmsg.cpp interestsinfobase.ui interestsinfo.cpp msgdialogbase.ui msgdialog.cpp alertdialogbase.ui alertdialog.cpp phonedetails.cpp phonebase.ui pagerdetails.cpp pagerbase.ui addphonebase.ui addphone.cpp miscsetupbase.ui miscsetup.cpp soundsetupbase.ui soundsetup.cpp editfile.cpp phonebookbase.ui phonebook.cpp spellsetupbase.ui spellsetup.cpp userinfobase.ui userinfo.cpp setupdlgbase.ui setupdlg.cpp searchdlg.cpp enable.cpp workinfo.cpp themesetup.cpp statussetup.cpp searchbase.cpp moreinfo.cpp maininfo.cpp listsec.cpp homeinfo.cpp generalsec.cpp changepasswd.cpp workinfobase.ui themesetupbase.ui statussetupbase.ui searchbase.ui moreinfobase.ui maininfobase.ui listsecbase.ui homeinfobase.ui generalsecbase.ui changepasswdbase.ui aboutinfobase.ui aboutinfo.cpp 
 #>+ 1
-libui_a_SOURCES=xosdsetup.cpp  effect.cpp  network.cpp  filetransfer.cpp accept.cpp  ballonmsg.cpp qcolorbutton.cpp  fontsetup.cpp  emailedit.cpp pastinfo.cpp   autoreply.cpp  alertmsg.cpp  interestsinfo.cpp  msgdialog.cpp  alertdialog.cpp phonedetails.cpp  pagerdetails.cpp   addphone.cpp  miscsetup.cpp  soundsetup.cpp editfile.cpp  phonebook.cpp  spellsetup.cpp  userinfo.cpp  setupdlg.cpp searchdlg.cpp enable.cpp workinfo.cpp themesetup.cpp statussetup.cpp searchbase.cpp moreinfo.cpp maininfo.cpp listsec.cpp homeinfo.cpp generalsec.cpp changepasswd.cpp            aboutinfo.cpp  xosdbase.cpp networkbase.cpp filetransferbase.cpp acceptbase.cpp fontsetupbase.cpp emaileditbase.cpp pastinfobase.cpp autoreplybase.cpp alertmsgbase.cpp interestsinfobase.cpp msgdialogbase.cpp alertdialogbase.cpp phonebase.cpp pagerbase.cpp addphonebase.cpp miscsetupbase.cpp soundsetupbase.cpp phonebookbase.cpp spellsetupbase.cpp userinfobase.cpp setupdlgbase.cpp workinfobase.cpp themesetupbase.cpp statussetupbase.cpp searchbase.cpp moreinfobase.cpp maininfobase.cpp listsecbase.cpp homeinfobase.cpp generalsecbase.cpp changepasswdbase.cpp aboutinfobase.cpp
+libui_a_SOURCES= aboutdlg.cpp xosdsetup.cpp  effect.cpp  network.cpp  filetransfer.cpp accept.cpp  ballonmsg.cpp qcolorbutton.cpp  fontsetup.cpp  emailedit.cpp pastinfo.cpp   autoreply.cpp  alertmsg.cpp  interestsinfo.cpp  msgdialog.cpp  alertdialog.cpp phonedetails.cpp  pagerdetails.cpp   addphone.cpp  miscsetup.cpp  soundsetup.cpp editfile.cpp  phonebook.cpp  spellsetup.cpp  userinfo.cpp  setupdlg.cpp searchdlg.cpp enable.cpp workinfo.cpp themesetup.cpp statussetup.cpp searchbase.cpp moreinfo.cpp maininfo.cpp listsec.cpp homeinfo.cpp generalsec.cpp changepasswd.cpp            aboutinfo.cpp  aboutdlgbase.cpp xosdbase.cpp networkbase.cpp filetransferbase.cpp acceptbase.cpp fontsetupbase.cpp emaileditbase.cpp pastinfobase.cpp autoreplybase.cpp alertmsgbase.cpp interestsinfobase.cpp msgdialogbase.cpp alertdialogbase.cpp phonebase.cpp pagerbase.cpp addphonebase.cpp miscsetupbase.cpp soundsetupbase.cpp phonebookbase.cpp spellsetupbase.cpp userinfobase.cpp setupdlgbase.cpp workinfobase.cpp themesetupbase.cpp statussetupbase.cpp searchbase.cpp moreinfobase.cpp maininfobase.cpp listsecbase.cpp homeinfobase.cpp generalsecbase.cpp changepasswdbase.cpp aboutinfobase.cpp
 
-EXTRA_DIST = aboutinfo.cpp aboutinfo.h aboutinfobase.ui changepasswdbase.ui generalsecbase.ui homeinfobase.ui listsecbase.ui maininfobase.ui Makefile.am moreinfobase.ui searchbase.ui statussetupbase.ui themesetupbase.ui workinfobase.ui changepasswd.cpp changepasswd.h generalsec.cpp generalsec.h homeinfo.cpp homeinfo.h listsec.cpp listsec.h maininfo.cpp maininfo.h moreinfo.cpp moreinfo.h searchbase.cpp searchbase.h statussetup.cpp statussetup.h themesetup.cpp themesetup.h workinfo.cpp workinfo.h enable.cpp enable.h searchdlg.cpp searchdlg.h setupdlg.cpp setupdlg.h setupdlgbase.ui userinfo.cpp userinfo.h userinfobase.ui spellsetup.cpp spellsetup.h spellsetupbase.ui phonebook.cpp phonebook.h phonebookbase.ui editfile.cpp editfile.h soundsetup.cpp soundsetup.h soundsetupbase.ui miscsetup.cpp miscsetup.h miscsetupbase.ui addphone.cpp addphone.h addphonebase.ui pagerbase.ui pagerdetails.cpp pagerdetails.h phonebase.ui phonedetails.cpp phonedetails.h alertdialog.cpp alertdialog.h alertdialogbase.ui msgdialog.cpp msgdialog.h msgdialogbase.ui interestsinfo.cpp interestsinfo.h interestsinfobase.ui alertmsg.cpp alertmsg.h alertmsgbase.ui autoreply.cpp autoreply.h autoreplybase.ui pastinfobase.ui pastinfo.h pastinfo.cpp emailedit.cpp emailedit.h emaileditbase.ui fontsetup.cpp fontsetup.h fontsetupbase.ui qcolorbutton.cpp qcolorbutton.h ballonmsg.cpp ballonmsg.h acceptbase.ui accept.h accept.cpp filetransfer.cpp filetransfer.h filetransferbase.ui network.cpp network.h networkbase.ui effect.cpp effect.h xosdbase.ui xosdsetup.cpp xosdsetup.h 
+EXTRA_DIST = aboutinfo.cpp aboutinfo.h aboutinfobase.ui changepasswdbase.ui generalsecbase.ui homeinfobase.ui listsecbase.ui maininfobase.ui Makefile.am moreinfobase.ui searchbase.ui statussetupbase.ui themesetupbase.ui workinfobase.ui changepasswd.cpp changepasswd.h generalsec.cpp generalsec.h homeinfo.cpp homeinfo.h listsec.cpp listsec.h maininfo.cpp maininfo.h moreinfo.cpp moreinfo.h searchbase.cpp searchbase.h statussetup.cpp statussetup.h themesetup.cpp themesetup.h workinfo.cpp workinfo.h enable.cpp enable.h searchdlg.cpp searchdlg.h setupdlg.cpp setupdlg.h setupdlgbase.ui userinfo.cpp userinfo.h userinfobase.ui spellsetup.cpp spellsetup.h spellsetupbase.ui phonebook.cpp phonebook.h phonebookbase.ui editfile.cpp editfile.h soundsetup.cpp soundsetup.h soundsetupbase.ui miscsetup.cpp miscsetup.h miscsetupbase.ui addphone.cpp addphone.h addphonebase.ui pagerbase.ui pagerdetails.cpp pagerdetails.h phonebase.ui phonedetails.cpp phonedetails.h alertdialog.cpp alertdialog.h alertdialogbase.ui msgdialog.cpp msgdialog.h msgdialogbase.ui interestsinfo.cpp interestsinfo.h interestsinfobase.ui alertmsg.cpp alertmsg.h alertmsgbase.ui autoreply.cpp autoreply.h autoreplybase.ui pastinfobase.ui pastinfo.h pastinfo.cpp emailedit.cpp emailedit.h emaileditbase.ui fontsetup.cpp fontsetup.h fontsetupbase.ui qcolorbutton.cpp qcolorbutton.h ballonmsg.cpp ballonmsg.h acceptbase.ui accept.h accept.cpp filetransfer.cpp filetransfer.h filetransferbase.ui network.cpp network.h networkbase.ui effect.cpp effect.h xosdbase.ui xosdsetup.cpp xosdsetup.h aboutdlg.cpp aboutdlg.h aboutdlgbase.ui 
 
 
 ####### kdevelop will overwrite this part!!! (end)############
@@ -249,37 +245,37 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 libui_a_AR = $(AR) cru
 libui_a_LIBADD =
-am_libui_a_OBJECTS = xosdsetup.$(OBJEXT) effect.$(OBJEXT) \
-	network.$(OBJEXT) filetransfer.$(OBJEXT) accept.$(OBJEXT) \
-	ballonmsg.$(OBJEXT) qcolorbutton.$(OBJEXT) fontsetup.$(OBJEXT) \
-	emailedit.$(OBJEXT) pastinfo.$(OBJEXT) autoreply.$(OBJEXT) \
-	alertmsg.$(OBJEXT) interestsinfo.$(OBJEXT) msgdialog.$(OBJEXT) \
-	alertdialog.$(OBJEXT) phonedetails.$(OBJEXT) \
-	pagerdetails.$(OBJEXT) addphone.$(OBJEXT) miscsetup.$(OBJEXT) \
-	soundsetup.$(OBJEXT) editfile.$(OBJEXT) phonebook.$(OBJEXT) \
-	spellsetup.$(OBJEXT) userinfo.$(OBJEXT) setupdlg.$(OBJEXT) \
-	searchdlg.$(OBJEXT) enable.$(OBJEXT) workinfo.$(OBJEXT) \
-	themesetup.$(OBJEXT) statussetup.$(OBJEXT) searchbase.$(OBJEXT) \
-	moreinfo.$(OBJEXT) maininfo.$(OBJEXT) listsec.$(OBJEXT) \
-	homeinfo.$(OBJEXT) generalsec.$(OBJEXT) changepasswd.$(OBJEXT) \
-	aboutinfo.$(OBJEXT)
+am_libui_a_OBJECTS = aboutdlg.$(OBJEXT) xosdsetup.$(OBJEXT) \
+	effect.$(OBJEXT) network.$(OBJEXT) filetransfer.$(OBJEXT) \
+	accept.$(OBJEXT) ballonmsg.$(OBJEXT) qcolorbutton.$(OBJEXT) \
+	fontsetup.$(OBJEXT) emailedit.$(OBJEXT) pastinfo.$(OBJEXT) \
+	autoreply.$(OBJEXT) alertmsg.$(OBJEXT) interestsinfo.$(OBJEXT) \
+	msgdialog.$(OBJEXT) alertdialog.$(OBJEXT) \
+	phonedetails.$(OBJEXT) pagerdetails.$(OBJEXT) \
+	addphone.$(OBJEXT) miscsetup.$(OBJEXT) soundsetup.$(OBJEXT) \
+	editfile.$(OBJEXT) phonebook.$(OBJEXT) spellsetup.$(OBJEXT) \
+	userinfo.$(OBJEXT) setupdlg.$(OBJEXT) searchdlg.$(OBJEXT) \
+	enable.$(OBJEXT) workinfo.$(OBJEXT) themesetup.$(OBJEXT) \
+	statussetup.$(OBJEXT) searchbase.$(OBJEXT) moreinfo.$(OBJEXT) \
+	maininfo.$(OBJEXT) listsec.$(OBJEXT) homeinfo.$(OBJEXT) \
+	generalsec.$(OBJEXT) changepasswd.$(OBJEXT) aboutinfo.$(OBJEXT)
 #>- libui_a_OBJECTS = $(am_libui_a_OBJECTS)
 #>+ 18
 libui_a_final_OBJECTS = libui_a.all_cpp.o 
-libui_a_nofinal_OBJECTS = xosdsetup.$(OBJEXT) effect.$(OBJEXT) \
-	network.$(OBJEXT) filetransfer.$(OBJEXT) accept.$(OBJEXT) \
-	ballonmsg.$(OBJEXT) qcolorbutton.$(OBJEXT) fontsetup.$(OBJEXT) \
-	emailedit.$(OBJEXT) pastinfo.$(OBJEXT) autoreply.$(OBJEXT) \
-	alertmsg.$(OBJEXT) interestsinfo.$(OBJEXT) msgdialog.$(OBJEXT) \
-	alertdialog.$(OBJEXT) phonedetails.$(OBJEXT) \
-	pagerdetails.$(OBJEXT) addphone.$(OBJEXT) miscsetup.$(OBJEXT) \
-	soundsetup.$(OBJEXT) editfile.$(OBJEXT) phonebook.$(OBJEXT) \
-	spellsetup.$(OBJEXT) userinfo.$(OBJEXT) setupdlg.$(OBJEXT) \
-	searchdlg.$(OBJEXT) enable.$(OBJEXT) workinfo.$(OBJEXT) \
-	themesetup.$(OBJEXT) statussetup.$(OBJEXT) searchbase.$(OBJEXT) \
-	moreinfo.$(OBJEXT) maininfo.$(OBJEXT) listsec.$(OBJEXT) \
-	homeinfo.$(OBJEXT) generalsec.$(OBJEXT) changepasswd.$(OBJEXT) \
-	aboutinfo.$(OBJEXT) xosdbase.$(OBJEXT) networkbase.$(OBJEXT) filetransferbase.$(OBJEXT) acceptbase.$(OBJEXT) fontsetupbase.$(OBJEXT) emaileditbase.$(OBJEXT) pastinfobase.$(OBJEXT) autoreplybase.$(OBJEXT) alertmsgbase.$(OBJEXT) interestsinfobase.$(OBJEXT) msgdialogbase.$(OBJEXT) alertdialogbase.$(OBJEXT) phonebase.$(OBJEXT) pagerbase.$(OBJEXT) addphonebase.$(OBJEXT) miscsetupbase.$(OBJEXT) soundsetupbase.$(OBJEXT) phonebookbase.$(OBJEXT) spellsetupbase.$(OBJEXT) userinfobase.$(OBJEXT) setupdlgbase.$(OBJEXT) workinfobase.$(OBJEXT) themesetupbase.$(OBJEXT) statussetupbase.$(OBJEXT) searchbase.$(OBJEXT) moreinfobase.$(OBJEXT) maininfobase.$(OBJEXT) listsecbase.$(OBJEXT) homeinfobase.$(OBJEXT) generalsecbase.$(OBJEXT) changepasswdbase.$(OBJEXT) aboutinfobase.$(OBJEXT) \
+libui_a_nofinal_OBJECTS = aboutdlg.$(OBJEXT) xosdsetup.$(OBJEXT) \
+	effect.$(OBJEXT) network.$(OBJEXT) filetransfer.$(OBJEXT) \
+	accept.$(OBJEXT) ballonmsg.$(OBJEXT) qcolorbutton.$(OBJEXT) \
+	fontsetup.$(OBJEXT) emailedit.$(OBJEXT) pastinfo.$(OBJEXT) \
+	autoreply.$(OBJEXT) alertmsg.$(OBJEXT) interestsinfo.$(OBJEXT) \
+	msgdialog.$(OBJEXT) alertdialog.$(OBJEXT) \
+	phonedetails.$(OBJEXT) pagerdetails.$(OBJEXT) \
+	addphone.$(OBJEXT) miscsetup.$(OBJEXT) soundsetup.$(OBJEXT) \
+	editfile.$(OBJEXT) phonebook.$(OBJEXT) spellsetup.$(OBJEXT) \
+	userinfo.$(OBJEXT) setupdlg.$(OBJEXT) searchdlg.$(OBJEXT) \
+	enable.$(OBJEXT) workinfo.$(OBJEXT) themesetup.$(OBJEXT) \
+	statussetup.$(OBJEXT) searchbase.$(OBJEXT) moreinfo.$(OBJEXT) \
+	maininfo.$(OBJEXT) listsec.$(OBJEXT) homeinfo.$(OBJEXT) \
+	generalsec.$(OBJEXT) changepasswd.$(OBJEXT) aboutinfo.$(OBJEXT) aboutdlgbase.$(OBJEXT) xosdbase.$(OBJEXT) networkbase.$(OBJEXT) filetransferbase.$(OBJEXT) acceptbase.$(OBJEXT) fontsetupbase.$(OBJEXT) emaileditbase.$(OBJEXT) pastinfobase.$(OBJEXT) autoreplybase.$(OBJEXT) alertmsgbase.$(OBJEXT) interestsinfobase.$(OBJEXT) msgdialogbase.$(OBJEXT) alertdialogbase.$(OBJEXT) phonebase.$(OBJEXT) pagerbase.$(OBJEXT) addphonebase.$(OBJEXT) miscsetupbase.$(OBJEXT) soundsetupbase.$(OBJEXT) phonebookbase.$(OBJEXT) spellsetupbase.$(OBJEXT) userinfobase.$(OBJEXT) setupdlgbase.$(OBJEXT) workinfobase.$(OBJEXT) themesetupbase.$(OBJEXT) statussetupbase.$(OBJEXT) searchbase.$(OBJEXT) moreinfobase.$(OBJEXT) maininfobase.$(OBJEXT) listsecbase.$(OBJEXT) homeinfobase.$(OBJEXT) generalsecbase.$(OBJEXT) changepasswdbase.$(OBJEXT) aboutinfobase.$(OBJEXT) \
 	libui_a_meta_unload.o 
 @KDE_USE_FINAL_FALSE@libui_a_OBJECTS = $(libui_a_nofinal_OBJECTS)
 @KDE_USE_FINAL_TRUE@libui_a_OBJECTS = $(libui_a_final_OBJECTS)
@@ -290,25 +286,26 @@ CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 depcomp = $(SHELL) $(top_srcdir)/admin/depcomp
-@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/aboutinfo.Po $(DEPDIR)/accept.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/addphone.Po $(DEPDIR)/alertdialog.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/alertmsg.Po $(DEPDIR)/autoreply.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/ballonmsg.Po $(DEPDIR)/changepasswd.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/editfile.Po $(DEPDIR)/effect.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/emailedit.Po $(DEPDIR)/enable.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/filetransfer.Po $(DEPDIR)/fontsetup.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/generalsec.Po $(DEPDIR)/homeinfo.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/interestsinfo.Po $(DEPDIR)/listsec.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/maininfo.Po $(DEPDIR)/miscsetup.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/moreinfo.Po $(DEPDIR)/msgdialog.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/network.Po $(DEPDIR)/pagerdetails.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/pastinfo.Po $(DEPDIR)/phonebook.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/phonedetails.Po $(DEPDIR)/qcolorbutton.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/searchbase.Po $(DEPDIR)/searchdlg.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/setupdlg.Po $(DEPDIR)/soundsetup.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/spellsetup.Po $(DEPDIR)/statussetup.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/themesetup.Po $(DEPDIR)/userinfo.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/workinfo.Po $(DEPDIR)/xosdsetup.Po
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/aboutdlg.Po $(DEPDIR)/aboutinfo.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/accept.Po $(DEPDIR)/addphone.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/alertdialog.Po $(DEPDIR)/alertmsg.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/autoreply.Po $(DEPDIR)/ballonmsg.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/changepasswd.Po $(DEPDIR)/editfile.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/effect.Po $(DEPDIR)/emailedit.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/enable.Po $(DEPDIR)/filetransfer.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/fontsetup.Po $(DEPDIR)/generalsec.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/homeinfo.Po $(DEPDIR)/interestsinfo.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/listsec.Po $(DEPDIR)/maininfo.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/miscsetup.Po $(DEPDIR)/moreinfo.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/msgdialog.Po $(DEPDIR)/network.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/pagerdetails.Po $(DEPDIR)/pastinfo.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/phonebook.Po $(DEPDIR)/phonedetails.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/qcolorbutton.Po $(DEPDIR)/searchbase.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/searchdlg.Po $(DEPDIR)/setupdlg.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/soundsetup.Po $(DEPDIR)/spellsetup.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/statussetup.Po $(DEPDIR)/themesetup.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/userinfo.Po $(DEPDIR)/workinfo.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/xosdsetup.Po
 #>- CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 #>- $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 #>+ 2
@@ -374,6 +371,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/aboutdlg.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/aboutinfo.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/accept.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/addphone.Po@am__quote@
@@ -470,7 +468,7 @@ distclean-tags:
 
 #>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 #>+ 4
-KDE_DIST=acceptbase.h statussetupbase.h themesetupbase.h fontsetupbase.h userinfobase.h pagerbase.h msgdialogbase.h phonebase.h listsecbase.h setupdlgbase.h alertdialogbase.h spellsetupbase.h changepasswdbase.h generalsecbase.h xosdbase.h addphonebase.h phonebookbase.h workinfobase.h maininfobase.h homeinfobase.h soundsetupbase.h miscsetupbase.h moreinfobase.h pastinfobase.h filetransferbase.h alertmsgbase.h autoreplybase.h aboutinfobase.h networkbase.h interestsinfobase.h emaileditbase.h 
+KDE_DIST=acceptbase.h statussetupbase.h themesetupbase.h fontsetupbase.h userinfobase.h pagerbase.h libui.a msgdialogbase.h phonebase.h listsecbase.h setupdlgbase.h alertdialogbase.h spellsetupbase.h changepasswdbase.h generalsecbase.h xosdbase.h addphonebase.h phonebookbase.h workinfobase.h maininfobase.h homeinfobase.h soundsetupbase.h miscsetupbase.h moreinfobase.h pastinfobase.h filetransferbase.h alertmsgbase.h autoreplybase.h aboutinfobase.h networkbase.h interestsinfobase.h emaileditbase.h 
 
 DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
 
@@ -582,7 +580,18 @@ uninstall-am: uninstall-info-am
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
 
-#>+ 353
+#>+ 364
+aboutdlgbase.cpp: $(srcdir)/aboutdlgbase.ui aboutdlgbase.h aboutdlgbase.moc
+	rm -f aboutdlgbase.cpp
+	echo '#include "defs.h"' > aboutdlgbase.cpp
+	$(UIC) -tr ${UIC_TR} -i aboutdlgbase.h $(srcdir)/aboutdlgbase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_aboutdlgbase,g" >> aboutdlgbase.cpp || rm -f aboutdlgbase.cpp
+	echo '#include "aboutdlgbase.moc"' >> aboutdlgbase.cpp
+
+aboutdlgbase.h: $(srcdir)/aboutdlgbase.ui
+	$(UIC) -o aboutdlgbase.h $(srcdir)/aboutdlgbase.ui
+
+aboutdlgbase.moc: aboutdlgbase.h
+	$(MOC) aboutdlgbase.h -o aboutdlgbase.moc
 xosdbase.cpp: $(srcdir)/xosdbase.ui xosdbase.h xosdbase.moc
 	rm -f xosdbase.cpp
 	echo '#include "defs.h"' > xosdbase.cpp
@@ -989,6 +998,10 @@ spellsetup.moc: $(srcdir)/spellsetup.h
 	$(MOC) $(srcdir)/spellsetup.h -o spellsetup.moc
 
 #>+ 3
+aboutdlg.moc: $(srcdir)/aboutdlg.h
+	$(MOC) $(srcdir)/aboutdlg.h -o aboutdlg.moc
+
+#>+ 3
 pagerdetails.moc: $(srcdir)/pagerdetails.h
 	$(MOC) $(srcdir)/pagerdetails.h -o pagerdetails.moc
 
@@ -1078,11 +1091,12 @@ ballonmsg.moc: $(srcdir)/ballonmsg.h
 
 #>+ 3
 clean-metasources:
-	-rm -f  phonedetails.moc themesetup.moc autoreply.moc editfile.moc aboutinfo.moc setupdlg.moc fontsetup.moc alertdialog.moc network.moc userinfo.moc searchdlg.moc xosdsetup.moc spellsetup.moc pagerdetails.moc homeinfo.moc msgdialog.moc changepasswd.moc generalsec.moc soundsetup.moc miscsetup.moc moreinfo.moc addphone.moc pastinfo.moc filetransfer.moc phonebook.moc qcolorbutton.moc interestsinfo.moc emailedit.moc workinfo.moc accept.moc maininfo.moc statussetup.moc listsec.moc alertmsg.moc ballonmsg.moc
+	-rm -f  phonedetails.moc themesetup.moc autoreply.moc editfile.moc aboutinfo.moc setupdlg.moc fontsetup.moc alertdialog.moc network.moc userinfo.moc searchdlg.moc xosdsetup.moc spellsetup.moc aboutdlg.moc pagerdetails.moc homeinfo.moc msgdialog.moc changepasswd.moc generalsec.moc soundsetup.moc miscsetup.moc moreinfo.moc addphone.moc pastinfo.moc filetransfer.moc phonebook.moc qcolorbutton.moc interestsinfo.moc emailedit.moc workinfo.moc accept.moc maininfo.moc statussetup.moc listsec.moc alertmsg.moc ballonmsg.moc
 
-#>+ 35
+#>+ 36
 clean-ui:
 	-rm -f \
+	aboutdlgbase.cpp aboutdlgbase.h aboutdlgbase.moc \
 	xosdbase.cpp xosdbase.h xosdbase.moc \
 	networkbase.cpp networkbase.h networkbase.moc \
 	filetransferbase.cpp filetransferbase.h filetransferbase.moc \
@@ -1133,12 +1147,12 @@ force-reedit:
 
 
 #>+ 15
-libui_a_meta_unload.cpp:  phonedetails.moc autoreplybase.moc aboutinfobase.moc fontsetupbase.moc themesetup.moc autoreply.moc aboutinfo.moc fontsetup.moc spellsetupbase.moc searchdlg.moc spellsetup.moc searchbase.moc generalsecbase.moc pagerdetails.moc phonebase.moc soundsetupbase.moc generalsec.moc soundsetup.moc addphonebase.moc pastinfobase.moc phonebookbase.moc addphone.moc pastinfo.moc phonebook.moc interestsinfobase.moc workinfobase.moc maininfobase.moc interestsinfo.moc workinfo.moc statussetupbase.moc maininfo.moc statussetup.moc alertdialogbase.moc setupdlgbase.moc networkbase.moc userinfobase.moc editfile.moc setupdlg.moc alertdialog.moc pagerbase.moc network.moc userinfo.moc xosdsetup.moc homeinfobase.moc msgdialogbase.moc changepasswdbase.moc homeinfo.moc msgdialog.moc miscsetupbase.moc changepasswd.moc xosdbase.moc moreinfobase.moc miscsetup.moc moreinfo.moc filetransferbase.moc filetransfer.moc emaileditbase.moc acceptbase.moc qcolorbutton.moc emailedit.moc accept.moc listsecbase.moc listsec.moc alertmsgbase.moc ballonmsg.moc alertmsg.moc themesetupbase.moc
+libui_a_meta_unload.cpp:  phonedetails.moc autoreplybase.moc aboutinfobase.moc fontsetupbase.moc themesetup.moc autoreply.moc aboutinfo.moc fontsetup.moc spellsetupbase.moc searchdlg.moc aboutdlgbase.moc spellsetup.moc searchbase.moc aboutdlg.moc generalsecbase.moc pagerdetails.moc soundsetupbase.moc phonebase.moc generalsec.moc soundsetup.moc addphonebase.moc pastinfobase.moc phonebookbase.moc addphone.moc pastinfo.moc phonebook.moc interestsinfobase.moc workinfobase.moc maininfobase.moc interestsinfo.moc workinfo.moc statussetupbase.moc maininfo.moc statussetup.moc alertdialogbase.moc setupdlgbase.moc networkbase.moc userinfobase.moc editfile.moc setupdlg.moc alertdialog.moc pagerbase.moc network.moc userinfo.moc xosdsetup.moc homeinfobase.moc msgdialogbase.moc changepasswdbase.moc homeinfo.moc msgdialog.moc miscsetupbase.moc changepasswd.moc xosdbase.moc moreinfobase.moc miscsetup.moc moreinfo.moc filetransferbase.moc filetransfer.moc emaileditbase.moc acceptbase.moc qcolorbutton.moc emailedit.moc accept.moc listsecbase.moc listsec.moc alertmsgbase.moc ballonmsg.moc alertmsg.moc themesetupbase.moc
 	@echo 'creating libui_a_meta_unload.cpp'
 	@-rm -f libui_a_meta_unload.cpp
 	@if test ${kde_qtver} = 2; then \
 		echo 'static const char * _metalist_libui_a[] = {' > libui_a_meta_unload.cpp ;\
-		cat  phonedetails.moc autoreplybase.moc aboutinfobase.moc fontsetupbase.moc themesetup.moc autoreply.moc aboutinfo.moc fontsetup.moc spellsetupbase.moc searchdlg.moc spellsetup.moc searchbase.moc generalsecbase.moc pagerdetails.moc phonebase.moc soundsetupbase.moc generalsec.moc soundsetup.moc addphonebase.moc pastinfobase.moc phonebookbase.moc addphone.moc pastinfo.moc phonebook.moc interestsinfobase.moc workinfobase.moc maininfobase.moc interestsinfo.moc workinfo.moc statussetupbase.moc maininfo.moc statussetup.moc alertdialogbase.moc setupdlgbase.moc networkbase.moc userinfobase.moc editfile.moc setupdlg.moc alertdialog.moc pagerbase.moc network.moc userinfo.moc xosdsetup.moc homeinfobase.moc msgdialogbase.moc changepasswdbase.moc homeinfo.moc msgdialog.moc miscsetupbase.moc changepasswd.moc xosdbase.moc moreinfobase.moc miscsetup.moc moreinfo.moc filetransferbase.moc filetransfer.moc emaileditbase.moc acceptbase.moc qcolorbutton.moc emailedit.moc accept.moc listsecbase.moc listsec.moc alertmsgbase.moc ballonmsg.moc alertmsg.moc themesetupbase.moc | grep 'char.*className' | sed -e 's/.*[^A-Za-z0-9_:]\([A-Za-z0-9_:]*\)::className.*$$/\"\1\",/' | sort | uniq >> libui_a_meta_unload.cpp ;\
+		cat  phonedetails.moc autoreplybase.moc aboutinfobase.moc fontsetupbase.moc themesetup.moc autoreply.moc aboutinfo.moc fontsetup.moc spellsetupbase.moc searchdlg.moc aboutdlgbase.moc spellsetup.moc searchbase.moc aboutdlg.moc generalsecbase.moc pagerdetails.moc soundsetupbase.moc phonebase.moc generalsec.moc soundsetup.moc addphonebase.moc pastinfobase.moc phonebookbase.moc addphone.moc pastinfo.moc phonebook.moc interestsinfobase.moc workinfobase.moc maininfobase.moc interestsinfo.moc workinfo.moc statussetupbase.moc maininfo.moc statussetup.moc alertdialogbase.moc setupdlgbase.moc networkbase.moc userinfobase.moc editfile.moc setupdlg.moc alertdialog.moc pagerbase.moc network.moc userinfo.moc xosdsetup.moc homeinfobase.moc msgdialogbase.moc changepasswdbase.moc homeinfo.moc msgdialog.moc miscsetupbase.moc changepasswd.moc xosdbase.moc moreinfobase.moc miscsetup.moc moreinfo.moc filetransferbase.moc filetransfer.moc emaileditbase.moc acceptbase.moc qcolorbutton.moc emailedit.moc accept.moc listsecbase.moc listsec.moc alertmsgbase.moc ballonmsg.moc alertmsg.moc themesetupbase.moc | grep 'char.*className' | sed -e 's/.*[^A-Za-z0-9_:]\([A-Za-z0-9_:]*\)::className.*$$/\"\1\",/' | sort | uniq >> libui_a_meta_unload.cpp ;\
 		echo '0};' >> libui_a_meta_unload.cpp ;\
 		echo '#include "defs.h"' >> libui_a_meta_unload.cpp ;\
 		echo '#ifdef USE_KDE' >> libui_a_meta_unload.cpp ;\
@@ -1153,11 +1167,11 @@ clean-moc-classes:
 	-rm -f  libui_a_meta_unload.cpp
 
 #>+ 11
-libui_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/xosdsetup.cpp $(srcdir)/effect.cpp $(srcdir)/network.cpp $(srcdir)/filetransfer.cpp $(srcdir)/accept.cpp $(srcdir)/ballonmsg.cpp $(srcdir)/qcolorbutton.cpp $(srcdir)/fontsetup.cpp $(srcdir)/emailedit.cpp $(srcdir)/pastinfo.cpp $(srcdir)/autoreply.cpp $(srcdir)/alertmsg.cpp $(srcdir)/interestsinfo.cpp $(srcdir)/msgdialog.cpp $(srcdir)/alertdialog.cpp $(srcdir)/phonedetails.cpp $(srcdir)/pagerdetails.cpp $(srcdir)/addphone.cpp $(srcdir)/miscsetup.cpp $(srcdir)/soundsetup.cpp $(srcdir)/editfile.cpp $(srcdir)/phonebook.cpp $(srcdir)/spellsetup.cpp $(srcdir)/userinfo.cpp $(srcdir)/setupdlg.cpp $(srcdir)/searchdlg.cpp $(srcdir)/enable.cpp $(srcdir)/workinfo.cpp $(srcdir)/themesetup.cpp $(srcdir)/statussetup.cpp searchbase.cpp $(srcdir)/moreinfo.cpp $(srcdir)/maininfo.cpp $(srcdir)/listsec.cpp $(srcdir)/homeinfo.cpp $(srcdir)/generalsec.cpp $(srcdir)/changepasswd.cpp $(srcdir)/aboutinfo.cpp xosdbase.cpp networkbase.cpp filetransferbase.cpp acceptbase.cpp fontsetupbase.cpp emaileditbase.cpp pastinfobase.cpp autoreplybase.cpp alertmsgbase.cpp interestsinfobase.cpp msgdialogbase.cpp alertdialogbase.cpp phonebase.cpp pagerbase.cpp addphonebase.cpp miscsetupbase.cpp soundsetupbase.cpp phonebookbase.cpp spellsetupbase.cpp userinfobase.cpp setupdlgbase.cpp workinfobase.cpp themesetupbase.cpp statussetupbase.cpp searchbase.cpp moreinfobase.cpp maininfobase.cpp listsecbase.cpp homeinfobase.cpp generalsecbase.cpp changepasswdbase.cpp aboutinfobase.cpp libui_a_meta_unload.cpp
+libui_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/aboutdlg.cpp $(srcdir)/xosdsetup.cpp $(srcdir)/effect.cpp $(srcdir)/network.cpp $(srcdir)/filetransfer.cpp $(srcdir)/accept.cpp $(srcdir)/ballonmsg.cpp $(srcdir)/qcolorbutton.cpp $(srcdir)/fontsetup.cpp $(srcdir)/emailedit.cpp $(srcdir)/pastinfo.cpp $(srcdir)/autoreply.cpp $(srcdir)/alertmsg.cpp $(srcdir)/interestsinfo.cpp $(srcdir)/msgdialog.cpp $(srcdir)/alertdialog.cpp $(srcdir)/phonedetails.cpp $(srcdir)/pagerdetails.cpp $(srcdir)/addphone.cpp $(srcdir)/miscsetup.cpp $(srcdir)/soundsetup.cpp $(srcdir)/editfile.cpp $(srcdir)/phonebook.cpp $(srcdir)/spellsetup.cpp $(srcdir)/userinfo.cpp $(srcdir)/setupdlg.cpp $(srcdir)/searchdlg.cpp $(srcdir)/enable.cpp $(srcdir)/workinfo.cpp $(srcdir)/themesetup.cpp $(srcdir)/statussetup.cpp $(srcdir)/searchbase.cpp $(srcdir)/moreinfo.cpp $(srcdir)/maininfo.cpp $(srcdir)/listsec.cpp $(srcdir)/homeinfo.cpp $(srcdir)/generalsec.cpp $(srcdir)/changepasswd.cpp $(srcdir)/aboutinfo.cpp aboutdlgbase.cpp $(srcdir)/xosdbase.cpp $(srcdir)/networkbase.cpp $(srcdir)/filetransferbase.cpp $(srcdir)/acceptbase.cpp $(srcdir)/fontsetupbase.cpp $(srcdir)/emaileditbase.cpp $(srcdir)/pastinfobase.cpp $(srcdir)/autoreplybase.cpp $(srcdir)/alertmsgbase.cpp $(srcdir)/interestsinfobase.cpp $(srcdir)/msgdialogbase.cpp $(srcdir)/alertdialogbase.cpp $(srcdir)/phonebase.cpp $(srcdir)/pagerbase.cpp $(srcdir)/addphonebase.cpp $(srcdir)/miscsetupbase.cpp $(srcdir)/soundsetupbase.cpp $(srcdir)/phonebookbase.cpp $(srcdir)/spellsetupbase.cpp $(srcdir)/userinfobase.cpp $(srcdir)/setupdlgbase.cpp $(srcdir)/workinfobase.cpp $(srcdir)/themesetupbase.cpp $(srcdir)/statussetupbase.cpp $(srcdir)/searchbase.cpp $(srcdir)/moreinfobase.cpp $(srcdir)/maininfobase.cpp $(srcdir)/listsecbase.cpp $(srcdir)/homeinfobase.cpp $(srcdir)/generalsecbase.cpp $(srcdir)/changepasswdbase.cpp $(srcdir)/aboutinfobase.cpp $(srcdir)/libui_a_meta_unload.cpp
 	@echo 'creating libui_a.all_cpp.cpp ...'; \
 	rm -f libui_a.all_cpp.files libui_a.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> libui_a.all_cpp.final; \
-	for file in xosdsetup.cpp effect.cpp network.cpp filetransfer.cpp accept.cpp ballonmsg.cpp qcolorbutton.cpp fontsetup.cpp emailedit.cpp pastinfo.cpp autoreply.cpp alertmsg.cpp interestsinfo.cpp msgdialog.cpp alertdialog.cpp phonedetails.cpp pagerdetails.cpp addphone.cpp miscsetup.cpp soundsetup.cpp editfile.cpp phonebook.cpp spellsetup.cpp userinfo.cpp setupdlg.cpp searchdlg.cpp enable.cpp workinfo.cpp themesetup.cpp statussetup.cpp searchbase.cpp moreinfo.cpp maininfo.cpp listsec.cpp homeinfo.cpp generalsec.cpp changepasswd.cpp aboutinfo.cpp xosdbase.cpp networkbase.cpp filetransferbase.cpp acceptbase.cpp fontsetupbase.cpp emaileditbase.cpp pastinfobase.cpp autoreplybase.cpp alertmsgbase.cpp interestsinfobase.cpp msgdialogbase.cpp alertdialogbase.cpp phonebase.cpp pagerbase.cpp addphonebase.cpp miscsetupbase.cpp soundsetupbase.cpp phonebookbase.cpp spellsetupbase.cpp userinfobase.cpp setupdlgbase.cpp workinfobase.cpp themesetupbase.cpp statussetupbase.cpp searchbase.cpp moreinfobase.cpp maininfobase.cpp listsecbase.cpp homeinfobase.cpp generalsecbase.cpp changepasswdbase.cpp aboutinfobase.cpp libui_a_meta_unload.cpp ; do \
+	for file in aboutdlg.cpp xosdsetup.cpp effect.cpp network.cpp filetransfer.cpp accept.cpp ballonmsg.cpp qcolorbutton.cpp fontsetup.cpp emailedit.cpp pastinfo.cpp autoreply.cpp alertmsg.cpp interestsinfo.cpp msgdialog.cpp alertdialog.cpp phonedetails.cpp pagerdetails.cpp addphone.cpp miscsetup.cpp soundsetup.cpp editfile.cpp phonebook.cpp spellsetup.cpp userinfo.cpp setupdlg.cpp searchdlg.cpp enable.cpp workinfo.cpp themesetup.cpp statussetup.cpp searchbase.cpp moreinfo.cpp maininfo.cpp listsec.cpp homeinfo.cpp generalsec.cpp changepasswd.cpp aboutinfo.cpp aboutdlgbase.cpp xosdbase.cpp networkbase.cpp filetransferbase.cpp acceptbase.cpp fontsetupbase.cpp emaileditbase.cpp pastinfobase.cpp autoreplybase.cpp alertmsgbase.cpp interestsinfobase.cpp msgdialogbase.cpp alertdialogbase.cpp phonebase.cpp pagerbase.cpp addphonebase.cpp miscsetupbase.cpp soundsetupbase.cpp phonebookbase.cpp spellsetupbase.cpp userinfobase.cpp setupdlgbase.cpp workinfobase.cpp themesetupbase.cpp statussetupbase.cpp searchbase.cpp moreinfobase.cpp maininfobase.cpp listsecbase.cpp homeinfobase.cpp generalsecbase.cpp changepasswdbase.cpp aboutinfobase.cpp libui_a_meta_unload.cpp ; do \
 	  echo "#include \"$$file\"" >> libui_a.all_cpp.files; \
 	  test ! -f $(srcdir)/$$file || egrep '^#pragma +implementation' $(srcdir)/$$file >> libui_a.all_cpp.final; \
 	done; \
@@ -1188,20 +1202,20 @@ cvs-clean:
 kde-rpo-clean:
 	-rm -f *.rpo
 
-#>+ 108
+#>+ 111
 msgdialog.lo: msgdialog.moc 
-$(srcdir)/autoreply.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
-$(srcdir)/filetransfer.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/autoreply.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/filetransfer.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 pastinfo.o: pastinfo.moc 
 filetransfer.o: filetransfer.moc 
 generalsec.lo: generalsec.moc 
-$(srcdir)/aboutinfo.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
-$(srcdir)/fontsetup.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
-$(srcdir)/alertdialog.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
-$(srcdir)/network.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
-$(srcdir)/qcolorbutton.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/aboutinfo.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/fontsetup.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/alertdialog.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/network.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/qcolorbutton.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 moreinfo.lo: moreinfo.moc 
-$(srcdir)/searchdlg.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/searchdlg.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 phonedetails.lo: phonedetails.moc 
 themesetup.lo: themesetup.moc 
 phonebook.lo: phonebook.moc 
@@ -1211,13 +1225,13 @@ network.lo: network.moc
 listsec.o: listsec.moc 
 interestsinfo.lo: interestsinfo.moc 
 maininfo.lo: maininfo.moc 
-$(srcdir)/alertmsg.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
-$(srcdir)/phonedetails.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/alertmsg.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/phonedetails.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 ballonmsg.o: ballonmsg.moc 
 alertmsg.o: alertmsg.moc 
 statussetup.lo: statussetup.moc 
 listsec.lo: listsec.moc 
-$(srcdir)/phonebook.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/phonebook.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 autoreply.o: autoreply.moc 
 editfile.o: editfile.moc 
 aboutinfo.o: aboutinfo.moc 
@@ -1226,73 +1240,76 @@ alertdialog.o: alertdialog.moc
 network.o: network.moc 
 ballonmsg.lo: ballonmsg.moc 
 alertmsg.lo: alertmsg.moc 
-$(srcdir)/interestsinfo.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/interestsinfo.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 searchdlg.o: searchdlg.moc 
 pastinfo.lo: pastinfo.moc 
+$(srcdir)/aboutdlg.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 spellsetup.o: spellsetup.moc 
 aboutinfo.lo: aboutinfo.moc 
-$(srcdir)/pagerdetails.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/pagerdetails.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 pagerdetails.o: pagerdetails.moc 
-$(srcdir)/listsec.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/listsec.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 changepasswd.o: changepasswd.moc 
 generalsec.o: generalsec.moc 
 emailedit.lo: emailedit.moc 
 homeinfo.lo: homeinfo.moc 
-$(srcdir)/addphone.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
-$(srcdir)/pastinfo.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/addphone.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/pastinfo.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 addphone.o: addphone.moc 
 phonebook.o: phonebook.moc 
-$(srcdir)/enable.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/enable.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 miscsetup.lo: miscsetup.moc 
-$(srcdir)/effect.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/effect.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 qcolorbutton.o: qcolorbutton.moc 
 interestsinfo.o: interestsinfo.moc 
-$(srcdir)/xosdsetup.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
-$(srcdir)/workinfo.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/xosdsetup.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/workinfo.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 emailedit.o: emailedit.moc 
-$(srcdir)/accept.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/accept.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 addphone.lo: addphone.moc 
 workinfo.o: workinfo.moc 
-$(srcdir)/maininfo.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/maininfo.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 accept.o: accept.moc 
 filetransfer.lo: filetransfer.moc 
 maininfo.o: maininfo.moc 
 alertdialog.lo: alertdialog.moc 
 setupdlg.lo: setupdlg.moc 
 statussetup.o: statussetup.moc 
-$(srcdir)/msgdialog.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/msgdialog.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 workinfo.lo: workinfo.moc 
-$(srcdir)/miscsetup.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/miscsetup.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+aboutdlg.lo: aboutdlg.moc 
 phonedetails.o: phonedetails.moc 
-$(srcdir)/themesetup.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/themesetup.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 themesetup.o: themesetup.moc 
 changepasswd.lo: changepasswd.moc 
-$(srcdir)/editfile.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/editfile.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 soundsetup.lo: soundsetup.moc 
-$(srcdir)/setupdlg.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/setupdlg.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 fontsetup.o: fontsetup.moc 
-$(srcdir)/userinfo.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/userinfo.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 userinfo.o: userinfo.moc 
-$(srcdir)/emailedit.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/emailedit.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 xosdsetup.o: xosdsetup.moc 
-$(srcdir)/spellsetup.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/spellsetup.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 autoreply.lo: autoreply.moc 
-$(srcdir)/homeinfo.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
-$(srcdir)/statussetup.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+aboutdlg.o: aboutdlg.moc 
+$(srcdir)/homeinfo.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/statussetup.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 homeinfo.o: homeinfo.moc 
-$(srcdir)/changepasswd.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/changepasswd.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 msgdialog.o: msgdialog.moc 
 userinfo.lo: userinfo.moc 
-$(srcdir)/generalsec.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/generalsec.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 qcolorbutton.lo: qcolorbutton.moc 
-$(srcdir)/soundsetup.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/soundsetup.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 searchdlg.lo: searchdlg.moc 
 soundsetup.o: soundsetup.moc 
 xosdsetup.lo: xosdsetup.moc 
 accept.lo: accept.moc 
 spellsetup.lo: spellsetup.moc 
 miscsetup.o: miscsetup.moc 
-$(srcdir)/ballonmsg.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
-$(srcdir)/moreinfo.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/ballonmsg.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/moreinfo.cpp: aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 moreinfo.o: moreinfo.moc 
 pagerdetails.lo: pagerdetails.moc 

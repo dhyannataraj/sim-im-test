@@ -418,7 +418,8 @@ bool PhoneInfo::isEqual(const char *number)
     int p2 = strlen(my_number.c_str()) - 1;
     int nMatch = 0;
     for (; (p1 >= 0) && (p2 >= 0); p1--, p2--){
-        char c1, c2;
+        char c1 = 0;
+        char c2 = 0;
         for (; p1 >= 0; p1--){
             c1 = number[p1];
             if ((c1 >= '0') && (c1 <= '9')) break;

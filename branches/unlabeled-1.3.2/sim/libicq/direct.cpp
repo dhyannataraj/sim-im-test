@@ -22,10 +22,14 @@
 #include <errno.h>
 
 #ifndef WIN32
-#include <stdio.h>
 #include <sys/socket.h>
+#include <sys/time.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <netinet/tcp.h>
+#include <netdb.h>
+#include <unistd.h>
+#include <stdio.h>
 #endif
 
 const char FT_INIT	= 0;
@@ -891,6 +895,8 @@ void ChatSocket::init()
     fontFamily = "MS Sans Serif";
     myFontFace = 0;
     curMyFontFace = 0;
+    myFgColor = 0;
+    curMyFgColor = 0;
     bgColor = 0xFFFFFF;
     fgColor = 0;
 }
@@ -915,6 +921,13 @@ void ChatSocket::sendLine(const char *str)
                 writeBuffer.pack((unsigned long)4);
                 writeBuffer.pack(myFontFace);
             }
+            if (curMyFgColor != myFgColor){
+                myFgColor = curMyFgColor;
+                writeBuffer.pack(CHAT_ESCAPE);
+                writeBuffer.pack(CHAT_COLORxFG);
+                writeBuffer.pack((unsigned long)4);
+                writeBuffer.pack(myFgColor);
+            }
             string s1 = client->clearHTML(s.c_str());
             client->toServer(s1);
             writeBuffer.pack(s1.c_str(), s1.size());
@@ -924,7 +937,13 @@ void ChatSocket::sendLine(const char *str)
             end = strchr(tag, '>');
             if (end){
                 string t;
+                string opt;
                 t.assign(tag, end - tag);
+                const char *tend = strchr(t.c_str(), ' ');
+                if (tend){
+                    opt = t.substr(tend - t.c_str());
+                    t = t.substr(0, tend - t.c_str());
+                }
                 end++;
                 if ((t == string("b")) || (t == string("B")))
                     curMyFontFace |= FONT_BOLD;
@@ -938,6 +957,43 @@ void ChatSocket::sendLine(const char *str)
                     curMyFontFace |= FONT_UNDERLINE;
                 if ((t == string("/u")) || (t == string("/U")))
                     curMyFontFace &= (~FONT_UNDERLINE);
+                if (t == string("font")){
+                    char COLOR[] = "color=";
+                    const char *p = opt.c_str();
+                    for (; *p; p++){
+                        for (; *p; p++)
+                            if (*p != ' ') break;
+                        if (strlen(p) < strlen(COLOR))
+                            break;
+                        if (memcmp(p, COLOR, strlen(COLOR)) == 0){
+                            p += strlen(COLOR);
+                            if (*p == '\"') p++;
+                            if (*p == '#') p++;
+                            unsigned newColor = 0;
+                            for (; *p; p++){
+                                char c = *p;
+                                if ((c >= '0') && (c <= '9')){
+                                    newColor = (newColor << 4) + (c - '0');
+                                    continue;
+                                }
+                                if ((c >= 'A') && (c <= 'F')){
+                                    newColor = (newColor << 4) + (c - 'A' + 10);
+                                    continue;
+                                }
+                                if ((c >= 'a') && (c <= 'f')){
+                                    newColor = (newColor << 4) + (c - 'a' + 10);
+                                    continue;
+                                }
+                                break;
+                            }
+                            curMyFgColor = ((newColor >> 16) & 0xFF) +
+                                           (((newColor >> 8) & 0xFF) << 8) +
+                                           ((newColor & 0xFF) << 16);
+                        }
+                        for (; *p; p++)
+                            if (*p == ' ') break;
+                    }
+                }
             }
         }
         str = end;
@@ -1005,6 +1061,12 @@ void ChatSocket::read_ready()
                 switch (c){
                 case CHAT_FONT_FACE:
                     b.unpack(fontFace);
+                    break;
+                case CHAT_COLORxFG:
+                    b.unpack(fgColor);
+                    break;
+                case CHAT_COLORxBG:
+                    b.unpack(bgColor);
                     break;
                 }
                 ICQEvent e(EVENT_CHAT, chat->getUin(), c, chat);
@@ -1081,8 +1143,8 @@ void ChatSocket::processPacket()
             unsigned long fgColor, bgColor;
             readBuffer.unpack(uin);
             readBuffer.unpack(alias);
-            readBuffer.unpack(fgColor);
             readBuffer.unpack(bgColor);
+            readBuffer.unpack(fgColor);
             log(L_DEBUG, "Info %lu %s %lX %lX", uin, alias.c_str(), fgColor, bgColor);
             unsigned long version, port, ip, real_ip;
             char mode;

@@ -50,15 +50,21 @@ class QKeySequence;
 #define QListBox  KListBox
 #define QComboBox KComboBox
 #define QColorButton KColorButton
+#if QT_VERSION < 300
+QString i18n(const char *singular, const char *plural, unsigned long n);
+#endif
 #else
 #include <qobject.h>
 QString i18n(const char *text);
 QString i18n(const char *singular, const char *plural, unsigned long n);
 #define KPopupMenu QPopupMenu
+#define I18N_NOOP(A)	(A)
 #endif
 
+#ifdef WIN32
 #if _MSC_VER > 1020
 #pragma warning(disable:4530)
+#endif
 #endif
 
 #ifndef HAVE_STRCASECMP

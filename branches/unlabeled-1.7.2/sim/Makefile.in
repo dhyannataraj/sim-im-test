@@ -1,5 +1,5 @@
 # Makefile.in generated automatically by automake 1.5 from Makefile.am.
-# KDE tags expanded automatically by am_edit - $Revision: 1.8 $ 
+# KDE tags expanded automatically by am_edit - $Revision: 1.15 $ 
 
 # Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
 # Free Software Foundation, Inc.
@@ -88,7 +88,6 @@ GCJFLAGS = @GCJFLAGS@
 GLINC = @GLINC@
 GLLIB = @GLLIB@
 GMSGFMT = @GMSGFMT@
-HAVE_LIB = @HAVE_LIB@
 IDL = @IDL@
 IDL_DEPENDENCIES = @IDL_DEPENDENCIES@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
@@ -111,7 +110,6 @@ KDE_USE_FINAL_FALSE = @KDE_USE_FINAL_FALSE@
 KDE_USE_FINAL_TRUE = @KDE_USE_FINAL_TRUE@
 KDE_XSL_STYLESHEET = @KDE_XSL_STYLESHEET@
 LEX = @LEX@
-LIB = @LIB@
 LIBCOMPAT = @LIBCOMPAT@
 LIBCRYPT = @LIBCRYPT@
 LIBDL = @LIBDL@
@@ -152,8 +150,6 @@ LIB_SMB = @LIB_SMB@
 LIB_X11 = @LIB_X11@
 LIB_XEXT = @LIB_XEXT@
 LN_S = @LN_S@
-LTLIB = @LTLIB@
-LTLIBICONV = @LTLIBICONV@
 MCOPIDL = @MCOPIDL@
 MEINPROC = @MEINPROC@
 MICO_INCLUDES = @MICO_INCLUDES@
@@ -230,12 +226,12 @@ x_libraries = @x_libraries@
 
 bin_PROGRAMS = sim
 
-sim_SOURCES = xosd.cpp chatwnd.cpp fontedit.cpp transparent.cpp parse.ll intedit.cpp userview.cpp usertbl.cpp userbox.cpp toolbtn.cpp themes.cpp sim.cpp passwddlg.cpp msgview.cpp msgedit.cpp mainwin.cpp logindlg.cpp icons.cpp history.cpp editspell.cpp dock.cpp cuser.cpp client.cpp 
+sim_SOURCES = about.cpp xosd.cpp chatwnd.cpp fontedit.cpp transparent.cpp parse.ll intedit.cpp userview.cpp usertbl.cpp userbox.cpp toolbtn.cpp themes.cpp sim.cpp passwddlg.cpp msgview.cpp msgedit.cpp mainwin.cpp logindlg.cpp icons.cpp history.cpp editspell.cpp dock.cpp cuser.cpp client.cpp 
 sim_LDADD = ./libicq/liblibicq.a ./ui/libui.a ./qt3/libqt3.a  $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE)  $(LIBSOCKET)
 
 SUBDIRS = libicq ui xpm qt3 
 
-EXTRA_DIST = sim.desktop lo32-app-sim.png lo16-app-sim.png client.cpp client.h cuser.cpp cuser.h defs.h dock.cpp dock.h editspell.cpp editspell.h history.cpp history.h icons.cpp icons.h logindlg.cpp logindlg.h mainwin.cpp mainwin.h msgedit.cpp msgedit.h msgview.cpp msgview.h passwddlg.cpp passwddlg.h sim.cpp sim.h themes.cpp themes.h toolbtn.cpp toolbtn.h userbox.cpp userbox.h usertbl.cpp usertbl.h userview.cpp userview.h intedit.cpp intedit.h parse.ll transparent.cpp transparent.h fontedit.cpp fontedit.h chatwnd.cpp chatwnd.h xosd.cpp xosd.h hi16-app-sim.png hi32-app-sim.png 
+EXTRA_DIST = sim.desktop lo32-app-sim.png lo16-app-sim.png client.cpp client.h cuser.cpp cuser.h defs.h dock.cpp dock.h editspell.cpp editspell.h history.cpp history.h icons.cpp icons.h logindlg.cpp logindlg.h mainwin.cpp mainwin.h msgedit.cpp msgedit.h msgview.cpp msgview.h passwddlg.cpp passwddlg.h sim.cpp sim.h themes.cpp themes.h toolbtn.cpp toolbtn.h userbox.cpp userbox.h usertbl.cpp usertbl.h userview.cpp userview.h intedit.cpp intedit.h parse.ll transparent.cpp transparent.h fontedit.cpp fontedit.h chatwnd.cpp chatwnd.h xosd.cpp xosd.h hi16-app-sim.png hi32-app-sim.png about.cpp about.h 
 
 ####### kdevelop will overwrite this part!!! (end)############
 # this 10 paths are KDE specific. Use them:
@@ -257,7 +253,7 @@ INCLUDES = $(all_includes) -Ilibicq
 #>- METASOURCES = AUTO
 
 # the library search path. 
-sim_LDFLAGS = $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)  $(LIBICONV)
+sim_LDFLAGS = $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 subdir = sim
 mkinstalldirs = $(SHELL) $(top_srcdir)/admin/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
@@ -265,25 +261,25 @@ CONFIG_CLEAN_FILES =
 bin_PROGRAMS = sim$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
-am_sim_OBJECTS = xosd.$(OBJEXT) chatwnd.$(OBJEXT) fontedit.$(OBJEXT) \
-	transparent.$(OBJEXT) parse.$(OBJEXT) intedit.$(OBJEXT) \
-	userview.$(OBJEXT) usertbl.$(OBJEXT) userbox.$(OBJEXT) \
-	toolbtn.$(OBJEXT) themes.$(OBJEXT) sim.$(OBJEXT) \
-	passwddlg.$(OBJEXT) msgview.$(OBJEXT) msgedit.$(OBJEXT) \
-	mainwin.$(OBJEXT) logindlg.$(OBJEXT) icons.$(OBJEXT) \
-	history.$(OBJEXT) editspell.$(OBJEXT) dock.$(OBJEXT) \
-	cuser.$(OBJEXT) client.$(OBJEXT)
+am_sim_OBJECTS = about.$(OBJEXT) xosd.$(OBJEXT) chatwnd.$(OBJEXT) \
+	fontedit.$(OBJEXT) transparent.$(OBJEXT) parse.$(OBJEXT) \
+	intedit.$(OBJEXT) userview.$(OBJEXT) usertbl.$(OBJEXT) \
+	userbox.$(OBJEXT) toolbtn.$(OBJEXT) themes.$(OBJEXT) \
+	sim.$(OBJEXT) passwddlg.$(OBJEXT) msgview.$(OBJEXT) \
+	msgedit.$(OBJEXT) mainwin.$(OBJEXT) logindlg.$(OBJEXT) \
+	icons.$(OBJEXT) history.$(OBJEXT) editspell.$(OBJEXT) \
+	dock.$(OBJEXT) cuser.$(OBJEXT) client.$(OBJEXT)
 #>- sim_OBJECTS = $(am_sim_OBJECTS)
 #>+ 12
 sim_final_OBJECTS = parse.o sim.all_cpp.o sim.all_cc.o 
-sim_nofinal_OBJECTS = xosd.$(OBJEXT) chatwnd.$(OBJEXT) fontedit.$(OBJEXT) \
-	transparent.$(OBJEXT) parse.$(OBJEXT) intedit.$(OBJEXT) \
-	userview.$(OBJEXT) usertbl.$(OBJEXT) userbox.$(OBJEXT) \
-	toolbtn.$(OBJEXT) themes.$(OBJEXT) sim.$(OBJEXT) \
-	passwddlg.$(OBJEXT) msgview.$(OBJEXT) msgedit.$(OBJEXT) \
-	mainwin.$(OBJEXT) logindlg.$(OBJEXT) icons.$(OBJEXT) \
-	history.$(OBJEXT) editspell.$(OBJEXT) dock.$(OBJEXT) \
-	cuser.$(OBJEXT) client.$(OBJEXT) \
+sim_nofinal_OBJECTS = about.$(OBJEXT) xosd.$(OBJEXT) chatwnd.$(OBJEXT) \
+	fontedit.$(OBJEXT) transparent.$(OBJEXT) parse.$(OBJEXT) \
+	intedit.$(OBJEXT) userview.$(OBJEXT) usertbl.$(OBJEXT) \
+	userbox.$(OBJEXT) toolbtn.$(OBJEXT) themes.$(OBJEXT) \
+	sim.$(OBJEXT) passwddlg.$(OBJEXT) msgview.$(OBJEXT) \
+	msgedit.$(OBJEXT) mainwin.$(OBJEXT) logindlg.$(OBJEXT) \
+	icons.$(OBJEXT) history.$(OBJEXT) editspell.$(OBJEXT) \
+	dock.$(OBJEXT) cuser.$(OBJEXT) client.$(OBJEXT) \
 	sim_meta_unload.o 
 @KDE_USE_FINAL_FALSE@sim_OBJECTS = $(sim_nofinal_OBJECTS)
 @KDE_USE_FINAL_TRUE@sim_OBJECTS = $(sim_final_OBJECTS)
@@ -295,18 +291,18 @@ CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 depcomp = $(SHELL) $(top_srcdir)/admin/depcomp
-@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/chatwnd.Po $(DEPDIR)/client.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/cuser.Po $(DEPDIR)/dock.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/editspell.Po $(DEPDIR)/fontedit.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/history.Po $(DEPDIR)/icons.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/intedit.Po $(DEPDIR)/logindlg.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/mainwin.Po $(DEPDIR)/msgedit.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/msgview.Po $(DEPDIR)/parse.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/passwddlg.Po $(DEPDIR)/sim.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/themes.Po $(DEPDIR)/toolbtn.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/transparent.Po $(DEPDIR)/userbox.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/usertbl.Po $(DEPDIR)/userview.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/xosd.Po
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/about.Po $(DEPDIR)/chatwnd.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/client.Po $(DEPDIR)/cuser.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/dock.Po $(DEPDIR)/editspell.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/fontedit.Po $(DEPDIR)/history.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/icons.Po $(DEPDIR)/intedit.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/logindlg.Po $(DEPDIR)/mainwin.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/msgedit.Po $(DEPDIR)/msgview.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/parse.Po $(DEPDIR)/passwddlg.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/sim.Po $(DEPDIR)/themes.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/toolbtn.Po $(DEPDIR)/transparent.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/userbox.Po $(DEPDIR)/usertbl.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/userview.Po $(DEPDIR)/xosd.Po
 #>- CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 #>- $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 #>+ 2
@@ -406,6 +402,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/about.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/chatwnd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/client.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/cuser.Po@am__quote@
@@ -569,7 +566,12 @@ GTAGS:
 distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH
 
-DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+#>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+#>+ 4
+KDE_DIST=sim 
+
+DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
+
 
 top_distdir = ..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
@@ -878,11 +880,11 @@ clean-moc-classes:
 	-rm -f  sim_meta_unload.cc
 
 #>+ 11
-sim.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/xosd.cpp $(srcdir)/chatwnd.cpp $(srcdir)/fontedit.cpp $(srcdir)/transparent.cpp $(srcdir)/intedit.cpp $(srcdir)/userview.cpp $(srcdir)/usertbl.cpp $(srcdir)/userbox.cpp $(srcdir)/toolbtn.cpp $(srcdir)/themes.cpp $(srcdir)/sim.cpp $(srcdir)/passwddlg.cpp $(srcdir)/msgview.cpp $(srcdir)/msgedit.cpp $(srcdir)/mainwin.cpp $(srcdir)/logindlg.cpp $(srcdir)/icons.cpp $(srcdir)/history.cpp $(srcdir)/editspell.cpp $(srcdir)/dock.cpp $(srcdir)/cuser.cpp $(srcdir)/client.cpp
+sim.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/about.cpp $(srcdir)/xosd.cpp $(srcdir)/chatwnd.cpp $(srcdir)/fontedit.cpp $(srcdir)/transparent.cpp $(srcdir)/intedit.cpp $(srcdir)/userview.cpp $(srcdir)/usertbl.cpp $(srcdir)/userbox.cpp $(srcdir)/toolbtn.cpp $(srcdir)/themes.cpp $(srcdir)/sim.cpp $(srcdir)/passwddlg.cpp $(srcdir)/msgview.cpp $(srcdir)/msgedit.cpp $(srcdir)/mainwin.cpp $(srcdir)/logindlg.cpp $(srcdir)/icons.cpp $(srcdir)/history.cpp $(srcdir)/editspell.cpp $(srcdir)/dock.cpp $(srcdir)/cuser.cpp $(srcdir)/client.cpp
 	@echo 'creating sim.all_cpp.cpp ...'; \
 	rm -f sim.all_cpp.files sim.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> sim.all_cpp.final; \
-	for file in xosd.cpp chatwnd.cpp fontedit.cpp transparent.cpp intedit.cpp userview.cpp usertbl.cpp userbox.cpp toolbtn.cpp themes.cpp sim.cpp passwddlg.cpp msgview.cpp msgedit.cpp mainwin.cpp logindlg.cpp icons.cpp history.cpp editspell.cpp dock.cpp cuser.cpp client.cpp ; do \
+	for file in about.cpp xosd.cpp chatwnd.cpp fontedit.cpp transparent.cpp intedit.cpp userview.cpp usertbl.cpp userbox.cpp toolbtn.cpp themes.cpp sim.cpp passwddlg.cpp msgview.cpp msgedit.cpp mainwin.cpp logindlg.cpp icons.cpp history.cpp editspell.cpp dock.cpp cuser.cpp client.cpp ; do \
 	  echo "#include \"$$file\"" >> sim.all_cpp.files; \
 	  test ! -f $(srcdir)/$$file || egrep '^#pragma +implementation' $(srcdir)/$$file >> sim.all_cpp.final; \
 	done; \

@@ -37,10 +37,12 @@
 #include <unistd.h>
 #endif
 
+#ifdef WIN32
 #if _MSC_VER > 1020
 #pragma warning(disable:4530)
 #pragma warning(disable:4355)
 #pragma warning(disable:4786)
+#endif
 #endif
 
 #include <list>
@@ -442,6 +444,8 @@ protected:
 };
 
 const char CHAT_ESCAPE		= 0x00;
+const char CHAT_COLORxFG    = 0x00;
+const char CHAT_COLORxBG    = 0x01;
 const char CHAT_FOCUSxIN    = 0x03;
 const char CHAT_FOCUSxOUT   = 0x04;
 const char CHAT_BEEP		= 0x07;
@@ -478,6 +482,7 @@ public:
     string fontFamily;
     unsigned long fontSize;
     unsigned long fontFace;
+    unsigned long bgColor, fgColor;
 
 protected:
     list<ChatClient> clients;
@@ -497,7 +502,8 @@ protected:
 
     unsigned long myFontFace;
     unsigned long curMyFontFace;
-    unsigned long bgColor, fgColor;
+    unsigned long myFgColor;
+    unsigned long curMyFgColor;
 
     void error_state();
     void startPacket();
