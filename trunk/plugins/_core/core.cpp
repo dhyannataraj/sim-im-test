@@ -1100,7 +1100,7 @@ QString CorePlugin::poFile(const char *lang)
     string s = PREFIX "/share/locale/";
     string l;
     if (lang)
-        l += lang;
+        l = lang;
     char *p = (char*)(l.c_str());
     char *r = strchr(p, '.');
     if (r) *r = 0;
@@ -1111,7 +1111,7 @@ QString CorePlugin::poFile(const char *lang)
         r = strchr(p, '_');
         if (r) *r = 0;
         s = PREFIX "/share/locale/";
-        s += lang
+        s += l.c_str();
         s += "/LC_MESSAGES/sim.mo";
         f.setName(QFile::decodeName(s.c_str()));
         if (!f.exists()) return "";
