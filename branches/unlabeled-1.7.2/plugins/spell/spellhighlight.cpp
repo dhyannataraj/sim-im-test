@@ -86,6 +86,7 @@ void SpellHighlighter::tag_start(const QString &tag, const list<QString> &opt)
         m_pos++;
     }
     if (tag == "span"){
+        m_fonts.push(m_bError);
         QString key;
         QString val;
         list<QString>::const_iterator it;
@@ -108,7 +109,6 @@ void SpellHighlighter::tag_start(const QString &tag, const list<QString> &opt)
                 }
             }
         }
-        m_fonts.push(m_bError);
     }
 }
 
@@ -117,6 +117,7 @@ void SpellHighlighter::tag_end(const QString &tag)
     if (tag == "span"){
         if (m_fonts.empty())
             return;
+		flush();
         m_bError = m_fonts.top();
         m_fonts.pop();
     }
@@ -124,9 +125,6 @@ void SpellHighlighter::tag_end(const QString &tag)
 
 void SpellHighlighter::flush()
 {
-    string s;
-    if (!m_curWord.isEmpty())
-        s = m_curWord.local8Bit();
     if (m_curWord.isEmpty())
         return;
     if ((m_index >= m_curStart) && (m_index <= m_pos)){
@@ -149,8 +147,10 @@ void SpellHighlighter::flush()
         m_curWord = "";
         return;
     }
-    if (m_bCheck)
+    if (m_bCheck){
+	    m_curWord = "";
         return;
+	}
     if (m_bDisable){
         if (m_bError)
             setFormat(m_curStart, m_pos - m_curStart, static_cast<TextEdit*>(textEdit())->defForeground());
@@ -213,6 +213,9 @@ void *SpellHighlighter::processEvent(Event *e)
             m_pos = 0;
             m_bError   = false;
             m_bInError = false;
+			m_curStart = 0;
+			m_word     = "";
+			m_curWord  = "";
             while (!m_fonts.empty())
                 m_fonts.pop();
             m_bCheck = true;
