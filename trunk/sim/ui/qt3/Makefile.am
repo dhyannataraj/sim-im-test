@@ -13,7 +13,7 @@ libsimuiqt_la_SOURCES = \
 	qtextedit.cpp \
 	qsyntaxhighlighter.cpp 
 
-libsimuiqt_la_LIBADD = $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(EXTRA_LIBS) $(LIBLD)
+libsimuiqt_la_LIBADD = $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(EXTRA_LIBS) $(LIBDL)
 
 endif
 

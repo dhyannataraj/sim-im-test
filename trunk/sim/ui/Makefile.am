@@ -15,7 +15,7 @@ libsimui_la_SOURCES = \
  datepicker.cpp \
  intedit.cpp 
 
-libsimui_la_LIBADD = $(LIBUIQT) ../api/libsimapi.la $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(EXTRA_LIBS) $(LIBLD)
+libsimui_la_LIBADD = $(LIBUIQT) ../api/libsimapi.la $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(EXTRA_LIBS) $(LIBDL)
 
 # set the include path for X, qt and KDE
 INCLUDES= -I../api $(all_includes) 
