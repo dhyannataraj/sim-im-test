@@ -70,7 +70,6 @@ TextShow::TextShow(QWidget *p, const char *name)
 void TextShow::setUin(unsigned long uin)
 {
     codec = pClient->codecForUser(uin);
-    if (m_nUin == 0) addUnread(uin);
     m_nUin = uin;
 }
 
