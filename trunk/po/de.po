@@ -7,12 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2003-12-21 23:18+0300\n"
-"PO-Revision-Date: 2003-12-22 20:40GMT\n"
+"PO-Revision-Date: 2003-12-27 01:47GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0.2\n"
+"X-Generator: KBabel 1.3\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
 #: sim/api/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
@@ -2707,7 +2708,7 @@ msgstr "UIN"
 #: plugins/icq/icqsecure.cpp:125 plugins/jabber/addresult.cpp:212
 #: plugins/jabber/jabbersearch.cpp:99
 msgid "Nick"
-msgstr "Nickname"
+msgstr "Spitzname"
 
 #: plugins/_core/maininfo.cpp:69 plugins/filter/ignorelist.cpp:28
 #: plugins/icq/icqsecure.cpp:127 plugins/jabber/jabbersearch.cpp:100
@@ -3714,7 +3715,7 @@ msgstr "UIN:"
 #: plugins/jabber/discoinfobase.cpp:311 plugins/jabber/jabberinfobase.cpp:244
 #: plugins/msn/msninfobase.cpp:162
 msgid "Nick:"
-msgstr "Nickname:"
+msgstr "Spitzname:"
 
 #: plugins/_core/maininfobase.cpp:230 plugins/icq/aiminfobase.cc:287
 #: plugins/icq/aimsearchbase.cc:287 plugins/icq/icqinfobase.cc:309
@@ -3832,7 +3833,7 @@ msgstr "&E-Mail"
 
 #: plugins/icq/aimsearchbase.cc:281 plugins/icq/icqsearchbase.cc:336
 msgid "Nickname:"
-msgstr "Nickname:"
+msgstr "Spitzname:"
 
 #: plugins/icq/aimsearchbase.cc:289
 msgid ""
@@ -4145,7 +4146,7 @@ msgstr "&Menü"
 
 #: plugins/_core/core.cpp:498 plugins/_core/searchbase.cpp:73
 msgid "Search / Add contact"
-msgstr "Kontakt suchen/hinzufügen"
+msgstr "Suchen / hinzufügen"
 
 #: plugins/_core/core.cpp:509
 msgid "&Send SMS"
@@ -6533,7 +6534,7 @@ msgstr "Nachname:"
 
 #: plugins/jabber/jabbersearch.cpp:305
 msgid "Nick (Alias)"
-msgstr "Nickname:"
+msgstr "Spitzname:"
 
 #: plugins/jabber/jabbersearch.cpp:307
 msgid ""
@@ -6565,7 +6566,7 @@ msgstr "Voller Name"
 
 #: plugins/jabber/jabbersearch.cpp:314
 msgid "Nickname"
-msgstr "Nickname"
+msgstr "Spitzname"
 
 #: plugins/jabber/jabbersearch.cpp:315
 msgid "E-mail"
@@ -6581,7 +6582,7 @@ msgid ""
 "Nickname is optional."
 msgstr ""
 "Bitte MSN-Messengeraccount und Passwort eingeben. Beispiel: "
-"benutzer@hotmail.com. Nickname ist optional."
+"benutzer@hotmail.com. Spitzname ist optional."
 
 #: plugins/jabber/jabbersearch.cpp:319
 msgid "Enter your AIM screenname or ICQ UIN and the password for that account"
@@ -6601,7 +6602,7 @@ msgstr "Es wird ein x:daten-fägiger Client zum Registrieren benötigt"
 
 #: plugins/jabber/jabbersearch.cpp:323
 msgid "Enter nick you want to register."
-msgstr "Nickname zum Registrieren eingeben"
+msgstr "Spitzname zum Registrieren eingeben"
 
 #: plugins/jabber/jabbersearch.cpp:324
 msgid ""
