@@ -45,7 +45,7 @@ FileTransferDlg::FileTransferDlg(QWidget *p, ICQFile *_file)
         : FileTransferBase(p, "filetransfer", false, WDestructiveClose | WStyle_Minimize)
 {
     SET_WNDPROC
-
+    nCurFile = -1;
     nProgress = -1;
     bStarted = false;
     file = _file;
@@ -110,7 +110,12 @@ void FileTransferDlg::speedChanged(int value)
 void FileTransferDlg::processed(ICQFile *f)
 {
     if (f != file) return;
-    bDirty = true;
+	if (file && file->ft && (file->ft->curFile() != nCurFile)){
+		nCurFile = file->ft->curFile();
+		setProgress();
+	}else{
+		bDirty = true;
+	}
 }
 
 void FileTransferDlg::timeout()
@@ -131,6 +136,7 @@ void FileTransferDlg::processEvent(ICQEvent *e)
         file->state = file->Size;
         c = title + " " + i18n("[done]");
         pMain->playSound(pClient->FileDone.c_str());
+	    setProgress();
     }else if (e->state == ICQEvent::Fail){
         c = title + " " + i18n("[fail]");
     }else{
@@ -143,7 +149,6 @@ void FileTransferDlg::processEvent(ICQEvent *e)
         close();
         return;
     }
-    setProgress();
     file = NULL;
     pMain->ftClose();
     lblSldSpeed->hide();
@@ -262,7 +267,7 @@ void FileTransferDlg::closeToggled(bool bState)
 
 void FileTransferDlg::action()
 {
-    file->resume(curAction);
+    if (file) file->resume(curAction);
 }
 
 void FileTransferDlg::action(int n)

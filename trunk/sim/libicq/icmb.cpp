@@ -340,14 +340,14 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
     payload.unpack(info, sizeof(info));
     unsigned long sign1;
     payload.unpack(sign1);
-    if ((sign1 != 3) && (sign1 != 0)){
-        log(L_WARN, "Bad sign in TLV 2711 (%u)", sign1);
+    if ((sign1 != 3) && (sign1 != 0) && (sign1 != 1)){
+        log(L_WARN, "Bad sign1 in TLV 2711 (%u)", sign1);
         return;
     }
     char sign2;
     payload >> sign2;
     if (sign2 && (sign2 != 1) && (sign2 != 2) && (sign2 != 4)){
-        log(L_WARN, "Bad sign in TLV 2711 (%u)", sign2);
+        log(L_WARN, "Bad sign2 in TLV 2711 (%u)", sign2);
         return;
     }
     unsigned short cookie1;

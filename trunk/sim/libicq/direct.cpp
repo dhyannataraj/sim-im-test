@@ -1021,6 +1021,7 @@ void FileTransfer::write_ready()
         DirectSocket::write_ready();
         return;
     }
+	log(L_DEBUG, "> %u %u %u %u", m_curFile, m_nFiles, m_curSize, m_fileSize);
     if (m_fileSize >= m_curSize){
         state = None;
         client->closeFile(file);
@@ -1095,7 +1096,7 @@ void FileTransfer::resume(int mode)
     sock->writeBuffer.pack((unsigned long)m_fileSize);
     sock->writeBuffer.pack((unsigned long)0);
     sock->writeBuffer.pack(m_nSpeed);
-    sock->writeBuffer.pack((unsigned long)1);
+    sock->writeBuffer.pack((unsigned long)(m_curFile+1));
     sendPacket();
     state = Receive;
 }
@@ -1180,9 +1181,12 @@ void FileTransfer::processPacket()
                 break;
             }
         case FT_START:{
-                unsigned long pos;
+                unsigned long pos, empty, speed, curFile;
                 sock->readBuffer.unpack(pos);
-                log(L_DEBUG, "Start send at %lu", pos);
+				sock->readBuffer.unpack(empty);
+				sock->readBuffer.unpack(speed);
+				sock->readBuffer.unpack(curFile);
+                log(L_DEBUG, "Start send at %lu %lu", pos, curFile);
                 m_fileSize = pos;
                 if (!client->openFile(file) || !client->seekFile(file, pos)){
                     log(L_WARN, "Can't open file");

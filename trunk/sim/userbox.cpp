@@ -26,10 +26,7 @@
 #include "transparent.h"
 #include "icons.h"
 #include "userview.h"
-
-
 #include "ui/userinfo.h"
-
 #include "ui/enable.h"
 
 #include <qlayout.h>
@@ -1013,19 +1010,6 @@ void UserBox::slotMessageReceived(ICQMessage *msg)
     if (qApp->activeWindow() != this){
         if (haveUser(msg->getUin()))
             messageReceived(msg);
-        return;
-    }
-    if (curWnd && (msg->getUin() == curWnd->Uin) &&
-            !pMain->SimpleMode &&
-            ((msg->Type() == ICQ_MSGxMSG) || (msg->Type() == ICQ_MSGxURL) ||
-             (msg->Type() == ICQ_MSGxSMS))){
-        pClient->markAsRead(msg);
-        return;
-    }
-    if (!haveUser(msg->getUin())) return;
-    QWidget *focus = focusWidget();
-    emit messageReceived(msg);
-    if (focus) focus->setFocus();
 #ifdef WIN32
     if (!initFlash){
         HINSTANCE hLib = GetModuleHandleA("user32");
@@ -1041,6 +1025,19 @@ void UserBox::slotMessageReceived(ICQMessage *msg)
     fInfo.uCount = 0;
     FlashWindowEx(&fInfo);
 #endif
+        return;
+    }
+    if (curWnd && (msg->getUin() == curWnd->Uin) &&
+            !pMain->SimpleMode &&
+            ((msg->Type() == ICQ_MSGxMSG) || (msg->Type() == ICQ_MSGxURL) ||
+             (msg->Type() == ICQ_MSGxSMS))){
+        pClient->markAsRead(msg);
+        return;
+    }
+    if (!haveUser(msg->getUin())) return;
+    QWidget *focus = focusWidget();
+    emit messageReceived(msg);
+    if (focus) focus->setFocus();
 }
 
 ICQMessage *UserBox::currentMessage()

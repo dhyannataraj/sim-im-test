@@ -737,9 +737,9 @@ ICQEvent *ICQClient::sendMessage(ICQMessage *msg)
         ICQFile *f = static_cast<ICQFile*>(msg);
         if (f->Size == 0){
             f->localName = f->Name;
-            int nSrcFiles = 0;
+			int nSrcFiles = 0;
             f->Size = getFileSize(f->Name.c_str(), &nSrcFiles, f->files);
-            if (f->files.size() == 0){
+            if (nSrcFiles == 0){
                 f->DeclineReason = "No files for transfer";
                 ICQEvent e(f->getUin(), EVENT_MESSAGE_SEND);
                 e.setMessage(f);

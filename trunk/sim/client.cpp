@@ -806,16 +806,17 @@ unsigned long Client::getFileSize(QString name, QString base, vector<fileName> &
     QFileInfoList ff = *f;
     unsigned long res = 0;
     for (const QFileInfo *fi = ff.first(); fi != NULL; fi = ff.next()){
-        if ((fi->baseName() == ".") || (fi->baseName() == "..") || fi->isSymLink()) continue;
+		QString baseName = fi->fileName();
+        if ((baseName == "") || (baseName == ".") || (baseName == "..") || fi->isSymLink()) continue;
         QString fName = name;
         if (fName.length()){
 #ifdef WIN32
-            if (fName[(int)(fName.length()-1)] != '\\') name += "\\";
+            if (fName[(int)(fName.length()-1)] != '\\') fName += "\\";
 #else
-            if (fName[(int)(fName.length()-1)] != '/') name += "/";
+            if (fName[(int)(fName.length()-1)] != '/') fName += "/";
 #endif
         }
-        fName += fi->baseName();
+        fName += baseName;
         res += getFileSize(fName, base, files);
     }
     return res;
