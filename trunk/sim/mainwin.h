@@ -206,6 +206,8 @@ typedef struct MainWindow_Data
 
     unsigned long	ColorSend;
     unsigned long	ColorReceive;
+    unsigned long	ColorSender;
+    unsigned long	ColorReceiver;
 
     unsigned short	ChatWidth;
     unsigned short	ChatHeight;
@@ -353,6 +355,8 @@ public:
 
     PROP_ULONG(ColorSend)
     PROP_ULONG(ColorReceive)
+    PROP_ULONG(ColorSender)
+    PROP_ULONG(ColorReceiver)
 
     PROP_USHORT(ChatWidth)
     PROP_USHORT(ChatHeight)

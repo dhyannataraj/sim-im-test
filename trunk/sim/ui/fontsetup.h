@@ -33,6 +33,7 @@ public slots:
 protected slots:
     void systemToggled(bool);
     void modeChanged(bool);
+    void useOwnColorsChanged(bool);
 };
 
 #endif

@@ -6,25 +6,25 @@
         <name>name</name>
         <cstring>FontSetup</cstring>
     </property>
-    <property>
+    <property stdset="1">
         <name>geometry</name>
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>413</width>
+            <width>397</width>
             <height>296</height>
         </rect>
     </property>
-    <property>
+    <property stdset="1">
         <name>caption</name>
         <string>Form1</string>
     </property>
     <vbox>
-        <property>
+        <property stdset="1">
             <name>margin</name>
             <number>11</number>
         </property>
-        <property>
+        <property stdset="1">
             <name>spacing</name>
             <number>6</number>
         </property>
@@ -45,11 +45,11 @@
                     <string>&amp;User window</string>
                 </attribute>
                 <vbox>
-                    <property>
+                    <property stdset="1">
                         <name>margin</name>
                         <number>11</number>
                     </property>
-                    <property>
+                    <property stdset="1">
                         <name>spacing</name>
                         <number>6</number>
                     </property>
@@ -59,16 +59,16 @@
                             <name>name</name>
                             <cstring>grpWndMode</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>title</name>
                             <string>Mode</string>
                         </property>
                         <vbox>
-                            <property>
+                            <property stdset="1">
                                 <name>margin</name>
                                 <number>11</number>
                             </property>
-                            <property>
+                            <property stdset="1">
                                 <name>spacing</name>
                                 <number>6</number>
                             </property>
@@ -78,7 +78,7 @@
                                     <name>name</name>
                                     <cstring>btnModeSplit</cstring>
                                 </property>
-                                <property>
+                                <property stdset="1">
                                     <name>text</name>
                                     <string>Split mode (&amp;Chat style)</string>
                                 </property>
@@ -89,7 +89,7 @@
                                     <name>name</name>
                                     <cstring>btnModePlain</cstring>
                                 </property>
-                                <property>
+                                <property stdset="1">
                                     <name>text</name>
                                     <string>Simple mode (&amp;Plain style)</string>
                                 </property>
@@ -101,11 +101,11 @@
                                     <cstring>Layout5</cstring>
                                 </property>
                                 <hbox>
-                                    <property>
+                                    <property stdset="1">
                                         <name>margin</name>
                                         <number>0</number>
                                     </property>
-                                    <property>
+                                    <property stdset="1">
                                         <name>spacing</name>
                                         <number>6</number>
                                     </property>
@@ -115,7 +115,7 @@
                                             <name>name</name>
                                             <cstring>TextLabel1_2</cstring>
                                         </property>
-                                        <property>
+                                        <property stdset="1">
                                             <name>text</name>
                                             <string>Copy</string>
                                         </property>
@@ -133,7 +133,7 @@
                                             <name>name</name>
                                             <cstring>TextLabel2_2</cstring>
                                         </property>
-                                        <property>
+                                        <property stdset="1">
                                             <name>text</name>
                                             <string>last messages from history to conversation</string>
                                         </property>
@@ -169,16 +169,16 @@
                             <name>name</name>
                             <cstring>grpContainer</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>title</name>
                             <string>Open</string>
                         </property>
                         <vbox>
-                            <property>
+                            <property stdset="1">
                                 <name>margin</name>
                                 <number>11</number>
                             </property>
-                            <property>
+                            <property stdset="1">
                                 <name>spacing</name>
                                 <number>6</number>
                             </property>
@@ -188,7 +188,7 @@
                                     <name>name</name>
                                     <cstring>rbtUser</cstring>
                                 </property>
-                                <property>
+                                <property stdset="1">
                                     <name>text</name>
                                     <string>&amp;Each user in new container</string>
                                 </property>
@@ -199,7 +199,7 @@
                                     <name>name</name>
                                     <cstring>rbtGroup</cstring>
                                 </property>
-                                <property>
+                                <property stdset="1">
                                     <name>text</name>
                                     <string>&amp;New container for group</string>
                                 </property>
@@ -210,7 +210,7 @@
                                     <name>name</name>
                                     <cstring>rbtAll</cstring>
                                 </property>
-                                <property>
+                                <property stdset="1">
                                     <name>text</name>
                                     <string>&amp;All users in one container</string>
                                 </property>
@@ -251,11 +251,11 @@
                     <string>Fonts</string>
                 </attribute>
                 <vbox>
-                    <property>
+                    <property stdset="1">
                         <name>margin</name>
                         <number>11</number>
                     </property>
-                    <property>
+                    <property stdset="1">
                         <name>spacing</name>
                         <number>6</number>
                     </property>
@@ -265,7 +265,7 @@
                             <name>name</name>
                             <cstring>chkSystem</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>&amp;Use systems fonts</string>
                         </property>
@@ -274,9 +274,9 @@
                         <class>QLabel</class>
                         <property stdset="1">
                             <name>name</name>
-                            <cstring>TextLabel3</cstring>
+                            <cstring>TextLabel5</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Base font</string>
                         </property>
@@ -292,9 +292,9 @@
                         <class>QLabel</class>
                         <property stdset="1">
                             <name>name</name>
-                            <cstring>TextLabel4</cstring>
+                            <cstring>TextLabel6</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Menu font</string>
                         </property>
@@ -340,11 +340,11 @@
                     <string>&amp;Colors</string>
                 </attribute>
                 <vbox>
-                    <property>
+                    <property stdset="1">
                         <name>margin</name>
                         <number>11</number>
                     </property>
-                    <property>
+                    <property stdset="1">
                         <name>spacing</name>
                         <number>6</number>
                     </property>
@@ -354,7 +354,7 @@
                             <name>name</name>
                             <cstring>chkOwnColors</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Use &amp;own colors and fonts settings</string>
                         </property>
@@ -363,14 +363,14 @@
                         <class>QLayoutWidget</class>
                         <property stdset="1">
                             <name>name</name>
-                            <cstring>Layout2</cstring>
+                            <cstring>Layout3</cstring>
                         </property>
                         <grid>
-                            <property>
+                            <property stdset="1">
                                 <name>margin</name>
                                 <number>0</number>
                             </property>
-                            <property>
+                            <property stdset="1">
                                 <name>spacing</name>
                                 <number>6</number>
                             </property>
@@ -381,29 +381,25 @@
                                     <cstring>btnSend</cstring>
                                 </property>
                             </widget>
-                            <widget row="1"  column="0" >
-                                <class>QLabel</class>
-                                <property stdset="1">
-                                    <name>name</name>
-                                    <cstring>TextLabel2</cstring>
-                                </property>
-                                <property>
-                                    <name>text</name>
-                                    <string>Received messages color</string>
-                                </property>
-                                <property>
-                                    <name>alignment</name>
-                                    <set>AlignVCenter|AlignRight</set>
-                                </property>
-                                <property>
-                                    <name>hAlign</name>
-                                </property>
-                            </widget>
                             <widget row="1"  column="1" >
                                 <class>QColorButton</class>
                                 <property stdset="1">
                                     <name>name</name>
                                     <cstring>btnReceive</cstring>
+                                </property>
+                            </widget>
+                            <widget row="3"  column="1" >
+                                <class>QColorButton</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>btnSender</cstring>
+                                </property>
+                            </widget>
+                            <widget row="2"  column="1" >
+                                <class>QColorButton</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>btnReceiver</cstring>
                                 </property>
                             </widget>
                             <widget row="0"  column="0" >
@@ -412,18 +408,72 @@
                                     <name>name</name>
                                     <cstring>TextLabel1</cstring>
                                 </property>
-                                <property>
+                                <property stdset="1">
                                     <name>sizePolicy</name>
                                     <sizepolicy>
                                         <hsizetype>7</hsizetype>
                                         <vsizetype>1</vsizetype>
                                     </sizepolicy>
                                 </property>
-                                <property>
+                                <property stdset="1">
                                     <name>text</name>
                                     <string>Sending messages color</string>
                                 </property>
+                                <property stdset="1">
+                                    <name>alignment</name>
+                                    <set>AlignVCenter|AlignRight</set>
+                                </property>
                                 <property>
+                                    <name>hAlign</name>
+                                </property>
+                            </widget>
+                            <widget row="1"  column="0" >
+                                <class>QLabel</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>TextLabel2</cstring>
+                                </property>
+                                <property stdset="1">
+                                    <name>text</name>
+                                    <string>Received messages color</string>
+                                </property>
+                                <property stdset="1">
+                                    <name>alignment</name>
+                                    <set>AlignVCenter|AlignRight</set>
+                                </property>
+                                <property>
+                                    <name>hAlign</name>
+                                </property>
+                            </widget>
+                            <widget row="2"  column="0" >
+                                <class>QLabel</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>TextLabel3</cstring>
+                                </property>
+                                <property stdset="1">
+                                    <name>text</name>
+                                    <string>Receivers color</string>
+                                </property>
+                                <property stdset="1">
+                                    <name>alignment</name>
+                                    <set>AlignVCenter|AlignRight</set>
+                                </property>
+                                <property>
+                                    <name>hAlign</name>
+                                </property>
+                            </widget>
+                            <widget row="3"  column="0" >
+                                <class>QLabel</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>TextLabel4</cstring>
+                                </property>
+                                <property stdset="1">
+                                    <name>text</name>
+                                    <string>Senders color</string>
+                                </property>
+                                <property stdset="1">
                                     <name>alignment</name>
                                     <set>AlignVCenter|AlignRight</set>
                                 </property>

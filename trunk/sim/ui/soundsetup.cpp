@@ -33,7 +33,6 @@ SoundSetup::SoundSetup(QWidget *p, bool bUser)
         : SoundSetupBase(p)
 {
     chkDisable->setChecked(pSplash->isSoundDisable());
-    disableToggled(pSplash->isSoundDisable());
 #ifdef WIN32
     tabWnd->setCurrentPage(1);
     tabWnd->removePage(tabWnd->currentPage());
@@ -59,6 +58,7 @@ SoundSetup::SoundSetup(QWidget *p, bool bUser)
 #endif
         load(pClient->owner);
     }
+    disableToggled(pSplash->isSoundDisable());
 }
 
 void SoundSetup::load(ICQUser *u)

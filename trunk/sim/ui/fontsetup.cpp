@@ -48,13 +48,17 @@ FontSetup::FontSetup(QWidget *p)
     grpContainer->setButton(pMain->getContainerMode());
     btnSend->setColor(QColor(pMain->getColorSend()));
     btnReceive->setColor(QColor(pMain->getColorReceive()));
+    btnSender->setColor(QColor(pMain->getColorSender()));
+    btnReceiver->setColor(QColor(pMain->getColorReceiver()));
     grpWndMode->setButton(pMain->isSimpleMode() ? 1 : 0);
     spnCopy->setMinValue(0);
     spnCopy->setMaxValue(9);
     spnCopy->setValue(pMain->getCopyMessages());
     connect(btnModeSplit, SIGNAL(toggled(bool)), this, SLOT(modeChanged(bool)));
     connect(btnModePlain, SIGNAL(toggled(bool)), this, SLOT(modeChanged(bool)));
+    connect(chkOwnColors, SIGNAL(toggled(bool)), this, SLOT(useOwnColorsChanged(bool)));
     modeChanged(false);
+    useOwnColorsChanged(pMain->isUseOwnColors());
 }
 
 void FontSetup::systemToggled(bool)
@@ -71,17 +75,27 @@ void FontSetup::modeChanged(bool)
     spnCopy->setEnabled(btnModeSplit->isOn());
 }
 
+void FontSetup::useOwnColorsChanged(bool AToggled)
+{
+	btnSend->setEnabled(AToggled);
+	btnReceive->setEnabled(AToggled);
+	btnSender->setEnabled(AToggled);
+	btnReceiver->setEnabled(AToggled);
+}
+
 void FontSetup::apply(ICQUser*)
 {
     unsigned long colorSend = btnSend->color().rgb() & 0xFFFFFF;
     unsigned long colorReceive = btnReceive->color().rgb() & 0xFFFFFF;
-    if (!chkOwnColors->isChecked()) {
-    	colorSend = 0x0000B0;
-    	colorReceive = 0xB00000;
-    }
-    if ((pMain->getColorSend() != colorSend) || (pMain->getColorReceive() != colorReceive)){
+	unsigned long colorSender = btnSender->color().rgb() & 0xFFFFFF;
+	unsigned long colorReceiver = btnReceiver->color().rgb() & 0xFFFFFF;
+	if ((pMain->getColorSend() != colorSend)     || (pMain->getColorReceive() != colorReceive) ||
+		(pMain->getColorSender() != colorSender) || (pMain->getColorReceiver() != colorReceiver))
+    {
         pMain->setColorSend(colorSend);
         pMain->setColorReceive(colorReceive);
+        pMain->setColorSender(colorSender);
+        pMain->setColorReceiver(colorReceiver);
         pMain->changeColors();
     }
 #ifdef USE_KDE

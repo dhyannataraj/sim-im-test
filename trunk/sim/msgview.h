@@ -105,6 +105,8 @@ protected:
     bool bBack;
     unsigned long oldSendColor;
     unsigned long oldReceiveColor;
+    unsigned long oldSenderColor;
+    unsigned long oldReceiverColor;
 };
 
 class MsgViewConv : public MsgView
