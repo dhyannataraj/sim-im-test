@@ -408,6 +408,7 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
 {
     m_plugin = this;
     historyXSL = NULL;
+	m_bIgnoreEvents = false;
 
     load_data(coreData, &data, config);
     time_t now;
@@ -1481,6 +1482,11 @@ void CorePlugin::getWays(vector<clientContact> &ways, Contact *contact)
 void *CorePlugin::processEvent(Event *e)
 {
     switch (e->type()){
+	case EventGroupChnanged:
+	case EventContactChanged:
+		if (m_bIgnoreEvents)
+			return e->param();
+		break;
     case EventDeleteMessage:{
             Message *msg = (Message*)(e->param());
             History::del(msg);
@@ -3641,8 +3647,10 @@ ClientList::ClientList()
 
 ClientList::~ClientList()
 {
+	CorePlugin::m_plugin->m_bIgnoreEvents = true;
     for (ClientList::iterator it = begin(); it != end(); ++it)
         delete *it;
+	CorePlugin::m_plugin->m_bIgnoreEvents = false;
 }
 
 void ClientList::addToContacts()

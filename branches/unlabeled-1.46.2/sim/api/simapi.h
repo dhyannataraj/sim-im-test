@@ -1530,7 +1530,6 @@ public:
     bool getInvisible() { return data.Invisible != 0; }
     virtual void setInvisible(bool bInvisible) { data.Invisible = bInvisible; }
 protected:
-
     void  freeData();
     State m_state;
     unsigned m_status;

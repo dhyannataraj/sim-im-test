@@ -454,6 +454,8 @@ public:
     XSL	*historyXSL;
     CoreData	data;
 
+	bool m_bIgnoreEvents;
+
 signals:
     void modeChanged();
 protected slots:
