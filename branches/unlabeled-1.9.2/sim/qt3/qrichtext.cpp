@@ -1,5 +1,5 @@
 #/****************************************************************************
-** $Id: qrichtext.cpp,v 1.9 2004-06-26 08:17:06 shutoff Exp $
+** $Id: qrichtext.cpp,v 1.9.2.1 2004-06-29 23:42:58 shutoff Exp $
 **
 ** Implementation of the internal Qt classes dealing with rich text
 **
@@ -1743,6 +1743,7 @@ int direction : 5;
                         continue;
 
                     if ( custom ) {
+						custom->setParagraph(curpar);
                         int index = curpar->length() - 1;
                         if ( index < 0 )
                             index = 0;
@@ -6277,14 +6278,14 @@ formatAgain:
         return format;
     }
 
-    struct QPixmapInt
+    struct QImageInt
     {
-        QPixmapInt() : ref( 0 ) {}
-        QPixmap pm;
+        QImageInt() : ref( 0 ) {}
+        QImage  img;
         int	    ref;
     };
 
-    static QMap<QString, QPixmapInt> *pixmap_map = 0;
+    static QMap<QString, QImageInt> *image_map = 0;
 
     QTextImage::QTextImage( QTextDocument *p, const QMap<QString, QString> &attr, const QString& context,
                             QMimeSourceFactory &factory )
@@ -6300,7 +6301,6 @@ formatAgain:
         if ( attr.contains("height") )
             height = attr["height"].toInt();
 
-        reg = 0;
         QString imageName = attr["src"];
 
         if (!imageName)
@@ -6312,16 +6312,15 @@ formatAgain:
 
         if ( !imageName.isEmpty() ) {
             imgId = QString( "%1,%2,%3,%4" ).arg( imageName ).arg( width ).arg( height ).arg( (ulong)&factory );
-            if ( !pixmap_map )
-                pixmap_map = new QMap<QString, QPixmapInt>;
-            if ( pixmap_map->contains( imgId ) ) {
-                QPixmapInt& pmi = pixmap_map->operator[](imgId);
-                pm = pmi.pm;
+            if ( !image_map )
+                image_map = new QMap<QString, QImageInt>;
+            if ( image_map->contains( imgId ) ) {
+                QImageInt& pmi = image_map->operator[](imgId);
+                img = pmi.img;
                 pmi.ref++;
-                width = pm.width();
-                height = pm.height();
+                width = img.width();
+                height = img.height();
             } else {
-                QImage img;
                 const QMimeSource* m =
                     factory.data( imageName, context );
                 if ( !m ) {
@@ -6353,22 +6352,16 @@ formatAgain:
                         width = img.width();
                         height = img.height();
                     }
-                    pm.convertFromImage( img );
                 }
-                if ( !pm.isNull() ) {
-                    QPixmapInt& pmi = pixmap_map->operator[](imgId);
-                    pmi.pm = pm;
+                if ( !img.isNull() ) {
+                    QImageInt& pmi = image_map->operator[](imgId);
+                    pmi.img = img;
                     pmi.ref++;
                 }
             }
-            if ( pm.mask() ) {
-                QRegion mask( *pm.mask() );
-                QRegion all( 0, 0, pm.width(), pm.height() );
-                reg = new QRegion( all.subtract( mask ) );
-            }
         }
 
-        if ( pm.isNull() && (width*height)==0 )
+        if ( img.isNull() && (width*height)==0 )
             width = height = 50;
 
         place = PlaceInline;
@@ -6385,19 +6378,17 @@ formatAgain:
 
     QTextImage::~QTextImage()
     {
-        if ( pixmap_map && pixmap_map->contains( imgId ) ) {
-            QPixmapInt& pmi = pixmap_map->operator[](imgId);
+        if ( image_map && image_map->contains( imgId ) ) {
+            QImageInt& pmi = image_map->operator[](imgId);
             pmi.ref--;
             if ( !pmi.ref ) {
-                pixmap_map->remove( imgId );
-                if ( pixmap_map->isEmpty() ) {
-                    delete pixmap_map;
-                    pixmap_map = 0;
+                image_map->remove( imgId );
+                if ( image_map->isEmpty() ) {
+                    delete image_map;
+                    image_map = 0;
                 }
             }
         }
-        if (reg)
-            delete reg;
     }
 
     QString QTextImage::richText() const
@@ -6448,34 +6439,60 @@ formatAgain:
             y = ypos;
         }
 
-        if ( pm.isNull() ) {
+        if ( img.isNull() ) {
             p->fillRect( x , y, width, height,  cg.dark() );
             return;
         }
 
         if ( is_printer( p ) ) {
-            p->drawPixmap( QPoint( x, y ), pm );
+            p->drawImage( QPoint( x, y ), img );
             return;
         }
 
         if ( placement() != PlaceInline && !QRect( xpos, ypos, width, height ).intersects( QRect( cx, cy, cw, ch ) ) )
             return;
 
-        if ( placement() == PlaceInline )
-            p->drawPixmap( x , y, pm );
-        else
-            p->drawPixmap( cx , cy, pm, cx - x, cy - y, cw, ch );
-
+#ifdef WIN32
+		QColor c;
+        if ( selected && placement() == PlaceInline && p->device()->devType() != QInternal::Printer ) {
+			c = cg.highlight();
+        }else{
+			QColor *bg = NULL;
+			if (paragrapth())
+				bg = paragrapth()->backgroundColor();
+			if (bg){
+				c = *bg;
+			}else{
+				c = cg.base();
+			}
+		}
+		QImage pict(img.width(), img.height(), 32);
+		unsigned char r = c.red();
+		unsigned char g = c.green();
+		unsigned char b = c.blue();
+		unsigned int *f = (unsigned int*)(img.bits());
+		unsigned int *t = (unsigned int*)(pict.bits());
+		for (unsigned i = 0; i < img.width() * img.height(); i++){
+			unsigned char a = qAlpha(f[i]);
+			t[i] = qRgba((a * qRed(f[i]) + (0xFF - a) * r) >> 8,
+				(a * qGreen(f[i]) + (0xFF - a) * g) >> 8,
+				(a * qBlue(f[i]) + (0xFF - a) * b) >> 8, 0xFF);
+		}
+	    if ( placement() == PlaceInline )
+			p->drawImage(x,  y, pict);
+		else
+			p->drawImage(cx, cy, pict, cx - x, cy - y, cw, ch);
+#else
         if ( selected && placement() == PlaceInline && p->device()->devType() != QInternal::Printer ) {
             // #if defined(Q_WS_X11)
             p->fillRect( QRect( QPoint( x, y ), pm.size() ), QBrush( cg.highlight(), QBrush::Dense4Pattern) );
-#if !defined(Q_WS_X11)
-            // #else // in WIN32 Dense4Pattern doesn't work correctly (transparency problem), so work around it
-            if ( !qrt_selection )
-                qrt_createSelectionPixmap( cg );
-            p->drawTiledPixmap( x, y, pm.width(), pm.height(), *qrt_selection );
+        }else{
+	        if ( placement() == PlaceInline )
+		        p->drawImage( x , y, img );
+			else
+				p->drawImage( cx , cy, img, cx - x, cy - y, cw, ch );
+		}
 #endif
-        }
     }
 
     void QTextHorizontalLine::setPainter( QPainter* p, bool adjust  )

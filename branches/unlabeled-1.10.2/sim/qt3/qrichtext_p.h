@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qrichtext_p.h,v 1.10 2004-06-26 08:17:07 shutoff Exp $
+** $Id: qrichtext_p.h,v 1.10.2.1 2004-06-29 23:42:59 shutoff Exp $
 **
 ** Definition of internal rich text classes
 **
@@ -74,6 +74,7 @@
 #include <limits.h>
 #include "qt3stuff.h"
 #include "qmap.h"
+#include "qimage.h"
 
 #if COMPAT_QT_VERSION < 0x030000
 #ifndef QT_NO_RICHTEXT
@@ -389,7 +390,7 @@ class QTextCustomItem
 {
 public:
     QTextCustomItem( QTextDocument *p )
-:  xpos(0), ypos(-1), width(-1), height(0), parent( p )
+:  xpos(0), ypos(-1), width(-1), height(0), parent( p ), parag(NULL)
     {}
     virtual ~QTextCustomItem();
     virtual void draw(QPainter* p, int x, int y, int cx, int cy, int cw, int ch, const QColorGroup& cg, bool selected ) = 0;
@@ -451,8 +452,7 @@ public:
     void draw( QPainter* p, int x, int y, int cx, int cy, int cw, int ch, const QColorGroup& cg, bool selected );
 
 private:
-    QRegion* reg;
-    QPixmap pm;
+    QImage img;
     Placement place;
     int tmpwidth, tmpheight;
     QMap<QString, QString> attributes;
