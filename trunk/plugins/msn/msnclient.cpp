@@ -704,7 +704,7 @@ void MSNClient::getLine(const char *line)
     }
     if (cmd == "OUT"){
         m_reconnect = NO_RECONNECT;
-        m_socket->error_state(I18N_NOOP("Youur account is being used from another location"));
+        m_socket->error_state(I18N_NOOP("Your account is being used from another location"));
         return;
     }
     if (cmd == "GTC")
