@@ -336,7 +336,7 @@ ICQClient::ICQClient(ICQProtocol *protocol, const char *cfg)
 
 ICQClient::~ICQClient()
 {
-    disconnected();
+    setStatus(STATUS_OFFLINE, false);
     delete m_listener;
     free_data(icqClientData, &data);
     if (m_socket)
@@ -363,9 +363,9 @@ bool ICQClient::compareData(void *d1, void *d2)
     ICQUserData *data1 = (ICQUserData*)d1;
     ICQUserData *data2 = (ICQUserData*)d2;
     if (data1->Uin)
-    	return data1->Uin == data2->Uin;
+        return data1->Uin == data2->Uin;
     if (data2->Uin)
-	return false;
+        return false;
     return strcmp(data1->Screen, data2->Screen);
 }
 
@@ -2573,7 +2573,7 @@ bool ICQClient::canSend(unsigned type, void *_data)
     case MessageSMS:
         return true;
     case MessageGeneric:
-	return (data != NULL);
+        return (data != NULL);
     case MessageURL:
     case MessageContact:
         return (data != NULL) && data->Uin;

@@ -49,6 +49,7 @@ MsgFile::MsgFile(CToolCustom *parent, Message *msg)
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
     parent->addWidget(this);
     QToolButton *btn = new QToolButton(parent);
+    btn->setAutoRaise(true);
     btn->setIconSet(*Icon("fileopen"));
     btn->setTextLabel(i18n("Select file"));
     parent->addWidget(btn);

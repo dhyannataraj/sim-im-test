@@ -273,9 +273,11 @@ void PluginManagerPrivate::release_all(Plugin *to)
         pluginInfo &info = plugins[n];
         if (info.plugin == to)
             break;
-        if (info.info && (info.info->flags & PLUGIN_PROTOCOL))
+        if (info.info && (info.info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT)))
             continue;
         release(info);
+        info.bDisabled = false;
+        info.bFromCfg  = false;
     }
 }
 

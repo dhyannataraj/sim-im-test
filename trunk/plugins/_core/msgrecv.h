@@ -22,14 +22,18 @@
 
 #include <qtoolbutton.h>
 
+#include <list>
+using namespace std;
+
 class CToolCustom;
 class MsgEdit;
+class QBoxLayout;
 
 class CmdButton : public QToolButton
 {
     Q_OBJECT
 public:
-    CmdButton(QWidget *parent, unsigned id, const char *text);
+    CmdButton(CToolCustom *parent, unsigned id, const char *text);
 signals:
     void command(unsigned);
 protected slots:

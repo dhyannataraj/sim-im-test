@@ -1,5 +1,5 @@
 #/****************************************************************************
-** $Id: qrichtext.cpp,v 1.2 2003-08-02 19:22:04 shutoff Exp $
+** $Id: qrichtext.cpp,v 1.3 2003-08-26 20:06:35 shutoff Exp $
 **
 ** Implementation of the internal Qt classes dealing with rich text
 **
@@ -4599,6 +4599,8 @@ formatAgain:
                 s += "&lt;";
             } else if ( c->c == '>' ) {
                 s += "&gt;";
+            } else if ( c->c == '&' ) {
+                s += "&amp;";
             } else if ( c->isCustom() ) {
                 s += c->customItem()->richText();
             } else {

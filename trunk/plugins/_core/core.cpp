@@ -58,6 +58,9 @@
 #include <sys/stat.h>
 #endif
 
+#include <list>
+using namespace std;
+
 Plugin *createCorePlugin(unsigned base, bool, const char *config)
 {
     Plugin *plugin = new CorePlugin(base, config);
@@ -308,9 +311,9 @@ static autoReply autoReplies[] =
         { STATUS_DND, I18N_NOOP(
               "Please do not disturb me now. Disturb me later.\n"
           ) },
-	{ STATUS_FFC, I18N_NOOP(
-	      "We'd love to hear what you have to say. Join our chat.\n"
-	  ) },
+        { STATUS_FFC, I18N_NOOP(
+              "We'd love to hear what you have to say. Join our chat.\n"
+          ) },
         { 0, NULL }
     };
 
@@ -2342,10 +2345,10 @@ void CorePlugin::hideWindows()
 void CorePlugin::changeProfile()
 {
     string saveProfile = getProfile();
-    Event eUnload(EventPluginsUnload, static_cast<Plugin*>(this));
-    eUnload.process();
     destroy();
     getContacts()->clearClients();
+    Event eUnload(EventPluginsUnload, static_cast<Plugin*>(this));
+    eUnload.process();
     getContacts()->clear();
     Event eLoad(EventPluginsLoad, static_cast<Plugin*>(this));
     eLoad.process();
@@ -2451,48 +2454,63 @@ bool CorePlugin::init(bool bInit)
 
 void CorePlugin::destroy()
 {
-    if (m_statusWnd){
-        delete m_statusWnd;
-        m_statusWnd = NULL;
-    }
-    if (m_view){
-        delete m_view;
-        m_view = NULL;
-    }
-    if (m_cfg){
-        delete m_cfg;
-        m_cfg = NULL;
-    }
-    if (m_main){
-        delete m_main;
-        m_main = NULL;
-    }
-    if (m_view){
-        delete m_view;
-        m_view = NULL;
-    }
-    if (m_cfg){
-        delete m_cfg;
-        m_cfg = NULL;
-    }
-    if (m_search){
-        delete m_search;
-        m_search = NULL;
-    }
-    if (m_manager){
-        delete m_manager;
-        m_manager = NULL;
-    }
-
-    QWidgetList  *list = QApplication::topLevelWidgets();
-    QWidgetListIt it(*list);
-    QWidget * w;
+    QWidgetList  *l = QApplication::topLevelWidgets();
+    QWidgetListIt it(*l);
+    QWidget *w;
+    list<QWidget*> forRemove;
     while ((w = it.current()) != NULL){
         ++it;
         if (w->inherits("Container"))
-            delete w;
+            forRemove.push_back(w);
     }
-    delete list;
+    log(L_DEBUG, "> Delete list");
+    delete l;
+    log(L_DEBUG, "> Delete list");
+    for (list<QWidget*>::iterator itr = forRemove.begin(); itr != forRemove.end(); ++itr)
+        delete *itr;
+
+    if (m_statusWnd){
+        log(L_DEBUG, "> Destroy m_statusWnd");
+        delete m_statusWnd;
+        m_statusWnd = NULL;
+        log(L_DEBUG, "< Destroy m_statusWnd");
+    }
+    if (m_view){
+        log(L_DEBUG, "> Destroy m_view");
+        delete m_view;
+        m_view = NULL;
+        log(L_DEBUG, "< Destroy m_view");
+    }
+    if (m_cfg){
+        log(L_DEBUG, "> Destroy m_cfg");
+        delete m_cfg;
+        m_cfg = NULL;
+        log(L_DEBUG, "< Destroy m_cfg");
+    }
+    if (m_main){
+        log(L_DEBUG, "> Destroy m_main");
+        delete m_main;
+        m_main = NULL;
+        log(L_DEBUG, "< Destroy m_main");
+    }
+    if (m_view){
+        log(L_DEBUG, "> Destroy m_view");
+        delete m_view;
+        m_view = NULL;
+        log(L_DEBUG, "< Destroy m_view");
+    }
+    if (m_search){
+        log(L_DEBUG, "> Destroy m_search");
+        delete m_search;
+        m_search = NULL;
+        log(L_DEBUG, "< Destroy m_search");
+    }
+    if (m_manager){
+        log(L_DEBUG, "> Destroy m_manager");
+        delete m_manager;
+        m_manager = NULL;
+        log(L_DEBUG, "< Destroy m_manager");
+    }
 }
 
 static char CLIENTS_CONF[] = "clients.conf";

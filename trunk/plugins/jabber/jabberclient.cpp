@@ -161,7 +161,7 @@ JabberClient::JabberClient(JabberProtocol *protocol, const char *cfg)
 
 JabberClient::~JabberClient()
 {
-    disconnected();
+    TCPClient::setStatus(STATUS_OFFLINE, false);
     free_data(jabberClientData, &data);
 }
 
@@ -206,6 +206,8 @@ string JabberClient::name()
 {
     string res = "Jabber.";
     res += data.owner.ID;
+    res += '@';
+    res += data.owner.VHost;
     return res;
 }
 
@@ -413,10 +415,12 @@ void JabberClient::setStatus(unsigned status, const char *ar)
         e.process();
     }
     if (status == STATUS_OFFLINE){
-        m_socket->writeBuffer.packetStart();
-        m_socket->writeBuffer
-        << "</stream:stream>\n";
-        sendPacket();
+        if (m_socket){
+            m_socket->writeBuffer.packetStart();
+            m_socket->writeBuffer
+            << "</stream:stream>\n";
+            sendPacket();
+        }
         Contact *contact;
         ContactList::ContactIterator it;
         time_t now;

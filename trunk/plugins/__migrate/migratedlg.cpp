@@ -346,8 +346,7 @@ void MigrateDialog::flush()
             unsigned short temp = 0x4345;
             for (i = 0; i < m_passwd.length(); i++) {
                 temp ^= m_passwd[i];
-                if (!new_passwd.empty())
-                    new_passwd += ';';
+                new_passwd += '$';
                 char buff[8];
                 sprintf(buff, "%x", temp);
                 new_passwd += buff;

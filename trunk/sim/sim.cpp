@@ -139,6 +139,7 @@ static const char *qt_args[] =
         "name:",
         "title:",
         "reverse",
+        "screen:",
         NULL
     };
 
