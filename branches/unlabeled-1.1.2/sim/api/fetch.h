@@ -39,11 +39,12 @@ typedef map<my_string, string> HEADERS_MAP;
 class FetchClient : public ClientSocketNotify
 {
 public:
-	FetchClient(const char *url, Buffer *postData, const char *headers);
+	FetchClient(TCPClient *client, const char *url, Buffer *postData, const char *headers);
 	~FetchClient();
 	unsigned id() { return m_id; }
 	bool	 done()	{ return m_bDone; }
 	void	 fail();
+	TCPClient	 *m_client;
 protected:
     virtual bool error_state(const char *err, unsigned code);
     virtual void connect_ready();
@@ -76,13 +77,14 @@ protected:
 #endif
 };
 
-class FetchManager
+class FetchManager : public EventReceiver
 {
 public:
 	FetchManager();
 	~FetchManager();
 	static FetchManager *manager;
 protected:
+	void *processEvent(Event*);
 	list<FetchClient*> m_clients;
 	unsigned m_id;
 	friend class FetchClient;

@@ -1117,18 +1117,19 @@ bool Client::compareData(void*, void*)
     return false;
 }
 
-void Client::setState(State state, const char *text)
+void Client::setState(State state, const char *text, unsigned code)
 {
-    if ((state == Error) || (state == AuthError)){
-        errorString = "";
-        if (text)
-            errorString = text;
-    }else{
-        errorString = "";
-    }
     m_state = state;
     Event e(EventClientChanged, this);
     e.process();
+    if (state == Error){
+		clientErrorData d;
+		d.client  = this;
+		d.err_str = text;
+		d.code	  = code;
+		Event e(EventClientError, &d);
+		e.process();
+    }
 }
 
 bool ContactList::moveClient(Client *client, bool bUp)

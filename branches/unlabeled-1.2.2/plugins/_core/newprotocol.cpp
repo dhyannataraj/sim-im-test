@@ -206,19 +206,27 @@ void *NewProtocol::processEvent(Event *e)
 {
     if (m_client == NULL)
         return NULL;
-    if (m_bConnect && (e->type() == EventClientChanged)){
-        if (m_client->getState() == Client::Connected){
-            QTimer::singleShot(0, this, SLOT(loginComplete()));
-            return NULL;
-        }
-        if ((m_client->getState() == Client::Error) || (m_client->getState() == Client::AuthError)){
-            m_connectWnd->setError(m_client->errorString.c_str());
-            m_bConnect = false;
-            m_client->setStatus(STATUS_OFFLINE, false);
-            setBackEnabled(m_connectWnd, true);
-            setFinishEnabled(m_connectWnd, false);
-            return NULL;
-        }
+    if (m_bConnect){
+		clientErrorData *d;
+		switch (e->type()){
+		case EventClientChanged:
+			if (m_client->getState() == Client::Connected){
+				QTimer::singleShot(0, this, SLOT(loginComplete()));
+				return NULL;
+			}
+			break;
+		case EventClientError:
+			d = (clientErrorData*)(e->param());
+			if (d->client == m_client){
+	            m_connectWnd->setError(d->err_str);
+		        m_bConnect = false;
+			    m_client->setStatus(STATUS_OFFLINE, false);
+				setBackEnabled(m_connectWnd, true);
+				setFinishEnabled(m_connectWnd, false);
+				return e->param();
+			}
+			break;
+		}
     }
     return NULL;
 }

@@ -324,7 +324,7 @@ void MSNClient::getLine(const char *line)
             clearPackets();
             m_socket->close();
             m_socket->readBuffer.init(0);
-            m_socket->connect(host.latin1(), port, "MSN");
+            m_socket->connect(host.latin1(), port, this);
             return;
         }
         l = id + " " + type + " " + l;
@@ -487,7 +487,7 @@ void MSNClient::getLine(const char *line)
         return;
     }
     if (cmd == "OUT"){
-        m_reconnectTime = NO_RECONNECT;
+        m_reconnect = NO_RECONNECT;
         m_socket->error_state(I18N_NOOP("Youur account is being used from another location"));
         return;
     }
@@ -558,8 +558,8 @@ void MSNClient::sendLine(const char *line, bool crlf)
 
 void MSNClient::authFailed()
 {
-    m_reconnectTime = NO_RECONNECT;
-    m_socket->error_state(I18N_NOOP("Login failed"), LOGIN_ERROR);
+    m_reconnect = NO_RECONNECT;
+    m_socket->error_state(I18N_NOOP("Login failed"), AuthError);
 }
 
 void MSNClient::authOk()
@@ -1145,7 +1145,7 @@ void *MSNClient::processEvent(Event *e)
                 auth += '\x00';
                 auth += '\x00';
                 m_state = TWN;
-                m_fetchId = fetch(loginUrl.c_str(), NULL, auth.c_str());
+                m_fetchId = fetch(this, loginUrl.c_str(), NULL, auth.c_str());
             }else{
                 m_socket->error_state("Bad answer code");
             }
@@ -1501,7 +1501,7 @@ void SBSocket::connect(const char *addr, const char *session, const char *cookie
         m_socket->error_state("Bad address");
         return;
     }
-    m_socket->connect(ip.c_str(), port, "MSN");
+    m_socket->connect(ip.c_str(), port, m_client);
 }
 
 bool SBSocket::send(Message *msg)

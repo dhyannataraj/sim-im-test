@@ -164,7 +164,7 @@ bool UsrPacket::answer(const char*, vector<string> &args)
     }
     if (args[1] == "S"){
         m_client->m_authChallenge = args[2].c_str();
-        m_client->m_fetchId = fetch("https://nexus.passport.com/rdr/pprdr.asp");
+        m_client->m_fetchId = fetch(m_client, "https://nexus.passport.com/rdr/pprdr.asp");
         if (m_client->m_fetchId == 0){
             m_client->authFailed();
             return false;

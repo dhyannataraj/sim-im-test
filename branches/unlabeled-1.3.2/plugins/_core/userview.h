@@ -60,6 +60,7 @@ protected slots:
     void showTip();
     void hideTip();
     void tipDestroyed();
+    void searchTipDestroyed();
     void blink();
     void unreadBlink();
     void doDrop();
@@ -81,9 +82,14 @@ protected:
     void contentsDragEnterEvent(QDragEnterEvent *e);
     void contentsDragMoveEvent(QDragMoveEvent *e);
     void contentsDropEvent(QDropEvent *e);
+	void focusOutEvent(QFocusEvent*);
     void sortAll();
     void sortAll(QListViewItem*);
     void dragEvent(QDropEvent *e, bool isDrop);
+	void search(list<QListViewItem*> &items);
+	void search(QListViewItem*, list<QListViewItem*> &items);
+	void stopSearch();
+	void showTip(QListViewItem*);
     QDragObject *dragObject();
     virtual void deleteItem(QListViewItem *item);
     list<BlinkCount> blinks;
@@ -91,10 +97,13 @@ protected:
     QListViewItem *m_dropItem;
     QListViewItem *m_current;
     TipLabel *m_tip;
+	TipLabel *m_searchTip;
     bool	 m_bBlink;
     QTimer   *tipTimer;
     QTimer	 *blinkTimer;
     QTimer	 *unreadTimer;
+	QString	 m_search;
+	QListViewItem *m_searchItem;
 };
 
 #endif

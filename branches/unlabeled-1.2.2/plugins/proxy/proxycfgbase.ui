@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>343</width>
+            <width>339</width>
             <height>264</height>
         </rect>
     </property>
@@ -28,32 +28,7 @@
             <name>spacing</name>
             <number>6</number>
         </property>
-        <widget row="0"  column="0" >
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>TextLabel1</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>Proxy type:</string>
-            </property>
-            <property>
-                <name>alignment</name>
-                <set>AlignVCenter|AlignRight</set>
-            </property>
-            <property>
-                <name>hAlign</name>
-            </property>
-        </widget>
-        <widget row="0"  column="1"  rowspan="1"  colspan="2" >
-            <class>QComboBox</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>cmbType</cstring>
-            </property>
-        </widget>
-        <widget row="1"  column="0" >
+        <widget row="2"  column="0" >
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
@@ -71,14 +46,14 @@
                 <name>hAlign</name>
             </property>
         </widget>
-        <widget row="1"  column="1"  rowspan="1"  colspan="2" >
+        <widget row="2"  column="1"  rowspan="1"  colspan="2" >
             <class>QLineEdit</class>
             <property stdset="1">
                 <name>name</name>
                 <cstring>edtHost</cstring>
             </property>
         </widget>
-        <widget row="2"  column="0" >
+        <widget row="3"  column="0" >
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
@@ -96,7 +71,7 @@
                 <name>hAlign</name>
             </property>
         </widget>
-        <widget row="2"  column="1" >
+        <widget row="3"  column="1" >
             <class>QSpinBox</class>
             <property stdset="1">
                 <name>name</name>
@@ -111,7 +86,7 @@
                 <number>1</number>
             </property>
         </widget>
-        <spacer row="2"  column="2" >
+        <spacer row="3"  column="2" >
             <property>
                 <name>name</name>
                 <cstring>Spacer4</cstring>
@@ -132,7 +107,7 @@
                 </size>
             </property>
         </spacer>
-        <widget row="3"  column="0"  rowspan="1"  colspan="3" >
+        <widget row="4"  column="0"  rowspan="1"  colspan="3" >
             <class>QCheckBox</class>
             <property stdset="1">
                 <name>name</name>
@@ -143,7 +118,7 @@
                 <string>Proxy require &amp;authorization</string>
             </property>
         </widget>
-        <widget row="4"  column="0" >
+        <widget row="5"  column="0" >
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
@@ -161,14 +136,14 @@
                 <name>hAlign</name>
             </property>
         </widget>
-        <widget row="4"  column="1"  rowspan="1"  colspan="2" >
+        <widget row="5"  column="1"  rowspan="1"  colspan="2" >
             <class>QLineEdit</class>
             <property stdset="1">
                 <name>name</name>
                 <cstring>edtUser</cstring>
             </property>
         </widget>
-        <widget row="5"  column="0" >
+        <widget row="6"  column="0" >
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
@@ -186,7 +161,7 @@
                 <name>hAlign</name>
             </property>
         </widget>
-        <widget row="5"  column="1"  rowspan="1"  colspan="2" >
+        <widget row="6"  column="1"  rowspan="1"  colspan="2" >
             <class>QLineEdit</class>
             <property stdset="1">
                 <name>name</name>
@@ -197,7 +172,7 @@
                 <enum>Password</enum>
             </property>
         </widget>
-        <spacer row="7"  column="0" >
+        <spacer row="8"  column="0" >
             <property>
                 <name>name</name>
                 <cstring>Spacer5</cstring>
@@ -218,7 +193,7 @@
                 </size>
             </property>
         </spacer>
-        <widget row="6"  column="0"  rowspan="1"  colspan="3" >
+        <widget row="7"  column="0"  rowspan="1"  colspan="3" >
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
@@ -238,6 +213,56 @@
             </property>
             <property>
                 <name>wordwrap</name>
+            </property>
+        </widget>
+        <widget row="1"  column="0" >
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>TextLabel1</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Proxy type:</string>
+            </property>
+            <property>
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+        <widget row="1"  column="1"  rowspan="1"  colspan="2" >
+            <class>QComboBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>cmbType</cstring>
+            </property>
+        </widget>
+        <widget row="0"  column="0" >
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>lblClient</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Client:</string>
+            </property>
+            <property>
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+        <widget row="0"  column="1"  rowspan="1"  colspan="2" >
+            <class>QComboBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>cmbClient</cstring>
             </property>
         </widget>
     </grid>
@@ -265,4 +290,13 @@
         <data format="XPM.GZ" length="646">789c6dd2c10ac2300c00d07bbf2234b7229d1be245fc04c5a3201e4615f430059d0711ff5ddb2e6bb236ec90eed134cb5a19d8ef36602af5ecdbfeeac05dda0798d3abebde87e3faa374d3807fa0d633a52d38d8de6f679fe33fc776e196f53cd010188256a3600a292882096246517815ca99884606e18044a3a40d91824820924265a7923a2e8bcd05f33db1173e002913175f2a6be6d3294871a2d95fa00e8a94ee017b69d339d90df1e77c57ea072ede6758</data>
     </image>
 </images>
+<tabstops>
+    <tabstop>cmbClient</tabstop>
+    <tabstop>cmbType</tabstop>
+    <tabstop>edtHost</tabstop>
+    <tabstop>edtPort</tabstop>
+    <tabstop>chkAuth</tabstop>
+    <tabstop>edtUser</tabstop>
+    <tabstop>edtPswd</tabstop>
+</tabstops>
 </UI>

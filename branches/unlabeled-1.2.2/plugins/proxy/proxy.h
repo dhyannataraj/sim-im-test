@@ -31,12 +31,23 @@ const unsigned PROXY_HTTP	= 4;
 
 typedef struct ProxyData
 {
+	char			*Client;
+	void			*Clients;
     unsigned long	Type;
     char			*Host;
     unsigned long	Port;
     unsigned		Auth;
     char			*User;
     char			*Password;
+	unsigned		Default;
+	bool			bInit;
+	ProxyData();
+	ProxyData(const ProxyData&);
+	ProxyData(const char *cfg);
+	~ProxyData();
+	bool operator == (const ProxyData&) const;
+	ProxyData& operator = (const ProxyData&);
+	ProxyData& operator = (const char *cfg);
 } ProxyData;
 
 class Proxy;
@@ -46,6 +57,7 @@ class ProxyPlugin : public Plugin, public EventReceiver
 public:
     ProxyPlugin(unsigned, const char*);
     virtual ~ProxyPlugin();
+	PROP_STRLIST(Clients);
     PROP_ULONG(Type);
     PROP_STR(Host);
     PROP_ULONG(Port);
@@ -54,11 +66,14 @@ public:
     PROP_STR(Password);
     unsigned ProxyPacket;
     list<Proxy*> proxies;
+    ProxyData data;
+	void clientData(Client*, ProxyData &data);
+	static const DataDef *proxyData;
+	unsigned ProxyErr;
 protected:
     virtual void *processEvent(Event*);
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual string getConfig();
-    ProxyData data;
 };
 
 #endif

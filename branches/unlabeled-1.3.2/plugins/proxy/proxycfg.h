@@ -19,24 +19,36 @@
 #define _PROXYCFG_H
 
 #include "simapi.h"
+#include "proxy.h"
 #include "proxycfgbase.h"
+
+#include <vector>
+using namespace std;
 
 class ProxyPlugin;
 class QTabWidget;
 
-class ProxyConfig : public ProxyConfigBase
+class ProxyConfig : public ProxyConfigBase, public EventReceiver
 {
     Q_OBJECT
 public:
-    ProxyConfig(QWidget *parent, ProxyPlugin *plugin, QTabWidget *tab);
+    ProxyConfig(QWidget *parent, ProxyPlugin *plugin, QTabWidget *tab, Client *client);
 public slots:
     void apply();
 protected slots:
+	void clientChanged(int client);
     void typeChanged(int type);
     void authToggled(bool auth);
 protected:
     void paintEvent(QPaintEvent*);
+	void *processEvent(Event*);
+	void fillClients();
+	void fill(ProxyData*);
+	void get(ProxyData*);
+	vector<ProxyData> m_data;
+	Client *m_client;
     ProxyPlugin *m_plugin;
+	unsigned m_current;
 };
 
 #endif

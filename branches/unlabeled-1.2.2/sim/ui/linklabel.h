@@ -38,7 +38,7 @@ class UI_EXPORT TipLabel : public QLabel
 public:
     TipLabel(const QString &text);
     ~TipLabel();
-    void show(const QRect &tipRect);
+    void show(const QRect &tipRect, bool bState = false);
     void setText(const QString &text);
 signals:
     void finished();

@@ -28,6 +28,23 @@ class CorePlugin;
 class QHBoxLayout;
 class QTimer;
 
+class StatusLabel : public QLabel
+{
+    Q_OBJECT
+public:
+    StatusLabel(QWidget *parent, Client *client, unsigned id);
+protected slots:
+    void timeout();
+protected:
+    void mousePressEvent(QMouseEvent *e);
+    void setPict();
+    QTimer		*m_timer;
+    Client		*m_client;
+    unsigned	m_id;
+    bool		m_bBlink;
+	friend class StatusWnd;
+};
+
 class StatusWnd : public QFrame, public EventReceiver
 {
     Q_OBJECT
@@ -38,26 +55,10 @@ protected slots:
 protected:
     virtual void mousePressEvent(QMouseEvent *e);
     virtual void *processEvent(Event *e);
+	StatusLabel *findLabel(Client*);
     QHBoxLayout	*m_lay;
 };
 
-class StatusLabel : public QLabel , public EventReceiver
-{
-    Q_OBJECT
-public:
-    StatusLabel(QWidget *parent, Client *client, unsigned id);
-protected slots:
-    void timeout();
-protected:
-    void *processEvent(Event*);
-    void mousePressEvent(QMouseEvent *e);
-    void setPict();
-    QTimer		*m_timer;
-    Client		*m_client;
-    unsigned	m_id;
-    bool		m_bBlink;
-    bool		m_bError;
-};
 
 #endif
 

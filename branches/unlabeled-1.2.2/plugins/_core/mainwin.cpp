@@ -18,6 +18,7 @@
 #include "mainwin.h"
 #include "simapi.h"
 #include "core.h"
+#include "userview.h"
 
 #include <qapplication.h>
 #include <qpixmap.h>
@@ -334,6 +335,13 @@ void MainWindow::setTitle()
     if (title.isEmpty())
         title = "SIM";
     setCaption(title);
+}
+
+void MainWindow::focusInEvent(QFocusEvent *e)
+{
+	QMainWindow::focusInEvent(e);
+	if (CorePlugin::m_plugin->m_view)
+		CorePlugin::m_plugin->m_view->setFocus();
 }
 
 #ifndef WIN32

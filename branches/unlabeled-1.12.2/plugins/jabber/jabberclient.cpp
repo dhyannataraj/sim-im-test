@@ -744,8 +744,8 @@ void JabberClient::auth_ok()
 
 void JabberClient::auth_failed()
 {
-    m_reconnectTime = NO_RECONNECT;
-    m_socket->error_state(I18N_NOOP("Login failed"), m_authCode);
+    m_reconnect = NO_RECONNECT;
+    m_socket->error_state(I18N_NOOP("Login failed"), AuthError);
 }
 
 string JabberClient::to_lower(const char *s)

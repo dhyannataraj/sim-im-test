@@ -30,6 +30,8 @@
 #include "icqmessage.h"
 #include "securedlg.h"
 #include "core.h"
+#include "msgedit.h"
+#include "ballonmsg.h"
 
 #include "simapi.h"
 #include "buffer.h"
@@ -1966,6 +1968,32 @@ void ICQClient::updateInfo(Contact *contact, void *_data)
 
 void *ICQClient::processEvent(Event *e)
 {
+	if (e->type() == EventMessageRetry){
+		MsgSend *m = (MsgSend*)(e->param());
+        QStringList btns;
+		if (m->msg->getRetryCode() == static_cast<ICQPlugin*>(protocol()->plugin())->RetrySendOccupied){
+            btns.append(i18n("Send &urgent"));
+		}else if (m->msg->getRetryCode() != static_cast<ICQPlugin*>(protocol()->plugin())->RetrySendDND){
+			return NULL;
+		}
+        btns.append(i18n("Send to &list"));
+        btns.append(i18n("&Cancel"));
+        QString err;
+        const char *err_str = m->msg->getError();
+        if (err_str && *err_str)
+            err = i18n(err_str);
+        Command cmd;
+        cmd->id		= CmdSend;
+        cmd->param	= m->edit;
+        Event eWidget(EventCommandWidget, cmd);
+        QWidget *msgWidget = (QWidget*)(eWidget.process());
+        if (msgWidget == NULL)
+            msgWidget = m->edit;
+        BalloonMsg *msg = new BalloonMsg(NULL, err, btns, msgWidget, NULL, false);
+        connect(msg, SIGNAL(action(int, void*)), this, SLOT(retry(int, void*)));
+        msg->show();
+		return e->param();
+	}
     if (e->type() == EventTemplateExpanded){
         TemplateExpand *t = (TemplateExpand*)(e->param());
         list<ar_request>::iterator it;
@@ -2850,6 +2878,34 @@ QString ICQClient::pictureFile(ICQUserData *data)
     f += number(data->Uin);
     f = user_file(f.c_str());
     return QFile::decodeName(f.c_str());
+}
+
+void ICQClient::retry(int n, void *p)
+{
+	MsgSend *m = (MsgSend*)p;
+	if (m->msg->getRetryCode() == static_cast<ICQPlugin*>(protocol()->plugin())->RetrySendDND){
+		if (n == 0){
+			m->edit->m_flags = MESSAGE_LIST;
+		}else{
+			return;
+		}
+	}else if (m->msg->getRetryCode() == static_cast<ICQPlugin*>(protocol()->plugin())->RetrySendOccupied){
+	    switch (n){
+		case 0:
+			m->edit->m_flags = MESSAGE_URGENT;
+			break;
+		case 1:
+			m->edit->m_flags = MESSAGE_LIST;
+			break;
+		default:
+			return;
+		}
+	}
+    Command cmd;
+    cmd->id    = CmdSend;
+    cmd->param = m->edit;
+    Event e(EventCommandExec, cmd);
+    e.process();
 }
 
 #ifndef WIN32

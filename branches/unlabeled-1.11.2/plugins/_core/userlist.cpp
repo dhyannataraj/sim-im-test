@@ -259,6 +259,7 @@ QString ContactItem::key(int column, bool ascending ) const
             res += text(n).lower();
             mode = mode >> 8;
         }
+		return res;
     }
     return UserViewItemBase::key(column, ascending);
 }

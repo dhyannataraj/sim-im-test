@@ -489,6 +489,9 @@ ICQPlugin::ICQPlugin(unsigned base, const char *cfg)
     eCmd.process();
 
     registerMessages();
+
+	RetrySendDND = registerType();
+	RetrySendOccupied = registerType();
 }
 
 ICQPlugin::~ICQPlugin()

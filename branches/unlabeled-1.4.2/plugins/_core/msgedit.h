@@ -19,6 +19,7 @@
 #define _MSGEDIT_H
 
 #include "simapi.h"
+#include "core.h"
 
 #include <qmainwindow.h>
 #include <qlabel.h>
@@ -48,6 +49,7 @@ public:
     bool sendMessage(Message *msg);
     static void setupMessages();
     Client		*client(void *&data);
+    unsigned	m_flags;
 signals:
     void heightChanged(int);
     void init();
@@ -60,10 +62,8 @@ public slots:
     void setInput();
     void goNext();
     void setupNext();
-    void retry(int, void*);
 protected:
     unsigned m_type;
-    unsigned m_flags;
     void *processEvent(Event*);
     void resizeEvent(QResizeEvent*);
     void stopSend(bool bCheck=true);
@@ -73,6 +73,7 @@ protected:
     list<unsigned> multiply;
     list<unsigned>::iterator multiply_it;
     Message		*m_msg;
+	MsgSend		m_retry;
     string m_client;
 };
 

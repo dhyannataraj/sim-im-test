@@ -24,8 +24,6 @@
 namespace SIM
 {
 
-const unsigned LOGIN_ERROR = 401;
-
 class EXPORT SocketNotify
 {
 public:
@@ -117,6 +115,8 @@ public:
     virtual void write_ready() {}
 };
 
+class TCPClient;
+
 class EXPORT ClientSocket : public SocketNotify
 {
 public:
@@ -125,7 +125,7 @@ public:
     Buffer readBuffer;
     Buffer writeBuffer;
     virtual void error_state(const char *err, unsigned code = 0);
-    void connect(const char *host, int port, const char *proto);
+    void connect(const char *host, int port, TCPClient *client);
     void write();
     void pause(unsigned);
     unsigned long localHost();
@@ -160,18 +160,18 @@ public:
     TCPClient(Protocol *protocol, const char *cfg);
     virtual const char		*getServer() = 0;
     virtual unsigned long	getPort() = 0;
+    unsigned		m_reconnect;
+    virtual void	setStatus(unsigned status, bool bCommon);
 protected slots:
     void reconnect();
 protected:
     virtual void	setStatus(unsigned status) = 0;
     virtual void	disconnected() = 0;
 
-    virtual void	setStatus(unsigned status, bool bCommon);
     virtual void	connect_ready();
     virtual bool	error_state(const char *err, unsigned code);
     void			setClientStatus(unsigned status);
     ClientSocket	*m_socket;
-    unsigned		m_reconnectTime;
     unsigned		m_logonStatus;
     QTimer			*m_timer;
     bool			m_bWaitReconnect;

@@ -51,10 +51,13 @@ protected slots:
     void slotError(int);
     void slotLookupFinished(int);
     void resolveReady(unsigned long addr, const char *host);
+	void timeout();
 protected:
+	void timerStop();
     unsigned short port;
     string host;
     QSocket *sock;
+	QTimer  *timer;
     bool bInWrite;
 };
 

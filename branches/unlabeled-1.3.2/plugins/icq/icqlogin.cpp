@@ -30,8 +30,6 @@
 #endif
 #endif
 
-const unsigned RATE_LIMIT_RECONNECT = 1800;
-
 const unsigned short ICQ_SNACxLOGIN_ERROR				= 0x0001;
 const unsigned short ICQ_SNACxLOGIN_MD5xLOGIN			= 0x0002;
 const unsigned short ICQ_SNACxLOGIN_LOGINxREPLY			= 0x0003;
@@ -53,8 +51,8 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
     unsigned long newUin;
     switch (type){
     case ICQ_SNACxLOGIN_ERROR:
-        m_reconnectTime = NO_RECONNECT;
-        m_socket->error_state(I18N_NOOP("Login error"), LOGIN_ERROR);
+        m_reconnect = NO_RECONNECT;
+        m_socket->error_state(I18N_NOOP("Login error"), AuthError);
         break;
     case ICQ_SNACxLOGIN_REGISTER:
         if (data.owner.Uin){
@@ -66,7 +64,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
         log(L_DEBUG, "Register %u %08lX", newUin, newUin);
         setUin(newUin);
         setState(Connecting);
-        m_socket->connect(getServer(), getPort(), protocol()->description()->text);
+        m_socket->connect(getServer(), getPort(), this);
         break;
 #ifdef USE_MD5_AUTH
     case ICQ_SNACxLOGIN_AUTHxKEYxRESPONSE:{
@@ -191,23 +189,23 @@ void ICQClient::chn_close()
         case ICQ_LOGIN_ERRxIP_RATE_LIMIT:
         case ICQ_LOGIN_ERRxIP_RATE_LIMIT1:
             errString = I18N_NOOP("Too many clients from same IP");
-            m_reconnectTime = RATE_LIMIT_RECONNECT;
+            m_reconnect = NO_RECONNECT;
             break;
         case ICQ_LOGIN_ERRxRATE_LIMIT:
             errString = I18N_NOOP("Rate limit");
-            m_reconnectTime = RATE_LIMIT_RECONNECT;
+            m_reconnect = NO_RECONNECT;
             break;
         case ICQ_LOGIN_ERRxBAD_PASSWD:
         case ICQ_LOGIN_ERRxBAD_PASSWD1:
             errString = I18N_NOOP("Invalid UIN and password combination");
-            m_reconnectTime = NO_RECONNECT;
-            errorCode = LOGIN_ERROR;
+            m_reconnect = NO_RECONNECT;
+            errorCode = AuthError;
             break;
         case ICQ_LOGIN_ERRxNOT_EXISTS:
         case ICQ_LOGIN_ERRxNOT_EXISTS1:
             errString = I18N_NOOP("Non-existant UIN");
-            m_reconnectTime = NO_RECONNECT;
-            errorCode = LOGIN_ERROR;
+            m_reconnect = NO_RECONNECT;
+            errorCode = AuthError;
             break;
         case 0:
             break;
@@ -228,7 +226,7 @@ void ICQClient::chn_close()
         switch (err){
         case 0x1:{
                 errString = I18N_NOOP("Youur UIN is being used from another location");
-                m_reconnectTime = NO_RECONNECT;
+                m_reconnect = NO_RECONNECT;
                 break;
             }
         case 0:
@@ -261,7 +259,7 @@ void ICQClient::chn_close()
     *port = 0;
     port++;
     m_socket->close();
-    m_socket->connect(host, atol(port), protocol()->description()->text);
+    m_socket->connect(host, atol(port), this);
     m_cookie.init(0);
     m_cookie.pack(*tlv_cookie, tlv_cookie->Size());
 }
