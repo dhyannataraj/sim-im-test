@@ -230,8 +230,6 @@ void ListView::resizeEvent(QResizeEvent *e)
 
 void ListView::adjustColumn()
 {
-    if (firstChild() == NULL)
-        return;
     if (m_expandingColumn >= 0){
         int w = width();
         QScrollBar *vBar = verticalScrollBar();

@@ -1,5 +1,5 @@
 /***************************************************************************
-                          search.h  -  description
+                          searchall.cpp  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,38 +15,25 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _SEARCH_H
-#define _SEARCH_H
+#include "searchall.h"
+#include "intedit.h"
 
-#include "simapi.h"
-#include "stl.h"
-
-#include "searchbase.h"
-
-class ListView;
-
-class SearchDialog : public SearchBase
+SearchAll::SearchAll(QWidget *parent)
+: SearchAllBase(parent)
 {
-    Q_OBJECT
-public:
-    SearchDialog();
-    ~SearchDialog();
-public slots:
-	void setAdd(bool bAdd);
-	void clientActivated(int);
-	void aboutToShow(QWidget*);
-	void textChanged(const QString&);
-signals:
-    void finished();
-protected:
-	ListView	*m_result;
-	QWidget		*m_current;
-	void resizeEvent(QResizeEvent*);
-	void moveEvent(QMoveEvent*);
-	void closeEvent(QCloseEvent*);
-	void fillClients();
-	bool m_bAdd;
-};
+	connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));
+	edtMail->setValidator(new EMailValidator(edtMail));
+	new GroupRadioButton(i18n("&E-Mail address"), grpMail);
+	new GroupRadioButton(i18n("&Name"), grpName);
+}
 
+void SearchAll::showEvent(QShowEvent *e)
+{
+	SearchAllBase::showEvent(e);
+	emit setAdd(false);
+}
+
+#ifndef WIN32
+#include "searchall.moc"
 #endif
 

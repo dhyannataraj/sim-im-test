@@ -1128,10 +1128,10 @@ bool ICQClient::processListRequest()
             break;
         }
         if (m_listRequest)
-            return true;
+			break;
         listRequests.erase(listRequests.begin());
     }
-	return false;
+	return true;
 }
 
 void ICQClient::checkListRequest()

@@ -421,11 +421,9 @@ void QWindowsXPStyle::polish( QWidget *widget )
         widget->installEventFilter( this );
         widget->setMouseTracking( TRUE );
         widget->setBackgroundOrigin( QWidget::ParentOrigin );
-        widget->setAutoMask(true);
-        if (widget->inherits("QToolButton")){
-            QToolButton *btn = static_cast<QToolButton*>(widget);
-            btn->setAutoRaise(false);
-        }
+        widget->setAutoMask(!widget->inherits("QRadioButton"));
+        if (widget->inherits("QToolButton"))
+		    static_cast<QToolButton*>(widget)->setAutoRaise(false);
     } else if ( widget->inherits("QTabBar")) {
         widget->installEventFilter( this );
         widget->setMouseTracking( TRUE );
@@ -612,6 +610,12 @@ QRect QMyHeader::sectionRect(int index)
     return QHeader::sRect(index);
 }
 
+class MyRadioButton : public QRadioButton
+{
+public:
+	void drawButtonLabel(QPainter *p) { QRadioButton::drawButtonLabel(p); }
+};
+
 
 // HotSpot magic
 /*! \reimp */
@@ -722,12 +726,38 @@ bool QWindowsXPStyle::eventFilter( QObject *o, QEvent *e )
             return true;
         }
         if (o->inherits("QRadioButton")){
-            QPainter p(widget);
-            QRadioButton *btn = static_cast<QRadioButton*>(widget);
-            QWidget *parent = btn->parentWidget();
-            if (parent && parent->backgroundPixmap()){
-                QPoint pp = btn->mapToParent(QPoint(0, 0));
-                p.drawPixmap(0, 0, *parent->backgroundPixmap(), pp.x(), pp.y(), btn->width(), btn->height());
+            MyRadioButton *btn = static_cast<MyRadioButton*>(widget);
+			QWidget *parent;
+            for (parent = btn->parentWidget(); parent; parent = parent->parentWidget()){
+				if (parent->backgroundPixmap())
+					break;
+				if (parent == btn->topLevelWidget()){
+					parent = NULL;
+					break;
+				}
+			}
+			if (parent){
+				QPixmap pict(btn->width(), btn->height());
+				QPainter p(&pict);
+				QPoint pos = btn->mapToGlobal(QPoint(0, 0));
+				pos = parent->mapFromGlobal(pos);
+				p.drawPixmap(0, 0, *parent->backgroundPixmap(), pos.x(), pos.y());
+			    const QColorGroup &g = btn->colorGroup();
+				int	x, y;
+				QFontMetrics fm = btn->fontMetrics();
+				QSize lsz       = fm.size(ShowPrefix, btn->text());
+				QSize sz = exclusiveIndicatorSize();
+				x = btn->text().isEmpty() ? 1 : 0;
+				y = (btn->height() - lsz.height() + fm.height() - sz.height())/2;
+	            const QWidget *w = d->currentWidget;
+	            d->currentWidget = widget;
+				drawExclusiveIndicator(&p, x, y, sz.width(), sz.height(), g, btn->isOn(), btn->isDown(), btn->isEnabled() );
+	            d->currentWidget = w;
+				btn->drawButtonLabel(&p);
+				p.end();
+				p.begin(btn);
+				p.drawPixmap(0, 0, pict);
+				return true;
             }
             return false;
         }
@@ -1149,12 +1179,39 @@ void QWindowsXPStyle::drawExclusiveIndicator( QPainter* p, int x, int y, int w, 
     if ( on )
         stateId += RBS_CHECKEDNORMAL-1;
 
-    XPThemeData theme( 0, p, "BUTTON", BP_RADIOBUTTON, stateId, QRect(x, y, w, h));
+	QPixmap pict(w, h);
+	QPainter pp(&pict);
+	pp.setBackgroundColor(qApp->palette().active().background());
+	pp.eraseRect(0, 0, w, h);
+	if (d->currentWidget){
+			QWidget *parent;
+            for (parent = d->currentWidget->parentWidget(); parent; parent = parent->parentWidget()){
+				if (parent->backgroundPixmap())
+					break;
+				if (parent == d->currentWidget->topLevelWidget()){
+					parent = NULL;
+					break;
+				}
+			}
+			if (parent){
+				QPoint pos = d->currentWidget->mapToGlobal(QPoint(0, 0));
+				pos = parent->mapFromGlobal(pos);
+				pp.drawPixmap(0, 0, *parent->backgroundPixmap(), pos.x(), pos.y());
+			}
+	}
+    XPThemeData theme( 0, &pp, "BUTTON", BP_RADIOBUTTON, stateId, QRect(0, 0, w, h));
     if ( !theme.isValid() ) {
         QWindowsStyle::drawExclusiveIndicator( p, x, y, w, h, g, on, down, enabled);
         return;
     }
     theme.drawBackground();
+	pp.end();
+	QBitmap mask(w, h);
+	pp.begin(&mask);
+	drawExclusiveIndicatorMask(&pp, 0, 0, w, h, on);
+	pp.end();
+	pict.setMask(mask);
+	p->drawPixmap(x, y, pict);
 }
 
 void QWindowsXPStyle::drawExclusiveIndicatorMask( QPainter *p, int x, int y, int w, int h, bool on)

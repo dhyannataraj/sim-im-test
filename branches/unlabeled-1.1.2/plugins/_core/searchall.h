@@ -1,5 +1,5 @@
 /***************************************************************************
-                          search.h  -  description
+                          searchall.h  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,37 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _SEARCH_H
-#define _SEARCH_H
+#ifndef _SEARCHALL_H
+#define _SEARXHALL_H
 
 #include "simapi.h"
-#include "stl.h"
+#include "searchallbase.h"
 
-#include "searchbase.h"
-
-class ListView;
-
-class SearchDialog : public SearchBase
+class SearchAll : public SearchAllBase
 {
     Q_OBJECT
 public:
-    SearchDialog();
-    ~SearchDialog();
-public slots:
-	void setAdd(bool bAdd);
-	void clientActivated(int);
-	void aboutToShow(QWidget*);
-	void textChanged(const QString&);
+    SearchAll(QWidget *parent);
 signals:
-    void finished();
+	void setAdd(bool);
 protected:
-	ListView	*m_result;
-	QWidget		*m_current;
-	void resizeEvent(QResizeEvent*);
-	void moveEvent(QMoveEvent*);
-	void closeEvent(QCloseEvent*);
-	void fillClients();
-	bool m_bAdd;
+	void showEvent(QShowEvent*);
 };
 
 #endif

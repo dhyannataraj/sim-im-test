@@ -940,6 +940,9 @@ unsigned long ICQClient::fullStatus(unsigned s)
 
 ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool bCreate, Contact *&contact, Group *grp, bool bJoin)
 {
+	if ((screen == NULL) || (*screen == 0))
+		return NULL;
+
     string s;
     for (const char *p = screen; *p; p++)
         s += (char)tolower(*p);

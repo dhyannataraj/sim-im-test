@@ -1,5 +1,5 @@
 /***************************************************************************
-                          search.h  -  description
+                          nonim.cpp  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,38 +15,25 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _SEARCH_H
-#define _SEARCH_H
+#include "nonim.h"
+#include "intedit.h"
 
-#include "simapi.h"
-#include "stl.h"
-
-#include "searchbase.h"
-
-class ListView;
-
-class SearchDialog : public SearchBase
+NonIM::NonIM(QWidget *parent)
+: NonIMBase(parent)
 {
-    Q_OBJECT
-public:
-    SearchDialog();
-    ~SearchDialog();
-public slots:
-	void setAdd(bool bAdd);
-	void clientActivated(int);
-	void aboutToShow(QWidget*);
-	void textChanged(const QString&);
-signals:
-    void finished();
-protected:
-	ListView	*m_result;
-	QWidget		*m_current;
-	void resizeEvent(QResizeEvent*);
-	void moveEvent(QMoveEvent*);
-	void closeEvent(QCloseEvent*);
-	void fillClients();
-	bool m_bAdd;
-};
+	connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));
+	edtMail->setValidator(new EMailValidator(edtMail));
+	edtPhone->setValidator(new PhoneValidator(edtPhone));
+}
 
+void NonIM::showEvent(QShowEvent *e)
+{
+	NonIMBase::showEvent(e);
+	emit setAdd(true);
+}
+
+
+#ifndef WIN32
+#include "nonim.moc"
 #endif
 
