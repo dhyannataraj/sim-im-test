@@ -37,8 +37,8 @@ MiscSetup::MiscSetup(QWidget *p)
     edtMail->setText(QString::fromLocal8Bit(pMain->MailClient.c_str()));
 #ifdef USE_KDE
     chkSync->setChecked(pMain->AutoSync);
-#endif
-    connect(btnSync,SIGNAL(clicked()),this,SLOT(clickedSync()));
+    connect(btnSync,SIGNAL(clicked()),SLOT(clickedSync()));
+#endif    
 }
 
 void MiscSetup::apply(ICQUser*)
@@ -151,46 +151,51 @@ void MiscSetup::clickedSync()
         while (it!=pClient->contacts.users.end())
         {
             SIMUser& user=*(static_cast<SIMUser*>(*it));
-            Addressee newPers;
-            if (!user.strKabUid.empty())
+            
+            if (!user.inIgnore())
             {
-                Addressee pers=ab.findByUid(QString::fromLocal8Bit(user.strKabUid.c_str()));
-                if (!pers.isEmpty())
+                Addressee newPers;
+                if (!user.strKabUid.empty())
                 {
-                    bFound=true;
-                    newPers=pers;
-                }
-            }
-            else
-            {
-                list<EMailInfo*>::iterator it=user.EMails.begin();
-                while (it!=user.EMails.end())
-                {
-                    Addressee::List li=ab.findByEmail((*it)->Email.c_str());
-                    Addressee::List::iterator lit=li.begin();
-                    if (lit!=li.end())
+                    Addressee pers=ab.findByUid(QString::fromLocal8Bit(user.strKabUid.c_str()));
+                    if (!pers.isEmpty())
                     {
                         bFound=true;
-                        newPers=(*lit);
-                        break;
+                        newPers=pers;
                     }
-                    it++;
                 }
+                else
+                {
+                    list<EMailInfo*>::iterator it=user.EMails.begin();
+                    while (it!=user.EMails.end())
+                    {
+                        Addressee::List li=ab.findByEmail((*it)->Email.c_str());
+                        Addressee::List::iterator lit=li.begin();
+                        if (lit!=li.end())
+                        {
+                            bFound=true;
+                            newPers=(*lit);
+                            break;
+                        }
+                        it++;
+                    }
+                 }
+
+                Addressee pers;
+                if (bFound)
+                    pers=addresseeFromUser(user,&newPers);
+                else
+                    pers=addresseeFromUser(user);
+
+                user.strKabUid=(const char*)pers.uid();
+                ab.insertAddressee(pers);
             }
-
-            Addressee pers;
-            if (bFound)
-                pers=addresseeFromUser(user,&newPers);
-            else
-                pers=addresseeFromUser(user);
-
-            user.strKabUid=(const char*)pers.uid();
-            ab.insertAddressee(pers);
+            
             it++;
         }
 
         StdAddressBook::save();
-	pMain->saveContacts();
+		pMain->saveContacts();
     }
 #endif
 }
