@@ -43,6 +43,7 @@ FontSetup::FontSetup(QWidget *p)
 #else
     chkSystem->hide();
 #endif
+    chkOwnColors->setChecked(pMain->UseOwnColors());
     grpContainer->setButton(pMain->ContainerMode());
     btnSend->setColor(QColor(pMain->ColorSend));
     btnReceive->setColor(QColor(pMain->ColorReceive));
@@ -83,6 +84,7 @@ void FontSetup::apply(ICQUser*)
 #ifdef USE_KDE
     }
 #endif
+    pMain->changeOwnColors(chkOwnColors->isChecked());
     pMain->setFonts();
     QWidget *w = grpContainer->selected();
     if (w == rbtUser)

@@ -16,17 +16,16 @@
      *                                                                         *
      ***************************************************************************/
 
-#include "defs.h"
+#include "mainwin.h"
 #include <string>
 #include <stack>
 using namespace std;
-#include <qstring.h>
 
-#define TEXT	 1
-#define URL	 2
+#define TXT		 1
+#define URL		 2
 #define SMILE	 3
-#define BR	 4
-#define TAG	 5
+#define BR		 4
+#define TAG		 5
 #define TAG_END  6
 
 %}
@@ -60,9 +59,8 @@ using namespace std;
 8\-\)+							{ return SMILE+0xD; }
 [0O]\-\)+						{ return SMILE+0xE; }
 :\-D							{ return SMILE+0xF; }
-.							{ return TEXT; }
+.							{ return TXT; }
 %%
-
 
 #ifdef WIN32
 #define vsnprintf _vsnprintf
@@ -82,13 +80,13 @@ static const tag_def defs[] =
         { "b", 1 },
         { "u", 1 },
         { "a", 1 },
-        { "font", 1 },
+        { "font", 2 },
         { "img", 0 },
         { "hr", 0 },
         { "", 0 }
     };
 
-QString ParseText(const char *text)
+QString MainWindow::ParseText(const char *text, bool bIgnoreColors)
 {
     yy_current_buffer = yy_scan_string(text);
     QString res;
@@ -98,7 +96,7 @@ QString ParseText(const char *text)
         int r = yylex();
         if (!r) break;
         switch (r){
-        case TEXT:
+        case TXT:
             res += QString::fromLocal8Bit(yytext);
             break;
         case TAG:
@@ -127,18 +125,29 @@ QString ParseText(const char *text)
                     if (bClosed){
                         for (; !tags.empty(); tags.pop()){
                             if (strcasecmp(d->name, tags.top().name)){
-                                res += "</";
-                                res += tags.top().name;
-                                res += ">";
+                                if ((tags.top().pair != 2) || !bIgnoreColors){
+                                    res += "</";
+                                    res += tags.top().name;
+                                    res += ">";
+                                }
                                 continue;
                             }
-                            res += QString::fromLocal8Bit(tag.c_str());
+                            if ((tags.top().pair != 2) || !bIgnoreColors)
+                                res += QString::fromLocal8Bit(tag.c_str());
                             tags.pop();
                             break;
                         }
                     }else{
-                        res += QString::fromLocal8Bit(tag.c_str());
-                        tags.push(*d);
+                        tag_def td = *d;
+                        if ((d->pair == 2) && bIgnoreColors){
+                            if (strstr(tag.c_str(), " color=") == NULL){
+                                td.pair = 1;
+                                res += QString::fromLocal8Bit(tag.c_str());
+                            }
+                        }else{
+                            res += QString::fromLocal8Bit(tag.c_str());
+                        }
+                        if (d->pair) tags.push(td);
                     }
                 }
             }
@@ -175,5 +184,7 @@ QString ParseText(const char *text)
     yy_current_buffer = NULL;
     return res;
 }
+
+
 
 

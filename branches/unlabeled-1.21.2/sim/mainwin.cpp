@@ -247,7 +247,8 @@ MainWindow::MainWindow(const char *name)
         ContainerMode(this, "ContainerMode", ContainerModeGroup),
         MessageBgColor(this, "MessageBgColor"),
         MessageFgColor(this, "MessageFgColor"),
-        SimpleMode(this, "SimpleMode")
+        SimpleMode(this, "SimpleMode"),
+        UseOwnColors(this, "UseOwnColors")
 {
     pMain = this;
     bQuit = false;
@@ -414,6 +415,13 @@ void MainWindow::setBackgroundPixmap(const QPixmap &pm)
 void MainWindow::changeColors()
 {
     emit colorsChanged();
+}
+
+void MainWindow::changeOwnColors(bool bUse)
+{
+    if (bUse == UseOwnColors()) return;
+    UseOwnColors = bUse;
+    emit ownColorsChanged();
 }
 
 void MainWindow::toggleOnTop()

@@ -47,8 +47,7 @@ class TextShow : public QTextBrowser
     Q_OBJECT
 public:
     TextShow (QWidget *parent, const char *name=NULL);
-    void addMessageText(ICQMessage*);
-    QString makeMessageText(ICQMessage*);
+    QString makeMessageText(ICQMessage*, bool bIgnore);
     void setForeground(const QColor&);
     void setBackground(const QColor&);
     void resetColors();
@@ -90,6 +89,7 @@ public slots:
     void addMessage(ICQMessage *msg, bool bUnread, bool bSet);
     void setMessage(unsigned long uin, unsigned long msgId);
 protected slots:
+    virtual void ownColorsChanged();
     void messageRead(ICQMessage *msg);
     void colorsChanged();
 protected:
@@ -99,16 +99,35 @@ protected:
     unsigned long oldReceiveColor;
 };
 
+typedef struct MsgBgColor
+{
+    unsigned long id;
+    unsigned long rgb;
+} MsgBgColor;
+
+class ICQUser;
+class History;
+
 class HistoryView : public MsgView
 {
     Q_OBJECT
 public:
     HistoryView(QWidget *p, unsigned long uin);
+    ~HistoryView();
+signals:
+    void showProgress(int);
 protected slots:
+    virtual void ownColorsChanged();
     void messageReceived(ICQMessage *msg);
     void processEvent(ICQEvent *e);
+    void fill();
 protected:
     unsigned long m_nUin;
+    bool bFill;
+    ICQUser *u;
+    History *h;
+    QValueList<MsgBgColor> colors;
+    QString t;
 };
 
 #endif

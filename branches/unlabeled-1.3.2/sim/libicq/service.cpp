@@ -121,7 +121,7 @@ void ICQClient::sendLogonStatus()
     char *host;
     unsigned short port;
     if (getLocalAddr(host, port))
-    	IP = inet_addr(host);
+        IP = inet_addr(host);
 
     log(L_DEBUG, "Logon status");
     if (inInvisible()) sendVisibleList();

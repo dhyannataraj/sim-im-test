@@ -245,8 +245,8 @@ void DirectSocket::sendInit()
     char *host;
     unsigned short port;
     if (getLocalAddr(host, port)){
-	log(L_DEBUG, "get local addr OK");
-	remote_ip = inet_addr(host);
+        log(L_DEBUG, "get local addr OK");
+        remote_ip = inet_addr(host);
     }
     port = 0;
     unsigned pos = writeBuffer.writePos();

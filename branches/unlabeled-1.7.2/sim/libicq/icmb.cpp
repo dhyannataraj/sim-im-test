@@ -625,7 +625,7 @@ void ICQClient::acceptMessage(ICQMessage *m)
                 remote_ip = u->RealIP();
         }
         if (getLocalAddr(host, port, remote_ip))
-		local_ip = inet_addr(host);
+            local_ip = inet_addr(host);
         msg_id id;
         id.l = m->timestamp1;
         id.h = m->timestamp2;
