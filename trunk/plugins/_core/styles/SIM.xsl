@@ -27,8 +27,6 @@
 <xsl:value-of select="time/hour"/>:<xsl:value-of select="time/minute"/>
 <xsl:text> </xsl:text>
 <xsl:value-of disable-output-escaping="yes" select="from"/>
-<xsl:text> </xsl:text>
-<xsl:value-of disable-output-escaping="yes" select="body"/>
 </font>
 </xsl:when>
 <xsl:otherwise>
@@ -53,10 +51,12 @@
 <xsl:value-of select="time/date"/>
 <xsl:text> </xsl:text>
 <xsl:value-of select="time/hour"/>:<xsl:value-of select="time/minute"/>:<xsl:value-of select="time/second"/>
-</font></span><br/>
-<xsl:value-of disable-output-escaping="yes" select="body"/>
+</font></span>
 </xsl:otherwise>
 </xsl:choose>
+</p>
+<p>
+<xsl:value-of disable-output-escaping="yes" select="body"/>
 </p>
 </xsl:template>
 </xsl:stylesheet>

@@ -766,14 +766,12 @@ protected:
     void endBody();
     QString res;
     bool	 m_bBody;
-    bool     m_bPara;
     unsigned m_maxSmile;
 };
 
 ImageParser::ImageParser(unsigned maxSmile)
 {
     m_maxSmile = maxSmile;
-    m_bPara    = false;
 }
 
 QString ImageParser::parse(const QString &text)
@@ -806,14 +804,17 @@ void ImageParser::text(const QString &text)
 
 void ImageParser::tag_start(const QString &tag, const list<QString> &attrs)
 {
-    if (tag == "body"){
-        startBody();
-        return;
-    }
+    QString oTag = tag;
+
     if (tag == "html"){
         res = "";
         m_bBody = false;
         return;
+    }
+    if (tag == "body"){
+        startBody();
+        // We still want BODY's styles
+        oTag = "span";
     }
     if (!m_bBody)
         return;
@@ -842,15 +843,8 @@ void ImageParser::tag_start(const QString &tag, const list<QString> &attrs)
             }
         }
     }
-    if (tag == "p"){
-        if (m_bPara){
-            res += "<br>";
-            m_bPara = false;
-        }
-        return;
-    }
     res += "<";
-    res += tag.upper();
+    res += oTag;
     for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
         QString name = *it;
         ++it;
@@ -868,18 +862,15 @@ void ImageParser::tag_start(const QString &tag, const list<QString> &attrs)
 
 void ImageParser::tag_end(const QString &tag)
 {
-    if (tag == "body"){
-        endBody();
-        return;
-    }
+    QString oTag = tag;
     if (!m_bBody)
         return;
-    if (tag == "p"){
-        m_bPara = true;
-        return;
+    if (tag == "body"){
+        endBody();
+        oTag = "span";
     }
     res += "</";
-    res += tag.upper();
+    res += oTag;
     res += ">";
 }
 

@@ -336,13 +336,8 @@ void TextEdit::keyPressEvent(QKeyEvent *e)
         return;
     }
 #endif
-#if QT_VERSION >= 300
-    if ((e->key() == Key_Return) || (e->key() == Key_Enter)){
-        QKeyEvent e1(QEvent::KeyPress, e->key(), e->ascii(), e->state() | ControlButton, e->text(), e->count());
-        QTextEdit::keyPressEvent(&e1);
-        return;
-    }
-#endif
+    // Note: We no longer translate Enter to Ctrl-Enter since we need
+    // to know about paragraph breaks now.
     TextShow::keyPressEvent(e);
 }
 

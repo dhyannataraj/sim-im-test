@@ -935,7 +935,6 @@ protected:
     bool m_bInHead;
     bool m_bFirst;
     bool m_bSpan;
-    bool m_bPara;
     list<Smile> m_smiles;
     virtual void text(const QString &text);
     virtual void tag_start(const QString &tag, const list<QString> &options);
@@ -950,7 +949,6 @@ ViewParser::ViewParser(bool bIgnoreColors, bool bUseSmiles)
     m_bInHead       = false;
     m_bFirst		= true;
     m_bSpan			= false;
-    m_bPara			= false;
     if (m_bUseSmiles){
         for (unsigned i = 0; ;i++){
             const smile *s = smiles(i);
@@ -1009,10 +1007,6 @@ void ViewParser::text(const QString &text)
     }
     if (text.isEmpty())
         return;
-    if (m_bPara){
-        m_bPara = false;
-        res += "<br>";
-    }
     m_bFirst = false;
     QString str = text;
     for (list<Smile>::iterator it = m_smiles.begin(); it != m_smiles.end(); ++it){
@@ -1105,26 +1099,6 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
         return;
     }else if (tag == "body"){ // we display as a part of a larger document
         oTag = "span";
-    }else if (tag == "p"){
-        m_bPara = false;
-        if (m_bFirst){
-            m_bFirst = false;
-        }else{
-            res += "<br>";
-        }
-        for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
-            QString name = (*it).lower();
-            ++it;
-            QString value = *it;
-            if (name == "dir"){
-                if (value == "rtl"){
-                    res += "<span dir=\"rtl\">";
-                    m_bSpan = true;
-                }
-                break;
-            }
-        }
-        return;
     }
     QString tagText;
     tagText += "<";
@@ -1203,11 +1177,6 @@ void ViewParser::tag_end(const QString &tag)
     }else if (tag == "html"){
         return;
     }else if (tag == "body"){
-        oTag = "span";
-    }else if (tag == "p"){
-        m_bPara = true;
-        if (!m_bSpan)
-            return;
         oTag = "span";
     }
     if (m_bInHead)
