@@ -957,20 +957,6 @@ void BgParser::tag_start(const QString &tag, const list<QString> &attrs)
     }
     if (!m_bBody)
         return;
-    if (tag == "font"){
-        res += "<span";
-        QString style;
-        for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
-            QString name = *it;
-            ++it;
-            QString value = *it;
-        }
-        if (!style.isEmpty()){
-            res += " style=\"";
-            res += style;
-            res += "\">";
-        }
-    }
     res += "<";
     res += tag;
     for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
@@ -996,11 +982,8 @@ void BgParser::tag_end(const QString &tag)
     }
     if (!m_bBody)
         return;
-    QString outTag = tag;
-    if (tag == "font")
-        outTag = "span";
     res += "</";
-    res += outTag;
+    res += tag;
     res += ">";
 }
 

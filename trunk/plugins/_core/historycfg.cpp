@@ -238,6 +238,11 @@ static char BACKUP_SUFFIX[] = "~";
 void HistoryConfig::apply()
 {
     bool bChanged = false;
+    if (tabStyle->currentPage() == source){
+        int cur = cmbStyle->currentItem();
+        if (m_bDirty && (cur >= 0))
+            m_styles[cur].text = unquoteText(edtStyle->text());
+    }
     for (unsigned i = 0; i < m_styles.size(); i++){
         if (m_styles[i].text.isEmpty() || !m_styles[i].bCustom)
             continue;
@@ -279,9 +284,9 @@ void HistoryConfig::apply()
         }
     }
     int cur = cmbStyle->currentItem();
-    if ((cur >= 0) &&
-            (m_styles.size()) &&
-            (m_styles[cur].name != QFile::decodeName(CorePlugin::m_plugin->getHistoryStyle()))){
+    if ((cur >= 0) && m_styles.size() &&
+            (m_styles[cur].bChanged ||
+             (m_styles[cur].name != QFile::decodeName(CorePlugin::m_plugin->getHistoryStyle())))){
         CorePlugin::m_plugin->setHistoryStyle(QFile::encodeName(m_styles[cur].name));
         bChanged = true;
         delete CorePlugin::m_plugin->historyXSL;
@@ -324,8 +329,9 @@ void HistoryConfig::addStyles(const char *dir, bool bCustom)
         }
         if (its == m_styles.end()){
             StyleDef s;
-            s.name    = name;
-            s.bCustom = bCustom;
+            s.name     = name;
+            s.bCustom  = bCustom;
+            s.bChanged = false;
             m_styles.push_back(s);
         }
     }
@@ -609,6 +615,10 @@ void HistoryConfig::sync()
 void HistoryConfig::textChanged()
 {
     m_bDirty = true;
+    int cur = cmbStyle->currentItem();
+    if ((cur < 0) || (!m_styles.size()))
+        return;
+    m_styles[cur].bChanged = true;
 }
 
 void HistoryConfig::fillPreview()

@@ -53,6 +53,11 @@ int SpellHighlighter::highlightParagraph(const QString&, int state)
     m_bError = false;
     while (!m_fonts.empty())
         m_fonts.pop();
+    if (!textEdit()->text(m_paragraph).isEmpty()){
+        string s;
+        s = textEdit()->text(m_paragraph).local8Bit();
+        log(L_DEBUG, "%u: %s", m_paragraph, s.c_str());
+    }
     parse(textEdit()->text(m_paragraph));
     return state + 1;
 }
@@ -74,7 +79,13 @@ void SpellHighlighter::text(const QString &text)
                 break;
             word += text[i];
         }
+        if (!word.isEmpty()){
+            string s;
+            s = word.local8Bit();
+            log(L_DEBUG, "W: %s", s.c_str());
+        }
         if ((m_index >= start) && (m_index <= m_pos)){
+            log(L_DEBUG, "Is current");
             if (m_bCheck){
                 m_word       = word;
                 m_bInError   = m_bError;
@@ -84,8 +95,10 @@ void SpellHighlighter::text(const QString &text)
                     setFormat(start, m_pos - start, static_cast<TextEdit*>(textEdit())->defForeground());
                 }else if (m_parag == m_paragraph){
                     MAP_BOOL::iterator it = m_words.find(my_string(word.utf8()));
-                    if ((it == m_words.end()) || (*it).second)
+                    if ((it == m_words.end()) || (*it).second){
                         setFormat(start, m_pos - start, static_cast<TextEdit*>(textEdit())->defForeground());
+                        log(L_DEBUG, "Reset format %u %u", start, m_pos - start);
+                    }
                 }
             }
         }else if (!m_bCheck){
@@ -97,13 +110,17 @@ void SpellHighlighter::text(const QString &text)
                 if (it != m_words.end()){
                     if (!(*it).second){
                         setFormat(start, m_pos - start, QColor(ErrorColor));
+                        log(L_DEBUG, "Set format err %u %u", start, m_pos - start);
                     }else if (m_bError){
                         setFormat(start, m_pos - start, static_cast<TextEdit*>(textEdit())->defForeground());
+                        log(L_DEBUG, "Set format OK %u %u", start, m_pos - start);
                     }
                 }else{
                     m_words.insert(MAP_BOOL::value_type(my_string(word.utf8()), true));
-                    if (m_plugin->m_ignore.find(my_string(word.utf8())) == m_plugin->m_ignore.end())
+                    if (m_plugin->m_ignore.find(my_string(word.utf8())) == m_plugin->m_ignore.end()){
+                        log(L_DEBUG, "Check");
                         emit check(word);
+                    }
                 }
             }
         }
@@ -146,6 +163,7 @@ void SpellHighlighter::tag_end(const QString &tag)
 
 void SpellHighlighter::slotMisspelling(const QString &word)
 {
+    log(L_DEBUG, "misspelling");
     MAP_BOOL::iterator it = m_words.find(my_string(word.utf8()));
     if (it == m_words.end()){
         m_words.insert(MAP_BOOL::value_type(my_string(word.utf8()), false));

@@ -49,7 +49,7 @@ QValidator::State IdValidator::validate(QString &input, int &pos) const
         id = input.left(p);
         host = input.mid(p + 1);
     }
-    QRegExp r("[A-Za-z0-9\\.\\-_]+");
+    QRegExp r("[A-Za-z0-9\\.\\-_\\+]+");
     if (id.length() == 0)
         return Intermediate;
     int len = 0;

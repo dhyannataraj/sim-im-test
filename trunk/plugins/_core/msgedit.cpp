@@ -451,7 +451,7 @@ static MessageDef defSMS =
         NULL,
         MESSAGE_DEFAULT,
         "SMS",
-        "SMSs",
+        "%n SMSs",
         createSMS,
         generateSMS,
         NULL
@@ -1266,10 +1266,10 @@ void *MsgEdit::processEvent(Event *e)
                     QTimer::singleShot(0, m_userWnd, SLOT(close()));
                 }else{
                     m_edit->setText("");
+                    setEmptyMessage();
                     m_edit->setFont(CorePlugin::m_plugin->editFont);
                     m_edit->setForeground(CorePlugin::m_plugin->getEditForeground(), true);
                     m_edit->setBackground(CorePlugin::m_plugin->getEditBackground());
-                    setEmptyMessage();
                 }
             }
             return NULL;
@@ -1289,8 +1289,21 @@ void MsgEdit::setEmptyMessage()
         c->param = (void*)(m_userWnd->m_id);
         Event eCheck(EventCheckState, c);
         if (eCheck.process()){
-            Event eCmd(EventCommandExec, c);
-            eCmd.process();
+            Message *msg;
+            CommandDef *def = CorePlugin::m_plugin->messageTypes.find(c->id);
+            if (def == NULL)
+                continue;
+            MessageDef *mdef = (MessageDef*)(def->param);
+            if (mdef->create == NULL)
+                continue;
+            msg = mdef->create(NULL);
+            msg->setContact(m_userWnd->m_id);
+            if (mdef->flags & MESSAGE_SILENT)
+                continue;
+            msg->setFlags(MESSAGE_NORAISE);
+            Event eOpen(EventOpenMessage, msg);
+            eOpen.process();
+            delete msg;
             return;
         }
     }

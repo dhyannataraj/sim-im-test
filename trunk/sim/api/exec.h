@@ -72,7 +72,6 @@ public:
     ~ExecManager();
     static ExecManager *manager;
 #ifndef WIN32
-    struct sigaction *oldChildAct;
     QTimer *m_timer;
 #endif
 signals:

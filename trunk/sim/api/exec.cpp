@@ -101,6 +101,7 @@ DWORD __stdcall ReadPipeThread(LPVOID lpParameter)
     }
     CloseHandle(p->pipe);
     *(p->hThread) = NULL;
+    log(L_DEBUG, "Stop: %X", GetCurrentThreadId());
     return 0;
 }
 
@@ -225,17 +226,20 @@ DWORD __stdcall ExecProcThread(LPVOID lpParameter)
     pOut.b       = &exec->bOut;
     pOut.hThread = &exec->hOutThread;
     exec->hOutThread = CreateThread(NULL, 0, ReadPipeThread, &pOut, 0, &threadId);
+    log(L_DEBUG, "Out %X %X", exec->hOutThread, threadId);
 
     PIPE_READ pErr;
     pErr.pipe	 = errPipe[READ];
     pErr.b		 = &exec->bErr;
     pErr.hThread = &exec->hErrThread;
     exec->hErrThread = CreateThread(NULL, 0, ReadPipeThread, &pErr, 0, &threadId);
+    log(L_DEBUG, "Err %X %X", exec->hOutThread, threadId);
 
-    DWORD exitCode;
+    DWORD exitCode = 0;
     unsigned long wrtn;
+    BOOL success = FALSE;
     for (; exec->bIn.readPos() < exec->bIn.size();){
-        BOOL success = GetExitCodeProcess(pi.hProcess, &exitCode);
+        success = GetExitCodeProcess(pi.hProcess, &exitCode);
         if (success && (exitCode != STILL_ACTIVE))
             break;
         unsigned tail = exec->bIn.size() - exec->bIn.readPos();
@@ -244,17 +248,30 @@ DWORD __stdcall ExecProcThread(LPVOID lpParameter)
                       exec->bIn.data(exec->bIn.readPos()), tail, &wrtn, NULL) == 0) break;
         exec->bIn.incReadPos(tail);
     }
-    BOOL success = GetExitCodeProcess(pi.hProcess, &exitCode);
+    if (!success)
+        success = GetExitCodeProcess(pi.hProcess, &exitCode);
     if (!success || (exitCode == STILL_ACTIVE))
         WriteFile(inPipe[WRITE], "", 0, &wrtn, NULL);
 
+    unsigned n = 0;
     HANDLE h[4];
-    h[0] = pi.hProcess;
-    h[1] = exec->hOutThread;
-    h[2] = exec->hErrThread;
-    WaitForMultipleObjects(3, h, TRUE, INFINITE);
+    if (exec->hOutThread)
+        h[n++] = exec->hOutThread;
+    if (exec->hErrThread)
+        h[n++] = exec->hErrThread;
+    if (!success)
+        h[n++] = pi.hProcess;
+    log(L_DEBUG, "Wait %u", n);
+    if (n){
+        DWORD res = WaitForMultipleObjects(n, h, TRUE, INFINITE);
+        DWORD err = 0;
+        if (res == WAIT_FAILED)
+            err = GetLastError();
+        log(L_DEBUG, "Res: %X %X", res, err);
+    }
 
-    GetExitCodeProcess(pi.hProcess, &exitCode);
+    if (!success)
+        GetExitCodeProcess(pi.hProcess, &exitCode);
 
     CloseHandle(inPipe[WRITE]);
     CloseHandle(pi.hThread);
@@ -486,57 +503,22 @@ void Exec::errReady(int)
 #endif
 }
 
-#ifndef WIN32
-
-static ExecManager *execManager = NULL;
-
-static void child_proc(int sig)
-{
-    if (execManager == NULL)
-        return;
-    execManager->m_timer->start(1, true);
-    if (execManager->oldChildAct && execManager->oldChildAct->sa_handler)
-        execManager->oldChildAct->sa_handler(sig);
-}
-
-#endif
-
 ExecManager *ExecManager::manager = NULL;
 
 ExecManager::ExecManager()
 {
+    manager = this;
 #ifndef WIN32
-    oldChildAct = new struct sigaction;
-    execManager = this;
-    struct sigaction act;
-    act.sa_handler = child_proc;
-    sigemptyset( &(act.sa_mask) );
-    sigaddset( &(act.sa_mask), SIGCHLD );
-    act.sa_flags = SA_NOCLDSTOP;
-#if defined(SA_RESTART)
-    act.sa_flags |= SA_RESTART;
-#endif
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(checkChilds()));
-    if (sigaction( SIGCHLD, &act, oldChildAct )){
-        log(L_WARN,  "Error installing SIGCHLD handler: %s", strerror(errno));
-        m_timer->start(1000);
-        delete oldChildAct;
-        oldChildAct = NULL;
-    }
+    m_timer->start(500);
 #endif
     manager = this;
 }
 
 ExecManager::~ExecManager()
 {
-#ifndef WIN32
-    if (oldChildAct){
-        sigaction( SIGCHLD, oldChildAct, NULL );
-        delete oldChildAct;
-    }
-    execManager = NULL;
-#endif
+    manager = NULL;
 }
 
 void ExecManager::checkChilds()
@@ -550,7 +532,6 @@ void ExecManager::checkChilds()
         emit childExited(child, WEXITSTATUS(status));
     }
 #endif
-
 }
 
 #ifndef WIN32
