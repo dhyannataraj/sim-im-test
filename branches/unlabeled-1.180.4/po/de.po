@@ -1900,7 +1900,7 @@ msgstr "Rate begrenzen"
 
 #: plugins/icq/icqlogin.cpp:202
 msgid "Invalid UIN and password combination"
-msgstr "Ungültige UIN/Paßwort Kombination"
+msgstr "Ungültige UIN/Paßwort-Kombination"
 
 #: plugins/icq/icqlogin.cpp:208
 msgid "Non-existant UIN"
@@ -3806,7 +3806,7 @@ msgstr "Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de
 
 #: sim/api/aboutdata.cpp:290
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
 
 #: sim/api/country.cpp:25
 msgid "Afghanistan"
