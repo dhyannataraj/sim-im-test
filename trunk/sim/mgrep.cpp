@@ -158,9 +158,9 @@ bool Grep::grep(const char *text)
 bool Grep::monkey1(unsigned char *text, int start, int end )
 {
     register unsigned char *textend;
-    register unsigned hash, i;
+    register unsigned hash;
     register unsigned char shift;
-    register int  m1, j;
+    register int  m1, i, j;
     bool Long = bLong;
     int pat_index, m=p_size;
     register unsigned char *qx;
@@ -195,7 +195,7 @@ bool Grep::monkey1(unsigned char *text, int start, int end )
                 while(tr[ patt[pat_index].pText[j] ] == tr[ *(qx++) ]) j++;
                 if (j > m1 )
                 {
-                    if(patt[pat_index].len <= j)
+                    if(patt[pat_index].len <= (unsigned)j)
                     {
                         if(text > textend) return false;
                         return true;
@@ -231,7 +231,7 @@ bool Grep::m_short(unsigned char *text, int start, int end )
             qx = text;
             j = 0;
             while(tr[ patt[pat_index].pText[j] ] == tr[ *(qx++) ]) j++;
-            if(patt[pat_index].len <= j)
+            if(patt[pat_index].len <= (unsigned)j)
             {
                 if(text >= textend) return false;
                 return true;

@@ -557,39 +557,43 @@ bool History::matchMessage(ICQMessage *msg, const QString &filter)
 {
     if (msg->Type() == ICQ_MSGxMSG){
         ICQMsg *m = static_cast<ICQMsg*>(msg);
-        return (m->Message.find(filter) >= 0);
+        return (m->Message.find(filter) != string::npos);
     }
     if (msg->Type() == ICQ_MSGxURL){
         ICQUrl *m = static_cast<ICQUrl*>(msg);
-        return (m->Message.find(filter) >= 0) || (m->URL.find(filter) >= 0);
+        return (m->Message.find(filter) != string::npos) ||
+               (m->URL.find(filter) != string::npos);
     }
     if (msg->Type() == ICQ_MSGxAUTHxREQUEST){
         ICQAuthRequest *m = static_cast<ICQAuthRequest*>(msg);
-        return (m->Message.find(filter) >= 0);
+        return (m->Message.find(filter) != string::npos);
     }
     if (msg->Type() == ICQ_MSGxAUTHxREFUSED){
         ICQAuthRefused *m = static_cast<ICQAuthRefused*>(msg);
-        return (m->Message.find(filter) >= 0);
+        return (m->Message.find(filter) != string::npos);
     }
     if (msg->Type() == ICQ_MSGxSMS){
         ICQSMS *m = static_cast<ICQSMS*>(msg);
-        return (m->Message.find(filter) >= 0) || (m->Phone.find(filter) >= 0) || (m->Network.find(filter) >= 0);
+        return (m->Message.find(filter) != string::npos) ||
+               (m->Phone.find(filter) != string::npos) ||
+               (m->Network.find(filter) != string::npos);
     }
     if (msg->Type() == ICQ_MSGxFILE){
         ICQFile *m = static_cast<ICQFile*>(msg);
-        return (m->Name.find(filter) >= 0) || (m->Description.find(filter) >= 0);
+        return (m->Name.find(filter) != string::npos) ||
+               (m->Description.find(filter) != string::npos);
     }
     if (msg->Type() == ICQ_MSGxCHAT){
         ICQChat *m = static_cast<ICQChat*>(msg);
-        return (m->Reason.find(filter) >= 0);
+        return (m->Reason.find(filter) != string::npos);
     }
     if (msg->Type() == ICQ_MSGxWEBxPANEL){
         ICQWebPanel *m = static_cast<ICQWebPanel*>(msg);
-        return (m->Message.find(filter) >= 0);
+        return (m->Message.find(filter) != string::npos);
     }
     if (msg->Type() == ICQ_MSGxEMAILxPAGER){
         ICQEmailPager *m = static_cast<ICQEmailPager*>(msg);
-        return (m->Message.find(filter) >= 0);
+        return (m->Message.find(filter) != string::npos);
     }
     return false;
 }
