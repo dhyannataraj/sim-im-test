@@ -6,7 +6,7 @@ icons_la_SOURCES = \
  icon.cpp \
  icondll.cpp
 
-INCLUDES=-I../../sim/api -I../../sim/ui $(all_includes)
+INCLUDES=-I../../sim/api -I../../sim/ui -I../_core $(all_includes)
 
 icons_la_METASOURCES = AUTO
 icons_la_LIBADD = ../../sim/api/libsimapi.la $(LIBUI) $(LIB_QT) $(EXTRA_LIBS)

@@ -22,6 +22,7 @@
 #include "simapi.h"
 
 #include <map>
+#include <list>
 
 #include <qiconset.h>
 
@@ -50,16 +51,17 @@ public:
 protected slots:
     void iconChanged(int);
 protected:
+    PIXMAP_MAP icons;
+    PIXMAP_MAP bigIcons;
     void *processEvent(Event*);
     void addIcon(const char *name, const char **xpm, bool isSystem);
     void addBigIcon(const char *name, const char **xpm, bool isSystem);
     void remove(const char *name);
+    void fill(list<string> *names);
     const QIconSet *addIcon(const char *name, const QIconSet &icon, bool isSystem);
     const QIconSet *getIcon(const char *name);
     const QIconSet *addBigIcon(const char *name, const QIconSet &icon, bool isSystem);
     const QIconSet *getBigIcon(const char *name);
-    PIXMAP_MAP icons;
-    PIXMAP_MAP bigIcons;
 };
 
 #endif

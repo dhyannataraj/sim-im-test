@@ -44,6 +44,9 @@
 #include "xpm/icqphonebusy.xpm"
 #include "xpm/sharedfiles.xpm"
 #include "xpm/pict.xpm"
+#include "xpm/aim_offline.xpm"
+#include "xpm/aim_online.xpm"
+#include "xpm/aim_away.xpm"
 
 Plugin *createICQPlugin(unsigned base, bool, const char *cfg)
 {
@@ -360,6 +363,18 @@ ICQPlugin::ICQPlugin(unsigned base, const char *cfg)
 
     icon.name = "pict";
     icon.xpm = pict;
+    eIcon.process();
+
+    icon.name = "AIM_offline";
+    icon.xpm = aim_offline;
+    eIcon.process();
+
+    icon.name = "AIM_online";
+    icon.xpm = aim_online;
+    eIcon.process();
+
+    icon.name = "AIM_away";
+    icon.xpm = aim_away;
     eIcon.process();
 
     EventSearch = EventUser + registerType();

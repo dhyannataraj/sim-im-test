@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
-"POT-Creation-Date: 2003-08-16 16:24+0400\n"
+"POT-Creation-Date: 2003-08-18 00:44+0400\n"
 "PO-Revision-Date: 2003-08-16 23:51GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -122,7 +122,7 @@ msgstr "&OK"
 #: plugins/_core/cfgdlgbase.cc:127 plugins/_core/connectionsettingsbase.cc:107
 #: plugins/_core/editmailbase.cc:98 plugins/_core/editphonebase.cc:144
 #: plugins/_core/filetransferbase.cc:130 plugins/_core/logindlgbase.cc:122
-#: plugins/_core/msgedit.cpp:976 plugins/icq/securedlgbase.cc:78
+#: plugins/_core/msgedit.cpp:979 plugins/icq/securedlgbase.cc:78
 #: sim/api/simapi.cpp:393 sim/ui/qt3/i18n.cpp:35
 msgid "&Cancel"
 msgstr "A&bbrechen"
@@ -222,7 +222,7 @@ msgid "Group"
 msgstr "Gruppe"
 
 #: plugins/_core/core.cpp:459 plugins/_core/core.cpp:905
-#: plugins/icq/icq.cpp:448 plugins/jabber/jabber.cpp:242
+#: plugins/icq/icq.cpp:463 plugins/jabber/jabber.cpp:242
 msgid "User &info"
 msgstr "Benutzer&information"
 
@@ -230,14 +230,14 @@ msgstr "Benutzer&information"
 msgid "&History"
 msgstr "&Verlauf"
 
-#: plugins/_core/core.cpp:473 plugins/_core/filetransfer.cpp:196
+#: plugins/_core/core.cpp:473 plugins/_core/filetransfer.cpp:197
 #: plugins/_core/managerbase.cc:110 plugins/_core/toolsetupbase.cc:136
 #: plugins/about/aboutdlgbase.cpp:156 plugins/icq/securedlg.cpp:92
 #: sim/api/simapi.cpp:393 sim/ui/qt3/i18n.cpp:287
 msgid "&Close"
 msgstr "S&chließen"
 
-#: plugins/_core/core.cpp:507 plugins/_core/msgedit.cpp:807
+#: plugins/_core/core.cpp:507 plugins/_core/msgedit.cpp:810
 msgid "&Send"
 msgstr "&Senden"
 
@@ -245,12 +245,12 @@ msgstr "&Senden"
 msgid "&Insert smile"
 msgstr "Smiley ein&fügen"
 
-#: plugins/_core/core.cpp:524 plugins/_core/msgedit.cpp:215
+#: plugins/_core/core.cpp:524 plugins/_core/msgedit.cpp:218
 msgid "C&lose after send"
 msgstr "&Nach beendeter Übertragung schließen"
 
-#: plugins/_core/core.cpp:534 plugins/_core/msgedit.cpp:305
-#: plugins/_core/msgedit.cpp:796
+#: plugins/_core/core.cpp:534 plugins/_core/msgedit.cpp:308
+#: plugins/_core/msgedit.cpp:799
 msgid "&Multiply send"
 msgstr "An &mehrere senden"
 
@@ -258,11 +258,11 @@ msgstr "An &mehrere senden"
 msgid "Input"
 msgstr "Eingabe"
 
-#: plugins/_core/core.cpp:550 plugins/_core/filetransfer.cpp:130
+#: plugins/_core/core.cpp:550 plugins/_core/filetransfer.cpp:131
 msgid "Receive"
 msgstr "Empfang"
 
-#: plugins/_core/core.cpp:561 plugins/_core/msgedit.cpp:1124
+#: plugins/_core/core.cpp:561 plugins/_core/msgedit.cpp:1118
 msgid "&Next"
 msgstr "&Nächster"
 
@@ -333,7 +333,7 @@ msgstr "Alles auswählen"
 msgid "&Messages"
 msgstr "&Nachrichten"
 
-#: plugins/_core/core.cpp:730 plugins/_core/msgedit.cpp:1242
+#: plugins/_core/core.cpp:730 plugins/_core/msgedit.cpp:1236
 msgid "&SMS"
 msgstr "&SMS"
 
@@ -449,32 +449,32 @@ msgstr "%1 schrieb:"
 msgid "Send SMS"
 msgstr "SMS senden"
 
-#: plugins/_core/core.cpp:2825 plugins/_core/core.cpp:2847
+#: plugins/_core/core.cpp:2827 plugins/_core/core.cpp:2849
 #: plugins/_core/managerbase.cc:103
 msgid "Connection manager"
 msgstr "Benutzerkontenmanager"
 
-#: plugins/_core/core.cpp:2833
+#: plugins/_core/core.cpp:2835
 msgid "Show status panel"
 msgstr "Statusleiste anzeigen"
 
-#: plugins/_core/core.cpp:2840
+#: plugins/_core/core.cpp:2842
 msgid "Connections"
 msgstr "Verbindungen"
 
-#: plugins/_core/core.cpp:2855
+#: plugins/_core/core.cpp:2857
 msgid "Change profile"
 msgstr "Profil wechseln"
 
-#: plugins/_core/core.cpp:2884
+#: plugins/_core/core.cpp:2886
 msgid "Common status"
 msgstr "Gemeinsamer Status"
 
-#: plugins/_core/core.cpp:2890
+#: plugins/_core/core.cpp:2892
 msgid "Configure client"
 msgstr "Client konfigurieren"
 
-#: plugins/_core/core.cpp:2914 plugins/_core/status.cpp:135
+#: plugins/_core/core.cpp:2916 plugins/_core/status.cpp:135
 #: plugins/_core/status.cpp:217
 msgid "&Invisible"
 msgstr "&Unsichtbar"
@@ -495,51 +495,51 @@ msgstr "Telefonnummer hinzufügen"
 msgid "Edit phone number"
 msgstr "Telefonnummer bearbeiten"
 
-#: plugins/_core/filetransfer.cpp:73
+#: plugins/_core/filetransfer.cpp:74
 msgid "Receive file"
 msgstr "Datei empfangen"
 
-#: plugins/_core/filetransfer.cpp:73
+#: plugins/_core/filetransfer.cpp:74
 msgid "Send file"
 msgstr "Datei senden"
 
-#: plugins/_core/filetransfer.cpp:121
+#: plugins/_core/filetransfer.cpp:122
 msgid "Listen"
 msgstr "Hören"
 
-#: plugins/_core/filetransfer.cpp:124
+#: plugins/_core/filetransfer.cpp:125
 msgid "Connect"
 msgstr "Verbinden"
 
-#: plugins/_core/filetransfer.cpp:127
+#: plugins/_core/filetransfer.cpp:128
 msgid "Negotiation"
 msgstr "Umkehrung"
 
-#: plugins/_core/filetransfer.cpp:134
+#: plugins/_core/filetransfer.cpp:135
 msgid "Send"
 msgstr "Senden"
 
-#: plugins/_core/filetransfer.cpp:138
+#: plugins/_core/filetransfer.cpp:139
 msgid "Transfer done"
 msgstr "Übertragung abgeschlossen"
 
-#: plugins/_core/filetransfer.cpp:205
+#: plugins/_core/filetransfer.cpp:206
 msgid "Transfer failed"
 msgstr "Übertragung fehlgeschlagen"
 
-#: plugins/_core/filetransfer.cpp:274
+#: plugins/_core/filetransfer.cpp:275
 msgid "Stalled"
 msgstr "Steht"
 
-#: plugins/_core/filetransfer.cpp:286
+#: plugins/_core/filetransfer.cpp:287
 msgid "Mb/s"
 msgstr "MB/s"
 
-#: plugins/_core/filetransfer.cpp:289
+#: plugins/_core/filetransfer.cpp:290
 msgid "kb/s"
 msgstr "KB/s"
 
-#: plugins/_core/filetransfer.cpp:292
+#: plugins/_core/filetransfer.cpp:293
 msgid "b/s"
 msgstr "B/s"
 
@@ -555,90 +555,94 @@ msgstr "Wird geladen"
 msgid "Filter"
 msgstr "Filter"
 
-#: plugins/_core/historywnd.cpp:130 plugins/_core/interfacecfg.cpp:70
+#: plugins/_core/historywnd.cpp:130 plugins/_core/interfacecfg.cpp:74
 msgid "History"
 msgstr "Verlauf"
 
-#: plugins/_core/interfacecfg.cpp:42 plugins/icq/moreinfo.cpp:105
+#: plugins/_core/interfacecfg.cpp:44 plugins/icq/moreinfo.cpp:105
 msgid "English"
 msgstr "Englisch"
 
-#: plugins/_core/interfacecfg.cpp:43 plugins/icq/moreinfo.cpp:96
+#: plugins/_core/interfacecfg.cpp:45 plugins/icq/moreinfo.cpp:96
 msgid "Bulgarian"
 msgstr "Bulgarisch"
 
-#: plugins/_core/interfacecfg.cpp:44 plugins/icq/moreinfo.cpp:102
+#: plugins/_core/interfacecfg.cpp:46 plugins/icq/moreinfo.cpp:99
+msgid "Catalan"
+msgstr "Catalanisch"
+
+#: plugins/_core/interfacecfg.cpp:47 plugins/icq/moreinfo.cpp:102
 msgid "Czech"
 msgstr "Tschechisch"
 
-#: plugins/_core/interfacecfg.cpp:45 plugins/icq/moreinfo.cpp:112
+#: plugins/_core/interfacecfg.cpp:48 plugins/icq/moreinfo.cpp:112
 msgid "German"
 msgstr "Deutsch"
 
-#: plugins/_core/interfacecfg.cpp:46 plugins/icq/moreinfo.cpp:136
+#: plugins/_core/interfacecfg.cpp:49 plugins/icq/moreinfo.cpp:136
 msgid "Spanish"
 msgstr "Spanisch"
 
-#: plugins/_core/interfacecfg.cpp:47 plugins/icq/moreinfo.cpp:110
+#: plugins/_core/interfacecfg.cpp:50 plugins/icq/moreinfo.cpp:110
 msgid "French"
 msgstr "Französisch"
 
-#: plugins/_core/interfacecfg.cpp:48 plugins/icq/icqclient.cpp:280
-#: plugins/icq/icqclient.cpp:281 plugins/icq/moreinfo.cpp:114
+#: plugins/_core/interfacecfg.cpp:51 plugins/icq/icqclient.cpp:282
+#: plugins/icq/icqclient.cpp:283 plugins/icq/moreinfo.cpp:114
 msgid "Hebrew"
 msgstr "Hebräisch"
 
-#: plugins/_core/interfacecfg.cpp:49 plugins/icq/moreinfo.cpp:119
+#: plugins/_core/interfacecfg.cpp:52 plugins/icq/moreinfo.cpp:119
 msgid "Italian"
 msgstr "Italienisch"
 
-#: plugins/_core/interfacecfg.cpp:50 plugins/icq/moreinfo.cpp:104
+#: plugins/_core/interfacecfg.cpp:53 plugins/icq/moreinfo.cpp:104
 msgid "Dutch"
 msgstr "Holländisch"
 
-#: plugins/_core/interfacecfg.cpp:51 plugins/icq/moreinfo.cpp:128
+#: plugins/_core/interfacecfg.cpp:54 plugins/icq/moreinfo.cpp:128
 msgid "Polish"
 msgstr "Polnisch"
 
-#: plugins/_core/interfacecfg.cpp:52 plugins/icq/moreinfo.cpp:131
+#: plugins/_core/interfacecfg.cpp:55 plugins/icq/moreinfo.cpp:131
 msgid "Russian"
 msgstr "Russisch"
 
-#: plugins/_core/interfacecfg.cpp:53 plugins/icq/moreinfo.cpp:133
+#: plugins/_core/interfacecfg.cpp:56 plugins/icq/moreinfo.cpp:133
 msgid "Slovak"
 msgstr "Slovakisch"
 
-#: plugins/_core/interfacecfg.cpp:54 plugins/icq/icqclient.cpp:297
-#: plugins/icq/icqclient.cpp:298 plugins/icq/moreinfo.cpp:142
+#: plugins/_core/interfacecfg.cpp:57 plugins/icq/icqclient.cpp:299
+#: plugins/icq/icqclient.cpp:300 plugins/icq/moreinfo.cpp:142
 msgid "Turkish"
 msgstr "Türkisch"
 
-#: plugins/_core/interfacecfg.cpp:55 plugins/icq/icqclient.cpp:274
+#: plugins/_core/interfacecfg.cpp:58 plugins/icq/icqclient.cpp:276
 #: plugins/icq/moreinfo.cpp:143
 msgid "Ukrainian"
 msgstr "Ukrainisch"
 
-#: plugins/_core/interfacecfg.cpp:56 plugins/icq/moreinfo.cpp:100
+#: plugins/_core/interfacecfg.cpp:59 plugins/icq/moreinfo.cpp:100
 msgid "Chinese"
 msgstr "Chinesisch"
 
-#: plugins/_core/interfacecfg.cpp:68
+#: plugins/_core/interfacecfg.cpp:72
 msgid "Contact list"
 msgstr "Kontaktliste"
 
-#: plugins/_core/interfacecfg.cpp:73
+#: plugins/_core/interfacecfg.cpp:77
 msgid "Messages"
 msgstr "Nachrichten"
 
-#: plugins/_core/interfacecfg.cpp:76
+#: plugins/_core/interfacecfg.cpp:80
 msgid "SMS"
 msgstr "SMS"
 
-#: plugins/_core/interfacecfg.cpp:83 plugins/icq/icqclient.cpp:2038
+#: plugins/_core/interfacecfg.cpp:87 plugins/icq/icqclient.cpp:2040
 msgid "System"
 msgstr "System"
 
-#: plugins/_core/interfacecfg.cpp:121
+#: plugins/_core/interfacecfg.cpp:123
 msgid "Copy %1 messages from history"
 msgstr "%1 Nachrichten vom Verlauf kopieren"
 
@@ -732,7 +736,7 @@ msgstr "Ja"
 msgid " "
 msgstr " "
 
-#: plugins/_core/msgedit.cpp:373
+#: plugins/_core/msgedit.cpp:376
 #, c-format
 msgid ""
 "_n: Message\n"
@@ -741,7 +745,7 @@ msgstr ""
 "Nachricht\n"
 "%n Nachrichten"
 
-#: plugins/_core/msgedit.cpp:400
+#: plugins/_core/msgedit.cpp:403
 #, c-format
 msgid ""
 "_n: SMS\n"
@@ -750,7 +754,7 @@ msgstr ""
 "SMS\n"
 "%n SMS"
 
-#: plugins/_core/msgedit.cpp:448
+#: plugins/_core/msgedit.cpp:451
 #, c-format
 msgid ""
 "_n: File\n"
@@ -759,7 +763,7 @@ msgstr ""
 "Datei\n"
 "%n Dateien"
 
-#: plugins/_core/msgedit.cpp:475
+#: plugins/_core/msgedit.cpp:478
 #, c-format
 msgid ""
 "_n: Authorize request\n"
@@ -768,15 +772,15 @@ msgstr ""
 "Authorisierungsanfrage\n"
 "%n Authorisierungsanfragen"
 
-#: plugins/_core/msgedit.cpp:482
+#: plugins/_core/msgedit.cpp:485
 msgid "&Grant"
 msgstr "&Bewilligung"
 
-#: plugins/_core/msgedit.cpp:497
+#: plugins/_core/msgedit.cpp:500
 msgid "&Refuse"
 msgstr "&Ablehnen"
 
-#: plugins/_core/msgedit.cpp:551
+#: plugins/_core/msgedit.cpp:554
 #, c-format
 msgid ""
 "_n: Authorization granted\n"
@@ -785,7 +789,7 @@ msgstr ""
 "Authorisierung genehmigt\n"
 "%n Authorisierungen genehmigt"
 
-#: plugins/_core/msgedit.cpp:578
+#: plugins/_core/msgedit.cpp:581
 #, c-format
 msgid ""
 "_n: Authorization refused\n"
@@ -794,7 +798,7 @@ msgstr ""
 "Authorisierung abgelehnt\n"
 "%n Authorisierungen abgelehnt"
 
-#: plugins/_core/msgedit.cpp:600
+#: plugins/_core/msgedit.cpp:603
 #, c-format
 msgid ""
 "_n: Add to contacts\n"
@@ -803,7 +807,7 @@ msgstr ""
 "Hinzugefügt zur Kontaktliste\n"
 "%n Mal hinzugefügt zur Kontaktliste"
 
-#: plugins/_core/msgedit.cpp:622
+#: plugins/_core/msgedit.cpp:625
 #, c-format
 msgid ""
 "_n: Removed from contacts\n"
@@ -812,7 +816,7 @@ msgstr ""
 "Hinzugefügt zur Kontaktliste\n"
 "%n Mal hinzugefügt zur Kontaktliste"
 
-#: plugins/_core/msgedit.cpp:644
+#: plugins/_core/msgedit.cpp:647
 #, c-format
 msgid ""
 "_n: Status changed\n"
@@ -821,40 +825,40 @@ msgstr ""
 "Status geändert\n"
 "%n Mal Status geändert"
 
-#: plugins/_core/msgedit.cpp:705 sim/ui/qt3/i18n.cpp:23
+#: plugins/_core/msgedit.cpp:708 sim/ui/qt3/i18n.cpp:23
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: plugins/_core/msgedit.cpp:784
+#: plugins/_core/msgedit.cpp:787
 msgid "No such client for send message"
 msgstr "Kein derartiger Client für das Senden der Nachricht verfügbar"
 
-#: plugins/_core/msgedit.cpp:973
+#: plugins/_core/msgedit.cpp:976
 msgid "Send &urgent"
 msgstr "&Dringend senden"
 
-#: plugins/_core/msgedit.cpp:975
+#: plugins/_core/msgedit.cpp:978
 msgid "Send to &list"
 msgstr "An Liste senden"
 
-#: plugins/_core/msgedit.cpp:1223 plugins/icq/icq.cpp:438
+#: plugins/_core/msgedit.cpp:1217 plugins/icq/icq.cpp:453
 #: plugins/jabber/jabber.cpp:233
 msgid "&Message"
 msgstr "&Nachricht"
 
-#: plugins/_core/msgedit.cpp:1233 plugins/netmonitor/monitor.cpp:64
+#: plugins/_core/msgedit.cpp:1227 plugins/netmonitor/monitor.cpp:64
 msgid "&File"
 msgstr "&Datei"
 
-#: plugins/_core/msgedit.cpp:1251
+#: plugins/_core/msgedit.cpp:1245
 msgid "&Authorization request"
 msgstr "&Authorisierungsanfrage"
 
-#: plugins/_core/msgedit.cpp:1260
+#: plugins/_core/msgedit.cpp:1254
 msgid "&Grant autorization"
 msgstr "Authorisierung &gewähren"
 
-#: plugins/_core/msgedit.cpp:1269
+#: plugins/_core/msgedit.cpp:1263
 msgid "&Refuse autorization"
 msgstr "Benutzerauthorisierung &ablehnen"
 
@@ -969,7 +973,7 @@ msgstr "Benutzerinformation - '%1'"
 msgid "New contact"
 msgstr "Neuer Kontakt"
 
-#: plugins/_core/usercfg.cpp:288 plugins/_core/userlist.cpp:910
+#: plugins/_core/usercfg.cpp:288 plugins/_core/userlist.cpp:912
 #: plugins/_core/userview.cpp:162 plugins/_core/userview.cpp:608
 #: plugins/_core/userview.cpp:646 plugins/icq/searchresult.cpp:231
 #: plugins/jabber/addresult.cpp:135
@@ -988,15 +992,15 @@ msgstr "[Benutzerinformation aktualisieren]"
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: plugins/_core/userlist.cpp:544 plugins/icq/icq.cpp:108
-#: plugins/icq/icqclient.cpp:1215 plugins/jabber/jabber.cpp:90
+#: plugins/_core/userlist.cpp:546 plugins/icq/icq.cpp:111
+#: plugins/icq/icqclient.cpp:1217 plugins/jabber/jabber.cpp:90
 #: plugins/jabber/jabberclient.cpp:915 plugins/msn/msn.cpp:89
 #: plugins/msn/msnclient.cpp:1271
 msgid "Online"
 msgstr "Online"
 
-#: plugins/_core/userlist.cpp:547 plugins/_core/userviewcfgbase.cc:174
-#: plugins/icq/icq.cpp:198 plugins/jabber/jabber.cpp:151
+#: plugins/_core/userlist.cpp:549 plugins/_core/userviewcfgbase.cc:174
+#: plugins/icq/icq.cpp:201 plugins/jabber/jabber.cpp:151
 #: plugins/msn/msn.cpp:194
 msgid "Offline"
 msgstr "Offline"
@@ -1063,18 +1067,38 @@ msgid "Number:"
 msgstr "Nummer:"
 
 #: plugins/_core/phonebase.cc:150 plugins/icq/homeinfobase.cc:177
-#: plugins/icq/icqsearchbase.cc:303 plugins/icq/workinfobase.cc:214
+#: plugins/icq/icqsearchbase.cc:318 plugins/icq/workinfobase.cc:214
 #: plugins/jabber/jabberhomeinfobase.cpp:155
 msgid "Country:"
 msgstr "Land:"
 
-#: plugins/_core/plugincfgbase.cc:102
-msgid "Plugin &enabled"
-msgstr "Plugin &aktiviert"
+#: plugins/_core/pagerbase.cc:118 plugins/_core/userviewcfgbase.cc:169
+#: plugins/filter/ignorelistbase.cpp:113 plugins/icq/interestsinfobase.cc:139
+#: plugins/icq/searchresultbase.cc:115 plugins/icq/workinfobase.cc:209
+#: plugins/jabber/jabberhomeinfobase.cpp:149 plugins/msn/msnconfigbase.cpp:176
+#: plugins/msn/msnresultbase.cpp:85 plugins/osd/osdifacebase.cpp:179
+msgid "Form2"
+msgstr "Form 2"
+
+#: plugins/_core/pagerbase.cc:119
+msgid "Provider:"
+msgstr "Anbieter:"
+
+#: plugins/_core/pagerbase.cc:120
+msgid "Email gateway:"
+msgstr "E-Mail Gateway:"
 
 #: plugins/_core/arcfgbase.cc:100 plugins/_core/prefcfgbase.cc:97
 msgid "&Override global settings"
 msgstr "Globale Einstellungen über&schreiben"
+
+#: plugins/_core/arcfgbase.cc:101
+msgid "Don't show autoreply dialog"
+msgstr "Diesen Dialog nicht wieder anzeigen"
+
+#: plugins/_core/plugincfgbase.cc:102
+msgid "Plugin &enabled"
+msgstr "Plugin &aktiviert"
 
 #: plugins/_core/toolsetupbase.cc:123
 msgid "Toolbar setup"
@@ -1108,7 +1132,7 @@ msgstr "Nach &oben"
 msgid "&Down"
 msgstr "Nach &unten"
 
-#: plugins/_core/interfacecfgbase.cc:148 plugins/icq/icqsearchbase.cc:301
+#: plugins/_core/interfacecfgbase.cc:148 plugins/icq/icqsearchbase.cc:316
 msgid "Language:"
 msgstr "Sprache:"
 
@@ -1144,14 +1168,6 @@ msgstr "Alle Benutzer in &einem Container öffnen"
 msgid "Use \"&Enter\" for send message"
 msgstr "\"&Enter\" zum Nachrichtensenden benutzen"
 
-#: plugins/_core/pagerbase.cc:118 plugins/_core/userviewcfgbase.cc:169
-#: plugins/filter/ignorelistbase.cpp:113 plugins/icq/interestsinfobase.cc:139
-#: plugins/icq/searchresultbase.cc:115 plugins/icq/workinfobase.cc:209
-#: plugins/jabber/jabberhomeinfobase.cpp:149 plugins/msn/msnconfigbase.cpp:176
-#: plugins/msn/msnresultbase.cpp:85 plugins/osd/osdifacebase.cpp:179
-msgid "Form2"
-msgstr "Form 2"
-
 #: plugins/_core/userviewcfgbase.cc:170
 msgid "Use &double click"
 msgstr "&Doppelklick benutzen"
@@ -1169,12 +1185,12 @@ msgstr "Farben:"
 msgid "Online:"
 msgstr "Online:"
 
-#: plugins/_core/userviewcfgbase.cc:175 plugins/icq/icq.cpp:123
+#: plugins/_core/userviewcfgbase.cc:175 plugins/icq/icq.cpp:126
 #: plugins/jabber/jabber.cpp:105 plugins/msn/msn.cpp:104
 msgid "Away"
 msgstr "Weg"
 
-#: plugins/_core/userviewcfgbase.cc:176 plugins/icq/icq.cpp:138
+#: plugins/_core/userviewcfgbase.cc:176 plugins/icq/icq.cpp:141
 #: plugins/jabber/jabber.cpp:120 plugins/msn/msn.cpp:119
 msgid "N/A"
 msgstr "N/A"
@@ -1208,7 +1224,7 @@ msgid "Use emotional &icons"
 msgstr "Emot&icons benutzen"
 
 #: plugins/_core/maininfobase.cc:230 plugins/icq/icqinfobase.cc:309
-#: plugins/icq/icqsearchbase.cc:311 plugins/jabber/jabberinfobase.cpp:209
+#: plugins/icq/icqsearchbase.cc:326 plugins/jabber/jabberinfobase.cpp:209
 msgid "First name:"
 msgstr "Vorname:"
 
@@ -1303,17 +1319,10 @@ msgstr "Nummerdetails:"
 msgid "Type:"
 msgstr "Typ:"
 
-#: plugins/_core/pagerbase.cc:119
-msgid "Provider:"
-msgstr "Anbieter:"
-
-#: plugins/_core/pagerbase.cc:120
-msgid "Email gateway:"
-msgstr "E-Mail Gateway:"
-
 #: plugins/_core/searchbase.cc:74
 msgid "Choose type of contact which you want to find or add:"
-msgstr "Art des Kontaktes auswählen, der gefunden oder hinzugefügt werden soll"
+msgstr ""
+"Art des Kontaktes auswählen, der gefunden oder hinzugefügt werden soll"
 
 #: plugins/_core/searchbase.cc:75
 msgid "Contact type:"
@@ -1436,10 +1445,6 @@ msgstr "Text hinter dem Cursor:"
 msgid "Send in &translit"
 msgstr "&Text in Latin-Symbole konvertieren und senden"
 
-#: plugins/_core/arcfgbase.cc:101
-msgid "Don't show autoreply dialog"
-msgstr "Diesen Dialog nicht wieder anzeigen"
-
 #: plugins/_core/filetransferbase.cc:128
 msgid "File transfer"
 msgstr "Dateiübertragung"
@@ -1544,16 +1549,17 @@ msgstr "\"N/A\"-Status setzen wenn"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:125
 #: plugins/sound/soundconfigbase.cpp:166
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
 
-#: plugins/background/background.cpp:33
+#: plugins/background/background.cpp:34
 msgid "Background"
 msgstr "Hintergrund"
 
-#: plugins/background/background.cpp:34
+#: plugins/background/background.cpp:35
 msgid "Plugin provides background pictures for user list"
 msgstr ""
 "Dieses Plugin ermöglicht das Einfügen von Hintergrundbildern für die "
@@ -1679,7 +1685,8 @@ msgstr "Nachrichten nur von &Benutzern der Kontaktliste empfangen"
 
 #: plugins/filter/filtercfgbase.cpp:98
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr ""
+"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: plugins/filter/filtercfgbase.cpp:99
 msgid ""
@@ -1701,7 +1708,8 @@ msgstr "Floatings"
 
 #: plugins/floaty/floaty.cpp:44
 msgid "Plugin provides floating windows for contacts"
-msgstr "Das Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
+msgstr ""
+"Das Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
 
 #: plugins/floaty/floaty.cpp:91 plugins/floaty/floaty.cpp:165
 msgid "Floating on"
@@ -1721,7 +1729,8 @@ msgstr "Dieses Plugin aktiviert die Nachrichtenweiterleitung an Handys"
 
 #: plugins/forward/forwardcfgbase.cpp:102
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
+msgstr ""
+"Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
 
 #: plugins/forward/forwardcfgbase.cpp:103
 msgid ""
@@ -1745,19 +1754,19 @@ msgstr "Icons"
 msgid "Plugin provides Miranda icons themes"
 msgstr "Das Plugin unterstützt Miranda-Icon-Themen"
 
-#: plugins/icons/iconcfg.cpp:141
+#: plugins/icons/iconcfg.cpp:161
 msgid "Select icons DLL"
 msgstr "Icons Bibliothek auswählen"
 
-#: plugins/icons/iconcfg.cpp:144
+#: plugins/icons/iconcfg.cpp:164
 msgid "*.dll|Icons themes"
 msgstr "*.dll|Icon Themen"
 
-#: plugins/icons/iconcfg.cpp:146
+#: plugins/icons/iconcfg.cpp:166
 msgid "Icons themes(*.dll)"
 msgstr "Icon Themen(*.dll)"
 
-#: plugins/icons/iconcfg.cpp:148
+#: plugins/icons/iconcfg.cpp:168
 msgid "Get more icons themes"
 msgstr "mehr Icon Themen downloaden"
 
@@ -1765,162 +1774,162 @@ msgstr "mehr Icon Themen downloaden"
 msgid "Icons for protocol:"
 msgstr "Icons für das jeweilige Protokoll:"
 
-#: plugins/icq/icq.cpp:85
+#: plugins/icq/icq.cpp:88
 msgid "ICQ"
 msgstr "ICQ"
 
-#: plugins/icq/icq.cpp:153 plugins/jabber/jabber.cpp:135
+#: plugins/icq/icq.cpp:156 plugins/jabber/jabber.cpp:135
 msgid "Do not Disturb"
 msgstr "Bitte nicht stören"
 
-#: plugins/icq/icq.cpp:168
+#: plugins/icq/icq.cpp:171
 msgid "Occupied"
 msgstr "Beschäftigt"
 
-#: plugins/icq/icq.cpp:183
+#: plugins/icq/icq.cpp:186
 msgid "Free for chat"
 msgstr "Frei für Chat"
 
-#: plugins/icq/icq.cpp:392
+#: plugins/icq/icq.cpp:407
 msgid "Visible list"
 msgstr "Sichtbarkeit-Liste"
 
-#: plugins/icq/icq.cpp:401
+#: plugins/icq/icq.cpp:416
 msgid "Invisible list"
 msgstr "Unsichbarkeit-Liste"
 
-#: plugins/icq/icq.cpp:412
+#: plugins/icq/icq.cpp:427
 msgid "&Show all encodings"
 msgstr "Alle Kodierungen &anzeigen"
 
-#: plugins/icq/icq.cpp:418 plugins/icq/icq.cpp:428
+#: plugins/icq/icq.cpp:433 plugins/icq/icq.cpp:443
 msgid "Change &encoding"
 msgstr "Kodierung ä&ndern"
 
-#: plugins/icq/icq.cpp:454 plugins/jabber/jabber.cpp:248
+#: plugins/icq/icq.cpp:469 plugins/jabber/jabber.cpp:248
 msgid "&Add to group"
 msgstr "Zu einer Gruppe hinzu&fügen"
 
-#: plugins/icq/icqclient.cpp:256
+#: plugins/icq/icqclient.cpp:258
 msgid "Unicode"
 msgstr "Unicode"
 
-#: plugins/icq/icqclient.cpp:258 plugins/icq/icqclient.cpp:259
+#: plugins/icq/icqclient.cpp:260 plugins/icq/icqclient.cpp:261
 #: plugins/icq/moreinfo.cpp:94
 msgid "Arabic"
 msgstr "Arabisch"
 
-#: plugins/icq/icqclient.cpp:261 plugins/icq/icqclient.cpp:262
+#: plugins/icq/icqclient.cpp:263 plugins/icq/icqclient.cpp:264
 msgid "Baltic"
 msgstr "Baltisch"
 
-#: plugins/icq/icqclient.cpp:264 plugins/icq/icqclient.cpp:266
+#: plugins/icq/icqclient.cpp:266 plugins/icq/icqclient.cpp:268
 msgid "Central European"
 msgstr "Zentraleuropa"
 
-#: plugins/icq/icqclient.cpp:265 plugins/icq/moreinfo.cpp:106
+#: plugins/icq/icqclient.cpp:267 plugins/icq/moreinfo.cpp:106
 msgid "Esperanto"
 msgstr "Esperanto"
 
-#: plugins/icq/icqclient.cpp:268
+#: plugins/icq/icqclient.cpp:270
 msgid "Chinese "
 msgstr "Chinesisch"
 
-#: plugins/icq/icqclient.cpp:269
+#: plugins/icq/icqclient.cpp:271
 msgid "Chinese Simplified"
 msgstr "Chinesisch (vereinfacht)"
 
-#: plugins/icq/icqclient.cpp:270
+#: plugins/icq/icqclient.cpp:272
 msgid "Chinese Traditional"
 msgstr "Chinesisch (traditionell)"
 
-#: plugins/icq/icqclient.cpp:272 plugins/icq/icqclient.cpp:273
-#: plugins/icq/icqclient.cpp:275
+#: plugins/icq/icqclient.cpp:274 plugins/icq/icqclient.cpp:275
+#: plugins/icq/icqclient.cpp:277
 msgid "Cyrillic"
 msgstr "Kyrillisch"
 
-#: plugins/icq/icqclient.cpp:277 plugins/icq/icqclient.cpp:278
+#: plugins/icq/icqclient.cpp:279 plugins/icq/icqclient.cpp:280
 #: plugins/icq/moreinfo.cpp:113
 msgid "Greek"
 msgstr "Griechisch"
 
-#: plugins/icq/icqclient.cpp:283 plugins/icq/icqclient.cpp:284
-#: plugins/icq/icqclient.cpp:285 plugins/icq/moreinfo.cpp:120
+#: plugins/icq/icqclient.cpp:285 plugins/icq/icqclient.cpp:286
+#: plugins/icq/icqclient.cpp:287 plugins/icq/moreinfo.cpp:120
 msgid "Japanese"
 msgstr "Japanisch"
 
-#: plugins/icq/icqclient.cpp:287 plugins/icq/moreinfo.cpp:122
+#: plugins/icq/icqclient.cpp:289 plugins/icq/moreinfo.cpp:122
 msgid "Korean"
 msgstr "Koreanisch"
 
-#: plugins/icq/icqclient.cpp:289 plugins/icq/icqclient.cpp:290
-#: plugins/icq/icqclient.cpp:291
+#: plugins/icq/icqclient.cpp:291 plugins/icq/icqclient.cpp:292
+#: plugins/icq/icqclient.cpp:293
 msgid "Western European"
 msgstr "Westeuropäisch"
 
-#: plugins/icq/icqclient.cpp:293
+#: plugins/icq/icqclient.cpp:295
 msgid "Tamil"
 msgstr "Tamil"
 
-#: plugins/icq/icqclient.cpp:295 plugins/icq/moreinfo.cpp:141
+#: plugins/icq/icqclient.cpp:297 plugins/icq/moreinfo.cpp:141
 msgid "Thai"
 msgstr "Thai"
 
-#: plugins/icq/icqclient.cpp:343
+#: plugins/icq/icqclient.cpp:345
 msgid "Process message failed"
 msgstr "Verarbeiten der Nachricht fehlgeschlagen"
 
-#: plugins/icq/icqclient.cpp:537
+#: plugins/icq/icqclient.cpp:539
 msgid "Protocol error"
 msgstr "Protokoll-Fehler"
 
-#: plugins/icq/icqclient.cpp:1187 plugins/icq/icqinfo.cpp:212
+#: plugins/icq/icqclient.cpp:1189 plugins/icq/icqinfo.cpp:212
 msgid "Possibly invisible"
 msgstr "Wahrscheinlich unsichtbar"
 
-#: plugins/icq/icqclient.cpp:1208 plugins/icq/icqinfo.cpp:227
+#: plugins/icq/icqclient.cpp:1210 plugins/icq/icqinfo.cpp:227
 #: plugins/jabber/jabberclient.cpp:908 plugins/jabber/jabberinfo.cpp:103
 #: plugins/msn/msnclient.cpp:1264 plugins/msn/msninfo.cpp:88
 msgid "Last online"
 msgstr "Zuletzt online"
 
-#: plugins/icq/icqclient.cpp:1480 plugins/icq/icqclient.cpp:1619
+#: plugins/icq/icqclient.cpp:1482 plugins/icq/icqclient.cpp:1621
 #: plugins/jabber/jabberclient.cpp:967 plugins/jabber/jabberclient.cpp:1046
 msgid "Home info"
 msgstr "Heim-Info"
 
-#: plugins/icq/icqclient.cpp:1495 plugins/icq/icqclient.cpp:1634
+#: plugins/icq/icqclient.cpp:1497 plugins/icq/icqclient.cpp:1636
 #: plugins/jabber/jabberclient.cpp:982 plugins/jabber/jabberclient.cpp:1061
 msgid "Work info"
 msgstr "Arbeit-Info"
 
-#: plugins/icq/icqclient.cpp:1510 plugins/icq/icqclient.cpp:1649
+#: plugins/icq/icqclient.cpp:1512 plugins/icq/icqclient.cpp:1651
 msgid "More info"
 msgstr "Zusatz-Info"
 
-#: plugins/icq/icqclient.cpp:1525 plugins/icq/icqclient.cpp:1664
+#: plugins/icq/icqclient.cpp:1527 plugins/icq/icqclient.cpp:1666
 #: plugins/jabber/jabberclient.cpp:997 plugins/jabber/jabberclient.cpp:1076
 msgid "About info"
 msgstr "Über-Info"
 
-#: plugins/icq/icqclient.cpp:1540 plugins/icq/icqclient.cpp:1679
+#: plugins/icq/icqclient.cpp:1542 plugins/icq/icqclient.cpp:1681
 msgid "Interests"
 msgstr "Interessen"
 
-#: plugins/icq/icqclient.cpp:1555 plugins/icq/icqclient.cpp:1694
+#: plugins/icq/icqclient.cpp:1557 plugins/icq/icqclient.cpp:1696
 msgid "Group/Past"
 msgstr "Gruppe/Geschichte"
 
-#: plugins/icq/icqclient.cpp:1570 plugins/icq/icqclient.cpp:1709
+#: plugins/icq/icqclient.cpp:1572 plugins/icq/icqclient.cpp:1711
 msgid "Picture"
 msgstr "Bild"
 
-#: plugins/icq/icqclient.cpp:1724 plugins/jabber/jabberclient.cpp:1091
+#: plugins/icq/icqclient.cpp:1726 plugins/jabber/jabberclient.cpp:1091
 #: plugins/msn/msnclient.cpp:618
 msgid "Network"
 msgstr "Netzwerk"
 
-#: plugins/icq/icqclient.cpp:1739
+#: plugins/icq/icqclient.cpp:1741
 msgid "Security"
 msgstr "Sicherheit"
 
@@ -2169,7 +2178,7 @@ msgstr "URL:"
 msgid "Drag users here"
 msgstr "Benutzer hierher ziehen"
 
-#: plugins/icq/icqmessage.cpp:1168 plugins/icq/icqsearchbase.cc:315
+#: plugins/icq/icqmessage.cpp:1168 plugins/icq/icqsearchbase.cc:330
 #: plugins/icq/icqsecure.cpp:120 plugins/icq/searchresult.cpp:111
 msgid "UIN"
 msgstr "UIN"
@@ -2535,10 +2544,6 @@ msgstr "Burmesisch"
 msgid "Cantonese"
 msgstr "Kantonesien"
 
-#: plugins/icq/moreinfo.cpp:99
-msgid "Catalan"
-msgstr "Catalanisch"
-
 #: plugins/icq/moreinfo.cpp:101
 msgid "Croatian"
 msgstr "Kroatisch"
@@ -2835,7 +2840,7 @@ msgstr "Freiwilligen Org."
 msgid "Search failed"
 msgstr "Suchen fehlgeschlagen"
 
-#: plugins/icq/icqsearchbase.cc:298 plugins/icq/searchresult.cpp:150
+#: plugins/icq/icqsearchbase.cc:313 plugins/icq/searchresult.cpp:150
 #: plugins/jabber/addresult.cpp:148 plugins/jabber/addresult.cpp:172
 #: plugins/jabber/addresult.cpp:200
 msgid "Search"
@@ -2954,7 +2959,7 @@ msgstr "Webseitenerstellung"
 msgid "&Register new UIN"
 msgstr "Neue UIN &registrieren"
 
-#: plugins/icq/icqconfigbase.cc:191 plugins/icq/icqsearchbase.cc:314
+#: plugins/icq/icqconfigbase.cc:191 plugins/icq/icqsearchbase.cc:329
 msgid "UIN:"
 msgstr "ICQ#:"
 
@@ -3009,7 +3014,7 @@ msgstr "&Optionen"
 msgid "Form5"
 msgstr "Form5"
 
-#: plugins/icq/icqinfobase.cc:306 plugins/icq/icqsearchbase.cc:310
+#: plugins/icq/icqinfobase.cc:306 plugins/icq/icqsearchbase.cc:325
 msgid "Last Name:"
 msgstr "Nachname:"
 
@@ -3052,7 +3057,7 @@ msgstr "Interne IP:"
 msgid "Client:"
 msgstr "Client:"
 
-#: plugins/icq/homeinfobase.cc:175 plugins/icq/icqsearchbase.cc:305
+#: plugins/icq/homeinfobase.cc:175 plugins/icq/icqsearchbase.cc:320
 #: plugins/icq/workinfobase.cc:212 plugins/jabber/jabberhomeinfobase.cpp:153
 msgid "State:"
 msgstr "Status:"
@@ -3062,7 +3067,7 @@ msgstr "Status:"
 msgid "Address:"
 msgstr "Adresse:"
 
-#: plugins/icq/homeinfobase.cc:178 plugins/icq/icqsearchbase.cc:304
+#: plugins/icq/homeinfobase.cc:178 plugins/icq/icqsearchbase.cc:319
 #: plugins/icq/workinfobase.cc:211 plugins/jabber/jabberhomeinfobase.cpp:152
 msgid "City:"
 msgstr "Stadt:"
@@ -3084,11 +3089,11 @@ msgstr "&Wohnort-Info"
 msgid "Homepage:"
 msgstr "Homepage:"
 
-#: plugins/icq/icqsearchbase.cc:302 plugins/icq/moreinfobase.cc:204
+#: plugins/icq/icqsearchbase.cc:317 plugins/icq/moreinfobase.cc:204
 msgid "Gender:"
 msgstr "Geschlecht:"
 
-#: plugins/icq/icqsearchbase.cc:300 plugins/icq/moreinfobase.cc:205
+#: plugins/icq/icqsearchbase.cc:315 plugins/icq/moreinfobase.cc:205
 msgid "Age:"
 msgstr "Alter:"
 
@@ -3240,51 +3245,61 @@ msgstr "&Sichtbarkeit-Liste"
 msgid "&Invisible list"
 msgstr "&Unsichbarkeit-Liste"
 
-#: plugins/icq/icqsearchbase.cc:299
+#: plugins/icq/icqsearchbase.cc:314
 msgid "Email:"
 msgstr "E-Mail:"
 
-#: plugins/icq/icqsearchbase.cc:306 plugins/jabber/jabberworkinfobase.cpp:129
+#: plugins/icq/icqsearchbase.cc:321 plugins/jabber/jabberworkinfobase.cpp:129
 msgid "Department:"
 msgstr "Abteilung:"
 
-#: plugins/icq/icqsearchbase.cc:307 plugins/jabber/jabberworkinfobase.cpp:128
+#: plugins/icq/icqsearchbase.cc:322 plugins/jabber/jabberworkinfobase.cpp:128
 msgid "Company:"
 msgstr "Firma:"
 
-#: plugins/icq/icqsearchbase.cc:308
+#: plugins/icq/icqsearchbase.cc:323
 msgid "Interests:"
 msgstr "Interessen:"
 
-#: plugins/icq/icqsearchbase.cc:309
+#: plugins/icq/icqsearchbase.cc:324
 msgid "Email/Info"
 msgstr "E-Mail/Info"
 
-#: plugins/icq/icqsearchbase.cc:312
+#: plugins/icq/icqsearchbase.cc:327
 msgid "Nickname:"
 msgstr "Spitzname:"
 
-#: plugins/icq/icqsearchbase.cc:313
+#: plugins/icq/icqsearchbase.cc:328
 msgid "Names"
 msgstr "Namen"
 
-#: plugins/icq/icqsearchbase.cc:316
+#: plugins/icq/icqsearchbase.cc:331
 msgid "Group:"
 msgstr "Gruppe:"
 
-#: plugins/icq/icqsearchbase.cc:318 plugins/msn/msnsearchbase.cpp:112
+#: plugins/icq/icqsearchbase.cc:333 plugins/msn/msnsearchbase.cpp:112
 msgid "&Add contact"
 msgstr "Kontakt &hinzufügen"
 
-#: plugins/icq/icqsearchbase.cc:319
+#: plugins/icq/icqsearchbase.cc:334
 msgid "Send &message"
 msgstr "Nachricht &senden"
 
-#: plugins/icq/icqsearchbase.cc:320
+#: plugins/icq/icqsearchbase.cc:335
 msgid "Random chat"
 msgstr "Zufälliger Chat"
 
-#: plugins/icq/icqsearchbase.cc:321
+#: plugins/icq/icqsearchbase.cc:336
+#, fuzzy
+msgid "Screen name:"
+msgstr "Vorname:"
+
+#: plugins/icq/icqsearchbase.cc:337
+#, fuzzy
+msgid "AIM user"
+msgstr "Alle Benutzer"
+
+#: plugins/icq/icqsearchbase.cc:338
 msgid "Online only"
 msgstr "Nur online"
 
@@ -3532,7 +3547,8 @@ msgid "Navigate"
 msgstr "Navigation"
 
 #: plugins/navigate/navigate.cpp:38
-msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid ""
+"Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Das Plugin überprüft Nachrichten auf Hyperlinks und ruft externe Browser- "
 "oder Mailprogramme auf."
@@ -3603,7 +3619,8 @@ msgstr "Im Vordergrund"
 
 #: plugins/ontop/ontop.cpp:40
 msgid "Plugin provides main window allways on top"
-msgstr "Dieses Plugin sorgt dafür, dass SIM kontinuierlich im Vordergrund bleibt."
+msgstr ""
+"Dieses Plugin sorgt dafür, dass SIM kontinuierlich im Vordergrund bleibt."
 
 #: plugins/ontop/ontop.cpp:74
 msgid "Always on top"
@@ -3618,7 +3635,8 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:47
-msgid "Plugin provides on screen notification about messages and contacts status"
+msgid ""
+"Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Das ist ein Plugin, das Bildschirmbenachrichtigungen betreffend Kontakte "
 "und\n"
@@ -3670,7 +3688,8 @@ msgstr "Bei Nachrichteneingang informieren (per OSD)"
 
 #: plugins/osd/osdconfigbase.cpp:90
 msgid "Enable &status notification"
-msgstr "Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
+msgstr ""
+"Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
 
 #: plugins/osd/osdifacebase.cpp:181
 msgid "Offset:"
@@ -3706,7 +3725,8 @@ msgstr "Kein Proxy"
 
 #: plugins/proxy/proxycfg.cpp:84
 msgid "<b>Note !</b><br>HTTP-proxy support only ICQ-protocol"
-msgstr "<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
+msgstr ""
+"<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
 
 #: plugins/proxy/proxy.cpp:102
 msgid "Error proxy write"
@@ -3741,7 +3761,8 @@ msgstr "Proxy"
 
 #: plugins/proxy/proxy.cpp:1143
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS and HTTP)"
-msgstr "Das Plugin bietet Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP)"
+msgstr ""
+"Das Plugin bietet Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP)"
 
 #: plugins/proxy/proxy.cpp:1233
 msgid "&Proxy"
@@ -3875,11 +3896,11 @@ msgstr "Klang beim SIM-Start:"
 msgid "On line alert:"
 msgstr "Onlinealarm:"
 
-#: plugins/splash/splash.cpp:33
+#: plugins/splash/splash.cpp:34
 msgid "Splash"
 msgstr "Startbild"
 
-#: plugins/splash/splash.cpp:34
+#: plugins/splash/splash.cpp:35
 msgid "Plugin provides splash screen"
 msgstr "Das Plugin für das Startbild von SIM"
 
@@ -3919,11 +3940,13 @@ msgstr "Automatisch ausblenden"
 
 #: sim/api/aboutdata.cpp:274
 msgid "replace this with information about your translation team"
-msgstr "Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
+msgstr ""
+"Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
 
 #: sim/api/aboutdata.cpp:290
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
+msgstr ""
+"Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
 
 #: sim/api/country.cpp:25
 msgid "Afghanistan"
@@ -6411,9 +6434,6 @@ msgstr "Unterstrichen"
 #~ msgid "Close user &window"
 #~ msgstr "Benutzer&fenster schließen"
 
-#~ msgid "All users"
-#~ msgstr "Alle Benutzer"
-
 #~ msgid "History loading"
 #~ msgstr "Lade Verlauf..."
 
@@ -6804,4 +6824,3 @@ msgstr "Unterstrichen"
 
 #~ msgid "Transfer completed"
 #~ msgstr "Übertragung abgeschlossen"
-

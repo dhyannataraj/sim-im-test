@@ -17,6 +17,7 @@
 
 #include "icons.h"
 #include "simapi.h"
+#include "core.h"
 
 #include <qiconset.h>
 #include <qmime.h>
@@ -226,6 +227,9 @@ void *Icons::processEvent(Event *e)
         remove("offline");
         remove("inactive");
         break;
+    case EventGetIcons:
+        fill((list<string>*)(e->param()));
+        return e->param();
     default:
         break;
     }
@@ -438,6 +442,12 @@ void Icons::iconChanged(int)
 {
     Event e(EventIconChanged, NULL);
     e.process();
+}
+
+void Icons::fill(list<string> *names)
+{
+    for (PIXMAP_MAP::iterator it = icons.begin(); it != icons.end(); ++it)
+        names->push_back((*it).first);
 }
 
 #ifndef WIN32

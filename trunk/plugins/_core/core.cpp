@@ -1256,7 +1256,7 @@ void *CorePlugin::processEvent(Event *e)
             return e->param();
         }
     case EventClientsChanged:
-        if (!m_bInit)
+        if (m_bInit)
             loadMenu();
     case EventClientChanged:		// FALLTHROW
         if (getContacts()->nClients()){
@@ -2928,7 +2928,7 @@ void CorePlugin::loadMenu()
 void CorePlugin::showPanel()
 {
     if (m_main == NULL)
-	return;
+        return;
     bool bShow = getShowPanel();
     if (bShow){
         if (getContacts()->nClients() < 2)
@@ -2937,7 +2937,7 @@ void CorePlugin::showPanel()
     if (bShow){
         if (m_statusWnd == NULL)
             m_statusWnd = new StatusWnd;
-	m_statusWnd->show();
+        m_statusWnd->show();
         return;
     }
     if (m_statusWnd){
