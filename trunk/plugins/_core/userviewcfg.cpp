@@ -81,13 +81,14 @@ void UserViewConfig::colorsToggled(bool state)
     btnAway->setEnabled(!state);
     btnNA->setEnabled(!state);
     btnDND->setEnabled(!state);
+    btnGroup->setEnabled(!state);
     lblOnline->setEnabled(!state);
     lblOffline->setEnabled(!state);
     lblAway->setEnabled(!state);
     lblNA->setEnabled(!state);
     lblDND->setEnabled(!state);
-    lblColors->setEnabled(!state);
     lblGroup->setEnabled(!state);
+    lblColors->setEnabled(!state);
 }
 
 #ifndef WIN32
