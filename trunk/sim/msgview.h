@@ -62,7 +62,7 @@ public:
     void setUin(unsigned long);
     unsigned long Uin() { return m_nUin; }
     void copy();
-    QString selectedText();
+    QString selectedText() const;
 signals:
     void goMessage(unsigned long Uin, unsigned long msgId);
     void showPopup(QPoint);
@@ -71,7 +71,7 @@ protected slots:
 protected:
     void startDrag();
     void keyPressEvent(QKeyEvent *e);
-    QString unquoteString(const QString &s, int from, int to);
+    QString unquoteString(const QString &s, int from, int to) const;
     QTextCodec *codec;
     unsigned long m_nUin;
     TransparentBg *bg;

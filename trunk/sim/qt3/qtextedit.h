@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qtextedit.h,v 1.5 2002-12-26 17:01:21 shutoff Exp $
+** $Id: qtextedit.h,v 1.6 2003-02-07 17:44:23 shutoff Exp $
 **
 ** Definition of the QTextEdit class
 **
@@ -179,7 +179,7 @@ public:
     int heightForWidth( int w ) const;
 
     bool hasSelectedText() const;
-    QString selectedText() const;
+    virtual QString selectedText() const;
     bool isUndoAvailable() const;
     bool isRedoAvailable() const;
 

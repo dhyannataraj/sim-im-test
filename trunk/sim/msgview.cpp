@@ -310,7 +310,7 @@ static const char *smiles[] =
         ":-D"
     };
 
-QString TextShow::unquoteString(const QString &s, int from, int to)
+QString TextShow::unquoteString(const QString &s, int from, int to) const
 {
     if (from < 0) from = 0;
     if (to < 0) to = s.length();
@@ -372,7 +372,7 @@ QString TextShow::unquoteString(const QString &s, int from, int to)
     return res;
 }
 
-QString TextShow::selectedText()
+QString TextShow::selectedText() const
 {
     QString res;
     int paraFrom, paraTo, indexFrom, indexTo;

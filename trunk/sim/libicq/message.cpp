@@ -858,6 +858,9 @@ bool SMSSendEvent::processAnswer(ICQClientPrivate *client, Buffer &b, unsigned s
 
 ICQEvent *ICQClient::sendMessage(ICQMessage *msg)
 {
+	time_t now;
+	time(&now);
+	msg->Time = now;
     if (msg->Type() == ICQ_MSGxFILE){
         ICQFile *f = static_cast<ICQFile*>(msg);
         if (f->Size == 0){

@@ -23,6 +23,7 @@
 #ifndef WIN32
 #include <arpa/inet.h>
 #endif
+#include <time.h>
 
 const unsigned short ICQ_SNACxMSG_SETxICQxMODE     = 0x0002;
 const unsigned short ICQ_SNACxMSG_REQUESTxRIGHTS   = 0x0004;
@@ -67,6 +68,9 @@ void ICQClientPrivate::snac_message(unsigned short type, unsigned short)
                 ICQMessage *m = e->message();
                 if ((m->timestamp1 != timestamp1) != (m->timestamp2 != timestamp2)) continue;
                 if (m->Type() != ICQ_MSGxCHATxINFO){
+					time_t now;
+					time(&now);
+					m->Time = now;
                     e->state = ICQEvent::Success;
                     msgQueue.remove(e);
                     client->process_event(e);

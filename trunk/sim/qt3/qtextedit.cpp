@@ -1795,7 +1795,6 @@ void QTextEdit::contentsDropEvent( QDropEvent *e )
     if ( isReadOnly() )
         return;
     inDnD = FALSE;
-    e->acceptAction();
     QString text;
     bool intern = FALSE;
     if ( QTextDrag::decode( e, text ) ) {
@@ -1804,6 +1803,7 @@ void QTextEdit::contentsDropEvent( QDropEvent *e )
                 e->action() == QDropEvent::Move ) {
             removeSelectedText();
             intern = TRUE;
+			e->acceptAction();
         } else {
             doc->removeSelection( QTextDocument::Standard );
 #ifndef QT_NO_CURSOR
@@ -3151,7 +3151,9 @@ void QTextEdit::startDrag()
 #ifndef QT_NO_DRAGANDDROP
     mousePressed = FALSE;
     inDoubleClick = FALSE;
-    QDragObject *drag = new QTextDrag( doc->selectedText( QTextDocument::Standard ), viewport() );
+	QString s = selectedText();
+	removeSelection();
+    QDragObject *drag = new QTextDrag( s, this );
     if ( isReadOnly() ) {
         drag->dragCopy();
     } else {
