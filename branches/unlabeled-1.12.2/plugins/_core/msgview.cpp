@@ -738,8 +738,10 @@ QString ViewParser::parse(const QString &str)
 
 void ViewParser::text(const QString &text)
 {
-    if (!m_bUseSmiles)
+    if (!m_bUseSmiles){
         res += text;
+		return;
+	}
     QString str = text;
     string s;
     s = str.local8Bit();
