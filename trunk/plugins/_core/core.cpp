@@ -865,6 +865,7 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     cmd->id			= CmdMsgOpen;
     cmd->text		= I18N_NOOP("&Open message");
     cmd->icon		= "message";
+    cmd->icon_on	= NULL;
     cmd->menu_id	= MenuMsgView;
     cmd->menu_grp	= 0x1000;
     cmd->bar_id		= 0;
@@ -2113,7 +2114,6 @@ void *CorePlugin::processEvent(Event *e)
     case EventCheckState:{
             CommandDef *cmd = (CommandDef*)(e->param());
             if (cmd->id == CmdEnableSpell){
-                cmd->icon = NULL;
                 cmd->flags &= ~COMMAND_CHECKED;
                 if (getEnableSpell())
                     cmd->flags |= COMMAND_CHECKED;
