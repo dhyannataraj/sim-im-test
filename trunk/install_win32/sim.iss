@@ -49,7 +49,7 @@ Source: "C:\sim\pict\splash.png"; DestDir: "{app}\pict"; CopyMode: alwaysoverwri
 Source: "C:\qt\bin\qt-mt230nc.dll"; DestDir: "{app}"
 Source: "C:\openssl\bin\libeay32.dll"; DestDir: "{app}"; CopyMode: alwaysoverwrite
 Source: "C:\openssl\bin\ssleay32.dll"; DestDir: "{app}"; CopyMode: alwaysoverwrite
-Source: "C:\windows\system32\msvcrt.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall
+Source: "C:\windows\system32\msvcrt.dll"; DestDir: "{sys}"; CopyMode: onlyifdoesntexist; Flags: uninsneveruninstall
 
 [Icons]
 Name: "{commonprograms}\SIM"; Filename: "{app}\sim.exe"
