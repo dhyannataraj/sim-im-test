@@ -44,7 +44,7 @@ public:
     list<xepRecord>		m_rec;
     QPixmap				pict(unsigned index);
 protected:
-    QImage				m_image;
+    QPixmap				m_image;
     string				*m_data;
     string				m_str;
     Buffer				m_pict;
@@ -146,10 +146,11 @@ bool XepParser::parse(QFile &f)
     if (pict.size() < 28)
         return false;
     QByteArray arr;
-    arr.duplicate(pict.data(28), pict.size() - 28);
-    m_image = QImage(arr);
-    if ((m_image.width() == 0) || (m_image.height() == 0))
+    arr.assign(pict.data(28), pict.size() - 28);
+    QImage img(arr);
+    if ((img.width() == 0) || (img.height() == 0))
         return false;
+    m_image.convertFromImage(img);
     return true;
 }
 
@@ -233,7 +234,7 @@ QPixmap XepParser::pict(unsigned n)
     int x = (n - row * cols) * m_width;
     QPixmap res(m_width, m_height);
     QPainter p(&res);
-    p.drawImage(0, 0, m_image, x, y);
+    p.drawPixmap(0, 0, m_image, x, y);
     p.end();
     res.setMask(res.createHeuristicMask());
     return res;
@@ -275,15 +276,16 @@ static string getValue(const char *p)
 bool Smiles::load(const QString &file)
 {
     clear();
-    for (unsigned i = 0;; i++){
-        const smile *s = defaultSmiles(i);
-        if (s == NULL)
-            break;
-        SmileDef sd;
-        sd.paste = s->paste;
-        sd.icon  = NULL;
-        m_smiles.push_back(sd);
-    }
+    
+    QRegExp btn_smile[7]={  QString(":-\\)"), 
+                            QString(":\\)"), 
+                            QString("=\\)"), 
+                            QString(":-\\]"), 
+                            QString(":\\]"), 
+                            QString(";-\\)"), 
+                            QString(";\\)") };
+    bool btn_found=false;
+    
     QString fname = file;
     QFile f(fname);
     if (!f.open(IO_ReadOnly))
@@ -314,9 +316,7 @@ bool Smiles::load(const QString &file)
                     sd.exp += '\\';
                 sd.exp += *p;
             }
-            QIconSet *is = new QIconSet;
-            is->setPixmap(pict, QIconSet::Small);
-            is->setPixmap(pict, QIconSet::Large);
+            QIconSet *is = new QIconSet(pict);
             m_icons.push_back(is);
             sd.icon	 = is;
             unsigned index = (unsigned)(-1);
@@ -349,10 +349,17 @@ bool Smiles::load(const QString &file)
                 }
 #endif
             }
-            if (index < 16){
-                m_smiles[index] = sd;
-            }else{
+            if(btn_found)
                 m_smiles.push_back(sd);
+            else{
+                for(int i=0; i<7; ++i)
+                    if(btn_smile[i].match(sd.paste.c_str())==0){
+                        btn_found=true;
+                        m_smiles.insert(m_smiles.begin(), sd);
+                        break;
+                    }
+                if(!btn_found)
+                    m_smiles.push_back(sd);
             }
         }
         return true;
@@ -366,22 +373,13 @@ bool Smiles::load(const QString &file)
     }else{
         fname = "";
     }
+    string s;
     QRegExp start("^ *Smiley *= *");
     QRegExp num("^ *, *-[0-9]+ *, *");
     QRegExp nn("[0-9]+");
-    QRegExp re("[\\[\\]\\|\\(\\)\\{\\}\\.\\?\\*\\+\\$\\^]");
-    Buffer sf;
-    sf.init(f.size());
-    f.readBlock(sf.data(), f.size());
-    sf.setSize(f.size());
-    for (;;){
-        if (sf.readPos() < sf.size())
-            break;
-        string l;
-        sf.scan("\n", l);
-        if (!l.empty() && (l[l.length() - 1] == '\r'))
-            l = l.substr(0, l.length() - 1);
-        QString line = QString::fromLocal8Bit(l.c_str());
+    QRegExp re("[\\[\\]\\|\\(\\)\\{\\}\\.\\?\\*\\+]");
+    while (getLine(f, s)){
+        QString line = QString::fromLocal8Bit(s.c_str());
         if (line[0] == ';')
             continue;
         int size;
@@ -429,17 +427,11 @@ bool Smiles::load(const QString &file)
             continue;
         }
         QString p;
-        QString paste;
-        unsigned index = (unsigned)(-1);
+        QString paste;    
         while (!pattern.isEmpty()){
             QString pat = getToken(pattern, ' ', false);
-            if (index == (unsigned)(-1)){
-                for (index = 0; index < 16; index++){
-                    const smile *s = defaultSmiles(index);
-                    if (pat == s->paste)
-                        break;
-                }
-            }
+            if(pat.isEmpty())
+                continue;
             if (paste.isEmpty())
                 paste = pat;
             QString res;
@@ -464,10 +456,18 @@ bool Smiles::load(const QString &file)
         sd.paste   = paste.latin1();
         sd.title   = tip.latin1();
         sd.icon    = icon;
-        if (index < 16){
-            m_smiles[index] = sd;
-        }else{
+    
+        if(btn_found)
             m_smiles.push_back(sd);
+        else{
+            for(int i=0; i<7; ++i)
+                if(btn_smile[i].match(sd.paste.c_str())==0){
+                    btn_found=true;
+                    m_smiles.insert(m_smiles.begin(), sd);
+                    break;
+                }
+            if(!btn_found)
+                m_smiles.push_back(sd);
         }
     }
     return true;
