@@ -558,6 +558,7 @@ FetchClientPrivate::FetchClientPrivate(FetchClient *client)
     m_code   = 0;
     m_size   = UNKNOWN_SIZE;
     m_postSize = 0;
+    m_speed  = 0;
 #ifdef WIN32
     m_thread	= NULL;
 #endif
