@@ -111,9 +111,19 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
             }
             log(L_DEBUG, "ICMB error %u (%s)", error, err_str);
             if (m_send.msg){
-                m_send.msg->setError(err_str);
-                Event e(EventMessageSent, m_send.msg);
-                e.process();
+				if (m_send.msg->type() == MessageCheckInvisible){
+					bool bInvisible = (error == 0x000E);
+					Contact *contact;
+					ICQUserData *data = findContact(m_send.uin, NULL, false, contact);
+					if (data && ((bool)(data->bInvisible) != bInvisible)){
+						data->bInvisible = bInvisible;
+						Event e(EventContactStatus, contact);
+						e.process();
+					}
+				}
+				m_send.msg->setError(err_str);
+				Event e(EventMessageSent, m_send.msg);
+				e.process();
                 delete m_send.msg;
             }
             m_send.msg = NULL;
@@ -368,6 +378,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
         return true;
     case MessageURL:
     case MessageContact:
+	case MessageCheckInvisible:
         s.flags = SEND_RAW;
         s.msg   = msg;
         s.uin	= data->Uin;
@@ -457,7 +468,7 @@ void ICQClient::ackMessage()
     send(true);
 }
 
-void ICQClient::sendAdvMessage(unsigned long uin, Buffer &msgText, unsigned plugin_index, const MessageId &id)
+void ICQClient::sendAdvMessage(unsigned long uin, Buffer &msgText, unsigned plugin_index, const MessageId &id, bool bPeek)
 {
     Buffer msgBuf;
     m_advCounter--;
@@ -480,6 +491,8 @@ void ICQClient::sendAdvMessage(unsigned long uin, Buffer &msgText, unsigned plug
     b.tlv(0x0A, (unsigned short)0x01);
     b.tlv(0x0F);
     b.tlv(0x2711, msgBuf);
+	if (bPeek)
+		b.tlv(0x03);
     sendThroughServer(uin, 2, b, id.id_l, id.id_h);
 }
 
@@ -774,6 +787,17 @@ void ICQClient::processSendQueue()
                         ackMessage();
                     return;
                 }
+			case MessageCheckInvisible:{
+				Buffer msg;
+				msg.pack(ICQ_MSGxAR_AWAY);
+				msg.pack((unsigned short)(fullStatus(m_status) & 0xFFFF));
+				msg << 0x0100 << 0x0100 << (char)0;
+
+			    m_send.id.id_l = rand();
+		        m_send.id.id_h = rand();
+	            sendAdvMessage(data->Uin, msg, PLUGIN_NULL, m_send.id, true);
+				return;
+			}
             }
             string text;
             string encoding;
@@ -942,16 +966,6 @@ void ICQClient::send(bool bTimer)
     }
     if (!m_sendTimer->isActive())
         m_sendTimer->start(m_nSendTimeout * 500);
-}
-
-void ICQClient::sendCheckInvisible(ICQUserData *data)
-{
-    snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_SENDxSERVER);
-    m_socket->writeBuffer << 0 << 0;
-    m_socket->writeBuffer << 2;
-    m_socket->writeBuffer.packUin(data->Uin);
-	m_socket->writeBuffer << 0x0005006AL << 0x00000000L;
-    sendPacket();
 }
 
 static const plugin arrPlugins[] =

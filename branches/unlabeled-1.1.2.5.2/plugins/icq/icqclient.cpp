@@ -1108,17 +1108,22 @@ QString ICQClient::contactTip(void *_data)
     unsigned style  = 0;
     const char *statusIcon = NULL;
     contactInfo(data, status, style, statusIcon);
-    res += "<img src=\"icon:";
-    res += statusIcon;
-    res += "\">";
-    for (const CommandDef *cmd = protocol()->statusList(); cmd->text; cmd++){
-        if (!strcmp(cmd->icon, statusIcon)){
-            res += " ";
-            statusText += i18n(cmd->text);
-            res += statusText;
-            break;
-        }
-    }
+	if ((status == STATUS_OFFLINE) && data->bInvisible){
+		res += "<img src=\"icon:ICQ_invisible\">";
+		res += i18n("Possibly invisible");
+	}else{
+		res += "<img src=\"icon:";
+		res += statusIcon;
+		res += "\">";
+		for (const CommandDef *cmd = protocol()->statusList(); cmd->text; cmd++){
+			if (!strcmp(cmd->icon, statusIcon)){
+				res += " ";
+				statusText += i18n(cmd->text);
+				res += statusText;
+				break;
+			}
+		}
+	}
     res += "<br>";
     res += "UIN: <b>";
     res += number(data->Uin).c_str();
@@ -2245,8 +2250,13 @@ void *ICQClient::processEvent(Event *e)
         if (data == NULL)
             return NULL;
 		if (msg->type() == MessageCheckInvisible){
-			if ((data->Status & 0xFFFF) == ICQ_STATUS_OFFLINE)
-				sendCheckInvisible(data);
+			Message *m = new Message(MessageCheckInvisible);
+			m->setContact(msg->contact());
+			m->setClient(msg->client());
+			if (!send(m, data)){
+				delete m;
+				return NULL;
+			}
 			return e->param();
 		}
         if (msg->type() == MessageOpenSecure){
@@ -2313,9 +2323,9 @@ bool ICQClient::send(Message *msg, void *_data)
             return sendAuthRefused(msg, data);
         return false;
 	case MessageCheckInvisible:
-		if (data && ((data->Status & 0xFFFF) == ICQ_STATUS_OFFLINE))
-			sendCheckInvisible(data);
-		return false;
+		return data && 
+			((data->Status & 0xFFFF) == ICQ_STATUS_OFFLINE) &&
+			sendThruServer(msg, data);
 #ifdef USE_OPENSSL
     case MessageOpenSecure:
         if (data == NULL)

@@ -255,6 +255,7 @@ const unsigned PLUGIN_STATUSxMANAGER	= 8;
 const unsigned PLUGIN_RANDOMxCHAT		= 9;
 const unsigned PLUGIN_NULL				= 10;
 const unsigned PLUGIN_AR				= 11;
+const unsigned PLUGIN_INVISIBLE			= 12;
 
 class ICQClient;
 
@@ -531,7 +532,7 @@ protected:
     bool sendAuthRequest(Message *msg, void *data);
     bool sendAuthGranted(Message *msg, void *data);
     bool sendAuthRefused(Message *msg, void *data);
-    void sendAdvMessage(unsigned long uin, Buffer &msgText, unsigned plugin_index, const MessageId &id);
+    void sendAdvMessage(unsigned long uin, Buffer &msgText, unsigned plugin_index, const MessageId &id, bool bPeek=false);
     void parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAck, unsigned long timestamp1, unsigned long timestamp2);
     void sendAutoReply(unsigned long uin, unsigned long timestamp1, unsigned long timestamp2,
                        const plugin p, unsigned short cookie1, unsigned short cookie2,
@@ -542,7 +543,6 @@ protected:
     void setChatGroup();
     void parsePluginPacket(Buffer &b, unsigned plugin_index, ICQUserData *data, unsigned uin, bool bDirect);
     void pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &b);
-	void sendCheckInvisible(ICQUserData *data);
     string packMessage(Message *msg, ICQUserData *data, unsigned short &type);
     unsigned short m_advCounter;
     unsigned m_nUpdates;

@@ -1370,12 +1370,16 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 break;
             }
         case PLUGIN_QUERYxSTATUS:
+			if (data == NULL)
+				break;
             if (!bDirect){
                 b.incReadPos(5);
                 b.unpack(nEntries);
             }
             log(L_DEBUG, "Status info answer %u", nEntries);
         case PLUGIN_QUERYxINFO:
+			if (data == NULL)
+				break;
             if (nEntries > 0x80){
                 log(L_DEBUG, "Bad entries value %X", nEntries);
                 break;
@@ -1423,7 +1427,8 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 data->PluginStatusFetchTime = data->PluginStatusTime;
             }
             break;
-        case PLUGIN_PICTURE:{
+        case PLUGIN_PICTURE:
+			if (data){
                 b.incReadPos(-4);
                 string pict;
                 b.unpackStr32(pict);
@@ -1440,9 +1445,10 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 }
                 data->PictureWidth  = img.width();
                 data->PictureHeight = img.height();
-                break;
             }
+			break;
         case PLUGIN_PHONEBOOK:
+			if (data){
             nActive = (unsigned)(-1);
             if (nEntries > 0x80){
                 log(L_DEBUG, "Bad entries value %X", nEntries);
@@ -1542,10 +1548,11 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 Event e(EventContactChanged, contact);
                 e.process();
             }
-            break;
         }
+		}
         break;
     case 2:
+		if (data){
         if (bDirect)
             b.incReadPos(3);
         b.unpack(state);
@@ -1577,23 +1584,10 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
             }
             break;
         }
+		}
         break;
     default:
         log(L_DEBUG, "Unknown plugin type answer %u %u (%u)", uin, type, plugin_type);
-        switch (plugin_type){
-        case PLUGIN_PICTURE:
-            if (data->PictureWidth || data->PictureHeight){
-                data->PictureWidth  = 0;
-                data->PictureHeight = 0;
-                Event e(EventContactChanged, contact);
-                e.process();
-            }
-            break;
-        case PLUGIN_PHONEBOOK:
-            set_str(&data->PhoneBook, NULL);
-            setupContact(contact, data);
-            break;
-        }
     }
 }
 
