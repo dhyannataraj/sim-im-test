@@ -127,7 +127,8 @@ ICQUser *ICQClient::getUser(unsigned long id, bool create)
     u = contacts.getUser(id, true);
     ICQEvent e(EVENT_INFO_CHANGED, id);
     process_event(&e);
-    addToContacts(id);
+    if (!u->inIgnore())
+        addToContacts(id);
     addInfoRequest(id);
     return u;
 }

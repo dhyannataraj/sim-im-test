@@ -605,7 +605,7 @@ bool MainWindow::init()
     }
     menuStatus->setItemChecked(ICQ_STATUS_FxPRIVATE, pClient->Invisible);
 
-    if (pClient->Uin == 0){
+    if ((pClient->Uin == 0) || (*pClient->EncryptedPassword.c_str() == 0)){
         bInLogin = true;
         LoginDialog dlg;
         dlg.exec();

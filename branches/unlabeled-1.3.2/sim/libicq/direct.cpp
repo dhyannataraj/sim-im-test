@@ -100,12 +100,12 @@ void DirectSocket::connect()
     }
     if (state == NotConnected){
         m_bUseInternalIP = true;
-        if ((real_ip != 0) && ((real_ip & 0xFFFFFF) != (client->RealIP() & 0xFFFFFF)))
+        if ((ip != 0) && ((ip & 0xFFFFFF) != (client->RealIP() & 0xFFFFFF)))
             m_bUseInternalIP = false;
         state = ConnectIP1;
         if (real_ip != 0){
             struct in_addr addr;
-            addr.s_addr = real_ip;
+            addr.s_addr = m_bUseInternalIP ? real_ip : ip;
             ClientSocket::connect(inet_ntoa(addr), port);
             return;
         }
@@ -114,7 +114,7 @@ void DirectSocket::connect()
         state = ConnectIP2;
         if (ip != 0){
             struct in_addr addr;
-            addr.s_addr = ip;
+            addr.s_addr = m_bUseInternalIP ? ip : real_ip;
             ClientSocket::connect(inet_ntoa(addr), port);
             return;
         }

@@ -645,7 +645,7 @@ protected:
 bool SetPasswordEvent::processAnswer(ICQClient *client, Buffer&, unsigned short)
 {
     m_nUin = client->Uin();
-    client->Password = passwd;
+    client->storePassword(passwd);
     return true;
 }
 

@@ -61,24 +61,14 @@ void ICQClient::chn_login()
 {
     switch (m_state){
     case Connect:{
-            log(L_DEBUG, "Login %lu [%s]", Uin(), Password.c_str());
+            log(L_DEBUG, "Login %lu [%s]", Uin(), EncryptedPassword.c_str());
             char uin[20];
             sprintf(uin, "%lu", Uin());
-            char pswd[16];
-            unsigned char xor_table[] = {
-                0xf3, 0x26, 0x81, 0xc4, 0x39, 0x86, 0xdb, 0x92,
-                0x71, 0xa3, 0xb9, 0xe6, 0x53, 0x7a, 0x95, 0x7c};
-            int j;
-            for (j = 0; j < 16; j++){
-                if (Password[j] == 0) break;
-                pswd[j] = (Password[j] ^ xor_table[j]);
-            }
-            pswd[j] = 0;
 
             flap(ICQ_CHNxNEW);
             writeBuffer << 0x00000001L;
             writeBuffer.tlv(0x0001, uin);
-            writeBuffer.tlv(0x0002, pswd);
+            writeBuffer.tlv(0x0002, EncryptedPassword.c_str());
             writeBuffer.tlv(0x0003, "ICQ Inc. - Product of ICQ (TM).2001b.5.17.1.3642.85");
             writeBuffer.tlv(0x0016, 0x010A);
             writeBuffer.tlv(0x0017, 0x0005);
@@ -103,9 +93,9 @@ void ICQClient::chn_login()
             << 0x00000000L << 0x94680000L << 0x94680000L
             << 0x00000000L << 0x00000000L << 0x00000000L
             << 0x00000000L;
-            unsigned short len = Password.size() + 1;
+            unsigned short len = DecryptedPassword.size() + 1;
             msg << htons(len);
-            msg.pack(Password.c_str(), len);
+            msg.pack(DecryptedPassword.c_str(), len);
             msg << 0x94680000L << 0x00000602L;
             writeBuffer.tlv(0x0001, msg);
             sendPacket();

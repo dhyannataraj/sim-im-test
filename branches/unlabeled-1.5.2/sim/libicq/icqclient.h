@@ -904,7 +904,8 @@ public:
     ConfigUShort MinTCPPort;
     ConfigUShort MaxTCPPort;
 
-    ConfigString Password;
+    ConfigString DecryptedPassword;
+    ConfigString EncryptedPassword;
     ConfigBool   WebAware;
     ConfigBool   Authorize;
     ConfigBool   HideIp;
@@ -988,6 +989,7 @@ public:
     static void quoteText(const char *text, string &msg);
 
     void setupProxy();
+    void storePassword(const char*);
 
 protected:
     ICQListener *listener;
