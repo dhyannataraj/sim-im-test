@@ -119,7 +119,7 @@ void *Services::processEvent(Event *e)
             while ((data = ((JabberUserData*)(++it))) != NULL){
                 if (!m_client->isAgent(data->ID))
                     continue;
-		QLIstViewItem *item;
+		QListViewItem *item;
                 for (item = lstAgents->firstChild(); item; item = item->nextSibling())
                     if ((item->text(COL_JID) + "/registered") == QString::fromUtf8(data->ID))
                         break;
