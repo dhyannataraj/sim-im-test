@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2003-11-08 07:23+0300\n"
-"PO-Revision-Date: 2003-11-01 21:39GMT\n"
+"PO-Revision-Date: 2003-11-08 17:15GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1446,8 +1446,7 @@ msgstr "E-Mail Gateway:"
 
 #: plugins/_core/searchbase.cpp:39
 msgid "Choose type of contact which you want to find or add:"
-msgstr ""
-"Art des Kontaktes auswählen, der gefunden oder hinzugefügt werden soll"
+msgstr "Art des Kontaktes auswählen, der gefunden oder hinzugefügt werden soll"
 
 #: plugins/_core/searchbase.cpp:44
 msgid "Contact type:"
@@ -1702,8 +1701,7 @@ msgstr "\"N/A\"-Status setzen wenn"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:96
 #: plugins/sound/soundconfigbase.cpp:142
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -1847,8 +1845,7 @@ msgstr "Nachrichten nur von &Benutzern der Kontaktliste empfangen"
 
 #: plugins/filter/filtercfgbase.cpp:70
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: plugins/filter/filtercfgbase.cpp:78
 msgid ""
@@ -1870,8 +1867,7 @@ msgstr "Floatings"
 
 #: plugins/floaty/floaty.cpp:44
 msgid "Plugin provides floating windows for contacts"
-msgstr ""
-"Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
+msgstr "Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
 
 #: plugins/floaty/floaty.cpp:91 plugins/floaty/floaty.cpp:165
 msgid "Floating on"
@@ -1891,8 +1887,7 @@ msgstr "Plugin stellt Nachrichtenweiterleitung an Handys bereit"
 
 #: plugins/forward/forwardcfgbase.cpp:66
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
-"Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
+msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
 
 #: plugins/forward/forwardcfgbase.cpp:74
 msgid ""
@@ -4191,8 +4186,7 @@ msgid "Navigate"
 msgstr "Navigation"
 
 #: plugins/navigate/navigate.cpp:199
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Plugin stellt Navigation von Hyperlinks bereit und ruft externe Browser- "
 "oder Mailprogramme auf"
@@ -4294,8 +4288,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:48
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Plugin stellt Bildschirmbenachrichtigungen über Nachrichten und "
 "Kontaktstatus bereit"
@@ -4350,8 +4343,7 @@ msgstr "Bei Nachrichteneingang informieren (per OSD)"
 
 #: plugins/osd/osdconfigbase.cpp:68
 msgid "Enable &status notification"
-msgstr ""
-"Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
+msgstr "Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
 
 #: plugins/osd/osdifacebase.cpp:97
 msgid "Offset:"
@@ -4403,8 +4395,7 @@ msgstr "Proxy"
 
 #: plugins/proxy/proxy.cpp:1241
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS and HTTP)"
-msgstr ""
-"Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
+msgstr "Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
 
 #: plugins/gpg/gpgcfg.cpp:141 plugins/gpg/gpguser.cpp:83
 #: plugins/proxy/proxycfg.cpp:36
@@ -4417,8 +4408,7 @@ msgstr "&Proxy"
 
 #: plugins/proxy/proxycfg.cpp:140
 msgid "<b>Note !</b><br>HTTP-proxy support only ICQ-protocol"
-msgstr ""
-"<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
+msgstr "<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
 
 #: plugins/proxy/proxycfg.cpp:209
 msgid "Default"
@@ -4605,8 +4595,7 @@ msgstr "Aktualisieren"
 
 #: plugins/update/update.cpp:40
 msgid "Plugin provides notifications about update SIM software"
-msgstr ""
-"Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
+msgstr "Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
 
 #: plugins/update/update.cpp:155
 msgid "Show details"
@@ -4640,61 +4629,60 @@ msgstr "Automatisch ausblenden"
 
 #: plugins/gpg/gpg.cpp:48
 msgid "GPG"
-msgstr ""
+msgstr "GPG"
 
 #: plugins/gpg/gpg.cpp:49
 msgid "Plugin adds GnuPG encryption/decryption support for messages"
-msgstr ""
+msgstr "Plugin fügt Unterstützung von GnuPG-Verschlüsselung/-Entschlüsselung von Nachrichten hinzu"
 
 #: plugins/gpg/gpg.cpp:73
 msgid ""
 "Plugin adds GnuPG encryption/decryption support for messages\n"
 "GPG not found in PATH"
 msgstr ""
+"Plugin fügt Unterstützung von GnuPG-Verschlüsselung/-Entschlüsselung von Nachrichten hinzu\n"
+"GPG nicht in Pfad gefunden"
 
 #: plugins/gpg/gpg.cpp:392 plugins/gpg/gpg.cpp:397
-#, fuzzy
 msgid "Encrypt failed"
-msgstr "Datei akzeptieren"
+msgstr "Verschlüsseln fehlgeschlagen"
 
 #: plugins/gpg/gpg.cpp:551
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: %n GPG key\n"
 "%n GPG keys"
 msgstr ""
-"Datei\n"
-"%n Dateien"
+"%n GPG-Schlüssel\n"
+"%n GPG-Schlüssel"
 
 #: plugins/gpg/gpg.cpp:598
 msgid "GPG key"
-msgstr ""
+msgstr "GPG-Schlüssel"
 
 #: plugins/gpg/gpg.cpp:606
 msgid "Use GPG encryption"
-msgstr ""
+msgstr "GPG-Verschlüsselung benutzen"
 
 #: plugins/gpg/gpg.cpp:613
 msgid "&GPG key"
-msgstr ""
+msgstr "&GPG-Schlüssel"
 
 #: plugins/gpg/gpgcfg.cpp:43
 msgid "GPG(gpg.exe)"
-msgstr ""
+msgstr "GPG(gpg.exe)"
 
 #: plugins/gpg/gpgcfg.cpp:51
-#, fuzzy
 msgid "Select home directory"
-msgstr "Persönliches Verzeichnis setzen"
+msgstr "Persönliches Verzeichnis auswählen"
 
 #: plugins/gpg/gpgcfg.cpp:53
 msgid "Download GPG"
-msgstr ""
+msgstr "GPG herunterladen"
 
 #: plugins/gpg/gpgcfg.cpp:62
-#, fuzzy
 msgid "&Advanced"
-msgstr "A&bbrechen"
+msgstr "&Erweitert"
 
 #: plugins/gpg/gpgcfg.cpp:169
 msgid "New"
@@ -4702,86 +4690,75 @@ msgstr "Neu"
 
 #: plugins/gpg/gpgcfgbase.cpp:96
 msgid "Executable:"
-msgstr ""
+msgstr "Ausführbare Datei:"
 
 #: plugins/gpg/gpgcfgbase.cpp:107
-#, fuzzy
 msgid "Home directory:"
-msgstr "Persönliches Verzeichnis"
+msgstr "Persönliches Verzeichnis:"
 
 #: plugins/gpg/gpgcfgbase.cpp:124
-#, fuzzy
 msgid "&Find"
-msgstr "Suchen"
+msgstr "&Finden"
 
 #: plugins/gpg/gpgcfgbase.cpp:134
-#, fuzzy
 msgid "Your key:"
-msgstr "Türkei"
+msgstr "Ihr Schlüssel:"
 
 #: plugins/gpg/gpgcfgbase.cpp:143 plugins/gpg/gpguserbase.cpp:77
-#, fuzzy
 msgid "&Refresh"
-msgstr "&Ablehnen"
+msgstr "&Aktualisieren"
 
 #: plugins/gpg/gpgadvbase.cpp:66
 msgid "Command arguments"
-msgstr ""
+msgstr "Kommandozeilenargumente"
 
 #: plugins/gpg/gpgadvbase.cpp:74
 msgid "Generate key:"
-msgstr ""
+msgstr "Schlüssel generieren:"
 
 #: plugins/gpg/gpgadvbase.cpp:80
-#, fuzzy
 msgid "List public keys:"
-msgstr "Liste der öffentlichen Server"
+msgstr "Liste der öffentlichen Schlüssel:"
 
 #: plugins/gpg/gpgadvbase.cpp:86
 msgid "List secret keys:"
-msgstr ""
+msgstr "Liste der geheimen Schlüssel:"
 
 #: plugins/gpg/gpgadvbase.cpp:104
 msgid "Import public:"
-msgstr ""
+msgstr "Öffentlichen Schlüssel importieren:"
 
 #: plugins/gpg/gpgadvbase.cpp:114
 msgid "Export public:"
-msgstr ""
+msgstr "Öffentlichen Schlüssel exportieren:"
 
 #: plugins/gpg/gpgadvbase.cpp:124
-#, fuzzy
 msgid "Encrypt:"
-msgstr "Ägypten"
+msgstr "Verschlüsseln:"
 
 #: plugins/gpg/gpgadvbase.cpp:134
 msgid "Decrypt:"
-msgstr ""
+msgstr "Entschlüsseln:"
 
 #: plugins/gpg/gpggenbase.cpp:34
-#, fuzzy
 msgid "Generate key"
-msgstr "Allgemein"
+msgstr "Schlüssel generieren"
 
 #: plugins/gpg/gpggenbase.cpp:62
-#, fuzzy
 msgid "Comment:"
-msgstr "Client:"
+msgstr "Kommentar:"
 
 #: plugins/gpg/gpguserbase.cpp:66
-#, fuzzy
 msgid "Key:"
-msgstr "Taste"
+msgstr "Schlüssel:"
 
 #: sim/api/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
-msgstr ""
-"Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
+msgstr "Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
 
 #: sim/api/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
 
 #: sim/api/country.cpp:25
 msgid "Afghanistan"
@@ -7672,3 +7649,4 @@ msgstr "Benutzerdefiniert"
 
 #~ msgid "Transfer completed"
 #~ msgstr "Übertragung abgeschlossen"
+
