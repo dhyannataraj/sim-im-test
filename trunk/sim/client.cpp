@@ -112,13 +112,14 @@ encoding encodingTbl[] =
         { I18N_NOOP("Esperanto"), "ISO 8859-3" },
         { I18N_NOOP("Baltic"), "ISO 8859-13" },
         { I18N_NOOP("Baltic"), "CP 1257" },
-#ifdef WIN32
-        { I18N_NOOP("Cyrillic"), "CP 1251" },
-        { I18N_NOOP("Ukrainan"), "CP 1251" },
-#else
+#ifndef WIN32
         { I18N_NOOP("Cyrillic"), "KOI8-R" },
+#endif
+        { I18N_NOOP("Cyrillic"), "CP 1251" },
+#ifndef WIN32
         { I18N_NOOP("Ukrainan"), "KOI8-U" },
 #endif
+        { I18N_NOOP("Ukrainan"), "CP 1251" },
         { I18N_NOOP("Arabic"), "ISO 8859-6-I" },
         { I18N_NOOP("Greek"), "ISO 8859-7" },
         { I18N_NOOP("Hebrew"), "ISO 8859-8-I" },
@@ -127,6 +128,13 @@ encoding encodingTbl[] =
         { I18N_NOOP("Chinese Simplified"), "gbk2312" },
         { I18N_NOOP("Turkish"), "ISO 8859-9" },
         { I18N_NOOP("Turkish"), "CP 1254" },
+        { I18N_NOOP("Korean"), "eucKR" },
+        { I18N_NOOP("Japanese"), "eucJP" },
+        { I18N_NOOP("Japanese"), "jis7" },
+        { I18N_NOOP("Japanese"), "sjis7" },
+        { I18N_NOOP("Tamil"), "tscii" },
+        { I18N_NOOP("UTF8"), "utf8" },
+        { I18N_NOOP("UTF16"), "utf16" }
     };
 
 #endif

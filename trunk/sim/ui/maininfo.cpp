@@ -37,6 +37,7 @@ MainInfo::MainInfo(QWidget *p, bool readOnly)
     lblPict->setPixmap(Pict("main"));
     edtUin->setReadOnly(true);
     cmbDisplay->setEditable(true);
+    cmbEncoding->insertStringList(i18n("Default"));
     cmbEncoding->insertStringList(*pClient->encodings);
     connect(lstEmail, SIGNAL(highlighted(int)), this, SLOT(setButtons(int)));
     connect(btnAdd, SIGNAL(clicked()), this, SLOT(addEmail()));
@@ -65,6 +66,7 @@ void MainInfo::load(ICQUser *u)
         lblUin->show();
         lineDiv->show();
     }
+    cmbEncoding->setCurrentItem(pClient->userEncoding(u->Uin()));
     edtFirst->setText(QString::fromLocal8Bit(u->FirstName.c_str()));
     edtLast->setText(QString::fromLocal8Bit(u->LastName.c_str()));
     edtNotes->setText(QString::fromLocal8Bit(u->Notes.c_str()));
@@ -174,6 +176,7 @@ void MainInfo::defaultEmail()
 
 void MainInfo::save(ICQUser *u)
 {
+    pClient->setUserEncoding(u->Uin(), cmbEncoding->currentItem());
     u->EMails = mails;
     u->Notes = edtNotes->text().local8Bit();
     u->FirstName = edtFirst->text().local8Bit();
@@ -186,6 +189,7 @@ void MainInfo::save(ICQUser *u)
 
 void MainInfo::apply(ICQUser *u)
 {
+    pClient->setUserEncoding(u->Uin(), cmbEncoding->currentItem());
     EMailInfo *mailInfo = NULL;
     if (mails.begin() != mails.end()){
         for (EMailPtrList::iterator it = mails.begin(); it != mails.end(); ++it){
