@@ -435,7 +435,7 @@ void IPResolver::resolve_ready()
     inaddr.s_addr = m_addr;
     log(L_DEBUG, "Resolver ready %s %s", inet_ntoa(inaddr), m_host.c_str());
     for (list<IP*>::iterator it = queue.begin(); it != queue.end(); ){
-        if (htonl((*it)->ip()) != m_addr){
+        if ((*it)->ip() != m_addr){
             ++it;
             continue;
         }
@@ -443,7 +443,7 @@ void IPResolver::resolve_ready()
         queue.erase(it);
         it = queue.begin();
     }
-    //    start_resolve();
+    start_resolve();
 }
 
 void IPResolver::start_resolve()
