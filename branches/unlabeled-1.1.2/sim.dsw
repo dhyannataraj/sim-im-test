@@ -32,6 +32,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name simapi
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simui
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -44,6 +47,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name qjpegio
+    End Project Dependency
     Begin Project Dependency
     Project_Dep_Name simapi
     End Project Dependency
@@ -96,13 +102,13 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
+    Project_Dep_Name qjpegio
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name simapi
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name simui
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name qjpegio
     End Project Dependency
 }}}
 
@@ -195,6 +201,9 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
+    Project_Dep_Name qjpegio
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name simapi
     End Project Dependency
     Begin Project Dependency
@@ -212,6 +221,12 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simui
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -242,6 +257,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name simapi
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simui
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -256,6 +274,9 @@ Package=<4>
 {{{
     Begin Project Dependency
     Project_Dep_Name simapi
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simui
     End Project Dependency
 }}}
 
@@ -272,6 +293,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name simapi
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simui
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -287,6 +311,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name simapi
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simui
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -301,9 +328,6 @@ Package=<4>
 {{{
     Begin Project Dependency
     Project_Dep_Name simapi
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name simui
     End Project Dependency
 }}}
 
@@ -363,28 +387,19 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
+    Project_Dep_Name __homedir
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name __migrate
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name _core
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name about
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name netmonitor
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name ontop
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name navigate
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name xpstyle
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name transparent
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name icons
+    Project_Dep_Name autoaway
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name background
@@ -393,28 +408,49 @@ Package=<4>
     Project_Dep_Name dock
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name windock
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name shortcuts
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name icq
+    Project_Dep_Name filter
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name floaty
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name osd
+    Project_Dep_Name forward
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name filter
+    Project_Dep_Name icons
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name __homedir
+    Project_Dep_Name icq
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name jabber
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name loger
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name msn
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name navigate
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name netmonitor
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ontop
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name osd
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name proxy
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name shortcuts
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simapi
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name sound
@@ -423,25 +459,10 @@ Package=<4>
     Project_Dep_Name splash
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name _core
+    Project_Dep_Name transparent
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name jabber
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name msn
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name autoaway
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name forward
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name __migrate
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name proxy
+    Project_Dep_Name windock
     End Project Dependency
 }}}
 
@@ -533,18 +554,6 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name simapi
     End Project Dependency
-}}}
-
-###############################################################################
-
-Project: "xpstyle"=.\xpstyle\xpstyle.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
 }}}
 
 ###############################################################################

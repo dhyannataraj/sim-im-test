@@ -688,6 +688,7 @@ bool MsgEdit::sendMessage(Message *msg)
             return false;
         multiply_it = multiply.begin();
         msg->setContact(*multiply_it);
+		msg->setClient(NULL);
         ++multiply_it;
         if (multiply_it != multiply.end())
             msg->setFlags(msg->getFlags() | MESSAGE_MULTIPLY);
