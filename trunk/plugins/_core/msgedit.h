@@ -74,6 +74,7 @@ public:
     void		execCommand(CommandDef *cmd);
     unsigned	type() { return m_type; }
     bool		adjustType();
+    QString m_resource;
 signals:
     void heightChanged(int);
     void init();

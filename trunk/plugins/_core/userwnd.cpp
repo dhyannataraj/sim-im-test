@@ -110,6 +110,10 @@ QString UserWnd::getLongName()
     if (client && data){
         res += " ";
         res += client->contactName(data);
+        if (!m_edit->m_resource.isEmpty()){
+            res += "/";
+            res += m_edit->m_resource;
+        }
         bool bFrom = false;
         for (unsigned i = 0; i < getContacts()->nClients(); i++){
             Client *pClient = getContacts()->getClient(i);

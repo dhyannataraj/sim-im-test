@@ -18,6 +18,7 @@ Fix acinclude for automake-1.8
 MSN: add HTTP polling
 Jabber: add HTTP polling
 OSD: add show message content
+Jabber: add select resource for send
 
 Version 0.9.2
 Add styles plugin

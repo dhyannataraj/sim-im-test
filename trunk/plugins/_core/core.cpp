@@ -491,7 +491,8 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     m_focus		 = NULL;
     m_bInit		 = false;
     m_nClients	 = 0;
-    m_nClientsMenu = 0;
+    m_nClientsMenu  = 0;
+    m_nResourceMenu = 0;
 
     loadDir();
 
@@ -2169,8 +2170,52 @@ void *CorePlugin::processEvent(Event *e)
                 getWays(ways, contact);
                 if (cmd->menu_id == MenuMessage){
                     unsigned n = ways.size();
-                    if (n <= 1)
+                    if (n < 1)
                         return NULL;
+                    if (n == 1){
+                        string resources = ways[0].client->resources(ways[0].data);
+                        if (resources.empty())
+                            return NULL;
+                        string wrk = resources;
+                        unsigned n = 0;
+                        while (!wrk.empty()){
+                            getToken(wrk, ';');
+                            n++;
+                        }
+                        CommandDef *cmds = new CommandDef[n + 2];
+                        memset(cmds, 0, sizeof(CommandDef) * (n + 2));
+                        cmds[0].text = "_";
+                        n = 1;
+                        while (!resources.empty()){
+                            unsigned id = CmdContactResource + n;
+                            if (n > m_nResourceMenu){
+                                m_nResourceMenu = n;
+                                Event eMenu(EventMenuCreate, (void*)id);
+                                eMenu.process();
+                                Command cmd;
+                                cmd->id			= CmdContactClients;
+                                cmd->text		= "_";
+                                cmd->menu_id	= id;
+                                cmd->menu_grp	= 0x1000;
+                                cmd->flags		= COMMAND_CHECK_STATE;
+                                Event eCmd(EventCommandCreate, cmd);
+                                eCmd.process();
+                            }
+                            cmds[n].id		 = id;
+                            cmds[n].text	 = "_";
+                            cmds[n].popup_id = id;
+                            string res = getToken(resources, ';');
+                            cmds[n].icon     = (const char*)(atol(getToken(res, ',').c_str()));
+                            QString t = ways[0].client->contactName(ways[0].data);
+                            t += "/";
+                            t += QString::fromUtf8(res.c_str());
+                            cmds[n].text_wrk = strdup(t.utf8());
+                            n++;
+                        }
+                        cmd->param = cmds;
+                        cmd->flags |= COMMAND_RECURSIVE;
+                        return e->param();
+                    }
                     CommandDef *cmds = new CommandDef[n + 2];
                     memset(cmds, 0, sizeof(CommandDef) * (n + 2));
                     cmds[0].text = "_";
@@ -2238,6 +2283,55 @@ void *CorePlugin::processEvent(Event *e)
                     cmd->flags |= COMMAND_RECURSIVE;
                     return e->param();
                 }
+                if (cmd->menu_id > CmdContactResource){
+                    unsigned nRes = cmd->menu_id - CmdContactResource - 1;
+                    unsigned n;
+                    for (n = 0; n < ways.size(); n++){
+                        string resources = ways[n].client->resources(ways[n].data);
+                        while (!resources.empty()){
+                            getToken(resources, ';');
+                            if (nRes-- == 0){
+                                clientContact &cc = ways[n];
+                                Event eMenu(EventGetMenuDef, (void*)MenuMessage);
+                                CommandsDef *cmdsMsg = (CommandsDef*)(eMenu.process());
+                                unsigned nCmds = 0;
+                                {
+                                    CommandsList it(*cmdsMsg, true);
+                                    while (++it)
+                                        nCmds++;
+                                }
+                                CommandDef *cmds = new CommandDef[nCmds];
+                                memset(cmds, 0, sizeof(CommandDef) * nCmds);
+                                nCmds = 0;
+
+                                CommandsList it(*cmdsMsg, true);
+                                CommandDef *c;
+                                while ((c = ++it) != NULL){
+                                    if ((c->id == MessageSMS) && (cc.client->protocol()->description()->flags & PROTOCOL_NOSMS))
+                                        continue;
+                                    if (!cc.client->canSend(c->id, cc.data)){
+                                        CheckSend cs;
+                                        cs.id     = c->id;
+                                        cs.data   = cc.data;
+                                        cs.client = cc.client;
+                                        Event e(EventCheckSend, &cs);
+                                        if (!e.process())
+                                            continue;
+                                    }
+                                    cmds[nCmds] = *c;
+                                    cmds[nCmds].id      = c->id;
+                                    cmds[nCmds].flags	= COMMAND_DEFAULT;
+                                    cmds[nCmds].menu_id = cmd->menu_id;
+                                    nCmds++;
+                                }
+                                cmd->param = cmds;
+                                cmd->flags |= COMMAND_RECURSIVE;
+                                return e->param();
+                            }
+                        }
+                    }
+                    return NULL;
+                }
                 unsigned n = cmd->menu_id - CmdContactClients - 1;
                 if (n >= ways.size())
                     return NULL;
@@ -2251,6 +2345,14 @@ void *CorePlugin::processEvent(Event *e)
                     while (++it)
                         nCmds++;
                 }
+                string resources = cc.client->resources(cc.data);
+                if (!resources.empty()){
+                    nCmds++;
+                    while (!resources.empty()){
+                        getToken(resources, ';');
+                        nCmds++;
+                    }
+                }
 
                 CommandDef *cmds = new CommandDef[nCmds];
                 memset(cmds, 0, sizeof(CommandDef) * nCmds);
@@ -2261,8 +2363,7 @@ void *CorePlugin::processEvent(Event *e)
                 while ((c = ++it) != NULL){
                     if ((c->id == MessageSMS) && (cc.client->protocol()->description()->flags & PROTOCOL_NOSMS))
                         continue;
-                    string resource;
-                    if (!cc.client->canSend(c->id, cc.data, resource)){
+                    if (!cc.client->canSend(c->id, cc.data)){
                         CheckSend cs;
                         cs.id     = c->id;
                         cs.data   = cc.data;
@@ -2276,6 +2377,59 @@ void *CorePlugin::processEvent(Event *e)
                     cmds[nCmds].flags	= COMMAND_DEFAULT;
                     cmds[nCmds].menu_id = cmd->menu_id;
                     nCmds++;
+                }
+                resources = cc.client->resources(cc.data);
+                if (!resources.empty()){
+                    cmds[nCmds++].text = "_";
+                    unsigned nRes = 1;
+                    for (unsigned i = 0; i < n; i++){
+                        string resources = ways[i].client->resources(ways[i].data);
+                        while (!resources.empty()){
+                            getToken(resources, ';');
+                            unsigned id = CmdContactResource + nRes;
+                            if (nRes > m_nResourceMenu){
+                                m_nResourceMenu = nRes;
+                                Event eMenu(EventMenuCreate, (void*)id);
+                                eMenu.process();
+                                Command cmd;
+                                cmd->id			= CmdContactClients;
+                                cmd->text		= "_";
+                                cmd->menu_id	= id;
+                                cmd->menu_grp	= 0x1000;
+                                cmd->flags		= COMMAND_CHECK_STATE;
+                                Event eCmd(EventCommandCreate, cmd);
+                                eCmd.process();
+                            }
+                            nRes++;
+                        }
+                    }
+                    string resources = cc.client->resources(cc.data);
+                    while (!resources.empty()){
+                        unsigned id = CmdContactResource + nRes;
+                        if (nRes > m_nResourceMenu){
+                            m_nResourceMenu = nRes;
+                            Event eMenu(EventMenuCreate, (void*)id);
+                            eMenu.process();
+                            Command cmd;
+                            cmd->id			= CmdContactClients;
+                            cmd->text		= "_";
+                            cmd->menu_id	= id;
+                            cmd->menu_grp	= 0x1000;
+                            cmd->flags		= COMMAND_CHECK_STATE;
+                            Event eCmd(EventCommandCreate, cmd);
+                            eCmd.process();
+                        }
+                        cmds[nCmds].id		 = id;
+                        cmds[nCmds].text	 = "_";
+                        cmds[nCmds].popup_id = id;
+                        string res = getToken(resources, ';');
+                        cmds[nCmds].icon     = (const char*)(atol(getToken(res, ',').c_str()));
+                        QString t = ways[0].client->contactName(ways[0].data);
+                        t += "/";
+                        t += QString::fromUtf8(res.c_str());
+                        cmds[nCmds++].text_wrk = strdup(t.utf8());
+                        nRes++;
+                    }
                 }
                 cmd->param = cmds;
                 cmd->flags |= COMMAND_RECURSIVE;
@@ -2331,8 +2485,7 @@ void *CorePlugin::processEvent(Event *e)
                     for (vector<clientContact>::iterator it = ways.begin(); it != ways.end(); ++it){
                         if ((cmd->id == MessageSMS) && ((*it).client->protocol()->description()->flags & PROTOCOL_NOSMS))
                             return NULL;
-                        string resource;
-                        if ((*it).client->canSend(cmd->id, (*it).data, resource)){
+                        if ((*it).client->canSend(cmd->id, (*it).data)){
                             return e->param();
                         }
                     }
@@ -2347,8 +2500,7 @@ void *CorePlugin::processEvent(Event *e)
                     }
                 }
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
-                    string resource;
-                    if (getContacts()->getClient(i)->canSend(cmd->id, NULL, resource))
+                    if (getContacts()->getClient(i)->canSend(cmd->id, NULL))
                         return e->param();
                 }
                 return NULL;
@@ -2506,8 +2658,7 @@ void *CorePlugin::processEvent(Event *e)
                 cmd->flags &= COMMAND_CHECKED;
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
                     Client *client = getContacts()->getClient(i);
-                    string resource;
-                    if (client->canSend(MessageSMS, NULL, resource))
+                    if (client->canSend(MessageSMS, NULL))
                         return e->param();
                 }
                 return NULL;
@@ -2594,8 +2745,7 @@ void *CorePlugin::processEvent(Event *e)
                         void *data;
                         while ((data = ++it) != NULL){
                             Client *client = it.client();
-                            string resource;
-                            if (client->canSend(msg->type(), data, resource) && client->send(msg, data))
+                            if (client->canSend(msg->type(), data) && client->send(msg, data))
                                 break;
                         }
                     }
@@ -2665,8 +2815,7 @@ void *CorePlugin::processEvent(Event *e)
                             if ((client->dataName(data) == client_str) && client->send(msg, data))
                                 return e->param();
                         }else{
-                            string resource;
-                            if (client->canSend(MessageAuthGranted, data, resource) && client->send(msg, data))
+                            if (client->canSend(MessageAuthGranted, data) && client->send(msg, data))
                                 return e->param();
                         }
                     }
@@ -2988,6 +3137,47 @@ void *CorePlugin::processEvent(Event *e)
                     }
                 }
                 return e->param();
+            }
+            if ((cmd->menu_id > CmdContactResource) && (cmd->menu_id <= CmdContactResource + 0x100)){
+                Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                CommandDef *def = messageTypes.find(cmd->id);
+                if (def && contact){
+                    unsigned nRes = cmd->menu_id - CmdContactResource - 1;
+                    vector<clientContact> ways;
+                    getWays(ways, contact);
+                    for (unsigned n = 0; n < ways.size(); n++){
+                        string resources = ways[n].client->resources(ways[n].data);
+                        while (!resources.empty()){
+                            string res = getToken(resources, ';');
+                            if (nRes-- == 0){
+                                clientContact &cc = ways[n];
+                                clientData *data;
+                                ClientDataIterator it(contact->clientData, cc.client);
+                                while ((data = ++it) != NULL){
+                                    if (data == cc.data)
+                                        break;
+                                }
+                                if (data == NULL){
+                                    data = cc.data;
+                                    cc.client->createData(data, contact);
+                                    Event e(EventContactChanged, contact);
+                                    e.process();
+                                }
+                                getToken(res, ',');
+                                MessageDef *mdef = (MessageDef*)(def->param);
+                                Message *msg = mdef->create(NULL);
+                                msg->setContact((unsigned)(cmd->param));
+                                msg->setClient(cc.client->dataName(data).c_str());
+                                msg->setResource(QString::fromUtf8(res.c_str()));
+                                Event eOpen(EventOpenMessage, &msg);
+                                eOpen.process();
+                                delete msg;
+                                return e->param();
+                            }
+                        }
+                    }
+                }
+                return NULL;
             }
             if ((cmd->menu_id > CmdContactClients) && (cmd->menu_id <= CmdContactClients + 0x100)){
                 Contact *contact = getContacts()->contact((unsigned)(cmd->param));

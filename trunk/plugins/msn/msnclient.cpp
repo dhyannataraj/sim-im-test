@@ -114,6 +114,7 @@ static DataDef msnClientData[] =
         { "AutoHTTP", DATA_ULONG, 1, DATA(1) },
         { "Deleted", DATA_STRLIST, 1, 0 },
         { "NDeleted", DATA_ULONG, 1, 0 },
+        { "AutoAuth", DATA_BOOL, 1, DATA(1) },
         { "", DATA_STRUCT, sizeof(MSNUserData) / sizeof(Data), DATA(msnUserData) },
         { NULL, 0, 0, 0 }
     };
@@ -408,7 +409,7 @@ void MSNClient::processLST(const char *mail, const char *name, unsigned state, u
     }
     if (lr == NULL){
         bool bChanged = ((data->Flags.value & MSN_FLAGS) != (data->sFlags.value & MSN_FLAGS));
-        if ((data->Flags.value & MSN_FORWARD) && (data->Flags.value & MSN_ACCEPT == 0) && (data->Flags.value & MSN_BLOCKED == 0))
+        if (getAutoAuth() && (data->Flags.value & MSN_FORWARD) && (data->Flags.value & MSN_ACCEPT == 0) && (data->Flags.value & MSN_BLOCKED == 0))
             bChanged = true;
         unsigned grp = 0;
         if (group)
@@ -459,8 +460,13 @@ void MSNClient::checkEndSync()
             if (data->sFlags.value & MSN_CHECKED){
                 if ((data->sFlags.value & MSN_REVERSE) && ((data->Flags.value & MSN_REVERSE) == 0))
                     auth_message(contact, MessageRemoved, data);
-                if (((data->sFlags.value & MSN_REVERSE) == 0) && (data->Flags.value & MSN_REVERSE))
-                    auth_message(contact, MessageAdded, data);
+                if (((data->sFlags.value & MSN_REVERSE) == 0) && (data->Flags.value & MSN_REVERSE)){
+                    if ((data->Flags.value & MSN_ACCEPT) || getAutoAuth()){
+                        auth_message(contact, MessageAdded, data);
+                    }else{
+                        auth_message(contact, MessageAuthRequest, data);
+                    }
+                }
                 setupContact(contact, data);
                 Event e(EventContactChanged, contact);
                 e.process();
@@ -646,7 +652,11 @@ void MSNClient::getLine(const char *line)
             MSNUserData *data = findContact(getToken(l, ' ').utf8(), getToken(l, ' ').utf8(), contact);
             if (data){
                 data->Flags.value |= MSN_REVERSE;
-                auth_message(contact, MessageAdded, data);
+                if ((data->Flags.value & MSN_ACCEPT) || getAutoAuth()){
+                    auth_message(contact, MessageAdded, data);
+                }else{
+                    auth_message(contact, MessageAuthRequest, data);
+                }
             }
         }
         return;
@@ -979,10 +989,11 @@ QWidget *MSNClient::configWindow(QWidget *parent, unsigned id)
     return NULL;
 }
 
-bool MSNClient::canSend(unsigned type, void *_data, string&)
+bool MSNClient::canSend(unsigned type, void *_data)
 {
     if ((_data == NULL) || (((clientData*)_data)->Sign.value != MSN_SIGN))
         return false;
+    MSNUserData *data = (MSNUserData*)_data;
     if (getState() != Connected)
         return false;
     switch (type){
@@ -990,6 +1001,9 @@ bool MSNClient::canSend(unsigned type, void *_data, string&)
     case MessageFile:
     case MessageUrl:
         return true;
+    case MessageAuthGranted:
+    case MessageAuthRefused:
+        return (data->Flags.value & MSN_ACCEPT) == 0;
     }
     return false;
 }
@@ -999,7 +1013,27 @@ bool MSNClient::send(Message *msg, void *_data)
     if ((_data == NULL) || (getState() != Connected))
         return false;
     MSNUserData *data = (MSNUserData*)_data;
+    MSNPacket *packet;
     switch (msg->type()){
+    case MessageAuthGranted:
+        if (data->Flags.value & MSN_ACCEPT)
+            return false;
+        packet = new AddPacket(this, "AL", data->EMail.ptr, quote(QString::fromUtf8(data->ScreenName.ptr)).utf8(), 0);
+        packet->send();
+    case MessageAuthRefused:
+        if (data->Flags.value & MSN_ACCEPT)
+            return false;
+        if (msg->getText().isEmpty()){
+            if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
+                msg->setClient(dataName(data).c_str());
+                Event e(EventSent, msg);
+                e.process();
+            }
+            Event e(EventMessageSent, msg);
+            e.process();
+            delete msg;
+            return true;
+        }
     case MessageGeneric:
     case MessageFile:
     case MessageUrl:
@@ -1622,7 +1656,7 @@ void MSNClient::processRequests()
                     data->Group.value = grp_id;
                     data->Flags.value |= MSN_FORWARD;
                 }
-                if ((data->Flags.value & MSN_FORWARD) && ((data->Flags.value & MSN_ACCEPT) == 0) && ((data->Flags.value & MSN_BLOCKED) == 0)){
+                if (getAutoAuth() && (data->Flags.value & MSN_FORWARD) && ((data->Flags.value & MSN_ACCEPT) == 0) && ((data->Flags.value & MSN_BLOCKED) == 0)){
                     if (packet)
                         packet->send();
                     packet = new AddPacket(this, "AL", data->EMail.ptr, quote(QString::fromUtf8(data->ScreenName.ptr)).utf8(), 0);
@@ -1647,9 +1681,9 @@ void MSNClient::processRequests()
             }
             break;
         case LR_CONTACTxREMOVED:
-            packet = new RemPacket(this, "FL", (*it).Name.c_str());
-            packet->send();
             packet = new RemPacket(this, "AL", (*it).Name.c_str());
+            packet->send();
+            packet = new RemPacket(this, "FL", (*it).Name.c_str());
             setNDeleted(getNDeleted() + 1);
             setDeleted(getNDeleted(), (*it).Name.c_str());
             break;

@@ -33,6 +33,7 @@ public slots:
     void apply(Client*, void*);
     void goUrl();
     void urlChanged(const QString&);
+    void resourceActivated(int);
 protected:
     void *processEvent(Event *e);
     void fill();

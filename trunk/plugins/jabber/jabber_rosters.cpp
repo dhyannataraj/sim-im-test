@@ -152,19 +152,21 @@ void RostersRequest::element_end(const char *el)
         bool bChanged = false;
         JabberListRequest *lr = m_client->findRequest(m_jid.c_str(), false);
         Contact *contact;
-        JabberUserData *data = m_client->findContact(m_jid.c_str(), m_name.c_str(), false, contact);
+        string resource;
+        JabberUserData *data = m_client->findContact(m_jid.c_str(), m_name.c_str(), false, contact, resource);
         if (data == NULL){
             if (lr && lr->bDelete){
                 m_client->findRequest(m_jid.c_str(), true);
             }else{
                 bChanged = true;
-                data = m_client->findContact(m_jid.c_str(), m_name.c_str(), true, contact);
+                string resource;
+                data = m_client->findContact(m_jid.c_str(), m_name.c_str(), true, contact, resource);
                 if (m_bSubscription){
                     contact->setTemporary(CONTACT_TEMP);
                     Event eContact(EventContactChanged, contact);
                     eContact.process();
                     m_client->auth_request(m_jid.c_str(), MessageAuthRequest, m_subscription.c_str(), true);
-                    data = m_client->findContact(m_jid.c_str(), m_name.c_str(), false, contact);
+                    data = m_client->findContact(m_jid.c_str(), m_name.c_str(), false, contact, resource);
                 }
             }
         }
@@ -312,7 +314,8 @@ InfoRequest::~InfoRequest()
                     jid += "@";
                     jid += m_host;
                 }
-                data = m_client->findContact(m_jid.c_str(), NULL, false, contact);
+                string resource;
+                data = m_client->findContact(m_jid.c_str(), NULL, false, contact, resource);
                 if (data == NULL)
                     return;
             }
@@ -769,7 +772,8 @@ void AddRequest::element_start(const char *el, const char **attr)
         string type = JabberClient::get_attr("type", attr);
         if (type == "result"){
             Contact *contact;
-            JabberUserData *data = m_client->findContact(m_jid.c_str(), NULL, true, contact);
+            string resource;
+            JabberUserData *data = m_client->findContact(m_jid.c_str(), NULL, true, contact, resource);
             if (data && (contact->getGroup() != m_grp)){
                 contact->setGroup(m_grp);
                 Event e(EventContactChanged, contact);
@@ -782,7 +786,8 @@ void AddRequest::element_start(const char *el, const char **attr)
 bool JabberClient::add_contact(const char *jid, unsigned grp)
 {
     Contact *contact;
-    if (findContact(jid, NULL, false, contact)){
+    string resource;
+    if (findContact(jid, NULL, false, contact, resource)){
         Event e(EventContactChanged, contact);
         e.process();
         return false;
@@ -864,13 +869,73 @@ JabberClient::PresenceRequest::~PresenceRequest()
     }
     if (status != STATUS_UNKNOWN){
         Contact *contact;
-        JabberUserData *data = m_client->findContact(m_from.c_str(), NULL, false, contact);
+        string resource;
+        JabberUserData *data = m_client->findContact(m_from.c_str(), NULL, false, contact, resource);
         if (data){
+            unsigned i;
+            for (i = 1; i <= data->nResources.value; i++){
+                if (resource == get_str(data->Resources, i))
+                    break;
+            }
+            bool bChanged = false;
+            time_t now;
+            time(&now);
+            if (status == STATUS_OFFLINE){
+                if (i < data->nResources.value){
+                    bChanged = true;
+                    vector<string> resources;
+                    vector<string> resourceReply;
+                    vector<string> resourceStatus;
+                    vector<string> resourceStatusTime;
+                    vector<string> resourceOnlineTime;
+                    for (unsigned n = 1; n <= data->nResources.value; n++){
+                        if (i == n)
+                            continue;
+                        resources.push_back(get_str(data->Resources, n));
+                        resourceReply.push_back(get_str(data->ResourceReply, n));
+                        resourceStatus.push_back(get_str(data->ResourceStatus, n));
+                        resourceStatusTime.push_back(get_str(data->ResourceStatusTime, n));
+                        resourceOnlineTime.push_back(get_str(data->ResourceOnlineTime, n));
+                    }
+                    clear_list(&data->Resources);
+                    clear_list(&data->ResourceReply);
+                    clear_list(&data->ResourceStatus);
+                    clear_list(&data->ResourceStatusTime);
+                    clear_list(&data->ResourceOnlineTime);
+                    for (i = 0; i < resources.size(); i++){
+                        set_str(&data->Resources, i + 1, resources[i].c_str());
+                        set_str(&data->ResourceReply, i + 1, resourceReply[i].c_str());
+                        set_str(&data->ResourceStatus, i + 1, resourceStatus[i].c_str());
+                        set_str(&data->ResourceStatusTime, i + 1, resourceStatusTime[i].c_str());
+                        set_str(&data->ResourceOnlineTime, i + 1, resourceOnlineTime[i].c_str());
+                    }
+                    data->nResources.value = resources.size();
+                }
+            }else{
+                if (i > data->nResources.value){
+                    bChanged = true;
+                    data->nResources.value = i;
+                    set_str(&data->Resources, i, resource.c_str());
+                    set_str(&data->ResourceOnlineTime, i, number(now).c_str());
+                }
+                if (number(status) != get_str(data->ResourceStatus, i)){
+                    bChanged = true;
+                    set_str(&data->ResourceStatus, i, number(status).c_str());
+                    set_str(&data->ResourceStatusTime, i, number(now).c_str());
+                }
+                if (m_status != get_str(data->ResourceReply, i)){
+                    bChanged = true;
+                    set_str(&data->ResourceReply, i, m_status.c_str());
+                }
+            }
             bool bOnLine = false;
-            bool bChanged = set_str(&data->AutoReply.ptr, m_status.c_str());
+            status = STATUS_OFFLINE;
+            for (i = 1; i <= data->nResources.value; i++){
+                unsigned rStatus = atol(get_str(data->ResourceStatus, i));
+                if (rStatus > status)
+                    status = rStatus;
+            }
             if (data->Status.value != status){
-                time_t now;
-                time(&now);
                 bChanged = true;
                 if ((status == STATUS_ONLINE) &&
                         ((now - m_client->data.owner.OnlineTime.value > 60) ||
@@ -956,9 +1021,11 @@ JabberClient::IqRequest::~IqRequest()
         }
         string file = m_url.substr(n + 1);
         Contact *contact;
-        JabberUserData *data = m_client->findContact(m_from.c_str(), NULL, false, contact);
+        string resource;
+        JabberUserData *data = m_client->findContact(m_from.c_str(), NULL, false, contact, resource);
         if (data == NULL){
-            data = m_client->findContact(m_from.c_str(), NULL, true, contact);
+            string resource;
+            data = m_client->findContact(m_from.c_str(), NULL, true, contact, resource);
             if (data == NULL)
                 return;
             contact->setTemporary(CONTACT_TEMP);
@@ -1015,9 +1082,12 @@ void JabberClient::IqRequest::element_start(const char *el, const char **attr)
                         log(L_DEBUG, "Unknown value subscription=%s", subscription.c_str());
                     }
                     Contact *contact;
-                    JabberUserData *data = m_client->findContact(jid.c_str(), name.c_str(), false, contact);
-                    if ((data == NULL) && (subscribe != SUBSCRIBE_NONE))
-                        data = m_client->findContact(jid.c_str(), name.c_str(), true, contact);
+                    string resource;
+                    JabberUserData *data = m_client->findContact(jid.c_str(), name.c_str(), false, contact, resource);
+                    if ((data == NULL) && (subscribe != SUBSCRIBE_NONE)){
+                        string resource;
+                        data = m_client->findContact(jid.c_str(), name.c_str(), true, contact, resource);
+                    }
                     if (data && (data->Subscribe.value != subscribe)){
                         data->Subscribe.value = subscribe;
                         Event e(EventContactChanged, contact);
@@ -1152,9 +1222,10 @@ JabberClient::MessageRequest::~MessageRequest()
     if (m_from.empty())
         return;
     Contact *contact;
-    JabberUserData *data = m_client->findContact(m_from.c_str(), NULL, false, contact);
+    string resource;
+    JabberUserData *data = m_client->findContact(m_from.c_str(), NULL, false, contact, resource);
     if (data == NULL){
-        data = m_client->findContact(m_from.c_str(), NULL, true, contact);
+        data = m_client->findContact(m_from.c_str(), NULL, true, contact, resource);
         if (data == NULL)
             return;
         contact->setTemporary(CONTACT_TEMP);

@@ -111,7 +111,7 @@ protected:
     virtual bool	createData(clientData*&, Contact*);
     virtual void	setupContact(Contact*, void *data);
     virtual bool	send(Message*, void *data);
-    virtual bool	canSend(unsigned type, void *data, string&);
+    virtual bool	canSend(unsigned type, void *data);
     virtual void	packet_ready();
     virtual void	socketConnect();
     virtual CommandDef *configWindows();

@@ -277,6 +277,7 @@ bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
 {
     m_type = msg->type();
     m_userWnd->setMessageType(msg->type());
+    m_resource  = msg->getResource();
     m_bReceived = msg->getFlags() & MESSAGE_RECEIVED;
     QObject *processor = NULL;
     MsgReceived *rcv = NULL;
@@ -357,8 +358,7 @@ Client *MsgEdit::client(void *&data, bool bCreate, bool bTyping, unsigned contac
         unsigned i;
         for (i = 0; i < cs.size(); i++){
             Client *client = getContacts()->getClient(cs[i].client);
-            string resource;
-            if (client->canSend(m_type, cs[i].data, resource)){
+            if (client->canSend(m_type, cs[i].data)){
                 data = cs[i].data;
                 if (bTyping)
                     changeTyping(client, data);
@@ -374,8 +374,7 @@ Client *MsgEdit::client(void *&data, bool bCreate, bool bTyping, unsigned contac
                     continue;
                 if (c && (c != contact))
                     continue;
-                string resource;
-                if (client->canSend(m_type, d, resource)){
+                if (client->canSend(m_type, d)){
                     if (bCreate)
                         client->createData(cs[i].data, contact);
                     data = cs[i].data;
@@ -903,6 +902,20 @@ bool MsgEdit::sendMessage(Message *msg)
         ++multiply_it;
         if (multiply_it != multiply.end())
             msg->setFlags(msg->getFlags() | MESSAGE_MULTIPLY);
+    }else if (!m_resource.isEmpty()){
+        void *data = NULL;
+        Client *c = client(data, true, false, msg->contact(), true);
+        if (c){
+            string resources = c->resources(data);
+            while (!resources.empty()){
+                string res = getToken(resources, ';');
+                getToken(res, ',');
+                if (m_resource == QString::fromUtf8(res.c_str())){
+                    msg->setResource(m_resource);
+                    break;
+                }
+            }
+        }
     }
 
     editLostFocus();

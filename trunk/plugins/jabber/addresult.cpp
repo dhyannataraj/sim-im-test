@@ -233,9 +233,10 @@ Contact *AddResult::createContact(unsigned tmpFlags, JabberUserData **data)
     if (data == NULL)
         data = &d;
     Contact *contact;
-    *data = m_client->findContact(item->text(0).utf8(), item->text(0).utf8(), false, contact);
+    string resource;
+    *data = m_client->findContact(item->text(0).utf8(), item->text(0).utf8(), false, contact, resource);
     if (*data == NULL){
-        *data = m_client->findContact(item->text(0).utf8(), item->text(0).utf8(), true, contact);
+        *data = m_client->findContact(item->text(0).utf8(), item->text(0).utf8(), true, contact, resource);
         contact->setTemporary(tmpFlags);
         Event e(EventContactChanged, contact);
         e.process();
@@ -254,7 +255,8 @@ void AddResult::dragStart()
 void AddResult::doubleClicked(QListViewItem *item)
 {
     Contact *contact;
-    m_client->findContact(item->text(0).utf8(), item->text(1).utf8(), true, contact);
+    string resource;
+    m_client->findContact(item->text(0).utf8(), item->text(1).utf8(), true, contact, resource);
 }
 
 void AddResult::finish()

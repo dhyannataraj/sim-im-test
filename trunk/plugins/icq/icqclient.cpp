@@ -3136,7 +3136,7 @@ bool ICQClient::send(Message *msg, void *_data)
     return sendThruServer(msg, data);
 }
 
-bool ICQClient::canSend(unsigned type, void *_data, string&)
+bool ICQClient::canSend(unsigned type, void *_data)
 {
     if (_data && (((clientData*)_data)->Sign.value != ICQ_SIGN))
         return false;

@@ -279,6 +279,7 @@ const unsigned	CmdUnread				= (CmdBase + 0x200);
 const unsigned	CmdContactClients		= (CmdBase + 0x300);
 const unsigned	CmdMsgSpecial			= (CmdBase + 0x400);
 const unsigned	CmdClient				= (CmdBase + 0x500);
+const unsigned  CmdContactResource		= (CmdBase + 0x600);
 const unsigned  CmdReceived				= 0x600;
 
 const unsigned	MenuConnections			= (CmdBase + 1);
@@ -534,6 +535,7 @@ protected:
     char				*m_profile;
     unsigned			m_nClients;
     unsigned			m_nClientsMenu;
+    unsigned			m_nResourceMenu;
     Commands			*m_cmds;
     MainWindow			*m_main;
     Icons				*m_icons;

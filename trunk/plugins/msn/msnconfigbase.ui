@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>310</width>
-            <height>255</height>
+            <width>306</width>
+            <height>297</height>
         </rect>
     </property>
     <property>
@@ -353,27 +353,6 @@
                             <string>Use &amp;HTTP polling</string>
                         </property>
                     </widget>
-                    <spacer row="8"  column="0" >
-                        <property>
-                            <name>name</name>
-                            <cstring>Spacer6</cstring>
-                        </property>
-                        <property>
-                            <name>orientation</name>
-                            <enum>Vertical</enum>
-                        </property>
-                        <property>
-                            <name>sizeType</name>
-                            <enum>Expanding</enum>
-                        </property>
-                        <property>
-                            <name>sizeHint</name>
-                            <size>
-                                <width>20</width>
-                                <height>20</height>
-                            </size>
-                        </property>
-                    </spacer>
                     <widget row="6"  column="0"  rowspan="1"  colspan="2" >
                         <class>QCheckBox</class>
                         <property stdset="1">
@@ -431,6 +410,38 @@
                         <property>
                             <name>frameShape</name>
                             <enum>HLine</enum>
+                        </property>
+                    </widget>
+                    <spacer row="9"  column="0" >
+                        <property>
+                            <name>name</name>
+                            <cstring>Spacer6</cstring>
+                        </property>
+                        <property>
+                            <name>orientation</name>
+                            <enum>Vertical</enum>
+                        </property>
+                        <property>
+                            <name>sizeType</name>
+                            <enum>Expanding</enum>
+                        </property>
+                        <property>
+                            <name>sizeHint</name>
+                            <size>
+                                <width>20</width>
+                                <height>20</height>
+                            </size>
+                        </property>
+                    </spacer>
+                    <widget row="8"  column="0"  rowspan="1"  colspan="2" >
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkAuth</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>&amp;Automaticaly add contacts in accept list</string>
                         </property>
                     </widget>
                 </grid>
