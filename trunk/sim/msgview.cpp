@@ -35,9 +35,10 @@
 #ifdef HAVE_KROOTPIXMAP_H
 #include <krootpixmap.h>
 #endif
+#else
+#include <qfiledialog.h>
 #endif
 
-#include <qfiledialog.h>
 #include <qdatetime.h>
 #include <qpopupmenu.h>
 #include <qapplication.h>
@@ -1092,27 +1093,17 @@ void HistoryView::messageReceived(ICQMessage *msg)
 
 void HistoryView::slotSave()
 {
-#if QT_VERSION >= 300
-    QString filter;
-#endif
     string name = pMain->getFullPath("");
     fileName = QString::fromLocal8Bit(name.c_str());
     fileName += QString::number(view->Uin()) + ".txt";
     fileName = QFileDialog::getSaveFileName(fileName,
 #ifdef USE_KDE
-                                            i18n("*.txt|Text file;;*.html|HTML file");
+                                            i18n("text/plain|Text file\ntext/html|HTML file"),
 #else
                                             i18n("Text file(*.txt);;HTML file(*.htm *.html)"),
 #endif
-                                            this, "savehistory", i18n("Save history")
-#if QT_VERSION >= 300
-                                            &filter
-#endif
-                                           );
+                                            this, i18n("Save history"));
     if (fileName.isEmpty()) return;
-#if QT_VERSION >= 300
-    saveMode = TXT;
-#else
     saveMode = TXT;
     int r = fileName.findRev('.');
     if (r >= 0){
@@ -1121,7 +1112,6 @@ void HistoryView::slotSave()
         if ((ext == "htm") || (ext == "html"))
             saveMode = HTML;
     }
-#endif
     QFile f(fileName);
     if (f.exists()){
         QStringList btns;
@@ -1170,7 +1160,8 @@ void HistoryView::saveToFile(int n)
             break;
         case ICQ_MSGxURL:{
                 ICQUrl *url = static_cast<ICQUrl*>(msg);
-                s += i18n("URL: ");
+                s += i18n("URL:");
+		s += " ";
                 s += url->URL.c_str();
                 if (*url->Message.c_str()){
                     msg_text = url->Message.c_str();

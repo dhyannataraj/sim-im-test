@@ -142,11 +142,14 @@ void CToolButton::setTextLabel(const QString &text)
         if (!isVisible()) ctrlAccel->setEnabled(false);
     }
     QString t = text;
-    int pos;
+    int pos = t.find("<br>");
+    if (pos >= 0) t = t.left(pos);
+    QToolButton::setTextLabel(t);
+    t = text;
     while ((pos = t.find('&')) >= 0){
         t = t.left(pos) + "<u>" + t.mid(pos+1, 1) + "</u>" + t.mid(pos+2);
     }
-    QToolButton::setTextLabel(t);
+    QToolTip::add(this, t);
 }
 
 void CToolButton::contextMenuEvent(QContextMenuEvent *e)
@@ -280,6 +283,7 @@ void PictButton::setState(const QString& _icon, const QString& _text)
         t = t.left(pos) + "<u>" + t.mid(pos+1, 1) + "</u>" + t.mid(pos+2);
     }
     setTextLabel(t);
+    QToolTip::add(this, text);
     setAccel(accelKey);
     repaint();
 }

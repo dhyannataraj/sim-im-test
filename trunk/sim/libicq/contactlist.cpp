@@ -707,152 +707,143 @@ bool ICQUser::isOnline()
     return false;
 }
 
-/*
-	Based on code from micq
-	Copyright © Rüdiger Kuhlmann;
-*/
+static string verString(unsigned ver)
+{
+    string res;
+    if (ver == 0) return res;
+    unsigned char v[4];
+    v[0] = (ver >> 24) & 0xFF;
+    v[1] = (ver >> 16) & 0xFF;
+    v[2] = (ver >> 8) & 0xFF;
+    v[3] = ver & 0xFF;
+    if ((v[0] & 0x80) || (v[1] & 0x80) || (v[2] & 0x80) || (v[3] & 0x80))
+        return res;
+    char b[32];
+    snprintf(b, sizeof(b), "%u.%u", v[0], v[1]);
+    res = b;
+    if (v[2] || v[3]){
+        snprintf(b, sizeof(b), ".%u", v[2]);
+        res += b;
+    }
+    if (v[3]){
+        snprintf(b, sizeof(b), ".%u", v[3]);
+        res += b;
+    }
+    return res;
+}
 
 string ICQUser::client()
 {
     string res;
-    string add;
-    unsigned long id = InfoUpdateTime;
-    unsigned long id2 = PhoneStatusTime;
-    unsigned long id3 = PhoneBookTime;
-    unsigned char v1 = 0;
-    unsigned char v2 = 0;
-    unsigned char v3 = 0;
-    unsigned char v4 = 0;
-    unsigned int ver = id & 0xffff;
-    if (((id & 0xff7f0000) == 0x7d000000L) && (ver > 1000))
+    char b[32];
+    if (Version)
     {
-        res = "Licq";
-        v1 = ver/1000;
-        v2 = (ver / 10) % 100;
-        v3 = ver % 10;
-        v4 = 0;
-        if (id & 0x00800000L)
-            add += "/SSL";
-    }
-    else if ((id == 0xffffff42L) || ((id & 0xff7f0000) == 0x7d000000L))
-    {
-        res = "mICQ";
-        v1 = ver / 10000;
-        v2 = (ver / 100) % 100;
-        v3 = (ver / 10) % 10;
-        v4 = ver % 10;
-    }
-    else if ((id & 0xffff0000L) == 0xffff0000L)
-    {
-        v1 = (id2 >> 24) & 0x7F;
-        v2 = (id2 >> 16) & 0xFF;
-        v3 = (id2 >> 8) & 0xFF;
-        v4 = id2 & 0xFF;
-        switch (id){
-        case 0xffffffffL:
-            res = "Miranda";
-            if (id2 & 0x80000000L) add += " alpha";
-            break;
-        case 0xffffff8fL:
-            res += "StrICQ";
-            break;
-        case 0xffffffabL:
-            res = "YSM";
-            if ((v1 | v2 | v3 | v4) & 0x80)
-                v1 = v2 = v3 = v4 = 0;
-            break;
-        case 0xffffffbeL:
-            res = "alicq";
-            break;
-        case 0xffffff7fL:
-            res = "&RQ";
-            break;
-        }
-    }
-    else if (id == 0x04031980L)
-    {
-        v1 = 0;
-        v2 = 43;
-        v3 = id2 & 0xffff;
-        v4 = id2 & (0x7fff0000) >> 16;
-        res = "vICQ";
-    }
-    else if ((id == 0x3b75ac09) && (id2 == 0x3bae70b6) && (id3 == 0x3b744adb))
-    {
-        res = "Trillian";
-    }
-    else if ((id == 0x3aa773ee) && (id2 == 0x3aa66380) && (id3 == 0x3a877a42))
-    {
-        res = "libicq2000";
-    }
-    else if ((id == id2) && (id2 == id3) && (id == 0xffffffff))
-        res = "vICQ/GAIM(?)";
-    else if (id && (id == id2) && (id2 == id3) && (Caps == 0))
-        res = "vICQ";
-    else if ((Version == 7) && hasCap(CAP_IS_WEB))
-        res = "ICQ2go";
-    else if ((Version == 9) && hasCap(CAP_IS_WEB))
-        res = "ICQ Lite";
-    else if (hasCap(CAP_TRIL_CRYPT) || hasCap(CAP_TRILLIAN))
-        res = "Trillian";
-    else if (hasCap(CAP_LICQ))
-        res = "Licq";
-    else if (hasCap(CAP_SIM))
-    {
-        res = "SIM";
-        v1 = (Build >> 6) - 1;
-        v2 = Build & 0x1F;
-        if (Build == 0){
-            res = "Kopete";
-            v1 = v2 = 0;
-        }
-    }
-    else if (hasCap(CAP_MICQ))
-    {
-        res = "mICQ";
-        v1 = (Build >> 24) & 0xFF;
-        v2 = (Build >> 16) & 0xFF;
-        v3 = (Build >> 8) & 0xFF;
-        v4 = Build & 0xFF;
-    }
-    else if (hasCap(CAP_STR_2002) && hasCap(CAP_IS_2002))
-        res = "ICQ 2002";
-    else if ((hasCap(CAP_STR_2001) || hasCap(CAP_STR_2002)) && hasCap(CAP_IS_2001))
-        res = "ICQ 2001";
-    else if (hasCap(CAP_MACICQ))
-        res = "ICQ for Mac";
-    else if ((Version == 8) && hasCap(CAP_IS_2002))
-        res = "ICQ 2002 (?)";
-    else if ((Version == 8) && hasCap(CAP_IS_2001))
-        res = "ICQ 2001 (?)";
-    else if (hasCap(CAP_AIM_CHAT))
-        res = "AIM(?)";
-    else if ((Version == 7) && !hasCap(CAP_RTF))
-        res = "ICQ 2000 (?)";
-    else if (Version == 7)
-        res = "GnomeICU";
-    if (Version){
-        char b[32];
         snprintf(b, sizeof(b), "v%u ", Version);
-        string s = b;
-        res = s + res;
+        res = b;
     }
-    if (v1 || v2){
-        char b[32];
-        snprintf(b, sizeof(b), " %u.%u", v1, v2);
+
+    if (hasCap(CAP_IS_WEB))
+    {
+        res += (Version == 9) ? "ICQ Lite" : "ICQ2go";
+        return res;
+    }
+
+    if (hasCap(CAP_TRIL_CRYPT) || hasCap(CAP_TRILLIAN))
+    {
+        res += "Trillian";
+        return res;
+    }
+
+    if (hasCap(CAP_SIM))
+    {
+        if (Build == 0){
+            res += "Kopete";
+            return res;
+        }
+        snprintf(b, sizeof(b), "SIM %lu.%lu", (Build >> 6) - 1, Build & 0x1F);
         res += b;
+        return res;
     }
-    if (v3){
-        char b[32];
-        snprintf(b, sizeof(b), ".%u", v3);
+
+    if (hasCap(CAP_MACICQ)){
+        res += "ICQ for Mac";
+        return res;
+    }
+
+    if (hasCap(CAP_AIM_CHAT)){
+        res += "AIM";
+        return res;
+    }
+    if ((InfoUpdateTime & 0xFF7F0000L) == 0x7D000000L){
+        unsigned ver = InfoUpdateTime & 0xFFFF;
+        if (ver % 10){
+            snprintf(b, sizeof(b), "%u.%u.%u", ver / 1000, (ver / 10) % 100, ver % 10);
+        }else{
+            snprintf(b, sizeof(b), "%u.%u", ver / 1000, (ver / 10) % 100);
+        }
         res += b;
+        if (InfoUpdateTime & 0x00800000L)
+            res += "/SSL";
+        return res;
     }
-    if (v4){
-        char b[32];
-        snprintf(b, sizeof(b), ".%u", v4);
+    switch (InfoUpdateTime){
+    case 0xFFFFFFFFL:
+        if ((PhoneStatusTime == 0xFFFFFFFFL) && (PhoneBookTime == 0xFFFFFFFFL)){
+            res += "GAIM";
+            return res;
+        }
+        res += "MIRANDA";
+        res += verString(PhoneStatusTime & 0xFFFF);
+        if (PhoneStatusTime & 0x80000000)
+            res += " alpha";
+        return res;
+    case 0xFFFFFF8FL:
+        res += "StrICQ";
+        res += verString(PhoneStatusTime & 0xFFFF);
+        return res;
+    case 0xFFFFFF42L:
+        res += "mICQ";
+        return res;
+    case 0xFFFFFFBEL:
+        res += "alicq";
+        res += verString(PhoneStatusTime & 0xFFFF);
+        return res;
+    case 0xFFFFFF7FL:
+        res += "&RQ";
+        res += verString(PhoneStatusTime & 0xFFFF);
+        return res;
+    case 0xFFFFFFABL:
+        res += "YSM";
+        res += verString(PhoneStatusTime & 0xFFFF);
+        return res;
+    case 0x04031980L:
+        snprintf(b, sizeof(b), "vICQ 0.43.%lu.%lu", PhoneStatusTime & 0xffff, PhoneStatusTime & (0x7fff0000) >> 16);
         res += b;
+        return res;
+    case 0x3AA773EEL:
+        if ((PhoneStatusTime == 0x3AA66380L) && (PhoneBookTime == 0x3A877A42L))
+        {
+            res += "libicq2000";
+            return res;
+        }
+        break;
     }
-    if (*add.c_str())
-        res += add;
+
+    if (InfoUpdateTime && (InfoUpdateTime == PhoneStatusTime) && (PhoneStatusTime == PhoneBookTime) && (Caps == 0)){
+        res += "vICQ";
+        return res;
+    }
+    if (hasCap(CAP_STR_2002) && hasCap(CAP_IS_2002)){
+        res += "ICQ 2002";
+        return res;
+    }
+    if ((hasCap(CAP_STR_2001) || hasCap(CAP_STR_2002)) && hasCap(CAP_IS_2001)){
+        res += "ICQ 2001";
+        return res;
+    }
+    if ((Version == 7) && hasCap(CAP_RTF)){
+        res += "GnomeICU";
+        return res;
+    }
     return res;
 }
