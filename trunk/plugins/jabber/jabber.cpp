@@ -419,7 +419,7 @@ JabberPlugin::JabberPlugin(unsigned base)
     cmd->icon		 = "Jabber_online";
     cmd->menu_grp	 = 0x20F0;
     cmd->menu_id	 = MenuMain;
-    cmd->popup_id	 = NULL;
+    cmd->popup_id	 = 0;
     cmd->flags		 = COMMAND_CHECK_STATE;
     eCmd.process();
 
@@ -428,7 +428,7 @@ JabberPlugin::JabberPlugin(unsigned base)
     cmd->icon		 = "Jabber_online";
     cmd->menu_grp	 = 0x20F0;
     cmd->menu_id	 = MenuContact;
-    cmd->popup_id	 = NULL;
+    cmd->popup_id	 = 0;
     cmd->flags		 = COMMAND_CHECK_STATE;
     eCmd.process();
 
