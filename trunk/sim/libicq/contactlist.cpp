@@ -491,6 +491,11 @@ void ICQUser::adjustPhones()
     Phones.add(WorkFax.c_str(), "Work fax", FAX, bMyInfo, true);
 }
 
+bool ICQUser::canRTF()
+{
+    return (Version >= 8) && (uStatus != ICQ_STATUS_OFFLINE) && hasCap(CAP_RTF);
+}
+
 static void addEMail(EMailList &mails, EMailInfo *mail)
 {
     if (*mail->Email.c_str() == 0) return;

@@ -718,6 +718,8 @@ public:
 
     string			Encoding;
 
+    bool canRTF();
+
     void adjustPhones();
     void adjustEMails(EMailList *mails = NULL, bool bOwn=false);
 

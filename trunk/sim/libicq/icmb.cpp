@@ -771,8 +771,10 @@ bool ICQClient::requestAutoResponse(unsigned long uin, bool bAuto)
     if (user == NULL) return false;
     unsigned long status = user->uStatus & 0xFF;
     if (status == 0) return false;
-    if (owner->inInvisible && !user->inVisible) return false;
-    if (!owner->inInvisible && user->inInvisible) return false;
+    if (!bAuto){
+	if (owner->inInvisible && !user->inVisible) return false;
+	if (!owner->inInvisible && user->inInvisible) return false;
+    }
 
     responseRequestSeq = --advCounter;
     unsigned char type = 0xE8;
@@ -866,7 +868,7 @@ void ICQClient::packMessage(Buffer &mb, ICQMessage *m, const char *msg,
                     packColor(mb, 0x00FFFFFFL);
                 }
                 ICQUser *u = getUser(msg->getUin());
-                if (u && u->hasCap(CAP_RTF))
+                if (u && u->canRTF())
                     mb.packStr32("{97B12751-243C-4334-AD22-D6ABF73F1492}");
                 break;
             }
@@ -985,7 +987,7 @@ void ICQClient::processMsgQueueThruServer()
                 for (list<unsigned long>::iterator itUin = msg->Uin.begin(); itUin != msg->Uin.end(); ++itUin){
                     ICQUser *u = getUser(*itUin);
                     message = makeMessageText(msg, u);
-                    if (u && u->hasCap(CAP_RTF) && (u->uStatus != ICQ_STATUS_OFFLINE)){
+                    if (u && u->canRTF()){
                         advCounter--;
                         msgBuf
                         << (unsigned short)0x1B00
@@ -1154,7 +1156,7 @@ void ICQClient::processMsgQueueThruServer()
     }
 }
 
-bool ICQClient::requestPhoneBook(unsigned long uin, bool bAuto)
+bool ICQClient::requestPhoneBook(unsigned long uin, bool)
 {
     log(L_DEBUG, "Send request phones %lu", uin);
     ICQUser *user = getUser(uin, false);
