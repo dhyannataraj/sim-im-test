@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sim\n"
-"POT-Creation-Date: 2002-08-13 06:12+0400\n"
+"POT-Creation-Date: 2002-08-14 02:50+0400\n"
 "PO-Revision-Date: 2002-08-10 21:23GMT\n"
 "Last-Translator: Salvatore Caligiore <caligiore@bigfoot.com>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -2660,6 +2660,32 @@ msgstr ""
 
 #: userview.cpp:887
 msgid "Secure channel request failed"
+msgstr ""
+
+#: ui/addphone.cpp:40
+#, fuzzy
+msgid "Home Phone"
+msgstr "Info casa"
+
+#: ui/addphone.cpp:41
+msgid "Home Fax"
+msgstr ""
+
+#: ui/addphone.cpp:42
+msgid "Private Cellular"
+msgstr ""
+
+#: ui/addphone.cpp:43
+#, fuzzy
+msgid "Work Phone"
+msgstr "Info lavoro"
+
+#: ui/addphone.cpp:44
+msgid "Work Fax"
+msgstr ""
+
+#: ui/addphone.cpp:45
+msgid "Wireless Pager"
 msgstr ""
 
 #: ui/alertmsg.cpp:39

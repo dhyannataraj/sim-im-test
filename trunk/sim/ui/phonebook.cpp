@@ -44,7 +44,13 @@ PhoneItem::PhoneItem(QListView *p, PhoneInfo *_phone)
 
 void PhoneItem::update()
 {
-    setText(0, QString::fromLocal8Bit(phone.Name.c_str()));
+    QString name = QString::fromLocal8Bit(phone.Name.c_str());
+    for (const phoneName *n = phoneNames; *(n->name); n++){
+	if (name != n->name) continue;
+	name = i18n(n->name);
+	break;
+    }
+    setText(0, name);
     setText(1, QString::fromLocal8Bit(phone.getNumber().c_str()));
     setText(2, phone.Publish ? i18n("Yes") : QString());
     switch (phone.Type()){

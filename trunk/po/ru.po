@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"POT-Creation-Date: 2002-08-13 06:12+0400\n"
-"PO-Revision-Date: 2002-08-13 06:07GMT+3\n"
+"POT-Creation-Date: 2002-08-14 02:50+0400\n"
+"PO-Revision-Date: 2002-08-14 02:52GMT+3\n"
 "Last-Translator: Vladimir Shutoff <shutoff@mail.ru>\n"
 "Language-Team: Русский <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -311,8 +311,7 @@ msgstr "Австралия"
 
 #: libicq/country.cpp:83
 msgid "Australian Antarctic Territory"
-msgstr ""
-"Австралийская антарктическая территория"
+msgstr "Австралийская антарктическая территория"
 
 #: libicq/country.cpp:84
 msgid "Austria"
@@ -2029,8 +2028,7 @@ msgstr "%1 от %2"
 
 #: mainwin.cpp:833
 msgid "Your UIN used from another location"
-msgstr ""
-"Ваш UIN используется с другого компьютера"
+msgstr "Ваш UIN используется с другого компьютера"
 
 #: mainwin.cpp:882
 msgid "User %1 is online"
@@ -2504,8 +2502,31 @@ msgstr "OK"
 
 #: userview.cpp:887
 msgid "Secure channel request failed"
-msgstr ""
-"Запрошен шифрования закончился неудачно"
+msgstr "Запрошен шифрования закончился неудачно"
+
+#: ui/addphone.cpp:40
+msgid "Home Phone"
+msgstr "Домашний телефон"
+
+#: ui/addphone.cpp:41
+msgid "Home Fax"
+msgstr "Домашний факс"
+
+#: ui/addphone.cpp:42
+msgid "Private Cellular"
+msgstr "Мобильник"
+
+#: ui/addphone.cpp:43
+msgid "Work Phone"
+msgstr "Рабочий телефон"
+
+#: ui/addphone.cpp:44
+msgid "Work Fax"
+msgstr "Рабочий факс"
+
+#: ui/addphone.cpp:45
+msgid "Wireless Pager"
+msgstr "Пейджер"
 
 #: ui/alertmsg.cpp:39
 msgid "User "
@@ -3060,8 +3081,7 @@ msgstr "&Ok"
 
 #: ui/pastinfobase.cpp:89
 msgid "Organization, Affiliation, Group:"
-msgstr ""
-"Объединения, общественные организации:"
+msgstr "Объединения, общественные организации:"
 
 #: ui/pastinfobase.cpp:131
 msgid "Past background:"
@@ -3237,8 +3257,7 @@ msgstr "Цвета"
 
 #: ui/fontsetupbase.cpp:197
 msgid "Use &own colors in history"
-msgstr ""
-"Использовать &собственные цвета в истории"
+msgstr "Использовать &собственные цвета в истории"
 
 #: ui/fontsetupbase.cpp:207
 msgid "Received messages color"
@@ -3352,13 +3371,11 @@ msgstr "Прозрачный контейнер"
 
 #: ui/themesetupbase.cpp:136
 msgid "Transparent only if inactive"
-msgstr ""
-"Прозрачные окна только если неактивные"
+msgstr "Прозрачные окна только если неактивные"
 
 #: ui/themesetupbase.cpp:144
 msgid "Show main window in task manager"
-msgstr ""
-"Показывать основное окно в панели задач"
+msgstr "Показывать основное окно в панели задач"
 
 #: ui/themesetupbase.cpp:148
 msgid "Show user window in task manager"
@@ -3405,8 +3422,7 @@ msgid "Hide main window after"
 msgstr "Cкрыть главное окно"
 
 #: ui/statussetupbase.cpp:107
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Запретить оповещение в состояниях "
 "\"Отошел\", \"Не активный\", \"Занят\""
@@ -3772,3 +3788,4 @@ msgstr ""
 
 #~ msgid "Spell"
 #~ msgstr "Проверка орфографии"
+

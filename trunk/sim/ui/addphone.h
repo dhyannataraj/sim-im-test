@@ -25,6 +25,15 @@ class PhoneDetails;
 class PagerDetails;
 class PhoneInfo;
 
+typedef struct phoneName
+{
+    const char *name;
+    unsigned type;
+    unsigned index;
+} phoneName;
+
+extern const phoneName *phoneNames;
+
 class AddPhone : public AddPhoneBase
 {
     Q_OBJECT

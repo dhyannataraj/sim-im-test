@@ -1,18 +1,18 @@
-# SOME DESCRIPTIVE TITLE.
+# translation of tr.po to Русский
 # Copyright (C) YEAR Free Software Foundation, Inc.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Vladimir Shutoff <shutoff@mail.ru>, 2002
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-08-13 06:12+0400\n"
-"PO-Revision-Date: 2002-08-12 11:32+0300\n"
-"Last-Translator: ismail donmez <dawson3k@myrealbox.com>\n"
-"Language-Team: Turkish <tr@li.org>\n"
+"Project-Id-Version: tr\n"
+"POT-Creation-Date: 2002-08-14 02:50+0400\n"
+"PO-Revision-Date: 2002-08-14 01:19GMT+3\n"
+"Last-Translator: Vladimir Shutoff <shutoff@mail.ru>\n"
+"Language-Team: Русский <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 0.9.6\n"
+"X-Generator: KBabel 1.0beta2\n"
 
 #: libicq/country.cpp:6
 msgid "Arabic"
@@ -1698,6 +1698,8 @@ msgid ""
 "_n: Message\n"
 "%n messages"
 msgstr ""
+"Message\n"
+"%n messages"
 
 #: client.cpp:396
 #, c-format
@@ -1777,11 +1779,11 @@ msgid ""
 msgstr ""
 
 #: client.cpp:418
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: External unknown message\n"
 "%n unknown messages"
-msgstr "Bilinmeyen Mesaj"
+msgstr ""
 
 #: client.cpp:420
 #, c-format
@@ -2331,7 +2333,7 @@ msgid ""
 "to do mail thd@kde.org and coolo@kde.org, they will tell you. Better leave "
 "that out if unsure, the programs will crash!!\n"
 "Definition of PluralForm - to be set by the translator of kdelibs.po"
-msgstr "NoPlural"
+msgstr "TwoForms"
 
 #: sim.cpp:260
 msgid "SIM"
@@ -2437,6 +2439,33 @@ msgstr "Tamam"
 #: userview.cpp:887
 msgid "Secure channel request failed"
 msgstr "Güvenli kanal isteği başarısız"
+
+#: ui/addphone.cpp:40
+#, fuzzy
+msgid "Home Phone"
+msgstr "Adres"
+
+#: ui/addphone.cpp:41
+#, fuzzy
+msgid "Home Fax"
+msgstr "Ev"
+
+#: ui/addphone.cpp:42
+msgid "Private Cellular"
+msgstr ""
+
+#: ui/addphone.cpp:43
+#, fuzzy
+msgid "Work Phone"
+msgstr "İş"
+
+#: ui/addphone.cpp:44
+msgid "Work Fax"
+msgstr ""
+
+#: ui/addphone.cpp:45
+msgid "Wireless Pager"
+msgstr ""
 
 #: ui/alertmsg.cpp:39
 msgid "User "

@@ -28,13 +28,6 @@
 #include <qpushbutton.h>
 #include <qlabel.h>
 
-typedef struct phoneName
-{
-    const char *name;
-    unsigned type;
-    unsigned index;
-} phoneName;
-
 static phoneName names[] =
     {
         { I18N_NOOP("Home Phone"), 0, 0 },
@@ -45,6 +38,8 @@ static phoneName names[] =
         { I18N_NOOP("Wireless Pager"), 4, 3 },
         { "", 0, 0 }
     };
+
+const phoneName *phoneNames = names;
 
 AddPhone::AddPhone(QWidget *p, PhoneInfo *_info, int userCountry, bool bMyPhones)
         : AddPhoneBase(p, NULL, true)
@@ -58,8 +53,9 @@ AddPhone::AddPhone(QWidget *p, PhoneInfo *_info, int userCountry, bool bMyPhones
     cmbType->insertItem(Pict("cell"));
     cmbType->insertItem(Pict("fax"));
     cmbType->insertItem(Pict("wpager"));
-    for (const phoneName *n = names; *(n->name); n++)
-        cmbName->insertItem(n->name);
+    const phoneName *n;
+    for (n = phoneNames; *(n->name); n++)
+        cmbName->insertItem(i18n(n->name));
     cmbName->setEditable(true);
     QSize sType = cmbType->sizeHint();
     QSize sName = cmbName->minimumSizeHint();
@@ -89,13 +85,25 @@ AddPhone::AddPhone(QWidget *p, PhoneInfo *_info, int userCountry, bool bMyPhones
         break;
     }
     typeChanged(phoneType);
-    cmbName->lineEdit()->setText(info->Name.c_str());
-    nameChanged(info->Name.c_str());
+    QString name = info->Name.c_str();
+    for (n = phoneNames; *(n->name); n++){
+        if (name != n->name) continue;
+        name = i18n(n->name);
+    }
+    cmbName->lineEdit()->setText(name);
+    nameChanged(name);
 }
 
 void AddPhone::ok()
 {
-    info->Name = cmbName->lineEdit()->text().local8Bit();
+    QString name = cmbName->lineEdit()->text();
+    info->Name = name.local8Bit();
+    const phoneName *n;
+    for (n = phoneNames; *(n->name); n++){
+        if (name != i18n(n->name)) continue;
+        info->Name = n->name;
+        break;
+    }
     switch (cmbType->currentItem()){
     case 0:
         info->Type = PHONE;
@@ -122,7 +130,7 @@ void AddPhone::ok()
 void AddPhone::nameChanged(const QString &string)
 {
     for (const phoneName *n = names; *(n->name); n++){
-        if (string == n->name){
+        if ((string == n->name) || (string == i18n(n->name))){
             cmbType->setCurrentItem(n->index);
             typeChanged(n->index);
             cmbType->setEnabled(false);
