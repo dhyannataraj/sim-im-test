@@ -122,7 +122,7 @@ bool DirectSocket::error_state(SocketError)
 {
     if ((state == ConnectIP1) || (state == ConnectIP2)){
         connect();
-	return false;
+        return false;
     }
     return true;
 }
@@ -1024,13 +1024,13 @@ void FileTransfer::write_ready()
                 e->state = ICQEvent::Success;
                 e->setType(EVENT_DONE);
                 client->process_event(e);
-		file->ft = NULL;
+                file->ft = NULL;
                 delete file;
                 delete e;
                 file = NULL;
                 break;
             }
-	    sock->error_state(ErrorCancel);
+            sock->error_state(ErrorCancel);
             return;
         }
         curName = file->files[m_curFile].name;
@@ -1216,13 +1216,13 @@ void FileTransfer::processPacket()
                         e->setType(EVENT_DONE);
                         e->state = ICQEvent::Success;
                         client->process_event(e);
-			file->ft = NULL;
+                        file->ft = NULL;
                         delete e;
                         delete file;
                         file = NULL;
                         break;
                     }
-		    sock->error_state(ErrorCancel);
+                    sock->error_state(ErrorCancel);
                     state = None;
                     return;
                 }
@@ -1241,11 +1241,11 @@ void FileTransfer::processPacket()
 bool FileTransfer::error_state(SocketError err)
 {
     if (!DirectSocket::error_state(err))
-	return false;
+        return false;
     state = None;
     if (file){
-    	file->ft = NULL;
-    	client->cancelMessage(file);
+        file->ft = NULL;
+        client->cancelMessage(file);
     }
     return true;
 }
@@ -1704,7 +1704,7 @@ void ChatSocket::sendPacket()
 bool ChatSocket::error_state(SocketError err)
 {
     if (!DirectSocket::error_state(err))
-	return false;
+        return false;
     ICQEvent e(EVENT_CHAT, chat->getUin(), CHAT_CONNECT, chat);
     e.state = ICQEvent::Fail;
     client->process_event(&e);

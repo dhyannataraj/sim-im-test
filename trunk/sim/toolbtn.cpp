@@ -29,6 +29,7 @@
 #include <qiconset.h>
 #include <qpalette.h>
 #include <qaccel.h>
+
 #include <qregexp.h>
 
 CPushButton::CPushButton(QWidget *parent, const char *name)
@@ -189,6 +190,7 @@ void PictButton::setState(const QString& _icon, const QString& _text)
     icon = _icon;
     text = _text;
     setAccel(QAccel::shortcutKey(text));
+
     setTextLabel(_text);
     repaint();
 }

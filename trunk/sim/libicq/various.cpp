@@ -405,7 +405,7 @@ void ICQClient::processMsgQueueSMS()
 {
     list<ICQEvent*>::iterator it;
     for (it = msgQueue.begin(); it != msgQueue.end();){
-	if ((sock == NULL) || (sock->isError())) return;
+        if ((sock == NULL) || (sock->isError())) return;
         ICQEvent *e = *it;
         if (e->message() == NULL){
             it++;

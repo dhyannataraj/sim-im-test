@@ -114,14 +114,14 @@ void ClientSocket::error_state(SocketError err)
         log(L_WARN, "Proxy connect error");
         break;
     case ErrorCancel:
-	break;
+        break;
     case ErrorNone:
         return;
     }
-    mError = err; 
+    mError = err;
     list<ClientSocket*>::iterator it;
     for (it = factory->errSockets.begin(); it != factory->errSockets.end(); ++it)
-	if ((*it) == this) return; 
+        if ((*it) == this) return;
     factory->errSockets.push_back(this);
 }
 
@@ -207,18 +207,18 @@ void ClientSocket::setSocket(Socket *s)
 void SocketFactory::idle()
 {
     for (list<ClientSocket*>::iterator it = errSockets.begin(); it != errSockets.end();){
-       ClientSocket *s = *it;
-       ClientSocketNotify *n = s->notify;
-       if (n){
-   	  SocketError err = s->mError;
-          s->mError = ErrorNone;
-          if (n->error_state(err))
-		delete n;
-       }else{
-	  delete s;
-       }
-       errSockets.remove(s);
-       it = errSockets.begin();
+        ClientSocket *s = *it;
+        ClientSocketNotify *n = s->notify;
+        if (n){
+            SocketError err = s->mError;
+            s->mError = ErrorNone;
+            if (n->error_state(err))
+                delete n;
+        }else{
+            delete s;
+        }
+        errSockets.remove(s);
+        it = errSockets.begin();
     }
 }
 

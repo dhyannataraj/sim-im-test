@@ -126,7 +126,7 @@ void ICQClient::close()
             flap(ICQ_CHNxCLOSE);
             sendPacket();
         }
-	delete sock;
+        delete sock;
         sock = NULL;
     }
 }

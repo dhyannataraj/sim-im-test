@@ -741,25 +741,25 @@ bool SMSSendEvent::parseResponse(string &xmlstring)
 bool SMSSendEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short)
 {
     log(L_DEBUG, "Process SMS response");
-	char c;
-	b >> c;
-	if (c){
-		string err_msg;
-		err_msg.assign("\x00", b.size() - b.readPos() + 2);
-		((char*)(err_msg.c_str()))[0] = c;
-		b.unpack((char*)(err_msg.c_str()) + 1, b.size() - b.readPos());
-	    ICQSMS *sms = static_cast<ICQSMS*>(msg);
+    char c;
+    b >> c;
+    if (c){
+        string err_msg;
+        err_msg.assign("\x00", b.size() - b.readPos() + 2);
+        ((char*)(err_msg.c_str()))[0] = c;
+        b.unpack((char*)(err_msg.c_str()) + 1, b.size() - b.readPos());
+        ICQSMS *sms = static_cast<ICQSMS*>(msg);
         sms->DeclineReason = err_msg.c_str();
-		state = Fail;
-	}else{
-		b.incReadPos(5);
-		string oper;
-		b.unpackStr(oper);
-		string xmlstring;
-		b.unpackStr(xmlstring);
-		state = parseResponse(xmlstring) ? Success : Fail;
-	}
-	client->process_event(this);
+        state = Fail;
+    }else{
+        b.incReadPos(5);
+        string oper;
+        b.unpackStr(oper);
+        string xmlstring;
+        b.unpackStr(xmlstring);
+        state = parseResponse(xmlstring) ? Success : Fail;
+    }
+    client->process_event(this);
     return true;
 }
 

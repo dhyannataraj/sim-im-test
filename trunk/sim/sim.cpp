@@ -313,8 +313,10 @@ int main(int argc, char *argv[])
         return 0;
     app.setMainWidget(pMain);
     pSplash->hide();
-
-    return app.exec();
+    int res = app.exec();
+    delete pMain;
+    delete pSplash;
+    return res;
 }
 
 #ifdef USE_KDE
