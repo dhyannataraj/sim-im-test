@@ -162,6 +162,8 @@ protected:
     QFrame  *frmEdit;
     virtual bool eventFilter(QObject*, QEvent*);
     virtual void closeEvent(QCloseEvent *e);
+    virtual void showEvent(QShowEvent *e);
+    virtual void hideEvent(QHideEvent *e);
     void adjustSplitter();
     string smsChunk();
     QString trim(const QString&);

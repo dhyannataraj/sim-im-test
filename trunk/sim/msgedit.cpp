@@ -1841,6 +1841,18 @@ void MsgEdit::heightChanged(int h)
     pMain->UserBoxEditHeight = h;
 }
 
+void MsgEdit::showEvent(QShowEvent *e)
+{
+    QSplitter::showEvent(e);
+    toolbar->enableAccel(true);
+}
+
+void MsgEdit::hideEvent(QHideEvent *e)
+{
+    QSplitter::hideEvent(e);
+    toolbar->enableAccel(false);
+}
+
 WMainWindow::WMainWindow(QWidget *parent, const char *name)
         : QMainWindow(parent, name, 0)
 {

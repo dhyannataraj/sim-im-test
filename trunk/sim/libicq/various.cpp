@@ -406,6 +406,33 @@ ICQEvent *ICQClientPrivate::findVarEvent(unsigned short id)
     return NULL;
 }
 
+static const char *w_days[] =
+    {
+        "Sun",
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Say"
+    };
+
+static const char *months[] =
+    {
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+    };
+
 void ICQClientPrivate::processMsgQueueSMS()
 {
     list<ICQEvent*>::iterator it;
@@ -447,7 +474,10 @@ void ICQClientPrivate::processMsgQueueSMS()
         struct tm *tm;
         time(&t);
         tm = gmtime(&t);
-        strftime(timestr, 30, "%a, %d %b %Y %T %Z", tm);
+
+        snprintf(timestr, sizeof(timestr), "%s, %02u %s %04u %02u:%02u:%02u GMT",
+                 w_days[tm->tm_wday], tm->tm_mday, months[tm->tm_mon], tm->tm_year + 1900,
+                 tm->tm_hour, tm->tm_min, tm->tm_sec);
         xmltree.pushnode(new XmlLeaf("time",string(timestr)));
         string xmlstr = xmltree.toString(0);
 

@@ -52,6 +52,7 @@ public:
     void setTextLabel(const QString &label);
     QPoint popupPos(QWidget *w);
     void setAccel(int key);
+    void enableAccel(bool bState);
     bool bCtrl;
     bool bProcessCtrl;
 signals:
@@ -62,6 +63,7 @@ protected slots:
 protected:
     int accelKey;
     QPopupMenu *popup;
+    QAccel *ctrlAccel;
     void mousePressEvent(QMouseEvent*);
     void mouseReleaseEvent(QMouseEvent*);
     void contextMenuEvent(QContextMenuEvent*);
@@ -159,6 +161,7 @@ public:
     QWidget *getWidget(int id);
     QPoint popupPos(int id, QWidget *popup);
     static void save(const ToolBarDef *def, list<unsigned long> *active);
+    void enableAccel(bool bState);
 public slots:
     void popupActivated(int);
 protected slots:

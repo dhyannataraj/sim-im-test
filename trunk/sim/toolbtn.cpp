@@ -34,6 +34,7 @@
 #include <qregexp.h>
 #include <qapplication.h>
 #include <qcombobox.h>
+#include <qobjectlist.h>
 
 #include <vector>
 using namespace std;
@@ -69,6 +70,7 @@ CToolButton::CToolButton (QWidget * parent, const char *name)
     popup = NULL;
     bCtrl = false;
     bProcessCtrl = false;
+    ctrlAccel = NULL;
 }
 
 void CToolButton::setPopup(QPopupMenu *_popup)
@@ -131,11 +133,13 @@ void CToolButton::setTextLabel(const QString &text)
     int key = QAccel::shortcutKey(text);
     setAccel(key);
     if (bProcessCtrl){
-        QAccel *a = new QAccel(this);
+        if (ctrlAccel) delete ctrlAccel;
+        ctrlAccel = new QAccel(this);
         key |= CTRL;
         string s;
         s = QAccel::keyToString(key).local8Bit();
-        a->connectItem(a->insertItem(key), this, SLOT(ctrlClick()));
+        ctrlAccel->connectItem(ctrlAccel->insertItem(key), this, SLOT(ctrlClick()));
+        if (!isVisible()) ctrlAccel->setEnabled(false);
     }
     QString t = text;
     int pos;
@@ -248,16 +252,21 @@ void CToolButton::setAccel(int key)
 
 void CToolButton::showEvent(QShowEvent *e)
 {
-    if (accelKey)
-        QToolButton::setAccel(accelKey);
+    enableAccel(true);
     QToolButton::showEvent(e);
 }
 
 void CToolButton::hideEvent(QHideEvent *e)
 {
-    if (accelKey)
-        QToolButton::setAccel(0);
+    enableAccel(false);
     QToolButton::hideEvent(e);
+}
+
+void CToolButton::enableAccel(bool bState)
+{
+    if (accelKey == 0) return;
+    QToolButton::setAccel(bState ? accelKey : 0);
+    if (ctrlAccel) ctrlAccel->setEnabled(bState);
 }
 
 void PictButton::setState(const QString& _icon, const QString& _text)
@@ -697,6 +706,19 @@ void CToolBar::save(const ToolBarDef *def, list<unsigned long> *active)
     }
     if ((it == active->end()) && def->id == BTN_END_DEF)
         active->clear();
+}
+
+void CToolBar::enableAccel(bool bState)
+{
+    QObjectList *l = queryList("CToolButton");
+    QObjectListIt it(*l);
+    QObject *obj;
+    while ((obj = it.current()) != 0 ) {
+        ++it;
+        CToolButton *btn = static_cast<CToolButton*>(obj);
+        if (btn->isVisible()) btn->enableAccel(bState);
+    }
+    delete l;
 }
 
 #ifndef _WINDOWS
