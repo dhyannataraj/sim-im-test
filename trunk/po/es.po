@@ -1,19 +1,18 @@
-# translation of es.po to 
 # translation of es.po to Español
 # Translation to Spanish
 # This file is distributed under the same license as the SIM package.
 # Copyright (C) 2004
 #
-# $Id: es.po,v 1.145 2004-05-11 16:33:22 jorgelt Exp $
+# $Id: es.po,v 1.146 2004-05-11 16:53:23 jorgelt Exp $
 # Jorge Lopez Trescastro <jorge@acm.asoc.fi.upm.es>, 2002, 2003, 2004.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: es\n"
+"Project-Id-Version: SIM\n"
 "POT-Creation-Date: 2004-05-09 19:41+0200\n"
 "PO-Revision-Date: 2004-05-11 18:31+0200\n"
-"Last-Translator: \n"
-"Language-Team:  <es@li.org>\n"
+"Last-Translator: Jorge Lopez Trescastro\n"
+"Language-Team: sim-es <jorge@acm.asoc.fi.upm.es>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
