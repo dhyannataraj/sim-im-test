@@ -1641,14 +1641,14 @@ void UserView::showTip()
         QRect tipRect = itemRect(tipItem);
         QString tip = user.toolTip();
         if ( tipLabel
-#if defined(Q_WS_X11)
+#if defined(Q_WS_X11) && (QT_VERSION >= 300)
                 && tipLabel->x11Screen() == this->x11Screen()
 #endif
            ) {
             tipLabel->setText( tip );
             tipLabel->adjustSize();
         } else {
-#if defined(Q_WS_X11)
+#if defined(Q_WS_X11) && (QT_VERSION >= 300)
             delete tipLabel;
             tipLabel = new TipLabel( QApplication::desktop()->screen( this->x11Screen() ), tip);
 #else

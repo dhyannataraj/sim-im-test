@@ -479,10 +479,14 @@ MyPixmap::MyPixmap(Pixmap pp, int w, int h)
         : QPixmap(w, h)
 {
     data->uninit = false;
+#if QT_VERSION >= 300
     Screen *screen =  XDefaultScreenOfDisplay(dd);
     int scr = XScreenNumberOfScreen(screen);
     x11SetScreen(scr);
     GC gc = qt_xget_temp_gc( scr, FALSE );
+#else
+    GC gc = qt_xget_temp_gc( FALSE );
+#endif
     XSetSubwindowMode( dd, gc, IncludeInferiors );
     XCopyArea( dd, pp, handle(), gc, 0, 0, w, h, 0, 0 );
     XSetSubwindowMode( dd, gc, ClipByChildren );
