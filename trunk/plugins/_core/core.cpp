@@ -1043,7 +1043,6 @@ void CorePlugin::setAutoReplies()
 CorePlugin::~CorePlugin()
 {
     destroy();
-
     delete m_cmds;
     delete m_exec;
     delete m_icons;

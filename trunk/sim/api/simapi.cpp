@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "simapi.h"
+#include "ltdl.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -825,8 +826,10 @@ EXPORT int strcasecmp(const char *a, const char *b)
 int WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
 {
 #if defined(_MSC_VER) && defined(_DEBUG) && !defined(NO_CHECK_NEW)
-    if (dwReason == DLL_PROCESS_DETACH)
+    if (dwReason == DLL_PROCESS_DETACH){
+        lt_dlexit();
         _CrtDumpMemoryLeaks();
+    }
 #endif
     return TRUE;
 }

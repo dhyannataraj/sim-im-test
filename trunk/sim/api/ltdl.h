@@ -76,7 +76,7 @@ LT_BEGIN_C_DECLS
 
 /* LT_CONC creates a new concatenated symbol for the compiler
    in a portable way.  */
-#if defined(__STDC__) || defined(__cplusplus)
+#if defined(__STDC__) || defined(__cplusplus) || defined(_MSC_VER)
 #  define LT_CONC(s,t)	s##t
 #else
 #  define LT_CONC(s,t)	s/**/t
@@ -155,7 +155,7 @@ extern	const char *lt_dlgetsearchpath	LT_PARAMS((void));
 extern	lt_dlhandle lt_dlopen		LT_PARAMS((const char *filename));
 extern	lt_dlhandle lt_dlopenext	LT_PARAMS((const char *filename));
 extern	lt_ptr	    lt_dlsym		LT_PARAMS((lt_dlhandle handle,
-						     const char *name));
+                                           const char *name));
 extern	const char *lt_dlerror		LT_PARAMS((void));
 extern	int	    lt_dlclose		LT_PARAMS((lt_dlhandle handle));
 
@@ -175,9 +175,9 @@ typedef void	lt_dlmutex_seterror	LT_PARAMS((const char *error));
 typedef const char *lt_dlmutex_geterror	LT_PARAMS((void));
 
 extern	int	lt_dlmutex_register	LT_PARAMS((lt_dlmutex_lock *lock,
-					    lt_dlmutex_unlock *unlock,
-					    lt_dlmutex_seterror *seterror,
-					    lt_dlmutex_geterror *geterror));
+            lt_dlmutex_unlock *unlock,
+            lt_dlmutex_seterror *seterror,
+            lt_dlmutex_geterror *geterror));
 
 
 
@@ -198,13 +198,13 @@ LT_SCOPE  void	   (*lt_dlfree)		LT_PARAMS((lt_ptr ptr));
 /* A preopened symbol. Arrays of this type comprise the exported
    symbols for a dlpreopened module. */
 typedef struct {
-  const char *name;
-  lt_ptr      address;
+    const char *name;
+    lt_ptr      address;
 } lt_dlsymlist;
 
 extern	int	lt_dlpreload	LT_PARAMS((const lt_dlsymlist *preloaded));
 extern	int	lt_dlpreload_default
-				LT_PARAMS((const lt_dlsymlist *preloaded));
+    LT_PARAMS((const lt_dlsymlist *preloaded));
 
 #define LTDL_SET_PRELOADED_SYMBOLS() 		LT_STMT_START{	\
 	extern const lt_dlsymlist lt_preloaded_symbols[];		\
@@ -219,27 +219,27 @@ extern	int	lt_dlpreload_default
 
 /* Read only information pertaining to a loaded module. */
 typedef	struct {
-  char	*filename;		/* file name */
-  char	*name;			/* module name */
-  int	ref_count;		/* number of times lt_dlopened minus
-				   number of times lt_dlclosed. */
+    char	*filename;		/* file name */
+    char	*name;			/* module name */
+    int	ref_count;		/* number of times lt_dlopened minus
+    		   number of times lt_dlclosed. */
 } lt_dlinfo;
 
 extern	const lt_dlinfo	*lt_dlgetinfo	    LT_PARAMS((lt_dlhandle handle));
 extern	lt_dlhandle	lt_dlhandle_next    LT_PARAMS((lt_dlhandle place));
 extern	int		lt_dlforeach	    LT_PARAMS((
-				int (*func) (lt_dlhandle handle, lt_ptr data),
-				lt_ptr data));
+                                               int (*func) (lt_dlhandle handle, lt_ptr data),
+                                               lt_ptr data));
 
 /* Associating user data with loaded modules. */
 typedef unsigned lt_dlcaller_id;
 
 extern	lt_dlcaller_id	lt_dlcaller_register  LT_PARAMS((void));
 extern	lt_ptr		lt_dlcaller_set_data  LT_PARAMS((lt_dlcaller_id key,
-						lt_dlhandle handle,
-						lt_ptr data));
+            lt_dlhandle handle,
+            lt_ptr data));
 extern	lt_ptr		lt_dlcaller_get_data  LT_PARAMS((lt_dlcaller_id key,
-						lt_dlhandle handle));
+            lt_dlhandle handle));
 
 
 
@@ -252,33 +252,33 @@ typedef lt_ptr			lt_module;
 
 /* Function pointer types for creating user defined module loaders. */
 typedef lt_module   lt_module_open	LT_PARAMS((lt_user_data loader_data,
-					    const char *filename));
+        const char *filename));
 typedef int	    lt_module_close	LT_PARAMS((lt_user_data loader_data,
-					    lt_module handle));
+        lt_module handle));
 typedef lt_ptr	    lt_find_sym		LT_PARAMS((lt_user_data loader_data,
-					    lt_module handle,
-					    const char *symbol));
+        lt_module handle,
+        const char *symbol));
 typedef int	    lt_dlloader_exit	LT_PARAMS((lt_user_data loader_data));
 
 struct lt_user_dlloader {
-  const char	       *sym_prefix;
-  lt_module_open       *module_open;
-  lt_module_close      *module_close;
-  lt_find_sym	       *find_sym;
-  lt_dlloader_exit     *dlloader_exit;
-  lt_user_data		dlloader_data;
+    const char	       *sym_prefix;
+    lt_module_open       *module_open;
+    lt_module_close      *module_close;
+    lt_find_sym	       *find_sym;
+    lt_dlloader_exit     *dlloader_exit;
+    lt_user_data		dlloader_data;
 };
 
 extern	lt_dlloader    *lt_dlloader_next    LT_PARAMS((lt_dlloader *place));
 extern	lt_dlloader    *lt_dlloader_find    LT_PARAMS((
-						const char *loader_name));
+                const char *loader_name));
 extern	const char     *lt_dlloader_name    LT_PARAMS((lt_dlloader *place));
 extern	lt_user_data   *lt_dlloader_data    LT_PARAMS((lt_dlloader *place));
 extern	int		lt_dlloader_add     LT_PARAMS((lt_dlloader *place,
-						const struct lt_user_dlloader *dlloader,
-						const char *loader_name));
+            const struct lt_user_dlloader *dlloader,
+            const char *loader_name));
 extern	int		lt_dlloader_remove  LT_PARAMS((
-						const char *loader_name));
+                const char *loader_name));
 
 
 
@@ -312,10 +312,10 @@ extern	int		lt_dlloader_remove  LT_PARAMS((
 /* Enumerate the symbolic error names. */
 enum {
 #define LT_ERROR(name, diagnostic)	LT_CONC(LT_ERROR_, name),
-	lt_dlerror_table
+    lt_dlerror_table
 #undef LT_ERROR
 
-	LT_ERROR_MAX
+    LT_ERROR_MAX
 };
 
 /* These functions are only useful from inside custom module loaders. */

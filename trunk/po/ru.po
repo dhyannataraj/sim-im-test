@@ -1924,14 +1924,14 @@ msgstr "О &KDE"
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
-msgstr "Владимир ШутовAlbert R. Valiev"
+msgstr "Владимир Шутов,Albert R. Valiev"
 
 # _translatorinfo.cpp:3 mainwin.cpp:2602
 #: plugins/about/about.cpp:112
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
-msgstr "vovan@shutoff.rudarkstar@altlinux.ru"
+msgstr "vovan@shutoff,rudarkstar@altlinux.ru"
 
 # ui/aboutdlg.cpp:44
 #: plugins/about/aboutdlg.cpp:44
