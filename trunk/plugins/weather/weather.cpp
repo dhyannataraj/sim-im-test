@@ -374,6 +374,7 @@ i18n("Sunday")
 
 i18n("weather", "Overcast")
 i18n("weather", "Fog")
+i18n("weather", "Mist")
 i18n("weather", "Haze")
 i18n("weather", "Storm")
 i18n("weather", "Rain")
