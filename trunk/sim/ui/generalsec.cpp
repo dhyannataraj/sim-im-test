@@ -34,6 +34,7 @@ GeneralSecurity::GeneralSecurity(QWidget *p)
     chkAuth->setChecked(pClient->Authorize());
     chkHiddenIP->setChecked(pClient->HideIp());
     chkWeb->setChecked(pClient->WebAware());
+    chkBypassAuth->setChecked(pClient->BypassAuth());
     chkRejectMsg->setChecked(pClient->RejectMessage());
     chkRejectURL->setChecked(pClient->RejectURL());
     chkRejectWeb->setChecked(pClient->RejectWeb());
@@ -52,6 +53,7 @@ GeneralSecurity::GeneralSecurity(QWidget *p)
     connect(chkAuth, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
     connect(chkWeb, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
     connect(chkHiddenIP, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
+    connect(chkBypassAuth, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
     connect(chkRejectMsg, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
     connect(chkRejectURL, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
     connect(chkRejectWeb, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
@@ -66,6 +68,7 @@ void GeneralSecurity::apply(ICQUser*)
 {
     hideHelp(false);
     pClient->HideIp = chkHiddenIP->isChecked();
+    pClient->BypassAuth = chkBypassAuth->isChecked();
     pClient->RejectMessage = chkRejectMsg->isChecked();
     pClient->RejectURL = chkRejectURL->isChecked();
     pClient->RejectWeb = chkRejectWeb->isChecked();
