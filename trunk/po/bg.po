@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: bg\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-05 15:33+0200\n"
-"PO-Revision-Date: 2004-08-30 16:53+0600\n"
+"PO-Revision-Date: 2004-08-31 10:35+0300\n"
 "Last-Translator: Атанас Мавров <bugar@developer.bg>\n"
 "Language-Team: Bulgarian <dict@linux.zonebg.com>\n"
 "MIME-Version: 1.0\n"
@@ -332,7 +332,7 @@ msgstr "&Следваща страница"
 
 #: core.cpp:820
 msgid "&Save as text"
-msgstr ""
+msgstr "&Запазва като текст"
 
 #: plugins/_core/core.cpp:878
 msgid "&Open message"
@@ -775,19 +775,19 @@ msgstr "История"
 
 #: plugins/_core/historywnd.cpp:191
 msgid "File already exists. Overwrite?"
-msgstr ""
+msgstr "Файлът вече съществува. Презаписване?"
 
 #: plugins/_core/historywnd.cpp:196
 msgid "&Overwrite"
-msgstr ""
+msgstr "&Презаписване"
 
 #: plugins/_core/historywnd.cpp:197
 msgid "&Append"
-msgstr ""
+msgstr "&Добавяне"
 
 #: plugins/_core/historywnd.cpp:211
 msgid "Save failed"
-msgstr ""
+msgstr "Запазването се провал"
 
 #: plugins/_core/interfacecfg.cpp:53 plugins/icq/moreinfo.cpp:98
 msgid "English"
@@ -8418,3 +8418,4 @@ msgstr "Потребителски"
 #: xpstyle/xpstyle.cpp:63
 msgid "Windows XP style"
 msgstr "Уиндоус XP стил"
+
