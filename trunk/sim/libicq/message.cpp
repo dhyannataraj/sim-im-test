@@ -1158,7 +1158,7 @@ string ICQClientPrivate::makeMessageText(ICQMsg *msg, ICQUser *u)
     }else{
         msg_text = msg->Message.c_str();
     }
-    if (u && u->canRTF() &&
+    if (u && u->canRTF() && (u->InvisibleId == 0) &&
             ((client->owner->InvisibleId && u->VisibleId) ||
              ((client->owner->InvisibleId == 0) && (u->InvisibleId == 0))))
         return createRTF(msg_text, msg->ForeColor, encoding);

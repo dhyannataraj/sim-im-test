@@ -298,6 +298,8 @@ bool ICQClient::updatePhoneStatus()
 
 void ICQClient::setShare(bool bState)
 {
+    if(isLogged()) {
+
     if (bState == ShareOn) return;
     ShareOn = bState;
     time_t now;
@@ -316,4 +318,6 @@ void ICQClient::setShare(bool bState)
     b.pack((unsigned short)1);
     p->sendUpdate(b);
     p->needShareUpdate = true;
+
+    }
 }

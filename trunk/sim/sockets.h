@@ -98,7 +98,7 @@ class SIMResolver : public QObject
 public:
     SIMResolver(QObject *parent, const char *host);
     ~SIMResolver();
-#ifdef HAVE_GETHOSTBYNAME_R
+#if defined(HAVE_GETHOSTBYNAME_R) && defined(QT_THREAD_SUPPORT)
     string m_host;
     unsigned long m_addr;
     static void *resolve_thread(void*);

@@ -190,7 +190,7 @@ protected:
     void sendSMS(SMSmessage *sms);
     list<SMSmessage*> smsQueue;
     list<resolveAddr> resolveQueue;
-#ifdef HAVE_GETHOSTBYADDR_R
+#if defined(HAVE_GETHOSTBYADDR_R) && defined(QT_THREAD_SUPPORT)
     static void *resolve_thread(void*);
     string m_host;
     unsigned long m_addr;
