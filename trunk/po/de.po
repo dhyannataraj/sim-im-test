@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2003-01-24 13:48+0300\n"
-"PO-Revision-Date: 2003-01-21 09:11GMT\n"
+"PO-Revision-Date: 2003-01-24 13:51GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1674,8 +1674,7 @@ msgstr ";-)"
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
 
 #: chatwnd.cpp:56 monitor.cpp:67 qt3/i18n.cpp:95
 msgid "&Save"
@@ -3615,14 +3614,13 @@ msgid "Wait connect to %1 [%2]"
 msgstr "Warte auf Verbindung zu %1 [%2]"
 
 #: ui/filetransfer.cpp:165
-#, fuzzy, c-format
+#, c-format
 msgid "Send thru server to %1"
-msgstr "Datei an %1 senden"
+msgstr "Datei an %1 über Server senden"
 
 #: ui/filetransfer.cpp:177
-#, fuzzy
 msgid "File transfer done"
-msgstr "Dateiübertragung beendet:"
+msgstr "Dateiübertragung abgeschlossen"
 
 #: ui/filetransfer.cpp:179
 msgid "[done]"
@@ -3633,14 +3631,13 @@ msgid "[fail]"
 msgstr "[fehlgeschlagen]"
 
 #: ui/filetransfer.cpp:185
-#, fuzzy, c-format
+#, c-format
 msgid "File transfer declined with reason %1"
-msgstr "Ablehungsgrund eingeben"
+msgstr "Dateiübertragung mit Ablehungsgrund %1 abgelehnt"
 
 #: ui/filetransfer.cpp:202
-#, fuzzy
 msgid "File transfer acked"
-msgstr "Dateiübertragung"
+msgstr "Dateiübertragung akzeptiert"
 
 #: ui/filetransfer.cpp:257
 msgid "Receive file %1 of %2 files from %3"
@@ -4187,8 +4184,7 @@ msgstr "&Signatur"
 
 #: ui/smssetupbase.cpp:131
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
-"Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
+msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
 
 #: ui/smssetupbase.cpp:132
 msgid ""
@@ -4863,8 +4859,7 @@ msgid "Hide main window after"
 msgstr "Hauptfenster anzeigen/verstecken nach"
 
 #: ui/statussetupbase.cpp:142
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -5067,8 +5062,7 @@ msgstr "&Ablehnen"
 
 #: ui/generalsecbase.cpp:227
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: ui/generalsecbase.cpp:228
 msgid ""
@@ -5484,3 +5478,4 @@ msgstr "Chattitel/Interessen:"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
