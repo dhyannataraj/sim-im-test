@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2002-07-26 05:27+0400\n"
-"PO-Revision-Date: 2002-07-26 04:02GMT\n"
+"PO-Revision-Date: 2002-07-26 16:17GMT\n"
 "Last-Translator: Crissi <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -541,7 +541,7 @@ msgstr "Kontakliste empfangen"
 
 #: msgview.cpp:188
 msgid "Contact list sent"
-msgstr "Kontaktliste gesendet"
+msgstr ""
 
 #: msgview.cpp:258 ui/finddlgbase.cpp:62
 msgid "&Find"
@@ -609,7 +609,7 @@ msgstr "Alle Benutzer"
 
 #: userbox.cpp:990
 msgid "History loading"
-msgstr "Verlauf laden"
+msgstr "Lade Verlauf..."
 
 #: ui/searchbase.cpp:188 usertbl.cpp:109
 msgid "UIN"
