@@ -13,6 +13,7 @@ Add option "Ignore this phrase" in context menu
 Jabber: Fix send multiline message
 Jabber: Add configure to jabber browser
 Jabber: Add headline support
+ICQ: Change check invisible method
 ICQ: Remove check invisible
 Add action plugin - for call external programs
 

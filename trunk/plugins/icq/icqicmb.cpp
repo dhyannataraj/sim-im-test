@@ -213,8 +213,8 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                     if (m_send.msg->type() == MessageCheckInvisible){
                         Contact *contact;
                         ICQUserData *data = findContact(m_send.screen.c_str(), NULL, false, contact);
-                        if (data && (data->bInvisible == 0)) {
-                            data->bInvisible = true;
+                        if (data && data->bInvisible) {
+                            data->bInvisible = false;
                             Event e(EventContactStatus, contact);
                             e.process();
                         }
@@ -720,7 +720,7 @@ bool ICQClient::ackMessage(Message *msg, unsigned short ackFlags, const char *st
     return true;
 }
 
-void ICQClient::sendAdvMessage(const char *screen, Buffer &msgText, unsigned plugin_index, const MessageId &id, bool bOffline, bool bPeek, bool bDirect, unsigned short cookie1, unsigned short cookie2, unsigned short type)
+void ICQClient::sendAdvMessage(const char *screen, Buffer &msgText, unsigned plugin_index, const MessageId &id, bool bOffline, bool bDirect, unsigned short cookie1, unsigned short cookie2, unsigned short type)
 {
     if (cookie1 == 0){
         m_advCounter--;
@@ -740,10 +740,7 @@ void ICQClient::sendAdvMessage(const char *screen, Buffer &msgText, unsigned plu
     msgBuf.pack(0x00000000L);
     msgBuf.pack(0x00000000L);
     msgBuf.pack(msgText.data(0), msgText.size());
-    TlvList tlvs;
-    if (bPeek)
-        tlvs + new Tlv(0x03, 0, NULL);
-    sendType2(screen, msgBuf, id, CAP_SRV_RELAY, bOffline, bDirect ? data.owner.Port : 0, &tlvs, type);
+    sendType2(screen, msgBuf, id, CAP_SRV_RELAY, bOffline, bDirect ? data.owner.Port : 0, NULL, type);
 }
 
 static void copyTlv(Buffer &b, TlvList *tlvs, unsigned nTlv)
@@ -1295,6 +1292,15 @@ void ICQClient::processSendQueue()
     if (m_send.screen.length()){
         log(L_WARN, "Send timeout");
         if (m_send.msg){
+            if (m_send.msg->type() == MessageCheckInvisible){
+                        Contact *contact;
+                        ICQUserData *data = findContact(m_send.screen.c_str(), NULL, false, contact);
+                        if (data && (data->bInvisible == 0)) {
+                            data->bInvisible = true;
+                            Event e(EventContactStatus, contact);
+                            e.process();
+                        }
+			}
             m_send.msg->setError(I18N_NOOP("Send timeout"));
             Event e(EventMessageSent, m_send.msg);
             e.process();
@@ -1418,14 +1424,15 @@ void ICQClient::processSendQueue()
                 }
             case MessageFile:
                 packMessage(b, m_send.msg, data, type);
-                sendAdvMessage(screen(data).c_str(), b, PLUGIN_NULL, m_send.id, false, false, true);
+                sendAdvMessage(screen(data).c_str(), b, PLUGIN_NULL, m_send.id, false, true);
                 return;
-            case MessageCheckInvisible:
-                b.pack(ICQ_MSGxAR_AWAY);
-                b.pack((unsigned short)(fullStatus(m_status) & 0xFFFF));
-                b << 0x0100 << 0x0100 << (char)0;
-                sendAdvMessage(screen(data).c_str(), b, PLUGIN_NULL, m_send.id, false, true, false);
+            case MessageCheckInvisible:{
+				Buffer b;
+				b.pack(this->data.owner.Uin);
+				b << 0xE8000100L << (char)00;
+			    sendThroughServer(m_send.screen.c_str(), 4, b, m_send.id, true, false);
                 return;
+			}
             case MessageWarning:{
                     WarningMessage *msg = static_cast<WarningMessage*>(m_send.msg);
                     snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_BLAMExUSER, true);
@@ -1527,7 +1534,7 @@ void ICQClient::processSendQueue()
             }
             m_send.id.id_l = rand();
             m_send.id.id_h = rand();
-            sendAdvMessage(m_send.screen.c_str(), msgBuf, PLUGIN_NULL, m_send.id, true, false, false);
+            sendAdvMessage(m_send.screen.c_str(), msgBuf, PLUGIN_NULL, m_send.id, true, false);
             return;
         }
         if (m_send.socket){
@@ -1649,14 +1656,14 @@ void ICQClient::processSendQueue()
 
             m_send.id.id_l = rand();
             m_send.id.id_h = rand();
-            sendAdvMessage(screen(data).c_str(), msg, PLUGIN_NULL, m_send.id, false, false, false);
+            sendAdvMessage(screen(data).c_str(), msg, PLUGIN_NULL, m_send.id, false, false);
             return;
         }else if (m_send.flags == PLUGIN_RANDOMxCHAT){
             m_send.id.id_l = rand();
             m_send.id.id_h = rand();
             Buffer b;
             b << (char)1 << 0x00000000L << 0x00010000L;
-            sendAdvMessage(m_send.screen.c_str(), b, PLUGIN_RANDOMxCHAT, m_send.id, false, false, false);
+            sendAdvMessage(m_send.screen.c_str(), b, PLUGIN_RANDOMxCHAT, m_send.id, false, false);
         }else{
             unsigned plugin_index = m_send.flags;
             log(L_DEBUG, "Plugin info request %s (%u)", m_send.screen.c_str(), plugin_index);
@@ -1680,7 +1687,7 @@ void ICQClient::processSendQueue()
 
             m_send.id.id_l = rand();
             m_send.id.id_h = rand();
-            sendAdvMessage(m_send.screen.c_str(), b, type ? PLUGIN_INFOxMANAGER : PLUGIN_STATUSxMANAGER, m_send.id, false, false, false);
+            sendAdvMessage(m_send.screen.c_str(), b, type ? PLUGIN_INFOxMANAGER : PLUGIN_STATUSxMANAGER, m_send.id, false, false);
             return;
         }
     }
@@ -1756,7 +1763,7 @@ void ICQClient::accept(Message *msg, ICQUserData *data)
         unsigned short type = ICQ_MSGxEXT;
         packMessage(b, msg, data, type, 0);
         unsigned cookie  = static_cast<ICQFileMessage*>(msg)->getCookie();
-        sendAdvMessage(screen(data).c_str(), b, PLUGIN_NULL, id, false, false, true, (unsigned short)(cookie & 0xFFFF), (unsigned short)((cookie >> 16) & 0xFFFF), 2);
+        sendAdvMessage(screen(data).c_str(), b, PLUGIN_NULL, id, false, true, (unsigned short)(cookie & 0xFFFF), (unsigned short)((cookie >> 16) & 0xFFFF), 2);
     }
 }
 

@@ -673,7 +673,7 @@ protected:
     bool sendAuthRequest(Message *msg, void *data);
     bool sendAuthGranted(Message *msg, void *data);
     bool sendAuthRefused(Message *msg, void *data);
-    void sendAdvMessage(const char *screen, Buffer &msgText, unsigned plugin_index, const MessageId &id, bool bOffline, bool bPeek, bool bDirect, unsigned short cookie1=0, unsigned short cookie2=0, unsigned short type=1);
+    void sendAdvMessage(const char *screen, Buffer &msgText, unsigned plugin_index, const MessageId &id, bool bOffline, bool bDirect, unsigned short cookie1=0, unsigned short cookie2=0, unsigned short type=1);
     void sendType2(const char *screen, Buffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, unsigned short port, TlvList *tlvs=NULL, unsigned short type=1);
     void sendType1(const QString &text, bool bWide, ICQUserData *data);
     void parseAdvancedMessage(const char *screen, Buffer &msg, bool needAck, MessageId id);

@@ -46,7 +46,6 @@ Name: "pt"; MessagesFile: "BrazilianPortuguese.isl"
 [Files]
 Source: "..\Release\sim.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Release\simctrl.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\Release\simipc.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Release\simapi.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Release\simui.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Release\qjpegio.dll"; DestDir: "{app}"; Flags: ignoreversion
@@ -55,6 +54,7 @@ Source: "..\Release\plugins\__homedir.dll"; DestDir: "{app}\plugins"; Flags: ign
 Source: "..\Release\plugins\__migrate.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\_core.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\about.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
+Source: "..\Release\plugins\action.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\autoaway.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\background.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\dock.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
@@ -84,7 +84,6 @@ Source: "..\Release\plugins\windock.dll"; DestDir: "{app}\plugins"; Flags: ignor
 Source: "..\Release\plugins\styles\metal.dll"; DestDir: "{app}\plugins\styles"; Flags: ignoreversion
 Source: "..\Release\plugins\styles\wood.dll"; DestDir: "{app}\plugins\styles"; Flags: ignoreversion
 Source: "..\Release\plugins\styles\xpstyle.dll"; DestDir: "{app}\plugins\styles"; Flags: ignoreversion
-Source: "..\Release\simremote.dll"; DestDir: "{app}"; Flags: ignoreversion regserver
 Source: "..\Release\sounds\startup.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
 Source: "..\Release\sounds\system.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
 Source: "..\Release\sounds\filedone.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
