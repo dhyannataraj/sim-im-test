@@ -3580,6 +3580,7 @@ void CorePlugin::changeProfile()
     Event eUnload(EventPluginsUnload, static_cast<Plugin*>(this));
     eUnload.process();
     getContacts()->clear();
+    preferences.clear();
     Event eLoad(EventPluginsLoad, static_cast<Plugin*>(this));
     eLoad.process();
     Event eInfo(EventGetPluginInfo, (void*)"_core");

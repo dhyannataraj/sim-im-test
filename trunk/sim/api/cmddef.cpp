@@ -413,6 +413,11 @@ bool CommandsMap::erase(unsigned id)
     return true;
 }
 
+void CommandsMap::clear()
+{
+    p->clear();
+}
+
 class CommandsMapIteratorPrivate
 {
     COPY_RESTRICTED(CommandsMapIteratorPrivate)

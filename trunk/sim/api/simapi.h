@@ -872,6 +872,7 @@ public:
     CommandDef *find(unsigned id);
     bool add(CommandDef*);
     bool erase(unsigned id);
+    void clear();
 private:
     CommandsMapPrivate	*p;
     friend class CommandsMapIterator;
