@@ -50,6 +50,10 @@ ToolBarSetup::ToolBarSetup(const ToolBarDef *_def, list<unsigned long> *_active)
     setButtons();
     lstActive->clear();
     list<unsigned long>::iterator it;
+    if (active.size() == 0){
+        for (const ToolBarDef *d = def; d->id != BTN_END_DEF; d++)
+            active.push_back(d->id);
+    }
     for (it = active.begin(); it != active.end(); ++it){
         int id = *it;
         if (id == BTN_SEPARATOR){
