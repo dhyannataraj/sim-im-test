@@ -24,6 +24,8 @@
 #include "fetch.h"
 #include "ltdl.h"
 #include "exec.h"
+#include "sax.h"
+#include "xsl.h"
 
 #ifdef WIN32
 #include "qjpegio.h"
@@ -237,6 +239,9 @@ PluginManagerPrivate::~PluginManagerPrivate()
     release_all(NULL);
     delete m_exec;
     setLogEnable(false);
+    lt_dlexit();
+	XSL::cleanup();
+	SAXParser::cleanup();
 }
 
 void *PluginManagerPrivate::processEvent(Event *e)
@@ -306,6 +311,10 @@ void PluginManagerPrivate::release_all(Plugin *to)
         release(info, to != NULL);
         info.bDisabled = false;
         info.bFromCfg  = false;
+		if (info.cfg){
+			delete info.cfg;
+			info.cfg = NULL;
+		}
     }
 }
 

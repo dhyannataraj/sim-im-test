@@ -29,6 +29,7 @@ public:
     ~XSL();
     void setXSL(const QString &xsl);
     QString process(const QString &xml);
+	static void cleanup();
 protected:
     XSLPrivate *d;
 };

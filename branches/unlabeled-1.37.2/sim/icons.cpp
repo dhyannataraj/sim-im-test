@@ -27,11 +27,16 @@
 #include <qdragobject.h>
 #include <qfile.h>
 #include <qmime.h>
+#include <qapplication.h>
 
 #ifdef USE_KDE
 #include <kapp.h>
 #include <kipc.h>
 #include <kiconloader.h>
+#endif
+
+#ifdef WIN32
+#include <windows.h>
 #endif
 
 #include <map>
@@ -46,10 +51,10 @@ class WrkIconSet : public IconSet
 {
 public:
     WrkIconSet();
-    const QPixmap *getPict(const char *name, unsigned &flags);
+    const QImage *getPict(const char *name, unsigned &flags);
     void clear();
 protected:
-    const QPixmap *add(const char *name, const QPixmap &pict, unsigned flags);
+    const QImage *add(const char *name, const QImage &pict, unsigned flags);
 };
 
 class FileIconSet : public IconSet, public SAXParser
@@ -57,7 +62,7 @@ class FileIconSet : public IconSet, public SAXParser
 public:
     FileIconSet(const char *file);
     ~FileIconSet();
-    const QPixmap *getPict(const char *name, unsigned &flags);
+    const QImage *getPict(const char *name, unsigned &flags);
     void clear();
 protected:
     virtual	void element_start(const char *el, const char **attr);
@@ -133,16 +138,16 @@ void Icons::iconChanged(int)
     e.process();
 }
 
-const QPixmap *Icons::getPict(const char *name, unsigned &flags)
+const QImage *Icons::getPict(const char *name, unsigned &flags)
 {
     list<IconSet*>::iterator it;
     for (it = m_customSets.begin(); it != m_customSets.end(); ++it){
-        const QPixmap *res = (*it)->getPict(name, flags);
+        const QImage *res = (*it)->getPict(name, flags);
         if (res)
             return res;
     }
     for (it = m_defSets.begin(); it != m_defSets.end(); ++it){
-        const QPixmap *res = (*it)->getPict(name, flags);
+        const QImage *res = (*it)->getPict(name, flags);
         if (res)
             return res;
     }
@@ -264,33 +269,78 @@ void deleteIcons()
     delete icons;
 }
 
-const QPixmap *getPict(const char *name, unsigned &flags)
+const QImage *getPict(const char *name, unsigned &flags)
 {
     return icons->getPict(name, flags);
+}
+
+static QPixmap convertToPict(const QImage &img)
+{
+	QColor c = QApplication::palette().active().button();
+	unsigned char cr = c.red();
+	unsigned char cg = c.green();
+	unsigned char cb = c.blue();
+	QImage image(img.width(), img.height(), 32);
+	QBitmap mask(img.width(), img.height());
+	QPainter pmask(&mask);
+	pmask.fillRect(0, 0, img.width(), img.height(), QColor(255, 255, 255));
+	pmask.setPen(QColor(0, 0, 0));
+	unsigned int *from = (unsigned int*)img.bits();
+	unsigned int *to   = (unsigned int*)image.bits();
+	for (int i = 0; i < img.height(); i++){
+		for (int j = 0; j < img.width(); j++){
+			unsigned int c = *(from++);
+			unsigned char a = (c >> 24) & 0xFF;
+			unsigned char r = (c >> 16) & 0xFF;
+			unsigned char g = (c >> 8) & 0xFF;
+			unsigned char b = c & 0xFF;
+			r = (((r * a) + (cr * (0xFF - a))) >> 8) & 0xFF;
+			g = (((g * a) + (cg * (0xFF - a))) >> 8) & 0xFF;
+			b = (((b * a) + (cb * (0xFF - a))) >> 8) & 0xFF;
+			*(to++) = 0xFF000000 + (r << 16) + (g << 8) + b;
+			if (a)
+				pmask.drawPoint(j, i);
+		}
+	}
+	pmask.end();
+	QPixmap res;
+	res.convertFromImage(image);
+	res.setMask(mask);
+	return res;
+#if 0
+	QPixmap res;
+	res.convertFromImage(img);
+	return res;
+#endif
 }
 
 QIconSet Icon(const char *name)
 {
     unsigned flags;
-    const QPixmap *pict = getPict(name, flags);
+    const QImage *pict = getPict(name, flags);
     if (pict == NULL)
         return QIconSet();
-    QIconSet res(*pict);
+    QIconSet res(convertToPict(*pict));
     string bigName = "big.";
     bigName += name;
     pict = getPict(bigName.c_str(), flags);
     if (pict)
-        res.setPixmap(*pict, QIconSet::Large);
+        res.setPixmap(convertToPict(*pict), QIconSet::Large);
     return res;
+}
+
+const QImage *Image(const char *name)
+{
+    unsigned flags;
+    return getPict(name, flags);
 }
 
 QPixmap Pict(const char *name)
 {
-    unsigned flags;
-    const QPixmap *icon = getPict(name, flags);
-    if (icon == NULL)
-        return QPixmap();
-    return *icon;
+	const QImage *img = Image(name);
+	if (img)
+		return convertToPict(*img);
+	return QPixmap();
 }
 
 MyMimeSourceFactory::MyMimeSourceFactory()
@@ -308,12 +358,9 @@ const QMimeSource *MyMimeSourceFactory::data(const QString &abs_name) const
     if (name.left(5) == "icon:"){
         name = name.mid(5);
         unsigned flags;
-        const QPixmap *icon = getPict(name.latin1(), flags);
-        if (icon){
-            QImage img = icon->convertToImage();
-            img = img.convertDepth(32);
-            ((QMimeSourceFactory*)this)->setImage(abs_name, img);
-        }
+        const QImage *icon = getPict(name.latin1(), flags);
+        if (icon)
+            ((QMimeSourceFactory*)this)->setImage(abs_name, *icon);
     }
     return QMimeSourceFactory::data(abs_name);
 }
@@ -401,15 +448,16 @@ WrkIconSet::WrkIconSet()
 {
 }
 
-static QPixmap makeOffline(unsigned flags, const QPixmap &p)
+static QImage makeOffline(unsigned flags, const QImage &p)
 {
+	QImage image(p);
     unsigned swapColor = flags & ICON_COLOR_MASK;
-    QImage image = p.convertToImage();
     unsigned int *data = (image.depth() > 8) ? (unsigned int *)image.bits() :
                          (unsigned int *)image.colorTable();
     int pixels = (image.depth() > 8) ? image.width()*image.height() :
                  image.numColors();
-    for (int i = 0; i < pixels; i++){
+	int i;
+    for (i = 0; i < pixels; i++){
         QColor c(qRed(data[i]), qGreen(data[i]), qBlue(data[i]));
         int a = qAlpha(data[i]);
         int h, s, v;
@@ -422,19 +470,18 @@ static QPixmap makeOffline(unsigned flags, const QPixmap &p)
         }
         data[i] = qRgba(c.red(), c.green(), c.blue(), a);
     }
-    QPixmap pict;
-    pict.convertFromImage(image);
-    return pict;
+    return image;
 }
 
-static QPixmap makeInactive(const QPixmap &p)
+static QImage makeInactive(const QImage &p)
 {
-    QImage image = p.convertToImage();
+    QImage image(p);
     unsigned int *data = (image.depth() > 8) ? (unsigned int *)image.bits() :
                          (unsigned int *)image.colorTable();
     int pixels = (image.depth() > 8) ? image.width()*image.height() :
                  image.numColors();
-    for (int i = 0; i < pixels; i++){
+	int i;
+    for (i = 0; i < pixels; i++){
         QColor c(qRed(data[i]), qGreen(data[i]), qBlue(data[i]));
         int a = qAlpha(data[i]);
         int h, s, v;
@@ -442,16 +489,14 @@ static QPixmap makeInactive(const QPixmap &p)
         c.setHsv(h, s / 8, v);
         data[i] = qRgba(c.red(), c.green(), c.blue(), a);
     }
-    QPixmap pict;
-    pict.convertFromImage(image);
-    return pict;
+    return image;
 }
 
-static QPixmap makeInvisible(unsigned flags, const QPixmap &p)
+static QImage makeInvisible(unsigned flags, const QImage &p)
 {
+	QImage image(p);
     unsigned swapColor = flags & ICON_COLOR_MASK;
     char shift = (flags >> 8) & 0xFF;
-    QImage image = p.convertToImage();
     if (image.depth() != 32)
         image = image.convertDepth(32);
     unsigned int *data = (unsigned int*)image.bits();
@@ -476,17 +521,15 @@ static QPixmap makeInvisible(unsigned flags, const QPixmap &p)
             *line = qRgba(c.red(), c.green(), c.blue(), a);
         }
     }
-    QPixmap pict;
-    pict.convertFromImage(image);
-    return pict;
+    return image;
 }
 
-static QPixmap merge(const QPixmap &p1, const QPixmap &p2)
+static QImage merge(const QImage &p1, const QImage &p2)
 {
-    QImage img1 = p1.convertToImage();
+    QImage img1(p1);
     if (img1.depth() != 32)
         img1 = img1.convertDepth(32);
-    QImage img2 = p2.convertToImage();
+    QImage img2(p2);
     if (img2.depth() != 32)
         img2 = img2.convertDepth(32);
     unsigned int *data1 = (unsigned int*)img1.bits();
@@ -521,12 +564,10 @@ static QPixmap merge(const QPixmap &p1, const QPixmap &p2)
             *line1 = qRgba(r1, g1, b1, a1);
         }
     }
-    QPixmap res;
-    res.convertFromImage(img1);
-    return res;
+    return img1;
 }
 
-const QPixmap *WrkIconSet::getPict(const char *name, unsigned &flags)
+const QImage *WrkIconSet::getPict(const char *name, unsigned &flags)
 {
     if (name == NULL)
         return NULL;
@@ -539,7 +580,7 @@ const QPixmap *WrkIconSet::getPict(const char *name, unsigned &flags)
     string n = name;
     if (n == "online"){
         unsigned i;
-        const QPixmap *icon = NULL;
+        const QImage *icon = NULL;
         const char *icon_name = NULL;
         for (i = 0; i < getContacts()->nClients(); i++){
             Client *client = getContacts()->getClient(i);
@@ -557,27 +598,27 @@ const QPixmap *WrkIconSet::getPict(const char *name, unsigned &flags)
         return add(name, *icon, flags);
     }
     if (n == "offline"){
-        const QPixmap *icon = SIM::getPict("online", flags);
+        const QImage *icon = SIM::getPict("online", flags);
         if (icon == NULL)
             return NULL;
         return add(name, makeOffline(flags, *icon), flags);
     }
     if (n == "inactive"){
-        const QPixmap *icon = SIM::getPict("online", flags);
+        const QImage *icon = SIM::getPict("online", flags);
         if (icon == NULL)
             return NULL;
         return add(name, makeInactive(*icon), flags);
     }
     if (n == "invisible"){
-        const QPixmap *icon = SIM::getPict("online", flags);
+        const QImage *icon = SIM::getPict("online", flags);
         if (icon == NULL)
             return NULL;
         return add(name, makeInvisible(flags, *icon), flags);
     }
     int pos = n.find('_');
     if (pos > 0){
-        const QPixmap *icon = SIM::getPict(n.substr(0, pos).c_str(), flags);
-        QPixmap res;
+        const QImage *icon = SIM::getPict(n.substr(0, pos).c_str(), flags);
+        QImage res;
         if (icon){
             string s = n.substr(pos + 1);
             if (s == "online"){
@@ -590,7 +631,7 @@ const QPixmap *WrkIconSet::getPict(const char *name, unsigned &flags)
                 res = makeInactive(*icon);
             }else{
                 unsigned f;
-                const QPixmap *i = SIM::getPict(s.c_str(), f);
+                const QImage *i = SIM::getPict(s.c_str(), f);
                 if (i)
                     res = merge(*icon, *i);
             }
@@ -611,10 +652,10 @@ void WrkIconSet::clear()
     m_icons.clear();
 }
 
-const QPixmap *WrkIconSet::add(const char *name, const QPixmap &pict, unsigned flags)
+const QImage *WrkIconSet::add(const char *name, const QImage &pict, unsigned flags)
 {
     PictDef p;
-    p.icon  = new QPixmap(pict);
+    p.icon  = new QImage(pict);
     p.flags = flags;
     m_icons.insert(PIXMAP_MAP::value_type(name, p));
     return m_icons.find(name)->second.icon;
@@ -634,7 +675,7 @@ FileIconSet::~FileIconSet()
     delete m_zip;
 }
 
-const QPixmap *FileIconSet::getPict(const char *name, unsigned &flags)
+const QImage *FileIconSet::getPict(const char *name, unsigned &flags)
 {
     if (name == NULL)
         return NULL;
@@ -652,7 +693,7 @@ const QPixmap *FileIconSet::getPict(const char *name, unsigned &flags)
                 pict = DesktopIconSet(it->second.system.c_str()).pixmap(QIconSet::Large, QIconSet::Normal);
             }
             if (!pict.isNull()){
-                (*it).second.icon = new QPixmap(pict);
+                (*it).second.icon = new QImage(pict->convertToImage());
                 return (*it).second.icon;
             }
         }
@@ -662,7 +703,8 @@ const QPixmap *FileIconSet::getPict(const char *name, unsigned &flags)
         QByteArray arr;
         if (!m_zip->readFile(QString::fromUtf8(it->second.file.c_str()), &arr))
             return NULL;
-        (*it).second.icon = new QPixmap(arr);
+        (*it).second.icon = new QImage(arr);
+        (*it).second.icon->convertDepth(32);
     }
     return (*it).second.icon;
 }

@@ -38,7 +38,7 @@ namespace SIM
 
 typedef struct PictDef
 {
-    QPixmap			*icon;
+    QImage			*icon;
     string			file;
 #ifdef USE_KDE
     string			system;
@@ -59,7 +59,7 @@ class IconSet
 public:
     IconSet();
     virtual ~IconSet();
-    virtual const QPixmap *getPict(const char *name, unsigned &flags) = 0;
+    virtual const QImage *getPict(const char *name, unsigned &flags) = 0;
     virtual void clear() = 0;
     void parseSmiles(const QString&, unsigned &start, unsigned &size, string &name);
     list<string> getSmile(const char *name);
@@ -76,7 +76,7 @@ class EXPORT Icons : public QObject, public EventReceiver
 public:
     Icons();
     ~Icons();
-    const QPixmap *getPict(const char *name, unsigned &flags);
+    const QImage *getPict(const char *name, unsigned &flags);
     QString parseSmiles(const QString&);
     list<string> getSmile(const char *name);
     void getSmiles(list<string> &smiles);

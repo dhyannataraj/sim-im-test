@@ -40,10 +40,10 @@ protected slots:
 protected:
     void mousePressEvent(QMouseEvent *e);
     void setPict();
-    QTimer		*m_timer;
-    Client		*m_client;
-    unsigned	m_id;
-    bool		m_bBlink;
+    QTimer			*m_timer;
+    Client			*m_client;
+    unsigned		m_id;
+    bool			m_bBlink;
     friend class StatusFrame;
 };
 

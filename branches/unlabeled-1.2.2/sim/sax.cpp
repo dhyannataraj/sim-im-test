@@ -117,5 +117,10 @@ bool SAXParser::parse(const char *data, unsigned size, bool bChunk)
     return true;
 }
 
+void SAXParser::cleanup()
+{
+    xmlCleanupParser();
+}
+
 
 

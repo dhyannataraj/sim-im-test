@@ -131,3 +131,7 @@ QString XSL::process(const QString &my_xml)
     return result;
 }
 
+void XSL::cleanup()
+{
+	xsltCleanupGlobals();
+}
