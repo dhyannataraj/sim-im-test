@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: sk\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-06-17 18:26+0200\n"
-"PO-Revision-Date: 2004-06-03 21:12+0200\n"
+"PO-Revision-Date: 2004-06-28 12:51+0200\n"
 "Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -33,39 +33,36 @@ msgstr ""
 
 # qt3/i18n.cpp:247
 #: sim/ui/qt3/i18n.cpp:7
-#, fuzzy
 msgid "&Red:"
-msgstr "Urobiť znovu"
+msgstr "Če&rvená:"
 
 # client.cpp:85
 # client.cpp:86
 # libicq/country.cpp:26
 #: sim/ui/qt3/i18n.cpp:9
-#, fuzzy
 msgid "&Green:"
-msgstr "Grécky"
+msgstr "&Zelená:"
 
 #: sim/ui/qt3/i18n.cpp:11
 msgid "Bl&ue:"
-msgstr ""
+msgstr "&Modrá:"
 
 #: sim/ui/qt3/i18n.cpp:13
 msgid "A&lpha channel:"
-msgstr ""
+msgstr "A&lfa kanál:"
 
 #: sim/ui/qt3/i18n.cpp:15
 msgid "&Basic colors"
-msgstr ""
+msgstr "Základné far&by"
 
 # ui/alertdialogbase.cpp:250
 #: sim/ui/qt3/i18n.cpp:17
-#, fuzzy
 msgid "&Custom colors"
-msgstr "Farba tlačítka:"
+msgstr "Vlastné farby:"
 
 #: sim/ui/qt3/i18n.cpp:19
 msgid "&Define Custom Colors >>"
-msgstr ""
+msgstr "&Definovať vlastné farby >>"
 
 # qt3/i18n.cpp:21
 #: plugins/_core/core.cpp:1713 plugins/_core/status.cpp:321
@@ -82,32 +79,30 @@ msgstr "Zrušiť"
 
 # qt3/i18n.cpp:158
 #: sim/ui/qt3/i18n.cpp:25
-#, fuzzy
 msgid "&Add To Custom Colors"
-msgstr "Prid&ať do zoznamu"
+msgstr "Prid&ať k vlastným farbám"
 
 # qt3/i18n.cpp:27
 #: sim/ui/qt3/i18n.cpp:27
-#, fuzzy
 msgid "Select color"
-msgstr "Vybrať protokol"
+msgstr "Vybrať farbu"
 
 #: sim/ui/qt3/i18n.cpp:29
 msgid "Copy or Move a File"
-msgstr ""
+msgstr "Kopírovať alebo premiestniť súbor"
 
 # msgview.cpp:853
 # ui/searchbase.cpp:277
 # ui/searchbase.cpp:279
 #: sim/ui/qt3/i18n.cpp:31
-#, fuzzy, c-format
+#, c-format
 msgid "Read: %1"
-msgstr "Vyhada: %1"
+msgstr "Čítať: %1"
 
 #: sim/ui/qt3/i18n.cpp:33
 #, c-format
 msgid "Write: %1"
-msgstr ""
+msgstr "Zapisovať: %1"
 
 # msgedit.cpp:356
 # qt3/i18n.cpp:35
@@ -134,9 +129,8 @@ msgstr "&Zrušiť"
 
 # qt3/i18n.cpp:37
 #: sim/ui/qt3/i18n.cpp:37
-#, fuzzy
 msgid "All files (*)"
-msgstr "Pre všetky súbory"
+msgstr "Všetky súbory (*)"
 
 # qt3/i18n.cpp:39
 # usertbl.cpp:115
@@ -148,9 +142,8 @@ msgstr "Meno"
 
 # qt3/i18n.cpp:164
 #: sim/ui/qt3/i18n.cpp:41
-#, fuzzy
 msgid "Size"
-msgstr "Úmev"
+msgstr "Veľkosť"
 
 # qt3/i18n.cpp:43
 # ui/phonebook.cpp:78
@@ -165,22 +158,19 @@ msgstr "Dátum"
 
 # qt3/i18n.cpp:47
 #: sim/ui/qt3/i18n.cpp:47
-#, fuzzy
 msgid "Attributes"
-msgstr "Baran"
+msgstr "Atribúty"
 
 # ui/logindlgbase.cpp:123
 #: sim/ui/qt3/i18n.cpp:49
-#, fuzzy
 msgid "Look &in:"
-msgstr "Prihlasovacie meno:"
+msgstr "Náhľad:"
 
 # ui/maininfobase.cpp:319
 # ui/searchbase.cpp:294
 #: sim/ui/qt3/i18n.cpp:51
-#, fuzzy
 msgid "File &name:"
-msgstr "Meno:"
+msgstr "Názov súboru:"
 
 # msgedit.cpp:200
 # msgedit.cpp:1369
@@ -188,25 +178,22 @@ msgstr "Meno:"
 # msgview.cpp:1247
 # qt3/i18n.cpp:83
 #: sim/ui/qt3/i18n.cpp:53
-#, fuzzy
 msgid "File &type:"
-msgstr "Súbor:"
+msgstr "Typ súboru:"
 
 # qt3/i18n.cpp:55
 #: sim/ui/qt3/i18n.cpp:55
-#, fuzzy
 msgid "Back"
-msgstr "S&päť"
+msgstr "Späť"
 
 # qt3/i18n.cpp:117
 #: sim/ui/qt3/i18n.cpp:57
-#, fuzzy
 msgid "One directory up"
-msgstr "Domovský adresár"
+msgstr "O adresár vyššie"
 
 #: sim/ui/qt3/i18n.cpp:59
 msgid "Create New Folder"
-msgstr ""
+msgstr "Vytvoriť nový adresár"
 
 # qt3/i18n.cpp:61
 #: sim/ui/qt3/i18n.cpp:61
@@ -216,7 +203,7 @@ msgstr "Pohľad na priateľov"
 
 #: sim/ui/qt3/i18n.cpp:63
 msgid "Detail View"
-msgstr ""
+msgstr "Detailný pohľad"
 
 #: sim/ui/qt3/i18n.cpp:65
 msgid "Preview File Info"
@@ -228,38 +215,35 @@ msgstr ""
 
 #: sim/ui/qt3/i18n.cpp:69
 msgid "Read-write"
-msgstr ""
+msgstr "Čítanie-zápis"
 
 #: sim/ui/qt3/i18n.cpp:71
 msgid "Read-only"
-msgstr ""
+msgstr "Len čítanie"
 
 # qt3/i18n.cpp:73
 #: sim/ui/qt3/i18n.cpp:73
-#, fuzzy
 msgid "Write-only"
-msgstr "Len priatelia"
+msgstr "Len zápis"
 
 # client.cpp:1252
 # mainwin.cpp:2708
 #: sim/ui/qt3/i18n.cpp:75
-#, fuzzy
 msgid "Inaccessible"
-msgstr "Neviditeľný"
+msgstr "Neprístupný"
 
 #: sim/ui/qt3/i18n.cpp:77
 msgid "Symlink to File"
-msgstr ""
+msgstr "Linka na súbor"
 
 # qt3/i18n.cpp:117
 #: sim/ui/qt3/i18n.cpp:79
-#, fuzzy
 msgid "Symlink to Directory"
-msgstr "Vybrať domovský adresár"
+msgstr "Linka na adresár"
 
 #: sim/ui/qt3/i18n.cpp:81
 msgid "Symlink to Special"
-msgstr ""
+msgstr "Linka na špeciálny súbor"
 
 # msgedit.cpp:200
 # msgedit.cpp:1369
@@ -273,13 +257,12 @@ msgstr "Súbor"
 
 #: sim/ui/qt3/i18n.cpp:85
 msgid "Dir"
-msgstr ""
+msgstr "Adr"
 
 # qt3/i18n.cpp:87
 #: sim/ui/qt3/i18n.cpp:87
-#, fuzzy
 msgid "Special"
-msgstr "Skeptický"
+msgstr "Špeciálny"
 
 # qt3/i18n.cpp:89
 # ui/fontsetupbase.cpp:227
@@ -289,16 +272,14 @@ msgstr "Otvori"
 
 # ui/logindlgbase.cpp:128
 #: sim/ui/qt3/i18n.cpp:91
-#, fuzzy
 msgid "Save as"
-msgstr "Uložiť he&slo"
+msgstr "Uložiť ako"
 
 # qt3/i18n.cpp:89
 # ui/fontsetupbase.cpp:227
 #: sim/ui/qt3/i18n.cpp:93
-#, fuzzy
 msgid "&Open"
-msgstr "Otvori"
+msgstr "&Otvoriť"
 
 # chatwnd.cpp:56
 # monitor.cpp:67
@@ -326,64 +307,59 @@ msgstr "&Zmazať"
 
 #: sim/ui/qt3/i18n.cpp:101
 msgid "R&eload"
-msgstr ""
+msgstr "Znovu nahrať"
 
 #: sim/ui/qt3/i18n.cpp:103
 msgid "Sort by &Name"
-msgstr ""
+msgstr "Triediť podľa me&na"
 
 #: sim/ui/qt3/i18n.cpp:105
 msgid "Sort by &Size"
-msgstr ""
+msgstr "Triediť podľa veľko&sti"
 
 #: sim/ui/qt3/i18n.cpp:107
 msgid "Sort by &Date"
-msgstr ""
+msgstr "Triediť podľa dá&tumu"
 
 # ui/soundsetupbase.cpp:241
 #: sim/ui/qt3/i18n.cpp:109
-#, fuzzy
 msgid "&Unsorted"
-msgstr "Použiť  Arts sound server"
+msgstr "Netriedené"
 
 # libicq/country.cpp:351
 # libicq/country.cpp:436
 #: sim/ui/qt3/i18n.cpp:111
-#, fuzzy
 msgid "Sort"
-msgstr "Športy"
+msgstr "Triediť"
 
 # qt3/i18n.cpp:113
 #: sim/ui/qt3/i18n.cpp:113
-#, fuzzy
 msgid "Show &hidden files"
-msgstr "Zobrazi detaily"
+msgstr "Zobraziť skryté súbory"
 
 # msgedit.cpp:588
 #: sim/ui/qt3/i18n.cpp:115
-#, fuzzy
 msgid "the file"
-msgstr "Odoslať súbor"
+msgstr "súbor"
 
 # qt3/i18n.cpp:117
 #: sim/ui/qt3/i18n.cpp:117
-#, fuzzy
 msgid "the directory"
-msgstr "Nastaviť domovský adresár"
+msgstr "adresár"
 
 #: sim/ui/qt3/i18n.cpp:119
 msgid "the symlink"
-msgstr ""
+msgstr "linka"
 
 # mainwin.cpp:2296
 #: sim/ui/qt3/i18n.cpp:121
-#, fuzzy, c-format
+#, c-format
 msgid "Delete %1"
-msgstr "Vymaza \"%1\"?"
+msgstr "Vymazať %1"
 
 #: sim/ui/qt3/i18n.cpp:123
 msgid "<qt>Do you really want to delete %1 \"%2\"?</qt>"
-msgstr ""
+msgstr "<qt>Naozaj chcete zmazať %1 \"%2\"?</qt>"
 
 # mainwin.cpp:1972
 # mainwin.cpp:2294
@@ -407,40 +383,35 @@ msgstr "&Nie"
 
 # qt3/i18n.cpp:131
 #: sim/ui/qt3/i18n.cpp:129
-#, fuzzy
 msgid "New Folder 1"
-msgstr "Nový profil"
+msgstr "Nový adresár 1"
 
 # qt3/i18n.cpp:131
 #: sim/ui/qt3/i18n.cpp:131
-#, fuzzy
 msgid "New Folder"
-msgstr "Nový profil"
+msgstr "Nový adresár"
 
 #: sim/ui/qt3/i18n.cpp:133
 #, c-format
 msgid "New Folder %1"
-msgstr ""
+msgstr "Nový adresár %1"
 
 # qt3/i18n.cpp:137
 #: sim/ui/qt3/i18n.cpp:135
-#, fuzzy
 msgid "Find Directory"
-msgstr "Adresár"
+msgstr "Nájsť adresár"
 
 # qt3/i18n.cpp:137
 #: sim/ui/qt3/i18n.cpp:137
-#, fuzzy
 msgid "Directories"
-msgstr "Adresár"
+msgstr "Adresáre"
 
 # chatwnd.cpp:56
 # monitor.cpp:67
 # qt3/i18n.cpp:95
 #: sim/ui/qt3/i18n.cpp:139
-#, fuzzy
 msgid "Save"
-msgstr "U&ložiť"
+msgstr "Uložiť"
 
 # mainwin.cpp:446
 # monitor.cpp:133
@@ -458,36 +429,35 @@ msgid ""
 "File not found.\n"
 "Check path and filename."
 msgstr ""
+"%1\n"
+"Súbor nebol nájdený.\n"
+"Skontrolujte cestu a názov súboru."
 
 #: sim/ui/qt3/i18n.cpp:148
 msgid "ERROR"
-msgstr ""
+msgstr "CHYBA"
 
 # ui/alertdialogbase.cpp:247
 #: sim/ui/qt3/i18n.cpp:150
-#, fuzzy
 msgid "&Font"
-msgstr "Písmo:"
+msgstr "Písmo"
 
 # libicq/country.cpp:372
 #: sim/ui/qt3/i18n.cpp:152
-#, fuzzy
 msgid "Font st&yle"
-msgstr "tl \"Metal\""
+msgstr "Štýl fontu"
 
 #: sim/ui/qt3/i18n.cpp:154
 msgid "&Size"
-msgstr ""
+msgstr "Veľko&sť"
 
 # qt3/i18n.cpp:156
 #: sim/ui/qt3/i18n.cpp:156
-#, fuzzy
 msgid "Effects"
-msgstr "Udalosti"
+msgstr "Efekty"
 
 # qt3/i18n.cpp:158
 #: sim/ui/qt3/i18n.cpp:158
-#, fuzzy
 msgid "Stri&keout"
 msgstr "Prečiar&knuté"
 
@@ -501,30 +471,26 @@ msgstr "Podčiarkn&uté"
 
 # ui/alertdialogbase.cpp:246
 #: sim/ui/qt3/i18n.cpp:162
-#, fuzzy
 msgid "&Color"
-msgstr "Farba:"
+msgstr "Farba"
 
 # qt3/i18n.cpp:164
 #: sim/ui/qt3/i18n.cpp:164
-#, fuzzy
 msgid "Sample"
-msgstr "Úmev"
+msgstr "Príklad"
 
 # ui/setupdlg.cpp:149
 #: sim/ui/qt3/i18n.cpp:166
-#, fuzzy
 msgid "Scr&ipt"
-msgstr "Zabezpečenie"
+msgstr ""
 
 # ui/enable.cpp:134
 # ui/randomchatbase.cpp:306
 # ui/setupdlgbase.cpp:121
 # ui/toolsetupbase.cpp:135
 #: sim/ui/qt3/i18n.cpp:168
-#, fuzzy
 msgid "Apply"
-msgstr "&Použiť"
+msgstr "Použiť"
 
 # mainwin.cpp:2083
 # qt3/i18n.cpp:287
@@ -541,15 +507,13 @@ msgstr "&Použiť"
 # ui/userautoreply.cpp:76
 # ui/userinfobase.cpp:153
 #: sim/ui/qt3/i18n.cpp:170
-#, fuzzy
 msgid "Close"
-msgstr "&Zavrieť"
+msgstr "Zavrieť"
 
 # qt3/i18n.cpp:172
 #: sim/ui/qt3/i18n.cpp:172
-#, fuzzy
 msgid "Select Font"
-msgstr "Výber &písma"
+msgstr "Výber písma"
 
 # qt3/i18n.cpp:174
 #: plugins/_core/autoreplybase.cpp:91 plugins/_core/cfgdlg.cpp:500
@@ -565,6 +529,7 @@ msgid "&OK"
 msgstr "&OK"
 
 #: sim/ui/qt3/i18n.cpp:177
+#, fuzzy
 msgid ""
 "<h3>About Qt</h3><p>This program uses Qt version %1, a multiplatform C++ GUI "
 "toolkit from Trolltech. Qt provides single-source portability across Windows "
@@ -572,36 +537,36 @@ msgid ""
 "X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more information.</"
 "p>"
 msgstr ""
+"<h3>About Qt</h3><p>Tento program používa Qt verziu %1, multiplatformový C++ GUI "
+"toolkit od Trolltech. Qt provides single-source portability across Windows "
+"95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of Unix with "
+"X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more information.</"
+"p>"
 
 # qt3/i18n.cpp:183
 #: sim/ui/qt3/i18n.cpp:183
-#, fuzzy
 msgid "Help"
-msgstr "&Pomoc"
+msgstr "Pomoc"
 
 # qt3/i18n.cpp:185
 #: sim/ui/qt3/i18n.cpp:185
-#, fuzzy
 msgid "Defaults"
 msgstr "Predvolené"
 
 # qt3/i18n.cpp:55
 #: sim/ui/qt3/i18n.cpp:187
-#, fuzzy
 msgid "< Back"
-msgstr "S&päť"
+msgstr "< Späť"
 
 # msgedit.cpp:133
 #: sim/ui/qt3/i18n.cpp:189
-#, fuzzy
 msgid "Next >"
-msgstr "&Ďalej"
+msgstr "Ďalej >"
 
 # libicq/country.cpp:22
 #: sim/ui/qt3/i18n.cpp:191
-#, fuzzy
 msgid "Finish"
-msgstr "Fínsky"
+msgstr "Koniec"
 
 # qt3/i18n.cpp:193
 #: plugins/shortcuts/mousecfgbase.cpp:82 sim/ui/qt3/i18n.cpp:193
@@ -610,7 +575,7 @@ msgstr "Ctrl"
 
 #: sim/ui/qt3/i18n.cpp:195
 msgid "+"
-msgstr ""
+msgstr "+"
 
 # qt3/i18n.cpp:197
 #: plugins/shortcuts/mousecfgbase.cpp:81 sim/ui/qt3/i18n.cpp:197
@@ -625,25 +590,22 @@ msgstr "Shift"
 #: sim/ui/qt3/i18n.cpp:201
 #, c-format
 msgid "F%1"
-msgstr ""
+msgstr "F%1"
 
 # qt3/i18n.cpp:193
 #: sim/ui/qt3/i18n.cpp:203
-#, fuzzy
 msgid "ctrl"
-msgstr "Ctrl"
+msgstr "ctrl"
 
 # qt3/i18n.cpp:199
 #: sim/ui/qt3/i18n.cpp:205
-#, fuzzy
 msgid "shift"
-msgstr "Shift"
+msgstr "shift"
 
 # libicq/country.cpp:207
 #: sim/ui/qt3/i18n.cpp:207
-#, fuzzy
 msgid "alt"
-msgstr "Malta"
+msgstr "alt"
 
 #: sim/ui/qt3/i18n.cpp:210
 msgid ""
@@ -652,14 +614,20 @@ msgid ""
 "to\n"
 "%2"
 msgstr ""
+"Nie je možné premenovať\n"
+"%1\n"
+"na\n"
+"%2"
 
 # qt3/i18n.cpp:216
 #: sim/ui/qt3/i18n.cpp:216
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not open\n"
 "%1"
-msgstr "Nie je monžné otvoriť %1"
+msgstr ""
+"Nie je možné otvoriť \n"
+"%1"
 
 #: sim/ui/qt3/i18n.cpp:220
 #, c-format
@@ -667,20 +635,21 @@ msgid ""
 "Could not write\n"
 "%1"
 msgstr ""
+"Nie je možné zapísať \n"
+"%1"
 
 #: sim/ui/qt3/i18n.cpp:223
 msgid "Operation stopped by the user"
-msgstr ""
+msgstr "Operácia bola zastavená užívateľom"
 
 #: sim/ui/qt3/i18n.cpp:225
 msgid "(unknown)"
-msgstr ""
+msgstr "(neznámy)"
 
 # qt3/i18n.cpp:227
 #: sim/ui/qt3/i18n.cpp:227
-#, fuzzy
 msgid "Host %1 found"
-msgstr "Lokalita %1 nebola nájdená"
+msgstr "Server %1 bol nájdený"
 
 # mainwin.cpp:628
 # mainwin.cpp:2727
@@ -5608,8 +5577,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:69
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Zásuvný modul umožňuje zobrazovať notifikácie o správach a stave kontaktov "
 "na obrazovke (OSD)"
@@ -6731,8 +6699,7 @@ msgid "Navigate"
 msgstr "Navigácia"
 
 #: plugins/navigate/navigate.cpp:215
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Zásuvný modul umožňuje navigáciu po odkazoch, spúštenie externého "
 "prehliadača, poštového klienta"
@@ -7767,8 +7734,7 @@ msgstr "Odmietnuť súbor bez príčiny"
 
 #: plugins/_core/core.cpp:1318 plugins/_core/core.cpp:3360
 msgid "Sorry, I'm busy right now, and can not respond to your request"
-msgstr ""
-"Prepáčte, ale momentálne som zaneprázdnený a nemôžem odpovedať na požiadavku"
+msgstr "Prepáčte, ale momentálne som zaneprázdnený a nemôžem odpovedať na požiadavku"
 
 #: plugins/_core/core.cpp:1323 plugins/_core/core.cpp:3369
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
@@ -8646,8 +8612,7 @@ msgstr "Ikony"
 #: plugins/icons/icon.cpp:31
 #, fuzzy
 msgid "Plugin provides JISP icons themes and emoticons"
-msgstr ""
-"Zásuvný modul umožňuje používať štýly ikon a emotikony z programu Miranda"
+msgstr "Zásuvný modul umožňuje používať štýly ikon a emotikony z programu Miranda"
 
 #: plugins/icons/iconcfg.cpp:91
 msgid "*.jisp|Icon set"
@@ -8965,10 +8930,8 @@ msgstr "Nastaviť \"Offline\" status po"
 
 # ui/statussetupbase.cpp:142
 #: plugins/autoaway/autoawaycfgbase.cpp:109
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
-msgstr ""
-"Zakázať online výstrahu pre \"Away\", \"N/A\", \"DND\" a \"Occupied\" zoznam"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgstr "Zakázať online výstrahu pre \"Away\", \"N/A\", \"DND\" a \"Occupied\" zoznam"
 
 # client.cpp:1235
 #: plugins/autoaway/autoaway.cpp:66
@@ -9307,8 +9270,7 @@ msgstr "P&rijímať správy len od kontaktov zo zoznamu"
 # ui/generalsecbase.cpp:227
 #: plugins/filter/filtercfgbase.cpp:67
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Odmietnuť správy od neznámych užívateľov obsahujúce tieto slová alebo výrazy:"
+msgstr "Odmietnuť správy od neznámych užívateľov obsahujúce tieto slová alebo výrazy:"
 
 # ui/generalsecbase.cpp:228
 #: plugins/filter/filtercfgbase.cpp:68
@@ -9747,8 +9709,7 @@ msgstr "Vložte vašu prezývku, ktorú chcete registrovať."
 msgid ""
 "Complete the form to submit your searchable attributes in the Jabber User "
 "Directory"
-msgstr ""
-"Vyplniť formulár s atribútmi pre vyhľadávanie v užívateľskom adresáry Jabber."
+msgstr "Vyplniť formulár s atribútmi pre vyhľadávanie v užívateľskom adresáry Jabber."
 
 #: plugins/jabber/jabbersearch.cpp:317
 msgid "Fill in all of the fields to add yourself to the JUD."
@@ -10727,162 +10688,3 @@ msgstr ""
 msgid "AutoHide"
 msgstr "Automaticky skry"
 
-# msgedit.cpp:200
-# msgedit.cpp:1369
-# msgview.cpp:207
-# msgview.cpp:1247
-# qt3/i18n.cpp:83
-#~ msgid "Smiles:"
-#~ msgstr "Emotikony:"
-
-#~ msgid "Jabber agents are available online after login"
-#~ msgstr "Agenti Jabber budú dostupní po prihlásení"
-
-# ui/enable.cpp:134
-#~ msgid "Registered agents:"
-#~ msgstr "Registrovaní agenti:"
-
-# ui/logindlgbase.cpp:123
-#~ msgid "Log &On"
-#~ msgstr "&Prihlásiť"
-
-#~ msgid "Log O&ff"
-#~ msgstr "&Odhlásiť"
-
-# ui/enable.cpp:134
-#~ msgid "&Unregister"
-#~ msgstr "Zr&ušiť registráciu"
-
-# ui/enable.cpp:134
-#~ msgid "&Registered agents"
-#~ msgstr "&Registrovaní agenti"
-
-# qt3/i18n.cpp:156
-#~ msgid "&Agents"
-#~ msgstr "&Agenti"
-
-# qt3/i18n.cpp:257
-#~ msgid "Select smiles"
-#~ msgstr "Vybrať emotikony"
-
-#~ msgid "*.msl *.xep|Smiles"
-#~ msgstr "*.msl *.xep|Emotikony"
-
-#~ msgid "Smiles (*.msl *.xep)"
-#~ msgstr "Emotikony (*.msl *.xep)"
-
-#~ msgid "Get more smiles"
-#~ msgstr "Získať viac emotikonov"
-
-#~ msgid "*.dll|Icons themes"
-#~ msgstr "*.dll|Témy ikon"
-
-#~ msgid "Icons themes (*.dll)"
-#~ msgstr "Témy ikon (*.dll)"
-
-#~ msgid "Get more icons themes"
-#~ msgstr "Získať viac tém ikon"
-
-# libicq/country.cpp:350
-#~ msgid "Smiles"
-#~ msgstr "Emotikony"
-
-#~ msgid "Icons for protocol:"
-#~ msgstr "Ikony pre protokol:"
-
-#, fuzzy
-#~ msgid "Wood"
-#~ msgstr "Drevo"
-
-#~ msgid ""
-#~ "_: %1 wrote:\n"
-#~ "female"
-#~ msgstr "%1 napísala:"
-
-#, fuzzy
-#~ msgid "%n GPG key"
-#~ msgstr "GPG kľúč"
-
-# control.cpp:234
-#, fuzzy
-#~ msgid "WWW-panel message"
-#~ msgstr "&Otvoriť správu"
-
-# ui/maininfobase.cpp:322
-#, fuzzy
-#~ msgid "Email pager message"
-#~ msgstr "Email pager"
-
-# msgview.cpp:192
-# msgview.cpp:1232
-#, fuzzy
-#~ msgid "Contact request"
-#~ msgstr "Žiadosť o kontakt"
-
-# msgedit.cpp:588
-#, fuzzy
-#~ msgid "%n file"
-#~ msgstr "Odoslať súbor"
-
-#, fuzzy
-#~ msgid "You have %n unread message"
-#~ msgstr "Máte novú poštu"
-
-#, fuzzy
-#~ msgid "LiveJournal post"
-#~ msgstr "&Odoslať na Live Journal"
-
-#, fuzzy
-#~ msgid "%1 wrote:"
-#~ msgstr "%1 napísal:"
-
-# msgedit.cpp:193
-# msgview.cpp:1191
-# ui/soundsetupbase.cpp:231
-#, fuzzy
-#~ msgid "URL"
-#~ msgstr "URL:"
-
-# msgview.cpp:164
-# msgview.cpp:1204
-#, fuzzy
-#~ msgid "Authorize request"
-#~ msgstr "Požiadavka na autorizácia"
-
-# msgview.cpp:164
-# msgview.cpp:1204
-#, fuzzy
-#~ msgid "Authorization granted"
-#~ msgstr "Požiadavka na autorizácia"
-
-# msgview.cpp:164
-# msgview.cpp:1204
-#, fuzzy
-#~ msgid "Authorization refused"
-#~ msgstr "Požiadavka na autorizácia"
-
-# mainwin.cpp:628
-# mainwin.cpp:2727
-#, fuzzy
-#~ msgid "Add to contacts"
-#~ msgstr "iaden kontakt"
-
-#, fuzzy
-#~ msgid "Removed from contacts"
-#~ msgstr "Odst&rániť z denníka"
-
-# msgedit.cpp:130
-#, fuzzy
-#~ msgid "Close after %n second"
-#~ msgstr "Po odoslaní &zavrieť"
-
-# libicq/country.cpp:274
-#, fuzzy
-#~ msgid "%n day"
-#~ msgstr "Nedeľa"
-
-# libicq/country.cpp:406
-# libicq/country.cpp:452
-#, fuzzy
-#~ msgid "weather"
-#~ msgstr "Počasie"
