@@ -78,7 +78,7 @@ void KeySetup::keyChanged()
 {
     QListViewItem *item = lstActions->currentItem();
     if (item == NULL) return;
-    item->setText(1, chkEnable->isChecked() ? btnKey->text() : "");
+    item->setText(1, chkEnable->isChecked() ? btnKey->text() : QString(""));
 }
 
 

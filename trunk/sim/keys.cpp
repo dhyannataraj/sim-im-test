@@ -361,6 +361,7 @@ HotKeys::~HotKeys()
 
 void HotKeys::regKeys()
 {
+#ifdef WIN32
     int mod, key;
     getKey(pMain->KeyWindow.c_str(), mod, key);
     if (key){
@@ -377,10 +378,12 @@ void HotKeys::regKeys()
         keySearch	= GlobalAddAtomA("sim_search");
         RegisterHotKey(wnd->winId(), keySearch, mod, key);
     }
+#endif
 }
 
 void HotKeys::unregKeys()
 {
+#ifdef WIN32
     if (keyWindow){
         UnregisterHotKey(wnd->winId(), keyWindow);
         DeleteAtom(keyWindow);
@@ -396,19 +399,20 @@ void HotKeys::unregKeys()
         DeleteAtom(keySearch);
         keyWindow = 0;
     }
+#endif
 }
 
+#ifdef WIN32
 void HotKeys::hotKey(int k)
 {
-#ifdef WIN32
     if (k == keyWindow)
         emit toggleWindow();
     if (k == keyDblClick)
         emit dblClick();
     if (k == keySearch)
         emit showSearch();
-#endif
 }
+#endif
 
 #ifndef _WINDOWS
 #include "keys.moc"
