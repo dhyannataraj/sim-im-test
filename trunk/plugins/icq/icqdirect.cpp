@@ -116,10 +116,7 @@ DirectSocket::~DirectSocket()
         delete m_socket;
     //    if (m_listener)
     //        delete m_listener;
-    // valdimir: we can't do this here because m_client is already deleted
-    // also this is done in ~ICQClient()
-    // correct me if I'm wrong, christian
-//    removeFromClient();
+    removeFromClient();
 }
 
 void DirectSocket::timeout()

@@ -108,6 +108,7 @@ MSNClient::MSNClient(Protocol *protocol, const char *cfg)
 
 MSNClient::~MSNClient()
 {
+    disconnected();
     free_data(msnClientData, &data);
 }
 
@@ -1303,6 +1304,8 @@ SBSocket::~SBSocket()
 {
     if (m_packet)
         m_packet->clear();
+    if (m_socket)
+        delete m_socket;
     list<SBSocket*>::iterator it = find(m_client->m_SBsockets.begin(), m_client->m_SBsockets.end(), this);
     if (it != m_client->m_SBsockets.end())
         m_client->m_SBsockets.erase(it);
@@ -1515,7 +1518,7 @@ void SBSocket::getLine(const char *_line)
             Message m(MessageGeneric);
             m.setContact(m_contact->id());
             m.setClient(m_client->dataName(m_data).c_str());
-            m.setText(m_msgPart.utf8());
+            m.setText(m_msgPart);
             m.setForeground(msg->getForeground());
             m.setBackground(0xFFFFFF);
             m.setFont(msg->getFont());

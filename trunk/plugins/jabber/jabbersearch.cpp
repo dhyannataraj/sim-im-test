@@ -155,7 +155,6 @@ void JabberSearch::setSize()
         QSize s1 = QSize(p->width(), p->height());
         p->setMinimumSize(s);
         p->resize(QMAX(s.width(), s1.width()), QMAX(s.height(), s1.height()));
-        log(L_DEBUG, "%s: %u %u %u %u", p->className(), s.width(), s.height(), s1.width(), s1.height());
         if (p->layout())
             p->layout()->invalidate();
         if (p == topLevelWidget())

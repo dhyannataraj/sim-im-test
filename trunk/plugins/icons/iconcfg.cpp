@@ -138,7 +138,8 @@ IconCfg::IconCfg(QWidget *parent, IconsPlugin *plugin)
             continue;
         protocols.push_back(name);
     }
-    for (list<string>::iterator its = protocols.begin(); its != protocols.end(); ++its){
+    i = 0;
+    for (list<string>::iterator its = protocols.begin(); its != protocols.end(); ++its, i++){
         cmbProtocol->insertItem(i18n((*its).c_str()));
         list<IconsDef>::iterator it;
         for (it = defs.begin(); it != defs.end(); ++it){
@@ -210,7 +211,7 @@ void IconCfg::apply()
 
 void IconCfg::goIcons()
 {
-    Event e(EventGoURL, (void*)"http://www.nortiq.com/miranda/index.php?action=display&cat=Icon");
+    Event e(EventGoURL, (void*)"http://miranda-im.org/download/index.php?action=display&id=35");
     e.process();
 }
 

@@ -91,6 +91,7 @@ static DataDef soundUserData[] =
     {
         { "Alert", DATA_STRING, 1, (unsigned)"alert.wav" },
         { "Receive", DATA_STRLIST, 1, 0 },
+        { "NoSoundIfActive", DATA_BOOL, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 

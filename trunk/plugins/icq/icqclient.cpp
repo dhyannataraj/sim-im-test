@@ -336,6 +336,7 @@ ICQClient::ICQClient(ICQProtocol *protocol, const char *cfg)
 
 ICQClient::~ICQClient()
 {
+    disconnected();
     delete m_listener;
     free_data(icqClientData, &data);
     if (m_socket)

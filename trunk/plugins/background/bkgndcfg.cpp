@@ -86,7 +86,7 @@ void BkgndCfg::apply()
 
 void BkgndCfg::goSkins()
 {
-    Event e(EventGoURL, (void*)"http://www.nortiq.com/miranda/index.php?action=display&cat=Skin");
+    Event e(EventGoURL, (void*)"http://miranda-im.org/download/index.php?action=display&id=32");
     e.process();
 }
 
