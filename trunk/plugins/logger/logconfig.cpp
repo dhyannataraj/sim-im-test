@@ -92,7 +92,8 @@ void LogConfig::fill()
     addItem(I18N_NOOP("Error"), (m_plugin->getLogLevel() & L_ERROR) != 0, L_ERROR, 0);
     addItem(I18N_NOOP("Warning"), (m_plugin->getLogLevel() & L_WARN) != 0, L_WARN, 0);
     addItem(I18N_NOOP("Debug"), (m_plugin->getLogLevel() & L_DEBUG) != 0, L_DEBUG, 0);
-    addItem(I18N_NOOP("Packets"), (m_plugin->getLogLevel() & L_DEBUG) != 0, L_PACKETS, 0);
+    addItem(I18N_NOOP("Packets"), (m_plugin->getLogLevel() & L_PACKETS) != 0, L_PACKETS, 0);
+    addItem(I18N_NOOP("Events"), (m_plugin->getLogLevel() & L_EVENTS) != 0, L_EVENTS, 0);
     PacketType *type;
     ContactList::PacketIterator it;
     while ((type = ++it) != NULL){
@@ -142,7 +143,7 @@ void LogConfig::setCheck(QListViewItem *item)
     pInd.end();
     pixInd.setMask(mInd);
 #else
-int w = style().pixelMetric(QStyle::PM_IndicatorWidth);
+    int w = style().pixelMetric(QStyle::PM_IndicatorWidth);
     int h = style().pixelMetric(QStyle::PM_IndicatorHeight);
     QPixmap pixInd(w, h);
     QPainter pInd(&pixInd);

@@ -22,6 +22,7 @@
 #include "stl.h"
 
 const unsigned short L_PACKETS = 0x08;
+const unsigned short L_EVENTS  = 0x10;
 
 typedef struct LoggerData
 {
@@ -32,8 +33,9 @@ typedef struct LoggerData
 
 class QFile;
 
-class LoggerPlugin : public Plugin, public EventReceiver
+class LoggerPlugin : public QObject, public Plugin, public EventReceiver
 {
+    Q_OBJECT
 public:
     LoggerPlugin(unsigned, const char*);
     virtual ~LoggerPlugin();
@@ -43,6 +45,7 @@ public:
     bool isLogType(unsigned id);
     void setLogType(unsigned id, bool bLog);
 protected:
+    bool eventFilter(QObject *o, QEvent *e);
     list<unsigned> m_packets;
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual string getConfig();
@@ -50,6 +53,7 @@ protected:
     void openFile();
     QFile *m_file;
     LoggerData data;
+    bool m_bFilter;
     friend class LogConfig;
 };
 

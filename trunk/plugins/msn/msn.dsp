@@ -107,6 +107,10 @@ SOURCE=.\moc_msnconfigbase.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\moc_msnhttp.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\moc_msninfo.cpp
 # ADD CPP /W3
 # End Source File
@@ -151,6 +155,10 @@ SOURCE=.\msnconfig.cpp
 
 SOURCE=.\msnconfigbase.cpp
 # ADD CPP /W3
+# End Source File
+# Begin Source File
+
+SOURCE=.\msnhttp.cpp
 # End Source File
 # Begin Source File
 
@@ -279,6 +287,39 @@ InputName=msnconfigbase
 InputDir=.
 InputPath=.\msnconfigbase.h
 InputName=msnconfigbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\msnhttp.h
+
+!IF  "$(CFG)" == "msn - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\msnhttp.h
+InputName=msnhttp
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "msn - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\msnhttp.h
+InputName=msnhttp
 
 "$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp

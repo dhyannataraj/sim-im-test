@@ -11,7 +11,8 @@ msn_la_SOURCES = \
  msnresult.cpp \
  msnresultbase.ui \
  msnsearch.cpp \
- msnsearchbase.ui 
+ msnsearchbase.ui \
+ msnhttp.cpp
 
 INCLUDES=-I../../sim/api -I../../sim/ui -I../_core $(all_includes)
 

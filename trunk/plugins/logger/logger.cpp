@@ -45,7 +45,7 @@ static PluginInfo info =
 #ifdef WIN32
         PLUGIN_NOLOAD_DEFAULT
 #else
-PLUGIN_DEFAULT
+        PLUGIN_DEFAULT
 #endif
     };
 
@@ -86,6 +86,7 @@ LoggerPlugin::LoggerPlugin(unsigned base, const char *add_info)
             setLogType(atol(v.c_str()), true);
         }
     }
+    m_bFilter = false;
     openFile();
 }
 
@@ -110,6 +111,13 @@ string LoggerPlugin::getConfig()
 
 void LoggerPlugin::openFile()
 {
+    if (m_bFilter){
+        if ((getLogLevel() & L_EVENTS) == 0)
+            qApp->removeEventFilter(this);
+    }else{
+        if (getLogLevel() & L_EVENTS)
+            qApp->installEventFilter(this);
+    }
     if (m_file){
         delete m_file;
         m_file = NULL;
@@ -148,6 +156,12 @@ void LoggerPlugin::setLogType(unsigned id, bool bLog)
         if (it != m_packets.end())
             m_packets.erase(it);
     }
+}
+
+bool LoggerPlugin::eventFilter(QObject *o, QEvent *e)
+{
+    log(L_DEBUG, "Event: %u %s %s", e->type(), o->className(), o->name());
+    return QObject::eventFilter(o, e);
 }
 
 QWidget *LoggerPlugin::createConfigWindow(QWidget *parent)
@@ -224,4 +238,7 @@ extern "C" BOOL __stdcall _DllMainCRTStartup( HINSTANCE hinstDLL, DWORD fdwReaso
 
 #endif
 
+#ifndef WIN32
+#include "logger.moc"
+#endif
 

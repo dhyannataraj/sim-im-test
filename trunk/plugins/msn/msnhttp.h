@@ -1,5 +1,5 @@
 /***************************************************************************
-                          msnconfig.h  -  description
+                          msnhttp.h  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,32 +15,39 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _MSNCONFIG_H
-#define _MSNCONFIG_H
+#ifndef MSNHTTP_H
+#define MSNHTTP_H	1
 
 #include "simapi.h"
-#include "msnconfigbase.h"
+#include "socket.h"
 
 class MSNClient;
 
-class MSNConfig : public MSNConfigBase
+class MSNHttpPool : public QObject, public Socket, public EventReceiver
 {
     Q_OBJECT
 public:
-    MSNConfig(QWidget *parent, MSNClient *client, bool bConfig);
-signals:
-    void okEnabled(bool);
-public slots:
-    void apply();
-    void apply(Client*, void*);
+    MSNHttpPool(MSNClient *client, bool bSB);
+    ~MSNHttpPool();
+    virtual void connect(const char *host, unsigned short port);
+    virtual int  read(char *buf, unsigned size);
+    virtual void write(const char *buf, unsigned size);
+    virtual void close();
+    virtual Mode mode() { return Web; }
 protected slots:
-    void changed();
-    void changed(const QString&);
-    void autoToggled(bool);
+    void idle();
 protected:
-    bool m_bConfig;
+    string m_session_id;
+    string m_host;
+    string m_ip;
+    void *processEvent(Event *e);
+    Buffer readData;
+    Buffer *writeData;
+    unsigned m_fetch_id;
+    virtual unsigned long localHost();
+    virtual void pause(unsigned);
+    bool m_bSB;
     MSNClient *m_client;
 };
 
 #endif
-

@@ -15,6 +15,7 @@ Add weather plugin
 WIN32: Use WinInet for HTTP connection (NTLM-auth on proxy and proxy autoconfig)
 Move plugins from prefix/share into prefix/lib
 Fix acinclude for automake-1.8
+MSN: add HTTP polling
 
 Version 0.9.2
 Add styles plugin
