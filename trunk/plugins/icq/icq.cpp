@@ -496,7 +496,10 @@ ICQPlugin::~ICQPlugin()
     eInvisible.process();
 
     Event eEncoding(EventCommandRemove, (void*)CmdChangeEncoding);
-    eInvisible.process();
+    eEncoding.process();
+
+    Event eAllEncodings(EventCommandRemove, (void*)CmdAllEncodings);
+    eAllEncodings.process();
 
     Event eMenuEncoding(EventMenuRemove, (void*)MenuEncoding);
     eMenuEncoding.process();

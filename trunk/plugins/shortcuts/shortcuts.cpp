@@ -258,12 +258,12 @@ GlobalKey::GlobalKey(CommandDef *cmd)
         accel->insert(shortName.c_str(),
                       i18n(cmd->text), i18n(cmd->text),
                       keys, keys, this, SLOT(execute()));
-	accel->updateConnections();
+        accel->updateConnections();
     }
 #else
-    accel = new KGlobalAccel(this);
-    accel->insertItem(i18n(s->text), i18n(s->text), s->accel);
-    accel->connectItem(cmd->accel, this, SLOT(execute()));
+accel = new KGlobalAccel(this);
+accel->insertItem(i18n(s->text), i18n(s->text), s->accel);
+accel->connectItem(cmd->accel, this, SLOT(execute()));
 #endif
 }
 
@@ -572,7 +572,8 @@ void ShortcutsPlugin::releaseKeys()
         for (it = globalKeys->begin(); it != globalKeys->end(); ++it){
             delete *it;
         }
-        globalKeys->clear();
+        delete globalKeys;
+        globalKeys = NULL;
     }
     mouseCmds.clear();
     qApp->removeEventFilter(this);

@@ -61,7 +61,6 @@ _core_la_SOURCES = \
  msgrecv.cpp \
  history.cpp \
  historywnd.cpp \
- parse.ll \
  libintl.cpp \
  autoreply.cpp \
  autoreplybase.ui \

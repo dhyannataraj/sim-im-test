@@ -346,12 +346,9 @@ void SIMServerSocket::activated()
 {
 }
 
-static SocketFactory *pFactory = NULL;
-
 SocketFactory *getSocketFactory()
 {
-    if (pFactory == NULL) pFactory = new SIMSockets;
-    return pFactory;
+    return PluginManager::factory;
 }
 
 // ______________________________________________________________________________________

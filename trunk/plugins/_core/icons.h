@@ -28,18 +28,18 @@
 
 using namespace std;
 
+typedef struct PictDef
+{
+    QIconSet 	 icon;
+    bool	 bSystem;
+} PictDef;
+
 class my_string : public string
 {
 public:
     my_string(const char *str) : string(str) {}
     bool operator < (const my_string &str) const;
 };
-
-typedef struct PictDef
-{
-    QIconSet 	 icon;
-    bool	 bSystem;
-} PictDef;
 
 typedef map<my_string, PictDef> PIXMAP_MAP;
 
@@ -48,6 +48,7 @@ class Icons : public QObject, public EventReceiver
     Q_OBJECT
 public:
     Icons();
+    ~Icons();
 protected slots:
     void iconChanged(int);
 protected:

@@ -180,7 +180,7 @@ void LoginDialog::profileChanged(int)
             passwords.push_back(edt);
             texts.push_back(txt);
             PLayout->addWidget(txt, 2, 1);
-            PLayout->addMultiCellWidget(edt, 2, 2, 2, 3);
+            PLayout->addWidget(edt, 2, 2);
             edt->show();
             txt->show();
         }else{
@@ -199,7 +199,7 @@ void LoginDialog::profileChanged(int)
                 picts.push_back(pict);
                 PLayout->addWidget(pict, i + 2, 0);
                 PLayout->addWidget(txt, i + 2, 1);
-                PLayout->addMultiCellWidget(edt, i + 2, i + 2, 2, 3);
+                PLayout->addWidget(edt, i + 2, 2);
                 pict->show();
                 txt->show();
                 edt->show();

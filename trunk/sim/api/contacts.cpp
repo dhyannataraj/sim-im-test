@@ -35,7 +35,7 @@ class ContactListPrivate
 public:
     ContactListPrivate();
     ~ContactListPrivate();
-    void clear();
+    void clear(bool bClearAll);
     unsigned registerUserData(const char *name, const DataDef *def);
     void unregisterUserData(unsigned id);
     void flush(Contact *c, Group *g, const char *section, const char *cfg);
@@ -574,12 +574,11 @@ ContactListPrivate::ContactListPrivate()
 
 ContactListPrivate::~ContactListPrivate()
 {
-    for (vector<Client*>::iterator it = clients.begin(); it != clients.end(); ++it)
-        delete (*it);
+    clear(true);
     delete owner;
 }
 
-void ContactListPrivate::clear()
+void ContactListPrivate::clear(bool bClearAll)
 {
     bNoRemove = true;
     for (list<Contact*>::iterator it_c = contacts.begin(); it_c != contacts.end();){
@@ -589,7 +588,7 @@ void ContactListPrivate::clear()
     }
     for (vector<Group*>::iterator it_g = groups.begin(); it_g != groups.end();){
         Group *group = *it_g;
-        if (group->id() == 0){
+        if (!bClearAll && (group->id() == 0)){
             ++it_g;
             continue;
         }
@@ -1616,7 +1615,7 @@ void ContactList::save()
 
 void ContactList::clear()
 {
-    p->clear();
+    p->clear(false);
 }
 
 void ContactList::load()
@@ -1750,6 +1749,8 @@ void ContactList::clearClients()
     while (!p->clients.empty())
         delete p->clients[0];
     p->bNoRemove = false;
+    Event eClients(EventClientsChanged);
+    eClients.process();
 }
 
 void *ContactList::getUserData(unsigned id)
@@ -1836,14 +1837,9 @@ Contact *ContactList::contactByMail(const QString &_mail, const QString &_name)
     return c;
 }
 
-static ContactList *pContactList = NULL;
-
 EXPORT ContactList *getContacts()
 {
-    if (pContactList == NULL){
-        pContactList = new ContactList;
-    }
-    return pContactList;
+    return PluginManager::contacts;
 }
 
 };

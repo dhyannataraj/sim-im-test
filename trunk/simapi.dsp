@@ -69,7 +69,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMAPI_EXPORTS" /YX /FD /GZ /c
-# ADD CPP /nologo /MD /W3 /Gm /ZI /Od /I "$(QTDIR)\include" /I "sim" /I "c:\openssl\include" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMAPI_EXPORTS" /D "QT_DLL" /D "UNICODE" /D "USE_OPENSSL" /Fp"..\Debug/simapi.pch" /YX /Fo"..\Debug/" /Fd"..\Debug/" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /ZI /Od /I "$(QTDIR)\include" /I "sim" /I "c:\openssl\include" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMAPI_EXPORTS" /D "QT_DLL" /D "UNICODE" /D "USE_OPENSSL" /Fp"..\Debug/simapi.pch" /YX /Fo"..\Debug/" /Fd"..\Debug/" /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "_DEBUG"
@@ -116,6 +116,41 @@ SOURCE=.\sim\api\country.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\sim\api\html.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\api\html.ll
+
+!IF  "$(CFG)" == "simapi - Win32 Release"
+
+# Begin Custom Build - Flex $(InputPath)
+InputDir=.\sim\api
+InputPath=.\sim\api\html.ll
+InputName=html
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	flex -o$(InputDir)\$(InputName).cpp $(InputPath)
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
+
+# Begin Custom Build - Flex $(InputPath)
+InputDir=.\sim\api
+InputPath=.\sim\api\html.ll
+InputName=html
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	flex -o$(InputDir)\$(InputName).cpp $(InputPath)
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
 SOURCE=.\sim\api\log.cpp
 # End Source File
 # Begin Source File
@@ -156,38 +191,7 @@ SOURCE=.\sim\api\translit.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\unquote.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\api\unquote.ll
-
-!IF  "$(CFG)" == "simapi - Win32 Release"
-
-# Begin Custom Build - Flex $(InputPath)
-InputDir=.\sim\api
-InputPath=.\sim\api\unquote.ll
-InputName=unquote
-
-"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	flex -o$(InputDir)\$(InputName).cpp $(InputPath)
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
-
-# Begin Custom Build - Flex $(InputPath)
-InputDir=.\sim\api
-InputPath=.\sim\api\unquote.ll
-InputName=unquote
-
-"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	flex -o$(InputDir)\$(InputName).cpp $(InputPath)
-
-# End Custom Build
-
-!ENDIF 
-
+SOURCE=.\sim\api\unquot.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -204,6 +208,10 @@ SOURCE=.\sim\api\buffer.h
 # Begin Source File
 
 SOURCE=.\sim\api\cjk_variants.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\api\html.h
 # End Source File
 # Begin Source File
 

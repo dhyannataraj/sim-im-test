@@ -1046,7 +1046,10 @@ CorePlugin::~CorePlugin()
     delete m_exec;
     delete m_icons;
     delete m_tmpl;
+    if (m_status)
+        delete m_status;
 
+    getContacts()->unregisterUserData(ar_data_id);
     getContacts()->unregisterUserData(sms_data_id);
     getContacts()->unregisterUserData(user_data_id);
 
@@ -1229,6 +1232,10 @@ void *CorePlugin::processEvent(Event *e)
     case EventInit:
         if (!m_bInit && !init(true))
             return (void*)ABORT_LOADING;
+        return NULL;
+    case EventQuit:
+        destroy();
+        m_cmds->clear();
         return NULL;
     case EventHomeDir:{
             string *cfg = (string*)(e->param());
@@ -1954,7 +1961,7 @@ void *CorePlugin::processEvent(Event *e)
                     p = msg->presentation();
                     if (p.isEmpty())
                         return NULL;
-                    p = TextEdit::unquoteString(p, 0, p.length());
+                    p = unquoteText(p);
                     QStringList l = QStringList::split("\n", p);
                     QStringList::Iterator it;
                     if (l.count() && l.last().isEmpty()){
@@ -2465,7 +2472,9 @@ void CorePlugin::destroy()
     list<QWidget*> forRemove;
     while ((w = it.current()) != NULL){
         ++it;
-        if (w->inherits("Container"))
+        if (w->inherits("Container") ||
+                w->inherits("HistoryWindow") ||
+                w->inherits("UserConfig"))
             forRemove.push_back(w);
     }
     delete l;
@@ -2932,7 +2941,6 @@ void CorePlugin::loadMenu()
         }
     }
     showPanel();
-
 }
 
 void CorePlugin::showPanel()

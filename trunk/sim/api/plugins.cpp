@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "simapi.h"
+#include "sockfactory.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -92,7 +93,7 @@ protected:
     bool create(pluginInfo&);
     bool createPlugin(pluginInfo&);
 
-    void release(pluginInfo&);
+    void release(pluginInfo&, bool bFree = true);
     void release(const char *name);
     void release_all(Plugin *to);
 
@@ -205,9 +206,10 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
 
 PluginManagerPrivate::~PluginManagerPrivate()
 {
-    save_state();
-    Event e(EventQuit);
-    e.process();
+    release_all(NULL);
+    for (vector<pluginInfo>::iterator itp = plugins.begin(); itp != plugins.end(); ++itp){
+        free((*itp).name);
+    }
 }
 
 void *PluginManagerPrivate::processEvent(Event *e)
@@ -271,11 +273,11 @@ void PluginManagerPrivate::release_all(Plugin *to)
 {
     for (int n = plugins.size() - 1; n >= 0; n--){
         pluginInfo &info = plugins[n];
-        if (info.plugin == to)
+        if (to && (info.plugin == to))
             break;
-        if (info.info && (info.info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT)))
+        if (to && info.info && (info.info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT)))
             continue;
-        release(info);
+        release(info, to != NULL);
         info.bDisabled = false;
         info.bFromCfg  = false;
     }
@@ -456,7 +458,7 @@ void PluginManagerPrivate::release(const char *name)
         release(*info);
 }
 
-void PluginManagerPrivate::release(pluginInfo &info)
+void PluginManagerPrivate::release(pluginInfo &info, bool bFree)
 {
     if (info.plugin){
         log(L_DEBUG, "Unload plugin %s", info.name);
@@ -466,11 +468,13 @@ void PluginManagerPrivate::release(pluginInfo &info)
         e.process();
     }
     if (info.module){
+        if (bFree){
 #ifdef WIN32
-        FreeLibrary((HINSTANCE)(info.module));
+            FreeLibrary((HINSTANCE)(info.module));
 #else
-        dlclose(info.module);
+            dlclose(info.module);
 #endif
+        }
         info.module = NULL;
     }
     info.info = NULL;
@@ -718,17 +722,33 @@ void PluginManagerPrivate::execute(const char *prg, const char *arg)
 
 PluginManager::PluginManager(int argc, char **argv)
 {
+    EventReceiver::initList();
+    factory = new SIMSockets;
+    contacts = new ContactList;
     p = new PluginManagerPrivate(argc, argv);
 }
 
+void destroySmiles();
+
 PluginManager::~PluginManager()
 {
+    save_state();
+    Event e(EventQuit);
+    e.process();
+    contacts->clearClients();
     delete p;
+    delete contacts;
+    delete factory;
+    EventReceiver::destroyList();
+    destroySmiles();
 }
 
 bool PluginManager::isLoaded()
 {
     return !p->m_bAbort;
 }
+
+ContactList *PluginManager::contacts = NULL;
+SocketFactory *PluginManager::factory = NULL;
 
 };

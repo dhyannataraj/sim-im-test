@@ -1,5 +1,5 @@
 /***************************************************************************
-                          migrate.h  -  description
+                          html.h  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,18 +15,34 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _MIGRATE_H
-#define _MIGRATE_H
+#ifndef _HTML_H
+#define _HTML_H	1
 
 #include "simapi.h"
 
-class MigratePlugin : public Plugin
+#include <list>
+
+using namespace std;
+
+namespace SIM
+{
+
+class HTMLParserPrivate;
+
+class EXPORT HTMLParser
 {
 public:
-    MigratePlugin(unsigned);
-    ~MigratePlugin();
-    bool init();
+    HTMLParser();
+    virtual ~HTMLParser();
+    void parse(const QString &str);
+protected:
+    virtual void text(const QString &text) = 0;
+    virtual void tag_start(const QString &tag, const list<QString> &options) = 0;
+    virtual void tag_end(const QString &tag) = 0;
+    HTMLParserPrivate *p;
+    friend class HTMLParserPrivate;
+};
+
 };
 
 #endif
-

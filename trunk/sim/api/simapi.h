@@ -47,6 +47,17 @@
 #endif
 #endif
 
+#if defined(_MSC_VER) && defined(_DEBUG) && !defined(NO_CHECK_NEW)
+#include <qnetworkprotocol.h>
+#ifndef _CRTDBG_MAP_ALLOC
+#define _CRTDBG_MAP_ALLOC
+#endif
+#include <stdlib.h>
+#include <crtdbg.h>
+#include <memory>
+#define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#endif
+
 #include <string>
 using namespace std;
 
@@ -127,6 +138,8 @@ namespace SIM
 /* PluginManager - base class for main application */
 
 class PluginManagerPrivate;
+class ContactList;
+class SocketFactory;
 
 class EXPORT PluginManager
 {
@@ -134,6 +147,8 @@ public:
     PluginManager(int argc, char **argv);
     ~PluginManager();
     bool isLoaded();
+    static ContactList			*contacts;
+    static SocketFactory		*factory;
 private:
     PluginManagerPrivate *p;
 };
@@ -238,6 +253,8 @@ public:
     virtual ~EventReceiver();
     virtual void *processEvent(Event*) { return NULL; }
     unsigned priority() { return m_priority; }
+    static void initList();
+    static void destroyList();
 protected:
     unsigned m_priority;
 };
@@ -558,11 +575,6 @@ const unsigned EventDrawItem = 0x0703;
    param is string* (string in utf-8)
 */
 const unsigned EventEncodeText = 0x0801;
-
-/* Event decode message text
-   param is string* (string in utf-8)
-*/
-const unsigned EventDecodeText = 0x0802;
 
 /* Event group created
    param is Group*
@@ -1394,8 +1406,9 @@ EXPORT ContactList *getContacts();
 // ____________________________________________________________________________________
 // Url procs
 
-EXPORT string	unquoteText(const char *text);
-EXPORT QString  quoteString(const QString &str);
+EXPORT QString	unquoteText(const QString &text);
+EXPORT QString  quoteString(const QString &str, bool bHTML = true);
+EXPORT QString	unquoteString(const QString &str);
 
 // ____________________________________________________________________________________
 // Log procs
@@ -1462,7 +1475,9 @@ EXPORT bool isLatin(const QString&);
 EXPORT QString getPart(QString&, unsigned size);
 EXPORT QString getRichTextPart(QString&, unsigned size);
 
-EXPORT const char **smiles();
+EXPORT const char *smiles(unsigned n);
+EXPORT const char *defaultSmiles(unsigned n);
+EXPORT void setSmiles(const char *smiles);
 
 EXPORT unsigned screens();
 EXPORT QRect screenGeometry(unsigned nScreen);

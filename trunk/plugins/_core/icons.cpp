@@ -210,6 +210,10 @@ Icons::Icons()
     ICON(urgentmsg)
 }
 
+Icons::~Icons()
+{
+}
+
 void *Icons::processEvent(Event *e)
 {
     IconDef *def;

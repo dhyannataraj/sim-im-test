@@ -17,6 +17,7 @@
 
 #include "msgrecv.h"
 #include "msgedit.h"
+#include "msgview.h"
 #include "toolbtn.h"
 #include "history.h"
 #include "core.h"
@@ -27,8 +28,6 @@
 #include <qpainter.h>
 #include <qtimer.h>
 #include <qlayout.h>
-
-QString parseText(const string &text, bool bIgnoreColors, bool bUseSmiles);
 
 MsgReceived::MsgReceived(CToolCustom *parent, Message *msg)
         : QObject(parent)
@@ -94,11 +93,9 @@ MsgReceived::MsgReceived(CToolCustom *parent, Message *msg)
         QString p = msg->presentation();
         if (p.isEmpty())
             p = msg->getRichText();
-        string msg_text;
-        msg_text = p.utf8();
-        Event e(EventEncodeText, &msg_text);
+        Event e(EventEncodeText, &p);
         e.process();
-        p = parseText(msg_text.c_str(), CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
+        p = MsgViewBase::parseText(p, CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
         m_edit->m_edit->setText(p);
         if ((msg->getBackground() != msg->getForeground()) && !CorePlugin::m_plugin->getOwnColors()){
             m_edit->m_edit->setBackground(msg->getBackground());
@@ -205,11 +202,11 @@ void CmdButton::paintEvent(QPaintEvent*)
     for (pw = parentWidget(); pw; pw = pw->parentWidget()){
         if (pw->backgroundPixmap()){
             p.drawTiledPixmap(0, 0, width(), height(), *pw->backgroundPixmap(), x(), y());
-	    break;
+            break;
         }
     }
     if (pw == NULL)
-    	p.fillRect(0, 0, width(), height(), colorGroup().button());
+        p.fillRect(0, 0, width(), height(), colorGroup().button());
 #if QT_VERSION < 300
     style().drawToolButton(this, &p);
 #else

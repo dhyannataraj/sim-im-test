@@ -259,13 +259,9 @@ QString TextShow::plainText(int paraFrom, int paraTo, int indexFrom, int indexTo
 
 QString TextShow::unquoteString(const QString &s, int from, int to)
 {
-    string text;
     unsigned startPos = textPosition(s, from);
     unsigned endPos = textPosition(s, to);
-    text = s.mid(startPos, endPos - startPos).utf8();
-    Event e(EventDecodeText, &text);
-    e.process();
-    return QString::fromUtf8(SIM::unquoteText(text.c_str()).c_str());
+    return SIM::unquoteText(s.mid(startPos, endPos - startPos));
 }
 
 unsigned TextShow::textPosition(const QString &text, unsigned pos)

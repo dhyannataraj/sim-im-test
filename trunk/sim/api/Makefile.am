@@ -15,7 +15,8 @@ libsimapi_la_SOURCES = \
  sockfactory.cpp \
  sslclient.cpp \
  translit.cpp \
- unquote.ll \
+ unquot.cpp \
+ html.ll \
  md5_dgst.c
 
 libsimapi_la_LIBADD = $(LIBS_SSL) $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(EXTRA_LIBS) $(LIBLD)

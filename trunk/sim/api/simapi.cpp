@@ -258,8 +258,6 @@ static list<EventReceiver*> *receivers = NULL;
 EventReceiver::EventReceiver(unsigned priority)
 {
     m_priority = priority;
-    if (receivers == NULL)
-        receivers = new list<EventReceiver*>;
     list<EventReceiver*>::iterator it;
     for (it = receivers->begin(); it != receivers->end(); ++it)
         if ((*it)->priority() >= priority)
@@ -298,6 +296,16 @@ void *Event::process(EventReceiver *from)
             return res;
     }
     return NULL;
+}
+
+void EventReceiver::initList()
+{
+    receivers = new list<EventReceiver*>;
+}
+
+void EventReceiver::destroyList()
+{
+    delete receivers;
 }
 
 #ifdef WIN32
@@ -425,18 +433,6 @@ QPixmap Pict(const char *name)
     if (icons == NULL)
         return QPixmap();
     return icons->pixmap(QIconSet::Automatic, QIconSet::Normal);
-}
-
-EXPORT QString  quoteString(const QString &_str)
-{
-    QString str = _str;
-    str.replace(QRegExp("&"), "&amp;");
-    str.replace(QRegExp("<"), "&lt;");
-    str.replace(QRegExp(">"), "&gt;");
-    str.replace(QRegExp("\""), "&quot;");
-    str.replace(QRegExp("\r"), "");
-    str.replace(QRegExp("\n"), "<br/>\n");
-    return str;
 }
 
 EXPORT QString formatTime(unsigned long t)
@@ -577,29 +573,112 @@ EXPORT QString getRichTextPart(QString &str, unsigned)
     return res;
 }
 
-static const char *_smiles[16] =
+#define DIV	"\x00"
+
+static const char *_smiles =
     {
-        ":-)",
-        ":-O",
-        ":-|",
-        ":-/",
-        ":-(",
-        ":-{}",
-        ":*)",
-        ":'-(",
-        ";-)",
-        ":-@",
-        ":-\")",
-        ":-X",
-        ":-P",
-        "8-)",
-        "O-)",
-        ":-D"
+        ":-)" DIV ":)" DIV DIV
+        ":-O" DIV ":-0" DIV DIV
+        ":-|" DIV ":-!" DIV DIV
+        ":-/" DIV DIV
+        ":-(" DIV ":(" DIV DIV
+        ":-{}" DIV ":{}" DIV DIV
+        ":*)" DIV DIV
+        ":'-(" DIV ":'(" DIV DIV
+        ";-)" DIV ";)" DIV DIV
+        ":-@" DIV DIV
+        ":-\")" DIV DIV
+        ":-X" DIV DIV
+        ":-P" DIV DIV
+        "8-)" DIV DIV
+        "O-)" DIV "0-)" DIV DIV
+        ":-D" DIV DIV
+        DIV DIV
     };
 
-EXPORT const char **smiles()
+static vector<string> *pSmiles = NULL;
+static vector<string> *pDefaultSmiles = NULL;
+
+static const char *getSmiles(unsigned n, vector<string> *pSmiles)
 {
-    return _smiles;
+    if (n < pSmiles->size())
+        return (*pSmiles)[n].c_str();
+    return NULL;
+}
+
+EXPORT const char *smiles(unsigned n)
+{
+    if (pSmiles == NULL)
+        setSmiles(NULL);
+    return getSmiles(n, pSmiles);
+}
+
+EXPORT const char *defaultSmiles(unsigned n)
+{
+    if (pDefaultSmiles == NULL){
+        pDefaultSmiles = new vector<string>;
+        for (const char *p = _smiles; *p; ){
+            string s;
+            for (; *p; ){
+                s += p;
+                s += '\x00';
+                p += strlen(p) + 1;
+            }
+            s += '\x00';
+            pDefaultSmiles->push_back(s);
+            p++;
+        }
+    }
+    return getSmiles(n, pDefaultSmiles);
+}
+
+EXPORT void setSmiles(const char *p)
+{
+    if (p == NULL)
+        p = _smiles;
+    if (pSmiles){
+        pSmiles->clear();
+    }else{
+        pSmiles = new vector<string>;
+    }
+    for (unsigned i = 0; i < 16; i++)
+        pSmiles->push_back("");
+    for (; *p; ){
+        string s;
+        unsigned index;
+        for (index = 0; index < 16; index++){
+            const char *dp = defaultSmiles(index);
+            for (; *dp; dp += strlen(dp) + 1)
+                if (strcmp(p, dp) == 0)
+                    break;
+            if (*dp)
+                break;
+        }
+        for (; *p; ){
+            s += p;
+            s += '\x00';
+            p += strlen(p) + 1;
+        }
+        s += '\x00';
+        if (index < 16){
+            (*pSmiles)[index] = s;
+        }else{
+            pSmiles->push_back(s);
+        }
+        p++;
+    }
+}
+
+void destroySmiles()
+{
+    if (pSmiles){
+        delete pSmiles;
+        pSmiles = NULL;
+    }
+    if (pDefaultSmiles){
+        delete pDefaultSmiles;
+        pDefaultSmiles = NULL;
+    }
 }
 
 #ifdef WIN32
@@ -725,6 +804,10 @@ EXPORT int strcasecmp(const char *a, const char *b)
  **/
 int WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
 {
+#if defined(_MSC_VER) && defined(_DEBUG) && !defined(NO_CHECK_NEW)
+    if (dwReason == DLL_PROCESS_DETACH)
+        _CrtDumpMemoryLeaks();
+#endif
     return TRUE;
 }
 

@@ -67,62 +67,36 @@
 
 int yywrap() { return 1; }
 
-string NavigatePlugin::parseUrl(const char *text)
+QString NavigatePlugin::parseUrl(const QString &text)
 {
-    YY_BUFFER_STATE yy_current_buffer = yy_scan_string(text);
-    string res;
+	QString str(text.utf8());
+    YY_BUFFER_STATE yy_current_buffer = yy_scan_string(str);
+    QString res;
     for (;;){
         int r = yylex();
         if (!r) break;
+		if (r == TXT){
+			res += QString::fromUtf8(yytext);
+			continue;
+		}
+		QString url  = yytext;
+		QString link = unquoteString(yytext);
         switch (r){
-        case URL:{
-                string url = unquoteText(yytext);
-                string text = yytext;
-                res += "<a href=\"";
-                res += url.c_str();
-                res += "\"><u>";
-                res += text.c_str();
-                res += "</u></a>";
-                break;
-            }
-        case MAIL_URL:{
-                string url = unquoteText(yytext);
-                string text = yytext;
-                if (url.substr(0, 7) != "mailto:")
-                    url = string("mailto:") + url;
-                res += "<a href=\"";
-                res += url.c_str();
-                res += "\"><u>";
-                res += text.c_str();
-                res += "</u></a>";
-                break;
-            }
-        case HTTP_URL:{
-                string url = unquoteText(yytext);
-                string text = yytext;
-                res += "<a href=\"http://";
-                res += url.c_str();
-                res += "\"><u>";
-                res += text.c_str();
-                res += "</u></a>";
-                break;
-            }
-        case FTP_URL:{
-                string url = unquoteText(yytext);
-                string text = yytext;
-                res += "<a href=\"ftp://";
-                res += url.c_str();
-                res += "\"><u>";
-                res += text.c_str();
-                res += "</u></a>";
-                break;
-            }
-        default:
-            res += yytext;
-        }
+        case MAIL_URL:
+            if (link.left(7) != "mailto:")
+                link = QString("mailto:") + link;
+            break;
+        case HTTP_URL:
+			link = QString("http://") + link;
+			break;
+        case FTP_URL:
+			link = QString("http://") + link;
+			break;
+		}
+		res += QString("<a href=\"%1\"><u>%2</u></a>")
+			.arg(link) .arg(url);
     }
     yy_delete_buffer(yy_current_buffer);
-    yy_current_buffer = NULL;
     return res;
 }
 

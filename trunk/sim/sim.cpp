@@ -81,9 +81,14 @@ class SimApp : public QApplication
 {
 public:
     SimApp(int argc, char **argv) : QApplication(argc, argv) {}
+    ~SimApp();
 protected:
     void saveState(QSessionManager&);
 };
+
+SimApp::~SimApp()
+{
+}
 
 #endif
 
@@ -160,8 +165,10 @@ extern "C" {
 
 #endif
 
+
 int main(int argc, char *argv[])
 {
+    int res = 1;
 #ifdef WIN32
     HANDLE hMutex = CreateMutexA(NULL, FALSE, "SIM_Mutex");
 #endif
@@ -240,13 +247,13 @@ int main(int argc, char *argv[])
     KUniqueApplication::addCmdLineOptions();
     if (!KUniqueApplication::start())
         exit(-1);
-    SimApp *app = new SimApp;
+    SimApp app;
 #else
-    SimApp *app = new SimApp(_argc, _argv);
+    SimApp app(_argc, _argv);
 #endif
     old_errhandler = XSetErrorHandler(x_errhandler);
 #else
-    SimApp *app = new SimApp(argc, argv);
+    SimApp app(argc, argv);
     QStyle* (WINAPI *createXpStyle)() = NULL;
     HINSTANCE hLib = LoadLibraryA("UxTheme.dll");
     if (hLib != NULL)
@@ -258,10 +265,9 @@ int main(int argc, char *argv[])
         qApp->setStyle(xpStyle);
     }
 #endif
-    int res = 1;
     PluginManager p(argc, argv);
     if (p.isLoaded())
-        res = app->exec();
+        res = app.exec();
 #ifdef WIN32
     CloseHandle(hMutex);
 #endif
