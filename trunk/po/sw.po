@@ -4634,137 +4634,127 @@ msgstr "Audomadisch ausblenda"
 
 #: plugins/gpg/gpg.cpp:48
 msgid "GPG"
-msgstr ""
+msgstr "GPG"
 
 #: plugins/gpg/gpg.cpp:49
 msgid "Plugin adds GnuPG encryption/decryption support for messages"
-msgstr ""
+msgstr "Blugin figd Onderschdidzong von GnuPG-Vrschlisselong/-Endschlisselong von Nachrichda hinzu"
 
 #: plugins/gpg/gpg.cpp:73
 msgid ""
 "Plugin adds GnuPG encryption/decryption support for messages\n"
 "GPG not found in PATH"
 msgstr ""
+"Blugin figd Onderschdidzong von GnuPG-Vrschlisselong/-Endschlisselong von Nachrichda hinzu\n"
+"GPG ned en Bfad gfonda"
 
 #: plugins/gpg/gpg.cpp:392 plugins/gpg/gpg.cpp:397
-#, fuzzy
 msgid "Encrypt failed"
-msgstr "Iberdragong fehlgschlaga"
+msgstr "Vrschlisseln fehlgschlaga"
 
 #: plugins/gpg/gpg.cpp:551
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: %n GPG key\n"
 "%n GPG keys"
 msgstr ""
-"Dadei\n"
-"%n Dadeia"
+"%n GPG-Schlissl\n"
+"%n GPG-Schlissl"
 
 #: plugins/gpg/gpg.cpp:598
 msgid "GPG key"
-msgstr ""
+msgstr "GPG-Schlissl"
 
 #: plugins/gpg/gpg.cpp:606
 msgid "Use GPG encryption"
-msgstr ""
+msgstr "GPG-Vrschlisselong benudza"
 
 #: plugins/gpg/gpg.cpp:613
 msgid "&GPG key"
-msgstr ""
+msgstr "&GPG-Schlissl"
 
 #: plugins/gpg/gpgcfg.cpp:43
 msgid "GPG(gpg.exe)"
-msgstr ""
+msgstr "GPG(gpg.exe)"
 
 #: plugins/gpg/gpgcfg.cpp:51
-#, fuzzy
 msgid "Select home directory"
-msgstr "Bersenlichs Vrzeichnis sedza"
+msgstr "Bersenlichs Vrzeichnis auswähla"
 
 #: plugins/gpg/gpgcfg.cpp:53
 msgid "Download GPG"
-msgstr ""
+msgstr "GPG ralada"
 
 #: plugins/gpg/gpgcfg.cpp:62
-#, fuzzy
 msgid "&Advanced"
-msgstr "A&bbrecha"
+msgstr "&Erweiderd"
 
 #: plugins/gpg/gpgcfg.cpp:169
-#, fuzzy
 msgid "New"
-msgstr "&Nei"
+msgstr "Nei"
 
 #: plugins/gpg/gpgcfgbase.cpp:96
 msgid "Executable:"
-msgstr ""
+msgstr "Ausfihrbare Dadei:"
 
 #: plugins/gpg/gpgcfgbase.cpp:107
-#, fuzzy
 msgid "Home directory:"
 msgstr "Bersenlichs Vrzeichnis"
 
 #: plugins/gpg/gpgcfgbase.cpp:124
-#, fuzzy
 msgid "&Find"
-msgstr "Finnland"
+msgstr "&Fenda"
 
 #: plugins/gpg/gpgcfgbase.cpp:134
-#, fuzzy
 msgid "Your key:"
-msgstr "Dirkei"
+msgstr "Ihr Schlissl:"
 
 #: plugins/gpg/gpgcfgbase.cpp:143 plugins/gpg/gpguserbase.cpp:77
-#, fuzzy
 msgid "&Refresh"
-msgstr "&Ablehna"
+msgstr "&Akdualisiera"
 
 #: plugins/gpg/gpgadvbase.cpp:66
 msgid "Command arguments"
-msgstr ""
+msgstr "Kommandozeilenargomende"
 
 #: plugins/gpg/gpgadvbase.cpp:74
 msgid "Generate key:"
-msgstr ""
+msgstr "Schlissl gneriera:"
 
 #: plugins/gpg/gpgadvbase.cpp:80
-#, fuzzy
 msgid "List public keys:"
-msgstr "Lischde dr effendlicha Servr"
+msgstr "Lischde dr effendlicha Schlissl:"
 
 #: plugins/gpg/gpgadvbase.cpp:86
 msgid "List secret keys:"
-msgstr ""
+msgstr "Lischde dr gehoima Schlissl:"
 
 #: plugins/gpg/gpgadvbase.cpp:104
 msgid "Import public:"
-msgstr ""
+msgstr "Effendlicha Schlissl embordiera:"
 
 #: plugins/gpg/gpgadvbase.cpp:114
 msgid "Export public:"
-msgstr ""
+msgstr "Effendlicha Schlissl exbordiera:"
 
 #: plugins/gpg/gpgadvbase.cpp:124
-#, fuzzy
 msgid "Encrypt:"
-msgstr "Ägybda"
+msgstr "Vrschlisseln:"
 
 #: plugins/gpg/gpgadvbase.cpp:134
 msgid "Decrypt:"
-msgstr ""
+msgstr "Endschlisseln:"
 
 #: plugins/gpg/gpggenbase.cpp:34
 msgid "Generate key"
-msgstr ""
+msgstr "Schlissl gneriera"
 
 #: plugins/gpg/gpggenbase.cpp:62
-#, fuzzy
 msgid "Comment:"
-msgstr "Client:"
+msgstr "Kommendar:"
 
 #: plugins/gpg/gpguserbase.cpp:66
-#, fuzzy
-msgid "Key:"
+msgid "Schlissl:"
 msgstr "Daschde"
 
 #: sim/api/aboutdata.cpp:287
