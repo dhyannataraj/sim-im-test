@@ -466,7 +466,7 @@ Message *ICQClient::parseExtendedMessage(const char *screen, Buffer &packet, Mes
         string p;
         b.unpackStr32(p);
         return parseContactMessage(p.c_str());
-        <<<<<<< icqmessage.cpp
+        //<<<<<<< icqmessage.cpp
     }
     if (msgType == "Message"){
         string p;
@@ -488,8 +488,8 @@ Message *ICQClient::parseExtendedMessage(const char *screen, Buffer &packet, Mes
         }
         return msg;
     }
-    =======
-    }
+    //=======
+
     if (msgType == "Message"){
         string p;
         b.unpackStr32(p);
@@ -510,7 +510,7 @@ Message *ICQClient::parseExtendedMessage(const char *screen, Buffer &packet, Mes
         }
         return msg;
     }
-    >>>>>>> 1.24.2.1
+    //>>>>>>> 1.24.2.1
     n = msgType.find("File");
 if (n >= 0){
     string fileDescr;
