@@ -433,7 +433,7 @@ static Message *parseAuthRequest(const char *str)
     return m;
 }
 
-Message *ICQClient::parseExtendedMessage(Buffer &packet, MessageId &id, unsigned cookie)
+Message *ICQClient::parseExtendedMessage(const char *screen, Buffer &packet, MessageId &id, unsigned cookie)
 {
     string header;
     packet >> header;
@@ -467,6 +467,26 @@ Message *ICQClient::parseExtendedMessage(Buffer &packet, MessageId &id, unsigned
         b.unpackStr32(p);
         return parseContactMessage(p.c_str());
     }
+	if (msgType == "Message"){
+		string p;
+		b.unpackStr32(p);
+            unsigned long forecolor, backcolor;
+            b >> forecolor >> backcolor;
+            string cap_str;
+            b.unpackStr32(cap_str);
+            Contact *contact;
+            ICQUserData *data = findContact(screen, NULL, true, contact);
+            if (data == NULL)
+                return NULL;
+            Message *msg = parseTextMessage(p.c_str(), cap_str.c_str(), data->Encoding ? data->Encoding : this->data.owner.Encoding);
+            if (msg){
+	            if (forecolor != backcolor){
+		            msg->setForeground(forecolor >> 8);
+			        msg->setBackground(backcolor >> 8);
+				}
+			}
+			return msg;
+	}
     n = msgType.find("File");
     if (n >= 0){
         string fileDescr;
@@ -611,7 +631,7 @@ Message *ICQClient::parseMessage(unsigned short type, const char *screen, string
             break;
         }
     case ICQ_MSGxEXT:
-        msg = parseExtendedMessage(packet, id, cookie);
+        msg = parseExtendedMessage(screen, packet, id, cookie);
         break;
     default:
         log(L_WARN, "Unknown message type %04X", type);

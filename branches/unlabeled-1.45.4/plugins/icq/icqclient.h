@@ -684,7 +684,7 @@ protected:
     void addPluginInfoRequest(unsigned long uin, unsigned plugin_index);
     void sendMTN(const char *screen, unsigned short type);
     void setChatGroup();
-    Message *parseExtendedMessage(Buffer &packet, MessageId &id, unsigned cookie);
+    Message *parseExtendedMessage(const char *screen, Buffer &packet, MessageId &id, unsigned cookie);
     void parsePluginPacket(Buffer &b, unsigned plugin_index, ICQUserData *data, unsigned uin, bool bDirect);
     void pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &b);
     void packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned short &type, unsigned short flags=ICQ_TCPxMSG_NORMAL);
