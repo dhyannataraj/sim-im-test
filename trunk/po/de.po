@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2004-11-17 18:12+0000\n"
-"PO-Revision-Date: 2004-11-23 01:33+0100\n"
-"Last-Translator: Noragen <noragen@gmx.net>\n"
+"PO-Revision-Date: 2005-02-06 22:09+0100\n"
+"Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -8051,7 +8051,7 @@ msgstr "Verärgert"
 
 #: sim/simapi.cpp:699
 msgid "Crying"
-msgstr "Schreiend"
+msgstr "Weinend"
 
 #: sim/simapi.cpp:700
 msgid "Wink"
