@@ -277,7 +277,7 @@ ICQMessage *History::loadMessage(std::fstream &f, string &type, unsigned long id
     type = type.substr(0, pos);
     message_type *t;
     for (t = types; t->type; t++){
-        if (type == t->name) break;
+        if (!strcmp(type.c_str(), t->name)) break;
     }
     if (!t->type) return NULL;
     ICQMessage *msg = NULL;

@@ -211,22 +211,25 @@ bool load(void *_obj, const cfgParam *params, istream &sin, string &nextPart)
         string line;
         getline(sin, line);
         if (line[0] == '['){
-            string name = line.c_str() + 1;
-            char *p = strchr((char*)(name.c_str()), ']');
-            if (p == NULL){
-                log(L_WARN, "Bad string in config %s", line.c_str());
-                return false;
-            }
-            *p = 0;
-            nextPart = name;
-            if (*nextPart.c_str() == 0)
-                return true;
             for (;;){
+                nextPart = line;
+                string name = line.c_str() + 1;
+                char *p = strchr((char*)(name.c_str()), ']');
+                if (p == NULL){
+                    log(L_WARN, "Bad string in config %s", line.c_str());
+                    nextPart = "";
+                    return false;
+                }
+                *p = 0;
+                if (*name.c_str() == 0){
+                    nextPart = "";
+                    return true;
+                }
                 const cfgParam *pp = params;
                 char *obj = (char*)_obj;
                 for (;;){
                     for (; *pp->name; pp++)
-                        if (!strcmp(nextPart.c_str(), pp->name)) break;
+                        if (!strcmp(name.c_str(), pp->name)) break;
                     if (*pp->name) break;
                     if (pp->defValue == 0){
                         return true;
@@ -251,6 +254,7 @@ bool load(void *_obj, const cfgParam *params, istream &sin, string &nextPart)
                 l = (list<unsigned long>*)(obj + pp->offs);
                 l->push_back((unsigned long)o);
                 if (*nextPart.c_str() == 0) break;
+                line = nextPart;
             }
             continue;
         }

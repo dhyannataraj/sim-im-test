@@ -233,10 +233,10 @@ cfgParam ICQUser_Params[] =
         { "PhoneStatusTime", offsetof(ICQUser, PhoneStatusTime), PARAM_ULONG, 0 },
         { "InfoUpdateTime", offsetof(ICQUser, InfoUpdateTime), PARAM_ULONG, 0 },
         { "AlertOverride", offsetof(ICQUser, AlertOverride), PARAM_BOOL, 0 },
-        { "AlertAway", offsetof(ICQUser, AlertAway), PARAM_BOOL, 0 },
-        { "AlertBlink", offsetof(ICQUser, AlertBlink), PARAM_BOOL, 0 },
-        { "AlertSound", offsetof(ICQUser, AlertSound), PARAM_BOOL, 0 },
-        { "AlertOnScreen", offsetof(ICQUser, AlertOnScreen), PARAM_BOOL, 0 },
+        { "AlertAway", offsetof(ICQUser, AlertAway), PARAM_BOOL, 1 },
+        { "AlertBlink", offsetof(ICQUser, AlertBlink), PARAM_BOOL, 1 },
+        { "AlertSound", offsetof(ICQUser, AlertSound), PARAM_BOOL, 1 },
+        { "AlertOnScreen", offsetof(ICQUser, AlertOnScreen), PARAM_BOOL, 1 },
         { "AlertPopup", offsetof(ICQUser, AlertPopup), PARAM_BOOL, 0 },
         { "AlertWindow", offsetof(ICQUser, AlertWindow), PARAM_BOOL, 0 },
         { "AcceptMsgWindow", offsetof(ICQUser, AcceptMsgWindow), PARAM_BOOL, 0 },
@@ -334,11 +334,11 @@ bool Client::load(istream &s, string &nextPart)
     if (!::load(static_cast<ICQClient*>(this), Client_Params, s, nextPart))
         return false;
     for (;;){
-        if (!strcmp(nextPart.c_str(), "ContactList")){
+        if (!strcmp(nextPart.c_str(), "[ContactList]")){
             if (!::load(&contacts, ICQContactList_Params, s, nextPart)) break;
             continue;
         }
-        if (!strcmp(nextPart.c_str(), "Group")){
+        if (!strcmp(nextPart.c_str(), "[Group]")){
             ICQGroup *grp = new ICQGroup;
             if (!::load(grp, ICQGroup_Params, s, nextPart)){
                 delete grp;
@@ -347,7 +347,7 @@ bool Client::load(istream &s, string &nextPart)
             contacts.groups.push_back(grp);
             continue;
         }
-        if (!strcmp(nextPart.c_str(), "User")){
+        if (!strcmp(nextPart.c_str(), "[User]")){
             ICQUser *u = new ICQUser;
             if (!::load(u, ICQUser_Params, s, nextPart)){
                 delete u;

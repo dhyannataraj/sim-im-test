@@ -577,7 +577,7 @@ bool UserBox::load(std::istream &s, string &part)
     int curTab = -1;
     for (;;){
         if (part.size() == 0) break;
-        if (strcmp(part.c_str(), "UserTab"))
+        if (strcmp(part.c_str(), "[UserTab]"))
             break;
         MsgEdit *wnd = getChild(0);
         if (wnd->load(s, part) && (wnd->tab == NULL)){

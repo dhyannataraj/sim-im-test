@@ -732,7 +732,7 @@ bool MainWindow::init()
     }
     for (;;){
         if (part.size() == 0) break;
-        if (!strcmp(part.c_str(), "Floaty")){
+        if (!strcmp(part.c_str(), "[Floaty]")){
             UserFloat *uFloat = new UserFloat;
             if (!uFloat->load(fs, part)){
                 delete uFloat;
@@ -746,7 +746,7 @@ bool MainWindow::init()
 #endif
             continue;
         }
-        if (!strcmp(part.c_str(), "UserBox")){
+        if (!strcmp(part.c_str(), "[UserBox]")){
             UserBox *box = new UserBox;
             if (!box->load(fs, part)){
                 delete box;
