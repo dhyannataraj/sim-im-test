@@ -109,6 +109,17 @@ protected:
     unsigned short m_nPort;
 };
 
+class SMSmessage
+{
+public:
+	QString		str;
+	ICQSMS		*msg;
+	QString chunk(const QString &s, int len);
+	bool isLatin1(const QString &s);
+	string smsChunk();
+	QString trim(const QString &s);
+};
+
 class Client : public QObject, public ICQClient
 {
     Q_OBJECT
@@ -137,6 +148,8 @@ public:
     static string to8Bit(QTextCodec*, const QString&);
     static QString from8Bit(QTextCodec*, const string&, const char *srcCharset=NULL);
 protected:
+	void sendSMS(SMSmessage *sms);
+	list<SMSmessage*> smsQueue;
     list<resolveAddr> resolveQueue;
     QDns *resolver;
 signals:

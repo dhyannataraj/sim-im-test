@@ -425,14 +425,16 @@ void ICQClient::processMsgQueueSMS()
             if ((*p >= '0') && (*p <= '9'))
                 destination += *p;
         }
-        string text = clearHTML(msg->Message.c_str());
+        string text = msg->Message.c_str();
+		translate("utf8", msg->Charset.c_str(), text);
+		text = clearHTML(text);
         string sender = owner->name(true);
         char uin[13];
         snprintf(uin, sizeof(uin), "%lu", owner->Uin);
         xmltree.pushnode(new XmlLeaf("destination",destination));
         xmltree.pushnode(new XmlLeaf("text",text));
         xmltree.pushnode(new XmlLeaf("codepage","1252"));
-        xmltree.pushnode(new XmlLeaf("encoding","urf8"));
+        xmltree.pushnode(new XmlLeaf("encoding","utf8"));
         xmltree.pushnode(new XmlLeaf("senders_UIN",uin));
         xmltree.pushnode(new XmlLeaf("senders_name",sender));
         xmltree.pushnode(new XmlLeaf("delivery_receipt","Yes"));

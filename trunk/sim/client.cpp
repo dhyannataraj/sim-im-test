@@ -19,6 +19,7 @@
 #include "history.h"
 #include "mainwin.h"
 #include "chatwnd.h"
+#include "cuser.h"
 #include "cfg.h"
 #include "log.h"
 #include "ui/filetransfer.h"
@@ -411,6 +412,9 @@ Client::Client(QObject *parent, const char *name)
 
 Client::~Client()
 {
+	for (list<SMSmessage*>::iterator it = smsQueue.begin(); it != smsQueue.end(); ++it){
+		delete (*it);
+	}
     close();
     delete encodings;
     delete resolver;
@@ -493,6 +497,22 @@ void Client::process_event(ICQEvent *e)
             h.remove();
             break;
         }
+	case EVENT_MESSAGE_SEND:
+		    if (e->message()){
+				for (list<SMSmessage*>::iterator it = smsQueue.begin(); it != smsQueue.end(); ++it){
+					if ((*it)->msg == e->message()){
+						SMSmessage *sms = *it;
+						if (e->state == ICQEvent::Success){
+							sendSMS(sms);
+						}else{
+							smsQueue.remove(sms);
+							delete sms;
+						}
+						return;
+					}
+				}
+			}
+			break;
     case EVENT_MESSAGE_RECEIVED:{
             ICQMessage *msg = e->message();
             if (msg == NULL){
@@ -515,8 +535,51 @@ void Client::process_event(ICQEvent *e)
             }else{
                 ICQUser *u = getUser(e->Uin(), true);
                 if (msg->Id == 0){
+					if (msg->Type() == ICQ_MSGxSMS){
+						ICQSMS *sms = static_cast<ICQSMS*>(msg);
+						if (*pMain->ForwardPhone.c_str() && PhoneInfo::isEqual(sms->Phone.c_str(), pMain->ForwardPhone.c_str())){
+							unsigned long uin = atol(sms->Message.c_str());
+							if (uin > 10000){
+								QString msgText = pClient->from8Bit(owner->Uin, sms->Message, msg->Charset.c_str());
+								int pos = msgText.find(':');
+								if (pos >= 0){
+									msgText = msgText.mid(pos+1);
+									ICQMsg *n = new ICQMsg;
+									n->Uin.push_back(uin);
+									n->Message = to8Bit(uin, msgText);
+									n->Charset = userEncoding(uin);
+									sendMessage(n);
+									return;
+								}
+							}
+						}
+					}
                     History h(uin);
-                    msg->Id = h.addMessage(msg);
+                    msg->Id = h.addMessage(msg);					
+					if ((msg->Type() == ICQ_MSGxMSG) &&
+						((owner->uStatus & ICQ_STATUS_NA) || (owner->uStatus & ICQ_STATUS_AWAY)) &&
+						*pMain->ForwardPhone.c_str()){
+						ICQMsg *m = static_cast<ICQMsg*>(msg);
+						QString str = pClient->from8Bit(msg->getUin(), m->Message, msg->Charset.c_str());
+						if (!str.isEmpty()){
+								string text(str.utf8());
+								text = pClient->clearHTML(text);
+							    str = QString::fromUtf8(text.c_str());
+								QString uin = QString::number(msg->getUin());
+								CUser u(msg->getUin());
+								QString name = QString::fromLocal8Bit(u->name(false).c_str());
+								if (name != uin){
+									uin += " ";
+									uin += name;
+								}
+								str = uin + ":\n" + str;
+								SMSmessage *sms = new SMSmessage;
+								sms->str = str;
+								sms->msg = NULL;
+								smsQueue.push_back(sms);
+								sendSMS(sms);
+						}
+					}
                 }else{
                     switch (msg->Type()){
                     case ICQ_MSGxFILE:{
@@ -568,8 +631,8 @@ void Client::process_event(ICQEvent *e)
                             return;
                         }
                         break;
-                    default:
-                        break;
+					default:
+						break;
                     }
                 }
                 u->unreadMsgs.push_back(msg->Id);
@@ -598,6 +661,84 @@ void Client::process_event(ICQEvent *e)
         }
     }
     emit event(e);
+}
+
+void Client::sendSMS(SMSmessage *sms)
+{
+	if (sms->msg){
+		delete sms->msg;
+		sms->msg = NULL;
+	}
+    ICQSMS *m = new ICQSMS;
+    m->Uin.push_back(owner->Uin);
+    m->Message = sms->smsChunk();
+	if (m->Message.length()){
+		m->Phone = pClient->to8Bit(owner->Uin, QString::fromLocal8Bit(pMain->ForwardPhone.c_str()));
+		m->Charset = pClient->userEncoding(owner->Uin);
+		sms->msg = m;
+		pClient->sendMessage(sms->msg);
+	}else{
+		smsQueue.remove(sms);
+		delete m;
+		delete sms;
+	}
+}
+
+QString SMSmessage::chunk(const QString &s, int len)
+{
+    if ((int)s.length() < len) return s;
+    QString res = s.left(len+1);
+    int n = res.length() - 1;
+    for (n = res.length() - 1; n >= 0; n--)
+        if (res[n].isSpace()) break;
+    for (; n >= 0; n--)
+        if (!res[n].isSpace()) break;
+    if (n < 0){
+        res = s.left(len);
+        return res;
+    }
+    res = s.left(n + 1);
+    return res;
+}
+
+bool SMSmessage::isLatin1(const QString &s)
+{
+    for (int n = 0; n < (int)s.length(); n++)
+        if (!s[n].latin1()) return false;
+    return true;
+}
+
+#define MAX_SMS_LEN_LATIN1	160
+#define MAX_SMS_LEN_UNICODE	70
+
+string SMSmessage::smsChunk()
+{
+    string res;
+    if (str.isEmpty()) return res;
+    QString part = chunk(str, MAX_SMS_LEN_LATIN1);
+    if (!isLatin1(part))
+        part = chunk(str, MAX_SMS_LEN_UNICODE);
+    str = trim(str.mid(part.length()));
+    part = part.replace(QRegExp("&"), "&amp;");
+    part = part.replace(QRegExp("\""), "&quot;");
+    part = part.replace(QRegExp("<"), "&lt;");
+    part = part.replace(QRegExp(">"), "&gt;");
+    res = pClient->to8Bit(pClient->owner->Uin, part);
+    return res;
+}
+
+QString SMSmessage::trim(const QString &s)
+{
+    QString res = s;
+    int n;
+    for (n = 0; n < (int)res.length(); n++)
+        if (!res[n].isSpace()) break;
+    if (n) res = res.mid(n);
+    if (res.isEmpty()) return res;
+    for (n = (int)res.length() - 1; n >= 0; n--)
+        if (!res[n].isSpace()) break;
+    if (n < (int)res.length() - 1) res = res.left(n + 1);
+    return res;
 }
 
 void Client::resolve_ready()

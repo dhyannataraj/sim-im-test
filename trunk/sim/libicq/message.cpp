@@ -504,13 +504,10 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
                             return NULL;
                         }
                         ICQSMS *m = new ICQSMS;
+						m->Charset = "utf-8";
                         m->Message = text->getValue();
-                        fromUTF(m->Message, NULL);
-
                         XmlLeaf *sender = sms_message->getLeaf("sender");
                         if (sender != NULL) m->Phone = sender->getValue();
-                        fromUTF(m->Phone, NULL);
-
                         XmlLeaf *senders_network = sms_message->getLeaf("senders_network");
                         if (senders_network != NULL) m->Network = senders_network->getValue();
 
