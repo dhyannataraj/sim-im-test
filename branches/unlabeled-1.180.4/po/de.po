@@ -1391,7 +1391,7 @@ msgstr "Über"
 
 #: plugins/about/about.cpp:39
 msgid "Plugin provides about information"
-msgstr "Plugin stellt die \"Über\" Information bereit"
+msgstr "Plugin stellt die \"Über\"-Information bereit"
 
 #: plugins/about/about.cpp:61
 msgid "&Bug report"
@@ -1448,7 +1448,7 @@ msgstr "Automatischer Weg-Status"
 #: plugins/autoaway/autoaway.cpp:55
 msgid "Plugin provides set away and N/A status after some idle time"
 msgstr ""
-"Das Plugin stellt \"Set Away\" und \"N/A\" Status zur Verfügung nach einer "
+"Das Plugin setzt den Status \"Weg\" und \"N/A\" nach einer "
 "bestimmten Zeit der Nichtbenutzung"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:115
@@ -1582,7 +1582,7 @@ msgstr "SIM-Menü in der Kontrollleiste &anpassen"
 
 #: plugins/filter/filter.cpp:31
 msgid "Plugin provides message filter"
-msgstr "Dieses Plugin stellt Nachrichten Filter bereit"
+msgstr "Dieses Plugin stellt Nachrichten-Filter bereit"
 
 #: plugins/filter/filter.cpp:79 plugins/filter/filtercfg.cpp:40
 msgid "Ignore list"
@@ -1642,7 +1642,7 @@ msgstr "Weiterleiten"
 
 #: plugins/forward/forward.cpp:32
 msgid "Plugin provides messages forwarding on cellular"
-msgstr "Dieses Plugin aktiviert die Nachrichtenweiterleitung an Handy's"
+msgstr "Dieses Plugin aktiviert die Nachrichtenweiterleitung an Handys"
 
 #: plugins/forward/forwardcfgbase.cpp:102
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
@@ -3216,7 +3216,7 @@ msgstr ""
 "Zeichenkette nur dem Anfang der Textzeile an (z.B.: \"b\" würde "
 "Bob,Bill,usw... ergeben.)\"Langsamer\" gleicht die Zeichenkette irgendwo in "
 "der Textzeile an (z.B.: \"b\" würde  Bob, Bill, Caleb, Robbie, usw... "
-"ergeben.)"
+"ergeben)."
 
 #: plugins/jabber/jabbersearch.cpp:161
 msgid "Search Speed"
@@ -3472,7 +3472,7 @@ msgid "Plugin provides on screen notification about messages and contacts status
 msgstr ""
 "Das ist ein Plugin, das Bildschirmbenachrichtigungen betreffend Kontakte "
 "und\n"
-"eingegangene Nachrichten durchführt. (z.B.: Online Benachrichtigung)"
+"eingegangene Nachrichten durchführt (z.B.: Online Benachrichtigung)."
 
 #: plugins/osd/osd.cpp:113
 msgid "&OSD"
@@ -3488,27 +3488,27 @@ msgstr "&Nachrichtenfenster"
 
 #: plugins/osd/osdiface.cpp:32
 msgid "Left-bottom"
-msgstr "Links-unten"
+msgstr "Links unten"
 
 #: plugins/osd/osdiface.cpp:33
 msgid "Left-top"
-msgstr "Links-oben"
+msgstr "Links oben"
 
 #: plugins/osd/osdiface.cpp:34
 msgid "Right-bottom"
-msgstr "Rechts-unten"
+msgstr "Rechts unten"
 
 #: plugins/osd/osdiface.cpp:35
 msgid "Right-top"
-msgstr "Rechts-oben"
+msgstr "Rechts oben"
 
 #: plugins/osd/osdiface.cpp:36
 msgid "Center-bottom"
-msgstr "Mitte-unten"
+msgstr "Mitte unten"
 
 #: plugins/osd/osdiface.cpp:37
 msgid "Center-top"
-msgstr "Mitte-oben"
+msgstr "Mitte oben"
 
 #: plugins/osd/osdiface.cpp:38
 msgid "Center"
@@ -3747,7 +3747,7 @@ msgstr ""
 
 #: plugins/transparent/transparent.cpp:69
 msgid "Plugin provides windows transparency"
-msgstr "Das Plugin unterstützt die Transparenz von Fenstern in Windows"
+msgstr "Das Plugin unterstützt die Transparenz von Fenstern"
 
 #: plugins/transparent/transparentcfgbase.cpp:102
 msgid "Transparency main window:"
