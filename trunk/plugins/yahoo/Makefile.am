@@ -19,7 +19,7 @@ INCLUDES=-I../../sim/api -I../../sim/ui -I../_core $(all_includes)
 yahoo_la_METASOURCES = AUTO
 yahoo_la_LIBADD = ../../sim/api/libsimapi.la $(LIBUI) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(LIB_QT) $(EXTRA_LIBS)
 
-yahoo_la_LDFLAGS = -module -no-undefined -avoid-version $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
+yahoo_la_LDFLAGS = -module -no-undefined -avoid-version $(LIBSSL) $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 install-data-hook:
 	rm -rf $(DESTDIR)$(sim_plugindir)/yahoo.la
