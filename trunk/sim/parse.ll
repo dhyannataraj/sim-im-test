@@ -29,6 +29,8 @@
 #define TAB			7
 #define LONGSPACE	8
 #define SKIP		9
+#define HTTP_URL	10
+#define FTP_URL		11
 #define SMILE		0x100
 
 #define YY_STACK_USED   0
@@ -46,6 +48,8 @@
 
 (http|https|ftp)"://"[A-Za-z0-9/\,\.\?\&:\;\(\)\-_\+\%=~\#]+	{ return URL; }
 (mailto:)?[A-Za-z0-9\-_]+\@([A-Za-z0-9\-]+\.)+[A-Za-z]+		{ return MAIL; }
+"www."[A-Za-z0-9/\,\.\?\&:\;\(\)\-_\+\%=~\#]+				{ return HTTP_URL; }
+"ftp."[A-Za-z0-9/\,\.:\;\-_\+~]+							{ return FTP_URL; }
 "&quot;"						{ return TXT; }
 "&amp;"							{ return TXT; }
 "&lt;"							{ return TXT; }
@@ -195,6 +199,26 @@ QString MainWindow::ParseText(const string &text, bool bIgnoreColors)
 			if (url.substr(0, 7) != "mailto:") 
 				url = string("mailto:") + url;
             res += "<a href=\"";
+            res += url.c_str();
+            res += "\">";
+            res += text.c_str();
+            res += "</a>";
+            break;
+		}
+		case HTTP_URL:{
+			string url = ICQClient::unquoteText(yytext);
+			string text = yytext;
+            res += "<a href=\"http://";
+            res += url.c_str();
+            res += "\">";
+            res += text.c_str();
+            res += "</a>";
+            break;
+		}
+		case FTP_URL:{
+			string url = ICQClient::unquoteText(yytext);
+			string text = yytext;
+            res += "<a href=\"ftp://";
             res += url.c_str();
             res += "\">";
             res += text.c_str();
