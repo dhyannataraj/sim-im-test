@@ -24,6 +24,7 @@
 #include "searchbase.h"
 
 class CorePlugin;
+class ListView;
 
 class SearchDialog : public SearchBase, public EventReceiver
 {
@@ -31,23 +32,23 @@ class SearchDialog : public SearchBase, public EventReceiver
 public:
     SearchDialog();
     ~SearchDialog();
+public slots:
+	void setAdd(bool bAdd);
+	void clientActivated(int);
+	void aboutToShow(QWidget*);
+	void textChanged(const QString&);
+	void toggled(bool);
 signals:
     void finished();
-protected slots:
-    void typeChanged(int);
-    void goNext();
-    void apply();
 protected:
-    virtual void *processEvent(Event*);
-    virtual void closeEvent(QCloseEvent*);
-    virtual void moveEvent(QMoveEvent*);
-    virtual void resizeEvent(QResizeEvent*);
-    vector<Client*> clients;
-    void reject();
-    void accept();
-    void fill();
-    Client	*m_client;
-    QWidget	*m_widget;
+	ListView	*m_result;
+	QWidget		*m_current;
+	void *processEvent(Event*);
+	void resizeEvent(QResizeEvent*);
+	void moveEvent(QMoveEvent*);
+	void closeEvent(QCloseEvent*);
+	void fillClients();
+	bool m_bAdd;
 };
 
 #endif

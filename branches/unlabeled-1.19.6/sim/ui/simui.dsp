@@ -227,6 +227,10 @@ SOURCE=.\qt3\qkeysequence.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\qt3\qregexp.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\qt3\qrichtext.cpp
 # ADD CPP /W3
 # End Source File
@@ -608,6 +612,10 @@ InputName=qkeybutton
 # Begin Source File
 
 SOURCE=.\qt3\qkeysequence.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\qt3\qregexp.h
 # End Source File
 # Begin Source File
 

@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>240</width>
+            <width>236</width>
             <height>439</height>
         </rect>
     </property>
@@ -22,7 +22,7 @@
     <vbox>
         <property>
             <name>margin</name>
-            <number>11</number>
+            <number>0</number>
         </property>
         <property>
             <name>spacing</name>

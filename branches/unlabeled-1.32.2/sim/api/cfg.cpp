@@ -279,6 +279,7 @@ EXPORT string getToken(char const *&p, char c, bool bUnEscape)
             if (!bUnEscape)
                 continue;
             char c = *p;
+			char c1;
             switch (c){
             case 'n':
                 c = '\n';
@@ -289,6 +290,31 @@ EXPORT string getToken(char const *&p, char c, bool bUnEscape)
             case 't':
                 c = '\t';
                 break;
+			case 'x':
+				c = *(++p);
+				if ((c >= '0') && (c <= '9')){
+					c -= '0';
+				}else if ((c >= 'a') && (c <= 'f')){
+					c -= ('a' - 10);
+				}else if ((c >= 'A') && (c <= 'F')){
+					c -= ('A' - 10);
+				}else{
+					--p;
+					break;
+				}
+				c = c << 4;
+				c1 = *(++p);
+				if ((c >= '0') && (c <= '9')){
+					c += c1 - '0';
+				}else if ((c >= 'a') && (c <= 'f')){
+					c += c1 - ('a' - 10);
+				}else if ((c >= 'A') && (c <= 'F')){
+					c += c1 - ('A' - 10);
+				}else{
+					c = 'x';
+					p -= 2;
+					break;
+				}
             }
             if (start != p - 1){
                 string part;

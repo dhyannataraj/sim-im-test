@@ -21,6 +21,14 @@
 #include "simapi.h"
 
 #include <qlineedit.h>
+#include <qvalidator.h>
+#include <qradiobutton.h>
+
+#if COMPAT_QT_VERSION < 0x030000
+#include "qt3/qregexp.h"
+#else
+#include <qregexp.h>
+#endif
 
 class UI_EXPORT IntLineEdit : public QLineEdit
 {
@@ -34,6 +42,46 @@ signals:
 protected:
     void focusOutEvent(QFocusEvent*);
     void keyPressEvent(QKeyEvent*);
+};
+
+#if COMPAT_QT_VERSION < 0x030000
+
+class UI_EXPORT QRegExpValidator : public QValidator
+{
+public:
+	QRegExpValidator(const Qt3::QRegExp& rx, QWidget *parent);
+	virtual State validate(QString &, int&) const;
+protected:
+	Qt3::QRegExp r;
+};
+
+#endif
+
+class UI_EXPORT EMailValidator : public QRegExpValidator
+{
+public:
+	EMailValidator(QWidget *parent);
+};
+
+class UI_EXPORT PhoneValidator : public QRegExpValidator
+{
+public:
+	PhoneValidator(QWidget *parent);
+};
+
+class QGroupBox;
+class QLabel;
+
+class UI_EXPORT GroupRadioButton : public QRadioButton
+{
+	Q_OBJECT
+public:
+	GroupRadioButton(const QString &text, QGroupBox *parent);
+protected slots:
+	void slotToggled(bool);
+protected:
+	bool eventFilter(QObject*, QEvent*);
+	QGroupBox	*m_grp;
 };
 
 #endif

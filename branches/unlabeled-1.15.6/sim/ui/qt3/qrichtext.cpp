@@ -1,5 +1,5 @@
 #/****************************************************************************
-** $Id: qrichtext.cpp,v 1.15 2004-03-16 16:15:30 shutoff Exp $
+** $Id: qrichtext.cpp,v 1.15.6.1 2004-04-13 09:19:04 shutoff Exp $
 **
 ** Implementation of the internal Qt classes dealing with rich text
 **
@@ -577,7 +577,7 @@ value = value * metrics.logicalDpiY() / 75;
         QString s( str );
 #if defined(Q_WS_WIN)
         if ( checkNewLine )
-            s = s.replace( QRegExp( "\\r" ), "" );
+            s = s.replace( ::QRegExp( "\\r" ), "" );
 #endif
         if ( checkNewLine )
             justInsert = s.find( '\n' ) == -1;
@@ -6251,8 +6251,8 @@ formatAgain:
                         format.fn.setWeight( n/8 );
                 } else if ( style.startsWith("font-family:" ) ) {
                     QString family = section(style.mid(12), ",",0,0);
-                    family.replace( QRegExp("\""), " " );
-                    family.replace( QRegExp("\'"), " " );
+                    family.replace( ::QRegExp("\""), " " );
+                    family.replace( ::QRegExp("\'"), " " );
                     family = family.stripWhiteSpace();
                     format.fn.setFamily( family );
                 } else if ( style.startsWith("text-decoration:" ) ) {

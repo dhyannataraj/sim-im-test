@@ -373,6 +373,8 @@ void Container::addUserWnd(UserWnd *wnd, bool bRaise)
 
 void Container::raiseUserWnd(UserWnd *wnd)
 {
+	if (m_tabBar == NULL)
+		return;
     m_tabBar->raiseTab(wnd->id());
     contactSelected(0);
 }

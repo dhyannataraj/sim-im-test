@@ -18,10 +18,19 @@
 #include "search.h"
 #include "usercfg.h"
 #include "core.h"
+#include "listview.h"
+#include "nonim.h"
+#include "searchall.h"
 
 #include <qpixmap.h>
 #include <qpushbutton.h>
 #include <qcombobox.h>
+#include <qwidgetstack.h>
+#include <qlineedit.h>
+#include <qvalidator.h>
+#include <qobjectlist.h>
+
+const unsigned RESULT_ID	= 0x1000;
 
 SearchDialog::SearchDialog()
 {
@@ -29,12 +38,27 @@ SearchDialog::SearchDialog()
     setIcon(Pict("find"));
     setButtonsPict(this);
     setCaption(caption());
-    helpButton()->hide();
-    m_client = (Client*)(-1);
-    m_widget = NULL;
-    fill();
-    connect(cmbType, SIGNAL(activated(int)), this, SLOT(typeChanged(int)));
-    connect(finishButton(), SIGNAL(clicked()), this, SLOT(apply()));
+	m_current = NULL;
+	m_bAdd = true;
+	setAdd(false);
+	btnOptions->setIconSet(*Icon("1downarrow"));
+	btnAdd->setIconSet(*Icon("add"));
+	connect(wndCondition, SIGNAL(aboutToShow(QWidget*)), this, SLOT(aboutToShow(QWidget*)));
+	fillClients();
+	clientActivated(0);
+	connect(cmbClients, SIGNAL(activated(int)), this, SLOT(clientActivated(int)));
+	m_result = new ListView(wndResult);
+	m_result->addColumn(i18n("Nick"));
+	m_result->addColumn(i18n("First name"));
+	m_result->addColumn(i18n("Last name"));
+	m_result->addColumn(i18n("E-mail"));
+	m_result->setShowSortIndicator(true);
+	m_result->setExpandingColumn(3);
+	m_result->setFrameShadow(QFrame::Sunken);
+	m_result->setLineWidth(1);
+	wndResult->addWidget(m_result, RESULT_ID);
+	wndResult->raiseWidget(RESULT_ID);
+	aboutToShow(wndCondition->visibleWidget());
 }
 
 SearchDialog::~SearchDialog()
@@ -42,136 +66,135 @@ SearchDialog::~SearchDialog()
     saveGeometry(this, CorePlugin::m_plugin->data.SearchGeo);
 }
 
-void SearchDialog::moveEvent(QMoveEvent *e)
-{
-    SearchBase::moveEvent(e);
-    saveGeometry(this, CorePlugin::m_plugin->data.SearchGeo);
-}
-
 void SearchDialog::resizeEvent(QResizeEvent *e)
 {
-    SearchBase::resizeEvent(e);
-    saveGeometry(this, CorePlugin::m_plugin->data.SearchGeo);
+	SearchBase::resizeEvent(e);
+	m_result->adjustColumn();
+	if (isVisible())
+		saveGeometry(this, CorePlugin::m_plugin->data.SearchGeo);
 }
 
-void SearchDialog::goNext()
+void SearchDialog::moveEvent(QMoveEvent *e)
 {
-    next();
-}
-
-void *SearchDialog::processEvent(Event *e)
-{
-    if ((e->type() == EventPluginChanged) || (e->type() == EventClientChanged))
-        fill();
-    return NULL;
-}
-
-void SearchDialog::fill()
-{
-    cmbType->clear();
-    clients.clear();
-    int currentItem = -1;
-    for (unsigned i = 0; i < getContacts()->nClients(); i++){
-        Client *client = getContacts()->getClient(i);
-        Protocol *protocol = client->protocol();
-        const CommandDef *descr = protocol->description();
-        if ((descr->flags & PROTOCOL_SEARCH) ||
-                ((descr->flags & PROTOCOL_SEARCH_ONLINE) && (client->getState() == Client::Connected))){
-            unsigned n;
-            for (n = 0; n < i; n++){
-                Client *c = getContacts()->getClient(n);
-                Protocol *p = c->protocol();
-                unsigned flags = p->description()->flags;
-                if ((flags & PROTOCOL_SEARCH) ||
-                        ((flags & PROTOCOL_SEARCH_ONLINE) && (c->getState() == Client::Connected))){
-                    if (p == protocol)
-                        break;
-                }
-            }
-            if (n < i)
-                continue;
-            if (client == m_client)
-                currentItem = cmbType->count();
-            cmbType->insertItem(Pict(descr->icon), i18n(descr->text));
-            clients.push_back(client);
-        }
-    }
-    if (m_client == NULL)
-        currentItem = cmbType->count();
-    cmbType->insertItem(Pict("nonim"), i18n("Non-IM contact"));
-    clients.push_back(NULL);
-    if (currentItem == -1){
-        if (m_widget){
-            while (currentPage() != firstPage)
-                back();
-            removePage(m_widget);
-            delete m_widget;
-            m_widget = NULL;
-        }
-        currentItem = 0;
-    }
-    cmbType->setCurrentItem(currentItem);
-    typeChanged(currentItem);
+	SearchBase::moveEvent(e);
+	if (isVisible())
+		saveGeometry(this, CorePlugin::m_plugin->data.SearchGeo);
 }
 
 void SearchDialog::closeEvent(QCloseEvent *e)
 {
-    SearchBase::closeEvent(e);
-    emit finished();
+	SearchBase::closeEvent(e);
+	emit finished();
 }
 
-void SearchDialog::reject()
+void SearchDialog::setAdd(bool bAdd)
 {
-    SearchBase::reject();
-    emit finished();
+	if (m_bAdd == bAdd)
+		return;
+	m_bAdd = bAdd;
+	QString text;
+	const QIconSet *icon = NULL;
+	if (m_bAdd){
+		icon = Icon("add");
+		text = i18n("&Add");
+	}else{
+		icon = Icon("find");
+		text = i18n("&Search");
+	}
+	btnSearch->setText(text);
+	if (icon)
+		btnSearch->setIconSet(*icon);
 }
 
-void SearchDialog::accept()
+void SearchDialog::fillClients()
 {
-    SearchBase::accept();
-    emit finished();
+	cmbClients->clear();
+	cmbClients->insertItem(Pict("find"), i18n("All networks"));
+	wndCondition->addWidget(new SearchAll(wndCondition), cmbClients->count());
+	cmbClients->insertItem(Pict("nonim"), i18n("Non-IM contact"));
+	wndCondition->addWidget(new NonIM(wndCondition), cmbClients->count());
 }
 
-void SearchDialog::typeChanged(int item)
+void SearchDialog::clientActivated(int n)
 {
-    if ((item < 0) || (item >= (int)clients.size()))
-        return;
-    Client *client = clients[item];
-    if (client){
-        unsigned i;
-        for (i = 0; i < getContacts()->nClients(); i++){
-            if (client == getContacts()->getClient(i))
-                break;
-        }
-        if (i >= getContacts()->nClients())
-            client = NULL;
-    }
-    if (client == m_client)
-        return;
-    m_client = client;
-    if (m_widget){
-        removePage(m_widget);
-        delete m_widget;
-        m_widget = NULL;
-    }
-    if (m_client)
-        m_widget = m_client->searchWindow();
-    if (m_widget){
-        addPage(m_widget, i18n("Search %1") .arg(i18n(m_client->protocol()->description()->text)));
-        setFinishEnabled(firstPage, false);
-    }else{
-        setFinishEnabled(firstPage, true);
-    }
+	wndCondition->raiseWidget(n + 1);
 }
 
-void SearchDialog::apply()
+void SearchDialog::toggled(bool)
 {
-    if ((currentPage() == firstPage) && (m_widget == NULL)){
-        Contact *contact = new Contact;
-        UserConfig *cfg = new UserConfig(contact, NULL);
-        cfg->raisePage(CmdInfo);
-        raiseWindow(cfg);
+	textChanged("");
+}
+
+void *SearchDialog::processEvent(Event *e)
+{
+	switch (e->type()){
+	case EventClientsChanged:
+	case EventClientChanged:
+		fillClients();
+		break;
+	}
+	return NULL;
+}
+
+void SearchDialog::textChanged(const QString&)
+{
+	bool bEnable = false;
+	QObjectList *l = topLevelWidget()->queryList("QLineEdit");
+	QObjectListIt it(*l);
+	QObject *obj;
+	while ((obj=it.current()) != NULL){
+		QLineEdit *edit = static_cast<QLineEdit*>(obj);
+		if (edit->isEnabled()){
+			if (!edit->text().isEmpty()){
+				const QValidator *v = edit->validator();
+				if (v){
+					QString text = edit->text();
+					int pos = 0;
+					if (v->validate(text, pos) == QValidator::Acceptable){
+						bEnable = true;
+					}else{
+						bEnable = false;
+						break;
+					}
+				}else{
+					bEnable = true;
+				}
+			}
+		}
+		++it;
     }
+	delete l;     		
+	btnSearch->setEnabled(bEnable);
+}
+
+void SearchDialog::aboutToShow(QWidget *w)
+{
+	if (m_current){
+		QObjectList *l = m_current->queryList();
+		QObjectListIt it(*l);
+		QObject *obj;
+		while ((obj=it.current()) != NULL){
+			if (obj->inherits("QLineEdit"))
+				disconnect(obj, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
+			if (obj->inherits("QRadioButton"))
+				disconnect(obj, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
+			++it;
+	    }
+		delete l;     		
+	}
+	m_current = w;
+	QObjectList *l = m_current->queryList();
+	QObjectListIt it(*l);
+	QObject *obj;
+	while ((obj=it.current()) != NULL){
+		if (obj->inherits("QLineEdit"))
+			connect(obj, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
+		if (obj->inherits("QRadioButton"))
+			connect(obj, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
+		++it;
+    }
+	delete l;
+	textChanged("");
 }
 
 #ifndef WIN32
