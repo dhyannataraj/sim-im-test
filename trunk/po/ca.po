@@ -5226,7 +5226,7 @@ msgstr ""
 
 #: plugins/zodiak/zodiak.cpp:51
 #, fuzzy
-msgid "Plugin provides show zodiak puctures for date edit"
+msgid "Plugin provides show zodiak pictures for date edit"
 msgstr "Aquest pedaç habilita imatges de fons en el llistat d'usuaris."
 
 #: plugins/zodiak/zodiak.cpp:158

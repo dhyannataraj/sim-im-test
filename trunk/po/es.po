@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the SIM package.
 # Copyright (C) 2004
 #
-# $Id: es.po,v 1.158 2004-07-06 19:43:37 thermoman Exp $
+# $Id: es.po,v 1.159 2004-07-09 10:46:08 thermoman Exp $
 # Jorge Lopez Trescastro <jorge@acm.asoc.fi.upm.es>, 2002, 2003, 2004.
 #
 msgid ""
@@ -4976,7 +4976,7 @@ msgid "Zodiak"
 msgstr "Horóscopo"
 
 #: plugins/zodiak/zodiak.cpp:51
-msgid "Plugin provides show zodiak puctures for date edit"
+msgid "Plugin provides show zodiak pictures for date edit"
 msgstr ""
 
 #: plugins/zodiak/zodiak.cpp:158

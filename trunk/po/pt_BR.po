@@ -6253,7 +6253,7 @@ msgstr ""
 # plugins/background/background.cpp:35
 #: plugins/zodiak/zodiak.cpp:51
 #, fuzzy
-msgid "Plugin provides show zodiak puctures for date edit"
+msgid "Plugin provides show zodiak pictures for date edit"
 msgstr "Este plugin fornece figuras de fundo para a lista de usuários"
 
 #: plugins/zodiak/zodiak.cpp:158

@@ -5110,7 +5110,7 @@ msgid "Zodiak"
 msgstr "Зодіак"
 
 #: plugins/zodiak/zodiak.cpp:51
-msgid "Plugin provides show zodiak puctures for date edit"
+msgid "Plugin provides show zodiak pictures for date edit"
 msgstr ""
 "Модуль забезпечує показ знаків зодіаку в "
 "вікні вводу дати"

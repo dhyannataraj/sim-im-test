@@ -48,7 +48,7 @@ Plugin *createZodiakPlugin(unsigned base, bool, Buffer*)
 static PluginInfo info =
     {
         I18N_NOOP("Zodiak"),
-        I18N_NOOP("Plugin provides show zodiak puctures for date edit"),
+        I18N_NOOP("Plugin provides show zodiak pictures for date edit"),
         VERSION,
         createZodiakPlugin,
         PLUGIN_NOLOAD_DEFAULT
