@@ -71,9 +71,9 @@ void YahooInfo::fill()
     YahooUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
     edtLogin->setText(QString::fromUtf8(data->Login.ptr));
-    edtNick->setText(data->Nick.ptr ? QString::fromUtf8(data->Nick.ptr) : "");
-    edtFirst->setText(data->First.ptr ? QString::fromUtf8(data->First.ptr) : "");
-    edtLast->setText(data->Last.ptr ? QString::fromUtf8(data->Last.ptr) : "");
+    edtNick->setText(data->Nick.ptr ? QString::fromUtf8(data->Nick.ptr) : QString(""));
+    edtFirst->setText(data->First.ptr ? QString::fromUtf8(data->First.ptr) : QString(""));
+    edtLast->setText(data->Last.ptr ? QString::fromUtf8(data->Last.ptr) : QString(""));
     int current = 0;
     const char *text = NULL;
     unsigned long status = STATUS_OFFLINE;
