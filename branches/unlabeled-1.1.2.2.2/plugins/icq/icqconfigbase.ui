@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>254</width>
+            <width>250</width>
             <height>194</height>
         </rect>
     </property>
@@ -317,7 +317,7 @@
                             <string>Automatically &amp;update user info</string>
                         </property>
                     </widget>
-                    <spacer row="2"  column="0" >
+                    <spacer row="3"  column="0" >
                         <property>
                             <name>name</name>
                             <cstring>Spacer4_2</cstring>
@@ -338,6 +338,17 @@
                             </size>
                         </property>
                     </spacer>
+                    <widget row="2"  column="0"  rowspan="1"  colspan="2" >
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkTyping</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Support &amp;typing notification</string>
+                        </property>
+                    </widget>
                 </grid>
             </widget>
         </widget>

@@ -171,20 +171,6 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
             if ((m_send.uin != uin) || !(m_send.id == id))
                 log(L_WARN, "Bad ack sequence");
             if (m_send.msg){
-                <<<<<<< icqicmb.cpp
-                if (m_send.msg->type() == MessageCheckInvisible){
-                    Contact *contact;
-                    ICQUserData *data = findContact(m_send.uin, NULL, false, contact);
-                    if (data && !(bool)(data->bInvisible)) {
-                        data->bInvisible = true;
-                        Event e(EventContactStatus, contact);
-                        e.process();
-                    }
-                    delete m_send.msg;
-                } else {
-                    ackMessage();
-                }
-                =======
                     switch (m_send.msg->type()){
                     case MessageCheckInvisible:{
                             Contact *contact;
@@ -203,7 +189,6 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
                     default:
                         ackMessage();
                     }
-                    >>>>>>> 1.1.2.15.2.1
                 }else{
                     replyQueue.push_back(m_send);
                 }
@@ -901,6 +886,8 @@ void ICQClient::sendAutoReply(unsigned long uin, MessageId id,
 
 void ICQClient::sendMTN(unsigned long uin, unsigned short type)
 {
+	if (!getTypingNotification())
+		return;
     snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_MTN);
     m_socket->writeBuffer << 0x00000000L << 0x00000000L << (unsigned short)0x0001;
     m_socket->writeBuffer.packUin(uin);

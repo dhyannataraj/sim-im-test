@@ -215,6 +215,7 @@ typedef struct ICQClientData
     unsigned	RandomChatGroupCurrent;
     unsigned	SendFormat;
     unsigned	AutoUpdate;
+	unsigned	TypingNotification;
     ICQUserData	owner;
 } ICQClientData;
 
@@ -384,6 +385,7 @@ public:
     PROP_ULONG(RandomChatGroupCurrent);
     PROP_ULONG(SendFormat);
     PROP_BOOL(AutoUpdate);
+	PROP_BOOL(TypingNotification);
     ICQClientData	data;
     QString toUnicode(const char *str, ICQUserData *client_data);
     string fromUnicode(const QString &str, ICQUserData *client_data);

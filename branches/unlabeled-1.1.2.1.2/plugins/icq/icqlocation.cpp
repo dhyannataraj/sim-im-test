@@ -114,7 +114,7 @@ static unsigned char get_ver(const char *&v)
 
 void ICQClient::sendCapability()
 {
-    Buffer cap(6 * sizeof(capability));
+    Buffer cap;
     capability c;
     memcpy(c, capabilities[CAP_SIM], sizeof(c));
     const char *ver = VERSION;
@@ -131,9 +131,12 @@ void ICQClient::sendCapability()
     *(pack_ver++) = os_ver;
     cap.pack((char*)capabilities[CAP_DIRECT], sizeof(capability));
     cap.pack((char*)capabilities[CAP_SRV_RELAY], sizeof(capability));
-    cap.pack((char*)capabilities[CAP_UTF], sizeof(capability));
-    cap.pack((char*)capabilities[CAP_RTF], sizeof(capability));
-    cap.pack((char*)capabilities[CAP_TYPING], sizeof(capability));
+	if (getSendFormat() <= 1)
+		cap.pack((char*)capabilities[CAP_UTF], sizeof(capability));
+	if (getSendFormat() == 0)
+		cap.pack((char*)capabilities[CAP_RTF], sizeof(capability));
+	if (getTypingNotification())
+		cap.pack((char*)capabilities[CAP_TYPING], sizeof(capability));
     cap.pack((char*)c, sizeof(c));
     snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_SETxUSERxINFO);
     m_socket->writeBuffer.tlv(0x0005, cap);

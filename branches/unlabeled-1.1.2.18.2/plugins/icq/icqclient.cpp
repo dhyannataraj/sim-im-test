@@ -243,6 +243,7 @@ static DataDef icqClientData[] =
         { "", DATA_ULONG, 1, 0 },			// RandomChatGroupCurrent
         { "SendFormat", DATA_ULONG, 1, 0 },
         { "AutoUpdate", DATA_BOOL, 1, 1 },
+		{ "TypingNotification", DATA_BOOL, 1, 1 },
         { "", DATA_STRUCT, sizeof(ICQUserData) / sizeof(unsigned), (unsigned)_icqUserData },
         { NULL, 0, 0, 0 }
     };
