@@ -143,7 +143,8 @@ void DirectSocket::connect()
     m_socket->readBuffer.packetStart();
     m_bHeader = true;
     if (m_data->Port == 0){
-        log(L_WARN, "Connect to unknown port");
+		m_state = ConnectFail;
+		m_socket->error_state(I18N_NOOP("Connect to unknown port"));
         return;
     }
     if (m_state == NotConnected){
