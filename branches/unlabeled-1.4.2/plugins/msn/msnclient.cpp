@@ -108,6 +108,7 @@ MSNClient::MSNClient(Protocol *protocol, const char *cfg)
 
 MSNClient::~MSNClient()
 {
+	disconnected();
     free_data(msnClientData, &data);
 }
 
