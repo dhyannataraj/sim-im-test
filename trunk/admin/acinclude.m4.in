@@ -786,15 +786,8 @@ support])
    # darwin requires a poll emulation library
    AC_CHECK_LIB(poll, poll, LIB_POLL="-lpoll")
 
-   # CoreAudio framework
-   AC_CHECK_HEADER(CoreAudio/CoreAudio.h, [
-     AC_DEFINE(HAVE_COREAUDIO, 1, [Define if you have the CoreAudio API])
-     FRAMEWORK_COREAUDIO="-Xlinker -framework -Xlinker CoreAudio"
-   ])
-
    AC_CHECK_RES_INIT
    AC_SUBST(LIB_POLL)
-   AC_SUBST(FRAMEWORK_COREAUDIO)
    LIBSOCKET="$X_EXTRA_LIBS"
    AC_SUBST(LIBSOCKET)
    AC_SUBST(X_EXTRA_LIBS)
@@ -1156,7 +1149,7 @@ AC_DEFUN([KDE_USE_QT],
 AC_ARG_ENABLE(kde,
     AC_HELP_STRING([--disable-kde],[don't use kde]),
     use_kde=$enableval, use_kde=yes)
-if test "$use_kde" = "yes" ; then
+if test "$use_kde" = "yes"; then
   kde_default_bindirs="$KDEDIR/bin /usr/bin /usr/local/bin /opt/local/bin /usr/X11R6/bin /opt/kde/bin /opt/kde3/bin /opt/kde2/bin /usr/kde/bin /usr/local/kde/bin"
   KDE_FIND_PATH(kde-config, KDECONFIG, [$kde_default_bindirs])
   if test "x$KDECONFIG" = "x" ; then
@@ -1165,7 +1158,7 @@ if test "$use_kde" = "yes" ; then
   fi
 fi
 
-if test "$use_kde" = "yes" ; then
+if test "$use_kde" = "yes"; then
 kde_ver_string=`${KDECONFIG} --version | grep KDE | cut -d " " -f 2`
 if test -z "$kde_ver_string"; then
   # Current default Qt version: 3.2
@@ -1746,7 +1739,7 @@ AC_DEFUN([AC_BASE_PATH_KDE],
 [
 AC_REQUIRE([KDE_CHECK_STL])
 AC_REQUIRE([AC_PATH_QT])dnl
-if test "${use_kde}" = "yes"; then
+if test "$use_kde" = "yes"; then
 AC_REQUIRE([KDE_CHECK_LIB64])
 
 AC_CHECK_RPATH
@@ -2055,7 +2048,7 @@ AC_DEFUN([KDE_CREATE_LIBS_ALIASES],
    AC_REQUIRE([K_PATH_X])
 
    AC_REQUIRE([KDE_USE_QT])
-if test $use_kde = "yes" ; then
+if test $use_kde = "yes"; then
 if test $kde_qtver = 3; then
    AC_SUBST(LIB_KDECORE, "-lkdecore")
    AC_SUBST(LIB_KDEUI, "-lkdeui")
@@ -3178,20 +3171,6 @@ AC_DEFUN([KDE_CHECK_TYPES],
   AC_CHECK_SIZEOF(long, 4)dnl
   AC_CHECK_SIZEOF(char *, 4)dnl
 ])dnl
-
-dnl Not used - kept for compat only?
-AC_DEFUN([KDE_DO_IT_ALL],
-[
-AC_CANONICAL_SYSTEM
-AC_ARG_PROGRAM
-AM_INIT_AUTOMAKE($1, $2)
-AM_DISABLE_LIBRARIES
-AC_PREFIX_DEFAULT(${KDEDIR:-/opt/kde3})
-AC_CHECK_COMPILERS
-KDE_PROG_LIBTOOL
-AM_KDE_WITH_NLS
-AC_PATH_KDE
-])
 
 AC_DEFUN([AC_CHECK_RPATH],
 [
