@@ -980,6 +980,7 @@ EXPORT bool makedir(char *p);
 EXPORT void save_state();
 
 EXPORT string number(unsigned n);
+EXPORT string number(int n);
 EXPORT string trim(const char *str);
 EXPORT QString trim(const QString &str);
 EXPORT QString formatDateTime(unsigned long t);
