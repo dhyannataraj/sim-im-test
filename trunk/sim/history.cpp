@@ -461,7 +461,7 @@ void History::iterator::loadBlock()
             continue;
         }
         unsigned long msgId = line_start;
-        if (!f.at(msgId) || !getLine(f, type)) return;
+        if (!f.at(msgId) || !getLine(f, type)) break;
         for (;;){
             bool bExit = false;
             msgId = line_start;
@@ -532,9 +532,9 @@ void History::iterator::loadBlock()
                 msg = NULL;
             }
         }
-        start_block = start;
-        return;
-    }
+		break;
+	}
+    start_block = start;
 }
 
 int History::iterator::progress()

@@ -6,25 +6,25 @@
         <name>name</name>
         <cstring>generalSecurity</cstring>
     </property>
-    <property>
+    <property stdset="1">
         <name>geometry</name>
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>403</width>
+            <width>399</width>
             <height>288</height>
         </rect>
     </property>
-    <property>
+    <property stdset="1">
         <name>caption</name>
         <string>Form1</string>
     </property>
     <vbox>
-        <property>
+        <property stdset="1">
             <name>margin</name>
             <number>11</number>
         </property>
-        <property>
+        <property stdset="1">
             <name>spacing</name>
             <number>6</number>
         </property>
@@ -45,11 +45,11 @@
                     <string>&amp;Security</string>
                 </attribute>
                 <vbox>
-                    <property>
+                    <property stdset="1">
                         <name>margin</name>
                         <number>11</number>
                     </property>
-                    <property>
+                    <property stdset="1">
                         <name>spacing</name>
                         <number>6</number>
                     </property>
@@ -59,7 +59,7 @@
                             <name>name</name>
                             <cstring>chkAuth</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>My &amp;authorization is required before users add me to Contact List</string>
                         </property>
@@ -70,7 +70,7 @@
                             <name>name</name>
                             <cstring>chkHiddenIP</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Don't show my &amp;IP-address</string>
                         </property>
@@ -81,7 +81,7 @@
                             <name>name</name>
                             <cstring>chkWeb</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Allow other to view my &amp;status from the Web</string>
                         </property>
@@ -92,7 +92,7 @@
                             <name>name</name>
                             <cstring>chkBypassAuth</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>I&amp;gnore user authorization</string>
                         </property>
@@ -103,16 +103,16 @@
                             <name>name</name>
                             <cstring>grpDirect</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>title</name>
                             <string>Direct connection</string>
                         </property>
                         <vbox>
-                            <property>
+                            <property stdset="1">
                                 <name>margin</name>
                                 <number>11</number>
                             </property>
-                            <property>
+                            <property stdset="1">
                                 <name>spacing</name>
                                 <number>6</number>
                             </property>
@@ -122,7 +122,7 @@
                                     <name>name</name>
                                     <cstring>btnDAll</cstring>
                                 </property>
-                                <property>
+                                <property stdset="1">
                                     <name>text</name>
                                     <string>Allow &amp;direct connection from any user</string>
                                 </property>
@@ -133,7 +133,7 @@
                                     <name>name</name>
                                     <cstring>btnDContact</cstring>
                                 </property>
-                                <property>
+                                <property stdset="1">
                                     <name>text</name>
                                     <string>Allow direct connection from user listed in &amp;contact list</string>
                                 </property>
@@ -144,7 +144,7 @@
                                     <name>name</name>
                                     <cstring>btnDAuth</cstring>
                                 </property>
-                                <property>
+                                <property stdset="1">
                                     <name>text</name>
                                     <string>Allow direct connection from user &amp;upon authorization</string>
                                 </property>
@@ -185,11 +185,11 @@
                     <string>&amp;Reject</string>
                 </attribute>
                 <vbox>
-                    <property>
+                    <property stdset="1">
                         <name>margin</name>
                         <number>11</number>
                     </property>
-                    <property>
+                    <property stdset="1">
                         <name>spacing</name>
                         <number>6</number>
                     </property>
@@ -199,7 +199,7 @@
                             <name>name</name>
                             <cstring>chkRejectMsg</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Reject &amp;messages from unknown users</string>
                         </property>
@@ -210,7 +210,7 @@
                             <name>name</name>
                             <cstring>chkRejectURL</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Reject &amp;URL from unknown users</string>
                         </property>
@@ -221,7 +221,7 @@
                             <name>name</name>
                             <cstring>chkRejectWeb</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Reject &amp;World Wide pager messages</string>
                         </property>
@@ -232,7 +232,7 @@
                             <name>name</name>
                             <cstring>chkRejectEmail</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Reject &amp;EmailExpress messages</string>
                         </property>
@@ -243,7 +243,7 @@
                             <name>name</name>
                             <cstring>chkRejectOther</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Reject &amp;other messages</string>
                         </property>
@@ -282,11 +282,11 @@
                     <string>Spam &amp;filter</string>
                 </attribute>
                 <vbox>
-                    <property>
+                    <property stdset="1">
                         <name>margin</name>
                         <number>11</number>
                     </property>
-                    <property>
+                    <property stdset="1">
                         <name>spacing</name>
                         <number>6</number>
                     </property>
@@ -296,7 +296,7 @@
                             <name>name</name>
                             <cstring>lblFilter</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Reject messages from unknown users contains this words or phrases:</string>
                         </property>
@@ -314,13 +314,20 @@
                             <name>name</name>
                             <cstring>TextLabel1</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Words are divided by any separators (space, comma, i.e.)
 Phrase (sequence of words) consists in quotas
 Words can contain wildcards:
 * - any amount of symbols (or is empty)
 ? - any symbol</string>
+                        </property>
+                        <property stdset="1">
+                            <name>alignment</name>
+                            <set>WordBreak|AlignVCenter|AlignLeft</set>
+                        </property>
+                        <property>
+                            <name>wordwrap</name>
                         </property>
                     </widget>
                 </vbox>
@@ -336,11 +343,11 @@ Words can contain wildcards:
                     <string>&amp;Password</string>
                 </attribute>
                 <grid>
-                    <property>
+                    <property stdset="1">
                         <name>margin</name>
                         <number>11</number>
                     </property>
-                    <property>
+                    <property stdset="1">
                         <name>spacing</name>
                         <number>6</number>
                     </property>
@@ -350,18 +357,18 @@ Words can contain wildcards:
                             <name>name</name>
                             <cstring>TextLabel1_2</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>sizePolicy</name>
                             <sizepolicy>
                                 <hsizetype>1</hsizetype>
                                 <vsizetype>5</vsizetype>
                             </sizepolicy>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>New password:</string>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>alignment</name>
                             <set>AlignVCenter|AlignRight</set>
                         </property>
@@ -378,18 +385,18 @@ Words can contain wildcards:
                             <name>name</name>
                             <cstring>TextLabel2</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>sizePolicy</name>
                             <sizepolicy>
                                 <hsizetype>1</hsizetype>
                                 <vsizetype>1</vsizetype>
                             </sizepolicy>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Retype new password:</string>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>alignment</name>
                             <set>AlignVCenter|AlignRight</set>
                         </property>

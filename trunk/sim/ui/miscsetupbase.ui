@@ -6,25 +6,25 @@
         <name>name</name>
         <cstring>miscSetup</cstring>
     </property>
-    <property>
+    <property stdset="1">
         <name>geometry</name>
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>354</width>
+            <width>350</width>
             <height>229</height>
         </rect>
     </property>
-    <property>
+    <property stdset="1">
         <name>caption</name>
         <string>Form1</string>
     </property>
     <vbox>
-        <property>
+        <property stdset="1">
             <name>margin</name>
             <number>11</number>
         </property>
-        <property>
+        <property stdset="1">
             <name>spacing</name>
             <number>6</number>
         </property>
@@ -45,11 +45,11 @@
                     <string>&amp;Miscelanious</string>
                 </attribute>
                 <vbox>
-                    <property>
+                    <property stdset="1">
                         <name>margin</name>
                         <number>11</number>
                     </property>
-                    <property>
+                    <property stdset="1">
                         <name>spacing</name>
                         <number>6</number>
                     </property>
@@ -59,7 +59,7 @@
                             <name>name</name>
                             <cstring>TextLabel3</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Browser program path:</string>
                         </property>
@@ -77,7 +77,7 @@
                             <name>name</name>
                             <cstring>TextLabel1</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Email client:</string>
                         </property>
@@ -93,6 +93,108 @@
                         <property>
                             <name>name</name>
                             <cstring>Spacer4</cstring>
+                        </property>
+                        <property>
+                            <name>orientation</name>
+                            <enum>Vertical</enum>
+                        </property>
+                        <property>
+                            <name>sizeType</name>
+                            <enum>Expanding</enum>
+                        </property>
+                        <property>
+                            <name>sizeHint</name>
+                            <size>
+                                <width>20</width>
+                                <height>20</height>
+                            </size>
+                        </property>
+                    </spacer>
+                </vbox>
+            </widget>
+            <widget>
+                <class>QWidget</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>tabAddressBook</cstring>
+                </property>
+                <attribute>
+                    <name>title</name>
+                    <string>&amp;Addressbook synchronization</string>
+                </attribute>
+                <vbox>
+                    <property stdset="1">
+                        <name>margin</name>
+                        <number>11</number>
+                    </property>
+                    <property stdset="1">
+                        <name>spacing</name>
+                        <number>6</number>
+                    </property>
+                    <widget>
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkSync</cstring>
+                        </property>
+                        <property stdset="1">
+                            <name>text</name>
+                            <string>A&amp;utomatically add new user to KAddressBook</string>
+                        </property>
+                    </widget>
+                    <widget>
+                        <class>QLayoutWidget</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>Layout1</cstring>
+                        </property>
+                        <hbox>
+                            <property stdset="1">
+                                <name>margin</name>
+                                <number>0</number>
+                            </property>
+                            <property stdset="1">
+                                <name>spacing</name>
+                                <number>6</number>
+                            </property>
+                            <spacer>
+                                <property>
+                                    <name>name</name>
+                                    <cstring>Spacer2</cstring>
+                                </property>
+                                <property>
+                                    <name>orientation</name>
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property>
+                                    <name>sizeType</name>
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property>
+                                    <name>sizeHint</name>
+                                    <size>
+                                        <width>20</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                            <widget>
+                                <class>QPushButton</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>btnSync</cstring>
+                                </property>
+                                <property stdset="1">
+                                    <name>text</name>
+                                    <string>&amp;Synchronize now</string>
+                                </property>
+                            </widget>
+                        </hbox>
+                    </widget>
+                    <spacer>
+                        <property>
+                            <name>name</name>
+                            <cstring>Spacer3</cstring>
                         </property>
                         <property>
                             <name>orientation</name>
