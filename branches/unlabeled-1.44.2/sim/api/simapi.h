@@ -688,10 +688,10 @@ const unsigned EventCommonTitle		= 0x0921;
 
 typedef struct addContact
 {
-    const char		*proto;
-    const char		*addr;
-    const char		*nick;
-    unsigned		group;
+	const char		*proto;
+	const char		*addr;
+	const char		*nick;
+	unsigned		group;
 } addContact;
 
 /* Event for add contact
