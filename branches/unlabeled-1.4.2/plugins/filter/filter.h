@@ -45,6 +45,7 @@ protected:
     unsigned user_data_id;
     unsigned CmdIgnoreList;
     unsigned CmdIgnore;
+	unsigned CmdIgnoreText;
     virtual void *processEvent(Event*);
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual string getConfig();
