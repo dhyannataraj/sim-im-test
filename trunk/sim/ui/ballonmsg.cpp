@@ -249,6 +249,7 @@ BalloonMsg::~BalloonMsg()
 {
     if (!m_bYes)
         emit no_action(m_param);
+    emit destroyed();
 }
 
 bool BalloonMsg::eventFilter(QObject *o, QEvent *e)

@@ -287,7 +287,7 @@ typedef struct ListUserData
 {
     unsigned	OfflineOpen;
     unsigned	OnlineOpen;
-	unsigned	ShowAllways;
+	unsigned	ShowAlways;
 } ListUserData;
 */
 
@@ -295,7 +295,7 @@ static DataDef listUserData[] =
     {
         { "OfflineOpen", DATA_BOOL, 1, 1 },
         { "OnlineOpen", DATA_BOOL, 1, 1 },
-        { "ShowAllways", DATA_BOOL, 1, 0 },
+        { "ShowAlways", DATA_BOOL, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -902,8 +902,8 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     cmd->flags		= COMMAND_DEFAULT;
     eCmd.process();
 
-    cmd->id			= CmdShowAllways;
-    cmd->text		= I18N_NOOP("Show &allways");
+    cmd->id			= CmdShowAlways;
+    cmd->text		= I18N_NOOP("Show &always");
     cmd->icon		= NULL;
     cmd->menu_grp	= 0x8003;
     cmd->accel		= NULL;

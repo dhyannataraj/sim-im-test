@@ -107,7 +107,7 @@ void *FetchManager::processEvent(Event *e)
     if (e->type() == EventClientsChanged){
         for (list<FetchClient*>::iterator it = m_clients.begin(); it != m_clients.end();){
             if ((*it)->m_client){
-		unsigned i;
+                unsigned i;
                 for (i = 0; i < getContacts()->nClients(); i++){
                     if (getContacts()->getClient(i) == (*it)->m_client)
                         break;
@@ -233,7 +233,7 @@ bool FetchClient::error_state(const char *err, unsigned)
 void FetchClient::connect_ready()
 {
 #ifdef USE_OPENSSL
-    if (m_state == None){
+    if ((m_state == None) & m_bHTTPS){
         m_socket->setRaw(true);
         m_socket->readBuffer.init(0);
         HTTPSClient *https = new HTTPSClient(m_socket->socket());

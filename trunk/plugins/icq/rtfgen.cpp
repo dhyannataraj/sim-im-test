@@ -127,7 +127,7 @@ string RTFGenParser::parse(const QString &text)
     m_codec = NULL;
     if (charset){
         for (const ENCODING *c = ICQClient::encodings; c->language; c++){
-            if (c->rtf_code == charset){
+            if ((c->rtf_code == charset) && c->bMain){
                 send_encoding = c->codec;
                 m_codec = m_client->getCodec(send_encoding);
                 break;

@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>324</width>
+            <width>320</width>
             <height>140</height>
         </rect>
     </property>
@@ -50,7 +50,7 @@
             </property>
             <property>
                 <name>text</name>
-                <string>&amp;Container allways on top</string>
+                <string>&amp;Container always on top</string>
             </property>
         </widget>
         <spacer>

@@ -144,7 +144,7 @@ typedef struct ListUserData
 {
     unsigned	OfflineOpen;
     unsigned	OnlineOpen;
-    unsigned	ShowAllways;
+    unsigned	ShowAlways;
 } ListUserData;
 
 class ClientList : public vector<Client*>
@@ -228,7 +228,7 @@ const unsigned	CmdPhoneNoShow			= (CmdBase + 74);
 const unsigned	CmdPhoneAvailable		= (CmdBase + 75);
 const unsigned	CmdPhoneBusy			= (CmdBase + 76);
 const unsigned  CmdPhoneBook			= (CmdBase + 77);
-const unsigned	CmdShowAllways			= (CmdBase + 78);
+const unsigned	CmdShowAlways			= (CmdBase + 78);
 
 const unsigned	CmdContactGroup			= (CmdBase + 0x100);
 const unsigned	CmdUnread				= (CmdBase + 0x200);
