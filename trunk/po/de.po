@@ -4356,67 +4356,75 @@ msgstr "Dateien überschreiben"
 msgid "Auto decline"
 msgstr "Automatisch ablehnen"
 
-#: ui/fontsetupbase.cpp:222
+#: ui/fontsetupbase.cpp:241
 msgid "Mode"
 msgstr "Modus"
 
-#: ui/fontsetupbase.cpp:223
+#: ui/fontsetupbase.cpp:242
 msgid "Split mode (&Chat style)"
 msgstr "Chatmodus (&Zwei-Fenster-Modus)"
 
-#: ui/fontsetupbase.cpp:224
+#: ui/fontsetupbase.cpp:243
 msgid "Simple mode (&Plain style)"
 msgstr "Nachrichtenmodus (&Ein-Fenster-Modus)"
 
-#: ui/fontsetupbase.cpp:226
+#: ui/fontsetupbase.cpp:245
 msgid "last messages from history to conversation"
 msgstr "Letzte Nachrichten vom Verlauf zur Unterhaltung"
 
-#: ui/fontsetupbase.cpp:228
+#: ui/fontsetupbase.cpp:247
 msgid "&Each user in new container"
 msgstr "&Jeder Benutzer in einem neuem Container"
 
-#: ui/fontsetupbase.cpp:229
+#: ui/fontsetupbase.cpp:248
 msgid "&New container for group"
 msgstr "&Neuer Container für Gruppe"
 
-#: ui/fontsetupbase.cpp:230
+#: ui/fontsetupbase.cpp:249
 msgid "&All users in one container"
 msgstr "&Alle Benutzer in einen Container"
 
-#: ui/fontsetupbase.cpp:231
+#: ui/fontsetupbase.cpp:250
 msgid "&User window"
 msgstr "&Benutzerfenster"
 
-#: ui/fontsetupbase.cpp:232
+#: ui/fontsetupbase.cpp:251
 msgid "&Use systems fonts"
 msgstr "Systemschriftarten &benutzen"
 
-#: ui/fontsetupbase.cpp:233
+#: ui/fontsetupbase.cpp:252
 msgid "Base font"
 msgstr "Basisschriftart"
 
-#: ui/fontsetupbase.cpp:234
+#: ui/fontsetupbase.cpp:253
 msgid "Menu font"
 msgstr "Menüschriftart"
 
-#: ui/fontsetupbase.cpp:235
+#: ui/fontsetupbase.cpp:254
 msgid "Fonts"
 msgstr "Schriftart"
 
-#: ui/fontsetupbase.cpp:236
+#: ui/fontsetupbase.cpp:256
 msgid "Use &own colors and fonts settings"
 msgstr "&Eigene Farben und Schriften benutzen"
 
-#: ui/fontsetupbase.cpp:237
-msgid "Received messages color"
-msgstr "Farbe für emfangene Nachrichten"
-
-#: ui/fontsetupbase.cpp:238
+#: ui/fontsetupbase.cpp:256
 msgid "Sending messages color"
 msgstr "Farbe für gesendete Nachrichten"
 
-#: ui/fontsetupbase.cpp:239
+#: ui/fontsetupbase.cpp:257
+msgid "Received messages color"
+msgstr "Farbe für emfangene Nachrichten"
+
+#: ui/fontsetupbase.cpp:258
+msgid "Receivers color"
+msgstr "Farbe des Empfängers"
+
+#: ui/fontsetupbase.cpp:259
+msgid "Senders color"
+msgstr "Farbe des Senders"
+
+#: ui/fontsetupbase.cpp:260
 msgid "&Colors"
 msgstr "&Farben"
 
