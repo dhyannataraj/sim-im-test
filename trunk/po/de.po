@@ -1934,14 +1934,14 @@ msgstr "&Name"
 #: plugins/icq/icqsearchbase.cc:130
 #: plugins/jabber/jabberaddbase.cpp:97
 msgid "First:"
-msgstr "Erste:"
+msgstr "Vorname:"
 
 #: plugins/_core/searchallbase.cpp:87
 #: plugins/icq/aimsearchbase.cc:164
 #: plugins/icq/icqsearchbase.cc:131
 #: plugins/jabber/jabberaddbase.cpp:98
 msgid "Last:"
-msgstr "Letzte:"
+msgstr "Nachname:"
 
 #: plugins/_core/searchallbase.cpp:88
 #: plugins/icq/aiminfobase.cc:260
@@ -1953,7 +1953,7 @@ msgstr "Letzte:"
 #: plugins/msn/msninfobase.cpp:131
 #: plugins/yahoo/yahooinfobase.cpp:153
 msgid "Nick:"
-msgstr "Nickname:"
+msgstr "Spitzname:"
 
 #: plugins/icq/icqsearchbase.cc:133
 msgid "AOL s&creenname"
@@ -6293,7 +6293,8 @@ msgstr "%1 bereits in Kontaktliste"
 msgid ""
 "_n: %n contact found\n"
 "%n contacts found"
-msgstr "%n Kontakte gefunden"
+msgstr "%n Kontakt gefunden\n"
+"%n Kontake gefunden"
 
 #: plugins/_core/autoreplybase.cpp:88
 msgid "Don't show this dialog"
@@ -8511,7 +8512,7 @@ msgstr "Früh"
 msgid ""
 "_: weather\n"
 "Late"
-msgstr "Spät"
+msgstr "Abends"
 
 #: plugins/weather/weather.cpp:587
 #: plugins/weather/weather.cpp:589
