@@ -1,18 +1,19 @@
+# translation of es.po to 
 # translation of es.po to Español
 # Translation to Spanish
 # This file is distributed under the same license as the SIM package.
 # Copyright (C) 2004
 #
-# $Id: es.po,v 1.133 2004-04-19 09:16:48 shutoff Exp $
+# $Id: es.po,v 1.134 2004-04-19 10:56:05 jorgelt Exp $
 # Jorge Lopez Trescastro <jorge@acm.asoc.fi.upm.es>, 2002, 2003, 2004.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: SIM\n"
+"Project-Id-Version: es\n"
 "POT-Creation-Date: 2004-04-19 13:06+0400\n"
-"PO-Revision-Date: 2004-04-18 02:53+0200\n"
-"Last-Translator: Jorge Lopez Trescastro\n"
-"Language-Team: sim-es <jorge@acm.asoc.fi.upm.es>\n"
+"PO-Revision-Date: 2004-04-19 12:53+0200\n"
+"Last-Translator: \n"
+"Language-Team:  <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2218,9 +2219,8 @@ msgstr "directorio &Hotmail"
 #: plugins/icq/icqsearch.cpp:173 plugins/jabber/jabberadd.cpp:126
 #: plugins/livejournal/journalsearch.cpp:42 plugins/msn/msnsearch.cpp:61
 #: plugins/yahoo/yahoosearch.cpp:84
-#, fuzzy
 msgid "%1 already in contact list"
-msgstr "Guardar teléfono en lista de contactos"
+msgstr "%1 ya está en la lista de contactos"
 
 #: plugins/_core/nonimbase.cpp:93 plugins/_core/pagerbase.cpp:87
 #: plugins/_core/userviewcfgbase.cpp:247 plugins/filter/ignorelistbase.cpp:54
@@ -2477,8 +2477,7 @@ msgstr "Migrar"
 
 #: plugins/__migrate/migrate.cpp:36
 msgid "Plugin provides convert configuration and history from SIM 0.8"
-msgstr ""
-"Este plugin permite convertir la configuración y el historial de SIM 0.8"
+msgstr "Este plugin permite convertir la configuración y el historial de SIM 0.8"
 
 #: plugins/__migrate/migratedlg.cpp:78
 msgid "Cancel convert?"
@@ -3238,9 +3237,8 @@ msgid "Search"
 msgstr "Búsqueda"
 
 #: plugins/_core/search.cpp:62
-#, fuzzy
 msgid "Results"
-msgstr "Predeterminado"
+msgstr "Resultados"
 
 #: plugins/_core/maininfobase.cpp:193 plugins/_core/maininfobase.cpp:203
 #: plugins/_core/search.cpp:118 plugins/action/menucfgbase.cpp:68
@@ -3269,13 +3267,13 @@ msgid "Not in list"
 msgstr "No está en la lista"
 
 #: plugins/_core/search.cpp:440
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: %n contact found\n"
 "%n contacts found"
 msgstr ""
-"Petición de contacto\n"
-"%n peticiones de contacto"
+"%n contacto encontrado\n"
+"%n contactos encontrados"
 
 #: plugins/_core/status.cpp:72 plugins/_core/statuswnd.cpp:86
 #: plugins/dock/dock.cpp:183
@@ -4146,10 +4144,8 @@ msgid "Set \"Offline\" status after"
 msgstr "Establecer estado \"Desconectado\" después de"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:109
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
-msgstr ""
-"Desactivar alertas en \"Ausente\", \"N/D\", \"No molestar\" y \"Ocupado\""
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgstr "Desactivar alertas en \"Ausente\", \"N/D\", \"No molestar\" y \"Ocupado\""
 
 #: plugins/autoaway/autoaway.cpp:66
 msgid "AutoAway"
@@ -4445,8 +4441,7 @@ msgstr "GPG"
 
 #: plugins/gpg/gpg.cpp:54
 msgid "Plugin adds GnuPG encryption/decryption support for messages"
-msgstr ""
-"Este plugin añade soporte GnuPG para encriptar/desencriptar los mensajes"
+msgstr "Este plugin añade soporte GnuPG para encriptar/desencriptar los mensajes"
 
 #: plugins/gpg/gpg.cpp:78
 msgid ""
@@ -4998,7 +4993,7 @@ msgstr "La Imagen no puede ocupar mas de 7 kbytes"
 
 #: plugins/icq/icqpicture.cpp:136 plugins/jabber/jabberpicture.cpp:138
 msgid "Picture is not available"
-msgstr "Fotografía no disponible"
+msgstr "Imagen no disponible"
 
 #: plugins/icq/icqsearch.cpp:44 plugins/icq/icqsearch.cpp:60
 msgid "AIM s&creenname"
@@ -5028,26 +5023,22 @@ msgid "City"
 msgstr "Ciudad"
 
 #: plugins/icq/icqsearch.cpp:302
-#, fuzzy
 msgid "State"
-msgstr "Estado:"
+msgstr "Estado"
 
 #: plugins/icq/icqsearch.cpp:303
-#, fuzzy
 msgid "Country"
-msgstr "País:"
+msgstr "País"
 
 #: plugins/icq/icqsearch.cpp:305 plugins/jabber/jabbersearch.cpp:216
 msgid "Gender"
 msgstr "Género:"
 
 #: plugins/icq/icqsearch.cpp:306
-#, fuzzy
 msgid "Age"
-msgstr "Edad:"
+msgstr "Edad"
 
 #: plugins/icq/icqsearch.cpp:307 plugins/jabber/jabberadd.cpp:260
-#, fuzzy
 msgid "E-Mail"
 msgstr "EMail"
 
@@ -6180,7 +6171,7 @@ msgstr "&AIM"
 
 #: plugins/icq/icqclient.cpp:294
 msgid "Dear translator! type this default encdoing for your language"
-msgstr ""
+msgstr "CP 1252"
 
 #: plugins/icq/icqclient.cpp:348
 msgid "Process message failed"
@@ -6447,10 +6438,8 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:71
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
-msgstr ""
-"Este plugin notifica por pantalla los mensajes y el estado de los contactos"
+msgid "Plugin provides on screen notification about messages and contacts status"
+msgstr "Este plugin notifica por pantalla los mensajes y el estado de los contactos"
 
 #: plugins/osd/osd.cpp:140
 msgid "&OSD"
@@ -6598,11 +6587,11 @@ msgstr "Este plugin proporciona control remoto"
 
 #: plugins/remote/remotecfgbase.cpp:105
 msgid "Use &UNIX socket"
-msgstr "Usar puerto &UNIX"
+msgstr "Usar socket &UNIX"
 
 #: plugins/remote/remotecfgbase.cpp:107 plugins/remote/remotecfgbase.cpp:108
 msgid "Use &TCP socket"
-msgstr "Usar puerto &TCP"
+msgstr "Usar socket &TCP"
 
 #: plugins/remote/remotecfgbase.cpp:109
 msgid "Enable IE context emnu extension"
@@ -6676,8 +6665,7 @@ msgstr "Alerta en linea"
 
 #: plugins/sound/sound.cpp:47
 msgid "Plugin provides sounds on any events"
-msgstr ""
-"Este plugin habilita la reproducción de sonidos tras producirse un evento"
+msgstr "Este plugin habilita la reproducción de sonidos tras producirse un evento"
 
 #: plugins/sound/sound.cpp:129 plugins/sound/sound.cpp:137
 msgid "&Sound"
@@ -6725,8 +6713,7 @@ msgstr "Splash"
 
 #: plugins/splash/splash.cpp:35
 msgid "Plugin provides splash screen"
-msgstr ""
-"Este plugin activa una pantalla de bienvenida al arrancar la aplicación"
+msgstr "Este plugin activa una pantalla de bienvenida al arrancar la aplicación"
 
 #: plugins/transparent/transparent.cpp:65
 msgid "Transparent"
@@ -8061,10 +8048,8 @@ msgid "Navigate"
 msgstr "Navegar"
 
 #: plugins/navigate/navigate.cpp:214
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
-msgstr ""
-"Este plugin le permite establecer el navegador y el cliente de correo a usar"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgstr "Este plugin le permite establecer el navegador y el cliente de correo a usar"
 
 #: plugins/navigate/navigate.cpp:262
 msgid "Send mail"
@@ -8157,8 +8142,7 @@ msgstr "Reemplazar texto"
 
 #: plugins/replace/replace.cpp:34
 msgid "Plugin provides text replacing in message edit window"
-msgstr ""
-"Este plugin le permite reemplazar el texto a enviar en la ventana de mensajes"
+msgstr "Este plugin le permite reemplazar el texto a enviar en la ventana de mensajes"
 
 #: plugins/replace/replacecfg.cpp:31
 msgid "You type"
@@ -8662,5 +8646,3 @@ msgstr "Días de pronóstico:"
 msgid "Units:"
 msgstr "Unidades:"
 
-#~ msgid "Homepage"
-#~ msgstr "Página web:"
