@@ -1201,17 +1201,23 @@ SmilePopup::SmilePopup(QWidget *popup)
             break;
         if (*p == 0)
             continue;
-        string b = "smile";
-        b += number(i);
-        const QIconSet *is = Icon(b.c_str());
+		char b[20];
+		sprintf(b, "smile%X", i);
+        const QIconSet *is = Icon(b);
         if (is == NULL)
             continue;
         const QPixmap &pict  = is->pixmap(QIconSet::Small, QIconSet::Normal);
         s = QSize(QMAX(s.width(), pict.width()), QMAX(s.height(), pict.height()));
         nSmiles++;
     }
-    unsigned size = (nSmiles + 3) / 4;
-    QGridLayout *lay = new QGridLayout(this, 4, size);
+	unsigned rows = 4;
+    unsigned cols = (nSmiles + 3) / 4;
+	if (cols > 8){
+		cols = 8;
+		rows = (nSmiles + 7) / cols;
+	}
+
+    QGridLayout *lay = new QGridLayout(this, rows, cols);
     lay->setMargin(4);
     lay->setSpacing(2);
     i = 0;
@@ -1228,7 +1234,7 @@ SmilePopup::SmilePopup(QWidget *popup)
         w->setMinimumSize(s);
         connect(w, SIGNAL(clicked(int)), this, SLOT(labelClicked(int)));
         lay->addWidget(w, i, j);
-        if (++j >= size){
+        if (++j >= cols){
             i++;
             j = 0;
         }
