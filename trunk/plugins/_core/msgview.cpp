@@ -1248,10 +1248,12 @@ void ViewParser::text(const QString &text)
 
     if (m_bInParagraph && (m_paragraphDir == DirAuto))
     {
-        for(const QChar* c = text.unicode(); !c->isNull() && (m_paragraphDir == DirAuto); ++c)
+        /* text isn't (unicode)-NULL terminated so we can't check for c->isNull! */
+        for(unsigned int i = 0; ((i < text.length()) && (m_paragraphDir == DirAuto)); i++)
         {
+            const QChar c = text.unicode()[i];
             // Note: Qt expects ltr/rtl to be lower-case.
-            switch(c->direction())
+            switch(c.direction())
             {
             case QChar::DirL:
                 res.insert(m_paraDirInsertionPos, " dir=\"ltr\"");
