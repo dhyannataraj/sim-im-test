@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2003-07-26 00:43+0400\n"
-"PO-Revision-Date: 2003-07-24 19:11GMT\n"
+"PO-Revision-Date: 2003-07-25 23:38GMT\n"
 "Last-Translator: Crissi <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1469,8 +1469,7 @@ msgstr "\"N/A\"-Status setzen wenn"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:119
 #: plugins/sound/soundconfigbase.cpp:166
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -1605,8 +1604,7 @@ msgstr "Nachrichten nur von &Benutzern der Kontaktliste empfangen"
 
 #: plugins/filter/filtercfgbase.cpp:98
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: plugins/filter/filtercfgbase.cpp:99
 msgid ""
@@ -1628,8 +1626,7 @@ msgstr "Floatings"
 
 #: plugins/floaty/floaty.cpp:44
 msgid "Plugin provides floating windows for contacts"
-msgstr ""
-"Das Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
+msgstr "Das Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
 
 #: plugins/floaty/floaty.cpp:91 plugins/floaty/floaty.cpp:165
 msgid "Floating on"
@@ -1649,8 +1646,7 @@ msgstr "Dieses Plugin aktiviert die Nachrichtenweiterleitung an Handy's"
 
 #: plugins/forward/forwardcfgbase.cpp:102
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
-"Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
+msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
 
 #: plugins/forward/forwardcfgbase.cpp:103
 msgid ""
@@ -1731,9 +1727,8 @@ msgid "&Add to group"
 msgstr "Zu einer Gruppe hinzu&fügen"
 
 #: plugins/icq/icqdirect.cpp:158
-#, fuzzy
 msgid "Connect to unknown port"
-msgstr "Verbunden mit Host"
+msgstr "Zu unbekanntem Port verbinden"
 
 #: plugins/icq/icqdirect.cpp:186
 msgid "Can't established direct connection"
@@ -1864,7 +1859,7 @@ msgstr "Registriert in einem nicht registrierten Zustand"
 
 #: plugins/icq/icqlogin.cpp:193
 msgid "Too many clients from same IP"
-msgstr ""
+msgstr "Zuviele Clients mit der gleichen IP"
 
 #: plugins/icq/icqlogin.cpp:197
 msgid "Rate limit"
@@ -1875,9 +1870,8 @@ msgid "Invalid UIN and password combination"
 msgstr "Ungültige UIN/Paßwort Kombination"
 
 #: plugins/icq/icqlogin.cpp:208
-#, fuzzy
 msgid "Non-existant UIN"
-msgstr "Existierende UIN benutzen"
+msgstr "Nicht-existierende UIN"
 
 #: plugins/icq/icqlogin.cpp:230
 msgid "Youur UIN is being used from another location"
@@ -2790,9 +2784,8 @@ msgid "Tamil"
 msgstr "Tamil"
 
 #: plugins/icq/icqclient.cpp:364
-#, fuzzy
 msgid "Process message failed"
-msgstr "Senden der Nachricht fehlgeschlagen"
+msgstr "Verarbeiten der Nachricht fehlgeschlagen"
 
 #: plugins/icq/icqclient.cpp:519
 msgid "Protocol error"
@@ -3389,8 +3382,7 @@ msgid "Navigate"
 msgstr "Navigation"
 
 #: plugins/navigate/navigate.cpp:38
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Das Plugin überprüft Nachrichten auf Hyperlinks und ruft externe Browser- "
 "oder Mailprogramme auf."
@@ -3461,8 +3453,7 @@ msgstr "Im Vordergrund"
 
 #: plugins/ontop/ontop.cpp:40
 msgid "Plugin provides main window allways on top"
-msgstr ""
-"Diese Plugin sorgt dafür, dass SIM kontinuierlich im Vordergrund bleibt."
+msgstr "Diese Plugin sorgt dafür, dass SIM kontinuierlich im Vordergrund bleibt."
 
 #: plugins/ontop/ontop.cpp:74
 msgid "Always on top"
@@ -3477,8 +3468,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:47
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Das ist ein Plugin, das Bildschirmbenachrichtigungen betreffend Kontakte "
 "und\n"
@@ -3530,8 +3520,7 @@ msgstr "Bei Nachrichteneingang informieren (per OSD)"
 
 #: plugins/osd/osdconfigbase.cpp:90
 msgid "Enable &status notification"
-msgstr ""
-"Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
+msgstr "Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
 
 #: plugins/osd/osdifacebase.cpp:181
 msgid "Offset:"
@@ -3594,8 +3583,7 @@ msgstr "Proxy"
 
 #: plugins/proxy/proxy.cpp:1143
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS and HTTP)"
-msgstr ""
-"Das Plugin bietet Proxy Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP)"
+msgstr "Das Plugin bietet Proxy Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP)"
 
 #: plugins/proxy/proxy.cpp:1233
 msgid "&Proxy"
@@ -3607,8 +3595,7 @@ msgstr "Kein Proxy"
 
 #: plugins/proxy/proxycfg.cpp:84
 msgid "<b>Note !</b><br>HTTP-proxy support only ICQ-protocol"
-msgstr ""
-"<b>Achtung!</b><br>Die HTTP-Proxy Unterstützung bietet nur das ICQ-Protokoll"
+msgstr "<b>Achtung!</b><br>Die HTTP-Proxy Unterstützung bietet nur das ICQ-Protokoll"
 
 #: plugins/proxy/proxycfgbase.cpp:147
 msgid "Proxy type:"
@@ -3782,13 +3769,11 @@ msgstr "Automatisch ausblenden"
 
 #: sim/api/aboutdata.cpp:274
 msgid "replace this with information about your translation team"
-msgstr ""
-"Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
+msgstr "Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
 
 #: sim/api/aboutdata.cpp:290
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
 
 #: sim/api/country.cpp:25
 msgid "Afghanistan"
@@ -6574,3 +6559,4 @@ msgstr "Unterstrichen"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
