@@ -56,7 +56,7 @@ void SecureDlg::start()
     m_msg->setFlags(MESSAGE_NOHISTORY);
     if (!static_cast<Client*>(m_client)->send(m_msg, m_data)){
         delete m_msg;
-        error(I18N_NOOP("Request sequre channel fail"));
+        error(I18N_NOOP("Request secure channel fail"));
     }
 }
 
