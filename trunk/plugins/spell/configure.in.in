@@ -4,7 +4,7 @@ if test "$use_kde" != "yes" ; then
 fi
 if test "x$compile_plugin" = "xyes"; then
   compile_plugin="no"
-  AC_CHECK_LIB(aspell, main, [compile_plugin="yes"; LIB_ASPELL="-laspell"])
+  AC_CHECK_LIB(aspell, get_aspell_dict_info_list, [compile_plugin="yes"; LIB_ASPELL="-laspell"])
   AC_SUBST(LIB_ASPELL)
 fi
 if test "x$compile_plugin" = "xno"; then

@@ -116,7 +116,7 @@ QString JabberMessageError::presentation()
         res += err;
         res += "</b>";
     }
-    res += "<br>";
+    res += "<br/>";
     res += i18n("Original message:");
     res += "</p>";
     res += Message::presentation();

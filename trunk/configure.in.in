@@ -104,7 +104,8 @@ if test "x$LIB_SABLOT" = "x"; then
 	sablot="no"
 	save_libs="$LIBS"
 	LIBS="$LIBS $LIB_EXPAT"
-	AC_CHECK_LIB(sablot, main, [sablot="yes"; LIB_SABLOT="-lsablot"])
+	AC_CHECK_LIB(sablot, SablotCreateProcessor, [sablot="yes"; LIB_SABLOT="-lsablot"])
+	AC_SUBST(LIB_SABLOT)
 	LIBS="$save_libs"
   fi
   if test "x$sablot" != "xyes"; then

@@ -162,6 +162,8 @@ void SpellConfig::findFinished()
 
 void SpellConfig::langClicked(QListViewItem *item)
 {
+    if(!item) 
+     return;
     log(L_DEBUG, "langClicked");
     if (item->text(COL_CHECKED) == ""){
         item->setText(COL_CHECKED, "1");

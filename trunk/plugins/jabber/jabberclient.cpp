@@ -1303,34 +1303,34 @@ QString JabberClient::contactTip(void *_data)
                 break;
             }
         }
-        res += "<br>";
+        res += "<br/>";
     }
     res += "ID: <b>";
     res += QString::fromUtf8(data->ID);
     res += "</b>";
     if (data->Status == STATUS_OFFLINE){
         if (data->StatusTime){
-            res += "<br><font size=-1>";
+            res += "<br/><font size=-1>";
             res += i18n("Last online");
             res += ": </font>";
             res += formatDateTime(data->StatusTime);
         }
     }else{
         if (data->OnlineTime){
-            res += "<br><font size=-1>";
+            res += "<br/><font size=-1>";
             res += i18n("Online");
             res += ": </font>";
             res += formatDateTime(data->OnlineTime);
         }
         if (data->StatusTime != data->OnlineTime){
-            res += "<br><font size=-1>";
+            res += "<br/><font size=-1>";
             res += statusText;
             res += ": </font>";
             res += formatDateTime(data->StatusTime);
         }
     }
     if (data->Resource && *data->Resource){
-        res += "<br>";
+        res += "<br/>";
         res += QString::fromUtf8(data->Resource);
     }
     if (data->LogoWidth && data->LogoHeight){
@@ -1352,7 +1352,7 @@ QString JabberClient::contactTip(void *_data)
                 }
             }
             QMimeSourceFactory::defaultFactory()->setPixmap("pict://jabber.logo", pict);
-            res += "<br><img src=\"pict://jabber.logo\" width=\"";
+            res += "<br/><img src=\"pict://jabber.logo\" width=\"";
             res += number(w).c_str();
             res += "\" height=\"";
             res += number(h).c_str();
@@ -1378,7 +1378,7 @@ QString JabberClient::contactTip(void *_data)
                 }
             }
             QMimeSourceFactory::defaultFactory()->setPixmap("pict://jabber.photo", pict);
-            res += "<br><img src=\"pict://jabber.photo\" width=\"";
+            res += "<br/><img src=\"pict://jabber.photo\" width=\"";
             res += number(w).c_str();
             res += "\" height=\"";
             res += number(h).c_str();
@@ -1386,7 +1386,7 @@ QString JabberClient::contactTip(void *_data)
         }
     }
     if (data->AutoReply && *data->AutoReply){
-        res += "<br><br>";
+        res += "<br/><br/>";
         res += QString::fromUtf8(data->AutoReply);
     }
     return res;
