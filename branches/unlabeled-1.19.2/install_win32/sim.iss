@@ -10,6 +10,8 @@
 const url1 = 'http://cesnet.dl.sourceforge.net/sourceforge/sim-icq/qt.exe';
 const url2 = 'http://cesnet.dl.sourceforge.net/sourceforge/sim-icq/ssl.exe';
 const url3 = 'http://cesnet.dl.sourceforge.net/sourceforge/sim-icq/expat.exe';
+const url4 = 'http://cesnet.dl.sourceforge.net/sourceforge/sim-icq/msvcrt.exe';
+const url5 = 'http://cesnet.dl.sourceforge.net/sourceforge/sim-icq/opengl.exe';
 
 function NextButtonClick(CurPage: Integer): Boolean;
 var
@@ -19,12 +21,16 @@ var
   bDownloadQt: Boolean;
   bDownloadSSL: Boolean;
   bDownloadExpat: Boolean;
+  bDownloadMsvcrt: Boolean;
+  bDownloadOpengl: Boolean;
   sParam: String;
 begin
   Result := true;
   bDownloadQt := false;
   bDownloadSSL := false;
   bDownloadExpat := false;
+  bDownloadMsvcrt := false;
+  bDownloadOpengl := false;
 
   if CurPage = wpSelectTasks then begin
     hWnd := StrToInt(ExpandConstant('{wizardhwnd}'));
@@ -39,33 +45,42 @@ begin
     end;
     sFileName := ExpandConstant('{sys}\msvcrt.dll');
     if not FileExists(sFileName) then begin
-      bDownloadSSL := true;
+      bDownloadMsvcrt := true;
     end;
     sFileName := ExpandConstant('{sys}\msvcp60.dll');
     if not FileExists(sFileName) then begin
-      bDownloadSSL := true;
+      bDownloadMsvcrt := true;
     end;
     sFileName := ExpandConstant('{sys}\opengl32.dll');
     if not FileExists(sFileName) then begin
-      bDownloadSSL := true;
+      bDownloadOpengl := true;
     end;
     sFileName := ExpandConstant('{sys}\glu32.dll');
     if not FileExists(sFileName) then begin
-      bDownloadSSL := true;
+      bDownloadOpengl := true;
     end;
+    
+    if bDownloadOpengl then begin
+      isxdl_AddFileSize(url4, ExpandConstant('{tmp}\opengl.exe'), 724992);
+    end;
+    
+    if bDownloadMsvcrt then begin
+      isxdl_AddFileSize(url3, ExpandConstant('{tmp}\msvcrt.exe'), 627790);
+    end;
+    
     if bDownloadSSL then begin
-      isxdl_AddFileSize(url2, ExpandConstant('{tmp}\ssl.exe'), 910557);
+      isxdl_AddFileSize(url2, ExpandConstant('{tmp}\ssl.exe'), 740165);
     end;
 
     sFileName := ExpandConstant('{app}\qt-mt230nc.dll');
     if not FileExists(sFileName) then begin
-      isxdl_AddFileSize(url1, ExpandConstant('{tmp}\qt.exe'), 1658577);
+      isxdl_AddFileSize(url1, ExpandConstant('{tmp}\qt.exe'), 1673352);
       bDownloadQt := true;
     end;
 
     sFileName := ExpandConstant('{app}\libexpat.dll');
     if not FileExists(sFileName) then begin
-      isxdl_AddFileSize(url3, ExpandConstant('{tmp}\expat.exe'), 416085);
+      isxdl_AddFileSize(url3, ExpandConstant('{tmp}\expat.exe'), 430860);
       bDownloadExpat := true;
     end;
 
@@ -85,16 +100,30 @@ begin
                InstExec(sFileName, sParam, '', true, false, 0, nCode)
             else
               Result := false;
-         end
+        end
+        if (Result and bDownloadOpengl) then begin
+            sFileName := ExpandConstant('{tmp}\opengl.exe');
+            if FileExists(sFileName) then
+               InstExec(sFileName, sParam, '', true, false, 0, nCode)
+            else
+              Result := false;
+        end
+        if (Result and bDownloadMsvcrt) then begin
+            sFileName := ExpandConstant('{tmp}\msvcrt.exe');
+            if FileExists(sFileName) then
+               InstExec(sFileName, sParam, '', true, false, 0, nCode)
+            else
+              Result := false;
+        end
         if (Result and bDownloadExpat) then begin
             sFileName := ExpandConstant('{tmp}\expat.exe');
             if FileExists(sFileName) then
                InstExec(sFileName, sParam, '', true, false, 0, nCode)
             else
               Result := false;
-         end
-      end else begin
-        Result := false;
+            end
+        end else begin
+          Result := false;
       end;
     end;
   end;

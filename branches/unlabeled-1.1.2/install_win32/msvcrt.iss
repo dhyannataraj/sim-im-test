@@ -2,8 +2,8 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 [Setup]
-AppName=expat
-AppVerName=expat 1.95.6
+AppName=msvcrt
+AppVerName=msvcrt
 DefaultDirName={pf}\SIM
 DisableProgramGroupPage=yes
 DisableStartupPrompt=yes
@@ -11,8 +11,9 @@ DisableReadyPage=yes
 Compression=bzip/9
 AppId=SIM
 AppMutex=SIM_Mutex
-OutputBaseFilename=expat
+OutputBaseFilename=msvcrt
 
 [Files]
-Source: "libexpat.dll"; DestDir: "{app}"
+Source: "msvcrt.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall
+Source: "msvcp60.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall
 
