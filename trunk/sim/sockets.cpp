@@ -154,11 +154,13 @@ void ICQClientSocket::connect(const char *host, int _port)
     sock->setAddress(host, port);
     sock->enableRead(true);
 	sock->enableWrite(true);
+	log(L_DEBUG, "Lookup");
     if (sock->lookup() < 0){
 	log(L_WARN, "Can't lookup");
 	if (notify) notify->error_state(ErrorConnect);
 	return;
     }
+	log(L_DEBUG, "Start connect");
     if (sock->startAsyncConnect() < 0){
         log(L_WARN, "Can't connect");
         if (notify) notify->error_state(ErrorConnect);
