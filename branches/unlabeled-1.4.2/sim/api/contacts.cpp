@@ -1087,7 +1087,7 @@ string Client::getConfig()
     if (pswd.length()) {
         QString new_passwd;
         unsigned short temp = 0x4345;
-        for (unsigned int i = 0; i < pswd.length(); i++) {
+        for (int i = 0; i < (int)(pswd.length()); i++) {
             temp ^= (pswd[i].unicode());
             new_passwd += QString::number(temp,16);
             if (i+1 != pswd.length())

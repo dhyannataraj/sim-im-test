@@ -238,7 +238,9 @@ void TransparentPlugin::tick()
 void *TransparentPlugin::processEvent(Event *e)
 {
     if (e->type() == EventInit) {
+#ifndef WIN32
         top = NULL;
+#endif
         setState();
     }
 #ifndef WIN32

@@ -3,7 +3,7 @@ static const char *jabber_invisible[]={
 "16 16 4 1",
 "# c #000000",
 "b c #fbdb00",
-"a c #fbf900",
+"a c #dedede",
 ". c None",
 ".......##.......",
 "......#.a#......",

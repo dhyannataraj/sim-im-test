@@ -26,6 +26,7 @@
 #include "xpm/jabber_na.xpm"
 #include "xpm/jabber_dnd.xpm"
 #include "xpm/jabber_ffc.xpm"
+#include "xpm/jabber_invisible.xpm"
 
 Plugin *createJabberPlugin(unsigned base, bool, const char*)
 {
@@ -67,14 +68,14 @@ static CommandDef jabber_descr =
         0,
         I18N_NOOP("Jabber"),
         "Jabber_online",
+        "Jabber_invisible",
         NULL,
-        NULL,
         0,
         0,
         0,
         0,
         0,
-        PROTOCOL_INFO | PROTOCOL_SEARCH_ONLINE | PROTOCOL_AR,
+        PROTOCOL_INFO | PROTOCOL_SEARCH_ONLINE | PROTOCOL_AR | PROTOCOL_INVISIBLE,
         NULL,
         NULL
     };
@@ -240,6 +241,10 @@ JabberPlugin::JabberPlugin(unsigned base)
 
     icon.name = "Jabber_ffc";
     icon.xpm = jabber_ffc;
+    eIcon.process();
+
+    icon.name = "Jabber_invisible";
+    icon.xpm = jabber_invisible;
     eIcon.process();
 
     Event eMenuSearch(EventMenuCreate, (void*)MenuSearchResult);
