@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
 "POT-Creation-Date: 2002-10-05 05:20+0400\n"
-"PO-Revision-Date: 2002-09-10 01:09+0300\n"
+"PO-Revision-Date: 2002-10-05 19:36+0300\n"
 "Last-Translator: ismail donmez <voidcartman@yahoo.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1663,9 +1663,8 @@ msgid "Can't create %1"
 msgstr "%1 yaratılamadı"
 
 #: cuser.cpp:61 cuser.cpp:73
-#, fuzzy
 msgid "Unknown"
-msgstr "Birlik"
+msgstr "Bilinmeyen"
 
 #: cuser.cpp:214
 msgid "Last online"
@@ -1717,17 +1716,15 @@ msgstr "%2 den %1 alındı!"
 
 #: mainwin.cpp:909 ui/logindlg.cpp:136
 msgid "Can't connect to proxy server"
-msgstr ""
+msgstr "Proxy serverına bağlanılamadı"
 
 #: mainwin.cpp:915 ui/logindlg.cpp:143
-#, fuzzy
 msgid "Proxy server require authorization"
-msgstr "Kullanıcıdan &izin isteme"
+msgstr "Proxy serverı şifre istiyor"
 
 #: mainwin.cpp:916 ui/logindlg.cpp:144
-#, fuzzy
 msgid "Invalid password for proxy"
-msgstr "Geçersiz Şifre"
+msgstr "Proxy için geçersiz şifre"
 
 #: mainwin.cpp:928
 msgid "Your UIN used from another location"
@@ -1883,9 +1880,8 @@ msgid "Phone \"Follow Me\""
 msgstr "Telefon"
 
 #: mainwin.cpp:2109
-#, fuzzy
 msgid "Shared files"
-msgstr "Gönderme başarısız"
+msgstr "Paylaşılan dosyalar"
 
 #: mainwin.cpp:2113
 msgid "Always on top"
@@ -1965,7 +1961,7 @@ msgstr "Yazı fontu"
 
 #: msgedit.cpp:156
 msgid "Insert smile"
-msgstr ""
+msgstr "Gülümseme girin"
 
 #: msgedit.cpp:163
 msgid "&Grant"
@@ -2004,9 +2000,8 @@ msgid "&Send"
 msgstr "&Gönder"
 
 #: msgedit.cpp:219
-#, fuzzy
 msgid "&Next"
-msgstr "Sonraki"
+msgstr "&Sonraki"
 
 #: msgedit.cpp:225
 msgid "Multiply send"
@@ -2346,13 +2341,13 @@ msgstr "*.wav(Sesler)"
 msgid ""
 "_n: Receive file from %1\n"
 "Receive %n files from %1"
-msgstr ""
+msgstr "%1 den %n dosya"
 
 #: ui/filetransfer.cpp:75
 msgid ""
 "_n: Send file to %1\n"
 "Send %n files to %1"
-msgstr ""
+msgstr "%1 e %n dosya gönder"
 
 #: ui/filetransfer.cpp:137
 msgid "[done]"
@@ -2486,9 +2481,8 @@ msgid "HTTP"
 msgstr "HTTP"
 
 #: ui/network.cpp:50 ui/proxydlg.cpp:45
-#, fuzzy
 msgid "HTTPS"
-msgstr "HTTP"
+msgstr "HTTPS"
 
 #: ui/phonebook.cpp:55
 msgid "Yes"
@@ -2583,9 +2577,8 @@ msgid "SMS"
 msgstr "SMS"
 
 #: ui/setupdlg.cpp:146
-#, fuzzy
 msgid "Forward"
-msgstr "&Transfer"
+msgstr "Aktar"
 
 #: ui/miscsetupbase.cpp:106 ui/setupdlg.cpp:149
 msgid "Miscellaneous"
@@ -2729,9 +2722,8 @@ msgid "&OK"
 msgstr "&Tamam"
 
 #: ui/proxydlgbase.cpp:60
-#, fuzzy
 msgid "Proxy"
-msgstr "Proxy-Hostu:"
+msgstr "Proxy-Hostu"
 
 #: ui/networkbase.cpp:132 ui/proxydlgbase.cpp:70
 msgid "Use proxy"
@@ -2759,7 +2751,7 @@ msgstr "Proxy-Portu:"
 
 #: ui/proxydlgbase.cpp:129
 msgid "Server"
-msgstr ""
+msgstr "Server"
 
 #: ui/networkbase.cpp:111 ui/proxydlgbase.cpp:139
 msgid "Host:"
@@ -2800,9 +2792,8 @@ msgid "Keyboard shortcuts"
 msgstr "Klavye kısayolları"
 
 #: ui/keysetupbase.cpp:121
-#, fuzzy
 msgid "Send messages on \"Enter\""
-msgstr "Gönderilen mesaj rengi"
+msgstr "\"Enter\" a basınca mesajı yolla"
 
 #: ui/keysetupbase.cpp:125
 msgid "Actions:"
@@ -2888,7 +2879,7 @@ msgstr "Uzaklık:"
 
 #: ui/xosdbase.cpp:181
 msgid "Place:"
-msgstr ""
+msgstr "Yer:"
 
 #: ui/xosdbase.cpp:193
 msgid "Shadow"
@@ -3141,8 +3132,7 @@ msgstr "Global alarm ayarlarının üzerine yaz"
 
 #: ui/alertdialogbase.cpp:95
 msgid "Activate online alert when user returns from Away or NA"
-msgstr ""
-"Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
+msgstr "Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
 
 #: ui/alertdialogbase.cpp:99
 msgid "Online alert options"
@@ -3190,7 +3180,7 @@ msgstr "&Ses ayarlarının üzerine yaz"
 
 #: ui/soundsetupbase.cpp:122
 msgid "&Disable all sounds"
-msgstr ""
+msgstr "&Tüm sesleri etkisizleştir"
 
 #: ui/soundsetupbase.cpp:126
 msgid "Message:"
@@ -3262,15 +3252,15 @@ msgstr "Yenile"
 
 #: ui/smssetupbase.cpp:45
 msgid "SMS signature"
-msgstr ""
+msgstr "SMS imzası"
 
 #: ui/smssetupbase.cpp:57
 msgid "Text before cursor:"
-msgstr ""
+msgstr "Cursor öncesi yazı:"
 
 #: ui/smssetupbase.cpp:64
 msgid "Text after cursor:"
-msgstr ""
+msgstr "Cursor sonrası yazı:"
 
 #: ui/smssetupbase.cpp:75
 msgid ""
@@ -3280,6 +3270,11 @@ msgid ""
 "&MyAlias; - own name\n"
 "&MyUin; - own UIN"
 msgstr ""
+"Şunları kulladınız :\n"
+"&Alias; -  alıcı adı\n"
+"&Uin; - alıcı uin'i\n"
+"&MyAlias; - kendi adınız\n"
+"&MyUin; - kendi uin'iniz"
 
 #: ui/setupdlgbase.cpp:99
 msgid "Apply"
@@ -3354,8 +3349,7 @@ msgid "Hide main window after"
 msgstr "Ana menüyü sakla"
 
 #: ui/statussetupbase.cpp:107
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "\"Uzakta\", \"N/A\", \"DND\" ve \"Meşgul\"-Listelerinde bağlı alamını "
 "iptal et "
@@ -3454,8 +3448,7 @@ msgstr "Zaman Dilimi:"
 
 #: ui/generalsecbase.cpp:124
 msgid "My &authorization is required before users add me to Contact List"
-msgstr ""
-"Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
+msgstr "Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
 
 #: ui/generalsecbase.cpp:128
 msgid "Don't show my &IP-address"
@@ -3572,13 +3565,12 @@ msgid "&Check again"
 msgstr "&Tekrar kontrol et"
 
 #: ui/forwardsetupbase.cpp:77
-#, fuzzy
 msgid "Autoforward"
-msgstr "&Transfer"
+msgstr "Otomatik Aktar"
 
 #: ui/forwardsetupbase.cpp:89
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
+msgstr "\"Uzakta\" ve \"N/A\" modunda iken mesajları cep telefonuna gönder: "
 
 #: ui/forwardsetupbase.cpp:97
 msgid ""
@@ -3586,6 +3578,8 @@ msgid ""
 "specified in the beginning of the message a line:\n"
 "<UIN>:"
 msgstr ""
+"SMS'leri cevaplamak için şu şekilde mesaja başlayarak cevap atabilirsiniz: "
+"<UIN>:"
 
 #: about.cpp:280
 msgid "replace this with information about your translation team"
@@ -3870,3 +3864,4 @@ msgstr "Uzakta"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
