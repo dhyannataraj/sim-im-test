@@ -227,6 +227,9 @@ public:
     bool			UseEmotional;
     unsigned long	AutoHideTime;
 
+	string			SMSSignTop;
+	string			SMSSignBottom;
+
     bool 	     init();
 
     QPopupMenu   *menuStatus;

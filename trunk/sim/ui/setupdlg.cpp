@@ -43,6 +43,7 @@
 #include "ui/xosdsetup.h"
 #include "ui/keysetup.h"
 #include "ui/wndcancel.h"
+#include "ui/smssetup.h"
 
 #include "ui/enable.h"
 
@@ -104,6 +105,7 @@ SetupDialog::SetupDialog(QWidget*, int nWin)
     addPage(new XOSDSetup(tabBars), SETUP_XOSD, i18n("On Screen notification"), "screen");
     addPage(new AlertDialog(tabBars), SETUP_ALERT, i18n("Alert"), "alert");
     addPage(new AcceptDialog(tabBars), SETUP_ACCEPT, i18n("Accept file"), "file");
+	addPage(new SMSSetup(tabBars), SETUP_SMS, i18n("SMS"), "sms");
 
 #ifndef WIN32
     addPage(new MiscSetup(tabBars), SETUP_MISC, i18n("Miscellaneous"), "misc");

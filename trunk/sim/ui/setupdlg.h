@@ -45,8 +45,9 @@ const unsigned SETUP_SOUND			= 206;
 const unsigned SETUP_XOSD			= 207;
 const unsigned SETUP_ALERT			= 208;
 const unsigned SETUP_ACCEPT			= 209;
-const unsigned SETUP_MISC			= 210;
-const unsigned SETUP_SPELL			= 211;
+const unsigned SETUP_SMS		    = 210;
+const unsigned SETUP_MISC			= 211;
+const unsigned SETUP_SPELL			= 212;
 
 const unsigned SETUP_AUTOREPLY		= 300;
 const unsigned SETUP_AR_AWAY		= 301;

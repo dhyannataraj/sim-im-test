@@ -29,6 +29,7 @@
 #include "cuser.h"
 #include "xml.h"
 #include "userview.h"
+#include "ui/enable.h"
 #include "ui/editfile.h"
 #include "ui/ballonmsg.h"
 #include "ui/wndcancel.h"
@@ -1367,11 +1368,20 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 ICQSMS *m = static_cast<ICQSMS*>(msg);
                 edit->resetColors(false);
                 if (bChanged){
-                    edit->setText(pClient->from8Bit(Uin, pClient->clearHTML(m->Message.c_str())), m->Charset.c_str());
+					if (*m->Message.c_str()){
+						edit->setText(pClient->from8Bit(Uin, pClient->clearHTML(m->Message.c_str())), m->Charset.c_str());
+					}else{
+						edit->setText(subst(pMain->SMSSignTop.c_str()));
+						edit->moveCursor(QTextEdit::MoveEnd, false);
+						int parag, index;
+						edit->getCursorPosition(&parag, &index);
+						edit->append(subst(pMain->SMSSignBottom.c_str()));
+						edit->setCursorPosition(parag, index);
+					}
                     if (*m->Phone.c_str())
                         phoneEdit->lineEdit()->setText(pClient->from8Bit(Uin, m->Phone, NULL));
                 }
-                phoneEdit->setFocus();
+                edit->setFocus();
                 break;
             }
         case ICQ_MSGxCONTACTxLIST:{
@@ -1751,6 +1761,30 @@ string MsgEdit::smsChunk()
     part = part.replace(QRegExp(">"), "&gt;");
     res = pClient->to8Bit(Uin, part);
     return res;
+}
+
+static QString escape(const QString &r)
+{
+	QString s = r;
+	s = s.replace(QRegExp("\\&"), "&amp;");
+	s = s.replace(QRegExp("<"), "&lt;");
+	s = s.replace(QRegExp(">"), "&gt;");
+	s = s.replace(QRegExp("\n"), "<br>");
+	return s;
+}
+
+QString MsgEdit::subst(const char *s)
+{
+	string _s;
+	if (s && *s) _s = s;
+	QString str;
+	set(str, s);
+	CUser owner(pClient->owner);
+	CUser u(Uin);
+	str = str.replace(QRegExp("&MyUin;"), QString::number(pClient->owner->Uin));
+	str = str.replace(QRegExp("&MyAlias;"), owner.name(true));
+	str = escape(str);
+	return str;
 }
 
 void MsgEdit::modeChanged(bool bSimple)
