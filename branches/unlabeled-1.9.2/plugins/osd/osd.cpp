@@ -31,6 +31,7 @@
 #include <qbitmap.h>
 #include <qregion.h>
 #include <qstyle.h>
+#include <qregexp.h>
 
 const unsigned SHADOW_OFFS	= 2;
 const unsigned XOSD_MARGIN	= 5;
@@ -318,6 +319,8 @@ void OSDPlugin::processQueue()
                             continue;
                         }
                         text = i18n(def->singular, def->plural, 1);
+						text = text.replace(QRegExp("1 "), "");
+						text = text.left(1).upper() + text.mid(1);
                         text = i18n("%1 from %2")
                                .arg(text)
                                .arg(contact->getName());

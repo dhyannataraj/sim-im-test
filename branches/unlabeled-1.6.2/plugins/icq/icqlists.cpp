@@ -935,7 +935,7 @@ void ICQClient::processListRequest()
                 m_listRequest = new SetListRequest(seq, lr.screen.c_str(), 0, ICQ_IGNORE_LIST);
                 break;
             }
-            if (lr.screen.length()){
+            if (lr.screen.length() && lr.grp_id){
                 log(L_DEBUG, "%s remove from contact list", lr.screen.c_str());
                 seq = sendRoster(ICQ_SNACxLISTS_DELETE, "", lr.grp_id, lr.icq_id);
                 m_listRequest = new ContactServerRequest(seq, lr.screen.c_str(), 0, 0);

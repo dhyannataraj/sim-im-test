@@ -791,12 +791,17 @@ JabberUserData *JabberClient::findContact(const char *alias, const char *name, b
     if (!bCreate)
         return NULL;
     it.reset();
+    QString sname;
+    if (name && *name){
+        sname = QString::fromUtf8(name).lower();
+	}else{
+		sname = QString::fromUtf8(alias).lower();
+		int pos = sname.find('@');
+		if (pos > 0)
+			sname = sname.left(pos);
+	}
     while ((contact = ++it) != NULL){
-        QString name = QString::fromUtf8(alias).lower();
-        if (name && *name)
-            name = QString::fromUtf8(name).lower();
-        QString cname = contact->getName().lower();
-        if (contact->getName().lower() == name){
+        if (contact->getName().lower() == sname.lower()){
             JabberUserData *data = (JabberUserData*)(contact->clientData.createData(this));
             set_str(&data->ID, alias);
             if (resource)
@@ -816,9 +821,7 @@ JabberUserData *JabberClient::findContact(const char *alias, const char *name, b
         set_str(&data->Resource, resource);
     if (name)
         set_str(&data->Name, name);
-    contact->setName(QString::fromUtf8(alias));
-    if (name && *name)
-        contact->setName(QString::fromUtf8(name));
+    contact->setName(sname);
     info_request(data);
     Event e(EventContactChanged, contact);
     e.process();
@@ -857,7 +860,7 @@ void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &
             statusIcon = def->icon;
         }
     }
-    if ((data->Subscribe & SUBSCRIBE_TO) == 0)
+    if (((data->Subscribe & SUBSCRIBE_TO) == 0) && !isAgent(data->ID))
         style |= CONTACT_UNDERLINE;
 }
 
@@ -1232,11 +1235,11 @@ bool JabberClient::canSend(unsigned type, void *_data)
     case MessageGeneric:
         return true;
     case MessageAuthRequest:
-        return (data->Subscribe & SUBSCRIBE_TO) == 0;
+        return ((data->Subscribe & SUBSCRIBE_TO) == 0) && !isAgent(data->ID);
     case MessageAuthGranted:
-        return (data->Subscribe & SUBSCRIBE_FROM) == 0;
+        return ((data->Subscribe & SUBSCRIBE_FROM) == 0) && !isAgent(data->ID);
     case MessageAuthRefused:
-        return (data->Subscribe & SUBSCRIBE_FROM);
+        return (data->Subscribe & SUBSCRIBE_FROM) && !isAgent(data->ID);
     case MessageJabberOnline:
         return isAgent(data->ID) && (data->Status == STATUS_OFFLINE);
     case MessageJabberOffline:
@@ -1342,6 +1345,30 @@ bool JabberClient::send(Message *msg, void *_data)
             delete msg;
             return true;
         }
+    case MessageJabberOnline:
+        if (isAgent(data->ID) && (data->Status == STATUS_OFFLINE)){
+			m_socket->writeBuffer.packetStart();
+            m_socket->writeBuffer
+            << "<presence to=\""
+            << data->ID
+			<< "\"></presence>";
+			sendPacket();
+			delete msg;
+			return true;
+		}
+		break;
+    case MessageJabberOffline:
+        if (isAgent(data->ID) && (data->Status != STATUS_OFFLINE)){
+			m_socket->writeBuffer.packetStart();
+            m_socket->writeBuffer
+            << "<presence to=\""
+            << data->ID
+			<< "\" type=\"unavailable\"></presence>";
+			sendPacket();
+			delete msg;
+			return true;
+		}
+		break;
     }
     return false;
 }

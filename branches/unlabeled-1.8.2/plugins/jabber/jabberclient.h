@@ -228,6 +228,8 @@ QString getID() { return QString::fromUtf8(data.owner.ID ? data.owner.ID : ""); 
 
     string VHost();
     bool isAgent(const char *jid);
+    virtual bool send(Message*, void*);
+    void    listRequest(JabberUserData *data, const char *name, const char *grp, bool bDelete);
 
 protected slots:
     void	ping();
@@ -245,7 +247,6 @@ protected:
     virtual void setInvisible(bool bState);
 
     virtual bool compareData(void*, void*);
-    virtual bool send(Message*, void*);
     virtual bool canSend(unsigned, void*);
     virtual void contactInfo(void *data, unsigned long &curStatus, unsigned &style, const char *&statusIcon, string *icons = NULL);
     virtual QString contactTip(void *data);
@@ -285,7 +286,6 @@ protected:
     list<JabberListRequest>	m_listRequests;
     ServerRequest			*m_curRequest;
 
-    void		listRequest(JabberUserData *data, const char *name, const char *grp, bool bDelete);
     void		processList();
 
     void		auth_plain();

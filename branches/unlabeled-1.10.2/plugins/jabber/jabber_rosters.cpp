@@ -708,7 +708,7 @@ JabberClient::PresenceRequest::~PresenceRequest()
                 Event e(EventMessageReceived, &m);
                 e.process();
             }
-            if (bOnLine && !contact->getIgnore()){
+            if (bOnLine && !contact->getIgnore() && !m_client->isAgent(data->ID)){
                 Event e(EventContactOnline, contact);
                 e.process();
             }
