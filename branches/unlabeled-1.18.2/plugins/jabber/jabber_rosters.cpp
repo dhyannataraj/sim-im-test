@@ -1583,7 +1583,7 @@ void AgentInfoRequest::element_end(const char *el)
         set_str(&data.Type, el);
         Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentInfo, &data);
         e.process();
-    }else if (!strcmp(el, "username") || !strcmp(el, "password") || !strcmp(el, "nick")){
+    }else if (strcmp(el, "error") && strcmp(el, "iq") && strcmp(el, "query")){
         set_str(&data.Value, m_data.c_str());
         set_str(&data.ID, m_jid.c_str());
         set_str(&data.Type, el);
@@ -1726,7 +1726,7 @@ protected:
 };
 
 RegisterRequest::RegisterRequest(JabberClient *client, const char *jid)
-        : ServerRequest(client, _GET, NULL, jid)
+        : ServerRequest(client, _SET, NULL, jid)
 {
     m_data = NULL;
     m_bOK  = false;
