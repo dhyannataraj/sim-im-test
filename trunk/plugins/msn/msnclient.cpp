@@ -1201,7 +1201,7 @@ QString MSNClient::contactName(void *clientData)
     return res;
 }
 
-MSNUserData *MSNClient::findContact(const char *mail, const char *name, Contact *&contact)
+MSNUserData *MSNClient::findContact(const char *mail, const char *name, Contact *&contact, bool bJoin)
 {
     unsigned i;
     for (i = 1; i <= getNDeleted(); i++){
@@ -1228,34 +1228,19 @@ MSNUserData *MSNClient::findContact(const char *mail, const char *name, Contact 
         setupContact(contact, data);
         return data;
     }
-    ContactList::ContactIterator it;
-    while ((contact = ++it) != NULL){
-        if (contact->getName() == name_str){
-            data = (MSNUserData*)(contact->clientData.createData(this));
-            set_str(&data->EMail.ptr, mail);
-            set_str(&data->ScreenName.ptr, name);
-            setupContact(contact, data);
-            Event e(EventContactChanged, contact);
-            e.process();
-            return data;
+    if (bJoin){
+        ContactList::ContactIterator it;
+        while ((contact = ++it) != NULL){
+            if (contact->getName() == name_str){
+                data = (MSNUserData*)(contact->clientData.createData(this));
+                set_str(&data->EMail.ptr, mail);
+                set_str(&data->ScreenName.ptr, name);
+                setupContact(contact, data);
+                Event e(EventContactChanged, contact);
+                e.process();
+                return data;
+            }
         }
-    }
-    it.reset();
-    while ((contact = ++it) != NULL){
-        if (contact->getName().lower() == name_str.lower()){
-            data = (MSNUserData*)(contact->clientData.createData(this));
-            set_str(&data->EMail.ptr, mail);
-            set_str(&data->ScreenName.ptr, name);
-            setupContact(contact, data);
-            Event e(EventContactChanged, contact);
-            e.process();
-            m_bJoin = true;
-            return data;
-        }
-    }
-    int n = name_str.find('@');
-    if (n > 0){
-        name_str = name_str.left(n);
         it.reset();
         while ((contact = ++it) != NULL){
             if (contact->getName().lower() == name_str.lower()){
@@ -1267,6 +1252,23 @@ MSNUserData *MSNClient::findContact(const char *mail, const char *name, Contact 
                 e.process();
                 m_bJoin = true;
                 return data;
+            }
+        }
+        int n = name_str.find('@');
+        if (n > 0){
+            name_str = name_str.left(n);
+            it.reset();
+            while ((contact = ++it) != NULL){
+                if (contact->getName().lower() == name_str.lower()){
+                    data = (MSNUserData*)(contact->clientData.createData(this));
+                    set_str(&data->EMail.ptr, mail);
+                    set_str(&data->ScreenName.ptr, name);
+                    setupContact(contact, data);
+                    Event e(EventContactChanged, contact);
+                    e.process();
+                    m_bJoin = true;
+                    return data;
+                }
             }
         }
     }

@@ -1475,7 +1475,7 @@ void CorePlugin::installTranslator()
 #ifdef USE_KDE
         return;
 #else
-char *p = getenv("LANG");
+        char *p = getenv("LANG");
         if (p){
             for (; *p; p++){
                 if (*p == '.') break;
@@ -2685,14 +2685,6 @@ if (fname[0] != '/')
                 cmd->param = cmds;
                 cmd->flags |= COMMAND_RECURSIVE;
                 return e->param();
-            }
-            if (cmd->id == CmdPhones){
-                for (unsigned i = 0; i < getContacts()->nClients(); i++){
-                    Client *client = getContacts()->getClient(i);
-                    if (client->protocol()->description()->flags & PROTOCOL_FOLLOWME)
-                        return e->param();
-                }
-                return NULL;
             }
             if (cmd->id == CmdUnread){
                 unsigned contact_id = 0;

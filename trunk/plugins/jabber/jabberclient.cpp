@@ -961,7 +961,7 @@ void JabberClient::handshake(const char *id)
             auth_digest();
         }
 #else
-auth_plain();
+        auth_plain();
 #endif
     }
 }
@@ -1003,7 +1003,7 @@ QCString JabberClient::encodeXML(const QString &str)
     return quoteString(str, quoteNOBR).utf8();
 }
 
-JabberUserData *JabberClient::findContact(const char *_jid, const char *name, bool bCreate, Contact *&contact, string &resource)
+JabberUserData *JabberClient::findContact(const char *_jid, const char *name, bool bCreate, Contact *&contact, string &resource, bool bJoin)
 {
     resource = "";
     string jid = _jid;
@@ -1038,19 +1038,21 @@ JabberUserData *JabberClient::findContact(const char *_jid, const char *name, bo
         if (pos > 0)
             sname = sname.left(pos);
     }
-    while ((contact = ++it) != NULL){
-        if (contact->getName().lower() == sname.lower()){
-            JabberUserData *data = (JabberUserData*)(contact->clientData.createData(this));
-            set_str(&data->ID.ptr, jid.c_str());
-            if (!resource.empty())
-                set_str(&data->Resource.ptr, resource.c_str());
-            if (name)
-                set_str(&data->Name.ptr, name);
-            info_request(data, false);
-            Event e(EventContactChanged, contact);
-            e.process();
-            m_bJoin = true;
-            return data;
+    if (bJoin){
+        while ((contact = ++it) != NULL){
+            if (contact->getName().lower() == sname.lower()){
+                JabberUserData *data = (JabberUserData*)(contact->clientData.createData(this));
+                set_str(&data->ID.ptr, jid.c_str());
+                if (!resource.empty())
+                    set_str(&data->Resource.ptr, resource.c_str());
+                if (name)
+                    set_str(&data->Name.ptr, name);
+                info_request(data, false);
+                Event e(EventContactChanged, contact);
+                e.process();
+                m_bJoin = true;
+                return data;
+            }
         }
     }
     contact = getContacts()->contact(0, true);

@@ -42,7 +42,7 @@ class EXPORT TlvList
 {
 public:
     TlvList();
-    TlvList(Buffer&);
+    TlvList(Buffer&, unsigned nTlvs = (unsigned)(-1));
     ~TlvList();
     Tlv *operator() (unsigned short num);
     TlvList &operator + (Tlv *tlv);
@@ -125,6 +125,13 @@ public:
     void tlv(unsigned short n, unsigned long c);
     void tlv(unsigned short n, long c) { tlv(n, (unsigned long)c); }
     void tlv(unsigned short n, Buffer &b) { tlv(n, b.data(), (unsigned short)(b.size())); }
+
+    void tlvLE(unsigned short n, const char *data, unsigned short len);
+    void tlvLE(unsigned short n, const char *data);
+    void tlvLE(unsigned short n, char c) { tlvLE(n, &c, 1); }
+    void tlvLE(unsigned short n, unsigned short c);
+    void tlvLE(unsigned short n, unsigned long c);
+    void tlvLE(unsigned short n, Buffer &b) { tlvLE(n, b.data(), (unsigned short)(b.size())); }
 
     bool scan(const char *substr, string &res);
 

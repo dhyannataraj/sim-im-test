@@ -41,6 +41,7 @@ protected slots:
     void pswdChanged(const QString&);
     void profileDelete();
     void loginComplete();
+    void adjust();
 protected:
     virtual void *processEvent(Event*);
     virtual void closeEvent(QCloseEvent *e);

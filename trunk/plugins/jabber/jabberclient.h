@@ -124,6 +124,7 @@ typedef struct JabberAgentInfo
     Data		Type;
     Data		Label;
     Data		Value;
+    Data		Desc;
     Data		Options;
     Data		OptionLabels;
     Data		nOptions;
@@ -138,6 +139,7 @@ typedef struct JabberSearchData
     Data		Last;
     Data		Nick;
     Data		EMail;
+    Data		Status;
     Data		Fields;
     Data		nFields;
 } JabberSearchData;
@@ -290,7 +292,7 @@ class MessageRequest : public ServerRequest
     PROP_STR(URL);
 
     string		buildId(JabberUserData *data);
-    JabberUserData	*findContact(const char *jid, const char *name, bool bCreate, Contact *&contact, string &resource);
+    JabberUserData	*findContact(const char *jid, const char *name, bool bCreate, Contact *&contact, string &resource, bool bJoin=true);
     bool		add_contact(const char *id, unsigned grp);
     string		get_agents(const char *jid);
     string		get_agent_info(const char *jid, const char *node, const char *type);

@@ -41,11 +41,18 @@
 #define QStyleSheet		Qt3::QStyleSheet
 #endif
 
+#ifdef WIN32
+#include <windows.h>
+#ifndef CS_DROPSHADOW
+#define CS_DROPSHADOW   0x00020000
+#endif
+#endif
+
 #define BALLOON_R			10
 #define BALLOON_TAIL		20
 #define BALLOON_TAIL_WIDTH	12
-#define BALLOON_SHADOW		2
 #define BALLOON_MARGIN		8
+#define BALLOON_SHADOW_DEF	2
 
 UI_EXPORT QPixmap& intensity(QPixmap &pict, float percent)
 {
@@ -169,6 +176,11 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
     QSize sMin = frm->minimumSizeHint();
     if (s.width() < sMin.width())
         s.setWidth(sMin.width());
+    int BALLOON_SHADOW = BALLOON_SHADOW_DEF;
+#ifdef WIN32
+    if (GetClassLong(winId(), GCL_STYLE) & CS_DROPSHADOW)
+        BALLOON_SHADOW = 0;
+#endif
     resize(s.width() + BALLOON_R * 2 + BALLOON_SHADOW,
            s.height() + BALLOON_R * 2 + BALLOON_TAIL + BALLOON_SHADOW + hButton + BALLOON_MARGIN);
     mask = QBitmap(width(), height());

@@ -35,6 +35,8 @@ const ext_info ages[] =
         { "", 0 }
     };
 
+const ext_info *p_ages = ages;
+
 AdvSearch::AdvSearch()
 {
     initCombo(cmbGender, 0, p_genders);

@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "connectwnd.h"
+#include "linklabel.h"
 
 #include <qlabel.h>
 #include <qmovie.h>
@@ -45,6 +46,7 @@ void ConnectWnd::updateMovie()
 
 void ConnectWnd::setConnecting(bool bState)
 {
+    lnkPass->hide();
     if (bState){
         lblConnect->show();
         lblMovie->show();
@@ -64,7 +66,7 @@ void ConnectWnd::setConnecting(bool bState)
     }
 }
 
-void ConnectWnd::setErr(const QString &text)
+void ConnectWnd::setErr(const QString &text, const char *url)
 {
     lblConnect->hide();
     lblMovie->hide();
@@ -72,6 +74,13 @@ void ConnectWnd::setErr(const QString &text)
     lblNext->hide();
     lblError->setText(text);
     frmError->show();
+    if (url && *url){
+        lnkPass->setUrl(url);
+        lnkPass->setText(i18n("Forgot password?"));
+        lnkPass->show();
+    }else{
+        lnkPass->hide();
+    }
 }
 
 #ifndef WIN32

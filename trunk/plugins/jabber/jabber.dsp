@@ -926,6 +926,10 @@ SOURCE=.\jabber.rc
 # PROP Default_Filter "xpm"
 # Begin Source File
 
+SOURCE=.\xpm\connect.xpm
+# End Source File
+# Begin Source File
+
 SOURCE=.\xpm\jabber.xpm
 # End Source File
 # Begin Source File

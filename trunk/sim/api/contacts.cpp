@@ -1778,7 +1778,7 @@ void ContactList::load()
         }else if ((s.length() > strlen(CONTACT)) && !memcmp(s.c_str(), CONTACT, strlen(CONTACT))){
             p->flush(c, g);
             g = NULL;
-            unsigned long id = atol(s.c_str() + strlen(GROUP));
+            unsigned long id = atol(s.c_str() + strlen(CONTACT));
             c = contact(id, true);
             s = "";
         }

@@ -292,14 +292,14 @@ void ICQClient::parseRosterItem(unsigned short type,
         break;
     case 0x0009:
     case 0x000f:    /* I saw this roster type in junction to
-                           TLV(0x0145) - DateTime() */
+                               TLV(0x0145) - DateTime() */
         break;
     case 0x0010:{   /* This should maybe go into "Non-IM contact" */
             Tlv *tlv_name = NULL;
             Tlv *tlv_phone = NULL;
             string alias;
             string phone;
-            
+
             if (inf) {
                 tlv_name = (*inf)(TLV_ALIAS);
                 if (tlv_name)
@@ -309,16 +309,16 @@ void ICQClient::parseRosterItem(unsigned short type,
                     phone = (char*)(*tlv_phone);
                 }
                 log (L_DEBUG,"External Contact: %s Phone: %s",
-                             alias.c_str(),
-                             phone.c_str());
+                     alias.c_str(),
+                     phone.c_str());
             }
-            break;    
+            break;
         }
     case 0x0011:
     case 0x0013:{
             Tlv *tlv_time = NULL;
             QDateTime qt_time;
-            
+
             if (inf) {
                 tlv_time = (*inf)(TLV_TIME);
                 qt_time.setTime_t((unsigned long)(*tlv_time));

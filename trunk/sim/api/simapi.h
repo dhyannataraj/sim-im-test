@@ -1486,7 +1486,6 @@ const unsigned PROTOCOL_INFO			= 0x00010000;
 const unsigned PROTOCOL_INVISIBLE		= 0x00080000;
 const unsigned PROTOCOL_AR				= 0x00100000;
 const unsigned PROTOCOL_AR_USER			= 0x00200000;
-const unsigned PROTOCOL_FOLLOWME		= 0x00400000;
 const unsigned PROTOCOL_ANY_PORT		= 0x00800000;
 const unsigned PROTOCOL_NOSMS			= 0x01000000;
 const unsigned PROTOCOL_NOPROXY			= 0x02000000;

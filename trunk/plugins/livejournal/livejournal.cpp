@@ -775,7 +775,7 @@ bool LiveJournalClient::add(const char *name)
     return true;
 }
 
-LiveJournalUserData *LiveJournalClient::findContact(const char *user, Contact *&contact, bool bCreate)
+LiveJournalUserData *LiveJournalClient::findContact(const char *user, Contact *&contact, bool bCreate, bool bJoin)
 {
     ContactList::ContactIterator it;
     while ((contact = ++it) != NULL){
@@ -786,17 +786,19 @@ LiveJournalUserData *LiveJournalClient::findContact(const char *user, Contact *&
                 return data;
         }
     }
-    QString sname = QString::fromUtf8(user);
-    it.reset();
-    while ((contact = ++it) != NULL){
-        if (contact->getName().lower() == sname.lower())
-            break;;
-    }
-    if (contact == NULL){
-        if (!bCreate)
-            return NULL;
-        contact = getContacts()->contact(0, true);
-        contact->setName(sname);
+    if (bJoin){
+        QString sname = QString::fromUtf8(user);
+        it.reset();
+        while ((contact = ++it) != NULL){
+            if (contact->getName().lower() == sname.lower())
+                break;;
+        }
+        if (contact == NULL){
+            if (!bCreate)
+                return NULL;
+            contact = getContacts()->contact(0, true);
+            contact->setName(sname);
+        }
     }
     LiveJournalUserData *data = (LiveJournalUserData*)(contact->clientData.createData(this));
     set_str(&data->User.ptr, user);
@@ -1016,9 +1018,9 @@ void LiveJournalClient::setStatus(unsigned status)
     version = "Win32";
 #else
 #ifdef QT_MACOSX_VERSION
-version = "MacOS";
+    version = "MacOS";
 #else
-version = "Qt";
+    version = "Qt";
 #endif
 #endif
     version += "-" PACKAGE "/" VERSION;

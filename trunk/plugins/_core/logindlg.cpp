@@ -241,6 +241,14 @@ void LoginDialog::profileChanged(int)
         buttonOk->setEnabled(false);
         pswdChanged("");
     }
+    QTimer::singleShot(0, this, SLOT(adjust()));
+}
+
+void LoginDialog::adjust()
+{
+    int h = minimumSizeHint().height();
+    resize(width(), h);
+    move(x(), (qApp->desktop()->height() - h) / 2);
 }
 
 static void rmDir(const QString &path)
@@ -254,7 +262,7 @@ static void rmDir(const QString &path)
 #ifdef WIN32
         p += "\\";
 #else
-p += "/";
+        p += "/";
 #endif
         p += *it;
         rmDir(p);

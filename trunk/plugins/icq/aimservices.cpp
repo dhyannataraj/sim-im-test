@@ -232,16 +232,16 @@ void SearchSocket::process()
                 addTlv(0x04, maiden, bLatin);
             if (!country.isEmpty())
                 addTlv(0x06, country, bLatin);
-            if (!street.isEmpty())
-                addTlv(0x07, street, bLatin);
+            if (!state.isEmpty())
+                addTlv(0x07, state, bLatin);
             if (!city.isEmpty())
                 addTlv(0x08, city, bLatin);
             if (!nick.isEmpty())
                 addTlv(0x0C, nick, bLatin);
             if (!zip.isEmpty())
                 addTlv(0x0D, zip, bLatin);
-            if (!state.isEmpty())
-                addTlv(0x21, state, bLatin);
+            if (!street.isEmpty())
+                addTlv(0x21, street, bLatin);
         }
         sendPacket();
         m_seq.insert(SEQ_MAP::value_type(m_nMsgSequence, (*it).first));
@@ -275,7 +275,7 @@ void SearchSocket::snac_service(unsigned short type)
     switch (type){
     case SNACxSRV_READYxSERVER:
         snac(ICQ_SNACxFAM_SERVICE, SNACxSRV_I_AM_ICQ);
-        m_socket->writeBuffer << 0x00010003L << 0x000F0001L;
+        m_socket->writeBuffer << 0x00010004L << 0x000F0001L;
         sendPacket();
         break;
     case SNACxSRV_ACK_ICQ:
@@ -306,18 +306,17 @@ void SearchSocket::snac_search(unsigned short type, unsigned short seq)
         if (it == m_seq.end()){
             log(L_WARN, "Bad sequence in search answer");
         }else{
-            unsigned short res1, res2;
-            m_socket->readBuffer >> res1;
-            m_socket->readBuffer.incReadPos(4);
-            m_socket->readBuffer >> res2;
+            unsigned short r;
+            unsigned long nSearch;
+            m_socket->readBuffer >> r >> nSearch;
 
             SearchResult res;
             res.id = (*it).second;
             res.client = m_client;
-
-            bool bEnd = true;
-            if (res2){
-                TlvList tlvs(m_socket->readBuffer);
+            for (unsigned n = 0; n < nSearch; n++){
+                unsigned short nTlvs;
+                m_socket->readBuffer >> nTlvs;
+                TlvList tlvs(m_socket->readBuffer, nTlvs);
                 Tlv *tlv = tlvs(0x09);
                 if (tlv){
                     load_data(ICQProtocol::icqUserData, &res.data, NULL);
@@ -332,19 +331,49 @@ void SearchSocket::snac_search(unsigned short type, unsigned short seq)
                         QString str = ICQClient::convert(tlv, tlvs, 0x1C);
                         set_str(&res.data.LastName.ptr, str.utf8());
                     }
+                    tlv = tlvs(0x03);
+                    if (tlv){
+                        QString str = ICQClient::convert(tlv, tlvs, 0x1C);
+                        set_str(&res.data.MiddleName.ptr, str.utf8());
+                    }
+                    tlv = tlvs(0x07);
+                    if (tlv){
+                        QString str = ICQClient::convert(tlv, tlvs, 0x1C);
+                        set_str(&res.data.Address.ptr, str.utf8());
+                    }
+                    tlv = tlvs(0x08);
+                    if (tlv){
+                        QString str = ICQClient::convert(tlv, tlvs, 0x1C);
+                        set_str(&res.data.City.ptr, str.utf8());
+                    }
                     tlv = tlvs(0x0C);
                     if (tlv){
                         QString str = ICQClient::convert(tlv, tlvs, 0x1C);
                         set_str(&res.data.Nick.ptr, str.utf8());
                     }
+                    tlv = tlvs(0x07);
+                    if (tlv){
+                        QString str = ICQClient::convert(tlv, tlvs, 0x1C);
+                        set_str(&res.data.State.ptr, str.utf8());
+                    }
+                    tlv = tlvs(0x06);
+                    if (tlv){
+                        QString country_text;
+                        country_text.setLatin1(*tlv, tlv->Size());
+                        country_text = country_text.lower();
+                        for (const ext_info *info = getCountryCodes(); info->szName; ++info){
+                            if (country_text == info->szName){
+                                res.data.Country.value = info->nCode;
+                                break;
+                            }
+                        }
+                    }
                     Event e(EventSearch, &res);
                     e.process();
                     free_data(ICQProtocol::icqUserData, &res.data);
                 }
-                if (res1 == 6)
-                    bEnd = false;
             }
-            if (bEnd){
+            if (r != 6){
                 load_data(ICQProtocol::icqUserData, &res.data, NULL);
                 Event e(EventSearchDone, &res);
                 e.process();

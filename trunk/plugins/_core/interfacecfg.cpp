@@ -67,6 +67,7 @@ static language langs[] =
         { "ru", I18N_NOOP("Russian") },
         { "sk", I18N_NOOP("Slovak") },
         { "sw", I18N_NOOP("Swabian") },
+        { "th", I18N_NOOP("Thai") },
         { "tr", I18N_NOOP("Turkish") },
         { "uk", I18N_NOOP("Ukrainian") },
         { "zh_TW", I18N_NOOP("Chinese") },
@@ -119,7 +120,7 @@ InterfaceConfig::InterfaceConfig(QWidget *parent)
     }
     cmbLang->setCurrentItem(nCurrent);
 #else
-cmbLang->hide();
+    cmbLang->hide();
 #endif
     connect(grpMode, SIGNAL(clicked(int)), this, SLOT(modeChanged(int)));
     if (CorePlugin::m_plugin->getContainerMode()){

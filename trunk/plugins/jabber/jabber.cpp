@@ -21,6 +21,7 @@
 
 #include "xpm/jabber.xpm"
 #include "xpm/register.xpm"
+#include "xpm/connect.xpm"
 
 Plugin *createJabberPlugin(unsigned base, bool, Buffer *cfg)
 {
@@ -226,6 +227,11 @@ JabberPlugin::JabberPlugin(unsigned base, Buffer *cfg)
 
     icon.name = "reg";
     icon.xpm  = reg;
+    eIcon.process();
+
+    icon.name = "connect";
+    icon.xpm  = connect_xpm;
+    icon.system = "connect_established";
     eIcon.process();
 
     Event eMenuSearch(EventMenuCreate, (void*)MenuSearchResult);

@@ -43,9 +43,9 @@ const unsigned short ICQ_SRVxREQ_FULL_INFO          = 0xB204;
 const unsigned short ICQ_SRVxREQ_SHORT_INFO         = 0xBA04;
 const unsigned short ICQ_SRVxREQ_OWN_INFO           = 0xD004;
 const unsigned short ICQ_SRVxREQ_SEND_SMS           = 0x8214;
-const unsigned short ICQ_SRVxREQ_WP_INFO_UIN        = 0x6905;
-const unsigned short ICQ_SRVxREQ_WP_SHORT           = 0x1505;
-const unsigned short ICQ_SRVxREQ_WP_FULL            = 0x3305;
+const unsigned short ICQ_SRVxREQ_WP_UIN				= 0x6905;
+const unsigned short ICQ_SRVxREQ_WP_MAIL            = 0x7305;
+const unsigned short ICQ_SRVxREQ_WP_FULL            = 0x5F05;
 const unsigned short ICQ_SRVxREQ_CHANGE_PASSWD      = 0x2E04;
 const unsigned short ICQ_SRVxREQ_PERMISSIONS        = 0x2404;
 const unsigned short ICQ_SRVxREQ_XML_KEY            = 0x9808;
@@ -71,6 +71,51 @@ const unsigned short ICQ_SRVxREQ_MODIFY_MAIL        = 0x0B04;
 const unsigned short ICQ_SRVxREQ_PHONE_UPDATE       = 0x5406;
 const unsigned short ICQ_SRVxREQ_SET_CHAT_GROUP     = 0x5807;
 const unsigned short ICQ_SRVxREQ_RANDOM_CHAT        = 0x4E07;
+
+const unsigned short TLV_UIN						= 0x0136;
+const unsigned short TLV_FIRST_NAME					= 0x0140;
+const unsigned short TLV_LAST_NAME					= 0x014A;
+const unsigned short TLV_NICK						= 0x0154;
+const unsigned short TLV_EMAIL						= 0x015E;
+const unsigned short TLV_AGE_RANGE					= 0x0168;
+const unsigned short TLV_AGE						= 0x0172;
+const unsigned short TLV_GENDER						= 0x017C;
+const unsigned short TLV_LANGUAGE					= 0x0186;
+const unsigned short TLV_CITY						= 0x0190;
+const unsigned short TLV_STATE						= 0x019A;
+const unsigned short TLV_COUNTRY					= 0x01A4;
+const unsigned short TLV_WORK_COMPANY				= 0x01AE;
+const unsigned short TLV_WORK_DEPARTMENT			= 0x01B8;
+const unsigned short TLV_WORK_POSITION				= 0x01C2;
+const unsigned short TLV_WORK_OCCUPATION			= 0x01CC;
+const unsigned short TLV_AFFILATIONS				= 0x01D6;
+const unsigned short TLV_INTERESTS					= 0x01EA;
+const unsigned short TLV_PAST						= 0x01FE;
+const unsigned short TLV_HOMEPAGE_CATEGORY			= 0x0212;
+const unsigned short TLV_HOMEPAGE					= 0x0213;
+const unsigned short TLV_KEYWORDS					= 0x0226;
+const unsigned short TLV_SEARCH_ONLINE				= 0x0230;
+const unsigned short TLV_BIRTHDAY					= 0x023A;
+const unsigned short TLV_NOTES						= 0x0258;
+const unsigned short TLV_STREET						= 0x0262;
+const unsigned short TLV_ZIP						= 0x026C;
+const unsigned short TLV_PHONE						= 0x0276;
+const unsigned short TLV_FAX						= 0x0280;
+const unsigned short TLV_CELLULAR					= 0x028A;
+const unsigned short TLV_WORK_STREET				= 0x0294;
+const unsigned short TLV_WORK_CITY					= 0x029E;
+const unsigned short TLV_WORK_STATE					= 0x02A8;
+const unsigned short TLV_WORK_CIUNTRY				= 0x02B2;
+const unsigned short TLV_WORK_ZIP					= 0x02BC;
+const unsigned short TLV_WORK_PHONE					= 0x02C6;
+const unsigned short TLV_WORK_FAX					= 0x02D0;
+const unsigned short TLV_WORK_HOMEPAGE				= 0x02DA;
+const unsigned short TLV_SHOW_WEB					= 0x02F8;
+const unsigned short TLV_NEED_AUTH					= 0x030C;
+const unsigned short TLV_TIMEZONE					= 0x0316;
+const unsigned short TLV_ORIGINALLY_CITY			= 0x0320;
+const unsigned short TLV_ORIGINALLY_STATE			= 0x032A;
+const unsigned short TLV_ORIGINALLY_COUNTRY			= 0x0334;
 
 const char SEARCH_STATE_OFFLINE  = 0;
 const char SEARCH_STATE_ONLINE   = 1;
@@ -634,14 +679,18 @@ bool SearchWPRequest::answer(Buffer &b, unsigned short nSubType)
     b >> n;
     b.unpack(res.data.Uin.value);
     char waitAuth;
-    char state;
+    unsigned short state;
+    char gender;
+    unsigned short age;
     b
     >> &res.data.Nick.ptr
     >> &res.data.FirstName.ptr
     >> &res.data.LastName.ptr
     >> &res.data.EMail.ptr
-    >> waitAuth
-    >> state;
+    >> waitAuth;
+    b.unpack(state);
+    b >> gender;
+    b.unpack(age);
 
     if (waitAuth)
         res.data.WaitAuth.bValue = true;
@@ -656,13 +705,18 @@ bool SearchWPRequest::answer(Buffer &b, unsigned short nSubType)
         res.data.Status.value = STATUS_UNKNOWN;
         break;
     }
+    res.data.Gender.value = gender;
+    res.data.Age.value    = age;
 
     Event e(EventSearch, &res);
     e.process();
     free_data(ICQProtocol::icqUserData, &res.data);
 
     if (nSubType == 0xAE01){
+        unsigned long all;
+        b >> all;
         load_data(ICQProtocol::icqUserData, &res.data, NULL);
+        res.data.Uin.value = all;
         Event e(EventSearchDone, &res);
         e.process();
         free_data(ICQProtocol::icqUserData, &res.data);
@@ -677,12 +731,37 @@ unsigned short ICQClient::findByUin(unsigned long uin)
         return (unsigned short)(-1);
     serverRequest(ICQ_SRVxREQ_MORE);
     m_socket->writeBuffer
-    << ICQ_SRVxREQ_WP_INFO_UIN
-    << 0x36010400L;
-    m_socket->writeBuffer.pack(uin);
+    << ICQ_SRVxREQ_WP_UIN;
+    m_socket->writeBuffer.tlvLE(TLV_UIN, uin);
     sendServerRequest();
     varRequests.push_back(new SearchWPRequest(this, m_nMsgSequence));
     return m_nMsgSequence;
+}
+
+unsigned short ICQClient::findByMail(const char *mail)
+{
+    if (getState() != Connected)
+        return (unsigned short)(-1);
+    serverRequest(ICQ_SRVxREQ_MORE);
+    m_socket->writeBuffer
+    << ICQ_SRVxREQ_WP_MAIL;
+    m_socket->writeBuffer.tlvLE(TLV_EMAIL, mail);
+    sendServerRequest();
+    varRequests.push_back(new SearchWPRequest(this, m_nMsgSequence));
+    return m_nMsgSequence;
+}
+
+void ICQClient::packTlv(unsigned short tlv, unsigned short code, const char *keywords)
+{
+    string k;
+    if (keywords)
+        k = keywords;
+    if ((code == 0) && k.empty())
+        return;
+    Buffer b;
+    b.pack(code);
+    b << k;
+    m_socket->writeBuffer.tlvLE(tlv, b);
 }
 
 unsigned short ICQClient::findWP(const char *szFirst, const char *szLast, const char *szNick,
@@ -693,31 +772,17 @@ unsigned short ICQClient::findWP(const char *szFirst, const char *szLast, const 
                                  char nOccupation,
                                  unsigned short nPast, const char *szPast,
                                  unsigned short nInterests, const char *szInterests,
-                                 unsigned short nAffiliation, const char *szAffiliation,
+                                 unsigned short nAffilation, const char *szAffilation,
                                  unsigned short nHomePage, const char *szHomePage,
-                                 bool bOnlineOnly)
+                                 const char *szKeyWords, bool bOnlineOnly)
 {
     if (getState() != Connected)
         return (unsigned short)(-1);
     serverRequest(ICQ_SRVxREQ_MORE);
     m_socket->writeBuffer << ICQ_SRVxREQ_WP_FULL;
 
-    string sFirst = szFirst ? szFirst : "";
-    string sLast = szLast ? szLast : "";
-    string sNick = szNick ? szNick : "";
-    string sEmail = szEmail ? szEmail : "";
-    string sCity = szCity ? szCity : "";
-    string sState = szState ? szState : "";
-    string sCoName = szCoName ? szCoName : "";
-    string sCoDept = szCoDept ? szCoDept : "";
-    string sCoPos = szCoPos ? szCoPos : "";
-    string sPast = szPast ? szPast : "";
-    string sInterests = szInterests ? szInterests : "";
-    string sAffiliation = szAffiliation ? szAffiliation : "";
-    string sHomePage = szHomePage ? szHomePage : "";
-
-    unsigned short nMinAge = 0;
-    unsigned short nMaxAge = 0;
+    unsigned long nMinAge = 0;
+    unsigned long nMaxAge = 0;
     switch (age){
     case 1:
         nMinAge = 18;
@@ -745,38 +810,43 @@ unsigned short ICQClient::findWP(const char *szFirst, const char *szLast, const 
         break;
     }
 
-    m_socket->writeBuffer
-    << sFirst
-    << sLast
-    << sNick
-    << sEmail;
-    m_socket->writeBuffer.pack(nMinAge);
-    m_socket->writeBuffer.pack(nMaxAge);
-    m_socket->writeBuffer
-    << nGender
-    << nLanguage
-    << sCity
-    << sState;
-    m_socket->writeBuffer.pack(nCountryCode);
-    m_socket->writeBuffer
-    << sCoName
-    << sCoDept
-    << sCoPos
-
-    << nOccupation
-    << nPast
-    << sPast
-    << nInterests
-    << sInterests
-    << nAffiliation
-    << sAffiliation
-    << nHomePage
-    << sHomePage;
-
-    m_socket->writeBuffer << (char)(bOnlineOnly ? 1 : 0);
-
+    if (szCity && *szCity)
+        m_socket->writeBuffer.tlvLE(TLV_CITY, szCity);
+    if (szState && *szState)
+        m_socket->writeBuffer.tlvLE(TLV_STATE, szState);
+    if (szCoName && *szCoName)
+        m_socket->writeBuffer.tlvLE(TLV_WORK_COMPANY, szCoName);
+    if (szCoDept && *szCoDept)
+        m_socket->writeBuffer.tlvLE(TLV_WORK_DEPARTMENT, szCoDept);
+    if (szCoPos && *szCoPos)
+        m_socket->writeBuffer.tlvLE(TLV_WORK_POSITION, szCoPos);
+    if (nMinAge || nMaxAge)
+        m_socket->writeBuffer.tlvLE(TLV_AGE_RANGE, (nMaxAge << 16) + nMinAge);
+    if (nGender)
+        m_socket->writeBuffer.tlvLE(TLV_GENDER, nGender);
+    if (nLanguage)
+        m_socket->writeBuffer.tlvLE(TLV_LANGUAGE, nLanguage);
+    if (nCountryCode)
+        m_socket->writeBuffer.tlvLE(TLV_COUNTRY, nCountryCode);
+    if (nOccupation)
+        m_socket->writeBuffer.tlvLE(TLV_WORK_OCCUPATION, nOccupation);
+    packTlv(TLV_PAST, nPast, szPast);
+    packTlv(TLV_INTERESTS, nInterests, szInterests);
+    packTlv(TLV_AFFILATIONS, nAffilation, szAffilation);
+    packTlv(TLV_HOMEPAGE, nHomePage, szHomePage);
+    if (szFirst && *szFirst)
+        m_socket->writeBuffer.tlvLE(TLV_FIRST_NAME, szFirst);
+    if (szLast && *szLast)
+        m_socket->writeBuffer.tlvLE(TLV_LAST_NAME, szLast);
+    if (szNick && *szNick)
+        m_socket->writeBuffer.tlvLE(TLV_NICK, szNick);
+    if (szKeyWords && *szKeyWords)
+        m_socket->writeBuffer.tlvLE(TLV_KEYWORDS, szKeyWords);
+    if (szEmail && *szEmail)
+        m_socket->writeBuffer.tlvLE(TLV_EMAIL, szEmail);
+    if (bOnlineOnly)
+        m_socket->writeBuffer.tlvLE(TLV_SEARCH_ONLINE, (char)1);
     sendServerRequest();
-
     varRequests.push_back(new SearchWPRequest(this, m_nMsgSequence));
     return m_nMsgSequence;
 }

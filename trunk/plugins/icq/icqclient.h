@@ -281,9 +281,9 @@ class ICQClient;
 
 typedef struct SearchResult
 {
-    ICQUserData        data;
+    ICQUserData       data;
     unsigned short    id;
-    ICQClient        *client;
+    ICQClient         *client;
 } SearchResult;
 
 class QTimer;
@@ -500,6 +500,7 @@ public:
     PROP_BOOL(KeepAlive);
     ICQClientData    data;
     unsigned short findByUin(unsigned long uin);
+    unsigned short findByMail(const char *mail);
     unsigned short findWP(const char *first, const char *last, const char *nick,
                           const char *email, char age, char nGender,
                           char nLanguage, const char *city, const char *szState,
@@ -510,7 +511,7 @@ public:
                           unsigned short nInterests, const char *szInterests,
                           unsigned short nAffiliation, const char *szAffiliation,
                           unsigned short nHomePoge, const char *szHomePage,
-                          bool bOnlineOnly);
+                          const char *sKeyWord, bool bOnlineOnly);
     Contact *getContact(ICQUserData*);
     ICQUserData *findContact(const char *screen, const char *alias, bool bCreate, Contact *&contact, Group *grp=NULL, bool bJoin=true);
     ICQUserData *findGroup(unsigned id, const char *name, Group *&group);
@@ -711,6 +712,7 @@ protected:
     void encodeString(const QString &text, const char *type, unsigned short charsetTlv, unsigned short infoTlv);
     void encodeString(const char *_str, unsigned short nTlv, bool bWide);
     bool processMsg();
+    void packTlv(unsigned short tlv, unsigned short code, const char *keywords);
     ICQUserData *findInfoRequest(unsigned short seq, Contact *&contact);
     INFO_REQ_MAP m_info_req;
     unsigned short msgStatus();

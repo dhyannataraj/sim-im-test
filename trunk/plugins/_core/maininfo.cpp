@@ -87,14 +87,10 @@ MainInfo::MainInfo(QWidget *parent, Contact *contact)
         lblStatus->hide();
         cmbStatus->hide();
     }
-    bool bHide = true;
-    for (unsigned i = 0; i < getContacts()->nClients(); i++){
-        if (getContacts()->getClient(i)->protocol()->description()->flags & PROTOCOL_FOLLOWME){
-            bHide = false;
-            break;
-        }
-    }
-    if (bHide){
+    Command cmd;
+    cmd->id = CmdPhones;
+    Event eCheck(EventCheckState, cmd);
+    if (!eCheck.process()){
         lblCurrent->hide();
         cmbCurrent->hide();
         lblStatus->hide();
@@ -264,7 +260,7 @@ void MainInfo::fill()
 
 void MainInfo::apply()
 {
-    getEncoding(false); /* EventContactChanged kills all our settings ... 
+    getEncoding(false); /* EventContactChanged kills all our settings ...
                            and we send event also :) */
     Contact *contact = m_contact;
     if (contact == NULL){

@@ -28,6 +28,9 @@ public:
     NonIM(QWidget *parent);
 signals:
     void setAdd(bool);
+    void showError(const QString&);
+protected slots:
+    void add(unsigned grp_id);
 protected:
     void showEvent(QShowEvent*);
 };
