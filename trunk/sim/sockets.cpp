@@ -66,7 +66,7 @@ ICQClientSocket::ICQClientSocket(QSocket *s)
     if (sock == NULL)
 #ifdef HAVE_KEXTSOCK_H
         sock = new KExtendedSocket;
-    sock->setSocketFlags(KExtendedSocket::bufferedSocket | KExtendedSocket::inetSocket);
+    sock->setSocketFlags(KExtendedSocket::bufferedSocket | KExtendedSocket::inetSocket | KExtendedSocket::noResolve | KExtendedSocket::streamSocket);
     resolver = NULL;
 #else
         sock = new QSocket(this);
@@ -204,6 +204,7 @@ void ICQClientSocket::connect(const char *host, int _port)
 void ICQClientSocket::doConnect(const char *host)
 {
 #ifdef HAVE_KEXTSOCK_H
+    sock->open();
     sock->setAddress(host, port);
     sock->enableRead(true);
     sock->enableWrite(true);
