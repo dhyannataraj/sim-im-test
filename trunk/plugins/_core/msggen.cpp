@@ -137,7 +137,10 @@ void MsgGen::textChanged()
 {
     if (btnSend == NULL)
         return;
-    bool bEnable = !m_edit->m_edit->text().isEmpty();
+    // we need to unqoute this text...
+    QString text = m_edit->m_edit->text();
+    text = m_edit->m_edit->unquoteString(text,0,text.length());
+    bool bEnable = !text.isEmpty();
     if (bEnable && m_edit->m_userWnd->m_list && m_edit->m_userWnd->m_list->selected.empty())
         bEnable = false;
     btnSend->setEnabled(bEnable);
