@@ -168,7 +168,15 @@ FileTransferDlg::FileTransferDlg(FileMessage *msg)
     SET_WNDPROC("filetransfer")
     setIcon(Pict("file"));
     setButtonsPict(this);
-    setCaption((msg->getFlags() & MESSAGE_RECEIVED) ? i18n("Receive file") : i18n("Send file"));
+	QString name;
+	Contact *contact = getContacts()->contact(m_msg->contact());
+	if (contact){
+		name = contact->getName();
+		name = getToken(name, '/');
+	}
+    setCaption((msg->getFlags() & MESSAGE_RECEIVED) ? 
+		i18n("Receive file from %1") .arg(name) : 
+		i18n("Send file to %1") .arg(name));
     if (msg->getFlags() & MESSAGE_RECEIVED)
         m_dir = m_msg->m_transfer->dir();
     disableWidget(edtTime);
