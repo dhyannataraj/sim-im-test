@@ -579,6 +579,7 @@ void ConfigureDialog::raisePage(Client *client)
             continue;
         if (static_cast<ClientItem*>(item)->client() == client){
             lstBox->setCurrentItem(item);
+			lstBox->ensureItemVisible(item);
             return;
         }
     }
@@ -613,7 +614,6 @@ void ConfigureDialog::raisePhoneBook()
 
 void ConfigureDialog::repaintCurrent()
 {
-    log(L_DEBUG, "repaint");
     QWidget *active = wnd->visibleWidget();
     if (active == NULL)
         return;

@@ -25,6 +25,8 @@
 #include <qstringlist.h>
 #include <qapplication.h>
 #include <qregexp.h>
+#include <qpopupmenu.h>
+#include <qclipboard.h>
 #ifdef USE_KDE
 #include <kfiledialog.h>
 #define QFileDialog	KFileDialog
@@ -244,6 +246,183 @@ void FileLineEdit::dragEnterEvent(QDragEnterEvent *e)
 void FileLineEdit::dropEvent(QDropEvent *e)
 {
     QLineEdit::dropEvent(e);
+}
+
+#if COMPAT_QT_VERSION < 0x030000
+
+const unsigned IdCut			= 1;
+const unsigned IdCopy			= 2;
+const unsigned IdPaste			= 3;
+const unsigned IdClear			= 4;
+
+#endif
+
+const unsigned IdBase			= 0x1000;
+
+LineEdit::LineEdit(QWidget *parent, const char *name)
+: QLineEdit(parent, name)
+{
+	helpList = NULL;
+}
+
+void LineEdit::menuActivated(int id)
+{
+	if ((id < IdBase) || (helpList == NULL))
+		return;
+	id -= IdBase;
+	for (const char **p = helpList; *p; p += 2, id--){
+		if (id == 0){
+			insert(*p);
+			break;
+		}
+	}
+}
+
+void LineEdit::mousePressEvent(QMouseEvent *e)
+{
+#if COMPAT_QT_VERSION < 0x030000
+    if (e->button() == RightButton) {
+		QPopupMenu *popup = createPopupMenu();
+	int r = popup->exec( e->globalPos() );
+	delete popup;
+#ifndef QT_NO_CLIPBOARD
+	if ( r == IdCut)
+	    cut();
+	else if ( r == IdCopy)
+	    copy();
+	else if ( r == IdPaste)
+	    paste();
+#endif
+	else if ( r == IdClear)
+	    clear();
+	else
+		menuActivated(r);
+	return;
+	}
+#endif
+	QLineEdit::mousePressEvent(e);
+}
+
+QPopupMenu *LineEdit::createPopupMenu()
+{
+#if COMPAT_QT_VERSION < 0x030000
+	QPopupMenu *popup = new QPopupMenu( this );
+#ifndef QT_NO_CLIPBOARD
+	popup->insertItem(i18n("Cut"), IdCut);
+	popup->insertItem(i18n("Copy"), IdCopy);
+	popup->insertItem(i18n("Paste"), IdPaste);
+#endif
+	popup->insertItem(i18n("Clear"), IdClear);
+#ifndef QT_NO_CLIPBOARD
+	popup->setItemEnabled(IdCut,
+			          !isReadOnly() && hasMarkedText() );
+	popup->setItemEnabled(IdCopy, hasMarkedText() );
+	popup->setItemEnabled(IdPaste,
+	    !isReadOnly() && (bool)QApplication::clipboard()->text().length() );
+#endif
+	popup->setItemEnabled(IdClear,
+				  !isReadOnly() && (bool)text().length() );
+#else
+	QPopupMenu *popup = QMultiLineEdit::createPopupMenu();
+	connect(popup, SIGNAL(activated(int)), this, SLOT(menuActivated(int)));
+#endif
+	if (helpList){
+		popup->insertSeparator();
+		unsigned id = IdBase;
+		for (const char **p = helpList; *p;){
+			QString s = *p++;
+			s = s.replace(QRegExp("\\&"), "&&");
+			QString text = unquoteText(i18n(*p++));
+			text += " (";
+			text += s;
+			text += ")";
+			popup->insertItem(text, id++);
+		}
+	}
+	return popup;
+}
+
+MultiLineEdit::MultiLineEdit(QWidget *parent, const char *name)
+: QMultiLineEdit(parent, name)
+{
+	helpList = NULL;
+}
+
+void MultiLineEdit::menuActivated(int id)
+{
+	if ((id < IdBase) || (helpList == NULL))
+		return;
+	id -= IdBase;
+	for (const char **p = helpList; *p; p += 2, id--){
+		if (id == 0){
+			insert(*p);
+			break;
+		}
+	}
+}
+
+void MultiLineEdit::mousePressEvent(QMouseEvent *e)
+{
+#if COMPAT_QT_VERSION < 0x030000
+    if (e->button() == RightButton) {
+		QPopupMenu *popup = createPopupMenu();
+	int r = popup->exec( e->globalPos() );
+	delete popup;
+#ifndef QT_NO_CLIPBOARD
+	if ( r == IdCut)
+	    cut();
+	else if ( r == IdCopy)
+	    copy();
+	else if ( r == IdPaste)
+	    paste();
+#endif
+	else if ( r == IdClear)
+	    clear();
+	else
+		menuActivated(r);
+	return;
+	}
+#endif
+	QMultiLineEdit::mousePressEvent(e);
+}
+
+QPopupMenu *MultiLineEdit::createPopupMenu()
+{
+#if COMPAT_QT_VERSION < 0x030000
+	QPopupMenu *popup = new QPopupMenu( this );
+#ifndef QT_NO_CLIPBOARD
+	popup->insertItem(i18n("Cut"), IdCut);
+	popup->insertItem(i18n("Copy"), IdCopy);
+	popup->insertItem(i18n("Paste"), IdPaste);
+#endif
+	popup->insertItem(i18n("Clear"), IdClear);
+#ifndef QT_NO_CLIPBOARD
+	popup->setItemEnabled(IdCut,
+			          !isReadOnly() && hasMarkedText() );
+	popup->setItemEnabled(IdCopy, hasMarkedText() );
+	popup->setItemEnabled(IdPaste,
+	    !isReadOnly() && (bool)QApplication::clipboard()->text().length() );
+#endif
+	popup->setItemEnabled(IdClear,
+				  !isReadOnly() && (bool)text().length() );
+#else
+	QPopupMenu *popup = QMultiLineEdit::createPopupMenu();
+	connect(popup, SIGNAL(activated(int)), this, SLOT(menuActivated(int)));
+#endif
+	if (helpList){
+		popup->insertSeparator();
+		unsigned id = IdBase;
+		for (const char **p = helpList; *p;){
+			QString s = *p++;
+			s = s.replace(QRegExp("\\&"), "&&");
+			QString text = unquoteText(i18n(*p++));
+			text += " (";
+			text += s;
+			text += ")";
+			popup->insertItem(text, id++);
+		}
+	}
+	return popup;
 }
 
 #ifndef _WINDOWS

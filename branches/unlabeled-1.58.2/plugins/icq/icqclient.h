@@ -489,7 +489,7 @@ public:
                           unsigned short nAffiliation, const char *szAffiliation,
                           unsigned short nHomePoge, const char *szHomePage,
                           bool bOnlineOnly);
-    ICQUserData *findContact(const char *screen, const char *alias, bool bCreate, Contact *&contact, Group *grp=NULL);
+    ICQUserData *findContact(const char *screen, const char *alias, bool bCreate, Contact *&contact, Group *grp=NULL, bool bJoin=true);
     ICQUserData *findGroup(unsigned id, const char *name, Group *&group);
     void addFullInfoRequest(unsigned long uin, bool bInLast = true);
     ListRequest *findContactListRequest(const char *screen);

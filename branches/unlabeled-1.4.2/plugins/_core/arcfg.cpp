@@ -18,10 +18,10 @@
 #include "arcfg.h"
 #include "core.h"
 #include "ballonmsg.h"
+#include "editfile.h"
 
 #include <qtabwidget.h>
 #include <qcheckbox.h>
-#include <qmultilineedit.h>
 
 ARConfig::ARConfig(QWidget *p, unsigned status, const QString &name, Contact *contact)
         : ARConfigBase(p)
@@ -63,6 +63,8 @@ ARConfig::ARConfig(QWidget *p, unsigned status, const QString &name, Contact *co
     }
     if (text)
         edtAutoReply->setText(QString::fromUtf8(text));
+	Event e(EventTmplHelpList);
+	edtAutoReply->helpList = (const char**)e.process();
     connect(btnHelp, SIGNAL(clicked()), this, SLOT(help()));
 }
 

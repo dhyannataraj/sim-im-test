@@ -285,7 +285,7 @@ Contact *ICQSearchResult::createContact(unsigned tmpFlags)
     Contact *contact;
     ICQUserData *data = m_client->findContact(item->text(COL_SCREEN).latin1(), item->text(COL_NICK).utf8(), false, contact);
     if (data == NULL){
-        data = m_client->findContact(item->text(COL_SCREEN).latin1(), item->text(COL_NICK).utf8(), true, contact);
+        data = m_client->findContact(item->text(COL_SCREEN).latin1(), item->text(COL_NICK).utf8(), true, contact, NULL, false);
         contact->setTemporary(tmpFlags);
         Event e(EventContactChanged, contact);
         e.process();

@@ -868,7 +868,7 @@ unsigned long ICQClient::fullStatus(unsigned s)
     return status;
 }
 
-ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool bCreate, Contact *&contact, Group *grp)
+ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool bCreate, Contact *&contact, Group *grp, bool bJoin)
 {
     string s;
     for (const char *p = screen; *p; p++)
@@ -909,6 +909,7 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
     }
     if (!bCreate)
         return NULL;
+	if (bJoin){
     for (unsigned i = 0; i < getContacts()->nClients(); i++){
         Client *client = getContacts()->getClient(i);
         if (client == this)
@@ -968,6 +969,7 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
             }
         }
     }
+	}
     contact = getContacts()->contact(0, true);
     data = (ICQUserData*)(contact->clientData.createData(this));
     data->Uin.value = uin;

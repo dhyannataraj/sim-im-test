@@ -27,62 +27,6 @@
 
 #include "socket.h"
 
-#ifdef _DEBUG
-
-static void ssl_info_callback(const SSL *s, int where, int ret)
-{
-    const char *str;
-    int w;
-
-    w = where & ~SSL_ST_MASK;
-
-    if (w & SSL_ST_CONNECT) str="SSL_connect";
-    else if (w & SSL_ST_ACCEPT) str="SSL_accept";
-    else str="undefined";
-
-    if (where & SSL_CB_LOOP)
-    {
-        log(L_DEBUG, "SSL: %s", SSL_state_string_long((SSL*)s));
-    }
-    else if (where & SSL_CB_ALERT)
-    {
-        str=(where & SSL_CB_READ)?"read":"write";
-        log(L_DEBUG, "SSL: SSL3 alert %s:%s:%s", str,
-            SSL_alert_type_string_long(ret),
-            SSL_alert_desc_string_long(ret));
-    }
-    else if (where & SSL_CB_EXIT)
-    {
-        if (ret == 0)
-            log(L_DEBUG, "SSL: %s:failed in %s",
-                str,SSL_state_string_long((SSL*)s));
-        else if (ret < 0)
-        {
-            log(L_DEBUG, "SSL: %s:%s", str,SSL_state_string_long((SSL*)s));
-        }
-    }
-    else if (where & SSL_CB_ALERT)
-    {
-        str=(where & SSL_CB_READ)?"read":"write";
-        log(L_DEBUG, "SSL: SSL3 alert %s:%s:%s", str,
-            SSL_alert_type_string_long(ret),
-            SSL_alert_desc_string_long(ret));
-    }
-    else if (where & SSL_CB_EXIT)
-    {
-        if (ret == 0)
-            log(L_DEBUG, "SSL: %s:failed in %s",
-                str,SSL_state_string_long((SSL*)s));
-        else if (ret < 0)
-        {
-            log(L_DEBUG, "SSL: %s:error in %s",
-                str,SSL_state_string_long((SSL*)s));
-        }
-    }
-}
-
-#endif
-
 static bool bInit = false;
 
 static void initLib()
@@ -145,13 +89,6 @@ bool SSLClient::init()
     initLib();
     if (!initSSL())
         return false;
-#ifdef _DEBUG
-#if OPENSSL_VERSION_NUMBER < 0x00907000L        
-    SSL_CTX_set_info_callback(pCTX, (void (*)())ssl_info_callback);
-#else
-SSL_CTX_set_info_callback(pCTX, ssl_info_callback);
-#endif
-#endif
     return initBIO();
 }
 

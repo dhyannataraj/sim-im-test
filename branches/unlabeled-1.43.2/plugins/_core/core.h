@@ -316,9 +316,10 @@ const unsigned	EventHistoryFont		= (CmdBase + 17);
 const unsigned  EventCheckSend			= (CmdBase + 18);
 const unsigned	EventCutHistory			= (CmdBase + 19);
 const unsigned  EventTmplHelp			= (CmdBase + 20);
-const unsigned	EventDeleteMessage		= (CmdBase + 21);
-const unsigned	EventRewriteMessage		= (CmdBase + 22);
-const unsigned	EventJoinAlert			= (CmdBase + 23);
+const unsigned  EventTmplHelpList		= (CmdBase + 21);
+const unsigned	EventDeleteMessage		= (CmdBase + 22);
+const unsigned	EventRewriteMessage		= (CmdBase + 23);
+const unsigned	EventJoinAlert			= (CmdBase + 24);
 
 const unsigned	BarHistory				= (CmdBase + 1);
 
