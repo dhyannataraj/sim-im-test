@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2003-07-29 03:00+0400\n"
-"PO-Revision-Date: 2003-07-29 18:07GMT\n"
-"Last-Translator: Crissi <crissi99@gmx.de>\n"
+"PO-Revision-Date: 2003-07-30 11:01GMT\n"
+"Last-Translator: Robert Scheck <sim@robert-scheck.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -93,8 +93,8 @@ msgid ""
 "_n: Close after %n second\n"
 "Close after %n seconds"
 msgstr ""
-"Schliessen nach %n Sekunde\n"
-"Schliessen nach %n Sekunden"
+"Schließen nach %n Sekunde\n"
+"Schließen nach %n Sekunden"
 
 #: plugins/_core/cfgdlg.cpp:275 plugins/_core/usercfg.cpp:195
 msgid "User info"
@@ -443,7 +443,7 @@ msgstr "&Verlauf"
 #: plugins/about/aboutdlgbase.cpp:156 plugins/icq/securedlg.cpp:92
 #: sim/api/simapi.cpp:393 sim/ui/qt3/i18n.cpp:287
 msgid "&Close"
-msgstr "S&chliessen"
+msgstr "S&chließen"
 
 #: plugins/_core/core.cpp:507 plugins/_core/msgedit.cpp:802
 msgid "&Send"
@@ -455,7 +455,7 @@ msgstr "Smiley ein&fügen"
 
 #: plugins/_core/core.cpp:524 plugins/_core/msgedit.cpp:213
 msgid "C&lose after send"
-msgstr "&Nach beendeter Übertragung schliessen"
+msgstr "&Nach beendeter Übertragung schließen"
 
 #: plugins/_core/core.cpp:534 plugins/_core/msgedit.cpp:303
 #: plugins/_core/msgedit.cpp:791
@@ -733,7 +733,7 @@ msgstr "Telefon:"
 
 #: plugins/_core/msgsms.cpp:158
 msgid "Size: %1 / Max. size: %2"
-msgstr "Grösse: %1 / Max. Grösse: %2"
+msgstr "Größe: %1 / Max. Größe: %2"
 
 #: plugins/_core/msgsms.cpp:162
 msgid "Message will be split"
@@ -1441,7 +1441,7 @@ msgstr "Dateiübertragung"
 
 #: plugins/_core/filetransferbase.cc:129
 msgid "Close after &transfer"
-msgstr "Nach der Über&tragung schliessen"
+msgstr "Nach der Über&tragung schließen"
 
 #: plugins/_core/filetransferbase.cc:132
 msgid "Time:"
@@ -1838,7 +1838,7 @@ msgstr "Packet war fehlerhaft"
 
 #: plugins/icq/icqicmb.cpp:109
 msgid "List overflow"
-msgstr "Listen Überlauf"
+msgstr "Listen-Überlauf"
 
 #: plugins/icq/icqicmb.cpp:142
 msgid "Invalid message"
@@ -1953,7 +1953,7 @@ msgstr "Ihre UIN wird gerade von einem anderen Ort aus benutzt"
 
 #: plugins/icq/icqlogin.cpp:250
 msgid "Close packet from server"
-msgstr "Packet von Server schliessen"
+msgstr "Packet von Server schließen"
 
 #: plugins/icq/icqlogin.cpp:257
 msgid "Bad host address"
@@ -1992,8 +1992,8 @@ msgid ""
 "_n: Close secure channel\n"
 "%n times close secure channel"
 msgstr ""
-"sichereren Kanal schliessen\n"
-"%n mal sichereren Kanal schliessen"
+"sichereren Kanal schließen\n"
+"%n mal sichereren Kanal schließen"
 
 #: plugins/icq/icqmessage.cpp:880
 #, c-format
@@ -2063,7 +2063,7 @@ msgstr "&Kontaktliste"
 
 #: plugins/icq/icqpicture.cpp:121
 msgid "Picture can not be more than 7 kbytes"
-msgstr "Das Bild darf nicht grösser als 7 KByte sein."
+msgstr "Das Bild darf nicht größer als 7 KByte sein."
 
 #: plugins/icq/icqpicture.cpp:131
 msgid "Picture is not available"
@@ -2071,7 +2071,7 @@ msgstr "Das Bild ist nicht verfügbar"
 
 #: plugins/icq/icqsearch.cpp:123
 msgid "ICQ search results"
-msgstr "ICQ Suchresultate"
+msgstr "ICQ-Suchergebnisse"
 
 #: plugins/icq/icqsearch.cpp:247
 msgid "&Stop search"
@@ -2146,7 +2146,7 @@ msgid ""
 "The Cellular network is currently unable to send your message to the "
 "recipient. Please try again later."
 msgstr ""
-"Das Cellularnetzwerk ist momentan nicht in der Lage, Ihre Nachricht dem "
+"Das Mobilfunknetz ist momentan nicht in der Lage, Ihre Nachricht dem "
 "Empfänger zu schicken. Bitte versuchen Sie es später erneut."
 
 #: plugins/icq/icqvarious.cpp:1413
@@ -2215,7 +2215,7 @@ msgstr "Musik"
 
 #: plugins/icq/interestsinfo.cpp:104
 msgid "Outdoor Activities"
-msgstr "Aussenaktivitäten"
+msgstr "Außenaktivitäten"
 
 #: plugins/icq/interestsinfo.cpp:105
 msgid "Parenting"
@@ -2863,7 +2863,7 @@ msgstr "Verarbeiten der Nachricht fehlgeschlagen"
 
 #: plugins/icq/icqclient.cpp:525
 msgid "Protocol error"
-msgstr "Protokoll Fehler"
+msgstr "Protokoll-Fehler"
 
 #: plugins/icq/icqclient.cpp:1469 plugins/icq/icqclient.cpp:1608
 #: plugins/jabber/jabberclient.cpp:967 plugins/jabber/jabberclient.cpp:1046
@@ -3425,7 +3425,7 @@ msgstr "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 
 #: plugins/msn/msnsearch.cpp:58
 msgid "MSN search results"
-msgstr "MSN Searchergebnisse"
+msgstr "MSN-Suchergebnisse"
 
 #: plugins/msn/msnsearch.cpp:124
 msgid "Contact %1 added to list"
@@ -3546,7 +3546,7 @@ msgid "Plugin provides on screen notification about messages and contacts status
 msgstr ""
 "Das ist ein Plugin, das Bildschirmbenachrichtigungen betreffend Kontakte "
 "und\n"
-"eingegangene Nachrichten durchführt (z.B.: Online Benachrichtigung)."
+"eingegangene Nachrichten durchführt (z.B.: Online-Benachrichtigung)."
 
 #: plugins/osd/osd.cpp:113
 msgid "&OSD"
@@ -3935,7 +3935,7 @@ msgstr "Barbuda"
 
 #: sim/api/country.cpp:46
 msgid "Belarus"
-msgstr "Weissrussland"
+msgstr "Weißrussland"
 
 #: sim/api/country.cpp:47
 msgid "Belgium"
@@ -4870,34 +4870,34 @@ msgstr "Socketfehler"
 #: sim/api/sslclient.cpp:187 sim/api/sslclient.cpp:355
 #: sim/api/sslclient.cpp:359
 msgid "SSL write error"
-msgstr "SSL Schreibfehler"
+msgstr "SSL-Schreibfehler"
 
 #: sim/api/sslclient.cpp:196 sim/api/sslclient.cpp:217
 #: sim/api/sslclient.cpp:225
 msgid "SSL connect error"
-msgstr "SSL Verbindungsfehler"
+msgstr "SSL-Verbindungsfehler"
 
 #: sim/api/sslclient.cpp:232
 msgid "SSL shutdown error"
-msgstr "SSL Fehler beim SSL-Shutdown"
+msgstr "SSL-Fehler beim SSL-Shutdown"
 
 #: sim/api/sslclient.cpp:253 sim/api/sslclient.cpp:261
 msgid "SSL shuwdown error"
-msgstr "SSL Fehler beim SSL-Shutdown"
+msgstr "SSL-Fehler beim SSL-Shutdown"
 
 #: sim/api/sslclient.cpp:268 sim/api/sslclient.cpp:289
 #: sim/api/sslclient.cpp:297
 msgid "SSL accept error"
-msgstr "SSL Fehler beim SSL-Accept"
+msgstr "SSL-Fehler beim SSL-Accept"
 
 #: sim/api/sslclient.cpp:319 sim/api/sslclient.cpp:323
 #: sim/api/sslclient.cpp:407 sim/api/sslclient.cpp:413
 msgid "SSL read error"
-msgstr "SSL Fehler beim SSL-Lesen"
+msgstr "SSL-Fehler beim SSL-Lesen"
 
 #: sim/api/sslclient.cpp:397
 msgid "SSL init error"
-msgstr "SSL Fehler bei der SSL- Initialisierung"
+msgstr "SSL-Fehler bei der SSL- Initialisierung"
 
 #: sim/sim.cpp:174
 msgid "ICQ client"
@@ -4979,7 +4979,7 @@ msgstr "Alle Dateien (*)"
 
 #: sim/ui/qt3/i18n.cpp:41
 msgid "Size"
-msgstr "Grösse"
+msgstr "Größe"
 
 #: sim/ui/qt3/i18n.cpp:45
 msgid "Date"
@@ -5091,7 +5091,7 @@ msgstr "Nach &Name sortieren"
 
 #: sim/ui/qt3/i18n.cpp:105
 msgid "Sort by &Size"
-msgstr "Nach &Grösse sortieren"
+msgstr "Nach &Größe sortieren"
 
 #: sim/ui/qt3/i18n.cpp:107
 msgid "Sort by &Date"
@@ -5178,7 +5178,7 @@ msgstr "Schrifts&til:"
 
 #: sim/ui/qt3/i18n.cpp:154
 msgid "&Size"
-msgstr "&Grösse"
+msgstr "&Größe"
 
 #: sim/ui/qt3/i18n.cpp:156
 msgid "Effects"
@@ -5244,7 +5244,7 @@ msgstr "Weiter >"
 
 #: sim/ui/qt3/i18n.cpp:191
 msgid "Finish"
-msgstr "Abschliessen"
+msgstr "Abschließen"
 
 #: sim/ui/qt3/i18n.cpp:195
 msgid "+"
