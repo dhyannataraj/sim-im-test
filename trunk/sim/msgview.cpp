@@ -445,6 +445,7 @@ void MsgView::deleteUser(unsigned long uin)
                 if (text(i).find("<a href=\"msg://") >= 0) break;
             continue;
         }
+	removeParagraph(i);
         for (; i < paragraphs(); ){
             if (text(i).find("<a href=\"msg://") >= 0) break;
             removeParagraph(i);

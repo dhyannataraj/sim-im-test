@@ -281,10 +281,8 @@ QString UserBox::containerName()
 
 UserBox::~UserBox()
 {
-    log(L_DEBUG, "~UserBox");
     removeChilds();
     if (pMain) pMain->destroyBox(this);
-    log(L_DEBUG, "~UserBox OK");
 }
 
 void UserBox::saveInfo(ICQUser *u)
@@ -864,7 +862,6 @@ bool UserBox::closeUser(unsigned long uin)
     MsgEdit *wnd = getChild(uin, false);
     if (wnd == NULL) return false;
     wnd->close();
-    log(L_DEBUG, "closeUser %u", (unsigned)msgView);
     if (msgView) msgView->deleteUser(uin);
     return true;
 }
@@ -955,7 +952,6 @@ void UserBox::showGrpMenu()
 
 void UserBox::modeChanged(bool bSimple)
 {
-    log(L_DEBUG, "Mode changed: %u (%u)", bSimple, (unsigned)msgView);
     if (bSimple){
         if (msgView){
             delete msgView;
@@ -965,7 +961,6 @@ void UserBox::modeChanged(bool bSimple)
     }
     if (msgView) return;
     msgView = new MsgView(splitter);
-    log(L_DEBUG, "MsgView: %u", (unsigned)msgView);
     splitter->moveToFirst(msgView);
     connect(msgView, SIGNAL(goMessage(unsigned long, unsigned long)), this, SLOT(showMessage(unsigned long, unsigned long)));
     if (curWnd && msgView){
