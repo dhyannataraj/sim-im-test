@@ -231,35 +231,35 @@ bool ContactItem::update(Contact *contact, unsigned status, unsigned style, cons
     active.sprintf("%08lX", 0xFFFFFFFF - contact->getLastActive());
     setText(CONTACT_TEXT, name);
     setText(CONTACT_ICONS, icons_str);
-	setText(CONTACT_ACTIVE, active);
-	setText(CONTACT_STATUS, QString::number(9 - status));
+    setText(CONTACT_ACTIVE, active);
+    setText(CONTACT_STATUS, QString::number(9 - status));
     return true;
 }
 
 QString ContactItem::key(int column, bool ascending ) const
 {
-    if (column == 0){ 
-		unsigned mode = CorePlugin::m_plugin->getSortMode();
-		QString res;
-		for (;;){
-			int n = 0;
-			switch (mode & 0xFF){
-			case SORT_STATUS:
-				n = CONTACT_STATUS;
-				break;
-			case SORT_ACTIVE:
-				n = CONTACT_ACTIVE;
-				break;
-			case SORT_NAME:
-				n = CONTACT_TEXT;
-				break;
-			}
-			if (n == 0)
-				break;
-			res += text(n).lower();
-			mode = mode >> 8;
-		}
-	}
+    if (column == 0){
+        unsigned mode = CorePlugin::m_plugin->getSortMode();
+        QString res;
+        for (;;){
+            int n = 0;
+            switch (mode & 0xFF){
+            case SORT_STATUS:
+                n = CONTACT_STATUS;
+                break;
+            case SORT_ACTIVE:
+                n = CONTACT_ACTIVE;
+                break;
+            case SORT_NAME:
+                n = CONTACT_TEXT;
+                break;
+            }
+            if (n == 0)
+                break;
+            res += text(n).lower();
+            mode = mode >> 8;
+        }
+    }
     return UserViewItemBase::key(column, ascending);
 }
 
@@ -747,21 +747,21 @@ void UserListBase::fill()
 
 static void resort(QListViewItem *item)
 {
-	if (!item->isExpandable())
-		return;
-	item->sort();
-	for (item = item->firstChild(); item; item = item = item->nextSibling())
-		resort(item);
+    if (!item->isExpandable())
+        return;
+    item->sort();
+    for (item = item->firstChild(); item; item = item = item->nextSibling())
+        resort(item);
 }
 
 void *UserListBase::processEvent(Event *e)
 {
     if (e->type() == EventRepaintView){
-		sort();
-		for (QListViewItem *item = firstChild(); item; item = item->nextSibling())
-			resort(item);
+        sort();
+        for (QListViewItem *item = firstChild(); item; item = item->nextSibling())
+            resort(item);
         viewport()->repaint();
-	}
+    }
     if (m_bInit){
         switch (e->type()){
         case EventGroupCreated:{

@@ -547,13 +547,13 @@ void *Container::processEvent(Event *e)
             m_tabBar->setBold(msg->contact(), bBold);
         }
         break;
-	case EventActiveContact:
-		if (!isActiveWindow())
-			return NULL;
+    case EventActiveContact:
+        if (!isActiveWindow())
+            return NULL;
         userWnd = m_tabBar->currentWnd();
         if (userWnd)
-			return (void*)(userWnd->id());
-		break;
+            return (void*)(userWnd->id());
+        break;
     case EventContactDeleted:
         contact = (Contact*)(e->param());
         userWnd = wnd(contact->id());

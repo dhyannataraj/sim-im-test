@@ -411,27 +411,14 @@ void PictButton::paintEvent(QPaintEvent*)
 CToolCustom::CToolCustom(QToolBar *parent, CommandDef *def)
         : QWidget(parent), CToolItem(def)
 {
+    setAutoMask(true);
     m_label = new QLabel(this);
+    m_label->setAutoMask(true);
     m_lay = new QHBoxLayout(this);
     m_lay->setMargin(0);
     m_lay->setSpacing(3);
     m_lay->addWidget(m_label);
     setState();
-}
-
-void CToolCustom::paintEvent(QPaintEvent *e)
-{
-    for (QWidget *w = parentWidget(); w; w = w->parentWidget()){
-        const QPixmap *bg = w->backgroundPixmap();
-        if (bg){
-            QPoint pos = mapToGlobal(QPoint(0, 0));
-            pos = w->mapFromGlobal(pos);
-            QPainter p(this);
-            p.drawTiledPixmap(0, 0, width(), height(), *bg, pos.x(), pos.y());
-            return;
-        }
-    }
-    QWidget::paintEvent(e);
 }
 
 void CToolCustom::addWidget(QWidget *w)
@@ -470,6 +457,11 @@ void CToolCustom::setState()
     int pos = t.find("<br>");
     if (pos >= 0) t = t.left(pos);
     m_label->setText(t);
+    if (t.isEmpty()){
+	    m_label->hide();
+    }else{
+	    m_label->show();
+    }
 }
 
 QSizePolicy CToolCustom::sizePolicy() const

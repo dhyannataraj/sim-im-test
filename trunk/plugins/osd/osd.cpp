@@ -349,10 +349,10 @@ void OSDPlugin::dblClick()
     switch (m_request.type){
     case OSD_ALERT:
     case OSD_TYPING:{
-        Event e(EventDefaultAction, (void*)(m_request.contact));
-		e.process();
-        break;
-					}
+            Event e(EventDefaultAction, (void*)(m_request.contact));
+            e.process();
+            break;
+        }
     default:
         MessageID m;
         m.id      = m_request.msg_id;

@@ -102,7 +102,6 @@ public:
 protected:
     virtual QWidget *widget() { return this; }
     virtual void setState();
-    void paintEvent(QPaintEvent*);
     QSizePolicy sizePolicy() const;
     QLabel  *m_label;
     QHBoxLayout	*m_lay;

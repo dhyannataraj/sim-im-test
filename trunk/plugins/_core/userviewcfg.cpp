@@ -37,13 +37,13 @@ UserViewConfig::UserViewConfig(QWidget *parent)
     chkGroupSeparator->setChecked(CorePlugin::m_plugin->getGroupSeparator());
     connect(chkSysColors, SIGNAL(toggled(bool)), this, SLOT(colorsToggled(bool)));
     colorsToggled(chkSysColors->isChecked());
-	fillBox(cmbSort1);
-	fillBox(cmbSort2);
-	fillBox(cmbSort3);
-	setSortMode(CorePlugin::m_plugin->getSortMode());
-	connect(cmbSort1, SIGNAL(activated(int)), this, SLOT(sortChanged(int)));
-	connect(cmbSort2, SIGNAL(activated(int)), this, SLOT(sortChanged(int)));
-	connect(cmbSort3, SIGNAL(activated(int)), this, SLOT(sortChanged(int)));
+    fillBox(cmbSort1);
+    fillBox(cmbSort2);
+    fillBox(cmbSort3);
+    setSortMode(CorePlugin::m_plugin->getSortMode());
+    connect(cmbSort1, SIGNAL(activated(int)), this, SLOT(sortChanged(int)));
+    connect(cmbSort2, SIGNAL(activated(int)), this, SLOT(sortChanged(int)));
+    connect(cmbSort3, SIGNAL(activated(int)), this, SLOT(sortChanged(int)));
 }
 
 UserViewConfig::~UserViewConfig()
@@ -55,7 +55,7 @@ void UserViewConfig::apply()
     CorePlugin::m_plugin->setUseDblClick(chkDblClick->isChecked());
     CorePlugin::m_plugin->setUseSysColors(chkSysColors->isChecked());
     CorePlugin::m_plugin->setGroupSeparator(chkGroupSeparator->isChecked());
-	CorePlugin::m_plugin->setSortMode(getSortMode());
+    CorePlugin::m_plugin->setSortMode(getSortMode());
     if (CorePlugin::m_plugin->getUseSysColors()){
         CorePlugin::m_plugin->setColorOnline(0);
         CorePlugin::m_plugin->setColorOffline(0);
@@ -104,62 +104,62 @@ void UserViewConfig::colorsToggled(bool state)
 
 void UserViewConfig::fillBox(QComboBox *cmb)
 {
-	cmb->insertItem(i18n("Status"));
-	cmb->insertItem(i18n("Last message time"));
-	cmb->insertItem(i18n("Contact name"));
-	cmb->insertItem("");
+    cmb->insertItem(i18n("Status"));
+    cmb->insertItem(i18n("Last message time"));
+    cmb->insertItem(i18n("Contact name"));
+    cmb->insertItem("");
 }
 
 void UserViewConfig::setSortMode(unsigned mode)
 {
-	QComboBox *cmb[3] = { cmbSort1, cmbSort2, cmbSort3 };
-	unsigned i;
-	for (i = 0; i < 3; i++){
-		cmb[i]->setEnabled(true);
-		unsigned m = mode & 0xFF;
-		mode = mode >> 8;
-		if (m == 0){
-			cmb[i++]->setCurrentItem(3);
-			break;
-		}
-		cmb[i]->setCurrentItem(m - 1);
-	}
-	for (;i < 3; i++){
-		cmb[i]->setCurrentItem(3);
-		cmb[i]->setEnabled(false);
-	}
+    QComboBox *cmb[3] = { cmbSort1, cmbSort2, cmbSort3 };
+    unsigned i;
+    for (i = 0; i < 3; i++){
+        cmb[i]->setEnabled(true);
+        unsigned m = mode & 0xFF;
+        mode = mode >> 8;
+        if (m == 0){
+            cmb[i++]->setCurrentItem(3);
+            break;
+        }
+        cmb[i]->setCurrentItem(m - 1);
+    }
+    for (;i < 3; i++){
+        cmb[i]->setCurrentItem(3);
+        cmb[i]->setEnabled(false);
+    }
 }
 
 void UserViewConfig::sortChanged(int)
 {
-	setSortMode(getSortMode());
+    setSortMode(getSortMode());
 }
 
 unsigned UserViewConfig::getSortMode()
 {
-	unsigned m1 = cmbSort1->currentItem() + 1;
-	if (m1 > 3)
-		m1 = 0;
-	unsigned m2 = cmbSort2->currentItem() + 1;
-	if (m2 > 3)
-		m2 = 0;
-	unsigned m3 = cmbSort3->currentItem() + 1;
-	if (m3 > 3)
-		m3 = 0;
-	if (m1){
-		if (m2 == m1)
-			m2 = 0;
-		if (m2){
-			if ((m3 == m1) || (m3 == m2))
-				m3 = 0;
-		}else{
-			m3 = 0;
-		}
-	}else{
-		m2 = 0;
-		m3 = 0;
-	}
-	return (m3 << 16) + (m2 << 8) + m1;
+    unsigned m1 = cmbSort1->currentItem() + 1;
+    if (m1 > 3)
+        m1 = 0;
+    unsigned m2 = cmbSort2->currentItem() + 1;
+    if (m2 > 3)
+        m2 = 0;
+    unsigned m3 = cmbSort3->currentItem() + 1;
+    if (m3 > 3)
+        m3 = 0;
+    if (m1){
+        if (m2 == m1)
+            m2 = 0;
+        if (m2){
+            if ((m3 == m1) || (m3 == m2))
+                m3 = 0;
+        }else{
+            m3 = 0;
+        }
+    }else{
+        m2 = 0;
+        m3 = 0;
+    }
+    return (m3 << 16) + (m2 << 8) + m1;
 }
 
 #ifndef WIN32

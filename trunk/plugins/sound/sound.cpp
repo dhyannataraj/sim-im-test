@@ -200,12 +200,12 @@ void *SoundPlugin::processEvent(Event *e)
         if (contact == NULL)
             return NULL;
         SoundUserData *data = (SoundUserData*)(contact->getUserData(user_data_id));
-		bool bEnable = (data->Disable == 0);
-		if (bEnable && data->NoSoundIfActive){
-			Event e(EventActiveContact);
-			if ((unsigned)(e.process()) == contact->id())
-				bEnable = false;
-		}
+        bool bEnable = (data->Disable == 0);
+        if (bEnable && data->NoSoundIfActive){
+            Event e(EventActiveContact);
+            if ((unsigned)(e.process()) == contact->id())
+                bEnable = false;
+        }
         if (bEnable){
             string sound = messageSound(msg->type(), data);
             if (!sound.empty())
