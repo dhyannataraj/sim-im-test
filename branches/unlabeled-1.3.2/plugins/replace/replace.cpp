@@ -118,7 +118,7 @@ bool ReplacePlugin::eventFilter(QObject *o, QEvent *e)
 			    edit->getCursorPosition(&parag, &index);
 				UnquoteParser p(edit->text(parag));
 				QString text = p.m_text.left(index);
-				for (unsigned i = 0; i < getKeys(); i++){
+				for (unsigned i = 1; i <= getKeys(); i++){
 					QString key = getKey(i);
 					if (key.length() > text.length())
 						continue;

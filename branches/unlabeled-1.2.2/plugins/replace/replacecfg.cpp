@@ -32,12 +32,17 @@ ReplaceCfg::ReplaceCfg(QWidget *parent, ReplacePlugin *plugin)
     lstKeys->addColumn(i18n("You send"));
     lstKeys->setExpandingColumn(1);
 	lstKeys->setSorting(2);
-	for (unsigned i = 0; i < m_plugin->getKeys(); i++){
-		new QListViewItem(lstKeys, m_plugin->getKey(i), m_plugin->getValue(i), number(m_count++).c_str());
+	for (unsigned i = 1; i <= m_plugin->getKeys(); i++){
+		QString key = m_plugin->getKey(i);
+		QString value = m_plugin->getValue(i);
+		if (key.isEmpty())
+			continue;
+		new QListViewItem(lstKeys, key, value, number(m_count++).c_str());
 	}
 	new QListViewItem(lstKeys, "", "", number(m_count++).c_str());
     lstKeys->adjustColumn();
 	m_edit = new IntLineEdit(lstKeys->viewport());
+	m_edit->installEventFilter(this);
 	lstKeys->setFocusProxy(m_edit);
 	m_col = 0;
 	lstKeys->setCurrentItem(lstKeys->firstChild());
@@ -61,9 +66,9 @@ void ReplaceCfg::apply()
 	for (QListViewItem *item = lstKeys->firstChild(); item; item = item->nextSibling()){
 		if (item->text(0).isEmpty())
 			continue;
+		n++;
 		m_plugin->setKey(n, item->text(0));
 		m_plugin->setValue(n, item->text(1));
-		n++;
 	}
 	m_plugin->setKeys(n);
 }
@@ -74,13 +79,41 @@ void ReplaceCfg::resizeEvent(QResizeEvent *e)
     lstKeys->adjustColumn();
 }
 
-void ReplaceCfg::setEdit()
+bool ReplaceCfg::eventFilter(QObject *o, QEvent *e)
 {
-	QListViewItem *item = lstKeys->currentItem();
-	if (item == NULL){
-		m_edit->hide();
-	}else{
-		if ((m_editItem != item) || (m_col != m_editCol)){
+	if (e->type() == QEvent::KeyPress){
+		QKeyEvent *ke = (QKeyEvent*)e;
+		if ((ke->key() == Key_Right) && (m_col == 0)){
+			if (!m_edit->hasMarkedText() && (m_edit->cursorPosition() == (int)m_edit->text().length())){
+				m_col = 1;
+				setEdit();
+				return true;
+			}
+		}
+		if ((ke->key() == Key_Left) && (m_col == 1)){
+			if (!m_edit->hasMarkedText() && (m_edit->cursorPosition() == 0)){
+				m_col = 0;
+				setEdit();
+				return true;
+			}
+		}
+		if ((ke->key() == Key_Enter) || (ke->key() == Key_Return)){
+			flush();
+			m_col = 1;
+			setEdit();
+			return true;
+		}
+		if (ke->key() == Key_Escape){
+			m_edit->setText(m_editItem->text(m_col));
+			m_edit->setSelection(0, m_edit->text().length());
+			return true;
+		}
+	}
+	return ReplaceCfgBase::eventFilter(o, e);
+}
+
+void ReplaceCfg::flush()
+{
 			if (m_editItem){
 				if (m_edit->text().isEmpty()){
 					if ((m_editCol == 0) && !m_editItem->text(0).isEmpty()){
@@ -93,6 +126,16 @@ void ReplaceCfg::setEdit()
 					m_editItem->setText(m_editCol, m_edit->text());
 				}
 			}
+}
+
+void ReplaceCfg::setEdit()
+{
+	QListViewItem *item = lstKeys->currentItem();
+	if (item == NULL){
+		m_edit->hide();
+	}else{
+		if ((m_editItem != item) || (m_col != m_editCol)){
+			flush();
 			m_edit->setText(item->text(m_col));
 			m_edit->setSelection(0, m_edit->text().length());
 			m_editCol = m_col;

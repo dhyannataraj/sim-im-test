@@ -37,6 +37,8 @@ public slots:
 	void sizeChange(int,int,int);
 	void mouseButtonPressed(int, QListViewItem*, const QPoint&, int);
 protected:
+	bool eventFilter(QObject*, QEvent*);
+	void flush();
 	IntLineEdit   *m_edit;
 	unsigned	  m_col;
     void resizeEvent(QResizeEvent *e);

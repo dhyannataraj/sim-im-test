@@ -101,6 +101,7 @@ typedef struct CoreData
     Data	SmallGroupFont;
     Data	ShowAllEncodings;
     Data	DefaultEncoding;
+	Data	ShowEmptyGroup;
 } CoreData;
 
 const unsigned CONTAINER_SIMPLE	= 0;
@@ -267,6 +268,7 @@ const unsigned	CmdDeleteMessage		= (CmdBase + 91);
 const unsigned	CmdEditList				= (CmdBase + 92);
 const unsigned	CmdRemoveList			= (CmdBase + 93);
 const unsigned	CmdStatusWnd			= (CmdBase + 94);
+const unsigned	CmdEmptyGroup			= (CmdBase + 95);
 
 const unsigned	CmdContactGroup			= (CmdBase + 0x100);
 const unsigned	CmdUnread				= (CmdBase + 0x200);
@@ -448,6 +450,7 @@ public:
     PROP_BOOL(SmallGroupFont);
     PROP_BOOL(ShowAllEncodings);
     PROP_STR(DefaultEncoding);
+	PROP_BOOL(ShowEmptyGroup);
 
     unsigned user_data_id;
     unsigned sms_data_id;

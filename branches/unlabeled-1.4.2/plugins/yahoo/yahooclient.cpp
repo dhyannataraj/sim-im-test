@@ -1695,8 +1695,21 @@ QWidget *YahooClient::searchWindow()
     return new YahooSearch(this);
 }
 
-void YahooClient::sendStatus(unsigned long status, const char *msg)
+void YahooClient::setInvisible(bool bState)
 {
+    if (bState == getInvisible())
+        return;
+    TCPClient::setInvisible(bState);
+    if (getState() != Connected)
+        return;
+	sendStatus(data.owner.Status.value, data.owner.AwayMessage.ptr);
+}
+
+void YahooClient::sendStatus(unsigned long _status, const char *msg)
+{
+	unsigned long status = _status;
+	if (getInvisible())
+		status = YAHOO_STATUS_INVISIBLE;
     unsigned long service = YAHOO_SERVICE_ISAWAY;
     if (msg)
         status = YAHOO_STATUS_CUSTOM;
@@ -1713,7 +1726,8 @@ void YahooClient::sendStatus(unsigned long status, const char *msg)
         time(&now);
         data.owner.StatusTime.value = now;
     }
-    data.owner.Status.value = status;
+    data.owner.Status.value = _status;
+	set_str(&data.owner.AwayMessage.ptr, msg);
 }
 
 void YahooClient::sendFile(FileMessage *msg, FileMessage::Iterator &it, YahooUserData *data)

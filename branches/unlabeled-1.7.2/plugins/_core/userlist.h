@@ -110,6 +110,7 @@ protected slots:
 protected:
     unsigned m_groupMode;
     unsigned m_bShowOnline;
+    unsigned m_bShowEmpty;
     void *processEvent(Event*);
     virtual void drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin);
     unsigned getUserStatus(Contact *contact, unsigned &style, string &icons);
