@@ -145,7 +145,7 @@ class QWindowsXPStylePrivate
 {
 public:
     QWindowsXPStylePrivate()
-            : hotWidget( 0 ), hotTab( 0 ), hotSpot( -1, -1 )
+: hotWidget( 0 ), hotTab( 0 ), hotSpot( -1, -1 )
     {
         init();
     }

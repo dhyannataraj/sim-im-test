@@ -67,6 +67,7 @@ AC_CHECK_FUNC(gethostbyname_r,[AC_DEFINE(HAVE_GETHOSTBYNAME_R,1,[Have gethostbyn
 AC_CHECK_FUNC(gethostbyaddr_r,[AC_DEFINE(HAVE_GETHOSTBYADDR_R,1,[Have gethostbyaddr_r])])
 
 AC_CHECK_LIB(art_lgpl_2,libart_version)
+KDE_LIB_LTDL
 
 EXTRA_LIBS=""
 if test "$use_kde" = "yes" ; then

@@ -82,7 +82,7 @@ int SimApp::newInstance()
 class SimApp : public QApplication
 {
 public:
-    SimApp(int argc, char **argv) : QApplication(argc, argv) {}
+SimApp(int argc, char **argv) : QApplication(argc, argv) {}
     ~SimApp();
 protected:
     void saveState(QSessionManager&);

@@ -3,7 +3,7 @@
 
 [Setup]
 AppName=Simple Instant Messenger
-AppVerName=SIM 0.9.1
+AppVerName=SIM 0.9.2
 AppPublisher=shutoff@mail.ru
 AppPublisherURL=http://sim-icq.sourceforge.net/
 AppSupportURL=http://sim-icq.sourceforge.net/
@@ -66,6 +66,7 @@ Source: "..\Release\plugins\netmonitor.dll"; DestDir: "{app}\plugins"; Flags: ig
 Source: "..\Release\plugins\ontop.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\osd.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\proxy.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
+Source: "..\Release\plugins\remote.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\shortcuts.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\splash.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\sound.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
