@@ -71,7 +71,24 @@ HRESULT CSIM_ext::QueryContextMenu(HMENU hmenu,
 {
     if ((lpData == NULL) || (uFlags & CMF_DEFAULTONLY))
         return MAKE_HRESULT(SEVERITY_SUCCESS, FACILITY_NULL, 0);
+
+	CmdBase = idCmdFirst;
+
     if (((uFlags & 0x0000000F) == CMF_NORMAL) || (uFlags & CMF_EXPLORE)){
+    STGMEDIUM stgmedium = { TYMED_HGLOBAL, NULL };
+    FORMATETC formatetc = { CF_HDROP,
+                            NULL,
+                            DVASPECT_CONTENT,
+                            -1,
+                            TYMED_HGLOBAL
+                          };
+	    HRESULT hr = lpData->GetData(&formatetc, &stgmedium);
+		if (!SUCCEEDED(hr))
+	        return MAKE_HRESULT(SEVERITY_SUCCESS, FACILITY_NULL, 0);
+		char *drop_files = (char*)GlobalLock(stgmedium.hGlobal);
+		DROPFILES *files = (DROPFILES*)drop_files;
+        GlobalUnlock(stgmedium.hGlobal);
+
         CComBSTR in("CONTACTS 3");
         CComBSTR out;
         unsigned cmd_id = idCmdFirst;
@@ -148,7 +165,7 @@ HRESULT CSIM_ext::QueryContextMenu(HMENU hmenu,
         }
         return MAKE_HRESULT(SEVERITY_SUCCESS, FACILITY_NULL, cmd_id - idCmdFirst);
     }
-    return 0;
+    return MAKE_HRESULT(SEVERITY_SUCCESS, FACILITY_NULL, 0);
 }
 
 static char fromHex(char c)
@@ -239,7 +256,7 @@ HRESULT CSIM_ext::InvokeCommand(LPCMINVOKECOMMANDINFO lpici)
             in += drop_files;
         }
         in += "\" ";
-        ItemInfo info = getItemInfo(LOWORD(lpici->lpVerb));
+        ItemInfo info = getItemInfo(LOWORD(lpici->lpVerb) + CmdBase);
         char b[12];
         sprintf(b, "%u", info.id);
         in += b;

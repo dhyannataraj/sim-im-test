@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>207</width>
-            <height>143</height>
+            <width>282</width>
+            <height>192</height>
         </rect>
     </property>
     <property>
@@ -32,7 +32,7 @@
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>TextLabel1</cstring>
+                <cstring>lblBrowser</cstring>
             </property>
             <property>
                 <name>text</name>
@@ -50,7 +50,7 @@
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>TextLabel2</cstring>
+                <cstring>lblMailer</cstring>
             </property>
             <property>
                 <name>text</name>
@@ -62,6 +62,17 @@
             <property stdset="1">
                 <name>name</name>
                 <cstring>edtMailer</cstring>
+            </property>
+        </widget>
+        <widget>
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkNew</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Open links in &amp;new window</string>
             </property>
         </widget>
         <spacer>
@@ -101,6 +112,7 @@
             <verdata>5</verdata>
         </sizepolicy>
         <pixmap>image0</pixmap>
+        <property type="String">text</property>
     </customwidget>
 </customwidgets>
 <images>

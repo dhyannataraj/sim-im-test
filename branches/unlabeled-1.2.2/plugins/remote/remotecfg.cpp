@@ -60,6 +60,11 @@ RemoteConfig::RemoteConfig(QWidget *parent, RemotePlugin *plugin)
     }
     connect(grpRemote, SIGNAL(clicked(int)), this, SLOT(selected(int)));
 #endif
+#ifdef WIN32
+	chkIE->setChecked(m_plugin->getEnableMenu());
+#else
+	chkIE->hide();
+#endif
 }
 
 void RemoteConfig::apply()
@@ -72,6 +77,7 @@ void RemoteConfig::apply()
     }else{
         path  = "auto:";
     }
+	m_plugin->setEnableMenu(chkIE->isChecked());
 #else
     if (grpRemote->id(grpRemote->selected()) == 2){
         path  = TCP;

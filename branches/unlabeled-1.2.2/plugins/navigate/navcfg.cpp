@@ -19,19 +19,34 @@
 #include "navigate.h"
 
 #include <qlineedit.h>
+#include <qcheckbox.h>
+#include <qlabel.h>
 
 NavCfg::NavCfg(QWidget *parent, NavigatePlugin *plugin)
         : NavCfgBase(parent)
 {
     m_plugin = plugin;
+#ifdef WIN32
+	chkNew->setChecked(plugin->getNewWindow());
+    edtBrowser->hide();
+    edtMailer->hide();
+    lblBrowser->hide();
+    lblMailer->hide();
+#else
     edtBrowser->setText(QString::fromLocal8Bit(plugin->getBrowser()));
     edtMailer->setText(QString::fromLocal8Bit(plugin->getMailer()));
+	chkNew->hide();
+#endif
 }
 
 void NavCfg::apply()
 {
+#ifdef WIN32
+	m_plugin->setNewWindow(chkNew->isChecked());
+#else
     m_plugin->setBrowser(edtBrowser->text().local8Bit());
     m_plugin->setMailer(edtMailer->text().local8Bit());
+#endif
 }
 
 #ifndef WIN32

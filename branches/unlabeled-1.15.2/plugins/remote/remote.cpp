@@ -55,8 +55,9 @@ static DataDef remoteData[] =
     {
 #ifdef WIN32
         { "Path", DATA_STRING, 1, "auto:" },
+		{ "EnableMenu", DATA_BOOL, 1, DATA(1) },
 #else
-{ "Path", DATA_STRING, 1, "/tmp/sim.%user%" },
+		{ "Path", DATA_STRING, 1, "/tmp/sim.%user%" },
 #endif
         { NULL, 0, 0, 0 }
     };
@@ -569,6 +570,9 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             return true;
         }
     case CMD_CONTACTS:{
+#ifdef WIN32
+		if (getEnableMenu()){
+#endif
             unsigned type = 0;
             if (args.size())
                 type = args[0].toUInt();
@@ -653,6 +657,9 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                 out += " ";
                 out += (*itl).name;
             }
+#ifdef WIN32
+		}
+#endif
             return true;
         }
     case CMD_FILE:{

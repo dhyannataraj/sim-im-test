@@ -78,6 +78,7 @@ public:
     ItemInfo	  getItemInfo(unsigned id);
     HICON		  createIcon(const char *name);
     HBITMAP		  createBitmap(string &info);
+	unsigned	  CmdBase;
 
     // ISIM_ext
 public:

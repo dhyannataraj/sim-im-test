@@ -3464,7 +3464,7 @@ bool CorePlugin::init(bool bInit)
         Event eSave(EventSaveState);
         eSave.process();
     }
-    return bRes;
+    return bRes || bNew;
 }
 
 void CorePlugin::destroy()

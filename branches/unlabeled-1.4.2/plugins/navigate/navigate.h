@@ -20,15 +20,15 @@
 
 #include "simapi.h"
 
-#ifndef WIN32
-
 typedef struct NavigateData
 {
+#ifdef WIN32
+	Data NewWindow;
+#else
     Data Browser;
     Data Mailer;
-} NavigateData;
-
 #endif
+} NavigateData;
 
 class NavigatePlugin : public Plugin, public EventReceiver
 {
@@ -41,14 +41,16 @@ protected:
     unsigned CmdMail;
     unsigned CmdMailList;
     unsigned MenuMail;
-#ifndef WIN32
-    virtual string getConfig();
-    virtual QWidget *createConfigWindow(QWidget *parent);
+#ifdef WIN32
+	PROP_BOOL(NewWindow);
+#else
     PROP_STR(Browser);
     PROP_STR(Mailer);
+#endif
+    virtual string getConfig();
+    virtual QWidget *createConfigWindow(QWidget *parent);
     NavigateData data;
     friend class NavCfg;
-#endif
 };
 
 #endif
