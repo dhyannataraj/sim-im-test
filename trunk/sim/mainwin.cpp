@@ -246,6 +246,7 @@ MainWindow::MainWindow(const char *name)
         MessageFgColor(this, "MessageFgColor"),
         SimpleMode(this, "SimpleMode"),
         UseOwnColors(this, "UseOwnColors"),
+        UserWndOnTop(this, "UserWndOnTop"),
         KeyWindow(this, "KeyWindow", "CTRL-SHIFT-A"),
         KeyDblClick(this, "KeyDblClick", "CTRL-SHIFT-I"),
         KeySearch(this, "KeySearch", "CTRL-SHIFT-S"),
@@ -1895,6 +1896,11 @@ void MainWindow::addNonIM()
     showUser(0, mnuInfo);
 }
 
+void MainWindow::sendSMS()
+{
+    showUser(0, mnuSMS);
+}
+
 void MainWindow::setFonts()
 {
 #ifdef USE_KDE
@@ -2000,6 +2006,7 @@ void MainWindow::loadMenu()
     menuFunction->setCheckable(true);
     menuFunction->insertItem(Icon("find"), i18n("Find User"), this, SLOT(search()));
     menuFunction->insertItem(Icon("nonim"), i18n("Add Non-IM contact"), this, SLOT(addNonIM()));
+    menuFunction->insertItem(Icon("sms"), i18n("Send SMS"), this, SLOT(sendSMS()));
     menuFunction->insertSeparator();
     menuFunction->insertItem(i18n("Status"), menuStatus, mnuPopupStatus);
     menuFunction->insertSeparator();

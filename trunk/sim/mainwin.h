@@ -225,6 +225,7 @@ public:
     ConfigULong	 MessageFgColor;
     ConfigBool	 SimpleMode;
     ConfigBool	 UseOwnColors;
+    ConfigBool	 UserWndOnTop;
 
     ConfigString KeyWindow;
     ConfigString KeyDblClick;
@@ -334,6 +335,7 @@ protected slots:
     void setPhoneStatus(int);
     void toContainer(int);
     void addNonIM();
+    void sendSMS();
     void showGroupPopup(QPoint);
     void deleteUser(int);
     void ignoreUser(int);

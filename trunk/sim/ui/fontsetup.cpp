@@ -51,6 +51,7 @@ FontSetup::FontSetup(QWidget *p)
     grpWndMode->setButton(pMain->SimpleMode() ? 1 : 0);
     chkSplash->setChecked(pSplash->Show());
     chkEmotional->setChecked(pMain->UseEmotional());
+    chkUserWnd->setChecked(pMain->UserWndOnTop());
     connect(btnModeSplit, SIGNAL(toggled(bool)), this, SLOT(modeChanged(bool)));
     connect(btnModePlain, SIGNAL(toggled(bool)), this, SLOT(modeChanged(bool)));
     modeChanged(false);
@@ -104,6 +105,7 @@ void FontSetup::apply(ICQUser*)
         pMain->ContainerMode = ContainerModeGroup;
     if (w == rbtAll)
         pMain->ContainerMode = ContainerModeAll;
+    pMain->UserWndOnTop = chkUserWnd->isChecked();
     pMain->changeMode(grpWndMode->selected() == btnModePlain);
     pSplash->Show = chkSplash->isChecked();
     pMain->UseEmotional = chkEmotional->isChecked();

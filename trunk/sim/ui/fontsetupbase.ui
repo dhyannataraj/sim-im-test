@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>339</width>
+            <width>335</width>
             <height>493</height>
         </rect>
     </property>
@@ -378,6 +378,17 @@
                     </grid>
                 </widget>
             </vbox>
+        </widget>
+        <widget>
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkUserWnd</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>User window stays on &amp;top</string>
+            </property>
         </widget>
         <widget>
             <class>QCheckBox</class>

@@ -151,10 +151,8 @@ QString MainWindow::ParseText(const char *text, bool bIgnoreColors, QTextCodec *
                     }else{
                         tag_def td = *d;
                         if ((d->pair == 2) && bIgnoreColors){
-                            if (strstr(tag.c_str(), " color=") == NULL){
-                                td.pair = 1;
-                                res += QString::fromLocal8Bit(tag.c_str());
-                            }
+                            td.pair = 1;
+                            res += QString::fromLocal8Bit(tag.c_str());
                         }else{
                             res += QString::fromLocal8Bit(tag.c_str());
                         }

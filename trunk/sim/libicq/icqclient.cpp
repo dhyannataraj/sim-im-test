@@ -52,7 +52,7 @@ ICQClient::ICQClient()
         ProxyAuth(this, "ProxyAuth"),
         ProxyUser(this, "ProxyUser"),
         ProxyPasswd(this, "ProxyPasswd"),
-        DirectMode(this, "DirectMode", 2),
+        DirectMode(this, "DirectMode"),
         BirthdayReminder(this, "BirthdayReminder", "birthday.wav"),
         FileDone(this, "FileDone", "filedone.wav"),
         contacts(this),
