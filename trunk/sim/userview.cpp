@@ -763,7 +763,7 @@ void UserView::accelActivated(int id)
 
 bool UserView::eventFilter(QObject *obj, QEvent *e)
 {
-    if ((e->type() == QEvent::Leave) || (e->type() == QEvent::KeyPress))
+    if (e->type() == QEvent::Leave) 
         hideTip();
     if (obj == menuGroup){
         if (e->type() == QEvent::Hide)
@@ -1642,7 +1642,7 @@ void UserView::showTip()
         QString tip = user.toolTip();
         if ( tipLabel
 #if defined(Q_WS_X11)
-                && tipLabel->x11Screen() == widget->x11Screen()
+                && tipLabel->x11Screen() == this->x11Screen()
 #endif
            ) {
             tipLabel->setText( tip );
@@ -1650,7 +1650,7 @@ void UserView::showTip()
         } else {
 #if defined(Q_WS_X11)
             delete tipLabel;
-            tipLabel = new TipLabel( QApplication::desktop()->screen( widget->x11Screen() ), tip);
+            tipLabel = new TipLabel( QApplication::desktop()->screen( this->x11Screen() ), tip);
 #else
             tipLabel = new TipLabel( 0, tip);
 #endif
@@ -1674,14 +1674,7 @@ void UserView::showTip()
         if (y < 0)
             y = p.y() + tipRect.height() + 4;
         tipLabel->move(x, y);
-#if !defined(QT_NO_EFFECTS) && (QT_VERSION >= 300)
-        if ( QApplication::isEffectEnabled( UI_FadeTooltip ) )
-            qFadeEffect( tipLabel );
-        else
-            qScrollEffect( tipLabel );
-#else
         tipLabel->show();
-#endif
     }
 }
 

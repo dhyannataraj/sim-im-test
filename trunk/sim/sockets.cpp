@@ -50,7 +50,7 @@ SIMSockets::~SIMSockets()
 {
 }
 
-#ifdef HAVE_GETHOSTBYNAME_R
+#if defined(HAVE_GETHOSTBYNAME_R) && defined(QT_THREAD_SUPPORT)
 
 void *SIMResolver::resolve_thread(void *p)
 {
@@ -76,7 +76,7 @@ SIMResolver::SIMResolver(QObject *parent, const char *host)
 {
     bDone = false;
     bTimeout = false;
-#ifdef HAVE_GETHOSTBYNAME_R
+#if defined(HAVE_GETHOSTBYNAME_R) && defined(QT_THREAD_SUPPORT)
     m_host = host;
     m_addr = INADDR_NONE;
     pthread_t h_thread;
@@ -96,7 +96,7 @@ SIMResolver::SIMResolver(QObject *parent, const char *host)
 
 SIMResolver::~SIMResolver()
 {
-#ifndef HAVE_GETHOSTBYNAME_R
+#if !defined(HAVE_GETHOSTBYNAME_R) || !defined(QT_THREAD_SUPPORT)
     delete dns;
     delete timer;
 #endif
@@ -117,7 +117,7 @@ void SIMResolver::resolveReady()
 
 unsigned long SIMResolver::addr()
 {
-#ifdef HAVE_GETHOSTBYNAME_R
+#if defined(HAVE_GETHOSTBYNAME_R) && defined(QT_THREAD_SUPPORT)
     return m_addr;
 #else
     if (dns->addresses().isEmpty())
@@ -128,7 +128,7 @@ unsigned long SIMResolver::addr()
 
 string SIMResolver::host()
 {
-#ifdef HAVE_GETHOSTBYNAME_R
+#if defined(HAVE_GETHOSTBYNAME_R) && defined(QT_THREAD_SUPPORT)
     return m_host.c_str();
 #else
     return dns->label();
