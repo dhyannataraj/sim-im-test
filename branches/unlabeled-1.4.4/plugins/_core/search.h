@@ -47,6 +47,7 @@ public slots:
 	void toggled(bool);
 	void addResult(QWidget*);
 	void showResult(QWidget*);
+	void showError(const QString&);
 signals:
     void finished();
 	void add(unsigned grp_id);

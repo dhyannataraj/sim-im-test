@@ -22,6 +22,7 @@
 #include "nonim.h"
 #include "searchall.h"
 #include "toolbtn.h"
+#include "ballonmsg.h"
 
 #include <qpixmap.h>
 #include <qpushbutton.h>
@@ -362,9 +363,16 @@ void SearchDialog::addGroup(int n)
 		return;
 			if (m_current){
 				connect(this, SIGNAL(add(unsigned)), m_current, SLOT(add(unsigned)));
+				connect(m_current, SIGNAL(showError(const QString&)), this, SLOT(showError(const QString&)));
 				emit add(n);
 				disconnect(this, SIGNAL(add(unsigned)), m_current, SLOT(add(unsigned)));
+				disconnect(m_current, SIGNAL(showError(const QString&)), this, SLOT(showError(const QString&)));
 			}
+}
+
+void SearchDialog::showError(const QString &err)
+{
+	BalloonMessage::message(err, btnSearch);
 }
 
 #ifndef WIN32

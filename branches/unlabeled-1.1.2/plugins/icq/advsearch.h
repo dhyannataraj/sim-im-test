@@ -1,5 +1,5 @@
 /***************************************************************************
-                          icqsearch.h  -  description
+                          advsearch.h  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,44 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _ICQSEARCH_H
-#define _ICQSEARCH_H
+#ifndef _ADVSEARCH_H
+#define _ADVSEARCH_H
 
 #include "simapi.h"
-#include "icqsearchbase.h"
+#include "advsearchbase.h"
 
-class ICQClient;
-class AdvSearch;
-class AIMSearch;
-class GroupRadioButton;
-
-class ICQSearch : public ICQSearchBase
+class AdvSearch : public AdvSearchBase
 {
     Q_OBJECT
 public:
-    ICQSearch(ICQClient *client, QWidget *parent);
-	~ICQSearch();
-signals:
-	void setAdd(bool);
-	void addResult(QWidget*);
-	void showResult(QWidget*);
-protected slots:
-	void advDestroyed();
-	void radioToggled(bool);
-	void advClick();
-	void add(unsigned grp_id);
-protected:
-	void showEvent(QShowEvent*);
-	void setAdv(bool);
-	ICQClient			*m_client;
-	QWidget				*m_adv;
-	GroupRadioButton	*m_btnUin;
-	GroupRadioButton	*m_btnMail;
-	GroupRadioButton	*m_btnName;
-	GroupRadioButton	*m_btnAOL;
-	GroupRadioButton	*m_btnScreen;
-	GroupRadioButton	*m_btnAOL_UIN;
-	bool				m_bAdv;
+    AdvSearch();
 };
 
 #endif

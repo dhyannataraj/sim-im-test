@@ -1,5 +1,5 @@
 /***************************************************************************
-                          icqsearch.h  -  description
+                          advsearch.cpp  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,45 +15,39 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _ICQSEARCH_H
-#define _ICQSEARCH_H
+#include "advsearch.h"
 
-#include "simapi.h"
-#include "icqsearchbase.h"
+extern const ext_info *p_genders;
+extern const ext_info *p_languages;
+extern const ext_info *p_occupations;
+extern const ext_info *p_interests;
+extern const ext_info *p_pasts;
+extern const ext_info *p_affilations;
 
-class ICQClient;
-class AdvSearch;
-class AIMSearch;
-class GroupRadioButton;
+const ext_info ages[] =
+    {
+        { "18-22", 1 },
+        { "23-29", 2 },
+        { "30-39", 3 },
+        { "40-49", 4 },
+        { "50-59", 5 },
+        { "> 60", 6 },
+        { "", 0 }
+    };
 
-class ICQSearch : public ICQSearchBase
+AdvSearch::AdvSearch()
 {
-    Q_OBJECT
-public:
-    ICQSearch(ICQClient *client, QWidget *parent);
-	~ICQSearch();
-signals:
-	void setAdd(bool);
-	void addResult(QWidget*);
-	void showResult(QWidget*);
-protected slots:
-	void advDestroyed();
-	void radioToggled(bool);
-	void advClick();
-	void add(unsigned grp_id);
-protected:
-	void showEvent(QShowEvent*);
-	void setAdv(bool);
-	ICQClient			*m_client;
-	QWidget				*m_adv;
-	GroupRadioButton	*m_btnUin;
-	GroupRadioButton	*m_btnMail;
-	GroupRadioButton	*m_btnName;
-	GroupRadioButton	*m_btnAOL;
-	GroupRadioButton	*m_btnScreen;
-	GroupRadioButton	*m_btnAOL_UIN;
-	bool				m_bAdv;
-};
+    initCombo(cmbGender, 0, p_genders);
+    initCombo(cmbAge, 0, ages);
+    initCombo(cmbCountry, 0, getCountries(), true, getCountryCodes());
+    initCombo(cmbLang, 0, p_languages);
+    initCombo(cmbOccupation, 0, p_occupations);
+    initCombo(cmbInterests, 0, p_interests);
+    initCombo(cmbPast, 0, p_pasts);
+    initCombo(cmbAffilation, 0, p_affilations);
+}
 
+#ifndef WIN32
+#include "advsearch.moc"
 #endif
 
