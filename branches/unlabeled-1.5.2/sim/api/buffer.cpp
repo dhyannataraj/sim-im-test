@@ -185,6 +185,7 @@ Buffer &Buffer::operator >> (string &s)
     size = htons(size);
     s.erase();
     if (size){
+	    if (size > m_size - m_posRead) size = m_size - m_posRead;
         s.append(size, '\x00');
         unpack((char*)s.c_str(), size);
     }

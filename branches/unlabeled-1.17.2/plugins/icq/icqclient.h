@@ -294,7 +294,8 @@ typedef struct ENCODING
 {
     const char *language;
     const char *codec;
-    int            mib;
+    int         mib;
+	int			rtf_code;
     bool        bMain;
 } ENCODING;
 
@@ -366,12 +367,6 @@ const unsigned SEND_HTML		= 0x0006;
 const unsigned SEND_MASK		= 0x000F;
 const unsigned SEND_1STPART		= 0x0010;
 
-typedef struct rtf_charset
-{
-    const char	   *name;
-    int            rtf_code;
-} charset;
-
 typedef struct ar_request
 {
     unsigned short    type;
@@ -390,15 +385,17 @@ class ICQClient : public TCPClient, public EventReceiver
 {
     Q_OBJECT
 public:
-    ICQClient(ICQProtocol*, const char *cfg);
+    ICQClient(Protocol*, const char *cfg, bool bAIM);
     ~ICQClient();
     virtual string name();
     virtual QWidget    *setupWnd();
     virtual string getConfig();
     virtual unsigned getStatus();
     void setUin(unsigned long);
+	void setScreen(const char*);
     unsigned long getUin();
-    PROP_STR(Server);
+    const char *getServer();
+	void setServer(const char*);
     PROP_ULONG(Port);
     PROP_ULONG(ContactsTime);
     PROP_ULONG(ContactsLength);
@@ -455,7 +452,8 @@ public:
     static QString pictureFile(ICQUserData *data);
     static const capability *capabilities;
     static const plugin *plugins;
-    static rtf_charset rtf_charsets[];
+	static const ENCODING *encodings;
+	bool m_bAIM;
 protected slots:
     void ping();
     void infoRequest();
@@ -524,7 +522,7 @@ protected:
     const char* error_message(unsigned short error);
     void sendPacket();
     void flap(char channel);
-    void snac(unsigned short fam, unsigned short type, bool msgId=false);
+    void snac(unsigned short fam, unsigned short type, bool msgId=false, bool bType=true);
     unsigned short m_nSequence;
     unsigned short m_nMsgSequence;
     ICQListener *m_listener;

@@ -79,7 +79,7 @@ ICQProtocol::~ICQProtocol()
 
 Client *ICQProtocol::createClient(const char *cfg)
 {
-    return new ICQClient(this, cfg);
+    return new ICQClient(this, cfg, false);
 }
 
 static CommandDef icq_descr =
@@ -94,7 +94,7 @@ static CommandDef icq_descr =
         0,
         0,
         0,
-        PROTOCOL_INFO | PROTOCOL_SEARCH_ONLINE | PROTOCOL_INVISIBLE | PROTOCOL_AR_USER | PROTOCOL_FOLLOWME,
+        PROTOCOL_INFO | PROTOCOL_SEARCH_ONLINE | PROTOCOL_INVISIBLE | PROTOCOL_AR_USER | PROTOCOL_FOLLOWME | PROTOCOL_ANY_PORT,
         NULL,
         NULL
     };
@@ -233,6 +233,111 @@ const CommandDef *ICQProtocol::statusList()
     return icq_status_list;
 }
 
+AIMProtocol::AIMProtocol(Plugin *plugin)
+        : Protocol(plugin)
+{
+}
+
+AIMProtocol::~AIMProtocol()
+{
+}
+
+Client *AIMProtocol::createClient(const char *cfg)
+{
+    return new ICQClient(this, cfg, true);
+}
+
+static CommandDef aim_descr =
+    {
+        0,
+        I18N_NOOP("AIM"),
+        "AIM_online",
+        NULL,
+        NULL,
+        0,
+        0,
+        0,
+        0,
+        0,
+        PROTOCOL_INFO | PROTOCOL_SEARCH_ONLINE | PROTOCOL_ANY_PORT,
+        NULL,
+        NULL
+    };
+
+const CommandDef *AIMProtocol::description()
+{
+    return &aim_descr;
+}
+
+static CommandDef aim_status_list[] =
+    {
+        {
+            STATUS_ONLINE,
+            I18N_NOOP("Online"),
+            "AIM_online",
+            NULL,
+            NULL,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            NULL,
+            NULL
+        },
+        {
+            STATUS_AWAY,
+            I18N_NOOP("Away"),
+            "AIM_away",
+            NULL,
+            NULL,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            NULL,
+            NULL
+        },
+        {
+            STATUS_OFFLINE,
+            I18N_NOOP("Offline"),
+            "AIM_offline",
+            NULL,
+            NULL,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            NULL,
+            NULL
+        },
+        {
+            0,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            NULL,
+            NULL
+        }
+    };
+
+const CommandDef *AIMProtocol::statusList()
+{
+    return aim_status_list;
+}
+
 /*
 typedef struct IconsData
 {
@@ -245,7 +350,8 @@ static DataDef icqData[] =
         { NULL, 0, 0, 0 }
     };
 
-Protocol *ICQPlugin::m_protocol = NULL;
+Protocol *ICQPlugin::m_icq = NULL;
+Protocol *ICQPlugin::m_aim = NULL;
 
 #ifdef WIN32
 void qInitJpeg();
@@ -264,6 +370,8 @@ ICQPlugin::ICQPlugin(unsigned base, const char *cfg)
     getContacts()->addPacketType(ICQPacket, icq_descr.text);
     ICQDirectPacket = registerType();
     getContacts()->addPacketType(ICQDirectPacket, "ICQ.Direct");
+    AIMPacket = registerType();
+    getContacts()->addPacketType(AIMPacket, aim_descr.text);
 
     IconDef icon;
     icon.name = "ICQ_online";
@@ -394,7 +502,8 @@ ICQPlugin::ICQPlugin(unsigned base, const char *cfg)
     CmdGroups = registerType();
     CmdCheckInvisible = registerType();
 
-    m_protocol = new ICQProtocol(this);
+    m_icq = new ICQProtocol(this);
+    m_aim = new AIMProtocol(this);
 
     Event eMenuEncoding(EventMenuCreate, (void*)MenuEncoding);
     eMenuEncoding.process();
@@ -498,9 +607,12 @@ ICQPlugin::~ICQPlugin()
 {
     unregisterMessages();
 
-    delete m_protocol;
+    delete m_icq;
+	delete m_aim;
+
     getContacts()->removePacketType(ICQPacket);
     getContacts()->removePacketType(ICQDirectPacket);
+    getContacts()->removePacketType(AIMPacket);
 
     Event eVisible(EventCommandRemove, (void*)CmdVisibleList);
     eVisible.process();

@@ -1023,7 +1023,7 @@ static Message *createContact(const char *cfg)
 
 static QObject *generateContact(QWidget *p, Message *msg)
 {
-    return new MsgContacts(static_cast<CToolCustom*>(p), msg, ICQPlugin::m_protocol);
+    return new MsgContacts(static_cast<CToolCustom*>(p), msg, ICQPlugin::m_icq);
 }
 
 static Message *dropContact(QMimeSource *src)
@@ -1033,7 +1033,7 @@ static Message *dropContact(QMimeSource *src)
         void *data = NULL;
         ClientDataIterator it(contact->clientData);
         while ((data = ++it) != NULL){
-            if (it.client()->protocol() == ICQPlugin::m_protocol)
+            if (it.client()->protocol() == ICQPlugin::m_icq)
                 break;
         }
         if (data == NULL)

@@ -66,6 +66,8 @@ RTFGenParser::RTFGenParser(ICQClient *client, unsigned foreColor, const char *en
     m_foreColor = foreColor;
 }
 
+#ifdef WIN32
+
 typedef struct rtf_cp
 {
     unsigned cp;
@@ -92,14 +94,16 @@ rtf_cp rtf_cps[] =
         { 0, 0 }
     };
 
+#endif
+
 string RTFGenParser::parse(const QString &text)
 {
     res = "";
     m_codec = m_client->getCodec(m_encoding);
     m_encoding = m_codec->name();
     int charset = 0;
-    for (const rtf_charset *c = ICQClient::rtf_charsets; c->rtf_code; c++){
-        if (!strcasecmp(c->name, m_encoding)){
+    for (const ENCODING *c = ICQClient::encodings; c->language; c++){
+        if (!strcasecmp(c->codec, m_encoding)){
             charset = c->rtf_code;
             break;
         }
@@ -122,9 +126,9 @@ string RTFGenParser::parse(const QString &text)
     const char *send_encoding = 0;
     m_codec = NULL;
     if (charset){
-        for (const rtf_charset *c = ICQClient::rtf_charsets; c->rtf_code; c++){
+        for (const ENCODING *c = ICQClient::encodings; c->language; c++){
             if (c->rtf_code == charset){
-                send_encoding = c->name;
+                send_encoding = c->codec;
                 m_codec = m_client->getCodec(send_encoding);
                 break;
             }

@@ -46,13 +46,6 @@ const ext_info ages[] =
         { "", 0 }
     };
 
-class AIMValidator : public QValidator
-{
-public:
-    AIMValidator(QWidget *parent);
-    virtual State validate(QString &input, int &pos) const;
-};
-
 AIMValidator::AIMValidator(QWidget *parent)
         : QValidator(parent)
 {

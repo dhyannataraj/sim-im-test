@@ -48,7 +48,7 @@ UserTblItem::UserTblItem(QListView *parent, unsigned long uin, const QString &al
     Contact *contact;
     for (unsigned n = 0; n < getContacts()->nClients(); n++){
         Client *c = getContacts()->getClient(n);
-        if (c->protocol() != ICQPlugin::m_protocol)
+        if (c->protocol() != ICQPlugin::m_icq)
             continue;
         ICQClient *client = static_cast<ICQClient*>(c);
         ICQUserData *data = static_cast<ICQClient*>(c)->findContact(number(uin).c_str(), NULL, false, contact);

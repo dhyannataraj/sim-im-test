@@ -494,14 +494,17 @@ void Level::flush()
     if (text.length() == 0) return;
     const char *encoding = NULL;
     if (m_nEncoding){
-        for (const rtf_charset *c = ICQClient::rtf_charsets; c->rtf_code; c++){
+        for (const ENCODING *c = ICQClient::encodings; c->language; c++){
+			if (!c->bMain)
+				continue;
             if ((unsigned)c->rtf_code == m_nEncoding){
-                encoding = c->name;
+                encoding = c->codec;
                 break;
             }
         }
     }
-    if (encoding == NULL) encoding = p->encoding;
+    if (encoding == NULL)
+		encoding = p->encoding;
 	QTextCodec *codec = ICQClient::_getCodec(encoding);
     p->PrintQuoted(codec->toUnicode(text.c_str(), text.length()));
     text = "";

@@ -27,8 +27,6 @@
 #include <qpixmap.h>
 #include <qlabel.h>
 
-extern ENCODING encodingTbl[];
-
 const ext_info chat_groups[] =
     {
         { I18N_NOOP("General chat"), 1 },
@@ -87,7 +85,7 @@ void ICQInfo::apply()
         QStringList l;
         const ENCODING *e;
         QStringList main;
-        for (e = encodingTbl; e->language; e++){
+        for (e = ICQClient::encodings; e->language; e++){
             if (!e->bMain)
                 continue;
             main.append(i18n(e->language) + " (" + e->codec + ")");
@@ -98,7 +96,7 @@ void ICQInfo::apply()
             l.append(*it);
         }
         QStringList noMain;
-        for (e = encodingTbl; e->language; e++){
+        for (e = ICQClient::encodings; e->language; e++){
             if (e->bMain)
                 continue;
             noMain.append(i18n(e->language) + " (" + e->codec + ")");
@@ -286,7 +284,7 @@ void ICQInfo::fill()
     const ENCODING *e;
     QStringList main;
     QStringList::Iterator it;
-    for (e = encodingTbl; e->language; e++){
+    for (e = ICQClient::encodings; e->language; e++){
         if (!e->bMain)
             continue;
         main.append(i18n(e->language) + " (" + e->codec + ")");
@@ -303,7 +301,7 @@ void ICQInfo::fill()
         cmbEncoding->insertItem(*it);
     }
     QStringList noMain;
-    for (e = encodingTbl; e->language; e++){
+    for (e = ICQClient::encodings; e->language; e++){
         if (e->bMain)
             continue;
         noMain.append(i18n(e->language) + " (" + e->codec + ")");

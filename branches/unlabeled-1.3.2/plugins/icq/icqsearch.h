@@ -21,6 +21,8 @@
 #include "simapi.h"
 #include "icqsearchbase.h"
 
+#include <qvalidator.h>
+
 class ICQSearchResult;
 class ICQClient;
 class QWizard;
@@ -56,6 +58,13 @@ protected:
     ICQSearchResult *m_result;
     QWizard	*m_wizard;
     ICQClient *m_client;
+};
+
+class AIMValidator : public QValidator
+{
+public:
+    AIMValidator(QWidget *parent);
+    virtual State validate(QString &input, int &pos) const;
 };
 
 #endif
