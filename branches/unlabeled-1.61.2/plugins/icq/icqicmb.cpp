@@ -566,9 +566,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
             processSendQueue();
             return true;
         }
-        if ((data->Uin.value == 0) || m_bAIM ||
-                (hasCap(data, CAP_AIM_BUDDYCON) && !hasCap(data, CAP_AIM_CHAT) &&
-                 !hasCap(data, CAP_LICQ) && ((data->InfoUpdateTime.value & 0xFF7F0000L) != 0x7D000000L))){
+        if ((data->Uin.value == 0) || m_bAIM){
             s.msg	 = msg;
             if (msg->getFlags() & MESSAGE_RICHTEXT){
                 s.flags  = SEND_HTML;
