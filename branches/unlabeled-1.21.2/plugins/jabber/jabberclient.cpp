@@ -26,6 +26,7 @@
 #include "jabberaboutinfo.h"
 #include "jabbermessage.h"
 #include "services.h"
+#include "html.h"
 
 #include "core.h"
 
@@ -1106,7 +1107,6 @@ void JabberClient::setOffline(JabberUserData *data)
 {
     data->Status = STATUS_OFFLINE;
     data->composeId = 0;
-	data->richText = RICH_TEXT_UNKNOWN;
     if (data->TypingId && *data->TypingId){
         set_str(&data->TypingId, NULL);
         Contact *contact;
@@ -1401,6 +1401,106 @@ bool JabberClient::canSend(unsigned type, void *_data)
     return false;
 }
 
+class JabberImageParser : public HTMLParser
+{
+public:
+    JabberImageParser();
+    QString parse(const QString &text);
+protected:
+    virtual void text(const QString &text);
+    virtual void tag_start(const QString &tag, const list<QString> &attrs);
+    virtual void tag_end(const QString &tag);
+    QString res;
+    bool    m_bPara;
+};
+
+JabberImageParser::JabberImageParser()
+{
+    m_bPara    = false;
+}
+
+QString JabberImageParser::parse(const QString &text)
+{
+    res = "";
+    HTMLParser::parse(text);
+    return res;
+}
+
+void JabberImageParser::text(const QString &text)
+{
+    res += quoteString(text);
+}
+
+void JabberImageParser::tag_start(const QString &tag, const list<QString> &attrs)
+{
+    if (tag == "img"){
+        QString src;
+        for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
+            QString name = *it;
+            ++it;
+            QString value = *it;
+            if (name == "src"){
+                src = value;
+                break;
+            }
+        }
+        if (src.left(10) != "icon:smile")
+            return;
+        bool bOK;
+        unsigned nIcon = src.mid(10).toUInt(&bOK, 16);
+        if (!bOK)
+            return;
+        const smile *p = smiles(nIcon);
+            if (p){
+                res += p->paste;
+                return;
+            }
+    }
+    if (tag == "p"){
+        if (m_bPara){
+            res += "<br/>";
+            m_bPara = false;
+        }
+        return;
+    }
+	if (tag == "br"){
+		res += "<br/>";
+		return;
+	}
+    res += "<";
+    res += tag;
+    for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
+        QString name = *it;
+        ++it;
+        QString value = *it;
+        res += " ";
+        res += name;
+        if (!value.isEmpty()){
+            res += "=\"";
+            res += quoteString(value);
+            res += "\"";
+        }
+    }
+    res += ">";
+}
+
+void JabberImageParser::tag_end(const QString &tag)
+{
+    if (tag == "p"){
+        m_bPara = true;
+        return;
+    }
+    res += "</";
+    res += tag;
+    res += ">";
+}
+
+static QString removeImages(const QString &text)
+{
+    JabberImageParser p;
+    return p.parse(text);
+}
+
 bool JabberClient::send(Message *msg, void *_data)
 {
     if ((getState() != Connected) || (_data == NULL))
@@ -1448,7 +1548,18 @@ bool JabberClient::send(Message *msg, void *_data)
             m_socket->writeBuffer
             << "\"><body>"
             << (const char*)msg->getPlainText().utf8()
-            << "</body></message>";
+            << "</body>";
+			if (data->richText){
+				char bgColor[8];
+				sprintf(bgColor, "%06X", msg->getBackground() & 0xFFFFFF);
+				m_socket->writeBuffer
+					<< "<html xmlns='http://jabber.org/protocol/xhtml-im'>"
+					<< "<body bgcolor=\"#" << bgColor << "\">"
+					<< removeImages(msg->getRichText()).utf8()
+					<< "</body></html>";
+			}
+            m_socket->writeBuffer
+			<< "</message>";
             sendPacket();
             if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
                 msg->setClient(dataName(data).c_str());

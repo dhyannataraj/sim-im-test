@@ -38,10 +38,6 @@ const unsigned SUBSCRIBE_FROM	= 1;
 const unsigned SUBSCRIBE_TO		= 2;
 const unsigned SUBSCRIBE_BOTH	= (SUBSCRIBE_FROM | SUBSCRIBE_TO);
 
-const unsigned RICH_TEXT_UNKNOWN	= 0;
-const unsigned RICH_TEXT_ON			= 1;
-const unsigned RICH_TEXT_OFF		= 2;
-
 typedef struct JabberUserData
 {
     clientData	base;
@@ -172,17 +168,6 @@ class IqRequest : public ServerRequest
         string m_query;
     };
 
-class DiscoRequest : public ServerRequest
-    {
-    public:
-        DiscoRequest(JabberClient *client, JabberUserData *data);
-        ~DiscoRequest();
-    protected:
-        virtual void	element_start(const char *el, const char **attr);
-		bool m_bRichText;
-		JabberUserData *m_data;
-    };
-
 class PresenceRequest : public ServerRequest
     {
     public:
@@ -211,12 +196,14 @@ class MessageRequest : public ServerRequest
         string m_from;
         string *m_data;
         string m_body;
+		string m_richText;
         string m_subj;
         string m_error;
         bool   m_bBody;
         string m_id;
         bool   m_bCompose;
         bool   m_bEvent;
+		bool   m_bRichText;
         unsigned m_errorCode;
     };
 
