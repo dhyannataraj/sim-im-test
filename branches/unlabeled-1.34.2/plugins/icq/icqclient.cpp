@@ -35,6 +35,8 @@
 #include "core.h"
 #include "msgedit.h"
 #include "ballonmsg.h"
+#include "encodingdlg.h"
+#include "warndlg.h"
 
 #include "simapi.h"
 #include "buffer.h"
@@ -264,6 +266,7 @@ static DataDef icqClientData[] =
         { "AcceptInOccupied", DATA_BOOL, 1, 0 },
         { "MinPort", DATA_ULONG, 1, 1024 },
         { "MaxPort", DATA_ULONG, 1, 0xFFFE },
+		{ "WarnAnonimously", DATA_BOOL, 1, 0 },
         { "", DATA_STRUCT, sizeof(ICQUserData) / sizeof(unsigned), (unsigned)_icqUserData },
         { NULL, 0, 0, 0 }
     };
@@ -328,6 +331,19 @@ ICQClient::ICQClient(Protocol *protocol, const char *cfg, bool bAIM)
         m_bAIM = false;
     if (data.owner.Screen && *data.owner.Screen)
         m_bAIM = true;
+	if (!m_bAIM && (data.owner.Encoding == NULL)){
+		QTextCodec *codec = _getCodec(NULL);
+		if (codec && (QString(codec->name()).lower().find("utf") >= 0)){
+		const char *_def_enc = I18N_NOOP("Dear translator! type this default encdoing for your language");
+		QString def_enc = i18n(_def_enc);
+		if (def_enc == _def_enc){
+			EncodingDlg dlg(NULL, this);
+			dlg.exec();
+		}else{
+			set_str(&data.owner.Encoding, def_enc.latin1());
+		}
+		}
+	}
     m_bRosters = false;
     m_listRequest = NULL;
     data.owner.DCcookie = rand();
@@ -2803,6 +2819,14 @@ void *ICQClient::processEvent(Event *e)
             raiseWindow(dlg);
             return e->param();
         }
+		if (msg->type() == MessageWarning){
+	        if (data && (m_bAIM || (data->Uin == 0))){
+				WarnDlg *dlg = new WarnDlg(NULL, data, this);
+				raiseWindow(dlg);
+				return e->param();
+			}
+			return NULL;
+		}
         if (data->Direct && data->Direct->isSecure()){
             Message *m = new Message(MessageCloseSecure);
             m->setContact(msg->contact());
@@ -2924,6 +2948,8 @@ bool ICQClient::canSend(unsigned type, void *_data)
         return data && data->Uin && ((data->Status & 0xFFFF) == ICQ_STATUS_OFFLINE);
     case MessageFile:
         return data && ((data->Status & 0xFFFF) != ICQ_STATUS_OFFLINE);
+    case MessageWarning:
+        return data && (m_bAIM || (data->Uin == 0));
 #ifdef USE_OPENSSL
     case MessageOpenSecure:
         if ((data == NULL) || ((data->Status & 0xFFFF) == ICQ_STATUS_OFFLINE))

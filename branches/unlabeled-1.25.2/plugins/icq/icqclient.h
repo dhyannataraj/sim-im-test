@@ -258,6 +258,7 @@ typedef struct ICQClientData
     unsigned    AcceptInOccupied;
     unsigned	MinPort;
     unsigned	MaxPort;
+	unsigned	WarnAnonimously;
     ICQUserData    owner;
 } ICQClientData;
 
@@ -463,6 +464,7 @@ public:
     PROP_BOOL(AcceptInOccupied);
     PROP_ULONG(MinPort);
     PROP_ULONG(MaxPort);
+	PROP_BOOL(WarnAnonimously);
     ICQClientData    data;
     QString toUnicode(const char *str, ICQUserData *client_data);
     string fromUnicode(const QString &str, ICQUserData *client_data);
@@ -508,6 +510,7 @@ public:
     static const capability *capabilities;
     static const plugin *plugins;
     static const ENCODING *encodings;
+    string screen(ICQUserData*);
     bool m_bAIM;
 protected slots:
     void ping();
@@ -655,7 +658,6 @@ protected:
     INFO_REQ_MAP m_info_req;
     QString clearTags(const QString &text);
     string clearTags(const char *text);
-    string screen(ICQUserData*);
     unsigned short msgStatus();
     unsigned short m_advCounter;
     unsigned m_nUpdates;
