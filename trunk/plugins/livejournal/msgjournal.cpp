@@ -55,7 +55,7 @@ MsgJournal::MsgJournal(MsgEdit *parent, Message *msg)
                     QString s = mood;
                     QString ts = i18n(mood);
                     if (s != ts){
-                        s += "(";
+                        s += " (";
                         s += ts;
                         s += ")";
                     }

@@ -3004,6 +3004,8 @@ bool CorePlugin::init(bool bInit)
         getContacts()->load();
     for (unsigned i = 0; i < getContacts()->nClients(); i++){
         Client *client = getContacts()->getClient(i);
+		if (client->getCommonStatus())
+			client->setManualStatus(getManualStatus());
         client->setStatus(client->getManualStatus(), client->getCommonStatus());
     }
     if (m_main)

@@ -18,6 +18,7 @@
 #include "livejournal.h"
 #include "livejournalcfg.h"
 #include "msgjournal.h"
+#include "journalsearch.h"
 #include "fetch.h"
 #include "html.h"
 #include "core.h"
@@ -305,7 +306,7 @@ static CommandDef livejournal_descr =
         0,
         0,
         0,
-        PROTOCOL_NOSMS,
+        PROTOCOL_NOSMS | PROTOCOL_SEARCH,
         NULL,
         NULL
     };
@@ -374,7 +375,8 @@ static DataDef liveJournalUserData[] =
         { "", DATA_ULONG, 1, LIVEJOURNAL_SIGN },		// Sign
         { "LastSend", DATA_ULONG, 1, 0 },
         { "User", DATA_UTF, 1, 0 },
-        { "", DATA_ULONG, 1, 0 },						// bChecked
+        { "Shared", DATA_BOOL, 1, 0 },
+        { "", DATA_BOOL, 1, 0 },						// bChecked
         { NULL, 0, 0, 0 }
     };
 
@@ -753,14 +755,26 @@ QWidget *LiveJournalClient::configWindow(QWidget *parent, unsigned id)
     return NULL;
 }
 
-LiveJournalUserData *LiveJournalClient::findContact(const char *user, Contact *&contact)
+bool LiveJournalClient::add(const char *name)
+{
+    Contact *contact;
+    LiveJournalUserData *data = findContact(name, contact, false);
+    if (data)
+        return false;
+    findContact(name, contact);
+    return true;
+}
+
+LiveJournalUserData *LiveJournalClient::findContact(const char *user, Contact *&contact, bool bCreate)
 {
     ContactList::ContactIterator it;
     while ((contact = ++it) != NULL){
         LiveJournalUserData *data;
         ClientDataIterator itc(contact->clientData, this);
-        if ((data = (LiveJournalUserData*)(++itc)) != NULL)
-            return data;
+        while ((data = (LiveJournalUserData*)(++itc)) != NULL){
+            if (!strcmp(data->User, user))
+                return data;
+        }
     }
     QString sname = QString::fromUtf8(user);
     it.reset();
@@ -769,6 +783,8 @@ LiveJournalUserData *LiveJournalClient::findContact(const char *user, Contact *&
             break;;
     }
     if (contact == NULL){
+        if (!bCreate)
+            return NULL;
         contact = getContacts()->contact(0, true);
         contact->setName(sname);
     }
@@ -792,6 +808,8 @@ void LiveJournalClient::auth_ok()
         LiveJournalUserData *data;
         ClientDataIterator itc(contact->clientData, this);
         while ((data = (LiveJournalUserData*)(++itc)) != NULL){
+            if (!data->bChecked)
+                continue;
             if (data->bChecked)
                 continue;
             contact->clientData.freeData(data);
@@ -960,8 +978,10 @@ void LoginRequest::result(const char *key, const char *value)
             return;
         Contact *contact;
         LiveJournalUserData *data = m_client->findContact(value, contact);
-        if (data)
+        if (data){
             data->bChecked = true;
+            data->Shared   = true;
+        }
     }
 }
 
@@ -1013,6 +1033,11 @@ void LiveJournalClient::auth_fail(const char *err)
 {
     m_reconnect = NO_RECONNECT;
     error_state(err, AuthError);
+}
+
+QWidget *LiveJournalClient::searchWindow()
+{
+    return new JournalSearch(this);
 }
 
 void *LiveJournalClient::processEvent(Event *e)

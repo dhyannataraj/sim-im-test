@@ -5,7 +5,11 @@ livejournal_la_SOURCES = \
  livejournalcfg.cpp \
  livejournalcfgbase.ui \
  msgjournal.cpp \
- msgjournalbase.ui 
+ msgjournalbase.ui \
+ journalsearch.cpp \
+ journalsearchbase.ui \
+ journalresult.cpp \
+ journalresultbase.ui
 
 INCLUDES=-I../../sim/api -I../../sim/ui -I../_core $(all_includes)
 

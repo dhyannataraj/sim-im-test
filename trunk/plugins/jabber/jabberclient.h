@@ -239,6 +239,7 @@ class MessageRequest : public ServerRequest
         vector<string> m_descs;
         bool   m_bBody;
         bool   m_bRosters;
+		bool   m_bError;
         string m_id;
         bool   m_bCompose;
         bool   m_bEvent;

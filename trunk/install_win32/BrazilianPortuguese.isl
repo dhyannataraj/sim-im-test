@@ -8,7 +8,7 @@
 ; Setup adds the periods automatically (appending a period would result in
 ; two periods being displayed).
 ;
-; $Id: BrazilianPortuguese.isl,v 1.3 2003-11-26 07:13:42 shutoff Exp $
+; $Id: BrazilianPortuguese.isl,v 1.4 2004-01-09 17:43:09 shutoff Exp $
 
 [LangOptions]
 LanguageName=Portuguese (Brazil)

@@ -1137,6 +1137,7 @@ JabberClient::MessageRequest::MessageRequest(JabberClient *client)
     m_bEvent = false;
     m_bRichText = false;
     m_bRosters = false;
+	m_bError = false;
 }
 
 JabberClient::MessageRequest::~MessageRequest()
@@ -1153,6 +1154,8 @@ JabberClient::MessageRequest::~MessageRequest()
     }
     Message *msg = NULL;
     if (!m_id.empty()){
+		if (m_bError)
+			return;
         string typing_id;
         if (data->TypingId)
             typing_id = data->TypingId;
@@ -1255,6 +1258,8 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
     m_data = NULL;
     if (!strcmp(el, "message")){
         m_from = JabberClient::get_attr("from", attr);
+		if (JabberClient::get_attr("type", attr) == "error")
+			m_bError = true;
         return;
     }
     if (!strcmp(el, "body")){
