@@ -374,12 +374,12 @@ bool operator == (const MessageId &m1, const MessageId &m2);
 
 typedef struct SendMsg
 {
-    string            screen;
-    MessageId        id;
-    Message            *msg;
-    QString            text;
-    QString            part;
-    unsigned        flags;
+    string			screen;
+    MessageId		id;
+    Message			*msg;
+    QString			text;
+    QString			part;
+    unsigned		flags;
     DirectSocket    *socket;
     SendMsg() : msg(NULL), socket(NULL) {}
 } SendMsg;
@@ -511,6 +511,7 @@ public:
     static const plugin *plugins;
     static const ENCODING *encodings;
     string screen(ICQUserData*);
+	static unsigned warnLevel(unsigned short);
     bool m_bAIM;
 protected slots:
     void ping();
@@ -665,7 +666,7 @@ protected:
     SendMsg  m_send;
     list<Message*>     	m_processMsg;
     list<DirectSocket*>	m_sockets;
-    list<Message*>	m_acceptMsg;
+    list<Message*>		m_acceptMsg;
     friend class FullInfoRequest;
     friend class SMSRequest;
     friend class ServiceSocket;

@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>378</width>
+            <width>374</width>
             <height>193</height>
         </rect>
     </property>
@@ -74,10 +74,13 @@ Anonymous warinings are less severe.</string>
             </property>
             <property>
                 <name>alignment</name>
-                <set>AlignTop|AlignLeft</set>
+                <set>WordBreak|AlignTop|AlignLeft</set>
             </property>
             <property>
                 <name>vAlign</name>
+            </property>
+            <property>
+                <name>wordwrap</name>
             </property>
         </widget>
         <widget>

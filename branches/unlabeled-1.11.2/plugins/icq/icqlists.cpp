@@ -364,7 +364,8 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             while ((contact = ++it_c) != NULL){
                 ICQUserData *data;
                 ClientDataIterator it_d(contact->clientData);
-                bool bOther = false;
+                bool bOther = (contact->clientData.size() == 0);
+				bool bMy = false;
                 unsigned long newGroup = 0;
                 while ((data = (ICQUserData*)(++it_d)) != NULL){
                     if (it_d.client() != this){
@@ -380,10 +381,12 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                     }
                     if (grp)
                         newGroup = grp->id();
+					bMy = true;
                 }
                 if (newGroup != contact->getGroup()){
                     if ((newGroup == 0) && bOther){
-                        addContactRequest(contact);
+						if (bMy)
+							addContactRequest(contact);
                     }else{
                         contact->setGroup(newGroup);
                     }
@@ -417,21 +420,15 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 time_t now;
                 time(&now);
                 data.owner.OnlineTime = now;
-                if (m_status == STATUS_ONLINE){
+                if (m_logonStatus == STATUS_ONLINE){
                     m_status = STATUS_ONLINE;
                     sendCapability();
                     sendICMB(1, 11);
                     sendICMB(0, 11);
                     processListRequest();
                     fetchProfiles();
-                    setState(Connected);
-                    Event e(EventClientChanged, this);
-                    e.process();
                 }else{
                     m_status = STATUS_AWAY;
-                    setState(Connected);
-                    Event e(EventClientChanged, this);
-                    e.process();
 
                     ar_request req;
                     req.bDirect = false;
@@ -445,15 +442,14 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                     Event eAR(EventARRequest, &ar);
                     eAR.process();
                 }
+                setState(Connected);
                 break;
             }
-            setState(Connected);
-            Event e(EventClientChanged, this);
-            e.process();
             sendCapability();
             sendICMB(1, 11);
             sendICMB(0, 3);
             sendLogonStatus();
+            setState(Connected);
             sendMessageRequest();
             if (getContactsInvisible() == 0){
                 snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_EDIT);

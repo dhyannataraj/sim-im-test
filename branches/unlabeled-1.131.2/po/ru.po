@@ -3934,25 +3934,9 @@ msgstr "Список &невидимости"
 msgid "Send warning"
 msgstr "Отправить предупреждение"
 
-#: plugins/icq/warndlgbase.cc:84
-msgid ""
-"Click OK to send warning to %1. This will raise %1's warning and limit his "
-"or her activity. Do this only if %1 has done something to merit a warning."
-msgstr ""
-"Нажмите OK для того, чтобы отправить предупреждение %1. Это увеличит уровень предупреждений и ограничит активность контактаю "
-"Делайте это только в том случае, если %1 сделал что-то заслуживающее предупреждения"
-
 #: plugins/icq/warndlgbase.cc:85
 msgid "Warn &anonymously"
 msgstr "Предупредить &анонимно"
-
-#: plugins/icq/warndlgbase.cc:86
-msgid ""
-"Check this if you don't want your screen name revealed.\n"
-"Anonymous warinings are less severe."
-msgstr ""
-"Отметь, если вы не хотите показывать свое имя в предупреждении "
-"Анонимные предупрждения оказывают меньшее влияние."
 
 # ui/moreinfobase.cpp:135
 #: plugins/icq/moreinfobase.cc:202 plugins/jabber/jabberinfobase.cpp:212
