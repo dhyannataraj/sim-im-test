@@ -20,6 +20,7 @@
 #include "dockwnd.h"
 #include "simapi.h"
 #include "core.h"
+#include "mainwin.h"
 
 #include <qapplication.h>
 #include <qwidgetlist.h>
@@ -187,9 +188,6 @@ bool DockPlugin::eventFilter(QObject *o, QEvent *e)
 {
     if (o == m_popup){
         if (e->type() == QEvent::Hide){
-#if QT_VERSION < 300
-            getMainWindow()->releaseMouse();
-#endif
             m_popup->removeEventFilter(this);
             m_popup = NULL;
         }
@@ -199,7 +197,7 @@ bool DockPlugin::eventFilter(QObject *o, QEvent *e)
             if (!bQuit){
                 QWidget *main = (QWidget*)o;
                 setShowMain(false);
-                main->hide();
+				main->hide();
                 return true;
             }
             break;
@@ -276,7 +274,7 @@ void *DockPlugin::processEvent(Event *e)
                 main->hide();
             }else{
                 setShowMain(true);
-                raiseWindow(main);
+                main->show();
             }
             return e->param();
         }
@@ -307,10 +305,12 @@ void DockPlugin::showPopup(QPoint p)
     m_popup = (QPopupMenu*)e.process();
     if (m_popup){
         m_popup->installEventFilter(this);
+		if (qApp->activeWindow() == NULL)
+			dock->setFocus();
         m_popup->popup(p);
-#if QT_VERSION < 300
-        getMainWindow()->grabMouse(0);
-#endif
+// #if QT_VERSION < 300
+//         getMainWindow()->grabMouse(0);
+// #endif
     }
 }
 
@@ -363,6 +363,8 @@ QWidget *DockPlugin::getMainWindow()
     return NULL;
 }
 
+const unsigned ANIMATE_TIME = 200;
+
 QWidget *DockPlugin::createConfigWindow(QWidget *parent)
 {
     return new DockCfg(parent, this);
@@ -381,10 +383,9 @@ void DockPlugin::timer()
         m_main->installEventFilter(this);
     }
     if (now > inactiveTime + getAutoHideInterval()){
-        QWidget *main = getMainWindow();
-        if (main){
+        if (m_main){
             setShowMain(false);
-            main->hide();
+            m_main->hide();
         }
     }
 }

@@ -54,6 +54,8 @@ typedef struct MSNUserData
 
 static DataDef msnUserData[] =
     {
+		{ "", DATA_ULONG, 1, MSN_SIGN },		// Sign
+		{ "LastSend", DATA_ULONG, 1, 0 },		
         { "EMail", DATA_UTF, 1, 0 },
         { "Screen", DATA_UTF, 1, 0 },
         { "", DATA_ULONG, 1, STATUS_OFFLINE },	// Status

@@ -18,8 +18,7 @@
 #include "simapi.h"
 #include "aboutinfo.h"
 #include "icqclient.h"
-
-#include <qmultilineedit.h>
+#include "textshow.h"
 
 AboutInfo::AboutInfo(QWidget *parent, struct ICQUserData *data, ICQClient *client)
         : AboutInfoBase(parent)
@@ -62,7 +61,16 @@ void AboutInfo::fill()
 {
     ICQUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
-    edtAbout->setText(m_client->toUnicode(data->About, data));
+	if (data->Uin){
+		edtAbout->setTextFormat(QTextEdit::PlainText);
+		edtAbout->setText(m_client->toUnicode(data->About, data));
+	}else{
+		edtAbout->setTextFormat(QTextEdit::RichText);
+		if (data->About)
+			edtAbout->setText(QString::fromUtf8(data->About));
+		if (m_data == NULL)
+			edtAbout->showBar();
+	}
 }
 
 #ifndef WIN32

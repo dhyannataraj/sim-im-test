@@ -1096,12 +1096,18 @@ protected:
     friend class ClientDataIterator;
 };
 
+typedef struct clientData		// Base struct for all clientData
+{
+	unsigned	Sign;
+	unsigned	LastSend;
+} clientData;
+
 class EXPORT ClientDataIterator
 {
 public:
     ClientDataIterator(ClientUserData &data, Client *client = NULL);
     ~ClientDataIterator();
-    void *operator ++();
+    clientData *operator ++();
     Client *client();
 protected:
     ClientDataIteratorPrivate *p;
@@ -1492,8 +1498,8 @@ EXPORT QPixmap Pict(const char *name);
 EXPORT void setAboutData(KAboutData*);
 EXPORT KAboutData *getAboutData();
 
-EXPORT void initCombo(QComboBox *cmb, unsigned short code, const ext_info *tbl, bool bAddEmpty = true);
-EXPORT unsigned short getComboValue(QComboBox *cmb, const ext_info *tbl);
+EXPORT void initCombo(QComboBox *cmb, unsigned short code, const ext_info *tbl, bool bAddEmpty = true, const ext_info *tbl1 = NULL);
+EXPORT unsigned short getComboValue(QComboBox *cmb, const ext_info *tbl, const ext_info *tbl1 = NULL);
 EXPORT void set_value(QLineEdit*, char *&value);
 EXPORT void disableWidget(QWidget *w);
 

@@ -264,7 +264,7 @@ static CommandDef aim_descr =
         0,
         0,
         0,
-        PROTOCOL_INFO | PROTOCOL_SEARCH_ONLINE | PROTOCOL_ANY_PORT,
+        PROTOCOL_INFO | PROTOCOL_AR | PROTOCOL_SEARCH_ONLINE | PROTOCOL_ANY_PORT,
         NULL,
         NULL
     };

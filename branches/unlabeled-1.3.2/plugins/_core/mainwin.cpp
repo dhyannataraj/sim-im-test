@@ -31,6 +31,8 @@
 
 #include <windows.h>
 
+static MainWindow *pMain = NULL;
+
 static WNDPROC oldProc;
 LRESULT CALLBACK wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -38,6 +40,10 @@ LRESULT CALLBACK wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     case WM_ENDSESSION:
         save_state();
         break;
+	case WM_SIZE:
+		if (pMain->m_bNoResize)
+			return DefWindowProc(hWnd, msg, wParam, lParam);
+		break;
     }
     return oldProc(hWnd, msg, wParam, lParam);
 }
@@ -70,12 +76,14 @@ MainWindow::MainWindow()
 {
     m_grip	 = NULL;
     h_lay	 = NULL;
+	m_bNoResize = false;
 
     SET_WNDPROC("mainwnd")
     setIcon(Pict("licq"));
     setTitle();
 
 #ifdef WIN32
+	pMain = this;
     if (IsWindowUnicode(winId())){
         oldProc = (WNDPROC)SetWindowLongW(winId(), GWL_WNDPROC, (LONG)wndProc);
     }else{
@@ -97,6 +105,13 @@ MainWindow::MainWindow()
 
 MainWindow::~MainWindow()
 {
+}
+
+void MainWindow::resizeEvent(QResizeEvent *e)
+{
+	if (m_bNoResize)
+		return;
+	QMainWindow::resizeEvent(e);
 }
 
 bool MainWindow::eventFilter(QObject *o, QEvent *e)

@@ -53,48 +53,5 @@ protected:
     QToolButton *btnUnderline;
 };
 
-class ColorLabel : public QLabel
-{
-    Q_OBJECT
-public:
-    ColorLabel(QWidget *parent, QColor c, int id, const QString&);
-signals:
-    void selected(int);
-protected:
-    void mouseReleaseEvent(QMouseEvent*);
-    QSize sizeHint() const;
-    QSize minimumSizeHint() const;
-    unsigned m_id;
-};
-
-class ColorPopup : public QFrame
-{
-    Q_OBJECT
-public:
-    ColorPopup(QWidget *parent, QColor c);
-signals:
-    void colorChanged(QColor color);
-    void colorCustom();
-protected slots:
-    void colorSelected(int);
-};
-
-class ColorToolButton : public QToolButton
-{
-    Q_OBJECT
-public:
-    ColorToolButton(QWidget *parent, QColor color);
-signals:
-    void colorChanged(QColor color);
-protected slots:
-    void btnClicked();
-    void selectColor(QColor);
-    void selectCustom();
-    void closePopup();
-protected:
-    ColorPopup *m_popup;
-    QColor m_color;
-};
-
 #endif
 

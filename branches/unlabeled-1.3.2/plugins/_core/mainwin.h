@@ -36,6 +36,7 @@ class MainWindow : public QMainWindow, public EventReceiver
 public:
     MainWindow();
     ~MainWindow();
+	bool m_bNoResize;
 protected slots:
     void setGrip();
 protected:
@@ -48,6 +49,7 @@ protected:
     void focusInEvent(QFocusEvent*);
     void setTitle();
     void closeEvent(QCloseEvent *e);
+	void resizeEvent(QResizeEvent *e);
     bool eventFilter(QObject *o, QEvent *e);
     void quit();
     void addWidget(QWidget*, bool bDown);

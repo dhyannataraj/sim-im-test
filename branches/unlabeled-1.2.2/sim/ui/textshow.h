@@ -21,6 +21,9 @@
 #include "simapi.h"
 
 #include <qglobal.h>
+#include <qmainwindow.h>
+#include <qtoolbutton.h>
+#include <qlabel.h>
 
 #if QT_VERSION < 300
 #include "qt3/qtextbrowser.h"
@@ -77,6 +80,78 @@ protected:
     void keyPressEvent(QKeyEvent *e);
     QColor curFG;
     bool m_bCtrlMode;
+};
+
+class QToolBar;
+
+class UI_EXPORT ColorLabel : public QLabel
+{
+    Q_OBJECT
+public:
+    ColorLabel(QWidget *parent, QColor c, int id, const QString&);
+signals:
+    void selected(int);
+protected:
+    void mouseReleaseEvent(QMouseEvent*);
+    QSize sizeHint() const;
+    QSize minimumSizeHint() const;
+    unsigned m_id;
+};
+
+class UI_EXPORT ColorPopup : public QFrame
+{
+    Q_OBJECT
+public:
+    ColorPopup(QWidget *parent, QColor c);
+signals:
+    void colorChanged(QColor color);
+    void colorCustom();
+protected slots:
+    void colorSelected(int);
+};
+
+class UI_EXPORT ColorToolButton : public QToolButton
+{
+    Q_OBJECT
+public:
+    ColorToolButton(QWidget *parent, QColor color);
+signals:
+    void colorChanged(QColor color);
+protected slots:
+    void btnClicked();
+    void selectColor(QColor);
+    void selectCustom();
+    void closePopup();
+protected:
+    ColorPopup *m_popup;
+    QColor m_color;
+};
+
+class UI_EXPORT RichTextEdit : public QMainWindow
+{
+	Q_OBJECT
+public:
+	RichTextEdit(QWidget *parent, const char *name = NULL);
+	void setText(const QString&);
+	QString text();
+	void setTextFormat(QTextEdit::TextFormat);
+	QTextEdit::TextFormat textFormat();
+	void setReadOnly(bool bState);
+	void showBar();
+protected slots:
+	void toggleBold(bool);
+	void toggleItalic(bool);
+	void toggleUnderline(bool);
+    void bgColorChanged(QColor);
+    void fgColorChanged(QColor);
+    void fontChanged(const QFont&);
+    void selectFont();
+protected:
+	TextEdit	*m_edit;
+	QToolBar	*m_bar;
+	QToolButton	*btnBold;
+	QToolButton	*btnItalic;
+	QToolButton	*btnUnderline;
 };
 
 #endif

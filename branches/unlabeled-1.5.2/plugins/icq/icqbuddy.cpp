@@ -64,7 +64,8 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             time_t now;
             time(&now);
 
-            bool bChanged = false;
+            bool bChanged     = false;
+			bool bAwayChanged = false;
             unsigned long prevStatus = data->Status;
 
             unsigned short level, len;
@@ -72,6 +73,26 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             data->WarningLevel = level;
 
             TlvList tlv(m_socket->readBuffer);
+
+			Tlv *tlvClass = tlv(0x0001);
+			if (tlvClass){
+				unsigned short userClass = *tlvClass;
+				if (userClass != data->Class){
+					if ((userClass & CLASS_AWAY) != (data->Class & CLASS_AWAY)){
+	                    data->StatusTime = (unsigned long)now;
+						bAwayChanged = true;
+					}
+					data->Class = userClass;
+					bChanged = true;
+				}
+				if (data->Uin == 0){
+					if (userClass & CLASS_AWAY){
+						fetchAwayMessage(data);
+					}else{
+						set_str(&data->AutoReply, NULL);
+					}
+				}
+			}
 
             // Status TLV
             Tlv *tlvStatus = tlv(0x0006);
@@ -289,7 +310,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 Event e(EventContactChanged, contact);
                 e.process();
             }
-            if (data->Status != prevStatus){
+            if ((data->Status != prevStatus) || bAwayChanged){
                 unsigned status = STATUS_OFFLINE;
                 if ((data->Status & 0xFFFF) != ICQ_STATUS_OFFLINE){
                     status = STATUS_ONLINE;
@@ -305,6 +326,8 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                         status = STATUS_FFC;
                     }
                 }
+				if ((status == STATUS_ONLINE) && (data->Class & CLASS_AWAY))
+					status = STATUS_AWAY;
                 StatusMessage m;
                 m.setContact(contact->id());
                 m.setClient(dataName(data).c_str());
@@ -312,9 +335,10 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 m.setFlags(MESSAGE_RECEIVED);
                 Event e(EventMessageReceived, &m);
                 e.process();
-                if (!contact->getIgnore() &&
-                        ((data->Status & 0xFF) == ICQ_STATUS_ONLINE) &&
-                        ((prevStatus & 0xFF) != ICQ_STATUS_ONLINE) &&
+                if (!contact->getIgnore() && 
+						((data->Class & CLASS_AWAY) == 0) &&
+                        (((data->Status & 0xFF) == ICQ_STATUS_ONLINE) &&
+                        (((prevStatus & 0xFF) != ICQ_STATUS_ONLINE)) || bAwayChanged) &&
                         (((prevStatus & 0xFFFF) != ICQ_STATUS_OFFLINE) ||
                          (data->OnlineTime > this->data.owner.OnlineTime))){
                     Event e(EventContactOnline, contact);

@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include "textshow.h"
+#include "toolbtn.h"
+#include "html.h"
 #include "simapi.h"
 
 #ifdef USE_KDE
@@ -29,6 +31,14 @@
 #endif
 #else
 #include <qfiledialog.h>
+#endif
+
+#ifdef USE_KDE
+#include <kcolordialog.h>
+#include <kfontdialog.h>
+#else
+#include <qcolordialog.h>
+#include <qfontdialog.h>
 #endif
 
 #include <qdatetime.h>
@@ -46,6 +56,10 @@
 #include <qlineedit.h>
 #include <qaccel.h>
 #include <qdragobject.h>
+#include <qtoolbutton.h>
+#include <qstatusbar.h>
+#include <qtooltip.h>
+#include <qlayout.h>
 
 #ifdef WIN32
 #if _MSC_VER > 1020
@@ -311,6 +325,333 @@ QString TextShow::quoteText(const char *t, const char *charset)
 void TextShow::setText(const QString &text)
 {
     QTextBrowser::setText(text, "");
+}
+
+class BgColorParser : public HTMLParser
+{
+public:
+	BgColorParser(TextEdit *edit);
+protected:
+    virtual void text(const QString &text);
+    virtual void tag_start(const QString &tag, const list<QString> &options);
+    virtual void tag_end(const QString &tag);
+	TextEdit *m_edit;
+};
+
+BgColorParser::BgColorParser(TextEdit *edit)
+{
+	m_edit = edit;
+}
+
+void BgColorParser::text(const QString&)
+{
+}
+
+void BgColorParser::tag_start(const QString &tag, const list<QString> &options)
+{
+	if (tag != "body")
+		return;
+	for (list<QString>::const_iterator it = options.begin(); it != options.end(); ++it){
+		QString key = *it;
+		++it;
+		QString val = *it;
+		if (key == "bgcolor"){
+			if (val[0] == '#'){
+				bool bOK;
+				unsigned rgb = val.mid(1).toUInt(&bOK, 16);
+				if (bOK)
+					m_edit->setBackground(QColor(rgb));
+			}
+		}
+	}
+}
+
+void BgColorParser::tag_end(const QString&)
+{
+}
+
+RichTextEdit::RichTextEdit(QWidget *parent, const char *name)
+: QMainWindow(parent, name, 0)
+{
+	m_edit = new TextEdit(this);
+	m_bar  = NULL;
+	setCentralWidget(m_edit);
+}
+
+void RichTextEdit::setText(const QString &str)
+{
+	if (m_edit->textFormat() != QTextEdit::RichText)
+		m_edit->setText(str);
+	BgColorParser p(m_edit);
+	p.parse(str);
+	m_edit->setText(str);
+}
+
+QString RichTextEdit::text()
+{
+	if (m_edit->textFormat() != QTextEdit::RichText)
+		return m_edit->text();
+	char bg[20];
+	sprintf(bg, "%06X", m_edit->background().rgb());
+	QString res;
+	res = "<BODY BGCOLOR=\"#";
+	res += bg;
+	res += "\">";
+	res += m_edit->text();
+	res += "</BODY>";
+	return res;
+}
+
+void RichTextEdit::setTextFormat(QTextEdit::TextFormat format)
+{
+	m_edit->setTextFormat(format);
+}
+
+QTextEdit::TextFormat RichTextEdit::textFormat()
+{
+	return m_edit->textFormat();
+}
+
+void RichTextEdit::setReadOnly(bool bState)
+{
+	m_edit->setReadOnly(bState);
+}
+
+static void set_button(QToolButton *btn, const char *icon, const char *label)
+{
+    btn->setAutoRaise(true);
+    btn->setIconSet(*Icon(icon));
+    QString text = i18n(label);
+    int key = QAccel::shortcutKey(text);
+    btn->setAccel(key);
+    QString t = text;
+    int pos = t.find("<br>");
+    if (pos >= 0) t = t.left(pos);
+    btn->setTextLabel(t);
+    t = text;
+    while ((pos = t.find('&')) >= 0){
+        t = t.left(pos) + "<u>" + t.mid(pos+1, 1) + "</u>" + t.mid(pos+2);
+    }
+    QToolTip::add(btn, t);
+}
+
+void RichTextEdit::showBar()
+{
+	if (m_bar)
+		return;
+	m_bar = new QToolBar(this);
+
+    QToolButton *btn = new ColorToolButton(m_bar, m_edit->background());
+    set_button(btn, "bgcolor", I18N_NOOP("Bac&kground color"));
+    connect(btn, SIGNAL(colorChanged(QColor)), this, SLOT(bgColorChanged(QColor)));
+
+    btn = new ColorToolButton(m_bar, m_edit->foreground());
+    set_button(btn, "fgcolor", I18N_NOOP("&Text color"));
+    connect(btn, SIGNAL(colorChanged(QColor)), this, SLOT(fgColorChanged(QColor)));
+
+	m_bar->addSeparator();
+
+    btnBold = new QToolButton(m_bar);
+    set_button(btnBold, "text_bold", I18N_NOOP("&Bold"));
+    btnBold->setToggleButton(true);
+    connect(btnBold, SIGNAL(toggled(bool)), this, SLOT(toggleBold(bool)));
+
+    btnItalic = new QToolButton(m_bar);
+    set_button(btnItalic, "text_italic", I18N_NOOP("&Italic"));
+    btnItalic->setToggleButton(true);
+    connect(btnItalic, SIGNAL(toggled(bool)), this, SLOT(toggleItalic(bool)));
+
+    btnUnderline = new QToolButton(m_bar);
+    set_button(btnUnderline, "text_under", I18N_NOOP("&Underline"));
+    btnUnderline->setToggleButton(true);
+    connect(btnUnderline, SIGNAL(toggled(bool)), this, SLOT(toggleUnderline(bool)));
+
+	m_bar->addSeparator();
+
+    btn = new QToolButton(m_bar);
+    set_button(btn, "text", I18N_NOOP("Text &font"));
+    connect(btn, SIGNAL(clicked()), this, SLOT(selectFont()));
+
+    connect(m_edit, SIGNAL(currentFontChanged(const QFont&)), this, SLOT(fontChanged(const QFont&)));
+}
+
+void RichTextEdit::toggleBold(bool bState)
+{
+    m_edit->setBold(bState);
+}
+
+void RichTextEdit::toggleItalic(bool bState)
+{
+    m_edit->setItalic(bState);
+}
+
+void RichTextEdit::toggleUnderline(bool bState)
+{
+    m_edit->setUnderline(bState);
+}
+
+void RichTextEdit::fontChanged(const QFont &f)
+{
+    btnBold->setOn(f.bold());
+    btnItalic->setOn(f.italic());
+    btnUnderline->setOn(f.underline());
+}
+
+void RichTextEdit::bgColorChanged(QColor c)
+{
+    m_edit->setBackground(c);
+}
+
+void RichTextEdit::fgColorChanged(QColor c)
+{
+    m_edit->setForeground(c);
+}
+
+void RichTextEdit::selectFont()
+{
+#ifdef USE_KDE
+    QFont f = m_edit->font();
+    if (KFontDialog::getFont(f, false, topLevelWidget()) != KFontDialog::Accepted)
+        return;
+#else
+    bool ok = false;
+    QFont f = QFontDialog::getFont(&ok, m_edit->font(), topLevelWidget());
+    if (!ok)
+        return;
+#endif
+    m_edit->setCurrentFont(f);
+}
+
+ColorToolButton::ColorToolButton(QWidget *parent, QColor color)
+        : QToolButton(parent)
+{
+    m_color = color;
+    m_popup = NULL;
+    connect(this, SIGNAL(clicked()), this, SLOT(btnClicked()));
+}
+
+void ColorToolButton::btnClicked()
+{
+    m_popup = new ColorPopup(this, m_color);
+    connect(m_popup, SIGNAL(colorChanged(QColor)), this, SLOT(selectColor(QColor)));
+    connect(m_popup, SIGNAL(colorCustom()), this, SLOT(selectCustom()));
+    QPoint p = CToolButton::popupPos(this, m_popup);
+    m_popup->move(p);
+    m_popup->show();
+}
+
+void ColorToolButton::selectColor(QColor c)
+{
+    m_color = c;
+    emit colorChanged(c);
+    QTimer::singleShot(0, this, SLOT(closePopup()));
+}
+
+void ColorToolButton::closePopup()
+{
+    if (m_popup){
+        delete m_popup;
+        m_popup = NULL;
+    }
+}
+
+void ColorToolButton::selectCustom()
+{
+#ifdef USE_KDE
+    QColor c = m_color;
+    if (KColorDialog::getColor(c, this) != KColorDialog::Accepted) return;
+#else
+    QColor c = QColorDialog::getColor(m_color, this);
+    if (!c.isValid()) return;
+#endif
+    m_color = c;
+    emit colorChanged(c);
+}
+
+static unsigned colors[16] =
+    {
+        0x000000,
+        0xFF0000,
+        0x00FF00,
+        0x0000FF,
+        0xFFFF00,
+        0xFF00FF,
+        0x00FFFF,
+        0xFFFFFF,
+        0x404040,
+        0x800000,
+        0x008000,
+        0x000080,
+        0x808000,
+        0x800080,
+        0x008080,
+        0x808080
+    };
+
+const int CUSTOM_COLOR	= 100;
+
+ColorPopup::ColorPopup(QWidget *popup, QColor color)
+        : QFrame(popup, "colors", WType_Popup | WStyle_Customize | WStyle_Tool | WDestructiveClose)
+{
+    setFrameShape(PopupPanel);
+    setFrameShadow(Sunken);
+    QGridLayout *lay = new QGridLayout(this, 5, 4);
+    lay->setMargin(4);
+    lay->setSpacing(2);
+    for (unsigned i = 0; i < 4; i++){
+        for (unsigned j = 0; j < 4; j++){
+            unsigned n = i*4+j;
+            QWidget *w = new ColorLabel(this, QColor(colors[n]), n, "");
+            connect(w, SIGNAL(selected(int)), this, SLOT(colorSelected(int)));
+            lay->addWidget(w, i, j);
+        }
+    }
+    QWidget *w = new ColorLabel(this, color, CUSTOM_COLOR, i18n("Custom"));
+    lay->addMultiCellWidget(w, 5, 5, 0, 3);
+    connect(w, SIGNAL(selected(int)), this, SLOT(colorSelected(int)));
+    resize(minimumSizeHint());
+}
+
+void ColorPopup::colorSelected(int id)
+{
+    if (id == CUSTOM_COLOR){
+        emit colorCustom();
+    }else{
+        emit colorChanged(QColor(colors[id]));
+    }
+}
+
+ColorLabel::ColorLabel(QWidget *parent, QColor c, int id, const QString &text)
+        : QLabel(parent)
+{
+    m_id = id;
+    setText(text);
+    setBackgroundColor(c);
+    setAlignment(AlignHCenter | AlignVCenter);
+    setFrameShape(StyledPanel);
+    setFrameShadow(Sunken);
+    setLineWidth(2);
+}
+
+void ColorLabel::mouseReleaseEvent(QMouseEvent*)
+{
+    emit selected(m_id);
+}
+
+QSize ColorLabel::sizeHint() const
+{
+    QSize s = QLabel::sizeHint();
+    if (s.width() < s.height())
+        s.setWidth(s.height());
+    return s;
+}
+
+QSize ColorLabel::minimumSizeHint() const
+{
+    QSize s = QLabel::minimumSizeHint();
+    if (s.width() < s.height())
+        s.setWidth(s.height());
+    return s;
 }
 
 #ifndef _WINDOWS

@@ -29,6 +29,9 @@
 #include <netinet/in.h>
 #endif
 
+#include <vector>
+using namespace std;
+
 #ifdef WORDS_BIGENDIAN
 
 #define SWAP_S(s)	s = ((s&0xFF)<<8) + ((s&0xFF00)>>8);  
@@ -401,7 +404,7 @@ unsigned long Buffer::packetStartPos()
     return m_packetStartPos;
 }
 
-class listTlv : public list<Tlv*>
+class listTlv : public vector<Tlv*>
 {
 public:
     listTlv();
@@ -414,7 +417,7 @@ listTlv::listTlv()
 
 listTlv::~listTlv()
 {
-    list<Tlv*>::iterator it;
+    vector<Tlv*>::iterator it;
     for (it = begin(); it != end(); it++)
         delete *it;
 }
@@ -448,17 +451,25 @@ TlvList &TlvList::operator +(Tlv *tlv)
 
 Tlv *TlvList::operator()(unsigned short num)
 {
-    list<Tlv*>::iterator it;
+    vector<Tlv*>::iterator it;
     for (it = static_cast<listTlv*>(m_tlv)->begin(); it != static_cast<listTlv*>(m_tlv)->end(); it++)
         if ((*it)->Num() == num) return *it;
     return NULL;
+}
+
+Tlv *TlvList::operator[](unsigned n)
+{
+	listTlv *l = static_cast<listTlv*>(m_tlv);
+	if (n >= l->size())
+		return NULL;
+	return (*l)[n];
 }
 
 Buffer &Buffer::operator << (TlvList &tlvList)
 {
     listTlv *l = static_cast<listTlv*>(tlvList.m_tlv);
     unsigned short size = 0;
-    list<Tlv*>::iterator it;
+    vector<Tlv*>::iterator it;
     for (it = l->begin(); it != l->end(); it++){
         size += 4;
         size += (*it)->Size();

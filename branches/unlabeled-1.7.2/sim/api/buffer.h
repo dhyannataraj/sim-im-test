@@ -56,6 +56,7 @@ public:
     ~TlvList();
     Tlv *operator() (unsigned short num);
     TlvList &operator + (Tlv *tlv);
+	Tlv *operator[](unsigned n);
 protected:
     void *m_tlv;
     friend class Buffer;
