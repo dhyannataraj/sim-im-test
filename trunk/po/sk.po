@@ -6,12 +6,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
 "POT-Creation-Date: 2003-02-05 13:49+0300\n"
-"PO-Revision-Date: 2003-03-06 19:24--100\n"
-"Last-Translator: Tom�Ol� <tomas.olah@alert.sk>\n"
+"PO-Revision-Date: 2003-03-07 10:56+0100\n"
+"Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.0.1\n"
 
 #: client.cpp:66
 #: client.cpp:67
@@ -1703,7 +1704,8 @@ msgstr "Hľadanie muža"
 
 #: about.cpp:280
 msgid "replace this with information about your translation team"
-msgstr "Slovenský prekladateľský tým - Slovak Translation Team:\n"
+msgstr ""
+"Slovenský prekladateľský tým - Slovak Translation Team:\n"
 "Tomáš Oláh\tmailto://tomas.olah@alert.sk\thttp://griffin.alert.sk"
 
 #: about.cpp:296
@@ -1791,15 +1793,19 @@ msgid "Tamil"
 msgstr "Tamilske"
 
 #: client.cpp:320
-msgid "I am currently away from ICQ.\n"
+msgid ""
+"I am currently away from ICQ.\n"
 "Please leave your message and I will get back to you as soon as I return!\n"
-msgstr "Momentálne som preč.\n"
+msgstr ""
+"Momentálne som preč.\n"
 "Pošlite mi správu, odpoviem Vám, keď sa vrátim!\n"
 
 #: client.cpp:324
-msgid "I am out'a here.\n"
+msgid ""
+"I am out'a here.\n"
 "See you tomorrow!\n"
-msgstr "Som preč.\n"
+msgstr ""
+"Som preč.\n"
 "Uvidíme se zajtra!\n"
 
 #: client.cpp:328
@@ -1811,7 +1817,8 @@ msgid ""
 "Please do not disturb me now.\n"
 "Disturb me later.\n"
 "Only urgent messages, please!\n"
-msgstr "Teraz ma, prosím, nevyrušujte!.\n"
+msgstr ""
+"Teraz ma, prosím, nevyrušujte!.\n"
 "Posielajte len urgentné správy!\n"
 
 #: client.cpp:335
@@ -1820,13 +1827,15 @@ msgstr "Skús náš chat.\n"
 
 #: client.cpp:1134
 #, c-format
-msgid "_n: Message\n"
+msgid ""
+"_n: Message\n"
 "%n messages"
 msgstr "Správa"
 
 #: client.cpp:1136
 #, c-format
-msgid "_n: Chat request\n"
+msgid ""
+"_n: Chat request\n"
 "%n chat requests"
 msgstr "Žiadosť o rozhovor"
 
@@ -1834,158 +1843,174 @@ msgstr "Žiadosť o rozhovor"
 #: msgview.cpp:205
 #: msgview.cpp:1245
 #, c-format
-msgid "_n: File\n"
+msgid ""
+"_n: File\n"
 "%n files"
 msgstr "Súbor"
 
 #: client.cpp:1140
 #, c-format
-msgid "_n: URL\n"
+msgid ""
+"_n: URL\n"
 "%n URL"
-msgstr "URL"
+msgstr "URL adresa"
 
 #: client.cpp:1142
 #, c-format
-msgid "_n: Authorization request\n"
+msgid ""
+"_n: Authorization request\n"
 "%n authorization requests"
-msgstr "_n: Požiadavka na autorizáciu\n"
-"%n požiadaviek na autorizáciu"
+msgstr "Požiadavka na autorizáciu"
 
 #: client.cpp:1144
 #, c-format
-msgid "_n: Authorization refused\n"
+msgid ""
+"_n: Authorization refused\n"
 "%n authorizations refused"
-msgstr "_n: Autorizácia odmietnutá\n"
-"%n autorizácií odmietnutých"
+msgstr "Autorizácia odmietnutá"
 
 #: client.cpp:1146
 #, c-format
-msgid "_n: Authorization granted\n"
+msgid ""
+"_n: Authorization granted\n"
 "%n authorizations granted"
-msgstr "_n: Autorizácia úspešná\n"
-"%n autorizácií úspešných"
+msgstr "Autorizácia úspešná"
 
 #: client.cpp:1148
 #, c-format
-msgid "_n: Added to contact list\n"
+msgid ""
+"_n: Added to contact list\n"
 "%n times added to contact list"
-msgstr "Pridané do zoznamu kontaktov\n"
-"%n pridaných do zoznamu kontaktov"
+msgstr "Pridané do zoznamu kontaktov"
 
 #: client.cpp:1150
 #, c-format
-msgid "_n: WWW-panel message\n"
+msgid ""
+"_n: WWW-panel message\n"
 "%n WWW-panel messages"
-msgstr "WWW-správa\n"
-"%n WWW-správ"
+msgstr "WWW-správa"
 
 #: client.cpp:1152
 #, c-format
-msgid "_n: Email pager message\n"
+msgid ""
+"_n: Email pager message\n"
 "%n Email pager messages"
-msgstr "Správa email pageru\n"
-"%n správ email pageru"
+msgstr "Správa email pageru"
 
 #: client.cpp:1154
 #, c-format
-msgid "_n: Contact list\n"
+msgid ""
+"_n: Contact list\n"
 "%n contact lists"
 msgstr "Zoznam kontaktov"
 
 #: client.cpp:1156
 #, c-format
-msgid "_n: Contacts request\n"
+msgid ""
+"_n: Contacts request\n"
 "%n contacts requests"
-msgstr "Žiadosť o kontakt\n"
-"%n žiadostí o kontakt"
+msgstr "Žiadosť o kontakt"
 
 #: client.cpp:1158
 #, c-format
-msgid "_n: External unknown message\n"
+msgid ""
+"_n: External unknown message\n"
 "%n unknown messages"
-msgstr "Externá neznáma správa\n"
-"%n externých neznámych správ"
+msgstr "Externá neznáma správa"
 
 #: client.cpp:1160
 #, c-format
-msgid "_n: SMS\n"
+msgid ""
+"_n: SMS\n"
 "%n SMS"
 msgstr "SMS"
 
 #: client.cpp:1162
 #, c-format
-msgid "_n: SMS receipt\n"
+msgid ""
+"_n: SMS receipt\n"
 "%n SMS receipts"
-msgstr "SMS príjemca\n"
-"%n SMS príjemcov"
+msgstr "SMS príjemca"
 
 #: client.cpp:1164
 #, c-format
-msgid "_n: Email\n"
+msgid ""
+"_n: Email\n"
 "%n emails"
 msgstr "Email"
 
 #: client.cpp:1166
 #, c-format
-msgid "_n: Request secure channel\n"
+msgid ""
+"_n: Request secure channel\n"
 "%n requests secure channel"
-msgstr "Požiadavka o bezpečný kanál\n"
-"%n požiadaviek o bezpečný kanál"
+msgstr "Požiadavka o bezpečný kanál"
 
 #: client.cpp:1168
 #, c-format
-msgid "_n: Close secure channel\n"
+msgid ""
+"_n: Close secure channel\n"
 "%n times close secure channel"
-msgstr "uzavrenie bezpečného kanálu\n"
-"%n uzavrení bezpečného kanálu"
+msgstr "Uzavrenie bezpečného kanálu"
 
 #: client.cpp:1172
 #, c-format
-msgid "_n: Unknown message\n"
+msgid ""
+"_n: Unknown message\n"
 "%n unknown messages"
-msgstr "Neznáma správa\n"
-"%n neznámych správ"
+msgstr "Neznáma správa (%n)"
 
 #: client.cpp:1179
-msgid "_: Ctrl+N\n"
+msgid ""
+"_: Ctrl+N\n"
 "new"
 msgstr "Ctrl+N"
 
 #: client.cpp:1181
-msgid "_: Ctrl+B\n"
+msgid ""
+"_: Ctrl+B\n"
 "chat msg"
-msgstr "Ctrl+B\n"
+msgstr ""
+"Ctrl+B\n"
 "chat správa"
 
 #: client.cpp:1183
-msgid "_: Ctrl+F\n"
+msgid ""
+"_: Ctrl+F\n"
 "File"
-msgstr "Ctrl+F\n"
+msgstr ""
+"Ctrl+F\n"
 "súbor"
 
 #: client.cpp:1185
-msgid "_: Ctrl+L\n"
+msgid ""
+"_: Ctrl+L\n"
 "URL"
 msgstr "Ctrl+L"
 
 #: client.cpp:1187
-msgid "_: Ctrl+R\n"
+msgid ""
+"_: Ctrl+R\n"
 "AuthRequest"
-msgstr "Ctrl+R\n"
+msgstr ""
+"Ctrl+R\n"
 "žiadosť o autorizáciu"
 
 #: client.cpp:1189
-msgid "_: Ctrl+T\n"
+msgid ""
+"_: Ctrl+T\n"
 "Contacts"
 msgstr "Ctrl+T"
 
 #: client.cpp:1191
-msgid "_: Ctrl+S\n"
+msgid ""
+"_: Ctrl+S\n"
 "SMS"
 msgstr "Ctrl+S"
 
 #: client.cpp:1193
-msgid "_: Ctrl+E\n"
+msgid ""
+"_: Ctrl+E\n"
 "EMail"
 msgstr "Ctrl+E"
 
@@ -2109,7 +2134,7 @@ msgstr "? Neznámy stav %1"
 #: dock.cpp:944
 #: mainwin.cpp:911
 msgid "%1 from %2"
-msgstr "%1 z %2"
+msgstr "%1 od %2"
 
 #: cuser.cpp:62
 #: cuser.cpp:74
@@ -2136,9 +2161,11 @@ msgid "Error"
 msgstr "Chyba"
 
 #: mainwin.cpp:447
-msgid "There is already an auto hidden window on this edge.\n"
+msgid ""
+"There is already an auto hidden window on this edge.\n"
 "Only one auto hidden window is allowed on each edge."
-msgstr "Už je automaticky schované okno tohoto rohu.\n"
+msgstr ""
+"Už je automaticky schované okno tohoto rohu.\n"
 "Len jedno okno múže byť schované v každom rohu."
 
 #: mainwin.cpp:621
@@ -2219,7 +2246,7 @@ msgstr "Otvoriť hlavné okno"
 
 #: mainwin.cpp:1259
 msgid "%1 from %2 received"
-msgstr "%1 z %2 prijatých"
+msgstr "%1 od %2"
 
 #: mainwin.cpp:1305
 #: ui/logindlg.cpp:239
@@ -2238,11 +2265,11 @@ msgstr "Chybné heslo pre proxy"
 
 #: mainwin.cpp:1328
 msgid "Your UIN used from another location"
-msgstr "Vaše UIN je používané z iného místa"
+msgstr "Vaše UIN je používané z iného miesta"
 
 #: mainwin.cpp:1380
 msgid "%1 is online"
-msgstr "%1 je pripojená/ý"
+msgstr "%1 je online"
 
 #: mainwin.cpp:1972
 #: mainwin.cpp:2294
@@ -2292,9 +2319,11 @@ msgstr "Odobrať"
 #: mainwin.cpp:2061
 #: userview.cpp:690
 #: userview.cpp:1830
-msgid "_: Del\n"
+msgid ""
+"_: Del\n"
 "Delete"
-msgstr "Del\n"
+msgstr ""
+"Del\n"
 "Odobrať"
 
 #: mainwin.cpp:2065
@@ -2302,9 +2331,11 @@ msgid "&User info"
 msgstr "&Informace o užívateli"
 
 #: mainwin.cpp:2066
-msgid "_: Ctrl+U\n"
+msgid ""
+"_: Ctrl+U\n"
 "UserInfo"
-msgstr "Informace o užívateli\n"
+msgstr ""
+"Informace o užívateli\n"
 "Informace o užívateli"
 
 #: mainwin.cpp:2067
@@ -2312,9 +2343,11 @@ msgid "&History"
 msgstr "&Historie"
 
 #: mainwin.cpp:2068
-msgid "_: Ctrl+H\n"
+msgid ""
+"_: Ctrl+H\n"
 "History"
-msgstr "Historie\n"
+msgstr ""
+"Historie\n"
 "Historie"
 
 #: mainwin.cpp:2070
@@ -2326,9 +2359,11 @@ msgstr "Výstraha"
 
 #: mainwin.cpp:2071
 #: userview.cpp:1841
-msgid "_: Ctrl+L\n"
+msgid ""
+"_: Ctrl+L\n"
 "Alert"
-msgstr "Varování\n"
+msgstr ""
+"Varování\n"
 "Varování"
 
 #: mainwin.cpp:2072
@@ -2339,7 +2374,8 @@ msgstr "Prenos súboru"
 
 #: mainwin.cpp:2073
 #: userview.cpp:1843
-msgid "_: Ctrl+A\n"
+msgid ""
+"_: Ctrl+A\n"
 "Accept"
 msgstr "Ctrl+A"
 
@@ -2352,7 +2388,8 @@ msgstr "Zvuk"
 
 #: mainwin.cpp:2075
 #: userview.cpp:1845
-msgid "_: Ctrl+S\n"
+msgid ""
+"_: Ctrl+S\n"
 "Sound"
 msgstr "Zvuk"
 
@@ -2365,7 +2402,8 @@ msgid "Floating on"
 msgstr "Plávajúci kontakt zapnúť"
 
 #: mainwin.cpp:2079
-msgid "_: Ctrl+T\n"
+msgid ""
+"_: Ctrl+T\n"
 "Floating"
 msgstr "Ctrl+T"
 
@@ -2391,7 +2429,8 @@ msgid "&Close"
 msgstr "&Zavrieť"
 
 #: mainwin.cpp:2084
-msgid "_: Ctrl+C\n"
+msgid ""
+"_: Ctrl+C\n"
 "Close"
 msgstr "Ctrl+C"
 
@@ -2400,7 +2439,8 @@ msgid "Alphabetically sort"
 msgstr "Zoradiť abecedne"
 
 #: mainwin.cpp:2087
-msgid "_: Ctrl+B\n"
+msgid ""
+"_: Ctrl+B\n"
 "Alphabetically sort"
 msgstr "Ctrl+B"
 
@@ -2491,13 +2531,15 @@ msgstr "Ukončit"
 
 #: _translatorinfo.cpp:1
 #: mainwin.cpp:3078
-msgid "_: NAME OF TRANSLATORS\n"
+msgid ""
+"_: NAME OF TRANSLATORS\n"
 "Your names"
 msgstr "Tomáš Oláh (Griffin)"
 
 #: _translatorinfo.cpp:3
 #: mainwin.cpp:3079
-msgid "_: EMAIL OF TRANSLATORS\n"
+msgid ""
+"_: EMAIL OF TRANSLATORS\n"
 "Your emails"
 msgstr "tomas.olah@alert.sk"
 
@@ -2750,7 +2792,7 @@ msgstr "Autorizácia úspešne prebehla"
 #: msgview.cpp:188
 #: msgview.cpp:1228
 msgid "Added to contact list"
-msgstr "Pridané do zoznamu kontaktov"
+msgstr "Pridaný do zoznamu kontaktov"
 
 #: msgview.cpp:192
 #: msgview.cpp:1232
@@ -2804,9 +2846,11 @@ msgid "&Sort order"
 msgstr "&Zoradiť"
 
 #: msgview.cpp:1101
-msgid "text/plain|Text file\n"
+msgid ""
+"text/plain|Text file\n"
 "text/html|HTML file"
-msgstr "text/plain|Textový súbor\n"
+msgstr ""
+"text/plain|Textový súbor\n"
 "text/html|HTML súbor"
 
 #: msgview.cpp:1103
@@ -2818,13 +2862,16 @@ msgid "Save history"
 msgstr "Uložiť históriu"
 
 #: msgview.cpp:1120
-msgid "File %1 exists\n"
+msgid ""
+"File %1 exists\n"
 "Overwrite?"
-msgstr "súbor %1 už existuje\n"
+msgstr ""
+"súbor %1 už existuje\n"
 "Prepísať?"
 
 #: sim.cpp:117
-msgid "_: Dear translator, please do not translate this string in any form, but pick the _right_ value out of NoPlural/TwoForms/French... If not sure what to do mail thd@kde.org and coolo@kde.org, they will tell you. Better leave that out if unsure, the programs will crash!!\n"
+msgid ""
+"_: Dear translator, please do not translate this string in any form, but pick the _right_ value out of NoPlural/TwoForms/French... If not sure what to do mail thd@kde.org and coolo@kde.org, they will tell you. Better leave that out if unsure, the programs will crash!!\n"
 "Definition of PluralForm - to be set by the translator of kdelibs.po"
 msgstr "NoPlural"
 
@@ -2956,9 +3003,11 @@ msgstr "Nie sú v zozname"
 
 #: userview.cpp:692
 #: userview.cpp:1832
-msgid "_: Ctrl+N\n"
+msgid ""
+"_: Ctrl+N\n"
 "Create group"
-msgstr "CTRL+N\n"
+msgstr ""
+"CTRL+N\n"
 "Vytvoriť skupinu"
 
 #: userview.cpp:889
@@ -3382,16 +3431,20 @@ msgstr ""
 
 #: qt3/i18n.cpp:216
 #, c-format
-msgid "Could not open\n"
+msgid ""
+"Could not open\n"
 "%1"
-msgstr "Nie je možné otvoriť\n"
+msgstr ""
+"Nie je možné otvoriť\n"
 "%1"
 
 #: qt3/i18n.cpp:220
 #, c-format
-msgid "Could not write\n"
+msgid ""
+"Could not write\n"
 "%1"
-msgstr "Nie je možné zapísať\n"
+msgstr ""
+"Nie je možné zapísať\n"
 "%1"
 
 #: qt3/i18n.cpp:223
@@ -3668,15 +3721,19 @@ msgid "&Register"
 msgstr "&Registrácia"
 
 #: ui/filetransfer.cpp:74
-msgid "_n: Receive %2 from %1\n"
+msgid ""
+"_n: Receive %2 from %1\n"
 "Receive %n files from %1"
-msgstr "Príjem %2 od %1\n"
+msgstr ""
+"Príjem %2 od %1\n"
 "Príjem %n súborov od %1"
 
 #: ui/filetransfer.cpp:78
-msgid "_n: Send %2 to %1\n"
+msgid ""
+"_n: Send %2 to %1\n"
 "Send %n files to %1"
-msgstr "Odosielanie %2 k %1\n"
+msgstr ""
+"Odosielanie %2 k %1\n"
 "Odosielanie %n súborov k %1"
 
 #: ui/filetransfer.cpp:137
@@ -4328,9 +4385,11 @@ msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
 msgstr "Všetky správy na mobil posielať ako  \"Away\" a \"N/A\" "
 
 #: ui/smssetupbase.cpp:132
-msgid "For the answer or sending of the new message you can answer on SMS having specified in the beginning of the message a line:\n"
+msgid ""
+"For the answer or sending of the new message you can answer on SMS having specified in the beginning of the message a line:\n"
 "<UIN>:"
-msgstr "Pri posielaní odpovedí alebo nových správ môžete odpovedať SMS na číslo špecifikované na začiatku správy:\n"
+msgstr ""
+"Pri posielaní odpovedí alebo nových správ môžete odpovedať SMS na číslo špecifikované na začiatku správy:\n"
 "<UIN>:"
 
 #: ui/logindlgbase.cpp:123
@@ -5184,7 +5243,7 @@ msgstr "Povoliť &priame pripojenie pre všetkých užívateľov"
 
 #: ui/generalsecbase.cpp:218
 msgid "Allow direct connection from user listed in &contact list"
-msgstr "Povoliť priame pripojenie pre užívateľov z mojho zoznamu &kontaktov"
+msgstr "Povoliť priame pripojenie pre užívateľov z môjho zoznamu &kontaktov"
 
 #: ui/generalsecbase.cpp:219
 msgid "Allow direct connection from user &upon authorization"
