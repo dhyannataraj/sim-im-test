@@ -183,7 +183,7 @@
                         </property>
                         <property>
                             <name>text</name>
-                            <string>&amp;Automaticaly use HTTP polling if proxy required</string>
+                            <string>&amp;Automatically use HTTP polling if proxy required</string>
                         </property>
                     </widget>
                     <widget row="2"  column="0"  rowspan="1"  colspan="3" >
@@ -621,7 +621,7 @@
                         </property>
                         <property>
                             <name>text</name>
-                            <string>Disable automaticaly &amp;request autoreply on change status</string>
+                            <string>Disable automatically &amp;request autoreply on change status</string>
                         </property>
                     </widget>
                     <widget row="9"  column="0"  rowspan="1"  colspan="2" >
