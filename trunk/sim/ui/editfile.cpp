@@ -73,6 +73,8 @@ QString EditFile::text()
     return edtFile->text();
 }
 
+bool makedir(char *p);
+
 void EditFile::showFiles()
 {
     QString s = edtFile->text();
@@ -91,7 +93,14 @@ void EditFile::showFiles()
         }
         s = lst.join(" ");
     }else{
-        if (s.isEmpty()) s = startDir;
+        if (s.isEmpty()){
+            s = startDir;
+            if (!s.isEmpty()){
+                string d;
+		d = s.local8Bit();
+                makedir((char*)d.c_str());
+            }
+        }
         s = QFileDialog::getOpenFileName(s, filter, this);
     }
 #ifdef WIN32
