@@ -713,11 +713,7 @@ protected:
     friend class DirectSocket;
     friend class DirectClient;
     friend class ICQListener;
-<<<<<<< icqclient.h
     friend class AIMFileTransfer;
-=======
-	friend class AIMFileTransfer;
->>>>>>> 1.40.2.1
 };
 
 class ServiceSocket : public ClientSocketNotify, public OscarSocket
@@ -887,7 +883,6 @@ protected:
     friend class ICQClient;
 };
 
-<<<<<<< icqclient.h
 class AIMFileTransfer : public FileTransfer, public DirectSocket, public ServerSocketNotify
 {
 public:
@@ -918,33 +913,5 @@ protected:
     friend class ICQClient;
 };
 
-=======
-class AIMFileTransfer : public FileTransfer, public DirectSocket, public ServerSocketNotify
-{
-public:
-    AIMFileTransfer(FileMessage *msg, ICQUserData *data, ICQClient *client);
-    ~AIMFileTransfer();
-	void listen();
-protected:
-	enum State
-	{
-		None,
-		Listen
-	};
-	State m_state;
-
-    virtual void processPacket();
-    virtual void connect_ready();
-    virtual bool error_state(const char *err, unsigned code);
-    virtual void write_ready();
-    virtual void startReceive(unsigned pos);
-    virtual void bind_ready(unsigned short port);
-    virtual bool accept(Socket *s, unsigned long ip);
-    virtual bool error(const char *err);
-
-	friend class ICQClient;
-};
-
->>>>>>> 1.40.2.1
 #endif
 
