@@ -1,20 +1,20 @@
 # translation of de.po to deutsch
-# Copyright (C) 2002 Free Software Foundation, Inc.
-# Christoph Thielecke <crissi99@gmx.de>, 2002
+# Copyright (C) 2002,2003 Free Software Foundation, Inc.
+# Christoph Thielecke <crissi99@gmx.de>, 2002,2003
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2003-01-08 02:26+0300\n"
-"PO-Revision-Date: 2002-12-31 00:51GMT\n"
+"PO-Revision-Date: 2003-01-08 14:01GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
-"Language-Team: Deutsch <de@li.org>\n"
+"Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "<<<<<<< de.poPOT-Creation-Date: 2002-11-09 04:37+0300\n"
 "=======POT-Creation-Date: 2002-11-12 09:51+0300\n"
 ">>>>>>> 1.109MIME-Version: 1.0\n"
-"X-Generator: KBabel 0.9.6\n"
+"X-Generator: KBabel 1.0\n"
 
 #: client.cpp:66 client.cpp:67 libicq/country.cpp:7
 msgid "Arabic"
@@ -1638,8 +1638,7 @@ msgstr ";-)"
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
 
 #: chatwnd.cpp:75 qt3/i18n.cpp:139 ui/userinfobase.cpp:51
 msgid "Save"
@@ -2848,46 +2847,43 @@ msgstr "Abwärts"
 
 #: qt3/i18n.cpp:1
 msgid "Hu&e:"
-msgstr ""
+msgstr "Helligk&eit:"
 
 #: qt3/i18n.cpp:3
-#, fuzzy
 msgid "&Sat:"
-msgstr "Status:"
+msgstr "&Sat:"
 
 #: qt3/i18n.cpp:5
 msgid "&Val:"
-msgstr ""
+msgstr "&Wert:"
 
 #: qt3/i18n.cpp:7
 msgid "&Red:"
-msgstr ""
+msgstr "&Rot:"
 
 #: qt3/i18n.cpp:9
-#, fuzzy
 msgid "&Green:"
-msgstr "Griechisch"
+msgstr "&Grün:"
 
 #: qt3/i18n.cpp:11
 msgid "Bl&ue:"
-msgstr ""
+msgstr "Bla&u:"
 
 #: qt3/i18n.cpp:13
 msgid "A&lpha channel:"
-msgstr ""
+msgstr "A&lphakanal:"
 
 #: qt3/i18n.cpp:15
 msgid "&Basic colors"
-msgstr ""
+msgstr "&Basisfarben"
 
 #: qt3/i18n.cpp:17
-#, fuzzy
 msgid "&Custom colors"
-msgstr "Systemfarben &benutzen"
+msgstr "Eigene Far&ben"
 
 #: qt3/i18n.cpp:19
 msgid "&Define Custom Colors >>"
-msgstr ""
+msgstr "Eigene Farben &definieren >>"
 
 #: qt3/i18n.cpp:21
 msgid "OK"
@@ -2899,34 +2895,33 @@ msgstr "Abbrechen"
 
 #: qt3/i18n.cpp:25
 msgid "&Add To Custom Colors"
-msgstr ""
+msgstr "Zu eigenen F&arben hinzufügen"
 
 #: qt3/i18n.cpp:27
-#, fuzzy
 msgid "Select color"
-msgstr "Textfarbe"
+msgstr "Farbe auswählen"
 
 #: qt3/i18n.cpp:29
 msgid "Copy or Move a File"
-msgstr ""
+msgstr "Datei kopieren oder verschieben"
 
 #: qt3/i18n.cpp:31
-#, fuzzy, c-format
+#, c-format
 msgid "Read: %1"
-msgstr "Nachricht %1 lesen"
+msgstr "Lesen: %1"
 
 #: qt3/i18n.cpp:33
 #, c-format
 msgid "Write: %1"
-msgstr ""
+msgstr "Schreiben: %1"
 
 #: qt3/i18n.cpp:37
 msgid "All files (*)"
-msgstr ""
+msgstr "Alle Dateien (*)"
 
 #: qt3/i18n.cpp:41
 msgid "Size"
-msgstr ""
+msgstr "Größe"
 
 #: qt3/i18n.cpp:43 ui/phonebook.cpp:78
 msgid "Type"
@@ -2934,112 +2929,103 @@ msgstr "Typ"
 
 #: qt3/i18n.cpp:45
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: qt3/i18n.cpp:47
 msgid "Attributes"
-msgstr ""
+msgstr "Attribute"
 
 #: qt3/i18n.cpp:49
 msgid "Look &in:"
-msgstr ""
+msgstr "Nachsehen &in:"
 
 #: qt3/i18n.cpp:51
-#, fuzzy
 msgid "File &name:"
-msgstr "Vorname:"
+msgstr "Datei&name:"
 
 #: qt3/i18n.cpp:53
-#, fuzzy
 msgid "File &type:"
-msgstr "Datei:"
+msgstr "Datei&typ:"
 
 #: qt3/i18n.cpp:55
-#, fuzzy
 msgid "Back"
-msgstr "Schwarz"
+msgstr "Zurück"
 
 #: qt3/i18n.cpp:57
 msgid "One directory up"
-msgstr ""
+msgstr "Ein Verzeichnis hoch"
 
 #: qt3/i18n.cpp:59
 msgid "Create New Folder"
-msgstr ""
+msgstr "Neuen Ordner erstellen"
 
 #: qt3/i18n.cpp:61
 msgid "List View"
-msgstr ""
+msgstr "Liste anzeigen"
 
 #: qt3/i18n.cpp:63
-#, fuzzy
 msgid "Detail View"
-msgstr "&Details"
+msgstr "Detailansicht"
 
 #: qt3/i18n.cpp:65
 msgid "Preview File Info"
-msgstr ""
+msgstr "Voransicht der Datei-Info"
 
 #: qt3/i18n.cpp:67
 msgid "Preview File Contents"
-msgstr ""
+msgstr "Voransicht des Datei-Inhalts"
 
 #: qt3/i18n.cpp:69
 msgid "Read-write"
-msgstr ""
+msgstr "Lesen-Schreiben"
 
 #: qt3/i18n.cpp:71
 msgid "Read-only"
-msgstr ""
+msgstr "Nur-Lesen"
 
 #: qt3/i18n.cpp:73
 msgid "Write-only"
-msgstr ""
+msgstr "Nur-Schreiben"
 
 #: qt3/i18n.cpp:75
-#, fuzzy
 msgid "Inaccessible"
-msgstr "Unsichtbar"
+msgstr "Nicht zugänglich"
 
 #: qt3/i18n.cpp:77
 msgid "Symlink to File"
-msgstr ""
+msgstr "Verknüpfung auf Datei"
 
 #: qt3/i18n.cpp:79
 msgid "Symlink to Directory"
-msgstr ""
+msgstr "Symbolische Verknüpfung auf Verzeichnis"
 
 #: qt3/i18n.cpp:81
 msgid "Symlink to Special"
-msgstr ""
+msgstr "Symbolische Verknüpfung auf Spezialdatei"
 
 #: qt3/i18n.cpp:85
 msgid "Dir"
-msgstr ""
+msgstr "Verzeichnis"
 
 #: qt3/i18n.cpp:87
-#, fuzzy
 msgid "Special"
-msgstr "Techniker"
+msgstr "Spezial"
 
 #: qt3/i18n.cpp:89 ui/fontsetupbase.cpp:79
 msgid "Open"
 msgstr "Öffnen"
 
 #: qt3/i18n.cpp:91
-#, fuzzy
 msgid "Save as"
-msgstr "Speichern"
+msgstr "Speichern als"
 
 #: qt3/i18n.cpp:93
-#, fuzzy
 msgid "&Open"
-msgstr "Öffnen"
+msgstr "&Öffnen"
 
 #: qt3/i18n.cpp:97
-#, fuzzy
 msgid "&Rename"
-msgstr "Umbenennen"
+msgstr "&Umbenennen"
 
 #: qt3/i18n.cpp:99 ui/logindlgbase.cpp:45 ui/phonebookbase.cpp:73
 msgid "&Delete"
@@ -3047,77 +3033,73 @@ msgstr "&Löschen"
 
 #: qt3/i18n.cpp:101
 msgid "R&eload"
-msgstr ""
+msgstr "Erne&ut laden"
 
 #: qt3/i18n.cpp:103
 msgid "Sort by &Name"
-msgstr ""
+msgstr "Nach &Name sortieren"
 
 #: qt3/i18n.cpp:105
 msgid "Sort by &Size"
-msgstr ""
+msgstr "Nach &Größe sortieren"
 
 #: qt3/i18n.cpp:107
 msgid "Sort by &Date"
-msgstr ""
+msgstr "Nach &Datum sortieren"
 
 #: qt3/i18n.cpp:109
 msgid "&Unsorted"
-msgstr ""
+msgstr "&Unsortiert"
 
 #: qt3/i18n.cpp:111
-#, fuzzy
 msgid "Sort"
-msgstr "Sport"
+msgstr "Sortieren"
 
 #: qt3/i18n.cpp:113
 msgid "Show &hidden files"
-msgstr ""
+msgstr "&Versteckte Dateien anzeigen"
 
 #: qt3/i18n.cpp:115
-#, fuzzy
 msgid "the file"
-msgstr "Freigegebene Dateien"
+msgstr "die Datei"
 
 #: qt3/i18n.cpp:117
 msgid "the directory"
-msgstr ""
+msgstr "das Verzeichnis"
 
 #: qt3/i18n.cpp:119
 msgid "the symlink"
-msgstr ""
+msgstr "die symbolische Verknüpfung"
 
 #: qt3/i18n.cpp:121
-#, fuzzy, c-format
+#, c-format
 msgid "Delete %1"
-msgstr "%1 löschen?"
+msgstr "%1 löschen"
 
 #: qt3/i18n.cpp:123
 msgid "<qt>Do you really want to delete %1 \"%2\"?</qt>"
-msgstr ""
+msgstr "<qt>Möchten Sie %1 \"%2\" wirklich löschen?</<qt>"
 
 #: qt3/i18n.cpp:129
 msgid "New Folder 1"
-msgstr ""
+msgstr "Neues Verzeichnis 1"
 
 #: qt3/i18n.cpp:131
 msgid "New Folder"
-msgstr ""
+msgstr "Neues Verzeichnis"
 
 #: qt3/i18n.cpp:133
 #, c-format
 msgid "New Folder %1"
-msgstr ""
+msgstr "Neues Verzeichnis %1"
 
 #: qt3/i18n.cpp:135
-#, fuzzy
 msgid "Find Directory"
-msgstr "Benutzer suchen"
+msgstr "Verzeichnis suchen"
 
 #: qt3/i18n.cpp:137
-#, fuzzy
 msgid "Directories"
-msgstr "Verzeichnis für Dateien"
+msgstr "Verzeichnisse"
 
 #: qt3/i18n.cpp:144
 msgid ""
@@ -3125,46 +3107,45 @@ msgid ""
 "File not found.\n"
 "Check path and filename."
 msgstr ""
+"%1\n"
+"Datei nicht gefunden. "
+"Pfad und Dateiname prüfen."
 
 #: qt3/i18n.cpp:148
 msgid "ERROR"
-msgstr ""
+msgstr "FEHLER"
 
 #: qt3/i18n.cpp:150
-#, fuzzy
 msgid "&Font"
-msgstr "Schriftart"
+msgstr "&Schriftart"
 
 #: qt3/i18n.cpp:152
-#, fuzzy
 msgid "Font st&yle"
-msgstr "Schriftart"
+msgstr "Schrifts&til:"
 
 #: qt3/i18n.cpp:154
 msgid "&Size"
-msgstr ""
+msgstr "&Größe"
 
 #: qt3/i18n.cpp:156
 msgid "Effects"
-msgstr ""
+msgstr "Effekte"
 
 #: qt3/i18n.cpp:158
 msgid "Stri&keout"
-msgstr ""
+msgstr "Durch&gestrichen"
 
 #: qt3/i18n.cpp:162
-#, fuzzy
 msgid "&Color"
-msgstr "&Farben"
+msgstr "&Farbe"
 
 #: qt3/i18n.cpp:164
 msgid "Sample"
-msgstr ""
+msgstr "Beispiel"
 
 #: qt3/i18n.cpp:166
-#, fuzzy
 msgid "Scr&ipt"
-msgstr "Sicherheit"
+msgstr "Skr&ipt"
 
 #: qt3/i18n.cpp:168
 msgid "Apply"
@@ -3176,9 +3157,8 @@ msgid "Close"
 msgstr "Abbrechen"
 
 #: qt3/i18n.cpp:172
-#, fuzzy
 msgid "Select Font"
-msgstr "Stil auswählen:"
+msgstr "Schriftart auswählen"
 
 #: qt3/i18n.cpp:174
 msgid "&OK"
@@ -3192,65 +3172,63 @@ msgid ""
 "X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more "
 "information.</p>"
 msgstr ""
+"<h3>Über Qt</h3><p>Dieses Programm benutzt Qt in Version %1, ein "
+"Multiplattform-C++-GUI-Toolkit von Trolltech. Qt bietet Quellcodeportabilität für Windows "
+"95/98/NT/2000, Linux, Solaris, HP-UX und viele andere Versionen von Unix mit "
+"X11.</p><p>Besuchen Sie <tt>http://www.trolltech.com/qt/</tt> für weitere Informationen.</p>"
 
 #: qt3/i18n.cpp:183
 msgid "Help"
-msgstr ""
+msgstr "Hilfe"
 
 #: qt3/i18n.cpp:185
-#, fuzzy
 msgid "Defaults"
-msgstr "Standard"
+msgstr "Voreinstellungen"
 
 #: qt3/i18n.cpp:187
 msgid "< Back"
-msgstr ""
+msgstr "< Zurück"
 
 #: qt3/i18n.cpp:189
-#, fuzzy
 msgid "Next >"
-msgstr "Weiter"
+msgstr "Weiter >"
 
 #: qt3/i18n.cpp:191
-#, fuzzy
 msgid "Finish"
-msgstr "Finnisch"
+msgstr "Abschließen"
 
 #: qt3/i18n.cpp:193
-#, fuzzy
 msgid "Ctrl"
-msgstr "Strg+N"
+msgstr "Strg"
 
 #: qt3/i18n.cpp:195
 msgid "+"
-msgstr ""
+msgstr "+"
 
 #: qt3/i18n.cpp:197
-#, fuzzy
 msgid "Alt"
-msgstr "Warnung"
+msgstr "Alt"
 
 #: qt3/i18n.cpp:199
 msgid "Shift"
-msgstr ""
+msgstr "Umschalt"
 
 #: qt3/i18n.cpp:201
 #, c-format
 msgid "F%1"
-msgstr ""
+msgstr "F%1"
 
 #: qt3/i18n.cpp:203
 msgid "ctrl"
-msgstr ""
+msgstr "Strg"
 
 #: qt3/i18n.cpp:205
 msgid "shift"
-msgstr ""
+msgstr "Umschalt"
 
 #: qt3/i18n.cpp:207
-#, fuzzy
 msgid "alt"
-msgstr "Malta"
+msgstr "Alt"
 
 #: qt3/i18n.cpp:210
 msgid ""
@@ -3259,6 +3237,10 @@ msgid ""
 "to\n"
 "%2"
 msgstr ""
+"Konnte nicht umbenennen\n"
+"%1\n"
+"nach\n"
+"%2"
 
 #: qt3/i18n.cpp:216
 #, c-format
@@ -3266,6 +3248,8 @@ msgid ""
 "Could not open\n"
 "%1"
 msgstr ""
+"Konnte nicht öffnen\n"
+"%1"
 
 #: qt3/i18n.cpp:220
 #, c-format
@@ -3273,181 +3257,167 @@ msgid ""
 "Could not write\n"
 "%1"
 msgstr ""
+"Konnte nicht schreiben\n"
+"%1"
 
 #: qt3/i18n.cpp:223
 msgid "Operation stopped by the user"
-msgstr ""
+msgstr "Operation von Benutzer abgebrochen"
 
 #: qt3/i18n.cpp:225
-#, fuzzy
 msgid "(unknown)"
-msgstr "Unbekannt"
+msgstr "(unbekannt)"
 
 #: qt3/i18n.cpp:227
 msgid "Host %1 found"
-msgstr ""
+msgstr "Host %1 gefunden"
 
 #: qt3/i18n.cpp:229
 msgid "Host found"
-msgstr ""
+msgstr "Host gefunden"
 
 #: qt3/i18n.cpp:231
-#, fuzzy, c-format
+#, c-format
 msgid "Connected to host %1"
-msgstr "Verbinde zu %1 [%2]"
+msgstr "Verbunden mit Host %1"
 
 #: qt3/i18n.cpp:233
-#, fuzzy
 msgid "Connected to host"
-msgstr "Verbinde zu %1 [%2]"
+msgstr "Verbunden mit Host"
 
 #: qt3/i18n.cpp:235
-#, fuzzy
 msgid "Connection to %1 closed"
-msgstr "Verbinde zu %1 [%2]"
+msgstr "Verbindung mit %1 beendet"
 
 #: qt3/i18n.cpp:237
-#, fuzzy
 msgid "Connection closed"
-msgstr "Verbindung"
+msgstr "Verbindung beendet"
 
 #: qt3/i18n.cpp:239
 msgid "Login Incorrect"
-msgstr ""
+msgstr "Anmeldung ungültig"
 
 #: qt3/i18n.cpp:241
-#, fuzzy, c-format
+#, c-format
 msgid "Col %1"
-msgstr "Spalte 1"
+msgstr "Spalte %1"
 
 #: qt3/i18n.cpp:243
 #, c-format
 msgid "Row %1"
-msgstr ""
+msgstr "Zeile %1"
 
 #: qt3/i18n.cpp:245
-#, fuzzy
 msgid "Undo"
-msgstr "Verein"
+msgstr "Rückgängig"
 
 #: qt3/i18n.cpp:247
 msgid "Redo"
-msgstr ""
+msgstr "Wiederherstellen"
 
 #: qt3/i18n.cpp:249
 msgid "Cut"
-msgstr ""
+msgstr "Ausschneiden"
 
 #: qt3/i18n.cpp:251 ui/fontsetupbase.cpp:64
 msgid "Copy"
 msgstr "Kopieren"
 
 #: qt3/i18n.cpp:253
-#, fuzzy
 msgid "Paste"
-msgstr "Parties"
+msgstr "Einfügen"
 
 #: qt3/i18n.cpp:255
-#, fuzzy
 msgid "Clear"
-msgstr "Autos"
+msgstr "Löschen"
 
 #: qt3/i18n.cpp:257
-#, fuzzy
 msgid "Select All"
-msgstr "Stil auswählen:"
+msgstr "Alles auswählen"
 
 #: qt3/i18n.cpp:259
-#, fuzzy
 msgid "&Left"
-msgstr "Links-oben"
+msgstr "&Links"
 
 #: qt3/i18n.cpp:261
-#, fuzzy
 msgid "&Right"
-msgstr "Hell"
+msgstr "&Rechts"
 
 #: qt3/i18n.cpp:263
-#, fuzzy
 msgid "&Top"
-msgstr "&Kopieren"
+msgstr "&Oben"
 
 #: qt3/i18n.cpp:265
 msgid "&Bottom"
-msgstr ""
+msgstr "&Unten"
 
 #: qt3/i18n.cpp:267
-#, fuzzy
 msgid "R&estore"
-msgstr "Einzelhandelläden"
+msgstr "&Wiederherstellen"
 
 #: qt3/i18n.cpp:269
-#, fuzzy
 msgid "&Hide"
-msgstr "Automatisch ausblenden"
+msgstr "&Ausblenden"
 
 #: qt3/i18n.cpp:271
 msgid "Line Up Toolbars (compact)"
-msgstr ""
+msgstr "Werkzeugleisten kompakt anordnen"
 
 #: qt3/i18n.cpp:273
 msgid "Line Up Toolbars (normal)"
-msgstr ""
+msgstr "Werkzeugleisten normal anordnen"
 
 #: qt3/i18n.cpp:275
 msgid "Paste special..."
-msgstr ""
+msgstr "Einfügen spezial..."
 
 #: qt3/i18n.cpp:277
 msgid "What's this?"
-msgstr ""
+msgstr "Was ist das?"
 
 #: qt3/i18n.cpp:279
-#, fuzzy
 msgid "&Restore"
-msgstr "&Registrieren"
+msgstr "Wieder&herstellen"
 
 #: qt3/i18n.cpp:281
-#, fuzzy
 msgid "&Move"
-msgstr "Modus"
+msgstr "&Verschieben"
 
 #: qt3/i18n.cpp:283
 msgid "Mi&nimize"
-msgstr ""
+msgstr "M&inimieren"
 
 #: qt3/i18n.cpp:285
 msgid "Ma&ximize"
-msgstr ""
+msgstr "Ma&ximieren"
 
 #: qt3/i18n.cpp:289
 msgid "&Roll up"
-msgstr ""
+msgstr "Nach &oben rollen"
 
 #: qt3/i18n.cpp:291
 msgid "Minimize"
-msgstr ""
+msgstr "Minimieren"
 
 #: qt3/i18n.cpp:293
 msgid "Restore Down"
-msgstr ""
+msgstr "Unteres wiederherstellen"
 
 #: qt3/i18n.cpp:295
 msgid "Maximize"
-msgstr ""
+msgstr "Maximieren"
 
 #: qt3/i18n.cpp:297
 msgid "Roll up"
-msgstr ""
+msgstr "Nach oben rollen"
 
 #: qt3/i18n.cpp:299
-#, fuzzy
 msgid "Restore Up"
-msgstr "Einzelhandelläden"
+msgstr "Oberes wiederherstellen"
 
 #: qt3/i18n.cpp:301
 msgid "Roll down"
-msgstr ""
+msgstr "Nach unten rollen"
 
 #: ui/aboutdlg.cpp:41
 msgid "%1 Version: %2"
@@ -4077,8 +4047,7 @@ msgstr "&Signatur"
 
 #: ui/smssetupbase.cpp:68
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
-"Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
+msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
 
 #: ui/smssetupbase.cpp:76
 msgid ""
@@ -4796,8 +4765,7 @@ msgid "Hide main window after"
 msgstr "Hauptfenster anzeigen/verstecken nach"
 
 #: ui/statussetupbase.cpp:57
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -5000,8 +4968,7 @@ msgstr "&Ablehnen"
 
 #: ui/generalsecbase.cpp:115
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: ui/generalsecbase.cpp:122
 msgid ""
@@ -5362,3 +5329,4 @@ msgstr "&Bemerkungen"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
