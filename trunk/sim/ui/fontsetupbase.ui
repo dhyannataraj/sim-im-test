@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>345</width>
-            <height>419</height>
+            <width>341</width>
+            <height>456</height>
         </rect>
     </property>
     <property>
@@ -378,6 +378,17 @@
                     </grid>
                 </widget>
             </vbox>
+        </widget>
+        <widget>
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkSplash</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>&amp;Show splash window</string>
+            </property>
         </widget>
         <spacer>
             <property>
