@@ -79,7 +79,7 @@ InterfaceConfig::InterfaceConfig(QWidget *parent)
     const char *cur = CorePlugin::m_plugin->getLang();
     if (*cur == 0)
         cur = NULL;
-
+#ifdef WIN32
     cmbLang->insertItem(i18n("System"));
 
     QStringList items;
@@ -103,6 +103,9 @@ InterfaceConfig::InterfaceConfig(QWidget *parent)
     }else{
         cmbLang->setCurrentItem(0);
     }
+#else
+    cmbLang->hide();
+#endif
     connect(grpMode, SIGNAL(clicked(int)), this, SLOT(modeChanged(int)));
     if (CorePlugin::m_plugin->getContainerMode()){
         grpMode->setButton(1);
@@ -150,6 +153,7 @@ void InterfaceConfig::apply()
     msg_cfg->apply(data);
     data = getContacts()->getUserData(CorePlugin::m_plugin->sms_data_id);
     sms_cfg->apply(data);
+#ifdef WIN32
     int res = cmbLang->currentItem();
     const char *lang = "";
     if (res > 0){
@@ -166,6 +170,7 @@ void InterfaceConfig::apply()
                 break;
             }
     }
+#endif
     if (grpMode->selected()){
         if (grpMode->id(grpMode->selected())){
             CorePlugin::m_plugin->setContainerMode(grpContainer->id(grpContainer->selected()) + 1);
@@ -176,11 +181,13 @@ void InterfaceConfig::apply()
             CorePlugin::m_plugin->setSendOnEnter(false);
         }
     }
+#ifdef WIN32
     if (!strcmp(lang, CorePlugin::m_plugin->getLang()))
         return;
     CorePlugin::m_plugin->removeTranslator();
     CorePlugin::m_plugin->setLang(lang);
     CorePlugin::m_plugin->installTranslator();
+#endif
 }
 
 #ifndef WIN32
