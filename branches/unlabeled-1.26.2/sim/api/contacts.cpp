@@ -1949,3 +1949,17 @@ EXPORT ContactList *getContacts()
 
 };
 
+EXPORT QString i18n(const char *text, Contact *contact)
+{
+	QString male = i18n(text, "male");
+	if (contact == NULL)
+		return male;
+	QString female = i18n(text, "female");
+	if (male == female)
+		return male;
+	string gender = contact->clientData.property("Gender");
+	if (atol(gender.c_str()) == 1)
+		return female;
+	return male;
+}
+

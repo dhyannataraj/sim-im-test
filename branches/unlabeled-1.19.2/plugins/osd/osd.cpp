@@ -312,11 +312,11 @@ void OSDPlugin::processQueue()
         switch (m_request.type){
         case OSD_ALERT:
             if (data->EnableAlert.bValue && contact)
-                text = i18("%1 is online", contact) .arg(contact->getName());
+                text = i18n("%1 is online", contact) .arg(contact->getName());
             break;
         case OSD_TYPING:
             if (data->EnableTyping.bValue && contact)
-                text = i18("%1 typed", contact) .arg(contact->getName());
+                text = i18n("%1 typed", contact) .arg(contact->getName());
             break;
         default:
             if (data->EnableMessage.bValue && core){
@@ -351,20 +351,6 @@ void OSDPlugin::processQueue()
         }
         queue.erase(queue.begin());
     }
-}
-
-QString OSDPlugin::i18(const char *text, Contact *contact)
-{
-	QString male = i18n(text, "male");
-	if (contact == NULL)
-		return male;
-	QString female = i18n(text, "female");
-	if (male == female)
-		return male;
-	string gender = contact->clientData.property("Gender");
-	if (atol(gender.c_str()) == 1)
-		return female;
-	return male;
 }
 
 void OSDPlugin::dblClick()

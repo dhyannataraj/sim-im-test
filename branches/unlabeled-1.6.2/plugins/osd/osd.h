@@ -85,7 +85,6 @@ protected:
     OSDRequest	m_request;
     list<OSDRequest>	queue;
     list<unsigned>		typing;
-	QString		i18(const char *text, Contact *contact);
     CorePlugin	*core;
     QWidget		*m_osd;
     QTimer		*m_timer;

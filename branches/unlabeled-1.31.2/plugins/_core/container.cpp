@@ -553,6 +553,11 @@ static BOOL (WINAPI *FlashWindowEx)(FLASHWINFO*) = NULL;
 static bool initFlash = false;
 #endif
 
+#if 0
+i18n("%1 typed", "male")
+i18n("%1 typed", "female")
+#endif
+
 void *Container::processEvent(Event *e)
 {
     UserWnd *userWnd;
@@ -669,7 +674,7 @@ if (!isActiveWindow()){
             if (userWnd->m_bTyping != bTyping){
                 userWnd->m_bTyping = bTyping;
                 if (bTyping){
-                    userWnd->setStatus(i18n("Contact typed message"));
+                    userWnd->setStatus(i18n("%1 typed", contact) .arg(contact->getName()));
                 }else{
                     userWnd->setStatus("");
                 }
