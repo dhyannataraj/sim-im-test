@@ -139,7 +139,7 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
             s += "<a href=\"";
             s += url->URL.c_str();
             s += "\">";
-            s += quoteText(url->URL);
+            s += quoteText(url->URL, msg->Charset.c_str());
             s += "</a>";
             if (*url->Message.c_str()){
                 s += "<br>";
@@ -212,7 +212,7 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
             for (ContactList::iterator it = contacts->Contacts.begin(); it != contacts->Contacts.end(); it++){
                 Contact *contact = static_cast<Contact*>(*it);
                 s += "<tr><td align=right>" + QString::number(contact->Uin) + "</td><td>";
-                s += quoteText(contact->Alias.c_str());
+                s += quoteText(contact->Alias.c_str(), msg->Charset.c_str());
                 s += "</td></tr>";
             }
             s += "</table>";
@@ -223,9 +223,9 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
             s += MainWindow::ParseText(sms->Message, true, codec);
             if (*sms->Phone.c_str()){
                 s += "<br>";
-                s += quoteText(sms->Phone);
+                s += quoteText(sms->Phone, msg->Charset.c_str());
                 if (*sms->Network.c_str())
-                    s += " (" + quoteText(sms->Network) + ")";
+                    s += " (" + quoteText(sms->Network, msg->Charset.c_str()) + ")";
             }
             break;
         }
@@ -246,10 +246,10 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
     return s;
 }
 
-QString TextShow::quoteText(const char *text)
+QString TextShow::quoteText(const char *text, const char *charset)
 {
     string msg = ICQClient::quoteText(text);
-    QString s = Client::from8Bit(codec, msg);
+    QString s = Client::from8Bit(codec, charset);
     return s;
 }
 

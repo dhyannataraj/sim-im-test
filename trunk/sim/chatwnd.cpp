@@ -235,7 +235,7 @@ void ChatWindow::processEvent(ICQEvent *e)
             uin = e->Uin();
             txtChat->setUin(uin);
             QString line = chatHeader(e->Uin()) +
-                           txtChat->quoteText(i18n("Enter to chat").local8Bit()) + "<br>\n";
+                           txtChat->quoteText(i18n("Enter to chat").local8Bit(), NULL) + "<br>\n";
             txtChat->insertParagraph(line, -1);
             txtChat->scrollToBottom();
             txtChat->moveCursor(QTextEdit::MoveEnd, false);
@@ -269,7 +269,7 @@ void ChatWindow::processEvent(ICQEvent *e)
             txtChat->setColor(chatColor(chat->chat->fgColor));
             bClientMode = true;
         }
-        txtChat->insert(pClient->from8Bit(uin, e->text.c_str()), false, false);
+        txtChat->insert(pClient->from8Bit(uin, e->text.c_str(), NULL), false, false);
         break;
     case CHAT_BACKSPACE:
         if (bClientMode)

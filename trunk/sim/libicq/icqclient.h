@@ -778,6 +778,7 @@ public:
     ConfigBool Received;
     ConfigULongs Uin;
     ConfigBool Direct;
+	ConfigString Charset;
     unsigned long Id;
     unsigned long	state;
     unsigned short	id1;
@@ -790,6 +791,7 @@ public:
     bool			isExt;
     bool			bDelete;
     unsigned long	getUin();
+    virtual void save(ostream &s);
 protected:
     unsigned short m_nType;
 };

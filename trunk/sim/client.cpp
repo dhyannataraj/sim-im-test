@@ -808,9 +808,9 @@ string Client::to8Bit(unsigned long uin, const QString &str)
     return to8Bit(codecForUser(uin), str);
 }
 
-QString Client::from8Bit(unsigned long uin, const string &str)
+QString Client::from8Bit(unsigned long uin, const string &str, const char *strCharset)
 {
-    return from8Bit(codecForUser(uin), str);
+    return from8Bit(codecForUser(uin), str, strCharset);
 }
 
 string Client::to8Bit(QTextCodec *codec, const QString &str)
@@ -819,16 +819,18 @@ string Client::to8Bit(QTextCodec *codec, const QString &str)
     string res;
     if (lenOut == 0) return res;
     res = (const char*)(codec->makeEncoder()->fromUnicode(str, lenOut));
-    toServer(res, codec->name());
     return res;
 }
 
-QString Client::from8Bit(QTextCodec *codec, const string &str)
+QString Client::from8Bit(QTextCodec *codec, const string &str, const char *strCharset)
 {
     if (!strcmp(codec->name(), serverCharset(codec->name())))
         return codec->makeDecoder()->toUnicode(str.c_str(), str.size());
     string s = str;
-    fromServer(s, codec->name());
+	if (strCharset && strcasecmp(strCharset, codec->name())){
+		toServer(s, strCharset);
+		fromServer(s, codec->name());
+	}
     return codec->makeDecoder()->toUnicode(s.c_str(), s.size());
 }
 

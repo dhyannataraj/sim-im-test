@@ -52,7 +52,7 @@ public:
     void setForeground(const QColor&);
     void setBackground(const QColor&);
     void resetColors();
-    QString quoteText(const char*);
+    QString quoteText(const char *text, const char *charset);
     void setUin(unsigned long);
 signals:
     void goMessage(unsigned long Uin, unsigned long msgId);
