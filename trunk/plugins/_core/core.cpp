@@ -2424,7 +2424,7 @@ void *CorePlugin::processEvent(Event *e)
                         cmds[nCmds].popup_id = id;
                         string res = getToken(resources, ';');
                         cmds[nCmds].icon     = (const char*)(atol(getToken(res, ',').c_str()));
-                        QString t = ways[0].client->contactName(ways[0].data);
+                        QString t = cc.client->contactName(ways[0].data);
                         t += "/";
                         t += QString::fromUtf8(res.c_str());
                         cmds[nCmds++].text_wrk = strdup(t.utf8());

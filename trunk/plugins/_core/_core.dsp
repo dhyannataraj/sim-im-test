@@ -4057,6 +4057,10 @@ SOURCE=.\xpm\configure.xpm
 # End Source File
 # Begin Source File
 
+SOURCE=.\xpm\contacts.xpm
+# End Source File
+# Begin Source File
+
 SOURCE=.\xpm\dnd.xpm
 # End Source File
 # Begin Source File

@@ -823,6 +823,7 @@ bool QTextEdit::event( QEvent *e )
             case Key_Home:
             case Key_End:
             case Key_Tab:
+            case Key_Backspace:
 #if defined (Q_WS_WIN)
             case Key_Insert:
 #endif
@@ -920,12 +921,16 @@ void QTextEdit::keyPressEvent( QKeyEvent *e )
             removeSelectedText();
             break;
         }
-        if ( !cursor->parag()->prev() &&
-                cursor->atParagStart() )
-            break;
-        doKeyboardAction( ActionBackspace );
-        clearUndoRedoInfo = FALSE;
-
+        if (e->state() & ControlButton){
+            moveCursor(MoveWordBackward, false);
+            moveCursor(MoveWordForward, true);
+            removeSelectedText();
+        }else{
+            if (!cursor->parag()->prev() && cursor->atParagStart())
+                break;
+            doKeyboardAction( ActionBackspace );
+            clearUndoRedoInfo = FALSE;
+        }
         break;
     case Key_F16: // Copy key on Sun keyboards
         copy();
@@ -988,7 +993,7 @@ void QTextEdit::keyPressEvent( QKeyEvent *e )
 #if defined(Q_WS_X11)
                     moveCursor( MoveLineStart, e->state() & ShiftButton );
 #else
-selectAll( TRUE );
+                    selectAll( TRUE );
 #endif
                     break;
                 case Key_B:
@@ -3826,7 +3831,7 @@ void QTextEdit::pasteSubType( const QCString& subtype, QMimeSource *m )
         // Need to convert CRLF to LF
         t.replace( "\r\n", "\n" );
 #elif defined(Q_OS_MAC)
-//need to convert CR to LF
+        //need to convert CR to LF
         t.replace( '\r', '\n' );
 #endif
         QChar *uc = (QChar *)t.unicode();
@@ -4235,7 +4240,7 @@ QPopupMenu *QTextEdit::createPopupMenu( const QPoint& )
 #if defined(Q_WS_X11)
     d->id[ IdSelectAll ] = popup->insertItem( i18n( "Select All" ) );
 #else
-d->id[ IdSelectAll ] = popup->insertItem( i18n( "Select All" ) + ACCEL_KEY( A ) );
+    d->id[ IdSelectAll ] = popup->insertItem( i18n( "Select All" ) + ACCEL_KEY( A ) );
 #endif
     popup->setItemEnabled( d->id[ IdUndo ], !isReadOnly() && doc->commands()->isUndoAvailable() );
     popup->setItemEnabled( d->id[ IdRedo ], !isReadOnly() && doc->commands()->isRedoAvailable() );
