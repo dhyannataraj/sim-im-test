@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2002-12-12 15:08+0300\n"
-"PO-Revision-Date: 2002-12-10 20:12+0200\n"
+"PO-Revision-Date: 2002-12-12 19:05+0200\n"
 "Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1753,8 +1753,7 @@ msgstr "%1 від %2"
 
 #: mainwin.cpp:1291 ui/logindlg.cpp:140
 msgid "Can't connect to proxy server"
-msgstr ""
-"Неможливо з'єднатися з проксі-сервером"
+msgstr "Неможливо з'єднатися з проксі-сервером"
 
 #: mainwin.cpp:1298 ui/logindlg.cpp:147
 msgid "Proxy server require authorization"
@@ -1786,8 +1785,7 @@ msgstr "&Ні"
 
 #: mainwin.cpp:1986
 msgid "Add %1 to ignore list ?"
-msgstr ""
-"Додати \"%1\" в список тих що ігноруються?"
+msgstr "Додати \"%1\" в список тих що ігноруються?"
 
 #: mainwin.cpp:2050
 msgid "In visible list"
@@ -2182,8 +2180,7 @@ msgstr "Розмір: %1 / Максимальний: %2"
 
 #: msgedit.cpp:1560
 msgid "Message will be split"
-msgstr ""
-"Повідомлення буде розділено на частини"
+msgstr "Повідомлення буде розділено на частини"
 
 #: msgedit.cpp:1735
 msgid "Decline reason"
@@ -2813,8 +2810,7 @@ msgstr "Вікно - розтягнути"
 
 #: ui/themesetup.cpp:204
 msgid "Need restart SIM for change language"
-msgstr ""
-"Потрібно перестартувати SIM для зміни мови"
+msgstr "Потрібно перестартувати SIM для зміни мови"
 
 #: ui/themesetup.cpp:214
 msgid "Default icons"
@@ -3172,8 +3168,7 @@ msgstr "Закрити після відправки"
 # #
 #: ui/acceptbase.cpp:173 ui/msgbase.cpp:94
 msgid "Automaitcaly open window"
-msgstr ""
-"Автоматично відкривати вікно повідомлень"
+msgstr "Автоматично відкривати вікно повідомлень"
 
 #: ui/acceptbase.cpp:174 ui/acceptbase.cpp:177 ui/msgbase.cpp:90
 msgid "Override global settings"
@@ -3709,8 +3704,7 @@ msgstr "&Прозорість"
 
 #: ui/themesetupbase.cpp:316
 msgid "Show main window in task manager"
-msgstr ""
-"Показувати основне вікно в панелі задач"
+msgstr "Показувати основне вікно в панелі задач"
 
 #: ui/themesetupbase.cpp:317
 msgid "Show user window in task manager"
@@ -3733,9 +3727,8 @@ msgid "Use &dock"
 msgstr "Використовувати &док"
 
 #: ui/themesetupbase.cpp:323
-#, fuzzy
 msgid "Use double c&lick"
-msgstr "Використовувати &док"
+msgstr "Використовувати подвійний &клік"
 
 #: ui/listsecbase.cpp:120 ui/moreinfobase.cpp:185
 msgid "Form3"
@@ -3746,8 +3739,7 @@ msgid "Hide main window after"
 msgstr "Сховати головне вікно"
 
 #: ui/statussetupbase.cpp:110
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Заборонити попередження в стані "
 "\"Відійшов\", \"Не активний\", \"Зайнятий\""
@@ -3938,8 +3930,7 @@ msgstr ""
 
 #: ui/generalsecbase.cpp:196
 msgid "Reject &URL from unknown users"
-msgstr ""
-"Відкидати &URL від невідомих користувачів"
+msgstr "Відкидати &URL від невідомих користувачів"
 
 #: ui/generalsecbase.cpp:197
 msgid "Reject &World Wide pager messages"
@@ -4096,8 +4087,7 @@ msgstr "..."
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Ця програма поширюється під ліцензією GPL v2"
+msgstr "Ця програма поширюється під ліцензією GPL v2"
 
 #: editspell.cpp:316
 msgid "Spell check"
@@ -4793,3 +4783,4 @@ msgstr "Не можу створити файл %1"
 
 #~ msgid "Spell"
 #~ msgstr "Проверка орфографии"
+
