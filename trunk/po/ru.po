@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "POT-Creation-Date: 2002-07-27 20:27+0400\n"
-"PO-Revision-Date: 2002-07-26 05:30GMT+3\n"
+"PO-Revision-Date: 2002-07-28 01:30GMT+3\n"
 "Last-Translator: Vladimir Shutoff <shutoff@mail.ru>\n"
 "Language-Team: Русский <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -269,8 +269,7 @@ msgstr "%1 от %2"
 
 #: mainwin.cpp:804
 msgid "Your UIN used from another location"
-msgstr ""
-"Ваш UIN используется с другого компьютера"
+msgstr "Ваш UIN используется с другого компьютера"
 
 #: mainwin.cpp:849
 msgid "User %1 is online"
@@ -526,12 +525,11 @@ msgstr "%1 (ICQ# %2) пишет:<br>\n"
 
 #: msgedit.cpp:1357
 msgid "Size: %1 / Max. size: %2"
-msgstr ""
+msgstr "Длина: %1 / Максимальная: %2"
 
 #: msgedit.cpp:1361
-#, fuzzy
 msgid "Message will be split"
-msgstr "Сообщение отправлено"
+msgstr "Сообщение будет раздено на части"
 
 #: msgedit.cpp:1526
 msgid "Decline reason"
@@ -1205,8 +1203,7 @@ msgstr "Шрифт меню"
 
 #: ui/fontsetupbase.cpp:166
 msgid "Use &own colors in history"
-msgstr ""
-"Использовать &собственные цвета в истории"
+msgstr "Использовать &собственные цвета в истории"
 
 #: ui/fontsetupbase.cpp:180
 msgid "Received messages color"
@@ -1250,8 +1247,7 @@ msgstr "Не показывать мой email"
 
 #: ui/pastinfobase.cpp:89
 msgid "Organization, Affiliation, Group:"
-msgstr ""
-"Объединения, общественные организации:"
+msgstr "Объединения, общественные организации:"
 
 #: ui/pastinfobase.cpp:131
 msgid "Past background:"
@@ -1458,8 +1454,7 @@ msgid "State:"
 msgstr "Штат:"
 
 #: ui/statussetupbase.cpp:95
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Запретить оповещение в состояниях "
 "\"Отошел\", \"Не активный\", \"Занят\""
@@ -1702,3 +1697,4 @@ msgstr ""
 
 #~ msgid "State"
 #~ msgstr "Штат"
+

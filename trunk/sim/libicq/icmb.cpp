@@ -368,8 +368,9 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
         unsigned long real_ip = 0;
         unsigned long ip = 0;
         unsigned short port = 0;
-        if (tlv(3)) ip = htonl((unsigned long)(*tlv(3)));
-        if (tlv(4)) real_ip = htonl((unsigned long)(*tlv(4)));
+        if (tlv(3)) real_ip = htonl((unsigned long)(*tlv(3)));
+        if (tlv(4)) ip = htonl((unsigned long)(*tlv(4)));
+	log(L_DEBUG, "IP: %X %X", ip, real_ip);
         payload >> msg;
         if (*msg.c_str() || (msgType == ICQ_MSGxEXT)){
             if (payload.readPos() < payload.writePos())
@@ -405,7 +406,7 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
 
                             ICQUser *u = getUser(m->getUin());
                             if (u == NULL){
-                                log(L_WARN, "User not found");
+                                log(L_WARN, "User %lu not found", m->getUin());
                                 cancelMessage(m, false);
                                 return;
                             }
@@ -413,14 +414,14 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
                             switch (msg->Type()){
                             case ICQ_MSGxFILE:{
                                     ICQFile *file = static_cast<ICQFile*>(msg);
-                                    file->ft = new FileTransfer(real_ip, ip, port, u, this, file);
+                                    file->ft = new FileTransfer(ip, real_ip, port, u, this, file);
                                     file->ft->connect();
                                     break;
                                 }
                             case ICQ_MSGxCHAT:{
                                     log(L_DEBUG, "Chat port %u", port);
                                     ICQChat *chat = static_cast<ICQChat*>(msg);
-                                    chat->chat = new ChatSocket(real_ip, ip, port, u, this, chat);
+                                    chat->chat = new ChatSocket(ip, real_ip, port, u, this, chat);
                                     chat->chat->connect();
                                     break;
                                 }
@@ -451,12 +452,26 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
                     m->Received = true;
                     ICQUser *u = getUser(m->getUin());
                     if (u){
-                        if (real_ip && (u->RealIP() != real_ip))
+                        bool bChanged = false;
+                        if (real_ip && (u->RealIP() != real_ip)){
                             u->RealIP = real_ip;
-                        if (ip && (u->IP() != ip))
+                            u->RealHostName = "";
+                            bChanged = true;
+                        }
+                        if (ip && (u->IP() != ip)){
                             u->IP = ip;
-                        if (port && (u->Port() != port))
+                            u->HostName = "";
+                            bChanged = true;
+                        }
+                        if (port && (u->Port() != port)){
                             u->Port = port;
+                            bChanged = true;
+                        }
+			log(L_DEBUG, "set IP");
+                        if (bChanged){
+                            ICQEvent e(EVENT_STATUS_CHANGED, u->Uin());
+                            process_event(&e);
+                        }
                     }
                     messageReceived(m);
                 }else{
@@ -621,7 +636,7 @@ void ICQClient::acceptMessage(ICQMessage *m)
         ICQUser *u = getUser(m->getUin());
         if (u){
             remote_ip = u->IP();
-            if (u->RealIP() && ((u->RealIP() & 0xFFFFFF00) != (RealIP() & 0xFFFFFF00)))
+            if (remote_ip && ((remote_ip & 0xFFFFFF00) != (IP() & 0xFFFFFF00)))
                 remote_ip = u->RealIP();
         }
         if (getLocalAddr(host, port, remote_ip))
@@ -814,7 +829,6 @@ void ICQClient::processMsgQueueThruServer()
                         string msg_text = msg->Message;
                         toServer(msg_text);
                         message = createRTF(msg_text.c_str(), msg->ForeColor);
-                        log(L_DEBUG, "RTF %s", message.c_str());
                         advCounter--;
                         msgBuf
                         << (unsigned short)0x1B00

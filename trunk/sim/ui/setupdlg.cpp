@@ -128,6 +128,11 @@ SetupDialog::SetupDialog(QWidget *parent, int nWin)
     transparent = new TransparentTop(this, pMain->UseTransparentContainer, pMain->TransparentContainer);
 };
 
+SetupDialog::~SetupDialog()
+{
+    transparent = NULL;
+}
+
 void SetupDialog::iconChanged()
 {
     setIcon(Pict("configure"));
@@ -182,7 +187,7 @@ void SetupDialog::ok()
 
 void SetupDialog::setBackgroundPixmap(const QPixmap &pm)
 {
-    transparent->updateBackground(pm);
+    if (transparent) transparent->updateBackground(pm);
 }
 
 #ifndef _WINDOWS

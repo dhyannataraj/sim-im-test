@@ -6,25 +6,25 @@
         <name>name</name>
         <cstring>generalSecurity</cstring>
     </property>
-    <property stdset="1">
+    <property>
         <name>geometry</name>
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>572</width>
+            <width>568</width>
             <height>594</height>
         </rect>
     </property>
-    <property stdset="1">
+    <property>
         <name>caption</name>
         <string>Form1</string>
     </property>
     <vbox>
-        <property stdset="1">
+        <property>
             <name>margin</name>
             <number>11</number>
         </property>
-        <property stdset="1">
+        <property>
             <name>spacing</name>
             <number>6</number>
         </property>
@@ -35,11 +35,11 @@
                 <cstring>Layout2</cstring>
             </property>
             <hbox>
-                <property stdset="1">
+                <property>
                     <name>margin</name>
                     <number>0</number>
                 </property>
-                <property stdset="1">
+                <property>
                     <name>spacing</name>
                     <number>6</number>
                 </property>
@@ -49,11 +49,11 @@
                         <name>name</name>
                         <cstring>lblPict</cstring>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>frameShape</name>
                         <enum>NoFrame</enum>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>text</name>
                         <string></string>
                     </property>
@@ -64,21 +64,21 @@
                         <name>name</name>
                         <cstring>lblHead</cstring>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>sizePolicy</name>
                         <sizepolicy>
                             <hsizetype>7</hsizetype>
                             <vsizetype>1</vsizetype>
                         </sizepolicy>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>font</name>
                         <font>
                             <pointsize>9</pointsize>
                             <bold>1</bold>
                         </font>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>text</name>
                         <string>Security</string>
                     </property>
@@ -91,30 +91,79 @@
                 <name>name</name>
                 <cstring>Line3</cstring>
             </property>
-            <property stdset="1">
+            <property>
                 <name>minimumSize</name>
                 <size>
                     <width>0</width>
                     <height>5</height>
                 </size>
             </property>
-            <property stdset="1">
+            <property>
+                <name>frameShape</name>
+                <enum>HLine</enum>
+            </property>
+            <property>
+                <name>frameShadow</name>
+                <enum>Sunken</enum>
+            </property>
+            <property>
                 <name>orientation</name>
                 <enum>Horizontal</enum>
             </property>
+            <property>
+                <name>frameShape</name>
+                <enum>HLine</enum>
+            </property>
         </widget>
         <widget>
-            <class>QLayoutWidget</class>
+            <class>QCheckBox</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>Layout4</cstring>
+                <cstring>chkAuth</cstring>
             </property>
-            <hbox>
-                <property stdset="1">
+            <property>
+                <name>text</name>
+                <string>My &amp;authorization is required before users add me to Contact List</string>
+            </property>
+        </widget>
+        <widget>
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkWebAware</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Allow others to view my &amp;status from the Web</string>
+            </property>
+        </widget>
+        <widget>
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkHiddenIP</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Don't show my &amp;IP-address</string>
+            </property>
+        </widget>
+        <widget>
+            <class>QGroupBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>GroupBox1</cstring>
+            </property>
+            <property>
+                <name>title</name>
+                <string>Reject messages</string>
+            </property>
+            <vbox>
+                <property>
                     <name>margin</name>
-                    <number>0</number>
+                    <number>11</number>
                 </property>
-                <property stdset="1">
+                <property>
                     <name>spacing</name>
                     <number>6</number>
                 </property>
@@ -122,156 +171,69 @@
                     <class>QCheckBox</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>chkAuth</cstring>
-                    </property>
-                    <property stdset="1">
-                        <name>text</name>
-                        <string></string>
-                    </property>
-                </widget>
-                <widget>
-                    <class>QLabel</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>TextLabel2</cstring>
-                    </property>
-                    <property stdset="1">
-                        <name>sizePolicy</name>
-                        <sizepolicy>
-                            <hsizetype>7</hsizetype>
-                            <vsizetype>1</vsizetype>
-                        </sizepolicy>
-                    </property>
-                    <property stdset="1">
-                        <name>text</name>
-                        <string>My authorization is required before users add me to Contact List</string>
-                    </property>
-                    <property stdset="1">
-                        <name>alignment</name>
-                        <set>WordBreak|AlignVCenter|AlignLeft</set>
+                        <cstring>chkRejectMsg</cstring>
                     </property>
                     <property>
-                        <name>wordwrap</name>
+                        <name>text</name>
+                        <string>Reject &amp;messages from unknown users</string>
                     </property>
                 </widget>
-            </hbox>
-        </widget>
-        <widget>
-            <class>QLayoutWidget</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>Layout3</cstring>
-            </property>
-            <hbox>
-                <property stdset="1">
-                    <name>margin</name>
-                    <number>0</number>
-                </property>
-                <property stdset="1">
-                    <name>spacing</name>
-                    <number>6</number>
-                </property>
                 <widget>
                     <class>QCheckBox</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>chkWebAware</cstring>
-                    </property>
-                    <property stdset="1">
-                        <name>text</name>
-                        <string></string>
-                    </property>
-                </widget>
-                <widget>
-                    <class>QLabel</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>TextLabel4</cstring>
-                    </property>
-                    <property stdset="1">
-                        <name>sizePolicy</name>
-                        <sizepolicy>
-                            <hsizetype>7</hsizetype>
-                            <vsizetype>1</vsizetype>
-                        </sizepolicy>
-                    </property>
-                    <property stdset="1">
-                        <name>text</name>
-                        <string>Allow others to view my status from the Web</string>
-                    </property>
-                    <property stdset="1">
-                        <name>alignment</name>
-                        <set>WordBreak|AlignVCenter|AlignLeft</set>
+                        <cstring>chkRejectURL</cstring>
                     </property>
                     <property>
-                        <name>wordwrap</name>
+                        <name>text</name>
+                        <string>Reject &amp;URL from unknown users</string>
                     </property>
                 </widget>
-            </hbox>
-        </widget>
-        <widget>
-            <class>QLayoutWidget</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>Layout4</cstring>
-            </property>
-            <hbox>
-                <property stdset="1">
-                    <name>margin</name>
-                    <number>0</number>
-                </property>
-                <property stdset="1">
-                    <name>spacing</name>
-                    <number>6</number>
-                </property>
                 <widget>
                     <class>QCheckBox</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>chkHiddenIP</cstring>
+                        <cstring>chkRejectWeb</cstring>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>text</name>
-                        <string></string>
+                        <string>Reject &amp;World Wide pager messages</string>
                     </property>
                 </widget>
                 <widget>
-                    <class>QLabel</class>
+                    <class>QCheckBox</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>TextLabel1</cstring>
-                    </property>
-                    <property stdset="1">
-                        <name>sizePolicy</name>
-                        <sizepolicy>
-                            <hsizetype>7</hsizetype>
-                            <vsizetype>5</vsizetype>
-                        </sizepolicy>
-                    </property>
-                    <property stdset="1">
-                        <name>text</name>
-                        <string>Don't show my IP-address</string>
-                    </property>
-                    <property stdset="1">
-                        <name>alignment</name>
-                        <set>WordBreak|AlignVCenter|AlignLeft</set>
+                        <cstring>chkRejectEmail</cstring>
                     </property>
                     <property>
-                        <name>wordwrap</name>
+                        <name>text</name>
+                        <string>Reject &amp;EmailExpress messages</string>
                     </property>
                 </widget>
-            </hbox>
+                <widget>
+                    <class>QCheckBox</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>chkRejectOther</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Reject &amp;other messages</string>
+                    </property>
+                </widget>
+            </vbox>
         </widget>
         <spacer>
             <property>
                 <name>name</name>
                 <cstring>Spacer2</cstring>
             </property>
-            <property stdset="1">
+            <property>
                 <name>orientation</name>
                 <enum>Vertical</enum>
             </property>
-            <property stdset="1">
+            <property>
                 <name>sizeType</name>
                 <enum>Expanding</enum>
             </property>

@@ -566,7 +566,12 @@ GTAGS:
 distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH
 
-DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+#>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+#>+ 4
+KDE_DIST=sim 
+
+DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
+
 
 top_distdir = ..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
@@ -694,12 +699,15 @@ uninstall-info: uninstall-info-recursive
 
 
 install-data-local:
-#>- 	$(mkinstalldirs) $(kde_appsdir)/Applications/
+#>- 	rm -f $(kde_appsdir)/Application/sim.desktop
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(kde_appsdir)/Applications/
-#>- 	$(INSTALL_DATA) $(srcdir)/sim.desktop $(kde_appsdir)/Applications/sim.desktop
+	rm -f $(DESTDIR)$(kde_appsdir)/Application/sim.desktop
+#>- 	$(mkinstalldirs) $(kde_appsdir)/Internet/
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/sim.desktop $(DESTDIR)$(kde_appsdir)/Applications/sim.desktop
+	$(mkinstalldirs) $(DESTDIR)$(kde_appsdir)/Internet/
+#>- 	$(INSTALL_DATA) $(srcdir)/sim.desktop $(kde_appsdir)/Internet/sim.desktop
+#>+ 1
+	$(INSTALL_DATA) $(srcdir)/sim.desktop $(DESTDIR)$(kde_appsdir)/Internet/sim.desktop
 #>- 	$(mkinstalldirs) $(kde_icondir)/locolor/32x32/apps/
 #>+ 1
 	$(mkinstalldirs) $(DESTDIR)$(kde_icondir)/locolor/32x32/apps/
@@ -887,7 +895,7 @@ sim.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/about.cpp $(srcdir)/xosd.cpp $(
 	rm -f sim.all_cpp.final sim.all_cpp.files
 
 #>+ 11
-sim.all_cc.cc: $(srcdir)/Makefile.in sim_meta_unload.cc
+sim.all_cc.cc: $(srcdir)/Makefile.in $(srcdir)/sim_meta_unload.cc
 	@echo 'creating sim.all_cc.cc ...'; \
 	rm -f sim.all_cc.files sim.all_cc.final; \
 	echo "#define KDE_USE_FINAL 1" >> sim.all_cc.final; \

@@ -188,6 +188,7 @@ class UserFloat : public UserView, public ConfigArray
     Q_OBJECT
 public:
     UserFloat();
+    ~UserFloat();
     ConfigULong Uin;
     ConfigShort Left;
     ConfigShort Top;

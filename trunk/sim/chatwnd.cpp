@@ -147,6 +147,7 @@ ChatWindow::ChatWindow(ICQChat *_chat)
 
 ChatWindow::~ChatWindow()
 {
+    transparent = NULL;
     delete chat;
     chat = NULL;
     if (logFile) delete logFile;
@@ -155,7 +156,7 @@ ChatWindow::~ChatWindow()
 
 void ChatWindow::setBackgroundPixmap(const QPixmap &pm)
 {
-    transparent->updateBackground(pm);
+    if (transparent) transparent->updateBackground(pm);
 }
 
 void ChatWindow::sendLine()

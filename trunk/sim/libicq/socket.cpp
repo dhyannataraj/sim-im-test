@@ -500,30 +500,34 @@ static string ip2s(unsigned long ip)
     return string(inet_ntoa(addr));
 }
 
+static int match_ip(unsigned long ip1, unsigned long ip2)
+{
+    unsigned n = 1 << 31;
+    int n_ip_match = 0;
+    for (n_ip_match = 0; n_ip_match < 32; n_ip_match++, n = (n >> 1))
+    	if ((ip1 & n) != (ip2 & n)) break;
+    return n_ip_match;
+}
+
 bool Socket::getLocalAddr(char *&host, unsigned short &port, unsigned long remote_ip)
 {
     struct sockaddr_in addr;
     socklen_t sizeofAddr = sizeof(addr);
     if (getsockname(m_fd, (struct sockaddr *)&addr, &sizeofAddr) < 0)
         return false;
-    host = inet_ntoa(addr.sin_addr);
+    unsigned long res = addr.sin_addr.s_addr;
     port = htons(addr.sin_port);
-    string s_remote_ip = ip2s(remote_ip);
-    if (remote_ip || (addr.sin_addr.s_addr == 0x7F000001) || (addr.sin_addr.s_addr == 0)){
+    int n_match = match_ip(res, remote_ip);
+    if (remote_ip || (res == 0x7F000001) || (res == 0)){
         char hostname[128] ;
         if(gethostname(hostname, sizeof(hostname)) >= 0){
             struct hostent *phe = gethostbyname (hostname);
             if (phe){
-                int n_match = 0;
-                unsigned long res = 0;
                 for (char **p_ip = phe->h_addr_list; *p_ip; p_ip++){
                     unsigned long ip = *((unsigned long*)(*p_ip));
+		    if (ip == 0x7F000001) continue;
                     string s_ip = ip2s(ip);
-                    log(L_DEBUG, "Match: %s %s", s_ip.c_str(), s_remote_ip.c_str());
-                    unsigned n = 1 << 31;
-                    int n_ip_match;
-                    for (n_ip_match = 0; n_ip_match < 32; n_ip_match++, n = (n >> 1))
-                        if ((ip & n) != (remote_ip & n)) break;
+                    int n_ip_match = match_ip(ip, remote_ip);
                     if (n_ip_match >= n_match){
                         n_match = n_ip_match;
                         res = ip;
@@ -535,7 +539,11 @@ bool Socket::getLocalAddr(char *&host, unsigned short &port, unsigned long remot
             }
         }
     }
-    log(L_DEBUG, "Local IP: %s %u (%s)", host, port, s_remote_ip.c_str());
+
+    addr.sin_addr.s_addr = res;
+    host = inet_ntoa(addr.sin_addr);
+
+    log(L_DEBUG, "Local IP: %s %u", host, port);
     return true;
 }
 

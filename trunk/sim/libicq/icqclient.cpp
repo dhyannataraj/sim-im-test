@@ -40,6 +40,11 @@ ICQClient::ICQClient()
         WebAware(this, "WebAware"),
         Authorize(this, "Authorize"),
         HideIp(this, "HideIp"),
+        RejectMessage(this, "RejectMessage"),
+        RejectURL(this, "RejectURL"),
+        RejectWeb(this, "RejectWeb"),
+        RejectEmail(this, "RejectEmail"),
+        RejectOther(this, "RejectOther"),
         ProxyType(this, "ProxyType"),
         ProxyHost(this, "ProxyHost", "proxy"),
         ProxyPort(this, "ProxyPort", 1080),
@@ -333,9 +338,9 @@ void ICQClient::idle()
 unsigned long ICQClient::fullStatus(unsigned long s)
 {
     s &= 0x0000FFFF;
-    if (WebAware)
+    if (WebAware())
         s |= ICQ_STATUS_FxWEBxPRESENCE;
-    if (HideIp)
+    if (HideIp())
         s |= ICQ_STATUS_FxHIDExIP;
     if (m_bBirthday)
         s |= ICQ_STATUS_FxBIRTHDAY;

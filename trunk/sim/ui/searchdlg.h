@@ -29,6 +29,7 @@ class SearchDialog : public SearchDlgBase
     Q_OBJECT
 public:
     SearchDialog(QWidget *p);
+    ~SearchDialog();
 protected slots:
     void processEvent(ICQEvent*);
     void textChanged(const QString&);

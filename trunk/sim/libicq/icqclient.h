@@ -916,6 +916,11 @@ public:
     ConfigBool   WebAware;
     ConfigBool   Authorize;
     ConfigBool   HideIp;
+    ConfigBool	 RejectMessage;
+    ConfigBool	 RejectURL;
+    ConfigBool	 RejectWeb;
+    ConfigBool	 RejectEmail;
+    ConfigBool	 RejectOther;
 
     ConfigShort		ProxyType;
     ConfigString	ProxyHost;

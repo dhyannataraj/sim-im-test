@@ -30,6 +30,7 @@ class SetupDialog : public SetupDialogBase
     Q_OBJECT
 public:
     SetupDialog(QWidget *parent, int nWin);
+    ~SetupDialog();
 signals:
     void applyChanges(ICQUser*);
     void backgroundUpdated();

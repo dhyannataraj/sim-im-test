@@ -397,7 +397,7 @@ void GroupViewItem::paintCell(QPainter *p, const QColorGroup &cg, int, int, int)
 {
     QFont f(listView()->font());
     int size = f.pixelSize();
-    if (size == -1){
+    if (size <= 0){
         size = f.pointSize();
         f.setPointSize(size * 2 / 3);
     }else{
@@ -433,7 +433,7 @@ void DivItem::paintCell(QPainter *p, const QColorGroup &cg, int, int, int)
 {
     QFont f(listView()->font());
     int size = f.pixelSize();
-    if (size == -1){
+    if (size <= 0){
         size = f.pointSize();
         f.setPointSize(size * 2 / 3);
     }else{
@@ -487,7 +487,13 @@ UserView::UserView (QWidget *parent, bool _bList, bool bFill, WFlags f)
     edtGroup = new IntLineEdit(viewport());
     edtGroup->hide();
     QFont font(QListView::font());
-    font.setPixelSize(font.pixelSize() * 2 / 3);
+    int size = font.pixelSize();
+    if (size <= 0){
+        size = font.pointSize();
+        font.setPointSize(size * 2 / 3);
+    }else{
+        font.setPixelSize(size * 2 / 3);
+    }
     font.setBold(true);
     edtGroup->setFont(font);
     connect(edtGroup, SIGNAL(escape()), this, SLOT(editEscape()));
@@ -1228,6 +1234,11 @@ UserFloat::UserFloat()
     viewport()->setMouseTracking(true);
 }
 
+UserFloat::~UserFloat()
+{
+    transparent = NULL;
+}
+
 bool UserFloat::setUin(unsigned long uin)
 {
     ICQUser *u = pClient->getUser(uin);
@@ -1303,7 +1314,7 @@ void UserFloat::contentsMouseMoveEvent(QMouseEvent *e)
 
 void UserFloat::setBackgroundPixmap(const QPixmap &pm)
 {
-    transparent->updateBackground(pm);
+    if (transparent) transparent->updateBackground(pm);
 }
 
 #ifndef _WINDOWS

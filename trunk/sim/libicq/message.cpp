@@ -702,8 +702,37 @@ bool ICQClient::cancelMessage(ICQMessage *m, bool bSendCancel)
 
 void ICQClient::messageReceived(ICQMessage *msg)
 {
-    ICQUser *u = getUser(msg->getUin(), true);
-    if (u->inIgnore()){
+    bool bAddUser;
+    switch (msg->Type()){
+    case ICQ_MSGxMSG:
+        bAddUser = !RejectMessage();
+        break;
+    case ICQ_MSGxURL:
+        bAddUser = !RejectURL();
+        break;
+    case ICQ_MSGxAUTHxREQUEST:
+    case ICQ_MSGxAUTHxREFUSED:
+    case ICQ_MSGxAUTHxGRANTED:
+    case ICQ_MSGxADDEDxTOxLIST:
+    case ICQ_MSGxSMS:
+    case ICQ_MSGxSMSxRECEIPT:
+        bAddUser = true;
+        break;
+    case ICQ_MSGxWEBxPANEL:
+        bAddUser = !RejectWeb();
+        break;
+    case ICQ_MSGxEMAILxPAGER:
+        bAddUser = !RejectEmail();
+        break;
+    default:
+        bAddUser = !RejectOther();
+    }
+    ICQUser *u = getUser(msg->getUin(), bAddUser);
+    if ((u== NULL) || u->inIgnore()){
+        delete msg;
+        return;
+    }
+    if (!bAddUser && (u->GrpId() == 0)){
         delete msg;
         return;
     }

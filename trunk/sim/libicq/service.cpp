@@ -80,7 +80,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
             TlvList tlv(readBuffer);
             Tlv *tlvIP = tlv(0x000A);
             if (tlvIP)
-                RealIP = htonl((unsigned long)(*tlvIP));
+                IP = htonl((unsigned long)(*tlvIP));
             log(L_DEBUG, "Name info");
             bool bSend = true;
             if (needPhonebookUpdate){
@@ -121,7 +121,7 @@ void ICQClient::sendLogonStatus()
     char *host;
     unsigned short port;
     if (getLocalAddr(host, port))
-        IP = inet_addr(host);
+        RealIP = inet_addr(host);
 
     log(L_DEBUG, "Logon status");
     if (inInvisible()) sendVisibleList();
