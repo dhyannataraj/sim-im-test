@@ -121,6 +121,26 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
     case ICQ_SNACxLISTS_RIGHTS:
         log(L_DEBUG, "List rights");
         break;
+    case ICQ_SNACxLISTS_EDIT: {
+        log(L_DEBUG, "Server begins SSI transaction");
+        break
+    }
+    case ICQ_SNACxLISTS_SAVE: {
+        log(L_DEBUG, "Server ends SSI transaction");
+        break
+    }
+    case ICQ_SNACxLISTS_CREATE: {
+        log(L_DEBUG, "Server adds new item - currently not implemented");
+        break
+    }
+    case ICQ_SNACxLISTS_RENAME: {
+        log(L_DEBUG, "Server modifies item - currently not implemented");
+        break
+    }
+    case ICQ_SNACxLISTS_DELETE: {
+        log(L_DEBUG, "Server deletes item - currently not implemented");
+        break
+    }
     case ICQ_SNACxLISTS_ROSTER:{
             char c;
             unsigned short list_len;
@@ -256,7 +276,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                     }
                 case ICQ_GROUPS:{
                         if (str.size() == 0) break;
-						log(L_WARN, "group %s %u", str.c_str(), grp_id);
+                        log(L_DEBUG, "group %s %u", str.c_str(), grp_id);
                         ListRequest *lr = findGroupListRequest(grp_id);
                         if (lr)
                             break;
