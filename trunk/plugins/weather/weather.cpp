@@ -245,7 +245,7 @@ bool WeatherPlugin::parseDateTime(const char *str, QDateTime &dt)
     h = atol(getToken(s, ':').c_str());
     m = atol(getToken(s, ' ').c_str());
 
-    if (getToken(s, ' ') == "PM")
+    if (getToken(s, ' ') == "PM"  && (h < 12))
         h += 12;
     /* 12:20 PM is 00:20 and 12:30 AM is 12:20
        but what date is 12:20 pm 4/7/04? */
