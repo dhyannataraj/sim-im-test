@@ -1,18 +1,18 @@
-# translation of es.po to Español
+# Translation of es.po to Español
 # Translation to Spanish
-# This file is distributed under the same license as the PACKAGE package.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
-# Jorge Lopez <jorge@acm.asoc.fi.upm.es>, 2002, 2003, 2004.
+# This file is distributed under the same license as the SIM package.
 #
-#  $Id: es.po,v 1.129 2004-04-16 04:31:29 jorgelt Exp $
+# $Id: es.po,v 1.130 2004-04-16 04:46:26 jorgelt Exp $
+# Copyright (C) 2004
+# Jorge Lopez Trescastro <jorge@acm.asoc.fi.upm.es>, 2002, 2003, 2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: SIM\n"
 "POT-Creation-Date: 2004-04-16 04:18+0400\n"
-"PO-Revision-Date: 2004-04-16 06:25+0200\n"
+"PO-Revision-Date: 2004-04-16 06:43+0200\n"
 "Last-Translator: Jorge Lopez Trescastro\n"
-"Language-Team:  <es@li.org>\n"
+"Language-Team: sim-es <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4630,14 +4630,12 @@ msgid "Warning"
 msgstr "Aviso"
 
 #: plugins/logger/logconfig.cpp:94
-#, fuzzy
 msgid "Debug"
-msgstr "&Depurar"
+msgstr "Depurar"
 
 #: plugins/logger/logconfig.cpp:95
-#, fuzzy
 msgid "Packets"
-msgstr "Lugar:"
+msgstr "Paquetes"
 
 #: plugins/logger/logconfig.cpp:96 plugins/sound/soundconfig.cpp:68
 msgid "Events"
@@ -4648,33 +4646,28 @@ msgid "Zodiak"
 msgstr ""
 
 #: plugins/zodiak/zodiak.cpp:51
-#, fuzzy
 msgid "Plugin provides show zodiak puctures for date edit"
-msgstr "Este plugin habilita imagenes de fondo en la lista de usuarios"
+msgstr ""
 
 #: plugins/zodiak/zodiak.cpp:159
 msgid "View horoscope"
 msgstr ""
 
 #: plugins/zodiak/zodiak.cpp:180
-#, fuzzy
 msgid "Aries"
-msgstr "Atributos"
+msgstr ""
 
 #: plugins/zodiak/zodiak.cpp:181
-#, fuzzy
 msgid "Taurus"
-msgstr "Turko"
+msgstr ""
 
 #: plugins/zodiak/zodiak.cpp:182
-#, fuzzy
 msgid "Gemini"
-msgstr "Alemán"
+msgstr ""
 
 #: plugins/zodiak/zodiak.cpp:183
-#, fuzzy
 msgid "Cancer"
-msgstr "Cancelar"
+msgstr ""
 
 #: plugins/zodiak/zodiak.cpp:184
 msgid "Leo"
@@ -4705,9 +4698,8 @@ msgid "Aquarius"
 msgstr ""
 
 #: plugins/zodiak/zodiak.cpp:191
-#, fuzzy
 msgid "Pisces"
-msgstr "Fotografía"
+msgstr ""
 
 #: plugins/zodiak/zodiak.cpp:233
 #, c-format
@@ -4867,14 +4859,12 @@ msgid "Bad login procedure"
 msgstr ""
 
 #: plugins/icq/icqlogin.cpp:234
-#, fuzzy
 msgid "Service temporarly unavailable"
-msgstr "El usuario no está disponible"
+msgstr "Servicio temporalmente no disponible"
 
 #: plugins/icq/icqlogin.cpp:238
-#, fuzzy
 msgid "Invalid SecureID"
-msgstr "Mensaje invalido"
+msgstr ""
 
 #: plugins/icq/icqlogin.cpp:242
 msgid "Too young!"
@@ -4889,9 +4879,8 @@ msgid "Can't login to ICQ network - Please try again later"
 msgstr ""
 
 #: plugins/icq/icqlogin.cpp:271
-#, fuzzy
 msgid "Your UIN is being used from another location"
-msgstr "Tu UIN esta usandose desde otro lugar"
+msgstr ""
 
 #: plugins/icq/icqlogin.cpp:291
 msgid "Close packet from server"
@@ -5004,9 +4993,8 @@ msgid "AIM s&creenname"
 msgstr ""
 
 #: plugins/icq/icqsearch.cpp:42 plugins/icq/icqsearch.cpp:56
-#, fuzzy
 msgid "&UIN"
-msgstr "UIN"
+msgstr "&UIN"
 
 #: plugins/icq/icqsecure.cpp:46
 msgid "Input current password"
@@ -5034,9 +5022,8 @@ msgid "You've been warned by %1"
 msgstr "Has sido avisado por %1"
 
 #: plugins/icq/icqvarious.cpp:1412
-#, fuzzy
 msgid "Change password fail"
-msgstr "Cambiar perfil"
+msgstr ""
 
 #: plugins/icq/icqvarious.cpp:1445
 msgid ""
@@ -5060,19 +5047,17 @@ msgstr "Falló el envio del sms"
 
 #: plugins/icq/icqvarious.cpp:1564
 msgid "Jan"
-msgstr ""
+msgstr "Enero"
 
 #: plugins/icq/icqvarious.cpp:1565
 msgid "Feb"
-msgstr ""
+msgstr "Febrero"
 
 #: plugins/icq/icqvarious.cpp:1566
-#, fuzzy
 msgid "Mar"
 msgstr "Marzo"
 
 #: plugins/icq/icqvarious.cpp:1567
-#, fuzzy
 msgid "Apr"
 msgstr "Abril"
 
@@ -5092,22 +5077,20 @@ msgid "Aug"
 msgstr "Agosto"
 
 #: plugins/icq/icqvarious.cpp:1572
-#, fuzzy
 msgid "Sep"
-msgstr "Configurar"
+msgstr "Septiembre"
 
 #: plugins/icq/icqvarious.cpp:1573
 msgid "Oct"
-msgstr ""
+msgstr "Octubre"
 
 #: plugins/icq/icqvarious.cpp:1574
-#, fuzzy
 msgid "Nov"
-msgstr "&No"
+msgstr "Noviembre"
 
 #: plugins/icq/icqvarious.cpp:1575
 msgid "Dec"
-msgstr ""
+msgstr "Diciembre"
 
 #: plugins/icq/icqicmb.cpp:825 plugins/icq/icqicmb.cpp:839
 #: plugins/icq/icqicmb.cpp:847 plugins/icq/icqvarious.cpp:1649
@@ -5762,22 +5745,20 @@ msgid "We are to evil :("
 msgstr "Somos muy malvados :("
 
 #: plugins/icq/icqicmb.cpp:685 plugins/jabber/jabber_rosters.cpp:2135
-#, fuzzy
 msgid "File transfer declined"
-msgstr "Transferencia de fichero realizada:"
+msgstr "Transferencia de archivo rechazada"
 
 #: plugins/icq/icqicmb.cpp:985
-#, fuzzy
 msgid "Directory"
-msgstr "Directorios"
+msgstr "Directorio"
 
 #: plugins/icq/icqicmb.cpp:989 plugins/icq/icqicmb.cpp:995
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: %n file\n"
 "%n files"
 msgstr ""
-"Archivo\n"
+"%n archivo\n"
 "%n archivos"
 
 #: plugins/icq/icqicmb.cpp:1493
@@ -5789,14 +5770,12 @@ msgid "No contact"
 msgstr ""
 
 #: plugins/icq/icqsearchbase.cc:153
-#, fuzzy
 msgid "Advanced"
-msgstr "&Cancelar"
+msgstr "Avanzado"
 
 #: plugins/icq/advsearchbase.cc:262 plugins/jabber/jabber.cpp:313
-#, fuzzy
 msgid "Info"
-msgstr "&Información"
+msgstr "Información"
 
 #: plugins/icq/advsearchbase.cc:267 plugins/icq/moreinfobase.cc:153
 #: plugins/yahoo/yahoosearchbase.cpp:126
@@ -5809,9 +5788,8 @@ msgid "Gender:"
 msgstr "Sexo:"
 
 #: plugins/icq/advsearchbase.cc:269
-#, fuzzy
 msgid "Work"
-msgstr "Fax trabajo"
+msgstr "Trabajo"
 
 #: plugins/icq/advsearchbase.cc:270 plugins/icq/workinfobase.cc:188
 msgid "Occupation:"
@@ -5840,17 +5818,14 @@ msgid "Interests"
 msgstr "Intereses"
 
 #: plugins/icq/advsearchbase.cc:276
-#, fuzzy
 msgid "Past"
-msgstr "Pegar"
+msgstr ""
 
 #: plugins/icq/advsearchbase.cc:278
-#, fuzzy
 msgid "Affilations"
-msgstr "A&filiaciones"
+msgstr ""
 
 #: plugins/icq/advsearchbase.cc:279
-#, fuzzy
 msgid "Homepage"
 msgstr "Pagina web:"
 
@@ -5859,9 +5834,8 @@ msgid "Keywords"
 msgstr ""
 
 #: plugins/icq/aimconfig.cpp:43
-#, fuzzy
 msgid "Register new ScreenName"
-msgstr "&Registrar nuevo UIN"
+msgstr ""
 
 #: plugins/icq/workinfobase.cc:186
 msgid "Web site:"
@@ -6017,9 +5991,8 @@ msgid "Names"
 msgstr "Nombres"
 
 #: plugins/icq/aimsearchbase.cc:168 plugins/weather/wifacecfg.cpp:51
-#, fuzzy
 msgid "Location"
-msgstr "&Localización"
+msgstr ""
 
 #: plugins/icq/pastinfobase.cc:139
 msgid "Organization, Affiliation, Group:"
@@ -6099,9 +6072,8 @@ msgid "&Automaticaly use HTTP pooling if proxy required"
 msgstr ""
 
 #: plugins/icq/aimconfigbase.cc:152 plugins/icq/icqconfigbase.cc:241
-#, fuzzy
 msgid "&Keep-alive connection"
-msgstr "&Nueva conexión"
+msgstr ""
 
 #: plugins/icq/icqconfigbase.cc:243
 msgid "Send format:"
@@ -6124,23 +6096,20 @@ msgid "Automatically &update user info"
 msgstr "Automaticamente act&ualizar información del usuario"
 
 #: plugins/icq/icqconfigbase.cc:248
-#, fuzzy
 msgid "Automaticaly &request autoreply on change status"
-msgstr "Automaticamente pedir auto&respuesta en cambio de estado"
+msgstr ""
 
 #: plugins/icq/icqconfigbase.cc:249
-#, fuzzy
 msgid "Send message:"
-msgstr "Enviar &mensaje"
+msgstr ""
 
 #: plugins/icq/icqconfigbase.cc:251
 msgid "No wait ack"
 msgstr ""
 
 #: plugins/icq/icqconfigbase.cc:252
-#, fuzzy
 msgid "Wait ack from server"
-msgstr "Paquete cerrado del servidor"
+msgstr ""
 
 #: plugins/icq/icqconfigbase.cc:253
 msgid "Wait ack from client"
@@ -6432,18 +6401,16 @@ msgid "&OSD"
 msgstr "&OSD"
 
 #: plugins/osd/osd.cpp:413
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is online"
-msgstr "%1 esta conectado"
+msgstr ""
 
 #: plugins/osd/osd.cpp:414
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is online"
-msgstr "%1 esta conectado"
+msgstr ""
 
 #: plugins/osd/osd.cpp:415
 msgid ""
@@ -6470,19 +6437,16 @@ msgid "Enable &typing notification"
 msgstr ""
 
 #: plugins/osd/osdconfigbase.cpp:84
-#, fuzzy
 msgid "Show message content"
-msgstr "Tipo de mensaje desconocido"
+msgstr ""
 
 #: plugins/osd/osdconfigbase.cpp:85
-#, fuzzy
 msgid "All"
-msgstr "Alt"
+msgstr ""
 
 #: plugins/osd/osdconfigbase.cpp:86
-#, fuzzy
 msgid "Show lines of content:"
-msgstr "Tipo de mensaje desconocido"
+msgstr ""
 
 #: plugins/osd/osdifacebase.cpp:129
 msgid "Offset:"
@@ -6574,9 +6538,8 @@ msgid "Remote control"
 msgstr ""
 
 #: plugins/remote/remote.cpp:43
-#, fuzzy
 msgid "Plugin provides remote control"
-msgstr "Este plugin habilita un icono en la bandeja de sistema"
+msgstr ""
 
 #: plugins/remote/remotecfgbase.cpp:105
 msgid "Use &UNIX socket"
@@ -6759,28 +6722,24 @@ msgid ""
 msgstr ""
 
 #: plugins/sms/sms.cpp:108
-#, fuzzy
 msgid "Phone call"
-msgstr "Telefono"
+msgstr ""
 
 #: plugins/sms/sms.cpp:552
-#, fuzzy
 msgid "Port error"
-msgstr "Error del proxy"
+msgstr ""
 
 #: plugins/sms/smssetup.cpp:56
-#, fuzzy
 msgid "Charging:"
-msgstr "Llorando"
+msgstr ""
 
 #: plugins/sms/smssetup.cpp:58
 msgid "Battery:"
 msgstr ""
 
 #: plugins/sms/smssetupbase.cpp:139
-#, fuzzy
 msgid "SMSSetup"
-msgstr "Configurar"
+msgstr ""
 
 #: plugins/sms/smssetupbase.cpp:141
 msgid "Baudrate:"
@@ -6835,14 +6794,12 @@ msgid "Signal quality:"
 msgstr ""
 
 #: plugins/sms/smssetupbase.cpp:157
-#, fuzzy
 msgid "Operator:"
-msgstr "Separador"
+msgstr ""
 
 #: plugins/sms/smssetupbase.cpp:158
-#, fuzzy
 msgid "&Phone"
-msgstr "&Telefonos:"
+msgstr "&Telefono:"
 
 #: plugins/jabber/jabber_rosters.cpp:2002
 msgid "Password does not match"
@@ -6857,9 +6814,8 @@ msgid "Please translate this to short language name (ru, de)"
 msgstr ""
 
 #: plugins/jabber/jabberadd.cpp:39
-#, fuzzy
 msgid "&JID"
-msgstr "JID"
+msgstr "&JID"
 
 #: plugins/jabber/jabberconfig.cpp:53
 msgid "jabber.org"
@@ -6874,9 +6830,8 @@ msgid "<p>Subject: %1</p>"
 msgstr "<p>Asunto: %1</p>"
 
 #: plugins/jabber/jabbermessage.cpp:121
-#, fuzzy
 msgid "Original message:"
-msgstr "Mensaje invalido"
+msgstr "Mensaje original:"
 
 #: plugins/jabber/jabbermessage.cpp:133
 #, c-format
