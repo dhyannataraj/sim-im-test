@@ -1,15 +1,10 @@
 %undefine __libtoolize
 %define	gccver %(gcc -dumpversion |cut -d. -f-2)
 %define qtdir /usr/lib/qt3
-%define distcc 0
-
-%if %distcc
-%define distcchosts "svr localhost"
-%endif
 
 Name: sim
-Version: 0.8.2
-Release: alt1
+Version: 0.9.0
+Release: alt0.7
 Serial:	1
 
 Group: Networking/Instant messaging
@@ -19,113 +14,82 @@ Packager: Albert R. Valiev <darkstar@altlinux.ru>
 
 Url: http://sim-icq.sourceforge.net/
 
-Source: sim-%version.tar.bz2
 Source1: sim-kde.menu
-Source2: sim-qt.menu
 
-Patch1:  sim-makefile.patch
+%define simsrc %_usrsrc/sim-source-%version/sim-source-%version.tar.bz2
 
-# Automatically added by buildreq on їдв сав 15 2003
-#BuildRequires: 
-
-BuildRequires: libqt3-devel libssl-devel libstdc++-devel pkgconfig zlib-devel
-BuildRequires: libjpeg-devel liblcms libmng libpango-devel libpng-devel kdelibs-devel 
-BuildRequires: libGLU libXft libart_lgpl-devel libatk-devel libexpat libgtk+2-devel
-BuildRequires: XFree86-devel XFree86-libs flex fontconfig freetype2 gcc-c++ glib2-devel 
-
-%if %distcc
-BuildRequires: distcc
-%endif
+Patch1: sim-translation.patch
+Patch2: sim-makefile-fix-alt.patch
 
 Requires: %name-data kdebase kdelibs-gcc_compiled = %gccver
-#
-%description
-A simple ICQ client with v8 protocol support (2001) for X win system (requires QT,
-can be build for KDE). It also runs under MS Windows.
+Conflicts: sim-qt
 
-%package qt
-Group: Networking/Instant messaging
-Summary: SIM - Simple Instant Messenger (ICQ)
-Requires: %name-data libqt3-gcc_compiled = %gccver
-#
-%description qt
-A simple ICQ client with v8 protocol support (2001) for X win system (requires QT,
+%add_findprov_lib_path %_datadir/apps/%name/plugins
+
+BuildRequires: XFree86-devel XFree86-libs flex fontconfig freetype2 gcc-c++
+BuildRequires: kdelibs-devel libGLU libGLwrapper libart_lgpl-devel 
+BuildRequires: libaudio libexpat-devel libjpeg-devel liblcms libmng libpng-devel 
+BuildRequires: libqt3-devel libssl-devel libstdc++-devel pkgconfig zlib-devel
+BuildRequires: sim-source = %version
+
+%description
+A simple ICQ client for X win system (requires QT,
 can be build for KDE). It also runs under MS Windows.
+Supported protocols: ICQ v8 (2001), Jabber, MSN, AIM.
+
+%package -n lib%name
+Group: Networking/Instant messaging
+Summary: SIM - libraries
+Conflicts: libsim-qt
+
+%description -n lib%name
+This package contains libraries for Sim ICQ client
 
 %package data
 Group: Networking/Instant messaging
 Summary: SIM - data files
-#
+Conflicts: sim-qt-data
+
 %description data
 This package contains data, sounds, pictures,
 lanuage translations for Sim ICQ client
 
-
 %prep
-%setup -q
+%__rm -rf sim-source-%version
+
+echo "Extracting SIM source tarball..."
+
+%__tar -jxvf %simsrc 2>&1>>/dev/null
+
+%setup -D -T -n sim-source-%version
 
 %patch1 -p1
+%patch2 -p1
 
 export PATH=./:$PATH
 
-[ -f Makefile.dist ] && make -f Makefile.dist
+[ -f admin/Makefile.common ] && make -f admin/Makefile.common
 
 %build
-%if %distcc
-export CXX=distc++
-export DISTCC_HOSTS=%distcchosts
-%else
 export CXX=g++
-%endif
 export KDEDIR=%prefix
 export QTDIR=%qtdir
 
-#CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" ./configure $LOCALFLAGS
 %configure \
     --enable-shared \
     --disable-static \
     --disable-rpath \
     --program-transform-name="" \
-    --disable-kde \
-    --with-xinerama
-%if %distcc
-%make_build CXX=$CXX -j 3
-%else
-%make_build CXX=$CXX
-%endif
-mv sim/sim sim/sim-qt
-
-
-%make clean
-%configure \
-    --enable-shared \
-    --disable-static \
-    --disable-rpath \
-    --program-transform-name="" \
+    --with-qt-dir=%qtdir \
     --with-xinerama
 
-%if %distcc
-%make_build CXX=$CXX -j 3
-%else
 %make_build CXX=$CXX
-%endif
 
 %install
 %make DESTDIR=$RPM_BUILD_ROOT install
-install -m 0755 sim/sim-qt %buildroot/%_bindir
-pushd %buildroot/%_datadir/applnk/Internet
-    cp %name.desktop %name-qt.desktop
-    subst "s|^Name\[.*=Sim.*$||" %{name}.desktop
-    subst "s|^Name\[.*=Sim.*$||" %{name}-qt.desktop
-    #
-    subst "s|^Name=Sim|Name=Sim (for KDE)|" %{name}.desktop
-    subst "s|^Exec=sim|Exec=sim-qt|" %{name}-qt.desktop
-popd
 
-# Create LMDK menus
 install -d %buildroot/%_menudir
 %__install %SOURCE1 %buildroot/%_menudir/%name
-%__install %SOURCE2 %buildroot/%_menudir/%{name}-qt
 
 %find_lang %name
 
@@ -134,26 +98,47 @@ install -d %buildroot/%_menudir
 %postun
 %clean_menus
 
-%post qt
-%update_menus
-%postun qt
-%clean_menus
-
-
 %files
 %_bindir/%name
 %attr(644,root,root) %_menudir/%name
 %_datadir/applnk/Internet/%name.desktop
 
-%files qt
-%_bindir/%name-qt
-%attr(644,root,root) %_menudir/%name-qt
+%files -n lib%name
+%_libdir/*.so*
+%_libdir/*.la
 
 %files data -f %name.lang
 %_datadir/apps/%name
 %_iconsdir/*/*/*/*.png
 
 %changelog
+* Fri Sep 19 2003 Albert R. Valiev <darkstar@altlinux.ru> 1:0.9.0-alt0.7
+- Fixed depends
+
+* Thu Sep 18 2003 Albert R. Valiev <darkstar@altlinux.ru> 1:0.9.0-alt0.6
+- Fixed buildrequires
+- Enabled Jabber protocol build
+
+* Thu Sep 18 2003 Albert R. Valiev <darkstar@altlinux.ru> 1:0.9.0-alt0.5
+- Build from CVS 20030918
+- translation fixes
+- Makefile fixes
+
+* Sun Sep 14 2003 Albert R. Valiev <darkstar@altlinux.ru> 1:0.9.0-alt0.4
+- Build from CVS 20030914
+
+* Tue Sep 09 2003 Albert R. Valiev <darkstar@altlinux.ru> 1:0.9.0-alt0.3
+- Build from CVS 20030909
+
+* Wed Sep 03 2003 Albert R. Valiev <darkstar@altlinux.ru> 1:0.9.0-alt0.2
+- Build from CVS 20030903
+
+* Fri Aug 29 2003 Albert R. Valiev <darkstar@altlinux.ru> 1:0.9.0-alt0.1
+- Build from CVS 20030828
+
+* Tue Aug 12 2003 Albert R. Valiev <darkstar@altlinux.ru> 1:0.8.3-alt1
+- 0.8.3 Release build
+
 * Sat Jun 14 2003 Albert R. Valiev <darkstar@altlinux.ru> 1:0.8.2-alt1
 - Release build
 
