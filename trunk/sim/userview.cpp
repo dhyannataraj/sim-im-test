@@ -506,7 +506,7 @@ UserView::UserView (QWidget *parent, bool _bList, bool bFill, WFlags f)
     QObject * obj;
     while ( (obj=it.current()) != 0 ){
         ++it;
-        installEventFilter(obj);
+        obj->installEventFilter(this);
     }
     delete l;
 }
