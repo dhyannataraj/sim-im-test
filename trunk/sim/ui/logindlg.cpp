@@ -38,7 +38,7 @@
 #include <qdir.h>
 
 LoginDialog::LoginDialog()
-        : LoginDlgBase(NULL, "logindlg")
+        : LoginDlgBase(NULL, "logindlg", false, WDestructiveClose)
 {
     SET_WNDPROC("login")
     setCaption(caption());
@@ -204,7 +204,7 @@ void LoginDialog::processEvent(ICQEvent *e)
 {
     switch (e->type()){
     case EVENT_STATUS_CHANGED:
-        if (pClient->isLogged()){
+        if (pClient->isLogged() && bLogin){
             bLogin = false;
             pClient->DecryptedPassword = "";
             pSplash->setLastUIN(pClient->owner->Uin);

@@ -1,0 +1,5338 @@
+# translation of sk.po to Slovak
+# Copyright (C) 2002,2003 Free Software Foundation, Inc.
+# Tomas Olah <tomas.olah@alert.sk>, 2003
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: sk\n"
+"POT-Creation-Date: 2003-02-05 13:49+0300\n"
+"PO-Revision-Date: 2003-03-06 19:24--100\n"
+"Last-Translator: Tom�Ol� <tomas.olah@alert.sk>\n"
+"Language-Team: Slovak <sk@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: client.cpp:66
+#: client.cpp:67
+#: libicq/country.cpp:7
+msgid "Arabic"
+msgstr "Arabsky"
+
+#: libicq/country.cpp:8
+msgid "Bhojpuri"
+msgstr "Bhojpuri"
+
+#: libicq/country.cpp:9
+#: ui/themesetup.cpp:55
+msgid "Bulgarian"
+msgstr "Bulharsky"
+
+#: libicq/country.cpp:10
+msgid "Burmese"
+msgstr "Barmsky"
+
+#: libicq/country.cpp:11
+msgid "Cantonese"
+msgstr "Kantonsky"
+
+#: libicq/country.cpp:12
+msgid "Catalan"
+msgstr "Katalánsky"
+
+#: libicq/country.cpp:13
+#: ui/themesetup.cpp:67
+msgid "Chinese"
+msgstr "Čínsky"
+
+#: libicq/country.cpp:14
+msgid "Croatian"
+msgstr "Chorvatsky"
+
+#: libicq/country.cpp:15
+#: ui/themesetup.cpp:56
+msgid "Czech"
+msgstr "Česky"
+
+#: libicq/country.cpp:16
+msgid "Danish"
+msgstr "Dánsky"
+
+#: libicq/country.cpp:17
+#: ui/themesetup.cpp:62
+msgid "Dutch"
+msgstr "Holandsky"
+
+#: libicq/country.cpp:18
+#: ui/themesetup.cpp:54
+msgid "English"
+msgstr "Anglicky"
+
+#: client.cpp:83
+#: libicq/country.cpp:19
+msgid "Esperanto"
+msgstr "Esperanto"
+
+#: libicq/country.cpp:20
+msgid "Estonian"
+msgstr "Estónsky"
+
+#: libicq/country.cpp:21
+msgid "Farsi"
+msgstr "Farsi"
+
+#: libicq/country.cpp:22
+msgid "Finnish"
+msgstr "Fínsky"
+
+#: libicq/country.cpp:23
+#: ui/themesetup.cpp:59
+msgid "French"
+msgstr "Francúzsky"
+
+#: libicq/country.cpp:24
+msgid "Gaelic"
+msgstr "Gaelic"
+
+#: libicq/country.cpp:25
+#: ui/themesetup.cpp:57
+msgid "German"
+msgstr "Nemecky"
+
+#: client.cpp:85
+#: client.cpp:86
+#: libicq/country.cpp:26
+msgid "Greek"
+msgstr "Grécky"
+
+#: client.cpp:88
+#: client.cpp:89
+#: libicq/country.cpp:27
+#: ui/themesetup.cpp:60
+msgid "Hebrew"
+msgstr "Hebrejsky"
+
+#: libicq/country.cpp:28
+msgid "Hindi"
+msgstr "Hindsky"
+
+#: libicq/country.cpp:29
+msgid "Hungarian"
+msgstr "Maďarsky"
+
+#: libicq/country.cpp:30
+msgid "Icelandic"
+msgstr "Islandsky"
+
+#: libicq/country.cpp:31
+msgid "Indonesian"
+msgstr "Indonézsky"
+
+#: libicq/country.cpp:32
+#: ui/themesetup.cpp:61
+msgid "Italian"
+msgstr "Taliansky"
+
+#: client.cpp:91
+#: client.cpp:92
+#: client.cpp:93
+#: libicq/country.cpp:33
+msgid "Japanese"
+msgstr "Japonsky"
+
+#: libicq/country.cpp:34
+msgid "Khmer"
+msgstr "Kmérsky"
+
+#: client.cpp:95
+#: libicq/country.cpp:35
+msgid "Korean"
+msgstr "Korejsky"
+
+#: libicq/country.cpp:36
+msgid "Lao"
+msgstr "Lao"
+
+#: libicq/country.cpp:37
+msgid "Latvian"
+msgstr "Lotyšsky"
+
+#: libicq/country.cpp:38
+msgid "Lithuanian"
+msgstr "Litovsky"
+
+#: libicq/country.cpp:39
+msgid "Malay"
+msgstr "Malaysky"
+
+#: libicq/country.cpp:40
+msgid "Norwegian"
+msgstr "Nórsky"
+
+#: libicq/country.cpp:41
+#: ui/themesetup.cpp:63
+msgid "Polish"
+msgstr "Poľsky"
+
+#: libicq/country.cpp:42
+msgid "Portuguese"
+msgstr "Portugalsky"
+
+#: libicq/country.cpp:43
+msgid "Romanian"
+msgstr "Rumunsky"
+
+#: libicq/country.cpp:44
+#: ui/themesetup.cpp:64
+msgid "Russian"
+msgstr "Rusky"
+
+#: libicq/country.cpp:45
+msgid "Serbian"
+msgstr "Srbsky"
+
+#: libicq/country.cpp:46
+msgid "Slovak"
+msgstr "Slovensky"
+
+#: libicq/country.cpp:47
+msgid "Slovenian"
+msgstr "Slovinsky"
+
+#: libicq/country.cpp:48
+msgid "Somali"
+msgstr "Somálsky"
+
+#: libicq/country.cpp:49
+#: ui/themesetup.cpp:58
+msgid "Spanish"
+msgstr "Španielsky"
+
+#: libicq/country.cpp:50
+msgid "Swahili"
+msgstr "Swahilsky"
+
+#: libicq/country.cpp:51
+msgid "Swedish"
+msgstr "Švédsky"
+
+#: libicq/country.cpp:52
+msgid "Tagalog"
+msgstr "Tagalog"
+
+#: libicq/country.cpp:53
+msgid "Tatar"
+msgstr "Tatarsky"
+
+#: client.cpp:103
+#: libicq/country.cpp:54
+msgid "Thai"
+msgstr "Thaisky"
+
+#: client.cpp:105
+#: client.cpp:106
+#: libicq/country.cpp:55
+#: ui/themesetup.cpp:65
+msgid "Turkish"
+msgstr "Turecky"
+
+#: client.cpp:108
+#: libicq/country.cpp:56
+#: ui/themesetup.cpp:66
+msgid "Ukrainian"
+msgstr "Ukrajinsky"
+
+#: libicq/country.cpp:57
+msgid "Urdu"
+msgstr "Urdu"
+
+#: libicq/country.cpp:58
+msgid "Vietnamese"
+msgstr "Vietnamsky"
+
+#: libicq/country.cpp:59
+msgid "Yiddish"
+msgstr "Yiddish"
+
+#: libicq/country.cpp:60
+msgid "Yoruba"
+msgstr "Yoruba"
+
+#: libicq/country.cpp:61
+msgid "Taiwanese"
+msgstr "Taiwansky"
+
+#: libicq/country.cpp:62
+msgid "Afrikaans"
+msgstr "Afrikánsky"
+
+#: libicq/country.cpp:63
+msgid "Persian"
+msgstr "Perština"
+
+#: libicq/country.cpp:64
+msgid "Albanian"
+msgstr "Albánsky"
+
+#: libicq/country.cpp:65
+msgid "Armenian"
+msgstr "Americká angličtina"
+
+#: libicq/country.cpp:71
+msgid "Afghanistan"
+msgstr "Afghanistán"
+
+#: libicq/country.cpp:72
+msgid "Albania"
+msgstr "Albánsko"
+
+#: libicq/country.cpp:73
+msgid "Algeria"
+msgstr "Alžírsko"
+
+#: libicq/country.cpp:74
+msgid "American Samoa"
+msgstr "American Samoa"
+
+#: libicq/country.cpp:75
+msgid "Andorra"
+msgstr "Andora"
+
+#: libicq/country.cpp:76
+msgid "Angola"
+msgstr "Angola"
+
+#: libicq/country.cpp:77
+msgid "Anguilla"
+msgstr "Anguilla"
+
+#: libicq/country.cpp:78
+msgid "Antigua"
+msgstr "Antigua"
+
+#: libicq/country.cpp:79
+msgid "Argentina"
+msgstr "Argentína"
+
+#: libicq/country.cpp:80
+msgid "Armenia"
+msgstr "Arménie"
+
+#: libicq/country.cpp:81
+msgid "Aruba"
+msgstr "Aruba"
+
+#: libicq/country.cpp:82
+msgid "Ascension Island"
+msgstr "Ostrov Nanebevstoupení"
+
+#: libicq/country.cpp:83
+msgid "Australia"
+msgstr "Austrália"
+
+#: libicq/country.cpp:84
+msgid "Australian Antarctic Territory"
+msgstr "Australsko Antarktické Teritorium"
+
+#: libicq/country.cpp:85
+msgid "Austria"
+msgstr "Rakúsko"
+
+#: libicq/country.cpp:86
+msgid "Azerbaijan"
+msgstr "Ázerbájdžán"
+
+#: libicq/country.cpp:87
+msgid "Bahamas"
+msgstr "Bahamy"
+
+#: libicq/country.cpp:88
+msgid "Bahrain"
+msgstr "Bahrain"
+
+#: libicq/country.cpp:89
+msgid "Bangladesh"
+msgstr "Bangladéš"
+
+#: libicq/country.cpp:90
+msgid "Barbados"
+msgstr "Barbados"
+
+#: libicq/country.cpp:91
+msgid "Barbuda"
+msgstr "Barbuda"
+
+#: libicq/country.cpp:92
+msgid "Belarus"
+msgstr "Bielorusko"
+
+#: libicq/country.cpp:93
+msgid "Belgium"
+msgstr "Belgicko"
+
+#: libicq/country.cpp:94
+msgid "Belize"
+msgstr "Belize"
+
+#: libicq/country.cpp:95
+msgid "Benin"
+msgstr "Benin"
+
+#: libicq/country.cpp:96
+msgid "Bermuda"
+msgstr "Bermuda"
+
+#: libicq/country.cpp:97
+msgid "Bhutan"
+msgstr "Bhutan"
+
+#: libicq/country.cpp:98
+msgid "Bolivia"
+msgstr "Bolívia"
+
+#: libicq/country.cpp:99
+msgid "Bosnia and Herzegovina"
+msgstr "Bosna a Hercegovina"
+
+#: libicq/country.cpp:100
+msgid "Botswana"
+msgstr "Botswana"
+
+#: libicq/country.cpp:101
+msgid "Brazil"
+msgstr "Brazília"
+
+#: libicq/country.cpp:102
+msgid "British Virgin Islands"
+msgstr "Britské panenské ostrovy"
+
+#: libicq/country.cpp:103
+msgid "Brunei"
+msgstr "Brunei"
+
+#: libicq/country.cpp:104
+msgid "Bulgaria"
+msgstr "Bulharsko"
+
+#: libicq/country.cpp:105
+msgid "Burkina Faso"
+msgstr "Burkina Faso"
+
+#: libicq/country.cpp:106
+msgid "Burundi"
+msgstr "Burundi"
+
+#: libicq/country.cpp:107
+msgid "Cambodia"
+msgstr "Kambodža"
+
+#: libicq/country.cpp:108
+msgid "Cameroon"
+msgstr "Kamerun"
+
+#: libicq/country.cpp:109
+msgid "Canada"
+msgstr "Kanada"
+
+#: libicq/country.cpp:110
+msgid "Cape Verde Islands"
+msgstr "Kapské kráľovské ostrovy"
+
+#: libicq/country.cpp:111
+msgid "Cayman Islands"
+msgstr "Kajmanské ostrovy"
+
+#: libicq/country.cpp:112
+msgid "Central African Republic"
+msgstr "Stredoafrická republika"
+
+#: libicq/country.cpp:113
+msgid "Chad"
+msgstr "Čad"
+
+#: libicq/country.cpp:114
+msgid "Chile"
+msgstr "Chile"
+
+#: libicq/country.cpp:115
+msgid "China"
+msgstr "Čína"
+
+#: libicq/country.cpp:116
+msgid "Christmas Island"
+msgstr "Vianočný ostrov"
+
+#: libicq/country.cpp:117
+msgid "Cocos-Keeling Islands"
+msgstr "Kokosové ostrovy"
+
+#: libicq/country.cpp:118
+msgid "Colombia"
+msgstr "Kolumbia"
+
+#: libicq/country.cpp:119
+msgid "Comoros"
+msgstr "Komoren"
+
+#: libicq/country.cpp:120
+msgid "Congo"
+msgstr "Kongo"
+
+#: libicq/country.cpp:121
+msgid "Cook Islands"
+msgstr "Cookovy ostrovy"
+
+#: libicq/country.cpp:122
+msgid "Costa Rica"
+msgstr "Kostarika"
+
+#: libicq/country.cpp:123
+msgid "Croatia"
+msgstr "Chorvátsko"
+
+#: libicq/country.cpp:124
+msgid "Cuba"
+msgstr "Kuba"
+
+#: libicq/country.cpp:125
+msgid "Cyprus"
+msgstr "Cyprus"
+
+#: libicq/country.cpp:126
+msgid "Czech Republic"
+msgstr "Česká republika"
+
+#: libicq/country.cpp:127
+msgid "Denmark"
+msgstr "Dánsko"
+
+#: libicq/country.cpp:128
+msgid "Diego Garcia"
+msgstr "Diego Garcia"
+
+#: libicq/country.cpp:129
+msgid "Djibouti"
+msgstr "Dschibuti"
+
+#: libicq/country.cpp:130
+msgid "Dominica"
+msgstr "Dominica"
+
+#: libicq/country.cpp:131
+msgid "Dominican Republic"
+msgstr "Dominikánská republika"
+
+#: libicq/country.cpp:132
+msgid "Ecuador"
+msgstr "Equador"
+
+#: libicq/country.cpp:133
+msgid "Egypt"
+msgstr "Egypt"
+
+#: libicq/country.cpp:134
+msgid "El Salvador"
+msgstr "El Salvador"
+
+#: libicq/country.cpp:135
+msgid "Equatorial Guinea"
+msgstr "Rovníková Guinea"
+
+#: libicq/country.cpp:136
+msgid "Eritrea"
+msgstr "Eritrea"
+
+#: libicq/country.cpp:137
+msgid "Estonia"
+msgstr "Estónsko"
+
+#: libicq/country.cpp:138
+msgid "Ethiopia"
+msgstr "Etiopia"
+
+#: libicq/country.cpp:139
+msgid "Faeroe Islands"
+msgstr "Faerské ostrovy"
+
+#: libicq/country.cpp:140
+msgid "Falkland Islands"
+msgstr "Falklandské ostrovy"
+
+#: libicq/country.cpp:141
+msgid "Fiji Islands"
+msgstr "Fidžijské ostrovy"
+
+#: libicq/country.cpp:142
+msgid "Finland"
+msgstr "Fínsko"
+
+#: libicq/country.cpp:143
+msgid "France"
+msgstr "Francúzsko"
+
+#: libicq/country.cpp:144
+msgid "French Antilles"
+msgstr "French Antilles"
+
+#: libicq/country.cpp:145
+msgid "French Guiana"
+msgstr "Fracúzská Guiana"
+
+#: libicq/country.cpp:146
+msgid "French Polynesia"
+msgstr "Francúzská Polynézia"
+
+#: libicq/country.cpp:147
+msgid "Gabon"
+msgstr "Gabun"
+
+#: libicq/country.cpp:148
+msgid "Gambia"
+msgstr "Gambie"
+
+#: libicq/country.cpp:149
+msgid "Georgia"
+msgstr "Georgia"
+
+#: libicq/country.cpp:150
+msgid "Germany"
+msgstr "Nemecko"
+
+#: libicq/country.cpp:151
+msgid "Ghana"
+msgstr "Ghana"
+
+#: libicq/country.cpp:152
+msgid "Gibraltar"
+msgstr "Gibraltar"
+
+#: libicq/country.cpp:153
+msgid "Greece"
+msgstr "Grécko"
+
+#: libicq/country.cpp:154
+msgid "Greenland"
+msgstr "Grónsko"
+
+#: libicq/country.cpp:155
+msgid "Grenada"
+msgstr "Grenada"
+
+#: libicq/country.cpp:156
+msgid "Guadeloupe"
+msgstr "Guadeloupe"
+
+#: libicq/country.cpp:157
+msgid "Guam"
+msgstr "Guam"
+
+#: libicq/country.cpp:158
+msgid "Guantanamo Bay"
+msgstr "Guantanamo Bay"
+
+#: libicq/country.cpp:159
+msgid "Guatemala"
+msgstr "Guatemala"
+
+#: libicq/country.cpp:160
+msgid "Guinea"
+msgstr "Guinea"
+
+#: libicq/country.cpp:161
+msgid "Guinea-Bissau"
+msgstr "Guinea-Bissau"
+
+#: libicq/country.cpp:162
+msgid "Guyana"
+msgstr "Guyana"
+
+#: libicq/country.cpp:163
+msgid "Haiti"
+msgstr "Haiti"
+
+#: libicq/country.cpp:164
+msgid "Honduras"
+msgstr "Honduras"
+
+#: libicq/country.cpp:165
+msgid "Hong Kong"
+msgstr "Hong Kong"
+
+#: libicq/country.cpp:166
+msgid "Hungary"
+msgstr "Maďarsko"
+
+#: libicq/country.cpp:167
+msgid "INMARSAT (Atlantic-East)"
+msgstr "INMARSAT (Východný Atlantik)"
+
+#: libicq/country.cpp:168
+msgid "INMARSAT (Atlantic-West)"
+msgstr "INMARSAT (Západný Atlantik)"
+
+#: libicq/country.cpp:169
+msgid "INMARSAT (Indian)"
+msgstr "INMARSAT (India)"
+
+#: libicq/country.cpp:170
+msgid "INMARSAT (Pacific)"
+msgstr "INMARSAT (Pacifik)"
+
+#: libicq/country.cpp:171
+msgid "INMARSAT"
+msgstr "INMARSAT"
+
+#: libicq/country.cpp:172
+msgid "Iceland"
+msgstr "Island"
+
+#: libicq/country.cpp:173
+msgid "India"
+msgstr "India"
+
+#: libicq/country.cpp:174
+msgid "Indonesia"
+msgstr "Indonézia"
+
+#: libicq/country.cpp:175
+msgid "International Freephone Service"
+msgstr "Mezinárodné bezplatné telefónne služby (IFS)"
+
+#: libicq/country.cpp:176
+msgid "Iran"
+msgstr "Irán"
+
+#: libicq/country.cpp:177
+msgid "Iraq"
+msgstr "Irák"
+
+#: libicq/country.cpp:178
+msgid "Ireland"
+msgstr "Írsko"
+
+#: libicq/country.cpp:179
+msgid "Israel"
+msgstr "Izrael"
+
+#: libicq/country.cpp:180
+msgid "Italy"
+msgstr "Taliansko"
+
+#: libicq/country.cpp:181
+msgid "Ivory Coast"
+msgstr "Ivory Coast"
+
+#: libicq/country.cpp:182
+msgid "Jamaica"
+msgstr "Jamaika"
+
+#: libicq/country.cpp:183
+msgid "Japan"
+msgstr "Japonsko"
+
+#: libicq/country.cpp:184
+msgid "Jordan"
+msgstr "Jordánsko"
+
+#: libicq/country.cpp:185
+msgid "Kazakhstan"
+msgstr "Kazachstán"
+
+#: libicq/country.cpp:186
+msgid "Kenya"
+msgstr "Keňa"
+
+#: libicq/country.cpp:187
+msgid "Kiribati Republic"
+msgstr "Kiribati Republic"
+
+#: libicq/country.cpp:188
+msgid "Korea (North)"
+msgstr "Kórea (Severná)"
+
+#: libicq/country.cpp:189
+msgid "Korea (Republic of)"
+msgstr "Korejská republika"
+
+#: libicq/country.cpp:190
+msgid "Kuwait"
+msgstr "Kuwait"
+
+#: libicq/country.cpp:191
+msgid "Kyrgyz Republic"
+msgstr "Kyrgišská republika"
+
+#: libicq/country.cpp:192
+msgid "Laos"
+msgstr "Laos"
+
+#: libicq/country.cpp:193
+msgid "Latvia"
+msgstr "Litva"
+
+#: libicq/country.cpp:194
+msgid "Lebanon"
+msgstr "Libanon"
+
+#: libicq/country.cpp:195
+msgid "Lesotho"
+msgstr "Lesotho"
+
+#: libicq/country.cpp:196
+msgid "Liberia"
+msgstr "Liberia"
+
+#: libicq/country.cpp:197
+msgid "Libya"
+msgstr "Lybie"
+
+#: libicq/country.cpp:198
+msgid "Liechtenstein"
+msgstr "Lichtenštajnsko"
+
+#: libicq/country.cpp:199
+msgid "Lithuania"
+msgstr "Litauen"
+
+#: libicq/country.cpp:200
+msgid "Luxembourg"
+msgstr "Luxembursko"
+
+#: libicq/country.cpp:201
+msgid "Macau"
+msgstr "Macau"
+
+#: libicq/country.cpp:202
+msgid "Madagascar"
+msgstr "Madagaskar"
+
+#: libicq/country.cpp:203
+msgid "Malawi"
+msgstr "Malawi"
+
+#: libicq/country.cpp:204
+msgid "Malaysia"
+msgstr "Malajsie"
+
+#: libicq/country.cpp:205
+msgid "Maldives"
+msgstr "Malediven"
+
+#: libicq/country.cpp:206
+msgid "Mali"
+msgstr "Mali"
+
+#: libicq/country.cpp:207
+msgid "Malta"
+msgstr "Malta"
+
+#: libicq/country.cpp:208
+msgid "Marshall Islands"
+msgstr "Marshall Islands"
+
+#: libicq/country.cpp:209
+msgid "Martinique"
+msgstr "Martinique"
+
+#: libicq/country.cpp:210
+msgid "Mauritania"
+msgstr "Mauritania"
+
+#: libicq/country.cpp:211
+msgid "Mauritius"
+msgstr "Mauritius"
+
+#: libicq/country.cpp:212
+msgid "Mayotte Island"
+msgstr "Mayotteinseln"
+
+#: libicq/country.cpp:213
+msgid "Mexico"
+msgstr "Mexiko"
+
+#: libicq/country.cpp:214
+msgid "Micronesia, Federated States of"
+msgstr "Mikronézia"
+
+#: libicq/country.cpp:215
+msgid "Moldova"
+msgstr "Moldavsko"
+
+#: libicq/country.cpp:216
+msgid "Monaco"
+msgstr "Monako"
+
+#: libicq/country.cpp:217
+msgid "Mongolia"
+msgstr "Mongolsko"
+
+#: libicq/country.cpp:218
+msgid "Montserrat"
+msgstr "Montserrat"
+
+#: libicq/country.cpp:219
+msgid "Morocco"
+msgstr "Maroko"
+
+#: libicq/country.cpp:220
+msgid "Mozambique"
+msgstr "Mosambik"
+
+#: libicq/country.cpp:221
+msgid "Myanmar"
+msgstr "Myanmar"
+
+#: libicq/country.cpp:222
+msgid "Namibia"
+msgstr "Namíbia"
+
+#: libicq/country.cpp:223
+msgid "Nauru"
+msgstr "Nauru"
+
+#: libicq/country.cpp:224
+msgid "Nepal"
+msgstr "Nepál"
+
+#: libicq/country.cpp:225
+msgid "Netherlands Antilles"
+msgstr "Netherlands Antilles"
+
+#: libicq/country.cpp:226
+msgid "Netherlands"
+msgstr "Holansko"
+
+#: libicq/country.cpp:227
+msgid "Nevis"
+msgstr "Nevis"
+
+#: libicq/country.cpp:228
+msgid "New Caledonia"
+msgstr "Nová Kaledonia"
+
+#: libicq/country.cpp:229
+msgid "New Zealand"
+msgstr "Nový Zéland"
+
+#: libicq/country.cpp:230
+msgid "Nicaragua"
+msgstr "Nikaragua"
+
+#: libicq/country.cpp:231
+msgid "Niger"
+msgstr "Nigér"
+
+#: libicq/country.cpp:232
+msgid "Nigeria"
+msgstr "Nigéria"
+
+#: libicq/country.cpp:233
+msgid "Niue"
+msgstr "Niue"
+
+#: libicq/country.cpp:234
+msgid "Norfolk Island"
+msgstr "Norfolk Island"
+
+#: libicq/country.cpp:235
+msgid "Norway"
+msgstr "Nórsko"
+
+#: libicq/country.cpp:236
+msgid "Oman"
+msgstr "Oman"
+
+#: libicq/country.cpp:237
+msgid "Pakistan"
+msgstr "Pakistán"
+
+#: libicq/country.cpp:238
+msgid "Palau"
+msgstr "Palau"
+
+#: libicq/country.cpp:239
+msgid "Panama"
+msgstr "Panama"
+
+#: libicq/country.cpp:240
+msgid "Papua New Guinea"
+msgstr "Papua Nová Guinea"
+
+#: libicq/country.cpp:241
+msgid "Paraguay"
+msgstr "Paraguay"
+
+#: libicq/country.cpp:242
+msgid "Peru"
+msgstr "Peru"
+
+#: libicq/country.cpp:243
+msgid "Philippines"
+msgstr "Filipíny"
+
+#: libicq/country.cpp:244
+msgid "Poland"
+msgstr "Poľsko"
+
+#: libicq/country.cpp:245
+msgid "Portugal"
+msgstr "Portugalsko"
+
+#: libicq/country.cpp:246
+msgid "Puerto Rico"
+msgstr "Puerto Rico"
+
+#: libicq/country.cpp:247
+msgid "Qatar"
+msgstr "Katar"
+
+#: libicq/country.cpp:248
+msgid "Republic of Macedonia"
+msgstr "Makedonská republika"
+
+#: libicq/country.cpp:249
+msgid "Reunion Island"
+msgstr "Reunion Island"
+
+#: libicq/country.cpp:250
+msgid "Romania"
+msgstr "Rumunsko"
+
+#: libicq/country.cpp:251
+msgid "Rota Island"
+msgstr "Rota Island"
+
+#: libicq/country.cpp:252
+msgid "Russia"
+msgstr "Rusko"
+
+#: libicq/country.cpp:253
+msgid "Rwanda"
+msgstr "Ruanda"
+
+#: libicq/country.cpp:254
+msgid "Saint Lucia"
+msgstr "Sv. Lucia"
+
+#: libicq/country.cpp:255
+msgid "Saipan Island"
+msgstr "Saipan Island"
+
+#: libicq/country.cpp:256
+msgid "San Marino"
+msgstr "San Marino"
+
+#: libicq/country.cpp:257
+msgid "Sao Tome and Principe"
+msgstr "Sao Tome and Principe"
+
+#: libicq/country.cpp:258
+msgid "Saudi Arabia"
+msgstr "Saudská Arábia"
+
+#: libicq/country.cpp:259
+msgid "Senegal Republic"
+msgstr "Senegalská republika"
+
+#: libicq/country.cpp:260
+msgid "Seychelle Islands"
+msgstr "Seychelské ostrovy"
+
+#: libicq/country.cpp:261
+msgid "Sierra Leone"
+msgstr "Sierra Leone"
+
+#: libicq/country.cpp:262
+msgid "Singapore"
+msgstr "Singapur"
+
+#: libicq/country.cpp:263
+msgid "Slovak Republic"
+msgstr "Slovenská republika"
+
+#: libicq/country.cpp:264
+msgid "Slovenia"
+msgstr "Slovinsko"
+
+#: libicq/country.cpp:265
+msgid "Solomon Islands"
+msgstr "Solomon Islands"
+
+#: libicq/country.cpp:266
+msgid "Somalia"
+msgstr "Somálsko"
+
+#: libicq/country.cpp:267
+msgid "South Africa"
+msgstr "Južná Afrika"
+
+#: libicq/country.cpp:268
+msgid "Spain"
+msgstr "Španielsko"
+
+#: libicq/country.cpp:269
+msgid "Sri Lanka"
+msgstr "Sri Lanka"
+
+#: libicq/country.cpp:270
+msgid "St. Helena"
+msgstr "Sv. Helena"
+
+#: libicq/country.cpp:271
+msgid "St. Kitts"
+msgstr "Sv. Kitts"
+
+#: libicq/country.cpp:272
+msgid "St. Pierre and Miquelon"
+msgstr "Sv. Pierre a Miquelon"
+
+#: libicq/country.cpp:273
+msgid "St. Vincent and the Grenadines"
+msgstr "Sv. Vincent a Grenadines"
+
+#: libicq/country.cpp:274
+msgid "Sudan"
+msgstr "Súdán"
+
+#: libicq/country.cpp:275
+msgid "Suriname"
+msgstr "Surinam"
+
+#: libicq/country.cpp:276
+msgid "Swaziland"
+msgstr "Svazijsko"
+
+#: libicq/country.cpp:277
+msgid "Sweden"
+msgstr "Švédsko"
+
+#: libicq/country.cpp:278
+msgid "Switzerland"
+msgstr "Švajčiarsko"
+
+#: libicq/country.cpp:279
+msgid "Syria"
+msgstr "Sýria"
+
+#: libicq/country.cpp:280
+msgid "Taiwan, Republic of China"
+msgstr "Taiwan, Čínská republika"
+
+#: libicq/country.cpp:281
+msgid "Tajikistan"
+msgstr "Tadžikistán"
+
+#: libicq/country.cpp:282
+msgid "Tanzania"
+msgstr "Tanzánie"
+
+#: libicq/country.cpp:283
+msgid "Thailand"
+msgstr "Thajsko"
+
+#: libicq/country.cpp:284
+msgid "Tinian Island"
+msgstr "Tinian Island"
+
+#: libicq/country.cpp:285
+msgid "Togo"
+msgstr "Togo"
+
+#: libicq/country.cpp:286
+msgid "Tokelau"
+msgstr "Tokelau"
+
+#: libicq/country.cpp:287
+msgid "Tonga"
+msgstr "Tonga"
+
+#: libicq/country.cpp:288
+msgid "Trinidad and Tobago"
+msgstr "Trinidad a Tobago"
+
+#: libicq/country.cpp:289
+msgid "Tunisia"
+msgstr "Tunisko"
+
+#: libicq/country.cpp:290
+msgid "Turkey"
+msgstr "Turecko"
+
+#: libicq/country.cpp:291
+msgid "Turkmenistan"
+msgstr "Turkmenistán"
+
+#: libicq/country.cpp:292
+msgid "Turks and Caicos Islands"
+msgstr "Turks and Caicos Island"
+
+#: libicq/country.cpp:293
+msgid "Tuvalu"
+msgstr "Tuvalu"
+
+#: libicq/country.cpp:294
+msgid "USA"
+msgstr "USA"
+
+#: libicq/country.cpp:295
+msgid "Uganda"
+msgstr "Uganda"
+
+#: libicq/country.cpp:296
+msgid "Ukraine"
+msgstr "Ukrajina"
+
+#: libicq/country.cpp:297
+msgid "United Arab Emirates"
+msgstr "Spojené arabské emiráty"
+
+#: libicq/country.cpp:298
+msgid "United Kingdom"
+msgstr "Velká Británia"
+
+#: libicq/country.cpp:299
+msgid "United States Virgin Islands"
+msgstr "Spojené štáty - Panenské ostrovy"
+
+#: libicq/country.cpp:300
+msgid "Uruguay"
+msgstr "Uruguay"
+
+#: libicq/country.cpp:301
+msgid "Uzbekistan"
+msgstr "Uzbekistán"
+
+#: libicq/country.cpp:302
+msgid "Vanuatu"
+msgstr "Vanuatu"
+
+#: libicq/country.cpp:303
+msgid "Vatican City"
+msgstr "Vatikán"
+
+#: libicq/country.cpp:304
+msgid "Venezuela"
+msgstr "Venezuela"
+
+#: libicq/country.cpp:305
+msgid "Vietnam"
+msgstr "Vietnam"
+
+#: libicq/country.cpp:306
+msgid "Wallis and Futuna Islands"
+msgstr "Wallis and Futuna Islands"
+
+#: libicq/country.cpp:307
+msgid "Western Samoa"
+msgstr "Západná Samoa"
+
+#: libicq/country.cpp:308
+msgid "Yemen"
+msgstr "Jemen"
+
+#: libicq/country.cpp:309
+msgid "Yugoslavia"
+msgstr "Juhoslávia"
+
+#: libicq/country.cpp:310
+msgid "Zaire"
+msgstr "Zair"
+
+#: libicq/country.cpp:311
+msgid "Zambia"
+msgstr "Zambie"
+
+#: libicq/country.cpp:312
+msgid "Zimbabwe"
+msgstr "Zimbabwe"
+
+#: libicq/country.cpp:331
+msgid "Art"
+msgstr "Umenie"
+
+#: libicq/country.cpp:332
+msgid "Cars"
+msgstr "Autá"
+
+#: libicq/country.cpp:333
+msgid "Celebrity Fans"
+msgstr "Celebrity"
+
+#: libicq/country.cpp:334
+msgid "Collections"
+msgstr "Zbierky"
+
+#: libicq/country.cpp:335
+#: libicq/country.cpp:416
+msgid "Computers"
+msgstr "Počítače"
+
+#: libicq/country.cpp:336
+msgid "Culture & Literature"
+msgstr "Kultúra & Literatúra"
+
+#: libicq/country.cpp:337
+msgid "Fitness"
+msgstr "Fitness"
+
+#: libicq/country.cpp:338
+#: libicq/country.cpp:478
+msgid "Games"
+msgstr "Hry"
+
+#: libicq/country.cpp:339
+msgid "Hobbies"
+msgstr "Koníčky"
+
+#: libicq/country.cpp:340
+#: libicq/country.cpp:424
+msgid "ICQ - Providing Help"
+msgstr "ICQ - poskytovanie pomoci"
+
+#: libicq/country.cpp:341
+msgid "Internet"
+msgstr "Internet"
+
+#: libicq/country.cpp:342
+msgid "Lifestyle"
+msgstr "Životný štýl"
+
+#: libicq/country.cpp:343
+msgid "Movies/TV"
+msgstr "Filmy/TV"
+
+#: libicq/country.cpp:344
+msgid "Music"
+msgstr "Hudba"
+
+#: libicq/country.cpp:345
+msgid "Outdoor Activities"
+msgstr "Aktivity v prírode"
+
+#: libicq/country.cpp:346
+msgid "Parenting"
+msgstr "Rodičovstvo"
+
+#: libicq/country.cpp:347
+msgid "Pets/Animals"
+msgstr "Domáce zvieratá/Zvieratá"
+
+#: libicq/country.cpp:348
+msgid "Religion"
+msgstr "Náboženstvo"
+
+#: libicq/country.cpp:349
+msgid "Science/Technology"
+msgstr "Veda/Technika"
+
+#: libicq/country.cpp:350
+msgid "Skills"
+msgstr "Zručnosti"
+
+#: libicq/country.cpp:351
+#: libicq/country.cpp:436
+msgid "Sports"
+msgstr "Sporty"
+
+#: libicq/country.cpp:352
+msgid "Web Design"
+msgstr "Webdesign"
+
+#: libicq/country.cpp:353
+msgid "Nature and Environment"
+msgstr "Príroda a prostredie"
+
+#: libicq/country.cpp:354
+msgid "News & Media"
+msgstr "Novinky & Média"
+
+#: libicq/country.cpp:355
+#: libicq/country.cpp:421
+msgid "Government"
+msgstr "Vláda"
+
+#: libicq/country.cpp:356
+msgid "Business & Economy"
+msgstr "Obchod & Ekonomika"
+
+#: libicq/country.cpp:357
+msgid "Mystics"
+msgstr "Mystika"
+
+#: libicq/country.cpp:358
+msgid "Travel"
+msgstr "Cestovanie"
+
+#: libicq/country.cpp:359
+msgid "Astronomy"
+msgstr "Astronómia"
+
+#: libicq/country.cpp:360
+msgid "Space"
+msgstr "Vesmír"
+
+#: libicq/country.cpp:361
+msgid "Clothing"
+msgstr "Móda"
+
+#: libicq/country.cpp:362
+msgid "Parties"
+msgstr "Párty"
+
+#: libicq/country.cpp:363
+msgid "Women"
+msgstr "Ženy"
+
+#: libicq/country.cpp:364
+msgid "Social science"
+msgstr "Sociálne vedy"
+
+#: libicq/country.cpp:365
+msgid "60's"
+msgstr "60' roky"
+
+#: libicq/country.cpp:366
+msgid "70's"
+msgstr "70' roky"
+
+#: libicq/country.cpp:367
+msgid "80's"
+msgstr "80' roky"
+
+#: libicq/country.cpp:368
+msgid "50's"
+msgstr "50' roky"
+
+#: libicq/country.cpp:369
+msgid "Finance and corporate"
+msgstr "Financie a spoločnosti"
+
+#: libicq/country.cpp:370
+msgid "Entertainment"
+msgstr "Zábava"
+
+#: libicq/country.cpp:371
+msgid "Consumer electronics"
+msgstr "Spotrebná elektronika"
+
+#: libicq/country.cpp:372
+msgid "Retail stores"
+msgstr "Obchod"
+
+#: libicq/country.cpp:373
+msgid "Health and beauty"
+msgstr "Zdravie a krása"
+
+#: libicq/country.cpp:374
+msgid "Media"
+msgstr "Médiá"
+
+#: libicq/country.cpp:375
+msgid "Household products"
+msgstr "Domáce produkty"
+
+#: libicq/country.cpp:376
+msgid "Mail order catalog"
+msgstr "Zásielkové katalógy"
+
+#: libicq/country.cpp:377
+msgid "Business services"
+msgstr "Obchodné služby"
+
+#: libicq/country.cpp:378
+msgid "Audio and visual"
+msgstr "Audio a video"
+
+#: libicq/country.cpp:379
+msgid "Sporting and athletic"
+msgstr "Športovánie"
+
+#: libicq/country.cpp:380
+msgid "Publishing"
+msgstr "Publikování"
+
+#: libicq/country.cpp:381
+msgid "Home automation"
+msgstr "Automatizácia v domácnosti"
+
+#: libicq/country.cpp:387
+msgid "Alumni Org."
+msgstr "Absolventi"
+
+#: libicq/country.cpp:388
+msgid "Charity Org."
+msgstr "Charita"
+
+#: libicq/country.cpp:389
+msgid "Club/Social Org."
+msgstr "Klub/Spoločnosť"
+
+#: libicq/country.cpp:390
+msgid "Community Org."
+msgstr "Spoločenstvo"
+
+#: libicq/country.cpp:391
+msgid "Cultural Org."
+msgstr "Kultúra"
+
+#: libicq/country.cpp:392
+msgid "Fan Clubs"
+msgstr "Fankluby"
+
+#: libicq/country.cpp:393
+msgid "Fraternity/Sorority"
+msgstr "Bratstvá/Dievčenské spolky"
+
+#: libicq/country.cpp:394
+msgid "Hobbyists Org."
+msgstr "Koníčky"
+
+#: libicq/country.cpp:395
+msgid "International Org."
+msgstr "Mezinárodné"
+
+#: libicq/country.cpp:396
+msgid "Nature and Environment Org."
+msgstr "Príroda a prostredie"
+
+#: libicq/country.cpp:397
+msgid "Professional Org."
+msgstr "Profesie"
+
+#: libicq/country.cpp:398
+msgid "Scientific/Technical Org."
+msgstr "Veda/Technika"
+
+#: libicq/country.cpp:399
+msgid "Self Improvement Group"
+msgstr "Samovzdelávanie"
+
+#: libicq/country.cpp:400
+msgid "Spiritual/Religious Org."
+msgstr "Náboženské spolky"
+
+#: libicq/country.cpp:401
+msgid "Sports Org."
+msgstr "Športy"
+
+#: libicq/country.cpp:402
+msgid "Support Org."
+msgstr "Podpora"
+
+#: libicq/country.cpp:403
+msgid "Trade and Business Org."
+msgstr "Obchod a Business"
+
+#: libicq/country.cpp:404
+msgid "Union"
+msgstr "Jednota"
+
+#: libicq/country.cpp:405
+msgid "Volunteer Org."
+msgstr "Dobrovoľníci"
+
+#: libicq/country.cpp:406
+#: libicq/country.cpp:452
+msgid "Other"
+msgstr "Iné"
+
+#: libicq/country.cpp:412
+msgid "Academic"
+msgstr "Akademické"
+
+#: libicq/country.cpp:413
+msgid "Administrative"
+msgstr "Administratívne"
+
+#: libicq/country.cpp:414
+msgid "Art/Entertainment"
+msgstr "Umenie/Zábava"
+
+#: libicq/country.cpp:415
+msgid "College Student"
+msgstr "Vysokoškolský študent"
+
+#: libicq/country.cpp:417
+msgid "Community & Social"
+msgstr "Spoločnosť"
+
+#: libicq/country.cpp:418
+msgid "Education"
+msgstr "Výzkum"
+
+#: libicq/country.cpp:419
+msgid "Engineering"
+msgstr "Inžinierstvo"
+
+#: libicq/country.cpp:420
+msgid "Financial Services"
+msgstr "Finančné služby"
+
+#: libicq/country.cpp:422
+msgid "High School Student"
+msgstr "Gymnazista"
+
+#: libicq/country.cpp:423
+msgid "Home"
+msgstr "V domácnosti"
+
+#: libicq/country.cpp:425
+msgid "Law"
+msgstr "Právo"
+
+#: libicq/country.cpp:426
+msgid "Managerial"
+msgstr "Riadenie"
+
+#: libicq/country.cpp:427
+msgid "Manufacturing"
+msgstr "Ručné práce"
+
+#: libicq/country.cpp:428
+msgid "Medical/Health"
+msgstr "Medicína/Zdravotnictvo"
+
+#: libicq/country.cpp:429
+#: libicq/country.cpp:449
+msgid "Military"
+msgstr "Armáda"
+
+#: libicq/country.cpp:430
+msgid "Non-Goverment Organisation"
+msgstr "Neštátna organizácia"
+
+#: libicq/country.cpp:431
+msgid "Other services"
+msgstr "Iné služby"
+
+#: libicq/country.cpp:432
+msgid "Professional"
+msgstr "Profesionál"
+
+#: libicq/country.cpp:433
+msgid "Retail"
+msgstr "Maloobchod"
+
+#: libicq/country.cpp:434
+msgid "Retired"
+msgstr "Na dôchodku"
+
+#: libicq/country.cpp:435
+msgid "Science & Research"
+msgstr "Veda & Výzkum"
+
+#: libicq/country.cpp:437
+msgid "Technical"
+msgstr "Technik"
+
+#: libicq/country.cpp:438
+msgid "University student"
+msgstr "Univerzitný študent"
+
+#: libicq/country.cpp:439
+msgid "Web building"
+msgstr "Webmaster"
+
+#: libicq/country.cpp:445
+msgid "Elementary School"
+msgstr "Základná škola"
+
+#: libicq/country.cpp:446
+msgid "High School"
+msgstr "Gymnázium"
+
+#: libicq/country.cpp:447
+msgid "College"
+msgstr "Vysoká škola"
+
+#: libicq/country.cpp:448
+msgid "University"
+msgstr "Univerzita"
+
+#: libicq/country.cpp:450
+msgid "Past Work Place"
+msgstr "Po práci"
+
+#: libicq/country.cpp:451
+msgid "Past Organization"
+msgstr "Predošlá organizácia"
+
+#: libicq/country.cpp:458
+msgid "Female"
+msgstr "Žena"
+
+#: libicq/country.cpp:459
+msgid "Male"
+msgstr "Muž"
+
+#: libicq/country.cpp:476
+msgid "General chat"
+msgstr "Všeobecný rozhovor"
+
+#: libicq/country.cpp:477
+msgid "Romance"
+msgstr "Romantika"
+
+#: libicq/country.cpp:479
+msgid "Students"
+msgstr "Študenti"
+
+#: libicq/country.cpp:480
+msgid "20 Something"
+msgstr "Okolo 20"
+
+#: libicq/country.cpp:481
+msgid "30 Something"
+msgstr "Okolo 30"
+
+#: libicq/country.cpp:482
+msgid "40 Something"
+msgstr "Okolo 40"
+
+#: libicq/country.cpp:483
+msgid "50 Plus"
+msgstr "50 a viac"
+
+#: libicq/country.cpp:484
+msgid "Seeking Women"
+msgstr "Hľadanie ženy"
+
+#: libicq/country.cpp:485
+msgid "Seeking Men"
+msgstr "Hľadanie muža"
+
+#: about.cpp:280
+msgid "replace this with information about your translation team"
+msgstr "Slovenský prekladateľský tým - Slovak Translation Team:\n"
+"Tomáš Oláh\tmailto://tomas.olah@alert.sk\thttp://griffin.alert.sk"
+
+#: about.cpp:296
+msgid "This program is distributed under the terms of the GPL v2."
+msgstr "Tento program je šírený pod licenciou GPL v2."
+
+#: chatwnd.cpp:56
+#: monitor.cpp:67
+#: qt3/i18n.cpp:95
+msgid "&Save"
+msgstr "U&ložiť"
+
+#: chatwnd.cpp:58
+#: msgedit.cpp:115
+msgid "&Bold"
+msgstr "&Tučné"
+
+#: chatwnd.cpp:59
+#: msgedit.cpp:116
+msgid "&Italic"
+msgstr "&Kurzíva"
+
+#: chatwnd.cpp:60
+#: msgedit.cpp:117
+#: qt3/i18n.cpp:160
+msgid "&Underline"
+msgstr "Podčiarkn&uté"
+
+#: chatwnd.cpp:62
+#: msgedit.cpp:114
+msgid "&Text color"
+msgstr "Farba &textu"
+
+#: chatwnd.cpp:232
+msgid "Enter to chat"
+msgstr "Vstupit do rozhovoru"
+
+#: chatwnd.cpp:342
+#: msgview.cpp:1139
+#: ui/filetransfer.cpp:303
+#, c-format
+msgid "Can't create %1"
+msgstr "Nemôžem vytvoriť %1"
+
+#: client.cpp:64
+msgid "Unicode"
+msgstr "Unicode"
+
+#: client.cpp:69
+#: client.cpp:70
+msgid "Baltic"
+msgstr "Baltské"
+
+#: client.cpp:72
+#: client.cpp:73
+msgid "Central European"
+msgstr "Stredoeurópske"
+
+#: client.cpp:75
+msgid "Chinese "
+msgstr "Čínske"
+
+#: client.cpp:76
+msgid "Chinese Simplified"
+msgstr "Čínske (zjednodušené)"
+
+#: client.cpp:77
+msgid "Chinese Traditional"
+msgstr "Čínske (tradičné)"
+
+#: client.cpp:79
+#: client.cpp:80
+#: client.cpp:81
+msgid "Cyrillic"
+msgstr "Cyrilika"
+
+#: client.cpp:97
+#: client.cpp:98
+#: client.cpp:99
+msgid "Western European"
+msgstr "Západoeurópske"
+
+#: client.cpp:101
+msgid "Tamil"
+msgstr "Tamilske"
+
+#: client.cpp:320
+msgid "I am currently away from ICQ.\n"
+"Please leave your message and I will get back to you as soon as I return!\n"
+msgstr "Momentálne som preč.\n"
+"Pošlite mi správu, odpoviem Vám, keď sa vrátim!\n"
+
+#: client.cpp:324
+msgid "I am out'a here.\n"
+"See you tomorrow!\n"
+msgstr "Som preč.\n"
+"Uvidíme se zajtra!\n"
+
+#: client.cpp:328
+msgid "Please do not disturb me now. Disturb me later.\n"
+msgstr "Teraz ma, prosím, nevyrušujte. Skúste neskôr.\n"
+
+#: client.cpp:331
+msgid ""
+"Please do not disturb me now.\n"
+"Disturb me later.\n"
+"Only urgent messages, please!\n"
+msgstr "Teraz ma, prosím, nevyrušujte!.\n"
+"Posielajte len urgentné správy!\n"
+
+#: client.cpp:335
+msgid "We'd love to hear what you have to say. Join our chat.\n"
+msgstr "Skús náš chat.\n"
+
+#: client.cpp:1134
+#, c-format
+msgid "_n: Message\n"
+"%n messages"
+msgstr "Správa"
+
+#: client.cpp:1136
+#, c-format
+msgid "_n: Chat request\n"
+"%n chat requests"
+msgstr "Žiadosť o rozhovor"
+
+#: client.cpp:1138
+#: msgview.cpp:205
+#: msgview.cpp:1245
+#, c-format
+msgid "_n: File\n"
+"%n files"
+msgstr "Súbor"
+
+#: client.cpp:1140
+#, c-format
+msgid "_n: URL\n"
+"%n URL"
+msgstr "URL"
+
+#: client.cpp:1142
+#, c-format
+msgid "_n: Authorization request\n"
+"%n authorization requests"
+msgstr "_n: Požiadavka na autorizáciu\n"
+"%n požiadaviek na autorizáciu"
+
+#: client.cpp:1144
+#, c-format
+msgid "_n: Authorization refused\n"
+"%n authorizations refused"
+msgstr "_n: Autorizácia odmietnutá\n"
+"%n autorizácií odmietnutých"
+
+#: client.cpp:1146
+#, c-format
+msgid "_n: Authorization granted\n"
+"%n authorizations granted"
+msgstr "_n: Autorizácia úspešná\n"
+"%n autorizácií úspešných"
+
+#: client.cpp:1148
+#, c-format
+msgid "_n: Added to contact list\n"
+"%n times added to contact list"
+msgstr "Pridané do zoznamu kontaktov\n"
+"%n pridaných do zoznamu kontaktov"
+
+#: client.cpp:1150
+#, c-format
+msgid "_n: WWW-panel message\n"
+"%n WWW-panel messages"
+msgstr "WWW-správa\n"
+"%n WWW-správ"
+
+#: client.cpp:1152
+#, c-format
+msgid "_n: Email pager message\n"
+"%n Email pager messages"
+msgstr "Správa email pageru\n"
+"%n správ email pageru"
+
+#: client.cpp:1154
+#, c-format
+msgid "_n: Contact list\n"
+"%n contact lists"
+msgstr "Zoznam kontaktov"
+
+#: client.cpp:1156
+#, c-format
+msgid "_n: Contacts request\n"
+"%n contacts requests"
+msgstr "Žiadosť o kontakt\n"
+"%n žiadostí o kontakt"
+
+#: client.cpp:1158
+#, c-format
+msgid "_n: External unknown message\n"
+"%n unknown messages"
+msgstr "Externá neznáma správa\n"
+"%n externých neznámych správ"
+
+#: client.cpp:1160
+#, c-format
+msgid "_n: SMS\n"
+"%n SMS"
+msgstr "SMS"
+
+#: client.cpp:1162
+#, c-format
+msgid "_n: SMS receipt\n"
+"%n SMS receipts"
+msgstr "SMS príjemca\n"
+"%n SMS príjemcov"
+
+#: client.cpp:1164
+#, c-format
+msgid "_n: Email\n"
+"%n emails"
+msgstr "Email"
+
+#: client.cpp:1166
+#, c-format
+msgid "_n: Request secure channel\n"
+"%n requests secure channel"
+msgstr "Požiadavka o bezpečný kanál\n"
+"%n požiadaviek o bezpečný kanál"
+
+#: client.cpp:1168
+#, c-format
+msgid "_n: Close secure channel\n"
+"%n times close secure channel"
+msgstr "uzavrenie bezpečného kanálu\n"
+"%n uzavrení bezpečného kanálu"
+
+#: client.cpp:1172
+#, c-format
+msgid "_n: Unknown message\n"
+"%n unknown messages"
+msgstr "Neznáma správa\n"
+"%n neznámych správ"
+
+#: client.cpp:1179
+msgid "_: Ctrl+N\n"
+"new"
+msgstr "Ctrl+N"
+
+#: client.cpp:1181
+msgid "_: Ctrl+B\n"
+"chat msg"
+msgstr "Ctrl+B\n"
+"chat správa"
+
+#: client.cpp:1183
+msgid "_: Ctrl+F\n"
+"File"
+msgstr "Ctrl+F\n"
+"súbor"
+
+#: client.cpp:1185
+msgid "_: Ctrl+L\n"
+"URL"
+msgstr "Ctrl+L"
+
+#: client.cpp:1187
+msgid "_: Ctrl+R\n"
+"AuthRequest"
+msgstr "Ctrl+R\n"
+"žiadosť o autorizáciu"
+
+#: client.cpp:1189
+msgid "_: Ctrl+T\n"
+"Contacts"
+msgstr "Ctrl+T"
+
+#: client.cpp:1191
+msgid "_: Ctrl+S\n"
+"SMS"
+msgstr "Ctrl+S"
+
+#: client.cpp:1193
+msgid "_: Ctrl+E\n"
+"EMail"
+msgstr "Ctrl+E"
+
+#: client.cpp:1230
+#: userview.cpp:1333
+msgid "Offline"
+msgstr "Nepripojený"
+
+#: client.cpp:1231
+msgid "Do not disturb"
+msgstr "Nevyrušovať (DND)"
+
+#: client.cpp:1232
+msgid "Occupied"
+msgstr "Zaneprázdnený (Occupied)"
+
+#: client.cpp:1233
+msgid "N/A"
+msgstr "Nedostupný (N/A)"
+
+#: client.cpp:1234
+msgid "Free for chat"
+msgstr "Chcem chatovať (FFC)"
+
+#: client.cpp:1235
+msgid "Away"
+msgstr "Preč (Away)"
+
+#: client.cpp:1236
+#: cuser.cpp:231
+#: userview.cpp:1330
+msgid "Online"
+msgstr "Pripojený"
+
+#: client.cpp:1249
+msgid "Inactive"
+msgstr "Neaktívny:"
+
+#: client.cpp:1250
+#: dock.cpp:957
+msgid "Connecting"
+msgstr "Pripájanie"
+
+#: client.cpp:1252
+#: mainwin.cpp:2708
+msgid "Invisible"
+msgstr "Neviditeľný"
+
+#: control.cpp:232
+msgid "set status"
+msgstr "Stav"
+
+#: control.cpp:233
+msgid "set invisible mode"
+msgstr "Nastaviť neviditeľný mód"
+
+#: control.cpp:234
+msgid "send message"
+msgstr "poslať správu"
+
+#: control.cpp:235
+msgid "send SMS"
+msgstr "poslať SMS"
+
+#: control.cpp:236
+msgid "show/hide main window"
+msgstr "zobraziť/skryť hlavné okno"
+
+#: control.cpp:237
+msgid "show/hide search window"
+msgstr "zobraziť/skryť okno pre vyhľadávanie"
+
+#: control.cpp:238
+msgid "show/hide dock"
+msgstr "zobraziť/skryť dok"
+
+#: control.cpp:239
+msgid "set notify mode"
+msgstr "Nastaviť ohlasovací mód"
+
+#: control.cpp:240
+msgid "get icon in xpm fomrat"
+msgstr "vziať ikonu v xpm formáte"
+
+#: control.cpp:241
+msgid "open upread message"
+msgstr "otvoriť prečítanú správu"
+
+#: control.cpp:242
+msgid "show popup"
+msgstr "ukázať popup"
+
+#: control.cpp:243
+msgid "quit SIM"
+msgstr "Ukončiť SIM"
+
+#: control.cpp:244
+msgid "close session"
+msgstr "zavrieť sedenie"
+
+#: control.cpp:245
+msgid "command help information"
+msgstr "informácie o príkazoch"
+
+#: control.cpp:326
+#, c-format
+msgid "? Unknown command %1"
+msgstr "? Neznámy príkaz %1"
+
+#: control.cpp:334
+#, c-format
+msgid "? Bad arguments number. Try help %1"
+msgstr "? Chyba v počte argumentov: Skúste help %1"
+
+#: control.cpp:375
+#, c-format
+msgid "? Unknown status %1"
+msgstr "? Neznámy stav %1"
+
+#: control.cpp:577
+#: dock.cpp:944
+#: mainwin.cpp:911
+msgid "%1 from %2"
+msgstr "%1 z %2"
+
+#: cuser.cpp:62
+#: cuser.cpp:74
+msgid "Unknown"
+msgstr "Neznáme"
+
+#: cuser.cpp:223
+#: ui/maininfo.cpp:144
+msgid "Last online"
+msgstr "Naposledy pripojený"
+
+#: editspell.cpp:316
+msgid "Spell check"
+msgstr "Pravopis"
+
+#: kabcsync.cpp:54
+msgid "IM Address"
+msgstr "IM Adresa"
+
+#: mainwin.cpp:446
+#: monitor.cpp:133
+#: qt3/i18n.cpp:141
+msgid "Error"
+msgstr "Chyba"
+
+#: mainwin.cpp:447
+msgid "There is already an auto hidden window on this edge.\n"
+"Only one auto hidden window is allowed on each edge."
+msgstr "Už je automaticky schované okno tohoto rohu.\n"
+"Len jedno okno múže byť schované v každom rohu."
+
+#: mainwin.cpp:621
+msgid "Show &offline"
+msgstr "Ukázať neprip&ojených"
+
+#: mainwin.cpp:622
+msgid "&Group mode"
+msgstr "&Skupinový mód"
+
+#: mainwin.cpp:624
+#: mainwin.cpp:2731
+#: mainwin.cpp:2757
+#: usertbl.cpp:113
+msgid "Status"
+msgstr "Stav"
+
+#: mainwin.cpp:625
+msgid "&Menu"
+msgstr "&Menu"
+
+#: mainwin.cpp:627
+#: mainwin.cpp:2726
+msgid "Find User"
+msgstr "Vyhľadať užívateľa"
+
+#: mainwin.cpp:628
+#: mainwin.cpp:2727
+msgid "Add Non-IM contact"
+msgstr "Pridať kontakt (ne-ICQ)"
+
+#: mainwin.cpp:629
+#: mainwin.cpp:2728
+msgid "Send SMS"
+msgstr "Poslať SMS"
+
+#: mainwin.cpp:630
+#: mainwin.cpp:2733
+#: ui/setupdlg.cpp:100
+msgid "Setup"
+msgstr "Nastavenie"
+
+#: mainwin.cpp:631
+#: mainwin.cpp:2729
+#: ui/randomchatbase.cpp:278
+msgid "Random chat"
+msgstr "Náhodný chat"
+
+#: mainwin.cpp:632
+#: mainwin.cpp:2744
+#: monitor.cpp:59
+msgid "Network monitor"
+msgstr "Sieťový monitor"
+
+#: mainwin.cpp:717
+msgid "Current location"
+msgstr "Aktuálne umiestnenie"
+
+#: mainwin.cpp:718
+msgid "Phone status"
+msgstr "Stav telefonu"
+
+#: mainwin.cpp:720
+msgid "Phone Book"
+msgstr "Telefónny zoznam"
+
+#: mainwin.cpp:883
+msgid "AutoHide"
+msgstr "Automaticky skryť"
+
+#: mainwin.cpp:893
+msgid "Close main window"
+msgstr "Zavrieť hlavné okno"
+
+#: mainwin.cpp:894
+msgid "Open main window"
+msgstr "Otvoriť hlavné okno"
+
+#: mainwin.cpp:1259
+msgid "%1 from %2 received"
+msgstr "%1 z %2 prijatých"
+
+#: mainwin.cpp:1305
+#: ui/logindlg.cpp:239
+msgid "Can't connect to proxy server"
+msgstr "Nemôžem sa spojiť s proxy serverom"
+
+#: mainwin.cpp:1313
+#: ui/logindlg.cpp:246
+msgid "Proxy server require authorization"
+msgstr "Proxy server vyžaduje autorizáciu"
+
+#: mainwin.cpp:1314
+#: ui/logindlg.cpp:247
+msgid "Invalid password for proxy"
+msgstr "Chybné heslo pre proxy"
+
+#: mainwin.cpp:1328
+msgid "Your UIN used from another location"
+msgstr "Vaše UIN je používané z iného místa"
+
+#: mainwin.cpp:1380
+msgid "%1 is online"
+msgstr "%1 je pripojená/ý"
+
+#: mainwin.cpp:1972
+#: mainwin.cpp:2294
+#: msgview.cpp:1118
+#: qt3/i18n.cpp:125
+#: ui/enable.cpp:133
+#: ui/logindlg.cpp:304
+msgid "&Yes"
+msgstr "&Áno"
+
+#: mainwin.cpp:1973
+#: mainwin.cpp:2295
+#: msgview.cpp:1119
+#: qt3/i18n.cpp:127
+#: ui/enable.cpp:137
+#: ui/logindlg.cpp:305
+msgid "&No"
+msgstr "&Nie"
+
+#: mainwin.cpp:1974
+msgid "Add %1 to ignore list ?"
+msgstr "Pridať %1 do zoznamu ignorovaných?"
+
+#: mainwin.cpp:2038
+msgid "In visible list"
+msgstr "V zozname viditeľných"
+
+#: mainwin.cpp:2040
+msgid "In invisible list"
+msgstr "V zozname neviditeľných"
+
+#: mainwin.cpp:2043
+msgid "In ignore list"
+msgstr "V zozname ignorovaných"
+
+#: mainwin.cpp:2059
+#: mainwin.cpp:2734
+msgid "Groups"
+msgstr "Skupiny"
+
+#: mainwin.cpp:2060
+#: usertbl.cpp:391
+#: userview.cpp:1829
+msgid "Delete"
+msgstr "Odobrať"
+
+#: mainwin.cpp:2061
+#: userview.cpp:690
+#: userview.cpp:1830
+msgid "_: Del\n"
+"Delete"
+msgstr "Del\n"
+"Odobrať"
+
+#: mainwin.cpp:2065
+msgid "&User info"
+msgstr "&Informace o užívateli"
+
+#: mainwin.cpp:2066
+msgid "_: Ctrl+U\n"
+"UserInfo"
+msgstr "Informace o užívateli\n"
+"Informace o užívateli"
+
+#: mainwin.cpp:2067
+msgid "&History"
+msgstr "&Historie"
+
+#: mainwin.cpp:2068
+msgid "_: Ctrl+H\n"
+"History"
+msgstr "Historie\n"
+"Historie"
+
+#: mainwin.cpp:2070
+#: ui/setupdlg.cpp:132
+#: ui/userinfo.cpp:105
+#: userview.cpp:1840
+msgid "Alert"
+msgstr "Výstraha"
+
+#: mainwin.cpp:2071
+#: userview.cpp:1841
+msgid "_: Ctrl+L\n"
+"Alert"
+msgstr "Varování\n"
+"Varování"
+
+#: mainwin.cpp:2072
+#: ui/acceptbase.cpp:179
+#: userview.cpp:1842
+msgid "Accept mode"
+msgstr "Prenos súboru"
+
+#: mainwin.cpp:2073
+#: userview.cpp:1843
+msgid "_: Ctrl+A\n"
+"Accept"
+msgstr "Ctrl+A"
+
+#: mainwin.cpp:2074
+#: ui/setupdlg.cpp:131
+#: ui/userinfo.cpp:107
+#: userview.cpp:1844
+msgid "Sound"
+msgstr "Zvuk"
+
+#: mainwin.cpp:2075
+#: userview.cpp:1845
+msgid "_: Ctrl+S\n"
+"Sound"
+msgstr "Zvuk"
+
+#: mainwin.cpp:2078
+msgid "Floating off"
+msgstr "Plávajúci kontakt vypnúť"
+
+#: mainwin.cpp:2078
+msgid "Floating on"
+msgstr "Plávajúci kontakt zapnúť"
+
+#: mainwin.cpp:2079
+msgid "_: Ctrl+T\n"
+"Floating"
+msgstr "Ctrl+T"
+
+#: mainwin.cpp:2082
+msgid "Users"
+msgstr "Užívatelia"
+
+#: mainwin.cpp:2083
+#: qt3/i18n.cpp:287
+#: ui/aboutdlgbase.cpp:156
+#: ui/enable.cpp:136
+#: ui/filetransfer.cpp:217
+#: ui/logindlgbase.cpp:130
+#: ui/proxydlgbase.cpp:173
+#: ui/randomchat.cpp:171
+#: ui/randomchatbase.cpp:305
+#: ui/securedlg.cpp:62
+#: ui/setupdlgbase.cpp:122
+#: ui/toolsetupbase.cpp:136
+#: ui/userautoreply.cpp:76
+#: ui/userinfobase.cpp:153
+msgid "&Close"
+msgstr "&Zavrieť"
+
+#: mainwin.cpp:2084
+msgid "_: Ctrl+C\n"
+"Close"
+msgstr "Ctrl+C"
+
+#: mainwin.cpp:2086
+msgid "Alphabetically sort"
+msgstr "Zoradiť abecedne"
+
+#: mainwin.cpp:2087
+msgid "_: Ctrl+B\n"
+"Alphabetically sort"
+msgstr "Ctrl+B"
+
+#: mainwin.cpp:2296
+msgid "Delete %1?"
+msgstr "Vymazať %1 ?"
+
+#: mainwin.cpp:2461
+msgid "New"
+msgstr "Nový"
+
+#: mainwin.cpp:2464
+msgid "To container"
+msgstr "Do kontajneru"
+
+#: mainwin.cpp:2469
+msgid "Read %1 message"
+msgstr "Čítať správu %1"
+
+#: mainwin.cpp:2711
+msgid "Don't show"
+msgstr "Neukazovať"
+
+#: mainwin.cpp:2712
+msgid "Available"
+msgstr "Dostupný"
+
+#: mainwin.cpp:2713
+msgid "Busy"
+msgstr "Obsazené"
+
+#: mainwin.cpp:2716
+#: userview.cpp:1831
+msgid "Create group"
+msgstr "Vytvoriť skupinu"
+
+#: mainwin.cpp:2718
+#: userview.cpp:1848
+msgid "Expand all"
+msgstr "Všetko rozbaliť"
+
+#: mainwin.cpp:2719
+#: userview.cpp:1850
+msgid "Collapse all"
+msgstr "Všetko zbaliť"
+
+#: mainwin.cpp:2721
+#: toolbtn.cpp:705
+msgid "Customize toolbar..."
+msgstr "Prispôsobiť nástrojovú lištu"
+
+#: mainwin.cpp:2724
+msgid "ICQ"
+msgstr "ICQ"
+
+#: mainwin.cpp:2735
+msgid "Phone \"Follow Me\""
+msgstr "Telefón"
+
+#: mainwin.cpp:2737
+msgid "Shared files"
+msgstr "Zdieľané súbory"
+
+#: mainwin.cpp:2741
+msgid "Always on top"
+msgstr "Viditeľný neustále"
+
+#: mainwin.cpp:2745
+msgid "&Bug report"
+msgstr "&Hlásenie chýb"
+
+#: mainwin.cpp:2746
+msgid "&About SIM"
+msgstr "&O aplikácii SIM"
+
+#: mainwin.cpp:2748
+msgid "About &KDE"
+msgstr "Informácie o prostredí &KDE"
+
+#: mainwin.cpp:2751
+msgid "Change UIN"
+msgstr "Zmeniť UIN"
+
+#: mainwin.cpp:2752
+#: mainwin.cpp:2759
+msgid "Quit"
+msgstr "Ukončit"
+
+#: _translatorinfo.cpp:1
+#: mainwin.cpp:3078
+msgid "_: NAME OF TRANSLATORS\n"
+"Your names"
+msgstr "Tomáš Oláh (Griffin)"
+
+#: _translatorinfo.cpp:3
+#: mainwin.cpp:3079
+msgid "_: EMAIL OF TRANSLATORS\n"
+"Your emails"
+msgstr "tomas.olah@alert.sk"
+
+#: mainwin.cpp:3105
+msgid "light"
+msgstr "svetlé"
+
+#: mainwin.cpp:3109
+msgid "demibold"
+msgstr "polotučné"
+
+#: mainwin.cpp:3113
+msgid "bold"
+msgstr "tučné"
+
+#: mainwin.cpp:3117
+msgid "black"
+msgstr "čierne"
+
+#: mainwin.cpp:3124
+msgid "italic"
+msgstr "kurzíva"
+
+#: monitor.cpp:69
+msgid "E&xit"
+msgstr "Ukonči&ť"
+
+#: monitor.cpp:70
+#: ui/acceptbase.cpp:184
+msgid "&File"
+msgstr "S&úbor"
+
+#: monitor.cpp:73
+msgid "&Copy"
+msgstr "&Kopírovať"
+
+#: monitor.cpp:74
+msgid "&Erase"
+msgstr "Z&mazať"
+
+#: monitor.cpp:75
+#: ui/phonebookbase.cpp:138
+msgid "&Edit"
+msgstr "&Upraviť"
+
+#: monitor.cpp:79
+msgid "&Packets"
+msgstr "&Paketov"
+
+#: monitor.cpp:80
+msgid "&Debug"
+msgstr "&Debug"
+
+#: monitor.cpp:81
+msgid "&Warnings"
+msgstr "&Varovania"
+
+#: monitor.cpp:82
+msgid "&Error"
+msgstr "&Chyby"
+
+#: monitor.cpp:83
+msgid "&Log"
+msgstr "&Log"
+
+#: monitor.cpp:133
+#, c-format
+msgid "Can't create file %1"
+msgstr "Nemôžem vytvoriť súbor %1"
+
+#: msgedit.cpp:78
+msgid "Decline file without reason"
+msgstr "Odmietnuť súbor bez príčiny"
+
+#: msgedit.cpp:80
+msgid "Sorry, I'm busy right now, and can not respond to your request"
+msgstr "Teraz som zaneprázdnený a nemôžem reagovať na vašu správu"
+
+#: msgedit.cpp:82
+msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
+msgstr "Teraz som zaneprázdnený, ale odpoviem vám neskôr"
+
+#: msgedit.cpp:84
+msgid "Enter a decline reason"
+msgstr "Vložte dôvod odmietnutia"
+
+#: msgedit.cpp:113
+msgid "Bac&kground color"
+msgstr "Farba &pozadia"
+
+#: msgedit.cpp:118
+msgid "Text &font"
+msgstr "&Font písma"
+
+#: msgedit.cpp:119
+msgid "Inser&t smile"
+msgstr "Vložiť emo&tikon"
+
+#: msgedit.cpp:120
+msgid "&Grant"
+msgstr "&Povoliť"
+
+#: msgedit.cpp:121
+msgid "&Refuse"
+msgstr "Za&mietnuť"
+
+#: msgedit.cpp:122
+msgid "&Accept"
+msgstr "&Akceptovať"
+
+#: msgedit.cpp:123
+msgid "&Decline"
+msgstr "Za&mietnuť"
+
+#: msgedit.cpp:124
+msgid "&Reply"
+msgstr "&Odpovedať"
+
+#: msgedit.cpp:125
+msgid "&Quote"
+msgstr "&Citácia"
+
+#: msgedit.cpp:126
+#: ui/smssetupbase.cpp:134
+msgid "&Forward"
+msgstr "Prepos&lať"
+
+#: msgedit.cpp:128
+msgid "Spell &check"
+msgstr "Kontrola pra&vopisu"
+
+#: msgedit.cpp:130
+msgid "C&lose after send"
+msgstr "Po odoslaní &zavrieť"
+
+#: msgedit.cpp:132
+#: msgedit.cpp:358
+msgid "&Send"
+msgstr "Odo&slať"
+
+#: msgedit.cpp:133
+msgid "&Next"
+msgstr "&Ďalší"
+
+#: msgedit.cpp:135
+msgid "&Multiply send"
+msgstr "Poslať viacerí&m"
+
+#: msgedit.cpp:184
+msgid "Phone:"
+msgstr "Telefón:"
+
+#: msgedit.cpp:193
+#: msgview.cpp:1191
+#: ui/soundsetupbase.cpp:231
+msgid "URL:"
+msgstr "URL:"
+
+#: msgedit.cpp:200
+#: msgedit.cpp:1369
+#: msgview.cpp:207
+#: msgview.cpp:1247
+#: qt3/i18n.cpp:83
+msgid "File"
+msgstr "súbor"
+
+#: msgedit.cpp:207
+msgid "Drag users here"
+msgstr "Sem presuňte užívateľa"
+
+#: msgedit.cpp:348
+msgid "Sending"
+msgstr "Odosielanie"
+
+#: msgedit.cpp:356
+#: qt3/i18n.cpp:35
+#: ui/addphonebase.cpp:138
+#: ui/emaileditbase.cpp:92
+#: ui/enable.cpp:136
+#: ui/filetransfer.cpp:302
+#: ui/filetransferbase.cpp:131
+#: ui/randomchat.cpp:170
+#: ui/securedlgbase.cpp:70
+msgid "&Cancel"
+msgstr "&Zrušiť"
+
+#: msgedit.cpp:513
+msgid "Transfer started"
+msgstr "Prenos začal"
+
+#: msgedit.cpp:516
+msgid "Chat started"
+msgstr "Chat začal"
+
+#: msgedit.cpp:585
+msgid "Message sent"
+msgstr "Správa odoslaná"
+
+#: msgedit.cpp:588
+msgid "Send failed"
+msgstr "Chyba pri odosielaní"
+
+#: msgedit.cpp:875
+msgid "Next"
+msgstr "Ďalší"
+
+#: msgedit.cpp:886
+msgid "&New message"
+msgstr "&Nová správa"
+
+#: msgedit.cpp:928
+msgid "%1 (ICQ# %2) wrote:<br>\n"
+msgstr "%1 (ICQ# %2) píše:<br>\n"
+
+#: msgedit.cpp:1179
+msgid "Save to"
+msgstr "Uložiť ako"
+
+#: msgedit.cpp:1565
+msgid "Size: %1 / Max. size: %2"
+msgstr "Veľkosť: %1 / Max. veľkosť: %2"
+
+#: msgedit.cpp:1569
+msgid "Message will be split"
+msgstr "Správa bude rozdelená"
+
+#: msgedit.cpp:1744
+msgid "Decline reason"
+msgstr "Odmietnuť dôvod"
+
+#: msgedit.cpp:1744
+msgid "Please, input decline reason:"
+msgstr "Prosím, vložte dôvod odmietnutia"
+
+#: msgview.cpp:164
+#: msgview.cpp:1204
+msgid "Authorization request"
+msgstr "Je požadovaná autorizácia"
+
+#: msgview.cpp:175
+#: msgview.cpp:1215
+msgid "Authorization refused"
+msgstr "Autorizácia odmietnutá"
+
+#: msgview.cpp:185
+#: msgview.cpp:1225
+msgid "Authorization granted"
+msgstr "Autorizácia úspešne prebehla"
+
+#: msgview.cpp:188
+#: msgview.cpp:1228
+msgid "Added to contact list"
+msgstr "Pridané do zoznamu kontaktov"
+
+#: msgview.cpp:192
+#: msgview.cpp:1232
+msgid "Contact request"
+msgstr "Žiadosť o kontakt"
+
+#: msgview.cpp:214
+#: msgview.cpp:1254
+msgid "bytes"
+msgstr "Bajtov"
+
+#: msgview.cpp:231
+#: msgview.cpp:1273
+msgid "Contact list received"
+msgstr "Zoznam kontaktov bol prijatý"
+
+#: msgview.cpp:231
+#: msgview.cpp:1273
+msgid "Contact list sent"
+msgstr "Zoznam kontaktov odoslaný"
+
+#: msgview.cpp:851
+#: qt3/i18n.cpp:139
+msgid "Save"
+msgstr "Uložiť"
+
+#: msgview.cpp:853
+#: ui/searchbase.cpp:277
+#: ui/searchbase.cpp:279
+msgid "Search"
+msgstr "Vyhľadávanie"
+
+#: msgview.cpp:854
+msgid "&Search"
+msgstr "&Vyhľadávanie"
+
+#: msgview.cpp:855
+msgid "&Filter"
+msgstr "&Filter"
+
+#: msgview.cpp:857
+msgid "&Previous page"
+msgstr "&Predošlá stránka"
+
+#: msgview.cpp:858
+msgid "&Next page"
+msgstr "Ďalšia strá&nka"
+
+#: msgview.cpp:860
+msgid "&Sort order"
+msgstr "&Zoradiť"
+
+#: msgview.cpp:1101
+msgid "text/plain|Text file\n"
+"text/html|HTML file"
+msgstr "text/plain|Textový súbor\n"
+"text/html|HTML súbor"
+
+#: msgview.cpp:1103
+msgid "Text file(*.txt);;HTML file(*.htm *.html)"
+msgstr "Textový súbor(*.txt);;HTML súbor(*.htm *.html)"
+
+#: msgview.cpp:1105
+msgid "Save history"
+msgstr "Uložiť históriu"
+
+#: msgview.cpp:1120
+msgid "File %1 exists\n"
+"Overwrite?"
+msgstr "súbor %1 už existuje\n"
+"Prepísať?"
+
+#: sim.cpp:117
+msgid "_: Dear translator, please do not translate this string in any form, but pick the _right_ value out of NoPlural/TwoForms/French... If not sure what to do mail thd@kde.org and coolo@kde.org, they will tell you. Better leave that out if unsure, the programs will crash!!\n"
+"Definition of PluralForm - to be set by the translator of kdelibs.po"
+msgstr "NoPlural"
+
+#: sim.cpp:525
+msgid "SIM"
+msgstr "SIM"
+
+#: sim.cpp:527
+msgid "ICQ client"
+msgstr "ICQ klient"
+
+#: sim.cpp:534
+msgid "Maintainer"
+msgstr "Správca"
+
+#: sim.cpp:541
+msgid "Directory for files"
+msgstr "Adresár pre súbory"
+
+#: sim.cpp:542
+msgid "Loglevel"
+msgstr "Úroveň logovania"
+
+#: sim.cpp:543
+msgid "Control socket"
+msgstr "Riadiaci soket"
+
+#: sim.cpp:544
+msgid "No dock"
+msgstr "Nedokovať"
+
+#: themes.cpp:132
+#: themes.cpp:141
+msgid "Default style"
+msgstr "Štandardný štýl"
+
+#: userbox.cpp:105
+msgid "Message"
+msgstr "Správa"
+
+#: userbox.cpp:107
+msgid "User"
+msgstr "Užívateľ"
+
+#: userbox.cpp:109
+msgid "Add to ignore &list"
+msgstr "Pridať do zoznamu &ignorovaných"
+
+#: userbox.cpp:110
+msgid "Move to &group"
+msgstr "Presunúť do s&kupiny"
+
+#: userbox.cpp:112
+msgid "User &info"
+msgstr "&Informácie o užívateľovi"
+
+#: userbox.cpp:113
+msgid "&History<br>with CTRL open in new window"
+msgstr "&História<br>s CTRL otvoriť v novom okne"
+
+#: userbox.cpp:114
+msgid "&Encoding"
+msgstr "&Kódovanie"
+
+#: userbox.cpp:116
+msgid "Close user &window"
+msgstr "Zavrieť &okno"
+
+#: userbox.cpp:256
+msgid "All encodings"
+msgstr "Všetky kódovania"
+
+#: userbox.cpp:350
+msgid "All users"
+msgstr "Všetci užívatelia"
+
+#: userbox.cpp:406
+msgid "History"
+msgstr "História"
+
+#: userbox.cpp:1052
+msgid "History loading"
+msgstr "Načítavam históriu"
+
+#: ui/searchbase.cpp:298
+#: usertbl.cpp:110
+msgid "UIN"
+msgstr "UIN"
+
+#: usertbl.cpp:112
+msgid "Alias"
+msgstr "Alias"
+
+#: qt3/i18n.cpp:39
+#: usertbl.cpp:115
+msgid "Name"
+msgstr "Meno"
+
+#: usertbl.cpp:116
+msgid "Email"
+msgstr "Email"
+
+#: usertbl.cpp:392
+msgid "Erase"
+msgstr "Odobrať"
+
+#: usertbl.cpp:394
+msgid "Add group"
+msgstr "Pridať skupinu"
+
+#: usertbl.cpp:395
+msgid "Add all"
+msgstr "Pridať všetko"
+
+#: ui/userinfo.cpp:86
+#: usertbl.cpp:405
+msgid "User info"
+msgstr "Informácie o užívateľovi"
+
+#: usertbl.cpp:411
+msgid "Add to group"
+msgstr "Pridať do skupiny"
+
+#: ui/userinfo.cpp:155
+#: userview.cpp:537
+#: userview.cpp:1336
+msgid "Not in list"
+msgstr "Nie sú v zozname"
+
+#: userview.cpp:692
+#: userview.cpp:1832
+msgid "_: Ctrl+N\n"
+"Create group"
+msgstr "CTRL+N\n"
+"Vytvoriť skupinu"
+
+#: userview.cpp:889
+#: userview.cpp:905
+msgid "New group"
+msgstr "Nová skupina"
+
+#: userview.cpp:1827
+msgid "Rename"
+msgstr "Premenovať"
+
+#: userview.cpp:1835
+msgid "Up"
+msgstr "Hore"
+
+#: userview.cpp:1837
+msgid "Down"
+msgstr "Dole"
+
+#: ui/setupdlg.cpp:140
+#: ui/userinfo.cpp:110
+#: userview.cpp:1846
+msgid "Auto reply"
+msgstr "Automatická odpoveď"
+
+#: qt3/i18n.cpp:1
+msgid "Hu&e:"
+msgstr "Zafarb&enie:"
+
+#: qt3/i18n.cpp:3
+msgid "&Sat:"
+msgstr "&Sat:"
+
+#: qt3/i18n.cpp:5
+msgid "&Val:"
+msgstr "&Val:"
+
+#: qt3/i18n.cpp:7
+msgid "&Red:"
+msgstr "&Červená:"
+
+#: qt3/i18n.cpp:9
+msgid "&Green:"
+msgstr "&Zelená:"
+
+#: qt3/i18n.cpp:11
+msgid "Bl&ue:"
+msgstr "&Modrá:"
+
+#: qt3/i18n.cpp:13
+msgid "A&lpha channel:"
+msgstr "A&lfa kanál:"
+
+#: qt3/i18n.cpp:15
+msgid "&Basic colors"
+msgstr "Základné &farvy"
+
+#: qt3/i18n.cpp:17
+msgid "&Custom colors"
+msgstr "&Vlastné farvy"
+
+#: qt3/i18n.cpp:19
+msgid "&Define Custom Colors >>"
+msgstr "&Definovať vlastné farvy >>"
+
+#: qt3/i18n.cpp:21
+msgid "OK"
+msgstr "OK"
+
+#: qt3/i18n.cpp:23
+#: ui/logindlg.cpp:154
+#: ui/searchdlg.cpp:107
+msgid "Cancel"
+msgstr "Zrušiť"
+
+#: qt3/i18n.cpp:25
+msgid "&Add To Custom Colors"
+msgstr "&Pridať do vlasních farieb"
+
+#: qt3/i18n.cpp:27
+msgid "Select color"
+msgstr "Vybrať farvu"
+
+#: qt3/i18n.cpp:29
+msgid "Copy or Move a File"
+msgstr "Kopírovať alebo presunúť súbor"
+
+#: qt3/i18n.cpp:31
+#, c-format
+msgid "Read: %1"
+msgstr "Čítať: %1"
+
+#: qt3/i18n.cpp:33
+#, c-format
+msgid "Write: %1"
+msgstr "Písať: %1"
+
+#: qt3/i18n.cpp:37
+msgid "All files (*)"
+msgstr "Všetky súbory (*)"
+
+#: qt3/i18n.cpp:41
+msgid "Size"
+msgstr "Veľkosť"
+
+#: qt3/i18n.cpp:43
+#: ui/phonebook.cpp:78
+msgid "Type"
+msgstr "Typ"
+
+#: qt3/i18n.cpp:45
+msgid "Date"
+msgstr "Dátum"
+
+#: qt3/i18n.cpp:47
+msgid "Attributes"
+msgstr "Atribúty"
+
+#: qt3/i18n.cpp:49
+msgid "Look &in:"
+msgstr "Náh&ľad:"
+
+#: qt3/i18n.cpp:51
+msgid "File &name:"
+msgstr "Me&no súboru:"
+
+#: qt3/i18n.cpp:53
+msgid "File &type:"
+msgstr "&Typ súboru:"
+
+#: qt3/i18n.cpp:55
+msgid "Back"
+msgstr "Späť"
+
+#: qt3/i18n.cpp:57
+msgid "One directory up"
+msgstr "O adresár vyššie"
+
+#: qt3/i18n.cpp:59
+msgid "Create New Folder"
+msgstr "Vytvoriť nový adresár"
+
+#: qt3/i18n.cpp:61
+msgid "List View"
+msgstr "Pohľad (zoznam)"
+
+#: qt3/i18n.cpp:63
+msgid "Detail View"
+msgstr "Pohľad (detail)"
+
+#: qt3/i18n.cpp:65
+msgid "Preview File Info"
+msgstr "Informácie o súbore"
+
+#: qt3/i18n.cpp:67
+msgid "Preview File Contents"
+msgstr "Ukázať obsah súboru"
+
+#: qt3/i18n.cpp:69
+msgid "Read-write"
+msgstr "Čítanie-Zápis"
+
+#: qt3/i18n.cpp:71
+msgid "Read-only"
+msgstr "Len čítanie"
+
+#: qt3/i18n.cpp:73
+msgid "Write-only"
+msgstr "Len zápis"
+
+#: qt3/i18n.cpp:75
+msgid "Inaccessible"
+msgstr "Neprístupný"
+
+#: qt3/i18n.cpp:77
+msgid "Symlink to File"
+msgstr "Symlink na súbor"
+
+#: qt3/i18n.cpp:79
+msgid "Symlink to Directory"
+msgstr "Symlink na adresár"
+
+#: qt3/i18n.cpp:81
+msgid "Symlink to Special"
+msgstr "Symlink na zvláštny súbor"
+
+#: qt3/i18n.cpp:85
+msgid "Dir"
+msgstr "Adresár"
+
+#: qt3/i18n.cpp:87
+msgid "Special"
+msgstr "Špeciálny"
+
+#: qt3/i18n.cpp:89
+#: ui/fontsetupbase.cpp:227
+msgid "Open"
+msgstr "Otvoriť"
+
+#: qt3/i18n.cpp:91
+msgid "Save as"
+msgstr "Uložiť jako"
+
+#: qt3/i18n.cpp:93
+msgid "&Open"
+msgstr "&Otvoriť"
+
+#: qt3/i18n.cpp:97
+msgid "&Rename"
+msgstr "&Premenovať"
+
+#: qt3/i18n.cpp:99
+#: ui/logindlgbase.cpp:125
+#: ui/phonebookbase.cpp:139
+msgid "&Delete"
+msgstr "&Zmazať"
+
+#: qt3/i18n.cpp:101
+msgid "R&eload"
+msgstr "&Obnoviť"
+
+#: qt3/i18n.cpp:103
+msgid "Sort by &Name"
+msgstr "Zoradiť podľa me&na"
+
+#: qt3/i18n.cpp:105
+msgid "Sort by &Size"
+msgstr "Zoradiť podľa veľko&sti"
+
+#: qt3/i18n.cpp:107
+msgid "Sort by &Date"
+msgstr "Zoradiť podľa &dátumu"
+
+#: qt3/i18n.cpp:109
+msgid "&Unsorted"
+msgstr "&Nezoradené"
+
+#: qt3/i18n.cpp:111
+msgid "Sort"
+msgstr "Zoradenie"
+
+#: qt3/i18n.cpp:113
+msgid "Show &hidden files"
+msgstr "Zobraziť &skryté súbory"
+
+#: qt3/i18n.cpp:115
+msgid "the file"
+msgstr "súbor"
+
+#: qt3/i18n.cpp:117
+msgid "the directory"
+msgstr "adresár"
+
+#: qt3/i18n.cpp:119
+msgid "the symlink"
+msgstr "symlink"
+
+#: qt3/i18n.cpp:121
+#, c-format
+msgid "Delete %1"
+msgstr "Zmazať %1"
+
+#: qt3/i18n.cpp:123
+msgid "<qt>Do you really want to delete %1 \"%2\"?</qt>"
+msgstr "<qt>Naozaj si prajete zmazať %1 \"%2\"?</qt>"
+
+#: qt3/i18n.cpp:129
+msgid "New Folder 1"
+msgstr "Nový adresár 1"
+
+#: qt3/i18n.cpp:131
+msgid "New Folder"
+msgstr "Nový adresár"
+
+#: qt3/i18n.cpp:133
+#, c-format
+msgid "New Folder %1"
+msgstr "Nový adresár %1"
+
+#: qt3/i18n.cpp:135
+msgid "Find Directory"
+msgstr "Nájsť adresár"
+
+#: qt3/i18n.cpp:137
+msgid "Directories"
+msgstr "Adresáre"
+
+#: qt3/i18n.cpp:144
+msgid ""
+"%1\n"
+"File not found.\n"
+"Check path and filename."
+msgstr ""
+"%1\n"
+"súbor nenájdený.\n"
+"Overte si cestu a názov súboru."
+
+#: qt3/i18n.cpp:148
+msgid "ERROR"
+msgstr "CHYBA"
+
+#: qt3/i18n.cpp:150
+msgid "&Font"
+msgstr "&Font"
+
+#: qt3/i18n.cpp:152
+msgid "Font st&yle"
+msgstr "Štýl&y fontov"
+
+#: qt3/i18n.cpp:154
+msgid "&Size"
+msgstr "Veľko&sť"
+
+#: qt3/i18n.cpp:156
+msgid "Effects"
+msgstr "Efekty"
+
+#: qt3/i18n.cpp:158
+msgid "Stri&keout"
+msgstr "Prečiar&knuté"
+
+#: qt3/i18n.cpp:162
+msgid "&Color"
+msgstr "&Farva"
+
+#: qt3/i18n.cpp:164
+msgid "Sample"
+msgstr "Príklad"
+
+#: qt3/i18n.cpp:166
+msgid "Scr&ipt"
+msgstr "Skr&ipt"
+
+#: qt3/i18n.cpp:168
+msgid "Apply"
+msgstr "Použiť"
+
+#: qt3/i18n.cpp:170
+#: ui/logindlg.cpp:195
+#: ui/searchbase.cpp:281
+#: ui/searchdlg.cpp:110
+msgid "Close"
+msgstr "Zavrieť"
+
+#: qt3/i18n.cpp:172
+msgid "Select Font"
+msgstr "Vybrať štýl"
+
+#: qt3/i18n.cpp:174
+msgid "&OK"
+msgstr "&OK"
+
+#: qt3/i18n.cpp:177
+msgid "<h3>About Qt</h3><p>This program uses Qt version %1, a multiplatform C++ GUI toolkit from Trolltech. Qt provides single-source portability across Windows 95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of Unix with X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more information.</p>"
+msgstr "<h3>O Qt</h3><p>Tento program používa Qt vo verzii %1, multiplatformový C++ GUI toolkit od Trolltech. Qt poskytuje \"single-source\" portabilitu od Windows 95/98/NT/2000 cez Linux, Solaris, HP-UX a mnoho iných verzií Unixov s X11.</p><p>Viac se dozviete na <tt>http://www.trolltech.com/qt/</tt>.</p>"
+
+#: qt3/i18n.cpp:183
+msgid "Help"
+msgstr "Pomoc"
+
+#: qt3/i18n.cpp:185
+msgid "Defaults"
+msgstr "Predvolené"
+
+#: qt3/i18n.cpp:187
+msgid "< Back"
+msgstr "< Späť"
+
+#: qt3/i18n.cpp:189
+msgid "Next >"
+msgstr "Ďalší >"
+
+#: qt3/i18n.cpp:191
+msgid "Finish"
+msgstr "Koniec"
+
+#: qt3/i18n.cpp:193
+msgid "Ctrl"
+msgstr "Ctrl"
+
+#: qt3/i18n.cpp:195
+msgid "+"
+msgstr "+"
+
+#: qt3/i18n.cpp:197
+msgid "Alt"
+msgstr "Alt"
+
+#: qt3/i18n.cpp:199
+msgid "Shift"
+msgstr "Shift"
+
+#: qt3/i18n.cpp:201
+#, c-format
+msgid "F%1"
+msgstr "F%1"
+
+#: qt3/i18n.cpp:203
+msgid "ctrl"
+msgstr "ctrl"
+
+#: qt3/i18n.cpp:205
+msgid "shift"
+msgstr "shift"
+
+#: qt3/i18n.cpp:207
+msgid "alt"
+msgstr "alt"
+
+#: qt3/i18n.cpp:210
+msgid ""
+"Could not rename\n"
+"%1\n"
+"to\n"
+"%2"
+msgstr ""
+"Nie je možne premenovať\n"
+"%1\n"
+"na\n"
+"%2"
+
+#: qt3/i18n.cpp:216
+#, c-format
+msgid "Could not open\n"
+"%1"
+msgstr "Nie je možné otvoriť\n"
+"%1"
+
+#: qt3/i18n.cpp:220
+#, c-format
+msgid "Could not write\n"
+"%1"
+msgstr "Nie je možné zapísať\n"
+"%1"
+
+#: qt3/i18n.cpp:223
+msgid "Operation stopped by the user"
+msgstr "Operácia bola užívateľom prerušená"
+
+#: qt3/i18n.cpp:225
+msgid "(unknown)"
+msgstr "(neznáme)"
+
+#: qt3/i18n.cpp:227
+msgid "Host %1 found"
+msgstr "Server %1 nájdený"
+
+#: qt3/i18n.cpp:229
+msgid "Host found"
+msgstr "Server nájdený"
+
+#: qt3/i18n.cpp:231
+#, c-format
+msgid "Connected to host %1"
+msgstr "Pripojený k serveru %1"
+
+#: qt3/i18n.cpp:233
+msgid "Connected to host"
+msgstr "Pripojený k serveru"
+
+#: qt3/i18n.cpp:235
+msgid "Connection to %1 closed"
+msgstr "Spojenie s %1 bolo ukončené"
+
+#: qt3/i18n.cpp:237
+msgid "Connection closed"
+msgstr "Spojenie bolo ukončené"
+
+#: qt3/i18n.cpp:239
+msgid "Login Incorrect"
+msgstr "Chyba pri prihlasovaní"
+
+#: qt3/i18n.cpp:241
+#, c-format
+msgid "Col %1"
+msgstr "Sĺpec %1"
+
+#: qt3/i18n.cpp:243
+#, c-format
+msgid "Row %1"
+msgstr "Riadok %1"
+
+#: qt3/i18n.cpp:245
+msgid "Undo"
+msgstr "Vráť späť"
+
+#: qt3/i18n.cpp:247
+msgid "Redo"
+msgstr "Urob znovu"
+
+#: qt3/i18n.cpp:249
+msgid "Cut"
+msgstr "Vystrihnúť"
+
+#: qt3/i18n.cpp:251
+#: ui/fontsetupbase.cpp:225
+msgid "Copy"
+msgstr "Kopírovať"
+
+#: qt3/i18n.cpp:253
+msgid "Paste"
+msgstr "Vložiť"
+
+#: qt3/i18n.cpp:255
+msgid "Clear"
+msgstr "Odznačiť"
+
+#: qt3/i18n.cpp:257
+msgid "Select All"
+msgstr "Vybrať všetko"
+
+#: qt3/i18n.cpp:259
+msgid "&Left"
+msgstr "V&ľavo"
+
+#: qt3/i18n.cpp:261
+msgid "&Right"
+msgstr "&Vp&ravo"
+
+#: qt3/i18n.cpp:263
+msgid "&Top"
+msgstr "&Hore"
+
+#: qt3/i18n.cpp:265
+msgid "&Bottom"
+msgstr "&Dole"
+
+#: qt3/i18n.cpp:267
+msgid "R&estore"
+msgstr "O&bnoviť"
+
+#: qt3/i18n.cpp:269
+msgid "&Hide"
+msgstr "S&kryť"
+
+#: qt3/i18n.cpp:271
+msgid "Line Up Toolbars (compact)"
+msgstr "Nástrojové lišty (kompaktné)"
+
+#: qt3/i18n.cpp:273
+msgid "Line Up Toolbars (normal)"
+msgstr "Nástrojové lišty (normálne)"
+
+#: qt3/i18n.cpp:275
+msgid "Paste special..."
+msgstr "Vložiť špeciálne..."
+
+#: qt3/i18n.cpp:277
+msgid "What's this?"
+msgstr "Čo je to?"
+
+#: qt3/i18n.cpp:279
+msgid "&Restore"
+msgstr "O&bnoviť"
+
+#: qt3/i18n.cpp:281
+msgid "&Move"
+msgstr "Pres&unúť"
+
+#: qt3/i18n.cpp:283
+msgid "Mi&nimize"
+msgstr "Mi&nimalizovať"
+
+#: qt3/i18n.cpp:285
+msgid "Ma&ximize"
+msgstr "Ma&ximalizovať"
+
+#: qt3/i18n.cpp:289
+msgid "&Roll up"
+msgstr "Z&rolovať"
+
+#: qt3/i18n.cpp:291
+msgid "Minimize"
+msgstr "Minimalizovať"
+
+#: qt3/i18n.cpp:293
+msgid "Restore Down"
+msgstr "Zrolovať"
+
+#: qt3/i18n.cpp:295
+msgid "Maximize"
+msgstr "Maximalizovať"
+
+#: qt3/i18n.cpp:297
+msgid "Roll up"
+msgstr "Zrolovať"
+
+#: qt3/i18n.cpp:299
+msgid "Restore Up"
+msgstr "Restore Up"
+
+#: qt3/i18n.cpp:301
+msgid "Roll down"
+msgstr "Zrolovať"
+
+#: ui/aboutdlg.cpp:41
+msgid "%1 Version: %2"
+msgstr "%1 Verzia: %2"
+
+#: ui/aboutdlg.cpp:44
+msgid "Bug report"
+msgstr "Nahlásiť chybu..."
+
+#: ui/addphone.cpp:34
+msgid "Home Phone"
+msgstr "Telefón domov"
+
+#: ui/addphone.cpp:35
+msgid "Home Fax"
+msgstr "Fax domov"
+
+#: ui/addphone.cpp:36
+msgid "Private Cellular"
+msgstr "Súkromný mobil"
+
+#: ui/addphone.cpp:37
+msgid "Work Phone"
+msgstr "Telefón do práce"
+
+#: ui/addphone.cpp:38
+msgid "Work Fax"
+msgstr "Fax do práce"
+
+#: ui/addphone.cpp:39
+msgid "Wireless Pager"
+msgstr "Pager"
+
+#: ui/alertdialog.cpp:55
+msgid "Left-bottom"
+msgstr "Vľavo dole"
+
+#: ui/alertdialog.cpp:56
+msgid "Left-top"
+msgstr "Vľavo hore"
+
+#: ui/alertdialog.cpp:57
+msgid "Right-bottom"
+msgstr "Vpravo dole"
+
+#: ui/alertdialog.cpp:58
+msgid "Right-top"
+msgstr "Vpravo hore"
+
+#: ui/alertdialog.cpp:59
+msgid "Center-bottom"
+msgstr "Dole vstrede"
+
+#: ui/alertdialog.cpp:60
+msgid "Center-top"
+msgstr "Hore vstrede"
+
+#: ui/alertdialog.cpp:61
+msgid "Center"
+msgstr "Stred"
+
+#: ui/alertmsg.cpp:41
+msgid "User "
+msgstr "Užívateľ"
+
+#: ui/alertmsg.cpp:41
+msgid " is online"
+msgstr " je pripojený"
+
+#: ui/alertmsg.cpp:51
+msgid "Close [%1 sec]"
+msgstr "Zatváranie [%1 Sek]"
+
+#: ui/autoreply.cpp:92
+msgid "Close in %1 sec"
+msgstr "Zavrieť po %1 sek."
+
+#: ui/addphonebase.cpp:139
+#: ui/alertmsgbase.cpp:75
+#: ui/autoreplybase.cpp:76
+#: ui/ballonmsg.cpp:199
+#: ui/emaileditbase.cpp:93
+#: ui/enable.cpp:133
+#: ui/logindlgbase.cpp:131
+#: ui/proxydlgbase.cpp:172
+#: ui/setupdlgbase.cpp:120
+#: ui/toolsetupbase.cpp:134
+#: ui/userinfobase.cpp:152
+msgid "&Ok"
+msgstr "&Ok"
+
+#: ui/editfile.cpp:86
+msgid "Directory for incoming files"
+msgstr "Adresár pro prichádzajúce súbory"
+
+#: ui/editfile.cpp:123
+msgid "*.wav|Sounds"
+msgstr "*.wav|(Zvuky)"
+
+#: ui/editfile.cpp:125
+msgid "Sounds(*.wav)"
+msgstr "Zvuky(*.wav)"
+
+#: ui/enable.cpp:134
+#: ui/randomchatbase.cpp:306
+#: ui/setupdlgbase.cpp:121
+#: ui/toolsetupbase.cpp:135
+msgid "&Apply"
+msgstr "&Použiť"
+
+#: ui/enable.cpp:134
+msgid "&Register"
+msgstr "&Registrácia"
+
+#: ui/filetransfer.cpp:74
+msgid "_n: Receive %2 from %1\n"
+"Receive %n files from %1"
+msgstr "Príjem %2 od %1\n"
+"Príjem %n súborov od %1"
+
+#: ui/filetransfer.cpp:78
+msgid "_n: Send %2 to %1\n"
+"Send %n files to %1"
+msgstr "Odosielanie %2 k %1\n"
+"Odosielanie %n súborov k %1"
+
+#: ui/filetransfer.cpp:137
+msgid "No files for transfer"
+msgstr "Žiadne súbory na prenos"
+
+#: ui/filetransfer.cpp:155
+msgid "Connect to %1 [%2]"
+msgstr "Pripojenie k %1 [%2]"
+
+#: ui/filetransfer.cpp:160
+msgid "Wait connect to %1 [%2]"
+msgstr "Čakanie na pripojenie k %1 [%2]"
+
+#: ui/filetransfer.cpp:165
+#, c-format
+msgid "Send thru server to %1"
+msgstr "Poslať cez server k %1"
+
+#: ui/filetransfer.cpp:177
+msgid "File transfer done"
+msgstr "Prenos súboru dokončený"
+
+#: ui/filetransfer.cpp:179
+msgid "[done]"
+msgstr "[hotovo]"
+
+#: ui/filetransfer.cpp:183
+msgid "[fail]"
+msgstr "[chyba]"
+
+#: ui/filetransfer.cpp:185
+#, c-format
+msgid "File transfer declined with reason %1"
+msgstr "Prenos súboru bol odmienutý z dôvodu %1"
+
+#: ui/filetransfer.cpp:202
+msgid "File transfer acked"
+msgstr "Prenos súboru bol prerušený"
+
+#: ui/filetransfer.cpp:257
+msgid "Receive file %1 of %2 files from %3"
+msgstr "Príjem súboru %1/%2 od %3"
+
+#: ui/filetransfer.cpp:259
+msgid "Send file %1 of %2 files to %3"
+msgstr "Odosielanie súboru %1/%2 pre %3"
+
+#: ui/filetransfer.cpp:301
+#: ui/filetransfer.cpp:317
+msgid "&New"
+msgstr "&Nový"
+
+#: ui/filetransfer.cpp:315
+msgid "&Replace"
+msgstr "Nah&radiť"
+
+#: ui/filetransfer.cpp:316
+msgid "R&esume"
+msgstr "O&bnoviť"
+
+#: ui/filetransfer.cpp:318
+msgid "&Skip"
+msgstr "Pre&skočiť"
+
+#: ui/filetransfer.cpp:319
+msgid "File %1 exists"
+msgstr "Súbor %1 už existuje"
+
+#: ui/generalsec.cpp:79
+msgid "Input current password"
+msgstr "Vložte aktuálne heslo"
+
+#: ui/generalsec.cpp:83
+msgid "Confirm password does not match"
+msgstr "Potvrdené heslo nezodpovedá"
+
+#: ui/generalsec.cpp:88
+#: ui/logindlg.cpp:234
+#: ui/logindlg.cpp:300
+msgid "Invalid password"
+msgstr "Chybné heslo"
+
+#: ui/keysetup.cpp:33
+msgid "Action"
+msgstr "Akcia"
+
+#: ui/keysetup.cpp:34
+msgid "Keys"
+msgstr "Klávesy"
+
+#: ui/keysetup.cpp:36
+msgid "Show/Hide main window"
+msgstr "Ukázať/Skryť hlavné okno"
+
+#: ui/keysetup.cpp:39
+msgid "Double click on dock"
+msgstr "Dvojitý klik na dokovanej ikone"
+
+#: ui/keysetup.cpp:42
+msgid "Show search window"
+msgstr "Zobraziť okno pre vyhľádavanie"
+
+#: ui/listsec.cpp:95
+#: ui/setupdlg.cpp:155
+msgid "Visible list"
+msgstr "Zoznam viditeľných"
+
+#: ui/listsec.cpp:113
+#: ui/setupdlg.cpp:154
+msgid "Invisible list"
+msgstr "Zoznam neviditeľných"
+
+#: ui/listsec.cpp:131
+#: ui/setupdlg.cpp:153
+msgid "Ignore list"
+msgstr "Zoznam ignorovaných"
+
+#: ui/logindlg.cpp:87
+msgid "<New UIN>"
+msgstr "<Nové UIN>"
+
+#: ui/logindlg.cpp:145
+#: ui/logindlg.cpp:215
+msgid "Can't initialize main window"
+msgstr "Nie je možné inicializovať hlavné okno"
+
+#: ui/logindlg.cpp:226
+msgid "Unknown login error"
+msgstr "Neznáma chyba pri prihlasovaní"
+
+#: ui/logindlg.cpp:230
+msgid "Rate limit"
+msgstr "Limit rýchlosti"
+
+#: ui/logindlg.cpp:306
+#, c-format
+msgid "Delete history and incoming files for %u?"
+msgstr "Zmazať históriu a príchodzie súbory pre %u?"
+
+#: ui/maininfo.cpp:47
+msgid "Default"
+msgstr "Štandardné"
+
+#: ui/miscsetup.cpp:93
+msgid "Addressbook synchronization"
+msgstr "Synchronizácia adresnej knihy"
+
+#: ui/miscsetup.cpp:93
+msgid "Success."
+msgstr "Úspešne."
+
+#: ui/moreinfo.cpp:73
+msgid "January"
+msgstr "Január"
+
+#: ui/moreinfo.cpp:74
+msgid "February"
+msgstr "Február"
+
+#: ui/moreinfo.cpp:75
+msgid "March"
+msgstr "Marec"
+
+#: ui/moreinfo.cpp:76
+msgid "April"
+msgstr "Apríľ"
+
+#: ui/moreinfo.cpp:77
+msgid "May"
+msgstr "Máj"
+
+#: ui/moreinfo.cpp:78
+msgid "June"
+msgstr "Jún"
+
+#: ui/moreinfo.cpp:79
+msgid "July"
+msgstr "Júl"
+
+#: ui/moreinfo.cpp:80
+msgid "August"
+msgstr "Srpen"
+
+#: ui/moreinfo.cpp:81
+msgid "September"
+msgstr "September"
+
+#: ui/moreinfo.cpp:82
+msgid "October"
+msgstr "Október"
+
+#: ui/moreinfo.cpp:83
+msgid "November"
+msgstr "November"
+
+#: ui/moreinfo.cpp:84
+msgid "December"
+msgstr "December"
+
+#: ui/network.cpp:48
+#: ui/proxydlg.cpp:41
+msgid "No proxy"
+msgstr "Žiadne proxy"
+
+#: ui/network.cpp:49
+#: ui/proxydlg.cpp:42
+msgid "SOCKS4"
+msgstr "SOCKS4"
+
+#: ui/network.cpp:50
+#: ui/proxydlg.cpp:43
+msgid "SOCKS5"
+msgstr "SOCKS5"
+
+#: ui/network.cpp:51
+#: ui/proxydlg.cpp:44
+msgid "HTTP"
+msgstr "HTTP"
+
+#: ui/network.cpp:52
+#: ui/proxydlg.cpp:45
+msgid "HTTPS"
+msgstr "HTTPS"
+
+#: ui/phonebook.cpp:55
+msgid "Yes"
+msgstr "Áno"
+
+#: ui/phonebook.cpp:80
+msgid "Number"
+msgstr "Číslo"
+
+#: ui/phonebook.cpp:81
+msgid "Publish"
+msgstr "Verejný"
+
+#: ui/searchdlg.cpp:218
+msgid "No users was found"
+msgstr "Žiaden užívateľ nebol nájdený"
+
+#: ui/securedlg.cpp:61
+msgid "[Failed]"
+msgstr "[chyba]"
+
+#: ui/setupdlg.cpp:111
+msgid "My details"
+msgstr "Moje detaily"
+
+#: ui/setupdlg.cpp:114
+#: ui/userinfo.cpp:90
+msgid "Main info"
+msgstr "Hlavné informácie"
+
+#: ui/setupdlg.cpp:115
+#: ui/userinfo.cpp:92
+msgid "Home info"
+msgstr "Domov"
+
+#: ui/setupdlg.cpp:116
+#: ui/userinfo.cpp:93
+msgid "Work info"
+msgstr "Práca"
+
+#: ui/setupdlg.cpp:117
+#: ui/userinfo.cpp:94
+msgid "More info"
+msgstr "Viac informácií"
+
+#: ui/setupdlg.cpp:118
+#: ui/userinfo.cpp:95
+msgid "About info"
+msgstr "Informácie o..."
+
+#: ui/setupdlg.cpp:119
+#: ui/userinfo.cpp:96
+msgid "Interests"
+msgstr "Záujmy"
+
+#: ui/setupdlg.cpp:120
+#: ui/userinfo.cpp:97
+msgid "Group/Past"
+msgstr "Skupiny/Minulosť"
+
+#: ui/setupdlg.cpp:121
+#: ui/userinfo.cpp:99
+msgid "Phone book"
+msgstr "Telefónny zoznam"
+
+#: ui/setupdlg.cpp:123
+#: ui/userinfo.cpp:103
+msgid "Preferences"
+msgstr "Vlastnosti"
+
+#: ui/setupdlg.cpp:126
+msgid "Status mode"
+msgstr "Status mód"
+
+#: ui/setupdlg.cpp:127
+msgid "Connection"
+msgstr "Spojenie"
+
+#: ui/setupdlg.cpp:128
+msgid "Style"
+msgstr "Štýl"
+
+#: ui/setupdlg.cpp:129
+msgid "Interface"
+msgstr "Rozhranie"
+
+#: ui/setupdlg.cpp:130
+msgid "Key shortcuts"
+msgstr "Klávesové skratky"
+
+#: ui/setupdlg.cpp:133
+#: ui/userinfo.cpp:106
+msgid "Accept"
+msgstr "Akceptovať"
+
+#: ui/setupdlg.cpp:134
+msgid "SMS"
+msgstr "SMS"
+
+#: ui/setupdlg.cpp:137
+msgid "Miscellaneous"
+msgstr "Rôzne"
+
+#: ui/setupdlg.cpp:149
+msgid "Security"
+msgstr "Zabezpečenie"
+
+#: ui/setupdlg.cpp:152
+msgid "General"
+msgstr "Všeobecné"
+
+#: ui/themesetup.cpp:53
+msgid "System"
+msgstr "Systém"
+
+#: ui/themesetup.cpp:132
+msgid "%1|Graphics"
+msgstr "%1|Grafika"
+
+#: ui/themesetup.cpp:134
+msgid "Graphics(%1)"
+msgstr "Grafika(%1)"
+
+#: ui/themesetup.cpp:139
+msgid "Contact - left"
+msgstr "Kontakt - vľavo"
+
+#: ui/themesetup.cpp:140
+msgid "Contact - scale"
+msgstr "Kontakt - prispôsobiť"
+
+#: ui/themesetup.cpp:141
+msgid "Window - left top"
+msgstr "Okno - vľavo hore"
+
+#: ui/themesetup.cpp:142
+msgid "Window - left bottom"
+msgstr "Okno - vľavo dole"
+
+#: ui/themesetup.cpp:143
+msgid "Window - left center"
+msgstr "Okno - vľavo vstrede"
+
+#: ui/themesetup.cpp:144
+msgid "Window - scale"
+msgstr "Okno - prispôsobiť"
+
+#: ui/themesetup.cpp:207
+msgid "Need restart SIM for change language"
+msgstr "Pre zmenu jazyka je nutné reštartovať SIM"
+
+#: ui/themesetup.cpp:217
+msgid "Default icons"
+msgstr "Štandardné ikony"
+
+#: ui/toolsetup.cpp:76
+#: ui/toolsetup.cpp:172
+#: ui/toolsetup.cpp:209
+msgid "Separator"
+msgstr "Oddeľovač"
+
+#: ui/userautoreply.cpp:51
+msgid "%1 autoresponse for %2"
+msgstr "%1 automatická odpoveď pre %2"
+
+#: ui/userautoreply.cpp:90
+msgid "&Check again"
+msgstr "&Kontrolovať znovu"
+
+#: ui/userinfo.cpp:147
+msgid "User info - '%1'"
+msgstr "Informace o užívateľovi - '%1'"
+
+#: ui/userinfo.cpp:154
+msgid "Settings - group '%1'"
+msgstr "Nastavenie - skupina '%1'"
+
+#: ui/searchbase.cpp:278
+msgid "Online only"
+msgstr "Len pripojení"
+
+#: ui/searchbase.cpp:280
+msgid "New search"
+msgstr "Nové vyhľadávanie"
+
+#: ui/searchbase.cpp:282
+msgid "Email:"
+msgstr "Email:"
+
+#: ui/moreinfobase.cpp:192
+#: ui/randomchatbase.cpp:279
+#: ui/randomchatbase.cpp:298
+#: ui/searchbase.cpp:283
+msgid "Age:"
+msgstr "Vek:"
+
+#: ui/randomchatbase.cpp:281
+#: ui/randomchatbase.cpp:300
+#: ui/searchbase.cpp:284
+#: ui/themesetupbase.cpp:318
+msgid "Language:"
+msgstr "Jazyk:"
+
+#: ui/moreinfobase.cpp:191
+#: ui/randomchatbase.cpp:280
+#: ui/randomchatbase.cpp:299
+#: ui/searchbase.cpp:285
+msgid "Gender:"
+msgstr "Pohlavie:"
+
+#: ui/homeinfobase.cpp:166
+#: ui/phonebase.cpp:159
+#: ui/randomchatbase.cpp:282
+#: ui/randomchatbase.cpp:301
+#: ui/searchbase.cpp:286
+#: ui/workinfobase.cpp:212
+msgid "Country:"
+msgstr "Štát:"
+
+#: ui/homeinfobase.cpp:167
+#: ui/searchbase.cpp:287
+#: ui/workinfobase.cpp:209
+msgid "City:"
+msgstr "Mesto:"
+
+#: ui/homeinfobase.cpp:164
+#: ui/searchbase.cpp:288
+#: ui/workinfobase.cpp:210
+msgid "State:"
+msgstr "Stav:"
+
+#: ui/searchbase.cpp:289
+msgid "Department:"
+msgstr "Oddelenie:"
+
+#: ui/searchbase.cpp:290
+msgid "Company:"
+msgstr "Firma:"
+
+#: ui/searchbase.cpp:291
+msgid "Interests:"
+msgstr "Záujmy:"
+
+#: ui/searchbase.cpp:292
+msgid "Email/Info"
+msgstr "Email/Informácie"
+
+#: ui/maininfobase.cpp:315
+#: ui/searchbase.cpp:293
+msgid "Last Name:"
+msgstr "Priezvisko:"
+
+#: ui/maininfobase.cpp:319
+#: ui/searchbase.cpp:294
+msgid "First name:"
+msgstr "Meno:"
+
+#: ui/searchbase.cpp:295
+msgid "Nickname:"
+msgstr "Prezývka (Nick):"
+
+#: ui/searchbase.cpp:296
+msgid "Names"
+msgstr "Mená"
+
+#: ui/logindlgbase.cpp:127
+#: ui/randomchatbase.cpp:291
+#: ui/searchbase.cpp:297
+msgid "UIN:"
+msgstr "UIN:"
+
+#: ui/toolsetupbase.cpp:123
+msgid "Toolbar setup"
+msgstr "Nastavenie nástrojovej lišty"
+
+#: ui/toolsetupbase.cpp:124
+msgid "All buttons:"
+msgstr "Všetky tlačítka"
+
+#: ui/keysetupbase.cpp:148
+#: ui/phonebookbase.cpp:133
+#: ui/setupdlgbase.cpp:117
+#: ui/themesetupbase.cpp:292
+#: ui/themesetupbase.cpp:296
+#: ui/toolsetupbase.cpp:126
+#: ui/toolsetupbase.cpp:131
+#: ui/userinfobase.cpp:148
+msgid "New Item"
+msgstr "Nová položka"
+
+#: ui/toolsetupbase.cpp:127
+msgid "&Add ->"
+msgstr "&Pridať ->"
+
+#: ui/toolsetupbase.cpp:128
+msgid "<- &Remove"
+msgstr "<- Odob&rať"
+
+#: ui/toolsetupbase.cpp:129
+msgid "Active:"
+msgstr "Aktívny:"
+
+#: ui/toolsetupbase.cpp:132
+msgid "&Up"
+msgstr "Ho&re"
+
+#: ui/toolsetupbase.cpp:133
+msgid "&Down"
+msgstr "&Dole"
+
+#: ui/securedlgbase.cpp:66
+msgid "Secure chanel request"
+msgstr "Žiadosť o zabezpečený kanál"
+
+#: ui/securedlgbase.cpp:67
+msgid ""
+"Secure channel is established using SSL with Diffie-Hellman key exchange and  the TLS version 1 protocol.\n"
+"\n"
+"This only works with other SIM and Licq clients"
+msgstr ""
+"Zabezpečený kanál použije SSL s Diffie-Hellman výmenou klúčov a TLS  protokol verzie 1.\n"
+"\n"
+"Funguje len s ostatními SIM a Licq klientami"
+
+#: ui/proxydlgbase.cpp:171
+msgid "Proxy settings"
+msgstr "Nastavenie proxy"
+
+#: ui/proxydlgbase.cpp:174
+msgid "Proxy"
+msgstr "Proxy"
+
+#: ui/networkbase.cpp:230
+#: ui/proxydlgbase.cpp:175
+msgid "Use proxy"
+msgstr "Používať proxy"
+
+#: ui/networkbase.cpp:231
+#: ui/proxydlgbase.cpp:176
+msgid "Proxy host:"
+msgstr "Proxy server:"
+
+#: ui/networkbase.cpp:235
+#: ui/proxydlgbase.cpp:177
+msgid "Proxy password:"
+msgstr "Proxy - heslo:"
+
+#: ui/networkbase.cpp:234
+#: ui/proxydlgbase.cpp:178
+msgid "Proxy user:"
+msgstr "Proxy - užívateľ:"
+
+#: ui/proxydlgbase.cpp:179
+msgid "User proxy authorization"
+msgstr "Autorizácia užívateľa na proxy"
+
+#: ui/networkbase.cpp:232
+#: ui/proxydlgbase.cpp:180
+msgid "Proxy port:"
+msgstr "Proxy-port:"
+
+#: ui/proxydlgbase.cpp:181
+msgid "Server"
+msgstr "Server"
+
+#: ui/networkbase.cpp:228
+#: ui/proxydlgbase.cpp:182
+msgid "Host:"
+msgstr "Host:"
+
+#: ui/networkbase.cpp:227
+#: ui/proxydlgbase.cpp:183
+msgid "Port:"
+msgstr "Port:"
+
+#: ui/acceptbase.cpp:172
+#: ui/alertdialogbase.cpp:231
+#: ui/fontsetupbase.cpp:221
+#: ui/generalsecbase.cpp:211
+#: ui/homeinfobase.cpp:163
+#: ui/keysetupbase.cpp:143
+#: ui/miscsetupbase.cpp:103
+#: ui/msgdialogbase.cpp:98
+#: ui/networkbase.cpp:225
+#: ui/pastinfobase.cpp:154
+#: ui/phonebase.cpp:153
+#: ui/phonebookbase.cpp:128
+#: ui/setupdlgbase.cpp:113
+#: ui/smssetupbase.cpp:122
+#: ui/soundsetupbase.cpp:227
+#: ui/statussetupbase.cpp:139
+#: ui/themesetupbase.cpp:289
+#: ui/userinfobase.cpp:144
+msgid "Form1"
+msgstr "Form1"
+
+#: ui/smssetupbase.cpp:123
+msgid "Text before cursor:"
+msgstr "Text pred kurzorom:"
+
+#: ui/smssetupbase.cpp:124
+msgid "Text after cursor:"
+msgstr "Text za kurzorom:"
+
+#: ui/smssetupbase.cpp:125
+msgid ""
+"You case use:\n"
+"&Alias; -  receipent name\n"
+"&Uin; - receipent UIN\n"
+"&MyAlias; - own name\n"
+"&MyUin; - own UIN"
+msgstr ""
+"Použitie:\n"
+"&Alias; - meno adresáta\n"
+"&Uin; - UIN adresáta\n"
+"&MyAlias; - vlastné meno\n"
+"&MyUin; - vlastné UIN"
+
+#: ui/smssetupbase.cpp:130
+msgid "&Signature"
+msgstr "Podpi&s"
+
+#: ui/smssetupbase.cpp:131
+msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
+msgstr "Všetky správy na mobil posielať ako  \"Away\" a \"N/A\" "
+
+#: ui/smssetupbase.cpp:132
+msgid "For the answer or sending of the new message you can answer on SMS having specified in the beginning of the message a line:\n"
+"<UIN>:"
+msgstr "Pri posielaní odpovedí alebo nových správ môžete odpovedať SMS na číslo špecifikované na začiatku správy:\n"
+"<UIN>:"
+
+#: ui/logindlgbase.cpp:123
+msgid "Login"
+msgstr "Login"
+
+#: ui/logindlgbase.cpp:124
+msgid "&Do not show this window"
+msgstr "Nezobrazovať tento &dialog"
+
+#: ui/logindlgbase.cpp:126
+msgid "&Proxy settings"
+msgstr "&Proxy nastavenia"
+
+#: ui/logindlgbase.cpp:128
+msgid "&Save password"
+msgstr "Uložiť he&slo"
+
+#: ui/logindlgbase.cpp:129
+msgid "Password:"
+msgstr "Heslo:"
+
+#: ui/keysetupbase.cpp:105
+#: ui/keysetupbase.cpp:145
+#: ui/phonebookbase.cpp:83
+#: ui/phonebookbase.cpp:130
+#: ui/setupdlgbase.cpp:71
+#: ui/setupdlgbase.cpp:114
+#: ui/userinfobase.cpp:95
+#: ui/userinfobase.cpp:145
+msgid "Column 1"
+msgstr "Stĺpec 1"
+
+#: ui/keysetupbase.cpp:144
+msgid "Actions:"
+msgstr "Akcie:"
+
+#: ui/keysetupbase.cpp:150
+msgid "&Enable"
+msgstr "&Povoliť"
+
+#: ui/keysetupbase.cpp:151
+msgid "Send messages on \"Enter\""
+msgstr "Poslať správu stlačením \"Enter\""
+
+#: ui/keysetupbase.cpp:152
+msgid "&Key"
+msgstr "&Klávesy"
+
+#: ui/aboutdlgbase.cpp:149
+msgid "About SIM"
+msgstr "O SIM"
+
+#: ui/aboutdlgbase.cpp:152
+msgid "About"
+msgstr "O ..."
+
+#: ui/aboutdlgbase.cpp:153
+msgid "Authors"
+msgstr "Autory"
+
+#: ui/aboutdlgbase.cpp:154
+msgid "Translation"
+msgstr "Preklad"
+
+#: ui/aboutdlgbase.cpp:155
+msgid "License"
+msgstr "Licencia"
+
+#: ui/networkbase.cpp:226
+msgid "ICQ server:"
+msgstr "ICQ-Server:"
+
+#: ui/networkbase.cpp:229
+msgid "&Server"
+msgstr "&Server"
+
+#: ui/networkbase.cpp:233
+msgid "Use proxy authorization"
+msgstr "Na proxy použiť autorizáciu"
+
+#: ui/networkbase.cpp:236
+msgid "&Proxy"
+msgstr "&Proxy"
+
+#: ui/networkbase.cpp:237
+msgid "Use the following TCP listen ports:"
+msgstr "Použiť následujúce TCP porty:"
+
+#: ui/networkbase.cpp:238
+msgid "From:"
+msgstr "Od:"
+
+#: ui/networkbase.cpp:239
+msgid "To:"
+msgstr "Do:"
+
+#: ui/networkbase.cpp:240
+msgid "P&orts"
+msgstr "P&orty"
+
+#: ui/filetransferbase.cpp:123
+msgid "File transfer"
+msgstr "Prenos súboru"
+
+#: ui/filetransferbase.cpp:125
+msgid "1000000/100000"
+msgstr "1000000/100000"
+
+#: ui/filetransferbase.cpp:126
+msgid "100000"
+msgstr "100000"
+
+#: ui/filetransferbase.cpp:127
+msgid "Speed:"
+msgstr "Rýchlosť:"
+
+#: ui/filetransferbase.cpp:128
+msgid "&Transfer"
+msgstr "&Prenos"
+
+#: ui/filetransferbase.cpp:129
+#: ui/randomchatbase.cpp:304
+msgid "&Details"
+msgstr "&Detaily"
+
+#: ui/filetransferbase.cpp:130
+msgid "Close after send"
+msgstr "Po odeslaní zavrieť"
+
+#: ui/acceptbase.cpp:173
+#: ui/acceptbase.cpp:177
+msgid "Override global settings"
+msgstr "Potlačiť globálne nastavenia"
+
+#: ui/acceptbase.cpp:174
+msgid "Automaitcaly open window"
+msgstr "Automaticky otvoriť okno"
+
+#: ui/acceptbase.cpp:175
+msgid "Run external program"
+msgstr "Spustiť externý program"
+
+#: ui/acceptbase.cpp:176
+msgid "&Message"
+msgstr "&Správa"
+
+#: ui/acceptbase.cpp:178
+msgid "Path for incoming files:"
+msgstr "Cesta pre prichádzajúce súbory:"
+
+#: ui/acceptbase.cpp:180
+msgid "Show response"
+msgstr "Ukázať odpoveď"
+
+#: ui/acceptbase.cpp:181
+msgid "Auto accept"
+msgstr "Automatické prijatie"
+
+#: ui/acceptbase.cpp:182
+msgid "Overwrite files"
+msgstr "Prepísať súbory"
+
+#: ui/acceptbase.cpp:183
+msgid "Auto decline"
+msgstr "Automatické odmietnutie"
+
+#: ui/fontsetupbase.cpp:222
+msgid "Mode"
+msgstr "Mód"
+
+#: ui/fontsetupbase.cpp:223
+msgid "Split mode (&Chat style)"
+msgstr "Chat mód (štýl &dvoch okien)"
+
+#: ui/fontsetupbase.cpp:224
+msgid "Simple mode (&Plain style)"
+msgstr "Jednoduchý mód (štýl &jedného okna)"
+
+#: ui/fontsetupbase.cpp:226
+msgid "last messages from history to conversation"
+msgstr "posledné správy z histórie do konverzácie"
+
+#: ui/fontsetupbase.cpp:228
+msgid "&Each user in new container"
+msgstr "&Každý užívateľ do nového kontajneru"
+
+#: ui/fontsetupbase.cpp:229
+msgid "&New container for group"
+msgstr "&Nový kontajner pre skupinu"
+
+#: ui/fontsetupbase.cpp:230
+msgid "&All users in one container"
+msgstr "&Všetci užívatelia v jedného kontajneru"
+
+#: ui/fontsetupbase.cpp:231
+msgid "&User window"
+msgstr "Okno &užívateľa"
+
+#: ui/fontsetupbase.cpp:232
+msgid "&Use systems fonts"
+msgstr "Po&užíť systémové fonty"
+
+#: ui/fontsetupbase.cpp:233
+msgid "Base font"
+msgstr "Základný font"
+
+#: ui/fontsetupbase.cpp:234
+msgid "Menu font"
+msgstr "Font pre menu"
+
+#: ui/fontsetupbase.cpp:235
+msgid "Fonts"
+msgstr "Fonty"
+
+#: ui/fontsetupbase.cpp:236
+msgid "Use &own colors and fonts settings"
+msgstr "P&oužiť vlastné farby"
+
+#: ui/fontsetupbase.cpp:237
+msgid "Received messages color"
+msgstr "Farba prijatých správ"
+
+#: ui/fontsetupbase.cpp:238
+msgid "Sending messages color"
+msgstr "Farba zasielaných správ"
+
+#: ui/fontsetupbase.cpp:239
+msgid "&Colors"
+msgstr "&Farby"
+
+#: ui/emaileditbase.cpp:89
+msgid "Edit Email"
+msgstr "Upraviť email"
+
+#: ui/emaileditbase.cpp:90
+msgid "Enter Email address:"
+msgstr "Vložiť emailovou adresu"
+
+#: ui/emaileditbase.cpp:91
+msgid "Don't publish my Email address"
+msgstr "Nezverejňovať moju emailovou adresu"
+
+#: ui/pastinfobase.cpp:155
+msgid "Organization, Affiliation, Group:"
+msgstr "Organizácie, spolky, skupiny:"
+
+#: ui/pastinfobase.cpp:156
+msgid "A&ffilation"
+msgstr "&Spolky"
+
+#: ui/pastinfobase.cpp:157
+msgid "Past background:"
+msgstr "V minulosti"
+
+#: ui/pastinfobase.cpp:158
+msgid "&Background"
+msgstr "&Minulosť"
+
+#: ui/autoreplybase.cpp:73
+msgid "Autoreply message"
+msgstr "Správa automatickej odpovede"
+
+#: ui/autoreplybase.cpp:74
+msgid "Close after ...."
+msgstr "Zavrieť po..."
+
+#: ui/autoreplybase.cpp:75
+msgid "Don't show this dialog"
+msgstr "Nezobrazovať tento dialog"
+
+#: ui/alertmsgbase.cpp:73
+#: ui/alertmsgbase.cpp:74
+msgid "User is online"
+msgstr "užívatel je online"
+
+#: ui/interestsinfobase.cpp:138
+#: ui/pagerbase.cpp:113
+#: ui/workinfobase.cpp:207
+msgid "Form2"
+msgstr "Form 2"
+
+#: ui/interestsinfobase.cpp:139
+msgid "&Interests"
+msgstr "Záujm&y"
+
+#: ui/msgdialogbase.cpp:99
+msgid "Customize message"
+msgstr "Přizpôsobiť správu"
+
+#: ui/msgdialogbase.cpp:100
+msgid "Don't show message dialog"
+msgstr "Nezobrazovať dialog spolu so správou"
+
+#: ui/listsecbase.cpp:121
+#: ui/msgdialogbase.cpp:101
+msgid "Tab 1"
+msgstr "Tab 1"
+
+#: ui/alertdialogbase.cpp:232
+msgid "Override global alert"
+msgstr "Potlačiť globálne výstrahy"
+
+#: ui/alertdialogbase.cpp:233
+msgid "Activate online alert when user returns from Away or NA"
+msgstr "Aktivovať online výstrahu, keď sa užívateľ vracia z modu Away alebo NA"
+
+#: ui/alertdialogbase.cpp:234
+msgid "Online alert options"
+msgstr "Voľby online výstrah"
+
+#: ui/alertdialogbase.cpp:235
+msgid "Blinking alert effect"
+msgstr "Blikajúca výstraha"
+
+#: ui/alertdialogbase.cpp:236
+msgid "Play online alert sound"
+msgstr "Prehrať zvuk online výstrahy"
+
+#: ui/alertdialogbase.cpp:237
+msgid "On Screen notification"
+msgstr "Oznamovanie na obrazovke (OSD)"
+
+#: ui/alertdialogbase.cpp:238
+msgid "Popup online alert dialog"
+msgstr "Vyskakujúci online výstražný dialog"
+
+#: ui/alertdialogbase.cpp:239
+msgid "Open user window when online"
+msgstr "Otvoriť užívatelovo okno, keď je online"
+
+#: ui/alertdialogbase.cpp:240
+msgid "Write to history"
+msgstr "Zapisovať do historie"
+
+#: ui/alertdialogbase.cpp:241
+msgid "&Alert"
+msgstr "Výstrah&a"
+
+#: ui/alertdialogbase.cpp:242
+msgid "Enable notify on screen"
+msgstr "Povoliť oznamovanie na obrazovke (OSD)"
+
+#: ui/alertdialogbase.cpp:243
+#: ui/themesetupbase.cpp:301
+msgid "Place:"
+msgstr "Umiestenie:"
+
+#: ui/alertdialogbase.cpp:244
+msgid "Offset:"
+msgstr "Posunutie:"
+
+#: ui/alertdialogbase.cpp:245
+msgid "Show time:"
+msgstr "Zobraziť na (sekúnd)"
+
+#: ui/alertdialogbase.cpp:246
+msgid "Color:"
+msgstr "Farba:"
+
+#: ui/alertdialogbase.cpp:247
+msgid "Font:"
+msgstr "Písmo:"
+
+#: ui/alertdialogbase.cpp:248
+msgid "Shadow"
+msgstr "Tieň"
+
+#: ui/alertdialogbase.cpp:249
+msgid "Background"
+msgstr "Pozadie"
+
+#: ui/alertdialogbase.cpp:250
+msgid "Background color:"
+msgstr "Farba pozadia:"
+
+#: ui/alertdialogbase.cpp:251
+msgid "On Screen"
+msgstr "Na obrazovke"
+
+#: ui/phonebase.cpp:154
+msgid "Area code:"
+msgstr "Smerové číslo:"
+
+#: ui/phonebase.cpp:155
+msgid "Extension:"
+msgstr "Klapka:"
+
+#: ui/phonebase.cpp:156
+#: ui/phonebase.cpp:158
+#: ui/phonebase.cpp:160
+msgid "-"
+msgstr "-"
+
+#: ui/pagerbase.cpp:116
+#: ui/phonebase.cpp:157
+msgid "Number:"
+msgstr "Číslo:"
+
+#: ui/phonebase.cpp:161
+msgid "Publish in global directory"
+msgstr "Zverejniť do globálneho adresáre"
+
+#: ui/phonebase.cpp:162
+msgid "SMS service available"
+msgstr "SMS služba je použiteľná"
+
+#: ui/pagerbase.cpp:114
+msgid "Provider:"
+msgstr "Poskytovateľ:"
+
+#: ui/pagerbase.cpp:115
+msgid "Email gateway:"
+msgstr "Email brána:"
+
+#: ui/addphonebase.cpp:135
+msgid "Add phone"
+msgstr "Pridať telefón"
+
+#: ui/addphonebase.cpp:136
+msgid "Number details:"
+msgstr "Detail čísla:"
+
+#: ui/addphonebase.cpp:137
+msgid "Type:"
+msgstr "Typ:"
+
+#: ui/miscsetupbase.cpp:104
+msgid "Browser program path:"
+msgstr "Web prohliadač:"
+
+#: ui/miscsetupbase.cpp:105
+msgid "Email client:"
+msgstr "Email klient:"
+
+#: ui/miscsetupbase.cpp:106
+#: ui/themesetupbase.cpp:320
+msgid "&Miscellaneous"
+msgstr "&Rôzne"
+
+#: ui/miscsetupbase.cpp:107
+msgid "A&utomatically add new user to KAddressBook"
+msgstr "A&utomaticky pridať nového užívateľa do KAdresára(KDE)"
+
+#: ui/miscsetupbase.cpp:108
+msgid "&Synchronize now"
+msgstr "&Synchronizovať teraz"
+
+#: ui/miscsetupbase.cpp:109
+msgid "&Addressbook synchronization"
+msgstr "Synchronizácia &adresáre"
+
+#: ui/miscsetupbase.cpp:110
+msgid "Check &all messages on send"
+msgstr "Kontrolov&ať všetky správy pred odeslaním"
+
+#: ui/miscsetupbase.cpp:111
+msgid "&Spell check"
+msgstr "&Pravopis"
+
+#: ui/soundsetupbase.cpp:228
+msgid "&Override sounds"
+msgstr "Potlačiť &zvuky"
+
+#: ui/soundsetupbase.cpp:229
+msgid "&Disable all sounds"
+msgstr "&Zakázať všetky zvuky"
+
+#: ui/soundsetupbase.cpp:230
+msgid "Message:"
+msgstr "Správa:"
+
+#: ui/soundsetupbase.cpp:232
+msgid "SMS:"
+msgstr "SMS:"
+
+#: ui/soundsetupbase.cpp:233
+msgid "Authorization:"
+msgstr "Autorizácia:"
+
+#: ui/soundsetupbase.cpp:234
+msgid "Online alert:"
+msgstr "Online výstraha:"
+
+#: ui/soundsetupbase.cpp:235
+msgid "Incoming file:"
+msgstr "Prichádzajúci súbor:"
+
+#: ui/soundsetupbase.cpp:236
+msgid "File transfer done:"
+msgstr "Prenos súboru dokončený:"
+
+#: ui/soundsetupbase.cpp:237
+msgid "Chat Request:"
+msgstr "Žiadosť o chat:"
+
+#: ui/soundsetupbase.cpp:238
+msgid "Startup sound:"
+msgstr "Štartovací zvuk:"
+
+#: ui/soundsetupbase.cpp:239
+msgid "&Sounds"
+msgstr "&Zvuky"
+
+#: ui/soundsetupbase.cpp:240
+msgid "Program for play:"
+msgstr "Program pre prehrávanie:"
+
+#: ui/soundsetupbase.cpp:241
+msgid "UseArts"
+msgstr "Použiť Arts sound server"
+
+#: ui/soundsetupbase.cpp:242
+msgid "&Programm"
+msgstr "&Program"
+
+#: ui/phonebookbase.cpp:129
+msgid "User is currently available at:"
+msgstr "užívateľ je práve dostupný na:"
+
+#: ui/phonebookbase.cpp:135
+msgid ""
+"Note:\n"
+"You can change only those numbers which have entered.\n"
+"It is impossible to change numbers which were received from the user."
+msgstr ""
+"Poznámka:\n"
+"Môžete zmeniť len tie čísla, ktoré ste zadali.\n"
+"Nie je možné zmeniť čísla prijaté od ostatných užívateľov."
+
+#: ui/phonebookbase.cpp:140
+msgid "&Add"
+msgstr "&Pridať"
+
+#: ui/phonebookbase.cpp:141
+msgid "&Phonebook"
+msgstr "&Telefónny zoznam"
+
+#: ui/userinfobase.cpp:151
+msgid "Update"
+msgstr "Aktualizácia"
+
+#: ui/setupdlgbase.cpp:119
+msgid "&Update"
+msgstr "Akt&ualizácia"
+
+#: ui/homeinfobase.cpp:165
+#: ui/workinfobase.cpp:208
+msgid "Address:"
+msgstr "Adresa:"
+
+#: ui/homeinfobase.cpp:168
+#: ui/workinfobase.cpp:211
+msgid "Zip code:"
+msgstr "PSČ:"
+
+#: ui/randomchatbase.cpp:292
+#: ui/randomchatbase.cpp:297
+#: ui/workinfobase.cpp:213
+msgid "Name:"
+msgstr "Meno:"
+
+#: ui/workinfobase.cpp:215
+msgid "Web site:"
+msgstr "Web:"
+
+#: ui/workinfobase.cpp:216
+msgid "&Company"
+msgstr "&Firma:"
+
+#: ui/workinfobase.cpp:217
+msgid "Occupation:"
+msgstr "Povolanie:"
+
+#: ui/workinfobase.cpp:218
+msgid "Div / dept:"
+msgstr "Oddelenie/Divízia:"
+
+#: ui/workinfobase.cpp:219
+msgid "Position:"
+msgstr "Pozícia:"
+
+#: ui/workinfobase.cpp:220
+msgid "&Occupation"
+msgstr "P&ovolanie:"
+
+#: ui/themesetupbase.cpp:290
+msgid "Select style:"
+msgstr "Vybrať stýl:"
+
+#: ui/themesetupbase.cpp:293
+msgid "&Style"
+msgstr "&Štýl"
+
+#: ui/themesetupbase.cpp:294
+msgid "Icons:"
+msgstr "Ikony:"
+
+#: ui/themesetupbase.cpp:297
+msgid "Add icons"
+msgstr "Pridať ikony"
+
+#: ui/themesetupbase.cpp:298
+msgid "&Icons"
+msgstr "&Ikony"
+
+#: ui/themesetupbase.cpp:299
+msgid "Main window background:"
+msgstr "Pozadie okna:"
+
+#: ui/themesetupbase.cpp:300
+msgid "Icon margin:"
+msgstr "Okraj ikon:"
+
+#: ui/themesetupbase.cpp:302
+msgid "Use &system colors"
+msgstr "Použiť &systémové farby"
+
+#: ui/themesetupbase.cpp:303
+msgid "Online contact color:"
+msgstr "Farba online užívateľa:"
+
+#: ui/themesetupbase.cpp:304
+msgid "Offline contact color:"
+msgstr "Farba offline užívateľa:"
+
+#: ui/themesetupbase.cpp:305
+msgid "B&ackground"
+msgstr "Poz&adie"
+
+#: ui/themesetupbase.cpp:306
+msgid "Transparent main window"
+msgstr "Hlavné okno priehľadné"
+
+#: ui/themesetupbase.cpp:307
+#: ui/themesetupbase.cpp:309
+msgid "Transparency"
+msgstr "Priehľadnosť"
+
+#: ui/themesetupbase.cpp:308
+msgid "Transparent container"
+msgstr "Priehľadný kontajner"
+
+#: ui/themesetupbase.cpp:310
+msgid "Transparent only if inactive"
+msgstr "Priehľadnosť len pri neaktivite"
+
+#: ui/themesetupbase.cpp:311
+msgid "&Transparency"
+msgstr "Priehľadnos&ť"
+
+#: ui/themesetupbase.cpp:312
+msgid "Show main window in task manager"
+msgstr "Zobrazovať hlavné okno v pruhu úloh"
+
+#: ui/themesetupbase.cpp:313
+msgid "Show user window in task manager"
+msgstr "Zobrazovať užívateľské okna v pruhu úloh"
+
+#: ui/themesetupbase.cpp:314
+msgid "User window stays on &top"
+msgstr "Okno užívateľov zos&táva hore"
+
+#: ui/themesetupbase.cpp:315
+msgid "&Show splash window"
+msgstr "Zobrazovať &štartovací okno"
+
+#: ui/themesetupbase.cpp:316
+msgid "Use emotional &icons"
+msgstr "Použiť emot&ikony"
+
+#: ui/themesetupbase.cpp:317
+msgid "Use &dock"
+msgstr "Použiť &dokovanie"
+
+#: ui/themesetupbase.cpp:319
+msgid "Use double c&lick"
+msgstr "Použiť &dvojklik"
+
+#: ui/statussetupbase.cpp:140
+msgid "Hide main window after"
+msgstr "Schovávať hlavné okno po"
+
+#: ui/statussetupbase.cpp:142
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgstr "Zakázať online výstrahu pre \"Away\", \"N/A\", \"DND\" a \"Occupied\" zoznam"
+
+#: ui/statussetupbase.cpp:143
+msgid "Set \"Away\" status after"
+msgstr "Nastaviť \"Away\" status po"
+
+#: ui/statussetupbase.cpp:144
+msgid "minutes not using computer"
+msgstr "minútach nepoužívania počítača"
+
+#: ui/statussetupbase.cpp:145
+msgid "minutes of \"Away\""
+msgstr "minutách \"Away\""
+
+#: ui/statussetupbase.cpp:146
+msgid "seconds inactive"
+msgstr "sekundách neaktivity"
+
+#: ui/statussetupbase.cpp:147
+msgid "Set \"N/A\" status after"
+msgstr "Nastaviť \"N/A\" status po"
+
+#: ui/maininfobase.cpp:334
+#: ui/statussetupbase.cpp:148
+msgid "&Status"
+msgstr "&Stav"
+
+#: ui/listsecbase.cpp:120
+#: ui/moreinfobase.cpp:188
+msgid "Form3"
+msgstr "Form 3"
+
+#: ui/moreinfobase.cpp:189
+#: ui/randomchatbase.cpp:283
+#: ui/randomchatbase.cpp:302
+msgid "Homepage:"
+msgstr "Domovská stránka:"
+
+#: ui/moreinfobase.cpp:193
+msgid "Month:"
+msgstr "Mesiac:"
+
+#: ui/moreinfobase.cpp:194
+msgid "Day:"
+msgstr "Deň:"
+
+#: ui/moreinfobase.cpp:195
+msgid "Year:"
+msgstr "Rok:"
+
+#: ui/moreinfobase.cpp:196
+msgid "Birth date:"
+msgstr "Dátum narodenia:"
+
+#: ui/moreinfobase.cpp:197
+msgid "&More info"
+msgstr "&Ostatné"
+
+#: ui/moreinfobase.cpp:198
+msgid "Spoken languages:"
+msgstr "Jazyky:"
+
+#: ui/moreinfobase.cpp:199
+msgid "&Languages"
+msgstr "&Jazyk:"
+
+#: ui/maininfobase.cpp:314
+msgid "Form5"
+msgstr "Form5"
+
+#: ui/maininfobase.cpp:316
+msgid "Uin:"
+msgstr "UIN:"
+
+#: ui/maininfobase.cpp:317
+msgid "Nick:"
+msgstr "Prezývka (Nick):"
+
+#: ui/maininfobase.cpp:318
+msgid "Display:"
+msgstr "Zobraziť:"
+
+#: ui/maininfobase.cpp:320
+msgid "Encoding:"
+msgstr "Kódovánie:"
+
+#: ui/maininfobase.cpp:321
+msgid "&Names"
+msgstr "Me&ná"
+
+#: ui/maininfobase.cpp:322
+msgid "Email addresses:"
+msgstr "Email adresy:"
+
+#: ui/maininfobase.cpp:323
+msgid "Add"
+msgstr "Pridať"
+
+#: ui/maininfobase.cpp:324
+msgid "Edit"
+msgstr "Upraviť"
+
+#: ui/maininfobase.cpp:325
+msgid "Remove"
+msgstr "Odobrať"
+
+#: ui/maininfobase.cpp:326
+msgid "Set as default"
+msgstr "Nastaviť ako výchozie"
+
+#: ui/maininfobase.cpp:327
+msgid "&EMail"
+msgstr "&Email"
+
+#: ui/maininfobase.cpp:328
+msgid "Status:"
+msgstr "Stav:"
+
+#: ui/maininfobase.cpp:329
+msgid "Online:"
+msgstr "Online:"
+
+#: ui/maininfobase.cpp:331
+msgid "External IP:"
+msgstr "Externá IP:"
+
+#: ui/maininfobase.cpp:332
+msgid "Internal IP:"
+msgstr "Interná IP:"
+
+#: ui/maininfobase.cpp:333
+msgid "Client:"
+msgstr "Klient:"
+
+#: ui/homeinfobase.cpp:169
+msgid "Time zone:"
+msgstr "Časová zóna:"
+
+#: ui/homeinfobase.cpp:170
+msgid "&Home info"
+msgstr "&Domov"
+
+#: ui/generalsecbase.cpp:212
+msgid "My &authorization is required before users add me to Contact List"
+msgstr "Je vyžadovaná moja &autorizácia pred pridaním užívateľa do zoznamu kontaktov"
+
+#: ui/generalsecbase.cpp:213
+msgid "Don't show my &IP-address"
+msgstr "Neukazovať moju &IP adresu"
+
+#: ui/generalsecbase.cpp:214
+msgid "Allow other to view my &status from the Web"
+msgstr "Povoliť zisťovanie &stavu cez Web"
+
+#: ui/generalsecbase.cpp:215
+msgid "I&gnore user authorization"
+msgstr "I&gnorovať užívateľovu autorizáciu"
+
+#: ui/generalsecbase.cpp:216
+msgid "Direct connection"
+msgstr "Pripojiť priamo"
+
+#: ui/generalsecbase.cpp:217
+msgid "Allow &direct connection from any user"
+msgstr "Povoliť &priame pripojenie pre všetkých užívateľov"
+
+#: ui/generalsecbase.cpp:218
+msgid "Allow direct connection from user listed in &contact list"
+msgstr "Povoliť priame pripojenie pre užívateľov z mojho zoznamu &kontaktov"
+
+#: ui/generalsecbase.cpp:219
+msgid "Allow direct connection from user &upon authorization"
+msgstr "Povoliť priame pripojenie pre užívateľov po &autorizácii"
+
+#: ui/generalsecbase.cpp:220
+msgid "&Security"
+msgstr "&Bezpečnosť"
+
+#: ui/generalsecbase.cpp:221
+msgid "Reject &messages from unknown users"
+msgstr "Odmietnuť &správy od neznámych užívateľov"
+
+#: ui/generalsecbase.cpp:222
+msgid "Reject &URL from unknown users"
+msgstr "Odmietnuť &URL od neznámych užívateľov"
+
+#: ui/generalsecbase.cpp:223
+msgid "Reject &World Wide pager messages"
+msgstr "Odmietnuť správy od &World Wide pagerov"
+
+#: ui/generalsecbase.cpp:224
+msgid "Reject &EmailExpress messages"
+msgstr "Odmietnuť správy &EmailExpress"
+
+#: ui/generalsecbase.cpp:225
+msgid "Reject &other messages"
+msgstr "Odmietnuť &ostatné správy"
+
+#: ui/generalsecbase.cpp:226
+msgid "&Reject"
+msgstr "&Odmietnuť"
+
+#: ui/generalsecbase.cpp:227
+msgid "Reject messages from unknown users contains this words or phrases:"
+msgstr "Odmietnuť správy od neznámych užívateľov obsahujíce tieto slová alebo výrazy:"
+
+#: ui/generalsecbase.cpp:228
+msgid ""
+"Words are divided by any separators (space, comma, i.e.)\n"
+"Phrase (sequence of words) consists in quotas\n"
+"Words can contain wildcards:\n"
+"* - any amount of symbols (or is empty)\n"
+"? - any symbol"
+msgstr ""
+"Slová sú oddelené oddeľovačmi (mezera, bodka, atp.)\n"
+"Slová môžu obsahovať značky :\n"
+"* - jeden zo znakov (alebo \"prázdny znak\")\n"
+"? - akýkoľvek symbol"
+
+#: ui/generalsecbase.cpp:233
+msgid "Spam &filter"
+msgstr "Spam &filter"
+
+#: ui/generalsecbase.cpp:234
+msgid "Retype new password:"
+msgstr "Nové heslo (znovu):"
+
+#: ui/generalsecbase.cpp:235
+msgid "New password:"
+msgstr "Nové heslo:"
+
+#: ui/generalsecbase.cpp:236
+msgid "Current password:"
+msgstr "Aktuálne heslo:"
+
+#: ui/generalsecbase.cpp:237
+msgid "S&ave password"
+msgstr "Uložiť hes&lo"
+
+#: ui/generalsecbase.cpp:238
+msgid "&Do not show login dialog at start"
+msgstr "Nezobrazovať tento &dialog pri štarte"
+
+#: ui/generalsecbase.cpp:239
+msgid "&Password"
+msgstr "&Heslo"
+
+#: ui/aboutinfobase.cpp:105
+msgid "Form4"
+msgstr "Form 4"
+
+#: ui/aboutinfobase.cpp:106
+msgid "Additional information about user:"
+msgstr "Doplňujúce informácie o užívateľovi:"
+
+#: ui/aboutinfobase.cpp:107
+msgid "A&bout"
+msgstr "&O ..."
+
+#: ui/aboutinfobase.cpp:108
+msgid "My notes:"
+msgstr "Moje poznámky"
+
+#: ui/aboutinfobase.cpp:109
+msgid "&Notes"
+msgstr "Poz&námky"
+
+#: ui/randomchat.cpp:167
+msgid "&Stop search"
+msgstr "Za&staviť vyhľadávanie"
+
+#: ui/randomchat.cpp:168
+msgid "Find an &Online Chat Friend"
+msgstr "Nájsť niekoho pre &Online chat"
+
+#: ui/randomchat.cpp:196
+msgid "Request UIN"
+msgstr "Žiadosť o UIN"
+
+#: ui/randomchat.cpp:217
+msgid "Request user info"
+msgstr "Žiadosť o informácie o užívateľovi"
+
+#: ui/randomchat.cpp:230
+msgid "Ready"
+msgstr "Pripravený"
+
+#: ui/randomchatbase.cpp:285
+msgid "Chat Topic/Interests:"
+msgstr "Téma chatu/Záujmy:"
+
+#: ui/randomchatbase.cpp:286
+msgid "&Request chat"
+msgstr "Žiado&sť o chat"
+
+#: ui/randomchatbase.cpp:287
+msgid "Send &message"
+msgstr "Po&slať správu"
+
+#: ui/randomchatbase.cpp:288
+msgid "Send &URL"
+msgstr "Poslať &URL"
+
+#: ui/randomchatbase.cpp:289
+#: ui/randomchatbase.cpp:295
+msgid "Group:"
+msgstr "Skupina:"
+
+#: ui/randomchatbase.cpp:293
+msgid "&Finding"
+msgstr "Vy&hľadávanie"
+
+#: ui/randomchatbase.cpp:294
+msgid "I want to be available to chat with a friend"
+msgstr "Som dostupný pre chat s priateľom"
+
+#: ui/randomchatbase.cpp:296
+msgid "Chat topic/Interests:"
+msgstr "Téma chatu/Záujmy:"
+

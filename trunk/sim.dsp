@@ -5965,6 +5965,41 @@ InputPath=.\po\ru.po
 # End Source File
 # Begin Source File
 
+SOURCE=.\po\sk.po
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+# Begin Custom Build - msg2qm on $(InputPath)
+OutDir=.\Release
+InputPath=.\po\sk.po
+
+"$(OutDir)\po\sk.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
+	$(QTDIR)\bin\msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\sk.qm 
+	
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# Begin Custom Build - msg2qm on $(InputPath)
+OutDir=.\Debug
+InputPath=.\po\sk.po
+
+"$(OutDir)\po\sk.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
+	$(QTDIR)\bin\msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\sk.qm 
+	
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
 SOURCE=.\po\tr.po
 
 !IF  "$(CFG)" == "sim - Win32 Release"

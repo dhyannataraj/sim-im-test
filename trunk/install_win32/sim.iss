@@ -43,6 +43,7 @@ Source: "C:\sim\Release\po\it.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrit
 Source: "C:\sim\Release\po\nl.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
 Source: "C:\sim\Release\po\pl.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
 Source: "C:\sim\Release\po\ru.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
+Source: "C:\sim\Release\po\sk.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
 Source: "C:\sim\Release\po\tr.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
 Source: "C:\sim\Release\po\uk.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
 Source: "C:\sim\sounds\url.wav"; DestDir: "{app}\sounds"; CopyMode: alwaysoverwrite

@@ -644,6 +644,7 @@ MainWindow::MainWindow(const char *name)
     bLocked = false;
     pMain = this;
     bQuit = false;
+	bDirty = false;
     dock = NULL;
     noToggle = false;
     lockFile = -1;
@@ -1111,10 +1112,10 @@ bool MainWindow::init(bool bNoApply)
     if (*_ToolBarUserBox()) emit toolBarChanged(pUserBoxToolBar);
 
     if ((getWidth() == 0) || (getHeight() == 0)){
-        setHeight(QApplication::desktop()->height() * 3 / 2);
+        setHeight(QApplication::desktop()->height() * 2 / 3);
         setWidth(getHeight() / 3);
         if ((getLeft() == 0) && (getTop() == 0)){
-            setLeft(QApplication::desktop()->width() - 5 - getWidth());
+            setLeft(QApplication::desktop()->width() - 25 - getWidth());
             setTop(5);
         }
     }
@@ -1328,7 +1329,10 @@ void MainWindow::processEvent(ICQEvent *e)
         BalloonMsg::message(i18n("Your UIN used from another location"), toolbar->getWidget(btnStatus));
         break;
     case EVENT_INFO_CHANGED:
-        saveContacts();
+		if (!bDirty){
+			QTimer::singleShot(10000, this, SLOT(saveContacts()));
+			bDirty = true;
+		}
         if ((e->Uin() == pClient->owner->Uin) || (e->Uin() == 0)){
             if ((realTZ != pClient->owner->TimeZone) && (e->subType() == EVENT_SUBTYPE_FULLINFO)){
                 ICQUser u;
@@ -1493,6 +1497,7 @@ void MainWindow::saveState()
 
 void MainWindow::saveContacts()
 {
+	bDirty = false;
     if (pClient->owner->Uin == 0) return;
     string file = getFullPath(ICQ_CONF);
 #ifndef WIN32

@@ -504,7 +504,6 @@ public:
 
     void setUserBoxOnTop();
     bool isDock();
-    void saveContacts();
     void changeBackground();
 
     void reset();
@@ -561,6 +560,7 @@ public slots:
     void deleteLogin();
     void realSetStatus();
     void dockDblClicked();
+    void saveContacts();
 protected slots:
     void toggleWindow();
     void autoAway();
@@ -658,6 +658,7 @@ protected:
 #endif
     QTranslator	 *translator;
     void initTranslator();
+	bool bDirty;
 };
 
 extern MainWindow *pMain;
