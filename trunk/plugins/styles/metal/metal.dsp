@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 1
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "metal_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MD /Ze /W3 /WX /Gi /GX /O2 /Ob2 /I "$(QTDIR)\include" /I "..\..\..\sim\api" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /D "metal_EXPORTS" /D "QT_DLL" /D "UNICODE" /D "QT_THREAD_SUPPORT" /D "WIN32" /D "_MBCS" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /WX /Gi /GX /O2 /Ob2 /I "$(QTDIR)\include" /I "..\..\..\sim\api" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /D "metal_EXPORTS" /D "QT_DLL" /D "UNICODE" /D "QT_THREAD_SUPPORT" /D "WIN32" /D "_MBCS" /YX /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "NDEBUG"
@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 $(QTDIR)\lib\$(QT_LIB) kernel32.lib user32.lib gdi32.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib imm32.lib wsock32.lib winspool.lib winmm.lib /nologo /dll /pdb:none /machine:I386 /out:"../../../Release/plugins/styles/metal.dll"
+# ADD LINK32 $(QTDIR)\lib\$(QTLIB) kernel32.lib user32.lib gdi32.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib imm32.lib wsock32.lib winspool.lib winmm.lib /nologo /dll /pdb:none /machine:I386 /out:"../../../Release/plugins/styles/metal.dll"
 
 !ELSEIF  "$(CFG)" == "metal - Win32 Debug"
 

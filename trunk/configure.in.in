@@ -89,7 +89,9 @@ AC_DEFINE_UNQUOTED(PREFIX, "$prefix", [Install prefix])
 AC_DEFINE(USE_QT,1,[Use QT - need for libicq])
 AC_SUBST(EXTRA_LIBS)
 sim_plugindir="\${prefix}/lib/sim"
+sim_stylesdir="\${prefix}/lib/sim/styles"
 AC_SUBST(sim_plugindir)
+AC_SUBST(sim_stylesdir)
 AC_DEFINE_UNQUOTED(PLUGIN_PATH,"${prefix}/lib/sim",[Plugins path])
 
 LIB_XML2=""

@@ -87,6 +87,15 @@ StylesPlugin::StylesPlugin(unsigned base, Buffer *config)
     }else{
         setColors();
     }
+#ifdef WIN32
+	QApplication::addLibraryPath(app_file("plugins"));
+#else
+    QString path;
+    path = PLUGIN_PATH;
+    path += "/";
+	QApplication::addLibraryPath(path);
+    log(L_DEBUG,"Path: %s",path.ascii());
+#endif
     setStyles();
 }
 
@@ -166,33 +175,6 @@ if (*getStyle()){
         style = new QPlatinumStyle;
     }else if (s == "sgi"){
         style = new QSGIStyle;
-#ifdef WIN32
-    }else{
-        bool bOK = true;
-        if (s == "xpstyle"){
-            HINSTANCE hLib = LoadLibraryA("UxTheme.dll");
-            if (hLib){
-                FreeLibrary(hLib);
-            }else{
-                bOK = false;
-            }
-        }
-        if (bOK){
-            string dll = "plugins\\styles\\";
-            dll += s;
-            dll += ".dll";
-            HINSTANCE hLib = LoadLibraryA(app_file(dll.c_str()).c_str());
-            if (hLib){
-                StyleInfo*  (*getStyleInfo)() = NULL;
-                (DWORD&)getStyleInfo = (DWORD)GetProcAddress(hLib,"GetStyleInfo");
-                if (getStyleInfo){
-                    StyleInfo *info = getStyleInfo();
-                    if (info && info->create)
-                        style = info->create();
-                }
-            }
-        }
-#endif
     }
 }
 #endif
