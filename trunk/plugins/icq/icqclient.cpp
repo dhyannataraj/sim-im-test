@@ -568,7 +568,7 @@ void ICQClient::packet_ready()
             if (type == 0x0001) {
                 unsigned short err_code;
                 m_socket->readBuffer >> err_code;
-                log(L_DEBUG,"Error! family: %u reason: %s",error_message(err_code));
+                log(L_DEBUG,"Error! family: %u reason: %s",fam,error_message(err_code));
                 // now decrease for icqicmb & icqvarious
                 m_socket->readBuffer.incReadPos(-(sizeof(unsigned short)));
             }
