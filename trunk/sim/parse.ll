@@ -42,7 +42,7 @@
 %%
 
 (http|https|ftp)"://"[A-Za-z0-9/\,\.\?\&\;\(\)\-_\+\%=~]+	{ return URL; }
-(mailto:)?[A-Za-z0-9\-_]\@([A-Za-z0-9\-]+\.)+[A-Za-z]+		{ return MAIL; }
+(mailto:)?[A-Za-z0-9\-_]+\@([A-Za-z0-9\-]+\.)+[A-Za-z]+		{ return MAIL; }
 "&quot;"						{ return TXT; }
 "&amp;"							{ return TXT; }
 "&lt;"							{ return TXT; }

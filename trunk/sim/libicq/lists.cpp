@@ -57,10 +57,6 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             char c;
             unsigned short list_len;
             log(L_DEBUG,"Rosters");
-            if (m_bRosters){
-                log(L_DEBUG, "Rosters part 2");
-                break;
-            }
             sock->readBuffer >> c;
             if (c){
                 log(L_WARN, "Bad first roster byte %02X", c);
@@ -68,15 +64,18 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             }
             vector<ICQGroup*>::iterator it_grp;
             list<ICQUser*>::iterator it_usr;
-            for (it_grp = contacts.groups.begin(); it_grp != contacts.groups.end(); it_grp++)
-                (*it_grp)->bChecked = false;
-            for (it_usr = contacts.users.begin(); it_usr != contacts.users.end(); it_usr++){
-                if ((*it_usr)->Type != USER_TYPE_ICQ) continue;
-                (*it_usr)->Id = 0;
-                (*it_usr)->GrpId = 0;
-                (*it_usr)->inIgnore = false;
-                (*it_usr)->inVisible = false;
-                (*it_usr)->inInvisible = false;
+			if (!m_bRosters){
+				m_bRosters = true;
+				for (it_grp = contacts.groups.begin(); it_grp != contacts.groups.end(); it_grp++)
+					(*it_grp)->bChecked = false;
+				for (it_usr = contacts.users.begin(); it_usr != contacts.users.end(); it_usr++){
+					if ((*it_usr)->Type != USER_TYPE_ICQ) continue;
+					(*it_usr)->Id = 0;
+					(*it_usr)->GrpId = 0;
+					(*it_usr)->inIgnore = false;
+					(*it_usr)->inVisible = false;
+					(*it_usr)->inInvisible = false;
+				}
             }
             sock->readBuffer >> list_len;
             for (unsigned i = 0; i < list_len; i++){
@@ -109,6 +108,10 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                         user->GrpId = grp_id;
                         user->Alias = alias;
                         user->WaitAuth = needAuth;
+						Tlv *tlv_phone = NULL;
+						if (inf) tlv_phone = (*inf)(0x13A);
+						if (tlv_phone)
+							user->Phones.add(*tlv_phone, "Private cellular", SMS, true);
                         break;
                     }
                 case ICQ_GROUPS:{
@@ -147,6 +150,8 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                     break;
                 case 0x0009:
                     break;
+				case 0x0013:
+					break;
                 default:
                     log(L_WARN,"Unknown roster type %04X", type);
                 }
@@ -154,18 +159,19 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             }
             unsigned long time;
             sock->readBuffer >> time;
-            contacts.Time = time;
-            for (;;){
-                bool ok = true;
-                for (it_grp = contacts.groups.begin(); it_grp != contacts.groups.end(); it_grp++){
-                    if (!(*it_grp)->bChecked){
-                        contacts.groups.erase(it_grp);
-                        ok = false;
-                        break;
-                    }
-                }
-                if (ok) break;
-            }
+			if (time == 0) break;
+			contacts.Time = time;
+			for (;;){
+				bool ok = true;
+				for (it_grp = contacts.groups.begin(); it_grp != contacts.groups.end(); it_grp++){
+					if (!(*it_grp)->bChecked){
+						contacts.groups.erase(it_grp);
+						ok = false;
+						break;
+					}
+				}
+				if (ok) break;
+			}
             for (it_usr = contacts.users.begin(); it_usr != contacts.users.end(); it_usr++){
                 unsigned short grpId = (*it_usr)->GrpId();
                 bool ok = false;
@@ -184,7 +190,6 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
         }
     case ICQ_SNACxLISTS_ROSTERxOK:	// FALLTHROUGH
         {
-            m_bRosters = true;
             log(L_DEBUG, "Rosters OK");
             snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_UNKNOWN);
             sendPacket();
