@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2002-12-15 12:38+0300\n"
-"PO-Revision-Date: 2002-12-14 21:00GMT\n"
-"Last-Translator: Crissi <crissi99@gmx.de>\n"
-"Language-Team: Deutsch <de@li.org>\n"
+"PO-Revision-Date: 2002-12-15 17:57GMT\n"
+"Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
+"Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "<<<<<<< de.poPOT-Creation-Date: 2002-11-09 04:37+0300\n"
 "=======POT-Creation-Date: 2002-11-12 09:51+0300\n"
 ">>>>>>> 1.109MIME-Version: 1.0\n"
-"X-Generator: KBabel 0.9.6\n"
+"X-Generator: KBabel 1.0\n"
 
 #: client.cpp:57 client.cpp:58 libicq/country.cpp:7
 msgid "Arabic"
@@ -1638,8 +1638,7 @@ msgstr ";-)"
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
 
 #: chatwnd.cpp:75 ui/userinfobase.cpp:54
 msgid "Save"
@@ -3020,9 +3019,8 @@ msgid "<New UIN>"
 msgstr "<Neue UIN>"
 
 #: ui/logindlg.cpp:141 ui/logindlg.cpp:208
-#, fuzzy
 msgid "Can't initialize main window"
-msgstr "Transparentes Hauptfenster"
+msgstr "Hauptfenster konnte nicht initalisiert werden"
 
 #: ui/logindlg.cpp:150 ui/searchdlg.cpp:107
 msgid "Cancel"
@@ -3449,8 +3447,7 @@ msgstr "&Signatur"
 
 #: ui/smssetupbase.cpp:68
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
-"Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
+msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
 
 #: ui/smssetupbase.cpp:76
 msgid ""
@@ -4180,8 +4177,7 @@ msgid "Hide main window after"
 msgstr "Hauptfenster anzeigen/verstecken nach"
 
 #: ui/statussetupbase.cpp:57
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -4384,8 +4380,7 @@ msgstr "&Ablehnen"
 
 #: ui/generalsecbase.cpp:146
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: ui/generalsecbase.cpp:153
 msgid ""
@@ -4712,3 +4707,4 @@ msgstr "&Bemerkungen"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
