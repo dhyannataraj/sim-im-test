@@ -10,13 +10,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "POT-Creation-Date: 2004-02-06 13:35+0300\n"
-"PO-Revision-Date: 2004-01-03 17:27+0100\n"
+"PO-Revision-Date: 2004-02-07 23:17+0100\n"
 "Last-Translator: Pavel Rousar <p.rousar@sh.cvut.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.2\n"
+"X-Generator: KBabel 1.3\n"
 
 #: sim/api/country.cpp:25
 msgid "Afghanistan"
@@ -3252,9 +3252,8 @@ msgid "Show group &separator"
 msgstr "Zobrazit oddělovač &skupin"
 
 #: plugins/_core/userviewcfgbase.cpp:270
-#, fuzzy
 msgid "Use small &font for group"
-msgstr "&Nový kontejner pro skupinu"
+msgstr "Použít malý &font pro skupinu"
 
 #: plugins/_core/historycfgbase.cpp:166
 msgid "Use &own colors and fonts settings"
@@ -3716,9 +3715,9 @@ msgid "Autoreply message"
 msgstr "Zpráva automatické odpovědi"
 
 #: plugins/_core/autoreply.cpp:94
-#, fuzzy, c-format
+#, c-format
 msgid "Close after %n second"
-msgstr "Po odeslání &zavřít"
+msgstr "Zavřít po %n sekundách"
 
 #: plugins/_core/connectwndbase.cpp:94 plugins/icq/moreinfobase.cc:152
 msgid "Form3"
@@ -3809,9 +3808,8 @@ msgid "minutes of \"Away\""
 msgstr "minutách \"Away\""
 
 #: plugins/autoaway/autoawaycfgbase.cpp:106
-#, fuzzy
 msgid "minutes of \"N/A\""
-msgstr "minutách \"Away\""
+msgstr "minut \"Away\""
 
 #: plugins/autoaway/autoawaycfgbase.cpp:107
 msgid "Set \"N/A\" status after"
@@ -3824,10 +3822,8 @@ msgstr "Nastavit \"N/A\" status po"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:109
 #: plugins/sound/soundconfigbase.cpp:107
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
-msgstr ""
-"Zakázat online výstrahu pro \"Away\", \"N/A\", \"DND\" a \"Occupied\" seznam"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgstr "Zakázat online výstrahu pro \"Away\", \"N/A\", \"DND\" a \"Occupied\" seznam"
 
 #: plugins/autoaway/autoaway.cpp:66
 msgid "AutoAway"
@@ -3979,8 +3975,7 @@ msgstr "Příjmat zp&rávy pouze od lidí uvedených v kontaktlistu"
 
 #: plugins/filter/filtercfgbase.cpp:67
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Odmítnout zprávy od neznámých uživatelů obsahující tato slova nebo výrazy:"
+msgstr "Odmítnout zprávy od neznámých uživatelů obsahující tato slova nebo výrazy:"
 
 #: plugins/filter/filtercfgbase.cpp:68
 #, fuzzy
@@ -4161,9 +4156,9 @@ msgid "Encrypt failed"
 msgstr "Chyba v šifrování"
 
 #: plugins/gpg/gpg.cpp:558
-#, fuzzy, c-format
+#, c-format
 msgid "%n GPG key"
-msgstr "GPG klíč"
+msgstr "%n GPG klíč"
 
 #: plugins/gpg/gpg.cpp:607
 msgid "GPG key"
@@ -4233,8 +4228,7 @@ msgstr "Ikony pro protokol:"
 
 #: plugins/windock/windock.cpp:44
 msgid "Plugin provides dock main window to left or right side of screen"
-msgstr ""
-"Plugin poskytuje možnost dokovat hlavní okno doleva nebo doprava na obrazovce"
+msgstr "Plugin poskytuje možnost dokovat hlavní okno doleva nebo doprava na obrazovce"
 
 #: plugins/windock/windock.cpp:180
 msgid ""
@@ -4711,9 +4705,9 @@ msgid "Directory"
 msgstr "Adresář"
 
 #: plugins/icq/icqicmb.cpp:939 plugins/icq/icqicmb.cpp:945
-#, fuzzy, c-format
+#, c-format
 msgid "%n file"
-msgstr "Poslat soubor"
+msgstr "%n soubor"
 
 #: plugins/icq/icqicmb.cpp:1217 plugins/icq/warndlg.cpp:66
 #, fuzzy
@@ -4783,7 +4777,7 @@ msgstr "Registrováno v neregistrovaném stavu"
 
 #: plugins/icq/icqlogin.cpp:196
 msgid "This client is outdated"
-msgstr ""
+msgstr "Klient je zastaralý"
 
 #: plugins/icq/icqlogin.cpp:201
 msgid "Too many clients from same IP"
@@ -4803,29 +4797,27 @@ msgstr "Neexistujicí UIN"
 
 #: plugins/icq/icqlogin.cpp:223
 msgid "Bad login procedure"
-msgstr ""
+msgstr "Chyba při logování"
 
 #: plugins/icq/icqlogin.cpp:234
-#, fuzzy
 msgid "Service temporarly unavailable"
-msgstr "Uživatel je dočasně dostupný na:"
+msgstr "Služba je dočasně nedostupná"
 
 #: plugins/icq/icqlogin.cpp:238
-#, fuzzy
 msgid "Invalid SecureID"
-msgstr "Chybné jméno"
+msgstr "Chybné SecureID"
 
 #: plugins/icq/icqlogin.cpp:242
 msgid "Too young!"
-msgstr ""
+msgstr "Příliš mladý!"
 
 #: plugins/icq/icqlogin.cpp:246
 msgid "UIN was suspended"
-msgstr ""
+msgstr "UIN byl suspendován"
 
 #: plugins/icq/icqlogin.cpp:250
 msgid "Can't login to ICQ network - Please try again later"
-msgstr ""
+msgstr "Nelze se připojit k ICQ serveru - zkuste to, prosím, pozdeji"
 
 #: plugins/icq/icqlogin.cpp:271
 msgid "Youur UIN is being used from another location"
@@ -4840,9 +4832,8 @@ msgid "Bad host address"
 msgstr "Chybná adresa hostitele"
 
 #: plugins/icq/icqmessage.cpp:672
-#, fuzzy
 msgid "File message"
-msgstr "Nová zpráva"
+msgstr "Soubor"
 
 #: plugins/icq/icqmessage.cpp:688
 msgid "WWW-panel message"
@@ -5466,9 +5457,8 @@ msgid "Search"
 msgstr "Hledání"
 
 #: plugins/icq/searchresult.cpp:177 plugins/jabber/addresult.cpp:77
-#, fuzzy
 msgid "Found 1 contact"
-msgstr "Přidat kontakt"
+msgstr "Nalezen 1 kontakt"
 
 #: plugins/icq/securedlg.cpp:59
 msgid "Request secure channel fail"
@@ -6094,8 +6084,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:48
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr "Plugin poskytuje možnost oznamovat stav kontaktů na obrazovce"
 
 #: plugins/osd/osd.cpp:115
@@ -6392,88 +6381,80 @@ msgid "Phone call"
 msgstr "Telefon"
 
 #: plugins/sms/sms.cpp:552
-#, fuzzy
 msgid "Port error"
-msgstr "Chyba proxy"
+msgstr "Chyba portu"
 
 #: plugins/sms/smssetup.cpp:56
-#, fuzzy
 msgid "Charging:"
-msgstr "Plačící"
+msgstr "Učtování:"
 
 #: plugins/sms/smssetup.cpp:58
-#, fuzzy
 msgid "Battery:"
-msgstr "Kategorie:"
+msgstr "Baterie:"
 
 #: plugins/sms/smssetupbase.cpp:139
-#, fuzzy
 msgid "SMSSetup"
-msgstr "Nastavení"
+msgstr "Nastavení SMS"
 
 #: plugins/sms/smssetupbase.cpp:141
-#, fuzzy
 msgid "Baudrate:"
-msgstr "Barbuda"
+msgstr "Baudů (\"bitů\" za vteřinu):"
 
 #: plugins/sms/smssetupbase.cpp:143
 msgid "115200"
-msgstr ""
+msgstr "115200"
 
 #: plugins/sms/smssetupbase.cpp:144
 msgid "38400"
-msgstr ""
+msgstr "38400"
 
 #: plugins/sms/smssetupbase.cpp:145
 msgid "19200"
-msgstr ""
+msgstr "19200"
 
 #: plugins/sms/smssetupbase.cpp:146
 msgid "9600"
-msgstr ""
+msgstr "9600"
 
 #: plugins/sms/smssetupbase.cpp:147
 msgid "4800"
-msgstr ""
+msgstr "4800"
 
 #: plugins/sms/smssetupbase.cpp:148
 msgid "2400"
-msgstr ""
+msgstr "2400"
 
 #: plugins/sms/smssetupbase.cpp:149
 msgid "1200"
-msgstr ""
+msgstr "1200"
 
 #: plugins/sms/smssetupbase.cpp:150
 msgid "600"
-msgstr ""
+msgstr "600"
 
 #: plugins/sms/smssetupbase.cpp:151
 msgid "300"
-msgstr ""
+msgstr "300"
 
 #: plugins/sms/smssetupbase.cpp:152
 msgid "Software handshake"
-msgstr ""
+msgstr "Softwarové navázání spojení (handshake)"
 
 #: plugins/sms/smssetupbase.cpp:154
-#, fuzzy
 msgid "Model:"
-msgstr "Mód"
+msgstr "Model:"
 
 #: plugins/sms/smssetupbase.cpp:155
 msgid "Signal quality:"
-msgstr ""
+msgstr "Kvalita signálu:"
 
 #: plugins/sms/smssetupbase.cpp:157
-#, fuzzy
 msgid "Operator:"
-msgstr "Esperanto"
+msgstr "Operátor:"
 
 #: plugins/sms/smssetupbase.cpp:158
-#, fuzzy
 msgid "&Phone"
-msgstr "&Telefony:"
+msgstr "&Telefon"
 
 #: plugins/jabber/jabber_rosters.cpp:1908
 msgid "Password does not match"
@@ -6690,9 +6671,8 @@ msgstr "Chyba %1"
 
 #: plugins/jabber/jabberconfigbase.cpp:250
 #: plugins/livejournal/livejournalcfgbase.cpp:149
-#, fuzzy
 msgid "Username:"
-msgstr "Uživatelské jméno"
+msgstr "Uživatelské jméno:"
 
 #: plugins/jabber/jabberconfigbase.cpp:251
 msgid "&Register new account"
@@ -6892,7 +6872,7 @@ msgstr "&Stat"
 #: plugins/jabber/discoinfo.cpp:246
 #, c-format
 msgid "%n day"
-msgstr ""
+msgstr "%n den"
 
 #: plugins/jabber/jabberclient.cpp:1586 plugins/jabber/jabberclient.cpp:1695
 msgid "Photo"
@@ -6939,19 +6919,16 @@ msgid "Register new user"
 msgstr "Registrace nového uživatele"
 
 #: plugins/livejournal/msgjournal.cpp:150
-#, fuzzy
 msgid "Remove record from journal?"
-msgstr "Odeb&rat ze žurnálu"
+msgstr "Odebrat záznam ze žurnálu?"
 
 #: plugins/livejournal/msgjournalbase.cpp:79
-#, fuzzy
 msgid "Subject:"
-msgstr "<p>Subjekt: %1</p>"
+msgstr "Subjekt:"
 
 #: plugins/livejournal/msgjournalbase.cpp:80
-#, fuzzy
 msgid "Security:"
-msgstr "Bezpečnost"
+msgstr "Bezpečnost:"
 
 #: plugins/livejournal/msgjournalbase.cpp:82
 #, fuzzy
@@ -6959,33 +6936,28 @@ msgid "Public"
 msgstr "Veřejný"
 
 #: plugins/livejournal/msgjournalbase.cpp:83
-#, fuzzy
 msgid "Private"
-msgstr "Poskytovatel:"
+msgstr "Soukromý"
 
 #: plugins/livejournal/msgjournalbase.cpp:84
-#, fuzzy
 msgid "Mood:"
-msgstr "Mód"
+msgstr "Nálada:"
 
 #: plugins/livejournal/journalsearchbase.cpp:70
-#, fuzzy
 msgid "Community:"
-msgstr "Země:"
+msgstr "Společenství:"
 
 #: plugins/livejournal/journalsearchbase.cpp:71
-#, fuzzy
 msgid "&Add community"
-msgstr "Přidat kont&akt"
+msgstr "&Přidat společenství"
 
 #: plugins/livejournal/journalsearch.cpp:54
 msgid "Add community results"
-msgstr ""
+msgstr "Přidat popis společenství"
 
 #: plugins/livejournal/journalsearch.cpp:80
-#, fuzzy
 msgid "Community %1 added to list"
-msgstr "Kontakt %1 přidán do kontaktlistu"
+msgstr "Komunita %1 přidána do seznamu"
 
 #: plugins/livejournal/journalsearch.cpp:82
 #, fuzzy
@@ -7657,18 +7629,16 @@ msgid "Path:"
 msgstr ""
 
 #: plugins/livejournal/livejournalcfgbase.cpp:156
-#, fuzzy
 msgid "Check interval:"
-msgstr "Kontrolovat neviditelnost"
+msgstr "Kontrolovat interval"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:157
-#, fuzzy
 msgid "minutes"
-msgstr "Počítače"
+msgstr "minut"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:158
 msgid "Use &fast server - only for paying customers"
-msgstr ""
+msgstr "Použít &rychlý server - pouze pro platící zákazníky"
 
 #: plugins/spell/spellcfg.cpp:46
 msgid "ASpell(aspell.exe)"
@@ -7738,8 +7708,7 @@ msgstr "Akce"
 
 #: plugins/action/action.cpp:34
 msgid "Plugin execute external programs on event or from contact menu"
-msgstr ""
-"Plugin umožňuje při události nebo z menu kontaktů spouštět externí programy"
+msgstr "Plugin umožňuje při události nebo z menu kontaktů spouštět externí programy"
 
 #: plugins/action/action.cpp:84
 msgid "&Action"
@@ -7762,8 +7731,7 @@ msgid "Navigate"
 msgstr "Navigace"
 
 #: plugins/navigate/navigate.cpp:199
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Plugin poskytuje navigaci v hyperlincích, spouští externí prohlížeč a "
 "poštovního klienta"
@@ -7782,7 +7750,7 @@ msgstr "Poštovní klient:"
 
 #: plugins/yahoo/yahoo.cpp:74
 msgid "Yahoo!"
-msgstr ""
+msgstr "Yahoo!"
 
 #: plugins/yahoo/yahoo.cpp:77
 msgid ""
@@ -7792,15 +7760,15 @@ msgstr ""
 
 #: plugins/yahoo/yahoocfg.cpp:43
 msgid "Get a Yahoo! ID"
-msgstr ""
+msgstr "Získat Yahoo! ID"
 
 #: plugins/yahoo/yahooclient.cpp:223
 msgid "Yahoo! login lock"
-msgstr ""
+msgstr "zámek logování do Yahoo!"
 
 #: plugins/yahoo/yahooclient.cpp:246
 msgid "Your account has been locked"
-msgstr ""
+msgstr "Váš účet byl zablokován"
 
 #: plugins/yahoo/yahooclient.cpp:250 plugins/yahoo/yahooclient.cpp:263
 #, fuzzy
@@ -7808,9 +7776,8 @@ msgid "Your account is being used from another location"
 msgstr "Vaše UIN se používá z jiného místa"
 
 #: plugins/yahoo/yahoocfgbase.cpp:120
-#, fuzzy
 msgid "&Yahoo!"
-msgstr "&Fotografie"
+msgstr "&Yahoo!"
 
 #~ msgid ""
 #~ "_n: %n file\n"
@@ -9047,3 +9014,4 @@ msgstr "&Fotografie"
 
 #~ msgid "Transfer completed"
 #~ msgstr "Übertragung abgeschlossen"
+
