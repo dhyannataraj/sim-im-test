@@ -161,7 +161,7 @@ IconCfg::IconCfg(QWidget *parent, IconsPlugin *plugin)
     cmbProtocol->setCurrentItem(0);
     protocolChanged(0);
     connect(lblMore, SIGNAL(click()), this, SLOT(goIcons()));
-    edtIcon->setStartDir(QFile::decodeName(app_file("icons/").c_str()));
+    edtIcon->setStartDir(QFile::decodeName(user_file("icons/").c_str()));
     edtIcon->setTitle(i18n("Select icons DLL"));
     edtIcon->setFilePreview(createPreview);
 #ifdef USE_KDE

@@ -114,7 +114,7 @@ SmileCfg::SmileCfg(QWidget *parent, IconsPlugin *plugin)
 {
     m_plugin = plugin;
     connect(lblMore, SIGNAL(click()), this, SLOT(goSmiles()));
-    edtSmiles->setStartDir(QFile::decodeName(app_file("smiles/").c_str()));
+    edtSmiles->setStartDir(QFile::decodeName(user_file("smiles/").c_str()));
     edtSmiles->setTitle(i18n("Select smiles"));
     edtSmiles->setFilePreview(createPreview);
 #ifdef USE_KDE
