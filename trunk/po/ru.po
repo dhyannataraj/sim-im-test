@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"POT-Creation-Date: 2002-07-12 03:42+0400\n"
-"PO-Revision-Date: 2002-07-12 03:45GMT+3\n"
+"POT-Creation-Date: 2002-07-12 20:26+0400\n"
+"PO-Revision-Date: 2002-07-12 20:30GMT+3\n"
 "Last-Translator: Vladimir Shutoff <shutoff@mail.ru>\n"
 "Language-Team: Русский <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 :n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
 
-#: libicq/translator.cpp:123
+#: libicq/translator.cpp:121
 msgid "UTF-8"
 msgstr "UTF-8"
 
@@ -33,11 +33,11 @@ msgstr "Жирный"
 msgid "Underline"
 msgstr "Подчеркнутый"
 
-#: chatwnd.cpp:213
+#: chatwnd.cpp:215
 msgid "Enter to chat"
 msgstr "Вошел в чат"
 
-#: chatwnd.cpp:316
+#: chatwnd.cpp:318
 #, c-format
 msgid "Can't create %1"
 msgstr "Не могу создать %1"
@@ -134,12 +134,12 @@ msgstr "Неактивный"
 msgid "Last online"
 msgstr "Последний раз в сети"
 
-#: dock.cpp:495
+#: dock.cpp:492
 #, c-format
 msgid "%n unread message"
 msgstr "%n непрочитанное сообщение"
 
-#: dock.cpp:500 mainwin.cpp:1176
+#: dock.cpp:497 mainwin.cpp:1180
 msgid "Connecting"
 msgstr "Соединение"
 
@@ -199,163 +199,163 @@ msgstr "Исчерпано количество попыток"
 msgid "Invalid password"
 msgstr "Неверный пароль"
 
-#: mainwin.cpp:269
+#: mainwin.cpp:273
 msgid "Current location"
 msgstr "Текущее положение"
 
-#: mainwin.cpp:270
+#: mainwin.cpp:274
 msgid "Phone status"
 msgstr "Телефон"
 
-#: mainwin.cpp:272
+#: mainwin.cpp:276
 msgid "Phone Book"
 msgstr "Телефонная книга"
 
-#: mainwin.cpp:286
+#: mainwin.cpp:290
 msgid "Show offline"
 msgstr "Показывать пользователей не в сети"
 
-#: mainwin.cpp:290
+#: mainwin.cpp:294
 msgid "Group mode"
 msgstr "Показывать группы"
 
-#: mainwin.cpp:302
+#: mainwin.cpp:306
 msgid "Menu"
 msgstr "Меню"
 
-#: mainwin.cpp:649
+#: mainwin.cpp:653
 msgid "%1 from %2 received"
 msgstr "%1 от %2"
 
-#: mainwin.cpp:711
+#: mainwin.cpp:715
 msgid "Your UIN used from another location"
 msgstr "Ваш UIN используется с другого компьютера"
 
-#: mainwin.cpp:756
+#: mainwin.cpp:760
 msgid "User %1 is online"
 msgstr "Пользователь %1 в сети"
 
-#: mainwin.cpp:1151 mainwin.cpp:1360
+#: mainwin.cpp:1155 mainwin.cpp:1381
 msgid "&Yes"
 msgstr "&Да"
 
-#: mainwin.cpp:1152 mainwin.cpp:1361
+#: mainwin.cpp:1156 mainwin.cpp:1382
 msgid "&No"
 msgstr "&Нет"
 
-#: mainwin.cpp:1153
+#: mainwin.cpp:1157
 msgid "Add user %1 to ignore list ?"
 msgstr "Добавить \"%1\" в список игнорируемых"
 
-#: mainwin.cpp:1219
+#: mainwin.cpp:1223
 msgid "In visible list"
 msgstr "В списке видимости"
 
-#: mainwin.cpp:1221
+#: mainwin.cpp:1225
 msgid "In invisible list"
 msgstr "В списке невидимости"
 
-#: mainwin.cpp:1224
+#: mainwin.cpp:1228
 msgid "In ignore list"
 msgstr "В списке игнорируемых"
 
-#: mainwin.cpp:1241 mainwin.cpp:1648
+#: mainwin.cpp:1245 mainwin.cpp:1669
 msgid "Groups"
 msgstr "Группы"
 
-#: mainwin.cpp:1246 ui/userinfo.cpp:53 userbox.cpp:149 userbox.cpp:272
+#: mainwin.cpp:1250 ui/userinfo.cpp:53 userbox.cpp:149 userbox.cpp:272
 msgid "User info"
 msgstr "Информация о пользователе"
 
-#: mainwin.cpp:1247 userbox.cpp:154 userbox.cpp:316
+#: mainwin.cpp:1251 userbox.cpp:154 userbox.cpp:316
 msgid "History"
 msgstr "История"
 
-#: mainwin.cpp:1250
+#: mainwin.cpp:1254
 msgid "Floating off"
 msgstr "Выключить плавающее окно"
 
-#: mainwin.cpp:1250
+#: mainwin.cpp:1254
 msgid "Floating on"
 msgstr "Включить плавающее окно"
 
-#: mainwin.cpp:1253
+#: mainwin.cpp:1257
 msgid "Users"
 msgstr "Пользователи"
 
-#: mainwin.cpp:1362
+#: mainwin.cpp:1383
 msgid "Delete user %1?"
 msgstr "Удалить пользователя \"%1\"?"
 
-#: mainwin.cpp:1429 msgedit.cpp:717
+#: mainwin.cpp:1450 msgedit.cpp:724
 msgid "New"
 msgstr "Новое"
 
-#: mainwin.cpp:1432
+#: mainwin.cpp:1453
 msgid "To container"
 msgstr "В контейнер"
 
-#: mainwin.cpp:1624
+#: mainwin.cpp:1645
 msgid "Invisible"
 msgstr "Невидимый"
 
-#: mainwin.cpp:1627
+#: mainwin.cpp:1648
 msgid "Don't show"
 msgstr "Не показывать"
 
-#: mainwin.cpp:1628
+#: mainwin.cpp:1649
 msgid "Available"
 msgstr "Доступен"
 
-#: mainwin.cpp:1629
+#: mainwin.cpp:1650
 msgid "Busy"
 msgstr "Занят"
 
-#: mainwin.cpp:1632 userview.cpp:475
+#: mainwin.cpp:1653 userview.cpp:475
 msgid "Create group"
 msgstr "Создать группу"
 
-#: mainwin.cpp:1634 userview.cpp:480
+#: mainwin.cpp:1655 userview.cpp:480
 msgid "Expand all"
 msgstr "Развернуть все группы"
 
-#: mainwin.cpp:1635 userview.cpp:481
+#: mainwin.cpp:1656 userview.cpp:481
 msgid "Collapse all"
 msgstr "Свернуть все группы"
 
-#: mainwin.cpp:1639
+#: mainwin.cpp:1660
 msgid "ICQ"
 msgstr "ICQ"
 
-#: mainwin.cpp:1642
+#: mainwin.cpp:1663
 msgid "Find User"
 msgstr "Поиск пользователя"
 
-#: mainwin.cpp:1643
+#: mainwin.cpp:1664
 msgid "Add Non-IM contact"
 msgstr "Добавить внешний контакт"
 
-#: mainwin.cpp:1645 ui/statussetupbase.cpp:79 usertbl.cpp:112
+#: mainwin.cpp:1666 ui/statussetupbase.cpp:79 usertbl.cpp:112
 msgid "Status"
 msgstr "Статус"
 
-#: mainwin.cpp:1647 ui/setupdlg.cpp:64
+#: mainwin.cpp:1668 ui/setupdlg.cpp:64
 msgid "Setup"
 msgstr "Настройки"
 
-#: mainwin.cpp:1649
+#: mainwin.cpp:1670
 msgid "Phone \"Follow Me\""
 msgstr "Телефонный сервис"
 
-#: mainwin.cpp:1652
+#: mainwin.cpp:1673
 msgid "Always on top"
 msgstr "Всегда наверху"
 
-#: mainwin.cpp:1656
+#: mainwin.cpp:1677
 msgid "&About SIM"
 msgstr "О &приложении SIM"
 
-#: mainwin.cpp:1657
+#: mainwin.cpp:1678
 msgid "About &KDE"
 msgstr "О &KDE"
 
@@ -443,43 +443,43 @@ msgstr "Отправить нескольким адресатам"
 msgid "Drag users here"
 msgstr "Перенесите пользователей сюда"
 
-#: msgedit.cpp:278
+#: msgedit.cpp:280
 msgid "Sending"
 msgstr "Отправка"
 
-#: msgedit.cpp:285
+#: msgedit.cpp:287
 msgid "&Send"
 msgstr "&Отправить"
 
-#: msgedit.cpp:417
+#: msgedit.cpp:424
 msgid "Transfer started"
 msgstr "Передача файла начата"
 
-#: msgedit.cpp:420
+#: msgedit.cpp:427
 msgid "Chat started"
 msgstr "Чат начат"
 
-#: msgedit.cpp:448
+#: msgedit.cpp:455
 msgid "Message sent"
 msgstr "Сообщение отправлено"
 
-#: msgedit.cpp:452
+#: msgedit.cpp:459
 msgid "Send failed"
 msgstr "Отправлено неудачно"
 
-#: msgedit.cpp:714
+#: msgedit.cpp:721
 msgid "Next"
 msgstr "Следующее"
 
-#: msgedit.cpp:755
+#: msgedit.cpp:762
 msgid "%1 (ICQ# %2) wrote:<br>\n"
 msgstr "%1 (ICQ# %2) пишет:<br>\n"
 
-#: msgedit.cpp:1448
+#: msgedit.cpp:1459
 msgid "Decline reason"
 msgstr "Причина отказа"
 
-#: msgedit.cpp:1448
+#: msgedit.cpp:1459
 msgid "Please, input decline reason:"
 msgstr "Введите причину отказа:"
 
@@ -615,31 +615,33 @@ msgstr "Подтверждение и пароль не совпадают"
 msgid "Directory for incoming files"
 msgstr "Каталог для приема файлов"
 
-#: ui/filetransfer.cpp:48
-msgid "Receive file"
-msgstr "Прием файла"
+#: ui/filetransfer.cpp:50
+#, c-format
+msgid "Receive file from %1"
+msgstr "Прием файла от %1"
 
-#: ui/filetransfer.cpp:49 ui/filetransfer.cpp:56 ui/filetransferbase.cpp:43
+#: ui/filetransfer.cpp:51 ui/filetransfer.cpp:58 ui/filetransferbase.cpp:43
 msgid "Remote file:"
 msgstr "Удаленный файл:"
 
-#: ui/filetransfer.cpp:50 ui/filetransfer.cpp:55 ui/filetransferbase.cpp:48
+#: ui/filetransfer.cpp:52 ui/filetransfer.cpp:57 ui/filetransferbase.cpp:48
 msgid "Local file:"
 msgstr "Локальный файл:"
 
-#: ui/filetransfer.cpp:54
-msgid "Send file"
-msgstr "Передача файла"
+#: ui/filetransfer.cpp:56
+#, c-format
+msgid "Send file to %1"
+msgstr "Передача файла %1"
 
-#: ui/filetransfer.cpp:107
-msgid "Transfer completed"
-msgstr "Передача завершена"
+#: ui/filetransfer.cpp:115
+msgid "[done]"
+msgstr "[выполнено]"
 
-#: ui/filetransfer.cpp:110
-msgid "Transfer failed"
-msgstr "Ошибка передачи"
+#: ui/filetransfer.cpp:118
+msgid "[fail]"
+msgstr "[ошибка]"
 
-#: ui/filetransfer.cpp:171
+#: ui/filetransfer.cpp:182
 msgid "File %1 exist"
 msgstr "File %1 существует"
 
@@ -835,6 +837,30 @@ msgstr "Пароль"
 msgid "Default icons"
 msgstr "Иконки по умолчанию"
 
+#: ui/xosdsetup.cpp:44
+msgid "Left-bottom"
+msgstr "Левый нижний угол"
+
+#: ui/xosdsetup.cpp:45
+msgid "Left-top"
+msgstr "Левый верхний угол"
+
+#: ui/xosdsetup.cpp:46
+msgid "Right-bottom"
+msgstr "Правый нижний угол"
+
+#: ui/xosdsetup.cpp:47
+msgid "Right-top"
+msgstr "Правый верхний угол"
+
+#: ui/xosdsetup.cpp:48
+msgid "Center-bottom"
+msgstr "Посередине внизу"
+
+#: ui/xosdsetup.cpp:49
+msgid "Center-top"
+msgstr "Посередине вверху"
+
 #: ui/searchbase.cpp:68 ui/searchbase.cpp:191
 msgid "Search"
 msgstr "Поиск"
@@ -892,6 +918,34 @@ msgstr "Новый поиск"
 #: ui/themesetupbase.cpp:64 ui/userinfobase.cpp:92 ui/xosdbase.cpp:94
 msgid "Form1"
 msgstr "Домашняя"
+
+#: ui/xosdbase.cpp:109
+msgid "Notify On Screen"
+msgstr "On-Screen сообщения"
+
+#: ui/xosdbase.cpp:121
+msgid "Enable notify on screen"
+msgstr "Разрешить On-Screen сообщения"
+
+#: ui/xosdbase.cpp:141
+msgid "Show time:"
+msgstr "Время показа:"
+
+#: ui/workinfobase.cpp:196 ui/xosdbase.cpp:153
+msgid "Position:"
+msgstr "Должность:"
+
+#: ui/xosdbase.cpp:159
+msgid "Font:"
+msgstr "Шрифт:"
+
+#: ui/xosdbase.cpp:167
+msgid "Offset:"
+msgstr "Отступ:"
+
+#: ui/xosdbase.cpp:177
+msgid "Color:"
+msgstr "Цвет:"
 
 #: ui/networkbase.cpp:80
 msgid "Network"
@@ -1251,10 +1305,6 @@ msgstr "Индекс:"
 msgid "State:"
 msgstr "Штат:"
 
-#: ui/workinfobase.cpp:196 ui/xosdbase.cpp:153
-msgid "Position:"
-msgstr "Должность:"
-
 #: ui/themesetupbase.cpp:92
 msgid "Select style:"
 msgstr "Выберите стиль:"
@@ -1399,54 +1449,6 @@ msgstr ""
 "Дополнительная информация о "
 "пользователе:"
 
-#: ui/xosdsetup.cpp:44
-msgid "Left-bottom"
-msgstr "Левый нижний угол"
-
-#: ui/xosdsetup.cpp:45
-msgid "Left-top"
-msgstr "Левый верхний угол"
-
-#: ui/xosdsetup.cpp:46
-msgid "Right-bottom"
-msgstr "Правый нижний угол"
-
-#: ui/xosdsetup.cpp:47
-msgid "Right-top"
-msgstr "Правый верхний угол"
-
-#: ui/xosdsetup.cpp:48
-msgid "Center-bottom"
-msgstr "Посередине внизу"
-
-#: ui/xosdsetup.cpp:49
-msgid "Center-top"
-msgstr "Посередине вверху"
-
-#: ui/xosdbase.cpp:109
-msgid "Notify On Screen"
-msgstr "On-Screen сообщения"
-
-#: ui/xosdbase.cpp:121
-msgid "Enable notify on screen"
-msgstr "Разрешить On-Screen сообщения"
-
-#: ui/xosdbase.cpp:141
-msgid "Show time:"
-msgstr "Время показа:"
-
-#: ui/xosdbase.cpp:159
-msgid "Font:"
-msgstr "Шрифт:"
-
-#: ui/xosdbase.cpp:167
-msgid "Offset:"
-msgstr "Отступ:"
-
-#: ui/xosdbase.cpp:177
-msgid "Color:"
-msgstr "Цвет:"
-
 #: _translatorinfo.cpp:1
 msgid ""
 "_: NAME OF TRANSLATORS\n"
@@ -1458,6 +1460,12 @@ msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
 msgstr "shutoff@mail.ru"
+
+#~ msgid "Transfer completed"
+#~ msgstr "Передача завершена"
+
+#~ msgid "Transfer failed"
+#~ msgstr "Ошибка передачи"
 
 #~ msgid "Platinum"
 #~ msgstr "Платиновый"
