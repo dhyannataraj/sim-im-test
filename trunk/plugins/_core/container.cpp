@@ -808,8 +808,11 @@ bool Container::event(QEvent *e)
             (((e->type() == QEvent::ShowNormal) || (e->type() == QEvent::ShowMaximized)) &&
              isActiveWindow())){
         UserWnd *userWnd = m_tabBar->currentWnd();
-        if (userWnd && !m_bNoRead)
+	if (m_bNoRead){
+	    m_bNoRead = false;
+        }else if (userWnd){
             userWnd->markAsRead();
+	}
         if (m_bNoSwitch){
             m_bNoSwitch = false;
         }else{
@@ -853,6 +856,7 @@ void Container::contactChanged(Contact *contact)
 
 void Container::setReadMode()
 {
+    log(L_DEBUG, "Set read mode");
     m_bNoRead = false;
 }
 

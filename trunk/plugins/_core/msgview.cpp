@@ -161,7 +161,7 @@ void MsgViewBase::update()
     int paraTo, indexTo;
     getSelection(&paraFrom, &indexFrom, &paraTo, &indexTo);
     setReadOnly(false);
-    setSelection(start, 0, paragraphs() - 1, 0xFFFF);
+    setSelection(start, 0, paragraphs() - 1, 0xFFFF, 0);
     removeSelectedText();
     setReadOnly(true);
     QString text;
@@ -186,8 +186,8 @@ void MsgViewBase::update()
     if (!CorePlugin::m_plugin->getOwnColors())
         setBackground(i);
     if ((paraFrom != paraTo) || (indexFrom != indexTo))
-        setSelection(paraFrom, indexFrom, paraTo, indexTo);
-    sync();
+        setSelection(paraFrom, indexFrom, paraTo, indexTo, 0);
+    TextShow::sync();
     setContentsPos(x, y);
     viewport()->repaint();
 }
@@ -501,12 +501,22 @@ void MsgViewBase::setBackground(unsigned n)
 }
 // </hack>
 
-void MsgViewBase::addMessage(Message *msg, bool bUnread)
+void MsgViewBase::addMessage(Message *msg, bool bUnread, bool bSync)
 {
-    unsigned n = paragraphs() - 1;
+    unsigned n = paragraphs();
+    if (n > 0)
+        n--;
     append(messageText(msg, bUnread));
     if (!CorePlugin::m_plugin->getOwnColors())
         setBackground(n);
+    if (bSync)
+        sync(n);
+}
+
+#ifdef WIN32
+
+void MsgViewBase::sync(unsigned n)
+{
     if (!m_selectStr.isEmpty()){
         bool bStart = false;
         for (; n < (unsigned)paragraphs(); n++){
@@ -524,16 +534,26 @@ void MsgViewBase::addMessage(Message *msg, bool bUnread)
             getCursorPosition(&savePara, &saveIndex);
             int para = n;
             int index = 0;
-            while (find(m_selectStr, false, false, true, &para, &index)){
-                setSelection(para, index, para, index + m_selectStr.length(), ++m_nSelection);
+            while (find(m_selectStr, false, false, true, &para, &index, false)){
+                setSelection(para, index, para, index + m_selectStr.length(), ++m_nSelection, false);
                 setSelectionAttributes(m_nSelection, colorGroup().highlight(), true);
                 index += m_selectStr.length();
             }
             setCursorPosition(savePara, saveIndex);
+            repaintChanged();
         }
     }
-    sync();
+    TextShow::sync();
 }
+
+#else
+
+void MsgViewBase::sync(unsigned)
+{
+    TextShow::sync();
+}
+
+#endif
 
 bool MsgViewBase::findMessage(Message *msg)
 {
@@ -717,7 +737,7 @@ void *MsgViewBase::processEvent(Event *e)
             int pos = charAt(QPoint(x, y), &para);
             setReadOnly(false);
             for (unsigned i = 0; i < start_pos.size(); i++){
-                setSelection(start_pos[i], 0, end_pos[i], 0);
+                setSelection(start_pos[i], 0, end_pos[i], 0, 0);
                 removeSelectedText();
                 if ((unsigned)pos >= start_pos[i])
                     pos = end_pos[i] - start_pos[i];
@@ -730,7 +750,7 @@ void *MsgViewBase::processEvent(Event *e)
                     ensureCursorVisible();
                 }
             }else{
-                setSelection(paraFrom, indexFrom, paraTo, indexTo);
+                setSelection(paraFrom, indexFrom, paraTo, indexTo, 0);
             }
             setReadOnly(true);
             repaint();
@@ -782,14 +802,14 @@ void *MsgViewBase::processEvent(Event *e)
                 j++;
                 pos = 0;
             }
-            setSelection(i, 0, j - 1, pos);
+            setSelection(i, 0, j - 1, pos, 0);
             setReadOnly(false);
             removeSelectedText();
             setReadOnly(true);
             if ((paraFrom == -1) && (paraTo == -1)){
                 scrollToBottom();
             }else{
-                setSelection(paraFrom, indexFrom, paraTo, indexTo);
+                setSelection(paraFrom, indexFrom, paraTo, indexTo, 0);
             }
             break;
         }
@@ -1054,7 +1074,7 @@ MsgView::~MsgView()
 
 void MsgView::init()
 {
-    sync();
+    TextShow::sync();
     scrollToBottom();
 }
 

@@ -2117,6 +2117,11 @@ if (fname[0] != '/')
             }
             delete list;
             if (userWnd == NULL){
+		if (contact->getFlags() & CONTACT_TEMP){
+			contact->setFlags(contact->getFlags() & ~CONTACT_TEMP);
+			Event e(EventContactChanged, contact);
+			e.process();
+		}
                 userWnd = new UserWnd(contact->id(), NULL, (*msg)->getFlags() & MESSAGE_RECEIVED, (*msg)->getFlags() & MESSAGE_RECEIVED);
                 if (getContainerMode() == 3){
                     QWidgetList  *list = QApplication::topLevelWidgets();
@@ -2190,7 +2195,6 @@ if (fname[0] != '/')
                     container->init();
                     container->showMinimized();
 #endif
-                    QTimer::singleShot(100, container, SLOT(setReadMode()));
                 }
                 if (m_focus)
                     m_focus->setFocus();
@@ -2778,7 +2782,14 @@ if (fname[0] != '/')
                         int cnt = (*itc).second.count;
                         msg = QString("%1").arg(cnt);
                     }
-                    //int cnt = (*itc).second.count; //Not referenced (by Noragen)
+                    if ((*itc).second.count == 1){
+                        int n = msg.find("1 ");
+                        if (n == 0){
+                            msg = msg.left(1).upper() + msg.mid(1);
+                        }else{
+                            msg = msg.left(n - 1);
+                        }
+                    }
                     if (contact_id == 0){
                         Contact *contact = getContacts()->contact((*itc).first.contact);
                         if (contact == NULL)

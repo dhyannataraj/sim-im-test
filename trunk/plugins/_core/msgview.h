@@ -45,13 +45,14 @@ class MsgViewBase : public TextShow, public EventReceiver
 public:
     MsgViewBase(QWidget *parent, const char *name, unsigned id=(unsigned)(-1));
     ~MsgViewBase();
-    void		addMessage(Message *msg, bool bUnread=false);
+    void		addMessage(Message *msg, bool bUnread=false, bool bSync=true);
     bool		findMessage(Message *msg);
     void		setSelect(const QString &str);
     void		setXSL(XSL*);
     static		QString parseText(const QString &text, bool bIgnoreColors, bool bUseSmiles);
     unsigned	m_id;
     Message		*currentMessage();
+    void		sync(unsigned);
 protected slots:
     void		update();
 protected:
