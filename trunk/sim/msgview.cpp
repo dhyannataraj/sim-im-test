@@ -201,7 +201,7 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
             }else{
                 s += i18n("File");
                 s += ": ";
-                s += file->Name.c_str();
+                s += name;
             }
             s += " (";
             s += QString::number(file->Size);
