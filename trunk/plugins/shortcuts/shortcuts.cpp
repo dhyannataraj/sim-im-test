@@ -18,6 +18,7 @@
 #include "shortcuts.h"
 #include "shortcutcfg.h"
 #include "simapi.h"
+#include "core.h"
 
 #include <qapplication.h>
 #include <qwidgetlist.h>
@@ -496,6 +497,7 @@ void *ShortcutsPlugin::processEvent(Event *e)
         CommandDef *cmd = (CommandDef*)(e->param());
         if ((cmd->menu_id == MenuMain) ||
                 (cmd->menu_id == MenuContact) ||
+                (cmd->menu_id == MenuStatus) ||
                 (cmd->menu_id == MenuGroup)){
             applyKey(cmd);
         }
@@ -555,6 +557,7 @@ void ShortcutsPlugin::applyKeys()
     applyKeys(MenuMain);
     applyKeys(MenuGroup);
     applyKeys(MenuContact);
+    applyKeys(MenuStatus);
 }
 
 void ShortcutsPlugin::releaseKeys()
@@ -562,6 +565,7 @@ void ShortcutsPlugin::releaseKeys()
     releaseKeys(MenuMain);
     releaseKeys(MenuGroup);
     releaseKeys(MenuContact);
+    releaseKeys(MenuStatus);
     oldKeys.clear();
     oldGlobals.clear();
     if (globalKeys){

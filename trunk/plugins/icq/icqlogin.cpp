@@ -133,12 +133,12 @@ void ICQClient::chn_login()
         m_socket->writeBuffer << 0x00000001L;
         m_socket->writeBuffer.tlv(0x0001, uin);
         m_socket->writeBuffer.tlv(0x0002, pass, n);
-        m_socket->writeBuffer.tlv(0x0003, "3ICQ Inc. - Product of ICQ (TM).2003a.5.45.1.3777.85");
+        m_socket->writeBuffer.tlv(0x0003, "3ICQ Inc. - Product of ICQ (TM).2003b.5.56.1.3916.85");
         m_socket->writeBuffer.tlv(0x0016, 0x010A);
-        m_socket->writeBuffer.tlv(0x0017, 0x0005);
-        m_socket->writeBuffer.tlv(0x0018, 0x002D);
+        m_socket->writeBuffer.tlv(0x0017, 0x0002);
+        m_socket->writeBuffer.tlv(0x0018, 0x0038);
         m_socket->writeBuffer.tlv(0x0019, 0x0001);
-        m_socket->writeBuffer.tlv(0x001A, 0x0EC1);
+        m_socket->writeBuffer.tlv(0x001A, 0x0F4C);
         m_socket->writeBuffer.tlv(0x0014, 0x00000055L);
         m_socket->writeBuffer.tlv(0x000f, "en");
         m_socket->writeBuffer.tlv(0x000e, "us");

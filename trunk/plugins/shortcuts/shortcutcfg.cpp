@@ -19,6 +19,7 @@
 #include "shortcuts.h"
 #include "qkeybutton.h"
 #include "mousecfg.h"
+#include "core.h"
 
 #include <qlistview.h>
 #include <qlabel.h>
@@ -36,6 +37,7 @@ ShortcutsConfig::ShortcutsConfig(QWidget *parent, ShortcutsPlugin *plugin)
     loadMenu(MenuMain, true);
     loadMenu(MenuGroup, false);
     loadMenu(MenuContact, false);
+    loadMenu(MenuStatus, true);
     adjustColumns();
     selectionChanged();
     connect(lstKeys, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
@@ -103,6 +105,7 @@ void ShortcutsConfig::apply()
     saveMenu(MenuMain);
     saveMenu(MenuGroup);
     saveMenu(MenuContact);
+    saveMenu(MenuStatus);
     m_plugin->releaseKeys();
     m_plugin->applyKeys();
 }
