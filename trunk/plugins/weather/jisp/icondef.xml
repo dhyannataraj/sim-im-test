@@ -155,4 +155,91 @@
   <icon name="weather">
 	<object mime="image/png">na.png</object>
   </icon>
+  <icon name="moon1">
+	<object mime="image/png">m1.png</object>
+  </icon>
+  <icon name="moon2">
+	<object mime="image/png">m2.png</object>
+  </icon>
+  <icon name="moon3">
+	<object mime="image/png">m3.png</object>
+  </icon>
+  <icon name="moon4">
+	<object mime="image/png">m4.png</object>
+  </icon>
+  <icon name="moon5">
+	<object mime="image/png">m5.png</object>
+  </icon>
+  <icon name="moon6">
+	<object mime="image/png">m6.png</object>
+  </icon>
+  <icon name="moon7">
+	<object mime="image/png">m7.png</object>
+  </icon>
+  <icon name="moon8">
+	<object mime="image/png">m8.png</object>
+  </icon>
+  <icon name="moon9">
+	<object mime="image/png">m9.png</object>
+  </icon>
+  <icon name="moon10">
+	<object mime="image/png">m10.png</object>
+  </icon>
+  <icon name="moon11">
+	<object mime="image/png">m11.png</object>
+  </icon>
+  <icon name="moon12">
+	<object mime="image/png">m12.png</object>
+  </icon>
+  <icon name="moon13">
+	<object mime="image/png">m13.png</object>
+  </icon>
+  <icon name="moon14">
+	<object mime="image/png">m14.png</object>
+  </icon>
+  <icon name="moon15">
+	<object mime="image/png">m15.png</object>
+  </icon>
+  <icon name="moon16">
+	<object mime="image/png">m16.png</object>
+  </icon>
+  <icon name="moon17">
+	<object mime="image/png">m17.png</object>
+  </icon>
+  <icon name="moon18">
+	<object mime="image/png">m18.png</object>
+  </icon>
+  <icon name="moon19">
+	<object mime="image/png">m19.png</object>
+  </icon>
+  <icon name="moon20">
+	<object mime="image/png">m20.png</object>
+  </icon>
+  <icon name="moon21">
+	<object mime="image/png">m21.png</object>
+  </icon>
+  <icon name="moon22">
+	<object mime="image/png">m22.png</object>
+  </icon>
+  <icon name="moon23">
+	<object mime="image/png">m23.png</object>
+  </icon>
+  <icon name="moon24">
+	<object mime="image/png">m24.png</object>
+  </icon>
+  <icon name="moon25">
+	<object mime="image/png">m25.png</object>
+  </icon>
+  <icon name="moon26">
+	<object mime="image/png">m26.png</object>
+  </icon>
+  <icon name="moon27">
+	<object mime="image/png">m27.png</object>
+  </icon>
+  <icon name="moon28">
+	<object mime="image/png">m28.png</object>
+  </icon>
+  <icon name="moon29">
+	<object mime="image/png">m29.png</object>
+  </icon>
 </icondef>

@@ -47,6 +47,7 @@ typedef struct WeatherData
     Data	FeelsLike;
     Data	DewPoint;
     Data	Humidity;
+    Data    Precipitance;
     Data	Pressure;
     Data	PressureD;
     Data	Conditions;
@@ -69,6 +70,8 @@ typedef struct WeatherData
     Data	DayConditions;
 	Data	UV_Intensity;
 	Data	UV_Description;
+	Data	MoonIcon;
+	Data	MoonPhase;
 } WeatherData;
 
 class WeatherPlugin : public QObject, public Plugin, public EventReceiver, public FetchClient, public SAXParser
@@ -90,6 +93,7 @@ public:
     PROP_LONG(Temperature);
     PROP_LONG(FeelsLike);
     PROP_LONG(DewPoint);
+    PROP_LONG(Precipitance);
     PROP_LONG(Humidity);
     PROP_LONG(Pressure);
     PROP_STR(PressureD);
@@ -113,6 +117,8 @@ public:
     PROP_STRLIST(DayConditions);
 	PROP_LONG(UV_Intensity);
 	PROP_STR(UV_Description);
+	PROP_LONG(MoonIcon);
+	PROP_STR(MoonPhase);
 
     QString getButtonText();
     QString getTipText();
@@ -135,6 +141,7 @@ protected:
     bool   m_bBar;
     bool   m_bWind;
     bool   m_bUv;
+    bool   m_bMoon;
     bool   m_bForecast;
     bool   m_bCC;
     unsigned m_day;

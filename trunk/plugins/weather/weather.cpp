@@ -72,6 +72,7 @@ static DataDef weatherData[] =
         { "Temperature", DATA_LONG, 1, 0 },
         { "FeelsLike", DATA_LONG, 1, 0 },
         { "DewPoint", DATA_LONG, 1, 0 },
+        { "Precipitance", DATA_LONG, 1, 0 },
         { "Humidity", DATA_LONG, 1, 0 },
         { "Pressure", DATA_LONG, 1, 0 },
         { "PressureD", DATA_STRING, 1, 0 },
@@ -95,6 +96,8 @@ static DataDef weatherData[] =
         { "DayConditions", DATA_STRLIST, 1, 0 },
 		{ "UV_Intensity", DATA_LONG, 1, 0 },
 		{ "UV_Description", DATA_STRING, 1, 0 },
+		{ "MoonIcon", DATA_LONG, 1, 0 },
+		{ "MoonPhase", DATA_STRING, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -193,6 +196,7 @@ bool WeatherPlugin::done(unsigned code, Buffer &data, const char*)
     m_bWind = false;
     m_bUv	= false;
     m_bCC	= false;
+    m_bMoon	= false;
     reset();
     if (!parse(data.data(), data.size(), false)){
         log(L_WARN, "XML parse error");
@@ -426,6 +430,7 @@ i18n("weather", "Moderate")
 i18n("weather", "High")
 i18n("weather", "Showers in the Vicinity")
 i18n("weather", "Waning Crescent")
+i18n("weather", "Waxing Crescent")
 #endif
 
 static QString i18n_conditions(const QString &str)
@@ -478,10 +483,13 @@ QString WeatherPlugin::replace(const QString &text)
     updated = getUpdated();
 #endif
     /* double Expressions *before* single or better RegExp ! */
+    res = res.replace(QRegExp("\\%mp"), i18n("weather", getMoonPhase()));
+    res = res.replace(QRegExp("\\%mi"), number(getMoonIcon()));
+    res = res.replace(QRegExp("\\%pp"), number(getPrecipitance()));
 	res = res.replace(QRegExp("\\%ut"), i18n("weather", getUV_Description()));
 	res = res.replace(QRegExp("\\%ui"), number(getUV_Intensity()));
     res = res.replace(QRegExp("\\%t"), number(getTemperature()) + QChar((unsigned short)176) + getUT());
-    res = res.replace(QRegExp("\\%f"), number(getFeelsLike()) + QChar((unsigned short)176) + getUT());
+    res = res.replace(QRegExp("\\%f"), QString::number((int)getFeelsLike()) + QChar((unsigned short)176) + getUT());
     res = res.replace(QRegExp("\\%d"), QString::number((int)getDewPoint()) + QChar((unsigned short)176) + getUT());
     res = res.replace(QRegExp("\\%h"), number(getHumidity()) + "%");
     res = res.replace(QRegExp("\\%w"), number(getWind_speed()) + " " + i18n(getUS()));
@@ -566,12 +574,14 @@ QString WeatherPlugin::getTipText()
                    "<img src=\"icon:weather%i\"> %c<br>\n"
                    "Temperature: <b>%t</b> (feels like: <b>%f</b>)<br>\n"
                    "Humidity: <b>%h</b><br>\n"
+                   "Precipitance: <b>%pp %</b><br>\n"
                    "Pressure: <b>%p</b> (%q)<br>\n"
                    "Wind: <b>%b</b> <b>%w %g</b><br>\n"
                    "Visibility: <b>%v</b><br>\n"
                    "Dew Point: <b>%d</b><br>\n"
                    "Sunrise: %r<br>\n"
                    "Sunset: %s<br>\n"
+                   "<img src=\"icon:moon%mi\"> %mp<br>\n"
 				   "UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)<br>\n"
                    "<br>\n"
                    "Updated: %u<br>\n");
@@ -602,6 +612,7 @@ static const char *tags[] =
         "suns",
         "tmp",
         "flik",
+        "ppcp",
         "hmid",
         "t",
         "icon",
@@ -638,6 +649,10 @@ void WeatherPlugin::element_start(const char *el, const char **attr)
     }
     if (!strcmp(el, "uv")) {
 		m_bUv = true;
+        return;
+    }
+    if (!strcmp(el, "moon")) {
+        m_bMoon = true;
         return;
     }
     if (!strcmp(el, "day")){
@@ -724,6 +739,11 @@ void WeatherPlugin::element_end(const char *el)
         m_data = "";
         return;
     }
+    if (!strcmp(el, "ppcp") && m_bCC){
+        setPrecipitance(atol(m_data.c_str()));
+        m_data = "";
+        return;
+    }
     if (!strcmp(el, "hmid") && m_bCC){
         setHumidity(atol(m_data.c_str()));
         m_data = "";
@@ -744,7 +764,7 @@ void WeatherPlugin::element_end(const char *el)
         return;
     }
     if (!strcmp(el, "t")){
-        if (!m_bBar && !m_bWind && !m_bUv){
+        if (!m_bBar && !m_bWind && !m_bUv && !m_bMoon){
             if (m_bCC){
                 setConditions(m_data.c_str());
             }else{
@@ -755,6 +775,8 @@ void WeatherPlugin::element_end(const char *el)
             setWind(m_data.c_str());
         if (m_bUv && m_bCC)
             setUV_Description(m_data.c_str());
+        if (m_bMoon && m_bCC)
+            setMoonPhase(m_data.c_str());
 
         m_data = "";
         return;
@@ -766,7 +788,9 @@ void WeatherPlugin::element_end(const char *el)
         return;
     }
     if (!strcmp(el, "icon")){
-        if (m_bCC){
+        if (m_bMoon && m_bCC) {
+            setMoonIcon(atol(m_data.c_str()));
+        } else if (m_bCC){
             setIcon(atol(m_data.c_str()));
         }else{
             setDayIcon(m_day, m_data.c_str());
@@ -834,6 +858,10 @@ void WeatherPlugin::element_end(const char *el)
     }
     if (!strcmp(el, "uv")){
         m_bUv = false;
+        return;
+    }
+    if (!strcmp(el, "moon")){
+        m_bMoon = false;
         return;
     }
 }
