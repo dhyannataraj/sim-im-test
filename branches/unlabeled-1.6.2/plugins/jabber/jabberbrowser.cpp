@@ -399,7 +399,7 @@ void *JabberBrowser::processEvent(Event *e)
             cmd->id		= static_cast<JabberPlugin*>(m_client->protocol()->plugin())->CmdNode;
             CToolCombo *cmbNode = (CToolCombo*)(eWidget.process());
             if (cmbNode)
-                node = cmbUrl->lineEdit()->text();
+                node = cmbNode->lineEdit()->text();
             if (!jid.isEmpty()){
                 addHistory(jid);
                 goUrl(jid, node);
