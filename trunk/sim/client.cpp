@@ -654,7 +654,7 @@ QString Client::from8Bit(unsigned long uin, const string &str)
 string Client::to8Bit(QTextCodec *codec, const QString &str)
 {
     int lenOut = str.length();
-    string res = codec->makeEncoder()->fromUnicode(str, lenOut);
+    string res = (const char*)(codec->makeEncoder()->fromUnicode(str, lenOut));
     toServer(res, codec->name());
     return res;
 }
