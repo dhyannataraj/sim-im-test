@@ -142,10 +142,17 @@ void ICQInfo::apply(Client *client, void *_data)
 
 void *ICQInfo::processEvent(Event *e)
 {
-    if ((e->type() == EventContactChanged) || (e->type() == EventStatusChanged)){
+    if (e->type() == EventContactChanged){
         Contact *contact = (Contact*)(e->param());
         if (contact->clientData.have(m_data))
             fill();
+    }
+    if ((e->type() == EventMessageReceived) && m_data){
+        Message *msg = (Message*)(e->param());
+        if (msg->type() == MessageStatus){
+            if (m_client->dataName(m_data) == msg->client())
+                fill();
+        }
     }
     if ((e->type() == EventClientChanged) && (m_data == 0)){
         Client *client = (Client*)(e->param());

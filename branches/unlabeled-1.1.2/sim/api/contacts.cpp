@@ -215,6 +215,8 @@ static QString addStrings(const QString &old_value, const QString &values, const
         QString str = getToken(str_item, '/');
         while (str_item.length()){
             QString proto = getToken(str_item, ',');
+            if (client && (proto == client))
+                continue;
             add_str(str_list, str, proto.latin1());
         }
     }
@@ -1714,9 +1716,8 @@ Client *ContactList::getClient(unsigned n)
 void ContactList::clearClients()
 {
     p->bNoRemove = true;
-    while (!p->clients.empty()){
+    while (!p->clients.empty())
         delete p->clients[0];
-    }
     p->bNoRemove = false;
 }
 

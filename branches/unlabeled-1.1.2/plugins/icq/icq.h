@@ -43,6 +43,7 @@ public:
     ICQPlugin(unsigned base, const char *cfg);
     virtual ~ICQPlugin();
     unsigned ICQPacket;
+    unsigned ICQDirectPacket;
     PROP_BOOL(ShowAllEncodings);
     unsigned EventSearch;
     unsigned EventSearchDone;

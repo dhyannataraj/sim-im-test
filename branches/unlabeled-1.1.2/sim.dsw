@@ -432,9 +432,6 @@ Package=<4>
     Project_Dep_Name jabber
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name proxy
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name msn
     End Project Dependency
     Begin Project Dependency
@@ -445,6 +442,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name __migrate
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name proxy
     End Project Dependency
 }}}
 

@@ -107,6 +107,8 @@ const unsigned CONTAINER_GRP	= 0x80000000;
 
 typedef struct CoreUserData
 {
+    unsigned	LogStatus;
+    unsigned	LogMessage;
     unsigned	OfflineOpen;
     unsigned	OnlineOpen;
     unsigned	OpenOnReceive;

@@ -46,7 +46,12 @@ void MSNInfo::apply()
 
 void *MSNInfo::processEvent(Event *e)
 {
-    if ((e->type() == EventContactChanged) || (e->type() == EventStatusChanged)){
+    if ((e->type() == EventMessageReceived) && m_data){
+        Message *msg = (Message*)(e->param());
+        if ((msg->type() == MessageStatus) && (m_client->dataName(m_data) == msg->client()))
+            fill();
+    }
+    if (e->type() == EventContactChanged){
         Contact *contact = (Contact*)(e->param());
         if (contact->clientData.have(m_data))
             fill();

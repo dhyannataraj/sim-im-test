@@ -522,6 +522,27 @@ static MessageDef defRemoved =
         NULL
     };
 
+static Message *createStatus(const char *cfg)
+{
+    return new StatusMessage(cfg);
+}
+
+#if 0
+i18n("Status changed", "%n times status changed", 1);
+#endif
+
+static MessageDef defStatus =
+    {
+        NULL,
+        MESSAGE_DEFAULT,
+        0,
+        "Status changed",
+        "%n times status changed",
+        createStatus,
+        NULL,
+        NULL
+    };
+
 typedef struct ClientStatus
 {
     unsigned long	status;
@@ -689,7 +710,7 @@ void *MsgEdit::processEvent(Event *e)
 {
     if (e->type() == EventMessageReceived){
         Message *msg = (Message*)(e->param());
-        if (msg->contact() == m_userWnd->id()){
+        if ((msg->contact() == m_userWnd->id()) && (msg->type() != MessageStatus)){
             if (CorePlugin::m_plugin->getContainerMode()){
                 bool bSetFocus = false;
                 if (topLevelWidget() && topLevelWidget()->inherits("Container")){
@@ -834,7 +855,7 @@ void *MsgEdit::processEvent(Event *e)
                     time_t now;
                     time(&now);
                     contact->setLastActive(now);
-                    Event e(EventStatusChanged, contact);
+                    Event e(EventContactStatus, contact);
                     e.process();
                 }
                 if (!multiply.empty() && (multiply_it != multiply.end())){
@@ -1121,6 +1142,14 @@ void MsgEdit::setupMessages()
     cmd->menu_grp	= 0;
     cmd->flags		= COMMAND_DEFAULT;
     cmd->param		= &defRemoved;
+    eMsg.process();
+
+    cmd->id			= MessageStatus;
+    cmd->text		= "Status";
+    cmd->icon		= NULL;
+    cmd->menu_grp	= 0;
+    cmd->flags		= COMMAND_DEFAULT;
+    cmd->param		= &defStatus;
     eMsg.process();
 }
 

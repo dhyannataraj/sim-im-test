@@ -83,6 +83,8 @@ void *ForwardPlugin::processEvent(Event *e)
 {
     if (e->type() == EventMessageReceived){
         Message *msg = (Message*)(e->param());
+        if (msg->type() == MessageStatus)
+            return NULL;
         QString text = msg->getPlainText();
         if (text.isEmpty())
             return NULL;

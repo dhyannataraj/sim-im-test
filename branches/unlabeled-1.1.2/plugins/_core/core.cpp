@@ -243,6 +243,8 @@ typedef struct CoreUserData
 */
 static DataDef coreUserData[] =
     {
+        { "LogStatus", DATA_BOOL, 1, 0 },
+        { "LogMessage", DATA_BOOL, 1, 1 },
         { "OfflineOpen", DATA_BOOL, 1, 1 },
         { "OnlineOpen", DATA_BOOL, 1, 1 },
         { "OpenOnReceive", DATA_BOOL, 1, 0 },
@@ -1305,13 +1307,23 @@ void *CorePlugin::processEvent(Event *e)
                 clearUnread(contact->id());
             return NULL;
         }
-    case EventMessageReceived:
+    case EventMessageReceived:{
+            Message *msg = (Message*)(e->param());
+            if (msg->type() == MessageStatus){
+                Contact *contact = getContacts()->contact(msg->contact());
+                if (contact == NULL)
+                    return NULL;
+                CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
+                if ((data == NULL) || (data->LogStatus == 0))
+                    return NULL;
+            }
+        }
     case EventSent:{
             Message *msg = (Message*)(e->param());
             CommandDef *def = messageTypes.find(msg->type());
             if (def){
                 History::add(msg, typeName(def->text).c_str());
-                if (e->type() == EventMessageReceived){
+                if ((e->type() == EventMessageReceived) && (msg->type() != MessageStatus)){
                     msg_id m;
                     m.id = msg->id();
                     m.contact = msg->contact();

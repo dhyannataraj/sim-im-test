@@ -49,7 +49,7 @@ QString MsgViewBase::messageText(Message *msg)
                    CorePlugin::m_plugin->getColorReceiver() :
                    CorePlugin::m_plugin->getColorSender()) & 0xFFFFFF);
     const char *icon = "message";
-    CommandDef *def = CorePlugin::m_plugin->messageTypes.find(msg->type());
+    const CommandDef *def = CorePlugin::m_plugin->messageTypes.find(msg->type());
     if (def)
         icon = def->icon;
     QString contactName;
@@ -62,6 +62,20 @@ QString MsgViewBase::messageText(Message *msg)
             if (it.client()->dataName(data) == msg->client()){
                 client = it.client();
                 break;
+            }
+        }
+    }
+    if (msg->type() == MessageStatus){
+        icon = "empty";
+        StatusMessage *sm = static_cast<StatusMessage*>(msg);
+        if (client == NULL)
+            client = getContacts()->getClient(0);
+        if (client){
+            for (def = client->protocol()->statusList(); def->text; def++){
+                if (def->id == sm->getStatus()){
+                    icon = def->icon;
+                    break;
+                }
             }
         }
     }
@@ -110,35 +124,37 @@ QString MsgViewBase::messageText(Message *msg)
                 .arg(quoteString(contactName))
                 .arg(formatTime(msg->getTime()))
                 .arg(bUnread ? "</b>" : "");
-    QString msgText = msg->presentation();
-    if (msgText.isEmpty()){
-        unsigned type = msg->type();
-        for (;;){
-            CommandDef *cmd = CorePlugin::m_plugin->messageTypes.find(type);
-            if (cmd == NULL)
+    if (msg->type() != MessageStatus){
+        QString msgText = msg->presentation();
+        if (msgText.isEmpty()){
+            unsigned type = msg->type();
+            for (;;){
+                CommandDef *cmd = CorePlugin::m_plugin->messageTypes.find(type);
+                if (cmd == NULL)
+                    break;
+                MessageDef *def = (MessageDef*)(cmd->param);
+                if (def->base_type){
+                    type = def->base_type;
+                    continue;
+                }
+                msgText += "<p>";
+                msgText += i18n(def->singular, def->plural, 1);
+                msgText += "</p>";
                 break;
-            MessageDef *def = (MessageDef*)(cmd->param);
-            if (def->base_type){
-                type = def->base_type;
-                continue;
             }
-            msgText += "<p>";
-            msgText += i18n(def->singular, def->plural, 1);
-            msgText += "</p>";
-            break;
+            QString text = msg->getRichText();
+            if (!text.isEmpty()){
+                msgText += "<p>";
+                msgText += text;
+                msgText += "</p>";
+            }
         }
-        QString text = msg->getRichText();
-        if (!text.isEmpty()){
-            msgText += "<p>";
-            msgText += text;
-            msgText += "</p>";
-        }
+        string msg_text;
+        msg_text = msgText.utf8();
+        Event e(EventEncodeText, &msg_text);
+        e.process();
+        s += parseText(msg_text.c_str(), CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
     }
-    string msg_text;
-    msg_text = msgText.utf8();
-    Event e(EventEncodeText, &msg_text);
-    e.process();
-    s += parseText(msg_text.c_str(), CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
     return s;
 }
 
@@ -584,9 +600,21 @@ void *MsgView::processEvent(Event *e)
         Message *msg = (Message*)(e->param());
         if (msg->contact() != m_id)
             return NULL;
-        addMessage(msg);
-        if (!hasSelectedText())
-            scrollToBottom();
+        bool bAdd = true;
+        if (msg->type() == MessageStatus){
+            bAdd = false;
+            Contact *contact = getContacts()->contact(msg->contact());
+            if (contact){
+                CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
+                if (data && data->LogStatus)
+                    bAdd = true;
+            }
+        }
+        if (bAdd){
+            addMessage(msg);
+            if (!hasSelectedText())
+                scrollToBottom();
+        }
     }
     return MsgViewBase::processEvent(e);
 }
