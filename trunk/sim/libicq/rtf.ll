@@ -733,6 +733,7 @@ string RTF2HTML::Parse(const char *rtf, const char *_encoding)
             break;
         case UNICODE_CHAR:{
                 cur_level.flush();
+		string s;
                 unsigned short c = atol(yytext + 2);
                 if (c <= 0x7F)
                 {
@@ -748,45 +749,47 @@ string RTF2HTML::Parse(const char *rtf, const char *_encoding)
                 else if (c <= 0xFFFF)
                 {
                     /* 1110xxxx + 2 */
-                    c += (char)(0xE0 | (c >> 12));
-                    c += (char)(0x80 | ((c >> 6) & 0x3F));
-                    c += (char)(0x80 | (c & 0x3F));
+                    s += (char)(0xE0 | (c >> 12));
+                    s += (char)(0x80 | ((c >> 6) & 0x3F));
+                    s += (char)(0x80 | (c & 0x3F));
                 }
                 else if (c <= 0x1FFFFF)
                 {
                     /* 11110xxx + 3 */
-                    c += (char)(0xF0 | (c >> 18));
-                    c += (char)(0x80 | ((c >> 12) & 0x3F));
-                    c += (char)(0x80 | ((c >> 6) & 0x3F));
-                    c += (char)(0x80 | (c & 0x3F));
+                    s += (char)(0xF0 | (c >> 18));
+                    s += (char)(0x80 | ((c >> 12) & 0x3F));
+                    s += (char)(0x80 | ((c >> 6) & 0x3F));
+                    s += (char)(0x80 | (c & 0x3F));
                 }
                 else if (c <= 0x3FFFFFF)
                 {
                     /* 111110xx + 4 */
-                    c += (char)(0xF8 | (c >> 24));
-                    c += (char)(0x80 | ((c >> 18) & 0x3F));
-                    c += (char)(0x80 | ((c >> 12) & 0x3F));
-                    c += (char)(0x80 | ((c >> 6) & 0x3F));
-                    c += (char)(0x80 | (c & 0x3F));
+                    s += (char)(0xF8 | (c >> 24));
+                    s += (char)(0x80 | ((c >> 18) & 0x3F));
+                    s += (char)(0x80 | ((c >> 12) & 0x3F));
+                    s += (char)(0x80 | ((c >> 6) & 0x3F));
+                    s += (char)(0x80 | (c & 0x3F));
                 }
                 else if (c <= 0x7FFFFFFF)
                 {
                     /* 1111110x + 5 */
-                    c += (char)(0xFC | (c >> 30));
-                    c += (char)(0x80 | ((c >> 24) & 0x3F));
-                    c += (char)(0x80 | ((c >> 18) & 0x3F));
-                    c += (char)(0x80 | ((c >> 12) & 0x3F));
-                    c += (char)(0x80 | ((c >> 6) & 0x3F));
-                    c += (char)(0x80 | (c & 0x3F));
+                    s += (char)(0xFC | (c >> 30));
+                    s += (char)(0x80 | ((c >> 24) & 0x3F));
+                    s += (char)(0x80 | ((c >> 18) & 0x3F));
+                    s += (char)(0x80 | ((c >> 12) & 0x3F));
+                    s += (char)(0x80 | ((c >> 6) & 0x3F));
+                    s += (char)(0x80 | (c & 0x3F));
                 }
                 else
                 {
                     /* Not a valid character... */
                     log(L_WARN, "Can't decode %X", c);
                 }
+		cur_level.setText(s.c_str());
                 break;
             }
         case HEX:{
+		cur_level.flush();
                 char s[2];
                 s[0] = (h2d(yytext[2]) << 4) + h2d(yytext[3]);
                 s[1] = 0;
