@@ -196,6 +196,7 @@ public:
     virtual void setupContact(Contact*, void *data);
     bool		 m_bJoin;
     Socket *createSBSocket();
+	void connected();
 protected slots:
     void ping();
     void authOk();

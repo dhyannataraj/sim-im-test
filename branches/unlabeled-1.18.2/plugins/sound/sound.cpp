@@ -22,13 +22,10 @@
 #include "core.h"
 
 #include <qfile.h>
-#ifdef WIN32
-#include <windows.h>
-#include <mmsystem.h>
-#else
+#include <qsound.h>
+
 #ifdef USE_KDE
 #include <kaudioplayer.h>
-#endif
 #endif
 
 #include "xpm/sound.xpm"
@@ -57,24 +54,20 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 /*
 typedef struct SoundData
 {
-#ifndef WIN32
 #ifdef USE_KDE
     bool	UseArts;
 #endif
     char	*Player;
-#endif
     char	*StartUp;
     char	*FileDone;
 } SoundData;
 */
 static DataDef soundData[] =
     {
-#ifndef WIN32
 #ifdef USE_KDE
         { "UseArts", DATA_BOOL, 1, DATA(1) },
 #endif
         { "Player", DATA_STRING, 1, "play" },
-#endif
         { "StartUp", DATA_STRING, 1, "startup.wav" },
         { "FileDone", DATA_STRING, 1, "filedone.wav" },
         { "MessageSent", DATA_STRING, 1, "msgsent.wav" },
@@ -336,24 +329,30 @@ void SoundPlugin::playSound(const char *s)
     // check whether file is available
     if (!QFile::exists(QString(sound.c_str())))
         return;
-#ifdef WIN32
-    sndPlaySoundA(sound.c_str(), SND_ASYNC | SND_NODEFAULT);
-#else
+	bool bSound = QSound::available();
 #ifdef USE_KDE
     if (getUseArts()){
         KAudioPlayer::play(sound.c_str());
         return;
     }
+	bSound = false;
 #endif
+	if (bSound){
+		QSound s(sound.c_str());
+		s.play();
+		return;
+	}
     ExecParam p;
     p.cmd = getPlayer();
+	if (*p.cmd == 0)
+		return;
     p.arg = sound.c_str();
     Event e(EventExec, &p);
     e.process();
-#endif
 }
 
 #ifdef WIN32
+#include <windows.h>
 
 /**
  * DLL's entry point

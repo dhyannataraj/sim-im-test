@@ -141,7 +141,12 @@ void ClientSocket::read_ready()
         for (;;){
             char b[2048];
             int readn = m_sock->read(b, sizeof(b));
-            if (readn == 0) break;
+			if (readn < 0){
+	            error_state(I18N_NOOP("Read socket error"));
+		        return;
+			}
+            if (readn == 0) 
+				break;
             unsigned pos = readBuffer.writePos();
             readBuffer.setWritePos(readBuffer.writePos() + readn);
             memcpy(readBuffer.data(pos), b, readn);

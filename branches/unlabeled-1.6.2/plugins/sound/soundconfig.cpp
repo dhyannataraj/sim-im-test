@@ -24,25 +24,27 @@
 #include <qlabel.h>
 #include <qlineedit.h>
 #include <qtabwidget.h>
+#include <qsound.h>
 
 SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin)
         : SoundConfigBase(parent)
 {
     m_plugin = plugin;
     user_cfg = NULL;
-#ifdef WIN32
-    chkArts->hide();
-    lblPlayer->hide();
-    edtPlayer->hide();
-#else
+	bool bSound = QSound::available();
 #ifdef USE_KDE
+	bSound = false;
     connect(chkArts, SIGNAL(toggled(bool)), this, SLOT(artsToggled(bool)));
     chkArts->setChecked(plugin->getUseArts());
 #else
-chkArts->hide();
+	chkArts->hide();
 #endif
-    edtPlayer->setText(QString::fromLocal8Bit(plugin->getPlayer()));
-#endif
+	if (bSound){
+		lblPlayer->hide();
+	    edtPlayer->hide();
+	}else{
+		edtPlayer->setText(QString::fromLocal8Bit(plugin->getPlayer()));
+	}
     string s;
     s = plugin->fullName(plugin->getStartUp());
     edtStartup->setText(QFile::decodeName(s.c_str()));
@@ -75,12 +77,13 @@ void SoundConfig::apply()
         void *data = getContacts()->getUserData(m_plugin->user_data_id);
         user_cfg->apply(data);
     }
-#ifndef WIN32
+	bool bSound = QSound::available();
 #ifdef USE_KDE
     m_plugin->setUseArts(chkArts->isChecked());
+	bSound = false;
 #endif
-    m_plugin->setPlayer(edtPlayer->text().local8Bit());
-#endif
+	if (!bSound)
+		m_plugin->setPlayer(edtPlayer->text().local8Bit());
     m_plugin->setStartUp(QFile::encodeName(sound(edtStartup->text(), "startup.wav")));
     m_plugin->setFileDone(QFile::encodeName(sound(edtFileDone->text(), "startup.wav")));
     m_plugin->setMessageSent(QFile::encodeName(sound(edtSent->text(), "startup.wav")));
