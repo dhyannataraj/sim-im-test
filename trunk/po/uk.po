@@ -10,6 +10,7 @@
 # translation of uk.po to
 # translation of uk.po to
 # translation of uk.po to
+# translation of uk.po to
 # translation of uk.po to Ukrainian
 # translation of uk.po to Український
 # Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
@@ -19,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2004-04-26 11:31+0400\n"
-"PO-Revision-Date: 2004-05-03 01:34+0300\n"
+"PO-Revision-Date: 2004-05-03 11:13+0300\n"
 "Last-Translator: Ivan Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team:  <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1178,7 +1179,7 @@ msgstr "Russian"
 #: sim/api/simapi.cpp:467
 #: sim/ui/qt3/i18n.cpp:174
 msgid "&OK"
-msgstr "&Ok"
+msgstr "&Гаразд"
 
 #: sim/api/simapi.cpp:467
 #: sim/ui/ballonmsg.cpp:358
@@ -1402,7 +1403,7 @@ msgstr "&Визначити власні кольори >>"
 #: plugins/_core/status.cpp:321
 #: sim/ui/qt3/i18n.cpp:21
 msgid "OK"
-msgstr "OK"
+msgstr "Гаразд"
 
 #: plugins/_core/msgedit.cpp:926
 #: sim/ui/qt3/i18n.cpp:23
@@ -2057,7 +2058,7 @@ msgstr "Вибір звуку"
 
 #: sim/ui/ballonmsg.cpp:343
 msgid "&Ok"
-msgstr "&Ok"
+msgstr "&Гаразд"
 
 #: sim/ui/datepicker.cpp:222
 msgid "January"
@@ -6590,7 +6591,7 @@ msgstr "Відсилання попередження"
 
 #: plugins/icq/warndlgbase.cc:84
 msgid "Click OK to send warning to %1. This will raise %1's warning and limit his or her activity. Do this only if %1 has done something to merit a warning."
-msgstr "Натисніть OK для відправки попередження до %1. Це збільшить рівень %1 попереджень і обмежить активність контактів. Робіть це тільки у випадку, коли %1 зробив щось, що заслуговує попередження"
+msgstr "Натисніть \"Гаразд\" для відправки попередження до %1. Це збільшить рівень %1 попереджень і обмежить активність контактів. Робіть це тільки у випадку, коли %1 зробив щось, що заслуговує попередження"
 
 #: plugins/icq/warndlgbase.cc:85
 msgid "Warn &anonymously"
