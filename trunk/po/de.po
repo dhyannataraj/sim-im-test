@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2003-12-21 23:18+0300\n"
-"PO-Revision-Date: 2003-12-27 01:55GMT\n"
+"PO-Revision-Date: 2003-12-27 02:44GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -6944,12 +6944,12 @@ msgstr "Programm:"
 
 #: plugins/zodiak/zodiak.cpp:50
 msgid "Zodiak"
-msgstr "Zodiak"
+msgstr "Sternzeichen"
 
 #: plugins/zodiak/zodiak.cpp:51
 msgid "Plugin provides show zodiak puctures for date edit"
 msgstr ""
-"Plugin stellt das Anzeigen von zodiac-Bildern zum Ändern des Datums "
+"Plugin stellt das Anzeigen von Sternzeichen-Bildern zum Ändern des Datums "
 "bereit"
 
 #: plugins/zodiak/zodiak.cpp:159
