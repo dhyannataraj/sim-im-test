@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qcomplextext.cpp,v 1.8 2004-02-18 18:52:46 chehrlic Exp $
+** $Id: qcomplextext.cpp,v 1.9 2004-02-23 16:00:29 thermoman Exp $
 **
 ** Implementation of some internal classes
 **
@@ -37,6 +37,7 @@
 
 
 #include <qglobal.h>
+#include "compatqtversion.h"
 
 #if COMPAT_QT_VERSION < 0x030000
 
