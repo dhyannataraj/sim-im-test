@@ -167,6 +167,7 @@ void FetchThread::error(const char *name)
 
 void FetchThread::run()
 {
+	log(L_DEBUG, "fetch");
     string headers;
     DWORD flags = INTERNET_FLAG_KEEP_CONNECTION | INTERNET_FLAG_PRAGMA_NOCACHE | INTERNET_FLAG_NO_UI | INTERNET_FLAG_NO_AUTH;
     if (!m_client->m_bRedirect)

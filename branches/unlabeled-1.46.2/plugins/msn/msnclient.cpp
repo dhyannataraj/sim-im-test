@@ -506,6 +506,8 @@ void MSNClient::getLine(const char *line)
     QCString ll = l.local8Bit();
     log(L_DEBUG, "Get: %s", (const char*)ll);
     QString cmd = getToken(l, ' ');
+	if (cmd == "715")
+		return;
     if (cmd == "XFR"){
         QString id   = getToken(l, ' ');	// ID
         QString type = getToken(l, ' ');	// NS
