@@ -1169,8 +1169,9 @@ void ICQClientPrivate::processMsgQueueThruServer()
                         msgBuf
                         << 0x00000000L << 0x00000000L << 0x00000000L
                         << (char)0x01
-                        << (char)0
-                        << (unsigned short)0
+                        << (char)0;
+                        msgBuf.pack((unsigned short)(client->owner->uStatus & 0xFFFF));
+						msgBuf
                         << (unsigned short)0x2100;
                         unsigned short size = strlen(message.c_str()) + 1;
                         msgBuf.pack(size);
