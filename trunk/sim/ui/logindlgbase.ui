@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>324</width>
+            <width>320</width>
             <height>155</height>
         </rect>
     </property>
@@ -134,8 +134,20 @@
                 <cstring>Line2</cstring>
             </property>
             <property>
+                <name>frameShape</name>
+                <enum>HLine</enum>
+            </property>
+            <property>
+                <name>frameShadow</name>
+                <enum>Sunken</enum>
+            </property>
+            <property>
                 <name>orientation</name>
                 <enum>Horizontal</enum>
+            </property>
+            <property>
+                <name>frameShape</name>
+                <enum>HLine</enum>
             </property>
         </widget>
         <widget>
@@ -215,4 +227,12 @@
         </widget>
     </vbox>
 </widget>
+<tabstops>
+    <tabstop>edtUIN</tabstop>
+    <tabstop>edtPasswd</tabstop>
+    <tabstop>chkOldUser</tabstop>
+    <tabstop>btnProxy</tabstop>
+    <tabstop>btnClose</tabstop>
+    <tabstop>btnLogin</tabstop>
+</tabstops>
 </UI>

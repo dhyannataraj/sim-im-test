@@ -677,14 +677,10 @@ bool MainWindow::init()
     }
 #endif
 
-    log(L_DEBUG, "1 show=%u show_offline=%u groups=%u", Show(), ShowOffline(), GroupMode());
-
     string part;
     buildFileName(file, SIM_CONF);
     std::ifstream fs(file.c_str(), ios::in);
     load(fs, part);
-
-    log(L_DEBUG, "2 show=%u show_offline=%u groups=%u", Show(), ShowOffline(), GroupMode());
 
     setDock(true);
 
@@ -743,6 +739,9 @@ bool MainWindow::init()
         bNeedSetup = (dlg.exec() != 0);
         bInLogin = false;
         ManualStatus = ICQ_STATUS_ONLINE;
+	Show = true;
+	ShowOffline = true;
+	GroupMode = true;
     }
     if (pClient->Uin == 0)
         return false;
@@ -768,7 +767,6 @@ bool MainWindow::init()
     loadUnread();
     xosd->init();
     transparentChanged();
-    log(L_DEBUG, "Set show=%u show_offline=%u groups=%u", Show(), ShowOffline(), GroupMode());
     setShow(Show());
     setOnTop();
 

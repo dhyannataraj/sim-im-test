@@ -11,6 +11,7 @@ Direct connection with ICQ-clones is corrected
 Add support secure direct connection with SIM and Licq
 Add support user encoding
 Fix bug with receive bug server-side contact list
+Add spam filter
 
 Version 0.6
 Proxy support added (SOCKS4, SOCKS5, HTTP)
