@@ -65,8 +65,8 @@ public:
     unsigned short Num() { return m_nNum; }
     unsigned short Size() { return m_nSize; }
     operator char *() { return m_data; }
-operator unsigned short () { return (m_nSize >= 2) ? htons(*((unsigned short*)m_data)) : 0; }
-operator unsigned long () { return (m_nSize >= 4) ? htonl(*((unsigned long*)m_data)) : 0; }
+    operator unsigned short () { return (m_nSize >= 2) ? htons(*((unsigned short*)m_data)) : 0; }
+    operator unsigned long () { return (m_nSize >= 4) ? htonl(*((unsigned long*)m_data)) : 0; }
 protected:
     unsigned m_nNum;
     unsigned m_nSize;
@@ -90,7 +90,7 @@ public:
     Buffer(Tlv&);
     ~Buffer();
     void add(unsigned size);
-    unsigned size() const { return m_size; }
+unsigned size() const { return m_size; }
     unsigned readPos() const { return m_posRead; }
     char *Data(unsigned pos) { return m_data + pos; }
     const char *Data(unsigned pos) const { return m_data + pos; }

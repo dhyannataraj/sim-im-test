@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qtooltip.h,v 1.2 2002-12-15 01:59:04 shutoff Exp $
+** $Id: qtooltip.h,v 1.3 2002-12-15 02:49:16 shutoff Exp $
 **
 ** Definition of Tool Tips (or Balloon Help) for any widget or rectangle
 **
@@ -91,12 +91,12 @@ public:
 
     static void add( QWidget *, const QString &);
     static void add( QWidget *, const QString &,
-                     MyQToolTipGroup *, const QString& );
+                         MyQToolTipGroup *, const QString& );
     static void remove( QWidget * );
 
     static void add( QWidget *, const QRect &, const QString &);
     static void add( QWidget *, const QRect &, const QString &,
-                     MyQToolTipGroup *, const QString& );
+                         MyQToolTipGroup *, const QString& );
     static void remove( QWidget *, const QRect & );
 
     static void hide();
@@ -116,7 +116,7 @@ protected:
     void    clear();
 
 public:
-    QWidget	  *parentWidget() const { return p; }
+QWidget	  *parentWidget() const { return p; }
     MyQToolTipGroup *group()	  const { return g; }
 
 private:
@@ -138,9 +138,9 @@ class QTipLabel : public QLabel
 {
     Q_OBJECT
 public:
-QTipLabel(const QString& text) : QLabel( 0, "toolTipTip",
-            WStyle_StaysOnTop +
-            WStyle_Customize + WStyle_NoBorder + WStyle_Tool )
+    QTipLabel(const QString& text) : QLabel( 0, "toolTipTip",
+                    WStyle_StaysOnTop +
+                    WStyle_Customize + WStyle_NoBorder + WStyle_Tool )
     {
         setMargin(1);
         setIndent(0);
@@ -177,9 +177,9 @@ public:
 
     bool    eventFilter( QObject * o, QEvent * e );
     void    add( const QRect &gm, QWidget *, const QRect &, const QString& ,
-                 MyQToolTipGroup *, const QString& , MyQToolTip *, bool );
+                     MyQToolTipGroup *, const QString& , MyQToolTip *, bool );
     void    add( QWidget *, const QRect &, const QString& ,
-                 MyQToolTipGroup *, const QString& , MyQToolTip *, bool );
+                     MyQToolTipGroup *, const QString& , MyQToolTip *, bool );
     void    remove( QWidget *, const QRect & );
     void    remove( QWidget * );
 

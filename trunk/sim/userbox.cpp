@@ -56,7 +56,7 @@
 class Splitter : public QSplitter
 {
 public:
-Splitter(QWidget *p) : QSplitter(p) {}
+    Splitter(QWidget *p) : QSplitter(p) {}
 protected:
     virtual QSizePolicy sizePolicy() const;
 };

@@ -78,7 +78,7 @@ void CToolButton::setPopup(QPopupMenu *_popup)
 #if QT_VERSION < 300
     QToolButton::setPopup(_popup);
 #else
-if (popup) disconnect(this, SIGNAL(clicked()), this, SLOT(btnClicked()));
+    if (popup) disconnect(this, SIGNAL(clicked()), this, SLOT(btnClicked()));
     popup = _popup;
     if (popup) connect(this, SIGNAL(clicked()), this, SLOT(btnClicked()));
 #endif

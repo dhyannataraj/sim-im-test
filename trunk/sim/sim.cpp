@@ -97,7 +97,7 @@ class SimApp : public QApplication
 {
 public:
     SimApp(int &argc, char **argv)
-: QApplication(argc, argv) {}
+            : QApplication(argc, argv) {}
 protected:
     void saveState(QSessionManager&);
 };

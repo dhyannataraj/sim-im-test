@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qrichtext_p.h,v 1.7 2002-12-15 01:59:03 shutoff Exp $
+** $Id: qrichtext_p.h,v 1.8 2002-12-15 02:49:15 shutoff Exp $
 **
 ** Definition of internal rich text classes
 **
@@ -105,7 +105,7 @@ class QTextStringChar
 
 public:
     // this is never called, initialize variables in QTextString::insert()!!!
-QTextStringChar() : lineStart( 0 ), type( Regular ), startOfRun( 0 ) {d.format=0;}
+    QTextStringChar() : lineStart( 0 ), type( Regular ), startOfRun( 0 ) {d.format=0;}
     ~QTextStringChar();
 
     QChar c;
@@ -198,7 +198,7 @@ public:
 
     void setFormat( int index, QTextFormat *f, bool useCollection );
 
-    void setTextChanged( bool b ) { textChanged = b; }
+void setTextChanged( bool b ) { textChanged = b; }
     void setBidi( bool b ) { bidi = b; }
     bool isTextChanged() const { return textChanged; }
     bool isBidi() const;
@@ -293,7 +293,7 @@ public:
 
     void checkIndex();
 
-    int offsetX() const { return ox; }
+int offsetX() const { return ox; }
     int offsetY() const { return oy; }
 
 QTextParag *topParag() const { return parags.isEmpty() ? string : parags.first(); }
@@ -338,7 +338,7 @@ class QTextCommand
 public:
     enum Commands { Invalid, Insert, Delete, Format, Alignment, ParagType };
 
-QTextCommand( QTextDocument *d ) : doc( d ), cursor( d ) {}
+    QTextCommand( QTextDocument *d ) : doc( d ), cursor( d ) {}
     virtual ~QTextCommand();
 
     virtual Commands type() const;
@@ -355,7 +355,7 @@ protected:
 class QTextCommandHistory
 {
 public:
-QTextCommandHistory( int s ) : current( -1 ), steps( s ) { history.setAutoDelete( TRUE ); }
+    QTextCommandHistory( int s ) : current( -1 ), steps( s ) { history.setAutoDelete( TRUE ); }
     virtual ~QTextCommandHistory() { clear(); }
 
     void clear() { history.clear(); current = -1; }
@@ -385,7 +385,7 @@ class QTextCustomItem
 {
 public:
     QTextCustomItem( QTextDocument *p )
-:  xpos(0), ypos(-1), width(-1), height(0), parent( p )
+            :  xpos(0), ypos(-1), width(-1), height(0), parent( p )
     {}
     virtual ~QTextCustomItem();
     virtual void draw(QPainter* p, int x, int y, int cx, int cy, int cw, int ch, const QColorGroup& cg, bool selected ) = 0;
@@ -611,12 +611,12 @@ public:
 
     QString richText() const;
 
-int minimumWidth() const { return layout ? layout->minimumSize().width() : 0; }
-int widthHint() const { return ( layout ? layout->sizeHint().width() : 0 ) + 2 * outerborder; }
+    int minimumWidth() const { return layout ? layout->minimumSize().width() : 0; }
+    int widthHint() const { return ( layout ? layout->sizeHint().width() : 0 ) + 2 * outerborder; }
 
     QPtrList<QTextTableCell> tableCells() const { return cells; }
 
-QRect geometry() const { return layout ? layout->geometry() : QRect(); }
+    QRect geometry() const { return layout ? layout->geometry() : QRect(); }
     bool isStretching() const { return stretch; }
 
 private:
@@ -943,9 +943,9 @@ public:
                         const QValueList< QPtrVector<QStyleSheetItem> > &os,
                         const QValueList<QStyleSheetItem::ListStyle> &ols,
                         const QMemArray<int> &oas )
-: QTextDeleteCommand( d, i, idx, str, os, ols, oas ) {}
+            : QTextDeleteCommand( d, i, idx, str, os, ols, oas ) {}
     QTextInsertCommand( QTextParag *p, int idx, const QMemArray<QTextStringChar> &str )
-: QTextDeleteCommand( p, idx, str ) {}
+            : QTextDeleteCommand( p, idx, str ) {}
     virtual ~QTextInsertCommand() {}
 
     Commands type() const { return Insert; }
@@ -1021,7 +1021,7 @@ struct QTextParagLineStart
 {
     QTextParagLineStart() : y( 0 ), baseLine( 0 ), h( 0 )
 #ifndef QT_NO_COMPLEXTEXT
-    , bidicontext( 0 )
+            , bidicontext( 0 )
 #endif
     {  }
     QTextParagLineStart( ushort y_, ushort bl, ushort h_ ) : y( y_ ), baseLine( bl ), h( h_ ),
@@ -1188,7 +1188,7 @@ public:
     void registerFloatingItem( QTextCustomItem *i );
     void unregisterFloatingItem( QTextCustomItem *i );
 
-    void setFullWidth( bool b ) { fullWidth = b; }
+void setFullWidth( bool b ) { fullWidth = b; }
     bool isFullWidth() const { return fullWidth; }
 
     QTextTableCell *tableCell() const { return tc; }
@@ -1510,7 +1510,7 @@ public:
     virtual QTextFormat *format( QTextFormat *of, QTextFormat *nf, int flags );
     virtual QTextFormat *format( const QFont &f, const QColor &c );
     virtual void remove( QTextFormat *f );
-    virtual QTextFormat *createFormat( const QTextFormat &f ) { return new QTextFormat( f ); }
+virtual QTextFormat *createFormat( const QTextFormat &f ) { return new QTextFormat( f ); }
     virtual QTextFormat *createFormat( const QFont &f, const QColor &c ) { return new QTextFormat( f, c, this ); }
     void debug();
 

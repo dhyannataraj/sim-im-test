@@ -69,9 +69,9 @@ protected:
     int keySearch;
 #else
 #ifdef USE_KDE
-KGlobalAccel *accel;
+    KGlobalAccel *accel;
 #else
-KeyGrab *grabWindow;
+    KeyGrab *grabWindow;
     KeyGrab *grabDblClick;
     KeyGrab *grabSearch;
 #endif

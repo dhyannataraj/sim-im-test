@@ -78,7 +78,7 @@ int strcasecmp(const char *a, const char *b);
 class QContextMenuEvent
 {
 public:
-QContextMenuEvent(const QPoint &pos) : p(pos) {}
+    QContextMenuEvent(const QPoint &pos) : p(pos) {}
     const QPoint &globalPos() { return p; }
     void accept() {}
 protected:

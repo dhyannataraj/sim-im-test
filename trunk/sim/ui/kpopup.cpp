@@ -98,10 +98,10 @@ class KPopupMenu::KPopupMenuPrivate
 {
 public:
     KPopupMenuPrivate ()
-: noMatches(false)
-    , shortcuts(false)
-    , autoExec(false)
-    , lastHitIndex(-1)
+            : noMatches(false)
+            , shortcuts(false)
+            , autoExec(false)
+            , lastHitIndex(-1)
     {}
 
     QString m_lastTitle;

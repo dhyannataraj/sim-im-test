@@ -758,7 +758,7 @@ void ICQEvent::failAnswer(ICQClientPrivate *client)
 class SMSSendEvent : public ICQEvent
 {
 public:
-SMSSendEvent() : ICQEvent(EVENT_MESSAGE_SEND) {}
+    SMSSendEvent() : ICQEvent(EVENT_MESSAGE_SEND) {}
 protected:
     bool processAnswer(ICQClientPrivate *client, Buffer &b, unsigned short nSubtype);
     bool parseResponse(string &xml);

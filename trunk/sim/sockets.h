@@ -41,7 +41,7 @@ public:
 #ifdef HAVE_KEXTSOCK_H
     ICQClientSocket(KExtendedSocket *s=NULL);
 #else
-ICQClientSocket(QSocket *s=NULL);
+    ICQClientSocket(QSocket *s=NULL);
 #endif
     virtual ~ICQClientSocket();
     virtual int read(char *buf, unsigned int size);

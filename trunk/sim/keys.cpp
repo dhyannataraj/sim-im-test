@@ -498,30 +498,30 @@ void HotKeys::regKeys()
     accel->readSettings();
 #endif
 #else
-if (grabWindow){
-    delete grabWindow;
-    grabWindow = NULL;
-}
-if (grabDblClick){
-    delete grabDblClick;
-    grabDblClick = NULL;
-}
-if (grabSearch){
-    delete grabSearch;
-    grabSearch = NULL;
-}
-if (*pMain->KeyWindow.c_str()){
-    grabWindow = new KeyGrab(pMain->KeyWindow.c_str());
-    connect(grabWindow, SIGNAL(activated()), this, SLOT(slotToggleWindow()));
-}
-if (*pMain->KeyDblClick.c_str()){
-    grabDblClick = new KeyGrab(pMain->KeyDblClick.c_str());
-    connect(grabDblClick, SIGNAL(activated()), this, SLOT(slotDblClick()));
-}
-if (*pMain->KeySearch.c_str()){
-    grabSearch = new KeyGrab(pMain->KeySearch.c_str());
-    connect(grabSearch, SIGNAL(activated()), this, SLOT(slotShowSearch()));
-}
+    if (grabWindow){
+        delete grabWindow;
+        grabWindow = NULL;
+    }
+    if (grabDblClick){
+        delete grabDblClick;
+        grabDblClick = NULL;
+    }
+    if (grabSearch){
+        delete grabSearch;
+        grabSearch = NULL;
+    }
+    if (*pMain->KeyWindow.c_str()){
+        grabWindow = new KeyGrab(pMain->KeyWindow.c_str());
+        connect(grabWindow, SIGNAL(activated()), this, SLOT(slotToggleWindow()));
+    }
+    if (*pMain->KeyDblClick.c_str()){
+        grabDblClick = new KeyGrab(pMain->KeyDblClick.c_str());
+        connect(grabDblClick, SIGNAL(activated()), this, SLOT(slotDblClick()));
+    }
+    if (*pMain->KeySearch.c_str()){
+        grabSearch = new KeyGrab(pMain->KeySearch.c_str());
+        connect(grabSearch, SIGNAL(activated()), this, SLOT(slotShowSearch()));
+    }
 #endif
 #endif
 }

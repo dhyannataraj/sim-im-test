@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qtooltip.cpp,v 1.3 2002-12-15 01:59:04 shutoff Exp $
+** $Id: qtooltip.cpp,v 1.4 2002-12-15 02:49:16 shutoff Exp $
 **
 ** Tool Tips (or Balloon Help) for any widget or rectangle
 **
@@ -119,9 +119,9 @@ QTipManager::~QTipManager()
 }
 
 void QTipManager::add( const QRect &gm, QWidget *w,
-                       const QRect &r, const QString &s,
-                       MyQToolTipGroup *g, const QString& gs,
-                       MyQToolTip *tt, bool a )
+                           const QRect &r, const QString &s,
+                           MyQToolTipGroup *g, const QString& gs,
+                           MyQToolTip *tt, bool a )
 {
     QTipManager::Tip *h = (*tips)[ w ];
     QTipManager::Tip *t = new QTipManager::Tip;
@@ -158,8 +158,8 @@ void QTipManager::add( const QRect &gm, QWidget *w,
 }
 
 void QTipManager::add( QWidget *w, const QRect &r, const QString &s,
-                       MyQToolTipGroup *g, const QString& gs,
-                       MyQToolTip *tt, bool a )
+                           MyQToolTipGroup *g, const QString& gs,
+                           MyQToolTip *tt, bool a )
 {
     add( QRect( -1, -1, -1, -1 ), w, r, s, g, gs, tt, a );
 }
@@ -424,7 +424,7 @@ void QTipManager::showTip()
         else
             qScrollEffect( label );
 #else
-label->show();
+        label->show();
 #endif
 
         label->raise();
@@ -678,7 +678,7 @@ void MyQToolTip::add( QWidget *widget, const QString &text )
 */
 
 void MyQToolTip::add( QWidget *widget, const QString &text,
-                      MyQToolTipGroup *group, const QString& longText )
+                          MyQToolTipGroup *group, const QString& longText )
 {
     initTipManager();
     tipManager->add( widget, entireWidget(), text, group, longText, 0, FALSE );
@@ -723,8 +723,8 @@ void MyQToolTip::add( QWidget * widget, const QRect & rect, const QString &text 
 */
 
 void MyQToolTip::add( QWidget *widget, const QRect &rect,
-                      const QString& text,
-                      MyQToolTipGroup *group, const QString& groupText )
+                          const QString& text,
+                          MyQToolTipGroup *group, const QString& groupText )
 {
     initTipManager();
     tipManager->add( widget, rect, text, group, groupText, 0, FALSE );
