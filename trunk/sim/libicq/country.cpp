@@ -482,4 +482,22 @@ const ext_info *affilations = Affilations;
 const ext_info *genders = Genders;
 const ext_info *ages = Ages;
 
-
+const char *smiles[] =
+{
+":-)", 
+":-O",
+":-|",
+":-/",
+":-(",
+":-{}",
+":*)",
+":'-(",
+";-)",
+":-@",
+":-\")",
+":-X",
+":-P",
+"8-)",
+"O-)",
+":-D"
+};
