@@ -143,6 +143,10 @@ QString MsgViewBase::messageText(Message *msg)
                 .arg(bUnread ? "</b>" : "");
     if (msg->type() != MessageStatus){
         QString msgText = msg->presentation();
+		string msg_text;
+		if (!msgText.isEmpty())
+			msg_text = msgText.local8Bit();
+		log(L_DEBUG, "Text: %s", msg_text.c_str());
         // replace font color if we use own colors
         // some of the incoming messages are saved as html with an extra <font> - tag
         // so we need to replace until no more <font> - tag is found
@@ -180,9 +184,14 @@ QString MsgViewBase::messageText(Message *msg)
                 msgText += "</p>";
             }
         }
+		if (!msgText.isEmpty())
+			msg_text = msgText.local8Bit();
+		log(L_DEBUG, "1> %s", msg_text.c_str());
         Event e(EventEncodeText, &msgText);
         e.process();
-        s += parseText(msgText, false, CorePlugin::m_plugin->getUseSmiles());
+        msgText = parseText(msgText, false, CorePlugin::m_plugin->getUseSmiles());
+		log(L_DEBUG, "2> %s", msg_text.c_str());
+		s += msgText;
     }
     return s;
 }

@@ -211,7 +211,6 @@ void RTFGenParser::text(const QString &text)
         }
         QString s;
         s += c;
-
 		if (m_codec){
 			string plain;
 			plain = m_codec->fromUnicode(s);
@@ -223,9 +222,7 @@ void RTFGenParser::text(const QString &text)
 				continue;
 			}
 		}
-
 		res += "\\u";
-
 		res += number(s[0].unicode());
         res += "?";
         m_bSpace = false;

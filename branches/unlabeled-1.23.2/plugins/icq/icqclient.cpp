@@ -1180,7 +1180,6 @@ QTextCodec *ICQClient::_getCodec(const char *encoding)
         if (codec == NULL)
             codec= QTextCodec::codecForLocale();
     }
-	log(L_DEBUG, "Codec: %s", codec->name());
     return codec;
 }
 

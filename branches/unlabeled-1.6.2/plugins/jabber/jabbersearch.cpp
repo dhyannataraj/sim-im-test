@@ -187,12 +187,14 @@ static const char *any_data[] =
         I18N_NOOP("Enter your MSN Messenger account and password. Example: user@hotmail.com.  Nickname is optional.")
         I18N_NOOP("Enter your AIM screenname or ICQ UIN and the password for that account")
         I18N_NOOP("Enter your YAHOO! Messenger Username and Password.")
+		I18N_NOOP("Please enter your UIN and password")
         I18N_NOOP("You need a x:data capable client to register.")
         I18N_NOOP("Enter nick you want to register.")
         I18N_NOOP("Complete the form to submit your searchable attributes in the Jabber User Directory")
         I18N_NOOP("Fill in all of the fields to add yourself to the JUD.")
         I18N_NOOP("Fill in a field to search for any matching Jabber User (POSIX regular expressions allowed)")
         I18N_NOOP("Fill in a field to search for any matching Jabber users.")
+		I18N_NOOP("To register, please fill out the following form.  Be as accurate as possible to make it easier for people to search for you.") 
     };
 #endif
 
