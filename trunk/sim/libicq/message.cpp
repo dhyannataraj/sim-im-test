@@ -54,6 +54,10 @@ ICQMessage::ICQMessage(unsigned short type)
     state = 0;
 }
 
+ICQMessage::~ICQMessage()
+{
+}
+
 unsigned long ICQMessage::getUin()
 {
     if (Uin.size() == 0) return 0;

@@ -1268,12 +1268,7 @@ void ICQClientPrivate::processMsgQueueThruServer()
             break;
         }
         if (bToStart) continue;
-        if (e->state != ICQEvent::Success){
-            it++;
-            continue;
-        }
-        client->process_event(e);
-        it = msgQueue.begin();
+        it++;
     }
 }
 

@@ -471,7 +471,7 @@ class ICQMessage
 {
 public:
     ICQMessage(unsigned short type);
-    virtual ~ICQMessage() {}
+    virtual ~ICQMessage();
     unsigned short Type() { return m_nType; }
     void setType(unsigned short type) { m_nType = type; }
     unsigned long	Time;
