@@ -1,0 +1,333 @@
+/***************************************************************************
+                          message.cpp  -  description
+                             -------------------
+    begin                : Sun Mar 10 2002
+    copyright            : (C) 2002 by Vladimir Shutoff
+    email                : vovan@shutoff.ru
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+#include "simapi.h"
+
+#include <time.h>
+#include <qfile.h>
+#include <qfileinfo.h>
+#include <qdir.h>
+
+#include <list>
+
+namespace SIM
+{
+
+using namespace std;
+
+static DataDef	messageData[] =
+    {
+        { "Text", DATA_UTF, 1, 0 },
+        { "Flags", DATA_ULONG, 1, 0 },
+        { "Background", DATA_ULONG, 1, 0 },
+        { "Foreground", DATA_ULONG, 1, 0 },
+        { "Time", DATA_ULONG, 1, 0 },
+        { "Font", DATA_STRING, 1, 0 },
+        { "", DATA_STRING, 1, 0 },			// Error
+        { NULL, 0, 0, 0 }
+    };
+
+Message::Message(unsigned type, const char *cfg)
+{
+    m_type = type;
+    m_id = 0;
+    m_contact = 0;
+    load_data(messageData, &data, cfg);
+}
+
+Message::~Message()
+{
+    free_data(messageData, &data);
+}
+
+QString Message::getPlainText()
+{
+    if (!(getFlags() & MESSAGE_RICHTEXT))
+        return getText();
+    string text;
+    text = getText().utf8();
+    Event e(EventDecodeText, &text);
+    e.process();
+    return QString::fromUtf8(SIM::unquoteText(text.c_str()).c_str());
+}
+
+QString Message::getRichText()
+{
+    if (getFlags() & MESSAGE_RICHTEXT)
+        return getText();
+    return quoteString(getText());
+}
+
+QString Message::presentation()
+{
+    QString res = getRichText();
+    if (getBackground() != getForeground()){
+        QString font;
+        font.sprintf("<font color=\"#%06lX\">", getForeground() & 0xFFFFFF);
+        res = font + res + "</font>";
+    }
+    return res;
+}
+
+void Message::setClient(const char *client)
+{
+    if (client == NULL)
+        client = "";
+    m_client = client;
+}
+
+string Message::save()
+{
+    if (getTime() == 0){
+        time_t now;
+        time(&now);
+        setTime(now);
+    }
+    unsigned saveFlags = getFlags();
+    setFlags(getFlags() & MESSAGE_SAVEMASK);
+    string res = save_data(messageData, &data);
+    setFlags(saveFlags);
+    return res;
+}
+
+static DataDef messageSMSData[] =
+    {
+        { "Phone", DATA_UTF, 1, 0 },
+        { "Network", DATA_UTF, 1, 0 },
+        { NULL, 0, 0, 0 }
+    };
+
+SMSMessage::SMSMessage(const char *cfg)
+        : Message(MessageSMS, cfg)
+{
+    load_data(messageSMSData, &data, cfg);
+}
+
+SMSMessage::~SMSMessage()
+{
+    free_data(messageSMSData, &data);
+}
+
+string SMSMessage::save()
+{
+    string s = Message::save();
+    string s1 = save_data(messageSMSData, &data);
+    if (!s1.empty()){
+        if (!s.empty())
+            s += '\n';
+        s += s1;
+    }
+    return s;
+}
+
+QString SMSMessage::presentation()
+{
+    QString phone = quoteString(getPhone());
+    QString net   = quoteString(getNetwork());
+    if (!net.isEmpty())
+        net = QString(" (") + net + ")";
+    QString res = QString("<p><a href=\"sms:%1\"><img src=\"icon:cell\">%2%3</a></p>")
+                  .arg(phone)
+                  .arg(phone)
+                  .arg(net);
+    res += getRichText();
+    return res;
+}
+
+class FileMessageIteratorPrivate : public list<string>
+{
+public:
+    FileMessageIteratorPrivate(const FileMessage &msg);
+    list<string>::iterator it;
+    void add(const QString&);
+};
+
+FileMessageIteratorPrivate::FileMessageIteratorPrivate(const FileMessage &msg)
+{
+    QString files = ((FileMessage&)msg).getFile();
+    while (!files.isEmpty()){
+        getToken(files, '\"');
+        add(getToken(files, '\"'));
+    }
+}
+
+void FileMessageIteratorPrivate::add(const QString &str)
+{
+    QFileInfo f(str);
+    if (!f.exists())
+        return;
+    if (!f.isDir()){
+        push_back(string(str.local8Bit()));
+        return;
+    }
+    QDir d(str);
+    QStringList l = d.entryList();
+    for (QStringList::Iterator it = l.begin(); it != l.end(); ++it){
+        QString p = str;
+#ifdef WIN32
+        p += "\\";
+#else
+        p += "/";
+#endif
+        p += *it;
+        add(p);
+    }
+}
+
+FileMessage::Iterator::Iterator(const FileMessage &m)
+{
+    p = new FileMessageIteratorPrivate(m);
+}
+
+FileMessage::Iterator::~Iterator()
+{
+    delete p;
+}
+
+const char *FileMessage::Iterator::operator++()
+{
+    if (p->it == p->end())
+        return NULL;
+    const char *res = (*(p->it)).c_str();
+    ++(p->it);
+    return res;
+}
+
+void FileMessage::Iterator::reset()
+{
+    p->it = p->begin();
+}
+
+unsigned FileMessage::Iterator::count()
+{
+    return p->size();
+}
+
+static DataDef messageFileData[] =
+    {
+        { "File", DATA_UTF, 1, 0 },
+        { "Size", DATA_ULONG, 1, 0 },
+        { NULL, 0, 0, 0 }
+    };
+
+FileMessage::FileMessage(const char *cfg)
+        : Message(MessageFile, cfg)
+{
+    load_data(messageFileData, &data, cfg);
+}
+
+FileMessage::~FileMessage()
+{
+    free_data(messageFileData, &data);
+}
+
+unsigned FileMessage::getSize()
+{
+    if (data.Size)
+        return data.Size;
+    Iterator it(*this);
+    const char *name;
+    while ((name = ++it) != NULL){
+        QFile f(QString::fromLocal8Bit(name));
+        if (!f.exists())
+            continue;
+        data.Size += f.size();
+    }
+    return data.Size;
+}
+
+void FileMessage::setSize(unsigned size)
+{
+    data.Size = size;
+}
+
+QString FileMessage::description()
+{
+    Iterator it(*this);
+    if (it.count() < 1){
+        const char *name = ++it;
+        if (name == NULL)
+            return NULL;
+        const char *short_name;
+#ifdef WIN32
+        short_name = strrchr(name, '\\');
+#else
+        short_name = strchr(name, '/');
+#endif
+        if (short_name){
+            short_name++;
+        }else{
+            short_name = name;
+        }
+        return QString::fromLocal8Bit(short_name);
+    }
+    return i18n("%n file", "%n files", it.count());
+}
+
+string FileMessage::save()
+{
+    string s = Message::save();
+    string s1 = save_data(messageFileData, &data);
+    if (!s1.empty()){
+        if (!s.empty())
+            s += '\n';
+        s += s1;
+    }
+    return s;
+}
+
+QString FileMessage::presentation()
+{
+    return "";
+}
+
+QString AuthMessage::presentation()
+{
+    return "";
+}
+
+static DataDef messageStatusData[] =
+    {
+        { "Status", DATA_ULONG, 1, STATUS_UNKNOWN },
+        { NULL, 0, 0, 0 }
+    };
+
+StatusMessage::StatusMessage(const char *cfg)
+        : Message(MessageStatus, cfg)
+{
+    load_data(messageStatusData, &data, cfg);
+}
+
+string StatusMessage::save()
+{
+    string s = Message::save();
+    string s1 = save_data(messageStatusData, &data);
+    if (!s1.empty()){
+        if (!s.empty())
+            s += '\n';
+        s += s1;
+    }
+    return s;
+}
+
+QString StatusMessage::presentation()
+{
+    return "";
+}
+
+};
+
