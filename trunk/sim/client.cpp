@@ -1556,6 +1556,11 @@ MsgFilter::MsgFilter(SIMClient *p, ICQMsg *_msg, const char *prog)
     tmpl.expand(QString::fromLocal8Bit(prog), msg->getUin());
 }
 
+bool SIMUser::notEnoughInfo(void)
+{
+	return (Nick.empty()&&FirstName.empty()&&LastName.empty());
+}
+
 #ifndef _WINDOWS
 #include "client.moc"
 #endif

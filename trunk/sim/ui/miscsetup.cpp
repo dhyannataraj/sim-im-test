@@ -156,7 +156,7 @@ void MiscSetup::clickedSync()
         while (it!=pClient->contacts.users.end())
         {
             SIMUser& user=*(static_cast<SIMUser*>(*it));
-            if (!user.inIgnore)
+            if ((!user.inIgnore)&&(!user.notEnoughInfo()))
             {
                 Addressee newPers;
                 if (!user.strKabUid.empty())
@@ -200,6 +200,9 @@ void MiscSetup::clickedSync()
 
         StdAddressBook::save();
         pMain->saveContacts();
+		
+		// do we really need that?
+		QMessageBox::information(this,i18n("Addressbook synchronization"),i18n("Success."));
     }
 #endif
 }

@@ -116,6 +116,8 @@ public:
 
     // User notes
     string				Notes;
+public:
+	bool notEnoughInfo(void);
 };
 
 class Tmpl;
