@@ -446,8 +446,20 @@ void YahooClient::process_packet()
         if (params[4] && params[27] && params[28] && params[14] && params[20])
             process_file(params[4], params[27], params[28], params[14], params[20], params[11]);
         break;
+    case YAHOO_SERVICE_ADDBUDDY:
+    	if (params[1] && params[7] && params[65])
+        	log(L_DEBUG,"%s added %s to group %s",params[1],params[7],params[65]);
+        else
+        	log(L_DEBUG,"Please send paket to developer!");
+        break;
+    case YAHOO_SERVICE_REMBUDDY:
+    	if (params[1] && params[7] && params[65])
+        	log(L_DEBUG,"%s removed %s from group %s",params[1],params[7],params[65]);
+        else
+        	log(L_DEBUG,"Please send paket to developer!");
+        break;
     default:
-        log(L_WARN, "Unknown service %X", m_service);
+        log(L_WARN, "Unknown service %02X", m_service);
     }
 }
 

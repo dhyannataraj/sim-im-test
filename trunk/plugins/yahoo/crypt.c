@@ -31,10 +31,10 @@
 /* Define our magic string to mark salt for MD5 "encryption"
    replacement.  This is meant to be the same as for other MD5 based
    encryption implementations.  */
-static const char md5_salt_prefix[] = "$1$";
+const char md5_salt_prefix[] = "$1$";
 
 /* Table with characters for base64 transformation.  */
-static const char b64t[64] =
+const char b64t[64] =
     "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
 #define MIN(A, B)	((A < B) ? A : B)

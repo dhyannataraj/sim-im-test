@@ -126,9 +126,9 @@ void YahooSearch::startSearch()
             contact->setFlags(contact->getFlags() & ~CONTACT_TEMPORARY);
             Event e(EventContactChanged, contact);
             e.process();
-            m_result->setStatus(i18n("Contact %1 added in group %2") .arg(edtID->text()) .arg(grp->getName()));
+            m_result->setStatus(i18n("Contact %1 added to group %2") .arg(edtID->text()) .arg(grp->getName()));
         }else{
-            m_result->setStatus(i18n("Contact %1 allready in list") .arg(edtID->text()));
+            m_result->setStatus(i18n("Contact %1 already in list") .arg(edtID->text()));
         }
     }
 }
