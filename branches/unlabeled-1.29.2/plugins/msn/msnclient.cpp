@@ -43,8 +43,6 @@
 
 #include <qfile.h>
 
-#include <map>
-#include <algorithm>
 using namespace std;
 
 const unsigned long PING_TIMEOUT	= 60;

@@ -25,6 +25,7 @@
 #pragma warning(disable: 4146)  
 #pragma warning(disable: 4512)  
 #pragma warning(disable: 4663)  
+#pragma warning(disable: 4702)  
 #endif
 #endif
 
@@ -33,6 +34,7 @@
 #include <stack>
 #include <map>
 #include <memory>
+#include <algorithm>
 using namespace std;
 
 #ifdef WIN32
