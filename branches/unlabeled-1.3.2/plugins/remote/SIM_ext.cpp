@@ -132,9 +132,6 @@ HRESULT CSIM_ext::QueryContextMenu(HMENU hmenu,
 						ItemInfo info;
 						info.text  = line.c_str();
 						info.icon  = createIcon(icon.c_str());
-						info.width = 0;
-						info.wIcon = 16;
-						info.hIcon = 16;
 						info.id	   = id;
 						m_items.insert(ITEM_MAP::value_type(cmd_id, info));
                         AppendMenu(hSub, MF_STRING | MF_OWNERDRAW, cmd_id, line.c_str());
@@ -144,7 +141,8 @@ HRESULT CSIM_ext::QueryContextMenu(HMENU hmenu,
             }
             delete[] res;
             if (hMain != NULL)
-                AppendMenu(hmenu, MF_POPUP | MF_STRING, (unsigned)hMain, "Send to SIM contact");
+				InsertMenu(hmenu, indexMenu++, MF_POPUP|MF_BYPOSITION, 
+					(UINT)hMain, "Send to SIM contact");
         }
         return cmd_id;
     }
@@ -310,8 +308,16 @@ void CSIM_ext::MeasureItem(LPMEASUREITEMSTRUCT lpmis)
 { 
 	if (lpmis->CtlType != ODT_MENU)
 		return;
-	lpmis->itemWidth  = 150;
-	lpmis->itemHeight = 20;
+	ItemInfo info = getItemInfo(lpmis->itemID);
+	if (info.icon == NULL)
+		return;
+	HDC hDC = CreateCompatibleDC(NULL);
+	SelectObject(hDC, GetStockObject(DEFAULT_GUI_FONT));
+	SIZE s;
+	GetTextExtentPoint32(hDC, info.text.c_str(), info.text.length(), &s);
+	lpmis->itemWidth  = s.cx + GetSystemMetrics(SM_CXMENUCHECK) + GetSystemMetrics(SM_CXFRAME) * 2;
+	lpmis->itemHeight = GetSystemMetrics(SM_CYMENU);
+	DeleteDC(hDC);
 }
 
 void CSIM_ext::DrawMenuItem(LPDRAWITEMSTRUCT lpdis)
@@ -322,29 +328,28 @@ void CSIM_ext::DrawMenuItem(LPDRAWITEMSTRUCT lpdis)
 	if (info.icon == NULL)
 		return;
 	if (lpdis->itemAction & (ODA_DRAWENTIRE|ODA_SELECT)){
-		 RECT rc;
 		 COLORREF crText, crBack;
+		 int bgColor;
 		 if (lpdis->itemState & ODS_SELECTED)
 		 {
+			bgColor = COLOR_HIGHLIGHT;
 			crText = SetTextColor(lpdis->hDC, GetSysColor(COLOR_HIGHLIGHTTEXT));
 			crBack = SetBkColor(lpdis->hDC, GetSysColor(COLOR_HIGHLIGHT));
-			HBRUSH hbrOld = (HBRUSH)SelectObject(lpdis->hDC, CreateSolidBrush(crBack)); 
-			PatBlt(lpdis->hDC, lpdis->rcItem.left, lpdis->rcItem.top, 
-				lpdis->rcItem.right - lpdis->rcItem.left, 
-				lpdis->rcItem.bottom - lpdis->rcItem.top, PATCOPY); 
-			DeleteObject(SelectObject(lpdis->hDC, hbrOld));
+		 }else{
+			bgColor = COLOR_MENU;
 		 }
-		 DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 4, lpdis->rcItem.top + 4, info.icon,
-				16, 16, 0, 0, DI_NORMAL);
-		 int ix, iy; 
-		 RECT rt;
-		 SIZE size;
-		 ix = 20;
-		 GetTextExtentPoint32(lpdis->hDC, info.text.c_str(), info.text.length(), &size);
-		 iy = ((lpdis->rcItem.bottom-lpdis->rcItem.top)-size.cy)/2;
-		 iy = lpdis->rcItem.top + (iy>=0 ?iy :0);
-		 SetRect(&rt, ix + 1, iy, lpdis->rcItem.right, lpdis->rcItem.bottom);
- 		 DrawText(lpdis->hDC, info.text.c_str(), info.text.length(), &rt, DT_LEFT | DT_EXPANDTABS);
+		 FillRect(lpdis->hDC, &lpdis->rcItem, GetSysColorBrush(bgColor)); 
+		 ICONINFO icon_info;
+		 GetIconInfo(info.icon, &icon_info);
+		 BITMAP bmp;
+		 GetObject(icon_info.hbmColor, sizeof(BITMAP), (LPSTR)&bmp);
+		 DrawIconEx(lpdis->hDC, 
+			 lpdis->rcItem.left + (GetSystemMetrics(SM_CXMENUCHECK) - bmp.bmWidth) / 2,
+			 lpdis->rcItem.top  + (lpdis->rcItem.bottom - lpdis->rcItem.top - bmp.bmHeight) / 2,
+			 info.icon, bmp.bmWidth, bmp.bmHeight, 0, 0, DI_NORMAL);
+		 RECT rt = lpdis->rcItem;
+		 rt.left += GetSystemMetrics(SM_CXMENUCHECK) + GetSystemMetrics(SM_CXFRAME);
+ 		 DrawText(lpdis->hDC, info.text.c_str(), info.text.length(), &rt, DT_LEFT | DT_EXPANDTABS | DT_VCENTER | DT_SINGLELINE);
 		 if (lpdis->itemState & ODS_SELECTED)
 		 {
 			 SetTextColor(lpdis->hDC, crText);

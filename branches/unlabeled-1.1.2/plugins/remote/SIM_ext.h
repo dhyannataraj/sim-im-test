@@ -37,9 +37,6 @@ typedef struct ItemInfo
 {
 	string		text;
 	HICON		icon;
-	unsigned	width;
-	unsigned	wIcon;
-	unsigned	hIcon;
 	unsigned	id;
 } ItemInfo;
 
