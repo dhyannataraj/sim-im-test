@@ -1055,10 +1055,15 @@ void YahooClient::disconnected()
     }
 }
 
-bool YahooClient::isMyData(clientData *&_data, Contact*&)
+bool YahooClient::isMyData(clientData *&_data, Contact*&contact)
 {
     if (_data->Sign.value != YAHOO_SIGN)
         return false;
+    YahooUserData *data = (YahooUserData*)_data;
+    YahooUserData *my_data = findContact(data->Login.ptr, NULL, contact);
+    if (!my_data){
+        contact = NULL;
+    }
     return true;
 }
 

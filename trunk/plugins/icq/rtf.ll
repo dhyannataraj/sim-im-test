@@ -181,7 +181,7 @@ class RTF2HTML
     friend class Level;
 
 public:
-    RTF2HTML() : rtf_ptr(NULL), cur_level(this) {}
+    RTF2HTML() : rtf_ptr(NULL), bExplicitParagraph(false), cur_level(this) {}
     QString Parse(const char *rtf, const char *encoding);
 
 // Paragraph-specific functions:
