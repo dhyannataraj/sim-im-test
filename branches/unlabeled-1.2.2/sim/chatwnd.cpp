@@ -143,7 +143,9 @@ ChatWindow::ChatWindow(ICQChat *_chat)
 ChatWindow::~ChatWindow()
 {
     delete chat;
+    chat = NULL;
     if (logFile) delete logFile;
+    pMain->chatClose();
 }
 
 void ChatWindow::sendLine()

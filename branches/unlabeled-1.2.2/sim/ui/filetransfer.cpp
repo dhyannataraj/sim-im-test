@@ -20,6 +20,7 @@
 #include "icons.h"
 #include "ballonmsg.h"
 #include "mainwin.h"
+#include "cuser.h"
 
 #if USE_KDE
 #include <kfiledialog.h>
@@ -44,14 +45,15 @@ FileTransferDlg::FileTransferDlg(QWidget *p, ICQFile *_file)
     setIcon(Pict("file"));
     edtFile1->setReadOnly(true);
     edtFile2->setReadOnly(true);
+    CUser u(file->getUin());
     if (file->Received()){
-        setCaption(i18n("Receive file"));
+        setCaption(i18n("Receive file from %1") .arg(u.name()));
         lblFile1->setText(i18n("Remote file:"));
         lblFile2->setText(i18n("Local file:"));
         edtFile1->setText(QString::fromLocal8Bit(file->shortName().c_str()));
         edtFile2->setText(QString::fromLocal8Bit(file->localName.c_str()));
     }else{
-        setCaption(i18n("Send file"));
+        setCaption(i18n("Send file to %1") .arg(u.name()));
         lblFile1->setText(i18n("Local file:"));
         lblFile2->setText(i18n("Remote file:"));
         edtFile1->setText(QString::fromLocal8Bit(file->Name.c_str()));
@@ -74,6 +76,12 @@ FileTransferDlg::FileTransferDlg(QWidget *p, ICQFile *_file)
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(timeout()));
     timer->start(1000);
+}
+
+FileTransferDlg::~FileTransferDlg()
+{
+    file = NULL;
+    pMain->ftClose();
 }
 
 void FileTransferDlg::speedChanged(int value)
@@ -104,18 +112,21 @@ void FileTransferDlg::processEvent(ICQEvent *e)
         if (e->type() != EVENT_DONE) return;
         file->state = file->Size();
         setProgress();
-        setCaption(i18n("Transfer completed"));
+        setCaption(caption() + " " + i18n("[done]"));
         pMain->playSound(pMain->FileDone.c_str());
     }else if (e->state == ICQEvent::Fail){
-        setCaption(i18n("Transfer failed"));
+        setCaption(caption() + " " + i18n("[fail]"));
     }else{
         return;
     }
     if (chkClose->isChecked()){
+        file = NULL;
+        pMain->ftClose();
         close();
         return;
     }
     file = NULL;
+    pMain->ftClose();
     lblSldSpeed->hide();
     sldSpeed->hide();
     chkClose->hide();

@@ -317,8 +317,8 @@ class DirectSocket : public ClientSocket
 public:
     enum SocketState{
         NotConnected,
-        ConnectIP,
-        ConnectRealIP,
+        ConnectIP1,
+        ConnectIP2,
         WaitInit,
         WaitAck,
         Logged
@@ -339,6 +339,7 @@ protected:
     bool m_bHeader;
     ICQClient *client;
     bool m_bIncoming;
+    bool m_bUseInternalIP;
     unsigned short m_nSequence;
     char version;
     unsigned long m_nSessionId;

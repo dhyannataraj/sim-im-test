@@ -219,12 +219,16 @@ public:
     void changeColors();
     void changeWm();
 
+    QWidget *chatWindow(unsigned long uin);
+    QWidget *ftWindow(unsigned long uin, const string &fileName);
 signals:
     void transparentChanged();
     void colorsChanged();
     void setupInit();
     void iconChanged();
     void wmChanged();
+    void chatChanged();
+    void ftChanged();
 public slots:
     void quit();
     void setup();
@@ -247,6 +251,8 @@ public slots:
     void moveUser(int);
     void changeTransparent();
     void changeIcons(int);
+    void chatClose();
+    void ftClose();
 protected slots:
     void realSetStatus();
     void autoAway();

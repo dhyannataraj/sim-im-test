@@ -143,18 +143,18 @@ void WharfIcon::set(const char *icon, const char *msg)
         QRegion *rgn = NULL;
         if (nvis->mask() && msgPict.mask()){
             rgn = new QRegion(*msgPict.mask());
-            rgn->translate(nvis->width() - msgPict.width() - 2, 
-			nvis->height() - msgPict.height() - 2);
+            rgn->translate(nvis->width() - msgPict.width() - 2,
+                           nvis->height() - msgPict.height() - 2);
             *rgn += *nvis->mask();
         }
         QPainter p;
         p.begin(nvis);
-        p.drawPixmap(nvis->width() - msgPict.width() - 2, 
-		nvis->height() - msgPict.height() - 2, msgPict);
+        p.drawPixmap(nvis->width() - msgPict.width() - 2,
+                     nvis->height() - msgPict.height() - 2, msgPict);
         p.end();
         p.begin(nvish);
-        p.drawPixmap(nvish->width() - msgPict.width() - 2, 
-		nvish->height() - msgPict.height() - 2, msgPict);
+        p.drawPixmap(nvish->width() - msgPict.width() - 2,
+                     nvish->height() - msgPict.height() - 2, msgPict);
         p.end();
         if (rgn){
             setMask(*rgn);
@@ -162,7 +162,7 @@ void WharfIcon::set(const char *icon, const char *msg)
         }
     }else{
         const QBitmap *mask = nvis->mask();
-	log(L_DEBUG, "Mask %u", (unsigned)mask);
+        log(L_DEBUG, "Mask %u", (unsigned)mask);
         if (mask) setMask(*mask);
     }
     if (vis) delete vis;
