@@ -1,8 +1,0 @@
-<!--#include virtual="top_inc.htm" -->
-<B><I>Installation:</I></B><br>
-QT 2.3 oder 3.0 erforderlich (KDE 2.2 bzw 3.0 bringen dies mit).<BR>
-&Uuml;bliche Installation:<BR>
-<B>./configure</B><BR>
-<B>make</B><BR>
-<B>make install</B>
-<!--#include virtual="down_inc.htm" -->

@@ -1,6 +1,0 @@
-<!--#include virtual="top_inc.htm" -->
-<!--#include virtual="screen.html" -->
-<A href="/">SIM</a> main window, default OSD and kicker icon dock
-<BR><BR>
-<IMG height=432 src="/sim3.jpg" width=627>
-<!--#include virtual="down_inc.htm" -->

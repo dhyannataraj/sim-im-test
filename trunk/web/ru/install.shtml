@@ -1,7 +1,0 @@
-<!--#include virtual="top_inc.htm" -->
-<I>Установка:</I></B><BR>Собирается все это дело под KDE (2.2 или
-3.0) или просто под QT (2.3 или 3.0).<BR>В целом собирается как
-обычно:<BR><B>./configure</B><BR><B>make</B><BR><B>make
-install</B><BR><BR>
-
-<!--#include virtual="down_inc.htm" -->

@@ -1,6 +1,0 @@
-<!--#include virtual="top_inc.htm" -->
-<!--#include virtual="screen.html" -->
-<A href="/">SIM</a> Hauptfenster mit Onlinekontakten, Kontextmen&uuml; eines Benutzers und Docking im Systemabschnitt der KDE3 Kontrolleiste
-<BR><BR>
-<IMG src="sim1.jpg">
-<!--#include virtual="down_inc.htm" -->

@@ -1,7 +1,0 @@
-<!--#include virtual="top_inc.htm" -->
-<!--#include virtual="news.html" -->
-<BR>
-<TABLE width="60%" border=0><TD width="95%">&nbsp;</TD>
-<TD><NOBR><A href="changelog.shtml">Другие изменения</A></NOBR></TD>
-</TABLE><BR>
-<!--#include virtual="down_inc.htm" -->

@@ -1,7 +1,0 @@
-<!--#include virtual="top_inc.htm" -->
-<!--#include virtual="screen.html" -->
-<A href="/">SIM</a> основное полупрозрачное окно
-и аплет для WindowMaker
-<BR><BR>
-<IMG height=603 src="/sim1.jpg" width=393>
-<!--#include virtual="down_inc.htm" -->

@@ -1,6 +1,0 @@
-<!--#include virtual="top_inc.htm" -->
-<!--#include virtual="screen.html" -->
-<A href="/">SIM</A> - Ein Nachrichtenfenster mit Nachricht und Emoticon
-<BR><BR>
-<IMG src="sim2.png">
-<!--#include virtual="down_inc.htm" -->

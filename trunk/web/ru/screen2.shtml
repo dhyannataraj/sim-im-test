@@ -1,7 +1,0 @@
-<!--#include virtual="top_inc.htm" -->
-<!--#include virtual="screen.html" -->
-окно отправки сообщений -
-список контактов
-<BR><BR>
-<IMG height=382 src="/sim2.jpg" width=503>
-<!--#include virtual="down_inc.htm" -->
