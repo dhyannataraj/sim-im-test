@@ -131,11 +131,15 @@ DirectSocket::~DirectSocket()
 
 void DirectSocket::timeout()
 {
-    if ((m_state != Logged) && m_socket){
+    if ((m_state != Logged) && m_socket)
+		login_timeout();
+}
+
+void DirectSocket::login_timeout()
+{
         m_socket->error_state("Timeout direct connection");
 		if (m_data)
 			m_data->bNoDirect.bValue = true;
-	}
 }
 
 void DirectSocket::removeFromClient()
@@ -390,13 +394,8 @@ void DirectSocket::sendInit()
     m_socket->writeBuffer.pack(m_client->data.owner.Uin.value);
     m_socket->writeBuffer.pack(get_ip(m_client->data.owner.IP));
     m_socket->writeBuffer.pack(get_ip(m_client->data.owner.RealIP));
-    if (m_bIncoming){
-        m_socket->writeBuffer.pack((char)0x04);
-        m_socket->writeBuffer.pack(m_data->Port.value);
-    }else{
-        m_socket->writeBuffer.pack((char)0x01);
-        m_socket->writeBuffer.pack(0x00000000L);
-    }
+    m_socket->writeBuffer.pack((char)0x04);
+    m_socket->writeBuffer.pack(m_data->Port.value);
     m_socket->writeBuffer.pack(m_nSessionId);
     m_socket->writeBuffer.pack(0x00000050L);
     m_socket->writeBuffer.pack(0x00000003L);
@@ -889,7 +888,7 @@ void DirectClient::processPacket()
                         }
                         Event e(EventSent, &m);
                         e.process();
-                    }else{
+                    }else if ((msg->type() != MessageOpenSecure) && (msg->type() != MessageCloseSecure)){
                         msg->setFlags(flags);
                         Event e(EventSent, msg);
                         e.process();
@@ -1528,7 +1527,7 @@ void DirectClient::secureStop(bool bShutdown)
             m_ssl->shutdown();
             m_ssl->process();
         }
-        m_socket->setSocket(m_ssl->socket());
+        m_socket->setSocket(m_ssl->socket(), false);
         m_ssl->setSocket(NULL);
         delete m_ssl;
         m_ssl = NULL;
@@ -1765,6 +1764,17 @@ void ICQFileTransfer::bind_ready(unsigned short port)
     m_state = Listen;
     static_cast<ICQFileMessage*>(m_msg)->setPort(port);
     m_client->accept(m_msg, m_data);
+}
+
+void ICQFileTransfer::login_timeout()
+{
+        if (m_data->Caps.value & (1 << CAP_DIRECT)){
+            DirectSocket::m_state = DirectSocket::WaitReverse;
+            m_state = WaitReverse;
+            bind(m_client->getMinPort(), m_client->getMaxPort(), m_client);
+			return;
+        }
+		DirectSocket::login_timeout();
 }
 
 bool ICQFileTransfer::error_state(const char *err, unsigned code)

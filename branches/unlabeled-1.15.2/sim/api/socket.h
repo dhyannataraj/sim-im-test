@@ -150,7 +150,7 @@ public:
     void close();
     void setRaw(bool mode);
     Socket *socket() { return m_sock; }
-    void setSocket(Socket *s);
+    void setSocket(Socket *s, bool bClearError = true);
     void setNotify(ClientSocketNotify*);
     const char *errorString();
 protected:

@@ -2940,6 +2940,8 @@ void *ICQClient::processEvent(Event *e)
         }
     }
     if (e->type() == EventOpenMessage){
+		if (getState() != Connected)
+			return NULL;
         Message **msg = (Message**)(e->param());
         if (((*msg)->type() != MessageOpenSecure) &&
                 ((*msg)->type() != MessageCloseSecure) &&
@@ -3164,7 +3166,7 @@ bool ICQClient::canSend(unsigned type, void *_data)
                ((data->Status.value & 0xFFFF) != ICQ_STATUS_OFFLINE) &&
                (data->Uin.value || hasCap(data, CAP_AIM_SENDFILE));
     case MessageWarning:
-        return data && (m_bAIM || (data->Uin.value == 0));
+        return data && (data->Uin.value == 0);
 #ifdef USE_OPENSSL
     case MessageOpenSecure:
         if ((data == NULL) || ((data->Status.value & 0xFFFF) == ICQ_STATUS_OFFLINE))

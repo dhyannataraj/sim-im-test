@@ -171,7 +171,7 @@ void SSLClient::shutdown()
         return;
     }
     int i = SSL_shutdown(pSSL);
-    int j = SSL_get_error(pSSL, i);
+	int j = SSL_get_error(pSSL, i);
     if (j == SSL_ERROR_NONE)
     {
         SSL_free(pSSL);

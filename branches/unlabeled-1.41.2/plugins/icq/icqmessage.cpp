@@ -1256,14 +1256,9 @@ void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned
         if (msg->getFlags() & MESSAGE_LIST)
             flags = ICQ_TCPxMSG_LIST;
     }
-    if (type == ICQ_MSGxEXT){
-        b.pack(type);
-        b.pack(msgStatus());
-        b.pack(flags);
-    }else{
-        b.pack(this->data.owner.Uin.value);
-        b << (char)type << (char)0;
-    }
+    b.pack(type);
+    b.pack(msgStatus());
+    b.pack(flags);
     b << res;
     if (buf.size()){
         b.pack((unsigned short)buf.size());
