@@ -42,13 +42,7 @@
 class QKeySequence;
 
 #include <klocale.h>
-#include <klineedit.h>
-#include <klistbox.h>
-#include <kcombobox.h>
 #include <kcolorbutton.h>
-#define QLineEdit KLineEdit
-#define QListBox  KListBox
-#define QComboBox KComboBox
 #define QColorButton KColorButton
 #if QT_VERSION < 300
 QString i18n(const char *singular, const char *plural, unsigned long n);

@@ -1,6 +1,5 @@
 <!DOCTYPE UI><UI>
 <class>PagerDetailsBase</class>
-<include location="local">defs.h</include>
 <widget>
     <class>QWidget</class>
     <property stdset="1">

@@ -1,6 +1,5 @@
 <!DOCTYPE UI><UI>
 <class>ProxyDlgBase</class>
-<include location="local">defs.h</include>
 <widget>
     <class>QDialog</class>
     <property stdset="1">

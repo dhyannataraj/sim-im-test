@@ -164,6 +164,7 @@ using namespace std;
 #include "xpm/separator.xpm"
 #include "xpm/button_ok.xpm"
 #include "xpm/button_cancel.xpm"
+#include "xpm/randomchat.xpm"
 
 #ifndef WIN32
 
@@ -795,6 +796,7 @@ void Icons::init(const char *name)
     ICON(separator, 10090)
     KICON(button_ok, 10091)
     KICON(button_cancel, 10092)
+    ICON(randomchat, 10093)
 
     QIconSet pict = getIcon("licq");
     QPixmap dllPict = dll.getIcon(104);
