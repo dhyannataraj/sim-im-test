@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"POT-Creation-Date: 2002-08-13 04:16+0400\n"
-"PO-Revision-Date: 2002-08-13 04:10GMT+3\n"
+"POT-Creation-Date: 2002-08-13 06:12+0400\n"
+"PO-Revision-Date: 2002-08-13 06:07GMT+3\n"
 "Last-Translator: Vladimir Shutoff <shutoff@mail.ru>\n"
 "Language-Team: Русский <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1917,7 +1917,7 @@ msgstr "Свободен для разговора"
 msgid "N/A"
 msgstr "Неактивный"
 
-#: client.cpp:494 mainwin.cpp:1859
+#: client.cpp:494 mainwin.cpp:1885
 msgid "Invisible"
 msgstr "Невидимый"
 
@@ -1925,17 +1925,11 @@ msgstr "Невидимый"
 msgid "Last online"
 msgstr "Последний раз в сети"
 
-#: dock.cpp:508
-#, c-format
-msgid ""
-"_n: %n unread message\n"
-"%n unread messages"
-msgstr ""
-"%n непрочитанное сообщение\n"
-"%n непрочитанных сообщения\n"
-"%n непрочитанных сообщений"
+#: dock.cpp:537
+msgid "%1 from %2"
+msgstr "%1 от %2"
 
-#: dock.cpp:513 mainwin.cpp:1319
+#: dock.cpp:550 mainwin.cpp:1345
 msgid "Connecting"
 msgstr "Соединение"
 
@@ -1975,7 +1969,7 @@ msgstr "Пароль:"
 msgid "Use existing UIN"
 msgstr "Использовать существующий UIN"
 
-#: logindlg.cpp:57 logindlg.cpp:122 mainwin.cpp:1402 passwddlg.cpp:44
+#: logindlg.cpp:57 logindlg.cpp:122 mainwin.cpp:1428 passwddlg.cpp:44
 #: passwddlg.cpp:89 ui/searchbase.cpp:90 ui/searchdlg.cpp:106
 #: ui/setupdlgbase.cpp:95 userbox.cpp:172
 msgid "Close"
@@ -2005,197 +1999,197 @@ msgstr "Исчерпано количество попыток"
 msgid "Invalid password"
 msgstr "Неверный пароль"
 
-#: mainwin.cpp:319
+#: mainwin.cpp:321
 msgid "Current location"
 msgstr "Текущее положение"
 
-#: mainwin.cpp:320
+#: mainwin.cpp:322
 msgid "Phone status"
 msgstr "Телефон"
 
-#: mainwin.cpp:322
+#: mainwin.cpp:324
 msgid "Phone Book"
 msgstr "Телефонная книга"
 
-#: mainwin.cpp:337
+#: mainwin.cpp:339
 msgid "Show offline"
 msgstr "Показывать пользователей не в сети"
 
-#: mainwin.cpp:341
+#: mainwin.cpp:343
 msgid "Group mode"
 msgstr "Показывать группы"
 
-#: mainwin.cpp:353
+#: mainwin.cpp:355
 msgid "Menu"
 msgstr "Меню"
 
-#: mainwin.cpp:766
+#: mainwin.cpp:768
 msgid "%1 from %2 received"
 msgstr "%1 от %2"
 
-#: mainwin.cpp:831
+#: mainwin.cpp:833
 msgid "Your UIN used from another location"
 msgstr ""
 "Ваш UIN используется с другого компьютера"
 
-#: mainwin.cpp:880
+#: mainwin.cpp:882
 msgid "User %1 is online"
 msgstr "Пользователь %1 в сети"
 
-#: mainwin.cpp:1292 mainwin.cpp:1551 msgview.cpp:302
+#: mainwin.cpp:1318 mainwin.cpp:1577 msgview.cpp:302
 msgid "&Yes"
 msgstr "&Да"
 
-#: mainwin.cpp:1293 mainwin.cpp:1552 msgview.cpp:303
+#: mainwin.cpp:1319 mainwin.cpp:1578 msgview.cpp:303
 msgid "&No"
 msgstr "&Нет"
 
-#: mainwin.cpp:1294
+#: mainwin.cpp:1320
 msgid "Add user %1 to ignore list ?"
 msgstr "Добавить \"%1\" в список игнорируемых"
 
-#: mainwin.cpp:1362
+#: mainwin.cpp:1388
 msgid "In visible list"
 msgstr "В списке видимости"
 
-#: mainwin.cpp:1364
+#: mainwin.cpp:1390
 msgid "In invisible list"
 msgstr "В списке невидимости"
 
-#: mainwin.cpp:1367
+#: mainwin.cpp:1393
 msgid "In ignore list"
 msgstr "В списке игнорируемых"
 
-#: mainwin.cpp:1385 mainwin.cpp:1883
+#: mainwin.cpp:1411 mainwin.cpp:1909
 msgid "Groups"
 msgstr "Группы"
 
-#: mainwin.cpp:1386 usertbl.cpp:391 userview.cpp:503
+#: mainwin.cpp:1412 usertbl.cpp:391 userview.cpp:503
 msgid "Delete"
 msgstr "Удалить"
 
-#: mainwin.cpp:1390 ui/userinfo.cpp:55 userbox.cpp:164 userbox.cpp:324
+#: mainwin.cpp:1416 ui/userinfo.cpp:55 userbox.cpp:164 userbox.cpp:324
 #: usertbl.cpp:405
 msgid "User info"
 msgstr "Информация о пользователе"
 
-#: mainwin.cpp:1391 userbox.cpp:169 userbox.cpp:370
+#: mainwin.cpp:1417 userbox.cpp:169 userbox.cpp:370
 msgid "History"
 msgstr "История"
 
-#: mainwin.cpp:1393 ui/alertdialogbase.cpp:79 ui/setupdlg.cpp:97
+#: mainwin.cpp:1419 ui/alertdialogbase.cpp:79 ui/setupdlg.cpp:97
 #: ui/userinfo.cpp:72
 msgid "Alert"
 msgstr "Уведомления"
 
-#: mainwin.cpp:1394 ui/acceptbase.cpp:133
+#: mainwin.cpp:1420 ui/acceptbase.cpp:133
 msgid "Accept mode"
 msgstr "Прием файлов"
 
-#: mainwin.cpp:1395 ui/setupdlg.cpp:95 ui/soundsetupbase.cpp:106
+#: mainwin.cpp:1421 ui/setupdlg.cpp:95 ui/soundsetupbase.cpp:106
 #: ui/userinfo.cpp:74
 msgid "Sound"
 msgstr "Звук"
 
-#: mainwin.cpp:1398
+#: mainwin.cpp:1424
 msgid "Floating off"
 msgstr "Выключить плавающее окно"
 
-#: mainwin.cpp:1398
+#: mainwin.cpp:1424
 msgid "Floating on"
 msgstr "Включить плавающее окно"
 
-#: mainwin.cpp:1401
+#: mainwin.cpp:1427
 msgid "Users"
 msgstr "Пользователи"
 
-#: mainwin.cpp:1553
+#: mainwin.cpp:1579
 msgid "Delete user %1?"
 msgstr "Удалить пользователя \"%1\"?"
 
-#: mainwin.cpp:1630 msgedit.cpp:773
+#: mainwin.cpp:1656 msgedit.cpp:773
 msgid "New"
 msgstr "Новое"
 
-#: mainwin.cpp:1633
+#: mainwin.cpp:1659
 msgid "To container"
 msgstr "В контейнер"
 
-#: mainwin.cpp:1862
+#: mainwin.cpp:1888
 msgid "Don't show"
 msgstr "Не показывать"
 
-#: mainwin.cpp:1863
+#: mainwin.cpp:1889
 msgid "Available"
 msgstr "Доступен"
 
-#: mainwin.cpp:1864
+#: mainwin.cpp:1890
 msgid "Busy"
 msgstr "Занят"
 
-#: mainwin.cpp:1867 userview.cpp:504
+#: mainwin.cpp:1893 userview.cpp:504
 msgid "Create group"
 msgstr "Создать группу"
 
-#: mainwin.cpp:1869 userview.cpp:509
+#: mainwin.cpp:1895 userview.cpp:509
 msgid "Expand all"
 msgstr "Развернуть все группы"
 
-#: mainwin.cpp:1870 userview.cpp:510
+#: mainwin.cpp:1896 userview.cpp:510
 msgid "Collapse all"
 msgstr "Свернуть все группы"
 
-#: mainwin.cpp:1874
+#: mainwin.cpp:1900
 msgid "ICQ"
 msgstr "ICQ"
 
-#: mainwin.cpp:1877
+#: mainwin.cpp:1903
 msgid "Find User"
 msgstr "Поиск пользователя"
 
-#: mainwin.cpp:1878
+#: mainwin.cpp:1904
 msgid "Add Non-IM contact"
 msgstr "Добавить внешний контакт"
 
-#: mainwin.cpp:1880 ui/statussetupbase.cpp:79 usertbl.cpp:113
+#: mainwin.cpp:1906 ui/statussetupbase.cpp:79 usertbl.cpp:113
 msgid "Status"
 msgstr "Статус"
 
-#: mainwin.cpp:1882 ui/setupdlg.cpp:65
+#: mainwin.cpp:1908 ui/setupdlg.cpp:65
 msgid "Setup"
 msgstr "Настройки"
 
-#: mainwin.cpp:1884
+#: mainwin.cpp:1910
 msgid "Phone \"Follow Me\""
 msgstr "Телефонный сервис"
 
-#: mainwin.cpp:1887
+#: mainwin.cpp:1913
 msgid "Always on top"
 msgstr "Всегда наверху"
 
-#: mainwin.cpp:1890
+#: mainwin.cpp:1916
 msgid "&Bug report"
 msgstr "&Сообщения об ошибках"
 
-#: mainwin.cpp:1891
+#: mainwin.cpp:1917
 msgid "&About SIM"
 msgstr "О &приложении SIM"
 
-#: mainwin.cpp:1893
+#: mainwin.cpp:1919
 msgid "About &KDE"
 msgstr "О &KDE"
 
-#: mainwin.cpp:1896
+#: mainwin.cpp:1922
 msgid "Quit"
 msgstr "Выход"
 
-#: _translatorinfo.cpp:1 mainwin.cpp:2026
+#: _translatorinfo.cpp:1 mainwin.cpp:2052
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
 msgstr "Владимир Шутов"
 
-#: _translatorinfo.cpp:3 mainwin.cpp:2027
+#: _translatorinfo.cpp:3 mainwin.cpp:2053
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
@@ -2401,26 +2395,29 @@ msgstr "Авторизация"
 #: sim.cpp:90
 msgid ""
 "_: Dear translator, please do not translate this string in any form, but "
-"pick the _right_ value out of NoPlural/TwoForms/French..."
+"pick the _right_ value out of NoPlural/TwoForms/French... If not sure what "
+"to do mail thd@kde.org and coolo@kde.org, they will tell you. Better leave "
+"that out if unsure, the programs will crash!!\n"
+"Definition of PluralForm - to be set by the translator of kdelibs.po"
 msgstr "Russian"
 
-#: sim.cpp:253
+#: sim.cpp:260
 msgid "SIM"
 msgstr "SIM"
 
-#: sim.cpp:255
+#: sim.cpp:262
 msgid "ICQ client"
 msgstr "Клиент ICQ"
 
-#: sim.cpp:262
+#: sim.cpp:269
 msgid "Maintainer"
 msgstr "Автор"
 
-#: sim.cpp:269
+#: sim.cpp:276
 msgid "Directory for files"
 msgstr "Каталог для файлов"
 
-#: sim.cpp:270
+#: sim.cpp:277
 msgid "Loglevel"
 msgstr "Уровень отладки"
 
@@ -3403,28 +3400,36 @@ msgstr "Год:"
 msgid "Spoken languages:"
 msgstr "Языки:"
 
-#: ui/statussetupbase.cpp:95
+#: ui/statussetupbase.cpp:94
+msgid "Hide main window after"
+msgstr "Cкрыть главное окно"
+
+#: ui/statussetupbase.cpp:107
 msgid ""
 "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Запретить оповещение в состояниях "
 "\"Отошел\", \"Не активный\", \"Занят\""
 
-#: ui/statussetupbase.cpp:102
+#: ui/statussetupbase.cpp:112
+msgid "Set \"Away\" status after"
+msgstr "Установить статус \"Отошел\" через"
+
+#: ui/statussetupbase.cpp:118
 msgid "minutes not using computer"
 msgstr "минут не использования компьютера"
 
-#: ui/statussetupbase.cpp:132
+#: ui/statussetupbase.cpp:125
 msgid "minutes of \"Away\""
 msgstr "минут после \"Отошел\""
 
-#: ui/statussetupbase.cpp:139
+#: ui/statussetupbase.cpp:131
+msgid "seconds inactive"
+msgstr "секунд неактивности"
+
+#: ui/statussetupbase.cpp:140
 msgid "Set \"N/A\" status after"
 msgstr "Установить статус \"Не активный\" через"
-
-#: ui/statussetupbase.cpp:146
-msgid "Set \"Away\" status after"
-msgstr "Установить статус \"Отошел\" через"
 
 #: ui/maininfobase.cpp:66
 msgid "Form5"
@@ -3658,6 +3663,19 @@ msgid "This program is distributed under the terms of the GPL v2."
 msgstr ""
 "Эта программа распространяется под "
 "лицензией GPL v2"
+
+#~ msgid ""
+#~ "_: Dear translator, please do not translate this string in any form, but "
+#~ "pick the _right_ value out of NoPlural/TwoForms/French..."
+#~ msgstr "Russian"
+
+#~ msgid ""
+#~ "_n: %n unread message\n"
+#~ "%n unread messages"
+#~ msgstr ""
+#~ "%n непрочитанное сообщение\n"
+#~ "%n непрочитанных сообщения\n"
+#~ "%n непрочитанных сообщений"
 
 #~ msgid "Chat request"
 #~ msgstr "Чат"
