@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "POT-Creation-Date: 2002-12-09 12:55+0300\n"
-"PO-Revision-Date: 2002-12-04 20:34+0100\n"
+"PO-Revision-Date: 2002-12-11 17:53+0100\n"
 "Last-Translator: Pavel Rousar <rousarp@fel.cvut.cz>\n"
 "Language-Team: Čeština <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -638,11 +638,11 @@ msgstr "Maďarsko"
 
 #: libicq/country.cpp:167
 msgid "INMARSAT (Atlantic-East)"
-msgstr "INMARSAT (Obecně Východ)"
+msgstr "INMARSAT (Východní Atlantik)"
 
 #: libicq/country.cpp:168
 msgid "INMARSAT (Atlantic-West)"
-msgstr "INMARSAT (Obecně Západ)"
+msgstr "INMARSAT (Západní Atlantik)"
 
 #: libicq/country.cpp:169
 msgid "INMARSAT (Indian)"
@@ -2503,13 +2503,12 @@ msgid "Directory for incoming files"
 msgstr "Adresář pro příchozí soubory"
 
 #: ui/editfile.cpp:123
-#, fuzzy
 msgid "*.wav|Sounds"
-msgstr "*.wav (Zvuky)"
+msgstr "*.wav|(Zvuky)"
 
 #: ui/editfile.cpp:125
 msgid "Sounds(*.wav)"
-msgstr ""
+msgstr "Zvuky(*.wav)"
 
 #: ui/enable.cpp:123 ui/setupdlgbase.cpp:93 ui/toolsetupbase.cpp:135
 msgid "&Apply"
@@ -2779,37 +2778,35 @@ msgstr "Systém"
 
 #: ui/themesetup.cpp:129
 msgid "%1|Graphics"
-msgstr ""
+msgstr "%1|Grafika"
 
 #: ui/themesetup.cpp:131
 msgid "Graphics(%1)"
-msgstr ""
+msgstr "Grafika(%1)"
 
 #: ui/themesetup.cpp:136
-#, fuzzy
 msgid "Contact - left"
-msgstr "Kontaktliste"
+msgstr "Kontakt - vlevo"
 
 #: ui/themesetup.cpp:137
-#, fuzzy
 msgid "Contact - scale"
-msgstr "Kontaktlist odeslaný"
+msgstr "Kontakt - přizpůsobit"
 
 #: ui/themesetup.cpp:138
 msgid "Window - left top"
-msgstr ""
+msgstr "Okno - vlevo nahoře"
 
 #: ui/themesetup.cpp:139
 msgid "Window - left bottom"
-msgstr ""
+msgstr "Okno - vlevo dole"
 
 #: ui/themesetup.cpp:140
 msgid "Window - left center"
-msgstr ""
+msgstr "Okno - levý střed"
 
 #: ui/themesetup.cpp:141
 msgid "Window - scale"
-msgstr ""
+msgstr "Okno - přizpůsobit"
 
 #: ui/themesetup.cpp:203
 msgid "Need restart SIM for change language"
@@ -3406,7 +3403,7 @@ msgstr "Povolit oznamování na obrazovce (OSD)"
 
 #: ui/alertdialogbase.cpp:241 ui/themesetupbase.cpp:241 ui/xosdbase.cpp:181
 msgid "Place:"
-msgstr "Místo:"
+msgstr "Umístění:"
 
 #: ui/alertdialogbase.cpp:242 ui/xosdbase.cpp:175
 msgid "Offset:"
@@ -3643,32 +3640,28 @@ msgid "&Icons"
 msgstr "&Ikony"
 
 #: ui/themesetupbase.cpp:239
-#, fuzzy
 msgid "Main window background:"
-msgstr "V minulosti"
+msgstr "Pozadí okna:"
 
 #: ui/themesetupbase.cpp:240
 msgid "Icon margin:"
-msgstr ""
+msgstr "Okraj ikon:"
 
 #: ui/themesetupbase.cpp:242
-#, fuzzy
 msgid "Use &system colors"
-msgstr "Po&užít systémová písma"
+msgstr "Použít &systémová písma"
 
 #: ui/themesetupbase.cpp:243
-#, fuzzy
 msgid "Online contact color:"
-msgstr "Online výstraha:"
+msgstr "Barva online uživatele:"
 
 #: ui/themesetupbase.cpp:244
 msgid "Offline contact color:"
-msgstr ""
+msgstr "Barva offline uživatele:"
 
 #: ui/themesetupbase.cpp:245
-#, fuzzy
 msgid "B&ackground"
-msgstr "Pozadí"
+msgstr "Poz&adí"
 
 #: ui/themesetupbase.cpp:246
 msgid "Transparent main window"
@@ -3723,8 +3716,7 @@ msgid "Hide main window after"
 msgstr "Schovat hlavní okno po"
 
 #: ui/statussetupbase.cpp:110
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Zakázat online výstrahu pro \"Away\", \"N/A\", \"DND\" a \"Occupied\" "
 "seznam"
@@ -3863,8 +3855,7 @@ msgstr "&Domov"
 
 #: ui/generalsecbase.cpp:186
 msgid "My &authorization is required before users add me to Contact List"
-msgstr ""
-"Má &autorizace je vyžadována před přidáním uživatele do kontaktlistu"
+msgstr "Má &autorizace je vyžadována před přidáním uživatele do kontaktlistu"
 
 #: ui/generalsecbase.cpp:187
 msgid "Don't show my &IP-address"
@@ -4251,13 +4242,14 @@ msgstr ""
 "."
 
 #: client.cpp:997
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: External unknown message\n"
 "%n unknown messages"
 msgstr ""
 "Neznámá zpráva\n"
-"%n neznámých zpráv ."
+"%n neznámých zpráv\n"
+"."
 
 #: client.cpp:999
 #, c-format
@@ -4276,7 +4268,7 @@ msgid ""
 "%n SMS receipts"
 msgstr ""
 "SMS příjemce\n"
-"%n SMS příjemcůn\n"
+"%n SMS příjemců\n"
 "."
 
 #: client.cpp:1003
@@ -4290,7 +4282,7 @@ msgstr ""
 "."
 
 #: client.cpp:1005
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Request secure channel\n"
 "%n requests secure channel"
@@ -4300,7 +4292,7 @@ msgstr ""
 "."
 
 #: client.cpp:1007
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Close secure channel\n"
 "%n times close secure channel"
@@ -4316,41 +4308,32 @@ msgid ""
 "%n unknown messages"
 msgstr ""
 "Neznámá zpráva\n"
-"%n neznámých zpráv ."
+"%n neznámých zpráv\n"
+"."
 
 #: client.cpp:1018
-#, fuzzy
 msgid ""
 "_: Ctrl+N\n"
 "new"
-msgstr ""
-"Varování\n"
-"Varování"
+msgstr "Ctrl+M"
 
 #: client.cpp:1020
-#, fuzzy
 msgid ""
 "_: Ctrl+B\n"
 "chat msg"
 msgstr "Ctrl+M"
 
 #: client.cpp:1022
-#, fuzzy
 msgid ""
 "_: Ctrl+F\n"
 "File"
-msgstr ""
-"Varování\n"
-"Varování"
+msgstr "Ctrl+F"
 
 #: client.cpp:1024
-#, fuzzy
 msgid ""
 "_: Ctrl+L\n"
 "URL"
-msgstr ""
-"Varování\n"
-"Varování"
+msgstr "Ctrl+L"
 
 #: client.cpp:1026
 msgid ""
@@ -4365,11 +4348,10 @@ msgid ""
 msgstr "Ctrl+T"
 
 #: client.cpp:1030
-#, fuzzy
 msgid ""
 "_: Ctrl+S\n"
 "SMS"
-msgstr "Zvuk"
+msgstr "Ctrl+S"
 
 #: client.cpp:1032
 msgid ""
@@ -4683,3 +4665,4 @@ msgstr "? Neznámý stav %1"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
