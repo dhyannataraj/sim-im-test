@@ -2072,7 +2072,8 @@ void SBSocket::messageReady()
                 set_ip(&m_data->RealIP, real_ip);
             if (port)
                 m_data->Port = port;
-            for (list<msgInvite>::iterator it = m_waitMsg.begin(); it != m_waitMsg.end(); ++it){
+            list<msgInvite>::iterator it;
+            for (it = m_waitMsg.begin(); it != m_waitMsg.end(); ++it){
                 if ((*it).cookie == cookie){
                     Message *msg = (*it).msg;
                     if (msg->type() == MessageFile){
@@ -2111,7 +2112,8 @@ void SBSocket::messageReady()
             return;
         }else if (command == "CANCEL"){
             if (code == "REJECT"){
-                for (list<msgInvite>::iterator it = m_waitMsg.begin(); it != m_waitMsg.end(); ++it){
+                list<msgInvite>::iterator it;
+                for (it = m_waitMsg.begin(); it != m_waitMsg.end(); ++it){
                     if ((*it).cookie == cookie){
                         Message *msg = (*it).msg;
                         msg->setError(I18N_NOOP("Message declined"));
@@ -2126,7 +2128,8 @@ void SBSocket::messageReady()
                     log(L_WARN, "No message for cancel");
                 return;
             }
-            for (list<msgInvite>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
+            list<msgInvite>::iterator it;
+            for (it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
                 if ((*it).cookie == cookie){
                     Message *msg = (*it).msg;
                     Event e(EventMessageDeleted, msg);
