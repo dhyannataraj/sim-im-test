@@ -25,6 +25,7 @@
 
 #ifndef WIN32
 #include <stdio.h>
+#else
 #include <windows.h>
 #endif
 
