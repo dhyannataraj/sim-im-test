@@ -71,9 +71,9 @@ Addressee KabcSync::addresseeFromUser(SIMUser& u, Addressee* oldPers)
         (u.FirstName.empty()&&u.LastName.empty())?pers.setFormattedName(QString::fromLocal8Bit(u.Nick.c_str())):pers.setNameFromString(QString::fromLocal8Bit((u.FirstName+" "+u.LastName).c_str()));
 
     if (pers.nickName().isEmpty())
-        pers.setNickName("ICQ:"+QString::fromLocal8Bit(u.Nick.c_str()));
+        pers.setNickName(QString::fromLocal8Bit(u.Nick.c_str()));
 
-    pers.insertCustom("KADDRESSBOOK","X-IMAddress",str.setNum(u.Uin));
+    pers.insertCustom("KADDRESSBOOK","X-IMAddress","ICQ:"+str.setNum(u.Uin));
 
     if (pers.note().isEmpty())
         pers.setNote(QString::fromLocal8Bit(u.Notes.c_str()));
