@@ -3177,7 +3177,7 @@ msgstr ""
 #: plugins/icq/aimconfigbase.cc:151 plugins/icq/icqconfigbase.cc:273
 #: plugins/jabber/jabberconfigbase.cpp:308 plugins/msn/msnconfigbase.cpp:178
 #: plugins/yahoo/yahoocfgbase.cpp:180
-msgid "Note: For HTTP-pooling using proxy setings for HTTP"
+msgid "Note: For HTTP-pooling using proxy settings for HTTP"
 msgstr ""
 
 #: plugins/icq/aimconfigbase.cc:152 plugins/icq/icqconfigbase.cc:274
