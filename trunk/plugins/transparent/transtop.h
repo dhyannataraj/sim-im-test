@@ -38,15 +38,16 @@ public:
     KRootPixmap *rootpixmap;
     void setTransparent(unsigned transparent);
     void transparentChanged();
+#if COMPAT_QT_VERSION < 0x030000
+protected:
+    virtual bool eventFilter(QObject *o, QEvent *e);
+#else
 protected slots:
     void backgroundUpdated( const QPixmap &pm );
 protected:
-#if COMPAT_QT_VERSION > 0x030000
     QPixmap bg;
-#else
-    virtual bool eventFilter(QObject *o, QEvent *e);
 #endif
-    unsigned m_transparent;
+    double m_transparent;
 };
 
 #endif

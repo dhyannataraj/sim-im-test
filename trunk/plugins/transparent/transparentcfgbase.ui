@@ -43,7 +43,7 @@
             </property>
             <property>
                 <name>text</name>
-                <string>Transparency main window:</string>
+                <string>Transparency of main window:</string>
             </property>
             <property>
                 <name>alignment</name>
