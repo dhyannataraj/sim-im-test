@@ -254,7 +254,8 @@ void TextShow::encodingChanged(unsigned long _uin)
 {
     if (m_nUin != _uin) return;
     QTextCodec *newCodec = pClient->codecForUser(m_nUin);
-    string s = Client::to8Bit(codec, text());
+	QString t = text();
+    string s = Client::to8Bit(codec, t);
     codec = newCodec;
     setText(Client::from8Bit(codec, s));
     scrollToBottom();

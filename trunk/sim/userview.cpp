@@ -873,7 +873,7 @@ void UserView::processEvent(ICQEvent *e)
         refresh();
         return;
     case EVENT_MESSAGE_SEND:
-        if (e->message() &&
+        if (!bFloaty && e->message() &&
                 (e->message()->Type() == ICQ_MSGxSECURExOPEN) &&
                 (e->state == ICQEvent::Fail)){
             UserViewItem *item = findUserItem(e->message()->getUin());

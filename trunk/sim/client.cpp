@@ -112,8 +112,13 @@ encoding encodingTbl[] =
         { I18N_NOOP("Esperanto"), "ISO 8859-3" },
         { I18N_NOOP("Baltic"), "ISO 8859-13" },
         { I18N_NOOP("Baltic"), "CP 1257" },
+#ifdef WIN32
+        { I18N_NOOP("Cyrillic"), "CP 1251" },
+        { I18N_NOOP("Ukrainan"), "CP 1251" },
+#else
         { I18N_NOOP("Cyrillic"), "KOI8-R" },
         { I18N_NOOP("Ukrainan"), "KOI8-U" },
+#endif
         { I18N_NOOP("Arabic"), "ISO 8859-6-I" },
         { I18N_NOOP("Greek"), "ISO 8859-7" },
         { I18N_NOOP("Hebrew"), "ISO 8859-8-I" },
@@ -654,7 +659,9 @@ QString Client::from8Bit(unsigned long uin, const string &str)
 string Client::to8Bit(QTextCodec *codec, const QString &str)
 {
     int lenOut = str.length();
-    string res = (const char*)(codec->makeEncoder()->fromUnicode(str, lenOut));
+	string res;
+	if (lenOut == 0) return res;
+    res = (const char*)(codec->makeEncoder()->fromUnicode(str, lenOut));
     toServer(res, codec->name());
     return res;
 }
