@@ -701,8 +701,11 @@ void PluginManagerPrivate::execute(const char *prg, const char *arg)
     }
     arglist[i] = NULL;
     if(!fork()) {
-        if (execvp(arglist[0], arglist))
-            log(L_WARN, "can't execute %s: %s", arglist[0], strerror(errno));
+        execvp(arglist[0], arglist);
+        // when we're here an error occured ...
+        // a write to the logoutput isn't possible because we haven't
+        // these descriptors anymore - so we need printf
+        printf("can't execute %s: %s", arglist[0], strerror(errno));
         _exit(-1);
     }
     for (char **p = arglist; *p != NULL; p++)
