@@ -526,6 +526,13 @@ unsigned TextShow::textPosition(const QString &text, unsigned pos)
             }
             continue;
         }
+		if (c == '&'){
+			for (; i < text.length(); i++){
+				c = text[(int)i];
+				if (c == ';')
+					break;
+			}
+		}
         if (pos == 0)
             return i;
         pos--;
