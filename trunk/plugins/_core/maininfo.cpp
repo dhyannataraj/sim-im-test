@@ -264,7 +264,8 @@ void MainInfo::fill()
 
 void MainInfo::apply()
 {
-    getEncoding();
+    getEncoding(false); /* EventContactChanged kills all our settings ... 
+                           and we send event also :) */
     Contact *contact = m_contact;
     if (contact == NULL){
         contact = getContacts()->owner();
@@ -301,12 +302,10 @@ void MainInfo::apply()
         phones += item->text(PHONE_PROTO);
     }
     contact->setPhones(phones);
-    QString firstName = contact->getFirstName();
-    QString lastName = contact->getLastName();
-    if (firstName != edtFirstName->text())
-        contact->setFirstName(edtFirstName->text(), NULL);
-    if (lastName != edtLastName->text())
-        contact->setLastName(edtLastName->text(), NULL);
+    /* Christian: The checks if the name has changed took longer
+       than setting the new value directly */
+    contact->setFirstName(edtFirstName->text(), NULL);
+    contact->setLastName(edtLastName->text(), NULL);
 
     QString name = cmbDisplay->lineEdit()->text();
     if (name.isEmpty()){
@@ -542,7 +541,7 @@ void MainInfo::fillEncoding()
     cmbEncoding->setCurrentItem(current);
 }
 
-void MainInfo::getEncoding()
+void MainInfo::getEncoding(bool SendContactChangedEvent)
 {
     string encoding;
     int n = cmbEncoding->currentItem();
@@ -589,8 +588,10 @@ void MainInfo::getEncoding()
     }
     if (!contact->setEncoding(encoding.c_str()))
         return;
-    Event e(EventContactChanged, contact);
-    e.process();
+    if (SendContactChangedEvent){
+        Event e(EventContactChanged, contact);
+        e.process();
+    }
     Event eh(EventHistoryConfig, (void*)(contact->id()));
     eh.process();
 }

@@ -48,7 +48,7 @@ protected:
     void fillPhoneItem(QListViewItem *item, const QString &number, const QString &type, unsigned icon, const QString &proto);
     void fillCurrentCombo();
     void fillEncoding();
-    void getEncoding();
+    void getEncoding(bool SendContactChangedEvent = true);
     bool m_bInit;
     Contact *m_contact;
 };

@@ -127,10 +127,16 @@ void AIMInfo::fill()
     initCombo(cmbCountry, (unsigned short)(data->Country.value), getCountries(), true, getCountryCodes());
 
     if (m_data == NULL){
-        if (edtFirst->text().isEmpty())
-            edtFirst->setText(getContacts()->owner()->getFirstName());
-        if (edtLast->text().isEmpty())
-            edtLast->setText(getContacts()->owner()->getLastName());
+        if (edtFirst->text().isEmpty()) {
+            QString firstName = getContacts()->owner()->getFirstName();
+            firstName = getToken(firstName, '/');
+            edtFirst->setText(firstName);
+        }
+        if (edtLast->text().isEmpty()) {
+            QString lastName = getContacts()->owner()->getLastName();
+            lastName = getToken(lastName, '/');
+            edtLast->setText(lastName);
+        }
     }
 
     cmbStatus->clear();
