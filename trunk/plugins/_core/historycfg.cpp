@@ -307,6 +307,7 @@ void HistoryConfig::styleSelected(int n)
 {
     if (n == m_cur)
         return;
+	if (m_styles.size() == 0) return;
     if (m_bDirty && (m_cur >= 0))
         m_styles[m_cur].text = unquoteText(edtStyle->text());
     m_cur = n;
