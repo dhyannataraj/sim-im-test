@@ -258,6 +258,7 @@ void InterfaceConfig::apply()
                 log(L_WARN, "RegSetValue fail %u", res);
         }
     }
+    RegCloseKey(subKey);
 #endif
 }
 
