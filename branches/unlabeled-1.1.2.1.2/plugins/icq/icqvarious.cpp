@@ -41,6 +41,7 @@ const unsigned short ICQ_SRVxANSWER_MORE	   = 0xDA07;
 
 const unsigned short ICQ_SRVxREQ_FULL_INFO         = 0xB204;
 const unsigned short ICQ_SRVxREQ_SHORT_INFO        = 0xBA04;
+const unsigned short ICQ_SRVxREQ_OWN_INFO		   = 0xD004;
 const unsigned short ICQ_SRVxREQ_SEND_SMS          = 0x8214;
 const unsigned short ICQ_SRVxREQ_WP_INFO_UIN       = 0x6905;
 const unsigned short ICQ_SRVxREQ_WP_SHORT          = 0x1505;
@@ -514,7 +515,7 @@ void ICQClient::infoRequest()
         return;
     unsigned long uin = infoRequests.front();
     serverRequest(ICQ_SRVxREQ_MORE);
-    m_socket->writeBuffer << ICQ_SRVxREQ_FULL_INFO;
+    m_socket->writeBuffer << ((uin == data.owner.Uin) ? ICQ_SRVxREQ_OWN_INFO : ICQ_SRVxREQ_FULL_INFO);
     m_socket->writeBuffer.pack(uin);
     sendServerRequest();
     m_infoTimer->start(INFO_REQUEST_TIMEOUT * 1000);

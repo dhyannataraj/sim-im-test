@@ -525,7 +525,12 @@ void *Container::processEvent(Event *e)
             }
 #endif
         }
-
+        msg = (Message*)(e->param());
+		if (msg->type() == MessageStatus){
+			contact = getContacts()->contact(msg->contact());
+			if (contact)
+				contactChanged(contact);
+		}
     case EventMessageRead:
         msg = (Message*)(e->param());
         userWnd = wnd(msg->contact());
@@ -554,7 +559,7 @@ void *Container::processEvent(Event *e)
     case EventClientsChanged:
         setupAccel();
         break;
-    case EventStatusChanged:
+    case EventTyping:
         contact = (Contact*)(e->param());
         userWnd = m_tabBar->wnd(contact->id());
         if (userWnd){
@@ -581,23 +586,9 @@ void *Container::processEvent(Event *e)
                     m_status->message(userWnd->status());
             }
         }
+		break;
     case EventContactClient:
-        contact = (Contact*)(e->param());
-        userWnd = m_tabBar->currentWnd();
-        if (userWnd && (contact->id() == userWnd->id())){
-            QString name = userWnd->getName();
-            Command cmd;
-            cmd->id = CmdContainerContact;
-            cmd->text_wrk = strdup(name.utf8());
-            cmd->icon  = userWnd->getIcon();
-            cmd->param = (void*)(contact->id());
-            cmd->popup_id = MenuContainerContact;
-            cmd->flags = BTN_PICT;
-            Event e(EventCommandChange, cmd);
-            m_bar->processEvent(&e);
-            setIcon(Pict(cmd->icon));
-            setCaption(name);
-        }
+		contactChanged((Contact*)(e->param()));
         break;
     case EventInit:
         init();
@@ -699,6 +690,25 @@ bool Container::event(QEvent *e)
         }
     }
     return QMainWindow::event(e);
+}
+
+void Container::contactChanged(Contact *contact)
+{
+        UserWnd *userWnd = m_tabBar->currentWnd();
+        if (userWnd && (contact->id() == userWnd->id())){
+            QString name = userWnd->getName();
+            Command cmd;
+            cmd->id = CmdContainerContact;
+            cmd->text_wrk = strdup(name.utf8());
+            cmd->icon  = userWnd->getIcon();
+            cmd->param = (void*)(contact->id());
+            cmd->popup_id = MenuContainerContact;
+            cmd->flags = BTN_PICT;
+            Event e(EventCommandChange, cmd);
+            m_bar->processEvent(&e);
+            setIcon(Pict(cmd->icon));
+            setCaption(name);
+        }
 }
 
 UserTabBar::UserTabBar(QWidget *parent) : QTabBar(parent)

@@ -834,7 +834,7 @@ void *MsgEdit::processEvent(Event *e)
                     time_t now;
                     time(&now);
                     contact->setLastActive(now);
-                    Event e(EventStatusChanged, contact);
+                    Event e(EventTyping, contact);
                     e.process();
                 }
                 if (!multiply.empty() && (multiply_it != multiply.end())){

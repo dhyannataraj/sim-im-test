@@ -741,7 +741,7 @@ void *UserListBase::processEvent(Event *e)
                     addContactForUpdate(c->id());
                 break;
             }
-        case EventStatusChanged:
+        case EventTyping:
         case EventContactChanged:{
                 Contact *c = (Contact*)(e->param());
                 if (!c->getIgnore() && (c->getTemporary() == 0)){
@@ -752,6 +752,15 @@ void *UserListBase::processEvent(Event *e)
                 }
                 break;
             }
+		case EventMessageReceived:{
+			Message *msg = (Message*)(e->param());
+			if (msg->type() == MessageStatus){
+				Contact *contact = getContacts()->contact(msg->contact());
+				if (contact)
+					addContactForUpdate(contact->id());
+			}
+			break;
+								  }
         case EventContactDeleted:{
                 Contact *g = (Contact*)(e->param());
                 for (list<unsigned long>::iterator it = updContacts.begin(); it != updContacts.end(); ++it){

@@ -445,7 +445,12 @@ void ICQClient::disconnected()
         while ((data = (ICQUserData*)(++it)) != NULL){
             if (data->Status != ICQ_STATUS_OFFLINE){
                 setOffline(data);
-                Event e(EventStatusChanged, contact);
+				StatusMessage m;
+				m.setContact(contact->id());
+				m.setClient(dataName(data).c_str());
+				m.setStatus(STATUS_OFFLINE);
+				m.setFlags(MESSAGE_RECEIVED);
+                Event e(EventMessageReceived, &m);
                 e.process();
             }
         }

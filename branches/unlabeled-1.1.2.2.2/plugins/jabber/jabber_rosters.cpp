@@ -671,7 +671,12 @@ JabberClient::PresenceRequest::~PresenceRequest()
                 data->StatusTime = now;
             }
             if (bChanged){
-                Event e(EventStatusChanged, contact);
+				StatusMessage m;
+				m.setContact(contact->id());
+				m.setClient(m_client->dataName(data).c_str());
+				m.setFlags(MESSAGE_RECEIVED);
+				m.setStatus(status);
+                Event e(EventMessageReceived, &m);
                 e.process();
             }
             if (bOnLine){

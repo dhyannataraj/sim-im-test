@@ -398,7 +398,12 @@ void JabberClient::setStatus(unsigned status, const char *ar)
                     continue;
                 data->StatusTime = now;
                 setOffline(data);
-                Event e(EventStatusChanged, contact);
+				StatusMessage m;
+				m.setContact(contact->id());
+				m.setClient(dataName(data).c_str());
+				m.setFlags(MESSAGE_RECEIVED);
+				m.setStatus(STATUS_OFFLINE);
+                Event e(EventMessageReceived, &m);
                 e.process();
             }
         }

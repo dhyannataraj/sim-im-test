@@ -593,8 +593,8 @@ const unsigned EventContactDeleted = 0x0912;
 */
 const unsigned EventContactChanged = 0x0913;
 const unsigned EventFetchInfoFail  = 0x0914;
-const unsigned EventStatusChanged  = 0x0915;
-const unsigned EventContactOnline  = 0x0916;
+const unsigned EventContactOnline  = 0x0915;
+const unsigned EventTyping		   = 0x0916;
 
 
 /* Event set common icon
@@ -923,6 +923,22 @@ public:
             : Message(type, cfg) {}
     virtual QString presentation();
 };
+
+typedef struct MessageStatusData
+{
+	unsigned long Status;
+} MessageStatusData;
+
+class EXPORT StatusMessage : public Message
+{
+public:
+    StatusMessage(const char *cfg=NULL)
+            : Message(MessageStatus, cfg) {}
+	PROP_ULONG(Status);
+protected:
+	MessageStatusData data;
+};
+
 
 // _____________________________________________________________________________________
 // Contact list

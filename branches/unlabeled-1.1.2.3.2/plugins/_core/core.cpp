@@ -243,6 +243,8 @@ typedef struct CoreUserData
 */
 static DataDef coreUserData[] =
     {
+		{ "LogStatus", DATA_BOOL, 1, 0 },
+		{ "LogMessage", DATA_BOOL, 1, 1 },
         { "OfflineOpen", DATA_BOOL, 1, 1 },
         { "OnlineOpen", DATA_BOOL, 1, 1 },
         { "OpenOnReceive", DATA_BOOL, 1, 0 },

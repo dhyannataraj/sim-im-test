@@ -388,6 +388,7 @@ public:
     void changePassword(const char *new_pswd);
     void searchChat(unsigned short);
     void randomChatInfo(unsigned long uin);
+    virtual string dataName(void*);
     Message *parseMessage(unsigned short type, unsigned long uin,
                           string &p, Buffer &packet,
                           unsigned short cookie1, unsigned short cookie2,
@@ -411,7 +412,6 @@ protected:
     virtual void setStatus(unsigned status);
     virtual void disconnected();
     virtual void *processEvent(Event*);
-    virtual string dataName(void *data);
     string dataName(unsigned long uin);
     virtual bool compareData(void*, void*);
     virtual void contactInfo(void *_data, unsigned long &status, unsigned &style, const char *&statusIcon, string *icons = NULL);

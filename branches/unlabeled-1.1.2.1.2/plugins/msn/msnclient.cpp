@@ -213,7 +213,12 @@ void MSNClient::disconnected()
             }
         }
         if (bChanged){
-            Event e(EventStatusChanged, contact);
+			StatusMessage m;
+			m.setContact(contact->id());
+			m.setClient(dataName(data).c_str());
+			m.setFlags(MESSAGE_RECEIVED);
+			m.setStatus(STATUS_OFFLINE);
+            Event e(EventMessageReceived, &m);
             e.process();
         }
     }
@@ -367,7 +372,12 @@ void MSNClient::getLine(const char *line)
             data->Status = status;
             data->OnlineTime = now;
             data->StatusTime = now;
-            Event e(EventStatusChanged, contact);
+			StatusMessage m;
+			m.setContact(contact->id());
+			m.setClient(dataName(data).c_str());
+			m.setFlags(MESSAGE_RECEIVED);
+			m.setStatus(status);
+            Event e(EventMessageReceived, &m);
             e.process();
         }
         return;
@@ -383,7 +393,12 @@ void MSNClient::getLine(const char *line)
                 data->OnlineTime = now;
             data->StatusTime = now;
             data->Status = status;
-            Event e(EventStatusChanged, contact);
+			StatusMessage m;
+			m.setContact(contact->id());
+			m.setClient(dataName(data).c_str());
+			m.setFlags(MESSAGE_RECEIVED);
+			m.setStatus(status);
+            Event e(EventMessageReceived, &m);
             e.process();
             if (status == STATUS_ONLINE){
                 Event e(EventContactOnline, contact);
@@ -400,7 +415,12 @@ void MSNClient::getLine(const char *line)
             time(&now);
             data->StatusTime = now;
             data->Status = STATUS_OFFLINE;
-            Event e(EventStatusChanged, contact);
+			StatusMessage m;
+			m.setContact(contact->id());
+			m.setClient(dataName(data).c_str());
+			m.setFlags(MESSAGE_RECEIVED);
+			m.setStatus(STATUS_OFFLINE);
+            Event e(EventMessageReceived, &m);
             e.process();
         }
         return;
@@ -1290,7 +1310,7 @@ SBSocket::~SBSocket()
         m_data->sb = NULL;
         if (m_data->typing_time){
             m_data->typing_time = 0;
-            Event e(EventStatusChanged, m_contact);
+            Event e(EventTyping, m_contact);
             e.process();
         }
     }
@@ -1613,7 +1633,7 @@ void SBSocket::messageReady()
     if (content_type == "text/plain"){
         if (m_data->typing_time){
             m_data->typing_time = 0;
-            Event e(EventStatusChanged, m_contact);
+            Event e(EventTyping, m_contact);
             e.process();
         }
         QString msg_text = QString::fromUtf8(m_message.c_str());
@@ -1639,7 +1659,7 @@ void SBSocket::messageReady()
             bool bEvent = (m_data->typing_time == 0);
             m_data->typing_time = now;
             if (bEvent){
-                Event e(EventStatusChanged, m_contact);
+                Event e(EventTyping, m_contact);
                 e.process();
             }
         }
@@ -1651,7 +1671,7 @@ void SBSocket::timer(unsigned now)
     if (m_data->typing_time){
         if (now >= m_data->typing_time + TYPING_TIME){
             m_data->typing_time = 0;
-            Event e(EventStatusChanged, m_contact);
+            Event e(EventTyping, m_contact);
             e.process();
         }
     }

@@ -91,6 +91,7 @@ protected:
     virtual void resizeEvent(QResizeEvent*);
     virtual bool event(QEvent*);
     void *processEvent(Event*);
+	void contactChanged(Contact *contact);
     void showBar();
     void init();
     void setupAccel();

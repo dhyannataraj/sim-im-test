@@ -63,7 +63,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
             if ((bool)(data->bTyping) == bType)
                 break;
             data->bTyping = bType;
-            Event e(EventStatusChanged, contact);
+            Event e(EventTyping, contact);
             e.process();
             break;
         }
@@ -167,7 +167,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
                     string plugin_str;
                     unsigned i;
                     for (i = 0; i < sizeof(plugin); i++){
-                        char b[4];
+						char b[4];
                         sprintf(b, "%02X ", p[i]);
                         plugin_str += b;
                     }
@@ -797,7 +797,7 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
     if (memcmp(cap, capabilities[CAP_SRV_RELAY], sizeof(cap))){
         string cap_str;
         for (unsigned i = 0; i < sizeof(cap); i++){
-            char b[4];
+			char b[4];
             sprintf(b, "%02X ", cap[i]);
             cap_str += b;
         }
