@@ -151,6 +151,7 @@ using namespace std;
 #include "xpm/key_bindings.xpm"
 #include "xpm/encoding.xpm"
 #include "xpm/fileclose.xpm"
+#include "xpm/filter.xpm"
 
 class str
 {
@@ -689,6 +690,7 @@ void Icons::init(const char *name)
     KICON(apply, 10085)
     KICON(cancel, 10086)
     KICON(fileclose, 10087)
+    KICON(filter, 10088)
 
     QIconSet pict = getIcon("licq");
     QPixmap dllPict = dll.getIcon(104);
