@@ -137,12 +137,18 @@ QString MsgViewBase::messageText(Message *msg)
     if (msg->type() != MessageStatus){
         QString msgText = msg->presentation();
         // replace font color if we use own colors
-        int pos = msgText.find("font color=\"#");
-        if ((pos != -1) && (CorePlugin::m_plugin->getOwnColors())) {
-            pos += 13;
-            QString color;
-            color.sprintf("%06lX", (msg->getFlags() & MESSAGE_RECEIVED) ? c_receive : c_send);
-            msgText.replace(pos,6,color);
+        // some of the incoming messages are saved as html with an extra <font> - tag
+        // so we need to replace until no more <font> - tag is found
+        // this behaviour should be checked!
+        if (CorePlugin::m_plugin->getOwnColors()) {
+            int pos = msgText.find("font color=\"#",0);
+            while (pos != -1) {
+                pos += 13;
+                QString color;
+                color.sprintf(FONT_FORMAT, (msg->getFlags() & MESSAGE_RECEIVED) ? c_receive : c_send);
+                msgText.replace(pos,6,color);
+                pos = msgText.find("font color=\"#",pos);
+            }
         }
         if (msgText.isEmpty()){
             unsigned type = msg->type();
@@ -373,7 +379,8 @@ void *MsgViewBase::processEvent(Event *e)
         int para;
         int pos = charAt(QPoint(x, y), &para);
         setText(t);
-        setBackground(0);
+        if (!CorePlugin::m_plugin->getOwnColors())
+            setBackground(0);
         if (pos == -1){
             scrollToBottom();
         }else{
