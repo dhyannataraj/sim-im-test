@@ -30,7 +30,7 @@
 static DataDef userWndData[] =
     {
         { "EditHeight", DATA_ULONG, 1, 0 },
-        { "EditBar", DATA_ULONG, 7, 0 },
+        { "EditBar", DATA_ULONG, 8, 0 },
         { "MessageType", DATA_ULONG, 1, DATA(1) },
         { NULL, 0, 0, 0 }
     };

@@ -51,7 +51,7 @@ public:
     ICQMessage(unsigned type=MessageICQ, const char *cfg=NULL);
     ~ICQMessage();
     PROP_STR(ServerText);
-    virtual QString getText();
+    virtual QString getText() const;
     virtual bool setText(const char *r);
     virtual string  save();
     virtual unsigned baseType() { return MessageGeneric; }
@@ -72,8 +72,8 @@ public:
     ~IcqUrlMessage();
     PROP_STR(ServerUrl);
     PROP_STR(ServerText);
-    virtual QString getUrl();
-    virtual QString getText();
+    virtual QString getUrl() const;
+    virtual QString getText() const;
     virtual string  save();
     virtual unsigned baseType() { return MessageUrl; }
 protected:
@@ -90,7 +90,7 @@ class IcqContactsMessage : public ContactsMessage
 public:
     IcqContactsMessage(const char *cfg=NULL);
     ~IcqContactsMessage();
-    QString getContacts();
+    QString getContacts() const;
     PROP_STR(ServerText);
     virtual string save();
     virtual unsigned baseType() { return MessageContacts; }
@@ -111,7 +111,7 @@ public:
     ~ICQAuthMessage();
     PROP_STR(ServerText);
     PROP_STR(Charset);
-    virtual QString getText();
+    virtual QString getText() const;
     virtual string save();
     virtual unsigned baseType() { return m_baseType; }
 protected:
@@ -144,7 +144,7 @@ public:
     PROP_ULONG(ID_H);
     PROP_ULONG(Cookie);
     PROP_ULONG(Extended);
-    virtual QString getText();
+    virtual QString getText() const;
     virtual QString getDescription();
     virtual string  save();
     virtual unsigned baseType() { return MessageFile; }

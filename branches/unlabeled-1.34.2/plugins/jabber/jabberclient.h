@@ -95,7 +95,7 @@ typedef struct JabberClientData
     Data		Photo;
     Data		Logo;
     Data		browser_geo[5];
-    Data		browser_bar[7];
+    Data		browser_bar[8];
     Data		BrowserHistory;
     Data		AutoSubscribe;
     Data		AutoAccept;

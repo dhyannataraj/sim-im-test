@@ -1020,7 +1020,7 @@ EXPORT void restoreGeometry(QWidget *w, Data geo[5], bool bPos, bool bSize)
 #endif
 }
 
-EXPORT void saveToolbar(QToolBar *bar, Data state[7])
+EXPORT void saveToolbar(QToolBar *bar, Data state[8])
 {
     memset(state, 0, sizeof(state));
     if (bar == NULL)
@@ -1051,7 +1051,7 @@ EXPORT void saveToolbar(QToolBar *bar, Data state[7])
     }
 }
 
-EXPORT void restoreToolbar(QToolBar *bar, Data state[7])
+EXPORT void restoreToolbar(QToolBar *bar, Data state[8])
 {
     if (bar == NULL)
         return;
