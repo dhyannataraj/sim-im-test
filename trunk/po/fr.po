@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: 0.8.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-11-17 18:12+0000\n"
-"PO-Revision-Date: 2004-11-20 05:37+0100\n"
+"PO-Revision-Date: 2004-11-20 19:57+0100\n"
 "Last-Translator: \n"
 "Language-Team: Français <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -915,15 +915,13 @@ msgstr "Etat"
 
 # control.cpp:218
 #: plugins/_core/core.cpp:1676
-#, fuzzy
 msgid "time of set status"
-msgstr "Régler Etat"
+msgstr "Heure de réglage du mode"
 
 # control.cpp:218
 #: plugins/_core/core.cpp:1678
-#, fuzzy
 msgid "time from set status"
-msgstr "Régler Etat"
+msgstr "Temps écoulé depuis le réglage du mode"
 
 #: plugins/_core/core.cpp:1721
 #: plugins/_core/status.cpp:321
@@ -945,9 +943,8 @@ msgid "Don't show this message in next time"
 msgstr "Ne pas afficher à nouveau ce message"
 
 #: plugins/_core/core.cpp:1754
-#, fuzzy
 msgid "`<command>` - call <command> and substitute command output\n"
-msgstr "`<command>` - call <command> and substitute command output\n"
+msgstr "`<commande>` appelle la <commande> et place sa réponse dans le message.\n"
 
 # ui/themesetup.cpp:53
 #: plugins/_core/core.cpp:2306
@@ -966,9 +963,8 @@ msgstr "&Séparer"
 # mainwin.cpp:871
 #: plugins/_core/core.cpp:2481
 #: plugins/_core/userwnd.cpp:134
-#, fuzzy
 msgid "from %1"
-msgstr "%1 sur %2"
+msgstr "depuis %1"
 
 # ui/filetransfer.cpp:245
 # ui/filetransfer.cpp:264
@@ -1007,9 +1003,8 @@ msgstr "Gestionnaire de connexions"
 
 # mainwin.cpp:709
 #: plugins/_core/core.cpp:4205
-#, fuzzy
 msgid "Show status panel"
-msgstr "Etat Téléphone"
+msgstr "Montrer le panneau des états"
 
 # ui/setupdlg.cpp:124
 #: plugins/_core/core.cpp:4212
@@ -1023,9 +1018,8 @@ msgstr "Changer de profil"
 
 # mainwin.cpp:709
 #: plugins/_core/core.cpp:4256
-#, fuzzy
 msgid "Common status"
-msgstr "Etat Téléphone"
+msgstr "Etat courant"
 
 # sim.cpp:521
 #: plugins/_core/core.cpp:4262
@@ -1105,9 +1099,8 @@ msgstr "Envoyer le fichier à %1"
 
 # libicq/country.cpp:342
 #: plugins/_core/filetransfer.cpp:265
-#, fuzzy
 msgid "Listen"
-msgstr "Mode de vie"
+msgstr "Recherche de l'hôte"
 
 # dock.cpp:955
 # mainwin.cpp:1974
@@ -1141,9 +1134,8 @@ msgstr "Echec lors du transfert."
 
 # ui/setupdlg.cpp:125
 #: plugins/_core/filetransfer.cpp:438
-#, fuzzy
 msgid "Stalled"
-msgstr "Style"
+msgstr "Arrêté"
 
 #: plugins/_core/filetransfer.cpp:450
 msgid "Mb/s"
@@ -1185,9 +1177,8 @@ msgstr "Nouveau message"
 
 # ui/logindlgbase.cpp:36
 #: plugins/_core/historywnd.cpp:59
-#, fuzzy
 msgid "Loading"
-msgstr "Connexion"
+msgstr "Chargement"
 
 # userbox.cpp:458
 #: plugins/_core/historywnd.cpp:129
@@ -1225,7 +1216,7 @@ msgstr "&Remplacer"
 
 #: plugins/_core/historywnd.cpp:199
 msgid "&Append"
-msgstr ""
+msgstr "&Renommer"
 
 #: plugins/_core/historywnd.cpp:213
 msgid "Save failed"
@@ -1686,9 +1677,8 @@ msgstr "Le message sera scindé."
 
 # msgview.cpp:183
 #: plugins/_core/msgsms.cpp:301
-#, fuzzy
 msgid "Save phone in contact list"
-msgstr "Ajouté à la liste de contacts"
+msgstr "Sauvegarder le numéro de téléphone dans la liste de contacts"
 
 # msgview.cpp:828
 # ui/searchbase.cpp:38
@@ -2259,7 +2249,7 @@ msgstr "Nom :"
 # ui/maininfobase.cpp:188
 #: plugins/_core/maininfobase.cpp:189
 msgid "Display:"
-msgstr "Affichage :"
+msgstr "Pseudo affiché :"
 
 # ui/maininfobase.cpp:203
 #: plugins/_core/maininfobase.cpp:190
@@ -2490,7 +2480,7 @@ msgstr "Téléphone :"
 #: plugins/_core/connectionsettingsbase.cpp:74
 #: plugins/_core/autoreplybase.cpp:87
 msgid "MyDialog"
-msgstr ""
+msgstr "Boîte de dialogue"
 
 # ui/listsecbase.cpp:90
 # ui/moreinfobase.cpp:66
@@ -3380,7 +3370,7 @@ msgstr "Ce plugin permet l'usage de smileys et de thèmes d'icônes JISP."
 
 #: plugins/icons/iconcfg.cpp:91
 msgid "*.jisp|Icon set"
-msgstr ""
+msgstr "Jeu d'icônes, *.jisp"
 
 #: plugins/icons/iconcfg.cpp:93
 msgid "Icon set(*.jisp)"
@@ -3394,7 +3384,7 @@ msgstr "Sélectionner le jeu d'icônes"
 # ui/enable.cpp:123
 #: plugins/icq/aimconfig.cpp:43
 msgid "Register new ScreenName"
-msgstr "Enregistrer un nouveau pseudo"
+msgstr "Enregistrer un nouveau pseudo (ScreenName)"
 
 # cuser.cpp:208
 # ui/maininfo.cpp:136
@@ -3894,11 +3884,11 @@ msgstr "Erreur de connexion"
 
 #: plugins/icq/icqlogin.cpp:68
 msgid "Registered in no register state"
-msgstr ""
+msgstr "Enregistré dans un état invalide"
 
 #: plugins/icq/icqlogin.cpp:184
 msgid "This client is outdated"
-msgstr ""
+msgstr "Le logiciel est trop vieux pour se connecter."
 
 #: plugins/icq/icqlogin.cpp:189
 msgid "Too many clients from same IP"
@@ -3940,7 +3930,7 @@ msgstr "Trop jeune !"
 
 #: plugins/icq/icqlogin.cpp:234
 msgid "UIN was suspended"
-msgstr ""
+msgstr "L'identifiant (UIN) a été supprimé."
 
 #: plugins/icq/icqlogin.cpp:238
 msgid "Can't login to ICQ network - Please try again later"
@@ -3953,7 +3943,7 @@ msgstr "Votre identifiant est utilisé depuis un autre endroit."
 
 #: plugins/icq/icqlogin.cpp:279
 msgid "Close packet from server"
-msgstr ""
+msgstr "Fermeture des paquets venant du serveur"
 
 #: plugins/icq/icqlogin.cpp:286
 msgid "Bad host address"
@@ -4947,7 +4937,7 @@ msgstr "Développement web"
 # ui/enable.cpp:123
 #: plugins/icq/icqconfigbase.cc:264
 msgid "&Register new UIN"
-msgstr "Insc&ription (nouvel identifiant UIN)"
+msgstr "Créer un nouvel identifiant (UIN)"
 
 # ui/logindlgbase.cpp:55
 # ui/searchbase.cpp:216
@@ -5421,7 +5411,7 @@ msgstr "Identifiant (&UIN) :"
 # ui/searchbase.cpp:185
 #: plugins/icq/icqsearchbase.cc:127
 msgid "&Screenname"
-msgstr "Pseudo"
+msgstr "P&seudo"
 
 # ui/maininfobase.cpp:194
 # ui/searchbase.cpp:185
@@ -5521,7 +5511,7 @@ msgstr ""
 #: plugins/icq/aimconfigbase.cc:144
 #: plugins/icq/aiminfobase.cc:266
 msgid "ScreenName:"
-msgstr "Pseudo"
+msgstr "Pseudo : "
 
 # sim.cpp:519
 #: plugins/icq/aimconfigbase.cc:146
@@ -5938,7 +5928,7 @@ msgstr "Remplissez le champ pour rechercher un contact Jabber."
 
 #: plugins/jabber/jabbersearch.cpp:320
 msgid "To register, please fill out the following form.  Be as accurate as possible to make it easier for people to search for you."
-msgstr "Pour vous inscrire, vous devez remplir ce formulaire. Veilliez à être aussi exact que possible afin que les personnes à votre recherche puissent vous retrouver plus facilement."
+msgstr "Pour vous inscrire, vous devez remplir ce formulaire. Veillez à être aussi exact que possible afin que les personnes à votre recherche puissent vous retrouver plus facilement."
 
 # userbox.cpp:108
 #: plugins/jabber/jidsearch.cpp:175
@@ -5992,7 +5982,7 @@ msgstr "Nom : "
 # ui/enable.cpp:123
 #: plugins/jabber/jabberconfigbase.cpp:296
 msgid "&Register new account"
-msgstr "Insc&ription (nouvel identifiant UIN)"
+msgstr "C&réer un nouveau compte"
 
 # control.cpp:221
 #: plugins/jabber/jabberconfigbase.cpp:299
@@ -6017,9 +6007,8 @@ msgstr "URL :"
 # ui/filetransfer.cpp:263
 #: plugins/jabber/jabberconfigbase.cpp:311
 #: plugins/jabber/jabberinfobase.cpp:249
-#, fuzzy
 msgid "Resource:"
-msgstr "R&estaurer"
+msgstr "Ressource : "
 
 # ui/networkbase.cpp:87
 # ui/proxydlgbase.cpp:148
@@ -6033,14 +6022,13 @@ msgstr "Spécifier manuellement les hôtes Jabber"
 
 #: plugins/jabber/jabberconfigbase.cpp:314
 msgid "Use protocol &icons for agents contacts"
-msgstr ""
+msgstr "Utiliser les icones correspondant au protocole utilisé par chaque contact"
 
 # client.cpp:1113
 # mainwin.cpp:2698
 #: plugins/jabber/jabberconfigbase.cpp:315
-#, fuzzy
 msgid "Automatically send &subscribe request"
-msgstr "Invisible"
+msgstr "Envoyer automatiquement une requête d'in&scription"
 
 #: plugins/jabber/jabberconfigbase.cpp:316
 msgid "Automatically &accept subscribe requests"
@@ -6048,9 +6036,8 @@ msgstr "&Accepter automatiquement les requêtes d'inscription"
 
 # control.cpp:220
 #: plugins/jabber/jabberconfigbase.cpp:317
-#, fuzzy
 msgid "Send &rich text messages if possible"
-msgstr "Envoyer &message"
+msgstr "Envoyer des messages en texte en&richi si possible"
 
 # ui/alertdialogbase.cpp:130
 #: plugins/jabber/jabberconfigbase.cpp:318
@@ -6112,63 +6099,57 @@ msgstr "Système"
 
 # sim.cpp:521
 #: plugins/jabber/discoinfobase.cpp:275
-#, fuzzy
 msgid "UTC client time:"
-msgstr "Client ICQ"
+msgstr "Heure universelle du correspondant (UTC) : "
 
 #: plugins/jabber/discoinfobase.cpp:276
 msgid "Last activity, idle response:"
-msgstr ""
+msgstr "Dernière activité : "
 
 # ui/maininfobase.cpp:312
 # ui/statussetupbase.cpp:96
 #: plugins/jabber/discoinfobase.cpp:279
-#, fuzzy
 msgid "&Statistic"
-msgstr "Etat"
+msgstr "&Statistiques"
 
 #: plugins/livejournal/livejournal.cpp:102
 msgid "LiveJournal post"
-msgstr ""
+msgstr "Message LiveJournal"
 
 # cuser.cpp:208
 # ui/maininfo.cpp:136
 #: plugins/livejournal/livejournal.cpp:103
 #: plugins/livejournal/livejournal.cpp:232
-#, fuzzy
 msgid "Friends updated"
-msgstr "Affichage Liste"
+msgstr "Liste de contacts mise à jour"
 
 # mainwin.cpp:617
 # mainwin.cpp:2717
 #: plugins/livejournal/livejournal.cpp:120
-#, fuzzy
 msgid "&Remove from journal"
-msgstr "Ajouter Contact non-IM"
+msgstr "Supp&rimer du journal"
 
 #: plugins/livejournal/livejournal.cpp:212
 msgid "LiveJournal &post"
-msgstr ""
+msgstr "Message LiveJournal"
 
 #: plugins/livejournal/livejournal.cpp:222
 msgid "LiveJournal &WWW"
-msgstr ""
+msgstr "Site &web LiveJournal"
 
 #: plugins/livejournal/livejournal.cpp:276
 msgid "LiveJournal"
-msgstr ""
+msgstr "LiveJournal"
 
 # msgedit.cpp:586
 #: plugins/livejournal/livejournal.cpp:602
-#, fuzzy
 msgid "Posting failed"
-msgstr "Echec de l'envoi"
+msgstr "Echec de l'envoi du message"
 
 # control.cpp:220
 #: plugins/livejournal/livejournal.cpp:1352
-#, fuzzy
 msgid "Invalid username"
-msgstr "Ouvrir message lu"
+msgstr "Nom d'utilisateur incorrect"
 
 #: plugins/livejournal/livejournal.cpp:1354
 msgid "aggravated"
@@ -6768,18 +6749,17 @@ msgstr "nerveux"
 
 #: plugins/livejournal/livejournal.cpp:1486
 msgid "Recent Entries"
-msgstr ""
+msgstr "Entrées récentes"
 
 #: plugins/livejournal/livejournal.cpp:1487
 msgid "Calendar View"
-msgstr ""
+msgstr "Affichage du calendrier"
 
 # cuser.cpp:208
 # ui/maininfo.cpp:136
 #: plugins/livejournal/livejournal.cpp:1488
-#, fuzzy
 msgid "Friends View"
-msgstr "Affichage Liste"
+msgstr "Affichage des amis"
 
 # ui/pagerbase.cpp:76
 #: plugins/livejournal/livejournal.cpp:1489
@@ -6792,9 +6772,8 @@ msgstr "Liste des tâches à faire"
 
 # userbox.cpp:115
 #: plugins/livejournal/livejournal.cpp:1491
-#, fuzzy
 msgid "Change Settings"
-msgstr "&Encodage"
+msgstr "Changer les réglages"
 
 # libicq/country.cpp:351
 # libicq/country.cpp:436
@@ -6816,7 +6795,7 @@ msgstr "Envoi"
 # ui/enable.cpp:123
 #: plugins/livejournal/livejournalcfg.cpp:36
 msgid "Register new user"
-msgstr "Inscription (nouvel identifiant UIN)"
+msgstr "Créer un nouveau compte"
 
 # mainwin.cpp:617
 # mainwin.cpp:2717
@@ -6837,9 +6816,8 @@ msgstr "Chemin : "
 # client.cpp:1113
 # mainwin.cpp:2698
 #: plugins/livejournal/livejournalcfgbase.cpp:156
-#, fuzzy
 msgid "Check interval:"
-msgstr "Invisible"
+msgstr "Vérification toutes les "
 
 #: plugins/livejournal/livejournalcfgbase.cpp:158
 msgid "Use &fast server - only for paying customers"
@@ -7000,7 +6978,7 @@ msgstr "Tranfert annulé."
 
 #: plugins/msn/msnconfig.cpp:44
 msgid "Register in .NET Passport"
-msgstr "S'inscrire au .NET Passeport"
+msgstr "S'inscrire au Passeport .NET"
 
 #: plugins/msn/msnconfig.cpp:45
 msgid "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
@@ -7020,7 +6998,7 @@ msgstr "Vous avez de nouveaux mails."
 #: plugins/yahoo/yahoocfgbase.cpp:175
 #: plugins/yahoo/yahooinfobase.cpp:154
 msgid "Login:"
-msgstr "Connexion"
+msgstr "Login : "
 
 # ui/setupdlg.cpp:131
 #: plugins/msn/msnconfigbase.cpp:171
@@ -7446,7 +7424,7 @@ msgstr "Souris"
 #: plugins/shortcuts/shortcutcfgbase.cpp:82
 #: plugins/shortcuts/shortcutcfgbase.cpp:85
 msgid "Global"
-msgstr ""
+msgstr "Global"
 
 # ui/setupdlg.cpp:127
 #: plugins/shortcuts/shortcuts.cpp:50
@@ -7515,7 +7493,7 @@ msgstr "&Warnings"
 
 #: plugins/sms/smssetup.cpp:58
 msgid "Battery:"
-msgstr ""
+msgstr "Batteries : "
 
 # mainwin.cpp:619
 # mainwin.cpp:2722
@@ -7572,7 +7550,7 @@ msgstr "300"
 
 #: plugins/sms/smssetupbase.cpp:152
 msgid "Software handshake"
-msgstr ""
+msgstr "Contrôle de flux par voie logicielle (software handshake)"
 
 # libicq/country.cpp:459
 #: plugins/sms/smssetupbase.cpp:154
@@ -7772,9 +7750,8 @@ msgstr "Ce plugin permet d'être prévenu quand une nouvelle version du logiciel
 
 # ui/setupdlg.cpp:108
 #: plugins/update/update.cpp:127
-#, fuzzy
 msgid "Show details"
-msgstr "Mes infos"
+msgstr "Montrer les détails"
 
 #: plugins/update/update.cpp:128
 msgid "Remind later"
@@ -8160,9 +8137,8 @@ msgstr "Votre compte a été bloqué."
 
 # ui/themesetup.cpp:137
 #: plugins/yahoo/yahooclient.cpp:1408
-#, fuzzy
 msgid "Not at home"
-msgstr "Contact - Scale"
+msgstr "Pas à la maison"
 
 #: plugins/yahoo/yahooclient.cpp:1411
 msgid "Not at my desk"
