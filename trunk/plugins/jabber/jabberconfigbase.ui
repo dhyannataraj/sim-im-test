@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>335</width>
+            <width>331</width>
             <height>300</height>
         </rect>
     </property>
@@ -652,17 +652,6 @@
                             <cstring>edtVHost</cstring>
                         </property>
                     </widget>
-                    <widget row="4"  column="0"  rowspan="1"  colspan="3" >
-                        <class>QCheckBox</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>chkTyping</cstring>
-                        </property>
-                        <property>
-                            <name>text</name>
-                            <string>Enable &amp;typing notification</string>
-                        </property>
-                    </widget>
                     <widget row="6"  column="0"  rowspan="1"  colspan="3" >
                         <class>QCheckBox</class>
                         <property stdset="1">
@@ -672,17 +661,6 @@
                         <property>
                             <name>text</name>
                             <string>Use protocol &amp;icons for agents contacts</string>
-                        </property>
-                    </widget>
-                    <widget row="5"  column="0"  rowspan="1"  colspan="3" >
-                        <class>QCheckBox</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>chkRichText</cstring>
-                        </property>
-                        <property>
-                            <name>text</name>
-                            <string>Send &amp;rich text messages if possible</string>
                         </property>
                     </widget>
                     <spacer row="9"  column="0" >
@@ -727,6 +705,118 @@
                             <name>text</name>
                             <string>Automaticaly &amp;accept subscribe requests</string>
                         </property>
+                    </widget>
+                    <widget row="5"  column="0"  rowspan="1"  colspan="3" >
+                        <class>QLayoutWidget</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>Layout3</cstring>
+                        </property>
+                        <hbox>
+                            <property>
+                                <name>margin</name>
+                                <number>0</number>
+                            </property>
+                            <property>
+                                <name>spacing</name>
+                                <number>6</number>
+                            </property>
+                            <widget>
+                                <class>QCheckBox</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>chkRichText</cstring>
+                                </property>
+                                <property>
+                                    <name>text</name>
+                                    <string>Send &amp;rich text messages if possible</string>
+                                </property>
+                            </widget>
+                            <widget>
+                                <class>LinkLabel</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>lnkRich</cstring>
+                                </property>
+                            </widget>
+                            <spacer>
+                                <property>
+                                    <name>name</name>
+                                    <cstring>Spacer7</cstring>
+                                </property>
+                                <property>
+                                    <name>orientation</name>
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property>
+                                    <name>sizeType</name>
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property>
+                                    <name>sizeHint</name>
+                                    <size>
+                                        <width>20</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                        </hbox>
+                    </widget>
+                    <widget row="4"  column="0"  rowspan="1"  colspan="3" >
+                        <class>QLayoutWidget</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>Layout4</cstring>
+                        </property>
+                        <hbox>
+                            <property>
+                                <name>margin</name>
+                                <number>0</number>
+                            </property>
+                            <property>
+                                <name>spacing</name>
+                                <number>6</number>
+                            </property>
+                            <widget>
+                                <class>QCheckBox</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>chkTyping</cstring>
+                                </property>
+                                <property>
+                                    <name>text</name>
+                                    <string>Enable &amp;typing notification</string>
+                                </property>
+                            </widget>
+                            <widget>
+                                <class>LinkLabel</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>lnkTyping</cstring>
+                                </property>
+                            </widget>
+                            <spacer>
+                                <property>
+                                    <name>name</name>
+                                    <cstring>Spacer8_3</cstring>
+                                </property>
+                                <property>
+                                    <name>orientation</name>
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property>
+                                    <name>sizeType</name>
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property>
+                                    <name>sizeHint</name>
+                                    <size>
+                                        <width>20</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                        </hbox>
                     </widget>
                 </grid>
             </widget>

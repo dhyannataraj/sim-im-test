@@ -161,6 +161,16 @@ void *JIDSearch::processEvent(Event *e)
     return NULL;
 }
 
+void JIDSearch::createContact(const QString &name, unsigned tmpFlags, Contact *&contact)
+{
+    string resource;
+    if (m_client->findContact(name.utf8(), NULL, false, contact, resource))
+        return;
+    if (m_client->findContact(name.utf8(), NULL, true, contact, resource, false) == NULL)
+        return;
+    contact->setFlags(contact->getFlags() | tmpFlags);
+}
+
 #if 0
 i18n("User")
 i18n("Full Name")

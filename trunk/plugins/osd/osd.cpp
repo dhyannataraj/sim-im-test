@@ -663,6 +663,9 @@ void *OSDPlugin::processEvent(Event *e)
             case STATUS_OFFLINE:
                 osd.type = OSD_ALERTOFFLINE;
                 break;
+            case STATUS_ONLINE:
+                osd.type = OSD_NONE;
+                return NULL;
             default:
                 log(L_DEBUG,"OSD: Unknown status %d",smsg->getStatus());
                 osd.type = OSD_NONE;

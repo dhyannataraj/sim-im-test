@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2004-04-26 03:39+0400\n"
+"POT-Creation-Date: 2004-04-26 11:31+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1156,7 +1156,7 @@ msgstr ""
 #: plugins/_core/cfgdlgbase.cpp:96 plugins/_core/connectionsettingsbase.cpp:76
 #: plugins/_core/declinedlgbase.cpp:83 plugins/_core/editmailbase.cpp:98
 #: plugins/_core/editphonebase.cpp:113 plugins/_core/filetransferbase.cpp:138
-#: plugins/_core/logindlgbase.cpp:133 plugins/_core/search.cpp:130
+#: plugins/_core/logindlgbase.cpp:133 plugins/_core/search.cpp:131
 #: plugins/action/additembase.cpp:96 plugins/gpg/gpggenbase.cpp:141
 #: plugins/gpg/passphrasebase.cpp:86 plugins/icq/encodingdlgbase.cc:87
 #: plugins/icq/icqclient.cpp:2399 plugins/icq/securedlgbase.cc:78
@@ -2201,7 +2201,7 @@ msgid "Login:"
 msgstr ""
 
 #: plugins/_core/logindlg.cpp:295 plugins/icq/aimconfigbase.cc:145
-#: plugins/icq/icqconfigbase.cc:263 plugins/jabber/jabberconfigbase.cpp:278
+#: plugins/icq/icqconfigbase.cc:263 plugins/jabber/jabberconfigbase.cpp:294
 #: plugins/livejournal/livejournalcfgbase.cpp:150
 #: plugins/msn/msnconfigbase.cpp:170 plugins/proxy/proxycfgbase.cpp:135
 #: plugins/yahoo/yahoocfgbase.cpp:176
@@ -2213,16 +2213,16 @@ msgid "&MSN"
 msgstr ""
 
 #: plugins/icq/aimconfigbase.cc:148 plugins/icq/icqconfigbase.cc:269
-#: plugins/jabber/jabberconfigbase.cpp:281
-#: plugins/jabber/jabberconfigbase.cpp:285
+#: plugins/jabber/jabberconfigbase.cpp:297
+#: plugins/jabber/jabberconfigbase.cpp:301
 #: plugins/livejournal/livejournalcfgbase.cpp:152
 #: plugins/msn/msnconfigbase.cpp:172 plugins/yahoo/yahoocfgbase.cpp:178
 msgid "Server:"
 msgstr ""
 
 #: plugins/icq/aimconfigbase.cc:147 plugins/icq/icqconfigbase.cc:270
-#: plugins/jabber/jabberconfigbase.cpp:282
-#: plugins/jabber/jabberconfigbase.cpp:286
+#: plugins/jabber/jabberconfigbase.cpp:298
+#: plugins/jabber/jabberconfigbase.cpp:302
 #: plugins/livejournal/livejournalcfgbase.cpp:154
 #: plugins/msn/msnconfigbase.cpp:173 plugins/proxy/proxycfgbase.cpp:132
 #: plugins/remote/remotecfgbase.cpp:106 plugins/sms/smssetupbase.cpp:140
@@ -2230,20 +2230,20 @@ msgstr ""
 msgid "Port:"
 msgstr ""
 
-#: plugins/icq/icqconfigbase.cc:271 plugins/jabber/jabberconfigbase.cpp:288
+#: plugins/icq/icqconfigbase.cc:271 plugins/jabber/jabberconfigbase.cpp:304
 #: plugins/msn/msnconfigbase.cpp:174 plugins/yahoo/yahoocfgbase.cpp:184
 msgid "Port range for direct connections:"
 msgstr ""
 
 #: plugins/_core/phonebase.cpp:116 plugins/_core/phonebase.cpp:118
 #: plugins/_core/phonebase.cpp:120 plugins/icq/icqconfigbase.cc:272
-#: plugins/jabber/jabberconfigbase.cpp:287 plugins/msn/msnconfigbase.cpp:175
+#: plugins/jabber/jabberconfigbase.cpp:303 plugins/msn/msnconfigbase.cpp:175
 #: plugins/yahoo/yahoocfgbase.cpp:183
 msgid "-"
 msgstr ""
 
 #: plugins/icq/aimconfigbase.cc:149 plugins/icq/icqconfigbase.cc:268
-#: plugins/jabber/jabberconfigbase.cpp:291 plugins/msn/msnconfigbase.cpp:176
+#: plugins/jabber/jabberconfigbase.cpp:307 plugins/msn/msnconfigbase.cpp:176
 #: plugins/yahoo/yahoocfgbase.cpp:182
 msgid "Use &HTTP polling"
 msgstr ""
@@ -2253,7 +2253,7 @@ msgid "&Automatically use HTTP pooling if proxy required"
 msgstr ""
 
 #: plugins/icq/aimconfigbase.cc:151 plugins/icq/icqconfigbase.cc:273
-#: plugins/jabber/jabberconfigbase.cpp:292 plugins/msn/msnconfigbase.cpp:178
+#: plugins/jabber/jabberconfigbase.cpp:308 plugins/msn/msnconfigbase.cpp:178
 #: plugins/yahoo/yahoocfgbase.cpp:180
 msgid "Note: For HTTP-pooling using proxy setings for HTTP"
 msgstr ""
@@ -2263,7 +2263,7 @@ msgid "&Automaticaly add contacts in accept list"
 msgstr ""
 
 #: plugins/icq/aimconfigbase.cc:153 plugins/icq/icqconfigbase.cc:275
-#: plugins/jabber/jabberconfigbase.cpp:294
+#: plugins/jabber/jabberconfigbase.cpp:310
 #: plugins/livejournal/livejournalcfgbase.cpp:155
 #: plugins/msn/msnconfigbase.cpp:180 plugins/yahoo/yahoocfgbase.cpp:185
 msgid "&Network"
@@ -2287,7 +2287,7 @@ msgstr ""
 #: plugins/icq/icqconfigbase.cc:262 plugins/icq/icqpicturebase.cc:74
 #: plugins/icq/icqsearchbase.cc:125 plugins/icq/icqsecurebase.cc:106
 #: plugins/icq/pastinfobase.cc:138 plugins/jabber/addresultbase.cpp:57
-#: plugins/jabber/infoproxybase.cpp:55 plugins/jabber/jabberconfigbase.cpp:277
+#: plugins/jabber/infoproxybase.cpp:55 plugins/jabber/jabberconfigbase.cpp:293
 #: plugins/jabber/jabberinfobase.cpp:238
 #: plugins/jabber/jabberpicturebase.cpp:74
 #: plugins/jabber/jabberworkinfobase.cpp:88
@@ -3187,50 +3187,50 @@ msgstr ""
 msgid "Save phone in contact list"
 msgstr ""
 
-#: plugins/_core/search.cpp:47 plugins/_core/search.cpp:292
-#: plugins/_core/search.cpp:627 plugins/_core/searchbase.cpp:95
+#: plugins/_core/search.cpp:47 plugins/_core/search.cpp:293
+#: plugins/_core/search.cpp:628 plugins/_core/searchbase.cpp:95
 msgid "Search"
 msgstr ""
 
-#: plugins/_core/search.cpp:69 plugins/_core/search.cpp:810
+#: plugins/_core/search.cpp:69 plugins/_core/search.cpp:812
 msgid "Results"
 msgstr ""
 
 #: plugins/_core/maininfobase.cpp:193 plugins/_core/maininfobase.cpp:203
-#: plugins/_core/search.cpp:133 plugins/action/menucfgbase.cpp:68
+#: plugins/_core/search.cpp:134 plugins/action/menucfgbase.cpp:68
 msgid "&Add"
 msgstr ""
 
-#: plugins/_core/search.cpp:136 plugins/jabber/jabber.cpp:305
+#: plugins/_core/search.cpp:137 plugins/jabber/jabber.cpp:305
 #: plugins/weather/weathercfg.cpp:74 plugins/weather/weathercfg.cpp:96
 #: plugins/weather/weathercfgbase.cpp:111
 msgid "&Search"
 msgstr ""
 
-#: plugins/_core/search.cpp:193
+#: plugins/_core/search.cpp:194
 msgid "All networks"
 msgstr ""
 
-#: plugins/_core/nonimbase.cpp:94 plugins/_core/search.cpp:214
+#: plugins/_core/nonimbase.cpp:94 plugins/_core/search.cpp:215
 msgid "Non-IM contact"
 msgstr ""
 
-#: plugins/_core/search.cpp:289
+#: plugins/_core/search.cpp:290
 msgid "Add"
 msgstr ""
 
-#: plugins/_core/search.cpp:328
+#: plugins/_core/search.cpp:329
 msgid "%1 already in contact list"
 msgstr ""
 
-#: plugins/_core/search.cpp:429 plugins/_core/usercfg.cpp:288
+#: plugins/_core/search.cpp:430 plugins/_core/usercfg.cpp:288
 #: plugins/_core/userlist.cpp:1040 plugins/_core/userview.cpp:177
 #: plugins/_core/userview.cpp:687 plugins/_core/userview.cpp:725
 #: plugins/remote/remote.cpp:569
 msgid "Not in list"
 msgstr ""
 
-#: plugins/_core/search.cpp:630
+#: plugins/_core/search.cpp:631
 #, c-format
 msgid ""
 "_n: %n contact found\n"
@@ -5123,20 +5123,21 @@ msgid "Country"
 msgstr ""
 
 #: plugins/icq/icqsearch.cpp:299 plugins/jabber/jabbersearch.cpp:217
+#: plugins/yahoo/yahoosearch.cpp:130
 msgid "Gender"
 msgstr ""
 
-#: plugins/icq/icqsearch.cpp:301
+#: plugins/icq/icqsearch.cpp:301 plugins/yahoo/yahoosearch.cpp:132
 msgid "Age"
 msgstr ""
 
 #: plugins/icq/icqsearch.cpp:391 plugins/icq/moreinfo.cpp:79
-#: plugins/jabber/jabbersearch.cpp:216 plugins/yahoo/yahoosearch.cpp:38
+#: plugins/jabber/jabbersearch.cpp:216 plugins/yahoo/yahoosearch.cpp:39
 msgid "Female"
 msgstr ""
 
 #: plugins/icq/icqsearch.cpp:394 plugins/icq/moreinfo.cpp:80
-#: plugins/jabber/jabbersearch.cpp:215 plugins/yahoo/yahoosearch.cpp:39
+#: plugins/jabber/jabbersearch.cpp:215 plugins/yahoo/yahoosearch.cpp:38
 msgid "Male"
 msgstr ""
 
@@ -6072,6 +6073,7 @@ msgid "Names"
 msgstr ""
 
 #: plugins/icq/aimsearchbase.cc:168 plugins/weather/wifacecfg.cpp:51
+#: plugins/yahoo/yahoosearch.cpp:134
 msgid "Location"
 msgstr ""
 
@@ -6225,7 +6227,7 @@ msgstr ""
 msgid "minutes"
 msgstr ""
 
-#: plugins/icq/icqconfigbase.cc:292 plugins/jabber/jabberconfigbase.cpp:303
+#: plugins/icq/icqconfigbase.cc:292 plugins/jabber/jabberconfigbase.cpp:319
 #: plugins/livejournal/livejournalcfgbase.cpp:159
 msgid "&Options"
 msgstr ""
@@ -6463,7 +6465,7 @@ msgstr ""
 msgid "Enable &status notification"
 msgstr ""
 
-#: plugins/jabber/jabberconfigbase.cpp:298 plugins/osd/osdconfigbase.cpp:118
+#: plugins/jabber/jabberconfigbase.cpp:318 plugins/osd/osdconfigbase.cpp:118
 msgid "Enable &typing notification"
 msgstr ""
 
@@ -6912,59 +6914,59 @@ msgid ""
 "%n days"
 msgstr ""
 
-#: plugins/jabber/jabberconfigbase.cpp:279
+#: plugins/jabber/jabberconfigbase.cpp:295
 #: plugins/livejournal/livejournalcfgbase.cpp:149
 msgid "Username:"
 msgstr ""
 
-#: plugins/jabber/jabberconfigbase.cpp:280
+#: plugins/jabber/jabberconfigbase.cpp:296
 msgid "&Register new account"
 msgstr ""
 
-#: plugins/jabber/jabberconfigbase.cpp:283
-#: plugins/jabber/jabberconfigbase.cpp:290
+#: plugins/jabber/jabberconfigbase.cpp:299
+#: plugins/jabber/jabberconfigbase.cpp:306
 msgid "Use &SSL"
 msgstr ""
 
-#: plugins/jabber/jabberconfigbase.cpp:284
+#: plugins/jabber/jabberconfigbase.cpp:300
 msgid "&Jabber"
 msgstr ""
 
-#: plugins/jabber/jabberconfigbase.cpp:289
+#: plugins/jabber/jabberconfigbase.cpp:305
 msgid "Use &plain text login"
 msgstr ""
 
-#: plugins/jabber/jabberconfigbase.cpp:293
+#: plugins/jabber/jabberconfigbase.cpp:309
 msgid "URL:"
 msgstr ""
 
-#: plugins/jabber/jabberconfigbase.cpp:295
+#: plugins/jabber/jabberconfigbase.cpp:311
 #: plugins/jabber/jabberinfobase.cpp:249
 msgid "Resource:"
 msgstr ""
 
-#: plugins/jabber/jabberconfigbase.cpp:296
+#: plugins/jabber/jabberconfigbase.cpp:312
 msgid "Priority:"
 msgstr ""
 
-#: plugins/jabber/jabberconfigbase.cpp:297
+#: plugins/jabber/jabberconfigbase.cpp:313
 msgid "Manualy specify Jabber host:"
 msgstr ""
 
-#: plugins/jabber/jabberconfigbase.cpp:299
+#: plugins/jabber/jabberconfigbase.cpp:314
 msgid "Use protocol &icons for agents contacts"
 msgstr ""
 
-#: plugins/jabber/jabberconfigbase.cpp:300
-msgid "Send &rich text messages if possible"
-msgstr ""
-
-#: plugins/jabber/jabberconfigbase.cpp:301
+#: plugins/jabber/jabberconfigbase.cpp:315
 msgid "Automaticaly send &subscribe request"
 msgstr ""
 
-#: plugins/jabber/jabberconfigbase.cpp:302
+#: plugins/jabber/jabberconfigbase.cpp:316
 msgid "Automaticaly &accept subscribe requests"
+msgstr ""
+
+#: plugins/jabber/jabberconfigbase.cpp:317
+msgid "Send &rich text messages if possible"
 msgstr ""
 
 #: plugins/jabber/jabberworkinfobase.cpp:91
@@ -7238,35 +7240,35 @@ msgid ""
 "to make it easier for people to search for you."
 msgstr ""
 
-#: plugins/jabber/jidsearch.cpp:165
+#: plugins/jabber/jidsearch.cpp:175
 msgid "User"
 msgstr ""
 
-#: plugins/jabber/jidsearch.cpp:166
+#: plugins/jabber/jidsearch.cpp:176
 msgid "Full Name"
 msgstr ""
 
-#: plugins/jabber/jidsearch.cpp:167
+#: plugins/jabber/jidsearch.cpp:177
 msgid "Middle Name"
 msgstr ""
 
-#: plugins/jabber/jidsearch.cpp:168
+#: plugins/jabber/jidsearch.cpp:178
 msgid "Family Name"
 msgstr ""
 
-#: plugins/jabber/jidsearch.cpp:169
+#: plugins/jabber/jidsearch.cpp:179
 msgid "email"
 msgstr ""
 
-#: plugins/jabber/jidsearch.cpp:170
+#: plugins/jabber/jidsearch.cpp:180
 msgid "Birthday"
 msgstr ""
 
-#: plugins/jabber/jidsearch.cpp:171
+#: plugins/jabber/jidsearch.cpp:181
 msgid "Organization Name"
 msgstr ""
 
-#: plugins/jabber/jidsearch.cpp:172
+#: plugins/jabber/jidsearch.cpp:182
 msgid "Organization Unit"
 msgstr ""
 
@@ -8113,6 +8115,18 @@ msgstr ""
 #: plugins/weather/wifacecfg.cpp:59 plugins/weather/wifacecfg.cpp:74
 #: plugins/yahoo/yahoosearchbase.cpp:101
 msgid "Conditions"
+msgstr ""
+
+#: plugins/yahoo/yahoosearch.cpp:44
+msgid "male"
+msgstr ""
+
+#: plugins/yahoo/yahoosearch.cpp:45
+msgid "female"
+msgstr ""
+
+#: plugins/yahoo/yahoosearch.cpp:128
+msgid "Yahoo! ID"
 msgstr ""
 
 #: plugins/replace/replace.cpp:33
