@@ -16,11 +16,7 @@
  ***************************************************************************/
 
 #include "navigate.h"
-#include "simapi.h"
-
-#ifndef WIN32
 #include "navcfg.h"
-#endif
 
 #ifdef WIN32
 #include <windows.h>
@@ -142,6 +138,8 @@ DDEconversation::~DDEconversation()
 
 HDDEDATA DDEconversation::Execute(const char *cmd)
 {
+    if (hConv == NULL)
+        return NULL;
     DDEstring c(cmd);
     DWORD res = NULL;
     HDDEDATA hData = DdeClientTransaction(NULL, 0, hConv, c, CF_TEXT, XTYP_REQUEST, 30000, &res);
@@ -150,27 +148,23 @@ HDDEDATA DDEconversation::Execute(const char *cmd)
     return hData;
 }
 
+class RegEntry
+{
+public:
+    RegEntry(HKEY hRootKey, const char *path);
+    ~RegEntry();
+    operator HKEY() { return hKey; }
+    string value(const char *key);
+protected:
+    HKEY hKey;
+};
+
 string getCurrentUrl()
 {
-    DWORD keyLen = 0;
-    HKEY hKeyOpen;
-    if (RegOpenKeyExA(HKEY_CLASSES_ROOT,
-                      "HTTP\\Shell\\open\\ddeexec\\application",
-                      0, KEY_READ | KEY_QUERY_VALUE, &hKeyOpen) != ERROR_SUCCESS)
+    RegEntry r(HKEY_CLASSES_ROOT, "HTTP\\Shell\\open\\ddeexec\\application");
+    string topic = r.value("");
+    if (topic.empty())
         return "";
-    if (RegQueryValueExA(hKeyOpen, "", 0, 0, 0, &keyLen) != ERROR_SUCCESS){
-        RegCloseKey(hKeyOpen);
-        return "";
-    }
-    string topic;
-    topic.append(keyLen, 0);
-
-    DWORD type;
-    if (RegQueryValueExA(hKeyOpen, "", 0, &type, (unsigned char*)(topic.c_str()), &keyLen) != ERROR_SUCCESS){
-        RegCloseKey(hKeyOpen);
-        return "";
-    }
-    RegCloseKey(hKeyOpen);
 
     DDEbase b;
     DDEconversation conv(topic.c_str(), "WWW_GetWindowInfo");
@@ -183,6 +177,33 @@ string getCurrentUrl()
     if (end)
         *end = 0;
     return url;
+}
+
+RegEntry::RegEntry(HKEY hRootKey, const char *path)
+{
+    if (RegOpenKeyA(hRootKey, path, &hKey) != ERROR_SUCCESS)
+        hKey = NULL;
+}
+
+RegEntry::~RegEntry()
+{
+    if (hKey)
+        RegCloseKey(hKey);
+}
+
+string RegEntry::value(const char *key)
+{
+    if (hKey == NULL)
+        return "";
+    long size = 0;
+    if (RegQueryValueA(hKey, key, NULL, &size) != ERROR_SUCCESS)
+        return "";
+    string res;
+    res.append(size + 1, '\x00');
+    if (RegQueryValueA(hKey, key, (char*)res.c_str(), &size) != ERROR_SUCCESS)
+        return "";
+    res[size] = 0;
+    return res;
 }
 
 #endif
@@ -207,8 +228,6 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-#ifndef WIN32
-
 /*
 typedef struct NavigateData
 {
@@ -218,28 +237,25 @@ typedef struct NavigateData
 */
 static DataDef navigateData[] =
     {
+#ifdef WIN32
+        { "NewWindow", DATA_BOOL, 1, 0 },
+#else
 #ifdef USE_KDE
         { "Browser", DATA_STRING, 1, "konqueror" },
         { "Mailer", DATA_STRING, 1, "kmail" },
 #else
-{ "Browser", DATA_STRING, 1, "netscape" },
+        { "Browser", DATA_STRING, 1, "netscape" },
         { "Mailer", DATA_STRING, 1, "netscape mailto:%s" },
+#endif
 #endif
         { NULL, 0, 0, 0 }
     };
 
-#endif
 
-#ifdef WIN32
-NavigatePlugin::NavigatePlugin(unsigned base, const char*)
-#else
 NavigatePlugin::NavigatePlugin(unsigned base, const char *config)
-#endif
         : Plugin(base)
 {
-#ifndef WIN32
     load_data(navigateData, &data, config);
-#endif
     CmdMail = registerType();
     CmdMailList = registerType();
     MenuMail = registerType();
@@ -273,9 +289,7 @@ NavigatePlugin::~NavigatePlugin()
     eCmd.process();
     Event eMenuRemove(EventMenuRemove, (void*)MenuMail);
     eMenuRemove.process();
-#ifndef WIN32
     free_data(navigateData, &data);
-#endif
 }
 
 void *NavigatePlugin::processEvent(Event *e)
@@ -306,7 +320,42 @@ void *NavigatePlugin::processEvent(Event *e)
                 return NULL;
         }
 #ifdef WIN32
-        ShellExecuteA(NULL, NULL, url.c_str(), NULL, NULL, SW_SHOWNORMAL);
+        bool bExec = false;
+        if (getNewWindow()){
+            string key_name = proto;
+            key_name += "\\Shell\\Open";
+            RegEntry rp(HKEY_CLASSES_ROOT, key_name.c_str());
+            string prg    = rp.value("command");
+            string action = rp.value("ddeexec");
+            string topic  = rp.value("ddeexec\\Topic");
+            string server = rp.value("ddeexec\\Application");
+            if (!action.empty()){
+                int pos = action.find("%1");
+                if (pos >= 0)
+                    action = action.substr(0, pos) + url + action.substr(pos + 2);
+                pos = prg.find("%1");
+                if (pos >= 0)
+                    prg = prg.substr(0, pos) + url + prg.substr(pos + 2);
+                if (!prg.empty()){
+                    STARTUPINFOA si;
+                    PROCESS_INFORMATION pi;
+                    ZeroMemory(&si, sizeof(si));
+                    si.cb = sizeof(si);
+                    ZeroMemory(&pi, sizeof(pi));
+                    if (CreateProcessA(NULL, (char*)prg.c_str(), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)){
+                        WaitForInputIdle(pi.hProcess, INFINITE);
+                        CloseHandle(pi.hProcess);
+                        CloseHandle(pi.hThread);
+                    }
+                }
+                DDEbase b;
+                DDEconversation conv(server.c_str(), topic.c_str());
+                if (conv.Execute(action.c_str()))
+                    bExec = true;
+            }
+        }
+        if (!bExec)
+            ShellExecuteA(NULL, NULL, url.c_str(), NULL, NULL, SW_SHOWNORMAL);
 #else
         ExecParam execParam;
         if (proto == "mailto"){
@@ -415,8 +464,6 @@ void *NavigatePlugin::processEvent(Event *e)
     return NULL;
 }
 
-#ifndef WIN32
-
 string NavigatePlugin::getConfig()
 {
     return save_data(navigateData, &data);
@@ -426,8 +473,6 @@ QWidget *NavigatePlugin::createConfigWindow(QWidget *parent)
 {
     return new NavCfg(parent, this);
 }
-
-#endif
 
 #ifdef WIN32
 

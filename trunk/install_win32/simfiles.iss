@@ -159,9 +159,6 @@ Name: "{commonstartup}\SIM"; Filename: "{app}\sim.exe"; Tasks: startup/common
 [Run]
 Filename: "{app}\sim.exe"; Description: "Launch Simple Instant Messenger"; Flags: nowait postinstall skipifsilent
 
-[UninstallDelete]
-Type: filesandordirs; Name: {userappdata}\sim
-
 [Registry]
 Root: HKCR; Subkey: ".uin"; ValueType: string; ValueName: ""; ValueData: "sim"; Flags: uninsdeletevalue
 Root: HKCR; Subkey: ".uin"; ValueType: string; ValueName: "Content Type"; ValueData: "application/x-icq"; Flags: uninsdeletevalue

@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
-"POT-Creation-Date: 2004-03-19 11:12+0300\n"
+"POT-Creation-Date: 2004-03-23 12:47+0300\n"
 "PO-Revision-Date: 2004-03-13 12:24+0200\n"
 "Last-Translator: Ivan Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team:  <ru@li.org>\n"
@@ -1197,19 +1197,19 @@ msgstr "Помилка читання сокета"
 msgid "Connect error"
 msgstr "Помилка під'єднання"
 
-#: sim/api/sockfactory.cpp:272
+#: sim/api/sockfactory.cpp:274
 msgid "Can't resolve host"
 msgstr "Не можу розпізнати IP адресу сервера"
 
-#: sim/api/sockfactory.cpp:300 sim/ui/qt3/i18n.cpp:237
+#: sim/api/sockfactory.cpp:303 sim/ui/qt3/i18n.cpp:237
 msgid "Connection closed"
 msgstr "З'єднання розірвано"
 
-#: sim/api/sockfactory.cpp:358
+#: sim/api/sockfactory.cpp:363
 msgid "Socket error"
 msgstr "Помилка сокета"
 
-#: sim/api/sockfactory.cpp:414
+#: sim/api/sockfactory.cpp:419
 msgid "Can't allocate port"
 msgstr "Не можу зарезервувати порт"
 
@@ -1493,7 +1493,7 @@ msgstr "Каталоги"
 msgid "Save"
 msgstr "Зберегти"
 
-#: plugins/_core/status.cpp:137 plugins/_core/statuswnd.cpp:95
+#: plugins/_core/status.cpp:138 plugins/_core/statuswnd.cpp:95
 #: plugins/jabber/jabbermessage.cpp:109 plugins/jabber/jabbermessage.cpp:228
 #: plugins/logger/logconfig.cpp:92 plugins/netmonitor/monitor.cpp:89
 #: plugins/windock/windock.cpp:179 sim/ui/qt3/i18n.cpp:141
@@ -1988,32 +1988,32 @@ msgstr "Розробник"
 msgid "Windows XP style"
 msgstr "Стиль Windows XP"
 
-#: plugins/msn/msnclient.cpp:518 plugins/msn/msnclient.cpp:535
+#: plugins/msn/msnclient.cpp:522 plugins/msn/msnclient.cpp:539
 msgid "MSN protocol error"
 msgstr "Помилка MSN протоколу"
 
-#: plugins/msn/msnclient.cpp:703
+#: plugins/msn/msnclient.cpp:707
 msgid "Youur account is being used from another location"
 msgstr ""
 "Ваш акаунт використовується з іншого "
 "комп'ютера"
 
 #: plugins/_core/logindlg.cpp:462 plugins/jabber/jabberclient.cpp:1126
-#: plugins/livejournal/livejournal.cpp:921 plugins/msn/msnclient.cpp:823
-#: plugins/yahoo/yahooclient.cpp:313 plugins/yahoo/yahooclient.cpp:324
+#: plugins/livejournal/livejournal.cpp:921 plugins/msn/msnclient.cpp:827
+#: plugins/yahoo/yahooclient.cpp:344 plugins/yahoo/yahooclient.cpp:355
 msgid "Login failed"
 msgstr "Реєстрація невдалась"
 
 #: plugins/icq/icqclient.cpp:2115 plugins/icq/icqclient.cpp:2194
-#: plugins/jabber/jabberclient.cpp:1765 plugins/msn/msnclient.cpp:922
-#: plugins/yahoo/yahooclient.cpp:1340
+#: plugins/jabber/jabberclient.cpp:1765 plugins/msn/msnclient.cpp:926
+#: plugins/yahoo/yahooclient.cpp:1436
 msgid "Network"
 msgstr "Мережа"
 
 #: plugins/icq/aiminfo.cpp:170 plugins/icq/icqclient.cpp:1521
 #: plugins/icq/icqinfo.cpp:176 plugins/jabber/jabberclient.cpp:1420
-#: plugins/jabber/jabberinfo.cpp:92 plugins/msn/msnclient.cpp:1817
-#: plugins/msn/msninfo.cpp:88 plugins/yahoo/yahooclient.cpp:1229
+#: plugins/jabber/jabberinfo.cpp:92 plugins/msn/msnclient.cpp:1827
+#: plugins/msn/msninfo.cpp:88 plugins/yahoo/yahooclient.cpp:1325
 #: plugins/yahoo/yahooinfo.cpp:111
 msgid "Last online"
 msgstr "Останній раз в мережі"
@@ -2023,33 +2023,35 @@ msgstr "Останній раз в мережі"
 #: plugins/icq/icqclient.cpp:1528 plugins/jabber/jabber.cpp:87
 #: plugins/jabber/jabberclient.cpp:1447 plugins/jabber/services.cpp:235
 #: plugins/livejournal/livejournal.cpp:318 plugins/msn/msn.cpp:86
-#: plugins/msn/msnclient.cpp:1824 plugins/sms/sms.cpp:229
-#: plugins/yahoo/yahoo.cpp:104 plugins/yahoo/yahooclient.cpp:1236
+#: plugins/msn/msnclient.cpp:1834 plugins/sms/sms.cpp:229
+#: plugins/yahoo/yahoo.cpp:104 plugins/yahoo/yahooclient.cpp:1332
 msgid "Online"
 msgstr "В мережі"
 
-#: plugins/msn/msnclient.cpp:1885 plugins/msn/msnclient.cpp:1893
+#: plugins/msn/msnclient.cpp:1895 plugins/msn/msnclient.cpp:1903
 msgid "Contact go offline"
 msgstr "Контакт від'єднався від мережі"
 
-#: plugins/msn/msnclient.cpp:2087
+#: plugins/msn/msnclient.cpp:2097
 msgid "Send message failed"
 msgstr "Повідомлення відправлено з помилкою"
 
-#: plugins/icq/icqicmb.cpp:708 plugins/msn/msnclient.cpp:2389
+#: plugins/icq/icqicmb.cpp:708 plugins/msn/msnclient.cpp:2399
+#: plugins/yahoo/yahooclient.cpp:433 plugins/yahoo/yahooclient.cpp:436
 msgid "Message declined"
 msgstr "Повідомлення відхилено"
 
-#: plugins/icq/icqdirect.cpp:223 plugins/msn/msnclient.cpp:2704
+#: plugins/icq/icqdirect.cpp:223 plugins/msn/msnclient.cpp:2714
 msgid "Can't established direct connection"
 msgstr "Не можу встановити пряме з'єднання"
 
-#: plugins/msn/msnclient.cpp:2738
+#: plugins/msn/msnclient.cpp:2748
 msgid "Transfer canceled"
 msgstr "Пересилка перервана"
 
 #: plugins/jabber/jabberclient.cpp:2914 plugins/jabber/jabberclient.cpp:2954
-#: plugins/msn/msnclient.cpp:2905
+#: plugins/msn/msnclient.cpp:2915 plugins/yahoo/yahooclient.cpp:2398
+#: plugins/yahoo/yahooclient.cpp:2438
 msgid "File transfer failed"
 msgstr "Помилкова пересилка файла"
 
@@ -2084,13 +2086,13 @@ msgstr "Контакт %1 вже в списку"
 #: plugins/icq/searchresultbase.cc:56 plugins/icq/workinfobase.cc:178
 #: plugins/jabber/jabberhomeinfobase.cpp:104
 #: plugins/livejournal/journalresultbase.cpp:54
-#: plugins/msn/msnconfigbase.cpp:164 plugins/msn/msnresultbase.cpp:54
-#: plugins/osd/osdifacebase.cpp:128 plugins/yahoo/yahoocfgbase.cpp:162
+#: plugins/msn/msnconfigbase.cpp:168 plugins/msn/msnresultbase.cpp:54
+#: plugins/osd/osdifacebase.cpp:128 plugins/yahoo/yahoocfgbase.cpp:174
 #: plugins/yahoo/yahooresultbase.cpp:54
 msgid "Form2"
 msgstr "Про роботу"
 
-#: plugins/msn/msnconfigbase.cpp:165 plugins/yahoo/yahoocfgbase.cpp:163
+#: plugins/msn/msnconfigbase.cpp:169 plugins/yahoo/yahoocfgbase.cpp:175
 #: plugins/yahoo/yahooinfobase.cpp:164
 msgid "Login:"
 msgstr "Ім'я:"
@@ -2098,12 +2100,12 @@ msgstr "Ім'я:"
 #: plugins/_core/logindlg.cpp:282 plugins/icq/aimconfigbase.cc:145
 #: plugins/icq/icqconfigbase.cc:230 plugins/jabber/jabberconfigbase.cpp:278
 #: plugins/livejournal/livejournalcfgbase.cpp:150
-#: plugins/msn/msnconfigbase.cpp:166 plugins/proxy/proxycfgbase.cpp:135
-#: plugins/yahoo/yahoocfgbase.cpp:164
+#: plugins/msn/msnconfigbase.cpp:170 plugins/proxy/proxycfgbase.cpp:135
+#: plugins/yahoo/yahoocfgbase.cpp:176
 msgid "Password:"
 msgstr "Пароль:"
 
-#: plugins/msn/msnconfigbase.cpp:167
+#: plugins/msn/msnconfigbase.cpp:171
 msgid "&MSN"
 msgstr "&MSN"
 
@@ -2111,7 +2113,7 @@ msgstr "&MSN"
 #: plugins/jabber/jabberconfigbase.cpp:281
 #: plugins/jabber/jabberconfigbase.cpp:285
 #: plugins/livejournal/livejournalcfgbase.cpp:152
-#: plugins/msn/msnconfigbase.cpp:168 plugins/yahoo/yahoocfgbase.cpp:166
+#: plugins/msn/msnconfigbase.cpp:172 plugins/yahoo/yahoocfgbase.cpp:178
 msgid "Server:"
 msgstr "Сервер:"
 
@@ -2119,48 +2121,53 @@ msgstr "Сервер:"
 #: plugins/jabber/jabberconfigbase.cpp:282
 #: plugins/jabber/jabberconfigbase.cpp:286
 #: plugins/livejournal/livejournalcfgbase.cpp:154
-#: plugins/msn/msnconfigbase.cpp:169 plugins/proxy/proxycfgbase.cpp:132
-#: plugins/remote/remotecfgbase.cpp:98 plugins/sms/smssetupbase.cpp:140
-#: plugins/yahoo/yahoocfgbase.cpp:167
+#: plugins/msn/msnconfigbase.cpp:173 plugins/proxy/proxycfgbase.cpp:132
+#: plugins/remote/remotecfgbase.cpp:106 plugins/sms/smssetupbase.cpp:140
+#: plugins/yahoo/yahoocfgbase.cpp:179
 msgid "Port:"
 msgstr "Порт:"
 
 #: plugins/icq/icqconfigbase.cc:238 plugins/jabber/jabberconfigbase.cpp:288
-#: plugins/msn/msnconfigbase.cpp:170
+#: plugins/msn/msnconfigbase.cpp:174 plugins/yahoo/yahoocfgbase.cpp:184
 msgid "Port range for direct connections:"
 msgstr "Порти для прямих з'єднань"
 
 #: plugins/_core/phonebase.cpp:116 plugins/_core/phonebase.cpp:118
 #: plugins/_core/phonebase.cpp:120 plugins/icq/icqconfigbase.cc:239
-#: plugins/jabber/jabberconfigbase.cpp:287 plugins/msn/msnconfigbase.cpp:171
+#: plugins/jabber/jabberconfigbase.cpp:287 plugins/msn/msnconfigbase.cpp:175
+#: plugins/yahoo/yahoocfgbase.cpp:183
 msgid "-"
 msgstr "-"
 
 #: plugins/icq/aimconfigbase.cc:149 plugins/icq/icqconfigbase.cc:235
-#: plugins/jabber/jabberconfigbase.cpp:291 plugins/msn/msnconfigbase.cpp:172
-#: plugins/yahoo/yahoocfgbase.cpp:172
+#: plugins/jabber/jabberconfigbase.cpp:291 plugins/msn/msnconfigbase.cpp:176
+#: plugins/yahoo/yahoocfgbase.cpp:182
 msgid "Use &HTTP polling"
 msgstr "Використовувати &HTTP з'єднання"
 
 #: plugins/icq/aimconfigbase.cc:150 plugins/icq/icqconfigbase.cc:234
-#: plugins/msn/msnconfigbase.cpp:173 plugins/yahoo/yahoocfgbase.cpp:171
+#: plugins/msn/msnconfigbase.cpp:177 plugins/yahoo/yahoocfgbase.cpp:181
 msgid "&Automaticaly use HTTP pooling if proxy required"
 msgstr ""
 "&Автоматично використовувати HTTP-з'днання "
 "при проксі-сервісі"
 
 #: plugins/icq/aimconfigbase.cc:151 plugins/icq/icqconfigbase.cc:240
-#: plugins/jabber/jabberconfigbase.cpp:292 plugins/msn/msnconfigbase.cpp:174
-#: plugins/yahoo/yahoocfgbase.cpp:170
+#: plugins/jabber/jabberconfigbase.cpp:292 plugins/msn/msnconfigbase.cpp:178
+#: plugins/yahoo/yahoocfgbase.cpp:180
 msgid "Note: For HTTP-pooling using proxy setings for HTTP"
 msgstr ""
 "Примітка: Для HTTP-з'єднання використовуйте "
 "установки проксі для HTTP"
 
+#: plugins/msn/msnconfigbase.cpp:179
+msgid "&Automaticaly add contacts in accept list"
+msgstr ""
+
 #: plugins/icq/aimconfigbase.cc:153 plugins/icq/icqconfigbase.cc:242
 #: plugins/jabber/jabberconfigbase.cpp:294
 #: plugins/livejournal/livejournalcfgbase.cpp:155
-#: plugins/msn/msnconfigbase.cpp:175 plugins/yahoo/yahoocfgbase.cpp:173
+#: plugins/msn/msnconfigbase.cpp:180 plugins/yahoo/yahoocfgbase.cpp:185
 msgid "&Network"
 msgstr "&Мережа"
 
@@ -2183,7 +2190,7 @@ msgstr "&Мережа"
 #: plugins/icq/pastinfobase.cc:138 plugins/jabber/addresultbase.cpp:57
 #: plugins/jabber/infoproxybase.cpp:55 plugins/jabber/jabberaddbase.cpp:92
 #: plugins/jabber/jabberconfigbase.cpp:277
-#: plugins/jabber/jabberinfobase.cpp:182
+#: plugins/jabber/jabberinfobase.cpp:194
 #: plugins/jabber/jabberpicturebase.cpp:74
 #: plugins/jabber/jabberworkinfobase.cpp:88
 #: plugins/jabber/servicesbase.cpp:107
@@ -2191,9 +2198,9 @@ msgstr "&Мережа"
 #: plugins/livejournal/livejournalcfgbase.cpp:148
 #: plugins/livejournal/msgjournalbase.cpp:81
 #: plugins/logger/logconfigbase.cpp:67 plugins/msn/msninfobase.cpp:129
-#: plugins/msn/msnsearchbase.cpp:78 plugins/navigate/navcfgbase.cc:64
+#: plugins/msn/msnsearchbase.cpp:78 plugins/navigate/navcfgbase.cc:68
 #: plugins/ontop/ontopcfgbase.cpp:57 plugins/osd/osdconfigbase.cpp:80
-#: plugins/proxy/proxycfgbase.cpp:130 plugins/remote/remotecfgbase.cpp:95
+#: plugins/proxy/proxycfgbase.cpp:130 plugins/remote/remotecfgbase.cpp:103
 #: plugins/replace/replacecfgbase.cpp:52 plugins/shortcuts/mousecfgbase.cpp:77
 #: plugins/shortcuts/shortcutcfgbase.cpp:79
 #: plugins/sound/soundconfigbase.cpp:96 plugins/sound/sounduserbase.cpp:62
@@ -2212,30 +2219,30 @@ msgid "EMail"
 msgstr "EMail"
 
 #: plugins/icq/aiminfobase.cc:276 plugins/icq/icqinfobase.cc:277
-#: plugins/jabber/discoinfobase.cpp:280 plugins/jabber/jabberinfobase.cpp:185
+#: plugins/jabber/discoinfobase.cpp:280 plugins/jabber/jabberinfobase.cpp:197
 #: plugins/msn/msninfobase.cpp:131 plugins/yahoo/yahooinfobase.cpp:163
 msgid "Nick:"
 msgstr "Псевдонім:"
 
-#: plugins/icq/icqinfobase.cc:281 plugins/jabber/jabberinfobase.cpp:189
+#: plugins/icq/icqinfobase.cc:281 plugins/jabber/jabberinfobase.cpp:201
 #: plugins/msn/msninfobase.cpp:132 plugins/yahoo/yahooinfobase.cpp:168
 msgid "&Names"
 msgstr "&Імена"
 
 #: plugins/icq/aiminfobase.cc:288 plugins/icq/icqinfobase.cc:282
-#: plugins/jabber/jabberinfobase.cpp:190 plugins/msn/msninfobase.cpp:133
+#: plugins/jabber/jabberinfobase.cpp:202 plugins/msn/msninfobase.cpp:133
 #: plugins/yahoo/yahooinfobase.cpp:169
 msgid "Status:"
 msgstr "Статус:"
 
 #: plugins/_core/userviewcfgbase.cpp:267 plugins/icq/aiminfobase.cc:285
-#: plugins/icq/icqinfobase.cc:283 plugins/jabber/jabberinfobase.cpp:191
+#: plugins/icq/icqinfobase.cc:283 plugins/jabber/jabberinfobase.cpp:204
 #: plugins/msn/msninfobase.cpp:134 plugins/yahoo/yahooinfobase.cpp:170
 msgid "Online:"
 msgstr "В мережі:"
 
 #: plugins/_core/core.cpp:1255 plugins/icq/aiminfobase.cc:291
-#: plugins/icq/icqinfobase.cc:288 plugins/jabber/jabberinfobase.cpp:194
+#: plugins/icq/icqinfobase.cc:288 plugins/jabber/jabberinfobase.cpp:206
 #: plugins/msn/msninfobase.cpp:136 plugins/yahoo/yahooinfobase.cpp:172
 msgid "&Status"
 msgstr "&Статус"
@@ -2270,11 +2277,11 @@ msgstr "Неактивний"
 msgid "Busy"
 msgstr "Зайнятий"
 
-#: plugins/msn/msn.cpp:146 plugins/yahoo/yahooclient.cpp:1248
+#: plugins/msn/msn.cpp:146 plugins/yahoo/yahooclient.cpp:1344
 msgid "Be right back"
 msgstr "Швидко повернусь"
 
-#: plugins/msn/msn.cpp:161 plugins/yahoo/yahooclient.cpp:1260
+#: plugins/msn/msn.cpp:161 plugins/yahoo/yahooclient.cpp:1356
 msgid "On the phone"
 msgstr "Говорю по телефону"
 
@@ -2462,13 +2469,13 @@ msgstr "Конфігурація %1 клієнта"
 msgid "Container"
 msgstr "Контейнер"
 
-#: plugins/_core/container.cpp:563 plugins/osd/osd.cpp:360
+#: plugins/_core/container.cpp:563 plugins/osd/osd.cpp:363
 msgid ""
 "_: male\n"
 "%1 typed"
 msgstr "%1 пише"
 
-#: plugins/_core/container.cpp:564 plugins/osd/osd.cpp:361
+#: plugins/_core/container.cpp:564 plugins/osd/osd.cpp:364
 msgid ""
 "_: female\n"
 "%1 typed"
@@ -2914,7 +2921,7 @@ msgid "Not available"
 msgstr "Не наявний"
 
 #: plugins/_core/core.cpp:2646 plugins/dock/dockwnd.cpp:1192
-#: plugins/osd/osd.cpp:402
+#: plugins/osd/osd.cpp:463
 msgid "%1 from %2"
 msgstr "%1 від %2"
 
@@ -2951,8 +2958,8 @@ msgstr "Загальний статус"
 msgid "Configure client"
 msgstr "Конфігурація клієнта"
 
-#: plugins/_core/core.cpp:3985 plugins/_core/status.cpp:151
-#: plugins/_core/status.cpp:219
+#: plugins/_core/core.cpp:3985 plugins/_core/status.cpp:152
+#: plugins/_core/status.cpp:222
 msgid "&Invisible"
 msgstr "&Невидимий"
 
@@ -3152,7 +3159,7 @@ msgstr "Так"
 msgid "Form3"
 msgstr "Додаткова інформація"
 
-#: plugins/_core/connectwndbase.cpp:95 plugins/_core/status.cpp:97
+#: plugins/_core/connectwndbase.cpp:95 plugins/_core/status.cpp:98
 #: plugins/_core/statuswnd.cpp:56
 msgid "Connecting"
 msgstr "З'єднання"
@@ -3193,7 +3200,7 @@ msgstr "Додати зовнішній контакт"
 msgid "Search %1"
 msgstr "Пошук %1"
 
-#: plugins/_core/status.cpp:70 plugins/_core/statuswnd.cpp:86
+#: plugins/_core/status.cpp:71 plugins/_core/statuswnd.cpp:86
 #: plugins/dock/dock.cpp:183
 msgid "Inactive"
 msgstr "Неактивний"
@@ -3230,7 +3237,7 @@ msgstr "Новий контакт"
 #: plugins/_core/userview.cpp:176 plugins/_core/userview.cpp:678
 #: plugins/_core/userview.cpp:716 plugins/icq/icqsearch.cpp:143
 #: plugins/icq/searchresult.cpp:257 plugins/jabber/addresult.cpp:144
-#: plugins/jabber/jabberadd.cpp:117 plugins/remote/remote.cpp:565
+#: plugins/jabber/jabberadd.cpp:117 plugins/remote/remote.cpp:566
 msgid "Not in list"
 msgstr "Не в списку"
 
@@ -3341,7 +3348,7 @@ msgstr "Виберіть протокол"
 #: plugins/_core/maininfobase.cpp:171 plugins/icq/aiminfobase.cc:272
 #: plugins/icq/aimsearchbase.cc:256 plugins/icq/icqinfobase.cc:278
 #: plugins/icq/icqsearchbase.cc:304 plugins/jabber/discoinfobase.cpp:283
-#: plugins/jabber/jabberinfobase.cpp:184 plugins/yahoo/yahooinfobase.cpp:165
+#: plugins/jabber/jabberinfobase.cpp:196 plugins/yahoo/yahooinfobase.cpp:165
 msgid "First name:"
 msgstr "Ім'я:"
 
@@ -4214,11 +4221,11 @@ msgstr ""
 msgid "Toggle main window"
 msgstr "Сховати/показати головне вікно"
 
-#: plugins/dock/dock.cpp:271
+#: plugins/dock/dock.cpp:269
 msgid "Hide main window"
 msgstr "Сховати головне вікно"
 
-#: plugins/dock/dock.cpp:272
+#: plugins/dock/dock.cpp:270
 msgid "Show main window"
 msgstr "Показати головне вікно"
 
@@ -4297,21 +4304,21 @@ msgstr ""
 "пустота)\n"
 "? - будь-який символ"
 
-#: plugins/floaty/floaty.cpp:43
+#: plugins/floaty/floaty.cpp:46
 msgid "Floaty"
 msgstr "Плавучість"
 
-#: plugins/floaty/floaty.cpp:44
+#: plugins/floaty/floaty.cpp:47
 msgid "Plugin provides floating windows for contacts"
 msgstr ""
 "Плагін забезпечує підтримку плаваючих "
 "вікон"
 
-#: plugins/floaty/floaty.cpp:88 plugins/floaty/floaty.cpp:162
+#: plugins/floaty/floaty.cpp:91 plugins/floaty/floaty.cpp:165
 msgid "Floating on"
 msgstr "Ввімкнути плавучість"
 
-#: plugins/floaty/floaty.cpp:159
+#: plugins/floaty/floaty.cpp:162
 msgid "Floating off"
 msgstr "Вимкнути плавучість"
 
@@ -4439,11 +4446,11 @@ msgstr ""
 "шифрування/дешифрування для повідомлень\n"
 "GPG не знайдено в змінній PATH"
 
-#: plugins/gpg/gpg.cpp:396 plugins/gpg/gpg.cpp:401
+#: plugins/gpg/gpg.cpp:397 plugins/gpg/gpg.cpp:402
 msgid "Encrypt failed"
 msgstr "Помилка шифрування"
 
-#: plugins/gpg/gpg.cpp:558
+#: plugins/gpg/gpg.cpp:559
 #, c-format
 msgid ""
 "_n: %n GPG key\n"
@@ -4452,15 +4459,15 @@ msgstr ""
 "GPG ключ %n GPG ключа\n"
 "%n GPG ключів"
 
-#: plugins/gpg/gpg.cpp:607
+#: plugins/gpg/gpg.cpp:608
 msgid "GPG key"
 msgstr "GPG ключ"
 
-#: plugins/gpg/gpg.cpp:615
+#: plugins/gpg/gpg.cpp:616
 msgid "Use GPG encryption"
 msgstr "Використовувати GPG шифрування"
 
-#: plugins/gpg/gpg.cpp:622
+#: plugins/gpg/gpg.cpp:623
 msgid "&GPG key"
 msgstr "&GPG ключ"
 
@@ -5159,6 +5166,7 @@ msgstr "Гру"
 
 #: plugins/icq/icqicmb.cpp:787 plugins/icq/icqicmb.cpp:795
 #: plugins/icq/icqvarious.cpp:1622 plugins/jabber/jabberclient.cpp:811
+#: plugins/yahoo/yahooclient.cpp:1002
 msgid "Client go offline"
 msgstr "Клієнт покинув мережу"
 
@@ -5988,12 +5996,12 @@ msgid "A&bout"
 msgstr "&Про"
 
 #: plugins/icq/moreinfobase.cc:154 plugins/jabber/discoinfobase.cpp:281
-#: plugins/jabber/jabberinfobase.cpp:187
+#: plugins/jabber/jabberinfobase.cpp:199
 msgid "Homepage:"
 msgstr "Домашня сторінка:"
 
 #: plugins/icq/moreinfobase.cc:157 plugins/jabber/discoinfobase.cpp:282
-#: plugins/jabber/jabberinfobase.cpp:186
+#: plugins/jabber/jabberinfobase.cpp:198
 msgid "Birth date:"
 msgstr "Дата народження:"
 
@@ -6545,13 +6553,13 @@ msgstr ""
 msgid "&OSD"
 msgstr "&Екран"
 
-#: plugins/osd/osd.cpp:358
+#: plugins/osd/osd.cpp:361
 msgid ""
 "_: male\n"
 "%1 is online"
 msgstr "%1 в мережі"
 
-#: plugins/osd/osd.cpp:359
+#: plugins/osd/osd.cpp:362
 msgid ""
 "_: female\n"
 "%1 is online"
@@ -6682,13 +6690,17 @@ msgid "Plugin provides remote control"
 msgstr ""
 "Плагін забезпечує віддалене керування"
 
-#: plugins/remote/remotecfgbase.cpp:97
+#: plugins/remote/remotecfgbase.cpp:105
 msgid "Use &UNIX socket"
 msgstr "Використовувати &UNIX сокет"
 
-#: plugins/remote/remotecfgbase.cpp:99 plugins/remote/remotecfgbase.cpp:100
+#: plugins/remote/remotecfgbase.cpp:107 plugins/remote/remotecfgbase.cpp:108
 msgid "Use &TCP socket"
 msgstr "Використовувати &TCP сокет"
+
+#: plugins/remote/remotecfgbase.cpp:109
+msgid "Enable IE context emnu extension"
+msgstr ""
 
 #: plugins/shortcuts/shortcutcfg.cpp:52
 msgid "Mouse"
@@ -7200,7 +7212,7 @@ msgid "URL:"
 msgstr "URL:"
 
 #: plugins/jabber/jabberconfigbase.cpp:295
-#: plugins/jabber/jabberinfobase.cpp:193
+#: plugins/jabber/jabberinfobase.cpp:205
 msgid "Resource:"
 msgstr "Ресурс:"
 
@@ -7266,9 +7278,13 @@ msgstr "Значок"
 msgid "Agents"
 msgstr "Агенти"
 
-#: plugins/jabber/jabberclient.cpp:3052
+#: plugins/jabber/jabberclient.cpp:3052 plugins/yahoo/yahooclient.cpp:2536
 msgid "File transfer fail"
 msgstr "Помилка пересилки файла"
+
+#: plugins/jabber/jabberinfobase.cpp:195
+msgid "ID:"
+msgstr "ID:"
 
 #: plugins/jabber/jabberbrowser.cpp:45 plugins/jabber/jabberbrowser.cpp:244
 msgid "Process"
@@ -7346,10 +7362,6 @@ msgstr ""
 #: plugins/jabber/jabberaboutinfobase.cpp:57
 msgid "Additional information:"
 msgstr "Додаткова інформація:"
-
-#: plugins/jabber/jabberinfobase.cpp:183
-msgid "ID:"
-msgstr "ID:"
 
 #: plugins/jabber/servicesbase.cpp:108 plugins/jabber/servicesbase.cpp:114
 msgid "Jabber agents are available online after login"
@@ -8232,28 +8244,33 @@ msgstr "Елемент меню:"
 msgid "Program:"
 msgstr "Програма:"
 
-#: plugins/navigate/navigate.cpp:198
+#: plugins/navigate/navigate.cpp:219
 msgid "Navigate"
 msgstr "Навігація"
 
-#: plugins/navigate/navigate.cpp:199
+#: plugins/navigate/navigate.cpp:220
 msgid ""
 "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Плагін забезпечує навігацію по "
 "гіперзсилках"
 
-#: plugins/navigate/navigate.cpp:252
+#: plugins/navigate/navigate.cpp:268
 msgid "Send mail"
 msgstr "Відправити пошту"
 
-#: plugins/navigate/navcfgbase.cc:65
+#: plugins/navigate/navcfgbase.cc:69
 msgid "Browser:"
 msgstr "Браузер:"
 
-#: plugins/navigate/navcfgbase.cc:66
+#: plugins/navigate/navcfgbase.cc:70
 msgid "Mailer:"
 msgstr "Поштовий клієнт:"
+
+#: plugins/navigate/navcfgbase.cc:71
+#, fuzzy
+msgid "Open links in &new window"
+msgstr "Відкрити головне вікно"
 
 #: plugins/yahoo/yahoo.cpp:81
 msgid "Yahoo!"
@@ -8271,60 +8288,47 @@ msgstr ""
 msgid "Get a Yahoo! ID"
 msgstr "Отримати Yahoo! ID"
 
-#: plugins/yahoo/yahooclient.cpp:114
-#, fuzzy
-msgid "Cancel send"
-msgstr "Відмінити"
-
-#: plugins/yahoo/yahooclient.cpp:294
+#: plugins/yahoo/yahooclient.cpp:325
 msgid "Yahoo! login lock"
 msgstr "Yahoo! вхід закрито"
 
-#: plugins/yahoo/yahooclient.cpp:317
+#: plugins/yahoo/yahooclient.cpp:348
 msgid "Your account has been locked"
 msgstr "Ваш акаунт закритий"
 
-#: plugins/yahoo/yahooclient.cpp:321 plugins/yahoo/yahooclient.cpp:350
+#: plugins/yahoo/yahooclient.cpp:352 plugins/yahoo/yahooclient.cpp:365
 msgid "Your account is being used from another location"
 msgstr ""
 "Ваш акаунт використовується з іншого "
 "комп'ютера"
 
-#: plugins/yahoo/yahooclient.cpp:1251
+#: plugins/yahoo/yahooclient.cpp:1347
 msgid "Not at home"
 msgstr "Не в дома"
 
-#: plugins/yahoo/yahooclient.cpp:1254
+#: plugins/yahoo/yahooclient.cpp:1350
 msgid "Not at my desk"
 msgstr "Не на моєму столі"
 
-#: plugins/yahoo/yahooclient.cpp:1257
+#: plugins/yahoo/yahooclient.cpp:1353
 msgid "Not in the office"
 msgstr "Не в офісі"
 
-#: plugins/yahoo/yahooclient.cpp:1263
+#: plugins/yahoo/yahooclient.cpp:1359
 msgid "On vacation"
 msgstr "У відпустці"
 
-#: plugins/yahoo/yahooclient.cpp:1266
+#: plugins/yahoo/yahooclient.cpp:1362
 msgid "Out to lunch"
 msgstr "Вийшов на обід"
 
-#: plugins/yahoo/yahooclient.cpp:1269
+#: plugins/yahoo/yahooclient.cpp:1365
 msgid "Stepped out"
 msgstr "Вийшов"
 
-#: plugins/yahoo/yahoocfgbase.cpp:165
+#: plugins/yahoo/yahoocfgbase.cpp:177
 msgid "&Yahoo!"
 msgstr "&Yahoo!"
-
-#: plugins/yahoo/yahoocfgbase.cpp:168
-msgid "File transfer server:"
-msgstr "Сервер передачі файлів:"
-
-#: plugins/yahoo/yahoocfgbase.cpp:169
-msgid "File transfer port:"
-msgstr "Порт передачі файлів:"
 
 #: plugins/yahoo/yahoosearch.cpp:56
 msgid "Yahoo! search results"
@@ -8368,343 +8372,343 @@ msgstr "Плагін забезпечує показ погоди"
 msgid "Not connected"
 msgstr "Нема під'єднання"
 
-#: plugins/weather/weather.cpp:451
+#: plugins/weather/weather.cpp:453
 msgid "Monday"
 msgstr "Понеділок"
 
-#: plugins/weather/weather.cpp:452
+#: plugins/weather/weather.cpp:454
 msgid "Tuesday"
 msgstr "Вівторок"
 
-#: plugins/weather/weather.cpp:453
+#: plugins/weather/weather.cpp:455
 msgid "Wednesday"
 msgstr "Середа"
 
-#: plugins/weather/weather.cpp:454
+#: plugins/weather/weather.cpp:456
 msgid "Thursday"
 msgstr "Четверг"
 
-#: plugins/weather/weather.cpp:455
+#: plugins/weather/weather.cpp:457
 msgid "Friday"
 msgstr "П'ятниця"
 
-#: plugins/weather/weather.cpp:456
+#: plugins/weather/weather.cpp:458
 msgid "Saturday"
 msgstr "Субота"
 
-#: plugins/weather/weather.cpp:457
+#: plugins/weather/weather.cpp:459
 msgid "Sunday"
 msgstr "Неділя"
 
-#: plugins/weather/weather.cpp:459
+#: plugins/weather/weather.cpp:461
 msgid ""
 "_: weather\n"
 "Overcast"
 msgstr "Хмарно"
 
-#: plugins/weather/weather.cpp:460
+#: plugins/weather/weather.cpp:462
 msgid ""
 "_: weather\n"
 "Fog"
 msgstr "Туман"
 
-#: plugins/weather/weather.cpp:461
+#: plugins/weather/weather.cpp:463
 msgid ""
 "_: weather\n"
 "Haze"
 msgstr "Димка"
 
-#: plugins/weather/weather.cpp:462
+#: plugins/weather/weather.cpp:464
 msgid ""
 "_: weather\n"
 "Storm"
 msgstr "Шторм/Гроза"
 
-#: plugins/weather/weather.cpp:463
+#: plugins/weather/weather.cpp:465
 msgid ""
 "_: weather\n"
 "Rain"
 msgstr "Дощ"
 
-#: plugins/weather/weather.cpp:464
+#: plugins/weather/weather.cpp:466
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Snow"
 msgstr "Шторм/Гроза"
 
-#: plugins/weather/weather.cpp:465
+#: plugins/weather/weather.cpp:467
 msgid ""
 "_: weather\n"
 "Light Rain"
 msgstr "Слабкий дощ"
 
-#: plugins/weather/weather.cpp:466
+#: plugins/weather/weather.cpp:468
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Light Snow"
 msgstr "Слабкий дощ"
 
-#: plugins/weather/weather.cpp:467
+#: plugins/weather/weather.cpp:469
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Few Snow"
 msgstr "Невеликий сніг"
 
-#: plugins/weather/weather.cpp:468
+#: plugins/weather/weather.cpp:470
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Scattered Snow"
 msgstr "Слабкий сніг"
 
-#: plugins/weather/weather.cpp:469
+#: plugins/weather/weather.cpp:471
 msgid ""
 "_: weather\n"
 "Clear"
 msgstr "Ясно"
 
-#: plugins/weather/weather.cpp:470
+#: plugins/weather/weather.cpp:472
 msgid ""
 "_: weather\n"
 "Showers"
 msgstr "Сніг"
 
-#: plugins/weather/weather.cpp:471
+#: plugins/weather/weather.cpp:473
 msgid ""
 "_: weather\n"
 "Mostly Clear"
 msgstr "В основному ясно"
 
-#: plugins/weather/weather.cpp:472
+#: plugins/weather/weather.cpp:474
 msgid ""
 "_: weather\n"
 "Sunny"
 msgstr "Сонячно"
 
-#: plugins/weather/weather.cpp:473
+#: plugins/weather/weather.cpp:475
 msgid ""
 "_: weather\n"
 "Fair"
 msgstr "Ясно"
 
-#: plugins/weather/weather.cpp:474
+#: plugins/weather/weather.cpp:476
 msgid ""
 "_: weather\n"
 "Cloudy"
 msgstr "Хмарно"
 
-#: plugins/weather/weather.cpp:475
+#: plugins/weather/weather.cpp:477
 msgid ""
 "_: weather\n"
 "Mostly Cloudy"
 msgstr "Переважно хмарно"
 
-#: plugins/weather/weather.cpp:476
+#: plugins/weather/weather.cpp:478
 msgid ""
 "_: weather\n"
 "Partly Cloudy"
 msgstr "Мінлива хмарність"
 
-#: plugins/weather/weather.cpp:477
+#: plugins/weather/weather.cpp:479
 msgid ""
 "_: weather\n"
 "Wind"
 msgstr "Вітер"
 
-#: plugins/weather/weather.cpp:478
+#: plugins/weather/weather.cpp:480
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Drizzle"
 msgstr "Димка"
 
-#: plugins/weather/weather.cpp:479
+#: plugins/weather/weather.cpp:481
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Light Drizzle"
 msgstr "Димка"
 
-#: plugins/weather/weather.cpp:480
+#: plugins/weather/weather.cpp:482
 msgid ""
 "_: weather\n"
 "steady"
 msgstr "без змін"
 
-#: plugins/weather/weather.cpp:481
+#: plugins/weather/weather.cpp:483
 #, fuzzy
 msgid ""
 "_: weather\n"
 "rising"
 msgstr "Дощ"
 
-#: plugins/weather/weather.cpp:482
+#: plugins/weather/weather.cpp:484
 msgid ""
 "_: weather\n"
 "falling"
 msgstr "падає"
 
-#: plugins/weather/weather.cpp:483
+#: plugins/weather/weather.cpp:485
 msgid ""
 "_: weather\n"
 "Unlimited"
 msgstr "Необмежена"
 
-#: plugins/weather/weather.cpp:484
+#: plugins/weather/weather.cpp:486
 #, fuzzy
 msgid ""
 "_: weather\n"
 "N"
 msgstr "Туман"
 
-#: plugins/weather/weather.cpp:485
+#: plugins/weather/weather.cpp:487
 #, fuzzy
 msgid ""
 "_: weather\n"
 "NNW"
 msgstr "Вітер"
 
-#: plugins/weather/weather.cpp:486
+#: plugins/weather/weather.cpp:488
 #, fuzzy
 msgid ""
 "_: weather\n"
 "NW"
 msgstr "Вітер"
 
-#: plugins/weather/weather.cpp:487
-#, fuzzy
-msgid ""
-"_: weather\n"
-"NWW"
-msgstr "Вітер"
-
-#: plugins/weather/weather.cpp:488
-#, fuzzy
-msgid ""
-"_: weather\n"
-"W"
-msgstr "Вітер"
-
 #: plugins/weather/weather.cpp:489
 #, fuzzy
 msgid ""
 "_: weather\n"
-"SWW"
+"WNW"
 msgstr "Вітер"
 
 #: plugins/weather/weather.cpp:490
 #, fuzzy
 msgid ""
 "_: weather\n"
-"SW"
+"W"
 msgstr "Вітер"
 
 #: plugins/weather/weather.cpp:491
 #, fuzzy
 msgid ""
 "_: weather\n"
-"SSW"
+"WSW"
 msgstr "Вітер"
 
 #: plugins/weather/weather.cpp:492
 #, fuzzy
 msgid ""
 "_: weather\n"
-"S"
-msgstr "Шторм/Гроза"
+"SW"
+msgstr "Вітер"
 
 #: plugins/weather/weather.cpp:493
 #, fuzzy
 msgid ""
 "_: weather\n"
-"SSE"
-msgstr "Шторм/Гроза"
+"SSW"
+msgstr "Вітер"
 
 #: plugins/weather/weather.cpp:494
 #, fuzzy
 msgid ""
 "_: weather\n"
-"SE"
+"S"
 msgstr "Шторм/Гроза"
 
 #: plugins/weather/weather.cpp:495
 #, fuzzy
 msgid ""
 "_: weather\n"
-"SEE"
+"SSE"
 msgstr "Шторм/Гроза"
 
 #: plugins/weather/weather.cpp:496
 #, fuzzy
 msgid ""
 "_: weather\n"
-"E"
-msgstr "Зранку"
+"SE"
+msgstr "Шторм/Гроза"
 
 #: plugins/weather/weather.cpp:497
 #, fuzzy
 msgid ""
 "_: weather\n"
-"NEE"
-msgstr "Зранку"
+"ESE"
+msgstr "Шторм/Гроза"
 
 #: plugins/weather/weather.cpp:498
 #, fuzzy
 msgid ""
 "_: weather\n"
-"NE"
+"E"
 msgstr "Зранку"
 
 #: plugins/weather/weather.cpp:499
 #, fuzzy
 msgid ""
 "_: weather\n"
-"NNE"
+"ENE"
 msgstr "Зранку"
 
 #: plugins/weather/weather.cpp:500
+#, fuzzy
+msgid ""
+"_: weather\n"
+"NE"
+msgstr "Зранку"
+
+#: plugins/weather/weather.cpp:501
+#, fuzzy
+msgid ""
+"_: weather\n"
+"NNE"
+msgstr "Зранку"
+
+#: plugins/weather/weather.cpp:502
 msgid "km"
 msgstr ""
 
-#: plugins/weather/weather.cpp:501
+#: plugins/weather/weather.cpp:503
 msgid "km/h"
 msgstr ""
 
-#: plugins/weather/weather.cpp:513
+#: plugins/weather/weather.cpp:515
 #, fuzzy
 msgid "and"
 msgstr "Канада"
 
-#: plugins/weather/weather.cpp:516
+#: plugins/weather/weather.cpp:518
 msgid ""
 "_: weather\n"
 "Early"
 msgstr "Зранку"
 
-#: plugins/weather/weather.cpp:519
+#: plugins/weather/weather.cpp:521
 msgid ""
 "_: weather\n"
 "Late"
 msgstr "Вечером"
 
-#: plugins/weather/weather.cpp:534 plugins/weather/weather.cpp:536
+#: plugins/weather/weather.cpp:536 plugins/weather/weather.cpp:538
 #, fuzzy
 msgid "m/s"
 msgstr "b/s"
 
-#: plugins/weather/weather.cpp:535 plugins/weather/weather.cpp:536
+#: plugins/weather/weather.cpp:537 plugins/weather/weather.cpp:538
 msgid "gust "
 msgstr "пориви"
 
-#: plugins/weather/weather.cpp:598
+#: plugins/weather/weather.cpp:600
 #, fuzzy
 msgid "%t | %c"
 msgstr "%t %c"
 
-#: plugins/weather/weather.cpp:607
+#: plugins/weather/weather.cpp:609
 msgid ""
 "%l<br><br>\n"
 "<img src=\"icon:weather\"> %c<br>\n"
@@ -8731,7 +8735,7 @@ msgstr ""
 "<br>\n"
 "Поновлено: %u<br>\n"
 
-#: plugins/weather/weather.cpp:626
+#: plugins/weather/weather.cpp:628
 msgid ""
 "<br>\n"
 "<nobr><b>%d %w</b></nobr><br>\n"
@@ -8862,6 +8866,40 @@ msgstr "Підказка:"
 #: plugins/weather/wifacecfgbase.cpp:83
 msgid "Forecast tip:"
 msgstr "Прогноз:"
+
+#, fuzzy
+#~ msgid "Cancel send"
+#~ msgstr "Відмінити"
+
+#~ msgid "File transfer server:"
+#~ msgstr "Сервер передачі файлів:"
+
+#~ msgid "File transfer port:"
+#~ msgstr "Порт передачі файлів:"
+
+#, fuzzy
+#~ msgid ""
+#~ "_: weather\n"
+#~ "NWW"
+#~ msgstr "Вітер"
+
+#, fuzzy
+#~ msgid ""
+#~ "_: weather\n"
+#~ "SWW"
+#~ msgstr "Вітер"
+
+#, fuzzy
+#~ msgid ""
+#~ "_: weather\n"
+#~ "SEE"
+#~ msgstr "Шторм/Гроза"
+
+#, fuzzy
+#~ msgid ""
+#~ "_: weather\n"
+#~ "NEE"
+#~ msgstr "Зранку"
 
 #~ msgid ""
 #~ "_: weather\n"
@@ -9666,9 +9704,6 @@ msgstr "Прогноз:"
 
 #~ msgid "Phone Book"
 #~ msgstr "Телефонна книжка"
-
-#~ msgid "Open main window"
-#~ msgstr "Відкрити головне вікно"
 
 #~ msgid "%1 from %2 received"
 #~ msgstr "%1 від %2"

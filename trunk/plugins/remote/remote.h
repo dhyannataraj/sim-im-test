@@ -25,6 +25,9 @@
 typedef struct RemoteData
 {
     Data	Path;
+#ifdef WIN32
+    Data	EnableMenu;
+#endif
 } RemoteData;
 
 class ControlSocket;
@@ -50,6 +53,9 @@ public:
     RemotePlugin(unsigned, const char*);
     ~RemotePlugin();
     PROP_STR(Path);
+#ifdef WIN32
+    PROP_BOOL(EnableMenu);
+#endif
     void bind();
     list<ControlSocket*> m_sockets;
     CorePlugin	*core;

@@ -55,8 +55,9 @@ static DataDef remoteData[] =
     {
 #ifdef WIN32
         { "Path", DATA_STRING, 1, "auto:" },
+        { "EnableMenu", DATA_BOOL, 1, DATA(1) },
 #else
-{ "Path", DATA_STRING, 1, "/tmp/sim.%user%" },
+        { "Path", DATA_STRING, 1, "/tmp/sim.%user%" },
 #endif
         { NULL, 0, 0, 0 }
     };
@@ -569,90 +570,96 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             return true;
         }
     case CMD_CONTACTS:{
-            unsigned type = 0;
-            if (args.size())
-                type = args[0].toUInt();
-            ContactList::ContactIterator it;
-            Contact *contact;
-            vector<ContactInfo> contacts;
-            list<unsigned> groups;
-            while ((contact = ++it) != NULL){
-                if (contact->getTemporary() || contact->getIgnore())
-                    continue;
-                if (type){
-                    Command cmd;
-                    cmd->id      = type;
-                    cmd->menu_id = MenuMessage;
-                    cmd->param   = (void*)(contact->id());
-                    Event e(EventCheckState, cmd);
-                    if (!e.process())
+#ifdef WIN32
+            if (getEnableMenu()){
+#endif
+                unsigned type = 0;
+                if (args.size())
+                    type = args[0].toUInt();
+                ContactList::ContactIterator it;
+                Contact *contact;
+                vector<ContactInfo> contacts;
+                list<unsigned> groups;
+                while ((contact = ++it) != NULL){
+                    if (contact->getTemporary() || contact->getIgnore())
                         continue;
-                }
-                unsigned style = 0;
-                const char *statusIcon = NULL;
-                unsigned status = contact->contactInfo(style, statusIcon);
-                if ((status == STATUS_OFFLINE) && core->getShowOnLine())
-                    continue;
-                unsigned mode = core->getSortMode();
-                ContactInfo info;
-                QString active;
-                active.sprintf("%08lX", 0xFFFFFFFF - contact->getLastActive());
-                if (core->getGroupMode()){
-                    unsigned index = 0xFFFFFFFF;
-                    if (contact->getGroup()){
-                        Group *grp = getContacts()->group(contact->getGroup());
-                        if (grp)
-                            index = getContacts()->groupIndex(grp->id());
+                    if (type){
+                        Command cmd;
+                        cmd->id      = type;
+                        cmd->menu_id = MenuMessage;
+                        cmd->param   = (void*)(contact->id());
+                        Event e(EventCheckState, cmd);
+                        if (!e.process())
+                            continue;
                     }
-                    QString grpIndex;
-                    grpIndex.sprintf("%08lX", index);
-                    info.key += grpIndex;
-                }
-                for (;;){
-                    if ((mode & 0xFF) == 0)
-                        break;
-                    switch (mode & 0xFF){
-                    case SORT_STATUS:
-                        info.key += QString::number(9 - status);
-                        break;
-                    case SORT_ACTIVE:
-                        info.key += active.lower();
-                        break;
-                    case SORT_NAME:
-                        info.key += contact->getName().lower();
-                        break;
+                    unsigned style = 0;
+                    const char *statusIcon = NULL;
+                    unsigned status = contact->contactInfo(style, statusIcon);
+                    if ((status == STATUS_OFFLINE) && core->getShowOnLine())
+                        continue;
+                    unsigned mode = core->getSortMode();
+                    ContactInfo info;
+                    QString active;
+                    active.sprintf("%08lX", 0xFFFFFFFF - contact->getLastActive());
+                    if (core->getGroupMode()){
+                        unsigned index = 0xFFFFFFFF;
+                        if (contact->getGroup()){
+                            Group *grp = getContacts()->group(contact->getGroup());
+                            if (grp)
+                                index = getContacts()->groupIndex(grp->id());
+                        }
+                        QString grpIndex;
+                        grpIndex.sprintf("%08lX", index);
+                        info.key += grpIndex;
                     }
-                    mode = mode >> 8;
-                }
-                info.name  = contact->getName();
-                info.id    = contact->id();
-                info.icon  = statusIcon;
-                info.group = contact->getGroup();
-                if (core->getGroupMode()){
-                    info.group = contact->getGroup();
-                    list<unsigned>::iterator it;
-                    for (it = groups.begin(); it != groups.end(); ++it)
-                        if ((*it) == contact->getGroup())
+                    for (;;){
+                        if ((mode & 0xFF) == 0)
                             break;
-                    groups.push_back(contact->getGroup());
+                        switch (mode & 0xFF){
+                        case SORT_STATUS:
+                            info.key += QString::number(9 - status);
+                            break;
+                        case SORT_ACTIVE:
+                            info.key += active.lower();
+                            break;
+                        case SORT_NAME:
+                            info.key += contact->getName().lower();
+                            break;
+                        }
+                        mode = mode >> 8;
+                    }
+                    info.name  = contact->getName();
+                    info.id    = contact->id();
+                    info.icon  = statusIcon;
+                    info.group = contact->getGroup();
+                    if (core->getGroupMode()){
+                        info.group = contact->getGroup();
+                        list<unsigned>::iterator it;
+                        for (it = groups.begin(); it != groups.end(); ++it)
+                            if ((*it) == contact->getGroup())
+                                break;
+                        groups.push_back(contact->getGroup());
+                    }
+                    contacts.push_back(info);
                 }
-                contacts.push_back(info);
-            }
-            sort(contacts.begin(), contacts.end(), cmp_info);
-            out += QString::number(contacts.size());
-            out += " ";
-            out += QString::number(groups.size());
-            out += "\n";
-            for (vector<ContactInfo>::iterator itl = contacts.begin(); itl != contacts.end(); ++itl){
+                sort(contacts.begin(), contacts.end(), cmp_info);
+                out += QString::number(contacts.size());
+                out += " ";
+                out += QString::number(groups.size());
                 out += "\n";
-                out += QString::number((*itl).id);
-                out += " ";
-                out += QString::number((*itl).group);
-                out += " ";
-                out += (*itl).icon.c_str();
-                out += " ";
-                out += (*itl).name;
+                for (vector<ContactInfo>::iterator itl = contacts.begin(); itl != contacts.end(); ++itl){
+                    out += "\n";
+                    out += QString::number((*itl).id);
+                    out += " ";
+                    out += QString::number((*itl).group);
+                    out += " ";
+                    out += (*itl).icon.c_str();
+                    out += " ";
+                    out += (*itl).name;
+                }
+#ifdef WIN32
             }
+#endif
             return true;
         }
     case CMD_FILE:{

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: swabian\n"
-"POT-Creation-Date: 2004-03-19 11:12+0300\n"
+"POT-Creation-Date: 2004-03-23 12:47+0300\n"
 "PO-Revision-Date: 2003-08-19 10:35GMT\n"
 "Last-Translator: Robert Scheck <sim@robert-scheck.de>\n"
 "Language-Team: schwäbisch <swabian@li.org>\n"
@@ -990,14 +990,12 @@ msgstr "Koine megliche Obzion %1"
 msgid "Usage: %1 "
 msgstr "Benudzong: %1 "
 
-#: sim/api/sslclient.cpp:125 
-#: sim/api/sslclient.cpp:293
+#: sim/api/sslclient.cpp:125 sim/api/sslclient.cpp:293
 #: sim/api/sslclient.cpp:297
 msgid "SSL write error"
 msgstr "SSL-Schreibfehlr"
 
-#: sim/api/sslclient.cpp:134 
-#: sim/api/sslclient.cpp:155
+#: sim/api/sslclient.cpp:134 sim/api/sslclient.cpp:155
 #: sim/api/sslclient.cpp:163
 msgid "SSL connect error"
 msgstr "SSL-Vrbendongsfehlr"
@@ -1006,21 +1004,17 @@ msgstr "SSL-Vrbendongsfehlr"
 msgid "SSL shutdown error"
 msgstr "SSL-Fehlr beim SSL-Shuddown"
 
-#: sim/api/sslclient.cpp:191
-#: sim/api/sslclient.cpp:199
+#: sim/api/sslclient.cpp:191 sim/api/sslclient.cpp:199
 msgid "SSL shuwdown error"
 msgstr "SSL-Fehlr beim SSL-Shuddown"
 
-#: sim/api/sslclient.cpp:206
-#: sim/api/sslclient.cpp:227
+#: sim/api/sslclient.cpp:206 sim/api/sslclient.cpp:227
 #: sim/api/sslclient.cpp:235
 msgid "SSL accept error"
 msgstr "SSL-Fehlr beim SSL-Accebd"
 
-#: sim/api/sslclient.cpp:257
-#: sim/api/sslclient.cpp:261
-#: sim/api/sslclient.cpp:345
-#: sim/api/sslclient.cpp:351
+#: sim/api/sslclient.cpp:257 sim/api/sslclient.cpp:261
+#: sim/api/sslclient.cpp:345 sim/api/sslclient.cpp:351
 msgid "SSL read error"
 msgstr "SSL-Fehlr beim SSL-Lesa"
 
@@ -1040,12 +1034,9 @@ msgstr "%1 KB"
 msgid "%1 bytes"
 msgstr "%1 Byde"
 
-#: plugins/__migrate/migratedlg.cpp:160
-#: plugins/__migrate/migratedlg.cpp:164
-#: plugins/__migrate/migratedlg.cpp:168
-#: plugins/__migrate/migratedlg.cpp:228
-#: plugins/__migrate/migratedlg.cpp:232
-#: sim/api/message.cpp:537
+#: plugins/__migrate/migratedlg.cpp:160 plugins/__migrate/migratedlg.cpp:164
+#: plugins/__migrate/migratedlg.cpp:168 plugins/__migrate/migratedlg.cpp:228
+#: plugins/__migrate/migratedlg.cpp:232 sim/api/message.cpp:537
 #, c-format
 msgid "Can't open %1"
 msgstr "%1 ka ned geeffned werda"
@@ -1059,22 +1050,14 @@ msgid ""
 "Definition of PluralForm - to be set by the translator of kdelibs.po"
 msgstr "TwoForms"
 
-#: plugins/_core/autoreplybase.cpp:91 
-#: plugins/_core/cfgdlg.cpp:489
-#: plugins/_core/cfgdlgbase.cpp:95 
-#: plugins/_core/connectionsettingsbase.cpp:75
-#: plugins/_core/declinedlgbase.cpp:82 
-#: plugins/_core/editmailbase.cpp:97
-#: plugins/_core/editphonebase.cpp:112 
-#: plugins/_core/logindlgbase.cpp:132
-#: plugins/_core/toolsetupbase.cpp:135 
-#: plugins/action/additembase.cpp:95
-#: plugins/gpg/gpggenbase.cpp:114
-#: plugins/icq/encodingdlgbase.cc:86
-#: plugins/icq/warndlgbase.cc:88
-#: plugins/jabber/discoinfobase.cpp:289
-#: plugins/proxy/proxyerrorbase.cpp:80
-#: sim/api/simapi.cpp:462
+#: plugins/_core/autoreplybase.cpp:91 plugins/_core/cfgdlg.cpp:489
+#: plugins/_core/cfgdlgbase.cpp:95 plugins/_core/connectionsettingsbase.cpp:75
+#: plugins/_core/declinedlgbase.cpp:82 plugins/_core/editmailbase.cpp:97
+#: plugins/_core/editphonebase.cpp:112 plugins/_core/logindlgbase.cpp:132
+#: plugins/_core/toolsetupbase.cpp:135 plugins/action/additembase.cpp:95
+#: plugins/gpg/gpggenbase.cpp:114 plugins/icq/encodingdlgbase.cc:86
+#: plugins/icq/warndlgbase.cc:88 plugins/jabber/discoinfobase.cpp:289
+#: plugins/proxy/proxyerrorbase.cpp:80 sim/api/simapi.cpp:462
 #: sim/ui/qt3/i18n.cpp:174
 msgid "&OK"
 msgstr "&OK"
@@ -1205,19 +1188,19 @@ msgstr "Fehlr beim Lesa ois Soggeds"
 msgid "Connect error"
 msgstr "Fehlr beim Vrbenda"
 
-#: sim/api/sockfactory.cpp:272
+#: sim/api/sockfactory.cpp:274
 msgid "Can't resolve host"
 msgstr "Konnde da Hoschd %1 ned ufflesa"
 
-#: sim/api/sockfactory.cpp:300 sim/ui/qt3/i18n.cpp:237
+#: sim/api/sockfactory.cpp:303 sim/ui/qt3/i18n.cpp:237
 msgid "Connection closed"
 msgstr "Vrbendong beended"
 
-#: sim/api/sockfactory.cpp:358
+#: sim/api/sockfactory.cpp:363
 msgid "Socket error"
 msgstr "Soggedfehlr"
 
-#: sim/api/sockfactory.cpp:414
+#: sim/api/sockfactory.cpp:419
 msgid "Can't allocate port"
 msgstr "Bord ka ned angforderd werda"
 
@@ -1501,7 +1484,7 @@ msgstr "Vrzeichnisse"
 msgid "Save"
 msgstr "Schbeichern"
 
-#: plugins/_core/status.cpp:137 plugins/_core/statuswnd.cpp:95
+#: plugins/_core/status.cpp:138 plugins/_core/statuswnd.cpp:95
 #: plugins/jabber/jabbermessage.cpp:109 plugins/jabber/jabbermessage.cpp:228
 #: plugins/logger/logconfig.cpp:92 plugins/netmonitor/monitor.cpp:89
 #: plugins/windock/windock.cpp:179 sim/ui/qt3/i18n.cpp:141
@@ -1982,30 +1965,30 @@ msgstr "Endwigglr"
 msgid "Windows XP style"
 msgstr "Wendows XB-Schdil"
 
-#: plugins/msn/msnclient.cpp:518 plugins/msn/msnclient.cpp:535
+#: plugins/msn/msnclient.cpp:522 plugins/msn/msnclient.cpp:539
 msgid "MSN protocol error"
 msgstr "MSN-Brodokoll-Fehlr"
 
-#: plugins/msn/msnclient.cpp:703
+#: plugins/msn/msnclient.cpp:707
 msgid "Youur account is being used from another location"
 msgstr "Ihre UIN wird grade von oim andera Ord aus benudzd"
 
 #: plugins/_core/logindlg.cpp:462 plugins/jabber/jabberclient.cpp:1126
-#: plugins/livejournal/livejournal.cpp:921 plugins/msn/msnclient.cpp:823
-#: plugins/yahoo/yahooclient.cpp:313 plugins/yahoo/yahooclient.cpp:324
+#: plugins/livejournal/livejournal.cpp:921 plugins/msn/msnclient.cpp:827
+#: plugins/yahoo/yahooclient.cpp:344 plugins/yahoo/yahooclient.cpp:355
 msgid "Login failed"
 msgstr "Anmeldong fehlgschlaga"
 
 #: plugins/icq/icqclient.cpp:2115 plugins/icq/icqclient.cpp:2194
-#: plugins/jabber/jabberclient.cpp:1765 plugins/msn/msnclient.cpp:922
-#: plugins/yahoo/yahooclient.cpp:1340
+#: plugins/jabber/jabberclient.cpp:1765 plugins/msn/msnclient.cpp:926
+#: plugins/yahoo/yahooclient.cpp:1436
 msgid "Network"
 msgstr "Nedzwerk"
 
 #: plugins/icq/aiminfo.cpp:170 plugins/icq/icqclient.cpp:1521
 #: plugins/icq/icqinfo.cpp:176 plugins/jabber/jabberclient.cpp:1420
-#: plugins/jabber/jabberinfo.cpp:92 plugins/msn/msnclient.cpp:1817
-#: plugins/msn/msninfo.cpp:88 plugins/yahoo/yahooclient.cpp:1229
+#: plugins/jabber/jabberinfo.cpp:92 plugins/msn/msnclient.cpp:1827
+#: plugins/msn/msninfo.cpp:88 plugins/yahoo/yahooclient.cpp:1325
 #: plugins/yahoo/yahooinfo.cpp:111
 msgid "Last online"
 msgstr "Zuledzd online"
@@ -2015,33 +1998,35 @@ msgstr "Zuledzd online"
 #: plugins/icq/icqclient.cpp:1528 plugins/jabber/jabber.cpp:87
 #: plugins/jabber/jabberclient.cpp:1447 plugins/jabber/services.cpp:235
 #: plugins/livejournal/livejournal.cpp:318 plugins/msn/msn.cpp:86
-#: plugins/msn/msnclient.cpp:1824 plugins/sms/sms.cpp:229
-#: plugins/yahoo/yahoo.cpp:104 plugins/yahoo/yahooclient.cpp:1236
+#: plugins/msn/msnclient.cpp:1834 plugins/sms/sms.cpp:229
+#: plugins/yahoo/yahoo.cpp:104 plugins/yahoo/yahooclient.cpp:1332
 msgid "Online"
 msgstr "Online"
 
-#: plugins/msn/msnclient.cpp:1885 plugins/msn/msnclient.cpp:1893
+#: plugins/msn/msnclient.cpp:1895 plugins/msn/msnclient.cpp:1903
 msgid "Contact go offline"
 msgstr "Benudzr hodd sich abgmelded"
 
-#: plugins/msn/msnclient.cpp:2087
+#: plugins/msn/msnclient.cpp:2097
 msgid "Send message failed"
 msgstr "Senda dr Nachrichd fehlgschlaga"
 
-#: plugins/icq/icqicmb.cpp:708 plugins/msn/msnclient.cpp:2389
+#: plugins/icq/icqicmb.cpp:708 plugins/msn/msnclient.cpp:2399
+#: plugins/yahoo/yahooclient.cpp:433 plugins/yahoo/yahooclient.cpp:436
 msgid "Message declined"
 msgstr "Nachrichd abglehnd"
 
-#: plugins/icq/icqdirect.cpp:223 plugins/msn/msnclient.cpp:2704
+#: plugins/icq/icqdirect.cpp:223 plugins/msn/msnclient.cpp:2714
 msgid "Can't established direct connection"
 msgstr "Direkdvrbendong ka ned hergschdelld werda"
 
-#: plugins/msn/msnclient.cpp:2738
+#: plugins/msn/msnclient.cpp:2748
 msgid "Transfer canceled"
 msgstr "Iberdragong fehlgschlaga"
 
 #: plugins/jabber/jabberclient.cpp:2914 plugins/jabber/jabberclient.cpp:2954
-#: plugins/msn/msnclient.cpp:2905
+#: plugins/msn/msnclient.cpp:2915 plugins/yahoo/yahooclient.cpp:2398
+#: plugins/yahoo/yahooclient.cpp:2438
 msgid "File transfer failed"
 msgstr "Dadeiiberdragong fehlgschlaga"
 
@@ -2075,13 +2060,13 @@ msgstr "Dr Kondakd %1 ischd bereids en dr Lischde vorhanda"
 #: plugins/icq/searchresultbase.cc:56 plugins/icq/workinfobase.cc:178
 #: plugins/jabber/jabberhomeinfobase.cpp:104
 #: plugins/livejournal/journalresultbase.cpp:54
-#: plugins/msn/msnconfigbase.cpp:164 plugins/msn/msnresultbase.cpp:54
-#: plugins/osd/osdifacebase.cpp:128 plugins/yahoo/yahoocfgbase.cpp:162
+#: plugins/msn/msnconfigbase.cpp:168 plugins/msn/msnresultbase.cpp:54
+#: plugins/osd/osdifacebase.cpp:128 plugins/yahoo/yahoocfgbase.cpp:174
 #: plugins/yahoo/yahooresultbase.cpp:54
 msgid "Form2"
 msgstr "Form 2"
 
-#: plugins/msn/msnconfigbase.cpp:165 plugins/yahoo/yahoocfgbase.cpp:163
+#: plugins/msn/msnconfigbase.cpp:169 plugins/yahoo/yahoocfgbase.cpp:175
 #: plugins/yahoo/yahooinfobase.cpp:164
 msgid "Login:"
 msgstr "Login:"
@@ -2089,12 +2074,12 @@ msgstr "Login:"
 #: plugins/_core/logindlg.cpp:282 plugins/icq/aimconfigbase.cc:145
 #: plugins/icq/icqconfigbase.cc:230 plugins/jabber/jabberconfigbase.cpp:278
 #: plugins/livejournal/livejournalcfgbase.cpp:150
-#: plugins/msn/msnconfigbase.cpp:166 plugins/proxy/proxycfgbase.cpp:135
-#: plugins/yahoo/yahoocfgbase.cpp:164
+#: plugins/msn/msnconfigbase.cpp:170 plugins/proxy/proxycfgbase.cpp:135
+#: plugins/yahoo/yahoocfgbase.cpp:176
 msgid "Password:"
 msgstr "Bassword:"
 
-#: plugins/msn/msnconfigbase.cpp:167
+#: plugins/msn/msnconfigbase.cpp:171
 msgid "&MSN"
 msgstr "&MSN"
 
@@ -2102,7 +2087,7 @@ msgstr "&MSN"
 #: plugins/jabber/jabberconfigbase.cpp:281
 #: plugins/jabber/jabberconfigbase.cpp:285
 #: plugins/livejournal/livejournalcfgbase.cpp:152
-#: plugins/msn/msnconfigbase.cpp:168 plugins/yahoo/yahoocfgbase.cpp:166
+#: plugins/msn/msnconfigbase.cpp:172 plugins/yahoo/yahoocfgbase.cpp:178
 msgid "Server:"
 msgstr "Servr:"
 
@@ -2110,44 +2095,49 @@ msgstr "Servr:"
 #: plugins/jabber/jabberconfigbase.cpp:282
 #: plugins/jabber/jabberconfigbase.cpp:286
 #: plugins/livejournal/livejournalcfgbase.cpp:154
-#: plugins/msn/msnconfigbase.cpp:169 plugins/proxy/proxycfgbase.cpp:132
-#: plugins/remote/remotecfgbase.cpp:98 plugins/sms/smssetupbase.cpp:140
-#: plugins/yahoo/yahoocfgbase.cpp:167
+#: plugins/msn/msnconfigbase.cpp:173 plugins/proxy/proxycfgbase.cpp:132
+#: plugins/remote/remotecfgbase.cpp:106 plugins/sms/smssetupbase.cpp:140
+#: plugins/yahoo/yahoocfgbase.cpp:179
 msgid "Port:"
 msgstr "Bord:"
 
 #: plugins/icq/icqconfigbase.cc:238 plugins/jabber/jabberconfigbase.cpp:288
-#: plugins/msn/msnconfigbase.cpp:170
+#: plugins/msn/msnconfigbase.cpp:174 plugins/yahoo/yahoocfgbase.cpp:184
 msgid "Port range for direct connections:"
 msgstr "Bordbereich fir Direkdvrbendonga:"
 
 #: plugins/_core/phonebase.cpp:116 plugins/_core/phonebase.cpp:118
 #: plugins/_core/phonebase.cpp:120 plugins/icq/icqconfigbase.cc:239
-#: plugins/jabber/jabberconfigbase.cpp:287 plugins/msn/msnconfigbase.cpp:171
+#: plugins/jabber/jabberconfigbase.cpp:287 plugins/msn/msnconfigbase.cpp:175
+#: plugins/yahoo/yahoocfgbase.cpp:183
 msgid "-"
 msgstr "-"
 
 #: plugins/icq/aimconfigbase.cc:149 plugins/icq/icqconfigbase.cc:235
-#: plugins/jabber/jabberconfigbase.cpp:291 plugins/msn/msnconfigbase.cpp:172
-#: plugins/yahoo/yahoocfgbase.cpp:172
+#: plugins/jabber/jabberconfigbase.cpp:291 plugins/msn/msnconfigbase.cpp:176
+#: plugins/yahoo/yahoocfgbase.cpp:182
 msgid "Use &HTTP polling"
 msgstr "&HTTP-Bolling benudza"
 
 #: plugins/icq/aimconfigbase.cc:150 plugins/icq/icqconfigbase.cc:234
-#: plugins/msn/msnconfigbase.cpp:173 plugins/yahoo/yahoocfgbase.cpp:171
+#: plugins/msn/msnconfigbase.cpp:177 plugins/yahoo/yahoocfgbase.cpp:181
 msgid "&Automaticaly use HTTP pooling if proxy required"
 msgstr "&Audomadische HTTP-Anfroga benudza, wenn Broxy baedigd wird"
 
 #: plugins/icq/aimconfigbase.cc:151 plugins/icq/icqconfigbase.cc:240
-#: plugins/jabber/jabberconfigbase.cpp:292 plugins/msn/msnconfigbase.cpp:174
-#: plugins/yahoo/yahoocfgbase.cpp:170
+#: plugins/jabber/jabberconfigbase.cpp:292 plugins/msn/msnconfigbase.cpp:178
+#: plugins/yahoo/yahoocfgbase.cpp:180
 msgid "Note: For HTTP-pooling using proxy setings for HTTP"
 msgstr "Bemerkong: Fir HTTP-Bolling, des Broxy-Oischdellonga fir HTTP benudzd"
+
+#: plugins/msn/msnconfigbase.cpp:179
+msgid "&Automaticaly add contacts in accept list"
+msgstr ""
 
 #: plugins/icq/aimconfigbase.cc:153 plugins/icq/icqconfigbase.cc:242
 #: plugins/jabber/jabberconfigbase.cpp:294
 #: plugins/livejournal/livejournalcfgbase.cpp:155
-#: plugins/msn/msnconfigbase.cpp:175 plugins/yahoo/yahoocfgbase.cpp:173
+#: plugins/msn/msnconfigbase.cpp:180 plugins/yahoo/yahoocfgbase.cpp:185
 msgid "&Network"
 msgstr "&Nedzwerk"
 
@@ -2170,7 +2160,7 @@ msgstr "&Nedzwerk"
 #: plugins/icq/pastinfobase.cc:138 plugins/jabber/addresultbase.cpp:57
 #: plugins/jabber/infoproxybase.cpp:55 plugins/jabber/jabberaddbase.cpp:92
 #: plugins/jabber/jabberconfigbase.cpp:277
-#: plugins/jabber/jabberinfobase.cpp:182
+#: plugins/jabber/jabberinfobase.cpp:194
 #: plugins/jabber/jabberpicturebase.cpp:74
 #: plugins/jabber/jabberworkinfobase.cpp:88
 #: plugins/jabber/servicesbase.cpp:107
@@ -2178,9 +2168,9 @@ msgstr "&Nedzwerk"
 #: plugins/livejournal/livejournalcfgbase.cpp:148
 #: plugins/livejournal/msgjournalbase.cpp:81
 #: plugins/logger/logconfigbase.cpp:67 plugins/msn/msninfobase.cpp:129
-#: plugins/msn/msnsearchbase.cpp:78 plugins/navigate/navcfgbase.cc:64
+#: plugins/msn/msnsearchbase.cpp:78 plugins/navigate/navcfgbase.cc:68
 #: plugins/ontop/ontopcfgbase.cpp:57 plugins/osd/osdconfigbase.cpp:80
-#: plugins/proxy/proxycfgbase.cpp:130 plugins/remote/remotecfgbase.cpp:95
+#: plugins/proxy/proxycfgbase.cpp:130 plugins/remote/remotecfgbase.cpp:103
 #: plugins/replace/replacecfgbase.cpp:52 plugins/shortcuts/mousecfgbase.cpp:77
 #: plugins/shortcuts/shortcutcfgbase.cpp:79
 #: plugins/sound/soundconfigbase.cpp:96 plugins/sound/sounduserbase.cpp:62
@@ -2199,30 +2189,30 @@ msgid "EMail"
 msgstr "E-Mail"
 
 #: plugins/icq/aiminfobase.cc:276 plugins/icq/icqinfobase.cc:277
-#: plugins/jabber/discoinfobase.cpp:280 plugins/jabber/jabberinfobase.cpp:185
+#: plugins/jabber/discoinfobase.cpp:280 plugins/jabber/jabberinfobase.cpp:197
 #: plugins/msn/msninfobase.cpp:131 plugins/yahoo/yahooinfobase.cpp:163
 msgid "Nick:"
 msgstr "Niggname:"
 
-#: plugins/icq/icqinfobase.cc:281 plugins/jabber/jabberinfobase.cpp:189
+#: plugins/icq/icqinfobase.cc:281 plugins/jabber/jabberinfobase.cpp:201
 #: plugins/msn/msninfobase.cpp:132 plugins/yahoo/yahooinfobase.cpp:168
 msgid "&Names"
 msgstr "&Nama"
 
 #: plugins/icq/aiminfobase.cc:288 plugins/icq/icqinfobase.cc:282
-#: plugins/jabber/jabberinfobase.cpp:190 plugins/msn/msninfobase.cpp:133
+#: plugins/jabber/jabberinfobase.cpp:202 plugins/msn/msninfobase.cpp:133
 #: plugins/yahoo/yahooinfobase.cpp:169
 msgid "Status:"
 msgstr "Schdadus:"
 
 #: plugins/_core/userviewcfgbase.cpp:267 plugins/icq/aiminfobase.cc:285
-#: plugins/icq/icqinfobase.cc:283 plugins/jabber/jabberinfobase.cpp:191
+#: plugins/icq/icqinfobase.cc:283 plugins/jabber/jabberinfobase.cpp:204
 #: plugins/msn/msninfobase.cpp:134 plugins/yahoo/yahooinfobase.cpp:170
 msgid "Online:"
 msgstr "Online:"
 
 #: plugins/_core/core.cpp:1255 plugins/icq/aiminfobase.cc:291
-#: plugins/icq/icqinfobase.cc:288 plugins/jabber/jabberinfobase.cpp:194
+#: plugins/icq/icqinfobase.cc:288 plugins/jabber/jabberinfobase.cpp:206
 #: plugins/msn/msninfobase.cpp:136 plugins/yahoo/yahooinfobase.cpp:172
 msgid "&Status"
 msgstr "&Schdadus"
@@ -2257,11 +2247,11 @@ msgstr "N/A"
 msgid "Busy"
 msgstr "Beschäfdigd"
 
-#: plugins/msn/msn.cpp:146 plugins/yahoo/yahooclient.cpp:1248
+#: plugins/msn/msn.cpp:146 plugins/yahoo/yahooclient.cpp:1344
 msgid "Be right back"
 msgstr "Bin gleich wiedr do"
 
-#: plugins/msn/msn.cpp:161 plugins/yahoo/yahooclient.cpp:1260
+#: plugins/msn/msn.cpp:161 plugins/yahoo/yahooclient.cpp:1356
 msgid "On the phone"
 msgstr "Bin am Delefoniera"
 
@@ -2445,13 +2435,13 @@ msgstr "Client %1 konfiguriera"
 msgid "Container"
 msgstr "Condainr"
 
-#: plugins/_core/container.cpp:563 plugins/osd/osd.cpp:360
+#: plugins/_core/container.cpp:563 plugins/osd/osd.cpp:363
 msgid ""
 "_: male\n"
 "%1 typed"
 msgstr "%1 schreibd grade"
 
-#: plugins/_core/container.cpp:564 plugins/osd/osd.cpp:361
+#: plugins/_core/container.cpp:564 plugins/osd/osd.cpp:364
 msgid ""
 "_: female\n"
 "%1 typed"
@@ -2855,8 +2845,11 @@ msgid ""
 "If it is wrong, you can separate them. For this purpose in contact menu "
 "choose the necessary name and choose a command \"Separate\"."
 msgstr ""
-"Beim Lada dr Kondakdlischde werda Kondakde mid gleicha Nama audomadisch en oim Kondakd vreend.\n"
-"En dem Fall, dess sell falsch ischd, kenna d Kondakde gedrennd werda. En diesa Fall wähla Se da bedreffenda Kondakd ond fihra d Funkzion \"Drenna\" aus."
+"Beim Lada dr Kondakdlischde werda Kondakde mid gleicha Nama audomadisch en "
+"oim Kondakd vreend.\n"
+"En dem Fall, dess sell falsch ischd, kenna d Kondakde gedrennd werda. En "
+"diesa Fall wähla Se da bedreffenda Kondakd ond fihra d Funkzion \"Drenna\" "
+"aus."
 
 #: plugins/_core/core.cpp:1607
 msgid "Don't show this message in next time"
@@ -2864,7 +2857,8 @@ msgstr "Sell Nachrichd beim nächschda Mol ned wiedr anzeiga"
 
 #: plugins/_core/core.cpp:1634
 msgid "`<command>` - call <command> and substitute command output\n"
-msgstr "`<kommando>` - rufd <kommando> uff ond wird durch d Kommandoausgabe ersedzd\n"
+msgstr ""
+"`<kommando>` - rufd <kommando> uff ond wird durch d Kommandoausgabe ersedzd\n"
 
 #: plugins/_core/core.cpp:2240
 msgid "&Separate"
@@ -2884,7 +2878,7 @@ msgid "Not available"
 msgstr "Ned vrfigbar"
 
 #: plugins/_core/core.cpp:2646 plugins/dock/dockwnd.cpp:1192
-#: plugins/osd/osd.cpp:402
+#: plugins/osd/osd.cpp:463
 msgid "%1 from %2"
 msgstr "%1 von %2"
 
@@ -2921,8 +2915,8 @@ msgstr "Gmeinsamr Schdadus"
 msgid "Configure client"
 msgstr "Client konfiguriera"
 
-#: plugins/_core/core.cpp:3985 plugins/_core/status.cpp:151
-#: plugins/_core/status.cpp:219
+#: plugins/_core/core.cpp:3985 plugins/_core/status.cpp:152
+#: plugins/_core/status.cpp:222
 msgid "&Invisible"
 msgstr "&Onsichdbar"
 
@@ -3122,7 +3116,7 @@ msgstr "Jo"
 msgid "Form3"
 msgstr "Form 3"
 
-#: plugins/_core/connectwndbase.cpp:95 plugins/_core/status.cpp:97
+#: plugins/_core/connectwndbase.cpp:95 plugins/_core/status.cpp:98
 #: plugins/_core/statuswnd.cpp:56
 msgid "Connecting"
 msgstr "Vrbendongsaufbao"
@@ -3160,7 +3154,7 @@ msgstr "Ned-IM-Kondakd hinzufiga"
 msgid "Search %1"
 msgstr "%1 sucha"
 
-#: plugins/_core/status.cpp:70 plugins/_core/statuswnd.cpp:86
+#: plugins/_core/status.cpp:71 plugins/_core/statuswnd.cpp:86
 #: plugins/dock/dock.cpp:183
 msgid "Inactive"
 msgstr "Enakdiv"
@@ -3197,7 +3191,7 @@ msgstr "Neir Kondakd"
 #: plugins/_core/userview.cpp:176 plugins/_core/userview.cpp:678
 #: plugins/_core/userview.cpp:716 plugins/icq/icqsearch.cpp:143
 #: plugins/icq/searchresult.cpp:257 plugins/jabber/addresult.cpp:144
-#: plugins/jabber/jabberadd.cpp:117 plugins/remote/remote.cpp:565
+#: plugins/jabber/jabberadd.cpp:117 plugins/remote/remote.cpp:566
 msgid "Not in list"
 msgstr "Ned en Lischde"
 
@@ -3303,7 +3297,7 @@ msgstr "Brodokoll auswähla"
 #: plugins/_core/maininfobase.cpp:171 plugins/icq/aiminfobase.cc:272
 #: plugins/icq/aimsearchbase.cc:256 plugins/icq/icqinfobase.cc:278
 #: plugins/icq/icqsearchbase.cc:304 plugins/jabber/discoinfobase.cpp:283
-#: plugins/jabber/jabberinfobase.cpp:184 plugins/yahoo/yahooinfobase.cpp:165
+#: plugins/jabber/jabberinfobase.cpp:196 plugins/yahoo/yahooinfobase.cpp:165
 msgid "First name:"
 msgstr "Vorname:"
 
@@ -4139,11 +4133,11 @@ msgstr "Blugin schdelld Anzeiga ois Symbols en dr Kondrollleischde bereid"
 msgid "Toggle main window"
 msgstr "Haubdfenschdr omschalda"
 
-#: plugins/dock/dock.cpp:271
+#: plugins/dock/dock.cpp:269
 msgid "Hide main window"
 msgstr "Haubdfenschdr vrschdegga"
 
-#: plugins/dock/dock.cpp:272
+#: plugins/dock/dock.cpp:270
 msgid "Show main window"
 msgstr "Haubdfenschdr anzeiga"
 
@@ -4213,20 +4207,20 @@ msgstr ""
 "* - a Menge von Zeicha (odr ler)\n"
 "? - irgndein Zeicha"
 
-#: plugins/floaty/floaty.cpp:43
+#: plugins/floaty/floaty.cpp:46
 msgid "Floaty"
 msgstr "Floadings"
 
-#: plugins/floaty/floaty.cpp:44
+#: plugins/floaty/floaty.cpp:47
 msgid "Plugin provides floating windows for contacts"
 msgstr ""
 "Des Blugin schdelld Floading-Funkzionalidäd fir d oizelna Kondakde bereid"
 
-#: plugins/floaty/floaty.cpp:88 plugins/floaty/floaty.cpp:162
+#: plugins/floaty/floaty.cpp:91 plugins/floaty/floaty.cpp:165
 msgid "Floating on"
 msgstr "Floading an"
 
-#: plugins/floaty/floaty.cpp:159
+#: plugins/floaty/floaty.cpp:162
 msgid "Floating off"
 msgstr "Floading aus"
 
@@ -4346,11 +4340,11 @@ msgstr ""
 "Nachrichda hinzu\n"
 "GPG ned en Bfad gfonda"
 
-#: plugins/gpg/gpg.cpp:396 plugins/gpg/gpg.cpp:401
+#: plugins/gpg/gpg.cpp:397 plugins/gpg/gpg.cpp:402
 msgid "Encrypt failed"
 msgstr "Vrschlisseln fehlgschlaga"
 
-#: plugins/gpg/gpg.cpp:558
+#: plugins/gpg/gpg.cpp:559
 #, c-format
 msgid ""
 "_n: %n GPG key\n"
@@ -4359,15 +4353,15 @@ msgstr ""
 "%n GPG-Schlissl\n"
 "%n GPG-Schlissl"
 
-#: plugins/gpg/gpg.cpp:607
+#: plugins/gpg/gpg.cpp:608
 msgid "GPG key"
 msgstr "GPG-Schlissl"
 
-#: plugins/gpg/gpg.cpp:615
+#: plugins/gpg/gpg.cpp:616
 msgid "Use GPG encryption"
 msgstr "GPG-Vrschlisselong benudza"
 
-#: plugins/gpg/gpg.cpp:622
+#: plugins/gpg/gpg.cpp:623
 msgid "&GPG key"
 msgstr "&GPG-Schlissl"
 
@@ -4777,7 +4771,8 @@ msgstr "UIN wurde susbendierd"
 
 #: plugins/icq/icqlogin.cpp:250
 msgid "Can't login to ICQ network - Please try again later"
-msgstr "S ka ned ens ICQ-Nedzwerk oigloggd werda - bidde schbädr erneid vrsucha"
+msgstr ""
+"S ka ned ens ICQ-Nedzwerk oigloggd werda - bidde schbädr erneid vrsucha"
 
 #: plugins/icq/icqlogin.cpp:271
 msgid "Youur UIN is being used from another location"
@@ -5043,6 +5038,7 @@ msgstr "Dez"
 
 #: plugins/icq/icqicmb.cpp:787 plugins/icq/icqicmb.cpp:795
 #: plugins/icq/icqvarious.cpp:1622 plugins/jabber/jabberclient.cpp:811
+#: plugins/yahoo/yahooclient.cpp:1002
 msgid "Client go offline"
 msgstr "Client gehd offline"
 
@@ -5861,12 +5857,12 @@ msgid "A&bout"
 msgstr "I&br"
 
 #: plugins/icq/moreinfobase.cc:154 plugins/jabber/discoinfobase.cpp:281
-#: plugins/jabber/jabberinfobase.cpp:187
+#: plugins/jabber/jabberinfobase.cpp:199
 msgid "Homepage:"
 msgstr "Homepage:"
 
 #: plugins/icq/moreinfobase.cc:157 plugins/jabber/discoinfobase.cpp:282
-#: plugins/jabber/jabberinfobase.cpp:186
+#: plugins/jabber/jabberinfobase.cpp:198
 msgid "Birth date:"
 msgstr "Geburdsdag:"
 
@@ -6391,13 +6387,13 @@ msgstr ""
 msgid "&OSD"
 msgstr "&OSD"
 
-#: plugins/osd/osd.cpp:358
+#: plugins/osd/osd.cpp:361
 msgid ""
 "_: male\n"
 "%1 is online"
 msgstr "%1 ischd online"
 
-#: plugins/osd/osd.cpp:359
+#: plugins/osd/osd.cpp:362
 msgid ""
 "_: female\n"
 "%1 is online"
@@ -6521,13 +6517,17 @@ msgstr "Fernbedienong"
 msgid "Plugin provides remote control"
 msgstr "Blugin schdelld Fernbedienong bereid"
 
-#: plugins/remote/remotecfgbase.cpp:97
+#: plugins/remote/remotecfgbase.cpp:105
 msgid "Use &UNIX socket"
 msgstr "&UNIX-Sogged benudza"
 
-#: plugins/remote/remotecfgbase.cpp:99 plugins/remote/remotecfgbase.cpp:100
+#: plugins/remote/remotecfgbase.cpp:107 plugins/remote/remotecfgbase.cpp:108
 msgid "Use &TCP socket"
 msgstr "&TCP-Sogged benudza"
+
+#: plugins/remote/remotecfgbase.cpp:109
+msgid "Enable IE context emnu extension"
+msgstr ""
 
 #: plugins/shortcuts/shortcutcfg.cpp:52
 msgid "Mouse"
@@ -7022,7 +7022,7 @@ msgid "URL:"
 msgstr "URL:"
 
 #: plugins/jabber/jabberconfigbase.cpp:295
-#: plugins/jabber/jabberinfobase.cpp:193
+#: plugins/jabber/jabberinfobase.cpp:205
 msgid "Resource:"
 msgstr "Resource:"
 
@@ -7082,9 +7082,13 @@ msgstr "Logo"
 msgid "Agents"
 msgstr "Agenda"
 
-#: plugins/jabber/jabberclient.cpp:3052
+#: plugins/jabber/jabberclient.cpp:3052 plugins/yahoo/yahooclient.cpp:2536
 msgid "File transfer fail"
 msgstr "Dadeiiberdragong fehlgschlaga"
+
+#: plugins/jabber/jabberinfobase.cpp:195
+msgid "ID:"
+msgstr "ID:"
 
 #: plugins/jabber/jabberbrowser.cpp:45 plugins/jabber/jabberbrowser.cpp:244
 msgid "Process"
@@ -7159,10 +7163,6 @@ msgstr ""
 #: plugins/jabber/jabberaboutinfobase.cpp:57
 msgid "Additional information:"
 msgstr "Zusädzliche Enformazion:"
-
-#: plugins/jabber/jabberinfobase.cpp:183
-msgid "ID:"
-msgstr "ID:"
 
 #: plugins/jabber/servicesbase.cpp:108 plugins/jabber/servicesbase.cpp:114
 msgid "Jabber agents are available online after login"
@@ -8029,28 +8029,32 @@ msgstr "Elemend:"
 msgid "Program:"
 msgstr "Brogramm:"
 
-#: plugins/navigate/navigate.cpp:198
+#: plugins/navigate/navigate.cpp:219
 msgid "Navigate"
 msgstr "Navigazion"
 
-#: plugins/navigate/navigate.cpp:199
+#: plugins/navigate/navigate.cpp:220
 msgid ""
 "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Blugin schdelld Navigazion von Hyberlinks bereid ond rufd exderne Browsr- "
 "odr Mailbrogramme uff"
 
-#: plugins/navigate/navigate.cpp:252
+#: plugins/navigate/navigate.cpp:268
 msgid "Send mail"
 msgstr "E-Mail senda"
 
-#: plugins/navigate/navcfgbase.cc:65
+#: plugins/navigate/navcfgbase.cc:69
 msgid "Browser:"
 msgstr "Browsr:"
 
-#: plugins/navigate/navcfgbase.cc:66
+#: plugins/navigate/navcfgbase.cc:70
 msgid "Mailer:"
 msgstr "Mailr:"
+
+#: plugins/navigate/navcfgbase.cc:71
+msgid "Open links in &new window"
+msgstr ""
 
 #: plugins/yahoo/yahoo.cpp:81
 msgid "Yahoo!"
@@ -8060,63 +8064,53 @@ msgstr "Yahoo!"
 msgid ""
 "http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.ya"
 "hoo.com/&.redir_from=MESSENGER"
-msgstr "http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.yahoo.com/&.redir_from=MESSENGER"
+msgstr ""
+"http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.ya"
+"hoo.com/&.redir_from=MESSENGER"
 
 #: plugins/yahoo/yahoocfg.cpp:46
 msgid "Get a Yahoo! ID"
 msgstr "A Yahoo!-ID hola"
 
-#: plugins/yahoo/yahooclient.cpp:114
-msgid "Cancel send"
-msgstr "Senda abbrecha"
-
-#: plugins/yahoo/yahooclient.cpp:294
+#: plugins/yahoo/yahooclient.cpp:325
 msgid "Yahoo! login lock"
 msgstr "Yahoo!-Loginschberre"
 
-#: plugins/yahoo/yahooclient.cpp:317
+#: plugins/yahoo/yahooclient.cpp:348
 msgid "Your account has been locked"
 msgstr "Dr Zugang wurde gschberrd"
 
-#: plugins/yahoo/yahooclient.cpp:321 plugins/yahoo/yahooclient.cpp:350
+#: plugins/yahoo/yahooclient.cpp:352 plugins/yahoo/yahooclient.cpp:365
 msgid "Your account is being used from another location"
 msgstr "Ihre UIN wird grade von oim andera Ord aus benudzd"
 
-#: plugins/yahoo/yahooclient.cpp:1251
+#: plugins/yahoo/yahooclient.cpp:1347
 msgid "Not at home"
 msgstr "Ned zu Hause"
 
-#: plugins/yahoo/yahooclient.cpp:1254
+#: plugins/yahoo/yahooclient.cpp:1350
 msgid "Not at my desk"
 msgstr "Ned am Arbeidschbladz"
 
-#: plugins/yahoo/yahooclient.cpp:1257
+#: plugins/yahoo/yahooclient.cpp:1353
 msgid "Not in the office"
 msgstr "Ned em Biro"
 
-#: plugins/yahoo/yahooclient.cpp:1263
+#: plugins/yahoo/yahooclient.cpp:1359
 msgid "On vacation"
 msgstr "Em Urlaub"
 
-#: plugins/yahoo/yahooclient.cpp:1266
+#: plugins/yahoo/yahooclient.cpp:1362
 msgid "Out to lunch"
 msgstr "Zom Middag"
 
-#: plugins/yahoo/yahooclient.cpp:1269
+#: plugins/yahoo/yahooclient.cpp:1365
 msgid "Stepped out"
 msgstr "Ausdreda"
 
-#: plugins/yahoo/yahoocfgbase.cpp:165
+#: plugins/yahoo/yahoocfgbase.cpp:177
 msgid "&Yahoo!"
 msgstr "&Yahoo!"
-
-#: plugins/yahoo/yahoocfgbase.cpp:168
-msgid "File transfer server:"
-msgstr "Dadeiiberdragong:"
-
-#: plugins/yahoo/yahoocfgbase.cpp:169
-msgid "File transfer port:"
-msgstr "Dadeiiberdragongschbord:"
 
 #: plugins/yahoo/yahoosearch.cpp:56
 msgid "Yahoo! search results"
@@ -8136,7 +8130,8 @@ msgstr "Dexd ersedza"
 
 #: plugins/replace/replace.cpp:34
 msgid "Plugin provides text replacing in message edit window"
-msgstr "Dieses Blugin schdelld Dexdersedzong em Nachrichdbearbeidong-Fenschdr bereid"
+msgstr ""
+"Dieses Blugin schdelld Dexdersedzong em Nachrichdbearbeidong-Fenschdr bereid"
 
 #: plugins/replace/replacecfg.cpp:31
 msgid "You type"
@@ -8158,317 +8153,321 @@ msgstr "Blugin schdelld Anzeige des Wedders bereid"
 msgid "Not connected"
 msgstr "Ned vrbonda"
 
-#: plugins/weather/weather.cpp:451
+#: plugins/weather/weather.cpp:453
 msgid "Monday"
 msgstr "Mondag"
 
-#: plugins/weather/weather.cpp:452
+#: plugins/weather/weather.cpp:454
 msgid "Tuesday"
 msgstr "Dienschdag"
 
-#: plugins/weather/weather.cpp:453
+#: plugins/weather/weather.cpp:455
 msgid "Wednesday"
 msgstr "Middwoch"
 
-#: plugins/weather/weather.cpp:454
+#: plugins/weather/weather.cpp:456
 msgid "Thursday"
 msgstr "Donnerschdag"
 
-#: plugins/weather/weather.cpp:455
+#: plugins/weather/weather.cpp:457
 msgid "Friday"
 msgstr "Freidag"
 
-#: plugins/weather/weather.cpp:456
+#: plugins/weather/weather.cpp:458
 msgid "Saturday"
 msgstr "Samschdag"
 
-#: plugins/weather/weather.cpp:457
+#: plugins/weather/weather.cpp:459
 msgid "Sunday"
 msgstr "Sonndag"
 
-#: plugins/weather/weather.cpp:459
+#: plugins/weather/weather.cpp:461
 msgid ""
 "_: weather\n"
 "Overcast"
 msgstr "Bewelkd"
 
-#: plugins/weather/weather.cpp:460
+#: plugins/weather/weather.cpp:462
 msgid ""
 "_: weather\n"
 "Fog"
 msgstr "Nebl"
 
-#: plugins/weather/weather.cpp:461
+#: plugins/weather/weather.cpp:463
 msgid ""
 "_: weather\n"
 "Haze"
 msgstr "Nebl"
 
-#: plugins/weather/weather.cpp:462
+#: plugins/weather/weather.cpp:464
 msgid ""
 "_: weather\n"
 "Storm"
 msgstr "Schdurm"
 
-#: plugins/weather/weather.cpp:463
+#: plugins/weather/weather.cpp:465
 msgid ""
 "_: weather\n"
 "Rain"
 msgstr "Rega"
 
-#: plugins/weather/weather.cpp:464
+#: plugins/weather/weather.cpp:466
 msgid ""
 "_: weather\n"
 "Snow"
 msgstr "Schnee"
 
-#: plugins/weather/weather.cpp:465
+#: plugins/weather/weather.cpp:467
 msgid ""
 "_: weather\n"
 "Light Rain"
 msgstr "Leichdr Rega"
 
-#: plugins/weather/weather.cpp:466
+#: plugins/weather/weather.cpp:468
 msgid ""
 "_: weather\n"
 "Light Snow"
 msgstr "Leichdr Schnee"
 
-#: plugins/weather/weather.cpp:467
+#: plugins/weather/weather.cpp:469
 msgid ""
 "_: weather\n"
 "Few Snow"
 msgstr "Edwas Schnee"
 
-#: plugins/weather/weather.cpp:468
+#: plugins/weather/weather.cpp:470
 msgid ""
 "_: weather\n"
 "Scattered Snow"
 msgstr "Vreinzeldr Schnee"
 
-#: plugins/weather/weather.cpp:469
+#: plugins/weather/weather.cpp:471
 msgid ""
 "_: weather\n"
 "Clear"
 msgstr "Klar"
 
-#: plugins/weather/weather.cpp:470
+#: plugins/weather/weather.cpp:472
 msgid ""
 "_: weather\n"
 "Showers"
 msgstr "Schaur"
 
-#: plugins/weather/weather.cpp:471
+#: plugins/weather/weather.cpp:473
 msgid ""
 "_: weather\n"
 "Mostly Clear"
 msgstr "Meischd klar"
 
-#: plugins/weather/weather.cpp:472
+#: plugins/weather/weather.cpp:474
 msgid ""
 "_: weather\n"
 "Sunny"
 msgstr "Sonning"
 
-#: plugins/weather/weather.cpp:473
+#: plugins/weather/weather.cpp:475
 msgid ""
 "_: weather\n"
 "Fair"
 msgstr "Middelmässig"
 
-#: plugins/weather/weather.cpp:474
+#: plugins/weather/weather.cpp:476
 msgid ""
 "_: weather\n"
 "Cloudy"
 msgstr "Bewelkd"
 
-#: plugins/weather/weather.cpp:475
+#: plugins/weather/weather.cpp:477
 msgid ""
 "_: weather\n"
 "Mostly Cloudy"
 msgstr "Meischd bewelkd"
 
-#: plugins/weather/weather.cpp:476
+#: plugins/weather/weather.cpp:478
 msgid ""
 "_: weather\n"
 "Partly Cloudy"
 msgstr "Doilweise bewelkd"
 
-#: plugins/weather/weather.cpp:477
+#: plugins/weather/weather.cpp:479
 msgid ""
 "_: weather\n"
 "Wind"
 msgstr "Wend"
 
-#: plugins/weather/weather.cpp:478
+#: plugins/weather/weather.cpp:480
 msgid ""
 "_: weather\n"
 "Drizzle"
 msgstr "Nieselrega"
 
-#: plugins/weather/weather.cpp:479
+#: plugins/weather/weather.cpp:481
 msgid ""
 "_: weather\n"
 "Light Drizzle"
 msgstr "Leichdr Nieselrega"
 
-#: plugins/weather/weather.cpp:480
+#: plugins/weather/weather.cpp:482
 msgid ""
 "_: weather\n"
 "steady"
 msgstr "Beschdändig"
 
-#: plugins/weather/weather.cpp:481
+#: plugins/weather/weather.cpp:483
 msgid ""
 "_: weather\n"
 "rising"
 msgstr "Anschdeignd"
 
-#: plugins/weather/weather.cpp:482
+#: plugins/weather/weather.cpp:484
 msgid ""
 "_: weather\n"
 "falling"
 msgstr "Fallend"
 
-#: plugins/weather/weather.cpp:483
+#: plugins/weather/weather.cpp:485
 msgid ""
 "_: weather\n"
 "Unlimited"
 msgstr "Onbegrenzd"
 
-#: plugins/weather/weather.cpp:484
+#: plugins/weather/weather.cpp:486
 msgid ""
 "_: weather\n"
 "N"
 msgstr "N"
 
-#: plugins/weather/weather.cpp:485
+#: plugins/weather/weather.cpp:487
 msgid ""
 "_: weather\n"
 "NNW"
 msgstr "NNW"
 
-#: plugins/weather/weather.cpp:486
+#: plugins/weather/weather.cpp:488
 msgid ""
 "_: weather\n"
 "NW"
 msgstr "NW"
 
-#: plugins/weather/weather.cpp:487
+#: plugins/weather/weather.cpp:489
+#, fuzzy
 msgid ""
 "_: weather\n"
-"NWW"
-msgstr "NWW"
+"WNW"
+msgstr "NW"
 
-#: plugins/weather/weather.cpp:488
+#: plugins/weather/weather.cpp:490
 msgid ""
 "_: weather\n"
 "W"
 msgstr "W"
 
-#: plugins/weather/weather.cpp:489
+#: plugins/weather/weather.cpp:491
+#, fuzzy
 msgid ""
 "_: weather\n"
-"SWW"
-msgstr "SWW"
+"WSW"
+msgstr "SW"
 
-#: plugins/weather/weather.cpp:490
+#: plugins/weather/weather.cpp:492
 msgid ""
 "_: weather\n"
 "SW"
 msgstr "SW"
 
-#: plugins/weather/weather.cpp:491
+#: plugins/weather/weather.cpp:493
 msgid ""
 "_: weather\n"
 "SSW"
 msgstr "SSW"
 
-#: plugins/weather/weather.cpp:492
+#: plugins/weather/weather.cpp:494
 msgid ""
 "_: weather\n"
 "S"
 msgstr "S"
 
-#: plugins/weather/weather.cpp:493
+#: plugins/weather/weather.cpp:495
 msgid ""
 "_: weather\n"
 "SSE"
 msgstr "SSO"
 
-#: plugins/weather/weather.cpp:494
+#: plugins/weather/weather.cpp:496
 msgid ""
 "_: weather\n"
 "SE"
 msgstr "SO"
 
-#: plugins/weather/weather.cpp:495
+#: plugins/weather/weather.cpp:497
+#, fuzzy
 msgid ""
 "_: weather\n"
-"SEE"
-msgstr "SOO"
+"ESE"
+msgstr "SO"
 
-#: plugins/weather/weather.cpp:496
+#: plugins/weather/weather.cpp:498
 msgid ""
 "_: weather\n"
 "E"
 msgstr "O"
 
-#: plugins/weather/weather.cpp:497
+#: plugins/weather/weather.cpp:499
+#, fuzzy
 msgid ""
 "_: weather\n"
-"NEE"
-msgstr "NOO"
+"ENE"
+msgstr "NO"
 
-#: plugins/weather/weather.cpp:498
+#: plugins/weather/weather.cpp:500
 msgid ""
 "_: weather\n"
 "NE"
 msgstr "NO"
 
-#: plugins/weather/weather.cpp:499
+#: plugins/weather/weather.cpp:501
 msgid ""
 "_: weather\n"
 "NNE"
 msgstr "NNO"
 
-#: plugins/weather/weather.cpp:500
+#: plugins/weather/weather.cpp:502
 msgid "km"
 msgstr "km"
 
-#: plugins/weather/weather.cpp:501
+#: plugins/weather/weather.cpp:503
 msgid "km/h"
 msgstr "km/h"
 
-#: plugins/weather/weather.cpp:513
+#: plugins/weather/weather.cpp:515
 msgid "and"
 msgstr "ond"
 
-#: plugins/weather/weather.cpp:516
+#: plugins/weather/weather.cpp:518
 msgid ""
 "_: weather\n"
 "Early"
 msgstr "Frih"
 
-#: plugins/weather/weather.cpp:519
+#: plugins/weather/weather.cpp:521
 msgid ""
 "_: weather\n"
 "Late"
 msgstr "Schbäd"
 
-#: plugins/weather/weather.cpp:534 plugins/weather/weather.cpp:536
+#: plugins/weather/weather.cpp:536 plugins/weather/weather.cpp:538
 msgid "m/s"
 msgstr "m/s"
 
-#: plugins/weather/weather.cpp:535 plugins/weather/weather.cpp:536
+#: plugins/weather/weather.cpp:537 plugins/weather/weather.cpp:538
 msgid "gust "
 msgstr "Behig"
 
-#: plugins/weather/weather.cpp:598
+#: plugins/weather/weather.cpp:600
 msgid "%t | %c"
 msgstr "%t | %c"
 
-#: plugins/weather/weather.cpp:607
+#: plugins/weather/weather.cpp:609
 msgid ""
 "%l<br><br>\n"
 "<img src=\"icon:weather\"> %c<br>\n"
@@ -8496,7 +8495,7 @@ msgstr ""
 "<br>\n"
 "Akdualisierd: %u<br>\n"
 
-#: plugins/weather/weather.cpp:626
+#: plugins/weather/weather.cpp:628
 msgid ""
 "<br>\n"
 "<nobr><b>%d %w</b></nobr><br>\n"
@@ -8623,6 +8622,35 @@ msgstr "Knobf-Kurzinfo:"
 #: plugins/weather/wifacecfgbase.cpp:83
 msgid "Forecast tip:"
 msgstr "Vorhersagedibb:"
+
+#~ msgid "Cancel send"
+#~ msgstr "Senda abbrecha"
+
+#~ msgid "File transfer server:"
+#~ msgstr "Dadeiiberdragong:"
+
+#~ msgid "File transfer port:"
+#~ msgstr "Dadeiiberdragongschbord:"
+
+#~ msgid ""
+#~ "_: weather\n"
+#~ "NWW"
+#~ msgstr "NWW"
+
+#~ msgid ""
+#~ "_: weather\n"
+#~ "SWW"
+#~ msgstr "SWW"
+
+#~ msgid ""
+#~ "_: weather\n"
+#~ "SEE"
+#~ msgstr "SOO"
+
+#~ msgid ""
+#~ "_: weather\n"
+#~ "NEE"
+#~ msgstr "NOO"
 
 #, fuzzy
 #~ msgid ""

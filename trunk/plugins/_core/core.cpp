@@ -1457,7 +1457,7 @@ void CorePlugin::installTranslator()
 #ifdef USE_KDE
         return;
 #else
-char *p = getenv("LANG");
+        char *p = getenv("LANG");
         if (p){
             for (; *p; p++){
                 if (*p == '.') break;
@@ -3464,7 +3464,7 @@ bool CorePlugin::init(bool bInit)
         Event eSave(EventSaveState);
         eSave.process();
     }
-    return bRes;
+    return bRes || bNew;
 }
 
 void CorePlugin::destroy()
