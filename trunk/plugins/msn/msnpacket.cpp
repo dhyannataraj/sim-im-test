@@ -467,13 +467,11 @@ AddPacket::AddPacket(MSNClient *client, const char *listType, const char *mail, 
         addArg(number(grp).c_str());
 }
 
-RemPacket::RemPacket(MSNClient *client, const char *listType, const char *mail, unsigned grp)
+RemPacket::RemPacket(MSNClient *client, const char *listType, const char *mail)
         : MSNPacket(client, "REM")
 {
     addArg(listType);
     addArg(mail);
-    if (!strcmp(listType, "FL"))
-        addArg(number(grp).c_str());
 }
 
 ReaPacket::ReaPacket(MSNClient *client, const char *mail, const char *name)
@@ -483,10 +481,10 @@ ReaPacket::ReaPacket(MSNClient *client, const char *mail, const char *name)
     addArg(name);
 }
 
-BlpPacket::BlpPacket(MSNClient *client, bool bInvisible)
+BlpPacket::BlpPacket(MSNClient *client)
         : MSNPacket(client, "BLP")
 {
-    addArg(bInvisible ? "BL" : "AL");
+    addArg("BL");
 }
 
 XfrPacket::XfrPacket(MSNClient *client, SBSocket *socket)

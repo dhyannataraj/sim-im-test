@@ -481,14 +481,38 @@ unsigned long ICQClient::getUin()
     return data.owner.Uin;
 }
 
-bool ICQClient::isMyData(clientData *_data, Contact *&contact)
+bool ICQClient::isMyData(clientData *&_data, Contact *&contact)
 {
-	if (_data->Sign != ICQ_SIGN)
-		return false;
-	ICQUserData *data = (ICQUserData*)_data;
-	if (findContact(screen(data).c_str(), NULL, false, contact) == NULL)
-		contact = NULL;
-	return true;
+    if (_data->Sign != ICQ_SIGN)
+        return false;
+    ICQUserData *data = (ICQUserData*)_data;
+    if (m_bAIM){
+        if (data->Screen && this->data.owner.Screen &&
+                (QString(data->Screen).lower() == QString(this->data.owner.Screen).lower()))
+            return false;
+    }else{
+        if (data->Uin == this->data.owner.Uin)
+            return false;
+    }
+    ICQUserData *my_data = findContact(screen(data).c_str(), NULL, false, contact);
+    if (my_data){
+        data = my_data;
+        string s;
+        s = contact->getName().local8Bit();
+    }else{
+        contact = NULL;
+    }
+    return true;
+}
+
+bool ICQClient::createData(clientData *&_data, Contact *contact)
+{
+    ICQUserData *data = (ICQUserData*)_data;
+    ICQUserData *new_data = (ICQUserData*)(contact->clientData.createData(this));
+    new_data->Uin = data->Uin;
+    set_str(&new_data->Screen, data->Screen);
+    _data = (clientData*)new_data;
+    return true;
 }
 
 OscarSocket::OscarSocket()
@@ -2918,33 +2942,36 @@ bool ICQClient::send(Message *msg, void *_data)
     }
     if (data == NULL)
         return false;
-    bool bCreateDirect = false;
-    if ((data->Direct == NULL) &&
-            !data->bNoDirect &&
-            (data->Status != ICQ_STATUS_OFFLINE) &&
-            (get_ip(data->IP) == get_ip(this->data.owner.IP)))
-        bCreateDirect = true;
-    if (!bCreateDirect &&
-            (msg->type() == MessageGeneric) &&
-            (data->Status != ICQ_STATUS_OFFLINE) &&
-            get_ip(data->IP) &&
-            (msg->getPlainText().length() >= MAX_MESSAGE_SIZE))
-        bCreateDirect = true;
-    if ((getInvisible() && (data->VisibleId == 0)) ||
-            (!getInvisible() && data->InvisibleId))
-        bCreateDirect = false;
-    if (bCreateDirect){
-        data->Direct = new DirectClient(data, this, PLUGIN_NULL);
-        data->Direct->connect();
+    if (data->Uin){
+        bool bCreateDirect = false;
+        if ((data->Direct == NULL) &&
+                !data->bNoDirect &&
+                (data->Status != ICQ_STATUS_OFFLINE) &&
+                (get_ip(data->IP) == get_ip(this->data.owner.IP)))
+            bCreateDirect = true;
+        if (!bCreateDirect &&
+                (msg->type() == MessageGeneric) &&
+                (data->Status != ICQ_STATUS_OFFLINE) &&
+                get_ip(data->IP) &&
+                (msg->getPlainText().length() >= MAX_MESSAGE_SIZE))
+            bCreateDirect = true;
+        if ((getInvisible() && (data->VisibleId == 0)) ||
+                (!getInvisible() && data->InvisibleId))
+            bCreateDirect = false;
+        if (bCreateDirect){
+            data->Direct = new DirectClient(data, this, PLUGIN_NULL);
+            data->Direct->connect();
+        }
+        if (data->Direct)
+            return data->Direct->sendMessage(msg);
     }
-    if (data->Direct)
-        return data->Direct->sendMessage(msg);
-
     return sendThruServer(msg, data);
 }
 
 bool ICQClient::canSend(unsigned type, void *_data)
 {
+    if (_data && (((clientData*)_data)->Sign != ICQ_SIGN))
+        return false;
     if (getState() != Connected)
         return false;
     ICQUserData *data = (ICQUserData*)_data;
@@ -2955,13 +2982,13 @@ bool ICQClient::canSend(unsigned type, void *_data)
         return (data != NULL);
     case MessageURL:
     case MessageContact:
-        return (data != NULL) && data->Uin;
+        return (data != NULL) && data->Uin && !m_bAIM;
     case MessageAuthRequest:
         return data && (data->WaitAuth);
     case MessageAuthGranted:
         return data && (data->WantAuth);
     case MessageCheckInvisible:
-        return data && data->Uin && ((data->Status & 0xFFFF) == ICQ_STATUS_OFFLINE);
+        return data && data->Uin && !m_bAIM && ((data->Status & 0xFFFF) == ICQ_STATUS_OFFLINE);
     case MessageFile:
         return data && ((data->Status & 0xFFFF) != ICQ_STATUS_OFFLINE);
     case MessageWarning:

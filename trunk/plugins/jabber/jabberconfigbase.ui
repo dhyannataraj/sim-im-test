@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>375</width>
+            <width>371</width>
             <height>287</height>
         </rect>
     </property>
@@ -325,7 +325,7 @@
                             </size>
                         </property>
                     </spacer>
-                    <widget row="3"  column="0"  rowspan="1"  colspan="3" >
+                    <widget row="2"  column="0"  rowspan="1"  colspan="3" >
                         <class>QCheckBox</class>
                         <property stdset="1">
                             <name>name</name>
@@ -336,7 +336,7 @@
                             <string>Use &amp;SSL</string>
                         </property>
                     </widget>
-                    <widget row="4"  column="0" >
+                    <widget row="3"  column="0" >
                         <class>QLabel</class>
                         <property stdset="1">
                             <name>name</name>
@@ -354,22 +354,39 @@
                             <name>hAlign</name>
                         </property>
                     </widget>
-                    <widget row="4"  column="1"  rowspan="1"  colspan="2" >
+                    <widget row="3"  column="1"  rowspan="1"  colspan="2" >
                         <class>QLineEdit</class>
                         <property stdset="1">
                             <name>name</name>
                             <cstring>edtResource</cstring>
                         </property>
                     </widget>
-                    <widget row="5"  column="0"  rowspan="1"  colspan="3" >
-                        <class>QCheckBox</class>
-                        <property stdset="1">
+                    <spacer row="8"  column="0" >
+                        <property>
                             <name>name</name>
-                            <cstring>chkPlain</cstring>
+                            <cstring>Spacer4</cstring>
                         </property>
                         <property>
-                            <name>text</name>
-                            <string>Use &amp;plain text login</string>
+                            <name>orientation</name>
+                            <enum>Vertical</enum>
+                        </property>
+                        <property>
+                            <name>sizeType</name>
+                            <enum>Expanding</enum>
+                        </property>
+                        <property>
+                            <name>sizeHint</name>
+                            <size>
+                                <width>20</width>
+                                <height>20</height>
+                            </size>
+                        </property>
+                    </spacer>
+                    <widget row="7"  column="0"  rowspan="1"  colspan="3" >
+                        <class>QLineEdit</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>edtVHost</cstring>
                         </property>
                     </widget>
                     <widget row="6"  column="0"  rowspan="1"  colspan="3" >
@@ -383,21 +400,50 @@
                             <string>Manualy specify Jabber host:</string>
                         </property>
                     </widget>
-                    <widget row="7"  column="0"  rowspan="1"  colspan="3" >
-                        <class>QLineEdit</class>
+                    <widget row="5"  column="0"  rowspan="1"  colspan="3" >
+                        <class>QCheckBox</class>
                         <property stdset="1">
                             <name>name</name>
-                            <cstring>edtVHost</cstring>
+                            <cstring>chkPlain</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Use &amp;plain text login</string>
                         </property>
                     </widget>
-                    <spacer row="8"  column="0" >
+                    <widget row="4"  column="0" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>TextLabel1</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Priority:</string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>AlignVCenter|AlignRight</set>
+                        </property>
+                        <property>
+                            <name>hAlign</name>
+                        </property>
+                    </widget>
+                    <widget row="4"  column="1" >
+                        <class>QSpinBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>edtPriority</cstring>
+                        </property>
+                    </widget>
+                    <spacer row="4"  column="2" >
                         <property>
                             <name>name</name>
-                            <cstring>Spacer4</cstring>
+                            <cstring>Spacer5</cstring>
                         </property>
                         <property>
                             <name>orientation</name>
-                            <enum>Vertical</enum>
+                            <enum>Horizontal</enum>
                         </property>
                         <property>
                             <name>sizeType</name>
@@ -463,10 +509,13 @@
     <tabstop>chkRegister</tabstop>
     <tabstop>edtID</tabstop>
     <tabstop>edtPasswd</tabstop>
+    <tabstop>edtServer1</tabstop>
+    <tabstop>edtPort1</tabstop>
     <tabstop>edtServer</tabstop>
     <tabstop>edtPort</tabstop>
     <tabstop>chkSSL</tabstop>
     <tabstop>edtResource</tabstop>
+    <tabstop>edtPriority</tabstop>
     <tabstop>chkPlain</tabstop>
     <tabstop>chkVHost</tabstop>
     <tabstop>edtVHost</tabstop>

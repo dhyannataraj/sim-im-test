@@ -159,6 +159,9 @@ void ListView::contentsMouseReleaseEvent(QMouseEvent *e)
         QListViewItem *item = m_pressedItem;
         m_pressedItem = NULL;
         item->repaint();
+        QListViewItem *citem = itemAt(contentsToViewport(e->pos()));
+        if (item == citem)
+            emit clickItem(item);
     }
 }
 

@@ -30,11 +30,10 @@ const unsigned STATUS_BRB		= 101;
 const unsigned STATUS_PHONE		= 102;
 const unsigned STATUS_LUNCH		= 103;
 
-const unsigned MSN_ACCEPT	= 0x0001;
-const unsigned MSN_BLOCKED	= 0x0002;
-const unsigned MSN_REVERSE  = 0x0004;
-const unsigned MSN_FORWARD	= 0x0008;
-const unsigned MSN_CHECKED	= 0x0010;
+const unsigned MSN_BLOCKED	= 0x0001;
+const unsigned MSN_REVERSE  = 0x0002;
+const unsigned MSN_FORWARD	= 0x0004;
+const unsigned MSN_CHECKED	= 0x0008;
 
 class SBSocket;
 
@@ -122,10 +121,9 @@ protected:
 
 const unsigned LR_CONTACTxCHANGED		= 0;
 const unsigned LR_CONTACTxREMOVED		= 1;
-const unsigned LR_CONTACTxREMOVED_AL	= 2;
-const unsigned LR_CONTACTxREMOVED_BL	= 3;
-const unsigned LR_GROUPxCHANGED			= 4;
-const unsigned LR_GROUPxREMOVED			= 5;
+const unsigned LR_CONTACTxREMOVED_BL	= 2;
+const unsigned LR_GROUPxCHANGED			= 3;
+const unsigned LR_GROUPxREMOVED			= 4;
 
 typedef struct MSNListRequest
 {
@@ -186,7 +184,8 @@ protected:
     virtual void setupContact(Contact*, void *data);
     virtual void *processEvent(Event*);
     virtual QWidget *searchWindow();
-    virtual bool isMyData(clientData*, Contact*&);
+    virtual bool isMyData(clientData*&, Contact*&);
+    virtual bool createData(clientData*&, Contact*);
     void getLine(const char*);
     void clearPackets();
     void sendStatus();

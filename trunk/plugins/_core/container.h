@@ -69,8 +69,9 @@ public:
     string getState();
     bool isReceived() { return m_bReceived; }
     void setReceived(bool bReceived) { m_bReceived = bReceived; }
-    void setMessageType(unsigned type);
     void setNoSwitch();
+    void setMessageType(unsigned id);
+    void contactChanged(Contact *contact);
     PROP_ULONG(Id);
     PROP_STR(Windows);
     PROP_ULONG(ActiveWindow);
@@ -91,7 +92,6 @@ protected:
     virtual void resizeEvent(QResizeEvent*);
     virtual bool event(QEvent*);
     void *processEvent(Event*);
-    void contactChanged(Contact *contact);
     void showBar();
     void init();
     void setupAccel();

@@ -36,6 +36,7 @@ EditFile::EditFile(QWidget *p, const char *name)
 {
     bDirMode = false;
     bMultiplyMode = false;
+    bCreate = false;
     createPreview = NULL;
     lay = new QHBoxLayout(this);
     edtFile = new FileLineEdit(this);
@@ -164,13 +165,25 @@ void EditFile::showFiles()
             delete dlg;
         }else{
 #ifdef USE_KDE
-            if (title.isEmpty()){
-                s = QFileDialog::getOpenFileName(s, filter, topLevelWidget());
+            if (bCreate){
+                if (title.isEmpty()){
+                    s = QFileDialog::getSaveFileName(s, filter, topLevelWidget());
+                }else{
+                    s = QFileDialog::getSaveFileName(s, filter, topLevelWidget(), title);
+                }
             }else{
-                s = QFileDialog::getOpenFileName(s, filter, topLevelWidget(), title);
+                if (title.isEmpty()){
+                    s = QFileDialog::getOpenFileName(s, filter, topLevelWidget());
+                }else{
+                    s = QFileDialog::getOpenFileName(s, filter, topLevelWidget(), title);
+                }
             }
 #else
-            s = QFileDialog::getOpenFileName(s, filter, topLevelWidget(), "filedialog", title);
+            if (bCreate){
+                s = QFileDialog::getSaveFileName(s, filter, topLevelWidget(), "filedialog", title);
+            }else{
+                s = QFileDialog::getOpenFileName(s, filter, topLevelWidget(), "filedialog", title);
+            }
 #endif
         }
     }

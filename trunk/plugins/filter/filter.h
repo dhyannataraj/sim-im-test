@@ -34,17 +34,17 @@ class QStringList;
 
 class FilterPlugin : public QObject, public Plugin, public EventReceiver
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     FilterPlugin(unsigned, const char *cfg);
     virtual ~FilterPlugin();
     PROP_BOOL(FromList);
 protected slots:
-	void addToIgnore(void*);
+    void addToIgnore(void*);
 protected:
     unsigned user_data_id;
     unsigned CmdIgnoreList;
-	unsigned CmdIgnore;
+    unsigned CmdIgnore;
     virtual void *processEvent(Event*);
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual string getConfig();

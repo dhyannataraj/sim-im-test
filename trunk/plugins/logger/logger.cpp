@@ -21,6 +21,7 @@
 
 #include <stdio.h>
 #include <qapplication.h>
+#include <qfile.h>
 
 Plugin *createLoggerPlugin(unsigned base, bool, const char *add_info)
 {
@@ -60,12 +61,14 @@ static DataDef loggerData[] =
     {
         { "LogLevel", DATA_ULONG, 1, L_ERROR | L_WARN },
         { "LogPackets", DATA_STRING, 1, 0 },
+        { "File", DATA_STRING, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
 LoggerPlugin::LoggerPlugin(unsigned base, const char *add_info)
         : Plugin(base)
 {
+    m_file = NULL;
     load_data(loggerData, &data, add_info);
     string value;
     CmdParam p = { "-d:", I18N_NOOP("Set debug level"), &value };
@@ -79,10 +82,13 @@ LoggerPlugin::LoggerPlugin(unsigned base, const char *add_info)
             setLogType(atol(v.c_str()), true);
         }
     }
+    openFile();
 }
 
 LoggerPlugin::~LoggerPlugin()
 {
+    if (m_file)
+        delete m_file;
     free_data(loggerData, &data);
 }
 
@@ -96,6 +102,23 @@ string LoggerPlugin::getConfig()
     }
     setLogPackets(packets.c_str());
     return save_data(loggerData, &data);
+}
+
+void LoggerPlugin::openFile()
+{
+    if (m_file){
+        delete m_file;
+        m_file = NULL;
+    }
+    const char *fname = getFile();
+    if ((fname == NULL) || (*fname == 0))
+        return;
+    m_file = new QFile(QFile::decodeName(fname));
+    if (!m_file->open(IO_Append)){
+        delete m_file;
+        m_file = NULL;
+        log(L_WARN, "Can't open %s", fname);
+    }
 }
 
 bool LoggerPlugin::isLogType(unsigned id)
@@ -136,6 +159,14 @@ void *LoggerPlugin::processEvent(Event *e)
                 (li->packet_id && isLogType(li->packet_id))){
             string s;
             s = make_packet_string(li);
+            if (m_file){
+#ifdef WIN32
+                s += "\r\n";
+#else
+                s += "\n";
+#endif
+                m_file->writeBlock(s.c_str(), s.length());
+            }
 #ifdef QT_DLL
             for (char *p = (char*)(s.c_str()); *p; ){
                 char *r = strchr(p, '\n');

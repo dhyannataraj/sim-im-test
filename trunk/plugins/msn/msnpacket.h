@@ -128,7 +128,7 @@ protected:
 class RemPacket : public MSNPacket
 {
 public:
-    RemPacket(MSNClient *client, const char *listType, const char *mail, unsigned grp=0);
+    RemPacket(MSNClient *client, const char *listType, const char *mail);
 };
 
 class ReaPacket : public MSNPacket
@@ -140,7 +140,7 @@ public:
 class BlpPacket : public MSNPacket
 {
 public:
-    BlpPacket(MSNClient *client, bool bInvisible);
+    BlpPacket(MSNClient *client);
 };
 
 class XfrPacket : public MSNPacket

@@ -1215,7 +1215,7 @@ Client *ClientUserData::activeClient(void *&data, Client *client)
     for (it = p->begin(); it != p->end(); ++it){
         if (((*it).client == client) && ((*it).data == data))
             break;
-        if ((*it).client->protocol() != client->protocol())
+        if (((clientData*)((*it).data))->Sign != ((clientData*)data)->Sign)
             continue;
         if (client->compareData(data, (*it).data))
             return NULL;
@@ -1225,9 +1225,9 @@ Client *ClientUserData::activeClient(void *&data, Client *client)
     if (client->getState() == Client::Connected)
         return client;
     for (++it; it != p->end(); ++it){
-        if ((*it).client->protocol() != client->protocol())
+        if (client->getState() != Client::Connected)
             continue;
-        if ((*it).client->getState() != Client::Connected)
+        if (((clientData*)((*it).data))->Sign != ((clientData*)data)->Sign)
             continue;
         if (client->compareData(data, (*it).data)){
             data = (*it).data;
@@ -1325,10 +1325,10 @@ void ClientUserData::join(ClientUserData &data)
     sort();
 }
 
-void ClientUserData::join(unsigned n, ClientUserData &data)
+void ClientUserData::join(clientData *cData, ClientUserData &data)
 {
-    for (ClientUserDataPrivate::iterator it = data.p->begin(); it != data.p->end(); ++it, n--){
-        if (n == 0){
+    for (ClientUserDataPrivate::iterator it = data.p->begin(); it != data.p->end(); ++it){
+        if ((*it).data == cData){
             p->push_back(*it);
             data.p->erase(it);
             break;
@@ -1342,6 +1342,7 @@ class ClientDataIteratorPrivate
 public:
     ClientDataIteratorPrivate(ClientUserDataPrivate *p, Client *client);
     void *operator ++();
+    void reset();
     Client *m_lastClient;
 protected:
     ClientUserDataPrivate *m_p;
@@ -1353,8 +1354,7 @@ ClientDataIteratorPrivate::ClientDataIteratorPrivate(ClientUserDataPrivate *p, C
 {
     m_p = p;
     m_client = client;
-    m_lastClient = NULL;
-    m_it = p->begin();
+    reset();
 }
 
 void *ClientDataIteratorPrivate::operator ++()
@@ -1370,6 +1370,12 @@ void *ClientDataIteratorPrivate::operator ++()
     return NULL;
 }
 
+void ClientDataIteratorPrivate::reset()
+{
+    m_lastClient = NULL;
+    m_it = m_p->begin();
+}
+
 ClientDataIterator::ClientDataIterator(ClientUserData &data, Client *client)
 {
     p = new ClientDataIteratorPrivate(data.p, client);
@@ -1383,6 +1389,11 @@ ClientDataIterator::~ClientDataIterator()
 clientData *ClientDataIterator::operator ++()
 {
     return (clientData*)(++(*p));
+}
+
+void ClientDataIterator::reset()
+{
+    p->reset();
 }
 
 Client *ClientDataIterator::client()

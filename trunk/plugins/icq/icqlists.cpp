@@ -425,7 +425,6 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                     sendCapability();
                     sendICMB(1, 11);
                     sendICMB(0, 11);
-                    processListRequest();
                     fetchProfiles();
                 }else{
                     m_status = STATUS_AWAY;
@@ -443,6 +442,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                     eAR.process();
                 }
                 setState(Connected);
+                processListRequest();
                 break;
             }
             sendCapability();

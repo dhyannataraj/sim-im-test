@@ -40,6 +40,7 @@ public:
     void acceptDrop(bool bAccept);
     void setMenu(unsigned menuId);
 signals:
+    void clickItem(QListViewItem*);
     void deleteItem(QListViewItem*);
     void dragStart();
     void dragEnter(QMimeSource*);

@@ -44,8 +44,9 @@ public:
     string getConfig();
     unsigned id() { return m_id; }
     QString getName();
+    QString getLongName();
     const char *getIcon();
-    void setMessage(Message*);
+    void setMessage(Message*&);
     void setStatus(const QString&);
     void showListView(bool bShow, bool bAdd);
     QString status() { return m_status; }

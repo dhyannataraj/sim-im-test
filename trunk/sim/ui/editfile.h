@@ -55,6 +55,7 @@ public:
     void setFilePreview(CreatePreview*);
     void setTitle(const QString &title);
     void setReadOnly(bool);
+    void setCreate(bool);
 signals:
     void textChanged(const QString&);
 protected slots:
@@ -64,6 +65,7 @@ protected:
     bool bIsImage;
     bool bDirMode;
     bool bMultiplyMode;
+    bool bCreate;
     QString filter;
     QString startDir;
     QString title;

@@ -122,6 +122,7 @@ static DataDef jabberClientData[] =
         { "UsePlain", DATA_BOOL, 1, 0 },
         { "UseVHost", DATA_BOOL, 1, 0 },
         { "", DATA_BOOL, 1, 0 },
+        { "Priority", DATA_ULONG, 1, 5 },
         { "ListRequest", DATA_UTF, 1, 0 },
         { "VHost", DATA_UTF, 1, 0 },
         { "", DATA_STRUCT, sizeof(JabberUserData) / sizeof(unsigned), (unsigned)jabberUserData },
@@ -231,14 +232,27 @@ QWidget	*JabberClient::setupWnd()
     return new JabberConfig(NULL, this, false);
 }
 
-bool JabberClient::isMyData(clientData *_data, Contact *&contact)
+bool JabberClient::isMyData(clientData *&_data, Contact *&contact)
 {
-	if (_data->Sign != JABBER_SIGN)
-		return false;
-	JabberUserData *data = (JabberUserData*)_data;
-	if (findContact(data->ID, NULL, false, contact) == NULL)
-		contact = NULL;
-	return true;
+    if (_data->Sign != JABBER_SIGN)
+        return false;
+    JabberUserData *data = (JabberUserData*)_data;
+    JabberUserData *my_data = findContact(data->ID, NULL, false, contact);
+    if (my_data){
+        data = my_data;
+    }else{
+        contact = NULL;
+    }
+    return true;
+}
+
+bool JabberClient::createData(clientData *&_data, Contact *contact)
+{
+    JabberUserData *data = (JabberUserData*)_data;
+    JabberUserData *new_data = (JabberUserData*)(contact->clientData.createData(this));
+    set_str(&new_data->ID, data->ID);
+    _data = (clientData*)new_data;
+    return true;
 }
 
 void JabberClient::connect_ready()
@@ -396,7 +410,7 @@ void JabberClient::setStatus(unsigned status, const char *ar)
             data.owner.OnlineTime = now;
         m_status = status;
         m_socket->writeBuffer.packetStart();
-        const char *priority = "5";
+        string priority = number(getPriority());
         const char *show = NULL;
         const char *type = NULL;
         if (getInvisible()){
@@ -416,7 +430,7 @@ void JabberClient::setStatus(unsigned status, const char *ar)
                 show = "chat";
                 break;
             case STATUS_OFFLINE:
-                priority = NULL;
+                priority = "";
                 type = "unavailable";
                 break;
             }
@@ -430,8 +444,8 @@ void JabberClient::setStatus(unsigned status, const char *ar)
         if (ar && *ar){
             m_socket->writeBuffer << "<status>" << ar << "</status>\n";
         }
-        if (priority)
-            m_socket->writeBuffer << "<priority>" << priority << "</priority>\n";
+        if (!priority.empty())
+            m_socket->writeBuffer << "<priority>" << priority.c_str() << "</priority>\n";
         m_socket->writeBuffer << "</presence>";
         sendPacket();
         Event e(EventClientChanged, static_cast<Client*>(this));
@@ -691,7 +705,7 @@ void JabberClient::ServerRequest::text_tag(const char *name, const char *value)
     end_element(true);
     m_client->m_socket->writeBuffer
     << "<" << name << ">"
-    << JabberClient::encodeXML(value)
+    << JabberClient::encodeXML(QString::fromUtf8(value))
     << "</" << name << ">\n";
 }
 
@@ -1242,7 +1256,9 @@ void JabberClient::updateInfo(Contact *contact, void *data)
 
 bool JabberClient::canSend(unsigned type, void *_data)
 {
-    if ((_data == NULL) || (getState() != Connected))
+    if ((_data == NULL) || (((clientData*)_data)->Sign != JABBER_SIGN))
+        return false;
+    if (getState() != Connected)
         return false;
     JabberUserData *data = (JabberUserData*)_data;
     switch (type){

@@ -1074,6 +1074,12 @@ class ClientUserDataPrivate;
 class ClientDataIterator;
 class ClientDataIteratorPrivate;
 
+typedef struct clientData		// Base struct for all clientData
+{
+    unsigned	Sign;
+    unsigned	LastSend;
+} clientData;
+
 class EXPORT ClientUserData
 {
 public:
@@ -1088,19 +1094,13 @@ public:
     void freeClientData(Client *client);
     void sort();
     void join(ClientUserData &data);
-    void join(unsigned n, ClientUserData &data);
+    void join(clientData *cData, ClientUserData &data);
     unsigned size();
     Client *activeClient(void *&data, Client *client);
 protected:
     ClientUserDataPrivate *p;
     friend class ClientDataIterator;
 };
-
-typedef struct clientData		// Base struct for all clientData
-{
-    unsigned	Sign;
-    unsigned	LastSend;
-} clientData;
 
 class EXPORT ClientDataIterator
 {
@@ -1109,6 +1109,7 @@ public:
     ~ClientDataIterator();
     clientData *operator ++();
     Client *client();
+    void reset();
 protected:
     ClientDataIteratorPrivate *p;
 };
@@ -1279,7 +1280,8 @@ public:
     virtual void setStatus(unsigned status, bool bCommon);
     virtual string getConfig();
     virtual bool compareData(void*, void*);
-    virtual bool isMyData(clientData*, Contact*&) = 0;
+    virtual bool isMyData(clientData*&, Contact*&) = 0;
+    virtual bool createData(clientData*&, Contact*) = 0;
     virtual void contactInfo(void *clientData, unsigned long &status, unsigned &style, const char *&statusIcon, string *icons = NULL);
     virtual QString ownerName();
     virtual QString contactName(void *clientData);

@@ -1214,12 +1214,16 @@ void UserView::blink()
 {
     m_bBlink = !m_bBlink;
     list<BlinkCount>::iterator it;
-    for (it = blinks.begin(); it != blinks.end(); ++it){
+    for (it = blinks.begin(); it != blinks.end();){
         ContactItem *contact = findContactItem((*it).id, NULL);
-        if (contact == NULL)
-            return;
+        if (contact == NULL){
+            blinks.erase(it);
+            it = blinks.begin();
+            break;
+        }
         contact->m_bBlink = m_bBlink;
         repaintItem(contact);
+        ++it;
     }
     if (m_bBlink)
         return;
