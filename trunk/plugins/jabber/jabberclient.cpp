@@ -1440,7 +1440,7 @@ bool JabberClient::send(Message *msg, void *_data)
                 return false;
             m_socket->writeBuffer.packetStart();
             m_socket->writeBuffer
-            << "<message to=\""
+            << "<message type=\"chat\" to=\""
             << data->ID;
             m_socket->writeBuffer
             << "\"><body>"
