@@ -69,6 +69,7 @@ ICQClientSocket::ICQClientSocket(QSocket *s)
 #else
         sock = new QSocket(this);
     bConnected = false;
+	timer = NULL;
 #endif
 #ifdef HAVE_KEXTSOCK_H
     QObject::connect(sock, SIGNAL(connectionSuccess()), this, SLOT(slotConnected()));
@@ -100,6 +101,10 @@ void ICQClientSocket::close()
     sock->closeNow();
 #else
     sock->close();
+	if (timer){
+		delete timer;
+		timer = NULL;
+	}
 #endif
 }
 
@@ -159,7 +164,9 @@ void ICQClientSocket::connect(const char *host, int _port)
     }
 #else
     bConnected = false;
-    QTimer::singleShot(10000, this, SLOT(resolveTimeout()));
+    timer = new QTimer(this);
+	QObject::connect(timer, SIGNAL(timeout()), this, SLOT(resolveTimeout()));
+	timer->start(15000);
     sock->connectToHost(host, port);
 #endif
 }
@@ -167,6 +174,11 @@ void ICQClientSocket::connect(const char *host, int _port)
 void ICQClientSocket::resolveTimeout()
 {
 #ifndef HAVE_KEXTSOCK_H
+	log(L_DEBUG, "Resolve timeout");
+	if (timer){
+		delete timer;
+		timer = NULL;
+	}
     if (!bConnected)
         slotError(1);
 #endif
@@ -181,6 +193,10 @@ void ICQClientSocket::slotConnected()
     sock->enableRead(true);
     sock->enableWrite(false);
 #else
+	if (timer == NULL){
+		delete timer;
+		timer = NULL;
+	}
     bConnected = true;
 #endif
 }

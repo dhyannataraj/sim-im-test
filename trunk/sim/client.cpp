@@ -409,6 +409,7 @@ void SIMClient::save()
         writeStr(s, "[User]\n");
         ::save(*it, SIMUser_Params, s);
     }
+	s.flush();
 }
 
 bool SIMClient::load(unsigned long ownerUIN)

@@ -65,6 +65,7 @@ protected:
     KExtendedSocket *sock;
 #else
     QSocket *sock;
+	QTimer  *timer;
     bool bConnected;
 #endif
     bool bInWrite;
