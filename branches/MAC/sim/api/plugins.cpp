@@ -18,6 +18,7 @@
 #include "simapi.h"
 #include "sockfactory.h"
 #include "fetch.h"
+#include "ltdl.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -314,9 +315,9 @@ void PluginManagerPrivate::load(pluginInfo &info)
         }
         info.module = (void*)hLib;
 #else
-        info.module = dlopen(fullName.c_str(), RTLD_LAZY);
+        info.module = (void*)lt_dlopen(fullName.c_str());
         if (info.module == NULL){
-            log(L_WARN, "Can't load plugin %s: %s", fullName.c_str(), dlerror());
+            log(L_WARN, "Can't load plugin %s: %s", fullName.c_str(), lt_dlerror());
             return;
         }
 #endif
@@ -328,7 +329,7 @@ void PluginManagerPrivate::load(pluginInfo &info)
 #ifdef WIN32
         (DWORD&)getInfo = (DWORD)GetProcAddress((HINSTANCE)info.module,"GetPluginInfo");
 #else
-        (void*)getInfo = dlsym(info.module, "GetPluginInfo");
+        (void*)getInfo = (void*)lt_dlsym((lt_dlhandle)info.module, "GetPluginInfo");
 #endif
         if (getInfo == NULL){
             log(L_WARN, "Plugin %s haven't entry GetInfo", info.name);
@@ -473,7 +474,7 @@ void PluginManagerPrivate::release(pluginInfo &info, bool bFree)
 #ifdef WIN32
             FreeLibrary((HINSTANCE)(info.module));
 #else
-            dlclose(info.module);
+            lt_dlclose((lt_dlhandle)info.module);
 #endif
         }
         info.module = NULL;

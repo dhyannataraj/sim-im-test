@@ -20,9 +20,6 @@
 #ifdef WIN32
 #include <windows.h>
 #else
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#include <X11/Xatom.h>
 #include <sys/socket.h>
 #include <sys/time.h>
 #include <netinet/in.h>
@@ -351,6 +348,7 @@ void mySetCaption(QWidget *w, const QString &caption)
 }
 
 #else
+#ifndef QT_MACOSX_VERSION
 
 void setWndClass(QWidget *w, const char *name)
 {
@@ -363,6 +361,7 @@ void setWndClass(QWidget *w, const char *name)
     XSetClassHint(dsp, win, &classhint);
 }
 
+#endif
 #endif
 
 bool raiseWindow(QWidget *w)

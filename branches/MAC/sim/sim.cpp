@@ -20,8 +20,10 @@
 #ifdef WIN32
 #include <windows.h>
 #else
+#ifndef QT_MACOSX_VERSION
 #include <X11/X.h>
 #include <X11/Xlib.h>
+#endif
 #endif
 
 #ifdef USE_KDE
@@ -148,6 +150,7 @@ static const char *qt_args[] =
         NULL
     };
 
+#ifndef QT_MACOSX_VERSION
 extern "C" {
     static int (*old_errhandler)(Display*, XErrorEvent*) = NULL;
     static int x_errhandler( Display *dpy, XErrorEvent *err )
@@ -159,7 +162,7 @@ extern "C" {
         return 0;
     }
 }
-
+#endif
 #endif
 
 #ifdef CVS_BUILD
@@ -254,7 +257,9 @@ int main(int argc, char *argv[])
 #else
     SimApp app(_argc, _argv);
 #endif
+#ifndef QT_MACOSX_VERSION
     old_errhandler = XSetErrorHandler(x_errhandler);
+#endif
 #else
     SimApp app(argc, argv);
     QStyle* (WINAPI *createXpStyle)() = NULL;

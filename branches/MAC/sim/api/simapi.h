@@ -1477,8 +1477,12 @@ EXPORT void mySetCaption(QWidget *w, const QString &caption);
 #define SET_WNDPROC(A)	setWndProc(this);
 #define setCaption(s)	mySetCaption(this, s);
 #else
+#ifndef QT_MACOSX_VERSION
 EXPORT void setWndClass(QWidget*, const char*);
 #define SET_WNDPROC(A)  setWndClass(this, A);
+#else
+#define SET_WNDPROC(A)
+#endif
 #endif
 
 EXPORT bool raiseWindow(QWidget *w);

@@ -66,11 +66,13 @@ protected:
     QTimer *blinkTimer;
 #ifndef WIN32
     QPoint mousePos;
+#ifndef QT_MACOSX_VERSION
     WharfIcon *wharfIcon;
     bool x11Event(XEvent*);
     bool inTray;
     bool inNetTray;
     bool bInit;
+#endif
 #endif
     DockPlugin *m_plugin;
 };
