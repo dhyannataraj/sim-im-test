@@ -628,6 +628,7 @@ public:
     ConfigBool	 AlertAway;
     ConfigBool	 AlertBlink;
     ConfigBool	 AlertSound;
+    ConfigBool	 AlertOnScreen;
     ConfigBool	 AlertPopup;
     ConfigBool	 AlertWindow;
 

@@ -238,8 +238,8 @@ x_libraries = @x_libraries@
 ####### kdevelop will overwrite this part!!! (end)############
 #>- POFILES = AUTO
 #>+ 2
-POFILES = ru.po de.po
-GMOFILES = ru.gmo de.gmo
+POFILES = de.po ru.po
+GMOFILES = de.gmo ru.gmo
 subdir = po
 mkinstalldirs = $(SHELL) $(top_srcdir)/admin/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
@@ -399,20 +399,20 @@ uninstall-am: uninstall-info-am
 
 
 #>+ 7
-ru.gmo: ru.po
-	rm -f ru.gmo; $(GMSGFMT) -o ru.gmo $(srcdir)/ru.po
-	test ! -f ru.gmo || touch ru.gmo
 de.gmo: de.po
 	rm -f de.gmo; $(GMSGFMT) -o de.gmo $(srcdir)/de.po
 	test ! -f de.gmo || touch de.gmo
+ru.gmo: ru.po
+	rm -f ru.gmo; $(GMSGFMT) -o ru.gmo $(srcdir)/ru.po
+	test ! -f ru.gmo || touch ru.gmo
 
 #>+ 3
 clean-nls:
-	-rm -f  ru.gmo de.gmo
+	-rm -f  de.gmo ru.gmo
 
 #>+ 8
 install-nls:
-	@for base in ru de ; do \
+	@for base in de ru ; do \
 	  echo $(INSTALL_DATA) $$base.gmo $(DESTDIR)$(kde_locale)/$$base/LC_MESSAGES/$(PACKAGE).mo ;\
 	  $(mkinstalldirs) $(DESTDIR)$(kde_locale)/$$base/LC_MESSAGES ; \
 	  test ! -f $$base.gmo || $(INSTALL_DATA) $$base.gmo $(DESTDIR)$(kde_locale)/$$base/LC_MESSAGES/$(PACKAGE).mo ;\
@@ -421,8 +421,8 @@ install-nls:
 
 #>+ 4
 uninstall-nls:
-	rm -f $(DESTDIR)$(kde_locale)/ru/LC_MESSAGES/$(PACKAGE).mo
 	rm -f $(DESTDIR)$(kde_locale)/de/LC_MESSAGES/$(PACKAGE).mo
+	rm -f $(DESTDIR)$(kde_locale)/ru/LC_MESSAGES/$(PACKAGE).mo
 
 #>+ 2
 all-nls: $(GMOFILES)

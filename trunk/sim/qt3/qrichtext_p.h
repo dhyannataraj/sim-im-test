@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qrichtext_p.h,v 1.2 2002-07-07 15:32:07 shutoff Exp $
+** $Id: qrichtext_p.h,v 1.3 2002-07-09 18:15:16 shutoff Exp $
 **
 ** Definition of internal rich text classes
 **

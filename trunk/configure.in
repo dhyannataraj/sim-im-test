@@ -92,10 +92,13 @@ AC_DEFINE_UNQUOTED(PREFIX, "$prefix", [Install prefix])
 
 KDE_CREATE_SUBDIRSLIST
 AC_CONFIG_FILES([ ./Makefile ])
+AC_CONFIG_FILES([ doc/Makefile ])
+AC_CONFIG_FILES([ doc/en/Makefile ])
 AC_CONFIG_FILES([ po/Makefile ])
 AC_CONFIG_FILES([ sim/Makefile ])
 AC_CONFIG_FILES([ sim/libicq/Makefile ])
 AC_CONFIG_FILES([ sim/qt3/Makefile ])
+AC_CONFIG_FILES([ sim/themes/Makefile ])
 AC_CONFIG_FILES([ sim/ui/Makefile ])
 AC_CONFIG_FILES([ sim/xpm/Makefile ])
 AC_CONFIG_FILES([ sounds/Makefile ])

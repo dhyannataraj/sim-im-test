@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qstylesheet.cpp,v 1.2 2002-07-07 15:32:07 shutoff Exp $
+** $Id: qstylesheet.cpp,v 1.3 2002-07-09 18:15:16 shutoff Exp $
 **
 ** Implementation of the QStyleSheet class
 **

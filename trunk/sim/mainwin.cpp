@@ -29,6 +29,7 @@
 #include "log.h"
 #include "userbox.h"
 #include "themes.h"
+#include "xosd.h"
 #include "logindlg.h"
 #include "passwddlg.h"
 #include "transparent.h"
@@ -45,7 +46,6 @@
 #endif
 
 #ifdef WIN32
-#define VERSION	"0.2"
 #include <windowsx.h>
 #include <shellapi.h>
 #include <mmsystem.h>
@@ -195,12 +195,15 @@ MainWindow::MainWindow(const char *name)
         CloseAfterSend(this, "CloseAfterSend"),
         UserWindowInTaskManager(this, "UserWindowInTaskManager", true),
         Icons(this, "Icons"),
-        XOSD_on(this, "XOSD_on"),
+        XOSD_on(this, "XOSD_on", true),
         XOSD_pos(this, "XOSD_pos"),
-        XOSD_offset(this, "XOSD_offset"),
-        XOSD_color(this, "XOSD_color"),
-        XOSD_font(this, "XOSD_font"),
-        XOSD_timeout(this, "XOSD_timeout")
+        XOSD_offset(this, "XOSD_offset", 30),
+        XOSD_color(this, "XOSD_color", 0x008000),
+        XOSD_FontFamily(this, "XOSD_FontFamily"),
+        XOSD_FontSize(this, "XOSD_FontSize"),
+        XOSD_FontWeight(this, "XOSD_FontWeight"),
+        XOSD_FontItalic(this, "XOSD_FontItalic"),
+        XOSD_timeout(this, "XOSD_timeout", 10)
 
 {
     pMain = this;
@@ -245,12 +248,14 @@ MainWindow::MainWindow(const char *name)
 
     pClient = new Client(this);
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
+    connect(pClient, SIGNAL(messageReceived(ICQMessage*)), this, SLOT(messageReceived(ICQMessage*)));
 
     menuStatus = new QPopupMenu(this);
     menuStatus->setCheckable(true);
     connect(menuStatus, SIGNAL(activated(int)), this, SLOT(setStatus(int)));
 
     themes = new Themes(this);
+    xosd = new XOSD(this);
 
     menuPhoneLocation = new QPopupMenu(this);
     connect(menuPhoneLocation, SIGNAL(activated(int)), this, SLOT(setPhoneLocation(int)));
@@ -623,6 +628,7 @@ bool MainWindow::init()
         toolbar->show();
     }
 
+    xosd->init();
     transparentChanged();
     setShow(Show());
     setOnTop();
@@ -632,6 +638,16 @@ bool MainWindow::init()
 
     realSetStatus();
     return true;
+}
+
+void MainWindow::messageReceived(ICQMessage *msg)
+{
+    ICQUser *u = pClient->getUser(msg->getUin());
+    if (u == NULL) return;
+    CUser user(u);
+    xosd->setMessage(i18n("%1 from %2 received")
+                     .arg(pClient->getMessageText(msg->Type()))
+                     .arg(user.name()));
 }
 
 void MainWindow::processEvent(ICQEvent *e)
@@ -734,6 +750,10 @@ void MainWindow::processEvent(ICQEvent *e)
                     ((u->OnlineTime() > pClient->OnlineTime()) || (u->prevStatus  != ICQ_STATUS_OFFLINE))){
                 if (!u->AlertOverride()) u = pClient;
                 if (u->AlertSound()) playSound(OnlineAlert.c_str());
+                if (u->AlertOnScreen()){
+                    CUser user(e->Uin());
+                    xosd->setMessage(i18n("User %1 is online") .arg(user.name()));
+                }
                 if (u->AlertPopup()){
                     AlertMsgDlg *dlg = new AlertMsgDlg(this, e->Uin());
                     dlg->show();

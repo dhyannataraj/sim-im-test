@@ -42,6 +42,7 @@ void AlertDialog::load(ICQUser *u)
     chkOnline->setChecked(u->AlertAway());
     chkBlink->setChecked(u->AlertBlink());
     chkSound->setChecked(u->AlertSound());
+    chkOnScreen->setChecked(u->AlertOnScreen());
     chkDialog->setChecked(u->AlertPopup());
     chkFloat->setChecked(u->AlertWindow());
     overrideChanged(u->AlertOverride());
@@ -53,6 +54,7 @@ void AlertDialog::overrideChanged(bool bSet)
     chkOnline->setEnabled(bSet);
     chkBlink->setEnabled(bSet);
     chkSound->setEnabled(bSet);
+    chkOnScreen->setEnabled(bSet);
     chkDialog->setEnabled(bSet);
     chkFloat->setEnabled(bSet);
 }
@@ -66,6 +68,7 @@ void AlertDialog::save(ICQUser *u)
     u->AlertAway = chkOnline->isChecked();
     u->AlertBlink = chkBlink->isChecked();
     u->AlertSound = chkSound->isChecked();
+    u->AlertOnScreen = chkOnScreen->isChecked();
     u->AlertPopup = chkDialog->isChecked();
     u->AlertWindow = chkFloat->isChecked();
 }

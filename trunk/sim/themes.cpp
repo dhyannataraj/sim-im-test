@@ -100,7 +100,7 @@ void Themes::setTheme(const QString &styleName)
     if (current == styleName) return;
 #ifdef USE_KDE
     if (styleName == i18n("Default style")){
-	current = "";
+        current = "";
         kApp->disableStyles();
         kApp->enableStyles();
         return;

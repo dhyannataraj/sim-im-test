@@ -79,6 +79,7 @@ const unsigned long mnuGroupInvisible = 0x10002;
 const unsigned long mnuGroupIgnore = 0x10003;
 const unsigned long mnuOnTop = 0x10004;
 
+class XOSD;
 class ICQEvent;
 class QDialog;
 class KAboutKDE;
@@ -167,7 +168,10 @@ public:
     ConfigShort  XOSD_pos;
     ConfigShort  XOSD_offset;
     ConfigULong  XOSD_color;
-    ConfigString XOSD_font;
+    ConfigString XOSD_FontFamily;
+    ConfigUShort XOSD_FontSize;
+    ConfigUShort XOSD_FontWeight;
+    ConfigBool   XOSD_FontItalic;
     ConfigUShort XOSD_timeout;
 
     bool 	     init();
@@ -188,6 +192,7 @@ public:
     CToolButton  *btnGroupMode;
     PictButton   *btnStatus;
     Themes *themes;
+    XOSD	*xosd;
 
     void setShow(bool bState);
     bool isShow();
@@ -240,6 +245,7 @@ protected slots:
     void setToggle();
     void blink();
     void processEvent(ICQEvent*);
+    void messageReceived(ICQMessage *msg);
     void dockDblClicked();
     void setPhoneLocation(int);
     void setPhoneStatus(int);

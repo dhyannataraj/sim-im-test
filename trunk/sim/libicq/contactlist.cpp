@@ -209,6 +209,7 @@ ICQUser::ICQUser()
         AlertAway(this, "AlertAway", true),
         AlertBlink(this, "AlertBlink", true),
         AlertSound(this, "AlertSound", true),
+        AlertOnScreen(this, "AlertOnScreen", true),
         AlertPopup(this, "AlertPopup"),
         AlertWindow(this, "AlertWindow"),
         AcceptFileMode(this, "AcceptFileMode"),

@@ -40,6 +40,7 @@
 #include "ui/fontsetup.h"
 #include "ui/accept.h"
 #include "ui/network.h"
+#include "ui/xosdsetup.h"
 
 #ifndef WIN32
 #include "ui/miscsetup.h"
@@ -90,16 +91,17 @@ SetupDialog::SetupDialog(QWidget *parent, int nWin)
     addPage(new ThemeSetup(tabBars), 203, i18n("Style"), "style");
     addPage(new FontSetup(tabBars), 204, i18n("Fonts"), "text");
     addPage(new SoundSetup(tabBars), 205, i18n("Sound"), "sound");
+    addPage(new XOSDSetup(tabBars), 206, i18n("On Screen notification"), "screen");
 
-    addPage(new AlertDialog(tabBars), 206, i18n("Alert"), "alert");
-    addPage(new AcceptDialog(tabBars), 207, i18n("Accept file"), "file");
+    addPage(new AlertDialog(tabBars), 207, i18n("Alert"), "alert");
+    addPage(new AcceptDialog(tabBars), 208, i18n("Accept file"), "file");
 
 #ifndef WIN32
-    addPage(new MiscSetup(tabBars), 208, i18n("Miscellanious"), "misc");
+    addPage(new MiscSetup(tabBars), 209, i18n("Miscellanious"), "misc");
 #endif
 
 #if USE_SPELL
-    addPage(new SpellSetup(tabBars), 209, i18n("Spell check"), "spellcheck");
+    addPage(new SpellSetup(tabBars), 210, i18n("Spell check"), "spellcheck");
 #endif
 
     itemMain = new QListViewItem(lstBars, i18n("Auto reply"), "300");

@@ -168,9 +168,9 @@ void UserBox::wmChanged()
 {
 #if USE_KDE
     if (pMain->UserWindowInTaskManager()){
-        KWin::setState(winId(), NET::SkipTaskbar);
-    }else{
         KWin::clearState(winId(), NET::SkipTaskbar);
+    }else{
+        KWin::setState(winId(), NET::SkipTaskbar);
     }
 #endif
 }
@@ -179,14 +179,14 @@ void UserBox::showUsers(bool bShow, unsigned long uin)
 {
     if (bShow){
         if (users == NULL){
-	    QWidget *fw = qApp->focusWidget();
-	    if (fw) fw->releaseMouse();
+            QWidget *fw = qApp->focusWidget();
+            if (fw) fw->releaseMouse();
             users = new UserView(vSplitter, true, false);
             vSplitter->setResizeMode(users, QSplitter::KeepSize);
             users->show();
-	    users->fill();
-	    if (uin) users->check(uin);
-	    users->setFocus();
+            users->fill();
+            if (uin) users->check(uin);
+            users->setFocus();
         }
         connect(users, SIGNAL(checked()), curWnd, SLOT(textChanged()));
     }else{

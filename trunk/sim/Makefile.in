@@ -236,12 +236,12 @@ x_libraries = @x_libraries@
 ####### kdevelop will overwrite this part!!! (begin)##########
 bin_PROGRAMS = sim
 
-sim_SOURCES = chatwnd.cpp fontedit.cpp transparent.cpp parse.ll intedit.cpp userview.cpp usertbl.cpp userbox.cpp toolbtn.cpp themes.cpp sim.cpp passwddlg.cpp msgview.cpp msgedit.cpp mainwin.cpp logindlg.cpp icons.cpp history.cpp editspell.cpp dock.cpp cuser.cpp client.cpp 
+sim_SOURCES = xosd.cpp chatwnd.cpp fontedit.cpp transparent.cpp parse.ll intedit.cpp userview.cpp usertbl.cpp userbox.cpp toolbtn.cpp themes.cpp sim.cpp passwddlg.cpp msgview.cpp msgedit.cpp mainwin.cpp logindlg.cpp icons.cpp history.cpp editspell.cpp dock.cpp cuser.cpp client.cpp 
 sim_LDADD = ./libicq/liblibicq.a ./ui/libui.a ./qt3/libqt3.a  $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE)  $(LIBSOCKET)
 
 SUBDIRS = libicq ui xpm qt3 
 
-EXTRA_DIST = sim.desktop lo32-app-sim.png lo16-app-sim.png client.cpp client.h cuser.cpp cuser.h defs.h dock.cpp dock.h editspell.cpp editspell.h history.cpp history.h icons.cpp icons.h logindlg.cpp logindlg.h mainwin.cpp mainwin.h msgedit.cpp msgedit.h msgview.cpp msgview.h passwddlg.cpp passwddlg.h sim.cpp sim.h themes.cpp themes.h toolbtn.cpp toolbtn.h userbox.cpp userbox.h usertbl.cpp usertbl.h userview.cpp userview.h intedit.cpp intedit.h parse.ll transparent.cpp transparent.h fontedit.cpp fontedit.h chatwnd.cpp chatwnd.h 
+EXTRA_DIST = sim.desktop lo32-app-sim.png lo16-app-sim.png client.cpp client.h cuser.cpp cuser.h defs.h dock.cpp dock.h editspell.cpp editspell.h history.cpp history.h icons.cpp icons.h logindlg.cpp logindlg.h mainwin.cpp mainwin.h msgedit.cpp msgedit.h msgview.cpp msgview.h passwddlg.cpp passwddlg.h sim.cpp sim.h themes.cpp themes.h toolbtn.cpp toolbtn.h userbox.cpp userbox.h usertbl.cpp usertbl.h userview.cpp userview.h intedit.cpp intedit.h parse.ll transparent.cpp transparent.h fontedit.cpp fontedit.h chatwnd.cpp chatwnd.h xosd.cpp xosd.h 
 
 ####### kdevelop will overwrite this part!!! (end)############
 # this 10 paths are KDE specific. Use them:
@@ -271,7 +271,7 @@ CONFIG_CLEAN_FILES =
 bin_PROGRAMS = sim$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
-am_sim_OBJECTS = chatwnd.$(OBJEXT) fontedit.$(OBJEXT) \
+am_sim_OBJECTS = xosd.$(OBJEXT) chatwnd.$(OBJEXT) fontedit.$(OBJEXT) \
 	transparent.$(OBJEXT) parse.$(OBJEXT) intedit.$(OBJEXT) \
 	userview.$(OBJEXT) usertbl.$(OBJEXT) userbox.$(OBJEXT) \
 	toolbtn.$(OBJEXT) themes.$(OBJEXT) sim.$(OBJEXT) \
@@ -282,7 +282,7 @@ am_sim_OBJECTS = chatwnd.$(OBJEXT) fontedit.$(OBJEXT) \
 #>- sim_OBJECTS = $(am_sim_OBJECTS)
 #>+ 12
 sim_final_OBJECTS = parse.o sim.all_cpp.o sim.all_cc.o 
-sim_nofinal_OBJECTS = chatwnd.$(OBJEXT) fontedit.$(OBJEXT) \
+sim_nofinal_OBJECTS = xosd.$(OBJEXT) chatwnd.$(OBJEXT) fontedit.$(OBJEXT) \
 	transparent.$(OBJEXT) parse.$(OBJEXT) intedit.$(OBJEXT) \
 	userview.$(OBJEXT) usertbl.$(OBJEXT) userbox.$(OBJEXT) \
 	toolbtn.$(OBJEXT) themes.$(OBJEXT) sim.$(OBJEXT) \
@@ -312,7 +312,8 @@ am__depfiles_maybe = depfiles
 	@AMDEP_TRUE@	./$(DEPDIR)/passwddlg.Po ./$(DEPDIR)/sim.Po \
 	@AMDEP_TRUE@	./$(DEPDIR)/themes.Po ./$(DEPDIR)/toolbtn.Po \
 	@AMDEP_TRUE@	./$(DEPDIR)/transparent.Po ./$(DEPDIR)/userbox.Po \
-	@AMDEP_TRUE@	./$(DEPDIR)/usertbl.Po ./$(DEPDIR)/userview.Po
+	@AMDEP_TRUE@	./$(DEPDIR)/usertbl.Po ./$(DEPDIR)/userview.Po \
+	@AMDEP_TRUE@	./$(DEPDIR)/xosd.Po
 #>- CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 #>- $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 #>+ 2
@@ -426,6 +427,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/userbox.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/usertbl.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/userview.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xosd.Po@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)
@@ -815,6 +817,10 @@ msgedit.moc: $(srcdir)/msgedit.h
 	$(MOC) $(srcdir)/msgedit.h -o msgedit.moc
 
 #>+ 3
+xosd.moc: $(srcdir)/xosd.h
+	$(MOC) $(srcdir)/xosd.h -o xosd.moc
+
+#>+ 3
 themes.moc: $(srcdir)/themes.h
 	$(MOC) $(srcdir)/themes.h -o themes.moc
 
@@ -828,7 +834,7 @@ client.moc: $(srcdir)/client.h
 
 #>+ 3
 clean-metasources:
-	-rm -f  userbox.moc logindlg.moc chatwnd.moc intedit.moc usertbl.moc sim.moc passwddlg.moc dock.moc transparent.moc userview.moc toolbtn.moc msgview.moc mainwin.moc fontedit.moc msgedit.moc themes.moc editspell.moc client.moc
+	-rm -f  userbox.moc logindlg.moc chatwnd.moc intedit.moc usertbl.moc sim.moc passwddlg.moc dock.moc transparent.moc userview.moc toolbtn.moc msgview.moc mainwin.moc fontedit.moc msgedit.moc xosd.moc themes.moc editspell.moc client.moc
 
 #>+ 2
 docs-am:
@@ -854,12 +860,12 @@ force-reedit:
 
 
 #>+ 15
-sim_meta_unload.cc:  dock.moc usertbl.moc msgview.moc toolbtn.moc editspell.moc themes.moc userbox.moc chatwnd.moc sim.moc passwddlg.moc msgedit.moc logindlg.moc intedit.moc transparent.moc mainwin.moc userview.moc fontedit.moc client.moc
+sim_meta_unload.cc:  dock.moc usertbl.moc msgview.moc toolbtn.moc editspell.moc themes.moc userbox.moc chatwnd.moc sim.moc passwddlg.moc msgedit.moc logindlg.moc intedit.moc transparent.moc mainwin.moc userview.moc fontedit.moc xosd.moc client.moc
 	@echo 'creating sim_meta_unload.cc'
 	@-rm -f sim_meta_unload.cc
 	@if test ${kde_qtver} = 2; then \
 		echo 'static const char * _metalist_sim[] = {' > sim_meta_unload.cc ;\
-		cat  dock.moc usertbl.moc msgview.moc toolbtn.moc editspell.moc themes.moc userbox.moc chatwnd.moc sim.moc passwddlg.moc msgedit.moc logindlg.moc intedit.moc transparent.moc mainwin.moc userview.moc fontedit.moc client.moc | grep 'char.*className' | sed -e 's/.*[^A-Za-z0-9_:]\([A-Za-z0-9_:]*\)::className.*$$/\"\1\",/' | sort | uniq >> sim_meta_unload.cc ;\
+		cat  dock.moc usertbl.moc msgview.moc toolbtn.moc editspell.moc themes.moc userbox.moc chatwnd.moc sim.moc passwddlg.moc msgedit.moc logindlg.moc intedit.moc transparent.moc mainwin.moc userview.moc fontedit.moc xosd.moc client.moc | grep 'char.*className' | sed -e 's/.*[^A-Za-z0-9_:]\([A-Za-z0-9_:]*\)::className.*$$/\"\1\",/' | sort | uniq >> sim_meta_unload.cc ;\
 		echo '0};' >> sim_meta_unload.cc ;\
 		echo '#include "defs.h"' >> sim_meta_unload.cc ;\
 		echo '#ifdef USE_KDE' >> sim_meta_unload.cc ;\
@@ -874,11 +880,11 @@ clean-moc-classes:
 	-rm -f  sim_meta_unload.cc
 
 #>+ 11
-sim.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/chatwnd.cpp $(srcdir)/fontedit.cpp $(srcdir)/transparent.cpp $(srcdir)/intedit.cpp $(srcdir)/userview.cpp $(srcdir)/usertbl.cpp $(srcdir)/userbox.cpp $(srcdir)/toolbtn.cpp $(srcdir)/themes.cpp $(srcdir)/sim.cpp $(srcdir)/passwddlg.cpp $(srcdir)/msgview.cpp $(srcdir)/msgedit.cpp $(srcdir)/mainwin.cpp $(srcdir)/logindlg.cpp $(srcdir)/icons.cpp $(srcdir)/history.cpp $(srcdir)/editspell.cpp $(srcdir)/dock.cpp $(srcdir)/cuser.cpp $(srcdir)/client.cpp
+sim.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/xosd.cpp $(srcdir)/chatwnd.cpp $(srcdir)/fontedit.cpp $(srcdir)/transparent.cpp $(srcdir)/intedit.cpp $(srcdir)/userview.cpp $(srcdir)/usertbl.cpp $(srcdir)/userbox.cpp $(srcdir)/toolbtn.cpp $(srcdir)/themes.cpp $(srcdir)/sim.cpp $(srcdir)/passwddlg.cpp $(srcdir)/msgview.cpp $(srcdir)/msgedit.cpp $(srcdir)/mainwin.cpp $(srcdir)/logindlg.cpp $(srcdir)/icons.cpp $(srcdir)/history.cpp $(srcdir)/editspell.cpp $(srcdir)/dock.cpp $(srcdir)/cuser.cpp $(srcdir)/client.cpp
 	@echo 'creating sim.all_cpp.cpp ...'; \
 	rm -f sim.all_cpp.files sim.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> sim.all_cpp.final; \
-	for file in chatwnd.cpp fontedit.cpp transparent.cpp intedit.cpp userview.cpp usertbl.cpp userbox.cpp toolbtn.cpp themes.cpp sim.cpp passwddlg.cpp msgview.cpp msgedit.cpp mainwin.cpp logindlg.cpp icons.cpp history.cpp editspell.cpp dock.cpp cuser.cpp client.cpp ; do \
+	for file in xosd.cpp chatwnd.cpp fontedit.cpp transparent.cpp intedit.cpp userview.cpp usertbl.cpp userbox.cpp toolbtn.cpp themes.cpp sim.cpp passwddlg.cpp msgview.cpp msgedit.cpp mainwin.cpp logindlg.cpp icons.cpp history.cpp editspell.cpp dock.cpp cuser.cpp client.cpp ; do \
 	  echo "#include \"$$file\"" >> sim.all_cpp.files; \
 	  test ! -f $(srcdir)/$$file || egrep '^#pragma +implementation' $(srcdir)/$$file >> sim.all_cpp.final; \
 	done; \
@@ -921,7 +927,7 @@ cvs-clean:
 kde-rpo-clean:
 	-rm -f *.rpo
 
-#>+ 37
+#>+ 39
 fontedit.lo: fontedit.moc 
 sim.o: sim.moc 
 chatwnd.o: chatwnd.moc 
@@ -941,11 +947,12 @@ client.o: client.moc
 mainwin.lo: mainwin.moc 
 dock.o: dock.moc 
 msgview.o: msgview.moc 
-userview.lo: userview.moc 
-themes.o: themes.moc 
 editspell.o: editspell.moc 
+themes.o: themes.moc 
+userview.lo: userview.moc 
 userbox.o: userbox.moc 
 passwddlg.o: passwddlg.moc 
+xosd.lo: xosd.moc 
 client.lo: client.moc 
 dock.lo: dock.moc 
 msgedit.o: msgedit.moc 
@@ -956,5 +963,6 @@ userview.o: userview.moc
 logindlg.lo: logindlg.moc 
 fontedit.o: fontedit.moc 
 transparent.lo: transparent.moc 
+xosd.o: xosd.moc 
 usertbl.o: usertbl.moc 
 toolbtn.o: toolbtn.moc 
