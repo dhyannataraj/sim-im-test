@@ -1957,7 +1957,7 @@ void SBSocket::messageReady()
         return;
     }
     if (content_type == "text/x-msmsgscontrol"){
-        if (QString(typing.c_str()).lower() == QString(m_data->EMail.value).lower()){
+        if (QString(typing.c_str()).lower() == QString(m_data->EMail.ptr).lower()){
             time_t now;
             time(&now);
             bool bEvent = (m_data->typing_time.value == 0);
