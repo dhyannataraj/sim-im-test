@@ -131,6 +131,10 @@ PictButton::PictButton( QToolBar *parent)
     connect(pMain, SIGNAL(iconChanged()), this, SLOT(iconChanged()));
 }
 
+PictButton::~PictButton()
+{
+}
+
 void PictButton::iconChanged()
 {
     repaint();
@@ -213,7 +217,7 @@ void PictButton::setState(const QString& _icon, const QString& _text)
 {
     icon = _icon;
     text = _text;
-    int accelKey = QAccel::shortcutKey(text);
+    accelKey = QAccel::shortcutKey(text);
     if (isVisible())
         setAccel(accelKey);
     QString t = _text;
