@@ -743,7 +743,7 @@ void UserBox::processEvent(ICQEvent *e)
 			if (curWnd && (e->Uin() == curWnd->Uin)){
                 setGroupButtons();
 		        CUser u(e->Uin());
-	            setTitle(u.name());
+	            setCaption(u.name());
 			}
             statusChanged(e->Uin());
             MsgEdit *wnd = getChild(e->Uin(), false);
