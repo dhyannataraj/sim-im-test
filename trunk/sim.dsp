@@ -5090,8 +5090,30 @@ OutDir=.\Debug
 InputPath=.\po\de.po
 
 "$(OutDir)\po\de.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	msg2qm $(InputPath) 
+	\qt\bin\msg2qm $(InputPath) 
 	copy tr.qm $(OutDir)\po\de.qm 
+	del tr.qm 
+	
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\po\it.po
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# Begin Custom Build - msg2qm on $(InputPath)
+OutDir=.\Debug
+InputPath=.\po\it.po
+
+"$(OutDir)\po\it.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	\qt\bin\msg2qm $(InputPath) 
+	copy tr.qm $(OutDir)\po\it.qm 
 	del tr.qm 
 	
 # End Custom Build
@@ -5112,7 +5134,7 @@ OutDir=.\Debug
 InputPath=.\po\ru.po
 
 "$(OutDir)\po\ru.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	msg2qm $(InputPath) 
+	\qt\bin\msg2qm $(InputPath) 
 	copy tr.qm $(OutDir)\po\ru.qm 
 	del tr.qm 
 	
@@ -5123,7 +5145,47 @@ InputPath=.\po\ru.po
 # End Source File
 # Begin Source File
 
+SOURCE=.\po\tr.po
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# Begin Custom Build - msg2qm on $(InputPath)
+OutDir=.\Debug
+InputPath=.\po\tr.po
+
+"$(OutDir)\po\tr.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	\qt\bin\msg2qm $(InputPath) 
+	copy tr.qm $(OutDir)\po\tr.qm 
+	del tr.qm 
+	
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
 SOURCE=.\po\zh_TW.po
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# Begin Custom Build - msg2qm on $(InputPath)
+OutDir=.\Debug
+InputPath=.\po\zh_TW.po
+
+"$(OutDir)\po\zh_TW.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	\qt\bin\msg2qm $(InputPath) 
+	copy tr.qm $(OutDir)\po\zh_TW.qm 
+	del tr.qm 
+	
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # End Group
 # End Target

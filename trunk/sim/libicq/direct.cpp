@@ -848,13 +848,15 @@ void DirectClient::processPacket()
                             secureStop(true);
                             return;
                         case ICQ_MSGxSECURExOPEN:
-                            if (msg_str.c_str()){
+                            if (!msg_str.c_str()){
                                 ICQEvent eSend(EVENT_MESSAGE_SEND, msg->getUin());
                                 eSend.setMessage(msg);
                                 eSend.state = ICQEvent::Fail;
                                 client->process_event(&eSend);
-                            }
-                            secureConnect();
+								return;
+                            }else{
+								secureConnect();
+							}
                             u->msgQueue.remove(e);
                             delete e;
                             delete msg;
@@ -1853,7 +1855,6 @@ void ICQUser::processMsgQueue(ICQClient *client)
         }
         if (direct->state != DirectClient::Logged) return;
         ICQEvent *e = *it;
-        it = msgQueue.begin();
         unsigned short seq = direct->sendMessage(e->message());
         if (seq){
             e->state = ICQEvent::Send;
@@ -1861,6 +1862,7 @@ void ICQUser::processMsgQueue(ICQClient *client)
             ++it;
             continue;
         }
+        it = msgQueue.begin();
         msgQueue.remove(e);
         e->state = ICQEvent::Fail;
         e->message()->bDelete = true;

@@ -93,7 +93,7 @@ static void initPlural()
                     "thd@kde.org and coolo@kde.org, they will tell you. "
                     "Better leave that out if unsure, the programs will "
                     "crash!!\nDefinition of PluralForm - to be set by the "
-                    "translator of kdelibs.po"));
+                    "translator of kdelibs.po");
     if ( pf == "NoPlural" )
         plural_form = 0;
     else if ( pf == "TwoForms" )
