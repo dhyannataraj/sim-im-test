@@ -1,16 +1,18 @@
+# translation of cs.po to Czech
 # translation of cs.po to Čeština
 # translation of cs.po to czech
-# Copyright (C) 2002 Free Software Foundation, Inc.
+# Copyright (C) 2002,2003 Free Software Foundation, Inc.
 # Pavel Rousar <rousarp@fel.cvut.cz>, 2002
 # Pavel Roušar <rousarp@fel.cvut.cz>, 2002
+# Pavel Rousar <p.rousar@sh.cvut.cz>, 2003
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "POT-Creation-Date: 2003-02-05 13:49+0300\n"
-"PO-Revision-Date: 2002-12-20 01:15+0100\n"
-"Last-Translator: Pavel Rousar <rousarp@fel.cvut.cz>\n"
-"Language-Team: Čeština <cs@li.org>\n"
+"PO-Revision-Date: 2003-02-08 18:59+0100\n"
+"Last-Translator: Pavel Rousar <p.rousar@sh.cvut.cz>\n"
+"Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -238,11 +240,11 @@ msgstr "Taiwansky"
 
 #: libicq/country.cpp:62
 msgid "Afrikaans"
-msgstr "Afrikaans"
+msgstr "Afrikánsky"
 
 #: libicq/country.cpp:63
 msgid "Persian"
-msgstr "Persisch"
+msgstr "Perština"
 
 #: libicq/country.cpp:64
 msgid "Albanian"
@@ -270,7 +272,7 @@ msgstr "American Samoa"
 
 #: libicq/country.cpp:75
 msgid "Andorra"
-msgstr "Andorra"
+msgstr "Andora"
 
 #: libicq/country.cpp:76
 msgid "Angola"
@@ -1633,43 +1635,40 @@ msgid "Male"
 msgstr "Muž"
 
 #: libicq/country.cpp:476
-#, fuzzy
 msgid "General chat"
-msgstr "Obecné"
+msgstr "Obecný chat"
 
 #: libicq/country.cpp:477
-#, fuzzy
 msgid "Romance"
-msgstr "Rumunsko"
+msgstr "Romantika"
 
 #: libicq/country.cpp:479
-#, fuzzy
 msgid "Students"
-msgstr "Súdán"
+msgstr "Studenti"
 
 #: libicq/country.cpp:480
 msgid "20 Something"
-msgstr ""
+msgstr "Okolo 20"
 
 #: libicq/country.cpp:481
 msgid "30 Something"
-msgstr ""
+msgstr "Okolo 30"
 
 #: libicq/country.cpp:482
 msgid "40 Something"
-msgstr ""
+msgstr "Okolo 40"
 
 #: libicq/country.cpp:483
 msgid "50 Plus"
-msgstr ""
+msgstr "50 a více"
 
 #: libicq/country.cpp:484
 msgid "Seeking Women"
-msgstr ""
+msgstr "Hledání ženy"
 
 #: libicq/country.cpp:485
 msgid "Seeking Men"
-msgstr ""
+msgstr "Hledání muže"
 
 #: about.cpp:280
 msgid "replace this with information about your translation team"
@@ -1784,202 +1783,145 @@ msgstr "Zkus náš chat.\n"
 msgid ""
 "_n: Message\n"
 "%n messages"
-msgstr ""
-"Zpráva\n"
-"%n zpráv\n"
-"."
+msgstr "Zpráva"
 
 #: client.cpp:1136
 #, c-format
 msgid ""
 "_n: Chat request\n"
 "%n chat requests"
-msgstr ""
-"Žádost o chat\n"
-"%n žádostí o chat\n"
-"."
+msgstr "Žádost o chat"
 
 #: client.cpp:1138 msgview.cpp:205 msgview.cpp:1245
 #, c-format
 msgid ""
 "_n: File\n"
 "%n files"
-msgstr ""
-"Soubor\n"
-"%n souborů\n"
-"."
+msgstr "Soubor"
 
 #: client.cpp:1140
 #, c-format
 msgid ""
 "_n: URL\n"
 "%n URL"
-msgstr ""
-"URL\n"
-"%n URL\n"
-"."
+msgstr "URL"
 
 #: client.cpp:1142
 #, c-format
 msgid ""
 "_n: Authorization request\n"
 "%n authorization requests"
-msgstr ""
-"Požadavek na autorizaci\n"
-"%n požadavků na autorizaci\n"
-"."
+msgstr "Požadavek na autorizaci"
 
 #: client.cpp:1144
 #, c-format
 msgid ""
 "_n: Authorization refused\n"
 "%n authorizations refused"
-msgstr ""
-"Autorizace odmítnuta\n"
-"%n autorizací odmítnuto\n"
-"."
+msgstr "Autorizace odmítnuta"
 
 #: client.cpp:1146
 #, c-format
 msgid ""
 "_n: Authorization granted\n"
 "%n authorizations granted"
-msgstr ""
-"Autorizace uspěšná\n"
-"%n autorizací úspěšných\n"
-"."
+msgstr "Autorizace uspěšná"
 
 #: client.cpp:1148
 #, c-format
 msgid ""
 "_n: Added to contact list\n"
 "%n times added to contact list"
-msgstr ""
-"Přidán do kontaktlistu\n"
-"%n přidáno do kontaktlistun\n"
-"."
+msgstr "Přidáno do kontaktlistu"
 
 #: client.cpp:1150
 #, c-format
 msgid ""
 "_n: WWW-panel message\n"
 "%n WWW-panel messages"
-msgstr ""
-"WWW-zpráva\n"
-"%n WWW-zpráv\n"
-"."
+msgstr "WWW-zpráva"
 
 #: client.cpp:1152
 #, c-format
 msgid ""
 "_n: Email pager message\n"
 "%n Email pager messages"
-msgstr ""
-"Email-Pager-zpráva\n"
-"%n Email-Pager-zpráv\n"
-"."
+msgstr "Zpráva z Email-pageru"
 
 #: client.cpp:1154
 #, c-format
 msgid ""
 "_n: Contact list\n"
 "%n contact lists"
-msgstr ""
-"Kontaktlist\n"
-"%n kontaktlistů\n"
-"."
+msgstr "Kontaktlist"
 
 #: client.cpp:1156
 #, c-format
 msgid ""
 "_n: Contacts request\n"
 "%n contacts requests"
-msgstr ""
-"Požadavek na kontakty\n"
-"%n požadavků na kontakty\n"
-"."
+msgstr "Požadavek na kontakty"
 
 #: client.cpp:1158
 #, c-format
 msgid ""
 "_n: External unknown message\n"
 "%n unknown messages"
-msgstr ""
-"Neznámá zpráva\n"
-"%n neznámých zpráv\n"
-"."
+msgstr "Neznámá zpráva"
 
 #: client.cpp:1160
 #, c-format
 msgid ""
 "_n: SMS\n"
 "%n SMS"
-msgstr ""
-"SMS\n"
-"%n SMS\n"
-"."
+msgstr "SMS"
 
 #: client.cpp:1162
 #, c-format
 msgid ""
 "_n: SMS receipt\n"
 "%n SMS receipts"
-msgstr ""
-"SMS příjemce\n"
-"%n SMS příjemců\n"
-"."
+msgstr "SMS příjemce"
 
 #: client.cpp:1164
 #, c-format
 msgid ""
 "_n: Email\n"
 "%n emails"
-msgstr ""
-"Email\n"
-"%n Emailů\n"
-"."
+msgstr "Email"
 
 #: client.cpp:1166
 #, c-format
 msgid ""
 "_n: Request secure channel\n"
 "%n requests secure channel"
-msgstr ""
-"Požadavek na bezpečný kanál\n"
-"%n Požadavků na bezpečný kanál\n"
-"."
+msgstr "Požadavek na bezpečný kanál"
 
 #: client.cpp:1168
 #, c-format
 msgid ""
 "_n: Close secure channel\n"
 "%n times close secure channel"
-msgstr ""
-"Zavření bezpečného kanálu\n"
-"%n Zavření bezpečných kanálu\n"
-"."
+msgstr "Zavření bezpečného kanálu"
 
 #: client.cpp:1172
 #, c-format
 msgid ""
 "_n: Unknown message\n"
 "%n unknown messages"
-msgstr ""
-"Neznámá zpráva\n"
-"%n neznámých zpráv\n"
-"."
+msgstr "Neznámá zpráva (%n)"
 
 #: client.cpp:1179
 msgid ""
 "_: Ctrl+N\n"
 "new"
-msgstr "Ctrl+M"
+msgstr "Ctrl+N"
 
 #: client.cpp:1181
 msgid ""
 "_: Ctrl+B\n"
 "chat msg"
-msgstr "Ctrl+M"
+msgstr "Ctrl+B"
 
 #: client.cpp:1183
 msgid ""
@@ -2046,9 +1988,8 @@ msgid "Online"
 msgstr "Online"
 
 #: client.cpp:1249
-#, fuzzy
 msgid "Inactive"
-msgstr "Aktivní:"
+msgstr "Neaktivní:"
 
 #: client.cpp:1250 dock.cpp:957
 msgid "Connecting"
@@ -2087,22 +2028,20 @@ msgid "show/hide dock"
 msgstr "zobrazit/skrýt dok"
 
 #: control.cpp:239
-#, fuzzy
 msgid "set notify mode"
-msgstr "Nastavit neviditelný mód"
+msgstr "Nastavit ohlašovací mód"
 
 #: control.cpp:240
 msgid "get icon in xpm fomrat"
-msgstr ""
+msgstr "vzít ikonu v xpm formátu"
 
 #: control.cpp:241
-#, fuzzy
 msgid "open upread message"
-msgstr "poslat zprávu"
+msgstr "otevřít přečtenou zprávu"
 
 #: control.cpp:242
 msgid "show popup"
-msgstr ""
+msgstr "zobrazit překrivně"
 
 #: control.cpp:243
 msgid "quit SIM"
@@ -2197,7 +2136,7 @@ msgstr "Nastavení"
 
 #: mainwin.cpp:631 mainwin.cpp:2729 ui/randomchatbase.cpp:278
 msgid "Random chat"
-msgstr ""
+msgstr "Náhodný chat"
 
 #: mainwin.cpp:632 mainwin.cpp:2744 monitor.cpp:59
 msgid "Network monitor"
@@ -2220,14 +2159,12 @@ msgid "AutoHide"
 msgstr "Automaticky skrýt"
 
 #: mainwin.cpp:893
-#, fuzzy
 msgid "Close main window"
-msgstr "Zavřít &okno"
+msgstr "Zavřít hlavní okno"
 
 #: mainwin.cpp:894
-#, fuzzy
 msgid "Open main window"
-msgstr "Hlavní okno průhledné"
+msgstr "Otevřít hlavní okno"
 
 #: mainwin.cpp:1259
 msgid "%1 from %2 received"
@@ -2766,22 +2703,24 @@ msgid ""
 "text/plain|Text file\n"
 "text/html|HTML file"
 msgstr ""
+"text/plain|Textový soubor\n"
+"text/html|HTML soubor"
 
 #: msgview.cpp:1103
 msgid "Text file(*.txt);;HTML file(*.htm *.html)"
-msgstr ""
+msgstr "Textový soubor(*.txt);;HTML soubor(*.htm *.html)"
 
 #: msgview.cpp:1105
-#, fuzzy
 msgid "Save history"
-msgstr "Uložit jako"
+msgstr "Uložit historii"
 
 #: msgview.cpp:1120
-#, fuzzy
 msgid ""
 "File %1 exists\n"
 "Overwrite?"
-msgstr "Soubor %1 existuje"
+msgstr ""
+"Soubor %1 existuje\n"
+"Přepsat?"
 
 #: sim.cpp:117
 msgid ""
@@ -2817,9 +2756,8 @@ msgid "Control socket"
 msgstr "Řídící soket"
 
 #: sim.cpp:544
-#, fuzzy
 msgid "No dock"
-msgstr "Použít &dokování"
+msgstr "Nedokovat"
 
 #: themes.cpp:132 themes.cpp:141
 msgid "Default style"
@@ -2943,46 +2881,43 @@ msgstr "Automatická odpověď"
 
 #: qt3/i18n.cpp:1
 msgid "Hu&e:"
-msgstr ""
+msgstr "Zabarv&ení:"
 
 #: qt3/i18n.cpp:3
-#, fuzzy
 msgid "&Sat:"
-msgstr "Stav:"
+msgstr "&Sezení:"
 
 #: qt3/i18n.cpp:5
 msgid "&Val:"
-msgstr ""
+msgstr "&Val:"
 
 #: qt3/i18n.cpp:7
 msgid "&Red:"
-msgstr ""
+msgstr "&Červená:"
 
 #: qt3/i18n.cpp:9
-#, fuzzy
 msgid "&Green:"
-msgstr "Řecky"
+msgstr "&Zelená:"
 
 #: qt3/i18n.cpp:11
 msgid "Bl&ue:"
-msgstr ""
+msgstr "&Modrá:"
 
 #: qt3/i18n.cpp:13
 msgid "A&lpha channel:"
-msgstr ""
+msgstr "A&lfa kanál:"
 
 #: qt3/i18n.cpp:15
 msgid "&Basic colors"
-msgstr ""
+msgstr "Základní &barvy"
 
 #: qt3/i18n.cpp:17
-#, fuzzy
 msgid "&Custom colors"
-msgstr "Použít &systémové barvy"
+msgstr "&Vlastní barvy"
 
 #: qt3/i18n.cpp:19
 msgid "&Define Custom Colors >>"
-msgstr ""
+msgstr "&Definovat vlastní barvy >>"
 
 #: qt3/i18n.cpp:21
 msgid "OK"
@@ -2994,34 +2929,33 @@ msgstr "Zrušit"
 
 #: qt3/i18n.cpp:25
 msgid "&Add To Custom Colors"
-msgstr ""
+msgstr "&Přidat do vlasních barev"
 
 #: qt3/i18n.cpp:27
-#, fuzzy
 msgid "Select color"
-msgstr "Barva textu"
+msgstr "Vybrat barvu"
 
 #: qt3/i18n.cpp:29
 msgid "Copy or Move a File"
-msgstr ""
+msgstr "Kopírovat nebo přesunout soubor"
 
 #: qt3/i18n.cpp:31
-#, fuzzy, c-format
+#, c-format
 msgid "Read: %1"
-msgstr "Číst zprávu %1"
+msgstr "Číst: %1"
 
 #: qt3/i18n.cpp:33
 #, c-format
 msgid "Write: %1"
-msgstr ""
+msgstr "Psát: %1"
 
 #: qt3/i18n.cpp:37
 msgid "All files (*)"
-msgstr ""
+msgstr "Všechny soubory (*)"
 
 #: qt3/i18n.cpp:41
 msgid "Size"
-msgstr ""
+msgstr "Velikost"
 
 #: qt3/i18n.cpp:43 ui/phonebook.cpp:78
 msgid "Type"
@@ -3029,112 +2963,103 @@ msgstr "Typ"
 
 #: qt3/i18n.cpp:45
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: qt3/i18n.cpp:47
 msgid "Attributes"
-msgstr ""
+msgstr "Atributy"
 
 #: qt3/i18n.cpp:49
 msgid "Look &in:"
-msgstr ""
+msgstr "Náh&led:"
 
 #: qt3/i18n.cpp:51
-#, fuzzy
 msgid "File &name:"
-msgstr "Jméno:"
+msgstr "Jmé&no souboru:"
 
 #: qt3/i18n.cpp:53
-#, fuzzy
 msgid "File &type:"
-msgstr "Soubor:"
+msgstr "&Typ souboru:"
 
 #: qt3/i18n.cpp:55
-#, fuzzy
 msgid "Back"
-msgstr "černé"
+msgstr "Zpět"
 
 #: qt3/i18n.cpp:57
 msgid "One directory up"
-msgstr ""
+msgstr "O adresář výš"
 
 #: qt3/i18n.cpp:59
 msgid "Create New Folder"
-msgstr ""
+msgstr "Vytvořit nový adresář"
 
 #: qt3/i18n.cpp:61
 msgid "List View"
-msgstr ""
+msgstr "Pohled (seznam)"
 
 #: qt3/i18n.cpp:63
-#, fuzzy
 msgid "Detail View"
-msgstr "Maloobchod"
+msgstr "Pohled (detail)"
 
 #: qt3/i18n.cpp:65
 msgid "Preview File Info"
-msgstr ""
+msgstr "Informace o souboru"
 
 #: qt3/i18n.cpp:67
 msgid "Preview File Contents"
-msgstr ""
+msgstr "Ukázat obsah souboru"
 
 #: qt3/i18n.cpp:69
 msgid "Read-write"
-msgstr ""
+msgstr "Číst-psát"
 
 #: qt3/i18n.cpp:71
 msgid "Read-only"
-msgstr ""
+msgstr "Pouze číst"
 
 #: qt3/i18n.cpp:73
 msgid "Write-only"
-msgstr ""
+msgstr "Pouze zapisovat"
 
 #: qt3/i18n.cpp:75
-#, fuzzy
 msgid "Inaccessible"
-msgstr "Neviditelný"
+msgstr "Nepřístupný"
 
 #: qt3/i18n.cpp:77
 msgid "Symlink to File"
-msgstr ""
+msgstr "Symlink na soubor"
 
 #: qt3/i18n.cpp:79
 msgid "Symlink to Directory"
-msgstr ""
+msgstr "Symlink na adresář"
 
 #: qt3/i18n.cpp:81
 msgid "Symlink to Special"
-msgstr ""
+msgstr "Symlink na zvláštní soubor"
 
 #: qt3/i18n.cpp:85
 msgid "Dir"
-msgstr ""
+msgstr "Adresář"
 
 #: qt3/i18n.cpp:87
-#, fuzzy
 msgid "Special"
-msgstr "Technik"
+msgstr "Speciální"
 
 #: qt3/i18n.cpp:89 ui/fontsetupbase.cpp:227
 msgid "Open"
 msgstr "Otevřít"
 
 #: qt3/i18n.cpp:91
-#, fuzzy
 msgid "Save as"
-msgstr "Uložit"
+msgstr "Uložit jako"
 
 #: qt3/i18n.cpp:93
-#, fuzzy
 msgid "&Open"
-msgstr "Otevřít"
+msgstr "&Otevřít"
 
 #: qt3/i18n.cpp:97
-#, fuzzy
 msgid "&Rename"
-msgstr "Přejmenovat"
+msgstr "&Přejmenovat"
 
 #: qt3/i18n.cpp:99 ui/logindlgbase.cpp:125 ui/phonebookbase.cpp:139
 msgid "&Delete"
@@ -3142,77 +3067,73 @@ msgstr "&Smazat"
 
 #: qt3/i18n.cpp:101
 msgid "R&eload"
-msgstr ""
+msgstr "&Obnovit"
 
 #: qt3/i18n.cpp:103
 msgid "Sort by &Name"
-msgstr ""
+msgstr "Seřadit podle jmé&na"
 
 #: qt3/i18n.cpp:105
 msgid "Sort by &Size"
-msgstr ""
+msgstr "Seřadit podle veliko&sti"
 
 #: qt3/i18n.cpp:107
 msgid "Sort by &Date"
-msgstr ""
+msgstr "Seřadit podle &data"
 
 #: qt3/i18n.cpp:109
 msgid "&Unsorted"
-msgstr ""
+msgstr "&Neseřazené"
 
 #: qt3/i18n.cpp:111
-#, fuzzy
 msgid "Sort"
-msgstr "Sporty"
+msgstr "Řazení"
 
 #: qt3/i18n.cpp:113
 msgid "Show &hidden files"
-msgstr ""
+msgstr "Zobrazit &skryté soubory"
 
 #: qt3/i18n.cpp:115
-#, fuzzy
 msgid "the file"
-msgstr "Sdílené soubory"
+msgstr "soubor"
 
 #: qt3/i18n.cpp:117
 msgid "the directory"
-msgstr ""
+msgstr "adresář"
 
 #: qt3/i18n.cpp:119
 msgid "the symlink"
-msgstr ""
+msgstr "symlink"
 
 #: qt3/i18n.cpp:121
-#, fuzzy, c-format
+#, c-format
 msgid "Delete %1"
-msgstr "Smazat %1 ?"
+msgstr "Smazat %1"
 
 #: qt3/i18n.cpp:123
 msgid "<qt>Do you really want to delete %1 \"%2\"?</qt>"
-msgstr ""
+msgstr "<qt>Přejete si opravdu smazat %1 \"%2\"?</qt>"
 
 #: qt3/i18n.cpp:129
 msgid "New Folder 1"
-msgstr ""
+msgstr "Nová složka 1"
 
 #: qt3/i18n.cpp:131
 msgid "New Folder"
-msgstr ""
+msgstr "Nová složka"
 
 #: qt3/i18n.cpp:133
 #, c-format
 msgid "New Folder %1"
-msgstr ""
+msgstr "Nová složka %1"
 
 #: qt3/i18n.cpp:135
-#, fuzzy
 msgid "Find Directory"
-msgstr "Vyhledat uživatele"
+msgstr "Najít adresář"
 
 #: qt3/i18n.cpp:137
-#, fuzzy
 msgid "Directories"
-msgstr "Adresář pro soubory"
+msgstr "Adresáře"
 
 #: qt3/i18n.cpp:144
 msgid ""
@@ -3220,46 +3141,45 @@ msgid ""
 "File not found.\n"
 "Check path and filename."
 msgstr ""
+"%1\n"
+"Soubor nenalezen.\n"
+"Ověřte cestu a jméno souboru."
 
 #: qt3/i18n.cpp:148
 msgid "ERROR"
-msgstr ""
+msgstr "CHYBA"
 
 #: qt3/i18n.cpp:150
-#, fuzzy
 msgid "&Font"
-msgstr "Písma"
+msgstr "&Font"
 
 #: qt3/i18n.cpp:152
-#, fuzzy
 msgid "Font st&yle"
-msgstr "Písma"
+msgstr "St&yly fontů"
 
 #: qt3/i18n.cpp:154
 msgid "&Size"
-msgstr ""
+msgstr "Veliko&st"
 
 #: qt3/i18n.cpp:156
 msgid "Effects"
-msgstr ""
+msgstr "Efekty"
 
 #: qt3/i18n.cpp:158
 msgid "Stri&keout"
-msgstr ""
+msgstr "Po&dtržení"
 
 #: qt3/i18n.cpp:162
-#, fuzzy
 msgid "&Color"
-msgstr "&Barvy"
+msgstr "&Barva"
 
 #: qt3/i18n.cpp:164
 msgid "Sample"
-msgstr ""
+msgstr "Příklad"
 
 #: qt3/i18n.cpp:166
-#, fuzzy
 msgid "Scr&ipt"
-msgstr "Bezpečnost"
+msgstr "Skr&ipt"
 
 #: qt3/i18n.cpp:168
 msgid "Apply"
@@ -3271,9 +3191,8 @@ msgid "Close"
 msgstr "Zavřít"
 
 #: qt3/i18n.cpp:172
-#, fuzzy
 msgid "Select Font"
-msgstr "Vybrat styl:"
+msgstr "Vybrat styl"
 
 #: qt3/i18n.cpp:174
 msgid "&OK"
@@ -3287,65 +3206,63 @@ msgid ""
 "X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more "
 "information.</p>"
 msgstr ""
+"<h3>O Qt</h3><p>Tento program používá Qt ve verzi %1, multiplatformní C++ GUI "
+"toolkit od Trolltech. Qt poskytuje \"single-source\" portabilitu skrze Windows "
+"95/98/NT/2000, Linux, Solaris, HP-UX a mnoho jiných verzí Unixů s "
+"X11.</p><p>Více se dozvíte na <tt>http://www.trolltech.com/qt/</tt>.</p>"
 
 #: qt3/i18n.cpp:183
 msgid "Help"
-msgstr ""
+msgstr "Nápověda"
 
 #: qt3/i18n.cpp:185
-#, fuzzy
 msgid "Defaults"
-msgstr "Standardní"
+msgstr "Předvolby"
 
 #: qt3/i18n.cpp:187
 msgid "< Back"
-msgstr ""
+msgstr "< Zpět"
 
 #: qt3/i18n.cpp:189
-#, fuzzy
 msgid "Next >"
-msgstr "Další"
+msgstr "Další >"
 
 #: qt3/i18n.cpp:191
-#, fuzzy
 msgid "Finish"
-msgstr "Finsky"
+msgstr "Konec"
 
 #: qt3/i18n.cpp:193
-#, fuzzy
 msgid "Ctrl"
-msgstr "Ctrl+M"
+msgstr "Ctrl"
 
 #: qt3/i18n.cpp:195
 msgid "+"
-msgstr ""
+msgstr "+"
 
 #: qt3/i18n.cpp:197
-#, fuzzy
 msgid "Alt"
-msgstr "Výstraha"
+msgstr "Alt"
 
 #: qt3/i18n.cpp:199
 msgid "Shift"
-msgstr ""
+msgstr "Shift"
 
 #: qt3/i18n.cpp:201
 #, c-format
 msgid "F%1"
-msgstr ""
+msgstr "F%1"
 
 #: qt3/i18n.cpp:203
 msgid "ctrl"
-msgstr ""
+msgstr "ctrl"
 
 #: qt3/i18n.cpp:205
 msgid "shift"
-msgstr ""
+msgstr "shift"
 
 #: qt3/i18n.cpp:207
-#, fuzzy
 msgid "alt"
-msgstr "Malta"
+msgstr "alt"
 
 #: qt3/i18n.cpp:210
 msgid ""
@@ -3354,6 +3271,10 @@ msgid ""
 "to\n"
 "%2"
 msgstr ""
+"Nemohu přejmenovat\n"
+"%1\n"
+"na\n"
+"%2"
 
 #: qt3/i18n.cpp:216
 #, c-format
@@ -3361,6 +3282,8 @@ msgid ""
 "Could not open\n"
 "%1"
 msgstr ""
+"Nemohu otevřít\n"
+"%1"
 
 #: qt3/i18n.cpp:220
 #, c-format
@@ -3368,180 +3291,167 @@ msgid ""
 "Could not write\n"
 "%1"
 msgstr ""
+"Nemohu zapisovat\n"
+"%1"
 
 #: qt3/i18n.cpp:223
 msgid "Operation stopped by the user"
-msgstr ""
+msgstr "Operace přerušena uživatelem"
 
 #: qt3/i18n.cpp:225
-#, fuzzy
 msgid "(unknown)"
-msgstr "Neznámé"
+msgstr "(neznámé)"
 
 #: qt3/i18n.cpp:227
 msgid "Host %1 found"
-msgstr ""
+msgstr "Host %1 nalezen"
 
 #: qt3/i18n.cpp:229
 msgid "Host found"
-msgstr ""
+msgstr "Host nalezen"
 
 #: qt3/i18n.cpp:231
 #, c-format
 msgid "Connected to host %1"
-msgstr ""
+msgstr "Připojeno k hostu %1"
 
 #: qt3/i18n.cpp:233
 msgid "Connected to host"
-msgstr ""
+msgstr "Připojeno k hostu"
 
 #: qt3/i18n.cpp:235
-#, fuzzy
 msgid "Connection to %1 closed"
-msgstr "Připojení"
+msgstr "Spojení s %1 ukončeno"
 
 #: qt3/i18n.cpp:237
-#, fuzzy
 msgid "Connection closed"
-msgstr "Připojení"
+msgstr "Spojení ukončeno"
 
 #: qt3/i18n.cpp:239
 msgid "Login Incorrect"
-msgstr ""
+msgstr "Chyba při přihlašování"
 
 #: qt3/i18n.cpp:241
-#, fuzzy, c-format
+#, c-format
 msgid "Col %1"
-msgstr "Sloupec 1"
+msgstr "Sloupec %1"
 
 #: qt3/i18n.cpp:243
 #, c-format
 msgid "Row %1"
-msgstr ""
+msgstr "Řádek %1"
 
 #: qt3/i18n.cpp:245
-#, fuzzy
 msgid "Undo"
-msgstr "Jednota"
+msgstr "Zpět"
 
 #: qt3/i18n.cpp:247
 msgid "Redo"
-msgstr ""
+msgstr "Dopředu"
 
 #: qt3/i18n.cpp:249
 msgid "Cut"
-msgstr ""
+msgstr "Vyjmout"
 
 #: qt3/i18n.cpp:251 ui/fontsetupbase.cpp:225
 msgid "Copy"
-msgstr "Zkopírovat"
+msgstr "Kopírovat"
 
 #: qt3/i18n.cpp:253
-#, fuzzy
 msgid "Paste"
-msgstr "Párty"
+msgstr "Vložit"
 
 #: qt3/i18n.cpp:255
-#, fuzzy
 msgid "Clear"
-msgstr "Auta"
+msgstr "Odznačit"
 
 #: qt3/i18n.cpp:257
-#, fuzzy
 msgid "Select All"
-msgstr "Vybrat styl:"
+msgstr "Vybrat vše"
 
 #: qt3/i18n.cpp:259
-#, fuzzy
 msgid "&Left"
-msgstr "Vlevo nahoře"
+msgstr "&Vlevo"
 
 #: qt3/i18n.cpp:261
-#, fuzzy
 msgid "&Right"
-msgstr "světlé"
+msgstr "&Vpravo"
 
 #: qt3/i18n.cpp:263
-#, fuzzy
 msgid "&Top"
-msgstr "&Kopírovat"
+msgstr "&Nahoře"
 
 #: qt3/i18n.cpp:265
 msgid "&Bottom"
-msgstr ""
+msgstr "&Dole"
 
 #: qt3/i18n.cpp:267
-#, fuzzy
 msgid "R&estore"
-msgstr "Obchod"
+msgstr "O&bnovit"
 
 #: qt3/i18n.cpp:269
-#, fuzzy
 msgid "&Hide"
-msgstr "Automaticky skrýt"
+msgstr "S&krýt"
 
 #: qt3/i18n.cpp:271
 msgid "Line Up Toolbars (compact)"
-msgstr ""
+msgstr "Nástrojová lišta (kompaktní)"
 
 #: qt3/i18n.cpp:273
 msgid "Line Up Toolbars (normal)"
-msgstr ""
+msgstr "Nástrojová lišta (normální)"
 
 #: qt3/i18n.cpp:275
 msgid "Paste special..."
-msgstr ""
+msgstr "Vložit speciálně..."
 
 #: qt3/i18n.cpp:277
 msgid "What's this?"
-msgstr ""
+msgstr "Co je to?"
 
 #: qt3/i18n.cpp:279
-#, fuzzy
 msgid "&Restore"
-msgstr "&Registrace"
+msgstr "O&bnovit"
 
 #: qt3/i18n.cpp:281
-#, fuzzy
 msgid "&Move"
-msgstr "Mód"
+msgstr "Pos&unout"
 
 #: qt3/i18n.cpp:283
 msgid "Mi&nimize"
-msgstr ""
+msgstr "Mi&nimalizovat"
 
 #: qt3/i18n.cpp:285
 msgid "Ma&ximize"
-msgstr ""
+msgstr "Ma&ximalizovat"
 
 #: qt3/i18n.cpp:289
 msgid "&Roll up"
-msgstr ""
+msgstr "S&rolovat"
 
 #: qt3/i18n.cpp:291
 msgid "Minimize"
-msgstr ""
+msgstr "Minimalizovat"
 
 #: qt3/i18n.cpp:293
 msgid "Restore Down"
-msgstr ""
+msgstr "Restore Down"
 
 #: qt3/i18n.cpp:295
 msgid "Maximize"
-msgstr ""
+msgstr "Maximalizovat"
 
 #: qt3/i18n.cpp:297
 msgid "Roll up"
-msgstr ""
+msgstr "Srolovat"
 
 #: qt3/i18n.cpp:299
-#, fuzzy
 msgid "Restore Up"
-msgstr "Obchod"
+msgstr "Restore Up"
 
 #: qt3/i18n.cpp:301
 msgid "Roll down"
-msgstr ""
+msgstr "Srolovat"
 
 #: ui/aboutdlg.cpp:41
 msgid "%1 Version: %2"
@@ -3549,7 +3459,7 @@ msgstr "%1 Verze: %2"
 
 #: ui/aboutdlg.cpp:44
 msgid "Bug report"
-msgstr "Nahlášení chyb (Bug)"
+msgstr "Nahlásit chybu..."
 
 #: ui/addphone.cpp:34
 msgid "Home Phone"
@@ -3600,9 +3510,8 @@ msgid "Center-top"
 msgstr "Horní střed"
 
 #: ui/alertdialog.cpp:61
-#, fuzzy
 msgid "Center"
-msgstr "Horní střed"
+msgstr "Střed"
 
 #: ui/alertmsg.cpp:41
 msgid "User "
@@ -3649,24 +3558,16 @@ msgid "&Register"
 msgstr "&Registrace"
 
 #: ui/filetransfer.cpp:74
-#, fuzzy
 msgid ""
 "_n: Receive %2 from %1\n"
 "Receive %n files from %1"
-msgstr ""
-"Přijímání souboru od (%1)\n"
-"Přijímání %n souborů od (%1)\n"
-"."
+msgstr "Přijem %2 od %1 (%n)"
 
 #: ui/filetransfer.cpp:78
-#, fuzzy
 msgid ""
 "_n: Send %2 to %1\n"
 "Send %n files to %1"
-msgstr ""
-"Poslat soubor (%1)\n"
-"Poslat %n soubory(ů) (%1)\n"
-"."
+msgstr "Zaslání %2 k %1 (%n)"
 
 #: ui/filetransfer.cpp:137
 msgid "No files for transfer"
@@ -3674,21 +3575,20 @@ msgstr "Žádné soubory k transferu"
 
 #: ui/filetransfer.cpp:155
 msgid "Connect to %1 [%2]"
-msgstr ""
+msgstr "Připojení k %1 [%2]"
 
 #: ui/filetransfer.cpp:160
 msgid "Wait connect to %1 [%2]"
-msgstr ""
+msgstr "Čekání na připojení k %1 [%2]"
 
 #: ui/filetransfer.cpp:165
-#, fuzzy, c-format
+#, c-format
 msgid "Send thru server to %1"
-msgstr "Datei an %1 senden"
+msgstr "Poslat skrze server k %1"
 
 #: ui/filetransfer.cpp:177
-#, fuzzy
 msgid "File transfer done"
-msgstr "Přenos souboru dokončen:"
+msgstr "Přenos souboru dokončen"
 
 #: ui/filetransfer.cpp:179
 msgid "[done]"
@@ -3699,14 +3599,13 @@ msgid "[fail]"
 msgstr "[chyba]"
 
 #: ui/filetransfer.cpp:185
-#, fuzzy, c-format
+#, c-format
 msgid "File transfer declined with reason %1"
-msgstr "Vložte důvod odmítnutí"
+msgstr "Přenos souboru odmítnut z důvodu %1"
 
 #: ui/filetransfer.cpp:202
-#, fuzzy
 msgid "File transfer acked"
-msgstr "Transfer souboru"
+msgstr "Transfer souboru přerušen"
 
 #: ui/filetransfer.cpp:257
 msgid "Receive file %1 of %2 files from %3"
@@ -3733,7 +3632,6 @@ msgid "&Skip"
 msgstr "Pře&skočit"
 
 #: ui/filetransfer.cpp:319
-#, fuzzy
 msgid "File %1 exists"
 msgstr "Soubor %1 existuje"
 
@@ -4039,13 +3937,12 @@ msgid "&Check again"
 msgstr "&Kontrolovat znovu"
 
 #: ui/userinfo.cpp:147
-#, fuzzy
 msgid "User info - '%1'"
-msgstr "Informace o uživateli"
+msgstr "Informace o uživateli - '%1'"
 
 #: ui/userinfo.cpp:154
 msgid "Settings - group '%1'"
-msgstr ""
+msgstr "Nastavení - skupina '%1'"
 
 #: ui/searchbase.cpp:278
 msgid "Online only"
@@ -4264,7 +4161,7 @@ msgid ""
 "<UIN>:"
 msgstr ""
 "Při posílání odpovědí nebo nových zpráv můžete odpovídat SMSkou "
-"na číslaspecifikované na začátku zprávy:\n"
+"na čísla specifikované na začátku zprávy:\n"
 "<UIN>:"
 
 #: ui/logindlgbase.cpp:123
@@ -4378,14 +4275,12 @@ msgid "Speed:"
 msgstr "Rychlost:"
 
 #: ui/filetransferbase.cpp:128
-#, fuzzy
 msgid "&Transfer"
-msgstr "S&mazat"
+msgstr "&Přenos"
 
 #: ui/filetransferbase.cpp:129 ui/randomchatbase.cpp:304
-#, fuzzy
 msgid "&Details"
-msgstr "Maloobchod"
+msgstr "&Detaily"
 
 #: ui/filetransferbase.cpp:130
 msgid "Close after send"
@@ -4930,8 +4825,7 @@ msgid "Hide main window after"
 msgstr "Schovat hlavní okno po"
 
 #: ui/statussetupbase.cpp:142
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Zakázat online výstrahu pro \"Away\", \"N/A\", \"DND\" a \"Occupied\" "
 "seznam"
@@ -5074,8 +4968,7 @@ msgstr "&Domov"
 
 #: ui/generalsecbase.cpp:212
 msgid "My &authorization is required before users add me to Contact List"
-msgstr ""
-"Má &autorizace je vyžadována před přidáním uživatele do kontaktlistu"
+msgstr "Má &autorizace je vyžadována před přidáním uživatele do kontaktlistu"
 
 #: ui/generalsecbase.cpp:213
 msgid "Don't show my &IP-address"
@@ -5201,65 +5094,56 @@ msgid "&Notes"
 msgstr "Poz&námky"
 
 #: ui/randomchat.cpp:167
-#, fuzzy
 msgid "&Stop search"
-msgstr "&Hledání"
+msgstr "Za&stavit hledání"
 
 #: ui/randomchat.cpp:168
 msgid "Find an &Online Chat Friend"
-msgstr ""
+msgstr "Najít někoho pro &Online chat"
 
 #: ui/randomchat.cpp:196
 msgid "Request UIN"
-msgstr ""
+msgstr "Žádost o UIN"
 
 #: ui/randomchat.cpp:217
-#, fuzzy
 msgid "Request user info"
-msgstr "Sicheren Kanal anfordern"
+msgstr "Žádost o informace o uživateli"
 
 #: ui/randomchat.cpp:230
-#, fuzzy
 msgid "Ready"
-msgstr "Číst zprávu %1"
+msgstr "Připraven"
 
 #: ui/randomchatbase.cpp:285
-#, fuzzy
 msgid "Chat Topic/Interests:"
-msgstr "Zájmy:"
+msgstr "Téma chatu/Zájmy:"
 
 #: ui/randomchatbase.cpp:286
-#, fuzzy
 msgid "&Request chat"
-msgstr "Sicheren Kanal anfordern"
+msgstr "Žádo&st o chat"
 
 #: ui/randomchatbase.cpp:287
-#, fuzzy
 msgid "Send &message"
-msgstr "poslat zprávu"
+msgstr "Po&slat zprávu"
 
 #: ui/randomchatbase.cpp:288
 msgid "Send &URL"
-msgstr ""
+msgstr "Poslat &URL"
 
 #: ui/randomchatbase.cpp:289 ui/randomchatbase.cpp:295
-#, fuzzy
 msgid "Group:"
-msgstr "Gruppe"
+msgstr "Skupina:"
 
 #: ui/randomchatbase.cpp:293
-#, fuzzy
 msgid "&Finding"
-msgstr "&Hledat"
+msgstr "&Hledání"
 
 #: ui/randomchatbase.cpp:294
 msgid "I want to be available to chat with a friend"
-msgstr ""
+msgstr "Jsem dostupný pro chat s přítelem"
 
 #: ui/randomchatbase.cpp:296
-#, fuzzy
 msgid "Chat topic/Interests:"
-msgstr "Zájmy:"
+msgstr "Téma chatu/Zájmy:"
 
 #, fuzzy
 #~ msgid "URL: "
@@ -5537,3 +5421,4 @@ msgstr "Zájmy:"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
