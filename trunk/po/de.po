@@ -2440,14 +2440,12 @@ msgid "Container"
 msgstr "Container"
 
 #: plugins/_core/container.cpp:563
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 typing"
 msgstr "%1 schreibt gerade"
 
 #: plugins/_core/container.cpp:564
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 typing"
@@ -8377,11 +8375,10 @@ msgid ""
 msgstr "NW"
 
 #: plugins/weather/weather.cpp:489
-#, fuzzy
 msgid ""
 "_: weather\n"
 "WNW"
-msgstr "NW"
+msgstr "WNW"
 
 #: plugins/weather/weather.cpp:490
 msgid ""
@@ -8390,11 +8387,10 @@ msgid ""
 msgstr "W"
 
 #: plugins/weather/weather.cpp:491
-#, fuzzy
 msgid ""
 "_: weather\n"
 "WSW"
-msgstr "SW"
+msgstr "WSW"
 
 #: plugins/weather/weather.cpp:492
 msgid ""
@@ -8427,24 +8423,22 @@ msgid ""
 msgstr "SO"
 
 #: plugins/weather/weather.cpp:497
-#, fuzzy
 msgid ""
 "_: weather\n"
 "ESE"
-msgstr "SO"
+msgstr "OSO"
 
 #: plugins/weather/weather.cpp:498
 msgid ""
 "_: weather\n"
 "E"
-msgstr "E"
+msgstr "O"
 
 #: plugins/weather/weather.cpp:499
-#, fuzzy
 msgid ""
 "_: weather\n"
 "ENE"
-msgstr "NE"
+msgstr "ONO"
 
 #: plugins/weather/weather.cpp:500
 msgid ""
