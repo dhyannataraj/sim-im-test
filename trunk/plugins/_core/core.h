@@ -488,11 +488,13 @@ protected:
     void loadUnread();
     void clearUnread(unsigned contact_id);
     void getWays(vector<clientContact> &ways, Contact *contact);
+    bool eventFilter (QObject *watched, QEvent *e);
     string typeName(const char *name);
     void setAutoReplies();
     bool				m_bInit;
     vector<string>		m_profiles;
     QWidget				*m_cfg;
+    QWidget				*m_focus;
     UserView			*m_view;
     SearchDialog		*m_search;
     QTranslator			*m_translator;

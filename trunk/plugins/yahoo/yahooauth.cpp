@@ -46,6 +46,8 @@
 #include <openssl/md5.h>
 #include <openssl/sha.h>
 
+#include <ctype.h>
+
 extern "C"
 {
     char *yahoo_crypt(const char *key, const char *salt);
