@@ -215,7 +215,7 @@ class PhoneBook : public list<PhoneInfo*>
 public:
     PhoneBook() {}
     ~PhoneBook();
-    void add(const char *number, const char *name, unsigned long type, bool ownInfo);
+    void add(const char *number, const char *name, unsigned long type, bool ownInfo, bool bPublish);
     void add(const PhoneBook &l);
     PhoneBook &operator = (const PhoneBook&);
 private:

@@ -111,7 +111,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                         Tlv *tlv_phone = NULL;
                         if (inf) tlv_phone = (*inf)(0x13A);
                         if (tlv_phone)
-                            user->Phones.add(*tlv_phone, "Private cellular", SMS, true);
+                            user->Phones.add(*tlv_phone, "Private cellular", SMS, true, false);
                         break;
                     }
                 case ICQ_GROUPS:{

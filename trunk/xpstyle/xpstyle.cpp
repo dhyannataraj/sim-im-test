@@ -397,7 +397,7 @@ void QWindowsXPStyle::polish( QWidget *widget )
         widget->setMouseTracking( TRUE );
     } else if ( widget->inherits( "QProgressBar" ) ) {
         widget->installEventFilter( this );
-		widget->setBackgroundMode(QWidget::NoBackground);
+        widget->setBackgroundMode(QWidget::NoBackground);
     } else if ( widget->inherits( "QComboBox" ) ) {
         widget->installEventFilter( this );
         widget->setMouseTracking( TRUE );
@@ -644,60 +644,60 @@ bool QWindowsXPStyle::eventFilter( QObject *o, QEvent *e )
             theme.drawBackground();
             return true;
         }
-   		if (o->inherits("QProgressBar")){
-   			QProgressBar *bar = static_cast<QProgressBar*>(widget);
-			QPixmap pm(bar->size());
-   			QPainter paint(&pm);
-			QBrush fbrush = bar->backgroundPixmap() 
-				? QBrush(bar->backgroundColor(), *bar->backgroundPixmap()) 
-				: QBrush(bar->backgroundColor());
-			paint.fillRect(bar->rect(), fbrush);
-			paint.setFont(bar->font());
-		    XPThemeData theme(widget, &paint, "PROGRESS", PP_BAR, 1, bar->rect());
-			if (!theme.isValid()) return false;
-		    theme.drawBackground();
-		    if (!bar->totalSteps()){
-				int w = bar->width() - 4;
-				int x = bar->progress() % (w * 2);
-				if (x > w)
-					x = 2 * w - x;
-				paint.setPen( QPen(bar->colorGroup().highlight(), 4) );
-				paint.drawLine(x, 1, x, bar->height() - 2);
-			} else {
-				int unit_width = 1;
-			    XPThemeData theme( widget, 0, "PROGRESS", PP_CHUNK );
-			    if ( theme.isValid() ) {
-					SIZE size;
-					GetThemePartSize(theme.handle(), NULL, theme.partId, theme.stateId, 0, TS_TRUE, &size );
-					unit_width = size.cx;
-				}
-				int u = (bar->width() - 4) / unit_width;
-				int p_v = bar->progress();
-				int t_s = bar->totalSteps();
-				if ( u > 0 && p_v >= INT_MAX / u && t_s >= u ) {
-				    p_v /= u;
-				    t_s /= u;
-				}
-				int nu = ( u * p_v + t_s / 2 ) / t_s;
-				if (nu * unit_width > bar->width() - 4)
-					nu--;
-				int x = 0;
-				int x0 = 2;
-				for (int i=0; i<nu; i++) {
-					QRect rect = QRect( x0 + x, 3, unit_width, bar->height() - 5);
-					XPThemeData theme(widget, &paint, "PROGRESS", PP_CHUNK, 1, rect);
-					if ( !theme.isValid() ) continue;
-				    theme.drawBackground();
-					x += unit_width;
-				}
-			}
+        if (o->inherits("QProgressBar")){
+            QProgressBar *bar = static_cast<QProgressBar*>(widget);
+            QPixmap pm(bar->size());
+            QPainter paint(&pm);
+            QBrush fbrush = bar->backgroundPixmap()
+                            ? QBrush(bar->backgroundColor(), *bar->backgroundPixmap())
+                            : QBrush(bar->backgroundColor());
+            paint.fillRect(bar->rect(), fbrush);
+            paint.setFont(bar->font());
+            XPThemeData theme(widget, &paint, "PROGRESS", PP_BAR, 1, bar->rect());
+            if (!theme.isValid()) return false;
+            theme.drawBackground();
+            if (!bar->totalSteps()){
+                int w = bar->width() - 4;
+                int x = bar->progress() % (w * 2);
+                if (x > w)
+                    x = 2 * w - x;
+                paint.setPen( QPen(bar->colorGroup().highlight(), 4) );
+                paint.drawLine(x, 1, x, bar->height() - 2);
+            } else {
+                int unit_width = 1;
+                XPThemeData theme( widget, 0, "PROGRESS", PP_CHUNK );
+                if ( theme.isValid() ) {
+                    SIZE size;
+                    GetThemePartSize(theme.handle(), NULL, theme.partId, theme.stateId, 0, TS_TRUE, &size );
+                    unit_width = size.cx;
+                }
+                int u = (bar->width() - 4) / unit_width;
+                int p_v = bar->progress();
+                int t_s = bar->totalSteps();
+                if ( u > 0 && p_v >= INT_MAX / u && t_s >= u ) {
+                    p_v /= u;
+                    t_s /= u;
+                }
+                int nu = ( u * p_v + t_s / 2 ) / t_s;
+                if (nu * unit_width > bar->width() - 4)
+                    nu--;
+                int x = 0;
+                int x0 = 2;
+                for (int i=0; i<nu; i++) {
+                    QRect rect = QRect( x0 + x, 3, unit_width, bar->height() - 5);
+                    XPThemeData theme(widget, &paint, "PROGRESS", PP_CHUNK, 1, rect);
+                    if ( !theme.isValid() ) continue;
+                    theme.drawBackground();
+                    x += unit_width;
+                }
+            }
 
-			paint.end();
-			paint.begin(bar);
-			paint.drawPixmap(0, 0, pm);
-			paint.end();
-   			return true;
-   		}
+            paint.end();
+            paint.begin(bar);
+            paint.drawPixmap(0, 0, pm);
+            paint.end();
+            return true;
+        }
         if (o->inherits("KPopupTitle")){
             KPopupTitle *w = (KPopupTitle*)widget;
             QImage img =

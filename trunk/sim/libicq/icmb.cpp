@@ -553,8 +553,11 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
     sock->writeBuffer << 0x0003 << 0x1B00 << 0x0800;
     sock->writeBuffer.pack(info, sizeof(info));
     sock->writeBuffer
-    << 0x03000000L << (char)0
-    << cookie1 << cookie2 << cookie1
+    << 0x03000000L << (char)0;
+    sock->writeBuffer.pack(cookie1);
+    sock->writeBuffer.pack(cookie2);
+    sock->writeBuffer.pack(cookie1);
+    sock->writeBuffer
     << 0x00000000L << 0x00000000L << 0x00000000L
     << (char)msgType << (char)msgFlags << msgState;
     if (response.size()){

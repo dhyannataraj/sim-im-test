@@ -412,7 +412,6 @@ string PhoneInfo::getNumber()
             break;
         }
     }
-    if (!*c->szName) return res;
     res += " (";
     res += AreaCode.c_str();
     res += ") ";
@@ -464,14 +463,26 @@ void ICQUser::adjustPhones()
             it = Phones.begin();
             continue;
         }
+        PhoneBook::iterator it1;
+        string number = phone->getNumber();
+        for (it1 = Phones.begin(); it1 != Phones.end(); ++it1){
+            if ((*it1) == phone) break;
+            if ((*it1)->isEqual(number.c_str())) break;
+        }
+        if ((*it1) != phone){
+            Phones.remove(*it);
+            delete phone;
+            it = Phones.begin();
+            continue;
+        }
         phone->Publish = false;
         it++;
     }
-    Phones.add(HomePhone.c_str(), "Home phone", PHONE, bMyInfo);
-    Phones.add(HomeFax.c_str(), "Home fax", FAX, bMyInfo);
-    Phones.add(PrivateCellular.c_str(), "Private cellular", SMS, bMyInfo);
-    Phones.add(WorkPhone.c_str(), "Work phone", PHONE, bMyInfo);
-    Phones.add(WorkFax.c_str(), "Work fax", FAX, bMyInfo);
+    Phones.add(HomePhone.c_str(), "Home phone", PHONE, bMyInfo, true);
+    Phones.add(HomeFax.c_str(), "Home fax", FAX, bMyInfo, true);
+    Phones.add(PrivateCellular.c_str(), "Private cellular", SMS, bMyInfo, true);
+    Phones.add(WorkPhone.c_str(), "Work phone", PHONE, bMyInfo, true);
+    Phones.add(WorkFax.c_str(), "Work fax", FAX, bMyInfo, true);
 }
 
 static void addEMail(EMailList &mails, EMailInfo *mail)
@@ -544,7 +555,7 @@ int strcasecmp(const char *a, const char *b)
 
 #endif
 
-void PhoneBook::add(const char *number, const char *name, unsigned long type, bool ownInfo)
+void PhoneBook::add(const char *number, const char *name, unsigned long type, bool ownInfo, bool publish)
 {
     if (*number == 0) return;
     char *p = (char*)number;
@@ -557,17 +568,17 @@ void PhoneBook::add(const char *number, const char *name, unsigned long type, bo
         if (phone->FromInfo) continue;
         if (phone->Type != type) continue;
         if (phone->isEqual(number)){
-            phone->Publish = true;
+            if (publish && !phone->Publish)
+                phone->Publish = true;
             break;
         }
     }
     if (it != end()) return;
     PhoneInfo *phone = new PhoneInfo;
-    phone->Type = type;
+    phone->setNumber(number, type);
     phone->Name = name;
-    phone->Number = number;
     phone->FromInfo = true;
-    phone->Publish = true;
+    phone->Publish = publish;
     phone->MyInfo = ownInfo;
     push_back(phone);
 }
