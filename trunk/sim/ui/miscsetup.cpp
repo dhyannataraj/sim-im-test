@@ -152,7 +152,7 @@ void MiscSetup::clickedSync()
         {
             SIMUser& user=*(static_cast<SIMUser*>(*it));
             
-            if (!user.inIgnore())
+            if (!user.inIgnore)
             {
                 Addressee newPers;
                 if (!user.strKabUid.empty())
