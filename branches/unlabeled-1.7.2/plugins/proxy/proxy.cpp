@@ -417,15 +417,7 @@ void SOCKS5_Proxy::connect_ready()
         error_state(STATE_ERROR, 0);
         return;
     }
-    bOut << (char)0x05;
-    if (getAuth()) {
-        bOut	<< (char)0x02
-        << (char)0x00
-        << (char)0x02;
-    } else {
-        bOut << (char) 0x01
-        << (char)0x00;
-    }
+    bOut << 0x05020002L;
     m_state = WaitAnswer;
     write();
 }

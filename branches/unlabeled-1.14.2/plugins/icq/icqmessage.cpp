@@ -247,6 +247,8 @@ static DataDef icqFileMessageData[] =
         { "", DATA_ULONG, 1, 0 },				// Port
 		{ "", DATA_ULONG, 1, 0 },				// ID_L
 		{ "", DATA_ULONG, 1, 0 },				// ID_H
+		{ "", DATA_ULONG, 1, 0 },				// Cookie
+		{ "", DATA_ULONG, 1, 0 },				// Extended
         { NULL, 0, 0, 0 }
     };
 
@@ -652,6 +654,7 @@ Message *ICQClient::parseExtendedMessage(const char *screen, Buffer &packet, Mes
 		m->setID_L(id.id_l);
 		m->setID_H(id.id_h);
 		m->setCookie(cookie);
+		m->setExtended(true);
         return m;
     }
     if (msgType == "ICQSMS"){
@@ -1597,14 +1600,14 @@ void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned
             break;
         }
 	case MessageICQFile:
-    case MessageFile:
-        if (nSequence){
+		if (!static_cast<ICQFileMessage*>(msg)->getExtended()){
 			res = fromUnicode(msg->getPlainText(), data);
             type = ICQ_MSGxFILE;
-        }else{
-            type = ICQ_MSGxEXT;
-			packExtendedMessage(msg, buf, msgBuf, data);
-        }
+			break;
+		}
+    case MessageFile:	// FALLTHROW
+        type = ICQ_MSGxEXT;
+		packExtendedMessage(msg, buf, msgBuf, data);
         break;
     case MessageOpenSecure:
         type = ICQ_MSGxSECURExOPEN;
@@ -1619,23 +1622,6 @@ void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned
 		if (msg->getFlags() & MESSAGE_LIST)
 			flags = ICQ_TCPxMSG_LIST;
 	}
-    if (nSequence){
-        b.pack(type);
-        b.pack(msgStatus());
-        b.pack(flags);
-        b << res;
-        switch (type){
-        case MessageFile:
-            b << nSequence
-            << (unsigned short)0
-            << fromUnicode(static_cast<FileMessage*>(msg)->getDescription(), data);
-            b.pack((unsigned long)(static_cast<FileMessage*>(msg)->getSize()));
-            b.pack(nSequence);
-            b << (unsigned short)0;
-            break;
-        }
-        return;
-    }
     if (type == ICQ_MSGxEXT){
         b.pack(type);
         b.pack(msgStatus());

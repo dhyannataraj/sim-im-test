@@ -147,21 +147,39 @@ QString SMSMessage::presentation()
     return res;
 }
 
-class FileMessageIteratorPrivate : public vector<string>
+typedef struct fileItem
+{
+	QString		name;
+	unsigned	size;
+} fileItem;
+
+class FileMessageIteratorPrivate : public vector<fileItem>
 {
 public:
     FileMessageIteratorPrivate(const FileMessage &msg);
-    vector<string>::iterator it;
+    vector<fileItem>::iterator it;
+	unsigned m_size;
     void add(const QString&);
+	void add(const QString&, unsigned size);
+	QString save();
 };
 
 FileMessageIteratorPrivate::FileMessageIteratorPrivate(const FileMessage &msg)
 {
+	m_size = 0;
     QString files = ((FileMessage&)msg).getFile();
     while (!files.isEmpty()){
-        add(getToken(files, ';'));
+		QString item = getToken(files, ';', false);
+		QString name = getToken(item, ',');
+		if (item.isEmpty()){
+			add(name);
+		}else{
+			add(name, item.toUInt());
+		}
     }
     it = begin();
+	if (it != end())
+		m_size = it[0].size;
 }
 
 void FileMessageIteratorPrivate::add(const QString &str)
@@ -170,21 +188,46 @@ void FileMessageIteratorPrivate::add(const QString &str)
     if (!f.exists())
         return;
     if (!f.isDir()){
-        push_back(string(QFile::encodeName(str)));
+        add(str, f.size());
         return;
     }
     QDir d(str);
     QStringList l = d.entryList();
     for (QStringList::Iterator it = l.begin(); it != l.end(); ++it){
+		QString f = *it;
+		if ((f == ".") || (f == ".."))
+			continue;
         QString p = str;
 #ifdef WIN32
         p += "\\";
 #else
         p += "/";
 #endif
-        p += *it;
+        p += f;
         add(p);
     }
+}
+
+void FileMessageIteratorPrivate::add(const QString &str, unsigned size)
+{
+	fileItem f;
+	f.name = str;
+	f.size = size;
+	push_back(f);
+}
+
+QString FileMessageIteratorPrivate::save()
+{
+	QString res;
+	for (iterator it = begin(); it != end(); ++it){
+		fileItem &f = *it;
+		if (!res.isEmpty())
+			res += ";";
+		res += f.name;
+		res += ",";
+		res += QString::number(f.size);
+	}
+	return res;
 }
 
 FileMessage::Iterator::Iterator(const FileMessage &m)
@@ -197,20 +240,27 @@ FileMessage::Iterator::~Iterator()
     delete p;
 }
 
-const char *FileMessage::Iterator::operator[](unsigned n)
+const QString *FileMessage::Iterator::operator[](unsigned n)
 {
     if (n >= p->size())
         return NULL;
-    return (*p)[n].c_str();
+	p->m_size = (*p)[n].size;
+    return &(*p)[n].name;
 }
 
-const char *FileMessage::Iterator::operator++()
+const QString *FileMessage::Iterator::operator++()
 {
     if (p->it == p->end())
         return NULL;
-    const char *res = (*(p->it)).c_str();
+    const QString *res = &(*(p->it)).name;
+	p->m_size = (*(p->it)).size;
     ++(p->it);
     return res;
+}
+
+unsigned FileMessage::Iterator::size()
+{
+	return p->m_size;
 }
 
 void FileMessage::Iterator::reset()
@@ -250,14 +300,25 @@ unsigned FileMessage::getSize()
     if (data.Size)
         return data.Size;
     Iterator it(*this);
-    const char *name;
+    const QString *name;
     while ((name = ++it) != NULL){
-        QFile f(QFile::decodeName(name));
-        if (!f.exists())
-            continue;
-        data.Size += f.size();
+        data.Size += it.size();
     }
     return data.Size;
+}
+
+void FileMessage::addFile(const QString &file, unsigned size)
+{
+	Iterator it(*this);
+	it.p->add(file, size);
+	setFile(it.p->save());
+	if (m_transfer){
+		m_transfer->m_nFile++;
+		m_transfer->m_fileSize = size;
+		m_transfer->m_bytes = 0;
+		if (m_transfer->m_notify)
+			m_transfer->m_notify->process();
+	}
 }
 
 void FileMessage::setSize(unsigned size)
@@ -271,21 +332,15 @@ QString FileMessage::getDescription()
         return QString::fromUtf8(data.Description);
     Iterator it(*this);
     if (it.count() <= 1){
-        const char *name = ++it;
+        const QString *name = ++it;
         if (name == NULL)
             return NULL;
-        const char *short_name;
-#ifdef WIN32
-        short_name = strrchr(name, '\\');
-#else
-        short_name = strchr(name, '/');
-#endif
-        if (short_name){
-            short_name++;
-        }else{
-            short_name = name;
-        }
-        return QFile::decodeName(short_name);
+        QString shortName = *name;
+		shortName = shortName.replace(QRegExp("\\\\"), "/");
+		int n = shortName.findRev("/");
+		if (n >= 0)
+			shortName = shortName.mid(n + 1);
+        return shortName;
     }
     return QString("%1 files") .arg(it.count());
 }
@@ -329,14 +384,16 @@ QString FileMessage::presentation()
 
 FileTransfer::FileTransfer(FileMessage *msg)
 {
+	FileMessage::Iterator it(*msg);
+	m_file		 = 0;
     m_msg		 = msg;
     m_notify	 = NULL;
-    m_file		 = NO_FILE;
-    m_files		 = 0;
+    m_nFile		 = NO_FILE;
+    m_nFiles	 = it.count();
     m_bytes		 = 0;
     m_totalBytes = 0;
     m_fileSize	 = 0;
-    m_totalSize	 = 0;
+    m_totalSize	 = msg->getSize();
     m_speed		 = 100;
     m_state		 = Unknown;
 	m_overwrite  = Ask;
@@ -350,6 +407,37 @@ FileTransfer::~FileTransfer()
 {
     setNotify(NULL);
     m_msg->m_transfer = NULL;
+	if (m_file)
+		delete m_file;
+}
+
+bool FileTransfer::openFile()
+{
+	if (m_file){
+		delete m_file;
+		m_file = NULL;
+	}
+	if (++m_nFile >= m_nFiles){
+		m_state = Done;
+		if (m_notify)
+			m_notify->process();
+		return false;
+	}
+	FileMessage::Iterator it(*m_msg);
+	m_file = new QFile(*it[m_nFile]);
+	if (!m_file->open(IO_ReadOnly)){
+		m_msg->setError(i18n("Can't open %1") .arg(*it[m_nFile]));
+		setError();
+		return false;
+	}
+	return true;
+}
+
+void FileTransfer::setError()
+{
+	m_state = Error;
+	if (m_notify)
+		m_notify->process();
 }
 
 void FileTransfer::setSpeed(unsigned speed)

@@ -33,10 +33,7 @@ MessageConfig::MessageConfig(QWidget *parent, void *_data)
     chkOnline->setChecked(data->OpenOnOnline);
     chkStatus->setChecked(data->LogStatus);
     edtPath->setDirMode(true);
-    QString incoming = QString::fromUtf8(data->IncomingPath);
-    if (incoming == "Incoming Files") {
-        incoming = QString::fromUtf8(user_file("Incoming Files").c_str());
-    }
+    QString incoming = QFile::encodeName(data->IncomingPath ? user_file(data->IncomingPath).c_str() : "");
     edtPath->setText(incoming);
     connect(grpAccept, SIGNAL(clicked(int)), this, SLOT(acceptClicked(int)));
     switch (data->AcceptMode){
@@ -64,13 +61,12 @@ void MessageConfig::apply(void *_data)
     data->LogStatus     = chkStatus->isChecked();
     QString def;
     if (edtPath->text().isEmpty()) {
-        const char *defPath = "Incoming Files";
-        def = QString::fromUtf8(user_file(defPath).c_str());
+        def = "Incoming Files";
     } else {
         def = edtPath->text();
     }
-    set_str(&data->IncomingPath, def.utf8());
-    edtPath->setText(QString::fromUtf8(data->IncomingPath));
+    set_str(&data->IncomingPath, QFile::encodeName(def));
+    edtPath->setText(QFile::decodeName(data->IncomingPath ? user_file(data->IncomingPath).c_str() : ""));
     data->AcceptMode = 0;
     if (btnAccept->isOn()){
 		data->AcceptMode = 1;

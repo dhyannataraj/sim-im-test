@@ -651,6 +651,7 @@ enum OverwriteMode
 {
 	Ask,
 	Skip,
+	Resume,
 	Replace
 };
 
@@ -978,6 +979,7 @@ public:
     virtual ~FileTransferNotify() {}
     virtual void process() = 0;
     virtual void transfer(bool) = 0;
+	virtual void createFile(const QString &name, unsigned size) = 0;
 };
 
 const unsigned NO_FILE	= (unsigned)(-1);
@@ -988,16 +990,17 @@ public:
     FileTransfer(FileMessage *msg);
     virtual ~FileTransfer();
     void setNotify(FileTransferNotify*);
-    unsigned file()			{ return m_file; }
-    unsigned files()		{ return m_files; }
-    unsigned bytes()		{ return m_bytes; }
-    unsigned totalBytes()	{ return m_totalBytes; }
-    unsigned fileSize()		{ return m_fileSize; }
-    unsigned totalSize()	{ return m_totalSize; }
-    unsigned speed()		{ return m_speed; }
+	FileTransferNotify			*notify() { return m_notify; }
+    unsigned file()				{ return m_nFile; }
+    unsigned files()			{ return m_nFiles; }
+    unsigned bytes()			{ return m_bytes; }
+    unsigned totalBytes()		{ return m_totalBytes; }
+    unsigned fileSize()			{ return m_fileSize; }
+    unsigned totalSize()		{ return m_totalSize; }
+    unsigned speed()			{ return m_speed; }
     unsigned transferBytes()	{ return m_transferBytes; }
     virtual void setSpeed(unsigned speed);
-	QString  dir()			{ return m_dir; }
+	QString  dir()				{ return m_dir; }
 	void setDir(const QString &dir) { m_dir = dir; }
 	OverwriteMode overwrite()	{ return m_overwrite; }
 	void setOverwrite(OverwriteMode overwrite) { m_overwrite = overwrite; }
@@ -1012,12 +1015,17 @@ public:
         Done,
         Error
     };
-    State state()			{ return m_state; }
+    State state()	{ return m_state; }
+	QFile			*m_file;
+	virtual void	startReceive(unsigned pos) = 0;
+	virtual void	setError();
+	void	addFile(const QString &file, unsigned size);
 protected:
+	bool	openFile();
     FileMessage			*m_msg;
     FileTransferNotify	*m_notify;
-    unsigned m_file;
-    unsigned m_files;
+    unsigned m_nFile;
+    unsigned m_nFiles;
     unsigned m_bytes;
     unsigned m_totalBytes;
     unsigned m_fileSize;
@@ -1027,6 +1035,7 @@ protected:
 	OverwriteMode m_overwrite;
 	QString	 m_dir;
     State	 m_state;
+	friend class FileMessage;
 };
 
 class EXPORT FileMessage : public Message
@@ -1041,22 +1050,27 @@ public:
     virtual QString presentation();
     virtual QString getDescription();
     void	setDescription(const QString&);
+	void	addFile(const QString&);
+	void	addFile(const QString&, unsigned size);
     class EXPORT Iterator
     {
     public:
         Iterator(const FileMessage&);
         ~Iterator();
-        const char *operator++();
-        const char *operator[](unsigned);
+        const QString *operator++();
+        const QString *operator[](unsigned);
         void reset();
         unsigned count();
+		unsigned size();
     protected:
         FileMessageIteratorPrivate *p;
+		friend class FileMessage;
     };
     FileTransfer	*m_transfer;
 protected:
     MessageFileData	data;
     friend class FileTransfer;
+	friend class Iterator;
 };
 
 class EXPORT AuthMessage : public Message

@@ -90,7 +90,7 @@ MsgReceived::MsgReceived(CToolCustom *parent, Message *msg)
             continue;
         CmdButton *btn;
         btn = new CmdButton(parent, c->id, c->text);
-        connect(btn, SIGNAL(command(unsigned)), this, SLOT(command(unsigned)));
+        connect(btn, SIGNAL(command(CmdButton*)), this, SLOT(command(CmdButton*)));
         btn->show();
     }
     if (((msg->getFlags() & MESSAGE_RECEIVED) == 0) || CorePlugin::m_plugin->getContainerMode()){

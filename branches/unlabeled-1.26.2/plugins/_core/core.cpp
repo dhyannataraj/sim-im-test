@@ -1324,18 +1324,31 @@ void *CorePlugin::processEvent(Event *e)
         return NULL;
     case EventHomeDir:{
             string *cfg = (string*)(e->param());
-            string profile = getProfile();
-            if (profile.length()){
+			QString fname = QFile::decodeName(cfg->c_str());
+			QString profile;
 #ifdef WIN32
-                profile += "\\";
+			if ((fname[1] != ':') && (fname.left(2) != "\\\\"))
 #else
-                profile += "/";
+			if (fname[0] != '/')
 #endif
-            }
-            profile += cfg->c_str();
-            *cfg = profile;
+			profile = getProfile();
+			if (profile.length())
+#ifdef WIN32
+				profile += "\\";
+#else
+				profile += "/";
+#endif
+            profile += fname;
+			if (profile.isEmpty()){
+				*cfg = "";
+			}else{
+				*cfg = QFile::encodeName(profile);
+			}
             Event eProfile(EventHomeDir, cfg);
-            return eProfile.process(this);
+            if (!eProfile.process(this))
+				*cfg = app_file(cfg->c_str());
+			makedir((char*)(cfg->c_str()));
+			return cfg;
         }
     case EventAddPreferences:{
             CommandDef *cmd = (CommandDef*)(e->param());
@@ -1472,8 +1485,15 @@ void *CorePlugin::processEvent(Event *e)
 				if (data){
 					if (data->AcceptMode == 1){
 						string dir;
-						if (data->IncomingPath)
+						if (data && data->IncomingPath)
 							dir = data->IncomingPath;
+#ifdef WIN32
+						if (!dir.empty() && (dir[dir.length() - 1] != '\\'))
+							dir += '\\';
+#else
+						if (!dir.empty() && (dir[dir.length() - 1] != '/'))
+							dir += '/';
+#endif
 						dir = user_file(dir.c_str());
 						messageAccept ma;
 						ma.msg	     = msg;
@@ -2409,12 +2429,19 @@ void *CorePlugin::processEvent(Event *e)
             }
 			if (cmd->id == CmdFileAccept){
 				Message *msg = (Message*)(cmd->param);
-				string dir;
 				Contact *contact = getContacts()->contact(msg->contact());
                 CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
-				if (data)
-					dir = data->IncomingPath;
-				dir = user_file(dir.c_str());
+						string dir;
+						if (data && data->IncomingPath)
+							dir = data->IncomingPath;
+#ifdef WIN32
+						if (!dir.empty() && (dir[dir.length() - 1] != '\\'))
+							dir += '\\';
+#else
+						if (!dir.empty() && (dir[dir.length() - 1] != '/'))
+							dir += '/';
+#endif
+						dir = user_file(dir.c_str());
 				messageAccept ma;
 				ma.msg	     = msg;
 				ma.dir	     = dir.c_str();

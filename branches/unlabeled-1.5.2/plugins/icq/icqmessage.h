@@ -127,6 +127,7 @@ typedef struct ICQFileMessageData
 	unsigned long	ID_L;
 	unsigned long	ID_H;
 	unsigned long	Cookie;
+	unsigned long	Extended;
 } ICQFileMessageData;
 
 class ICQFileMessage : public FileMessage
@@ -141,6 +142,7 @@ public:
 	PROP_ULONG(ID_L);
 	PROP_ULONG(ID_H);
 	PROP_ULONG(Cookie);
+	PROP_ULONG(Extended);
     virtual QString getText();
     virtual QString getDescription();
     virtual string  save();

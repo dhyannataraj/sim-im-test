@@ -108,7 +108,10 @@ EXPORT bool makedir(char *p)
 EXPORT string app_file(const char *f)
 {
     string app_file_name = "";
+	QString fname = QFile::decodeName(f);
 #ifdef WIN32
+	if ((fname[1] == ':') || (fname.left(2) == "\\\\"))
+		return f;
     char buff[256];
     GetModuleFileNameA(NULL, buff, sizeof(buff));
     char *p = strrchr(buff, '\\');
@@ -117,6 +120,8 @@ EXPORT string app_file(const char *f)
     if (app_file_name.length() && (app_file_name[app_file_name.length()-1] != '\\'))
         app_file_name += "\\";
 #else
+	if (fname[0] == '/')
+		return f;
 #ifdef USE_KDE
     if (qApp){
         QStringList lst = KGlobal::dirs()->findDirs("data", "sim");

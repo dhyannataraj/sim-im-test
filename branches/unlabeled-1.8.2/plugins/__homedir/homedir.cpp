@@ -210,16 +210,23 @@ string HomeDirPlugin::getConfig()
 
 string HomeDirPlugin::buildFileName(const char *name)
 {
-    QString s = QFile::decodeName(m_homeDir.c_str());
+    QString s;
+	QString fname = QFile::decodeName(name);
 #ifdef WIN32
-    s += '\\';
+	if ((fname[1] != ':') && (fname.left(2) != "\\\\")){
 #else
-    s += '/';
+	if (fname[0] != '/'){
 #endif
-    s += QFile::decodeName(name);
+		s += QFile::decodeName(m_homeDir.c_str());
+#ifdef WIN32
+		s += '\\';
+#else
+		s += '/';
+#endif
+	}
+    s += fname;
     string res;
     res = QFile::encodeName(s);
-    makedir((char*)(res.c_str()));
     return res;
 }
 
