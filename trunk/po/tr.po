@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
-"POT-Creation-Date: 2003-12-28 15:38+0300\n"
+"POT-Creation-Date: 2004-01-06 04:52+0300\n"
 "PO-Revision-Date: 2003-01-14 20:31+0200\n"
 "Last-Translator: ismail donmez <voidcartman@yahoo.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
@@ -1041,23 +1041,23 @@ msgstr "NoPlural"
 #: plugins/_core/toolsetupbase.cpp:135 plugins/action/additembase.cpp:94
 #: plugins/gpg/gpggenbase.cpp:114 plugins/icq/encodingdlgbase.cc:86
 #: plugins/icq/warndlgbase.cc:88 plugins/jabber/discoinfobase.cpp:320
-#: plugins/proxy/proxyerrorbase.cpp:80 sim/api/simapi.cpp:436
+#: plugins/proxy/proxyerrorbase.cpp:80 sim/api/simapi.cpp:435
 #: sim/ui/qt3/i18n.cpp:174
 msgid "&OK"
 msgstr "&Tamam"
 
-#: sim/api/simapi.cpp:436 sim/ui/ballonmsg.cpp:304 sim/ui/qt3/i18n.cpp:125
+#: sim/api/simapi.cpp:435 sim/ui/ballonmsg.cpp:304 sim/ui/qt3/i18n.cpp:125
 msgid "&Yes"
 msgstr "&Evet"
 
 #: plugins/_core/cfgdlg.cpp:486 plugins/_core/cfgdlgbase.cpp:125
 #: plugins/_core/toolsetupbase.cpp:134 plugins/jabber/discoinfobase.cpp:319
-#: sim/api/simapi.cpp:437
+#: sim/api/simapi.cpp:436
 msgid "&Apply"
 msgstr "&Uygula"
 
 #: plugins/jabber/jabber.cpp:474 plugins/jabber/servicesbase.cpp:174
-#: sim/api/simapi.cpp:437
+#: sim/api/simapi.cpp:436
 msgid "&Register"
 msgstr "&Kaydet"
 
@@ -1070,100 +1070,100 @@ msgstr "&Kaydet"
 #: plugins/gpg/gpggenbase.cpp:115 plugins/icq/encodingdlgbase.cc:87
 #: plugins/icq/icqclient.cpp:2402 plugins/icq/securedlgbase.cc:78
 #: plugins/icq/warndlgbase.cc:89 plugins/proxy/proxyerrorbase.cpp:81
-#: sim/api/simapi.cpp:439 sim/ui/qt3/i18n.cpp:35
+#: sim/api/simapi.cpp:438 sim/ui/qt3/i18n.cpp:35
 msgid "&Cancel"
 msgstr "&İptal"
 
 #: plugins/_core/core.cpp:566 plugins/_core/filetransfer.cpp:310
 #: plugins/_core/managerbase.cpp:110 plugins/_core/toolsetupbase.cpp:136
 #: plugins/about/aboutdlgbase.cpp:156 plugins/icq/securedlg.cpp:92
-#: plugins/jabber/discoinfobase.cpp:321 sim/api/simapi.cpp:439
+#: plugins/jabber/discoinfobase.cpp:321 sim/api/simapi.cpp:438
 #: sim/ui/qt3/i18n.cpp:287
 msgid "&Close"
 msgstr "&Kapat"
 
-#: sim/api/simapi.cpp:440 sim/ui/ballonmsg.cpp:305 sim/ui/qt3/i18n.cpp:127
+#: sim/api/simapi.cpp:439 sim/ui/ballonmsg.cpp:305 sim/ui/qt3/i18n.cpp:127
 msgid "&No"
 msgstr "&Hayır"
 
 #: plugins/_core/arcfgbase.cpp:110 plugins/_core/autoreplybase.cpp:89
 #: plugins/action/actioncfgbase.cpp:121 plugins/action/additembase.cpp:93
-#: sim/api/simapi.cpp:442
+#: sim/api/simapi.cpp:441
 #, fuzzy
 msgid "&Help"
 msgstr "Yardım"
 
-#: sim/api/simapi.cpp:645
+#: sim/api/simapi.cpp:644
 #, fuzzy
 msgid "Smile"
 msgstr "Örnek"
 
-#: sim/api/simapi.cpp:646
+#: sim/api/simapi.cpp:645
 msgid "Surprised"
 msgstr ""
 
-#: sim/api/simapi.cpp:647
+#: sim/api/simapi.cpp:646
 #, fuzzy
 msgid "Indifferent"
 msgstr "İnternet"
 
-#: sim/api/simapi.cpp:648
+#: sim/api/simapi.cpp:647
 #, fuzzy
 msgid "Skeptical"
 msgstr "Özel"
 
-#: sim/api/simapi.cpp:649
+#: sim/api/simapi.cpp:648
 #, fuzzy
 msgid "Sad"
 msgstr "Gölge"
 
-#: sim/api/simapi.cpp:650
+#: sim/api/simapi.cpp:649
 msgid "Kiss"
 msgstr ""
 
-#: sim/api/simapi.cpp:651
+#: sim/api/simapi.cpp:650
 msgid "Annoyed"
 msgstr ""
 
-#: sim/api/simapi.cpp:652
+#: sim/api/simapi.cpp:651
 msgid "Crying"
 msgstr ""
 
-#: sim/api/simapi.cpp:653
+#: sim/api/simapi.cpp:652
 msgid "Wink"
 msgstr ""
 
-#: sim/api/simapi.cpp:654
+#: sim/api/simapi.cpp:653
 #, fuzzy
 msgid "Angry"
 msgstr "Macaristan"
 
-#: sim/api/simapi.cpp:655
+#: sim/api/simapi.cpp:654
 #, fuzzy
 msgid "Embarrassed"
 msgstr "Sil"
 
-#: sim/api/simapi.cpp:656
+#: sim/api/simapi.cpp:655
 #, fuzzy
 msgid "Uptight"
 msgstr "hafif"
 
-#: sim/api/simapi.cpp:657
+#: sim/api/simapi.cpp:656
 #, fuzzy
 msgid "Teaser"
 msgstr "Dosya transferi tamamlandı:"
 
-#: sim/api/simapi.cpp:658
+#: sim/api/simapi.cpp:657
 #, fuzzy
 msgid "Cool"
 msgstr "Kongo"
 
-#: sim/api/simapi.cpp:659
+#: sim/api/simapi.cpp:658
 #, fuzzy
 msgid "Angel"
 msgstr "Angola"
 
-#: sim/api/simapi.cpp:660
+#: sim/api/simapi.cpp:659
 msgid "Grin"
 msgstr ""
 
@@ -1195,58 +1195,58 @@ msgstr "Bağlantı"
 msgid "Can't allocate port"
 msgstr "%1 dosyası yaratılamadı"
 
-#: sim/api/sslclient.cpp:193 sim/api/sslclient.cpp:361
-#: sim/api/sslclient.cpp:365
+#: sim/api/sslclient.cpp:188 sim/api/sslclient.cpp:356
+#: sim/api/sslclient.cpp:360
 #, fuzzy
 msgid "SSL write error"
 msgstr "Bağlantı"
 
-#: sim/api/sslclient.cpp:202 sim/api/sslclient.cpp:223
-#: sim/api/sslclient.cpp:231
+#: sim/api/sslclient.cpp:197 sim/api/sslclient.cpp:218
+#: sim/api/sslclient.cpp:226
 #, fuzzy
 msgid "SSL connect error"
 msgstr "Bağlantı"
 
-#: sim/api/sslclient.cpp:238
+#: sim/api/sslclient.cpp:233
 #, fuzzy
 msgid "SSL shutdown error"
 msgstr "Bağlantı"
 
-#: sim/api/sslclient.cpp:259 sim/api/sslclient.cpp:267
+#: sim/api/sslclient.cpp:254 sim/api/sslclient.cpp:262
 #, fuzzy
 msgid "SSL shuwdown error"
 msgstr "Bağlantı"
 
-#: sim/api/sslclient.cpp:274 sim/api/sslclient.cpp:295
-#: sim/api/sslclient.cpp:303
+#: sim/api/sslclient.cpp:269 sim/api/sslclient.cpp:290
+#: sim/api/sslclient.cpp:298
 #, fuzzy
 msgid "SSL accept error"
 msgstr "Bağlantı"
 
-#: sim/api/sslclient.cpp:325 sim/api/sslclient.cpp:329
-#: sim/api/sslclient.cpp:413 sim/api/sslclient.cpp:419
+#: sim/api/sslclient.cpp:320 sim/api/sslclient.cpp:324
+#: sim/api/sslclient.cpp:408 sim/api/sslclient.cpp:414
 #, fuzzy
 msgid "SSL read error"
 msgstr "Bağlantı"
 
-#: sim/api/sslclient.cpp:403
+#: sim/api/sslclient.cpp:398
 #, fuzzy
 msgid "SSL init error"
 msgstr "Bağlantı"
 
-#: plugins/dock/dock.cpp:111 sim/sim.cpp:185
+#: plugins/dock/dock.cpp:111 sim/sim.cpp:184
 msgid "SIM"
 msgstr "SIM"
 
-#: sim/sim.cpp:187
+#: sim/sim.cpp:186
 msgid "Multiprotcol instant messenger"
 msgstr ""
 
-#: sim/sim.cpp:193
+#: sim/sim.cpp:192
 msgid "Maintainer"
 msgstr "Düzenleyici"
 
-#: sim/sim.cpp:194
+#: sim/sim.cpp:193
 msgid "Developer"
 msgstr ""
 
@@ -1427,7 +1427,7 @@ msgstr "Dizin"
 msgid "Special"
 msgstr "Özel"
 
-#: sim/ui/editfile.cpp:135 sim/ui/qt3/i18n.cpp:89
+#: sim/ui/editfile.cpp:136 sim/ui/qt3/i18n.cpp:89
 msgid "Open"
 msgstr "Aç"
 
@@ -1871,15 +1871,15 @@ msgstr "&Kopyala"
 msgid "&Paste"
 msgstr "Yapıştır"
 
-#: sim/ui/editfile.cpp:205
+#: sim/ui/editfile.cpp:206
 msgid "*.wav|Sounds"
 msgstr "*.wav|Sesler"
 
-#: sim/ui/editfile.cpp:207
+#: sim/ui/editfile.cpp:208
 msgid "Sounds(*.wav)"
 msgstr "Sesler(*.wav)"
 
-#: sim/ui/editfile.cpp:210
+#: sim/ui/editfile.cpp:211
 #, fuzzy
 msgid "Select sound"
 msgstr "Font Seç"
@@ -1919,83 +1919,83 @@ msgstr "Altını Çiz"
 msgid "Custom"
 msgstr "Kes"
 
-#: sim/ui/datepicker.cpp:216
+#: sim/ui/datepicker.cpp:222
 msgid "January"
 msgstr "Ocak"
 
-#: sim/ui/datepicker.cpp:217
+#: sim/ui/datepicker.cpp:223
 msgid "February"
 msgstr "Şubat"
 
-#: sim/ui/datepicker.cpp:218
+#: sim/ui/datepicker.cpp:224
 msgid "March"
 msgstr "Mart"
 
-#: sim/ui/datepicker.cpp:219
+#: sim/ui/datepicker.cpp:225
 msgid "April"
 msgstr "Nisan"
 
-#: sim/ui/datepicker.cpp:220
+#: sim/ui/datepicker.cpp:226
 msgid "May"
 msgstr "Mayıs"
 
-#: sim/ui/datepicker.cpp:221
+#: sim/ui/datepicker.cpp:227
 msgid "June"
 msgstr "Haziran"
 
-#: sim/ui/datepicker.cpp:222
+#: sim/ui/datepicker.cpp:228
 msgid "July"
 msgstr "Temmuz"
 
-#: sim/ui/datepicker.cpp:223
+#: sim/ui/datepicker.cpp:229
 msgid "August"
 msgstr "Ağustos"
 
-#: sim/ui/datepicker.cpp:224
+#: sim/ui/datepicker.cpp:230
 msgid "September"
 msgstr "Eylül"
 
-#: sim/ui/datepicker.cpp:225
+#: sim/ui/datepicker.cpp:231
 msgid "October"
 msgstr "Ekim"
 
-#: sim/ui/datepicker.cpp:226
+#: sim/ui/datepicker.cpp:232
 msgid "November"
 msgstr "Kasım"
 
-#: sim/ui/datepicker.cpp:227
+#: sim/ui/datepicker.cpp:233
 msgid "December"
 msgstr "Aralık"
 
-#: sim/ui/datepicker.cpp:232
+#: sim/ui/datepicker.cpp:238
 #, fuzzy
 msgid "Mon"
 msgstr "Monaco"
 
-#: sim/ui/datepicker.cpp:233
+#: sim/ui/datepicker.cpp:239
 #, fuzzy
 msgid "Tue"
 msgstr "Türkiye"
 
-#: sim/ui/datepicker.cpp:234
+#: sim/ui/datepicker.cpp:240
 msgid "Wed"
 msgstr ""
 
-#: sim/ui/datepicker.cpp:235
+#: sim/ui/datepicker.cpp:241
 msgid "Thu"
 msgstr ""
 
-#: sim/ui/datepicker.cpp:236
+#: sim/ui/datepicker.cpp:242
 #, fuzzy
 msgid "Fri"
 msgstr "Farsça"
 
-#: sim/ui/datepicker.cpp:237
+#: sim/ui/datepicker.cpp:243
 #, fuzzy
 msgid "Sat"
 msgstr "&Doygunluk:"
 
-#: sim/ui/datepicker.cpp:238
+#: sim/ui/datepicker.cpp:244
 #, fuzzy
 msgid "Sun"
 msgstr "Sudan"
@@ -2033,12 +2033,12 @@ msgstr "Icq dışından kontak ekle"
 msgid "ICQ"
 msgstr "ICQ"
 
-#: plugins/_core/userlist.cpp:572 plugins/icq/icq.cpp:110
+#: plugins/_core/userlist.cpp:579 plugins/icq/icq.cpp:110
 #: plugins/icq/icq.cpp:280 plugins/icq/icqclient.cpp:1483
 #: plugins/icq/icqclient.cpp:1517 plugins/jabber/jabber.cpp:115
 #: plugins/jabber/jabberclient.cpp:1423 plugins/jabber/services.cpp:235
 #: plugins/livejournal/livejournal.cpp:275 plugins/msn/msn.cpp:89
-#: plugins/msn/msnclient.cpp:1559
+#: plugins/msn/msnclient.cpp:1559 plugins/sms/sms.cpp:132
 msgid "Online"
 msgstr "Bağlı"
 
@@ -2066,11 +2066,11 @@ msgstr "Meşgul"
 msgid "Free for chat"
 msgstr "Chat için Boş"
 
-#: plugins/_core/userlist.cpp:575 plugins/_core/userviewcfgbase.cpp:287
+#: plugins/_core/userlist.cpp:582 plugins/_core/userviewcfgbase.cpp:287
 #: plugins/icq/icq.cpp:200 plugins/icq/icq.cpp:310
 #: plugins/icq/icqclient.cpp:1480 plugins/jabber/jabber.cpp:190
 #: plugins/jabber/services.cpp:232 plugins/livejournal/livejournal.cpp:290
-#: plugins/msn/msn.cpp:194
+#: plugins/msn/msn.cpp:194 plugins/sms/sms.cpp:147
 msgid "Offline"
 msgstr "Bağlı değil"
 
@@ -2097,7 +2097,7 @@ msgstr "Tüm-Kodlamalar"
 msgid "Change &encoding"
 msgstr "&Kodlama"
 
-#: plugins/_core/msgedit.cpp:1550 plugins/icq/icq.cpp:552
+#: plugins/_core/msgedit.cpp:1563 plugins/icq/icq.cpp:552
 #: plugins/jabber/jabber.cpp:393
 msgid "&Message"
 msgstr "&Mesaj"
@@ -2510,7 +2510,7 @@ msgstr "Çı&kartma"
 msgid "No contact"
 msgstr "Icq dışından kontak ekle"
 
-#: plugins/icq/icqicmb.cpp:1349 plugins/icq/icqmessage.cpp:1218
+#: plugins/icq/icqicmb.cpp:1349 plugins/icq/icqmessage.cpp:1219
 #: plugins/jabber/jabberclient.cpp:2349
 #, fuzzy
 msgid "No contacts for send"
@@ -2596,90 +2596,90 @@ msgstr ""
 msgid "Bad host address"
 msgstr "E-Mail-Adresi:"
 
-#: plugins/icq/icqmessage.cpp:683
+#: plugins/icq/icqmessage.cpp:684
 #, c-format
 msgid ""
 "_n: WWW-panel message\n"
 "%n WWW-panel messages"
 msgstr "WWW-panel mesajı"
 
-#: plugins/icq/icqmessage.cpp:704
+#: plugins/icq/icqmessage.cpp:705
 #, c-format
 msgid ""
 "_n: Email pager message\n"
 "%n Email pager messages"
 msgstr "Email pager mesajı"
 
-#: plugins/icq/icqmessage.cpp:725
+#: plugins/icq/icqmessage.cpp:726
 #, c-format
 msgid ""
 "_n: Request secure channel\n"
 "%n requests secure channel"
 msgstr "Güvenli kanal iste"
 
-#: plugins/icq/icqmessage.cpp:746
+#: plugins/icq/icqmessage.cpp:747
 #, fuzzy, c-format
 msgid ""
 "_n: Close secure channel\n"
 "%n times close secure channel"
 msgstr "Güvenli kanal iste"
 
-#: plugins/icq/icqmessage.cpp:767
+#: plugins/icq/icqmessage.cpp:768
 #, c-format
 msgid ""
 "_n: Check invisible\n"
 "%n times check invisible"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:788
+#: plugins/icq/icqmessage.cpp:789
 #, fuzzy, c-format
 msgid ""
 "_n: Warning\n"
 "%n warnings"
 msgstr "Email"
 
-#: plugins/icq/icqmessage.cpp:894
+#: plugins/icq/icqmessage.cpp:895
 #, fuzzy, c-format
 msgid ""
 "_n: Contact request\n"
 "%n contact requests"
 msgstr "Kontak isteği"
 
-#: plugins/icq/icqmessage.cpp:973
+#: plugins/icq/icqmessage.cpp:974
 #, fuzzy
 msgid "Contact Request"
 msgstr "Kontak İsteği"
 
-#: plugins/icq/icqmessage.cpp:998
+#: plugins/icq/icqmessage.cpp:999
 msgid "Web panel"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:1004
+#: plugins/icq/icqmessage.cpp:1005
 #, fuzzy
 msgid "Email pager"
 msgstr "E-Mail-Adresi:"
 
-#: plugins/icq/icqmessage.cpp:1010
+#: plugins/icq/icqmessage.cpp:1011
 #, fuzzy
 msgid "Request secure channel"
 msgstr "Kullanıcı bilgisi isteniyor"
 
-#: plugins/icq/icqmessage.cpp:1017
+#: plugins/icq/icqmessage.cpp:1018
 #, fuzzy
 msgid "Close secure channel"
 msgstr "Kullanıcı bilgisi isteniyor"
 
-#: plugins/icq/icqmessage.cpp:1024
+#: plugins/icq/icqmessage.cpp:1025
 #, fuzzy
 msgid "Check invisible"
 msgstr "Görünmez"
 
-#: plugins/icq/icqmessage.cpp:1031 plugins/logger/logconfig.cpp:92
+#: plugins/icq/icqmessage.cpp:1032 plugins/logger/logconfig.cpp:92
 #, fuzzy
 msgid "Warning"
 msgstr "&Uyarılar"
 
-#: plugins/_core/msgedit.cpp:1569 plugins/icq/icqmessage.cpp:1038
+#: plugins/_core/msgedit.cpp:1582 plugins/icq/icqmessage.cpp:1039
 #, fuzzy
 msgid "&URL"
 msgstr "URL:"
@@ -2703,7 +2703,7 @@ msgstr ""
 msgid "Picture is not available"
 msgstr "Kullanıcı şu anda ulaşılabilir :"
 
-#: plugins/_core/usercfg.cpp:288 plugins/_core/userlist.cpp:968
+#: plugins/_core/usercfg.cpp:288 plugins/_core/userlist.cpp:971
 #: plugins/_core/userview.cpp:173 plugins/_core/userview.cpp:664
 #: plugins/_core/userview.cpp:702 plugins/icq/icqsearch.cpp:143
 #: plugins/icq/searchresult.cpp:256 plugins/jabber/addresult.cpp:143
@@ -3485,10 +3485,13 @@ msgstr "Web Tasarım"
 #: plugins/jabber/jabberinfobase.cpp:241
 #: plugins/jabber/jabberpicturebase.cpp:133
 #: plugins/jabber/jabberworkinfobase.cpp:119
-#: plugins/jabber/servicesbase.cpp:166 plugins/logger/logconfigbase.cpp:126
-#: plugins/msn/msninfobase.cpp:160 plugins/msn/msnsearchbase.cpp:109
-#: plugins/navigate/navcfgbase.cc:95 plugins/ontop/ontopcfgbase.cpp:88
-#: plugins/osd/osdconfigbase.cpp:91 plugins/proxy/proxycfgbase.cpp:167
+#: plugins/jabber/servicesbase.cpp:166
+#: plugins/livejournal/livejournalcfgbase.cpp:202
+#: plugins/livejournal/msgjournalbase.cpp:109
+#: plugins/logger/logconfigbase.cpp:126 plugins/msn/msninfobase.cpp:160
+#: plugins/msn/msnsearchbase.cpp:109 plugins/navigate/navcfgbase.cc:95
+#: plugins/ontop/ontopcfgbase.cpp:88 plugins/osd/osdconfigbase.cpp:91
+#: plugins/proxy/proxycfgbase.cpp:167 plugins/remote/remotecfgbase.cpp:126
 #: plugins/shortcuts/mousecfgbase.cpp:108
 #: plugins/shortcuts/shortcutcfgbase.cpp:138
 #: plugins/sound/soundconfigbase.cpp:159 plugins/sound/sounduserbase.cpp:121
@@ -3497,8 +3500,25 @@ msgstr "Web Tasarım"
 msgid "Form1"
 msgstr "Form1"
 
+#: plugins/icq/pastinfobase.cc:170
+msgid "Organization, Affiliation, Group:"
+msgstr "Organizasyon,Grup :"
+
+#: plugins/icq/pastinfobase.cc:171
+msgid "A&ffilation"
+msgstr "&Bağlantılar"
+
+#: plugins/icq/pastinfobase.cc:172
+msgid "Past background:"
+msgstr "Geçmiş Background:"
+
+#: plugins/icq/pastinfobase.cc:173
+msgid "&Background"
+msgstr "&Arkaplan"
+
 #: plugins/_core/logindlg.cpp:263 plugins/icq/aimconfigbase.cc:150
 #: plugins/icq/icqconfigbase.cc:218 plugins/jabber/jabberconfigbase.cpp:308
+#: plugins/livejournal/livejournalcfgbase.cpp:204
 #: plugins/msn/msnconfigbase.cpp:201 plugins/proxy/proxycfgbase.cpp:172
 msgid "Password:"
 msgstr "Şifre:"
@@ -3520,15 +3540,19 @@ msgstr "ICQ"
 
 #: plugins/icq/aimconfigbase.cc:153 plugins/icq/icqconfigbase.cc:222
 #: plugins/jabber/jabberconfigbase.cpp:311
-#: plugins/jabber/jabberconfigbase.cpp:315 plugins/msn/msnconfigbase.cpp:203
+#: plugins/jabber/jabberconfigbase.cpp:315
+#: plugins/livejournal/livejournalcfgbase.cpp:206
+#: plugins/msn/msnconfigbase.cpp:203
 #, fuzzy
 msgid "Server:"
 msgstr "Server"
 
 #: plugins/icq/aimconfigbase.cc:152 plugins/icq/icqconfigbase.cc:223
 #: plugins/jabber/jabberconfigbase.cpp:312
-#: plugins/jabber/jabberconfigbase.cpp:316 plugins/msn/msnconfigbase.cpp:204
-#: plugins/proxy/proxycfgbase.cpp:169
+#: plugins/jabber/jabberconfigbase.cpp:316
+#: plugins/livejournal/livejournalcfgbase.cpp:208
+#: plugins/msn/msnconfigbase.cpp:204 plugins/proxy/proxycfgbase.cpp:169
+#: plugins/remote/remotecfgbase.cpp:129 plugins/sms/smssetupbase.cpp:136
 msgid "Port:"
 msgstr "Port:"
 
@@ -3545,7 +3569,9 @@ msgid "-"
 msgstr "-"
 
 #: plugins/icq/aimconfigbase.cc:154 plugins/icq/icqconfigbase.cc:226
-#: plugins/jabber/jabberconfigbase.cpp:321 plugins/msn/msnconfigbase.cpp:207
+#: plugins/jabber/jabberconfigbase.cpp:321
+#: plugins/livejournal/livejournalcfgbase.cpp:209
+#: plugins/msn/msnconfigbase.cpp:207
 #, fuzzy
 msgid "&Network"
 msgstr "&Yeni"
@@ -3579,6 +3605,7 @@ msgid "Automaticaly &request autoreply on change status"
 msgstr ""
 
 #: plugins/icq/icqconfigbase.cc:233 plugins/jabber/jabberconfigbase.cpp:330
+#: plugins/livejournal/livejournalcfgbase.cpp:212
 #, fuzzy
 msgid "&Options"
 msgstr "İ&ş"
@@ -3707,22 +3734,6 @@ msgstr "Kullanıcı hakkında ek bilgiler:"
 msgid "A&bout"
 msgstr "&Hakkında"
 
-#: plugins/icq/pastinfobase.cc:170
-msgid "Organization, Affiliation, Group:"
-msgstr "Organizasyon,Grup :"
-
-#: plugins/icq/pastinfobase.cc:171
-msgid "A&ffilation"
-msgstr "&Bağlantılar"
-
-#: plugins/icq/pastinfobase.cc:172
-msgid "Past background:"
-msgstr "Geçmiş Background:"
-
-#: plugins/icq/pastinfobase.cc:173
-msgid "&Background"
-msgstr "&Arkaplan"
-
 #: plugins/icq/icqsecurebase.cc:213
 msgid "My &authorization is required before users add me to Contact List"
 msgstr ""
@@ -3798,100 +3809,12 @@ msgstr "Temizle"
 msgid "&Picture"
 msgstr "İ&mza"
 
-#: plugins/icq/icqinfobase.cc:305
-msgid "Form5"
-msgstr "Form5"
-
-#: plugins/icq/icqinfobase.cc:306 plugins/icq/icqsearchbase.cc:334
-msgid "Last Name:"
-msgstr "Soyadı:"
-
-#: plugins/icq/icqinfobase.cc:307
-msgid "Uin:"
-msgstr "UIN:"
-
-#: plugins/icq/aiminfobase.cc:291 plugins/icq/icqinfobase.cc:308
-#: plugins/jabber/discoinfobase.cpp:311 plugins/jabber/jabberinfobase.cpp:244
-#: plugins/msn/msninfobase.cpp:162
-msgid "Nick:"
-msgstr "Nick:"
-
 #: plugins/_core/maininfobase.cpp:230 plugins/icq/aiminfobase.cc:287
 #: plugins/icq/aimsearchbase.cc:287 plugins/icq/icqinfobase.cc:309
 #: plugins/icq/icqsearchbase.cc:335 plugins/jabber/discoinfobase.cpp:314
 #: plugins/jabber/jabberinfobase.cpp:243
 msgid "First name:"
 msgstr "Adı :"
-
-#: plugins/icq/icqinfobase.cc:310
-msgid "Encoding:"
-msgstr "Kodlama:"
-
-#: plugins/icq/icqinfobase.cc:311
-#, fuzzy
-msgid "Random chat group:"
-msgstr "Rasgele Chat"
-
-#: plugins/icq/icqinfobase.cc:312 plugins/jabber/jabberinfobase.cpp:248
-#: plugins/msn/msninfobase.cpp:163
-msgid "&Names"
-msgstr "&Adlar"
-
-#: plugins/icq/aiminfobase.cc:302 plugins/icq/icqinfobase.cc:313
-#: plugins/jabber/jabberinfobase.cpp:249 plugins/msn/msninfobase.cpp:164
-msgid "Status:"
-msgstr "Bağlantı:"
-
-#: plugins/_core/userviewcfgbase.cpp:286 plugins/icq/aiminfobase.cc:299
-#: plugins/icq/icqinfobase.cc:314 plugins/jabber/jabberinfobase.cpp:250
-#: plugins/msn/msninfobase.cpp:165
-msgid "Online:"
-msgstr "Bağlı:"
-
-#: plugins/icq/aiminfobase.cc:300 plugins/icq/icqinfobase.cc:316
-msgid "External IP:"
-msgstr "Dış IP:"
-
-#: plugins/icq/aiminfobase.cc:304 plugins/icq/icqinfobase.cc:317
-msgid "Internal IP:"
-msgstr "İç IP:"
-
-#: plugins/icq/aiminfobase.cc:301 plugins/icq/icqinfobase.cc:318
-#: plugins/proxy/proxycfgbase.cpp:174
-msgid "Client:"
-msgstr "ICQ Programı:"
-
-#: plugins/_core/core.cpp:1165 plugins/icq/aiminfobase.cc:305
-#: plugins/icq/icqinfobase.cc:319 plugins/jabber/jabberinfobase.cpp:253
-#: plugins/msn/msninfobase.cpp:167
-msgid "&Status"
-msgstr "&Bağlantı"
-
-#: plugins/icq/securedlgbase.cc:73
-msgid "Secure chanel request"
-msgstr "Güvenli kanal isteği"
-
-#: plugins/icq/securedlgbase.cc:74
-msgid ""
-"Secure channel is established using SSL with Diffie-Hellman key exchange and "
-" the TLS version 1 protocol.\n"
-"\n"
-"This only works with other SIM and Licq clients"
-msgstr ""
-"Güvenli kanal isteği SSL,Diffie-Hellman anahtar değişimi methodu ve TLS "
-"v1 protokolüyle sağlanıyor\n"
-"\n"
-"Bu sadece karşı tarafta SIM ya da Licq varsa çalışır"
-
-#: plugins/icq/aimconfigbase.cc:149 plugins/icq/aiminfobase.cc:297
-#: plugins/icq/aimsearchbase.cc:271 plugins/icq/icqsearchbase.cc:345
-#, fuzzy
-msgid "ScreenName:"
-msgstr "Adı :"
-
-#: plugins/icq/aimconfigbase.cc:151 plugins/icq/aimsearchbase.cc:273
-msgid "&AIM"
-msgstr ""
 
 #: plugins/_core/maininfobase.cpp:231 plugins/icq/aiminfobase.cc:288
 #: plugins/icq/aimsearchbase.cc:279
@@ -3909,6 +3832,12 @@ msgstr "Erkek"
 msgid "Maiden:"
 msgstr "Erkek"
 
+#: plugins/icq/aiminfobase.cc:291 plugins/icq/icqinfobase.cc:308
+#: plugins/jabber/discoinfobase.cpp:311 plugins/jabber/jabberinfobase.cpp:244
+#: plugins/msn/msninfobase.cpp:162
+msgid "Nick:"
+msgstr "Nick:"
+
 #: plugins/icq/aiminfobase.cc:292 plugins/icq/aimsearchbase.cc:282
 #, fuzzy
 msgid "Street:"
@@ -3919,10 +3848,92 @@ msgstr "Hız:"
 msgid "Zip:"
 msgstr "Posta kodu:"
 
+#: plugins/icq/aimconfigbase.cc:149 plugins/icq/aiminfobase.cc:297
+#: plugins/icq/aimsearchbase.cc:271 plugins/icq/icqsearchbase.cc:345
+#, fuzzy
+msgid "ScreenName:"
+msgstr "Adı :"
+
 #: plugins/icq/aiminfobase.cc:298
 #, fuzzy
 msgid "&Profile"
 msgstr "Servis Sağlayıcı:"
+
+#: plugins/_core/userviewcfgbase.cpp:286 plugins/icq/aiminfobase.cc:299
+#: plugins/icq/icqinfobase.cc:314 plugins/jabber/jabberinfobase.cpp:250
+#: plugins/msn/msninfobase.cpp:165
+msgid "Online:"
+msgstr "Bağlı:"
+
+#: plugins/icq/aiminfobase.cc:300 plugins/icq/icqinfobase.cc:316
+msgid "External IP:"
+msgstr "Dış IP:"
+
+#: plugins/icq/aiminfobase.cc:301 plugins/icq/icqinfobase.cc:318
+#: plugins/proxy/proxycfgbase.cpp:174
+msgid "Client:"
+msgstr "ICQ Programı:"
+
+#: plugins/icq/aiminfobase.cc:302 plugins/icq/icqinfobase.cc:313
+#: plugins/jabber/jabberinfobase.cpp:249 plugins/msn/msninfobase.cpp:164
+msgid "Status:"
+msgstr "Bağlantı:"
+
+#: plugins/icq/aiminfobase.cc:304 plugins/icq/icqinfobase.cc:317
+msgid "Internal IP:"
+msgstr "İç IP:"
+
+#: plugins/_core/core.cpp:1165 plugins/icq/aiminfobase.cc:305
+#: plugins/icq/icqinfobase.cc:319 plugins/jabber/jabberinfobase.cpp:253
+#: plugins/msn/msninfobase.cpp:167
+msgid "&Status"
+msgstr "&Bağlantı"
+
+#: plugins/icq/icqinfobase.cc:305
+msgid "Form5"
+msgstr "Form5"
+
+#: plugins/icq/icqinfobase.cc:306 plugins/icq/icqsearchbase.cc:334
+msgid "Last Name:"
+msgstr "Soyadı:"
+
+#: plugins/icq/icqinfobase.cc:307
+msgid "Uin:"
+msgstr "UIN:"
+
+#: plugins/icq/icqinfobase.cc:310
+msgid "Encoding:"
+msgstr "Kodlama:"
+
+#: plugins/icq/icqinfobase.cc:311
+#, fuzzy
+msgid "Random chat group:"
+msgstr "Rasgele Chat"
+
+#: plugins/icq/icqinfobase.cc:312 plugins/jabber/jabberinfobase.cpp:248
+#: plugins/msn/msninfobase.cpp:163
+msgid "&Names"
+msgstr "&Adlar"
+
+#: plugins/icq/securedlgbase.cc:73
+msgid "Secure chanel request"
+msgstr "Güvenli kanal isteği"
+
+#: plugins/icq/securedlgbase.cc:74
+msgid ""
+"Secure channel is established using SSL with Diffie-Hellman key exchange and "
+" the TLS version 1 protocol.\n"
+"\n"
+"This only works with other SIM and Licq clients"
+msgstr ""
+"Güvenli kanal isteği SSL,Diffie-Hellman anahtar değişimi methodu ve TLS "
+"v1 protokolüyle sağlanıyor\n"
+"\n"
+"Bu sadece karşı tarafta SIM ya da Licq varsa çalışır"
+
+#: plugins/icq/aimconfigbase.cc:151 plugins/icq/aimsearchbase.cc:273
+msgid "&AIM"
+msgstr ""
 
 #: plugins/icq/aimsearchbase.cc:272 plugins/icq/aimsearchbase.cc:275
 #: plugins/icq/icqsearchbase.cc:346 plugins/jabber/jabberaddbase.cpp:124
@@ -4044,16 +4055,16 @@ msgstr "Tüm Kullanıcılar"
 msgid "Online only"
 msgstr "Sadece bağlı olanlar"
 
-#: plugins/__homedir/homedir.cpp:47
+#: plugins/__homedir/homedir.cpp:48
 #, fuzzy
 msgid "Home directory"
 msgstr "dizin"
 
-#: plugins/__homedir/homedir.cpp:48
+#: plugins/__homedir/homedir.cpp:49
 msgid "Plugin provides select directory for store config files"
 msgstr ""
 
-#: plugins/__homedir/homedir.cpp:91
+#: plugins/__homedir/homedir.cpp:92
 #, fuzzy
 msgid "Set home directory"
 msgstr "dizin"
@@ -4212,7 +4223,7 @@ msgstr "ICQ programı"
 msgid "Container"
 msgstr "Bölüme Taşı"
 
-#: plugins/_core/container.cpp:652
+#: plugins/_core/container.cpp:654
 #, fuzzy
 msgid "Contact typed message"
 msgstr "Kontak listesi gönderildi"
@@ -4350,7 +4361,7 @@ msgstr "Hepsini seç"
 msgid "&Phone number"
 msgstr "Telefon ekle"
 
-#: plugins/_core/core.cpp:699 plugins/_core/msgedit.cpp:1427
+#: plugins/_core/core.cpp:699 plugins/_core/msgedit.cpp:1440
 #: plugins/jabber/jabber.cpp:448
 msgid "&Next"
 msgstr "&Sonraki"
@@ -4406,7 +4417,7 @@ msgstr "&Transfer"
 msgid "&Messages"
 msgstr "&Mesaj"
 
-#: plugins/_core/core.cpp:942 plugins/_core/msgedit.cpp:1578
+#: plugins/_core/core.cpp:942 plugins/_core/msgedit.cpp:1591
 #, fuzzy
 msgid "&SMS"
 msgstr "SMS"
@@ -4490,11 +4501,11 @@ msgstr "Meşgul"
 msgid "Decline file without reason"
 msgstr "Dosyayı sebepsiz reddet"
 
-#: plugins/_core/core.cpp:1218 plugins/_core/core.cpp:2682
+#: plugins/_core/core.cpp:1218 plugins/_core/core.cpp:2712
 msgid "Sorry, I'm busy right now, and can not respond to your request"
 msgstr "Şu anda meşgulüm , size cevap veremiyorum "
 
-#: plugins/_core/core.cpp:1223 plugins/_core/core.cpp:2691
+#: plugins/_core/core.cpp:1223 plugins/_core/core.cpp:2721
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
 msgstr "Üzgünüm şu anda meşgulüm , size daha sonra cevap vericem"
 
@@ -4502,7 +4513,7 @@ msgstr "Üzgünüm şu anda meşgulüm , size daha sonra cevap vericem"
 msgid "Enter a decline reason"
 msgstr "Red sebebi girin"
 
-#: plugins/_core/core.cpp:1450
+#: plugins/_core/core.cpp:1460
 msgid ""
 "&IP; - ip-address\n"
 "&Mail; - e-mail\n"
@@ -4514,71 +4525,71 @@ msgid ""
 "`<command>` - call <command> and substitute command output\n"
 msgstr ""
 
-#: plugins/_core/core.cpp:1968
+#: plugins/_core/core.cpp:1984
 #, fuzzy
 msgid "&Separate"
 msgstr "Ayraç"
 
-#: plugins/_core/core.cpp:2006 plugins/_core/userwnd.cpp:124
+#: plugins/_core/core.cpp:2022 plugins/_core/userwnd.cpp:124
 #, fuzzy, c-format
 msgid "from %1"
 msgstr "%2 den %1 alındı"
 
-#: plugins/_core/core.cpp:2088
+#: plugins/_core/core.cpp:2106
 #, fuzzy
 msgid "&New"
 msgstr "Yeni"
 
-#: plugins/_core/core.cpp:2152
+#: plugins/_core/core.cpp:2180
 #, fuzzy
 msgid "Not available"
 msgstr "Ulaşılabilir"
 
-#: plugins/_core/core.cpp:2245 plugins/dock/dockwnd.cpp:1168
+#: plugins/_core/core.cpp:2273 plugins/dock/dockwnd.cpp:1168
 #: plugins/osd/osd.cpp:323
 msgid "%1 from %2"
 msgstr "%2 den %1 alındı"
 
-#: plugins/_core/core.cpp:2380
+#: plugins/_core/core.cpp:2410
 msgid "%1 wrote:"
 msgstr ""
 
-#: plugins/_core/core.cpp:2468
+#: plugins/_core/core.cpp:2498
 msgid "Send SMS"
 msgstr "SMS gönder"
 
-#: plugins/_core/core.cpp:3441 plugins/_core/core.cpp:3463
+#: plugins/_core/core.cpp:3471 plugins/_core/core.cpp:3493
 #: plugins/_core/managerbase.cpp:103
 #, fuzzy
 msgid "Connection manager"
 msgstr "Bağlanıyor"
 
-#: plugins/_core/core.cpp:3449
+#: plugins/_core/core.cpp:3479
 #, fuzzy
 msgid "Show status panel"
 msgstr "Telefon statüsü"
 
-#: plugins/_core/core.cpp:3456
+#: plugins/_core/core.cpp:3486
 #, fuzzy
 msgid "Connections"
 msgstr "Bağlantı"
 
-#: plugins/_core/core.cpp:3471
+#: plugins/_core/core.cpp:3501
 #, fuzzy
 msgid "Change profile"
 msgstr "dosya"
 
-#: plugins/_core/core.cpp:3500
+#: plugins/_core/core.cpp:3530
 #, fuzzy
 msgid "Common status"
 msgstr "statüsü ayarla"
 
-#: plugins/_core/core.cpp:3506
+#: plugins/_core/core.cpp:3536
 #, fuzzy
 msgid "Configure client"
 msgstr "ICQ programı"
 
-#: plugins/_core/core.cpp:3530 plugins/_core/status.cpp:152
+#: plugins/_core/core.cpp:3560 plugins/_core/status.cpp:152
 #: plugins/_core/status.cpp:220
 #, fuzzy
 msgid "&Invisible"
@@ -4687,29 +4698,29 @@ msgstr ""
 msgid "b/s"
 msgstr ""
 
-#: plugins/_core/historycfg.cpp:189
+#: plugins/_core/historycfg.cpp:195
 msgid "Show %1 messages per page"
 msgstr ""
 
-#: plugins/_core/historycfg.cpp:451
+#: plugins/_core/historycfg.cpp:463
 msgid "Remove style '%1'?"
 msgstr ""
 
-#: plugins/_core/historycfg.cpp:623
+#: plugins/_core/historycfg.cpp:637
 msgid "Hi! ;)"
 msgstr ""
 
-#: plugins/_core/historycfg.cpp:629
+#: plugins/_core/historycfg.cpp:643
 msgid "Hi!"
 msgstr ""
 
-#: plugins/_core/historycfg.cpp:635
+#: plugins/_core/historycfg.cpp:649
 msgid ""
 "<b><font color=\"#FF0000\">C</font><font color=\"#FFFF00\">olored</font></b> "
 "message"
 msgstr ""
 
-#: plugins/_core/historycfg.cpp:644 plugins/_core/msgcfgbase.cpp:117
+#: plugins/_core/historycfg.cpp:658 plugins/_core/msgcfgbase.cpp:117
 #, fuzzy
 msgid "New message"
 msgstr "&Yeni Mesaj"
@@ -4901,26 +4912,26 @@ msgstr "Güvenli kanalı kapat"
 msgid "No such client for send message"
 msgstr ""
 
-#: plugins/_core/msgedit.cpp:1560 plugins/netmonitor/monitor.cpp:64
+#: plugins/_core/msgedit.cpp:1573 plugins/netmonitor/monitor.cpp:64
 msgid "&File"
 msgstr "&Dosya"
 
-#: plugins/_core/msgedit.cpp:1587
+#: plugins/_core/msgedit.cpp:1600
 #, fuzzy
 msgid "&Contact list"
 msgstr "Kontak listesi gönderildi"
 
-#: plugins/_core/msgedit.cpp:1595
+#: plugins/_core/msgedit.cpp:1608
 #, fuzzy
 msgid "&Authorization request"
 msgstr "İzin İsteği"
 
-#: plugins/_core/msgedit.cpp:1604
+#: plugins/_core/msgedit.cpp:1617
 #, fuzzy
 msgid "&Grant autorization"
 msgstr "Kullanıcıdan &izin isteme"
 
-#: plugins/_core/msgedit.cpp:1613
+#: plugins/_core/msgedit.cpp:1626
 #, fuzzy
 msgid "&Refuse autorization"
 msgstr "Kullanıcıdan &izin isteme"
@@ -5041,6 +5052,10 @@ msgstr "&Mesaj gönder"
 msgid "Contact name"
 msgstr "Kontaklar ortala"
 
+#: plugins/_core/cfgdlgbase.cpp:124
+msgid "&Update"
+msgstr "&Yenile"
+
 #: plugins/_core/pagerbase.cpp:119
 #, fuzzy
 msgid "Provider:"
@@ -5053,10 +5068,6 @@ msgstr "Email Gateway:"
 #: plugins/_core/pagerbase.cpp:121 plugins/_core/phonebase.cpp:148
 msgid "Number:"
 msgstr "Sayı:"
-
-#: plugins/_core/cfgdlgbase.cpp:124
-msgid "&Update"
-msgstr "&Yenile"
 
 #: plugins/_core/toolsetupbase.cpp:123
 msgid "Toolbar setup"
@@ -5395,30 +5406,6 @@ msgstr ""
 msgid "Select protocol"
 msgstr "Renk seç"
 
-#: plugins/_core/filecfgbase.cpp:146
-msgid "Path for incoming files:"
-msgstr "Gelen dosyaların saklanacağı yer :"
-
-#: plugins/_core/filecfgbase.cpp:147
-msgid "Accept mode"
-msgstr "Kabul Modu"
-
-#: plugins/_core/filecfgbase.cpp:148
-msgid "Show response"
-msgstr "Cevabı göster"
-
-#: plugins/_core/filecfgbase.cpp:149
-msgid "Auto accept"
-msgstr "Otomatik kabul et"
-
-#: plugins/_core/filecfgbase.cpp:150
-msgid "Overwrite files"
-msgstr "Eski dosyanın üzerine yaz"
-
-#: plugins/_core/filecfgbase.cpp:151
-msgid "Auto decline"
-msgstr "Otomatik reddet"
-
 #: plugins/_core/msgcfgbase.cpp:115
 msgid "Save &status changes to history"
 msgstr ""
@@ -5451,6 +5438,30 @@ msgstr "Global ayarların üzerine yaz"
 msgid "Don't show autoreply dialog"
 msgstr "Bu dialoğu bir daha gösterme"
 
+#: plugins/_core/filecfgbase.cpp:146
+msgid "Path for incoming files:"
+msgstr "Gelen dosyaların saklanacağı yer :"
+
+#: plugins/_core/filecfgbase.cpp:147
+msgid "Accept mode"
+msgstr "Kabul Modu"
+
+#: plugins/_core/filecfgbase.cpp:148
+msgid "Show response"
+msgstr "Cevabı göster"
+
+#: plugins/_core/filecfgbase.cpp:149
+msgid "Auto accept"
+msgstr "Otomatik kabul et"
+
+#: plugins/_core/filecfgbase.cpp:150
+msgid "Overwrite files"
+msgstr "Eski dosyanın üzerine yaz"
+
+#: plugins/_core/filecfgbase.cpp:151
+msgid "Auto decline"
+msgstr "Otomatik reddet"
+
 #: plugins/_core/interfacecfg.cpp:60
 #, fuzzy
 msgid "Swabian"
@@ -5466,7 +5477,8 @@ msgstr "Kontak listesi gönderildi"
 msgid "Messages"
 msgstr "Mesaj"
 
-#: plugins/_core/interfacecfg.cpp:84
+#: plugins/_core/interfacecfg.cpp:84 plugins/sms/sms.cpp:109
+#: plugins/sms/smssetupbase.cpp:149
 #, fuzzy
 msgid "SMS"
 msgstr "SMS"
@@ -6477,6 +6489,16 @@ msgstr ""
 msgid "Plugin provides remote control"
 msgstr ""
 
+#: plugins/remote/remotecfgbase.cpp:128
+#, fuzzy
+msgid "Use &UNIX socket"
+msgstr "&Dock kullan"
+
+#: plugins/remote/remotecfgbase.cpp:130 plugins/remote/remotecfgbase.cpp:131
+#, fuzzy
+msgid "Use &TCP socket"
+msgstr "&Dock kullan"
+
 #: plugins/shortcuts/mousecfg.cpp:39
 #, fuzzy
 msgid "Left click"
@@ -6612,18 +6634,18 @@ msgstr "İspanyolca"
 msgid "Plugin provides splash screen"
 msgstr ""
 
-#: plugins/transparent/transparent.cpp:64
+#: plugins/transparent/transparent.cpp:65
 #, fuzzy
 msgid "Transparent"
 msgstr "Transparanlık"
 
-#: plugins/transparent/transparent.cpp:66
+#: plugins/transparent/transparent.cpp:67
 msgid ""
 "Plugin provides windows transparency\n"
 "This plugin works only on Windows 2000 or Windows XP"
 msgstr ""
 
-#: plugins/transparent/transparent.cpp:69
+#: plugins/transparent/transparent.cpp:70
 msgid "Plugin provides windows transparency"
 msgstr ""
 
@@ -6655,6 +6677,56 @@ msgstr ""
 
 #: plugins/update/update.cpp:156
 msgid "New version SIM is released"
+msgstr ""
+
+#: plugins/sms/sms.cpp:429
+#, fuzzy
+msgid "Port error"
+msgstr "Vekil sunucu adresi:"
+
+#: plugins/sms/smssetupbase.cpp:137
+#, fuzzy
+msgid "Baudrate:"
+msgstr "Barbuda"
+
+#: plugins/sms/smssetupbase.cpp:139
+msgid "38400"
+msgstr ""
+
+#: plugins/sms/smssetupbase.cpp:140
+msgid "19200"
+msgstr ""
+
+#: plugins/sms/smssetupbase.cpp:141
+msgid "9600"
+msgstr ""
+
+#: plugins/sms/smssetupbase.cpp:142
+msgid "4800"
+msgstr ""
+
+#: plugins/sms/smssetupbase.cpp:143
+msgid "2400"
+msgstr ""
+
+#: plugins/sms/smssetupbase.cpp:144
+msgid "1200"
+msgstr ""
+
+#: plugins/sms/smssetupbase.cpp:145
+msgid "600"
+msgstr ""
+
+#: plugins/sms/smssetupbase.cpp:146
+msgid "300"
+msgstr ""
+
+#: plugins/sms/smssetupbase.cpp:147
+msgid "Software handshake"
+msgstr ""
+
+#: plugins/sms/smssetupbase.cpp:148
+msgid "Init string:"
 msgstr ""
 
 #: plugins/jabber/addresult.cpp:32
@@ -6945,6 +7017,24 @@ msgstr ""
 msgid "Resource:"
 msgstr "&Geri yükle"
 
+#: plugins/jabber/jabberaddbase.cpp:125
+msgid "Jabber ID:"
+msgstr ""
+
+#: plugins/jabber/jabberaddbase.cpp:126
+msgid "Jabber ID"
+msgstr ""
+
+#: plugins/jabber/jabberaddbase.cpp:127
+#, fuzzy
+msgid "Service:"
+msgstr "Server"
+
+#: plugins/jabber/jabberworkinfobase.cpp:122
+#, fuzzy
+msgid "Role:"
+msgstr "Servis Sağlayıcı:"
+
 #: plugins/jabber/discoinfobase.cpp:296
 msgid "DiscoInfo"
 msgstr ""
@@ -6996,74 +7086,6 @@ msgstr "&Bağlantı"
 #, fuzzy
 msgid "Phone:"
 msgstr "Telefon:"
-
-#: plugins/jabber/jabberaddbase.cpp:125
-msgid "Jabber ID:"
-msgstr ""
-
-#: plugins/jabber/jabberaddbase.cpp:126
-msgid "Jabber ID"
-msgstr ""
-
-#: plugins/jabber/jabberaddbase.cpp:127
-#, fuzzy
-msgid "Service:"
-msgstr "Server"
-
-#: plugins/jabber/jabberconfigbase.cpp:309
-#, fuzzy
-msgid "Username:"
-msgstr "Adını değiştir"
-
-#: plugins/jabber/jabberconfigbase.cpp:310
-#, fuzzy
-msgid "&Register new account"
-msgstr "&Kaydet"
-
-#: plugins/jabber/jabberconfigbase.cpp:313
-#: plugins/jabber/jabberconfigbase.cpp:320
-#, fuzzy
-msgid "Use &SSL"
-msgstr "SMS gönder"
-
-#: plugins/jabber/jabberconfigbase.cpp:314
-msgid "&Jabber"
-msgstr ""
-
-#: plugins/jabber/jabberconfigbase.cpp:319
-msgid "Use &plain text login"
-msgstr ""
-
-#: plugins/jabber/jabberconfigbase.cpp:323
-#, fuzzy
-msgid "Priority:"
-msgstr "Port:"
-
-#: plugins/jabber/jabberconfigbase.cpp:324
-msgid "Manualy specify Jabber host:"
-msgstr ""
-
-#: plugins/jabber/jabberconfigbase.cpp:326
-msgid "Use protocol &icons for agents contacts"
-msgstr ""
-
-#: plugins/jabber/jabberconfigbase.cpp:327
-#, fuzzy
-msgid "Send &rich text messages if possible"
-msgstr "&Mesaj gönder"
-
-#: plugins/jabber/jabberconfigbase.cpp:328
-msgid "Automaticaly send &subscribe request"
-msgstr ""
-
-#: plugins/jabber/jabberconfigbase.cpp:329
-msgid "Automaticaly &accept subscribe requests"
-msgstr ""
-
-#: plugins/jabber/jabberworkinfobase.cpp:122
-#, fuzzy
-msgid "Role:"
-msgstr "Servis Sağlayıcı:"
 
 #: plugins/jabber/jabberaboutinfobase.cpp:88
 #, fuzzy
@@ -7167,6 +7189,57 @@ msgid ""
 "_n: %n day\n"
 "%n days"
 msgstr "Dosya"
+
+#: plugins/jabber/jabberconfigbase.cpp:309
+#: plugins/livejournal/livejournalcfgbase.cpp:203
+#, fuzzy
+msgid "Username:"
+msgstr "Adını değiştir"
+
+#: plugins/jabber/jabberconfigbase.cpp:310
+#, fuzzy
+msgid "&Register new account"
+msgstr "&Kaydet"
+
+#: plugins/jabber/jabberconfigbase.cpp:313
+#: plugins/jabber/jabberconfigbase.cpp:320
+#, fuzzy
+msgid "Use &SSL"
+msgstr "SMS gönder"
+
+#: plugins/jabber/jabberconfigbase.cpp:314
+msgid "&Jabber"
+msgstr ""
+
+#: plugins/jabber/jabberconfigbase.cpp:319
+msgid "Use &plain text login"
+msgstr ""
+
+#: plugins/jabber/jabberconfigbase.cpp:323
+#, fuzzy
+msgid "Priority:"
+msgstr "Port:"
+
+#: plugins/jabber/jabberconfigbase.cpp:324
+msgid "Manualy specify Jabber host:"
+msgstr ""
+
+#: plugins/jabber/jabberconfigbase.cpp:326
+msgid "Use protocol &icons for agents contacts"
+msgstr ""
+
+#: plugins/jabber/jabberconfigbase.cpp:327
+#, fuzzy
+msgid "Send &rich text messages if possible"
+msgstr "&Mesaj gönder"
+
+#: plugins/jabber/jabberconfigbase.cpp:328
+msgid "Automaticaly send &subscribe request"
+msgstr ""
+
+#: plugins/jabber/jabberconfigbase.cpp:329
+msgid "Automaticaly &accept subscribe requests"
+msgstr ""
 
 #: plugins/spell/spell.cpp:61
 msgid "Spell check"
@@ -8002,13 +8075,47 @@ msgstr "Gönderiyor"
 msgid "Register new user"
 msgstr "&Kaydet"
 
-#, fuzzy
-#~ msgid "Use &UNIX socket"
-#~ msgstr "&Dock kullan"
+#: plugins/livejournal/msgjournalbase.cpp:110
+msgid "Subject:"
+msgstr ""
 
+#: plugins/livejournal/msgjournalbase.cpp:111
 #, fuzzy
-#~ msgid "Use &TCP socket"
-#~ msgstr "&Dock kullan"
+msgid "Security:"
+msgstr "Güvenlik"
+
+#: plugins/livejournal/msgjournalbase.cpp:113
+#, fuzzy
+msgid "Public"
+msgstr "Yayınla"
+
+#: plugins/livejournal/msgjournalbase.cpp:114
+#, fuzzy
+msgid "Private"
+msgstr "Yapıştır"
+
+#: plugins/livejournal/msgjournalbase.cpp:115
+#, fuzzy
+msgid "Mood:"
+msgstr "Durum"
+
+#: plugins/livejournal/livejournalcfgbase.cpp:205
+msgid "&LiveJournal"
+msgstr ""
+
+#: plugins/livejournal/livejournalcfgbase.cpp:207
+msgid "Path:"
+msgstr ""
+
+#: plugins/livejournal/livejournalcfgbase.cpp:210
+#, fuzzy
+msgid "Check interval:"
+msgstr "Görünmez"
+
+#: plugins/livejournal/livejournalcfgbase.cpp:211
+#, fuzzy
+msgid "minutes"
+msgstr "Bilgisayar"
 
 #~ msgid "Month:"
 #~ msgstr "Ay:"
@@ -8223,10 +8330,6 @@ msgstr "&Kaydet"
 
 #~ msgid "Run external program"
 #~ msgstr "Dış program çalıştır"
-
-#, fuzzy
-#~ msgid "Mode"
-#~ msgstr "Durum"
 
 #~ msgid "Split mode (&Chat style)"
 #~ msgstr "İkili Pencere (&Chat stili)"
