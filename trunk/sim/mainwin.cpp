@@ -1512,6 +1512,7 @@ void MainWindow::autoAway()
     if (_GetLastInputInfo == NULL){
         if (bHookInit){
             idle_time = (GetTickCount() - IdleTrackerGetLastTickCount()) / 1000;
+            log(L_DEBUG, "Idle: %u %u", idle_time, AutoAwayTime);
         }else{
             POINT p;
             GetCursorPos(&p);

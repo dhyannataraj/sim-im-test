@@ -46,7 +46,6 @@ using namespace std;
 #define WIDECHAR	9
 #define SKIP		10
 
-#define YY_STACK_USED   0
 #define YY_NEVER_INTERACTIVE    1
 #define YY_ALWAYS_INTERACTIVE   0
 #define YY_MAIN         0

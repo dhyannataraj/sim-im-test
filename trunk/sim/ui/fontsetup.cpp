@@ -106,6 +106,7 @@ void FontSetup::apply(ICQUser*)
     pMain->changeMode(grpWndMode->selected() == btnModePlain);
     pSplash->Show = chkSplash->isChecked();
     pMain->UseEmotional = chkEmotional->isChecked();
+    pMain->CopyMessages = atol(spnCopy->text().latin1());
 }
 
 #ifndef _WINDOWS

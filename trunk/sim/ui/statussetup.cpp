@@ -65,9 +65,9 @@ void StatusSetup::changed(bool)
 
 void StatusSetup::apply(ICQUser*)
 {
-    pMain->AutoAwayTime = chkAway->isChecked() ? spnAway->value() * 60 : 0;
-    pMain->AutoNATime = chkNA->isChecked() ? spnNA->value() * 60 : 0;
-    pMain->AutoHideTime = chkAutoHide->isChecked() ? spnAutoHide->value() : 0;
+    pMain->AutoAwayTime = chkAway->isChecked() ? atol(spnAway->text().latin1()) * 60 : 0;
+    pMain->AutoNATime = chkNA->isChecked() ? atol(spnNA->text().latin1()) * 60 : 0;
+    pMain->AutoHideTime = chkAutoHide->isChecked() ? atol(spnAutoHide->text().latin1()) : 0;
 
     pMain->NoAlertAway = chkAlert->isChecked();
 }

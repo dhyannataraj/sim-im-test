@@ -33,7 +33,6 @@
 #define FTP_URL		11
 #define SMILE		0x100
 
-#define YY_STACK_USED   0
 #define YY_NEVER_INTERACTIVE    1
 #define YY_ALWAYS_INTERACTIVE   0
 #define YY_MAIN         0

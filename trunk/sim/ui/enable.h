@@ -3,6 +3,8 @@
 #include "defs.h"
 #include "country.h"
 
+#include <qwidget.h>
+
 #include <string>
 using namespace std;
 
@@ -23,8 +25,10 @@ void set(QString &s, const string &str);
 #ifdef WIN32
 
 void setWndProc(QWidget*);
+void mySetCaption(QWidget *w, const QString &caption);
 
 #define SET_WNDPROC	setWndProc(this);
+#define setCaption(s)	mySetCaption(this, s);
 
 #else
 

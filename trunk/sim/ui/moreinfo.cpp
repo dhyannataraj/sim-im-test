@@ -61,7 +61,7 @@ void MoreInfo::load(ICQUser *u)
     btnHomePage->setEnabled(*(u->Homepage.c_str()));
     initCombo(cmbGender, u->Gender, genders);
     spnAge->setValue(u->Age);
-    if (spnAge->value() == 0) spnAge->setSpecialValueText("");
+    if (spnAge->text() == "0") spnAge->setSpecialValueText("");
     cmbMonth->insertItem("");
     cmbMonth->insertItem(i18n("January"));
     cmbMonth->insertItem(i18n("February"));
@@ -77,9 +77,9 @@ void MoreInfo::load(ICQUser *u)
     cmbMonth->insertItem(i18n("December"));
     cmbMonth->setCurrentItem(u->BirthMonth);
     spnDay->setValue(u->BirthDay);
-    if (spnDay->value() == 0) spnAge->setSpecialValueText("");
+    if (spnDay->text() == "0") spnAge->setSpecialValueText("");
     spnYear->setValue(u->BirthYear);
-    if (spnYear->value() == 0) spnYear->setSpecialValueText("");
+    if (spnYear->text() == "0") spnYear->setSpecialValueText("");
     initCombo(cmbLang1, u->Language1, languages);
     initCombo(cmbLang2, u->Language2, languages);
     initCombo(cmbLang3, u->Language3, languages);
@@ -115,12 +115,12 @@ void MoreInfo::setLang(int)
 
 void MoreInfo::apply(ICQUser *u)
 {
-    u->Age = spnAge->value();
+    u->Age = atol(spnAge->text().latin1());
     u->Gender = getComboValue(cmbGender, genders);
     set(u->Homepage, edtHomePage->text());
-    u->BirthYear = spnYear->value();
+    u->BirthYear = atol(spnYear->text().latin1());
     u->BirthMonth = cmbMonth->currentItem();
-    u->BirthDay = spnDay->value();
+    u->BirthDay = atol(spnDay->text().latin1());
     u->Language1 = getComboValue(cmbLang1, languages);
     u->Language2 = getComboValue(cmbLang2, languages);
     u->Language3 = getComboValue(cmbLang3, languages);

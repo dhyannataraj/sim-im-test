@@ -1025,7 +1025,7 @@ void FileTransfer::write_ready()
         state = None;
         client->client->closeFile(file);
         m_curFile++;
-        if (m_curFile >= m_nFiles){
+        if (m_curFile > m_nFiles){
             file->ft = NULL;
             list<ICQEvent*>::iterator it;
             for (it = client->processQueue.begin(); it != client->processQueue.end(); ++it){
@@ -1044,8 +1044,8 @@ void FileTransfer::write_ready()
             sock->error_state(ErrorCancel);
             return;
         }
-        curName = file->files[m_curFile].name;
-        m_curSize = file->files[m_curFile].size;
+        curName = file->files[m_curFile-1].name;
+        m_curSize = file->files[m_curFile-1].size;
         m_fileSize = 0;
         state = InitSend;
         sendFileInfo();
@@ -1057,7 +1057,7 @@ void FileTransfer::write_ready()
         m_sendTime = now;
         m_sendSize = 0;
     }
-    if (m_sendSize > (m_nSpeed << 2)){
+    if (m_sendSize > (m_nSpeed << 18)){
         sock->pause(1);
         return;
     }
@@ -1188,8 +1188,7 @@ void FileTransfer::processPacket()
                 sock->readBuffer.unpack(speed);
                 sock->readBuffer.unpack(curFile);
                 log(L_DEBUG, "Start send at %lu %lu", pos, curFile);
-                m_fileSize = pos;
-                if (curFile - 1>= file->files.size()){
+                if ((file == NULL) || (curFile - 1>= file->files.size())){
                     log(L_WARN, "Bad index file");
                     sock->error_state(ErrorProtocol);
                     return;
@@ -1202,7 +1201,8 @@ void FileTransfer::processPacket()
                 }
                 state = Send;
                 m_curFile = curFile;
-                m_curSize = pos;
+                m_fileSize = pos;
+                m_curSize = file->files[curFile - 1].size;
                 write_ready();
             }
             break;

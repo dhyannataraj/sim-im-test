@@ -6030,6 +6030,16 @@ SOURCE=.\po\cs.po
 
 !IF  "$(CFG)" == "sim - Win32 Release"
 
+# Begin Custom Build - msg2qm on $(InputPath)
+OutDir=.\Release
+InputPath=.\po\cs.po
+
+"$(OutDir)\po\cs.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	$(QTDIR)\bin\msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\cs.qm 
+	
+# End Custom Build
+
 !ELSEIF  "$(CFG)" == "sim - Win32 Debug"
 
 # Begin Custom Build - msg2qm on $(InputPath)

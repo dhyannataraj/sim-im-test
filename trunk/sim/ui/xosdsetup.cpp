@@ -59,8 +59,8 @@ XOSDSetup::XOSDSetup(QWidget *p)
 void XOSDSetup::apply(ICQUser*)
 {
     pMain->XOSD_on = chkOn->isChecked();
-    pMain->XOSD_offset = spnOffs->value();
-    pMain->XOSD_timeout = spnTimeout->value();
+    pMain->XOSD_offset = atol(spnOffs->text().latin1());
+    pMain->XOSD_timeout = atol(spnTimeout->text().latin1());
     pMain->XOSD_color = btnColor->color().rgb() & 0xFFFFFF;
     pMain->XOSD_pos = cmbPos->currentItem();
     pMain->XOSD_Shadow = chkShadow->isChecked();

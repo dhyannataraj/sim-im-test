@@ -1,12 +1,12 @@
 #include "enable.h"
 #include "country.h"
 #include "client.h"
+#include "mainwin.h"
 
 #ifdef WIN32
 #include <windows.h>
 #endif
 
-#include <qwidget.h>
 #include <qcombobox.h>
 #include <qpalette.h>
 #include <qstringlist.h>
@@ -110,11 +110,16 @@ void set(QString &s, const string &str)
 #include <windows.h>
 
 static WNDPROC oldWndProc = 0;
+static bool inSetCaption = false;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    if (msg == WM_SETTEXT)
+    if (msg == WM_SETTEXT){
+        if (!inSetCaption)
+            return 0;
         return DefWindowProc(hWnd, msg, wParam, lParam);
+    }
+    if ((msg == WM_ENDSESSION) && pMain) pMain->saveState();
     return oldWndProc(hWnd, msg, wParam, lParam);
 }
 
@@ -128,5 +133,16 @@ void setWndProc(QWidget *w)
     if (oldWndProc == NULL) oldWndProc = p;
 #endif
 }
+
+#ifdef WIN32
+
+void mySetCaption(QWidget *w, const QString &caption)
+{
+    inSetCaption = true;
+    SendMessageA(w->winId(), WM_SETTEXT, 0, (LPARAM)(const char*)caption.local8Bit());
+    inSetCaption = false;
+}
+
+#endif
 
 #endif
