@@ -2,17 +2,17 @@
 # Translation to Spanish
 # This file is distributed under the same license as the SIM package.
 # Copyright (C) 2004
-# Jorge Lopez Trescastro <jorge@acm.asoc.fi.upm.es>, 2002, 2003, 2004.
 #
-# $Id: es.po,v 1.131 2004-04-17 06:42:21 jorgelt Exp $
+# $Id: es.po,v 1.132 2004-04-18 00:58:52 jorgelt Exp $
+# Jorge Lopez Trescastro <jorge@acm.asoc.fi.upm.es>, 2002, 2003, 2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: SIM\n"
 "POT-Creation-Date: 2004-04-16 04:18+0400\n"
-"PO-Revision-Date: 2004-04-17 08:32+0200\n"
+"PO-Revision-Date: 2004-04-18 02:53+0200\n"
 "Last-Translator: Jorge Lopez Trescastro\n"
-"Language-Team:  sim-es<es@li.org>\n"
+"Language-Team: sim-es <jorge@acm.asoc.fi.upm.es>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2714,9 +2714,8 @@ msgid "&Delete message"
 msgstr "&Borrar mensaje"
 
 #: plugins/_core/core.cpp:881
-#, fuzzy
 msgid "&Cut history"
-msgstr "&Historial"
+msgstr "&Cortar historial"
 
 #: plugins/_core/core.cpp:886
 msgid "&Quote"
@@ -4236,7 +4235,7 @@ msgstr "Este plugin habilita un icono en la bandeja de sistema"
 
 #: plugins/dock/dock.cpp:148
 msgid "Toggle main window"
-msgstr "Conmutar la ventana principal"
+msgstr "Mostrar/ocultar la ventana principal"
 
 #: plugins/dock/dock.cpp:269
 msgid "Hide main window"
@@ -6337,7 +6336,7 @@ msgstr "Mostrar monitor de red"
 
 #: plugins/ontop/ontop.cpp:45
 msgid "On Top"
-msgstr "Encima"
+msgstr "Siempre visible"
 
 #: plugins/ontop/ontop.cpp:46
 msgid "Plugin provides main window and containers always on top"
@@ -6435,7 +6434,7 @@ msgstr "Habilitar notificación de e&stado"
 
 #: plugins/jabber/jabberconfigbase.cpp:298 plugins/osd/osdconfigbase.cpp:83
 msgid "Enable &typing notification"
-msgstr "Habilitar notificación cuando el usuario teclee"
+msgstr "Habilitar notificación cuando el contacto este teclando"
 
 #: plugins/osd/osdconfigbase.cpp:84
 msgid "Show message content"
@@ -6812,7 +6811,7 @@ msgstr "Error a bajo nivel de red"
 
 #: plugins/jabber/jabber_rosters.cpp:2856
 msgid "Please translate this to short language name (ru, de)"
-msgstr ""
+msgstr "es"
 
 #: plugins/jabber/jabberadd.cpp:39
 msgid "&JID"
@@ -6840,6 +6839,8 @@ msgid ""
 "_n: Error\n"
 "%n errors"
 msgstr ""
+"Error\n"
+"%n errores"
 
 #: plugins/jabber/jabbermessage.cpp:158 plugins/jabber/jabbermessage.cpp:214
 msgid "Log On"
@@ -6875,7 +6876,7 @@ msgstr "Ciudad"
 
 #: plugins/jabber/jabbersearch.cpp:194
 msgid "Online only"
-msgstr "Solo conectados"
+msgstr "Sólo conectados"
 
 #: plugins/jabber/jabbersearch.cpp:201
 msgid "Gender"
@@ -6927,7 +6928,7 @@ msgstr "Nombre completo"
 
 #: plugins/jabber/jabbersearch.cpp:318
 msgid "Nickname"
-msgstr "Alias:"
+msgstr "Apodo"
 
 #: plugins/jabber/jabbersearch.cpp:321
 msgid "Password"
@@ -6938,20 +6939,20 @@ msgid ""
 "Enter your MSN Messenger account and password. Example: user@hotmail.com.  "
 "Nickname is optional."
 msgstr ""
-"Inserte su cuenta MSN Messenger y contraseña. Ejemplo: usuario@hotmail.com. "
+"Introduzca su cuenta MSN Messenger y contraseña. Ejemplo: usuario@hotmail.com. "
 "El apodo es opcional."
 
 #: plugins/jabber/jabbersearch.cpp:323
 msgid "Enter your AIM screenname or ICQ UIN and the password for that account"
-msgstr "Inserte su ScreenName de AIM o su UIN de ICQ y la contraseña."
+msgstr "Introduzca su ScreenName de AIM o su UIN de ICQ y la contraseña."
 
 #: plugins/jabber/jabbersearch.cpp:324
 msgid "Enter your YAHOO! Messenger Username and Password."
-msgstr "Inserte su cuenta y contraseña YAHOO! Messenger."
+msgstr "Introduzca su cuenta YAHOO! Messenger y contraseña."
 
 #: plugins/jabber/jabbersearch.cpp:325
 msgid "Please enter your UIN and password"
-msgstr "Por favor inserte su UIN y la contraseña"
+msgstr "Por favor introduzca su UIN y la contraseña"
 
 #: plugins/jabber/jabbersearch.cpp:326
 msgid "You need a x:data capable client to register."
@@ -6959,27 +6960,27 @@ msgstr ""
 
 #: plugins/jabber/jabbersearch.cpp:327
 msgid "Enter nick you want to register."
-msgstr "Inserte el nick que quiera registrar."
+msgstr "Inserte el apodo que quiera registrar."
 
 #: plugins/jabber/jabbersearch.cpp:328
 msgid ""
 "Complete the form to submit your searchable attributes in the Jabber User "
 "Directory"
 msgstr ""
-"Completa el formulario para insertar tus atributos de búsqueda en el "
-"directorio de usuarios Jabber"
+"Complete el formulario para introducir sus atributos de búsqueda en el "
+"directorio de usuarios Jabber (JUD)"
 
 #: plugins/jabber/jabbersearch.cpp:329
 msgid "Fill in all of the fields to add yourself to the JUD."
-msgstr "Rellena todos los campos para añadirte al JUD."
+msgstr "Rellene todos los campos para añadirse al JUD."
 
 #: plugins/jabber/jabbersearch.cpp:330
 msgid ""
 "Fill in a field to search for any matching Jabber User (POSIX regular "
 "expressions allowed)"
 msgstr ""
-"Rellene los campos para buscar algún usuario Jabber (Expresiones regulares "
-"POSIX permitidas)"
+"Rellene el campo para buscar algún usuario Jabber (las expresiones regulares "
+"POSIX están permitidas)"
 
 #: plugins/jabber/jabbersearch.cpp:331
 msgid "Fill in a field to search for any matching Jabber users."
@@ -6991,11 +6992,11 @@ msgid ""
 "to make it easier for people to search for you."
 msgstr ""
 "Para registrarse, por favor rellene el siguiente formulario. Sea tan preciso "
-"como pueda para facilitar su búsqueda."
+"como sea posible para facilitar su búsqueda."
 
 #: plugins/jabber/discoinfo.cpp:64
 msgid "Units"
-msgstr ""
+msgstr "Unidades"
 
 #: plugins/jabber/discoinfo.cpp:65
 msgid "Value"
@@ -7019,6 +7020,8 @@ msgid ""
 "_n: %n day\n"
 "%n days"
 msgstr ""
+"%n día\n"
+"%n días"
 
 #: plugins/jabber/jabberconfigbase.cpp:279
 #: plugins/livejournal/livejournalcfgbase.cpp:149
@@ -7061,7 +7064,7 @@ msgstr "Especificar servidor Jabber manualmente:"
 
 #: plugins/jabber/jabberconfigbase.cpp:299
 msgid "Use protocol &icons for agents contacts"
-msgstr ""
+msgstr "Usar los iconos del protocolo para los contactos de agentes"
 
 #: plugins/jabber/jabberconfigbase.cpp:300
 msgid "Send &rich text messages if possible"
@@ -7069,15 +7072,15 @@ msgstr ""
 
 #: plugins/jabber/jabberconfigbase.cpp:301
 msgid "Automaticaly send &subscribe request"
-msgstr ""
+msgstr "Enviar automáticamente petición de &subscripción"
 
 #: plugins/jabber/jabberconfigbase.cpp:302
 msgid "Automaticaly &accept subscribe requests"
-msgstr ""
+msgstr "&Aceptar automáticamente peticiones de subscripción"
 
 #: plugins/jabber/jabberworkinfobase.cpp:91
 msgid "Role:"
-msgstr ""
+msgstr "Cargo:"
 
 #: plugins/jabber/discoinfobase.cpp:265
 msgid "DiscoInfo"
@@ -7089,7 +7092,7 @@ msgstr ""
 
 #: plugins/jabber/discoinfobase.cpp:267
 msgid "Category:"
-msgstr ""
+msgstr "Categoría:"
 
 #: plugins/jabber/discoinfobase.cpp:272
 msgid "Version:"
@@ -7101,7 +7104,7 @@ msgstr "Sistema:"
 
 #: plugins/jabber/discoinfobase.cpp:275
 msgid "UTC client time:"
-msgstr ""
+msgstr "Hora UTC del cliente:"
 
 #: plugins/jabber/discoinfobase.cpp:276
 msgid "Last activity, idle response:"
@@ -7121,11 +7124,11 @@ msgstr "Apodo:"
 
 #: plugins/jabber/jabberaddbase.cpp:112
 msgid "Jabber &browser"
-msgstr ""
+msgstr "na&vegador Jabber"
 
 #: plugins/jabber/jabberbrowser.cpp:42
 msgid "Process"
-msgstr "Progreso"
+msgstr "Proceso"
 
 #: plugins/jabber/jabberbrowser.cpp:84 plugins/jabber/jabberbrowser.cpp:280
 #: plugins/jabber/jabberbrowser.cpp:309 plugins/jabber/jabberbrowser.cpp:338
@@ -7145,7 +7148,7 @@ msgstr "JID"
 
 #: plugins/jabber/jabber.cpp:293 plugins/jabber/jabberbrowser.cpp:117
 msgid "Node"
-msgstr ""
+msgstr "Nodo"
 
 #: plugins/jabber/jabberbrowser.cpp:248
 msgid "Client offline"
@@ -7153,23 +7156,23 @@ msgstr "Cliente desconectado"
 
 #: plugins/jabber/jabberbrowser.cpp:255
 msgid "Stop"
-msgstr ""
+msgstr "Detener"
 
 #: plugins/jabber/jabberbrowser.cpp:430
 msgid "%1 Search"
-msgstr ""
+msgstr "%1 Buscar"
 
 #: plugins/jabber/jabberbrowser.cpp:437
 msgid "%1 Register"
-msgstr ""
+msgstr "%1 Registrar"
 
 #: plugins/jabber/jabberbrowser.cpp:444
 msgid "%1 Configure"
-msgstr ""
+msgstr "%1 Configurar"
 
 #: plugins/jabber/jabberbrowser.cpp:939
 msgid "Choose a user and password to register with the server"
-msgstr ""
+msgstr "Elija un usuario y una contraseña para registrarse en el servidor"
 
 #: plugins/jabber/jabberclient.cpp:1481 plugins/jabber/jabberclient.cpp:1590
 msgid "Photo"
@@ -7193,15 +7196,15 @@ msgstr "&Atrás"
 
 #: plugins/jabber/jabber.cpp:325
 msgid "Browser mode"
-msgstr ""
+msgstr "Modo navegador"
 
 #: plugins/jabber/jabber.cpp:333
 msgid "Load one level"
-msgstr ""
+msgstr "Cargar un nivel"
 
 #: plugins/jabber/jabber.cpp:344
 msgid "Load all levels"
-msgstr ""
+msgstr "Cargar todos los niveles"
 
 #: plugins/jabber/servicesbase.cpp:108 plugins/jabber/servicesbase.cpp:114
 msgid "Jabber agents are available online after login"
@@ -7283,31 +7286,31 @@ msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1373
 msgid "Invalid username"
-msgstr ""
+msgstr "Usuario no válido"
 
 #: plugins/livejournal/livejournal.cpp:1375
 msgid "aggravated"
-msgstr ""
+msgstr "irritado"
 
 #: plugins/livejournal/livejournal.cpp:1376
 msgid "angry"
-msgstr ""
+msgstr "enfadado"
 
 #: plugins/livejournal/livejournal.cpp:1377
 msgid "annoyed"
-msgstr ""
+msgstr "molesto"
 
 #: plugins/livejournal/livejournal.cpp:1378
 msgid "anxious"
-msgstr ""
+msgstr "angustiado"
 
 #: plugins/livejournal/livejournal.cpp:1379
 msgid "bored"
-msgstr ""
+msgstr "aburrido"
 
 #: plugins/livejournal/livejournal.cpp:1380
 msgid "confused"
-msgstr ""
+msgstr "confudido"
 
 #: plugins/livejournal/livejournal.cpp:1381
 msgid "crappy"
@@ -7315,35 +7318,35 @@ msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1382
 msgid "cranky"
-msgstr ""
+msgstr "gruñón"
 
 #: plugins/livejournal/livejournal.cpp:1383
 msgid "depressed"
-msgstr ""
+msgstr "desanimado"
 
 #: plugins/livejournal/livejournal.cpp:1384
 msgid "discontent"
-msgstr ""
+msgstr "descontento"
 
 #: plugins/livejournal/livejournal.cpp:1385
 msgid "energetic"
-msgstr ""
+msgstr "enérgico"
 
 #: plugins/livejournal/livejournal.cpp:1386
 msgid "enraged"
-msgstr ""
+msgstr "enfurecido"
 
 #: plugins/livejournal/livejournal.cpp:1387
 msgid "enthralled"
-msgstr ""
+msgstr "embelesado"
 
 #: plugins/livejournal/livejournal.cpp:1388
 msgid "exhausted"
-msgstr ""
+msgstr "agotado"
 
 #: plugins/livejournal/livejournal.cpp:1389
 msgid "happy"
-msgstr ""
+msgstr "feliz"
 
 #: plugins/livejournal/livejournal.cpp:1390
 msgid "high"
@@ -7351,31 +7354,31 @@ msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1391
 msgid "horny"
-msgstr ""
+msgstr "cachondo"
 
 #: plugins/livejournal/livejournal.cpp:1392
 msgid "hungry"
-msgstr ""
+msgstr "hambriento"
 
 #: plugins/livejournal/livejournal.cpp:1393
 msgid "infuriated"
-msgstr ""
+msgstr "enfurecido"
 
 #: plugins/livejournal/livejournal.cpp:1394
 msgid "irate"
-msgstr ""
+msgstr "encolerizado"
 
 #: plugins/livejournal/livejournal.cpp:1395
 msgid "jubilant"
-msgstr ""
+msgstr "exultante"
 
 #: plugins/livejournal/livejournal.cpp:1396
 msgid "lonely"
-msgstr ""
+msgstr "solitario"
 
 #: plugins/livejournal/livejournal.cpp:1397
 msgid "moody"
-msgstr ""
+msgstr "caprichoso"
 
 #: plugins/livejournal/livejournal.cpp:1398
 msgid "pissed off"
@@ -7387,27 +7390,27 @@ msgstr "triste"
 
 #: plugins/livejournal/livejournal.cpp:1400
 msgid "satisfied"
-msgstr ""
+msgstr "satisfecho"
 
 #: plugins/livejournal/livejournal.cpp:1401
 msgid "sore"
-msgstr ""
+msgstr "sensible"
 
 #: plugins/livejournal/livejournal.cpp:1402
 msgid "stressed"
-msgstr ""
+msgstr "estresado"
 
 #: plugins/livejournal/livejournal.cpp:1403
 msgid "thirsty"
-msgstr ""
+msgstr "sediento"
 
 #: plugins/livejournal/livejournal.cpp:1404
 msgid "thoughtful"
-msgstr ""
+msgstr "pensativo"
 
 #: plugins/livejournal/livejournal.cpp:1405
 msgid "tired"
-msgstr ""
+msgstr "cansado"
 
 #: plugins/livejournal/livejournal.cpp:1406
 msgid "touched"
@@ -7415,11 +7418,11 @@ msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1407
 msgid "lazy"
-msgstr ""
+msgstr "perezoso"
 
 #: plugins/livejournal/livejournal.cpp:1408
 msgid "drunk"
-msgstr ""
+msgstr "ebrio"
 
 #: plugins/livejournal/livejournal.cpp:1409
 msgid "ditzy"
@@ -7427,91 +7430,91 @@ msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1410
 msgid "mischievous"
-msgstr ""
+msgstr "travieso"
 
 #: plugins/livejournal/livejournal.cpp:1411
 msgid "morose"
-msgstr ""
+msgstr "malhumorado"
 
 #: plugins/livejournal/livejournal.cpp:1412
 msgid "gloomy"
-msgstr ""
+msgstr "sombrío"
 
 #: plugins/livejournal/livejournal.cpp:1413
 msgid "melancholy"
-msgstr ""
+msgstr "melancólico"
 
 #: plugins/livejournal/livejournal.cpp:1414
 msgid "drained"
-msgstr ""
+msgstr "agotado"
 
 #: plugins/livejournal/livejournal.cpp:1415
 msgid "excited"
-msgstr ""
+msgstr "entusiasmado"
 
 #: plugins/livejournal/livejournal.cpp:1416
 msgid "relieved"
-msgstr ""
+msgstr "aliviado"
 
 #: plugins/livejournal/livejournal.cpp:1417
 msgid "hopeful"
-msgstr ""
+msgstr "esperanzado"
 
 #: plugins/livejournal/livejournal.cpp:1418
 msgid "amused"
-msgstr ""
+msgstr "distraido"
 
 #: plugins/livejournal/livejournal.cpp:1419
 msgid "determined"
-msgstr ""
+msgstr "decidido"
 
 #: plugins/livejournal/livejournal.cpp:1420
 msgid "scared"
-msgstr ""
+msgstr "asustado"
 
 #: plugins/livejournal/livejournal.cpp:1421
 msgid "frustrated"
-msgstr ""
+msgstr "frustrado"
 
 #: plugins/livejournal/livejournal.cpp:1422
 msgid "indescribable"
-msgstr ""
+msgstr "indescriptible"
 
 #: plugins/livejournal/livejournal.cpp:1423
 msgid "sleepy"
-msgstr ""
+msgstr "soñoliento"
 
 #: plugins/livejournal/livejournal.cpp:1424
 msgid "groggy"
-msgstr ""
+msgstr "grogui"
 
 #: plugins/livejournal/livejournal.cpp:1425
 msgid "hyper"
-msgstr ""
+msgstr "hiperactivo"
 
 #: plugins/livejournal/livejournal.cpp:1426
 msgid "relaxed"
-msgstr ""
+msgstr "relajado"
 
 #: plugins/livejournal/livejournal.cpp:1427
 msgid "restless"
-msgstr ""
+msgstr "inquieto"
 
 #: plugins/livejournal/livejournal.cpp:1428
 msgid "disappointed"
-msgstr ""
+msgstr "desilusionado"
 
 #: plugins/livejournal/livejournal.cpp:1429
 msgid "curious"
-msgstr ""
+msgstr "curioso"
 
 #: plugins/livejournal/livejournal.cpp:1430
 msgid "mellow"
-msgstr ""
+msgstr "apacible"
 
 #: plugins/livejournal/livejournal.cpp:1431
 msgid "peaceful"
-msgstr ""
+msgstr "pacifico"
 
 #: plugins/livejournal/livejournal.cpp:1432
 msgid "bouncy"
@@ -7519,23 +7522,23 @@ msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1433
 msgid "nostalgic"
-msgstr ""
+msgstr "nostálgico"
 
 #: plugins/livejournal/livejournal.cpp:1434
 msgid "okay"
-msgstr ""
+msgstr "ok"
 
 #: plugins/livejournal/livejournal.cpp:1435
 msgid "rejuvenated"
-msgstr ""
+msgstr "rejuvenecido"
 
 #: plugins/livejournal/livejournal.cpp:1436
 msgid "complacent"
-msgstr ""
+msgstr "satisfecho"
 
 #: plugins/livejournal/livejournal.cpp:1437
 msgid "content"
-msgstr ""
+msgstr "contento"
 
 #: plugins/livejournal/livejournal.cpp:1438
 msgid "indifferent"
@@ -7543,51 +7546,51 @@ msgstr "indiferente"
 
 #: plugins/livejournal/livejournal.cpp:1439
 msgid "silly"
-msgstr ""
+msgstr "bobo"
 
 #: plugins/livejournal/livejournal.cpp:1440
 msgid "flirty"
-msgstr ""
+msgstr "coqueto"
 
 #: plugins/livejournal/livejournal.cpp:1441
 msgid "calm"
-msgstr ""
+msgstr "tranquilizado"
 
 #: plugins/livejournal/livejournal.cpp:1442
 msgid "refreshed"
-msgstr ""
+msgstr "refrescado"
 
 #: plugins/livejournal/livejournal.cpp:1443
 msgid "optimistic"
-msgstr ""
+msgstr "optimista"
 
 #: plugins/livejournal/livejournal.cpp:1444
 msgid "pessimistic"
-msgstr ""
+msgstr "pesimista"
 
 #: plugins/livejournal/livejournal.cpp:1445
 msgid "giggly"
-msgstr ""
+msgstr "risueño"
 
 #: plugins/livejournal/livejournal.cpp:1446
 msgid "pensive"
-msgstr ""
+msgstr "reflexionando"
 
 #: plugins/livejournal/livejournal.cpp:1447
 msgid "uncomfortable"
-msgstr ""
+msgstr "incómodo"
 
 #: plugins/livejournal/livejournal.cpp:1448
 msgid "lethargic"
-msgstr ""
+msgstr "aletargado"
 
 #: plugins/livejournal/livejournal.cpp:1449
 msgid "listless"
-msgstr ""
+msgstr "lánguido"
 
 #: plugins/livejournal/livejournal.cpp:1450
 msgid "recumbent"
-msgstr ""
+msgstr "reclinado"
 
 #: plugins/livejournal/livejournal.cpp:1451
 msgid "exanimate"
@@ -7595,55 +7598,55 @@ msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1452
 msgid "embarrassed"
-msgstr ""
+msgstr "avergonzado"
 
 #: plugins/livejournal/livejournal.cpp:1453
 msgid "envious"
-msgstr ""
+msgstr "envidioso"
 
 #: plugins/livejournal/livejournal.cpp:1454
 msgid "sympathetic"
-msgstr ""
+msgstr "comprensivo"
 
 #: plugins/livejournal/livejournal.cpp:1455
 msgid "sick"
-msgstr ""
+msgstr "enfermo"
 
 #: plugins/livejournal/livejournal.cpp:1456
 msgid "hot"
-msgstr ""
+msgstr "acalorado"
 
 #: plugins/livejournal/livejournal.cpp:1457
 msgid "cold"
-msgstr ""
+msgstr "frío"
 
 #: plugins/livejournal/livejournal.cpp:1458
 msgid "worried"
-msgstr ""
+msgstr "preocupado"
 
 #: plugins/livejournal/livejournal.cpp:1459
 msgid "loved"
-msgstr ""
+msgstr "dilecto"
 
 #: plugins/livejournal/livejournal.cpp:1460
 msgid "awake"
-msgstr ""
+msgstr "despierto"
 
 #: plugins/livejournal/livejournal.cpp:1461
 msgid "working"
-msgstr ""
+msgstr "trabajando"
 
 #: plugins/livejournal/livejournal.cpp:1462
 msgid "productive"
-msgstr ""
+msgstr "fructifero"
 
 #: plugins/livejournal/livejournal.cpp:1463
 msgid "accomplished"
-msgstr ""
+msgstr "experto"
 
 #: plugins/livejournal/livejournal.cpp:1464
 msgid "busy"
-msgstr ""
+msgstr "ocupado"
 
 #: plugins/livejournal/livejournal.cpp:1465
 msgid "blah"
@@ -7651,23 +7654,23 @@ msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1466
 msgid "full"
-msgstr ""
+msgstr "lleno"
 
 #: plugins/livejournal/livejournal.cpp:1467
 msgid "grumpy"
-msgstr ""
+msgstr "malhumorado"
 
 #: plugins/livejournal/livejournal.cpp:1468
 msgid "weird"
-msgstr ""
+msgstr "raro"
 
 #: plugins/livejournal/livejournal.cpp:1469
 msgid "nauseated"
-msgstr ""
+msgstr "nauseabundo"
 
 #: plugins/livejournal/livejournal.cpp:1470
 msgid "ecstatic"
-msgstr ""
+msgstr "eufórico"
 
 #: plugins/livejournal/livejournal.cpp:1471
 msgid "chipper"
@@ -7675,15 +7678,15 @@ msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1472
 msgid "rushed"
-msgstr ""
+msgstr "apurado"
 
 #: plugins/livejournal/livejournal.cpp:1473
 msgid "contemplative"
-msgstr ""
+msgstr "contemplativo"
 
 #: plugins/livejournal/livejournal.cpp:1474
 msgid "nerdy"
-msgstr ""
+msgstr "escandalizado"
 
 #: plugins/livejournal/livejournal.cpp:1475
 msgid "geeky"
@@ -7691,39 +7694,39 @@ msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1476
 msgid "cynical"
-msgstr ""
+msgstr "cínico"
 
 #: plugins/livejournal/livejournal.cpp:1477
 msgid "quixotic"
-msgstr ""
+msgstr "quijotesco"
 
 #: plugins/livejournal/livejournal.cpp:1478
 msgid "crazy"
-msgstr ""
+msgstr "loco"
 
 #: plugins/livejournal/livejournal.cpp:1479
 msgid "creative"
-msgstr ""
+msgstr "creativo"
 
 #: plugins/livejournal/livejournal.cpp:1480
 msgid "artistic"
-msgstr ""
+msgstr "artístico"
 
 #: plugins/livejournal/livejournal.cpp:1481
 msgid "pleased"
-msgstr ""
+msgstr "encantado"
 
 #: plugins/livejournal/livejournal.cpp:1482
 msgid "bitchy"
-msgstr ""
+msgstr "malicioso"
 
 #: plugins/livejournal/livejournal.cpp:1483
 msgid "guilty"
-msgstr ""
+msgstr "culpable"
 
 #: plugins/livejournal/livejournal.cpp:1484
 msgid "irritated"
-msgstr ""
+msgstr "irritado"
 
 #: plugins/livejournal/livejournal.cpp:1485
 msgid "blank"
@@ -7731,7 +7734,7 @@ msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1486
 msgid "apathetic"
-msgstr ""
+msgstr "apático"
 
 #: plugins/livejournal/livejournal.cpp:1487
 msgid "dorky"
@@ -7739,111 +7742,111 @@ msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1488
 msgid "impressed"
-msgstr ""
+msgstr "impresionado"
 
 #: plugins/livejournal/livejournal.cpp:1489
 msgid "naughty"
-msgstr ""
+msgstr "travieso"
 
 #: plugins/livejournal/livejournal.cpp:1490
 msgid "predatory"
-msgstr ""
+msgstr "depredador"
 
 #: plugins/livejournal/livejournal.cpp:1491
 msgid "dirty"
-msgstr ""
+msgstr "sucio"
 
 #: plugins/livejournal/livejournal.cpp:1492
 msgid "giddy"
-msgstr ""
+msgstr "mareado"
 
 #: plugins/livejournal/livejournal.cpp:1493
 msgid "surprised"
-msgstr ""
+msgstr "sorpendido"
 
 #: plugins/livejournal/livejournal.cpp:1494
 msgid "shocked"
-msgstr ""
+msgstr "estupefacto"
 
 #: plugins/livejournal/livejournal.cpp:1495
 msgid "rejected"
-msgstr ""
+msgstr "rechazado"
 
 #: plugins/livejournal/livejournal.cpp:1496
 msgid "numb"
-msgstr ""
+msgstr "adormecido"
 
 #: plugins/livejournal/livejournal.cpp:1497
 msgid "cheerful"
-msgstr ""
+msgstr "jovial"
 
 #: plugins/livejournal/livejournal.cpp:1498
 msgid "good"
-msgstr ""
+msgstr "bueno"
 
 #: plugins/livejournal/livejournal.cpp:1499
 msgid "distressed"
-msgstr ""
+msgstr "afligido"
 
 #: plugins/livejournal/livejournal.cpp:1500
 msgid "intimidated"
-msgstr ""
+msgstr "intimidado"
 
 #: plugins/livejournal/livejournal.cpp:1501
 msgid "crushed"
-msgstr ""
+msgstr "machacado"
 
 #: plugins/livejournal/livejournal.cpp:1502
 msgid "devious"
-msgstr ""
+msgstr "dudoso"
 
 #: plugins/livejournal/livejournal.cpp:1503
 msgid "thankful"
-msgstr ""
+msgstr "agradecido"
 
 #: plugins/livejournal/livejournal.cpp:1504
 msgid "grateful"
-msgstr ""
+msgstr "agradecido"
 
 #: plugins/livejournal/livejournal.cpp:1505
 msgid "jealous"
-msgstr ""
+msgstr "celoso"
 
 #: plugins/livejournal/livejournal.cpp:1506
 msgid "nervous"
-msgstr ""
+msgstr "nervioso"
 
 #: plugins/livejournal/livejournal.cpp:1508
 msgid "Recent Entries"
-msgstr ""
+msgstr "Entradas recientes"
 
 #: plugins/livejournal/livejournal.cpp:1509
 msgid "Calendar View"
-msgstr ""
+msgstr "Vista de calendario"
 
 #: plugins/livejournal/livejournal.cpp:1510
 msgid "Friends View"
-msgstr ""
+msgstr "Vista de amigos"
 
 #: plugins/livejournal/livejournal.cpp:1511
 msgid "Your Profile"
-msgstr ""
+msgstr "Perfil"
 
 #: plugins/livejournal/livejournal.cpp:1512
 msgid "Your To-Do List"
-msgstr ""
+msgstr "Lista de quehaceres"
 
 #: plugins/livejournal/livejournal.cpp:1513
 msgid "Change Settings"
-msgstr ""
+msgstr "Preferencias de cambio"
 
 #: plugins/livejournal/livejournal.cpp:1514
 msgid "Support"
-msgstr ""
+msgstr "Soporte"
 
 #: plugins/livejournal/livejournal.cpp:1515
 msgid "Personal Info"
-msgstr ""
+msgstr "Información personal"
 
 #: plugins/livejournal/livejournal.cpp:1516
 msgid "Journal Settings"
@@ -7856,15 +7859,15 @@ msgstr ""
 #: plugins/livejournal/livejournalcfgbase.cpp:153
 #: plugins/spell/spellcfgbase.cpp:84
 msgid "Path:"
-msgstr ""
+msgstr "Ruta:"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:156
 msgid "Check interval:"
-msgstr ""
+msgstr "Intervalo de comprobación:"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:157
 msgid "minutes"
-msgstr ""
+msgstr "minutos"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:158
 msgid "Use &fast server - only for paying customers"
@@ -7880,15 +7883,15 @@ msgstr "Seguridad:"
 
 #: plugins/livejournal/msgjournalbase.cpp:85
 msgid "Public"
-msgstr ""
+msgstr "Público"
 
 #: plugins/livejournal/msgjournalbase.cpp:86
 msgid "Friends-Only"
-msgstr ""
+msgstr "Sólo amigos"
 
 #: plugins/livejournal/msgjournalbase.cpp:87
 msgid "Private"
-msgstr ""
+msgstr "Privado"
 
 #: plugins/livejournal/msgjournalbase.cpp:88
 msgid "Mood:"
@@ -7896,7 +7899,7 @@ msgstr ""
 
 #: plugins/livejournal/msgjournalbase.cpp:92
 msgid "Enable comments"
-msgstr ""
+msgstr "Permitir comentarios"
 
 #: plugins/livejournal/msgjournalbase.cpp:93
 msgid "No email comments"
@@ -7904,43 +7907,43 @@ msgstr ""
 
 #: plugins/livejournal/msgjournalbase.cpp:94
 msgid "Disable comments"
-msgstr ""
+msgstr "Deshabilitar comentarios"
 
 #: plugins/livejournal/journalsearchbase.cpp:65
 msgid "Add community"
-msgstr ""
+msgstr "Añadir comunidad"
 
 #: plugins/spell/spellcfg.cpp:46
 msgid "ASpell(aspell.exe)"
-msgstr ""
+msgstr "ASpell(aspell.exe)"
 
 #: plugins/spell/spellcfg.cpp:48
 msgid "Download ASpell"
-msgstr ""
+msgstr "Descargar ASpell"
 
 #: plugins/spell/spellhighlight.cpp:254
 msgid "Add '%1'"
-msgstr ""
+msgstr "Añadir '%1'"
 
 #: plugins/spell/spellhighlight.cpp:258
 msgid "Ignore '%1'"
-msgstr ""
+msgstr "Ignorar '%1'"
 
 #: plugins/spell/spell.cpp:62
 msgid "Plugin provides check spelling"
-msgstr ""
+msgstr "Este plugin proporciona corrección ortográfica"
 
 #: plugins/action/menucfg.cpp:31
 msgid "Item"
-msgstr ""
+msgstr "Elemento"
 
 #: plugins/action/actioncfg.cpp:42 plugins/action/menucfg.cpp:32
 msgid "Program"
-msgstr ""
+msgstr "Programa"
 
 #: plugins/action/actioncfg.cpp:179 plugins/action/additem.cpp:54
 msgid "In command line you can use:"
-msgstr ""
+msgstr "En linea de comandos puede usar:"
 
 #: plugins/action/actioncfg.cpp:41
 msgid "Event"
@@ -7948,11 +7951,11 @@ msgstr "Evento"
 
 #: plugins/action/actioncfg.cpp:47
 msgid "Contact online"
-msgstr ""
+msgstr "Contacto conectado"
 
 #: plugins/action/actioncfg.cpp:53
 msgid "Status changed"
-msgstr ""
+msgstr "Estado modificado"
 
 #: plugins/action/actioncfg.cpp:91
 msgid "Menu"
@@ -7967,18 +7970,24 @@ msgid ""
 "If program output is empty,  message will be destroyed.\n"
 "Thus it is possible to organize additional messages filters.\n"
 msgstr ""
+"Para eventos con mensaje el texto del mensaje será enviado a la entrada "
+"estándar del programa.\n"
+"Si el programa devuelve cero como código de error el texto del mensaje "
+"será reemplazado con la salida del programa.\n"
+"Si el programa no tiene salida el mensaje será eliminado.\n"
+"Así que es posible usarlo como filtro de mensaje adicional.\n"
 
 #: plugins/action/action.cpp:33
 msgid "Action"
-msgstr ""
+msgstr "Acción"
 
 #: plugins/action/action.cpp:34
 msgid "Plugin execute external programs on event or from contact menu"
-msgstr ""
+msgstr "Este plugin ejecuta un programa externo cuando se produzca un evento o desde el menú de los contactos"
 
 #: plugins/action/action.cpp:84
 msgid "&Action"
-msgstr ""
+msgstr "&Acción"
 
 #: plugins/action/additembase.cpp:91
 msgid "Add Item"
@@ -7986,7 +7995,7 @@ msgstr "Añadir elemento"
 
 #: plugins/action/additembase.cpp:92
 msgid "Item:"
-msgstr "Elemento"
+msgstr "Elemento:"
 
 #: plugins/action/additembase.cpp:93
 msgid "Program:"
@@ -7998,7 +8007,7 @@ msgstr "Navegar"
 
 #: plugins/navigate/navigate.cpp:214
 msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
-msgstr ""
+msgstr "Este plugin le permite establecer el navegador y el cliente de correo a usar"
 
 #: plugins/navigate/navigate.cpp:262
 msgid "Send mail"
@@ -8014,7 +8023,7 @@ msgstr "Cliente de correo:"
 
 #: plugins/navigate/navcfgbase.cc:71
 msgid "Open links in &new window"
-msgstr ""
+msgstr "Abrir enlaces en una ventana &nueva"
 
 #: plugins/yahoo/yahoo.cpp:81
 msgid "Yahoo!"
@@ -8034,11 +8043,11 @@ msgstr "Obtener una ID Yahoo!"
 
 #: plugins/yahoo/yahooclient.cpp:338
 msgid "Yahoo! login lock"
-msgstr ""
+msgstr "Bloquear acceso Yahoo!"
 
 #: plugins/yahoo/yahooclient.cpp:361
 msgid "Your account has been locked"
-msgstr ""
+msgstr "Su cuenta ha sido bloqueada"
 
 #: plugins/yahoo/yahooclient.cpp:365 plugins/yahoo/yahooclient.cpp:378
 msgid "Your account is being used from another location"
@@ -8046,19 +8055,19 @@ msgstr "Su cuenta está siendo usada desde otro lugar"
 
 #: plugins/yahoo/yahooclient.cpp:1374
 msgid "Not at home"
-msgstr ""
+msgstr "No estoy en casa"
 
 #: plugins/yahoo/yahooclient.cpp:1377
 msgid "Not at my desk"
-msgstr ""
+msgstr "No estoy en el escritorio"
 
 #: plugins/yahoo/yahooclient.cpp:1380
 msgid "Not in the office"
-msgstr ""
+msgstr "No estoy en la oficina"
 
 #: plugins/yahoo/yahooclient.cpp:1386
 msgid "On vacation"
-msgstr ""
+msgstr "De vacaciones"
 
 #: plugins/yahoo/yahooclient.cpp:1389
 msgid "Out to lunch"
@@ -8091,23 +8100,23 @@ msgstr "Reemplazar texto"
 
 #: plugins/replace/replace.cpp:34
 msgid "Plugin provides text replacing in message edit window"
-msgstr ""
+msgstr "Este plugin le permite reemplazar el texto a enviar en la ventana de mensajes"
 
 #: plugins/replace/replacecfg.cpp:31
 msgid "You type"
-msgstr ""
+msgstr "Escribe"
 
 #: plugins/replace/replacecfg.cpp:32
 msgid "You send"
-msgstr ""
+msgstr "Envía"
 
 #: plugins/weather/weather.cpp:96
 msgid "Weather"
-msgstr ""
+msgstr "Tiempo"
 
 #: plugins/weather/weather.cpp:97
 msgid "Plugin provides show weather"
-msgstr ""
+msgstr "Este plugin muestra el estado atmosférico"
 
 #: plugins/weather/weather.cpp:168
 msgid "Not connected"
@@ -8145,115 +8154,115 @@ msgstr "Domingo"
 msgid ""
 "_: weather\n"
 "Overcast"
-msgstr ""
+msgstr "Encapotado"
 
 #: plugins/weather/weather.cpp:462
 msgid ""
 "_: weather\n"
 "Fog"
-msgstr ""
+msgstr "Niebla"
 
 #: plugins/weather/weather.cpp:463
 msgid ""
 "_: weather\n"
 "Haze"
-msgstr ""
+msgstr "Neblina"
 
 #: plugins/weather/weather.cpp:464
 msgid ""
 "_: weather\n"
 "Storm"
-msgstr ""
+msgstr "Tormenta"
 
 #: plugins/weather/weather.cpp:465
 msgid ""
 "_: weather\n"
 "Rain"
-msgstr ""
+msgstr "Lluvia"
 
 #: plugins/weather/weather.cpp:466
 msgid ""
 "_: weather\n"
 "Snow"
-msgstr ""
+msgstr "Nieve"
 
 #: plugins/weather/weather.cpp:467
 msgid ""
 "_: weather\n"
 "Light Rain"
-msgstr ""
+msgstr "Lluvia ligera"
 
 #: plugins/weather/weather.cpp:468
 msgid ""
 "_: weather\n"
 "Light Snow"
-msgstr ""
+msgstr "Nieve ligera"
 
 #: plugins/weather/weather.cpp:469
 msgid ""
 "_: weather\n"
 "Few Snow"
-msgstr ""
+msgstr "Poca nieve"
 
 #: plugins/weather/weather.cpp:470
 msgid ""
 "_: weather\n"
 "Scattered Snow"
-msgstr ""
+msgstr "Nieve dispersa"
 
 #: plugins/weather/weather.cpp:471
 msgid ""
 "_: weather\n"
 "Clear"
-msgstr ""
+msgstr "Despejado"
 
 #: plugins/weather/weather.cpp:472
 msgid ""
 "_: weather\n"
 "Showers"
-msgstr ""
+msgstr "Chubasco"
 
 #: plugins/weather/weather.cpp:473
 msgid ""
 "_: weather\n"
 "Mostly Clear"
-msgstr ""
+msgstr "Mayormente despejado"
 
 #: plugins/weather/weather.cpp:474
 msgid ""
 "_: weather\n"
 "Sunny"
-msgstr ""
+msgstr "Soleado"
 
 #: plugins/weather/weather.cpp:475
 msgid ""
 "_: weather\n"
 "Fair"
-msgstr ""
+msgstr "Bueno"
 
 #: plugins/weather/weather.cpp:476
 msgid ""
 "_: weather\n"
 "Cloudy"
-msgstr ""
+msgstr "Nublado"
 
 #: plugins/weather/weather.cpp:477
 msgid ""
 "_: weather\n"
 "Mostly Cloudy"
-msgstr ""
+msgstr "Mayormente nublado"
 
 #: plugins/weather/weather.cpp:478
 msgid ""
 "_: weather\n"
 "Partly Cloudy"
-msgstr ""
+msgstr "Parcialmente nublado"
 
 #: plugins/weather/weather.cpp:479
 msgid ""
 "_: weather\n"
 "Wind"
-msgstr ""
+msgstr "Viento"
 
 #: plugins/weather/weather.cpp:480
 msgid ""
@@ -8265,49 +8274,49 @@ msgstr ""
 msgid ""
 "_: weather\n"
 "Drizzle"
-msgstr ""
+msgstr "Llovizna"
 
 #: plugins/weather/weather.cpp:482
 msgid ""
 "_: weather\n"
 "Light Drizzle"
-msgstr ""
+msgstr "Ligera llovizna"
 
 #: plugins/weather/weather.cpp:483
 msgid ""
 "_: weather\n"
 "Drifting Snow"
-msgstr ""
+msgstr "Ventisquero"
 
 #: plugins/weather/weather.cpp:484
 msgid ""
 "_: weather\n"
 "Scattered"
-msgstr ""
+msgstr "Disperso"
 
 #: plugins/weather/weather.cpp:485
 msgid ""
 "_: weather\n"
 "steady"
-msgstr ""
+msgstr "constante"
 
 #: plugins/weather/weather.cpp:486
 msgid ""
 "_: weather\n"
 "rising"
-msgstr ""
+msgstr "creciente"
 
 #: plugins/weather/weather.cpp:487
 msgid ""
 "_: weather\n"
 "falling"
-msgstr ""
+msgstr "decreciente"
 
 #: plugins/weather/weather.cpp:488
 msgid ""
 "_: weather\n"
 "Unlimited"
-msgstr ""
+msgstr "ilimitada"
 
 #: plugins/weather/weather.cpp:489
 msgid ""
@@ -8409,43 +8418,43 @@ msgstr ""
 msgid ""
 "_: weather\n"
 "VAR"
-msgstr ""
+msgstr "VAR"
 
 #: plugins/weather/weather.cpp:506
 msgid "km"
-msgstr ""
+msgstr "km"
 
 #: plugins/weather/weather.cpp:507
 msgid "km/h"
-msgstr ""
+msgstr "km/h"
 
 #: plugins/weather/weather.cpp:519
 msgid "and"
-msgstr ""
+msgstr "y"
 
 #: plugins/weather/weather.cpp:522
 msgid ""
 "_: weather\n"
 "Early"
-msgstr ""
+msgstr "temprano"
 
 #: plugins/weather/weather.cpp:525
 msgid ""
 "_: weather\n"
 "Late"
-msgstr ""
+msgstr "tarde"
 
 #: plugins/weather/weather.cpp:540 plugins/weather/weather.cpp:542
 msgid "m/s"
-msgstr ""
+msgstr "m/s"
 
 #: plugins/weather/weather.cpp:541 plugins/weather/weather.cpp:542
 msgid "gust "
-msgstr ""
+msgstr "ráfaga"
 
 #: plugins/weather/weather.cpp:604
 msgid "%t | %c"
-msgstr ""
+msgstr "%t | %c"
 
 #: plugins/weather/weather.cpp:613
 msgid ""
@@ -8462,6 +8471,18 @@ msgid ""
 "<br>\n"
 "Updated: %u<br>\n"
 msgstr ""
+"%l<br><br>\n"
+"<img src=\"icon:weather\"> %c<br>\n"
+"Temperatura: <b>%t</b> (parece: <b>%f</b>)<br>\n"
+"Humedad: <b>%h</b><br>\n"
+"Presión: <b>%p</b> (%q)<br>\n"
+"Viento: <b>%b</b> <b>%w %g</b><br>\n"
+"Visibilidad: <b>%v</b><br>\n"
+"Punto de condensación: <b>%d</b><br>\n"
+"Amanece: %r<br>\n"
+"Anochece: %s<br>\n"
+"<br>\n"
+"Actualizado %u<br>\n"
 
 #: plugins/weather/weather.cpp:632
 msgid ""
@@ -8470,14 +8491,18 @@ msgid ""
 "<img src=\"icon:weather%n\"> %c<br>\n"
 " Temperature: <b>%t</b><br>\n"
 msgstr ""
+"<br>\n"
+"<nobr><b>%d %w</b></nobr><br>\n"
+"<img src=\"icon:weather%n\"> %c<br>\n"
+" Temperatura: <b>%t</b><br>\n"
 
 #: plugins/weather/weathercfg.cpp:101
 msgid "Location %1 not found"
-msgstr ""
+msgstr "Ubicación %1 no encontrado"
 
 #: plugins/weather/wifacecfgbase.cpp:81
 msgid "Button text:"
-msgstr ""
+msgstr "Texto del botón"
 
 #: plugins/weather/wifacecfgbase.cpp:82
 msgid "Button tip:"
@@ -8489,75 +8514,75 @@ msgstr ""
 
 #: plugins/weather/wifacecfg.cpp:27 plugins/weather/wifacecfg.cpp:66
 msgid "Temperature"
-msgstr ""
+msgstr "Temperatura"
 
 #: plugins/weather/wifacecfg.cpp:29
 msgid "Feels like"
-msgstr ""
+msgstr "parece"
 
 #: plugins/weather/wifacecfg.cpp:31
 msgid "Humidity"
-msgstr ""
+msgstr "Humedad"
 
 #: plugins/weather/wifacecfg.cpp:33
 msgid "Wind direction"
-msgstr ""
+msgstr "Dirección del viento"
 
 #: plugins/weather/wifacecfg.cpp:35
 msgid "Wind speed"
-msgstr ""
+msgstr "Velocidad del viento"
 
 #: plugins/weather/wifacecfg.cpp:37
 msgid "Wind gust"
-msgstr ""
+msgstr "Ráfaga de viento"
 
 #: plugins/weather/wifacecfg.cpp:39
 msgid "Wind speed (m/s)"
-msgstr ""
+msgstr "Velocidad del viento (m/s)"
 
 #: plugins/weather/wifacecfg.cpp:41
 msgid "Wind gust (m/s)"
-msgstr ""
+msgstr "Ráfaga de viento (m/s)"
 
 #: plugins/weather/wifacecfg.cpp:43
 msgid "Pressure"
-msgstr ""
+msgstr "Presión"
 
 #: plugins/weather/wifacecfg.cpp:45
 msgid "Pressure state"
-msgstr ""
+msgstr "Estado de la presión"
 
 #: plugins/weather/wifacecfg.cpp:47
 msgid "Visibility"
-msgstr ""
+msgstr "Visibilidad"
 
 #: plugins/weather/wifacecfg.cpp:49
 msgid "Dew Point"
-msgstr ""
+msgstr "Punto de condensación"
 
 #: plugins/weather/wifacecfg.cpp:53
 msgid "Updated"
-msgstr ""
+msgstr "Actualizado"
 
 #: plugins/weather/wifacecfg.cpp:55
 msgid "Sunraise"
-msgstr ""
+msgstr "Amanece"
 
 #: plugins/weather/wifacecfg.cpp:57
 msgid "Sunset"
-msgstr ""
+msgstr "Anochece"
 
 #: plugins/weather/wifacecfg.cpp:68
 msgid "Number"
-msgstr ""
+msgstr "Número"
 
 #: plugins/weather/wifacecfg.cpp:70
 msgid "Day of week"
-msgstr ""
+msgstr "Día de la semana"
 
 #: plugins/weather/weathercfgbase.cpp:110
 msgid "Location ID:"
-msgstr ""
+msgstr "ID Ubicación: "
 
 #: plugins/weather/weathercfgbase.cpp:112
 msgid "You can enter ID as part URL for your location on weather.com"
@@ -8565,17 +8590,17 @@ msgstr ""
 
 #: plugins/weather/weathercfgbase.cpp:114
 msgid "Metric"
-msgstr ""
+msgstr "Métrico"
 
 #: plugins/weather/weathercfgbase.cpp:115
 msgid "Standart"
-msgstr ""
+msgstr "Estándar"
 
 #: plugins/weather/weathercfgbase.cpp:116
 msgid "Forecast days:"
-msgstr ""
+msgstr "Días de pronóstico:"
 
 #: plugins/weather/weathercfgbase.cpp:117
 msgid "Units:"
-msgstr ""
+msgstr "Unidades:"
 
