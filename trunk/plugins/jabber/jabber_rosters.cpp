@@ -576,87 +576,43 @@ public:
     SetInfoRequest(JabberClient *client, JabberUserData *data);
 protected:
     virtual void element_start(const char *el, const char **attr);
-    string	m_jid;
-    string  m_firstName;
-    string	m_nick;
-    string	m_desc;
-    string	m_bday;
-    string	m_url;
-    string	m_orgName;
-    string	m_orgUnit;
-    string	m_title;
-    string	m_role;
-    string	m_street;
-    string	m_ext;
-    string	m_city;
-    string	m_region;
-    string	m_pcode;
-    string	m_country;
 };
 
 SetInfoRequest::SetInfoRequest(JabberClient *client, JabberUserData *data)
         : JabberClient::ServerRequest(client, _SET, NULL, client->buildId(data).c_str())
 {
-    m_jid	= data->ID.ptr;
-    if (data->FirstName.ptr)
-        m_firstName = data->FirstName.ptr;
-    if (data->Nick.ptr)
-        m_nick = data->Nick.ptr;
-    if (data->Desc.ptr)
-        m_desc = data->Desc.ptr;
-    if (data->Bday.ptr)
-        m_bday = data->Bday.ptr;
-    if (data->Url.ptr)
-        m_url = data->Url.ptr;
-    if (data->OrgName.ptr)
-        m_orgName = data->OrgName.ptr;
-    if (data->OrgUnit.ptr)
-        m_orgUnit = data->OrgUnit.ptr;
-    if (data->Title.ptr)
-        m_title = data->Title.ptr;
-    if (data->Role.ptr)
-        m_role = data->Role.ptr;
-    if (data->Street.ptr)
-        m_street = data->Street.ptr;
-    if (data->ExtAddr.ptr)
-        m_ext = data->ExtAddr.ptr;
-    if (data->City.ptr)
-        m_city = data->City.ptr;
-    if (data->Region.ptr)
-        m_region = data->Region.ptr;
-    if (data->PCode.ptr)
-        m_pcode = data->PCode.ptr;
-    if (data->Country.ptr)
-        m_country = data->Country.ptr;
 }
 
 void SetInfoRequest::element_start(const char *el, const char **attr)
 {
     if (!strcmp(el, "iq")){
         string type = JabberClient::get_attr("type", attr);
-        if (type == "result"){
-            set_str(&m_client->data.owner.FirstName.ptr, m_firstName.c_str());
-            set_str(&m_client->data.owner.Nick.ptr, m_nick.c_str());
-            set_str(&m_client->data.owner.Desc.ptr, m_desc.c_str());
-            set_str(&m_client->data.owner.Bday.ptr, m_bday.c_str());
-            set_str(&m_client->data.owner.Url.ptr, m_url.c_str());
-            set_str(&m_client->data.owner.OrgName.ptr, m_orgName.c_str());
-            set_str(&m_client->data.owner.OrgUnit.ptr, m_orgUnit.c_str());
-            set_str(&m_client->data.owner.Title.ptr, m_title.c_str());
-            set_str(&m_client->data.owner.Role.ptr, m_role.c_str());
-            set_str(&m_client->data.owner.Street.ptr, m_street.c_str());
-            set_str(&m_client->data.owner.ExtAddr.ptr, m_ext.c_str());
-            set_str(&m_client->data.owner.City.ptr, m_city.c_str());
-            set_str(&m_client->data.owner.Region.ptr, m_region.c_str());
-            set_str(&m_client->data.owner.PCode.ptr, m_pcode.c_str());
-            set_str(&m_client->data.owner.Country.ptr, m_country.c_str());
-        }
+        if (type == "result")
+            m_client->setInfoUpdated(false);
     }
 }
 
 void JabberClient::setClientInfo(void *_data)
 {
     JabberUserData *data = (JabberUserData*)_data;
+    if (data != &this->data.owner){
+        set_str(&this->data.owner.FirstName.ptr, data->FirstName.ptr);
+        set_str(&this->data.owner.Nick.ptr, data->Nick.ptr);
+        set_str(&this->data.owner.Desc.ptr, data->Desc.ptr);
+        set_str(&this->data.owner.Bday.ptr, data->Bday.ptr);
+        set_str(&this->data.owner.Url.ptr, data->Url.ptr);
+        set_str(&this->data.owner.OrgName.ptr, data->OrgName.ptr);
+        set_str(&this->data.owner.OrgUnit.ptr, data->OrgUnit.ptr);
+        set_str(&this->data.owner.Title.ptr, data->Title.ptr);
+        set_str(&this->data.owner.Role.ptr, data->Role.ptr);
+        set_str(&this->data.owner.Street.ptr, data->Street.ptr);
+        set_str(&this->data.owner.ExtAddr.ptr, data->ExtAddr.ptr);
+        set_str(&this->data.owner.City.ptr, data->City.ptr);
+        set_str(&this->data.owner.Region.ptr, data->Region.ptr);
+        set_str(&this->data.owner.PCode.ptr, data->PCode.ptr);
+        set_str(&this->data.owner.Country.ptr, data->Country.ptr);
+    }
+    setInfoUpdated(true);
     if (getState() != Connected)
         return;
     SetInfoRequest *req = new SetInfoRequest(this, &this->data.owner);
@@ -2575,7 +2531,7 @@ void BrowseRequest::element_start(const char *el, const char **attr)
         m_code = atol(JabberClient::get_attr("code", attr).c_str());
         m_data = &m_error;
     }
-    if (!strcmp(el, "item") || !strcmp(el, "service")){
+    if (!strcmp(el, "item") || !strcmp(el, "service") || !strcmp(el, "agent") || !strcmp(el, "headline")){
         if (!m_jid.empty() && !m_name.empty()){
             DiscoItem item;
             item.id			= m_id;
@@ -2591,6 +2547,8 @@ void BrowseRequest::element_start(const char *el, const char **attr)
         m_name		= JabberClient::get_attr("name", attr).c_str();
         m_type		= JabberClient::get_attr("type", attr).c_str();
         m_category	= JabberClient::get_attr("category", attr).c_str();
+        if (!strcmp(el, "headline"))
+            m_category = "headline";
         m_features	= "";
     }
     if (!strcmp(el, "query")){
