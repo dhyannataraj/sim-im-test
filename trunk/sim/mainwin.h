@@ -403,6 +403,9 @@ protected slots:
     void clearUserMenu();
     void networkMonitor();
     void monitorFinished();
+#ifdef USE_KDE    
+    void doSynchronize();
+#endif    
 protected:
     bool eventFilter(QObject *o, QEvent *e);
 

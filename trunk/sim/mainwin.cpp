@@ -109,6 +109,7 @@ static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
 #include <kipc.h>
 #include <kaboutapplication.h>
 #include <kaboutkde.h>
+#include <kabc/stdaddressbook.h>
 #else
 #include "ui/kpopup.h"
 #endif
@@ -2323,6 +2324,14 @@ void MainWindow::monitorFinished()
     mNetMonitor = NULL;
 }
 
+#ifdef USE_KDE
+void MainWindow::doSynchronize()
+{
+    //pClient->contacts->users
+    //ICQUser *u = pClient->getUser(uin)
+}
+#endif
+
 void MainWindow::about()
 {
     if( mAboutApp == 0 )
@@ -2417,6 +2426,10 @@ void MainWindow::loadMenu()
 #ifdef WIN32
     menuFunction->insertSeparator();
     menuFunction->insertItem(i18n("Always on top"), this, SLOT(toggleOnTop()), 0, mnuOnTop);
+#endif
+#ifdef USE_KDE
+    menuFunction->insertSeparator();
+    menuFunction->insertItem(i18n("Synchronize with KDE address book"),this,SLOT(doSynchronize()));
 #endif
     menuFunction->insertSeparator();
     menuFunction->insertItem(i18n("Network monitor"), this, SLOT(networkMonitor()));
