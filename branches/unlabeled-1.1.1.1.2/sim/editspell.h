@@ -40,7 +40,7 @@ public:
     void setForeground(const QColor&);
     void setBackground(const QColor&);
     bool colorChanged();
-    void resetColors();
+    void resetColors(bool bCanRich);
 public slots:
     void spell();
     void spell_check(KSpell *spell);

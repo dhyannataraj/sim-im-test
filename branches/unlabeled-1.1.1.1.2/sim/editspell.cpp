@@ -17,6 +17,7 @@
 
 #include "editspell.h"
 #include "transparent.h"
+#include "mainwin.h"
 #include "log.h"
 
 #include "locale.h"
@@ -52,10 +53,20 @@ bool EditSpell::colorChanged()
            (palette().color(QPalette::Active, QColorGroup::Text).rgb() != baseFG.rgb());
 }
 
-void EditSpell::resetColors()
+void EditSpell::resetColors(bool bCanRich)
 {
-    setBackground(baseBG);
-    setForeground(baseFG);
+    if (bCanRich){
+        if (pMain->MessageBgColor() != pMain->MessageFgColor()){
+            setBackground(pMain->MessageBgColor());
+            setForeground(pMain->MessageBgColor());
+        }else{
+            setBackground(baseBG);
+            setForeground(baseFG);
+        }
+    }else{
+        setBackground(baseBG);
+        setForeground(baseFG);
+    }
     bgTransparent->setTransparent(true);
 }
 

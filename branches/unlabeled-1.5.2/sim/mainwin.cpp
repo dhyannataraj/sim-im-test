@@ -222,8 +222,13 @@ MainWindow::MainWindow(const char *name)
         ColorReceive(this, "ColorReceive", 0xB00000),
         ChatWidth(this, "ChatWidth"),
         ChatHeight(this, "Chatheight"),
+        UserBoxX(this, "UserBoxX"),
+        UserBoxY(this, "UserBoxY"),
         UserBoxWidth(this, "UserBoxWidth"),
         UserBoxHeight(this, "UserBoxHeight"),
+        UserBoxToolbarDock(this, "UserBoxToolbarDock", "Top"),
+        UserBoxToolbarOffset(this, "UserBoxToolbarOffset"),
+        UserBoxToolbarY(this, "UserBoxToolbarY"),
         CloseAfterSend(this, "CloseAfterSend"),
         UserWindowInTaskManager(this, "UserWindowInTaskManager", true),
         Icons(this, "Icons"),
@@ -235,12 +240,14 @@ MainWindow::MainWindow(const char *name)
         XOSD_FontSize(this, "XOSD_FontSize"),
         XOSD_FontWeight(this, "XOSD_FontWeight"),
         XOSD_FontItalic(this, "XOSD_FontItalic"),
-        XOSD_timeout(this, "XOSD_timeout", 10),
+        XOSD_timeout(this, "XOSD_timeout", 7),
         XOSD_Shadow(this, "XOSD_Shadow", true),
         XOSD_Background(this, "XOSD_Background", false),
         XOSD_BgColor(this, "XOSD_BgColor", colorGroup().background().rgb()),
-        ContainerMode(this, "ContainerMode", ContainerModeGroup)
-
+        ContainerMode(this, "ContainerMode", ContainerModeGroup),
+        MessageBgColor(this, "MessageBgColor"),
+        MessageFgColor(this, "MessageFgColor"),
+        SimpleMode(this, "SimpleMode")
 {
     pMain = this;
     bQuit = false;
@@ -365,6 +372,13 @@ MainWindow::MainWindow(const char *name)
     transparent = new TransparentTop(this, UseTransparent, Transparent);
     setOnTop();
     loadMenu();
+}
+
+void MainWindow::changeMode(bool bSimple)
+{
+    if (SimpleMode() == bSimple) return;
+    SimpleMode = bSimple;
+    emit modeChanged(bSimple);
 }
 
 void MainWindow::setOnTop()

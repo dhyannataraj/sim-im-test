@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>482</width>
+            <width>478</width>
             <height>416</height>
         </rect>
     </property>
@@ -105,6 +105,17 @@
             </property>
         </widget>
         <widget>
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkSimple</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>&amp;Simple mode</string>
+            </property>
+        </widget>
+        <widget>
             <class>QButtonGroup</class>
             <property stdset="1">
                 <name>name</name>
@@ -131,7 +142,7 @@
                     </property>
                     <property>
                         <name>text</name>
-                        <string>Each user in new container</string>
+                        <string>&amp;Each user in new container</string>
                     </property>
                 </widget>
                 <widget>
@@ -142,7 +153,7 @@
                     </property>
                     <property>
                         <name>text</name>
-                        <string>New container for group</string>
+                        <string>&amp;New container for group</string>
                     </property>
                     <property>
                         <name>buttonGroupId</name>
@@ -157,7 +168,7 @@
                     </property>
                     <property>
                         <name>text</name>
-                        <string>All users in one container</string>
+                        <string>&amp;All users in one container</string>
                     </property>
                 </widget>
             </vbox>
@@ -170,7 +181,7 @@
             </property>
             <property>
                 <name>text</name>
-                <string>Use systems fonts</string>
+                <string>&amp;Use systems fonts</string>
             </property>
         </widget>
         <widget>
