@@ -14,6 +14,7 @@ Add history exporting to text files
 Add UV-Intesity, Moonphases to Weather Plugin
 Fix to big value for temperature in Weather Plugin
 Fix Loading History
+Fix compile KDE3.4
 
 Version 0.9.3
 Add LiveJournal plugin
