@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
-"POT-Creation-Date: 2003-10-20 12:11+0400\n"
+"POT-Creation-Date: 2003-10-22 10:51+0400\n"
 "PO-Revision-Date: 2003-02-04 03:03+0200\n"
 "Last-Translator: Amir Tal <tal@whatsup.org.il>\n"
 "Language-Team: Hebrew <kde-il@yahoogroups.com>\n"
@@ -144,7 +144,7 @@ msgstr "&ביטול"
 
 #: plugins/_core/cfgdlg.cpp:469 plugins/_core/cfgdlgbase.cc:122
 #: plugins/_core/cfgdlgbase.cpp:122 plugins/_core/core.cpp:411
-#: plugins/_core/core.cpp:958 plugins/_core/core.cpp:1040
+#: plugins/_core/core.cpp:974 plugins/_core/core.cpp:1056
 msgid "Setup"
 msgstr "הגדרות"
 
@@ -250,29 +250,29 @@ msgstr "הודעה"
 msgid "Contact"
 msgstr "רשימת קשר נשלחה"
 
-#: plugins/_core/core.cpp:494 plugins/_core/core.cpp:992
+#: plugins/_core/core.cpp:494 plugins/_core/core.cpp:1008
 #, fuzzy
 msgid "Group"
 msgstr "קבוצה:"
 
-#: plugins/_core/core.cpp:502 plugins/_core/core.cpp:1025
+#: plugins/_core/core.cpp:502 plugins/_core/core.cpp:1041
 #: plugins/icq/icq.cpp:565 plugins/jabber/jabber.cpp:337
 msgid "User &info"
 msgstr "מידע &משתמש"
 
-#: plugins/_core/core.cpp:509 plugins/_core/core.cpp:1033
+#: plugins/_core/core.cpp:509 plugins/_core/core.cpp:1049
 msgid "&History"
 msgstr "&היסטוריה"
 
-#: plugins/_core/core.cpp:516 plugins/_core/filetransfer.cpp:301
+#: plugins/_core/core.cpp:516 plugins/_core/filetransfer.cpp:310
 #: plugins/_core/managerbase.cc:110 plugins/_core/managerbase.cpp:110
 #: plugins/_core/toolsetupbase.cc:136 plugins/_core/toolsetupbase.cpp:136
-#: plugins/about/aboutdlgbase.cpp:153 plugins/icq/securedlg.cpp:92
+#: plugins/about/aboutdlgbase.cpp:156 plugins/icq/securedlg.cpp:92
 #: sim/api/simapi.cpp:410 sim/ui/qt3/i18n.cpp:287
 msgid "&Close"
 msgstr "&סגור"
 
-#: plugins/_core/core.cpp:550 plugins/_core/msgedit.cpp:888
+#: plugins/_core/core.cpp:550 plugins/_core/msgedit.cpp:923
 msgid "&Send"
 msgstr "של&ח"
 
@@ -286,11 +286,11 @@ msgstr "הו&ספת חיוך"
 msgid "Send in &translit"
 msgstr ""
 
-#: plugins/_core/core.cpp:575 plugins/_core/msgedit.cpp:227
+#: plugins/_core/core.cpp:575 plugins/_core/msgedit.cpp:256
 msgid "C&lose after send"
 msgstr "סגור לאחר שליחה"
 
-#: plugins/_core/core.cpp:583 plugins/_core/msgedit.cpp:877
+#: plugins/_core/core.cpp:583 plugins/_core/msgedit.cpp:912
 msgid "&Multiply send"
 msgstr "&שליחה מרובת משתמשים"
 
@@ -332,7 +332,7 @@ msgstr "בחר הכל"
 msgid "&Phone number"
 msgstr "הוסף מספר טלפון"
 
-#: plugins/_core/core.cpp:649 plugins/_core/msgedit.cpp:1286
+#: plugins/_core/core.cpp:649 plugins/_core/msgedit.cpp:1321
 msgid "&Next"
 msgstr "&הבא"
 
@@ -359,7 +359,7 @@ msgstr "&העמוד הבא"
 msgid "&Open message"
 msgstr "שלח הודעה"
 
-#: plugins/_core/core.cpp:761 plugins/_core/core.cpp:825
+#: plugins/_core/core.cpp:761 plugins/_core/core.cpp:841
 #: plugins/netmonitor/monitor.cpp:67 sim/ui/qt3/qtextedit.cpp:4006
 msgid "&Copy"
 msgstr "הע&תק"
@@ -368,102 +368,102 @@ msgstr "הע&תק"
 msgid "&Quote"
 msgstr "&ציטוט"
 
-#: plugins/_core/core.cpp:777 plugins/forward/forward.cpp:65
+#: plugins/_core/core.cpp:784 plugins/forward/forward.cpp:65
 msgid "&Forward"
 msgstr "קד&ימה"
 
-#: plugins/_core/core.cpp:783
+#: plugins/_core/core.cpp:799
 #, fuzzy
 msgid "&Answer"
 msgstr "הע&ברה"
 
-#: plugins/_core/core.cpp:798 sim/ui/qt3/qtextedit.cpp:3999
+#: plugins/_core/core.cpp:814 sim/ui/qt3/qtextedit.cpp:3999
 #, fuzzy
 msgid "&Undo"
 msgstr "בטל"
 
-#: plugins/_core/core.cpp:809 sim/ui/qt3/qtextedit.cpp:4000
+#: plugins/_core/core.cpp:825 sim/ui/qt3/qtextedit.cpp:4000
 #, fuzzy
 msgid "&Redo"
 msgstr "בצע שוב"
 
-#: plugins/_core/core.cpp:817 sim/ui/qt3/qtextedit.cpp:4005
+#: plugins/_core/core.cpp:833 sim/ui/qt3/qtextedit.cpp:4005
 #, fuzzy
 msgid "Cu&t"
 msgstr "גזור"
 
-#: plugins/_core/core.cpp:833 sim/ui/qt3/qtextedit.cpp:4008
+#: plugins/_core/core.cpp:849 sim/ui/qt3/qtextedit.cpp:4008
 #, fuzzy
 msgid "&Paste"
 msgstr "הדבק"
 
-#: plugins/_core/core.cpp:841 sim/ui/qt3/i18n.cpp:255
+#: plugins/_core/core.cpp:857 sim/ui/qt3/i18n.cpp:255
 #: sim/ui/qt3/qtextedit.cpp:4011
 msgid "Clear"
 msgstr "נקה"
 
-#: plugins/_core/core.cpp:849 sim/ui/qt3/i18n.cpp:257
+#: plugins/_core/core.cpp:865 sim/ui/qt3/i18n.cpp:257
 #: sim/ui/qt3/qtextedit.cpp:4015 sim/ui/qt3/qtextedit.cpp:4017
 msgid "Select All"
 msgstr "בחר הכל"
 
-#: plugins/_core/core.cpp:856
+#: plugins/_core/core.cpp:872
 #, fuzzy
 msgid "&Messages"
 msgstr "&הודעה"
 
-#: plugins/_core/core.cpp:865 plugins/_core/msgedit.cpp:1436
+#: plugins/_core/core.cpp:881 plugins/_core/msgedit.cpp:1471
 #, fuzzy
 msgid "&SMS"
 msgstr "SMS"
 
-#: plugins/_core/core.cpp:873 plugins/_core/core.cpp:904
+#: plugins/_core/core.cpp:889 plugins/_core/core.cpp:920
 msgid "Show &offline"
 msgstr "הצג &לא מקוון"
 
-#: plugins/_core/core.cpp:885
+#: plugins/_core/core.cpp:901
 #, fuzzy
 msgid "&No show groups"
 msgstr "קבוצה חדשה"
 
-#: plugins/_core/core.cpp:895
+#: plugins/_core/core.cpp:911
 #, fuzzy
 msgid "Group mode 1"
 msgstr "מצב &קבוצה"
 
-#: plugins/_core/core.cpp:900
+#: plugins/_core/core.cpp:916
 #, fuzzy
 msgid "Group mode 2"
 msgstr "מצב &קבוצה"
 
-#: plugins/_core/core.cpp:911
+#: plugins/_core/core.cpp:927
 #, fuzzy
 msgid "&Create group"
 msgstr "צור קבוצה"
 
-#: plugins/_core/core.cpp:922
+#: plugins/_core/core.cpp:938
 #, fuzzy
 msgid "&Rename group"
 msgstr "צור קבוצה"
 
-#: plugins/_core/core.cpp:929
+#: plugins/_core/core.cpp:945
 #, fuzzy
 msgid "&Delete group"
 msgstr "צור קבוצה"
 
-#: plugins/_core/core.cpp:936
+#: plugins/_core/core.cpp:952
 msgid "Up"
 msgstr "למעלה "
 
-#: plugins/_core/core.cpp:943
+#: plugins/_core/core.cpp:959
 msgid "Down"
 msgstr "למטה"
 
-#: plugins/_core/core.cpp:1000 sim/ui/qt3/i18n.cpp:97
+#: plugins/_core/core.cpp:1016 sim/ui/qt3/i18n.cpp:97
 msgid "&Rename"
 msgstr "&שנה שם"
 
-#: plugins/_core/core.cpp:1009 plugins/_core/logindlgbase.cc:118
+#: plugins/_core/core.cpp:1025 plugins/_core/logindlgbase.cc:118
 #: plugins/_core/logindlgbase.cpp:129 plugins/_core/maininfobase.cc:237
 #: plugins/_core/maininfobase.cc:247 plugins/_core/maininfobase.cpp:237
 #: plugins/_core/maininfobase.cpp:247 sim/ui/listview.cpp:37
@@ -471,130 +471,130 @@ msgstr "&שנה שם"
 msgid "&Delete"
 msgstr "&מחק"
 
-#: plugins/_core/core.cpp:1017
+#: plugins/_core/core.cpp:1033
 msgid "Show &always"
 msgstr ""
 
-#: plugins/_core/core.cpp:1047
+#: plugins/_core/core.cpp:1063
 msgid "To container"
 msgstr "אל קונטיינר"
 
-#: plugins/_core/core.cpp:1072
+#: plugins/_core/core.cpp:1088
 #, fuzzy
 msgid "&Location"
 msgstr "&עיסוק"
 
-#: plugins/_core/core.cpp:1080 plugins/icq/aiminfobase.cc:305
+#: plugins/_core/core.cpp:1096 plugins/icq/aiminfobase.cc:305
 #: plugins/icq/icqinfobase.cc:319 plugins/jabber/jabberinfobase.cpp:219
 #: plugins/msn/msninfobase.cpp:167
 msgid "&Status"
 msgstr "&מצב"
 
-#: plugins/_core/core.cpp:1087
+#: plugins/_core/core.cpp:1103
 #, fuzzy
 msgid "&Phone book"
 msgstr "ספר טלפונים"
 
-#: plugins/_core/core.cpp:1094
+#: plugins/_core/core.cpp:1110
 #, fuzzy
 msgid "&No show"
 msgstr "קבוצה חדשה"
 
-#: plugins/_core/core.cpp:1101
+#: plugins/_core/core.cpp:1117
 #, fuzzy
 msgid "&Available"
 msgstr "זמין"
 
-#: plugins/_core/core.cpp:1109
+#: plugins/_core/core.cpp:1125
 #, fuzzy
 msgid "&Busy"
 msgstr "תפוס"
 
-#: plugins/_core/core.cpp:1125
+#: plugins/_core/core.cpp:1141
 msgid "Decline file without reason"
 msgstr "דחה קובץ ללא סיבה"
 
-#: plugins/_core/core.cpp:1133 plugins/_core/core.cpp:2580
+#: plugins/_core/core.cpp:1149 plugins/_core/core.cpp:2597
 msgid "Sorry, I'm busy right now, and can not respond to your request"
 msgstr ""
 "צר לי, אך אני עסוק כרגע, ולא יכול להגיב "
 "לבקשתך..."
 
-#: plugins/_core/core.cpp:1138 plugins/_core/core.cpp:2589
+#: plugins/_core/core.cpp:1154 plugins/_core/core.cpp:2606
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
 msgstr ""
 "צר לי, אני עסוק עכשיו, אבל אוכל להגיב "
 "לבקשתך מאוחר יותר"
 
-#: plugins/_core/core.cpp:1143
+#: plugins/_core/core.cpp:1159
 msgid "Enter a decline reason"
 msgstr "הכנס סיבת דחייה"
 
-#: plugins/_core/core.cpp:1854
+#: plugins/_core/core.cpp:1871
 #, fuzzy
 msgid "&Separate"
 msgstr "מפריד"
 
-#: plugins/_core/core.cpp:1892 plugins/_core/userwnd.cpp:124
+#: plugins/_core/core.cpp:1909 plugins/_core/userwnd.cpp:124
 #, fuzzy, c-format
 msgid "from %1"
 msgstr "%1 מ %2"
 
-#: plugins/_core/core.cpp:1967
+#: plugins/_core/core.cpp:1984
 #, fuzzy
 msgid "&New"
 msgstr "חדש"
 
-#: plugins/_core/core.cpp:2044
+#: plugins/_core/core.cpp:2061
 #, fuzzy
 msgid "Not available"
 msgstr "זמין"
 
-#: plugins/_core/core.cpp:2143 plugins/dock/dockwnd.cpp:1159
+#: plugins/_core/core.cpp:2160 plugins/dock/dockwnd.cpp:1159
 #: plugins/osd/osd.cpp:324
 msgid "%1 from %2"
 msgstr "%1 מ %2"
 
-#: plugins/_core/core.cpp:2278
+#: plugins/_core/core.cpp:2295
 msgid "%1 wrote:"
 msgstr ""
 
-#: plugins/_core/core.cpp:2366
+#: plugins/_core/core.cpp:2383
 msgid "Send SMS"
 msgstr "שלח SMS"
 
-#: plugins/_core/core.cpp:3304 plugins/_core/core.cpp:3326
+#: plugins/_core/core.cpp:3321 plugins/_core/core.cpp:3343
 #: plugins/_core/managerbase.cc:103 plugins/_core/managerbase.cpp:103
 #, fuzzy
 msgid "Connection manager"
 msgstr "מתחבר"
 
-#: plugins/_core/core.cpp:3312
+#: plugins/_core/core.cpp:3329
 #, fuzzy
 msgid "Show status panel"
 msgstr "מצב טלפון"
 
-#: plugins/_core/core.cpp:3319
+#: plugins/_core/core.cpp:3336
 #, fuzzy
 msgid "Connections"
 msgstr "חיבור"
 
-#: plugins/_core/core.cpp:3334
+#: plugins/_core/core.cpp:3351
 #, fuzzy
 msgid "Change profile"
 msgstr "הקובץ"
 
-#: plugins/_core/core.cpp:3363
+#: plugins/_core/core.cpp:3380
 #, fuzzy
 msgid "Common status"
 msgstr "קבע מצב"
 
-#: plugins/_core/core.cpp:3369
+#: plugins/_core/core.cpp:3386
 #, fuzzy
 msgid "Configure client"
 msgstr "לקוח ICQ"
 
-#: plugins/_core/core.cpp:3393 plugins/_core/status.cpp:152
+#: plugins/_core/core.cpp:3410 plugins/_core/status.cpp:152
 #: plugins/_core/status.cpp:220
 #, fuzzy
 msgid "&Invisible"
@@ -642,63 +642,63 @@ msgstr "קובץ %1 קיים"
 msgid "Can't create: %1"
 msgstr "אירעה שגיאה ביצירת הקובץ %1"
 
-#: plugins/_core/filetransfer.cpp:171
-#, fuzzy
-msgid "Receive file"
+#: plugins/_core/filetransfer.cpp:178
+#, fuzzy, c-format
+msgid "Receive file from %1"
 msgstr "בחר הכל"
 
-#: plugins/_core/filetransfer.cpp:171
-#, fuzzy
-msgid "Send file"
+#: plugins/_core/filetransfer.cpp:179
+#, fuzzy, c-format
+msgid "Send file to %1"
 msgstr "השליחה נכשלה"
 
-#: plugins/_core/filetransfer.cpp:224
+#: plugins/_core/filetransfer.cpp:232
 #, fuzzy
 msgid "Listen"
 msgstr "סגנון חיים"
 
-#: plugins/_core/filetransfer.cpp:227
+#: plugins/_core/filetransfer.cpp:235
 #, fuzzy
 msgid "Connect"
 msgstr "חיבור"
 
-#: plugins/_core/filetransfer.cpp:230
+#: plugins/_core/filetransfer.cpp:238
 msgid "Negotiation"
 msgstr ""
 
-#: plugins/_core/filetransfer.cpp:233
+#: plugins/_core/filetransfer.cpp:241
 msgid "Receive"
 msgstr ""
 
-#: plugins/_core/filetransfer.cpp:237
+#: plugins/_core/filetransfer.cpp:245
 #, fuzzy
 msgid "Send"
 msgstr "של&ח"
 
-#: plugins/_core/filetransfer.cpp:241
+#: plugins/_core/filetransfer.cpp:249
 #, fuzzy
 msgid "Transfer done"
 msgstr "העברת קבצים הסתיימה:"
 
-#: plugins/_core/filetransfer.cpp:312
+#: plugins/_core/filetransfer.cpp:321
 #, fuzzy
 msgid "Transfer failed"
 msgstr "העברה החלה"
 
-#: plugins/_core/filetransfer.cpp:381
+#: plugins/_core/filetransfer.cpp:390
 #, fuzzy
 msgid "Stalled"
 msgstr "סגנון"
 
-#: plugins/_core/filetransfer.cpp:393
+#: plugins/_core/filetransfer.cpp:402
 msgid "Mb/s"
 msgstr ""
 
-#: plugins/_core/filetransfer.cpp:396
+#: plugins/_core/filetransfer.cpp:405
 msgid "kb/s"
 msgstr ""
 
-#: plugins/_core/filetransfer.cpp:399
+#: plugins/_core/filetransfer.cpp:408
 msgid "b/s"
 msgstr ""
 
@@ -912,7 +912,7 @@ msgstr "המשתמש זמין כרגע ב:"
 msgid "Yes"
 msgstr "כן"
 
-#: plugins/_core/msgedit.cpp:397 plugins/update/update.cpp:103
+#: plugins/_core/msgedit.cpp:432 plugins/update/update.cpp:103
 #, c-format
 msgid ""
 "_n: Message\n"
@@ -921,7 +921,7 @@ msgstr ""
 "Message\n"
 "%n messages"
 
-#: plugins/_core/msgedit.cpp:423
+#: plugins/_core/msgedit.cpp:458
 #, fuzzy, c-format
 msgid ""
 "_n: SMS\n"
@@ -930,7 +930,7 @@ msgstr ""
 "SMS\n"
 "%n SMS"
 
-#: plugins/_core/msgedit.cpp:470
+#: plugins/_core/msgedit.cpp:505
 #, c-format
 msgid ""
 "_n: File\n"
@@ -939,15 +939,15 @@ msgstr ""
 "File\n"
 "%n files"
 
-#: plugins/_core/msgedit.cpp:477
+#: plugins/_core/msgedit.cpp:512
 msgid "&Accept"
 msgstr "&קבל"
 
-#: plugins/_core/msgedit.cpp:492
+#: plugins/_core/msgedit.cpp:527
 msgid "&Decline"
 msgstr "&דחה"
 
-#: plugins/_core/msgedit.cpp:545
+#: plugins/_core/msgedit.cpp:580
 #, fuzzy, c-format
 msgid ""
 "_n: Authorize request\n"
@@ -956,15 +956,15 @@ msgstr ""
 "Authorization request\n"
 "%n authorization requests"
 
-#: plugins/_core/msgedit.cpp:552
+#: plugins/_core/msgedit.cpp:587
 msgid "&Grant"
 msgstr "&אשר"
 
-#: plugins/_core/msgedit.cpp:567
+#: plugins/_core/msgedit.cpp:602
 msgid "&Refuse"
 msgstr "&סרב"
 
-#: plugins/_core/msgedit.cpp:615
+#: plugins/_core/msgedit.cpp:650
 #, fuzzy, c-format
 msgid ""
 "_n: Authorization granted\n"
@@ -973,7 +973,7 @@ msgstr ""
 "Authorization granted\n"
 "%n authorizations granted"
 
-#: plugins/_core/msgedit.cpp:636
+#: plugins/_core/msgedit.cpp:671
 #, fuzzy, c-format
 msgid ""
 "_n: Authorization refused\n"
@@ -982,7 +982,7 @@ msgstr ""
 "Authorization refused\n"
 "%n authorizations refused"
 
-#: plugins/_core/msgedit.cpp:657
+#: plugins/_core/msgedit.cpp:692
 #, fuzzy, c-format
 msgid ""
 "_n: Add to contacts\n"
@@ -991,7 +991,7 @@ msgstr ""
 "Added to contact list\n"
 "%n times added to contact list"
 
-#: plugins/_core/msgedit.cpp:678
+#: plugins/_core/msgedit.cpp:713
 #, fuzzy, c-format
 msgid ""
 "_n: Removed from contacts\n"
@@ -1000,7 +1000,7 @@ msgstr ""
 "Added to contact list\n"
 "%n times added to contact list"
 
-#: plugins/_core/msgedit.cpp:699
+#: plugins/_core/msgedit.cpp:734
 #, fuzzy, c-format
 msgid ""
 "_n: Status changed\n"
@@ -1009,47 +1009,47 @@ msgstr ""
 "Close secure channel\n"
 "%n times close secure channel"
 
-#: plugins/_core/msgedit.cpp:800 sim/ui/qt3/i18n.cpp:23
+#: plugins/_core/msgedit.cpp:835 sim/ui/qt3/i18n.cpp:23
 msgid "Cancel"
 msgstr "ביטול"
 
-#: plugins/_core/msgedit.cpp:865
+#: plugins/_core/msgedit.cpp:900
 msgid "No such client for send message"
 msgstr ""
 
-#: plugins/_core/msgedit.cpp:1417 plugins/icq/icq.cpp:555
+#: plugins/_core/msgedit.cpp:1452 plugins/icq/icq.cpp:555
 #: plugins/jabber/jabber.cpp:328
 msgid "&Message"
 msgstr "&הודעה"
 
-#: plugins/_core/msgedit.cpp:1427 plugins/netmonitor/monitor.cpp:64
+#: plugins/_core/msgedit.cpp:1462 plugins/netmonitor/monitor.cpp:64
 msgid "&File"
 msgstr "&קובץ"
 
-#: plugins/_core/msgedit.cpp:1445
+#: plugins/_core/msgedit.cpp:1480
 #, fuzzy
 msgid "&Authorization request"
 msgstr "בקשת אימות זהות"
 
-#: plugins/_core/msgedit.cpp:1454
+#: plugins/_core/msgedit.cpp:1489
 #, fuzzy
 msgid "&Grant autorization"
 msgstr "ה&תעלם מאישור משתמש"
 
-#: plugins/_core/msgedit.cpp:1463
+#: plugins/_core/msgedit.cpp:1498
 #, fuzzy
 msgid "&Refuse autorization"
 msgstr "ה&תעלם מאישור משתמש"
 
-#: plugins/_core/msgsms.cpp:161
+#: plugins/_core/msgsms.cpp:164
 msgid "Size: %1 / Max. size: %2"
 msgstr "גודל: %1 / מקס'. גודל: %2"
 
-#: plugins/_core/msgsms.cpp:165
+#: plugins/_core/msgsms.cpp:168
 msgid "Message will be split"
 msgstr "ההודעה תפוצל"
 
-#: plugins/_core/msgsms.cpp:294
+#: plugins/_core/msgsms.cpp:299
 #, fuzzy
 msgid "Save phone in contact list"
 msgstr "התווסף לרשימת אנשי קשר"
@@ -1147,7 +1147,7 @@ msgstr "שולח"
 #: plugins/icq/icq.cpp:281 plugins/icq/icqclient.cpp:1482
 #: plugins/icq/icqclient.cpp:1516 plugins/jabber/jabber.cpp:106
 #: plugins/jabber/jabberclient.cpp:1084 plugins/jabber/services.cpp:234
-#: plugins/msn/msn.cpp:89 plugins/msn/msnclient.cpp:1520
+#: plugins/msn/msn.cpp:89 plugins/msn/msnclient.cpp:1521
 msgid "Online"
 msgstr "מקוון"
 
@@ -1773,7 +1773,7 @@ msgstr "סיבת דחייה"
 msgid "Enter decline reason:"
 msgstr "הכנס סיבת דחייה"
 
-#: plugins/about/about.cpp:38 plugins/about/aboutdlgbase.cpp:149
+#: plugins/about/about.cpp:38 plugins/about/aboutdlgbase.cpp:152
 msgid "About"
 msgstr "אודות"
 
@@ -1818,19 +1818,19 @@ msgstr "דיווח על באג"
 msgid "Note: This is english mailing list"
 msgstr ""
 
-#: plugins/about/aboutdlgbase.cpp:146
+#: plugins/about/aboutdlgbase.cpp:149
 msgid "About SIM"
 msgstr "אודות SIM"
 
-#: plugins/about/aboutdlgbase.cpp:150
+#: plugins/about/aboutdlgbase.cpp:153
 msgid "Authors"
 msgstr "כותבים"
 
-#: plugins/about/aboutdlgbase.cpp:151
+#: plugins/about/aboutdlgbase.cpp:154
 msgid "Translation"
 msgstr "תרגום"
 
-#: plugins/about/aboutdlgbase.cpp:152
+#: plugins/about/aboutdlgbase.cpp:155
 msgid "License"
 msgstr "רישיון"
 
@@ -1998,7 +1998,7 @@ msgstr "רשימת התעלמות"
 msgid "Add %1 to ignore list?"
 msgstr "הוסף %1 לרשימת ההתעלמות?"
 
-#: plugins/filter/ignorelist.cpp:27 plugins/icq/icqmessage.cpp:1269
+#: plugins/filter/ignorelist.cpp:27 plugins/icq/icqmessage.cpp:1274
 #: plugins/icq/icqsecure.cpp:126 plugins/icq/searchresult.cpp:128
 #: sim/ui/qt3/i18n.cpp:39
 msgid "Name"
@@ -2138,58 +2138,58 @@ msgstr ""
 msgid "Smiles:"
 msgstr "קובץ"
 
-#: plugins/icq/icqclient.cpp:687 plugins/icq/icqicmb.cpp:83
-#: plugins/icq/icqicmb.cpp:176
+#: plugins/icq/icqclient.cpp:687 plugins/icq/icqicmb.cpp:80
+#: plugins/icq/icqicmb.cpp:173
 #, fuzzy
 msgid "Unknown error"
 msgstr "שגיאת כניסה לא ידועה"
 
-#: plugins/icq/icqclient.cpp:696 plugins/icq/icqicmb.cpp:85
+#: plugins/icq/icqclient.cpp:696 plugins/icq/icqicmb.cpp:82
 msgid "Not supported by client"
 msgstr ""
 
-#: plugins/icq/icqicmb.cpp:161
+#: plugins/icq/icqicmb.cpp:158
 #, fuzzy
 msgid "Invalid message"
 msgstr "open upread message"
 
-#: plugins/icq/icqicmb.cpp:164
+#: plugins/icq/icqicmb.cpp:161
 msgid "Message was too large"
 msgstr ""
 
-#: plugins/icq/icqicmb.cpp:167
+#: plugins/icq/icqicmb.cpp:164
 msgid "Message rate exceeded"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:704 plugins/icq/icqicmb.cpp:170
+#: plugins/icq/icqclient.cpp:704 plugins/icq/icqicmb.cpp:167
 msgid "Sender too evil"
 msgstr ""
 
-#: plugins/icq/icqicmb.cpp:173
+#: plugins/icq/icqicmb.cpp:170
 msgid "We are to evil :("
 msgstr ""
 
-#: plugins/icq/icqicmb.cpp:643 plugins/msn/msnclient.cpp:2085
+#: plugins/icq/icqicmb.cpp:647 plugins/msn/msnclient.cpp:2086
 #, fuzzy
 msgid "Message declined"
 msgstr "ההודעה נשלחה"
 
-#: plugins/icq/icqicmb.cpp:709 plugins/icq/icqicmb.cpp:717
+#: plugins/icq/icqicmb.cpp:713 plugins/icq/icqicmb.cpp:721
 #: plugins/icq/icqvarious.cpp:1616
 msgid "Client go offline"
 msgstr ""
 
-#: plugins/icq/icqicmb.cpp:1015 plugins/icq/warndlg.cpp:66
+#: plugins/icq/icqicmb.cpp:1019 plugins/icq/warndlg.cpp:66
 #, fuzzy
 msgid "Send fail"
 msgstr "השליחה נכשלה"
 
-#: plugins/icq/icqicmb.cpp:1094
+#: plugins/icq/icqicmb.cpp:1098
 #, fuzzy
 msgid "Send timeout"
 msgstr "קו &חוצה"
 
-#: plugins/icq/icqicmb.cpp:1118
+#: plugins/icq/icqicmb.cpp:1122
 #, fuzzy
 msgid "No contact"
 msgstr "הוסף משתמש שאינו לקוח מסרים מידיים"
@@ -2258,7 +2258,7 @@ msgstr "קבע מצב לא נראה"
 msgid "Connect to unknown port"
 msgstr "מחובר למארח"
 
-#: plugins/icq/icqdirect.cpp:223 plugins/msn/msnclient.cpp:2391
+#: plugins/icq/icqdirect.cpp:223 plugins/msn/msnclient.cpp:2387
 #, fuzzy
 msgid "Can't established direct connection"
 msgstr "קישור ישיר"
@@ -2327,7 +2327,7 @@ msgstr "קבע מצב לא נראה"
 
 #: plugins/icq/aiminfo.cpp:166 plugins/icq/icqclient.cpp:1509
 #: plugins/icq/icqinfo.cpp:229 plugins/jabber/jabberclient.cpp:1077
-#: plugins/jabber/jabberinfo.cpp:103 plugins/msn/msnclient.cpp:1513
+#: plugins/jabber/jabberinfo.cpp:103 plugins/msn/msnclient.cpp:1514
 #: plugins/msn/msninfo.cpp:88
 msgid "Last online"
 msgstr "מקוון בפעם האחרונה"
@@ -2451,60 +2451,60 @@ msgstr ""
 "Contacts request\n"
 "%n contacts requests"
 
-#: plugins/icq/icqmessage.cpp:1265 plugins/icq/icqsearchbase.cc:339
+#: plugins/icq/icqmessage.cpp:1270 plugins/icq/icqsearchbase.cc:339
 #: plugins/icq/icqsecure.cpp:124
 msgid "UIN"
 msgstr "UIN"
 
-#: plugins/icq/icqmessage.cpp:1267 plugins/icq/searchresult.cpp:127
+#: plugins/icq/icqmessage.cpp:1272 plugins/icq/searchresult.cpp:127
 msgid "Alias"
 msgstr "כינוי "
 
-#: plugins/icq/icqmessage.cpp:1270 plugins/jabber/addresult.cpp:33
+#: plugins/icq/icqmessage.cpp:1275 plugins/jabber/addresult.cpp:33
 #: plugins/jabber/jabbersearch.cpp:175
 msgid "Email"
 msgstr "דוא\"ל"
 
-#: plugins/icq/icqmessage.cpp:1431 plugins/icq/icqmessage.cpp:1536
+#: plugins/icq/icqmessage.cpp:1438 plugins/icq/icqmessage.cpp:1543
 #, fuzzy
 msgid "&URL"
 msgstr "כתובת:"
 
-#: plugins/icq/icqmessage.cpp:1441
+#: plugins/icq/icqmessage.cpp:1448
 #, fuzzy
 msgid "&Contact list"
 msgstr "רשימת קשר נשלחה"
 
-#: plugins/icq/icqmessage.cpp:1465
+#: plugins/icq/icqmessage.cpp:1472
 #, fuzzy
 msgid "Contact Request"
 msgstr "בקשת איש קשר"
 
-#: plugins/icq/icqmessage.cpp:1494
+#: plugins/icq/icqmessage.cpp:1501
 msgid "Web panel"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:1501
+#: plugins/icq/icqmessage.cpp:1508
 #, fuzzy
 msgid "Email pager"
 msgstr "כתובות דוא\"ל:"
 
-#: plugins/icq/icqmessage.cpp:1508
+#: plugins/icq/icqmessage.cpp:1515
 #, fuzzy
 msgid "Request secure channel"
 msgstr "בקש פרטי משתמש"
 
-#: plugins/icq/icqmessage.cpp:1515
+#: plugins/icq/icqmessage.cpp:1522
 #, fuzzy
 msgid "Close secure channel"
 msgstr "בקש פרטי משתמש"
 
-#: plugins/icq/icqmessage.cpp:1522
+#: plugins/icq/icqmessage.cpp:1529
 #, fuzzy
 msgid "Check invisible"
 msgstr "לא נראה"
 
-#: plugins/icq/icqmessage.cpp:1529 plugins/logger/logconfig.cpp:79
+#: plugins/icq/icqmessage.cpp:1536 plugins/logger/logconfig.cpp:79
 #, fuzzy
 msgid "Warning"
 msgstr "&אזהרות"
@@ -4030,12 +4030,12 @@ msgstr ""
 msgid "Jabber"
 msgstr ""
 
-#: plugins/jabber/jabber_rosters.cpp:1356
+#: plugins/jabber/jabber_rosters.cpp:1366
 #, fuzzy
 msgid "Password does not match"
 msgstr "הסיסמא לאישור אינה תואמת"
 
-#: plugins/jabber/jabber_rosters.cpp:1357
+#: plugins/jabber/jabber_rosters.cpp:1367
 #, fuzzy
 msgid "Low level network error"
 msgstr "צג רשת"
@@ -4376,22 +4376,22 @@ msgstr "בחירת צבע"
 msgid "Youur account is being used from another location"
 msgstr "מספר ה UIN שלך נמצא בשימוש במקום אחר"
 
-#: plugins/msn/msnclient.cpp:1581 plugins/msn/msnclient.cpp:1589
+#: plugins/msn/msnclient.cpp:1582 plugins/msn/msnclient.cpp:1590
 #, fuzzy
 msgid "Contact go offline"
 msgstr "Contact - left"
 
-#: plugins/msn/msnclient.cpp:1783
+#: plugins/msn/msnclient.cpp:1784
 #, fuzzy
 msgid "Send message failed"
 msgstr "שלח &הודעה"
 
-#: plugins/msn/msnclient.cpp:2422
+#: plugins/msn/msnclient.cpp:2421
 #, fuzzy
 msgid "Transfer canceled"
 msgstr "העברה החלה"
 
-#: plugins/msn/msnclient.cpp:2601
+#: plugins/msn/msnclient.cpp:2588
 #, fuzzy
 msgid "File transfer failed"
 msgstr "File transfer acked"
