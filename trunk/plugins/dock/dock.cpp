@@ -37,7 +37,7 @@
 #include <kwin.h>
 #endif
 
-Plugin *createDockPlugin(unsigned base, bool, const char *config)
+Plugin *createDockPlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new DockPlugin(base, config);
     return plugin;
@@ -86,7 +86,7 @@ static DataDef dockData[] =
         { NULL, 0, 0, 0 }
     };
 
-DockPlugin::DockPlugin(unsigned base, const char *config)
+DockPlugin::DockPlugin(unsigned base, Buffer *config)
         : Plugin(base)
 {
     load_data(dockData, &data, config);

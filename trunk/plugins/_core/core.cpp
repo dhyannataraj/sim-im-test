@@ -57,6 +57,7 @@
 #include <qdir.h>
 #include <qpopupmenu.h>
 #include <qthread.h>
+#include <qtextcodec.h>
 
 #include <time.h>
 
@@ -96,7 +97,7 @@ protected:
 #endif
 };
 
-Plugin *createCorePlugin(unsigned base, bool, const char *config)
+Plugin *createCorePlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new CorePlugin(base, config);
     return plugin;
@@ -198,55 +199,6 @@ QTranslatorMessage SIMTranslator::findMessage(const char* context,
 }
 
 #endif
-
-static ENCODING _encodingTbl[] =
-    {
-        { I18N_NOOP("Unicode"), "UTF-8", 106, 0, 65001, true },
-
-        { I18N_NOOP("Arabic"), "ISO 8859-6", 82, 180, 28596, false },
-        { I18N_NOOP("Arabic"), "CP 1256", 2256, 180, 1256, true },
-
-        { I18N_NOOP("Baltic"), "ISO 8859-13", 109, 186, 28594, false },
-        { I18N_NOOP("Baltic"), "CP 1257", 2257, 186, 1257, true },
-
-        { I18N_NOOP("Central European"), "ISO 8859-2", 5, 238, 28592, false },
-        { I18N_NOOP("Esperanto"), "ISO 8859-3", 6, 238, 28593, false },
-        { I18N_NOOP("Central European"), "CP 1250", 2250, 238, 1250, true },
-
-        { I18N_NOOP("Chinese "), "GBK", 2025, 134, 0, false },
-        { I18N_NOOP("Chinese Simplified"), "gbk2312",2312, 134, 0, true },
-        { I18N_NOOP("Chinese Traditional"), "Big5",2026, 136, 0, true },
-
-        { I18N_NOOP("Cyrillic"), "ISO 8859-5", 8, 204, 28595, false },
-        { I18N_NOOP("Cyrillic"), "KOI8-R", 2084, 204, 1251, false },
-        { I18N_NOOP("Ukrainian"), "KOI8-U", 2088, 204, 1251, false },
-        { I18N_NOOP("Cyrillic"), "CP 1251", 2251, 204, 1251, true },
-
-        { I18N_NOOP("Greek"), "ISO 8859-7", 10, 161, 28597, false },
-        { I18N_NOOP("Greek"), "CP 1253", 2253, 161, 1253, true },
-
-        { I18N_NOOP("Hebrew"), "ISO 8859-8-I", 85, 177, 28598,  false },
-        { I18N_NOOP("Hebrew"), "CP 1255", 2255, 177, 1255, true },
-
-        { I18N_NOOP("Japanese"), "JIS7", 16, 128, 0, false },
-        { I18N_NOOP("Japanese"), "eucJP", 18, 128, 0, false },
-        { I18N_NOOP("Japanese"), "Shift-JIS", 17, 128, 0, true },
-
-        { I18N_NOOP("Korean"), "eucKR", 38, 0, 0, true },
-
-        { I18N_NOOP("Western European"), "ISO 8859-1", 4, 0, 28591, false },
-        { I18N_NOOP("Western European"), "ISO 8859-15", 111, 0, 28605, false },
-        { I18N_NOOP("Western European"), "CP 1252", 2252, 0, 1252, true },
-
-        { I18N_NOOP("Tamil"), "TSCII", 2028, 0, 0, true },
-
-        { I18N_NOOP("Thai"), "TIS-620", 2259, 222, 0, true },
-
-        { I18N_NOOP("Turkish"), "ISO 8859-9", 12, 162, 28599, false },
-        { I18N_NOOP("Turkish"), "CP 1254", 2254, 162, 1254, true },
-
-        { NULL, NULL, 0, 0, 0, false }
-    };
 
 /*
 typedef struct CoreData
@@ -358,7 +310,6 @@ static DataDef coreData[] =
         { "InvisibleStyle", DATA_ULONG, 1, DATA(4) },
         { "SmallGroupFont", DATA_BOOL, 1, DATA(1) },
         { "ShowAllEncodings", DATA_BOOL, 1, 0 },
-        { "DefaultEncoding", DATA_STRING, 1, 0 },
         { "ShowEmptyGroup", DATA_BOOL, 1, DATA(1) },
         { "NoJoinAlert", DATA_BOOL, 1, 0 },
         { "EnableSpell", DATA_BOOL, 1, 0 },
@@ -491,14 +442,13 @@ static autoReply autoReplies[] =
         { 0, NULL }
     };
 
-CorePlugin::CorePlugin(unsigned base, const char *config)
+CorePlugin::CorePlugin(unsigned base, Buffer *config)
         : Plugin(base), EventReceiver(HighPriority)
 {
     m_plugin = this;
     historyXSL = NULL;
     m_bIgnoreEvents = false;
     m_alert = NULL;
-    encodings = _encodingTbl;
 
     load_data(coreData, &data, config);
     time_t now;
@@ -560,6 +510,8 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     eMenuPhoneList.process();
     Event eMenuStatusWnd(EventMenuCreate, (void*)MenuStatusWnd);
     eMenuStatusWnd.process();
+    Event eMenuEncoding(EventMenuCreate, (void*)MenuEncoding);
+    eMenuEncoding.process();
 
     Command cmd;
     cmd->id          = CmdConfigure;
@@ -1384,6 +1336,38 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     cmd->icon		= NULL;
     cmd->menu_id	= MenuStatusWnd;
     eCmd.process();
+
+    cmd->id			 = CmdChangeEncoding;
+    cmd->text		 = "_";
+    cmd->menu_id	 = MenuEncoding;
+    cmd->menu_grp	 = 0x1000;
+    eCmd.process();
+
+    cmd->id			 = CmdAllEncodings;
+    cmd->text		 = I18N_NOOP("&Show all encodings");
+    cmd->menu_id	 = MenuEncoding;
+    cmd->menu_grp	 = 0x8000;
+    eCmd.process();
+
+    cmd->id			 = CmdChangeEncoding;
+    cmd->text		 = I18N_NOOP("Change &encoding");
+    cmd->icon		 = "encoding";
+    cmd->menu_id	 = 0;
+    cmd->menu_grp	 = 0;
+    cmd->bar_id		 = ToolBarContainer;
+    cmd->bar_grp	 = 0x8080;
+    cmd->popup_id	 = MenuEncoding;
+    eCmd.process();
+
+    cmd->id			 = CmdChangeEncoding;
+    cmd->text		 = I18N_NOOP("Change &encoding");
+    cmd->icon		 = "encoding";
+    cmd->menu_id	 = 0;
+    cmd->menu_grp	 = 0;
+    cmd->bar_id		 = BarHistory;
+    cmd->bar_grp	 = 0x8080;
+    cmd->popup_id	 = MenuEncoding;
+    eCmd.process();
 }
 
 void CorePlugin::initData()
@@ -1491,7 +1475,7 @@ void CorePlugin::installTranslator()
 #ifdef USE_KDE
         return;
 #else
-        char *p = getenv("LANG");
+char *p = getenv("LANG");
         if (p){
             for (; *p; p++){
                 if (*p == '.') break;
@@ -1620,6 +1604,11 @@ static const char *helpList[] =
         NULL,
     };
 
+#if 0
+I18N_NOOP("%1 wrote:", "male")
+I18N_NOOP("%1 wrote:", "female")
+#endif
+
 void *CorePlugin::processEvent(Event *e)
 {
     switch (e->type()){
@@ -1722,13 +1711,13 @@ void *CorePlugin::processEvent(Event *e)
             if (info->plugin == this){
                 string profile = getProfile();
                 free_data(coreData, &data);
-                load_data(coreData, &data, info->config);
+                load_data(coreData, &data, info->cfg);
                 time_t now;
                 time(&now);
                 setStatusTime(now);
-                if (info->config){
-                    free(info->config);
-                    info->config = NULL;
+                if (info->cfg){
+                    delete info->cfg;
+                    info->cfg = NULL;
                 }
                 setProfile(profile.c_str());
                 removeTranslator();
@@ -1753,7 +1742,7 @@ void *CorePlugin::processEvent(Event *e)
 #ifdef WIN32
             if ((fname[1] != ':') && (fname.left(2) != "\\\\"))
 #else
-            if (fname[0] != '/')
+if (fname[0] != '/')
 #endif
                 profile = getProfile();
             if (profile.length())
@@ -2184,6 +2173,78 @@ void *CorePlugin::processEvent(Event *e)
         }
     case EventCheckState:{
             CommandDef *cmd = (CommandDef*)(e->param());
+            if (cmd->menu_id == MenuEncoding){
+                if (cmd->id == CmdChangeEncoding){
+                    Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                    if (contact == NULL)
+                        return NULL;
+                    QTextCodec *codec = getContacts()->getCodec(contact);
+                    unsigned nEncoding = 3;
+                    QStringList main;
+                    QStringList nomain;
+                    QStringList::Iterator it;
+                    const ENCODING *enc;
+                    for (enc = getContacts()->getEncodings(); enc->language; enc++){
+                        if (enc->bMain){
+                            main.append(i18n(enc->language) + " (" + enc->codec + ")");
+                            nEncoding++;
+                            continue;
+                        }
+                        if (!getShowAllEncodings())
+                            continue;
+                        nomain.append(i18n(enc->language) + " (" + enc->codec + ")");
+                        nEncoding++;
+                    }
+                    CommandDef *cmds = new CommandDef[nEncoding];
+                    memset(cmds, 0, sizeof(CommandDef) * nEncoding);
+                    cmd->param = cmds;
+                    cmd->flags |= COMMAND_RECURSIVE;
+                    nEncoding = 0;
+                    cmds[nEncoding].id = 1;
+                    cmds[nEncoding].text = I18N_NOOP("System");
+                    if (!strcmp(codec->name(), "System"))
+                        cmds[nEncoding].flags = COMMAND_CHECKED;
+                    nEncoding++;
+                    main.sort();
+                    for (it = main.begin(); it != main.end(); ++it){
+                        QString str = *it;
+                        int n = str.find('(');
+                        str = str.mid(n + 1);
+                        n = str.find(')');
+                        str = str.left(n);
+                        if (str == codec->name())
+                            cmds[nEncoding].flags = COMMAND_CHECKED;
+                        cmds[nEncoding].id = nEncoding + 1;
+                        cmds[nEncoding].text = "_";
+                        cmds[nEncoding].text_wrk = strdup((*it).utf8());
+                        nEncoding++;
+                    }
+                    if (!getShowAllEncodings())
+                        return e->param();
+                    cmds[nEncoding++].text = "_";
+                    nomain.sort();
+                    for (it = nomain.begin(); it != nomain.end(); ++it){
+                        QString str = *it;
+                        int n = str.find('(');
+                        str = str.mid(n + 1);
+                        n = str.find(')');
+                        str = str.left(n);
+                        if (str == codec->name())
+                            cmds[nEncoding].flags = COMMAND_CHECKED;
+                        cmds[nEncoding].id = nEncoding;
+                        cmds[nEncoding].text = "_";
+                        cmds[nEncoding].text_wrk = strdup((*it).utf8());
+                        nEncoding++;
+                    }
+                    return e->param();
+                }
+                if (cmd->id == CmdAllEncodings){
+                    cmd->flags &= ~COMMAND_CHECKED;
+                    if (getShowAllEncodings())
+                        cmd->flags |= COMMAND_CHECKED;
+                    return e->param();
+                }
+            }
             if (cmd->id == CmdEnableSpell){
                 cmd->flags &= ~COMMAND_CHECKED;
                 if (getEnableSpell())
@@ -2764,6 +2825,75 @@ void *CorePlugin::processEvent(Event *e)
         }
     case EventCommandExec:{
             CommandDef *cmd = (CommandDef*)(e->param());
+            if (cmd->menu_id == MenuEncoding){
+                if (cmd->id == CmdAllEncodings){
+                    Command c;
+                    c->id     = CmdChangeEncoding;
+                    c->param  = cmd->param;
+                    Event eWidget(EventCommandWidget, c);
+                    QToolButton *btn = (QToolButton*)(eWidget.process());
+                    if (btn)
+                        QTimer::singleShot(0, btn, SLOT(animateClick()));
+                    setShowAllEncodings(!getShowAllEncodings());
+                    return e->param();
+                }
+                Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                if (contact == NULL)
+                    return NULL;
+                QCString codecStr;
+                const char *codec = NULL;
+                if (cmd->id == 1){
+                    codec = "-";
+                }else{
+                    QStringList main;
+                    QStringList nomain;
+                    QStringList::Iterator it;
+                    const ENCODING *enc;
+                    for (enc = getContacts()->getEncodings(); enc->language; enc++){
+                        if (enc->bMain){
+                            main.append(i18n(enc->language) + " (" + enc->codec + ")");
+                            continue;
+                        }
+                        if (!getShowAllEncodings())
+                            continue;
+                        nomain.append(i18n(enc->language) + " (" + enc->codec + ")");
+                    }
+                    QString str;
+                    main.sort();
+                    int n = cmd->id - 1;
+                    for (it = main.begin(); it != main.end(); ++it){
+                        if (--n == 0){
+                            str = *it;
+                            break;
+                        }
+                    }
+                    if (n >= 0){
+                        nomain.sort();
+                        for (it = nomain.begin(); it != nomain.end(); ++it){
+                            if (--n == 0){
+                                str = *it;
+                                break;
+                            }
+                        }
+                    }
+                    if (!str.isEmpty()){
+                        int n = str.find('(');
+                        str = str.mid(n + 1);
+                        n = str.find(')');
+                        codecStr = str.left(n).latin1();
+                        codec = codecStr;
+                    }
+                }
+                if (codec == NULL)
+                    return NULL;
+                if (contact->setEncoding(codec)){
+                    Event eContact(EventContactChanged, contact);
+                    eContact.process();
+                    Event eh(EventHistoryConfig, (void*)(contact->id()));
+                    eh.process();
+                }
+                return NULL;
+            }
             if (cmd->id == CmdEnableSpell){
                 setEnableSpell(cmd->flags & COMMAND_CHECKED);
                 return NULL;
@@ -2824,7 +2954,7 @@ void *CorePlugin::processEvent(Event *e)
                         Contact *contact = getContacts()->contact(msg->contact());
                         if (contact)
                             name = contact->getName();
-                        p = i18n("%1 wrote:") .arg(name) + "\n" + p;
+                        p = g_i18n("%1 wrote:", contact) .arg(name) + "\n" + p;
                         m->setFlags(MESSAGE_FORWARD);
                     }else{
                         m->setFlags(MESSAGE_INSERT);
@@ -3393,13 +3523,13 @@ void CorePlugin::changeProfile()
     Event eInfo(EventGetPluginInfo, (void*)"_core");
     pluginInfo *info = (pluginInfo*)(eInfo.process());
     free_data(coreData, &data);
-    load_data(coreData, &data, info->config);
+    load_data(coreData, &data, info->cfg);
     time_t now;
     time(&now);
     setStatusTime(now);
-    if (info->config){
-        free(info->config);
-        info->config = NULL;
+    if (info->cfg){
+        delete info->cfg;
+        info->cfg = NULL;
     }
     setProfile(saveProfile.c_str());
     removeTranslator();
@@ -3805,7 +3935,7 @@ void CorePlugin::clearUnread(unsigned contact_id)
     }
 }
 
-Message *CorePlugin::createMessage(const char *type, const char *cfg)
+Message *CorePlugin::createMessage(const char *type, Buffer *cfg)
 {
     MAP_TYPES::iterator itt = types.find(type);
     if (itt != types.end()){
@@ -3830,29 +3960,23 @@ void CorePlugin::loadClients(ClientList &clients)
         log(L_ERROR, "Can't open %s", cfgName.c_str());
         return;
     }
-    string client_name;
-    string cfg;
-    string s;
-    while (getLine(f, s)){
-        if (s[0] == '['){
-            Client *client = loadClient(client_name.c_str(), cfg.c_str());
-            if (client)
-                clients.push_back(client);
-            cfg = "";
-            s = s.substr(1);
-            client_name = getToken(s, ']');
-            continue;
-        }
-        if (cfg.length())
-            cfg += "\n";
-        cfg += s;
+    Buffer cfg;
+    cfg.init(f.size());
+    if (f.readBlock(cfg.data(), f.size()) < 0){
+        log(L_ERROR, "Can't read %s", cfgName.c_str());
+        return;
     }
-    Client *client = loadClient(client_name.c_str(), cfg.c_str());
-    if (client)
-        clients.push_back(client);
+    for (;;){
+        string section = cfg.getSection();
+        if (section.empty())
+            break;
+        Client *client = loadClient(section.c_str(), &cfg);
+        if (client)
+            clients.push_back(client);
+    }
 }
 
-Client *CorePlugin::loadClient(const char *name, const char *cfg)
+Client *CorePlugin::loadClient(const char *name, Buffer *cfg)
 {
     if ((name == NULL) || (*name == 0))
         return NULL;

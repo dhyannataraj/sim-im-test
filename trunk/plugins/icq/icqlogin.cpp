@@ -91,7 +91,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
             MD5_Init(&c);
             unsigned char md[MD5_DIGEST_LENGTH];
             MD5_Update(&c, md5_key.c_str(), md5_key.length());
-            string pswd = fromUnicode(getPassword(), &data.owner);
+            string pswd = getContacts()->fromUnicode(NULL, getPassword());
             MD5_Update(&c, pswd.c_str(), pswd.length());
             pswd = "AOL Instant Messenger (SM)";
             MD5_Update(&c, pswd.c_str(), pswd.length());
@@ -173,7 +173,7 @@ void ICQClient::chn_login()
     << 0x00000000L << 0x94680000L << 0x94680000L
     << 0x00000000L << 0x00000000L << 0x00000000L
     << 0x00000000L;
-    string pswd = fromUnicode(getPassword(), &data.owner);
+    string pswd = getContacts()->fromUnicode(NULL, getPassword());
     unsigned short len = (unsigned short)(pswd.length() + 1);
     msg.pack(len);
     msg.pack(pswd.c_str(), len);

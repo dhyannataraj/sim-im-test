@@ -31,7 +31,7 @@ class ReplacePlugin : public QObject, public Plugin
 {
     Q_OBJECT
 public:
-    ReplacePlugin(unsigned, const char *cfg);
+    ReplacePlugin(unsigned, Buffer *cfg);
     virtual ~ReplacePlugin();
     PROP_ULONG(Keys)
     PROP_UTFLIST(Key)

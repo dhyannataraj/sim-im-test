@@ -62,7 +62,7 @@ class JabberProtocol : public Protocol
 public:
     JabberProtocol(Plugin *plugin);
     ~JabberProtocol();
-    Client	*createClient(const char *cfg);
+    Client	*createClient(Buffer *cfg);
     const CommandDef *description();
     const CommandDef *statusList();
     virtual const DataDef *userDataDef();
@@ -79,7 +79,7 @@ typedef struct JabberData
 class JabberPlugin : public Plugin
 {
 public:
-    JabberPlugin(unsigned base, const char *cfg);
+    JabberPlugin(unsigned base, Buffer *cfg);
     virtual ~JabberPlugin();
     unsigned JabberPacket;
     void registerMessages();

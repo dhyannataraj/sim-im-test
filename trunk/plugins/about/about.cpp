@@ -27,7 +27,7 @@
 #endif
 #include <qtimer.h>
 
-Plugin *createAboutPlugin(unsigned base, bool, const char*)
+Plugin *createAboutPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new AboutPlugin(base);
     return plugin;

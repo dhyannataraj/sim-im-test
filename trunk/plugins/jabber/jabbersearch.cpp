@@ -223,10 +223,13 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
             }
         }
     }else{
+        unsigned start = 0;
+        unsigned nCols = 0;
+        unsigned nRows = 0;
         if (!m_widgets.empty()){
-            unsigned nCols = (m_widgets.size() + MAX_ELEMENTS - 1) / MAX_ELEMENTS;
-            unsigned nRows = (m_widgets.size() + nCols - 1) / nCols;
-            unsigned start = 0;
+            nCols = (m_widgets.size() + MAX_ELEMENTS - 1) / MAX_ELEMENTS;
+            nRows = (m_widgets.size() + nCols - 1) / nCols;
+            start = 0;
             if (!m_label.isEmpty()){
                 QLabel *label = new QLabel(m_label, this);
                 label->setAlignment(WordBreak);
@@ -250,12 +253,12 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
                 }
                 m_widgets[i]->show();
             }
-            if (!m_instruction.isEmpty()){
-                QLabel *label = new QLabel(m_instruction, this);
-                label->setAlignment(WordBreak);
-                lay->addMultiCellWidget(label, nRows + start, nRows + start, 0, nCols * 2 + 1);
-                m_instruction = "";
-            }
+        }
+        if (!m_instruction.isEmpty()){
+            QLabel *label = new QLabel(m_instruction, this);
+            label->setAlignment(WordBreak);
+            lay->addMultiCellWidget(label, nRows + start, nRows + start, 0, nCols * 2 + 1);
+            m_instruction = "";
         }
         m_widgets.clear();
         m_labels.clear();

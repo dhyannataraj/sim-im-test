@@ -507,7 +507,7 @@ void FileTransferDlg::action(int nAct, void*)
 void FileTransferDlg::goDir()
 {
     QCString tmp;
-    
+
     if (m_dir.isEmpty())
         return;
     string s = "file:";

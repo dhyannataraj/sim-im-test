@@ -101,7 +101,6 @@ typedef struct CoreData
     Data	InvisibleStyle;
     Data	SmallGroupFont;
     Data	ShowAllEncodings;
-    Data	DefaultEncoding;
     Data	ShowEmptyGroup;
     Data	NoJoinAlert;
     Data	EnableSpell;
@@ -175,16 +174,6 @@ public:
     ~ClientList();
     void addToContacts();
 };
-
-typedef struct ENCODING
-{
-    const char *language;
-    const char *codec;
-    int         mib;
-    int		rtf_code;
-    int		cp_code;
-    bool        bMain;
-} ENCODING;
 
 const unsigned  CmdBase					= 0x00020000;
 const unsigned	CmdInfo					= (CmdBase + 1);
@@ -263,19 +252,21 @@ const unsigned	CmdDeclineWithoutReason	= (CmdBase + 81);
 const unsigned	CmdDeclineReasonInput	= (CmdBase + 82);
 const unsigned	CmdDeclineReasonBusy	= (CmdBase + 83);
 const unsigned	CmdDeclineReasonLater	= (CmdBase + 84);
-const unsigned	CmdHistoryFind		= (CmdBase + 85);
-const unsigned	CmdFileName		= (CmdBase + 86);
-const unsigned	CmdPhoneNumber		= (CmdBase + 87);
-const unsigned	CmdTranslit		= (CmdBase + 88);
-const unsigned  CmdUrlInput		= (CmdBase + 89);
-const unsigned	CmdCutHistory		= (CmdBase + 90);
+const unsigned	CmdHistoryFind			= (CmdBase + 85);
+const unsigned	CmdFileName				= (CmdBase + 86);
+const unsigned	CmdPhoneNumber			= (CmdBase + 87);
+const unsigned	CmdTranslit				= (CmdBase + 88);
+const unsigned  CmdUrlInput				= (CmdBase + 89);
+const unsigned	CmdCutHistory			= (CmdBase + 90);
 const unsigned	CmdDeleteMessage		= (CmdBase + 91);
 const unsigned	CmdEditList				= (CmdBase + 92);
 const unsigned	CmdRemoveList			= (CmdBase + 93);
 const unsigned	CmdStatusWnd			= (CmdBase + 94);
 const unsigned	CmdEmptyGroup			= (CmdBase + 95);
 const unsigned	CmdEnableSpell			= (CmdBase + 96);
-const unsigned	CmdSpell			= (CmdBase + 97);
+const unsigned	CmdSpell				= (CmdBase + 97);
+const unsigned	CmdChangeEncoding		= (CmdBase + 98);
+const unsigned	CmdAllEncodings			= (CmdBase + 99);
 
 const unsigned	CmdContactGroup			= (CmdBase + 0x100);
 const unsigned	CmdUnread				= (CmdBase + 0x200);
@@ -299,6 +290,7 @@ const unsigned	MenuFileDecline			= (CmdBase + 11);
 const unsigned	MenuMailList			= (CmdBase + 12);
 const unsigned	MenuPhoneList			= (CmdBase + 13);
 const unsigned	MenuStatusWnd			= (CmdBase + 14);
+const unsigned	MenuEncoding			= (CmdBase + 15);
 
 const unsigned	EventCreateMessageType	= (CmdBase + 1);
 const unsigned	EventRemoveMessageType	= (CmdBase + 2);
@@ -389,7 +381,7 @@ typedef struct MessageDef
     unsigned			flags;
     const char			*singular;
     const char			*plural;
-    Message*			(*create)(const char *cfg);
+    Message*			(*create)(Buffer *cfg);
     QObject*			(*generate)(MsgEdit *edit, Message *msg);
     Message*			(*drag)(QMimeSource*);
 } MessageDef;
@@ -408,7 +400,7 @@ class CorePlugin : public QObject, public Plugin, public EventReceiver
 {
     Q_OBJECT
 public:
-    CorePlugin(unsigned, const char*);
+    CorePlugin(unsigned, Buffer*);
     virtual ~CorePlugin();
     PROP_STR(Profile)
     PROP_BOOL(SavePasswd)
@@ -461,7 +453,6 @@ public:
     PROP_ULONG(InvisibleStyle);
     PROP_BOOL(SmallGroupFont);
     PROP_BOOL(ShowAllEncodings);
-    PROP_STR(DefaultEncoding);
     PROP_BOOL(ShowEmptyGroup);
     PROP_BOOL(NoJoinAlert);
     PROP_BOOL(EnableSpell);
@@ -482,15 +473,12 @@ public:
 
     QFont editFont;
     static CorePlugin	*m_plugin;
-    Message *createMessage(const char *type, const char *cfg);
+    Message *createMessage(const char *type, Buffer *cfg);
     QString clientName(Client *client);
 
     XSL	*historyXSL;
     CoreData	data;
-
     bool m_bIgnoreEvents;
-    const ENCODING *encodings;
-
 signals:
     void modeChanged();
 protected slots:
@@ -514,7 +502,7 @@ protected:
     void loadClients(ClientList&);
     void loadMenu();
     QString poFile(const char *lang);
-    Client *loadClient(const char *name, const char *cfg);
+    Client *loadClient(const char *name, Buffer *cfg);
     void setCurrentProfile(const char *profile);
     bool adjustClientItem(unsigned id, CommandDef *cmd);
     void showPanel();

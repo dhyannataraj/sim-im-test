@@ -131,15 +131,21 @@ public:
     void init(unsigned size);
     unsigned allocSize() { return m_alloc_size; }
     void allocate(unsigned size, unsigned add_size);
+    void insert(unsigned size);
 
     void fromBase64(Buffer &from);
     void toBase64(Buffer &from);
+
+    string		getSection(bool bSkip=false);
+    unsigned	startSection() { return m_startSection; }
+    char	*getLine();
 protected:
     unsigned m_packetStartPos;
     unsigned m_size;
     unsigned m_alloc_size;
     unsigned m_posRead;
     unsigned m_posWrite;
+    unsigned m_startSection;
     char *m_data;
 };
 

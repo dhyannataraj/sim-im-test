@@ -50,7 +50,7 @@ class RemotePlugin : public QObject, public Plugin, public EventReceiver, public
 {
     Q_OBJECT
 public:
-    RemotePlugin(unsigned, const char*);
+    RemotePlugin(unsigned, Buffer*);
     ~RemotePlugin();
     PROP_STR(Path);
 #ifdef WIN32

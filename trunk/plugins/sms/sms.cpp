@@ -44,7 +44,7 @@ static DataDef _smsUserData[] =
         { NULL, 0, 0, 0 }
     };
 
-Plugin *createSMSPlugin(unsigned base, bool, const char*)
+Plugin *createSMSPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new SMSPlugin(base);
     return plugin;
@@ -66,7 +66,7 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 
 unsigned SMSPlugin::SerialPacket = 0;
 
-static Message *createPhoneCall(const char *cfg)
+static Message *createPhoneCall(Buffer *cfg)
 {
     return new Message(MessagePhoneCall, cfg);
 }
@@ -195,7 +195,7 @@ SMSProtocol::~SMSProtocol()
 {
 }
 
-Client *SMSProtocol::createClient(const char *cfg)
+Client *SMSProtocol::createClient(Buffer *cfg)
 {
     return new SMSClient(this, cfg);
 }
@@ -296,7 +296,7 @@ static DataDef smsClientData[] =
         { NULL, 0, 0, 0 }
     };
 
-SMSClient::SMSClient(Protocol *protocol, const char *cfg)
+SMSClient::SMSClient(Protocol *protocol, Buffer *cfg)
         : TCPClient(protocol, cfg)
 {
     load_data(smsClientData, &data, cfg);

@@ -271,8 +271,10 @@ void AddResult::finishEnable(bool state)
 {
     QWizard *w = NULL;
     for (QWidget *p = parentWidget(); p; p = p->parentWidget()){
-        if (p->inherits("QWizard"))
+        if (p->inherits("QWizard")){
             w = static_cast<QWizard*>(p);
+            break;
+        }
     }
     if (w == NULL)
         return;

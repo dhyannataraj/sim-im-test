@@ -55,7 +55,7 @@ static HMODULE hLibUI = NULL;
 
 const unsigned AUTOAWAY_TIME	= 10000;
 
-Plugin *createAutoAwayPlugin(unsigned base, bool, const char *config)
+Plugin *createAutoAwayPlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new AutoAwayPlugin(base, config);
     return plugin;
@@ -169,7 +169,7 @@ static DataDef autoAwayData[] =
         { NULL, 0, 0, 0 }
     };
 
-AutoAwayPlugin::AutoAwayPlugin(unsigned base, const char *config)
+AutoAwayPlugin::AutoAwayPlugin(unsigned base, Buffer *config)
         : Plugin(base), EventReceiver(HighPriority)
 {
     load_data(autoAwayData, &data, config);

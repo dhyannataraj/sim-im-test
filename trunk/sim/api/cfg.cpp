@@ -265,45 +265,56 @@ EXPORT string quoteChars(const char *from, const char *chars)
     return res;
 }
 
-EXPORT string getToken(string &from, char c, bool bUnEscape)
+EXPORT string getToken(char const *&p, char c, bool bUnEscape)
 {
     string res;
-    unsigned i;
-    for (i = 0; i < from.length(); i++){
-        if (from[i] == c)
+    char const *start = p;
+    for (; *p; p++){
+        if (*p == c)
             break;
-        if (from[i] == '\\'){
-            if (!bUnEscape)
-                res += '\\';
-            i++;
-            if (i >= from.length())
+        if (*p == '\\'){
+            p++;
+            if (*p == 0)
                 break;
-            if (bUnEscape){
-                char c = from[i];
-                switch (c){
-                case 'n':
-                    c = '\n';
-                    break;
-                case 'r':
-                    c = '\r';
-                    break;
-                case 't':
-                    c = '\t';
-                    break;
-                }
-                res += c;
-            }else{
-                res += from[i];
+            if (!bUnEscape)
+                continue;
+            char c = *p;
+            switch (c){
+            case 'n':
+                c = '\n';
+                break;
+            case 'r':
+                c = '\r';
+                break;
+            case 't':
+                c = '\t';
+                break;
             }
+            if (start != p - 1){
+                string part;
+                part.append(start, (unsigned)(p - start - 1));
+                res += part;
+            }
+            res += c;
+            start = p + 1;
             continue;
         }
-        res += from[i];
     }
-    if (i < from.length()){
-        from = from.substr(i + 1);
-    }else{
-        from = "";
+    if (start != p){
+        string part;
+        part.append(start, (unsigned)(p - start));
+        res += part;
     }
+    if (*p == c)
+        p++;
+    return res;
+}
+
+EXPORT string getToken(string &from, char c, bool bUnEscape)
+{
+    const char *p = from.c_str();
+    string res = getToken(p, c, bUnEscape);
+    from = string(p);
     return res;
 }
 
@@ -346,23 +357,6 @@ EXPORT QString getToken(QString &from, char c, bool bUnEscape)
         from = "";
     }
     return res;
-}
-
-// ______________________________________________________________________________________
-
-EXPORT bool getLine(QFile &f, string &s)
-{
-    s = "";
-    char b[0x4000];
-    long res = f.readLine(b, sizeof(b));
-    if (res == -1) return false;
-    b[res] = 0;
-    for (res--; res >= 0; res--){
-        if ((b[res] != '\r') && (b[res] != '\n')) break;
-        b[res] = 0;
-    }
-    s = b;
-    return true;
 }
 
 // _______________________________________________________________________________________
@@ -599,18 +593,26 @@ const DataDef *find_key(const DataDef *def, const char *name, unsigned &offs)
     return NULL;
 }
 
-EXPORT void load_data(const DataDef *d, void *_data, const char *config)
+EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
 {
     Data *data = (Data*)_data;
     init_data(d, data);
-    if (config == NULL)
+    if (cfg == NULL)
         return;
-    string cfg = config;
-    while (cfg.length()){
-        string line = getToken(cfg, '\n', false);
-        string key = getToken(line, '=');
+    unsigned read_pos = cfg->readPos();
+    char *line;
+    for (;;){
+        line = cfg->getLine();
+        if (line == NULL)
+            break;
+        char *p = strchr(line, '=');
+        if (p == NULL)
+            continue;
+        *p = 0;
+        const char *value = p + 1;
         unsigned offs = 0;
-        const DataDef *def = find_key(d, key.c_str(), offs);
+        const DataDef *def = find_key(d, line, offs);
+        *p = '=';
         if (def == NULL)
             continue;
         unsigned i;
@@ -618,124 +620,121 @@ EXPORT void load_data(const DataDef *d, void *_data, const char *config)
         Data *ld = data + offs;
         switch (def->type){
         case DATA_IP:
-            v = getToken(line, ',');
-            set_ip(ld, inet_addr(v.c_str()), line.c_str());
+            p = strchr(value, ',');
+            if (p){
+                *p = 0;
+                p++;
+            }
+            set_ip(ld, inet_addr(value), p);
+            if (p)
+                p[-1] = ',';
             break;
         case DATA_STRLIST:
-            v = getToken(line, ',');
-            i = strtoul(v.c_str(), NULL, 10);
-            if (i){
-                getToken(line, '\"');
-                v = getToken(line, '\"');
-                set_str(ld, i, v.c_str());
+            i = strtoul(value, NULL, 10);
+            if (i == 0)
+                break;
+            value = strchr(value, '\"');
+            if (value == NULL){
+                set_str(ld, i, NULL);
+                break;
             }
+            value++;
+            set_str(ld, i, getToken(value, '\"').c_str());
             break;
         case DATA_UTFLIST:
-            v = getToken(line, ',');
-            i = strtoul(v.c_str(), NULL, 10);
-            if (i){
-                getToken(line, '\"');
-                v = getToken(line, '\"', false);
-                v = unquoteString(v.c_str());
-                if (line.length() && (line[0] == 'u')){
-                    set_str(ld, i, v.c_str());
-                }else{
-                    QString s = QString::fromLocal8Bit(v.c_str());
-                    set_str(ld, i, s.utf8());
-                }
+            i = strtoul(value, NULL, 10);
+            if (i == 0)
+                break;
+            value = strchr(value, '\"');
+            if (value == NULL){
+                set_str(ld, i, NULL);
+                break;
+            }
+            value++;
+            v = getToken(value, '\"');
+            if (*value == 'u'){
+                set_str(ld, i, v.c_str());
+            }else{
+                QString s = QString::fromLocal8Bit(v.c_str());
+                set_str(ld, i, s.utf8());
             }
             break;
         case DATA_UTF:
-            for (i = 0; i < def->n_values; i++, ld++){
-                getToken(line, '\"');
-                if (line.length() == 0)
+            for (i = 0; i < def->n_values; ld++){
+                value = strchr(value, '\"');
+                if (value == NULL)
                     break;
-                v = getToken(line, '\"', false);
-                v = unquoteString(v.c_str());
-                if (line.length() && (line[0] == 'u')){
+                value++;
+                v = getToken(value, '\"');
+                if (*value == 'u'){
                     set_str(&ld->ptr, v.c_str());
                 }else{
                     QString s = QString::fromLocal8Bit(v.c_str());
                     set_str(&ld->ptr, s.utf8());
                 }
-                getToken(line, ',');
+                i++;
+                value = strchr(value, ',');
+                if (value == NULL)
+                    break;
+                value++;
             }
-            if (i < def->n_values)
-                set_str(&ld->ptr, NULL);
             break;
         case DATA_STRING:
-            for (i = 0; i < def->n_values; i++, ld++){
-                unsigned n;
-                for (n = 0; n < line.length(); n++)
-                    if (line[n] != ' ') break;
-                if (n >= line.length())
+            for (i = 0; i < def->n_values; ld++){
+                value = strchr(value, '\"');
+                if (value == NULL)
                     break;
-                line = line.substr(n);
-                if (line[n] == '\"'){
-                    for (n = 1; n < line.length(); n++){
-                        if (line[n] == '\"')
-                            break;
-                        if (line[n] == '\\')
-                            n++;
-                    }
-                    v = line.substr(1, n - 1);
-                    line = line.substr(n);
-                }else{
-                    for (n = 0; n < line.length(); n++){
-                        if ((line[n] == ',') && (i + 1 < def->n_values))
-                            break;
-                        if (line[n] == '\\')
-                            n++;
-                    }
-                    v = line.substr(0, n - 1);
-                    line = line.substr(n);
-                }
-                if (v.length()){
-                    v = unquoteString(v.c_str());
-                    set_str(&ld->ptr, v.c_str());
-                }else{
-                    set_str(&ld->ptr, NULL);
-                }
-                for (n = 0; n < line.length(); n++)
-                    if (line[n] == ',') break;
-                line = line.substr(n);
+                value++;
+                set_str(&ld->ptr, getToken(value, '\"').c_str());
+                i++;
+                value = strchr(value, ',');
+                if (value == NULL)
+                    break;
+                value++;
             }
-            if (i < def->n_values)
-                set_str(&ld->ptr, NULL);
             break;
         case DATA_LONG:
-            for (i = 0; i < def->n_values; i++, ld++){
-                if (line.length() == 0)
+            for (i = 0; i < def->n_values; ld++){
+                if (*value != ',')
+                    ld->value = atol(value);
+                value = strchr(value, ',');
+                i++;
+                if (value == NULL)
                     break;
-                v = getToken(line, ',');
-                if (v.length())
-                    ld->value = atol(v.c_str());
+                value++;
             }
             break;
         case DATA_ULONG:
-            for (i = 0; i < def->n_values; i++, ld++){
-                if (line.length() == 0)
+            for (i = 0; i < def->n_values; ld++){
+                if (*value != ',')
+                    ld->value = strtoul(value, NULL, 10);
+                value = strchr(value, ',');
+                if (value == NULL)
                     break;
-                v = getToken(line, ',');
-                ld->value = strtoul(v.c_str(), NULL, 10);
+                value++;
             }
             break;
         case DATA_BOOL:
             for (i = 0; i < def->n_values; i++, ld++){
-                if (line.length() == 0)
-                    break;
-                v = getToken(line, ',');
-                if (v.length()){
-                    if (!strcasecmp(v.c_str(), "false") || !strcmp(v.c_str(), "0")){
+                p = strchr(value, ',');
+                if (p)
+                    *p = 0;
+                if (*value){
+                    if (!strcasecmp(value, "false") || !strcmp(value, "0")){
                         ld->bValue = false;
                     }else{
                         ld->bValue = true;
                     }
                 }
+                value = p;
+                if (value == NULL)
+                    break;
+                value++;
             }
             break;
         }
     }
+    cfg->setReadPos(read_pos);
 }
 
 static char toHex(char c)

@@ -295,7 +295,7 @@ void SocketFactory::idle()
     p->removedServerSockets.clear();
 }
 
-TCPClient::TCPClient(Protocol *protocol, const char *cfg, unsigned priority)
+TCPClient::TCPClient(Protocol *protocol, Buffer *cfg, unsigned priority)
         : Client(protocol, cfg), EventReceiver(priority)
 {
     m_socket = NULL;

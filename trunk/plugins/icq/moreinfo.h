@@ -27,7 +27,7 @@ class MoreInfo : public MoreInfoBase, public EventReceiver
 {
     Q_OBJECT
 public:
-    MoreInfo(QWidget *parent, struct ICQUserData *data, ICQClient *client);
+    MoreInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client);
 public slots:
     void apply();
     void apply(Client*, void*);
@@ -39,6 +39,7 @@ protected:
     void *processEvent(Event*);
     void fill();
     struct ICQUserData *m_data;
+    unsigned  m_contact;
     ICQClient *m_client;
 };
 

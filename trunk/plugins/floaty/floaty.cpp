@@ -31,7 +31,7 @@
 const unsigned BLINK_TIMEOUT	= 500;
 const unsigned BLINK_COUNT		= 8;
 
-Plugin *createFloatyPlugin(unsigned base, bool, const char*)
+Plugin *createFloatyPlugin(unsigned base, bool, Buffer*)
 {
     FloatyPlugin *plugin = new FloatyPlugin(base);
     if (plugin->core == NULL){

@@ -694,13 +694,11 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
     WM_DOCK = RegisterWindowMessageA("SIM dock");
     if (IsWindowUnicode(winId())){
         oldDockProc = (WNDPROC)SetWindowLongW(winId(), GWL_WNDPROC, (LONG)DockWindowProc);
-        /*
-                OSVERSIONINFOA osvi;
-                osvi.dwOSVersionInfoSize = sizeof(osvi);
-                GetVersionExA(&osvi);
-                if ((osvi.dwPlatformId == VER_PLATFORM_WIN32_NT) && (osvi.dwMajorVersion > 4))
-                    m_bBalloon = true;
-        */
+        OSVERSIONINFOA osvi;
+        osvi.dwOSVersionInfoSize = sizeof(osvi);
+        GetVersionExA(&osvi);
+        if ((osvi.dwPlatformId == VER_PLATFORM_WIN32_NT) && (osvi.dwMajorVersion > 4))
+            m_bBalloon = true;
         __NOTIFYICONDATAW notifyIconData;
         if (m_bBalloon){
             memset(&notifyIconData, 0, sizeof(notifyIconData));

@@ -36,7 +36,7 @@ public:
 signals:
     void finished();
     void search();
-protected slots:
+public slots:
     void dragStart();
     void doubleClicked(QListViewItem*);
     void finish();

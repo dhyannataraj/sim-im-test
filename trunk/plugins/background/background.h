@@ -41,7 +41,7 @@ const unsigned WindowScale  = 5;
 class BackgroundPlugin : public Plugin, public EventReceiver
 {
 public:
-    BackgroundPlugin(unsigned, const char *name);
+    BackgroundPlugin(unsigned, Buffer *name);
     virtual ~BackgroundPlugin();
 protected:
     virtual void *processEvent(Event *e);

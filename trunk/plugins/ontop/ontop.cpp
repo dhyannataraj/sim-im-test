@@ -30,7 +30,7 @@
 #endif
 #endif
 
-Plugin *createOnTopPlugin(unsigned base, bool, const char *config)
+Plugin *createOnTopPlugin(unsigned base, bool, Buffer *config)
 {
 #if defined(WIN32) || defined(USE_KDE)
     Plugin *plugin = new OnTopPlugin(base, config);
@@ -69,7 +69,7 @@ static DataDef onTopData[] =
         { NULL, 0, 0, 0 }
     };
 
-OnTopPlugin::OnTopPlugin(unsigned base, const char *config)
+OnTopPlugin::OnTopPlugin(unsigned base, Buffer *config)
         : Plugin(base)
 {
     load_data(onTopData, &data, config);

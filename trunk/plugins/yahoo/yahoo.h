@@ -25,7 +25,7 @@ class YahooProtocol : public Protocol
 public:
     YahooProtocol(Plugin *plugin);
     ~YahooProtocol();
-    Client	*createClient(const char *cfg);
+    Client	*createClient(Buffer *cfg);
     const CommandDef *description();
     const CommandDef *statusList();
     virtual const DataDef *userDataDef();

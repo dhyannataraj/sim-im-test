@@ -31,7 +31,7 @@
 #include "xpm/sound.xpm"
 #include "xpm/nosound.xpm"
 
-Plugin *createSoundPlugin(unsigned base, bool bFirst, const char *config)
+Plugin *createSoundPlugin(unsigned base, bool bFirst, Buffer *config)
 {
     Plugin *plugin = new SoundPlugin(base, bFirst, config);
     return plugin;
@@ -97,7 +97,7 @@ static QWidget *getSoundSetup(QWidget *parent, void *data)
     return new SoundUserConfig(parent, data, soundPlugin);
 }
 
-SoundPlugin::SoundPlugin(unsigned base, bool bFirst, const char *config)
+SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
         : Plugin(base)
 {
     load_data(soundData, &data, config);

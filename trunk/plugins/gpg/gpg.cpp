@@ -38,7 +38,7 @@
 static string GPGpath;
 #endif
 
-Plugin *createGpgPlugin(unsigned base, bool, const char *cfg)
+Plugin *createGpgPlugin(unsigned base, bool, Buffer *cfg)
 {
 #ifndef WIN32
     if (GPGpath.empty())
@@ -100,7 +100,7 @@ static DataDef gpgData[] =
         { "Decrypt", DATA_STRING, 1, "--yes --passphrase-fd 0 --output \"%plainfile%\" --decrypt \"%cipherfile%\"" },
         { "Key", DATA_STRING, 1, 0 },
         { "Passphrases", DATA_UTFLIST, 1, 0 },
-        { "Keys", DATA_STRING, 1, 0 },
+        { "Keys", DATA_STRLIST, 1, 0 },
         { "NPassphrases", DATA_ULONG, 1, 0 },
         { "", DATA_BOOL, 1, 0 },
         { NULL, 0, 0, 0 }
@@ -115,7 +115,7 @@ static DataDef gpgUserData[] =
 
 GpgPlugin *GpgPlugin::plugin = NULL;
 
-GpgPlugin::GpgPlugin(unsigned base, const char *cfg)
+GpgPlugin::GpgPlugin(unsigned base, Buffer *cfg)
         : Plugin(base), EventReceiver(HighestPriority - 0x100)
 {
     load_data(gpgData, &data, cfg);
@@ -700,7 +700,7 @@ void GpgPlugin::reset()
 i18n("%n GPG key", "%n GPG keys", 1);
 #endif
 
-static Message *createGPGKey(const char *cfg)
+static Message *createGPGKey(Buffer *cfg)
 {
     return new Message(MessageGPGKey, cfg);
 }

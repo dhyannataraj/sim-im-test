@@ -22,7 +22,7 @@
 
 #include <qapplication.h>
 
-Plugin *createReplacePlugin(unsigned base, bool, const char *cfg)
+Plugin *createReplacePlugin(unsigned base, bool, Buffer *cfg)
 {
     Plugin *plugin = new ReplacePlugin(base, cfg);
     return plugin;
@@ -50,7 +50,7 @@ static DataDef replaceData[] =
         { NULL, 0, 0, 0 }
     };
 
-ReplacePlugin::ReplacePlugin(unsigned base, const char *cfg)
+ReplacePlugin::ReplacePlugin(unsigned base, Buffer *cfg)
         : Plugin(base)
 {
     load_data(replaceData, &data, cfg);

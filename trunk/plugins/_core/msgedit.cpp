@@ -31,6 +31,7 @@
 #include "userlist.h"
 #include "history.h"
 #include "container.h"
+#include "buffer.h"
 
 #include <qfontmetrics.h>
 #include <qtoolbar.h>
@@ -414,7 +415,7 @@ void MsgEdit::setInput()
     }
 }
 
-static Message *createGeneric(const char *cfg)
+static Message *createGeneric(Buffer *cfg)
 {
     return new Message(MessageGeneric, cfg);
 }
@@ -440,7 +441,7 @@ static MessageDef defGeneric =
         NULL
     };
 
-static Message *createSMS(const char *cfg)
+static Message *createSMS(Buffer *cfg)
 {
     return new SMSMessage(cfg);
 }
@@ -470,7 +471,7 @@ static MessageDef defSMS =
 i18n("URL", "%n URLs", 1);
 #endif
 
-static Message *createUrl(const char *cfg)
+static Message *createUrl(Buffer *cfg)
 {
     return new UrlMessage(MessageUrl, cfg);
 }
@@ -507,7 +508,7 @@ static MessageDef defUrl =
         dropUrl
     };
 
-static Message *createContacts(const char *cfg)
+static Message *createContacts(Buffer *cfg)
 {
     return new ContactsMessage(MessageContacts, cfg);
 }
@@ -545,7 +546,7 @@ static MessageDef defContacts =
         dropContacts
     };
 
-static Message *createFile(const char *cfg)
+static Message *createFile(Buffer *cfg)
 {
     return new FileMessage(MessageFile, cfg);
 }
@@ -641,7 +642,7 @@ static MessageDef defFile =
         dropFile
     };
 
-static Message *createAuthRequest(const char *cfg)
+static Message *createAuthRequest(Buffer *cfg)
 {
     return new AuthMessage(MessageAuthRequest, cfg);
 }
@@ -716,7 +717,7 @@ static MessageDef defAuthRequest =
         NULL
     };
 
-static Message *createAuthGranted(const char *cfg)
+static Message *createAuthGranted(Buffer *cfg)
 {
     return new AuthMessage(MessageAuthGranted, cfg);
 }
@@ -737,7 +738,7 @@ static MessageDef defAuthGranted =
         NULL
     };
 
-static Message *createAuthRefused(const char *cfg)
+static Message *createAuthRefused(Buffer *cfg)
 {
     return new AuthMessage(MessageAuthRefused, cfg);
 }
@@ -758,7 +759,7 @@ static MessageDef defAuthRefused =
         NULL
     };
 
-static Message *createAdded(const char *cfg)
+static Message *createAdded(Buffer *cfg)
 {
     return new AuthMessage(MessageAdded, cfg);
 }
@@ -779,7 +780,7 @@ static MessageDef defAdded =
         NULL
     };
 
-static Message *createRemoved(const char *cfg)
+static Message *createRemoved(Buffer *cfg)
 {
     return new AuthMessage(MessageRemoved, cfg);
 }
@@ -800,7 +801,7 @@ static MessageDef defRemoved =
         NULL
     };
 
-static Message *createStatus(const char *cfg)
+static Message *createStatus(Buffer *cfg)
 {
     return new StatusMessage(cfg);
 }
@@ -1304,7 +1305,10 @@ void *MsgEdit::processEvent(Event *e)
                     if (def){
                         MessageDef *mdef = (MessageDef*)(def->param);
                         string cfg = m_msg->save();
-                        m_msg = (mdef->create)(cfg.c_str());
+                        Buffer config;
+                        config << "[Title]\n" << cfg.c_str();
+                        config.getSection();
+                        m_msg = (mdef->create)(&config);
                         m_msg->setContact(*multiply_it);
                         m_msg->setClient(NULL);
                         m_msg->setFlags(m_msg->getFlags() | MESSAGE_MULTIPLY);

@@ -21,7 +21,7 @@
 #include "smiles.h"
 #include "core.h"
 
-Plugin *createIconsPlugin(unsigned base, bool, const char *config)
+Plugin *createIconsPlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new IconsPlugin(base, config);
     return plugin;
@@ -54,7 +54,7 @@ static DataDef iconsData[] =
         { NULL, 0, 0, 0 }
     };
 
-IconsPlugin::IconsPlugin(unsigned base, const char *config)
+IconsPlugin::IconsPlugin(unsigned base, Buffer *config)
         : Plugin(base)
 {
     load_data(iconsData, &data, config);

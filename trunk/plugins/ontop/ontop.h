@@ -38,7 +38,7 @@ class OnTopPlugin : public QObject, public Plugin, public EventReceiver
 {
     Q_OBJECT
 public:
-    OnTopPlugin(unsigned, const char*);
+    OnTopPlugin(unsigned, Buffer*);
     virtual ~OnTopPlugin();
 protected:
     virtual bool eventFilter(QObject*, QEvent*);

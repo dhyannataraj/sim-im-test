@@ -27,7 +27,7 @@ class ICQInfo : public ICQInfoBase, public EventReceiver
 {
     Q_OBJECT
 public:
-    ICQInfo(QWidget *parent, struct ICQUserData*, ICQClient *client);
+    ICQInfo(QWidget *parent, struct ICQUserData*, unsigned contact, ICQClient *client);
 public slots:
     void apply();
     void apply(Client*, void*);
@@ -35,7 +35,7 @@ protected:
     void *processEvent(Event *e);
     void fill();
     struct ICQUserData *m_data;
-    bool m_bInit;
+    unsigned  m_contact;
     ICQClient *m_client;
 };
 

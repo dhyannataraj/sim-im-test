@@ -383,7 +383,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         break;
                     }
                     log(L_DEBUG, "ServerText: %s", m_data);
-                    ICQMessage *msg = new ICQMessage;
+                    Message *msg = new Message;
                     if (!m_bAIM && atol(screen.c_str())){
                         msg->setServerText(m_data);
                     }else{
@@ -539,7 +539,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
                 (msg->getPlainText().length() >= MAX_PLAIN_MESSAGE_SIZE)){
             s.flags  = SEND_TYPE2;
             s.msg    = msg;
-            s.text   = addCRLF(msg->getPlainText());
+            s.text   = msg->getPlainText();
             s.screen = screen(data);
             sendQueue.push_front(s);
             send(false);
@@ -1280,10 +1280,10 @@ void ICQClient::sendAutoReply(const char *screen, MessageId id,
     m_socket->writeBuffer.pack(msgType);
     m_socket->writeBuffer << msgFlags << msgState << (char)0;
     if (response){
-        Contact *contact;
-        ICQUserData *data = findContact(screen, NULL, false, contact);
+        Contact *contact = NULL;
+        findContact(screen, NULL, false, contact);
         string r;
-        r = fromUnicode(QString::fromUtf8(response), data);
+        r = getContacts()->fromUnicode(contact, QString::fromUtf8(response));
         unsigned short size = (unsigned short)(r.length() + 1);
         m_socket->writeBuffer.pack(size);
         m_socket->writeBuffer.pack(r.c_str(), size);
@@ -1594,13 +1594,10 @@ void ICQClient::processSendQueue()
                 }
             }
             string text;
-            string encoding;
-            if (data->Encoding.ptr)
-                encoding = data->Encoding.ptr;
             switch (m_send.flags & SEND_MASK){
             case SEND_RTF:
                 m_send.part = getRichTextPart(m_send.text, MAX_TYPE2_MESSAGE_SIZE);
-                text = createRTF(m_send.part, m_send.msg->getForeground(), encoding.c_str());
+                text = createRTF(m_send.part, m_send.msg->getForeground(), contact);
                 break;
             case SEND_UTF:
                 m_send.part = getPart(m_send.text, MAX_TYPE2_MESSAGE_SIZE);
@@ -1608,7 +1605,7 @@ void ICQClient::processSendQueue()
                 break;
             case SEND_TYPE2:{
                     m_send.part = getPart(m_send.text, MAX_TYPE2_MESSAGE_SIZE);
-                    text = fromUnicode(m_send.part, data);
+                    text = getContacts()->fromUnicode(contact, m_send.part);
                     messageSend ms;
                     ms.msg  = m_send.msg;
                     ms.text = &text;
@@ -1856,15 +1853,8 @@ void ICQClient::sendType1(const QString &text, bool bWide, ICQUserData *data)
         msgBuf << 0x00020000L;
         msgBuf.pack(msg_text.c_str(), msg_text.length());
     }else{
-        string encoding;
-        if (data->Encoding.ptr){
-            encoding = data->Encoding.ptr;
-        }else if (this->data.owner.Encoding.ptr){
-            encoding = this->data.owner.Encoding.ptr;
-        }
-        QTextCodec *codec = getCodec(encoding.c_str());
         string msg_text;
-        msg_text = codec->fromUnicode(text);
+        msg_text = getContacts()->fromUnicode(getContact(data), text);
         messageSend ms;
         ms.msg  = m_send.msg;
         ms.text = &msg_text;

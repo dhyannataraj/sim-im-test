@@ -1933,18 +1933,20 @@ void SearchRequest::element_end(const char *el)
         set_str(&data.ID.ptr, m_id.c_str());
         Event e(EventSearch, &data);
         e.process();
-        m_fields.clear();
     }else if (!strcmp(el, "item")){
         if (data.JID.ptr && *data.JID.ptr){
             for (list<string>::iterator it = m_fields.begin(); it != m_fields.end(); ++it){
                 VALUE_MAP::iterator itv = m_values.find((*it).c_str());
-                if (itv != m_values.end())
-                    set_str(&data.Fields, data.nFields.value, (*itv).second.c_str());
+                if (itv != m_values.end()){
+                    string val = (*itv).second.c_str();
+                    set_str(&data.Fields, data.nFields.value, val.c_str());
+                }
                 data.nFields.value++;
             }
             set_str(&data.ID.ptr, m_id.c_str());
             Event e(EventSearch, &data);
             e.process();
+            m_values.clear();
         }
     }else if (!strcmp(el, "value") || !strcmp(el, "field")){
         if (!m_attr.empty() && !m_data.empty()){
@@ -2403,7 +2405,7 @@ void BrowseRequest::element_start(const char *el, const char **attr)
         m_code = atol(JabberClient::get_attr("code", attr).c_str());
         m_data = &m_error;
     }
-    if (!strcmp(el, "item")){
+    if (!strcmp(el, "item") || !strcmp(el, "service")){
         if (!m_jid.empty() && !m_name.empty()){
             DiscoItem item;
             item.id			= m_id;
@@ -2441,7 +2443,7 @@ void BrowseRequest::element_end(const char *el)
         m_ns = "";
         m_data = NULL;
     }
-    if (!strcmp(el, "item") && !m_jid.empty()){
+    if ((!strcmp(el, "item") || !strcmp(el, "service")) && !m_jid.empty()){
         DiscoItem item;
         item.id			= m_id;
         item.jid		= m_jid;

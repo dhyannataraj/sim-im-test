@@ -69,7 +69,7 @@ class ShortcutsPlugin : public QObject, public Plugin, public EventReceiver
 {
     Q_OBJECT
 public:
-    ShortcutsPlugin(unsigned, const char*);
+    ShortcutsPlugin(unsigned, Buffer*);
     virtual ~ShortcutsPlugin();
     PROP_STRLIST(Key);
     PROP_STRLIST(Global);

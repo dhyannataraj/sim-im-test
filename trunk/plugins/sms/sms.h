@@ -49,7 +49,7 @@ class SMSProtocol : public Protocol
 public:
     SMSProtocol(Plugin *plugin);
     ~SMSProtocol();
-    Client	*createClient(const char *cfg);
+    Client	*createClient(Buffer *cfg);
     const CommandDef *description();
     const CommandDef *statusList();
     const DataDef *userDataDef();
@@ -80,7 +80,7 @@ class SMSClient : public TCPClient
 {
     Q_OBJECT
 public:
-    SMSClient(Protocol *protocol, const char *cfg);
+    SMSClient(Protocol *protocol, Buffer *cfg);
     ~SMSClient();
     PROP_STR(Device);
     PROP_ULONG(BaudRate);

@@ -845,7 +845,7 @@ void DirectClient::processPacket()
                     if (msg_str.empty()){
                         msg->setError(I18N_NOOP("Send message fail"));
                     }else{
-                        QString err = m_client->toUnicode(msg_str.c_str(), m_data);
+                        QString err = getContacts()->toUnicode(m_client->getContact(m_data), msg_str.c_str());
                         msg->setError(err.utf8());
                     }
                     Event e(EventMessageSent, msg);
@@ -1250,7 +1250,7 @@ void DirectClient::acceptMessage(Message *msg)
 void DirectClient::declineMessage(Message *msg, const char *reason)
 {
     string r;
-    r = m_client->fromUnicode(QString::fromUtf8(reason), m_data);
+    r = getContacts()->fromUnicode(m_client->getContact(m_data), QString::fromUtf8(reason));
     unsigned short seq = 0;
     switch (msg->type()){
     case MessageICQFile:
@@ -1302,7 +1302,7 @@ void DirectClient::processMsgQueue()
                 if ((sm.msg->getFlags() & MESSAGE_RICHTEXT) &&
                         (m_client->getSendFormat() == 0) &&
                         (m_client->hasCap(m_data, CAP_RTF))){
-                    message = m_client->createRTF(sm.msg->getRichText(), sm.msg->getForeground(), m_data->Encoding.ptr);
+                    message = m_client->createRTF(sm.msg->getRichText(), sm.msg->getForeground(), m_client->getContact(m_data));
                     sm.type = CAP_RTF;
                 }else if (m_client->hasCap(m_data, CAP_UTF) &&
                           (m_client->getSendFormat() <= 1) &&
@@ -1310,7 +1310,7 @@ void DirectClient::processMsgQueue()
                     message = ICQClient::addCRLF(sm.msg->getPlainText()).utf8();
                     sm.type = CAP_UTF;
                 }else{
-                    message = m_client->fromUnicode(ICQClient::addCRLF(sm.msg->getPlainText()), m_data);
+                    message = getContacts()->fromUnicode(m_client->getContact(m_data), sm.msg->getPlainText());
                     messageSend ms;
                     ms.msg  = sm.msg;
                     ms.text = &message;
@@ -1733,7 +1733,7 @@ void ICQFileTransfer::initReceive(char cmd)
     string fileName;
     char isDir;
     m_socket->readBuffer >> isDir >> fileName;
-    QString fName = m_client->toUnicode(fileName.c_str(), m_data);
+    QString fName = getContacts()->toUnicode(m_client->getContact(m_data), fileName.c_str());
     string dir;
     unsigned long n;
     m_socket->readBuffer >> dir;
@@ -1741,7 +1741,7 @@ void ICQFileTransfer::initReceive(char cmd)
     if (m_notify)
         m_notify->transfer(false);
     if (!dir.empty())
-        fName = m_client->toUnicode(dir.c_str(), m_data) + "/" + fName;
+        fName = getContacts()->toUnicode(m_client->getContact(m_data), dir.c_str()) + "/" + fName;
     if (isDir)
         fName += "/";
     m_state = Wait;
@@ -1969,10 +1969,10 @@ void ICQFileTransfer::sendFileInfo()
         dir = dir.replace(QRegExp("/"), "\\");
         fn  = fn.mid(n);
     }
-    string s1 = m_client->fromUnicode(fn, m_data);
+    string s1 = getContacts()->fromUnicode(m_client->getContact(m_data), fn);
     string s2;
     if (!dir.isEmpty())
-        s2 = m_client->fromUnicode(dir, m_data);
+        s2 = getContacts()->fromUnicode(m_client->getContact(m_data), dir);
     m_socket->writeBuffer << s1 << s2;
     m_socket->writeBuffer.pack((unsigned long)m_fileSize);
     m_socket->writeBuffer.pack((unsigned long)0);

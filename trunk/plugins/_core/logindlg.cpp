@@ -254,7 +254,7 @@ static void rmDir(const QString &path)
 #ifdef WIN32
         p += "\\";
 #else
-        p += "/";
+p += "/";
 #endif
         p += *it;
         rmDir(p);

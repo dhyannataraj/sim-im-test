@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>428</width>
+            <width>424</width>
             <height>314</height>
         </rect>
     </property>
@@ -459,38 +459,6 @@
                             <name>hAlign</name>
                         </property>
                     </widget>
-                    <widget row="7"  column="1" >
-                        <class>QComboBox</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>cmbEncoding</cstring>
-                        </property>
-                        <property>
-                            <name>sizePolicy</name>
-                            <sizepolicy>
-                                <hsizetype>7</hsizetype>
-                                <vsizetype>0</vsizetype>
-                            </sizepolicy>
-                        </property>
-                    </widget>
-                    <widget row="7"  column="0" >
-                        <class>QLabel</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>TextLabel1_2</cstring>
-                        </property>
-                        <property>
-                            <name>text</name>
-                            <string>Encoding:</string>
-                        </property>
-                        <property>
-                            <name>alignment</name>
-                            <set>AlignVCenter|AlignRight</set>
-                        </property>
-                        <property>
-                            <name>hAlign</name>
-                        </property>
-                    </widget>
                     <widget row="6"  column="0"  rowspan="1"  colspan="2" >
                         <class>Line</class>
                         <property stdset="1">
@@ -503,6 +471,10 @@
                                 <hsizetype>1</hsizetype>
                                 <vsizetype>0</vsizetype>
                             </sizepolicy>
+                        </property>
+                        <property>
+                            <name>orientation</name>
+                            <enum>Horizontal</enum>
                         </property>
                     </widget>
                     <spacer row="10"  column="1" >
@@ -782,7 +754,6 @@
     <tabstop>edtFirst</tabstop>
     <tabstop>edtLast</tabstop>
     <tabstop>edtNick</tabstop>
-    <tabstop>cmbEncoding</tabstop>
     <tabstop>cmbRandom</tabstop>
     <tabstop>cmbStatus</tabstop>
     <tabstop>edtOnline</tabstop>

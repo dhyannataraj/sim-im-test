@@ -39,7 +39,7 @@
 #include <qpushbutton.h>
 #include <qpainter.h>
 
-Plugin *createZodiakPlugin(unsigned base, bool, const char*)
+Plugin *createZodiakPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new ZodiakPlugin(base);
     return plugin;

@@ -35,7 +35,7 @@ typedef map<my_string, IconDLL*> ICONS_MAP;
 class IconsPlugin : public Plugin, public EventReceiver
 {
 public:
-    IconsPlugin(unsigned, const char*);
+    IconsPlugin(unsigned, Buffer*);
     virtual ~IconsPlugin();
     PROP_STRLIST(IconDLLs);
     PROP_UTF8(Smiles);

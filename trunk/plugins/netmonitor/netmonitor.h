@@ -35,7 +35,7 @@ class NetmonitorPlugin : public QObject, public Plugin, public EventReceiver
 {
     Q_OBJECT
 public:
-    NetmonitorPlugin(unsigned, const char *name);
+    NetmonitorPlugin(unsigned, Buffer *name);
     virtual ~NetmonitorPlugin();
     PROP_ULONG(LogLevel);
     PROP_STR(LogPackets);

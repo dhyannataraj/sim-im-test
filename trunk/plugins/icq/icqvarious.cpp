@@ -1192,16 +1192,16 @@ void ICQClient::setClientInfo(void *_data)
         QString number = getToken(phoneValue, ',');
         QString type = getToken(phoneValue, ',');
         if (type == "Home Phone"){
-            set_str(&d->HomePhone.ptr, fromUnicode(number, NULL).c_str());
+            set_str(&d->HomePhone.ptr, getContacts()->fromUnicode(NULL, number).c_str());
         }else if (type == "Home Fax"){
-            set_str(&d->HomeFax.ptr, fromUnicode(number, NULL).c_str());
+            set_str(&d->HomeFax.ptr, getContacts()->fromUnicode(NULL, number).c_str());
         }else if (type == "Work Phone"){
-            set_str(&d->WorkPhone.ptr, fromUnicode(number, NULL).c_str());
+            set_str(&d->WorkPhone.ptr, getContacts()->fromUnicode(NULL, number).c_str());
         }else if (type == "Work Fax"){
-            set_str(&d->WorkFax.ptr, fromUnicode(number, NULL).c_str());
+            set_str(&d->WorkFax.ptr, getContacts()->fromUnicode(NULL, number).c_str());
         }else if (type == "Private Cellular"){
             number += " SMS";
-            set_str(&d->PrivateCellular.ptr, fromUnicode(number, NULL).c_str());
+            set_str(&d->PrivateCellular.ptr, getContacts()->fromUnicode(NULL, number).c_str());
         }
     }
     d->HiddenEMail.bValue = false;
@@ -1212,12 +1212,12 @@ void ICQClient::setClientInfo(void *_data)
         QString mail = getToken(mailItem, '/');
         if (!s.empty())
             s += ';';
-        s += fromUnicode(mail, NULL);
+        s += getContacts()->fromUnicode(NULL, mail);
         s += '/';
         if (mailItem.length())
             s += '-';
         if (d->EMail.ptr == NULL){
-            set_str(&d->EMail.ptr, fromUnicode(mail, NULL).c_str());
+            set_str(&d->EMail.ptr, getContacts()->fromUnicode(NULL, mail).c_str());
             d->HiddenEMail.bValue = !mailItem.isEmpty();
         }
     }
@@ -1417,7 +1417,7 @@ void ICQClient::changePassword(const char *new_pswd)
     serverRequest(ICQ_SRVxREQ_MORE);
     m_socket->writeBuffer
     << ICQ_SRVxREQ_CHANGE_PASSWD
-    << fromUnicode(pwd, NULL);
+    << getContacts()->fromUnicode(NULL, pwd);
     sendServerRequest();
     varRequests.push_back(new SetPasswordRequest(this, m_nMsgSequence, new_pswd));
 }

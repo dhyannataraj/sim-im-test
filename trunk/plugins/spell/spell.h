@@ -45,7 +45,7 @@ class SpellPlugin : public QObject, public Plugin, public EventReceiver
 {
     Q_OBJECT
 public:
-    SpellPlugin(unsigned, const char*);
+    SpellPlugin(unsigned, Buffer*);
     ~SpellPlugin();
 #ifdef WIN32
     PROP_STR(Path);

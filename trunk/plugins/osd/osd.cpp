@@ -56,7 +56,7 @@
 const unsigned SHADOW_OFFS	= 2;
 const unsigned XOSD_MARGIN	= 5;
 
-Plugin *createOSDPlugin(unsigned base, bool, const char*)
+Plugin *createOSDPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new OSDPlugin(base);
     return plugin;

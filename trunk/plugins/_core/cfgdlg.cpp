@@ -20,6 +20,7 @@
 #include "maininfo.h"
 #include "arcfg.h"
 #include "stl.h"
+#include "buffer.h"
 
 #include <qpixmap.h>
 #include <qlistview.h>
@@ -468,7 +469,15 @@ void ConfigureDialog::apply()
             size += sizeof(unsigned) * d->n_values;
         void *data = malloc(size);
         string cfg = client->getConfig();
-        load_data(def, data, cfg.c_str());
+        if (cfg.empty()){
+            load_data(def, data, NULL);
+        }else{
+            Buffer config;
+            config << "[Title]\n";
+            config.pack(cfg.c_str(), cfg.length());
+            config.getSection();
+            load_data(def, data, &config);
+        }
         emit applyChanges(client, data);
         client->setClientInfo(data);
         free_data(def, data);

@@ -40,76 +40,25 @@ const unsigned MessageWarning			= 0x113;
 
 class ListView;
 
-typedef struct ICQMessageData
-{
-    Data	ServerText;
-} ICQMessageData;
-
-class ICQMessage : public Message
-{
-public:
-    ICQMessage(unsigned type=MessageICQ, const char *cfg=NULL);
-    ~ICQMessage();
-    PROP_STR(ServerText);
-    virtual QString getText() const;
-    virtual bool setText(const char *r);
-    virtual string  save();
-    virtual unsigned baseType() { return MessageGeneric; }
-protected:
-    ICQMessageData data;
-};
-
-typedef struct IcqUrlMessageData
-{
-    Data	ServerUrl;
-    Data	ServerText;
-} UrlMessageData;
-
-class IcqUrlMessage : public UrlMessage
-{
-public:
-    IcqUrlMessage(const char *cfg=NULL);
-    ~IcqUrlMessage();
-    PROP_STR(ServerUrl);
-    PROP_STR(ServerText);
-    virtual QString getUrl() const;
-    virtual QString getText() const;
-    virtual string  save();
-    virtual unsigned baseType() { return MessageUrl; }
-protected:
-    IcqUrlMessageData data;
-};
-
-typedef struct IcqContactsMessageData
-{
-    Data	ServerText;
-} IcqContactsMessageData;
-
 class IcqContactsMessage : public ContactsMessage
 {
 public:
-    IcqContactsMessage(const char *cfg=NULL);
+    IcqContactsMessage(Buffer *cfg=NULL);
     ~IcqContactsMessage();
     QString getContacts() const;
-    PROP_STR(ServerText);
-    virtual string save();
     virtual unsigned baseType() { return MessageContacts; }
-protected:
-    IcqContactsMessageData data;
 };
 
 typedef struct ICQAuthMessageData
 {
-    Data	ServerText;
     Data	Charset;
 } ICQAuthMessageData;
 
 class ICQAuthMessage : public AuthMessage
 {
 public:
-    ICQAuthMessage(unsigned type, unsigned base_type, const char *cfg=NULL);
+    ICQAuthMessage(unsigned type, unsigned base_type, Buffer *cfg=NULL);
     ~ICQAuthMessage();
-    PROP_STR(ServerText);
     PROP_STR(Charset);
     virtual QString getText() const;
     virtual string save();
@@ -121,7 +70,6 @@ protected:
 
 typedef struct ICQFileMessageData
 {
-    Data	ServerText;
     Data	ServerDescr;
     Data	IP;
     Data	Port;
@@ -134,9 +82,8 @@ typedef struct ICQFileMessageData
 class ICQFileMessage : public FileMessage
 {
 public:
-    ICQFileMessage(const char *cfg=NULL);
+    ICQFileMessage(Buffer *cfg=NULL);
     ~ICQFileMessage();
-    PROP_STR(ServerText);
     PROP_STR(ServerDescr);
     PROP_ULONG(IP);
     PROP_USHORT(Port);
@@ -144,7 +91,6 @@ public:
     PROP_ULONG(ID_H);
     PROP_ULONG(Cookie);
     PROP_ULONG(Extended);
-    virtual QString getText() const;
     virtual QString getDescription();
     virtual string  save();
     virtual unsigned baseType() { return MessageFile; }
@@ -162,7 +108,7 @@ typedef struct AIMFileMessageData
 class AIMFileMessage : public FileMessage
 {
 public:
-    AIMFileMessage(const char *cfg=NULL);
+    AIMFileMessage(Buffer *cfg=NULL);
     ~AIMFileMessage();
     PROP_USHORT(Port);
     PROP_ULONG(ID_L);
@@ -182,7 +128,7 @@ typedef struct MessageWarningData
 class WarningMessage : public AuthMessage
 {
 public:
-    WarningMessage(const char *cfg=NULL);
+    WarningMessage(Buffer *cfg=NULL);
     PROP_BOOL(Anonymous);
     PROP_USHORT(OldLevel);
     PROP_USHORT(NewLevel);

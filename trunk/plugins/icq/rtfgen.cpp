@@ -215,7 +215,7 @@ int htmlFontSizeToPt(int fontSize, int baseSize = 12)
 class RTFGenParser : public HTMLParser
 {
 public:
-    RTFGenParser(ICQClient *client, const QColor& foreColor, const char *encoding);
+    RTFGenParser(ICQClient *client, const QColor& foreColor, Contact *contact);
     string parse(const QString &text);
     // Returns the color's index in the colors table, adding the color if necessary.
     int getColorIdx(const QColor &color);
@@ -227,7 +227,7 @@ protected:
     virtual void tag_end(const QString &tag);
     string res;
     ICQClient  *m_client;
-    const char *m_encoding;
+    Contact    *m_contact;
     QTextCodec *m_codec;
     bool		m_bSpace;
 
@@ -250,10 +250,10 @@ protected:
     } m_paragraphDir;
 };
 
-RTFGenParser::RTFGenParser(ICQClient *client, const QColor& foreColor, const char *encoding)
+RTFGenParser::RTFGenParser(ICQClient *client, const QColor& foreColor, Contact *contact)
 {
     m_client    = client;
-    m_encoding  = encoding;
+    m_contact   = contact;
     m_foreColor = foreColor;
     m_lastParagraphPos = 0;
     m_paragraphDir = DirUnknown;
@@ -314,17 +314,16 @@ int RTFGenParser::getFontFaceIdx(const QString& fontFace)
 string RTFGenParser::parse(const QString &text)
 {
     res = "";
-    m_codec = m_client->getCodec(m_encoding);
-    m_encoding = m_codec->name();
+    m_codec = getContacts()->getCodec(m_contact);
     int charset = 0;
-    for (const ENCODING *c = ICQPlugin::core->encodings; c->language; c++){
-        if (!strcasecmp(c->codec, m_encoding)){
+    for (const ENCODING *c = getContacts()->getEncodings(); c->language; c++){
+        if (!strcasecmp(c->codec, m_codec->name())){
             charset = c->rtf_code;
             break;
         }
     }
 #ifdef WIN32
-    if ((charset == 0) && !strcasecmp(m_encoding, "system")){
+    if ((charset == 0) && !strcasecmp(m_codec->name(), "system")){
         char buff[256];
         int res = GetLocaleInfoA(LOCALE_USER_DEFAULT, LOCALE_IDEFAULTANSICODEPAGE, (char*)&buff, sizeof(buff));
         if (res){
@@ -342,10 +341,10 @@ string RTFGenParser::parse(const QString &text)
     const char *send_encoding = 0;
     m_codec = NULL;
     if (charset){
-        for (const ENCODING *c = ICQPlugin::core->encodings; c->language; c++){
+        for (const ENCODING *c = getContacts()->getEncodings(); c->language; c++){
             if ((c->rtf_code == charset) && c->bMain){
                 send_encoding = c->codec;
-                m_codec = m_client->getCodec(send_encoding);
+                m_codec = getContacts()->getCodecByName(send_encoding);
                 ansicpg = c->cp_code;
                 break;
             }
@@ -748,9 +747,9 @@ void RTFGenParser::tag_end(const QString &tagName)
     }
 }
 
-string ICQClient::createRTF(const QString &text, unsigned long foreColor, const char *encoding)
+string ICQClient::createRTF(const QString &text, unsigned long foreColor, Contact *contact)
 {
-    RTFGenParser p(this, foreColor, encoding);
+    RTFGenParser p(this, foreColor, contact);
     return p.parse(text);
 }
 

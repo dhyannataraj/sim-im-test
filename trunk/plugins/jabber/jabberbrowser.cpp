@@ -106,6 +106,12 @@ void JabberWizard::initTitle()
     setTitle(m_search, m_search->m_title);
 }
 
+void JabberWizard::accept()
+{
+    m_result->finish();
+    QWizard::accept();
+}
+
 JabberBrowser::JabberBrowser(QWidget *parent, const char *name)
         : QMainWindow(parent, name, WDestructiveClose)
 {
@@ -427,21 +433,21 @@ void *JabberBrowser::processEvent(Event *e)
             if (cmd->id == CmdBrowseSearch){
                 if (m_search)
                     delete m_search;
-                m_search = new JabberWizard(this, i18n("%1 Search") .arg(item->text(COL_NAME).utf8()), "find", m_client, item->text(COL_JID).utf8(), item->text(COL_NODE).utf8(), "search");
+                m_search = new JabberWizard(this, i18n("%1 Search") .arg(item->text(COL_NAME)), "find", m_client, item->text(COL_JID).utf8(), item->text(COL_NODE).utf8(), "search");
                 m_search_id = m_client->get_agent_info(item->text(COL_JID).utf8(), item->text(COL_NODE).utf8(), "search");
                 return e->param();
             }
             if (cmd->id == CmdRegister){
                 if (m_reg)
                     delete m_reg;
-                m_reg = new JabberWizard(this, i18n("%1 Register") .arg(item->text(COL_NAME).utf8()), "reg", m_client, item->text(COL_JID).utf8(), item->text(COL_NODE).utf8(), "register");
+                m_reg = new JabberWizard(this, i18n("%1 Register") .arg(item->text(COL_NAME)), "reg", m_client, item->text(COL_JID).utf8(), item->text(COL_NODE).utf8(), "register");
                 m_reg_id = m_client->get_agent_info(item->text(COL_JID).utf8(), item->text(COL_NODE).utf8(), "register");
                 return e->param();
             }
             if (cmd->id == CmdBrowseConfigure){
                 if (m_config)
                     delete m_config;
-                m_config = new JabberWizard(this, i18n("%1 Configure") .arg(item->text(COL_NAME).utf8()), "configure", m_client, item->text(COL_JID).utf8(), item->text(COL_NODE).utf8(), "data");
+                m_config = new JabberWizard(this, i18n("%1 Configure") .arg(item->text(COL_NAME)), "configure", m_client, item->text(COL_JID).utf8(), item->text(COL_NODE).utf8(), "data");
                 m_config_id = m_client->get_agent_info(item->text(COL_JID).utf8(), item->text(COL_NODE).utf8(), "data");
                 return e->param();
             }
@@ -614,11 +620,12 @@ void *JabberBrowser::processEvent(Event *e)
                     }
                     it = new QListViewItem(it);
                     it->setText(COL_JID, QString::fromUtf8(item->jid.c_str()));
+                    it->setText(COL_MODE, "0");
                     if (JabberPlugin::plugin->getAllLevels())
                         loadItem(it);
                 }
             }
-            if (it->text(COL_NAME) == it->text(COL_JID))
+            if (it->text(COL_NAME).isEmpty() || (it->text(COL_NAME) == it->text(COL_JID)))
                 it->setText(COL_NAME, QString::fromUtf8(item->name.c_str()));
             it->setText(COL_CATEGORY, QString::fromUtf8(item->category.c_str()));
             it->setText(COL_TYPE, QString::fromUtf8(item->type.c_str()));
@@ -907,16 +914,18 @@ void JabberBrowser::setItemPict(QListViewItem *item)
         }else if (type == "yahoo"){
             name = "Yahoo!";
         }
-    }else if (category == "service"){
-        if (type == "jud"){
-            name = "find";
-        }
     }else if (category == "headline"){
         name = "info";
     }else if (category == "directory"){
         name = "find";
     }else if (category == "conference"){
         name = "chat";
+    }else if (type == "jud"){
+        name = "find";
+    }else if (type == "sms"){
+        name = "sms";
+    }else if (type == "rss"){
+        name = "info";
     }
     item->setPixmap(COL_NAME, Pict(name));
 }

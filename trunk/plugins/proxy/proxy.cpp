@@ -84,7 +84,10 @@ ProxyData::ProxyData(const ProxyData &d)
 
 ProxyData::ProxyData(const char *cfg)
 {
-    load_data(_proxyData, this, cfg);
+    Buffer config;
+    config << "[Title]\n" << cfg;
+    config.getSection();
+    load_data(_proxyData, this, &config);
     bInit = true;
 }
 
@@ -127,14 +130,16 @@ ProxyData& ProxyData::operator = (const ProxyData &d)
         bInit = false;
     }
     if (d.bInit){
-        load_data(_proxyData, this, save_data(_proxyData, (void*)(&d)).c_str());
+        Buffer cfg;
+        cfg << "[Title]\n" << save_data(_proxyData, (void*)(&d)).c_str();
+        load_data(_proxyData, this, &cfg);
         bInit = true;
         Default = d.Default;
     }
     return *this;
 }
 
-ProxyData& ProxyData::operator = (const char *cfg)
+ProxyData& ProxyData::operator = (Buffer *cfg)
 {
     if (bInit){
         free_data(_proxyData, this);
@@ -868,7 +873,9 @@ void HTTPS_Proxy::connect_ready()
     << ":"
     << number(m_port).c_str()
     << " HTTP/1.0\r\n"
-    << "User-Agent: Mozilla/4.08 [en]] (WinNT; U ;Nav)\r\n";
+    << "User-Agent: "
+    << get_user_agent().c_str()
+    << "\r\n";
     send_auth();
     bOut << "\r\n";
     m_state = WaitConnect;
@@ -1127,7 +1134,7 @@ void HTTP_Proxy::write(const char *buf, unsigned int size)
 // ______________________________________________________________________________________
 
 
-Plugin *createProxyPlugin(unsigned base, bool, const char *config)
+Plugin *createProxyPlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new ProxyPlugin(base, config);
     return plugin;
@@ -1147,7 +1154,7 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-ProxyPlugin::ProxyPlugin(unsigned base, const char *config)
+ProxyPlugin::ProxyPlugin(unsigned base, Buffer *config)
         : Plugin(base)
 {
     data = config;

@@ -225,7 +225,6 @@ typedef struct ICQUserData
     Data		FollowMe;
     Data		SharedFiles;
     Data		ICQPhone;
-    Data        Encoding;
     Data        Picture;
     Data		PictureWidth;
     Data		PictureHeight;
@@ -305,7 +304,8 @@ const unsigned CAP_AIM_BUDDYLIST	= 16;
 const unsigned CAP_MICQ				= 17;
 const unsigned CAP_LICQ				= 18;
 const unsigned CAP_SIMOLD			= 19;
-const unsigned CAP_NULL				= 20;
+const unsigned CAP_KOPETE			= 20;
+const unsigned CAP_NULL				= 21;
 
 const unsigned PLUGIN_PHONEBOOK          = 0;
 const unsigned PLUGIN_PICTURE            = 1;
@@ -448,7 +448,7 @@ class ICQClient : public TCPClient, public OscarSocket
 {
     Q_OBJECT
 public:
-    ICQClient(Protocol*, const char *cfg, bool bAIM);
+    ICQClient(Protocol*, Buffer *cfg, bool bAIM);
     ~ICQClient();
     virtual string name();
     virtual QWidget    *setupWnd();
@@ -485,8 +485,6 @@ public:
     PROP_BOOL(AutoHTTP);
     PROP_BOOL(KeepAlive);
     ICQClientData    data;
-    QString toUnicode(const char *str, ICQUserData *client_data);
-    string fromUnicode(const QString &str, ICQUserData *client_data);
     unsigned short findByUin(unsigned long uin);
     unsigned short findWP(const char *first, const char *last, const char *nick,
                           const char *email, char age, char nGender,
@@ -499,6 +497,7 @@ public:
                           unsigned short nAffiliation, const char *szAffiliation,
                           unsigned short nHomePoge, const char *szHomePage,
                           bool bOnlineOnly);
+    Contact *getContact(ICQUserData*);
     ICQUserData *findContact(const char *screen, const char *alias, bool bCreate, Contact *&contact, Group *grp=NULL, bool bJoin=true);
     ICQUserData *findGroup(unsigned id, const char *name, Group *&group);
     void addFullInfoRequest(unsigned long uin, bool bInLast = true);
@@ -523,10 +522,7 @@ public:
     Message *parseMessage(unsigned short type, const char *screen,
                           string &p, Buffer &packet, MessageId &id, unsigned cookie);
     bool messageReceived(Message*, const char *screen);
-    QTextCodec *getCodec(const char *encoding);
-    static QTextCodec *_getCodec(const char *encoding);
-    static QString toUnicode(const char *serverText, const char *clientName, unsigned contactId);
-    static bool parseRTF(const char *str, const char *encoding, QString &result);
+    static bool parseRTF(const char *str, Contact *contact, QString &result);
     static QString pictureFile(ICQUserData *data);
     static const capability *capabilities;
     static const plugin *plugins;
@@ -534,11 +530,9 @@ public:
     static QString convert(const char *text, unsigned size, TlvList &tlvs, unsigned n);
     string screen(ICQUserData*);
     static unsigned warnLevel(unsigned short);
-    static QString addCRLF(const QString &str);
     static unsigned clearTags(QString &text);
     bool m_bAIM;
-    void fillEncoding(QComboBox *cmb, ICQUserData *data);
-    void getEncoding(QComboBox *cmb, ICQUserData *data, bool bDefault);
+    static QString ICQClient::addCRLF(const QString &str);
 protected slots:
     void ping();
     void infoRequest();
@@ -665,7 +659,7 @@ protected:
     bool isOwnData(const char *screen);
     void packInfoList(char *str);
     QString packContacts(ContactsMessage *msg, ICQUserData *data, CONTACTS_MAP &c);
-    string createRTF(const QString &text, unsigned long foreColor, const char *encoding);
+    string createRTF(const QString &text, unsigned long foreColor, Contact *contact);
     QString removeImages(const QString &text, unsigned maxSmile);
     void ackMessage(SendMsg &s);
     void accept(Message *msg, const char *dir, OverwriteMode overwrite);
@@ -824,7 +818,7 @@ protected:
         Logged,
         SSLconnect
     };
-    State        m_state;
+    State       m_state;
     unsigned    m_channel;
     void processPacket();
     void connect_ready();

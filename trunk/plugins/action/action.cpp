@@ -22,7 +22,7 @@
 
 #include <qtimer.h>
 
-Plugin *createActionPlugin(unsigned base, bool, const char*)
+Plugin *createActionPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new ActionPlugin(base);
     return plugin;

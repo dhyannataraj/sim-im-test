@@ -22,11 +22,12 @@
 #include <qlineedit.h>
 #include <qcombobox.h>
 
-InterestsInfo::InterestsInfo(QWidget *parent, struct ICQUserData *data, ICQClient *client)
+InterestsInfo::InterestsInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
         : InterestsInfoBase(parent)
 {
-    m_data   = data;
-    m_client = client;
+    m_data    = data;
+    m_client  = client;
+    m_contact = contact;
     if (m_data){
         edtBg1->setReadOnly(true);
         edtBg2->setReadOnly(true);
@@ -67,7 +68,7 @@ void InterestsInfo::apply(Client *client, void *_data)
             res += ";";
         res += info[i];
     }
-    set_str(&data->Interests.ptr, m_client->fromUnicode(res, NULL).c_str());
+    set_str(&data->Interests.ptr, getContacts()->fromUnicode(NULL, res).c_str());
 }
 
 void *InterestsInfo::processEvent(Event *e)
@@ -146,7 +147,7 @@ void InterestsInfo::fill()
     ICQUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
     unsigned i = 0;
-    QString str = m_client->toUnicode(data->Interests.ptr, data);
+    QString str = getContacts()->toUnicode(getContacts()->contact(m_contact), data->Interests.ptr);
     while (str.length()){
         QString info = getToken(str, ';', false);
         QString n = getToken(info, ',');
@@ -217,6 +218,7 @@ void InterestsInfo::cmbChanged(int)
                 edts[n]->setText(edts[i]->text());
             }
             edts[n]->setEnabled(true);
+            edts[n]->setReadOnly(false);
             n++;
         }
     }

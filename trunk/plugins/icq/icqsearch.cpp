@@ -316,7 +316,7 @@ string ICQSearch::getString(QLineEdit *edit)
     QString text = edit->text();
     if (text.length() == 0)
         return res;
-    res = m_client->fromUnicode(text, NULL);
+    res = getContacts()->fromUnicode(NULL, text);
     return res;
 }
 

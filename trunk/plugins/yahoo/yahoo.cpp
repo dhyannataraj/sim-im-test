@@ -19,7 +19,7 @@
 #include "yahooclient.h"
 #include "core.h"
 
-Plugin *createYahooPlugin(unsigned base, bool, const char*)
+Plugin *createYahooPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new YahooPlugin(base);
     return plugin;
@@ -70,7 +70,7 @@ YahooProtocol::~YahooProtocol()
 {
 }
 
-Client *YahooProtocol::createClient(const char *cfg)
+Client *YahooProtocol::createClient(Buffer *cfg)
 {
     return new YahooClient(this, cfg);
 }

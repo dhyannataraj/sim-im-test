@@ -27,7 +27,7 @@
 #include <windows.h>
 #endif
 
-Plugin *createLoggerPlugin(unsigned base, bool, const char *add_info)
+Plugin *createLoggerPlugin(unsigned base, bool, Buffer *add_info)
 {
     LoggerPlugin *plugin = new LoggerPlugin(base, add_info);
     return plugin;
@@ -69,7 +69,7 @@ static DataDef loggerData[] =
         { NULL, 0, 0, 0 }
     };
 
-LoggerPlugin::LoggerPlugin(unsigned base, const char *add_info)
+LoggerPlugin::LoggerPlugin(unsigned base, Buffer *add_info)
         : Plugin(base)
 {
     m_file = NULL;

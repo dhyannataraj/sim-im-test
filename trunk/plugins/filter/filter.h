@@ -36,7 +36,7 @@ class FilterPlugin : public QObject, public Plugin, public EventReceiver
 {
     Q_OBJECT
 public:
-    FilterPlugin(unsigned, const char *cfg);
+    FilterPlugin(unsigned, Buffer *cfg);
     virtual ~FilterPlugin();
     PROP_BOOL(FromList);
 protected slots:

@@ -27,7 +27,7 @@ class InterestsInfo : public InterestsInfoBase, public EventReceiver
 {
     Q_OBJECT
 public:
-    InterestsInfo(QWidget *parent, struct ICQUserData *data, ICQClient *client);
+    InterestsInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client);
 public slots:
     void apply();
     void apply(Client*, void*);
@@ -37,6 +37,7 @@ protected:
     void fill();
     QString getInfo(QComboBox *cmb, QLineEdit *edt);
     struct ICQUserData *m_data;
+    unsigned   m_contact;
     ICQClient *m_client;
 };
 

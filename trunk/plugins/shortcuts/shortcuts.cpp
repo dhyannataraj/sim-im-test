@@ -39,7 +39,7 @@
 #endif
 #endif
 
-Plugin *createShortcutsPlugin(unsigned base, bool, const char *config)
+Plugin *createShortcutsPlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new ShortcutsPlugin(base, config);
     return plugin;
@@ -420,7 +420,7 @@ static int X11EventFilter(XEvent *e)
 #endif
 #endif
 
-ShortcutsPlugin::ShortcutsPlugin(unsigned base, const char *config)
+ShortcutsPlugin::ShortcutsPlugin(unsigned base, Buffer *config)
         : Plugin(base)
 {
     load_data(shortcutsData, &data, config);

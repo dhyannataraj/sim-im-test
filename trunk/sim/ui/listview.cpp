@@ -242,7 +242,15 @@ void ListView::adjustColumn()
                 continue;
             w -= columnWidth(i);
         }
-        if (w < 40) w = 40;
+        int minW = 40;
+        for (QListViewItem *item = firstChild(); item; item = item->nextSibling()){
+            QFontMetrics fm(font());
+            int ww = fm.width(item->text(m_expandingColumn));
+            if (ww > minW)
+                minW = ww;
+        }
+        if (w < minW)
+            w = minW;
         setColumnWidth(m_expandingColumn, w - 4);
         viewport()->repaint();
     }

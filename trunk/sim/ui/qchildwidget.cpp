@@ -49,6 +49,8 @@ void QChildWidget::paintEvent(QPaintEvent*)
             pp.drawTiledPixmap(0, 0, width(), height(), *bg, pos.x(), pos.y());
             return;
         }
+        if (p == topLevelWidget())
+            break;
     }
     QPainter pp(this);
     pp.eraseRect(0, 0, width(), height());

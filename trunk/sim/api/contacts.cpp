@@ -1,25 +1,28 @@
 /***************************************************************************
-                          contacts.cpp  -  description
-                             -------------------
-    begin                : Sun Mar 10 2002
-    copyright            : (C) 2002 by Vladimir Shutoff
-    email                : vovan@shutoff.ru
- ***************************************************************************/
+contacts.cpp  -  description
+-------------------
+begin                : Sun Mar 10 2002
+copyright            : (C) 2002 by Vladimir Shutoff
+email                : vovan@shutoff.ru
+***************************************************************************/
 
 /***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+*                                                                         *
+*   This program is free software; you can redistribute it and/or modify  *
+*   it under the terms of the GNU General Public License as published by  *
+*   the Free Software Foundation; either version 2 of the License, or     *
+*   (at your option) any later version.                                   *
+*                                                                         *
+***************************************************************************/
 
 #include "simapi.h"
 #include "stl.h"
+#include "buffer.h"
 
 #include <qfile.h>
 #include <qdir.h>
+#include <qtextcodec.h>
+#include <qregexp.h>
 
 namespace SIM
 {
@@ -34,7 +37,7 @@ public:
     void clear(bool bClearAll);
     unsigned registerUserData(const char *name, const DataDef *def);
     void unregisterUserData(unsigned id);
-    void flush(Contact *c, Group *g, const char *section, const char *cfg);
+    void flush(Contact *c, Group *g, const char *section, Buffer *cfg);
     void flush(Contact *c, Group *g);
     UserData userData;
     list<UserDataDef> userDataDef;
@@ -50,16 +53,16 @@ public:
 /*
 typedef struct ContactData
 {
-    unsigned long	Group;		// Group ID
-    char			*Name;		// Contact Display Name (UTF-8)
-	unsigned long	Ignore;		// In ignore list
-	unsigned long	LastActive;
-	char			*EMails;
-	char			*Phones;
-	char			*FirstName;
-	char			*LastName;
-	char			*Notes;
-	unsigned long	Temp;
+   unsigned long	Group;		// Group ID
+   char			*Name;		// Contact Display Name (UTF-8)
+unsigned long	Ignore;		// In ignore list
+unsigned long	LastActive;
+char			*EMails;
+char			*Phones;
+char			*FirstName;
+char			*LastName;
+char			*Notes;
+unsigned long	Temp;
 } ContactData;
 */
 
@@ -76,10 +79,11 @@ static DataDef contactData[] =
         { "LastName", DATA_UTF, 1, 0 },
         { "Notes", DATA_UTF, 1, 0 },
         { "Flags", DATA_ULONG, 1, 0 },
+        { "Encoding", DATA_STRING, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
-Contact::Contact(unsigned long id, const char *cfg)
+Contact::Contact(unsigned long id, Buffer *cfg)
 {
     m_id = id;
     load_data(contactData, &data, cfg);
@@ -547,7 +551,7 @@ void Client::updateInfo(Contact *contact, void *data)
 /*
 typedef struct GroupData
 {
-    char			*Name;		// Display name (UTF-8)
+   char			*Name;		// Display name (UTF-8)
 } GroupData;
 */
 static DataDef groupData[] =
@@ -556,7 +560,7 @@ static DataDef groupData[] =
         { NULL, 0, 0, 0 }
     };
 
-Group::Group(unsigned long id, const char *cfg)
+Group::Group(unsigned long id, Buffer *cfg)
 {
     m_id = id;
     load_data(groupData, &data, cfg);
@@ -1015,12 +1019,12 @@ PacketType *ContactList::getPacketType(unsigned id)
 /*
 typedef struct ClientData
 {
-    unsigned	ManualStatus;
-    unsigned	CommonStatus;
-    char		*Password;
-    unsigned	SavePassword;
-	char		*PreviousPassword;
-    unsigned	Invisible;
+   unsigned	ManualStatus;
+   unsigned	CommonStatus;
+   char		*Password;
+   unsigned	SavePassword;
+char		*PreviousPassword;
+   unsigned	Invisible;
 } ClientData;
 */
 
@@ -1036,7 +1040,7 @@ static DataDef _clientData[] =
         { NULL, 0, 0, 0 }
     };
 
-Client::Client(Protocol *protocol, const char *cfg)
+Client::Client(Protocol *protocol, Buffer *cfg)
 {
     load_data(_clientData, &data, cfg);
 
@@ -1333,7 +1337,7 @@ string ClientUserData::save()
     return res;
 }
 
-void ClientUserData::load(Client *client, const char *cfg)
+void ClientUserData::load(Client *client, Buffer *cfg)
 {
     _ClientUserData data;
     data.client = client;
@@ -1615,7 +1619,7 @@ string UserData::save()
     return res;
 }
 
-void UserData::load(unsigned long id, const DataDef *def, const char *cfg)
+void UserData::load(unsigned long id, const DataDef *def, Buffer *cfg)
 {
     void *d = getUserData(id, true);
     if (d == NULL)
@@ -1632,9 +1636,9 @@ void ContactList::addClient(Client *client)
 }
 
 static char CONTACTS_CONF[] = "contacts.conf";
-static char _CONTACT[] = "[Contact=";
-static char _GROUP[] = "[Group=";
-static char _OWNER[] = "[Owner]";
+static char CONTACT[] = "Contact=";
+static char GROUP[] = "Group=";
+static char OWNER[] = "Owner";
 static char BACKUP_SUFFIX[] = "~";
 
 void ContactList::save()
@@ -1652,15 +1656,17 @@ void ContactList::save()
     }
     line = save_data(contactData, &owner()->data);
     if (line.length()){
-        string cfg  = _OWNER;
-        cfg += "\n";
+        string cfg  = "[";
+        cfg += OWNER;
+        cfg += "]\n";
         f.writeBlock(cfg.c_str(), cfg.length());
         f.writeBlock(line.c_str(), line.length());
         f.writeBlock("\n", 1);
     }
     for (vector<Group*>::iterator it_g = p->groups.begin(); it_g != p->groups.end(); ++it_g){
         Group *grp = *it_g;
-        line = _GROUP;
+        line = "[";
+        line += GROUP;
         line += number(grp->id());
         line += "]\n";
         f.writeBlock(line.c_str(), line.length());
@@ -1684,7 +1690,8 @@ void ContactList::save()
         Contact *contact = *it_c;
         if (contact->getFlags() & CONTACT_TEMPORARY)
             continue;
-        line = _CONTACT;
+        line = "[";
+        line += CONTACT;
         line += number(contact->id());
         line += "]\n";
         f.writeBlock(line.c_str(), line.length());
@@ -1744,52 +1751,39 @@ void ContactList::load()
         log(L_ERROR, "Can't open %s", cfgName.c_str());
         return;
     }
-    string cfg;
-    string s;
-    string section;
-    Contact *c = NULL;
-    Group *g = NULL;
-    while (getLine(f, s)){
-        if (s[0] == '['){
-            if (s == _OWNER){
-                p->flush(c, g, section.c_str(), cfg.c_str());
-                p->flush(c, g);
-                cfg = "";
-                c = owner();
-                g = NULL;
-                section = "";
-                continue;
-            }
-            if ((s.length() > strlen(_GROUP)) && !memcmp(s.c_str(), _GROUP, strlen(_GROUP))){
-                p->flush(c, g, section.c_str(), cfg.c_str());
-                p->flush(c, g);
-                cfg = "";
-                c = NULL;
-                unsigned long id = atol(s.c_str() + strlen(_GROUP));
-                g = group(id, id != 0);
-                section = "";
-                continue;
-            }
-            if ((s.length() > strlen(_CONTACT)) && !memcmp(s.c_str(), _CONTACT, strlen(_CONTACT))){
-                p->flush(c, g, section.c_str(), cfg.c_str());
-                p->flush(c, g);
-                cfg = "";
-                g = NULL;
-                unsigned long id = atol(s.c_str() + strlen(_GROUP));
-                c = contact(id, true);
-                section = "";
-                continue;
-            }
-            p->flush(c, g, section.c_str(), cfg.c_str());
-            cfg = "";
-            s = s.substr(1);
-            section = getToken(s, ']');
-            continue;
-        }
-        cfg += s;
-        cfg += "\n";
+    Buffer cfg;
+    cfg.init(f.size());
+    int n = f.readBlock(cfg.data(), f.size());
+    if (n < 0){
+        log(L_ERROR, "Can't read %s", cfgName.c_str());
+        return;
     }
-    p->flush(c, g, section.c_str(), cfg.c_str());
+    Contact *c = NULL;
+    Group   *g = NULL;
+    for (;;){
+        string s = cfg.getSection();
+        if (s.empty())
+            break;
+        if (s == OWNER){
+            p->flush(c, g);
+            c = owner();
+            g = NULL;
+            s = "";
+        }else if ((s.length() > strlen(GROUP)) && !memcmp(s.c_str(), GROUP, strlen(GROUP))){
+            p->flush(c, g);
+            c = NULL;
+            unsigned long id = atol(s.c_str() + strlen(GROUP));
+            g = group(id, id != 0);
+            s = "";
+        }else if ((s.length() > strlen(CONTACT)) && !memcmp(s.c_str(), CONTACT, strlen(CONTACT))){
+            p->flush(c, g);
+            g = NULL;
+            unsigned long id = atol(s.c_str() + strlen(GROUP));
+            c = contact(id, true);
+            s = "";
+        }
+        p->flush(c, g, s.c_str(), &cfg);
+    }
     p->flush(c, g);
 }
 
@@ -1804,9 +1798,9 @@ void ContactListPrivate::flush(Contact *c, Group *g)
         data->sort();
 }
 
-void ContactListPrivate::flush(Contact *c, Group *g, const char *section, const char *cfg)
+void ContactListPrivate::flush(Contact *c, Group *g, const char *section, Buffer *cfg)
 {
-    if ((cfg == NULL) || (*cfg == 0))
+    if (cfg == NULL)
         return;
     if (*section == 0){
         if (c){
@@ -1961,6 +1955,115 @@ EXPORT ContactList *getContacts()
     return PluginManager::contacts;
 }
 
+static ENCODING encodings[] =
+    {
+        { I18N_NOOP("Unicode"), "UTF-8", 106, 0, 65001, true },
+
+        { I18N_NOOP("Arabic"), "ISO 8859-6", 82, 180, 28596, false },
+        { I18N_NOOP("Arabic"), "CP 1256", 2256, 180, 1256, true },
+
+        { I18N_NOOP("Baltic"), "ISO 8859-13", 109, 186, 28594, false },
+        { I18N_NOOP("Baltic"), "CP 1257", 2257, 186, 1257, true },
+
+        { I18N_NOOP("Central European"), "ISO 8859-2", 5, 238, 28592, false },
+        { I18N_NOOP("Esperanto"), "ISO 8859-3", 6, 238, 28593, false },
+        { I18N_NOOP("Central European"), "CP 1250", 2250, 238, 1250, true },
+
+        { I18N_NOOP("Chinese "), "GBK", 2025, 134, 0, false },
+        { I18N_NOOP("Chinese Simplified"), "gbk2312",2312, 134, 0, true },
+        { I18N_NOOP("Chinese Traditional"), "Big5",2026, 136, 0, true },
+
+        { I18N_NOOP("Cyrillic"), "ISO 8859-5", 8, 204, 28595, false },
+        { I18N_NOOP("Cyrillic"), "KOI8-R", 2084, 204, 1251, false },
+        { I18N_NOOP("Ukrainian"), "KOI8-U", 2088, 204, 1251, false },
+        { I18N_NOOP("Cyrillic"), "CP 1251", 2251, 204, 1251, true },
+
+        { I18N_NOOP("Greek"), "ISO 8859-7", 10, 161, 28597, false },
+        { I18N_NOOP("Greek"), "CP 1253", 2253, 161, 1253, true },
+
+        { I18N_NOOP("Hebrew"), "ISO 8859-8-I", 85, 177, 28598,  false },
+        { I18N_NOOP("Hebrew"), "CP 1255", 2255, 177, 1255, true },
+
+        { I18N_NOOP("Japanese"), "JIS7", 16, 128, 0, false },
+        { I18N_NOOP("Japanese"), "eucJP", 18, 128, 0, false },
+        { I18N_NOOP("Japanese"), "Shift-JIS", 17, 128, 0, true },
+
+        { I18N_NOOP("Korean"), "eucKR", 38, 0, 0, true },
+
+        { I18N_NOOP("Western European"), "ISO 8859-1", 4, 0, 28591, false },
+        { I18N_NOOP("Western European"), "ISO 8859-15", 111, 0, 28605, false },
+        { I18N_NOOP("Western European"), "CP 1252", 2252, 0, 1252, true },
+
+        { I18N_NOOP("Tamil"), "TSCII", 2028, 0, 0, true },
+
+        { I18N_NOOP("Thai"), "TIS-620", 2259, 222, 0, true },
+
+        { I18N_NOOP("Turkish"), "ISO 8859-9", 12, 162, 28599, false },
+        { I18N_NOOP("Turkish"), "CP 1254", 2254, 162, 1254, true },
+
+        { NULL, NULL, 0, 0, 0, false }
+    };
+
+const ENCODING *ContactList::getEncodings()
+{
+    return encodings;
+}
+
+QTextCodec *ContactList::getCodecByName(const char *encoding)
+{
+    QTextCodec *codec = NULL;
+    if (encoding && *encoding){
+        codec = QTextCodec::codecForName(encoding);
+        if (codec)
+            return codec;
+    }
+    codec = QTextCodec::codecForLocale();
+    const ENCODING *e;
+    for (e = encodings; e->language; e++){
+        if (!strcmp(codec->name(), e->codec))
+            break;
+    }
+    if (e->language && !e->bMain){
+        for (e++; e->language; e++){
+            if (e->bMain){
+                codec = QTextCodec::codecForName(e->codec);
+                break;
+            }
+        }
+    }
+    if (codec == NULL)
+        codec= QTextCodec::codecForLocale();
+    return codec;
+}
+
+QTextCodec *ContactList::getCodec(Contact *contact)
+{
+    QTextCodec *codec = NULL;
+    if (contact && *contact->getEncoding()){
+        codec = getCodecByName(contact->getEncoding());
+        if (codec)
+            return codec;
+    }
+    return getCodecByName(owner()->getEncoding());
+}
+
+QString ContactList::toUnicode(Contact *contact, const char *str)
+{
+    if (str && *str){
+        QString res = getCodec(contact)->toUnicode(str, strlen(str));
+        return res.replace(QRegExp("\r"), "");
+    }
+    return "";
+}
+
+string ContactList::fromUnicode(Contact *contact, const QString &str)
+{
+    QString s = str;
+    s = s.replace(QRegExp("\r"), "");
+    s = s.replace(QRegExp("\n"), "\r\n");
+    QCString res = getCodec(contact)->fromUnicode(str);
+    return (const char*)res;
+}
 }
 
 EXPORT QString g_i18n(const char *text, Contact *contact)

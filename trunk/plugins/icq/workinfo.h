@@ -27,7 +27,7 @@ class WorkInfo : public WorkInfoBase, public EventReceiver
 {
     Q_OBJECT
 public:
-    WorkInfo(QWidget *parent, struct ICQUserData *data, ICQClient *client);
+    WorkInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client);
 public slots:
     void apply();
     void apply(Client*, void*);
@@ -37,6 +37,7 @@ protected:
     void *processEvent(Event*);
     void fill();
     struct ICQUserData *m_data;
+    unsigned  m_contact;
     ICQClient *m_client;
 };
 

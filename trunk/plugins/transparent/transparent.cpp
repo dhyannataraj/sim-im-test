@@ -47,7 +47,7 @@ static BOOL (WINAPI *SetLayeredWindowAttributes)(
 
 #endif
 
-Plugin *createTransparentPlugin(unsigned base, bool, const char *config)
+Plugin *createTransparentPlugin(unsigned base, bool, Buffer *config)
 {
 #ifdef WIN32
     HINSTANCE hLib = LoadLibraryA("user32.dll");
@@ -102,7 +102,7 @@ static DataDef transparentData[] =
         { NULL, 0, 0, 0 }
     };
 
-TransparentPlugin::TransparentPlugin(unsigned base, const char *config)
+TransparentPlugin::TransparentPlugin(unsigned base, Buffer *config)
         : Plugin(base)
 #ifndef WIN32
         , EventReceiver(HighPriority)

@@ -85,7 +85,7 @@
 const unsigned CHECK1_INTERVAL = 30 * 60;
 const unsigned CHECK2_INTERVAL = 120 * 60;
 
-Plugin *createWeatherPlugin(unsigned base, bool bInit, const char *config)
+Plugin *createWeatherPlugin(unsigned base, bool bInit, Buffer *config)
 {
     Plugin *plugin = new WeatherPlugin(base, bInit, config);
     return plugin;
@@ -145,7 +145,7 @@ static DataDef weatherData[] =
         { NULL, 0, 0, 0 }
     };
 
-WeatherPlugin::WeatherPlugin(unsigned base, bool bInit, const char *config)
+WeatherPlugin::WeatherPlugin(unsigned base, bool bInit, Buffer *config)
         : Plugin(base)
 {
     load_data(weatherData, &data, config);

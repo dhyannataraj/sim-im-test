@@ -27,12 +27,12 @@
 #include <qpixmap.h>
 #include <qlabel.h>
 
-AIMInfo::AIMInfo(QWidget *parent, struct ICQUserData *data, ICQClient *client)
+AIMInfo::AIMInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
         : AIMInfoBase(parent)
 {
-    m_bInit = false;
     m_client  = client;
-    m_data  = data;
+    m_data    = data;
+    m_contact = contact;
     edtScreen->setReadOnly(true);
     if (m_data){
         edtFirst->setReadOnly(true);
@@ -62,7 +62,6 @@ void AIMInfo::apply()
     ICQUserData *data = m_data;
     if (data == NULL)
         data = &m_client->data.owner;
-    m_client->getEncoding(cmbEncoding, data, m_data == NULL);
 }
 
 void AIMInfo::apply(Client *client, void *_data)
@@ -147,7 +146,7 @@ void AIMInfo::fill()
         status = m_client->getStatus();
     }
     if ((status != STATUS_ONLINE) && (status != STATUS_OFFLINE) && m_data){
-        edtAutoReply->setText(m_client->toUnicode(m_data->AutoReply.ptr, m_data));
+        edtAutoReply->setText(getContacts()->toUnicode(getContacts()->contact(m_contact), m_data->AutoReply.ptr));
     }else{
         edtAutoReply->hide();
     }
@@ -215,10 +214,6 @@ void AIMInfo::fill()
 #endif
         edtClient->setText(name.c_str());
     }
-    if (m_bInit)
-        return;
-    m_bInit = true;
-    m_client->fillEncoding(cmbEncoding, data);
 }
 
 #ifndef WIN32

@@ -34,7 +34,7 @@ class WinDockPlugin : public QObject, public Plugin, public EventReceiver
 {
     Q_OBJECT
 public:
-    WinDockPlugin(unsigned, const char*);
+    WinDockPlugin(unsigned, Buffer*);
     virtual ~WinDockPlugin();
     PROP_BOOL(AutoHide);
     PROP_USHORT(State);

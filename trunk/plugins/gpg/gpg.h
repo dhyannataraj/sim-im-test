@@ -73,7 +73,7 @@ class GpgPlugin : public QObject, public Plugin, public EventReceiver
 {
     Q_OBJECT
 public:
-    GpgPlugin(unsigned, const char*);
+    GpgPlugin(unsigned, Buffer*);
     virtual ~GpgPlugin();
     PROP_STR(GPG);
     PROP_STR(Home);

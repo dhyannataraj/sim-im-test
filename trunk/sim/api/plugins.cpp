@@ -197,7 +197,7 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
 #else
         info.name		 = strdup(QFile::encodeName(f));
 #endif
-        info.config		 = NULL;
+        info.cfg		 = NULL;
         info.bDisabled	 = false;
         info.bNoCreate	 = false;
         info.bFromCfg	 = false;
@@ -428,7 +428,7 @@ bool PluginManagerPrivate::createPlugin(pluginInfo &info)
         m_base += 0x1000;
         info.base = m_base;
     }
-    info.plugin = info.info->create(info.base, m_bInInit, info.config);
+    info.plugin = info.info->create(info.base, m_bInInit, info.cfg);
     if ((unsigned)(info.plugin) == ABORT_LOADING){
         m_bAbort = true;
         info.plugin = NULL;
@@ -438,9 +438,9 @@ bool PluginManagerPrivate::createPlugin(pluginInfo &info)
         info.bDisabled = true;
         return false;
     }
-    if (info.config){
-        free(info.config);
-        info.config = NULL;
+    if (info.cfg){
+        delete info.cfg;
+        info.cfg = NULL;
     }
     if (info.info->flags & PLUGIN_RELOAD){
         reloadState();
@@ -588,9 +588,9 @@ void PluginManagerPrivate::reloadState()
     m_bLoaded = false;
     for (unsigned i = 0; i < plugins.size(); i++){
         pluginInfo &info = plugins[i];
-        if (info.config){
-            free(info.config);
-            info.config = NULL;
+        if (info.cfg){
+            delete info.cfg;
+            info.cfg = NULL;
         }
     }
 }
@@ -623,52 +623,48 @@ void PluginManagerPrivate::loadState()
         log(L_ERROR, "Can't open %s", f.name().ascii());
         return;
     }
-    unsigned i = NO_PLUGIN;
-    string cfg;
-    string s;
-    while (getLine(f, s)){
-        if (s[0] != '['){
-            if (i != NO_PLUGIN){
-                cfg += s;
-                cfg += "\n";
-            }
-            continue;
-        }
-
-        if (cfg.length() && (i != NO_PLUGIN))
-            plugins[i].config = strdup(cfg.c_str());
-        cfg = "";
-        s = s.substr(1);
-        string name = getToken(s, ']');
-        i = NO_PLUGIN;
+    Buffer cfg;
+    cfg.init(f.size());
+    int n = f.readBlock(cfg.data(), f.size());
+    if (n < 0){
+        log(L_ERROR, "Can't read %s", f.name().ascii());
+        return;
+    }
+    for (;;){
+        string section = cfg.getSection();
+        if (section.empty())
+            return;
+        unsigned i = NO_PLUGIN;
         for (unsigned n = 0; n < plugins.size(); n++){
-            if (!strcmp(name.c_str(), plugins[n].name)){
+            if (section == plugins[n].name){
                 i = n;
                 break;
             }
         }
-        if (!getLine(f, s))
-            break;
         if (i == NO_PLUGIN)
             continue;
         pluginInfo &info = plugins[i];
-        string token = getToken(s, ',');
-        if (!strcmp(token.c_str(), ENABLE)){
+        const char *line = cfg.getLine();
+        if (line == NULL)
+            continue;
+        string token = getToken(line, ',');
+        if (token == ENABLE){
             info.bDisabled = false;
             info.bFromCfg  = true;
-        }else if (!strcmp(token.c_str(), DISABLE)){
+        }else if (token == DISABLE){
             info.bDisabled = true;
             info.bFromCfg  = true;
         }else{
             continue;
         }
-        token = getToken(s, ',');
-        info.base = atol(token.c_str());
+        info.base = atol(line);
         if (info.base > m_base)
             m_base = info.base;
+        if (cfg.readPos() < cfg.writePos()){
+            plugins[i].cfg = new Buffer;
+            plugins[i].cfg->pack(cfg.data(cfg.readPos()), cfg.writePos() - cfg.readPos());
+        }
     }
-    if (cfg.length() && (i != NO_PLUGIN))
-        plugins[i].config = strdup(cfg.c_str());
 }
 
 bool PluginManagerPrivate::findParam(const char *p, const char *descriptor, string *value)
