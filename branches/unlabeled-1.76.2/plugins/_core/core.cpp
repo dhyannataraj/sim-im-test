@@ -2261,7 +2261,8 @@ void *CorePlugin::processEvent(Event *e)
                 while ((c = ++it) != NULL){
                     if ((c->id == MessageSMS) && (cc.client->protocol()->description()->flags & PROTOCOL_NOSMS))
                         continue;
-                    if (!cc.client->canSend(c->id, cc.data)){
+					string resource;
+                    if (!cc.client->canSend(c->id, cc.data, resource)){
                         CheckSend cs;
                         cs.id     = c->id;
                         cs.data   = cc.data;
@@ -2330,7 +2331,8 @@ void *CorePlugin::processEvent(Event *e)
                     for (vector<clientContact>::iterator it = ways.begin(); it != ways.end(); ++it){
                         if ((cmd->id == MessageSMS) && ((*it).client->protocol()->description()->flags & PROTOCOL_NOSMS))
                             return NULL;
-                        if ((*it).client->canSend(cmd->id, (*it).data)){
+						string resource;
+                        if ((*it).client->canSend(cmd->id, (*it).data, resource)){
                             return e->param();
                         }
                     }
@@ -2345,7 +2347,8 @@ void *CorePlugin::processEvent(Event *e)
                     }
                 }
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
-                    if (getContacts()->getClient(i)->canSend(cmd->id, NULL))
+					string resource;
+                    if (getContacts()->getClient(i)->canSend(cmd->id, NULL, resource))
                         return e->param();
                 }
                 return NULL;
@@ -2503,7 +2506,8 @@ void *CorePlugin::processEvent(Event *e)
                 cmd->flags &= COMMAND_CHECKED;
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
                     Client *client = getContacts()->getClient(i);
-                    if (client->canSend(MessageSMS, NULL))
+					string resource;
+                    if (client->canSend(MessageSMS, NULL, resource))
                         return e->param();
                 }
                 return NULL;
@@ -2590,7 +2594,8 @@ void *CorePlugin::processEvent(Event *e)
                         void *data;
                         while ((data = ++it) != NULL){
                             Client *client = it.client();
-                            if (client->canSend(msg->type(), data) && client->send(msg, data))
+							string resource;
+                            if (client->canSend(msg->type(), data, resource) && client->send(msg, data))
                                 break;
                         }
                     }
@@ -2660,7 +2665,8 @@ void *CorePlugin::processEvent(Event *e)
                             if ((client->dataName(data) == client_str) && client->send(msg, data))
                                 return e->param();
                         }else{
-                            if (client->canSend(MessageAuthGranted, data) && client->send(msg, data))
+							string resource;
+                            if (client->canSend(MessageAuthGranted, data, resource) && client->send(msg, data))
                                 return e->param();
                         }
                     }

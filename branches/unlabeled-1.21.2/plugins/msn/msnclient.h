@@ -29,10 +29,13 @@ const unsigned STATUS_BRB		= 101;
 const unsigned STATUS_PHONE		= 102;
 const unsigned STATUS_LUNCH		= 103;
 
-const unsigned MSN_BLOCKED	= 0x0001;
-const unsigned MSN_REVERSE  = 0x0002;
-const unsigned MSN_FORWARD	= 0x0004;
-const unsigned MSN_CHECKED	= 0x0008;
+const unsigned MSN_FORWARD	= 0x0001;
+const unsigned MSN_ACCEPT	= 0x0002;
+const unsigned MSN_BLOCKED	= 0x0004;
+const unsigned MSN_REVERSE  = 0x0008;
+
+const unsigned MSN_FLAGS	= 0x000F;
+const unsigned MSN_CHECKED	= 0x1000;
 
 class SBSocket;
 
@@ -69,6 +72,8 @@ typedef struct MSNClientData
     Data	MaxPort;
     Data	UseHTTP;
     Data	AutoHTTP;
+	Data	Deleted;
+	Data	NDeleted;
     MSNUserData	owner;
 } MSNClientData;
 
@@ -176,6 +181,8 @@ public:
     PROP_USHORT(MaxPort);
     PROP_BOOL(UseHTTP);
     PROP_BOOL(AutoHTTP);
+	PROP_STRLIST(Deleted);
+	PROP_ULONG(NDeleted);
     QString getLogin();
     QString unquote(const QString&);
     QString quote(const QString&);
@@ -213,7 +220,7 @@ protected:
     virtual QWidget *infoWindow(QWidget *parent, Contact*, void *_data, unsigned id);
     virtual QWidget *configWindow(QWidget *parent, unsigned id);
     virtual bool send(Message*, void*);
-    virtual bool canSend(unsigned, void*);
+    virtual bool canSend(unsigned, void*, string&);
     virtual void *processEvent(Event*);
     virtual QWidget *searchWindow();
     virtual bool isMyData(clientData*&, Contact*&);
@@ -222,6 +229,9 @@ protected:
     void getLine(const char*);
     void clearPackets();
     void sendStatus();
+	void checkEndSync();
+	void processLSG(unsigned id, const char *name);
+	void processLST(const char *mail, const char *alias, unsigned state, unsigned id);
     virtual void	packet_ready();
     virtual void	connect_ready();
     virtual void	setStatus(unsigned status);
@@ -232,6 +242,7 @@ protected:
     unsigned			m_pingTime;
     list<MSNPacket*>	m_packets;
     MSNServerMessage	*m_msg;
+	string				m_curBuddy;
     void		 requestLoginHost(const char *url);
     void		 requestTWN(const char *url);
     enum AuthState
@@ -244,9 +255,12 @@ protected:
     string		 m_authChallenge;
     bool		 m_bFirstTry;
     bool		 m_bHTTP;
+	unsigned	 m_nBuddies;
+	unsigned	 m_nGroups;
     friend class MSNPacket;
     friend class UsrPacket;
     friend class QryPacket;
+	friend class SynPacket;
     friend class MSNServerMessage;
     friend class SBSocket;
 };

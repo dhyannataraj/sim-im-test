@@ -344,7 +344,7 @@ protected:
     virtual bool isMyData(clientData*&, Contact*&);
     virtual bool createData(clientData*&, Contact*);
     virtual bool compareData(void*, void*);
-    virtual bool canSend(unsigned, void*);
+    virtual bool canSend(unsigned, void*, string&);
     virtual void contactInfo(void *data, unsigned long &curStatus, unsigned &style, const char *&statusIcon, string *icons = NULL);
     virtual QString contactTip(void *data);
     virtual QWidget *searchWindow();

@@ -1058,6 +1058,7 @@ typedef struct MessageData
     Data		Font;
     Data		Error;
     Data		RetryCode;
+	Data		Resource;
 } MessageData;
 
 class EXPORT Message
@@ -1083,6 +1084,7 @@ public:
     PROP_STR(Error);
     PROP_STR(Font);
     PROP_ULONG(RetryCode);
+	PROP_UTF8(Resource);
     const char *client() const { return m_client.c_str(); }
     void setClient(const char *client);
     virtual QString presentation();
@@ -1528,7 +1530,7 @@ public:
     virtual QString contactName(void *clientData);
     virtual void setupContact(Contact*, void *data) = 0;
     virtual bool send(Message*, void *data) = 0;
-    virtual bool canSend(unsigned type, void *data) = 0;
+    virtual bool canSend(unsigned type, void *data, string &resource) = 0;
     virtual QString contactTip(void *clientData);
     virtual CommandDef *infoWindows(Contact *contact, void *clientData);
     virtual QWidget *infoWindow(QWidget *parent, Contact *contact, void *clientData, unsigned id);

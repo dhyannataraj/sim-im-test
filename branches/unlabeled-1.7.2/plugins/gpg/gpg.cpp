@@ -317,7 +317,8 @@ void *GpgPlugin::processEvent(Event *e)
         }
     case EventCheckSend:{
             CheckSend *cs = (CheckSend*)(e->param());
-            if ((cs->id == MessageGPGKey) && cs->client->canSend(MessageGeneric, cs->data))
+			string resource;
+            if ((cs->id == MessageGPGKey) && cs->client->canSend(MessageGeneric, cs->data, resource))
                 return e->param();
             return NULL;
         }

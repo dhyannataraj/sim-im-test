@@ -29,11 +29,10 @@ public:
     virtual ~MSNPacket() {}
     const char	*cmd()	{ return m_cmd.c_str(); }
     unsigned	id()	{ return m_id; }
-    virtual	bool	answer(const char*, vector<string>&) { return false; }
+    virtual	void	answer(vector<string>&) {}
     virtual void	error(unsigned code);
     void			addArg(const char *str);
     virtual void	send();
-    bool		m_bAnswer;
 protected:
     string		m_line;
     string		m_cmd;
@@ -45,21 +44,21 @@ class VerPacket : public MSNPacket
 {
 public:
     VerPacket(MSNClient *client);
-    bool answer(const char *cmd, vector<string> &args);
+    void answer(vector<string> &args);
 };
 
 class CvrPacket : public MSNPacket
 {
 public:
     CvrPacket(MSNClient *client);
-    bool answer(const char *cmd, vector<string> &args);
+    void answer(vector<string> &args);
 };
 
 class UsrPacket : public MSNPacket
 {
 public:
     UsrPacket(MSNClient *client, const char *hash = NULL);
-    bool answer(const char *cmd, vector<string> &args);
+    void answer(vector<string> &args);
 };
 
 class OutPacket : public MSNPacket
@@ -78,12 +77,8 @@ class SynPacket : public MSNPacket
 {
 public:
     SynPacket(MSNClient *client);
-    ~SynPacket();
 protected:
-    bool answer(const char *cmd, vector<string> &args);
-    bool				bDone;
-    unsigned			m_ver;
-    struct MSNUserData	*m_data;
+    void answer(vector<string> &args);
 };
 
 class QryPacket : public MSNPacket
@@ -98,7 +93,7 @@ class AdgPacket : public MSNPacket
 public:
     AdgPacket(MSNClient *client, unsigned grp_id, const char *name);
 protected:
-    bool answer(const char *cmd, vector<string> &args);
+    void answer(vector<string> &args);
     unsigned m_id;
 };
 
@@ -119,7 +114,7 @@ class AddPacket : public MSNPacket
 public:
     AddPacket(MSNClient *client, const char *listType, const char *mail, const char *name, unsigned grp=0);
 protected:
-    bool answer(const char *cmd, vector<string> &args);
+    void answer(vector<string> &args);
     virtual void	error(unsigned code);
     string m_mail;
 };
@@ -150,7 +145,7 @@ public:
     void clear();
 protected:
     SBSocket *m_socket;
-    bool answer(const char *cmd, vector<string> &args);
+    void answer(vector<string> &args);
 };
 
 class MSNServerMessage

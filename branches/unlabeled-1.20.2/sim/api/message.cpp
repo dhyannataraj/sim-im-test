@@ -42,6 +42,7 @@ static DataDef	messageData[] =
         { "Font", DATA_STRING, 1, 0 },
         { "", DATA_STRING, 1, 0 },			// Error
         { "", DATA_ULONG, 1, 0 },			// RetryCode
+		{ "Resource", DATA_UTF, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 

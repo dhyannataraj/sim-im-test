@@ -1846,7 +1846,7 @@ void JabberClient::updateInfo(Contact *contact, void *data)
     info_request((JabberUserData*)data, false);
 }
 
-bool JabberClient::canSend(unsigned type, void *_data)
+bool JabberClient::canSend(unsigned type, void *_data, string&)
 {
     if ((_data == NULL) || (((clientData*)_data)->Sign.value != JABBER_SIGN))
         return false;
