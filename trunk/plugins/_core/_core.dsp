@@ -1,24 +1,24 @@
 # Microsoft Developer Studio Project File - Name="_core" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
-# ** DO NOT EDIT **
+# ** NICHT BEARBEITEN **
 
 # TARGTYPE "Win32 (x86) Dynamic-Link Library" 0x0102
 
 CFG=_core - Win32 Debug
-!MESSAGE This is not a valid makefile. To build this project using NMAKE,
-!MESSAGE use the Export Makefile command and run
+!MESSAGE Dies ist kein gültiges Makefile. Zum Erstellen dieses Projekts mit NMAKE
+!MESSAGE verwenden Sie den Befehl "Makefile exportieren" und führen Sie den Befehl
 !MESSAGE 
 !MESSAGE NMAKE /f "_core.mak".
 !MESSAGE 
-!MESSAGE You can specify a configuration when running NMAKE
-!MESSAGE by defining the macro CFG on the command line. For example:
+!MESSAGE Sie können beim Ausführen von NMAKE eine Konfiguration angeben
+!MESSAGE durch Definieren des Makros CFG in der Befehlszeile. Zum Beispiel:
 !MESSAGE 
 !MESSAGE NMAKE /f "_core.mak" CFG="_core - Win32 Debug"
 !MESSAGE 
-!MESSAGE Possible choices for configuration are:
+!MESSAGE Für die Konfiguration stehen zur Auswahl:
 !MESSAGE 
-!MESSAGE "_core - Win32 Release" (based on "Win32 (x86) Dynamic-Link Library")
-!MESSAGE "_core - Win32 Debug" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "_core - Win32 Release" (basierend auf  "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "_core - Win32 Debug" (basierend auf  "Win32 (x86) Dynamic-Link Library")
 !MESSAGE 
 
 # Begin Project
@@ -3951,10 +3951,11 @@ SOURCE=..\..\po\bg.po
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Release
 InputPath=..\..\po\bg.po
+InputName=bg
 
-"$(OutDir)\po\bg.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\bg.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -3982,10 +3983,11 @@ SOURCE=..\..\po\ca.po
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Release
 InputPath=..\..\po\ca.po
+InputName=ca
 
-"$(OutDir)\po\ca.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\ca.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4013,10 +4015,11 @@ SOURCE=..\..\po\cs.po
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Release
 InputPath=..\..\po\cs.po
+InputName=cs
 
-"$(OutDir)\po\cs.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\cs.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4044,10 +4047,11 @@ SOURCE=..\..\po\de.po
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Release
 InputPath=..\..\po\de.po
+InputName=de
 
-"$(OutDir)\po\de.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\de.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4075,10 +4079,11 @@ SOURCE=..\..\po\es.po
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Release
 InputPath=..\..\po\es.po
+InputName=es
 
-"$(OutDir)\po\es.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\es.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4106,10 +4111,11 @@ SOURCE=..\..\po\fr.po
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Release
 InputPath=..\..\po\fr.po
+InputName=fr
 
-"$(OutDir)\po\fr.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\fr.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4137,10 +4143,11 @@ SOURCE=..\..\po\he.po
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Release
 InputPath=..\..\po\he.po
+InputName=he
 
-"$(OutDir)\po\he.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\he.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4168,10 +4175,11 @@ SOURCE=..\..\po\it.po
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Release
 InputPath=..\..\po\it.po
+InputName=it
 
-"$(OutDir)\po\it.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\it.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4199,10 +4207,11 @@ SOURCE=..\..\po\nl.po
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Release
 InputPath=..\..\po\nl.po
+InputName=nl
 
-"$(OutDir)\po\nl.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\nl.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4230,10 +4239,11 @@ SOURCE=..\..\po\pl.po
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Release
 InputPath=..\..\po\pl.po
+InputName=pl
 
-"$(OutDir)\po\pl.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\pl.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4261,10 +4271,11 @@ SOURCE=..\..\po\ru.po
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Release
 InputPath=..\..\po\ru.po
+InputName=ru
 
-"$(OutDir)\po\ru.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\ru.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4292,10 +4303,11 @@ SOURCE=..\..\po\sk.po
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Release
 InputPath=..\..\po\sk.po
+InputName=sk
 
-"$(OutDir)\po\sk.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\sk.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4323,10 +4335,11 @@ SOURCE=..\..\po\sw.po
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Release
 InputPath=..\..\po\sw.po
+InputName=sw
 
-"$(OutDir)\po\sw.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\sw.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4354,10 +4367,11 @@ SOURCE=..\..\po\tr.po
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Release
 InputPath=..\..\po\tr.po
+InputName=tr
 
-"$(OutDir)\po\tr.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\tr.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4385,10 +4399,11 @@ SOURCE=..\..\po\uk.po
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Release
 InputPath=..\..\po\uk.po
+InputName=uk
 
-"$(OutDir)\po\uk.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\uk.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4416,10 +4431,11 @@ SOURCE=..\..\po\zh_TW.po
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Release
 InputPath=..\..\po\zh_TW.po
+InputName=zh_TW
 
-"$(OutDir)\po\zh_TW.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\zh_TW.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
