@@ -126,7 +126,7 @@ void CommonStatus::setBarStatus(bool bFirst)
                 delete m_timer;
                 m_timer = NULL;
             }
-            unsigned status = STATUS_OFFLINE;
+            unsigned status = CorePlugin::m_plugin->getManualStatus();
             unsigned i;
             for (i = 0; i < getContacts()->nClients(); i++){
                 Client *client = getContacts()->getClient(i);
@@ -137,7 +137,6 @@ void CommonStatus::setBarStatus(bool bFirst)
                     text = I18N_NOOP("Error");
                     break;
                 }
-                status = client->getStatus();
             }
             if (i >= getContacts()->nClients()){
                 Client *client = getContacts()->getClient(0);

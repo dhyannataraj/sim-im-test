@@ -499,6 +499,7 @@ void HistoryConfig::rename()
         return;
     if (!m_styles[cur].bCustom)
         return;
+    m_edit = cur;
     cmbStyle->setEditable(true);
     cmbStyle->lineEdit()->setText(m_styles[cur].name);
     cmbStyle->lineEdit()->setFocus();
@@ -513,40 +514,36 @@ void HistoryConfig::cancelRename()
 
 void HistoryConfig::realRename()
 {
-    int cur = cmbStyle->currentItem();
-    if ((cur < 0) || (!m_styles.size()))
-        return;
     QString newName = cmbStyle->lineEdit()->text();
     cmbStyle->lineEdit()->removeEventFilter(this);
     cmbStyle->setEditable(false);
-    if (newName != m_styles[cur].name){
+    if (newName != m_styles[m_edit].name){
         int n = 0;
         vector<StyleDef>::iterator it;
         for (it = m_styles.begin(); it != m_styles.end(); ++it, n++){
             if ((*it).name == newName){
-                if (n < cur)
-                    cur--;
+                if (n < m_edit)
+                    m_edit--;
                 m_styles.erase(it);
                 break;
             }
         }
-
         string nn;
         nn = STYLES;
-        nn += QFile::encodeName(m_styles[cur].name);
+        nn += QFile::encodeName(m_styles[m_edit].name);
         nn += EXT;
         nn = user_file(nn.c_str());
-        if (m_styles[cur].text.isEmpty()){
+        if (m_styles[m_edit].text.isEmpty()){
             QFile f(QFile::decodeName(nn.c_str()));
             if (f.open(IO_ReadOnly)){
                 string s;
                 s.append(f.size(), '\x00');
                 f.readBlock((char*)(s.c_str()), f.size());
-                m_styles[cur].text = QString::fromUtf8(s.c_str());
+                m_styles[m_edit].text = QString::fromUtf8(s.c_str());
             }
         }
         QFile::remove(QFile::decodeName(nn.c_str()));
-        m_styles[cur].name = newName;
+        m_styles[m_edit].name = newName;
     }
     fillCombo(newName);
 }
@@ -567,6 +564,7 @@ bool HistoryConfig::eventFilter(QObject *o, QEvent *e)
             QTimer::singleShot(0, this, SLOT(cancelRename()));
             break;
         }
+        return true;
     }
     return HistoryConfigBase::eventFilter(o, e);
 }
@@ -625,7 +623,7 @@ void HistoryConfig::fillPreview()
 {
     m_bDirty = false;
     int cur = cmbStyle->currentItem();
-    if ((cur < 0) || (!m_styles.size()))
+    if ((cur < 0) || (cur >= (int)m_styles.size()))
         return;
     XSL *xsl = new XSL(m_styles[cur].name);
     if (!m_styles[cur].text.isEmpty())

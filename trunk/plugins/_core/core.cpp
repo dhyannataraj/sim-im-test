@@ -227,6 +227,7 @@ static DataDef coreData[] =
         { "NoShow", DATA_BOOL, 1, 0 },
         { "ShowPanel", DATA_BOOL, 1, 1 },
         { "ManualStatus", DATA_ULONG, 1, STATUS_ONLINE },
+        { "", DATA_ULONG, 1, 0 },		// StatusTime
         { "Invisible", DATA_BOOL, 1, 0 },
         { "Geometry", DATA_LONG, 5, (unsigned)(-1) },
         { "ToolBar", DATA_LONG, 7, 0 },
@@ -409,6 +410,9 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     historyXSL = NULL;
 
     load_data(coreData, &data, config);
+    time_t now;
+    time(&now);
+    setStatusTime(now);
 
     user_data_id	 = getContacts()->registerUserData("core", coreUserData);
     sms_data_id		 = getContacts()->registerUserData("sms", smsUserData);
@@ -1325,7 +1329,7 @@ QString CorePlugin::poFile(const char *lang)
     QFile f(QFile::decodeName(s.c_str()));
     if (!f.exists()) return "";
 #else
-string s = PREFIX "/share/locale/";
+    string s = PREFIX "/share/locale/";
     string l;
     if (lang)
         l = lang;
@@ -1366,7 +1370,7 @@ void CorePlugin::installTranslator()
 #ifdef USE_KDE
         return;
 #else
-char *p = getenv("LANG");
+        char *p = getenv("LANG");
         if (p){
             for (; *p; p++){
                 if (*p == '.') break;
@@ -1494,7 +1498,9 @@ void *CorePlugin::processEvent(Event *e)
                          "&Phone; - phone\n"
                          "&Nick; - contact nick\n"
                          "&Unread; - number of unread messages from this contact\n"
-                         "&Status; - contact status\n\n"
+                         "&Status; - contact status\n"
+                         "&TimeStatus; - time of set status\n"
+                         "&IntervalStatus; - time (in seconds) from set status\n\n"
                          "`<command>` - call <command> and substitute command output\n");
             return e->param();
         }
@@ -1550,6 +1556,9 @@ void *CorePlugin::processEvent(Event *e)
                 string profile = getProfile();
                 free_data(coreData, &data);
                 load_data(coreData, &data, info->config);
+                time_t now;
+                time(&now);
+                setStatusTime(now);
                 if (info->config){
                     free(info->config);
                     info->config = NULL;
@@ -2959,6 +2968,9 @@ void CorePlugin::changeProfile()
     pluginInfo *info = (pluginInfo*)(eInfo.process());
     free_data(coreData, &data);
     load_data(coreData, &data, info->config);
+    time_t now;
+    time(&now);
+    setStatusTime(now);
     if (info->config){
         free(info->config);
         info->config = NULL;
@@ -3676,6 +3688,16 @@ void CorePlugin::checkHistory()
         History::cut(NULL, contact->id(), now);
     }
     QTimer::singleShot(24 * 60 * 60 * 1000, this, SLOT(checkHistory()));
+}
+
+void CorePlugin::setManualStatus(unsigned long status)
+{
+    if (status == getManualStatus())
+        return;
+    time_t now;
+    time(&now);
+    setStatusTime(now);
+    data.ManualStatus = status;
 }
 
 #ifdef WIN32

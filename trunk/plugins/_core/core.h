@@ -50,6 +50,7 @@ typedef struct CoreData
     unsigned	NoShow;
     unsigned	ShowPanel;
     unsigned	ManualStatus;
+    unsigned	StatusTime;
     unsigned	Invisible;
     long		geometry[5];
     long		toolBarState[7];
@@ -385,21 +386,23 @@ public:
     PROP_BOOL(SavePasswd)
     PROP_BOOL(NoShow)
     PROP_BOOL(ShowPanel)
-    PROP_ULONG(ManualStatus)
+    void setManualStatus(unsigned long status);
+    unsigned long getManualStatus() { return data.ManualStatus; }
+    PROP_ULONG(StatusTime)
     PROP_BOOL(Invisible)
-    PROP_STRLIST(Buttons);
-    PROP_STRLIST(Menues);
-    PROP_BOOL(ShowOnLine);
-    PROP_ULONG(GroupMode);
-    PROP_BOOL(UseDblClick);
-    PROP_BOOL(UseSysColors);
-    PROP_ULONG(ColorOnline);
-    PROP_ULONG(ColorOffline);
-    PROP_ULONG(ColorAway);
-    PROP_ULONG(ColorNA);
-    PROP_ULONG(ColorDND);
-    PROP_ULONG(ColorGroup);
-    PROP_BOOL(GroupSeparator);
+    PROP_STRLIST(Buttons)
+    PROP_STRLIST(Menues)
+    PROP_BOOL(ShowOnLine)
+    PROP_ULONG(GroupMode)
+    PROP_BOOL(UseDblClick)
+    PROP_BOOL(UseSysColors)
+    PROP_ULONG(ColorOnline)
+    PROP_ULONG(ColorOffline)
+    PROP_ULONG(ColorAway)
+    PROP_ULONG(ColorNA)
+    PROP_ULONG(ColorDND)
+    PROP_ULONG(ColorGroup)
+    PROP_BOOL(GroupSeparator)
     PROP_STR(Lang);
     //    PROP_ULONG(ContainerMode);
     unsigned getContainerMode();
@@ -449,6 +452,7 @@ public:
     QString clientName(Client *client);
 
     XSL	*historyXSL;
+    CoreData	data;
 
 signals:
     void modeChanged();
@@ -484,9 +488,6 @@ protected:
     void getWays(vector<clientContact> &ways, Contact *contact);
     string typeName(const char *name);
     void setAutoReplies();
-
-    CoreData	data;
-
     bool				m_bInit;
     vector<string>		m_profiles;
     QWidget				*m_cfg;

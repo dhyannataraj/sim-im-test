@@ -32,6 +32,8 @@
 #endif
 
 #include <qtimer.h>
+#include <qdatetime.h>
+#include <time.h>
 
 Tmpl::Tmpl(QObject *parent)
         : QObject(parent)
@@ -124,6 +126,22 @@ QString Tmpl::process(TmplExpand *t, const QString &str)
             continue;
         string tagName;
         tagName = tag.latin1();
+
+        if (tagName == "TimeStatus"){
+            QDateTime t;
+            t.setTime_t(CorePlugin::m_plugin->getStatusTime());
+            QString tstr;
+            tstr.sprintf("%02u:%02u", t.time().hour(), t.time().minute());
+            res += tstr;
+            continue;
+        }
+
+        if (tagName == "IntervalStatus"){
+            time_t now;
+            time(&now);
+            res += QString::number(now - CorePlugin::m_plugin->getStatusTime());
+            continue;
+        }
 
         if (tagName == "IP"){
             Event e(EventGetContactIP, contact);
