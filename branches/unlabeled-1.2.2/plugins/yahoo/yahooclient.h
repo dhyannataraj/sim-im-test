@@ -117,6 +117,10 @@ typedef struct YahooClientData
 {
     Data	Server;
     Data	Port;
+	Data	FTServer;
+	Data	FTPort;
+	Data	CookieY;
+	Data	CookieT;
     YahooUserData	owner;
 } YahooClientData;
 
@@ -130,6 +134,10 @@ public:
     ~YahooClient();
     PROP_STR(Server);
     PROP_USHORT(Port);
+    PROP_STR(FTServer);
+    PROP_USHORT(FTPort);
+	PROP_STR(CookieY);
+	PROP_STR(CookieT);
     virtual string getConfig();
     QString getLogin();
     void setLogin(const QString&);
@@ -171,6 +179,7 @@ protected:
                        const char *_away, const char *_idle);
     void messageReceived(Message *msg, const char *id);
     void process_message(const char *id, const char *msg, const char *utf);
+	void process_file(const char *id, const char *fileName, const char *fileSize, const char *msg, const char *url);
     void notify(const char *id, const char *msg, const char *state);
     void sendMessage(const QString &msgText, Message *msg, YahooUserData*);
     void sendTyping(YahooUserData*, bool);
@@ -178,6 +187,7 @@ protected:
     void removeBuddy(YahooUserData*);
     void moveBuddy(YahooUserData *data, const char *grp);
     void sendStatus(unsigned long status, const char *msg = NULL);
+	void sendFile(FileMessage *msg, FileMessage::Iterator &it, YahooUserData *data);
     list<PARAM> m_values;
     unsigned long  m_session;
     unsigned long  m_pkt_status;
@@ -185,6 +195,24 @@ protected:
     unsigned short m_service;
     bool m_bHeader;
     void authOk();
+};
+
+typedef struct YahooFileData
+{
+	Data	MsgText;
+	Data	Url;
+} YahooFileData;
+
+class YahooFileMessage : public FileMessage
+{
+public:
+	YahooFileMessage(const char *cfg=NULL);
+	~YahooFileMessage();
+	PROP_STR(MsgText);
+	PROP_STR(Url);
+    virtual	string save();
+protected:
+	YahooFileData data;
 };
 
 #endif

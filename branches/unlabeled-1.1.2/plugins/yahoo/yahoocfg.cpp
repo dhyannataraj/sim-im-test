@@ -36,6 +36,8 @@ YahooConfig::YahooConfig(QWidget *parent, YahooClient *client, bool bConfig)
     edtPassword->setText(m_client->getPassword());
     edtServer->setText(QString::fromLocal8Bit(m_client->getServer()));
     edtPort->setValue(m_client->getPort());
+    edtFTServer->setText(QString::fromLocal8Bit(m_client->getFTServer()));
+    edtFTPort->setValue(m_client->getFTPort());
     connect(edtLogin, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(edtPassword, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(edtServer, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
@@ -56,6 +58,8 @@ void YahooConfig::apply()
     }
     m_client->setServer(edtServer->text().local8Bit());
     m_client->setPort((unsigned short)atol(edtPort->text()));
+    m_client->setFTServer(edtFTServer->text().local8Bit());
+    m_client->setFTPort((unsigned short)atol(edtFTPort->text()));
 }
 
 void YahooConfig::changed(const QString&)

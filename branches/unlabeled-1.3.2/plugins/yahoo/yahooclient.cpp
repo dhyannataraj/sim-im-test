@@ -82,6 +82,10 @@ static DataDef yahooClientData[] =
     {
         { "Server", DATA_STRING, 1, "scs.msg.yahoo.com" },
         { "Port", DATA_ULONG, 1, DATA(5050) },
+		{ "FTServer", DATA_STRING, 1, "filetransfer.msg.yahoo.com" },
+		{ "FYPort", DATA_ULONG, 1, DATA(80) },
+		{ "", DATA_STRING, 1, 0 },				// CookieY
+		{ "", DATA_STRING, 1, 0 },				// CookieT
         { "", DATA_STRUCT, sizeof(YahooUserData) / sizeof(Data), DATA(yahooUserData) },
         { NULL, 0, 0, 0 }
     };
@@ -352,6 +356,15 @@ void YahooClient::process_packet()
         if (m_pkt_status == 7)
             contact_rejected(params[3], params[14]);
         break;
+	case YAHOO_SERVICE_P2PFILEXFER:
+		if ((params[49] == NULL) || strcmp(params[49], "FILEXFER")){
+			log(L_WARN, "Unhandled p2p type %s", params[49]);
+			break;
+		}
+	case YAHOO_SERVICE_FILETRANSFER:
+		if (params[4] && params[27] && params[28] && params[14] && params[20])
+			process_file(params[4], params[27], params[28], params[14], params[20]);
+		break;
     default:
         log(L_WARN, "Unknown service %X", m_service);
     }
@@ -856,6 +869,15 @@ void YahooClient::setStatus(unsigned status)
     ar.param	= (void*)status;
     Event eAR(EventARRequest, &ar);
     eAR.process();
+}
+
+void YahooClient::process_file(const char *id, const char *fileName, const char *fileSize, const char *msg, const char *url)
+{
+	YahooFileMessage *m = new YahooFileMessage;
+	m->addFile(QString::fromLocal8Bit(fileName), atol(fileSize));
+	m->setUrl(url);
+	m->setMsgText(msg);
+	messageReceived(m, id);
 }
 
 void YahooClient::disconnected()
@@ -1676,6 +1698,57 @@ void YahooClient::sendStatus(unsigned long status, const char *msg)
         data.owner.StatusTime.value = now;
     }
     data.owner.Status.value = status;
+}
+
+void YahooClient::sendFile(FileMessage *msg, FileMessage::Iterator &it, YahooUserData *data)
+{
+	const QString *name = ++it;
+	if (name == NULL)
+		return;
+	QString m = msg->getPlainText();
+	addParam(0, getLogin().utf8());
+	addParam(5, data->Login.ptr);
+	addParam(14, m.local8Bit());
+	addParam(27, name->local8Bit());
+	addParam(28, number(it.size()).c_str());
+    sendPacket(YAHOO_SERVICE_FILETRANSFER);
+
+	string url;
+	string cookies;
+	url = "http://";
+	url += getFTServer();
+	url += ":";
+	url += number(getFTPort());
+	url += "/notifyft";
+	cookies = "Y=";
+	cookies += getCookieY();
+	cookies += "; T=";
+	cookies += getCookieT();
+}
+
+const unsigned MessageYahooFile	= 0x700;
+
+static DataDef yahoMessageFile[] =
+    {
+        { "ServerText", DATA_STRING, 1, 0 },
+		{ "", DATA_STRING, 1, 0 },				// URL
+        { NULL, 0, 0, 0 }
+    };
+
+YahooFileMessage::YahooFileMessage(const char *cfg)
+: FileMessage(MessageYahooFile, cfg)
+{
+	load_data(yahoMessageFile, &data, cfg);
+}
+
+YahooFileMessage::~YahooFileMessage()
+{
+	free_data(yahoMessageFile, &data);
+}
+
+string YahooFileMessage::save()
+{
+	return save_data(yahoMessageFile, &data);
 }
 
 #ifndef WIN32
