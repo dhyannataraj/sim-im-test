@@ -1,6 +1,7 @@
 # translation of uk.po to 
 # translation of uk.po to
 # translation of uk.po to
+# translation of uk.po to
 # translation of uk1.po to
 # translation of uk.po to
 # translation of uk.po to
@@ -27,7 +28,7 @@ msgstr ""
 "Project-Id-Version: uk\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-06-17 18:26+0200\n"
-"PO-Revision-Date: 2004-06-11 21:48+0300\n"
+"PO-Revision-Date: 2004-06-17 21:24+0300\n"
 "Last-Translator: Ivan Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team:  <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2611,9 +2612,8 @@ msgid "&Password"
 msgstr "&Пароль"
 
 #: plugins/icq/icqicmb.cpp:1286 plugins/icq/warndlg.cpp:66
-#, fuzzy
 msgid "Send failed"
-msgstr "Помилка відсилки"
+msgstr "Помилка відсилання"
 
 #: plugins/icq/aimsearchbase.cc:162
 msgid "Names"
@@ -3231,8 +3231,7 @@ msgstr "-"
 #: plugins/jabber/jabberconfigbase.cpp:308 plugins/msn/msnconfigbase.cpp:178
 #: plugins/yahoo/yahoocfgbase.cpp:180
 msgid "Note: For HTTP-pooling using proxy setings for HTTP"
-msgstr ""
-"Примітка: Для HTTP-з'єднання використовуйте налаштування проксі для HTTP"
+msgstr "Примітка: Для HTTP-з'єднання використовуйте налаштування проксі для HTTP"
 
 #: plugins/icq/aimconfigbase.cc:152 plugins/icq/icqconfigbase.cc:274
 msgid "&Keep-alive connection"
@@ -4458,8 +4457,7 @@ msgid "OSD"
 msgstr "Екран"
 
 #: plugins/osd/osd.cpp:69
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Модуль забезпечує вивід попереджень на екран про прихід повідомлень або "
 "зміну статусу"
@@ -4689,8 +4687,7 @@ msgstr "Системний лоток"
 
 #: plugins/dock/dock.cpp:50
 msgid "Plugin provides dock main window in system tray"
-msgstr ""
-"Модуль забезпечує згортання головного вікна в іконку в системному лотку"
+msgstr "Модуль забезпечує згортання головного вікна в іконку в системному лотку"
 
 #: plugins/dock/dock.cpp:52 plugins/windock/windock.cpp:43
 msgid "Dock"
@@ -5469,8 +5466,7 @@ msgid "Navigate"
 msgstr "Навігація"
 
 #: plugins/navigate/navigate.cpp:215
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr "Модуль забезпечує навігацію по гіперпосиланнях"
 
 #: plugins/navigate/navigate.cpp:264
@@ -5598,9 +5594,8 @@ msgid "Awaiting authorization"
 msgstr "Очікує авторизації"
 
 #: plugins/_core/userviewcfgbase.cpp:280
-#, fuzzy
 msgid "No show scroller"
-msgstr "&Не показувати групи"
+msgstr "Не показувати полосу прогортання"
 
 #: plugins/_core/autoreplybase.cpp:87
 #: plugins/_core/connectionsettingsbase.cpp:74
@@ -7032,20 +7027,18 @@ msgid "Icons"
 msgstr "Іконки"
 
 #: plugins/icons/icon.cpp:31
-#, fuzzy
 msgid "Plugin provides JISP icons themes and emoticons"
-msgstr "Модуль забезпечує підтримку тем іконок і смайликів з Miranda"
+msgstr "Модуль забезпечує підтримку тем іконок і смайликів в форматі JISP"
 
 #: plugins/icons/iconcfg.cpp:91
 msgid "*.jisp|Icon set"
-msgstr ""
+msgstr "*.jisp|Іконки"
 
 #: plugins/icons/iconcfg.cpp:93
 msgid "Icon set(*.jisp)"
-msgstr ""
+msgstr "Іконки(*.jisp)"
 
 #: plugins/icons/iconcfg.cpp:95
-#, fuzzy
 msgid "Select icon set"
 msgstr "Виберіть тему іконок"
 
@@ -7309,8 +7302,7 @@ msgid "Set \"Offline\" status after"
 msgstr "Встановити статус \"Вимкнений\" через"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:109
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Заборонити попередження в стані \"Відійшов\", \"Неактивний\", \"Не турбувати"
 "\", \"Зайнятий\""
@@ -7445,8 +7437,7 @@ msgstr "Дія"
 
 #: plugins/action/action.cpp:34
 msgid "Plugin execute external programs on event or from contact menu"
-msgstr ""
-"Модуль забезпечує запуск зовнішніх програм з подій або з меню контактів"
+msgstr "Модуль забезпечує запуск зовнішніх програм з подій або з меню контактів"
 
 #: plugins/action/action.cpp:84
 msgid "&Action"
@@ -8198,8 +8189,7 @@ msgstr "Поновлення"
 
 #: plugins/update/update.cpp:41
 msgid "Plugin provides notifications about update SIM software"
-msgstr ""
-"Модуль забезпечує вивід попередження про наявність поновлення SIM-програми"
+msgstr "Модуль забезпечує вивід попередження про наявність поновлення SIM-програми"
 
 #: plugins/update/update.cpp:127
 msgid "Show details"
@@ -8703,7 +8693,6 @@ msgid "%t | %c"
 msgstr "%t | %c"
 
 #: plugins/weather/weather.cpp:556
-#, fuzzy
 msgid ""
 "%l<br><br>\n"
 "<img src=\"icon:weather%i\"> %c<br>\n"
@@ -8719,11 +8708,12 @@ msgid ""
 "Updated: %u<br>\n"
 msgstr ""
 "%l<br><br>\n"
-"<img src=\"icon:weather\"> %c<br>\n"
-"Температура: <b>%t</b> <br>(відчувається: <b>%f</b>)<br>\n"
+"<img src=\"icon:weatheri%i\"> %c<br>\n"
+"Температура: <b>%t</b> <br>\n"
+"(відчувається: <b>%f</b>)<br>\n"
 "Вологість: <b>%h%</b><br>\n"
 "Тиск: <b>%a мм.рт.ст.</b>(%q)<br>\n"
-"Вітер: <b>%b</b> <b>%w %g</b><br>\n"
+"Вітер: <b>%b</b> <b>%x %y</b><br>\n"
 "Видимість: <b>%v</b><br>\n"
 "Точка роси <b>%d</b><br>\n"
 "Схід: %r<br>\n"
@@ -8805,8 +8795,7 @@ msgstr "Модуль забезпечує прозорість вікон"
 
 #: plugins/windock/windock.cpp:44
 msgid "Plugin provides dock main window to left or right side of screen"
-msgstr ""
-"Модуль забезпечує прив'язку головного вікна до лівої чи правої сторони екрана"
+msgstr "Модуль забезпечує прив'язку головного вікна до лівої чи правої сторони екрана"
 
 #: plugins/windock/windock.cpp:181
 msgid ""
@@ -8935,3 +8924,4 @@ msgstr "Панель, що сама ховається"
 
 #~ msgid "weather"
 #~ msgstr "погода"
+
