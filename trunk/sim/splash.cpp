@@ -19,16 +19,16 @@
 #include "mainwin.h"
 #include "log.h"
 
+#ifndef _WINDOWS
+#include <sys/stat.h>
+#include <errno.h>
+#include <unistd.h>
+#endif
+
 #include <qwidget.h>
 #include <qpixmap.h>
 #include <qbitmap.h>
 #include <qapplication.h>
-
-#ifndef WIN32
-#include <sys/stat.h>
-#include <unistd.h>
-#include <errno.h>
-#endif
 
 #ifdef WIN32
 #if _MSC_VER > 1020
@@ -42,10 +42,12 @@ static const char SPLASH_CONF[] = "splash.conf";
 
 Splash::Splash()
         : Show(this, "Show", true),
-        Picture(this, "Picture", "pict/splash.gif"),
+        Picture(this, "Picture", "pict/splash.png"),
+        UseArts(this, "UseArts", true),
         SoundPlayer(this, "SoundPlayer"),
         StartupSound(this, "StartupSound", "startup.wav")
 {
+    pSplash = this;
     wnd = NULL;
 #ifdef USE_KDE
     string kdeDir;

@@ -570,7 +570,12 @@ GTAGS:
 distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH
 
-DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+#>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+#>+ 4
+KDE_DIST=sim 
+
+DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
+
 
 top_distdir = ..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
@@ -704,6 +709,9 @@ install-data-local:
 #>- 	$(INSTALL_DATA) $(srcdir)/sim.desktop $(kde_appsdir)/Internet/sim.desktop
 #>+ 1
 	$(INSTALL_DATA) $(srcdir)/sim.desktop $(DESTDIR)$(kde_appsdir)/Internet/sim.desktop
+#>- 	rm -f $(kde_appsdir)/Aplications/sim.desktop
+#>+ 1
+	rm -f $(DESTDIR)$(kde_appsdir)/Aplications/sim.desktop
 #>- 	$(mkinstalldirs) $(kde_icondir)/locolor/32x32/apps/
 #>+ 1
 	$(mkinstalldirs) $(DESTDIR)$(kde_icondir)/locolor/32x32/apps/

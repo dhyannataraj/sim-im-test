@@ -1696,13 +1696,17 @@ string MainWindow::homeDir;
 
 void MainWindow::playSound(const char *wav)
 {
+    if ((wav == NULL) || (*wav == NULL)) return;
     wav = sound(wav);
 #ifdef WIN32
     sndPlaySoundA(wav, SND_ASYNC | SND_NODEFAULT);
 #else
 #ifdef USE_KDE
-    KAudioPlayer::play(wav);
-#else
+    if (pSplash->UseArts()){
+        KAudioPlayer::play(wav);
+        return;
+    }
+#endif
     if (*(pSplash->SoundPlayer.c_str()) == 0) return;
 
     const char *arglist[3];
@@ -1714,7 +1718,6 @@ void MainWindow::playSound(const char *wav)
         execvp(arglist[0], (char**)arglist);
         _exit(-1);
     }
-#endif
 #endif
 }
 

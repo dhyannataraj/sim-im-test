@@ -40,9 +40,16 @@ SoundSetup::SoundSetup(QWidget *p, bool bUser)
         connect(chkOverride, SIGNAL(toggled(bool)), this, SLOT(overrideToggled(bool)));
     }else{
         chkOverride->hide();
-#if defined(WIN32) || defined(USE_KDE)
+#ifdef WIN32
         edtProgram->hide();
         lblProgram->hide();
+#endif
+#ifdef USE_KDE
+        chkArts->setChecked(pSplash->UseArts());
+        connect(chkArts, SIGNAL(toggled(bool)), this, SLOT(artsToggled(bool)));
+        artsToggled(pSplash->UseArts());
+#else
+        chkArts->hide();
 #endif
         load(pClient);
     }
@@ -82,6 +89,12 @@ void SoundSetup::overrideToggled(bool bOn)
     lblChat->setEnabled(bOn);
 }
 
+void SoundSetup::artsToggled(bool bOn)
+{
+    edtProgram->setEnabled(!bOn);
+    lblProgram->setEnabled(!bOn);
+}
+
 string SoundSetup::sound(EditSound *edt)
 {
     string res;
@@ -106,6 +119,9 @@ void SoundSetup::save(ICQUser *u)
     pSplash->StartupSound = sound(edtStartup);
     u->OnlineAlert = sound(edtAlert);
     pSplash->SoundPlayer = edtProgram->text().local8Bit();
+#ifdef USE_KDE
+    pSplash->UseArts = chkArts->isChecked();
+#endif
 }
 
 void SoundSetup::apply(ICQUser *u)

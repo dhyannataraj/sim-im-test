@@ -1,6 +1,6 @@
 ####### kdevelop will overwrite this part!!! (begin)##########
 
-SUBDIRS = sim po sounds 
+SUBDIRS = sim po sounds pict
 
 EXTRA_DIST = sim.kdevprj admin AUTHORS COPYING ChangeLog INSTALL README TODO sim.lsm icq.ico resource.h configure.in.in 
 

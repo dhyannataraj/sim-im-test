@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>560</width>
+            <width>556</width>
             <height>600</height>
         </rect>
     </property>
@@ -286,6 +286,17 @@
             <property>
                 <name>orientation</name>
                 <enum>Horizontal</enum>
+            </property>
+        </widget>
+        <widget>
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkArts</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>UseArts</string>
             </property>
         </widget>
         <widget>

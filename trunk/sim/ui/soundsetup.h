@@ -38,6 +38,7 @@ public slots:
     void apply(ICQUser*);
 protected slots:
     void overrideToggled(bool);
+    void artsToggled(bool);
 protected:
     string sound(EditSound *edt);
 };

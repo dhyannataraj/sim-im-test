@@ -32,6 +32,7 @@ public:
     void save();
     ConfigBool		Show;
     ConfigString	Picture;
+    ConfigBool		UseArts;
     ConfigString	SoundPlayer;
     ConfigString	StartupSound;
 protected:
