@@ -304,7 +304,7 @@ void *SpellHighlighter::processEvent(Event *e)
             }else{
                 unsigned n = cmd->id - m_plugin->CmdSpell - 2;
                 QString word = m_sug[n];
-                textEdit()->setSelection(m_parag, m_start_word, m_parag, m_start_word + m_word.length());
+                textEdit()->setSelection(m_parag, m_start_word, m_parag, m_start_word + m_word.length(), 0);
                 textEdit()->insert(word, true, true, true);
             }
         }

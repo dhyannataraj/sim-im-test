@@ -540,11 +540,11 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
             if (tm->tm_isdst) tz -= (60 * 60);
 #endif
             tz = - tz / (30 * 60);
+            m_client->setupContact(getContacts()->owner(), data);
             if (data->TimeZone.value != (unsigned)tz){
                 data->TimeZone.value = tz;
                 m_client->setMainInfo(data);
             }
-            m_client->setupContact(getContacts()->owner(), data);
             Event eContact(EventContactChanged, getContacts()->owner());
             eContact.process();
             Event e(EventClientChanged, m_client);

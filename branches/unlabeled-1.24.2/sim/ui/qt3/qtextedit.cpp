@@ -2889,17 +2889,21 @@ void QTextEdit::setText( const QString &text, const QString &context )
 */
 
 bool QTextEdit::find( const QString &expr, bool cs, bool wo, bool forward,
-                      int *para, int *index )
+                      int *para, int *index, bool bVisible)
 {
-    drawCursor( FALSE );
-    doc->removeSelection( QTextDocument::Standard );
+	if (bVisible){
+	    drawCursor( FALSE );
+		doc->removeSelection( QTextDocument::Standard );
 #ifndef QT_NO_CURSOR
-    viewport()->setCursor( isReadOnly() ? arrowCursor : ibeamCursor );
+		viewport()->setCursor( isReadOnly() ? arrowCursor : ibeamCursor );
 #endif
+	}
     bool found = doc->find( expr, cs, wo, forward, para, index, cursor );
-    ensureCursorVisible();
-    drawCursor( TRUE );
-    repaintChanged();
+	if (bVisible){
+		ensureCursorVisible();
+		drawCursor( TRUE );
+		repaintChanged();
+	}
     return found;
 }
 
@@ -2966,7 +2970,7 @@ void QTextEdit::getCursorPosition( int *para, int *index ) const
 */
 
 void QTextEdit::setSelection( int paraFrom, int indexFrom,
-                              int paraTo, int indexTo, int selNum )
+                              int paraTo, int indexTo, int selNum, bool bVisible)
 {
     if ( doc->hasSelection( selNum ) ) {
         doc->removeSelection( selNum );
@@ -2994,8 +2998,10 @@ void QTextEdit::setSelection( int paraFrom, int indexFrom,
     cursor->setIndex( indexTo );
     doc->setSelectionStart( selNum, &c );
     doc->setSelectionEnd( selNum, cursor );
-    repaintChanged();
-    ensureCursorVisible();
+	if (bVisible){
+		repaintChanged();
+		ensureCursorVisible();
+	}
     drawCursor( TRUE );
 }
 

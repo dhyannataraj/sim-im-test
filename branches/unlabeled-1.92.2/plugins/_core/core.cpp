@@ -2778,7 +2778,14 @@ if (fname[0] != '/')
                         int cnt = (*itc).second.count;
                         msg = QString("%1").arg(cnt);
                     }
-                    //int cnt = (*itc).second.count; //Not referenced (by Noragen)
+					if ((*itc).second.count == 1){
+						int n = msg.find("1 ");
+						if (n == 0){
+							msg = msg.left(1).upper() + msg.mid(1);
+						}else{
+							msg = msg.left(n - 1);
+						}
+					}
                     if (contact_id == 0){
                         Contact *contact = getContacts()->contact((*itc).first.contact);
                         if (contact == NULL)

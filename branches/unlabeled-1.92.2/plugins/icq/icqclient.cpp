@@ -1365,7 +1365,6 @@ void ICQClient::setupContact(Contact *contact, void *_data)
         phones += getContacts()->toUnicode(contact, data->PhoneBook.ptr);
     }
     string n = name();
-    if (contact != getContacts()->owner()){
         contact->setPhones(phones, n.c_str());
         QString mails;
         if (data->EMail.ptr)
@@ -1383,7 +1382,6 @@ void ICQClient::setupContact(Contact *contact, void *_data)
             }
         }
         contact->setEMails(mails, n.c_str());
-    }
     QString firstName = getContacts()->toUnicode(contact, data->FirstName.ptr);
     if (firstName.length())
         contact->setFirstName(firstName, n.c_str());

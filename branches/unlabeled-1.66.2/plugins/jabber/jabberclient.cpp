@@ -2543,6 +2543,13 @@ void JabberClient::auth_request(const char *jid, unsigned type, const char *text
     }
     if (data == NULL)
         return;
+	if (((type == MessageAuthGranted) || (type ==MessageAuthRefused)) &&
+		(contact->getFlags() & CONTACT_TEMP)){
+		contact->setFlags(contact->getFlags() & ~CONTACT_TEMP);
+		Event e(EventContactChanged, contact);
+		e.process();
+		return;
+	}
     AuthMessage msg(type);
     msg.setContact(contact->id());
     msg.setClient(dataName(data).c_str());
