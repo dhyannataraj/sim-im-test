@@ -13,13 +13,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "POT-Creation-Date: 2003-11-08 07:23+0300\n"
-"PO-Revision-Date: 2003-11-01 17:46+0300\n"
-"Last-Translator: Vladimir Shutoff <vovan@shutoff.ru>\n"
+"PO-Revision-Date: 2003-11-08 18:30+0300\n"
+"Last-Translator: Vladimir Shutoff <vova@shutoff.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.2\n"
+"X-Generator: KBabel 0.9.6\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 :n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
 
@@ -1558,8 +1558,7 @@ msgstr "Показывать &разделитель групп"
 # ui/fontsetupbase.cpp:214
 #: plugins/_core/historycfgbase.cpp:95
 msgid "Use &own colors and fonts settings"
-msgstr ""
-"Использовать &собственные цвета и шрифты"
+msgstr "Использовать &собственные цвета и шрифты"
 
 # ui/fontsetupbase.cpp:235
 #: plugins/_core/historycfgbase.cpp:101
@@ -1837,8 +1836,7 @@ msgstr "Больше не показывать это сообщение"
 
 #: plugins/_core/msgcfgbase.cpp:98
 msgid "Save &status changes to history"
-msgstr ""
-"Сохранять изменения &статуса в историю"
+msgstr "Сохранять изменения &статуса в историю"
 
 # ui/msgbase.cpp:94
 #: plugins/_core/msgcfgbase.cpp:102
@@ -2068,8 +2066,7 @@ msgstr "Установить статус \"Не активный\" через"
 # ui/statussetupbase.cpp:107
 #: plugins/autoaway/autoawaycfgbase.cpp:96
 #: plugins/sound/soundconfigbase.cpp:142
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Запретить оповещение в состояниях "
 "\"Отошел\", \"Не активный\", \"Занят\""
@@ -2081,8 +2078,7 @@ msgstr "Фон"
 
 #: plugins/background/background.cpp:35
 msgid "Plugin provides background pictures for user list"
-msgstr ""
-"Модуль обеспечивает фон списка контактов"
+msgstr "Модуль обеспечивает фон списка контактов"
 
 #: plugins/background/bkgndcfg.cpp:45
 msgid "Select background picture"
@@ -2203,8 +2199,7 @@ msgstr "Фильтр"
 
 #: plugins/filter/filter.cpp:34
 msgid "Plugin provides message filter"
-msgstr ""
-"Модуль обеспечивает фильтрацию сообщений"
+msgstr "Модуль обеспечивает фильтрацию сообщений"
 
 # ui/listsec.cpp:129 ui/setupdlg.cpp:173
 #: plugins/filter/filter.cpp:91 plugins/filter/filtercfg.cpp:40
@@ -2906,8 +2901,7 @@ msgstr "Регистрация в неверном состоянии"
 
 #: plugins/icq/icqlogin.cpp:190
 msgid "Too many clients from same IP"
-msgstr ""
-"Слишком много пользователей с одного IP"
+msgstr "Слишком много пользователей с одного IP"
 
 # ui/logindlg.cpp:129
 #: plugins/icq/icqlogin.cpp:194
@@ -2926,8 +2920,7 @@ msgstr "Несуществующий UIN"
 # mainwin.cpp:988
 #: plugins/icq/icqlogin.cpp:227
 msgid "Youur UIN is being used from another location"
-msgstr ""
-"Ваш UIN используется с другого компьютера"
+msgstr "Ваш UIN используется с другого компьютера"
 
 #: plugins/icq/icqlogin.cpp:247
 msgid "Close packet from server"
@@ -3160,8 +3153,7 @@ msgstr "Неверный номер"
 
 #: plugins/icq/icqvarious.cpp:1418
 msgid "RATE LIMIT"
-msgstr ""
-"Превышено ограничение на количество SMS"
+msgstr "Превышено ограничение на количество SMS"
 
 # msgedit.cpp:648
 #: plugins/icq/icqvarious.cpp:1451 plugins/icq/icqvarious.cpp:1510
@@ -3831,8 +3823,7 @@ msgstr ""
 
 #: plugins/icq/securedlg.cpp:59
 msgid "Request secure channel fail"
-msgstr ""
-"Ошибка установки защищенного соединения"
+msgstr "Ошибка установки защищенного соединения"
 
 # libicq/country.cpp:412
 #: plugins/icq/workinfo.cpp:72
@@ -4008,8 +3999,7 @@ msgstr "Принимать в режиме \"Не &беспокоить\""
 
 #: plugins/icq/icqconfigbase.cc:190
 msgid "Support &typing notification"
-msgstr ""
-"&Поддержка уведомления о печати сообщения"
+msgstr "&Поддержка уведомления о печати сообщения"
 
 #: plugins/icq/icqconfigbase.cc:195
 msgid "Automatically &update user info"
@@ -4230,8 +4220,7 @@ msgstr "&Интересы"
 # ui/pastinfobase.cpp:89
 #: plugins/icq/pastinfobase.cc:73
 msgid "Organization, Affiliation, Group:"
-msgstr ""
-"Объединения, общественные организации:"
+msgstr "Объединения, общественные организации:"
 
 #: plugins/icq/pastinfobase.cc:102
 msgid "A&ffilation"
@@ -4615,7 +4604,10 @@ msgstr "Оригинальное сообщение:"
 msgid ""
 "_n: Error\n"
 "%n errors"
-msgstr "%n ошибка %n ошибки %n ошибок"
+msgstr ""
+"%n ошибка\n"
+"%n ошибки\n"
+"%n ошибок"
 
 # passwddlg.cpp:48
 #: plugins/jabber/jabbermessage.cpp:155 plugins/jabber/jabbermessage.cpp:210
@@ -4711,8 +4703,7 @@ msgstr ""
 
 #: plugins/jabber/jabbersearch.cpp:188
 msgid "Enter your AIM screenname or ICQ UIN and the password for that account"
-msgstr ""
-"Введите ваш AIM логин или номер ICQ и пароль."
+msgstr "Введите ваш AIM логин или номер ICQ и пароль."
 
 #: plugins/jabber/jabbersearch.cpp:189
 msgid "Enter your YAHOO! Messenger Username and Password."
@@ -4823,8 +4814,7 @@ msgstr "Использовать &иконки протоколов"
 # control.cpp:190
 #: plugins/jabber/jabberconfigbase.cpp:267
 msgid "Send &rich text messages if possible"
-msgstr ""
-"Отправлять сообщения с &форматированием"
+msgstr "Отправлять сообщения с &форматированием"
 
 #: plugins/jabber/jabberinfobase.cpp:78
 msgid "ID:"
@@ -5023,8 +5013,7 @@ msgid "Navigate"
 msgstr "Навигация"
 
 #: plugins/navigate/navigate.cpp:199
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Модуль обеспечивает навигацию по "
 "гиперссылкам"
@@ -5132,8 +5121,7 @@ msgstr "Всегда наверху"
 # ui/themesetupbase.cpp:154
 #: plugins/ontop/ontopcfgbase.cpp:64
 msgid "Show &main window in task manager"
-msgstr ""
-"Показывать &основное окно в панели задач"
+msgstr "Показывать &основное окно в панели задач"
 
 # mainwin.cpp:2375
 #: plugins/ontop/ontopcfgbase.cpp:68
@@ -5145,8 +5133,7 @@ msgid "OSD"
 msgstr "Экран"
 
 #: plugins/osd/osd.cpp:48
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Модуль обеспечивает вывод уведомлений о "
 "приходе сообщений или изменении статуса "
@@ -5258,8 +5245,7 @@ msgstr "Показывать на мониторе:"
 # mainwin.cpp:969 ui/logindlg.cpp:138
 #: plugins/proxy/proxy.cpp:41
 msgid "Can't connect to proxy"
-msgstr ""
-"Невозможно соединиться с прокси-сервером"
+msgstr "Невозможно соединиться с прокси-сервером"
 
 #: plugins/proxy/proxy.cpp:42
 msgid "Bad proxy answer"
@@ -5506,8 +5492,7 @@ msgstr ""
 
 #: plugins/transparent/transparent.cpp:69
 msgid "Plugin provides windows transparency"
-msgstr ""
-"Модуль обеспечивает прозрачные окошки"
+msgstr "Модуль обеспечивает прозрачные окошки"
 
 # ui/themesetupbase.cpp:122
 #: plugins/transparent/transparentcfgbase.cpp:67
@@ -5517,8 +5502,7 @@ msgstr "Прозрачность главного окна:"
 # ui/themesetupbase.cpp:146
 #: plugins/transparent/transparentcfgbase.cpp:81
 msgid "Transparent only if inactive"
-msgstr ""
-"Прозрачные окна только если неактивные"
+msgstr "Прозрачные окна только если неактивные"
 
 # ui/setupdlgbase.cpp:85 ui/userinfobase.cpp:115
 #: plugins/update/update.cpp:39
@@ -5566,66 +5550,65 @@ msgstr "Само-скрывающаяся панель"
 
 #: plugins/gpg/gpg.cpp:48
 msgid "GPG"
-msgstr ""
+msgstr "GPG"
 
 #: plugins/gpg/gpg.cpp:49
 msgid "Plugin adds GnuPG encryption/decryption support for messages"
-msgstr ""
+msgstr "Модуль добавляет GnuPG шифрование сообщений"
 
 #: plugins/gpg/gpg.cpp:73
 msgid ""
 "Plugin adds GnuPG encryption/decryption support for messages\n"
 "GPG not found in PATH"
 msgstr ""
+"Модуль добавляет GnuPG шифрование сообщений "
+"GPG не найден в PATH"
 
 # msgedit.cpp:573
 #: plugins/gpg/gpg.cpp:392 plugins/gpg/gpg.cpp:397
-#, fuzzy
 msgid "Encrypt failed"
-msgstr "Передача окончилась неудачно"
+msgstr "Шифирование выполнено не удачно"
 
 # client.cpp:891 msgview.cpp:200
 #: plugins/gpg/gpg.cpp:551
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: %n GPG key\n"
 "%n GPG keys"
 msgstr ""
-"Файл\n"
-"%n файла\n"
-"%n файлов"
+"GnuPG ключ\n"
+"%n GnuPG ключа\n"
+"%n GnuPG ключей"
 
 #: plugins/gpg/gpg.cpp:598
 msgid "GPG key"
-msgstr ""
+msgstr "GnuPG ключ"
 
 #: plugins/gpg/gpg.cpp:606
 msgid "Use GPG encryption"
-msgstr ""
+msgstr "Использовать GnuPG шифрование"
 
 #: plugins/gpg/gpg.cpp:613
 msgid "&GPG key"
-msgstr ""
+msgstr "&GnuPG ключ"
 
 #: plugins/gpg/gpgcfg.cpp:43
 msgid "GPG(gpg.exe)"
-msgstr ""
+msgstr "GPG(gpg.exe)"
 
 #: plugins/gpg/gpgcfg.cpp:51
-#, fuzzy
 msgid "Select home directory"
-msgstr "Установить домашний каталог"
+msgstr "Выбор домашнего каталога"
 
 #: plugins/gpg/gpgcfg.cpp:53
 msgid "Download GPG"
-msgstr ""
+msgstr "Загрузить GnuPG"
 
 # msgedit.cpp:421 ui/addphonebase.cpp:103 ui/emaileditbase.cpp:61
 # ui/filetransfer.cpp:234 ui/filetransferbase.cpp:117 ui/securedlgbase.cpp:47
 #: plugins/gpg/gpgcfg.cpp:62
-#, fuzzy
 msgid "&Advanced"
-msgstr "&Отменить"
+msgstr "&Дополнительно"
 
 # mainwin.cpp:2112
 #: plugins/gpg/gpgcfg.cpp:169
@@ -5634,81 +5617,73 @@ msgstr "Новое"
 
 #: plugins/gpg/gpgcfgbase.cpp:96
 msgid "Executable:"
-msgstr ""
+msgstr "Программа:"
 
 #: plugins/gpg/gpgcfgbase.cpp:107
-#, fuzzy
 msgid "Home directory:"
-msgstr "Домашний каталог"
+msgstr "Домашний каталог:"
 
 # libicq/country.cpp:28
 #: plugins/gpg/gpgcfgbase.cpp:124
-#, fuzzy
 msgid "&Find"
-msgstr "Хинди"
+msgstr "&Поиск"
 
 # libicq/country.cpp:290
 #: plugins/gpg/gpgcfgbase.cpp:134
-#, fuzzy
 msgid "Your key:"
-msgstr "Турция"
+msgstr "Ваш ключ:"
 
 # msgedit.cpp:174
 #: plugins/gpg/gpgcfgbase.cpp:143 plugins/gpg/gpguserbase.cpp:77
-#, fuzzy
 msgid "&Refresh"
-msgstr "&Отказать"
+msgstr "&Обновить"
 
 #: plugins/gpg/gpgadvbase.cpp:66
 msgid "Command arguments"
-msgstr ""
+msgstr "Аргументы комманды"
 
 #: plugins/gpg/gpgadvbase.cpp:74
 msgid "Generate key:"
-msgstr ""
+msgstr "Генерация ключа:"
 
 #: plugins/gpg/gpgadvbase.cpp:80
-#, fuzzy
 msgid "List public keys:"
-msgstr "Список общедоступных серверов"
+msgstr "Список открытых ключей:"
 
 #: plugins/gpg/gpgadvbase.cpp:86
 msgid "List secret keys:"
-msgstr ""
+msgstr "Список закрытых ключей:"
 
 #: plugins/gpg/gpgadvbase.cpp:104
 msgid "Import public:"
-msgstr ""
+msgstr "Импорт открытого ключа:"
 
 #: plugins/gpg/gpgadvbase.cpp:114
 msgid "Export public:"
-msgstr ""
+msgstr "Импорт закрытого ключа:"
 
 # libicq/country.cpp:133
 #: plugins/gpg/gpgadvbase.cpp:124
-#, fuzzy
 msgid "Encrypt:"
-msgstr "Египет"
+msgstr "Шифрование:"
 
 #: plugins/gpg/gpgadvbase.cpp:134
 msgid "Decrypt:"
-msgstr ""
+msgstr "Дешифрование:"
 
 #: plugins/gpg/gpggenbase.cpp:34
 msgid "Generate key"
-msgstr ""
+msgstr "Генерация ключа"
 
 # sim.cpp:272
 #: plugins/gpg/gpggenbase.cpp:62
-#, fuzzy
 msgid "Comment:"
-msgstr "Клиент:"
+msgstr "Комментарий:"
 
 # ui/keysetup.cpp:35
 #: plugins/gpg/gpguserbase.cpp:66
-#, fuzzy
 msgid "Key:"
-msgstr "Клавиша"
+msgstr "Ключ:"
 
 # about.cpp:280
 #: sim/api/aboutdata.cpp:287
@@ -5790,8 +5765,7 @@ msgstr "Австралия"
 # libicq/country.cpp:84
 #: sim/api/country.cpp:38
 msgid "Australian Antarctic Territory"
-msgstr ""
-"Австралийская антарктическая территория"
+msgstr "Австралийская антарктическая территория"
 
 # libicq/country.cpp:85
 #: sim/api/country.cpp:39
@@ -8866,3 +8840,4 @@ msgstr "Собственный"
 # ui/network.cpp:50 ui/proxydlg.cpp:42
 #~ msgid "SOCKS5"
 #~ msgstr "SOCKS5"
+
