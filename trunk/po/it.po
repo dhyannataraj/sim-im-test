@@ -1,13 +1,12 @@
-# ITALIAN TRANSLATION OF SIM-ICQ
-# Copyright (C) 2002 Free Software Foundation, Inc.
+# Translation to italian:
 # Salvatore Caligiore <caligiore@bigfoot.com>, 2002.
-# Lapo Luchini <lapo@lapo.it>, 2003
+# Lapo Luchini <lapo@lapo.it>, 2003-2004
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Sim\n"
 "POT-Creation-Date: 2004-04-11 14:17+0400\n"
-"PO-Revision-Date: 2004-04-13 12:16+0100\n"
+"PO-Revision-Date: 2004-04-15 10:52+0100\n"
 "Last-Translator: Lapo Luchini <lapo@lapo.it>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1129,8 +1128,8 @@ msgstr "SSL: errore di inizializzazione"
 #: sim/api/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
 msgstr ""
-"Traduzione Italiana by\n"
-"SC Salvatore Caligiore UIN:#27434326 http://www.geocities.com/caligiore mailto://caligiore@bigfoot\n"
+"Traduzione italiana by\n"
+"SC Salvatore Caligiore UIN:#27434326 http://www.geocities.com/caligiore mailto:caligiore@bigfoot\n"
 "Lapo Luchini <lapo@lapo.it>"
 
 #: sim/api/aboutdata.cpp:303
@@ -2365,12 +2364,14 @@ msgstr "-"
 #: plugins/jabber/jabberconfigbase.cpp:291
 #: plugins/msn/msnconfigbase.cpp:176
 #: plugins/yahoo/yahoocfgbase.cpp:182
+#, fuzzy
 msgid "Use &HTTP polling"
-msgstr ""
+msgstr "Usa polling &HTTP"
 
 #: plugins/msn/msnconfigbase.cpp:177
+#, fuzzy
 msgid "&Automatically use HTTP pooling if proxy required"
-msgstr ""
+msgstr "Usa &automaticamente pooling HTTP se è richiesto proxy"
 
 #: plugins/icq/aimconfigbase.cc:151
 #: plugins/icq/icqconfigbase.cc:240
@@ -4450,11 +4451,11 @@ msgstr "Trova altri temi"
 
 #: plugins/background/bkgndcfgbase.cpp:114
 msgid "Group margin:"
-msgstr ""
+msgstr "Margine gruppi:"
 
 #: plugins/background/bkgndcfgbase.cpp:115
 msgid "Contact margin:"
-msgstr ""
+msgstr "Margine contatti:"
 
 #: plugins/background/bkgndcfgbase.cpp:116
 msgid "Main window background:"
@@ -4595,6 +4596,8 @@ msgid ""
 "For the answer or sending of the new message you can answer on SMS having specified in the beginning of the message a line:\n"
 "<UIN>:"
 msgstr ""
+"Per rispondere o inviare un nuovo messaggio puoi rispondere su SMS se hai specificato all'inizio del messaggio una linea:\n"
+"<UIN>:"
 
 #: plugins/forward/forwardcfgbase.cpp:74
 msgid "Send only &one message (don't split)"
@@ -7898,7 +7901,7 @@ msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1410
 msgid "mischievous"
-msgstr ""
+msgstr "birichino"
 
 #: plugins/livejournal/livejournal.cpp:1411
 msgid "morose"
@@ -8110,7 +8113,7 @@ msgstr "produttivo"
 
 #: plugins/livejournal/livejournal.cpp:1463
 msgid "accomplished"
-msgstr ""
+msgstr "abile"
 
 #: plugins/livejournal/livejournal.cpp:1464
 msgid "busy"
@@ -8126,7 +8129,7 @@ msgstr "pieno"
 
 #: plugins/livejournal/livejournal.cpp:1467
 msgid "grumpy"
-msgstr ""
+msgstr "scontroso"
 
 #: plugins/livejournal/livejournal.cpp:1468
 msgid "weird"
@@ -8142,11 +8145,11 @@ msgstr "estatico"
 
 #: plugins/livejournal/livejournal.cpp:1471
 msgid "chipper"
-msgstr ""
+msgstr "vivace"
 
 #: plugins/livejournal/livejournal.cpp:1472
 msgid "rushed"
-msgstr ""
+msgstr "precipitoso"
 
 #: plugins/livejournal/livejournal.cpp:1473
 msgid "contemplative"
@@ -8262,11 +8265,11 @@ msgstr "intimidito"
 
 #: plugins/livejournal/livejournal.cpp:1501
 msgid "crushed"
-msgstr ""
+msgstr "stracotto"
 
 #: plugins/livejournal/livejournal.cpp:1502
 msgid "devious"
-msgstr ""
+msgstr "ambiguo"
 
 #: plugins/livejournal/livejournal.cpp:1503
 msgid "thankful"
@@ -8367,7 +8370,7 @@ msgstr "Pubblico"
 
 #: plugins/livejournal/msgjournalbase.cpp:86
 msgid "Friends-Only"
-msgstr ""
+msgstr "Solo-amici"
 
 #: plugins/livejournal/msgjournalbase.cpp:87
 msgid "Private"
@@ -8501,7 +8504,7 @@ msgstr "Mailer:"
 
 #: plugins/navigate/navcfgbase.cc:71
 msgid "Open links in &new window"
-msgstr ""
+msgstr "Apri i link in una &nuova finestra"
 
 #: plugins/yahoo/yahoo.cpp:81
 msgid "Yahoo!"
@@ -8680,31 +8683,31 @@ msgstr "Neve leggera"
 msgid ""
 "_: weather\n"
 "Few Snow"
-msgstr ""
+msgstr "Poca neve"
 
 #: plugins/weather/weather.cpp:470
 msgid ""
 "_: weather\n"
 "Scattered Snow"
-msgstr ""
+msgstr "Neve a tratti"
 
 #: plugins/weather/weather.cpp:471
 msgid ""
 "_: weather\n"
 "Clear"
-msgstr ""
+msgstr "Chiaro"
 
 #: plugins/weather/weather.cpp:472
 msgid ""
 "_: weather\n"
 "Showers"
-msgstr ""
+msgstr "Acquazzoni"
 
 #: plugins/weather/weather.cpp:473
 msgid ""
 "_: weather\n"
 "Mostly Clear"
-msgstr ""
+msgstr "Per lo più chiaro"
 
 #: plugins/weather/weather.cpp:474
 msgid ""
@@ -8716,7 +8719,7 @@ msgstr "Soleggiato"
 msgid ""
 "_: weather\n"
 "Fair"
-msgstr ""
+msgstr "Bello"
 
 #: plugins/weather/weather.cpp:476
 msgid ""
@@ -8968,7 +8971,7 @@ msgstr "Suggerimento bottone:"
 
 #: plugins/weather/wifacecfgbase.cpp:83
 msgid "Forecast tip:"
-msgstr ""
+msgstr "Previsioni:"
 
 #: plugins/weather/wifacecfg.cpp:27
 #: plugins/weather/wifacecfg.cpp:66
@@ -9054,7 +9057,7 @@ msgstr "ID Luogo:"
 
 #: plugins/weather/weathercfgbase.cpp:112
 msgid "You can enter ID as part URL for your location on weather.com"
-msgstr ""
+msgstr "Puoi mettere ID per il tuo luogo come parte di URL su weather.com"
 
 #: plugins/weather/weathercfgbase.cpp:114
 msgid "Metric"
