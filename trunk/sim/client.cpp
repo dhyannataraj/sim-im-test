@@ -1122,6 +1122,7 @@ unsigned long SIMClient::getFileSize(QString name, QString base, vector<fileName
     QString fName = base + "/" + name;
 #endif
     QFileInfo fInfo(fName);
+	log(L_DEBUG, "GetFile %s", (const char*)(name.local8Bit()));
     if (!fInfo.exists()) return 0;
     if (!fInfo.isDir()){
         if (fInfo.isReadable()){
