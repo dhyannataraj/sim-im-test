@@ -399,6 +399,9 @@ FileTransfer::FileTransfer(FileMessage *msg)
     m_state		 = Unknown;
     m_overwrite  = Ask;
     m_transferBytes = 0;
+    m_sendTime   = 0;
+    m_sendSize   = 0;
+    m_transfer   = 0;
     if (msg->m_transfer)
         delete msg->m_transfer;
     msg->m_transfer = this;
@@ -431,6 +434,8 @@ bool FileTransfer::openFile()
         setError();
         return false;
     }
+    m_bytes    = 0;
+    m_fileSize = m_file->size();
     return true;
 }
 

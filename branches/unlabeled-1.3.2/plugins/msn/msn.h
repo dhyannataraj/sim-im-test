@@ -38,11 +38,9 @@ public:
     virtual ~MSNPlugin();
     unsigned EventAddOk;
     unsigned EventAddFail;
-protected:
     unsigned MSNPacket;
+protected:
     Protocol *m_protocol;
-    friend class MSNClient;
-    friend class SBSocket;
 };
 
 #endif

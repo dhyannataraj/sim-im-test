@@ -1612,9 +1612,6 @@ ICQFileTransfer::ICQFileTransfer(FileMessage *msg, ICQUserData *data, ICQClient 
     FileMessage::Iterator it(*msg);
     m_nFiles     = it.count();
     m_totalSize = msg->getSize();
-    m_sendTime  = 0;
-    m_sendSize  = 0;
-    m_transfer  = 0;
 }
 
 ICQFileTransfer::~ICQFileTransfer()
@@ -1942,8 +1939,6 @@ void ICQFileTransfer::sendFileInfo()
     m_socket->writeBuffer.pack((char)0);
     FileMessage::Iterator it(*m_msg);
     QString curFile = m_file->name();
-    m_bytes    = 0;
-    m_fileSize = m_file->size();
     if (m_notify)
         m_notify->process();
     string empty;

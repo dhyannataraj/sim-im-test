@@ -1032,6 +1032,11 @@ protected:
     unsigned m_totalSize;
     unsigned m_speed;
     unsigned m_transferBytes;
+
+    unsigned m_sendTime;
+    unsigned m_sendSize;
+    unsigned m_transfer;
+
     OverwriteMode m_overwrite;
     QString	 m_dir;
     State	 m_state;
@@ -1575,6 +1580,8 @@ EXPORT void setSmiles(const char *smiles_str);
 EXPORT unsigned screens();
 EXPORT QRect screenGeometry(unsigned nScreen);
 EXPORT QRect screenGeometry();
+
+EXPORT unsigned get_random();
 };
 
 using namespace SIM;

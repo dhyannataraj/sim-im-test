@@ -53,6 +53,9 @@ typedef struct MSNUserData
     unsigned	Flags;
     unsigned	sFlags;
     unsigned	typing_time;
+	void		*IP;
+	void		*RealIP;
+	unsigned	Port;
     SBSocket	*sb;
 } MSNUserData;
 
@@ -87,6 +90,8 @@ public:
     void timer(unsigned now);
     void setTyping(bool bTyping);
     bool cancelMessage(Message *msg);
+	bool acceptMessage(Message *msg, const char *dir, OverwriteMode mode);
+	bool declineMessage(Message *msg, const char *reason);
 protected:
     enum State
     {
@@ -227,6 +232,40 @@ protected:
     friend class UsrPacket;
     friend class QryPacket;
     friend class MSNServerMessage;
+	friend class SBSocket;
+};
+
+class MSNFileTransfer : public FileTransfer, public ClientSocketNotify
+{
+public:
+	MSNFileTransfer(FileMessage *msg, MSNClient *client, MSNUserData *data);
+	~MSNFileTransfer();
+	void connect();
+	unsigned ip1;
+	unsigned ip2;
+	unsigned port1;
+	unsigned port2;
+	unsigned auth_cookie;
+protected:
+	enum State
+	{
+		None,
+		ConnectIP1,
+		ConnectIP2,
+		Connected,
+		Send
+	};
+    virtual bool    error_state(const char *err, unsigned code);
+    virtual void	packet_ready();
+    virtual void	connect_ready();
+	virtual void	write_ready();
+    virtual void	startReceive(unsigned pos);
+	void			send(const char *line);
+    void			getLine(const char *line);
+	State			m_state;
+    ClientSocket    *m_socket;
+	MSNClient		*m_client;
+	MSNUserData		*m_data;
 };
 
 #endif

@@ -850,10 +850,6 @@ protected:
     };
     State m_state;
 
-    unsigned m_sendTime;
-    unsigned m_sendSize;
-    unsigned m_transfer;
-
     virtual void connect_ready();
     virtual bool error_state(const char *err, unsigned code);
     virtual void write_ready();

@@ -33,6 +33,8 @@
 #endif
 #endif
 
+#include <time.h>
+
 #include <stdio.h>
 #include <qwidget.h>
 #include <qpixmap.h>
@@ -799,6 +801,19 @@ EXPORT QRect screenGeometry()
     return QApplication::desktop()->rect();
 #endif
 #endif
+}
+
+static bool bRandInit = false;
+
+EXPORT unsigned get_random()
+{
+	if (!bRandInit){
+		bRandInit = true;
+		time_t now;
+		time(&now);
+		srand(now);
+	}
+	return rand();
 }
 
 };
