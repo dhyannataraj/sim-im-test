@@ -359,7 +359,7 @@ ICQClient::ICQClient(Protocol *protocol, const char *cfg, bool bAIM)
     m_listRequest = NULL;
     data.owner.DCcookie.value = rand();
     char buff[64];
-    snprintf(buff, sizeof(buff), "ICQ.%lu", data.owner.Uin);
+    snprintf(buff, sizeof(buff), "ICQ.%lu", data.owner.Uin.value);
     m_bBirthday = false;
     m_bServerReady = false;
     m_infoTimer = new QTimer(this);
