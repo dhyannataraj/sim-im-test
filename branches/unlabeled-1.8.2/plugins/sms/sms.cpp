@@ -288,7 +288,6 @@ static DataDef smsClientData[] =
 #else
         { "Port", DATA_STRING, 1, "cuaa0" },
 #endif
-        { "InitString", DATA_STRING, 1, "E0" },
         { "BaudRate", DATA_ULONG, 1, DATA(19200) },
         { "XonXoff", DATA_BOOL, 1, 0 },
         { "", DATA_ULONG, 1, 0 },		// Charge
@@ -471,7 +470,7 @@ void SMSClient::setStatus(unsigned status)
     connect(m_ta, SIGNAL(charge(bool, unsigned)), this, SLOT(charge(bool, unsigned)));
     connect(m_ta, SIGNAL(quality(unsigned)), this, SLOT(quality(unsigned)));
     connect(m_ta, SIGNAL(phoneCall(const QString&)), this, SLOT(phoneCall(const QString&)));
-    if (!m_ta->open(getDevice(), getBaudRate(), getXonXoff(), getInitString())){
+    if (!m_ta->open(getDevice(), getBaudRate(), getXonXoff())){
         error_state("Can't open port", 0);
         return;
     }

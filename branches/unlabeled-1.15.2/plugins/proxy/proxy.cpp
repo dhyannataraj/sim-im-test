@@ -178,6 +178,34 @@ protected:
     ProxyData	data;
 };
 
+class Listener : public SocketNotify, public ServerSocket
+{
+public:
+	Listener(ProxyPlugin *plugin, ProxyData *data, ServerSocketNotify *notify, unsigned long ip);
+	~Listener();
+    PROP_ULONG(Type);
+    PROP_STR(Host);
+    PROP_USHORT(Port);
+    PROP_BOOL(Auth);
+    PROP_STR(User);
+    PROP_STR(Password);
+protected:
+    virtual void write();
+    virtual void write_ready();
+    virtual void bind(unsigned short mixPort, unsigned short maxPort, TCPClient *client);
+#ifndef WIN32
+    virtual void bind(const char *path);
+#endif
+    virtual void close();
+    void read(unsigned size, unsigned minsize=0);
+	unsigned long m_ip;
+	Socket		*m_sock;
+	ProxyData	data;
+	ProxyPlugin	*m_plugin;
+    Buffer		bOut;
+    Buffer		bIn;
+};
+
 Proxy::Proxy(ProxyPlugin *plugin, ProxyData *d, TCPClient *client)
 {
     data = *d;
@@ -289,6 +317,63 @@ void Proxy::proxy_connect_ready()
     getSocketFactory()->remove(this);
 }
 
+Listener::Listener(ProxyPlugin *plugin, ProxyData *_data, ServerSocketNotify *notify, unsigned long ip)
+{
+	m_ip     = ip;
+	m_plugin = plugin;
+    m_sock   = getSocketFactory()->createSocket();
+    m_sock->setNotify(this);
+	data     = *_data;
+	notify->setListener(this);
+}
+
+Listener::~Listener()
+{
+	if (m_sock)
+		delete m_sock;
+}
+
+void Listener::bind(unsigned short, unsigned short, TCPClient*)
+{
+}
+
+#ifndef WIN32
+
+void Listener::bind(const char*)
+{
+}
+
+#endif
+    
+void Listener::close()
+{
+}
+
+void Listener::write()
+{
+    log_packet(bOut, true, m_plugin->ProxyPacket);
+    m_sock->write(bOut.data(0), bOut.size());
+    bOut.init(0);
+    bOut.packetStart();
+}
+
+void Listener::read(unsigned size, unsigned minsize)
+{
+    bIn.init(size);
+    bIn.packetStart();
+    int readn = m_sock->read(bIn.data(0), size);
+    if ((readn != (int)size) || (minsize && (readn < (int)minsize))){
+        if (notify && notify->error("Error proxy read"))
+			delete notify;
+        return;
+    }
+    log_packet(bIn, false, m_plugin->ProxyPacket);
+}
+
+void Listener::write_ready()
+{
+}
+
 // ______________________________________________________________________________________
 
 class SOCKS4_Proxy : public Proxy
@@ -311,6 +396,24 @@ protected:
         WaitConnect
     };
     State m_state;
+};
+
+class SOCKS4_Listener : public Listener
+{
+public:
+	SOCKS4_Listener(ProxyPlugin *plugin, ProxyData *data, ServerSocketNotify *notify, unsigned long ip);
+protected:
+    virtual void connect_ready();
+    virtual void read_ready();
+    virtual void error_state(const char *text, unsigned code);
+
+	enum State
+	{
+		Connect,
+		WaitListen,
+		Accept
+	};
+	State m_state;
 };
 
 SOCKS4_Proxy::SOCKS4_Proxy(ProxyPlugin *plugin, ProxyData *data, TCPClient *client)
@@ -352,6 +455,8 @@ void SOCKS4_Proxy::connect_ready()
         struct hostent *hp = gethostbyname(m_host.c_str());
         if (hp) addr = *((unsigned long*)(hp->h_addr_list[0]));
     }
+	if (notify)
+		notify->resolve_ready(addr);
     bOut
     << (char)4
     << (char)1
@@ -372,6 +477,66 @@ void SOCKS4_Proxy::read_ready()
         return;
     }
     proxy_connect_ready();
+}
+
+SOCKS4_Listener::SOCKS4_Listener(ProxyPlugin *plugin, ProxyData *data, ServerSocketNotify *notify, unsigned long ip)
+: Listener(plugin, data, notify, ip)
+{
+    log(L_DEBUG, "Connect to proxy SOCKS4 %s:%u", getHost(), getPort());
+    m_sock->connect(getHost(), getPort());
+    m_state = Connect;
+}
+
+void SOCKS4_Listener::connect_ready()
+{
+    bOut
+    << (char)4
+    << (char)2
+    << (unsigned short)0
+    << (unsigned long)m_ip
+    << (char)0;
+    m_state = WaitListen;
+}
+
+void SOCKS4_Listener::read_ready()
+{
+    char b1, b2;
+	unsigned short port;
+	unsigned long  ip;
+	switch (m_state){
+	case WaitListen:
+		read(8);
+	    bIn >> b1 >> b2;
+		if (b2 != 90){
+			error_state("bad proxy answer", 0);
+			return;
+		}
+		bIn >> port;
+		m_state = Accept;
+		if (notify)
+			notify->bind_ready(port);
+		return;
+	case Accept:
+		read(8);
+	    bIn >> b1 >> b2;
+		if (b2 != 90){
+			error_state("bad proxy answer", 0);
+			return;
+		}
+		bIn >> port >> ip;
+		if (notify){
+			notify->accept(m_sock, ip);
+			m_sock = NULL;
+		}else{
+			error_state("Bad state", 0);
+		}
+	}
+}
+
+void SOCKS4_Listener::error_state(const char *err, unsigned)
+{
+	if (notify)
+		notify->error(err);
 }
 
 // ______________________________________________________________________________________
@@ -397,6 +562,26 @@ protected:
     };
     State m_state;
     void send_connect();
+};
+
+class SOCKS5_Listener : public Listener
+{
+public:
+	SOCKS5_Listener(ProxyPlugin *plugin, ProxyData *data, ServerSocketNotify *notify, unsigned long ip);
+protected:
+    virtual void connect_ready();
+    virtual void read_ready();
+    virtual void error_state(const char *text, unsigned code);
+	void send_listen();
+	enum State
+	{
+		Connect,
+		WaitAnswer,
+		WaitAuth,
+		WaitListen,
+		Accept
+	};
+	State m_state;
 };
 
 SOCKS5_Proxy::SOCKS5_Proxy(ProxyPlugin *plugin, ProxyData *d, TCPClient *client)
@@ -432,6 +617,7 @@ void SOCKS5_Proxy::connect_ready()
 void SOCKS5_Proxy::read_ready()
 {
     char b1, b2;
+	unsigned long ip;
     switch (m_state){
     case WaitAnswer:
         read(2);
@@ -471,6 +657,10 @@ void SOCKS5_Proxy::read_ready()
             error_state(ANSWER_ERROR, m_plugin->ProxyErr);
             return;
         }
+		bIn >> b1 >> b2;
+		bIn >> ip;
+		if (notify)
+			notify->resolve_ready(ip);
         proxy_connect_ready();
         return;
     default:
@@ -504,6 +694,111 @@ void SOCKS5_Proxy::send_connect()
     bOut << m_port;
     m_state = WaitConnect;
     write();
+}
+
+SOCKS5_Listener::SOCKS5_Listener(ProxyPlugin *plugin, ProxyData *data, ServerSocketNotify *notify, unsigned long ip)
+: Listener(plugin, data, notify, ip)
+{
+    log(L_DEBUG, "Connect to proxy SOCKS5 %s:%u", getHost(), getPort());
+    m_sock->connect(getHost(), getPort());
+    m_state = Connect;
+}
+
+void SOCKS5_Listener::connect_ready()
+{
+    if (m_state != Connect){
+        error_state(STATE_ERROR, 0);
+        return;
+    }
+    bOut << 0x05020002L;
+    m_state = WaitAnswer;
+	write();
+}
+
+void SOCKS5_Listener::read_ready()
+{
+    char b1, b2;
+	unsigned short port;
+	unsigned long ip;
+    switch (m_state){
+    case WaitAnswer:
+        read(2);
+        bIn >> b1 >> b2;
+        if ((b1 != 0x05) || (b2 == '\xFF')) {
+            error_state(ANSWER_ERROR, m_plugin->ProxyErr);
+            return;
+        }
+        if (b2 == 0x02) {
+            const char *user = getUser();
+            const char *pswd = getPassword();
+            bOut
+            << (char)0x01
+            << (char)strlen(user)
+            << user
+            << (char)strlen(pswd)
+            << pswd;
+            m_state = WaitAuth;
+            write();
+            return;
+        }
+        send_listen();
+        return;
+    case WaitAuth:
+        read(2);
+        bIn >> b1 >> b2;
+        if ((b1 != 0x01) || (b2 != 0x00)) {
+            error_state(AUTH_ERROR, m_plugin->ProxyErr);
+            return;
+        }
+        send_listen();
+        return;
+	case WaitListen:
+		read(10);
+		bIn >> b1 >> b2;
+        if ((b1 != 0x05) || (b2 != 0x00)) {
+            error_state(AUTH_ERROR, m_plugin->ProxyErr);
+            return;
+        }
+		bIn >> b1 >> b2;
+		bIn >> ip;
+		bIn >> port;
+		m_state = Accept;
+		if (notify)
+			notify->bind_ready(port);
+		return;
+	case Accept:
+		read(10);
+		bIn >> b1 >> b2;
+        if ((b1 != 0x05) || (b2 != 0x02)) {
+            error_state("Bad accept code", 0);
+            return;
+        }
+		bIn >> b1 >> b2;
+		bIn >> ip;
+		if (notify){
+			notify->accept(m_sock, ip);
+			m_sock = NULL;
+		}else{
+            error_state("Bad accept code", 0);
+            return;
+		}
+		return;
+    default:
+        break;
+    }
+}
+
+void SOCKS5_Listener::send_listen()
+{
+	bOut << 0x05020001L << m_ip << (unsigned short)0;
+	write();
+	m_state = WaitListen;
+}
+
+void SOCKS5_Listener::error_state(const char *err, unsigned)
+{
+	if (notify)
+		notify->error(err);
 }
 
 // ______________________________________________________________________________________
@@ -1330,6 +1625,22 @@ void *ProxyPlugin::processEvent(Event *e)
             proxy->setSocket(p->socket);
             return e->param();
         }
+    }
+    if (e->type() == EventSocketListen){
+        ListenParam *p = (ListenParam*)(e->param());
+        ProxyData data;
+        clientData(p->client, data);
+		Listener *listener = NULL;
+        switch (data.Type.value){
+        case PROXY_SOCKS4:
+            listener = new SOCKS4_Listener(this, &data, p->notify, p->client->ip());
+            break;
+        case PROXY_SOCKS5:
+            listener = new SOCKS5_Listener(this, &data, p->notify, p->client->ip());
+            break;
+		}
+        if (listener)
+            return e->param();
     }
     if (e->type() == EventRaiseWindow){
         QWidget *w = (QWidget*)(e->param());

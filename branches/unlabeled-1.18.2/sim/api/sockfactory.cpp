@@ -242,6 +242,8 @@ void SIMClientSocket::resolveReady(unsigned long addr, const char *_host)
         if (notify) notify->error_state(I18N_NOOP("Can't resolve host"));
         return;
     }
+	if (notify)
+		notify->resolve_ready(addr);
     in_addr a;
     a.s_addr = addr;
     host = inet_ntoa(a);
@@ -353,6 +355,14 @@ void SIMServerSocket::close()
 
 void SIMServerSocket::bind(unsigned short minPort, unsigned short maxPort, TCPClient *client)
 {
+    if (client && notify){
+        ListenParam p;
+        p.notify = notify;
+        p.client = client;
+        Event e(EventSocketListen, &p);
+        if (e.process())
+            return;
+    }
     unsigned short startPort = (unsigned short)(minPort + get_random() % (maxPort - minPort + 1));
     bool bOK = false;
     for (m_nPort = startPort;;){
@@ -422,19 +432,10 @@ void SIMServerSocket::error(const char *err)
     }
 }
 
-void SIMServerSocket::listen(TCPClient *client)
+void SIMServerSocket::listen(TCPClient*)
 {
     sn = new QSocketNotifier(sock->socket(), QSocketNotifier::Read, this);
     connect(sn, SIGNAL(activated(int)), this, SLOT(activated(int)));
-    if (client && notify){
-        ListenParam p;
-        p.notify = notify;
-        p.port   = m_nPort;
-        p.client = client;
-        Event e(EventSocketListen, &p);
-        if (e.process())
-            return;
-    }
     if (notify)
         notify->bind_ready(m_nPort);
 }

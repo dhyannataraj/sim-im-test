@@ -105,6 +105,11 @@ bool ClientSocket::created()
     return (m_sock != NULL);
 }
 
+void ClientSocket::resolve_ready(unsigned long ip)
+{
+	m_notify->resolve_ready(ip);
+}
+
 void ClientSocket::connect_ready()
 {
     m_notify->connect_ready();
@@ -262,12 +267,18 @@ TCPClient::TCPClient(Protocol *protocol, const char *cfg)
         : Client(protocol, cfg)
 {
     m_socket = NULL;
+	m_ip     = 0;
     m_timer  = new QTimer(this);
     m_loginTimer = new QTimer(this);
     m_reconnect = RECONNECT_TIME;
     m_bWaitReconnect = false;
     connect(m_timer, SIGNAL(timeout()), this, SLOT(reconnect()));
     connect(m_loginTimer, SIGNAL(timeout()), this, SLOT(loginTimeout()));
+}
+
+void TCPClient::resolve_ready(unsigned long ip)
+{
+	m_ip = ip;
 }
 
 bool TCPClient::error_state(const char *err, unsigned code)
@@ -374,6 +385,15 @@ ServerSocketNotify::~ServerSocketNotify()
 {
     if (m_listener)
         getSocketFactory()->remove(m_listener);
+}
+
+void ServerSocketNotify::setListener(ServerSocket *listener)
+{
+    if (m_listener)
+        getSocketFactory()->remove(m_listener);
+	m_listener = listener;
+	if (m_listener)
+		m_listener->setNotify(this);
 }
 
 void ServerSocketNotify::bind(unsigned short minPort, unsigned short maxPort, TCPClient *client)

@@ -58,7 +58,6 @@ public:
 typedef struct SMSClientData
 {
     Data	Device;
-    Data	InitString;
     Data	BaudRate;
     Data	XonXoff;
     Data	Charge;
@@ -84,7 +83,6 @@ public:
     SMSClient(Protocol *protocol, const char *cfg);
     ~SMSClient();
     PROP_STR(Device);
-    PROP_STR(InitString);
     PROP_ULONG(BaudRate);
     PROP_BOOL(XonXoff);
     PROP_ULONG(Charge);

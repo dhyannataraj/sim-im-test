@@ -33,6 +33,7 @@ public:
     virtual void read_ready() = 0;
     virtual void write_ready() = 0;
     virtual void error_state(const char *err_text, unsigned code=0) = 0;
+	virtual void resolve_ready(unsigned long) {}
 };
 
 class EXPORT Socket
@@ -72,6 +73,7 @@ public:
 #ifndef WIN32
     virtual void bind(const char *path);
 #endif
+	void setListener(ServerSocket *listener);
     ServerSocket *m_listener;
 };
 
@@ -125,6 +127,7 @@ public:
     virtual void connect_ready() = 0;
     virtual void packet_ready() = 0;
     virtual void write_ready() {}
+	virtual void resolve_ready(unsigned long) {}
 };
 
 class TCPClient;
@@ -152,6 +155,7 @@ public:
 protected:
     virtual void connect_ready();
     virtual void write_ready();
+	virtual void resolve_ready(unsigned long ip);
 
     Socket *m_sock;
     ClientSocketNotify *m_notify;
@@ -174,6 +178,7 @@ public:
     virtual unsigned short	getPort() const = 0;
     unsigned		m_reconnect;
     virtual void	setStatus(unsigned status, bool bCommon);
+	unsigned long	ip() { return m_ip; }
 protected slots:
     void reconnect();
     void loginTimeout();
@@ -181,12 +186,14 @@ protected:
     virtual void	setStatus(unsigned status) = 0;
     virtual void	disconnected() = 0;
 
+	virtual void	resolve_ready(unsigned long);
     virtual void	connect_ready();
     virtual bool	error_state(const char *err, unsigned code);
     virtual void	socketConnect();
     void			setClientStatus(unsigned status);
     ClientSocket	*m_socket;
     unsigned		m_logonStatus;
+	unsigned		m_ip;
     QTimer			*m_timer;
     QTimer			*m_loginTimer;
     bool			m_bWaitReconnect;

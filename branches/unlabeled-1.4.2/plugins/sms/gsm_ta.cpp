@@ -48,9 +48,8 @@ GsmTA::~GsmTA()
 {
 }
 
-bool GsmTA::open(const char *device, int baudrate, bool bXonXoff, const char *initString)
+bool GsmTA::open(const char *device, int baudrate, bool bXonXoff)
 {
-    m_initString = initString;
     m_state      = Open;
     return m_port->open(device, baudrate, bXonXoff, 100);
 }
@@ -86,7 +85,7 @@ void GsmTA::read_ready()
         if (!isOK(line.c_str()))
             return;
         m_state = Init2;
-        at(m_initString.c_str());
+        at("E0");
         break;
     case Init2:
         if (!isOK(line.c_str()))

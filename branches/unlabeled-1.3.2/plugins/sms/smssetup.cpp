@@ -50,7 +50,6 @@ SMSSetup::SMSSetup(QWidget *parent, SMSClient *client)
             cmbBaud->setCurrentItem(i);
         }
     }
-    edtInit->setText(m_client->getInitString());
     chkXonXoff->setChecked(m_client->getXonXoff());
     if (client->getState() == Client::Connected){
         if (client->getCharging()){
@@ -74,7 +73,6 @@ void SMSSetup::apply()
 {
     m_client->setDevice(cmbPort->currentText().latin1());
     m_client->setBaudRate(atol(cmbBaud->currentText().latin1()));
-    m_client->setInitString(edtInit->text().latin1());
     m_client->setXonXoff(chkXonXoff->isChecked());
 }
 

@@ -47,7 +47,7 @@ class GsmTA : public QObject
 public:
     GsmTA(QObject *parent);
     ~GsmTA();
-    bool open(const char *device, int baudrate, bool bXonXoff, const char *init);
+    bool open(const char *device, int baudrate, bool bXonXoff);
     string model();
     string oper();
     void getPhoneBook();
@@ -110,7 +110,6 @@ protected:
     string gsmToLatin1(const char *str);
     string latin1ToGsm(const char *str);
     State			m_state;
-    string			m_initString;
     string			m_cmd;
     string			m_manufacturer;
     string			m_model;

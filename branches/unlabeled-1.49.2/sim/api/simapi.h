@@ -753,7 +753,6 @@ typedef struct ListenParam
 {
     ServerSocketNotify	*notify;
     TCPClient			*client;
-    unsigned short		port;
 } ListenParam;
 
 /* Event send & receive message
