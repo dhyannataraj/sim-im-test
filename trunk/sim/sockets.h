@@ -26,6 +26,7 @@
 // #undef HAVE_KEXTSOCK_H
 
 class QDns;
+class QTimer;
 class QSocket;
 class QSocketDevice;
 class QSocketNotifier;
@@ -59,15 +60,18 @@ protected slots:
     void slotError(int);
     void slotLookupFinished(int);
     void resolveTimeout();
+    void resolveReady();
 protected:
     unsigned short port;
+    void doConnect(const char *host);
 #ifdef HAVE_KEXTSOCK_H
     KExtendedSocket *sock;
+    QDns *resolver;
 #else
     QSocket *sock;
-	QTimer  *timer;
-    bool bConnected;
 #endif
+    QTimer  *timer;
+    bool bConnected;
     bool bInWrite;
 };
 

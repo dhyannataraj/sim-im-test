@@ -39,6 +39,7 @@
 #ifdef HAVE_KEXTSOCK_H
 #include <kextsock.h>
 #include <ksockaddr.h>
+#include <arpa/inet.h>
 #endif
 
 SIMSockets::SIMSockets()
@@ -67,11 +68,12 @@ ICQClientSocket::ICQClientSocket(QSocket *s)
         sock = new KExtendedSocket;
     sock->setSocketFlags(KExtendedSocket::bufferedSocket | KExtendedSocket::inetSocket);
     sock->setBlockingMode(false);
+    resolver = NULL;
 #else
         sock = new QSocket(this);
-    bConnected = false;
-	timer = NULL;
+    timer = NULL;
 #endif
+    bConnected = false;
 #ifdef HAVE_KEXTSOCK_H
     QObject::connect(sock, SIGNAL(connectionSuccess()), this, SLOT(slotConnected()));
     QObject::connect(sock, SIGNAL(lookupFinished(int)), this, SLOT(slotLookupFinished(int)));
@@ -100,21 +102,25 @@ void ICQClientSocket::close()
 {
 #ifdef HAVE_KEXTSOCK_H
     sock->closeNow();
+    if (resolver){
+        delete resolver;
+        resolver = NULL;
+    }
 #else
     sock->close();
-	if (timer){
-		delete timer;
-		timer = NULL;
-	}
 #endif
+    if (timer){
+        delete timer;
+        timer = NULL;
+    }
 }
 
 void ICQClientSocket::slotLookupFinished(int state)
 {
     log(L_DEBUG, "Lookup finished %u", state);
     if (state == 0){
-	    log(L_WARN, "Can't lookup");
-	    notify->error_state(ErrorConnect);
+        log(L_WARN, "Can't lookup");
+        notify->error_state(ErrorConnect);
     }
 }
 
@@ -123,10 +129,10 @@ int ICQClientSocket::read(char *buf, unsigned int size)
     int res = sock->readBlock(buf, size);
     if (res < 0){
 #ifdef HAVE_KEXTSOCK_H
-	if (sock->systemError() == EWOULDBLOCK) return 0;
+        if (sock->systemError() == EWOULDBLOCK) return 0;
         log(L_DEBUG, "QClientSocket::read error %u", sock->systemError());
 #else
-	log(L_DEBUG, "QClientSocket::read error %u", errno);
+        log(L_DEBUG, "QClientSocket::read error %u", errno);
 #endif
         if (notify) notify->error_state(ErrorRead);
         return -1;
@@ -147,63 +153,99 @@ void ICQClientSocket::write(const char *buf, unsigned int size)
         QTimer::singleShot(0, this, SLOT(slotBytesWritten()));
 }
 
+void ICQClientSocket::resolveReady()
+{
+    log(L_DEBUG, "Resolve ready");
+    if ((resolver == NULL) || (resolver->addresses().size() == 0)){
+        if (resolver == NULL){
+            delete resolver;
+            resolver = NULL;
+        }
+        log(L_WARN, "Lookup failed");
+        if (notify) notify->error_state(ErrorConnect);
+        return;
+    }
+    QString host = resolver->addresses().first().toString();
+    delete resolver;
+    resolver = NULL;
+    doConnect(host.latin1());
+}
+
 void ICQClientSocket::connect(const char *host, int _port)
 {
     port = _port;
     log(L_DEBUG, "Connect to %s:%u", host, port);
 #ifdef HAVE_KEXTSOCK_H
-	sock->setBlockingMode(true);
+    sock->setBlockingMode(true);
+    if (inet_addr(host) == INADDR_NONE){
+        if (resolver) delete resolver;
+        resolver = new QDns(host, QDns::A);
+        QObject::connect(resolver, SIGNAL(resultsReady()), this, SLOT(resolveReady()));
+        return;
+    }
+    doConnect(host);
+#else
+    bConnected = false;
+    timer = new QTimer(this);
+    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(resolveTimeout()));
+    timer->start(15000);
+    sock->connectToHost(host, port);
+#endif
+}
+
+void ICQClientSocket::doConnect(const char *host)
+{
+#ifdef HAVE_KEXTSOCK_H
     sock->setAddress(host, port);
     sock->enableRead(true);
-	sock->enableWrite(true);
-	log(L_DEBUG, "Lookup");
+    sock->enableWrite(true);
+    log(L_DEBUG, "Lookup");
     if (sock->lookup() < 0){
-	log(L_WARN, "Can't lookup");
-	if (notify) notify->error_state(ErrorConnect);
-	return;
+        log(L_WARN, "Can't lookup");
+        if (notify) notify->error_state(ErrorConnect);
+        return;
     }
-	log(L_DEBUG, "Start connect");
+    log(L_DEBUG, "Start connect");
     if (sock->startAsyncConnect() < 0){
         log(L_WARN, "Can't connect");
         if (notify) notify->error_state(ErrorConnect);
     }
-#else
     bConnected = false;
     timer = new QTimer(this);
-	QObject::connect(timer, SIGNAL(timeout()), this, SLOT(resolveTimeout()));
-	timer->start(15000);
-    sock->connectToHost(host, port);
+    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(resolveTimeout()));
+    timer->start(15000);
 #endif
 }
 
 void ICQClientSocket::resolveTimeout()
 {
-#ifndef HAVE_KEXTSOCK_H
-	log(L_DEBUG, "Resolve timeout");
-	if (timer){
-		delete timer;
-		timer = NULL;
-	}
+    log(L_DEBUG, "Resolve timeout");
+    if (timer){
+        delete timer;
+        timer = NULL;
+    }
     if (!bConnected)
         slotError(1);
-#endif
 }
 
 void ICQClientSocket::slotConnected()
 {
     log(L_DEBUG, "Connected");
-    if (notify) notify->connect_ready();
 #ifdef HAVE_KEXTSOCK_H
     sock->setBlockingMode(false);
     sock->enableRead(true);
     sock->enableWrite(false);
+    if (notify) notify->connect_ready();
+    if (sock->bytesAvailable())
+        slotReadReady();
 #else
-	if (timer == NULL){
-		delete timer;
-		timer = NULL;
-	}
-    bConnected = true;
+    if (notify) notify->connect_ready();
 #endif
+    if (timer == NULL){
+        delete timer;
+        timer = NULL;
+    }
+    bConnected = true;
 }
 
 void ICQClientSocket::slotConnectionClosed()
@@ -285,12 +327,12 @@ ICQServerSocket::ICQServerSocket(unsigned short minPort, unsigned short maxPort)
 {
 #ifdef HAVE_KEXTSOCK_H
     for (m_nPort = minPort; m_nPort <= maxPort; m_nPort++){
-	sock = new KExtendedSocket(QString::null, m_nPort, KExtendedSocket::passiveSocket  | KExtendedSocket::inetSocket);
+        sock = new KExtendedSocket(QString::null, m_nPort, KExtendedSocket::passiveSocket  | KExtendedSocket::inetSocket);
         sock->setBlockingMode(false);
         if (sock->listen() == 0)
             break;
-	delete sock;
-	sock = NULL;
+        delete sock;
+        sock = NULL;
     }
     if (m_nPort > maxPort)
         return;
