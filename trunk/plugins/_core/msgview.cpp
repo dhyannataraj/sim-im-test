@@ -554,7 +554,7 @@ void *MsgViewBase::processEvent(Event *e)
         case CmdMsgOpen:
             msg = currentMessage();
             if (msg){
-				msg->setFlags(msg->getFlags() | MESSAGE_OPEN);
+                msg->setFlags(msg->getFlags() | MESSAGE_OPEN);
                 Event eOpen(EventOpenMessage, msg);
                 eOpen.process();
                 delete msg;

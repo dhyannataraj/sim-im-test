@@ -92,8 +92,8 @@ public:
     bool cancelMessage(Message *msg);
     bool acceptMessage(Message *msg, const char *dir, OverwriteMode mode);
     bool declineMessage(Message *msg, const char *reason);
-	void acceptMessage(unsigned short port, unsigned cookie, unsigned auth_cookie);
-	void declineMessage(unsigned cookie);
+    void acceptMessage(unsigned short port, unsigned cookie, unsigned auth_cookie);
+    void declineMessage(unsigned cookie);
 protected:
     enum State
     {
@@ -254,7 +254,7 @@ public:
     unsigned short port1;
     unsigned short port2;
     unsigned auth_cookie;
-	unsigned cookie;
+    unsigned cookie;
 
 protected slots:
 
@@ -272,8 +272,8 @@ protected:
         Listen,
         Receive,
         Incoming,
-		WaitDisconnect,
-		WaitBye
+        WaitDisconnect,
+        WaitBye
     };
     virtual bool    error_state(const char *err, unsigned code);
     virtual void	packet_ready();

@@ -167,7 +167,7 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd)
     m_bReceived = false;
     m_processor = NULL;
     m_recvProcessor = NULL;
-	m_cmd.param = NULL;
+    m_cmd.param = NULL;
 
     connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
 
@@ -223,30 +223,30 @@ MsgEdit::~MsgEdit()
 
 void MsgEdit::execCommand(CommandDef *cmd)
 {
-	if (m_cmd.param){
-		Message *msg = (Message*)(m_cmd.param);
-		delete msg;
-	}
-	m_cmd = *cmd;
-	QTimer::singleShot(0, this, SLOT(execCommand()));
+    if (m_cmd.param){
+        Message *msg = (Message*)(m_cmd.param);
+        delete msg;
+    }
+    m_cmd = *cmd;
+    QTimer::singleShot(0, this, SLOT(execCommand()));
 }
 
 void MsgEdit::execCommand()
 {
-	if (m_cmd.param == NULL)
-		return;
-	Message *msg = (Message*)(m_cmd.param);
-	Event e(EventCommandExec, &m_cmd);
-	e.process();
-	delete msg;
-	m_cmd.param = NULL;
+    if (m_cmd.param == NULL)
+        return;
+    Message *msg = (Message*)(m_cmd.param);
+    Event e(EventCommandExec, &m_cmd);
+    e.process();
+    delete msg;
+    m_cmd.param = NULL;
     switch (m_cmd.id){
     case CmdMsgQuote:
     case CmdMsgForward:
-		break;
+        break;
     default:
-		goNext();
-	}
+        goNext();
+    }
 }
 
 void MsgEdit::showCloseSend(bool bState)
@@ -277,16 +277,16 @@ bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
     unsigned type = m_type;
     m_bReceived = msg->getFlags() & MESSAGE_RECEIVED;
     QObject *processor = NULL;
-	MsgReceived *rcv = NULL;
+    MsgReceived *rcv = NULL;
     if (m_bReceived){
         if ((msg->getFlags() & MESSAGE_OPEN) || (CorePlugin::m_plugin->getContainerMode() == 0)){
             rcv = new MsgReceived(this, msg, true);
-			processor = rcv;
+            processor = rcv;
         }else{
             if (m_recvProcessor == NULL){
                 rcv = new MsgReceived(this, msg, false);
-				m_recvProcessor = rcv;
-			}
+                m_recvProcessor = rcv;
+            }
         }
     }else{
         QObject *(*create)(MsgEdit *custom, Message *msg) = NULL;
@@ -332,8 +332,8 @@ bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
     }
 
     m_bar->checkState();
-	if (rcv)
-		rcv->init();
+    if (rcv)
+        rcv->init();
     Command cmd;
     cmd->id			= CmdMultiply;
     cmd->flags		= COMMAND_DEFAULT;

@@ -260,10 +260,10 @@ void FileTransferDlg::process()
                 if (n >= 0)
                     shortName = shortName.mid(n + 1);
                 status += shortName;
-				if (m_files > 1)
-                status += QString(" %1/%2")
-                          .arg(m_file + 1)
-                          .arg(m_msg->m_transfer->files());
+                if (m_files > 1)
+                    status += QString(" %1/%2")
+                              .arg(m_file + 1)
+                              .arg(m_msg->m_transfer->files());
             }
         }
         lblState->setText(status);
@@ -435,7 +435,7 @@ void FileTransferDlg::action(int nAct, void*)
     case 2:
         notify->resume();
         break;
-	default:
+    default:
         notify->replace();
         break;
     }

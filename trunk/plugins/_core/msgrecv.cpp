@@ -95,7 +95,7 @@ void *MsgReceived::processEvent(Event *e)
                         if (msg){
                             CommandDef c = *cmd;
                             c.param = msg;
-							m_edit->execCommand(&c);
+                            m_edit->execCommand(&c);
                         }
                         return e->param();
                     }
@@ -106,9 +106,9 @@ void *MsgReceived::processEvent(Event *e)
                 Message *msg = History::load(m_id, m_client.c_str(), m_contact);
                 if (msg){
                     CommandDef c = *cmd;
-					c.id   -= CmdReceived;
+                    c.id   -= CmdReceived;
                     c.param = msg;
-					m_edit->execCommand(&c);
+                    m_edit->execCommand(&c);
                 }
                 return e->param();
             }
@@ -128,7 +128,7 @@ void *MsgReceived::processEvent(Event *e)
                         if (msg == NULL)
                             msg = History::load(m_id, m_client.c_str(), m_contact);
                         if (msg){
-							c.id   -= CmdReceived;
+                            c.id   -= CmdReceived;
                             c.param = msg;
                             Event e(EventCheckState, &c);
                             if (e.process())
@@ -171,31 +171,31 @@ void *MsgReceived::processEvent(Event *e)
                 }
                 return e->param();
             }
-			if (cmd->id == CmdMsgAnswer){
-				e->process(this);
+            if (cmd->id == CmdMsgAnswer){
+                e->process(this);
                 cmd->flags |= BTN_HIDE;
                 if (CorePlugin::m_plugin->getContainerMode() == 0)
                     cmd->flags &= ~BTN_HIDE;
                 return e->param();
-			}
-
-			if (m_bOpen){
-            switch (cmd->id){
-            case CmdTranslit:
-            case CmdSmile:
-            case CmdSend:
-            case CmdSendClose:
-				e->process(this);
-                cmd->flags |= BTN_HIDE;
-                return e->param();
-            case CmdNextMessage:
-				e->process(this);
-                cmd->flags |= BTN_HIDE;
-                if (CorePlugin::m_plugin->getContainerMode() == 0)
-                    cmd->flags &= ~BTN_HIDE;
-                return e->param();;
             }
-			}
+
+            if (m_bOpen){
+                switch (cmd->id){
+                case CmdTranslit:
+                case CmdSmile:
+                case CmdSend:
+                case CmdSendClose:
+                    e->process(this);
+                    cmd->flags |= BTN_HIDE;
+                    return e->param();
+                case CmdNextMessage:
+                    e->process(this);
+                    cmd->flags |= BTN_HIDE;
+                    if (CorePlugin::m_plugin->getContainerMode() == 0)
+                        cmd->flags &= ~BTN_HIDE;
+                    return e->param();;
+                }
+            }
         }
     }
     if (e->type() == EventMessageDeleted){

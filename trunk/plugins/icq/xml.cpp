@@ -100,26 +100,26 @@ XmlNode *XmlNode::parse(string::iterator& curr, string::iterator end) {
             skipWS(curr,end);
             if(curr == end || *curr != '<') {
                 if (p != NULL) delete p;
-                
+
             }
         }
-		return NULL;
+        return NULL;
 
     }
-        // XmlLeaf
-        string value;
-        while (curr != end && *curr != '<') {
-            value += *curr;
-            curr++;
-        }
-        if(curr == end) return NULL;
-        string nexttag = parseTag(curr,end);
-        if (nexttag.empty() || nexttag[0] != '/') return NULL;
-        if (nexttag.size() == tag.size()+1 && nexttag.find(tag,1) == 1) {
-            return new XmlLeaf(unquote(tag),unquote(value));
-        }
-            // error
-            return NULL;
+    // XmlLeaf
+    string value;
+    while (curr != end && *curr != '<') {
+        value += *curr;
+        curr++;
+    }
+    if(curr == end) return NULL;
+    string nexttag = parseTag(curr,end);
+    if (nexttag.empty() || nexttag[0] != '/') return NULL;
+    if (nexttag.size() == tag.size()+1 && nexttag.find(tag,1) == 1) {
+        return new XmlLeaf(unquote(tag),unquote(value));
+    }
+    // error
+    return NULL;
 }
 
 string XmlNode::parseTag(string::iterator& curr, string::iterator end) {

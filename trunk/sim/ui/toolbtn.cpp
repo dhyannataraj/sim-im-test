@@ -660,7 +660,7 @@ void CToolBar::toolBarChanged()
         buttons->add(s->id, btn);
     }
     bChanged = false;
-	QTimer::singleShot(0, this, SLOT(checkState()));
+    QTimer::singleShot(0, this, SLOT(checkState()));
 }
 
 void CToolBar::showPopup(QPoint p)

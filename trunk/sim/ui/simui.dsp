@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMUI_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MD /W4 /WX /O1 /I "$(QTDIR)\include" /I "..\api" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMUI_EXPORTS" /D "QT_DLL" /D "UNICODE" /YX /FD /c
+# ADD CPP /nologo /MD /W4 /O1 /I "$(QTDIR)\include" /I "..\api" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMUI_EXPORTS" /D "QT_DLL" /D "UNICODE" /YX /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "NDEBUG"
@@ -194,7 +194,6 @@ SOURCE=.\qt3\qcomplextext.cpp
 # Begin Source File
 
 SOURCE=.\qkeybutton.cpp
-# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -203,15 +202,6 @@ SOURCE=.\qt3\qkeysequence.cpp
 # Begin Source File
 
 SOURCE=.\qt3\qrichtext.cpp
-
-!IF  "$(CFG)" == "simui - Win32 Release"
-
-# ADD CPP /W3
-
-!ELSEIF  "$(CFG)" == "simui - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -228,7 +218,6 @@ SOURCE=.\qt3\qstylesheet.cpp
 # Begin Source File
 
 SOURCE=.\qt3\qtextedit.cpp
-# ADD CPP /W3
 # End Source File
 # Begin Source File
 
