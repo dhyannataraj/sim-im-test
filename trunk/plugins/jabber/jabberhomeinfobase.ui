@@ -11,15 +11,15 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>378</width>
-            <height>294</height>
+            <width>409</width>
+            <height>283</height>
         </rect>
     </property>
     <property>
         <name>caption</name>
         <string>Form2</string>
     </property>
-    <vbox>
+    <grid>
         <property>
             <name>margin</name>
             <number>11</number>
@@ -28,192 +28,160 @@
             <name>spacing</name>
             <number>6</number>
         </property>
-        <widget>
-            <class>QTabWidget</class>
+        <widget row="4"  column="1" >
+            <class>QLineEdit</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>TabWidget6</cstring>
+                <cstring>edtZip</cstring>
+            </property>
+        </widget>
+        <widget row="3"  column="1" >
+            <class>QLineEdit</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>edtState</cstring>
+            </property>
+        </widget>
+        <widget row="5"  column="1" >
+            <class>QLineEdit</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>edtCountry</cstring>
+            </property>
+        </widget>
+        <widget row="2"  column="1" >
+            <class>QLineEdit</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>edtCity</cstring>
+            </property>
+        </widget>
+        <widget row="2"  column="0" >
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>TextLabel12</cstring>
             </property>
             <property>
-                <name>caption</name>
-                <string></string>
+                <name>text</name>
+                <string>City:</string>
             </property>
-            <widget>
-                <class>QWidget</class>
-                <property stdset="1">
-                    <name>name</name>
-                    <cstring>tab</cstring>
-                </property>
-                <attribute>
-                    <name>title</name>
-                    <string>&amp;Home info</string>
-                </attribute>
-                <grid>
-                    <property>
-                        <name>margin</name>
-                        <number>11</number>
-                    </property>
-                    <property>
-                        <name>spacing</name>
-                        <number>6</number>
-                    </property>
-                    <widget row="0"  column="0" >
-                        <class>QLabel</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>TextLabel11</cstring>
-                        </property>
-                        <property>
-                            <name>text</name>
-                            <string>Address:</string>
-                        </property>
-                        <property>
-                            <name>alignment</name>
-                            <set>AlignVCenter|AlignRight</set>
-                        </property>
-                        <property>
-                            <name>hAlign</name>
-                        </property>
-                    </widget>
-                    <widget row="2"  column="0" >
-                        <class>QLabel</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>TextLabel12</cstring>
-                        </property>
-                        <property>
-                            <name>text</name>
-                            <string>City:</string>
-                        </property>
-                        <property>
-                            <name>alignment</name>
-                            <set>AlignVCenter|AlignRight</set>
-                        </property>
-                        <property>
-                            <name>hAlign</name>
-                        </property>
-                    </widget>
-                    <widget row="2"  column="1" >
-                        <class>QLineEdit</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>edtCity</cstring>
-                        </property>
-                    </widget>
-                    <widget row="3"  column="0" >
-                        <class>QLabel</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>TextLabel13</cstring>
-                        </property>
-                        <property>
-                            <name>text</name>
-                            <string>State:</string>
-                        </property>
-                        <property>
-                            <name>alignment</name>
-                            <set>AlignVCenter|AlignRight</set>
-                        </property>
-                        <property>
-                            <name>hAlign</name>
-                        </property>
-                    </widget>
-                    <widget row="3"  column="1" >
-                        <class>QLineEdit</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>edtState</cstring>
-                        </property>
-                    </widget>
-                    <widget row="4"  column="0" >
-                        <class>QLabel</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>TextLabel14</cstring>
-                        </property>
-                        <property>
-                            <name>text</name>
-                            <string>Zip code:</string>
-                        </property>
-                        <property>
-                            <name>alignment</name>
-                            <set>AlignVCenter|AlignRight</set>
-                        </property>
-                        <property>
-                            <name>hAlign</name>
-                        </property>
-                    </widget>
-                    <widget row="4"  column="1" >
-                        <class>QLineEdit</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>edtZip</cstring>
-                        </property>
-                    </widget>
-                    <widget row="5"  column="0" >
-                        <class>QLabel</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>TextLabel15</cstring>
-                        </property>
-                        <property>
-                            <name>text</name>
-                            <string>Country:</string>
-                        </property>
-                        <property>
-                            <name>alignment</name>
-                            <set>AlignVCenter|AlignRight</set>
-                        </property>
-                        <property>
-                            <name>hAlign</name>
-                        </property>
-                    </widget>
-                    <widget row="5"  column="1" >
-                        <class>QLineEdit</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>edtCountry</cstring>
-                        </property>
-                    </widget>
-                    <spacer row="6"  column="1" >
-                        <property>
-                            <name>name</name>
-                            <cstring>Spacer15</cstring>
-                        </property>
-                        <property>
-                            <name>orientation</name>
-                            <enum>Vertical</enum>
-                        </property>
-                        <property>
-                            <name>sizeType</name>
-                            <enum>Expanding</enum>
-                        </property>
-                        <property>
-                            <name>sizeHint</name>
-                            <size>
-                                <width>20</width>
-                                <height>20</height>
-                            </size>
-                        </property>
-                    </spacer>
-                    <widget row="0"  column="1" >
-                        <class>QMultiLineEdit</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>edtStreet</cstring>
-                        </property>
-                    </widget>
-                    <widget row="1"  column="1" >
-                        <class>QMultiLineEdit</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>edtExt</cstring>
-                        </property>
-                    </widget>
-                </grid>
-            </widget>
+            <property>
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
         </widget>
-    </vbox>
+        <widget row="4"  column="0" >
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>TextLabel14</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Zip code:</string>
+            </property>
+            <property>
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+        <widget row="5"  column="0" >
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>TextLabel15</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Country:</string>
+            </property>
+            <property>
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+        <widget row="3"  column="0" >
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>TextLabel13</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>State:</string>
+            </property>
+            <property>
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+        <widget row="0"  column="0" >
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>TextLabel11</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Address:</string>
+            </property>
+            <property>
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+        <widget row="1"  column="1" >
+            <class>QMultiLineEdit</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>edtExt</cstring>
+            </property>
+        </widget>
+        <widget row="0"  column="1" >
+            <class>QMultiLineEdit</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>edtStreet</cstring>
+            </property>
+        </widget>
+        <spacer row="6"  column="1" >
+            <property>
+                <name>name</name>
+                <cstring>Spacer2</cstring>
+            </property>
+            <property>
+                <name>orientation</name>
+                <enum>Vertical</enum>
+            </property>
+            <property>
+                <name>sizeType</name>
+                <enum>Expanding</enum>
+            </property>
+            <property>
+                <name>sizeHint</name>
+                <size>
+                    <width>20</width>
+                    <height>20</height>
+                </size>
+            </property>
+        </spacer>
+    </grid>
 </widget>
 <customwidgets>
     <customwidget>
@@ -239,12 +207,5 @@
     </image>
 </images>
 <tabstops>
-    <tabstop>TabWidget6</tabstop>
-    <tabstop>edtStreet</tabstop>
-    <tabstop>edtExt</tabstop>
-    <tabstop>edtCity</tabstop>
-    <tabstop>edtState</tabstop>
-    <tabstop>edtZip</tabstop>
-    <tabstop>edtCountry</tabstop>
 </tabstops>
 </UI>

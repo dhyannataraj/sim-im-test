@@ -1,5 +1,5 @@
 /***************************************************************************
-                          jabberaboutinfo.h  -  description
+                          infoproxy.cpp  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,28 +15,30 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _JABBERABOUTINFO_H
-#define _JABBERABOUTINFO_H
+#include "infoproxy.h"
 
-#include "simapi.h"
-#include "jabberaboutinfobase.h"
+#include <qtabwidget.h>
 
-class JabberClient;
-
-class JabberAboutInfo : public JabberAboutInfoBase, public EventReceiver
+InfoProxy::InfoProxy(QWidget *parent, QWidget *child, const QString &title)
+        : InfoProxyBase(parent)
 {
-    Q_OBJECT
-public:
-    JabberAboutInfo(QWidget *parent, struct JabberUserData *data, JabberClient *client);
-public slots:
-    void apply();
-    void apply(Client*, void*);
-protected:
-    void *processEvent(Event *e);
-    void fill(JabberUserData *data);
-    struct JabberUserData *m_data;
-    JabberClient *m_client;
-};
+    connect(this, SIGNAL(sig_apply()), child, SLOT(apply()));
+    connect(this, SIGNAL(sig_apply(Client*, void*)), child, SLOT(apply(Client*, void*)));
+    tabInfo->addTab(child, title);
+    tabInfo->removePage(tab);
+}
 
+void InfoProxy::apply()
+{
+    emit sig_apply();
+}
+
+void InfoProxy::apply(Client *client, void *data)
+{
+    emit sig_apply(client, data);
+}
+
+#ifndef WIN32
+#include "infoproxy.moc"
 #endif
 

@@ -28,7 +28,9 @@ jabber_la_SOURCES = \
  servicesbase.ui \
  jabberbrowser.cpp \
  discoinfo.cpp \
- discoinfobase.ui
+ discoinfobase.ui \
+ infoproxy.cpp \
+ infoproxybase.ui
 
 SUBDIRS = sounds
 

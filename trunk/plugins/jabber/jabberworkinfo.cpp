@@ -18,6 +18,7 @@
 #include "simapi.h"
 #include "jabberworkinfo.h"
 #include "jabberclient.h"
+#include "jabber.h"
 
 #include <qlineedit.h>
 #include <qstringlist.h>
@@ -33,31 +34,37 @@ JabberWorkInfo::JabberWorkInfo(QWidget *parent, struct JabberUserData *data, Jab
         edtTitle->setReadOnly(true);
         edtRole->setReadOnly(true);
     }
-    fill();
+    fill(m_data);
 }
 
 void JabberWorkInfo::apply()
 {
 }
 
+int str_cmp(const char *s1, const char *s2);
+
 void *JabberWorkInfo::processEvent(Event *e)
 {
     if (e->type() == EventContactChanged){
         Contact *contact = (Contact*)(e->param());
         if (contact->clientData.have(m_data))
-            fill();
+            fill(m_data);
     }
     if ((e->type() == EventClientChanged) && (m_data == 0)){
         Client *client = (Client*)(e->param());
         if (client == m_client)
-            fill();
+            fill(m_data);
+    }
+    if (m_data && (e->type() == static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventVCard)){
+        JabberUserData *data = (JabberUserData*)(e->param());
+        if (!str_cmp(m_data->ID, data->ID) && !str_cmp(m_data->Node, data->Node))
+            fill(data);
     }
     return NULL;
 }
 
-void JabberWorkInfo::fill()
+void JabberWorkInfo::fill(JabberUserData *data)
 {
-    JabberUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
     edtCompany->setText(data->OrgName ? QString::fromUtf8(data->OrgName) : QString(""));
     edtDepartment->setText(data->OrgUnit ? QString::fromUtf8(data->OrgUnit) : QString(""));

@@ -241,6 +241,7 @@ JabberPlugin::JabberPlugin(unsigned base)
     EventAgentRegister = registerType();
     EventSearch		= registerType();
     EventSearchDone	= registerType();
+    EventVCard		= registerType();
 
     MenuSearchResult = registerType();
     MenuGroups		 = registerType();

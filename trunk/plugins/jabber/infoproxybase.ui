@@ -1,23 +1,23 @@
 <!DOCTYPE UI><UI>
-<class>JabberAboutInfoBase</class>
+<class>InfoProxyBase</class>
 <widget>
     <class>QWidget</class>
     <property stdset="1">
         <name>name</name>
-        <cstring>aboutInfo</cstring>
+        <cstring>InfoProxy</cstring>
     </property>
     <property>
         <name>geometry</name>
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>374</width>
-            <height>251</height>
+            <width>429</width>
+            <height>279</height>
         </rect>
     </property>
     <property>
         <name>caption</name>
-        <string>Form4</string>
+        <string>Form1</string>
     </property>
     <vbox>
         <property>
@@ -29,22 +29,22 @@
             <number>6</number>
         </property>
         <widget>
-            <class>QLabel</class>
+            <class>QTabWidget</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>TextLabel26</cstring>
+                <cstring>tabInfo</cstring>
             </property>
-            <property>
-                <name>text</name>
-                <string>Additional information:</string>
-            </property>
-        </widget>
-        <widget>
-            <class>QMultiLineEdit</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>edtAbout</cstring>
-            </property>
+            <widget>
+                <class>QWidget</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>tab</cstring>
+                </property>
+                <attribute>
+                    <name>title</name>
+                    <string></string>
+                </attribute>
+            </widget>
         </widget>
     </vbox>
 </widget>

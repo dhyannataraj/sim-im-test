@@ -149,8 +149,8 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
                 label->setAlignment(WordBreak);
                 widget = label;
                 bJoin = true;
-                if (m_nPos == 0)
-                    m_nPosStart = 1;
+                if (m_nPos == m_nPosStart)
+                    m_nPosStart++;
             }
         }else if (!strcmp(data->Type, "list-single")){
             CComboBox *box = new CComboBox(this, data->Field);

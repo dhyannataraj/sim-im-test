@@ -1,5 +1,5 @@
 /***************************************************************************
-                          discoinfo.h  -  description
+                          infoproxy.h  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,50 +15,23 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _DISCOINFO_H
-#define _DISCOINFO_H
+#ifndef _INFOPROXY_H
+#define _INFOPROXY_H
 
 #include "simapi.h"
-#include "discoinfobase.h"
-#include "jabberclient.h"
+#include "infoproxybase.h"
 
-class JabberBrowser;
-class JabberHomeInfo;
-class JabberWorkInfo;
-class JabberAboutInfo;
-
-class DiscoInfo : public DiscoInfoBase, public EventReceiver
+class InfoProxy : public InfoProxyBase, public EventReceiver
 {
     Q_OBJECT
 public:
-    DiscoInfo(JabberBrowser *browser);
-    ~DiscoInfo();
-    void reset();
-protected slots:
+    InfoProxy(QWidget *parent, QWidget *child, const QString &title);
+signals:
+    void sig_apply();
+    void sig_apply(Client*, void*);
+public slots:
     void apply();
-    void goUrl();
-    void urlChanged(const QString &text);
-protected:
-    void accept();
-    QString m_url;
-    QString m_node;
-    void *processEvent(Event *e);
-    void resizeEvent(QResizeEvent*);
-    void setTitle();
-    bool m_bVersion;
-    bool m_bTime;
-    bool m_bLast;
-    bool m_bStat;
-    bool m_bVCard;
-    JabberBrowser *m_browser;
-    string m_versionId;
-    string m_timeId;
-    string m_lastId;
-    string m_statId;
-    JabberHomeInfo	*m_home;
-    JabberWorkInfo	*m_work;
-    JabberAboutInfo *m_about;
-    JabberUserData	m_data;
+    void apply(Client*, void*);
 };
 
 #endif

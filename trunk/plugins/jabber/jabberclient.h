@@ -39,6 +39,7 @@ typedef struct JabberUserData
 {
     clientData	base;
     char		*ID;
+    char		*Node;
     char		*Resource;
     char		*Name;
     unsigned	Status;
@@ -306,6 +307,8 @@ class MessageRequest : public ServerRequest
     string lastInfo(const char *jid, const char *node);
     string statInfo(const char *jid, const char *node);
     void addLang(ServerRequest *req);
+    void info_request(JabberUserData *user_data, bool bVCard);
+    virtual void setClientInfo(void *data);
 
 protected slots:
     void	ping();
@@ -332,7 +335,6 @@ protected:
     virtual QWidget *infoWindow(QWidget *parent, Contact *contact, void *data, unsigned id);
     virtual CommandDef *configWindows();
     virtual QWidget *configWindow(QWidget *parent, unsigned id);
-    virtual void setClientInfo(void *data);
 
     void init();
     void sendPacket();
@@ -340,7 +342,6 @@ protected:
     void connected();
     void handshake(const char *id);
     void rosters_request();
-    void info_request(JabberUserData *user_data);
     void setOffline(JabberUserData *data);
 
     static	QCString encodeXML(const QString &str);

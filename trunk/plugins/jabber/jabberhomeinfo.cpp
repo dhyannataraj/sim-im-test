@@ -18,6 +18,7 @@
 #include "simapi.h"
 #include "jabberhomeinfo.h"
 #include "jabberclient.h"
+#include "jabber.h"
 
 #include <qlineedit.h>
 #include <qmultilineedit.h>
@@ -36,11 +37,20 @@ JabberHomeInfo::JabberHomeInfo(QWidget *parent, struct JabberUserData *data, Jab
         edtZip->setReadOnly(true);
         edtCountry->setReadOnly(true);
     }
-    fill();
+    fill(m_data);
 }
 
 void JabberHomeInfo::apply()
 {
+}
+
+int str_cmp(const char *s1, const char *s2)
+{
+    if (s1 == NULL)
+        s1 = "";
+    if (s2 == NULL)
+        s2 = "";
+    return strcmp(s1, s2);
 }
 
 void *JabberHomeInfo::processEvent(Event *e)
@@ -48,19 +58,23 @@ void *JabberHomeInfo::processEvent(Event *e)
     if (e->type() == EventContactChanged){
         Contact *contact = (Contact*)(e->param());
         if (contact->clientData.have(m_data))
-            fill();
+            fill(m_data);
     }
     if ((e->type() == EventClientChanged) && (m_data == 0)){
         Client *client = (Client*)(e->param());
         if (client == m_client)
-            fill();
+            fill(m_data);
+    }
+    if (m_data && (e->type() == static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventVCard)){
+        JabberUserData *data = (JabberUserData*)(e->param());
+        if (!str_cmp(m_data->ID, data->ID) && !str_cmp(m_data->Node, data->Node))
+            fill(data);
     }
     return NULL;
 }
 
-void JabberHomeInfo::fill()
+void JabberHomeInfo::fill(JabberUserData *data)
 {
-    JabberUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
     edtStreet->setText(data->Street ? QString::fromUtf8(data->Street) : QString(""));
     edtExt->setText(data->ExtAddr ? QString::fromUtf8(data->ExtAddr) : QString(""));

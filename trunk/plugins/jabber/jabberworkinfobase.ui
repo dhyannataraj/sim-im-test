@@ -11,15 +11,15 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>402</width>
-            <height>281</height>
+            <width>380</width>
+            <height>196</height>
         </rect>
     </property>
     <property>
         <name>caption</name>
         <string>Form1</string>
     </property>
-    <vbox>
+    <grid>
         <property>
             <name>margin</name>
             <number>11</number>
@@ -28,156 +28,128 @@
             <name>spacing</name>
             <number>6</number>
         </property>
-        <widget>
-            <class>QTabWidget</class>
+        <widget row="1"  column="0" >
+            <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>TabWidget2</cstring>
+                <cstring>TextLabel2</cstring>
             </property>
-            <widget>
-                <class>QWidget</class>
-                <property stdset="1">
-                    <name>name</name>
-                    <cstring>tab</cstring>
-                </property>
-                <attribute>
-                    <name>title</name>
-                    <string>&amp;Work info</string>
-                </attribute>
-                <grid>
-                    <property>
-                        <name>margin</name>
-                        <number>11</number>
-                    </property>
-                    <property>
-                        <name>spacing</name>
-                        <number>6</number>
-                    </property>
-                    <widget row="0"  column="0" >
-                        <class>QLabel</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>TextLabel1</cstring>
-                        </property>
-                        <property>
-                            <name>text</name>
-                            <string>Company:</string>
-                        </property>
-                        <property>
-                            <name>alignment</name>
-                            <set>AlignVCenter|AlignRight</set>
-                        </property>
-                        <property>
-                            <name>hAlign</name>
-                        </property>
-                    </widget>
-                    <widget row="0"  column="1" >
-                        <class>QLineEdit</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>edtCompany</cstring>
-                        </property>
-                    </widget>
-                    <widget row="1"  column="0" >
-                        <class>QLabel</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>TextLabel2</cstring>
-                        </property>
-                        <property>
-                            <name>text</name>
-                            <string>Department:</string>
-                        </property>
-                        <property>
-                            <name>alignment</name>
-                            <set>AlignVCenter|AlignRight</set>
-                        </property>
-                        <property>
-                            <name>hAlign</name>
-                        </property>
-                    </widget>
-                    <widget row="1"  column="1" >
-                        <class>QLineEdit</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>edtDepartment</cstring>
-                        </property>
-                    </widget>
-                    <widget row="2"  column="0" >
-                        <class>QLabel</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>TextLabel3</cstring>
-                        </property>
-                        <property>
-                            <name>text</name>
-                            <string>Position:</string>
-                        </property>
-                        <property>
-                            <name>alignment</name>
-                            <set>AlignVCenter|AlignRight</set>
-                        </property>
-                        <property>
-                            <name>hAlign</name>
-                        </property>
-                    </widget>
-                    <widget row="2"  column="1" >
-                        <class>QLineEdit</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>edtTitle</cstring>
-                        </property>
-                    </widget>
-                    <widget row="3"  column="0" >
-                        <class>QLabel</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>TextLabel4</cstring>
-                        </property>
-                        <property>
-                            <name>text</name>
-                            <string>Role:</string>
-                        </property>
-                        <property>
-                            <name>alignment</name>
-                            <set>AlignVCenter|AlignRight</set>
-                        </property>
-                        <property>
-                            <name>hAlign</name>
-                        </property>
-                    </widget>
-                    <widget row="3"  column="1" >
-                        <class>QLineEdit</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>edtRole</cstring>
-                        </property>
-                    </widget>
-                    <spacer row="4"  column="1" >
-                        <property>
-                            <name>name</name>
-                            <cstring>Spacer1</cstring>
-                        </property>
-                        <property>
-                            <name>orientation</name>
-                            <enum>Vertical</enum>
-                        </property>
-                        <property>
-                            <name>sizeType</name>
-                            <enum>Expanding</enum>
-                        </property>
-                        <property>
-                            <name>sizeHint</name>
-                            <size>
-                                <width>20</width>
-                                <height>20</height>
-                            </size>
-                        </property>
-                    </spacer>
-                </grid>
-            </widget>
+            <property>
+                <name>text</name>
+                <string>Department:</string>
+            </property>
+            <property>
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
         </widget>
-    </vbox>
+        <widget row="0"  column="0" >
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>TextLabel1</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Company:</string>
+            </property>
+            <property>
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+        <widget row="2"  column="1" >
+            <class>QLineEdit</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>edtTitle</cstring>
+            </property>
+        </widget>
+        <widget row="1"  column="1" >
+            <class>QLineEdit</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>edtDepartment</cstring>
+            </property>
+        </widget>
+        <widget row="3"  column="1" >
+            <class>QLineEdit</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>edtRole</cstring>
+            </property>
+        </widget>
+        <widget row="3"  column="0" >
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>TextLabel4</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Role:</string>
+            </property>
+            <property>
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+        <widget row="2"  column="0" >
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>TextLabel3</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Position:</string>
+            </property>
+            <property>
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+        <widget row="0"  column="1" >
+            <class>QLineEdit</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>edtCompany</cstring>
+            </property>
+        </widget>
+        <spacer row="4"  column="1" >
+            <property>
+                <name>name</name>
+                <cstring>Spacer4</cstring>
+            </property>
+            <property>
+                <name>orientation</name>
+                <enum>Vertical</enum>
+            </property>
+            <property>
+                <name>sizeType</name>
+                <enum>Expanding</enum>
+            </property>
+            <property>
+                <name>sizeHint</name>
+                <size>
+                    <width>20</width>
+                    <height>20</height>
+                </size>
+            </property>
+        </spacer>
+    </grid>
 </widget>
 <customwidgets>
     <customwidget>
