@@ -400,7 +400,6 @@ void UserBox::toggleHistory(bool bShow)
     if (bShow){
         if ((curWnd == NULL) || (curWnd->getUin() == 0)) return;
         setUpdatesEnabled(false);
-        toolbar->setOn(btnInfo, false);
         disconnect(curWnd, SIGNAL(setMessageType(const QString&, const QString&)), toolbar->getWidget(btnType), SLOT(setState(const QString&, const QString&)));
         toolbar->setState(btnType, "history", i18n("History"));
         if (historyWnd == NULL){
@@ -434,12 +433,10 @@ void UserBox::toggleHistory(bool bShow)
 void UserBox::typeChanged(int)
 {
     toolbar->setOn(btnHistory, false);
-    toolbar->setOn(btnInfo, false);
 }
 
 void UserBox::quit()
 {
-    toolbar->setOn(btnInfo, false);
     toolbar->setOn(btnHistory, false);
     MsgEdit *wnd = getWnd(tabs->currentTab());
     if (wnd) wnd->close();
@@ -880,7 +877,6 @@ void UserBox::selectedUser(int id)
 
     if (curWnd){
         toolbar->setOn(btnHistory, false);
-        toolbar->setOn(btnInfo, false);
         curWnd->hide();
         disconnect(menuType, SIGNAL(activated(int)), curWnd, SLOT(action(int)));
         disconnect(curWnd, SIGNAL(setStatus(const QString&)), status, SLOT(message(const QString&)));
@@ -902,6 +898,7 @@ void UserBox::selectedUser(int id)
     curWnd->markAsRead();
     curWnd->show();
     curWnd->setState();
+    curWnd->activate();
     lay->invalidate();
     ICQUser *u = pClient->getUser(curWnd->getUin());
     if (u){
@@ -964,18 +961,15 @@ void UserBox::showUser(unsigned long uin, int function, unsigned long param)
     switch (function){
     case mnuInfo:
         infoPage = param;
-        toolbar->setOn(btnInfo, true);
         break;
     case mnuHistory:
         toolbar->setOn(btnHistory, true);
         break;
     case mnuGo:
-        toolbar->setOn(btnInfo, false);
         toolbar->setOn(btnHistory, false);
         wnd->showMessage(param);
         break;
     default:
-        toolbar->setOn(btnInfo, false);
         toolbar->setOn(btnHistory, false);
         wnd->action(function);
         if (param) wnd->setParam(param);

@@ -120,7 +120,7 @@ signals:
 protected slots:
     void bgChanged();
     void processEvent(ICQEvent*);
-	void doubleClick();
+    void doubleClick();
     void doubleClick(QListViewItem*);
     void grpFunction(int);
     void editEscape();
@@ -166,7 +166,7 @@ protected:
     void updateUser(unsigned long uin, bool bFull);
 
     QListViewItem *mPressedItem;
-	QListViewItem *mClickItem;
+    QListViewItem *mClickItem;
     QLineEdit *edtGroup;
     QPoint mousePressPos;
     KPopupMenu *menuGroup;

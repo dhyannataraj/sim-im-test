@@ -58,6 +58,7 @@ AlertDialog::AlertDialog(QWidget *p, bool bReadOnly)
     cmbPos->insertItem(i18n("Right-top"));
     cmbPos->insertItem(i18n("Center-bottom"));
     cmbPos->insertItem(i18n("Center-top"));
+    cmbPos->insertItem(i18n("Center"));
     cmbPos->setCurrentItem(pMain->getXOSD_pos());
     chkShadow->setChecked(pMain->isXOSD_Shadow());
     chkBackground->setChecked(pMain->isXOSD_Background());

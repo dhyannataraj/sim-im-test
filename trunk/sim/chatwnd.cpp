@@ -19,6 +19,7 @@
 #include "icons.h"
 #include "client.h"
 #include "cuser.h"
+#include "toolbtn.h"
 #include "mainwin.h"
 #include "msgview.h"
 #include "transparent.h"
@@ -44,6 +45,27 @@
 #include <qfiledialog.h>
 #endif
 
+const int btnSave      = 1;
+const int btnBold      = 2;
+const int btnItalic    = 3;
+const int btnUnder     = 4;
+const int btnFgColor   = 5;
+
+ToolBarDef chatToolBar[] =
+    {
+        { btnSave, "save_all", NULL, I18N_NOOP("&Save"), 0, SLOT(openLog()), NULL },
+        SEPARATOR,
+        { btnBold, "text_bold", NULL, I18N_NOOP("&Bold"), BTN_TOGGLE, SLOT(toggleBold(bool)), NULL },
+        { btnItalic, "text_italic", NULL, I18N_NOOP("&Italic"), BTN_TOGGLE, SLOT(toggleItalic(bool)), NULL },
+        { btnUnder, "text_under", NULL, I18N_NOOP("&Underline"), BTN_TOGGLE, SLOT(toggleUnderline(bool)), NULL },
+        SEPARATOR,
+        { btnFgColor, "fgcolor", NULL, I18N_NOOP("&Text color"), 0, SLOT(setFgColor()), NULL },
+        END_DEF,
+        END_DEF
+    };
+
+const ToolBarDef *pChatToolBar = chatToolBar;
+
 class ChatUserItem : public QListBoxText
 {
 public:
@@ -68,37 +90,7 @@ ChatWindow::ChatWindow(ICQChat *_chat)
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     transparent = new TransparentTop(this, pMain->_UseTransparentContainer(), pMain->_TransparentContainer());
 
-    QToolBar *toolbar = new QToolBar(this);
-
-    btnSave = new QToolButton(toolbar);
-    btnSave->setIconSet(Icon("save_all"));
-    btnSave->setTextLabel(i18n("Save"));
-    connect(btnSave, SIGNAL(clicked()), this, SLOT(openLog()));
-
-    toolbar->addSeparator();
-
-    btnBold = new QToolButton(toolbar);
-    btnBold->setIconSet(Icon("text_bold"));
-    btnBold->setTextLabel(i18n("Bold"));
-    btnBold->setToggleButton(true);
-    connect(btnBold, SIGNAL(toggled(bool)), this, SLOT(toggleBold(bool)));
-
-    btnItalic = new QToolButton(toolbar);
-    btnItalic->setIconSet(Icon("text_italic"));
-    btnItalic->setTextLabel(i18n("Italic"));
-    btnItalic->setToggleButton(true);
-    connect(btnItalic, SIGNAL(toggled(bool)), this, SLOT(toggleItalic(bool)));
-
-    btnUnderline = new QToolButton(toolbar);
-    btnUnderline->setIconSet(Icon("text_under"));
-    btnUnderline->setTextLabel(i18n("Underline"));
-    btnUnderline->setToggleButton(true);
-    connect(btnUnderline, SIGNAL(toggled(bool)), this, SLOT(toggleUnderline(bool)));
-
-    btnFgColor = new QToolButton(toolbar);
-    btnFgColor->setTextLabel(i18n("Text color"));
-    btnFgColor->setIconSet(Icon("fgcolor"));
-    connect(btnFgColor, SIGNAL(clicked()), this, SLOT(setFgColor()));
+    toolbar = new CToolBar(chatToolBar, pMain->_ToolBarChat(), this, this);
 
     chat = _chat;
     bInit = false;
@@ -194,9 +186,9 @@ void ChatWindow::sendLine()
     txtChat->scrollToBottom();
     txtChat->moveCursor(QTextEdit::MoveEnd, false);
     edtChat->setText("");
-    edtChat->setBold(btnBold->isOn());
-    edtChat->setItalic(btnItalic->isOn());
-    edtChat->setUnderline(btnUnderline->isOn());
+    edtChat->setBold(toolbar->isOn(btnBold));
+    edtChat->setItalic(toolbar->isOn(btnItalic));
+    edtChat->setUnderline(toolbar->isOn(btnUnder));
     if (logFile){
         string s = pClient->to8Bit(uin, line);
         logFile->writeBlock(s.c_str(), s.length());
@@ -347,7 +339,7 @@ void ChatWindow::openLog()
     if (logFile && (logFile->name() == fname)) return;
     QFile *newFile = new QFile(fname);
     if (!newFile->open(IO_Append)){
-        BalloonMsg::message(i18n("Can't create %1") .arg(fname), btnSave);
+        BalloonMsg::message(i18n("Can't create %1") .arg(fname), toolbar->getWidget(btnSave));
         delete newFile;
         return;
     }

@@ -30,11 +30,14 @@
 #include <keditcl.h>
 #include <kstdaccel.h>
 #include <kglobal.h>
+#include <kfiledialog.h>
+#define QFileDialog	KFileDialog
 #ifdef HAVE_KROOTPIXMAP_H
 #include <krootpixmap.h>
 #endif
 #endif
 
+#include <qfiledialog.h>
 #include <qdatetime.h>
 #include <qpopupmenu.h>
 #include <qapplication.h>
@@ -839,9 +842,13 @@ const int btnFilter		= 3;
 const int btnPrev		= 4;
 const int btnNext		= 5;
 const int btnDirection	= 6;
+const int btnSave		= 7;
+const int btnDelete		= 8;
 
 ToolBarDef historyToolBar[] =
     {
+        { btnSave, "save_all", NULL, I18N_NOOP("Save"), 0, SLOT(slotSave()), NULL },
+        //		{ btnDelete, "remove", NULL, I18N_NOOP("&Delete"), 0, SLOT(slotDelete()), NULL },
         { cmbSearch, "find", NULL, I18N_NOOP("Search"), BTN_COMBO, SLOT(searchTextChanged(const QString&)), NULL },
         { btnSearch, "find", NULL, I18N_NOOP("&Search"), 0, SLOT(slotSearch()), NULL },
         { btnFilter, "filter", NULL, I18N_NOOP("&Filter"), BTN_TOGGLE, SLOT(slotFilter(bool)), NULL },
@@ -1081,6 +1088,219 @@ void HistoryView::messageReceived(ICQMessage *msg)
     if (msg->getUin() != view->Uin()) return;
     if (msg->Id >= MSG_PROCESS_ID) return;
     toolbar->setEnabled(btnPrev, true);
+}
+
+void HistoryView::slotSave()
+{
+#if QT_VERSION >= 300
+    QString filter;
+#endif
+    string name = pMain->getFullPath("");
+    fileName = QString::fromLocal8Bit(name.c_str());
+    fileName += QString::number(view->Uin()) + ".txt";
+    fileName = QFileDialog::getSaveFileName(fileName,
+#ifdef USE_KDE
+                                            i18n("*.txt|Text file;;*.html|HTML file");
+#else
+                                            i18n("Text file(*.txt);;HTML file(*.htm *.html)"),
+#endif
+                                            this, "savehistory", i18n("Save history")
+#if QT_VERSION >= 300
+                                            &filter
+#endif
+                                           );
+    if (fileName.isEmpty()) return;
+#if QT_VERSION >= 300
+    saveMode = TXT;
+#else
+    saveMode = TXT;
+    int r = fileName.findRev('.');
+    if (r >= 0){
+        QString ext = fileName.mid(r + 1);
+        ext = ext.lower();
+        if ((ext == "htm") || (ext == "html"))
+            saveMode = HTML;
+    }
+#endif
+    QFile f(fileName);
+    if (f.exists()){
+        QStringList btns;
+        btns.append(i18n("&Yes"));
+        btns.append(i18n("&No"));
+        BalloonMsg *msg = new BalloonMsg(i18n("File %1 exists\nOverwrite?") .arg(fileName),
+                                         btns, toolbar->getWidget(btnSave));
+        connect(msg, SIGNAL(action(int)), this, SLOT(saveToFile(int)));
+        msg->show();
+        return;
+    }
+    saveToFile(0);
+}
+
+void HistoryView::saveToFile(int n)
+{
+    if (n){
+        fileName = "";
+        return;
+    }
+    if (fileName.isEmpty())
+        return;
+    QFile f(fileName);
+    if (!f.open(IO_WriteOnly | IO_Truncate | IO_Translate)){
+        BalloonMsg::message(i18n("Can't create %1") .arg(fileName), toolbar->getWidget(btnSave));
+        fileName = "";
+        return;
+    }
+    showProgress(0);
+    History h(view->Uin());
+    History::iterator &it = h.messages();
+    it.setDirection(true);
+    QTextCodec *codec = pClient->codecForUser(view->Uin());
+    for (;++it;){
+        ICQMessage *msg = *it;
+        const char *encoding = msg->Charset.c_str();
+        if (*encoding == 0)
+            encoding = codec->name();
+        string msg_text;
+        QString s;
+        switch (msg->Type()){
+        case ICQ_MSGxMSG:
+            msg_text = (static_cast<ICQMsg*>(msg))->Message.c_str();
+            SIMClient::toUTF(msg_text, encoding);
+            s += QString::fromLocal8Bit(pClient->clearHTML(msg_text).c_str());
+            break;
+        case ICQ_MSGxURL:{
+                ICQUrl *url = static_cast<ICQUrl*>(msg);
+                s += i18n("URL: ");
+                s += url->URL.c_str();
+                if (*url->Message.c_str()){
+                    msg_text = url->Message.c_str();
+                    SIMClient::toUTF(msg_text, encoding);
+                    s += "\n";
+                    s += QString::fromLocal8Bit(pClient->clearHTML(msg_text).c_str());
+                }
+                break;
+            }
+        case ICQ_MSGxAUTHxREQUEST:{
+                ICQAuthRequest *req = static_cast<ICQAuthRequest*>(msg);
+                s = i18n("Authorization request");
+                if (*req->Message.c_str()){
+                    msg_text = req->Message.c_str();
+                    SIMClient::toUTF(msg_text, encoding);
+                    s += ": ";
+                    s += QString::fromLocal8Bit(pClient->clearHTML(msg_text).c_str());
+                }
+                break;
+            }
+        case ICQ_MSGxAUTHxREFUSED:{
+                ICQAuthRefused *req = static_cast<ICQAuthRefused*>(msg);
+                s += i18n("Authorization refused");
+                if (*req->Message.c_str()){
+                    msg_text = req->Message.c_str();
+                    SIMClient::toUTF(msg_text, encoding);
+                    s += ": ";
+                    s += QString::fromLocal8Bit(pClient->clearHTML(msg_text).c_str());
+                }
+                break;
+            }
+        case ICQ_MSGxAUTHxGRANTED:
+            s += i18n("Authorization granted");
+            break;
+        case ICQ_MSGxADDEDxTOxLIST:
+            s += i18n("Added to contact list");
+            break;
+        case ICQ_MSGxCONTACTxREQUEST:{
+                ICQContactRequest *req = static_cast<ICQContactRequest*>(msg);
+                s += i18n("Contact request");
+                if (*req->Message.c_str()){
+                    msg_text = req->Message.c_str();
+                    SIMClient::toUTF(msg_text, encoding);
+                    s += ": ";
+                    s += QString::fromLocal8Bit(pClient->clearHTML(msg_text).c_str());
+                }
+                break;
+            }
+        case ICQ_MSGxFILE:{
+                ICQFile *file = static_cast<ICQFile*>(msg);
+                QString name = QString::fromLocal8Bit(file->Name.c_str());
+                if (name.find(QRegExp("^[0-9]+ Files$")) >= 0){
+                    s += i18n("File", "%n files", atol(name.latin1()));
+                }else{
+                    s += i18n("File");
+                    s += ": ";
+                    s += name;
+                }
+                s += " (";
+                s += QString::number(file->Size);
+                s += " ";
+                s += i18n("bytes");
+                s += ")";
+                s += "<br>";
+                msg_text = file->Description.c_str();
+                SIMClient::toUTF(msg_text, encoding);
+                s += QString::fromLocal8Bit(pClient->clearHTML(msg_text).c_str());
+                break;
+            }
+        case ICQ_MSGxCHAT:{
+                ICQChat *chat = static_cast<ICQChat*>(msg);
+                msg_text = chat->Reason.c_str();
+                SIMClient::toUTF(msg_text, encoding);
+                s += QString::fromLocal8Bit(pClient->clearHTML(msg_text).c_str());
+                break;
+            }
+        case ICQ_MSGxCONTACTxLIST:{
+                ICQContacts *contacts = static_cast<ICQContacts*>(msg);
+                s += msg->Received ? i18n("Contact list received") : i18n("Contact list sent");
+                s += "\n";
+                for (ContactList::iterator it = contacts->Contacts.begin(); it != contacts->Contacts.end(); it++){
+                    Contact *contact = static_cast<Contact*>(*it);
+                    s += QString::number(contact->Uin) + "\t";
+                    s += QString::fromLocal8Bit(contact->Alias.c_str());
+                    s += "\n";
+                }
+                break;
+            }
+        case ICQ_MSGxSMS:{
+                ICQSMS *sms = static_cast<ICQSMS*>(msg);
+                msg_text = sms->Message.c_str();
+                SIMClient::toUTF(msg_text, encoding);
+                s += QString::fromLocal8Bit(pClient->clearHTML(msg_text).c_str());
+                if (*sms->Phone.c_str()){
+                    s += "\n";
+                    s += QString::fromLocal8Bit(sms->Phone.c_str());
+                    if (*sms->Network.c_str())
+                        s += " (" + QString::fromLocal8Bit(sms->Network.c_str()) + ")";
+                }
+                break;
+            }
+        case ICQ_MSGxWEBxPANEL:{
+                ICQWebPanel *m = static_cast<ICQWebPanel*>(msg);
+                msg_text = m->Message.c_str();
+                SIMClient::toUTF(msg_text, encoding);
+                s += QString::fromLocal8Bit(pClient->clearHTML(msg_text).c_str());
+                break;
+            }
+        case ICQ_MSGxEMAILxPAGER:{
+                ICQEmailPager *m = static_cast<ICQEmailPager*>(msg);
+                msg_text = m->Message.c_str();
+                SIMClient::toUTF(msg_text, encoding);
+                s += QString::fromLocal8Bit(pClient->clearHTML(msg_text).c_str());
+                break;
+            }
+        default:
+            log(L_WARN, "Unknown message type %u", msg->Type());
+            s += "???";
+        }
+        if (s.isEmpty()) continue;
+        if (s[(int)(s.length()-1)] != '\n') s += "\n";
+        QCString ss = s.local8Bit();
+        f.writeBlock(ss, ss.length());
+        showProgress(it.progress());
+    }
+    showProgress(101);
+}
+
+void HistoryView::slotDelete()
+{
 }
 
 #ifndef _WINDOWS

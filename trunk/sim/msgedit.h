@@ -111,6 +111,7 @@ public:
     bool load(QFile &s, string &part);
     void save(QFile &s);
     bool isMultiply();
+    void activate();
 public slots:
     void realSend();
     void send();

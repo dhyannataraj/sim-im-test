@@ -251,6 +251,7 @@ cfgParam MainWindow_Params[] =
         { "ToolBarMain", offsetof(MainWindow_Data, ToolBarMain), PARAM_LIST, 0 },
         { "ToolBarMsg", offsetof(MainWindow_Data, ToolBarMsg), PARAM_LIST, 0 },
         { "ToolBarHistory", offsetof(MainWindow_Data, ToolBarHistory), PARAM_LIST, 0 },
+        { "ToolBarChat", offsetof(MainWindow_Data, ToolBarChat), PARAM_LIST, 0 },
         { "ToolBarUserBox", offsetof(MainWindow_Data, ToolBarUserBox), PARAM_LIST, 0 },
         { "BackgroundFile", offsetof(MainWindow_Data, BackgroundFile), PARAM_CHARS, 0 },
         { "BackgroundMode", offsetof(MainWindow_Data, BackgroundMode), PARAM_USHORT, 0 },
@@ -726,6 +727,11 @@ MainWindow::MainWindow(const char *name)
     connect(menuFunction, SIGNAL(aboutToShow()), this, SLOT(adjustFucntionMenu()));
     connect(menuFunction, SIGNAL(activated(int)), this, SLOT(showUser(int)));
 
+    menuFunctionDock = new KPopupMenu(this);
+    menuFunctionDock->setCheckable(true);
+    connect(menuFunctionDock, SIGNAL(aboutToShow()), this, SLOT(adjustDockMenu()));
+    connect(menuFunctionDock, SIGNAL(activated(int)), this, SLOT(showUser(int)));
+
     menuContainers = new QPopupMenu(this);
     connect(menuContainers, SIGNAL(activated(int)), this, SLOT(toContainer(int)));
 
@@ -865,25 +871,10 @@ void MainWindow::toggleAutoHide()
 
 void MainWindow::adjustFucntionMenu()
 {
-    int n;
-    int oldItems = menuMsgs.size();
-    fillUnread(menuMsgs);
-    int index = menuFunction->indexOf(mnuPopupStatus);
-    for (n = 0; n < oldItems; n++)
-        menuFunction->removeItemAt(index+1);
-    int id = mnuPopupStatus;
-    for (list<msgInfo>::iterator it = menuMsgs.begin(); it != menuMsgs.end(); ++it){
-        CUser u((*it).uin);
-        (*it).menuId = ++id;
-        menuFunction->insertItem(Icon(SIMClient::getMessageIcon((*it).type)),
-                                 i18n("%1 from %2")
-                                 .arg(SIMClient::getMessageText((*it).type, (*it).count))
-                                 .arg(u.name()),
-                                 id, ++index);
-    }
+    addUnread2Menu(menuFunction);
 #ifdef WIN32
-    index = menuFunction->indexOf(mnuOnTop);
-    id = menuFunction->idAt(index + 1);
+    int index = menuFunction->indexOf(mnuOnTop);
+    int id = menuFunction->idAt(index + 1);
     if (getBarState() == ABE_FLOAT){
         if (id == mnuAutoHide)
             menuFunction->removeItem(mnuAutoHide);
@@ -893,6 +884,35 @@ void MainWindow::adjustFucntionMenu()
         menuFunction->setItemChecked(mnuAutoHide, isBarAutoHide());
     }
 #endif
+}
+
+void MainWindow::adjustDockMenu()
+{
+    menuFunctionDock->changeItem(mnuToggleWnd,
+                                 isShowState() ?
+                                 i18n("Close main window") :
+                                 i18n("Open main window"));
+    addUnread2Menu(menuFunctionDock);
+}
+
+void MainWindow::addUnread2Menu(QPopupMenu *mnu)
+{
+    int n;
+    int oldItems = menuMsgs.size();
+    fillUnread(menuMsgs);
+    int index = mnu->indexOf(mnuPopupStatus);
+    for (n = 0; n < oldItems; n++)
+        mnu->removeItemAt(index+1);
+    int id = mnuPopupStatus;
+    for (list<msgInfo>::iterator it = menuMsgs.begin(); it != menuMsgs.end(); ++it){
+        CUser u((*it).uin);
+        (*it).menuId = ++id;
+        mnu->insertItem(Icon(SIMClient::getMessageIcon((*it).type)),
+                        i18n("%1 from %2")
+                        .arg(SIMClient::getMessageText((*it).type, (*it).count))
+                        .arg(u.name()),
+                        id, ++index);
+    }
 }
 
 void MainWindow::adjustGroupsMenu()
@@ -991,6 +1011,12 @@ void MainWindow::showPopup(QPoint p)
     menuFunction->popup(p);
 }
 
+void MainWindow::showDockPopup(QPoint p)
+{
+    if (menuFunctionDock->isVisible()) return;
+    menuFunctionDock->popup(p);
+}
+
 void MainWindow::addStatusItem(int status)
 {
     menuStatus->insertItem(Icon(SIMClient::getStatusIcon(status)), SIMClient::getStatusText(status), status & 0xFF);
@@ -1027,6 +1053,7 @@ void MainWindow::setupShowOffline(bool bState)
 extern const ToolBarDef *pUserBoxToolBar;
 extern const ToolBarDef *pMsgEditToolBar;
 extern const ToolBarDef *pHistoryToolBar;
+extern const ToolBarDef *pChatToolBar;
 
 extern char ICQ_CONF[];
 extern char SIM_CONF[];
@@ -1080,6 +1107,7 @@ bool MainWindow::init(bool bNoApply)
     if (*_ToolBarMain()) emit toolBarChanged(mainWndToolBar);
     if (*_ToolBarMsg()) emit toolBarChanged(pMsgEditToolBar);
     if (*_ToolBarHistory()) emit toolBarChanged(pHistoryToolBar);
+    if (*_ToolBarChat()) emit toolBarChanged(pChatToolBar);
     if (*_ToolBarUserBox()) emit toolBarChanged(pUserBoxToolBar);
 
     if ((getWidth() == 0) || (getHeight() == 0)){
@@ -1944,7 +1972,7 @@ void MainWindow::moveUser(int grp)
             btns.append(i18n("&Yes"));
             btns.append(i18n("&No"));
             BalloonMsg *msg = new BalloonMsg(i18n("Add %1 to ignore list ?") .arg(user.name()),
-                                             m_rc, btns, this);
+                                             btns, this, &m_rc);
             connect(msg, SIGNAL(action(int)), this, SLOT(ignoreUser(int)));
             msg->show();
             break;
@@ -2266,7 +2294,7 @@ void MainWindow::userFunction(unsigned long uin, int function, unsigned long par
                 btns.append(i18n("&Yes"));
                 btns.append(i18n("&No"));
                 BalloonMsg *msg = new BalloonMsg(i18n("Delete %1?") .arg(user.name()),
-                                                 m_rc, btns, this);
+                                                 btns, this, &m_rc);
                 connect(msg, SIGNAL(action(int)), this, SLOT(deleteUser(int)));
                 msg->show();
             }
@@ -2718,6 +2746,11 @@ void MainWindow::loadMenu()
     menuFunction->insertSeparator();
     menuFunction->insertItem(i18n("Change UIN"), this, SLOT(changeUIN()));
     menuFunction->insertItem(Icon("exit"), i18n("Quit"), this, SLOT(quit()));
+
+    menuFunctionDock->clear();
+    menuFunctionDock->setCheckable(true);
+    menuFunctionDock->insertItem("", this, SLOT(toggleShow()), 0, mnuToggleWnd);
+    menuFunctionDock->insertItem(i18n("Status"), menuStatus, mnuPopupStatus);
 }
 
 void MainWindow::changeWm()

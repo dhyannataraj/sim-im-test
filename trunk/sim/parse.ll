@@ -44,47 +44,49 @@
 %option prefix="parser"
 
 %x x_tag
+%x x_word
 %%
 
 (http|https|ftp)"://"[A-Za-z0-9/\,\.\?\@\&:\;\(\)\-_\+\%=~\#]+	{ return URL; }
 (mailto:)?[A-Za-z0-9\-_]+\@([A-Za-z0-9\-]+\.)+[A-Za-z]+		{ return MAIL; }
 "www."[A-Za-z0-9/\,\.\?\&:\;\(\)\-_\+\%=~\#]+			{ return HTTP_URL; }
 "ftp."[A-Za-z0-9/\,\.:\;\-_\+~]+				{ return FTP_URL; }
-"&quot;"						{ return TXT; }
-"&amp;"							{ return TXT; }
-"&lt;"							{ return TXT; }
-"&gt;"							{ return TXT; }
-"\t"							{ return TAB; }
-" "[ ]+							{ return LONGSPACE; }
-"<br"\ *\/?">"						{ return BR; }
-"<p>"							{ return SKIP; }
-"</p>"							{ return BR; }
-"<"							{ BEGIN(x_tag); return TAG; }
+<INITIAL,x_word>"&quot;"		{ BEGIN(INITIAL); return TXT; }
+<INITIAL,x_word>"&amp;"			{ BEGIN(INITIAL); return TXT; }
+<INITIAL,x_word>"&lt;"			{ BEGIN(INITIAL); return TXT; }
+<INITIAL,x_word>"&gt;"			{ BEGIN(INITIAL); return TXT; }
+<INITIAL,x_word>"\t"			{ BEGIN(INITIAL); return TAB; }
+<INITIAL,x_word>" "[ ]+			{ BEGIN(INITIAL); return LONGSPACE; }
+<INITIAL,x_word>[\:\.\,\ \(\)]	{ BEGIN(INITIAL); return TXT; }
+<INITIAL,x_word>"<br"\ *\/?">"	{ BEGIN(INITIAL); return BR; }
+<INITIAL,x_word>"<p>"			{ BEGIN(INITIAL); return SKIP; }
+<INITIAL,x_word>"</p>"			{ BEGIN(INITIAL); return BR; }
+<INITIAL,x_word>"<"				{ BEGIN(x_tag); return TAG; }
 <x_tag>">"						{ BEGIN(INITIAL); return TAG_END; }
 <x_tag>.						{ return TAG; }
-:\-?\)+							{ return SMILE; }
-:\-[O0]							{ return SMILE+0x1; }
-:\-[|!]							{ return SMILE+0x2; }
-:\-"/"							{ return SMILE+0x3; }
-:\-?\(+							{ return SMILE+0x4; }
-:\-?\{\}						{ return SMILE+0x5; }
-:\*\)+							{ return SMILE+0x6; }
-:'\-?\(+						{ return SMILE+0x7; }
-;\-?\)+							{ return SMILE+0x8; }
-:\-\@							{ return SMILE+0x9; }
-:\-\"\)+						{ return SMILE+0xA; }
-:\-X							{ return SMILE+0xB; }
-:\-P							{ return SMILE+0xC; }
-8\-\)+							{ return SMILE+0xD; }
-[0O]\-\)+						{ return SMILE+0xE; }
-:\-D							{ return SMILE+0xF; }
-[\xC0-\xDF][\x80-\xBF]					{ return TXT; }
-[\xE0-\xEF][\x00-\xFF]{2}				{ return TXT; }
-[\xF0-\xF7][\x00-\xFF]{3}				{ return TXT; }
-[\xF8-\xFB][\x00-\xFF]{4}				{ return TXT; }
-[\xFC-\xFD][\x00-\xFF]{5}				{ return TXT; }
-"\n"							{ return TXT; }
-               .					{ return TXT; }
+<INITIAL,x_word>:\-?\)+			{ BEGIN(INITIAL); return SMILE; }
+<INITIAL,x_word>:\-[O0]			{ BEGIN(INITIAL); return SMILE+0x1; }
+<INITIAL,x_word>:\-[|!]			{ BEGIN(INITIAL); return SMILE+0x2; }
+<INITIAL,x_word>:\-"/"			{ BEGIN(INITIAL); return SMILE+0x3; }
+<INITIAL,x_word>:\-?\(+			{ BEGIN(INITIAL); return SMILE+0x4; }
+<INITIAL,x_word>:\-?\{\}		{ BEGIN(INITIAL); return SMILE+0x5; }
+<INITIAL,x_word>:\*\)+			{ BEGIN(INITIAL); return SMILE+0x6; }
+<INITIAL,x_word>:'\-?\(+		{ BEGIN(INITIAL); return SMILE+0x7; }
+<INITIAL,x_word>;\-?\)+			{ BEGIN(INITIAL); return SMILE+0x8; }
+<INITIAL,x_word>:\-\@			{ BEGIN(INITIAL); return SMILE+0x9; }
+<INITIAL,x_word>:\-\"\)+		{ BEGIN(INITIAL); return SMILE+0xA; }
+<INITIAL,x_word>:\-X			{ BEGIN(INITIAL); return SMILE+0xB; }
+<INITIAL,x_word>:\-P			{ BEGIN(INITIAL); return SMILE+0xC; }
+<INITIAL,x_word>8\-\)+			{ BEGIN(INITIAL); return SMILE+0xD; }
+<INITIAL,x_word>[0O]\-\)+		{ BEGIN(INITIAL); return SMILE+0xE; }
+<INITIAL,x_word>:\-D			{ BEGIN(INITIAL); return SMILE+0xF; }
+<INITIAL,x_word>[\xC0-\xDF][\x80-\xBF]					{ BEGIN(x_word); return TXT; }
+<INITIAL,x_word>[\xE0-\xEF][\x00-\xFF]{2}				{ BEGIN(x_word); return TXT; }
+<INITIAL,x_word>[\xF0-\xF7][\x00-\xFF]{3}				{ BEGIN(x_word); return TXT; }
+<INITIAL,x_word>[\xF8-\xFB][\x00-\xFF]{4}				{ BEGIN(x_word); return TXT; }
+<INITIAL,x_word>[\xFC-\xFD][\x00-\xFF]{5}				{ BEGIN(x_word); return TXT; }
+<INITIAL,x_word>"\n"			{ BEGIN(INITIAL); return TXT; }
+<INITIAL,x_word>.				{ BEGIN(x_word); return TXT; }
 %%
 
 #ifdef WIN32

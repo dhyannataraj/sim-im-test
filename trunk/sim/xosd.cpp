@@ -94,6 +94,9 @@ void XOSD::set(const QString &str, unsigned long _uin)
     case 5:
         move((d->width() - w) / 2, pMain->getXOSD_offset());
         break;
+    case 6:
+        move((d->width() - w) / 2, (d->height() - h) /2);
+        break;
     default:
         move(pMain->getXOSD_offset(), d->height() - pMain->getXOSD_offset() - h);
     }

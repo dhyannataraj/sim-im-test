@@ -1546,8 +1546,8 @@ void UserView::contentsMouseReleaseEvent(QMouseEvent *e)
     if (!bList){
         if (!pMain->isUseDoubleClick() && mPressedItem && (mPressedItem == itemAt(contentsToViewport(e->pos())))){
             mClickItem = mPressedItem;
-			QTimer::singleShot(0, this, SLOT(doubleClick()));
-		}
+            QTimer::singleShot(0, this, SLOT(doubleClick()));
+        }
         pressedUp();
     }
     QListView::contentsMouseReleaseEvent(e);
@@ -1555,7 +1555,7 @@ void UserView::contentsMouseReleaseEvent(QMouseEvent *e)
 
 void UserView::doubleClick()
 {
-	doubleClick(mClickItem);
+    doubleClick(mClickItem);
 }
 
 void UserView::contentsMousePressEvent(QMouseEvent *e)

@@ -158,6 +158,8 @@ protected slots:
     void slotSearch();
     void slotSearch(int);
     void slotDirection(bool);
+    void slotSave();
+    void slotDelete();
     void searchTextChanged(const QString&);
     void searchChanged();
     void prevPage();
@@ -169,6 +171,7 @@ protected slots:
     void viewFill(unsigned long pos, unsigned long findId);
     void fillDone(unsigned long id);
     void findDone(unsigned long id);
+    void saveToFile(int n);
 protected:
     stack<unsigned long> pages;
     int searchParag;
@@ -176,6 +179,13 @@ protected:
     HistoryTextView *view;
     CToolBar	*toolbar;
     QString		filter;
+    QString		fileName;
+    enum SaveMode
+    {
+        TXT,
+        HTML
+    };
+    SaveMode	saveMode;
 };
 
 #endif

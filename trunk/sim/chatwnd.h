@@ -26,7 +26,7 @@ class ICQChat;
 
 class QListBox;
 class QTextEdit;
-class QToolButton;
+class CToolBar;
 class QFile;
 class TextShow;
 class TransparentTop;
@@ -56,11 +56,7 @@ protected:
     QListBox *lstUsers;
     QTextEdit *edtChat;
     TextShow *txtChat;
-    QToolButton *btnSave;
-    QToolButton *btnBold;
-    QToolButton *btnItalic;
-    QToolButton *btnUnderline;
-    QToolButton *btnFgColor;
+    CToolBar *toolbar;
     QFile *logFile;
     QColor chatColor(unsigned long c);
     bool bInit;

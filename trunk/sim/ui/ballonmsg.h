@@ -30,7 +30,7 @@ class BalloonMsg : public QDialog
 {
     Q_OBJECT
 public:
-    BalloonMsg(const QString &text, const QRect&, QStringList&, QWidget *p, bool bModal=false, bool bAutoHide=true);
+    BalloonMsg(const QString &text, QStringList&, QWidget *p, const QRect *rc = NULL, bool bModal=false, bool bAutoHide=true);
     static void message(const QString &text, QWidget *parent, bool bModal=false);
 signals:
     void action(int);

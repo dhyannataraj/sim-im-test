@@ -99,6 +99,7 @@ const int mnuGrpAlert = 50;
 const int mnuGrpAccept = 51;
 const int mnuGrpSound = 52;
 const int mnuGrpAR = 53;
+const int mnuToggleWnd = 54;
 
 const int mnuGrpTitle    = 0x10000;
 const int mnuPopupStatus = 0x20000;
@@ -284,6 +285,7 @@ typedef struct MainWindow_Data
     unsigned long*	ToolBarMain;
     unsigned long*  ToolBarMsg;
     unsigned long*  ToolBarHistory;
+    unsigned long*  ToolBarChat;
     unsigned long*  ToolBarUserBox;
 
 #ifdef WIN32
@@ -430,6 +432,7 @@ public:
     PROP_LIST(ToolBarMain)
     PROP_LIST(ToolBarMsg)
     PROP_LIST(ToolBarHistory)
+    PROP_LIST(ToolBarChat)
     PROP_LIST(ToolBarUserBox)
 
 #ifdef WIN32
@@ -446,6 +449,7 @@ public:
     QPopupMenu	 *menuPhoneLocation;
     QPopupMenu	 *menuPhoneStatus;
     KPopupMenu   *menuFunction;
+    KPopupMenu	 *menuFunctionDock;
     KPopupMenu   *menuUser;
     QPopupMenu	 *menuGroup;
     QPopupMenu   *menuContainers;
@@ -528,6 +532,7 @@ public slots:
     void search();
     void toggleShow();
     void showPopup(QPoint);
+    void showDockPopup(QPoint);
     void saveState();
     void toggleGroupMode();
     void toggleShowOffline();
@@ -580,6 +585,8 @@ protected slots:
     void currentDesktopChanged(int);
     void adjustGroupsMenu();
     void adjustFucntionMenu();
+    void adjustDockMenu();
+    void addUnread2Menu(QPopupMenu*);
     void sharedFiles();
     void clearUserMenu();
     void networkMonitor();

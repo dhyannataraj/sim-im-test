@@ -547,7 +547,7 @@ DockWnd::DockWnd(QWidget *main)
 {
     setMouseTracking(true);
     connect(this, SIGNAL(toggleWin()), main, SLOT(toggleShow()));
-    connect(this, SIGNAL(showPopup(QPoint)), main, SLOT(showPopup(QPoint)));
+    connect(this, SIGNAL(showPopup(QPoint)), main, SLOT(showDockPopup(QPoint)));
     connect(this, SIGNAL(doubleClicked()), main, SLOT(dockDblClicked()));
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     connect(pMain, SIGNAL(iconChanged()), this, SLOT(reset()));

@@ -37,7 +37,7 @@
 #define BALLOON_SHADOW	2
 #define BALLOON_MARGIN	8
 
-BalloonMsg::BalloonMsg(const QString &_text, const QRect &rc, QStringList &btn, QWidget *parent, bool bModal, bool bAutoHide)
+BalloonMsg::BalloonMsg(const QString &_text, QStringList &btn, QWidget *parent, const QRect *rcParent, bool bModal, bool bAutoHide)
         : QDialog(parent, "ballon", bModal,
                   (bAutoHide ? WType_Popup : WType_TopLevel | WStyle_StaysOnTop)
                   | WStyle_Customize | WStyle_NoBorderEx | WStyle_Tool | WDestructiveClose | WX11BypassWM)
@@ -69,6 +69,13 @@ BalloonMsg::BalloonMsg(const QString &_text, const QRect &rc, QStringList &btn, 
     int wndWidth = frm->minimumSizeHint().width();
 
     int txtWidth = BALLOON_WIDTH;
+    QRect rc;
+    if (rcParent){
+        rc = *rcParent;
+    }else{
+        QPoint p = parent->mapToGlobal(parent->rect().topLeft());
+        rc = QRect(p.x(), p.y(), parent->width(), parent->height());
+    }
     if (rc.width() > txtWidth) txtWidth = rc.width();
 
     QPainter p(this);
@@ -188,11 +195,9 @@ void BalloonMsg::mousePressEvent(QMouseEvent *e)
 
 void BalloonMsg::message(const QString &text, QWidget *parent, bool bModal)
 {
-    QPoint p = parent->mapToGlobal(parent->rect().topLeft());
-    QRect rc(p.x(), p.y(), parent->width(), parent->height());
     QStringList btns;
     btns.append(i18n("&Ok"));
-    BalloonMsg *msg = new BalloonMsg(text, rc, btns, parent, bModal);
+    BalloonMsg *msg = new BalloonMsg(text, btns, parent, NULL, bModal);
     if (bModal){
         msg->exec();
     }else{

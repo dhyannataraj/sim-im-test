@@ -293,10 +293,8 @@ void FileTransferDlg::fileNoCreate(ICQFile *f, const QString &name)
     QStringList btns;
     btns.append(i18n("&New"));
     btns.append(i18n("&Cancel"));
-    QPoint p = lblState->mapToGlobal(lblState->rect().topLeft());
-    QRect rc(p.x(), p.y(), lblState->width(), lblState->height());
     BalloonMsg *msg = new BalloonMsg(i18n("Can't create %1") .arg(name),
-                                     rc, btns, this);
+                                     btns, lblState);
     connect(msg, SIGNAL(action(int)), this, SLOT(action(int)));
     msg->show();
 }
@@ -311,9 +309,7 @@ void FileTransferDlg::fileExist(ICQFile *f, const QString &name, bool _bCanResum
     if (bCanResume) btns.append(i18n("R&esume"));
     btns.append(i18n("&New"));
     btns.append(i18n("&Skip"));
-    QPoint p = lblState->mapToGlobal(lblState->rect().topLeft());
-    QRect rc(p.x(), p.y(), lblState->width(), lblState->height());
-    BalloonMsg *msg = new BalloonMsg(i18n("File %1 exist") .arg(name), rc, btns, this);
+    BalloonMsg *msg = new BalloonMsg(i18n("File %1 exists") .arg(name), btns, lblState);
     connect(msg, SIGNAL(action(int)), this, SLOT(action(int)));
     msg->show();
 }

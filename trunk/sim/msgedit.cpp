@@ -680,7 +680,7 @@ void MsgEdit::markAsRead()
                 if (pClient->markAsRead(msg)){
                     bChanged = true;
                     it = u->unreadMsgs.begin();
-					continue;
+                    continue;
                 }
                 log(L_WARN, "Mark as read failed for %u", msg->Id);
                 ++it;
@@ -1862,6 +1862,26 @@ void MsgEdit::adjustSplitter()
     s.append(1);
     s.append(getEditHeight());
     setSizes(s);
+}
+
+void MsgEdit::activate()
+{
+    QWidget *w = NULL;
+    if (edit && edit->isVisible()){
+        w = edit;
+    }else if (url && url->isVisible()){
+        w = url;
+    }else if (file && file->isVisible()){
+        w = file;
+    }else if (phone && phone->isVisible()){
+        w = phone;
+    }else if (users && users->isVisible()){
+        w = users;
+    }else if (view && view->isVisible()){
+        w = view;
+    }
+    if (w == NULL) w = this;
+    w->setFocus();
 }
 
 void MsgEdit::heightChanged(int h)

@@ -300,13 +300,11 @@ void LoginDialog::deleteUin()
         BalloonMsg::message(i18n("Invalid password"), btnDelete);
         return;
     }
-    QPoint p = btnDelete->mapToGlobal(btnDelete->rect().topLeft());
-    QRect rc(p.x(), p.y(), btnDelete->width(), btnDelete->height());
     QStringList btns;
     btns.append(i18n("&Yes"));
     btns.append(i18n("&No"));
     BalloonMsg *msg = new BalloonMsg(i18n("Delete history and incoming files for %u?") .arg(uin),
-                                     rc, btns, this);
+                                     btns, btnDelete);
     connect(msg, SIGNAL(action(int)), this, SLOT(realDeleteUin(int)));
     msg->show();
 }
