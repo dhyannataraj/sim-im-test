@@ -18,6 +18,7 @@
 #include "xsl.h"
 
 #include <qfile.h>
+#include <qregexp.h>
 
 #include <sablot.h>
 #include <shandler.h>
@@ -64,6 +65,10 @@ MH_ERROR xsl_error(void*, SablotHandle, MH_ERROR code, MH_LEVEL level, char **fi
     case MH_LEVEL_CRITICAL:
         log_level = L_ERROR;
         break;
+    case MH_LEVEL_DEBUG:
+    case MH_LEVEL_INFO:
+    	log_level = L_DEBUG;
+	break;
     }
     string flds;
     for (; *fields; fields++){
@@ -130,8 +135,15 @@ QString XSL::process(const QString &my_xml)
 
     SDOM_Document xml;
 
+    QString my_xsl;
+    /* Petr Cimprich, Sablot developer:
+       &nbsp; is predefined in HTML but not in XML
+       ... use Unicode numerical entity instead: &#160;*/
+    my_xsl = my_xml;
+    my_xsl.replace( QRegExp("&nbsp;"), QString("&#160;") );
+
     SablotCreateSituation(&S);
-    SablotParseBuffer(S, my_xml.utf8(), &xml);
+    SablotParseBuffer(S, my_xsl.utf8(), &xml);
     SablotCreateProcessorForSituation(S, &proc);
 
     SablotRegHandler(proc, HLR_MESSAGE, &mh, NULL);
