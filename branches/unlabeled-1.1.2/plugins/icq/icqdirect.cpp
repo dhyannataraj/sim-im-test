@@ -108,17 +108,20 @@ DirectSocket::~DirectSocket()
 {
     if (m_socket)
         delete m_socket;
+    if (m_listener)
+        delete m_listener;
 }
 
 void DirectSocket::init()
 {
+    m_listener = NULL;
     if (!m_socket->created())
         m_socket->error_state("Connect error");
     m_nSequence = 0xFFFF;
     m_socket->writeBuffer.init(0);
     m_socket->readBuffer.init(2);
     m_socket->readBuffer.packetStart();
-    m_bHeader        = true;
+    m_bHeader = true;
 }
 
 bool DirectSocket::error_state(const char *error, unsigned)
@@ -481,7 +484,7 @@ void DirectClient::processPacket()
         }
     }
     ICQPlugin *icq_plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->readBuffer, false, icq_plugin->ICQDirectPacket);
+    log_packet(m_socket->readBuffer, false, icq_plugin->ICQDirectPacket, name());
 
     m_socket->readBuffer.setReadPos(2);
     if (m_version >= 7){
@@ -792,7 +795,7 @@ void DirectClient::sendInit2()
         m_socket->writeBuffer.pack(0x00040001L);
     }
     ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket);
+    log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, name());
     m_socket->write();
 }
 
@@ -865,7 +868,7 @@ void DirectClient::sendPacket()
     *((unsigned short*)p) = size;
 
     ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket);
+    log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, name());
 
     unsigned long hex, key, B1, M1;
     unsigned long i, check;
@@ -967,6 +970,7 @@ void DirectClient::processMsgQueue()
                 sm.seq = m_nSequence;
                 sm.icq_type = ICQ_MSGxMSG;
                 break;
+            case MessageFile:
             case MessageURL:
             case MessageContact:
             case MessageOpenSecure:
@@ -1187,6 +1191,19 @@ void DirectClient::secureStop(bool bShutdown)
             e.process();
         }
     }
+}
+
+const char *DirectClient::name()
+{
+    switch (m_channel){
+    case PLUGIN_NULL:
+        return NULL;
+    case PLUGIN_INFOxMANAGER:
+        return "Info";
+    case PLUGIN_STATUSxMANAGER:
+        return "Status";
+    }
+    return "Unknown";
 }
 
 #endif

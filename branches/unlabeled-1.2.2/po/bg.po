@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bg\n"
-"POT-Creation-Date: 2003-07-18 09:02+0400\n"
+"POT-Creation-Date: 2003-07-23 07:06+0400\n"
 "PO-Revision-Date: 2003-06-30 17:34+0300\n"
 "Last-Translator: Атанас Мавров <bugar@mail.bg>\n"
 "Language-Team:  <bg@li.org>\n"
@@ -270,7 +270,7 @@ msgstr "Съобщение"
 msgid "SMS"
 msgstr "SMS"
 
-#: plugins/_core/interfacecfg.cpp:83 plugins/icq/icqclient.cpp:1998
+#: plugins/_core/interfacecfg.cpp:83 plugins/icq/icqclient.cpp:1999
 msgid "System"
 msgstr "Системна"
 
@@ -295,7 +295,7 @@ msgstr "Парола:"
 msgid "New profile"
 msgstr "Нова директория"
 
-#: plugins/_core/logindlg.cpp:381 plugins/jabber/jabberclient.cpp:693
+#: plugins/_core/logindlg.cpp:381 plugins/jabber/jabberclient.cpp:703
 #: plugins/msn/msnclient.cpp:517
 #, fuzzy
 msgid "Login failed"
@@ -466,7 +466,7 @@ msgstr "Ис&тория"
 msgid "&Close"
 msgstr "&Затваряне"
 
-#: plugins/_core/core.cpp:502 plugins/_core/msgedit.cpp:801
+#: plugins/_core/core.cpp:502 plugins/_core/msgedit.cpp:802
 msgid "&Send"
 msgstr "&Изпращане"
 
@@ -480,7 +480,7 @@ msgid "C&lose after send"
 msgstr "Затваряне след изпра&щане"
 
 #: plugins/_core/core.cpp:529 plugins/_core/msgedit.cpp:303
-#: plugins/_core/msgedit.cpp:790
+#: plugins/_core/msgedit.cpp:791
 msgid "&Multiply send"
 msgstr "Изпращане &до няколко получателя"
 
@@ -493,7 +493,7 @@ msgstr ""
 msgid "Receive"
 msgstr "Премахване"
 
-#: plugins/_core/core.cpp:556 plugins/_core/msgedit.cpp:1109
+#: plugins/_core/core.cpp:556 plugins/_core/msgedit.cpp:1110
 msgid "&Next"
 msgstr "Следв&ащ"
 
@@ -573,7 +573,7 @@ msgstr "Избери всичко"
 msgid "&Messages"
 msgstr "&Съобщение"
 
-#: plugins/_core/core.cpp:725 plugins/_core/msgedit.cpp:1208
+#: plugins/_core/core.cpp:725 plugins/_core/msgedit.cpp:1209
 #, fuzzy
 msgid "&SMS"
 msgstr "SMS"
@@ -743,12 +743,12 @@ msgstr "ICQ клиент"
 msgid "&Invisible"
 msgstr "Невидим"
 
-#: plugins/_core/msgfile.cpp:52
+#: plugins/_core/msgfile.cpp:53
 #, fuzzy
 msgid "Select file"
 msgstr "Избери всичко"
 
-#: plugins/_core/msgfile.cpp:56
+#: plugins/_core/msgfile.cpp:57
 #, fuzzy
 msgid "File:"
 msgstr "Файл"
@@ -888,8 +888,8 @@ msgid "Settings"
 msgstr "Изпращане"
 
 #: plugins/_core/userlist.cpp:544 plugins/icq/icq.cpp:108
-#: plugins/icq/icqclient.cpp:1185 plugins/jabber/jabber.cpp:90
-#: plugins/jabber/jabberclient.cpp:904 plugins/msn/msn.cpp:89
+#: plugins/icq/icqclient.cpp:1186 plugins/jabber/jabber.cpp:90
+#: plugins/jabber/jabberclient.cpp:914 plugins/msn/msn.cpp:89
 #: plugins/msn/msnclient.cpp:1271
 msgid "Online"
 msgstr "Включен"
@@ -1007,34 +1007,34 @@ msgstr ""
 "Спрян защитен канал\n"
 "%n спрян защитен канал"
 
-#: plugins/_core/msgedit.cpp:699 sim/ui/qt3/i18n.cpp:23
+#: plugins/_core/msgedit.cpp:700 sim/ui/qt3/i18n.cpp:23
 msgid "Cancel"
 msgstr "Отказ"
 
-#: plugins/_core/msgedit.cpp:778
+#: plugins/_core/msgedit.cpp:779
 msgid "No such client for send message"
 msgstr ""
 
-#: plugins/_core/msgedit.cpp:1189 plugins/icq/icq.cpp:438
+#: plugins/_core/msgedit.cpp:1190 plugins/icq/icq.cpp:438
 #: plugins/jabber/jabber.cpp:233
 msgid "&Message"
 msgstr "&Съобщение"
 
-#: plugins/_core/msgedit.cpp:1199 plugins/netmonitor/monitor.cpp:63
+#: plugins/_core/msgedit.cpp:1200 plugins/netmonitor/monitor.cpp:63
 msgid "&File"
 msgstr "&Файл"
 
-#: plugins/_core/msgedit.cpp:1217
+#: plugins/_core/msgedit.cpp:1218
 #, fuzzy
 msgid "&Authorization request"
 msgstr "Искане за удотоверяване"
 
-#: plugins/_core/msgedit.cpp:1226
+#: plugins/_core/msgedit.cpp:1227
 #, fuzzy
 msgid "&Grant autorization"
 msgstr "Използвай прокси удостоверяване"
 
-#: plugins/_core/msgedit.cpp:1235
+#: plugins/_core/msgedit.cpp:1236
 #, fuzzy
 msgid "&Refuse autorization"
 msgstr ""
@@ -1717,7 +1717,7 @@ msgstr "Списък с пренебрегнати потребители"
 msgid "&Filter"
 msgstr "&Филтър"
 
-#: plugins/filter/ignorelist.cpp:27 plugins/icq/icqmessage.cpp:1095
+#: plugins/filter/ignorelist.cpp:27 plugins/icq/icqmessage.cpp:1096
 #: plugins/icq/icqsecure.cpp:120 plugins/icq/searchresult.cpp:115
 #: sim/ui/qt3/i18n.cpp:39
 msgid "Name"
@@ -1871,75 +1871,75 @@ msgstr "&Кодировка"
 msgid "&Add to group"
 msgstr "Прибавияне към група"
 
-#: plugins/icq/icqdirect.cpp:172
+#: plugins/icq/icqdirect.cpp:166
 #, fuzzy
 msgid "Can't established direct connection"
 msgstr "Директна връзка"
 
-#: plugins/icq/icqdirect.cpp:663
+#: plugins/icq/icqdirect.cpp:657
 msgid "Other side does not support the secure connection"
 msgstr ""
 
-#: plugins/icq/icqdirect.cpp:815
+#: plugins/icq/icqdirect.cpp:809
 #, fuzzy
 msgid "Send message fail"
 msgstr "Изпращане на &съобщение"
 
-#: plugins/icq/icqdirect.cpp:993
+#: plugins/icq/icqdirect.cpp:988
 msgid "Unknown message type"
 msgstr ""
 
-#: plugins/icq/icqicmb.cpp:74 plugins/icq/icqicmb.cpp:158
+#: plugins/icq/icqicmb.cpp:73 plugins/icq/icqicmb.cpp:157
 #, fuzzy
 msgid "Unknown error"
 msgstr "Неизвестна грешка при свързване"
 
-#: plugins/icq/icqicmb.cpp:104
+#: plugins/icq/icqicmb.cpp:103
 #, fuzzy
 msgid "User is offline"
 msgstr "Потребителят е включен"
 
-#: plugins/icq/icqicmb.cpp:107
+#: plugins/icq/icqicmb.cpp:106
 msgid "Packet was malformed"
 msgstr ""
 
-#: plugins/icq/icqicmb.cpp:110
+#: plugins/icq/icqicmb.cpp:109
 #, fuzzy
 msgid "List overflow"
 msgstr "Списък"
 
-#: plugins/icq/icqicmb.cpp:143
+#: plugins/icq/icqicmb.cpp:142
 #, fuzzy
 msgid "Invalid message"
 msgstr "показване на непрочетено съобщение"
 
-#: plugins/icq/icqicmb.cpp:146
+#: plugins/icq/icqicmb.cpp:145
 msgid "Message was too large"
 msgstr ""
 
-#: plugins/icq/icqicmb.cpp:149
+#: plugins/icq/icqicmb.cpp:148
 msgid "Message rate exceeded"
 msgstr ""
 
-#: plugins/icq/icqicmb.cpp:152
+#: plugins/icq/icqicmb.cpp:151
 msgid "Sender too evil"
 msgstr ""
 
-#: plugins/icq/icqicmb.cpp:155
+#: plugins/icq/icqicmb.cpp:154
 msgid "We are to evil :("
 msgstr ""
 
-#: plugins/icq/icqicmb.cpp:537 plugins/icq/icqicmb.cpp:544
+#: plugins/icq/icqicmb.cpp:536 plugins/icq/icqicmb.cpp:543
 #: plugins/icq/icqvarious.cpp:1612
 msgid "Client go offline"
 msgstr ""
 
-#: plugins/icq/icqicmb.cpp:777
+#: plugins/icq/icqicmb.cpp:775
 #, fuzzy
 msgid "Send timeout"
 msgstr "Зачер&кнат"
 
-#: plugins/icq/icqicmb.cpp:799
+#: plugins/icq/icqicmb.cpp:797
 #, fuzzy
 msgid "No contact"
 msgstr "Добавяне на външен потребител"
@@ -1984,13 +1984,13 @@ msgstr "Търся жени"
 msgid "Seeking Men"
 msgstr "Търся мъже"
 
-#: plugins/icq/icqclient.cpp:1157 plugins/icq/icqinfo.cpp:212
+#: plugins/icq/icqclient.cpp:1158 plugins/icq/icqinfo.cpp:212
 #, fuzzy
 msgid "Possibly invisible"
 msgstr "установяване на невидим режим"
 
-#: plugins/icq/icqclient.cpp:1178 plugins/icq/icqinfo.cpp:227
-#: plugins/jabber/jabberclient.cpp:897 plugins/jabber/jabberinfo.cpp:103
+#: plugins/icq/icqclient.cpp:1179 plugins/icq/icqinfo.cpp:227
+#: plugins/jabber/jabberclient.cpp:907 plugins/jabber/jabberinfo.cpp:103
 #: plugins/msn/msnclient.cpp:1264 plugins/msn/msninfo.cpp:88
 msgid "Last online"
 msgstr "Последно включен"
@@ -2088,7 +2088,7 @@ msgstr ""
 "URL\n"
 "%n URL"
 
-#: plugins/icq/icqmessage.cpp:973
+#: plugins/icq/icqmessage.cpp:974
 #, c-format
 msgid ""
 "_n: Contact list\n"
@@ -2097,34 +2097,34 @@ msgstr ""
 "Списък с потребители\n"
 "%n списък с потребители"
 
-#: plugins/icq/icqmessage.cpp:1005
+#: plugins/icq/icqmessage.cpp:1006
 msgid "URL:"
 msgstr "URL:"
 
-#: plugins/icq/icqmessage.cpp:1077
+#: plugins/icq/icqmessage.cpp:1078
 msgid "Drag users here"
 msgstr "Преместване на потребител тук"
 
-#: plugins/icq/icqmessage.cpp:1091 plugins/icq/icqsearchbase.cc:315
+#: plugins/icq/icqmessage.cpp:1092 plugins/icq/icqsearchbase.cc:315
 #: plugins/icq/icqsecure.cpp:118 plugins/icq/searchresult.cpp:111
 msgid "UIN"
 msgstr "Номер"
 
-#: plugins/icq/icqmessage.cpp:1093 plugins/icq/searchresult.cpp:113
+#: plugins/icq/icqmessage.cpp:1094 plugins/icq/searchresult.cpp:113
 msgid "Alias"
 msgstr "Псевдоним"
 
-#: plugins/icq/icqmessage.cpp:1096 plugins/icq/searchresult.cpp:116
+#: plugins/icq/icqmessage.cpp:1097 plugins/icq/searchresult.cpp:116
 #: plugins/jabber/addresult.cpp:33 plugins/jabber/jabbersearch.cpp:159
 msgid "Email"
 msgstr "Електронна поща"
 
-#: plugins/icq/icqmessage.cpp:1235
+#: plugins/icq/icqmessage.cpp:1236
 #, fuzzy
 msgid "&URL"
 msgstr "URL:"
 
-#: plugins/icq/icqmessage.cpp:1245
+#: plugins/icq/icqmessage.cpp:1246
 #, fuzzy
 msgid "&Contact list"
 msgstr "Списъкът с потребителите е изпратен"
@@ -2936,44 +2936,44 @@ msgstr "Южна Индия"
 msgid "Protocol error"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:1450 plugins/icq/icqclient.cpp:1589
-#: plugins/jabber/jabberclient.cpp:956 plugins/jabber/jabberclient.cpp:1035
+#: plugins/icq/icqclient.cpp:1451 plugins/icq/icqclient.cpp:1590
+#: plugins/jabber/jabberclient.cpp:966 plugins/jabber/jabberclient.cpp:1045
 msgid "Home info"
 msgstr "Домашна информация"
 
-#: plugins/icq/icqclient.cpp:1465 plugins/icq/icqclient.cpp:1604
-#: plugins/jabber/jabberclient.cpp:971 plugins/jabber/jabberclient.cpp:1050
+#: plugins/icq/icqclient.cpp:1466 plugins/icq/icqclient.cpp:1605
+#: plugins/jabber/jabberclient.cpp:981 plugins/jabber/jabberclient.cpp:1060
 msgid "Work info"
 msgstr "Информация за работа"
 
-#: plugins/icq/icqclient.cpp:1480 plugins/icq/icqclient.cpp:1619
+#: plugins/icq/icqclient.cpp:1481 plugins/icq/icqclient.cpp:1620
 msgid "More info"
 msgstr "Друга информация"
 
-#: plugins/icq/icqclient.cpp:1495 plugins/icq/icqclient.cpp:1634
-#: plugins/jabber/jabberclient.cpp:986 plugins/jabber/jabberclient.cpp:1065
+#: plugins/icq/icqclient.cpp:1496 plugins/icq/icqclient.cpp:1635
+#: plugins/jabber/jabberclient.cpp:996 plugins/jabber/jabberclient.cpp:1075
 msgid "About info"
 msgstr "Допълнителна информация"
 
-#: plugins/icq/icqclient.cpp:1510 plugins/icq/icqclient.cpp:1649
+#: plugins/icq/icqclient.cpp:1511 plugins/icq/icqclient.cpp:1650
 msgid "Interests"
 msgstr "Интереси"
 
-#: plugins/icq/icqclient.cpp:1525 plugins/icq/icqclient.cpp:1664
+#: plugins/icq/icqclient.cpp:1526 plugins/icq/icqclient.cpp:1665
 msgid "Group/Past"
 msgstr "Групи"
 
-#: plugins/icq/icqclient.cpp:1540 plugins/icq/icqclient.cpp:1679
+#: plugins/icq/icqclient.cpp:1541 plugins/icq/icqclient.cpp:1680
 msgid "Picture"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:1694 plugins/jabber/jabberclient.cpp:1080
+#: plugins/icq/icqclient.cpp:1695 plugins/jabber/jabberclient.cpp:1090
 #: plugins/msn/msnclient.cpp:618
 #, fuzzy
 msgid "Network"
 msgstr "Мрежово наблюдение"
 
-#: plugins/icq/icqclient.cpp:1709
+#: plugins/icq/icqclient.cpp:1710
 msgid "Security"
 msgstr "Безопасност"
 
@@ -4960,6 +4960,15 @@ msgstr "Замбия"
 #: sim/api/country.cpp:266
 msgid "Zimbabwe"
 msgstr "Зимбабве"
+
+#: sim/api/message.cpp:278
+#, fuzzy, c-format
+msgid ""
+"_n: %n file\n"
+"%n files"
+msgstr ""
+"Файл\n"
+"%n файлове"
 
 #: sim/api/plugins.cpp:639
 #, c-format

@@ -68,6 +68,7 @@ void log_string(unsigned short l, const char *s)
     li.log_level = l;
     li.log_info = (void*)m.c_str();
     li.packet_id = 0;
+    li.add_info  = NULL;
     Event e(EventLog, &li);
     e.process();
 }
@@ -94,8 +95,14 @@ EXPORT string make_packet_string(LogInfo *l)
         time_t now;
         time(&now);
         struct tm *tm = localtime(&now);
+        string name = type->name();
+        if (l->add_info && *l->add_info){
+            name += ".";
+            name += l->add_info;
+        }
         format(m, "%02u:%02u:%02u [%s] %s %u bytes\n", tm->tm_hour, tm->tm_min, tm->tm_sec,
-               type->name(), (l->log_level & L_PACKET_IN) ? "Read" : "Write",
+               name.c_str(),
+               (l->log_level & L_PACKET_IN) ? "Read" : "Write",
                b->size() - start);
         if (type->flags() & PACKET_TEXT){
             m.append(b->data(start), b->size() - start);

@@ -295,33 +295,33 @@ ENCODING encodingTbl[] =
     };
 
 const char icq_error_codes[][40] = {
-	"Unknown error code"
-	"Invalid SNAC header",
-	"Server rate limit exceeded",	
-	"Client rate limit exceeded",
-	"Recipient is not logged in",
-	"Requested service unavailable",
-	"Requested service not defined",
-	"You sent obsolete SNAC",
-	"Not supported by server",
-	"Not supported by client",
-	"Refused by client",
-	"Reply too big",
-	"Responses lost",
-	"Request denied",
-	"Incorrect SNAC format",
-	"Insufficient rights",
-	"Recipient blocked",
-	"Sender too evil",
-	"Receiver too evil",
-	"User temporarily unavailable",
-	"No match",
-	"List overflow",
-	"Request ambiguous",
-	"Server queue full",
-	"Not while on AOL",
-};
-	
+                                       "Unknown error code"
+                                       "Invalid SNAC header",
+                                       "Server rate limit exceeded",
+                                       "Client rate limit exceeded",
+                                       "Recipient is not logged in",
+                                       "Requested service unavailable",
+                                       "Requested service not defined",
+                                       "You sent obsolete SNAC",
+                                       "Not supported by server",
+                                       "Not supported by client",
+                                       "Refused by client",
+                                       "Reply too big",
+                                       "Responses lost",
+                                       "Request denied",
+                                       "Incorrect SNAC format",
+                                       "Insufficient rights",
+                                       "Recipient blocked",
+                                       "Sender too evil",
+                                       "Receiver too evil",
+                                       "User temporarily unavailable",
+                                       "No match",
+                                       "List overflow",
+                                       "Request ambiguous",
+                                       "Server queue full",
+                                       "Not while on AOL",
+                                   };
+
 ICQClient::ICQClient(ICQProtocol *protocol, const char *cfg)
         : TCPClient(protocol, cfg), EventReceiver(HighPriority - 1)
 {
@@ -532,24 +532,24 @@ void ICQClient::packet_ready()
             unsigned short fam, type;
             unsigned short flags, seq, cmd;
             m_socket->readBuffer >> fam >> type >> flags >> seq >> cmd;
-			if ((flags & 0x8000)) {	// some unknown data before real snac data
-				// just read the length and forget it ;-)
-				unsigned short unknown_length = 0;
-				m_socket->readBuffer >> unknown_length;
-				m_socket->readBuffer.incReadPos(unknown_length);
-			}
-			// now just take a look at the type because 0x0001 == error
-			// in all families
-			if (type == 0x0001) {
-				unsigned short err_code;
-				m_socket->readBuffer >> err_code;
-				if ((err_code < 1) || (err_code > 18)) {
-					err_code = 0;
-				}
-				log(L_DEBUG,icq_error_codes[err_code]);
-				// now decrease for icqicmb & icqvarious
-				m_socket->readBuffer.incReadPos(-(sizeof(unsigned short)));
-			}
+            if ((flags & 0x8000)) {	// some unknown data before real snac data
+                // just read the length and forget it ;-)
+                unsigned short unknown_length = 0;
+                m_socket->readBuffer >> unknown_length;
+                m_socket->readBuffer.incReadPos(unknown_length);
+            }
+            // now just take a look at the type because 0x0001 == error
+            // in all families
+            if (type == 0x0001) {
+                unsigned short err_code;
+                m_socket->readBuffer >> err_code;
+                if ((err_code < 1) || (err_code > 18)) {
+                    err_code = 0;
+                }
+                log(L_DEBUG,icq_error_codes[err_code]);
+                // now decrease for icqicmb & icqvarious
+                m_socket->readBuffer.incReadPos(-(sizeof(unsigned short)));
+            }
             switch (fam){
             case ICQ_SNACxFAM_SERVICE:
                 snac_service(type, seq);
@@ -2371,6 +2371,15 @@ bool ICQClient::send(Message *msg, void *_data)
         return data &&
                ((data->Status & 0xFFFF) == ICQ_STATUS_OFFLINE) &&
                sendThruServer(msg, data);
+    case MessageFile:
+        if (data && ((data->Status & 0xFFFF) != ICQ_STATUS_OFFLINE)){
+            if (data->Direct == NULL){
+                data->Direct = new DirectClient(data, this, PLUGIN_NULL);
+                data->Direct->connect();
+            }
+            return data->Direct->sendMessage(msg);
+        }
+        return false;
 #ifdef USE_OPENSSL
     case MessageOpenSecure:
         if (data == NULL)
@@ -2435,6 +2444,8 @@ bool ICQClient::canSend(unsigned type, void *_data)
         return data && (data->WantAuth);
     case MessageCheckInvisible:
         return data && ((data->Status & 0xFFFF) == ICQ_STATUS_OFFLINE);
+    case MessageFile:
+        return data && ((data->Status & 0xFFFF) != ICQ_STATUS_OFFLINE);
 #ifdef USE_OPENSSL
     case MessageOpenSecure:
         if ((data == NULL) || ((data->Status & 0xFFFF) == ICQ_STATUS_OFFLINE))
@@ -2556,10 +2567,10 @@ void ICQClient::addPluginInfoRequest(unsigned long uin, unsigned plugin_index)
             }
             data->DirectPluginInfo->addPluginInfoRequest(plugin_index);
             return;
+        case PLUGIN_QUERYxSTATUS:
         case PLUGIN_FILESERVER:
         case PLUGIN_FOLLOWME:
         case PLUGIN_ICQPHONE:
-        case PLUGIN_QUERYxSTATUS:
             if (data->DirectPluginStatus == NULL){
                 data->DirectPluginStatus = new DirectClient(data, this, PLUGIN_STATUSxMANAGER);
                 data->DirectPluginStatus->connect();

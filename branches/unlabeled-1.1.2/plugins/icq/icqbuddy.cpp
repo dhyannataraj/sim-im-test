@@ -155,6 +155,8 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 info >> realIP;
                 info.incReadPos(2);
                 info >> port;
+                if (realIP == 0x7F000001)
+                    realIP = 0;
                 bChanged |= set_ip(&data->RealIP, htonl(realIP));
                 data->Port = port;
                 unsigned long DCcookie;

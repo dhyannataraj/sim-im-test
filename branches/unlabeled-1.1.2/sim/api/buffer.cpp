@@ -471,12 +471,13 @@ Tlv::~Tlv()
     delete[] m_data;
 }
 
-void log_packet(Buffer &buf, bool bOut, unsigned packet_id)
+void log_packet(Buffer &buf, bool bOut, unsigned packet_id, const char *add_info)
 {
     LogInfo li;
     li.log_level = bOut ? L_PACKET_OUT : L_PACKET_IN;
     li.log_info  = &buf;
     li.packet_id = packet_id;
+    li.add_info  = add_info;
     Event e(EventLog, &li);
     e.process();
 }

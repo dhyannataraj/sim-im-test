@@ -52,7 +52,6 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
         log(L_DEBUG, "Message rights granted");
         break;
     case ICQ_SNACxMSG_MTN:{
-//            m_socket->readBuffer.incReadPos(10);
             unsigned long uin = m_socket->readBuffer.unpackUin();
             unsigned short type;
             m_socket->readBuffer >> type;
@@ -388,7 +387,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
         }
         if ((data->Status != ICQ_STATUS_OFFLINE) &&
                 hasCap(data, CAP_UTF) &&
-                !data->bBadClient){
+                (data->Version >= 8) && !data->bBadClient){
             s.flags  = SEND_UTF;
             s.msg    = msg;
             s.text   = msg->getPlainText();
@@ -419,19 +418,19 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
 
 void ICQClient::sendThroughServer(unsigned long uin, unsigned short channel, Buffer &b, unsigned long id_l, unsigned long id_h)
 {
-	// we need informations about channel 2 tlvs !
-	int tlv_type = 5;
-	snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_SENDxSERVER);
+    // we need informations about channel 2 tlvs !
+    int tlv_type = 5;
+    snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_SENDxSERVER);
     m_socket->writeBuffer << id_l << id_h;
     m_socket->writeBuffer << channel;
     m_socket->writeBuffer.packUin(uin);
-	if (channel == 1)
-		tlv_type = 2;
-	m_socket->writeBuffer.tlv(tlv_type,b);
+    if (channel == 1)
+        tlv_type = 2;
+    m_socket->writeBuffer.tlv(tlv_type,b);
 
-	m_socket->writeBuffer.tlv(3);	// req. ack from server
-	m_socket->writeBuffer.tlv(6);	// store if user is offline
-	sendPacket();
+    m_socket->writeBuffer.tlv(3);	// req. ack from server
+    m_socket->writeBuffer.tlv(6);	// store if user is offline
+    sendPacket();
 }
 
 static char c2h(char c)
@@ -555,14 +554,13 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
     msg.incReadPos(8);
     capability cap;
     msg.unpack((char*)cap, sizeof(cap));
+    if (!memcmp(cap, capabilities[CAP_DIRECT], sizeof(cap))){
+        log(L_DEBUG, "Direct packet");
+        return;
+    }
+
     if (memcmp(cap, capabilities[CAP_SRV_RELAY], sizeof(cap))){
-        string cap_str;
-        for (unsigned i = 0; i < sizeof(cap); i++){
-            char b[4];
-            sprintf(b, "%02X ", cap[i]);
-            cap_str += b;
-        }
-        log(L_DEBUG, "Unknown capability in adavansed message (%s)", cap_str.c_str());
+        log(L_DEBUG, "Unknown capability in adavansed message");
         return;
     }
 
@@ -847,12 +845,25 @@ void ICQClient::processSendQueue()
                 break;
             default:
                 m_send.part = getPart(m_send.text, MAX_MESSAGE_SIZE);
-                QTextCodec *codec = getCodec(encoding.c_str());
-                string msg_text;
-                msg_text = codec->fromUnicode(m_send.part);
                 Buffer msgBuf;
-                msgBuf << 0x0000L;
-                msgBuf << msg_text.c_str();
+                if ((m_send.flags & SEND_MASK) == SEND_2GO){
+                    string msg_text;
+                    for (int i = 0; i < (int)m_send.part.length(); i++){
+                        unsigned short c = m_send.part[i].unicode();
+                        char c1 = (c >> 8) & 0xFF;
+                        char c2 = c & 0xFF;
+                        msg_text += c1;
+                        msg_text += c2;
+                    }
+                    msgBuf << 0x00020000L;
+                    msgBuf.pack(msg_text.c_str(), msg_text.length());
+                }else{
+                    QTextCodec *codec = getCodec(encoding.c_str());
+                    string msg_text;
+                    msg_text = codec->fromUnicode(m_send.part);
+                    msgBuf << 0x0000L;
+                    msgBuf << msg_text.c_str();
+                }
                 Buffer b;
                 b.tlv(0x0501, "\x01", 1);
                 b.tlv(0x0101, msgBuf);
@@ -974,6 +985,10 @@ string ICQClient::packMessage(Message *msg, ICQUserData *data, unsigned short &t
             type = ICQ_MSGxCONTACTxLIST;
             break;
         }
+    case MessageFile:
+        res = static_cast<FileMessage*>(msg)->description().utf8();
+        type = ICQ_MSGxFILE;
+        break;
     case MessageOpenSecure:
         type = ICQ_MSGxSECURExOPEN;
         break;

@@ -145,7 +145,7 @@ protected:
     char *m_data;
 };
 
-EXPORT void log_packet(Buffer &buf, bool bOut, unsigned packet_id);
+EXPORT void log_packet(Buffer &buf, bool bOut, unsigned packet_id, const char *add_info=NULL);
 
 #endif
 

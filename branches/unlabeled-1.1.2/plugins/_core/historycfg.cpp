@@ -31,11 +31,11 @@ HistoryConfig::HistoryConfig(QWidget *parent)
 {
     chkOwn->setChecked(CorePlugin::m_plugin->getOwnColors());
     chkSmile->setChecked(CorePlugin::m_plugin->getUseSmiles());
-	btnSend->setColor(QColor(CorePlugin::m_plugin->getColorSend()));
-	btnReceive->setColor(QColor(CorePlugin::m_plugin->getColorReceive()));
-	btnSender->setColor(QColor(CorePlugin::m_plugin->getColorSender()));
-	btnReceiver->setColor(QColor(CorePlugin::m_plugin->getColorReceiver()));
-	cmbPage->setEditable(true);
+    btnSend->setColor(QColor(CorePlugin::m_plugin->getColorSend()));
+    btnReceive->setColor(QColor(CorePlugin::m_plugin->getColorReceive()));
+    btnSender->setColor(QColor(CorePlugin::m_plugin->getColorSender()));
+    btnReceiver->setColor(QColor(CorePlugin::m_plugin->getColorReceiver()));
+    cmbPage->setEditable(true);
     cmbPage->insertItem("100");
     cmbPage->insertItem("50");
     cmbPage->insertItem("25");
@@ -51,8 +51,8 @@ HistoryConfig::HistoryConfig(QWidget *parent)
     }
     lblPage1->setText(str1);
     lblPage2->setText(str2);
-	connect(chkOwn, SIGNAL(toggled(bool)), this, SLOT(useOwnColorsChanged(bool)));
-	useOwnColorsChanged(CorePlugin::m_plugin->getOwnColors());
+    connect(chkOwn, SIGNAL(toggled(bool)), this, SLOT(useOwnColorsChanged(bool)));
+    useOwnColorsChanged(CorePlugin::m_plugin->getOwnColors());
 }
 
 HistoryConfig::~HistoryConfig()
@@ -61,10 +61,10 @@ HistoryConfig::~HistoryConfig()
 
 void HistoryConfig::useOwnColorsChanged(bool AToggled)
 {
-	btnSend->setEnabled(AToggled);
-	btnReceive->setEnabled(AToggled);
-	btnSender->setEnabled(AToggled);
-	btnReceiver->setEnabled(AToggled);
+    btnSend->setEnabled(AToggled);
+    btnReceive->setEnabled(AToggled);
+    btnSender->setEnabled(AToggled);
+    btnReceiver->setEnabled(AToggled);
 }
 
 

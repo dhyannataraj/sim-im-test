@@ -324,8 +324,9 @@ const unsigned SEND_PLAIN	= 0x0001;
 const unsigned SEND_UTF		= 0x0002;
 const unsigned SEND_RTF		= 0x0003;
 const unsigned SEND_RAW		= 0x0004;
-const unsigned SEND_MASK	= 0x0007;
-const unsigned SEND_1STPART	= 0x0008;
+const unsigned SEND_2GO		= 0x0005;
+const unsigned SEND_MASK	= 0x000F;
+const unsigned SEND_1STPART	= 0x0010;
 
 typedef struct rtf_charset
 {
@@ -553,6 +554,21 @@ protected:
     friend class DirectClient;
 };
 
+class DirectSocket;
+
+class DirectListener : public ServerSocketNotify
+{
+public:
+    DirectListener(DirectSocket *dsock);
+    ~DirectListener();
+    bool created() { return (m_socket != NULL); }
+    unsigned short port();
+protected:
+    virtual void accept(Socket *s);
+    ServerSocket *m_socket;
+    DirectSocket *m_dsock;
+};
+
 class DirectSocket : public ClientSocketNotify
 {
 public:
@@ -563,6 +579,8 @@ public:
         ConnectFail,
         WaitInit,
         WaitAck,
+        WaitReverse,
+        ReverseConnect,
         Logged
     };
     DirectSocket(Socket *s, ICQClient*);
@@ -586,6 +604,7 @@ protected:
     ICQUserData		*m_data;
     ClientSocket	*m_socket;
     ICQClient		*m_client;
+    DirectListener	*m_listener;
 };
 
 typedef struct SendDirectMsg
@@ -630,6 +649,7 @@ protected:
     void sendAck(unsigned short, unsigned short msgType, const char *message=NULL);
     void processMsgQueue();
     list<SendDirectMsg> m_queue;
+    const char *name();
 #ifdef USE_OPENSSL
     void secureConnect();
     void secureListen();
