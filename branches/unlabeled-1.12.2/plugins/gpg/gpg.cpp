@@ -168,6 +168,8 @@ void GpgPlugin::clear()
             continue;
         }
         delete (*it).exec;
+	    QFile::remove((*it).infile);
+	    QFile::remove((*it).outfile);
         m_decrypt.erase(it);
         it = m_decrypt.begin();
     }
@@ -177,6 +179,8 @@ void GpgPlugin::clear()
             continue;
         }
         delete (*it).exec;
+	    QFile::remove((*it).infile);
+	    QFile::remove((*it).outfile);
         m_import.erase(it);
         it = m_import.begin();
     }
@@ -186,6 +190,8 @@ void GpgPlugin::clear()
             continue;
         }
         delete (*it).exec;
+	    QFile::remove((*it).infile);
+	    QFile::remove((*it).outfile);
         m_public.erase(it);
         it = m_public.begin();
     }
@@ -197,7 +203,6 @@ void GpgPlugin::decryptReady(Exec *exec, int res, const char*)
         if ((*it).exec == exec){
 			Message *msg = (*it).msg;
 			(*it).msg = NULL;
-		    QFile::remove((*it).infile);
 			QTimer::singleShot(0, this, SLOT(clear()));
             if (res == 0){
                 QFile f((*it).outfile);
@@ -212,7 +217,6 @@ void GpgPlugin::decryptReady(Exec *exec, int res, const char*)
                     s = (*it).outfile.local8Bit();
                     log(L_WARN, "Can't open output decrypt file %s", s.c_str());
                     res = -1;
-					QFile::remove((*it).outfile);
                 }
 				if (!(*it).key.empty()){
 					unsigned i = 1;
@@ -246,7 +250,6 @@ void GpgPlugin::decryptReady(Exec *exec, int res, const char*)
 					}
 				}
             }else{
-				QFile::remove((*it).outfile);
 				string key;
 				string res;
 				QString pass;
@@ -281,8 +284,6 @@ void GpgPlugin::decryptReady(Exec *exec, int res, const char*)
 					m.key    = key;
 					m_wait.push_back(m);
 					(*it).msg = NULL;
-				    QFile::remove((*it).infile);
-					QFile::remove((*it).outfile);
 					QTimer::singleShot(0, this, SLOT(clear()));
 					askPassphrase();
 					return;
@@ -354,7 +355,6 @@ void GpgPlugin::importReady(Exec *exec, int res, const char*)
             if (!e.process(this))
                 delete (*it).msg;
             (*it).msg = NULL;
-            QFile::remove((*it).infile);
             QTimer::singleShot(0, this, SLOT(clear()));
             return;
         }
@@ -503,16 +503,22 @@ void *GpgPlugin::processEvent(Event *e)
                         exec.execute(gpg.local8Bit(), "\n", true);
                         if (exec.result){
                             ms->msg->setError(I18N_NOOP("Encrypt failed"));
+						    QFile::remove(input);
+						    QFile::remove(output);
                             return ms->msg;
                         }
+					    QFile::remove(input);
                         QFile out(output);
                         if (!out.open(IO_ReadOnly)){
+						    QFile::remove(output);
                             ms->msg->setError(I18N_NOOP("Encrypt failed"));
                             return ms->msg;
                         }
                         *ms->text = "";
                         ms->text->append(out.size(), '\x00');
                         out.readBlock((char*)(ms->text->c_str()), out.size());
+						out.close();
+					    QFile::remove(output);
                         return NULL;
                     }
                 }
@@ -574,10 +580,12 @@ void *GpgPlugin::processEvent(Event *e)
     return NULL;
 }
 
+static unsigned decode_index = 0;
+
 bool GpgPlugin::decode(Message *msg, const char *passphrase, const char *key)
 {
-                    QString output = QFile::decodeName(user_file("m.").c_str());
-                    output += QString::number((unsigned)msg);
+                    QString output = QFile::decodeName(user_file("md.").c_str());
+                    output += QString::number(decode_index++);
                     QString input = output + ".in";
                     QFile in(input);
                     if (!in.open(IO_WriteOnly | IO_Truncate)){
