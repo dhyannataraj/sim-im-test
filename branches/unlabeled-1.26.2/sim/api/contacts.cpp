@@ -1239,6 +1239,29 @@ unsigned ClientUserData::size()
     return p->size();
 }
 
+string ClientUserData::property(const char *name)
+{
+    for (ClientUserDataPrivate::iterator it = p->begin(); it != p->end(); ++it){
+        _ClientUserData &d = *it;
+		Data *user_data = (Data*)d.data;
+		for (const DataDef *def = d.client->protocol()->userDataDef(); def->name; def++){
+			if (!strcmp(def->name, name)){
+				switch (def->type){
+				case DATA_STRING:
+				case DATA_UTF:
+					if (user_data->ptr)
+						return user_data->ptr;
+				case DATA_ULONG:
+					if (user_data->value != (unsigned long)(def->def_value))
+						return number(user_data->value);
+				}
+			}
+			user_data += def->n_values;
+		}
+    }
+	return "";
+}
+
 bool ClientUserData::have(void *data)
 {
     for (ClientUserDataPrivate::iterator it = p->begin(); it != p->end(); ++it){

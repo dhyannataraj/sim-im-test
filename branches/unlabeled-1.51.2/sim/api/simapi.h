@@ -1338,6 +1338,7 @@ public:
     void join(clientData *cData, ClientUserData &data);
     unsigned size();
     Client *activeClient(void *&data, Client *client);
+	string property(const char *name);
 protected:
     ClientUserDataPrivate *p;
     friend class ClientDataIterator;
