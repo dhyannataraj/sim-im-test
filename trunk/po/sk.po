@@ -1,17 +1,19 @@
 # translation of sk.po to Slovak
-# Copyright (C) 2002,2003 Free Software Foundation, Inc.
-# Tomas Olah <tomas.olah@alert.sk>, 2003.
+# Copyright (C) 2002,2003, 2004 Free Software Foundation, Inc.
+# Tomas Olah <tomas.olah@alert.sk>, 2003, 2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
 "POT-Creation-Date: 2004-02-09 12:28+0300\n"
-"PO-Revision-Date: 2004-01-30 10:12+0100\n"
+"PO-Revision-Date: 2004-02-10 10:25+0100\n"
 "Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-2\n"
+"Content-Type: text/plain; charset=ISO-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.3\n"
+"Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 # libicq/country.cpp:71
 #: sim/api/country.cpp:25
@@ -3349,8 +3351,7 @@ msgstr "Odmietnu» súbor bez príèiny"
 
 #: plugins/_core/core.cpp:1228 plugins/_core/core.cpp:2784
 msgid "Sorry, I'm busy right now, and can not respond to your request"
-msgstr ""
-"Prepáète, ale momentálne som zaneprázdnený a nemô¾em odpoveda» na po¾iadavku"
+msgstr "Prepáète, ale momentálne som zaneprázdnený a nemô¾em odpoveda» na po¾iadavku"
 
 #: plugins/_core/core.cpp:1233 plugins/_core/core.cpp:2793
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
@@ -3369,7 +3370,6 @@ msgid "&Edit"
 msgstr "&Upravi»"
 
 #: plugins/_core/core.cpp:1501
-#, fuzzy
 msgid ""
 "&IP; - ip-address\n"
 "&Mail; - e-mail\n"
@@ -3385,8 +3385,8 @@ msgstr ""
 "&IP; - ip adresa\n"
 "&Mail; - e-mail\n"
 "&Telefón; - telefón\n"
-"&Prezývka; - contaktná prezývka\n"
-"&Nepreèítaných; - poèet nepreèítaných správ tohoto kontaktu\n"
+"&Prezývka; - Kontaktná prezývka\n"
+"&Nepreèítaných; - poèet nepreèítaných správ od tohto kontaktu\n"
 "&Status; - status kontaktu\n"
 "\n"
 "`<príkaz>` - zavolanie <príkaz> a substitúcia výstupu príakazu\n"
@@ -4895,10 +4895,8 @@ msgstr "Nastavi» \"Offline\" status po"
 # ui/statussetupbase.cpp:142
 #: plugins/autoaway/autoawaycfgbase.cpp:109
 #: plugins/sound/soundconfigbase.cpp:107
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
-msgstr ""
-"Zakáza» online výstrahu pre \"Away\", \"N/A\", \"DND\" a \"Occupied\" zoznam"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgstr "Zakáza» online výstrahu pre \"Away\", \"N/A\", \"DND\" a \"Occupied\" zoznam"
 
 # client.cpp:1235
 #: plugins/autoaway/autoaway.cpp:66
@@ -5082,8 +5080,7 @@ msgstr "P&rijíma» správy len zo zoznamu kontaktov"
 # ui/generalsecbase.cpp:227
 #: plugins/filter/filtercfgbase.cpp:67
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Odmietnu» správy od neznámych u¾ívateµov obsahujíce tieto slová alebo výrazy:"
+msgstr "Odmietnu» správy od neznámych u¾ívateµov obsahujíce tieto slová alebo výrazy:"
 
 # ui/generalsecbase.cpp:228
 #: plugins/filter/filtercfgbase.cpp:68
@@ -5322,8 +5319,7 @@ msgstr "Ikony"
 
 #: plugins/icons/icon.cpp:33
 msgid "Plugin provides Miranda icons themes and emoticons"
-msgstr ""
-"Zásuvny modul umo¾òuje pou¾íva» témy ikon a emotikony z programu Miranda"
+msgstr "Zásuvny modul umo¾òuje pou¾íva» témy ikon a emotikony z programu Miranda"
 
 # qt3/i18n.cpp:172
 #: plugins/icons/iconcfg.cpp:169
@@ -6058,7 +6054,7 @@ msgstr "Zaregistrovaný v neregistrovateµnom stave"
 
 #: plugins/icq/icqlogin.cpp:196
 msgid "This client is outdated"
-msgstr ""
+msgstr "Tento klient je u¾ zastaralý"
 
 #: plugins/icq/icqlogin.cpp:201
 msgid "Too many clients from same IP"
@@ -6082,31 +6078,29 @@ msgstr "Neexistujúce UIN"
 
 #: plugins/icq/icqlogin.cpp:223
 msgid "Bad login procedure"
-msgstr ""
+msgstr "Procedúra chyby prihlásenia"
 
 # ui/phonebookbase.cpp:129
 #: plugins/icq/icqlogin.cpp:234
-#, fuzzy
 msgid "Service temporarly unavailable"
-msgstr "U¾ívateµ doèasne nedostupný"
+msgstr "Slu¾ba he doèasne nedostupná"
 
 # control.cpp:241
 #: plugins/icq/icqlogin.cpp:238
-#, fuzzy
 msgid "Invalid SecureID"
-msgstr "Neplatné u¾ívateµské meno"
+msgstr "Neplatné SecureID"
 
 #: plugins/icq/icqlogin.cpp:242
 msgid "Too young!"
-msgstr ""
+msgstr "Príli¹ mladý!"
 
 #: plugins/icq/icqlogin.cpp:246
 msgid "UIN was suspended"
-msgstr ""
+msgstr "UIN bolo podozrivé"
 
 #: plugins/icq/icqlogin.cpp:250
 msgid "Can't login to ICQ network - Please try again later"
-msgstr ""
+msgstr "Nie je mo¾né sa prihlási» do siete ICQ. Skúste prosím neskôr"
 
 # mainwin.cpp:1328
 #: plugins/icq/icqlogin.cpp:271
@@ -7687,8 +7681,7 @@ msgstr "Navrchu"
 
 #: plugins/ontop/ontop.cpp:45
 msgid "Plugin provides main window and containers always on top"
-msgstr ""
-"Zásuvny modul umo¾òuje udr¾iava» hlavné okno a kontajnerov v¾dy navrchu"
+msgstr "Zásuvny modul umo¾òuje udr¾iava» hlavné okno a kontajnerov v¾dy navrchu"
 
 # mainwin.cpp:2741
 #: plugins/ontop/ontop.cpp:80
@@ -7750,8 +7743,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:48
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Zásuvny modul umo¾òuje zobrazova» notifikácie o správach a stave kontaktov "
 "na obrazovke (OSD)"
@@ -8405,8 +8397,7 @@ msgstr "Vlo¾te va¹u prezývku, ktorú chcete registrova»."
 msgid ""
 "Complete the form to submit your searchable attributes in the Jabber User "
 "Directory"
-msgstr ""
-"Vyplni» formulár s atribútmi pre vyhµadávanie v u¾ívateµskom adresáry Jabber."
+msgstr "Vyplni» formulár s atribútmi pre vyhµadávanie v u¾ívateµskom adresáry Jabber."
 
 #: plugins/jabber/jabbersearch.cpp:325
 msgid "Fill in all of the fields to add yourself to the JUD."
@@ -8564,7 +8555,6 @@ msgid "&Agents"
 msgstr "&Agenti"
 
 #: plugins/jabber/discoinfobase.cpp:265
-#, fuzzy
 msgid "DiscoInfo"
 msgstr "DiscoInfo"
 
@@ -9646,8 +9636,7 @@ msgid "Navigate"
 msgstr "Navigácia"
 
 #: plugins/navigate/navigate.cpp:199
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Zásuvny modul umo¾òuje navigáciu po odkazoch, spú¹»a» externý prehliadaè a "
 "po¹tový klient"
@@ -9670,53 +9659,51 @@ msgstr "Po¹tový klient:"
 
 #: plugins/yahoo/yahoo.cpp:74
 msgid "Yahoo!"
-msgstr ""
+msgstr "Yahoo!"
 
 #: plugins/yahoo/yahoo.cpp:77
 msgid ""
 "http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.ya"
 "hoo.com/&.redir_from=MESSENGER"
 msgstr ""
+"http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.ya"
+"hoo.com/&.redir_from=MESSENGER"
 
 #: plugins/yahoo/yahoocfg.cpp:43
 msgid "Get a Yahoo! ID"
-msgstr ""
+msgstr "Získa» Yahoo! ID"
 
 #: plugins/yahoo/yahooclient.cpp:262
 msgid "Yahoo! login lock"
-msgstr ""
+msgstr "Zámka na logine Yahoo!"
 
 #: plugins/yahoo/yahooclient.cpp:285
 msgid "Your account has been locked"
-msgstr ""
+msgstr "Va¹e konto bolo zablokované"
 
 # mainwin.cpp:1328
 #: plugins/yahoo/yahooclient.cpp:289 plugins/yahoo/yahooclient.cpp:302
-#, fuzzy
 msgid "Your account is being used from another location"
 msgstr "Va¹e konto je pou¾ívané z iného miesta"
 
 #: plugins/yahoo/yahooclient.cpp:1159
-#, fuzzy
 msgid "Not at home"
-msgstr "®iadna zhoda"
+msgstr "Nie je doma"
 
 #: plugins/yahoo/yahooclient.cpp:1162
 msgid "Not at my desk"
-msgstr ""
+msgstr "Nie je na mojom stole"
 
 #: plugins/yahoo/yahooclient.cpp:1165
 msgid "Not in the office"
-msgstr ""
+msgstr "Nie je v kancelárii"
 
 # ui/workinfobase.cpp:217
 #: plugins/yahoo/yahooclient.cpp:1171
-#, fuzzy
 msgid "On vacation"
-msgstr "Povolanie:"
+msgstr "Na dovolenke"
 
 #: plugins/yahoo/yahooclient.cpp:1174
-#, fuzzy
 msgid "Out to lunch"
 msgstr "Na obede"
 
@@ -9724,28 +9711,23 @@ msgstr "Na obede"
 #: plugins/yahoo/yahooclient.cpp:1177
 #, fuzzy
 msgid "Stepped out"
-msgstr "Prekroèený èasový limit pri odosielaní (timeout)"
+msgstr "Odkráèal"
 
 # msgedit.cpp:184
 #: plugins/yahoo/yahoocfgbase.cpp:120
-#, fuzzy
 msgid "&Yahoo!"
-msgstr "&Foto"
+msgstr "&Yahoo!"
 
 #: plugins/yahoo/yahoosearchbase.cpp:79
 msgid "Yahoo ID:"
-msgstr ""
+msgstr "Yahoo ID:"
 
 #: plugins/yahoo/yahoosearch.cpp:56
-#, fuzzy
 msgid "Yahoo! search results"
-msgstr "Výsledky AIM hµadania"
+msgstr "Výsledky Yahoo! hµadania"
 
 # ui/themesetup.cpp:140
 #: plugins/yahoo/yahoosearch.cpp:129
-#, fuzzy
 msgid "Contact %1 added in group %2"
-msgstr "Kontakt %1 bol pridaný do zoznamu"
+msgstr "Kontakt %1 bol pridaný do skupiny %2"
 
-#~ msgid "Init string:"
-#~ msgstr "Inicializaèný re»azec:"
