@@ -1093,6 +1093,34 @@ SOURCE=.\xpm\msn_offline.xpm
 
 SOURCE=.\xpm\msn_online.xpm
 # End Source File
+# Begin Source File
+
+SOURCE=.\xpm\register.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\yahoo_away.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\yahoo_dnd.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\yahoo_ffc.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\yahoo_na.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\yahoo_offline.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\yahoo_online.xpm
+# End Source File
 # End Group
 # Begin Group "Interfaces"
 

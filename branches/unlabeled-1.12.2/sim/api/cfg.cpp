@@ -1009,7 +1009,7 @@ EXPORT void saveGeometry(QWidget *w, long geo[4])
     geo[2] = size.width();
     geo[3] = size.height();
 #ifdef WIN32
-    if (!(GetWindowLongA(w->winId(), GWL_EXSTYLE) & WS_EX_APPWINDOW)){
+    if (GetWindowLongA(w->winId(), GWL_EXSTYLE) & WS_EX_TOOLWINDOW){
         int dc = GetSystemMetrics(SM_CYCAPTION);
         int ds = GetSystemMetrics(SM_CYSMCAPTION);
         geo[1] += dc - ds;

@@ -164,14 +164,18 @@ Container::Container(unsigned id, const char *cfg)
         if ((data.geometry[TOP] != -1) || (data.geometry[LEFT] != -1)){
             bPos = true;
             QWidgetList  *list = QApplication::topLevelWidgets();
-            for (;;) {
+            for (int i = 0; i < 2; i++){
                 bool bOK = true;
                 QWidgetListIt it(*list);
                 QWidget * w;
                 while ((w = it.current()) != NULL){
+                    if (w == this){
+                        ++it;
+                        continue;
+                    }
                     if (w->inherits("Container")){
-                        int dw = w->width()  - data.geometry[WIDTH];
-                        int dh = w->height() - data.geometry[HEIGHT];
+                        int dw = w->pos().x() - data.geometry[LEFT];
+                        int dh = w->pos().y() - data.geometry[TOP];
                         if (dw < 0) dw = -dw;
                         if (dh < 0) dh = -dh;
                         if ((dw < 3) && (dh < 3)){
@@ -188,7 +192,6 @@ Container::Container(unsigned id, const char *cfg)
                                 data.geometry[LEFT] = nl;
                                 data.geometry[TOP]  = nt;
                                 bOK = false;
-                                break;
                             }
                         }
                     }

@@ -1181,6 +1181,27 @@ void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &
                         break;
                     }
                 }
+            }else if (strcmp(h.c_str(), "yahoo") == 0){
+                switch (data->Status){
+                case STATUS_ONLINE:
+                    dicon = "Yahoo_online";
+                    break;
+                case STATUS_OFFLINE:
+                    dicon = "Yahoo_offline";
+                    break;
+                case STATUS_AWAY:
+                    dicon = "Yahoo_away";
+                    break;
+                case STATUS_NA:
+                    dicon = "Yahoo_na";
+                    break;
+                case STATUS_DND:
+                    dicon = "Yahoo_dnd";
+                    break;
+                case STATUS_FFC:
+                    dicon = "Yahoo_ffc";
+                    break;
+                }
             }
         }
     }
