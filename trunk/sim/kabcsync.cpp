@@ -16,6 +16,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifdef USE_KDE
+
 #include "kabcsync.h"
 
 #include <kabc/stdaddressbook.h>
@@ -67,7 +69,7 @@ Addressee KabcSync::addresseeFromUser(SIMUser& u, Addressee* oldPers)
         (u.FirstName.empty()&&u.LastName.empty())?pers.setFormattedName(QString::fromLocal8Bit(u.Nick.c_str())):pers.setNameFromString(QString::fromLocal8Bit((u.FirstName+" "+u.LastName).c_str()));
 
     if (pers.nickName().isEmpty())
-        pers.setNickName(QString::fromLocal8Bit(u.Nick.c_str()));
+        pers.setNickName("ICQ:"+QString::fromLocal8Bit(u.Nick.c_str()));
 
     pers.insertCustom("KADDRESSBOOK","X-IMAddress",str.setNum(u.Uin));
 
@@ -211,4 +213,6 @@ void KabcSync::processEvent(ICQEvent* e)
 }
 
 #include "kabcsync.moc"
+
+#endif
 
