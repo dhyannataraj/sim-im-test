@@ -34,6 +34,8 @@
 #include <sys/wait.h>
 #endif
 
+#include <stl.h>
+
 #define READ 0
 #define WRITE 1
 
