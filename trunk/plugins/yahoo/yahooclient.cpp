@@ -769,7 +769,7 @@ void TextParser::addText(const char *str, unsigned s)
         return;
     QString text;
     if (m_contact){
-        text = getContacts()->toUnicode(m_contact, str);
+        text = getContacts()->toUnicode(m_contact, str, s);
     }else{
         text = QString::fromUtf8(str, s);
     }
