@@ -128,7 +128,7 @@ IPC::~IPC()
         CloseHandle(hEventIn);
     if (hEventOut)
         CloseHandle(hEventOut);
-    wait();
+    wait(2000);
 }
 
 void IPC::run()

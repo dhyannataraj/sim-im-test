@@ -115,6 +115,8 @@ void MsgSMS::panelDestroyed()
 
 void MsgSMS::init()
 {
+	if (!m_edit->topLevelWidget()->isActiveWindow() || m_edit->topLevelWidget()->isMinimized())
+		return;
     Command cmd;
     cmd->id    = CmdPhoneNumber;
     cmd->param = m_edit;

@@ -2761,6 +2761,7 @@ void MSNFileTransfer::packet_ready()
             m_socket->readBuffer.incReadPos(size);
             m_bytes      += size;
             m_totalBytes += size;
+			m_transferBytes += size;
             if (m_notify)
                 m_notify->process();
             m_size -= size;
@@ -2866,12 +2867,18 @@ bool MSNFileTransfer::getLine(const char *line)
             error_state("Bad auth cookie", 0);
             return false;
         }
-        if ((m_file == NULL) && !openFile()){
-            if (FileTransfer::m_state == FileTransfer::Done)
-                m_socket->error_state("");
-            if (m_notify)
-                m_notify->transfer(false);
-            return false;
+        if (m_file == NULL){
+			for (;;){
+				if (!openFile()){
+					if (FileTransfer::m_state == FileTransfer::Done)
+						m_socket->error_state("");
+					if (m_notify)
+						m_notify->transfer(false);
+					return false;
+				}
+				if (!isDirectory())
+					break;
+			}
         }
         string cmd = "FIL ";
         cmd += number(m_fileSize);
@@ -2905,10 +2912,14 @@ bool MSNFileTransfer::getLine(const char *line)
     if (cmd == "BYE"){
         if (m_notify)
             m_notify->transfer(false);
-        if (!openFile()){
-            if (FileTransfer::m_state == FileTransfer::Done)
-                m_socket->error_state("");
-        }else{
+		for (;;){
+			if (!openFile()){
+				if (FileTransfer::m_state == FileTransfer::Done)
+					m_socket->error_state("");
+				return true;
+			}
+			if (isDirectory())
+				continue;
             m_state = Wait;
             FileTransfer::m_state = FileTransfer::Wait;
             if (!((Client*)m_client)->send(m_msg, m_data))

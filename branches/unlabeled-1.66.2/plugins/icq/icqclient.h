@@ -885,6 +885,7 @@ protected:
     void startPacket(char cmd);
     void sendPacket(bool dump=true);
     void sendFileInfo();
+	void initReceive(char cmd);
 
     friend class ICQClient;
 };

@@ -25,7 +25,6 @@
 #include <qsplitter.h>
 #include <qlayout.h>
 #include <qstatusbar.h>
-#include <qtabbar.h>
 #include <qprogressbar.h>
 #include <qwidgetstack.h>
 #include <qtimer.h>
@@ -46,26 +45,6 @@
 #endif
 
 const unsigned ACCEL_MESSAGE = 0x1000;
-
-class UserTabBar : public QTabBar
-{
-public:
-    UserTabBar(QWidget *parent);
-    void raiseTab(unsigned id);
-    UserWnd *wnd(unsigned id);
-    UserWnd *currentWnd();
-    list<UserWnd*> windows();
-    void removeTab(unsigned id);
-    void changeTab(unsigned id);
-    void setBold(unsigned id, bool bState);
-    void setCurrent(unsigned i);
-    unsigned current();
-    bool isBold(UserWnd *wnd);
-protected:
-    virtual void layoutTabs();
-    virtual void mousePressEvent(QMouseEvent *e);
-    virtual void paintLabel(QPainter *p, const QRect &rc, QTab *t, bool bFocus) const;
-};
 
 class UserTab : public QTab
 {
@@ -262,9 +241,9 @@ void Container::setupAccel()
     }
 }
 
-void Container::setNoSwitch()
+void Container::setNoSwitch(bool bState)
 {
-    m_bNoSwitch = true;
+    m_bNoSwitch = bState;
 }
 
 list<UserWnd*> Container::windows()
@@ -884,6 +863,11 @@ unsigned UserTabBar::current()
     return n;
 }
 
+void UserTabBar::slotRepaint()
+{
+	repaint();
+}
+
 void UserTabBar::removeTab(unsigned id)
 {
     layoutTabs();
@@ -894,6 +878,7 @@ void UserTabBar::removeTab(unsigned id)
             continue;
         if (tab->wnd()->id() == id){
             QTabBar::removeTab(tab);
+			QTimer::singleShot(0, this, SLOT(slotRepaint()));
             break;
         }
     }
@@ -907,6 +892,7 @@ void UserTabBar::changeTab(unsigned id)
         UserTab *tab = static_cast<UserTab*>(t);
         if (tab->wnd()->id() == id){
             tab->setText(tab->wnd()->getName());
+			QTimer::singleShot(0, this, SLOT(slotRepaint()));
             break;
         }
     }
@@ -945,6 +931,12 @@ bool UserTabBar::isBold(UserWnd *wnd)
             return tab->isBold();
     }
     return false;
+}
+
+void UserTabBar::resizeEvent(QResizeEvent *e)
+{
+	QTabBar::resizeEvent(e);
+	QTimer::singleShot(0, this, SLOT(slotRepaint()));
 }
 
 void UserTabBar::mousePressEvent(QMouseEvent *e)

@@ -23,6 +23,7 @@
 
 #include <qmainwindow.h>
 #include <qstatusbar.h>
+#include <qtabbar.h>
 
 const unsigned NEW_CONTAINER	= (unsigned)(-1);
 const unsigned GRP_CONTAINER	= 0x80000000;
@@ -58,6 +59,30 @@ protected:
     void resizeEvent(QResizeEvent*);
 };
 
+class UserTabBar : public QTabBar
+{
+	Q_OBJECT
+public:
+    UserTabBar(QWidget *parent);
+    void raiseTab(unsigned id);
+    UserWnd *wnd(unsigned id);
+    UserWnd *currentWnd();
+    list<UserWnd*> windows();
+    void removeTab(unsigned id);
+    void changeTab(unsigned id);
+    void setBold(unsigned id, bool bState);
+    void setCurrent(unsigned i);
+    unsigned current();
+    bool isBold(UserWnd *wnd);
+public slots:
+	void slotRepaint();
+protected:
+    virtual void layoutTabs();
+    virtual void mousePressEvent(QMouseEvent *e);
+	virtual void resizeEvent(QResizeEvent *e);
+    virtual void paintLabel(QPainter *p, const QRect &rc, QTab *t, bool bFocus) const;
+};
+
 class Container : public QMainWindow, public EventReceiver
 {
     Q_OBJECT
@@ -71,7 +96,7 @@ public:
     string getState();
     bool isReceived() { return m_bReceived; }
     void setReceived(bool bReceived) { m_bReceived = bReceived; }
-    void setNoSwitch();
+    void setNoSwitch(bool bState);
     void setMessageType(unsigned id);
     void contactChanged(Contact *contact);
     PROP_ULONG(Id);

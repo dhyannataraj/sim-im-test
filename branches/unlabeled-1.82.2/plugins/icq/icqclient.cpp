@@ -331,6 +331,14 @@ ICQClient::ICQClient(Protocol *protocol, const char *cfg, bool bAIM)
     disconnected();
     m_infoRequestId = 0;
     m_bFirstTry = false;
+	ContactList::ContactIterator it;
+	Contact *contact;
+	while ((contact = ++it) != NULL){
+		ClientDataIterator itd(contact->clientData, this);
+		ICQUserData *data;
+		while ((data = (ICQUserData*)(++itd)) != NULL)
+			set_str(&data->Alias.ptr, contact->getName().utf8());
+	}
 }
 
 ICQClient::~ICQClient()
@@ -3028,6 +3036,8 @@ bool ICQClient::send(Message *msg, void *_data)
     SendMsg s;
     switch (msg->type()){
     case MessageSMS:
+		if (m_bAIM)
+			return false;
         s.msg    = static_cast<SMSMessage*>(msg);
         s.text   = s.msg->getPlainText();
         s.flags  = SEND_1STPART;
@@ -3149,7 +3159,7 @@ bool ICQClient::canSend(unsigned type, void *_data)
     ICQUserData *data = (ICQUserData*)_data;
     switch (type){
     case MessageSMS:
-        return true;
+        return !m_bAIM;
     case MessageGeneric:
     case MessageUrl:
         return (data != NULL);

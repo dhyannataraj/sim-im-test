@@ -22,6 +22,8 @@
 #include "filetransferbase.h"
 
 class QTimer;
+class QProgressBar;
+class BalloonMsg;
 
 class FileTransferDlg : public FileTransferBase
 {
@@ -36,17 +38,19 @@ protected slots:
     void action(int, void*);
     void goDir();
 protected:
+	void setProgress(QProgressBar *bar, unsigned bytes, unsigned size);
     void process();
     void notifyDestroyed();
     void printTime();
     void transfer(bool);
-    void calcSpeed();
+    void calcSpeed(bool);
     void setBars();
     FileMessage	*m_msg;
     QTimer	*m_timer;
     unsigned m_time;
     unsigned m_file;
     bool     m_bTransfer;
+	unsigned m_displayTime;
     unsigned m_transferTime;
     unsigned m_transferBytes;
     unsigned m_speed;
@@ -57,6 +61,7 @@ protected:
     unsigned m_totalBytes;
     unsigned m_totalSize;
     QString  m_dir;
+	BalloonMsg *m_ask;
     FileTransfer::State m_state;
     friend class FileTransferDlgNotify;
 };

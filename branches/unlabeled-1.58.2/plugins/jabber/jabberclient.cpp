@@ -2744,9 +2744,16 @@ JabberFileTransfer::~JabberFileTransfer()
 
 void JabberFileTransfer::listen()
 {
-    if ((m_file == NULL) && !openFile()){
-        if (FileTransfer::m_state == FileTransfer::Done)
-            m_socket->error_state("");
+    if (m_file == NULL){
+		for (;;){
+			if (!openFile()){
+				if (FileTransfer::m_state == FileTransfer::Done)
+					m_socket->error_state("");
+				return;
+			}
+			if (!isDirectory())
+				break;
+		}
         return;
     }
     bind(m_client->getMinPort(), m_client->getMaxPort(), m_client);
@@ -2852,6 +2859,7 @@ void JabberFileTransfer::packet_ready()
             m_bytes += size;
             m_totalBytes += size;
             m_startPos += size;
+	        m_transferBytes += size;
             if (m_startPos == m_endPos){
                 FileTransfer::m_state = FileTransfer::Done;
                 if (m_notify){
@@ -2909,16 +2917,21 @@ void JabberFileTransfer::write_ready()
             m_notify->transfer(false);
         m_bytes += m_file->size() - m_endPos;
         m_totalBytes += m_file->size() - m_endPos;
-        if (!openFile()){
-            m_state = None;
-            if (FileTransfer::m_state == FileTransfer::Done)
-                m_socket->error_state("");
-        }else{
+		for (;;){
+			if (!openFile()){
+				m_state = None;
+				if (FileTransfer::m_state == FileTransfer::Done)
+					m_socket->error_state("");
+				break;
+			}
+			if (isDirectory())
+				continue;
             m_state = Wait;
             FileTransfer::m_state = FileTransfer::Wait;
             if (!((Client*)m_client)->send(m_msg, m_data))
                 error_state(I18N_NOOP("File transfer failed"), 0);
-        }
+			break;
+		}
         if (m_notify)
             m_notify->process();
         m_socket->close();

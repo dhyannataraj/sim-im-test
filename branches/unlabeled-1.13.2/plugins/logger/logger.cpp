@@ -112,11 +112,15 @@ string LoggerPlugin::getConfig()
 void LoggerPlugin::openFile()
 {
     if (m_bFilter){
-        if ((getLogLevel() & L_EVENTS) == 0)
+        if ((getLogLevel() & L_EVENTS) == 0){
             qApp->removeEventFilter(this);
+			m_bFilter = false;
+		}
     }else{
-        if (getLogLevel() & L_EVENTS)
+        if (getLogLevel() & L_EVENTS){
             qApp->installEventFilter(this);
+			m_bFilter = true;
+		}
     }
     if (m_file){
         delete m_file;
@@ -160,7 +164,8 @@ void LoggerPlugin::setLogType(unsigned id, bool bLog)
 
 bool LoggerPlugin::eventFilter(QObject *o, QEvent *e)
 {
-    log(L_DEBUG, "Event: %u %s %s", e->type(), o->className(), o->name());
+	if (strcmp(o->className(), "QTimer"))
+		log(L_DEBUG, "Event: %u %s %s", e->type(), o->className(), o->name());
     return QObject::eventFilter(o, e);
 }
 

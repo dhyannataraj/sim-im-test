@@ -68,7 +68,8 @@ MsgGen::MsgGen(MsgEdit *parent, Message *msg)
 
 void MsgGen::init()
 {
-    m_edit->m_edit->setFocus();
+	if (m_edit->topLevelWidget()->isActiveWindow() && !m_edit->topLevelWidget()->isMinimized())
+		m_edit->m_edit->setFocus();
 }
 
 void MsgGen::emptyChanged(bool bEmpty)

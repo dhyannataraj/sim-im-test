@@ -354,8 +354,11 @@ void *NavigatePlugin::processEvent(Event *e)
                     bExec = true;
             }
         }
-        if (!bExec)
+        if (!bExec){
+			if (proto == "file")
+				url = url.substr(5);
             ShellExecuteA(NULL, NULL, url.c_str(), NULL, NULL, SW_SHOWNORMAL);
+		}
 #else
         ExecParam execParam;
         if (proto == "mailto"){

@@ -1595,10 +1595,12 @@ void ICQFileTransfer::listen()
 
 void ICQFileTransfer::processPacket()
 {
-    ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, "File transfer");
     char cmd;
     m_socket->readBuffer >> cmd;
+	if (cmd != FT_DATA){
+	    ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
+		log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, "File transfer");
+	}
     if (cmd == FT_SPEED){
         char speed;
         m_socket->readBuffer.unpack(speed);
@@ -1630,7 +1632,7 @@ void ICQFileTransfer::processPacket()
                         return;
                     }
                 }
-                if (!m_file->at(pos)){
+                if (m_file && !m_file->at(pos)){
                     m_socket->error_state("Can't set transfer position");
                     return;
                 }
@@ -1675,28 +1677,11 @@ void ICQFileTransfer::processPacket()
         }
         break;
     case InitReceive:{
-            if (cmd != FT_FILEINFO){
-                m_socket->error_state("Bad command in init receive");
-                return;
-            }
-            string fileName;
-            m_socket->readBuffer.incReadPos(1);
-            m_socket->readBuffer >> fileName;
-            QString fName = m_client->toUnicode(fileName.c_str(), m_data);
-            string empty;
-            unsigned long n;
-            m_socket->readBuffer >> empty;
-            m_socket->readBuffer.unpack(n);
-            log(L_DEBUG, "file: %s %u", fName.latin1(), n);
-            if (m_notify)
-                m_notify->transfer(false);
-            m_state = Wait;
-            FileTransfer::m_state = FileTransfer::Read;
-            if (m_notify)
-                m_notify->createFile(fName, n, true);
+		initReceive(cmd);
             break;
         }
     case Receive:{
+			if (m_bytes < m_fileSize){
             if (cmd != FT_DATA){
                 m_socket->error_state("Bad data command");
                 return;
@@ -1704,6 +1689,7 @@ void ICQFileTransfer::processPacket()
             unsigned short size = (unsigned short)(m_socket->readBuffer.size() - m_socket->readBuffer.readPos());
             m_bytes      += size;
             m_totalBytes += size;
+	        m_transferBytes += size;
             if (size){
                 if (m_file == NULL){
                     m_socket->error_state("Write without file");
@@ -1714,6 +1700,7 @@ void ICQFileTransfer::processPacket()
                     return;
                 }
             }
+			}
             if (m_bytes >= m_fileSize){
                 if (m_nFile + 1 >= m_nFiles){
                     log(L_DEBUG, "File transfer OK");
@@ -1727,12 +1714,40 @@ void ICQFileTransfer::processPacket()
             }
             if (m_notify)
                 m_notify->process();
+			if (cmd != FT_DATA)
+				initReceive(cmd);
             break;
         }
 
     default:
         log(L_WARN, "Bad state in process packet %u", m_state);
     }
+}
+
+void ICQFileTransfer::initReceive(char cmd)
+{
+            if (cmd != FT_FILEINFO){
+                m_socket->error_state("Bad command in init receive");
+                return;
+            }
+            string fileName;
+			char isDir;
+            m_socket->readBuffer >> isDir >> fileName;
+            QString fName = m_client->toUnicode(fileName.c_str(), m_data);
+            string dir;
+            unsigned long n;
+            m_socket->readBuffer >> dir;
+            m_socket->readBuffer.unpack(n);
+            if (m_notify)
+                m_notify->transfer(false);
+			if (!dir.empty())
+				fName = m_client->toUnicode(dir.c_str(), m_data) + "/" + fName;
+			if (isDir)
+				fName += "/";
+            m_state = Wait;
+			FileTransfer::m_state = FileTransfer::Read;
+			if (m_notify)
+				m_notify->createFile(fName, n, true);
 }
 
 bool ICQFileTransfer::error(const char *err)
@@ -1945,22 +1960,26 @@ void ICQFileTransfer::sendFileInfo()
     if (m_notify)
         m_notify->transfer(false);
     startPacket(FT_FILEINFO);
-    m_socket->writeBuffer.pack((char)0);
-    FileMessage::Iterator it(*m_msg);
-    QString curFile = m_file->name();
-    if (m_notify)
-        m_notify->process();
-    string empty;
-    curFile = curFile.replace(QRegExp("\\\\"), "/");
-    int n = curFile.findRev("/");
-    if (n >= 0)
-        curFile = curFile.mid(n + 1);
-    string s = m_client->fromUnicode(curFile, m_data);
-    m_socket->writeBuffer << s << empty;
+    m_socket->writeBuffer.pack((char)(isDirectory() ? 1 : 0));
+	QString fn  = filename();
+	QString dir;
+	int n = fn.findRev("/");
+	if (n >= 0){
+		dir = fn.left(n);
+		dir = dir.replace(QRegExp("/"), "\\");
+		fn  = fn.mid(n);
+	}
+    string s1 = m_client->fromUnicode(fn, m_data);
+	string s2;
+	if (!dir.isEmpty())
+		s2 = m_client->fromUnicode(dir, m_data);
+    m_socket->writeBuffer << s1 << s2;
     m_socket->writeBuffer.pack((unsigned long)m_fileSize);
     m_socket->writeBuffer.pack((unsigned long)0);
     m_socket->writeBuffer.pack((unsigned long)m_speed);
     sendPacket();
+    if (m_notify)
+        m_notify->process();
 }
 
 void ICQFileTransfer::setSocket(ClientSocket *socket)

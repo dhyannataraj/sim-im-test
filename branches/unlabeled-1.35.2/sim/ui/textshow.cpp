@@ -515,6 +515,8 @@ TextShow::TextShow(QWidget *p, const char *name)
     if (QApplication::clipboard()->supportsSelection())
         connect(this, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()));
 #endif
+	m_timer = new QTimer(this);
+	connect(m_timer, SIGNAL(timeout()), this, SLOT(slotResizeTimer()));
 }
 
 TextShow::~TextShow()
@@ -561,14 +563,37 @@ void TextShow::setSource(const QString &name)
 #endif
 }
 
+void TextShow::slotResizeTimer()
+{
+#ifdef WIN32
+	if (inResize())
+		return;
+	m_timer->stop();
+	setVScrollBarMode(Auto);
+	setHScrollBarMode(Auto);
+	QResizeEvent re(QSize(0, 0), size());
+	resizeEvent(&re);
+#endif
+}
+
 void TextShow::resizeEvent(QResizeEvent *e)
 {
+#ifdef WIN32
+	if (inResize()){
+		if (!m_timer->isActive()){
+			setHScrollBarMode(AlwaysOff);
+			setVScrollBarMode(AlwaysOff);
+			m_timer->start(100);
+		}
+		return;
+	}
+#endif
     QPoint p = QPoint(0, height());
     p = mapToGlobal(p);
     p = viewport()->mapFromGlobal(p);
     int x, y;
     viewportToContents(p.x(), p.y(), x, y);
-    int para;
+	int para;
     int pos = charAt(QPoint(x, y), &para);
     QTextEdit::resizeEvent(e);
     if (pos == -1){
@@ -577,7 +602,10 @@ void TextShow::resizeEvent(QResizeEvent *e)
         setCursorPosition(para, pos);
         ensureCursorVisible();
     }
+	sync();
+	viewport()->repaint();
 }
+
 
 void TextShow::keyPressEvent(QKeyEvent *e)
 {

@@ -1166,7 +1166,6 @@ public:
         Read,
         Write,
         Done,
-
         Wait,
         Error
     };
@@ -1175,6 +1174,8 @@ public:
     virtual void	startReceive(unsigned pos) = 0;
     virtual void	setError();
     void	addFile(const QString &file, unsigned size);
+	QString filename()		{ return m_name; }
+	bool	isDirectory()	{ return m_bDir; }
 protected:
     bool	openFile();
     FileMessage			*m_msg;
@@ -1194,7 +1195,10 @@ protected:
 
     OverwriteMode m_overwrite;
     QString	 m_dir;
+	QString  m_base;
+	QString  m_name;
     State	 m_state;
+	bool	 m_bDir;
     friend class FileMessage;
 };
 
@@ -1221,6 +1225,7 @@ public:
         const QString *operator[](unsigned);
         void reset();
         unsigned count();
+		unsigned dirs();
         unsigned size();
     protected:
         FileMessageIteratorPrivate *p;
@@ -1793,6 +1798,7 @@ public:
     string *m_str;
 };
 
+EXPORT bool inResize();
 EXPORT bool logEnabled();
 EXPORT void setLogEnable(bool);
 

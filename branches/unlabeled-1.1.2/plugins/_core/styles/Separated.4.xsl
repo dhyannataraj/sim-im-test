@@ -29,7 +29,11 @@
 </a>
 </td>
 <td nowrap="yes">
-<span style="font-weight:660"><font>
+<span>
+<xsl:if test="@unread='1'">
+<xsl:attribute name="style">font-weight:600</xsl:attribute>
+</xsl:if>
+<font>
 <xsl:if test="@direction='0'">
 <xsl:attribute name="color">#660000</xsl:attribute>
 </xsl:if>
@@ -53,7 +57,7 @@
 <xsl:attribute name="bgcolor"><xsl:value-of select="body/@bgcolor"/></xsl:attribute>
 </xsl:if>
 <span>
-<xsl:attribute name="style"><xsl:if test="@unread='1'">font-weight:600;</xsl:if><xsl:if test="body/@fgcolor">color:<xsl:value-of select="body/@fgcolor"/>;</xsl:if></xsl:attribute>
+<xsl:attribute name="style"><xsl:if test="body/@fgcolor">color:<xsl:value-of select="body/@fgcolor"/>;</xsl:if></xsl:attribute>
 <xsl:value-of disable-output-escaping="yes" select="body"/>
 </span>
 </td>

@@ -251,7 +251,8 @@ public:
     FileMessageIteratorPrivate(const FileMessage &msg);
     vector<fileItem>::iterator it;
     unsigned m_size;
-    void add(const QString&);
+	unsigned m_dirs;
+    void add_file(const QString&, bool bFirst);
     void add(const QString&, unsigned size);
     QString save();
 };
@@ -259,12 +260,13 @@ public:
 FileMessageIteratorPrivate::FileMessageIteratorPrivate(const FileMessage &msg)
 {
     m_size = 0;
+	m_dirs = 0;
     QString files = ((FileMessage&)msg).getFile();
     while (!files.isEmpty()){
         QString item = getToken(files, ';', false);
         QString name = getToken(item, ',');
         if (item.isEmpty()){
-            add(name);
+            add_file(name, true);
         }else{
             add(name, item.toUInt());
         }
@@ -274,29 +276,31 @@ FileMessageIteratorPrivate::FileMessageIteratorPrivate(const FileMessage &msg)
         m_size = it[0].size;
 }
 
-void FileMessageIteratorPrivate::add(const QString &str)
+void FileMessageIteratorPrivate::add_file(const QString &str, bool bFirst)
 {
+	QString fn = str;
+	fn = fn.replace(QRegExp("\\"), "/");
     QFileInfo f(str);
     if (!f.exists())
         return;
     if (!f.isDir()){
-        add(str, f.size());
+        add(fn, f.size());
         return;
     }
+	if (!bFirst){
+		add(fn + "/", 0);
+		m_dirs++;
+	}
     QDir d(str);
     QStringList l = d.entryList();
     for (QStringList::Iterator it = l.begin(); it != l.end(); ++it){
         QString f = *it;
         if ((f == ".") || (f == ".."))
             continue;
-        QString p = str;
-#ifdef WIN32
-        p += "\\";
-#else
+        QString p = fn;
         p += "/";
-#endif
         p += f;
-        add(p);
+        add_file(p, false);
     }
 }
 
@@ -330,6 +334,11 @@ FileMessage::Iterator::Iterator(const FileMessage &m)
 FileMessage::Iterator::~Iterator()
 {
     delete p;
+}
+
+unsigned FileMessage::Iterator::dirs()
+{
+	return p->m_dirs;
 }
 
 const QString *FileMessage::Iterator::operator[](unsigned n)
@@ -434,7 +443,25 @@ QString FileMessage::getDescription()
             shortName = shortName.mid(n + 1);
         return shortName;
     }
-    return QString("%1 files") .arg(it.count());
+	QString res;
+	if (it.dirs()){
+		if (it.dirs() == 1){
+			res = "1 directory";
+		}else{
+			res = QString("%1 directories") .arg(it.dirs());
+		}
+	}
+	int nFiles = it.count() - it.dirs();
+	if (nFiles){
+		if (it.dirs())
+			res += ", ";
+		if (nFiles == 1){
+			res += "1 file";
+		}else{
+			res += QString("%1 files") .arg(nFiles);
+		}
+	}
+	return res;
 }
 
 bool FileMessage::setDescription(const QString &str)
@@ -527,14 +554,36 @@ bool FileTransfer::openFile()
     }
     if (++m_nFile >= m_nFiles){
         m_state = Done;
+		m_bDir  = false;
         if (m_notify)
             m_notify->process();
         return false;
     }
     FileMessage::Iterator it(*m_msg);
-    m_file = new QFile(*it[m_nFile]);
+	QString fn = *it[m_nFile];
+	if (fn.isEmpty() || (fn[(int)(fn.length() - 1)] == '/')){
+		m_bytes    = 0;
+		m_fileSize = 0;
+		m_bDir     = true;
+		fn = fn.left(fn.length() - 1);
+		if (m_base.isEmpty() || (fn.left(m_base.length()) != m_base)){
+			int n = fn.findRev("/");
+			if (n >= 0)
+				m_base = fn.left(n + 1);
+		}
+		m_name = fn.mid(m_base.length());
+		return true;
+	}
+	if (m_base.isEmpty()){
+			int n = fn.findRev("/");
+			if (n >= 0)
+				m_base = fn.left(n + 1);
+	}
+	m_bDir = false;
+	m_name = fn.mid(m_base.length());
+    m_file = new QFile(fn);
     if (!m_file->open(IO_ReadOnly)){
-        m_msg->setError(i18n("Can't open %1") .arg(*it[m_nFile]));
+        m_msg->setError(i18n("Can't open %1") .arg(fn));
         setError();
         return false;
     }

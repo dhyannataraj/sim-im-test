@@ -62,6 +62,8 @@ MsgFile::MsgFile(MsgEdit *parent, Message *msg)
 
 void MsgFile::init()
 {
+	if (!m_edit->topLevelWidget()->isActiveWindow() || m_edit->topLevelWidget()->isMinimized())
+		return;
     Command cmd;
     cmd->id		= CmdFileName;
     cmd->param	= m_edit;
