@@ -622,7 +622,7 @@ unsigned long Client::getFileSize(const char *name, int *nSrcFiles, vector<fileN
     bool bInQuote = false;
     int start = 0;
     QString file = QString::fromLocal8Bit(name);
-    for (int i = 0; i < file.length(); i++){
+    for (int i = 0; i < (int)file.length(); i++){
         if (file[i] == '\"'){
             QString fname = file.mid(start, i - start);
             if (!fname.isEmpty()){
@@ -721,7 +721,8 @@ bool Client::createFile(ICQFile *f, int mode)
     if (p >= 0){
         path = path.left(p);
         if (!path.isEmpty()){
-            string p = path.local8Bit();
+            string p;
+            p = path.local8Bit();
             makedir((char*)p.c_str());
         }
     }
@@ -767,7 +768,7 @@ bool Client::readFile(ICQFile *f, Buffer &b, unsigned short size)
 
 bool Client::writeFile(ICQFile *f, Buffer &b)
 {
-    if (f->p == NULL) return false;
+    if (f->p == 0) return false;
     unsigned size = b.size() - b.readPos();
     char *p = b.Data(b.readPos());
     bool res = (((QFile*)(f->p))->writeBlock(p, size) >= 0);

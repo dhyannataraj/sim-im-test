@@ -19,6 +19,10 @@
 #include "log.h"
 #include "xml.h"
 
+#ifndef WIN32
+#include <stdio.h>
+#endif
+
 #include <memory>
 #include <time.h>
 

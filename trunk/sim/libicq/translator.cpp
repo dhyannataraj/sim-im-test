@@ -105,7 +105,6 @@ void ICQClient::toUTF(string &str)
 
 char const *ICQClient::localCharset(ICQUser *u)
 {
-    const char *encoding = NULL;
     if (u && *u->Encoding.c_str())
         return u->Encoding.c_str();
     if (*Encoding.c_str())

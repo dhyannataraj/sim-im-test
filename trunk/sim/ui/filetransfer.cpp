@@ -45,7 +45,6 @@ FileTransferDlg::FileTransferDlg(QWidget *p, ICQFile *_file)
     file = _file;
     setIcon(Pict("file"));
     edtFile1->setReadOnly(true);
-    CUser u(file->getUin());
     chkClose->setChecked(file->autoAccept || pMain->CloseAfterFileTransfer());
     connect(btnCancel, SIGNAL(clicked()), this, SLOT(close()));
     connect(pClient, SIGNAL(fileExist(ICQFile*, const QString&,bool)), this, SLOT(fileExist(ICQFile*, const QString&, bool)));
@@ -157,7 +156,7 @@ void FileTransferDlg::setProgress()
         curFile = file->ft->curFile();
         edtFile1->setText(QString::fromLocal8Bit(file->ft->curName.c_str()));
         barSend->setTotalSteps(file->ft->curSize());
-        int nFile = file->ft->curFile() + 1;
+        unsigned long nFile = file->ft->curFile() + 1;
         if (nFile > file->ft->nFiles()) nFile = file->ft->nFiles();
         lblBatchState->setText(QString::number(nFile) + "/" + QString::number(file->ft->nFiles()));
     }

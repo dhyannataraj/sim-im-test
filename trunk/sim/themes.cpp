@@ -80,7 +80,9 @@ QStringList QStyleFactory::keys()
 {
     QStringList styles;
     styles << "windows" << "motif" << "cde" << "platinum" << "sgi" << "motifplus";
+#ifdef WIN32
     if (createXpStyle) styles << "xp";
+#endif
     return styles;
 }
 
@@ -98,12 +100,14 @@ QStyle *QStyleFactory::create(const QString &name)
         return new QSGIStyle();
     if (name == "motifplus")
         return new QMotifPlusStyle();
+#ifdef WIN32
     if (name == "xp"){
         QStyle *xpStyle = NULL;
         if (createXpStyle) xpStyle = createXpStyle();
         if (xpStyle) return xpStyle;
         return new QWindowsStyle();
     }
+#endif
     return NULL;
 }
 
