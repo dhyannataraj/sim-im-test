@@ -107,11 +107,11 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
                 err_str = error_message(error);
             }
             if (m_send.msg){
-                if ((m_send.msg->type() == MessageCheckInvisible) && (error == 0x0004)) {
+                if ((m_send.msg->type() == MessageCheckInvisible) && (error == 14)) {
                     Contact *contact;
                     ICQUserData *data = findContact(m_send.screen.c_str(), NULL, false, contact);
-                    if (data && (bool)(data->bInvisible)) {
-                        data->bInvisible = false;
+                    if (data && (data->bInvisible == 0)) {
+                        data->bInvisible = true;
                         Event e(EventContactStatus, contact);
                         e.process();
                     }
