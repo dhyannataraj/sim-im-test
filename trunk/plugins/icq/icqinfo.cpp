@@ -110,7 +110,7 @@ void ICQInfo::apply()
             edtPswd1->clear();
             edtPswd2->clear();
         }
-        data = &m_client->data.owner;
+        m_data = &m_client->data.owner;
         m_client->setRandomChatGroup(getComboValue(cmbRandom, chat_groups));
     }
 }

@@ -264,13 +264,17 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
         }
     case ICQ_SNACxMSG_AUTOREPLY:{
             MessageId id;
+            unsigned short len, channel, reason, version;
             m_socket->readBuffer >> id.id_l >> id.id_h;
-            m_socket->readBuffer.incReadPos(2);
+            m_socket->readBuffer.unpack(channel);
+            if (channel == 1) {
+              log(L_DEBUG,"Please send paket to developer!");
+              return;
+            }
             string screen = m_socket->readBuffer.unpackScreen();
-            m_socket->readBuffer.incReadPos(2);
-            unsigned short len;
+            m_socket->readBuffer.unpack(reason);
             m_socket->readBuffer.unpack(len);
-            m_socket->readBuffer.incReadPos(2);
+            m_socket->readBuffer.unpack(version);
             plugin p;
             m_socket->readBuffer.unpack((char*)p, sizeof(p));
             m_socket->readBuffer.incReadPos(len - sizeof(plugin) + 2);
@@ -327,7 +331,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         sprintf(b, "%02X ", p[i]);
                         plugin_str += b;
                     }
-                    log(L_DEBUG, "Unknown plugin sign in reply %s", plugin_str.c_str());
+                    log(L_WARN, "Unknown plugin sign in reply %s", plugin_str.c_str());
                     break;
                 }
                 if ((data == NULL) && (plugin_index != PLUGIN_RANDOMxCHAT))
@@ -362,18 +366,18 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             case 0x0001:{
                     TlvList tlv(m_socket->readBuffer);
                     if (!tlv(2)){
-                        log(L_WARN, "No found generic message tlv");
+                        log(L_WARN, "TLV 0x0005 not found");
                         break;
                     }
                     Buffer m(*tlv(2));
                     TlvList tlv_msg(m);
                     Tlv *m_tlv = tlv_msg(0x101);
                     if (m_tlv == NULL){
-                        log(L_WARN, "generic message tlv 0101 not found");
+                        log(L_WARN, "TLV 0x0101 not found");
                         break;
                     }
                     if (m_tlv->Size() <= 4){
-                        log(L_WARN, "Bad tlv 0101 size");
+                        log(L_WARN, "Bad TLV 0x0101 size (%d)",m_tlv->Size());
                         break;
                     }
                     char *m_data = (*m_tlv);
@@ -420,7 +424,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             case 0x0002:{
                     TlvList tlv(m_socket->readBuffer);
                     if (!tlv(5)){
-                        log(L_WARN, "ICMB message tlv5 not found");
+                        log(L_WARN, "TLV 0x0005 not found");
                         break;
                     }
                     Buffer msg(*tlv(5));
@@ -851,13 +855,13 @@ void ICQClient::clearMsgQueue()
 
 void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck, MessageId id)
 {
-    m.incReadPos(8);
+    m.incReadPos(8);    /* msg-id cookie */
     capability cap;
     m.unpack((char*)cap, sizeof(cap));
     if (!memcmp(cap, capabilities[CAP_DIRECT], sizeof(cap))){
         TlvList tlv(m);
         if (!tlv(0x2711)){
-            log(L_DEBUG, "No 2711 tlv in direct message");
+            log(L_DEBUG, "TLV 0x2711 not found");
             return;
         }
         unsigned long req_uin;
@@ -1084,7 +1088,17 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
             if (memcmp(p, plugins[plugin_index], sizeof(p)) == 0)
                 break;
         if (plugin_index >= PLUGIN_NULL){
-            log(L_WARN, "Unknown plugin sign");
+            QString sign;
+            unsigned int i;
+            for (i = 0; i < sizeof(p); i++) {
+                char temp[8];
+                int  value = p[i];
+                
+                sprintf(temp,"%02X",value);
+                sign += QString(temp);
+            }
+            if (sign.length())
+              log(L_WARN, "Unknown plugin sign %s",sign.ascii());
             return;
         }
         switch (plugin_index){
@@ -2258,6 +2272,10 @@ static const plugin arrPlugins[] =
         { 0x60, 0xF1, 0xA8, 0x3D, 0x91, 0x49,
           0xD3, 0x11, 0x8D, 0xBE, 0x00, 0x10,
           0x4B, 0x06, 0x46, 0x2E, 0x00, 0x00 },
+        // PLUGIN_VIDEO_CHAT  
+        { 0x68, 0x33, 0x01, 0x6B, 0x0B, 0x7D,
+          0x36, 0x4B, 0x98, 0x6C, 0x63, 0x72,
+          0x01, 0x5E, 0x7C, 0x8E, 0x00, 0x00 },
         // PLUGIN_NULL
         { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
           0x00, 0x00, 0x00, 0x00, 0x00, 0x00,

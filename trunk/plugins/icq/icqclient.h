@@ -316,6 +316,7 @@ const unsigned CAP_LICQ				= 18;
 const unsigned CAP_SIMOLD			= 19;
 const unsigned CAP_KOPETE			= 20;
 const unsigned CAP_XTRAZ			= 21;
+const unsigned CAP_IS_2002			= 21;
 const unsigned CAP_NULL				= 22;
 
 const unsigned PLUGIN_PHONEBOOK          = 0;
@@ -328,14 +329,15 @@ const unsigned PLUGIN_QUERYxSTATUS       = 6;
 const unsigned PLUGIN_INFOxMANAGER       = 7;
 const unsigned PLUGIN_STATUSxMANAGER     = 8;
 const unsigned PLUGIN_RANDOMxCHAT        = 9;
-const unsigned PLUGIN_NULL               = 10;
-const unsigned PLUGIN_FILE               = 11;
-const unsigned PLUGIN_CHAT               = 12;
-const unsigned PLUGIN_AR                 = 13;
-const unsigned PLUGIN_INVISIBLE          = 14;
-const unsigned PLUGIN_REVERSE            = 15;
-const unsigned PLUGIN_AIM_FT			 = 16;
-const unsigned PLUGIN_AIM_FT_ACK		 = 17;
+const unsigned PLUGIN_VIDEO_CHAT         = 10;
+const unsigned PLUGIN_NULL               = 11;
+const unsigned PLUGIN_FILE               = 12;
+const unsigned PLUGIN_CHAT               = 13;
+const unsigned PLUGIN_AR                 = 14;
+const unsigned PLUGIN_INVISIBLE          = 15;
+const unsigned PLUGIN_REVERSE            = 16;
+const unsigned PLUGIN_AIM_FT			 = 17;
+const unsigned PLUGIN_AIM_FT_ACK		 = 18;
 
 class ICQClient;
 

@@ -1625,7 +1625,6 @@ string ICQClient::clientName(ICQUserData *data)
             res += "/win32";
 
         if (data->Build.value & 0x40)
-
             res += "/MacOS X";
         return res;
     }
@@ -1761,12 +1760,17 @@ string ICQClient::clientName(ICQUserData *data)
         res += "gaim";
         return res;
     }
-    if (hasCap(data, CAP_SRV_RELAY) && hasCap(data, CAP_UTF)){
+    if ((hasCap(data, CAP_STR_2001) || hasCap(data, CAP_SRV_RELAY)) && hasCap(data, CAP_IS_2001)){
+        res += "ICQ 2001";
+        return res;
+    }
+    if ((hasCap(data, CAP_STR_2001) || hasCap(data, CAP_SRV_RELAY)) && hasCap(data, CAP_IS_2002)){
         res += "ICQ 2002";
         return res;
     }
-    if ((hasCap(data, CAP_STR_2001) || hasCap(data, CAP_SRV_RELAY)) && hasCap(data, CAP_IS_2001)){
-        res += "ICQ 2001";
+    if (hasCap(data, CAP_RTF) && hasCap(data, CAP_UTF) &&
+        hasCap(data, CAP_SRV_RELAY) && hasCap(data, CAP_DIRECT)) {
+        res += "ICQ 2003a";
         return res;
     }
     if (hasCap(data, CAP_SRV_RELAY) && hasCap(data, CAP_DIRECT)){

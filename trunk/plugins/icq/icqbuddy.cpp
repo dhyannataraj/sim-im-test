@@ -235,7 +235,8 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                             break;
                         default:
                             if (plugin_index >= PLUGIN_NULL)
-                                log(L_WARN, "Unknown plugin sign");
+                                log(L_WARN, "Unknown plugin sign (%04X %04X)",
+                                    type, plugin_index);
                         }
                     }
                     break;
@@ -269,7 +270,8 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                         break;
                     default:
                         if (plugin_index >= PLUGIN_NULL)
-                            log(L_WARN, "Unknown plugin sign");
+                            log(L_WARN, "Unknown plugin sign (%04X %04X)",
+                                type, plugin_index);
                     }
                     break;
 
