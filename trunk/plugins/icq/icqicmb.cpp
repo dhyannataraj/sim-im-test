@@ -410,6 +410,10 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                                             msg_id.id_l = static_cast<ICQFileMessage*>(msg)->getID_L();
                                             msg_id.id_h = static_cast<ICQFileMessage*>(msg)->getID_H();
                                             break;
+                                        case MessageFile:
+                                            msg_id.id_l = static_cast<AIMFileMessage*>(msg)->getID_L();
+                                            msg_id.id_h = static_cast<AIMFileMessage*>(msg)->getID_H();
+                                            break;
                                         }
                                         if (msg_id == id){
                                             m_acceptMsg.erase(it);
@@ -833,6 +837,52 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &msg, bool needA
         return;
     }
 
+    if (!memcmp(cap, capabilities[CAP_AIM_SENDFILE], sizeof(cap))){
+        log(L_DEBUG, "AIM send file");
+        Tlv *desc = tlv(0x0C);
+        if (desc == NULL){
+            log(L_WARN, "No desc tlv in send file");
+            return;
+        }
+        Tlv *info = tlv(0x2711);
+        if (info == NULL){
+            log(L_WARN, "No info tlv in send file");
+            return;
+        }
+        QString d = convert(desc, tlv, 0x0D);
+        Buffer b(*info);
+        unsigned short type;
+        unsigned short nFiles;
+        unsigned long  size;
+        b >> type >> nFiles >> size;
+        QString name = convert(b.data(8), b.size() - 8, tlv, 0x2712);
+        AIMFileMessage *msg = new AIMFileMessage;
+        msg->setPort(port);
+        msg->setBackground(clearTags(d));
+        msg->setText(d);
+        msg->setSize(size);
+        msg->setID_L(id.id_l);
+        msg->setID_H(id.id_h);
+        if (type == 2){
+            d = i18n("Directory");
+            d += " ";
+            d += name;
+            d += " (";
+            d += i18n("%n file", "%n files", nFiles);
+            d += ")";
+        }else{
+            if (nFiles == 1){
+                d = name;
+            }else{
+                d = i18n("%n file", "%n files", nFiles);
+            }
+        }
+        msg->setDescription(d);
+        msg->setFlags(MESSAGE_RECEIVED | MESSAGE_RICHTEXT | MESSAGE_TEMP);
+        messageReceived(msg, screen);
+        return;
+    }
+
     if (!memcmp(cap, capabilities[CAP_AIM_BUDDYLIST], sizeof(cap))){
         log(L_DEBUG, "AIM buddies list");
         if (!tlv(0x2711)){
@@ -882,7 +932,7 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &msg, bool needA
             sprintf(b, "0x%02X ", cap[i] & 0xFF);
             s += b;
         }
-        log(L_DEBUG, "Unknown capability in adavansed message\n%s", s.c_str());
+        log(L_DEBUG, "Unknown capability in advansed message\n%s", s.c_str());
         return;
     }
 
@@ -1239,7 +1289,8 @@ void ICQClient::processSendQueue()
                     unsigned grp   = (unsigned)(-1);
                     unsigned start = 0;
                     unsigned short size = 0;
-                    for (unsigned i = 0; i < cc.size(); i++){
+                    unsigned i;
+                    for (i = 0; i < cc.size(); i++){
                         if (cc[i].grp != grp){
                             if (grp != (unsigned)(-1)){
                                 string s = "Not in list";

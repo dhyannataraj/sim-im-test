@@ -533,6 +533,7 @@ public:
     static const plugin *plugins;
     static const ENCODING *encodings;
     static QString convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n);
+    static QString convert(const char *text, unsigned size, TlvList &tlvs, unsigned n);
     string screen(ICQUserData*);
     static unsigned warnLevel(unsigned short);
     static QString addCRLF(const QString &str);
