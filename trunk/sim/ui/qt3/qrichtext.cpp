@@ -1,5 +1,5 @@
 #/****************************************************************************
-** $Id: qrichtext.cpp,v 1.7 2003-10-20 08:39:29 shutoff Exp $
+** $Id: qrichtext.cpp,v 1.8 2003-11-01 14:51:24 shutoff Exp $
 **
 ** Implementation of the internal Qt classes dealing with rich text
 **

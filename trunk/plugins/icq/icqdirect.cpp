@@ -2003,12 +2003,40 @@ void AIMFileTransfer::listen()
     bind(m_client->getMinPort(), m_client->getMaxPort(), m_client);
 }
 
+void AIMFileTransfer::accept()
+{
+    m_state = Accept;
+    bind(m_client->getMinPort(), m_client->getMaxPort(), m_client);
+}
+
+void AIMFileTransfer::connect(unsigned short port)
+{
+    m_port  = port;
+    FileTransfer::m_state = FileTransfer::Connect;
+    if (m_notify)
+        m_notify->process();
+    DirectSocket::connect();
+}
+
 void AIMFileTransfer::processPacket()
 {
 }
 
+void AIMFileTransfer::packet_ready()
+{
+    if (m_socket->readBuffer.readPos() <= m_socket->readBuffer.writePos())
+        return;
+    ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
+    log_packet(m_socket->readBuffer, false, plugin->AIMDirectPacket, m_client->screen(m_data).c_str());
+    m_socket->readBuffer.init(0);
+}
+
 void AIMFileTransfer::connect_ready()
 {
+    log(L_DEBUG, "Connect ready");
+    m_socket->readBuffer.init(0);
+    m_socket->readBuffer.packetStart();
+    m_socket->setRaw(true);
 }
 
 bool AIMFileTransfer::error_state(const char *err, unsigned)
@@ -2037,7 +2065,7 @@ void AIMFileTransfer::bind_ready(unsigned short port)
     }
     m_port = port;
     SendMsg s;
-    s.flags  = PLUGIN_AIM_FT;
+    s.flags  = (m_state == Listen) ? PLUGIN_AIM_FT : PLUGIN_AIM_FT_ACK;
     s.socket = this;
     s.screen = m_client->screen(m_data);
     s.msg	 = m_msg;
@@ -2047,9 +2075,11 @@ void AIMFileTransfer::bind_ready(unsigned short port)
 
 bool AIMFileTransfer::accept(Socket *s, unsigned long)
 {
-    log(L_DEBUG, "Accept file transfer");
+    log(L_DEBUG, "Accept AIM file transfer");
     m_socket->setSocket(s);
-    init();
+    m_socket->readBuffer.init(0);
+    m_socket->readBuffer.packetStart();
+    m_socket->setRaw(true);
     FileTransfer::m_state = FileTransfer::Negotiation;
     if (m_notify)
         m_notify->process();

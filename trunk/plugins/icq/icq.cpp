@@ -378,6 +378,8 @@ ICQPlugin::ICQPlugin(unsigned base, const char *cfg)
     getContacts()->addPacketType(OscarPacket, "Oscar");
     ICQDirectPacket = registerType();
     getContacts()->addPacketType(ICQDirectPacket, "ICQ.Direct");
+    AIMDirectPacket = registerType();
+    getContacts()->addPacketType(AIMDirectPacket, "AIM.Direct");
 
     IconDef icon;
     icon.name = "ICQ_online";
@@ -617,6 +619,7 @@ ICQPlugin::~ICQPlugin()
 
     getContacts()->removePacketType(OscarPacket);
     getContacts()->removePacketType(ICQDirectPacket);
+    getContacts()->removePacketType(AIMDirectPacket);
 
     Event eVisible(EventCommandRemove, (void*)CmdVisibleList);
     eVisible.process();

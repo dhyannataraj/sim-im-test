@@ -319,6 +319,7 @@ const unsigned PLUGIN_AR                 = 13;
 const unsigned PLUGIN_INVISIBLE          = 14;
 const unsigned PLUGIN_REVERSE            = 15;
 const unsigned PLUGIN_AIM_FT			 = 16;
+const unsigned PLUGIN_AIM_FT_ACK		 = 17;
 
 class ICQClient;
 
@@ -664,7 +665,7 @@ protected:
     void ackMessage(SendMsg &s);
     void accept(Message *msg, const char *dir, OverwriteMode overwrite);
     void decline(Message *msg, const char *reason);
-    void sendThroughServer(const char *screen, unsigned short type, Buffer &b, const MessageId &id, bool bOffline);
+    void sendThroughServer(const char *screen, unsigned short type, Buffer &b, const MessageId &id, bool bOffline, bool bReqAck);
     bool sendAuthRequest(Message *msg, void *data);
     bool sendAuthGranted(Message *msg, void *data);
     bool sendAuthRefused(Message *msg, void *data);
@@ -884,16 +885,20 @@ public:
     AIMFileTransfer(FileMessage *msg, ICQUserData *data, ICQClient *client);
     ~AIMFileTransfer();
     void listen();
+    void connect(unsigned short port);
+    void accept();
 protected:
     enum State
     {
         None,
-        Listen
+        Listen,
+        Accept
     };
     State m_state;
 
     virtual void processPacket();
     virtual void connect_ready();
+    virtual void packet_ready();
     virtual bool error_state(const char *err, unsigned code);
     virtual void write_ready();
     virtual void startReceive(unsigned pos);

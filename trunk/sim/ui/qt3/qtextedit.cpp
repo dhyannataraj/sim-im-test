@@ -77,6 +77,13 @@
 #define ACCEL_KEY(k) "\t" + QString("Ctrl+" #k)
 #endif
 
+#ifdef WIN32
+
+#include "simapi.h" 
+#include <windows.h>
+
+#endif
+
 namespace Qt3{
 
 struct QUndoRedoInfoPrivate
@@ -622,6 +629,9 @@ QTextEdit::~QTextEdit()
 
 void QTextEdit::init()
 {
+    setWndProc(this);
+    setWndProc(viewport());
+
     undoEnabled = TRUE;
     readonly = TRUE;
     setReadOnly( FALSE );
@@ -749,6 +759,7 @@ bool QTextEdit::event( QEvent *e )
 {
     if ( e->type() == QEvent::AccelOverride && !isReadOnly() ) {
         QKeyEvent* ke = (QKeyEvent*) e;
+        log(L_DEBUG, "Key %04X", ke->key());
         if ( ke->state() == NoButton ) {
             if ( ke->key() < Key_Escape ) {
                 ke->accept();
@@ -887,6 +898,7 @@ void QTextEdit::keyPressEvent( QKeyEvent *e )
 
         break;
     case Key_Backspace:
+        log(L_DEBUG, "Back");
         if ( doc->hasSelection( QTextDocument::Standard, TRUE ) ) {
             removeSelectedText();
             break;
@@ -930,6 +942,13 @@ void QTextEdit::keyPressEvent( QKeyEvent *e )
                         cursor->index() == 0 && ( e->text() == "-" || e->text() == "*" ) ) {
                     setParagType( QStyleSheetItem::DisplayListItem, QStyleSheetItem::ListDisc );
                 } else {
+#ifdef WIN32
+                    if ((wndMessage() == WM_KEYDOWN) &&
+                            !(GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT))){
+                        translate();
+                        break;
+                    }
+#endif
                     insert( e->text(), TRUE, FALSE );
                 }
                 break;

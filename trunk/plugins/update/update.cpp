@@ -98,19 +98,21 @@ void UpdatePlugin::timeout()
             }
             url += *p;
         }
+#else
+        url += "&release";
 #endif
         url += "&l=";
         QString s = i18n("Message", "%n messages", 1);
         s = s.replace(QRegExp("1 "), "");
         for (int i = 0; i < (int)(s.length()); i++){
             unsigned short c = s[i].unicode();
-            if ((c == ' ') || (c == '%')){
+            if ((c == ' ') || (c == '%') || (c == '=') || (c == '&')){
                 char b[5];
                 sprintf(b, "%02X", c);
                 url += b;
             }else if (c > 0x77){
                 char b[10];
-                sprintf(b, "%#04X", c);
+                sprintf(b, "#%04X", c);
                 url += b;
             }else{
                 url += (char)c;
@@ -135,6 +137,8 @@ void *UpdatePlugin::processEvent(Event *e)
                 time_t now;
                 time(&now);
                 setTime(now);
+                Event e(EventSaveState);
+                e.process();
             }
         }else{
             QWidget *main = getMainWindow();
@@ -205,6 +209,8 @@ void UpdatePlugin::showDetails(int n, void*)
     setTime(now);
     m_url = "";
     m_fetch_id = 0;
+    Event e(EventSaveState);
+    e.process();
 }
 
 void UpdatePlugin::msgDestroyed()

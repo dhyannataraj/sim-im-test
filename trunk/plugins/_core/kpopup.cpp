@@ -290,7 +290,7 @@ void KPopupMenu::keyPressEvent(QKeyEvent* e)
         // compare typed text with text of this entry
         int j = idAt(i);
 
-        // don't search disabled entries
+        // dont search disabled entries
         if (!isItemEnabled(j))
             continue;
 
@@ -317,19 +317,19 @@ void KPopupMenu::keyPressEvent(QKeyEvent* e)
                 // match
                 setActiveItem(i);
 
-                // check to see if we're underlining a different item
+                // check to see if were underlining a different item
                 if (d->lastHitIndex != i)
                     // yes; revert the underlining
                     changeItem(idAt(d->lastHitIndex), d->originalText);
 
-                // set the original text if it's a different item
+                // set the original text if its a different item
                 if (d->lastHitIndex != i || d->lastHitIndex == -1)
                     d->originalText = text(j);
 
                 // underline the currently selected item
                 changeItem(j, underlineText(d->originalText, d->keySeq.length()));
 
-                // remeber what's going on
+                // remeber whats going on
                 d->lastHitIndex = i;
 
                 // start/restart the clear timer
@@ -338,7 +338,7 @@ void KPopupMenu::keyPressEvent(QKeyEvent* e)
                 // go around for another try, to see if we can execute
                 firstpass = false;
             } else {
-                // don't allow execution
+                // dont allow execution
                 return;
             }
         }

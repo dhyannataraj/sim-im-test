@@ -266,6 +266,11 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                 break;
 
             unsigned plugin_type = (*it).flags;
+            if (plugin_type == PLUGIN_AIM_FT_ACK){
+                m_processMsg.push_back((*it).msg);
+                replyQueue.erase(it);
+                break;
+            }
             if ((*it).msg){
                 string answer;
                 m_socket->readBuffer >> answer;
@@ -569,7 +574,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
     return false;
 }
 
-void ICQClient::sendThroughServer(const char *screen, unsigned short channel, Buffer &b, const MessageId &id, bool bOffline)
+void ICQClient::sendThroughServer(const char *screen, unsigned short channel, Buffer &b, const MessageId &id, bool bOffline, bool bReqAck)
 {
     // we need informations about channel 2 tlvs !
     unsigned short tlv_type = 5;
@@ -580,7 +585,8 @@ void ICQClient::sendThroughServer(const char *screen, unsigned short channel, Bu
     if (channel == 1)
         tlv_type = 2;
     m_socket->writeBuffer.tlv(tlv_type, b);
-    m_socket->writeBuffer.tlv(3);		// req. ack from server
+    if (bReqAck)
+        m_socket->writeBuffer.tlv(3);		// req. ack from server
     if (bOffline)
         m_socket->writeBuffer.tlv(6);	// store if user is offline
     sendPacket();
@@ -751,7 +757,7 @@ void ICQClient::sendType2(const char *screen, Buffer &msgBuf, const MessageId &i
     b.tlv(0x2711, msgBuf);
     copyTlv(b, tlvs, 0x2712);
     copyTlv(b, tlvs, 0x03);
-    sendThroughServer(screen, 2, b, id, bOffline);
+    sendThroughServer(screen, 2, b, id, bOffline, true);
 }
 
 void ICQClient::clearMsgQueue()
@@ -868,7 +874,25 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &msg, bool needA
         log(L_DEBUG, "AIM send file");
         Tlv *desc = tlv(0x0C);
         if (desc == NULL){
-            log(L_WARN, "No desc tlv in send file");
+            log(L_DEBUG, "Send file ack");
+            list<SendMsg>::iterator it;
+            for (it = replyQueue.begin(); it != replyQueue.end(); ++it){
+                if (((*it).id == id) && ((*it).screen == screen)){
+                    if ((*it).msg->type() != MessageFile){
+                        log(L_WARN, "Bad message type for file ack");
+                        return;
+                    }
+                    FileMessage *m = static_cast<FileMessage*>((*it).msg);
+                    replyQueue.erase(it);
+                    m_processMsg.push_back(m);
+                    Event e(EventMessageAcked, m);
+                    e.process();
+                    AIMFileTransfer *ft = static_cast<AIMFileTransfer*>(m->m_transfer);
+                    ft->connect(port);
+                    return;
+                }
+            }
+            log(L_DEBUG, "File message for ack not found");
             return;
         }
         Tlv *info = tlv(0x2711);
@@ -1365,7 +1389,7 @@ void ICQClient::processSendQueue()
                         m_send.screen = "";
                         continue;
                     }
-                    sendThroughServer(screen(data).c_str(), 4, b, m_send.id, true);
+                    sendThroughServer(screen(data).c_str(), 4, b, m_send.id, true, true);
                     if (data->Status != ICQ_STATUS_OFFLINE)
                         ackMessage(m_send);
                     return;
@@ -1410,7 +1434,7 @@ void ICQClient::processSendQueue()
                     QString t;
                     m_send.part = getRichTextPart(m_send.text, MAX_MESSAGE_SIZE);
                     char b[15];
-                    sprintf(b, "%06X", m_send.msg->getBackground() & 0xFFFFFF);
+                    sprintf(b, "%06X", (unsigned)(m_send.msg->getBackground() & 0xFFFFFF));
                     t += "<HTML><BODY BGCOLOR=\"#";
                     t += b;
                     t += "\">";
@@ -1458,13 +1482,30 @@ void ICQClient::processSendQueue()
         }
         if (m_send.socket){
             Buffer msgBuf;
+            if (m_send.flags == PLUGIN_AIM_FT_ACK){
+                AIMFileMessage *msg = static_cast<AIMFileMessage*>(m_send.msg);
+                m_send.id.id_l = msg->getID_L();
+                m_send.id.id_h = msg->getID_H();
+                Buffer b;
+                b << (unsigned short)0;
+                b << m_send.id.id_l << m_send.id.id_h;
+                b.pack((char*)capabilities[CAP_AIM_SENDFILE], sizeof(capability));
+                b.tlv(0x0A, (unsigned short)2);
+                b.tlv(0x03, (unsigned long)htonl(get_ip(this->data.owner.RealIP)));
+                b.tlv(0x05, static_cast<AIMFileTransfer*>(msg->m_transfer)->remotePort());
+                sendThroughServer(m_send.screen.c_str(), 2, b, m_send.id, false, false);
+                replyQueue.push_back(m_send);
+                m_send.msg    = NULL;
+                m_send.screen = "";
+                continue;
+            }
             m_send.id.id_l = rand();
             m_send.id.id_h = rand();
             if (m_send.flags == PLUGIN_AIM_FT){
                 TlvList tlvs;
                 tlvs + new Tlv(0x0E, 2, "en");
                 char b[15];
-                sprintf(b, "%06X", m_send.msg->getBackground() & 0xFFFFFF);
+                sprintf(b, "%06X", (unsigned)(m_send.msg->getBackground() & 0xFFFFFF));
                 QString text = QString("<HTML><BODY BGCOLOR=\"#%1\">%2</BODY></HTML>")
                                .arg(b)
                                .arg(removeImages(m_send.msg->getRichText(), 0));
@@ -1625,7 +1666,7 @@ void ICQClient::sendType1(const QString &text, bool bWide, ICQUserData *data)
     Buffer b;
     b.tlv(0x0501, "\x01", 1);
     b.tlv(0x0101, msgBuf);
-    sendThroughServer(m_send.screen.c_str(), 1, b, m_send.id, true);
+    sendThroughServer(m_send.screen.c_str(), 1, b, m_send.id, true, true);
     if (data->Status != ICQ_STATUS_OFFLINE)
         ackMessage(m_send);
 }
@@ -1690,6 +1731,17 @@ void ICQClient::accept(Message *msg, const char *dir, OverwriteMode overwrite)
                 m_processMsg.push_back(msg);
                 bDelete = false;
                 ft->listen();
+                break;
+            }
+        case MessageFile:{
+                AIMFileTransfer *ft = new AIMFileTransfer(static_cast<FileMessage*>(msg), data, this);
+                ft->setDir(QFile::encodeName(dir));
+                ft->setOverwrite(overwrite);
+                Event e(EventMessageAcked, msg);
+                e.process();
+                m_processMsg.push_back(msg);
+                bDelete = false;
+                ft->accept();
                 break;
             }
         default:

@@ -114,6 +114,11 @@ const unsigned short MAX_PICTURE_SIZE      = 8081;
 
 void ICQPicture::pictSelected(const QString &file)
 {
+    if (file.isEmpty()){
+        QImage img;
+        setPict(img);
+        return;
+    }
     QFile f(file);
     if (f.size() > MAX_PICTURE_SIZE){
         QImage img;

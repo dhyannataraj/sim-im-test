@@ -185,7 +185,7 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd)
     QStyleSheetItem *style_p = style->item("p");
     // Disable top and bottom margins for P tags. This will make sure
     // paragraphs have no more spacing than regular lines, thus matching
-    // RTF's defaut look for paragraphs.
+    // RTFs defaut look for paragraphs.
     style_p->setMargin(QStyleSheetItem::MarginTop, 0);
     style_p->setMargin(QStyleSheetItem::MarginBottom, 0);
     m_edit->setStyleSheet(style);
@@ -1390,7 +1390,7 @@ void MsgEdit::insertSmile(int id)
     // determine the current position of the cursor
     m_edit->insert("\255", false, true, true);
     m_edit->getCursorPosition(&para,&index);
-    // RTF doesn't like '<' and '>'
+    // RTF doesnt like < and >
     QString txt = m_edit->text();
     txt.replace(QRegExp("\255"),img_src);
     m_edit->setText(txt);

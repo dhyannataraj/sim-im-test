@@ -1261,7 +1261,7 @@ void ICQClient::setClientInfo(void *_data)
         << &d->WorkName
         << &d->WorkDepartment
         << &d->WorkPosition;
-        m_socket->writeBuffer.pack((char)d->Occupation);
+        m_socket->writeBuffer.pack((unsigned short)d->Occupation);
         m_socket->writeBuffer
         << &d->WorkHomepage;
         sendServerRequest();

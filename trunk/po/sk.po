@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
-"POT-Creation-Date: 2003-10-29 12:47+0300\n"
+"POT-Creation-Date: 2003-11-01 17:39+0300\n"
 "PO-Revision-Date: 2003-10-31 08:12+0100\n"
 "Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
@@ -21,7 +21,8 @@ msgstr "Domovský adresár"
 
 #: plugins/__homedir/homedir.cpp:48
 msgid "Plugin provides select directory for store config files"
-msgstr "Zásuvny modul umožňuje vybrať miesto uloženia konfiguračných súuborov"
+msgstr ""
+"Zásuvny modul umožňuje vybrať miesto uloženia konfiguračných súuborov"
 
 # qt3/i18n.cpp:117
 #: plugins/__homedir/homedir.cpp:91
@@ -35,7 +36,8 @@ msgstr "Migrovať"
 
 #: plugins/__migrate/migrate.cpp:36
 msgid "Plugin provides convert configuration and history from SIM 0.8"
-msgstr "Zásuvny modul umožňuje konverziu konfigurácie a histórie z SIM v0.8"
+msgstr ""
+"Zásuvny modul umožňuje konverziu konfigurácie a histórie z SIM v0.8"
 
 #: plugins/__migrate/migratedlg.cpp:77
 msgid "Cancel convert?"
@@ -121,7 +123,7 @@ msgstr "Pluginy"
 # ui/toolsetupbase.cpp:135
 #: plugins/_core/cfgdlg.cpp:484 plugins/_core/cfgdlgbase.cc:125
 #: plugins/_core/cfgdlgbase.cpp:125 plugins/_core/toolsetupbase.cc:134
-#: plugins/_core/toolsetupbase.cpp:134 sim/api/simapi.cpp:408
+#: plugins/_core/toolsetupbase.cpp:134 sim/api/simapi.cpp:425
 msgid "&Apply"
 msgstr "&Použiť"
 
@@ -137,7 +139,7 @@ msgstr "&Použiť"
 #: plugins/_core/logindlgbase.cpp:132 plugins/_core/toolsetupbase.cc:135
 #: plugins/_core/toolsetupbase.cpp:135 plugins/icq/encodingdlgbase.cc:86
 #: plugins/icq/warndlgbase.cc:88 plugins/proxy/proxyerrorbase.cpp:80
-#: sim/api/simapi.cpp:407 sim/ui/qt3/i18n.cpp:174
+#: sim/api/simapi.cpp:424 sim/ui/qt3/i18n.cpp:174
 msgid "&OK"
 msgstr "&OK"
 
@@ -162,7 +164,7 @@ msgstr "&OK"
 #: plugins/_core/logindlgbase.cpp:133 plugins/icq/encodingdlgbase.cc:87
 #: plugins/icq/icqclient.cpp:2351 plugins/icq/securedlgbase.cc:78
 #: plugins/icq/warndlgbase.cc:89 plugins/proxy/proxyerrorbase.cpp:81
-#: sim/api/simapi.cpp:410 sim/ui/qt3/i18n.cpp:35
+#: sim/api/simapi.cpp:427 sim/ui/qt3/i18n.cpp:35
 msgid "&Cancel"
 msgstr "&Zrušiť"
 
@@ -297,7 +299,7 @@ msgstr "Skupina"
 
 # userbox.cpp:112
 #: plugins/_core/core.cpp:502 plugins/_core/core.cpp:1060
-#: plugins/icq/icq.cpp:560 plugins/jabber/jabber.cpp:355
+#: plugins/icq/icq.cpp:562 plugins/jabber/jabber.cpp:355
 msgid "User &info"
 msgstr "&Informácie o užívateľovi"
 
@@ -324,7 +326,7 @@ msgstr "&Historie"
 #: plugins/_core/managerbase.cc:110 plugins/_core/managerbase.cpp:110
 #: plugins/_core/toolsetupbase.cc:136 plugins/_core/toolsetupbase.cpp:136
 #: plugins/about/aboutdlgbase.cpp:156 plugins/icq/securedlg.cpp:92
-#: sim/api/simapi.cpp:410 sim/ui/qt3/i18n.cpp:287
+#: sim/api/simapi.cpp:427 sim/ui/qt3/i18n.cpp:287
 msgid "&Close"
 msgstr "&Zavrieť"
 
@@ -431,7 +433,7 @@ msgstr "&Otvoriť správu"
 
 # monitor.cpp:73
 #: plugins/_core/core.cpp:761 plugins/_core/core.cpp:860
-#: plugins/netmonitor/monitor.cpp:67 sim/ui/qt3/qtextedit.cpp:4006
+#: plugins/netmonitor/monitor.cpp:67 sim/ui/qt3/qtextedit.cpp:4025
 msgid "&Copy"
 msgstr "&Kopírovať"
 
@@ -452,34 +454,34 @@ msgid "&Answer"
 msgstr "Odpoved&ať"
 
 # qt3/i18n.cpp:245
-#: plugins/_core/core.cpp:833 sim/ui/qt3/qtextedit.cpp:3999
+#: plugins/_core/core.cpp:833 sim/ui/qt3/qtextedit.cpp:4018
 msgid "&Undo"
 msgstr "Vrátiť späť"
 
 # qt3/i18n.cpp:247
-#: plugins/_core/core.cpp:844 sim/ui/qt3/qtextedit.cpp:4000
+#: plugins/_core/core.cpp:844 sim/ui/qt3/qtextedit.cpp:4019
 msgid "&Redo"
 msgstr "Urobiť znovu"
 
 # qt3/i18n.cpp:249
-#: plugins/_core/core.cpp:852 sim/ui/qt3/qtextedit.cpp:4005
+#: plugins/_core/core.cpp:852 sim/ui/qt3/qtextedit.cpp:4024
 msgid "Cu&t"
 msgstr "Vystrihnúť"
 
 # qt3/i18n.cpp:253
-#: plugins/_core/core.cpp:868 sim/ui/qt3/qtextedit.cpp:4008
+#: plugins/_core/core.cpp:868 sim/ui/qt3/qtextedit.cpp:4027
 msgid "&Paste"
 msgstr "Vložiť"
 
 # qt3/i18n.cpp:255
 #: plugins/_core/core.cpp:876 sim/ui/qt3/i18n.cpp:255
-#: sim/ui/qt3/qtextedit.cpp:4011
+#: sim/ui/qt3/qtextedit.cpp:4030
 msgid "Clear"
 msgstr "Odznačiť"
 
 # qt3/i18n.cpp:257
 #: plugins/_core/core.cpp:884 sim/ui/qt3/i18n.cpp:257
-#: sim/ui/qt3/qtextedit.cpp:4015 sim/ui/qt3/qtextedit.cpp:4017
+#: sim/ui/qt3/qtextedit.cpp:4034 sim/ui/qt3/qtextedit.cpp:4036
 msgid "Select All"
 msgstr "Vybrať všetko"
 
@@ -614,7 +616,8 @@ msgstr ""
 
 #: plugins/_core/core.cpp:1173 plugins/_core/core.cpp:2620
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
-msgstr "Prepáčte, momentálne som zaneprázdnený ale môžem odpovedať neskôr"
+msgstr ""
+"Prepáčte, momentálne som zaneprázdnený ale môžem odpovedať neskôr"
 
 #: plugins/_core/core.cpp:1178
 msgid "Enter a decline reason"
@@ -974,7 +977,7 @@ msgstr "Vybrať profil"
 # ui/logindlgbase.cpp:129
 #: plugins/_core/logindlg.cpp:263 plugins/icq/aimconfigbase.cc:150
 #: plugins/icq/icqconfigbase.cc:218 plugins/jabber/jabberconfigbase.cpp:296
-#: plugins/msn/msnconfigbase.cpp:201 plugins/proxy/proxycfgbase.cpp:168
+#: plugins/msn/msnconfigbase.cpp:201 plugins/proxy/proxycfgbase.cpp:172
 msgid "Password:"
 msgstr "Heslo:"
 
@@ -1078,7 +1081,7 @@ msgid "Yes"
 msgstr "Áno"
 
 # client.cpp:1134
-#: plugins/_core/msgedit.cpp:439 plugins/update/update.cpp:103
+#: plugins/_core/msgedit.cpp:439 plugins/update/update.cpp:105
 #, c-format
 msgid ""
 "_n: Message\n"
@@ -1221,7 +1224,7 @@ msgid "No such client for send message"
 msgstr "Žiaden klient pre odoslanie správy"
 
 # ui/acceptbase.cpp:176
-#: plugins/_core/msgedit.cpp:1572 plugins/icq/icq.cpp:550
+#: plugins/_core/msgedit.cpp:1572 plugins/icq/icq.cpp:552
 #: plugins/jabber/jabber.cpp:346
 msgid "&Message"
 msgstr "&Správa"
@@ -1540,7 +1543,7 @@ msgstr "Vybrať typ kontaktu"
 #: plugins/jabber/servicesbase.cpp:166 plugins/logger/logconfigbase.cpp:126
 #: plugins/msn/msninfobase.cpp:160 plugins/msn/msnsearchbase.cpp:109
 #: plugins/navigate/navcfgbase.cc:95 plugins/ontop/ontopcfgbase.cpp:88
-#: plugins/osd/osdconfigbase.cpp:91 plugins/proxy/proxycfgbase.cpp:163
+#: plugins/osd/osdconfigbase.cpp:91 plugins/proxy/proxycfgbase.cpp:167
 #: plugins/shortcuts/mousecfgbase.cpp:108
 #: plugins/shortcuts/shortcutcfgbase.cpp:138
 #: plugins/sound/soundconfigbase.cpp:159 plugins/sound/sounduserbase.cpp:121
@@ -2234,7 +2237,8 @@ msgstr "Nastaviť \"N/A\" status po"
 # ui/statussetupbase.cpp:142
 #: plugins/autoaway/autoawaycfgbase.cpp:125
 #: plugins/sound/soundconfigbase.cpp:166
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Zakázať online výstrahu pre \"Away\", \"N/A\", \"DND\" a \"Occupied\" "
 "zoznam"
@@ -2246,7 +2250,8 @@ msgstr "Pozadie"
 
 #: plugins/background/background.cpp:35
 msgid "Plugin provides background pictures for user list"
-msgstr "Zásuvny modul umožňuje nastaviť obrázky pozadia pre zoznam užívateľov"
+msgstr ""
+"Zásuvny modul umožňuje nastaviť obrázky pozadia pre zoznam užívateľov"
 
 #: plugins/background/bkgndcfg.cpp:45
 msgid "Select background picture"
@@ -2321,7 +2326,8 @@ msgstr "Systray"
 
 #: plugins/dock/dock.cpp:45
 msgid "Plugin provides dock main window in system tray"
-msgstr "Zásuvny modul umožňuje umiestniť (dokovať) hlavné okno v systrayi"
+msgstr ""
+"Zásuvny modul umožňuje umiestniť (dokovať) hlavné okno v systrayi"
 
 #: plugins/dock/dock.cpp:47 plugins/windock/windock.cpp:43
 msgid "Dock"
@@ -2545,61 +2551,61 @@ msgid "Smiles:"
 msgstr "Emotikony:"
 
 # ui/logindlg.cpp:226
-#: plugins/icq/icqclient.cpp:687 plugins/icq/icqicmb.cpp:85
-#: plugins/icq/icqicmb.cpp:178
+#: plugins/icq/icqclient.cpp:687 plugins/icq/icqicmb.cpp:86
+#: plugins/icq/icqicmb.cpp:179
 msgid "Unknown error"
 msgstr "Neznáma chyba"
 
-#: plugins/icq/icqclient.cpp:696 plugins/icq/icqicmb.cpp:87
+#: plugins/icq/icqclient.cpp:696 plugins/icq/icqicmb.cpp:88
 msgid "Not supported by client"
 msgstr "Nie je podporované klientom"
 
 # control.cpp:241
-#: plugins/icq/icqicmb.cpp:163
+#: plugins/icq/icqicmb.cpp:164
 msgid "Invalid message"
 msgstr "Neplatná správa"
 
-#: plugins/icq/icqicmb.cpp:166
+#: plugins/icq/icqicmb.cpp:167
 msgid "Message was too large"
 msgstr "Správa bola príliš veľká"
 
-#: plugins/icq/icqicmb.cpp:169
+#: plugins/icq/icqicmb.cpp:170
 #, fuzzy
 msgid "Message rate exceeded"
 msgstr "Fronta správ bola preplnená"
 
-#: plugins/icq/icqclient.cpp:704 plugins/icq/icqicmb.cpp:172
+#: plugins/icq/icqclient.cpp:704 plugins/icq/icqicmb.cpp:173
 msgid "Sender too evil"
 msgstr "Odosielateľ príliš neslušný"
 
-#: plugins/icq/icqicmb.cpp:175
+#: plugins/icq/icqicmb.cpp:176
 msgid "We are to evil :("
 msgstr "My sme zlí :("
 
 # ui/soundsetupbase.cpp:236
-#: plugins/icq/icqicmb.cpp:625 plugins/jabber/jabber_rosters.cpp:1733
+#: plugins/icq/icqicmb.cpp:632 plugins/jabber/jabber_rosters.cpp:1733
 msgid "File transfer declined"
 msgstr "Prenos súboru upadol"
 
 # msgedit.cpp:585
-#: plugins/icq/icqicmb.cpp:683 plugins/msn/msnclient.cpp:2081
+#: plugins/icq/icqicmb.cpp:690 plugins/msn/msnclient.cpp:2081
 msgid "Message declined"
 msgstr "Správa odmietnutá"
 
-#: plugins/icq/icqicmb.cpp:765 plugins/icq/icqicmb.cpp:773
+#: plugins/icq/icqicmb.cpp:772 plugins/icq/icqicmb.cpp:780
 #: plugins/icq/icqvarious.cpp:1616 plugins/jabber/jabberclient.cpp:615
 msgid "Client go offline"
 msgstr "Klient sa odpojil"
 
 # qt3/i18n.cpp:137
-#: plugins/icq/icqicmb.cpp:893
+#: plugins/icq/icqicmb.cpp:918
 msgid "Directory"
 msgstr "Adresár"
 
 # client.cpp:1138
 # msgview.cpp:205
 # msgview.cpp:1245
-#: plugins/icq/icqicmb.cpp:897 plugins/icq/icqicmb.cpp:903
+#: plugins/icq/icqicmb.cpp:922 plugins/icq/icqicmb.cpp:928
 #, c-format
 msgid ""
 "_n: %n file\n"
@@ -2609,24 +2615,24 @@ msgstr ""
 "%n súborov"
 
 # msgedit.cpp:588
-#: plugins/icq/icqicmb.cpp:1172 plugins/icq/warndlg.cpp:66
+#: plugins/icq/icqicmb.cpp:1197 plugins/icq/warndlg.cpp:66
 msgid "Send fail"
 msgstr "Chyba pri odosielaní"
 
 # qt3/i18n.cpp:158
-#: plugins/icq/icqicmb.cpp:1251
+#: plugins/icq/icqicmb.cpp:1276
 msgid "Send timeout"
 msgstr "Prekročený časový limit pri odosielaní (timeout)"
 
 # mainwin.cpp:628
 # mainwin.cpp:2727
-#: plugins/icq/icqicmb.cpp:1275
+#: plugins/icq/icqicmb.cpp:1300
 msgid "No contact"
 msgstr "Žiaden kontakt"
 
 # mainwin.cpp:628
 # mainwin.cpp:2727
-#: plugins/icq/icqicmb.cpp:1296 plugins/icq/icqmessage.cpp:1186
+#: plugins/icq/icqicmb.cpp:1321 plugins/icq/icqmessage.cpp:1186
 #: plugins/jabber/jabberclient.cpp:2140
 msgid "No contacts for send"
 msgstr "Žiadne kontakty pre odoslanie"
@@ -2658,43 +2664,43 @@ msgstr "AIM"
 
 # ui/listsec.cpp:95
 # ui/setupdlg.cpp:155
-#: plugins/icq/icq.cpp:504
+#: plugins/icq/icq.cpp:506
 msgid "Visible list"
 msgstr "Zoznam viditeľných"
 
 # ui/listsec.cpp:113
 # ui/setupdlg.cpp:154
-#: plugins/icq/icq.cpp:513
+#: plugins/icq/icq.cpp:515
 msgid "Invisible list"
 msgstr "Zoznam neviditeľných"
 
 # userbox.cpp:256
-#: plugins/icq/icq.cpp:524
+#: plugins/icq/icq.cpp:526
 msgid "&Show all encodings"
 msgstr "&Ukázať všetky kódovania"
 
 # userbox.cpp:114
-#: plugins/icq/icq.cpp:530 plugins/icq/icq.cpp:540
+#: plugins/icq/icq.cpp:532 plugins/icq/icq.cpp:542
 msgid "Change &encoding"
 msgstr "Zm&eniť kódovanie"
 
 # usertbl.cpp:411
-#: plugins/icq/icq.cpp:566 plugins/jabber/jabber.cpp:361
+#: plugins/icq/icq.cpp:568 plugins/jabber/jabber.cpp:361
 msgid "&Add to group"
 msgstr "Prid&ať do skupiny"
 
 # client.cpp:1252
 # mainwin.cpp:2708
-#: plugins/icq/icq.cpp:579
+#: plugins/icq/icq.cpp:581
 msgid "Check &invisible"
 msgstr "Skontrolovať nev&iditeľnosť"
 
-#: plugins/icq/icq.cpp:588
+#: plugins/icq/icq.cpp:590
 msgid "&All"
 msgstr "Vš&etko"
 
 # control.cpp:233
-#: plugins/icq/icq.cpp:597
+#: plugins/icq/icq.cpp:599
 msgid "&Only invisible"
 msgstr "Le&n neviditeľní"
 
@@ -2936,12 +2942,12 @@ msgstr "Skontrolovať neviditeľnosť"
 msgid "Warning"
 msgstr "Upozornenie"
 
-#: plugins/icq/icqpicture.cpp:121
+#: plugins/icq/icqpicture.cpp:126
 msgid "Picture can not be more than 7 kbytes"
 msgstr "Obrázok nemôže byť väčší ako 7 kB"
 
 # ui/phonebookbase.cpp:129
-#: plugins/icq/icqpicture.cpp:131 plugins/jabber/jabberpicture.cpp:133
+#: plugins/icq/icqpicture.cpp:136 plugins/jabber/jabberpicture.cpp:138
 msgid "Picture is not available"
 msgstr "Obrázok nie je dostupný"
 
@@ -4021,7 +4027,7 @@ msgstr "Interná IP:"
 
 # ui/maininfobase.cpp:333
 #: plugins/icq/aiminfobase.cc:301 plugins/icq/icqinfobase.cc:318
-#: plugins/proxy/proxycfgbase.cpp:171
+#: plugins/proxy/proxycfgbase.cpp:174
 msgid "Client:"
 msgstr "Klient:"
 
@@ -4055,7 +4061,7 @@ msgstr "Server:"
 #: plugins/icq/aimconfigbase.cc:152 plugins/icq/icqconfigbase.cc:223
 #: plugins/jabber/jabberconfigbase.cpp:300
 #: plugins/jabber/jabberconfigbase.cpp:303 plugins/msn/msnconfigbase.cpp:204
-#: plugins/proxy/proxycfgbase.cpp:165
+#: plugins/proxy/proxycfgbase.cpp:169
 msgid "Port:"
 msgstr "Port:"
 
@@ -4127,7 +4133,8 @@ msgstr "&O ..."
 # ui/generalsecbase.cpp:212
 #: plugins/icq/icqsecurebase.cc:213
 msgid "My &authorization is required before users add me to Contact List"
-msgstr "Je vyžadovaná moja &autorizácia pred pridaním mňa do zoznamu kontaktov"
+msgstr ""
+"Je vyžadovaná moja &autorizácia pred pridaním mňa do zoznamu kontaktov"
 
 # ui/generalsecbase.cpp:213
 #: plugins/icq/icqsecurebase.cc:214
@@ -4157,7 +4164,8 @@ msgstr "Povoliť &priame pripojenie pre všetkých užívateľov"
 # ui/generalsecbase.cpp:218
 #: plugins/icq/icqsecurebase.cc:220
 msgid "Allow direct connection from user listed in &contact list"
-msgstr "Povoliť priame pripojenie pre užívateľov z mojho zoznamu &kontaktov"
+msgstr ""
+"Povoliť priame pripojenie pre užívateľov z mojho zoznamu &kontaktov"
 
 # ui/generalsecbase.cpp:219
 #: plugins/icq/icqsecurebase.cc:221
@@ -4978,7 +4986,8 @@ msgstr ""
 
 #: plugins/jabber/jabbersearch.cpp:194
 msgid "Fill in all of the fields to add yourself to the JUD."
-msgstr "Vyplňte všetky polia pre pridanie do uživateľského adresára Jabber."
+msgstr ""
+"Vyplňte všetky polia pre pridanie do uživateľského adresára Jabber."
 
 #: plugins/jabber/jabbersearch.cpp:195
 msgid ""
@@ -5029,7 +5038,7 @@ msgid "&Registered agents"
 msgstr "&Registrovaný agenti"
 
 # ui/enable.cpp:134
-#: plugins/jabber/servicesbase.cpp:174 sim/api/simapi.cpp:408
+#: plugins/jabber/servicesbase.cpp:174 sim/api/simapi.cpp:425
 msgid "&Register"
 msgstr "&Registrácia"
 
@@ -5279,7 +5288,8 @@ msgid "Navigate"
 msgstr "Navigácia"
 
 #: plugins/navigate/navigate.cpp:199
-msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid ""
+"Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Zásuvny modul umožňuje navigáciu po odkazoch, spúšťať externý "
 "prehliadač a poštový klient"
@@ -5406,7 +5416,8 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:48
-msgid "Plugin provides on screen notification about messages and contacts status"
+msgid ""
+"Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Zásuvny modul umožňuje zobrazovať notifikácie o správach a stave "
 "kontaktov na obrazovke (OSD)"
@@ -5548,36 +5559,41 @@ msgid "Proxy authorization failed"
 msgstr "Chyba pri autorizácii užívateľa na proxy"
 
 # ui/proxydlgbase.cpp:174
-#: plugins/proxy/proxy.cpp:1233
+#: plugins/proxy/proxy.cpp:1240
 msgid "Proxy"
 msgstr "Proxy"
 
-#: plugins/proxy/proxy.cpp:1234
+#: plugins/proxy/proxy.cpp:1241
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS and HTTP)"
-msgstr "Zásuvný modul umožňuje podporu proxy (SOCKS4, SOCKS5, HTTPS a HTTP)"
+msgstr ""
+"Zásuvný modul umožňuje podporu proxy (SOCKS4, SOCKS5, HTTPS a HTTP)"
 
 # ui/networkbase.cpp:228
 # ui/proxydlgbase.cpp:182
-#: plugins/proxy/proxycfgbase.cpp:164
+#: plugins/proxy/proxycfgbase.cpp:168
 msgid "Host:"
 msgstr "Server:"
 
 # mainwin.cpp:1313
 # ui/logindlg.cpp:246
-#: plugins/proxy/proxycfgbase.cpp:166
+#: plugins/proxy/proxycfgbase.cpp:170
 msgid "Proxy require &authorization"
 msgstr "Proxy server vyžaduje autorizáciu"
 
 # userbox.cpp:107
-#: plugins/proxy/proxycfgbase.cpp:167
+#: plugins/proxy/proxycfgbase.cpp:171
 msgid "User:"
 msgstr "Užívateľ:"
 
 # ui/networkbase.cpp:231
 # ui/proxydlgbase.cpp:176
-#: plugins/proxy/proxycfgbase.cpp:170
+#: plugins/proxy/proxycfgbase.cpp:173
 msgid "Proxy type:"
 msgstr "Typ proxy:"
+
+#: plugins/proxy/proxycfgbase.cpp:176
+msgid "Do not show error dialog (automatically reconnect)"
+msgstr ""
 
 #: plugins/proxy/proxyerrorbase.cpp:78
 msgid "Proxy error"
@@ -5749,7 +5765,8 @@ msgstr "Úvodná obrazovka"
 
 #: plugins/splash/splash.cpp:35
 msgid "Plugin provides splash screen"
-msgstr "Zásuvný modul umožňuje zobraziť úvodnú obrazovku (splash screen)"
+msgstr ""
+"Zásuvný modul umožňuje zobraziť úvodnú obrazovku (splash screen)"
 
 # ui/themesetupbase.cpp:307
 # ui/themesetupbase.cpp:309
@@ -5808,15 +5825,15 @@ msgid "Plugin provides notifications about update SIM software"
 msgstr "Zásuvny modul umožňuje oznamovať aktualizácie programu SIM"
 
 # qt3/i18n.cpp:113
-#: plugins/update/update.cpp:151
+#: plugins/update/update.cpp:155
 msgid "Show details"
 msgstr "Zobraziť detaily"
 
-#: plugins/update/update.cpp:152
+#: plugins/update/update.cpp:156
 msgid "Remind later"
 msgstr "Pripomenúť neskôr"
 
-#: plugins/update/update.cpp:154
+#: plugins/update/update.cpp:158
 msgid "New version SIM is released"
 msgstr "Bola vydaná nová verzia programu SIM"
 
@@ -7079,7 +7096,7 @@ msgstr "NoPlural"
 # qt3/i18n.cpp:125
 # ui/enable.cpp:133
 # ui/logindlg.cpp:304
-#: sim/api/simapi.cpp:407 sim/ui/ballonmsg.cpp:304 sim/ui/qt3/i18n.cpp:125
+#: sim/api/simapi.cpp:424 sim/ui/ballonmsg.cpp:304 sim/ui/qt3/i18n.cpp:125
 msgid "&Yes"
 msgstr "&Áno"
 
@@ -7089,81 +7106,81 @@ msgstr "&Áno"
 # qt3/i18n.cpp:127
 # ui/enable.cpp:137
 # ui/logindlg.cpp:305
-#: sim/api/simapi.cpp:411 sim/ui/ballonmsg.cpp:305 sim/ui/qt3/i18n.cpp:127
+#: sim/api/simapi.cpp:428 sim/ui/ballonmsg.cpp:305 sim/ui/qt3/i18n.cpp:127
 msgid "&No"
 msgstr "&Nie"
 
 # qt3/i18n.cpp:164
-#: sim/api/simapi.cpp:602
+#: sim/api/simapi.cpp:619
 msgid "Smile"
 msgstr "Úsmev"
 
-#: sim/api/simapi.cpp:603
+#: sim/api/simapi.cpp:620
 msgid "Surprised"
 msgstr "Prekvapený"
 
 # libicq/country.cpp:341
-#: sim/api/simapi.cpp:604
+#: sim/api/simapi.cpp:621
 msgid "Indifferent"
 msgstr "Ľahostajný"
 
 # qt3/i18n.cpp:87
-#: sim/api/simapi.cpp:605
+#: sim/api/simapi.cpp:622
 msgid "Skeptical"
 msgstr "Skeptický"
 
 # ui/alertdialogbase.cpp:248
-#: sim/api/simapi.cpp:606
+#: sim/api/simapi.cpp:623
 msgid "Sad"
 msgstr "Smutný"
 
-#: sim/api/simapi.cpp:607
+#: sim/api/simapi.cpp:624
 msgid "Kiss"
 msgstr "Bozk"
 
-#: sim/api/simapi.cpp:608
+#: sim/api/simapi.cpp:625
 msgid "Annoyed"
 msgstr "Zlostný"
 
-#: sim/api/simapi.cpp:609
+#: sim/api/simapi.cpp:626
 msgid "Crying"
 msgstr "Plačúci"
 
-#: sim/api/simapi.cpp:610
+#: sim/api/simapi.cpp:627
 msgid "Wink"
 msgstr "Žmurk"
 
 # libicq/country.cpp:166
-#: sim/api/simapi.cpp:611
+#: sim/api/simapi.cpp:628
 msgid "Angry"
 msgstr "Naštvaný"
 
 # usertbl.cpp:392
-#: sim/api/simapi.cpp:612
+#: sim/api/simapi.cpp:629
 msgid "Embarrassed"
 msgstr "V rozpakoch"
 
 # mainwin.cpp:3105
-#: sim/api/simapi.cpp:613
+#: sim/api/simapi.cpp:630
 msgid "Uptight"
 msgstr "Podráždený"
 
 # ui/filetransfer.cpp:177
-#: sim/api/simapi.cpp:614
+#: sim/api/simapi.cpp:631
 msgid "Teaser"
 msgstr "Chytrák"
 
 # libicq/country.cpp:120
-#: sim/api/simapi.cpp:615
+#: sim/api/simapi.cpp:632
 msgid "Cool"
 msgstr "Perfektný"
 
 # libicq/country.cpp:76
-#: sim/api/simapi.cpp:616
+#: sim/api/simapi.cpp:633
 msgid "Angel"
 msgstr "Anjel"
 
-#: sim/api/simapi.cpp:617
+#: sim/api/simapi.cpp:634
 msgid "Grin"
 msgstr "Úškrnok"
 
@@ -8051,4 +8068,3 @@ msgstr "Vlastné"
 # ui/searchbase.cpp:294
 #~ msgid "Screen name:"
 #~ msgstr "Zobrazované meno:"
-

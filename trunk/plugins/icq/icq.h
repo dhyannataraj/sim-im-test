@@ -81,6 +81,7 @@ public:
     virtual ~ICQPlugin();
     unsigned OscarPacket;
     unsigned ICQDirectPacket;
+    unsigned AIMDirectPacket;
     PROP_BOOL(ShowAllEncodings);
     PROP_STR(DefaultEncoding);
     unsigned RetrySendDND;
