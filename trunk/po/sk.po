@@ -428,6 +428,10 @@ msgstr "&Predošlá stránka"
 msgid "&Next page"
 msgstr "Ďalšia strá&nka"
 
+#: core.cpp:820
+msgid "&Save as text"
+msgstr ""
+
 # control.cpp:234
 #: plugins/_core/core.cpp:878
 msgid "&Open message"
@@ -972,6 +976,22 @@ msgstr "Nahrávanie"
 #: plugins/_core/historywnd.cpp:119 plugins/_core/interfacecfg.cpp:88
 msgid "History"
 msgstr "História"
+
+#: plugins/_core/historywnd.cpp:191
+msgid "File already exists. Overwrite?"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:196
+msgid "&Overwrite"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:197
+msgid "&Append"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:211
+msgid "Save failed"
+msgstr ""
 
 # libicq/country.cpp:18
 # ui/themesetup.cpp:54
@@ -8447,17 +8467,17 @@ msgstr "Predvolené"
 
 # qt3/i18n.cpp:55
 #: sim/qt3/i18n.cpp:187
-msgid "< Back"
+msgid "< &Back"
 msgstr "< Späť"
 
 # msgedit.cpp:133
 #: sim/qt3/i18n.cpp:189
-msgid "Next >"
+msgid "&Next >"
 msgstr "Ďalej >"
 
 # libicq/country.cpp:22
 #: sim/qt3/i18n.cpp:191
-msgid "Finish"
+msgid "&Finish"
 msgstr "Koniec"
 
 #: sim/qt3/i18n.cpp:195
@@ -10272,13 +10292,8 @@ msgid "SSL connect error"
 msgstr "Chyba pri pripájaní SSL (connect error)"
 
 # ui/setupdlg.cpp:127
-#: sim/sslclient.cpp:177
+#: sim/sslclient.cpp:177 sim/sslclient.cpp:198 sim/sslclient.cpp:206
 msgid "SSL shutdown error"
-msgstr "Chyba pri ukončovaní SSL (shutdown error)"
-
-# ui/setupdlg.cpp:127
-#: sim/sslclient.cpp:198 sim/sslclient.cpp:206
-msgid "SSL shuwdown error"
 msgstr "Chyba pri ukončovaní SSL (shutdown error)"
 
 # ui/setupdlg.cpp:127
@@ -10306,3 +10321,6 @@ msgstr "Vlastné"
 msgid "Windows XP style"
 msgstr "Štýl \"Windows XP\""
 
+# ui/setupdlg.cpp:127
+#~ msgid "SSL shuwdown error"
+#~ msgstr "Chyba pri ukončovaní SSL (shutdown error)"

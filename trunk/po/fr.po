@@ -445,6 +445,10 @@ msgstr "Page &Précédente"
 msgid "&Next page"
 msgstr "Page Suiva&nte"
 
+#: core.cpp:820
+msgid "&Save as text"
+msgstr ""
+
 # control.cpp:220
 #: plugins/_core/core.cpp:878
 #, fuzzy
@@ -1051,6 +1055,22 @@ msgstr "Connexion"
 #: plugins/_core/historywnd.cpp:119 plugins/_core/interfacecfg.cpp:88
 msgid "History"
 msgstr "Historique"
+
+#: plugins/_core/historywnd.cpp:191
+msgid "File already exists. Overwrite?"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:196
+msgid "&Overwrite"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:197
+msgid "&Append"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:211
+msgid "Save failed"
+msgstr ""
 
 # libicq/country.cpp:18
 # ui/themesetup.cpp:54
@@ -9124,17 +9144,17 @@ msgid "Defaults"
 msgstr "Par défaut"
 
 #: sim/qt3/i18n.cpp:187
-msgid "< Back"
+msgid "< &Back"
 msgstr "< Précedent"
 
 # msgedit.cpp:868
 #: sim/qt3/i18n.cpp:189
-msgid "Next >"
+msgid "&Next >"
 msgstr "Suivant >"
 
 # libicq/country.cpp:22
 #: sim/qt3/i18n.cpp:191
-msgid "Finish"
+msgid "&Finish"
 msgstr "Finnois"
 
 #: sim/qt3/i18n.cpp:195
@@ -10993,12 +11013,8 @@ msgstr ""
 msgid "SSL connect error"
 msgstr ""
 
-#: sim/sslclient.cpp:177
+#: sim/sslclient.cpp:177 sim/sslclient.cpp:198 sim/sslclient.cpp:206
 msgid "SSL shutdown error"
-msgstr ""
-
-#: sim/sslclient.cpp:198 sim/sslclient.cpp:206
-msgid "SSL shuwdown error"
 msgstr ""
 
 #: sim/sslclient.cpp:213 sim/sslclient.cpp:234 sim/sslclient.cpp:242

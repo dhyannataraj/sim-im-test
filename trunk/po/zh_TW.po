@@ -364,6 +364,10 @@ msgstr ""
 msgid "&Next page"
 msgstr "下一個"
 
+#: core.cpp:820
+msgid "&Save as text"
+msgstr ""
+
 #: plugins/_core/core.cpp:878
 #, fuzzy
 msgid "&Open message"
@@ -872,6 +876,22 @@ msgstr "登入"
 #: plugins/_core/historywnd.cpp:119 plugins/_core/interfacecfg.cpp:88
 msgid "History"
 msgstr "歷程"
+
+#: plugins/_core/historywnd.cpp:191
+msgid "File already exists. Overwrite?"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:196
+msgid "&Overwrite"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:197
+msgid "&Append"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:211
+msgid "Save failed"
+msgstr ""
 
 #: plugins/_core/interfacecfg.cpp:53 plugins/icq/moreinfo.cpp:98
 #, fuzzy
@@ -7657,17 +7677,17 @@ msgstr "選擇風格："
 
 #: sim/qt3/i18n.cpp:187
 #, fuzzy
-msgid "< Back"
+msgid "< &Back"
 msgstr "黑"
 
 #: sim/qt3/i18n.cpp:189
 #, fuzzy
-msgid "Next >"
+msgid "&Next >"
 msgstr "下一個"
 
 #: sim/qt3/i18n.cpp:191
 #, fuzzy
-msgid "Finish"
+msgid "&Finish"
 msgstr "公佈"
 
 #: sim/qt3/i18n.cpp:195
@@ -9259,14 +9279,9 @@ msgstr "連線"
 msgid "SSL connect error"
 msgstr "連線"
 
-#: sim/sslclient.cpp:177
+#: sim/sslclient.cpp:177 sim/sslclient.cpp:198 sim/sslclient.cpp:206
 #, fuzzy
 msgid "SSL shutdown error"
-msgstr "連線"
-
-#: sim/sslclient.cpp:198 sim/sslclient.cpp:206
-#, fuzzy
-msgid "SSL shuwdown error"
 msgstr "連線"
 
 #: sim/sslclient.cpp:213 sim/sslclient.cpp:234 sim/sslclient.cpp:242
@@ -9292,3 +9307,7 @@ msgstr ""
 #, fuzzy
 msgid "Windows XP style"
 msgstr "Windows"
+
+#, fuzzy
+#~ msgid "SSL shuwdown error"
+#~ msgstr "連線"

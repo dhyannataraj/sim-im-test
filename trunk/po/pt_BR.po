@@ -439,6 +439,10 @@ msgstr "&Página anterior"
 msgid "&Next page"
 msgstr "P&róxima página "
 
+#: core.cpp:820
+msgid "&Save as text"
+msgstr ""
+
 # plugins/_core/core.cpp:745
 #: plugins/_core/core.cpp:878
 msgid "&Open message"
@@ -1003,6 +1007,22 @@ msgstr "Carregando"
 #: plugins/_core/historywnd.cpp:119 plugins/_core/interfacecfg.cpp:88
 msgid "History"
 msgstr "Histórico"
+
+#: plugins/_core/historywnd.cpp:191
+msgid "File already exists. Overwrite?"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:196
+msgid "&Overwrite"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:197
+msgid "&Append"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:211
+msgid "Save failed"
+msgstr ""
 
 # plugins/_core/interfacecfg.cpp:46 plugins/icq/moreinfo.cpp:105
 #: plugins/_core/interfacecfg.cpp:53 plugins/icq/moreinfo.cpp:98
@@ -8883,17 +8903,17 @@ msgstr "Padrao"
 
 # sim/ui/qt3/i18n.cpp:187
 #: sim/qt3/i18n.cpp:187
-msgid "< Back"
+msgid "< &Back"
 msgstr "< Voltar"
 
 # sim/ui/qt3/i18n.cpp:189
 #: sim/qt3/i18n.cpp:189
-msgid "Next >"
+msgid "&Next >"
 msgstr "Avançar >"
 
 # sim/ui/qt3/i18n.cpp:191
 #: sim/qt3/i18n.cpp:191
-msgid "Finish"
+msgid "&Finish"
 msgstr "Concluir"
 
 # sim/ui/qt3/i18n.cpp:195
@@ -10724,13 +10744,8 @@ msgid "SSL connect error"
 msgstr "Erro ao conectar SSL"
 
 # sim/api/sslclient.cpp:238
-#: sim/sslclient.cpp:177
+#: sim/sslclient.cpp:177 sim/sslclient.cpp:198 sim/sslclient.cpp:206
 msgid "SSL shutdown error"
-msgstr ""
-
-# sim/api/sslclient.cpp:259 sim/api/sslclient.cpp:267
-#: sim/sslclient.cpp:198 sim/sslclient.cpp:206
-msgid "SSL shuwdown error"
 msgstr ""
 
 # sim/api/sslclient.cpp:274 sim/api/sslclient.cpp:295

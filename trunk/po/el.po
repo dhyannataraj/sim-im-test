@@ -350,6 +350,10 @@ msgstr "&Προηγούμενη σελίδα"
 msgid "&Next page"
 msgstr "&Επόμενη σελίδα"
 
+#: core.cpp:820
+msgid "&Save as text"
+msgstr ""
+
 #: plugins/_core/core.cpp:878
 #, fuzzy
 msgid "&Open message"
@@ -848,6 +852,22 @@ msgstr "&Κωδικοποίηση"
 #: plugins/_core/historywnd.cpp:119 plugins/_core/interfacecfg.cpp:88
 msgid "History"
 msgstr "Ιστορικό"
+
+#: plugins/_core/historywnd.cpp:191
+msgid "File already exists. Overwrite?"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:196
+msgid "&Overwrite"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:197
+msgid "&Append"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:211
+msgid "Save failed"
+msgstr ""
 
 #: plugins/_core/interfacecfg.cpp:53 plugins/icq/moreinfo.cpp:98
 msgid "English"
@@ -7458,15 +7478,15 @@ msgid "Defaults"
 msgstr "Προεπιλογές"
 
 #: sim/qt3/i18n.cpp:187
-msgid "< Back"
+msgid "< &Back"
 msgstr "< Πίσω"
 
 #: sim/qt3/i18n.cpp:189
-msgid "Next >"
+msgid "&Next >"
 msgstr "Επόμενο >"
 
 #: sim/qt3/i18n.cpp:191
-msgid "Finish"
+msgid "&Finish"
 msgstr "Τέλος"
 
 #: sim/qt3/i18n.cpp:195
@@ -8951,12 +8971,8 @@ msgstr ""
 msgid "SSL connect error"
 msgstr ""
 
-#: sim/sslclient.cpp:177
+#: sim/sslclient.cpp:177 sim/sslclient.cpp:198 sim/sslclient.cpp:206
 msgid "SSL shutdown error"
-msgstr ""
-
-#: sim/sslclient.cpp:198 sim/sslclient.cpp:206
-msgid "SSL shuwdown error"
 msgstr ""
 
 #: sim/sslclient.cpp:213 sim/sslclient.cpp:234 sim/sslclient.cpp:242

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: bg\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-05 15:33+0200\n"
-"PO-Revision-Date: 2004-08-07 00:31+0300\n"
+"PO-Revision-Date: 2004-08-30 16:53+0600\n"
 "Last-Translator: Атанас Мавров <bugar@developer.bg>\n"
 "Language-Team: Bulgarian <dict@linux.zonebg.com>\n"
 "MIME-Version: 1.0\n"
@@ -329,6 +329,10 @@ msgstr "Предишна страни&ца"
 #: plugins/_core/core.cpp:814
 msgid "&Next page"
 msgstr "&Следваща страница"
+
+#: core.cpp:820
+msgid "&Save as text"
+msgstr ""
 
 #: plugins/_core/core.cpp:878
 msgid "&Open message"
@@ -768,6 +772,22 @@ msgstr "Зареждане"
 #: plugins/_core/historywnd.cpp:119 plugins/_core/interfacecfg.cpp:88
 msgid "History"
 msgstr "История"
+
+#: plugins/_core/historywnd.cpp:191
+msgid "File already exists. Overwrite?"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:196
+msgid "&Overwrite"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:197
+msgid "&Append"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:211
+msgid "Save failed"
+msgstr ""
 
 #: plugins/_core/interfacecfg.cpp:53 plugins/icq/moreinfo.cpp:98
 msgid "English"
@@ -6905,15 +6925,15 @@ msgid "Defaults"
 msgstr "По подразбиране"
 
 #: sim/qt3/i18n.cpp:187
-msgid "< Back"
+msgid "< &Back"
 msgstr "<Назад"
 
 #: sim/qt3/i18n.cpp:189
-msgid "Next >"
+msgid "&Next >"
 msgstr "Следващ>"
 
 #: sim/qt3/i18n.cpp:191
-msgid "Finish"
+msgid "&Finish"
 msgstr "Край"
 
 #: sim/qt3/i18n.cpp:195
@@ -8375,12 +8395,8 @@ msgstr "грешка при SSL"
 msgid "SSL connect error"
 msgstr "Грешка при свързване чрез SSL"
 
-#: sim/sslclient.cpp:177
+#: sim/sslclient.cpp:177 sim/sslclient.cpp:198 sim/sslclient.cpp:206
 msgid "SSL shutdown error"
-msgstr "Грешка при прекратяване на SSL връзка"
-
-#: sim/sslclient.cpp:198 sim/sslclient.cpp:206
-msgid "SSL shuwdown error"
 msgstr "Грешка при прекратяване на SSL връзка"
 
 #: sim/sslclient.cpp:213 sim/sslclient.cpp:234 sim/sslclient.cpp:242
@@ -8402,4 +8418,3 @@ msgstr "Потребителски"
 #: xpstyle/xpstyle.cpp:63
 msgid "Windows XP style"
 msgstr "Уиндоус XP стил"
-

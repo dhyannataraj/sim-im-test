@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the SIM package.
 # Copyright (C) 2004
 #
-# $Id: es.po,v 1.168 2004-08-10 09:01:16 jorgelt Exp $
+# $Id: es.po,v 1.169 2004-08-30 12:44:06 wrar Exp $
 # Jorge Lopez Trescastro <jorge@acm.asoc.fi.upm.es>, 2002, 2003, 2004.
 #
 msgid ""
@@ -332,6 +332,10 @@ msgstr "&Página anterior"
 #: plugins/_core/core.cpp:814
 msgid "&Next page"
 msgstr "Página siguie&nte"
+
+#: core.cpp:820
+msgid "&Save as text"
+msgstr ""
 
 #: plugins/_core/core.cpp:878
 msgid "&Open message"
@@ -773,6 +777,22 @@ msgstr "Cargando"
 #: plugins/_core/historywnd.cpp:119 plugins/_core/interfacecfg.cpp:88
 msgid "History"
 msgstr "Historial"
+
+#: plugins/_core/historywnd.cpp:191
+msgid "File already exists. Overwrite?"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:196
+msgid "&Overwrite"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:197
+msgid "&Append"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:211
+msgid "Save failed"
+msgstr ""
 
 #: plugins/_core/interfacecfg.cpp:53 plugins/icq/moreinfo.cpp:98
 msgid "English"
@@ -6909,15 +6929,15 @@ msgid "Defaults"
 msgstr "Predeterminado"
 
 #: sim/qt3/i18n.cpp:187
-msgid "< Back"
+msgid "< &Back"
 msgstr "< Atrás"
 
 #: sim/qt3/i18n.cpp:189
-msgid "Next >"
+msgid "&Next >"
 msgstr "Siguiente >"
 
 #: sim/qt3/i18n.cpp:191
-msgid "Finish"
+msgid "&Finish"
 msgstr "Finalizar"
 
 #: sim/qt3/i18n.cpp:195
@@ -8381,12 +8401,8 @@ msgstr "Error escribir SSL"
 msgid "SSL connect error"
 msgstr "Error conectar SSL"
 
-#: sim/sslclient.cpp:177
+#: sim/sslclient.cpp:177 sim/sslclient.cpp:198 sim/sslclient.cpp:206
 msgid "SSL shutdown error"
-msgstr "Error cerrar SSL"
-
-#: sim/sslclient.cpp:198 sim/sslclient.cpp:206
-msgid "SSL shuwdown error"
 msgstr "Error cerrar SSL"
 
 #: sim/sslclient.cpp:213 sim/sslclient.cpp:234 sim/sslclient.cpp:242
@@ -8408,3 +8424,6 @@ msgstr "Personalizar"
 #: xpstyle/xpstyle.cpp:63
 msgid "Windows XP style"
 msgstr "Estilo Windows XP"
+
+#~ msgid "SSL shuwdown error"
+#~ msgstr "Error cerrar SSL"

@@ -357,6 +357,10 @@ msgstr "&Poprzednia strona"
 msgid "&Next page"
 msgstr "&Następna strona"
 
+#: core.cpp:820
+msgid "&Save as text"
+msgstr ""
+
 #: plugins/_core/core.cpp:878
 #, fuzzy
 msgid "&Open message"
@@ -859,6 +863,22 @@ msgstr "Login"
 #: plugins/_core/historywnd.cpp:119 plugins/_core/interfacecfg.cpp:88
 msgid "History"
 msgstr "Historia"
+
+#: plugins/_core/historywnd.cpp:191
+msgid "File already exists. Overwrite?"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:196
+msgid "&Overwrite"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:197
+msgid "&Append"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:211
+msgid "Save failed"
+msgstr ""
 
 #: plugins/_core/interfacecfg.cpp:53 plugins/icq/moreinfo.cpp:98
 msgid "English"
@@ -7625,17 +7645,17 @@ msgstr "Domyślne"
 
 #: sim/qt3/i18n.cpp:187
 #, fuzzy
-msgid "< Back"
+msgid "< &Back"
 msgstr "czarny"
 
 #: sim/qt3/i18n.cpp:189
 #, fuzzy
-msgid "Next >"
+msgid "&Next >"
 msgstr "Następny"
 
 #: sim/qt3/i18n.cpp:191
 #, fuzzy
-msgid "Finish"
+msgid "&Finish"
 msgstr "Fiński"
 
 #: sim/qt3/i18n.cpp:195
@@ -9140,14 +9160,9 @@ msgstr "Połączenie"
 msgid "SSL connect error"
 msgstr "Połączenie"
 
-#: sim/sslclient.cpp:177
+#: sim/sslclient.cpp:177 sim/sslclient.cpp:198 sim/sslclient.cpp:206
 #, fuzzy
 msgid "SSL shutdown error"
-msgstr "Połączenie"
-
-#: sim/sslclient.cpp:198 sim/sslclient.cpp:206
-#, fuzzy
-msgid "SSL shuwdown error"
 msgstr "Połączenie"
 
 #: sim/sslclient.cpp:213 sim/sslclient.cpp:234 sim/sslclient.cpp:242
@@ -9173,3 +9188,7 @@ msgstr ""
 #, fuzzy
 msgid "Windows XP style"
 msgstr "Lista kontaktów wysłana"
+
+#, fuzzy
+#~ msgid "SSL shuwdown error"
+#~ msgstr "Połączenie"

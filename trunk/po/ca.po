@@ -340,6 +340,10 @@ msgstr "&Pàgina anterior"
 msgid "&Next page"
 msgstr "&Pàgina següent"
 
+#: core.cpp:820
+msgid "&Save as text"
+msgstr ""
+
 #: plugins/_core/core.cpp:878
 msgid "&Open message"
 msgstr "&Obre missatge"
@@ -797,6 +801,22 @@ msgstr "S'està carregant"
 #: plugins/_core/historywnd.cpp:119 plugins/_core/interfacecfg.cpp:88
 msgid "History"
 msgstr "Historial"
+
+#: plugins/_core/historywnd.cpp:191
+msgid "File already exists. Overwrite?"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:196
+msgid "&Overwrite"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:197
+msgid "&Append"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:211
+msgid "Save failed"
+msgstr ""
 
 #: plugins/_core/interfacecfg.cpp:53 plugins/icq/moreinfo.cpp:98
 msgid "English"
@@ -7309,15 +7329,15 @@ msgid "Defaults"
 msgstr "Predeterminats"
 
 #: sim/qt3/i18n.cpp:187
-msgid "< Back"
+msgid "< &Back"
 msgstr "< Enrere"
 
 #: sim/qt3/i18n.cpp:189
-msgid "Next >"
+msgid "&Next >"
 msgstr "Següent>"
 
 #: sim/qt3/i18n.cpp:191
-msgid "Finish"
+msgid "&Finish"
 msgstr "Fi"
 
 #: sim/qt3/i18n.cpp:195
@@ -8788,12 +8808,8 @@ msgstr "Eror en llegir SSL"
 msgid "SSL connect error"
 msgstr "SSL error de connexió"
 
-#: sim/sslclient.cpp:177
+#: sim/sslclient.cpp:177 sim/sslclient.cpp:198 sim/sslclient.cpp:206
 msgid "SSL shutdown error"
-msgstr "Error en tancar SSL"
-
-#: sim/sslclient.cpp:198 sim/sslclient.cpp:206
-msgid "SSL shuwdown error"
 msgstr "Error en tancar SSL"
 
 #: sim/sslclient.cpp:213 sim/sslclient.cpp:234 sim/sslclient.cpp:242
@@ -8816,3 +8832,6 @@ msgstr "Personalització"
 #, fuzzy
 msgid "Windows XP style"
 msgstr "Finestra - escala"
+
+#~ msgid "SSL shuwdown error"
+#~ msgstr "Error en tancar SSL"

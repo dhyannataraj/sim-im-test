@@ -331,6 +331,10 @@ msgstr "&Vorherige Seide"
 msgid "&Next page"
 msgstr "&Nächschde Seide"
 
+#: core.cpp:820
+msgid "&Save as text"
+msgstr ""
+
 #: plugins/_core/core.cpp:878
 msgid "&Open message"
 msgstr "Nachrichd e&ffna"
@@ -774,6 +778,22 @@ msgstr "Wird glada"
 #: plugins/_core/historywnd.cpp:119 plugins/_core/interfacecfg.cpp:88
 msgid "History"
 msgstr "Vrlauf"
+
+#: plugins/_core/historywnd.cpp:191
+msgid "File already exists. Overwrite?"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:196
+msgid "&Overwrite"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:197
+msgid "&Append"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:211
+msgid "Save failed"
+msgstr ""
 
 #: plugins/_core/interfacecfg.cpp:53 plugins/icq/moreinfo.cpp:98
 msgid "English"
@@ -7000,15 +7020,15 @@ msgid "Defaults"
 msgstr "Voreinschdellonga"
 
 #: sim/qt3/i18n.cpp:187
-msgid "< Back"
+msgid "< &Back"
 msgstr "< Zurigg"
 
 #: sim/qt3/i18n.cpp:189
-msgid "Next >"
+msgid "&Next >"
 msgstr "Weidr >"
 
 #: sim/qt3/i18n.cpp:191
-msgid "Finish"
+msgid "&Finish"
 msgstr "Abschließa"
 
 #: sim/qt3/i18n.cpp:195
@@ -8465,12 +8485,8 @@ msgstr "SSL-Schreibfehlr"
 msgid "SSL connect error"
 msgstr "SSL-Vrbendongsfehlr"
 
-#: sim/sslclient.cpp:177
+#: sim/sslclient.cpp:177 sim/sslclient.cpp:198 sim/sslclient.cpp:206
 msgid "SSL shutdown error"
-msgstr "SSL-Fehlr beim SSL-Shuddown"
-
-#: sim/sslclient.cpp:198 sim/sslclient.cpp:206
-msgid "SSL shuwdown error"
 msgstr "SSL-Fehlr beim SSL-Shuddown"
 
 #: sim/sslclient.cpp:213 sim/sslclient.cpp:234 sim/sslclient.cpp:242
@@ -8492,3 +8508,6 @@ msgstr "Benudzerdefinierd"
 #: xpstyle/xpstyle.cpp:63
 msgid "Windows XP style"
 msgstr "Wendows XB-Schdil"
+
+#~ msgid "SSL shuwdown error"
+#~ msgstr "SSL-Fehlr beim SSL-Shuddown"

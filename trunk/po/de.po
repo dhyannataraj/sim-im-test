@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2004-08-05 15:33+0200\n"
-"PO-Revision-Date: 2004-08-07 08:30+0100\n"
+"PO-Revision-Date: 2004-08-30 18:12+0600\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -482,6 +482,10 @@ msgstr "&Vorherige Seite"
 #: plugins/_core/core.cpp:814
 msgid "&Next page"
 msgstr "&Nächste Seite"
+
+#: plugins/_core/core.cpp:820
+msgid "&Save as text"
+msgstr ""
 
 #: plugins/_core/core.cpp:878
 msgid "&Open message"
@@ -986,6 +990,22 @@ msgstr "Wird geladen"
 #: plugins/_core/interfacecfg.cpp:88
 msgid "History"
 msgstr "Verlauf"
+
+#: plugins/_core/historywnd.cpp:191
+msgid "File already exists. Overwrite?"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:196
+msgid "&Overwrite"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:197
+msgid "&Append"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:211
+msgid "Save failed"
+msgstr ""
 
 #: plugins/_core/interfacecfg.cpp:53
 #: plugins/icq/moreinfo.cpp:98
@@ -7616,15 +7636,15 @@ msgid "Defaults"
 msgstr "Standard"
 
 #: sim/qt3/i18n.cpp:187
-msgid "< Back"
+msgid "< &Back"
 msgstr "< Zurück"
 
 #: sim/qt3/i18n.cpp:189
-msgid "Next >"
+msgid "&Next >"
 msgstr "Nächster >"
 
 #: sim/qt3/i18n.cpp:191
-msgid "Finish"
+msgid "&Finish"
 msgstr "Abschliessen"
 
 #: sim/qt3/i18n.cpp:195
@@ -9108,11 +9128,6 @@ msgstr "SSL-Verbindungsfehler"
 
 #: sim/sslclient.cpp:177
 msgid "SSL shutdown error"
-msgstr "SSL-Fehler beim SSL-Shutdown"
-
-#: sim/sslclient.cpp:198
-#: sim/sslclient.cpp:206
-msgid "SSL shuwdown error"
 msgstr "SSL-Fehler beim SSL-Shutdown"
 
 #: sim/sslclient.cpp:213

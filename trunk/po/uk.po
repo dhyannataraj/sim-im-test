@@ -332,6 +332,10 @@ msgstr "&Попередня сторінка"
 msgid "&Next page"
 msgstr "&Наступна сторінка"
 
+#: core.cpp:820
+msgid "&Save as text"
+msgstr ""
+
 #: plugins/_core/core.cpp:878
 msgid "&Open message"
 msgstr "&Відкрити повідомлення"
@@ -778,6 +782,22 @@ msgstr "Завантаження"
 #: plugins/_core/historywnd.cpp:119 plugins/_core/interfacecfg.cpp:88
 msgid "History"
 msgstr "Історія"
+
+#: plugins/_core/historywnd.cpp:191
+msgid "File already exists. Overwrite?"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:196
+msgid "&Overwrite"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:197
+msgid "&Append"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:211
+msgid "Save failed"
+msgstr ""
 
 #: plugins/_core/interfacecfg.cpp:53 plugins/icq/moreinfo.cpp:98
 msgid "English"
@@ -6943,15 +6963,15 @@ msgid "Defaults"
 msgstr "По змовчуванню"
 
 #: sim/qt3/i18n.cpp:187
-msgid "< Back"
+msgid "< &Back"
 msgstr "< Назад"
 
 #: sim/qt3/i18n.cpp:189
-msgid "Next >"
+msgid "&Next >"
 msgstr "Вперед >"
 
 #: sim/qt3/i18n.cpp:191
-msgid "Finish"
+msgid "&Finish"
 msgstr "Закінчення"
 
 #: sim/qt3/i18n.cpp:195
@@ -8415,12 +8435,8 @@ msgstr "Помилка запису SSL"
 msgid "SSL connect error"
 msgstr "Помилка з'єднання SSL"
 
-#: sim/sslclient.cpp:177
+#: sim/sslclient.cpp:177 sim/sslclient.cpp:198 sim/sslclient.cpp:206
 msgid "SSL shutdown error"
-msgstr "Помилка роз'єднання SSL"
-
-#: sim/sslclient.cpp:198 sim/sslclient.cpp:206
-msgid "SSL shuwdown error"
 msgstr "Помилка роз'єднання SSL"
 
 #: sim/sslclient.cpp:213 sim/sslclient.cpp:234 sim/sslclient.cpp:242
@@ -8443,3 +8459,5 @@ msgstr "Власний"
 msgid "Windows XP style"
 msgstr "Стиль Windows XP"
 
+#~ msgid "SSL shuwdown error"
+#~ msgstr "Помилка роз'єднання SSL"
