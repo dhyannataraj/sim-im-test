@@ -176,18 +176,18 @@ void ZodiakWnd::paintEvent(QPaintEvent *e)
 
 static const char *signes[] =
     {
-        I18N_NOOP("Aries"),
-        I18N_NOOP("Taurus"),
-        I18N_NOOP("Gemini"),
-        I18N_NOOP("Cancer"),
-        I18N_NOOP("Leo"),
-        I18N_NOOP("Virgo"),
-        I18N_NOOP("Libra"),
-        I18N_NOOP("Scorpio"),
-        I18N_NOOP("Saqittarius"),
-        I18N_NOOP("Capricorn"),
-        I18N_NOOP("Aquarius"),
-        I18N_NOOP("Pisces")
+        I18N_NOOP("Aries"),			// 21.03. - 20.04.
+        I18N_NOOP("Taurus"),		// 21.04. - 20.05.
+        I18N_NOOP("Gemini"),		// 21.05. - 21.06.
+        I18N_NOOP("Cancer"),		// 22.06. - 22.07.
+        I18N_NOOP("Leo"),			// 23.07. - 23.08.
+        I18N_NOOP("Virgo"),			// 24.08. - 23.09.
+        I18N_NOOP("Libra"),			// 24.09. - 23.10.
+        I18N_NOOP("Scorpio"),		// 24.10. - 22.11.
+        I18N_NOOP("Saqittarius"),	// 23.11. - 21.12.
+        I18N_NOOP("Capricorn"),		// 22.12. - 20.01.
+        I18N_NOOP("Aquarius"),		// 21.01. - 19.02.
+        I18N_NOOP("Pisces")			// 20.02. - 20.03.
     };
 
 static const char **xpms[] =
@@ -237,7 +237,7 @@ void ZodiakWnd::view()
 
 static int bound[] =
     {
-        20, 21, 21, 22, 23, 24, 23, 23, 23, 22, 20, 19
+        21, 21, 21, 22, 23, 24, 24, 24, 23, 22, 21, 20
     };
 
 int ZodiakWnd::getSign(int day, int month)
