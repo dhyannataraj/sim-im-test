@@ -185,6 +185,15 @@ SOURCE=.\sim\libicq\clearhtml.ll
 
 !IF  "$(CFG)" == "sim - Win32 Release"
 
+# Begin Custom Build - Flex on $(InputPath)
+InputDir=.\sim\libicq
+InputPath=.\sim\libicq\clearhtml.ll
+
+"$(InputDir)\clearhtml.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	flex -o$(InputDir)\clearhtml.cpp $(InputPath)
+
+# End Custom Build
+
 !ELSEIF  "$(CFG)" == "sim - Win32 Debug"
 
 # Begin Custom Build - Flex on $(InputPath)
@@ -292,6 +301,15 @@ SOURCE=.\sim\libicq\genrtf.cpp
 SOURCE=.\sim\libicq\genrtf.ll
 
 !IF  "$(CFG)" == "sim - Win32 Release"
+
+# Begin Custom Build - Flex on $(InputPath)
+InputDir=.\sim\libicq
+InputPath=.\sim\libicq\genrtf.ll
+
+"$(InputDir)\genrtf.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	flex -o$(InputDir)\genrtf.cpp $(InputPath)
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "sim - Win32 Debug"
 
@@ -889,6 +907,15 @@ SOURCE=.\sim\parse.ll
 
 !IF  "$(CFG)" == "sim - Win32 Release"
 
+# Begin Custom Build - Flex $(InputPath)
+InputDir=.\sim
+InputPath=.\sim\parse.ll
+
+"$(InputDir)\parse.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	flex -o$(InputDir)\parse.cpp $(InputPath)
+
+# End Custom Build
+
 !ELSEIF  "$(CFG)" == "sim - Win32 Debug"
 
 # PROP Ignore_Default_Tool 1
@@ -997,6 +1024,15 @@ SOURCE=.\sim\libicq\rtf.cpp
 SOURCE=.\sim\libicq\rtf.ll
 
 !IF  "$(CFG)" == "sim - Win32 Release"
+
+# Begin Custom Build - Flex $(InputPath)
+InputDir=.\sim\libicq
+InputPath=.\sim\libicq\rtf.ll
+
+"$(InputDir)\rtf.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	flex -o$(InputDir)\rtf.cpp $(InputPath)
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "sim - Win32 Debug"
 
