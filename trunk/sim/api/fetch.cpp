@@ -659,7 +659,7 @@ bool FetchClientPrivate::crackUrl(const char *_url, string &protocol, string &ho
     string h = getToken(host, ':');
     if (!host.empty()){
         port = (unsigned short)atol(host.c_str());
-        if (port == NULL)
+        if (port == 0)
             return false;
     }
     host = h;
