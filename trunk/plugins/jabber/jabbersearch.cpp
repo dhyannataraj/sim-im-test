@@ -88,21 +88,21 @@ JabberSearch::JabberSearch(QWidget *receiver, JabberClient *client, const char *
 
 typedef struct defFlds
 {
-    char	*tag;
-    char	*name;
-    bool	bRequired;
+    const char  *tag;
+    const char  *name;
+    bool        bRequired;
 } defFlds;
 
 static defFlds fields[] =
     {
-        { "username", (char*)I18N_NOOP("Username"), true },
-        { "nick", (char*)I18N_NOOP("Nick"), false },
-        { "email", (char*)I18N_NOOP("EMail"), false },
-        { "first", (char*)I18N_NOOP("First name"), false },
-        { "last", (char*)I18N_NOOP("Last name"), false },
-        { "age_min", (char*)I18N_NOOP("Age min"), false },
-        { "age_max", (char*)I18N_NOOP("Age max"), false },
-        { "city", (char*)I18N_NOOP("City"), false },
+        { "username", I18N_NOOP("Username"), true },
+        { "nick", I18N_NOOP("Nick"), false },
+        { "email", I18N_NOOP("EMail"), false },
+        { "first", I18N_NOOP("First name"), false },
+        { "last", I18N_NOOP("Last name"), false },
+        { "age_min", I18N_NOOP("Age min"), false },
+        { "age_max", I18N_NOOP("Age max"), false },
+        { "city", I18N_NOOP("City"), false },
         { NULL, NULL, false }
     };
 
