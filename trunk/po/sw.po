@@ -1,12 +1,12 @@
 # translation of sw.po to schwäbisch
 # Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
 # Robert Scheck <sim@robert-scheck.de>, 2003, 2004.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: swabian\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-05 15:33+0200\n"
+"POT-Creation-Date: 2004-11-15 08:42+0100\n"
 "PO-Revision-Date: 2004-05-02 14:30+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: schwäbisch <swabian@li.org>\n"
@@ -126,7 +126,7 @@ msgstr "&OK"
 msgid "&Cancel"
 msgstr "A&bbrecha"
 
-#: plugins/_core/cfgdlg.cpp:504 plugins/_core/cfgdlgbase.cpp:91 plugins/_core/core.cpp:534 plugins/_core/core.cpp:1144 plugins/_core/core.cpp:1226
+#: plugins/_core/cfgdlg.cpp:504 plugins/_core/cfgdlgbase.cpp:91 plugins/_core/core.cpp:534 plugins/_core/core.cpp:1151 plugins/_core/core.cpp:1233
 msgid "Setup"
 msgstr "Oirichda"
 
@@ -178,39 +178,6 @@ msgstr "Nachrichdenfenschdr"
 msgid "System interface"
 msgstr "Syschdemschniddschdelle"
 
-#: plugins/_core/core.cpp:432
-msgid ""
-"I am currently away from ICQ.\n"
-"Please leave your message and I will get back to you as soon as I return!\n"
-msgstr ""
-"I bin grade ned am Combjudr.\n"
-"Bidde henderlassa Se a Nachrichd ond I werde mich bei Ihna melda, haidanai!\n"
-
-#: plugins/_core/core.cpp:436
-msgid ""
-"I am out'a here.\n"
-"See you tomorrow!\n"
-msgstr ""
-"I bin ned do.\n"
-"Mir seha ons morga, haidanai!\n"
-
-#: plugins/_core/core.cpp:440
-msgid "Please do not disturb me now. Disturb me later.\n"
-msgstr "Bidde ned schdera. Vrsucha Se s bidde schbädr.\n"
-
-#: plugins/_core/core.cpp:443
-msgid "We'd love to hear what you have to say. Join our chat.\n"
-msgstr "I mechde grn chatta.\n"
-
-#: plugins/_core/core.cpp:446
-msgid "I'm here.\n"
-msgstr ""
-
-#: plugins/_core/core.cpp:449
-#, fuzzy
-msgid "I'm offline.\n"
-msgstr "&Offline anzeiga"
-
 #: plugins/_core/core.cpp:544
 msgid "Unread messages"
 msgstr "Oglesene Nachrichda"
@@ -243,15 +210,15 @@ msgstr "Nachrichd"
 msgid "Contact"
 msgstr "Kondakd"
 
-#: plugins/_core/core.cpp:617 plugins/_core/core.cpp:1178
+#: plugins/_core/core.cpp:617 plugins/_core/core.cpp:1185
 msgid "Group"
 msgstr "Grubbe"
 
-#: plugins/_core/core.cpp:625 plugins/_core/core.cpp:1211 plugins/icq/icq.cpp:376 plugins/jabber/jabber.cpp:231
+#: plugins/_core/core.cpp:625 plugins/_core/core.cpp:1218 plugins/icq/icq.cpp:376 plugins/jabber/jabber.cpp:231
 msgid "User &info"
 msgstr "Benudzer&informazion"
 
-#: plugins/_core/core.cpp:632 plugins/_core/core.cpp:1044 plugins/_core/core.cpp:1219
+#: plugins/_core/core.cpp:632 plugins/_core/core.cpp:1051 plugins/_core/core.cpp:1226
 msgid "&History"
 msgstr "&Vrlauf"
 
@@ -263,7 +230,7 @@ msgstr "S&chließa"
 msgid "&Send"
 msgstr "&Senda"
 
-#: plugins/_core/core.cpp:693 plugins/_core/core.cpp:1695
+#: plugins/_core/core.cpp:693 plugins/_core/core.cpp:1702
 msgid "&Insert smile"
 msgstr "Smiley oi&figa"
 
@@ -279,27 +246,27 @@ msgstr "&Nach beendedr Iberdragong schließa"
 msgid "&Multiply send"
 msgstr "An &mehrere senda"
 
-#: plugins/_core/core.cpp:724 plugins/_core/core.cpp:820
+#: plugins/_core/core.cpp:724 plugins/_core/core.cpp:827
 msgid "Back&ground color"
 msgstr "Hender&grondfarbe:"
 
-#: plugins/_core/core.cpp:732 plugins/_core/core.cpp:829
+#: plugins/_core/core.cpp:732 plugins/_core/core.cpp:836
 msgid "&Foreground color"
 msgstr "Hendergrond&farbe:"
 
-#: plugins/_core/core.cpp:738 plugins/_core/core.cpp:835
+#: plugins/_core/core.cpp:738 plugins/_core/core.cpp:842
 msgid "&Bold"
 msgstr "&Fedd"
 
-#: plugins/_core/core.cpp:745 plugins/_core/core.cpp:842
+#: plugins/_core/core.cpp:745 plugins/_core/core.cpp:849
 msgid "&Italic"
 msgstr "&Kursiv"
 
-#: plugins/_core/core.cpp:752 plugins/_core/core.cpp:849 sim/qt3/i18n.cpp:160
+#: plugins/_core/core.cpp:752 plugins/_core/core.cpp:856 sim/qt3/i18n.cpp:160
 msgid "&Underline"
 msgstr "&Onderschdricha"
 
-#: plugins/_core/core.cpp:759 plugins/_core/core.cpp:856
+#: plugins/_core/core.cpp:759 plugins/_core/core.cpp:863
 msgid "Select &font"
 msgstr "Schri&ftart auswählen"
 
@@ -331,319 +298,311 @@ msgstr "&Vorherige Seide"
 msgid "&Next page"
 msgstr "&Nächschde Seide"
 
-#: core.cpp:820
+#: plugins/_core/core.cpp:820
 msgid "&Save as text"
 msgstr ""
 
-#: plugins/_core/core.cpp:878
+#: plugins/_core/core.cpp:885
 msgid "&Open message"
 msgstr "Nachrichd e&ffna"
 
-#: plugins/_core/core.cpp:895 plugins/_core/core.cpp:984 plugins/_core/historycfgbase.cpp:175 plugins/netmonitor/monitor.cpp:67 sim/qt3/qtextedit.cpp:4238
+#: plugins/_core/core.cpp:902 plugins/_core/core.cpp:991 plugins/_core/historycfgbase.cpp:175 plugins/netmonitor/monitor.cpp:67 sim/qt3/qtextedit.cpp:4238
 msgid "&Copy"
 msgstr "&Kobiera"
 
-#: plugins/_core/core.cpp:901
+#: plugins/_core/core.cpp:908
 msgid "&Delete message"
 msgstr "Nachrichd &lescha"
 
-#: plugins/_core/core.cpp:907
+#: plugins/_core/core.cpp:914
 msgid "&Cut history"
 msgstr "Vrlauf ausschneida"
 
-#: plugins/_core/core.cpp:912
+#: plugins/_core/core.cpp:919
 msgid "&Quote"
 msgstr "&Zitiera"
 
-#: plugins/_core/core.cpp:929 plugins/forward/forward.cpp:65
+#: plugins/_core/core.cpp:936 plugins/forward/forward.cpp:65
 msgid "&Forward"
 msgstr "&Weiderleida"
 
-#: plugins/_core/core.cpp:944
+#: plugins/_core/core.cpp:951
 msgid "&Answer"
 msgstr "&Andword"
 
-#: plugins/_core/core.cpp:959 sim/qt3/qtextedit.cpp:4231
+#: plugins/_core/core.cpp:966 sim/qt3/qtextedit.cpp:4231
 msgid "&Undo"
 msgstr "&Rigggängig"
 
-#: plugins/_core/core.cpp:970 sim/qt3/qtextedit.cpp:4232
+#: plugins/_core/core.cpp:977 sim/qt3/qtextedit.cpp:4232
 msgid "&Redo"
 msgstr "&Wiederherschdella"
 
-#: plugins/_core/core.cpp:977 sim/qt3/qtextedit.cpp:4237
+#: plugins/_core/core.cpp:984 sim/qt3/qtextedit.cpp:4237
 msgid "Cu&t"
 msgstr "Aus&schneida"
 
-#: plugins/_core/core.cpp:991 sim/qt3/qtextedit.cpp:4240
+#: plugins/_core/core.cpp:998 sim/qt3/qtextedit.cpp:4240
 msgid "&Paste"
 msgstr "Oi&figa"
 
-#: plugins/_core/core.cpp:998 sim/editfile.cpp:315 sim/editfile.cpp:398 sim/qt3/i18n.cpp:255 sim/qt3/qtextedit.cpp:4243
+#: plugins/_core/core.cpp:1005 sim/editfile.cpp:315 sim/editfile.cpp:398 sim/qt3/i18n.cpp:255 sim/qt3/qtextedit.cpp:4243
 msgid "Clear"
 msgstr "Lescha"
 
-#: plugins/_core/core.cpp:1005 sim/qt3/i18n.cpp:257 sim/qt3/qtextedit.cpp:4247 sim/qt3/qtextedit.cpp:4249
+#: plugins/_core/core.cpp:1012 sim/qt3/i18n.cpp:257 sim/qt3/qtextedit.cpp:4247 sim/qt3/qtextedit.cpp:4249
 msgid "Select All"
 msgstr "Alles auswähla"
 
-#: plugins/_core/core.cpp:1013
+#: plugins/_core/core.cpp:1020
 msgid "Enable spell check"
 msgstr "Rechdschreibbrifong akdiviera"
 
-#: plugins/_core/core.cpp:1019 plugins/spell/spell.cpp:61
+#: plugins/_core/core.cpp:1026 plugins/spell/spell.cpp:61
 msgid "Spell check"
 msgstr "Rechdschreibbrifong"
 
-#: plugins/_core/core.cpp:1027
+#: plugins/_core/core.cpp:1034
 msgid "&Messages"
 msgstr "&Nachrichda"
 
-#: plugins/_core/core.cpp:1036 plugins/_core/msgedit.cpp:1679 plugins/sms/smssetupbase.cpp:153
+#: plugins/_core/core.cpp:1043 plugins/_core/msgedit.cpp:1679 plugins/sms/smssetupbase.cpp:153
 msgid "&SMS"
 msgstr "&SMS"
 
-#: plugins/_core/core.cpp:1052 plugins/_core/core.cpp:1083
+#: plugins/_core/core.cpp:1059 plugins/_core/core.cpp:1090
 msgid "Show &offline"
 msgstr "&Offline anzeiga"
 
-#: plugins/_core/core.cpp:1064
+#: plugins/_core/core.cpp:1071
 msgid "&No show groups"
 msgstr "&Koine Grubba anzeiga"
 
-#: plugins/_core/core.cpp:1074
+#: plugins/_core/core.cpp:1081
 msgid "Group mode 1"
 msgstr "Grubbenmodus 1"
 
-#: plugins/_core/core.cpp:1079
+#: plugins/_core/core.cpp:1086
 msgid "Group mode 2"
 msgstr "Grubbenmodus 2"
 
-#: plugins/_core/core.cpp:1090
+#: plugins/_core/core.cpp:1097
 msgid "Show &empty groups"
 msgstr "&Leera Grubba anzeiga"
 
-#: plugins/_core/core.cpp:1097
+#: plugins/_core/core.cpp:1104
 msgid "&Create group"
 msgstr "Grubbe &erschdella"
 
-#: plugins/_core/core.cpp:1108
+#: plugins/_core/core.cpp:1115
 msgid "&Rename group"
 msgstr "Grubbe &ombenenna"
 
-#: plugins/_core/core.cpp:1115
+#: plugins/_core/core.cpp:1122
 msgid "&Delete group"
 msgstr "Grubbe &lescha"
 
-#: plugins/_core/core.cpp:1122
+#: plugins/_core/core.cpp:1129
 msgid "Up"
 msgstr "Nuff"
 
-#: plugins/_core/core.cpp:1129
+#: plugins/_core/core.cpp:1136
 msgid "Down"
 msgstr "Nonda"
 
-#: plugins/_core/core.cpp:1186 plugins/_core/historycfgbase.cpp:176 sim/qt3/i18n.cpp:97
+#: plugins/_core/core.cpp:1193 plugins/_core/historycfgbase.cpp:176 sim/qt3/i18n.cpp:97
 msgid "&Rename"
 msgstr "&Ombenenna"
 
-#: plugins/_core/core.cpp:1195 plugins/_core/core.cpp:1342 plugins/_core/core.cpp:1355 plugins/_core/historycfgbase.cpp:177 plugins/_core/logindlgbase.cpp:129 plugins/_core/maininfobase.cpp:195 plugins/_core/maininfobase.cpp:205 plugins/action/menucfgbase.cpp:70 sim/listview.cpp:38 sim/qt3/i18n.cpp:99
+#: plugins/_core/core.cpp:1202 plugins/_core/core.cpp:1349 plugins/_core/core.cpp:1362 plugins/_core/historycfgbase.cpp:177 plugins/_core/logindlgbase.cpp:129 plugins/_core/maininfobase.cpp:195 plugins/_core/maininfobase.cpp:205 plugins/action/menucfgbase.cpp:70 sim/listview.cpp:38 sim/qt3/i18n.cpp:99
 msgid "&Delete"
 msgstr "&Lescha"
 
-#: plugins/_core/core.cpp:1203
+#: plugins/_core/core.cpp:1210
 msgid "Show &always"
 msgstr "Emmr &anzeiga"
 
-#: plugins/_core/core.cpp:1233
+#: plugins/_core/core.cpp:1240
 msgid "To container"
 msgstr "En Condainr"
 
-#: plugins/_core/core.cpp:1258
+#: plugins/_core/core.cpp:1265
 msgid "&Location"
 msgstr "&Ord"
 
-#: plugins/_core/core.cpp:1266 plugins/icq/aiminfobase.cc:274 plugins/icq/icqinfobase.cc:321 plugins/jabber/jabberinfobase.cpp:250 plugins/msn/msninfobase.cpp:136 plugins/yahoo/yahooinfobase.cpp:161
+#: plugins/_core/core.cpp:1273 plugins/icq/aiminfobase.cc:274 plugins/icq/icqinfobase.cc:321 plugins/jabber/jabberinfobase.cpp:250 plugins/msn/msninfobase.cpp:136 plugins/yahoo/yahooinfobase.cpp:161
 msgid "&Status"
 msgstr "&Schdadus"
 
-#: plugins/_core/core.cpp:1273
+#: plugins/_core/core.cpp:1280
 msgid "&Phone book"
 msgstr "&Delefonbuch"
 
-#: plugins/_core/core.cpp:1280
+#: plugins/_core/core.cpp:1287
 msgid "&No show"
 msgstr "&Ned anzeiga"
 
-#: plugins/_core/core.cpp:1287
+#: plugins/_core/core.cpp:1294
 msgid "&Available"
 msgstr "&Vrfigbar"
 
-#: plugins/_core/core.cpp:1295
+#: plugins/_core/core.cpp:1302
 msgid "&Busy"
 msgstr "&Beschäfdigd"
 
-#: plugins/_core/core.cpp:1311
+#: plugins/_core/core.cpp:1318
 msgid "Decline file without reason"
 msgstr "Ohne Grond abglehnd"
 
-#: plugins/_core/core.cpp:1319 plugins/_core/core.cpp:3368
+#: plugins/_core/core.cpp:1326 plugins/_core/core.cpp:3375
 msgid "Sorry, I'm busy right now, and can not respond to your request"
 msgstr "Endschuldigong, bin grade beschäfdigd ond ka ned uff d Anfroge andworda."
 
-#: plugins/_core/core.cpp:1324 plugins/_core/core.cpp:3377
+#: plugins/_core/core.cpp:1331 plugins/_core/core.cpp:3384
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
 msgstr "Endschuldigong, bin grade beschäfdigd, werde abr schbädr andworda."
 
-#: plugins/_core/core.cpp:1329
+#: plugins/_core/core.cpp:1336
 msgid "Enter a decline reason"
 msgstr "Ablehongsgrond oigeba"
 
-#: plugins/_core/core.cpp:1334 plugins/_core/core.cpp:1348 plugins/_core/maininfobase.cpp:194 plugins/_core/maininfobase.cpp:204 plugins/action/menucfgbase.cpp:69 plugins/netmonitor/monitor.cpp:69
+#: plugins/_core/core.cpp:1341 plugins/_core/core.cpp:1355 plugins/_core/maininfobase.cpp:194 plugins/_core/maininfobase.cpp:204 plugins/action/menucfgbase.cpp:69 plugins/netmonitor/monitor.cpp:69
 msgid "&Edit"
 msgstr "&Bearbeida"
 
-#: plugins/_core/core.cpp:1373
+#: plugins/_core/core.cpp:1380
 msgid "&Show all encodings"
 msgstr "Alle Kodieronga &anzeiga"
 
-#: plugins/_core/core.cpp:1379 plugins/_core/core.cpp:1389
+#: plugins/_core/core.cpp:1386 plugins/_core/core.cpp:1396
 msgid "Change &encoding"
 msgstr "Kodierong ä&ndern"
 
-#: plugins/_core/core.cpp:1399
+#: plugins/_core/core.cpp:1406
 #, fuzzy
 msgid "Add to &group"
 msgstr "Zu oinr Grubbe hinzu&figa"
 
-#: plugins/_core/core.cpp:1419 plugins/_core/maininfobase.cpp:191 plugins/jabber/discoinfo.cpp:179 plugins/jabber/discoinfobase.cpp:270 plugins/jabber/discoinfobase.cpp:287
+#: plugins/_core/core.cpp:1426 plugins/_core/maininfobase.cpp:191 plugins/jabber/discoinfo.cpp:179 plugins/jabber/discoinfobase.cpp:270 plugins/jabber/discoinfobase.cpp:287
 msgid "&Info"
 msgstr "Enformaz&ion"
 
-#: plugins/_core/core.cpp:1428
+#: plugins/_core/core.cpp:1435
 msgid "Send &message"
 msgstr "Nachrichd &senda"
 
-#: plugins/_core/core.cpp:1657
+#: plugins/_core/core.cpp:1664
 msgid "ip-address"
 msgstr "IP-Adresse"
 
-#: plugins/_core/core.cpp:1659
+#: plugins/_core/core.cpp:1666
 msgid "e-mail"
 msgstr "E-Mail"
 
-#: plugins/_core/core.cpp:1661
+#: plugins/_core/core.cpp:1668
 msgid "phone"
 msgstr "Delefon"
 
-#: plugins/_core/core.cpp:1663
+#: plugins/_core/core.cpp:1670
 msgid "contact nick"
 msgstr "Kondakd-Nigg"
 
-#: plugins/_core/core.cpp:1665
+#: plugins/_core/core.cpp:1672
 msgid "number of unread messages from this contact"
 msgstr "Anzahl dr oglesena Nachrichda dieses Kondakdes"
 
-#: plugins/_core/core.cpp:1667
+#: plugins/_core/core.cpp:1674
 msgid "contact status"
 msgstr "Kondakd-Schdadus"
 
-#: plugins/_core/core.cpp:1669
+#: plugins/_core/core.cpp:1676
 msgid "time of set status"
 msgstr "Zeid, zu dr dr Schdadus gsedzd wurde"
 
-#: plugins/_core/core.cpp:1671
+#: plugins/_core/core.cpp:1678
 msgid "time from set status"
 msgstr "Zeid, de seid dem Sedza des Schdadus vrganga ischd"
 
-#: plugins/_core/core.cpp:1676
+#: plugins/_core/core.cpp:1683
 #, fuzzy
 msgid ""
 "_: male\n"
 "%1 wrote:"
 msgstr "%1 schreibd"
 
-#: plugins/_core/core.cpp:1677
+#: plugins/_core/core.cpp:1684
 #, fuzzy
 msgid ""
 "_: female\n"
 "%1 wrote:"
 msgstr "%1 ischd online"
 
-#: plugins/_core/core.cpp:1714 plugins/_core/status.cpp:321 sim/qt3/i18n.cpp:21
+#: plugins/_core/core.cpp:1721 plugins/_core/status.cpp:321 sim/qt3/i18n.cpp:21
 msgid "OK"
 msgstr "OK"
 
-#: plugins/_core/core.cpp:1717
-msgid ""
-"At loading contact list contacts with identical names were automatically joined.\n"
-"If it is wrong, you can separate them. For this purpose in contact menu choose the necessary name and choose a command \"Separate\"."
-msgstr ""
-"Beim Lada dr Kondakdlischde werda Kondakde mid gleicha Nama audomadisch en oim Kondakd vreend.\n"
-"En dem Fall, dess sell falsch ischd, kenna d Kondakde gedrennd werda. En diesa Fall wähla Se da bedreffenda Kondakd ond fihra d Funkzion \"Drenna\" aus."
-
-#: plugins/_core/core.cpp:1720
+#: plugins/_core/core.cpp:1727
 msgid "Don't show this message in next time"
 msgstr "Sell Nachrichd beim nächschda Mol ned wiedr anzeiga"
 
-#: plugins/_core/core.cpp:1747
+#: plugins/_core/core.cpp:1754
 msgid "`<command>` - call <command> and substitute command output\n"
 msgstr "`<kommando>` - rufd <kommando> uff ond wird durch d Kommandoausgabe ersedzd\n"
 
-#: plugins/_core/core.cpp:2299 plugins/_core/interfacecfg.cpp:101
+#: plugins/_core/core.cpp:2306 plugins/_core/interfacecfg.cpp:101
 msgid "System"
 msgstr "Syschdem"
 
-#: plugins/_core/core.cpp:2436
+#: plugins/_core/core.cpp:2443
 msgid "&Separate"
 msgstr "&Drenna"
 
-#: plugins/_core/core.cpp:2474 plugins/_core/userwnd.cpp:134
+#: plugins/_core/core.cpp:2481 plugins/_core/userwnd.cpp:134
 #, c-format
 msgid "from %1"
 msgstr "von %1"
 
-#: plugins/_core/core.cpp:2668 plugins/icons/iconcfgbase.cpp:77
+#: plugins/_core/core.cpp:2675 plugins/icons/iconcfgbase.cpp:77
 msgid "&New"
 msgstr "&Nei"
 
-#: plugins/_core/core.cpp:2742
+#: plugins/_core/core.cpp:2749
 msgid "Not available"
 msgstr "Ned vrfigbar"
 
-#: plugins/_core/core.cpp:2841 plugins/dock/dockwnd.cpp:1368 plugins/msn/msnpacket.cpp:490 plugins/osd/osd.cpp:551
+#: plugins/_core/core.cpp:2848 plugins/dock/dockwnd.cpp:1368 plugins/msn/msnpacket.cpp:490 plugins/osd/osd.cpp:551
 msgid "%1 from %2"
 msgstr "%1 von %2"
 
-#: plugins/_core/core.cpp:3139
+#: plugins/_core/core.cpp:3146
 msgid "Send SMS"
 msgstr "SMS senda"
 
-#: plugins/_core/core.cpp:4190 plugins/_core/core.cpp:4212 plugins/_core/managerbase.cpp:103
+#: plugins/_core/core.cpp:4197 plugins/_core/core.cpp:4219 plugins/_core/managerbase.cpp:103
 msgid "Connection manager"
 msgstr "Benudzerkondenmanagr"
 
-#: plugins/_core/core.cpp:4198
+#: plugins/_core/core.cpp:4205
 msgid "Show status panel"
 msgstr "Schdadusleischde anzeiga"
 
-#: plugins/_core/core.cpp:4205
+#: plugins/_core/core.cpp:4212
 msgid "Connections"
 msgstr "Vrbendonga"
 
-#: plugins/_core/core.cpp:4220
+#: plugins/_core/core.cpp:4227
 msgid "Change profile"
 msgstr "Brofil wechseln"
 
-#: plugins/_core/core.cpp:4249
+#: plugins/_core/core.cpp:4256
 msgid "Common status"
 msgstr "Gmeinsamr Schdadus"
 
-#: plugins/_core/core.cpp:4255
+#: plugins/_core/core.cpp:4262
 msgid "Configure client"
 msgstr "Client konfiguriera"
 
-#: plugins/_core/core.cpp:4279 plugins/_core/status.cpp:153 plugins/_core/status.cpp:223
+#: plugins/_core/core.cpp:4286 plugins/_core/status.cpp:153 plugins/_core/status.cpp:223
 msgid "&Invisible"
 msgstr "&Onsichdbar"
 
@@ -771,27 +730,35 @@ msgstr "<b><font color=\"#FF0000\">F</font><font color=\"#FFFF00\">arbige</font>
 msgid "New message"
 msgstr "Neie Nachrichd"
 
-#: plugins/_core/historywnd.cpp:51
+#: plugins/_core/historywnd.cpp:59
 msgid "Loading"
 msgstr "Wird glada"
 
-#: plugins/_core/historywnd.cpp:119 plugins/_core/interfacecfg.cpp:88
+#: plugins/_core/historywnd.cpp:129 plugins/_core/interfacecfg.cpp:88
 msgid "History"
 msgstr "Vrlauf"
 
-#: plugins/_core/historywnd.cpp:191
+#: plugins/_core/historywnd.cpp:189
+msgid "Textfile (*.txt)"
+msgstr ""
+
+#: plugins/_core/historywnd.cpp:195 plugins/_core/historywnd.cpp:215 plugins/_core/status.cpp:139 plugins/_core/statuswnd.cpp:97 plugins/jabber/jabbermessage.cpp:109 plugins/jabber/jabbermessage.cpp:228 plugins/logger/logconfig.cpp:92 plugins/netmonitor/monitor.cpp:89 plugins/windock/windock.cpp:180 sim/qt3/i18n.cpp:141
+msgid "Error"
+msgstr "Fehlr"
+
+#: plugins/_core/historywnd.cpp:195
 msgid "File already exists. Overwrite?"
 msgstr ""
 
-#: plugins/_core/historywnd.cpp:196
+#: plugins/_core/historywnd.cpp:200
 msgid "&Overwrite"
 msgstr ""
 
-#: plugins/_core/historywnd.cpp:197
+#: plugins/_core/historywnd.cpp:201
 msgid "&Append"
 msgstr ""
 
-#: plugins/_core/historywnd.cpp:211
+#: plugins/_core/historywnd.cpp:215
 msgid "Save failed"
 msgstr ""
 
@@ -815,7 +782,7 @@ msgstr "Dschechisch"
 msgid "German"
 msgstr "Deidsch"
 
-#: plugins/_core/interfacecfg.cpp:58 plugins/icq/moreinfo.cpp:106 sim/contacts.cpp:2022 sim/contacts.cpp:2023
+#: plugins/_core/interfacecfg.cpp:58 plugins/icq/moreinfo.cpp:106 sim/contacts.cpp:2024 sim/contacts.cpp:2025
 msgid "Greek"
 msgstr "Griechisch"
 
@@ -827,7 +794,7 @@ msgstr "Schbanisch"
 msgid "French"
 msgstr "Franzesisch"
 
-#: plugins/_core/interfacecfg.cpp:61 plugins/icq/moreinfo.cpp:107 sim/contacts.cpp:2025 sim/contacts.cpp:2026
+#: plugins/_core/interfacecfg.cpp:61 plugins/icq/moreinfo.cpp:107 sim/contacts.cpp:2027 sim/contacts.cpp:2028
 msgid "Hebrew"
 msgstr "Hebräisch"
 
@@ -863,15 +830,15 @@ msgstr "Slovakisch"
 msgid "Swabian"
 msgstr "Schwäbisch"
 
-#: plugins/_core/interfacecfg.cpp:70 plugins/icq/moreinfo.cpp:134 sim/contacts.cpp:2040
+#: plugins/_core/interfacecfg.cpp:70 plugins/icq/moreinfo.cpp:134 sim/contacts.cpp:2042
 msgid "Thai"
 msgstr "Dhai"
 
-#: plugins/_core/interfacecfg.cpp:71 plugins/icq/moreinfo.cpp:135 sim/contacts.cpp:2042 sim/contacts.cpp:2043
+#: plugins/_core/interfacecfg.cpp:71 plugins/icq/moreinfo.cpp:135 sim/contacts.cpp:2044 sim/contacts.cpp:2045
 msgid "Turkish"
 msgstr "Dirkisch"
 
-#: plugins/_core/interfacecfg.cpp:72 plugins/icq/moreinfo.cpp:136 sim/contacts.cpp:2019
+#: plugins/_core/interfacecfg.cpp:72 plugins/icq/moreinfo.cpp:136 sim/contacts.cpp:2021
 msgid "Ukrainian"
 msgstr "Ukrainisch"
 
@@ -891,7 +858,7 @@ msgstr "Nachrichda"
 msgid "SMS"
 msgstr "SMS"
 
-#: plugins/_core/interfacecfg.cpp:136
+#: plugins/_core/interfacecfg.cpp:137
 msgid "Copy %1 messages from history"
 msgstr "%1 Nachrichda vom Vrlauf kobiera"
 
@@ -1216,15 +1183,11 @@ msgstr "Enakdiv"
 msgid "Connecting"
 msgstr "Vrbendongsaufbao"
 
-#: plugins/_core/status.cpp:139 plugins/_core/statuswnd.cpp:97 plugins/jabber/jabbermessage.cpp:109 plugins/jabber/jabbermessage.cpp:228 plugins/logger/logconfig.cpp:92 plugins/netmonitor/monitor.cpp:89 plugins/windock/windock.cpp:180 sim/qt3/i18n.cpp:141
-msgid "Error"
-msgstr "Fehlr"
-
-#: plugins/_core/tmpl.cpp:220
+#: plugins/_core/tmpl.cpp:225
 msgid "yes"
 msgstr "jo"
 
-#: plugins/_core/tmpl.cpp:222
+#: plugins/_core/tmpl.cpp:227
 msgid "no"
 msgstr "noi"
 
@@ -1519,12 +1482,12 @@ msgstr "&Vorschao"
 msgid "&Source"
 msgstr "&Quelle"
 
-#: plugins/_core/maininfobase.cpp:187 plugins/_core/nonimbase.cpp:95 plugins/icq/aiminfobase.cc:256 plugins/icq/icqinfobase.cc:312 plugins/jabber/discoinfobase.cpp:283 plugins/jabber/jabberinfobase.cpp:240
+#: plugins/_core/maininfobase.cpp:187 plugins/_core/nonimbase.cpp:95 plugins/icq/aiminfobase.cc:256 plugins/icq/icqinfobase.cc:312 plugins/jabber/discoinfobase.cpp:283 plugins/jabber/jabberinfobase.cpp:240 plugins/yahoo/yahooinfobase.cpp:155
 #, fuzzy
 msgid "First Name:"
 msgstr "Vorname:"
 
-#: plugins/_core/maininfobase.cpp:188 plugins/_core/nonimbase.cpp:96 plugins/icq/aiminfobase.cc:257 plugins/icq/icqinfobase.cc:309
+#: plugins/_core/maininfobase.cpp:188 plugins/_core/nonimbase.cpp:96 plugins/icq/aiminfobase.cc:257 plugins/icq/icqinfobase.cc:309 plugins/yahoo/yahooinfobase.cpp:156
 msgid "Last Name:"
 msgstr "Nachname:"
 
@@ -1578,19 +1541,6 @@ msgstr "&Delefone:"
 #: plugins/_core/maininfobase.cpp:210
 msgid "&Notes"
 msgstr "Bemerko&nga"
-
-#: plugins/_core/nonimbase.cpp:97 plugins/jabber/jabberaddbase.cpp:99
-msgid "Nickname:"
-msgstr "Niggname:"
-
-#: plugins/_core/nonimbase.cpp:98
-#, fuzzy
-msgid "E-Mail address:"
-msgstr "E-Mail-Adressa:"
-
-#: plugins/_core/nonimbase.cpp:99 plugins/jabber/discoinfobase.cpp:286
-msgid "Phone:"
-msgstr "Delefon:"
 
 #: plugins/_core/editmailbase.cpp:94
 msgid "EditMail"
@@ -1686,6 +1636,19 @@ msgstr "Laos"
 #: plugins/_core/searchallbase.cpp:88 plugins/icq/aiminfobase.cc:260 plugins/icq/aimsearchbase.cc:167 plugins/icq/icqinfobase.cc:311 plugins/icq/icqsearchbase.cc:132 plugins/jabber/discoinfobase.cpp:280 plugins/jabber/jabberinfobase.cpp:241 plugins/msn/msninfobase.cpp:131 plugins/yahoo/yahooinfobase.cpp:153
 msgid "Nick:"
 msgstr "Niggname:"
+
+#: plugins/_core/nonimbase.cpp:97 plugins/jabber/jabberaddbase.cpp:99
+msgid "Nickname:"
+msgstr "Niggname:"
+
+#: plugins/_core/nonimbase.cpp:98
+#, fuzzy
+msgid "E-Mail address:"
+msgstr "E-Mail-Adressa:"
+
+#: plugins/_core/nonimbase.cpp:99 plugins/jabber/discoinfobase.cpp:286
+msgid "Phone:"
+msgstr "Delefon:"
 
 #: plugins/_core/autoreplybase.cpp:87 plugins/_core/connectionsettingsbase.cpp:74
 msgid "MyDialog"
@@ -1947,18 +1910,6 @@ msgstr "Meni"
 msgid "In command line you can use:"
 msgstr "En Kommandozeile ka benudzd werda:"
 
-#: plugins/action/actioncfg.cpp:184
-msgid ""
-"For message events message text will be sent on standard input of the program.\n"
-"If the program will return a zero error code message text will be replaced with program output.\n"
-"If program output is empty,  message will be destroyed.\n"
-"Thus it is possible to organize additional messages filters.\n"
-msgstr ""
-"Bei Nachrichdenereignissa wird dr Nachrichdendexd zur Schdandardeingabe des brogramms gsended.\n"
-"Wenn des Brogramm da Fehlercode Null lieferd, wird dr dexd durch d Brogrammausgabe ersedzd.\n"
-"Wenn d Brogrammausgabe ler ischd, wird d Nachrichd zerschderd.\n"
-"Dadurch ischd s meglich, zusädzliche Nachrichdenfildr zu vrwalda.\n"
-
 #: plugins/action/menucfg.cpp:31
 msgid "Item"
 msgstr "Elemend"
@@ -1975,11 +1926,11 @@ msgstr "Elemend:"
 msgid "Program:"
 msgstr "Brogramm:"
 
-#: plugins/autoaway/autoaway.cpp:66
+#: plugins/autoaway/autoaway.cpp:70
 msgid "AutoAway"
 msgstr "Audomadischer Weg-Schdadus"
 
-#: plugins/autoaway/autoaway.cpp:67
+#: plugins/autoaway/autoaway.cpp:71
 msgid "Plugin provides set away and N/A status after some idle time"
 msgstr "Blugin schdelld audomadischa Schdaduswechsl nach Schdadus \"Weg\" ond \"N/A\" nach oinr beschdemmda Zeid dr Nichdbenudzong bereid"
 
@@ -2224,14 +2175,6 @@ msgstr "GPG"
 #: plugins/gpg/gpg.cpp:54
 msgid "Plugin adds GnuPG encryption/decryption support for messages"
 msgstr "Blugin figd Onderschdidzong von GnuPG-Vrschlisselong/-Endschlisselong von Nachrichda hinzu"
-
-#: plugins/gpg/gpg.cpp:78
-msgid ""
-"Plugin adds GnuPG encryption/decryption support for messages\n"
-"GPG not found in PATH"
-msgstr ""
-"Blugin figd Onderschdidzong von GnuPG-Vrschlisselong/-Endschlisselong von Nachrichda hinzu\n"
-"GPG ned en Bfad gfonda"
 
 #: plugins/gpg/gpg.cpp:505 plugins/gpg/gpg.cpp:514
 msgid "Encrypt failed"
@@ -3270,7 +3213,7 @@ msgstr "Bubliziera"
 msgid "Home automation"
 msgstr "Audomadisierong zu Hause"
 
-#: plugins/icq/moreinfo.cpp:87 sim/contacts.cpp:2003 sim/contacts.cpp:2004
+#: plugins/icq/moreinfo.cpp:87 sim/contacts.cpp:2005 sim/contacts.cpp:2006
 msgid "Arabic"
 msgstr "Arabisch"
 
@@ -3294,7 +3237,7 @@ msgstr "Kroadisch"
 msgid "Danish"
 msgstr "Dänisch"
 
-#: plugins/icq/moreinfo.cpp:99 sim/contacts.cpp:2010
+#: plugins/icq/moreinfo.cpp:99 sim/contacts.cpp:2012
 msgid "Esperanto"
 msgstr "Eschberando"
 
@@ -3326,7 +3269,7 @@ msgstr "Isländisch"
 msgid "Indonesian"
 msgstr "Endonesisch"
 
-#: plugins/icq/moreinfo.cpp:113 sim/contacts.cpp:2028 sim/contacts.cpp:2029 sim/contacts.cpp:2030
+#: plugins/icq/moreinfo.cpp:113 sim/contacts.cpp:2030 sim/contacts.cpp:2031 sim/contacts.cpp:2032
 msgid "Japanese"
 msgstr "Jabanisch"
 
@@ -3334,7 +3277,7 @@ msgstr "Jabanisch"
 msgid "Khmer"
 msgstr "Khmr"
 
-#: plugins/icq/moreinfo.cpp:115 sim/contacts.cpp:2032
+#: plugins/icq/moreinfo.cpp:115 sim/contacts.cpp:2034
 msgid "Korean"
 msgstr "Koreanisch"
 
@@ -4464,6 +4407,14 @@ msgstr "Schreibbenachrich&digong akdiviera"
 msgid "ID:"
 msgstr "ID:"
 
+#: plugins/jabber/jabberworkinfobase.cpp:91
+msgid "Role:"
+msgstr "Funkzion:"
+
+#: plugins/jabber/jabberaboutinfobase.cpp:57
+msgid "Additional information:"
+msgstr "Zusädzliche Enformazion:"
+
 #: plugins/jabber/jabberaddbase.cpp:94
 #, fuzzy
 msgid "&JID"
@@ -4473,14 +4424,6 @@ msgstr "JID"
 #, fuzzy
 msgid "Jabber &browser"
 msgstr "Jabber-Browser"
-
-#: plugins/jabber/jabberworkinfobase.cpp:91
-msgid "Role:"
-msgstr "Funkzion:"
-
-#: plugins/jabber/jabberaboutinfobase.cpp:57
-msgid "Additional information:"
-msgstr "Zusädzliche Enformazion:"
 
 #: plugins/jabber/discoinfobase.cpp:265
 msgid "DiscoInfo"
@@ -4921,206 +4864,202 @@ msgid "busy"
 msgstr "beschäfdigd"
 
 #: plugins/livejournal/livejournal.cpp:1444
-msgid "blah"
-msgstr "Quadsch"
-
-#: plugins/livejournal/livejournal.cpp:1445
 msgid "full"
 msgstr "voll"
 
-#: plugins/livejournal/livejournal.cpp:1446
+#: plugins/livejournal/livejournal.cpp:1445
 msgid "grumpy"
 msgstr "bromming"
 
-#: plugins/livejournal/livejournal.cpp:1447
+#: plugins/livejournal/livejournal.cpp:1446
 msgid "weird"
 msgstr "onhoimlich"
 
-#: plugins/livejournal/livejournal.cpp:1448
+#: plugins/livejournal/livejournal.cpp:1447
 msgid "nauseated"
 msgstr "vrabscheiend"
 
-#: plugins/livejournal/livejournal.cpp:1449
+#: plugins/livejournal/livejournal.cpp:1448
 msgid "ecstatic"
 msgstr "verziggd"
 
-#: plugins/livejournal/livejournal.cpp:1450
+#: plugins/livejournal/livejournal.cpp:1449
 msgid "chipper"
 msgstr "zwidschernd"
 
-#: plugins/livejournal/livejournal.cpp:1451
+#: plugins/livejournal/livejournal.cpp:1450
 msgid "rushed"
 msgstr "gedrängd"
 
-#: plugins/livejournal/livejournal.cpp:1452
+#: plugins/livejournal/livejournal.cpp:1451
 msgid "contemplative"
 msgstr "griblerisch"
 
-#: plugins/livejournal/livejournal.cpp:1453
+#: plugins/livejournal/livejournal.cpp:1452
 msgid "nerdy"
 msgstr "endelligend"
 
-#: plugins/livejournal/livejournal.cpp:1454
+#: plugins/livejournal/livejournal.cpp:1453
 msgid "geeky"
 msgstr "schdrebend"
 
-#: plugins/livejournal/livejournal.cpp:1455
+#: plugins/livejournal/livejournal.cpp:1454
 msgid "cynical"
 msgstr "zynisch"
 
-#: plugins/livejournal/livejournal.cpp:1456
+#: plugins/livejournal/livejournal.cpp:1455
 msgid "quixotic"
 msgstr "fandaschdisch"
 
-#: plugins/livejournal/livejournal.cpp:1457
+#: plugins/livejournal/livejournal.cpp:1456
 msgid "crazy"
 msgstr "verriggd"
 
-#: plugins/livejournal/livejournal.cpp:1458
+#: plugins/livejournal/livejournal.cpp:1457
 msgid "creative"
 msgstr "kreadiv"
 
-#: plugins/livejournal/livejournal.cpp:1459
+#: plugins/livejournal/livejournal.cpp:1458
 msgid "artistic"
 msgstr "kinschdlerisch"
 
-#: plugins/livejournal/livejournal.cpp:1460
+#: plugins/livejournal/livejournal.cpp:1459
 msgid "pleased"
 msgstr "erfreid"
 
-#: plugins/livejournal/livejournal.cpp:1461
+#: plugins/livejournal/livejournal.cpp:1460
 msgid "bitchy"
 msgstr "boshafd"
 
-#: plugins/livejournal/livejournal.cpp:1462
+#: plugins/livejournal/livejournal.cpp:1461
 msgid "guilty"
 msgstr "schuldig"
 
-#: plugins/livejournal/livejournal.cpp:1463
+#: plugins/livejournal/livejournal.cpp:1462
 msgid "irritated"
 msgstr "irridierd"
 
-#: plugins/livejournal/livejournal.cpp:1464
+#: plugins/livejournal/livejournal.cpp:1463
 msgid "blank"
 msgstr "leer"
 
-#: plugins/livejournal/livejournal.cpp:1465
+#: plugins/livejournal/livejournal.cpp:1464
 msgid "apathetic"
 msgstr "abadhisch"
 
-#: plugins/livejournal/livejournal.cpp:1466
+#: plugins/livejournal/livejournal.cpp:1465
 msgid "dorky"
 msgstr "idiodisch"
 
-#: plugins/livejournal/livejournal.cpp:1467
+#: plugins/livejournal/livejournal.cpp:1466
 msgid "impressed"
 msgstr "beeundruggd"
 
-#: plugins/livejournal/livejournal.cpp:1468
+#: plugins/livejournal/livejournal.cpp:1467
 msgid "naughty"
 msgstr "onardig"
 
-#: plugins/livejournal/livejournal.cpp:1469
+#: plugins/livejournal/livejournal.cpp:1468
 msgid "predatory"
 msgstr "räuberisch"
 
-#: plugins/livejournal/livejournal.cpp:1470
+#: plugins/livejournal/livejournal.cpp:1469
 msgid "dirty"
 msgstr "dreggig"
 
-#: plugins/livejournal/livejournal.cpp:1471
+#: plugins/livejournal/livejournal.cpp:1470
 msgid "giddy"
 msgstr "schwendlig"
 
-#: plugins/livejournal/livejournal.cpp:1472
+#: plugins/livejournal/livejournal.cpp:1471
 msgid "surprised"
 msgstr "iberraschd"
 
-#: plugins/livejournal/livejournal.cpp:1473
+#: plugins/livejournal/livejournal.cpp:1472
 msgid "shocked"
 msgstr "gschoggd"
 
-#: plugins/livejournal/livejournal.cpp:1474
+#: plugins/livejournal/livejournal.cpp:1473
 msgid "rejected"
 msgstr "zurigggewiesa"
 
-#: plugins/livejournal/livejournal.cpp:1475
+#: plugins/livejournal/livejournal.cpp:1474
 msgid "numb"
 msgstr "bedäubd"
 
-#: plugins/livejournal/livejournal.cpp:1476
+#: plugins/livejournal/livejournal.cpp:1475
 msgid "cheerful"
 msgstr "frehlich"
 
-#: plugins/livejournal/livejournal.cpp:1477
+#: plugins/livejournal/livejournal.cpp:1476
 msgid "good"
 msgstr "ardig"
 
-#: plugins/livejournal/livejournal.cpp:1478
+#: plugins/livejournal/livejournal.cpp:1477
 msgid "distressed"
 msgstr "gequäld"
 
-#: plugins/livejournal/livejournal.cpp:1479
+#: plugins/livejournal/livejournal.cpp:1478
 msgid "intimidated"
 msgstr "oigschichderd"
 
-#: plugins/livejournal/livejournal.cpp:1480
+#: plugins/livejournal/livejournal.cpp:1479
 msgid "crushed"
 msgstr "gedriggd"
 
-#: plugins/livejournal/livejournal.cpp:1481
+#: plugins/livejournal/livejournal.cpp:1480
 msgid "devious"
 msgstr "abwegig"
 
-#: plugins/livejournal/livejournal.cpp:1482
+#: plugins/livejournal/livejournal.cpp:1481
 msgid "thankful"
 msgstr "dankbar"
 
-#: plugins/livejournal/livejournal.cpp:1483
+#: plugins/livejournal/livejournal.cpp:1482
 msgid "grateful"
 msgstr "erkenndlich"
 
-#: plugins/livejournal/livejournal.cpp:1484
+#: plugins/livejournal/livejournal.cpp:1483
 msgid "jealous"
 msgstr "eifersichdig"
 
-#: plugins/livejournal/livejournal.cpp:1485
+#: plugins/livejournal/livejournal.cpp:1484
 msgid "nervous"
 msgstr "nerves"
 
-#: plugins/livejournal/livejournal.cpp:1487
+#: plugins/livejournal/livejournal.cpp:1486
 msgid "Recent Entries"
 msgstr "Ledzde Oidräge"
 
-#: plugins/livejournal/livejournal.cpp:1488
+#: plugins/livejournal/livejournal.cpp:1487
 msgid "Calendar View"
 msgstr "Kalenderansichd"
 
-#: plugins/livejournal/livejournal.cpp:1489
+#: plugins/livejournal/livejournal.cpp:1488
 msgid "Friends View"
 msgstr "Freinde-Ansichd"
 
-#: plugins/livejournal/livejournal.cpp:1490
+#: plugins/livejournal/livejournal.cpp:1489
 msgid "Your Profile"
 msgstr "Ihr Brofil"
 
-#: plugins/livejournal/livejournal.cpp:1491
+#: plugins/livejournal/livejournal.cpp:1490
 msgid "Your To-Do List"
 msgstr "Ihre zu erlediga-Lischde"
 
-#: plugins/livejournal/livejournal.cpp:1492
+#: plugins/livejournal/livejournal.cpp:1491
 msgid "Change Settings"
 msgstr "Oischdellonga ändern"
 
-#: plugins/livejournal/livejournal.cpp:1493
+#: plugins/livejournal/livejournal.cpp:1492
 msgid "Support"
 msgstr "Onderschdidzong"
 
-#: plugins/livejournal/livejournal.cpp:1494
+#: plugins/livejournal/livejournal.cpp:1493
 msgid "Personal Info"
 msgstr "Bersenliche Enformaziona"
 
-#: plugins/livejournal/livejournal.cpp:1495
+#: plugins/livejournal/livejournal.cpp:1494
 msgid "Journal Settings"
 msgstr "Journal-Oischdellonga"
 
@@ -5205,18 +5144,6 @@ msgstr "Ereignisse"
 #: plugins/logger/logger.cpp:40
 msgid "Logger"
 msgstr "Debug-Loggr"
-
-#: plugins/logger/logger.cpp:41
-msgid ""
-"Plugin provides log output\n"
-"You can set debug level from command line with -d<loglevel>\n"
-"To log errors, set loglevel to 1, for warnings to 2 and for debug-messages to 4\n"
-"If you want to log more than one you may add the levels"
-msgstr ""
-"Blugin schdelld Logausgaba bereid\n"
-"S ka d Debugschdufe von dr Kommandozeile mid -d <debugschdufe> gsedzd werda\n"
-"Om Fehlr zu logga, d Debugschdufe uff 1 sedza, fir Warnonga uff 2 ond fir Debugmeldonga uff 4\n"
-"Wenn mehr ens Log uffgnomma werda sodd, d Schdufa addiera"
 
 #: plugins/logger/logger.cpp:80
 msgid "Set debug level"
@@ -5379,14 +5306,6 @@ msgstr "&Fehlr"
 #: plugins/netmonitor/monitor.cpp:160
 msgid "&Packets"
 msgstr "&Bakede"
-
-#: plugins/netmonitor/netmonitor.cpp:34
-msgid ""
-"Plugin provides monitoring of net and messages\n"
-"For show monitor on start run sim -m"
-msgstr ""
-"Blugin schdelld Monidoring des Nedzes ond Nachrichda bereid\n"
-"Om da Monidor anzeiga zu lassa, SIM mid \"sim -m\" schdarda"
 
 #: plugins/netmonitor/netmonitor.cpp:93
 msgid "Show network monitor"
@@ -5925,10 +5844,6 @@ msgstr "Schdardbild"
 msgid "Plugin provides splash screen"
 msgstr "Blugin schdelld Schdardbild von SIM bereid"
 
-#: plugins/styles/metal/metal.cpp:514
-msgid "Metal style"
-msgstr "Medall-Schdil"
-
 #: plugins/styles/styles.cpp:51
 msgid "Styles"
 msgstr "Schdile"
@@ -5940,6 +5855,10 @@ msgstr "Blugin schdelld Schdile bereid"
 #: plugins/styles/stylescfg.cpp:57
 msgid "Fonts and colors"
 msgstr "Schrifdarda ond Farba"
+
+#: plugins/styles/metal/metal.cpp:514
+msgid "Metal style"
+msgstr "Medall-Schdil"
 
 #: plugins/styles/wood/wood.cpp:1269
 msgid "Norwegian Wood"
@@ -5964,14 +5883,6 @@ msgstr "Menischrifdard:"
 #: plugins/transparent/transparent.cpp:65
 msgid "Transparent"
 msgstr "Dranschbarenz"
-
-#: plugins/transparent/transparent.cpp:67
-msgid ""
-"Plugin provides windows transparency\n"
-"This plugin works only on Windows 2000 or Windows XP"
-msgstr ""
-"Blugin schdelld d Dranschbarenz von Fenschdern en Windows bereid\n"
-"S funkzionierd nur en Windows 2000 odr en Windows XP"
 
 #: plugins/transparent/transparent.cpp:70
 msgid "Plugin provides windows transparency"
@@ -6013,389 +5924,419 @@ msgstr "Weddr"
 msgid "Plugin provides show weather"
 msgstr "Blugin schdelld Anzeige des Wedders bereid"
 
-#: plugins/weather/weather.cpp:113 plugins/weather/weather.cpp:320
+#: plugins/weather/weather.cpp:116 plugins/weather/weather.cpp:324
 msgid "Not connected"
 msgstr "Ned vrbonda"
 
-#: plugins/weather/weather.cpp:367
+#: plugins/weather/weather.cpp:371
 msgid "Monday"
 msgstr "Mondag"
 
-#: plugins/weather/weather.cpp:368
+#: plugins/weather/weather.cpp:372
 msgid "Tuesday"
 msgstr "Dienschdag"
 
-#: plugins/weather/weather.cpp:369
+#: plugins/weather/weather.cpp:373
 msgid "Wednesday"
 msgstr "Middwoch"
 
-#: plugins/weather/weather.cpp:370
+#: plugins/weather/weather.cpp:374
 msgid "Thursday"
 msgstr "Donnerschdag"
 
-#: plugins/weather/weather.cpp:371
+#: plugins/weather/weather.cpp:375
 msgid "Friday"
 msgstr "Freidag"
 
-#: plugins/weather/weather.cpp:372
+#: plugins/weather/weather.cpp:376
 msgid "Saturday"
 msgstr "Samschdag"
 
-#: plugins/weather/weather.cpp:373
+#: plugins/weather/weather.cpp:377
 msgid "Sunday"
 msgstr "Sonndag"
 
-#: plugins/weather/weather.cpp:375
+#: plugins/weather/weather.cpp:379
 msgid ""
 "_: weather\n"
 "Overcast"
 msgstr "Bewelkd"
 
-#: plugins/weather/weather.cpp:376
+#: plugins/weather/weather.cpp:380
 msgid ""
 "_: weather\n"
 "Fog"
 msgstr "Nebl"
 
-#: plugins/weather/weather.cpp:377
+#: plugins/weather/weather.cpp:381
+#, fuzzy
+msgid ""
+"_: weather\n"
+"Mist"
+msgstr "O"
+
+#: plugins/weather/weather.cpp:382
 msgid ""
 "_: weather\n"
 "Haze"
 msgstr "Nebl"
 
-#: plugins/weather/weather.cpp:378
+#: plugins/weather/weather.cpp:383
 msgid ""
 "_: weather\n"
 "Storm"
 msgstr "Schdurm"
 
-#: plugins/weather/weather.cpp:379
+#: plugins/weather/weather.cpp:384
 msgid ""
 "_: weather\n"
 "Rain"
 msgstr "Rega"
 
-#: plugins/weather/weather.cpp:380
+#: plugins/weather/weather.cpp:385
 msgid ""
 "_: weather\n"
 "Snow"
 msgstr "Schnee"
 
-#: plugins/weather/weather.cpp:381
+#: plugins/weather/weather.cpp:386
 msgid ""
 "_: weather\n"
 "Light Rain"
 msgstr "Leichdr Rega"
 
-#: plugins/weather/weather.cpp:382
+#: plugins/weather/weather.cpp:387
 msgid ""
 "_: weather\n"
 "Light Snow"
 msgstr "Leichdr Schnee"
 
-#: plugins/weather/weather.cpp:383
+#: plugins/weather/weather.cpp:388
 msgid ""
 "_: weather\n"
 "Few Snow"
 msgstr "Edwas Schnee"
 
-#: plugins/weather/weather.cpp:384
+#: plugins/weather/weather.cpp:389
 msgid ""
 "_: weather\n"
 "Scattered Snow"
 msgstr "Vreinzeldr Schnee"
 
-#: plugins/weather/weather.cpp:385
+#: plugins/weather/weather.cpp:390
 msgid ""
 "_: weather\n"
 "Clear"
 msgstr "Klar"
 
-#: plugins/weather/weather.cpp:386
+#: plugins/weather/weather.cpp:391
 msgid ""
 "_: weather\n"
 "Showers"
 msgstr "Schaur"
 
-#: plugins/weather/weather.cpp:387
+#: plugins/weather/weather.cpp:392
 msgid ""
 "_: weather\n"
 "Mostly Clear"
 msgstr "Meischd klar"
 
-#: plugins/weather/weather.cpp:388
+#: plugins/weather/weather.cpp:393
 msgid ""
 "_: weather\n"
 "Sunny"
 msgstr "Sonning"
 
-#: plugins/weather/weather.cpp:389
+#: plugins/weather/weather.cpp:394
 msgid ""
 "_: weather\n"
 "Fair"
 msgstr "Middelmässig"
 
-#: plugins/weather/weather.cpp:390
+#: plugins/weather/weather.cpp:395
 msgid ""
 "_: weather\n"
 "Cloudy"
 msgstr "Bewelkd"
 
-#: plugins/weather/weather.cpp:391
+#: plugins/weather/weather.cpp:396
 msgid ""
 "_: weather\n"
 "Mostly Cloudy"
 msgstr "Meischd bewelkd"
 
-#: plugins/weather/weather.cpp:392
+#: plugins/weather/weather.cpp:397
 msgid ""
 "_: weather\n"
 "Partly Cloudy"
 msgstr "Doilweise bewelkd"
 
-#: plugins/weather/weather.cpp:393
+#: plugins/weather/weather.cpp:398
 msgid ""
 "_: weather\n"
 "Wind"
 msgstr "Wend"
 
-#: plugins/weather/weather.cpp:394
+#: plugins/weather/weather.cpp:399
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Windy"
 msgstr "Wend"
 
-#: plugins/weather/weather.cpp:395
+#: plugins/weather/weather.cpp:400
 msgid ""
 "_: weather\n"
 "Drizzle"
 msgstr "Nieselrega"
 
-#: plugins/weather/weather.cpp:396
+#: plugins/weather/weather.cpp:401
 msgid ""
 "_: weather\n"
 "Light Drizzle"
 msgstr "Leichdr Nieselrega"
 
-#: plugins/weather/weather.cpp:397
+#: plugins/weather/weather.cpp:402
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Drifting Snow"
 msgstr "Leichdr Schnee"
 
-#: plugins/weather/weather.cpp:398
+#: plugins/weather/weather.cpp:403
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Scattered"
 msgstr "Vreinzeldr Schnee"
 
-#: plugins/weather/weather.cpp:399
+#: plugins/weather/weather.cpp:404
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Smoke"
 msgstr "S"
 
-#: plugins/weather/weather.cpp:400
+#: plugins/weather/weather.cpp:405
 msgid ""
 "_: weather\n"
 "steady"
 msgstr "Beschdändig"
 
-#: plugins/weather/weather.cpp:401
+#: plugins/weather/weather.cpp:406
 msgid ""
 "_: weather\n"
 "rising"
 msgstr "Anschdeignd"
 
-#: plugins/weather/weather.cpp:402
+#: plugins/weather/weather.cpp:407
 msgid ""
 "_: weather\n"
 "falling"
 msgstr "Fallend"
 
-#: plugins/weather/weather.cpp:403
+#: plugins/weather/weather.cpp:408
 msgid ""
 "_: weather\n"
 "Unlimited"
 msgstr "Onbegrenzd"
 
-#: plugins/weather/weather.cpp:404
+#: plugins/weather/weather.cpp:409
 msgid ""
 "_: weather\n"
 "N"
 msgstr "N"
 
-#: plugins/weather/weather.cpp:405
+#: plugins/weather/weather.cpp:410
 msgid ""
 "_: weather\n"
 "NNW"
 msgstr "NNW"
 
-#: plugins/weather/weather.cpp:406
+#: plugins/weather/weather.cpp:411
 msgid ""
 "_: weather\n"
 "NW"
 msgstr "NW"
 
-#: plugins/weather/weather.cpp:407
+#: plugins/weather/weather.cpp:412
 msgid ""
 "_: weather\n"
 "WNW"
 msgstr "WNW"
 
-#: plugins/weather/weather.cpp:408
+#: plugins/weather/weather.cpp:413
 msgid ""
 "_: weather\n"
 "W"
 msgstr "W"
 
-#: plugins/weather/weather.cpp:409
+#: plugins/weather/weather.cpp:414
 msgid ""
 "_: weather\n"
 "WSW"
 msgstr "WSW"
 
-#: plugins/weather/weather.cpp:410
+#: plugins/weather/weather.cpp:415
 msgid ""
 "_: weather\n"
 "SW"
 msgstr "SW"
 
-#: plugins/weather/weather.cpp:411
+#: plugins/weather/weather.cpp:416
 msgid ""
 "_: weather\n"
 "SSW"
 msgstr "SSW"
 
-#: plugins/weather/weather.cpp:412
+#: plugins/weather/weather.cpp:417
 msgid ""
 "_: weather\n"
 "S"
 msgstr "S"
 
-#: plugins/weather/weather.cpp:413
+#: plugins/weather/weather.cpp:418
 msgid ""
 "_: weather\n"
 "SSE"
 msgstr "SSO"
 
-#: plugins/weather/weather.cpp:414
+#: plugins/weather/weather.cpp:419
 msgid ""
 "_: weather\n"
 "SE"
 msgstr "SO"
 
-#: plugins/weather/weather.cpp:415
+#: plugins/weather/weather.cpp:420
 msgid ""
 "_: weather\n"
 "ESE"
 msgstr "OSO"
 
-#: plugins/weather/weather.cpp:416
+#: plugins/weather/weather.cpp:421
 msgid ""
 "_: weather\n"
 "E"
 msgstr "O"
 
-#: plugins/weather/weather.cpp:417
+#: plugins/weather/weather.cpp:422
 msgid ""
 "_: weather\n"
 "ENE"
 msgstr "ONO"
 
-#: plugins/weather/weather.cpp:418
+#: plugins/weather/weather.cpp:423
 msgid ""
 "_: weather\n"
 "NE"
 msgstr "NO"
 
-#: plugins/weather/weather.cpp:419
+#: plugins/weather/weather.cpp:424
 msgid ""
 "_: weather\n"
 "NNE"
 msgstr "NNO"
 
-#: plugins/weather/weather.cpp:420
+#: plugins/weather/weather.cpp:425
 #, fuzzy
 msgid ""
 "_: weather\n"
 "VAR"
 msgstr "N"
 
-#: plugins/weather/weather.cpp:421
+#: plugins/weather/weather.cpp:426
 msgid "km"
 msgstr "km"
 
-#: plugins/weather/weather.cpp:422
+#: plugins/weather/weather.cpp:427
 msgid "km/h"
 msgstr "km/h"
 
-#: plugins/weather/weather.cpp:423
+#: plugins/weather/weather.cpp:428
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Low"
 msgstr "Schnee"
 
-#: plugins/weather/weather.cpp:424
+#: plugins/weather/weather.cpp:429
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Moderate"
 msgstr "Schbäd"
 
-#: plugins/weather/weather.cpp:425
+#: plugins/weather/weather.cpp:430
 #, fuzzy
 msgid ""
 "_: weather\n"
 "High"
 msgstr "Nebl"
 
-#: plugins/weather/weather.cpp:437
+#: plugins/weather/weather.cpp:431
+#, fuzzy
+msgid ""
+"_: weather\n"
+"Showers in the Vicinity"
+msgstr "Schaur"
+
+#: plugins/weather/weather.cpp:432
+#, fuzzy
+msgid ""
+"_: weather\n"
+"Waning Crescent"
+msgstr "Rega"
+
+#: plugins/weather/weather.cpp:433
+#, fuzzy
+msgid ""
+"_: weather\n"
+"Waxing Crescent"
+msgstr "Rega"
+
+#: plugins/weather/weather.cpp:445
 msgid "and"
 msgstr "ond"
 
-#: plugins/weather/weather.cpp:440
+#: plugins/weather/weather.cpp:448
 msgid ""
 "_: weather\n"
 "Early"
 msgstr "Frih"
 
-#: plugins/weather/weather.cpp:443
+#: plugins/weather/weather.cpp:451
 msgid ""
 "_: weather\n"
 "Late"
 msgstr "Schbäd"
 
-#: plugins/weather/weather.cpp:485 plugins/weather/weather.cpp:487
+#: plugins/weather/weather.cpp:496 plugins/weather/weather.cpp:498
 msgid "m/s"
 msgstr "m/s"
 
-#: plugins/weather/weather.cpp:486 plugins/weather/weather.cpp:487
+#: plugins/weather/weather.cpp:497 plugins/weather/weather.cpp:498
 msgid "gust "
 msgstr "Behig"
 
-#: plugins/weather/weather.cpp:553
+#: plugins/weather/weather.cpp:564
 msgid "%t | %c"
 msgstr "%t | %c"
 
-#: plugins/weather/weather.cpp:562
+#: plugins/weather/weather.cpp:573
 #, fuzzy
 msgid ""
 "%l<br><br>\n"
 "<img src=\"icon:weather%i\"> %c<br>\n"
 "Temperature: <b>%t</b> (feels like: <b>%f</b>)<br>\n"
 "Humidity: <b>%h</b><br>\n"
+"Precipitance: <b>%pp %</b><br>\n"
 "Pressure: <b>%p</b> (%q)<br>\n"
 "Wind: <b>%b</b> <b>%w %g</b><br>\n"
 "Visibility: <b>%v</b><br>\n"
 "Dew Point: <b>%d</b><br>\n"
 "Sunrise: %r<br>\n"
 "Sunset: %s<br>\n"
+"<img src=\"icon:moon%mi\"> %mp<br>\n"
 "UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)<br>\n"
 "<br>\n"
 "Updated: %u<br>\n"
@@ -6413,7 +6354,7 @@ msgstr ""
 "<br>\n"
 "Akdualisierd: %u<br>\n"
 
-#: plugins/weather/weather.cpp:582
+#: plugins/weather/weather.cpp:595
 msgid ""
 "<br>\n"
 "<nobr><b>%d %w</b></nobr><br>\n"
@@ -6620,16 +6561,6 @@ msgstr "Yahoo!-ID:"
 msgid "&Yahoo!"
 msgstr "&Yahoo!"
 
-#: plugins/yahoo/yahooinfobase.cpp:155
-#, fuzzy
-msgid "First name:"
-msgstr "Vorname:"
-
-#: plugins/yahoo/yahooinfobase.cpp:156
-#, fuzzy
-msgid "Last name:"
-msgstr "Nachname:"
-
 #: plugins/yahoo/yahoosearchbase.cpp:98
 #, fuzzy
 msgid "Yahoo! &ID"
@@ -6706,525 +6637,6 @@ msgstr "Fische"
 msgid "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
 msgstr "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
 
-#: sim/qt3/i18n.cpp:1
-msgid "Hu&e:"
-msgstr "Helligk&eid:"
-
-#: sim/qt3/i18n.cpp:3
-msgid "&Sat:"
-msgstr "&Sad:"
-
-#: sim/qt3/i18n.cpp:5
-msgid "&Val:"
-msgstr "&Werd:"
-
-#: sim/qt3/i18n.cpp:7
-msgid "&Red:"
-msgstr "&Rod:"
-
-#: sim/qt3/i18n.cpp:9
-msgid "&Green:"
-msgstr "&Grin:"
-
-#: sim/qt3/i18n.cpp:11
-msgid "Bl&ue:"
-msgstr "Bla&o:"
-
-#: sim/qt3/i18n.cpp:13
-msgid "A&lpha channel:"
-msgstr "A&lfhakanal:"
-
-#: sim/qt3/i18n.cpp:15
-msgid "&Basic colors"
-msgstr "&Basisfarba"
-
-#: sim/qt3/i18n.cpp:17
-msgid "&Custom colors"
-msgstr "Eigne Far&ba"
-
-#: sim/qt3/i18n.cpp:19
-msgid "&Define Custom Colors >>"
-msgstr "Eigne Farba &definiera >>"
-
-#: sim/qt3/i18n.cpp:25
-msgid "&Add To Custom Colors"
-msgstr "Zu eigna F&arba hinzufiga"
-
-#: sim/qt3/i18n.cpp:27
-msgid "Select color"
-msgstr "Farbe auswähla"
-
-#: sim/qt3/i18n.cpp:29
-msgid "Copy or Move a File"
-msgstr "Dadei kobiera odr vrschieba"
-
-#: sim/qt3/i18n.cpp:31
-#, c-format
-msgid "Read: %1"
-msgstr "Lesa: %1"
-
-#: sim/qt3/i18n.cpp:33
-#, c-format
-msgid "Write: %1"
-msgstr "Schreiba: %1"
-
-#: sim/qt3/i18n.cpp:37
-msgid "All files (*)"
-msgstr "Alle Dadeia (*)"
-
-#: sim/qt3/i18n.cpp:41
-msgid "Size"
-msgstr "Greße"
-
-#: sim/qt3/i18n.cpp:47
-msgid "Attributes"
-msgstr "Addribude"
-
-#: sim/qt3/i18n.cpp:49
-msgid "Look &in:"
-msgstr "Nachseha &en:"
-
-#: sim/qt3/i18n.cpp:51
-msgid "File &name:"
-msgstr "Dadei&name:"
-
-#: sim/qt3/i18n.cpp:53
-msgid "File &type:"
-msgstr "Dadei&dyp:"
-
-#: sim/qt3/i18n.cpp:55
-msgid "Back"
-msgstr "Zurigg"
-
-#: sim/qt3/i18n.cpp:57
-msgid "One directory up"
-msgstr "Oi Vrzeichnis nuff"
-
-#: sim/qt3/i18n.cpp:59
-msgid "Create New Folder"
-msgstr "Neia Ordnr erschdella"
-
-#: sim/qt3/i18n.cpp:61
-msgid "List View"
-msgstr "Lischde anzeiga"
-
-#: sim/qt3/i18n.cpp:63
-msgid "Detail View"
-msgstr "Dedailansichd"
-
-#: sim/qt3/i18n.cpp:65
-msgid "Preview File Info"
-msgstr "Voransichd dr Dadei-Enfo"
-
-#: sim/qt3/i18n.cpp:67
-msgid "Preview File Contents"
-msgstr "Voransichd des Dadei-Enhalds"
-
-#: sim/qt3/i18n.cpp:69
-msgid "Read-write"
-msgstr "Lesa ond schreiba"
-
-#: sim/qt3/i18n.cpp:71
-msgid "Read-only"
-msgstr "Nur lesa"
-
-#: sim/qt3/i18n.cpp:73
-msgid "Write-only"
-msgstr "Nur schreiba"
-
-#: sim/qt3/i18n.cpp:75
-msgid "Inaccessible"
-msgstr "Ned zugänglich"
-
-#: sim/qt3/i18n.cpp:77
-msgid "Symlink to File"
-msgstr "Vrknibfong uff Dadei"
-
-#: sim/qt3/i18n.cpp:79
-msgid "Symlink to Directory"
-msgstr "Symbolische Vrknibfong uff Vrzeichnis"
-
-#: sim/qt3/i18n.cpp:81
-msgid "Symlink to Special"
-msgstr "Symbolische Vrknibfong uff Schbezialdadei"
-
-#: sim/qt3/i18n.cpp:85
-msgid "Dir"
-msgstr "Vrzeichnis"
-
-#: sim/qt3/i18n.cpp:87
-msgid "Special"
-msgstr "Schbezial"
-
-#: sim/editfile.cpp:143 sim/qt3/i18n.cpp:89
-msgid "Open"
-msgstr "Effna"
-
-#: sim/qt3/i18n.cpp:91
-msgid "Save as"
-msgstr "Schbeichern als"
-
-#: sim/qt3/i18n.cpp:93
-msgid "&Open"
-msgstr "&Effna"
-
-#: sim/qt3/i18n.cpp:101
-msgid "R&eload"
-msgstr "Erne&it lada"
-
-#: sim/qt3/i18n.cpp:103
-msgid "Sort by &Name"
-msgstr "Nach &Name sordiera"
-
-#: sim/qt3/i18n.cpp:105
-msgid "Sort by &Size"
-msgstr "Nach &Greße sordiera"
-
-#: sim/qt3/i18n.cpp:107
-msgid "Sort by &Date"
-msgstr "Nach &Dadom sordiera"
-
-#: sim/qt3/i18n.cpp:109
-msgid "&Unsorted"
-msgstr "&Onsordierd"
-
-#: sim/qt3/i18n.cpp:111
-msgid "Sort"
-msgstr "Sordiera"
-
-#: sim/qt3/i18n.cpp:113
-msgid "Show &hidden files"
-msgstr "&Vrschdeggde Dadeia anzeiga"
-
-#: sim/qt3/i18n.cpp:115
-msgid "the file"
-msgstr "d Dadei"
-
-#: sim/qt3/i18n.cpp:117
-msgid "the directory"
-msgstr "des Vrzeichnis"
-
-#: sim/qt3/i18n.cpp:119
-msgid "the symlink"
-msgstr "d symbolische Vrknibfong"
-
-#: sim/qt3/i18n.cpp:121
-#, c-format
-msgid "Delete %1"
-msgstr "%1 lescha"
-
-#: sim/qt3/i18n.cpp:123
-msgid "<qt>Do you really want to delete %1 \"%2\"?</qt>"
-msgstr "<qt>Mechda Se %1 \"%2\" wirklich lescha, ha?</qt>"
-
-#: sim/ballonmsg.cpp:359 sim/qt3/i18n.cpp:125 sim/simapi.cpp:479
-msgid "&Yes"
-msgstr "&Jo"
-
-#: sim/ballonmsg.cpp:360 sim/qt3/i18n.cpp:127 sim/simapi.cpp:483
-msgid "&No"
-msgstr "&Noi"
-
-#: sim/qt3/i18n.cpp:129
-msgid "New Folder 1"
-msgstr "Neies Vrzeichnis 1"
-
-#: sim/qt3/i18n.cpp:131
-msgid "New Folder"
-msgstr "Neies Vrzeichnis"
-
-#: sim/qt3/i18n.cpp:133
-#, c-format
-msgid "New Folder %1"
-msgstr "Neies Vrzeichnis %1"
-
-#: sim/qt3/i18n.cpp:135
-msgid "Find Directory"
-msgstr "Vrzeichnis sucha"
-
-#: sim/qt3/i18n.cpp:137
-msgid "Directories"
-msgstr "Vrzeichnisse"
-
-#: sim/qt3/i18n.cpp:139
-msgid "Save"
-msgstr "Schbeichern"
-
-#: sim/qt3/i18n.cpp:144
-msgid ""
-"%1\n"
-"File not found.\n"
-"Check path and filename."
-msgstr ""
-"%1\n"
-"Dadei ned gfonda. Bfad ond Dadeiname brifa."
-
-#: sim/qt3/i18n.cpp:148
-msgid "ERROR"
-msgstr "FEHLER"
-
-#: sim/qt3/i18n.cpp:150
-msgid "&Font"
-msgstr "Schrifdard"
-
-#: sim/qt3/i18n.cpp:152
-msgid "Font st&yle"
-msgstr "Schrifts&dschdil:"
-
-#: sim/qt3/i18n.cpp:154
-msgid "&Size"
-msgstr "&Greße"
-
-#: sim/qt3/i18n.cpp:156
-msgid "Effects"
-msgstr "Effekde"
-
-#: sim/qt3/i18n.cpp:158
-msgid "Stri&keout"
-msgstr "Durch&gschdricha"
-
-#: sim/qt3/i18n.cpp:162
-msgid "&Color"
-msgstr "&Farbe:"
-
-#: sim/qt3/i18n.cpp:164
-msgid "Sample"
-msgstr "Beischbil"
-
-#: sim/qt3/i18n.cpp:166
-msgid "Scr&ipt"
-msgstr "Skr&ibt"
-
-#: sim/qt3/i18n.cpp:168
-msgid "Apply"
-msgstr "Anwenda"
-
-#: sim/qt3/i18n.cpp:170
-msgid "Close"
-msgstr "Abbrecha"
-
-#: sim/qt3/i18n.cpp:172
-msgid "Select Font"
-msgstr "Schriftart auswählen"
-
-#: sim/qt3/i18n.cpp:177
-msgid "<h3>About Qt</h3><p>This program uses Qt version %1, a multiplatform C++ GUI toolkit from Trolltech. Qt provides single-source portability across Windows 95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of Unix with X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more information.</p>"
-msgstr "<h3>Ibr Qt</h3><p>Dieses Brogramm benudzd Qt en Vrsion %1, oin Muldibladdform-C++-GUI-Doolkid von Trolltech. Qt bieded Quellcodebordabilidäd fir Windows 95/98/NT/2000, Linux, Solaris, HP-UX ond en Haufa andere Vrsiona von Unix mid X11.</p><p>Besucha Se <tt>http://www.trolltech.com/qt/</tt> fir weidere Enformaziona.</p>"
-
-#: sim/qt3/i18n.cpp:183
-msgid "Help"
-msgstr "Hilfe"
-
-#: sim/qt3/i18n.cpp:185
-msgid "Defaults"
-msgstr "Voreinschdellonga"
-
-#: sim/qt3/i18n.cpp:187
-msgid "< &Back"
-msgstr "< Zurigg"
-
-#: sim/qt3/i18n.cpp:189
-msgid "&Next >"
-msgstr "Weidr >"
-
-#: sim/qt3/i18n.cpp:191
-msgid "&Finish"
-msgstr "Abschließa"
-
-#: sim/qt3/i18n.cpp:195
-msgid "+"
-msgstr "+"
-
-#: sim/qt3/i18n.cpp:201
-#, c-format
-msgid "F%1"
-msgstr "F%1"
-
-#: sim/qt3/i18n.cpp:203
-msgid "ctrl"
-msgstr "Strg"
-
-#: sim/qt3/i18n.cpp:205
-msgid "shift"
-msgstr "Omschald"
-
-#: sim/qt3/i18n.cpp:207
-msgid "alt"
-msgstr "Ald"
-
-#: sim/qt3/i18n.cpp:210
-msgid ""
-"Could not rename\n"
-"%1\n"
-"to\n"
-"%2"
-msgstr "Konnde \"%1\" ned nach \"%2\" ombenenna"
-
-#: sim/qt3/i18n.cpp:216
-#, c-format
-msgid ""
-"Could not open\n"
-"%1"
-msgstr "Konnde \"%1\" ned effna"
-
-#: sim/qt3/i18n.cpp:220
-#, c-format
-msgid ""
-"Could not write\n"
-"%1"
-msgstr "Konnde \"%1\" ned schreiba"
-
-#: sim/qt3/i18n.cpp:223
-msgid "Operation stopped by the user"
-msgstr "Oberazion vom Benudzr abgebrocha"
-
-#: sim/qt3/i18n.cpp:225
-msgid "(unknown)"
-msgstr "(onbekannd)"
-
-#: sim/qt3/i18n.cpp:227
-msgid "Host %1 found"
-msgstr "Hoschd %1 gfonda"
-
-#: sim/qt3/i18n.cpp:229
-msgid "Host found"
-msgstr "Hoschd gfonda"
-
-#: sim/qt3/i18n.cpp:231
-#, c-format
-msgid "Connected to host %1"
-msgstr "Vrbonda mid Hoschd %1"
-
-#: sim/qt3/i18n.cpp:233
-msgid "Connected to host"
-msgstr "Vrbonda mid Hoschd"
-
-#: sim/qt3/i18n.cpp:235
-msgid "Connection to %1 closed"
-msgstr "Vrbendong mid %1 beended"
-
-#: sim/qt3/i18n.cpp:237 sim/sockfactory.cpp:303
-msgid "Connection closed"
-msgstr "Vrbendong beended"
-
-#: sim/qt3/i18n.cpp:239
-msgid "Login Incorrect"
-msgstr "Anmeldong ongildig"
-
-#: sim/qt3/i18n.cpp:241
-#, c-format
-msgid "Col %1"
-msgstr "Schbalde %1"
-
-#: sim/qt3/i18n.cpp:243
-#, c-format
-msgid "Row %1"
-msgstr "Zeile %1"
-
-#: sim/qt3/i18n.cpp:245
-msgid "Undo"
-msgstr "Rigggängig"
-
-#: sim/qt3/i18n.cpp:247
-msgid "Redo"
-msgstr "Wiederherschdella"
-
-#: sim/editfile.cpp:311 sim/editfile.cpp:394 sim/qt3/i18n.cpp:249
-msgid "Cut"
-msgstr "Ausschneida"
-
-#: sim/editfile.cpp:312 sim/editfile.cpp:395 sim/qt3/i18n.cpp:251
-msgid "Copy"
-msgstr "Kobiera"
-
-#: sim/editfile.cpp:313 sim/editfile.cpp:396 sim/qt3/i18n.cpp:253
-msgid "Paste"
-msgstr "Oifiga"
-
-#: sim/qt3/i18n.cpp:259
-msgid "&Left"
-msgstr "&Links"
-
-#: sim/qt3/i18n.cpp:261
-msgid "&Right"
-msgstr "&Rechds"
-
-#: sim/qt3/i18n.cpp:263
-msgid "&Top"
-msgstr "&Oba"
-
-#: sim/qt3/i18n.cpp:265
-msgid "&Bottom"
-msgstr "O&nda"
-
-#: sim/qt3/i18n.cpp:267
-msgid "R&estore"
-msgstr "&Wiederherschdella"
-
-#: sim/qt3/i18n.cpp:269
-msgid "&Hide"
-msgstr "&Ausblenda"
-
-#: sim/qt3/i18n.cpp:271
-msgid "Line Up Toolbars (compact)"
-msgstr "Werkzeigleischda kombakd anordna"
-
-#: sim/qt3/i18n.cpp:273
-msgid "Line Up Toolbars (normal)"
-msgstr "Werkzeigleischda normol anordna"
-
-#: sim/qt3/i18n.cpp:275
-msgid "Paste special..."
-msgstr "Oifiga schbezial..."
-
-#: sim/qt3/i18n.cpp:277
-msgid "What's this?"
-msgstr "Was ischd des, ha?"
-
-#: sim/qt3/i18n.cpp:279
-msgid "&Restore"
-msgstr "Wiedr&herschdella"
-
-#: sim/qt3/i18n.cpp:281
-msgid "&Move"
-msgstr "&Vrschieba"
-
-#: sim/qt3/i18n.cpp:283
-msgid "Mi&nimize"
-msgstr "M&inimiera"
-
-#: sim/qt3/i18n.cpp:285
-msgid "Ma&ximize"
-msgstr "Ma&ximiera"
-
-#: sim/qt3/i18n.cpp:289
-msgid "&Roll up"
-msgstr "Nach &oba rolla"
-
-#: sim/qt3/i18n.cpp:291
-msgid "Minimize"
-msgstr "Minimiera"
-
-#: sim/qt3/i18n.cpp:293
-msgid "Restore Down"
-msgstr "Onderes wiederherschdella"
-
-#: sim/qt3/i18n.cpp:295
-msgid "Maximize"
-msgstr "Maximiera"
-
-#: sim/qt3/i18n.cpp:297
-msgid "Roll up"
-msgstr "Nach oba rolla"
-
-#: sim/qt3/i18n.cpp:299
-msgid "Restore Up"
-msgstr "Oberes wiederherschdella"
-
-#: sim/qt3/i18n.cpp:301
-msgid "Roll down"
-msgstr "Nach onda rolla"
-
 #: sim/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
 msgstr "Robert Scheck <sim@robert-scheck.de>"
@@ -7237,39 +6649,47 @@ msgstr "Dieses Brogramm wird ondr da Beschdemmonga dr GPL Vrsion 2 vrbreided."
 msgid "&Ok"
 msgstr "&OK"
 
-#: sim/contacts.cpp:2001
+#: sim/ballonmsg.cpp:359 sim/qt3/i18n.cpp:125 sim/simapi.cpp:479
+msgid "&Yes"
+msgstr "&Jo"
+
+#: sim/ballonmsg.cpp:360 sim/qt3/i18n.cpp:127 sim/simapi.cpp:483
+msgid "&No"
+msgstr "&Noi"
+
+#: sim/contacts.cpp:2003
 msgid "Unicode"
 msgstr "Unicode"
 
-#: sim/contacts.cpp:2006 sim/contacts.cpp:2007
+#: sim/contacts.cpp:2008 sim/contacts.cpp:2009
 msgid "Baltic"
 msgstr "Baldisch"
 
-#: sim/contacts.cpp:2009 sim/contacts.cpp:2011
+#: sim/contacts.cpp:2011 sim/contacts.cpp:2013
 msgid "Central European"
 msgstr "Zendraleiroba"
 
-#: sim/contacts.cpp:2013
+#: sim/contacts.cpp:2015
 msgid "Chinese "
 msgstr "Chinesisch"
 
-#: sim/contacts.cpp:2014
+#: sim/contacts.cpp:2016
 msgid "Chinese Simplified"
 msgstr "Chinesisch (vreinfachd)"
 
-#: sim/contacts.cpp:2015
+#: sim/contacts.cpp:2017
 msgid "Chinese Traditional"
 msgstr "Chinesisch (dradizionell)"
 
-#: sim/contacts.cpp:2017 sim/contacts.cpp:2018 sim/contacts.cpp:2020
+#: sim/contacts.cpp:2019 sim/contacts.cpp:2020 sim/contacts.cpp:2022
 msgid "Cyrillic"
 msgstr "Kyrillisch"
 
-#: sim/contacts.cpp:2034 sim/contacts.cpp:2035 sim/contacts.cpp:2036
+#: sim/contacts.cpp:2036 sim/contacts.cpp:2037 sim/contacts.cpp:2038
 msgid "Western European"
 msgstr "Weschdeirobäisch"
 
-#: sim/contacts.cpp:2038
+#: sim/contacts.cpp:2040
 msgid "Tamil"
 msgstr "Damil"
 
@@ -8313,6 +7733,10 @@ msgstr "Sa"
 msgid "Sun"
 msgstr "So"
 
+#: sim/editfile.cpp:143 sim/qt3/i18n.cpp:89
+msgid "Open"
+msgstr "Effna"
+
 #: sim/editfile.cpp:213
 msgid "*.wav|Sounds"
 msgstr "*.wav|Klänge"
@@ -8324,6 +7748,18 @@ msgstr "Klänge (*.wav)"
 #: sim/editfile.cpp:218
 msgid "Select sound"
 msgstr "Klang auswähla"
+
+#: sim/editfile.cpp:311 sim/editfile.cpp:394 sim/qt3/i18n.cpp:249
+msgid "Cut"
+msgstr "Ausschneida"
+
+#: sim/editfile.cpp:312 sim/editfile.cpp:395 sim/qt3/i18n.cpp:251
+msgid "Copy"
+msgstr "Kobiera"
+
+#: sim/editfile.cpp:313 sim/editfile.cpp:396 sim/qt3/i18n.cpp:253
+msgid "Paste"
+msgstr "Oifiga"
 
 #: sim/fontedit.cpp:100
 msgid "light"
@@ -8386,12 +7822,6 @@ msgstr "Bedreier"
 #: sim/sim.cpp:207
 msgid "Developer"
 msgstr "Endwigglr"
-
-#: sim/simapi.cpp:107
-msgid ""
-"_: Dear translator, please do not translate this string in any form, but pick the _right_ value out of NoPlural/TwoForms/French... If not sure what to do mail thd@kde.org and coolo@kde.org, they will tell you. Better leave that out if unsure, the programs will crash!!\n"
-"Definition of PluralForm - to be set by the translator of kdelibs.po"
-msgstr "TwoForms"
 
 #: sim/simapi.cpp:692
 msgid "Smile"
@@ -8469,6 +7899,10 @@ msgstr "Fehlr beim Vrbenda"
 msgid "Can't resolve host"
 msgstr "Konnde da Hoschd %1 ned ufflesa"
 
+#: sim/qt3/i18n.cpp:237 sim/sockfactory.cpp:303
+msgid "Connection closed"
+msgstr "Vrbendong beended"
+
 #: sim/sockfactory.cpp:364
 msgid "Socket error"
 msgstr "Soggedfehlr"
@@ -8505,9 +7939,583 @@ msgstr "SSL-Fehlr bei dr SSL- Enidialisierong"
 msgid "Custom"
 msgstr "Benudzerdefinierd"
 
+#: sim/qt3/i18n.cpp:1
+msgid "Hu&e:"
+msgstr "Helligk&eid:"
+
+#: sim/qt3/i18n.cpp:3
+msgid "&Sat:"
+msgstr "&Sad:"
+
+#: sim/qt3/i18n.cpp:5
+msgid "&Val:"
+msgstr "&Werd:"
+
+#: sim/qt3/i18n.cpp:7
+msgid "&Red:"
+msgstr "&Rod:"
+
+#: sim/qt3/i18n.cpp:9
+msgid "&Green:"
+msgstr "&Grin:"
+
+#: sim/qt3/i18n.cpp:11
+msgid "Bl&ue:"
+msgstr "Bla&o:"
+
+#: sim/qt3/i18n.cpp:13
+msgid "A&lpha channel:"
+msgstr "A&lfhakanal:"
+
+#: sim/qt3/i18n.cpp:15
+msgid "&Basic colors"
+msgstr "&Basisfarba"
+
+#: sim/qt3/i18n.cpp:17
+msgid "&Custom colors"
+msgstr "Eigne Far&ba"
+
+#: sim/qt3/i18n.cpp:19
+msgid "&Define Custom Colors >>"
+msgstr "Eigne Farba &definiera >>"
+
+#: sim/qt3/i18n.cpp:25
+msgid "&Add To Custom Colors"
+msgstr "Zu eigna F&arba hinzufiga"
+
+#: sim/qt3/i18n.cpp:27
+msgid "Select color"
+msgstr "Farbe auswähla"
+
+#: sim/qt3/i18n.cpp:29
+msgid "Copy or Move a File"
+msgstr "Dadei kobiera odr vrschieba"
+
+#: sim/qt3/i18n.cpp:31
+#, c-format
+msgid "Read: %1"
+msgstr "Lesa: %1"
+
+#: sim/qt3/i18n.cpp:33
+#, c-format
+msgid "Write: %1"
+msgstr "Schreiba: %1"
+
+#: sim/qt3/i18n.cpp:37
+msgid "All files (*)"
+msgstr "Alle Dadeia (*)"
+
+#: sim/qt3/i18n.cpp:41
+msgid "Size"
+msgstr "Greße"
+
+#: sim/qt3/i18n.cpp:47
+msgid "Attributes"
+msgstr "Addribude"
+
+#: sim/qt3/i18n.cpp:49
+msgid "Look &in:"
+msgstr "Nachseha &en:"
+
+#: sim/qt3/i18n.cpp:51
+msgid "File &name:"
+msgstr "Dadei&name:"
+
+#: sim/qt3/i18n.cpp:53
+msgid "File &type:"
+msgstr "Dadei&dyp:"
+
+#: sim/qt3/i18n.cpp:55
+msgid "Back"
+msgstr "Zurigg"
+
+#: sim/qt3/i18n.cpp:57
+msgid "One directory up"
+msgstr "Oi Vrzeichnis nuff"
+
+#: sim/qt3/i18n.cpp:59
+msgid "Create New Folder"
+msgstr "Neia Ordnr erschdella"
+
+#: sim/qt3/i18n.cpp:61
+msgid "List View"
+msgstr "Lischde anzeiga"
+
+#: sim/qt3/i18n.cpp:63
+msgid "Detail View"
+msgstr "Dedailansichd"
+
+#: sim/qt3/i18n.cpp:65
+msgid "Preview File Info"
+msgstr "Voransichd dr Dadei-Enfo"
+
+#: sim/qt3/i18n.cpp:67
+msgid "Preview File Contents"
+msgstr "Voransichd des Dadei-Enhalds"
+
+#: sim/qt3/i18n.cpp:69
+msgid "Read-write"
+msgstr "Lesa ond schreiba"
+
+#: sim/qt3/i18n.cpp:71
+msgid "Read-only"
+msgstr "Nur lesa"
+
+#: sim/qt3/i18n.cpp:73
+msgid "Write-only"
+msgstr "Nur schreiba"
+
+#: sim/qt3/i18n.cpp:75
+msgid "Inaccessible"
+msgstr "Ned zugänglich"
+
+#: sim/qt3/i18n.cpp:77
+msgid "Symlink to File"
+msgstr "Vrknibfong uff Dadei"
+
+#: sim/qt3/i18n.cpp:79
+msgid "Symlink to Directory"
+msgstr "Symbolische Vrknibfong uff Vrzeichnis"
+
+#: sim/qt3/i18n.cpp:81
+msgid "Symlink to Special"
+msgstr "Symbolische Vrknibfong uff Schbezialdadei"
+
+#: sim/qt3/i18n.cpp:85
+msgid "Dir"
+msgstr "Vrzeichnis"
+
+#: sim/qt3/i18n.cpp:87
+msgid "Special"
+msgstr "Schbezial"
+
+#: sim/qt3/i18n.cpp:91
+msgid "Save as"
+msgstr "Schbeichern als"
+
+#: sim/qt3/i18n.cpp:93
+msgid "&Open"
+msgstr "&Effna"
+
+#: sim/qt3/i18n.cpp:101
+msgid "R&eload"
+msgstr "Erne&it lada"
+
+#: sim/qt3/i18n.cpp:103
+msgid "Sort by &Name"
+msgstr "Nach &Name sordiera"
+
+#: sim/qt3/i18n.cpp:105
+msgid "Sort by &Size"
+msgstr "Nach &Greße sordiera"
+
+#: sim/qt3/i18n.cpp:107
+msgid "Sort by &Date"
+msgstr "Nach &Dadom sordiera"
+
+#: sim/qt3/i18n.cpp:109
+msgid "&Unsorted"
+msgstr "&Onsordierd"
+
+#: sim/qt3/i18n.cpp:111
+msgid "Sort"
+msgstr "Sordiera"
+
+#: sim/qt3/i18n.cpp:113
+msgid "Show &hidden files"
+msgstr "&Vrschdeggde Dadeia anzeiga"
+
+#: sim/qt3/i18n.cpp:115
+msgid "the file"
+msgstr "d Dadei"
+
+#: sim/qt3/i18n.cpp:117
+msgid "the directory"
+msgstr "des Vrzeichnis"
+
+#: sim/qt3/i18n.cpp:119
+msgid "the symlink"
+msgstr "d symbolische Vrknibfong"
+
+#: sim/qt3/i18n.cpp:121
+#, c-format
+msgid "Delete %1"
+msgstr "%1 lescha"
+
+#: sim/qt3/i18n.cpp:123
+msgid "<qt>Do you really want to delete %1 \"%2\"?</qt>"
+msgstr "<qt>Mechda Se %1 \"%2\" wirklich lescha, ha?</qt>"
+
+#: sim/qt3/i18n.cpp:129
+msgid "New Folder 1"
+msgstr "Neies Vrzeichnis 1"
+
+#: sim/qt3/i18n.cpp:131
+msgid "New Folder"
+msgstr "Neies Vrzeichnis"
+
+#: sim/qt3/i18n.cpp:133
+#, c-format
+msgid "New Folder %1"
+msgstr "Neies Vrzeichnis %1"
+
+#: sim/qt3/i18n.cpp:135
+msgid "Find Directory"
+msgstr "Vrzeichnis sucha"
+
+#: sim/qt3/i18n.cpp:137
+msgid "Directories"
+msgstr "Vrzeichnisse"
+
+#: sim/qt3/i18n.cpp:139
+msgid "Save"
+msgstr "Schbeichern"
+
+#: sim/qt3/i18n.cpp:148
+msgid "ERROR"
+msgstr "FEHLER"
+
+#: sim/qt3/i18n.cpp:150
+msgid "&Font"
+msgstr "Schrifdard"
+
+#: sim/qt3/i18n.cpp:152
+msgid "Font st&yle"
+msgstr "Schrifts&dschdil:"
+
+#: sim/qt3/i18n.cpp:154
+msgid "&Size"
+msgstr "&Greße"
+
+#: sim/qt3/i18n.cpp:156
+msgid "Effects"
+msgstr "Effekde"
+
+#: sim/qt3/i18n.cpp:158
+msgid "Stri&keout"
+msgstr "Durch&gschdricha"
+
+#: sim/qt3/i18n.cpp:162
+msgid "&Color"
+msgstr "&Farbe:"
+
+#: sim/qt3/i18n.cpp:164
+msgid "Sample"
+msgstr "Beischbil"
+
+#: sim/qt3/i18n.cpp:166
+msgid "Scr&ipt"
+msgstr "Skr&ibt"
+
+#: sim/qt3/i18n.cpp:168
+msgid "Apply"
+msgstr "Anwenda"
+
+#: sim/qt3/i18n.cpp:170
+msgid "Close"
+msgstr "Abbrecha"
+
+#: sim/qt3/i18n.cpp:172
+msgid "Select Font"
+msgstr "Schriftart auswählen"
+
+#: sim/qt3/i18n.cpp:183
+msgid "Help"
+msgstr "Hilfe"
+
+#: sim/qt3/i18n.cpp:185
+msgid "Defaults"
+msgstr "Voreinschdellonga"
+
+#: sim/qt3/i18n.cpp:187
+msgid "< &Back"
+msgstr "< Zurigg"
+
+#: sim/qt3/i18n.cpp:189
+msgid "&Next >"
+msgstr "Weidr >"
+
+#: sim/qt3/i18n.cpp:191
+msgid "&Finish"
+msgstr "Abschließa"
+
+#: sim/qt3/i18n.cpp:195
+msgid "+"
+msgstr "+"
+
+#: sim/qt3/i18n.cpp:201
+#, c-format
+msgid "F%1"
+msgstr "F%1"
+
+#: sim/qt3/i18n.cpp:203
+msgid "ctrl"
+msgstr "Strg"
+
+#: sim/qt3/i18n.cpp:205
+msgid "shift"
+msgstr "Omschald"
+
+#: sim/qt3/i18n.cpp:207
+msgid "alt"
+msgstr "Ald"
+
+#: sim/qt3/i18n.cpp:223
+msgid "Operation stopped by the user"
+msgstr "Oberazion vom Benudzr abgebrocha"
+
+#: sim/qt3/i18n.cpp:225
+msgid "(unknown)"
+msgstr "(onbekannd)"
+
+#: sim/qt3/i18n.cpp:227
+msgid "Host %1 found"
+msgstr "Hoschd %1 gfonda"
+
+#: sim/qt3/i18n.cpp:229
+msgid "Host found"
+msgstr "Hoschd gfonda"
+
+#: sim/qt3/i18n.cpp:231
+#, c-format
+msgid "Connected to host %1"
+msgstr "Vrbonda mid Hoschd %1"
+
+#: sim/qt3/i18n.cpp:233
+msgid "Connected to host"
+msgstr "Vrbonda mid Hoschd"
+
+#: sim/qt3/i18n.cpp:235
+msgid "Connection to %1 closed"
+msgstr "Vrbendong mid %1 beended"
+
+#: sim/qt3/i18n.cpp:239
+msgid "Login Incorrect"
+msgstr "Anmeldong ongildig"
+
+#: sim/qt3/i18n.cpp:241
+#, c-format
+msgid "Col %1"
+msgstr "Schbalde %1"
+
+#: sim/qt3/i18n.cpp:243
+#, c-format
+msgid "Row %1"
+msgstr "Zeile %1"
+
+#: sim/qt3/i18n.cpp:245
+msgid "Undo"
+msgstr "Rigggängig"
+
+#: sim/qt3/i18n.cpp:247
+msgid "Redo"
+msgstr "Wiederherschdella"
+
+#: sim/qt3/i18n.cpp:259
+msgid "&Left"
+msgstr "&Links"
+
+#: sim/qt3/i18n.cpp:261
+msgid "&Right"
+msgstr "&Rechds"
+
+#: sim/qt3/i18n.cpp:263
+msgid "&Top"
+msgstr "&Oba"
+
+#: sim/qt3/i18n.cpp:265
+msgid "&Bottom"
+msgstr "O&nda"
+
+#: sim/qt3/i18n.cpp:267
+msgid "R&estore"
+msgstr "&Wiederherschdella"
+
+#: sim/qt3/i18n.cpp:269
+msgid "&Hide"
+msgstr "&Ausblenda"
+
+#: sim/qt3/i18n.cpp:271
+msgid "Line Up Toolbars (compact)"
+msgstr "Werkzeigleischda kombakd anordna"
+
+#: sim/qt3/i18n.cpp:273
+msgid "Line Up Toolbars (normal)"
+msgstr "Werkzeigleischda normol anordna"
+
+#: sim/qt3/i18n.cpp:275
+msgid "Paste special..."
+msgstr "Oifiga schbezial..."
+
+#: sim/qt3/i18n.cpp:277
+msgid "What's this?"
+msgstr "Was ischd des, ha?"
+
+#: sim/qt3/i18n.cpp:279
+msgid "&Restore"
+msgstr "Wiedr&herschdella"
+
+#: sim/qt3/i18n.cpp:281
+msgid "&Move"
+msgstr "&Vrschieba"
+
+#: sim/qt3/i18n.cpp:283
+msgid "Mi&nimize"
+msgstr "M&inimiera"
+
+#: sim/qt3/i18n.cpp:285
+msgid "Ma&ximize"
+msgstr "Ma&ximiera"
+
+#: sim/qt3/i18n.cpp:289
+msgid "&Roll up"
+msgstr "Nach &oba rolla"
+
+#: sim/qt3/i18n.cpp:291
+msgid "Minimize"
+msgstr "Minimiera"
+
+#: sim/qt3/i18n.cpp:293
+msgid "Restore Down"
+msgstr "Onderes wiederherschdella"
+
+#: sim/qt3/i18n.cpp:295
+msgid "Maximize"
+msgstr "Maximiera"
+
+#: sim/qt3/i18n.cpp:297
+msgid "Roll up"
+msgstr "Nach oba rolla"
+
+#: sim/qt3/i18n.cpp:299
+msgid "Restore Up"
+msgstr "Oberes wiederherschdella"
+
+#: sim/qt3/i18n.cpp:301
+msgid "Roll down"
+msgstr "Nach onda rolla"
+
 #: xpstyle/xpstyle.cpp:63
 msgid "Windows XP style"
 msgstr "Wendows XB-Schdil"
+
+#~ msgid ""
+#~ "I am currently away from ICQ.\n"
+#~ "Please leave your message and I will get back to you as soon as I return!\n"
+#~ msgstr ""
+#~ "I bin grade ned am Combjudr.\n"
+#~ "Bidde henderlassa Se a Nachrichd ond I werde mich bei Ihna melda, haidanai!\n"
+
+#~ msgid ""
+#~ "I am out'a here.\n"
+#~ "See you tomorrow!\n"
+#~ msgstr ""
+#~ "I bin ned do.\n"
+#~ "Mir seha ons morga, haidanai!\n"
+
+#~ msgid "Please do not disturb me now. Disturb me later.\n"
+#~ msgstr "Bidde ned schdera. Vrsucha Se s bidde schbädr.\n"
+
+#~ msgid "We'd love to hear what you have to say. Join our chat.\n"
+#~ msgstr "I mechde grn chatta.\n"
+
+#, fuzzy
+#~ msgid "I'm offline.\n"
+#~ msgstr "&Offline anzeiga"
+
+#~ msgid ""
+#~ "At loading contact list contacts with identical names were automatically joined.\n"
+#~ "If it is wrong, you can separate them. For this purpose in contact menu choose the necessary name and choose a command \"Separate\"."
+#~ msgstr ""
+#~ "Beim Lada dr Kondakdlischde werda Kondakde mid gleicha Nama audomadisch en oim Kondakd vreend.\n"
+#~ "En dem Fall, dess sell falsch ischd, kenna d Kondakde gedrennd werda. En diesa Fall wähla Se da bedreffenda Kondakd ond fihra d Funkzion \"Drenna\" aus."
+
+#~ msgid ""
+#~ "For message events message text will be sent on standard input of the program.\n"
+#~ "If the program will return a zero error code message text will be replaced with program output.\n"
+#~ "If program output is empty,  message will be destroyed.\n"
+#~ "Thus it is possible to organize additional messages filters.\n"
+#~ msgstr ""
+#~ "Bei Nachrichdenereignissa wird dr Nachrichdendexd zur Schdandardeingabe des brogramms gsended.\n"
+#~ "Wenn des Brogramm da Fehlercode Null lieferd, wird dr dexd durch d Brogrammausgabe ersedzd.\n"
+#~ "Wenn d Brogrammausgabe ler ischd, wird d Nachrichd zerschderd.\n"
+#~ "Dadurch ischd s meglich, zusädzliche Nachrichdenfildr zu vrwalda.\n"
+
+#~ msgid ""
+#~ "Plugin adds GnuPG encryption/decryption support for messages\n"
+#~ "GPG not found in PATH"
+#~ msgstr ""
+#~ "Blugin figd Onderschdidzong von GnuPG-Vrschlisselong/-Endschlisselong von Nachrichda hinzu\n"
+#~ "GPG ned en Bfad gfonda"
+
+#~ msgid "blah"
+#~ msgstr "Quadsch"
+
+#~ msgid ""
+#~ "Plugin provides log output\n"
+#~ "You can set debug level from command line with -d<loglevel>\n"
+#~ "To log errors, set loglevel to 1, for warnings to 2 and for debug-messages to 4\n"
+#~ "If you want to log more than one you may add the levels"
+#~ msgstr ""
+#~ "Blugin schdelld Logausgaba bereid\n"
+#~ "S ka d Debugschdufe von dr Kommandozeile mid -d <debugschdufe> gsedzd werda\n"
+#~ "Om Fehlr zu logga, d Debugschdufe uff 1 sedza, fir Warnonga uff 2 ond fir Debugmeldonga uff 4\n"
+#~ "Wenn mehr ens Log uffgnomma werda sodd, d Schdufa addiera"
+
+#~ msgid ""
+#~ "Plugin provides monitoring of net and messages\n"
+#~ "For show monitor on start run sim -m"
+#~ msgstr ""
+#~ "Blugin schdelld Monidoring des Nedzes ond Nachrichda bereid\n"
+#~ "Om da Monidor anzeiga zu lassa, SIM mid \"sim -m\" schdarda"
+
+#~ msgid ""
+#~ "Plugin provides windows transparency\n"
+#~ "This plugin works only on Windows 2000 or Windows XP"
+#~ msgstr ""
+#~ "Blugin schdelld d Dranschbarenz von Fenschdern en Windows bereid\n"
+#~ "S funkzionierd nur en Windows 2000 odr en Windows XP"
+
+#, fuzzy
+#~ msgid "First name:"
+#~ msgstr "Vorname:"
+
+#, fuzzy
+#~ msgid "Last name:"
+#~ msgstr "Nachname:"
+
+#~ msgid ""
+#~ "%1\n"
+#~ "File not found.\n"
+#~ "Check path and filename."
+#~ msgstr ""
+#~ "%1\n"
+#~ "Dadei ned gfonda. Bfad ond Dadeiname brifa."
+
+#~ msgid "<h3>About Qt</h3><p>This program uses Qt version %1, a multiplatform C++ GUI toolkit from Trolltech. Qt provides single-source portability across Windows 95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of Unix with X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more information.</p>"
+#~ msgstr "<h3>Ibr Qt</h3><p>Dieses Brogramm benudzd Qt en Vrsion %1, oin Muldibladdform-C++-GUI-Doolkid von Trolltech. Qt bieded Quellcodebordabilidäd fir Windows 95/98/NT/2000, Linux, Solaris, HP-UX ond en Haufa andere Vrsiona von Unix mid X11.</p><p>Besucha Se <tt>http://www.trolltech.com/qt/</tt> fir weidere Enformaziona.</p>"
+
+#~ msgid ""
+#~ "Could not rename\n"
+#~ "%1\n"
+#~ "to\n"
+#~ "%2"
+#~ msgstr "Konnde \"%1\" ned nach \"%2\" ombenenna"
+
+#~ msgid ""
+#~ "Could not open\n"
+#~ "%1"
+#~ msgstr "Konnde \"%1\" ned effna"
+
+#~ msgid ""
+#~ "Could not write\n"
+#~ "%1"
+#~ msgstr "Konnde \"%1\" ned schreiba"
+
+#~ msgid ""
+#~ "_: Dear translator, please do not translate this string in any form, but pick the _right_ value out of NoPlural/TwoForms/French... If not sure what to do mail thd@kde.org and coolo@kde.org, they will tell you. Better leave that out if unsure, the programs will crash!!\n"
+#~ "Definition of PluralForm - to be set by the translator of kdelibs.po"
+#~ msgstr "TwoForms"
 
 #~ msgid "SSL shuwdown error"
 #~ msgstr "SSL-Fehlr beim SSL-Shuddown"
