@@ -84,13 +84,16 @@ TextEdit::TextEdit(QWidget *p, const char *name)
     connect(this, SIGNAL(currentFontChanged(const QFont&)), this, SLOT(fontChanged(const QFont&)));
     connect(this, SIGNAL(currentColorChanged(const QColor&)), this, SLOT(slotColorChanged(const QColor&)));
     connect(this, SIGNAL(textChanged()), this, SLOT(slotTextChanged()));
+#if QT_VERSION >= 300
     connect(this, SIGNAL(clicked(int,int)), this, SLOT(slotClicked(int,int)));
+#endif
     viewport()->installEventFilter(this);
     fontChanged(font());
 }
 
 TextEdit::~TextEdit()
 {
+	emit finished(this);
 }
 
 void TextEdit::setFont(const QFont &f)
@@ -113,6 +116,7 @@ void TextEdit::slotTextChanged()
 
 void TextEdit::slotClicked(int,int)
 {
+#if QT_VERSION >= 300
     int paraFrom, paraTo, indexFrom, indexTo;
     getSelection(&paraFrom, &indexFrom, &paraTo, &indexTo);
     if ((paraFrom != paraTo) || (indexFrom != indexTo))
@@ -121,6 +125,7 @@ void TextEdit::slotClicked(int,int)
     QContextMenuEvent e(QContextMenuEvent::Other, QPoint(0, 0), QPoint(0, 0), 0);
     contentsContextMenuEvent(&e);
     m_bInClick = false;
+#endif
 }
 
 QPopupMenu *TextEdit::createPopupMenu(const QPoint& pos)

@@ -95,6 +95,7 @@ signals:
     void emptyChanged(bool);
     void colorsChanged();
     void fontSelected(const QFont &font);
+	void finished(TextEdit*);
 protected slots:
     void slotClicked(int parag, int index);
     void slotTextChanged();

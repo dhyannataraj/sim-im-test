@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qrichtext_p.h,v 1.5 2003-11-16 00:29:17 shutoff Exp $
+** $Id: qrichtext_p.h,v 1.5.2.1 2003-11-16 19:43:19 shutoff Exp $
 **
 ** Definition of internal rich text classes
 **
@@ -1686,12 +1686,15 @@ inline QTextPreProcessor *QTextDocument::preProcessor() const
 
 inline void QTextDocument::setPreProcessor( QTextPreProcessor * sh )
 {
+	if (pProcessor)
+		delete pProcessor;
     pProcessor = sh;
 }
 
 inline void QTextDocument::setFormatter( QTextFormatter *f )
 {
-    delete pFormatter;
+	if (pFormatter)
+		delete pFormatter;
     pFormatter = f;
 }
 
