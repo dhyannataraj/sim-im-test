@@ -481,7 +481,7 @@ QString WeatherPlugin::replace(const QString &text)
 	res = res.replace(QRegExp("\\%ui"), number(getUV_Intensity()));
     res = res.replace(QRegExp("\\%t"), number(getTemperature()) + QChar((unsigned short)176) + getUT());
     res = res.replace(QRegExp("\\%f"), number(getFeelsLike()) + QChar((unsigned short)176) + getUT());
-    res = res.replace(QRegExp("\\%d"), number((int)getDewPoint()) + QChar((unsigned short)176) + getUT());
+    res = res.replace(QRegExp("\\%d"), QString::number((int)getDewPoint()) + QChar((unsigned short)176) + getUT());
     res = res.replace(QRegExp("\\%h"), number(getHumidity()) + "%");
     res = res.replace(QRegExp("\\%w"), number(getWind_speed()) + " " + i18n(getUS()));
     res = res.replace(QRegExp("\\%x"), QString::number(getWind_speed() * 10 / 36) + " " + i18n("m/s"));
