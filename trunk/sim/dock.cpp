@@ -131,7 +131,7 @@ WharfIcon::WharfIcon(DockWnd *parent)
     vis = NULL;
     vish = NULL;
     if (!dock->useWM)
-    	move(pMain->DockX, pMain->DockY);
+        move(pMain->DockX, pMain->DockY);
     show();
 }
 
@@ -183,18 +183,18 @@ void WharfIcon::set(const char *icon, const char *msg)
 void WharfIcon::mousePressEvent( QMouseEvent *e)
 {
     if (!dock->useWM){
-	mousePos = e->pos();
-	grabMouse();
+        mousePos = e->pos();
+        grabMouse();
     }
 }
 
 void WharfIcon::mouseReleaseEvent( QMouseEvent *e)
 {
     if (!dock->useWM){
-	mousePos = QPoint(0,0);
-	pMain->DockX = x();
-	pMain->DockY = y();
-	releaseMouse();
+        mousePos = QPoint(0,0);
+        pMain->DockX = x();
+        pMain->DockY = y();
+        releaseMouse();
     }
     dock->mousePressEvent(e);
 }
@@ -202,7 +202,7 @@ void WharfIcon::mouseReleaseEvent( QMouseEvent *e)
 void WharfIcon::mouseMoveEvent( QMouseEvent *e)
 {
     if (!dock->useWM && !mousePos.isNull())
-	move(e->globalPos() - mousePos);
+        move(e->globalPos() - mousePos);
 }
 
 void WharfIcon::mouseDoubleClickEvent( QMouseEvent *e)
@@ -311,7 +311,7 @@ DockWnd::DockWnd(QWidget *main, int _useWM)
         setBackgroundMode(X11ParentRelative);
         setIcon(Pict(pClient->getStatusIcon()));
 #ifdef USE_KDE
-	bWharf = false;
+        bWharf = false;
         show();
 #endif
     }

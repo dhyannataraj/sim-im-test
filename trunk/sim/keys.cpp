@@ -678,6 +678,7 @@ static const TransKey g_rgQtToSymX[] =
 KeyGrab::KeyGrab(const char *key)
         : QWidget(NULL)
 {
+#ifndef WIN32
     m_key = str2key(key);
     m_state = 0;
     if (m_key & Qt::SHIFT){
@@ -692,7 +693,7 @@ KeyGrab::KeyGrab(const char *key)
         m_key &= ~Qt::ALT;
         m_state |= 1;
     }
-#if !defined(WIN32) && !defined(USE_KDE)
+#ifndef USE_KDE
     for (const TransKey *t = g_rgQtToSymX; t->qt_key; t++){
         if (t->qt_key == m_key){
             m_key = t->x_key;
@@ -702,6 +703,7 @@ KeyGrab::KeyGrab(const char *key)
     XSync( qt_xdisplay(), 0 );
     XGrabKey( qt_xdisplay(), m_key, m_state,
               qt_xrootwin(), True, GrabModeAsync, GrabModeSync);
+#endif
 #endif
     hide();
 }

@@ -20,6 +20,7 @@
 
 #include "defs.h"
 #include "userinfobase.h"
+#include "setupdlg.h"
 
 class ICQEvent;
 class ICQUser;
@@ -41,9 +42,11 @@ protected slots:
     void processEvent(ICQEvent *e);
 protected:
     bool inSave;
-    void addWidget(QWidget*, int, const QString&, const char*);
+    void addWidget(PAGEPROC *pageProc, int, const QString&, const char*, int param=0);
     unsigned long m_nUin;
     void loadInfo();
+    void raiseWidget(int id);
+    bool raiseWidget(QListViewItem *i, unsigned id);
     QListViewItem *itemMain;
 };
 

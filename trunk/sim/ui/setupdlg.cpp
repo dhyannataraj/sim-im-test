@@ -208,6 +208,7 @@ void SetupDialog::addPage(PAGEPROC *page, int id, const QString &name, const cha
 {
     QListViewItem *item = new QListViewItem(itemMain, name, QString::number(id));
     item->setPixmap(0, Pict(icon));
+    item->setText(1, QString::number(id));
     item->setText(2, icon);
     item->setText(3, QString::number((unsigned)page));
     item->setText(4, QString::number(param));
