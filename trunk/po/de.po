@@ -3253,7 +3253,7 @@ msgstr "&Hinzufügen"
 
 #: plugins/_core/search.cpp:313
 msgid "%1 already in contact list"
-msgstr "%1 bereits inKontaktliste"
+msgstr "%1 bereits in Kontaktliste"
 
 #: plugins/_core/search.cpp:380 plugins/_core/usercfg.cpp:288
 #: plugins/_core/userlist.cpp:1040 plugins/_core/userview.cpp:177
