@@ -21,6 +21,7 @@
 #include "ballonmsg.h"
 #include "core.h"
 #include "msgedit.h"
+#include "msgview.h"
 #include "userwnd.h"
 
 #include "xpm/ignorelist.xpm"
@@ -120,6 +121,9 @@ FilterPlugin::FilterPlugin(unsigned base, const char *cfg)
     cmd->flags		 = COMMAND_CHECK_STATE;
     eCmd.process();
 
+    cmd->menu_grp    = MenuMsgView;
+    eCmd.process();
+
     cmd->id			 = user_data_id + 1;
     cmd->text		 = I18N_NOOP("&Filter");
     cmd->icon		 = "filter";
@@ -191,9 +195,15 @@ void *FilterPlugin::processEvent(Event *e)
             return e->param();
         }
         if (cmd->id == CmdIgnoreText){
-            TextEdit *edit = ((MsgEdit*)(cmd->param))->m_edit;
-            if (edit->hasSelectedText())
-                return e->param();
+            if (cmd->menu_id == MenuMsgView){
+                MsgViewBase *edit = (MsgViewBase*)(cmd->param);
+                if (edit->hasSelectedText())
+                    return e->param();
+            }else{
+                TextEdit *edit = ((MsgEdit*)(cmd->param))->m_edit;
+                if (edit->hasSelectedText())
+                    return e->param();
+            }
             return NULL;
         }
         if (cmd->menu_id == MenuContactGroup){
@@ -224,10 +234,23 @@ void *FilterPlugin::processEvent(Event *e)
             return e->param();
         }
         if (cmd->id == CmdIgnoreText){
-            MsgEdit *medit = (MsgEdit*)(cmd->param);
-            TextEdit *edit = medit->m_edit;
-            if (edit->hasSelectedText()){
-                QString text = edit->selectedText();
+            QString text;
+			unsigned id = 0;
+            if (cmd->menu_id == MenuMsgView){
+                MsgViewBase *view = (MsgViewBase*)(cmd->param);
+                if (view->hasSelectedText()){
+                    text = view->selectedText();
+					id = view->m_id;
+				}
+            }else{
+                MsgEdit *medit = (MsgEdit*)(cmd->param);
+                TextEdit *edit = medit->m_edit;
+                if (edit->hasSelectedText()){
+                    text = edit->selectedText();
+					id = medit->m_userWnd->id();
+                }
+            }
+            if (!text.isEmpty()){
                 bool bSpace = false;
                 for (int i = 0; i < (int)(text.length()); i++)
                     if (text[i] == ' '){
@@ -237,7 +260,7 @@ void *FilterPlugin::processEvent(Event *e)
                 if (bSpace)
                     text = QString("\"") + text + "";
                 FilterUserData *data = NULL;
-                Contact *contact = getContacts()->contact(medit->m_userWnd->id());
+                Contact *contact = getContacts()->contact(id);
                 if (contact){
                     data = (FilterUserData*)(contact->getUserData(user_data_id));
                 }else{

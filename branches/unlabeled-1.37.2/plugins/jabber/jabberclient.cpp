@@ -441,7 +441,7 @@ void *JabberClient::processEvent(Event *e)
     }
     if (e->type() == EventTemplateExpanded){
         TemplateExpand *t = (TemplateExpand*)(e->param());
-        setStatus((unsigned)(t->param), quoteString(t->tmpl).utf8());
+        setStatus((unsigned)(t->param), quoteString(t->tmpl, quoteNOBR).utf8());
     }
     if (e->type() == EventContactChanged){
         Contact *contact = (Contact*)(e->param());
