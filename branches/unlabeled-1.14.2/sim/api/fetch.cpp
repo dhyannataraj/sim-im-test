@@ -383,10 +383,56 @@ const unsigned UNKNOWN_SIZE = (unsigned)(-1);
 static char _HTTP[] = "HTTP";
 
 static list<FetchClientPrivate*> *m_done = NULL;
+static string *user_agent = NULL;
 
 FetchManager::FetchManager()
 {
     m_done = new list<FetchClientPrivate*>;
+	user_agent = new string;
+	*user_agent = PACKAGE "/" VERSION;
+	*user_agent += " (";
+#ifdef WIN32
+	*user_agent += "Windows ";
+	OSVERSIONINFOA osvi;
+	osvi.dwOSVersionInfoSize = sizeof(osvi);
+	GetVersionExA(&osvi);
+	switch (osvi.dwPlatformId){
+    case VER_PLATFORM_WIN32_NT:
+		if ((osvi.dwMajorVersion == 5) && (osvi.dwMinorVersion == 2)){
+			*user_agent += "2003";
+		}else if ((osvi.dwMajorVersion == 5) && (osvi.dwMinorVersion == 1)){
+			*user_agent += "XP";
+        }else if ((osvi.dwMajorVersion == 5) && (osvi.dwMinorVersion == 0 )){
+			*user_agent += "2000";
+		}else{
+			*user_agent += number(osvi.dwMajorVersion);
+			*user_agent += ".";
+			*user_agent += number(osvi.dwMinorVersion);
+		}
+        break;
+    case VER_PLATFORM_WIN32_WINDOWS:
+        if (osvi.dwMajorVersion == 4){
+			if (osvi.dwMinorVersion == 0){
+				*user_agent += "95";
+				if ((osvi.szCSDVersion[1] == 'C') || (osvi.szCSDVersion[1] == 'B'))
+					*user_agent += " OSR2";
+			}else if (osvi.dwMinorVersion == 10){
+				*user_agent += "98";
+				if ( osvi.szCSDVersion[1] == 'A' )
+					*user_agent += " SE";
+			}else if (osvi.dwMinorVersion == 90){
+				*user_agent += "Millennium";
+			} 
+		}
+        break;
+	case VER_PLATFORM_WIN32s:
+        *user_agent += "32s";
+        break;
+	}
+#else
+	*user_agent += UNAME;
+#endif
+	*user_agent += " )";
 #ifdef WIN32
     HINSTANCE hLib = LoadLibraryA("wininet.dll");
     if (hLib != NULL){
@@ -404,7 +450,7 @@ FetchManager::FetchManager()
         (DWORD&)_InternetQueryOption = (DWORD)GetProcAddress(hLib, "InternetQueryOptionA");
     }
     if (_InternetOpen && _HttpSendRequestEx){
-        hInet = _InternetOpen("Mozilla/4.08 [en] (WinNT; U ;Nav)" /*PACKAGE "/" VERSION*/, INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
+        hInet = _InternetOpen(user_agent->c_str(), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
         if (hInet == NULL)
             log(L_WARN, "Internet open error %u", GetLastError());
         return;
@@ -421,6 +467,7 @@ FetchManager::~FetchManager()
 #endif
     getContacts()->removePacketType(HTTPPacket);
     delete m_done;
+	delete user_agent;
 }
 
 void FetchManager::done(FetchClient *client)
@@ -721,7 +768,7 @@ void FetchClientPrivate::connect_ready()
         << "\r\n";
     if (!findHeader("User-Agent"))
         m_socket->writeBuffer
-        << "User-Agent: " PACKAGE "/" VERSION "\r\n";
+        << "User-Agent: " << user_agent->c_str() << "\r\n";
     if (!findHeader("Authorization") && !user.empty())
         m_socket->writeBuffer
         << "Authorization: basic "
