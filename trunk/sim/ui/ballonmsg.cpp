@@ -16,8 +16,6 @@
  ***************************************************************************/
 
 #include "ballonmsg.h"
-#include "effect.h"
-#include "enable.h"
 
 #include <qtimer.h>
 #include <qpainter.h>
@@ -37,12 +35,75 @@
 #define BALLOON_SHADOW	2
 #define BALLOON_MARGIN	8
 
-BalloonMsg::BalloonMsg(const QString &_text, QStringList &btn, QWidget *parent, const QRect *rcParent, bool bModal, bool bAutoHide)
+UI_EXPORT QPixmap& intensity(QPixmap &pict, float percent)
+{
+    QImage image = pict.convertToImage();
+    int i, tmp, r, g, b;
+    int segColors = image.depth() > 8 ? 256 : image.numColors();
+    unsigned char *segTbl = new unsigned char[segColors];
+    int pixels = image.depth() > 8 ? image.width()*image.height() :
+                 image.numColors();
+    unsigned int *data = image.depth() > 8 ? (unsigned int *)image.bits() :
+                         (unsigned int *)image.colorTable();
+
+    bool brighten = (percent >= 0);
+    if(percent < 0)
+        percent = -percent;
+
+    if(brighten){ // keep overflow check out of loops
+        for(i=0; i < segColors; ++i){
+            tmp = (int)(i*percent);
+            if(tmp > 255)
+                tmp = 255;
+            segTbl[i] = tmp;
+        }
+    }
+    else{
+        for(i=0; i < segColors; ++i){
+            tmp = (int)(i*percent);
+            if(tmp < 0)
+                tmp = 0;
+            segTbl[i] = tmp;
+        }
+    }
+
+    if(brighten){ // same here
+        for(i=0; i < pixels; ++i){
+            r = qRed(data[i]);
+            g = qGreen(data[i]);
+            b = qBlue(data[i]);
+            r = r + segTbl[r] > 255 ? 255 : r + segTbl[r];
+            g = g + segTbl[g] > 255 ? 255 : g + segTbl[g];
+            b = b + segTbl[b] > 255 ? 255 : b + segTbl[b];
+            data[i] = qRgb(r, g, b);
+        }
+    }
+    else{
+        for(i=0; i < pixels; ++i){
+            r = qRed(data[i]);
+            g = qGreen(data[i]);
+            b = qBlue(data[i]);
+            r = r - segTbl[r] < 0 ? 0 : r - segTbl[r];
+            g = g - segTbl[g] < 0 ? 0 : g - segTbl[g];
+            b = b - segTbl[b] < 0 ? 0 : b - segTbl[b];
+            data[i] = qRgb(r, g, b);
+        }
+    }
+    delete [] segTbl;
+
+    pict.convertFromImage(image);
+    return pict;
+}
+
+BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWidget *parent, const QRect *rcParent, bool bModal, bool bAutoHide)
         : QDialog(parent, "ballon", bModal,
                   (bAutoHide ? WType_Popup : WType_TopLevel | WStyle_StaysOnTop)
                   | WStyle_Customize | WStyle_NoBorderEx | WStyle_Tool | WDestructiveClose | WX11BypassWM)
 {
+    m_param = param;
+    m_parent = parent;
     m_bAutoHide = bAutoHide;
+    m_bYes = false;
     bool bTailDown = true;
     setPalette(QToolTip::palette());
     text = _text;
@@ -56,7 +117,7 @@ BalloonMsg::BalloonMsg(const QString &_text, QStringList &btn, QWidget *parent, 
     bool bFirst = true;
     for (QStringList::Iterator it = btn.begin(); it != btn.end(); ++it, id++){
         BalloonButton *b = new BalloonButton(*it, frm, id);
-        connect(b, SIGNAL(action(int)), this, SIGNAL(action(int)));
+        connect(b, SIGNAL(action(int)), this, SLOT(action(int)));
         lay->addWidget(b);
         if (bFirst){
             b->setDefault(true);
@@ -173,6 +234,27 @@ BalloonMsg::BalloonMsg(const QString &_text, QStringList &btn, QWidget *parent, 
     setAutoMask(true);
     if (!bAutoHide)
         setFocusPolicy(NoFocus);
+
+    QWidget *top = NULL;
+    if (parent)
+        top = parent->topLevelWidget();
+    if (top){
+        raiseWindow(top);
+        top->installEventFilter(this);
+    }
+}
+
+BalloonMsg::~BalloonMsg()
+{
+    if (!m_bYes)
+        emit no_action(m_param);
+}
+
+bool BalloonMsg::eventFilter(QObject *o, QEvent *e)
+{
+    if ((e->type() == QEvent::Hide) && (o == m_parent->topLevelWidget()))
+        return true;
+    return QDialog::eventFilter(o, e);
 }
 
 void BalloonMsg::paintEvent(QPaintEvent*)
@@ -193,16 +275,38 @@ void BalloonMsg::mousePressEvent(QMouseEvent *e)
     QWidget::mousePressEvent(e);
 }
 
+void BalloonMsg::action(int id)
+{
+    emit action(id, m_param);
+    if (id == 0){
+        emit yes_action(m_param);
+        m_bYes = true;
+    }
+}
+
 void BalloonMsg::message(const QString &text, QWidget *parent, bool bModal)
 {
     QStringList btns;
     btns.append(i18n("&Ok"));
-    BalloonMsg *msg = new BalloonMsg(text, btns, parent, NULL, bModal);
+    BalloonMsg *msg = new BalloonMsg(NULL, text, btns, parent, NULL, bModal);
     if (bModal){
         msg->exec();
     }else{
         msg->show();
     }
+}
+
+void BalloonMsg::ask(void *param, const QString &text, QWidget *parent, const char *slotYes, const char *slotNo, const QRect *rc)
+{
+    QStringList btns;
+    btns.append(i18n("&Yes"));
+    btns.append(i18n("&No"));
+    BalloonMsg *msg = new BalloonMsg(param, text, btns, parent, rc, false);
+    if (slotYes)
+        connect(msg, SIGNAL(yes_action(void*)), parent, slotYes);
+    if (slotNo)
+        connect(msg, SIGNAL(no_action(void*)), parent, slotNo);
+    msg->show();
 }
 
 BalloonButton::BalloonButton(QString string, QWidget *parent, int _id)

@@ -18,12 +18,12 @@
 #ifndef _QKEYBUTTON_H_
 #define _QKEYBUTTON_H_
 
+#include "simapi.h"
 #include <qpushbutton.h>
 
-class QKeyButton: public QPushButton
+class UI_EXPORT QKeyButton: public QPushButton
 {
     Q_OBJECT
-
 public:
     QKeyButton( QWidget *parent = 0, const char *name = 0 );
 signals:

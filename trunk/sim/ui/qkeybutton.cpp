@@ -15,10 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "defs.h"
 #include "qkeybutton.h"
-#include "keys.h"
 
+#include <qaccel.h>
 #include <qcursor.h>
 #include <qstringlist.h>
 
@@ -63,7 +62,11 @@ void QKeyButton::endGrab()
 
 void QKeyButton::click()
 {
-    setFocus();
+    if (hasFocus()) {
+        clearFocus();
+    } else {
+        setFocus();
+    }
 }
 
 void QKeyButton::mousePressEvent(QMouseEvent *e)
@@ -87,18 +90,15 @@ void QKeyButton::setKey(QKeyEvent *e)
     if (!m_bGrab) return;
     QStringList btns;
     ButtonState state = e->state();
-    if (state & AltButton) btns.append("ALT");
-    if (state & ControlButton) btns.append("CTRL");
-    if (state & ShiftButton) btns.append("SHIFT");
-    const char *name = NULL;
-    if (e->key() &&
-            (e->key() != Key_Alt) &&
-            (e->key() != Key_Control) &&
-            (e->key() != Key_Shift))
-        name = HotKeys::keyToString(e->key());
-    if (name) btns.append(name);
-    setText(btns.join("-"));
-    if (name){
+    QString keyName;
+    if (state & AltButton) keyName += "Alt+";
+    if (state & ControlButton) keyName += "Ctrl+";
+    if (state & ShiftButton) keyName += "Shift+";
+    QString name = QAccel::keyToString(e->key());
+    if ((name[0] == '<') && (name[(int)(name.length()-1)] == '>'))
+        return;
+    setText(keyName + name);
+    if (name.length()){
         endGrab();
         emit changed();
     }

@@ -18,7 +18,7 @@
 #ifndef _BALLONMSG_H
 #define _BALLONMSG_H
 
-#include "defs.h"
+#include "simapi.h"
 #include <qstring.h>
 #include <qdialog.h>
 #include <qbitmap.h>
@@ -26,21 +26,31 @@
 
 class QStringList;
 
-class BalloonMsg : public QDialog
+class UI_EXPORT BalloonMsg : public QDialog
 {
     Q_OBJECT
 public:
-    BalloonMsg(const QString &text, QStringList&, QWidget *p, const QRect *rc = NULL, bool bModal=false, bool bAutoHide=true);
+    BalloonMsg(void *param, const QString &text, QStringList&, QWidget *p, const QRect *rc = NULL, bool bModal=false, bool bAutoHide=true);
+    ~BalloonMsg();
     static void message(const QString &text, QWidget *parent, bool bModal=false);
+    static void ask(void *param, const QString &text, QWidget *parent, const char *slotYes, const char *slotNo, const QRect *rc = NULL);
 signals:
+    void action(int, void*);
+    void yes_action(void*);
+    void no_action(void*);
+protected slots:
     void action(int);
 protected:
+    bool eventFilter(QObject*, QEvent*);
     void paintEvent(QPaintEvent*);
     void mousePressEvent(QMouseEvent*);
     QString text;
     QRect textRect;
     QBitmap mask;
+    QWidget *m_parent;
     bool m_bAutoHide;
+    bool m_bYes;
+    void *m_param;
 };
 
 class BalloonButton : public QPushButton

@@ -18,34 +18,43 @@
 #ifndef _EDITFILE_H
 #define _EDITFILE_H
 
-#include "defs.h"
+#include "simapi.h"
 #include <qframe.h>
 #include <qlineedit.h>
+#include <qfiledialog.h>
 
 class QHBoxLayout;
 class EditFile;
+class FilePreview;
 
-class FileLineEdit : public QLineEdit
+class UI_EXPORT FileLineEdit : public QLineEdit
 {
     Q_OBJECT
 public:
     FileLineEdit(EditFile *p, const char *name = NULL);
+    ~FileLineEdit();
 protected:
     virtual void dragEnterEvent(QDragEnterEvent*);
     virtual void dropEvent(QDropEvent*);
 };
 
-class EditFile : public QFrame
+typedef FilePreview *CreatePreview(QWidget *parent);
+
+class UI_EXPORT EditFile : public QFrame
 {
     Q_OBJECT
 public:
     EditFile(QWidget *p, const char *name=NULL);
+    ~EditFile();
     void setText(const QString&);
     QString text();
     void setFilter(const QString &filter);
     void setDirMode(bool bMode) { bDirMode = bMode; }
     void setStartDir(const QString &dir);
     void setMultiplyMode(bool bMode) { bMultiplyMode = bMode; }
+    void setFilePreview(CreatePreview*);
+    void setTitle(const QString &title);
+    void setReadOnly(bool);
 signals:
     void textChanged(const QString&);
 protected slots:
@@ -57,15 +66,18 @@ protected:
     bool bMultiplyMode;
     QString filter;
     QString startDir;
-    FileLineEdit *edtFile;
-    QHBoxLayout *lay;
+    QString title;
+    QHBoxLayout   *lay;
+    FileLineEdit  *edtFile;
+    CreatePreview *createPreview;
 };
 
-class EditSound : public EditFile
+class UI_EXPORT EditSound : public EditFile
 {
     Q_OBJECT
 public:
     EditSound(QWidget *p, const char *name=NULL);
+    ~EditSound();
 protected slots:
     void play();
 };

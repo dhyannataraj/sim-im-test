@@ -18,10 +18,15 @@
     Boston, MA 02111-1307, USA.
 */
 
-#include "defs.h"
 #include "qcolorbutton.h"
+#ifdef USE_KDE
 
-#undef QColorButton
+QColorButton::QColorButton( QWidget *parent, const char *name)
+        : KColorButton(parent, name)
+{
+}
+
+#else
 
 #include <qpainter.h>
 #include <qdrawutil.h>
@@ -49,7 +54,7 @@ void QColorButton::drawButtonLabel( QPainter *painter )
 #if QT_VERSION < 300
     QRect r = style().pushButtonContentsRect(this);
 #else
-    QRect r = style().subRect( QStyle::SR_PushButtonContents, this );
+QRect r = style().subRect( QStyle::SR_PushButtonContents, this );
 #endif
     int l = r.x();
     int t = r.y();
@@ -82,5 +87,7 @@ void QColorButton::chooseColor()
 
 #ifndef WIN32
 #include "qcolorbutton.moc"
+#endif
+
 #endif
 

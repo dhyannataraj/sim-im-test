@@ -1,0 +1,13 @@
+LIB_EXPAT=""
+compile_plugin="no"
+AC_CHECK_HEADER(expat.h, [compile_plugin="yes"])
+if test "x$compile_plugin" = "xyes"; then
+	compile_plugin="no"
+	AC_CHECK_LIB(expat, XML_Parse, [compile_plugin="yes"; LIB_EXPAT="-lexpat"])
+fi
+AC_SUBST(LIB_EXPAT)
+if test "x$compile_plugin" = "xno"; then
+  AC_MSG_WARN([expat library not found. Jabber plugin is disabled])
+  DO_NOT_COMPILE="$DO_NOT_COMPILE plugins/jabber"
+fi
+

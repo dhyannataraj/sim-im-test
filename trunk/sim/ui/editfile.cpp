@@ -16,15 +16,14 @@
  ***************************************************************************/
 
 #include "editfile.h"
-#include "icons.h"
-#include "mainwin.h"
-#include "log.h"
+#include "preview.h"
 
 #include <qlineedit.h>
 #include <qpushbutton.h>
 #include <qiconset.h>
 #include <qlayout.h>
 #include <qstringlist.h>
+#include <qapplication.h>
 #ifdef USE_KDE
 #include <kfiledialog.h>
 #define QFileDialog	KFileDialog
@@ -37,6 +36,7 @@ EditFile::EditFile(QWidget *p, const char *name)
 {
     bDirMode = false;
     bMultiplyMode = false;
+    createPreview = NULL;
     lay = new QHBoxLayout(this);
     edtFile = new FileLineEdit(this);
     lay->addWidget(edtFile);
@@ -46,6 +46,10 @@ EditFile::EditFile(QWidget *p, const char *name)
     btnOpen->setPixmap(Pict("fileopen"));
     connect(btnOpen, SIGNAL(clicked()), this, SLOT(showFiles()));
     connect(edtFile, SIGNAL(textChanged(const QString&)), this, SLOT(editTextChanged(const QString&)));
+}
+
+EditFile::~EditFile()
+{
 }
 
 void EditFile::editTextChanged(const QString &str)
@@ -73,7 +77,33 @@ QString EditFile::text()
     return edtFile->text();
 }
 
-bool makedir(char *p);
+void EditFile::setFilePreview(CreatePreview *preview)
+{
+    createPreview = preview;
+}
+
+void EditFile::setTitle(const QString &_title)
+{
+    title = _title;
+}
+
+class FileDialog : public QFileDialog
+{
+public:
+    FileDialog(const QString &dirName, const QString &filter, QWidget *parent, const QString &title);
+};
+
+FileDialog::FileDialog(const QString &dirName, const QString &filter, QWidget *parent, const QString &title)
+        : QFileDialog(dirName, filter, parent, "filedialog", true)
+{
+    SET_WNDPROC("filedialog")
+    setCaption(title);
+}
+
+void EditFile::setReadOnly(bool state)
+{
+    edtFile->setReadOnly(state);
+}
 
 void EditFile::showFiles()
 {
@@ -82,10 +112,9 @@ void EditFile::showFiles()
     s.replace(QRegExp("\\\\"), "/");
 #endif
     if (bDirMode){
-        s = QFileDialog::getExistingDirectory(s, this,
-                                              i18n("Directory for incoming files"));
+        s = QFileDialog::getExistingDirectory(s, topLevelWidget(), title);
     }else if (bMultiplyMode){
-        QStringList lst = QFileDialog::getOpenFileNames(filter, QString::null, this);
+        QStringList lst = QFileDialog::getOpenFileNames(filter, QString::null, topLevelWidget());
         if ((lst.count() > 1) || ((lst.count() > 0) && (lst[0].find(' ') >= 0))){
             for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
                 *it = QString("\"") + *it + QString("\"");
@@ -101,15 +130,50 @@ void EditFile::showFiles()
                 makedir((char*)d.c_str());
             }
         }
-        s = QFileDialog::getOpenFileName(s, filter, this);
+        if (createPreview){
+            FileDialog *dlg = new FileDialog( s, filter, topLevelWidget(), title.isEmpty() ? i18n("Open") : title);
+            if ( topLevelWidget()->icon() && !topLevelWidget()->icon()->isNull()){
+                dlg->setIcon( *topLevelWidget()->icon() );
+            }else if (qApp->mainWidget() && qApp->mainWidget()->icon() && !qApp->mainWidget()->icon()->isNull()){
+                dlg->setIcon( *qApp->mainWidget()->icon() );
+            }
+            FilePreview *preview = createPreview(dlg);
+#ifdef USE_KDE
+            dlg->setOperationMode( KFileDialog::Opening);
+            if (preview)
+                dlg->setPreviewWidget(preview);
+#else
+            dlg->setMode( QFileDialog::ExistingFile );
+            if (preview){
+                dlg->setContentsPreview(preview, preview);
+                dlg->setContentsPreviewEnabled(true);
+                dlg->setPreviewMode(QFileDialog::Contents);
+            }
+#endif
+            dlg->setFilter(filter);
+            QString result;
+            s = "";
+            if (dlg->exec() == QDialog::Accepted){
+                s = dlg->selectedFile();
+            }
+            delete dlg;
+        }else{
+#ifdef USE_KDE
+            if (title.isEmpty()){
+                s = QFileDialog::getOpenFileName(s, filter, topLevelWidget());
+            }else{
+                s = QFileDialog::getOpenFileName(s, filter, topLevelWidget(), title);
+            }
+#else
+            s = QFileDialog::getOpenFileName(s, filter, topLevelWidget(), "filedialog", title);
+#endif
+        }
     }
 #ifdef WIN32
     s.replace(QRegExp("/"), "\\");
 #endif
     if (s.length()) edtFile->setText(s);
 }
-
-const char *app_file(const char *f);
 
 EditSound::EditSound(QWidget *p, const char *name)
         : EditFile(p, name)
@@ -124,16 +188,27 @@ EditSound::EditSound(QWidget *p, const char *name)
 #else
     filter = i18n("Sounds(*.wav)");
 #endif
-    startDir = app_file("sound");
+    startDir = QString::fromLocal8Bit(app_file("sound").c_str());
+    title = i18n("Select sound");
+}
+
+EditSound::~EditSound()
+{
 }
 
 void EditSound::play()
 {
-    pMain->playSound(edtFile->text().local8Bit());
+    QCString s = edtFile->text().local8Bit();
+    Event e(EventPlaySound, (void*)(const char*)s);
+    e.process();
 }
 
 FileLineEdit::FileLineEdit(EditFile *p, const char *name)
         : QLineEdit(p, name)
+{
+}
+
+FileLineEdit::~FileLineEdit()
 {
 }
 

@@ -202,7 +202,7 @@ echo "KDE_CREATE_SUBDIRSLIST" >> configure.in.new
 if test -f Makefile.am.in; then
   subdirs=`cat subdirs`
   for dir in $subdirs; do
-    dir=`echo $dir | sed -e "s,[-+],_,g"`
+    dir=`echo $dir | sed -e "s,[-+/],_,g"`
     echo "AM_CONDITIONAL($dir""_SUBDIR_included, test \"x\$$dir""_SUBDIR_included\" = xyes)" >> configure.in.new
   done
 fi
@@ -285,7 +285,9 @@ test -f configure.in.bot && echo configure.in.bot >> configure.files
 
 subdirs()
 {
-files=`ls -1 | sort`
+files=`ls -1 . | sort`
+plugins_files=`ls -1 plugins | sort | sed -e "s#.*#plugins/&#"`
+files="$files $plugins_files"
 dirs=
 compilefirst=`grep '^COMPILE_FIRST[ ]*=' $makefile_am | head -1 |
 	  sed -e 's#^COMPILE_FIRST[ ]*=[ ]*#|#' | sed -e 's#$#|#' | sed -e 's# #|#g'`
@@ -382,7 +384,7 @@ for i in `ls -1 po/*.pot 2>/dev/null | sed -e "s#po/##"`; do
 done
 
 podir=${podir:-$PWD/po}
-files=`find . -name Makefile.am | xargs egrep -l '^messages:' `
+files=`find . -name Makefile.am | xargs egrep -l 'messages:' `
 dirs=`for i in $files; do echo \`dirname $i\`; done`
 tmpname="$PWD/messages.log"
 if test -z "$EXTRACTRC"; then EXTRACTRC=extractrc ; fi

@@ -20,11 +20,12 @@
 #ifndef __QCOLBTN_H__
 #define __QCOLBTN_H__
 
+#include "simapi.h"
+
+#ifndef USE_KDE
 #include <qpushbutton.h>
 
-#undef QColorButton
-
-class QColorButton : public QPushButton
+class UI_EXPORT QColorButton : public QPushButton
 {
     Q_OBJECT
     Q_PROPERTY( QColor color READ color WRITE setColor )
@@ -51,8 +52,15 @@ private:
     QPoint mPos;
 };
 
-#ifdef USE_KDE
-#define QColorButton KColorButton
+#else
+#include <kcolorbutton.h>
+
+class QColorButton : public KColorButton
+{
+public:
+    QColorButton(QWidget *parent, const char *name = NULL);
+};
+
 #endif
 
 #endif

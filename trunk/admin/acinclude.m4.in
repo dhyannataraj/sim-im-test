@@ -1018,6 +1018,7 @@ else
   fi
 fi
 else
+  kde_use_qt_mt=no
   kde_qtver=2
   kde_qtsubver=0
   ac_default_prefix=/usr/local
@@ -1136,13 +1137,7 @@ AC_ARG_ENABLE(
   [  --disable-mt            link to non-threaded Qt (deprecated)],
   kde_use_qt_mt=$enableval,
   [
-    if test $use_kde = "yes"; then
-    if test $kde_qtver = 3; then
-      kde_use_qt_mt=yes
-    else
-      kde_use_qt_mt=no
-    fi
-    fi
+    kde_use_qt_mt=yes
   ]
 )
 
@@ -1318,7 +1313,8 @@ else
         LIBQT="${lqt}"
 	qt_libdir=$dir; 
         break;
-      else echo "tried $dir" >&AC_FD_CC ;
+      else
+        echo "tried $dir" >&AC_FD_CC ;
       fi
     fi
   done
@@ -1336,6 +1332,29 @@ ac_libs_safe="$LIBS"
 CXXFLAGS="$CXXFLAGS -I$qt_incdir $all_includes"
 LDFLAGS="$LDFLAGS -L$qt_libdir $all_libraries $USER_LDFLAGS $KDE_MT_LDFLAGS"
 LIBS="$LIBS $LIBQT $KDE_MT_LIBS"
+
+rm -f conftest*
+cat > conftest.$ac_ext <<EOF
+#include <qwidget.h>
+#if QT_VERSION < 300
+#error 1
+#endif
+int main()
+{
+	return 0;
+}
+EOF
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && test -s conftest; then
+  kde_qtver="3"
+else
+  kde_qtver="2"
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+fi
 
 KDE_PRINT_QT_PROGRAM
 
