@@ -476,6 +476,7 @@ void ICQClient::addPhoneRequest(unsigned long uin, bool bPriority)
 
 void ICQClient::addResponseRequest(unsigned long uin, bool bPriority)
 {
+    log(L_DEBUG, "Add response request %lu", uin);
     if (uin >= UIN_SPECIAL) return;
     ICQUser *u = getUser(uin);
     if (u == NULL) return;
@@ -524,7 +525,7 @@ void ICQClient::processResponseRequestQueue(unsigned short seq)
     if (responseRequestQueue.size() == 0) return;
     time_t now;
     time(&now);
-    if ((seq != responseRequestSeq) && (((unsigned long)now < lastResponseRequestTime + 120) || writeBuffer.size())) return;
+    if ((seq != responseRequestSeq) && (((unsigned long)now < lastResponseRequestTime + 20) || writeBuffer.size())) return;
     unsigned long uin = responseRequestQueue.front();
     requestAutoResponse(uin);
     responseRequestQueue.remove(uin);

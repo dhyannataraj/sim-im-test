@@ -664,6 +664,7 @@ void ICQClient::sendICMB()
 
 void ICQClient::requestAutoResponse(unsigned long uin)
 {
+    log(L_DEBUG, "Request auto response %lu", uin);
     ICQUser *user = getUser(uin, false);
     if (user == NULL) return;
     unsigned long status = user->uStatus & 0xFF;

@@ -89,7 +89,6 @@ void EditSpell::setBackground(const QColor& c)
 
 void EditSpell::setForeground(const QColor& c)
 {
-    log(L_DEBUG, "Set FG %X", c.rgb());
     curFG = c;
     setColor(c);
     curFG = c;
