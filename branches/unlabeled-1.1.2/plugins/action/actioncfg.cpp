@@ -20,10 +20,12 @@
 #include "listview.h"
 #include "action.h"
 #include "core.h"
+#include "ballonmsg.h"
 
 #include <qlineedit.h>
 #include <qtabwidget.h>
 #include <qpainter.h>
+#include <qpushbutton.h>
 
 unsigned CONTACT_ONLINE = 0x10000;
 unsigned CONTACT_STATUS = 0x10001;
@@ -34,10 +36,13 @@ ActionConfig::ActionConfig(QWidget *parent, struct ActionUserData *data, ActionP
     m_data   = data;
     m_plugin = plugin;
     m_menu   = NULL;
+    setButtonsPict(this);
 
     lstEvent->addColumn(i18n("Event"));
     lstEvent->addColumn(i18n("Program"));
     lstEvent->setExpandingColumn(1);
+
+	connect(btnHelp, SIGNAL(clicked()), this, SLOT(help()));
 
     QListViewItem *item = new QListViewItem(lstEvent, i18n("Contact online"));
     item->setText(2, QString::number(CONTACT_ONLINE));
@@ -88,6 +93,7 @@ ActionConfig::ActionConfig(QWidget *parent, struct ActionUserData *data, ActionP
         break;
     }
     lstEvent->adjustColumn();
+	setMinimumSize(sizeHint());
 }
 
 ActionConfig::~ActionConfig()
@@ -164,6 +170,20 @@ void ActionConfig::setEnabled(bool state)
     if (m_menu)
         m_menu->setEnabled(state);
     ActionConfigBase::setEnabled(state);
+}
+
+void ActionConfig::help()
+{
+	QString helpString = i18n("In command line you can use:");
+	helpString += "\n";
+	Event e(EventTmplHelp, &helpString);
+	e.process();
+	helpString += "\n\n";
+	helpString += i18n("For message events message text will be sent on standard input of the program.\n"
+		"If the program will return a zero error code message text will be replaced with program output.\n"
+		"If program output is empty,  message will be destroyed.\n"
+		"Thus it is possible to organize additional messages filters.\n");
+	BalloonMsg::message(helpString, btnHelp, false, 400);
 }
 
 #ifndef WIN32

@@ -288,6 +288,7 @@ const unsigned	EventHistoryColors		= (CmdBase + 16);
 const unsigned	EventHistoryFont		= (CmdBase + 17);
 const unsigned  EventCheckSend			= (CmdBase + 18);
 const unsigned	EventCutHistory			= (CmdBase + 19);
+const unsigned  EventTmplHelp			= (CmdBase + 20);
 
 const unsigned	BarHistory				= (CmdBase + 1);
 

@@ -114,6 +114,7 @@ using namespace std;
 #include "xpm/smileF.xpm"
 #include "xpm/listmsg.xpm"
 #include "xpm/urgentmsg.xpm"
+#include "xpm/help.xpm"
 
 bool my_string::operator < (const my_string &a) const
 {
@@ -210,6 +211,7 @@ Icons::Icons()
     ICON(smileF)
     ICON(listmsg)
     ICON(urgentmsg)
+	KICON(help)
 }
 
 Icons::~Icons()

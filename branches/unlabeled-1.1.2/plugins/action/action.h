@@ -19,25 +19,36 @@
 #define _ACTION_H
 
 #include "simapi.h"
+#include "stl.h"
 
 class CorePlugin;
+class Exec;
 
 typedef struct ActionUserData
 {
-    char	*OnLine;
-    char	*Status;
-    void	*Message;
-    void	*Menu;
+    char		*OnLine;
+    char		*Status;
+    void		*Message;
+    void		*Menu;
+	unsigned	NMenu;
 } ActionUserData;
 
-class ActionPlugin : public Plugin, public EventReceiver
+class ActionPlugin : public QObject, public Plugin, public EventReceiver
 {
+	Q_OBJECT
 public:
     ActionPlugin(unsigned);
     virtual ~ActionPlugin();
     CorePlugin	*core;
     unsigned action_data_id;
+protected slots:
+	void ready(Exec*,int,const char*);
+	void msg_ready(Exec*,int,const char*);
+	void clear();
 protected:
+	list<Exec*> m_exec;
+	list<Exec*> m_delete;
+	unsigned CmdAction;
     void *processEvent(Event*);
     QWidget *createConfigWindow(QWidget *parent);
 };

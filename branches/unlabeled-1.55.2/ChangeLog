@@ -12,6 +12,7 @@ Fix save history on win32
 Add option "Ignore this phrase" in context menu
 Jabber: Fix send multiline message
 Jabber: Add configure to jabber browser
+Add action plugin - for call external programs
 
 Version 0.9.1
 ICQ: Fix login

@@ -4159,6 +4159,10 @@ SOURCE=.\xpm\grp_rename.xpm
 # End Source File
 # Begin Source File
 
+SOURCE=.\xpm\help.xpm
+# End Source File
+# Begin Source File
+
 SOURCE=.\xpm\info.xpm
 # End Source File
 # Begin Source File

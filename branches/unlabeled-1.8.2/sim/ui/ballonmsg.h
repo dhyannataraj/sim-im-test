@@ -30,9 +30,9 @@ class UI_EXPORT BalloonMsg : public QDialog
 {
     Q_OBJECT
 public:
-    BalloonMsg(void *param, const QString &text, QStringList&, QWidget *p, const QRect *rc = NULL, bool bModal=false, bool bAutoHide=true);
+    BalloonMsg(void *param, const QString &text, QStringList&, QWidget *p, const QRect *rc = NULL, bool bModal=false, bool bAutoHide=true, unsigned width=150);
     ~BalloonMsg();
-    static void message(const QString &text, QWidget *parent, bool bModal=false);
+    static void message(const QString &text, QWidget *parent, bool bModal=false, unsigned width=150);
     static void ask(void *param, const QString &text, QWidget *parent, const char *slotYes, const char *slotNo, const QRect *rc=NULL, QObject *receiver=NULL);
 signals:
     void action(int, void*);
@@ -51,6 +51,7 @@ protected:
     QWidget *m_parent;
     bool m_bAutoHide;
     bool m_bYes;
+	unsigned m_width;
     void *m_param;
 };
 
