@@ -68,4 +68,6 @@ METASOURCES = AUTO
 
 # the library search path. 
 sim_LDFLAGS = $(QT_LDFLAGS) $(KDE_RPATH) $(SSL_LDFLAGS) $(all_libraries)
+libsim_la_LDFLAGS = $(QT_LDFLAGS) $(KDE_RPATH) $(SSL_LDFLAGS) $(all_libraries)
+
 
