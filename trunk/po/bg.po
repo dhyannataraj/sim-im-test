@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: bg\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-05 15:33+0200\n"
-"PO-Revision-Date: 2004-07-25 22:35+0300\n"
+"PO-Revision-Date: 2004-08-07 00:31+0300\n"
 "Last-Translator: Атанас Мавров <bugar@developer.bg>\n"
 "Language-Team: Bulgarian <dict@linux.zonebg.com>\n"
 "MIME-Version: 1.0\n"
@@ -6230,25 +6230,22 @@ msgid "km/h"
 msgstr "км/ч"
 
 #: plugins/weather/weather.cpp:423
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Low"
-msgstr "Сняг"
+msgstr "ниска"
 
 #: plugins/weather/weather.cpp:424
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Moderate"
-msgstr "Вечер"
+msgstr "средна"
 
 #: plugins/weather/weather.cpp:425
-#, fuzzy
 msgid ""
 "_: weather\n"
 "High"
-msgstr "Мъгла"
+msgstr "висока"
 
 #: plugins/weather/weather.cpp:437
 msgid "and"
@@ -6279,7 +6276,6 @@ msgid "%t | %c"
 msgstr "%t | %c"
 
 #: plugins/weather/weather.cpp:562
-#, fuzzy
 msgid ""
 "%l<br><br>\n"
 "<img src=\"icon:weather%i\"> %c<br>\n"
@@ -6296,8 +6292,8 @@ msgid ""
 "Updated: %u<br>\n"
 msgstr ""
 "%l<br><br>\n"
-"<img src=\"icon:weather\"> %c<br>\n"
-"Температура: <b>%t</b> (очаквана: <b>%f</b>)<br>\n"
+"<img src=\"icon:weather%i\"> %c<br>\n"
+"Температура: <b>%t</b> (feels like: <b>%f</b>)<br>\n"
 "Влажност: <b>%h</b><br>\n"
 "Налягане: <b>%p</b> (%q)<br>\n"
 "Вятър: <b>%b</b> <b>%w %g</b><br>\n"
@@ -6305,6 +6301,7 @@ msgstr ""
 "Точка на оросяване: <b>%d</b><br>\n"
 "Изгрев: %r<br>\n"
 "Залез: %s<br>\n"
+"UV-интензивност <b>%ut</b> със стойност <b>%ui</b> (от 11)<br>\n"
 "<br>\n"
 "Обновено: %u<br>\n"
 
@@ -6513,12 +6510,10 @@ msgid "&Yahoo!"
 msgstr "&Yahoo!"
 
 #: plugins/yahoo/yahooinfobase.cpp:155
-#, fuzzy
 msgid "First name:"
 msgstr "Име:"
 
 #: plugins/yahoo/yahooinfobase.cpp:156
-#, fuzzy
 msgid "Last name:"
 msgstr "Фамилия:"
 
@@ -8271,7 +8266,6 @@ msgid "Usage: %1 "
 msgstr "Използва: %1"
 
 #: sim/sim.cpp:200
-#, fuzzy
 msgid "Multiprotocol Instant Messenger"
 msgstr "Многопротоколен клиент за обмяна на мигновени съобщения"
 
@@ -8408,3 +8402,4 @@ msgstr "Потребителски"
 #: xpstyle/xpstyle.cpp:63
 msgid "Windows XP style"
 msgstr "Уиндоус XP стил"
+
