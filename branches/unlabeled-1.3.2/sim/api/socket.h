@@ -199,7 +199,7 @@ public:
     void shutdown();
     void process(bool bInRead=false);
     void write();
-    void free();
+    void clear();
 protected:
     virtual bool initSSL() = 0;
     bool initBIO();

@@ -108,14 +108,14 @@ SSLClient::SSLClient(Socket *_sock)
 
 SSLClient::~SSLClient()
 {
-    free();
+    clear();
     if (sock){
         sock->close();
         delete sock;
     }
 }
 
-void SSLClient::free()
+void SSLClient::clear()
 {
     if (pSSL != NULL)
         SSL_free(pSSL);
@@ -377,7 +377,7 @@ void SSLClient::close()
 {
     if (pSSL)
         shutdown();
-    free();
+    clear();
     sock->close();
 }
 

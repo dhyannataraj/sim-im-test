@@ -574,8 +574,6 @@ ContactListPrivate::ContactListPrivate()
 
 ContactListPrivate::~ContactListPrivate()
 {
-    for (vector<Client*>::iterator it = clients.begin(); it != clients.end(); ++it)
-        delete (*it);
     delete owner;
 }
 
@@ -1844,6 +1842,14 @@ EXPORT ContactList *getContacts()
         pContactList = new ContactList;
     }
     return pContactList;
+}
+
+void deleteContacts()
+{
+	if (pContactList){
+		delete pContactList;
+		pContactList = NULL;
+	}
 }
 
 };

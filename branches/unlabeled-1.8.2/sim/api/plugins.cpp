@@ -203,11 +203,16 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
     }
 }
 
+void deleteContacts();
+
 PluginManagerPrivate::~PluginManagerPrivate()
 {
     save_state();
     Event e(EventQuit);
     e.process();
+	getContacts()->clearClients();
+	deleteContacts();
+	release_all(NULL);
 }
 
 void *PluginManagerPrivate::processEvent(Event *e)
