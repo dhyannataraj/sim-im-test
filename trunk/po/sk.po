@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
 "POT-Creation-Date: 2004-04-04 02:07+0400\n"
-"PO-Revision-Date: 2004-04-02 16:30+0200\n"
+"PO-Revision-Date: 2004-04-05 09:31+0200\n"
 "Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3536,8 +3536,7 @@ msgstr "Odmietnu» súbor bez príèiny"
 
 #: plugins/_core/core.cpp:1340 plugins/_core/core.cpp:3127
 msgid "Sorry, I'm busy right now, and can not respond to your request"
-msgstr ""
-"Prepáète, ale momentálne som zaneprázdnený a nemô¾em odpoveda» na po¾iadavku"
+msgstr "Prepáète, ale momentálne som zaneprázdnený a nemô¾em odpoveda» na po¾iadavku"
 
 #: plugins/_core/core.cpp:1345 plugins/_core/core.cpp:3136
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
@@ -4073,9 +4072,8 @@ msgid "Delete \"%1\"?"
 msgstr "Vymaza» \"%1\"?"
 
 #: plugins/_core/userview.cpp:375
-#, fuzzy
 msgid "Remove history"
-msgstr "Ponecha» históriu"
+msgstr "Odstráni» históriu"
 
 # userview.cpp:889
 # userview.cpp:905
@@ -4782,20 +4780,17 @@ msgid "days"
 msgstr "dní"
 
 #: plugins/_core/historycfgbase.cpp:180
-#, fuzzy
 msgid "100"
-msgstr "1200"
+msgstr "100"
 
 # libicq/country.cpp:368
 #: plugins/_core/historycfgbase.cpp:181
-#, fuzzy
 msgid "50"
-msgstr "'50 roky"
+msgstr "50"
 
 #: plugins/_core/historycfgbase.cpp:182
-#, fuzzy
 msgid "20"
-msgstr "2400"
+msgstr "20"
 
 # msgview.cpp:857
 #: plugins/_core/historycfgbase.cpp:184
@@ -5127,10 +5122,8 @@ msgstr "Nastavi» \"Offline\" status po"
 
 # ui/statussetupbase.cpp:142
 #: plugins/autoaway/autoawaycfgbase.cpp:109
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
-msgstr ""
-"Zakáza» online výstrahu pre \"Away\", \"N/A\", \"DND\" a \"Occupied\" zoznam"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgstr "Zakáza» online výstrahu pre \"Away\", \"N/A\", \"DND\" a \"Occupied\" zoznam"
 
 # client.cpp:1235
 #: plugins/autoaway/autoaway.cpp:66
@@ -5319,8 +5312,7 @@ msgstr "P&rijíma» správy len zo zoznamu kontaktov"
 # ui/generalsecbase.cpp:227
 #: plugins/filter/filtercfgbase.cpp:67
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Odmietnu» správy od neznámych u¾ívateµov obsahujíce tieto slová alebo výrazy:"
+msgstr "Odmietnu» správy od neznámych u¾ívateµov obsahujíce tieto slová alebo výrazy:"
 
 # ui/generalsecbase.cpp:228
 #: plugins/filter/filtercfgbase.cpp:68
@@ -5559,8 +5551,7 @@ msgstr "Ikony"
 
 #: plugins/icons/icon.cpp:33
 msgid "Plugin provides Miranda icons themes and emoticons"
-msgstr ""
-"Zásuvny modul umo¾òuje pou¾íva» témy ikon a emotikony z programu Miranda"
+msgstr "Zásuvny modul umo¾òuje pou¾íva» témy ikon a emotikony z programu Miranda"
 
 # qt3/i18n.cpp:172
 #: plugins/icons/iconcfg.cpp:169
@@ -6270,13 +6261,11 @@ msgstr "Apr"
 
 # ui/moreinfo.cpp:78
 #: plugins/icq/icqvarious.cpp:1562
-#, fuzzy
 msgid "Jun"
 msgstr "Jún"
 
 # ui/moreinfo.cpp:79
 #: plugins/icq/icqvarious.cpp:1563
-#, fuzzy
 msgid "Jul"
 msgstr "Júl"
 
@@ -7192,9 +7181,8 @@ msgid "Automatically &update user info"
 msgstr "Automaticky akt&ualizova» informácie o u¾ívateµovi"
 
 #: plugins/icq/icqconfigbase.cc:248
-#, fuzzy
 msgid "Automaticaly &request autoreply on change status"
-msgstr "Automaticky po¾iada» o automatickú &odpoveï pri zmene statusu"
+msgstr "Automaticky ¾iada» o automatickú &odpoveï pri zmene statusu"
 
 # ui/randomchatbase.cpp:287
 #: plugins/icq/icqconfigbase.cc:249
@@ -7927,8 +7915,7 @@ msgstr "Navrchu"
 
 #: plugins/ontop/ontop.cpp:46
 msgid "Plugin provides main window and containers always on top"
-msgstr ""
-"Zásuvny modul umo¾òuje udr¾iava» hlavné okno a kontajnerov v¾dy navrchu"
+msgstr "Zásuvny modul umo¾òuje udr¾iava» hlavné okno a kontajnerov v¾dy navrchu"
 
 # mainwin.cpp:2741
 #: plugins/ontop/ontop.cpp:81
@@ -7990,8 +7977,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:68
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Zásuvny modul umo¾òuje zobrazova» notifikácie o správach a stave kontaktov "
 "na obrazovke (OSD)"
@@ -8673,8 +8659,7 @@ msgstr "Vlo¾te va¹u prezývku, ktorú chcete registrova»."
 msgid ""
 "Complete the form to submit your searchable attributes in the Jabber User "
 "Directory"
-msgstr ""
-"Vyplni» formulár s atribútmi pre vyhµadávanie v u¾ívateµskom adresáry Jabber."
+msgstr "Vyplni» formulár s atribútmi pre vyhµadávanie v u¾ívateµskom adresáry Jabber."
 
 #: plugins/jabber/jabbersearch.cpp:325
 msgid "Fill in all of the fields to add yourself to the JUD."
@@ -8928,21 +8913,18 @@ msgstr "Info"
 # ui/networkbase.cpp:234
 # ui/proxydlgbase.cpp:178
 #: plugins/jabber/jabber.cpp:324
-#, fuzzy
 msgid "Browser mode"
-msgstr "Prehliadaè:"
+msgstr "Mód prehliadaèa"
 
 # sim.cpp:542
 #: plugins/jabber/jabber.cpp:343
-#, fuzzy
 msgid "Load one level"
-msgstr "Úroveò logovania:"
+msgstr "Nahra» jednu úroveò"
 
 # qt3/i18n.cpp:37
 #: plugins/jabber/jabber.cpp:349
-#, fuzzy
 msgid "Load all levels"
-msgstr "Pre v¹etky súbory"
+msgstr "Nahra» v¹etky úrovne"
 
 #: plugins/jabber/servicesbase.cpp:108 plugins/jabber/servicesbase.cpp:114
 msgid "Jabber agents are available online after login"
@@ -9944,8 +9926,7 @@ msgid "Navigate"
 msgstr "Navigácia"
 
 #: plugins/navigate/navigate.cpp:220
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Zásuvny modul umo¾òuje navigáciu po odkazoch, spú¹»a» externý prehliadaè a "
 "po¹tový klient"
@@ -10174,11 +10155,10 @@ msgstr "Obèasné sne¾enie"
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:470
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Scattered Snow"
-msgstr "Rozptýlené sne¾enie"
+msgstr "Ojedinelé sne¾enie"
 
 #: plugins/weather/weather.cpp:471
 msgid ""
@@ -10205,11 +10185,10 @@ msgid ""
 msgstr "Slneèno"
 
 #: plugins/weather/weather.cpp:475
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Fair"
-msgstr "Vyjasòovanie"
+msgstr "Vyjasnenie"
 
 #: plugins/weather/weather.cpp:476
 msgid ""
@@ -10252,7 +10231,6 @@ msgid ""
 msgstr "Slabé mrholenie"
 
 #: plugins/weather/weather.cpp:482
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Drifting Snow"
@@ -10261,11 +10239,10 @@ msgstr "¥ahké sne¾enie"
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:483
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Scattered"
-msgstr "Rozptýlené sne¾enie"
+msgstr "Ojedinele"
 
 #: plugins/weather/weather.cpp:484
 #, fuzzy
@@ -10618,6 +10595,3 @@ msgstr "Tip tlaèítka:"
 msgid "Forecast tip:"
 msgstr "Predpoveï:"
 
-# qt3/i18n.cpp:156
-#~ msgid "Agents"
-#~ msgstr "Agenti"
