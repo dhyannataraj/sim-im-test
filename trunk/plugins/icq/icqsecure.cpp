@@ -18,7 +18,6 @@
 #include "icqsecure.h"
 #include "icqclient.h"
 #include "ballonmsg.h"
-#include "listview.h"
 
 #include <qcheckbox.h>
 #include <qbuttongroup.h>
@@ -33,6 +32,38 @@ ICQSecure::ICQSecure(QWidget *parent, ICQClient *client)
     setListView(lstVisible);
     setListView(lstInvisible);
     fill();
+    connect(lstVisible, SIGNAL(deleteItem(QListViewItem*)), this, SLOT(deleteVisibleItem(QListViewItem*)));
+    connect(lstInvisible, SIGNAL(deleteItem(QListViewItem*)), this, SLOT(deleteInvisibleItem(QListViewItem*)));
+}
+
+void ICQSecure::deleteVisibleItem(QListViewItem *item)
+{
+    Contact *contact = getContacts()->contact(item->text(0).toUInt());
+    log(L_DEBUG,"contact: %s, %lu",item->text(0).ascii(),item->text(0).toUInt());
+    if (contact) {
+        ICQUserData *data;
+        ClientDataIterator it(contact->clientData);
+        while ((data = (ICQUserData*)(++it)) != NULL){
+            data->VisibleId.value = 0;
+            Event eContact(EventContactChanged, contact);
+            eContact.process();
+        }
+    }
+}
+
+void ICQSecure::deleteInvisibleItem(QListViewItem *item)
+{
+    Contact *contact = getContacts()->contact(item->text(0).toUInt());
+    log(L_DEBUG,"contact: %s, %lu",item->text(0).ascii(),item->text(0).toUInt());
+    if (contact) {
+        ICQUserData *data;
+        ClientDataIterator it(contact->clientData);
+        while ((data = (ICQUserData*)(++it)) != NULL){
+            data->InvisibleId.value = 0;
+            Event eContact(EventContactChanged, contact);
+            eContact.process();
+        }
+    }
 }
 
 void ICQSecure::apply()

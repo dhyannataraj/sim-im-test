@@ -76,7 +76,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
         }
         m_socket->readBuffer.incReadPos(0x2E);
         m_socket->readBuffer.unpack(newUin);
-        log(L_DEBUG, "Register %u %08lX", newUin, newUin);
+        log(L_DEBUG, "Register %lu %08lX", newUin, newUin);
         setUin(newUin);
         setState(Connecting);
         m_socket->connect(getServer(), getPort(), this);
@@ -131,7 +131,7 @@ void ICQClient::chn_login()
     }
     if (data.owner.Uin.value){
         string pswd = cryptPassword();
-        log(L_DEBUG, "Login %lu [%s]", data.owner.Uin, pswd.c_str());
+        log(L_DEBUG, "Login %lu [%s]", data.owner.Uin.value, pswd.c_str());
         char uin[20];
         sprintf(uin, "%lu", data.owner.Uin.value);
 

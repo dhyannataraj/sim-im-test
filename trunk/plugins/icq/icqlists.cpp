@@ -443,7 +443,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 string n;
                 if (grp->id())
                     n = grp->getName().local8Bit();
-                log(L_DEBUG, "Check %u %s %X %u", grp->id(), n.c_str(), data, data ? data->bChecked.bValue : 0);
+                log(L_DEBUG, "Check %ld %s %p %u", grp->id(), n.c_str(), data, data ? data->bChecked.bValue : 0);
                 if ((data == NULL) || data->bChecked.bValue)
                     continue;
                 ListRequest *lr = findGroupListRequest((unsigned short)(data->IcqID.value));
@@ -683,7 +683,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 msg = NULL;
             }
             if (msg)
-                log(L_DEBUG, msg);
+                log(L_DEBUG, "%s", msg);
             else
                 log(L_DEBUG, "Unknown list request answer %u", res);
             m_listRequest->process(this, res);
@@ -1298,7 +1298,7 @@ void ICQClient::addContactRequest(Contact *contact)
                 }
             }
             if (data->GrpId.value != grp_id){
-                log(L_DEBUG, "%s change group %u->%u", userStr(contact, data).c_str(), data->GrpId, grp_id);
+                log(L_DEBUG, "%s change group %lu->%u", userStr(contact, data).c_str(), data->GrpId.value, grp_id);
                 bChanged = true;
             }
             if (!bChanged && (data->IcqID.value == 0))
@@ -1328,7 +1328,7 @@ bool ICQClient::isContactRenamed(ICQUserData *data, Contact *contact)
         alias = b;
     }
     if (name != alias){
-        log(L_DEBUG, "%u renamed %s->%s", data->Uin, alias.c_str(), name.c_str());
+        log(L_DEBUG, "%lu renamed %s->%s", data->Uin.value, alias.c_str(), name.c_str());
         return true;
     }
     string cell = getUserCellular(contact);

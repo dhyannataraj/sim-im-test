@@ -229,7 +229,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                     bAck = true;
             }
             if (bAck){
-                log(L_DEBUG, "Ack: %u %u (%s)", m_send.id.id_h, m_send.id.id_l, m_send.screen.c_str());
+                log(L_DEBUG, "Ack: %lu %lu (%s)", m_send.id.id_h, m_send.id.id_l, m_send.screen.c_str());
                 if (m_send.msg){
                     if (m_send.msg->type() == MessageCheckInvisible){
                         Contact *contact;
@@ -895,12 +895,12 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
                 continue;
             ICQFileTransfer *ft = static_cast<ICQFileTransfer*>(msg->m_transfer);
             if (ft->m_localPort == remotePort){
-                log(L_DEBUG, "Setup file transfer reverse connect to %s %s:%u", screen, inet_ntoa(addr), localPort);
+                log(L_DEBUG, "Setup file transfer reverse connect to %s %s:%lu", screen, inet_ntoa(addr), localPort);
                 ft->reverseConnect(localIP, (unsigned short)localPort);
                 return;
             }
         }
-        log(L_DEBUG, "Setup reverse connect to %s %s:%u", screen, inet_ntoa(addr), localPort);
+        log(L_DEBUG, "Setup reverse connect to %s %s:%lu", screen, inet_ntoa(addr), localPort);
         DirectClient *direct = new DirectClient(data, this);
         m_sockets.push_back(direct);
         direct->reverseConnect(localIP, (unsigned short)localPort);
@@ -914,7 +914,7 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
     if (tlv(3)) real_ip = htonl((unsigned long)(*tlv(3)));
     if (tlv(4)) ip = htonl((unsigned long)(*tlv(4)));
     if (tlv(5)) port = *tlv(5);
-    log(L_DEBUG, "IP: %X %X %u", ip, real_ip, port);
+    log(L_DEBUG, "IP: %lX %lX %d", ip, real_ip, port);
     if (real_ip || ip){
         Contact *contact;
         ICQUserData *data = findContact(screen, NULL, false, contact);
@@ -1000,7 +1000,7 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
     if (!memcmp(cap, capabilities[CAP_AIM_BUDDYLIST], sizeof(cap))){
         log(L_DEBUG, "AIM buddies list");
         if (!tlv(0x2711)){
-            log(L_WARN, "No found body in ICMB message");
+            log(L_WARN, "No body in ICMB message found");
             return;
         }
         Buffer adv(*tlv(0x2711));
@@ -1046,12 +1046,12 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
             sprintf(b, "0x%02X ", cap[i] & 0xFF);
             s += b;
         }
-        log(L_DEBUG, "Unknown capability in advansed message\n%s", s.c_str());
+        log(L_DEBUG, "Unknown capability in advanced message\n%s", s.c_str());
         return;
     }
 
     if (!tlv(0x2711)){
-        log(L_WARN, "No found body in ICMB message");
+        log(L_WARN, "No body in ICMB message found");
         return;
     }
 
@@ -1202,7 +1202,7 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
                 list<SendMsg>::iterator it;
                 for (it = replyQueue.begin(); it != replyQueue.end(); ++it){
                     SendMsg &s = *it;
-                    log(L_DEBUG, "%u %u (%s) - %u %u (%s)", s.id.id_h, s.id.id_l, s.screen.c_str(), id.id_h, id.id_l, screen);
+                    log(L_DEBUG, "%lu %lu (%s) - %lu %lu (%s)", s.id.id_h, s.id.id_l, s.screen.c_str(), id.id_h, id.id_l, screen);
                     if ((s.id == id) && (s.screen == screen))
                         break;
                 }
@@ -2159,7 +2159,7 @@ void ICQClient::decline(Message *msg, const char *reason)
             id.id_h = static_cast<AIMFileMessage*>(msg)->getID_H();
             break;
         default:
-            log(L_WARN, "Bad type %u for decline");
+            log(L_WARN, "Bad type %u for decline", msg->type());
         }
         ICQUserData *data = NULL;
         Contact *contact = NULL;

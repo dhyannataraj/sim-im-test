@@ -19,6 +19,7 @@
 #define _ICQSECURE_H
 
 #include "simapi.h"
+#include "listview.h"
 #include "icqsecurebase.h"
 
 class ICQClient;
@@ -33,6 +34,8 @@ public slots:
     void apply();
     void apply(Client*, void*);
     void hideIpToggled(bool);
+    void deleteVisibleItem(QListViewItem *item);
+    void deleteInvisibleItem(QListViewItem *item);
 protected:
     virtual void *processEvent(Event*);
     void fill();

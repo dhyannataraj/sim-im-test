@@ -187,7 +187,12 @@ public:
 // Paragraph-specific functions:
 
     // Appends a string with formatting into the paragraph buffer.
+#if defined __GNUC__
+    void PrintUnquoted(const char *str, ...)
+       __attribute__ ((__format__ (printf, 2, 3)));
+#else
     void PrintUnquoted(const char *str, ...);
+#endif      
     // Quotes and appends a string to the paragraph buffer.
     void PrintQuoted(const QString &str);
     // Writes down the tags from oTags into the paragraph buffer.
@@ -484,7 +489,7 @@ void Level::setFont(unsigned nFont)
     {
         if (nFont > p->fonts.size())
         {
-           log(L_WARN, "Invalid font index (%u).");
+           log(L_WARN, "Invalid font index (%u)",nFont);
            return;
         }
         if (m_nFont == nFont)

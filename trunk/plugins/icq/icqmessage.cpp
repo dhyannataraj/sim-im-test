@@ -1126,7 +1126,9 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
         b.incReadPos(4);
         b.unpack(nEntries);
         if (data)
-            log(L_DEBUG, "Plugin info reply %u %u (%u %u) %u %u (%u)", data->Uin, time, data->PluginInfoTime, data->PluginStatusTime, size, nEntries, plugin_type);
+            log(L_DEBUG, "Plugin info reply %lu %lu (%lu %lu) %lu %lu (%u)",
+                data->Uin.value, time, data->PluginInfoTime.value,
+                data->PluginStatusTime.value, size, nEntries, plugin_type);
         switch (plugin_type){
         case PLUGIN_RANDOMxCHAT:{
                 b.incReadPos(-12);
@@ -1166,12 +1168,12 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 b.incReadPos(5);
                 b.unpack(nEntries);
             }
-            log(L_DEBUG, "Status info answer %u", nEntries);
+            log(L_DEBUG, "Status info answer %lu", nEntries);
         case PLUGIN_QUERYxINFO:
             if (data == NULL)
                 break;
             if (nEntries > 0x80){
-                log(L_DEBUG, "Bad entries value %X", nEntries);
+                log(L_DEBUG, "Bad entries value %lX", nEntries);
                 break;
             }
             for (i = 0; i < nEntries; i++){
@@ -1241,7 +1243,7 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
             if (data){
                 nActive = (unsigned)(-1);
                 if (nEntries > 0x80){
-                    log(L_DEBUG, "Bad entries value %X", nEntries);
+                    log(L_DEBUG, "Bad entries value %lX", nEntries);
                     break;
                 }
                 for (i = 0; i < nEntries; i++){
@@ -1347,7 +1349,7 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 b.incReadPos(3);
             b.unpack(state);
             b.unpack(time);
-            log(L_DEBUG, "Plugin status reply %u %u %u (%u)", uin, state, time, plugin_type);
+            log(L_DEBUG, "Plugin status reply %u %lu %lu (%u)", uin, state, time, plugin_type);
             findContact(number(uin).c_str(), NULL, false, contact);
             if (contact == NULL)
                 break;

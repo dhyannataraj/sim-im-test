@@ -132,9 +132,9 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
                 default:
                     msg_text = "Unknown";
                 }
-                log(L_DEBUG, msg_text);
+                log(L_DEBUG, "%s", msg_text);
             }
-            log(L_DEBUG, "grp: %02X, ws: %04X, cl %04X, al %04X, ll %04X, dl: %04X, cur %04X, ml %04X",
+            log(L_DEBUG, "grp: %02X, ws: %04lX, cl %04lX, al %04lX, ll %04lX, dl: %04lX, cur %04lX, ml %04lX",
                 class_id,window_size,clear_level,alert_level,limit_level,discon_level,
                 current_level,max_level);
             if (--class_id < m_rates.size()){
@@ -175,7 +175,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
                 >> max_level
                 >> last_send
                 >> current_state;
-                log(L_DEBUG, "grp: %02X, ws: %04X, cl %04X, al %04X, ll %04X, dl: %04X, cur %04X, ml %04X",
+                log(L_DEBUG, "grp: %02X, ws: %04lX, cl %04lX, al %04lX, ll %04lX, dl: %04lX, cur %04lX, ml %04lX",
                     class_id,window_size,clear_level,alert_level,limit_level,discon_level,
                     current_level,max_level);
                 RateInfo r;
