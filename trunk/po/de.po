@@ -1213,7 +1213,7 @@ msgstr "SIM"
 
 #: sim/sim.cpp:187
 msgid "Multiprotcol instant messenger"
-msgstr "Multiprotokol Instant Messenger"
+msgstr "Multiprotokoll Instant Messenger"
 
 #: sim/sim.cpp:193
 msgid "Maintainer"
@@ -4148,7 +4148,7 @@ msgstr "&Menü"
 
 #: plugins/_core/core.cpp:498 plugins/_core/searchbase.cpp:73
 msgid "Search / Add contact"
-msgstr "Suchen / hinzufügen"
+msgstr "Suchen/hinzufügen"
 
 #: plugins/_core/core.cpp:509
 msgid "&Send SMS"
@@ -7018,7 +7018,7 @@ msgstr "LiveJournal"
 
 #: plugins/livejournal/livejournal.cpp:52
 msgid "Plugin provides posting to LiveJournal"
-msgstr "Plugin stellt posten zum LiveJournal bereit"
+msgstr "Plugin erlaubt Beiträge an ein LiveJournal zu schreiben"
 
 #: plugins/livejournal/livejournal.cpp:108
 #, c-format
@@ -7026,8 +7026,8 @@ msgid ""
 "_n: LiveJournal post\n"
 "%n LiveJournal posts"
 msgstr ""
-"1 LiveJournal-Post\n"
-"%n LiveJournal-Posts"
+"1 LiveJournal-Beitrag\n"
+"%n LiveJournal-Beiträge"
 
 #: plugins/livejournal/livejournal.cpp:125
 msgid "&Remove from journal"
@@ -7035,7 +7035,7 @@ msgstr "Vom Journal &löschen"
 
 #: plugins/livejournal/livejournal.cpp:200
 msgid "LiveJournal &post"
-msgstr "LiveJournal-&Post"
+msgstr "LiveJournal-&Beitrag"
 
 #: plugins/livejournal/livejournal.cpp:210
 msgid "LiveJournal &WWW"
@@ -7043,7 +7043,7 @@ msgstr "LiveJournal &WWW"
 
 #: plugins/livejournal/livejournal.cpp:552
 msgid "Posting failed"
-msgstr "Posten fehlgeschlagen"
+msgstr "Beitrag fehlgeschlagen"
 
 #: plugins/livejournal/livejournal.cpp:1107
 msgid "Invalid username"
@@ -7071,7 +7071,7 @@ msgstr "gelangweilt"
 
 #: plugins/livejournal/livejournal.cpp:1114
 msgid "confused"
-msgstr "konfus"
+msgstr "verwirrt"
 
 #: plugins/livejournal/livejournal.cpp:1115
 msgid "crappy"
@@ -7111,7 +7111,7 @@ msgstr "glücklich"
 
 #: plugins/livejournal/livejournal.cpp:1124
 msgid "high"
-msgstr "hoch"
+msgstr "high"
 
 #: plugins/livejournal/livejournal.cpp:1125
 msgid "horny"
@@ -7127,7 +7127,7 @@ msgstr "wütend"
 
 #: plugins/livejournal/livejournal.cpp:1128
 msgid "irate"
-msgstr "wütend"
+msgstr "zornig"
 
 #: plugins/livejournal/livejournal.cpp:1129
 msgid "jubilant"
@@ -7191,7 +7191,7 @@ msgstr "dumm"
 
 #: plugins/livejournal/livejournal.cpp:1144
 msgid "mischievous"
-msgstr "schädlich"
+msgstr "boshaft"
 
 #: plugins/livejournal/livejournal.cpp:1145
 msgid "morose"
@@ -7343,7 +7343,7 @@ msgstr "unbequem"
 
 #: plugins/livejournal/livejournal.cpp:1182
 msgid "lethargic"
-msgstr "lustlos"
+msgstr "träg"
 
 #: plugins/livejournal/livejournal.cpp:1183
 msgid "listless"
@@ -7375,7 +7375,7 @@ msgstr "krank"
 
 #: plugins/livejournal/livejournal.cpp:1190
 msgid "hot"
-msgstr "heiss"
+msgstr "heiß"
 
 #: plugins/livejournal/livejournal.cpp:1191
 msgid "cold"
@@ -7439,11 +7439,11 @@ msgstr "zwitschernd"
 
 #: plugins/livejournal/livejournal.cpp:1206
 msgid "rushed"
-msgstr "gehetzt"
+msgstr "gedrängt"
 
 #: plugins/livejournal/livejournal.cpp:1207
 msgid "contemplative"
-msgstr "nachdenklich"
+msgstr "grüblerisch"
 
 #: plugins/livejournal/livejournal.cpp:1208
 msgid "nerdy"
@@ -7459,7 +7459,7 @@ msgstr "zynisch"
 
 #: plugins/livejournal/livejournal.cpp:1211
 msgid "quixotic"
-msgstr "phantastisch"
+msgstr "fantastisch"
 
 #: plugins/livejournal/livejournal.cpp:1212
 msgid "crazy"
@@ -7567,7 +7567,7 @@ msgstr "dankbar"
 
 #: plugins/livejournal/livejournal.cpp:1238
 msgid "grateful"
-msgstr "dankbar"
+msgstr "erkenntlich"
 
 #: plugins/livejournal/livejournal.cpp:1239
 msgid "jealous"
@@ -7607,11 +7607,11 @@ msgstr "Unterstützung"
 
 #: plugins/livejournal/livejournal.cpp:1249
 msgid "Personal Info"
-msgstr "Personelle Information"
+msgstr "Persönliche Informationen"
 
 #: plugins/livejournal/livejournal.cpp:1250
 msgid "Journal Settings"
-msgstr "Journaleinstellungen"
+msgstr "Journal-Einstellungen"
 
 #: plugins/livejournal/livejournalcfg.cpp:35
 msgid "Register new user"
