@@ -33,6 +33,7 @@ UserViewConfig::UserViewConfig(QWidget *parent)
     btnNA->setColor(CorePlugin::m_plugin->getColorNA());
     btnDND->setColor(CorePlugin::m_plugin->getColorDND());
     btnGroup->setColor(CorePlugin::m_plugin->getColorGroup());
+	chkGroupSeparator->setChecked(CorePlugin::m_plugin->getGroupSeparator());
     connect(chkSysColors, SIGNAL(toggled(bool)), this, SLOT(colorsToggled(bool)));
     colorsToggled(chkSysColors->isChecked());
 }
@@ -45,6 +46,7 @@ void UserViewConfig::apply()
 {
     CorePlugin::m_plugin->setUseDblClick(chkDblClick->isChecked());
     CorePlugin::m_plugin->setUseSysColors(chkSysColors->isChecked());
+	CorePlugin::m_plugin->setGroupSeparator(chkGroupSeparator->isChecked());
     if (CorePlugin::m_plugin->getUseSysColors()){
         CorePlugin::m_plugin->setColorOnline(0);
         CorePlugin::m_plugin->setColorOffline(0);

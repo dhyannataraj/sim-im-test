@@ -202,6 +202,7 @@ static DataDef coreData[] =
         { "ColorNA", DATA_ULONG, 1, 0 },
         { "ColorDND", DATA_ULONG, 1, 0 },
         { "ColorGroup", DATA_ULONG, 1, 0 },
+		{ "GroupSeparator", DATA_BOOL, 1, 1 },
         { "Lang", DATA_STRING, 1, 0 },
         { "ContainerMode", DATA_ULONG, 1, CONTAINER_GROUP },
         { "SendOnEnter", DATA_BOOL, 1, 0 },
@@ -256,8 +257,6 @@ static DataDef coreUserData[] =
     {
         { "LogStatus", DATA_BOOL, 1, 0 },
         { "LogMessage", DATA_BOOL, 1, 1 },
-        { "OfflineOpen", DATA_BOOL, 1, 1 },
-        { "OnlineOpen", DATA_BOOL, 1, 1 },
         { "OpenOnReceive", DATA_BOOL, 1, 0 },
         { "OpenOnOnline", DATA_BOOL, 1, 0 },
         { "IncomingPath", DATA_UTF, 1, (unsigned)"Incoming Files" },
@@ -280,6 +279,23 @@ static DataDef arUserData[] =
         { "AutoReply", DATA_UTFLIST, 1, 0 },
         { NULL, 0, 0, 0 }
     };
+
+/*
+typedef struct ListUserData
+{
+    unsigned	OfflineOpen;
+    unsigned	OnlineOpen;
+	unsigned	ShowAllways;
+} ListUserData;
+*/
+
+static DataDef listUserData[] = 
+{
+        { "OfflineOpen", DATA_BOOL, 1, 1 },
+        { "OnlineOpen", DATA_BOOL, 1, 1 },
+        { "ShowAllways", DATA_BOOL, 1, 0 },
+        { NULL, 0, 0, 0 }
+};
 
 CorePlugin *CorePlugin::m_plugin = NULL;
 
@@ -328,6 +344,7 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     user_data_id = getContacts()->registerUserData("core", coreUserData);
     sms_data_id  = getContacts()->registerUserData("sms", smsUserData);
     ar_data_id   = getContacts()->registerUserData("ar", arUserData);
+    list_data_id   = getContacts()->registerUserData("list", listUserData);
 
     m_translator = NULL;
     m_statusWnd  = NULL;
@@ -908,6 +925,14 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     cmd->flags		= COMMAND_DEFAULT;
     eCmd.process();
 
+    cmd->id			= CmdShowAllways;
+    cmd->text		= I18N_NOOP("Show &allways");
+    cmd->icon		= NULL;
+    cmd->menu_grp	= 0x8003;
+    cmd->accel		= NULL;
+    cmd->flags		= COMMAND_CHECK_STATE;
+    eCmd.process();
+
     cmd->id			= CmdInfo;
     cmd->text		= I18N_NOOP("User &info");
     cmd->icon		= "info";
@@ -1049,6 +1074,7 @@ CorePlugin::~CorePlugin()
     if (m_status)
         delete m_status;
 
+    getContacts()->unregisterUserData(list_data_id);
     getContacts()->unregisterUserData(ar_data_id);
     getContacts()->unregisterUserData(sms_data_id);
     getContacts()->unregisterUserData(user_data_id);

@@ -22,6 +22,8 @@
 #include "servicesbase.h"
 #include "jabberclient.h"
 
+class QListViewItem;
+
 class Services : public ServicesBase, public EventReceiver
 {
     Q_OBJECT
@@ -33,7 +35,11 @@ protected slots:
     void textChanged(const QString&);
     void search();
     void regAgent();
+	void unregAgent();
+	void logon();
+	void logoff();
     void selectAgent(int);
+	void selectChanged(QListViewItem*);
 protected:
     void *processEvent(Event *e);
     void statusChanged();

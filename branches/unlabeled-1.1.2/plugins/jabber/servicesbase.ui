@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>459</width>
+            <width>451</width>
             <height>366</height>
         </rect>
     </property>
@@ -42,7 +42,135 @@
                 </property>
                 <attribute>
                     <name>title</name>
-                    <string>Agents</string>
+                    <string>&amp;Registered agents</string>
+                </attribute>
+                <vbox>
+                    <property>
+                        <name>margin</name>
+                        <number>11</number>
+                    </property>
+                    <property>
+                        <name>spacing</name>
+                        <number>6</number>
+                    </property>
+                    <widget>
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>lblOffline2</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Jabber agents are available online after login</string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>AlignCenter</set>
+                        </property>
+                        <property>
+                            <name>hAlign</name>
+                        </property>
+                    </widget>
+                    <widget>
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>lblRegistered</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Registered agents:</string>
+                        </property>
+                    </widget>
+                    <widget>
+                        <class>ListView</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>lstAgents</cstring>
+                        </property>
+                    </widget>
+                    <widget>
+                        <class>QLayoutWidget</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>Layout3</cstring>
+                        </property>
+                        <hbox>
+                            <property>
+                                <name>margin</name>
+                                <number>0</number>
+                            </property>
+                            <property>
+                                <name>spacing</name>
+                                <number>6</number>
+                            </property>
+                            <widget>
+                                <class>QPushButton</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>btnLogon</cstring>
+                                </property>
+                                <property>
+                                    <name>text</name>
+                                    <string>Log &amp;On</string>
+                                </property>
+                            </widget>
+                            <widget>
+                                <class>QPushButton</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>btnLogoff</cstring>
+                                </property>
+                                <property>
+                                    <name>text</name>
+                                    <string>Log O&amp;ff</string>
+                                </property>
+                            </widget>
+                            <widget>
+                                <class>QPushButton</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>btnUnregister</cstring>
+                                </property>
+                                <property>
+                                    <name>text</name>
+                                    <string>&amp;Unregister</string>
+                                </property>
+                            </widget>
+                            <spacer>
+                                <property>
+                                    <name>name</name>
+                                    <cstring>Spacer5</cstring>
+                                </property>
+                                <property>
+                                    <name>orientation</name>
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property>
+                                    <name>sizeType</name>
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property>
+                                    <name>sizeHint</name>
+                                    <size>
+                                        <width>20</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                        </hbox>
+                    </widget>
+                </vbox>
+            </widget>
+            <widget>
+                <class>QWidget</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>tab</cstring>
+                </property>
+                <attribute>
+                    <name>title</name>
+                    <string>&amp;Agents</string>
                 </attribute>
                 <vbox>
                     <property>
@@ -114,7 +242,7 @@
                             <spacer>
                                 <property>
                                     <name>name</name>
-                                    <cstring>Spacer1</cstring>
+                                    <cstring>Spacer1_2</cstring>
                                 </property>
                                 <property>
                                     <name>orientation</name>
@@ -148,6 +276,20 @@
             <height>-1</height>
         </sizehint>
         <container>1</container>
+        <sizepolicy>
+            <hordata>7</hordata>
+            <verdata>7</verdata>
+        </sizepolicy>
+        <pixmap>image0</pixmap>
+    </customwidget>
+    <customwidget>
+        <class>ListView</class>
+        <header location="local">listview.h</header>
+        <sizehint>
+            <width>-1</width>
+            <height>-1</height>
+        </sizehint>
+        <container>0</container>
         <sizepolicy>
             <hordata>7</hordata>
             <verdata>7</verdata>

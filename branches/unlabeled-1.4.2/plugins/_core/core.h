@@ -71,6 +71,7 @@ typedef struct CoreData
     unsigned	ColorNA;
     unsigned	ColorDND;
     unsigned	ColorGroup;
+	unsigned	GroupSeparator;
     char		*Lang;
     unsigned	ContainerMode;
     unsigned	SendOnEnter;
@@ -114,8 +115,6 @@ typedef struct CoreUserData
 {
     unsigned	LogStatus;
     unsigned	LogMessage;
-    unsigned	OfflineOpen;
-    unsigned	OnlineOpen;
     unsigned	OpenOnReceive;
     unsigned	OpenOnOnline;
     char		*IncomingPath;
@@ -135,6 +134,13 @@ typedef struct ARUserData
 {
     void		*AutoReply;
 } ARUserData;
+
+typedef struct ListUserData
+{
+    unsigned	OfflineOpen;
+    unsigned	OnlineOpen;
+	unsigned	ShowAllways;
+} ListUserData;
 
 class ClientList : public vector<Client*>
 {
@@ -220,6 +226,7 @@ const unsigned	CmdPhoneNoShow			= (CmdBase + 74);
 const unsigned	CmdPhoneAvailable		= (CmdBase + 75);
 const unsigned	CmdPhoneBusy			= (CmdBase + 76);
 const unsigned  CmdPhoneBook			= (CmdBase + 77);
+const unsigned	CmdShowAllways			= (CmdBase + 78);
 
 const unsigned	CmdContactGroup			= (CmdBase + 0x100);
 const unsigned	CmdUnread				= (CmdBase + 0x200);
@@ -328,6 +335,7 @@ public:
     PROP_ULONG(ColorNA);
     PROP_ULONG(ColorDND);
     PROP_ULONG(ColorGroup);
+	PROP_BOOL(GroupSeparator);
     PROP_STR(Lang);
     //    PROP_ULONG(ContainerMode);
     unsigned getContainerMode();
@@ -360,6 +368,7 @@ public:
     unsigned user_data_id;
     unsigned sms_data_id;
     unsigned ar_data_id;
+    unsigned list_data_id;
 
     CommandsMap	preferences;
     CommandsMap	messageTypes;

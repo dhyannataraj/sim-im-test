@@ -979,22 +979,22 @@ EXPORT void restoreGeometry(QWidget *w, long geo[4])
     if (w == NULL)
         return;
     QRect rc = screenGeometry();
-    if (geo[2] > rc.width() - 10)
-        geo[2] = rc.width() - 10;
-    if (geo[3] > rc.height() - 10)
-        geo[3] = rc.height() - 10;
-    if (geo[0] + geo[2] > rc.width() - 5)
-        geo[0] = rc.width() - geo[2] - 5;
-    if (geo[1] + geo[3] > rc.height() - 5)
-        geo[1] = rc.height() - geo[3] - 5;
-    if (geo[0] < 0)
-        geo[0] = 5;
-    if (geo[1] < 0)
-        geo[1] = 5;
-    if (geo[0] && geo[1])
-        w->move(geo[0], geo[1]);
-    if (geo[2] && geo[3])
-        w->resize(geo[2], geo[3]);
+    if (geo[WIDTH] > rc.width())
+        geo[WIDTH] = rc.width();
+    if (geo[HEIGHT] > rc.height())
+        geo[HEIGHT] = rc.height();
+    if (geo[LEFT] + geo[WIDTH] > rc.width())
+        geo[LEFT] = rc.width() - geo[WIDTH];
+    if (geo[TOP] + geo[HEIGHT] > rc.height())
+        geo[TOP] = rc.height() - geo[HEIGHT];
+    if (geo[LEFT] < 0)
+        geo[LEFT] = 0;
+    if (geo[TOP] < 0)
+        geo[TOP] = 0;
+    if (geo[LEFT] && geo[TOP] && geo[WIDTH] && geo[HEIGHT]){
+        w->move(geo[LEFT], geo[TOP]);
+        w->resize(geo[WIDTH], geo[HEIGHT]);
+	}
 }
 
 EXPORT void saveToolbar(QToolBar *bar, long state[7])

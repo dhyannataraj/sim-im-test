@@ -25,11 +25,13 @@ OnTopCfg::OnTopCfg(QWidget *parent, OnTopPlugin *plugin)
 {
     m_plugin = plugin;
     chkInTask->setChecked(m_plugin->getInTask());
+    chkContainer->setChecked(m_plugin->getContainerOnTop());
 }
 
 void OnTopCfg::apply()
 {
     m_plugin->setInTask(chkInTask->isChecked());
+    m_plugin->setContainerOnTop(chkContainer->isChecked());
     m_plugin->setState();
 }
 

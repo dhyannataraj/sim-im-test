@@ -275,7 +275,7 @@ bool TCPClient::error_state(const char *err, unsigned code)
                 reconnectTime = RECONNECT_IFINACTIVE;
         }
         setClientStatus(STATUS_OFFLINE);
-        setState(Connecting, err);
+        setState((m_reconnectTime > RECONNECT_TIME) ? Error : Connecting, err);
         m_bWaitReconnect = true;
         log(L_DEBUG, "Wait reconnect %u sec", reconnectTime);
         m_timer->start(reconnectTime * 1000);
@@ -316,6 +316,7 @@ void TCPClient::setClientStatus(unsigned status)
             if (m_socket == NULL)
                 m_socket = new ClientSocket(this);
             log(L_DEBUG, "Start connect %s:%u", getServer(), getPort());
+			setState(Connecting, NULL);
             m_socket->connect(getServer(), getPort(), protocol()->description()->text);
             m_reconnectTime = RECONNECT_TIME;
             m_bWaitReconnect = false;

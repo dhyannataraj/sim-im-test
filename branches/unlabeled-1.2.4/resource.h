@@ -1,14 +1,13 @@
-#define LANG_RUSSIAN	0
-#define SUBLANG_DEFAULT	0
-
 //{{NO_DEPENDENCIES}}
 // Microsoft Developer Studio generated include file.
 // Used by sim.rc
 //
-#define IDI_ICON1                       102
+#define LANG_NEUTRAL					0
+#define SUBLANG_NEUTRAL					0
+#define IDI_ICON1                       1
 
 // Next default values for new objects
-//
+// 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        103
