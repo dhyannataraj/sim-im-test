@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"POT-Creation-Date: 2002-10-11 03:07+0400\n"
-"PO-Revision-Date: 2002-10-11 02:34GMT+3\n"
+"POT-Creation-Date: 2002-10-13 03:24+0400\n"
+"PO-Revision-Date: 2002-10-13 03:25GMT+3\n"
 "Last-Translator: Vladimir Shutoff <shutoff@mail.ru>\n"
 "Language-Team: Русский <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -311,8 +311,7 @@ msgstr "Австралия"
 
 #: libicq/country.cpp:84
 msgid "Australian Antarctic Territory"
-msgstr ""
-"Австралийская антарктическая территория"
+msgstr "Австралийская антарктическая территория"
 
 #: libicq/country.cpp:85
 msgid "Austria"
@@ -1679,11 +1678,11 @@ msgstr "Последний раз в сети"
 msgid "Online"
 msgstr "В сети"
 
-#: dock.cpp:461 mainwin.cpp:497
+#: dock.cpp:463 mainwin.cpp:497
 msgid "%1 from %2"
 msgstr "%1 от %2"
 
-#: dock.cpp:474 mainwin.cpp:1537
+#: dock.cpp:476 mainwin.cpp:1537
 msgid "Connecting"
 msgstr "Соединение"
 
@@ -1721,8 +1720,7 @@ msgstr "%1 от %2"
 
 #: mainwin.cpp:922 ui/logindlg.cpp:136
 msgid "Can't connect to proxy server"
-msgstr ""
-"Невозможно соединиться с прокси-сервером"
+msgstr "Невозможно соединиться с прокси-сервером"
 
 #: mainwin.cpp:928 ui/logindlg.cpp:143
 msgid "Proxy server require authorization"
@@ -1736,18 +1734,17 @@ msgstr ""
 
 #: mainwin.cpp:941
 msgid "Your UIN used from another location"
-msgstr ""
-"Ваш UIN используется с другого компьютера"
+msgstr "Ваш UIN используется с другого компьютера"
 
 #: mainwin.cpp:992
 msgid "%1 is online"
 msgstr "%1 в сети"
 
-#: mainwin.cpp:1510 mainwin.cpp:1768 msgview.cpp:352
+#: mainwin.cpp:1510 mainwin.cpp:1768
 msgid "&Yes"
 msgstr "&Да"
 
-#: mainwin.cpp:1511 mainwin.cpp:1769 msgview.cpp:353
+#: mainwin.cpp:1511 mainwin.cpp:1769
 msgid "&No"
 msgstr "&Нет"
 
@@ -1775,11 +1772,11 @@ msgstr "Группы"
 msgid "Delete"
 msgstr "Удалить"
 
-#: mainwin.cpp:1605 ui/userinfo.cpp:71 userbox.cpp:377 usertbl.cpp:405
+#: mainwin.cpp:1605 ui/userinfo.cpp:71 userbox.cpp:380 usertbl.cpp:405
 msgid "User info"
 msgstr "Информация о пользователе"
 
-#: mainwin.cpp:1606 userbox.cpp:423
+#: mainwin.cpp:1606 userbox.cpp:426
 msgid "History"
 msgstr "История"
 
@@ -2133,29 +2130,13 @@ msgstr "Список контактов получен"
 msgid "Contact list sent"
 msgstr "Список контактов отправлен"
 
-#: msgview.cpp:313 ui/finddlgbase.cpp:62
-msgid "&Find"
+#: msgview.cpp:626 ui/searchbase.cpp:69 ui/searchbase.cpp:82
+msgid "Search"
+msgstr "Поиск"
+
+#: msgview.cpp:628
+msgid "&Search"
 msgstr "&Поиск"
-
-#: msgview.cpp:314
-msgid "Find &next"
-msgstr "Найти &следующее"
-
-#: msgview.cpp:367
-msgid ""
-"End of document reached.\n"
-"Continue from the beginning?"
-msgstr ""
-"Достигнут конец.\n"
-"Начать поиск с начала?"
-
-#: msgview.cpp:368
-msgid ""
-"Beginning of document reached.\n"
-"Continue from the end?"
-msgstr ""
-"Достигнуто начало.\n"
-"Начать поиск с конца?"
 
 #: passwddlg.cpp:34 ui/logindlgbase.cpp:55
 msgid "Password:"
@@ -2226,15 +2207,15 @@ msgstr "Исто&рия"
 msgid "&Encoding"
 msgstr "&Кодировка"
 
-#: userbox.cpp:194
+#: userbox.cpp:196
 msgid "Close user &window"
 msgstr "З&акрыть окно пользователя"
 
-#: userbox.cpp:333
+#: userbox.cpp:336
 msgid "All users"
 msgstr "Все пользователи"
 
-#: userbox.cpp:1029
+#: userbox.cpp:1049
 msgid "History loading"
 msgstr "Загрузка истории"
 
@@ -2301,8 +2282,7 @@ msgstr "OK"
 
 #: userview.cpp:941
 msgid "Secure channel request failed"
-msgstr ""
-"Запрошен шифрования закончился неудачно"
+msgstr "Запрошен шифрования закончился неудачно"
 
 #: client.cpp:918 userview.cpp:986
 msgid "Offline"
@@ -2672,10 +2652,6 @@ msgstr "%1 Версия: %2"
 msgid "Bug report"
 msgstr "Сообщения об ошибках"
 
-#: ui/searchbase.cpp:69 ui/searchbase.cpp:82
-msgid "Search"
-msgstr "Поиск"
-
 #: ui/searchbase.cpp:75
 msgid "Online only"
 msgstr "Только в сети"
@@ -2848,6 +2824,10 @@ msgstr "С учетом &регистра"
 #: ui/finddlgbase.cpp:55
 msgid "Find &backwards"
 msgstr "В &обратную сторону"
+
+#: ui/finddlgbase.cpp:62
+msgid "&Find"
+msgstr "&Поиск"
 
 #: ui/logindlgbase.cpp:35
 msgid "Registration"
@@ -3029,8 +3009,7 @@ msgstr "Пользовательский режим приема файлов"
 
 #: ui/acceptbase.cpp:126
 msgid "Automatically open all messages"
-msgstr ""
-"Автоматически открывать окно сообщений"
+msgstr "Автоматически открывать окно сообщений"
 
 #: ui/acceptbase.cpp:130
 msgid "Path for incoming files:"
@@ -3102,8 +3081,7 @@ msgstr "Цвета"
 
 #: ui/fontsetupbase.cpp:197
 msgid "Use &own colors in history"
-msgstr ""
-"Использовать &собственные цвета в истории"
+msgstr "Использовать &собственные цвета в истории"
 
 #: ui/fontsetupbase.cpp:207
 msgid "Received messages color"
@@ -3139,8 +3117,7 @@ msgstr "Не показывать мой email"
 
 #: ui/pastinfobase.cpp:89
 msgid "Organization, Affiliation, Group:"
-msgstr ""
-"Объединения, общественные организации:"
+msgstr "Объединения, общественные организации:"
 
 #: ui/pastinfobase.cpp:131
 msgid "Past background:"
@@ -3439,13 +3416,11 @@ msgstr "Прозрачный контейнер"
 
 #: ui/themesetupbase.cpp:146
 msgid "Transparent only if inactive"
-msgstr ""
-"Прозрачные окна только если неактивные"
+msgstr "Прозрачные окна только если неактивные"
 
 #: ui/themesetupbase.cpp:154
 msgid "Show main window in task manager"
-msgstr ""
-"Показывать основное окно в панели задач"
+msgstr "Показывать основное окно в панели задач"
 
 #: ui/themesetupbase.cpp:158
 msgid "Show user window in task manager"
@@ -3464,8 +3439,7 @@ msgid "Hide main window after"
 msgstr "Скрыть главное окно"
 
 #: ui/statussetupbase.cpp:107
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Запретить оповещение в состояниях "
 "\"Отошел\", \"Не активный\", \"Занят\""
@@ -3947,6 +3921,23 @@ msgstr "Свободен для разговора"
 msgid "Away"
 msgstr "Отошел"
 
+#~ msgid "Find &next"
+#~ msgstr "Найти &следующее"
+
+#~ msgid ""
+#~ "End of document reached.\n"
+#~ "Continue from the beginning?"
+#~ msgstr ""
+#~ "Достигнут конец.\n"
+#~ "Начать поиск с начала?"
+
+#~ msgid ""
+#~ "Beginning of document reached.\n"
+#~ "Continue from the end?"
+#~ msgstr ""
+#~ "Достигнуто начало.\n"
+#~ "Начать поиск с конца?"
+
 #~ msgid "User %1 is online"
 #~ msgstr "Пользователь %1 в сети"
 
@@ -4064,3 +4055,4 @@ msgstr "Отошел"
 
 #~ msgid "Spell"
 #~ msgstr "Проверка орфографии"
+

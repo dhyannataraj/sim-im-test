@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sim\n"
-"POT-Creation-Date: 2002-10-11 02:14+0400\n"
+"POT-Creation-Date: 2002-10-13 03:24+0400\n"
 "PO-Revision-Date: 2002-08-10 21:23GMT\n"
 "Last-Translator: Salvatore Caligiore <caligiore@bigfoot.com>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -1880,12 +1880,12 @@ msgstr "Ultima volta in linea"
 msgid "Online"
 msgstr "In linea"
 
-#: dock.cpp:461 mainwin.cpp:497
+#: dock.cpp:463 mainwin.cpp:497
 #, fuzzy
 msgid "%1 from %2"
 msgstr "%1 da %2 ricevuto"
 
-#: dock.cpp:474 mainwin.cpp:1537
+#: dock.cpp:476 mainwin.cpp:1537
 msgid "Connecting"
 msgstr "Sto connettendo"
 
@@ -1944,12 +1944,12 @@ msgstr "Il tuo UIN è usato in un altro posto"
 msgid "%1 is online"
 msgstr "è in linea"
 
-#: mainwin.cpp:1510 mainwin.cpp:1768 msgview.cpp:352
+#: mainwin.cpp:1510 mainwin.cpp:1768
 #, fuzzy
 msgid "&Yes"
 msgstr "Si"
 
-#: mainwin.cpp:1511 mainwin.cpp:1769 msgview.cpp:353
+#: mainwin.cpp:1511 mainwin.cpp:1769
 msgid "&No"
 msgstr ""
 
@@ -1978,12 +1978,12 @@ msgstr "Gruppi"
 msgid "Delete"
 msgstr "Cancella"
 
-#: mainwin.cpp:1605 ui/userinfo.cpp:71 userbox.cpp:377 usertbl.cpp:405
+#: mainwin.cpp:1605 ui/userinfo.cpp:71 userbox.cpp:380 usertbl.cpp:405
 #, fuzzy
 msgid "User info"
 msgstr "Utente"
 
-#: mainwin.cpp:1606 userbox.cpp:423
+#: mainwin.cpp:1606 userbox.cpp:426
 #, fuzzy
 msgid "History"
 msgstr "Carico History"
@@ -2345,29 +2345,14 @@ msgstr "Lista contatti ricevuta"
 msgid "Contact list sent"
 msgstr "Lista contatti inviata"
 
-#: msgview.cpp:313 ui/finddlgbase.cpp:62
-msgid "&Find"
-msgstr "Trova &F"
+#: msgview.cpp:626 ui/searchbase.cpp:69 ui/searchbase.cpp:82
+msgid "Search"
+msgstr "Ricerca"
 
-#: msgview.cpp:314
-msgid "Find &next"
-msgstr "Trova il prossimo &n"
-
-#: msgview.cpp:367
-msgid ""
-"End of document reached.\n"
-"Continue from the beginning?"
-msgstr ""
-"Fine del documento raggiunta.\n"
-"Ricominincia dall'inizio?"
-
-#: msgview.cpp:368
-msgid ""
-"Beginning of document reached.\n"
-"Continue from the end?"
-msgstr ""
-"Inizio del documento raggiunta.\n"
-"Ricominincia dalla fine?"
+#: msgview.cpp:628
+#, fuzzy
+msgid "&Search"
+msgstr "Ricerca"
 
 #: passwddlg.cpp:34 ui/logindlgbase.cpp:55
 #, fuzzy
@@ -2444,16 +2429,16 @@ msgstr "Carico History"
 msgid "&Encoding"
 msgstr "Inviando"
 
-#: userbox.cpp:194
+#: userbox.cpp:196
 #, fuzzy
 msgid "Close user &window"
 msgstr "Chiudi dopo &l'invio"
 
-#: userbox.cpp:333
+#: userbox.cpp:336
 msgid "All users"
 msgstr "Tutti gli utenti"
 
-#: userbox.cpp:1029
+#: userbox.cpp:1049
 msgid "History loading"
 msgstr "Carico History"
 
@@ -2890,10 +2875,6 @@ msgstr ""
 msgid "Bug report"
 msgstr ""
 
-#: ui/searchbase.cpp:69 ui/searchbase.cpp:82
-msgid "Search"
-msgstr "Ricerca"
-
 #: ui/searchbase.cpp:75
 msgid "Online only"
 msgstr "Solo in linea"
@@ -3069,6 +3050,10 @@ msgstr ""
 #: ui/finddlgbase.cpp:55
 msgid "Find &backwards"
 msgstr ""
+
+#: ui/finddlgbase.cpp:62
+msgid "&Find"
+msgstr "Trova &F"
 
 #: ui/logindlgbase.cpp:35
 msgid "Registration"
@@ -4138,6 +4123,23 @@ msgstr "Libero per chat"
 #: client.cpp:923
 msgid "Away"
 msgstr "Assente"
+
+#~ msgid "Find &next"
+#~ msgstr "Trova il prossimo &n"
+
+#~ msgid ""
+#~ "End of document reached.\n"
+#~ "Continue from the beginning?"
+#~ msgstr ""
+#~ "Fine del documento raggiunta.\n"
+#~ "Ricominincia dall'inizio?"
+
+#~ msgid ""
+#~ "Beginning of document reached.\n"
+#~ "Continue from the end?"
+#~ msgstr ""
+#~ "Inizio del documento raggiunta.\n"
+#~ "Ricominincia dalla fine?"
 
 #~ msgid "User %1 is online"
 #~ msgstr "L'utente %1 è in linea"

@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
-"POT-Creation-Date: 2002-10-11 03:07+0400\n"
+"POT-Creation-Date: 2002-10-13 03:24+0400\n"
 "PO-Revision-Date: 2002-10-10 16:46+0300\n"
 "Last-Translator: ismail donmez <voidcartman@yahoo.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
@@ -1674,11 +1674,11 @@ msgstr "En son bağlantı"
 msgid "Online"
 msgstr "Bağlı"
 
-#: dock.cpp:461 mainwin.cpp:497
+#: dock.cpp:463 mainwin.cpp:497
 msgid "%1 from %2"
 msgstr "%2 den %1 alındı"
 
-#: dock.cpp:474 mainwin.cpp:1537
+#: dock.cpp:476 mainwin.cpp:1537
 msgid "Connecting"
 msgstr "Bağlanıyor"
 
@@ -1734,11 +1734,11 @@ msgstr "UIN'niz başka bi yerden kullanıldı"
 msgid "%1 is online"
 msgstr "%1 şu anda bağlı"
 
-#: mainwin.cpp:1510 mainwin.cpp:1768 msgview.cpp:352
+#: mainwin.cpp:1510 mainwin.cpp:1768
 msgid "&Yes"
 msgstr "&Evet"
 
-#: mainwin.cpp:1511 mainwin.cpp:1769 msgview.cpp:353
+#: mainwin.cpp:1511 mainwin.cpp:1769
 msgid "&No"
 msgstr "&Hayır"
 
@@ -1766,11 +1766,11 @@ msgstr "Gruplar"
 msgid "Delete"
 msgstr "Sil"
 
-#: mainwin.cpp:1605 ui/userinfo.cpp:71 userbox.cpp:377 usertbl.cpp:405
+#: mainwin.cpp:1605 ui/userinfo.cpp:71 userbox.cpp:380 usertbl.cpp:405
 msgid "User info"
 msgstr "Kullanıcı Bilgisi"
 
-#: mainwin.cpp:1606 userbox.cpp:423
+#: mainwin.cpp:1606 userbox.cpp:426
 msgid "History"
 msgstr "Geçmiş"
 
@@ -2117,29 +2117,14 @@ msgstr "Kontak listesi alındı"
 msgid "Contact list sent"
 msgstr "Kontak listesi gönderildi"
 
-#: msgview.cpp:313 ui/finddlgbase.cpp:62
-msgid "&Find"
-msgstr "&Bul"
+#: msgview.cpp:626 ui/searchbase.cpp:69 ui/searchbase.cpp:82
+msgid "Search"
+msgstr "Arama"
 
-#: msgview.cpp:314
-msgid "Find &next"
-msgstr "&Sonrakini bul"
-
-#: msgview.cpp:367
-msgid ""
-"End of document reached.\n"
-"Continue from the beginning?"
-msgstr ""
-"Dokümanın sonu geldi\n"
-"Dökümanın başından devam et?"
-
-#: msgview.cpp:368
-msgid ""
-"Beginning of document reached.\n"
-"Continue from the end?"
-msgstr ""
-"Dökümanın başına ulaşıldı.\n"
-"Dökümanın sonundan devam et?"
+#: msgview.cpp:628
+#, fuzzy
+msgid "&Search"
+msgstr "Arama"
 
 #: passwddlg.cpp:34 ui/logindlgbase.cpp:55
 msgid "Password:"
@@ -2215,16 +2200,16 @@ msgstr "Geçmiş"
 msgid "&Encoding"
 msgstr "Kodlama"
 
-#: userbox.cpp:194
+#: userbox.cpp:196
 #, fuzzy
 msgid "Close user &window"
 msgstr "Kullanıcı penceresi aç"
 
-#: userbox.cpp:333
+#: userbox.cpp:336
 msgid "All users"
 msgstr "Tüm Kullanıcılar"
 
-#: userbox.cpp:1029
+#: userbox.cpp:1049
 msgid "History loading"
 msgstr "Geçmiş yükleniyor..."
 
@@ -2652,10 +2637,6 @@ msgstr "%1 Versiyon: %2"
 msgid "Bug report"
 msgstr "Hata Raporu"
 
-#: ui/searchbase.cpp:69 ui/searchbase.cpp:82
-msgid "Search"
-msgstr "Arama"
-
 #: ui/searchbase.cpp:75
 msgid "Online only"
 msgstr "Sadece bağlı olanlar"
@@ -2828,6 +2809,10 @@ msgstr "Büyük-küçük harf &ayrımı"
 #: ui/finddlgbase.cpp:55
 msgid "Find &backwards"
 msgstr "&Geride ara"
+
+#: ui/finddlgbase.cpp:62
+msgid "&Find"
+msgstr "&Bul"
 
 #: ui/logindlgbase.cpp:35
 msgid "Registration"
@@ -3842,6 +3827,23 @@ msgstr "Chat için Boş"
 #: client.cpp:923
 msgid "Away"
 msgstr "Uzakta"
+
+#~ msgid "Find &next"
+#~ msgstr "&Sonrakini bul"
+
+#~ msgid ""
+#~ "End of document reached.\n"
+#~ "Continue from the beginning?"
+#~ msgstr ""
+#~ "Dokümanın sonu geldi\n"
+#~ "Dökümanın başından devam et?"
+
+#~ msgid ""
+#~ "Beginning of document reached.\n"
+#~ "Continue from the end?"
+#~ msgstr ""
+#~ "Dökümanın başına ulaşıldı.\n"
+#~ "Dökümanın sonundan devam et?"
 
 #~ msgid "User %1 is online"
 #~ msgstr "Kullanıcı %1  bağlı"

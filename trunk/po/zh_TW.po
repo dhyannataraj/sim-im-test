@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: zh_TV\n"
-"POT-Creation-Date: 2002-10-11 02:14+0400\n"
+"POT-Creation-Date: 2002-10-13 03:24+0400\n"
 "PO-Revision-Date: 2002-07-24 12:05+0800\n"
 "Last-Translator: 劉盛光 <stacker_liew_200@yahoo.com.tw>\n"
 "Language-Team: zh_TW.Big5 <zh@li.org>\n"
@@ -1725,11 +1725,11 @@ msgstr "最後上線"
 msgid "Online"
 msgstr "上線"
 
-#: dock.cpp:461 mainwin.cpp:497
+#: dock.cpp:463 mainwin.cpp:497
 msgid "%1 from %2"
 msgstr ""
 
-#: dock.cpp:474 mainwin.cpp:1537
+#: dock.cpp:476 mainwin.cpp:1537
 msgid "Connecting"
 msgstr "正在連線"
 
@@ -1788,11 +1788,11 @@ msgstr "您的UIN使用自別的所在"
 msgid "%1 is online"
 msgstr "已經上線"
 
-#: mainwin.cpp:1510 mainwin.cpp:1768 msgview.cpp:352
+#: mainwin.cpp:1510 mainwin.cpp:1768
 msgid "&Yes"
 msgstr "確定(&Y)"
 
-#: mainwin.cpp:1511 mainwin.cpp:1769 msgview.cpp:353
+#: mainwin.cpp:1511 mainwin.cpp:1769
 msgid "&No"
 msgstr "否定(&N)"
 
@@ -1822,11 +1822,11 @@ msgstr "群組"
 msgid "Delete"
 msgstr "拒絕(&D)"
 
-#: mainwin.cpp:1605 ui/userinfo.cpp:71 userbox.cpp:377 usertbl.cpp:405
+#: mainwin.cpp:1605 ui/userinfo.cpp:71 userbox.cpp:380 usertbl.cpp:405
 msgid "User info"
 msgstr "使用者資訊"
 
-#: mainwin.cpp:1606 userbox.cpp:423
+#: mainwin.cpp:1606 userbox.cpp:426
 msgid "History"
 msgstr "歷程"
 
@@ -2185,27 +2185,14 @@ msgstr "已接收連絡名單"
 msgid "Contact list sent"
 msgstr "已傳送連絡名單"
 
-#: msgview.cpp:313 ui/finddlgbase.cpp:62
+#: msgview.cpp:626 ui/searchbase.cpp:69 ui/searchbase.cpp:82
+msgid "Search"
+msgstr "搜尋"
+
+#: msgview.cpp:628
 #, fuzzy
-msgid "&Find"
-msgstr "尋找使用者"
-
-#: msgview.cpp:314
-#, fuzzy
-msgid "Find &next"
-msgstr "尋找使用者"
-
-#: msgview.cpp:367
-msgid ""
-"End of document reached.\n"
-"Continue from the beginning?"
-msgstr ""
-
-#: msgview.cpp:368
-msgid ""
-"Beginning of document reached.\n"
-"Continue from the end?"
-msgstr ""
+msgid "&Search"
+msgstr "搜尋"
 
 #: passwddlg.cpp:34 ui/logindlgbase.cpp:55
 msgid "Password:"
@@ -2283,17 +2270,17 @@ msgstr "歷程"
 msgid "&Encoding"
 msgstr "正在傳送"
 
-#: userbox.cpp:194
+#: userbox.cpp:196
 #, fuzzy
 msgid "Close user &window"
 msgstr "當上線時開啟使用者視窗"
 
-#: userbox.cpp:333
+#: userbox.cpp:336
 #, fuzzy
 msgid "All users"
 msgstr "Добавить пользователя"
 
-#: userbox.cpp:1029
+#: userbox.cpp:1049
 #, fuzzy
 msgid "History loading"
 msgstr "歷程"
@@ -2734,10 +2721,6 @@ msgstr ""
 msgid "Bug report"
 msgstr ""
 
-#: ui/searchbase.cpp:69 ui/searchbase.cpp:82
-msgid "Search"
-msgstr "搜尋"
-
 #: ui/searchbase.cpp:75
 #, fuzzy
 msgid "Online only"
@@ -2918,6 +2901,11 @@ msgstr ""
 #: ui/finddlgbase.cpp:55
 msgid "Find &backwards"
 msgstr ""
+
+#: ui/finddlgbase.cpp:62
+#, fuzzy
+msgid "&Find"
+msgstr "尋找使用者"
 
 #: ui/logindlgbase.cpp:35
 msgid "Registration"
@@ -3976,6 +3964,10 @@ msgstr "自由聊天"
 #: client.cpp:923
 msgid "Away"
 msgstr "離開"
+
+#, fuzzy
+#~ msgid "Find &next"
+#~ msgstr "尋找使用者"
 
 #, fuzzy
 #~ msgid "User %1 is online"

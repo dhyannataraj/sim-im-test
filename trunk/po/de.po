@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
-"POT-Creation-Date: 2002-10-11 02:14+0400\n"
+"POT-Creation-Date: 2002-10-13 03:24+0400\n"
 "PO-Revision-Date: 2002-10-11 03:00GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -1671,11 +1671,11 @@ msgstr "Zuletzt online"
 msgid "Online"
 msgstr "Online"
 
-#: dock.cpp:461 mainwin.cpp:497
+#: dock.cpp:463 mainwin.cpp:497
 msgid "%1 from %2"
 msgstr "%1 von %2"
 
-#: dock.cpp:474 mainwin.cpp:1537
+#: dock.cpp:476 mainwin.cpp:1537
 msgid "Connecting"
 msgstr "Verbindungsaufbau"
 
@@ -1731,11 +1731,11 @@ msgstr "Ihre UIN wird von einem anderem Ort benutzt"
 msgid "%1 is online"
 msgstr "%1 ist online"
 
-#: mainwin.cpp:1510 mainwin.cpp:1768 msgview.cpp:352
+#: mainwin.cpp:1510 mainwin.cpp:1768
 msgid "&Yes"
 msgstr "&Ja"
 
-#: mainwin.cpp:1511 mainwin.cpp:1769 msgview.cpp:353
+#: mainwin.cpp:1511 mainwin.cpp:1769
 msgid "&No"
 msgstr "&Nein"
 
@@ -1763,11 +1763,11 @@ msgstr "Gruppen"
 msgid "Delete"
 msgstr "Löschen"
 
-#: mainwin.cpp:1605 ui/userinfo.cpp:71 userbox.cpp:377 usertbl.cpp:405
+#: mainwin.cpp:1605 ui/userinfo.cpp:71 userbox.cpp:380 usertbl.cpp:405
 msgid "User info"
 msgstr "Benutzerinformation"
 
-#: mainwin.cpp:1606 userbox.cpp:423
+#: mainwin.cpp:1606 userbox.cpp:426
 msgid "History"
 msgstr "Verlauf"
 
@@ -2118,29 +2118,14 @@ msgstr "Kontakliste empfangen"
 msgid "Contact list sent"
 msgstr "Kontaktliste wird gesendet"
 
-#: msgview.cpp:313 ui/finddlgbase.cpp:62
-msgid "&Find"
-msgstr "&Suchen"
+#: msgview.cpp:626 ui/searchbase.cpp:69 ui/searchbase.cpp:82
+msgid "Search"
+msgstr "Suchen"
 
-#: msgview.cpp:314
-msgid "Find &next"
-msgstr "&Nächsten suchen"
-
-#: msgview.cpp:367
-msgid ""
-"End of document reached.\n"
-"Continue from the beginning?"
-msgstr ""
-"Das Ende des Dokuments wurde erreicht.\n"
-"Am Anfang fortsetzen?"
-
-#: msgview.cpp:368
-msgid ""
-"Beginning of document reached.\n"
-"Continue from the end?"
-msgstr ""
-"Der Anfang des Dokuments wurde erreicht.\n"
-"Am Ende fortsetzen?"
+#: msgview.cpp:628
+#, fuzzy
+msgid "&Search"
+msgstr "Suchen"
 
 #: passwddlg.cpp:34 ui/logindlgbase.cpp:55
 msgid "Password:"
@@ -2211,15 +2196,15 @@ msgstr "&Verlauf"
 msgid "&Encoding"
 msgstr "&Kodierung"
 
-#: userbox.cpp:194
+#: userbox.cpp:196
 msgid "Close user &window"
 msgstr "Benutzer&fenster schließen"
 
-#: userbox.cpp:333
+#: userbox.cpp:336
 msgid "All users"
 msgstr "Alle Benutzer"
 
-#: userbox.cpp:1029
+#: userbox.cpp:1049
 msgid "History loading"
 msgstr "Lade Verlauf..."
 
@@ -2651,10 +2636,6 @@ msgstr "%1 Version: %2"
 msgid "Bug report"
 msgstr "Berichten Sie Probleme oder Wünsche"
 
-#: ui/searchbase.cpp:69 ui/searchbase.cpp:82
-msgid "Search"
-msgstr "Suchen"
-
 #: ui/searchbase.cpp:75
 msgid "Online only"
 msgstr "Nur Online"
@@ -2828,6 +2809,10 @@ msgstr "Groß-/kleinschreibung &beachten"
 msgid "Find &backwards"
 msgstr "&Rückwärts suchen"
 
+#: ui/finddlgbase.cpp:62
+msgid "&Find"
+msgstr "&Suchen"
+
 #: ui/logindlgbase.cpp:35
 msgid "Registration"
 msgstr "Registrierung"
@@ -2850,7 +2835,8 @@ msgstr "Automatisches weiterleiten"
 
 #: ui/forwardsetupbase.cpp:89
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
+msgstr ""
+"Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
 
 #: ui/forwardsetupbase.cpp:97
 msgid ""
@@ -3432,7 +3418,8 @@ msgid "Hide main window after"
 msgstr "Hauptfenster anzeigen/verstecken nach"
 
 #: ui/statussetupbase.cpp:107
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -3589,7 +3576,8 @@ msgstr "&Andere Nachrichten ablehnen"
 
 #: ui/generalsecbase.cpp:189
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr ""
+"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: ui/changepasswdbase.cpp:77
 msgid "Change password"
@@ -3617,7 +3605,8 @@ msgstr ";-)"
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
+msgstr ""
+"Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
 
 #: client.cpp:72
 msgid "Unicode"
@@ -3878,6 +3867,23 @@ msgstr "Frei für Chat"
 msgid "Away"
 msgstr "Weg"
 
+#~ msgid "Find &next"
+#~ msgstr "&Nächsten suchen"
+
+#~ msgid ""
+#~ "End of document reached.\n"
+#~ "Continue from the beginning?"
+#~ msgstr ""
+#~ "Das Ende des Dokuments wurde erreicht.\n"
+#~ "Am Anfang fortsetzen?"
+
+#~ msgid ""
+#~ "Beginning of document reached.\n"
+#~ "Continue from the end?"
+#~ msgstr ""
+#~ "Der Anfang des Dokuments wurde erreicht.\n"
+#~ "Am Ende fortsetzen?"
+
 #~ msgid "User %1 is online"
 #~ msgstr "Benutzer %1 ist online"
 
@@ -3933,4 +3939,3 @@ msgstr "Weg"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
-
