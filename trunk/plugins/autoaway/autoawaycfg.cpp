@@ -27,13 +27,17 @@ AutoAwayConfig::AutoAwayConfig(QWidget *parent, AutoAwayPlugin *plugin)
     m_plugin = plugin;
     chkAway->setChecked(m_plugin->getEnableAway());
     chkNA->setChecked(m_plugin->getEnableNA());
+    chkOff->setChecked(m_plugin->getEnableOff());
     spnAway->setValue(m_plugin->getAwayTime());
     spnNA->setValue(m_plugin->getNATime());
+    spnOff->setValue(m_plugin->getOffTime());
     chkAlert->setChecked(m_plugin->getDisableAlert());
     connect(chkAway, SIGNAL(toggled(bool)), this, SLOT(toggledAway(bool)));
     connect(chkNA, SIGNAL(toggled(bool)), this, SLOT(toggledNA(bool)));
+    connect(chkOff, SIGNAL(toggled(bool)), this, SLOT(toggledOff(bool)));
     toggledAway(chkAway->isChecked());
     toggledNA(chkNA->isChecked());
+    toggledOff(chkOff->isChecked());
 }
 
 void AutoAwayConfig::toggledAway(bool bState)
@@ -46,15 +50,23 @@ void AutoAwayConfig::toggledNA(bool bState)
     spnNA->setEnabled(bState);
 }
 
+void AutoAwayConfig::toggledOff(bool bState)
+{
+    spnOff->setEnabled(bState);
+}
+
 void AutoAwayConfig::apply()
 {
     m_plugin->setDisableAlert(chkAlert->isChecked());
     m_plugin->setEnableAway(chkAway->isChecked());
     m_plugin->setEnableNA(chkNA->isChecked());
+    m_plugin->setEnableOff(chkOff->isChecked());
     if (m_plugin->getEnableAway())
         m_plugin->setAwayTime(atol(spnAway->text().latin1()));
     if (m_plugin->getEnableNA())
         m_plugin->setNATime(atol(spnNA->text().latin1()));
+    if (m_plugin->getEnableOff())
+        m_plugin->setOffTime(atol(spnOff->text().latin1()));
 }
 
 #ifndef WIN32

@@ -72,6 +72,17 @@
                 <string>minutes of "Away"</string>
             </property>
         </widget>
+        <widget row="2"  column="2" >
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>TextLabel3</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>minutes of "N/A"</string>
+            </property>
+        </widget>
         <widget row="1"  column="1" >
             <class>QSpinBox</class>
             <property stdset="1">
@@ -94,7 +105,29 @@
                 <string>Set "N/A" status after</string>
             </property>
         </widget>
-        <widget row="2"  column="0"  rowspan="1"  colspan="3" >
+        <widget row="2"  column="1" >
+            <class>QSpinBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>spnOff</cstring>
+            </property>
+            <property>
+                <name>minValue</name>
+                <number>1</number>
+            </property>
+        </widget>
+        <widget row="2"  column="0" >
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkOff</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Set "Offline" status after</string>
+            </property>
+        </widget>
+        <widget row="3"  column="0"  rowspan="1"  colspan="3" >
             <class>QCheckBox</class>
             <property stdset="1">
                 <name>name</name>

@@ -32,6 +32,7 @@ public slots:
     void apply();
     void toggledAway(bool);
     void toggledNA(bool);
+    void toggledOff(bool);
 protected:
     AutoAwayPlugin *m_plugin;
 };

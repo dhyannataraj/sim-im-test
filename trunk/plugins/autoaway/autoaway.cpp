@@ -69,6 +69,8 @@ static DataDef autoAwayData[] =
         { "EnableAway", DATA_BOOL, 1, 1 },
         { "NATime", DATA_ULONG, 1, 10 },
         { "EnableNA", DATA_BOOL, 1, 1 },
+        { "OffTime", DATA_ULONG, 1, 10 },
+        { "EnableOff", DATA_BOOL, 1, 1 },
         { "DisableAlert", DATA_BOOL, 1, 1 },
         { NULL, 0, 0, 0 }
     };
@@ -109,59 +111,51 @@ QWidget *AutoAwayPlugin::createConfigWindow(QWidget *parent)
 
 void AutoAwayPlugin::timeout()
 {
-    unsigned idle_time = getIdleTime();
-    if ((bAway && getEnableAway() && (idle_time < getAwayTime() * 60)) ||
-            (bNA && getEnableNA() && (idle_time < getNATime() * 60))){
+    unsigned long newStatus;
+    unsigned idle_time = getIdleTime() * 60;
+    if ((bAway && getEnableAway() && (idle_time < getAwayTime())) ||
+        (bNA && getEnableNA() && (idle_time < getNATime())) ||
+        (bOff && getEnableOff() && (idle_time < getOffTime()))){
         bAway = false;
         bNA   = false;
-        for (unsigned i = 0; i < getContacts()->nClients(); i++){
-            Client *client = getContacts()->getClient(i);
-            if (!client->getCommonStatus())
-                continue;
-            client->setStatus(oldStatus, true);
-        }
-        core->setManualStatus(oldStatus);
-        Event e(EventClientStatus);
-        e.process();
-        return;
-    }
-    if (!bAway && !bNA && getEnableAway() && (idle_time > getAwayTime() * 60)){
-        unsigned i;
+        bOff  = false;
+        newStatus = oldStatus;
+    } else
+    if (!bAway && !bNA && getEnableAway() && (idle_time > getAwayTime())){
         unsigned long status = core->getManualStatus();
         if ((status == STATUS_AWAY) || (status == STATUS_NA) || (status == STATUS_OFFLINE))
             return;
         oldStatus = status;
+        newStatus = STATUS_AWAY;
         bAway = true;
-        for (i = 0; i < getContacts()->nClients(); i++){
-            Client *client = getContacts()->getClient(i);
-            if (!client->getCommonStatus())
-                continue;
-            client->setStatus(STATUS_AWAY, true);
-        }
-        core->setManualStatus(STATUS_AWAY);
-        Event e(EventClientStatus);
-        e.process();
-        return;
-    }
-    if (!bNA && getEnableNA() && (idle_time > getNATime() * 60)){
-        unsigned i;
+    } else
+    if (!bNA && getEnableNA() && (idle_time > getNATime())){
         unsigned long status = core->getManualStatus();
         if ((status == STATUS_NA) || (status == STATUS_OFFLINE))
             return;
         if (!bAway)
             oldStatus = status;
         bNA = true;
-        for (i = 0; i < getContacts()->nClients(); i++){
-            Client *client = getContacts()->getClient(i);
-            if (!client->getCommonStatus())
-                continue;
-            client->setStatus(STATUS_NA, true);
-        }
-        core->setManualStatus(STATUS_NA);
-        Event e(EventClientStatus);
-        e.process();
-        return;
+        newStatus = STATUS_NA;
+    } else
+    if (!bOff && getEnableOff() && (idle_time > getOffTime())){
+        unsigned long status = core->getManualStatus();
+        if (status == STATUS_OFFLINE)
+            return;
+        if (!bNA)
+            oldStatus = status;
+        bOff = true;
+        newStatus = STATUS_OFFLINE;
     }
+	for (unsigned i = 0; i < getContacts()->nClients(); i++){
+		Client *client = getContacts()->getClient(i);
+		if (!client->getCommonStatus())
+			continue;
+		client->setStatus(STATUS_AWAY, true);
+	}
+	core->setManualStatus(STATUS_AWAY);
+	Event e(EventClientStatus);
+	e.process();
 }
 
 void *AutoAwayPlugin::processEvent(Event *e)
@@ -211,7 +205,7 @@ unsigned AutoAwayPlugin::getIdleTime()
     _GetLastInputInfo(&lii);
     return (GetTickCount()-lii.dwTime) / 1000;
 #else
-QWidgetList *list = QApplication::topLevelWidgets();
+	QWidgetList *list = QApplication::topLevelWidgets();
     QWidgetListIt it(*list);
     QWidget *w = it.current();
     delete list;

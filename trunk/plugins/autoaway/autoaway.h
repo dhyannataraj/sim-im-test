@@ -26,6 +26,8 @@ typedef struct AutoAwayData
     unsigned		EnableAway;
     unsigned long	NATime;
     unsigned		EnableNA;
+    unsigned long	OffTime;
+    unsigned		EnableOff;
     unsigned		DisableAlert;
 } AutoAwayData;
 
@@ -42,6 +44,8 @@ public:
     PROP_BOOL(EnableAway);
     PROP_ULONG(NATime);
     PROP_BOOL(EnableNA);
+    PROP_ULONG(OffTime);
+    PROP_BOOL(EnableOff);
     PROP_BOOL(DisableAlert);
 protected slots:
     void timeout();
@@ -52,6 +56,7 @@ protected:
     unsigned getIdleTime();
     bool bAway;
     bool bNA;
+    bool bOff;
     CorePlugin *core;
     unsigned long oldStatus;
     QTimer *m_timer;
