@@ -1,3 +1,17 @@
+Version 0.7
+Sending of the messages to several users added
+Add message forwarding
+Add autosplit SMS messages
+Add support keyboard shortcuts
+Add On-Screen display notification about messages and user status
+Work with a history is improved, the speed is increased, search and adjustments is added
+Add message mode for user window
+Is corrected batch file transfer, transfer of several files and recursive directoryes now works
+Direct connection with ICQ-clones is corrected
+Add support secure direct connection with SIM and Licq
+Add support user encoding
+Fix bug with receive bug server-side contact list
+
 Version 0.6
 Proxy support added (SOCKS4, SOCKS5, HTTP)
 Germany translation added
