@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"POT-Creation-Date: 2002-08-02 03:41+0400\n"
+"POT-Creation-Date: 2002-08-04 10:15+0400\n"
 "PO-Revision-Date: 2002-07-24 12:05+0800\n"
 "Last-Translator: 劉盛光 <stacker_liew_200@yahoo.com.tw>\n"
 "Language-Team: zh_TW.Big5 <zh@li.org>\n"
@@ -150,7 +150,7 @@ msgstr "Email"
 msgid "Offline"
 msgstr "離線"
 
-#: client.cpp:462 client.cpp:474 cuser.cpp:203 userview.cpp:887
+#: client.cpp:462 client.cpp:474 cuser.cpp:216 userview.cpp:887
 msgid "Online"
 msgstr "上線"
 
@@ -174,11 +174,11 @@ msgstr "自由聊天"
 msgid "N/A"
 msgstr "N/A"
 
-#: client.cpp:487 mainwin.cpp:1791
+#: client.cpp:487 mainwin.cpp:1798
 msgid "Invisible"
 msgstr "隱形"
 
-#: cuser.cpp:195
+#: cuser.cpp:208
 msgid "Last online"
 msgstr "最後上線"
 
@@ -187,7 +187,7 @@ msgstr "最後上線"
 msgid "%n unread message"
 msgstr "自動回應訊息"
 
-#: dock.cpp:505 mainwin.cpp:1288
+#: dock.cpp:505 mainwin.cpp:1295
 msgid "Connecting"
 msgstr "正在連線"
 
@@ -227,7 +227,7 @@ msgstr "密碼："
 msgid "Use existing UIN"
 msgstr "使用已有的UIN"
 
-#: logindlg.cpp:57 logindlg.cpp:122 mainwin.cpp:1367 passwddlg.cpp:44
+#: logindlg.cpp:57 logindlg.cpp:122 mainwin.cpp:1374 passwddlg.cpp:44
 #: passwddlg.cpp:89 ui/searchbase.cpp:207 ui/searchdlg.cpp:96
 #: ui/setupdlgbase.cpp:95 userbox.cpp:171
 #, fuzzy
@@ -258,183 +258,183 @@ msgstr "比率限制"
 msgid "Invalid password"
 msgstr "不合法的密碼"
 
-#: mainwin.cpp:309
+#: mainwin.cpp:310
 msgid "Current location"
 msgstr "目前所在"
 
-#: mainwin.cpp:310
+#: mainwin.cpp:311
 msgid "Phone status"
 msgstr "電話狀態"
 
-#: mainwin.cpp:312
+#: mainwin.cpp:313
 msgid "Phone Book"
 msgstr "電話簿"
 
-#: mainwin.cpp:326
+#: mainwin.cpp:328
 msgid "Show offline"
 msgstr "顯示離線"
 
-#: mainwin.cpp:330
+#: mainwin.cpp:332
 msgid "Group mode"
 msgstr "群組模式"
 
-#: mainwin.cpp:342
+#: mainwin.cpp:344
 msgid "Menu"
 msgstr "選單"
 
-#: mainwin.cpp:747
+#: mainwin.cpp:754
 msgid "%1 from %2 received"
 msgstr ""
 
-#: mainwin.cpp:809
+#: mainwin.cpp:816
 msgid "Your UIN used from another location"
 msgstr "您的UIN使用自別的所在"
 
-#: mainwin.cpp:854
+#: mainwin.cpp:861
 #, fuzzy
 msgid "User %1 is online"
 msgstr "使用者已上線"
 
-#: mainwin.cpp:1261 mainwin.cpp:1507 msgview.cpp:297
+#: mainwin.cpp:1268 mainwin.cpp:1514 msgview.cpp:297
 msgid "&Yes"
 msgstr "確定(&Y)"
 
-#: mainwin.cpp:1262 mainwin.cpp:1508 msgview.cpp:298
+#: mainwin.cpp:1269 mainwin.cpp:1515 msgview.cpp:298
 msgid "&No"
 msgstr "否定(&N)"
 
-#: mainwin.cpp:1263
+#: mainwin.cpp:1270
 msgid "Add user %1 to ignore list ?"
 msgstr "新增使用者 %1 至忽略名單嗎﹖"
 
-#: mainwin.cpp:1331
+#: mainwin.cpp:1338
 msgid "In visible list"
 msgstr "在可視名單"
 
-#: mainwin.cpp:1333
+#: mainwin.cpp:1340
 msgid "In invisible list"
 msgstr "在不可視名單"
 
-#: mainwin.cpp:1336
+#: mainwin.cpp:1343
 msgid "In ignore list"
 msgstr "在忽略名單"
 
-#: mainwin.cpp:1354 mainwin.cpp:1815
+#: mainwin.cpp:1361 mainwin.cpp:1822
 msgid "Groups"
 msgstr "群組"
 
-#: mainwin.cpp:1355 usertbl.cpp:390 userview.cpp:480
+#: mainwin.cpp:1362 usertbl.cpp:390 userview.cpp:480
 msgid "Delete"
 msgstr ""
 
-#: mainwin.cpp:1359 ui/userinfo.cpp:53 userbox.cpp:163 userbox.cpp:313
+#: mainwin.cpp:1366 ui/userinfo.cpp:53 userbox.cpp:163 userbox.cpp:313
 #: usertbl.cpp:403
 msgid "User info"
 msgstr "使用者資訊"
 
-#: mainwin.cpp:1360 userbox.cpp:168 userbox.cpp:358
+#: mainwin.cpp:1367 userbox.cpp:168 userbox.cpp:358
 msgid "History"
 msgstr "歷程"
 
-#: mainwin.cpp:1363
+#: mainwin.cpp:1370
 msgid "Floating off"
 msgstr "關閉浮動模式"
 
-#: mainwin.cpp:1363
+#: mainwin.cpp:1370
 msgid "Floating on"
 msgstr "打開浮動模式"
 
-#: mainwin.cpp:1366
+#: mainwin.cpp:1373
 msgid "Users"
 msgstr "使用者"
 
-#: mainwin.cpp:1509
+#: mainwin.cpp:1516
 msgid "Delete user %1?"
 msgstr "刪除使用者 %1嗎﹖"
 
-#: mainwin.cpp:1576 msgedit.cpp:769
+#: mainwin.cpp:1583 msgedit.cpp:769
 msgid "New"
 msgstr "新增"
 
-#: mainwin.cpp:1579
+#: mainwin.cpp:1586
 msgid "To container"
 msgstr "至容器"
 
-#: mainwin.cpp:1794
+#: mainwin.cpp:1801
 msgid "Don't show"
 msgstr "不顯示"
 
-#: mainwin.cpp:1795
+#: mainwin.cpp:1802
 msgid "Available"
 msgstr "存在"
 
-#: mainwin.cpp:1796
+#: mainwin.cpp:1803
 msgid "Busy"
 msgstr "忙碌中"
 
-#: mainwin.cpp:1799 userview.cpp:481
+#: mainwin.cpp:1806 userview.cpp:481
 msgid "Create group"
 msgstr "建立群組"
 
-#: mainwin.cpp:1801 userview.cpp:486
+#: mainwin.cpp:1808 userview.cpp:486
 msgid "Expand all"
 msgstr "展開所有"
 
-#: mainwin.cpp:1802 userview.cpp:487
+#: mainwin.cpp:1809 userview.cpp:487
 msgid "Collapse all"
 msgstr "收起所有"
 
-#: mainwin.cpp:1806
+#: mainwin.cpp:1813
 msgid "ICQ"
 msgstr "ICQ"
 
-#: mainwin.cpp:1809
+#: mainwin.cpp:1816
 msgid "Find User"
 msgstr "尋找使用者"
 
-#: mainwin.cpp:1810
+#: mainwin.cpp:1817
 msgid "Add Non-IM contact"
 msgstr "新增非IM連絡人"
 
-#: mainwin.cpp:1812 ui/statussetupbase.cpp:79 usertbl.cpp:113
+#: mainwin.cpp:1819 ui/statussetupbase.cpp:79 usertbl.cpp:113
 msgid "Status"
 msgstr "狀態"
 
-#: mainwin.cpp:1814 ui/setupdlg.cpp:64
+#: mainwin.cpp:1821 ui/setupdlg.cpp:64
 msgid "Setup"
 msgstr "設定"
 
-#: mainwin.cpp:1816
+#: mainwin.cpp:1823
 msgid "Phone \"Follow Me\""
 msgstr "電話\"跟隨我\""
 
-#: mainwin.cpp:1819
+#: mainwin.cpp:1826
 msgid "Always on top"
 msgstr "總是在最上面"
 
-#: mainwin.cpp:1822
+#: mainwin.cpp:1829
 msgid "&Bug report"
 msgstr ""
 
-#: mainwin.cpp:1823
+#: mainwin.cpp:1830
 msgid "&About SIM"
 msgstr ""
 
-#: mainwin.cpp:1825
+#: mainwin.cpp:1832
 msgid "About &KDE"
 msgstr ""
 
-#: mainwin.cpp:1828
+#: mainwin.cpp:1835
 msgid "Quit"
 msgstr ""
 
-#: _translatorinfo.cpp:1 mainwin.cpp:1941
+#: _translatorinfo.cpp:1 mainwin.cpp:1955
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
 msgstr "劉盛光"
 
-#: _translatorinfo.cpp:3 mainwin.cpp:1942
+#: _translatorinfo.cpp:3 mainwin.cpp:1956
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
@@ -979,7 +979,7 @@ msgstr "一般"
 msgid "Password"
 msgstr "密碼"
 
-#: ui/themesetup.cpp:88
+#: ui/themesetup.cpp:90
 msgid "Default icons"
 msgstr ""
 
@@ -1596,6 +1596,10 @@ msgid "Transparent container"
 msgstr "容器透明"
 
 #: ui/themesetupbase.cpp:140
+msgid "Show main window in task manager"
+msgstr ""
+
+#: ui/themesetupbase.cpp:144
 msgid "Show user window in task manager"
 msgstr ""
 
