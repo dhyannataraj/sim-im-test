@@ -35,7 +35,9 @@ MiscSetup::MiscSetup(QWidget *p)
 {
     edtBrowser->setText(QString::fromLocal8Bit(pMain->UrlViewer.c_str()));
     edtMail->setText(QString::fromLocal8Bit(pMain->MailClient.c_str()));
-    
+#ifdef USE_KDE
+    chkSync->setChecked(pMain->AutoSync);
+#endif
     connect(btnSync,SIGNAL(clicked()),this,SLOT(clickedSync()));
 }
 
@@ -44,7 +46,7 @@ void MiscSetup::apply(ICQUser*)
     set(pMain->UrlViewer, edtBrowser->text());
     set(pMain->MailClient, edtMail->text());
 #ifdef USE_KDE
-    pMain->AutoSync=chkSync->isOn();
+    pMain->AutoSync=chkSync->isChecked();
 #endif
 }
 

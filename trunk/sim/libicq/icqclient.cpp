@@ -116,8 +116,9 @@ void ICQClient::storePassword(const char *p)
         if (p[j] == 0) break;
         char c = (p[j] ^ xor_table[j]);
         if (c == 0){
-            EncryptedPassword += "\0";
-        }else{
+            EncryptedPassword += "\\";
+	    c = '0';
+        }else if (c == '\\'){
             EncryptedPassword += "\\";
         }
         EncryptedPassword += c;

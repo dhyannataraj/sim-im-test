@@ -34,6 +34,8 @@
 #include <qpushbutton.h>
 #include <qcombobox.h>
 
+#ifdef WIN32
+
 typedef struct language
 {
     const char *code;
@@ -54,6 +56,8 @@ static language langs[] =
         { "zh_TW", I18N_NOOP("Chinese") },
         { NULL, NULL }
     };
+
+#endif
 
 ThemeSetup::ThemeSetup(QWidget *parent)
         : ThemeSetupBase(parent)
@@ -108,11 +112,7 @@ ThemeSetup::ThemeSetup(QWidget *parent)
 #else
     chkInactive->hide();
 #endif
-    chkDock->setChecked(pMain->UseDock);
-    chkWM->setChecked(pMain->WMDock);
 #ifdef WIN32
-    chkDock->hide();
-    chkWM->hide();
     int n = 0;
     for (const language *l = langs; l->code; l++, n++){
         cmbLang->insertItem(i18n(l->name));
@@ -195,12 +195,6 @@ void ThemeSetup::apply(ICQUser*)
         }
         pMain->changeIcons(0);
     }
-    if ((chkDock->isChecked() != pMain->UseDock) || (chkWM->isChecked() != pMain->WMDock)){
-        pMain->UseDock = chkDock->isChecked();
-        pMain->WMDock = chkWM->isChecked();
-        pMain->setDock();
-    }
-
     if (!TransparentTop::bCanTransparent) return;
 #ifdef WIN32
     pMain->TransparentIfInactive = chkInactive->isChecked();

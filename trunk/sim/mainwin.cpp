@@ -275,14 +275,6 @@ cfgParam MainWindow_Params[] =
         { "ForwardPhone", OFFSET_OF(MainWindow, ForwardPhone), PARAM_STRING, 0 },
         { "SendEnter", OFFSET_OF(MainWindow, SendEnter), PARAM_BOOL, 0 },
         { "AlphabetSort", OFFSET_OF(MainWindow, AlphabetSort), PARAM_BOOL, 0 },
-        { "DockX", OFFSET_OF(MainWindow, DockX), PARAM_SHORT, 0 },
-        { "DockY", OFFSET_OF(MainWindow, DockY), PARAM_SHORT, 0 },
-#ifdef USE_KDE
-        { "UseDock", OFFSET_OF(MainWindow, UseDock), PARAM_BOOL, 1 },
-#else
-        { "UseDock", OFFSET_OF(MainWindow, UseDock), PARAM_BOOL, 0 },
-#endif
-        { "WMDock", OFFSET_OF(MainWindow, WMDock), PARAM_BOOL, 0 },
         { "MonitorX", OFFSET_OF(MainWindow, MonitorX), PARAM_SHORT, 0 },
         { "MonitorY", OFFSET_OF(MainWindow, MonitorY), PARAM_SHORT, 0 },
         { "MonitorWidth", OFFSET_OF(MainWindow, MonitorWidth), PARAM_USHORT, 0 },
@@ -1047,6 +1039,11 @@ bool MainWindow::init()
     }
 #endif
 
+    dock = new DockWnd(this);
+    connect(dock, SIGNAL(showPopup(QPoint)), this, SLOT(showPopup(QPoint)));
+    connect(dock, SIGNAL(toggleWin()), this, SLOT(toggleShow()));
+    connect(dock, SIGNAL(doubleClicked()), this, SLOT(dockDblClicked()));
+
     string part;
     buildFileName(file, SIM_CONF);
     QFile fs(QString::fromLocal8Bit(file.c_str()));
@@ -1058,8 +1055,6 @@ bool MainWindow::init()
     if (ToolBarMsg.size()) emit toolBarChanged(pMsgEditToolBar);
     if (ToolBarHistory.size()) emit toolBarChanged(pHistoryToolBar);
     if (ToolBarUserBox.size()) emit toolBarChanged(pUserBoxToolBar);
-
-    setDock();
 
     if (mLeft < 5) mLeft = 5;
     if (mTop < 5) mTop = 5;
@@ -1454,27 +1449,16 @@ void MainWindow::saveContacts()
 
 bool MainWindow::isDock()
 {
-#if defined(WIN32)
-    return true;
-#else
-    return UseDock;
-#endif
+    return (dock != NULL);
 }
 
-void MainWindow::setDock()
+void MainWindow::disableDock()
 {
     if (dock){
         delete dock;
         dock = NULL;
     }
-    if (isDock()){
-        dock = new DockWnd(this, WMDock);
-        connect(dock, SIGNAL(showPopup(QPoint)), this, SLOT(showPopup(QPoint)));
-        connect(dock, SIGNAL(toggleWin()), this, SLOT(toggleShow()));
-        connect(dock, SIGNAL(doubleClicked()), this, SLOT(dockDblClicked()));
-    }else{
-        setShow(true);
-    }
+    setShow(true);
 }
 
 void MainWindow::dockDblClicked()
@@ -1672,7 +1656,11 @@ void MainWindow::toggleShow()
 {
     if (menuFunction && menuFunction->isVisible()) return;
     if (noToggle) return;
-    setShow(!isShow());
+    if (!isShow() || !isActiveWindow()){
+    	setShow(true);
+    }else{
+	setShow(false);
+    }
     noToggle = true;
     QTimer::singleShot(1000, this, SLOT(setToggle()));
 }
@@ -2908,6 +2896,10 @@ void MainWindow::fillUnread(list<msgInfo> &msgs)
     msgs.sort();
 }
 
+#if !defined(USE_KDE) || (QT_VERSION < 300)
+void resetPlural();
+#endif
+
 void MainWindow::initTranslator()
 {
     if (translator)
@@ -2950,6 +2942,9 @@ void MainWindow::initTranslator()
     qApp->installTranslator(translator);
     appAboutData->setTranslator(I18N_NOOP("_: NAME OF TRANSLATORS\nYour names"),
                                 I18N_NOOP("_: EMAIL OF TRANSLATORS\nYour emails"));
+#if !defined(USE_KDE) || (QT_VERSION < 300)
+    resetPlural();
+#endif
 }
 
 static QString s_tr(const char *s, bool use_tr)

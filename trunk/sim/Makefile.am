@@ -1,10 +1,12 @@
 ####### kdevelop will overwrite this part!!! (begin)##########
-bin_PROGRAMS = sim
+bin_PROGRAMS = sim simctrl
 
 ## INCLUDES were found outside kdevelop specific part
 
+simctrl_SOURCES = simctrl.c
 sim_SOURCES = control.cpp monitor.cpp sockets.cpp tmpl.cpp exec.cpp mgrep.cpp cfg.cpp keys.cpp splash.cpp parse.ll about.cpp xosd.cpp chatwnd.cpp fontedit.cpp transparent.cpp intedit.cpp userview.cpp usertbl.cpp userbox.cpp toolbtn.cpp themes.cpp sim.cpp passwddlg.cpp msgview.cpp msgedit.cpp mainwin.cpp icons.cpp history.cpp editspell.cpp dock.cpp cuser.cpp client.cpp 
-sim_LDADD   = ./libicq/liblibicq.a ./ui/libui.a ./qt3/libqt3.a  $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(LIB_KAB) $(LIBSOCKET)
+sim_LDADD   = ./libicq/liblibicq.a ./ui/libui.a ./qt3/libqt3.a  $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(LIB_KAB) $(LIBSOCKET) $(EXTRA_LIBS)
+simctrl_LDADD = $(LIBSOCKET)
 
 SUBDIRS = libicq ui xpm qt3 
 

@@ -103,50 +103,44 @@ public:
     WharfIcon(DockWnd *parent);
     ~WharfIcon();
     void set(const char *icon, const char *message);
+    bool bActivated;
 protected:
     DockWnd *dock;
-    virtual void enterEvent(QEvent*);
-    virtual void leaveEvent(QEvent*);
     virtual void mousePressEvent(QMouseEvent *);
-    virtual void mouseReleaseEvent(QMouseEvent *);
-    virtual void mouseMoveEvent(QMouseEvent *);
     virtual void mouseDoubleClickEvent(QMouseEvent *e);
     virtual void paintEvent(QPaintEvent *);
+    virtual bool x11Event(XEvent*);
     Window  parentWin;
-    QPoint  mousePos;
     QPixmap *vis;
-    QPixmap *vish;
-    bool highlight;
 };
 
 WharfIcon::WharfIcon(DockWnd *parent)
-        : QWidget(parent, "WharfIcon", WType_TopLevel | WStyle_Customize | WStyle_Tool | WStyle_NoBorder | WStyle_StaysOnTop)
+        : QWidget(parent, "WharfIcon")
 {
     dock = parent;
     setMouseTracking(true);
-    highlight = false;
-    resize(32, 32);
+    resize(48, 48);
     parentWin = 0;
     setBackgroundMode(X11ParentRelative);
     vis = NULL;
-    vish = NULL;
-#ifndef WIN32
-    Display *dsp = x11Display();
-    WId win = winId();
-    XClassHint classhint;
-    classhint.res_name  = (char*)"WharfIcon";
-    classhint.res_class = (char*)"sim";
-    XSetClassHint(dsp, win, &classhint);
-#endif    
-    if (!dock->bWM)
-        move(pMain->DockX, pMain->DockY);
-    show();
+    bActivated = false;
 }
 
 WharfIcon::~WharfIcon()
 {
     if (vis) delete vis;
-    if (vish) delete vish;
+}
+
+bool WharfIcon::x11Event(XEvent *e)
+{
+    if ((e->type == ReparentNotify) && !bActivated){
+	bActivated = true;
+	if (vis) resize(vis->width(), vis->height());
+	repaint(false);
+    }
+    if ((e->type == Expose) && !bActivated)
+        return false;
+    return QWidget::x11Event(e);
 }
 
 #define SMALL_PICT_OFFS	8
@@ -155,8 +149,7 @@ void WharfIcon::set(const char *icon, const char *msg)
 {
     const QIconSet &icons = Icon(icon);
     QPixmap *nvis = new QPixmap(icons.pixmap(QIconSet::Large, QIconSet::Normal));
-    QPixmap *nvish = new QPixmap(icons.pixmap(QIconSet::Large, QIconSet::Active));
-    resize(nvis->width(), nvis->height());
+    if (bActivated) resize(nvis->width(), nvis->height());
     if (msg){
         QPixmap msgPict = Pict(msg);
         QRegion *rgn = NULL;
@@ -171,10 +164,6 @@ void WharfIcon::set(const char *icon, const char *msg)
         p.drawPixmap(nvis->width() - msgPict.width() - SMALL_PICT_OFFS,
                      nvis->height() - msgPict.height() - SMALL_PICT_OFFS, msgPict);
         p.end();
-        p.begin(nvish);
-        p.drawPixmap(nvish->width() - msgPict.width() - SMALL_PICT_OFFS,
-                     nvish->height() - msgPict.height() - SMALL_PICT_OFFS, msgPict);
-        p.end();
         if (rgn){
             setMask(*rgn);
             delete rgn;
@@ -185,40 +174,12 @@ void WharfIcon::set(const char *icon, const char *msg)
     }
     if (vis) delete vis;
     vis = nvis;
-    if (vish) delete vish;
-    vish = nvish;
     repaint();
 }
 
 void WharfIcon::mousePressEvent( QMouseEvent *e)
 {
-    if (!dock->bWM){
-        mousePos = e->pos();
-        grabMouse();
-    }
-}
-
-void WharfIcon::mouseReleaseEvent( QMouseEvent *e)
-{
-    if (!mousePos.isNull()){
-        QPoint p = e->pos();
-        p -= mousePos;
-        if (p.manhattanLength() < 4)
-            dock->mousePressEvent(e);
-    }
-    if (!dock->bWM && !mousePos.isNull()){
-        move(e->globalPos() - mousePos);
-        mousePos = QPoint(0,0);
-        pMain->DockX = x();
-        pMain->DockY = y();
-        releaseMouse();
-    }
-}
-
-void WharfIcon::mouseMoveEvent( QMouseEvent *e)
-{
-    if (!dock->bWM && !mousePos.isNull())
-        move(e->globalPos() - mousePos);
+    dock->mousePressEvent(e);
 }
 
 void WharfIcon::mouseDoubleClickEvent( QMouseEvent *e)
@@ -228,35 +189,19 @@ void WharfIcon::mouseDoubleClickEvent( QMouseEvent *e)
 
 void WharfIcon::paintEvent( QPaintEvent * )
 {
-    QPixmap *p = highlight ? vish : vis;
-    if (p == NULL) return;
+    if (!bActivated) return;
+    if (vis == NULL) return;
     QPainter painter;
     painter.begin(this);
-    painter.drawPixmap(0, 0, *p);
+    painter.drawPixmap(0, 0, *vis);
     painter.end();
 }
 
-void WharfIcon::enterEvent( QEvent *)
-{
-    highlight = true;
-    repaint();
-}
-
-void WharfIcon::leaveEvent( QEvent *)
-{
-    highlight = false;
-    repaint();
-}
-
 #endif
 
-DockWnd::DockWnd(QWidget *main, bool _bWM)
-        : QWidget(NULL, "dock")
+DockWnd::DockWnd(QWidget *main)
+        : QWidget(NULL, "dock",  WType_TopLevel | WStyle_Customize | WStyle_NoBorder)
 {
-#ifndef WIN32
-    wharfIcon = NULL;
-    bWM = _bWM;
-#endif
     connect(this, SIGNAL(toggleWin()), main, SLOT(toggleShow()));
     connect(this, SIGNAL(showPopup(QPoint)), main, SLOT(showPopup(QPoint)));
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
@@ -284,50 +229,45 @@ DockWnd::DockWnd(QWidget *main, bool _bWM)
     notifyIconData.uID = 0;
     Shell_NotifyIconA(NIM_ADD, &notifyIconData);
 #else
-    bool bWharf = true;
-    if (!bWM){
-        setBackgroundMode(X11ParentRelative);
-        const QPixmap &pict = Pict(pClient->getStatusIcon());
-        setIcon(pict);
-#ifdef USE_KDE
-        bWharf = false;
-        resize(24, 24);
-        KWin::setSystemTrayWindowFor( winId(), main->topLevelWidget()->winId());
-        show();
-#endif
-    }
-    if (bWharf) showWharf();
+    wharfIcon = new WharfIcon(this);
+    Display *dsp = x11Display();
+    WId win = winId();
+
+    XClassHint classhint;
+    classhint.res_name  = (char*)"sim";
+    classhint.res_class = (char*)"Wharf";
+    XSetClassHint(dsp, win, &classhint);
+
+    Atom kde_net_system_tray_window_for_atom = XInternAtom(dsp, "_KDE_NET_WM_SYSTEM_TRAY_WINDOW_FOR", false);
+
+    long data[1];
+    data[0] = 0;
+    XChangeProperty(dsp, win, kde_net_system_tray_window_for_atom, XA_WINDOW,
+                    32, PropModeReplace,
+                    (unsigned char*)data, 1);
+
+    XWMHints *hints;
+    hints = XGetWMHints(dsp, win);
+    hints->initial_state = WithdrawnState;
+    hints->icon_x = 0;
+    hints->icon_y = 0;
+    hints->icon_window = wharfIcon->winId();
+    hints->window_group = win;
+    hints->flags = WindowGroupHint | IconWindowHint | IconPositionHint | StateHint;
+    XSetWMHints(dsp, win, hints);
+    XFree( hints );
+    XSetCommand(dsp, win, _argv, _argc);
+
+    setBackgroundMode(X11ParentRelative);
+    const QPixmap &pict = Pict(pClient->getStatusIcon());
+    setIcon(pict);
+    inTray = false;
+    move(-21, -21);
+    resize(22, 22);
+    show();
 #endif
     reset();
 }
-
-#ifndef WIN32
-void DockWnd::showWharf()
-{
-    if (wharfIcon) return;
-    wharfIcon = new WharfIcon(this);
-    if (bWM){
-        Display *dsp = x11Display();
-        WId win = winId();
-        XWMHints *hints;
-        hints = XGetWMHints(dsp, win);
-        hints->initial_state = WithdrawnState;
-        hints->icon_x = 0;
-        hints->icon_y = 0;
-        hints->icon_window = wharfIcon->winId();
-        hints->window_group = win;
-        hints->flags = WindowGroupHint | IconWindowHint | IconPositionHint | StateHint;
-        XSetWMHints(dsp, win, hints);
-        XFree( hints );
-        XSetCommand(dsp, winId(), _argv, _argc);
-        resize(64, 64);
-        show();
-    }else{
-        hide();
-    }
-    wharfIcon->show();
-}
-#endif
 
 DockWnd::~DockWnd()
 {
@@ -344,15 +284,38 @@ DockWnd::~DockWnd()
 #endif
 }
 
+bool DockWnd::x11Event(XEvent *e)
+{
+    if (e->type == ClientMessage){
+        if (!inTray){
+            Atom xembed = XInternAtom( qt_xdisplay(), "_XEMBED", FALSE );
+            if (e->xclient.message_type == xembed){
+                inTray = true;
+                if (wharfIcon){
+                    delete wharfIcon;
+                    wharfIcon = NULL;
+                }
+            }
+        }
+    }
+    if (e->type == Expose){
+        if (inTray){
+            if (wharfIcon){
+                delete wharfIcon;
+                wharfIcon = NULL;
+            }
+        }else if (isVisible()){
+            hide();
+            QTimer::singleShot(0, pMain, SLOT(disableDock()));
+            return true;
+        }
+    }
+    return QWidget::x11Event(e);
+}
+
 void DockWnd::paintEvent( QPaintEvent* )
 {
-    if ((width() != 24) || (height() != 24)){
-        hide();
-#ifndef WIN32
-        showWharf();
-#endif
-        return;
-    }
+    if (!inTray) return;
     QPainter p(this);
     p.drawPixmap((width() - drawIcon.width())/2, (height() - drawIcon.height())/2, drawIcon);
 }

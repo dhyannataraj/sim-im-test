@@ -249,11 +249,6 @@ public:
     bool			SendEnter;
     bool			AlphabetSort;
 
-    short			DockX;
-    short			DockY;
-    bool			UseDock;
-    bool			WMDock;
-
     short			MonitorX;
     short			MonitorY;
     unsigned short	MonitorWidth;
@@ -326,8 +321,6 @@ public:
 
     void fillUnread(list<msgInfo> &msgs);
     list<unread_msg> messages;
-    void setDock();
-    bool isDock();
     void showSearch(bool bSearch);
     bool isSearch();
 
@@ -338,6 +331,7 @@ public:
     bool isUserInfo(unsigned long uin);
 
     void setUserBoxOnTop();
+    bool isDock();
     void saveContacts();
 signals:
     void searchChanged();
@@ -383,6 +377,7 @@ public slots:
     void ftClose();
     void checkChilds();
     void changeToolBar(const ToolBarDef *def);
+    void disableDock();
 protected slots:
     void toggleWindow();
     void realSetStatus();

@@ -38,7 +38,7 @@ class DockWnd : public QWidget
 {
     Q_OBJECT
 public:
-    DockWnd(QWidget *parent, bool bWM);
+    DockWnd(QWidget *parent);
     ~DockWnd();
 #ifdef WIN32
     void callProc(unsigned long);
@@ -54,9 +54,6 @@ protected slots:
     void timer();
     void toggle();
 protected:
-#ifndef WIN32
-    void showWharf();
-#endif
     enum ShowIcon
     {
         State,
@@ -75,7 +72,8 @@ protected:
     void setTip(const QString&);
 #ifndef WIN32
     WharfIcon *wharfIcon;
-    bool bWM;
+    bool x11Event(XEvent*);
+    bool inTray;
 #endif
     friend class WharfIcon;
 };

@@ -333,28 +333,6 @@
                             <string>Show user window in task manager</string>
                         </property>
                     </widget>
-                    <widget row="2"  column="0"  rowspan="1"  colspan="2" >
-                        <class>QCheckBox</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>chkDock</cstring>
-                        </property>
-                        <property stdset="1">
-                            <name>text</name>
-                            <string>Use dock</string>
-                        </property>
-                    </widget>
-                    <widget row="3"  column="0"  rowspan="1"  colspan="2" >
-                        <class>QCheckBox</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>chkWM</cstring>
-                        </property>
-                        <property stdset="1">
-                            <name>text</name>
-                            <string>Use WindowMaker applet</string>
-                        </property>
-                    </widget>
                     <widget row="4"  column="0"  rowspan="1"  colspan="2" >
                         <class>QCheckBox</class>
                         <property stdset="1">
@@ -417,7 +395,7 @@
                         </property>
                         <property stdset="1">
                             <name>text</name>
-                            <string>Lnaguage:</string>
+                            <string>Language:</string>
                         </property>
                         <property stdset="1">
                             <name>alignment</name>

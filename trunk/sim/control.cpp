@@ -31,12 +31,14 @@
 #else
 #include <sys/socket.h>
 #include <sys/time.h>
+#include <sys/un.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netinet/tcp.h>
 #include <netdb.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <pwd.h>
 #endif
 #include <fcntl.h>
 #include <string.h>
@@ -80,7 +82,42 @@ bool ControlListener::bind(const char *addr)
         connect(n, SIGNAL(activated(int)), this, SLOT(activated(int)));
         return true;
     }
+#ifndef WIN32
+    char addr_buf[256];
+    if ((addr == NULL) || (*addr == 0)){
+	uid_t uid = getuid();
+	struct passwd *pwd = getpwuid(uid);
+	if (pwd){
+		snprintf(addr_buf, sizeof(addr_buf), "/tmp/sim.%s", pwd->pw_name);
+	}else{
+		snprintf(addr_buf, sizeof(addr_buf), "/tmp/sim.%u", uid);
+	}
+	addr = addr_buf;
+    }
+    unlink(addr);
+    s = socket(PF_UNIX, SOCK_STREAM, 0);
+    if (s == -1){
+	log(L_WARN, "Can't create control listener");
+	return false;
+    }
+    struct sockaddr_un sun;
+    sun.sun_len = sizeof(sun);
+    sun.sun_family = AF_UNIX;
+    strcpy(sun.sun_path, addr);
+    if (::bind(s, (struct sockaddr*)&sun, sizeof(sun)) < 0){
+	log(L_WARN, "Can't bind %s: %s", addr, strerror(errno));
+	return false;
+    }
+    if (listen(s, 156) < 0){
+	log(L_WARN, "Can't listen %s: %s", addr, strerror(errno));
+	return false;
+    }
+    n = new QSocketNotifier(s, QSocketNotifier::Read);
+    connect(n, SIGNAL(activated(int)), this, SLOT(activated(int)));
+    return true;
+#else
     return false;
+#endif
 }
 
 bool ControlListener::setOptions(int nPort)
@@ -169,10 +206,9 @@ void ControlSocket::error_state(int)
 #define CMD_SMS			3
 #define CMD_MAINWND		4
 #define CMD_SEARCHWND	5
-#define CMD_DOCK		6
-#define CMD_QUIT		7
-#define CMD_CLOSE		8
-#define CMD_HELP		9
+#define CMD_QUIT		6
+#define CMD_CLOSE		7
+#define CMD_HELP		8
 
 typedef struct cmdDef
 {
@@ -191,7 +227,6 @@ static cmdDef cmds[] =
         { "SMS", I18N_NOOP("send SMS"), "SMS <phone> <message>", 2, 2 },
         { "MAINWINDOW", I18N_NOOP("show/hide main window"), "MAINWINDOW [on|off]", 0, 1 },
         { "SEARCHWINDOW", I18N_NOOP("show/hide search window"), "SEARCHWINDOW [on|off]", 0, 1 },
-        { "DOCK", I18N_NOOP("show/hide dock"), "DOCK [on|off]", 0, 1 },
         { "QUIT", I18N_NOOP("quit SIM"), "QUIT", 0, 0 },
         { "CLOSE", I18N_NOOP("close session"), "CLOSE", 0, 0 },
         { "HELP", I18N_NOOP("command help information"), "HELP [<cmd>]", 0, 1 }
@@ -317,20 +352,6 @@ void ControlSocket::read_ready()
             }
             write("SEARCHWINDOW ");
             write(pMain->isSearch() ? "on" : "off");
-        }
-        break;
-    case CMD_DOCK:
-        if (pMain){
-            if (nArgs){
-                arg = args[1].upper();
-                bool bDock = (arg != "OFF") && (arg != "0");
-                if (bDock != pMain->isDock()){
-                    pMain->UseDock = bDock;
-                    pMain->setDock();
-                }
-            }
-            write("DOCK ");
-            write(pMain->isDock() ? "on" : "off");
         }
         break;
     case CMD_QUIT:

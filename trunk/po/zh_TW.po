@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: zh_TV\n"
-"POT-Creation-Date: 2002-11-30 01:58+0300\n"
+"POT-Creation-Date: 2002-12-02 00:16+0300\n"
 "PO-Revision-Date: 2002-07-24 12:05+0800\n"
 "Last-Translator: 劉盛光 <stacker_liew_200@yahoo.com.tw>\n"
 "Language-Team: zh_TW.Big5 <zh@li.org>\n"
@@ -42,7 +42,7 @@ msgstr ""
 msgid "Catalan"
 msgstr ""
 
-#: libicq/country.cpp:13 ui/themesetup.cpp:54
+#: libicq/country.cpp:13 ui/themesetup.cpp:56
 msgid "Chinese"
 msgstr ""
 
@@ -50,7 +50,7 @@ msgstr ""
 msgid "Croatian"
 msgstr ""
 
-#: libicq/country.cpp:15 ui/themesetup.cpp:47
+#: libicq/country.cpp:15 ui/themesetup.cpp:49
 msgid "Czech"
 msgstr ""
 
@@ -62,7 +62,7 @@ msgstr ""
 msgid "Dutch"
 msgstr ""
 
-#: libicq/country.cpp:18 ui/themesetup.cpp:46
+#: libicq/country.cpp:18 ui/themesetup.cpp:48
 msgid "English"
 msgstr ""
 
@@ -92,7 +92,7 @@ msgstr ""
 msgid "Gaelic"
 msgstr "斜體"
 
-#: libicq/country.cpp:25 ui/themesetup.cpp:48
+#: libicq/country.cpp:25 ui/themesetup.cpp:50
 #, fuzzy
 msgid "German"
 msgstr "接受(&G)"
@@ -122,7 +122,7 @@ msgstr ""
 msgid "Indonesian"
 msgstr ""
 
-#: libicq/country.cpp:32 ui/themesetup.cpp:50
+#: libicq/country.cpp:32 ui/themesetup.cpp:52
 #, fuzzy
 msgid "Italian"
 msgstr "斜體"
@@ -174,7 +174,7 @@ msgstr ""
 msgid "Romanian"
 msgstr ""
 
-#: libicq/country.cpp:44 ui/themesetup.cpp:51
+#: libicq/country.cpp:44 ui/themesetup.cpp:53
 msgid "Russian"
 msgstr ""
 
@@ -195,7 +195,7 @@ msgstr "正在傳送"
 msgid "Somali"
 msgstr ""
 
-#: libicq/country.cpp:49 ui/themesetup.cpp:49
+#: libicq/country.cpp:49 ui/themesetup.cpp:51
 msgid "Spanish"
 msgstr ""
 
@@ -219,11 +219,11 @@ msgstr ""
 msgid "Thai"
 msgstr ""
 
-#: client.cpp:96 client.cpp:97 libicq/country.cpp:55 ui/themesetup.cpp:52
+#: client.cpp:96 client.cpp:97 libicq/country.cpp:55 ui/themesetup.cpp:54
 msgid "Turkish"
 msgstr ""
 
-#: client.cpp:99 libicq/country.cpp:56 ui/themesetup.cpp:53
+#: client.cpp:99 libicq/country.cpp:56 ui/themesetup.cpp:55
 msgid "Ukrainian"
 msgstr ""
 
@@ -1721,214 +1721,224 @@ msgstr "Uin:"
 msgid "Last online"
 msgstr "最後上線"
 
-#: client.cpp:1075 cuser.cpp:215 userview.cpp:1005
+#: client.cpp:1075 cuser.cpp:215 userview.cpp:1017
 msgid "Online"
 msgstr "上線"
 
-#: dock.cpp:487 mainwin.cpp:756
+#: dock.cpp:450 mainwin.cpp:795
 msgid "%1 from %2"
 msgstr ""
 
-#: dock.cpp:500 mainwin.cpp:1922
+#: dock.cpp:463 mainwin.cpp:1952
 msgid "Connecting"
 msgstr "正在連線"
 
-#: editspell.cpp:307 ui/setupdlg.cpp:145
-msgid "Spell check"
-msgstr "拼字檢查"
+#: mainwin.cpp:436 monitor.cpp:133
+msgid "Error"
+msgstr ""
 
-#: mainwin.cpp:528
+#: mainwin.cpp:437
+msgid ""
+"There is already an auto hidden window on this edge.\n"
+"Only one auto hidden window is allowed on each edge."
+msgstr ""
+
+#: mainwin.cpp:552
 #, fuzzy
 msgid "Show &offline"
 msgstr "顯示離線"
 
-#: mainwin.cpp:529
+#: mainwin.cpp:553
 #, fuzzy
 msgid "&Group mode"
 msgstr "群組模式"
 
-#: mainwin.cpp:531 mainwin.cpp:2818 usertbl.cpp:113
+#: mainwin.cpp:555 mainwin.cpp:2700 usertbl.cpp:113
 msgid "Status"
 msgstr "狀態"
 
-#: mainwin.cpp:532
+#: mainwin.cpp:556
 #, fuzzy
 msgid "&Menu"
 msgstr "選單"
 
-#: mainwin.cpp:534 mainwin.cpp:2814
+#: mainwin.cpp:558 mainwin.cpp:2696
 msgid "Find User"
 msgstr "尋找使用者"
 
-#: mainwin.cpp:535 mainwin.cpp:2815
+#: mainwin.cpp:559 mainwin.cpp:2697
 msgid "Add Non-IM contact"
 msgstr "新增非IM連絡人"
 
-#: mainwin.cpp:536 mainwin.cpp:2816
+#: mainwin.cpp:560 mainwin.cpp:2698
 #, fuzzy
 msgid "Send SMS"
 msgstr "傳送(&S)"
 
-#: mainwin.cpp:537 mainwin.cpp:2820 ui/setupdlg.cpp:104
+#: mainwin.cpp:561 mainwin.cpp:2702 ui/setupdlg.cpp:104
 msgid "Setup"
 msgstr "設定"
 
-#: mainwin.cpp:538 mainwin.cpp:2835 monitor.cpp:59
+#: mainwin.cpp:562 mainwin.cpp:2713 monitor.cpp:59
 #, fuzzy
 msgid "Network monitor"
 msgstr "網路"
 
-#: mainwin.cpp:619
+#: mainwin.cpp:643
 msgid "Current location"
 msgstr "目前所在"
 
-#: mainwin.cpp:620
+#: mainwin.cpp:644
 msgid "Phone status"
 msgstr "電話狀態"
 
-#: mainwin.cpp:622
+#: mainwin.cpp:646
 msgid "Phone Book"
 msgstr "電話簿"
 
-#: mainwin.cpp:1183
+#: mainwin.cpp:808
+msgid "AutoHide"
+msgstr ""
+
+#: mainwin.cpp:1219
 msgid "%1 from %2 received"
 msgstr ""
 
-#: mainwin.cpp:1219 ui/logindlg.cpp:140
+#: mainwin.cpp:1255 ui/logindlg.cpp:140
 msgid "Can't connect to proxy server"
 msgstr ""
 
-#: mainwin.cpp:1225 ui/logindlg.cpp:147
+#: mainwin.cpp:1261 ui/logindlg.cpp:147
 #, fuzzy
 msgid "Proxy server require authorization"
 msgstr "授權"
 
-#: mainwin.cpp:1226 ui/logindlg.cpp:148
+#: mainwin.cpp:1262 ui/logindlg.cpp:148
 #, fuzzy
 msgid "Invalid password for proxy"
 msgstr "不合法的密碼"
 
-#: mainwin.cpp:1239
+#: mainwin.cpp:1275
 msgid "Your UIN used from another location"
 msgstr "您的UIN使用自別的所在"
 
-#: mainwin.cpp:1293
+#: mainwin.cpp:1329
 #, fuzzy
 msgid "%1 is online"
 msgstr "已經上線"
 
-#: mainwin.cpp:1898 mainwin.cpp:2229 ui/enable.cpp:122
+#: mainwin.cpp:1928 mainwin.cpp:2259 ui/enable.cpp:122
 msgid "&Yes"
 msgstr "確定(&Y)"
 
-#: mainwin.cpp:1899 mainwin.cpp:2230 ui/enable.cpp:126
+#: mainwin.cpp:1929 mainwin.cpp:2260 ui/enable.cpp:126
 msgid "&No"
 msgstr "否定(&N)"
 
-#: mainwin.cpp:1900
+#: mainwin.cpp:1930
 #, fuzzy
 msgid "Add %1 to ignore list ?"
 msgstr "新增使用者 %1 至忽略名單嗎﹖"
 
-#: mainwin.cpp:1964
+#: mainwin.cpp:1994
 msgid "In visible list"
 msgstr "在可視名單"
 
-#: mainwin.cpp:1966
+#: mainwin.cpp:1996
 msgid "In invisible list"
 msgstr "在不可視名單"
 
-#: mainwin.cpp:1969
+#: mainwin.cpp:1999
 msgid "In ignore list"
 msgstr "在忽略名單"
 
-#: mainwin.cpp:1985 mainwin.cpp:2821
+#: mainwin.cpp:2015 mainwin.cpp:2703
 msgid "Groups"
 msgstr "群組"
 
-#: mainwin.cpp:1986 usertbl.cpp:391 userview.cpp:1353
+#: mainwin.cpp:2016 usertbl.cpp:391 userview.cpp:1365
 #, fuzzy
 msgid "Delete"
 msgstr "拒絕(&D)"
 
-#: mainwin.cpp:1987 userview.cpp:557 userview.cpp:1354
+#: mainwin.cpp:2017 userview.cpp:569 userview.cpp:1366
 #, fuzzy
 msgid ""
 "_: Del\n"
 "Delete"
 msgstr "拒絕(&D)"
 
-#: mainwin.cpp:1991
+#: mainwin.cpp:2021
 #, fuzzy
 msgid "&User info"
 msgstr "使用者資訊"
 
-#: mainwin.cpp:1992
+#: mainwin.cpp:2022
 msgid ""
 "_: Ctrl+U\n"
 "UserInfo"
 msgstr ""
 
-#: mainwin.cpp:1993
+#: mainwin.cpp:2023
 #, fuzzy
 msgid "&History"
 msgstr "歷程"
 
-#: mainwin.cpp:1994
+#: mainwin.cpp:2024
 msgid ""
 "_: Ctrl+H\n"
 "History"
 msgstr ""
 
-#: mainwin.cpp:1996 ui/setupdlg.cpp:136 ui/userinfo.cpp:90
+#: mainwin.cpp:2026 ui/setupdlg.cpp:136 ui/userinfo.cpp:90
 msgid "Alert"
 msgstr "警示"
 
-#: mainwin.cpp:1997
+#: mainwin.cpp:2027
 msgid ""
 "_: Ctrl+L\n"
 "Alert"
 msgstr ""
 
-#: mainwin.cpp:1998 ui/acceptbase.cpp:179
+#: mainwin.cpp:2028 ui/acceptbase.cpp:179
 msgid "Accept mode"
 msgstr "接受模式"
 
-#: mainwin.cpp:1999
+#: mainwin.cpp:2029
 msgid ""
 "_: Ctrl+A\n"
 "Accept"
 msgstr ""
 
-#: mainwin.cpp:2000 ui/setupdlg.cpp:135 ui/userinfo.cpp:92
+#: mainwin.cpp:2030 ui/setupdlg.cpp:135 ui/userinfo.cpp:92
 msgid "Sound"
 msgstr "音效"
 
-#: mainwin.cpp:2001
+#: mainwin.cpp:2031
 msgid ""
 "_: Ctrl+S\n"
 "Sound"
 msgstr ""
 
-#: mainwin.cpp:2004
+#: mainwin.cpp:2034
 msgid "Floating off"
 msgstr "關閉浮動模式"
 
-#: mainwin.cpp:2004
+#: mainwin.cpp:2034
 msgid "Floating on"
 msgstr "打開浮動模式"
 
-#: mainwin.cpp:2005
+#: mainwin.cpp:2035
 msgid ""
 "_: Ctrl+T\n"
 "Floating"
 msgstr ""
 
-#: mainwin.cpp:2008
+#: mainwin.cpp:2038
 msgid "Users"
 msgstr "使用者"
 
-#: mainwin.cpp:2009 ui/aboutdlgbase.cpp:156 ui/enable.cpp:125
+#: mainwin.cpp:2039 ui/aboutdlgbase.cpp:156 ui/enable.cpp:125
 #: ui/filetransfer.cpp:156 ui/finddlgbase.cpp:66 ui/logindlgbase.cpp:115
 #: ui/proxydlgbase.cpp:172 ui/securedlg.cpp:56 ui/setupdlgbase.cpp:122
 #: ui/toolsetupbase.cpp:136 ui/userautoreply.cpp:76
@@ -1936,140 +1946,136 @@ msgstr "使用者"
 msgid "&Close"
 msgstr "Закрыть через"
 
-#: mainwin.cpp:2010
+#: mainwin.cpp:2040
 msgid ""
 "_: Ctrl+C\n"
 "Close"
 msgstr ""
 
-#: mainwin.cpp:2012
+#: mainwin.cpp:2042
 msgid "Alphabetically sort"
 msgstr ""
 
-#: mainwin.cpp:2013
+#: mainwin.cpp:2043
 msgid ""
 "_: Ctrl+B\n"
 "Alphabetically sort"
 msgstr ""
 
-#: mainwin.cpp:2231
+#: mainwin.cpp:2261
 #, fuzzy
 msgid "Delete %1?"
 msgstr "刪除使用者 %1嗎﹖"
 
-#: mainwin.cpp:2410
+#: mainwin.cpp:2440
 msgid "New"
 msgstr "新增"
 
-#: mainwin.cpp:2413
+#: mainwin.cpp:2443
 msgid "To container"
 msgstr "至容器"
 
-#: mainwin.cpp:2418
+#: mainwin.cpp:2448
 #, fuzzy
 msgid "Read %1 message"
 msgstr "自動回應訊息"
 
-#: client.cpp:1088 mainwin.cpp:2796
+#: client.cpp:1088 mainwin.cpp:2678
 msgid "Invisible"
 msgstr "隱形"
 
-#: mainwin.cpp:2799
+#: mainwin.cpp:2681
 msgid "Don't show"
 msgstr "不顯示"
 
-#: mainwin.cpp:2800
+#: mainwin.cpp:2682
 msgid "Available"
 msgstr "存在"
 
-#: mainwin.cpp:2801
+#: mainwin.cpp:2683
 msgid "Busy"
 msgstr "忙碌中"
 
-#: mainwin.cpp:2804 userview.cpp:1355
+#: mainwin.cpp:2686 userview.cpp:1367
 msgid "Create group"
 msgstr "建立群組"
 
-#: mainwin.cpp:2806 userview.cpp:1364
+#: mainwin.cpp:2688 userview.cpp:1376
 msgid "Expand all"
 msgstr "展開所有"
 
-#: mainwin.cpp:2807 userview.cpp:1366
+#: mainwin.cpp:2689 userview.cpp:1378
 msgid "Collapse all"
 msgstr "收起所有"
 
-#: mainwin.cpp:2809 toolbtn.cpp:684
+#: mainwin.cpp:2691 toolbtn.cpp:679
 msgid "Customize toolbar..."
 msgstr ""
 
-#: mainwin.cpp:2812
+#: mainwin.cpp:2694
 msgid "ICQ"
 msgstr "ICQ"
 
-#: mainwin.cpp:2822
+#: mainwin.cpp:2704
 msgid "Phone \"Follow Me\""
 msgstr "電話\"跟隨我\""
 
-#: mainwin.cpp:2824
+#: mainwin.cpp:2706
 #, fuzzy
 msgid "Shared files"
 msgstr "傳送失敗"
 
-#: mainwin.cpp:2828
+#: mainwin.cpp:2710
 msgid "Always on top"
 msgstr "總是在最上面"
 
-#: mainwin.cpp:2832
-msgid "Synchronize with KDE address book"
-msgstr ""
-
-#: mainwin.cpp:2836
+#: mainwin.cpp:2714
 msgid "&Bug report"
 msgstr ""
 
-#: mainwin.cpp:2837
+#: mainwin.cpp:2715
 #, fuzzy
 msgid "&About SIM"
 msgstr "關於資訊"
 
-#: mainwin.cpp:2839
+#: mainwin.cpp:2717
 #, fuzzy
 msgid "About &KDE"
 msgstr "關於資訊"
 
-#: mainwin.cpp:2842
+#: mainwin.cpp:2720
 msgid "Quit"
 msgstr ""
 
-#: _translatorinfo.cpp:1 mainwin.cpp:3061
+#: _translatorinfo.cpp:1 mainwin.cpp:2943
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
 msgstr "劉盛光"
 
-#: _translatorinfo.cpp:3 mainwin.cpp:3062
+#: _translatorinfo.cpp:3 mainwin.cpp:2944
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
 msgstr "stacker_liew_200@yahoo.com.tw"
 
-#: mainwin.cpp:3085
+#: mainwin.cpp:2970
 msgid "light"
 msgstr "細"
 
-#: mainwin.cpp:3089
+#: mainwin.cpp:2974
 msgid "demibold"
 msgstr "半粗"
 
-#: mainwin.cpp:3093
+#: mainwin.cpp:2978
 msgid "bold"
 msgstr "粗"
 
-#: mainwin.cpp:3097
+#: mainwin.cpp:2982
 msgid "black"
 msgstr "黑"
 
-#: mainwin.cpp:3104
+#: mainwin.cpp:2989
 msgid "italic"
 msgstr "斜體"
 
@@ -2349,28 +2355,28 @@ msgid ""
 "Definition of PluralForm - to be set by the translator of kdelibs.po"
 msgstr "NoPlural"
 
-#: sim.cpp:288
+#: sim.cpp:294
 #, fuzzy
 msgid "SIM"
 msgstr "SMS"
 
-#: sim.cpp:290
+#: sim.cpp:296
 msgid "ICQ client"
 msgstr "ICQ客戶端"
 
-#: sim.cpp:297
+#: sim.cpp:303
 msgid "Maintainer"
 msgstr "維護者"
 
-#: sim.cpp:304
+#: sim.cpp:310
 msgid "Directory for files"
 msgstr "放檔案的目錄"
 
-#: sim.cpp:305
+#: sim.cpp:311
 msgid "Loglevel"
 msgstr "記錄等級"
 
-#: sim.cpp:306
+#: sim.cpp:312
 msgid "Control socket"
 msgstr ""
 
@@ -2422,20 +2428,20 @@ msgstr "當上線時開啟使用者視窗"
 msgid "All encodings"
 msgstr "正在傳送"
 
-#: userbox.cpp:354
+#: userbox.cpp:355
 #, fuzzy
 msgid "All users"
 msgstr "Добавить пользователя"
 
-#: ui/userinfo.cpp:73 userbox.cpp:403 usertbl.cpp:405
+#: ui/userinfo.cpp:73 userbox.cpp:404 usertbl.cpp:405
 msgid "User info"
 msgstr "使用者資訊"
 
-#: userbox.cpp:454
+#: userbox.cpp:455
 msgid "History"
 msgstr "歷程"
 
-#: userbox.cpp:1112
+#: userbox.cpp:1113
 #, fuzzy
 msgid "History loading"
 msgstr "歷程"
@@ -2473,34 +2479,34 @@ msgstr "新增所有"
 msgid "Add to group"
 msgstr "新增群組"
 
-#: userview.cpp:407 userview.cpp:1011
+#: userview.cpp:418 userview.cpp:1023
 msgid "Not in list"
 msgstr "不在名單中"
 
-#: userview.cpp:559 userview.cpp:1356
+#: userview.cpp:571 userview.cpp:1368
 #, fuzzy
 msgid ""
 "_: Ctrl+N\n"
 "Create group"
 msgstr "建立群組"
 
-#: userview.cpp:688 userview.cpp:704
+#: userview.cpp:700 userview.cpp:716
 msgid "New group"
 msgstr "新群組"
 
-#: client.cpp:1069 userview.cpp:1008
+#: client.cpp:1069 userview.cpp:1020
 msgid "Offline"
 msgstr "離線"
 
-#: userview.cpp:1351
+#: userview.cpp:1363
 msgid "Rename"
 msgstr "更名"
 
-#: userview.cpp:1359
+#: userview.cpp:1371
 msgid "Up"
 msgstr "向上"
 
-#: userview.cpp:1361
+#: userview.cpp:1373
 msgid "Down"
 msgstr "向下"
 
@@ -2836,6 +2842,10 @@ msgstr "SMS"
 msgid "Miscellaneous"
 msgstr "雜項"
 
+#: editspell.cpp:307 ui/setupdlg.cpp:145
+msgid "Spell check"
+msgstr "拼字檢查"
+
 #: ui/setupdlg.cpp:148
 msgid "Auto reply"
 msgstr "自動回應"
@@ -2848,7 +2858,7 @@ msgstr "保全"
 msgid "General"
 msgstr "一般"
 
-#: ui/themesetup.cpp:45
+#: ui/themesetup.cpp:47
 msgid "System"
 msgstr ""
 
@@ -2886,7 +2896,7 @@ msgstr "電郵："
 msgid "Age:"
 msgstr "年齡："
 
-#: ui/searchbase.cpp:283
+#: ui/searchbase.cpp:283 ui/themesetupbase.cpp:201
 msgid "Language:"
 msgstr "語言："
 
@@ -2954,7 +2964,7 @@ msgid "All buttons:"
 msgstr ""
 
 #: ui/keysetupbase.cpp:148 ui/phonebookbase.cpp:124 ui/setupdlgbase.cpp:117
-#: ui/themesetupbase.cpp:191 ui/themesetupbase.cpp:195
+#: ui/themesetupbase.cpp:183 ui/themesetupbase.cpp:187
 #: ui/toolsetupbase.cpp:126 ui/toolsetupbase.cpp:131 ui/userinfobase.cpp:151
 msgid "New Item"
 msgstr "新項目"
@@ -3004,7 +3014,7 @@ msgstr ""
 #: ui/pastinfobase.cpp:154 ui/phonebase.cpp:152 ui/phonebookbase.cpp:119
 #: ui/setupdlgbase.cpp:113 ui/smssetupbase.cpp:122 ui/soundsetupbase.cpp:227
 #: ui/spellsetupbase.cpp:108 ui/statussetupbase.cpp:139
-#: ui/themesetupbase.cpp:188 ui/userinfobase.cpp:147 ui/xosdbase.cpp:94
+#: ui/themesetupbase.cpp:180 ui/userinfobase.cpp:147 ui/xosdbase.cpp:94
 msgid "Form1"
 msgstr "表格1"
 
@@ -3540,9 +3550,9 @@ msgstr "瀏覽器程式路徑："
 msgid "Email client:"
 msgstr "電郵客戶端："
 
-#: ui/miscsetupbase.cpp:152
+#: ui/miscsetupbase.cpp:152 ui/themesetupbase.cpp:202
 #, fuzzy
-msgid "&Miscelanious"
+msgid "&Miscellaneous"
 msgstr "雜項"
 
 #: ui/miscsetupbase.cpp:153
@@ -3620,7 +3630,7 @@ msgid "UseArts"
 msgstr "使用者"
 
 #: ui/soundsetupbase.cpp:242
-msgid "&Program"
+msgid "&Programm"
 msgstr ""
 
 #: ui/phonebookbase.cpp:120
@@ -3701,92 +3711,73 @@ msgstr "地點："
 msgid "&Occupation"
 msgstr "職業："
 
-#: ui/themesetupbase.cpp:189
+#: ui/themesetupbase.cpp:181
 msgid "Select style:"
 msgstr "選擇風格："
 
-#: ui/themesetupbase.cpp:192
+#: ui/themesetupbase.cpp:184
 #, fuzzy
 msgid "&Style"
 msgstr "風格"
 
-#: ui/themesetupbase.cpp:193
+#: ui/themesetupbase.cpp:185
 #, fuzzy
 msgid "Icons:"
 msgstr "連線"
 
-#: ui/themesetupbase.cpp:196
+#: ui/themesetupbase.cpp:188
 #, fuzzy
 msgid "Add icons"
 msgstr "新增電話"
 
-#: ui/themesetupbase.cpp:197
+#: ui/themesetupbase.cpp:189
 #, fuzzy
 msgid "&Icons"
 msgstr "連線"
 
-#: ui/themesetupbase.cpp:198
+#: ui/themesetupbase.cpp:190
 msgid "Transparent main window"
 msgstr "主視窗透明"
 
-#: ui/themesetupbase.cpp:199 ui/themesetupbase.cpp:201
+#: ui/themesetupbase.cpp:191 ui/themesetupbase.cpp:193
 msgid "Transparency"
 msgstr "透明化"
 
-#: ui/themesetupbase.cpp:200
+#: ui/themesetupbase.cpp:192
 msgid "Transparent container"
 msgstr "容器透明"
 
-#: ui/themesetupbase.cpp:202
+#: ui/themesetupbase.cpp:194
 #, fuzzy
 msgid "Transparent only if inactive"
 msgstr "容器透明"
 
-#: ui/themesetupbase.cpp:203
+#: ui/themesetupbase.cpp:195
 #, fuzzy
 msgid "&Transparency"
 msgstr "透明化"
 
-#: ui/themesetupbase.cpp:204
+#: ui/themesetupbase.cpp:196
 msgid "Show main window in task manager"
 msgstr ""
 
-#: ui/themesetupbase.cpp:205
+#: ui/themesetupbase.cpp:197
 msgid "Show user window in task manager"
 msgstr ""
 
-#: ui/themesetupbase.cpp:206
-#, fuzzy
-msgid "Use dock"
-msgstr "使用者"
-
-#: ui/themesetupbase.cpp:207
-msgid "Use WindowMaker applet"
-msgstr ""
-
-#: ui/themesetupbase.cpp:208
+#: ui/themesetupbase.cpp:198
 #, fuzzy
 msgid "User window stays on &top"
 msgstr "使用者資訊"
 
-#: ui/themesetupbase.cpp:209
+#: ui/themesetupbase.cpp:199
 #, fuzzy
 msgid "&Show splash window"
 msgstr "當上線時開啟使用者視窗"
 
-#: ui/themesetupbase.cpp:210
+#: ui/themesetupbase.cpp:200
 msgid "Use emotional &icons"
 msgstr ""
-
-#: ui/themesetupbase.cpp:211
-#, fuzzy
-msgid "Lnaguage:"
-msgstr "語言："
-
-#: ui/themesetupbase.cpp:212
-#, fuzzy
-msgid "&Miscellaneous"
-msgstr "雜項"
 
 #: ui/statussetupbase.cpp:140
 #, fuzzy
@@ -4148,7 +4139,7 @@ msgstr ""
 msgid "Change password"
 msgstr "變更密碼"
 
-#: ui/toolsetup.cpp:63 ui/toolsetup.cpp:133 ui/toolsetup.cpp:160
+#: ui/toolsetup.cpp:63 ui/toolsetup.cpp:132 ui/toolsetup.cpp:159
 msgid "Separator"
 msgstr ""
 
@@ -4477,76 +4468,83 @@ msgid "&Log"
 msgstr "登入"
 
 #: monitor.cpp:133
-msgid "Error"
-msgstr ""
-
-#: monitor.cpp:133
 #, fuzzy, c-format
 msgid "Can't create file %1"
 msgstr "無法建立%1"
 
-#: control.cpp:188
+#: control.cpp:224
 #, fuzzy
 msgid "set status"
 msgstr "電話狀態"
 
-#: control.cpp:189
+#: control.cpp:225
 #, fuzzy
 msgid "set invisible mode"
 msgstr "在不可視名單"
 
-#: control.cpp:190
+#: control.cpp:226
 #, fuzzy
 msgid "send message"
 msgstr "自動回應訊息"
 
-#: control.cpp:191
+#: control.cpp:227
 #, fuzzy
 msgid "send SMS"
 msgstr "傳送(&S)"
 
-#: control.cpp:192
+#: control.cpp:228
 #, fuzzy
 msgid "show/hide main window"
 msgstr "當上線時開啟使用者視窗"
 
-#: control.cpp:193
+#: control.cpp:229
 #, fuzzy
 msgid "show/hide search window"
 msgstr "當上線時開啟使用者視窗"
 
-#: control.cpp:194
-#, fuzzy
-msgid "show/hide dock"
-msgstr "使用者"
-
-#: control.cpp:195
+#: control.cpp:230
 #, fuzzy
 msgid "quit SIM"
 msgstr "關於資訊"
 
-#: control.cpp:196
+#: control.cpp:231
 msgid "close session"
 msgstr ""
 
-#: control.cpp:197
+#: control.cpp:232
 msgid "command help information"
 msgstr ""
 
-#: control.cpp:258
+#: control.cpp:293
 #, c-format
 msgid "? Unknown command %1"
 msgstr ""
 
-#: control.cpp:266
+#: control.cpp:301
 #, c-format
 msgid "? Bad arguments number. Try help %1"
 msgstr ""
 
-#: control.cpp:281
+#: control.cpp:316
 #, c-format
 msgid "? Unknown status %1"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Lnaguage:"
+#~ msgstr "語言："
+
+#, fuzzy
+#~ msgid "&Miscelanious"
+#~ msgstr "雜項"
+
+#, fuzzy
+#~ msgid "Use dock"
+#~ msgstr "使用者"
+
+#, fuzzy
+#~ msgid "show/hide dock"
+#~ msgstr "使用者"
 
 #~ msgid "Accept file"
 #~ msgstr "接受檔案"

@@ -130,6 +130,12 @@ static void initPlural()
         plural_form = 10;
 }
 
+void resetPlural()
+{
+    nPlural = -1;
+    initPlural();
+}
+
 QString put_n_in(const QString &orig, unsigned long n)
 {
     QString ret = orig;

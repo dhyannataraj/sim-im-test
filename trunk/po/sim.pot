@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-11-30 01:58+0300\n"
+"POT-Creation-Date: 2002-12-02 00:16+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,7 +38,7 @@ msgstr ""
 msgid "Catalan"
 msgstr ""
 
-#: libicq/country.cpp:13 ui/themesetup.cpp:54
+#: libicq/country.cpp:13 ui/themesetup.cpp:56
 msgid "Chinese"
 msgstr ""
 
@@ -46,7 +46,7 @@ msgstr ""
 msgid "Croatian"
 msgstr ""
 
-#: libicq/country.cpp:15 ui/themesetup.cpp:47
+#: libicq/country.cpp:15 ui/themesetup.cpp:49
 msgid "Czech"
 msgstr ""
 
@@ -58,7 +58,7 @@ msgstr ""
 msgid "Dutch"
 msgstr ""
 
-#: libicq/country.cpp:18 ui/themesetup.cpp:46
+#: libicq/country.cpp:18 ui/themesetup.cpp:48
 msgid "English"
 msgstr ""
 
@@ -86,7 +86,7 @@ msgstr ""
 msgid "Gaelic"
 msgstr ""
 
-#: libicq/country.cpp:25 ui/themesetup.cpp:48
+#: libicq/country.cpp:25 ui/themesetup.cpp:50
 msgid "German"
 msgstr ""
 
@@ -114,7 +114,7 @@ msgstr ""
 msgid "Indonesian"
 msgstr ""
 
-#: libicq/country.cpp:32 ui/themesetup.cpp:50
+#: libicq/country.cpp:32 ui/themesetup.cpp:52
 msgid "Italian"
 msgstr ""
 
@@ -162,7 +162,7 @@ msgstr ""
 msgid "Romanian"
 msgstr ""
 
-#: libicq/country.cpp:44 ui/themesetup.cpp:51
+#: libicq/country.cpp:44 ui/themesetup.cpp:53
 msgid "Russian"
 msgstr ""
 
@@ -182,7 +182,7 @@ msgstr ""
 msgid "Somali"
 msgstr ""
 
-#: libicq/country.cpp:49 ui/themesetup.cpp:49
+#: libicq/country.cpp:49 ui/themesetup.cpp:51
 msgid "Spanish"
 msgstr ""
 
@@ -206,11 +206,11 @@ msgstr ""
 msgid "Thai"
 msgstr ""
 
-#: client.cpp:96 client.cpp:97 libicq/country.cpp:55 ui/themesetup.cpp:52
+#: client.cpp:96 client.cpp:97 libicq/country.cpp:55 ui/themesetup.cpp:54
 msgid "Turkish"
 msgstr ""
 
-#: client.cpp:99 libicq/country.cpp:56 ui/themesetup.cpp:53
+#: client.cpp:99 libicq/country.cpp:56 ui/themesetup.cpp:55
 msgid "Ukrainian"
 msgstr ""
 
@@ -1667,336 +1667,342 @@ msgstr ""
 msgid "Last online"
 msgstr ""
 
-#: client.cpp:1075 cuser.cpp:215 userview.cpp:1005
+#: client.cpp:1075 cuser.cpp:215 userview.cpp:1017
 msgid "Online"
 msgstr ""
 
-#: dock.cpp:487 mainwin.cpp:756
+#: dock.cpp:450 mainwin.cpp:795
 msgid "%1 from %2"
 msgstr ""
 
-#: dock.cpp:500 mainwin.cpp:1922
+#: dock.cpp:463 mainwin.cpp:1952
 msgid "Connecting"
 msgstr ""
 
-#: editspell.cpp:307 ui/setupdlg.cpp:145
-msgid "Spell check"
+#: mainwin.cpp:436 monitor.cpp:133
+msgid "Error"
 msgstr ""
 
-#: mainwin.cpp:528
+#: mainwin.cpp:437
+msgid ""
+"There is already an auto hidden window on this edge.\n"
+"Only one auto hidden window is allowed on each edge."
+msgstr ""
+
+#: mainwin.cpp:552
 msgid "Show &offline"
 msgstr ""
 
-#: mainwin.cpp:529
+#: mainwin.cpp:553
 msgid "&Group mode"
 msgstr ""
 
-#: mainwin.cpp:531 mainwin.cpp:2818 usertbl.cpp:113
+#: mainwin.cpp:555 mainwin.cpp:2700 usertbl.cpp:113
 msgid "Status"
 msgstr ""
 
-#: mainwin.cpp:532
+#: mainwin.cpp:556
 msgid "&Menu"
 msgstr ""
 
-#: mainwin.cpp:534 mainwin.cpp:2814
+#: mainwin.cpp:558 mainwin.cpp:2696
 msgid "Find User"
 msgstr ""
 
-#: mainwin.cpp:535 mainwin.cpp:2815
+#: mainwin.cpp:559 mainwin.cpp:2697
 msgid "Add Non-IM contact"
 msgstr ""
 
-#: mainwin.cpp:536 mainwin.cpp:2816
+#: mainwin.cpp:560 mainwin.cpp:2698
 msgid "Send SMS"
 msgstr ""
 
-#: mainwin.cpp:537 mainwin.cpp:2820 ui/setupdlg.cpp:104
+#: mainwin.cpp:561 mainwin.cpp:2702 ui/setupdlg.cpp:104
 msgid "Setup"
 msgstr ""
 
-#: mainwin.cpp:538 mainwin.cpp:2835 monitor.cpp:59
+#: mainwin.cpp:562 mainwin.cpp:2713 monitor.cpp:59
 msgid "Network monitor"
 msgstr ""
 
-#: mainwin.cpp:619
+#: mainwin.cpp:643
 msgid "Current location"
 msgstr ""
 
-#: mainwin.cpp:620
+#: mainwin.cpp:644
 msgid "Phone status"
 msgstr ""
 
-#: mainwin.cpp:622
+#: mainwin.cpp:646
 msgid "Phone Book"
 msgstr ""
 
-#: mainwin.cpp:1183
+#: mainwin.cpp:808
+msgid "AutoHide"
+msgstr ""
+
+#: mainwin.cpp:1219
 msgid "%1 from %2 received"
 msgstr ""
 
-#: mainwin.cpp:1219 ui/logindlg.cpp:140
+#: mainwin.cpp:1255 ui/logindlg.cpp:140
 msgid "Can't connect to proxy server"
 msgstr ""
 
-#: mainwin.cpp:1225 ui/logindlg.cpp:147
+#: mainwin.cpp:1261 ui/logindlg.cpp:147
 msgid "Proxy server require authorization"
 msgstr ""
 
-#: mainwin.cpp:1226 ui/logindlg.cpp:148
+#: mainwin.cpp:1262 ui/logindlg.cpp:148
 msgid "Invalid password for proxy"
 msgstr ""
 
-#: mainwin.cpp:1239
+#: mainwin.cpp:1275
 msgid "Your UIN used from another location"
 msgstr ""
 
-#: mainwin.cpp:1293
+#: mainwin.cpp:1329
 msgid "%1 is online"
 msgstr ""
 
-#: mainwin.cpp:1898 mainwin.cpp:2229 ui/enable.cpp:122
+#: mainwin.cpp:1928 mainwin.cpp:2259 ui/enable.cpp:122
 msgid "&Yes"
 msgstr ""
 
-#: mainwin.cpp:1899 mainwin.cpp:2230 ui/enable.cpp:126
+#: mainwin.cpp:1929 mainwin.cpp:2260 ui/enable.cpp:126
 msgid "&No"
 msgstr ""
 
-#: mainwin.cpp:1900
+#: mainwin.cpp:1930
 msgid "Add %1 to ignore list ?"
 msgstr ""
 
-#: mainwin.cpp:1964
+#: mainwin.cpp:1994
 msgid "In visible list"
 msgstr ""
 
-#: mainwin.cpp:1966
+#: mainwin.cpp:1996
 msgid "In invisible list"
 msgstr ""
 
-#: mainwin.cpp:1969
+#: mainwin.cpp:1999
 msgid "In ignore list"
 msgstr ""
 
-#: mainwin.cpp:1985 mainwin.cpp:2821
+#: mainwin.cpp:2015 mainwin.cpp:2703
 msgid "Groups"
 msgstr ""
 
-#: mainwin.cpp:1986 usertbl.cpp:391 userview.cpp:1353
+#: mainwin.cpp:2016 usertbl.cpp:391 userview.cpp:1365
 msgid "Delete"
 msgstr ""
 
-#: mainwin.cpp:1987 userview.cpp:557 userview.cpp:1354
+#: mainwin.cpp:2017 userview.cpp:569 userview.cpp:1366
 msgid ""
 "_: Del\n"
 "Delete"
 msgstr ""
 
-#: mainwin.cpp:1991
+#: mainwin.cpp:2021
 msgid "&User info"
 msgstr ""
 
-#: mainwin.cpp:1992
+#: mainwin.cpp:2022
 msgid ""
 "_: Ctrl+U\n"
 "UserInfo"
 msgstr ""
 
-#: mainwin.cpp:1993
+#: mainwin.cpp:2023
 msgid "&History"
 msgstr ""
 
-#: mainwin.cpp:1994
+#: mainwin.cpp:2024
 msgid ""
 "_: Ctrl+H\n"
 "History"
 msgstr ""
 
-#: mainwin.cpp:1996 ui/setupdlg.cpp:136 ui/userinfo.cpp:90
+#: mainwin.cpp:2026 ui/setupdlg.cpp:136 ui/userinfo.cpp:90
 msgid "Alert"
 msgstr ""
 
-#: mainwin.cpp:1997
+#: mainwin.cpp:2027
 msgid ""
 "_: Ctrl+L\n"
 "Alert"
 msgstr ""
 
-#: mainwin.cpp:1998 ui/acceptbase.cpp:179
+#: mainwin.cpp:2028 ui/acceptbase.cpp:179
 msgid "Accept mode"
 msgstr ""
 
-#: mainwin.cpp:1999
+#: mainwin.cpp:2029
 msgid ""
 "_: Ctrl+A\n"
 "Accept"
 msgstr ""
 
-#: mainwin.cpp:2000 ui/setupdlg.cpp:135 ui/userinfo.cpp:92
+#: mainwin.cpp:2030 ui/setupdlg.cpp:135 ui/userinfo.cpp:92
 msgid "Sound"
 msgstr ""
 
-#: mainwin.cpp:2001
+#: mainwin.cpp:2031
 msgid ""
 "_: Ctrl+S\n"
 "Sound"
 msgstr ""
 
-#: mainwin.cpp:2004
+#: mainwin.cpp:2034
 msgid "Floating off"
 msgstr ""
 
-#: mainwin.cpp:2004
+#: mainwin.cpp:2034
 msgid "Floating on"
 msgstr ""
 
-#: mainwin.cpp:2005
+#: mainwin.cpp:2035
 msgid ""
 "_: Ctrl+T\n"
 "Floating"
 msgstr ""
 
-#: mainwin.cpp:2008
+#: mainwin.cpp:2038
 msgid "Users"
 msgstr ""
 
-#: mainwin.cpp:2009 ui/aboutdlgbase.cpp:156 ui/enable.cpp:125
+#: mainwin.cpp:2039 ui/aboutdlgbase.cpp:156 ui/enable.cpp:125
 #: ui/filetransfer.cpp:156 ui/finddlgbase.cpp:66 ui/logindlgbase.cpp:115
 #: ui/proxydlgbase.cpp:172 ui/securedlg.cpp:56 ui/setupdlgbase.cpp:122
 #: ui/toolsetupbase.cpp:136 ui/userautoreply.cpp:76
 msgid "&Close"
 msgstr ""
 
-#: mainwin.cpp:2010
+#: mainwin.cpp:2040
 msgid ""
 "_: Ctrl+C\n"
 "Close"
 msgstr ""
 
-#: mainwin.cpp:2012
+#: mainwin.cpp:2042
 msgid "Alphabetically sort"
 msgstr ""
 
-#: mainwin.cpp:2013
+#: mainwin.cpp:2043
 msgid ""
 "_: Ctrl+B\n"
 "Alphabetically sort"
 msgstr ""
 
-#: mainwin.cpp:2231
+#: mainwin.cpp:2261
 msgid "Delete %1?"
 msgstr ""
 
-#: mainwin.cpp:2410
+#: mainwin.cpp:2440
 msgid "New"
 msgstr ""
 
-#: mainwin.cpp:2413
+#: mainwin.cpp:2443
 msgid "To container"
 msgstr ""
 
-#: mainwin.cpp:2418
+#: mainwin.cpp:2448
 msgid "Read %1 message"
 msgstr ""
 
-#: client.cpp:1088 mainwin.cpp:2796
+#: client.cpp:1088 mainwin.cpp:2678
 msgid "Invisible"
 msgstr ""
 
-#: mainwin.cpp:2799
+#: mainwin.cpp:2681
 msgid "Don't show"
 msgstr ""
 
-#: mainwin.cpp:2800
+#: mainwin.cpp:2682
 msgid "Available"
 msgstr ""
 
-#: mainwin.cpp:2801
+#: mainwin.cpp:2683
 msgid "Busy"
 msgstr ""
 
-#: mainwin.cpp:2804 userview.cpp:1355
+#: mainwin.cpp:2686 userview.cpp:1367
 msgid "Create group"
 msgstr ""
 
-#: mainwin.cpp:2806 userview.cpp:1364
+#: mainwin.cpp:2688 userview.cpp:1376
 msgid "Expand all"
 msgstr ""
 
-#: mainwin.cpp:2807 userview.cpp:1366
+#: mainwin.cpp:2689 userview.cpp:1378
 msgid "Collapse all"
 msgstr ""
 
-#: mainwin.cpp:2809 toolbtn.cpp:684
+#: mainwin.cpp:2691 toolbtn.cpp:679
 msgid "Customize toolbar..."
 msgstr ""
 
-#: mainwin.cpp:2812
+#: mainwin.cpp:2694
 msgid "ICQ"
 msgstr ""
 
-#: mainwin.cpp:2822
+#: mainwin.cpp:2704
 msgid "Phone \"Follow Me\""
 msgstr ""
 
-#: mainwin.cpp:2824
+#: mainwin.cpp:2706
 msgid "Shared files"
 msgstr ""
 
-#: mainwin.cpp:2828
+#: mainwin.cpp:2710
 msgid "Always on top"
 msgstr ""
 
-#: mainwin.cpp:2832
-msgid "Synchronize with KDE address book"
-msgstr ""
-
-#: mainwin.cpp:2836
+#: mainwin.cpp:2714
 msgid "&Bug report"
 msgstr ""
 
-#: mainwin.cpp:2837
+#: mainwin.cpp:2715
 msgid "&About SIM"
 msgstr ""
 
-#: mainwin.cpp:2839
+#: mainwin.cpp:2717
 msgid "About &KDE"
 msgstr ""
 
-#: mainwin.cpp:2842
+#: mainwin.cpp:2720
 msgid "Quit"
 msgstr ""
 
-#: _translatorinfo.cpp:1 mainwin.cpp:3061
+#: _translatorinfo.cpp:1 mainwin.cpp:2943
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
 msgstr ""
 
-#: _translatorinfo.cpp:3 mainwin.cpp:3062
+#: _translatorinfo.cpp:3 mainwin.cpp:2944
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
 msgstr ""
 
-#: mainwin.cpp:3085
+#: mainwin.cpp:2970
 msgid "light"
 msgstr ""
 
-#: mainwin.cpp:3089
+#: mainwin.cpp:2974
 msgid "demibold"
 msgstr ""
 
-#: mainwin.cpp:3093
+#: mainwin.cpp:2978
 msgid "bold"
 msgstr ""
 
-#: mainwin.cpp:3097
+#: mainwin.cpp:2982
 msgid "black"
 msgstr ""
 
-#: mainwin.cpp:3104
+#: mainwin.cpp:2989
 msgid "italic"
 msgstr ""
 
@@ -2259,27 +2265,27 @@ msgid ""
 "Definition of PluralForm - to be set by the translator of kdelibs.po"
 msgstr ""
 
-#: sim.cpp:288
+#: sim.cpp:294
 msgid "SIM"
 msgstr ""
 
-#: sim.cpp:290
+#: sim.cpp:296
 msgid "ICQ client"
 msgstr ""
 
-#: sim.cpp:297
+#: sim.cpp:303
 msgid "Maintainer"
 msgstr ""
 
-#: sim.cpp:304
+#: sim.cpp:310
 msgid "Directory for files"
 msgstr ""
 
-#: sim.cpp:305
+#: sim.cpp:311
 msgid "Loglevel"
 msgstr ""
 
-#: sim.cpp:306
+#: sim.cpp:312
 msgid "Control socket"
 msgstr ""
 
@@ -2323,19 +2329,19 @@ msgstr ""
 msgid "All encodings"
 msgstr ""
 
-#: userbox.cpp:354
+#: userbox.cpp:355
 msgid "All users"
 msgstr ""
 
-#: ui/userinfo.cpp:73 userbox.cpp:403 usertbl.cpp:405
+#: ui/userinfo.cpp:73 userbox.cpp:404 usertbl.cpp:405
 msgid "User info"
 msgstr ""
 
-#: userbox.cpp:454
+#: userbox.cpp:455
 msgid "History"
 msgstr ""
 
-#: userbox.cpp:1112
+#: userbox.cpp:1113
 msgid "History loading"
 msgstr ""
 
@@ -2371,33 +2377,33 @@ msgstr ""
 msgid "Add to group"
 msgstr ""
 
-#: userview.cpp:407 userview.cpp:1011
+#: userview.cpp:418 userview.cpp:1023
 msgid "Not in list"
 msgstr ""
 
-#: userview.cpp:559 userview.cpp:1356
+#: userview.cpp:571 userview.cpp:1368
 msgid ""
 "_: Ctrl+N\n"
 "Create group"
 msgstr ""
 
-#: userview.cpp:688 userview.cpp:704
+#: userview.cpp:700 userview.cpp:716
 msgid "New group"
 msgstr ""
 
-#: client.cpp:1069 userview.cpp:1008
+#: client.cpp:1069 userview.cpp:1020
 msgid "Offline"
 msgstr ""
 
-#: userview.cpp:1351
+#: userview.cpp:1363
 msgid "Rename"
 msgstr ""
 
-#: userview.cpp:1359
+#: userview.cpp:1371
 msgid "Up"
 msgstr ""
 
-#: userview.cpp:1361
+#: userview.cpp:1373
 msgid "Down"
 msgstr ""
 
@@ -2715,6 +2721,10 @@ msgstr ""
 msgid "Miscellaneous"
 msgstr ""
 
+#: editspell.cpp:307 ui/setupdlg.cpp:145
+msgid "Spell check"
+msgstr ""
+
 #: ui/setupdlg.cpp:148
 msgid "Auto reply"
 msgstr ""
@@ -2727,7 +2737,7 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: ui/themesetup.cpp:45
+#: ui/themesetup.cpp:47
 msgid "System"
 msgstr ""
 
@@ -2763,7 +2773,7 @@ msgstr ""
 msgid "Age:"
 msgstr ""
 
-#: ui/searchbase.cpp:283
+#: ui/searchbase.cpp:283 ui/themesetupbase.cpp:201
 msgid "Language:"
 msgstr ""
 
@@ -2829,7 +2839,7 @@ msgid "All buttons:"
 msgstr ""
 
 #: ui/keysetupbase.cpp:148 ui/phonebookbase.cpp:124 ui/setupdlgbase.cpp:117
-#: ui/themesetupbase.cpp:191 ui/themesetupbase.cpp:195
+#: ui/themesetupbase.cpp:183 ui/themesetupbase.cpp:187
 #: ui/toolsetupbase.cpp:126 ui/toolsetupbase.cpp:131 ui/userinfobase.cpp:151
 msgid "New Item"
 msgstr ""
@@ -2873,7 +2883,7 @@ msgstr ""
 #: ui/pastinfobase.cpp:154 ui/phonebase.cpp:152 ui/phonebookbase.cpp:119
 #: ui/setupdlgbase.cpp:113 ui/smssetupbase.cpp:122 ui/soundsetupbase.cpp:227
 #: ui/spellsetupbase.cpp:108 ui/statussetupbase.cpp:139
-#: ui/themesetupbase.cpp:188 ui/userinfobase.cpp:147 ui/xosdbase.cpp:94
+#: ui/themesetupbase.cpp:180 ui/userinfobase.cpp:147 ui/xosdbase.cpp:94
 msgid "Form1"
 msgstr ""
 
@@ -3376,8 +3386,8 @@ msgstr ""
 msgid "Email client:"
 msgstr ""
 
-#: ui/miscsetupbase.cpp:152
-msgid "&Miscelanious"
+#: ui/miscsetupbase.cpp:152 ui/themesetupbase.cpp:202
+msgid "&Miscellaneous"
 msgstr ""
 
 #: ui/miscsetupbase.cpp:153
@@ -3445,7 +3455,7 @@ msgid "UseArts"
 msgstr ""
 
 #: ui/soundsetupbase.cpp:242
-msgid "&Program"
+msgid "&Programm"
 msgstr ""
 
 #: ui/phonebookbase.cpp:120
@@ -3520,80 +3530,64 @@ msgstr ""
 msgid "&Occupation"
 msgstr ""
 
-#: ui/themesetupbase.cpp:189
+#: ui/themesetupbase.cpp:181
 msgid "Select style:"
 msgstr ""
 
-#: ui/themesetupbase.cpp:192
+#: ui/themesetupbase.cpp:184
 msgid "&Style"
 msgstr ""
 
-#: ui/themesetupbase.cpp:193
+#: ui/themesetupbase.cpp:185
 msgid "Icons:"
 msgstr ""
 
-#: ui/themesetupbase.cpp:196
+#: ui/themesetupbase.cpp:188
 msgid "Add icons"
 msgstr ""
 
-#: ui/themesetupbase.cpp:197
+#: ui/themesetupbase.cpp:189
 msgid "&Icons"
 msgstr ""
 
-#: ui/themesetupbase.cpp:198
+#: ui/themesetupbase.cpp:190
 msgid "Transparent main window"
 msgstr ""
 
-#: ui/themesetupbase.cpp:199 ui/themesetupbase.cpp:201
+#: ui/themesetupbase.cpp:191 ui/themesetupbase.cpp:193
 msgid "Transparency"
 msgstr ""
 
-#: ui/themesetupbase.cpp:200
+#: ui/themesetupbase.cpp:192
 msgid "Transparent container"
 msgstr ""
 
-#: ui/themesetupbase.cpp:202
+#: ui/themesetupbase.cpp:194
 msgid "Transparent only if inactive"
 msgstr ""
 
-#: ui/themesetupbase.cpp:203
+#: ui/themesetupbase.cpp:195
 msgid "&Transparency"
 msgstr ""
 
-#: ui/themesetupbase.cpp:204
+#: ui/themesetupbase.cpp:196
 msgid "Show main window in task manager"
 msgstr ""
 
-#: ui/themesetupbase.cpp:205
+#: ui/themesetupbase.cpp:197
 msgid "Show user window in task manager"
 msgstr ""
 
-#: ui/themesetupbase.cpp:206
-msgid "Use dock"
-msgstr ""
-
-#: ui/themesetupbase.cpp:207
-msgid "Use WindowMaker applet"
-msgstr ""
-
-#: ui/themesetupbase.cpp:208
+#: ui/themesetupbase.cpp:198
 msgid "User window stays on &top"
 msgstr ""
 
-#: ui/themesetupbase.cpp:209
+#: ui/themesetupbase.cpp:199
 msgid "&Show splash window"
 msgstr ""
 
-#: ui/themesetupbase.cpp:210
+#: ui/themesetupbase.cpp:200
 msgid "Use emotional &icons"
-msgstr ""
-
-#: ui/themesetupbase.cpp:211
-msgid "Lnaguage:"
-msgstr ""
-
-#: ui/themesetupbase.cpp:212
-msgid "&Miscellaneous"
 msgstr ""
 
 #: ui/statussetupbase.cpp:140
@@ -3922,7 +3916,7 @@ msgstr ""
 msgid "Change password"
 msgstr ""
 
-#: ui/toolsetup.cpp:63 ui/toolsetup.cpp:133 ui/toolsetup.cpp:160
+#: ui/toolsetup.cpp:63 ui/toolsetup.cpp:132 ui/toolsetup.cpp:159
 msgid "Separator"
 msgstr ""
 
@@ -4228,65 +4222,57 @@ msgid "&Log"
 msgstr ""
 
 #: monitor.cpp:133
-msgid "Error"
-msgstr ""
-
-#: monitor.cpp:133
 #, c-format
 msgid "Can't create file %1"
 msgstr ""
 
-#: control.cpp:188
+#: control.cpp:224
 msgid "set status"
 msgstr ""
 
-#: control.cpp:189
+#: control.cpp:225
 msgid "set invisible mode"
 msgstr ""
 
-#: control.cpp:190
+#: control.cpp:226
 msgid "send message"
 msgstr ""
 
-#: control.cpp:191
+#: control.cpp:227
 msgid "send SMS"
 msgstr ""
 
-#: control.cpp:192
+#: control.cpp:228
 msgid "show/hide main window"
 msgstr ""
 
-#: control.cpp:193
+#: control.cpp:229
 msgid "show/hide search window"
 msgstr ""
 
-#: control.cpp:194
-msgid "show/hide dock"
-msgstr ""
-
-#: control.cpp:195
+#: control.cpp:230
 msgid "quit SIM"
 msgstr ""
 
-#: control.cpp:196
+#: control.cpp:231
 msgid "close session"
 msgstr ""
 
-#: control.cpp:197
+#: control.cpp:232
 msgid "command help information"
 msgstr ""
 
-#: control.cpp:258
+#: control.cpp:293
 #, c-format
 msgid "? Unknown command %1"
 msgstr ""
 
-#: control.cpp:266
+#: control.cpp:301
 #, c-format
 msgid "? Bad arguments number. Try help %1"
 msgstr ""
 
-#: control.cpp:281
+#: control.cpp:316
 #, c-format
 msgid "? Unknown status %1"
 msgstr ""
