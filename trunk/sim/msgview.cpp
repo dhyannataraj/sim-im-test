@@ -813,8 +813,11 @@ ToolBarDef historyToolBar[] =
         SEPARATOR,
         { btnPrev, "1leftarrow", I18N_NOOP("&Previous page"), 0, SLOT(prevPage()), NULL },
         { btnNext, "1rightarrow", I18N_NOOP("&Next page"), 0, SLOT(nextPage()), NULL },
+        END_DEF,
         END_DEF
     };
+
+const ToolBarDef *pHistoryToolBar = historyToolBar;
 
 HistoryView::HistoryView(QWidget *p, unsigned long uin)
         : QMainWindow(p, "historyview", 0)
@@ -828,7 +831,7 @@ HistoryView::HistoryView(QWidget *p, unsigned long uin)
     connect(view, SIGNAL(fillDone(unsigned long)), this, SLOT(fillDone(unsigned long)));
     connect(view, SIGNAL(findDone(unsigned long)), this, SLOT(findDone(unsigned long)));
     setCentralWidget(view);
-    toolbar = new CToolBar(historyToolBar, this, this);
+    toolbar = new CToolBar(historyToolBar, &pMain->ToolBarHistory, this, this);
     searchTextChanged("");
     setDockEnabled(toolbar, Left, false);
     setDockEnabled(toolbar, Right, false);

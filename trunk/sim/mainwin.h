@@ -90,6 +90,7 @@ const int mnuActionAuto = 41;
 const int mnuHistoryNew = 42;
 const int mnuGo = 43;
 const int mnuMonitor = 44;
+const int mnuToolBar = 45;
 
 const int mnuGrpTitle    = 0x10000;
 const int mnuPopupStatus = 0x20000;
@@ -134,6 +135,8 @@ typedef struct msgInfo
     int			   menuId;
     bool operator < (const msgInfo &m) const;
 } msgInfo;
+
+struct ToolBarDef;
 
 class MainWindow : public QMainWindow
 {
@@ -259,6 +262,11 @@ public:
 
     bool			AllEncodings;
 
+    list<unsigned long>	ToolBarMain;
+    list<unsigned long> ToolBarMsg;
+    list<unsigned long> ToolBarHistory;
+    list<unsigned long> ToolBarUserBox;
+
     bool 	     init();
 
     QPopupMenu   *menuStatus;
@@ -275,7 +283,6 @@ public:
 
     Themes       *themes;
     XOSD	     *xosd;
-
 
     void setShow(bool bState);
     bool isShow();
@@ -334,6 +341,7 @@ signals:
     void chatChanged();
     void ftChanged();
     void childExited(int pid, int status);
+    void toolBarChanged(const ToolBarDef *def);
 public slots:
     void quit();
     void setup();
@@ -362,6 +370,7 @@ public slots:
     void chatClose();
     void ftClose();
     void checkChilds();
+    void changeToolBar(const ToolBarDef *def);
 protected slots:
     void toggleWindow();
     void realSetStatus();

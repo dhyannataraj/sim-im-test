@@ -153,6 +153,7 @@ using namespace std;
 #include "xpm/fileclose.xpm"
 #include "xpm/filter.xpm"
 #include "xpm/exec.xpm"
+#include "xpm/separator.xpm"
 
 class str
 {
@@ -692,7 +693,8 @@ void Icons::init(const char *name)
     KICON(cancel, 10086)
     KICON(fileclose, 10087)
     KICON(filter, 10088)
-    KICON(exec, 10089);
+    KICON(exec, 10089)
+    ICON(separator, 10090)
 
     QIconSet pict = getIcon("licq");
     QPixmap dllPict = dll.getIcon(104);

@@ -300,6 +300,7 @@ bool loadParam(void *_obj, const cfgParam *params, const char *name, const char 
                         return true;
                     case PARAM_ULONGS:
                         l = (list<unsigned long>*)(obj + p->offs);
+                        l->clear();
                         for (pp = value; *pp; ){
                             l->push_back(atol(pp));
                             pp = strchr(pp, ',');

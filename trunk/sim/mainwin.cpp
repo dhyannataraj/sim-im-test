@@ -287,6 +287,10 @@ cfgParam MainWindow_Params[] =
         { "MonitorLevel", OFFSET_OF(MainWindow, MonitorLevel), PARAM_USHORT, L_PACKET | L_DEBUG | L_WARN | L_ERROR },
         { "CopyMessages", OFFSET_OF(MainWindow, CopyMessages), PARAM_USHORT, 3 },
         { "AllEncodings", OFFSET_OF(MainWindow, AllEncodings), PARAM_BOOL, 0 },
+        { "ToolBarMain", OFFSET_OF(MainWindow, ToolBarMain), PARAM_ULONGS, 0 },
+        { "ToolBarMsg", OFFSET_OF(MainWindow, ToolBarMsg), PARAM_ULONGS, 0 },
+        { "ToolBarHistory", OFFSET_OF(MainWindow, ToolBarHistory), PARAM_ULONGS, 0 },
+        { "ToolBarUserBox", OFFSET_OF(MainWindow, ToolBarUserBox), PARAM_ULONGS, 0 },
         { "", 0, 0, 0 }
     };
 
@@ -304,6 +308,11 @@ const int btnShowOffline	= 1;
 const int btnGroupMode		= 2;
 const int btnStatus			= 3;
 const int btnSetup			= 4;
+const int btnFind			= 5;
+const int btnNoIM			= 6;
+const int btnSMS			= 7;
+const int btnConfigure		= 8;
+const int btnMonitor		= 9;
 
 ToolBarDef mainWndToolBar[] =
     {
@@ -312,8 +321,16 @@ ToolBarDef mainWndToolBar[] =
         SEPARATOR,
         { btnStatus, "online", I18N_NOOP("Status"), BTN_PICT, NULL, NULL },
         { btnSetup, "2downarrow", I18N_NOOP("&Menu"), 0, NULL, NULL },
+        END_DEF,
+        { btnFind, "find", I18N_NOOP("Find User"), 0, SLOT(search()), NULL },
+        { btnNoIM, "nonim", I18N_NOOP("Add Non-IM contact"), 0, SLOT(addNonIM()), NULL },
+        { btnSMS, "sms", I18N_NOOP("Send SMS"), 0, SLOT(sendSMS()), NULL },
+        { btnConfigure, "configure", I18N_NOOP("Setup"), 0, SLOT(setup()), NULL },
+        { btnMonitor, "network", I18N_NOOP("Network monitor"), 0, SLOT(networkMonitor()), NULL },
         END_DEF
     };
+
+const ToolBarDef *pToolBarMain = mainWndToolBar;
 
 MainWindow::MainWindow(const char *name)
         : QMainWindow(NULL, name, WType_TopLevel | WStyle_Customize | WStyle_Title | WStyle_NormalBorder| WStyle_SysMenu)
@@ -406,7 +423,7 @@ MainWindow::MainWindow(const char *name)
     menuContainers = new QPopupMenu(this);
     connect(menuContainers, SIGNAL(activated(int)), this, SLOT(toContainer(int)));
 
-    toolbar = new CToolBar(mainWndToolBar, this, this);
+    toolbar = new CToolBar(mainWndToolBar, &ToolBarMain, this, this);
     toolbar->setState(btnStatus, pClient->getStatusIcon(), pClient->getStatusText());
     toolbar->setPopup(btnStatus, menuStatus);
     toolbar->setPopup(btnSetup, menuFunction);
@@ -738,6 +755,10 @@ void MainWindow::buildFileName(string &s, const char *name, bool bUseKDE, bool b
     if (bCreate) makedir((char*)s.c_str());
 }
 
+extern const ToolBarDef *pUserBoxToolBar;
+extern const ToolBarDef *pMsgEditToolBar;
+extern const ToolBarDef *pHistoryToolBar;
+
 bool MainWindow::init()
 {
     string file;
@@ -763,6 +784,11 @@ bool MainWindow::init()
     buildFileName(file, SIM_CONF);
     std::ifstream fs(file.c_str(), ios::in);
     ::load(this, MainWindow_Params, fs, part);
+
+    if (ToolBarMain.size()) emit toolBarChanged(mainWndToolBar);
+    if (ToolBarMsg.size()) emit toolBarChanged(pMsgEditToolBar);
+    if (ToolBarHistory.size()) emit toolBarChanged(pHistoryToolBar);
+    if (ToolBarUserBox.size()) emit toolBarChanged(pUserBoxToolBar);
 
     setDock();
 
@@ -1098,6 +1124,11 @@ void MainWindow::saveState()
     default:
         ToolbarDock = "Top";
     }
+    CToolBar::save(mainWndToolBar, &ToolBarMain);
+    CToolBar::save(pMsgEditToolBar, &ToolBarMsg);
+    CToolBar::save(pHistoryToolBar, &ToolBarHistory);
+    CToolBar::save(pUserBoxToolBar, &ToolBarUserBox);
+
     OnTop = testWFlags(WStyle_StaysOnTop);
 #ifdef USE_KDE
     OnTop = KWin::info(winId()).state & NET::StaysOnTop;
@@ -2364,6 +2395,8 @@ void MainWindow::loadMenu()
     menuGroups->insertSeparator();
     menuGroups->insertItem(Pict("grp_expand"), i18n("Expand all"), mnuGrpExpandAll);
     menuGroups->insertItem(Pict("grp_collapse"), i18n("Collapse all"), mnuGrpCollapseAll);
+    menuGroups->insertSeparator();
+    menuGroups->insertItem(i18n("Customize toolbar..."), mnuToolBar);
 
     menuFunction->clear();
     menuFunction->insertTitle(i18n("ICQ"), 1);
@@ -2742,6 +2775,11 @@ void MainWindow::checkChilds()
         emit childExited(child, WEXITSTATUS(status));
     }
 #endif
+}
+
+void MainWindow::changeToolBar(const ToolBarDef *d)
+{
+    emit toolBarChanged(d);
 }
 
 #ifndef _WINDOWS

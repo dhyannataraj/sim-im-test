@@ -115,8 +115,11 @@ ToolBarDef userBoxToolBar[] =
         { btnEncoding, "encoding", I18N_NOOP("&Encoding"), 0, NULL, NULL },
         SEPARATOR,
         { btnQuit, "exit", I18N_NOOP("Close user &window"), 0, SLOT(quit()), NULL },
+        END_DEF,
         END_DEF
     };
+
+const ToolBarDef *pUserBoxToolBar = userBoxToolBar;
 
 UserBox::UserBox(unsigned long grpId)
         : QMainWindow(NULL, NULL,
@@ -167,7 +170,7 @@ UserBox::UserBox(unsigned long grpId)
     setIcon(Pict(pClient->getStatusIcon()));
     connect(tabs, SIGNAL(selected(int)), this, SLOT(selectedUser(int)));
     connect(tabs, SIGNAL(showUserPopup(int, QPoint)), this, SLOT(showUserPopup(int, QPoint)));
-    toolbar = new CToolBar(userBoxToolBar, this, this);
+    toolbar = new CToolBar(userBoxToolBar, &pMain->ToolBarUserBox, this, this);
     menuType = new QPopupMenu(this);
     connect(menuType, SIGNAL(activated(int)), this, SLOT(typeChanged(int)));
     menuGroup = new QPopupMenu(this);

@@ -833,6 +833,14 @@ SOURCE=.\sim\moc_toolbtn.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\sim\ui\moc_toolsetup.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\moc_toolsetupbase.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\sim\moc_transparent.cpp
 # End Source File
 # Begin Source File
@@ -1156,6 +1164,14 @@ SOURCE=.\sim\tmpl.cpp
 # Begin Source File
 
 SOURCE=.\sim\toolbtn.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\toolsetup.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\toolsetupbase.cpp
 # End Source File
 # Begin Source File
 
@@ -3466,6 +3482,43 @@ InputName=toolbtn
 # End Source File
 # Begin Source File
 
+SOURCE=.\sim\ui\toolsetup.h
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\toolsetup.h
+InputName=toolsetup
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\toolsetup.h
+InputName=toolsetup
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\toolsetupbase.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\sim\transparent.h
 
 !IF  "$(CFG)" == "sim - Win32 Release"
@@ -5749,6 +5802,61 @@ BuildCmds= \
 # End Source File
 # Begin Source File
 
+SOURCE=.\sim\ui\toolsetupbase.ui
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Uic'ing $(InputName).ui ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\toolsetupbase.ui
+InputName=toolsetupbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Uic'ing $(InputName).ui ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\toolsetupbase.ui
+InputName=toolsetupbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
 SOURCE=.\sim\ui\userinfobase.ui
 
 !IF  "$(CFG)" == "sim - Win32 Release"
@@ -5916,6 +6024,27 @@ BuildCmds= \
 # Begin Group "po"
 
 # PROP Default_Filter "po"
+# Begin Source File
+
+SOURCE=.\po\cs.po
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# Begin Custom Build - msg2qm on $(InputPath)
+OutDir=.\Debug
+InputPath=.\po\cs.po
+
+"$(OutDir)\po\cs.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	$(QTDIR)\bin\msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\cs.qm 
+	
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
 # Begin Source File
 
 SOURCE=.\po\de.po

@@ -19,6 +19,7 @@
 #include "icons.h"
 #include "mainwin.h"
 #include "log.h"
+#include "ui/toolsetup.h"
 
 #include <qpainter.h>
 #include <qtoolbar.h>
@@ -33,6 +34,21 @@
 #include <qregexp.h>
 #include <qapplication.h>
 #include <qcombobox.h>
+
+#include <vector>
+using namespace std;
+
+typedef struct ToolBarState
+{
+    QWidget		*button;
+    QPopupMenu	*popup;
+} ToolBarState;
+
+class ToolBarStates : public vector<ToolBarState>
+{
+public:
+    ToolBarStates() {}
+};
 
 CPushButton::CPushButton(QWidget *parent, const char *name)
         : QPushButton(parent, name)
@@ -365,17 +381,75 @@ QSizePolicy CToolCombo::sizePolicy() const
     return p;
 }
 
-CToolBar::CToolBar(const ToolBarDef *def, QMainWindow *parent, QWidget *receiver)
+CToolBar::CToolBar(const ToolBarDef *def, list<unsigned long> *active, QMainWindow *parent, QWidget *receiver)
         : QToolBar(parent)
 {
     m_def = def;
+    m_active = active;
+    m_receiver = receiver;
+
     setHorizontalStretchable(true);
     setVerticalStretchable(true);
-    for (; def->id != BTN_END_DEF; def++){
-        if (def->id == BTN_SEPARATOR){
+
+    states = new ToolBarStates;
+    bool bFirst = true;
+    int nButtons = 0;
+    for (const ToolBarDef *d = m_def; ; d++){
+        if (d->id == BTN_END_DEF){
+            if (bFirst){
+                bFirst = false;
+            }else{
+                break;
+            }
+        }
+        if (d->id == BTN_SEPARATOR) continue;
+        if (d->id > nButtons) nButtons = d->id;
+    }
+
+    for (; nButtons >= 0; nButtons--)
+    {
+        ToolBarState state;
+        state.button = NULL;
+        state.popup  = NULL;
+        states->push_back(state);
+    }
+
+    connect(pMain, SIGNAL(toolBarChanged(const ToolBarDef*)), this, SLOT(toolBarChanged(const ToolBarDef*)));
+    toolBarChanged(def);
+}
+
+CToolBar::~CToolBar()
+{
+    delete states;
+}
+
+void CToolBar::toolBarChanged(const ToolBarDef *def)
+{
+    if (def != m_def) return;
+    clear();
+    for (int i = 0; i < states->size(); i++)
+        (*states)[i].button = NULL;
+
+    if (m_active->size() == 0){
+        for (; def->id != BTN_END_DEF; def++)
+            m_active->push_back(def->id);
+    }
+
+    for (list<unsigned long>::iterator it = m_active->begin(); it != m_active->end(); ++it){
+        int id = *it;
+        if (id == BTN_SEPARATOR){
             addSeparator();
             continue;
         }
+        const ToolBarDef *def;
+        for (def = m_def; def->id != BTN_END_DEF; def++)
+            if (def->id == id) break;
+        if (def->id == BTN_END_DEF){
+            for (def++; def->id != BTN_END_DEF; def++)
+                if (def->id == id) break;
+            if (def->id == BTN_END_DEF) continue;
+        }
+
         QWidget *w;
         if (def->flags & BTN_PICT){
             PictButton *btn = new PictButton(this, QString::number(def->id));
@@ -409,18 +483,22 @@ CToolBar::CToolBar(const ToolBarDef *def, QMainWindow *parent, QWidget *receiver
                 btn->setIconSet(Icon(def->icon));
             }
         }
+        (*states)[id].button = w;
+        if ((*states)[id].popup) setPopup(id, (*states)[id].popup);
         if (def->flags & BTN_HIDE) w->hide();
         if (def->slot){
             if (def->flags & BTN_COMBO){
-                connect(w, SIGNAL(textChanged(const QString&) ), receiver, def->slot);
+                connect(w, SIGNAL(textChanged(const QString&) ), m_receiver, def->slot);
             }else if (def->flags & BTN_TOGGLE){
-                connect(w, SIGNAL(toggled(bool)), receiver, def->slot);
+                connect(w, SIGNAL(toggled(bool)), m_receiver, def->slot);
             }else{
-                connect(w, SIGNAL(clicked()), receiver, def->slot);
+                connect(w, SIGNAL(clicked()), m_receiver, def->slot);
             }
         }
         if (def->popup_slot){
-            connect(w, SIGNAL(showPopup(QPoint)), receiver, def->popup_slot);
+            connect(w, SIGNAL(showPopup(QPoint)), m_receiver, def->popup_slot);
+        }else{
+            connect(w, SIGNAL(showPopup(QPoint)), this, SLOT(showPopup(QPoint)));
         }
     }
 }
@@ -462,6 +540,7 @@ QWidget *CToolBar::getWidget(int id)
 void CToolBar::setPopup(int id, QPopupMenu *popup)
 {
     if (!isButton(id)) return;
+    (*states)[id].popup = popup;
     QWidget *b = getWidget(id);
     if (b == NULL) return;
     CToolButton *btn = static_cast<CToolButton*>(b);
@@ -556,6 +635,32 @@ QPoint CToolBar::popupPos(int id, QWidget *popup)
     if (b == NULL) return QPoint();
     CToolButton *btn = static_cast<CToolButton*>(b);
     return btn->popupPos(popup);
+}
+
+void CToolBar::showPopup(QPoint p)
+{
+    QPopupMenu *popup = new QPopupMenu(this);
+    popup->insertItem(i18n("Customize toolbar..."), 1);
+    connect(popup, SIGNAL(activated(int)), this, SLOT(popupActivated(int)));
+    popup->popup(p);
+}
+
+void CToolBar::popupActivated(int id)
+{
+    if (id == 1){
+        ToolBarSetup::show(m_def, m_active);
+        return;
+    }
+}
+
+void CToolBar::save(const ToolBarDef *def, list<unsigned long> *active)
+{
+    list<unsigned long>::iterator it;
+    for (it = active->begin(); it != active->end(); ++it, def++){
+        if ((*it) != def->id) break;
+    }
+    if ((it == active->end()) && def->id == BTN_END_DEF)
+        active->clear();
 }
 
 #ifndef _WINDOWS

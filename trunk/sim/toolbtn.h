@@ -25,9 +25,13 @@
 #include <qpushbutton.h>
 #include <qcombobox.h>
 
+#include <list>
+using namespace std;
+
 class QMainWindow;
 class QPopupMenu;
 class QAccel;
+class ToolBarStates;
 
 class CPushButton : public QPushButton
 {
@@ -138,7 +142,8 @@ class CToolBar : public QToolBar
 {
     Q_OBJECT
 public:
-    CToolBar(const ToolBarDef *def, QMainWindow *parent, QWidget *receiver);
+    CToolBar(const ToolBarDef *def, list<unsigned long> *active, QMainWindow *parent, QWidget *receiver);
+    ~CToolBar();
     void setState(int id, const char *icon, const QString &text);
     void setPopup(int id, QPopupMenu *popup);
     void setEnabled(int id, bool bEnable);
@@ -152,11 +157,20 @@ public:
     void setOn(int id, bool bOn);
     QWidget *getWidget(int id);
     QPoint popupPos(int id, QWidget *popup);
+    static void save(const ToolBarDef *def, list<unsigned long> *active);
+public slots:
+    void popupActivated(int);
+protected slots:
+    void toolBarChanged(const ToolBarDef *def);
+    void showPopup(QPoint p);
 protected:
+    ToolBarStates *states;
     bool isButton(int id);
     bool isPictButton(int id);
     bool isCombo(int id);
+    QWidget *m_receiver;
     const ToolBarDef *m_def;
+    list<unsigned long> *m_active;
 };
 
 #endif

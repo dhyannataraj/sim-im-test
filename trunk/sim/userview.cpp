@@ -25,6 +25,7 @@
 #include "transparent.h"
 #include "log.h"
 #include "ui/ballonmsg.h"
+#include "ui/toolsetup.h"
 
 #include <qheader.h>
 #include <qpopupmenu.h>
@@ -670,6 +671,8 @@ void UserView::editEnter()
     pClient->renameGroup(grp, edtGroup->text().local8Bit());
 }
 
+extern const ToolBarDef *pToolBarMain;
+
 void UserView::grpFunction(int id)
 {
     switch (id){
@@ -682,6 +685,9 @@ void UserView::grpFunction(int id)
     case mnuGrpCreate:
         pMain->setShow(true);
         pClient->createGroup(i18n("New group"));
+        return;
+    case mnuToolBar:
+        ToolBarSetup::show(pToolBarMain, &pMain->ToolBarMain);
         return;
     case mnuGrpRename:{
             if (grp_id == 0) return;

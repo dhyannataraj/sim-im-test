@@ -133,8 +133,11 @@ ToolBarDef msgEditToolBar[] =
         { btnNext, "message", I18N_NOOP("&Next"), BTN_PICT | BTN_HIDE, SLOT(nextClick()), NULL },
         SEPARATOR,
         { btnMultiply, "1rightarrow", I18N_NOOP("&Multiply send"), 0, SLOT(toggleMultiply()), NULL },
+        END_DEF,
         END_DEF
     };
+
+const ToolBarDef *pMsgEditToolBar = msgEditToolBar;
 
 MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
         : QSplitter(Vertical, p)
@@ -155,7 +158,7 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
 
     frmEdit = new QFrame(wndEdit);
     wndEdit->setCentralWidget(frmEdit);
-    toolbar = new CToolBar(msgEditToolBar, wndEdit, this);
+    toolbar = new CToolBar(msgEditToolBar, &pMain->ToolBarMsg, wndEdit, this);
     toolbar->installEventFilter(this);
     QVBoxLayout *lay = new QVBoxLayout(frmEdit);
     tmpl = new Tmpl(this);
@@ -1613,11 +1616,11 @@ void MsgEdit::makeMessage()
     case ICQ_MSGxSMS:{
             ICQSMS *m = static_cast<ICQSMS*>(msg);
             QString s = edit->text();
-	    log(L_DEBUG, "T: %s", (const char*)(s.local8Bit()));
+            log(L_DEBUG, "T: %s", (const char*)(s.local8Bit()));
             string text(s.utf8());
             text = pClient->clearHTML(text);
             s = QString::fromUtf8(text.c_str());
-	    log(L_DEBUG, "T: %s", (const char*)(s.local8Bit()));
+            log(L_DEBUG, "T: %s", (const char*)(s.local8Bit()));
             msgTail = trim(s);
             m->Message = smsChunk();
             m->Phone = phoneEdit->lineEdit()->text().local8Bit();
