@@ -6,13 +6,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
 "POT-Creation-Date: 2004-04-11 14:17+0400\n"
-"PO-Revision-Date: 2004-04-06 09:38+0200\n"
+"PO-Revision-Date: 2004-04-14 12:26+0200\n"
 "Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.3\n"
+"X-Generator: KBabel 1.3.1\n"
 "Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 # libicq/country.cpp:71
@@ -3037,8 +3037,7 @@ msgstr "Domovský adresár"
 
 #: plugins/__homedir/homedir.cpp:49
 msgid "Plugin provides select directory for store config files"
-msgstr ""
-"Zásuvný modul umožňuje vybrať miesto uloženia konfiguračných súborov"
+msgstr "Zásuvný modul umožňuje vybrať miesto uloženia konfiguračných súborov"
 
 # qt3/i18n.cpp:117
 #: plugins/__homedir/homedir.cpp:92
@@ -3115,8 +3114,7 @@ msgstr "Migrácia"
 
 #: plugins/__migrate/migrate.cpp:36
 msgid "Plugin provides convert configuration and history from SIM 0.8"
-msgstr ""
-"Zásuvný modul umožňuje konverziu konfigurácie a histórie z SIM v0.8"
+msgstr "Zásuvný modul umožňuje konverziu konfigurácie a histórie z SIM v0.8"
 
 #: plugins/__migrate/migratedlg.cpp:78
 msgid "Cancel convert?"
@@ -3564,8 +3562,7 @@ msgstr ""
 
 #: plugins/_core/core.cpp:1298 plugins/_core/core.cpp:3277
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
-msgstr ""
-"Prepáčte, momentálne som zaneprázdnený, ale môžem odpovedať neskôr"
+msgstr "Prepáčte, momentálne som zaneprázdnený, ale môžem odpovedať neskôr"
 
 #: plugins/_core/core.cpp:1303
 msgid "Enter a decline reason"
@@ -3629,18 +3626,16 @@ msgid "time from set status"
 msgstr "čas od nastavenia stavu"
 
 #: plugins/_core/core.cpp:1608
-#, fuzzy
 msgid ""
 "_: %1 wrote:\n"
 "male"
 msgstr "%1 napísal:"
 
 #: plugins/_core/core.cpp:1609
-#, fuzzy
 msgid ""
 "_: %1 wrote:\n"
 "female"
-msgstr "%1 napísal:"
+msgstr "%1 napísala:"
 
 #: plugins/_core/core.cpp:1628
 msgid ""
@@ -5164,8 +5159,7 @@ msgstr "Nastaviť \"Offline\" status po"
 
 # ui/statussetupbase.cpp:142
 #: plugins/autoaway/autoawaycfgbase.cpp:109
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Zakázať online výstrahu pre \"Away\", \"N/A\", \"DND\" a \"Occupied\" "
 "zoznam"
@@ -5270,8 +5264,7 @@ msgstr "Systray"
 
 #: plugins/dock/dock.cpp:50
 msgid "Plugin provides dock main window in system tray"
-msgstr ""
-"Zásuvný modul umožňuje umiestniť (dokovať) hlavné okno v systrayi"
+msgstr "Zásuvný modul umožňuje umiestniť (dokovať) hlavné okno v systrayi"
 
 #: plugins/dock/dock.cpp:52 plugins/windock/windock.cpp:43
 msgid "Dock"
@@ -5524,8 +5517,7 @@ msgstr "GPG"
 
 #: plugins/gpg/gpg.cpp:54
 msgid "Plugin adds GnuPG encryption/decryption support for messages"
-msgstr ""
-"Zásuvný modul pridáva podporu GnuPG šifrovania a dešifrovania správ"
+msgstr "Zásuvný modul pridáva podporu GnuPG šifrovania a dešifrovania správ"
 
 #: plugins/gpg/gpg.cpp:78
 msgid ""
@@ -7390,8 +7382,7 @@ msgstr "P&ovolanie:"
 # ui/generalsecbase.cpp:212
 #: plugins/icq/icqsecurebase.cc:154
 msgid "My &authorization is required before users add me to Contact List"
-msgstr ""
-"Je vyžadovaná moja &autorizácia pred pridaním mňa do zoznamu kontaktov"
+msgstr "Je vyžadovaná moja &autorizácia pred pridaním mňa do zoznamu kontaktov"
 
 # ui/generalsecbase.cpp:213
 #: plugins/icq/icqsecurebase.cc:155
@@ -7421,8 +7412,7 @@ msgstr "Povoliť &priame pripojenie pre všetkých užívateľov"
 # ui/generalsecbase.cpp:218
 #: plugins/icq/icqsecurebase.cc:161
 msgid "Allow direct connection from user listed in &contact list"
-msgstr ""
-"Povoliť priame pripojenie pre užívateľov z mojho zoznamu &kontaktov"
+msgstr "Povoliť priame pripojenie pre užívateľov z mojho zoznamu &kontaktov"
 
 # ui/generalsecbase.cpp:219
 #: plugins/icq/icqsecurebase.cc:162
@@ -8044,8 +8034,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:68
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Zásuvný modul umožňuje zobrazovať notifikácie o správach a stave "
 "kontaktov na obrazovke (OSD)"
@@ -8336,7 +8325,7 @@ msgstr "Bez zvuku, keď majú okná &fokus"
 msgid ""
 "Qt provides sound output so you just need to set a player if you don't like "
 "Qt's sound."
-msgstr ""
+msgstr "QT poskytuje zvukový výstup, ak nechcete použiť zvuk z QT musíte nastaviť prehrávač."
 
 # ui/soundsetupbase.cpp:241
 #: plugins/sound/soundconfigbase.cpp:97
@@ -8371,8 +8360,7 @@ msgstr "Úvodná obrazovka"
 
 #: plugins/splash/splash.cpp:35
 msgid "Plugin provides splash screen"
-msgstr ""
-"Zásuvný modul umožňuje zobraziť úvodnú obrazovku (splash screen)"
+msgstr "Zásuvný modul umožňuje zobraziť úvodnú obrazovku (splash screen)"
 
 # ui/themesetupbase.cpp:307
 # ui/themesetupbase.cpp:309
@@ -8740,8 +8728,7 @@ msgstr ""
 
 #: plugins/jabber/jabbersearch.cpp:329
 msgid "Fill in all of the fields to add yourself to the JUD."
-msgstr ""
-"Vyplňte všetky polia pre pridanie do užívateľského adresára Jabber."
+msgstr "Vyplňte všetky polia pre pridanie do užívateľského adresára Jabber."
 
 #: plugins/jabber/jabbersearch.cpp:330
 msgid ""
@@ -9832,9 +9819,8 @@ msgstr "Verejn"
 
 # qt3/i18n.cpp:73
 #: plugins/livejournal/msgjournalbase.cpp:86
-#, fuzzy
 msgid "Friends-Only"
-msgstr "Len zápis"
+msgstr "Len priatelia"
 
 # qt3/i18n.cpp:253
 #: plugins/livejournal/msgjournalbase.cpp:87
@@ -10000,8 +9986,7 @@ msgid "Navigate"
 msgstr "Navigácia"
 
 #: plugins/navigate/navigate.cpp:214
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Zásuvný modul umožňuje navigáciu po odkazoch, spúštenie externého "
 "prehliadača, poštového klienta"
@@ -10467,7 +10452,7 @@ msgstr "SSV"
 msgid ""
 "_: weather\n"
 "VAR"
-msgstr "S"
+msgstr "VAR"
 
 #: plugins/weather/weather.cpp:505
 msgid "km"
@@ -10571,9 +10556,8 @@ msgid "Temperature"
 msgstr "Teplota"
 
 #: plugins/weather/wifacecfg.cpp:29
-#, fuzzy
 msgid "Feels like"
-msgstr "Citiť ako"
+msgstr "ako keby"
 
 # libicq/country.cpp:28
 #: plugins/weather/wifacecfg.cpp:31
@@ -10682,3 +10666,4 @@ msgstr "Predpoveď na dni:"
 #: plugins/weather/weathercfgbase.cpp:117
 msgid "Units:"
 msgstr "Jednotky:"
+
