@@ -2009,20 +2009,14 @@ void *CorePlugin::processEvent(Event *e)
                 }
             }
             if (cmd->menu_id == MenuMessage){
+                cmd->flags &= ~COMMAND_CHECKED;
                 Contact *contact = getContacts()->contact((unsigned)(cmd->param));
                 if (contact){
-                    void *data;
-                    ClientDataIterator it(contact->clientData);
-                    while ((data = ++it) != NULL){
-                        if (it.client()->canSend(cmd->id, data))
+                    vector<clientContact> ways;
+                    getWays(ways, contact);
+                    for (vector<clientContact>::iterator it = ways.begin(); it != ways.end(); ++it){
+                        if ((*it).client->canSend(cmd->id, (*it).data))
                             return e->param();
-                    }
-                    it.reset();
-                    while ((data = ++it) != NULL){
-                        for (unsigned i = 0; i < getContacts()->nClients(); i++){
-                            if (getContacts()->getClient(i)->canSend(cmd->id, data))
-                                return e->param();
-                        }
                     }
                 }
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){

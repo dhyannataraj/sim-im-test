@@ -40,11 +40,13 @@ protected slots:
     void itemSelected(QListViewItem*);
     void raisePage(QWidget*);
 protected:
+    void accept();
+    void reject();
     void apply(QListViewItem *item);
-    virtual void accept();
     virtual void *processEvent(Event*);
     void fill(unsigned id);
     void setTitle();
+    bool setCurrentItem(QListViewItem *parent, unsigned id);
     unsigned m_nUpdates;
     bool m_bAccept;
     void closeEvent(QCloseEvent*);

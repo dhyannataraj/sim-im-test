@@ -438,6 +438,35 @@ InputPath=.\sounds\auth.wav
 # End Source File
 # Begin Source File
 
+SOURCE=.\sounds\contacts.wav
+
+!IF  "$(CFG)" == "sound - Win32 Release"
+
+# Begin Custom Build - Copy $(InputPath)
+OutDir=.\..\..\Release
+InputPath=.\sounds\contacts.wav
+
+"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy /Y $(InputPath) $(OutDir)\$(InputPath)
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sound - Win32 Debug"
+
+# Begin Custom Build - Copy $(InputPath)
+OutDir=.\..\..\Debug
+InputPath=.\sounds\contacts.wav
+
+"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy /Y $(InputPath) $(OutDir)\$(InputPath)
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
 SOURCE=.\sounds\file.wav
 
 !IF  "$(CFG)" == "sound - Win32 Release"
@@ -601,6 +630,35 @@ InputPath=.\sounds\startup.wav
 # Begin Custom Build - Copy $(InputPath)
 OutDir=.\..\..\Debug
 InputPath=.\sounds\startup.wav
+
+"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy /Y $(InputPath) $(OutDir)\$(InputPath)
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sounds\url.wav
+
+!IF  "$(CFG)" == "sound - Win32 Release"
+
+# Begin Custom Build - Copy $(InputPath)
+OutDir=.\..\..\Release
+InputPath=.\sounds\url.wav
+
+"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy /Y $(InputPath) $(OutDir)\$(InputPath)
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sound - Win32 Debug"
+
+# Begin Custom Build - Copy $(InputPath)
+OutDir=.\..\..\Debug
+InputPath=.\sounds\url.wav
 
 "$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy /Y $(InputPath) $(OutDir)\$(InputPath)

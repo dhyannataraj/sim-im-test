@@ -84,6 +84,7 @@ protected:
     void typingStart();
     void typingStop();
     void changeTyping(Client *client, void *data);
+    void setEmptyMessage();
     bool	m_bTyping;
     string	m_typingClient;
     bool send();

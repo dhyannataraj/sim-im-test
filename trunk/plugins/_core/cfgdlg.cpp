@@ -402,15 +402,24 @@ void ConfigureDialog::fill(unsigned id)
 
     if (id){
         for (QListViewItem *item = lstBox->firstChild(); item; item = item->nextSibling()){
-            ConfigItem *configItem = static_cast<ConfigItem*>(item);
-            if (configItem->id() == id){
-                lstBox->setCurrentItem(item);
-                break;
-            }
+            if (setCurrentItem(item, id))
+                return;
         }
-    }else{
-        lstBox->setCurrentItem(lstBox->firstChild());
     }
+    lstBox->setCurrentItem(lstBox->firstChild());
+}
+
+bool ConfigureDialog::setCurrentItem(QListViewItem *parent, unsigned id)
+{
+    if (static_cast<ConfigItem*>(parent)->id() == id){
+        lstBox->setCurrentItem(parent);
+        return true;
+    }
+    for (QListViewItem *item = parent->firstChild(); item; item = item->nextSibling()){
+        if (setCurrentItem(item, id))
+            return true;
+    }
+    return false;
 }
 
 void ConfigureDialog::closeEvent(QCloseEvent *e)
@@ -421,7 +430,8 @@ void ConfigureDialog::closeEvent(QCloseEvent *e)
 
 void ConfigureDialog::itemSelected(QListViewItem *item)
 {
-    static_cast<ConfigItem*>(item)->show();
+    if (item)
+        static_cast<ConfigItem*>(item)->show();
 }
 
 void ConfigureDialog::apply(QListViewItem *item)
@@ -429,6 +439,12 @@ void ConfigureDialog::apply(QListViewItem *item)
     static_cast<ConfigItem*>(item)->apply();
     for (item = item->firstChild(); item; item = item->nextSibling())
         apply(item);
+}
+
+void ConfigureDialog::reject()
+{
+    ConfigureDialogBase::reject();
+    emit finished();
 }
 
 void ConfigureDialog::apply()
@@ -463,6 +479,8 @@ void ConfigureDialog::apply()
             id = static_cast<ConfigItem*>(lstBox->currentItem())->id();
         disconnect(lstBox, SIGNAL(currentChanged(QListViewItem*)), this, SLOT(itemSelected(QListViewItem*)));
         fill(id);
+        connect(lstBox, SIGNAL(currentChanged(QListViewItem*)), this, SLOT(itemSelected(QListViewItem*)));
+        itemSelected(lstBox->currentItem());
         buttonApply->setText(i18n("&Apply"));
         buttonOk->setText(i18n("&OK"));
         buttonCancel->setText(i18n("&Cancel"));
@@ -523,8 +541,10 @@ void ConfigureDialog::setTitle()
 void ConfigureDialog::accept()
 {
     apply();
-    if (m_bAccept)
+    if (m_bAccept){
         ConfigureDialogBase::accept();
+        emit finished();
+    }
 }
 
 void ConfigureDialog::showUpdate(bool bShow)
