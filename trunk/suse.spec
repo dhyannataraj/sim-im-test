@@ -1,5 +1,5 @@
 # spec created by Crissi
-%define suse_release %(suse_release="`cat /etc/SuSE-release | tail -n1 | awk {'print $3'}`" ;; echo "$suse_release")
+%define suse_release %(suse_release="`cat /etc/SuSE-release | tail -n1 | awk {'print $3'}`" ; echo "$suse_release")
 %define release %(release="`echo "%{suse_release} * 10" | bc 2>/dev/null`" ; if test $? != 0 ; then release="" ; fi ; echo "$release")
 
 Name:           sim
