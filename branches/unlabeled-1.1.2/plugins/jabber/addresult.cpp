@@ -85,6 +85,7 @@ void *AddResult::processEvent(Event *e)
             Contact *contact;
             if (cmd->id == static_cast<JabberPlugin*>(m_client->protocol()->plugin())->CmdSendMessage){
                 contact = createContact(CONTACT_TEMP);
+                if (!contact) return NULL;
                 Message msg(MessageGeneric);
                 msg.setContact(contact->id());
                 Event e(EventOpenMessage, &msg);
@@ -93,6 +94,7 @@ void *AddResult::processEvent(Event *e)
             if (cmd->id == CmdInfo){
                 JabberUserData *data;
                 contact = createContact(CONTACT_TEMP, &data);
+                if (!contact) return NULL;
                 m_client->updateInfo(contact, data);
                 Command cmd;
                 cmd->id = CmdInfo;
@@ -105,6 +107,7 @@ void *AddResult::processEvent(Event *e)
         }
         if (cmd->menu_id == static_cast<JabberPlugin*>(m_client->protocol()->plugin())->MenuGroups){
             Contact *contact = createContact(0);
+            if (!contact) return NULL;
             contact->setGroup(cmd->id - 1);
             Event eContact(EventContactChanged, contact);
             eContact.process();
