@@ -423,8 +423,11 @@ string ICQClient::createRTF(const string &text, unsigned long foreColor, const c
                         if (eq((*it).name.c_str(), "style")){
                             char FONT_SIZE[] = "font-size:";
                             if (((*it).value.length() > strlen(FONT_SIZE)) && !memcmp((*it).value.c_str(), FONT_SIZE, strlen(FONT_SIZE))){
-                                size = atol((*it).value.c_str() + strlen(FONT_SIZE)) * 2;
-                                if (size == 0) size = f.size;
+								const char *v = (*it).value.c_str() + strlen(FONT_SIZE);
+								if ((*v >= '0') && (*v <= '9')){
+									size = atol(v) * 2;
+									if (size == 0) size = f.size;
+								}
                             }
                         }
                         if (eq((*it).name.c_str(), "size")){
