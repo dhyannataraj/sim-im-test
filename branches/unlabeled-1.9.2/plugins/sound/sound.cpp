@@ -43,7 +43,7 @@ Plugin *createSoundPlugin(unsigned base, bool bFirst, const char *config)
 static PluginInfo info =
     {
         I18N_NOOP("Sound"),
-        I18N_NOOP("Plugin provides sounds on any evenents"),
+        I18N_NOOP("Plugin provides sounds on any events"),
         VERSION,
         createSoundPlugin,
         PLUGIN_DEFAULT
