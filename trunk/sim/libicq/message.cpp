@@ -988,6 +988,11 @@ string ICQClient::makeMessageText(ICQMsg *msg, ICQUser *u)
     string message = clearHTML(msg_text);
     fromUTF(message, encoding);
     toServer(message, encoding);
-    return message;
+	string m;
+	for (const char *p = message.c_str(); *p; p++){
+		if (*p == '\n') m += '\r';
+		m += *p;
+	}
+    return m;
 }
 
