@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>366</width>
-            <height>329</height>
+            <width>395</width>
+            <height>332</height>
         </rect>
     </property>
     <property>
@@ -174,7 +174,7 @@
                     <class>QLayoutWidget</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>Layout1</cstring>
+                        <cstring>Layout2</cstring>
                     </property>
                     <hbox>
                         <property>
@@ -216,7 +216,7 @@
                             <property>
                                 <name>sizePolicy</name>
                                 <sizepolicy>
-                                    <hsizetype>7</hsizetype>
+                                    <hsizetype>1</hsizetype>
                                     <vsizetype>1</vsizetype>
                                 </sizepolicy>
                             </property>
@@ -225,6 +225,27 @@
                                 <string></string>
                             </property>
                         </widget>
+                        <spacer>
+                            <property>
+                                <name>name</name>
+                                <cstring>Spacer2_2</cstring>
+                            </property>
+                            <property>
+                                <name>orientation</name>
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property>
+                                <name>sizeType</name>
+                                <enum>Expanding</enum>
+                            </property>
+                            <property>
+                                <name>sizeHint</name>
+                                <size>
+                                    <width>20</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </spacer>
                     </hbox>
                 </widget>
             </vbox>

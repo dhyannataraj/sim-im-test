@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
-"POT-Creation-Date: 2004-02-18 09:48+0300\n"
+"POT-Creation-Date: 2004-02-19 10:52+0300\n"
 "PO-Revision-Date: 2002-12-04 01:05+0100\n"
 "Last-Translator: Arend van Beelen jr. <junior@vergeetalles.nl>\n"
 "Language-Team: Nederlands <i18n@kde.nl>\n"
@@ -1043,7 +1043,7 @@ msgstr "&Registreren"
 msgid "&Cancel"
 msgstr "Af&breken"
 
-#: plugins/_core/core.cpp:631 plugins/_core/filetransfer.cpp:310
+#: plugins/_core/core.cpp:632 plugins/_core/filetransfer.cpp:310
 #: plugins/_core/managerbase.cpp:110 plugins/_core/toolsetupbase.cpp:136
 #: plugins/about/aboutdlgbase.cpp:125 plugins/icq/securedlg.cpp:92
 #: plugins/jabber/discoinfobase.cpp:290 sim/api/simapi.cpp:449
@@ -1444,17 +1444,17 @@ msgstr ""
 msgid "&Save"
 msgstr "Opslaan"
 
-#: plugins/_core/core.cpp:1150 plugins/_core/historycfgbase.cpp:175
+#: plugins/_core/core.cpp:1158 plugins/_core/historycfgbase.cpp:175
 #: sim/ui/qt3/i18n.cpp:97
 #, fuzzy
 msgid "&Rename"
 msgstr "Hernoemen"
 
-#: plugins/_core/core.cpp:1159 plugins/_core/core.cpp:1306
-#: plugins/_core/core.cpp:1319 plugins/_core/historycfgbase.cpp:176
+#: plugins/_core/core.cpp:1167 plugins/_core/core.cpp:1314
+#: plugins/_core/core.cpp:1327 plugins/_core/historycfgbase.cpp:176
 #: plugins/_core/logindlgbase.cpp:129 plugins/_core/maininfobase.cpp:178
 #: plugins/_core/maininfobase.cpp:188 plugins/action/menucfgbase.cpp:70
-#: sim/ui/listview.cpp:37 sim/ui/qt3/i18n.cpp:99
+#: sim/ui/listview.cpp:38 sim/ui/qt3/i18n.cpp:99
 msgid "&Delete"
 msgstr "&Verwijderen"
 
@@ -1582,7 +1582,7 @@ msgstr ""
 msgid "Stri&keout"
 msgstr ""
 
-#: plugins/_core/core.cpp:734 plugins/_core/core.cpp:831
+#: plugins/_core/core.cpp:735 plugins/_core/core.cpp:832
 #: sim/ui/qt3/i18n.cpp:160
 msgid "&Underline"
 msgstr "&Onderstrepen"
@@ -1782,13 +1782,13 @@ msgstr "Firma:"
 msgid "Paste"
 msgstr "Feestjes"
 
-#: plugins/_core/core.cpp:983 sim/ui/qt3/i18n.cpp:255
+#: plugins/_core/core.cpp:984 sim/ui/qt3/i18n.cpp:255
 #: sim/ui/qt3/qtextedit.cpp:4217
 #, fuzzy
 msgid "Clear"
 msgstr "Auto's"
 
-#: plugins/_core/core.cpp:991 sim/ui/qt3/i18n.cpp:257
+#: plugins/_core/core.cpp:992 sim/ui/qt3/i18n.cpp:257
 #: sim/ui/qt3/qtextedit.cpp:4221 sim/ui/qt3/qtextedit.cpp:4223
 #, fuzzy
 msgid "Select All"
@@ -1887,28 +1887,28 @@ msgstr "Detailhandelszaken"
 msgid "Roll down"
 msgstr ""
 
-#: plugins/_core/core.cpp:940 sim/ui/qt3/qtextedit.cpp:4205
+#: plugins/_core/core.cpp:941 sim/ui/qt3/qtextedit.cpp:4205
 #, fuzzy
 msgid "&Undo"
 msgstr "Vereniging"
 
-#: plugins/_core/core.cpp:951 sim/ui/qt3/qtextedit.cpp:4206
+#: plugins/_core/core.cpp:952 sim/ui/qt3/qtextedit.cpp:4206
 #, fuzzy
 msgid "&Redo"
 msgstr "Bericht %1 lezen"
 
-#: plugins/_core/core.cpp:959 sim/ui/qt3/qtextedit.cpp:4211
+#: plugins/_core/core.cpp:960 sim/ui/qt3/qtextedit.cpp:4211
 msgid "Cu&t"
 msgstr ""
 
-#: plugins/_core/core.cpp:876 plugins/_core/core.cpp:967
+#: plugins/_core/core.cpp:877 plugins/_core/core.cpp:968
 #: plugins/_core/historycfgbase.cpp:174 plugins/netmonitor/monitor.cpp:67
 #: sim/ui/qt3/qtextedit.cpp:4212
 #, fuzzy
 msgid "&Copy"
 msgstr "Firma:"
 
-#: plugins/_core/core.cpp:975 sim/ui/qt3/qtextedit.cpp:4214
+#: plugins/_core/core.cpp:976 sim/ui/qt3/qtextedit.cpp:4214
 #, fuzzy
 msgid "&Paste"
 msgstr "Feestjes"
@@ -2098,7 +2098,7 @@ msgstr "&Nieuw"
 msgid "Last online"
 msgstr "Laatst online"
 
-#: plugins/_core/userlist.cpp:579 plugins/icq/icq.cpp:99
+#: plugins/_core/userlist.cpp:595 plugins/icq/icq.cpp:99
 #: plugins/icq/icq.cpp:269 plugins/icq/icqclient.cpp:1434
 #: plugins/icq/icqclient.cpp:1468 plugins/jabber/jabber.cpp:87
 #: plugins/jabber/jabberclient.cpp:1425 plugins/jabber/services.cpp:235
@@ -2240,7 +2240,7 @@ msgstr "Status"
 msgid "Online:"
 msgstr "Online"
 
-#: plugins/_core/core.cpp:1230 plugins/icq/aiminfobase.cc:274
+#: plugins/_core/core.cpp:1238 plugins/icq/aiminfobase.cc:274
 #: plugins/icq/icqinfobase.cc:288 plugins/jabber/jabberinfobase.cpp:194
 #: plugins/msn/msninfobase.cpp:136 plugins/yahoo/yahooinfobase.cpp:156
 #, fuzzy
@@ -2299,7 +2299,7 @@ msgstr ""
 msgid "On the lunch"
 msgstr ""
 
-#: plugins/_core/userlist.cpp:582 plugins/_core/userviewcfgbase.cpp:266
+#: plugins/_core/userlist.cpp:598 plugins/_core/userviewcfgbase.cpp:266
 #: plugins/icq/icq.cpp:189 plugins/icq/icq.cpp:299
 #: plugins/icq/icqclient.cpp:1431 plugins/jabber/jabber.cpp:162
 #: plugins/jabber/services.cpp:232 plugins/livejournal/livejournal.cpp:332
@@ -2518,8 +2518,8 @@ msgid "Plugins"
 msgstr "Pools"
 
 #: plugins/_core/cfgdlg.cpp:491 plugins/_core/cfgdlgbase.cpp:91
-#: plugins/_core/core.cpp:526 plugins/_core/core.cpp:1108
-#: plugins/_core/core.cpp:1190
+#: plugins/_core/core.cpp:527 plugins/_core/core.cpp:1116
+#: plugins/_core/core.cpp:1198
 msgid "Setup"
 msgstr "Instellingen"
 
@@ -2654,7 +2654,7 @@ msgstr "Thaïs"
 msgid "Turkish"
 msgstr "Turks"
 
-#: plugins/_core/core.cpp:441
+#: plugins/_core/core.cpp:442
 msgid ""
 "I am currently away from ICQ.\n"
 "Please leave your message and I will get back to you as soon as I return!\n"
@@ -2662,7 +2662,7 @@ msgstr ""
 "Ik ben op het moment weg van ICQ.\n"
 "Laat je bericht achter en ik zal antwoorden zodra ik terug ben!\n"
 
-#: plugins/_core/core.cpp:445
+#: plugins/_core/core.cpp:446
 msgid ""
 "I am out'a here.\n"
 "See you tomorrow!\n"
@@ -2670,281 +2670,286 @@ msgstr ""
 "Ik ben weg hier.\n"
 "'k Zie je morgen!\n"
 
-#: plugins/_core/core.cpp:449
+#: plugins/_core/core.cpp:450
 msgid "Please do not disturb me now. Disturb me later.\n"
 msgstr "Alstublieft niet storen, nu. Stoor me later.\n"
 
-#: plugins/_core/core.cpp:452
+#: plugins/_core/core.cpp:453
 msgid "We'd love to hear what you have to say. Join our chat.\n"
 msgstr ""
 "We zouden dolgraag willen weten wat je te zeggen hebt. Kom bij onze chat.\n"
 
-#: plugins/_core/core.cpp:536
+#: plugins/_core/core.cpp:537
 #, fuzzy
 msgid "Unread messages"
 msgstr "&Nieuw bericht"
 
-#: plugins/_core/core.cpp:544
+#: plugins/_core/core.cpp:545
 msgid "Quit"
 msgstr "Sluiten"
 
-#: plugins/_core/core.cpp:553
+#: plugins/_core/core.cpp:554
 msgid "&Menu"
 msgstr "&Menu"
 
-#: plugins/_core/core.cpp:563 plugins/_core/searchbase.cpp:73
+#: plugins/_core/core.cpp:564 plugins/_core/searchbase.cpp:73
 msgid "Search / Add contact"
 msgstr ""
 
-#: plugins/_core/core.cpp:574
+#: plugins/_core/core.cpp:575
 #, fuzzy
 msgid "&Send SMS"
 msgstr "SMS sturen"
 
-#: plugins/_core/core.cpp:581
+#: plugins/_core/core.cpp:582
 #, fuzzy
 msgid "&Phone service"
 msgstr "Andere services"
 
-#: plugins/_core/core.cpp:591
+#: plugins/_core/core.cpp:592
 msgid "Message"
 msgstr "Bericht"
 
-#: plugins/_core/core.cpp:602 plugins/filter/ignorelist.cpp:26
+#: plugins/_core/core.cpp:603 plugins/filter/ignorelist.cpp:26
 #, fuzzy
 msgid "Contact"
 msgstr "Kontaktliste"
 
-#: plugins/_core/core.cpp:609 plugins/_core/core.cpp:1142
+#: plugins/_core/core.cpp:610 plugins/_core/core.cpp:1150
 #, fuzzy
 msgid "Group"
 msgstr "Gruppe"
 
-#: plugins/_core/core.cpp:617 plugins/_core/core.cpp:1175
+#: plugins/_core/core.cpp:618 plugins/_core/core.cpp:1183
 #: plugins/icq/icq.cpp:496 plugins/jabber/jabber.cpp:264
 msgid "User &info"
 msgstr "Benutzer&information"
 
-#: plugins/_core/core.cpp:624 plugins/_core/core.cpp:1015
-#: plugins/_core/core.cpp:1183
+#: plugins/_core/core.cpp:625 plugins/_core/core.cpp:1016
+#: plugins/_core/core.cpp:1191
 msgid "&History"
 msgstr "&Geschiedenis"
 
-#: plugins/_core/core.cpp:665 plugins/_core/msgedit.cpp:999
+#: plugins/_core/core.cpp:666 plugins/_core/msgedit.cpp:999
 msgid "&Send"
 msgstr "&Verzenden"
 
-#: plugins/_core/core.cpp:675
+#: plugins/_core/core.cpp:676
 #, fuzzy
 msgid "&Insert smile"
 msgstr "&Smiley invoegen"
 
-#: plugins/_core/core.cpp:682 plugins/forward/forwardcfgbase.cpp:75
+#: plugins/_core/core.cpp:683 plugins/forward/forwardcfgbase.cpp:75
 msgid "Send in &translit"
 msgstr ""
 
-#: plugins/_core/core.cpp:690 plugins/_core/msgedit.cpp:248
+#: plugins/_core/core.cpp:691 plugins/_core/msgedit.cpp:248
 msgid "C&lose after send"
 msgstr "&Sluiten na verzenden"
 
-#: plugins/_core/core.cpp:698 plugins/_core/msgedit.cpp:988
+#: plugins/_core/core.cpp:699 plugins/_core/msgedit.cpp:988
 msgid "&Multiply send"
 msgstr "Aan &meerdere versturen"
 
-#: plugins/_core/core.cpp:706 plugins/_core/core.cpp:802
+#: plugins/_core/core.cpp:707 plugins/_core/core.cpp:803
 #, fuzzy
 msgid "Back&ground color"
 msgstr "&Achtergrondkleur"
 
-#: plugins/_core/core.cpp:714 plugins/_core/core.cpp:811
+#: plugins/_core/core.cpp:715 plugins/_core/core.cpp:812
 #, fuzzy
 msgid "&Foreground color"
 msgstr "&Achtergrondkleur"
 
-#: plugins/_core/core.cpp:720 plugins/_core/core.cpp:817
+#: plugins/_core/core.cpp:721 plugins/_core/core.cpp:818
 msgid "&Bold"
 msgstr "&Vet"
 
-#: plugins/_core/core.cpp:727 plugins/_core/core.cpp:824
+#: plugins/_core/core.cpp:728 plugins/_core/core.cpp:825
 msgid "&Italic"
 msgstr "&Cursief"
 
-#: plugins/_core/core.cpp:741 plugins/_core/core.cpp:838
+#: plugins/_core/core.cpp:742 plugins/_core/core.cpp:839
 #, fuzzy
 msgid "Select &font"
 msgstr "Stijl selecteren:"
 
-#: plugins/_core/core.cpp:748
+#: plugins/_core/core.cpp:749
 #, fuzzy
 msgid "Select &file"
 msgstr "Stijl selecteren:"
 
-#: plugins/_core/core.cpp:756
+#: plugins/_core/core.cpp:757
 #, fuzzy
 msgid "&Phone number"
 msgstr "Telefoon toevoegen"
 
-#: plugins/_core/core.cpp:764 plugins/_core/msgedit.cpp:1496
+#: plugins/_core/core.cpp:765 plugins/_core/msgedit.cpp:1496
 #: plugins/jabber/jabber.cpp:310
 msgid "&Next"
 msgstr "&Volgende"
 
-#: plugins/_core/core.cpp:771
+#: plugins/_core/core.cpp:772
 #, fuzzy
 msgid "&Direction"
 msgstr "Map voor bestanden"
 
-#: plugins/_core/core.cpp:780 plugins/filter/filter.cpp:129
+#: plugins/_core/core.cpp:781 plugins/filter/filter.cpp:129
 #, fuzzy
 msgid "&Filter"
 msgstr "&Filteren"
 
-#: plugins/_core/core.cpp:788
+#: plugins/_core/core.cpp:789
 msgid "&Previous page"
 msgstr "&Vorige pagina"
 
-#: plugins/_core/core.cpp:796
+#: plugins/_core/core.cpp:797
 msgid "&Next page"
 msgstr "V&olgende pagina"
 
-#: plugins/_core/core.cpp:860
+#: plugins/_core/core.cpp:861
 #, fuzzy
 msgid "&Open message"
 msgstr "&Nieuw bericht"
 
-#: plugins/_core/core.cpp:882
+#: plugins/_core/core.cpp:883
 #, fuzzy
 msgid "&Delete message"
 msgstr "Berichten weigeren"
 
-#: plugins/_core/core.cpp:888
+#: plugins/_core/core.cpp:889
 #, fuzzy
 msgid "&Cut history"
 msgstr "&Geschiedenis"
 
-#: plugins/_core/core.cpp:893
+#: plugins/_core/core.cpp:894
 msgid "&Quote"
 msgstr "&Citeren"
 
-#: plugins/_core/core.cpp:910 plugins/forward/forward.cpp:65
+#: plugins/_core/core.cpp:911 plugins/forward/forward.cpp:65
 msgid "&Forward"
 msgstr "&Doorsturen"
 
-#: plugins/_core/core.cpp:925
+#: plugins/_core/core.cpp:926
 #, fuzzy
 msgid "&Answer"
 msgstr "Wissen"
 
-#: plugins/_core/core.cpp:998
+#: plugins/_core/core.cpp:999
 #, fuzzy
 msgid "&Messages"
 msgstr "Bericht"
 
-#: plugins/_core/core.cpp:1007 plugins/_core/msgedit.cpp:1647
+#: plugins/_core/core.cpp:1008 plugins/_core/msgedit.cpp:1647
 #: plugins/sms/smssetupbase.cpp:153
 #, fuzzy
 msgid "&SMS"
 msgstr "SMS"
 
-#: plugins/_core/core.cpp:1023 plugins/_core/core.cpp:1054
+#: plugins/_core/core.cpp:1024 plugins/_core/core.cpp:1055
 msgid "Show &offline"
 msgstr "&Offline tonen"
 
-#: plugins/_core/core.cpp:1035
+#: plugins/_core/core.cpp:1036
 #, fuzzy
 msgid "&No show groups"
 msgstr "Nieuwe groep"
 
-#: plugins/_core/core.cpp:1045
+#: plugins/_core/core.cpp:1046
 #, fuzzy
 msgid "Group mode 1"
 msgstr "&Groepmodus"
 
-#: plugins/_core/core.cpp:1050
+#: plugins/_core/core.cpp:1051
 #, fuzzy
 msgid "Group mode 2"
 msgstr "&Groepmodus"
 
-#: plugins/_core/core.cpp:1061
+#: plugins/_core/core.cpp:1062
+#, fuzzy
+msgid "Show &empty groups"
+msgstr "Nieuwe groep"
+
+#: plugins/_core/core.cpp:1069
 #, fuzzy
 msgid "&Create group"
 msgstr "Groep aanmaken"
 
-#: plugins/_core/core.cpp:1072
+#: plugins/_core/core.cpp:1080
 #, fuzzy
 msgid "&Rename group"
 msgstr "Groep aanmaken"
 
-#: plugins/_core/core.cpp:1079
+#: plugins/_core/core.cpp:1087
 #, fuzzy
 msgid "&Delete group"
 msgstr "Groep aanmaken"
 
-#: plugins/_core/core.cpp:1086
+#: plugins/_core/core.cpp:1094
 msgid "Up"
 msgstr "Omhoog"
 
-#: plugins/_core/core.cpp:1093
+#: plugins/_core/core.cpp:1101
 msgid "Down"
 msgstr "Omlaag"
 
-#: plugins/_core/core.cpp:1167
+#: plugins/_core/core.cpp:1175
 msgid "Show &always"
 msgstr ""
 
-#: plugins/_core/core.cpp:1197
+#: plugins/_core/core.cpp:1205
 msgid "To container"
 msgstr "Naar container"
 
-#: plugins/_core/core.cpp:1222
+#: plugins/_core/core.cpp:1230
 #, fuzzy
 msgid "&Location"
 msgstr "Bezigheid:"
 
-#: plugins/_core/core.cpp:1237
+#: plugins/_core/core.cpp:1245
 #, fuzzy
 msgid "&Phone book"
 msgstr "Telefoonboek"
 
-#: plugins/_core/core.cpp:1244
+#: plugins/_core/core.cpp:1252
 #, fuzzy
 msgid "&No show"
 msgstr "Nieuwe groep"
 
-#: plugins/_core/core.cpp:1251
+#: plugins/_core/core.cpp:1259
 #, fuzzy
 msgid "&Available"
 msgstr "Beschikbaar"
 
-#: plugins/_core/core.cpp:1259
+#: plugins/_core/core.cpp:1267
 #, fuzzy
 msgid "&Busy"
 msgstr "Bezig"
 
-#: plugins/_core/core.cpp:1275
+#: plugins/_core/core.cpp:1283
 msgid "Decline file without reason"
 msgstr "Bestand afwijzen zonder reden"
 
-#: plugins/_core/core.cpp:1283 plugins/_core/core.cpp:2850
+#: plugins/_core/core.cpp:1291 plugins/_core/core.cpp:2858
 msgid "Sorry, I'm busy right now, and can not respond to your request"
 msgstr ""
 "Sorry, ik ben bezig op het moment en ik kan niet reageren op je verzoek"
 
-#: plugins/_core/core.cpp:1288 plugins/_core/core.cpp:2859
+#: plugins/_core/core.cpp:1296 plugins/_core/core.cpp:2867
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
 msgstr "Sorry, ik ben bezig op het moment, maar ik heb later wel tijd voor je"
 
-#: plugins/_core/core.cpp:1293
+#: plugins/_core/core.cpp:1301
 msgid "Enter a decline reason"
 msgstr "Geef een reden voor de afwijzing"
 
-#: plugins/_core/core.cpp:1298 plugins/_core/core.cpp:1312
+#: plugins/_core/core.cpp:1306 plugins/_core/core.cpp:1320
 #: plugins/_core/maininfobase.cpp:177 plugins/_core/maininfobase.cpp:187
 #: plugins/action/menucfgbase.cpp:69 plugins/netmonitor/monitor.cpp:69
 msgid "&Edit"
 msgstr "&Bewerken"
 
-#: plugins/_core/core.cpp:1562
+#: plugins/_core/core.cpp:1570
 msgid ""
 "&IP; - ip-address\n"
 "&Mail; - e-mail\n"
@@ -2958,71 +2963,71 @@ msgid ""
 "`<command>` - call <command> and substitute command output\n"
 msgstr ""
 
-#: plugins/_core/core.cpp:2115
+#: plugins/_core/core.cpp:2123
 #, fuzzy
 msgid "&Separate"
 msgstr "Bijwerken"
 
-#: plugins/_core/core.cpp:2153 plugins/_core/userwnd.cpp:130
+#: plugins/_core/core.cpp:2161 plugins/_core/userwnd.cpp:130
 #, fuzzy, c-format
 msgid "from %1"
 msgstr "%1 van %2"
 
-#: plugins/_core/core.cpp:2237
+#: plugins/_core/core.cpp:2245
 #, fuzzy
 msgid "&New"
 msgstr "Nieuw"
 
-#: plugins/_core/core.cpp:2311
+#: plugins/_core/core.cpp:2319
 #, fuzzy
 msgid "Not available"
 msgstr "Beschikbaar"
 
-#: plugins/_core/core.cpp:2411 plugins/dock/dockwnd.cpp:1185
+#: plugins/_core/core.cpp:2419 plugins/dock/dockwnd.cpp:1185
 #: plugins/osd/osd.cpp:336
 msgid "%1 from %2"
 msgstr "%1 van %2"
 
-#: plugins/_core/core.cpp:2548
+#: plugins/_core/core.cpp:2556
 msgid "%1 wrote:"
 msgstr ""
 
-#: plugins/_core/core.cpp:2636
+#: plugins/_core/core.cpp:2644
 msgid "Send SMS"
 msgstr "SMS sturen"
 
-#: plugins/_core/core.cpp:3615 plugins/_core/core.cpp:3637
+#: plugins/_core/core.cpp:3623 plugins/_core/core.cpp:3645
 #: plugins/_core/managerbase.cpp:103
 #, fuzzy
 msgid "Connection manager"
 msgstr "Verbinden"
 
-#: plugins/_core/core.cpp:3623
+#: plugins/_core/core.cpp:3631
 #, fuzzy
 msgid "Show status panel"
 msgstr "Telefoonstatus"
 
-#: plugins/_core/core.cpp:3630
+#: plugins/_core/core.cpp:3638
 #, fuzzy
 msgid "Connections"
 msgstr "Verbinding"
 
-#: plugins/_core/core.cpp:3645
+#: plugins/_core/core.cpp:3653
 #, fuzzy
 msgid "Change profile"
 msgstr "Gedeelde bestanden"
 
-#: plugins/_core/core.cpp:3674
+#: plugins/_core/core.cpp:3682
 #, fuzzy
 msgid "Common status"
 msgstr "Telefoonstatus"
 
-#: plugins/_core/core.cpp:3680
+#: plugins/_core/core.cpp:3688
 #, fuzzy
 msgid "Configure client"
 msgstr "ICQ"
 
-#: plugins/_core/core.cpp:3704 plugins/_core/status.cpp:151
+#: plugins/_core/core.cpp:3712 plugins/_core/status.cpp:151
 #: plugins/_core/status.cpp:219
 #, fuzzy
 msgid "&Invisible"
@@ -3132,29 +3137,29 @@ msgstr ""
 msgid "b/s"
 msgstr ""
 
-#: plugins/_core/historycfg.cpp:201
+#: plugins/_core/historycfg.cpp:197
 msgid "Show %1 messages per page"
 msgstr ""
 
-#: plugins/_core/historycfg.cpp:487
+#: plugins/_core/historycfg.cpp:481
 msgid "Remove style '%1'?"
 msgstr ""
 
-#: plugins/_core/historycfg.cpp:662
+#: plugins/_core/historycfg.cpp:656
 msgid "Hi! ;)"
 msgstr ""
 
-#: plugins/_core/historycfg.cpp:668
+#: plugins/_core/historycfg.cpp:662
 msgid "Hi!"
 msgstr ""
 
-#: plugins/_core/historycfg.cpp:674
+#: plugins/_core/historycfg.cpp:668
 msgid ""
 "<b><font color=\"#FF0000\">C</font><font color=\"#FFFF00\">olored</font></b> "
 "message"
 msgstr ""
 
-#: plugins/_core/historycfg.cpp:683 plugins/_core/msgcfgbase.cpp:86
+#: plugins/_core/historycfg.cpp:677 plugins/_core/msgcfgbase.cpp:86
 #, fuzzy
 msgid "New message"
 msgstr "&Nieuw bericht"
@@ -3461,9 +3466,9 @@ msgstr "Gebruikersinformatie"
 msgid "New contact"
 msgstr "Niet-ICQ contact toevoegen"
 
-#: plugins/_core/usercfg.cpp:288 plugins/_core/userlist.cpp:971
-#: plugins/_core/userview.cpp:175 plugins/_core/userview.cpp:666
-#: plugins/_core/userview.cpp:704 plugins/icq/icqsearch.cpp:143
+#: plugins/_core/usercfg.cpp:288 plugins/_core/userlist.cpp:993
+#: plugins/_core/userview.cpp:176 plugins/_core/userview.cpp:678
+#: plugins/_core/userview.cpp:716 plugins/icq/icqsearch.cpp:143
 #: plugins/icq/searchresult.cpp:256 plugins/jabber/addresult.cpp:143
 #: plugins/jabber/jabberadd.cpp:117
 msgid "Not in list"
@@ -3484,26 +3489,26 @@ msgstr "Gebruikersinformatie"
 msgid "Settings"
 msgstr "Verzenden"
 
-#: plugins/_core/userview.cpp:370 plugins/_core/userview.cpp:548
+#: plugins/_core/userview.cpp:371 plugins/_core/userview.cpp:554
 #, fuzzy
 msgid "Delete \"%1\"?"
 msgstr "%1 verwijderen?"
 
-#: plugins/_core/userview.cpp:761
+#: plugins/_core/userview.cpp:773
 msgid "New group"
 msgstr "Nieuwe groep"
 
-#: plugins/_core/userview.cpp:800
+#: plugins/_core/userview.cpp:812
 #, fuzzy
 msgid "&Groups"
 msgstr "Groepen"
 
-#: plugins/_core/userview.cpp:1016
+#: plugins/_core/userview.cpp:1028
 #, fuzzy, c-format
 msgid "Search: %1"
 msgstr "Zoeken"
 
-#: plugins/_core/userview.cpp:1469
+#: plugins/_core/userview.cpp:1481
 msgid "Join \"%1\" and \"%2\"?"
 msgstr ""
 
@@ -6602,15 +6607,15 @@ msgstr ""
 msgid "Show network monitor"
 msgstr "Netwerk"
 
-#: plugins/ontop/ontop.cpp:44
+#: plugins/ontop/ontop.cpp:45
 msgid "On Top"
 msgstr ""
 
-#: plugins/ontop/ontop.cpp:45
+#: plugins/ontop/ontop.cpp:46
 msgid "Plugin provides main window and containers always on top"
 msgstr ""
 
-#: plugins/ontop/ontop.cpp:80
+#: plugins/ontop/ontop.cpp:81
 msgid "Always on top"
 msgstr "Altijd op voorgrond"
 
@@ -8545,21 +8550,21 @@ msgstr ""
 msgid "Contact %1 added in group %2"
 msgstr "Contactlijst verzonden"
 
-#: plugins/replace/replace.cpp:29
+#: plugins/replace/replace.cpp:33
 #, fuzzy
 msgid "Replace text"
 msgstr "&Vervangen"
 
-#: plugins/replace/replace.cpp:30
+#: plugins/replace/replace.cpp:34
 msgid "Plugin provides text replacing in message edit window"
 msgstr ""
 
-#: plugins/replace/replacecfg.cpp:26
+#: plugins/replace/replacecfg.cpp:31
 #, fuzzy
 msgid "You type"
 msgstr "Proxy-host:"
 
-#: plugins/replace/replacecfg.cpp:27
+#: plugins/replace/replacecfg.cpp:32
 #, fuzzy
 msgid "You send"
 msgstr "Pictogrammen:"

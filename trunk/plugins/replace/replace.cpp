@@ -54,7 +54,7 @@ ReplacePlugin::ReplacePlugin(unsigned base, const char *cfg)
         : Plugin(base)
 {
     load_data(replaceData, &data, cfg);
-	qApp->installEventFilter(this);
+    qApp->installEventFilter(this);
 }
 
 ReplacePlugin::~ReplacePlugin()
@@ -75,8 +75,8 @@ QWidget *ReplacePlugin::createConfigWindow(QWidget *parent)
 class UnquoteParser : public HTMLParser
 {
 public:
-	UnquoteParser(const QString &text);
-	QString m_text;
+    UnquoteParser(const QString &text);
+    QString m_text;
 protected:
     virtual void text(const QString &text);
     virtual void tag_start(const QString &tag, const list<QString> &options);
@@ -85,20 +85,20 @@ protected:
 
 UnquoteParser::UnquoteParser(const QString &text)
 {
-	parse(text);
+    parse(text);
 }
 
 void UnquoteParser::text(const QString &text)
 {
-	m_text += text;
+    m_text += text;
 }
 
 void UnquoteParser::tag_start(const QString &tag, const list<QString>&)
 {
-	if (tag == "img")
-		m_text += " ";
-	if (tag == "br")
-		m_text += "\n";
+    if (tag == "img")
+        m_text += " ";
+    if (tag == "br")
+        m_text += "\n";
 }
 
 void UnquoteParser::tag_end(const QString&)
@@ -107,33 +107,33 @@ void UnquoteParser::tag_end(const QString&)
 
 bool ReplacePlugin::eventFilter(QObject *o, QEvent *e)
 {
-	if ((e->type() == QEvent::KeyPress) && o->inherits("MsgTextEdit")){
-		QKeyEvent *ke = (QKeyEvent*)e;
-		if ((ke->key() == Key_Enter) || (ke->key() == Key_Return) || (ke->key() == Key_Space)){
-			TextEdit *edit = (TextEdit*)o;
-			int paraFrom, paraTo, indexFrom, indexTo;
-			edit->getSelection(&paraFrom, &indexFrom, &paraTo, &indexTo);
-			if ((paraFrom == paraTo) && (indexFrom == indexTo)){
-				int parag, index;
-			    edit->getCursorPosition(&parag, &index);
-				UnquoteParser p(edit->text(parag));
-				QString text = p.m_text.left(index);
-				for (unsigned i = 0; i < getKeys(); i++){
-					QString key = getKey(i);
-					if (key.length() > text.length())
-						continue;
-					if (key != text.mid(text.length() - key.length()))
-						continue;
-					if ((key.length() < text.length()) && !text[(int)(text.length() - key.length() - 1)].isSpace())
-						continue;
-					edit->setSelection(parag, index - key.length(), parag, index);
-					edit->insert(getValue(i), false, false);
-					break;
-				}
-			}
-		}
-	}
-	return QObject::eventFilter(o, e);
+    if ((e->type() == QEvent::KeyPress) && o->inherits("MsgTextEdit")){
+        QKeyEvent *ke = (QKeyEvent*)e;
+        if ((ke->key() == Key_Enter) || (ke->key() == Key_Return) || (ke->key() == Key_Space)){
+            TextEdit *edit = (TextEdit*)o;
+            int paraFrom, paraTo, indexFrom, indexTo;
+            edit->getSelection(&paraFrom, &indexFrom, &paraTo, &indexTo);
+            if ((paraFrom == paraTo) && (indexFrom == indexTo)){
+                int parag, index;
+                edit->getCursorPosition(&parag, &index);
+                UnquoteParser p(edit->text(parag));
+                QString text = p.m_text.left(index);
+                for (unsigned i = 1; i <= getKeys(); i++){
+                    QString key = getKey(i);
+                    if (key.length() > text.length())
+                        continue;
+                    if (key != text.mid(text.length() - key.length()))
+                        continue;
+                    if ((key.length() < text.length()) && !text[(int)(text.length() - key.length() - 1)].isSpace())
+                        continue;
+                    edit->setSelection(parag, index - key.length(), parag, index);
+                    edit->insert(getValue(i), false, false);
+                    break;
+                }
+            }
+        }
+    }
+    return QObject::eventFilter(o, e);
 }
 
 #ifdef WIN32

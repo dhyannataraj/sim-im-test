@@ -56,6 +56,7 @@ UserView::UserView()
     m_bBlink = false;
     m_bUnreadBlink = false;
     m_bShowOnline = CorePlugin::m_plugin->getShowOnLine();
+    m_bShowEmpty = CorePlugin::m_plugin->getShowEmptyGroup();
 
     setBackgroundMode(NoBackground);
     viewport()->setBackgroundMode(NoBackground);
@@ -489,6 +490,11 @@ void *UserView::processEvent(Event *e)
                 }
                 fill();
             }
+            if (cmd->id == CmdEmptyGroup){
+                CorePlugin::m_plugin->setShowEmptyGroup((cmd->flags & COMMAND_CHECKED) != 0);
+                m_bShowEmpty = (cmd->flags & COMMAND_CHECKED);
+                fill();
+            }
             if (cmd->id == CmdGrpOff)
                 setGroupMode(0);
             if (cmd->id == CmdGrpMode1)
@@ -560,6 +566,12 @@ void *UserView::processEvent(Event *e)
                         ((cmd->id == CmdGrpMode2) && (CorePlugin::m_plugin->getGroupMode() == 2)) ||
                         ((cmd->id == CmdOnline) && CorePlugin::m_plugin->getShowOnLine()))
                     cmd->flags |= COMMAND_CHECKED;
+                if (cmd->id == CmdEmptyGroup){
+                    if (CorePlugin::m_plugin->getGroupMode() == 0)
+                        return NULL;
+                    if (CorePlugin::m_plugin->getShowEmptyGroup())
+                        cmd->flags |= COMMAND_CHECKED;
+                }
                 return e->param();
             }
             if (cmd->menu_id == MenuContact){
@@ -1308,7 +1320,7 @@ UserViewContactDragObject::UserViewContactDragObject(UserView *view, Contact *co
     DWORD threadId;
     CreateThread(NULL, 0, DragScrollThread, NULL, 0, &threadId);
 #else
-    QTimer *dragTimer = new QTimer(this);
+QTimer *dragTimer = new QTimer(this);
     connect(dragTimer, SIGNAL(timeout()), view, SLOT(dragScroll()));
     dragTimer->start(200);
 #endif

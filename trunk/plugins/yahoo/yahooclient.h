@@ -150,6 +150,7 @@ protected slots:
 protected:
     void	*processEvent(Event*);
     void	setStatus(unsigned status);
+    virtual void setInvisible(bool bState);
     void	disconnected();
     string	name();
     QWidget	*setupWnd();

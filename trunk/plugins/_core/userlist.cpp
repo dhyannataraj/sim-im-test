@@ -111,7 +111,7 @@ void UserViewItemBase::drawSeparator(QPainter *p, int x, int width, const QColor
         QRect rcSep(x, height()/2, width - 6 - x, 1);
         listView()->style().drawPrimitive(QStyle::PE_Separator, p, rcSep, cg);
 #else
-listView()->style().drawSeparator(p, x, height() / 2, width - 6, height() / 2, cg);
+        listView()->style().drawSeparator(p, x, height() / 2, width - 6, height() / 2, cg);
 #endif
     }
 }
@@ -271,6 +271,7 @@ UserListBase::UserListBase(QWidget *parent)
     m_bDirty = false;
     m_groupMode = 1;
     m_bShowOnline = false;
+    m_bShowEmpty  = false;
 
     header()->hide();
     addColumn("", -1);
@@ -302,10 +303,15 @@ void UserListBase::drawUpdates()
         case 1:
             item = findGroupItem(group->id());
             if (item){
-                static_cast<GroupItem*>(item)->update(group);
-                repaintItem(item);
+                if (!m_bShowEmpty && (item->firstChild() == NULL)){
+                    delete item;
+                }else{
+                    static_cast<GroupItem*>(item)->update(group);
+                    repaintItem(item);
+                }
             }else{
-                new GroupItem(this, group, true);
+                if (m_bShowEmpty)
+                    new GroupItem(this, group, true);
             }
             break;
         case 2:
@@ -315,10 +321,15 @@ void UserListBase::drawUpdates()
                 DivItem *divItem = static_cast<DivItem*>(i);
                 GroupItem *grpItem = findGroupItem(group->id(), divItem);
                 if (grpItem){
-                    grpItem->update(group);
-                    repaintItem(grpItem);
+                    if (!m_bShowEmpty && (item->firstChild() == NULL)){
+                        delete grpItem;
+                    }else{
+                        grpItem->update(group);
+                        repaintItem(grpItem);
+                    }
                 }else{
-                    new GroupItem(divItem, group, divItem->state() == DIV_OFFLINE);
+                    if (m_bShowEmpty)
+                        new GroupItem(divItem, group, divItem->state() == DIV_OFFLINE);
                 }
             }
             break;
@@ -429,6 +440,8 @@ void UserListBase::drawUpdates()
                         grpItem->m_nContactsOnline--;
                     addGroupForUpdate(grpItem->id());
                     deleteItem(contactItem);
+                    if (!m_bShowEmpty && (grpItem->firstChild() == NULL))
+                        delete grpItem;
                     contactItem = NULL;
                     grpItem = NULL;
                 }
@@ -436,11 +449,10 @@ void UserListBase::drawUpdates()
             if ((status > STATUS_OFFLINE) || unread || bShow || !m_bShowOnline){
                 if (grpItem == NULL){
                     grpItem = findGroupItem(contact->getGroup());
-                    if ((grpItem == NULL) && (contact->getGroup() == 0)){
-                        Group *grp = getContacts()->group(0);
+                    if (grpItem == NULL){
+                        Group *grp = getContacts()->group(contact->getGroup());
                         if (grp)
                             grpItem = new GroupItem(this, grp, true);
-                        grpItem = findGroupItem(0);
                     }
                 }
                 if (grpItem){
@@ -480,6 +492,9 @@ void UserListBase::drawUpdates()
                     grpItem->m_nContacts--;
                     addGroupForUpdate(grpItem->id());
                     deleteItem(contactItem);
+                    if (!m_bShowEmpty && (grpItem->firstChild() == NULL))
+                        delete grpItem;
+                    grpItem = NULL;
                     contactItem = NULL;
                 }
             }
@@ -522,6 +537,7 @@ void UserListBase::drawUpdates()
                 if (grp == NULL)
                     break;
                 grpItem = new GroupItem(divItem, grp, true);
+                addSortItem(divItem);
             }
             contactItem = findContactItem(contact->id(), grpItem);
             if (contactItem){
@@ -657,10 +673,13 @@ void UserListBase::fill()
         }
         break;
     case 1:
-        while ((grp = ++grp_it) != NULL){
-            if (grp->id() == 0)
-                continue;
-            grpItem = new GroupItem(this, grp, true);
+        if (m_bShowEmpty){
+            while ((grp = ++grp_it) != NULL){
+                if (grp->id() == 0)
+                    continue;
+                grpItem = new GroupItem(this, grp, true);
+            }
+            grpItem = new GroupItem(this, list->group(0), true);
         }
         while ((contact = ++contact_it) != NULL){
             if (contact->getIgnore() || contact->getTemporary())
@@ -677,12 +696,9 @@ void UserListBase::fill()
                 continue;
             grpItem = findGroupItem(contact->getGroup());
             if (grpItem == NULL){
-                if (contact->getGroup() == 0){
-                    grp = list->group(0);
-                    if (grp)
-                        grpItem = new GroupItem(this, grp, true);
-                }
-                grpItem = findGroupItem(0);
+                grp = list->group(contact->getGroup());
+                if (grp)
+                    grpItem = new GroupItem(this, grp, true);
                 if (grpItem == NULL)
                     continue;
             }
@@ -697,19 +713,25 @@ void UserListBase::fill()
     case 2:
         divItemOnline = new DivItem(this, DIV_ONLINE);
         setOpen(divItemOnline, true);
-        while ((grp = ++grp_it) != NULL){
-            if (grp->id() == 0)
-                continue;
-            grpItem = new GroupItem(divItemOnline, grp, false);
+        if (m_bShowEmpty){
+            while ((grp = ++grp_it) != NULL){
+                if (grp->id() == 0)
+                    continue;
+                grpItem = new GroupItem(divItemOnline, grp, false);
+            }
+            grpItem = new GroupItem(divItemOnline, list->group(0), false);
         }
         if (!m_bShowOnline){
             divItemOffline = new DivItem(this, DIV_OFFLINE);
             setOpen(divItemOffline, true);
             grp_it.reset();
-            while ((grp = ++grp_it) != NULL){
-                if (grp->id() == 0)
-                    continue;
-                grpItem = new GroupItem(divItemOffline, grp, true);
+            if (m_bShowEmpty){
+                while ((grp = ++grp_it) != NULL){
+                    if (grp->id() == 0)
+                        continue;
+                    grpItem = new GroupItem(divItemOffline, grp, true);
+                }
+                grpItem = new GroupItem(divItemOnline, list->group(0), true);
             }
         }
         while ((contact = ++contact_it) != NULL){

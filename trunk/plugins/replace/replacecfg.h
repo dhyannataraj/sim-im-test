@@ -33,18 +33,20 @@ public:
     virtual ~ReplaceCfg();
 public slots:
     void apply();
-	void selectionChanged();
-	void sizeChange(int,int,int);
-	void mouseButtonPressed(int, QListViewItem*, const QPoint&, int);
+    void selectionChanged();
+    void sizeChange(int,int,int);
+    void mouseButtonPressed(int, QListViewItem*, const QPoint&, int);
 protected:
-	IntLineEdit   *m_edit;
-	unsigned	  m_col;
+    bool eventFilter(QObject*, QEvent*);
+    void flush();
+    IntLineEdit   *m_edit;
+    unsigned	  m_col;
     void resizeEvent(QResizeEvent *e);
     ReplacePlugin *m_plugin;
-	QListViewItem *m_editItem;
-	unsigned	  m_editCol;
-	unsigned	  m_count;
-	void		  setEdit();
+    QListViewItem *m_editItem;
+    unsigned	  m_editCol;
+    unsigned	  m_count;
+    void		  setEdit();
 };
 
 #endif

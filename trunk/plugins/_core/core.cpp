@@ -327,6 +327,7 @@ static DataDef coreData[] =
         { "SmallGroupFont", DATA_BOOL, 1, DATA(1) },
         { "ShowAllEncodings", DATA_BOOL, 1, 0 },
         { "DefaultEncoding", DATA_STRING, 1, 0 },
+        { "ShowEmptyGroup", DATA_BOOL, 1, DATA(1) },
         { NULL, 0, 0, 0 }
     };
 
@@ -1057,6 +1058,13 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     cmd->menu_grp	= 0x8000;
     eCmd.process();
 
+    cmd->id			= CmdEmptyGroup;
+    cmd->text		= I18N_NOOP("Show &empty groups");
+    cmd->icon		= NULL;
+    cmd->icon_on	= NULL;
+    cmd->menu_grp	= 0x8001;
+    eCmd.process();
+
     cmd->id			= CmdGrpCreate;
     cmd->text		= I18N_NOOP("&Create group");
     cmd->icon		= "grp_create";
@@ -1432,7 +1440,7 @@ void CorePlugin::installTranslator()
 #ifdef USE_KDE
         return;
 #else
-        char *p = getenv("LANG");
+char *p = getenv("LANG");
         if (p){
             for (; *p; p++){
                 if (*p == '.') break;
