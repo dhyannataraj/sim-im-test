@@ -171,10 +171,6 @@ string ICQClient::createRTF(const char *text, unsigned long foreColor)
                 }
             }
         case TAG_CLOSE:{
-                log(L_DEBUG, "Tag %s", tag.c_str());
-                for (list<attr>::iterator it = attrs.begin(); it != attrs.end(); it++){
-                    log(L_DEBUG, ">> %s=%s", (*it).name.c_str(), (*it).value.c_str());
-                }
                 if (eq(tag.c_str(), "b")){
                     res += " \\b ";
                 }else if (eq(tag.c_str(), "i")){

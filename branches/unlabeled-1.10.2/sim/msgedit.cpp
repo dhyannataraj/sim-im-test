@@ -569,7 +569,7 @@ void MsgEdit::messageReceived(ICQMessage *m)
 
 bool MsgEdit::canSpell()
 {
-    return (edit->isVisible() && edit->text().length());
+    return (edit->isVisible() && edit->length());
 }
 
 bool MsgEdit::canSend()
@@ -583,13 +583,13 @@ bool MsgEdit::canSend()
         }
         switch (msg->Type()){
         case ICQ_MSGxMSG:
-            return (edit->text().length());
+            return (edit->length());
         case ICQ_MSGxURL:
             return (urlEdit->text().length());
         case ICQ_MSGxFILE:
             return (fileEdit->text().length());
         case ICQ_MSGxSMS:
-            return (edit->text().length() && phoneEdit->lineEdit()->text().length());
+            return (edit->length() && phoneEdit->lineEdit()->text().length());
         case ICQ_MSGxCONTACTxLIST:
             return (!users->isEmpty());
         case ICQ_MSGxCHAT:
@@ -1342,16 +1342,13 @@ void MsgEdit::editTextChanged()
 {
     if (msg){
         if (msg->Received()){
-            action(mnuMessage, true);
+            if (edit->length())
+                action(mnuMessage, true);
         }else if (msg->Type() == ICQ_MSGxSMS){
-            if (edit->text().isEmpty()){
+            if (edit->length() == 0){
                 emit setStatus("");
             }else{
-                string s;
-                s = edit->text().local8Bit();
-                s = pClient->clearHTML(s.c_str());
-                QString t = trim(QString::fromLocal8Bit(s.c_str()));
-                int size = t.length();
+                int size = edit->length();
                 int max_size = MAX_SMS_LEN_LATIN1;
                 if (!isLatin1(edit->text())) max_size = MAX_SMS_LEN_UNICODE;
                 QString status = i18n("Size: %1 / Max. size: %2")
@@ -1556,14 +1553,14 @@ void MsgEdit::ftChanged()
 QString MsgEdit::trim(const QString &s)
 {
     QString res = s;
-    unsigned n;
-    for (n = 0; n < res.length(); n++)
-        if (!res[(int)n].isSpace()) break;
+    int n;
+    for (n = 0; n < (int)res.length(); n++)
+        if (!res[n].isSpace()) break;
     if (n) res = res.mid(n);
     if (res.isEmpty()) return res;
-    for (n = res.length() - 1; n >= 0; n--)
-        if (!res[(int)n].isSpace()) break;
-    if (n < res.length() - 1) res = res.left(n + 1);
+    for (n = (int)res.length() - 1; n >= 0; n--)
+        if (!res[n].isSpace()) break;
+    if (n < (int)res.length() - 1) res = res.left(n + 1);
     return res;
 }
 
@@ -1585,7 +1582,7 @@ QString MsgEdit::chunk(const QString &s, int len)
 
 bool MsgEdit::isLatin1(const QString &s)
 {
-    for (int n = 0; n < s.length(); n++)
+    for (int n = 0; n < (int)s.length(); n++)
         if (!s[n].latin1()) return false;
     return true;
 }

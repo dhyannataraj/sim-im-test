@@ -61,6 +61,7 @@ ChatWindow::ChatWindow(ICQChat *_chat)
         : QMainWindow(NULL)
 {
     logFile = NULL;
+    bConnected = false;
 
     setWFlags(WDestructiveClose);
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
@@ -147,6 +148,7 @@ ChatWindow::ChatWindow(ICQChat *_chat)
 
 ChatWindow::~ChatWindow()
 {
+    transparent = NULL;
     delete chat;
     chat = NULL;
     if (logFile) delete logFile;
@@ -155,11 +157,15 @@ ChatWindow::~ChatWindow()
 
 void ChatWindow::setBackgroundPixmap(const QPixmap &pm)
 {
-    transparent->updateBackground(pm);
+    if (transparent) transparent->updateBackground(pm);
 }
 
 void ChatWindow::sendLine()
 {
+    if (!bConnected){
+        qApp->beep();
+        return;
+    }
     QColor oldColor = edtChat->color();
     QString s = edtChat->text();
     s.replace(QRegExp("<br>"), "");
@@ -233,6 +239,7 @@ void ChatWindow::processEvent(ICQEvent *e)
                 logFile->writeBlock(s, s.length());
                 logFile->flush();
             }
+            bConnected = true;
             break;
         }
     case CHAT_FONT_FACE:

@@ -41,7 +41,7 @@ void XOSD::init()
     }else{
         QFont f = pMain->font();
         int size = f.pixelSize();
-        if (size == -1){
+        if (size <= 0){
             size = f.pointSize();
             f.setPointSize(size * 2);
         }else{

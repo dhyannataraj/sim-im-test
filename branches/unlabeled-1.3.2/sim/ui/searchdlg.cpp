@@ -69,6 +69,11 @@ SearchDialog::SearchDialog(QWidget*)
     tblUsers->sender = false;
 }
 
+SearchDialog::~SearchDialog()
+{
+    transparent = NULL;
+}
+
 void SearchDialog::textChanged(const QString&)
 {
     setState();
@@ -194,7 +199,7 @@ void SearchDialog::processEvent(ICQEvent *e)
 
 void SearchDialog::setBackgroundPixmap(const QPixmap &pm)
 {
-    transparent->updateBackground(pm);
+    if (transparent) transparent->updateBackground(pm);
 }
 
 #ifndef _WINDOWS

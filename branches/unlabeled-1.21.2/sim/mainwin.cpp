@@ -399,7 +399,7 @@ void MainWindow::setOnTop()
 
 void MainWindow::setBackgroundPixmap(const QPixmap &pm)
 {
-    transparent->updateBackground(pm);
+    if (transparent) transparent->updateBackground(pm);
 }
 
 void MainWindow::changeColors()
@@ -430,6 +430,7 @@ void MainWindow::showGroupPopup(QPoint p)
 
 MainWindow::~MainWindow()
 {
+    transparent = NULL;
     while (containers.size()){
         delete containers.front();
     }

@@ -91,6 +91,9 @@ void EditSpell::setForeground(const QColor& c)
 {
     curFG = c;
     setColor(c);
+    QPalette pal = palette();
+    pal.setColor(QPalette::Active, QColorGroup::Text, c);
+    setPalette(pal);
     curFG = c;
 }
 
@@ -187,9 +190,8 @@ void EditSpell::corrected(const QString & original, const QString & newword, uns
         log(L_DEBUG, "%s -> %s not found", oldWord.c_str(), newWord.c_str());
         return;
     }
-    setCursorPosition(nPara, nIndex);
-    for (unsigned i = 0; i < original.length(); i++)
-        moveCursor(MoveForward, true);
+    setCursorPosition(nPara, nIndex + original.length());
+    setSelection(nPara, nIndex, nPara, nIndex + original.length());
     insert(newword, FALSE, TRUE, TRUE);
 #else
 void EditSpell::corrected(const QString&, const QString&, unsigned int)

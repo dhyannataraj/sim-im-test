@@ -104,8 +104,10 @@ void DirectSocket::connect()
     }
     if (state == NotConnected){
         m_bUseInternalIP = true;
-        if ((ip != 0) && ((ip & 0xFFFFFF) != (client->RealIP() & 0xFFFFFF)))
+        log(L_DEBUG, ">> %X %X", ip, client->IP());
+        if ((ip != 0) && ((ip & 0xFFFFFF) != (client->IP() & 0xFFFFFF)))
             m_bUseInternalIP = false;
+        log(L_DEBUG, "Use internal... %u", m_bUseInternalIP);
         state = ConnectIP1;
         if (real_ip != 0){
             struct in_addr addr;
