@@ -8,12 +8,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2004-04-25 05:51+0400\n"
-"PO-Revision-Date: 2004-04-21 20:54+0100\n"
-"Last-Translator: Tobias Franz <noragen@gmx.net>\n"
+"PO-Revision-Date: 2004-04-25 17:02+0200\n"
+"Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.3.1\n"
 
 #: sim/api/country.cpp:25
 msgid "Afghanistan"
@@ -6157,86 +6158,76 @@ msgid ""
 msgstr "%1 ist online"
 
 #: plugins/osd/osd.cpp:417
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is away"
-msgstr "%1 schreibt gerade"
+msgstr "%1 ist weg"
 
 #: plugins/osd/osd.cpp:418
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is away"
-msgstr "%1 schreibt gerade"
+msgstr "%1 ist weg"
 
 #: plugins/osd/osd.cpp:419
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is not available"
-msgstr "%1 ist online"
+msgstr "%1 ist nicht verfügbar"
 
 #: plugins/osd/osd.cpp:420
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is not available"
-msgstr "%1 ist online"
+msgstr "%1 ist nicht verfügbar"
 
 #: plugins/osd/osd.cpp:421
 msgid ""
 "_: male\n"
 "%1 doesn't want to be disturbed"
-msgstr ""
+msgstr "%1 möchte nicht gestört werden"
 
 #: plugins/osd/osd.cpp:422
 msgid ""
 "_: female\n"
 "%1 doesn't want to be disturbed"
-msgstr ""
+msgstr "%1 möchte nicht gestört werden"
 
 #: plugins/osd/osd.cpp:423
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is occupied"
-msgstr "%1 ist online"
+msgstr "%1 ist beschäftigt"
 
 #: plugins/osd/osd.cpp:424
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is occupied"
-msgstr "%1 ist online"
+msgstr "%1 ist beschäftigt"
 
 #: plugins/osd/osd.cpp:425
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is free for chat"
-msgstr "%1 schreibt gerade"
+msgstr "%1 ist frei zum Chat"
 
 #: plugins/osd/osd.cpp:426
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is free for chat"
-msgstr "%1 schreibt gerade"
+msgstr "%1 ist frei zum Chat"
 
 #: plugins/osd/osd.cpp:427
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is offline"
-msgstr "%1 ist online"
+msgstr "%1 ist offline"
 
 #: plugins/osd/osd.cpp:428
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is offline"
-msgstr "%1 ist online"
+msgstr "%1 ist offline"
 
 #: plugins/osd/osdconfigbase.cpp:109
 msgid "Enable &messages notification"
@@ -6251,9 +6242,8 @@ msgid "Enable &typing notification"
 msgstr "Schreibbenachrich&tigung aktivieren"
 
 #: plugins/osd/osdconfigbase.cpp:119
-#, fuzzy
 msgid "Show message &content"
-msgstr "Nachrichteninhalt anzeigen"
+msgstr "Nachrichten&inhalt anzeigen"
 
 #: plugins/osd/osdconfigbase.cpp:120
 msgid "Show lines of content:"
@@ -7004,44 +6994,36 @@ msgid "To register, please fill out the following form.  Be as accurate as possi
 msgstr "Um sich zu registrieren, bitte das folgende Formular ausfüllen. Dabei bitte gewissenhaft sein, dies erleichtert die Suche von anderen Leuten nach Ihnen."
 
 #: plugins/jabber/jidsearch.cpp:165
-#, fuzzy
 msgid "User"
-msgstr "Benutzer:"
+msgstr "Benutzer"
 
 #: plugins/jabber/jidsearch.cpp:166
-#, fuzzy
 msgid "Full Name"
 msgstr "Voller Name"
 
 #: plugins/jabber/jidsearch.cpp:167
-#, fuzzy
 msgid "Middle Name"
-msgstr "Mitte:"
+msgstr "Mittlerer Name"
 
 #: plugins/jabber/jidsearch.cpp:168
-#, fuzzy
 msgid "Family Name"
-msgstr "Datei&name:"
+msgstr "Familienname:"
 
 #: plugins/jabber/jidsearch.cpp:169
-#, fuzzy
 msgid "email"
 msgstr "E-Mail"
 
 #: plugins/jabber/jidsearch.cpp:170
-#, fuzzy
 msgid "Birthday"
-msgstr "Geburtstag:"
+msgstr "Geburtstag"
 
 #: plugins/jabber/jidsearch.cpp:171
-#, fuzzy
 msgid "Organization Name"
-msgstr "Vorherige Organisation"
+msgstr "Name der Organisation"
 
 #: plugins/jabber/jidsearch.cpp:172
-#, fuzzy
 msgid "Organization Unit"
-msgstr "Vorherige Organisation"
+msgstr "Abteilung in Organisation"
 
 #: plugins/livejournal/livejournalcfg.cpp:36
 msgid "Register new user"
@@ -8409,8 +8391,3 @@ msgstr "Vorhersage für Tage:"
 msgid "Units:"
 msgstr "Einheiten:"
 
-#~ msgid "%1 Search"
-#~ msgstr "%1 Suchen"
-
-#~ msgid "Youur account is being used from another location"
-#~ msgstr "Ihre UIN wird gerade von einem anderen Ort aus benutzt"
