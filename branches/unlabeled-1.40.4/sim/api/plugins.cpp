@@ -805,13 +805,12 @@ PluginManager::~PluginManager()
     Event e(EventQuit);
     e.process();
     contacts->clearClients();
-	deleteIcons();
     delete p;
     delete FetchManager::manager;
     delete contacts;
     delete factory;
+	deleteIcons();
     EventReceiver::destroyList();
-    setSmiles(NULL);
     deleteResolver();
 }
 

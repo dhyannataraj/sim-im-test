@@ -22,6 +22,7 @@
 #include "buffer.h"
 #include "socket.h"
 #include "toolbtn.h"
+#include "icons.h"
 
 #include <time.h>
 
@@ -101,13 +102,10 @@ WeatherPlugin::WeatherPlugin(unsigned base, bool bInit, Buffer *config)
         : Plugin(base)
 {
     load_data(weatherData, &data, config);
-    memset(&m_handler, 0, sizeof(m_handler));
-    m_handler.startElement = p_element_start;
-    m_handler.endElement   = p_element_end;
-    m_handler.characters   = p_char_data;
     BarWeather = registerType();
     CmdWeather = registerType();
     EventWeather = registerType();
+	m_icons = getIcons()->addIconSet("icons/weather.jisp", true);
     Event eBar(EventToolbarCreate, (void*)BarWeather);
     eBar.process();
     Command cmd;
@@ -134,6 +132,7 @@ WeatherPlugin::~WeatherPlugin()
     Event eCmd(EventCommandRemove, (void*)CmdWeather);
     Event eBar(EventToolbarRemove, (void*)BarWeather);
     free_data(weatherData, &data);
+	getIcons()->removeIconSet(m_icons);
 }
 
 string WeatherPlugin::getConfig()
@@ -194,13 +193,11 @@ bool WeatherPlugin::done(unsigned code, Buffer &data, const char*)
     m_bWind = false;
     m_bUv	= false;
     m_bCC	= false;
-    m_context = xmlCreatePushParserCtxt(&m_handler, this, "", 0, "");
-    if (xmlParseChunk(m_context, data.data(), data.size(), 0)){
+	reset();
+    if (!parse(data.data(), data.size())){
         log(L_WARN, "XML parse error");
-        xmlFreeParserCtxt(m_context);
         return false;
     }
-    xmlFreeParserCtxt(m_context);
     time_t now;
     time(&now);
     setTime(now);
@@ -302,20 +299,24 @@ void WeatherPlugin::showBar()
     updateButton();
 }
 
+static string weather_icon;
+
 void WeatherPlugin::updateButton()
 {
     if ((getTime() == 0) || (m_bar == NULL))
         return;
-#if 0
-    const char **xpm = xpms[getIcon()];
-    if (xpm){
-        IconDef icon;
-        icon.name = "weather";
-        icon.xpm  = xpm;
-        Event eIcon(EventAddIcon, &icon);
-        eIcon.process();
-    }
-#endif
+	weather_icon = "weather";
+	weather_icon += number(getIcon());
+    Command cmd;
+    cmd->id      = CmdWeather;
+    cmd->text    = I18N_NOOP("Not connected");
+    cmd->icon    = weather_icon.c_str();
+    cmd->bar_id  = BarWeather;
+    cmd->bar_grp = 0x1000;
+    cmd->flags   = BTN_PICT | BTN_DIV;
+    Event eCmd(EventCommandChange, cmd);
+    eCmd.process();
+
     QString text = unquoteText(getButtonText());
     QString tip = getTipText();
     QString ftip = getForecastText();
@@ -328,18 +329,6 @@ void WeatherPlugin::updateButton()
         n = getForecast();
     for (m_day = 1; m_day <= getForecast(); m_day++){
         tip += forecastReplace(ftip);
-#if 0
-        const char **xpm = xpms[atol(getDayIcon(m_day))];
-        if (xpm){
-            string url = "weather";
-            url += number(m_day);
-            IconDef icon;
-            icon.name = url.c_str();
-            icon.xpm  = xpm;
-            Event eIcon(EventAddIcon, &icon);
-            eIcon.process();
-        }
-#endif
         if (--n == 0){
             tip += "</td><td>";
             n = (getForecast() + 1) / 2;
@@ -349,10 +338,10 @@ void WeatherPlugin::updateButton()
         tip += "</td></tr></table>";
     tip += "<br>\nWeather data provided by weather.com";
     tip += QChar((unsigned short)174);
-    Command cmd;
-    cmd->id		= CmdWeather;
-    cmd->param	= m_bar;
-    Event e(EventCommandWidget, cmd);
+    Command cmdw;
+    cmdw->id	= CmdWeather;
+    cmdw->param	= m_bar;
+    Event e(EventCommandWidget, cmdw);
     CToolButton *btn = (CToolButton*)e.process();
     if (btn == NULL)
         return;
@@ -494,6 +483,7 @@ QString WeatherPlugin::replace(const QString &text)
     res = res.replace(QRegExp("\\%s"), sun_set);
     res = res.replace(QRegExp("\\%c"), i18n_conditions(getConditions()));
     res = res.replace(QRegExp("\\%v"), i18n("weather", getVisibility()) + (atol(getVisibility()) ? QString(" ") + i18n(getUD()) : QString("")));
+    res = res.replace(QRegExp("\\%i"), number(getIcon()));
     return res;
 }
 
@@ -536,7 +526,7 @@ QString WeatherPlugin::forecastReplace(const QString &text)
     QString day = dd.c_str();
     day += ". ";
     day += i18n(mon.c_str());
-    res = res.replace(QRegExp("\\%n"), number(m_day).c_str());
+    res = res.replace(QRegExp("\\%n"), getDayIcon(m_day));
     res = res.replace(QRegExp("\\%t"), temp);
     res = res.replace(QRegExp("\\%c"), i18n_conditions(getDayConditions(m_day)));
     res = res.replace(QRegExp("\\%w"), i18n(getWDay(m_day)));
@@ -558,7 +548,7 @@ QString WeatherPlugin::getTipText()
     QString str = getTip();
     if (str.isEmpty())
         str = i18n("%l<br><br>\n"
-                   "<img src=\"icon:weather\"> %c<br>\n"
+                   "<img src=\"icon:weather%i\"> %c<br>\n"
                    "Temperature: <b>%t</b> (feels like: <b>%f</b>)<br>\n"
                    "Humidity: <b>%h</b><br>\n"
                    "Pressure: <b>%p</b> (%q)<br>\n"

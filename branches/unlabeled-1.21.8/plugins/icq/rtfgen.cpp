@@ -19,6 +19,7 @@
 #include "icqclient.h"
 #include "html.h"
 #include "core.h"
+#include "icons.h"
 
 #include <qtextcodec.h>
 #include <qregexp.h>
@@ -508,6 +509,26 @@ void RTFGenParser::text(const QString &text)
     }
 }
 
+static const char *def_smiles[] =
+{
+	":-)",
+	":-0",
+	":-|",
+	":-/",
+	":-(",
+	":-{}",
+	":*)",
+	":'-(",
+	";-)",
+	":-@",
+	":-\")",
+	":-X",
+	":-P",
+	"8-)",
+	"8-)",
+	":-D"
+};
+
 void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
 {
     if (m_res_size)
@@ -607,6 +628,7 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
     }
     else if (tagName == "img"){
         QString src;
+		QString alt;
         for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
             QString name = (*it);
             ++it;
@@ -615,26 +637,27 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
                 src = value;
                 break;
             }
+			if (name == "alt"){
+				alt = value;
+				break;
+			}
         }
-        if (src.left(10) != "icon:smile")
-            return;
-        bool bOK;
-        unsigned nSmile = src.mid(10).toUInt(&bOK, 16);
-        if (!bOK)
-            return;
-        if (nSmile < 16){
-            res += "<##icqimage000";
-            if (nSmile < 10){
-                res += (char)(nSmile + '0');
-            }else{
-                res += (char)(nSmile - 10 + 'A');
-            }
-            res += ">";
-            return;
-        }
-        const smile *p = smiles(nSmile);
-        if (p)
-            res += p->paste;
+		list<string> smiles = getIcons()->getSmile(src.latin1());
+		for (list<string>::iterator its = smiles.begin(); its != smiles.end(); ++its){
+			for (unsigned nSmile = 0; nSmile < 16; nSmile++){
+				if ((*its) != def_smiles[nSmile])
+					continue;
+				res += "<##icqimage000";
+				if (nSmile < 10){
+					res += (char)(nSmile + '0');
+				}else{
+					res += (char)(nSmile - 10 + 'A');
+				}
+				res += ">";
+				return;
+			}
+		}
+		text(alt);
         return;
     }
 
@@ -831,7 +854,7 @@ string ICQClient::createRTF(QString &text, QString &part, unsigned long foreColo
 class ImageParser : public HTMLParser
 {
 public:
-    ImageParser(unsigned maxSmile);
+    ImageParser(bool bIcq);
     QString parse(const QString &text);
 protected:
     virtual void text(const QString &text);
@@ -841,12 +864,12 @@ protected:
     void endBody();
     QString res;
     bool	 m_bBody;
-    unsigned m_maxSmile;
+	bool	 m_bIcq;
 };
 
-ImageParser::ImageParser(unsigned maxSmile)
+ImageParser::ImageParser(bool bIcq)
 {
-    m_maxSmile = maxSmile;
+	m_bIcq = bIcq;
 }
 
 QString ImageParser::parse(const QString &text)
@@ -895,6 +918,7 @@ void ImageParser::tag_start(const QString &tag, const list<QString> &attrs)
         return;
     if (tag == "img"){
         QString src;
+		QString alt;
         for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
             QString name = *it;
             ++it;
@@ -903,20 +927,34 @@ void ImageParser::tag_start(const QString &tag, const list<QString> &attrs)
                 src = value;
                 break;
             }
+			if (name == "alt"){
+				alt = value;
+				break;
+			}
         }
-        if (src.left(10) != "icon:smile")
-            return;
-        bool bOK;
-        unsigned nIcon = src.mid(10).toUInt(&bOK, 16);
-        if (!bOK)
-            return;
-        if (nIcon >= m_maxSmile){
-            const smile *p = smiles(nIcon);
-            if (p){
-                res += p->paste;
-                return;
-            }
-        }
+		list<string> smiles = getIcons()->getSmile(src.latin1());
+		if (smiles.empty()){
+			text(alt);
+			return;
+		}
+		if (m_bIcq){
+			for (list<string>::iterator its = smiles.begin(); its != smiles.end(); ++its){
+				for (unsigned nSmile = 0; nSmile < 16; nSmile++){
+					if ((*its) != def_smiles[nSmile])
+						continue;
+					res += "<img src=\"smile";
+					if (nSmile < 10){
+						res += (char)(nSmile + '0');
+					}else{
+						res += (char)(nSmile - 10 + 'A');
+					}
+					res += "\">";
+					return;
+				}
+			}
+		}
+		text(QString::fromUtf8(smiles.front().c_str()));
+		return;
     }
     res += "<";
     res += oTag;
@@ -949,9 +987,9 @@ void ImageParser::tag_end(const QString &tag)
     res += ">";
 }
 
-QString ICQClient::removeImages(const QString &text, unsigned maxSmile)
+QString ICQClient::removeImages(const QString &text, bool bIcq)
 {
-    ImageParser p(maxSmile);
+    ImageParser p(bIcq);
     return p.parse(text);
 }
 

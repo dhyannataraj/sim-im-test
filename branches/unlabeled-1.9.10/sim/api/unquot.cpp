@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "html.h"
+#include "icons.h"
 
 #include <qregexp.h>
 
@@ -93,27 +94,23 @@ void UnquoteParser::tag_start(const QString &tag, const list<QString> &options)
         }
     }else if (tag == "img"){
         QString src;
+		QString alt;
         for (list<QString>::const_iterator it = options.begin(); it != options.end(); ++it){
             QString opt   = *it;
             ++it;
             QString value = *it;
             if (opt == "src")
                 src = value;
+			if (opt == "alt")
+				alt = value;
         }
-        if (src.left(10) != "icon:smile")
-            return;
-        bool bOk;
-        unsigned nSmile = src.mid(10).toUInt(&bOk, 16);
-        if (!bOk)
-            return;
-        const smile *s = smiles(nSmile);
-        if (s){
-            res += s->paste;
-            return;
-        }
-        s = defaultSmiles(nSmile);
-        if (s)
-            res += s->paste;
+		if (!alt.isEmpty()){
+			res += unquoteString(alt);
+			return;
+		}
+		list<string> smiles = getIcons()->getSmile(src.latin1());
+		if (!smiles.empty())
+			res += QString::fromUtf8(smiles.front().c_str());
     }
 }
 

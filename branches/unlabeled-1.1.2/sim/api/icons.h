@@ -23,6 +23,12 @@
 
 #include <qiconset.h>
 
+#ifdef WIN32
+#if _MSC_VER > 1020
+#pragma warning(disable: 4251)
+#endif
+#endif
+
 using namespace std;
 
 class QMimeSourceFactory;
@@ -38,10 +44,15 @@ typedef struct PictDef
     string			system;
 #endif
     unsigned		flags;
-	list<string>	smiles;
 } PictDef;
 
 typedef map<my_string, PictDef> PIXMAP_MAP;
+
+typedef struct smileDef
+{
+	string	smile;
+	string	name;
+} smileDef;
 
 class IconSet
 {
@@ -51,11 +62,15 @@ public:
     virtual const QPixmap *getPict(const char *name, unsigned &flags) = 0;
 	virtual void clear() = 0;
 	void parseSmiles(const QString&, unsigned &start, unsigned &size, string &name);
+	list<string> getSmile(const char *name);
+	string getSmileName(const char *name);
+	void getSmiles(list<string> &smiles, list<string> &used);
 protected:
-    PIXMAP_MAP m_icons;
+    PIXMAP_MAP		m_icons;
+	list<smileDef>	m_smiles;
 };
 
-class Icons : public QObject, public EventReceiver
+class EXPORT Icons : public QObject, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -63,14 +78,21 @@ public:
     ~Icons();
     const QPixmap *getPict(const char *name, unsigned &flags);
 	QString parseSmiles(const QString&);
+	list<string> getSmile(const char *name);
+	void getSmiles(list<string> &smiles);
+	string getSmileName(const char *name);
 	static unsigned nSmile;
-	static Icons *icons;
+	IconSet *addIconSet(const char *name, bool bDefault);
+	void removeIconSet(IconSet*);
+	list<IconSet*>	m_customSets;
 protected slots:
     void iconChanged(int);
 protected:
     void *processEvent(Event*);
-	list<IconSet*>	m_sets;
+	list<IconSet*>	m_defSets;
 };
+
+EXPORT Icons *getIcons();
 
 };
 

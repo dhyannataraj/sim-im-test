@@ -238,54 +238,6 @@
   <icon name="encrypted" kicon="encrypted">
 	<object mime="image/png">encrypted.png</object>
   </icon>
-  <icon name="smile0">
-	<object mime="image/png">smile0.png</object>
-  </icon>
-  <icon name="smile1">
-	<object mime="image/png">smile1.png</object>
-  </icon>
-  <icon name="smile2">
-	<object mime="image/png">smile2.png</object>
-  </icon>
-  <icon name="smile3">
-	<object mime="image/png">smile3.png</object>
-  </icon>
-  <icon name="smile4">
-	<object mime="image/png">smile4.png</object>
-  </icon>
-  <icon name="smile5">
-	<object mime="image/png">smile5.png</object>
-  </icon>
-  <icon name="smile6">
-	<object mime="image/png">smile6.png</object>
-  </icon>
-  <icon name="smile7">
-	<object mime="image/png">smile7.png</object>
-  </icon>
-  <icon name="smile8">
-	<object mime="image/png">smile8.png</object>
-  </icon>
-  <icon name="smile9">
-	<object mime="image/png">smile9.png</object>
-  </icon>
-  <icon name="smileA">
-	<object mime="image/png">smileA.png</object>
-  </icon>
-  <icon name="smileB">
-	<object mime="image/png">smileB.png</object>
-  </icon>
-  <icon name="smileC">
-	<object mime="image/png">smileC.png</object>
-  </icon>
-  <icon name="smileD">
-	<object mime="image/png">smileD.png</object>
-  </icon>
-  <icon name="smileE">
-	<object mime="image/png">smileE.png</object>
-  </icon>
-  <icon name="smileF">
-	<object mime="image/png">smileF.png</object>
-  </icon>
   <icon name="listmsg">
 	<object mime="image/png">listmsg.png</object>
   </icon>
@@ -316,7 +268,7 @@
   <icon name="floating">
 	<object mime="image/png">floating.png</object>
   </icon>
-  <icon name="upd" flags="160>
+  <icon name="upd" flags="160">
   </icon>
   <icon name="SMS">
 	<object mime="image/png">cell.png</object>
@@ -357,13 +309,13 @@
   <icon name="sharedfiles">
 	<object mime="image/png">sharedfiles.png</object>
   </icon>
-  <icon name="jabber">
+  <icon name="Jabber">
 	<object mime="image/png">jabber.png</object>
   </icon>
   <icon name="register">
 	<object mime="image/png">register.png</object>
   </icon>
-  <icon name="connect">
+  <icon name="connect" kicon="connect_established">
 	<object mime="image/png">connect.png</object>
   </icon>
   <icon name="lunch">

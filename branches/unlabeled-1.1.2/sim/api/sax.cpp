@@ -31,6 +31,12 @@ SAXParser::~SAXParser()
     xmlFreeParserCtxt(m_context);
 }
 
+void SAXParser::reset()
+{
+    xmlFreeParserCtxt(m_context);
+    m_context = xmlCreatePushParserCtxt(&m_handler, this, "", 0, "");
+}
+
 bool SAXParser::parse(const char *data, unsigned size)
 {
     return xmlParseChunk(m_context, data, size, 0) == 0;

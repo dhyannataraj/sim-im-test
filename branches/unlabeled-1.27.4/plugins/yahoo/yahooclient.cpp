@@ -44,6 +44,7 @@
 
 #include "html.h"
 #include "core.h"
+#include "icons.h"
 
 #ifdef WIN32
 #include <winsock.h>
@@ -1625,6 +1626,7 @@ void YahooParser::tag_start(const QString &tag, const list<QString> &options)
 {
     if (tag == "img"){
         QString src;
+		QString alt;
         for (list<QString>::const_iterator it = options.begin(); it != options.end(); ++it){
             QString name = (*it);
             ++it;
@@ -1633,16 +1635,17 @@ void YahooParser::tag_start(const QString &tag, const list<QString> &options)
                 src = value;
                 break;
             }
+            if (name == "alt"){
+                alt = value;
+                break;
+            }
         }
-        if (src.left(10) != "icon:smile")
-            return;
-        bool bOK;
-        unsigned nSmile = src.mid(10).toUInt(&bOK, 16);
-        if (!bOK)
-            return;
-        const smile *p = smiles(nSmile);
-        if (p)
-            text(p->paste);
+		list<string> smiles = getIcons()->getSmile(src.latin1());
+		if (smiles.empty()){
+			text(alt);
+			return;
+		}
+		text(QString::fromUtf8(smiles.front().c_str()));
         return;
     }
     if (tag == "br"){

@@ -574,7 +574,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
             s.msg	 = msg;
             if (msg->getFlags() & MESSAGE_RICHTEXT){
                 s.flags  = SEND_HTML;
-                s.text	 = removeImages(msg->getRichText(), 0);
+                s.text	 = removeImages(msg->getRichText(), false);
             }else{
                 s.flags  = SEND_HTML_PLAIN;
                 s.text	 = msg->getPlainText();
@@ -599,7 +599,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
             text += "\">";
             text += m->getUrl();
             text += "</a><br>";
-            text += removeImages(msg->getRichText(), 0);
+            text += removeImages(msg->getRichText(), false);
             s.flags  = SEND_HTML;
             s.msg	 = msg;
             s.text	 = text;
@@ -705,10 +705,10 @@ void ICQClient::ackMessage(SendMsg &s)
             unsigned flags = s.msg->getFlags() & (~MESSAGE_RICHTEXT);
             if ((s.flags & SEND_MASK) == SEND_RTF){
                 flags |= MESSAGE_RICHTEXT;
-                m.setText(removeImages(s.part, 16));
+                m.setText(removeImages(s.part, true));
             }else if ((s.flags & SEND_MASK) == SEND_HTML){
                 flags |= MESSAGE_RICHTEXT;
-                m.setText(removeImages(s.part, 0));
+                m.setText(removeImages(s.part, false));
             }else{
                 m.setText(s.part);
             }
@@ -1893,7 +1893,7 @@ bool ICQClient::processMsg()
             sprintf(b, "%06X", (unsigned)(m_send.msg->getBackground() & 0xFFFFFF));
             QString text = QString("<HTML><BODY BGCOLOR=\"#%1\">%2</BODY></HTML>")
                            .arg(b)
-                           .arg(removeImages(m_send.msg->getRichText(), 0));
+                           .arg(removeImages(m_send.msg->getRichText(), false));
             bool bWide = false;
             int i;
             for (i = 0; i < (int)(text.length()); i++){

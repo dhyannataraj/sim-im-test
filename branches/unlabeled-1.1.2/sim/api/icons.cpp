@@ -63,11 +63,13 @@ protected:
     virtual	void element_start(const char *el, const char **attr);
     virtual	void element_end(const char *el);
     virtual	void char_data(const char *str, int len);
-	list<string> m_smiles;
 	string		m_name;
 	string		m_file;
 	string		m_smile;
 	string		*m_data;
+#ifdef USE_KDE
+	string		m_system;
+#endif
 	unsigned	m_flags;
 	UnZip		*m_zip;
 };
@@ -96,9 +98,9 @@ Icons::Icons()
     if (oldDefaultFactory)
         QMimeSourceFactory::addFactory( oldDefaultFactory );
 #endif
-	m_sets.push_back(new FileIconSet("icons/smiles.jisp"));
-	m_sets.push_back(new FileIconSet("icons/sim.jisp"));
-	m_sets.push_back(new WrkIconSet);
+	addIconSet("icons/sim.jisp", true);
+	m_defSets.push_back(new WrkIconSet);
+	addIconSet("icons/smiles.jisp", false);
 }
 
 Icons::~Icons()
@@ -106,14 +108,20 @@ Icons::~Icons()
 #if COMPAT_QT_VERSION < 0x030000
     QMimeSourceFactory::setDefaultFactory(new QMimeSourceFactory());
 #endif
-	for (list<IconSet*>::iterator it = m_sets.begin(); it != m_sets.end(); ++it)
+	list<IconSet*>::iterator it;
+	for (it = m_customSets.begin(); it != m_customSets.end(); ++it)
+		delete *it;
+	for (it = m_defSets.begin(); it != m_defSets.end(); ++it)
 		delete *it;
 }
 
 void *Icons::processEvent(Event *e)
 {
     if (e->type() == EventIconChanged){
-		for (list<IconSet*>::iterator it = m_sets.begin(); it != m_sets.end(); ++it)
+		list<IconSet*>::iterator it;
+		for (it = m_customSets.begin(); it != m_customSets.end(); ++it)
+			(*it)->clear();
+		for (it = m_defSets.begin(); it != m_defSets.end(); ++it)
 			(*it)->clear();
     }
     return NULL;
@@ -127,12 +135,49 @@ void Icons::iconChanged(int)
 
 const QPixmap *Icons::getPict(const char *name, unsigned &flags)
 {
-	for (list<IconSet*>::iterator it = m_sets.begin(); it != m_sets.end(); ++it){
+	list<IconSet*>::iterator it;
+	for (it = m_customSets.begin(); it != m_customSets.end(); ++it){
+		const QPixmap *res = (*it)->getPict(name, flags);
+		if (res)
+			return res;
+	}
+	for (it = m_defSets.begin(); it != m_defSets.end(); ++it){
 		const QPixmap *res = (*it)->getPict(name, flags);
 		if (res)
 			return res;
 	}
 	return NULL;
+}
+
+list<string> Icons::getSmile(const char *name)
+{
+	list<IconSet*>::iterator it;
+	for (it = m_customSets.begin(); it != m_customSets.end(); ++it){
+		list<string> res = (*it)->getSmile(name);
+		if (!res.empty())
+			return res;
+	}
+	list<string> res;
+	return res;
+}
+
+string Icons::getSmileName(const char *name)
+{
+	list<IconSet*>::iterator it;
+	for (it = m_customSets.begin(); it != m_customSets.end(); ++it){
+		string res = (*it)->getSmileName(name);
+		if (!res.empty())
+			return res;
+	}
+	return "";
+}
+
+void Icons::getSmiles(list<string> &smiles)
+{
+	list<string> used;
+	list<IconSet*>::iterator it;
+	for (it = m_customSets.begin(); it != m_customSets.end(); ++it)
+		(*it)->getSmiles(smiles, used);
 }
 
 QString Icons::parseSmiles(const QString &str)
@@ -143,7 +188,8 @@ QString Icons::parseSmiles(const QString &str)
 		unsigned start = (unsigned)(-1);
 		unsigned size  = 0;
 		string smile;
-		for (list<IconSet*>::iterator it = m_sets.begin(); it != m_sets.end(); ++it){
+		list<IconSet*>::iterator it;
+		for (it = m_customSets.begin(); it != m_customSets.end(); ++it){
 			unsigned pos    = (unsigned)(-1);
 			unsigned length = 0;
 			string n_smile;
@@ -161,7 +207,7 @@ QString Icons::parseSmiles(const QString &str)
 			break;
 		}
 		res += s.left(start);
-		res += "<img src=\"";
+		res += "<img src=\"icon:";
 		res += smile.c_str();
 		res += "\" alt=\"";
 		res += quoteString(s.mid(start, size));
@@ -171,21 +217,57 @@ QString Icons::parseSmiles(const QString &str)
 	return res;
 }
 
-Icons *Icons::icons = NULL;
+IconSet *Icons::addIconSet(const char *name, bool bDefault)
+{
+	FileIconSet *is = new FileIconSet(name);
+	if (bDefault){
+		m_defSets.push_front(is);
+	}else{
+		m_customSets.push_front(is);
+	}
+	iconChanged(0);
+	return is;
+}
+
+void Icons::removeIconSet(IconSet *is)
+{
+	list<IconSet*>::iterator it;
+	for (it = m_customSets.begin(); it != m_customSets.end(); ++it){
+		if (*it == is){
+			delete is;
+			m_customSets.erase(it);
+			return;
+		}
+	}
+	for (it = m_defSets.begin(); it != m_defSets.end(); ++it){
+		if (*it == is){
+			delete is;
+			m_defSets.erase(it);
+			return;
+		}
+	}
+}
+
+static Icons *icons = NULL;
+
+Icons *getIcons()
+{
+	return icons;
+}
 
 void createIcons()
 {
-	Icons::icons = new Icons;
+	icons = new Icons;
 }
 
 void deleteIcons()
 {
-	delete Icons::icons;
+	delete icons;
 }
 
 const QPixmap *getPict(const char *name, unsigned &flags)
 {
-	return Icons::icons->getPict(name, flags);
+	return icons->getPict(name, flags);
 }
 
 QIconSet Icon(const char *name)
@@ -194,8 +276,7 @@ QIconSet Icon(const char *name)
 	const QPixmap *pict = getPict(name, flags);
 	if (pict == NULL)
 		return NULL;
-	QIconSet res;
-	res.setPixmap(*pict, QIconSet::Small);
+	QIconSet res(*pict);
 	string bigName = "big.";
 	bigName += name;
 	pict = getPict(bigName.c_str(), flags);
@@ -252,22 +333,69 @@ IconSet::~IconSet()
 
 void IconSet::parseSmiles(const QString &text, unsigned &start, unsigned &size, string &name)
 {
-	for (PIXMAP_MAP::iterator it = m_icons.begin(); it != m_icons.end(); ++it){
-		list<string> &smiles = (*it).second.smiles;
-		if (smiles.empty())
+	for (list<smileDef>::iterator it = m_smiles.begin(); it != m_smiles.end(); ++it){
+		QString pat = QString::fromUtf8(it->smile.c_str());
+		int n = text.find(pat);
+		if (n < 0)
 			continue;
-		for (list<string>::iterator itl = smiles.begin(); itl != smiles.end(); ++itl){
-			QString pat = QString::fromUtf8((*itl).c_str());
-			int n = text.find(pat);
-			if (n < 0)
-				continue;
-			if (((unsigned)n < start) || (((unsigned)n == start) && (pat.length() > size))){
-				start = n;
-				size  = pat.length();
-				name  = (*it).first.c_str();
-			}
+		if (((unsigned)n < start) || (((unsigned)n == start) && (pat.length() > size))){
+			start = n;
+			size  = pat.length();
+			name  = it->name.c_str();
 		}
 	}	
+}
+
+void IconSet::getSmiles(list<string> &smiles, list<string> &used)
+{
+	string name;
+	bool bOK = false;
+	for (list<smileDef>::iterator it = m_smiles.begin(); it != m_smiles.end(); ++it){
+		if (name != it->name){
+			if (bOK && !name.empty())
+				smiles.push_back(name);
+			name = it->name;
+			bOK = true;
+		}
+		list<string>::iterator itu;
+		for (itu = used.begin(); itu != used.end(); ++itu){
+			if ((*itu) == it->smile)
+				break;
+		}
+		if (itu == used.end()){
+			used.push_back(it->smile);
+		}else{
+			bOK = false;
+		}
+	}	
+	if (bOK && !name.empty())
+		smiles.push_back(name);
+}
+
+list<string> IconSet::getSmile(const char *name)
+{
+	list<string> res;
+	PIXMAP_MAP::iterator it = m_icons.find(name);
+	if (it == m_icons.end())
+		return res;
+	for (list<smileDef>::iterator its = m_smiles.begin(); its != m_smiles.end(); ++its){
+		if (its->name != name)
+			continue;
+		res.push_back(its->smile);
+	}
+	return res;
+}
+
+string IconSet::getSmileName(const char *name)
+{
+	PIXMAP_MAP::iterator it = m_icons.find(name);
+	if (it == m_icons.end())
+		return "";
+	string res = it->second.file;
+	int n = res.find('.');
+	if (n > 0)
+		res = res.substr(0, n);
+	return res;
 }
 
 WrkIconSet::WrkIconSet()
@@ -470,7 +598,6 @@ const QPixmap *WrkIconSet::getPict(const char *name, unsigned &flags)
 			return add(name, res, flags);
 		}
 	}
-	log(L_DEBUG, "Icon %s not found", name);
 	return NULL;
 }
 
@@ -515,6 +642,20 @@ const QPixmap *FileIconSet::getPict(const char *name, unsigned &flags)
 		return NULL;
 	flags = (*it).second.flags;
 	if ((*it).second.icon == NULL){
+#ifdef USE_KDE
+		if (!it->second.system.empty()){
+			QPixmap pict;
+			if (memcmp(name, "big.", 4)){
+				pict = DesktopIconSet(p.system).pixmap(QIconSet::Large, QIconSet::Normal);
+			}else{
+				pict = SmallIconSet(p.system).pixmap(QIconSet::Small, QIconSet::Normal);
+			}
+			if (!pict.isNull()){
+				(*it).second.icon = new QPixmap(pict);
+				return (*it).second.icon;
+            }
+		}
+#endif
 		if (it->second.file.empty())
 			return NULL;
 		QByteArray arr;
@@ -538,11 +679,13 @@ void FileIconSet::clear()
 void FileIconSet::element_start(const char *el, const char **args)
 {
 	if (!strcmp(el, "icon")){
-		m_smiles.clear();
 		m_name  = "";
 		m_smile = "";
 		m_flags = 0;
 		m_file  = "";
+#ifdef USE_KDE
+		m_system = "";
+#endif
 		if (args){
 			for (; *args; ){
 				const char *key = *(args++);
@@ -551,7 +694,15 @@ void FileIconSet::element_start(const char *el, const char **args)
 					m_name = value;
 				if (!strcmp(key, "flags"))
 					m_flags = atol(value);
+#ifdef USE_KDE
+				if (!strcmp(key, "kicon"))
+					m_system = value;
+#endif
 			}
+		}
+		if (m_name.empty()){
+			m_name = "s_";
+			m_name += number(++Icons::nSmile);
 		}
 		return;
 	}
@@ -591,23 +742,36 @@ void FileIconSet::element_start(const char *el, const char **args)
 void FileIconSet::element_end(const char *el)
 {
 	if (!strcmp(el, "icon")){
-		if (m_name.empty()){
-			m_name = "s_";
-			m_name += number(++Icons::nSmile);
-		}
 		PictDef p;
 		p.icon   = NULL;
 		p.file   = m_file;
 		p.flags  = m_flags;
-		p.smiles = m_smiles;
-		m_smiles.clear();
+#ifdef USE_KDE
+		p.system = m_system;
+#endif
 		PIXMAP_MAP::iterator it = m_icons.find(m_name.c_str());
 		if (it == m_icons.end())
 			m_icons.insert(PIXMAP_MAP::value_type(m_name.c_str(), p));
+#ifdef USE_KDE
+		if (m_name.substr(0, 4) != "big."){
+			string big_name = "big.";
+			big_name += m_name;
+			p.file   = "";
+			p.flags  = m_flags;
+			p.system = m_system;
+			it = m_icons.find(big_name.c_str());
+			if (it == m_icons.end())
+				m_icons.insert(PIXMAP_MAP::value_type(big_name.c_str(), p));
+		}
+#endif
 	}
 	if (!strcmp(el, "text")){
-		if (!m_smile.empty())
-			m_smiles.push_back(m_smile);
+		if (!m_smile.empty() && !m_name.empty()){
+			smileDef s;
+			s.name  = m_name;
+			s.smile = m_smile;
+			m_smiles.push_back(s);
+		}
 		m_smile = "";
 	}
 	m_data = NULL;

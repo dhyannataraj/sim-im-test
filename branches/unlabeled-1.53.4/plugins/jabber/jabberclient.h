@@ -383,7 +383,6 @@ protected:
     unsigned	m_id_seed;
     unsigned	m_msg_id;
 
-    bool		m_bXML;
     bool		m_bHTTP;
     void		element_start(const char *el, const char **attr);
     void		element_end(const char *el);

@@ -152,4 +152,7 @@
   <icon name="weather47">
 	<object mime="image/png">47.png</object>
   </icon>
+  <icon name="weather">
+	<object mime="image/png">na.png</object>
+  </icon>
 </icondef>

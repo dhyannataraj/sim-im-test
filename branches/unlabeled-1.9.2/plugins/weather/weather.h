@@ -25,6 +25,11 @@
 
 class QToolBar;
 
+namespace SIM
+{
+	class IconSet;
+};
+
 typedef struct WeatherData
 {
     Data	ID;
@@ -136,6 +141,7 @@ protected:
     virtual bool done(unsigned code, Buffer &data, const char *headers);
     void *processEvent(Event*);
     WeatherData data;
+	IconSet		*m_icons;
     void		element_start(const char *el, const char **attr);
     void		element_end(const char *el);
     void		char_data(const char *str, int len);

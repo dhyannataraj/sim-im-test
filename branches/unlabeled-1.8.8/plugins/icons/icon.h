@@ -1,5 +1,5 @@
 /***************************************************************************
-                          sax.h  -  description
+                          icon.h  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,30 +15,31 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _SAX_H
-#define _SAX_H
-
-#include <libxml/parser.h>
+#ifndef _ICON_H
+#define _ICON_H
 
 #include "simapi.h"
 
-class EXPORT SAXParser
+typedef struct IconsData
+{
+	Data	Icon;
+	Data	NIcons;
+	Data	Default;
+} IconsData;
+
+class IconsPlugin : public Plugin
 {
 public:
-    SAXParser();
-    ~SAXParser();
-	void reset();
-	bool parse(const char *data, unsigned size);
+    IconsPlugin(unsigned, Buffer*);
+    virtual ~IconsPlugin();
+    PROP_STRLIST(Icon);
+	PROP_ULONG(NIcons);
+	PROP_BOOL(Default);
+	void setIcons(bool bForce);
 protected:
-    virtual	void		element_start(const char *el, const char **attr) = 0;
-    virtual	void		element_end(const char *el) = 0;
-    virtual	void		char_data(const char *str, int len) = 0;
-private:
-    xmlSAXHandler		m_handler;
-    xmlParserCtxtPtr	m_context;
-    static void p_element_start(void *data, const xmlChar *el, const xmlChar **attr);
-    static void p_element_end(void *data, const xmlChar *el);
-    static void p_char_data(void *data, const xmlChar *str, int len);
+    virtual QWidget *createConfigWindow(QWidget *parent);
+    virtual string getConfig();
+    IconsData data;
 };
 
 #endif

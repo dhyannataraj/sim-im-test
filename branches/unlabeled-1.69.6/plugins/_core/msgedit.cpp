@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "msgedit.h"
+#include "icons.h"
 #include "textshow.h"
 #include "toolbtn.h"
 #include "core.h"
@@ -1202,7 +1203,7 @@ void *MsgEdit::processEvent(Event *e)
                 SmilePopup *popup = new SmilePopup(this);
                 QSize s = popup->minimumSizeHint();
                 popup->resize(s);
-                connect(popup, SIGNAL(insert(int)), this, SLOT(insertSmile(int)));
+                connect(popup, SIGNAL(insert(const char*)), this, SLOT(insertSmile(const char*)));
                 QPoint p = CToolButton::popupPos(btnSmile, popup);
                 popup->move(p);
                 popup->show();
@@ -1460,15 +1461,15 @@ void MsgEdit::colorsChanged()
     e.process();
 }
 
-void MsgEdit::insertSmile(int id)
+void MsgEdit::insertSmile(const char *id)
 {
     if (m_edit->textFormat() == QTextEdit::PlainText){
-        const smile *s = smiles(id);
-        if (s)
-            m_edit->insert(s->paste, false, true, true);
+		list<string> smiles = getIcons()->getSmile(id);
+		if (!smiles.empty())
+            m_edit->insert(QString::fromUtf8(smiles.front().c_str()), false, true, true);
         return;
     }
-    QString img_src = QString("<img src=icon:smile%1>").arg(QString::number(id, 16).upper());
+    QString img_src = QString("<img src=icon:%1>").arg(id);
     int para;
     int index;
     QFont saveFont = m_edit->font();
@@ -1552,13 +1553,11 @@ void MsgEdit::editEnterPressed()
     e.process();
 }
 
-SmileLabel::SmileLabel(int _id, const char *tip, QWidget *parent)
+SmileLabel::SmileLabel(const char *_id, QWidget *parent)
         : QLabel(parent)
 {
     id = _id;
-    char b[20];
-    sprintf(b, "smile%X", id);
-    QIconSet icon = Icon(b);
+    QIconSet icon = Icon(_id);
     QPixmap pict;
     if (!icon.pixmap(QIconSet::Small, QIconSet::Normal).isNull()){
         if (!icon.isGenerated(QIconSet::Large, QIconSet::Normal)){
@@ -1568,13 +1567,17 @@ SmileLabel::SmileLabel(int _id, const char *tip, QWidget *parent)
         }
     }
     setPixmap(pict);
-    if (tip && *tip)
-        QToolTip::add(this, i18n(tip));
+	list<string> smiles = getIcons()->getSmile(_id);
+	QString tip = QString::fromUtf8(smiles.front().c_str());
+	tip += " ";
+	string name = getIcons()->getSmileName(_id);
+	tip += i18n(name.c_str());
+    QToolTip::add(this, tip);
 }
 
 void SmileLabel::mouseReleaseEvent(QMouseEvent*)
 {
-    emit clicked(id);
+    emit clicked(id.c_str());
 }
 
 SmilePopup::SmilePopup(QWidget *popup)
@@ -1583,17 +1586,14 @@ SmilePopup::SmilePopup(QWidget *popup)
     setFrameShape(PopupPanel);
     setFrameShadow(Sunken);
     QSize s;
+	list<string> smiles;
+	getIcons()->getSmiles(smiles);
+	if (smiles.empty())
+		return;
     unsigned nSmiles = 0;
-    unsigned i;
-    for (i = 0; ; i++){
-        const smile *p = smiles(i);
-        if (p == NULL)
-            break;
-        if (*p->exp == 0)
-            continue;
-        char b[20];
-        sprintf(b, "smile%X", i);
-        QIconSet is = Icon(b);
+	list<string>::iterator it;
+    for (it = smiles.begin(); it != smiles.end(); ++it){
+        QIconSet is = Icon(it->c_str());
         if (is.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
             continue;
         QPixmap pict;
@@ -1616,17 +1616,15 @@ SmilePopup::SmilePopup(QWidget *popup)
     QGridLayout *lay = new QGridLayout(this, rows, cols);
     lay->setMargin(4);
     lay->setSpacing(2);
-    i = 0;
+    unsigned i = 0;
     unsigned j = 0;
-    for (unsigned id = 0; ; id++){
-        const smile *p = smiles(id);
-        if (p == NULL)
-            break;
-        if (*p->exp == 0)
+    for (it = smiles.begin(); it != smiles.end(); ++it){
+        QIconSet is = Icon(it->c_str());
+        if (is.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
             continue;
-        QWidget *w = new SmileLabel(id, p->title, this);
+        QWidget *w = new SmileLabel(it->c_str(), this);
         w->setMinimumSize(s);
-        connect(w, SIGNAL(clicked(int)), this, SLOT(labelClicked(int)));
+        connect(w, SIGNAL(clicked(const char*)), this, SLOT(labelClicked(const char*)));
         lay->addWidget(w, i, j);
         if (++j >= cols){
             i++;
@@ -1636,7 +1634,7 @@ SmilePopup::SmilePopup(QWidget *popup)
     resize(minimumSizeHint());
 }
 
-void SmilePopup::labelClicked(int id)
+void SmilePopup::labelClicked(const char *id)
 {
     insert(id);
     close();

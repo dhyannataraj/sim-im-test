@@ -29,6 +29,7 @@
 #include "jabberbrowser.h"
 #include "infoproxy.h"
 #include "html.h"
+#include "icons.h"
 
 #include "core.h"
 
@@ -198,7 +199,6 @@ JabberClient::JabberClient(JabberProtocol *protocol, Buffer *cfg)
     }
     setListRequest(NULL);
 
-    m_bXML		 = false;
     m_bSSL		 = false;
     m_curRequest = NULL;
     m_msg_id	 = 0;
@@ -321,14 +321,7 @@ void JabberClient::connected()
     log(L_DEBUG, "Connect ready");
     startHandshake();
     TCPClient::connect_ready();
-    if (!m_bXML){
-        memset(&m_handler, 0, sizeof(m_handler));
-        m_handler.startElement = p_element_start;
-        m_handler.endElement   = p_element_end;
-        m_handler.characters   = p_char_data;
-        m_context = xmlCreatePushParserCtxt(&m_handler, this, "", 0, "");
-        m_bXML = true;
-    }
+	reset();
 }
 
 void JabberClient::packet_ready()
@@ -342,7 +335,7 @@ void JabberClient::packet_ready()
     if (m_socket->readBuffer.data()[m_socket->readBuffer.size() - 1] == '>')
         m_socket->readBuffer << "<a/>";
 #endif
-    if (xmlParseChunk(m_context, m_socket->readBuffer.data(), m_socket->readBuffer.size(), 0))
+    if (!parse(m_socket->readBuffer.data(), m_socket->readBuffer.size()))
         m_socket->error_state("XML parse error");
     m_socket->readBuffer.init(0);
     m_socket->readBuffer.packetStart();
@@ -642,10 +635,6 @@ void JabberClient::setStatus(unsigned status, const char *ar)
 
 void JabberClient::disconnected()
 {
-    if (m_bXML){
-        xmlFreeParserCtxt(m_context);
-        m_bXML = false;
-    }
     for (list<ServerRequest*>::iterator it = m_requests.begin(); it != m_requests.end(); ++it)
         delete *it;
     m_requests.clear();
@@ -1920,6 +1909,7 @@ void JabberImageParser::tag_start(const QString &tag, const list<QString> &attrs
         return;
     if (tag == "img"){
         QString src;
+		QString alt;
         for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
             QString name = *it;
             ++it;
@@ -1928,18 +1918,18 @@ void JabberImageParser::tag_start(const QString &tag, const list<QString> &attrs
                 src = value;
                 break;
             }
+			if (name == "alt"){
+				alt = value;
+				break;
+			}
         }
-        if (src.left(10) != "icon:smile")
-            return;
-        bool bOK;
-        unsigned nIcon = src.mid(10).toUInt(&bOK, 16);
-        if (!bOK)
-            return;
-        const smile *p = smiles(nIcon);
-        if (p){
-            res += p->paste;
-            return;
-        }
+		list<string> smiles = getIcons()->getSmile(src.latin1());
+		if (smiles.empty()){
+			text(alt);
+			return;
+		}
+		text(QString::fromUtf8(smiles.front().c_str()));
+		return;
     }
     if (tag == "p"){
         if (m_bPara){

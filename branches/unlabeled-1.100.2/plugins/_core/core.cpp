@@ -47,6 +47,7 @@
 #include "xsl.h"
 #include "userhistorycfg.h"
 #include "ballonmsg.h"
+#include "icons.h"
 #include "kdeisversion.h"
 
 #include <qtimer.h>
@@ -449,6 +450,8 @@ static autoReply autoReplies[] =
         { 0, NULL }
     };
 
+static string smile_icon;
+
 CorePlugin::CorePlugin(unsigned base, Buffer *config)
         : Plugin(base), EventReceiver(HighPriority)
 {
@@ -675,11 +678,21 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
     eCmd.process();
 
+	list<string> smiles;
+	getIcons()->getSmiles(smiles);
+	unsigned flags = 0;
+	if (smiles.empty()){
+		smile_icon = "";
+		flags = BTN_HIDE;
+	}else{
+		smile_icon = smiles.front();
+	}
+
     cmd->id			= CmdSmile;
     cmd->text		= I18N_NOOP("&Insert smile");
-    cmd->icon		= "smile0";
+    cmd->icon		= smile_icon.c_str();
     cmd->bar_grp	= 0x7000;
-    cmd->flags		= COMMAND_CHECK_STATE;
+    cmd->flags		= COMMAND_CHECK_STATE | flags;
     eCmd.process();
 
     cmd->id			= CmdTranslit;
@@ -1666,6 +1679,27 @@ I18N_NOOP("female", "%1 wrote:" )
 void *CorePlugin::processEvent(Event *e)
 {
     switch (e->type()){
+	case EventIconChanged:{
+		list<string> smiles;
+		getIcons()->getSmiles(smiles);
+		unsigned flags = 0;
+		if (smiles.empty()){
+			smile_icon = "";
+			flags = BTN_HIDE;
+		}else{
+			smile_icon = smiles.front();
+		}
+		Command cmd;
+		cmd->id			= CmdSmile;
+		cmd->text		= I18N_NOOP("&Insert smile");
+		cmd->icon		= smile_icon.c_str();
+	    cmd->bar_id		= ToolBarMsgEdit;
+		cmd->bar_grp	= 0x7000;
+		cmd->flags		= COMMAND_CHECK_STATE | flags;
+		Event eCmd(EventCommandChange, cmd);
+		eCmd.process();
+		return NULL;
+	}
     case EventJoinAlert:
         if (!getNoJoinAlert() && (m_alert == NULL)){
             Command cmd;
