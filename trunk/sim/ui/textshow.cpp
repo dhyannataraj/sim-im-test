@@ -136,13 +136,6 @@ QPopupMenu *TextEdit::createPopupMenu(const QPoint& pos)
     return TextShow::createPopupMenu(pos);
 }
 
-QPopupMenu *TextEdit::createPopupMenu()
-{
-    if (m_bInClick)
-        return NULL;
-    return TextShow::createPopupMenu();
-}
-
 bool TextEdit::isEmpty()
 {
     if (paragraphs() < 2){

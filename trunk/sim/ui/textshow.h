@@ -110,7 +110,6 @@ protected:
     bool eventFilter(QObject *o, QEvent *e);
     void keyPressEvent(QKeyEvent *e);
     QPopupMenu *createPopupMenu(const QPoint& pos);
-    QPopupMenu *createPopupMenu();
     void *m_param;
     bool m_bBold;
     bool m_bItalic;
