@@ -77,6 +77,8 @@ const int mnuBugSend = 32;
 const int mnuAlert = 33;
 const int mnuAccept = 34;
 const int mnuSound = 35;
+const int mnuSecureOn = 36;
+const int mnuSecureOff = 37;
 const int mnuGrpTitle = 0x10000;
 
 const unsigned long mnuGroupVisible = 0x10001;

@@ -377,12 +377,31 @@ public:
     unsigned short sendMessage(ICQMessage*);
     void acceptMessage(ICQMessage*);
     void declineMessage(ICQMessage*, const char *reason);
-    bool isLogged() { return state == Logged; }
+    bool isLogged() { return (state != None) && (state != WaitInit2); }
+    bool isSecure()
+    {
+#ifdef USE_OPENSSL
+        return m_bSecure;
+#else
+        return false;
+#endif
+    }
 protected:
+    virtual void read_ready();
+    virtual void write_ready();
+    virtual bool have_data();
     enum State{
         None,
         WaitInit2,
-        Logged
+        Logged,
+        SSLAccept_Read,
+        SSLAccept_Write,
+        SSLConnect_Read,
+        SSLConnect_Write,
+        SSLShutdown_Read,
+        SSLShutdown_Write,
+        SSLRead_Write,
+        SSLWrite_Read,
     };
     void processPacket();
     void connected();
@@ -393,7 +412,18 @@ protected:
     void startPacket(unsigned short cms, unsigned short seq);
     void startMsgPacket(unsigned short msgType, const string &s);
     void sendPacket();
-    void sendAck(unsigned short);
+    void sendAck(unsigned short, unsigned short msgType);
+    void secureConnect();
+    void secureListen();
+    void secureStop(bool bShutdown);
+#ifdef USE_OPENSSL
+    void SSLaccept();
+    void SSLconnect();
+    void SSLshutdown();
+    bool m_bSecure;
+    void *mpSSL;
+#define pSSL	((SSL*)mpSSL)
+#endif
     friend class ICQUser;
 };
 
@@ -689,6 +719,9 @@ public:
     ICQEvent *addMessage(ICQMessage*, ICQClient*);
     list<ICQEvent*> msgQueue;
     void processMsgQueue(ICQClient*);
+
+    void requestSecureChannel(ICQClient*);
+    void closeSecureChannel(ICQClient*);
 };
 
 class ICQClient;

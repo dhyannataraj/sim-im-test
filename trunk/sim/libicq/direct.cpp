@@ -15,7 +15,32 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#ifdef STDC_HEADERS
+#include <stdlib.h>
+#include <stddef.h>
+#endif
+#ifdef HAVE_INTTYPES_H
+#include <inttypes.h>
+#else
+#ifdef HAVE_STDINT_H
+#include <stdint.h>
+#endif
+#endif
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+
+#ifdef USE_OPENSSL
+#include <openssl/ssl.h>
+#include <openssl/err.h>
+#endif
+
 #include "icqclient.h"
+#include "icqssl.h"
 #include "log.h"
 
 #include <time.h>
@@ -321,6 +346,10 @@ DirectClient::DirectClient(int fd, const char *host, unsigned short port, ICQCli
 {
     u = NULL;
     state = None;
+#ifdef USE_OPENSSL
+    mpSSL = NULL;
+    m_bSecure = false;
+#endif
 }
 
 DirectClient::DirectClient(unsigned long ip, unsigned long real_ip, unsigned short port, ICQUser *_u, ICQClient *client)
@@ -328,11 +357,314 @@ DirectClient::DirectClient(unsigned long ip, unsigned long real_ip, unsigned sho
 {
     u = _u;
     state = None;
+#ifdef USE_OPENSSL
+    mpSSL = NULL;
+    m_bSecure = false;
+#endif
 }
 
 DirectClient::~DirectClient()
 {
     if (u && (u->direct == this)) u->direct = NULL;
+    secureStop(false);
+}
+
+void DirectClient::read_ready()
+{
+#ifdef USE_OPENSSL
+    log(L_DEBUG, "read ready");
+    switch (state){
+    case SSLAccept_Read:
+    case SSLAccept_Write:
+        SSLaccept();
+        return;
+    case SSLConnect_Read:
+    case SSLConnect_Write:
+        SSLconnect();
+        return;
+    case SSLShutdown_Read:
+    case SSLShutdown_Write:
+        SSLshutdown();
+        return;
+    case SSLWrite_Read:
+        write_ready();
+        return;
+    }
+    if (pSSL){
+        int read = SSL_read(pSSL, readBuffer.Data(readBuffer.writePos()),
+                            readBuffer.size() - readBuffer.writePos());
+        int tmp  = SSL_get_error(pSSL, read);
+        switch (tmp)
+        {
+        case SSL_ERROR_NONE:
+        case SSL_ERROR_WANT_READ:
+        case SSL_ERROR_WANT_X509_LOOKUP:
+            state = Logged;
+            break;
+        case SSL_ERROR_WANT_WRITE:
+            state = SSLRead_Write;
+            break;
+        default:
+            error(ErrorProtocol);
+            return;
+        }
+        readBuffer.setWritePos(readBuffer.writePos() + read);
+        if (readBuffer.writePos() == readBuffer.size())
+            packet_ready();
+        return;
+    }
+#endif
+    DirectSocket::read_ready();
+}
+
+void DirectClient::write_ready()
+{
+#ifdef USE_OPENSSL
+    log(L_DEBUG, "write ready");
+    switch (state){
+    case SSLAccept_Write:
+    case SSLAccept_Read:
+        SSLaccept();
+        return;
+    case SSLConnect_Write:
+    case SSLConnect_Read:
+        SSLconnect();
+        return;
+    case SSLShutdown_Read:
+    case SSLShutdown_Write:
+        SSLshutdown();
+        return;
+    case SSLRead_Write:
+        read_ready();
+        return;
+    }
+    if (pSSL){
+        if (writeBuffer.readPos() < writeBuffer.writePos()){
+            int size = writeBuffer.writePos() - writeBuffer.readPos();
+            if (size > 2048) size = 2048;
+
+            int res = SSL_write(pSSL, writeBuffer.Data(writeBuffer.readPos()), size);
+            int tmp = SSL_get_error(pSSL, res);
+            switch (tmp)
+            {
+            case SSL_ERROR_NONE:
+            case SSL_ERROR_WANT_WRITE:
+                state = Logged;
+                break;
+            case SSL_ERROR_WANT_READ:
+            case SSL_ERROR_WANT_X509_LOOKUP:
+                state = SSLWrite_Read;
+                break;
+            default:
+                error(ErrorProtocol);
+                return;
+            }
+
+            writeBuffer.incReadPos(res);
+            if (writeBuffer.readPos() == writeBuffer.size()) writeBuffer.init(0);
+        }
+    }
+#endif
+    DirectSocket::write_ready();
+}
+
+bool DirectClient::have_data()
+{
+    switch (state){
+    case SSLWrite_Read:
+    case SSLAccept_Read:
+    case SSLConnect_Read:
+    case SSLShutdown_Read:
+        return false;
+    case SSLAccept_Write:
+    case SSLConnect_Write:
+    case SSLRead_Write:
+    case SSLShutdown_Write:
+        return true;
+    }
+    return DirectSocket::have_data();
+}
+
+void DirectClient::secureConnect()
+{
+#ifdef USE_OPENSSL
+    mpSSL = newSSL();
+    SSL_set_session(pSSL, NULL);
+    SSL_set_fd(pSSL, m_fd);
+    SSL_set_mode(pSSL, SSL_MODE_AUTO_RETRY);
+    SSLconnect();
+#endif
+}
+
+#ifdef USE_OPENSSL
+void DirectClient::SSLconnect()
+{
+    log(L_DEBUG, "SSL connect");
+    if (pSSL == NULL){
+        error(ErrorProtocol);
+        return;
+    }
+    int i = SSL_connect(pSSL);
+    int j = SSL_get_error(pSSL, i);
+    if (j == SSL_ERROR_NONE)
+    {
+        log(L_DEBUG, "SSL OK");
+        m_bSecure = true;
+        state = Logged;
+        ICQEvent e(EVENT_STATUS_CHANGED, u->Uin());
+        client->process_event(&e);
+        return;
+    }
+    const char *file;
+    int line;
+    unsigned long err;
+    switch (j)
+    {
+    case SSL_ERROR_SSL:
+        err = ERR_get_error_line(&file, &line);
+        log(L_WARN, "SSL: SSL_connect error = %lx, %s:%i", err, file, line);
+        ERR_clear_error();
+        error(ErrorProtocol);
+        return;
+    case SSL_ERROR_WANT_READ:
+        log(L_DEBUG, "SSL_Connect want read");
+        state = SSLConnect_Read;
+        return;
+    case SSL_ERROR_WANT_WRITE:
+        log(L_DEBUG, "SSL_Connect want write");
+        state = SSLConnect_Write;
+        return;
+    default:
+        log(L_DEBUG, "SSL: SSL_connect error %d, SSL_%d", i, j);
+        error(ErrorProtocol);
+    }
+#endif
+}
+
+#ifdef USE_OPENSSL
+void DirectClient::SSLshutdown()
+{
+    log(L_DEBUG, "SSL shutdown");
+    if (pSSL == NULL){
+        error(ErrorProtocol);
+        return;
+    }
+    int i = SSL_shutdown(pSSL);
+    int j = SSL_get_error(pSSL, i);
+    if (j == SSL_ERROR_NONE)
+    {
+        log(L_DEBUG, "SSL OK");
+        SSL_free(pSSL);
+        mpSSL = NULL;
+        m_bSecure = false;
+        state = Logged;
+        ICQEvent e(EVENT_STATUS_CHANGED, u->Uin());
+        client->process_event(&e);
+        return;
+    }
+    const char *file;
+    int line;
+    unsigned long err;
+    switch (j)
+    {
+    case SSL_ERROR_SSL:
+        err = ERR_get_error_line(&file, &line);
+        log(L_WARN, "SSL: SSL_shutdown error = %lx, %s:%i", err, file, line);
+        ERR_clear_error();
+        error(ErrorProtocol);
+        return;
+    case SSL_ERROR_WANT_READ:
+        log(L_DEBUG, "SSL_Connect want read");
+        state = SSLShutdown_Read;
+        return;
+    case SSL_ERROR_WANT_WRITE:
+        log(L_DEBUG, "SSL_Connect want write");
+        state = SSLShutdown_Write;
+        return;
+    default:
+        log(L_DEBUG, "SSL: SSL_shutdown error %d, SSL_%d", i, j);
+        error(ErrorProtocol);
+    }
+#endif
+}
+
+void DirectClient::secureListen()
+{
+#ifdef USE_OPENSSL
+    if (pSSL){
+        log(L_DEBUG, "secureListen - already secure");
+        return;
+    }
+    mpSSL = newSSL();
+    SSL_set_session(pSSL, NULL);
+    SSL_set_fd(pSSL, m_fd);
+    SSL_set_mode(pSSL, SSL_MODE_AUTO_RETRY);
+    SSLaccept();
+#endif
+}
+
+#ifdef USE_OPENSSL
+void DirectClient::SSLaccept()
+{
+    log(L_DEBUG, "SSL accept");
+    if (pSSL == NULL){
+        error(ErrorProtocol);
+        return;
+    }
+    int i = SSL_accept(pSSL);
+    int j = SSL_get_error(pSSL, i);
+    if (j == SSL_ERROR_NONE)
+    {
+        log(L_DEBUG, "SSL OK");
+        m_bSecure = true;
+        state = Logged;
+        ICQEvent e(EVENT_STATUS_CHANGED, u->Uin());
+        client->process_event(&e);
+        return;
+    }
+    const char *file;
+    int line;
+    unsigned long err;
+    switch (j)
+    {
+    case SSL_ERROR_SSL:
+        err = ERR_get_error_line(&file, &line);
+        log(L_WARN, "SSL: SSL_accept error = %lx, %s:%i", err, file, line);
+        ERR_clear_error();
+        error(ErrorProtocol);
+        return;
+    case SSL_ERROR_WANT_READ:
+        log(L_DEBUG, "SSL_Accept want read");
+        state = SSLAccept_Read;
+        return;
+    case SSL_ERROR_WANT_WRITE:
+        log(L_DEBUG, "SSL_Accept want write");
+        state = SSLAccept_Write;
+        return;
+    default:
+        log(L_DEBUG, "SSL: SSL_accept error %d, SSL_%d", i, j);
+        error(ErrorProtocol);
+    }
+}
+#endif
+
+void DirectClient::secureStop(bool bShutdown)
+{
+#ifdef USE_OPENSSL
+    if (pSSL){
+        if (bShutdown){
+            SSLshutdown();
+            return;
+        }
+        SSL_free(pSSL);
+        mpSSL = NULL;
+        m_bSecure = false;
+        if (client && u){
+            ICQEvent e(EVENT_STATUS_CHANGED, u->Uin());
+            client->process_event(&e);
+        }
+    }
+#endif
 }
 
 void DirectClient::processPacket()
@@ -426,6 +758,7 @@ void DirectClient::processPacket()
     readBuffer.incReadPos(12);
 
     unsigned short type, ackFlags, msgFlags;
+    unsigned short id1 = 0;
     readBuffer.unpack(type);
     readBuffer.unpack(ackFlags);
     readBuffer.unpack(msgFlags);
@@ -448,16 +781,26 @@ void DirectClient::processPacket()
 #endif
             client->packMessage(writeBuffer, m, answer, 0, 0, 0, true, true);
             sendPacket();
+            if (m->Type() == ICQ_MSGxSECURExOPEN){
+                secureListen();
+            }else{
+                secureStop(true);
+            }
+            delete m;
         }else{
+            sendAck(seq, m->Type());
             client->messageReceived(m);
-            sendAck(seq);
         }
         break;
     case TCP_CANCEL:
         remove();
-        client->cancelMessage(m, false);
+        if (m) client->cancelMessage(m, false);
         break;
     case TCP_ACK:
+        if (m){
+            id1 = m->id1;
+            delete m;
+        }
         if (u){
             list<ICQEvent*>::iterator it;
             for (it = u->msgQueue.begin(); it != u->msgQueue.end(); ++it){
@@ -477,25 +820,44 @@ void DirectClient::processPacket()
                         case ICQ_MSGxFILE:{
                                 bToProcess = true;
                                 ICQFile *file = static_cast<ICQFile*>(msg);
-                                file->ft = new FileTransfer(u->IP(), u->RealIP(), m->id1, u, client, file);
+                                file->ft = new FileTransfer(u->IP(), u->RealIP(), id1, u, client, file);
                                 file->ft->connect();
                                 break;
                             }
                         case ICQ_MSGxCHAT:{
                                 bToProcess = true;
                                 ICQChat *chat = static_cast<ICQChat*>(msg);
-                                chat->chat = new ChatSocket(u->IP(), u->RealIP(), m->id1, u, client, chat);
+                                chat->chat = new ChatSocket(u->IP(), u->RealIP(), id1, u, client, chat);
                                 chat->chat->connect();
                                 break;
                             }
                         case ICQ_MSGxMSG:
                         case ICQ_MSGxURL:
                             break;
+                        case ICQ_MSGxSECURExCLOSE:
+                            u->msgQueue.remove(e);
+                            delete e;
+                            delete msg;
+                            secureStop(true);
+                            return;
+                        case ICQ_MSGxSECURExOPEN:
+                            if (msg_str.c_str()){
+                                ICQEvent eSend(EVENT_MESSAGE_SEND, msg->getUin());
+                                eSend.setMessage(msg);
+                                eSend.state = ICQEvent::Fail;
+                                client->process_event(&eSend);
+                            }
+                            secureConnect();
+                            u->msgQueue.remove(e);
+                            delete e;
+                            delete msg;
+                            return;
                         default:
                             log(L_WARN, "Unknown accept message type");
                             client->cancelMessage(msg, false);
                             return;
                         }
+                        if (m) delete m;
                         u->msgQueue.remove(e);
                         if (bToProcess){
                             client->processQueue.push_back(e);
@@ -587,9 +949,11 @@ void DirectClient::error_state()
     DirectSocket::error_state();
 }
 
-void DirectClient::sendAck(unsigned short seq)
+void DirectClient::sendAck(unsigned short seq, unsigned short type)
 {
     startPacket(TCP_ACK, seq);
+    writeBuffer.pack(type);
+    writeBuffer << 0x00000000L << 0x00000000L << 0x00000000L;
     sendPacket();
 }
 
@@ -655,6 +1019,19 @@ void DirectClient::sendPacket()
         p[i+3] ^= (hex>>24) & 0xFF;
     }
     dumpPacket(writeBuffer, m_packetOffs, "Encrypted packet");
+#ifdef USE_OPENSSL
+    if (pSSL) return;
+#endif
+    fd_set wf;
+    FD_ZERO(&wf);
+    FD_SET(m_fd, &wf);
+    struct timeval tv;
+    tv.tv_sec = 0;
+    tv.tv_usec = 0;
+    int res = select(m_fd + 1, NULL, &wf, NULL, &tv);
+    if (res <= 0) return;
+    if (!FD_ISSET(m_fd, &wf)) return;
+    write_ready();
 }
 
 void DirectClient::acceptMessage(ICQMessage *m)
@@ -729,6 +1106,9 @@ unsigned short DirectClient::sendMessage(ICQMessage *msg)
             bConvert = false;
             break;
         }
+    case ICQ_MSGxSECURExOPEN:
+    case ICQ_MSGxSECURExCLOSE:
+        break;
     default:
         log(L_WARN, "Unknown type %u for direct send", msg->Type());
         return 0;
@@ -1486,4 +1866,28 @@ void ICQUser::processMsgQueue(ICQClient *client)
     }
 }
 
+void ICQUser::requestSecureChannel(ICQClient *client)
+{
+    if (direct && direct->isSecure())
+        return;
+    list<ICQEvent*>::iterator it;
+    for (it = msgQueue.begin(); it != msgQueue.end(); ++it){
+        if ((*it)->message()->Type() == ICQ_MSGxSECURExOPEN) return;
+    }
+    ICQSecureOn *msg = new ICQSecureOn;
+    msg->Uin.push_back(Uin());
+    addMessage(msg, client);
+}
 
+void ICQUser::closeSecureChannel(ICQClient *client)
+{
+    if ((direct == NULL) || !direct->isSecure())
+        return;
+    list<ICQEvent*>::iterator it;
+    for (it = msgQueue.begin(); it != msgQueue.end(); ++it){
+        if ((*it)->message()->Type() == ICQ_MSGxSECURExCLOSE) return;
+    }
+    ICQSecureOff *msg = new ICQSecureOff;
+    msg->Uin.push_back(Uin());
+    addMessage(msg, client);
+}

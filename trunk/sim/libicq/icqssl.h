@@ -39,6 +39,10 @@
 
 #ifdef USE_OPENSSL
 
+#include <openssl/ssl.h>
+
+SSL *newSSL();
+
 #endif
 #endif
 

@@ -38,40 +38,40 @@ void ssl_info_callback(SSL *s, int where, int ret)
 
     if (where & SSL_CB_LOOP)
     {
-        log(L_DEBUG, "SSL: %s:%s\n", SSL_state_string_long(s));
+        log(L_DEBUG, "SSL: %s", SSL_state_string_long(s));
     }
     else if (where & SSL_CB_ALERT)
     {
         str=(where & SSL_CB_READ)?"read":"write";
-        log(L_DEBUG, "SSL: SSL3 alert %s:%s:%s\n", str,
+        log(L_DEBUG, "SSL: SSL3 alert %s:%s:%s", str,
             SSL_alert_type_string_long(ret),
             SSL_alert_desc_string_long(ret));
     }
     else if (where & SSL_CB_EXIT)
     {
         if (ret == 0)
-            log(L_DEBUG, "SSL: %s:failed in %s\n",
+            log(L_DEBUG, "SSL: %s:failed in %s",
                 str,SSL_state_string_long(s));
         else if (ret < 0)
         {
-            log(L_DEBUG, "SSL: %s:%s\n", str,SSL_state_string_long(s));
+            log(L_DEBUG, "SSL: %s:%s", str,SSL_state_string_long(s));
         }
     }
     else if (where & SSL_CB_ALERT)
     {
         str=(where & SSL_CB_READ)?"read":"write";
-        log(L_DEBUG, "SSL: SSL3 alert %s:%s:%s\n", str,
+        log(L_DEBUG, "SSL: SSL3 alert %s:%s:%s", str,
             SSL_alert_type_string_long(ret),
             SSL_alert_desc_string_long(ret));
     }
     else if (where & SSL_CB_EXIT)
     {
         if (ret == 0)
-            log(L_DEBUG, "SSL: %s:failed in %s\n",
+            log(L_DEBUG, "SSL: %s:failed in %s",
                 str,SSL_state_string_long(s));
         else if (ret < 0)
         {
-            log(L_DEBUG, "SSL: %s:error in %s\n",
+            log(L_DEBUG, "SSL: %s:error in %s",
                 str,SSL_state_string_long(s));
         }
     }
@@ -104,6 +104,8 @@ static DH *get_dh512()
 static void init()
 {
     if (gSSL_CTX) return;
+    SSL_load_error_strings();
+    SSL_library_init();
     gSSL_CTX = SSL_CTX_new(TLSv1_method());
 #if OPENSSL_VERSION_NUMBER >= 0x00905000L
     SSL_CTX_set_cipher_list(gSSL_CTX, "ADH:@STRENGTH");
@@ -114,6 +116,12 @@ static void init()
     DH *dh = get_dh512();
     SSL_CTX_set_tmp_dh(gSSL_CTX, dh);
     DH_free(dh);
+}
+
+SSL *newSSL()
+{
+    init();
+    return SSL_new(gSSL_CTX);
 }
 
 #endif

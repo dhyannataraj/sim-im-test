@@ -1559,6 +1559,16 @@ void MainWindow::userFunction(unsigned long uin, int function, unsigned long par
     case mnuMail:
         sendMail(uin);
         return;
+    case mnuSecureOn:{
+            ICQUser *u = pClient->getUser(uin);
+            if (u) u->requestSecureChannel(pClient);
+            return;
+        }
+    case mnuSecureOff:{
+            ICQUser *u = pClient->getUser(uin);
+            if (u) u->closeSecureChannel(pClient);
+            return;
+        }
     default:
         log(L_WARN, "No user function %u for %lu", function, uin);
     }
@@ -1621,6 +1631,11 @@ void MainWindow::adjustUserMenu(QPopupMenu *menu, ICQUser *u, bool haveTitle)
         if (menu->findItem(mnuContainers) == NULL)
             menu->insertItem(i18n("To container"), menuContainers, mnuContainers);
     }
+    addMessageType(menu, ICQ_MSGxSECURExOPEN,  mnuSecureOn,
+                   (u->Type() == USER_TYPE_ICQ) && (u->uStatus != ICQ_STATUS_OFFLINE) &&
+                   ((u->direct == NULL) || !u->direct->isSecure()), haveTitle);
+    addMessageType(menu, ICQ_MSGxSECURExCLOSE, mnuSecureOff,
+                   u->direct && u->direct->isSecure(), haveTitle);
     bool haveEmail = false;
     for (EMailList::iterator it = u->EMails.begin(); it != u->EMails.end(); ++it){
         EMailInfo *mailInfo = static_cast<EMailInfo*>(*it);

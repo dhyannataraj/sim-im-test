@@ -65,6 +65,7 @@ public:
     unsigned nBlink;
     bool m_bItalic, m_bUnderline, m_bStrikeOut;
     bool m_bInvisible, m_bBirthday, m_bMobile, m_bPhone, m_bPhoneBusy, m_bPager;
+    bool m_bSecure;
     friend class UserView;
 };
 

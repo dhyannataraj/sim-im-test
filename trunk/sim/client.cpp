@@ -378,6 +378,9 @@ const char *Client::getMessageIcon(int type)
     case ICQ_MSGxSMS:
     case ICQ_MSGxSMSxRECEIPT:
         return "sms";
+    case ICQ_MSGxSECURExOPEN:
+    case ICQ_MSGxSECURExCLOSE:
+        return "encrypted";
     default:
         log(L_WARN, "Unknown message type %u", type);
     }
@@ -419,6 +422,10 @@ QString Client::getMessageText(int type)
         return i18n("SMS receipt");
     case ICQ_MSGxMAIL:
         return i18n("Email");
+    case ICQ_MSGxSECURExOPEN:
+        return i18n("Request secure channel");
+    case ICQ_MSGxSECURExCLOSE:
+        return i18n("Close secure channel");
     default:
         log(L_WARN, "Unknown message type %u", type);
     }

@@ -93,6 +93,7 @@ static const tag_def defs[] =
 
 QString MainWindow::ParseText(const char *text, bool bIgnoreColors)
 {
+	if (text == NULL) return "";
     yy_current_buffer = yy_scan_string(text);
     QString res;
     string tag;

@@ -24,6 +24,7 @@
 #include "history.h"
 #include "transparent.h"
 #include "log.h"
+#include "ui/ballonmsg.h"
 
 #include <qheader.h>
 #include <qpopupmenu.h>
@@ -36,6 +37,7 @@
 #include <qregexp.h>
 #include <qbutton.h>
 #include <qobjectlist.h>
+#include <qstringlist.h>
 
 #include <stdio.h>
 
@@ -213,41 +215,61 @@ void UserViewItem::paintCell(QPainter *p, const QColorGroup &cg, int, int, int)
     paint(p, text(0), cg, false, bNormal, &w, &width);
     UserView *userView = static_cast<UserView*>(listView());
     if (userView->bList) return;
-    const QPixmap &pCell = Pict("cell");
-    const QPixmap &pPhone = Pict("phone");
-    const QPixmap &pPhoneBusy = Pict("nophone");
-    const QPixmap &pPager = Pict("wpager");
-    const QPixmap &pBirthday = Pict("birthday");
-    const QPixmap &pInvisible = Pict("invisible");
-    if (m_bMobile && (width - pCell.width() >= w)){
-        width -= pCell.width();
-        p->drawPixmap(width, (height() - pCell.height()) / 2, pCell);
-        width -= 2;
+    if (m_bSecure){
+        const QPixmap &pSecure = Pict("encrypted");
+        if (width - pSecure.width() >= w){
+            width -= pSecure.width();
+            p->drawPixmap(width, (height() - pSecure.height()) / 2, pSecure);
+            width -= 2;
+        }
     }
-    if (m_bPager && (width - pCell.width() >= w)){
-        width -= pPager.width();
-        p->drawPixmap(width, (height() - pPager.height()) / 2, pPager);
-        width -= 2;
+    if (m_bMobile){
+        const QPixmap &pCell = Pict("cell");
+        if (width - pCell.width() >= w){
+            width -= pCell.width();
+            p->drawPixmap(width, (height() - pCell.height()) / 2, pCell);
+            width -= 2;
+        }
     }
-    if (m_bPhone && (width - pPhone.width() >= w)){
-        width -= pPhone.width();
-        p->drawPixmap(width, (height() - pPhone.height()) / 2, pPhone);
-        width -= 2;
+    if (m_bPager){
+        const QPixmap &pPager = Pict("wpager");
+        if (width - pPager.width() >= w){
+            width -= pPager.width();
+            p->drawPixmap(width, (height() - pPager.height()) / 2, pPager);
+            width -= 2;
+        }
     }
-    if (m_bPhoneBusy && (width - pPhoneBusy.width() >= w)){
-        width -= pPhoneBusy.width();
-        p->drawPixmap(width, (height() - pPhoneBusy.height()) / 2, pPhoneBusy);
-        width -= 2;
+    if (m_bPhone){
+        const QPixmap &pPhone = Pict("phone");
+        if (width - pPhone.width() >= w){
+            width -= pPhone.width();
+            p->drawPixmap(width, (height() - pPhone.height()) / 2, pPhone);
+            width -= 2;
+        }
     }
-    if (m_bBirthday && (width - pBirthday.width() >= w)){
-        width -= pBirthday.width();
-        p->drawPixmap(width, (height() - pBirthday.height()) / 2, pBirthday);
-        width -= 2;
+    if (m_bPhoneBusy){
+        const QPixmap &pPhoneBusy = Pict("nophone");
+        if (width - pPhoneBusy.width() >= w){
+            width -= pPhoneBusy.width();
+            p->drawPixmap(width, (height() - pPhoneBusy.height()) / 2, pPhoneBusy);
+            width -= 2;
+        }
     }
-    if (m_bInvisible && (width - pInvisible.width() >= w)){
-        width -= pInvisible.width();
-        p->drawPixmap(width, (height() - pInvisible.height()) / 2, pInvisible);
-        width -= 2;
+    if (m_bBirthday){
+        const QPixmap &pBirthday = Pict("birthday");
+        if (width - pBirthday.width() >= w){
+            width -= pBirthday.width();
+            p->drawPixmap(width, (height() - pBirthday.height()) / 2, pBirthday);
+            width -= 2;
+        }
+    }
+    if (m_bInvisible){
+        const QPixmap &pInvisible = Pict("invisible");
+        if (width - pInvisible.width() >= w){
+            width -= pInvisible.width();
+            p->drawPixmap(width, (height() - pInvisible.height()) / 2, pInvisible);
+            width -= 2;
+        }
     }
 }
 
@@ -274,6 +296,7 @@ void UserViewItem::update(ICQUser *u, bool bFirst)
     m_bPhone = false;
     m_bPhoneBusy = false;
     m_bPager = false;
+    m_bSecure = (u->direct != NULL) && u->direct->isSecure();
     for (PhoneBook::iterator it = u->Phones.begin(); it != u->Phones.end(); it++){
         PhoneInfo *phone = static_cast<PhoneInfo*>(*it);
         if (phone->Type() == SMS) m_bMobile = true;
@@ -850,6 +873,22 @@ void UserView::processEvent(ICQEvent *e)
         refresh();
         return;
     case EVENT_MESSAGE_RECEIVED:
+        if (e->message() &&
+                (e->message()->Type() == ICQ_MSGxSECURExOPEN) &&
+                (e->state == ICQEvent::Fail)){
+            UserViewItem *item = findUserItem(e->message()->getUin());
+            if (item){
+                ensureItemVisible(item);
+                QRect rc = itemRect(item);
+                QPoint p = viewport()->mapToGlobal(rc.topLeft());
+                rc = QRect(p.x(), p.y(), rc.width(), rc.height());
+                QStringList list;
+                list.append(i18n("OK"));
+                BalloonMsg *msg = new BalloonMsg(i18n("Secure channel request failed"),
+                                                 rc, list, this);
+                msg->show();
+            }
+        }
     case EVENT_USER_DELETED:
     case EVENT_USERGROUP_CHANGED:
     case EVENT_STATUS_CHANGED:
