@@ -134,6 +134,9 @@ void RichTextDrag::setRichText(const QString &txt)
 TextEdit::TextEdit(QWidget *p, const char *name)
         : TextShow(p, name)
 {
+#ifdef WIN32
+	setReadOnly(false);
+#else
     m_param = NULL;
     m_bEmpty = true;
     m_bBold  = false;
@@ -158,6 +161,7 @@ TextEdit::TextEdit(QWidget *p, const char *name)
 #endif
     viewport()->installEventFilter(this);
     fontChanged(font());
+#endif
 }
 
 TextEdit::~TextEdit()
@@ -207,6 +211,9 @@ QPopupMenu *TextEdit::createPopupMenu(const QPoint& pos)
 
 bool TextEdit::isEmpty()
 {
+#ifdef WIN32
+	return text(false).isEmpty();
+#else
     if (paragraphs() < 2){
         QString t = text(0);
         if (textFormat() == QTextEdit::RichText)
@@ -214,6 +221,7 @@ bool TextEdit::isEmpty()
         return t.isEmpty() || (t == " ");
     }
     return false;
+#endif
 }
 
 void TextEdit::setParam(void *param)
@@ -225,6 +233,7 @@ void TextEdit::slotColorChanged(const QColor &c)
 {
     if (c == curFG)
         return;
+#ifndef WIN32
     int parag;
     int index;
     getCursorPosition(&parag, &index);
@@ -233,6 +242,7 @@ void TextEdit::slotColorChanged(const QColor &c)
         return;
     }
     if (c != curFG)
+#endif
         setForeground(c, false);
 }
 
@@ -515,8 +525,6 @@ TextShow::TextShow(QWidget *p, const char *name)
     if (QApplication::clipboard()->supportsSelection())
         connect(this, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()));
 #endif
-    m_timer = new QTimer(this);
-    connect(m_timer, SIGNAL(timeout()), this, SLOT(slotResizeTimer()));
 }
 
 TextShow::~TextShow()
@@ -545,7 +553,7 @@ void TextShow::setSource(const QString &name)
     if ( source.left(5) == "file:" )
         source = source.mid(6);
 
-    QString url = mimeSourceFactory()->makeAbsolute( source, context() );
+    QString url = source;
     QString txt;
 
     if (!mark.isEmpty()) {
@@ -563,31 +571,10 @@ void TextShow::setSource(const QString &name)
 #endif
 }
 
-void TextShow::slotResizeTimer()
-{
-#ifdef WIN32
-    if (inResize())
-        return;
-    m_timer->stop();
-    setVScrollBarMode(Auto);
-    setHScrollBarMode(Auto);
-    QResizeEvent re(QSize(0, 0), size());
-    resizeEvent(&re);
-#endif
-}
+#ifndef WIN32
 
 void TextShow::resizeEvent(QResizeEvent *e)
 {
-#ifdef WIN32
-    if (inResize()){
-        if (!m_timer->isActive()){
-            setHScrollBarMode(AlwaysOff);
-            setVScrollBarMode(AlwaysOff);
-            m_timer->start(100);
-        }
-        return;
-    }
-#endif
     QPoint p = QPoint(0, height());
     p = mapToGlobal(p);
     p = viewport()->mapFromGlobal(p);
@@ -606,7 +593,6 @@ void TextShow::resizeEvent(QResizeEvent *e)
     viewport()->repaint();
 }
 
-
 void TextShow::keyPressEvent(QKeyEvent *e)
 {
     if (((e->state() == Qt::ControlButton) && (e->key() == Qt::Key_C)) ||
@@ -617,8 +603,13 @@ void TextShow::keyPressEvent(QKeyEvent *e)
     QTextEdit::keyPressEvent(e);
 }
 
+#endif
+
 void TextShow::copy()
 {
+#ifdef WIN32
+	QIE::copy();
+#else
     QTextDrag *drag = dragObject(NULL);
     if ( !drag )
         return;
@@ -627,17 +618,24 @@ void TextShow::copy()
 #else
     QApplication::clipboard()->setData(drag, QClipboard::Clipboard);
 #endif
+#endif
 }
 
 void TextShow::cut()
 {
+#ifdef WIN32
+	QIE::cut();
+#else
     if (isReadOnly())
         return;
     if (hasSelectedText()) {
         copy();
         removeSelectedText();
     }
+#endif
 }
+
+#ifndef WIN32
 
 QTextDrag *TextShow::dragObject(QWidget *parent) const
 {
@@ -665,6 +663,8 @@ void TextShow::startDrag()
             removeSelectedText();
     }
 }
+
+#endif
 
 QString TextShow::quoteText(const char *t, const char *charset)
 {

@@ -58,7 +58,9 @@ protected slots:
 protected:
     virtual		QPopupMenu *createPopupMenu( const QPoint& pos );
     void		*processEvent(Event*);
+#ifndef WIN32
     void		setBackground(unsigned start);
+#endif
     void		setSource(const QString&);
     void		setColors();
     void		reload();

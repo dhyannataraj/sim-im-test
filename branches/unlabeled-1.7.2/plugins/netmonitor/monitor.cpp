@@ -52,7 +52,9 @@ MonitorWindow::MonitorWindow(NetmonitorPlugin *plugin)
     setIcon(Pict("network"));
     bPause = false;
     edit = new TextShow(this);
+#ifndef WIN32
     edit->setWordWrap(QTextEdit::NoWrap);
+#endif
     setCentralWidget(edit);
     QMenuBar *menu = menuBar();
     menuFile = new QPopupMenu(this);
@@ -216,7 +218,9 @@ void *MonitorWindow::processEvent(Event *e)
             logString += "</pre></p>";
             setLogEnable(false);
             edit->append(logString);
+#ifndef WIN32
             edit->scrollToBottom();
+#endif
             setLogEnable(true);
         }
     }

@@ -107,6 +107,7 @@ void _UnquoteParser::tag_end(const QString&)
 
 bool ReplacePlugin::eventFilter(QObject *o, QEvent *e)
 {
+#ifndef USE_IE
     if ((e->type() == QEvent::KeyPress) && o->inherits("MsgTextEdit")){
         QKeyEvent *ke = (QKeyEvent*)e;
         if ((ke->key() == Key_Enter) || (ke->key() == Key_Return) || (ke->key() == Key_Space)){
@@ -133,6 +134,7 @@ bool ReplacePlugin::eventFilter(QObject *o, QEvent *e)
             }
         }
     }
+#endif
     return QObject::eventFilter(o, e);
 }
 

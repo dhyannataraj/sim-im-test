@@ -193,6 +193,7 @@ MsgViewBase::MsgViewBase(QWidget *parent, const char *name, unsigned id)
     m_popupPos = QPoint(0, 0);
     xsl = NULL;
 
+#ifndef WIN32
     QStyleSheet *style = new QStyleSheet(this);
     QStyleSheetItem *style_p = style->item("p");
     // Disable top and bottom margins for P tags. This will make sure
@@ -201,6 +202,7 @@ MsgViewBase::MsgViewBase(QWidget *parent, const char *name, unsigned id)
     style_p->setMargin(QStyleSheetItem::MarginTop, 0);
     style_p->setMargin(QStyleSheetItem::MarginBottom, 0);
     setStyleSheet(style);
+#endif
 
     setColors();
     setFont(CorePlugin::m_plugin->editFont);
@@ -227,6 +229,7 @@ void MsgViewBase::setSelect(const QString &str)
 
 void MsgViewBase::update()
 {
+#ifndef WIN32
     if (m_updated.empty())
         return;
     unsigned i;
@@ -314,6 +317,7 @@ void MsgViewBase::update()
     TextShow::sync();
     setContentsPos(x, y);
     viewport()->repaint();
+#endif
 }
 
 QString MsgViewBase::messageText(Message *msg, bool bUnread)
@@ -552,6 +556,8 @@ void MsgViewBase::setSource(const QString &url)
     }
 }
 
+#ifndef WIN32
+
 // <hack>
 // We have to use this function since Qt has no tag to set background color per-paragraph
 // from within HTML. See matching hack in MsgViewBase::messageText.
@@ -613,19 +619,29 @@ void MsgViewBase::setBackground(unsigned n)
 }
 // </hack>
 
+#endif
+
+#ifdef WIN32
+void MsgViewBase::addMessage(Message *msg, bool bUnread, bool)
+#else
 void MsgViewBase::addMessage(Message *msg, bool bUnread, bool bSync)
+#endif
 {
+#ifndef WIN32
     unsigned n = paragraphs();
     if (n > 0)
         n--;
+#endif
     append(messageText(msg, bUnread));
+#ifndef WIN32
     if (!CorePlugin::m_plugin->getOwnColors())
         setBackground(n);
     if (bSync)
         sync(n);
+#endif
 }
 
-#ifdef WIN32
+#ifndef WIN32
 
 void MsgViewBase::sync(unsigned n)
 {
@@ -658,17 +674,17 @@ void MsgViewBase::sync(unsigned n)
     TextShow::sync();
 }
 
-#else
-
-void MsgViewBase::sync(unsigned)
-{
-    TextShow::sync();
-}
-
 #endif
 
+#ifdef WIN32
+bool MsgViewBase::findMessage(Message*)
+#else
 bool MsgViewBase::findMessage(Message *msg)
+#endif
 {
+#ifdef WIN32
+	return false;
+#else
     bool bFound = false;
     for (unsigned i = 0; i < (unsigned)paragraphs(); i++){
         QString s = text(i);
@@ -697,6 +713,7 @@ bool MsgViewBase::findMessage(Message *msg)
     moveCursor(MoveEnd, false);
     ensureCursorVisible();
     return true;
+#endif
 }
 
 void MsgViewBase::setColors()
@@ -725,6 +742,7 @@ unsigned MsgViewBase::messageId(const QString &_s, string &client)
 
 void MsgViewBase::reload()
 {
+#ifndef WIN32
     QString t;
     vector<Msg_Id> msgs;
     unsigned i;
@@ -772,10 +790,16 @@ void MsgViewBase::reload()
         setCursorPosition(para, pos);
         ensureCursorVisible();
     }
+#endif
 }
 
+#ifdef WIN32
+void *MsgViewBase::processEvent(Event*)
+#else
 void *MsgViewBase::processEvent(Event *e)
+#endif
 {
+#ifndef WIN32
     if ((e->type() == EventRewriteMessage) || (e->type() == EventMessageRead)){
         Message *msg = (Message*)(e->param());
         if (msg->contact() != m_id)
@@ -1103,11 +1127,13 @@ void *MsgViewBase::processEvent(Event *e)
             return NULL;
         }
     }
+#endif
     return NULL;
 }
 
 Message *MsgViewBase::currentMessage()
 {
+#ifndef WIN32
     int para = paragraphAt(m_popupPos);
     if (para < 0)
         return NULL;
@@ -1126,6 +1152,7 @@ Message *MsgViewBase::currentMessage()
         if (msg)
             return msg;
     }
+#endif
     return NULL;
 }
 
@@ -1173,10 +1200,14 @@ MsgView::MsgView(QWidget *parent, unsigned id)
             }
         }
         setText(t);
+#ifndef WIN32
         if (!CorePlugin::m_plugin->getOwnColors())
             setBackground(0);
+#endif
     }
+#ifndef WIN32
     scrollToBottom();
+#endif
     QTimer::singleShot(0, this, SLOT(init()));
 }
 
@@ -1186,8 +1217,10 @@ MsgView::~MsgView()
 
 void MsgView::init()
 {
+#ifndef WIN32
     TextShow::sync();
     scrollToBottom();
+#endif
 }
 
 void *MsgView::processEvent(Event *e)
@@ -1218,8 +1251,10 @@ void *MsgView::processEvent(Event *e)
         }
         if (bAdd){
             addMessage(msg);
+#ifndef WIN32
             if (!hasSelectedText())
                 scrollToBottom();
+#endif
         }
     }
     return MsgViewBase::processEvent(e);

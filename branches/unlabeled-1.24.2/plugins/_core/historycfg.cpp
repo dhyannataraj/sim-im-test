@@ -17,12 +17,6 @@
 
 #include "simapi.h"
 
-#ifdef WIN32
-#include "qt3/qsyntaxhighlighter.h"
-#else
-#include <qsyntaxhighlighter.h>
-#endif
-
 #include "historycfg.h"
 #include "core.h"
 #include "textshow.h"
@@ -31,6 +25,10 @@
 #include "ballonmsg.h"
 
 #include <time.h>
+
+#ifndef USE_IE
+#include <qsyntaxhighlighter.h>
+#endif
 
 #include <qcheckbox.h>
 #include <qpushbutton.h>
@@ -60,6 +58,7 @@ static char EXT[]    = ".xsl";
 
 #undef QTextEdit
 
+#ifndef USE_IE
 
 class XmlHighlighter : public QSyntaxHighlighter
 {
@@ -180,6 +179,7 @@ int XmlHighlighter::highlightParagraph(const QString &s, int state)
     return state;
 }
 
+#endif
 
 HistoryConfig::HistoryConfig(QWidget *parent)
         : HistoryConfigBase(parent)
@@ -201,9 +201,11 @@ HistoryConfig::HistoryConfig(QWidget *parent)
     }
     lblPage1->setText(str1);
     lblPage2->setText(str2);
+#ifndef WIN32
     edtStyle->setWordWrap(QTextEdit::NoWrap);
     edtStyle->setTextFormat(QTextEdit::RichText);
     new XmlHighlighter(edtStyle);
+#endif
     QStringList styles;
     addStyles(user_file(STYLES).c_str(), true);
 #ifdef USE_KDE
@@ -616,7 +618,9 @@ void HistoryConfig::viewChanged(QWidget *w)
 
 void HistoryConfig::sync()
 {
+#ifndef WIN32
     edtStyle->sync();
+#endif
 }
 
 void HistoryConfig::textChanged()

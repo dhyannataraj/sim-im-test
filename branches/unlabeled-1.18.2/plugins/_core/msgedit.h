@@ -46,9 +46,11 @@ public:
     MsgTextEdit(MsgEdit *edit, QWidget *parent);
 protected:
     virtual QPopupMenu *createPopupMenu(const QPoint& pos);
+#ifndef WIN32
     virtual void contentsDropEvent(QDropEvent*);
     virtual void contentsDragEnterEvent(QDragEnterEvent*);
     virtual void contentsDragMoveEvent(QDragMoveEvent*);
+#endif
     Message *createMessage(QMimeSource*);
     MsgEdit *m_edit;
 };

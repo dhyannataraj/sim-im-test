@@ -25,8 +25,10 @@
 #include <qtoolbutton.h>
 #include <qlabel.h>
 
-#if COMPAT_QT_VERSION < 0x030000
-#include "qt3/qtextedit.h"
+#ifdef WIN32
+#include "qie.h"
+#define QTextEdit QIE
+#define USE_IE		1
 #else
 #include <qtextedit.h>
 #ifdef USE_KDE
@@ -67,13 +69,13 @@ signals:
     void finished();
 protected slots:
     void slotSelectionChanged();
-    void slotResizeTimer();
 protected:
     QTextDrag *dragObject(QWidget *parent) const;
-    QTimer	  *m_timer;
     void startDrag();
+#ifndef USE_IE
     void keyPressEvent(QKeyEvent *e);
     void resizeEvent(QResizeEvent *e);
+#endif
     void emitLinkClicked(const QString&);
     bool linksEnabled() const { return true; }
 };

@@ -17,11 +17,13 @@
 
 #include "splash.h"
 #include "simapi.h"
+#include "aboutdata.h"
 
 #include <qwidget.h>
 #include <qpixmap.h>
 #include <qapplication.h>
 #include <qfile.h>
+#include <qpainter.h>
 
 Plugin *createSplashPlugin(unsigned base, bool bStart, Buffer*)
 {
@@ -52,6 +54,24 @@ SplashPlugin::SplashPlugin(unsigned base, bool bStart)
         string pictPath = app_file("pict/splash.png");
         QPixmap pict(QFile::decodeName(pictPath.c_str()));
         if (!pict.isNull()){
+            KAboutData *about_data = getAboutData();
+			QString text = about_data->appName();
+			text += " ";
+			text += about_data->version();
+			QPainter p(&pict);
+			QFont f = qApp->font();
+			f.setBold(true);
+			p.setFont(f);
+			QRect rc = p.boundingRect(0, 0, pict.width(), pict.height(), Qt::AlignLeft | Qt::AlignTop, text);
+			int x = pict.width() - 7 - rc.width();
+			int y = 7 + rc.height();
+			p.setPen(QColor(0x80, 0x80, 0x80));
+			p.drawText(x, y, text);
+			x -= 2;
+			y -= 2;
+			p.setPen(QColor(0xFF, 0xFF, 0xE0));
+			p.drawText(x, y, text);
+			p.end();
             splash = new QWidget(NULL, "splash",
                                  QWidget::WType_TopLevel | QWidget::WStyle_Customize |
                                  QWidget::WStyle_NoBorderEx | QWidget::WStyle_StaysOnTop);

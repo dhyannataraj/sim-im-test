@@ -18,13 +18,7 @@
 #include "linklabel.h"
 #include "stl.h"
 
-#if COMPAT_QT_VERSION < 0x030000
-#include "qt3/qsimplerichtext.h"
-#include "qt3/qstylesheet.h"
-#else
 #include <qsimplerichtext.h>
-#endif
-
 #include <qcursor.h>
 #include <qapplication.h>
 #include <qtooltip.h>
@@ -33,11 +27,6 @@
 
 #ifdef WIN32
 #include <windows.h>
-#endif
-
-#if COMPAT_QT_VERSION < 0x030000
-#define QSimpleRichText Qt3::QSimpleRichText
-#define QStyleSheet		Qt3::QStyleSheet
 #endif
 
 LinkLabel::LinkLabel(QWidget *parent, const char *name)

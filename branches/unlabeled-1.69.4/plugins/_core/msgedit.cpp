@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include "msgedit.h"
-#include "textshow.h"
 #include "toolbtn.h"
 #include "core.h"
 #include "msgsms.h"
@@ -104,6 +103,8 @@ Message *MsgTextEdit::createMessage(QMimeSource *src)
     return msg;
 }
 
+#ifndef WIN32
+
 void MsgTextEdit::contentsDropEvent(QDropEvent *e)
 {
     Message *msg = createMessage(e);
@@ -140,6 +141,8 @@ void MsgTextEdit::contentsDragMoveEvent(QDragMoveEvent *e)
     TextEdit::contentsDragMoveEvent(e);
 }
 
+#endif
+
 MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd)
         : QMainWindow(parent, NULL, 0)
 {
@@ -168,6 +171,7 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd)
     m_edit->setParam(this);
     setFocusProxy(m_edit);
 
+#ifndef WIN32
     QStyleSheet *style = new QStyleSheet(m_edit);
     QStyleSheetItem *style_p = style->item("p");
     // Disable top and bottom margins for P tags. This will make sure
@@ -176,6 +180,7 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd)
     style_p->setMargin(QStyleSheetItem::MarginTop, 0);
     style_p->setMargin(QStyleSheetItem::MarginBottom, 0);
     m_edit->setStyleSheet(style);
+#endif
 
     connect(m_edit, SIGNAL(lostFocus()), this, SLOT(editLostFocus()));
     connect(m_edit, SIGNAL(textChanged()), this, SLOT(editTextChanged()));
@@ -1468,6 +1473,7 @@ void MsgEdit::insertSmile(int id)
             m_edit->insert(s->paste, false, true, true);
         return;
     }
+#ifndef WIN32
     QString img_src = QString("<img src=icon:smile%1>").arg(QString::number(id, 16).upper());
     int para;
     int index;
@@ -1483,6 +1489,7 @@ void MsgEdit::insertSmile(int id)
     m_edit->setCursorPosition(para, index);
     m_edit->setCurrentFont(saveFont);
     m_edit->setColor(saveColor);
+#endif
 }
 
 void MsgEdit::goNext()

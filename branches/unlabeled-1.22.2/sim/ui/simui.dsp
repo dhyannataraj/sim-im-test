@@ -154,6 +154,10 @@ SOURCE=.\moc_listview.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\moc_qactivex.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\moc_qchildwidget.cpp
 # ADD CPP /W3
 # End Source File
@@ -164,28 +168,16 @@ SOURCE=.\moc_qcolorbutton.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\moc_qie.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\moc_qkeybutton.cpp
 # ADD CPP /W3
 # End Source File
 # Begin Source File
 
-SOURCE=.\qt3\moc_qrichtext_p.cpp
-# ADD CPP /W3
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\moc_qstylesheet.cpp
-# ADD CPP /W3
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\moc_qtextedit.cpp
-# ADD CPP /W3
-# End Source File
-# Begin Source File
-
 SOURCE=.\moc_textshow.cpp
-# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -198,6 +190,10 @@ SOURCE=.\preview.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\qactivex.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\qchildwidget.cpp
 # End Source File
 # Begin Source File
@@ -206,16 +202,7 @@ SOURCE=.\qcolorbutton.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\qt3\qcomplextext.cpp
-
-!IF  "$(CFG)" == "simui - Win32 Release"
-
-# ADD CPP /W3
-
-!ELSEIF  "$(CFG)" == "simui - Win32 Debug"
-
-!ENDIF 
-
+SOURCE=.\qie.cpp
 # End Source File
 # Begin Source File
 
@@ -223,37 +210,7 @@ SOURCE=.\qkeybutton.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\qt3\qkeysequence.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\qt3\qregexp.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qrichtext.cpp
-# ADD CPP /W3
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qrichtext_p.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qsimplerichtext.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qstylesheet.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qsyntaxhighlighter.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qtextedit.cpp
-# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -504,6 +461,39 @@ SOURCE=.\preview.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\qactivex.h
+
+!IF  "$(CFG)" == "simui - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\qactivex.h
+InputName=qactivex
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "simui - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\qactivex.h
+InputName=qactivex
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
 SOURCE=.\qchildwidget.h
 
 !IF  "$(CFG)" == "simui - Win32 Release"
@@ -574,7 +564,36 @@ InputName=qcolorbutton
 # End Source File
 # Begin Source File
 
-SOURCE=.\qt3\qcomplextext_p.h
+SOURCE=.\qie.h
+
+!IF  "$(CFG)" == "simui - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\qie.h
+InputName=qie
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "simui - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\qie.h
+InputName=qie
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -611,126 +630,11 @@ InputName=qkeybutton
 # End Source File
 # Begin Source File
 
-SOURCE=.\qt3\qkeysequence.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\qt3\qregexp.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\qt3\qrichtext_p.h
-
-!IF  "$(CFG)" == "simui - Win32 Release"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build
-InputDir=.\qt3
-InputPath=.\qt3\qrichtext_p.h
-InputName=qrichtext_p
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "simui - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\qt3
-InputPath=.\qt3\qrichtext_p.h
-InputName=qrichtext_p
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qsimplerichtext.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qstylesheet.h
-
-!IF  "$(CFG)" == "simui - Win32 Release"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build
-InputDir=.\qt3
-InputPath=.\qt3\qstylesheet.h
-InputName=qstylesheet
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "simui - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\qt3
-InputPath=.\qt3\qstylesheet.h
-InputName=qstylesheet
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qsyntaxhighlighter.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\qt3\qt3stuff.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qtextedit.h
-
-!IF  "$(CFG)" == "simui - Win32 Release"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build
-InputDir=.\qt3
-InputPath=.\qt3\qtextedit.h
-InputName=qtextedit
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "simui - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\qt3
-InputPath=.\qt3\qtextedit.h
-InputName=qtextedit
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qtextengine_p.h
 # End Source File
 # Begin Source File
 
@@ -739,7 +643,7 @@ SOURCE=.\textshow.h
 !IF  "$(CFG)" == "simui - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build
+# Begin Custom Build - Moc'ing $(InputName).h ...
 InputDir=.
 InputPath=.\textshow.h
 InputName=textshow

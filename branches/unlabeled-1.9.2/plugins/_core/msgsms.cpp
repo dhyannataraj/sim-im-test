@@ -206,7 +206,9 @@ void *MsgSMS::processEvent(Event *e)
             m_edit->m_edit->append(t->tmpl);
         }else{
             m_edit->m_edit->setText(t->tmpl);
+#ifndef WIN32
             m_edit->m_edit->moveCursor(QTextEdit::MoveEnd, false);
+#endif
             m_bExpand = true;
             Contact *contact = getContacts()->contact(m_id);
             if (contact){

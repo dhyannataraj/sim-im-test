@@ -257,9 +257,11 @@ void HistoryWindow::next()
         return;
     time_t start;
     bool bAdd = false;
+#ifndef WIN32
     unsigned n = m_view->paragraphs();
     if (n > 0)
         n--;
+#endif
     time(&start);
     for (;;){
         string state = m_it->state();
@@ -291,7 +293,9 @@ void HistoryWindow::next()
             break;
     }
     if (bAdd){
+#ifndef WIN32
         m_view->sync(n);
+#endif
         m_progress->setProgress(m_nMessages);
         QTimer::singleShot(0, this, SLOT(next()));
         return;
