@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: th\n"
 "POT-Creation-Date: 2004-08-05 15:33+0200\n"
-"PO-Revision-Date: 2004-08-23 00:26+0100\n"
+"PO-Revision-Date: 2004-08-23 00:35+0100\n"
 "Last-Translator: Noragen <noragen@gmx.net>\n"
 "Language-Team: Thai <th@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -166,7 +166,7 @@ msgid ""
 "_n: Close after %n second\n"
 "Close after %n seconds"
 msgstr ""
-"ปิดหลังจาก %n วินาที"
+"ปิดหลังจาก %n วินาที\n"
 "<REPLACE>ปิดหลังจาก %n วินาที</REPLACE>"
 
 #: plugins/_core/cfgdlg.cpp:275
@@ -1446,7 +1446,7 @@ msgid ""
 "_n: %n contact found\n"
 "%n contacts found"
 msgstr ""
-"เจอผู้ใช้ %n"
+"เจอผู้ใช้ %n\n"
 "<REPLACE>เจอผู้ใช้ %n</REPLACE>"
 
 #: plugins/_core/status.cpp:72
@@ -2601,7 +2601,7 @@ msgid ""
 "_n: %n GPG key\n"
 "%n GPG keys"
 msgstr ""
-"%n รหัส GPG"
+"%n รหัส GPG\n"
 "<REPLACE>%n รหัส GPG</REPLACE>"
 
 #: plugins/gpg/gpg.cpp:749
@@ -4631,7 +4631,7 @@ msgid ""
 "_n: %n day\n"
 "%n days"
 msgstr ""
-"%n วัน"
+"%n วัน\n"
 "<REPLACE>%n วัน</REPLACE>"
 
 #: plugins/jabber/jabber.cpp:59
@@ -5812,7 +5812,7 @@ msgid ""
 "_n: You have %n unread message\n"
 "You have %n unread messages"
 msgstr ""
-"คุณมี %n ข้อความที่ยังไม่ได้อ่าน"
+"คุณมี %n ข้อความที่ยังไม่ได้อ่าน\n"
 "<REPLACE>คุณมี %n ข้อความที่ยังไม่ได้อ่าน</REPLACE>"
 
 #: plugins/msn/msnpacket.cpp:488
