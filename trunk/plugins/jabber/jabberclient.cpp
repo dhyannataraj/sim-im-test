@@ -1909,21 +1909,23 @@ void JabberImageParser::tag_start(const QString &tag, const list<QString> &attrs
             QString name = *it;
             ++it;
             QString value = *it;
-            if (name == "src"){
+            if (name == "src")
                 src = value;
-                break;
-            }
-            if (name == "alt"){
+            if (name == "alt")
                 alt = value;
-                break;
-            }
         }
-        list<string> smiles = getIcons()->getSmile(src.latin1());
-        if (smiles.empty()){
-            text(alt);
+        if (!alt.isEmpty()){
+            res += unquoteString(alt);
             return;
         }
-        text(QString::fromUtf8(smiles.front().c_str()));
+        if (src.left(5) == "icon:"){
+            list<string> smiles = getIcons()->getSmile(src.mid(5).latin1());
+            if (!smiles.empty()){
+                res += QString::fromUtf8(smiles.front().c_str());
+                return;
+            }
+        }
+        text(alt);
         return;
     }
     if (tag == "p"){
