@@ -78,7 +78,7 @@ void GeneralSecurity::apply(ICQUser*)
     edtFilter->setText(QString::fromLocal8Bit(pClient->RejectFilter.c_str()));
     if (grpDirect->selected())
         pClient->DirectMode = grpDirect->id(grpDirect->selected());
-    if (pClient->m_state == ICQClient::Logged)
+    if (pClient->isLogged())
         pClient->setStatus(pClient->owner->uStatus);
     pClient->setSecurityInfo(chkAuth->isChecked(), chkWeb->isChecked());
 }

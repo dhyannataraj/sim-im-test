@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "network.h"
+#include "sockets.h"
 #include "client.h"
 #include "icons.h"
 #include "enable.h"
@@ -39,8 +40,10 @@ NetworkSetup::NetworkSetup(QWidget *p)
     edtHost->setText(QString::fromLocal8Bit(pClient->ServerHost.c_str()));
     edtPort->setText(QString::number(pClient->ServerPort));
 
-    edtMinPort->setText(QString::number(pClient->MinTCPPort));
-    edtMaxPort->setText(QString::number(pClient->MaxTCPPort));
+    SIMSockets *factory = static_cast<SIMSockets*>(pClient->factory());
+
+    edtMinPort->setText(QString::number(factory->MinTCPPort));
+    edtMaxPort->setText(QString::number(factory->MaxTCPPort));
 
     cmbProxy->insertItem(i18n("No proxy"));
     cmbProxy->insertItem(i18n("SOCKS4"));
@@ -70,8 +73,9 @@ void NetworkSetup::apply(ICQUser*)
 {
     set(pClient->ServerHost, edtHost->text());
     pClient->ServerPort = edtPort->text().toUInt();
-    pClient->MinTCPPort = edtMinPort->text().toUInt();
-    pClient->MaxTCPPort = edtMaxPort->text().toUInt();
+    SIMSockets *factory = static_cast<SIMSockets*>(pClient->factory());
+    factory->MinTCPPort = edtMinPort->text().toUInt();
+    factory->MaxTCPPort = edtMaxPort->text().toUInt();
     pClient->ProxyType = cmbProxy->currentItem();
     set(pClient->ProxyHost, edtProxyHost->text());
     pClient->ProxyPort = edtProxyPort->text().toUInt();

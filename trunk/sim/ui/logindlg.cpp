@@ -112,7 +112,7 @@ void LoginDialog::processEvent(ICQEvent *e)
 {
     switch (e->type()){
     case EVENT_STATUS_CHANGED:
-        if (pClient->m_state == ICQClient::Logged){
+        if (pClient->isLogged()){
             bLogin = false;
             pClient->DecryptedPassword = "";
             setResult(chkOldUser->isChecked() ? 0 : 1);

@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "icqclient.h"
+#include "icqprivate.h"
 #include "country.h"
 #include "log.h"
 
@@ -201,7 +202,7 @@ ICQUser *ICQClient::getUser(unsigned long id, bool create, bool bIsTemp)
     ICQEvent e(EVENT_INFO_CHANGED, id);
     process_event(&e);
     if (!u->inIgnore)
-        addToContacts(id);
+        p->addToContacts(id);
     addInfoRequest(id, true);
     return u;
 }
@@ -496,6 +497,11 @@ bool ICQUser::canRTF()
     return (Version >= 8) && (uStatus != ICQ_STATUS_OFFLINE) && hasCap(CAP_RTF);
 }
 
+bool ICQUser::isSecure()
+{
+    return (direct != NULL) && direct->isSecure();
+}
+
 static void addEMail(EMailList &mails, EMailInfo *mail)
 {
     if (*mail->Email.c_str() == 0) return;
@@ -683,4 +689,134 @@ bool ICQUser::isOnline()
         break;
     }
     return false;
+}
+
+string ICQUser::client()
+{
+    string res;
+    string add;
+    unsigned long id = InfoUpdateTime;
+    unsigned long id2 = PhoneStatusTime;
+    unsigned long id3 = PhoneBookTime;
+    unsigned char v1 = 0;
+    unsigned char v2 = 0;
+    unsigned char v3 = 0;
+    unsigned char v4 = 0;
+    unsigned int ver = id & 0xffff;
+    if (((id & 0xff7f0000) == 0x7d000000L) && (ver > 1000))
+    {
+        res = "Licq";
+        v1 = ver/1000;
+        v2 = (ver / 10) % 100;
+        v3 = ver % 10;
+        v4 = 0;
+        if (id & 0x00800000L)
+            add += "/SSL";
+    }
+    else if ((id == 0xffffff42L) || ((id & 0xff7f0000) == 0x7d000000L))
+    {
+        res = "mICQ";
+        v1 = ver / 10000;
+        v2 = (ver / 100) % 100;
+        v3 = (ver / 10) % 10;
+        v4 = ver % 10;
+    }
+    else if ((id & 0xffff0000L) == 0xffff0000L)
+    {
+        v1 = (id2 >> 24) & 0x7F;
+        v2 = (id2 >> 16) & 0xFF;
+        v3 = (id2 >> 8) & 0xFF;
+        v4 = id2 & 0xFF;
+        switch (id){
+        case 0xffffffffL:
+            res = "Miranda";
+            if (id2 & 0x80000000L) add += " alpha";
+            break;
+        case 0xffffff8fL:
+            res += "StrICQ";
+            break;
+        case 0xffffffabL:
+            res = "YSM";
+            if ((v1 | v2 | v3 | v4) & 0x80)
+                v1 = v2 = v3 = v4 = 0;
+            break;
+        case 0xffffff7fL:
+            res = "&RQ";
+            break;
+        }
+    }
+    else if (id == 0x04031980L)
+    {
+        v1 = 0;
+        v2 = 43;
+        v3 = id2 & 0xffff;
+        v4 = id2 & (0x7fff0000) >> 16;
+        res = "vICQ";
+    }
+    else if ((id == 0x3b75ac09) && (id2 == 0x3bae70b6) && (id3 == 0x3b744adb))
+    {
+        res = "Trillian";
+    }
+    else if ((id == id2) && (id2 == id3) && (id == 0xffffffff))
+        res = "vICQ/GAIM(?)";
+    else if (id && (id == id2) && (id2 == id3) && (Caps == 0))
+        res = "vICQ";
+    else if ((Version == 7) && hasCap(CAP_IS_WEB))
+        res = "ICQ2go";
+    else if ((Version == 9) && hasCap(CAP_IS_WEB))
+        res = "ICQ Lite";
+    else if (hasCap(CAP_TRIL_CRYPT) || hasCap(CAP_TRILLIAN))
+        res = "Trillian";
+    else if (hasCap(CAP_LICQ))
+        res = "Licq";
+    else if (hasCap(CAP_SIM))
+    {
+        res = "SIM";
+        v1 = (Build >> 6) - 1;
+        v2 = Build & 0x1F;
+        if (Build == 0){
+            res = "Kopete";
+            v1 = v2 = 0;
+        }
+    }
+    else if (hasCap(CAP_STR_2002) && hasCap(CAP_IS_2002))
+        res = "ICQ 2002";
+    else if ((hasCap(CAP_STR_2001) || hasCap(CAP_STR_2002)) && hasCap(CAP_IS_2001))
+        res = "ICQ 2001";
+    else if (hasCap(CAP_MACICQ))
+        res = "ICQ for Mac";
+    else if ((Version == 8) && hasCap(CAP_IS_2002))
+        res = "ICQ 2002 (?)";
+    else if ((Version == 8) && hasCap(CAP_IS_2001))
+        res = "ICQ 2001 (?)";
+    else if (hasCap(CAP_AIM_CHAT))
+        res = "AIM(?)";
+    else if ((Version == 7) && !hasCap(CAP_RTF))
+        res = "ICQ 2000 (?)";
+    else if (Version == 7)
+        res = "GnomeICU";
+    if (Version){
+        char b[32];
+        snprintf(b, sizeof(b), "v%u ", Version);
+        string s = b;
+        res = s + res;
+    }
+    if (v1 || v2){
+        char b[32];
+        snprintf(b, sizeof(b), " %u.%u", v1, v2);
+        res += b;
+    }
+    if (v3){
+        char b[32];
+        snprintf(b, sizeof(b), ".%u", v3);
+        res += b;
+    }
+    if (v4){
+        char b[32];
+        snprintf(b, sizeof(b), ".%u", v4);
+        res += b;
+    }
+    if (*add.c_str())
+        res += add;
+    return res;
 }

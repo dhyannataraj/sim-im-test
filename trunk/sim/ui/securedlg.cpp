@@ -41,7 +41,7 @@ SecureDlg::SecureDlg(QWidget *parent, unsigned long uin)
 void SecureDlg::sendRequest()
 {
     ICQUser *u = pClient->getUser(Uin);
-    if (u) u->requestSecureChannel(pClient);
+    if (u) pClient->requestSecureChannel(u);
 }
 
 void SecureDlg::processEvent(ICQEvent *e)

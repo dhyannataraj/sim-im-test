@@ -197,7 +197,7 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
             ICQFile *file = static_cast<ICQFile*>(msg);
             QString name = QString::fromLocal8Bit(file->Name.c_str());
             if (name.find(QRegExp("^[0-9]+ Files$")) >= 0){
-                s += i18n("File", "%n files", name.toInt());
+                s += i18n("File", "%n files", atol(name.latin1()));
             }else{
                 s += i18n("File");
                 s += ": ";

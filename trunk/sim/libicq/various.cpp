@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "icqclient.h"
+#include "icqprivate.h"
 #include "xml.h"
 #include "log.h"
 
@@ -63,7 +64,7 @@ const unsigned short ICQ_SRVxREQ_MODIFY_MAIL	   = 0x0B04;
 
 const unsigned short ICQ_SRVxREQ_PHONE_UPDATE	   = 0x5406;
 
-void ICQClient::snac_various(unsigned short type, unsigned short)
+void ICQClientPrivate::snac_various(unsigned short type, unsigned short)
 {
     switch (type){
     case ICQ_SNACxVAR_DATA:{
@@ -155,16 +156,16 @@ void ICQClient::snac_various(unsigned short type, unsigned short)
     }
 }
 
-void ICQClient::serverRequest(unsigned short cmd, unsigned short seq)
+void ICQClientPrivate::serverRequest(unsigned short cmd, unsigned short seq)
 {
     snac(ICQ_SNACxFAM_VARIOUS, ICQ_SNACxVAR_REQxSRV, true);
     sock->writeBuffer.tlv(0x0001, 0);
-    sock->writeBuffer.pack((char*)&owner->Uin, 4);
+    sock->writeBuffer.pack((char*)&client->owner->Uin, 4);
     sock->writeBuffer << cmd;
     sock->writeBuffer.pack((unsigned short)(seq ? seq : m_nMsgSequence));
 }
 
-void ICQClient::sendServerRequest()
+void ICQClientPrivate::sendServerRequest()
 {
     char *packet = sock->writeBuffer.Data(m_nPacketStart);
     *((unsigned short*)(packet + 0x12)) = htons(sock->writeBuffer.size() - m_nPacketStart - 0x14);
@@ -172,7 +173,7 @@ void ICQClient::sendServerRequest()
     sendPacket();
 }
 
-void ICQClient::sendMessageRequest()
+void ICQClientPrivate::sendMessageRequest()
 {
     serverRequest(ICQ_SRVxREQ_OFFLINE_MSG);
     sendServerRequest();
@@ -184,18 +185,18 @@ public:
     FullInfoEvent(unsigned short id, unsigned long uin)
             : ICQEvent(EVENT_INFO_CHANGED, uin, EVENT_SUBTYPE_FULLINFO), m_nParts(0) { m_nId = id; }
 protected:
-    bool processAnswer(ICQClient *client, Buffer &b, unsigned short nSubtype);
+    bool processAnswer(ICQClientPrivate *client, Buffer &b, unsigned short nSubtype);
     unsigned m_nParts;
 };
 
-bool FullInfoEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short nSubtype)
+bool FullInfoEvent::processAnswer(ICQClientPrivate *client, Buffer &b, unsigned short nSubtype)
 {
     ICQUser *u;
     log(L_DEBUG, "Info about %lu %04X", Uin(), nSubtype);
-    if (Uin() == client->owner->Uin){
-        u = client->owner;
+    if (Uin() == client->client->owner->Uin){
+        u = client->client->owner;
     }else{
-        u = client->getUser(Uin(), false);
+        u = client->client->getUser(Uin(), false);
         if (u == NULL){
             log(L_WARN, "User %lu for info not found", Uin());
             return true;
@@ -223,17 +224,17 @@ bool FullInfoEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short n
             >> u->TimeZone
             >> hideEmail;
             u->HiddenEMail = (hideEmail != 0);
-            client->fromServer(u->Nick, u);
-            client->fromServer(u->FirstName, u);
-            client->fromServer(u->LastName, u);
-            client->fromServer(u->City, u);
-            client->fromServer(u->State, u);
-            client->fromServer(u->Address, u);
-            client->fromServer(u->Zip, u);
-            client->fromServer(u->HomePhone, u);
-            client->fromServer(u->HomeFax, u);
-            client->fromServer(u->PrivateCellular, u);
-            u->adjustEMails(NULL, Uin() == client->owner->Uin);
+            client->client->fromServer(u->Nick, u);
+            client->client->fromServer(u->FirstName, u);
+            client->client->fromServer(u->LastName, u);
+            client->client->fromServer(u->City, u);
+            client->client->fromServer(u->State, u);
+            client->client->fromServer(u->Address, u);
+            client->client->fromServer(u->Zip, u);
+            client->client->fromServer(u->HomePhone, u);
+            client->client->fromServer(u->HomeFax, u);
+            client->client->fromServer(u->PrivateCellular, u);
+            u->adjustEMails(NULL, Uin() == client->client->owner->Uin);
             if (*u->Alias.c_str() == 0)
                 client->renameUser(u, u->Nick.c_str());
             break;
@@ -252,7 +253,7 @@ bool FullInfoEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short n
             >> u->Language1
             >> u->Language2
             >> u->Language3;
-            client->fromServer(u->Homepage, u);
+            client->client->fromServer(u->Homepage, u);
             break;
         }
     case ICQ_SRVxEMAIL_INFO:{
@@ -264,14 +265,14 @@ bool FullInfoEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short n
                 b >> d;
                 string s;
                 b >> s;
-                client->fromServer(s, u);
+                client->client->fromServer(s, u);
                 if (s.length() == 0) continue;
                 EMailInfo *email = new EMailInfo;
                 email->Email = s;
                 email->Hide = (d != 0);
                 mails.push_back(email);
             }
-            u->adjustEMails(&mails, Uin() == client->owner->Uin);
+            u->adjustEMails(&mails, Uin() == client->client->owner->Uin);
             break;
         }
     case ICQ_SRVxWORK_INFO:{
@@ -292,21 +293,21 @@ bool FullInfoEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short n
             b.unpack(n);
             u->Occupation = n;
             b >> u->WorkHomepage;
-            client->fromServer(u->WorkCity, u);
-            client->fromServer(u->WorkState, u);
-            client->fromServer(u->WorkPhone, u);
-            client->fromServer(u->WorkFax, u);
-            client->fromServer(u->WorkZip, u);
-            client->fromServer(u->WorkAddress, u);
-            client->fromServer(u->WorkName, u);
-            client->fromServer(u->WorkDepartment, u);
-            client->fromServer(u->WorkPosition, u);
-            client->fromServer(u->WorkHomepage, u);
+            client->client->fromServer(u->WorkCity, u);
+            client->client->fromServer(u->WorkState, u);
+            client->client->fromServer(u->WorkPhone, u);
+            client->client->fromServer(u->WorkFax, u);
+            client->client->fromServer(u->WorkZip, u);
+            client->client->fromServer(u->WorkAddress, u);
+            client->client->fromServer(u->WorkName, u);
+            client->client->fromServer(u->WorkDepartment, u);
+            client->client->fromServer(u->WorkPosition, u);
+            client->client->fromServer(u->WorkHomepage, u);
             break;
         }
     case ICQ_SRVxABOUT_INFO:
         b >> u->About;
-        client->fromServer(u->About, u);
+        client->client->fromServer(u->About, u);
         break;
     case ICQ_SRVxINTERESTS_INFO:{
             char n;
@@ -317,7 +318,7 @@ bool FullInfoEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short n
                 b.unpack(c);
                 string s;
                 b >> s;
-                client->fromServer(s, u);
+                client->client->fromServer(s, u);
                 if (c == 0) continue;
                 ExtInfo *interest = new ExtInfo;
                 interest->Category = c;
@@ -336,7 +337,7 @@ bool FullInfoEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short n
                 b.unpack(c);
                 string s;
                 b >> s;
-                client->fromServer(s, u);
+                client->client->fromServer(s, u);
                 if (c == 0) continue;
                 ExtInfo *info = new ExtInfo;
                 info->Category = c;
@@ -349,7 +350,7 @@ bool FullInfoEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short n
                 b.unpack(c);
                 string s;
                 b >> s;
-                client->fromServer(s, u);
+                client->client->fromServer(s, u);
                 if (c == 0) continue;
                 ExtInfo *info = new ExtInfo;
                 info->Category = c;
@@ -366,13 +367,13 @@ bool FullInfoEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short n
     m_nParts++;
     if (m_nParts >= 8){
         u->adjustPhones();
-        client->process_event(this);
+        client->client->process_event(this);
         return true;
     }
     return false;
 }
 
-void ICQClient::requestKey(const char *key)
+void ICQClientPrivate::requestKey(const char *key)
 {
     serverRequest(ICQ_SRVxREQ_MORE);
     sock->writeBuffer << ICQ_SRVxREQ_XML_KEY;
@@ -383,7 +384,7 @@ void ICQClient::requestKey(const char *key)
     sendServerRequest();
 }
 
-bool ICQClient::requestInfo(unsigned long uin, bool)
+bool ICQClientPrivate::requestInfo(unsigned long uin, bool)
 {
     if (uin >= UIN_SPECIAL) return false;
     log(L_DEBUG, "Request info about %lu", uin);
@@ -395,7 +396,7 @@ bool ICQClient::requestInfo(unsigned long uin, bool)
     return true;
 }
 
-ICQEvent *ICQClient::findVarEvent(unsigned short id)
+ICQEvent *ICQClientPrivate::findVarEvent(unsigned short id)
 {
     list<ICQEvent*>::iterator it;
     for (it = varEvents.begin(); it != varEvents.end(); it++){
@@ -405,7 +406,7 @@ ICQEvent *ICQClient::findVarEvent(unsigned short id)
     return NULL;
 }
 
-void ICQClient::processMsgQueueSMS()
+void ICQClientPrivate::processMsgQueueSMS()
 {
     list<ICQEvent*>::iterator it;
     for (it = msgQueue.begin(); it != msgQueue.end();){
@@ -427,11 +428,11 @@ void ICQClient::processMsgQueueSMS()
                 destination += *p;
         }
         string text = msg->Message.c_str();
-        translate("utf8", msg->Charset.c_str(), text);
-        text = clearHTML(text);
-        string sender = owner->name(true);
+        client->translate("utf8", msg->Charset.c_str(), text);
+        text = client->clearHTML(text);
+        string sender = client->owner->name(true);
         char uin[13];
-        snprintf(uin, sizeof(uin), "%lu", owner->Uin);
+        snprintf(uin, sizeof(uin), "%lu", client->owner->Uin);
         xmltree.pushnode(new XmlLeaf("destination",destination));
         xmltree.pushnode(new XmlLeaf("text",text));
         xmltree.pushnode(new XmlLeaf("codepage","1252"));
@@ -472,7 +473,7 @@ SearchEvent::SearchEvent(unsigned short id)
     lastResult = false;
 }
 
-bool SearchEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short nSubtype)
+bool SearchEvent::processAnswer(ICQClientPrivate *client, Buffer &b, unsigned short nSubtype)
 {
     log(L_DEBUG, "SearchEvent::Process %u", nSubtype);
     unsigned short n;
@@ -486,12 +487,12 @@ bool SearchEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short nSu
     >> email
     >> auth
     >> state;
-    client->fromServer(nick, client->owner);
-    client->fromServer(firstName, client->owner);
-    client->fromServer(lastName, client->owner);
-    client->fromServer(email, client->owner);
+    client->client->fromServer(nick, client->client->owner);
+    client->client->fromServer(firstName, client->client->owner);
+    client->client->fromServer(lastName, client->client->owner);
+    client->client->fromServer(email, client->client->owner);
     lastResult = (nSubtype == 0xAE01);
-    client->process_event(this);
+    client->client->process_event(this);
     return (nSubtype == 0xAE01);
 }
 
@@ -507,9 +508,9 @@ ICQEvent *ICQClient::searchWP(const char *szFirst, const char *szLast, const cha
                               unsigned short nHomePage, const char *szHomePage,
                               bool bOnlineOnly)
 {
-    if (m_state != Logged) return 0;
-    serverRequest(ICQ_SRVxREQ_MORE);
-    sock->writeBuffer << ICQ_SRVxREQ_WP_FULL;
+    if (!isLogged()) return 0;
+    p->serverRequest(ICQ_SRVxREQ_MORE);
+    p->sock->writeBuffer << ICQ_SRVxREQ_WP_FULL;
     string sFirst = szFirst ? szFirst : "";
     string sLast = szLast ? szLast : "";
     string sNick = szNick ? szNick : "";
@@ -567,20 +568,20 @@ ICQEvent *ICQClient::searchWP(const char *szFirst, const char *szLast, const cha
         break;
     }
 
-    sock->writeBuffer
+    p->sock->writeBuffer
     << sFirst
     << sLast
     << sNick
     << sEmail;
-    sock->writeBuffer.pack(nMinAge);
-    sock->writeBuffer.pack(nMaxAge);
-    sock->writeBuffer
+    p->sock->writeBuffer.pack(nMinAge);
+    p->sock->writeBuffer.pack(nMaxAge);
+    p->sock->writeBuffer
     << nGender
     << nLanguage
     << sCity
     << sState;
-    sock->writeBuffer.pack(nCountryCode);
-    sock->writeBuffer
+    p->sock->writeBuffer.pack(nCountryCode);
+    p->sock->writeBuffer
     << sCoName
     << sCoDept
     << sCoPos
@@ -596,20 +597,20 @@ ICQEvent *ICQClient::searchWP(const char *szFirst, const char *szLast, const cha
     << sHomePage;
 
     char c = bOnlineOnly ? 1 : 0;
-    sock->writeBuffer << c;
+    p->sock->writeBuffer << c;
 
-    sendServerRequest();
+    p->sendServerRequest();
 
-    ICQEvent *e = new SearchEvent(m_nMsgSequence);
-    varEvents.push_back(e);
+    ICQEvent *e = new SearchEvent(p->m_nMsgSequence);
+    p->varEvents.push_back(e);
     return e;
 }
 
 ICQEvent *ICQClient::searchByName(const char *first, const char *last, const char *nick, bool bOnline)
 {
-    if (m_state != Logged) return 0;
-    serverRequest(ICQ_SRVxREQ_MORE);
-    sock->writeBuffer << ICQ_SRVxREQ_WP_SHORT;
+    if (!isLogged()) return 0;
+    p->serverRequest(ICQ_SRVxREQ_MORE);
+    p->sock->writeBuffer << ICQ_SRVxREQ_WP_SHORT;
     string sFirst = first ? first : "";
     string sLast = last ? last : "";
     string sNick = nick ? nick : "";
@@ -617,32 +618,32 @@ ICQEvent *ICQClient::searchByName(const char *first, const char *last, const cha
     toServer(sFirst, owner);
     toServer(sLast, owner);
     toServer(sNick, owner);
-    sock->writeBuffer
+    p->sock->writeBuffer
     << sNick
     << sFirst
     << sNick;
     if (bOnline){
-        sock->writeBuffer
+        p->sock->writeBuffer
         << 0x30020100L
         << (char)0x01;
     }
-    sendServerRequest();
-    ICQEvent *e = new SearchEvent(m_nMsgSequence);
-    varEvents.push_back(e);
+    p->sendServerRequest();
+    ICQEvent *e = new SearchEvent(p->m_nMsgSequence);
+    p->varEvents.push_back(e);
     return e;
 }
 
 ICQEvent *ICQClient::searchByUin(unsigned long uin)
 {
-    if (m_state != Logged) return 0;
-    serverRequest(ICQ_SRVxREQ_MORE);
-    sock->writeBuffer
+    if (!isLogged()) return 0;
+    p->serverRequest(ICQ_SRVxREQ_MORE);
+    p->sock->writeBuffer
     << ICQ_SRVxREQ_WP_INFO_UIN
     << 0x36010400L;
-    sock->writeBuffer.pack(uin);
-    sendServerRequest();
-    ICQEvent *e = new SearchEvent(m_nMsgSequence);
-    varEvents.push_back(e);
+    p->sock->writeBuffer.pack(uin);
+    p->sendServerRequest();
+    ICQEvent *e = new SearchEvent(p->m_nMsgSequence);
+    p->varEvents.push_back(e);
     return e;
 }
 
@@ -657,27 +658,27 @@ public:
     ~SetPasswordEvent() { free(passwd); }
 protected:
     char *passwd;
-    bool processAnswer(ICQClient *client, Buffer &b, unsigned short nSubtype);
+    bool processAnswer(ICQClientPrivate *client, Buffer &b, unsigned short nSubtype);
 };
 
-bool SetPasswordEvent::processAnswer(ICQClient *client, Buffer&, unsigned short)
+bool SetPasswordEvent::processAnswer(ICQClientPrivate *client, Buffer&, unsigned short)
 {
-    m_nUin = client->owner->Uin;
-    client->storePassword(passwd);
+    m_nUin = client->client->owner->Uin;
+    client->client->storePassword(passwd);
     return true;
 }
 
 void ICQClient::setPassword(const char *passwd)
 {
-    if (m_state != Logged) return;
-    serverRequest(ICQ_SRVxREQ_MORE);
-    sock->writeBuffer << ICQ_SRVxREQ_CHANGE_PASSWD;
-    string p = passwd;
-    toServer(p, owner);
-    sock->writeBuffer << p;
-    sendServerRequest();
-    SetPasswordEvent *e = new SetPasswordEvent(m_nMsgSequence, passwd);
-    varEvents.push_back(e);
+    if (!isLogged()) return;
+    p->serverRequest(ICQ_SRVxREQ_MORE);
+    p->sock->writeBuffer << ICQ_SRVxREQ_CHANGE_PASSWD;
+    string pass = passwd;
+    toServer(pass, owner);
+    p->sock->writeBuffer << pass;
+    p->sendServerRequest();
+    SetPasswordEvent *e = new SetPasswordEvent(p->m_nMsgSequence, passwd);
+    p->varEvents.push_back(e);
 }
 
 class SetSecurityInfo : public ICQEvent
@@ -691,39 +692,39 @@ public:
 protected:
     bool bAuthorize;
     bool bWebAware;
-    bool processAnswer(ICQClient *client, Buffer &b, unsigned short nSubtype);
+    bool processAnswer(ICQClientPrivate *client, Buffer &b, unsigned short nSubtype);
 };
 
-bool SetSecurityInfo::processAnswer(ICQClient *client, Buffer&, unsigned short)
+bool SetSecurityInfo::processAnswer(ICQClientPrivate *client, Buffer&, unsigned short)
 {
-    m_nUin = client->owner->Uin;
-    client->Authorize = bAuthorize;
-    client->WebAware = bWebAware;
+    m_nUin = client->client->owner->Uin;
+    client->client->Authorize = bAuthorize;
+    client->client->WebAware = bWebAware;
     return true;
 }
 
 void ICQClient::setSecurityInfo(bool bAuthorize, bool bWebAware)
 {
-    if (m_state != Logged) return;
-    serverRequest(ICQ_SRVxREQ_MORE);
-    sock->writeBuffer
+    if (!isLogged()) return;
+    p->serverRequest(ICQ_SRVxREQ_MORE);
+    p->sock->writeBuffer
     << ICQ_SRVxREQ_PERMISSIONS
     << (char)(bAuthorize ? 0 : 0x01)
     << (char)(bWebAware ? 0x01 : 0)
     << (char)0x02
     << (char)0;
-    sendServerRequest();
-    SetSecurityInfo *e = new SetSecurityInfo(m_nMsgSequence, bAuthorize, bWebAware);
-    varEvents.push_back(e);
+    p->sendServerRequest();
+    SetSecurityInfo *e = new SetSecurityInfo(p->m_nMsgSequence, bAuthorize, bWebAware);
+    p->varEvents.push_back(e);
 }
 
 #define INIT(A)			A = u->A;
-#define SET(A)			client->owner->A = A;
+#define SET(A)			client->client->owner->A = A;
 
 #define SPARAM(A)		string s_##A = u->A;			\
-						toServer(s_##A, u);				\
-						if (owner->A != u->A) bChange = true;
-#define	NPARAM(A)		if (owner->A != u->A) bChange = true;
+						client->toServer(s_##A, u);				\
+						if (client->owner->A != u->A) bChange = true;
+#define	NPARAM(A)		if (client->owner->A != u->A) bChange = true;
 
 class SetMainInfo : public ICQEvent
 {
@@ -748,7 +749,7 @@ public:
         INIT(HiddenEMail);
     }
 protected:
-    bool processAnswer(ICQClient *client, Buffer &b, unsigned short nSubtype);
+    bool processAnswer(ICQClientPrivate *client, Buffer &b, unsigned short nSubtype);
     string Nick;
     string FirstName;
     string LastName;
@@ -765,7 +766,7 @@ protected:
     bool HiddenEMail;
 };
 
-bool SetMainInfo::processAnswer(ICQClient *client, Buffer&, unsigned short)
+bool SetMainInfo::processAnswer(ICQClientPrivate *client, Buffer&, unsigned short)
 {
     SET(Nick);
     SET(FirstName);
@@ -784,7 +785,7 @@ bool SetMainInfo::processAnswer(ICQClient *client, Buffer&, unsigned short)
     return true;
 }
 
-bool ICQClient::setMainInfo(ICQUser *u)
+bool ICQClientPrivate::setMainInfo(ICQUser *u)
 {
     if (m_state != Logged) return false;
 
@@ -852,7 +853,7 @@ public:
         INIT(WorkHomepage);
     }
 protected:
-    bool processAnswer(ICQClient *client, Buffer &b, unsigned short nSubtype);
+    bool processAnswer(ICQClientPrivate *client, Buffer &b, unsigned short nSubtype);
     string WorkCity;
     string WorkState;
     string WorkPhone;
@@ -867,7 +868,7 @@ protected:
     string WorkHomepage;
 };
 
-bool SetWorkInfo::processAnswer(ICQClient *client, Buffer&, unsigned short)
+bool SetWorkInfo::processAnswer(ICQClientPrivate *client, Buffer&, unsigned short)
 {
     SET(WorkCity);
     SET(WorkState);
@@ -882,7 +883,7 @@ bool SetWorkInfo::processAnswer(ICQClient *client, Buffer&, unsigned short)
     return true;
 }
 
-bool ICQClient::setWorkInfo(ICQUser *u)
+bool ICQClientPrivate::setWorkInfo(ICQUser *u)
 {
     if (m_state != Logged) return false;
 
@@ -941,7 +942,7 @@ public:
         INIT(Language3);
     }
 protected:
-    bool processAnswer(ICQClient *client, Buffer &b, unsigned short nSubtype);
+    bool processAnswer(ICQClientPrivate *client, Buffer &b, unsigned short nSubtype);
     char Age;
     char Gender;
     string Homepage;
@@ -953,7 +954,7 @@ protected:
     char Language3;
 };
 
-bool SetMoreInfo::processAnswer(ICQClient *client, Buffer&, unsigned short)
+bool SetMoreInfo::processAnswer(ICQClientPrivate *client, Buffer&, unsigned short)
 {
     SET(Age);
     SET(Gender);
@@ -967,7 +968,7 @@ bool SetMoreInfo::processAnswer(ICQClient *client, Buffer&, unsigned short)
     return true;
 }
 
-bool ICQClient::setMoreInfo(ICQUser *u)
+bool ICQClientPrivate::setMoreInfo(ICQUser *u)
 {
     if (m_state != Logged) return false;
 
@@ -1013,17 +1014,17 @@ public:
         INIT(About);
     }
 protected:
-    bool processAnswer(ICQClient *client, Buffer &b, unsigned short nSubtype);
+    bool processAnswer(ICQClientPrivate *client, Buffer &b, unsigned short nSubtype);
     string About;
 };
 
-bool SetAboutInfo::processAnswer(ICQClient *client, Buffer&, unsigned short)
+bool SetAboutInfo::processAnswer(ICQClientPrivate *client, Buffer&, unsigned short)
 {
     SET(About);
     return true;
 }
 
-bool ICQClient::setAboutInfo(ICQUser *u)
+bool ICQClientPrivate::setAboutInfo(ICQUser *u)
 {
     if (m_state != Logged) return false;
 
@@ -1052,30 +1053,30 @@ public:
         INIT(Interests);
     }
 protected:
-    bool processAnswer(ICQClient *client, Buffer &b, unsigned short nSubtype);
+    bool processAnswer(ICQClientPrivate *client, Buffer &b, unsigned short nSubtype);
     ExtInfoList Interests;
 };
 
-void ICQClient::packInfoList(const ExtInfoList &infoList)
+void ICQClientPrivate::packInfoList(const ExtInfoList &infoList)
 {
     char n = infoList.size();
     sock->writeBuffer << n;
     for (ExtInfoList::const_iterator it = infoList.begin(); it != infoList.end(); ++it){
         ExtInfo *info = static_cast<ExtInfo*>(*it);
         string spec = info->Specific;
-        toServer(spec, owner);
+        client->toServer(spec, client->owner);
         sock->writeBuffer.pack(info->Category);
         sock->writeBuffer << spec;
     }
 }
 
-bool SetInterestsInfo::processAnswer(ICQClient *client, Buffer&, unsigned short)
+bool SetInterestsInfo::processAnswer(ICQClientPrivate *client, Buffer&, unsigned short)
 {
     SET(Interests);
     return true;
 }
 
-bool ICQClient::setInterestsInfo(ICQUser *u)
+bool ICQClientPrivate::setInterestsInfo(ICQUser *u)
 {
     if (m_state != Logged) return false;
 
@@ -1102,19 +1103,19 @@ public:
         INIT(Affilations);
     }
 protected:
-    bool processAnswer(ICQClient *client, Buffer &b, unsigned short nSubtype);
+    bool processAnswer(ICQClientPrivate *client, Buffer &b, unsigned short nSubtype);
     ExtInfoList Backgrounds;
     ExtInfoList Affilations;
 };
 
-bool SetBackgroundInfo::processAnswer(ICQClient *client, Buffer&, unsigned short)
+bool SetBackgroundInfo::processAnswer(ICQClientPrivate *client, Buffer&, unsigned short)
 {
     SET(Backgrounds);
     SET(Affilations);
     return true;
 }
 
-bool ICQClient::setBackgroundInfo(ICQUser *u)
+bool ICQClientPrivate::setBackgroundInfo(ICQUser *u)
 {
     if (m_state != Logged) return false;
 
@@ -1145,17 +1146,17 @@ public:
         INIT(EMails);
     }
 protected:
-    bool processAnswer(ICQClient *client, Buffer &b, unsigned short nSubtype);
+    bool processAnswer(ICQClientPrivate *client, Buffer &b, unsigned short nSubtype);
     EMailList EMails;
 };
 
-bool SetMailInfo::processAnswer(ICQClient *client, Buffer&, unsigned short)
+bool SetMailInfo::processAnswer(ICQClientPrivate *client, Buffer&, unsigned short)
 {
     SET(EMails);
     return true;
 }
 
-bool ICQClient::setMailInfo(ICQUser *u)
+bool ICQClientPrivate::setMailInfo(ICQUser *u)
 {
     if (m_state != Logged) return false;
 
@@ -1179,7 +1180,7 @@ bool ICQClient::setMailInfo(ICQUser *u)
         }
         string s;
         if (info->Email.size()) s = info->Email;
-        toServer(s, owner);
+        client->toServer(s, client->owner);
         char hide = info->Hide ? 1 : 0;
         sock->writeBuffer << hide << s;
     }
@@ -1193,39 +1194,39 @@ bool ICQClient::setMailInfo(ICQUser *u)
 void ICQClient::setInfo(ICQUser *u)
 {
     bool bChange = false;
-    if (setMainInfo(u)) bChange = true;
-    if (setMoreInfo(u)) bChange = true;
-    if (setWorkInfo(u)) bChange = true;
-    if (setAboutInfo(u)) bChange = true;
-    if (setMailInfo(u)) bChange = true;
-    if (setInterestsInfo(u)) bChange = true;
-    if (setBackgroundInfo(u)) bChange = true;
+    if (p->setMainInfo(u)) bChange = true;
+    if (p->setMoreInfo(u)) bChange = true;
+    if (p->setWorkInfo(u)) bChange = true;
+    if (p->setAboutInfo(u)) bChange = true;
+    if (p->setMailInfo(u)) bChange = true;
+    if (p->setInterestsInfo(u)) bChange = true;
+    if (p->setBackgroundInfo(u)) bChange = true;
     if (owner->Phones != u->Phones){
         owner->Phones = u->Phones;
         if (updatePhoneBook()) bChange = true;
     }
-    if (bChange) sendInfoUpdate();
+    if (bChange) p->sendInfoUpdate();
 }
 
-void ICQClient::sendPhoneStatus()
+void ICQClientPrivate::sendPhoneStatus()
 {
     serverRequest(ICQ_SRVxREQ_MORE);
     sock->writeBuffer << (unsigned short)ICQ_SRVxREQ_PHONE_UPDATE;
     sock->writeBuffer.pack((char*)PHONEBOOK_SIGN, 0x10);
     sock->writeBuffer
     << (unsigned short)0x0200
-    << owner->PhoneState
+    << client->owner->PhoneState
     << (char)0
     << (unsigned short)0;
     sendServerRequest();
 }
 
-void ICQClient::sendShareUpdate()
+void ICQClientPrivate::sendShareUpdate()
 {
     serverRequest(ICQ_SRVxREQ_MORE);
     sock->writeBuffer << (unsigned short)ICQ_SRVxREQ_PHONE_UPDATE;
     sock->writeBuffer.pack((char*)SHARED_FILES_SIGN, 0x10);
     sock->writeBuffer.pack((unsigned short)4);
-    sock->writeBuffer.pack((unsigned long)(ShareOn ? 1 : 0));
+    sock->writeBuffer.pack((unsigned long)(client->ShareOn ? 1 : 0));
     sendServerRequest();
 }

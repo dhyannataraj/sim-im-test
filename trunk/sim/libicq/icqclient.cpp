@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "icqclient.h"
+#include "icqprivate.h"
 #include "proxy.h"
 #include "log.h"
 
@@ -29,12 +30,10 @@
 #define RECONNECT_TIMEOUT	5
 #define PING_TIMEOUT		60
 
-ICQClient::ICQClient()
+ICQClient::ICQClient(SocketFactory *factory)
         : contacts(this)
 {
     owner = new ICQUser;
-    MinTCPPort = 1024;
-    MaxTCPPort = 0xFFFF;
     ServerHost = "login.icq.com";
     ServerPort = 5190;
     WebAware = false;
@@ -53,13 +52,22 @@ ICQClient::ICQClient()
     ProxyHost = "proxy";
     ProxyPort = 1080;
     ProxyAuth = false;
+    p = new ICQClientPrivate(this, factory);
+}
+
+ICQClientPrivate::ICQClientPrivate(ICQClient *_client, SocketFactory *_factory)
+{
+    client = _client;
+    factory = _factory;
     m_bHeader = true;
     m_bBirthday = false;
     sock = NULL;
     listener = NULL;
     m_nProcessId = MSG_PROCESS_ID;
+    unsigned long now;
+    time((time_t*)&now);
     advCounter = 0;
-    time(&m_lastTime);
+    m_lastTime = now;
     m_reconnectTime = 0;
     lastInfoRequestTime = 0;
     lastPhoneRequestTime = 0;
@@ -67,19 +75,22 @@ ICQClient::ICQClient()
     needPhonebookUpdate = false;
     needPhoneStatusUpdate = false;
     needShareUpdate = false;
-    unsigned long now;
-    time((time_t*)&now);
-    owner->PhoneBookTime = now;
-    owner->PhoneStatusTime = now;
-    owner->DCcookie = rand();
-    owner->bMyInfo = true;
+    client->owner->PhoneBookTime = now;
+    client->owner->PhoneStatusTime = now;
+    client->owner->DCcookie = rand();
+    client->owner->bMyInfo = true;
     m_bRosters = false;
 }
 
 ICQClient::~ICQClient()
 {
     close();
+    delete p;
     delete owner;
+}
+
+ICQClientPrivate::~ICQClientPrivate()
+{
 }
 
 void ICQClient::storePassword(const char *p)
@@ -107,19 +118,54 @@ void ICQClient::process_event(ICQEvent *e)
     log(L_DEBUG,"Process event %u", e->type());
 }
 
-void ICQClient::create_socket()
+void ICQClientPrivate::create_socket()
 {
-    sock = new ClientSocket(this, this);
+    sock = new ClientSocket(this, factory);
     sock->setProxy(getProxy());
     listener = new ICQListener(this);
     if (!listener->created() || !sock->created()){
         close();
         return;
     }
-    owner->Port = listener->port();
+    client->owner->Port = listener->port();
+}
+
+void ICQClient::requestSecureChannel(ICQUser *u)
+{
+    u->requestSecureChannel(p);
+}
+
+void ICQClient::closeSecureChannel(ICQUser *u)
+{
+    u->closeSecureChannel(p);
+}
+
+bool ICQClient::isLogged()
+{
+    return (p->m_state == ICQClientPrivate::Logged);
+}
+
+bool ICQClient::isConnecting()
+{
+    return (p->m_state != ICQClientPrivate::Logged) && (p->m_state != ICQClientPrivate::Logoff);
+}
+
+void ICQClient::idle()
+{
+    p->idle();
+}
+
+SocketFactory *ICQClient::factory()
+{
+    return p->factory;
 }
 
 void ICQClient::close()
+{
+    p->close();
+}
+
+void ICQClientPrivate::close()
 {
     if (listener){
         delete listener;
@@ -135,7 +181,7 @@ void ICQClient::close()
     }
 }
 
-void ICQClient::packet_ready()
+void ICQClientPrivate::packet_ready()
 {
     time(&m_lastTime);
     if (m_bHeader){
@@ -211,7 +257,7 @@ void ICQClient::packet_ready()
     m_bHeader = true;
 }
 
-bool ICQClient::error_state(SocketError err)
+bool ICQClientPrivate::error_state(SocketError err)
 {
     log(L_DEBUG, "Error: %u", err);
     switch (err){
@@ -219,14 +265,14 @@ bool ICQClient::error_state(SocketError err)
             m_reconnectTime = (time_t)(-1);
             m_state = ErrorState;
             ICQEvent e(EVENT_PROXY_ERROR);
-            process_event(&e);
+            client->process_event(&e);
             break;
         }
     case ErrorProxyAuth:{
             m_reconnectTime = (time_t)(-1);
             m_state = ErrorState;
             ICQEvent e(EVENT_PROXY_BAD_AUTH);
-            process_event(&e);
+            client->process_event(&e);
             break;
         }
     default:
@@ -242,20 +288,25 @@ bool ICQClient::error_state(SocketError err)
 
 void ICQClient::setStatus(unsigned short status)
 {
+    p->setStatus(status);
+}
+
+void ICQClientPrivate::setStatus(unsigned short status)
+{
     if (status == ICQ_STATUS_OFFLINE){
         switch (m_state){
         case Reconnect:{
                 m_reconnectTime = 0;
                 m_state = Logoff;
-                ICQEvent e(EVENT_STATUS_CHANGED, owner->Uin);
-                process_event(&e);
+                ICQEvent e(EVENT_STATUS_CHANGED, client->owner->Uin);
+                client->process_event(&e);
                 break;
             }
         case Logoff:
             break;
         default:
             close();
-            owner->uStatus = ICQ_STATUS_OFFLINE;
+            client->owner->uStatus = ICQ_STATUS_OFFLINE;
             if (m_state == ForceReconnect){
                 m_state = Reconnect;
                 time_t reconnect;
@@ -265,16 +316,16 @@ void ICQClient::setStatus(unsigned short status)
             }else{
                 m_state = Logoff;
             }
-            ICQEvent e(EVENT_STATUS_CHANGED, owner->Uin);
-            process_event(&e);
+            ICQEvent e(EVENT_STATUS_CHANGED, client->owner->Uin);
+            client->process_event(&e);
             time_t now;
             time(&now);
             list<ICQUser*>::iterator it;
-            for (it = contacts.users.begin(); it != contacts.users.end(); it++){
+            for (it = client->contacts.users.begin(); it != client->contacts.users.end(); it++){
                 if ((*it)->uStatus == ICQ_STATUS_OFFLINE) continue;
                 (*it)->setOffline();
                 ICQEvent e(EVENT_STATUS_CHANGED, (*it)->Uin);
-                process_event(&e);
+                client->process_event(&e);
             }
         }
         return;
@@ -287,10 +338,10 @@ void ICQClient::setStatus(unsigned short status)
         m_nSequence = rand() & 0x7FFFF;
         m_nMsgSequence = 1;
         m_reconnectTime = 0;
-        m_state = owner->Uin ? Connect : Register;
-        ICQEvent e(EVENT_STATUS_CHANGED, owner->Uin);
-        process_event(&e);
-        sock->connect(ServerHost.c_str(), ServerPort);
+        m_state = client->owner->Uin ? Connect : Register;
+        ICQEvent e(EVENT_STATUS_CHANGED, client->owner->Uin);
+        client->process_event(&e);
+        sock->connect(client->ServerHost.c_str(), client->ServerPort);
     }
     if (m_state != Logged){
         m_nLogonStatus = status;
@@ -299,7 +350,7 @@ void ICQClient::setStatus(unsigned short status)
     sendStatus(status);
 }
 
-void ICQClient::flap(char channel)
+void ICQClientPrivate::flap(char channel)
 {
     m_nSequence++;
     m_nPacketStart = sock->writeBuffer.writePos();
@@ -310,7 +361,7 @@ void ICQClient::flap(char channel)
     << 0;
 }
 
-void ICQClient::snac(unsigned short fam, unsigned short type, bool msgId)
+void ICQClientPrivate::snac(unsigned short fam, unsigned short type, bool msgId)
 {
     flap(ICQ_CHNxDATA);
     sock->writeBuffer
@@ -321,7 +372,7 @@ void ICQClient::snac(unsigned short fam, unsigned short type, bool msgId)
     << type;
 }
 
-void ICQClient::sendPacket()
+void ICQClientPrivate::sendPacket()
 {
     char *packet = sock->writeBuffer.Data(m_nPacketStart);
     *((unsigned short*)(packet + 4)) = htons(sock->writeBuffer.size() - m_nPacketStart - 6);
@@ -330,14 +381,14 @@ void ICQClient::sendPacket()
     sock->write();
 }
 
-void ICQClient::dropPacket()
+void ICQClientPrivate::dropPacket()
 {
     sock->writeBuffer.setWritePos(m_nPacketStart);
 }
 
-void ICQClient::idle()
+void ICQClientPrivate::idle()
 {
-    SocketFactory::idle();
+    factory->idle();
     time_t now;
     time(&now);
     if (m_state == Logged){
@@ -355,21 +406,21 @@ void ICQClient::idle()
     }
 }
 
-unsigned long ICQClient::fullStatus(unsigned long s)
+unsigned long ICQClientPrivate::fullStatus(unsigned long s)
 {
     if (s & ICQ_STATUS_NA) s |= ICQ_STATUS_AWAY;
     if (s & ICQ_STATUS_OCCUPIED) s |= ICQ_STATUS_AWAY;
     if (s & ICQ_STATUS_DND) s |= (ICQ_STATUS_AWAY | ICQ_STATUS_OCCUPIED);
     s &= 0x0000FFFF;
-    if (WebAware)
+    if (client->WebAware)
         s |= ICQ_STATUS_FxWEBxPRESENCE;
-    if (HideIp)
+    if (client->HideIp)
         s |= ICQ_STATUS_FxHIDExIP;
     if (m_bBirthday)
         s |= ICQ_STATUS_FxBIRTHDAY;
-    if (owner->inInvisible)
+    if (client->owner->inInvisible)
         s |= ICQ_STATUS_FxPRIVATE;
-    switch (DirectMode){
+    switch (client->DirectMode){
     case 1:
         s |= ICQ_STATUS_FxDIRECTxLISTED;
         break;
@@ -380,7 +431,7 @@ unsigned long ICQClient::fullStatus(unsigned long s)
     return s;
 }
 
-void ICQClient::connect_ready()
+void ICQClientPrivate::connect_ready()
 {
     sock->setProxyConnected();
     sock->readBuffer.init(6);
@@ -394,7 +445,7 @@ void ICQClient::connect_ready()
     }
 }
 
-bool ICQClient::addRequest(unsigned long uin, bool bPriority, list<info_request> &queue)
+bool ICQClientPrivate::addRequest(unsigned long uin, bool bPriority, list<info_request> &queue)
 {
     if (uin >= UIN_SPECIAL) return false;
     for (list<info_request>::iterator it = queue.begin(); it != queue.end(); it++){
@@ -416,17 +467,16 @@ bool ICQClient::addRequest(unsigned long uin, bool bPriority, list<info_request>
 
 void ICQClient::addInfoRequest(unsigned long uin, bool bPriority)
 {
-    addRequest(uin, bPriority, infoRequestQueue);
+    p->addRequest(uin, bPriority, p->infoRequestQueue);
 }
 
 void ICQClient::addPhoneRequest(unsigned long uin, bool bPriority)
 {
-    addRequest(uin, bPriority, phoneRequestQueue);
+    p->addRequest(uin, bPriority, p->phoneRequestQueue);
 }
 
 void ICQClient::addResponseRequest(unsigned long uin, bool bPriority)
 {
-    log(L_DEBUG, "Add response request %lu", uin);
     if (uin >= UIN_SPECIAL) return;
     ICQUser *u = getUser(uin);
     if (u == NULL) return;
@@ -447,13 +497,13 @@ void ICQClient::addResponseRequest(unsigned long uin, bool bPriority)
         }else if (u->uStatus & ICQ_STATUS_FREEFORCHAT){
             msg->setType(ICQ_READxFFCxMSG);
         }
-        u->addMessage(msg, this);
+        u->addMessage(msg, p);
         return;
     }
-    addRequest(uin, bPriority, responseRequestQueue);
+    p->addRequest(uin, bPriority, p->responseRequestQueue);
 }
 
-void ICQClient::processInfoRequestQueue()
+void ICQClientPrivate::processInfoRequestQueue()
 {
     if (m_state != Logged) return;
     if (infoRequestQueue.size() == 0) return;
@@ -469,7 +519,7 @@ void ICQClient::processInfoRequestQueue()
     }
 }
 
-void ICQClient::processPhoneRequestQueue(unsigned short seq)
+void ICQClientPrivate::processPhoneRequestQueue(unsigned short seq)
 {
     if (m_state != Logged) return;
     if (phoneRequestQueue.size() == 0) return;
@@ -485,7 +535,7 @@ void ICQClient::processPhoneRequestQueue(unsigned short seq)
     }
 }
 
-void ICQClient::processResponseRequestQueue(unsigned short seq)
+void ICQClientPrivate::processResponseRequestQueue(unsigned short seq)
 {
     if (m_state != Logged) return;
     if (responseRequestQueue.size() == 0) return;
@@ -536,29 +586,40 @@ void ICQClient::closeFile(ICQFile*)
 {
 }
 
-Proxy *ICQClient::getProxy()
+Proxy *ICQClientPrivate::getProxy()
 {
-    switch (ProxyType){
+    switch (client->ProxyType){
     case 0:
         return 0;
     case 1:
-        return new SOCKS4_Proxy(ProxyHost.c_str(), ProxyPort);
+        return new SOCKS4_Proxy(client->ProxyHost.c_str(), client->ProxyPort);
     case 2:
-        return new SOCKS5_Proxy(ProxyHost.c_str(), ProxyPort,
-                                ProxyAuth ? ProxyUser.c_str() : "",
-                                ProxyAuth ? ProxyPasswd.c_str() : "");
+        return new SOCKS5_Proxy(client->ProxyHost.c_str(), client->ProxyPort,
+                                client->ProxyAuth ? client->ProxyUser.c_str() : "",
+                                client->ProxyAuth ? client->ProxyPasswd.c_str() : "");
     case 3:
-        return new HTTP_Proxy(ProxyHost.c_str(), ProxyPort,
-                              ProxyAuth ? ProxyUser.c_str() : "",
-                              ProxyAuth ? ProxyPasswd.c_str() : "");
+        return new HTTP_Proxy(client->ProxyHost.c_str(), client->ProxyPort,
+                              client->ProxyAuth ? client->ProxyUser.c_str() : "",
+                              client->ProxyAuth ? client->ProxyPasswd.c_str() : "");
 #ifdef USE_OPENSSL
     case 4:
-        return new HTTPS_Proxy(ProxyHost.c_str(), ProxyPort,
-                               ProxyAuth ? ProxyUser.c_str() : "",
-                               ProxyAuth ? ProxyPasswd.c_str() : "");
+        return new HTTPS_Proxy(client->ProxyHost.c_str(), client->ProxyPort,
+                               client->ProxyAuth ? client->ProxyUser.c_str() : "",
+                               client->ProxyAuth ? client->ProxyPasswd.c_str() : "");
 #endif
     default:
         log(L_WARN, "Unknown proxy type");
+    }
+    return NULL;
+}
+
+ICQMessage *ICQClient::getProcessMessage(unsigned long offs)
+{
+    list<ICQEvent*>::iterator it;
+    for (it = p->processQueue.begin(); it != p->processQueue.end(); ++it){
+        if ((*it)->type() != EVENT_MESSAGE_RECEIVED) continue;
+        if ((*it)->message() && ((*it)->message()->Id == offs))
+            return (*it)->message();
     }
     return NULL;
 }

@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "icqclient.h"
+#include "icqprivate.h"
 #include "log.h"
 
 #include <stdio.h>
@@ -27,7 +28,7 @@ const unsigned short ICQ_SNACxLOGIN_ERROR	 = 0x0001;
 const unsigned short ICQ_SNACxLOGIN_REGISTERxREQ = 0x0004;
 const unsigned short ICQ_SNACxLOGIN_REGISTER     = 0x0005;
 
-void ICQClient::snac_login(unsigned short type, unsigned short)
+void ICQClientPrivate::snac_login(unsigned short type, unsigned short)
 {
     switch (type){
     case ICQ_SNACxLOGIN_ERROR:
@@ -44,12 +45,12 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
             unsigned long newUin;
             sock->readBuffer.unpack(newUin);
             log(L_DEBUG, "Register %u %08lX", newUin, newUin);
-            owner->Uin = newUin;
+            client->owner->Uin = newUin;
             ICQEvent e(EVENT_INFO_CHANGED);
-            process_event(&e);
+            client->process_event(&e);
             m_state = Connect;
             sock->setProxy(getProxy());
-            sock->connect(ServerHost.c_str(), ServerPort);
+            sock->connect(client->ServerHost.c_str(), client->ServerPort);
             break;
         }
     default:
@@ -57,18 +58,18 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
     }
 }
 
-void ICQClient::chn_login()
+void ICQClientPrivate::chn_login()
 {
     switch (m_state){
     case Connect:{
-            log(L_DEBUG, "Login %lu [%s]", owner->Uin, EncryptedPassword.c_str());
+            log(L_DEBUG, "Login %lu [%s]", client->owner->Uin, client->EncryptedPassword.c_str());
             char uin[20];
-            sprintf(uin, "%lu", owner->Uin);
+            sprintf(uin, "%lu", client->owner->Uin);
 
             flap(ICQ_CHNxNEW);
             int n = 0;
             char pass[16];
-            for (const char *p = EncryptedPassword.c_str(); *p && n < 16; p++){
+            for (const char *p = client->EncryptedPassword.c_str(); *p && n < 16; p++){
                 if (*p != '\\'){
                     pass[n++] = *p;
                     continue;
@@ -105,9 +106,9 @@ void ICQClient::chn_login()
             << 0x00000000L << 0x94680000L << 0x94680000L
             << 0x00000000L << 0x00000000L << 0x00000000L
             << 0x00000000L;
-            unsigned short len = DecryptedPassword.size() + 1;
+            unsigned short len = client->DecryptedPassword.size() + 1;
             msg.pack(len);
-            msg.pack(DecryptedPassword.c_str(), len);
+            msg.pack(client->DecryptedPassword.c_str(), len);
             msg << 0x94680000L << 0x00000602L;
             sock->writeBuffer.tlv(0x0001, msg);
             sendPacket();
@@ -118,7 +119,7 @@ void ICQClient::chn_login()
     }
 }
 
-void ICQClient::chn_close()
+void ICQClientPrivate::chn_close()
 {
     TlvList tlv(sock->readBuffer);
     Tlv *tlv_error = tlv(8);
@@ -132,12 +133,12 @@ void ICQClient::chn_close()
                 time(&m_reconnectTime);
                 m_reconnectTime += RATE_LIMIT_TIMEOUT;
                 ICQEvent e(EVENT_RATE_LIMIT);
-                process_event(&e);
+                client->process_event(&e);
                 break;
             }
         case 0x05:{
                 ICQEvent e(EVENT_BAD_PASSWORD);
-                process_event(&e);
+                client->process_event(&e);
                 log(L_WARN, "Invalid UIN and password combination");
                 m_reconnectTime = (time_t)(-1);
                 break;
@@ -146,7 +147,7 @@ void ICQClient::chn_close()
             break;
         default:
             ICQEvent e(EVENT_LOGIN_ERROR);
-            process_event(&e);
+            client->process_event(&e);
             log(L_WARN, "Unknown error %04X", err);
         }
         if (err) return;
@@ -161,7 +162,7 @@ void ICQClient::chn_close()
                 log(L_WARN, "Your ICQ number is used from another location");
                 m_reconnectTime = (time_t)(-1);
                 ICQEvent e(EVENT_ANOTHER_LOCATION);
-                process_event(&e);
+                client->process_event(&e);
                 break;
             }
         case 0:
@@ -192,7 +193,7 @@ void ICQClient::chn_close()
     m_state = Login;
     sock->close();
     Socket *s = sock->socket();
-    sock->setSocket(createSocket());
+    sock->setSocket(factory->createSocket());
     sock->setProxy(getProxy());
     sock->connect(host, atol(port));
     delete s;

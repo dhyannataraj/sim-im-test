@@ -19,14 +19,12 @@
 #include "history.h"
 #include "mainwin.h"
 #include "chatwnd.h"
+#include "sockets.h"
 #include "cuser.h"
 #include "cfg.h"
 #include "log.h"
 #include "ui/filetransfer.h"
 
-#include <qsocket.h>
-#include <qsocketdevice.h>
-#include <qsocketnotifier.h>
 #include <qdns.h>
 #include <qtimer.h>
 #include <qstring.h>
@@ -292,10 +290,15 @@ cfgParam ClientOwner_Params[] =
         { "", 0, 0, (unsigned)ICQUser_Params }
     };
 
+cfgParam Sockets_Params[] =
+    {
+        { "MinTCPPort", OFFSET_OF(SIMSockets, MinTCPPort), PARAM_USHORT, 1024 },
+        { "MaxTCPPort", OFFSET_OF(SIMSockets, MaxTCPPort), PARAM_USHORT, 0xFFFF },
+        { "", 0, 0, 0 }
+    };
+
 cfgParam Client_Params[] =
     {
-        { "MinTCPPort", OFFSET_OF(ICQClient, MinTCPPort), PARAM_USHORT, 1024 },
-        { "MaxTCPPort", OFFSET_OF(ICQClient, MaxTCPPort), PARAM_USHORT, 0xFFFF },
         { "ServerHost", OFFSET_OF(ICQClient, ServerHost), PARAM_STRING, (unsigned)"login.icq.com" },
         { "ServerPort", OFFSET_OF(ICQClient, ServerPort), PARAM_USHORT, 5190 },
         { "Password", OFFSET_OF(ICQClient, DecryptedPassword), PARAM_STRING, 0 },
@@ -321,7 +324,8 @@ cfgParam Client_Params[] =
         { "ProxyPasswd", OFFSET_OF(ICQClient, ProxyPasswd), PARAM_STRING, 0 },
         { "ShareDir", OFFSET_OF(ICQClient, ShareDir), PARAM_STRING, (unsigned)"Shared" },
         { "ShareOn", OFFSET_OF(ICQClient, ShareOn), PARAM_BOOL, 0 },
-        { "", OFFSET_OF(ICQClient, owner), 0, (unsigned)ClientOwner_Params }
+        { "", OFFSET_OF(ICQClient, owner), 0, (unsigned)ClientOwner_Params },
+        //		{ "", OFFSET_OF(ICQClient, factory), 0, (unsigned)Sockets_Params }
     };
 
 void SIMClient::save(ostream &s)
@@ -409,7 +413,7 @@ bool SIMClient::load(istream &s, string &nextPart)
 }
 
 SIMClient::SIMClient(QObject *parent, const char *name)
-        : QObject(parent, name)
+        : QObject(parent, name), ICQClient(new SIMSockets(this))
 {
     QTimer *timer = new QTimer(this);
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(timer()));
@@ -441,16 +445,6 @@ SIMClient::~SIMClient()
 void SIMClient::timer()
 {
     idle();
-}
-
-Socket *SIMClient::createSocket()
-{
-    return new ICQClientSocket;
-}
-
-ServerSocket *SIMClient::createServerSocket()
-{
-    return new ICQServerSocket(MinTCPPort, MaxTCPPort);
 }
 
 bool SIMClient::markAsRead(ICQMessage *msg)
@@ -1092,7 +1086,7 @@ bool SIMClient::createFile(ICQFile *f, int mode)
     if (name.isEmpty() || (name[(int)(name.length() - 1)] != '/'))
         name += "/";
 #endif
-    QString shortName = QString::fromLocal8Bit(f->ft->curName.c_str());
+    QString shortName = QString::fromLocal8Bit(f->curName().c_str());
     int s = shortName.findRev(':');
     if (s >= 0) shortName = shortName.mid(s + 1);
     shortName = shortName.replace(QRegExp("\\"), "/");
@@ -1111,7 +1105,7 @@ bool SIMClient::createFile(ICQFile *f, int mode)
 #else
     name += shortName;
 #endif
-    f->ft->curName = shortName.local8Bit();
+    f->setCurName(shortName.local8Bit());
     QFile *file = new QFile(name);
     QFileInfo info(*file);
     if (info.exists()){
@@ -1135,7 +1129,7 @@ bool SIMClient::createFile(ICQFile *f, int mode)
                 size = 0;
             }
         }else{
-            emit fileExist(f, name, info.size() < f->ft->curSize());
+            emit fileExist(f, name, info.size() < f->curSize());
             return false;
         }
     }
@@ -1160,14 +1154,14 @@ bool SIMClient::createFile(ICQFile *f, int mode)
         return false;
     }
     file->at(size);
-    f->ft->setPos(size);
+    f->setPos(size);
     f->p = (unsigned long)file;
     return true;
 }
 
 bool SIMClient::openFile(ICQFile *f)
 {
-    QFile *file = new QFile(QString::fromLocal8Bit(f->files[f->ft->curFile()].localName.c_str()));
+    QFile *file = new QFile(QString::fromLocal8Bit(f->curName().c_str()));
     if (!file->open(IO_ReadOnly)){
         delete file;
         return false;
@@ -1303,266 +1297,6 @@ int SIMClient::userEncoding(unsigned long uin)
 }
 
 SIMClient *pClient = NULL;
-
-#ifdef HAVE_KEXTSOCK_H
-ICQClientSocket::ICQClientSocket(KExtendedSocket *s)
-#else
-ICQClientSocket::ICQClientSocket(QSocket *s)
-#endif
-{
-    sock = s;
-    if (sock == NULL)
-#ifdef HAVE_KEXTSOCK_H
-        sock = new KExtendedSocket;
-    sock->setSocketFlags(KExtendedSocket::outputBufferedSocket );
-#else
-        sock = new QSocket(this);
-#endif
-#ifdef HAVE_KEXTSOCK_H
-    QObject::connect(sock, SIGNAL(connectionSuccess()), this, SLOT(slotConnected()));
-    QObject::connect(sock, SIGNAL(lookupFinished(int)), this, SLOT(slotLookupFinished(int)));
-    QObject::connect(sock, SIGNAL(connectionFailed(int)), this, SLOT(slotError(int)));
-    QObject::connect(sock, SIGNAL(closed(int)), this, SLOT(slotError(int)));
-#else
-    QObject::connect(sock, SIGNAL(connected()), this, SLOT(slotConnected()));
-    QObject::connect(sock, SIGNAL(connectionClosed()), this, SLOT(slotConnectionClosed()));
-    QObject::connect(sock, SIGNAL(error(int)), this, SLOT(slotError(int)));
-#endif
-    QObject::connect(sock, SIGNAL(readyRead()), this, SLOT(slotReadReady()));
-    QObject::connect(sock, SIGNAL(bytesWritten(int)), this, SLOT(slotBytesWritten(int)));
-    bInWrite = false;
-#ifdef HAVE_KEXTSOCK_H
-    if (s) sock->enableRead(true);
-#endif
-}
-
-ICQClientSocket::~ICQClientSocket()
-{
-    close();
-    delete sock;
-}
-
-void ICQClientSocket::close()
-{
-#ifdef HAVE_KEXTSOCK_H
-    sock->closeNow();
-#else
-    sock->close();
-#endif
-}
-
-void ICQClientSocket::slotLookupFinished(int state)
-{
-    log(L_DEBUG, "Lookup finished %u", state);
-}
-
-int ICQClientSocket::read(char *buf, unsigned int size)
-{
-    int res = sock->readBlock(buf, size);
-    if (res < 0){
-#ifdef HAVE_KEXTSOCK_H
-        if ((errno == EWOULDBLOCK) || (errno == 0))
-            return 0;
-#endif
-        log(L_DEBUG, "QClientSocket::read error %u", errno);
-        if (notify) notify->error_state(ErrorRead);
-        return -1;
-    }
-    return res;
-}
-
-void ICQClientSocket::write(const char *buf, unsigned int size)
-{
-    bInWrite = true;
-    int res = sock->writeBlock(buf, size);
-    bInWrite = false;
-    if (res != (int)size){
-        if (notify) notify->error_state(ErrorWrite);
-        return;
-    }
-    if (sock->bytesToWrite() == 0)
-        QTimer::singleShot(0, this, SLOT(slotBytesWritten()));
-}
-
-void ICQClientSocket::connect(const char *host, int port)
-{
-    log(L_DEBUG, "Connect to %s:%u", host, port);
-#ifdef HAVE_KEXTSOCK_H
-    sock->setAddress(host, port);
-    if (sock->lookup() < 0){
-        log(L_WARN, "Can't lookup");
-        if (notify) notify->error_state(ErrorConnect);
-    }
-    if (sock->startAsyncConnect() < 0){
-        log(L_WARN, "Can't connect");
-        if (notify) notify->error_state(ErrorConnect);
-    }
-#else
-    sock->connectToHost(host, port);
-#endif
-}
-
-void ICQClientSocket::slotConnected()
-{
-    log(L_DEBUG, "Connected");
-    if (notify) notify->connect_ready();
-#ifdef HAVE_KEXTSOCK_H
-    sock->setBlockingMode(false);
-    sock->enableRead(true);
-#endif
-}
-
-void ICQClientSocket::slotConnectionClosed()
-{
-    log(L_WARN, "Connection closed");
-    if (notify) notify->error_state(ErrorConnectionClosed);
-}
-
-void ICQClientSocket::slotReadReady()
-{
-    if (notify) notify->read_ready();
-}
-
-void ICQClientSocket::slotBytesWritten(int)
-{
-    slotBytesWritten();
-}
-
-void ICQClientSocket::slotBytesWritten()
-{
-    if (bInWrite) return;
-    if (sock->bytesToWrite() == 0) notify->write_ready();
-}
-
-#ifdef WIN32
-#define socklen_t int
-#endif
-
-unsigned long ICQClientSocket::localHost()
-{
-#ifdef HAVE_KEXTSOCK_H
-    unsigned long res = 0;
-    const KSocketAddress *addr = sock->localAddress();
-    if (addr && addr->inherits("KInetSocketAddress")){
-        const KInetSocketAddress *addr_in = static_cast<const KInetSocketAddress*>(addr);
-        const sockaddr_in *a = addr_in->addressV4();
-        if (a) res = htonl(a->sin_addr.s_addr);
-    }
-    return res;
-#else
-    unsigned long res = 0;
-    int s = sock->socket();
-    struct sockaddr_in addr;
-    memset(&addr, sizeof(addr), 0);
-    socklen_t size = sizeof(addr);
-    if (getsockname(s, (struct sockaddr*)&addr, &size) >= 0)
-        res = htonl(addr.sin_addr.s_addr);
-    if (res == 0x7F000001){
-        char hostName[255];
-        if (gethostname(hostName,sizeof(hostName)) >= 0) {
-            struct hostent *he = NULL;
-            he = gethostbyname(hostName);
-            if (he != NULL)
-                res = htonl(*((unsigned long*)(he->h_addr)));
-        }
-    }
-    return res;
-#endif
-}
-
-void ICQClientSocket::slotError(int err)
-{
-#ifdef HAVE_KEXTSOCK_H
-    if (!(err & KBufferedIO::involuntary)) return;
-    log(L_DEBUG, "Connection closed by peer");
-#else
-    log(L_DEBUG, "Error %u", err);
-#endif
-    if (notify) notify->error_state(ErrorSocket);
-}
-
-void ICQClientSocket::pause(unsigned t)
-{
-    QTimer::singleShot(t * 1000, this, SLOT(slotBytesWritten()));
-}
-
-ICQServerSocket::ICQServerSocket(unsigned short minPort, unsigned short maxPort)
-{
-#ifdef HAVE_KEXTSOCK_H
-    sock = new KExtendedSocket;
-    connect(sock, SIGNAL(readyAccept()), this, SLOT(activated()));
-    for (m_nPort = minPort; m_nPort <= maxPort; m_nPort++){
-        sock->reset();
-        sock->setBlockingMode(false);
-        sock->setSocketFlags(KExtendedSocket::passiveSocket);
-        sock->setPort(m_nPort);
-        if (sock->listen() == 0)
-            break;
-    }
-    if (m_nPort > maxPort){
-        delete sock;
-        sock = NULL;
-        return;
-    }
-#else
-    sn = NULL;
-    sock = new QSocketDevice;
-    for (m_nPort = minPort; m_nPort <= maxPort; m_nPort++){
-        if (sock->bind(QHostAddress(), m_nPort))
-            break;
-    }
-    if ((m_nPort > maxPort) || !sock->listen(50)){
-        delete sock;
-        sock = NULL;
-        return;
-    }
-    sn = new QSocketNotifier(sock->socket(), QSocketNotifier::Read, this);
-    connect(sn, SIGNAL(activated(int)), this, SLOT(activated(int)));
-#endif
-}
-
-ICQServerSocket::~ICQServerSocket()
-{
-    if (sn) delete sn;
-    if (sock) delete sock;
-}
-
-void ICQServerSocket::activated(int)
-{
-#ifndef HAVE_KEXTSOCK_H
-    if (sock == NULL) return;
-    int fd = sock->accept();
-    if (fd >= 0){
-        if (notify){
-            QSocket *s = new QSocket;
-            s->setSocket(fd);
-            notify->accept(new ICQClientSocket(s));
-        }else{
-#ifdef WIN32
-            ::closesocket(fd);
-#else
-            ::close(fd);
-#endif
-        }
-    }
-#endif
-}
-
-void ICQServerSocket::activated()
-{
-#ifdef HAVE_KEXTSOCK_H
-    log(L_DEBUG, "accept ready");
-    KExtendedSocket *s = NULL;
-    sock->accept(s);
-    log(L_DEBUG, "Accept: %u", s);
-    if (s == NULL) return;
-    if (notify){
-        notify->accept(new ICQClientSocket(s));
-    }else{
-        delete s;
-    }
-#endif
-}
 
 void SIMClient::getAutoResponse(unsigned long uin, string &res)
 {

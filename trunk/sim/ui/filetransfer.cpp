@@ -61,8 +61,7 @@ FileTransferDlg::FileTransferDlg(QWidget *p, ICQFile *_file)
     barSend->setTotalSteps(file->Size);
     barBatch->setIndicatorFollowsStyle(true);
     barBatch->setTotalSteps(file->Size);
-    int nFiles = 0;
-    if (file->ft) nFiles = file->ft->nFiles();
+    int nFiles = file->nFiles();
     CUser u(file->getUin());
 
     if (nFiles < 1) nFiles = 1;
@@ -83,7 +82,7 @@ FileTransferDlg::FileTransferDlg(QWidget *p, ICQFile *_file)
     }
     sldSpeed->setMinValue(1);
     sldSpeed->setMaxValue(100);
-    sldSpeed->setValue(file->ft ? file->ft->speed() : 100);
+    sldSpeed->setValue(file->speed());
     connect(sldSpeed, SIGNAL(valueChanged(int)), this, SLOT(speedChanged(int)));
     connect(chkClose, SIGNAL(toggled(bool)), this, SLOT(closeToggled(bool)));
     setProgress();
@@ -104,14 +103,14 @@ FileTransferDlg::~FileTransferDlg()
 void FileTransferDlg::speedChanged(int value)
 {
     if (file && file->ft)
-        file->ft->setSpeed(value);
+        file->setSpeed(value);
 }
 
 void FileTransferDlg::processed(ICQFile *f)
 {
     if (f != file) return;
-    if (file && file->ft && (file->ft->curFile() != nCurFile)){
-        nCurFile = file->ft->curFile();
+    if (file && file->ft && (file->curFile() != nCurFile)){
+        nCurFile = file->curFile();
         setProgress();
     }else{
         bDirty = true;
@@ -121,8 +120,8 @@ void FileTransferDlg::processed(ICQFile *f)
 void FileTransferDlg::timeout()
 {
     if (!bDirty || !file) return;
-    if (file->ft && (file->ft->speed() != sldSpeed->value()))
-        sldSpeed->setValue(file->ft->speed());
+    if (file->ft && (file->speed() != sldSpeed->value()))
+        sldSpeed->setValue(file->speed());
     setProgress();
     bDirty = false;
 }
@@ -170,26 +169,26 @@ void FileTransferDlg::setProgress()
         return;
     }
     bStarted = true;
-    if ((file->ft->nFiles() > 1) && !barBatch->isVisible()){
+    if ((file->nFiles() > 1) && !barBatch->isVisible()){
         lblBatch->show();
         lblBatchState->show();
         barBatch->show();
     }
-    if (file->ft->curFile() != curFile){
-        curFile = file->ft->curFile();
-        edtFile1->setText(QString::fromLocal8Bit(file->ft->curName.c_str()));
-        barSend->setTotalSteps(file->ft->curSize());
-        unsigned long nFile = file->ft->curFile() + 1;
-        if (nFile > file->ft->nFiles()) nFile = file->ft->nFiles();
-        lblBatchState->setText(QString::number(nFile) + "/" + QString::number(file->ft->nFiles()));
+    if (file->curFile() != curFile){
+        curFile = file->curFile();
+        edtFile1->setText(QString::fromLocal8Bit(file->curName().c_str()));
+        barSend->setTotalSteps(file->curSize());
+        unsigned long nFile = file->curFile() + 1;
+        if (nFile > file->nFiles()) nFile = file->nFiles();
+        lblBatchState->setText(QString::number(nFile) + "/" + QString::number(file->nFiles()));
     }
     lblSpeed->setText("");
-    lblSize->setText(formatSize(file->ft->totalSize()) + "/" + formatSize(file->Size));
+    lblSize->setText(formatSize(file->totalSize()) + "/" + formatSize(file->Size));
     lblSize->repaint();
-    barBatch->setProgress(file->ft->totalSize());
-    barSend->setProgress(file->ft->sendSize());
+    barBatch->setProgress(file->totalSize());
+    barSend->setProgress(file->sendSize());
     if (file->Size){
-        int newProgress = (file->ft->totalSize() * 100) / file->Size;
+        int newProgress = (file->totalSize() * 100) / file->Size;
         if (newProgress > 100) newProgress = 100;
         if (nProgress != newProgress){
             nProgress = newProgress;
@@ -233,7 +232,7 @@ void FileTransferDlg::fileNoCreate(ICQFile *f, const QString &name)
     QStringList btns;
     btns.append(i18n("&New"));
     btns.append(i18n("&Cancel"));
-    edtFile1->setText(QString::fromLocal8Bit(f->ft->curName.c_str()));
+    edtFile1->setText(QString::fromLocal8Bit(f->curName().c_str()));
     QPoint p = edtFile1->mapToGlobal(edtFile1->rect().topLeft());
     QRect rc(p.x(), p.y(), edtFile1->width(), edtFile1->height());
     BalloonMsg *msg = new BalloonMsg(i18n("Can't create %1") .arg(name),
@@ -252,7 +251,7 @@ void FileTransferDlg::fileExist(ICQFile *f, const QString &name, bool _bCanResum
     if (bCanResume) btns.append(i18n("R&esume"));
     btns.append(i18n("&New"));
     btns.append(i18n("&Skip"));
-    edtFile1->setText(QString::fromLocal8Bit(f->ft->curName.c_str()));
+    edtFile1->setText(QString::fromLocal8Bit(f->curName().c_str()));
     QPoint p = edtFile1->mapToGlobal(edtFile1->rect().topLeft());
     QRect rc(p.x(), p.y(), edtFile1->width(), edtFile1->height());
     BalloonMsg *msg = new BalloonMsg(i18n("File %1 exist") .arg(name), rc, btns, this);
@@ -294,7 +293,7 @@ void FileTransferDlg::action(int n)
 #endif
             if (s.isEmpty() || (s[(int)(s.length() - 1)] != '/'))
                 s += "/";
-            s += QString::fromLocal8Bit(file->ft->curName.c_str());
+            s += QString::fromLocal8Bit(file->curName().c_str());
             s = QFileDialog::getSaveFileName(s, QString::null, this);
 #ifdef WIN32
             s.replace(QRegExp("/"), "\\");
@@ -311,7 +310,7 @@ void FileTransferDlg::action(int n)
                     s = s.mid(p+1);
                 }
                 file->localName = path.local8Bit();
-                file->ft->curName = s.local8Bit();
+                file->setCurName(s.local8Bit());
                 edtFile1->setText(s);
             }
             file->resume(FT_DEFAULT);

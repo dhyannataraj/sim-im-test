@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "icqclient.h"
+#include "icqprivate.h"
 #include "log.h"
 #include "xml.h"
 
@@ -142,6 +143,66 @@ string ICQFile::shortName()
     return res;
 }
 
+unsigned ICQFile::nFiles()
+{
+    if (ft == NULL) return 0;
+    return ft->nFiles();
+}
+
+unsigned ICQFile::curFile()
+{
+    if (ft == NULL) return 0;
+    return ft->curFile();
+}
+
+unsigned short ICQFile::speed()
+{
+    if (ft == NULL) return 100;
+    return ft->speed();
+}
+
+unsigned long ICQFile::totalSize()
+{
+    if (ft == NULL) return 0;
+    return ft->totalSize();
+}
+
+unsigned long ICQFile::sendSize()
+{
+    if (ft == NULL) return 0;
+    return ft->sendSize();
+}
+
+unsigned long ICQFile::curSize()
+{
+    if (ft == NULL) return 0;
+    return ft->curSize();
+}
+
+string ICQFile::curName()
+{
+    if (ft == NULL) return "";
+    return ft->curName;
+}
+
+void ICQFile::setCurName(const char *name)
+{
+    if (ft == NULL) return;
+    ft->curName = name;
+}
+
+void ICQFile::setPos(unsigned long pos)
+{
+    if (ft == NULL) return;
+    ft->setPos(pos);
+}
+
+void ICQFile::setSpeed(unsigned short speed)
+{
+    if (ft == NULL) return;
+    ft->setSpeed(speed);
+}
+
 ICQChat::ICQChat()
         : ICQMessage(ICQ_MSGxCHAT)
 {
@@ -153,6 +214,42 @@ ICQChat::~ICQChat()
 {
     if (listener) delete listener;
     if (chat) delete chat;
+}
+
+void ICQChat::sendLine(const char *line)
+{
+    if (chat == NULL) return;
+    chat->sendLine(line);
+}
+
+bool ICQChat::isBold()
+{
+    if (chat == NULL) return false;
+    return (chat->fontFace & FONT_BOLD) != 0;
+}
+
+bool ICQChat::isItalic()
+{
+    if (chat == NULL) return false;
+    return (chat->fontFace & FONT_ITALIC) != 0;
+}
+
+bool ICQChat::isUnderline()
+{
+    if (chat == NULL) return false;
+    return (chat->fontFace & FONT_UNDERLINE) != 0;
+}
+
+unsigned long ICQChat::bgColor()
+{
+    if (chat == NULL) return 0xFFFFFF;
+    return chat->bgColor;
+}
+
+unsigned long ICQChat::fgColor()
+{
+    if (chat == NULL) return 0;
+    return chat->fgColor;
 }
 
 ICQWebPanel::ICQWebPanel()
@@ -196,12 +293,12 @@ ICQStatus::ICQStatus()
     status = ICQ_STATUS_OFFLINE;
 }
 
-ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, string &p, Buffer &packet,
-                                    unsigned short cookie1, unsigned short cookie2,
-                                    unsigned long timestamp1, unsigned long timestamp2)
+ICQMessage *ICQClientPrivate::parseMessage(unsigned short type, unsigned long uin, string &p, Buffer &packet,
+        unsigned short cookie1, unsigned short cookie2,
+        unsigned long timestamp1, unsigned long timestamp2)
 {
     log(L_DEBUG, "Parse message [type=%u]", type);
-    ICQUser *u = getUser(uin);
+    ICQUser *u = client->getUser(uin);
     switch (type){
     case ICQ_MSGxMSG:{
             if (uin < 1000){
@@ -305,7 +402,7 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
             for (unsigned i = 0; i < nContacts; i++){
                 Contact *contact = new Contact;
                 contact->Uin = atol(c[i*2].c_str());
-                fromServer(c[i*2+1], u);
+                client->fromServer(c[i*2+1], u);
                 contact->Alias = c[i*2+1];
                 msg->Contacts.push_back(contact);
             }
@@ -319,7 +416,7 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
             >> name
             >> port >> junk
             >> junk >> junk;
-            fromServer(p, u);
+            client->fromServer(p, u);
             ICQChat *msg = new ICQChat();
             msg->Uin.push_back(uin);
             msg->Reason = p;
@@ -338,8 +435,8 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
             >> fileName;
             packet.unpack(fileSize);
             packet.incReadPos(4);
-            fromServer(p, u);
-            fromServer(fileName, u);
+            client->fromServer(p, u);
+            client->fromServer(fileName, u);
             const char *shortName = strrchr(fileName.c_str(), '\\');
             if (shortName){
                 shortName++;
@@ -398,8 +495,8 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
                 b >> fileName;
                 unsigned long fileSize;
                 b.unpack(fileSize);
-                fromServer(fileDescr, u);
-                fromServer(fileName, u);
+                client->fromServer(fileDescr, u);
+                client->fromServer(fileName, u);
                 ICQFile *msg = new ICQFile();
                 msg->isExt = true;
                 msg->Uin.push_back(uin);
@@ -477,7 +574,7 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
                 for (unsigned i = 0; i < nContacts; i++){
                     Contact *contact = new Contact;
                     contact->Uin = atol(c[i*2].c_str());
-                    fromServer(c[i*2+1], u);
+                    client->fromServer(c[i*2+1], u);
                     contact->Alias = c[i*2+1];
                     msg->Contacts.push_back(contact);
                 }
@@ -517,7 +614,7 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
                         XmlLeaf *senders_network = sms_message->getLeaf("senders_network");
                         if (senders_network != NULL) m->Network = senders_network->getValue();
 
-                        m->Uin.push_back(contacts.findByPhone(m->Phone));
+                        m->Uin.push_back(client->contacts.findByPhone(m->Phone));
                         return m;
                     }
                 case ICQ_SMS_SUCCESS:
@@ -564,19 +661,16 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
     return NULL;
 }
 
-bool ICQClient::parseMessageText(const char *p, string &s, ICQUser *u)
+bool ICQClientPrivate::parseMessageText(const char *p, string &s, ICQUser *u)
 {
     if ((strlen(p) >= 5) && !memcmp(p, "{\\rtf", 5)){
         string r(p);
-        log(L_DEBUG, "1<< %s", r.c_str());
-        fromServer(r, u);
-        log(L_DEBUG, "2<< %s", r.c_str());
+        client->fromServer(r, u);
         s = parseRTF(r.c_str(), u);
-        log(L_DEBUG, "3<< %s", s.c_str());
         return true;
     }
-    s = quoteText(p);
-    fromServer(s, u);
+    s = ICQClient::quoteText(p);
+    client->fromServer(s, u);
     return false;
 }
 
@@ -622,7 +716,7 @@ string ICQClient::unquoteText(const char *p)
             "&amp;", "&");
 }
 
-bool ICQClient::parseFE(const char *str, vector<string> &l, unsigned n)
+bool ICQClientPrivate::parseFE(const char *str, vector<string> &l, unsigned n)
 {
     const char *p = str;
     for (unsigned i = 0; i < n - 1; i++){
@@ -649,17 +743,17 @@ ICQEvent::ICQEvent(int type, unsigned long uin, unsigned long subtype, ICQMessag
     m_nUin = uin;
 }
 
-bool ICQEvent::processAnswer(ICQClient *client, Buffer &, unsigned short)
+bool ICQEvent::processAnswer(ICQClientPrivate *client, Buffer &, unsigned short)
 {
     state = Fail;
-    client->process_event(this);
+    client->client->process_event(this);
     return true;
 }
 
-void ICQEvent::failAnswer(ICQClient *client)
+void ICQEvent::failAnswer(ICQClientPrivate *client)
 {
     state = Fail;
-    client->process_event(this);
+    client->client->process_event(this);
 }
 
 class SMSSendEvent : public ICQEvent
@@ -775,7 +869,7 @@ ICQEvent *ICQClient::sendMessage(ICQMessage *msg)
         if ((msg->Type() == ICQ_MSGxCHAT) || (msg->Type() == ICQ_MSGxFILE)){
             if (u && (u->uStatus != ICQ_STATUS_OFFLINE) &&
                     (u->direct || (u->Port && (u->IP || u->RealIP)))){
-                ICQEvent *e = u->addMessage(msg, this);
+                ICQEvent *e = u->addMessage(msg, p);
                 if (e){
                     for (list<ICQEvent*>::iterator it = u->msgQueue.begin(); it != u->msgQueue.end(); it++)
                         if ((*it) == e){
@@ -789,7 +883,7 @@ ICQEvent *ICQClient::sendMessage(ICQMessage *msg)
                 ((msg->Type() == ICQ_MSGxMSG) ||
                  (msg->Type() == ICQ_MSGxURL) ||
                  (msg->Type() == ICQ_MSGxCONTACTxLIST))){
-            ICQEvent *e = u->addMessage(msg, this);
+            ICQEvent *e = u->addMessage(msg, p);
             if (e){
                 for (list<ICQEvent*>::iterator it = u->msgQueue.begin(); it != u->msgQueue.end(); it++)
                     if ((*it) == e){
@@ -801,7 +895,7 @@ ICQEvent *ICQClient::sendMessage(ICQMessage *msg)
     }
 
     list<ICQEvent*>::iterator it;
-    for (it = msgQueue.begin(); it != msgQueue.end(); it++){
+    for (it = p->msgQueue.begin(); it != p->msgQueue.end(); it++){
         if ((*it)->msg == msg) return NULL;
     }
     ICQEvent *e;
@@ -811,16 +905,16 @@ ICQEvent *ICQClient::sendMessage(ICQMessage *msg)
         e = new ICQEvent(EVENT_MESSAGE_SEND);
     }
     e->msg = msg;
-    msgQueue.push_back(e);
-    processMsgQueue();
-    for (it = msgQueue.begin(); it != msgQueue.end(); it++)
+    p->msgQueue.push_back(e);
+    p->processMsgQueue();
+    for (it = p->msgQueue.begin(); it != p->msgQueue.end(); it++)
         if ((*it) == e){
-            if (e->message()) e->message()->Id = m_nProcessId++;
+            if (e->message()) e->message()->Id = p->m_nProcessId++;
             return e;
         }
-    for (it = processQueue.begin(); it != processQueue.end(); it++)
+    for (it = p->processQueue.begin(); it != p->processQueue.end(); it++)
         if ((*it) == e){
-            if (e->message()) e->message()->Id = m_nProcessId++;
+            if (e->message()) e->message()->Id = p->m_nProcessId++;
             return e;
         }
     return NULL;
@@ -830,10 +924,10 @@ bool ICQClient::cancelMessage(ICQMessage *m, bool bSendCancel)
 {
     if (m == NULL) return false;
     list<ICQEvent*>::iterator it;
-    for (it = msgQueue.begin(); it != msgQueue.end(); it++){
+    for (it = p->msgQueue.begin(); it != p->msgQueue.end(); it++){
         if ((*it)->message() == m){
             ICQEvent *e = *it;
-            msgQueue.remove(e);
+            p->msgQueue.remove(e);
             e->state = ICQEvent::Fail;
             m->bDelete = true;
             process_event(e);
@@ -842,12 +936,12 @@ bool ICQClient::cancelMessage(ICQMessage *m, bool bSendCancel)
             return true;
         }
     }
-    for (it = processQueue.begin(); it != processQueue.end(); it++){
+    for (it = p->processQueue.begin(); it != p->processQueue.end(); it++){
         if ((*it)->message() == m){
             ICQEvent *e = *it;
             if (bSendCancel && (m->Type() == ICQ_MSGxFILE))
-                cancelSendFile(static_cast<ICQFile*>(m));
-            processQueue.remove(e);
+                p->cancelSendFile(static_cast<ICQFile*>(m));
+            p->processQueue.remove(e);
             e->state = ICQEvent::Fail;
             m->bDelete = true;
             process_event(e);
@@ -873,7 +967,7 @@ bool ICQClient::cancelMessage(ICQMessage *m, bool bSendCancel)
     return false;
 }
 
-void ICQClient::messageReceived(ICQMessage *msg)
+void ICQClientPrivate::messageReceived(ICQMessage *msg)
 {
     bool bAddUser;
     ICQUser *u = NULL;
@@ -885,15 +979,15 @@ void ICQClient::messageReceived(ICQMessage *msg)
     case ICQ_READxFFCxMSG:{
             ICQEvent e(EVENT_MESSAGE_RECEIVED, msg->getUin());
             e.msg = msg;
-            process_event(&e);
+            client->process_event(&e);
             delete msg;
             return;
         }
     case ICQ_MSGxMSG:
-        bAddUser = !RejectMessage;
+        bAddUser = !client->RejectMessage;
         break;
     case ICQ_MSGxURL:
-        bAddUser = !RejectURL;
+        bAddUser = !client->RejectURL;
         break;
     case ICQ_MSGxAUTHxREQUEST:
     case ICQ_MSGxAUTHxREFUSED:
@@ -904,15 +998,15 @@ void ICQClient::messageReceived(ICQMessage *msg)
         bAddUser = true;
         break;
     case ICQ_MSGxWEBxPANEL:
-        bAddUser = !RejectWeb;
+        bAddUser = !client->RejectWeb;
         break;
     case ICQ_MSGxEMAILxPAGER:
-        bAddUser = !RejectEmail;
+        bAddUser = !client->RejectEmail;
         break;
     default:
-        bAddUser = !RejectOther;
+        bAddUser = !client->RejectOther;
     }
-    if (u == NULL) u = getUser(msg->getUin(), bAddUser, true);
+    if (u == NULL) u = client->getUser(msg->getUin(), bAddUser, true);
     if ((u== NULL) || u->inIgnore){
         delete msg;
         return;
@@ -935,22 +1029,22 @@ void ICQClient::messageReceived(ICQMessage *msg)
                 break;
             }
         }
-        if (match(text.c_str(), RejectFilter.c_str())){
+        if (match(text.c_str(), client->RejectFilter.c_str())){
             delete msg;
             return;
         }
-        u = getUser(msg->getUin(), true);
+        u = client->getUser(msg->getUin(), true);
     }
     if (msg->Charset.length() == 0){
-        msg->Charset = localCharset(u);
+        msg->Charset = client->localCharset(u);
     }else if (msg->Type() == ICQ_MSGxMSG){
         ICQMsg *m = static_cast<ICQMsg*>(msg);
-        const char *encoding = localCharset(u);
+        const char *encoding = client->localCharset(u);
         string msg_text = m->Message;
-        fromUTF(msg_text, encoding);
-        toUTF(msg_text, encoding);
+        client->fromUTF(msg_text, encoding);
+        client->toUTF(msg_text, encoding);
         if (msg_text == m->Message){
-            fromUTF(m->Message, encoding);
+            client->fromUTF(m->Message, encoding);
             m->Charset = encoding;
         }
     }
@@ -965,7 +1059,7 @@ void ICQClient::messageReceived(ICQMessage *msg)
             msg->Id = m_nProcessId++;
             e->msg = msg;
             processQueue.push_back(e);
-            process_event(e);
+            client->process_event(e);
             return;
         }
     default:
@@ -973,11 +1067,11 @@ void ICQClient::messageReceived(ICQMessage *msg)
     }
     ICQEvent e(EVENT_MESSAGE_RECEIVED, msg->getUin());
     e.msg = msg;
-    process_event(&e);
+    client->process_event(&e);
     delete msg;
 }
 
-void ICQClient::processMsgQueue()
+void ICQClientPrivate::processMsgQueue()
 {
     if (m_state != Logged) return;
     processMsgQueueThruServer();
@@ -990,22 +1084,22 @@ Contact::Contact()
     Uin = 0;
 }
 
-string ICQClient::makeMessageText(ICQMsg *msg, ICQUser *u)
+string ICQClientPrivate::makeMessageText(ICQMsg *msg, ICQUser *u)
 {
-    const char *encoding = localCharset(u);
+    const char *encoding = client->localCharset(u);
     string msg_text;
     if (strcasecmp(msg->Charset.c_str(), "utf-8")){
         log(L_WARN, "No UTF encoding for send message");
         msg_text = msg->Message.c_str();
-        toUTF(msg_text, msg->Charset.c_str());
+        client->toUTF(msg_text, msg->Charset.c_str());
     }else{
         msg_text = msg->Message.c_str();
     }
     if (u->canRTF())
         return createRTF(msg_text, msg->ForeColor, encoding);
-    string message = clearHTML(msg_text);
-    fromUTF(message, encoding);
-    toServer(message, encoding);
+    string message = client->clearHTML(msg_text);
+    client->fromUTF(message, encoding);
+    client->toServer(message, encoding);
     string m;
     for (const char *p = message.c_str(); *p; p++){
         if (*p == '\n') m += '\r';

@@ -173,7 +173,7 @@ void ChatWindow::sendLine()
     s.replace(QRegExp("<br>"), "");
     s.replace(QRegExp("</?p>"), "");
     string sLineSend = pClient->to8Bit(uin, s);
-    chat->chat->sendLine(sLineSend.c_str());
+    chat->sendLine(sLineSend.c_str());
     QString clientString;
     QString br;
     if (bClientMode){
@@ -251,24 +251,24 @@ void ChatWindow::processEvent(ICQEvent *e)
         }
     case CHAT_FONT_FACE:
         if (bClientMode){
-            txtChat->setBold(chat->chat->fontFace & FONT_BOLD);
-            txtChat->setItalic(chat->chat->fontFace & FONT_ITALIC);
-            txtChat->setUnderline(chat->chat->fontFace & FONT_UNDERLINE);
+            txtChat->setBold(chat->isBold());
+            txtChat->setItalic(chat->isItalic());
+            txtChat->setUnderline(chat->isUnderline());
         }
         break;
     case CHAT_COLORxFG:
         if (bClientMode)
-            txtChat->setColor(chatColor(chat->chat->fgColor));
+            txtChat->setColor(chatColor(chat->fgColor()));
         break;
     case CHAT_TEXT:
         if (!bClientMode){
             txtChat->insertParagraph(chatHeader(e->Uin()), -1);
             txtChat->scrollToBottom();
             txtChat->moveCursor(QTextEdit::MoveEnd, false);
-            txtChat->setBold(chat->chat->fontFace & FONT_BOLD);
-            txtChat->setItalic(chat->chat->fontFace & FONT_ITALIC);
-            txtChat->setUnderline(chat->chat->fontFace & FONT_UNDERLINE);
-            txtChat->setColor(chatColor(chat->chat->fgColor));
+            txtChat->setBold(chat->isBold());
+            txtChat->setItalic(chat->isItalic());
+            txtChat->setUnderline(chat->isUnderline());
+            txtChat->setColor(chatColor(chat->fgColor()));
             bClientMode = true;
         }
         txtChat->insert(pClient->from8Bit(uin, e->text.c_str(), NULL), false, false);

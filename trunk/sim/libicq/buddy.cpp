@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "icqclient.h"
+#include "icqprivate.h"
 #include "log.h"
 
 #include <time.h>
@@ -27,7 +28,7 @@ const unsigned short ICQ_SNACxBDY_ADDxTOxLIST      = 0x0004;
 const unsigned short ICQ_SNACxBDY_USERONLINE	   = 0x000B;
 const unsigned short ICQ_SNACxBDY_USEROFFLINE	   = 0x000C;
 
-void ICQClient::snac_buddy(unsigned short type, unsigned short)
+void ICQClientPrivate::snac_buddy(unsigned short type, unsigned short)
 {
     switch (type){
     case ICQ_SNACxBDY_RIGHTSxGRANTED:
@@ -35,19 +36,19 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
         break;
     case ICQ_SNACxBDY_USEROFFLINE:{
             unsigned long uin = sock->readBuffer.unpackUin();
-            ICQUser *user = getUser(uin);
+            ICQUser *user = client->getUser(uin);
             if (user && (user->uStatus != ICQ_STATUS_OFFLINE)){
                 log(L_DEBUG, "User %lu [%s] offline", uin, user->Alias.c_str());
                 user->setOffline();
                 ICQEvent e(EVENT_STATUS_CHANGED, uin);
-                process_event(&e);
+                client->process_event(&e);
             }
             break;
         }
     case ICQ_SNACxBDY_USERONLINE:{
             unsigned long uin = sock->readBuffer.unpackUin();
-            if (uin == owner->Uin) break;
-            ICQUser *user = getUser(uin);
+            if (uin == client->owner->Uin) break;
+            ICQUser *user = client->getUser(uin);
             if (user){
                 time_t now;
                 time(&now);
@@ -71,7 +72,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                         user->prevStatus = user->uStatus;
                         user->uStatus = status;
                         if (status & 0xFF){
-                            addResponseRequest(uin);
+                            client->addResponseRequest(uin);
                         }else{
                             user->AutoReply = "";
                         }
@@ -159,7 +160,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                     }
                     if (user->hasCap(CAP_RTF) && !user->CanPlugin){
                         user->CanPlugin = true;
-                        if (user->bPhoneChanged) addPhoneRequest(uin);
+                        if (user->bPhoneChanged) client->addPhoneRequest(uin);
                     }
                 }
 
@@ -175,17 +176,17 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                         if (reqType == 3){
                             info.incReadPos(3);
                             info >> user->PhoneState;
-                            if (user->bPhoneChanged) addPhoneRequest(uin);
+                            if (user->bPhoneChanged) client->addPhoneRequest(uin);
                         }else if (reqType == 2)
-                            if (user->bPhoneChanged) addPhoneRequest(uin);
+                            if (user->bPhoneChanged) client->addPhoneRequest(uin);
                     }
-                    addInfoRequest(uin);
+                    client->addInfoRequest(uin);
                     changed = true;
                 }
 
                 if (changed){
                     ICQEvent e(EVENT_STATUS_CHANGED, uin);
-                    process_event(&e);
+                    client->process_event(&e);
                     user->prevStatus = user->uStatus;
                 }
             }
@@ -196,23 +197,23 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
     }
 }
 
-void ICQClient::buddyRequest()
+void ICQClientPrivate::buddyRequest()
 {
     snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_REQUESTxRIGHTS);
     sendPacket();
 }
 
-void ICQClient::sendContactList()
+void ICQClientPrivate::sendContactList()
 {
     int nBuddies = 0;
     list<ICQUser*>::iterator it;
-    for (it = contacts.users.begin(); it != contacts.users.end(); it++){
+    for (it = client->contacts.users.begin(); it != client->contacts.users.end(); it++){
         if (((*it)->Uin < UIN_SPECIAL) && !(*it)->inIgnore &&
                 ((*it)->WaitAuth || ((*it)->GrpId == 0))) nBuddies++;
     }
     if (nBuddies == 0) return;
     snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_ADDxTOxLIST);
-    for (it = contacts.users.begin(); it != contacts.users.end(); it++){
+    for (it = client->contacts.users.begin(); it != client->contacts.users.end(); it++){
         if (((*it)->Uin < UIN_SPECIAL) && !(*it)->inIgnore &&
                 ((*it)->WaitAuth || ((*it)->GrpId == 0)))
             sock->writeBuffer.packUin((*it)->Uin);
@@ -220,9 +221,9 @@ void ICQClient::sendContactList()
     sendPacket();
 }
 
-void ICQClient::addToContacts(unsigned long uin)
+void ICQClientPrivate::addToContacts(unsigned long uin)
 {
-    if (m_state != Logged) return;
+    if (client->isLogged()) return;
     if (uin >= UIN_SPECIAL) return;
     snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_ADDxTOxLIST);
     sock->writeBuffer.packUin(uin);

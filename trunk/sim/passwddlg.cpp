@@ -99,7 +99,7 @@ void PasswdDialog::stopLogin()
 
 void PasswdDialog::processEvent(ICQEvent *e)
 {
-    if (pClient->m_state == ICQClient::Logged){
+    if (pClient->isLogged()){
         bLogin = false;
         done(1);
         return;

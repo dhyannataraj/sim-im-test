@@ -25,6 +25,7 @@
 #endif
 
 #include "icqclient.h"
+#include "icqprivate.h"
 #include "log.h"
 
 #include <errno.h>
@@ -291,7 +292,7 @@ static void splitPat(PatList &pats, const QString &pat)
         pats.append(l);
 }
 
-bool ICQClient::match(const char *sStr, const char *sPat)
+bool ICQClientPrivate::match(const char *sStr, const char *sPat)
 {
     QString str = QString::fromLocal8Bit(sStr);
     QString pat = QString::fromLocal8Bit(sPat);

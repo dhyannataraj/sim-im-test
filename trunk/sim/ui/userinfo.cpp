@@ -141,7 +141,7 @@ void UserInfo::saveInfo()
 void UserInfo::processEvent(ICQEvent *e)
 {
     if (inSave) return;
-    btnUpdate->setEnabled(pClient->m_state == ICQClient::Logged);
+    btnUpdate->setEnabled(pClient->isLogged());
     if ((e->type() != EVENT_INFO_CHANGED) || (e->Uin() != m_nUin)) return;
     loadInfo();
 }

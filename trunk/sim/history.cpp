@@ -256,15 +256,7 @@ unsigned long History::addMessage(ICQMessage *msg)
 
 ICQMessage *History::getMessage(unsigned long offs)
 {
-    if (offs >= MSG_PROCESS_ID){
-        list<ICQEvent*>::iterator it;
-        for (it = pClient->processQueue.begin(); it != pClient->processQueue.end(); ++it){
-            if ((*it)->type() != EVENT_MESSAGE_RECEIVED) continue;
-            if ((*it)->message() && ((*it)->message()->Id == offs))
-                return (*it)->message();
-        }
-        return NULL;
-    }
+    if (offs >= MSG_PROCESS_ID) return pClient->getProcessMessage(offs);
     std::fstream f;
     if (!open(false, f))
         return NULL;

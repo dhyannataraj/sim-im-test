@@ -28,7 +28,7 @@ ListSecurity::ListSecurity(QWidget *parent)
 {
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     connect(tblUsers, SIGNAL(changed()), this, SLOT(tblChanged()));
-    tblUsers->setEnabled(pClient->m_state == ICQClient::Logged);
+    tblUsers->setEnabled(pClient->isLogged());
 }
 
 void ListSecurity::init()
@@ -48,7 +48,7 @@ void ListSecurity::apply(ICQUser*)
 
 void ListSecurity::processEvent(ICQEvent *e)
 {
-    tblUsers->setEnabled(pClient->m_state == ICQClient::Logged);
+    tblUsers->setEnabled(pClient->isLogged());
     if ((e->type() != EVENT_INFO_CHANGED) || (e->Uin() == 0)) return;
     ICQUser *u = pClient->getUser(e->Uin(), true);
     if (u == NULL) return;

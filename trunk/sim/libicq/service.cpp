@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "icqclient.h"
+#include "icqprivate.h"
 #include "log.h"
 
 #include <time.h>
@@ -38,7 +39,7 @@ const unsigned short ICQ_SNACxSRV_IMxICQ 	= 0x0017;
 const unsigned short ICQ_SNACxSRV_ACKxIMxICQ    = 0x0018;
 const unsigned short ICQ_SNACxSRV_SETxSTATUS    = 0x001E;
 
-void ICQClient::snac_service(unsigned short type, unsigned short)
+void ICQClientPrivate::snac_service(unsigned short type, unsigned short)
 {
     switch (type){
     case ICQ_SNACxSRV_RATExCHANGE:
@@ -72,7 +73,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
                 sock->readBuffer.incReadPos(n);
                 uin = sock->readBuffer.unpackUin();
             }
-            if (uin != owner->Uin){
+            if (uin != client->owner->Uin){
                 log(L_WARN, "No my name info (%lu)", uin);
                 break;
             }
@@ -80,7 +81,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
             TlvList tlv(sock->readBuffer);
             Tlv *tlvIP = tlv(0x000A);
             if (tlvIP)
-                owner->IP = htonl((unsigned long)(*tlvIP));
+                client->owner->IP = htonl((unsigned long)(*tlvIP));
             log(L_DEBUG, "Name info");
             bool bSend = true;
             if (needPhonebookUpdate){
@@ -121,21 +122,21 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
     }
 }
 
-void ICQClient::sendLogonStatus()
+void ICQClientPrivate::sendLogonStatus()
 {
-    owner->IP = 0;
-    owner->RealIP = htonl(sock->localHost());
-    log(L_DEBUG, "RealIP: %X", owner->RealIP);
+    client->owner->IP = 0;
+    client->owner->RealIP = htonl(sock->localHost());
+    log(L_DEBUG, "RealIP: %X", client->owner->RealIP);
 
     log(L_DEBUG, "Logon status");
-    if (owner->inInvisible) sendVisibleList();
+    if (client->owner->inInvisible) sendVisibleList();
     sendContactList();
 
     unsigned long now;
     time((time_t*)&now);
-    if (owner->PhoneBookTime == 0) owner->PhoneBookTime = now;
-    if (owner->PhoneStatusTime == 0) owner->PhoneStatusTime = now;
-    if (owner->InfoUpdateTime == 0) owner->InfoUpdateTime = now;
+    if (client->owner->PhoneBookTime == 0) client->owner->PhoneBookTime = now;
+    if (client->owner->PhoneStatusTime == 0) client->owner->PhoneStatusTime = now;
+    if (client->owner->InfoUpdateTime == 0) client->owner->InfoUpdateTime = now;
 
     Buffer directInfo(25);
     fillDirectInfo(directInfo);
@@ -147,13 +148,13 @@ void ICQClient::sendLogonStatus()
 
     sendPacket();
 
-    if (!owner->inInvisible) sendInvisibleList();
+    if (!client->owner->inInvisible) sendInvisibleList();
     m_state = Logged;
-    owner->OnlineTime = now;
+    client->owner->OnlineTime = now;
 
-    owner->uStatus = m_nLogonStatus & 0xFF;
-    ICQEvent e(EVENT_STATUS_CHANGED, owner->Uin);
-    process_event(&e);
+    client->owner->uStatus = m_nLogonStatus & 0xFF;
+    ICQEvent e(EVENT_STATUS_CHANGED, client->owner->Uin);
+    client->process_event(&e);
 
     processMsgQueue();
 
@@ -166,27 +167,27 @@ void ICQClient::setInvisible(bool bInvisible)
 {
     if (owner->inInvisible == bInvisible) return;
     owner->inInvisible = bInvisible;
-    if (m_state != Logged) return;
-    if (owner->inInvisible) sendVisibleList();
-    snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
-    sock->writeBuffer.tlv(0x0006, fullStatus(owner->uStatus));
-    sendPacket();
-    if (!owner->inInvisible) sendInvisibleList();
+    if (!isLogged()) return;
+    if (owner->inInvisible) p->sendVisibleList();
+    p->snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
+    p->sock->writeBuffer.tlv(0x0006, p->fullStatus(owner->uStatus));
+    p->sendPacket();
+    if (!owner->inInvisible) p->sendInvisibleList();
     ICQEvent e(EVENT_STATUS_CHANGED, owner->Uin);
     process_event(&e);
 }
 
-void ICQClient::sendStatus(unsigned long status)
+void ICQClientPrivate::sendStatus(unsigned long status)
 {
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
     sock->writeBuffer.tlv(0x0006, fullStatus(status));
     sendPacket();
-    owner->uStatus = status & 0xFF;
-    ICQEvent e(EVENT_STATUS_CHANGED, owner->Uin);
-    process_event(&e);
+    client->owner->uStatus = status & 0xFF;
+    ICQEvent e(EVENT_STATUS_CHANGED, client->owner->Uin);
+    client->process_event(&e);
 }
 
-void ICQClient::sendClientReady()
+void ICQClientPrivate::sendClientReady()
 {
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_READYxCLIENT);
     sock->writeBuffer
@@ -204,10 +205,10 @@ void ICQClient::sendClientReady()
     sendPacket();
 }
 
-void ICQClient::fillDirectInfo(Buffer &directInfo)
+void ICQClientPrivate::fillDirectInfo(Buffer &directInfo)
 {
     directInfo
-    << (unsigned long)htonl(owner->RealIP)
+    << (unsigned long)htonl(client->owner->RealIP)
     << (unsigned short)0
     << (unsigned short)(listener ? listener->port() : 0)
 
@@ -216,22 +217,22 @@ void ICQClient::fillDirectInfo(Buffer &directInfo)
     << (char)ICQ_TCP_VERSION;
 
     directInfo
-    << owner->DCcookie
+    << client->owner->DCcookie
     << 0x00000050L
     << 0x00000003L
-    << owner->InfoUpdateTime
-    << owner->PhoneStatusTime
-    << owner->PhoneBookTime
+    << client->owner->InfoUpdateTime
+    << client->owner->PhoneStatusTime
+    << client->owner->PhoneBookTime
     << (unsigned short) 0x0000;
 }
 
-void ICQClient::sendUpdate(Buffer &b)
+void ICQClientPrivate::sendUpdate(Buffer &b)
 {
     Buffer directInfo(25);
     fillDirectInfo(directInfo);
 
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
-    sock->writeBuffer.tlv(0x0006, fullStatus(owner->uStatus));
+    sock->writeBuffer.tlv(0x0006, fullStatus(client->owner->uStatus));
     sock->writeBuffer.tlv(0x000C, directInfo);
 
     sock->writeBuffer.tlv(0x11, b);
@@ -241,24 +242,24 @@ void ICQClient::sendUpdate(Buffer &b)
 
 bool ICQClient::updatePhoneBook()
 {
-    if (m_state != Logged) return false;
+    if (!isLogged()) return false;
     unsigned long now;
     time((time_t*)&now);
     Buffer b;
     b << (char)2;
     b.pack((unsigned long)now);
     b << (unsigned short)0x0200 << 0x01000100L;
-    b.pack((char*)PHONEBOOK_SIGN, 0x10);
+    b.pack((char*)(ICQClientPrivate::PHONEBOOK_SIGN), 0x10);
     b << (unsigned short)0;
     b.pack((unsigned long)now);
     b << (char)0;
     owner->PhoneBookTime = now;
-    sendUpdate(b);
-    needPhonebookUpdate = true;
+    p->sendUpdate(b);
+    p->needPhonebookUpdate = true;
     return true;
 }
 
-void ICQClient::sendInfoUpdate()
+void ICQClientPrivate::sendInfoUpdate()
 {
     time_t now;
     time((time_t*)&now);
@@ -266,15 +267,15 @@ void ICQClient::sendInfoUpdate()
     b << (char)1;
     b.pack((unsigned long)now);
     sendUpdate(b);
-    owner->InfoUpdateTime = now;
-    ICQEvent e(EVENT_INFO_CHANGED, owner->Uin);
+    client->owner->InfoUpdateTime = now;
+    ICQEvent e(EVENT_INFO_CHANGED, client->owner->Uin);
     sendMessageRequest();
-    process_event(&e);
+    client->process_event(&e);
 }
 
 bool ICQClient::updatePhoneStatus()
 {
-    if (m_state != Logged) return false;
+    if (!isLogged()) return false;
     unsigned long now;
     time((time_t*)&now);
     owner->PhoneStatusTime = now;
@@ -282,12 +283,12 @@ bool ICQClient::updatePhoneStatus()
     b << (char)3;
     b.pack(owner->PhoneStatusTime);
     b << (unsigned short)0x0000 << 0x01000100L;
-    b.pack((const char*)PHONEBOOK_SIGN, 0x10);
+    b.pack((const char*)(ICQClientPrivate::PHONEBOOK_SIGN), 0x10);
     b << (char)0x02 << (unsigned short)0x0001 << owner->PhoneState << (char)0 << (unsigned short) 0;
     b.pack(owner->PhoneStatusTime);
     b << (unsigned short)0 << 0x00000100L;
-    sendUpdate(b);
-    needPhoneStatusUpdate = true;
+    p->sendUpdate(b);
+    p->needPhoneStatusUpdate = true;
     ICQEvent e(EVENT_INFO_CHANGED, owner->Uin);
     process_event(&e);
     return true;
@@ -305,12 +306,12 @@ void ICQClient::setShare(bool bState)
     b.pack((unsigned short)0);
     b.pack((unsigned short)1);
     b.pack((unsigned short)1);
-    b.pack((char*)SHARED_FILES_SIGN, 16);
+    b.pack((char*)(ICQClientPrivate::SHARED_FILES_SIGN), 16);
     b << (char)4 << (unsigned short)1;
     b.pack((unsigned long)(bState ? 1 : 0));
     b.pack(now);
     b.pack((unsigned long)0);
     b.pack((unsigned short)1);
-    sendUpdate(b);
-    needShareUpdate = true;
+    p->sendUpdate(b);
+    p->needShareUpdate = true;
 }

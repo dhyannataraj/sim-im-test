@@ -506,7 +506,7 @@ void MainWindow::adjustFucntionMenu()
 
 void MainWindow::adjustGroupsMenu()
 {
-    menuGroups->setItemEnabled(mnuGrpCreate, GroupMode && (pClient->m_state == ICQClient::Logged));
+    menuGroups->setItemEnabled(mnuGrpCreate, GroupMode && pClient->isLogged());
     menuGroups->setItemEnabled(mnuGrpCollapseAll, GroupMode);
     menuGroups->setItemEnabled(mnuGrpExpandAll, GroupMode);
 }
@@ -1556,12 +1556,9 @@ void MainWindow::moveUser(int grp)
 void MainWindow::setIcons()
 {
     QPixmap icon = Pict(pClient->getStatusIcon());
-    switch (pClient->m_state){
-    case ICQClient::Logoff:
-    case ICQClient::Logged:
+    if (!pClient->isConnecting()){
         btnStatus->setState(pClient->getStatusIcon(), pClient->getStatusText());
-        break;
-    default:
+    }else{
         btnStatus->setState(SIMClient::getStatusIcon(bBlinkState ? ICQ_STATUS_OFFLINE : ICQ_STATUS_ONLINE), i18n("Connecting"));
         icon = Pict(SIMClient::getStatusIcon(bBlinkState ? ICQ_STATUS_OFFLINE : ICQ_STATUS_ONLINE));
     }
@@ -1570,7 +1567,7 @@ void MainWindow::setIcons()
 
 void MainWindow::blink()
 {
-    if ((pClient->m_state == ICQClient::Logoff) || (pClient->m_state == ICQClient::Logged)) return;
+    if (!pClient->isConnecting()) return;
     bBlinkState = !bBlinkState;
     setIcons();
 }
@@ -1628,8 +1625,8 @@ void MainWindow::showUserPopup(unsigned long uin, QPoint p, QPopupMenu *popup, c
     menuUser->insertItem(i18n("Groups"), menuGroup, mnuGroups);
     menuUser->insertItem(Pict("remove"), i18n("Delete"), mnuDelete);
     menuUser->setAccel(QAccel::stringToKey(i18n("Del", "Delete")), mnuDelete);
-    menuUser->setItemEnabled(mnuGroups, (pClient->m_state == ICQClient::Logged) || (u->Type != USER_TYPE_ICQ));
-    menuUser->setItemEnabled(mnuDelete, (pClient->m_state == ICQClient::Logged) || (u->Type != USER_TYPE_ICQ) || (u->GrpId == 0));
+    menuUser->setItemEnabled(mnuGroups, pClient->isLogged() || (u->Type != USER_TYPE_ICQ));
+    menuUser->setItemEnabled(mnuDelete, pClient->isLogged() || (u->Type != USER_TYPE_ICQ) || (u->GrpId == 0));
     menuUser->insertSeparator();
     menuUser->insertItem(Icon("info"), i18n("&User info"), mnuInfo);
     menuUser->setAccel(QAccel::stringToKey(i18n("Ctrl+U", "UserInfo")), mnuSound);
@@ -1740,10 +1737,10 @@ bool MainWindow::canUserFunction(unsigned long uin, int function)
     case mnuSecureOn:
         u = pClient->getUser(uin);
         return u && (u->Type == USER_TYPE_ICQ) && (u->uStatus != ICQ_STATUS_OFFLINE) &&
-               ((u->direct == NULL) || !u->direct->isSecure());
+               !u->isSecure();
     case mnuSecureOff:
         u = pClient->getUser(uin);
-        return u && u->direct && u->direct->isSecure();
+        return u && u->isSecure();
     case mnuMail:
         u = pClient->getUser(uin);
         if (u){
@@ -1933,7 +1930,7 @@ void MainWindow::userFunction(unsigned long uin, int function, unsigned long par
         }
     case mnuSecureOff:{
             ICQUser *u = pClient->getUser(uin);
-            if (u) u->closeSecureChannel(pClient);
+            if (u) pClient->closeSecureChannel(u);
             return;
         }
     case mnuSort:

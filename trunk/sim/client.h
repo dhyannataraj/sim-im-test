@@ -23,8 +23,6 @@
 
 #include "icqclient.h"
 
-#undef HAVE_KEXTSOCK_H
-
 class QDns;
 class QSocket;
 class QSocketDevice;
@@ -50,64 +48,6 @@ typedef struct searchResult
     const char *email;
     bool auth;
 } searchResult;
-
-#ifdef HAVE_KEXTSOCK_H
-class KExtendedSocket;
-#endif
-
-class ICQClientSocket : public QObject, public Socket
-{
-    Q_OBJECT
-public:
-#ifdef HAVE_KEXTSOCK_H
-    ICQClientSocket(KExtendedSocket *s=NULL);
-#else
-    ICQClientSocket(QSocket *s=NULL);
-#endif
-    virtual ~ICQClientSocket();
-    virtual int read(char *buf, unsigned int size);
-    virtual void write(const char *buf, unsigned int size);
-    virtual void connect(const char *host, int port);
-    virtual unsigned long localHost();
-    virtual void pause(unsigned);
-    virtual void close();
-protected slots:
-    void slotConnected();
-    void slotConnectionClosed();
-    void slotReadReady();
-    void slotBytesWritten(int);
-    void slotBytesWritten();
-    void slotError(int);
-    void slotLookupFinished(int);
-protected:
-#ifdef HAVE_KEXTSOCK_H
-    KExtendedSocket *sock;
-#else
-    QSocket *sock;
-#endif
-    bool bInWrite;
-};
-
-class ICQServerSocket : public QObject, public ServerSocket
-{
-    Q_OBJECT
-public:
-    ICQServerSocket(unsigned short minPort, unsigned short maxPort);
-    ~ICQServerSocket();
-    virtual unsigned short port() { return m_nPort; }
-    bool created() { return (sock != NULL); }
-protected slots:
-    void activated(int);
-    void activated();
-protected:
-#ifdef HAVE_KEXTSOCK_H
-    KExtendedSocket *sock;
-#else
-    QSocketDevice   *sock;
-    QSocketNotifier *sn;
-#endif
-    unsigned short m_nPort;
-};
 
 class SMSmessage
 {
@@ -165,9 +105,6 @@ protected slots:
     void resolve_ready();
     void timer();
 protected:
-    virtual Socket *createSocket();
-    virtual ServerSocket *createServerSocket();
-
     void start_resolve();
 
     virtual bool createFile(ICQFile *f, int mode);

@@ -299,7 +299,7 @@ void UserViewItem::update(ICQUser *u, bool bFirst)
     m_bPhone = false;
     m_bPhoneBusy = false;
     m_bPager = false;
-    m_bSecure = (u->direct != NULL) && u->direct->isSecure();
+    m_bSecure = u->isSecure();
     for (PhoneBook::iterator it = u->Phones.begin(); it != u->Phones.end(); it++){
         PhoneInfo *phone = static_cast<PhoneInfo*>(*it);
         if (phone->Type == SMS) m_bMobile = true;
@@ -1331,7 +1331,7 @@ void UserView::viewportContextMenuEvent( QContextMenuEvent *e)
         CGroup g(grp);
         menuGroup->clear();
         menuGroup->insertTitle(g.name(), mnuGrpTitle);
-        if (pClient->m_state == ICQClient::Logged){
+        if (pClient->isLogged()){
             menuGroup->insertItem(Pict("grp_rename"), i18n("Rename"), mnuGrpRename);
             menuGroup->setAccel(QListView::Key_F2, mnuGrpRename);
             menuGroup->insertItem(Pict("remove"), i18n("Delete"), mnuGrpDelete);

@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "icqclient.h"
+#include "icqprivate.h"
 #include "log.h"
 
 const unsigned short ICQ_SNACxBOS_REQUESTxRIGHTS     = 0x0002;
@@ -25,7 +26,7 @@ const unsigned short ICQ_SNACxBOS_REMxVISIBLExLIST   = 0x0006;
 const unsigned short ICQ_SNACxBOS_ADDxINVISIBLExLIST = 0x0007;
 const unsigned short ICQ_SNACxBOS_REMxINVISIBLExLIST = 0x0008;
 
-void ICQClient::snac_bos(unsigned short type, unsigned short)
+void ICQClientPrivate::snac_bos(unsigned short type, unsigned short)
 {
     switch (type){
     case ICQ_SNACxBOS_RIGHTSxGRANTED:
@@ -36,7 +37,7 @@ void ICQClient::snac_bos(unsigned short type, unsigned short)
     }
 }
 
-void ICQClient::addToVisibleList(unsigned long uin)
+void ICQClientPrivate::addToVisibleList(unsigned long uin)
 {
     if (uin >= UIN_SPECIAL) return;
     snac(ICQ_SNACxFAM_BOS, ICQ_SNACxBOS_ADDxVISIBLExLIST);
@@ -44,7 +45,7 @@ void ICQClient::addToVisibleList(unsigned long uin)
     sendPacket();
 }
 
-void ICQClient::addToInvisibleList(unsigned long uin)
+void ICQClientPrivate::addToInvisibleList(unsigned long uin)
 {
     if (uin >= UIN_SPECIAL) return;
     snac(ICQ_SNACxFAM_BOS, ICQ_SNACxBOS_ADDxINVISIBLExLIST);
@@ -52,7 +53,7 @@ void ICQClient::addToInvisibleList(unsigned long uin)
     sendPacket();
 }
 
-void ICQClient::removeFromVisibleList(unsigned long uin)
+void ICQClientPrivate::removeFromVisibleList(unsigned long uin)
 {
     if (uin >= UIN_SPECIAL) return;
     snac(ICQ_SNACxFAM_BOS, ICQ_SNACxBOS_REMxVISIBLExLIST);
@@ -60,7 +61,7 @@ void ICQClient::removeFromVisibleList(unsigned long uin)
     sendPacket();
 }
 
-void ICQClient::removeFromInvisibleList(unsigned long uin)
+void ICQClientPrivate::removeFromInvisibleList(unsigned long uin)
 {
     if (uin >= UIN_SPECIAL) return;
     snac(ICQ_SNACxFAM_BOS, ICQ_SNACxBOS_REMxINVISIBLExLIST);
@@ -68,7 +69,7 @@ void ICQClient::removeFromInvisibleList(unsigned long uin)
     sendPacket();
 }
 
-void ICQClient::bosRequest()
+void ICQClientPrivate::bosRequest()
 {
     snac(ICQ_SNACxFAM_BOS, ICQ_SNACxBOS_REQUESTxRIGHTS);
     sendPacket();

@@ -873,8 +873,8 @@ void UserBox::setGroupButtons()
         btnIgnore->show();
     }
     if (u->Type == USER_TYPE_ICQ){
-        btnIgnore->setEnabled(pClient->m_state == ICQClient::Logged);
-        btnGroup->setEnabled(pClient->m_state == ICQClient::Logged);
+        btnIgnore->setEnabled(pClient->isLogged());
+        btnGroup->setEnabled(pClient->isLogged());
     }else{
         btnIgnore->setEnabled(true);
         btnGroup->setEnabled(true);

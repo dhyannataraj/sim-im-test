@@ -16,11 +16,12 @@
  ***************************************************************************/
 
 #include "icqclient.h"
+#include "icqprivate.h"
 #include "log.h"
 
 const unsigned short ICQ_SNACxPING_UNKNOWN = 0x0002;
 
-void ICQClient::snac_ping(unsigned short type, unsigned short)
+void ICQClientPrivate::snac_ping(unsigned short type, unsigned short)
 {
     switch (type){
     case  ICQ_SNACxPING_UNKNOWN:

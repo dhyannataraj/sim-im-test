@@ -16,13 +16,14 @@
  ***************************************************************************/
 
 #include "icqclient.h"
+#include "icqprivate.h"
 #include "log.h"
 
 const unsigned short ICQ_SNACxLOC_REQUESTxRIGHTS   = 0x0002;
 const unsigned short ICQ_SNAXxLOC_RIGHTSxGRANTED   = 0x0003;
 const unsigned short ICQ_SNACxLOC_SETxUSERxINFO    = 0x0004;
 
-void ICQClient::snac_location(unsigned short type, unsigned short)
+void ICQClientPrivate::snac_location(unsigned short type, unsigned short)
 {
     switch (type){
     case ICQ_SNAXxLOC_RIGHTSxGRANTED:
@@ -33,7 +34,7 @@ void ICQClient::snac_location(unsigned short type, unsigned short)
     }
 }
 
-void ICQClient::locationRequest()
+void ICQClientPrivate::locationRequest()
 {
     snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_REQUESTxRIGHTS);
     sendPacket();
@@ -85,13 +86,13 @@ const capability arrCapabilities[] =
           0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },
     };
 
-const capability *ICQClient::capabilities = arrCapabilities;
+const capability *ICQClientPrivate::capabilities = arrCapabilities;
 
 #ifndef VERSION
 #define VERSION  "0.1"
 #endif
 
-void ICQClient::sendCapability()
+void ICQClientPrivate::sendCapability()
 {
     Buffer cap(5 * sizeof(capability));
     capability c;

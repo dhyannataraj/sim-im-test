@@ -22,6 +22,7 @@
 #define vsnprintf _vsnprintf
 #endif
 #include "icqclient.h"
+#include "icqprivate.h"
 #include "log.h"
 
 #include <stack>
@@ -182,7 +183,7 @@ rtf_cp rtf_cps[] =
         { 0, 0 }
     };
 
-string ICQClient::createRTF(const string &text, unsigned long foreColor, const char *encoding)
+string ICQClientPrivate::createRTF(const string &text, unsigned long foreColor, const char *encoding)
 {
     log(L_DEBUG, ">> %s", text.c_str());
     int charset = 0;
@@ -261,9 +262,9 @@ string ICQClient::createRTF(const string &text, unsigned long foreColor, const c
             bConvert = false;
             if (send_encoding){
                 string utf = t;
-                if (fromUTF(t, send_encoding) && (t.length() == 1)){
+                if (client->fromUTF(t, send_encoding) && (t.length() == 1)){
                     string b = t;
-                    if (toUTF(b, send_encoding) && !strcmp(utf.c_str(), b.c_str())){
+                    if (client->toUTF(b, send_encoding) && !strcmp(utf.c_str(), b.c_str())){
                         for (p = t.c_str(); *p; p++){
                             if ((*p & 0x80) || (*p == '\\') || (*p == '{') || (*p == '}')){
                                 char b[5];

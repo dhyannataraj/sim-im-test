@@ -15,26 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#ifdef STDC_HEADERS
-#include <stdlib.h>
-#include <stddef.h>
-#endif
-#ifdef HAVE_INTTYPES_H
-#include <inttypes.h>
-#else
-#ifdef HAVE_STDINT_H
-#include <stdint.h>
-#endif
-#endif
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-
 #include "icqclient.h"
+#include "icqprivate.h"
 #include "icqssl.h"
 #include "log.h"
 
@@ -71,9 +53,9 @@ const unsigned short ICQ_TCPxACK_OCCUPIEDxCAR      = 0x000B;
 const unsigned short ICQ_TCPxACK_NA                = 0x000E;
 const unsigned short ICQ_TCPxACK_DNDxCAR           = 0x000F;
 
-DirectSocket::DirectSocket(Socket *s, ICQClient *_client)
+DirectSocket::DirectSocket(Socket *s, ICQClientPrivate *_client)
 {
-    sock = new ClientSocket(this, _client);
+    sock = new ClientSocket(this, _client->factory);
     sock->setSocket(s);
     m_bIncoming = true;
     client = _client;
@@ -87,9 +69,9 @@ DirectSocket::DirectSocket(Socket *s, ICQClient *_client)
 }
 
 DirectSocket::DirectSocket(unsigned long _ip, unsigned long _real_ip, unsigned short _port,
-                           ICQUser *u, ICQClient *_client)
+                           ICQUser *u, ICQClientPrivate *_client)
 {
-    sock = new ClientSocket(this, _client);
+    sock = new ClientSocket(this, _client->factory);
     m_bIncoming = false;
     ip = _ip;
     real_ip = _real_ip;
@@ -138,7 +120,7 @@ void DirectSocket::connect()
     }
     if (state == NotConnected){
         m_bUseInternalIP = true;
-        if ((ip != 0) && ((ip & 0xFFFFFF) != (client->owner->IP & 0xFFFFFF)))
+        if ((ip != 0) && ((ip & 0xFFFFFF) != (client->client->owner->IP & 0xFFFFFF)))
             m_bUseInternalIP = false;
         log(L_DEBUG, "Use internal... %u", m_bUseInternalIP);
         state = ConnectIP1;
@@ -215,7 +197,7 @@ void DirectSocket::packet_ready()
             sock->readBuffer.incReadPos(3);
             unsigned long my_uin;
             sock->readBuffer.unpack(my_uin);
-            if (my_uin != client->owner->Uin){
+            if (my_uin != client->client->owner->Uin){
                 log(L_WARN, "Bad UIN");
                 sock->error_state(ErrorProtocol);
                 return;
@@ -224,7 +206,7 @@ void DirectSocket::packet_ready()
             unsigned long p_uin;
             sock->readBuffer.unpack(p_uin);
             if (m_bIncoming){
-                ICQUser *user = client->getUser(p_uin, true, true);
+                ICQUser *user = client->client->getUser(p_uin, true, true);
                 if ((user == NULL) || user->inIgnore){
                     log(L_WARN, "User %lu not found", p_uin);
                     sock->error_state(ErrorProtocol);
@@ -286,9 +268,9 @@ void DirectSocket::sendInit()
     sock->writeBuffer.pack(uin);
     sock->writeBuffer.pack((unsigned short)0x0000);
     sock->writeBuffer.pack((unsigned long)port);
-    sock->writeBuffer.pack(client->owner->Uin);
-    sock->writeBuffer.pack(client->owner->IP);
-    sock->writeBuffer.pack(client->owner->RealIP);
+    sock->writeBuffer.pack(client->client->owner->Uin);
+    sock->writeBuffer.pack(client->client->owner->IP);
+    sock->writeBuffer.pack(client->client->owner->RealIP);
     sock->writeBuffer.pack((char)0x01);
     sock->writeBuffer.pack(0x00000000L);
     sock->writeBuffer.pack(m_nSessionId);
@@ -323,9 +305,9 @@ void DirectSocket::connect_ready()
 
 // ____________________________________________________________________________________________
 
-ICQListener::ICQListener(ICQClient *_client)
+ICQListener::ICQListener(ICQClientPrivate *_client)
 {
-    sock = _client->createServerSocket();
+    sock = _client->factory->createServerSocket();
     sock->setNotify(this);
     client = _client;
 }
@@ -359,7 +341,7 @@ static unsigned char client_check_data[] =
         "ICQ Service and Information may\0"
     };
 
-DirectClient::DirectClient(Socket *s, ICQClient *client)
+DirectClient::DirectClient(Socket *s, ICQClientPrivate *client)
         : DirectSocket(s, client)
 {
     u = NULL;
@@ -369,7 +351,7 @@ DirectClient::DirectClient(Socket *s, ICQClient *client)
 #endif
 }
 
-DirectClient::DirectClient(unsigned long ip, unsigned long real_ip, unsigned short port, ICQUser *_u, ICQClient *client)
+DirectClient::DirectClient(unsigned long ip, unsigned long real_ip, unsigned short port, ICQUser *_u, ICQClientPrivate *client)
         : DirectSocket(ip, real_ip, port, _u, client)
 {
     u = _u;
@@ -449,7 +431,7 @@ void DirectClient::secureStop(
         ssl = NULL;
         if (client && u){
             ICQEvent e(EVENT_STATUS_CHANGED, u->Uin);
-            client->process_event(&e);
+            client->client->process_event(&e);
         }
     }
 #endif
@@ -595,7 +577,7 @@ void DirectClient::processPacket()
         }
         break;
     case TCP_CANCEL:
-        if (m) client->cancelMessage(m, false);
+        if (m) client->client->cancelMessage(m, false);
         break;
     case TCP_ACK:
         if (m){
@@ -612,7 +594,7 @@ void DirectClient::processPacket()
                 if (msg == NULL) continue;
                 if (msg->id2 == seq){
                     if (ackFlags){
-                        client->fromServer(msg_str, u);
+                        client->client->fromServer(msg_str, u);
                         switch (msg->Type()){
                         case ICQ_READxAWAYxMSG:
                         case ICQ_READxOCCUPIEDxMSG:
@@ -621,7 +603,7 @@ void DirectClient::processPacket()
                         case ICQ_READxFFCxMSG:{
                                 u->AutoReply = msg_str;
                                 ICQEvent eInfo(EVENT_INFO_CHANGED, uin, EVENT_SUBTYPE_AUTOREPLY);
-                                client->process_event(&eInfo);
+                                client->client->process_event(&eInfo);
                                 u->msgQueue.remove(e);
                                 delete e;
                                 delete msg;
@@ -630,7 +612,7 @@ void DirectClient::processPacket()
                         case ICQ_MSGxFILE:
                         case ICQ_MSGxCHAT:
                             msg->DeclineReason = msg_str;
-                            client->cancelMessage(msg, false);
+                            client->client->cancelMessage(msg, false);
                             return;
                         default:
                             break;
@@ -666,7 +648,7 @@ void DirectClient::processPacket()
                             ICQEvent eSend(EVENT_MESSAGE_SEND, msg->getUin());
                             eSend.setMessage(msg);
                             eSend.state = ICQEvent::Fail;
-                            client->process_event(&eSend);
+                            client->client->process_event(&eSend);
                             u->msgQueue.remove(e);
                             delete e;
                             delete msg;
@@ -679,7 +661,7 @@ void DirectClient::processPacket()
                         return;
                     default:
                         log(L_WARN, "Unknown accept message type");
-                        client->cancelMessage(msg, false);
+                        client->client->cancelMessage(msg, false);
                         return;
                     }
                     u->msgQueue.remove(e);
@@ -687,12 +669,12 @@ void DirectClient::processPacket()
                         client->processQueue.push_back(e);
                         ICQEvent eAck(EVENT_ACKED, msg->getUin());
                         eAck.setMessage(msg);
-                        client->process_event(&eAck);
+                        client->client->process_event(&eAck);
                     }else{
                         ICQEvent eSend(EVENT_MESSAGE_SEND, msg->getUin());
                         eSend.setMessage(msg);
                         eSend.state = ICQEvent::Success;
-                        client->process_event(&eSend);
+                        client->client->process_event(&eSend);
                     }
                     break;
                 }
@@ -710,7 +692,7 @@ void DirectClient::sendAutoResponse(ICQMessage *msg, string response)
     startPacket(TCP_ACK, msg->id1);
     sock->writeBuffer.pack(msg->Type());
     unsigned short status = 0;
-    switch (client->owner->uStatus & 0xFF){
+    switch (client->client->owner->uStatus & 0xFF){
     case ICQ_STATUS_AWAY:
         status = ICQ_TCPxACK_AWAY;
         break;
@@ -725,7 +707,7 @@ void DirectClient::sendAutoResponse(ICQMessage *msg, string response)
     }
     sock->writeBuffer.pack(status);
     sock->writeBuffer.pack((unsigned short)0);
-    client->toServer(response, u);
+    client->client->toServer(response, u);
     sock->writeBuffer << response;
     sock->writeBuffer << 0x00000000L << 0x00000000L;
     sendPacket();
@@ -740,12 +722,12 @@ void DirectClient::connect_ready()
     }
     if (state == SSLconnect){
         ICQEvent e(EVENT_STATUS_CHANGED, u->Uin);
-        client->process_event(&e);
+        client->client->process_event(&e);
         state = Logged;
         return;
     }
     if (m_bIncoming){
-        u = client->getUser(uin);
+        u = client->client->getUser(uin);
         if ((u == NULL) || u->inIgnore){
             log(L_WARN, "Connection from unknown user");
             sock->error_state(ErrorProtocol);
@@ -806,7 +788,7 @@ bool DirectClient::error_state(SocketError err)
             u->msgQueue.remove(e);
             e->state = ICQEvent::Fail;
             e->message()->bDelete = true;
-            client->process_event(e);
+            client->client->process_event(e);
             if (e->message()->bDelete) delete e->message();
             delete e;
         }
@@ -916,7 +898,7 @@ unsigned short DirectClient::sendMessage(ICQMessage *msg)
     case ICQ_MSGxCHAT:{
             ICQChat *chat = static_cast<ICQChat*>(msg);
             message = chat->Reason;
-            chat->id1 = client->owner->Port;
+            chat->id1 = client->client->owner->Port;
             break;
         }
     case ICQ_MSGxMSG:{
@@ -926,8 +908,8 @@ unsigned short DirectClient::sendMessage(ICQMessage *msg)
         }
     case ICQ_MSGxURL:{
             ICQUrl *url = static_cast<ICQUrl*>(msg);
-            message = client->clearHTML(url->Message.c_str());
-            client->toServer(message, u);
+            message = client->client->clearHTML(url->Message.c_str());
+            client->client->toServer(message, u);
             message += '\xFE';
             message += url->URL.c_str();
             bConvert = false;
@@ -947,7 +929,7 @@ unsigned short DirectClient::sendMessage(ICQMessage *msg)
                 message += u;
                 message += '\xFE';
                 string alias = contact->Alias;
-                client->toServer(alias, u);
+                client->client->toServer(alias, u);
                 message += alias.c_str();
             }
             message += '\xFE';
@@ -974,9 +956,9 @@ unsigned short DirectClient::sendMessage(ICQMessage *msg)
 
 // ____________________________________________________________________________________________
 
-FileTransferListener::FileTransferListener(ICQFile *_file, ICQClient *_client)
+FileTransferListener::FileTransferListener(ICQFile *_file, ICQClientPrivate *_client)
 {
-    sock = _client->createServerSocket();
+    sock = _client->factory->createServerSocket();
     sock->setNotify(this);
     file = _file;
     client = _client;
@@ -995,7 +977,7 @@ unsigned short FileTransferListener::port()
     return 0;
 }
 
-FileTransfer::FileTransfer(Socket *s, ICQClient *client, ICQFile *_file)
+FileTransfer::FileTransfer(Socket *s, ICQClientPrivate *client, ICQFile *_file)
         : DirectSocket(s, client)
 {
     state = WaitLogin;
@@ -1003,7 +985,7 @@ FileTransfer::FileTransfer(Socket *s, ICQClient *client, ICQFile *_file)
     init();
 }
 
-FileTransfer::FileTransfer(unsigned long ip, unsigned long real_ip, unsigned short port, ICQUser *u, ICQClient *client, ICQFile *_file)
+FileTransfer::FileTransfer(unsigned long ip, unsigned long real_ip, unsigned short port, ICQUser *u, ICQClientPrivate *client, ICQFile *_file)
         : DirectSocket(ip, real_ip, port, u, client)
 {
     state = None;
@@ -1029,7 +1011,7 @@ void FileTransfer::write_ready()
     log(L_DEBUG, "> %u %u %u %u", m_curFile, m_nFiles, m_curSize, m_fileSize);
     if (m_fileSize >= m_curSize){
         state = None;
-        client->closeFile(file);
+        client->client->closeFile(file);
         m_curFile++;
         if (m_curFile >= m_nFiles){
             file->ft = NULL;
@@ -1040,7 +1022,7 @@ void FileTransfer::write_ready()
                 client->processQueue.remove(e);
                 e->state = ICQEvent::Success;
                 e->setType(EVENT_DONE);
-                client->process_event(e);
+                client->client->process_event(e);
                 file->ft = NULL;
                 delete file;
                 delete e;
@@ -1071,7 +1053,7 @@ void FileTransfer::write_ready()
     if (tail > 2048) tail = 2048;
     startPacket(FT_DATA);
     unsigned long pos = sock->writeBuffer.writePos();
-    if (!client->readFile(file, sock->writeBuffer, tail)){
+    if (!client->client->readFile(file, sock->writeBuffer, tail)){
         log(L_WARN, "Error read file");
         sock->error_state(ErrorProtocol);
         return;
@@ -1089,7 +1071,7 @@ void FileTransfer::resume(int mode)
     if (mode == FT_SKIP){
         m_fileSize = m_curSize;
     }else{
-        if (!client->createFile(file, mode)){
+        if (!client->client->createFile(file, mode)){
             if (file->wait){
                 state = Wait;
                 return;
@@ -1122,8 +1104,8 @@ void FileTransfer::sendFileInfo()
     string s = curName;
     const char *p = strrchr(s.c_str(), '\\');
     if (p) s = p + 1;
-    ICQUser *u = client->getUser(file->getUin());
-    client->toServer(s, u);
+    ICQUser *u = client->client->getUser(file->getUin());
+    client->client->toServer(s, u);
     sock->writeBuffer << s << empty;
     sock->writeBuffer.pack(m_curSize);
     sock->writeBuffer.pack((unsigned long)0);
@@ -1158,7 +1140,7 @@ void FileTransfer::processPacket()
             startPacket(FT_INIT_ACK);
             sock->writeBuffer.pack(m_nSpeed);
             char b[12];
-            snprintf(b, sizeof(b), "%lu", client->owner->Uin);
+            snprintf(b, sizeof(b), "%lu", client->client->owner->Uin);
             string uin = b;
             sock->writeBuffer << uin;
             sendPacket();
@@ -1172,8 +1154,8 @@ void FileTransfer::processPacket()
             }
             sock->readBuffer.incReadPos(1);
             sock->readBuffer >> curName;
-            ICQUser *u = client->getUser(file->getUin());
-            client->fromServer(curName, u);
+            ICQUser *u = client->client->getUser(file->getUin());
+            client->client->fromServer(curName, u);
             string empty;
             sock->readBuffer >> empty;
             sock->readBuffer.unpack(m_curSize);
@@ -1195,7 +1177,14 @@ void FileTransfer::processPacket()
                 sock->readBuffer.unpack(curFile);
                 log(L_DEBUG, "Start send at %lu %lu", pos, curFile);
                 m_fileSize = pos;
-                if (!client->openFile(file) || !client->seekFile(file, pos)){
+                if (curFile - 1>= file->files.size()){
+                    log(L_WARN, "Bad index file");
+                    sock->error_state(ErrorProtocol);
+                    return;
+                }
+                file->ft->curName = file->files[curFile - 1].localName;
+
+                if (!client->client->openFile(file) || !client->client->seekFile(file, pos)){
                     log(L_WARN, "Can't open file");
                     sock->error_state(ErrorProtocol);
                     return;
@@ -1218,13 +1207,13 @@ void FileTransfer::processPacket()
             unsigned short size = sock->readBuffer.size() - sock->readBuffer.readPos();
             m_fileSize += size;
             m_totalSize += size;
-            if (!client->writeFile(file, sock->readBuffer)){
+            if (!client->client->writeFile(file, sock->readBuffer)){
                 log(L_WARN, "Error write file");
                 sock->error_state(ErrorProtocol);
                 return;
             }
             if (m_fileSize >= m_curSize){
-                client->closeFile(file);
+                client->client->closeFile(file);
                 m_curFile++;
                 m_fileSize = 0;
                 if (m_curFile >= m_nFiles){
@@ -1237,7 +1226,7 @@ void FileTransfer::processPacket()
                         client->processQueue.remove(e);
                         e->setType(EVENT_DONE);
                         e->state = ICQEvent::Success;
-                        client->process_event(e);
+                        client->client->process_event(e);
                         file->ft = NULL;
                         delete e;
                         delete file;
@@ -1267,7 +1256,7 @@ bool FileTransfer::error_state(SocketError err)
     state = None;
     if (file){
         file->ft = NULL;
-        client->cancelMessage(file);
+        client->client->cancelMessage(file);
     }
     return true;
 }
@@ -1292,7 +1281,7 @@ void FileTransfer::connect_ready()
         sock->writeBuffer.pack(file->Size);						// Total size
         sock->writeBuffer.pack(m_nSpeed);							// speed
         char b[12];
-        snprintf(b, sizeof(b), "%lu", client->owner->Uin);
+        snprintf(b, sizeof(b), "%lu", client->client->owner->Uin);
         string uin = b;
         sock->writeBuffer << uin;
         sendPacket();
@@ -1320,9 +1309,9 @@ void FileTransfer::sendPacket(bool dump)
 
 // ___________________________________________________________________________________________
 
-ChatListener::ChatListener(ICQChat *_chat, ICQClient *_client)
+ChatListener::ChatListener(ICQChat *_chat, ICQClientPrivate *_client)
 {
-    sock = _client->createServerSocket();
+    sock = _client->factory->createServerSocket();
     sock->setNotify(this);
     chat = _chat;
     client = _client;
@@ -1341,7 +1330,7 @@ unsigned short ChatListener::port()
     return 0;
 }
 
-ChatSocket::ChatSocket(Socket *s, ICQClient *client, ICQChat *_chat)
+ChatSocket::ChatSocket(Socket *s, ICQClientPrivate *client, ICQChat *_chat)
         : DirectSocket(s, client)
 {
     chat = _chat;
@@ -1349,7 +1338,7 @@ ChatSocket::ChatSocket(Socket *s, ICQClient *client, ICQChat *_chat)
     init();
 }
 
-ChatSocket::ChatSocket(unsigned long ip, unsigned long real_ip, unsigned short port, ICQUser *u, ICQClient *client, ICQChat *_chat)
+ChatSocket::ChatSocket(unsigned long ip, unsigned long real_ip, unsigned short port, ICQUser *u, ICQClientPrivate *client, ICQChat *_chat)
         : DirectSocket(ip, real_ip, port, u, client)
 {
     chat = _chat;
@@ -1397,9 +1386,9 @@ void ChatSocket::sendLine(const char *str)
                 sock->writeBuffer.pack((unsigned long)4);
                 sock->writeBuffer.pack(myFgColor);
             }
-            string s1 = client->clearHTML(s.c_str());
-            ICQUser *u = client->getUser(chat->getUin());
-            client->toServer(s1, u);
+            string s1 = client->client->clearHTML(s.c_str());
+            ICQUser *u = client->client->getUser(chat->getUin());
+            client->client->toServer(s1, u);
             sock->writeBuffer.pack(s1.c_str(), s1.size());
         }
         if (tag){
@@ -1477,11 +1466,11 @@ void ChatSocket::sendLine(const char *str)
 void ChatSocket::putText(string &s)
 {
     if (s.size() == 0) return;
-    ICQUser *u = client->getUser(chat->getUin());
-    client->fromServer(s, u);
+    ICQUser *u = client->client->getUser(chat->getUin());
+    client->client->fromServer(s, u);
     ICQEvent e(EVENT_CHAT, chat->getUin(), CHAT_TEXT, chat);
     e.text = s;
-    client->process_event(&e);
+    client->client->process_event(&e);
     s = "";
 }
 
@@ -1508,7 +1497,12 @@ void ChatSocket::packet_ready()
                 }
                 sock->readBuffer >> c;
                 unsigned long size;
-                sock->readBuffer.unpack(size);
+                sock->readBuffer >> size;
+                if (size >= 0x1000){
+                    log(L_WARN, "Bad size in escape packet %X", size);
+                    sock->error_state(ErrorProtocol);
+                    return;
+                }
                 if (sock->readBuffer.readPos() + size > sock->readBuffer.size()){
                     sock->readBuffer.incReadPos(-6);
                     return;
@@ -1531,19 +1525,19 @@ void ChatSocket::packet_ready()
                     break;
                 }
                 ICQEvent e(EVENT_CHAT, chat->getUin(), c, chat);
-                client->process_event(&e);
+                client->client->process_event(&e);
                 break;
             }
         case CHAT_BACKSPACE:{
                 putText(chatText);
                 ICQEvent e(EVENT_CHAT, chat->getUin(), CHAT_BACKSPACE, chat);
-                client->process_event(&e);
+                client->client->process_event(&e);
                 break;
             }
         case CHAT_NEWLINE:{
                 putText(chatText);
                 ICQEvent e(EVENT_CHAT, chat->getUin(), CHAT_NEWLINE, chat);
-                client->process_event(&e);
+                client->client->process_event(&e);
                 break;
             }
         default:
@@ -1563,15 +1557,15 @@ void ChatSocket::processPacket()
             sock->readBuffer.unpack(uin);
             startPacket();
             sock->writeBuffer.pack((unsigned long)0x65);
-            sock->writeBuffer.pack(client->owner->Uin);
-            string alias = client->owner->name();
+            sock->writeBuffer.pack(client->client->owner->Uin);
+            string alias = client->client->owner->name();
             sock->writeBuffer << alias;
             sock->writeBuffer.pack(fgColor);
             sock->writeBuffer.pack(bgColor);
             sock->writeBuffer.pack((unsigned long)version);
-            sock->writeBuffer.pack((unsigned long)(client->owner->Port));
-            sock->writeBuffer.pack(client->owner->RealIP);
-            sock->writeBuffer.pack(client->owner->IP);
+            sock->writeBuffer.pack((unsigned long)(client->client->owner->Port));
+            sock->writeBuffer.pack(client->client->owner->RealIP);
+            sock->writeBuffer.pack(client->client->owner->IP);
             sock->writeBuffer.pack((char)0x01);
             unsigned short session = rand();
             sock->writeBuffer.pack(session);
@@ -1594,7 +1588,7 @@ void ChatSocket::processPacket()
             sock->readBuffer.unpack(fontFamily);
             state = Connected;
             ICQEvent e(EVENT_CHAT, chat->getUin(), CHAT_CONNECT, chat);
-            client->process_event(&e);
+            client->client->process_event(&e);
             sock->setRaw(true);
             break;
         }
@@ -1658,9 +1652,9 @@ void ChatSocket::processPacket()
 
             startPacket();
             sock->writeBuffer.pack((unsigned long)version);
-            sock->writeBuffer.pack((unsigned long)(client->owner->Port));
-            sock->writeBuffer.pack(client->owner->RealIP);
-            sock->writeBuffer.pack(client->owner->IP);
+            sock->writeBuffer.pack((unsigned long)(client->client->owner->Port));
+            sock->writeBuffer.pack(client->client->owner->RealIP);
+            sock->writeBuffer.pack(client->client->owner->IP);
             sock->writeBuffer.pack((char)0x01);
             sock->writeBuffer.pack(session);
             sock->writeBuffer.pack(fontSize);
@@ -1670,7 +1664,7 @@ void ChatSocket::processPacket()
             sendPacket();
             state = Connected;
             ICQEvent e(EVENT_CHAT, chat->getUin(), CHAT_CONNECT, chat);
-            client->process_event(&e);
+            client->client->process_event(&e);
             sock->setRaw(true);
             break;
         }
@@ -1694,9 +1688,9 @@ void ChatSocket::connect_ready()
         startPacket();
         sock->writeBuffer.pack((unsigned long)0x64);
         sock->writeBuffer.pack((unsigned long)(-7));
-        sock->writeBuffer.pack(client->owner->Uin);
+        sock->writeBuffer.pack(client->client->owner->Uin);
         char b[12];
-        snprintf(b, sizeof(b), "%lu", client->owner->Uin);
+        snprintf(b, sizeof(b), "%lu", client->client->owner->Uin);
         string uin = b;
         sock->writeBuffer << uin;
         sock->writeBuffer.pack(client->listener->port());
@@ -1729,11 +1723,11 @@ bool ChatSocket::error_state(SocketError err)
         return false;
     ICQEvent e(EVENT_CHAT, chat->getUin(), CHAT_CONNECT, chat);
     e.state = ICQEvent::Fail;
-    client->process_event(&e);
+    client->client->process_event(&e);
     return false;
 }
 
-ICQEvent *ICQUser::addMessage(ICQMessage *msg, ICQClient *client)
+ICQEvent *ICQUser::addMessage(ICQMessage *msg, ICQClientPrivate *client)
 {
     list<ICQEvent*>::iterator it;
     for (it = msgQueue.begin(); it != msgQueue.end(); it++){
@@ -1747,7 +1741,7 @@ ICQEvent *ICQUser::addMessage(ICQMessage *msg, ICQClient *client)
     return e;
 }
 
-void ICQUser::processMsgQueue(ICQClient *client)
+void ICQUser::processMsgQueue(ICQClientPrivate *client)
 {
     list<ICQEvent*>::iterator it;
     for (it = msgQueue.begin(); it != msgQueue.end();){
@@ -1761,7 +1755,7 @@ void ICQUser::processMsgQueue(ICQClient *client)
                     ICQEvent *e = *it;
                     e->state = ICQEvent::Fail;
                     e->message()->bDelete = true;
-                    client->process_event(e);
+                    client->client->process_event(e);
                     if (e->message()->bDelete) delete e->message();
                     msgQueue.remove(e);
                     delete e;
@@ -1786,7 +1780,7 @@ void ICQUser::processMsgQueue(ICQClient *client)
         msgQueue.remove(e);
         e->state = ICQEvent::Fail;
         e->message()->bDelete = true;
-        client->process_event(e);
+        client->client->process_event(e);
         if (e->message()->bDelete) delete e->message();
         delete e;
         e = NULL;
@@ -1794,7 +1788,7 @@ void ICQUser::processMsgQueue(ICQClient *client)
     }
 }
 
-void ICQUser::requestSecureChannel(ICQClient *client)
+void ICQUser::requestSecureChannel(ICQClientPrivate *client)
 {
     if (direct && direct->isSecure())
         return;
@@ -1807,7 +1801,7 @@ void ICQUser::requestSecureChannel(ICQClient *client)
     addMessage(msg, client);
 }
 
-void ICQUser::closeSecureChannel(ICQClient *client)
+void ICQUser::closeSecureChannel(ICQClientPrivate *client)
 {
     if ((direct == NULL) || !direct->isSecure())
         return;
@@ -1819,3 +1813,4 @@ void ICQUser::closeSecureChannel(ICQClient *client)
     msg->Uin.push_back(Uin);
     addMessage(msg, client);
 }
+

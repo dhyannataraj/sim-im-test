@@ -403,7 +403,7 @@ void DockWnd::timer()
 {
     if (++m_state >= 4) m_state = 0;
     ShowIcon needIcon = State;
-    bool bBlinked = (pClient->m_state != ICQClient::Logoff) && (pClient->m_state != ICQClient::Logged);
+    bool bBlinked = pClient->isConnecting();
     unsigned short msgType = 0;
     if (pMain->messages.size()) msgType = pMain->messages.back().type();
     switch (m_state){
@@ -489,7 +489,7 @@ void DockWnd::reset()
         s = str.join("<br>");
 #endif
     }else{
-        if ((pClient->m_state == ICQClient::Logoff) || (pClient->m_state == ICQClient::Logged)){
+        if (pClient->isConnecting()){
             s = pClient->getStatusText();
         }else{
             s = i18n("Connecting");
