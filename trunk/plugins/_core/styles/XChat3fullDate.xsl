@@ -2,7 +2,7 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:output method="html"/>
 <xsl:template match="/message">
-<p>
+<div>
 <xsl:choose>
 <xsl:when test="@direction='2'">
 <font>
@@ -34,9 +34,12 @@
 </font>
 <xsl:text>&gt; </xsl:text>
 </span>
-<xsl:value-of disable-output-escaping="yes" select="body"/>
 </xsl:otherwise>
 </xsl:choose>
-</p>
+<span>
+<xsl:attribute name="style"><xsl:if test="body/@bgcolor">background-color:<xsl:value-of select="body/@bgcolor"/>;</xsl:if><xsl:if test="body/@fgcolor">color:<xsl:value-of select="body/@fgcolor"/>;</xsl:if></xsl:attribute>
+<xsl:value-of disable-output-escaping="yes" select="body"/>
+</span>
+</div>
 </xsl:template>
 </xsl:stylesheet>

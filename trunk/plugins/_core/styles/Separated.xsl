@@ -50,10 +50,11 @@
 </tr>
 <tr>
 <td colspan="3">
-<span>
-<xsl:if test="@unread='1'">
-<xsl:attribute name="style">font-weight:600</xsl:attribute>
+<xsl:if test="body/@bgcolor">
+<xsl:attribute name="bgcolor"><xsl:value-of select="body/@bgcolor"/></xsl:attribute>
 </xsl:if>
+<span>
+<xsl:attribute name="style"><xsl:if test="@unread='1'">font-weight:600;</xsl:if><xsl:if test="body/@fgcolor">color:<xsl:value-of select="body/@fgcolor"/>;</xsl:if></xsl:attribute>
 <xsl:value-of disable-output-escaping="yes" select="body"/>
 </span>
 </td>
