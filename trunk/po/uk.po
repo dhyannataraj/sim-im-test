@@ -23,7 +23,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
-"POT-Creation-Date: 2004-05-09 19:41+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-05-11 21:26+0200\n"
 "PO-Revision-Date: 2004-05-05 11:20+0300\n"
 "Last-Translator: Ivan Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team:  <ru@li.org>\n"
@@ -44,19 +45,6 @@ msgstr "Модуль вказує каталог, в якому будуть з�
 msgid "Set home directory"
 msgstr "Встановити домашній каталог"
 
-#: plugins/__homedir/homedircfgbase.cpp:121 plugins/_core/arcfgbase.cpp:137 plugins/_core/filecfgbase.cpp:145 plugins/_core/historycfgbase.cpp:225 plugins/_core/interfacecfgbase.cpp:153 plugins/_core/maininfobase.cpp:245 plugins/_core/msgcfgbase.cpp:114 plugins/_core/phonebase.cpp:144 plugins/_core/plugincfgbase.cpp:101 plugins/_core/prefcfgbase.cpp:96 plugins/_core/smscfgbase.cpp:95 plugins/_core/userhistorycfgbase.cpp:122 plugins/action/actioncfgbase.cpp:120 plugins/action/menucfgbase.cpp:126 plugins/autoaway/autoawaycfgbase.cpp:133 plugins/background/bkgndcfgbase.cpp:172 plugins/dock/dockcfgbase.cpp:122 plugins/filter/filtercfgbase.cpp:96 plugins/forward/forwardcfgbase.cpp:101 plugins/gpg/gpgadvbase.cpp:155 plugins/gpg/gpgcfgbase.cpp:160 plugins/gpg/gpguserbase.cpp:98 plugins/icons/iconcfgbase.cpp:135 plugins/icons/smilecfgbase.cpp:121 plugins/icq/advsearchbase.cc:276 plugins/icq/aimconfigbase.cc:174 plugins/icq/aiminfobase.cc:286 plugins/icq/aimsearchbase.cc:192 plugins/icq/homeinfobase.cc:174 plugins/icq/icqconfigbase.cc:293 plugins/icq/icqpicturebase.cc:133 plugins/icq/icqsearchbase.cc:184 plugins/icq/icqsecurebase.cc:165 plugins/icq/pastinfobase.cc:169 plugins/jabber/infoproxybase.cpp:86 plugins/jabber/jabberconfigbase.cpp:352 plugins/jabber/jabberinfobase.cpp:297 plugins/jabber/jabberpicturebase.cpp:133 plugins/jabber/jabberworkinfobase.cpp:119 plugins/jabber/jidadvsearchbase.cpp:94 plugins/jabber/jidsearchbase.cpp:133 plugins/livejournal/journalsearchbase.cpp:95 plugins/livejournal/livejournalcfgbase.cpp:207 plugins/livejournal/msgjournalbase.cpp:112 plugins/logger/logconfigbase.cpp:126 plugins/msn/msninfobase.cpp:160 plugins/msn/msnsearchbase.cpp:130 plugins/navigate/navcfgbase.cc:99 plugins/ontop/ontopcfgbase.cpp:88 plugins/osd/osdconfigbase.cpp:139 plugins/proxy/proxycfgbase.cpp:161 plugins/remote/remotecfgbase.cpp:134 plugins/replace/replacecfgbase.cpp:111 plugins/shortcuts/mousecfgbase.cpp:108 plugins/shortcuts/shortcutcfgbase.cpp:138 plugins/sound/soundconfigbase.cpp:155
-#: plugins/sound/sounduserbase.cpp:121 plugins/styles/fontconfigbase.cpp:158 plugins/styles/stylescfgbase.cpp:83 plugins/transparent/transparentcfgbase.cpp:101 plugins/weather/weathercfgbase.cpp:168 plugins/weather/wifacecfgbase.cpp:139 plugins/yahoo/yahooinfobase.cpp:178 plugins/yahoo/yahoosearchbase.cpp:156
-msgid "Form1"
-msgstr "Домашня"
-
-#: plugins/__homedir/homedircfgbase.cpp:122
-msgid "Use &default path"
-msgstr "Використовувати &шлях за замовчуванням"
-
-#: plugins/__homedir/homedircfgbase.cpp:123
-msgid "Path for config files:"
-msgstr "Шлях до файлів конфігурації:"
-
 #: plugins/__migrate/migrate.cpp:35
 msgid "Migrate"
 msgstr "Міграція"
@@ -70,37 +58,8 @@ msgid "Cancel convert?"
 msgstr "Скасувати перетворення?"
 
 #: plugins/__migrate/migratedlg.cpp:161 plugins/__migrate/migratedlg.cpp:165 plugins/__migrate/migratedlg.cpp:169 plugins/__migrate/migratedlg.cpp:234 plugins/__migrate/migratedlg.cpp:238 sim/api/message.cpp:601
-#, c-format
 msgid "Can't open %1"
 msgstr "Неможливо відкрити %1"
-
-#: plugins/__migrate/migratedlgbase.cpp:89
-msgid "Convert configuration from old version"
-msgstr "Перетворення конфігурації із старої версії"
-
-#: plugins/__migrate/migratedlgbase.cpp:90
-msgid "Directories for convert:"
-msgstr "Каталог для перетворення:"
-
-#: plugins/__migrate/migratedlgbase.cpp:91
-msgid "&Remove old files"
-msgstr "&Знищити застарілі файли"
-
-#: plugins/__migrate/migratedlgbase.cpp:92
-msgid ""
-"Note!\n"
-"If you select an option \" Remove old files \", you can not use the old version"
-msgstr ""
-"Примітка!\n"
-"Якщо ви ввімкнете опції \"Знищити застарілі файли\", ви не зможете використовувати стару версію SIM"
-
-#: plugins/__migrate/migratedlgbase.cpp:94
-msgid "Select directories for convert"
-msgstr "Вибір каталогів для перетворення"
-
-#: plugins/__migrate/migratedlgbase.cpp:96
-msgid "Convert configuration"
-msgstr "Перетворення конфігурації"
 
 #: plugins/_core/arcfg.cpp:96 plugins/_core/autoreply.cpp:111 plugins/weather/wifacecfg.cpp:113
 msgid "In text you can use:"
@@ -127,19 +86,19 @@ msgstr "Автовідповідь"
 msgid "Plugins"
 msgstr "Модулі"
 
-#: plugins/_core/cfgdlg.cpp:499 plugins/_core/cfgdlgbase.cpp:125 plugins/_core/toolsetupbase.cpp:134 plugins/jabber/discoinfobase.cpp:319 sim/api/simapi.cpp:468
+#: plugins/_core/cfgdlg.cpp:499 sim/api/simapi.cpp:468
 msgid "&Apply"
 msgstr "&Застосувати"
 
-#: plugins/_core/autoreplybase.cpp:122 plugins/_core/cfgdlg.cpp:500 plugins/_core/cfgdlgbase.cpp:126 plugins/_core/connectionsettingsbase.cpp:106 plugins/_core/declinedlgbase.cpp:82 plugins/_core/editmailbase.cpp:97 plugins/_core/editphonebase.cpp:143 plugins/_core/logindlgbase.cpp:132 plugins/_core/toolsetupbase.cpp:135 plugins/action/additembase.cpp:126 plugins/gpg/gpggenbase.cpp:140 plugins/gpg/passphrasebase.cpp:85 plugins/icq/encodingdlgbase.cc:86 plugins/icq/warndlgbase.cc:88 plugins/jabber/discoinfobase.cpp:320 plugins/proxy/proxyerrorbase.cpp:80 sim/api/simapi.cpp:467 sim/ui/qt3/i18n.cpp:174
+#: plugins/_core/cfgdlg.cpp:500 sim/api/simapi.cpp:467 sim/ui/qt3/i18n.cpp:174
 msgid "&OK"
 msgstr "&Гаразд"
 
-#: plugins/_core/autoreplybase.cpp:123 plugins/_core/cfgdlg.cpp:501 plugins/_core/cfgdlgbase.cpp:127 plugins/_core/connectionsettingsbase.cpp:107 plugins/_core/declinedlgbase.cpp:83 plugins/_core/editmailbase.cpp:98 plugins/_core/editphonebase.cpp:144 plugins/_core/filetransferbase.cpp:138 plugins/_core/logindlgbase.cpp:133 plugins/_core/search.cpp:131 plugins/action/additembase.cpp:127 plugins/gpg/gpggenbase.cpp:141 plugins/gpg/passphrasebase.cpp:86 plugins/icq/encodingdlgbase.cc:87 plugins/icq/icqclient.cpp:2399 plugins/icq/securedlgbase.cc:78 plugins/icq/warndlgbase.cc:89 plugins/proxy/proxyerrorbase.cpp:81 plugins/weather/weathercfg.cpp:80 sim/api/simapi.cpp:470 sim/ui/qt3/i18n.cpp:35
+#: plugins/_core/cfgdlg.cpp:501 plugins/_core/search.cpp:131 plugins/icq/icqclient.cpp:2399 plugins/weather/weathercfg.cpp:80 sim/api/simapi.cpp:470 sim/ui/qt3/i18n.cpp:35
 msgid "&Cancel"
 msgstr "&Скасувати"
 
-#: plugins/_core/cfgdlg.cpp:502 plugins/_core/cfgdlgbase.cpp:122 plugins/_core/core.cpp:531 plugins/_core/core.cpp:1131 plugins/_core/core.cpp:1213
+#: plugins/_core/cfgdlg.cpp:502 plugins/_core/core.cpp:531 plugins/_core/core.cpp:1131 plugins/_core/core.cpp:1213
 msgid "Setup"
 msgstr "Налаштування"
 
@@ -263,7 +222,7 @@ msgstr "&Інформація про користувача"
 msgid "&History"
 msgstr "Істо&рія"
 
-#: plugins/_core/core.cpp:636 plugins/_core/filetransfer.cpp:346 plugins/_core/managerbase.cpp:110 plugins/_core/toolsetupbase.cpp:136 plugins/about/aboutdlgbase.cpp:153 plugins/icq/securedlg.cpp:92 plugins/jabber/discoinfobase.cpp:321 sim/api/simapi.cpp:470 sim/ui/qt3/i18n.cpp:287
+#: plugins/_core/core.cpp:636 plugins/_core/filetransfer.cpp:346 plugins/icq/securedlg.cpp:92 sim/api/simapi.cpp:470 sim/ui/qt3/i18n.cpp:287
 msgid "&Close"
 msgstr "&Закрити"
 
@@ -275,7 +234,7 @@ msgstr "&Відіслати"
 msgid "&Insert smile"
 msgstr "&Вставити смайлик"
 
-#: plugins/_core/core.cpp:687 plugins/forward/forwardcfgbase.cpp:106
+#: plugins/_core/core.cpp:687
 msgid "Send in &translit"
 msgstr "Відправити в &трансліті"
 
@@ -343,7 +302,7 @@ msgstr "&Наступна сторінка"
 msgid "&Open message"
 msgstr "&Відкрити повідомлення"
 
-#: plugins/_core/core.cpp:882 plugins/_core/core.cpp:971 plugins/_core/historycfgbase.cpp:234 plugins/netmonitor/monitor.cpp:67 sim/ui/qt3/qtextedit.cpp:4238
+#: plugins/_core/core.cpp:882 plugins/_core/core.cpp:971 plugins/netmonitor/monitor.cpp:67 sim/ui/qt3/qtextedit.cpp:4238
 msgid "&Copy"
 msgstr "&Копіювати"
 
@@ -383,7 +342,7 @@ msgstr "&Вирізати"
 msgid "&Paste"
 msgstr "&Вставити"
 
-#: plugins/_core/core.cpp:985 sim/ui/editfile.cpp:315 sim/ui/editfile.cpp:398 sim/ui/qt3/i18n.cpp:255 sim/ui/qt3/qtextedit.cpp:4243
+#: plugins/_core/core.cpp:985 sim/ui/qt3/i18n.cpp:255 sim/ui/qt3/qtextedit.cpp:4243 sim/ui/editfile.cpp:315 sim/ui/editfile.cpp:398
 msgid "Clear"
 msgstr "Стерти"
 
@@ -403,7 +362,7 @@ msgstr "Перевірка орфографії"
 msgid "&Messages"
 msgstr "&Повідомлення"
 
-#: plugins/_core/core.cpp:1023 plugins/_core/msgedit.cpp:1678 plugins/sms/smssetupbase.cpp:184
+#: plugins/_core/core.cpp:1023 plugins/_core/msgedit.cpp:1678
 msgid "&SMS"
 msgstr "&SMS"
 
@@ -447,11 +406,11 @@ msgstr "Вверх"
 msgid "Down"
 msgstr "Вниз"
 
-#: plugins/_core/core.cpp:1173 plugins/_core/historycfgbase.cpp:235 sim/ui/qt3/i18n.cpp:97
+#: plugins/_core/core.cpp:1173 sim/ui/qt3/i18n.cpp:97
 msgid "&Rename"
 msgstr "&Перейменувати"
 
-#: plugins/_core/core.cpp:1182 plugins/_core/core.cpp:1329 plugins/_core/core.cpp:1342 plugins/_core/historycfgbase.cpp:236 plugins/_core/logindlgbase.cpp:129 plugins/_core/maininfobase.cpp:254 plugins/_core/maininfobase.cpp:264 plugins/action/menucfgbase.cpp:129 sim/ui/listview.cpp:38 sim/ui/qt3/i18n.cpp:99
+#: plugins/_core/core.cpp:1182 plugins/_core/core.cpp:1329 plugins/_core/core.cpp:1342 sim/ui/qt3/i18n.cpp:99 sim/ui/listview.cpp:38
 msgid "&Delete"
 msgstr "&Вилучити"
 
@@ -467,7 +426,7 @@ msgstr "В контейнер"
 msgid "&Location"
 msgstr "&Місцеперебування"
 
-#: plugins/_core/core.cpp:1253 plugins/icq/aiminfobase.cc:305 plugins/icq/icqinfobase.cc:352 plugins/jabber/jabberinfobase.cpp:309 plugins/msn/msninfobase.cpp:167 plugins/yahoo/yahooinfobase.cpp:187
+#: plugins/_core/core.cpp:1253
 msgid "&Status"
 msgstr "&Статус"
 
@@ -503,7 +462,7 @@ msgstr "Вибачте, я зараз зайнятий, але зможу від
 msgid "Enter a decline reason"
 msgstr "Ввести причину відмови"
 
-#: plugins/_core/core.cpp:1321 plugins/_core/core.cpp:1335 plugins/_core/maininfobase.cpp:253 plugins/_core/maininfobase.cpp:263 plugins/action/menucfgbase.cpp:128 plugins/netmonitor/monitor.cpp:69
+#: plugins/_core/core.cpp:1321 plugins/_core/core.cpp:1335 plugins/netmonitor/monitor.cpp:69
 msgid "&Edit"
 msgstr "&Редагувати"
 
@@ -519,7 +478,7 @@ msgstr "Змінити &кодування"
 msgid "Add to &group"
 msgstr "Додати в &групу"
 
-#: plugins/_core/core.cpp:1406 plugins/_core/maininfobase.cpp:250 plugins/jabber/discoinfo.cpp:179 plugins/jabber/discoinfobase.cpp:301 plugins/jabber/discoinfobase.cpp:318
+#: plugins/_core/core.cpp:1406 plugins/jabber/discoinfo.cpp:179
 msgid "&Info"
 msgstr "&Інформація"
 
@@ -596,7 +555,6 @@ msgid "&Separate"
 msgstr "&Відділити"
 
 #: plugins/_core/core.cpp:2441 plugins/_core/userwnd.cpp:134
-#, c-format
 msgid "from %1"
 msgstr "від %1"
 
@@ -616,7 +574,7 @@ msgstr "%1 від %2"
 msgid "Send SMS"
 msgstr "Надіслати SMS"
 
-#: plugins/_core/core.cpp:4137 plugins/_core/core.cpp:4159 plugins/_core/managerbase.cpp:103
+#: plugins/_core/core.cpp:4137 plugins/_core/core.cpp:4159
 msgid "Connection manager"
 msgstr "Менеджер з'єднань"
 
@@ -661,12 +619,10 @@ msgid "Edit phone number"
 msgstr "Редагувати телефон"
 
 #: plugins/_core/filetransfer.cpp:91
-#, c-format
 msgid "Bad path: %1"
 msgstr "Поганий шлях %1"
 
 #: plugins/_core/filetransfer.cpp:101 plugins/_core/filetransfer.cpp:161
-#, c-format
 msgid "Can't create: %1"
 msgstr "Не можу створити: %1"
 
@@ -691,12 +647,10 @@ msgid "File %1 exists"
 msgstr "Файл %1 існує"
 
 #: plugins/_core/filetransfer.cpp:210
-#, c-format
 msgid "Receive file from %1"
 msgstr "Прийом файлу від %1"
 
 #: plugins/_core/filetransfer.cpp:211
-#, c-format
 msgid "Send file to %1"
 msgstr "Передача файлу %1"
 
@@ -764,7 +718,7 @@ msgstr "Hi!"
 msgid "<b><font color=\"#FF0000\">C</font><font color=\"#FFFF00\">olored</font></b> message"
 msgstr "<b><font color=\"#FF0000\">К</font><font color=\"#FFFF00\">ольорове</font></b> повідомлення"
 
-#: plugins/_core/historycfg.cpp:675 plugins/_core/msgcfgbase.cpp:117
+#: plugins/_core/historycfg.cpp:675
 msgid "New message"
 msgstr "Нове повідомлення"
 
@@ -884,7 +838,7 @@ msgstr "Виберіть профіль"
 msgid "Other instance of SIM use this profile"
 msgstr "Інший екземпляр SIM використовує цей профіль"
 
-#: plugins/_core/logindlg.cpp:295 plugins/icq/aimconfigbase.cc:176 plugins/icq/icqconfigbase.cc:294 plugins/jabber/jabberconfigbase.cpp:353 plugins/livejournal/livejournalcfgbase.cpp:209 plugins/msn/msnconfigbase.cpp:229 plugins/proxy/proxycfgbase.cpp:166 plugins/yahoo/yahoocfgbase.cpp:235
+#: plugins/_core/logindlg.cpp:295
 msgid "Password:"
 msgstr "Пароль:"
 
@@ -920,7 +874,7 @@ msgstr "Приватний стільниковий"
 msgid "Wireless Pager"
 msgstr "Пейджер"
 
-#: plugins/_core/maininfo.cpp:71 plugins/filter/ignorelist.cpp:28 plugins/icq/icqsecure.cpp:93 plugins/jabber/jabbersearch.cpp:103 plugins/msn/msninfobase.cpp:161
+#: plugins/_core/maininfo.cpp:71 plugins/filter/ignorelist.cpp:28 plugins/icq/icqsecure.cpp:93 plugins/jabber/jabbersearch.cpp:103
 msgid "EMail"
 msgstr "EMail"
 
@@ -1076,7 +1030,7 @@ msgstr "Повідомлення буде розділено на частини
 msgid "Save phone in contact list"
 msgstr "Зберегти телефон в списку контактів"
 
-#: plugins/_core/search.cpp:47 plugins/_core/search.cpp:293 plugins/_core/search.cpp:628 plugins/_core/searchbase.cpp:154
+#: plugins/_core/search.cpp:47 plugins/_core/search.cpp:293 plugins/_core/search.cpp:628
 msgid "Search"
 msgstr "Пошук"
 
@@ -1084,11 +1038,11 @@ msgstr "Пошук"
 msgid "Results"
 msgstr "Результати"
 
-#: plugins/_core/maininfobase.cpp:252 plugins/_core/maininfobase.cpp:262 plugins/_core/search.cpp:134 plugins/action/menucfgbase.cpp:127
+#: plugins/_core/search.cpp:134
 msgid "&Add"
 msgstr "&Додати"
 
-#: plugins/_core/search.cpp:137 plugins/jabber/jabber.cpp:305 plugins/weather/weathercfg.cpp:74 plugins/weather/weathercfg.cpp:96 plugins/weather/weathercfgbase.cpp:170
+#: plugins/_core/search.cpp:137 plugins/jabber/jabber.cpp:305 plugins/weather/weathercfg.cpp:74 plugins/weather/weathercfg.cpp:96
 msgid "&Search"
 msgstr "&Пошук"
 
@@ -1096,7 +1050,7 @@ msgstr "&Пошук"
 msgid "All networks"
 msgstr "Всі з'єднання"
 
-#: plugins/_core/nonimbase.cpp:125 plugins/_core/search.cpp:215
+#: plugins/_core/search.cpp:215
 msgid "Non-IM contact"
 msgstr "Додати зовнішній контакт"
 
@@ -1121,7 +1075,7 @@ msgstr "Нема контактів для передачі"
 msgid "Inactive"
 msgstr "Неактивний"
 
-#: plugins/_core/connectwndbase.cpp:158 plugins/_core/status.cpp:99 plugins/_core/statuswnd.cpp:56
+#: plugins/_core/status.cpp:99 plugins/_core/statuswnd.cpp:56
 msgid "Connecting"
 msgstr "З'єднання"
 
@@ -1169,11 +1123,11 @@ msgstr "[Поновлення інформації]"
 msgid "Settings"
 msgstr "Параметри"
 
-#: plugins/_core/userlist.cpp:633 plugins/icq/icq.cpp:95 plugins/icq/icq.cpp:265 plugins/icq/icqclient.cpp:1450 plugins/icq/icqclient.cpp:1484 plugins/jabber/jabber.cpp:86 plugins/jabber/jabberclient.cpp:1313 plugins/livejournal/livejournal.cpp:319 plugins/msn/msn.cpp:86 plugins/msn/msnclient.cpp:1849 plugins/osd/osdconfigbase.cpp:142 plugins/sms/sms.cpp:229 plugins/yahoo/yahoo.cpp:104 plugins/yahoo/yahooclient.cpp:1387
+#: plugins/_core/userlist.cpp:633 plugins/icq/icq.cpp:95 plugins/icq/icq.cpp:265 plugins/icq/icqclient.cpp:1450 plugins/icq/icqclient.cpp:1484 plugins/jabber/jabber.cpp:86 plugins/jabber/jabberclient.cpp:1313 plugins/livejournal/livejournal.cpp:319 plugins/msn/msn.cpp:86 plugins/msn/msnclient.cpp:1849 plugins/sms/sms.cpp:229 plugins/yahoo/yahoo.cpp:104 plugins/yahoo/yahooclient.cpp:1387
 msgid "Online"
 msgstr "В мережі"
 
-#: plugins/_core/userlist.cpp:636 plugins/_core/userviewcfgbase.cpp:325 plugins/icq/icq.cpp:185 plugins/icq/icq.cpp:295 plugins/icq/icqclient.cpp:1447 plugins/jabber/jabber.cpp:161 plugins/jabber/jabberclient.cpp:1268 plugins/livejournal/livejournal.cpp:334 plugins/msn/msn.cpp:191 plugins/osd/osdconfigbase.cpp:148 plugins/sms/sms.cpp:244 plugins/yahoo/yahoo.cpp:164
+#: plugins/_core/userlist.cpp:636 plugins/icq/icq.cpp:185 plugins/icq/icq.cpp:295 plugins/icq/icqclient.cpp:1447 plugins/jabber/jabber.cpp:161 plugins/jabber/jabberclient.cpp:1268 plugins/livejournal/livejournal.cpp:334 plugins/msn/msn.cpp:191 plugins/sms/sms.cpp:244 plugins/yahoo/yahoo.cpp:164
 msgid "Offline"
 msgstr "Вимкнений"
 
@@ -1194,7 +1148,6 @@ msgid "&Groups"
 msgstr "&Групи"
 
 #: plugins/_core/userview.cpp:1042
-#, c-format
 msgid "Search: %1"
 msgstr "Пошук: %1"
 
@@ -1211,539 +1164,10 @@ msgid "Contact name"
 msgstr "Ім'я контакту"
 
 #: plugins/_core/userwnd.cpp:132
-#, c-format
 msgid "to %1"
 msgstr "для %1"
 
-#: plugins/_core/cfgdlgbase.cpp:124
-msgid "&Update"
-msgstr "&Поновити"
-
-#: plugins/_core/plugincfgbase.cpp:102
-msgid "Plugin &enabled"
-msgstr "Модуль &увімкнений"
-
-#: plugins/_core/arcfgbase.cpp:138 plugins/_core/prefcfgbase.cpp:97
-msgid "&Override global settings"
-msgstr "&Замістити глобальні параметри"
-
-#: plugins/_core/toolsetupbase.cpp:123
-msgid "Toolbar setup"
-msgstr "Налаштування панелі інструментів"
-
-#: plugins/_core/toolsetupbase.cpp:124
-msgid "All buttons:"
-msgstr "Всі кнопки:"
-
-#: plugins/_core/toolsetupbase.cpp:126 plugins/_core/toolsetupbase.cpp:131
-msgid "New Item"
-msgstr "1"
-
-#: plugins/_core/toolsetupbase.cpp:127
-msgid "&Add ->"
-msgstr "&Додати ->"
-
-#: plugins/_core/toolsetupbase.cpp:128
-msgid "<- &Remove"
-msgstr "<- &Видалити"
-
-#: plugins/_core/toolsetupbase.cpp:129
-msgid "Active:"
-msgstr "Активні:"
-
-#: plugins/_core/managerbase.cpp:105 plugins/_core/toolsetupbase.cpp:132
-msgid "&Up"
-msgstr "&Вверх"
-
-#: plugins/_core/managerbase.cpp:107 plugins/_core/toolsetupbase.cpp:133
-msgid "&Down"
-msgstr "&Вниз"
-
-#: plugins/_core/interfacecfgbase.cpp:154 plugins/icq/advsearchbase.cc:278
-msgid "Language:"
-msgstr "Мова:"
-
-#: plugins/_core/interfacecfgbase.cpp:155
-msgid "Message window"
-msgstr "Вікно повідомлення"
-
-#: plugins/_core/interfacecfgbase.cpp:156
-msgid "&Simple mode"
-msgstr "&Простий режим"
-
-#: plugins/_core/interfacecfgbase.cpp:157
-msgid "&Chat mode"
-msgstr "Режим &чату"
-
-#: plugins/_core/interfacecfgbase.cpp:158
-msgid "&Using last selected font"
-msgstr "&Використовувати останній вибраний шрифт"
-
-#: plugins/_core/interfacecfgbase.cpp:159
-msgid "Container mode"
-msgstr "Режим контейнерів"
-
-#: plugins/_core/interfacecfgbase.cpp:160
-msgid "Open each contact in &new container"
-msgstr "&Кожен контакт в новому контейнері"
-
-#: plugins/_core/interfacecfgbase.cpp:161
-msgid "Open one container for &group"
-msgstr "Відкрити контейнер для &групи"
-
-#: plugins/_core/interfacecfgbase.cpp:162
-msgid "Open all contacts in &one container"
-msgstr "Відкривати всі контакти в &одному контейнері"
-
-#: plugins/_core/interfacecfgbase.cpp:163
-msgid "Use \"&Enter\" for send message"
-msgstr "Використовувати \"&Enter\" для відсилання повідомлень"
-
-#: plugins/_core/interfacecfgbase.cpp:166
-msgid "Start SIM on every &windows startup"
-msgstr "Запускати SIM при старті &Windows"
-
-#: plugins/_core/nonimbase.cpp:124 plugins/_core/pagerbase.cpp:118 plugins/_core/userviewcfgbase.cpp:306 plugins/filter/ignorelistbase.cpp:113 plugins/icq/interestsinfobase.cc:139 plugins/icq/workinfobase.cc:209 plugins/jabber/jabberhomeinfobase.cpp:135 plugins/msn/msnconfigbase.cpp:227 plugins/osd/osdifacebase.cpp:187 plugins/yahoo/yahoocfgbase.cpp:233
-msgid "Form2"
-msgstr "Про роботу"
-
-#: plugins/_core/userviewcfgbase.cpp:307
-msgid "Sorting"
-msgstr "Сортування"
-
-#: plugins/_core/userviewcfgbase.cpp:308
-msgid "1st:"
-msgstr "Перший:"
-
-#: plugins/_core/userviewcfgbase.cpp:309
-msgid "2nd:"
-msgstr "Другий:"
-
-#: plugins/_core/userviewcfgbase.cpp:310
-msgid "3rd:"
-msgstr "Третій:"
-
-#: plugins/_core/userviewcfgbase.cpp:314
-msgid "Awaiting authorization"
-msgstr "Очікує авторизації"
-
-#: plugins/_core/userviewcfgbase.cpp:318
-msgid "Visible"
-msgstr "Видимий"
-
-#: plugins/_core/userviewcfgbase.cpp:322 plugins/icq/icqclient.cpp:1434
-msgid "Invisible"
-msgstr "Невидимий"
-
-#: plugins/_core/userviewcfgbase.cpp:323
-msgid "Groups"
-msgstr "Групи"
-
-#: plugins/_core/userviewcfgbase.cpp:324
-msgid "Do not distrub"
-msgstr "Не турбувати"
-
-#: plugins/_core/userviewcfgbase.cpp:326 plugins/icq/aiminfobase.cc:299 plugins/icq/icqinfobase.cc:347 plugins/jabber/jabberinfobase.cpp:307 plugins/msn/msninfobase.cpp:165 plugins/yahoo/yahooinfobase.cpp:185
-msgid "Online:"
-msgstr "В мережі:"
-
-#: plugins/_core/userviewcfgbase.cpp:327 plugins/icq/icq.cpp:110 plugins/icq/icq.cpp:280 plugins/icq/icqclient.cpp:1453 plugins/jabber/jabber.cpp:101 plugins/msn/msn.cpp:101 plugins/osd/osdconfigbase.cpp:143 plugins/yahoo/yahoo.cpp:119
-msgid "Away"
-msgstr "Відійшов"
-
-#: plugins/_core/userviewcfgbase.cpp:328 plugins/icq/icq.cpp:125 plugins/jabber/jabber.cpp:116 plugins/msn/msn.cpp:116 plugins/osd/osdconfigbase.cpp:144 plugins/yahoo/yahoo.cpp:134
-msgid "N/A"
-msgstr "Неактивний"
-
-#: plugins/_core/userviewcfgbase.cpp:329
-msgid "Colors:"
-msgstr "Кольори:"
-
-#: plugins/_core/userviewcfgbase.cpp:330
-msgid "Use &double click"
-msgstr "Використовувати по&двійне клацання"
-
-#: plugins/_core/userviewcfgbase.cpp:331 plugins/styles/fontconfigbase.cpp:163
-msgid "Use system &colors"
-msgstr "Використовувати &кольори системи"
-
-#: plugins/_core/userviewcfgbase.cpp:332
-msgid "Use small &font for group"
-msgstr "Використовувати дрібний &шрифт для групи"
-
-#: plugins/_core/userviewcfgbase.cpp:333
-msgid "Show group &separator"
-msgstr "Показувати &розподілювач груп"
-
-#: plugins/_core/historycfgbase.cpp:226
-msgid "Use &own colors and fonts settings"
-msgstr "Використовувати &власні кольори і шрифти"
-
-#: plugins/_core/historycfgbase.cpp:227
-msgid "Use emotional &icons"
-msgstr "Використовувати &смайлики"
-
-#: plugins/_core/historycfgbase.cpp:228 plugins/_core/userhistorycfgbase.cpp:125
-msgid "Max history file size"
-msgstr "Максимальний розмір файлу історії"
-
-#: plugins/_core/historycfgbase.cpp:230 plugins/_core/userhistorycfgbase.cpp:123
-msgid "Mb"
-msgstr "Mb"
-
-#: plugins/_core/historycfgbase.cpp:232 plugins/_core/userhistorycfgbase.cpp:127
-msgid "Keep history "
-msgstr "Зберегти історію"
-
-#: plugins/_core/historycfgbase.cpp:233 plugins/_core/userhistorycfgbase.cpp:126
-msgid "days"
-msgstr "днів"
-
-#: plugins/_core/historycfgbase.cpp:239
-msgid "100"
-msgstr "100"
-
-#: plugins/_core/historycfgbase.cpp:240
-msgid "50"
-msgstr "50"
-
-#: plugins/_core/historycfgbase.cpp:241
-msgid "20"
-msgstr "20"
-
-#: plugins/_core/historycfgbase.cpp:243
-msgid "&Preview"
-msgstr "&Перегляд"
-
-#: plugins/_core/historycfgbase.cpp:244
-msgid "&Source"
-msgstr "&Джерело"
-
-#: plugins/_core/maininfobase.cpp:246 plugins/_core/nonimbase.cpp:126 plugins/icq/aiminfobase.cc:287 plugins/icq/icqinfobase.cc:343 plugins/jabber/discoinfobase.cpp:314 plugins/jabber/jabberinfobase.cpp:299 plugins/yahoo/yahooinfobase.cpp:181
-msgid "First name:"
-msgstr "Ім'я:"
-
-#: plugins/_core/maininfobase.cpp:247 plugins/_core/nonimbase.cpp:127 plugins/icq/aiminfobase.cc:288 plugins/yahoo/yahooinfobase.cpp:182
-msgid "Last name:"
-msgstr "Прізвище:"
-
-#: plugins/_core/maininfobase.cpp:248
-msgid "Display:"
-msgstr "Відображати:"
-
-#: plugins/_core/maininfobase.cpp:249
-msgid "Encoding:"
-msgstr "Кодування:"
-
-#: plugins/_core/maininfobase.cpp:251
-msgid "Email addresses:"
-msgstr "Email адреси:"
-
-#: plugins/_core/maininfobase.cpp:255
-msgid ""
-"Note:\n"
-"You can change only those addresses which have entered.\n"
-"It is impossible to change addresses which were received from the user."
-msgstr ""
-"Примітка:\n"
-"Ви можете вносити зміни тільки в адреси введені Вами.\n"
-"Неможливо змінити адреси якщо вони отримані від користувача."
-
-#: plugins/_core/maininfobase.cpp:258
-msgid "&Mails"
-msgstr "&Пошта"
-
-#: plugins/_core/maininfobase.cpp:259
-msgid "Phones:"
-msgstr "Телефони:"
-
-#: plugins/_core/maininfobase.cpp:261
-msgid "Phone Status:"
-msgstr "Телефонний статус:"
-
-#: plugins/_core/maininfobase.cpp:265
-msgid ""
-"Note:\n"
-"You can change only those numbers which have entered.\n"
-"It is impossible to change numbers which were received from the user."
-msgstr ""
-"Примітка:\n"
-"Ви можете вносити зміни тільки в номери введені Вами.\n"
-"Неможливо змінити номери якщо вони отримані від користувача."
-
-#: plugins/_core/maininfobase.cpp:268
-msgid "&Phones"
-msgstr "&Телефони"
-
-#: plugins/_core/maininfobase.cpp:269
-msgid "&Notes"
-msgstr "&Нотатки"
-
-#: plugins/_core/editmailbase.cpp:94
-msgid "EditMail"
-msgstr "Редагувати адресу"
-
-#: plugins/_core/editmailbase.cpp:95
-msgid "Enter Email address:"
-msgstr "Введіть email:"
-
-#: plugins/_core/editmailbase.cpp:96 plugins/_core/editphonebase.cpp:142
-msgid "&Publish"
-msgstr "&Публічний"
-
-#: plugins/_core/editphonebase.cpp:139
-msgid "EditPhone"
-msgstr "Редагувати телефон:"
-
-#: plugins/_core/editphonebase.cpp:140
-msgid "Number details:"
-msgstr "Номер:"
-
-#: plugins/_core/editphonebase.cpp:141 plugins/jabber/discoinfobase.cpp:299
-msgid "Type:"
-msgstr "Тип:"
-
-#: plugins/_core/phonebase.cpp:145
-msgid "Area code:"
-msgstr "Код міста:"
-
-#: plugins/_core/phonebase.cpp:146
-msgid "Extension:"
-msgstr "Додатковий:"
-
-#: plugins/_core/phonebase.cpp:147 plugins/_core/phonebase.cpp:149 plugins/_core/phonebase.cpp:151 plugins/icq/icqconfigbase.cc:303 plugins/jabber/jabberconfigbase.cpp:362 plugins/msn/msnconfigbase.cpp:234 plugins/yahoo/yahoocfgbase.cpp:242
-msgid "-"
-msgstr "-"
-
-#: plugins/_core/pagerbase.cpp:121 plugins/_core/phonebase.cpp:148
-msgid "Number:"
-msgstr "Номер:"
-
-#: plugins/_core/phonebase.cpp:150 plugins/icq/advsearchbase.cc:281 plugins/icq/aiminfobase.cc:296 plugins/icq/aimsearchbase.cc:200 plugins/icq/homeinfobase.cc:177 plugins/icq/workinfobase.cc:214 plugins/jabber/jabberhomeinfobase.cpp:138
-msgid "Country:"
-msgstr "Країна:"
-
-#: plugins/_core/pagerbase.cpp:119
-msgid "Provider:"
-msgstr "Провайдер:"
-
-#: plugins/_core/pagerbase.cpp:120
-msgid "Email gateway:"
-msgstr "Email шлюз:"
-
-#: plugins/_core/searchbase.cpp:155
-msgid "&Add to list"
-msgstr "&Додати в список"
-
-#: plugins/_core/searchbase.cpp:157
-msgid "More &options"
-msgstr "&Додатково"
-
-#: plugins/_core/searchbase.cpp:158
-msgid "&New search"
-msgstr "&Новий пошук"
-
-#: plugins/_core/searchallbase.cpp:142 plugins/icq/aboutinfobase.cc:124 plugins/jabber/jabberaboutinfobase.cpp:87
-msgid "Form4"
-msgstr "Про себе"
-
-#: plugins/_core/searchallbase.cpp:143 plugins/icq/icqsearchbase.cc:187 plugins/jabber/jabberaddbase.cpp:154
-msgid "&E-Mail"
-msgstr "&E-Mail"
-
-#: plugins/_core/searchallbase.cpp:144 plugins/icq/icqsearchbase.cc:188 plugins/jabber/jabberaddbase.cpp:155 plugins/yahoo/yahoosearchbase.cpp:158
-msgid "&Name"
-msgstr "&Ім'я"
-
-#: plugins/_core/searchallbase.cpp:145 plugins/icq/aimsearchbase.cc:194 plugins/icq/icqsearchbase.cc:189 plugins/jabber/jabberaddbase.cpp:156
-msgid "First:"
-msgstr "Ім'я:"
-
-#: plugins/_core/searchallbase.cpp:146 plugins/icq/aimsearchbase.cc:195 plugins/icq/icqsearchbase.cc:190 plugins/jabber/jabberaddbase.cpp:157
-msgid "Last:"
-msgstr "Прізвище:"
-
-#: plugins/_core/searchallbase.cpp:147 plugins/icq/aiminfobase.cc:291 plugins/icq/aimsearchbase.cc:198 plugins/icq/icqinfobase.cc:342 plugins/icq/icqsearchbase.cc:191 plugins/jabber/discoinfobase.cpp:311 plugins/jabber/jabberinfobase.cpp:300 plugins/msn/msninfobase.cpp:162 plugins/yahoo/yahooinfobase.cpp:179
-msgid "Nick:"
-msgstr "Псевдонім:"
-
-#: plugins/_core/nonimbase.cpp:128 plugins/jabber/jabberaddbase.cpp:158
-msgid "Nickname:"
-msgstr "Псевдонім:"
-
-#: plugins/_core/nonimbase.cpp:129
-msgid "E-Mail address:"
-msgstr "Поштова адреса:"
-
-#: plugins/_core/nonimbase.cpp:130 plugins/jabber/discoinfobase.cpp:317
-msgid "Phone:"
-msgstr "Телефон:"
-
-#: plugins/_core/autoreplybase.cpp:118 plugins/_core/connectionsettingsbase.cpp:105
-msgid "MyDialog"
-msgstr "Мій діалог"
-
-#: plugins/_core/connectwndbase.cpp:157 plugins/icq/moreinfobase.cc:211
-msgid "Form3"
-msgstr "Додаткова інформація"
-
-#: plugins/_core/connectwndbase.cpp:160
-msgid "Complete"
-msgstr "Виконано"
-
-#: plugins/_core/connectwndbase.cpp:161
-msgid ""
-"If you want to add connection press button \" Next\".\n"
-"You can add connection later using connection manager"
-msgstr ""
-"Якщо Ви хочете добавити з'єднання натисніть кнопку \"Далі\"\n"
-"Ви можете додати з'єднання пізніше використовуючи менеджер з'єднань"
-
-#: plugins/_core/logindlgbase.cpp:124
-msgid "Login"
-msgstr "Реєстрація"
-
-#: plugins/_core/logindlgbase.cpp:126
-msgid "Passwords:"
-msgstr "Паролі:"
-
-#: plugins/_core/logindlgbase.cpp:128
-msgid "Profile:"
-msgstr "Профіль:"
-
-#: plugins/_core/logindlgbase.cpp:130
-msgid "&Save password"
-msgstr "&Зберегти пароль"
-
-#: plugins/_core/logindlgbase.cpp:131
-msgid "&Do not show this window on startup"
-msgstr "&Не показувати це вікно при старті"
-
-#: plugins/_core/managerbase.cpp:46 plugins/_core/managerbase.cpp:106
-msgid "Connection"
-msgstr "З'єднання"
-
-#: plugins/_core/managerbase.cpp:104
-msgid "&Configure"
-msgstr "&Конфігурація"
-
-#: plugins/_core/managerbase.cpp:108
-msgid "&Remove"
-msgstr "&Вилучити"
-
-#: plugins/_core/managerbase.cpp:109
-msgid "&New connection"
-msgstr "&Нове з'єднання"
-
-#: plugins/_core/newprotocolbase.cpp:67
-msgid "New connection"
-msgstr "Нове з'єднання"
-
-#: plugins/_core/newprotocolbase.cpp:68
-msgid "Protocol:"
-msgstr "Протокол:"
-
-#: plugins/_core/newprotocolbase.cpp:69
-msgid "Select protocol"
-msgstr "Виберіть протокол"
-
-#: plugins/_core/autoreplybase.cpp:119
-msgid "Don't show this dialog"
-msgstr "Більше не показувати цей діалог"
-
-#: plugins/_core/arcfgbase.cpp:139 plugins/_core/autoreplybase.cpp:120 plugins/action/actioncfgbase.cpp:121 plugins/action/additembase.cpp:125 plugins/weather/wifacecfgbase.cpp:143 sim/api/simapi.cpp:473
-msgid "&Help"
-msgstr "&Допомога"
-
-#: plugins/_core/msgcfgbase.cpp:115
-msgid "Save &status changes to history"
-msgstr "Зберігати зміни &статусу в історії"
-
-#: plugins/_core/msgcfgbase.cpp:116
-msgid "Open window if user go online"
-msgstr "Відкрити вікно якщо користувач появився в мережі"
-
-#: plugins/_core/msgcfgbase.cpp:118
-msgid "&No open"
-msgstr "&Не відкривати"
-
-#: plugins/_core/msgcfgbase.cpp:119
-msgid "Open and &minimize"
-msgstr "Відкрити і &мінімізувати"
-
-#: plugins/_core/msgcfgbase.cpp:120
-msgid "Open and &raise"
-msgstr "Відкрити і &активізувати"
-
-#: plugins/_core/filecfgbase.cpp:146
-msgid "Path for incoming files:"
-msgstr "Каталог для прийому файлів:"
-
-#: plugins/_core/filecfgbase.cpp:147
-msgid "Accept mode"
-msgstr "Дозволений режим"
-
-#: plugins/_core/filecfgbase.cpp:148
-msgid "Show response"
-msgstr "Показувати запит"
-
-#: plugins/_core/filecfgbase.cpp:149
-msgid "Auto accept"
-msgstr "Автоматичний прийом"
-
-#: plugins/_core/filecfgbase.cpp:150
-msgid "Overwrite files"
-msgstr "Переписувати файли"
-
-#: plugins/_core/filecfgbase.cpp:151
-msgid "Auto decline"
-msgstr "Автоматична відмова"
-
-#: plugins/_core/smscfgbase.cpp:96
-msgid "Text before cursor:"
-msgstr "Текст перед курсором:"
-
-#: plugins/_core/smscfgbase.cpp:97
-msgid "Text after cursor:"
-msgstr "Текст після курсора:"
-
-#: plugins/_core/arcfgbase.cpp:140
-msgid "Don't show autoreply dialog"
-msgstr "Не показувати діалог автовідповіді"
-
-#: plugins/_core/filetransferbase.cpp:131
-msgid "File transfer"
-msgstr "Передача файлу"
-
-#: plugins/_core/filetransferbase.cpp:133
-msgid "Time:"
-msgstr "Час:"
-
-#: plugins/_core/filetransferbase.cpp:134
-msgid "Estimated time:"
-msgstr "Час що залишився:"
-
-#: plugins/_core/filetransferbase.cpp:135
-msgid "Speed:"
-msgstr "Швидкість:"
-
-#: plugins/_core/filetransferbase.cpp:136
-msgid "&Go to dir"
-msgstr "&Перейти в папку"
-
-#: plugins/_core/filetransferbase.cpp:137
-msgid "Close after &transfer"
-msgstr "Закрити після &відсилання"
-
-#: plugins/_core/declinedlgbase.cpp:80
-msgid "Decline reason"
-msgstr "Причина відмови"
-
-#: plugins/_core/declinedlgbase.cpp:81
-msgid "Enter decline reason:"
-msgstr "Ввести причину відмови:"
-
-#: plugins/about/about.cpp:38 plugins/about/aboutdlgbase.cpp:149
+#: plugins/about/about.cpp:38
 msgid "About"
 msgstr "Про"
 
@@ -1786,22 +1210,6 @@ msgstr "Звіт про помилки"
 #: plugins/about/aboutdlg.cpp:52
 msgid "Note: This is english mailing list"
 msgstr "Увага: Це англомовний список розсилки, прохання писати тільки англійською<br> Російською про помилки повідомляйте сюди:<br> <a href=\"mailto:sim-icq-russian@lists.sourceforge.net\">sim-icq-russian@lists.sourceforge.net</a>"
-
-#: plugins/about/aboutdlgbase.cpp:148
-msgid "About SIM"
-msgstr "Про SIM"
-
-#: plugins/about/aboutdlgbase.cpp:150
-msgid "Authors"
-msgstr "Автори"
-
-#: plugins/about/aboutdlgbase.cpp:151
-msgid "Translation"
-msgstr "Переклад"
-
-#: plugins/about/aboutdlgbase.cpp:152
-msgid "License"
-msgstr "Ліцензія"
 
 #: plugins/action/action.cpp:33
 msgid "Action"
@@ -1851,18 +1259,6 @@ msgstr ""
 msgid "Item"
 msgstr "Елемент меню"
 
-#: plugins/action/additembase.cpp:122
-msgid "Add Item"
-msgstr "Добавити елемент меню"
-
-#: plugins/action/additembase.cpp:123
-msgid "Item:"
-msgstr "Елемент меню:"
-
-#: plugins/action/additembase.cpp:124
-msgid "Program:"
-msgstr "Програма:"
-
 #: plugins/autoaway/autoaway.cpp:66
 msgid "AutoAway"
 msgstr "Автостатус"
@@ -1870,34 +1266,6 @@ msgstr "Автостатус"
 #: plugins/autoaway/autoaway.cpp:67
 msgid "Plugin provides set away and N/A status after some idle time"
 msgstr "Модуль забезпечує автоматичне перемикання в стан \"Відійшов\" і \"Неактивний\" при невикористанні комп'ютера"
-
-#: plugins/autoaway/autoawaycfgbase.cpp:134
-msgid "Set \"Away\" status after"
-msgstr "Встановити статус \"Відійшов\" через"
-
-#: plugins/autoaway/autoawaycfgbase.cpp:135
-msgid "minutes not using computer"
-msgstr "хвилин невикористання комп'ютера"
-
-#: plugins/autoaway/autoawaycfgbase.cpp:136
-msgid "minutes of \"Away\""
-msgstr "хвилин після \"Відійшов\""
-
-#: plugins/autoaway/autoawaycfgbase.cpp:137
-msgid "minutes of \"N/A\""
-msgstr "хвилин після \"Неактивний\""
-
-#: plugins/autoaway/autoawaycfgbase.cpp:138
-msgid "Set \"N/A\" status after"
-msgstr "Встановити статус \"Неактивний\" через"
-
-#: plugins/autoaway/autoawaycfgbase.cpp:139
-msgid "Set \"Offline\" status after"
-msgstr "Встановити статус \"Вимкнений\" через"
-
-#: plugins/autoaway/autoawaycfgbase.cpp:140
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
-msgstr "Заборонити попередження в стані \"Відійшов\", \"Неактивний\", \"Не турбувати\", \"Зайнятий\""
 
 #: plugins/background/background.cpp:34
 msgid "Background"
@@ -1947,22 +1315,6 @@ msgstr "Вікно - масштабувати"
 msgid "Get more skins"
 msgstr "Дістати більше шкір"
 
-#: plugins/background/bkgndcfgbase.cpp:173
-msgid "Group margin:"
-msgstr "Відступ для груп:"
-
-#: plugins/background/bkgndcfgbase.cpp:174
-msgid "Contact margin:"
-msgstr "Відступ для контактів:"
-
-#: plugins/background/bkgndcfgbase.cpp:175
-msgid "Main window background:"
-msgstr "Фон головного вікна:"
-
-#: plugins/background/bkgndcfgbase.cpp:176 plugins/osd/osdifacebase.cpp:195
-msgid "Place:"
-msgstr "Розміщення:"
-
 #: plugins/dock/dock.cpp:49
 msgid "System tray"
 msgstr "Системний лоток"
@@ -1995,26 +1347,6 @@ msgstr "Сховати головне вікно"
 msgid "Show main window"
 msgstr "Показати головне вікно"
 
-#: plugins/dock/dockcfgbase.cpp:123
-msgid "Hide main window after"
-msgstr "Сховати головне вікно через"
-
-#: plugins/dock/dockcfgbase.cpp:124
-msgid "seconds inactive"
-msgstr "секунд неактивності"
-
-#: plugins/dock/dockcfgbase.cpp:125
-msgid "Show Mainwin on desktop"
-msgstr "Показати головне вікно на екрані"
-
-#: plugins/dock/dockcfgbase.cpp:126
-msgid "current"
-msgstr "поточний"
-
-#: plugins/dock/dockcfgbase.cpp:127
-msgid "&Customize dock menu"
-msgstr "&Налаштування док-меню"
-
 #: plugins/filter/filter.cpp:39
 msgid "Filter"
 msgstr "Фільтр"
@@ -2043,28 +1375,6 @@ msgstr "Додати %1 в список тих що ігноруються?"
 msgid "Name"
 msgstr "Ім'я"
 
-#: plugins/filter/filtercfgbase.cpp:97
-msgid "&Receive message only from contacts from list"
-msgstr "&Приймати повідомлення тільки від контактів в списку"
-
-#: plugins/filter/filtercfgbase.cpp:98
-msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr "Відкидати повідомлення від невідомих користувачів, які містять слова або фрази:"
-
-#: plugins/filter/filtercfgbase.cpp:99
-msgid ""
-"Words are divided by any separators (space, comma, i.e.)\n"
-"A phrase can be specified using quotation marks\n"
-"Words can contain wildcards:\n"
-"* - any amount of symbols (or is empty)\n"
-"? - any symbol"
-msgstr ""
-"Слова розділяються будь-якими розділовими (пробіл, кома і т.д.)\n"
-"Фраза (послідовність слів) береться в лапки\n"
-"Слова можуть містити наступні маски:\n"
-"* - будь-яка послідовність символів (або пустота)\n"
-"? - будь-який символ"
-
 #: plugins/floaty/floaty.cpp:46
 msgid "Floaty"
 msgstr "Плавучість"
@@ -2088,22 +1398,6 @@ msgstr "Пересилка"
 #: plugins/forward/forward.cpp:32
 msgid "Plugin provides messages forwarding on cellular"
 msgstr "Модуль забезпечує пересилання повідомлень на стільниковий телефон"
-
-#: plugins/forward/forwardcfgbase.cpp:102
-msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr "Пересилати всі повідомлення отримані в режимах \"Відійшов\" і \"N/A\" на стільниковий телефон:"
-
-#: plugins/forward/forwardcfgbase.cpp:103
-msgid ""
-"For the answer or sending of the new message you can answer on SMS having specified in the beginning of the message a line:\n"
-"<UIN>:"
-msgstr ""
-"Для відповіді або відсилання нового повідомлення ви можете відповісти на SMS, вказавши для початку повідомлення стрічку:\n"
-" <UIN>:"
-
-#: plugins/forward/forwardcfgbase.cpp:105
-msgid "Send only &one message (don't split)"
-msgstr "Відправляти тільки &одне повідомлення"
 
 #: plugins/gpg/gpg.cpp:53
 msgid "GPG"
@@ -2154,7 +1448,7 @@ msgstr "Встановити домашній каталог"
 msgid "Download GPG"
 msgstr "Скачати GPG"
 
-#: plugins/gpg/gpgcfg.cpp:62 plugins/jabber/jidsearchbase.cpp:135
+#: plugins/gpg/gpgcfg.cpp:62
 msgid "&Advanced"
 msgstr "&Розвинути"
 
@@ -2175,101 +1469,12 @@ msgid "Generate key failed"
 msgstr "Помилка генерування ключ"
 
 #: plugins/gpg/passphrase.cpp:37
-#, c-format
 msgid "Input passphrase for key %1"
 msgstr "Введіть секретну фразу для ключа %1"
 
 #: plugins/gpg/passphrase.cpp:62
 msgid "Bad passphrase"
 msgstr "Погана секретна фраза"
-
-#: plugins/gpg/gpgcfgbase.cpp:161
-msgid "Executable:"
-msgstr "Програма:"
-
-#: plugins/gpg/gpgcfgbase.cpp:162
-msgid "Home directory:"
-msgstr "Домашній каталог:"
-
-#: plugins/gpg/gpgcfgbase.cpp:163
-msgid "&Find"
-msgstr "&Пошук"
-
-#: plugins/gpg/gpgcfgbase.cpp:164
-msgid "Your key:"
-msgstr "Ваш ключ:"
-
-#: plugins/gpg/gpgcfgbase.cpp:165 plugins/gpg/gpguserbase.cpp:100
-msgid "&Refresh"
-msgstr "&Обновити"
-
-#: plugins/gpg/gpgadvbase.cpp:156
-msgid "Command arguments"
-msgstr "Командні аргументи"
-
-#: plugins/gpg/gpgadvbase.cpp:157
-msgid "Generate key:"
-msgstr "Генерувати ключ:"
-
-#: plugins/gpg/gpgadvbase.cpp:158
-msgid "List public keys:"
-msgstr "Список публічних ключів:"
-
-#: plugins/gpg/gpgadvbase.cpp:159
-msgid "List secret keys:"
-msgstr "Список приватних(секретних) ключів:"
-
-#: plugins/gpg/gpgadvbase.cpp:160
-msgid "Import public:"
-msgstr "Імпортувати публічний ключ:"
-
-#: plugins/gpg/gpgadvbase.cpp:161
-msgid "Export public:"
-msgstr "Експортувати публічний ключ:"
-
-#: plugins/gpg/gpgadvbase.cpp:162
-msgid "Encrypt:"
-msgstr "Шифрувати:"
-
-#: plugins/gpg/gpgadvbase.cpp:163
-msgid "Decrypt:"
-msgstr "Дешифрувати:"
-
-#: plugins/gpg/gpggenbase.cpp:133
-msgid "Generate key"
-msgstr "Генерувати ключ"
-
-#: plugins/gpg/gpggenbase.cpp:134 plugins/jabber/discoinfobase.cpp:316
-msgid "EMail:"
-msgstr "Пошта:"
-
-#: plugins/gpg/gpggenbase.cpp:135
-msgid "Comment:"
-msgstr "Коментарій:"
-
-#: plugins/gpg/gpggenbase.cpp:136 plugins/icq/workinfobase.cc:215 plugins/jabber/discoinfobase.cpp:300 plugins/jabber/discoinfobase.cpp:302
-msgid "Name:"
-msgstr "Ім'я:"
-
-#: plugins/gpg/gpggenbase.cpp:137
-msgid "Passphrase:"
-msgstr "Секретна фраза:"
-
-#: plugins/gpg/gpggenbase.cpp:138
-msgid "Retype passphrase:"
-msgstr "Повторіть секретну фразу:"
-
-#: plugins/gpg/gpguserbase.cpp:99
-msgid "Key:"
-msgstr "Ключ:"
-
-#: plugins/gpg/passphrasebase.cpp:82
-msgid "Input passphrase"
-msgstr "Введіть секретну фразу"
-
-#: plugins/gpg/passphrasebase.cpp:84
-msgid "&Save passphrase"
-msgstr "&Зберегти секретну фразу"
 
 #: plugins/icons/icon.cpp:32
 msgid "Icons"
@@ -2315,14 +1520,6 @@ msgstr "Смайлики (*.msl *.xep)"
 msgid "Get more smiles"
 msgstr "Дістати більше смайликів"
 
-#: plugins/icons/iconcfgbase.cpp:136
-msgid "Icons for protocol:"
-msgstr "Іконки для протоколу:"
-
-#: plugins/icons/smilecfgbase.cpp:122
-msgid "Smiles:"
-msgstr "Смайлики:"
-
 #: plugins/icq/aimconfig.cpp:43
 msgid "Register new ScreenName"
 msgstr "Зареєструвати новий обліковий запис"
@@ -2335,15 +1532,23 @@ msgstr "Останній раз в мережі"
 msgid "ICQ"
 msgstr "ICQ"
 
-#: plugins/icq/icq.cpp:140 plugins/jabber/jabber.cpp:131 plugins/osd/osdconfigbase.cpp:145
+#: plugins/icq/icq.cpp:110 plugins/icq/icq.cpp:280 plugins/icq/icqclient.cpp:1453 plugins/jabber/jabber.cpp:101 plugins/msn/msn.cpp:101 plugins/yahoo/yahoo.cpp:119
+msgid "Away"
+msgstr "Відійшов"
+
+#: plugins/icq/icq.cpp:125 plugins/jabber/jabber.cpp:116 plugins/msn/msn.cpp:116 plugins/yahoo/yahoo.cpp:134
+msgid "N/A"
+msgstr "Неактивний"
+
+#: plugins/icq/icq.cpp:140 plugins/jabber/jabber.cpp:131
 msgid "Do not Disturb"
 msgstr "Не турбувати"
 
-#: plugins/icq/icq.cpp:155 plugins/osd/osdconfigbase.cpp:146
+#: plugins/icq/icq.cpp:155
 msgid "Occupied"
 msgstr "Зайнятий"
 
-#: plugins/icq/icq.cpp:170 plugins/jabber/jabber.cpp:146 plugins/osd/osdconfigbase.cpp:147
+#: plugins/icq/icq.cpp:170 plugins/jabber/jabber.cpp:146
 msgid "Free for chat"
 msgstr "Вільний для розмови"
 
@@ -2491,6 +1696,10 @@ msgstr "Помилка протоколу"
 msgid "Possibly invisible"
 msgstr "Можливо невидимий"
 
+#: plugins/icq/icqclient.cpp:1434
+msgid "Invisible"
+msgstr "Невидимий"
+
 #: plugins/icq/icqclient.cpp:1469
 msgid "Warning level"
 msgstr "Рівень попереджень"
@@ -2511,7 +1720,7 @@ msgstr "Розширена інформація"
 msgid "About info"
 msgstr "Додаткова інформація"
 
-#: plugins/icq/advsearchbase.cc:289 plugins/icq/icqclient.cpp:1867 plugins/icq/icqclient.cpp:2055
+#: plugins/icq/icqclient.cpp:1867 plugins/icq/icqclient.cpp:2055
 msgid "Interests"
 msgstr "Інтереси"
 
@@ -2827,7 +2036,7 @@ msgstr "Стать"
 msgid "Age"
 msgstr "Вік"
 
-#: plugins/icq/icqsearch.cpp:303 plugins/jabber/jabberadd.cpp:282 plugins/msn/msnsearchbase.cpp:131
+#: plugins/icq/icqsearch.cpp:303 plugins/jabber/jabberadd.cpp:282
 msgid "E-Mail"
 msgstr "E-mail"
 
@@ -2848,7 +2057,6 @@ msgid "anonymous"
 msgstr "анонімний"
 
 #: plugins/icq/icqservice.cpp:299
-#, c-format
 msgid "You've been warned by %1"
 msgstr "Ви отримали попередження від %1"
 
@@ -3480,456 +2688,6 @@ msgstr "Студент університету"
 msgid "Web building"
 msgstr "Веб-дизайн"
 
-#: plugins/icq/icqconfigbase.cc:295
-msgid "&Register new UIN"
-msgstr "&Зареєструвати новий UIN"
-
-#: plugins/icq/icqconfigbase.cc:296
-msgid "UIN:"
-msgstr "UIN:"
-
-#: plugins/icq/icqconfigbase.cc:297
-msgid "&ICQ"
-msgstr "&ICQ"
-
-#: plugins/icq/aimconfigbase.cc:181 plugins/icq/icqconfigbase.cc:298 plugins/yahoo/yahoocfgbase.cpp:240
-msgid "&Automaticaly use HTTP pooling if proxy required"
-msgstr "&Автоматично використовувати HTTP-з'єднання при проксі-сервісі"
-
-#: plugins/icq/aimconfigbase.cc:180 plugins/icq/icqconfigbase.cc:299 plugins/jabber/jabberconfigbase.cpp:366 plugins/msn/msnconfigbase.cpp:235 plugins/yahoo/yahoocfgbase.cpp:241
-msgid "Use &HTTP polling"
-msgstr "Використовувати &HTTP з'єднання"
-
-#: plugins/icq/aimconfigbase.cc:179 plugins/icq/icqconfigbase.cc:300 plugins/jabber/jabberconfigbase.cpp:356 plugins/jabber/jabberconfigbase.cpp:360 plugins/livejournal/livejournalcfgbase.cpp:211 plugins/msn/msnconfigbase.cpp:231 plugins/yahoo/yahoocfgbase.cpp:237
-msgid "Server:"
-msgstr "Сервер:"
-
-#: plugins/icq/aimconfigbase.cc:178 plugins/icq/icqconfigbase.cc:301 plugins/jabber/jabberconfigbase.cpp:357 plugins/jabber/jabberconfigbase.cpp:361 plugins/livejournal/livejournalcfgbase.cpp:213 plugins/msn/msnconfigbase.cpp:232 plugins/proxy/proxycfgbase.cpp:163 plugins/remote/remotecfgbase.cpp:137 plugins/sms/smssetupbase.cpp:171 plugins/yahoo/yahoocfgbase.cpp:238
-msgid "Port:"
-msgstr "Порт:"
-
-#: plugins/icq/icqconfigbase.cc:302 plugins/jabber/jabberconfigbase.cpp:363 plugins/msn/msnconfigbase.cpp:233 plugins/yahoo/yahoocfgbase.cpp:243
-msgid "Port range for direct connections:"
-msgstr "Порти для прямих з'єднань"
-
-#: plugins/icq/aimconfigbase.cc:182 plugins/icq/icqconfigbase.cc:304 plugins/jabber/jabberconfigbase.cpp:367 plugins/msn/msnconfigbase.cpp:237 plugins/yahoo/yahoocfgbase.cpp:239
-msgid "Note: For HTTP-pooling using proxy setings for HTTP"
-msgstr "Примітка: Для HTTP-з'єднання використовуйте налаштування проксі для HTTP"
-
-#: plugins/icq/aimconfigbase.cc:183 plugins/icq/icqconfigbase.cc:305
-msgid "&Keep-alive connection"
-msgstr "&Підтримувати діюче з'єднання"
-
-#: plugins/icq/aimconfigbase.cc:184 plugins/icq/icqconfigbase.cc:306 plugins/jabber/jabberconfigbase.cpp:369 plugins/livejournal/livejournalcfgbase.cpp:214 plugins/msn/msnconfigbase.cpp:239 plugins/yahoo/yahoocfgbase.cpp:244
-msgid "&Network"
-msgstr "&Мережа"
-
-#: plugins/icq/icqconfigbase.cc:307
-msgid "Automatically check &invisible"
-msgstr "Автоматична перевірка &невидимості"
-
-#: plugins/icq/icqconfigbase.cc:308
-msgid "Send format:"
-msgstr "Формат посилання:"
-
-#: plugins/icq/icqconfigbase.cc:309
-msgid "Send message:"
-msgstr "Відіслати повідомлення:"
-
-#: plugins/icq/icqconfigbase.cc:311
-msgid "No wait ack"
-msgstr "Не чекати підтвердження"
-
-#: plugins/icq/icqconfigbase.cc:312
-msgid "Wait ack from server"
-msgstr "Чекати підтвердження від сервера"
-
-#: plugins/icq/icqconfigbase.cc:313
-msgid "Wait ack from client"
-msgstr "Чекати підтвердження від клієнта"
-
-#: plugins/icq/icqconfigbase.cc:314
-msgid "Accept in &occupied mode"
-msgstr "Приймати в режимі \"&Відійшов\""
-
-#: plugins/icq/icqconfigbase.cc:315
-msgid "Accept in &DND mode"
-msgstr "Приймати в режимі \"&Не турбувати\""
-
-#: plugins/icq/icqconfigbase.cc:316
-msgid "For decrease traffic you can:"
-msgstr "Для зменшення трафіка Ви можете:"
-
-#: plugins/icq/icqconfigbase.cc:317
-msgid "Disable answer on phonebook and &picture requests"
-msgstr "Вимкнути відповіді на запити &картинок і телефонної книги"
-
-#: plugins/icq/icqconfigbase.cc:318
-msgid "Disable automaticaly &request autoreply on change status"
-msgstr "Заборонити запитувати &автовідповідь при зміні статусу"
-
-#: plugins/icq/icqconfigbase.cc:319
-msgid "Disable automatically &update user info"
-msgstr "&Заборонити автоматично поновляти інформацію про користувача"
-
-#: plugins/icq/icqconfigbase.cc:320
-msgid "Disable &typing notification"
-msgstr "Вимкнути попередження про &друк"
-
-#: plugins/icq/icqconfigbase.cc:321
-msgid "Check invisible every"
-msgstr "Перевіряти невидимість кожні"
-
-#: plugins/icq/icqconfigbase.cc:322 plugins/livejournal/livejournalcfgbase.cpp:216
-msgid "minutes"
-msgstr "хвилин"
-
-#: plugins/icq/icqconfigbase.cc:323 plugins/jabber/jabberconfigbase.cpp:378 plugins/livejournal/livejournalcfgbase.cpp:218
-msgid "&Options"
-msgstr "&Параметри"
-
-#: plugins/icq/icqinfobase.cc:339
-msgid "Form5"
-msgstr "Основна інформація"
-
-#: plugins/icq/icqinfobase.cc:340
-msgid "Last Name:"
-msgstr "Прізвище:"
-
-#: plugins/icq/icqinfobase.cc:341
-msgid "Uin:"
-msgstr "Uin:"
-
-#: plugins/icq/icqinfobase.cc:344
-msgid "Random chat group:"
-msgstr "Група випадкового спілкування:"
-
-#: plugins/icq/icqinfobase.cc:345 plugins/jabber/jabberinfobase.cpp:304 plugins/msn/msninfobase.cpp:163 plugins/yahoo/yahooinfobase.cpp:183
-msgid "&Names"
-msgstr "&Імена"
-
-#: plugins/icq/aiminfobase.cc:302 plugins/icq/icqinfobase.cc:346 plugins/jabber/jabberinfobase.cpp:305 plugins/msn/msninfobase.cpp:164 plugins/yahoo/yahooinfobase.cpp:184
-msgid "Status:"
-msgstr "Статус:"
-
-#: plugins/icq/aiminfobase.cc:300 plugins/icq/icqinfobase.cc:349
-msgid "External IP:"
-msgstr "Зовнішній IP:"
-
-#: plugins/icq/aiminfobase.cc:304 plugins/icq/icqinfobase.cc:350
-msgid "Internal IP:"
-msgstr "Внутрішній IP:"
-
-#: plugins/icq/aiminfobase.cc:301 plugins/icq/icqinfobase.cc:351 plugins/proxy/proxycfgbase.cpp:168
-msgid "Client:"
-msgstr "Клієнт:"
-
-#: plugins/icq/icqinfobase.cc:353 plugins/jabber/jabberinfobase.cpp:310
-msgid "New password:"
-msgstr "Новий пароль:"
-
-#: plugins/icq/icqinfobase.cc:354 plugins/jabber/jabberinfobase.cpp:311
-msgid "Retype new password:"
-msgstr "Повторіть новий пароль:"
-
-#: plugins/icq/icqinfobase.cc:355 plugins/jabber/jabberinfobase.cpp:312
-msgid "Current password:"
-msgstr "Діючий пароль:"
-
-#: plugins/icq/icqinfobase.cc:356 plugins/jabber/jabberinfobase.cpp:313
-msgid "&Password"
-msgstr "&Пароль"
-
-#: plugins/icq/advsearchbase.cc:280 plugins/icq/aiminfobase.cc:294 plugins/icq/aimsearchbase.cc:201 plugins/icq/homeinfobase.cc:175 plugins/icq/workinfobase.cc:212 plugins/jabber/jabberhomeinfobase.cpp:139
-msgid "State:"
-msgstr "Штат:"
-
-#: plugins/icq/homeinfobase.cc:176 plugins/icq/workinfobase.cc:210 plugins/jabber/jabberhomeinfobase.cpp:140
-msgid "Address:"
-msgstr "Адреса:"
-
-#: plugins/icq/advsearchbase.cc:279 plugins/icq/aiminfobase.cc:293 plugins/icq/aimsearchbase.cc:202 plugins/icq/homeinfobase.cc:178 plugins/icq/workinfobase.cc:211 plugins/jabber/jabberhomeinfobase.cpp:136
-msgid "City:"
-msgstr "Місто:"
-
-#: plugins/icq/homeinfobase.cc:179 plugins/icq/workinfobase.cc:213 plugins/jabber/jabberhomeinfobase.cpp:137
-msgid "Zip code:"
-msgstr "Індекс:"
-
-#: plugins/icq/homeinfobase.cc:180
-msgid "Time zone:"
-msgstr "Часовий пояс:"
-
-#: plugins/icq/homeinfobase.cc:181
-msgid "&Home info"
-msgstr "&Домашня інформація"
-
-#: plugins/icq/advsearchbase.cc:282 plugins/icq/moreinfobase.cc:212 plugins/yahoo/yahoosearchbase.cpp:162
-msgid "Age:"
-msgstr "Вік:"
-
-#: plugins/icq/moreinfobase.cc:213 plugins/jabber/discoinfobase.cpp:312 plugins/jabber/jabberinfobase.cpp:302
-msgid "Homepage:"
-msgstr "Домашня сторінка:"
-
-#: plugins/icq/advsearchbase.cc:283 plugins/icq/moreinfobase.cc:215 plugins/yahoo/yahoosearchbase.cpp:161
-msgid "Gender:"
-msgstr "Стать:"
-
-#: plugins/icq/moreinfobase.cc:216 plugins/jabber/discoinfobase.cpp:313 plugins/jabber/jabberinfobase.cpp:301
-msgid "Birth date:"
-msgstr "Дата народження:"
-
-#: plugins/icq/moreinfobase.cc:217
-msgid "&More info"
-msgstr "&Розширена інформація"
-
-#: plugins/icq/moreinfobase.cc:218
-msgid "Spoken languages:"
-msgstr "Розмовні мови:"
-
-#: plugins/icq/moreinfobase.cc:219
-msgid "&Languages"
-msgstr "&Мови"
-
-#: plugins/icq/workinfobase.cc:217
-msgid "Web site:"
-msgstr "WWW сторінка:"
-
-#: plugins/icq/workinfobase.cc:218
-msgid "&Company"
-msgstr "&Компанія:"
-
-#: plugins/icq/advsearchbase.cc:285 plugins/icq/workinfobase.cc:219
-msgid "Occupation:"
-msgstr "Діяльність:"
-
-#: plugins/icq/workinfobase.cc:220
-msgid "Div / dept:"
-msgstr "Відділ:"
-
-#: plugins/icq/advsearchbase.cc:288 plugins/icq/workinfobase.cc:221 plugins/jabber/jabberworkinfobase.cpp:123
-msgid "Position:"
-msgstr "Посада:"
-
-#: plugins/icq/workinfobase.cc:222
-msgid "&Occupation"
-msgstr "&Діяльність:"
-
-#: plugins/icq/aboutinfobase.cc:125
-msgid "Additional information about user:"
-msgstr "Додаткова інформація про користувача:"
-
-#: plugins/icq/aboutinfobase.cc:126
-msgid "A&bout"
-msgstr "&Про"
-
-#: plugins/icq/interestsinfobase.cc:140
-msgid "&Interests"
-msgstr "&Інтереси"
-
-#: plugins/icq/pastinfobase.cc:170
-msgid "Organization, Affiliation, Group:"
-msgstr "Об'єднання, громадські організації:"
-
-#: plugins/icq/pastinfobase.cc:171
-msgid "A&ffilation"
-msgstr "&Об'єднання"
-
-#: plugins/icq/pastinfobase.cc:172
-msgid "Past background:"
-msgstr "Освіта:"
-
-#: plugins/icq/pastinfobase.cc:173
-msgid "&Background"
-msgstr "&Фон"
-
-#: plugins/icq/icqsecurebase.cc:166
-msgid "My &authorization is required before users add me to Contact List"
-msgstr "Для ввімкнення мене в список контактів вимагається &авторизація"
-
-#: plugins/icq/icqsecurebase.cc:167
-msgid "Don't show my &IP-address"
-msgstr "Не показувати мою &IP-адресу"
-
-#: plugins/icq/icqsecurebase.cc:169
-msgid "Allow other to view my &status from the Web"
-msgstr "Дозволити користувачам бачити мій &статус через WWW"
-
-#: plugins/icq/icqsecurebase.cc:170
-msgid "I&gnore user authorization"
-msgstr "І&гнорувати вимоги авторизації"
-
-#: plugins/icq/icqsecurebase.cc:171
-msgid "Direct connections"
-msgstr "Прямі з'єднання"
-
-#: plugins/icq/icqsecurebase.cc:172
-msgid "Allow &direct connection from any user"
-msgstr "Дозволити прямі з'єднання від &всіх користувачів"
-
-#: plugins/icq/icqsecurebase.cc:173
-msgid "Allow direct connection from user listed in &contact list"
-msgstr "Дозволити прямі з'єднання тільки від користувачів із списку &контактів"
-
-#: plugins/icq/icqsecurebase.cc:174
-msgid "Allow direct connection from user &upon authorization"
-msgstr "Дозволити прямі з'єднання після &авторизації"
-
-#: plugins/icq/icqsecurebase.cc:175
-msgid "&Security"
-msgstr "&Безпека"
-
-#: plugins/icq/icqsecurebase.cc:176
-msgid "&Visible list"
-msgstr "Список &видимості"
-
-#: plugins/icq/icqsecurebase.cc:177
-msgid "&Invisible list"
-msgstr "Список &невидимості"
-
-#: plugins/icq/icqsearchbase.cc:185
-msgid "&UIN"
-msgstr "&UIN"
-
-#: plugins/icq/icqsearchbase.cc:186
-msgid "&Screenname"
-msgstr "&Обліковий запис"
-
-#: plugins/icq/icqsearchbase.cc:192
-msgid "AOL s&creenname"
-msgstr "AOL о&бліковий запис"
-
-#: plugins/icq/icqsearchbase.cc:193
-msgid "ICQ &UIN"
-msgstr "ICQ &UIN"
-
-#: plugins/icq/icqsearchbase.cc:194
-msgid "Advanced"
-msgstr "&Додатково"
-
-#: plugins/icq/advsearchbase.cc:277 plugins/jabber/jabber.cpp:322
-msgid "Info"
-msgstr "Інформація"
-
-#: plugins/icq/advsearchbase.cc:284
-msgid "Work"
-msgstr "Робота"
-
-#: plugins/icq/advsearchbase.cc:286 plugins/jabber/jabberworkinfobase.cpp:121
-msgid "Company:"
-msgstr "Компанія:"
-
-#: plugins/icq/advsearchbase.cc:287 plugins/jabber/jabberworkinfobase.cpp:120
-msgid "Department:"
-msgstr "Відділ:"
-
-#: plugins/icq/advsearchbase.cc:290
-msgid "Past"
-msgstr "Минуле"
-
-#: plugins/icq/advsearchbase.cc:292
-msgid "Affilations"
-msgstr "Об'єднання"
-
-#: plugins/icq/advsearchbase.cc:293
-msgid "Keywords"
-msgstr "Ключеві слова"
-
-#: plugins/icq/advsearchbase.cc:294
-msgid "Search &online users only"
-msgstr "Шукати тільки контакти в &мережі"
-
-#: plugins/icq/icqpicturebase.cc:135 plugins/jabber/jabberpicturebase.cpp:135 plugins/shortcuts/shortcutcfgbase.cpp:143
-msgid "&Clear"
-msgstr "&Стерти"
-
-#: plugins/icq/icqpicturebase.cc:136
-msgid "&Picture"
-msgstr "&Картинка"
-
-#: plugins/icq/securedlgbase.cc:73
-msgid "Secure chanel request"
-msgstr "Запит захищеного з'єднання"
-
-#: plugins/icq/securedlgbase.cc:74
-msgid ""
-"Secure channel is established using SSL with Diffie-Hellman key exchange and  the TLS version 1 protocol.\n"
-"\n"
-"This only works with other SIM and Licq clients"
-msgstr ""
-"Захищене з'єднання встановлюється з допомогою SSL з обміном ключами методом Діффі-Хелмана і протоколом TLS версії 1\n"
-"\n"
-"Це з'єднання працює тільки з клієнтами SIM і Licq"
-
-#: plugins/icq/aimconfigbase.cc:175 plugins/icq/aiminfobase.cc:297
-msgid "ScreenName:"
-msgstr "Ім'я:"
-
-#: plugins/icq/aimconfigbase.cc:177
-msgid "&AIM"
-msgstr "&AIM"
-
-#: plugins/icq/aiminfobase.cc:289 plugins/icq/aimsearchbase.cc:196
-msgid "Middle:"
-msgstr "По-батькові:"
-
-#: plugins/icq/aiminfobase.cc:290 plugins/icq/aimsearchbase.cc:197
-msgid "Maiden:"
-msgstr "Дівоче:"
-
-#: plugins/icq/aiminfobase.cc:292 plugins/icq/aimsearchbase.cc:204
-msgid "Street:"
-msgstr "Вулиця:"
-
-#: plugins/icq/aiminfobase.cc:295 plugins/icq/aimsearchbase.cc:203
-msgid "Zip:"
-msgstr "Індекс:"
-
-#: plugins/icq/aiminfobase.cc:298
-msgid "&Profile"
-msgstr "&Профіль"
-
-#: plugins/icq/aimsearchbase.cc:193
-msgid "Names"
-msgstr "Імена"
-
-#: plugins/icq/aimsearchbase.cc:199 plugins/weather/wifacecfg.cpp:51 plugins/yahoo/yahoosearch.cpp:134
-msgid "Location"
-msgstr "Місцезнаходження"
-
-#: plugins/icq/warndlgbase.cc:83
-msgid "Send warning"
-msgstr "Відсилання попередження"
-
-#: plugins/icq/warndlgbase.cc:84
-msgid "Click OK to send warning to %1. This will raise %1's warning and limit his or her activity. Do this only if %1 has done something to merit a warning."
-msgstr "Натисніть \"Гаразд\" для відправки попередження до %1. Це збільшить рівень %1 попереджень і обмежить активність контактів. Робіть це тільки у випадку, коли %1 зробив щось, що заслуговує попередження"
-
-#: plugins/icq/warndlgbase.cc:85
-msgid "Warn &anonymously"
-msgstr "Попередження &анонімності"
-
-#: plugins/icq/warndlgbase.cc:86
-msgid ""
-"Check this if you don't want your screen name revealed.\n"
-"Anonymous warinings are less severe."
-msgstr ""
-"Відмітьте, якщо Ви не хочете показувати своє ім'я в попередженні.\n"
-"Анонімні попередження менше привертають увагу"
-
-#: plugins/icq/encodingdlgbase.cc:83
-msgid "Choose default encoding"
-msgstr "Виберіть кодову сторінку за замовчуванням"
-
-#: plugins/icq/encodingdlgbase.cc:84
-msgid "Your current system encoding (UTF-8) may cause problems saving your personal information and reading offline messages from other users."
-msgstr "У Вас встановлене кодування UTF-8, це може викликати проблеми з кодуванням при читанні повідомлень при статусі \"Вимкнений\" або при збереженні Вашої інформації"
-
-#: plugins/icq/encodingdlgbase.cc:85
-msgid "You will choose the coding by default which want to use:"
-msgstr "Виберіть кодову сторінку за замовчуванням:"
-
 #: plugins/jabber/discoinfo.cpp:64
 msgid "Units"
 msgstr "Одиниці"
@@ -3938,11 +2696,11 @@ msgstr "Одиниці"
 msgid "Value"
 msgstr "Значення"
 
-#: plugins/jabber/discoinfo.cpp:126 plugins/jabber/discoinfobase.cpp:305
+#: plugins/jabber/discoinfo.cpp:126
 msgid "&Version"
 msgstr "&Версія"
 
-#: plugins/jabber/discoinfo.cpp:141 plugins/jabber/discoinfobase.cpp:308
+#: plugins/jabber/discoinfo.cpp:141
 msgid "&Time"
 msgstr "&Час"
 
@@ -3975,6 +2733,10 @@ msgstr "Вузол"
 msgid "&Register"
 msgstr "З&ареєструватися"
 
+#: plugins/jabber/jabber.cpp:322
+msgid "Info"
+msgstr "Інформація"
+
 #: plugins/jabber/jabber.cpp:338
 msgid "Browser mode"
 msgstr "Режим перегляду"
@@ -4004,7 +2766,6 @@ msgid "Process"
 msgstr "Процес"
 
 #: plugins/jabber/jabberbrowser.cpp:82 plugins/jabber/jabberbrowser.cpp:291 plugins/jabber/jabberbrowser.cpp:322 plugins/jabber/jabberbrowser.cpp:351 plugins/jabber/jabberbrowser.cpp:559 plugins/jabber/jabberbrowser.cpp:629
-#, c-format
 msgid "Error %1"
 msgstr "Помилка %1"
 
@@ -4072,7 +2833,7 @@ msgstr "Ввійти"
 msgid "Log Off"
 msgstr "Вийти"
 
-#: plugins/jabber/jabberpicture.cpp:47 plugins/jabber/jabberpicturebase.cpp:136
+#: plugins/jabber/jabberpicture.cpp:47
 msgid "&Photo"
 msgstr "&Фото"
 
@@ -4219,114 +2980,6 @@ msgstr "Організація"
 #: plugins/jabber/jidsearch.cpp:182
 msgid "Organization Unit"
 msgstr "Відділ"
-
-#: plugins/jabber/jabberconfigbase.cpp:354 plugins/livejournal/livejournalcfgbase.cpp:208
-msgid "Username:"
-msgstr "Ім'я користувача:"
-
-#: plugins/jabber/jabberconfigbase.cpp:355
-msgid "&Register new account"
-msgstr "&Зареєструвати новий обліковий запис"
-
-#: plugins/jabber/jabberconfigbase.cpp:358 plugins/jabber/jabberconfigbase.cpp:365
-msgid "Use &SSL"
-msgstr "Використовувати &SSL"
-
-#: plugins/jabber/jabberconfigbase.cpp:359
-msgid "&Jabber"
-msgstr "&Jabber"
-
-#: plugins/jabber/jabberconfigbase.cpp:364
-msgid "Use &plain text login"
-msgstr "Використовувати авторизацію &відкритим текстом"
-
-#: plugins/jabber/jabberconfigbase.cpp:368
-msgid "URL:"
-msgstr "URL:"
-
-#: plugins/jabber/jabberconfigbase.cpp:370 plugins/jabber/jabberinfobase.cpp:308
-msgid "Resource:"
-msgstr "Ресурс:"
-
-#: plugins/jabber/jabberconfigbase.cpp:371
-msgid "Priority:"
-msgstr "Пріоритет:"
-
-#: plugins/jabber/jabberconfigbase.cpp:372
-msgid "Manualy specify Jabber host:"
-msgstr "Встановити Jabber сервер явно:"
-
-#: plugins/jabber/jabberconfigbase.cpp:373
-msgid "Use protocol &icons for agents contacts"
-msgstr "Використовувати &іконки контактних агентів"
-
-#: plugins/jabber/jabberconfigbase.cpp:374
-msgid "Automaticaly send &subscribe request"
-msgstr "Автоматично відправляти &запити авторизації"
-
-#: plugins/jabber/jabberconfigbase.cpp:375
-msgid "Automaticaly &accept subscribe requests"
-msgstr "Автоматично &приймати запити авторизації"
-
-#: plugins/jabber/jabberconfigbase.cpp:376
-msgid "Send &rich text messages if possible"
-msgstr "Відправити повідомлення з &форматуванням"
-
-#: plugins/jabber/jabberconfigbase.cpp:377 plugins/osd/osdconfigbase.cpp:149
-msgid "Enable &typing notification"
-msgstr "Увімкнути попередження про &друк"
-
-#: plugins/jabber/jabberinfobase.cpp:298
-msgid "ID:"
-msgstr "ID:"
-
-#: plugins/jabber/jabberworkinfobase.cpp:122
-msgid "Role:"
-msgstr "Роль:"
-
-#: plugins/jabber/jabberaboutinfobase.cpp:88
-msgid "Additional information:"
-msgstr "Додаткова інформація:"
-
-#: plugins/jabber/jabberaddbase.cpp:153
-msgid "&JID"
-msgstr "&JID"
-
-#: plugins/jabber/jabberaddbase.cpp:159 plugins/jabber/jidsearchbase.cpp:136
-msgid "Jabber &browser"
-msgstr "Jabber &навігатор"
-
-#: plugins/jabber/discoinfobase.cpp:296
-msgid "DiscoInfo"
-msgstr "Інформація"
-
-#: plugins/jabber/discoinfobase.cpp:297
-msgid "Namespaces:"
-msgstr "Простір імен:"
-
-#: plugins/jabber/discoinfobase.cpp:298
-msgid "Category:"
-msgstr "Категорія:"
-
-#: plugins/jabber/discoinfobase.cpp:303
-msgid "Version:"
-msgstr "Версія:"
-
-#: plugins/jabber/discoinfobase.cpp:304
-msgid "System:"
-msgstr "Система:"
-
-#: plugins/jabber/discoinfobase.cpp:306
-msgid "UTC client time:"
-msgstr "UTC час клієнта:"
-
-#: plugins/jabber/discoinfobase.cpp:307
-msgid "Last activity, idle response:"
-msgstr "Остання активність:"
-
-#: plugins/jabber/discoinfobase.cpp:310
-msgid "&Statistic"
-msgstr "&Статистика"
 
 #: plugins/livejournal/livejournal.cpp:110
 #, fuzzy
@@ -4933,62 +3586,6 @@ msgstr "Зареєструвати нового користувача"
 msgid "Remove record from journal?"
 msgstr "Знищити запис з журналу?"
 
-#: plugins/livejournal/livejournalcfgbase.cpp:210
-msgid "&LiveJournal"
-msgstr "&LiveJournal"
-
-#: plugins/livejournal/livejournalcfgbase.cpp:212
-msgid "Path:"
-msgstr "Шлях:"
-
-#: plugins/livejournal/livejournalcfgbase.cpp:215
-msgid "Check interval:"
-msgstr "Інтервал перевірки:"
-
-#: plugins/livejournal/livejournalcfgbase.cpp:217
-msgid "Use &fast server - only for paying customers"
-msgstr "Використовувати &швидкий сервер тільки для платних користувачів"
-
-#: plugins/livejournal/msgjournalbase.cpp:113
-msgid "Subject:"
-msgstr "Тема:"
-
-#: plugins/livejournal/msgjournalbase.cpp:114
-msgid "Security:"
-msgstr "Безпека:"
-
-#: plugins/livejournal/msgjournalbase.cpp:116
-msgid "Public"
-msgstr "Публічний"
-
-#: plugins/livejournal/msgjournalbase.cpp:117
-msgid "Friends-Only"
-msgstr "Тільки для друзів"
-
-#: plugins/livejournal/msgjournalbase.cpp:118
-msgid "Private"
-msgstr "Приватний"
-
-#: plugins/livejournal/msgjournalbase.cpp:119
-msgid "Mood:"
-msgstr "Настрій:"
-
-#: plugins/livejournal/msgjournalbase.cpp:123
-msgid "Enable comments"
-msgstr "Дозволити коментарі"
-
-#: plugins/livejournal/msgjournalbase.cpp:124
-msgid "No email comments"
-msgstr "Не відправляти коментарі поштою"
-
-#: plugins/livejournal/msgjournalbase.cpp:125
-msgid "Disable comments"
-msgstr "Заборонити коментарі"
-
-#: plugins/livejournal/journalsearchbase.cpp:96
-msgid "Add community"
-msgstr "Додати товариство"
-
 #: plugins/logger/logconfig.cpp:94
 msgid "Debug"
 msgstr "Відладка"
@@ -5001,11 +3598,11 @@ msgstr "Пакети"
 msgid "Events"
 msgstr "Події"
 
-#: plugins/logger/logger.cpp:38
+#: plugins/logger/logger.cpp:40
 msgid "Logger"
 msgstr "Лог"
 
-#: plugins/logger/logger.cpp:39
+#: plugins/logger/logger.cpp:41
 msgid ""
 "Plugin provides log output\n"
 "You can set debug level from command line with -d<loglevel>\n"
@@ -5016,17 +3613,9 @@ msgstr ""
 "Ви можете встановити рівень відладки з командної стрічки з допомогою ключа -d <loglevel>\n"
 "Для запису помилок встановіть loglevel=1, для запису попереджень loglevel=2, для виводу відлагоджувальної інформації loglevel=4. Для ввімкнення кількох рівнів введіть число рівне сумі потрібних Вам рівнів"
 
-#: plugins/logger/logger.cpp:78
+#: plugins/logger/logger.cpp:80
 msgid "Set debug level"
 msgstr "Встановіть рівень відладки"
-
-#: plugins/logger/logconfigbase.cpp:127
-msgid "File:"
-msgstr "Файл:"
-
-#: plugins/logger/logconfigbase.cpp:128
-msgid "Log level:"
-msgstr "Рівень відладки:"
 
 #: plugins/msn/msn.cpp:63
 msgid "MSN"
@@ -5085,22 +3674,6 @@ msgstr "Вам прийшла нова пошта"
 msgid "You have new mail"
 msgstr "Вам прийшла нова пошта"
 
-#: plugins/msn/msnconfigbase.cpp:228 plugins/yahoo/yahoocfgbase.cpp:234 plugins/yahoo/yahooinfobase.cpp:180
-msgid "Login:"
-msgstr "Ім'я:"
-
-#: plugins/msn/msnconfigbase.cpp:230
-msgid "&MSN"
-msgstr "&MSN"
-
-#: plugins/msn/msnconfigbase.cpp:236
-msgid "&Automatically use HTTP pooling if proxy required"
-msgstr "&Автоматично використовувати HTTP-з'єднання якщо необхідно проксі"
-
-#: plugins/msn/msnconfigbase.cpp:238
-msgid "&Automatically add contacts in accept list"
-msgstr "&Автоматично додавати контакти в дозволений список"
-
 #: plugins/navigate/navigate.cpp:214
 msgid "Navigate"
 msgstr "Навігація"
@@ -5116,18 +3689,6 @@ msgstr "Відправити пошту"
 #: plugins/navigate/navigate.cpp:281
 msgid "Copy &location"
 msgstr "Скопіювати &посилання"
-
-#: plugins/navigate/navcfgbase.cc:100
-msgid "Browser:"
-msgstr "Навігатор:"
-
-#: plugins/navigate/navcfgbase.cc:101
-msgid "Mailer:"
-msgstr "Поштовий клієнт:"
-
-#: plugins/navigate/navcfgbase.cc:102
-msgid "Open links in &new window"
-msgstr "Відкрити посилання в &новому вікні"
 
 #: plugins/netmonitor/monitor.cpp:51 plugins/netmonitor/netmonitor.cpp:35 plugins/netmonitor/netmonitor.cpp:91
 msgid "Network monitor"
@@ -5154,7 +3715,6 @@ msgid "&Log"
 msgstr "&Рівень"
 
 #: plugins/netmonitor/monitor.cpp:89
-#, c-format
 msgid "Can't create file %1"
 msgstr "Не можу створити файл %1"
 
@@ -5202,14 +3762,6 @@ msgstr "Модуль забезпечує показ головного вікн
 msgid "Always on top"
 msgstr "Завжди зверху"
 
-#: plugins/ontop/ontopcfgbase.cpp:89
-msgid "Show &main window in task manager"
-msgstr "Показувати &основне вікно в панелі задач"
-
-#: plugins/ontop/ontopcfgbase.cpp:90
-msgid "&Container always on top"
-msgstr "&Контейнер завжди зверху"
-
 #: plugins/osd/osd.cpp:70
 msgid "OSD"
 msgstr "Екран"
@@ -5254,58 +3806,6 @@ msgstr "Посередині зверху"
 msgid "Center"
 msgstr "Посередині"
 
-#: plugins/osd/osdconfigbase.cpp:140
-msgid "Enable &messages notification"
-msgstr "Увімкнути &попередження про повідомлення"
-
-#: plugins/osd/osdconfigbase.cpp:141
-msgid "Enable &status notification"
-msgstr "Увімкнути попередження про зміну &статусу"
-
-#: plugins/osd/osdconfigbase.cpp:150
-msgid "Show message &content"
-msgstr "Переглядати &зміст повідомлення"
-
-#: plugins/osd/osdconfigbase.cpp:151
-msgid "Show lines of content:"
-msgstr "Кількість стрічок повідомлення"
-
-#: plugins/osd/osdconfigbase.cpp:152
-msgid "All"
-msgstr "Все"
-
-#: plugins/osd/osdifacebase.cpp:188
-msgid "Offset:"
-msgstr "Відступ:"
-
-#: plugins/osd/osdifacebase.cpp:189
-msgid "Show time:"
-msgstr "Час показу:"
-
-#: plugins/osd/osdifacebase.cpp:190
-msgid "Color:"
-msgstr "Колір:"
-
-#: plugins/osd/osdifacebase.cpp:191
-msgid "Font:"
-msgstr "Шрифт:"
-
-#: plugins/osd/osdifacebase.cpp:192
-msgid "Show sha&dow"
-msgstr "Показувати &тінь"
-
-#: plugins/osd/osdifacebase.cpp:193
-msgid "Show &background"
-msgstr "Показувати &фон"
-
-#: plugins/osd/osdifacebase.cpp:194 plugins/styles/fontconfigbase.cpp:161
-msgid "Background color:"
-msgstr "Колір фону:"
-
-#: plugins/osd/osdifacebase.cpp:196
-msgid "Shown on screen:"
-msgstr "Показувати на моніторі:"
-
 #: plugins/proxy/proxy.cpp:42
 msgid "Can't connect to proxy"
 msgstr "Неможливо з'єднатися до проксі"
@@ -5338,30 +3838,6 @@ msgstr "За замовчуванням"
 msgid "HTTP requests"
 msgstr "HTTP запит"
 
-#: plugins/proxy/proxycfgbase.cpp:162
-msgid "Host:"
-msgstr "Сервер:"
-
-#: plugins/proxy/proxycfgbase.cpp:164
-msgid "Proxy require &authorization"
-msgstr "Проксі-сервер вимагає &авторизацію"
-
-#: plugins/proxy/proxycfgbase.cpp:165
-msgid "User:"
-msgstr "Користувач:"
-
-#: plugins/proxy/proxycfgbase.cpp:167
-msgid "Proxy type:"
-msgstr "Тип проксі:"
-
-#: plugins/proxy/proxycfgbase.cpp:169
-msgid "Do not show error dialog (automatically reconnect)"
-msgstr "Не показувати діалог помилок (автоматичне перез'єднання)"
-
-#: plugins/proxy/proxyerrorbase.cpp:78
-msgid "Proxy error"
-msgstr "Помилка проксі"
-
 #: plugins/remote/remote.cpp:42
 msgid "Remote control"
 msgstr "Віддалене керування"
@@ -5369,18 +3845,6 @@ msgstr "Віддалене керування"
 #: plugins/remote/remote.cpp:43
 msgid "Plugin provides remote control"
 msgstr "Модуль забезпечує віддалене керування"
-
-#: plugins/remote/remotecfgbase.cpp:136
-msgid "Use &UNIX socket"
-msgstr "Використовувати &UNIX сокет"
-
-#: plugins/remote/remotecfgbase.cpp:138 plugins/remote/remotecfgbase.cpp:139
-msgid "Use &TCP socket"
-msgstr "Використовувати &TCP сокет"
-
-#: plugins/remote/remotecfgbase.cpp:140
-msgid "Enable IE context emnu extension"
-msgstr "Дозволити розміщення в меню IE"
 
 #: plugins/replace/replace.cpp:33
 msgid "Replace text"
@@ -5426,7 +3890,7 @@ msgstr "Подвійний клік середньою кнопкою"
 msgid "Mouse"
 msgstr "Мишка"
 
-#: plugins/shortcuts/shortcutcfg.cpp:90 plugins/shortcuts/shortcutcfg.cpp:223 plugins/shortcuts/shortcutcfgbase.cpp:99 plugins/shortcuts/shortcutcfgbase.cpp:141 plugins/shortcuts/shortcutcfgbase.cpp:144
+#: plugins/shortcuts/shortcutcfg.cpp:90 plugins/shortcuts/shortcutcfg.cpp:223
 msgid "Global"
 msgstr "Глобально"
 
@@ -5437,30 +3901,6 @@ msgstr "\"Гарячі\" кнопки"
 #: plugins/shortcuts/shortcuts.cpp:51
 msgid "Plugin provides keyboards shortcuts and global mouse functions"
 msgstr "Модуль забезпечує підтримку \"гарячих\" кнопок"
-
-#: plugins/shortcuts/mousecfgbase.cpp:67 plugins/shortcuts/mousecfgbase.cpp:109 plugins/shortcuts/shortcutcfgbase.cpp:96 plugins/shortcuts/shortcutcfgbase.cpp:139
-msgid "Command"
-msgstr "Команда"
-
-#: plugins/shortcuts/shortcutcfgbase.cpp:97 plugins/shortcuts/shortcutcfgbase.cpp:140
-msgid "Key"
-msgstr "Кнопка"
-
-#: plugins/shortcuts/mousecfgbase.cpp:68 plugins/shortcuts/mousecfgbase.cpp:110
-msgid "Button"
-msgstr "Кнопка"
-
-#: plugins/shortcuts/mousecfgbase.cpp:112 sim/ui/qt3/i18n.cpp:197
-msgid "Alt"
-msgstr "Alt"
-
-#: plugins/shortcuts/mousecfgbase.cpp:113 sim/ui/qt3/i18n.cpp:193
-msgid "Ctrl"
-msgstr "Ctrl"
-
-#: plugins/shortcuts/mousecfgbase.cpp:114 sim/ui/qt3/i18n.cpp:199
-msgid "Shift"
-msgstr "Shift"
 
 #: plugins/sms/sms.cpp:87 plugins/sms/sms.cpp:108
 msgid "Phone call"
@@ -5477,70 +3917,6 @@ msgstr "Зарядка:"
 #: plugins/sms/smssetup.cpp:58
 msgid "Battery:"
 msgstr "Батарея:"
-
-#: plugins/sms/smssetupbase.cpp:170
-msgid "SMSSetup"
-msgstr "SMS Налаштування"
-
-#: plugins/sms/smssetupbase.cpp:172
-msgid "Baudrate:"
-msgstr "Швидкість:"
-
-#: plugins/sms/smssetupbase.cpp:174
-msgid "115200"
-msgstr "115200"
-
-#: plugins/sms/smssetupbase.cpp:175
-msgid "38400"
-msgstr "38400"
-
-#: plugins/sms/smssetupbase.cpp:176
-msgid "19200"
-msgstr "19200"
-
-#: plugins/sms/smssetupbase.cpp:177
-msgid "9600"
-msgstr "9600"
-
-#: plugins/sms/smssetupbase.cpp:178
-msgid "4800"
-msgstr "4800"
-
-#: plugins/sms/smssetupbase.cpp:179
-msgid "2400"
-msgstr "2400"
-
-#: plugins/sms/smssetupbase.cpp:180
-msgid "1200"
-msgstr "1200"
-
-#: plugins/sms/smssetupbase.cpp:181
-msgid "600"
-msgstr "600"
-
-#: plugins/sms/smssetupbase.cpp:182
-msgid "300"
-msgstr "300"
-
-#: plugins/sms/smssetupbase.cpp:183
-msgid "Software handshake"
-msgstr "Програмне керування з'єднанням"
-
-#: plugins/sms/smssetupbase.cpp:185
-msgid "Model:"
-msgstr "Модель:"
-
-#: plugins/sms/smssetupbase.cpp:186
-msgid "Signal quality:"
-msgstr "Якість сигналу:"
-
-#: plugins/sms/smssetupbase.cpp:188
-msgid "Operator:"
-msgstr "Оператор:"
-
-#: plugins/sms/smssetupbase.cpp:189
-msgid "&Phone"
-msgstr "&Телефон"
 
 #: plugins/sound/sound.cpp:46 plugins/sound/sounduser.cpp:37
 msgid "Sound"
@@ -5561,34 +3937,6 @@ msgstr "Qt підтримує звук, тому Вам потрібно вка�
 #: plugins/sound/sounduser.cpp:44
 msgid "Online alert"
 msgstr "Попередження про вхід в мережу"
-
-#: plugins/sound/soundconfigbase.cpp:156
-msgid "&Use artsd"
-msgstr "&Використовувати звуковий сервер"
-
-#: plugins/sound/soundconfigbase.cpp:157
-msgid "Player:"
-msgstr "Програвач:"
-
-#: plugins/sound/soundconfigbase.cpp:158
-msgid "File transfer done:"
-msgstr "Передача файла завершена:"
-
-#: plugins/sound/soundconfigbase.cpp:159
-msgid "Message sent:"
-msgstr "Повідомлення відправлено:"
-
-#: plugins/sound/soundconfigbase.cpp:160
-msgid "Sound on startup:"
-msgstr "Звук при старті:"
-
-#: plugins/sound/sounduserbase.cpp:122
-msgid "&Disable all sounds"
-msgstr "&Заборонити всі звуки"
-
-#: plugins/sound/sounduserbase.cpp:123
-msgid "No sound if windows has &focus"
-msgstr "Не грати звук, якщо вікно клієнта має &фокус"
 
 #: plugins/spell/spell.cpp:62
 msgid "Plugin provides check spelling"
@@ -5618,7 +3966,7 @@ msgstr "Заставка"
 msgid "Plugin provides splash screen"
 msgstr "Модуль забезпечує вивід заставки при старті"
 
-#: plugins/styles/metal/metal.cpp:514
+#: plugins/styles/metal/metal.cpp:496
 msgid "Metal style"
 msgstr "Металевий стиль"
 
@@ -5634,25 +3982,10 @@ msgstr "Модуль стилів"
 msgid "Fonts and colors"
 msgstr "Шрифти і кольори"
 
-#: plugins/styles/wood/wood.cpp:1269
-msgid "Norwegian Wood"
-msgstr "Норвезький Ліс"
-
-#: plugins/styles/fontconfigbase.cpp:159
-msgid "Use &system fonts"
-msgstr "Використовувати &системні шрифти"
-
-#: plugins/styles/fontconfigbase.cpp:160
-msgid "Base font:"
-msgstr "Базовий шрифт:"
-
-#: plugins/styles/fontconfigbase.cpp:162
-msgid "Button color:"
-msgstr "Колір кнопки:"
-
-#: plugins/styles/fontconfigbase.cpp:164
-msgid "Menu font:"
-msgstr "Шрифт меню:"
+#: plugins/styles/wood/wood.cpp:1424
+#, fuzzy
+msgid "Wood"
+msgstr "добрий"
 
 #: plugins/transparent/transparent.cpp:65
 msgid "Transparent"
@@ -5669,14 +4002,6 @@ msgstr ""
 #: plugins/transparent/transparent.cpp:70
 msgid "Plugin provides windows transparency"
 msgstr "Модуль забезпечує прозорість вікон"
-
-#: plugins/transparent/transparentcfgbase.cpp:102
-msgid "Transparency of main window:"
-msgstr "Прозорість головного вікна"
-
-#: plugins/transparent/transparentcfgbase.cpp:103
-msgid "Transparent only if inactive"
-msgstr "Прозорі вікна тільки якщо неактивні"
 
 #: plugins/update/update.cpp:40
 msgid "Update"
@@ -5859,6 +4184,10 @@ msgstr "Видимість"
 msgid "Dew Point"
 msgstr "Точка роси"
 
+#: plugins/weather/wifacecfg.cpp:51 plugins/yahoo/yahoosearch.cpp:134
+msgid "Location"
+msgstr "Місцезнаходження"
+
 #: plugins/weather/wifacecfg.cpp:53
 msgid "Updated"
 msgstr "Поновлення"
@@ -5871,7 +4200,7 @@ msgstr "Схід"
 msgid "Sunset"
 msgstr "Захід"
 
-#: plugins/weather/wifacecfg.cpp:59 plugins/weather/wifacecfg.cpp:74 plugins/yahoo/yahoosearchbase.cpp:160
+#: plugins/weather/wifacecfg.cpp:59 plugins/weather/wifacecfg.cpp:74
 msgid "Conditions"
 msgstr "Стан"
 
@@ -5886,42 +4215,6 @@ msgstr "День тижня"
 #: plugins/weather/wifacecfg.cpp:72 sim/ui/qt3/i18n.cpp:45
 msgid "Date"
 msgstr "Дата"
-
-#: plugins/weather/weathercfgbase.cpp:169
-msgid "Location ID:"
-msgstr "ID місцезнаходження:"
-
-#: plugins/weather/weathercfgbase.cpp:171
-msgid "You can enter ID as part URL for your location on weather.com"
-msgstr "Ви можете взнати ID як частину URL для вашого міста на weather.com"
-
-#: plugins/weather/weathercfgbase.cpp:173
-msgid "Metric"
-msgstr "Метрична"
-
-#: plugins/weather/weathercfgbase.cpp:174
-msgid "Standart"
-msgstr "Стандартна"
-
-#: plugins/weather/weathercfgbase.cpp:175
-msgid "Forecast days:"
-msgstr "Днів в прогнозі:"
-
-#: plugins/weather/weathercfgbase.cpp:176
-msgid "Units:"
-msgstr "Система одиниць:"
-
-#: plugins/weather/wifacecfgbase.cpp:140
-msgid "Button text:"
-msgstr "Текст на кнопці:"
-
-#: plugins/weather/wifacecfgbase.cpp:141
-msgid "Button tip:"
-msgstr "Підказка:"
-
-#: plugins/weather/wifacecfgbase.cpp:142
-msgid "Forecast tip:"
-msgstr "Прогноз:"
 
 #: plugins/windock/windock.cpp:44
 msgid "Plugin provides dock main window to left or right side of screen"
@@ -5987,18 +4280,6 @@ msgstr "Вийшов"
 msgid "Yahoo! ID"
 msgstr "Yahoo! ID"
 
-#: plugins/yahoo/yahoocfgbase.cpp:236
-msgid "&Yahoo!"
-msgstr "&Yahoo!"
-
-#: plugins/yahoo/yahoosearchbase.cpp:157
-msgid "Yahoo! &ID"
-msgstr "Yahoo! &ID"
-
-#: plugins/yahoo/yahoosearchbase.cpp:159
-msgid "&Keyword"
-msgstr "&Ключеві слова"
-
 #: plugins/zodiak/zodiak.cpp:50
 msgid "Zodiak"
 msgstr "Зодіак"
@@ -6060,7 +4341,6 @@ msgid "Pisces"
 msgstr "Риби"
 
 #: plugins/zodiak/zodiak.cpp:233
-#, c-format
 msgid "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
 msgstr "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
 
@@ -7089,7 +5369,6 @@ msgid "%1 bytes"
 msgstr "%1 bytes"
 
 #: sim/api/plugins.cpp:713
-#, c-format
 msgid "Bad option %1"
 msgstr "Погана опція %1"
 
@@ -7103,13 +5382,17 @@ msgid ""
 "Definition of PluralForm - to be set by the translator of kdelibs.po"
 msgstr "Russian"
 
-#: sim/api/simapi.cpp:467 sim/ui/ballonmsg.cpp:359 sim/ui/qt3/i18n.cpp:125
+#: sim/api/simapi.cpp:467 sim/ui/qt3/i18n.cpp:125 sim/ui/ballonmsg.cpp:359
 msgid "&Yes"
 msgstr "&Так"
 
-#: sim/api/simapi.cpp:471 sim/ui/ballonmsg.cpp:360 sim/ui/qt3/i18n.cpp:127
+#: sim/api/simapi.cpp:471 sim/ui/qt3/i18n.cpp:127 sim/ui/ballonmsg.cpp:360
 msgid "&No"
 msgstr "&Ні"
+
+#: sim/api/simapi.cpp:473
+msgid "&Help"
+msgstr "&Допомога"
 
 #: sim/api/simapi.cpp:699
 msgid "Smile"
@@ -7292,12 +5575,10 @@ msgid "Copy or Move a File"
 msgstr "Копіювати або перемістити файл"
 
 #: sim/ui/qt3/i18n.cpp:31
-#, c-format
 msgid "Read: %1"
 msgstr "Читати: %1"
 
 #: sim/ui/qt3/i18n.cpp:33
-#, c-format
 msgid "Write: %1"
 msgstr "Записати: %1"
 
@@ -7389,7 +5670,7 @@ msgstr "Каталог"
 msgid "Special"
 msgstr "Спеціальний"
 
-#: sim/ui/editfile.cpp:143 sim/ui/qt3/i18n.cpp:89
+#: sim/ui/qt3/i18n.cpp:89 sim/ui/editfile.cpp:143
 msgid "Open"
 msgstr "Відкрити"
 
@@ -7442,7 +5723,6 @@ msgid "the symlink"
 msgstr "посилання"
 
 #: sim/ui/qt3/i18n.cpp:121
-#, c-format
 msgid "Delete %1"
 msgstr "Знищити %1"
 
@@ -7459,7 +5739,6 @@ msgid "New Folder"
 msgstr "Нова папка"
 
 #: sim/ui/qt3/i18n.cpp:133
-#, c-format
 msgid "New Folder %1"
 msgstr "Нова папка %1"
 
@@ -7557,12 +5836,23 @@ msgstr "Вперед >"
 msgid "Finish"
 msgstr "Закінчення"
 
+#: sim/ui/qt3/i18n.cpp:193
+msgid "Ctrl"
+msgstr "Ctrl"
+
 #: sim/ui/qt3/i18n.cpp:195
 msgid "+"
 msgstr "+"
 
+#: sim/ui/qt3/i18n.cpp:197
+msgid "Alt"
+msgstr "Alt"
+
+#: sim/ui/qt3/i18n.cpp:199
+msgid "Shift"
+msgstr "Shift"
+
 #: sim/ui/qt3/i18n.cpp:201
-#, c-format
 msgid "F%1"
 msgstr "F%1"
 
@@ -7591,7 +5881,6 @@ msgstr ""
 "%2"
 
 #: sim/ui/qt3/i18n.cpp:216
-#, c-format
 msgid ""
 "Could not open\n"
 "%1"
@@ -7600,7 +5889,6 @@ msgstr ""
 "%1"
 
 #: sim/ui/qt3/i18n.cpp:220
-#, c-format
 msgid ""
 "Could not write\n"
 "%1"
@@ -7625,7 +5913,6 @@ msgid "Host found"
 msgstr "Вузол знайдено"
 
 #: sim/ui/qt3/i18n.cpp:231
-#, c-format
 msgid "Connected to host %1"
 msgstr "З'єднання з вузлом %1"
 
@@ -7642,12 +5929,10 @@ msgid "Login Incorrect"
 msgstr "Помилка реєстрації"
 
 #: sim/ui/qt3/i18n.cpp:241
-#, c-format
 msgid "Col %1"
 msgstr "Стовпчик %1"
 
 #: sim/ui/qt3/i18n.cpp:243
-#, c-format
 msgid "Row %1"
 msgstr "Стрічка %1"
 
@@ -7659,15 +5944,15 @@ msgstr "Повернути"
 msgid "Redo"
 msgstr "Повторити"
 
-#: sim/ui/editfile.cpp:311 sim/ui/editfile.cpp:394 sim/ui/qt3/i18n.cpp:249
+#: sim/ui/qt3/i18n.cpp:249 sim/ui/editfile.cpp:311 sim/ui/editfile.cpp:394
 msgid "Cut"
 msgstr "Вирізати"
 
-#: sim/ui/editfile.cpp:312 sim/ui/editfile.cpp:395 sim/ui/qt3/i18n.cpp:251
+#: sim/ui/qt3/i18n.cpp:251 sim/ui/editfile.cpp:312 sim/ui/editfile.cpp:395
 msgid "Copy"
 msgstr "Копіювати"
 
-#: sim/ui/editfile.cpp:313 sim/ui/editfile.cpp:396 sim/ui/qt3/i18n.cpp:253
+#: sim/ui/qt3/i18n.cpp:253 sim/ui/editfile.cpp:313 sim/ui/editfile.cpp:396
 msgid "Paste"
 msgstr "Вставити"
 
@@ -7878,6 +6163,1289 @@ msgstr "Власний"
 #: xpstyle/xpstyle.cpp:62
 msgid "Windows XP style"
 msgstr "Стиль Windows XP"
+
+#~ msgid "Form1"
+#~ msgstr "Домашня"
+
+#~ msgid "Use &default path"
+#~ msgstr "Використовувати &шлях за замовчуванням"
+
+#~ msgid "Path for config files:"
+#~ msgstr "Шлях до файлів конфігурації:"
+
+#~ msgid "Convert configuration from old version"
+#~ msgstr "Перетворення конфігурації із старої версії"
+
+#~ msgid "Directories for convert:"
+#~ msgstr "Каталог для перетворення:"
+
+#~ msgid "&Remove old files"
+#~ msgstr "&Знищити застарілі файли"
+
+#~ msgid ""
+#~ "Note!\n"
+#~ "If you select an option \" Remove old files \", you can not use the old version"
+#~ msgstr ""
+#~ "Примітка!\n"
+#~ "Якщо ви ввімкнете опції \"Знищити застарілі файли\", ви не зможете використовувати стару версію SIM"
+
+#~ msgid "Select directories for convert"
+#~ msgstr "Вибір каталогів для перетворення"
+
+#~ msgid "Convert configuration"
+#~ msgstr "Перетворення конфігурації"
+
+#~ msgid "&Update"
+#~ msgstr "&Поновити"
+
+#~ msgid "Plugin &enabled"
+#~ msgstr "Модуль &увімкнений"
+
+#~ msgid "&Override global settings"
+#~ msgstr "&Замістити глобальні параметри"
+
+#~ msgid "Toolbar setup"
+#~ msgstr "Налаштування панелі інструментів"
+
+#~ msgid "All buttons:"
+#~ msgstr "Всі кнопки:"
+
+#~ msgid "New Item"
+#~ msgstr "1"
+
+#~ msgid "&Add ->"
+#~ msgstr "&Додати ->"
+
+#~ msgid "<- &Remove"
+#~ msgstr "<- &Видалити"
+
+#~ msgid "Active:"
+#~ msgstr "Активні:"
+
+#~ msgid "&Up"
+#~ msgstr "&Вверх"
+
+#~ msgid "&Down"
+#~ msgstr "&Вниз"
+
+#~ msgid "Language:"
+#~ msgstr "Мова:"
+
+#~ msgid "Message window"
+#~ msgstr "Вікно повідомлення"
+
+#~ msgid "&Simple mode"
+#~ msgstr "&Простий режим"
+
+#~ msgid "&Chat mode"
+#~ msgstr "Режим &чату"
+
+#~ msgid "&Using last selected font"
+#~ msgstr "&Використовувати останній вибраний шрифт"
+
+#~ msgid "Container mode"
+#~ msgstr "Режим контейнерів"
+
+#~ msgid "Open each contact in &new container"
+#~ msgstr "&Кожен контакт в новому контейнері"
+
+#~ msgid "Open one container for &group"
+#~ msgstr "Відкрити контейнер для &групи"
+
+#~ msgid "Open all contacts in &one container"
+#~ msgstr "Відкривати всі контакти в &одному контейнері"
+
+#~ msgid "Use \"&Enter\" for send message"
+#~ msgstr "Використовувати \"&Enter\" для відсилання повідомлень"
+
+#~ msgid "Start SIM on every &windows startup"
+#~ msgstr "Запускати SIM при старті &Windows"
+
+#~ msgid "Form2"
+#~ msgstr "Про роботу"
+
+#~ msgid "Sorting"
+#~ msgstr "Сортування"
+
+#~ msgid "1st:"
+#~ msgstr "Перший:"
+
+#~ msgid "2nd:"
+#~ msgstr "Другий:"
+
+#~ msgid "3rd:"
+#~ msgstr "Третій:"
+
+#~ msgid "Awaiting authorization"
+#~ msgstr "Очікує авторизації"
+
+#~ msgid "Visible"
+#~ msgstr "Видимий"
+
+#~ msgid "Groups"
+#~ msgstr "Групи"
+
+#~ msgid "Do not distrub"
+#~ msgstr "Не турбувати"
+
+#~ msgid "Online:"
+#~ msgstr "В мережі:"
+
+#~ msgid "Colors:"
+#~ msgstr "Кольори:"
+
+#~ msgid "Use &double click"
+#~ msgstr "Використовувати по&двійне клацання"
+
+#~ msgid "Use system &colors"
+#~ msgstr "Використовувати &кольори системи"
+
+#~ msgid "Use small &font for group"
+#~ msgstr "Використовувати дрібний &шрифт для групи"
+
+#~ msgid "Show group &separator"
+#~ msgstr "Показувати &розподілювач груп"
+
+#~ msgid "Use &own colors and fonts settings"
+#~ msgstr "Використовувати &власні кольори і шрифти"
+
+#~ msgid "Use emotional &icons"
+#~ msgstr "Використовувати &смайлики"
+
+#~ msgid "Max history file size"
+#~ msgstr "Максимальний розмір файлу історії"
+
+#~ msgid "Mb"
+#~ msgstr "Mb"
+
+#~ msgid "Keep history "
+#~ msgstr "Зберегти історію"
+
+#~ msgid "days"
+#~ msgstr "днів"
+
+#~ msgid "100"
+#~ msgstr "100"
+
+#~ msgid "50"
+#~ msgstr "50"
+
+#~ msgid "20"
+#~ msgstr "20"
+
+#~ msgid "&Preview"
+#~ msgstr "&Перегляд"
+
+#~ msgid "&Source"
+#~ msgstr "&Джерело"
+
+#~ msgid "First name:"
+#~ msgstr "Ім'я:"
+
+#~ msgid "Last name:"
+#~ msgstr "Прізвище:"
+
+#~ msgid "Display:"
+#~ msgstr "Відображати:"
+
+#~ msgid "Encoding:"
+#~ msgstr "Кодування:"
+
+#~ msgid "Email addresses:"
+#~ msgstr "Email адреси:"
+
+#~ msgid ""
+#~ "Note:\n"
+#~ "You can change only those addresses which have entered.\n"
+#~ "It is impossible to change addresses which were received from the user."
+#~ msgstr ""
+#~ "Примітка:\n"
+#~ "Ви можете вносити зміни тільки в адреси введені Вами.\n"
+#~ "Неможливо змінити адреси якщо вони отримані від користувача."
+
+#~ msgid "&Mails"
+#~ msgstr "&Пошта"
+
+#~ msgid "Phones:"
+#~ msgstr "Телефони:"
+
+#~ msgid "Phone Status:"
+#~ msgstr "Телефонний статус:"
+
+#~ msgid ""
+#~ "Note:\n"
+#~ "You can change only those numbers which have entered.\n"
+#~ "It is impossible to change numbers which were received from the user."
+#~ msgstr ""
+#~ "Примітка:\n"
+#~ "Ви можете вносити зміни тільки в номери введені Вами.\n"
+#~ "Неможливо змінити номери якщо вони отримані від користувача."
+
+#~ msgid "&Phones"
+#~ msgstr "&Телефони"
+
+#~ msgid "&Notes"
+#~ msgstr "&Нотатки"
+
+#~ msgid "EditMail"
+#~ msgstr "Редагувати адресу"
+
+#~ msgid "Enter Email address:"
+#~ msgstr "Введіть email:"
+
+#~ msgid "&Publish"
+#~ msgstr "&Публічний"
+
+#~ msgid "EditPhone"
+#~ msgstr "Редагувати телефон:"
+
+#~ msgid "Number details:"
+#~ msgstr "Номер:"
+
+#~ msgid "Type:"
+#~ msgstr "Тип:"
+
+#~ msgid "Area code:"
+#~ msgstr "Код міста:"
+
+#~ msgid "Extension:"
+#~ msgstr "Додатковий:"
+
+#~ msgid "-"
+#~ msgstr "-"
+
+#~ msgid "Number:"
+#~ msgstr "Номер:"
+
+#~ msgid "Country:"
+#~ msgstr "Країна:"
+
+#~ msgid "Provider:"
+#~ msgstr "Провайдер:"
+
+#~ msgid "Email gateway:"
+#~ msgstr "Email шлюз:"
+
+#~ msgid "&Add to list"
+#~ msgstr "&Додати в список"
+
+#~ msgid "More &options"
+#~ msgstr "&Додатково"
+
+#~ msgid "&New search"
+#~ msgstr "&Новий пошук"
+
+#~ msgid "Form4"
+#~ msgstr "Про себе"
+
+#~ msgid "&E-Mail"
+#~ msgstr "&E-Mail"
+
+#~ msgid "&Name"
+#~ msgstr "&Ім'я"
+
+#~ msgid "First:"
+#~ msgstr "Ім'я:"
+
+#~ msgid "Last:"
+#~ msgstr "Прізвище:"
+
+#~ msgid "Nick:"
+#~ msgstr "Псевдонім:"
+
+#~ msgid "Nickname:"
+#~ msgstr "Псевдонім:"
+
+#~ msgid "E-Mail address:"
+#~ msgstr "Поштова адреса:"
+
+#~ msgid "Phone:"
+#~ msgstr "Телефон:"
+
+#~ msgid "MyDialog"
+#~ msgstr "Мій діалог"
+
+#~ msgid "Form3"
+#~ msgstr "Додаткова інформація"
+
+#~ msgid "Complete"
+#~ msgstr "Виконано"
+
+#~ msgid ""
+#~ "If you want to add connection press button \" Next\".\n"
+#~ "You can add connection later using connection manager"
+#~ msgstr ""
+#~ "Якщо Ви хочете добавити з'єднання натисніть кнопку \"Далі\"\n"
+#~ "Ви можете додати з'єднання пізніше використовуючи менеджер з'єднань"
+
+#~ msgid "Login"
+#~ msgstr "Реєстрація"
+
+#~ msgid "Passwords:"
+#~ msgstr "Паролі:"
+
+#~ msgid "Profile:"
+#~ msgstr "Профіль:"
+
+#~ msgid "&Save password"
+#~ msgstr "&Зберегти пароль"
+
+#~ msgid "&Do not show this window on startup"
+#~ msgstr "&Не показувати це вікно при старті"
+
+#~ msgid "Connection"
+#~ msgstr "З'єднання"
+
+#~ msgid "&Configure"
+#~ msgstr "&Конфігурація"
+
+#~ msgid "&Remove"
+#~ msgstr "&Вилучити"
+
+#~ msgid "&New connection"
+#~ msgstr "&Нове з'єднання"
+
+#~ msgid "New connection"
+#~ msgstr "Нове з'єднання"
+
+#~ msgid "Protocol:"
+#~ msgstr "Протокол:"
+
+#~ msgid "Select protocol"
+#~ msgstr "Виберіть протокол"
+
+#~ msgid "Don't show this dialog"
+#~ msgstr "Більше не показувати цей діалог"
+
+#~ msgid "Save &status changes to history"
+#~ msgstr "Зберігати зміни &статусу в історії"
+
+#~ msgid "Open window if user go online"
+#~ msgstr "Відкрити вікно якщо користувач появився в мережі"
+
+#~ msgid "&No open"
+#~ msgstr "&Не відкривати"
+
+#~ msgid "Open and &minimize"
+#~ msgstr "Відкрити і &мінімізувати"
+
+#~ msgid "Open and &raise"
+#~ msgstr "Відкрити і &активізувати"
+
+#~ msgid "Path for incoming files:"
+#~ msgstr "Каталог для прийому файлів:"
+
+#~ msgid "Accept mode"
+#~ msgstr "Дозволений режим"
+
+#~ msgid "Show response"
+#~ msgstr "Показувати запит"
+
+#~ msgid "Auto accept"
+#~ msgstr "Автоматичний прийом"
+
+#~ msgid "Overwrite files"
+#~ msgstr "Переписувати файли"
+
+#~ msgid "Auto decline"
+#~ msgstr "Автоматична відмова"
+
+#~ msgid "Text before cursor:"
+#~ msgstr "Текст перед курсором:"
+
+#~ msgid "Text after cursor:"
+#~ msgstr "Текст після курсора:"
+
+#~ msgid "Don't show autoreply dialog"
+#~ msgstr "Не показувати діалог автовідповіді"
+
+#~ msgid "File transfer"
+#~ msgstr "Передача файлу"
+
+#~ msgid "Time:"
+#~ msgstr "Час:"
+
+#~ msgid "Estimated time:"
+#~ msgstr "Час що залишився:"
+
+#~ msgid "Speed:"
+#~ msgstr "Швидкість:"
+
+#~ msgid "&Go to dir"
+#~ msgstr "&Перейти в папку"
+
+#~ msgid "Close after &transfer"
+#~ msgstr "Закрити після &відсилання"
+
+#~ msgid "Decline reason"
+#~ msgstr "Причина відмови"
+
+#~ msgid "Enter decline reason:"
+#~ msgstr "Ввести причину відмови:"
+
+#~ msgid "About SIM"
+#~ msgstr "Про SIM"
+
+#~ msgid "Authors"
+#~ msgstr "Автори"
+
+#~ msgid "Translation"
+#~ msgstr "Переклад"
+
+#~ msgid "License"
+#~ msgstr "Ліцензія"
+
+#~ msgid "Add Item"
+#~ msgstr "Добавити елемент меню"
+
+#~ msgid "Item:"
+#~ msgstr "Елемент меню:"
+
+#~ msgid "Program:"
+#~ msgstr "Програма:"
+
+#~ msgid "Set \"Away\" status after"
+#~ msgstr "Встановити статус \"Відійшов\" через"
+
+#~ msgid "minutes not using computer"
+#~ msgstr "хвилин невикористання комп'ютера"
+
+#~ msgid "minutes of \"Away\""
+#~ msgstr "хвилин після \"Відійшов\""
+
+#~ msgid "minutes of \"N/A\""
+#~ msgstr "хвилин після \"Неактивний\""
+
+#~ msgid "Set \"N/A\" status after"
+#~ msgstr "Встановити статус \"Неактивний\" через"
+
+#~ msgid "Set \"Offline\" status after"
+#~ msgstr "Встановити статус \"Вимкнений\" через"
+
+#~ msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+#~ msgstr "Заборонити попередження в стані \"Відійшов\", \"Неактивний\", \"Не турбувати\", \"Зайнятий\""
+
+#~ msgid "Group margin:"
+#~ msgstr "Відступ для груп:"
+
+#~ msgid "Contact margin:"
+#~ msgstr "Відступ для контактів:"
+
+#~ msgid "Main window background:"
+#~ msgstr "Фон головного вікна:"
+
+#~ msgid "Place:"
+#~ msgstr "Розміщення:"
+
+#~ msgid "Hide main window after"
+#~ msgstr "Сховати головне вікно через"
+
+#~ msgid "seconds inactive"
+#~ msgstr "секунд неактивності"
+
+#~ msgid "Show Mainwin on desktop"
+#~ msgstr "Показати головне вікно на екрані"
+
+#~ msgid "current"
+#~ msgstr "поточний"
+
+#~ msgid "&Customize dock menu"
+#~ msgstr "&Налаштування док-меню"
+
+#~ msgid "&Receive message only from contacts from list"
+#~ msgstr "&Приймати повідомлення тільки від контактів в списку"
+
+#~ msgid "Reject messages from unknown users contains this words or phrases:"
+#~ msgstr "Відкидати повідомлення від невідомих користувачів, які містять слова або фрази:"
+
+#~ msgid ""
+#~ "Words are divided by any separators (space, comma, i.e.)\n"
+#~ "A phrase can be specified using quotation marks\n"
+#~ "Words can contain wildcards:\n"
+#~ "* - any amount of symbols (or is empty)\n"
+#~ "? - any symbol"
+#~ msgstr ""
+#~ "Слова розділяються будь-якими розділовими (пробіл, кома і т.д.)\n"
+#~ "Фраза (послідовність слів) береться в лапки\n"
+#~ "Слова можуть містити наступні маски:\n"
+#~ "* - будь-яка послідовність символів (або пустота)\n"
+#~ "? - будь-який символ"
+
+#~ msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
+#~ msgstr "Пересилати всі повідомлення отримані в режимах \"Відійшов\" і \"N/A\" на стільниковий телефон:"
+
+#~ msgid ""
+#~ "For the answer or sending of the new message you can answer on SMS having specified in the beginning of the message a line:\n"
+#~ "<UIN>:"
+#~ msgstr ""
+#~ "Для відповіді або відсилання нового повідомлення ви можете відповісти на SMS, вказавши для початку повідомлення стрічку:\n"
+#~ " <UIN>:"
+
+#~ msgid "Send only &one message (don't split)"
+#~ msgstr "Відправляти тільки &одне повідомлення"
+
+#~ msgid "Executable:"
+#~ msgstr "Програма:"
+
+#~ msgid "Home directory:"
+#~ msgstr "Домашній каталог:"
+
+#~ msgid "&Find"
+#~ msgstr "&Пошук"
+
+#~ msgid "Your key:"
+#~ msgstr "Ваш ключ:"
+
+#~ msgid "&Refresh"
+#~ msgstr "&Обновити"
+
+#~ msgid "Command arguments"
+#~ msgstr "Командні аргументи"
+
+#~ msgid "Generate key:"
+#~ msgstr "Генерувати ключ:"
+
+#~ msgid "List public keys:"
+#~ msgstr "Список публічних ключів:"
+
+#~ msgid "List secret keys:"
+#~ msgstr "Список приватних(секретних) ключів:"
+
+#~ msgid "Import public:"
+#~ msgstr "Імпортувати публічний ключ:"
+
+#~ msgid "Export public:"
+#~ msgstr "Експортувати публічний ключ:"
+
+#~ msgid "Encrypt:"
+#~ msgstr "Шифрувати:"
+
+#~ msgid "Decrypt:"
+#~ msgstr "Дешифрувати:"
+
+#~ msgid "Generate key"
+#~ msgstr "Генерувати ключ"
+
+#~ msgid "EMail:"
+#~ msgstr "Пошта:"
+
+#~ msgid "Comment:"
+#~ msgstr "Коментарій:"
+
+#~ msgid "Name:"
+#~ msgstr "Ім'я:"
+
+#~ msgid "Passphrase:"
+#~ msgstr "Секретна фраза:"
+
+#~ msgid "Retype passphrase:"
+#~ msgstr "Повторіть секретну фразу:"
+
+#~ msgid "Key:"
+#~ msgstr "Ключ:"
+
+#~ msgid "Input passphrase"
+#~ msgstr "Введіть секретну фразу"
+
+#~ msgid "&Save passphrase"
+#~ msgstr "&Зберегти секретну фразу"
+
+#~ msgid "Icons for protocol:"
+#~ msgstr "Іконки для протоколу:"
+
+#~ msgid "Smiles:"
+#~ msgstr "Смайлики:"
+
+#~ msgid "&Register new UIN"
+#~ msgstr "&Зареєструвати новий UIN"
+
+#~ msgid "UIN:"
+#~ msgstr "UIN:"
+
+#~ msgid "&ICQ"
+#~ msgstr "&ICQ"
+
+#~ msgid "&Automaticaly use HTTP pooling if proxy required"
+#~ msgstr "&Автоматично використовувати HTTP-з'єднання при проксі-сервісі"
+
+#~ msgid "Use &HTTP polling"
+#~ msgstr "Використовувати &HTTP з'єднання"
+
+#~ msgid "Server:"
+#~ msgstr "Сервер:"
+
+#~ msgid "Port:"
+#~ msgstr "Порт:"
+
+#~ msgid "Port range for direct connections:"
+#~ msgstr "Порти для прямих з'єднань"
+
+#~ msgid "Note: For HTTP-pooling using proxy setings for HTTP"
+#~ msgstr "Примітка: Для HTTP-з'єднання використовуйте налаштування проксі для HTTP"
+
+#~ msgid "&Keep-alive connection"
+#~ msgstr "&Підтримувати діюче з'єднання"
+
+#~ msgid "&Network"
+#~ msgstr "&Мережа"
+
+#~ msgid "Automatically check &invisible"
+#~ msgstr "Автоматична перевірка &невидимості"
+
+#~ msgid "Send format:"
+#~ msgstr "Формат посилання:"
+
+#~ msgid "Send message:"
+#~ msgstr "Відіслати повідомлення:"
+
+#~ msgid "No wait ack"
+#~ msgstr "Не чекати підтвердження"
+
+#~ msgid "Wait ack from server"
+#~ msgstr "Чекати підтвердження від сервера"
+
+#~ msgid "Wait ack from client"
+#~ msgstr "Чекати підтвердження від клієнта"
+
+#~ msgid "Accept in &occupied mode"
+#~ msgstr "Приймати в режимі \"&Відійшов\""
+
+#~ msgid "Accept in &DND mode"
+#~ msgstr "Приймати в режимі \"&Не турбувати\""
+
+#~ msgid "For decrease traffic you can:"
+#~ msgstr "Для зменшення трафіка Ви можете:"
+
+#~ msgid "Disable answer on phonebook and &picture requests"
+#~ msgstr "Вимкнути відповіді на запити &картинок і телефонної книги"
+
+#~ msgid "Disable automaticaly &request autoreply on change status"
+#~ msgstr "Заборонити запитувати &автовідповідь при зміні статусу"
+
+#~ msgid "Disable automatically &update user info"
+#~ msgstr "&Заборонити автоматично поновляти інформацію про користувача"
+
+#~ msgid "Disable &typing notification"
+#~ msgstr "Вимкнути попередження про &друк"
+
+#~ msgid "Check invisible every"
+#~ msgstr "Перевіряти невидимість кожні"
+
+#~ msgid "minutes"
+#~ msgstr "хвилин"
+
+#~ msgid "&Options"
+#~ msgstr "&Параметри"
+
+#~ msgid "Form5"
+#~ msgstr "Основна інформація"
+
+#~ msgid "Last Name:"
+#~ msgstr "Прізвище:"
+
+#~ msgid "Uin:"
+#~ msgstr "Uin:"
+
+#~ msgid "Random chat group:"
+#~ msgstr "Група випадкового спілкування:"
+
+#~ msgid "&Names"
+#~ msgstr "&Імена"
+
+#~ msgid "Status:"
+#~ msgstr "Статус:"
+
+#~ msgid "External IP:"
+#~ msgstr "Зовнішній IP:"
+
+#~ msgid "Internal IP:"
+#~ msgstr "Внутрішній IP:"
+
+#~ msgid "Client:"
+#~ msgstr "Клієнт:"
+
+#~ msgid "New password:"
+#~ msgstr "Новий пароль:"
+
+#~ msgid "Retype new password:"
+#~ msgstr "Повторіть новий пароль:"
+
+#~ msgid "Current password:"
+#~ msgstr "Діючий пароль:"
+
+#~ msgid "&Password"
+#~ msgstr "&Пароль"
+
+#~ msgid "State:"
+#~ msgstr "Штат:"
+
+#~ msgid "Address:"
+#~ msgstr "Адреса:"
+
+#~ msgid "City:"
+#~ msgstr "Місто:"
+
+#~ msgid "Zip code:"
+#~ msgstr "Індекс:"
+
+#~ msgid "Time zone:"
+#~ msgstr "Часовий пояс:"
+
+#~ msgid "&Home info"
+#~ msgstr "&Домашня інформація"
+
+#~ msgid "Age:"
+#~ msgstr "Вік:"
+
+#~ msgid "Homepage:"
+#~ msgstr "Домашня сторінка:"
+
+#~ msgid "Gender:"
+#~ msgstr "Стать:"
+
+#~ msgid "Birth date:"
+#~ msgstr "Дата народження:"
+
+#~ msgid "&More info"
+#~ msgstr "&Розширена інформація"
+
+#~ msgid "Spoken languages:"
+#~ msgstr "Розмовні мови:"
+
+#~ msgid "&Languages"
+#~ msgstr "&Мови"
+
+#~ msgid "Web site:"
+#~ msgstr "WWW сторінка:"
+
+#~ msgid "&Company"
+#~ msgstr "&Компанія:"
+
+#~ msgid "Occupation:"
+#~ msgstr "Діяльність:"
+
+#~ msgid "Div / dept:"
+#~ msgstr "Відділ:"
+
+#~ msgid "Position:"
+#~ msgstr "Посада:"
+
+#~ msgid "&Occupation"
+#~ msgstr "&Діяльність:"
+
+#~ msgid "Additional information about user:"
+#~ msgstr "Додаткова інформація про користувача:"
+
+#~ msgid "A&bout"
+#~ msgstr "&Про"
+
+#~ msgid "&Interests"
+#~ msgstr "&Інтереси"
+
+#~ msgid "Organization, Affiliation, Group:"
+#~ msgstr "Об'єднання, громадські організації:"
+
+#~ msgid "A&ffilation"
+#~ msgstr "&Об'єднання"
+
+#~ msgid "Past background:"
+#~ msgstr "Освіта:"
+
+#~ msgid "&Background"
+#~ msgstr "&Фон"
+
+#~ msgid "My &authorization is required before users add me to Contact List"
+#~ msgstr "Для ввімкнення мене в список контактів вимагається &авторизація"
+
+#~ msgid "Don't show my &IP-address"
+#~ msgstr "Не показувати мою &IP-адресу"
+
+#~ msgid "Allow other to view my &status from the Web"
+#~ msgstr "Дозволити користувачам бачити мій &статус через WWW"
+
+#~ msgid "I&gnore user authorization"
+#~ msgstr "І&гнорувати вимоги авторизації"
+
+#~ msgid "Direct connections"
+#~ msgstr "Прямі з'єднання"
+
+#~ msgid "Allow &direct connection from any user"
+#~ msgstr "Дозволити прямі з'єднання від &всіх користувачів"
+
+#~ msgid "Allow direct connection from user listed in &contact list"
+#~ msgstr "Дозволити прямі з'єднання тільки від користувачів із списку &контактів"
+
+#~ msgid "Allow direct connection from user &upon authorization"
+#~ msgstr "Дозволити прямі з'єднання після &авторизації"
+
+#~ msgid "&Security"
+#~ msgstr "&Безпека"
+
+#~ msgid "&Visible list"
+#~ msgstr "Список &видимості"
+
+#~ msgid "&Invisible list"
+#~ msgstr "Список &невидимості"
+
+#~ msgid "&UIN"
+#~ msgstr "&UIN"
+
+#~ msgid "&Screenname"
+#~ msgstr "&Обліковий запис"
+
+#~ msgid "AOL s&creenname"
+#~ msgstr "AOL о&бліковий запис"
+
+#~ msgid "ICQ &UIN"
+#~ msgstr "ICQ &UIN"
+
+#~ msgid "Advanced"
+#~ msgstr "&Додатково"
+
+#~ msgid "Work"
+#~ msgstr "Робота"
+
+#~ msgid "Company:"
+#~ msgstr "Компанія:"
+
+#~ msgid "Department:"
+#~ msgstr "Відділ:"
+
+#~ msgid "Past"
+#~ msgstr "Минуле"
+
+#~ msgid "Affilations"
+#~ msgstr "Об'єднання"
+
+#~ msgid "Keywords"
+#~ msgstr "Ключеві слова"
+
+#~ msgid "Search &online users only"
+#~ msgstr "Шукати тільки контакти в &мережі"
+
+#~ msgid "&Clear"
+#~ msgstr "&Стерти"
+
+#~ msgid "&Picture"
+#~ msgstr "&Картинка"
+
+#~ msgid "Secure chanel request"
+#~ msgstr "Запит захищеного з'єднання"
+
+#~ msgid ""
+#~ "Secure channel is established using SSL with Diffie-Hellman key exchange and  the TLS version 1 protocol.\n"
+#~ "\n"
+#~ "This only works with other SIM and Licq clients"
+#~ msgstr ""
+#~ "Захищене з'єднання встановлюється з допомогою SSL з обміном ключами методом Діффі-Хелмана і протоколом TLS версії 1\n"
+#~ "\n"
+#~ "Це з'єднання працює тільки з клієнтами SIM і Licq"
+
+#~ msgid "ScreenName:"
+#~ msgstr "Ім'я:"
+
+#~ msgid "&AIM"
+#~ msgstr "&AIM"
+
+#~ msgid "Middle:"
+#~ msgstr "По-батькові:"
+
+#~ msgid "Maiden:"
+#~ msgstr "Дівоче:"
+
+#~ msgid "Street:"
+#~ msgstr "Вулиця:"
+
+#~ msgid "Zip:"
+#~ msgstr "Індекс:"
+
+#~ msgid "&Profile"
+#~ msgstr "&Профіль"
+
+#~ msgid "Names"
+#~ msgstr "Імена"
+
+#~ msgid "Send warning"
+#~ msgstr "Відсилання попередження"
+
+#~ msgid "Click OK to send warning to %1. This will raise %1's warning and limit his or her activity. Do this only if %1 has done something to merit a warning."
+#~ msgstr "Натисніть \"Гаразд\" для відправки попередження до %1. Це збільшить рівень %1 попереджень і обмежить активність контактів. Робіть це тільки у випадку, коли %1 зробив щось, що заслуговує попередження"
+
+#~ msgid "Warn &anonymously"
+#~ msgstr "Попередження &анонімності"
+
+#~ msgid ""
+#~ "Check this if you don't want your screen name revealed.\n"
+#~ "Anonymous warinings are less severe."
+#~ msgstr ""
+#~ "Відмітьте, якщо Ви не хочете показувати своє ім'я в попередженні.\n"
+#~ "Анонімні попередження менше привертають увагу"
+
+#~ msgid "Choose default encoding"
+#~ msgstr "Виберіть кодову сторінку за замовчуванням"
+
+#~ msgid "Your current system encoding (UTF-8) may cause problems saving your personal information and reading offline messages from other users."
+#~ msgstr "У Вас встановлене кодування UTF-8, це може викликати проблеми з кодуванням при читанні повідомлень при статусі \"Вимкнений\" або при збереженні Вашої інформації"
+
+#~ msgid "You will choose the coding by default which want to use:"
+#~ msgstr "Виберіть кодову сторінку за замовчуванням:"
+
+#~ msgid "Username:"
+#~ msgstr "Ім'я користувача:"
+
+#~ msgid "&Register new account"
+#~ msgstr "&Зареєструвати новий обліковий запис"
+
+#~ msgid "Use &SSL"
+#~ msgstr "Використовувати &SSL"
+
+#~ msgid "&Jabber"
+#~ msgstr "&Jabber"
+
+#~ msgid "Use &plain text login"
+#~ msgstr "Використовувати авторизацію &відкритим текстом"
+
+#~ msgid "URL:"
+#~ msgstr "URL:"
+
+#~ msgid "Resource:"
+#~ msgstr "Ресурс:"
+
+#~ msgid "Priority:"
+#~ msgstr "Пріоритет:"
+
+#~ msgid "Manualy specify Jabber host:"
+#~ msgstr "Встановити Jabber сервер явно:"
+
+#~ msgid "Use protocol &icons for agents contacts"
+#~ msgstr "Використовувати &іконки контактних агентів"
+
+#~ msgid "Automaticaly send &subscribe request"
+#~ msgstr "Автоматично відправляти &запити авторизації"
+
+#~ msgid "Automaticaly &accept subscribe requests"
+#~ msgstr "Автоматично &приймати запити авторизації"
+
+#~ msgid "Send &rich text messages if possible"
+#~ msgstr "Відправити повідомлення з &форматуванням"
+
+#~ msgid "Enable &typing notification"
+#~ msgstr "Увімкнути попередження про &друк"
+
+#~ msgid "ID:"
+#~ msgstr "ID:"
+
+#~ msgid "Role:"
+#~ msgstr "Роль:"
+
+#~ msgid "Additional information:"
+#~ msgstr "Додаткова інформація:"
+
+#~ msgid "&JID"
+#~ msgstr "&JID"
+
+#~ msgid "Jabber &browser"
+#~ msgstr "Jabber &навігатор"
+
+#~ msgid "DiscoInfo"
+#~ msgstr "Інформація"
+
+#~ msgid "Namespaces:"
+#~ msgstr "Простір імен:"
+
+#~ msgid "Category:"
+#~ msgstr "Категорія:"
+
+#~ msgid "Version:"
+#~ msgstr "Версія:"
+
+#~ msgid "System:"
+#~ msgstr "Система:"
+
+#~ msgid "UTC client time:"
+#~ msgstr "UTC час клієнта:"
+
+#~ msgid "Last activity, idle response:"
+#~ msgstr "Остання активність:"
+
+#~ msgid "&Statistic"
+#~ msgstr "&Статистика"
+
+#~ msgid "&LiveJournal"
+#~ msgstr "&LiveJournal"
+
+#~ msgid "Path:"
+#~ msgstr "Шлях:"
+
+#~ msgid "Check interval:"
+#~ msgstr "Інтервал перевірки:"
+
+#~ msgid "Use &fast server - only for paying customers"
+#~ msgstr "Використовувати &швидкий сервер тільки для платних користувачів"
+
+#~ msgid "Subject:"
+#~ msgstr "Тема:"
+
+#~ msgid "Security:"
+#~ msgstr "Безпека:"
+
+#~ msgid "Public"
+#~ msgstr "Публічний"
+
+#~ msgid "Friends-Only"
+#~ msgstr "Тільки для друзів"
+
+#~ msgid "Private"
+#~ msgstr "Приватний"
+
+#~ msgid "Mood:"
+#~ msgstr "Настрій:"
+
+#~ msgid "Enable comments"
+#~ msgstr "Дозволити коментарі"
+
+#~ msgid "No email comments"
+#~ msgstr "Не відправляти коментарі поштою"
+
+#~ msgid "Disable comments"
+#~ msgstr "Заборонити коментарі"
+
+#~ msgid "Add community"
+#~ msgstr "Додати товариство"
+
+#~ msgid "File:"
+#~ msgstr "Файл:"
+
+#~ msgid "Log level:"
+#~ msgstr "Рівень відладки:"
+
+#~ msgid "Login:"
+#~ msgstr "Ім'я:"
+
+#~ msgid "&MSN"
+#~ msgstr "&MSN"
+
+#~ msgid "&Automatically use HTTP pooling if proxy required"
+#~ msgstr "&Автоматично використовувати HTTP-з'єднання якщо необхідно проксі"
+
+#~ msgid "&Automatically add contacts in accept list"
+#~ msgstr "&Автоматично додавати контакти в дозволений список"
+
+#~ msgid "Browser:"
+#~ msgstr "Навігатор:"
+
+#~ msgid "Mailer:"
+#~ msgstr "Поштовий клієнт:"
+
+#~ msgid "Open links in &new window"
+#~ msgstr "Відкрити посилання в &новому вікні"
+
+#~ msgid "Show &main window in task manager"
+#~ msgstr "Показувати &основне вікно в панелі задач"
+
+#~ msgid "&Container always on top"
+#~ msgstr "&Контейнер завжди зверху"
+
+#~ msgid "Enable &messages notification"
+#~ msgstr "Увімкнути &попередження про повідомлення"
+
+#~ msgid "Enable &status notification"
+#~ msgstr "Увімкнути попередження про зміну &статусу"
+
+#~ msgid "Show message &content"
+#~ msgstr "Переглядати &зміст повідомлення"
+
+#~ msgid "Show lines of content:"
+#~ msgstr "Кількість стрічок повідомлення"
+
+#~ msgid "All"
+#~ msgstr "Все"
+
+#~ msgid "Offset:"
+#~ msgstr "Відступ:"
+
+#~ msgid "Show time:"
+#~ msgstr "Час показу:"
+
+#~ msgid "Color:"
+#~ msgstr "Колір:"
+
+#~ msgid "Font:"
+#~ msgstr "Шрифт:"
+
+#~ msgid "Show sha&dow"
+#~ msgstr "Показувати &тінь"
+
+#~ msgid "Show &background"
+#~ msgstr "Показувати &фон"
+
+#~ msgid "Background color:"
+#~ msgstr "Колір фону:"
+
+#~ msgid "Shown on screen:"
+#~ msgstr "Показувати на моніторі:"
+
+#~ msgid "Host:"
+#~ msgstr "Сервер:"
+
+#~ msgid "Proxy require &authorization"
+#~ msgstr "Проксі-сервер вимагає &авторизацію"
+
+#~ msgid "User:"
+#~ msgstr "Користувач:"
+
+#~ msgid "Proxy type:"
+#~ msgstr "Тип проксі:"
+
+#~ msgid "Do not show error dialog (automatically reconnect)"
+#~ msgstr "Не показувати діалог помилок (автоматичне перез'єднання)"
+
+#~ msgid "Proxy error"
+#~ msgstr "Помилка проксі"
+
+#~ msgid "Use &UNIX socket"
+#~ msgstr "Використовувати &UNIX сокет"
+
+#~ msgid "Use &TCP socket"
+#~ msgstr "Використовувати &TCP сокет"
+
+#~ msgid "Enable IE context emnu extension"
+#~ msgstr "Дозволити розміщення в меню IE"
+
+#~ msgid "Command"
+#~ msgstr "Команда"
+
+#~ msgid "Key"
+#~ msgstr "Кнопка"
+
+#~ msgid "Button"
+#~ msgstr "Кнопка"
+
+#~ msgid "SMSSetup"
+#~ msgstr "SMS Налаштування"
+
+#~ msgid "Baudrate:"
+#~ msgstr "Швидкість:"
+
+#~ msgid "115200"
+#~ msgstr "115200"
+
+#~ msgid "38400"
+#~ msgstr "38400"
+
+#~ msgid "19200"
+#~ msgstr "19200"
+
+#~ msgid "9600"
+#~ msgstr "9600"
+
+#~ msgid "4800"
+#~ msgstr "4800"
+
+#~ msgid "2400"
+#~ msgstr "2400"
+
+#~ msgid "1200"
+#~ msgstr "1200"
+
+#~ msgid "600"
+#~ msgstr "600"
+
+#~ msgid "300"
+#~ msgstr "300"
+
+#~ msgid "Software handshake"
+#~ msgstr "Програмне керування з'єднанням"
+
+#~ msgid "Model:"
+#~ msgstr "Модель:"
+
+#~ msgid "Signal quality:"
+#~ msgstr "Якість сигналу:"
+
+#~ msgid "Operator:"
+#~ msgstr "Оператор:"
+
+#~ msgid "&Phone"
+#~ msgstr "&Телефон"
+
+#~ msgid "&Use artsd"
+#~ msgstr "&Використовувати звуковий сервер"
+
+#~ msgid "Player:"
+#~ msgstr "Програвач:"
+
+#~ msgid "File transfer done:"
+#~ msgstr "Передача файла завершена:"
+
+#~ msgid "Message sent:"
+#~ msgstr "Повідомлення відправлено:"
+
+#~ msgid "Sound on startup:"
+#~ msgstr "Звук при старті:"
+
+#~ msgid "&Disable all sounds"
+#~ msgstr "&Заборонити всі звуки"
+
+#~ msgid "No sound if windows has &focus"
+#~ msgstr "Не грати звук, якщо вікно клієнта має &фокус"
+
+#~ msgid "Norwegian Wood"
+#~ msgstr "Норвезький Ліс"
+
+#~ msgid "Use &system fonts"
+#~ msgstr "Використовувати &системні шрифти"
+
+#~ msgid "Base font:"
+#~ msgstr "Базовий шрифт:"
+
+#~ msgid "Button color:"
+#~ msgstr "Колір кнопки:"
+
+#~ msgid "Menu font:"
+#~ msgstr "Шрифт меню:"
+
+#~ msgid "Transparency of main window:"
+#~ msgstr "Прозорість головного вікна"
+
+#~ msgid "Transparent only if inactive"
+#~ msgstr "Прозорі вікна тільки якщо неактивні"
+
+#~ msgid "Location ID:"
+#~ msgstr "ID місцезнаходження:"
+
+#~ msgid "You can enter ID as part URL for your location on weather.com"
+#~ msgstr "Ви можете взнати ID як частину URL для вашого міста на weather.com"
+
+#~ msgid "Metric"
+#~ msgstr "Метрична"
+
+#~ msgid "Standart"
+#~ msgstr "Стандартна"
+
+#~ msgid "Forecast days:"
+#~ msgstr "Днів в прогнозі:"
+
+#~ msgid "Units:"
+#~ msgstr "Система одиниць:"
+
+#~ msgid "Button text:"
+#~ msgstr "Текст на кнопці:"
+
+#~ msgid "Button tip:"
+#~ msgstr "Підказка:"
+
+#~ msgid "Forecast tip:"
+#~ msgstr "Прогноз:"
+
+#~ msgid "&Yahoo!"
+#~ msgstr "&Yahoo!"
+
+#~ msgid "Yahoo! &ID"
+#~ msgstr "Yahoo! &ID"
+
+#~ msgid "&Keyword"
+#~ msgstr "&Ключеві слова"
 
 #~ msgid ""
 #~ "_n: You have %n unread message\n"

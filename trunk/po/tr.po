@@ -9,7 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
-"POT-Creation-Date: 2004-05-09 19:41+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-05-11 21:26+0200\n"
 "PO-Revision-Date: 2004-05-02 14:29+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
@@ -31,20 +32,6 @@ msgstr ""
 msgid "Set home directory"
 msgstr "dizin"
 
-#: plugins/__homedir/homedircfgbase.cpp:121 plugins/_core/arcfgbase.cpp:137 plugins/_core/filecfgbase.cpp:145 plugins/_core/historycfgbase.cpp:225 plugins/_core/interfacecfgbase.cpp:153 plugins/_core/maininfobase.cpp:245 plugins/_core/msgcfgbase.cpp:114 plugins/_core/phonebase.cpp:144 plugins/_core/plugincfgbase.cpp:101 plugins/_core/prefcfgbase.cpp:96 plugins/_core/smscfgbase.cpp:95 plugins/_core/userhistorycfgbase.cpp:122 plugins/action/actioncfgbase.cpp:120 plugins/action/menucfgbase.cpp:126 plugins/autoaway/autoawaycfgbase.cpp:133 plugins/background/bkgndcfgbase.cpp:172 plugins/dock/dockcfgbase.cpp:122 plugins/filter/filtercfgbase.cpp:96 plugins/forward/forwardcfgbase.cpp:101 plugins/gpg/gpgadvbase.cpp:155 plugins/gpg/gpgcfgbase.cpp:160 plugins/gpg/gpguserbase.cpp:98 plugins/icons/iconcfgbase.cpp:135 plugins/icons/smilecfgbase.cpp:121 plugins/icq/advsearchbase.cc:276 plugins/icq/aimconfigbase.cc:174 plugins/icq/aiminfobase.cc:286 plugins/icq/aimsearchbase.cc:192 plugins/icq/homeinfobase.cc:174 plugins/icq/icqconfigbase.cc:293 plugins/icq/icqpicturebase.cc:133 plugins/icq/icqsearchbase.cc:184 plugins/icq/icqsecurebase.cc:165 plugins/icq/pastinfobase.cc:169 plugins/jabber/infoproxybase.cpp:86 plugins/jabber/jabberconfigbase.cpp:352 plugins/jabber/jabberinfobase.cpp:297 plugins/jabber/jabberpicturebase.cpp:133 plugins/jabber/jabberworkinfobase.cpp:119 plugins/jabber/jidadvsearchbase.cpp:94 plugins/jabber/jidsearchbase.cpp:133 plugins/livejournal/journalsearchbase.cpp:95 plugins/livejournal/livejournalcfgbase.cpp:207 plugins/livejournal/msgjournalbase.cpp:112 plugins/logger/logconfigbase.cpp:126 plugins/msn/msninfobase.cpp:160 plugins/msn/msnsearchbase.cpp:130 plugins/navigate/navcfgbase.cc:99 plugins/ontop/ontopcfgbase.cpp:88 plugins/osd/osdconfigbase.cpp:139 plugins/proxy/proxycfgbase.cpp:161 plugins/remote/remotecfgbase.cpp:134 plugins/replace/replacecfgbase.cpp:111 plugins/shortcuts/mousecfgbase.cpp:108 plugins/shortcuts/shortcutcfgbase.cpp:138 plugins/sound/soundconfigbase.cpp:155
-#: plugins/sound/sounduserbase.cpp:121 plugins/styles/fontconfigbase.cpp:158 plugins/styles/stylescfgbase.cpp:83 plugins/transparent/transparentcfgbase.cpp:101 plugins/weather/weathercfgbase.cpp:168 plugins/weather/wifacecfgbase.cpp:139 plugins/yahoo/yahooinfobase.cpp:178 plugins/yahoo/yahoosearchbase.cpp:156
-msgid "Form1"
-msgstr "Form1"
-
-#: plugins/__homedir/homedircfgbase.cpp:122
-msgid "Use &default path"
-msgstr ""
-
-#: plugins/__homedir/homedircfgbase.cpp:123
-#, fuzzy
-msgid "Path for config files:"
-msgstr "Gelen dosyaların saklanacağı yer :"
-
 #: plugins/__migrate/migrate.cpp:35
 #, fuzzy
 msgid "Migrate"
@@ -59,37 +46,9 @@ msgid "Cancel convert?"
 msgstr ""
 
 #: plugins/__migrate/migratedlg.cpp:161 plugins/__migrate/migratedlg.cpp:165 plugins/__migrate/migratedlg.cpp:169 plugins/__migrate/migratedlg.cpp:234 plugins/__migrate/migratedlg.cpp:238 sim/api/message.cpp:601
-#, fuzzy, c-format
+#, fuzzy
 msgid "Can't open %1"
 msgstr "%1 açılamadı"
-
-#: plugins/__migrate/migratedlgbase.cpp:89
-msgid "Convert configuration from old version"
-msgstr ""
-
-#: plugins/__migrate/migratedlgbase.cpp:90
-#, fuzzy
-msgid "Directories for convert:"
-msgstr "Gelen dosyaların kaydedileceği yer"
-
-#: plugins/__migrate/migratedlgbase.cpp:91
-msgid "&Remove old files"
-msgstr ""
-
-#: plugins/__migrate/migratedlgbase.cpp:92
-msgid ""
-"Note!\n"
-"If you select an option \" Remove old files \", you can not use the old version"
-msgstr ""
-
-#: plugins/__migrate/migratedlgbase.cpp:94
-msgid "Select directories for convert"
-msgstr ""
-
-#: plugins/__migrate/migratedlgbase.cpp:96
-#, fuzzy
-msgid "Convert configuration"
-msgstr "ICQ programı"
 
 #: plugins/_core/arcfg.cpp:96 plugins/_core/autoreply.cpp:111 plugins/weather/wifacecfg.cpp:113
 msgid "In text you can use:"
@@ -118,19 +77,19 @@ msgstr "Otomatik cevap"
 msgid "Plugins"
 msgstr "Polonyaca"
 
-#: plugins/_core/cfgdlg.cpp:499 plugins/_core/cfgdlgbase.cpp:125 plugins/_core/toolsetupbase.cpp:134 plugins/jabber/discoinfobase.cpp:319 sim/api/simapi.cpp:468
+#: plugins/_core/cfgdlg.cpp:499 sim/api/simapi.cpp:468
 msgid "&Apply"
 msgstr "&Uygula"
 
-#: plugins/_core/autoreplybase.cpp:122 plugins/_core/cfgdlg.cpp:500 plugins/_core/cfgdlgbase.cpp:126 plugins/_core/connectionsettingsbase.cpp:106 plugins/_core/declinedlgbase.cpp:82 plugins/_core/editmailbase.cpp:97 plugins/_core/editphonebase.cpp:143 plugins/_core/logindlgbase.cpp:132 plugins/_core/toolsetupbase.cpp:135 plugins/action/additembase.cpp:126 plugins/gpg/gpggenbase.cpp:140 plugins/gpg/passphrasebase.cpp:85 plugins/icq/encodingdlgbase.cc:86 plugins/icq/warndlgbase.cc:88 plugins/jabber/discoinfobase.cpp:320 plugins/proxy/proxyerrorbase.cpp:80 sim/api/simapi.cpp:467 sim/ui/qt3/i18n.cpp:174
+#: plugins/_core/cfgdlg.cpp:500 sim/api/simapi.cpp:467 sim/ui/qt3/i18n.cpp:174
 msgid "&OK"
 msgstr "&Tamam"
 
-#: plugins/_core/autoreplybase.cpp:123 plugins/_core/cfgdlg.cpp:501 plugins/_core/cfgdlgbase.cpp:127 plugins/_core/connectionsettingsbase.cpp:107 plugins/_core/declinedlgbase.cpp:83 plugins/_core/editmailbase.cpp:98 plugins/_core/editphonebase.cpp:144 plugins/_core/filetransferbase.cpp:138 plugins/_core/logindlgbase.cpp:133 plugins/_core/search.cpp:131 plugins/action/additembase.cpp:127 plugins/gpg/gpggenbase.cpp:141 plugins/gpg/passphrasebase.cpp:86 plugins/icq/encodingdlgbase.cc:87 plugins/icq/icqclient.cpp:2399 plugins/icq/securedlgbase.cc:78 plugins/icq/warndlgbase.cc:89 plugins/proxy/proxyerrorbase.cpp:81 plugins/weather/weathercfg.cpp:80 sim/api/simapi.cpp:470 sim/ui/qt3/i18n.cpp:35
+#: plugins/_core/cfgdlg.cpp:501 plugins/_core/search.cpp:131 plugins/icq/icqclient.cpp:2399 plugins/weather/weathercfg.cpp:80 sim/api/simapi.cpp:470 sim/ui/qt3/i18n.cpp:35
 msgid "&Cancel"
 msgstr "&İptal"
 
-#: plugins/_core/cfgdlg.cpp:502 plugins/_core/cfgdlgbase.cpp:122 plugins/_core/core.cpp:531 plugins/_core/core.cpp:1131 plugins/_core/core.cpp:1213
+#: plugins/_core/cfgdlg.cpp:502 plugins/_core/core.cpp:531 plugins/_core/core.cpp:1131 plugins/_core/core.cpp:1213
 msgid "Setup"
 msgstr "Ayarlar"
 
@@ -268,7 +227,7 @@ msgstr "Kullanıcı &Bilgisi"
 msgid "&History"
 msgstr "&Geçmiş"
 
-#: plugins/_core/core.cpp:636 plugins/_core/filetransfer.cpp:346 plugins/_core/managerbase.cpp:110 plugins/_core/toolsetupbase.cpp:136 plugins/about/aboutdlgbase.cpp:153 plugins/icq/securedlg.cpp:92 plugins/jabber/discoinfobase.cpp:321 sim/api/simapi.cpp:470 sim/ui/qt3/i18n.cpp:287
+#: plugins/_core/core.cpp:636 plugins/_core/filetransfer.cpp:346 plugins/icq/securedlg.cpp:92 sim/api/simapi.cpp:470 sim/ui/qt3/i18n.cpp:287
 msgid "&Close"
 msgstr "&Kapat"
 
@@ -281,7 +240,7 @@ msgstr "&Gönder"
 msgid "&Insert smile"
 msgstr "Gülümseme &girin"
 
-#: plugins/_core/core.cpp:687 plugins/forward/forwardcfgbase.cpp:106
+#: plugins/_core/core.cpp:687
 msgid "Send in &translit"
 msgstr ""
 
@@ -357,7 +316,7 @@ msgstr "&Sonraki sayfa"
 msgid "&Open message"
 msgstr "mesaj gönder"
 
-#: plugins/_core/core.cpp:882 plugins/_core/core.cpp:971 plugins/_core/historycfgbase.cpp:234 plugins/netmonitor/monitor.cpp:67 sim/ui/qt3/qtextedit.cpp:4238
+#: plugins/_core/core.cpp:882 plugins/_core/core.cpp:971 plugins/netmonitor/monitor.cpp:67 sim/ui/qt3/qtextedit.cpp:4238
 msgid "&Copy"
 msgstr "&Kopyala"
 
@@ -404,7 +363,7 @@ msgstr "Kes"
 msgid "&Paste"
 msgstr "Yapıştır"
 
-#: plugins/_core/core.cpp:985 sim/ui/editfile.cpp:315 sim/ui/editfile.cpp:398 sim/ui/qt3/i18n.cpp:255 sim/ui/qt3/qtextedit.cpp:4243
+#: plugins/_core/core.cpp:985 sim/ui/qt3/i18n.cpp:255 sim/ui/qt3/qtextedit.cpp:4243 sim/ui/editfile.cpp:315 sim/ui/editfile.cpp:398
 msgid "Clear"
 msgstr "Temizle"
 
@@ -426,7 +385,7 @@ msgstr "Yazım Kontrolü"
 msgid "&Messages"
 msgstr "&Mesaj"
 
-#: plugins/_core/core.cpp:1023 plugins/_core/msgedit.cpp:1678 plugins/sms/smssetupbase.cpp:184
+#: plugins/_core/core.cpp:1023 plugins/_core/msgedit.cpp:1678
 #, fuzzy
 msgid "&SMS"
 msgstr "SMS"
@@ -478,11 +437,11 @@ msgstr "Üst"
 msgid "Down"
 msgstr "Alt"
 
-#: plugins/_core/core.cpp:1173 plugins/_core/historycfgbase.cpp:235 sim/ui/qt3/i18n.cpp:97
+#: plugins/_core/core.cpp:1173 sim/ui/qt3/i18n.cpp:97
 msgid "&Rename"
 msgstr "&Adını değiştir"
 
-#: plugins/_core/core.cpp:1182 plugins/_core/core.cpp:1329 plugins/_core/core.cpp:1342 plugins/_core/historycfgbase.cpp:236 plugins/_core/logindlgbase.cpp:129 plugins/_core/maininfobase.cpp:254 plugins/_core/maininfobase.cpp:264 plugins/action/menucfgbase.cpp:129 sim/ui/listview.cpp:38 sim/ui/qt3/i18n.cpp:99
+#: plugins/_core/core.cpp:1182 plugins/_core/core.cpp:1329 plugins/_core/core.cpp:1342 sim/ui/qt3/i18n.cpp:99 sim/ui/listview.cpp:38
 msgid "&Delete"
 msgstr "&Sil"
 
@@ -499,7 +458,7 @@ msgstr "Bölüme Taşı"
 msgid "&Location"
 msgstr "İ&ş"
 
-#: plugins/_core/core.cpp:1253 plugins/icq/aiminfobase.cc:305 plugins/icq/icqinfobase.cc:352 plugins/jabber/jabberinfobase.cpp:309 plugins/msn/msninfobase.cpp:167 plugins/yahoo/yahooinfobase.cpp:187
+#: plugins/_core/core.cpp:1253
 msgid "&Status"
 msgstr "&Bağlantı"
 
@@ -539,7 +498,7 @@ msgstr "Üzgünüm şu anda meşgulüm , size daha sonra cevap vericem"
 msgid "Enter a decline reason"
 msgstr "Red sebebi girin"
 
-#: plugins/_core/core.cpp:1321 plugins/_core/core.cpp:1335 plugins/_core/maininfobase.cpp:253 plugins/_core/maininfobase.cpp:263 plugins/action/menucfgbase.cpp:128 plugins/netmonitor/monitor.cpp:69
+#: plugins/_core/core.cpp:1321 plugins/_core/core.cpp:1335 plugins/netmonitor/monitor.cpp:69
 msgid "&Edit"
 msgstr "&Değiştir"
 
@@ -558,7 +517,7 @@ msgstr "&Kodlama"
 msgid "Add to &group"
 msgstr "Gruba ekle"
 
-#: plugins/_core/core.cpp:1406 plugins/_core/maininfobase.cpp:250 plugins/jabber/discoinfo.cpp:179 plugins/jabber/discoinfobase.cpp:301 plugins/jabber/discoinfobase.cpp:318
+#: plugins/_core/core.cpp:1406 plugins/jabber/discoinfo.cpp:179
 msgid "&Info"
 msgstr ""
 
@@ -637,7 +596,7 @@ msgid "&Separate"
 msgstr "Ayraç"
 
 #: plugins/_core/core.cpp:2441 plugins/_core/userwnd.cpp:134
-#, fuzzy, c-format
+#, fuzzy
 msgid "from %1"
 msgstr "%2 den %1 alındı"
 
@@ -659,7 +618,7 @@ msgstr "%2 den %1 alındı"
 msgid "Send SMS"
 msgstr "SMS gönder"
 
-#: plugins/_core/core.cpp:4137 plugins/_core/core.cpp:4159 plugins/_core/managerbase.cpp:103
+#: plugins/_core/core.cpp:4137 plugins/_core/core.cpp:4159
 #, fuzzy
 msgid "Connection manager"
 msgstr "Bağlanıyor"
@@ -715,12 +674,11 @@ msgid "Edit phone number"
 msgstr "Telefon ekle"
 
 #: plugins/_core/filetransfer.cpp:91
-#, c-format
 msgid "Bad path: %1"
 msgstr ""
 
 #: plugins/_core/filetransfer.cpp:101 plugins/_core/filetransfer.cpp:161
-#, fuzzy, c-format
+#, fuzzy
 msgid "Can't create: %1"
 msgstr "%1 dosyası yaratılamadı"
 
@@ -748,12 +706,12 @@ msgid "File %1 exists"
 msgstr " %1 dosyası önceden mevcut"
 
 #: plugins/_core/filetransfer.cpp:210
-#, fuzzy, c-format
+#, fuzzy
 msgid "Receive file from %1"
 msgstr "Hepsini seç"
 
 #: plugins/_core/filetransfer.cpp:211
-#, fuzzy, c-format
+#, fuzzy
 msgid "Send file to %1"
 msgstr "Gönderme başarısız"
 
@@ -828,7 +786,7 @@ msgstr ""
 msgid "<b><font color=\"#FF0000\">C</font><font color=\"#FFFF00\">olored</font></b> message"
 msgstr ""
 
-#: plugins/_core/historycfg.cpp:675 plugins/_core/msgcfgbase.cpp:117
+#: plugins/_core/historycfg.cpp:675
 #, fuzzy
 msgid "New message"
 msgstr "&Yeni Mesaj"
@@ -956,7 +914,7 @@ msgstr "Hepsini seç"
 msgid "Other instance of SIM use this profile"
 msgstr ""
 
-#: plugins/_core/logindlg.cpp:295 plugins/icq/aimconfigbase.cc:176 plugins/icq/icqconfigbase.cc:294 plugins/jabber/jabberconfigbase.cpp:353 plugins/livejournal/livejournalcfgbase.cpp:209 plugins/msn/msnconfigbase.cpp:229 plugins/proxy/proxycfgbase.cpp:166 plugins/yahoo/yahoocfgbase.cpp:235
+#: plugins/_core/logindlg.cpp:295
 msgid "Password:"
 msgstr "Şifre:"
 
@@ -994,7 +952,7 @@ msgstr "Cep No"
 msgid "Wireless Pager"
 msgstr "Kablosuz Pager"
 
-#: plugins/_core/maininfo.cpp:71 plugins/filter/ignorelist.cpp:28 plugins/icq/icqsecure.cpp:93 plugins/jabber/jabbersearch.cpp:103 plugins/msn/msninfobase.cpp:161
+#: plugins/_core/maininfo.cpp:71 plugins/filter/ignorelist.cpp:28 plugins/icq/icqsecure.cpp:93 plugins/jabber/jabbersearch.cpp:103
 #, fuzzy
 msgid "EMail"
 msgstr "&EMail"
@@ -1161,7 +1119,7 @@ msgstr "Mesaj parçalara bölünecek"
 msgid "Save phone in contact list"
 msgstr "Kontak listesine eklendi"
 
-#: plugins/_core/search.cpp:47 plugins/_core/search.cpp:293 plugins/_core/search.cpp:628 plugins/_core/searchbase.cpp:154
+#: plugins/_core/search.cpp:47 plugins/_core/search.cpp:293 plugins/_core/search.cpp:628
 msgid "Search"
 msgstr "Arama"
 
@@ -1170,11 +1128,11 @@ msgstr "Arama"
 msgid "Results"
 msgstr "Varsayılanlar"
 
-#: plugins/_core/maininfobase.cpp:252 plugins/_core/maininfobase.cpp:262 plugins/_core/search.cpp:134 plugins/action/menucfgbase.cpp:127
+#: plugins/_core/search.cpp:134
 msgid "&Add"
 msgstr "&Ekle"
 
-#: plugins/_core/search.cpp:137 plugins/jabber/jabber.cpp:305 plugins/weather/weathercfg.cpp:74 plugins/weather/weathercfg.cpp:96 plugins/weather/weathercfgbase.cpp:170
+#: plugins/_core/search.cpp:137 plugins/jabber/jabber.cpp:305 plugins/weather/weathercfg.cpp:74 plugins/weather/weathercfg.cpp:96
 msgid "&Search"
 msgstr "&Arama"
 
@@ -1183,7 +1141,7 @@ msgstr "&Arama"
 msgid "All networks"
 msgstr "&Yeni"
 
-#: plugins/_core/nonimbase.cpp:125 plugins/_core/search.cpp:215
+#: plugins/_core/search.cpp:215
 #, fuzzy
 msgid "Non-IM contact"
 msgstr "Icq dışından kontak ekle"
@@ -1210,7 +1168,7 @@ msgstr "Icq dışından kontak ekle"
 msgid "Inactive"
 msgstr "Aktif değil"
 
-#: plugins/_core/connectwndbase.cpp:158 plugins/_core/status.cpp:99 plugins/_core/statuswnd.cpp:56
+#: plugins/_core/status.cpp:99 plugins/_core/statuswnd.cpp:56
 #, fuzzy
 msgid "Connecting"
 msgstr "Bağlantı"
@@ -1268,11 +1226,11 @@ msgstr "Kullanıcı Bilgisi"
 msgid "Settings"
 msgstr "Gönderiyor"
 
-#: plugins/_core/userlist.cpp:633 plugins/icq/icq.cpp:95 plugins/icq/icq.cpp:265 plugins/icq/icqclient.cpp:1450 plugins/icq/icqclient.cpp:1484 plugins/jabber/jabber.cpp:86 plugins/jabber/jabberclient.cpp:1313 plugins/livejournal/livejournal.cpp:319 plugins/msn/msn.cpp:86 plugins/msn/msnclient.cpp:1849 plugins/osd/osdconfigbase.cpp:142 plugins/sms/sms.cpp:229 plugins/yahoo/yahoo.cpp:104 plugins/yahoo/yahooclient.cpp:1387
+#: plugins/_core/userlist.cpp:633 plugins/icq/icq.cpp:95 plugins/icq/icq.cpp:265 plugins/icq/icqclient.cpp:1450 plugins/icq/icqclient.cpp:1484 plugins/jabber/jabber.cpp:86 plugins/jabber/jabberclient.cpp:1313 plugins/livejournal/livejournal.cpp:319 plugins/msn/msn.cpp:86 plugins/msn/msnclient.cpp:1849 plugins/sms/sms.cpp:229 plugins/yahoo/yahoo.cpp:104 plugins/yahoo/yahooclient.cpp:1387
 msgid "Online"
 msgstr "Bağlı"
 
-#: plugins/_core/userlist.cpp:636 plugins/_core/userviewcfgbase.cpp:325 plugins/icq/icq.cpp:185 plugins/icq/icq.cpp:295 plugins/icq/icqclient.cpp:1447 plugins/jabber/jabber.cpp:161 plugins/jabber/jabberclient.cpp:1268 plugins/livejournal/livejournal.cpp:334 plugins/msn/msn.cpp:191 plugins/osd/osdconfigbase.cpp:148 plugins/sms/sms.cpp:244 plugins/yahoo/yahoo.cpp:164
+#: plugins/_core/userlist.cpp:636 plugins/icq/icq.cpp:185 plugins/icq/icq.cpp:295 plugins/icq/icqclient.cpp:1447 plugins/jabber/jabber.cpp:161 plugins/jabber/jabberclient.cpp:1268 plugins/livejournal/livejournal.cpp:334 plugins/msn/msn.cpp:191 plugins/sms/sms.cpp:244 plugins/yahoo/yahoo.cpp:164
 msgid "Offline"
 msgstr "Bağlı değil"
 
@@ -1296,7 +1254,7 @@ msgid "&Groups"
 msgstr "Gruplar"
 
 #: plugins/_core/userview.cpp:1042
-#, fuzzy, c-format
+#, fuzzy
 msgid "Search: %1"
 msgstr "Arama"
 
@@ -1315,595 +1273,11 @@ msgid "Contact name"
 msgstr "Kontaklar ortala"
 
 #: plugins/_core/userwnd.cpp:132
-#, fuzzy, c-format
+#, fuzzy
 msgid "to %1"
 msgstr "Sütun %1"
 
-#: plugins/_core/cfgdlgbase.cpp:124
-msgid "&Update"
-msgstr "&Yenile"
-
-#: plugins/_core/plugincfgbase.cpp:102
-msgid "Plugin &enabled"
-msgstr ""
-
-#: plugins/_core/arcfgbase.cpp:138 plugins/_core/prefcfgbase.cpp:97
-#, fuzzy
-msgid "&Override global settings"
-msgstr "Global ayarların üzerine yaz"
-
-#: plugins/_core/toolsetupbase.cpp:123
-msgid "Toolbar setup"
-msgstr "Araç Çubuğu Ayarları"
-
-#: plugins/_core/toolsetupbase.cpp:124
-msgid "All buttons:"
-msgstr "Tüm düğmeler"
-
-#: plugins/_core/toolsetupbase.cpp:126 plugins/_core/toolsetupbase.cpp:131
-msgid "New Item"
-msgstr "Yeni Element"
-
-#: plugins/_core/toolsetupbase.cpp:127
-msgid "&Add ->"
-msgstr "&Ekle ->"
-
-#: plugins/_core/toolsetupbase.cpp:128
-msgid "<- &Remove"
-msgstr "<- &Sil"
-
-#: plugins/_core/toolsetupbase.cpp:129
-msgid "Active:"
-msgstr "Aktif:"
-
-#: plugins/_core/managerbase.cpp:105 plugins/_core/toolsetupbase.cpp:132
-msgid "&Up"
-msgstr "&Yukarı"
-
-#: plugins/_core/managerbase.cpp:107 plugins/_core/toolsetupbase.cpp:133
-msgid "&Down"
-msgstr "&Aşağı"
-
-#: plugins/_core/interfacecfgbase.cpp:154 plugins/icq/advsearchbase.cc:278
-msgid "Language:"
-msgstr "Dil:"
-
-#: plugins/_core/interfacecfgbase.cpp:155
-#, fuzzy
-msgid "Message window"
-msgstr "Mesaj Gönderildi"
-
-#: plugins/_core/interfacecfgbase.cpp:156
-msgid "&Simple mode"
-msgstr ""
-
-#: plugins/_core/interfacecfgbase.cpp:157
-#, fuzzy
-msgid "&Chat mode"
-msgstr "Bağlantı modu"
-
-#: plugins/_core/interfacecfgbase.cpp:158
-msgid "&Using last selected font"
-msgstr ""
-
-#: plugins/_core/interfacecfgbase.cpp:159
-#, fuzzy
-msgid "Container mode"
-msgstr "Bölüme Taşı"
-
-#: plugins/_core/interfacecfgbase.cpp:160
-#, fuzzy
-msgid "Open each contact in &new container"
-msgstr "&Her kullanıcı yeni bir taşıyıcıda"
-
-#: plugins/_core/interfacecfgbase.cpp:161
-#, fuzzy
-msgid "Open one container for &group"
-msgstr "Grup için &yeni bir taşıyıcı"
-
-#: plugins/_core/interfacecfgbase.cpp:162
-#, fuzzy
-msgid "Open all contacts in &one container"
-msgstr "&Tüm kullanıcılar bir taşıyıcıda"
-
-#: plugins/_core/interfacecfgbase.cpp:163
-msgid "Use \"&Enter\" for send message"
-msgstr ""
-
-#: plugins/_core/interfacecfgbase.cpp:166
-msgid "Start SIM on every &windows startup"
-msgstr ""
-
-#: plugins/_core/nonimbase.cpp:124 plugins/_core/pagerbase.cpp:118 plugins/_core/userviewcfgbase.cpp:306 plugins/filter/ignorelistbase.cpp:113 plugins/icq/interestsinfobase.cc:139 plugins/icq/workinfobase.cc:209 plugins/jabber/jabberhomeinfobase.cpp:135 plugins/msn/msnconfigbase.cpp:227 plugins/osd/osdifacebase.cpp:187 plugins/yahoo/yahoocfgbase.cpp:233
-msgid "Form2"
-msgstr "Form 2"
-
-#: plugins/_core/userviewcfgbase.cpp:307
-#, fuzzy
-msgid "Sorting"
-msgstr "Sırala"
-
-#: plugins/_core/userviewcfgbase.cpp:308
-#, fuzzy
-msgid "1st:"
-msgstr "Sunucu:"
-
-#: plugins/_core/userviewcfgbase.cpp:309
-msgid "2nd:"
-msgstr ""
-
-#: plugins/_core/userviewcfgbase.cpp:310
-msgid "3rd:"
-msgstr ""
-
-#: plugins/_core/userviewcfgbase.cpp:314
-#, fuzzy
-msgid "Awaiting authorization"
-msgstr "Kullanıcıdan &izin isteme"
-
-#: plugins/_core/userviewcfgbase.cpp:318
-#, fuzzy
-msgid "Visible"
-msgstr "Görünmez"
-
-#: plugins/_core/userviewcfgbase.cpp:322 plugins/icq/icqclient.cpp:1434
-#, fuzzy
-msgid "Invisible"
-msgstr "Görünmez"
-
-#: plugins/_core/userviewcfgbase.cpp:323
-#, fuzzy
-msgid "Groups"
-msgstr "Gruplar"
-
-#: plugins/_core/userviewcfgbase.cpp:324
-#, fuzzy
-msgid "Do not distrub"
-msgstr "Rahatsız Etmeyin"
-
-#: plugins/_core/userviewcfgbase.cpp:326 plugins/icq/aiminfobase.cc:299 plugins/icq/icqinfobase.cc:347 plugins/jabber/jabberinfobase.cpp:307 plugins/msn/msninfobase.cpp:165 plugins/yahoo/yahooinfobase.cpp:185
-msgid "Online:"
-msgstr "Bağlı:"
-
-#: plugins/_core/userviewcfgbase.cpp:327 plugins/icq/icq.cpp:110 plugins/icq/icq.cpp:280 plugins/icq/icqclient.cpp:1453 plugins/jabber/jabber.cpp:101 plugins/msn/msn.cpp:101 plugins/osd/osdconfigbase.cpp:143 plugins/yahoo/yahoo.cpp:119
-msgid "Away"
-msgstr "Uzakta"
-
-#: plugins/_core/userviewcfgbase.cpp:328 plugins/icq/icq.cpp:125 plugins/jabber/jabber.cpp:116 plugins/msn/msn.cpp:116 plugins/osd/osdconfigbase.cpp:144 plugins/yahoo/yahoo.cpp:134
-msgid "N/A"
-msgstr "N/A"
-
-#: plugins/_core/userviewcfgbase.cpp:329
-#, fuzzy
-msgid "Colors:"
-msgstr "Renk:"
-
-#: plugins/_core/userviewcfgbase.cpp:330
-#, fuzzy
-msgid "Use &double click"
-msgstr "&Dock kullan"
-
-#: plugins/_core/userviewcfgbase.cpp:331 plugins/styles/fontconfigbase.cpp:163
-#, fuzzy
-msgid "Use system &colors"
-msgstr "&Sistem renklerini kullan"
-
-#: plugins/_core/userviewcfgbase.cpp:332
-#, fuzzy
-msgid "Use small &font for group"
-msgstr "Grup için &yeni bir taşıyıcı"
-
-#: plugins/_core/userviewcfgbase.cpp:333
-msgid "Show group &separator"
-msgstr ""
-
-#: plugins/_core/historycfgbase.cpp:226
-msgid "Use &own colors and fonts settings"
-msgstr "&Kendi renklerini ve fontlarını kullan kullan"
-
-#: plugins/_core/historycfgbase.cpp:227
-msgid "Use emotional &icons"
-msgstr "&Duygu ikonları kullan"
-
-#: plugins/_core/historycfgbase.cpp:228 plugins/_core/userhistorycfgbase.cpp:125
-msgid "Max history file size"
-msgstr ""
-
-#: plugins/_core/historycfgbase.cpp:230 plugins/_core/userhistorycfgbase.cpp:123
-msgid "Mb"
-msgstr ""
-
-#: plugins/_core/historycfgbase.cpp:232 plugins/_core/userhistorycfgbase.cpp:127
-#, fuzzy
-msgid "Keep history "
-msgstr "Adrese kaydet"
-
-#: plugins/_core/historycfgbase.cpp:233 plugins/_core/userhistorycfgbase.cpp:126
-msgid "days"
-msgstr ""
-
-#: plugins/_core/historycfgbase.cpp:239
-#, fuzzy
-msgid "100"
-msgstr "100000"
-
-#: plugins/_core/historycfgbase.cpp:240
-#, fuzzy
-msgid "50"
-msgstr "50'ler"
-
-#: plugins/_core/historycfgbase.cpp:241
-msgid "20"
-msgstr ""
-
-#: plugins/_core/historycfgbase.cpp:243
-#, fuzzy
-msgid "&Preview"
-msgstr "&Önceki Mesaj"
-
-#: plugins/_core/historycfgbase.cpp:244
-#, fuzzy
-msgid "&Source"
-msgstr "Sırala"
-
-#: plugins/_core/maininfobase.cpp:246 plugins/_core/nonimbase.cpp:126 plugins/icq/aiminfobase.cc:287 plugins/icq/icqinfobase.cc:343 plugins/jabber/discoinfobase.cpp:314 plugins/jabber/jabberinfobase.cpp:299 plugins/yahoo/yahooinfobase.cpp:181
-msgid "First name:"
-msgstr "Adı :"
-
-#: plugins/_core/maininfobase.cpp:247 plugins/_core/nonimbase.cpp:127 plugins/icq/aiminfobase.cc:288 plugins/yahoo/yahooinfobase.cpp:182
-#, fuzzy
-msgid "Last name:"
-msgstr "Soyadı:"
-
-#: plugins/_core/maininfobase.cpp:248
-msgid "Display:"
-msgstr "Gösteriş Şekli:"
-
-#: plugins/_core/maininfobase.cpp:249
-msgid "Encoding:"
-msgstr "Kodlama:"
-
-#: plugins/_core/maininfobase.cpp:251
-msgid "Email addresses:"
-msgstr "E-Mail-Adresi:"
-
-#: plugins/_core/maininfobase.cpp:255
-#, fuzzy
-msgid ""
-"Note:\n"
-"You can change only those addresses which have entered.\n"
-"It is impossible to change addresses which were received from the user."
-msgstr ""
-"Not:\n"
-"Sadece girdiğiniz sayıları değiştirebilirsiniz\n"
-"Diğer kullanıcıdan gelen sayılar değiştirilemez"
-
-#: plugins/_core/maininfobase.cpp:258
-#, fuzzy
-msgid "&Mails"
-msgstr "&EMail"
-
-#: plugins/_core/maininfobase.cpp:259
-#, fuzzy
-msgid "Phones:"
-msgstr "Telefon:"
-
-#: plugins/_core/maininfobase.cpp:261
-#, fuzzy
-msgid "Phone Status:"
-msgstr "Telefon:"
-
-#: plugins/_core/maininfobase.cpp:265
-msgid ""
-"Note:\n"
-"You can change only those numbers which have entered.\n"
-"It is impossible to change numbers which were received from the user."
-msgstr ""
-"Not:\n"
-"Sadece girdiğiniz sayıları değiştirebilirsiniz\n"
-"Diğer kullanıcıdan gelen sayılar değiştirilemez"
-
-#: plugins/_core/maininfobase.cpp:268
-#, fuzzy
-msgid "&Phones"
-msgstr "Telefon:"
-
-#: plugins/_core/maininfobase.cpp:269
-msgid "&Notes"
-msgstr "&Notlar"
-
-#: plugins/_core/editmailbase.cpp:94
-#, fuzzy
-msgid "EditMail"
-msgstr "Email'i değiştir"
-
-#: plugins/_core/editmailbase.cpp:95
-msgid "Enter Email address:"
-msgstr "Email adresi gir:"
-
-#: plugins/_core/editmailbase.cpp:96 plugins/_core/editphonebase.cpp:142
-#, fuzzy
-msgid "&Publish"
-msgstr "Yayınla"
-
-#: plugins/_core/editphonebase.cpp:139
-#, fuzzy
-msgid "EditPhone"
-msgstr "Telefon:"
-
-#: plugins/_core/editphonebase.cpp:140
-msgid "Number details:"
-msgstr "Numara ayrıntıları:"
-
-#: plugins/_core/editphonebase.cpp:141 plugins/jabber/discoinfobase.cpp:299
-msgid "Type:"
-msgstr "Tip:"
-
-#: plugins/_core/phonebase.cpp:145
-msgid "Area code:"
-msgstr "Alan Kodu:"
-
-#: plugins/_core/phonebase.cpp:146
-msgid "Extension:"
-msgstr "Ülke Kodu:"
-
-#: plugins/_core/phonebase.cpp:147 plugins/_core/phonebase.cpp:149 plugins/_core/phonebase.cpp:151 plugins/icq/icqconfigbase.cc:303 plugins/jabber/jabberconfigbase.cpp:362 plugins/msn/msnconfigbase.cpp:234 plugins/yahoo/yahoocfgbase.cpp:242
-msgid "-"
-msgstr "-"
-
-#: plugins/_core/pagerbase.cpp:121 plugins/_core/phonebase.cpp:148
-msgid "Number:"
-msgstr "Sayı:"
-
-#: plugins/_core/phonebase.cpp:150 plugins/icq/advsearchbase.cc:281 plugins/icq/aiminfobase.cc:296 plugins/icq/aimsearchbase.cc:200 plugins/icq/homeinfobase.cc:177 plugins/icq/workinfobase.cc:214 plugins/jabber/jabberhomeinfobase.cpp:138
-msgid "Country:"
-msgstr "Ülke:"
-
-#: plugins/_core/pagerbase.cpp:119
-#, fuzzy
-msgid "Provider:"
-msgstr "Servis Sağlayıcı:"
-
-#: plugins/_core/pagerbase.cpp:120
-msgid "Email gateway:"
-msgstr "Email Gateway:"
-
-#: plugins/_core/searchbase.cpp:155
-#, fuzzy
-msgid "&Add to list"
-msgstr "Çı&kartma"
-
-#: plugins/_core/searchbase.cpp:157
-#, fuzzy
-msgid "More &options"
-msgstr "İ&ş"
-
-#: plugins/_core/searchbase.cpp:158
-#, fuzzy
-msgid "&New search"
-msgstr "Yeni arama"
-
-#: plugins/_core/searchallbase.cpp:142 plugins/icq/aboutinfobase.cc:124 plugins/jabber/jabberaboutinfobase.cpp:87
-msgid "Form4"
-msgstr "Form 4"
-
-#: plugins/_core/searchallbase.cpp:143 plugins/icq/icqsearchbase.cc:187 plugins/jabber/jabberaddbase.cpp:154
-#, fuzzy
-msgid "&E-Mail"
-msgstr "&EMail"
-
-#: plugins/_core/searchallbase.cpp:144 plugins/icq/icqsearchbase.cc:188 plugins/jabber/jabberaddbase.cpp:155 plugins/yahoo/yahoosearchbase.cpp:158
-#, fuzzy
-msgid "&Name"
-msgstr "&Adlar"
-
-#: plugins/_core/searchallbase.cpp:145 plugins/icq/aimsearchbase.cc:194 plugins/icq/icqsearchbase.cc:189 plugins/jabber/jabberaddbase.cpp:156
-#, fuzzy
-msgid "First:"
-msgstr "Adı :"
-
-#: plugins/_core/searchallbase.cpp:146 plugins/icq/aimsearchbase.cc:195 plugins/icq/icqsearchbase.cc:190 plugins/jabber/jabberaddbase.cpp:157
-#, fuzzy
-msgid "Last:"
-msgstr "Laos"
-
-#: plugins/_core/searchallbase.cpp:147 plugins/icq/aiminfobase.cc:291 plugins/icq/aimsearchbase.cc:198 plugins/icq/icqinfobase.cc:342 plugins/icq/icqsearchbase.cc:191 plugins/jabber/discoinfobase.cpp:311 plugins/jabber/jabberinfobase.cpp:300 plugins/msn/msninfobase.cpp:162 plugins/yahoo/yahooinfobase.cpp:179
-msgid "Nick:"
-msgstr "Nick:"
-
-#: plugins/_core/nonimbase.cpp:128 plugins/jabber/jabberaddbase.cpp:158
-msgid "Nickname:"
-msgstr "Nick:"
-
-#: plugins/_core/nonimbase.cpp:129
-#, fuzzy
-msgid "E-Mail address:"
-msgstr "E-Mail-Adresi:"
-
-#: plugins/_core/nonimbase.cpp:130 plugins/jabber/discoinfobase.cpp:317
-#, fuzzy
-msgid "Phone:"
-msgstr "Telefon:"
-
-#: plugins/_core/autoreplybase.cpp:118 plugins/_core/connectionsettingsbase.cpp:105
-msgid "MyDialog"
-msgstr ""
-
-#: plugins/_core/connectwndbase.cpp:157 plugins/icq/moreinfobase.cc:211
-msgid "Form3"
-msgstr "Form 3"
-
-#: plugins/_core/connectwndbase.cpp:160
-#, fuzzy
-msgid "Complete"
-msgstr "Bilgisayar"
-
-#: plugins/_core/connectwndbase.cpp:161
-msgid ""
-"If you want to add connection press button \" Next\".\n"
-"You can add connection later using connection manager"
-msgstr ""
-
-#: plugins/_core/logindlgbase.cpp:124
-msgid "Login"
-msgstr "Giriş"
-
-#: plugins/_core/logindlgbase.cpp:126
-#, fuzzy
-msgid "Passwords:"
-msgstr "Şifre:"
-
-#: plugins/_core/logindlgbase.cpp:128
-#, fuzzy
-msgid "Profile:"
-msgstr "Servis Sağlayıcı:"
-
-#: plugins/_core/logindlgbase.cpp:130
-msgid "&Save password"
-msgstr "&Şifreyi sakla"
-
-#: plugins/_core/logindlgbase.cpp:131
-#, fuzzy
-msgid "&Do not show this window on startup"
-msgstr "&Bu pencereyi bir daha gösterme"
-
-#: plugins/_core/managerbase.cpp:46 plugins/_core/managerbase.cpp:106
-msgid "Connection"
-msgstr "Bağlantı"
-
-#: plugins/_core/managerbase.cpp:104
-#, fuzzy
-msgid "&Configure"
-msgstr "ICQ programı"
-
-#: plugins/_core/managerbase.cpp:108
-#, fuzzy
-msgid "&Remove"
-msgstr "Sil"
-
-#: plugins/_core/managerbase.cpp:109
-#, fuzzy
-msgid "&New connection"
-msgstr "Direk bağlantı"
-
-#: plugins/_core/newprotocolbase.cpp:67
-#, fuzzy
-msgid "New connection"
-msgstr "Direk bağlantı"
-
-#: plugins/_core/newprotocolbase.cpp:68
-msgid "Protocol:"
-msgstr ""
-
-#: plugins/_core/newprotocolbase.cpp:69
-#, fuzzy
-msgid "Select protocol"
-msgstr "Renk seç"
-
-#: plugins/_core/autoreplybase.cpp:119
-msgid "Don't show this dialog"
-msgstr "Bu dialoğu bir daha gösterme"
-
-#: plugins/_core/arcfgbase.cpp:139 plugins/_core/autoreplybase.cpp:120 plugins/action/actioncfgbase.cpp:121 plugins/action/additembase.cpp:125 plugins/weather/wifacecfgbase.cpp:143 sim/api/simapi.cpp:473
-#, fuzzy
-msgid "&Help"
-msgstr "Yardım"
-
-#: plugins/_core/msgcfgbase.cpp:115
-msgid "Save &status changes to history"
-msgstr ""
-
-#: plugins/_core/msgcfgbase.cpp:116
-#, fuzzy
-msgid "Open window if user go online"
-msgstr "Kullanıcı bağlı olunca mesaj penceresi aç"
-
-#: plugins/_core/msgcfgbase.cpp:118
-#, fuzzy
-msgid "&No open"
-msgstr "Yeni grup"
-
-#: plugins/_core/msgcfgbase.cpp:119
-msgid "Open and &minimize"
-msgstr ""
-
-#: plugins/_core/msgcfgbase.cpp:120
-msgid "Open and &raise"
-msgstr ""
-
-#: plugins/_core/filecfgbase.cpp:146
-msgid "Path for incoming files:"
-msgstr "Gelen dosyaların saklanacağı yer :"
-
-#: plugins/_core/filecfgbase.cpp:147
-msgid "Accept mode"
-msgstr "Kabul Modu"
-
-#: plugins/_core/filecfgbase.cpp:148
-msgid "Show response"
-msgstr "Cevabı göster"
-
-#: plugins/_core/filecfgbase.cpp:149
-msgid "Auto accept"
-msgstr "Otomatik kabul et"
-
-#: plugins/_core/filecfgbase.cpp:150
-msgid "Overwrite files"
-msgstr "Eski dosyanın üzerine yaz"
-
-#: plugins/_core/filecfgbase.cpp:151
-msgid "Auto decline"
-msgstr "Otomatik reddet"
-
-#: plugins/_core/smscfgbase.cpp:96
-msgid "Text before cursor:"
-msgstr "Cursor öncesi yazı:"
-
-#: plugins/_core/smscfgbase.cpp:97
-msgid "Text after cursor:"
-msgstr "Cursor sonrası yazı:"
-
-#: plugins/_core/arcfgbase.cpp:140
-#, fuzzy
-msgid "Don't show autoreply dialog"
-msgstr "Bu dialoğu bir daha gösterme"
-
-#: plugins/_core/filetransferbase.cpp:131
-msgid "File transfer"
-msgstr "Dosya transferi"
-
-#: plugins/_core/filetransferbase.cpp:133
-#, fuzzy
-msgid "Time:"
-msgstr "Zaman Dilimi:"
-
-#: plugins/_core/filetransferbase.cpp:134
-msgid "Estimated time:"
-msgstr ""
-
-#: plugins/_core/filetransferbase.cpp:135
-msgid "Speed:"
-msgstr "Hız:"
-
-#: plugins/_core/filetransferbase.cpp:136
-msgid "&Go to dir"
-msgstr ""
-
-#: plugins/_core/filetransferbase.cpp:137
-#, fuzzy
-msgid "Close after &transfer"
-msgstr "&Gönderdikten sonra kapat"
-
-#: plugins/_core/declinedlgbase.cpp:80
-msgid "Decline reason"
-msgstr "Reddetme nedeni"
-
-#: plugins/_core/declinedlgbase.cpp:81
-#, fuzzy
-msgid "Enter decline reason:"
-msgstr "Red sebebi girin"
-
-#: plugins/about/about.cpp:38 plugins/about/aboutdlgbase.cpp:149
+#: plugins/about/about.cpp:38
 msgid "About"
 msgstr "Hakkında"
 
@@ -1946,22 +1320,6 @@ msgstr "Hata Raporu"
 #: plugins/about/aboutdlg.cpp:52
 msgid "Note: This is english mailing list"
 msgstr ""
-
-#: plugins/about/aboutdlgbase.cpp:148
-msgid "About SIM"
-msgstr "SIM hakkında"
-
-#: plugins/about/aboutdlgbase.cpp:150
-msgid "Authors"
-msgstr "Yazarlar"
-
-#: plugins/about/aboutdlgbase.cpp:151
-msgid "Translation"
-msgstr "Çeviri"
-
-#: plugins/about/aboutdlgbase.cpp:152
-msgid "License"
-msgstr "Lisans"
 
 #: plugins/action/action.cpp:33
 msgid "Action"
@@ -2013,21 +1371,6 @@ msgstr ""
 msgid "Item"
 msgstr "Yeni Element"
 
-#: plugins/action/additembase.cpp:122
-#, fuzzy
-msgid "Add Item"
-msgstr "Yeni Element"
-
-#: plugins/action/additembase.cpp:123
-#, fuzzy
-msgid "Item:"
-msgstr "Yeni Element"
-
-#: plugins/action/additembase.cpp:124
-#, fuzzy
-msgid "Program:"
-msgstr "&Program"
-
 #: plugins/autoaway/autoaway.cpp:66
 #, fuzzy
 msgid "AutoAway"
@@ -2036,36 +1379,6 @@ msgstr "Uzakta"
 #: plugins/autoaway/autoaway.cpp:67
 msgid "Plugin provides set away and N/A status after some idle time"
 msgstr ""
-
-#: plugins/autoaway/autoawaycfgbase.cpp:134
-msgid "Set \"Away\" status after"
-msgstr "\"Uzakta\"-Statüsüne geç"
-
-#: plugins/autoaway/autoawaycfgbase.cpp:135
-msgid "minutes not using computer"
-msgstr "dakikadır bilgisayarı kullanmıyor"
-
-#: plugins/autoaway/autoawaycfgbase.cpp:136
-msgid "minutes of \"Away\""
-msgstr "dakikadır \"Uzakta\"-Statüsünde"
-
-#: plugins/autoaway/autoawaycfgbase.cpp:137
-#, fuzzy
-msgid "minutes of \"N/A\""
-msgstr "dakikadır \"Uzakta\"-Statüsünde"
-
-#: plugins/autoaway/autoawaycfgbase.cpp:138
-msgid "Set \"N/A\" status after"
-msgstr "\"N/A\"-Statusüne geç"
-
-#: plugins/autoaway/autoawaycfgbase.cpp:139
-#, fuzzy
-msgid "Set \"Offline\" status after"
-msgstr "\"N/A\"-Statusüne geç"
-
-#: plugins/autoaway/autoawaycfgbase.cpp:140
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
-msgstr "\"Uzakta\", \"N/A\", \"DND\" ve \"Meşgul\"-Listelerinde bağlı alamını iptal et "
 
 #: plugins/background/background.cpp:34
 msgid "Background"
@@ -2115,24 +1428,6 @@ msgstr "Pencere ortala"
 msgid "Get more skins"
 msgstr ""
 
-#: plugins/background/bkgndcfgbase.cpp:173
-#, fuzzy
-msgid "Group margin:"
-msgstr "Simge boşluğu:"
-
-#: plugins/background/bkgndcfgbase.cpp:174
-#, fuzzy
-msgid "Contact margin:"
-msgstr "Simge boşluğu:"
-
-#: plugins/background/bkgndcfgbase.cpp:175
-msgid "Main window background:"
-msgstr "Ana pencere arkaplanı:"
-
-#: plugins/background/bkgndcfgbase.cpp:176 plugins/osd/osdifacebase.cpp:195
-msgid "Place:"
-msgstr "Yer:"
-
 #: plugins/dock/dock.cpp:49
 #, fuzzy
 msgid "System tray"
@@ -2169,28 +1464,6 @@ msgstr "Ana menüyü Göster/Sakla"
 msgid "Show main window"
 msgstr "Ana menüyü Göster/Sakla"
 
-#: plugins/dock/dockcfgbase.cpp:123
-msgid "Hide main window after"
-msgstr "Ana menüyü sakla"
-
-#: plugins/dock/dockcfgbase.cpp:124
-msgid "seconds inactive"
-msgstr "saniye inaktif"
-
-#: plugins/dock/dockcfgbase.cpp:125
-#, fuzzy
-msgid "Show Mainwin on desktop"
-msgstr "Ana menüyü Göster/Sakla"
-
-#: plugins/dock/dockcfgbase.cpp:126
-msgid "current"
-msgstr ""
-
-#: plugins/dock/dockcfgbase.cpp:127
-#, fuzzy
-msgid "&Customize dock menu"
-msgstr "Mesajı değiştir"
-
 #: plugins/filter/filter.cpp:39
 #, fuzzy
 msgid "Filter"
@@ -2223,29 +1496,6 @@ msgstr "%1 i umursama listesine ekle?"
 msgid "Name"
 msgstr "Adı"
 
-#: plugins/filter/filtercfgbase.cpp:97
-msgid "&Receive message only from contacts from list"
-msgstr ""
-
-#: plugins/filter/filtercfgbase.cpp:98
-msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr "Bilinmeyen kullanıcılardan gelen mesajlar şu kelimeleri ya da cümleleri taşıyosa reddet : "
-
-#: plugins/filter/filtercfgbase.cpp:99
-#, fuzzy
-msgid ""
-"Words are divided by any separators (space, comma, i.e.)\n"
-"A phrase can be specified using quotation marks\n"
-"Words can contain wildcards:\n"
-"* - any amount of symbols (or is empty)\n"
-"? - any symbol"
-msgstr ""
-"Kelimeler herhangi bi şekilde ayrılabilir ( boşluk , virgül , vb. )\n"
-"Cümle ( kelimeler topluluğu ) tırnak içinde yazılmalıdır\n"
-"Kelimeler şu işaretleri taşıyabilir : \n"
-" * - örnek* örnek ile başlayan tüm msgları bloklamak için\n"
-"? - örn?k  şeklinde ise ? yerine herhangi bi kelime gelebilir örnek gibi"
-
 #: plugins/floaty/floaty.cpp:46
 msgid "Floaty"
 msgstr ""
@@ -2269,20 +1519,6 @@ msgstr "&Transfer"
 
 #: plugins/forward/forward.cpp:32
 msgid "Plugin provides messages forwarding on cellular"
-msgstr ""
-
-#: plugins/forward/forwardcfgbase.cpp:102
-msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr "\"Uzakta\" ve \"N/A\" modunda iken mesajları cep telefonuna gönder: "
-
-#: plugins/forward/forwardcfgbase.cpp:103
-msgid ""
-"For the answer or sending of the new message you can answer on SMS having specified in the beginning of the message a line:\n"
-"<UIN>:"
-msgstr "SMS'leri cevaplamak için şu şekilde mesaja başlayarak cevap atabilirsiniz: <UIN>:"
-
-#: plugins/forward/forwardcfgbase.cpp:105
-msgid "Send only &one message (don't split)"
 msgstr ""
 
 #: plugins/gpg/gpg.cpp:53
@@ -2334,7 +1570,7 @@ msgstr "dizin"
 msgid "Download GPG"
 msgstr ""
 
-#: plugins/gpg/gpgcfg.cpp:62 plugins/jabber/jidsearchbase.cpp:135
+#: plugins/gpg/gpgcfg.cpp:62
 #, fuzzy
 msgid "&Advanced"
 msgstr "&İptal"
@@ -2359,113 +1595,12 @@ msgid "Generate key failed"
 msgstr "Genel"
 
 #: plugins/gpg/passphrase.cpp:37
-#, c-format
 msgid "Input passphrase for key %1"
 msgstr ""
 
 #: plugins/gpg/passphrase.cpp:62
 msgid "Bad passphrase"
 msgstr ""
-
-#: plugins/gpg/gpgcfgbase.cpp:161
-msgid "Executable:"
-msgstr ""
-
-#: plugins/gpg/gpgcfgbase.cpp:162
-#, fuzzy
-msgid "Home directory:"
-msgstr "dizin"
-
-#: plugins/gpg/gpgcfgbase.cpp:163
-#, fuzzy
-msgid "&Find"
-msgstr "&Arama"
-
-#: plugins/gpg/gpgcfgbase.cpp:164
-#, fuzzy
-msgid "Your key:"
-msgstr "Türkiye"
-
-#: plugins/gpg/gpgcfgbase.cpp:165 plugins/gpg/gpguserbase.cpp:100
-#, fuzzy
-msgid "&Refresh"
-msgstr "&Reddet"
-
-#: plugins/gpg/gpgadvbase.cpp:156
-msgid "Command arguments"
-msgstr ""
-
-#: plugins/gpg/gpgadvbase.cpp:157
-msgid "Generate key:"
-msgstr ""
-
-#: plugins/gpg/gpgadvbase.cpp:158
-msgid "List public keys:"
-msgstr ""
-
-#: plugins/gpg/gpgadvbase.cpp:159
-msgid "List secret keys:"
-msgstr ""
-
-#: plugins/gpg/gpgadvbase.cpp:160
-msgid "Import public:"
-msgstr ""
-
-#: plugins/gpg/gpgadvbase.cpp:161
-msgid "Export public:"
-msgstr ""
-
-#: plugins/gpg/gpgadvbase.cpp:162
-#, fuzzy
-msgid "Encrypt:"
-msgstr "Mısır"
-
-#: plugins/gpg/gpgadvbase.cpp:163
-msgid "Decrypt:"
-msgstr ""
-
-#: plugins/gpg/gpggenbase.cpp:133
-#, fuzzy
-msgid "Generate key"
-msgstr "Genel"
-
-#: plugins/gpg/gpggenbase.cpp:134 plugins/jabber/discoinfobase.cpp:316
-#, fuzzy
-msgid "EMail:"
-msgstr "&EMail"
-
-#: plugins/gpg/gpggenbase.cpp:135
-#, fuzzy
-msgid "Comment:"
-msgstr "ICQ Programı:"
-
-#: plugins/gpg/gpggenbase.cpp:136 plugins/icq/workinfobase.cc:215 plugins/jabber/discoinfobase.cpp:300 plugins/jabber/discoinfobase.cpp:302
-msgid "Name:"
-msgstr "Ad:"
-
-#: plugins/gpg/gpggenbase.cpp:137
-#, fuzzy
-msgid "Passphrase:"
-msgstr "Şifre:"
-
-#: plugins/gpg/gpggenbase.cpp:138
-#, fuzzy
-msgid "Retype passphrase:"
-msgstr "Yeni şifreyi tekrar girin:"
-
-#: plugins/gpg/gpguserbase.cpp:99
-#, fuzzy
-msgid "Key:"
-msgstr "Düğmeler"
-
-#: plugins/gpg/passphrasebase.cpp:82
-msgid "Input passphrase"
-msgstr ""
-
-#: plugins/gpg/passphrasebase.cpp:84
-#, fuzzy
-msgid "&Save passphrase"
-msgstr "&Şifreyi sakla"
 
 #: plugins/icons/icon.cpp:32
 #, fuzzy
@@ -2515,15 +1650,6 @@ msgstr ""
 msgid "Get more smiles"
 msgstr ""
 
-#: plugins/icons/iconcfgbase.cpp:136
-msgid "Icons for protocol:"
-msgstr ""
-
-#: plugins/icons/smilecfgbase.cpp:122
-#, fuzzy
-msgid "Smiles:"
-msgstr "Dosya"
-
 #: plugins/icq/aimconfig.cpp:43
 #, fuzzy
 msgid "Register new ScreenName"
@@ -2537,16 +1663,24 @@ msgstr "En son bağlantı"
 msgid "ICQ"
 msgstr "ICQ"
 
-#: plugins/icq/icq.cpp:140 plugins/jabber/jabber.cpp:131 plugins/osd/osdconfigbase.cpp:145
+#: plugins/icq/icq.cpp:110 plugins/icq/icq.cpp:280 plugins/icq/icqclient.cpp:1453 plugins/jabber/jabber.cpp:101 plugins/msn/msn.cpp:101 plugins/yahoo/yahoo.cpp:119
+msgid "Away"
+msgstr "Uzakta"
+
+#: plugins/icq/icq.cpp:125 plugins/jabber/jabber.cpp:116 plugins/msn/msn.cpp:116 plugins/yahoo/yahoo.cpp:134
+msgid "N/A"
+msgstr "N/A"
+
+#: plugins/icq/icq.cpp:140 plugins/jabber/jabber.cpp:131
 #, fuzzy
 msgid "Do not Disturb"
 msgstr "Rahatsız Etmeyin"
 
-#: plugins/icq/icq.cpp:155 plugins/osd/osdconfigbase.cpp:146
+#: plugins/icq/icq.cpp:155
 msgid "Occupied"
 msgstr "Meşgul"
 
-#: plugins/icq/icq.cpp:170 plugins/jabber/jabber.cpp:146 plugins/osd/osdconfigbase.cpp:147
+#: plugins/icq/icq.cpp:170 plugins/jabber/jabber.cpp:146
 msgid "Free for chat"
 msgstr "Chat için Boş"
 
@@ -2710,6 +1844,11 @@ msgstr ""
 msgid "Possibly invisible"
 msgstr "görünmez moda ayarla"
 
+#: plugins/icq/icqclient.cpp:1434
+#, fuzzy
+msgid "Invisible"
+msgstr "Görünmez"
+
 #: plugins/icq/icqclient.cpp:1469
 #, fuzzy
 msgid "Warning level"
@@ -2731,7 +1870,7 @@ msgstr "Daha fazla ayrıntı"
 msgid "About info"
 msgstr "Hakkında"
 
-#: plugins/icq/advsearchbase.cc:289 plugins/icq/icqclient.cpp:1867 plugins/icq/icqclient.cpp:2055
+#: plugins/icq/icqclient.cpp:1867 plugins/icq/icqclient.cpp:2055
 msgid "Interests"
 msgstr "İlgi alanları"
 
@@ -3083,7 +2222,7 @@ msgstr "Cinsiyet:"
 msgid "Age"
 msgstr "Yaş:"
 
-#: plugins/icq/icqsearch.cpp:303 plugins/jabber/jabberadd.cpp:282 plugins/msn/msnsearchbase.cpp:131
+#: plugins/icq/icqsearch.cpp:303 plugins/jabber/jabberadd.cpp:282
 #, fuzzy
 msgid "E-Mail"
 msgstr "&EMail"
@@ -3106,7 +2245,6 @@ msgid "anonymous"
 msgstr ""
 
 #: plugins/icq/icqservice.cpp:299
-#, c-format
 msgid "You've been warned by %1"
 msgstr ""
 
@@ -3750,495 +2888,6 @@ msgstr "Üniversite Öğrencisi"
 msgid "Web building"
 msgstr "Web Tasarım"
 
-#: plugins/icq/icqconfigbase.cc:295
-#, fuzzy
-msgid "&Register new UIN"
-msgstr "&Kaydet"
-
-#: plugins/icq/icqconfigbase.cc:296
-msgid "UIN:"
-msgstr "ICQ#:"
-
-#: plugins/icq/icqconfigbase.cc:297
-#, fuzzy
-msgid "&ICQ"
-msgstr "ICQ"
-
-#: plugins/icq/aimconfigbase.cc:181 plugins/icq/icqconfigbase.cc:298 plugins/yahoo/yahoocfgbase.cpp:240
-msgid "&Automaticaly use HTTP pooling if proxy required"
-msgstr ""
-
-#: plugins/icq/aimconfigbase.cc:180 plugins/icq/icqconfigbase.cc:299 plugins/jabber/jabberconfigbase.cpp:366 plugins/msn/msnconfigbase.cpp:235 plugins/yahoo/yahoocfgbase.cpp:241
-msgid "Use &HTTP polling"
-msgstr ""
-
-#: plugins/icq/aimconfigbase.cc:179 plugins/icq/icqconfigbase.cc:300 plugins/jabber/jabberconfigbase.cpp:356 plugins/jabber/jabberconfigbase.cpp:360 plugins/livejournal/livejournalcfgbase.cpp:211 plugins/msn/msnconfigbase.cpp:231 plugins/yahoo/yahoocfgbase.cpp:237
-#, fuzzy
-msgid "Server:"
-msgstr "Server"
-
-#: plugins/icq/aimconfigbase.cc:178 plugins/icq/icqconfigbase.cc:301 plugins/jabber/jabberconfigbase.cpp:357 plugins/jabber/jabberconfigbase.cpp:361 plugins/livejournal/livejournalcfgbase.cpp:213 plugins/msn/msnconfigbase.cpp:232 plugins/proxy/proxycfgbase.cpp:163 plugins/remote/remotecfgbase.cpp:137 plugins/sms/smssetupbase.cpp:171 plugins/yahoo/yahoocfgbase.cpp:238
-msgid "Port:"
-msgstr "Port:"
-
-#: plugins/icq/icqconfigbase.cc:302 plugins/jabber/jabberconfigbase.cpp:363 plugins/msn/msnconfigbase.cpp:233 plugins/yahoo/yahoocfgbase.cpp:243
-#, fuzzy
-msgid "Port range for direct connections:"
-msgstr "Direk bağlantı"
-
-#: plugins/icq/aimconfigbase.cc:182 plugins/icq/icqconfigbase.cc:304 plugins/jabber/jabberconfigbase.cpp:367 plugins/msn/msnconfigbase.cpp:237 plugins/yahoo/yahoocfgbase.cpp:239
-msgid "Note: For HTTP-pooling using proxy setings for HTTP"
-msgstr ""
-
-#: plugins/icq/aimconfigbase.cc:183 plugins/icq/icqconfigbase.cc:305
-#, fuzzy
-msgid "&Keep-alive connection"
-msgstr "Direk bağlantı"
-
-#: plugins/icq/aimconfigbase.cc:184 plugins/icq/icqconfigbase.cc:306 plugins/jabber/jabberconfigbase.cpp:369 plugins/livejournal/livejournalcfgbase.cpp:214 plugins/msn/msnconfigbase.cpp:239 plugins/yahoo/yahoocfgbase.cpp:244
-#, fuzzy
-msgid "&Network"
-msgstr "&Yeni"
-
-#: plugins/icq/icqconfigbase.cc:307
-#, fuzzy
-msgid "Automatically check &invisible"
-msgstr "Görünmez"
-
-#: plugins/icq/icqconfigbase.cc:308
-#, fuzzy
-msgid "Send format:"
-msgstr "Gönderme başarısız"
-
-#: plugins/icq/icqconfigbase.cc:309
-#, fuzzy
-msgid "Send message:"
-msgstr "&Mesaj gönder"
-
-#: plugins/icq/icqconfigbase.cc:311
-msgid "No wait ack"
-msgstr ""
-
-#: plugins/icq/icqconfigbase.cc:312
-msgid "Wait ack from server"
-msgstr ""
-
-#: plugins/icq/icqconfigbase.cc:313
-msgid "Wait ack from client"
-msgstr ""
-
-#: plugins/icq/icqconfigbase.cc:314
-#, fuzzy
-msgid "Accept in &occupied mode"
-msgstr "Kabul Modu"
-
-#: plugins/icq/icqconfigbase.cc:315
-#, fuzzy
-msgid "Accept in &DND mode"
-msgstr "Kabul Modu"
-
-#: plugins/icq/icqconfigbase.cc:316
-msgid "For decrease traffic you can:"
-msgstr ""
-
-#: plugins/icq/icqconfigbase.cc:317
-msgid "Disable answer on phonebook and &picture requests"
-msgstr ""
-
-#: plugins/icq/icqconfigbase.cc:318
-msgid "Disable automaticaly &request autoreply on change status"
-msgstr ""
-
-#: plugins/icq/icqconfigbase.cc:319
-#, fuzzy
-msgid "Disable automatically &update user info"
-msgstr "Yeni kullanıcıları &otomatik olarak KAdressBook a ekle"
-
-#: plugins/icq/icqconfigbase.cc:320
-#, fuzzy
-msgid "Disable &typing notification"
-msgstr "Ekranda Uyarı Sistemi"
-
-#: plugins/icq/icqconfigbase.cc:321
-#, fuzzy
-msgid "Check invisible every"
-msgstr "Görünmez"
-
-#: plugins/icq/icqconfigbase.cc:322 plugins/livejournal/livejournalcfgbase.cpp:216
-#, fuzzy
-msgid "minutes"
-msgstr "Bilgisayar"
-
-#: plugins/icq/icqconfigbase.cc:323 plugins/jabber/jabberconfigbase.cpp:378 plugins/livejournal/livejournalcfgbase.cpp:218
-#, fuzzy
-msgid "&Options"
-msgstr "İ&ş"
-
-#: plugins/icq/icqinfobase.cc:339
-msgid "Form5"
-msgstr "Form5"
-
-#: plugins/icq/icqinfobase.cc:340
-msgid "Last Name:"
-msgstr "Soyadı:"
-
-#: plugins/icq/icqinfobase.cc:341
-msgid "Uin:"
-msgstr "UIN:"
-
-#: plugins/icq/icqinfobase.cc:344
-#, fuzzy
-msgid "Random chat group:"
-msgstr "Rasgele Chat"
-
-#: plugins/icq/icqinfobase.cc:345 plugins/jabber/jabberinfobase.cpp:304 plugins/msn/msninfobase.cpp:163 plugins/yahoo/yahooinfobase.cpp:183
-msgid "&Names"
-msgstr "&Adlar"
-
-#: plugins/icq/aiminfobase.cc:302 plugins/icq/icqinfobase.cc:346 plugins/jabber/jabberinfobase.cpp:305 plugins/msn/msninfobase.cpp:164 plugins/yahoo/yahooinfobase.cpp:184
-msgid "Status:"
-msgstr "Bağlantı:"
-
-#: plugins/icq/aiminfobase.cc:300 plugins/icq/icqinfobase.cc:349
-msgid "External IP:"
-msgstr "Dış IP:"
-
-#: plugins/icq/aiminfobase.cc:304 plugins/icq/icqinfobase.cc:350
-msgid "Internal IP:"
-msgstr "İç IP:"
-
-#: plugins/icq/aiminfobase.cc:301 plugins/icq/icqinfobase.cc:351 plugins/proxy/proxycfgbase.cpp:168
-msgid "Client:"
-msgstr "ICQ Programı:"
-
-#: plugins/icq/icqinfobase.cc:353 plugins/jabber/jabberinfobase.cpp:310
-msgid "New password:"
-msgstr "Yeni Şifre:"
-
-#: plugins/icq/icqinfobase.cc:354 plugins/jabber/jabberinfobase.cpp:311
-msgid "Retype new password:"
-msgstr "Yeni şifreyi tekrar girin:"
-
-#: plugins/icq/icqinfobase.cc:355 plugins/jabber/jabberinfobase.cpp:312
-msgid "Current password:"
-msgstr "Geçerli Şifre:"
-
-#: plugins/icq/icqinfobase.cc:356 plugins/jabber/jabberinfobase.cpp:313
-msgid "&Password"
-msgstr "&Şifre"
-
-#: plugins/icq/advsearchbase.cc:280 plugins/icq/aiminfobase.cc:294 plugins/icq/aimsearchbase.cc:201 plugins/icq/homeinfobase.cc:175 plugins/icq/workinfobase.cc:212 plugins/jabber/jabberhomeinfobase.cpp:139
-msgid "State:"
-msgstr "Bölge:"
-
-#: plugins/icq/homeinfobase.cc:176 plugins/icq/workinfobase.cc:210 plugins/jabber/jabberhomeinfobase.cpp:140
-msgid "Address:"
-msgstr "Adres:"
-
-#: plugins/icq/advsearchbase.cc:279 plugins/icq/aiminfobase.cc:293 plugins/icq/aimsearchbase.cc:202 plugins/icq/homeinfobase.cc:178 plugins/icq/workinfobase.cc:211 plugins/jabber/jabberhomeinfobase.cpp:136
-msgid "City:"
-msgstr "Şehir:"
-
-#: plugins/icq/homeinfobase.cc:179 plugins/icq/workinfobase.cc:213 plugins/jabber/jabberhomeinfobase.cpp:137
-msgid "Zip code:"
-msgstr "Posta kodu:"
-
-#: plugins/icq/homeinfobase.cc:180
-msgid "Time zone:"
-msgstr "Zaman Dilimi:"
-
-#: plugins/icq/homeinfobase.cc:181
-msgid "&Home info"
-msgstr "&Ev bilgisi"
-
-#: plugins/icq/advsearchbase.cc:282 plugins/icq/moreinfobase.cc:212 plugins/yahoo/yahoosearchbase.cpp:162
-msgid "Age:"
-msgstr "Yaş:"
-
-#: plugins/icq/moreinfobase.cc:213 plugins/jabber/discoinfobase.cpp:312 plugins/jabber/jabberinfobase.cpp:302
-msgid "Homepage:"
-msgstr "Web Adresi:"
-
-#: plugins/icq/advsearchbase.cc:283 plugins/icq/moreinfobase.cc:215 plugins/yahoo/yahoosearchbase.cpp:161
-msgid "Gender:"
-msgstr "Cinsiyet:"
-
-#: plugins/icq/moreinfobase.cc:216 plugins/jabber/discoinfobase.cpp:313 plugins/jabber/jabberinfobase.cpp:301
-msgid "Birth date:"
-msgstr "Doğum tarihi:"
-
-#: plugins/icq/moreinfobase.cc:217
-msgid "&More info"
-msgstr "&Daha fazla ayrıntı"
-
-#: plugins/icq/moreinfobase.cc:218
-msgid "Spoken languages:"
-msgstr "Bildiği Diller:"
-
-#: plugins/icq/moreinfobase.cc:219
-msgid "&Languages"
-msgstr "&Diller"
-
-#: plugins/icq/workinfobase.cc:217
-msgid "Web site:"
-msgstr "Web Sitesi:"
-
-#: plugins/icq/workinfobase.cc:218
-msgid "&Company"
-msgstr "&Firma"
-
-#: plugins/icq/advsearchbase.cc:285 plugins/icq/workinfobase.cc:219
-msgid "Occupation:"
-msgstr "İş:"
-
-#: plugins/icq/workinfobase.cc:220
-msgid "Div / dept:"
-msgstr "Bölüm / Departman:"
-
-#: plugins/icq/advsearchbase.cc:288 plugins/icq/workinfobase.cc:221 plugins/jabber/jabberworkinfobase.cpp:123
-msgid "Position:"
-msgstr "Pozisyon:"
-
-#: plugins/icq/workinfobase.cc:222
-msgid "&Occupation"
-msgstr "İ&ş"
-
-#: plugins/icq/aboutinfobase.cc:125
-msgid "Additional information about user:"
-msgstr "Kullanıcı hakkında ek bilgiler:"
-
-#: plugins/icq/aboutinfobase.cc:126
-msgid "A&bout"
-msgstr "&Hakkında"
-
-#: plugins/icq/interestsinfobase.cc:140
-msgid "&Interests"
-msgstr "İl&gi alanları"
-
-#: plugins/icq/pastinfobase.cc:170
-msgid "Organization, Affiliation, Group:"
-msgstr "Organizasyon,Grup :"
-
-#: plugins/icq/pastinfobase.cc:171
-msgid "A&ffilation"
-msgstr "&Bağlantılar"
-
-#: plugins/icq/pastinfobase.cc:172
-msgid "Past background:"
-msgstr "Geçmiş Background:"
-
-#: plugins/icq/pastinfobase.cc:173
-msgid "&Background"
-msgstr "&Arkaplan"
-
-#: plugins/icq/icqsecurebase.cc:166
-msgid "My &authorization is required before users add me to Contact List"
-msgstr "Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
-
-#: plugins/icq/icqsecurebase.cc:167
-msgid "Don't show my &IP-address"
-msgstr "&IP adresimi gizle"
-
-#: plugins/icq/icqsecurebase.cc:169
-msgid "Allow other to view my &status from the Web"
-msgstr "&Bağlantı durumumun web'den kontrol edilebilmesine izin ver"
-
-#: plugins/icq/icqsecurebase.cc:170
-msgid "I&gnore user authorization"
-msgstr "Kullanıcıdan &izin isteme"
-
-#: plugins/icq/icqsecurebase.cc:171
-#, fuzzy
-msgid "Direct connections"
-msgstr "Direk bağlantı"
-
-#: plugins/icq/icqsecurebase.cc:172
-msgid "Allow &direct connection from any user"
-msgstr "Herhangi bir kullanıcıdan &direk bağlantıya izin ver"
-
-#: plugins/icq/icqsecurebase.cc:173
-msgid "Allow direct connection from user listed in &contact list"
-msgstr "&Kontak listemdeki kullanıcılara direk bağlantı izni ver"
-
-#: plugins/icq/icqsecurebase.cc:174
-msgid "Allow direct connection from user &upon authorization"
-msgstr "Direk bağlantıya benim &onayımla birlikte izin ver"
-
-#: plugins/icq/icqsecurebase.cc:175
-msgid "&Security"
-msgstr "&Güvenlik"
-
-#: plugins/icq/icqsecurebase.cc:176
-#, fuzzy
-msgid "&Visible list"
-msgstr "Görünürler Listesi"
-
-#: plugins/icq/icqsecurebase.cc:177
-#, fuzzy
-msgid "&Invisible list"
-msgstr "Görünmezler listesi"
-
-#: plugins/icq/icqsearchbase.cc:185
-#, fuzzy
-msgid "&UIN"
-msgstr "UIN"
-
-#: plugins/icq/icqsearchbase.cc:186
-#, fuzzy
-msgid "&Screenname"
-msgstr "Adı :"
-
-#: plugins/icq/icqsearchbase.cc:192
-#, fuzzy
-msgid "AOL s&creenname"
-msgstr "Adı :"
-
-#: plugins/icq/icqsearchbase.cc:193
-#, fuzzy
-msgid "ICQ &UIN"
-msgstr "UIN"
-
-#: plugins/icq/icqsearchbase.cc:194
-#, fuzzy
-msgid "Advanced"
-msgstr "&İptal"
-
-#: plugins/icq/advsearchbase.cc:277 plugins/jabber/jabber.cpp:322
-#, fuzzy
-msgid "Info"
-msgstr "Geri al"
-
-#: plugins/icq/advsearchbase.cc:284
-#, fuzzy
-msgid "Work"
-msgstr "İş Fax"
-
-#: plugins/icq/advsearchbase.cc:286 plugins/jabber/jabberworkinfobase.cpp:121
-#, fuzzy
-msgid "Company:"
-msgstr "&Firma"
-
-#: plugins/icq/advsearchbase.cc:287 plugins/jabber/jabberworkinfobase.cpp:120
-msgid "Department:"
-msgstr "Departman:"
-
-#: plugins/icq/advsearchbase.cc:290
-#, fuzzy
-msgid "Past"
-msgstr "Yapıştır"
-
-#: plugins/icq/advsearchbase.cc:292
-#, fuzzy
-msgid "Affilations"
-msgstr "&Bağlantılar"
-
-#: plugins/icq/advsearchbase.cc:293
-msgid "Keywords"
-msgstr ""
-
-#: plugins/icq/advsearchbase.cc:294
-msgid "Search &online users only"
-msgstr ""
-
-#: plugins/icq/icqpicturebase.cc:135 plugins/jabber/jabberpicturebase.cpp:135 plugins/shortcuts/shortcutcfgbase.cpp:143
-#, fuzzy
-msgid "&Clear"
-msgstr "Temizle"
-
-#: plugins/icq/icqpicturebase.cc:136
-#, fuzzy
-msgid "&Picture"
-msgstr "İ&mza"
-
-#: plugins/icq/securedlgbase.cc:73
-msgid "Secure chanel request"
-msgstr "Güvenli kanal isteği"
-
-#: plugins/icq/securedlgbase.cc:74
-msgid ""
-"Secure channel is established using SSL with Diffie-Hellman key exchange and  the TLS version 1 protocol.\n"
-"\n"
-"This only works with other SIM and Licq clients"
-msgstr ""
-"Güvenli kanal isteği SSL,Diffie-Hellman anahtar değişimi methodu ve TLS v1 protokolüyle sağlanıyor\n"
-"\n"
-"Bu sadece karşı tarafta SIM ya da Licq varsa çalışır"
-
-#: plugins/icq/aimconfigbase.cc:175 plugins/icq/aiminfobase.cc:297
-#, fuzzy
-msgid "ScreenName:"
-msgstr "Adı :"
-
-#: plugins/icq/aimconfigbase.cc:177
-msgid "&AIM"
-msgstr ""
-
-#: plugins/icq/aiminfobase.cc:289 plugins/icq/aimsearchbase.cc:196
-#, fuzzy
-msgid "Middle:"
-msgstr "Erkek"
-
-#: plugins/icq/aiminfobase.cc:290 plugins/icq/aimsearchbase.cc:197
-#, fuzzy
-msgid "Maiden:"
-msgstr "Erkek"
-
-#: plugins/icq/aiminfobase.cc:292 plugins/icq/aimsearchbase.cc:204
-#, fuzzy
-msgid "Street:"
-msgstr "Hız:"
-
-#: plugins/icq/aiminfobase.cc:295 plugins/icq/aimsearchbase.cc:203
-#, fuzzy
-msgid "Zip:"
-msgstr "Posta kodu:"
-
-#: plugins/icq/aiminfobase.cc:298
-#, fuzzy
-msgid "&Profile"
-msgstr "Servis Sağlayıcı:"
-
-#: plugins/icq/aimsearchbase.cc:193
-msgid "Names"
-msgstr "Adlar"
-
-#: plugins/icq/aimsearchbase.cc:199 plugins/weather/wifacecfg.cpp:51 plugins/yahoo/yahoosearch.cpp:134
-#, fuzzy
-msgid "Location"
-msgstr "İ&ş"
-
-#: plugins/icq/warndlgbase.cc:83
-#, fuzzy
-msgid "Send warning"
-msgstr "Gönderme başarısız"
-
-#: plugins/icq/warndlgbase.cc:84
-msgid "Click OK to send warning to %1. This will raise %1's warning and limit his or her activity. Do this only if %1 has done something to merit a warning."
-msgstr ""
-
-#: plugins/icq/warndlgbase.cc:85
-msgid "Warn &anonymously"
-msgstr ""
-
-#: plugins/icq/warndlgbase.cc:86
-msgid ""
-"Check this if you don't want your screen name revealed.\n"
-"Anonymous warinings are less severe."
-msgstr ""
-
-#: plugins/icq/encodingdlgbase.cc:83
-#, fuzzy
-msgid "Choose default encoding"
-msgstr "Tüm-Kodlamalar"
-
-#: plugins/icq/encodingdlgbase.cc:84
-msgid "Your current system encoding (UTF-8) may cause problems saving your personal information and reading offline messages from other users."
-msgstr ""
-
-#: plugins/icq/encodingdlgbase.cc:85
-msgid "You will choose the coding by default which want to use:"
-msgstr ""
-
 #: plugins/jabber/discoinfo.cpp:64
 msgid "Units"
 msgstr ""
@@ -4248,12 +2897,12 @@ msgstr ""
 msgid "Value"
 msgstr "Mali"
 
-#: plugins/jabber/discoinfo.cpp:126 plugins/jabber/discoinfobase.cpp:305
+#: plugins/jabber/discoinfo.cpp:126
 #, fuzzy
 msgid "&Version"
 msgstr "Pers"
 
-#: plugins/jabber/discoinfo.cpp:141 plugins/jabber/discoinfobase.cpp:308
+#: plugins/jabber/discoinfo.cpp:141
 #, fuzzy
 msgid "&Time"
 msgstr "Zaman Dilimi:"
@@ -4290,6 +2939,11 @@ msgstr "Telefon:"
 msgid "&Register"
 msgstr "&Kaydet"
 
+#: plugins/jabber/jabber.cpp:322
+#, fuzzy
+msgid "Info"
+msgstr "Geri al"
+
 #: plugins/jabber/jabber.cpp:338
 #, fuzzy
 msgid "Browser mode"
@@ -4325,7 +2979,7 @@ msgid "Process"
 msgstr "Profesyonel"
 
 #: plugins/jabber/jabberbrowser.cpp:82 plugins/jabber/jabberbrowser.cpp:291 plugins/jabber/jabberbrowser.cpp:322 plugins/jabber/jabberbrowser.cpp:351 plugins/jabber/jabberbrowser.cpp:559 plugins/jabber/jabberbrowser.cpp:629
-#, fuzzy, c-format
+#, fuzzy
 msgid "Error %1"
 msgstr "Hata"
 
@@ -4404,7 +3058,7 @@ msgstr "Giriş"
 msgid "Log Off"
 msgstr "Giriş"
 
-#: plugins/jabber/jabberpicture.cpp:47 plugins/jabber/jabberpicturebase.cpp:136
+#: plugins/jabber/jabberpicture.cpp:47
 #, fuzzy
 msgid "&Photo"
 msgstr "&Telefon defteri"
@@ -4569,128 +3223,6 @@ msgstr "Eski Organizasyon"
 #, fuzzy
 msgid "Organization Unit"
 msgstr "Eski Organizasyon"
-
-#: plugins/jabber/jabberconfigbase.cpp:354 plugins/livejournal/livejournalcfgbase.cpp:208
-#, fuzzy
-msgid "Username:"
-msgstr "Adını değiştir"
-
-#: plugins/jabber/jabberconfigbase.cpp:355
-#, fuzzy
-msgid "&Register new account"
-msgstr "&Kaydet"
-
-#: plugins/jabber/jabberconfigbase.cpp:358 plugins/jabber/jabberconfigbase.cpp:365
-#, fuzzy
-msgid "Use &SSL"
-msgstr "SMS gönder"
-
-#: plugins/jabber/jabberconfigbase.cpp:359
-msgid "&Jabber"
-msgstr ""
-
-#: plugins/jabber/jabberconfigbase.cpp:364
-msgid "Use &plain text login"
-msgstr ""
-
-#: plugins/jabber/jabberconfigbase.cpp:368
-msgid "URL:"
-msgstr "URL:"
-
-#: plugins/jabber/jabberconfigbase.cpp:370 plugins/jabber/jabberinfobase.cpp:308
-#, fuzzy
-msgid "Resource:"
-msgstr "&Geri yükle"
-
-#: plugins/jabber/jabberconfigbase.cpp:371
-#, fuzzy
-msgid "Priority:"
-msgstr "Port:"
-
-#: plugins/jabber/jabberconfigbase.cpp:372
-msgid "Manualy specify Jabber host:"
-msgstr ""
-
-#: plugins/jabber/jabberconfigbase.cpp:373
-msgid "Use protocol &icons for agents contacts"
-msgstr ""
-
-#: plugins/jabber/jabberconfigbase.cpp:374
-msgid "Automaticaly send &subscribe request"
-msgstr ""
-
-#: plugins/jabber/jabberconfigbase.cpp:375
-msgid "Automaticaly &accept subscribe requests"
-msgstr ""
-
-#: plugins/jabber/jabberconfigbase.cpp:376
-#, fuzzy
-msgid "Send &rich text messages if possible"
-msgstr "&Mesaj gönder"
-
-#: plugins/jabber/jabberconfigbase.cpp:377 plugins/osd/osdconfigbase.cpp:149
-#, fuzzy
-msgid "Enable &typing notification"
-msgstr "Ekranda Uyarı Sistemi"
-
-#: plugins/jabber/jabberinfobase.cpp:298
-msgid "ID:"
-msgstr ""
-
-#: plugins/jabber/jabberworkinfobase.cpp:122
-#, fuzzy
-msgid "Role:"
-msgstr "Servis Sağlayıcı:"
-
-#: plugins/jabber/jabberaboutinfobase.cpp:88
-#, fuzzy
-msgid "Additional information:"
-msgstr "Kullanıcı hakkında ek bilgiler:"
-
-#: plugins/jabber/jabberaddbase.cpp:153
-msgid "&JID"
-msgstr ""
-
-#: plugins/jabber/jabberaddbase.cpp:159 plugins/jabber/jidsearchbase.cpp:136
-msgid "Jabber &browser"
-msgstr ""
-
-#: plugins/jabber/discoinfobase.cpp:296
-msgid "DiscoInfo"
-msgstr ""
-
-#: plugins/jabber/discoinfobase.cpp:297
-#, fuzzy
-msgid "Namespaces:"
-msgstr "Ad:"
-
-#: plugins/jabber/discoinfobase.cpp:298
-msgid "Category:"
-msgstr ""
-
-#: plugins/jabber/discoinfobase.cpp:303
-#, fuzzy
-msgid "Version:"
-msgstr "%1 Versiyon: %2"
-
-#: plugins/jabber/discoinfobase.cpp:304
-#, fuzzy
-msgid "System:"
-msgstr "Sistem"
-
-#: plugins/jabber/discoinfobase.cpp:306
-#, fuzzy
-msgid "UTC client time:"
-msgstr "ICQ programı"
-
-#: plugins/jabber/discoinfobase.cpp:307
-msgid "Last activity, idle response:"
-msgstr ""
-
-#: plugins/jabber/discoinfobase.cpp:310
-#, fuzzy
-msgid "&Statistic"
-msgstr "&Bağlantı"
 
 #: plugins/livejournal/livejournal.cpp:110
 msgid "LiveJournal post"
@@ -5359,70 +3891,6 @@ msgstr "&Kaydet"
 msgid "Remove record from journal?"
 msgstr "Icq dışından kontak ekle"
 
-#: plugins/livejournal/livejournalcfgbase.cpp:210
-msgid "&LiveJournal"
-msgstr ""
-
-#: plugins/livejournal/livejournalcfgbase.cpp:212
-msgid "Path:"
-msgstr ""
-
-#: plugins/livejournal/livejournalcfgbase.cpp:215
-#, fuzzy
-msgid "Check interval:"
-msgstr "Görünmez"
-
-#: plugins/livejournal/livejournalcfgbase.cpp:217
-msgid "Use &fast server - only for paying customers"
-msgstr ""
-
-#: plugins/livejournal/msgjournalbase.cpp:113
-msgid "Subject:"
-msgstr ""
-
-#: plugins/livejournal/msgjournalbase.cpp:114
-#, fuzzy
-msgid "Security:"
-msgstr "Güvenlik"
-
-#: plugins/livejournal/msgjournalbase.cpp:116
-#, fuzzy
-msgid "Public"
-msgstr "Yayınla"
-
-#: plugins/livejournal/msgjournalbase.cpp:117
-#, fuzzy
-msgid "Friends-Only"
-msgstr "Sadece yaz"
-
-#: plugins/livejournal/msgjournalbase.cpp:118
-#, fuzzy
-msgid "Private"
-msgstr "Yapıştır"
-
-#: plugins/livejournal/msgjournalbase.cpp:119
-#, fuzzy
-msgid "Mood:"
-msgstr "Durum"
-
-#: plugins/livejournal/msgjournalbase.cpp:123
-msgid "Enable comments"
-msgstr ""
-
-#: plugins/livejournal/msgjournalbase.cpp:124
-msgid "No email comments"
-msgstr ""
-
-#: plugins/livejournal/msgjournalbase.cpp:125
-#, fuzzy
-msgid "Disable comments"
-msgstr "&Tüm sesleri etkisizleştir"
-
-#: plugins/livejournal/journalsearchbase.cpp:96
-#, fuzzy
-msgid "Add community"
-msgstr "Icq dışından kontak ekle"
-
 #: plugins/logger/logconfig.cpp:94
 #, fuzzy
 msgid "Debug"
@@ -5438,11 +3906,11 @@ msgstr "&Paket"
 msgid "Events"
 msgstr "Efektler"
 
-#: plugins/logger/logger.cpp:38
+#: plugins/logger/logger.cpp:40
 msgid "Logger"
 msgstr ""
 
-#: plugins/logger/logger.cpp:39
+#: plugins/logger/logger.cpp:41
 msgid ""
 "Plugin provides log output\n"
 "You can set debug level from command line with -d<loglevel>\n"
@@ -5450,19 +3918,9 @@ msgid ""
 "If you want to log more than one you may add the levels"
 msgstr ""
 
-#: plugins/logger/logger.cpp:78
+#: plugins/logger/logger.cpp:80
 msgid "Set debug level"
 msgstr ""
-
-#: plugins/logger/logconfigbase.cpp:127
-#, fuzzy
-msgid "File:"
-msgstr "Dosya"
-
-#: plugins/logger/logconfigbase.cpp:128
-#, fuzzy
-msgid "Log level:"
-msgstr "Log Düzeyi"
 
 #: plugins/msn/msn.cpp:63
 #, fuzzy
@@ -5528,24 +3986,6 @@ msgstr "Okunmamış mesajı aç"
 msgid "You have new mail"
 msgstr ""
 
-#: plugins/msn/msnconfigbase.cpp:228 plugins/yahoo/yahoocfgbase.cpp:234 plugins/yahoo/yahooinfobase.cpp:180
-#, fuzzy
-msgid "Login:"
-msgstr "Giriş"
-
-#: plugins/msn/msnconfigbase.cpp:230
-#, fuzzy
-msgid "&MSN"
-msgstr "SMS"
-
-#: plugins/msn/msnconfigbase.cpp:236
-msgid "&Automatically use HTTP pooling if proxy required"
-msgstr ""
-
-#: plugins/msn/msnconfigbase.cpp:238
-msgid "&Automatically add contacts in accept list"
-msgstr ""
-
 #: plugins/navigate/navigate.cpp:214
 #, fuzzy
 msgid "Navigate"
@@ -5564,21 +4004,6 @@ msgstr "Gönderme başarısız"
 #, fuzzy
 msgid "Copy &location"
 msgstr "İ&ş"
-
-#: plugins/navigate/navcfgbase.cc:100
-#, fuzzy
-msgid "Browser:"
-msgstr "Vekil sunucu-kullanıcı adı:"
-
-#: plugins/navigate/navcfgbase.cc:101
-#, fuzzy
-msgid "Mailer:"
-msgstr "Erkek"
-
-#: plugins/navigate/navcfgbase.cc:102
-#, fuzzy
-msgid "Open links in &new window"
-msgstr "Transparan ana pencere"
 
 #: plugins/netmonitor/monitor.cpp:51 plugins/netmonitor/netmonitor.cpp:35 plugins/netmonitor/netmonitor.cpp:91
 msgid "Network monitor"
@@ -5606,7 +4031,6 @@ msgid "&Log"
 msgstr "&Kayıt"
 
 #: plugins/netmonitor/monitor.cpp:89
-#, c-format
 msgid "Can't create file %1"
 msgstr "%1 dosyası yaratılamadı"
 
@@ -5655,16 +4079,6 @@ msgstr ""
 msgid "Always on top"
 msgstr "Daima en üstte"
 
-#: plugins/ontop/ontopcfgbase.cpp:89
-#, fuzzy
-msgid "Show &main window in task manager"
-msgstr "Ana pencereyi Task Manager'da göster"
-
-#: plugins/ontop/ontopcfgbase.cpp:90
-#, fuzzy
-msgid "&Container always on top"
-msgstr "Daima en üstte"
-
 #: plugins/osd/osd.cpp:70
 msgid "OSD"
 msgstr ""
@@ -5711,67 +4125,6 @@ msgstr "Merkez üst"
 msgid "Center"
 msgstr "Merkez üst"
 
-#: plugins/osd/osdconfigbase.cpp:140
-#, fuzzy
-msgid "Enable &messages notification"
-msgstr "Ekranda Uyarı Sistemi"
-
-#: plugins/osd/osdconfigbase.cpp:141
-#, fuzzy
-msgid "Enable &status notification"
-msgstr "Ekranda Uyarı Sistemi"
-
-#: plugins/osd/osdconfigbase.cpp:150
-#, fuzzy
-msgid "Show message &content"
-msgstr "\"Enter\" a basınca mesajı yolla"
-
-#: plugins/osd/osdconfigbase.cpp:151
-#, fuzzy
-msgid "Show lines of content:"
-msgstr "\"Enter\" a basınca mesajı yolla"
-
-#: plugins/osd/osdconfigbase.cpp:152
-#, fuzzy
-msgid "All"
-msgstr "Alt"
-
-#: plugins/osd/osdifacebase.cpp:188
-msgid "Offset:"
-msgstr "Uzaklık:"
-
-#: plugins/osd/osdifacebase.cpp:189
-msgid "Show time:"
-msgstr "Zamanı göster"
-
-#: plugins/osd/osdifacebase.cpp:190
-#, fuzzy
-msgid "Color:"
-msgstr "Renk:"
-
-#: plugins/osd/osdifacebase.cpp:191
-msgid "Font:"
-msgstr "Font:"
-
-#: plugins/osd/osdifacebase.cpp:192
-#, fuzzy
-msgid "Show sha&dow"
-msgstr "Arama penceresini göster"
-
-#: plugins/osd/osdifacebase.cpp:193
-#, fuzzy
-msgid "Show &background"
-msgstr "&Arkaplan"
-
-#: plugins/osd/osdifacebase.cpp:194 plugins/styles/fontconfigbase.cpp:161
-msgid "Background color:"
-msgstr "Arkaplan rengi:"
-
-#: plugins/osd/osdifacebase.cpp:196
-#, fuzzy
-msgid "Shown on screen:"
-msgstr "Cevabı göster"
-
 #: plugins/proxy/proxy.cpp:42
 #, fuzzy
 msgid "Can't connect to proxy"
@@ -5806,55 +4159,12 @@ msgstr "Varsayılan"
 msgid "HTTP requests"
 msgstr ""
 
-#: plugins/proxy/proxycfgbase.cpp:162
-msgid "Host:"
-msgstr "Sunucu:"
-
-#: plugins/proxy/proxycfgbase.cpp:164
-#, fuzzy
-msgid "Proxy require &authorization"
-msgstr "Vekil sunucu şifre istiyor"
-
-#: plugins/proxy/proxycfgbase.cpp:165
-#, fuzzy
-msgid "User:"
-msgstr "Kullanıcı"
-
-#: plugins/proxy/proxycfgbase.cpp:167
-#, fuzzy
-msgid "Proxy type:"
-msgstr "Vekil sunucu adresi:"
-
-#: plugins/proxy/proxycfgbase.cpp:169
-#, fuzzy
-msgid "Do not show error dialog (automatically reconnect)"
-msgstr "&Başlarkan giriş dialoğunu gösterme"
-
-#: plugins/proxy/proxyerrorbase.cpp:78
-#, fuzzy
-msgid "Proxy error"
-msgstr "Vekil sunucu adresi:"
-
 #: plugins/remote/remote.cpp:42
 msgid "Remote control"
 msgstr ""
 
 #: plugins/remote/remote.cpp:43
 msgid "Plugin provides remote control"
-msgstr ""
-
-#: plugins/remote/remotecfgbase.cpp:136
-#, fuzzy
-msgid "Use &UNIX socket"
-msgstr "&Dock kullan"
-
-#: plugins/remote/remotecfgbase.cpp:138 plugins/remote/remotecfgbase.cpp:139
-#, fuzzy
-msgid "Use &TCP socket"
-msgstr "&Dock kullan"
-
-#: plugins/remote/remotecfgbase.cpp:140
-msgid "Enable IE context emnu extension"
 msgstr ""
 
 #: plugins/replace/replace.cpp:33
@@ -5911,7 +4221,7 @@ msgstr "Çift &tıklama kullan"
 msgid "Mouse"
 msgstr "Durum"
 
-#: plugins/shortcuts/shortcutcfg.cpp:90 plugins/shortcuts/shortcutcfg.cpp:223 plugins/shortcuts/shortcutcfgbase.cpp:99 plugins/shortcuts/shortcutcfgbase.cpp:141 plugins/shortcuts/shortcutcfgbase.cpp:144
+#: plugins/shortcuts/shortcutcfg.cpp:90 plugins/shortcuts/shortcutcfg.cpp:223
 msgid "Global"
 msgstr ""
 
@@ -5923,33 +4233,6 @@ msgstr "Kısa yollar"
 #: plugins/shortcuts/shortcuts.cpp:51
 msgid "Plugin provides keyboards shortcuts and global mouse functions"
 msgstr ""
-
-#: plugins/shortcuts/mousecfgbase.cpp:67 plugins/shortcuts/mousecfgbase.cpp:109 plugins/shortcuts/shortcutcfgbase.cpp:96 plugins/shortcuts/shortcutcfgbase.cpp:139
-#, fuzzy
-msgid "Command"
-msgstr "Firma:"
-
-#: plugins/shortcuts/shortcutcfgbase.cpp:97 plugins/shortcuts/shortcutcfgbase.cpp:140
-#, fuzzy
-msgid "Key"
-msgstr "Düğmeler"
-
-#: plugins/shortcuts/mousecfgbase.cpp:68 plugins/shortcuts/mousecfgbase.cpp:110
-#, fuzzy
-msgid "Button"
-msgstr "Bhutan"
-
-#: plugins/shortcuts/mousecfgbase.cpp:112 sim/ui/qt3/i18n.cpp:197
-msgid "Alt"
-msgstr "Alt"
-
-#: plugins/shortcuts/mousecfgbase.cpp:113 sim/ui/qt3/i18n.cpp:193
-msgid "Ctrl"
-msgstr "Ctrl"
-
-#: plugins/shortcuts/mousecfgbase.cpp:114 sim/ui/qt3/i18n.cpp:199
-msgid "Shift"
-msgstr "Shift"
 
 #: plugins/sms/sms.cpp:87 plugins/sms/sms.cpp:108
 #, fuzzy
@@ -5969,75 +4252,6 @@ msgstr "&Uyarılar"
 #: plugins/sms/smssetup.cpp:58
 msgid "Battery:"
 msgstr ""
-
-#: plugins/sms/smssetupbase.cpp:170
-#, fuzzy
-msgid "SMSSetup"
-msgstr "Ayarlar"
-
-#: plugins/sms/smssetupbase.cpp:172
-#, fuzzy
-msgid "Baudrate:"
-msgstr "Barbuda"
-
-#: plugins/sms/smssetupbase.cpp:174
-msgid "115200"
-msgstr ""
-
-#: plugins/sms/smssetupbase.cpp:175
-msgid "38400"
-msgstr ""
-
-#: plugins/sms/smssetupbase.cpp:176
-msgid "19200"
-msgstr ""
-
-#: plugins/sms/smssetupbase.cpp:177
-msgid "9600"
-msgstr ""
-
-#: plugins/sms/smssetupbase.cpp:178
-msgid "4800"
-msgstr ""
-
-#: plugins/sms/smssetupbase.cpp:179
-msgid "2400"
-msgstr ""
-
-#: plugins/sms/smssetupbase.cpp:180
-msgid "1200"
-msgstr ""
-
-#: plugins/sms/smssetupbase.cpp:181
-msgid "600"
-msgstr ""
-
-#: plugins/sms/smssetupbase.cpp:182
-msgid "300"
-msgstr ""
-
-#: plugins/sms/smssetupbase.cpp:183
-msgid "Software handshake"
-msgstr ""
-
-#: plugins/sms/smssetupbase.cpp:185
-#, fuzzy
-msgid "Model:"
-msgstr "Durum"
-
-#: plugins/sms/smssetupbase.cpp:186
-msgid "Signal quality:"
-msgstr ""
-
-#: plugins/sms/smssetupbase.cpp:188
-#, fuzzy
-msgid "Operator:"
-msgstr "Esperanto"
-
-#: plugins/sms/smssetupbase.cpp:189
-#, fuzzy
-msgid "&Phone"
-msgstr "Telefon:"
 
 #: plugins/sound/sound.cpp:46 plugins/sound/sounduser.cpp:37
 msgid "Sound"
@@ -6060,38 +4274,6 @@ msgstr ""
 #, fuzzy
 msgid "Online alert"
 msgstr "Bağlı alarmı:"
-
-#: plugins/sound/soundconfigbase.cpp:156
-#, fuzzy
-msgid "&Use artsd"
-msgstr "KDE Arts ses sunucusunu kullan"
-
-#: plugins/sound/soundconfigbase.cpp:157
-#, fuzzy
-msgid "Player:"
-msgstr "Yer:"
-
-#: plugins/sound/soundconfigbase.cpp:158
-msgid "File transfer done:"
-msgstr "Dosya transferi tamamlandı:"
-
-#: plugins/sound/soundconfigbase.cpp:159
-#, fuzzy
-msgid "Message sent:"
-msgstr "Mesaj:"
-
-#: plugins/sound/soundconfigbase.cpp:160
-msgid "Sound on startup:"
-msgstr ""
-
-#: plugins/sound/sounduserbase.cpp:122
-#, fuzzy
-msgid "&Disable all sounds"
-msgstr "&Tüm sesleri etkisizleştir"
-
-#: plugins/sound/sounduserbase.cpp:123
-msgid "No sound if windows has &focus"
-msgstr ""
 
 #: plugins/spell/spell.cpp:62
 msgid "Plugin provides check spelling"
@@ -6123,7 +4305,7 @@ msgstr "İspanyolca"
 msgid "Plugin provides splash screen"
 msgstr ""
 
-#: plugins/styles/metal/metal.cpp:514
+#: plugins/styles/metal/metal.cpp:496
 #, fuzzy
 msgid "Metal style"
 msgstr "Standart İkonlar"
@@ -6142,30 +4324,10 @@ msgstr ""
 msgid "Fonts and colors"
 msgstr "Ar&kaplan rengi"
 
-#: plugins/styles/wood/wood.cpp:1269
+#: plugins/styles/wood/wood.cpp:1424
 #, fuzzy
-msgid "Norwegian Wood"
-msgstr "Norveçce"
-
-#: plugins/styles/fontconfigbase.cpp:159
-#, fuzzy
-msgid "Use &system fonts"
-msgstr "Sistem fontlarını &kullan"
-
-#: plugins/styles/fontconfigbase.cpp:160
-#, fuzzy
-msgid "Base font:"
-msgstr "Temel Font"
-
-#: plugins/styles/fontconfigbase.cpp:162
-#, fuzzy
-msgid "Button color:"
-msgstr "Arkaplan rengi:"
-
-#: plugins/styles/fontconfigbase.cpp:164
-#, fuzzy
-msgid "Menu font:"
-msgstr "Menü Fontu"
+msgid "Wood"
+msgstr "Durum"
 
 #: plugins/transparent/transparent.cpp:65
 #, fuzzy
@@ -6181,15 +4343,6 @@ msgstr ""
 #: plugins/transparent/transparent.cpp:70
 msgid "Plugin provides windows transparency"
 msgstr ""
-
-#: plugins/transparent/transparentcfgbase.cpp:102
-#, fuzzy
-msgid "Transparency of main window:"
-msgstr "Transparan ana pencere"
-
-#: plugins/transparent/transparentcfgbase.cpp:103
-msgid "Transparent only if inactive"
-msgstr "Sadece inaktifse transparan"
 
 #: plugins/update/update.cpp:40
 msgid "Update"
@@ -6376,6 +4529,11 @@ msgstr "Görünürler Listesi"
 msgid "Dew Point"
 msgstr ""
 
+#: plugins/weather/wifacecfg.cpp:51 plugins/yahoo/yahoosearch.cpp:134
+#, fuzzy
+msgid "Location"
+msgstr "İ&ş"
+
 #: plugins/weather/wifacecfg.cpp:53
 #, fuzzy
 msgid "Updated"
@@ -6391,7 +4549,7 @@ msgstr "Suriname"
 msgid "Sunset"
 msgstr "Sudan"
 
-#: plugins/weather/wifacecfg.cpp:59 plugins/weather/wifacecfg.cpp:74 plugins/yahoo/yahoosearchbase.cpp:160
+#: plugins/weather/wifacecfg.cpp:59 plugins/weather/wifacecfg.cpp:74
 #, fuzzy
 msgid "Conditions"
 msgstr "Bağlantı"
@@ -6407,47 +4565,6 @@ msgstr ""
 #: plugins/weather/wifacecfg.cpp:72 sim/ui/qt3/i18n.cpp:45
 msgid "Date"
 msgstr "Tarih"
-
-#: plugins/weather/weathercfgbase.cpp:169
-#, fuzzy
-msgid "Location ID:"
-msgstr "İ&ş"
-
-#: plugins/weather/weathercfgbase.cpp:171
-msgid "You can enter ID as part URL for your location on weather.com"
-msgstr ""
-
-#: plugins/weather/weathercfgbase.cpp:173
-#, fuzzy
-msgid "Metric"
-msgstr "Meksika"
-
-#: plugins/weather/weathercfgbase.cpp:174
-#, fuzzy
-msgid "Standart"
-msgstr "&Bağlantı"
-
-#: plugins/weather/weathercfgbase.cpp:175
-msgid "Forecast days:"
-msgstr ""
-
-#: plugins/weather/weathercfgbase.cpp:176
-msgid "Units:"
-msgstr ""
-
-#: plugins/weather/wifacecfgbase.cpp:140
-#, fuzzy
-msgid "Button text:"
-msgstr "Bhutan"
-
-#: plugins/weather/wifacecfgbase.cpp:141
-#, fuzzy
-msgid "Button tip:"
-msgstr "Bhutan"
-
-#: plugins/weather/wifacecfgbase.cpp:142
-msgid "Forecast tip:"
-msgstr ""
 
 #: plugins/windock/windock.cpp:44
 msgid "Plugin provides dock main window to left or right side of screen"
@@ -6517,21 +4634,6 @@ msgstr "Çı&kartma"
 msgid "Yahoo! ID"
 msgstr "&Telefon defteri"
 
-#: plugins/yahoo/yahoocfgbase.cpp:236
-#, fuzzy
-msgid "&Yahoo!"
-msgstr "&Telefon defteri"
-
-#: plugins/yahoo/yahoosearchbase.cpp:157
-#, fuzzy
-msgid "Yahoo! &ID"
-msgstr "&Telefon defteri"
-
-#: plugins/yahoo/yahoosearchbase.cpp:159
-#, fuzzy
-msgid "&Keyword"
-msgstr "&Düğme"
-
 #: plugins/zodiak/zodiak.cpp:50
 msgid "Zodiak"
 msgstr ""
@@ -6600,7 +4702,6 @@ msgid "Pisces"
 msgstr "Partiler"
 
 #: plugins/zodiak/zodiak.cpp:233
-#, c-format
 msgid "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
 msgstr ""
 
@@ -7631,7 +5732,6 @@ msgid "%1 bytes"
 msgstr ""
 
 #: sim/api/plugins.cpp:713
-#, c-format
 msgid "Bad option %1"
 msgstr ""
 
@@ -7645,13 +5745,18 @@ msgid ""
 "Definition of PluralForm - to be set by the translator of kdelibs.po"
 msgstr "NoPlural"
 
-#: sim/api/simapi.cpp:467 sim/ui/ballonmsg.cpp:359 sim/ui/qt3/i18n.cpp:125
+#: sim/api/simapi.cpp:467 sim/ui/qt3/i18n.cpp:125 sim/ui/ballonmsg.cpp:359
 msgid "&Yes"
 msgstr "&Evet"
 
-#: sim/api/simapi.cpp:471 sim/ui/ballonmsg.cpp:360 sim/ui/qt3/i18n.cpp:127
+#: sim/api/simapi.cpp:471 sim/ui/qt3/i18n.cpp:127 sim/ui/ballonmsg.cpp:360
 msgid "&No"
 msgstr "&Hayır"
+
+#: sim/api/simapi.cpp:473
+#, fuzzy
+msgid "&Help"
+msgstr "Yardım"
 
 #: sim/api/simapi.cpp:699
 #, fuzzy
@@ -7855,12 +5960,10 @@ msgid "Copy or Move a File"
 msgstr "Dosyayı kopyala ya da taşı"
 
 #: sim/ui/qt3/i18n.cpp:31
-#, c-format
 msgid "Read: %1"
 msgstr "%1 i oku"
 
 #: sim/ui/qt3/i18n.cpp:33
-#, c-format
 msgid "Write: %1"
 msgstr "Yaz : %1"
 
@@ -7952,7 +6055,7 @@ msgstr "Dizin"
 msgid "Special"
 msgstr "Özel"
 
-#: sim/ui/editfile.cpp:143 sim/ui/qt3/i18n.cpp:89
+#: sim/ui/qt3/i18n.cpp:89 sim/ui/editfile.cpp:143
 msgid "Open"
 msgstr "Aç"
 
@@ -8005,7 +6108,6 @@ msgid "the symlink"
 msgstr "sembolik bağ"
 
 #: sim/ui/qt3/i18n.cpp:121
-#, c-format
 msgid "Delete %1"
 msgstr " %1 i sil"
 
@@ -8022,7 +6124,6 @@ msgid "New Folder"
 msgstr "Yeni Dizin"
 
 #: sim/ui/qt3/i18n.cpp:133
-#, c-format
 msgid "New Folder %1"
 msgstr "Yeni Dizin %1"
 
@@ -8120,12 +6221,23 @@ msgstr "İleri >"
 msgid "Finish"
 msgstr "Bitir"
 
+#: sim/ui/qt3/i18n.cpp:193
+msgid "Ctrl"
+msgstr "Ctrl"
+
 #: sim/ui/qt3/i18n.cpp:195
 msgid "+"
 msgstr "+"
 
+#: sim/ui/qt3/i18n.cpp:197
+msgid "Alt"
+msgstr "Alt"
+
+#: sim/ui/qt3/i18n.cpp:199
+msgid "Shift"
+msgstr "Shift"
+
 #: sim/ui/qt3/i18n.cpp:201
-#, c-format
 msgid "F%1"
 msgstr "F%1"
 
@@ -8150,14 +6262,12 @@ msgid ""
 msgstr "%1 in adı %2 olarak değiştirilemedi"
 
 #: sim/ui/qt3/i18n.cpp:216
-#, c-format
 msgid ""
 "Could not open\n"
 "%1"
 msgstr "%1 açılamadı"
 
 #: sim/ui/qt3/i18n.cpp:220
-#, c-format
 msgid ""
 "Could not write\n"
 "%1"
@@ -8180,7 +6290,6 @@ msgid "Host found"
 msgstr "Makine adı bulundu"
 
 #: sim/ui/qt3/i18n.cpp:231
-#, c-format
 msgid "Connected to host %1"
 msgstr "%1 e bağlanıldı"
 
@@ -8197,12 +6306,10 @@ msgid "Login Incorrect"
 msgstr "Giriş hatalı"
 
 #: sim/ui/qt3/i18n.cpp:241
-#, c-format
 msgid "Col %1"
 msgstr "Sütun %1"
 
 #: sim/ui/qt3/i18n.cpp:243
-#, c-format
 msgid "Row %1"
 msgstr "Satır %1"
 
@@ -8214,15 +6321,15 @@ msgstr "Geri al"
 msgid "Redo"
 msgstr "Tekrarla"
 
-#: sim/ui/editfile.cpp:311 sim/ui/editfile.cpp:394 sim/ui/qt3/i18n.cpp:249
+#: sim/ui/qt3/i18n.cpp:249 sim/ui/editfile.cpp:311 sim/ui/editfile.cpp:394
 msgid "Cut"
 msgstr "Kes"
 
-#: sim/ui/editfile.cpp:312 sim/ui/editfile.cpp:395 sim/ui/qt3/i18n.cpp:251
+#: sim/ui/qt3/i18n.cpp:251 sim/ui/editfile.cpp:312 sim/ui/editfile.cpp:395
 msgid "Copy"
 msgstr "Kopyala"
 
-#: sim/ui/editfile.cpp:313 sim/ui/editfile.cpp:396 sim/ui/qt3/i18n.cpp:253
+#: sim/ui/qt3/i18n.cpp:253 sim/ui/editfile.cpp:313 sim/ui/editfile.cpp:396
 msgid "Paste"
 msgstr "Yapıştır"
 
@@ -8443,6 +6550,1186 @@ msgstr "Kes"
 #, fuzzy
 msgid "Windows XP style"
 msgstr "Pencere ortala"
+
+#~ msgid "Form1"
+#~ msgstr "Form1"
+
+#, fuzzy
+#~ msgid "Path for config files:"
+#~ msgstr "Gelen dosyaların saklanacağı yer :"
+
+#, fuzzy
+#~ msgid "Directories for convert:"
+#~ msgstr "Gelen dosyaların kaydedileceği yer"
+
+#, fuzzy
+#~ msgid "Convert configuration"
+#~ msgstr "ICQ programı"
+
+#~ msgid "&Update"
+#~ msgstr "&Yenile"
+
+#, fuzzy
+#~ msgid "&Override global settings"
+#~ msgstr "Global ayarların üzerine yaz"
+
+#~ msgid "Toolbar setup"
+#~ msgstr "Araç Çubuğu Ayarları"
+
+#~ msgid "All buttons:"
+#~ msgstr "Tüm düğmeler"
+
+#~ msgid "New Item"
+#~ msgstr "Yeni Element"
+
+#~ msgid "&Add ->"
+#~ msgstr "&Ekle ->"
+
+#~ msgid "<- &Remove"
+#~ msgstr "<- &Sil"
+
+#~ msgid "Active:"
+#~ msgstr "Aktif:"
+
+#~ msgid "&Up"
+#~ msgstr "&Yukarı"
+
+#~ msgid "&Down"
+#~ msgstr "&Aşağı"
+
+#~ msgid "Language:"
+#~ msgstr "Dil:"
+
+#, fuzzy
+#~ msgid "Message window"
+#~ msgstr "Mesaj Gönderildi"
+
+#, fuzzy
+#~ msgid "&Chat mode"
+#~ msgstr "Bağlantı modu"
+
+#, fuzzy
+#~ msgid "Container mode"
+#~ msgstr "Bölüme Taşı"
+
+#, fuzzy
+#~ msgid "Open each contact in &new container"
+#~ msgstr "&Her kullanıcı yeni bir taşıyıcıda"
+
+#, fuzzy
+#~ msgid "Open one container for &group"
+#~ msgstr "Grup için &yeni bir taşıyıcı"
+
+#, fuzzy
+#~ msgid "Open all contacts in &one container"
+#~ msgstr "&Tüm kullanıcılar bir taşıyıcıda"
+
+#~ msgid "Form2"
+#~ msgstr "Form 2"
+
+#, fuzzy
+#~ msgid "Sorting"
+#~ msgstr "Sırala"
+
+#, fuzzy
+#~ msgid "1st:"
+#~ msgstr "Sunucu:"
+
+#, fuzzy
+#~ msgid "Awaiting authorization"
+#~ msgstr "Kullanıcıdan &izin isteme"
+
+#, fuzzy
+#~ msgid "Visible"
+#~ msgstr "Görünmez"
+
+#, fuzzy
+#~ msgid "Groups"
+#~ msgstr "Gruplar"
+
+#, fuzzy
+#~ msgid "Do not distrub"
+#~ msgstr "Rahatsız Etmeyin"
+
+#~ msgid "Online:"
+#~ msgstr "Bağlı:"
+
+#, fuzzy
+#~ msgid "Colors:"
+#~ msgstr "Renk:"
+
+#, fuzzy
+#~ msgid "Use &double click"
+#~ msgstr "&Dock kullan"
+
+#, fuzzy
+#~ msgid "Use system &colors"
+#~ msgstr "&Sistem renklerini kullan"
+
+#, fuzzy
+#~ msgid "Use small &font for group"
+#~ msgstr "Grup için &yeni bir taşıyıcı"
+
+#~ msgid "Use &own colors and fonts settings"
+#~ msgstr "&Kendi renklerini ve fontlarını kullan kullan"
+
+#~ msgid "Use emotional &icons"
+#~ msgstr "&Duygu ikonları kullan"
+
+#, fuzzy
+#~ msgid "Keep history "
+#~ msgstr "Adrese kaydet"
+
+#, fuzzy
+#~ msgid "100"
+#~ msgstr "100000"
+
+#, fuzzy
+#~ msgid "50"
+#~ msgstr "50'ler"
+
+#, fuzzy
+#~ msgid "&Preview"
+#~ msgstr "&Önceki Mesaj"
+
+#, fuzzy
+#~ msgid "&Source"
+#~ msgstr "Sırala"
+
+#~ msgid "First name:"
+#~ msgstr "Adı :"
+
+#, fuzzy
+#~ msgid "Last name:"
+#~ msgstr "Soyadı:"
+
+#~ msgid "Display:"
+#~ msgstr "Gösteriş Şekli:"
+
+#~ msgid "Encoding:"
+#~ msgstr "Kodlama:"
+
+#~ msgid "Email addresses:"
+#~ msgstr "E-Mail-Adresi:"
+
+#, fuzzy
+#~ msgid ""
+#~ "Note:\n"
+#~ "You can change only those addresses which have entered.\n"
+#~ "It is impossible to change addresses which were received from the user."
+#~ msgstr ""
+#~ "Not:\n"
+#~ "Sadece girdiğiniz sayıları değiştirebilirsiniz\n"
+#~ "Diğer kullanıcıdan gelen sayılar değiştirilemez"
+
+#, fuzzy
+#~ msgid "&Mails"
+#~ msgstr "&EMail"
+
+#, fuzzy
+#~ msgid "Phones:"
+#~ msgstr "Telefon:"
+
+#, fuzzy
+#~ msgid "Phone Status:"
+#~ msgstr "Telefon:"
+
+#~ msgid ""
+#~ "Note:\n"
+#~ "You can change only those numbers which have entered.\n"
+#~ "It is impossible to change numbers which were received from the user."
+#~ msgstr ""
+#~ "Not:\n"
+#~ "Sadece girdiğiniz sayıları değiştirebilirsiniz\n"
+#~ "Diğer kullanıcıdan gelen sayılar değiştirilemez"
+
+#, fuzzy
+#~ msgid "&Phones"
+#~ msgstr "Telefon:"
+
+#~ msgid "&Notes"
+#~ msgstr "&Notlar"
+
+#, fuzzy
+#~ msgid "EditMail"
+#~ msgstr "Email'i değiştir"
+
+#~ msgid "Enter Email address:"
+#~ msgstr "Email adresi gir:"
+
+#, fuzzy
+#~ msgid "&Publish"
+#~ msgstr "Yayınla"
+
+#, fuzzy
+#~ msgid "EditPhone"
+#~ msgstr "Telefon:"
+
+#~ msgid "Number details:"
+#~ msgstr "Numara ayrıntıları:"
+
+#~ msgid "Type:"
+#~ msgstr "Tip:"
+
+#~ msgid "Area code:"
+#~ msgstr "Alan Kodu:"
+
+#~ msgid "Extension:"
+#~ msgstr "Ülke Kodu:"
+
+#~ msgid "-"
+#~ msgstr "-"
+
+#~ msgid "Number:"
+#~ msgstr "Sayı:"
+
+#~ msgid "Country:"
+#~ msgstr "Ülke:"
+
+#, fuzzy
+#~ msgid "Provider:"
+#~ msgstr "Servis Sağlayıcı:"
+
+#~ msgid "Email gateway:"
+#~ msgstr "Email Gateway:"
+
+#, fuzzy
+#~ msgid "&Add to list"
+#~ msgstr "Çı&kartma"
+
+#, fuzzy
+#~ msgid "More &options"
+#~ msgstr "İ&ş"
+
+#, fuzzy
+#~ msgid "&New search"
+#~ msgstr "Yeni arama"
+
+#~ msgid "Form4"
+#~ msgstr "Form 4"
+
+#, fuzzy
+#~ msgid "&E-Mail"
+#~ msgstr "&EMail"
+
+#, fuzzy
+#~ msgid "&Name"
+#~ msgstr "&Adlar"
+
+#, fuzzy
+#~ msgid "First:"
+#~ msgstr "Adı :"
+
+#, fuzzy
+#~ msgid "Last:"
+#~ msgstr "Laos"
+
+#~ msgid "Nick:"
+#~ msgstr "Nick:"
+
+#~ msgid "Nickname:"
+#~ msgstr "Nick:"
+
+#, fuzzy
+#~ msgid "E-Mail address:"
+#~ msgstr "E-Mail-Adresi:"
+
+#, fuzzy
+#~ msgid "Phone:"
+#~ msgstr "Telefon:"
+
+#~ msgid "Form3"
+#~ msgstr "Form 3"
+
+#, fuzzy
+#~ msgid "Complete"
+#~ msgstr "Bilgisayar"
+
+#~ msgid "Login"
+#~ msgstr "Giriş"
+
+#, fuzzy
+#~ msgid "Passwords:"
+#~ msgstr "Şifre:"
+
+#, fuzzy
+#~ msgid "Profile:"
+#~ msgstr "Servis Sağlayıcı:"
+
+#~ msgid "&Save password"
+#~ msgstr "&Şifreyi sakla"
+
+#, fuzzy
+#~ msgid "&Do not show this window on startup"
+#~ msgstr "&Bu pencereyi bir daha gösterme"
+
+#~ msgid "Connection"
+#~ msgstr "Bağlantı"
+
+#, fuzzy
+#~ msgid "&Configure"
+#~ msgstr "ICQ programı"
+
+#, fuzzy
+#~ msgid "&Remove"
+#~ msgstr "Sil"
+
+#, fuzzy
+#~ msgid "&New connection"
+#~ msgstr "Direk bağlantı"
+
+#, fuzzy
+#~ msgid "New connection"
+#~ msgstr "Direk bağlantı"
+
+#, fuzzy
+#~ msgid "Select protocol"
+#~ msgstr "Renk seç"
+
+#~ msgid "Don't show this dialog"
+#~ msgstr "Bu dialoğu bir daha gösterme"
+
+#, fuzzy
+#~ msgid "Open window if user go online"
+#~ msgstr "Kullanıcı bağlı olunca mesaj penceresi aç"
+
+#, fuzzy
+#~ msgid "&No open"
+#~ msgstr "Yeni grup"
+
+#~ msgid "Path for incoming files:"
+#~ msgstr "Gelen dosyaların saklanacağı yer :"
+
+#~ msgid "Accept mode"
+#~ msgstr "Kabul Modu"
+
+#~ msgid "Show response"
+#~ msgstr "Cevabı göster"
+
+#~ msgid "Auto accept"
+#~ msgstr "Otomatik kabul et"
+
+#~ msgid "Overwrite files"
+#~ msgstr "Eski dosyanın üzerine yaz"
+
+#~ msgid "Auto decline"
+#~ msgstr "Otomatik reddet"
+
+#~ msgid "Text before cursor:"
+#~ msgstr "Cursor öncesi yazı:"
+
+#~ msgid "Text after cursor:"
+#~ msgstr "Cursor sonrası yazı:"
+
+#, fuzzy
+#~ msgid "Don't show autoreply dialog"
+#~ msgstr "Bu dialoğu bir daha gösterme"
+
+#~ msgid "File transfer"
+#~ msgstr "Dosya transferi"
+
+#, fuzzy
+#~ msgid "Time:"
+#~ msgstr "Zaman Dilimi:"
+
+#~ msgid "Speed:"
+#~ msgstr "Hız:"
+
+#, fuzzy
+#~ msgid "Close after &transfer"
+#~ msgstr "&Gönderdikten sonra kapat"
+
+#~ msgid "Decline reason"
+#~ msgstr "Reddetme nedeni"
+
+#, fuzzy
+#~ msgid "Enter decline reason:"
+#~ msgstr "Red sebebi girin"
+
+#~ msgid "About SIM"
+#~ msgstr "SIM hakkında"
+
+#~ msgid "Authors"
+#~ msgstr "Yazarlar"
+
+#~ msgid "Translation"
+#~ msgstr "Çeviri"
+
+#~ msgid "License"
+#~ msgstr "Lisans"
+
+#, fuzzy
+#~ msgid "Add Item"
+#~ msgstr "Yeni Element"
+
+#, fuzzy
+#~ msgid "Item:"
+#~ msgstr "Yeni Element"
+
+#, fuzzy
+#~ msgid "Program:"
+#~ msgstr "&Program"
+
+#~ msgid "Set \"Away\" status after"
+#~ msgstr "\"Uzakta\"-Statüsüne geç"
+
+#~ msgid "minutes not using computer"
+#~ msgstr "dakikadır bilgisayarı kullanmıyor"
+
+#~ msgid "minutes of \"Away\""
+#~ msgstr "dakikadır \"Uzakta\"-Statüsünde"
+
+#, fuzzy
+#~ msgid "minutes of \"N/A\""
+#~ msgstr "dakikadır \"Uzakta\"-Statüsünde"
+
+#~ msgid "Set \"N/A\" status after"
+#~ msgstr "\"N/A\"-Statusüne geç"
+
+#, fuzzy
+#~ msgid "Set \"Offline\" status after"
+#~ msgstr "\"N/A\"-Statusüne geç"
+
+#~ msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+#~ msgstr "\"Uzakta\", \"N/A\", \"DND\" ve \"Meşgul\"-Listelerinde bağlı alamını iptal et "
+
+#, fuzzy
+#~ msgid "Group margin:"
+#~ msgstr "Simge boşluğu:"
+
+#, fuzzy
+#~ msgid "Contact margin:"
+#~ msgstr "Simge boşluğu:"
+
+#~ msgid "Main window background:"
+#~ msgstr "Ana pencere arkaplanı:"
+
+#~ msgid "Place:"
+#~ msgstr "Yer:"
+
+#~ msgid "Hide main window after"
+#~ msgstr "Ana menüyü sakla"
+
+#~ msgid "seconds inactive"
+#~ msgstr "saniye inaktif"
+
+#, fuzzy
+#~ msgid "Show Mainwin on desktop"
+#~ msgstr "Ana menüyü Göster/Sakla"
+
+#, fuzzy
+#~ msgid "&Customize dock menu"
+#~ msgstr "Mesajı değiştir"
+
+#~ msgid "Reject messages from unknown users contains this words or phrases:"
+#~ msgstr "Bilinmeyen kullanıcılardan gelen mesajlar şu kelimeleri ya da cümleleri taşıyosa reddet : "
+
+#, fuzzy
+#~ msgid ""
+#~ "Words are divided by any separators (space, comma, i.e.)\n"
+#~ "A phrase can be specified using quotation marks\n"
+#~ "Words can contain wildcards:\n"
+#~ "* - any amount of symbols (or is empty)\n"
+#~ "? - any symbol"
+#~ msgstr ""
+#~ "Kelimeler herhangi bi şekilde ayrılabilir ( boşluk , virgül , vb. )\n"
+#~ "Cümle ( kelimeler topluluğu ) tırnak içinde yazılmalıdır\n"
+#~ "Kelimeler şu işaretleri taşıyabilir : \n"
+#~ " * - örnek* örnek ile başlayan tüm msgları bloklamak için\n"
+#~ "? - örn?k  şeklinde ise ? yerine herhangi bi kelime gelebilir örnek gibi"
+
+#~ msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
+#~ msgstr "\"Uzakta\" ve \"N/A\" modunda iken mesajları cep telefonuna gönder: "
+
+#~ msgid ""
+#~ "For the answer or sending of the new message you can answer on SMS having specified in the beginning of the message a line:\n"
+#~ "<UIN>:"
+#~ msgstr "SMS'leri cevaplamak için şu şekilde mesaja başlayarak cevap atabilirsiniz: <UIN>:"
+
+#, fuzzy
+#~ msgid "Home directory:"
+#~ msgstr "dizin"
+
+#, fuzzy
+#~ msgid "&Find"
+#~ msgstr "&Arama"
+
+#, fuzzy
+#~ msgid "Your key:"
+#~ msgstr "Türkiye"
+
+#, fuzzy
+#~ msgid "&Refresh"
+#~ msgstr "&Reddet"
+
+#, fuzzy
+#~ msgid "Encrypt:"
+#~ msgstr "Mısır"
+
+#, fuzzy
+#~ msgid "Generate key"
+#~ msgstr "Genel"
+
+#, fuzzy
+#~ msgid "EMail:"
+#~ msgstr "&EMail"
+
+#, fuzzy
+#~ msgid "Comment:"
+#~ msgstr "ICQ Programı:"
+
+#~ msgid "Name:"
+#~ msgstr "Ad:"
+
+#, fuzzy
+#~ msgid "Passphrase:"
+#~ msgstr "Şifre:"
+
+#, fuzzy
+#~ msgid "Retype passphrase:"
+#~ msgstr "Yeni şifreyi tekrar girin:"
+
+#, fuzzy
+#~ msgid "Key:"
+#~ msgstr "Düğmeler"
+
+#, fuzzy
+#~ msgid "&Save passphrase"
+#~ msgstr "&Şifreyi sakla"
+
+#, fuzzy
+#~ msgid "Smiles:"
+#~ msgstr "Dosya"
+
+#, fuzzy
+#~ msgid "&Register new UIN"
+#~ msgstr "&Kaydet"
+
+#~ msgid "UIN:"
+#~ msgstr "ICQ#:"
+
+#, fuzzy
+#~ msgid "&ICQ"
+#~ msgstr "ICQ"
+
+#, fuzzy
+#~ msgid "Server:"
+#~ msgstr "Server"
+
+#~ msgid "Port:"
+#~ msgstr "Port:"
+
+#, fuzzy
+#~ msgid "Port range for direct connections:"
+#~ msgstr "Direk bağlantı"
+
+#, fuzzy
+#~ msgid "&Keep-alive connection"
+#~ msgstr "Direk bağlantı"
+
+#, fuzzy
+#~ msgid "&Network"
+#~ msgstr "&Yeni"
+
+#, fuzzy
+#~ msgid "Automatically check &invisible"
+#~ msgstr "Görünmez"
+
+#, fuzzy
+#~ msgid "Send format:"
+#~ msgstr "Gönderme başarısız"
+
+#, fuzzy
+#~ msgid "Send message:"
+#~ msgstr "&Mesaj gönder"
+
+#, fuzzy
+#~ msgid "Accept in &occupied mode"
+#~ msgstr "Kabul Modu"
+
+#, fuzzy
+#~ msgid "Accept in &DND mode"
+#~ msgstr "Kabul Modu"
+
+#, fuzzy
+#~ msgid "Disable automatically &update user info"
+#~ msgstr "Yeni kullanıcıları &otomatik olarak KAdressBook a ekle"
+
+#, fuzzy
+#~ msgid "Disable &typing notification"
+#~ msgstr "Ekranda Uyarı Sistemi"
+
+#, fuzzy
+#~ msgid "Check invisible every"
+#~ msgstr "Görünmez"
+
+#, fuzzy
+#~ msgid "minutes"
+#~ msgstr "Bilgisayar"
+
+#, fuzzy
+#~ msgid "&Options"
+#~ msgstr "İ&ş"
+
+#~ msgid "Form5"
+#~ msgstr "Form5"
+
+#~ msgid "Last Name:"
+#~ msgstr "Soyadı:"
+
+#~ msgid "Uin:"
+#~ msgstr "UIN:"
+
+#, fuzzy
+#~ msgid "Random chat group:"
+#~ msgstr "Rasgele Chat"
+
+#~ msgid "&Names"
+#~ msgstr "&Adlar"
+
+#~ msgid "Status:"
+#~ msgstr "Bağlantı:"
+
+#~ msgid "External IP:"
+#~ msgstr "Dış IP:"
+
+#~ msgid "Internal IP:"
+#~ msgstr "İç IP:"
+
+#~ msgid "Client:"
+#~ msgstr "ICQ Programı:"
+
+#~ msgid "New password:"
+#~ msgstr "Yeni Şifre:"
+
+#~ msgid "Retype new password:"
+#~ msgstr "Yeni şifreyi tekrar girin:"
+
+#~ msgid "Current password:"
+#~ msgstr "Geçerli Şifre:"
+
+#~ msgid "&Password"
+#~ msgstr "&Şifre"
+
+#~ msgid "State:"
+#~ msgstr "Bölge:"
+
+#~ msgid "Address:"
+#~ msgstr "Adres:"
+
+#~ msgid "City:"
+#~ msgstr "Şehir:"
+
+#~ msgid "Zip code:"
+#~ msgstr "Posta kodu:"
+
+#~ msgid "Time zone:"
+#~ msgstr "Zaman Dilimi:"
+
+#~ msgid "&Home info"
+#~ msgstr "&Ev bilgisi"
+
+#~ msgid "Age:"
+#~ msgstr "Yaş:"
+
+#~ msgid "Homepage:"
+#~ msgstr "Web Adresi:"
+
+#~ msgid "Gender:"
+#~ msgstr "Cinsiyet:"
+
+#~ msgid "Birth date:"
+#~ msgstr "Doğum tarihi:"
+
+#~ msgid "&More info"
+#~ msgstr "&Daha fazla ayrıntı"
+
+#~ msgid "Spoken languages:"
+#~ msgstr "Bildiği Diller:"
+
+#~ msgid "&Languages"
+#~ msgstr "&Diller"
+
+#~ msgid "Web site:"
+#~ msgstr "Web Sitesi:"
+
+#~ msgid "&Company"
+#~ msgstr "&Firma"
+
+#~ msgid "Occupation:"
+#~ msgstr "İş:"
+
+#~ msgid "Div / dept:"
+#~ msgstr "Bölüm / Departman:"
+
+#~ msgid "Position:"
+#~ msgstr "Pozisyon:"
+
+#~ msgid "&Occupation"
+#~ msgstr "İ&ş"
+
+#~ msgid "Additional information about user:"
+#~ msgstr "Kullanıcı hakkında ek bilgiler:"
+
+#~ msgid "A&bout"
+#~ msgstr "&Hakkında"
+
+#~ msgid "&Interests"
+#~ msgstr "İl&gi alanları"
+
+#~ msgid "Organization, Affiliation, Group:"
+#~ msgstr "Organizasyon,Grup :"
+
+#~ msgid "A&ffilation"
+#~ msgstr "&Bağlantılar"
+
+#~ msgid "Past background:"
+#~ msgstr "Geçmiş Background:"
+
+#~ msgid "&Background"
+#~ msgstr "&Arkaplan"
+
+#~ msgid "My &authorization is required before users add me to Contact List"
+#~ msgstr "Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
+
+#~ msgid "Don't show my &IP-address"
+#~ msgstr "&IP adresimi gizle"
+
+#~ msgid "Allow other to view my &status from the Web"
+#~ msgstr "&Bağlantı durumumun web'den kontrol edilebilmesine izin ver"
+
+#~ msgid "I&gnore user authorization"
+#~ msgstr "Kullanıcıdan &izin isteme"
+
+#, fuzzy
+#~ msgid "Direct connections"
+#~ msgstr "Direk bağlantı"
+
+#~ msgid "Allow &direct connection from any user"
+#~ msgstr "Herhangi bir kullanıcıdan &direk bağlantıya izin ver"
+
+#~ msgid "Allow direct connection from user listed in &contact list"
+#~ msgstr "&Kontak listemdeki kullanıcılara direk bağlantı izni ver"
+
+#~ msgid "Allow direct connection from user &upon authorization"
+#~ msgstr "Direk bağlantıya benim &onayımla birlikte izin ver"
+
+#~ msgid "&Security"
+#~ msgstr "&Güvenlik"
+
+#, fuzzy
+#~ msgid "&Visible list"
+#~ msgstr "Görünürler Listesi"
+
+#, fuzzy
+#~ msgid "&Invisible list"
+#~ msgstr "Görünmezler listesi"
+
+#, fuzzy
+#~ msgid "&UIN"
+#~ msgstr "UIN"
+
+#, fuzzy
+#~ msgid "&Screenname"
+#~ msgstr "Adı :"
+
+#, fuzzy
+#~ msgid "AOL s&creenname"
+#~ msgstr "Adı :"
+
+#, fuzzy
+#~ msgid "ICQ &UIN"
+#~ msgstr "UIN"
+
+#, fuzzy
+#~ msgid "Advanced"
+#~ msgstr "&İptal"
+
+#, fuzzy
+#~ msgid "Work"
+#~ msgstr "İş Fax"
+
+#, fuzzy
+#~ msgid "Company:"
+#~ msgstr "&Firma"
+
+#~ msgid "Department:"
+#~ msgstr "Departman:"
+
+#, fuzzy
+#~ msgid "Past"
+#~ msgstr "Yapıştır"
+
+#, fuzzy
+#~ msgid "Affilations"
+#~ msgstr "&Bağlantılar"
+
+#, fuzzy
+#~ msgid "&Clear"
+#~ msgstr "Temizle"
+
+#, fuzzy
+#~ msgid "&Picture"
+#~ msgstr "İ&mza"
+
+#~ msgid "Secure chanel request"
+#~ msgstr "Güvenli kanal isteği"
+
+#~ msgid ""
+#~ "Secure channel is established using SSL with Diffie-Hellman key exchange and  the TLS version 1 protocol.\n"
+#~ "\n"
+#~ "This only works with other SIM and Licq clients"
+#~ msgstr ""
+#~ "Güvenli kanal isteği SSL,Diffie-Hellman anahtar değişimi methodu ve TLS v1 protokolüyle sağlanıyor\n"
+#~ "\n"
+#~ "Bu sadece karşı tarafta SIM ya da Licq varsa çalışır"
+
+#, fuzzy
+#~ msgid "ScreenName:"
+#~ msgstr "Adı :"
+
+#, fuzzy
+#~ msgid "Middle:"
+#~ msgstr "Erkek"
+
+#, fuzzy
+#~ msgid "Maiden:"
+#~ msgstr "Erkek"
+
+#, fuzzy
+#~ msgid "Street:"
+#~ msgstr "Hız:"
+
+#, fuzzy
+#~ msgid "Zip:"
+#~ msgstr "Posta kodu:"
+
+#, fuzzy
+#~ msgid "&Profile"
+#~ msgstr "Servis Sağlayıcı:"
+
+#~ msgid "Names"
+#~ msgstr "Adlar"
+
+#, fuzzy
+#~ msgid "Send warning"
+#~ msgstr "Gönderme başarısız"
+
+#, fuzzy
+#~ msgid "Choose default encoding"
+#~ msgstr "Tüm-Kodlamalar"
+
+#, fuzzy
+#~ msgid "Username:"
+#~ msgstr "Adını değiştir"
+
+#, fuzzy
+#~ msgid "&Register new account"
+#~ msgstr "&Kaydet"
+
+#, fuzzy
+#~ msgid "Use &SSL"
+#~ msgstr "SMS gönder"
+
+#~ msgid "URL:"
+#~ msgstr "URL:"
+
+#, fuzzy
+#~ msgid "Resource:"
+#~ msgstr "&Geri yükle"
+
+#, fuzzy
+#~ msgid "Priority:"
+#~ msgstr "Port:"
+
+#, fuzzy
+#~ msgid "Send &rich text messages if possible"
+#~ msgstr "&Mesaj gönder"
+
+#, fuzzy
+#~ msgid "Enable &typing notification"
+#~ msgstr "Ekranda Uyarı Sistemi"
+
+#, fuzzy
+#~ msgid "Role:"
+#~ msgstr "Servis Sağlayıcı:"
+
+#, fuzzy
+#~ msgid "Additional information:"
+#~ msgstr "Kullanıcı hakkında ek bilgiler:"
+
+#, fuzzy
+#~ msgid "Namespaces:"
+#~ msgstr "Ad:"
+
+#, fuzzy
+#~ msgid "Version:"
+#~ msgstr "%1 Versiyon: %2"
+
+#, fuzzy
+#~ msgid "System:"
+#~ msgstr "Sistem"
+
+#, fuzzy
+#~ msgid "UTC client time:"
+#~ msgstr "ICQ programı"
+
+#, fuzzy
+#~ msgid "&Statistic"
+#~ msgstr "&Bağlantı"
+
+#, fuzzy
+#~ msgid "Check interval:"
+#~ msgstr "Görünmez"
+
+#, fuzzy
+#~ msgid "Security:"
+#~ msgstr "Güvenlik"
+
+#, fuzzy
+#~ msgid "Public"
+#~ msgstr "Yayınla"
+
+#, fuzzy
+#~ msgid "Friends-Only"
+#~ msgstr "Sadece yaz"
+
+#, fuzzy
+#~ msgid "Private"
+#~ msgstr "Yapıştır"
+
+#, fuzzy
+#~ msgid "Disable comments"
+#~ msgstr "&Tüm sesleri etkisizleştir"
+
+#, fuzzy
+#~ msgid "Add community"
+#~ msgstr "Icq dışından kontak ekle"
+
+#, fuzzy
+#~ msgid "File:"
+#~ msgstr "Dosya"
+
+#, fuzzy
+#~ msgid "Log level:"
+#~ msgstr "Log Düzeyi"
+
+#, fuzzy
+#~ msgid "Login:"
+#~ msgstr "Giriş"
+
+#, fuzzy
+#~ msgid "&MSN"
+#~ msgstr "SMS"
+
+#, fuzzy
+#~ msgid "Browser:"
+#~ msgstr "Vekil sunucu-kullanıcı adı:"
+
+#, fuzzy
+#~ msgid "Mailer:"
+#~ msgstr "Erkek"
+
+#, fuzzy
+#~ msgid "Open links in &new window"
+#~ msgstr "Transparan ana pencere"
+
+#, fuzzy
+#~ msgid "Show &main window in task manager"
+#~ msgstr "Ana pencereyi Task Manager'da göster"
+
+#, fuzzy
+#~ msgid "&Container always on top"
+#~ msgstr "Daima en üstte"
+
+#, fuzzy
+#~ msgid "Enable &messages notification"
+#~ msgstr "Ekranda Uyarı Sistemi"
+
+#, fuzzy
+#~ msgid "Enable &status notification"
+#~ msgstr "Ekranda Uyarı Sistemi"
+
+#, fuzzy
+#~ msgid "Show message &content"
+#~ msgstr "\"Enter\" a basınca mesajı yolla"
+
+#, fuzzy
+#~ msgid "Show lines of content:"
+#~ msgstr "\"Enter\" a basınca mesajı yolla"
+
+#, fuzzy
+#~ msgid "All"
+#~ msgstr "Alt"
+
+#~ msgid "Offset:"
+#~ msgstr "Uzaklık:"
+
+#~ msgid "Show time:"
+#~ msgstr "Zamanı göster"
+
+#, fuzzy
+#~ msgid "Color:"
+#~ msgstr "Renk:"
+
+#~ msgid "Font:"
+#~ msgstr "Font:"
+
+#, fuzzy
+#~ msgid "Show sha&dow"
+#~ msgstr "Arama penceresini göster"
+
+#, fuzzy
+#~ msgid "Show &background"
+#~ msgstr "&Arkaplan"
+
+#~ msgid "Background color:"
+#~ msgstr "Arkaplan rengi:"
+
+#, fuzzy
+#~ msgid "Shown on screen:"
+#~ msgstr "Cevabı göster"
+
+#~ msgid "Host:"
+#~ msgstr "Sunucu:"
+
+#, fuzzy
+#~ msgid "Proxy require &authorization"
+#~ msgstr "Vekil sunucu şifre istiyor"
+
+#, fuzzy
+#~ msgid "User:"
+#~ msgstr "Kullanıcı"
+
+#, fuzzy
+#~ msgid "Proxy type:"
+#~ msgstr "Vekil sunucu adresi:"
+
+#, fuzzy
+#~ msgid "Do not show error dialog (automatically reconnect)"
+#~ msgstr "&Başlarkan giriş dialoğunu gösterme"
+
+#, fuzzy
+#~ msgid "Proxy error"
+#~ msgstr "Vekil sunucu adresi:"
+
+#, fuzzy
+#~ msgid "Use &UNIX socket"
+#~ msgstr "&Dock kullan"
+
+#, fuzzy
+#~ msgid "Use &TCP socket"
+#~ msgstr "&Dock kullan"
+
+#, fuzzy
+#~ msgid "Command"
+#~ msgstr "Firma:"
+
+#, fuzzy
+#~ msgid "Key"
+#~ msgstr "Düğmeler"
+
+#, fuzzy
+#~ msgid "Button"
+#~ msgstr "Bhutan"
+
+#, fuzzy
+#~ msgid "SMSSetup"
+#~ msgstr "Ayarlar"
+
+#, fuzzy
+#~ msgid "Baudrate:"
+#~ msgstr "Barbuda"
+
+#, fuzzy
+#~ msgid "Model:"
+#~ msgstr "Durum"
+
+#, fuzzy
+#~ msgid "Operator:"
+#~ msgstr "Esperanto"
+
+#, fuzzy
+#~ msgid "&Phone"
+#~ msgstr "Telefon:"
+
+#, fuzzy
+#~ msgid "&Use artsd"
+#~ msgstr "KDE Arts ses sunucusunu kullan"
+
+#, fuzzy
+#~ msgid "Player:"
+#~ msgstr "Yer:"
+
+#~ msgid "File transfer done:"
+#~ msgstr "Dosya transferi tamamlandı:"
+
+#, fuzzy
+#~ msgid "Message sent:"
+#~ msgstr "Mesaj:"
+
+#, fuzzy
+#~ msgid "&Disable all sounds"
+#~ msgstr "&Tüm sesleri etkisizleştir"
+
+#, fuzzy
+#~ msgid "Norwegian Wood"
+#~ msgstr "Norveçce"
+
+#, fuzzy
+#~ msgid "Use &system fonts"
+#~ msgstr "Sistem fontlarını &kullan"
+
+#, fuzzy
+#~ msgid "Base font:"
+#~ msgstr "Temel Font"
+
+#, fuzzy
+#~ msgid "Button color:"
+#~ msgstr "Arkaplan rengi:"
+
+#, fuzzy
+#~ msgid "Menu font:"
+#~ msgstr "Menü Fontu"
+
+#, fuzzy
+#~ msgid "Transparency of main window:"
+#~ msgstr "Transparan ana pencere"
+
+#~ msgid "Transparent only if inactive"
+#~ msgstr "Sadece inaktifse transparan"
+
+#, fuzzy
+#~ msgid "Location ID:"
+#~ msgstr "İ&ş"
+
+#, fuzzy
+#~ msgid "Metric"
+#~ msgstr "Meksika"
+
+#, fuzzy
+#~ msgid "Standart"
+#~ msgstr "&Bağlantı"
+
+#, fuzzy
+#~ msgid "Button text:"
+#~ msgstr "Bhutan"
+
+#, fuzzy
+#~ msgid "Button tip:"
+#~ msgstr "Bhutan"
+
+#, fuzzy
+#~ msgid "&Yahoo!"
+#~ msgstr "&Telefon defteri"
+
+#, fuzzy
+#~ msgid "Yahoo! &ID"
+#~ msgstr "&Telefon defteri"
+
+#, fuzzy
+#~ msgid "&Keyword"
+#~ msgstr "&Düğme"
 
 #, fuzzy
 #~ msgid ""
