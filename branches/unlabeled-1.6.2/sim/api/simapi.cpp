@@ -637,7 +637,6 @@ EXPORT const char *smiles(unsigned n)
 
 static void setSmiles(const char *p, vector<string> *pSmiles)
 {
-    log(L_DEBUG, "SetSmiles");
     for (;*p;){
         string s;
         for (; *p; ){

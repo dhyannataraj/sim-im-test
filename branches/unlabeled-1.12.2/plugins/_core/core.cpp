@@ -51,6 +51,8 @@
 #include <qfile.h>
 #include <qdir.h>
 
+#include <time.h>
+
 #ifdef WIN32
 #include <windows.h>
 #else
@@ -1374,14 +1376,20 @@ void *CorePlugin::processEvent(Event *e)
         }
     case EventMessageReceived:{
             Message *msg = (Message*)(e->param());
+            Contact *contact = getContacts()->contact(msg->contact());
+            if (contact == NULL)
+                return NULL;
             if (msg->type() == MessageStatus){
-                Contact *contact = getContacts()->contact(msg->contact());
-                if (contact == NULL)
-                    return NULL;
                 CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
                 if ((data == NULL) || (data->LogStatus == 0))
                     return NULL;
-            }
+            }else{
+                    time_t now;
+                    time(&now);
+                    contact->setLastActive(now);
+                    Event e(EventContactStatus, contact);
+                    e.process();
+			}
         }
     case EventSent:{
             Message *msg = (Message*)(e->param());

@@ -167,6 +167,7 @@ protected slots:
     void authOk();
     void authFailed();
 protected:
+    virtual QString contactName(void *clientData);
     virtual void setInvisible(bool bState);
     virtual bool compareData(void*, void*);
     virtual void contactInfo(void *_data, unsigned long &status, unsigned &style, const char *&statusIcon, string *icons = NULL);

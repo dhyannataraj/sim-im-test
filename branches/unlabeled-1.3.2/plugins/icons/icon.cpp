@@ -113,7 +113,6 @@ void IconsPlugin::setIcons()
         for (unsigned i = 0; i < smiles->count(); i++){
             const QIconSet *is = smiles->get(i);
             if (is == NULL){
-                log(L_DEBUG, "Skip %u", i);
                 s += '-';
                 s += '\x00';
                 s += '\x00';
@@ -127,13 +126,11 @@ void IconsPlugin::setIcons()
                     continue;
                 s += p.latin1();
                 s += '\x00';
-                log(L_DEBUG, "%u > %s", i, (const char*)(p.latin1()));
             }
             s += '\x00';
             QString tip = smiles->tip(i);
             if (!tip.isEmpty()){
                 s += tip.local8Bit();
-                log(L_DEBUG, "%u Tip %s", i, (const char*)(tip.local8Bit()));
             }
             s += '\x00';
             QString url = "smile";

@@ -211,6 +211,7 @@ void RTFGenParser::text(const QString &text)
         }
         QString s;
         s += c;
+		if (m_codec){
         string plain;
         plain = m_codec->fromUnicode(s.utf8());
         if ((plain.length() == 1) && (m_codec->toUnicode(plain.c_str()) == s)){
@@ -220,9 +221,10 @@ void RTFGenParser::text(const QString &text)
             m_bSpace = false;
             continue;
         }
-        char b[20];
-        snprintf(b, sizeof(b), "\\u%u?", s[0].unicode());
-        res += b;
+		}
+		res += "\\u";
+		res += number(s[0].unicode());
+        res += "?";
         m_bSpace = false;
     }
 }

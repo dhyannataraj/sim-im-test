@@ -340,7 +340,14 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             list<Group*> forRemove;
             while ((grp = ++it_g) != NULL){
                 ICQUserData *data = (ICQUserData*)(grp->clientData.getData(this));
-                if ((data == NULL) || data->bChecked)
+
+	string n;
+	if (grp->id())
+		n = grp->getName().local8Bit();
+	log(L_DEBUG, "Check %u %s %X %u", grp->id(), n.c_str(), data, data ? data->bChecked : 0);
+
+                
+				if ((data == NULL) || data->bChecked)
                     continue;
                 ListRequest *lr = findGroupListRequest(data->IcqID);
                 if (lr)
