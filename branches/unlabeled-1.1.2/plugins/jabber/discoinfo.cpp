@@ -40,7 +40,7 @@ DiscoInfo::DiscoInfo(JabberBrowser *browser)
     disableWidget(edtJName);
     disableWidget(edtType);
     disableWidget(edtCategory);
-    disableWidget(edtNameSpace);
+    edtNameSpace->setReadOnly(true);
     disableWidget(edtName);
     disableWidget(edtVersion);
     disableWidget(edtSystem);
