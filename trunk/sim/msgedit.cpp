@@ -1110,7 +1110,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                         edit->resetColors(true);
                     }
                     edit->setFocus();
-		}
+                }
                 break;
             }
         case ICQ_MSGxURL:{
