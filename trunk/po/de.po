@@ -3111,7 +3111,7 @@ msgstr "Suche: %1"
 
 #: plugins/_core/userview.cpp:1495
 msgid "Join \"%1\" and \"%2\"?"
-msgstr "Kontakte \"%1\" und \"%2\" zu einem Kontakt zusammen?"
+msgstr "Sollen die Kontakte \"%1\" und \"%2\" in einem neuen Meta-Kontakt vereint werden?"
 
 #: plugins/_core/status.cpp:48 plugins/_core/userviewcfg.cpp:161
 msgid "Status"
