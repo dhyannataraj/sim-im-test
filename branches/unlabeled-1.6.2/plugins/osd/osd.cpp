@@ -175,14 +175,14 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     unsigned nScreens = screens();
     if (nScreen >= nScreens)
         nScreen = 0;
-    QRect rc = screenGeometry(nScreen);
-    rc = QRect(0, 0,
-               rc.width() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset,
-               rc.height() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset);
-    rc = p.boundingRect(rc, AlignLeft | AlignTop | WordBreak, str);
+    QRect rcScreen = screenGeometry(nScreen);
+    rcScreen = QRect(0, 0,
+               rcScreen.width() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset,
+               rcScreen.height() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset);
+    QRect rc = p.boundingRect(rcScreen, AlignLeft | AlignTop | WordBreak, str);
     p.end();
-    int x = rc.left();
-    int y = rc.top();
+    int x = rcScreen.left();
+    int y = rcScreen.top();
     int w = rc.width();
     int h = rc.height();
     if (data->Shadow){
@@ -199,22 +199,22 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
         move(x + data->Offset, y + data->Offset);
         break;
     case 2:
-        move(x + rc.width() - data->Offset - w, y + rc.height() - data->Offset - h);
+        move(x + rcScreen.width() - data->Offset - w, y + rcScreen.height() - data->Offset - h);
         break;
     case 3:
-        move(x + rc.width() - data->Offset - w, y + data->Offset);
+        move(x + rcScreen.width() - data->Offset - w, y + data->Offset);
         break;
     case 4:
-        move(x + (rc.width() - w) / 2, y + rc.height() - data->Offset - h);
+        move(x + (rcScreen.width() - w) / 2, y + rcScreen.height() - data->Offset - h);
         break;
     case 5:
-        move(x + (rc.width() - w) / 2, y + data->Offset);
+        move(x + (rcScreen.width() - w) / 2, y + data->Offset);
         break;
     case 6:
-        move(x + (rc.width() - w) / 2, y + (rc.height() - h) /2);
+        move(x + (rcScreen.width() - w) / 2, y + (rcScreen.height() - h) /2);
         break;
     default:
-        move(x + data->Offset, y + rc.height() - data->Offset - h);
+        move(x + data->Offset, y + rcScreen.height() - data->Offset - h);
     }
     if (!data->Background || data->Shadow){
         QBitmap mask(w, h);
