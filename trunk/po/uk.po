@@ -1,4 +1,7 @@
+# translation of uk1.po to 
 # translation of uk.po to 
+# translation of uk.po to
+# translation of uk.po to
 # translation of uk.po to
 # translation of uk.po to
 # translation of uk.po to
@@ -18,9 +21,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: uk\n"
+"Project-Id-Version: uk1\n"
 "POT-Creation-Date: 2004-04-26 11:31+0400\n"
-"PO-Revision-Date: 2004-05-03 11:13+0300\n"
+"PO-Revision-Date: 2004-05-03 11:55+0300\n"
 "Last-Translator: Ivan Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team:  <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3579,7 +3582,7 @@ msgstr "Новий контакт"
 
 #: plugins/_core/usercfg.cpp:290
 msgid "Setting for group '%1'"
-msgstr "Налагодження для групи '%1'"
+msgstr "Налаштування для групи '%1'"
 
 #: plugins/_core/usercfg.cpp:294
 msgid "[Update info]"
@@ -8082,7 +8085,7 @@ msgstr "лінивий"
 
 #: plugins/livejournal/livejournal.cpp:1411
 msgid "drunk"
-msgstr "п'яний"
+msgstr "п'янкий"
 
 #: plugins/livejournal/livejournal.cpp:1412
 msgid "ditzy"
@@ -8920,13 +8923,13 @@ msgstr "без змін"
 msgid ""
 "_: weather\n"
 "rising"
-msgstr "підвищення"
+msgstr "росте"
 
 #: plugins/weather/weather.cpp:488
 msgid ""
 "_: weather\n"
 "falling"
-msgstr "спад"
+msgstr "падає"
 
 #: plugins/weather/weather.cpp:489
 msgid ""
@@ -9072,7 +9075,7 @@ msgstr "пориви"
 
 #: plugins/weather/weather.cpp:605
 msgid "%t | %c"
-msgstr "%t | %c | %f"
+msgstr "%t | %c"
 
 #: plugins/weather/weather.cpp:614
 msgid ""
@@ -9137,7 +9140,7 @@ msgstr "Температура"
 
 #: plugins/weather/wifacecfg.cpp:29
 msgid "Feels like"
-msgstr "Відчуття"
+msgstr "Відчувається"
 
 #: plugins/weather/wifacecfg.cpp:31
 msgid "Humidity"
@@ -9145,7 +9148,7 @@ msgstr "Вологість"
 
 #: plugins/weather/wifacecfg.cpp:33
 msgid "Wind direction"
-msgstr "Напрям вітру"
+msgstr "Напрямок вітру"
 
 #: plugins/weather/wifacecfg.cpp:35
 msgid "Wind speed"
@@ -9201,7 +9204,7 @@ msgstr "День тижня"
 
 #: plugins/weather/weathercfgbase.cpp:110
 msgid "Location ID:"
-msgstr "ID:"
+msgstr "ID місцезнаходження:"
 
 #: plugins/weather/weathercfgbase.cpp:112
 msgid "You can enter ID as part URL for your location on weather.com"
