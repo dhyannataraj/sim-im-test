@@ -183,7 +183,7 @@ void ChatWindow::sendLine()
         int pos = clientString.find("&gt;");
         clientString = chatHeader(chat->getUin()) + clientString.mid(pos+4);
     }
-    UTFstring txt = s.utf8();
+    UTFstring txt(s.utf8());
     QString line = chatHeader(0) +
                    MainWindow::ParseText(txt, false) +
                    "<br>\n";
@@ -287,7 +287,7 @@ void ChatWindow::processEvent(ICQEvent *e)
             }
             txtChat->insertParagraph("<br>", -1);
             txtChat->moveCursor(QTextEdit::MoveEnd, false);
-            UTFstring txt = clientString.utf8();
+            UTFstring txt(clientString.utf8());
             QString line = chatHeader(uin) +
                            MainWindow::ParseText(txt, false) + "<br>\n";
             txtChat->append(line);

@@ -82,7 +82,7 @@ void TextShow::resizeEvent(QResizeEvent *e)
 void TextShow::copy()
 {
     if (!hasSelectedText()) return;
-    UTFstring text = selectedText().utf8();
+    UTFstring text(selectedText().utf8());
     text = pClient->clearHTML(text);
     QString msgText = QString::fromUtf8(text.c_str());
     QApplication::clipboard()->setText(msgText);

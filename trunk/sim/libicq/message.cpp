@@ -1014,3 +1014,4 @@ string ICQClient::makeMessageText(ICQMsg *msg, ICQUser *u)
     toServer(message, encoding);
     return message;
 }
+

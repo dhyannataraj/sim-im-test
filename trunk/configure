@@ -1557,7 +1557,7 @@ fi
 
 # Define the identity of the package.
 PACKAGE=sim
-VERSION=0.7
+VERSION=0.8
 
 cat >>confdefs.h <<EOF
 #define PACKAGE "$PACKAGE"

@@ -97,13 +97,12 @@ public:
     void reset();
     void resetTag(unsigned char nTag);
 protected:
-	string text;
+    string text;
     void Init();
     RTF2HTML *p;
     void resetColors() { m_nRed = m_nGreen = m_nBlue = 0; m_bColorInit = false; }
     void setColor(unsigned char val, unsigned char *p) 
 	{ *p = val; m_bColorInit=true; }
-	unsigned m_nEncoding;
     bool m_bFontTbl;
     bool m_bColors;
     unsigned char m_nRed;
@@ -114,8 +113,9 @@ protected:
     unsigned m_nFontSize;
     unsigned m_nFontBgColor;
     unsigned m_nTags;
-	unsigned m_nFontIndex;
-	bool m_bFontName;
+    unsigned m_nEncoding;
+    unsigned m_nFontIndex;
+    bool m_bFontName;
 };
 
 class OutTag
@@ -137,14 +137,14 @@ public:
 protected:
     UTFstring s;
     const char *rtf_ptr;
-	const char *encoding;
+    const char *encoding;
     ICQClient *icq;
     void PutTag(unsigned char n) { tags.push(n); }
     vector<OutTag> oTags;
     stack<unsigned char> tags;
     stack<Level> stack;
     Level cur_level;
-	vector<fontDef> fonts;
+    vector<fontDef> fonts;
     vector<color>   colors;
     void FlushOut();
     friend class Level;
@@ -464,7 +464,7 @@ void Level::flush()
 	const char *encoding = NULL;
 	if (m_nEncoding){
 		for (const rtf_charset *c = rtf_charsets; c->rtf_code; c++){
-			if (c->rtf_code == m_nEncoding){
+			if ((unsigned)c->rtf_code == m_nEncoding){
 				encoding = c->name;
 				break;
 			}

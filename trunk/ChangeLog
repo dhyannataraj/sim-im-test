@@ -1,3 +1,7 @@
+Version 0.8
+Fix drag-and-drop files
+Fix user encoding for encode/decode RTF 
+
 Version 0.7
 Sending of the messages to several users added
 Add message forwarding

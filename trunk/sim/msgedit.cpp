@@ -855,7 +855,7 @@ void MsgEdit::forwardClick()
             msgText = view->text();
         }
     }
-    UTFstring text = msgText.utf8();
+    UTFstring text(msgText.utf8());
     text = pClient->clearHTML(text);
     msgText = QString::fromUtf8(text.c_str());
     QStringList l = QStringList::split('\n', msgText);
@@ -921,7 +921,7 @@ void MsgEdit::quoteClick()
             msgText = view->text();
         }
     }
-    UTFstring text = msgText.utf8();
+    UTFstring text(msgText.utf8());
     text = pClient->clearHTML(text);
     msgText = QString::fromUtf8(text.c_str());
     QStringList l = QStringList::split('\n', msgText, true);
@@ -1497,7 +1497,7 @@ void MsgEdit::makeMessage()
     case ICQ_MSGxSMS:{
             ICQSMS *m = static_cast<ICQSMS*>(msg);
             QString s = edit->text();
-            UTFstring text = s.utf8();
+            UTFstring text(s.utf8());
             text = pClient->clearHTML(text);
             s = QString::fromUtf8(text.c_str());
             msgTail = trim(s);
