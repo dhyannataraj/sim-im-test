@@ -1288,11 +1288,12 @@ void ICQClient::processSendQueue()
                     while (!contacts.isEmpty()){
                         QString contact = getToken(contacts, ';');
                         QString uin = getToken(contact, ',');
-                        msgBuf << 0xFE;
+                        msgBuf << (char)0xFE;
                         msgBuf << uin.latin1();
-                        msgBuf << 0xFE;
+                        msgBuf << (char)0xFE;
                         msgBuf << fromUnicode(contact, data).c_str();
                     }
+                    msgBuf << (char)0xFE;
                     Buffer b;
                     b.pack(this->data.owner.Uin);
                     b << (char)ICQ_MSGxCONTACTxLIST << (char)0;

@@ -36,7 +36,14 @@ MsgReceived::MsgReceived(CToolCustom *parent, Message *msg)
     m_contact = msg->contact();
     m_client = msg->client();
 
-    m_edit = static_cast<MsgEdit*>(parent->parent()->parent());
+    m_edit = NULL;
+    for (QWidget *p = parent->parentWidget(); p; p = p->parentWidget()){
+        if (p->inherits("MsgEdit")){
+            m_edit = static_cast<MsgEdit*>(p);
+            break;
+        }
+    }
+
     parent->setText(i18n(" "));
 
     Event eMenu(EventGetMenuDef, (void*)MenuMsgCommand);
