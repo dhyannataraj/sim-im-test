@@ -40,6 +40,7 @@ const unsigned short ICQ_SNACxMSG_REQUESTxRIGHTS   = 0x0004;
 const unsigned short ICQ_SNACxMSG_RIGHTSxGRANTED   = 0x0005;
 const unsigned short ICQ_SNACxMSG_SENDxSERVER      = 0x0006;
 const unsigned short ICQ_SNACxMSG_SERVERxMESSAGE   = 0x0007;
+const unsigned short ICQ_SNACxMSG_SRV_MISSED_MSG   = 0x000A;
 const unsigned short ICQ_SNACxMSG_AUTOREPLY        = 0x000B;
 const unsigned short ICQ_SNACxMSG_ACK              = 0x000C;
 const unsigned short ICQ_SNACxMSG_MTN			   = 0x0014;
@@ -122,6 +123,33 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
             send(true);
             break;
         }
+	case ICQ_SNACxMSG_SRV_MISSED_MSG: {
+			unsigned short error;
+			m_socket->readBuffer >> error;
+			unsigned short uin = m_socket->readBuffer.unpackUin();
+			const char *err_str = NULL;
+			switch (error) {
+			case 0x00:
+				err_str = I18N_NOOP("Invalid message");
+				break;
+			case 0x01:
+				err_str = I18N_NOOP("Message was too large");
+				break;
+			case 0x02:
+				err_str = I18N_NOOP("Message rate exceeded");
+				break;
+			case 0x03:
+				err_str = I18N_NOOP("Sender too evil");
+				break;
+			case 0x04:
+				err_str = I18N_NOOP("We are to evil :(");
+				break;
+			default:
+				err_str = I18N_NOOP("Unknown error");
+			}
+            log(L_DEBUG, "ICMB error %u (%s) - uin(%u)", error, err_str, uin);
+			
+		}
     case ICQ_SNACxMSG_ACK:
         {
             log(L_DEBUG, "Ack message");
