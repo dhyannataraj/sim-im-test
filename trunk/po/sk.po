@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
 "POT-Creation-Date: 2003-12-07 23:23+0300\n"
-"PO-Revision-Date: 2003-11-25 10:55+0100\n"
+"PO-Revision-Date: 2003-12-08 08:38+0100\n"
 "Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -4675,8 +4675,7 @@ msgstr "&Minulosť"
 # ui/generalsecbase.cpp:212
 #: plugins/icq/icqsecurebase.cc:213
 msgid "My &authorization is required before users add me to Contact List"
-msgstr ""
-"Je vyžadovaná moja &autorizácia pred pridaním mňa do zoznamu kontaktov"
+msgstr "Je vyžadovaná moja &autorizácia pred pridaním mňa do zoznamu kontaktov"
 
 # ui/generalsecbase.cpp:213
 #: plugins/icq/icqsecurebase.cc:214
@@ -4706,8 +4705,7 @@ msgstr "Povoliť &priame pripojenie pre všetkých užívateľov"
 # ui/generalsecbase.cpp:218
 #: plugins/icq/icqsecurebase.cc:220
 msgid "Allow direct connection from user listed in &contact list"
-msgstr ""
-"Povoliť priame pripojenie pre užívateľov z mojho zoznamu &kontaktov"
+msgstr "Povoliť priame pripojenie pre užívateľov z mojho zoznamu &kontaktov"
 
 # ui/generalsecbase.cpp:219
 #: plugins/icq/icqsecurebase.cc:221
@@ -4979,8 +4977,7 @@ msgstr "Domovský adresár"
 
 #: plugins/__homedir/homedir.cpp:48
 msgid "Plugin provides select directory for store config files"
-msgstr ""
-"Zásuvny modul umožňuje vybrať miesto uloženia konfiguračných súuborov"
+msgstr "Zásuvny modul umožňuje vybrať miesto uloženia konfiguračných súuborov"
 
 # qt3/i18n.cpp:117
 #: plugins/__homedir/homedir.cpp:91
@@ -5048,8 +5045,7 @@ msgstr "Migrovať"
 
 #: plugins/__migrate/migrate.cpp:36
 msgid "Plugin provides convert configuration and history from SIM 0.8"
-msgstr ""
-"Zásuvny modul umožňuje konverziu konfigurácie a histórie z SIM v0.8"
+msgstr "Zásuvny modul umožňuje konverziu konfigurácie a histórie z SIM v0.8"
 
 #: plugins/__migrate/migratedlg.cpp:77
 msgid "Cancel convert?"
@@ -5471,8 +5467,7 @@ msgstr ""
 
 #: plugins/_core/core.cpp:1212 plugins/_core/core.cpp:2650
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
-msgstr ""
-"Prepáčte, momentálne som zaneprázdnený ale môžem odpovedať neskôr"
+msgstr "Prepáčte, momentálne som zaneprázdnený ale môžem odpovedať neskôr"
 
 #: plugins/_core/core.cpp:1217
 msgid "Enter a decline reason"
@@ -6282,9 +6277,8 @@ msgstr "Tretí:"
 
 # ui/generalsecbase.cpp:215
 #: plugins/_core/userviewcfgbase.cpp:299
-#, fuzzy
 msgid "Awaiting authorization"
-msgstr "Povoliť autorizáciu"
+msgstr "Očakávaná autorizácia"
 
 # client.cpp:1252
 # mainwin.cpp:2708
@@ -6775,8 +6769,7 @@ msgstr "Nastaviť \"N/A\" status po"
 # ui/statussetupbase.cpp:142
 #: plugins/autoaway/autoawaycfgbase.cpp:125
 #: plugins/sound/soundconfigbase.cpp:166
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Zakázať online výstrahu pre \"Away\", \"N/A\", \"DND\" a \"Occupied\" "
 "zoznam"
@@ -6788,8 +6781,7 @@ msgstr "Pozadie"
 
 #: plugins/background/background.cpp:35
 msgid "Plugin provides background pictures for user list"
-msgstr ""
-"Zásuvny modul umožňuje nastaviť obrázky pozadia pre zoznam užívateľov"
+msgstr "Zásuvny modul umožňuje nastaviť obrázky pozadia pre zoznam užívateľov"
 
 #: plugins/background/bkgndcfg.cpp:45
 msgid "Select background picture"
@@ -6852,8 +6844,7 @@ msgstr "Systray"
 
 #: plugins/dock/dock.cpp:45
 msgid "Plugin provides dock main window in system tray"
-msgstr ""
-"Zásuvny modul umožňuje umiestniť (dokovať) hlavné okno v systrayi"
+msgstr "Zásuvny modul umožňuje umiestniť (dokovať) hlavné okno v systrayi"
 
 #: plugins/dock/dock.cpp:47 plugins/windock/windock.cpp:43
 msgid "Dock"
@@ -7006,8 +6997,7 @@ msgstr "GPG"
 
 #: plugins/gpg/gpg.cpp:53
 msgid "Plugin adds GnuPG encryption/decryption support for messages"
-msgstr ""
-"Zásuvný modul pridáva podporu GnuPG šifrovania a dešifrovania správ"
+msgstr "Zásuvný modul pridáva podporu GnuPG šifrovania a dešifrovania správ"
 
 #: plugins/gpg/gpg.cpp:77
 msgid ""
@@ -7399,8 +7389,7 @@ msgid "Navigate"
 msgstr "Navigácia"
 
 #: plugins/navigate/navigate.cpp:199
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Zásuvny modul umožňuje navigáciu po odkazoch, spúšťať externý "
 "prehliadač a poštový klient"
@@ -7564,8 +7553,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:48
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Zásuvny modul umožňuje zobrazovať notifikácie o správach a stave "
 "kontaktov na obrazovke (OSD)"
@@ -7654,8 +7642,7 @@ msgstr "Proxy"
 
 #: plugins/proxy/proxy.cpp:1244
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS and HTTP)"
-msgstr ""
-"Zásuvný modul umožňuje podporu proxy (SOCKS4, SOCKS5, HTTPS a HTTP)"
+msgstr "Zásuvný modul umožňuje podporu proxy (SOCKS4, SOCKS5, HTTPS a HTTP)"
 
 # ui/networkbase.cpp:236
 #: plugins/proxy/proxycfg.cpp:42
@@ -7860,8 +7847,7 @@ msgstr "Úvodná obrazovka"
 
 #: plugins/splash/splash.cpp:35
 msgid "Plugin provides splash screen"
-msgstr ""
-"Zásuvný modul umožňuje zobraziť úvodnú obrazovku (splash screen)"
+msgstr "Zásuvný modul umožňuje zobraziť úvodnú obrazovku (splash screen)"
 
 # ui/themesetupbase.cpp:307
 # ui/themesetupbase.cpp:309
@@ -8191,8 +8177,7 @@ msgstr ""
 
 #: plugins/jabber/jabbersearch.cpp:285
 msgid "Fill in all of the fields to add yourself to the JUD."
-msgstr ""
-"Vyplňte všetky polia pre pridanie do uživateľského adresára Jabber."
+msgstr "Vyplňte všetky polia pre pridanie do uživateľského adresára Jabber."
 
 #: plugins/jabber/jabbersearch.cpp:286
 msgid ""
@@ -8614,3 +8599,4 @@ msgstr "Zoznam ignorovaných"
 # ui/searchbase.cpp:294
 #~ msgid "Screen name:"
 #~ msgstr "Zobrazované meno:"
+
