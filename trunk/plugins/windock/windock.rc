@@ -61,14 +61,14 @@ BEGIN
             VALUE "Comments", "\0"
             VALUE "CompanyName", "Vladimir Shutoff\0"
             VALUE "FileDescription", "Windocl plugin\0"
-            VALUE "FileVersion", "0, 9, 0, 0\0"
+            VALUE "FileVersion", "0, 9, 1, 0\0"
             VALUE "InternalName", "windock\0"
             VALUE "LegalCopyright", "Copyright © 2002-2003\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "windock.dll\0"
             VALUE "PrivateBuild", "\0"
             VALUE "ProductName", "SIM\0"
-            VALUE "ProductVersion", "0, 9, 0, 0\0"
+            VALUE "ProductVersion", "0, 9, 1, 0\0"
             VALUE "SpecialBuild", "\0"
         END
     END
