@@ -297,34 +297,6 @@ ENCODING encodingTbl[] =
         { NULL, NULL, 0, false }
     };
 
-const char icq_error_codes[][40] = {
-                                       "Unknown error code",
-                                       "Invalid SNAC header",
-                                       "Server rate limit exceeded",
-                                       "Client rate limit exceeded",
-                                       "Recipient is not logged in",
-                                       "Requested service unavailable",
-                                       "Requested service not defined",
-                                       "You sent obsolete SNAC",
-                                       "Not supported by server",
-                                       "Not supported by client",
-                                       "Refused by client",
-                                       "Reply too big",
-                                       "Responses lost",
-                                       "Request denied",
-                                       "Incorrect SNAC format",
-                                       "Insufficient rights",
-                                       "Recipient blocked",
-                                       "Sender too evil",
-                                       "Receiver too evil",
-                                       "User temporarily unavailable",
-                                       "No match",
-                                       "List overflow",
-                                       "Request ambiguous",
-                                       "Server queue full",
-                                       "Not while on AOL",
-                                   };
-
 ICQClient::ICQClient(ICQProtocol *protocol, const char *cfg)
         : TCPClient(protocol, cfg), EventReceiver(HighPriority - 1)
 {
@@ -518,6 +490,40 @@ void ICQClient::disconnected()
     m_nSequence = rand() & 0x7FFF;
 }
 
+const char icq_error_codes[][40] = {"Unknown error code",
+                                    "Invalid SNAC header",
+                                    "Server rate limit exceeded",
+                                    "Client rate limit exceeded",
+                                    "Recipient is not logged in",
+                                    "Requested service unavailable",
+                                    "Requested service not defined",
+                                    "We sent an obsolete SNAC",
+                                    "Not supported by server",
+                                    "Not supported by client",
+                                    "Refused by client",
+                                    "Reply too big",
+                                    "Responses lost",
+                                    "Request denied",
+                                    "Incorrect SNAC format",
+                                    "Insufficient rights",
+                                    "Recipient blocked",
+                                    "Sender too evil",
+                                    "Receiver too evil",
+                                    "User temporarily unavailable",
+                                    "No match",
+                                    "List overflow",
+                                    "Request ambiguous",
+                                    "Server queue full",
+                                    "Not while on AOL"};
+
+const char* ICQClient::error_message(unsigned short error)
+{
+    if ((error < 1) || (error > 18)) {
+        error = 0;
+    }
+    return icq_error_codes[error];
+}
+
 void ICQClient::packet_ready()
 {
     if (m_bHeader){
@@ -562,10 +568,7 @@ void ICQClient::packet_ready()
             if (type == 0x0001) {
                 unsigned short err_code;
                 m_socket->readBuffer >> err_code;
-                if ((err_code < 1) || (err_code > 18)) {
-                    err_code = 0;
-                }
-                log(L_DEBUG,icq_error_codes[err_code]);
+                log(L_DEBUG,"Error! family: %u reason: %s",error_message(err_code));
                 // now decrease for icqicmb & icqvarious
                 m_socket->readBuffer.incReadPos(-(sizeof(unsigned short)));
             }

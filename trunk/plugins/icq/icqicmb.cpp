@@ -34,12 +34,15 @@
 #include <qtimer.h>
 #include <qimage.h>
 
-const unsigned short ICQ_SNACxMSG_ERROR			   = 0x0001;
+const unsigned short ICQ_SNACxMSG_ERROR            = 0x0001;
 const unsigned short ICQ_SNACxMSG_SETxICQxMODE     = 0x0002;
+const unsigned short ICQ_SNACxMSG_RESETxICQxMODE   = 0x0003;    // not implemented
 const unsigned short ICQ_SNACxMSG_REQUESTxRIGHTS   = 0x0004;
 const unsigned short ICQ_SNACxMSG_RIGHTSxGRANTED   = 0x0005;
 const unsigned short ICQ_SNACxMSG_SENDxSERVER      = 0x0006;
 const unsigned short ICQ_SNACxMSG_SERVERxMESSAGE   = 0x0007;
+const unsigned short ICQ_SNACxMSG_BLAMExUSER       = 0x0008;    // not implemented
+const unsigned short ICQ_SNACxMSG_BLAMExSRVxACK    = 0x0009;    // not implemented
 const unsigned short ICQ_SNACxMSG_SRV_MISSED_MSG   = 0x000A;
 const unsigned short ICQ_SNACxMSG_AUTOREPLY        = 0x000B;
 const unsigned short ICQ_SNACxMSG_ACK              = 0x000C;
@@ -52,6 +55,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
         log(L_DEBUG, "Message rights granted");
         break;
     case ICQ_SNACxMSG_MTN:{
+            m_socket->readBuffer.incReadPos(10);
             unsigned long uin = m_socket->readBuffer.unpackUin();
             unsigned short type;
             m_socket->readBuffer >> type;
@@ -72,6 +76,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
             m_socket->readBuffer >> error;
             const char *err_str = I18N_NOOP("Unknown error");
             if (error == 0x0009){
+                err_str = I18N_NOOP("Not supported by client");
                 Contact *contact;
                 ICQUserData *data = findContact(m_send.uin, NULL, false, contact);
                 if (data){
@@ -98,28 +103,14 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
                     break;
                 }
             }
-            switch (error){
-            case 0x0004:
-                err_str = I18N_NOOP("User is offline");
-                break;
-            case 0x000E:
-                err_str = I18N_NOOP("Packet was malformed");
-                break;
-            case 0x0015:
-                err_str = I18N_NOOP("List overflow");
-                break;
-            }
-            log(L_DEBUG, "ICMB error %u (%s)", error, err_str);
             if (m_send.msg){
-                if (m_send.msg->type() == MessageCheckInvisible){
-                    if (error == 0x0004) {
-                        Contact *contact;
-                        ICQUserData *data = findContact(m_send.uin, NULL, false, contact);
-                        if (data && (bool)(data->bInvisible)) {
-                            data->bInvisible = false;
-                            Event e(EventContactStatus, contact);
-                            e.process();
-                        }
+                if ((m_send.msg->type() == MessageCheckInvisible) && (error == 0x0004)) {
+                    Contact *contact;
+                    ICQUserData *data = findContact(m_send.uin, NULL, false, contact);
+                    if (data && (bool)(data->bInvisible)) {
+                        data->bInvisible = false;
+                        Event e(EventContactStatus, contact);
+                        e.process();
                     }
                 } else {
                     m_send.msg->setError(err_str);
@@ -135,9 +126,27 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
             break;
         }
     case ICQ_SNACxMSG_SRV_MISSED_MSG: {
-            unsigned short error;
-            m_socket->readBuffer >> error;
-            unsigned short uin = m_socket->readBuffer.unpackUin();
+            unsigned short mFormat; // missed channel
+            unsigned long  uin;     // uin
+            unsigned short wrnLevel;// warning level
+            unsigned short nTlv;    // number of tlvs
+            TlvList  lTlv;          // all tlvs in message
+            unsigned short missed;  // number of missed messages
+            unsigned short error;   // error reason
+            m_socket->readBuffer >> mFormat;
+            uin = m_socket->readBuffer.unpackUin();
+            m_socket->readBuffer >> wrnLevel;
+            m_socket->readBuffer >> nTlv;
+            for(unsigned short i = 0; i < nTlv; i++) {
+                unsigned short num;
+                unsigned short size;
+                const char*    data;
+                m_socket->readBuffer >> num >> size;
+                data = m_socket->readBuffer.data(m_socket->readBuffer.readPos());
+                Tlv* tlv = new Tlv(num,size,data);
+                lTlv = lTlv + tlv;
+            }
+            m_socket->readBuffer >> missed >> error;
             const char *err_str = NULL;
             switch (error) {
             case 0x00:
@@ -159,7 +168,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
                 err_str = I18N_NOOP("Unknown error");
             }
             log(L_DEBUG, "ICMB error %u (%s) - uin(%u)", error, err_str, uin);
-
+            // need to do more ...
         }
     case ICQ_SNACxMSG_ACK:
         {

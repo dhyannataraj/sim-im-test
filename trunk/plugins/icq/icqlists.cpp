@@ -24,6 +24,7 @@
 
 using namespace std;
 
+const unsigned short ICQ_SNACxLISTS_ERROR          = 0x0001;
 const unsigned short ICQ_SNACxLISTS_REQxRIGHTS     = 0x0002;
 const unsigned short ICQ_SNACxLISTS_RIGHTS         = 0x0003;
 const unsigned short ICQ_SNACxLISTS_REQxROSTER     = 0x0005;
@@ -65,9 +66,48 @@ protected:
     unsigned short m_seq;
 };
 
+class GroupServerRequest : public ListServerRequest
+{
+public:
+    GroupServerRequest(unsigned short seq, unsigned long id, unsigned short icq_id, const char *name);
+    virtual void process(ICQClient *client, unsigned short res);
+protected:
+    unsigned long      m_id;
+    unsigned short     m_icqId;
+    string             m_name;
+};
+
+class ContactServerRequest : public ListServerRequest
+{
+public:
+    ContactServerRequest(unsigned short seq, unsigned long uin,
+                         unsigned short icq_id, unsigned short grp_id, TlvList *tlv = NULL);
+    ~ContactServerRequest();
+    virtual void process(ICQClient *client, unsigned short res);
+protected:
+    unsigned long      m_uin;
+    unsigned short     m_icqId;
+    unsigned short     m_grpId;
+    TlvList            *m_tlv;
+};
+
+class SetListRequest : public ListServerRequest
+{
+public:
+    SetListRequest(unsigned short seq, unsigned long uin,
+                   unsigned short icq_id, unsigned short type);
+    virtual void process(ICQClient *client, unsigned short res);
+protected:
+    unsigned long	m_uin;
+    unsigned short	m_icqId;
+    unsigned short	m_type;
+};
+
 void ICQClient::snac_lists(unsigned short type, unsigned short seq)
 {
     switch (type){
+    case ICQ_SNACxLISTS_ERROR:
+        break;
     case ICQ_SNACxLISTS_RIGHTS:
         log(L_DEBUG, "List rights");
         break;
@@ -129,6 +169,13 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                         unsigned long uin = atol(str.c_str());
                         if (uin){
                             log(L_DEBUG, "User %u", uin);
+                            // check for own uin in contact lsit
+                            if (uin == getUin()) {
+                                log(L_DEBUG, "Own Uin in contact list - removing!");
+                                seq = sendRoster(ICQ_SNACxLISTS_DELETE, "", grp_id, id);
+                                m_listRequest = new ContactServerRequest(seq, id, 0, 0);
+                                break;
+                            }
                             ListRequest *lr = findContactListRequest(uin);
                             if (lr){
                                 log(L_DEBUG, "Request found");
@@ -366,13 +413,11 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             break;
         }
     case ICQ_SNACxLISTS_ADDED:{
-            //            m_socket->readBuffer.incReadPos(8);
             unsigned long uin = m_socket->readBuffer.unpackUin();
             messageReceived(new AuthMessage(MessageAdded), uin);
             break;
         }
     case ICQ_SNACxLISTS_AUTHxREQUEST:{
-            //            m_socket->readBuffer.incReadPos(8);
             unsigned long uin = m_socket->readBuffer.unpackUin();
             string message;
             string charset;
@@ -395,7 +440,6 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             break;
         }
     case ICQ_SNACxLISTS_AUTH:{
-            //            m_socket->readBuffer.incReadPos(8);
             unsigned long uin = m_socket->readBuffer.unpackUin();
             char auth_ok;
             m_socket->readBuffer >> auth_ok;
@@ -428,7 +472,6 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
         }
     case ICQ_SNACxLISTS_DONE:
         if (m_listRequest && m_listRequest->seq() == seq){
-            //            m_socket->readBuffer.incReadPos(8);
             unsigned short res;
             m_socket->readBuffer >> res;
             log(L_DEBUG, "List request answer %u", res);
@@ -525,16 +568,7 @@ void ICQClient::clearListServerRequest()
     }
 }
 
-class GroupServerRequest : public ListServerRequest
-{
-public:
-    GroupServerRequest(unsigned short seq, unsigned long id, unsigned short icq_id, const char *name);
-    virtual void process(ICQClient *client, unsigned short res);
-protected:
-    unsigned long	m_id;
-    unsigned short	m_icqId;
-    string			m_name;
-};
+//-----------------------------------------------------------------------------
 
 GroupServerRequest::GroupServerRequest(unsigned short seq, unsigned long id, unsigned short icq_id, const char *name)
         : ListServerRequest(seq)
@@ -562,19 +596,7 @@ void GroupServerRequest::process(ICQClient *client, unsigned short)
     set_str(&data->Alias, m_name.c_str());
 }
 
-class ContactServerRequest : public ListServerRequest
-{
-public:
-    ContactServerRequest(unsigned short seq, unsigned long uin,
-                         unsigned short icq_id, unsigned short grp_id, TlvList *tlv = NULL);
-    ~ContactServerRequest();
-    virtual void process(ICQClient *client, unsigned short res);
-protected:
-    unsigned long	m_uin;
-    unsigned short	m_icqId;
-    unsigned short	m_grpId;
-    TlvList			*m_tlv;
-};
+//-----------------------------------------------------------------------------
 
 ContactServerRequest::ContactServerRequest(unsigned short seq, unsigned long uin,
         unsigned short icq_id, unsigned short grp_id, TlvList *tlv)
@@ -632,17 +654,7 @@ void ContactServerRequest::process(ICQClient *client, unsigned short res)
     }
 }
 
-class SetListRequest : public ListServerRequest
-{
-public:
-    SetListRequest(unsigned short seq, unsigned long uin,
-                   unsigned short icq_id, unsigned short type);
-    virtual void process(ICQClient *client, unsigned short res);
-protected:
-    unsigned long	m_uin;
-    unsigned short	m_icqId;
-    unsigned short	m_type;
-};
+//-----------------------------------------------------------------------------
 
 SetListRequest::SetListRequest(unsigned short seq, unsigned long uin,
                                unsigned short icq_id, unsigned short type)
@@ -684,6 +696,8 @@ void SetListRequest::process(ICQClient *client, unsigned short)
         break;
     }
 }
+
+//-----------------------------------------------------------------------------
 
 unsigned short ICQClient::getListId()
 {

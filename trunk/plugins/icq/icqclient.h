@@ -490,6 +490,7 @@ protected:
     string cryptPassword();
     virtual void connect_ready();
     virtual void packet_ready();
+    const char* error_message(unsigned short error);
     void sendPacket();
     void flap(char channel);
     void snac(unsigned short fam, unsigned short type, bool msgId=false);
