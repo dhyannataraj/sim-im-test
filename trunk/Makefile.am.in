@@ -1,6 +1,6 @@
 ####### kdevelop will overwrite this part!!! (begin)##########
 
-COMPILE_FIRST = sim
+COMPILE_FIRST = sim plugins/_core
 
 EXTRA_DIST = admin AUTHORS COPYING ChangeLog INSTALL README TODO icq.ico resource.h configure.in.in 
 
