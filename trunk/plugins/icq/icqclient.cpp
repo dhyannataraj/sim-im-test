@@ -538,7 +538,7 @@ unsigned ICQClient::delayTime(unsigned snac)
 {
     RateInfo *r = rateInfo(snac);
     if (r == NULL)
-        return NULL;
+        return 0;
     return delayTime(*r);
 }
 

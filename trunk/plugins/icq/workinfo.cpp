@@ -126,7 +126,9 @@ void WorkInfo::goUrl()
     QString url = edtSite->text();
     if (url.isEmpty())
         return;
-    Event e(EventGoURL, (void*)(const char*)(url.local8Bit()));
+    string url_str;
+    url_str = url.local8Bit();
+    Event e(EventGoURL, (void*)url_str.c_str());
     e.process();
 }
 
