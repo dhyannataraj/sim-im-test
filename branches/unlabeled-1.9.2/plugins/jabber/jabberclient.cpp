@@ -141,6 +141,7 @@ JabberClient::JabberClient(JabberProtocol *protocol, const char *cfg)
 			jid += "@";
 			jid += server;
 		}
+		set_str(&data.owner.ID, jid.utf8());
 	}
 
     if (data.owner.Resource == NULL){
