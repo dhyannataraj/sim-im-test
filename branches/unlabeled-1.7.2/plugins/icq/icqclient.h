@@ -306,7 +306,7 @@ const unsigned LIST_GROUP_DELETED	= 3;
 typedef struct ListRequest
 {
     unsigned		type;
-    unsigned long	uin;
+    string			screen;
     unsigned short	icq_id;
     unsigned short	grp_id;
     unsigned short	visible_id;
@@ -343,14 +343,14 @@ bool operator == (const MessageId &m1, const MessageId &m2);
 
 typedef struct SendMsg
 {
-    unsigned long	uin;
+    string			screen;
     MessageId		id;
-    Message		*msg;
-    QString		text;
-    QString		part;
+    Message			*msg;
+    QString			text;
+    QString			part;
     unsigned		flags;
     DirectSocket	*socket;
-    SendMsg() : uin(0), msg(NULL), socket(NULL) {}
+    SendMsg() : msg(NULL), socket(NULL) {}
 } SendMsg;
 
 const unsigned SEND_PLAIN	= 0x0001;
@@ -375,7 +375,7 @@ typedef struct ar_request
     MessageId		id;
     unsigned short	id1;
     unsigned short	id2;
-    unsigned long	uin;
+    string			screen;
     bool			bDirect;
 } ar_request;
 
@@ -427,10 +427,10 @@ public:
                           unsigned short nAffiliation, const char *szAffiliation,
                           unsigned short nHomePoge, const char *szHomePage,
                           bool bOnlineOnly);
-    ICQUserData *findContact(unsigned long uin, const char *alias, bool bCreate, Contact *&contact, Group *grp=NULL);
+    ICQUserData *findContact(const char *screen, const char *alias, bool bCreate, Contact *&contact, Group *grp=NULL);
     ICQUserData *findGroup(unsigned id, const char *name, Group *&group);
     void addFullInfoRequest(unsigned long uin, bool bInLast = true);
-    ListRequest *findContactListRequest(unsigned long uin);
+    ListRequest *findContactListRequest(const char *screen);
     ListRequest *findGroupListRequest(unsigned short id);
     virtual void setupContact(Contact*, void *data);
     string clientName(ICQUserData*);
@@ -440,11 +440,11 @@ public:
     void searchChat(unsigned short);
     void randomChatInfo(unsigned long uin);
     virtual string dataName(void*);
-    Message *parseMessage(unsigned short type, unsigned long uin,
+    Message *parseMessage(unsigned short type, const char *screen,
                           string &p, Buffer &packet,
                           unsigned short cookie1, unsigned short cookie2,
                           MessageId id);
-    void messageReceived(Message*, unsigned long);
+    void messageReceived(Message*, const char *screen);
     static QTextCodec *_getCodec(const char *encoding);
     static QString toUnicode(const char *serverText, const char *clientName, unsigned contactId);
     static QString parseRTF(const char *str, const char *encoding);
@@ -463,7 +463,6 @@ protected:
     virtual void setStatus(unsigned status);
     virtual void disconnected();
     virtual void *processEvent(Event*);
-    string dataName(unsigned long uin);
     virtual bool compareData(void*, void*);
     virtual void contactInfo(void *_data, unsigned long &status, unsigned &style, const char *&statusIcon, string *icons = NULL);
     virtual bool send(Message*, void*);
@@ -478,6 +477,7 @@ protected:
     virtual void setClientInfo(void *data);
     virtual QString ownerName();
     virtual QString contactName(void *clientData);
+	string  dataName(const char *screen);
     bool			m_bHeader;
     char			m_nChannel;
     Buffer			m_cookie;
@@ -562,9 +562,6 @@ protected:
     unsigned short sendRoster(unsigned short cmd, const char *name,
                               unsigned short grp_id,  unsigned short usr_id,
                               unsigned short subCmd=0, TlvList *tlv = NULL);
-    unsigned short sendRoster(unsigned short cmd, unsigned long uin,
-                              unsigned short grp_id,  unsigned short usr_id,
-                              unsigned short subCmd=0, TlvList *tlv = NULL);
     void sendRosterGrp(const char *name, unsigned short grpId, unsigned short usrId);
     bool isContactRenamed(ICQUserData *data, Contact *contact);
     bool sendThruServer(Message *msg, void *data);
@@ -573,26 +570,27 @@ protected:
     void packInfoList(char *str);
     string createRTF(const char *text, unsigned long foreColor, const char *encoding);
     void ackMessage(SendMsg &s);
-    void sendThroughServer(unsigned long uin, unsigned short type, Buffer &b, unsigned long id_l, unsigned long id_h, bool bOffline);
+    void sendThroughServer(const char *screen, unsigned short type, Buffer &b, unsigned long id_l, unsigned long id_h, bool bOffline);
     bool sendAuthRequest(Message *msg, void *data);
     bool sendAuthGranted(Message *msg, void *data);
     bool sendAuthRefused(Message *msg, void *data);
-    void sendAdvMessage(unsigned long uin, Buffer &msgText, unsigned plugin_index, const MessageId &id, bool bOffline, bool bPeek, bool bDirect);
-    void sendType2(unsigned long uin, Buffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, bool bPeek, bool bDirect);
-    void parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAck, MessageId id);
-    void sendAutoReply(unsigned long uin, MessageId id,
+    void sendAdvMessage(const char *screen, Buffer &msgText, unsigned plugin_index, const MessageId &id, bool bOffline, bool bPeek, bool bDirect);
+    void sendType2(const char *screen, Buffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, bool bPeek, bool bDirect);
+    void parseAdvancedMessage(const char *screen, Buffer &msg, bool needAck, MessageId id);
+    void sendAutoReply(const char *screen, MessageId id,
                        const plugin p, unsigned short cookie1, unsigned short cookie2,
                        unsigned short  msgType, char msgFlags, unsigned short msgState,
                        const char *response, unsigned short response_type, Buffer &copy);
     void addPluginInfoRequest(unsigned long uin, unsigned plugin_index);
-    void sendMTN(unsigned long uin, unsigned short type);
+    void sendMTN(const char *screen, unsigned short type);
     void setChatGroup();
-    Message *parseExtendedMessage(unsigned long uin, Buffer &packet);
+    Message *parseExtendedMessage(const char *screen, Buffer &packet);
     void parsePluginPacket(Buffer &b, unsigned plugin_index, ICQUserData *data, unsigned uin, bool bDirect);
     void pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &b);
     void packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned short &type, unsigned short nSequence);
-    void requestReverseConnection(unsigned long uin, DirectSocket *socket);
+    void requestReverseConnection(const char *screen, DirectSocket *socket);
     bool ackMessage(Message *msg, unsigned short ackFlags, const char *str);
+	string screen(ICQUserData*);
     unsigned short msgStatus();
     unsigned short m_advCounter;
     unsigned m_nUpdates;

@@ -36,7 +36,7 @@ const unsigned short ICQ_SNACxBDY_USEROFFLINE	   = 0x000C;
 
 void ICQClient::snac_buddy(unsigned short type, unsigned short)
 {
-    unsigned long uin;
+	string screen;
     Contact *contact;
     ICQUserData *data;
     switch (type){
@@ -44,8 +44,8 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
         log(L_DEBUG, "Buddy rights granted");
         break;
     case ICQ_SNACxBDY_USEROFFLINE:
-        uin = m_socket->readBuffer.unpackUin();
-        data = findContact(uin, NULL, false, contact);
+        screen = m_socket->readBuffer.unpackScreen();
+        data = findContact(screen.c_str(), NULL, false, contact);
         if (data && (data->Status != ICQ_STATUS_OFFLINE)){
             setOffline(data);
             StatusMessage m;
@@ -58,8 +58,8 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
         }
         break;
     case ICQ_SNACxBDY_USERONLINE:
-        uin = m_socket->readBuffer.unpackUin();
-        data = findContact(uin, NULL, false, contact);
+        screen = m_socket->readBuffer.unpackScreen();
+        data = findContact(screen.c_str(), NULL, false, contact);
         if (data){
             time_t now;
             time(&now);
@@ -175,7 +175,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             }
 
             Tlv *tlvPlugin = tlv(0x0011);
-            if (tlvPlugin){
+            if (tlvPlugin && data->Uin){
                 Buffer info(*tlvPlugin);
                 char type;
                 unsigned long time;
@@ -186,7 +186,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 unsigned long plugin_status;
                 switch (type){
                 case 1:
-                    addFullInfoRequest(uin);
+                    addFullInfoRequest(data->Uin);
                     break;
                 case 2:
                     info.incReadPos(6);
@@ -311,10 +311,11 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 m.setFlags(MESSAGE_RECEIVED);
                 Event e(EventMessageReceived, &m);
                 e.process();
-                if (((data->Status & 0xFF) == ICQ_STATUS_ONLINE) &&
-                        ((prevStatus & 0xFF) != ICQ_STATUS_ONLINE) &&
-                        (((prevStatus & 0xFFFF) != ICQ_STATUS_OFFLINE) ||
-                         (data->OnlineTime > this->data.owner.OnlineTime))){
+                if (!contact->getIgnore() &&
+					((data->Status & 0xFF) == ICQ_STATUS_ONLINE) &&
+                    ((prevStatus & 0xFF) != ICQ_STATUS_ONLINE) &&
+                    (((prevStatus & 0xFFFF) != ICQ_STATUS_OFFLINE) ||
+                    (data->OnlineTime > this->data.owner.OnlineTime))){
                     Event e(EventContactOnline, contact);
                     e.process();
                 }
@@ -358,7 +359,7 @@ void ICQClient::sendContactList()
         ICQUserData *data;
         while ((data = (ICQUserData*)(++it_data)) != NULL){
             if ((data->IgnoreId == 0)  && (data->WaitAuth || (data->GrpId == 0)))
-                m_socket->writeBuffer.packUin(data->Uin);
+                m_socket->writeBuffer.packScreen(screen(data).c_str());
         }
     }
     sendPacket();
@@ -382,7 +383,7 @@ void ICQClient::addBuddy(Contact *contact)
             continue;
         if ((data->IgnoreId == 0)  && (data->WaitAuth || (data->GrpId == 0))){
             snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_ADDxTOxLIST);
-            m_socket->writeBuffer.packUin(data->Uin);
+            m_socket->writeBuffer.packScreen(screen(data).c_str());
             sendPacket();
             buddies.push_back(data->Uin);
         }

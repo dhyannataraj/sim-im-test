@@ -133,15 +133,15 @@ unsigned Buffer::unpack(char *d, unsigned size)
     return readn;
 }
 
-unsigned long Buffer::unpackUin()
+string Buffer::unpackScreen()
 {
     char len;
     *this >> len;
-    char uin[14];
     if (len > 13) len = 13;
-    unpack(uin, len);
-    uin[len] = 0;
-    return atol(uin);
+	string res;
+	res.append(len, '\x00');
+    unpack((char*)res.c_str(), len);
+    return res;
 }
 
 void Buffer::unpack(string &s)
@@ -334,12 +334,11 @@ Buffer &Buffer::operator << (unsigned long c)
     return *this;
 }
 
-void Buffer::packUin(unsigned long uin)
+void Buffer::packScreen(const char *screen)
 {
-    char u[13];
-    char len = snprintf(u, sizeof(u), "%lu", uin);
+    char len = strlen(screen);
     pack(&len, 1);
-    pack(u, len);
+    pack(screen, len);
 }
 
 bool Buffer::scan(const char *substr, string &res)

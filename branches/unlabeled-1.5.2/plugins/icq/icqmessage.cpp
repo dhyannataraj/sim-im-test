@@ -583,7 +583,7 @@ static Message *parseAuthRequest(const char *str)
     return m;
 }
 
-Message *ICQClient::parseExtendedMessage(unsigned long uin, Buffer &packet)
+Message *ICQClient::parseExtendedMessage(const char *screen, Buffer &packet)
 {
     string header;
     packet >> header;
@@ -629,7 +629,7 @@ Message *ICQClient::parseExtendedMessage(unsigned long uin, Buffer &packet)
         unsigned long fileSize;
         b.unpack(fileSize);
         Contact *contact;
-        ICQUserData *data = findContact(uin, NULL, false, contact);
+        ICQUserData *data = findContact(screen, NULL, false, contact);
         ICQFileMessage *m = new ICQFileMessage;
         m->setServerText(fileDescr.c_str());
         m->setDescription(toUnicode(fileName.c_str(), data));
@@ -680,10 +680,10 @@ Message *ICQClient::parseExtendedMessage(unsigned long uin, Buffer &packet)
     return NULL;
 }
 
-Message *ICQClient::parseMessage(unsigned short type, unsigned long uin, string &p, Buffer &packet,
+Message *ICQClient::parseMessage(unsigned short type, const char *screen, string &p, Buffer &packet,
                                  unsigned short, unsigned short, MessageId id)
 {
-    if (uin == 0x0A){
+    if (atol(screen) == 0x0A){
         vector<string> l;
         if (!parseFE(p.c_str(), l, 6)){
             log(L_WARN, "Parse error web panel message");
@@ -712,7 +712,7 @@ Message *ICQClient::parseMessage(unsigned short type, unsigned long uin, string 
             string cap_str;
             packet.unpackStr32(cap_str);
             Contact *contact;
-            ICQUserData *data = findContact(uin, NULL, true, contact);
+            ICQUserData *data = findContact(screen, NULL, true, contact);
             if (data == NULL)
                 return NULL;
             msg = parseTextMessage(p.c_str(), cap_str.c_str(), data->Encoding ? data->Encoding : this->data.owner.Encoding);
@@ -746,7 +746,7 @@ Message *ICQClient::parseMessage(unsigned short type, unsigned long uin, string 
             ICQFileMessage *m = new ICQFileMessage;
             m->setServerText(p.c_str());
             Contact *contact;
-            ICQUserData *data = findContact(uin, NULL, false, contact);
+            ICQUserData *data = findContact(screen, NULL, false, contact);
             unsigned short port;
             unsigned long  fileSize;
             string fileName;
@@ -761,7 +761,7 @@ Message *ICQClient::parseMessage(unsigned short type, unsigned long uin, string 
             break;
         }
     case ICQ_MSGxEXT:
-        msg = parseExtendedMessage(uin, packet);
+        msg = parseExtendedMessage(screen, packet);
         break;
     default:
         log(L_WARN, "Unknown message type %04X", type);
@@ -1760,7 +1760,7 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 }
                 set_str(&data->PhoneBook, phones.c_str());
                 Contact *contact = NULL;
-                findContact(data->Uin, NULL, false, contact);
+                findContact(number(data->Uin).c_str(), NULL, false, contact);
                 if (contact){
                     setupContact(contact, data);
                     Event e(EventContactChanged, contact);
@@ -1776,7 +1776,7 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
             b.unpack(state);
             b.unpack(time);
             log(L_DEBUG, "Plugin status reply %u %u %u (%u)", uin, state, time, plugin_type);
-            findContact(uin, NULL, false, contact);
+            findContact(number(uin).c_str(), NULL, false, contact);
             if (contact == NULL)
                 break;
             switch (plugin_type){
@@ -1830,7 +1830,7 @@ static const char* plugin_descr[] =
 void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &info)
 {
     Contact *contact;
-    ICQUserData *data = findContact(uin, NULL, false, contact);
+    ICQUserData *data = findContact(number(uin).c_str(), NULL, false, contact);
     log(L_DEBUG, "Request about %u", plugin_type);
     Buffer answer;
     unsigned long typeAnswer = 0;

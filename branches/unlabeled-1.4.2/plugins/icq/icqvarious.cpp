@@ -198,10 +198,10 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
                     sendTM.tm_isdst = -1;
                     time_t send_time = mktime(&sendTM);
                     MessageId id;
-                    Message *m = parseMessage(type, uin, message, msg, 0, 0, id);
+                    Message *m = parseMessage(type, number(uin).c_str(), message, msg, 0, 0, id);
                     if (m){
                         m->setTime(send_time);
-                        messageReceived(m, uin);
+                        messageReceived(m, number(uin).c_str());
                     }
                     break;
                 }
@@ -316,7 +316,7 @@ void FullInfoRequest::fail(unsigned short error_code)
             Event e(EventClientChanged, m_client);
             e.process();
         }else{
-            m_client->findContact(m_uin, NULL, false, contact);
+            m_client->findContact(number(m_uin).c_str(), NULL, false, contact);
             if (contact){
                 Event e(EventContactChanged, contact);
                 e.process();
@@ -361,7 +361,7 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
     if (m_client->data.owner.Uin == m_uin){
         data = &m_client->data.owner;
     }else{
-        data = m_client->findContact(m_uin, NULL, false, contact);
+        data = m_client->findContact(number(m_uin).c_str(), NULL, false, contact);
         if (data == NULL){
             log(L_DEBUG, "Info request %u not found", m_uin);
             m_client->removeFullInfoRequest(m_uin);

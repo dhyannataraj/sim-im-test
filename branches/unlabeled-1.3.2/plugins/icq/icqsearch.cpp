@@ -351,7 +351,7 @@ void ICQSearch::addContact()
     if (m_randomUin == 0)
         return;
     Contact *contact;
-    m_client->findContact(m_randomUin, m_name.utf8(), true, contact);
+    m_client->findContact(number(m_randomUin).c_str(), m_name.utf8(), true, contact);
 }
 
 void ICQSearch::sendMessage()
@@ -359,9 +359,9 @@ void ICQSearch::sendMessage()
     if (m_randomUin == 0)
         return;
     Contact *contact;
-    ICQUserData *data = m_client->findContact(m_randomUin, m_name.utf8(), false, contact);
+    ICQUserData *data = m_client->findContact(number(m_randomUin).c_str(), m_name.utf8(), false, contact);
     if (data == NULL){
-        data = m_client->findContact(m_randomUin, m_name.utf8(), true, contact);
+        data = m_client->findContact(number(m_randomUin).c_str(), m_name.utf8(), true, contact);
         contact->setTemporary(CONTACT_TEMP);
     }
     Message msg(MessageGeneric);

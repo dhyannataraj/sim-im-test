@@ -325,8 +325,8 @@ ICQClient::ICQClient(ICQProtocol *protocol, const char *cfg)
             string n = getToken(req, ',');
             ListRequest lr;
             memset(&lr, 0, sizeof(lr));
-            lr.type = atol(n.c_str());
-            lr.uin = atol(req.c_str());
+            lr.type   = atol(n.c_str());
+            lr.screen = req;
             listRequests.push_back(lr);
         }
     }
@@ -372,7 +372,7 @@ string ICQClient::getConfig()
             listRequest += ';';
         listRequest += number((*it).type);
         listRequest += ',';
-        listRequest += number((*it).uin);
+        listRequest += (*it).screen;
     }
     setListRequests(listRequest.c_str());
     string res = Client::getConfig();
@@ -724,16 +724,20 @@ unsigned long ICQClient::fullStatus(unsigned s)
     return status;
 }
 
-ICQUserData *ICQClient::findContact(unsigned long uin, const char *alias, bool bCreate, Contact *&contact, Group *grp)
+ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool bCreate, Contact *&contact, Group *grp)
 {
     ContactList::ContactIterator it;
     ICQUserData *data;
+	unsigned long uin = atol(screen);
 
     while ((contact = ++it) != NULL){
         ClientDataIterator it(contact->clientData, this);
         while ((data = (ICQUserData*)(++it)) != NULL){
-            if (data->Uin != uin)
+            if (uin && (data->Uin != uin))
                 continue;
+			if ((uin == 0) &&
+				((data->Screen == NULL) || strcmp(screen, data->Screen)))
+				continue;
             bool bChanged = false;
             if (alias){
                 if (*alias){
@@ -768,10 +772,15 @@ ICQUserData *ICQClient::findContact(unsigned long uin, const char *alias, bool b
         while ((contact = ++it) != NULL){
             ClientDataIterator it(contact->clientData, c);
             while ((data = (ICQUserData*)(++it)) != NULL){
-                if (data->Uin != uin)
+                if (uin && (data->Uin != uin))
                     continue;
+				if ((uin == 0) &&
+					((data->Screen == NULL) || strcmp(screen, data->Screen)))
+					continue;
                 data = (ICQUserData*)(contact->clientData.createData(this));
                 data->Uin = uin;
+				if (uin == 0)
+					set_str(&data->Screen, screen);
                 bool bChanged = false;
                 if (alias){
                     if (*alias){
@@ -801,6 +810,8 @@ ICQUserData *ICQClient::findContact(unsigned long uin, const char *alias, bool b
             if (contact->getName().lower() == name){
                 ICQUserData *data = (ICQUserData*)(contact->clientData.createData(this));
                 data->Uin = uin;
+				if (uin == 0)
+					set_str(&data->Screen, screen);
                 set_str(&data->Alias, alias);
                 Event e(EventContactChanged, contact);
                 e.process();
@@ -811,12 +822,16 @@ ICQUserData *ICQClient::findContact(unsigned long uin, const char *alias, bool b
     contact = getContacts()->contact(0, true);
     data = (ICQUserData*)(contact->clientData.createData(this));
     data->Uin = uin;
+	if (uin == 0)
+		set_str(&data->Screen, screen);
     QString name;
     if (alias && *alias){
         name = QString::fromUtf8(alias);
-    }else{
+    }else if (uin){
         name = QString::number(uin);
-    }
+    }else{
+		name = screen;
+	}
     set_str(&data->Alias, alias);
     contact->setName(name);
     if (grp)
@@ -918,17 +933,30 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
     }
     unsigned iconStatus = status;
     const char *dicon = NULL;
-    if ((iconStatus == STATUS_ONLINE) && (s & ICQ_STATUS_FxPRIVATE)){
-        dicon = "ICQ_invisible";
-    }else{
-        const CommandDef *def = protocol()->statusList();
-        for (; def->text; def++){
-            if (def->id == iconStatus){
-                dicon = def->icon;
-                break;
-            }
-        }
-    }
+	if (data->Uin){
+		if ((iconStatus == STATUS_ONLINE) && (s & ICQ_STATUS_FxPRIVATE)){
+			dicon = "ICQ_invisible";
+		}else{
+			const CommandDef *def = protocol()->statusList();
+			for (; def->text; def++){
+				if (def->id == iconStatus){
+					dicon = def->icon;
+					break;
+				}
+			}
+		}
+	}else{
+		switch (status){
+		case STATUS_OFFLINE:
+			dicon = "AIM_offline";
+			break;
+		case STATUS_ONLINE:
+			dicon = "AIM_online";
+			break;
+		default:
+			dicon = "AIM_away";
+		}
+	}
     if (dicon == NULL)
         return;
     if (status == STATUS_OCCUPIED)
@@ -1869,14 +1897,14 @@ void *ICQClient::processEvent(Event *e)
         ar_request ar = (*it);
         if (ar.bDirect){
             Contact *contact;
-            ICQUserData *data = findContact(ar.uin, NULL, false, contact);
+            ICQUserData *data = findContact(ar.screen.c_str(), NULL, false, contact);
             if (data && data->Direct)
                 data->Direct->sendAck(ar.id.id_l, ar.type, ar.flags, fromUnicode(t->tmpl, data).c_str());
         }else{
             Buffer copy;
             string response;
             response = t->tmpl.utf8();
-            sendAutoReply(ar.uin, ar.id, plugins[PLUGIN_NULL],
+            sendAutoReply(ar.screen.c_str(), ar.id, plugins[PLUGIN_NULL],
                           ar.id1, ar.id2, ar.type, ar.ack, 0, response.c_str(), 0, copy);
         }
         arRequests.erase(it);
@@ -1920,7 +1948,7 @@ void *ICQClient::processEvent(Event *e)
             for (it = listRequests.begin(); it != listRequests.end(); it++){
                 if ((*it).type != LIST_USER_CHANGED)
                     continue;
-                if ((*it).uin == data->Uin)
+                if ((*it).screen == screen(data))
                     break;
             }
             if (it != listRequests.end())
@@ -1928,7 +1956,7 @@ void *ICQClient::processEvent(Event *e)
             ListRequest lr;
             memset(&lr, 0, sizeof(lr));
             lr.type = LIST_USER_DELETED;
-            lr.uin = data->Uin;
+            lr.screen = screen(data);
             lr.icq_id = data->IcqID;
             lr.grp_id = data->GrpId;
             lr.visible_id = data->ContactVisibleId;
@@ -1991,7 +2019,7 @@ void *ICQClient::processEvent(Event *e)
             }
             if (m_send.msg == msg){
                 m_send.msg = NULL;
-                m_send.uin = 0;
+                m_send.screen = "";
                 send(true);
                 return msg;
             }
@@ -2276,10 +2304,10 @@ void *ICQClient::processEvent(Event *e)
         while (url[0] == '/')
             url = url.substr(1);
         string s = unquoteText(url.c_str());
-        unsigned long uin = atol(getToken(s, ',').c_str());
-        if (uin){
+        string screen = getToken(s, ',');
+        if (screen.length()){
             Contact *contact;
-            findContact(uin, s.c_str(), true, contact);
+            findContact(screen.c_str(), s.c_str(), true, contact);
             Command cmd;
             cmd->id		 = MessageGeneric;
             cmd->menu_id = MenuMessage;
@@ -2307,7 +2335,7 @@ void *ICQClient::processEvent(Event *e)
         }
         if (!hasCap(data, CAP_TYPING))
             return NULL;
-        sendMTN(data->Uin, (e->type() == EventStartTyping) ? ICQ_MTN_START : ICQ_MTN_FINISH);
+        sendMTN(screen(data).c_str(), (e->type() == EventStartTyping) ? ICQ_MTN_START : ICQ_MTN_FINISH);
         return e->param();
     }
     if (e->type() == EventOpenMessage){
@@ -2509,25 +2537,32 @@ bool ICQClient::canSend(unsigned type, void *_data)
 
 string ICQClient::dataName(void *data)
 {
-    return dataName(((ICQUserData*)data)->Uin);
+    return dataName(screen((ICQUserData*)data).c_str());
 }
 
-string ICQClient::dataName(unsigned long uin)
+string ICQClient::dataName(const char *screen)
 {
     string res = name();
     res += ".";
-    res += number(uin);
+    res += screen;
     return res;
 }
 
-void ICQClient::messageReceived(Message *msg, unsigned long uin)
+string ICQClient::screen(ICQUserData *data)
+{
+	if (data->Uin == 0)
+		return data->Screen ? data->Screen : "";
+	return number(data->Uin);
+}
+
+void ICQClient::messageReceived(Message *msg, const char *screen)
 {
     msg->setFlags(msg->getFlags() | MESSAGE_RECEIVED);
     if (msg->contact() == 0){
         Contact *contact;
-        void *data = findContact(uin, NULL, false, contact);
+        void *data = findContact(screen, NULL, false, contact);
         if (data == NULL){
-            data = findContact(uin, NULL, true, contact);
+            data = findContact(screen, NULL, true, contact);
             if (data == NULL){
                 delete msg;
                 return;
@@ -2612,7 +2647,7 @@ static bool isSupportPlugins(ICQUserData *data)
 void ICQClient::addPluginInfoRequest(unsigned long uin, unsigned plugin_index)
 {
     Contact *contact;
-    ICQUserData *data = findContact(uin, NULL, false, contact);
+    ICQUserData *data = findContact(number(uin).c_str(), NULL, false, contact);
     if (data && !data->bNoDirect &&
             (get_ip(data->IP) == get_ip(this->data.owner.IP)) &&
             ((getInvisible() && data->VisibleId) ||
@@ -2662,14 +2697,14 @@ void ICQClient::addPluginInfoRequest(unsigned long uin, unsigned plugin_index)
     list<SendMsg>::iterator it;
     for (it = sendQueue.begin(); it != sendQueue.end(); ++it){
         SendMsg &s = *it;
-        if ((s.uin == uin) && (s.flags == plugin_index) && (s.msg == NULL))
+        if ((atol(s.screen.c_str()) == uin) && (s.flags == plugin_index) && (s.msg == NULL))
             break;
     }
     if (it != sendQueue.end())
         return;
     SendMsg s;
-    s.uin   = uin;
-    s.flags = plugin_index;
+    s.screen = number(uin);
+    s.flags  = plugin_index;
     sendQueue.push_back(s);
     send(true);
 }

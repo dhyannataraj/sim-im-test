@@ -400,7 +400,7 @@ void MSNClient::getLine(const char *line)
             m.setStatus(status);
             Event e(EventMessageReceived, &m);
             e.process();
-            if (status == STATUS_ONLINE){
+            if ((status == STATUS_ONLINE) && !contact->getIgnore()){
                 Event e(EventContactOnline, contact);
                 e.process();
             }

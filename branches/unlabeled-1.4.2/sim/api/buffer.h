@@ -98,7 +98,7 @@ unsigned size() const { return m_size; }
     void unpack(char &c);
     void unpack(unsigned short &c);
     void unpack(unsigned long &c);
-    unsigned long unpackUin();
+    string unpackScreen();
     void unpack(string &s);
     void unpackStr(string &s);
     void unpackStr32(string &s);
@@ -118,7 +118,7 @@ unsigned size() const { return m_size; }
     Buffer &operator << (char**);
     Buffer &operator << (TlvList&);
 
-    void packUin(unsigned long);
+    void packScreen(const char *);
     void packStr32(const char *);
     void pack32(const Buffer &b);
 
