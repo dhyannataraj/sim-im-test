@@ -1021,7 +1021,9 @@ EXPORT void restoreGeometry(QWidget *w, Data geo[5], bool bPos, bool bSize)
 #endif
 }
 
-EXPORT void saveToolbar(QToolBar *bar, Data state[8])
+const unsigned SAVE_STATE = (unsigned)(-1);
+
+EXPORT void saveToolbar(QToolBar *bar, Data state[7])
 {
     memset(state, 0, sizeof(state));
     if (bar == NULL)
@@ -1040,7 +1042,7 @@ EXPORT void saveToolbar(QToolBar *bar, Data state[8])
     bool nl;
     int  extraOffset;
     main->getLocation(bar, dock, index, nl, extraOffset);
-    state[0].value = 1;
+    state[0].value = SAVE_STATE;
     state[1].value = (long)dock;
     state[2].value = index;
     state[3].value = nl ? 1 : 0;
@@ -1052,12 +1054,19 @@ EXPORT void saveToolbar(QToolBar *bar, Data state[8])
     }
 }
 
-EXPORT void restoreToolbar(QToolBar *bar, Data state[8])
+EXPORT void restoreToolbar(QToolBar *bar, Data state[7])
 {
     if (bar == NULL)
         return;
-    if (state[0].value == 0)
-        return;
+	if (state[0].value != SAVE_STATE){
+		if (state[1].value == 0)
+			state[1].value = (unsigned)(QMainWindow::Top);
+		state[2].value = 0;
+		state[3].value = 0;
+		state[4].value = SAVE_STATE;
+		state[5].value = 0;
+		state[6].value = 0;
+	}
     QMainWindow *main = NULL;
     for (QWidget *w = bar->parentWidget(); w; w = w->parentWidget()){
         if (w->inherits("QMainWindow")){

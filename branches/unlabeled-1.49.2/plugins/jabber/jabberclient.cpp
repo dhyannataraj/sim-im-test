@@ -152,7 +152,7 @@ static DataDef jabberClientData[] =
         { "Photo", DATA_UTF, 1, 0 },
         { "Logo", DATA_UTF, 1, 0 },
         { "Browser", DATA_ULONG, 5, 0 },
-        { "BrowserBar", DATA_ULONG, 8, 0 },
+        { "BrowserBar", DATA_LONG, 7, 0 },
         { "BrowserHistory", DATA_UTF, 1, 0 },
         { "AutoSubscribe", DATA_BOOL, 1, DATA(1) },
         { "AutoAccept", DATA_BOOL, 1, DATA(1) },
