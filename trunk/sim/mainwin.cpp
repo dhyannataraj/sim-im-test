@@ -73,6 +73,7 @@
 #include <qwidgetlist.h>
 #include <qobjectlist.h>
 #include <qtranslator.h>
+#include <qregexp.h>
 
 #if USE_KDE
 #include <kwin.h>
@@ -184,8 +185,20 @@ MainWindow::MainWindow(const char *name)
         FileDone(this, "FileDone", sound("filedone.wav")),
         OnlineAlert(this, "OnlineAlert", sound("alert.wav")),
         BirthdayReminder(this, "BirthdayReminder", sound("birthday.wav")),
-        UrlViewer(this, "URLViewer"),
-        MailClient(this, "MailClient"),
+        UrlViewer(this, "URLViewer",
+#if USE_KDE
+                  "konqueror"
+#else
+                  "netscape"
+#endif
+                 ),
+        MailClient(this, "MailClient",
+#if USE_KDE
+                   "kmail"
+#else
+                   "netscape mailto:%s"
+#endif
+                  ),
         SoundPlayer(this, "SoundPlayer"),
         UseTransparent(this, "TransparentMain"),
         Transparent(this, "TransparencyMain", 80),
@@ -1570,18 +1583,7 @@ void MainWindow::goURL(const char *url)
 #ifdef WIN32
     ShellExecuteA(winId(), NULL, url, NULL, NULL, SW_SHOWNORMAL);
 #else
-    if (*(UrlViewer.c_str()) == 0) return;
-
-    const char *arglist[3];
-    arglist[0] = UrlViewer.c_str();
-    arglist[1] = url;
-    arglist[2] = NULL;
-
-    if(!fork()) {
-        execvp(arglist[0], (char**)arglist);
-        _exit(-1);
-    }
-
+    exec(UrlViewer.c_str(), url);
 #endif
 }
 
@@ -1610,18 +1612,36 @@ void MainWindow::sendMail(const char *mail)
     s += mail;
     ShellExecuteA(winId(), NULL, s.c_str(), NULL, NULL, SW_SHOWNORMAL);
 #else
-    if (*(MailClient.c_str()) == 0) return;
+    exec(MailClient.c_str(), mail);
+#endif
+}
 
-    const char *arglist[3];
-    arglist[0] = MailClient.c_str();
-    arglist[1] = mail;
-    arglist[2] = NULL;
-
+void MainWindow::exec(const char *prg, const char *arg)
+{
+#ifndef WIN32
+    if (*prg == 0) return;
+    QString p = QString::fromLocal8Bit(prg);
+    if (p.find("%s") >= 0){
+        p.replace(QRegExp("%s"), arg);
+    }else{
+        p += QString::fromLocal8Bit(arg);
+    }
+    QStringList s = QStringList::split(" ", p);
+    char **arglist = new char*[s.count()+1];
+    unsigned i = 0;
+    for ( QStringList::Iterator it = s.begin(); it != s.end(); ++it, i++ ) {
+        string arg;
+        arg = (*it).local8Bit();
+        arglist[i] = strdup(arg.c_str());
+    }
+    arglist[i] = NULL;
     if(!fork()) {
-        execvp(arglist[0], (char**)arglist);
+        execvp(arglist[0], arglist);
         _exit(-1);
     }
-
+    for (char **p = arglist; *p != NULL; p++)
+        free(*p);
+    delete[] arglist;
 #endif
 }
 

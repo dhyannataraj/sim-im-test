@@ -38,10 +38,9 @@
 #include <qtimer.h>
 
 FileTransferDlg::FileTransferDlg(QWidget *p, ICQFile *_file)
-        : FileTransferBase(p)
+        : FileTransferBase(p, "filetransfer", false, WDestructiveClose | WStyle_Minimize)
 {
     file = _file;
-    setWFlags(WDestructiveClose);
     setIcon(Pict("file"));
     edtFile1->setReadOnly(true);
     edtFile2->setReadOnly(true);

@@ -67,17 +67,21 @@ void FontSetup::apply(ICQUser*)
     }
 #ifdef USE_KDE
     pMain->UseSystemFonts = chkSystem->isChecked();
+    if (!pMain->UseSystemFonts()){
 #endif
-    const QFont &fontWin = edtFont->winFont();
-    const QFont &fontMenu = edtFontMenu->winFont();
-    pMain->FontFamily = fontWin.family();
-    pMain->FontSize = fontWin.pointSize();
-    pMain->FontWeight = fontWin.weight();
-    pMain->FontItalic = fontWin.italic();
-    pMain->FontMenuFamily = fontMenu.family();
-    pMain->FontMenuSize = fontMenu.pointSize();
-    pMain->FontMenuWeight = fontMenu.weight();
-    pMain->FontMenuItalic = fontMenu.italic();
+        const QFont &fontWin = edtFont->winFont();
+        const QFont &fontMenu = edtFontMenu->winFont();
+        pMain->FontFamily = fontWin.family();
+        pMain->FontSize = fontWin.pointSize();
+        pMain->FontWeight = fontWin.weight();
+        pMain->FontItalic = fontWin.italic();
+        pMain->FontMenuFamily = fontMenu.family();
+        pMain->FontMenuSize = fontMenu.pointSize();
+        pMain->FontMenuWeight = fontMenu.weight();
+        pMain->FontMenuItalic = fontMenu.italic();
+#ifdef USE_KDE
+    }
+#endif
     pMain->setFonts();
     QWidget *w = grpContainer->selected();
     if (w == rbtUser)

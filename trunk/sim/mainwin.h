@@ -315,6 +315,7 @@ protected:
     SetupDialog *setupDlg;
     bool bInLogin;
 
+    void exec(const char *prg, const char *arg);
     void loadMenu();
     void showUser(unsigned long uin, int function, unsigned long param=0);
     void closeUser(unsigned long uin);

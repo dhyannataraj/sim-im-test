@@ -683,6 +683,11 @@ unsigned long UserBox::currentUser()
 
 void UserBox::selectedUser(int id)
 {
+    if (tabs->count() <= 1){
+        if (tabs->isVisible()) tabs->hide();
+    }else{
+        if (!tabs->isVisible()) tabs->show();
+    }
     MsgEdit *wnd = getWnd(id);
     if (wnd == NULL){
         log(L_WARN, "User for %u not found");

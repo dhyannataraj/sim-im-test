@@ -64,6 +64,7 @@ QString i18n(const char *text)
     return QObject::tr(text);
 }
 
+<<<<<<< sim.cpp
 class SimApp : public QApplication
 {
 	public:
@@ -77,6 +78,21 @@ class SimApp : public QApplication
 
 #if !defined(USE_KDE) || (QT_VERSION < 300)
 
+=======
+class SimApp : public QApplication
+{
+public:
+    SimApp(int &argc, char **argv)
+            : QApplication(argc, argv) {}
+protected:
+    void saveState(QSessionManager&);
+};
+
+#endif
+
+#if !defined(USE_KDE) || (QT_VERSION < 300)
+
+>>>>>>> 1.1.1.1.2.1
 QString put_n_in(const QString &orig, unsigned long n)
 {
 	    QString ret = orig;
@@ -124,7 +140,7 @@ int main(int argc, char *argv[])
                          "http://sim-icq.sourceforge.net/",
                          "sim-icq-main@lists.sourceforge.net");
 
-    aboutData.addAuthor("Vladimir Shutoff",i18n("Maintainer"),"shutoff@mail.ru");
+    aboutData.addAuthor("Vladimir Shutoff",I18N_NOOP("Maintainer"),"shutoff@mail.ru");
     appAboutData = &aboutData;
 
 #if USE_KDE

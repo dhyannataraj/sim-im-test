@@ -365,6 +365,11 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
         }
     default:
         string msg;
+        unsigned long real_ip = 0;
+        unsigned long ip = 0;
+        unsigned short port = 0;
+        if (tlv(3)) ip = htonl((unsigned long)(*tlv(3)));
+        if (tlv(4)) real_ip = htonl((unsigned long)(*tlv(4)));
         payload >> msg;
         if (*msg.c_str() || (msgType == ICQ_MSGxEXT)){
             if (payload.readPos() < payload.writePos())
@@ -373,11 +378,6 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
             if (msg.size() || (msgType == ICQ_MSGxEXT)){
                 ICQMessage *m = parseMessage(msgType, uin, msg, payload, cookie1, cookie2, timestamp1, timestamp2);
                 if (m && (msgState == 0)){
-                    unsigned long real_ip = 0;
-                    unsigned long ip = 0;
-                    unsigned short port = 0;
-                    if (tlv(3)) real_ip = htonl((unsigned long)(*tlv(3)));
-                    if (tlv(4)) ip = htonl((unsigned long)(*tlv(4)));
                     port = m->id1;
                     if (port && (ip || real_ip)){
                         struct in_addr a;
@@ -413,14 +413,14 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
                             switch (msg->Type()){
                             case ICQ_MSGxFILE:{
                                     ICQFile *file = static_cast<ICQFile*>(msg);
-                                    file->ft = new FileTransfer(ip, real_ip, port, u, this, file);
+                                    file->ft = new FileTransfer(real_ip, ip, port, u, this, file);
                                     file->ft->connect();
                                     break;
                                 }
                             case ICQ_MSGxCHAT:{
                                     log(L_DEBUG, "Chat port %u", port);
                                     ICQChat *chat = static_cast<ICQChat*>(msg);
-                                    chat->chat = new ChatSocket(ip, real_ip, port, u, this, chat);
+                                    chat->chat = new ChatSocket(real_ip, ip, port, u, this, chat);
                                     chat->chat->connect();
                                     break;
                                 }
@@ -449,6 +449,15 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
                         needAck = false;
                     }
                     m->Received = true;
+                    ICQUser *u = getUser(m->getUin());
+                    if (u){
+                        if (real_ip && (u->RealIP() != real_ip))
+                            u->RealIP = real_ip;
+                        if (ip && (u->IP() != ip))
+                            u->IP = ip;
+                        if (port && (u->Port() != port))
+                            u->Port = port;
+                    }
                     messageReceived(m);
                 }else{
                     needAck = false;
@@ -607,7 +616,14 @@ void ICQClient::acceptMessage(ICQMessage *m)
 
         char *host;
         unsigned short port;
-        getLocalAddr(host, port);
+        unsigned long remote_ip = 0;
+        ICQUser *u = getUser(m->getUin());
+        if (u){
+            remote_ip = u->IP();
+            if (u->RealIP() && ((u->RealIP() & 0xFFFFFF00) != (RealIP() & 0xFFFFFF00)))
+                remote_ip = u->RealIP();
+        }
+        getLocalAddr(host, port, remote_ip);
 
         msg_id id;
         id.l = m->timestamp1;

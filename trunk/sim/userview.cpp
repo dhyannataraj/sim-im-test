@@ -35,6 +35,7 @@
 #include <qlineedit.h>
 #include <qregexp.h>
 #include <qbutton.h>
+#include <qobjectlist.h>
 
 #include <stdio.h>
 
@@ -500,6 +501,22 @@ UserView::UserView (QWidget *parent, bool _bList, bool bFill, WFlags f)
     connect(timer, SIGNAL(timeout()), this, SLOT(blink()));
     timer->start(800);
     connect(pMain, SIGNAL(iconChanged()), this, SLOT(iconChanged()));
+    QObjectList * l = queryList("QScrollBar");
+    QObjectListIt it(*l);
+    QObject * obj;
+    while ( (obj=it.current()) != 0 ){
+        ++it;
+        installEventFilter(obj);
+    }
+    delete l;
+}
+
+bool UserView::eventFilter(QObject *obj, QEvent *e)
+{
+    bool res = QListView::eventFilter(obj, e);
+    if ((e->type() == QEvent::Show) || (e->type() == QEvent::Hide))
+        viewport()->repaint();
+    return res;
 }
 
 void UserView::iconChanged()
@@ -653,7 +670,7 @@ void UserView::refresh()
     }
     bool isUpdates = viewport()->isUpdatesEnabled();
     viewport()->setUpdatesEnabled(false);
-    QListView::clear();
+    clear();
     fill();
     if (!isUpdates) return;
     viewport()->setUpdatesEnabled(true);

@@ -398,18 +398,13 @@ void MsgView::addMessage(ICQMessage *msg, bool bUnread, bool bSet)
     int x = contentsX();
     int y = contentsY();
     QString s(makeMessage(msg, bUnread));
-    QString anchor;
-    if (bSet) QString::number(msg->getUin()) + "." + QString::number(msg->Id);
+    if (bSet) curAnchor = QString::number(msg->getUin()) + "." + QString::number(msg->Id);
     if (bBack){
-        setText(s + text(), anchor);
+        setText(s + text(), curAnchor);
     }else{
-        setText(text() + s, anchor);
+        setText(text() + s, curAnchor);
     }
-    if (bSet){
-        curAnchor = anchor;
-        scrollToAnchor(curAnchor);
-        return;
-    }
+    scrollToAnchor(curAnchor);
     setContentsPos(x, y);
 }
 
