@@ -45,7 +45,6 @@ bool ICQClient::translate(const char *to, const char *from, string &str)
 {
     if (*str.c_str() == 0)
         return true;
-    log(L_DEBUG, "Translate %s -> %s", from, to);
     if (!strcasecmp(from, to))
         return true;
     QTextCodec *fromCodec = (*from) ? codecForName(from) : QTextCodec::codecForLocale();
