@@ -308,15 +308,35 @@ void MsgViewBase::setBackground(unsigned n)
     QColor bgcolor;
     bool bSet = false, bInMsg = false;
     
-    QRegExp reAnchor(QString::fromLatin1(MSG_ANCHOR) + "\\d+,(\\d+)?");
-    QString sBegin = QString::fromLatin1(MSG_BEGIN);
+    QString sAnchor = QString::fromLatin1(MSG_ANCHOR),
+            sBegin = QString::fromLatin1(MSG_BEGIN);
     
     for (unsigned i = n; i < (unsigned)paragraphs(); i++){
         QString s = text(i);
-        if (reAnchor.search(s) >= 0)
+        int anchorPos = s.find(sAnchor);
+        if (anchorPos >= 0)
         {
-           bgcolor = QColor(reAnchor.cap(1).toULong(&bSet));
            bInMsg = false;
+           
+           // This code could be a bit faster by making assumptions.
+           // However, I prefer to be correct HTML-parser-wise.
+           
+           int idStart = anchorPos + sAnchor.length();
+           int idEnd = s.find('\"', idStart);
+           if ((idStart >= 0) && (idEnd >= 0))
+           {
+              QString id = s.mid(idStart, idEnd - idStart);
+           
+              // Parse the message id (msgId,backgroundColor,...)
+              int bgcolorStart = id.find(',') + 1;
+              int bgcolorEnd = id.find(',', bgcolorStart);
+              
+              if ((bgcolorStart >= 0) && (bgcolorEnd >= 0))
+              {
+                 QString sBgcolor = id.mid(bgcolorStart, bgcolorEnd - bgcolorStart);
+                 bgcolor = QColor(sBgcolor.toULong(&bSet));
+              }
+           }
         }
         else
         {
