@@ -209,7 +209,8 @@ void LoginDialog::profileChanged(int)
         ClientList clients;
         CorePlugin::m_plugin->loadClients(clients);
         unsigned nClients = 0;
-        for (unsigned i = 0; i < clients.size(); i++){
+        unsigned i;
+        for (i = 0; i < clients.size(); i++){
             if (clients[i]->protocol()->description()->flags & PROTOCOL_NO_AUTH)
                 continue;
             nClients++;
