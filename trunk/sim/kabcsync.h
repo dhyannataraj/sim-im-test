@@ -15,7 +15,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
 #ifndef _KABCSYNC_H
 #define _KABCSYNC_H 	1
 
@@ -34,22 +34,22 @@ using namespace KABC;
 
 class KabcSync:public QObject
 {
-Q_OBJECT
+    Q_OBJECT
 public:
-	KabcSync(void);
-	~KabcSync();
+    KabcSync(void);
+    ~KabcSync();
 protected:
-	bool m_bOpen;
-	AddressBook* m_pAB;
+    bool m_bOpen;
+    AddressBook* m_pAB;
 public:
-	bool open(void);
-	void close(void);
-	void processUser(SIMUser&);
+    bool open(void);
+    void close(void);
+    void processUser(SIMUser&);
 protected:
-	Addressee addresseeFromUser(SIMUser&,Addressee*);
-	QString& getCountry(unsigned short code);
+    Addressee addresseeFromUser(SIMUser&,Addressee*);
+    QString& getCountry(unsigned short code);
 public slots:
-	void processEvent(ICQEvent*);
+    void processEvent(ICQEvent*);
 };
 
 extern KabcSync* pSyncher;

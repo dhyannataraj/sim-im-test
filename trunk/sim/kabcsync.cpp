@@ -30,12 +30,12 @@
 #include "country.h"
 
 KabcSync* pSyncher;
- 
+
 KabcSync::KabcSync(void):QObject(),m_bOpen(false)
 {
- 
+
 }
- 
+
 KabcSync::~KabcSync()
 {
 
@@ -44,24 +44,24 @@ KabcSync::~KabcSync()
 
 bool KabcSync::open(void)
 {
-	if (m_bOpen)
-		return false;
-		
-	m_pAB=StdAddressBook::self();
-	m_pAB->addCustomField(i18n("IM Address"),KABC::Field::Personal,"X-IMAddress","KADDRESSBOOK");
-	m_bOpen=true;
-	return true;
+    if (m_bOpen)
+        return false;
+
+    m_pAB=StdAddressBook::self();
+    m_pAB->addCustomField(i18n("IM Address"),KABC::Field::Personal,"X-IMAddress","KADDRESSBOOK");
+    m_bOpen=true;
+    return true;
 }
 
 void KabcSync::close(void)
 {
-	m_bOpen=false;
-	StdAddressBook::save();
+    m_bOpen=false;
+    StdAddressBook::save();
 }
 
 Addressee KabcSync::addresseeFromUser(SIMUser& u,Addressee* oldPers=NULL)
 {
-   Addressee pers;
+    Addressee pers;
     QString str;
 
     if (oldPers!=NULL)
@@ -151,67 +151,67 @@ QString& KabcSync::getCountry(unsigned short code)
 
 void KabcSync::processUser(SIMUser& u)
 {
-	if (!m_bOpen)
-		return;
+    if (!m_bOpen)
+        return;
 
-	bool bFound=false;
+    bool bFound=false;
 
-	if ((!u.inIgnore)&&(!u.notEnoughInfo()))
-	{
-		Addressee newPers;
-		if (!u.strKabUid.empty())
-		{
-			Addressee pers=m_pAB->findByUid(QString::fromLocal8Bit(u.strKabUid.c_str()));
-			if (!pers.isEmpty())
-			{
-				bFound=true;
-				newPers=pers;
-			}
-		}
-		else
-		{
-			list<EMailInfo*>::iterator it=u.EMails.begin();
-			while (it!=u.EMails.end())
-			{
-				Addressee::List li=m_pAB->findByEmail((*it)->Email.c_str());
-				Addressee::List::iterator lit=li.begin();
-				if (lit!=li.end())
-				{
-					bFound=true;
-					newPers=(*lit);
-					break;
-				}
-				it++;
-			}
-		}
+    if ((!u.inIgnore)&&(!u.notEnoughInfo()))
+    {
+        Addressee newPers;
+        if (!u.strKabUid.empty())
+        {
+            Addressee pers=m_pAB->findByUid(QString::fromLocal8Bit(u.strKabUid.c_str()));
+            if (!pers.isEmpty())
+            {
+                bFound=true;
+                newPers=pers;
+            }
+        }
+        else
+        {
+            list<EMailInfo*>::iterator it=u.EMails.begin();
+            while (it!=u.EMails.end())
+            {
+                Addressee::List li=m_pAB->findByEmail((*it)->Email.c_str());
+                Addressee::List::iterator lit=li.begin();
+                if (lit!=li.end())
+                {
+                    bFound=true;
+                    newPers=(*lit);
+                    break;
+                }
+                it++;
+            }
+        }
 
-		Addressee pers;
-		if (bFound)
-			pers=addresseeFromUser(u,&newPers);
-		else
-			pers=addresseeFromUser(u);
-		
-		pers.dump();
-		
-		u.strKabUid=(const char*)pers.uid();
-		m_pAB->insertAddressee(pers);
-		pers.dump();
-	}
+        Addressee pers;
+        if (bFound)
+            pers=addresseeFromUser(u,&newPers);
+        else
+            pers=addresseeFromUser(u);
+
+        pers.dump();
+
+        u.strKabUid=(const char*)pers.uid();
+        m_pAB->insertAddressee(pers);
+        pers.dump();
+    }
 }
 
 void KabcSync::processEvent(ICQEvent* e)
 {
-	if ((e->type()==EVENT_INFO_CHANGED)&&(pMain->AutoSync))
-	{
-		SIMUser* pU=static_cast<SIMUser*>(pClient->getUser(e->Uin()));
-		if (pU!=NULL)
-		{
-			open();
-			processUser(*pU);
-			close();
-			
-		}
-	}
+    if ((e->type()==EVENT_INFO_CHANGED)&&(pMain->AutoSync))
+    {
+        SIMUser* pU=static_cast<SIMUser*>(pClient->getUser(e->Uin()));
+        if (pU!=NULL)
+        {
+            open();
+            processUser(*pU);
+            close();
+
+        }
+    }
 }
 
 #include "kabcsync.moc"
