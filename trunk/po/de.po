@@ -6,13 +6,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2002-10-19 18:41+0400\n"
-"PO-Revision-Date: 2002-10-20 15:17GMT\n"
-"Last-Translator: Crissi <crissi99@gmx.de>\n"
-"Language-Team: Deutsch <de@li.org>\n"
+"PO-Revision-Date: 2002-10-21 15:42GMT\n"
+"Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
+"Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 0.9.6\n"
+"X-Generator: KBabel 1.0\n"
 
 #: client.cpp:90 libicq/country.cpp:7
 msgid "Arabic"
@@ -1779,9 +1779,7 @@ msgstr "&Benutzerinformation"
 msgid ""
 "_: Ctrl+U\n"
 "UserInfo"
-msgstr ""
-"Strg+U\n"
-"Benutzerinformation"
+msgstr "Strg+U"
 
 #: mainwin.cpp:1636
 msgid "&History"
@@ -1791,9 +1789,7 @@ msgstr "&Verlauf"
 msgid ""
 "_: Ctrl+H\n"
 "History"
-msgstr ""
-"Strg+H\n"
-"Verlauf"
+msgstr "Strg+H"
 
 #: mainwin.cpp:1639 ui/alertdialogbase.cpp:81 ui/setupdlg.cpp:143
 #: ui/userinfo.cpp:88
@@ -1804,9 +1800,7 @@ msgstr "Warnung"
 msgid ""
 "_: Ctrl+L\n"
 "Alert"
-msgstr ""
-"Strg+L\n"
-"Alarm"
+msgstr "Strg+L"
 
 #: mainwin.cpp:1641 ui/acceptbase.cpp:137
 msgid "Accept mode"
@@ -1816,9 +1810,7 @@ msgstr "Akzeptieren-Modus"
 msgid ""
 "_: Ctrl+A\n"
 "Accept"
-msgstr ""
-"Ctrl+A\n"
-"Akzeptieren"
+msgstr "Strg+A"
 
 #: mainwin.cpp:1643 ui/setupdlg.cpp:141 ui/soundsetupbase.cpp:106
 #: ui/userinfo.cpp:90
@@ -1829,9 +1821,7 @@ msgstr "Persönliche Einstellungen"
 msgid ""
 "_: Ctrl+S\n"
 "Sound"
-msgstr ""
-"Strg+S\n"
-"Klang"
+msgstr "Strg+S"
 
 #: mainwin.cpp:1647
 msgid "Floating off"
@@ -1845,9 +1835,7 @@ msgstr "Floating an"
 msgid ""
 "_: Ctrl+T\n"
 "Floating"
-msgstr ""
-"Strg+T\n"
-"Floating"
+msgstr "Strg+T"
 
 #: mainwin.cpp:1651
 msgid "Users"
@@ -1863,9 +1851,7 @@ msgstr "&Schließen"
 msgid ""
 "_: Ctrl+C\n"
 "Close"
-msgstr ""
-"Strg+C\n"
-"Schließen"
+msgstr "Strg+C"
 
 #: mainwin.cpp:1655
 msgid "Alphabetically sort"
@@ -1875,9 +1861,7 @@ msgstr "Alphabetisch sortieren"
 msgid ""
 "_: Ctrl+B\n"
 "Alphabetically sort"
-msgstr ""
-"Strg+B\b"
-"Alphabetisch sortieren"
+msgstr "Strg+B"
 
 #: mainwin.cpp:1885
 msgid "Delete %1?"
@@ -2373,9 +2357,7 @@ msgstr "Nicht in Liste"
 msgid ""
 "_: Ctrl+N\n"
 "Create group"
-msgstr ""
-"Strg+N\n"
-"Gruppe erstellen"
+msgstr "Strg+N"
 
 #: userview.cpp:682 userview.cpp:695
 msgid "New group"
@@ -3961,7 +3943,7 @@ msgid ""
 "_n: Request secure channel\n"
 "%n requests sequre channel"
 msgstr ""
-"Sicherer Kanal-Anfrage\n"
+"Sicherer Kanal Anfrage\n"
 "%n Sicherer Kanal-Anfragen"
 
 #: client.cpp:910
@@ -3986,65 +3968,49 @@ msgstr ""
 msgid ""
 "_: Ctrl+M\n"
 "Message"
-msgstr ""
-"Strg+M\n"
-"Nachricht"
+msgstr "Strg+M"
 
 #: client.cpp:923
 msgid ""
 "_: Ctrl+H\n"
 "Chat"
-msgstr ""
-"Strg+H\n"
-"Chat"
+msgstr "Strg+H"
 
 #: client.cpp:925
 msgid ""
 "_: Ctrl+F\n"
 "File"
-msgstr ""
-"Strg+F\n"
-"Datei"
+msgstr "Strg+F"
 
 #: client.cpp:927
 msgid ""
 "_: Ctrl+U\n"
 "URL"
-msgstr ""
-"Strg+U\n"
-"URL"
+msgstr "Strg+U"
 
 #: client.cpp:929
 msgid ""
 "_: Ctrl+A\n"
 "AuthRequest"
-msgstr ""
-"Strg+A\n"
-"Authentifizierungsanfrage"
+msgstr "Strg+A"
 
 #: client.cpp:931
 msgid ""
 "_: Ctrl+C\n"
 "Contacts"
-msgstr ""
-"Strg+C\n"
-"Kontakte"
+msgstr "Strg+C"
 
 #: client.cpp:933
 msgid ""
 "_: Ctrl+S\n"
 "SMS"
-msgstr ""
-"Strg+S\n"
-"SMS"
+msgstr "Strg+S"
 
 #: client.cpp:935
 msgid ""
 "_: Ctrl+E\n"
 "EMail"
-msgstr ""
-"Strg+E\n"
-"E-Mail"
+msgstr "Strg+E"
 
 #: client.cpp:965
 msgid "Do not disturb"
