@@ -66,9 +66,21 @@ void ICQClient::chn_login()
             sprintf(uin, "%lu", owner->Uin);
 
             flap(ICQ_CHNxNEW);
+            int n = 0;
+            char pass[16];
+            for (const char *p = EncryptedPassword.c_str(); *p && n < 16; p++){
+                if (*p != '\\'){
+                    pass[n++] = *p;
+                    continue;
+                }
+                char c = *(++p);
+                if (c == '0') c = 0;
+                pass[n++] = c;
+            }
+
             sock->writeBuffer << 0x00000001L;
             sock->writeBuffer.tlv(0x0001, uin);
-            sock->writeBuffer.tlv(0x0002, EncryptedPassword.c_str());
+            sock->writeBuffer.tlv(0x0002, pass, n);
             sock->writeBuffer.tlv(0x0003, "ICQ Inc. - Product of ICQ (TM).2001b.5.17.1.3642.85");
             sock->writeBuffer.tlv(0x0016, 0x010A);
             sock->writeBuffer.tlv(0x0017, 0x0005);

@@ -84,17 +84,21 @@ ICQClient::~ICQClient()
 
 void ICQClient::storePassword(const char *p)
 {
-    char pswd[16];
+    EncryptedPassword = "";
     unsigned char xor_table[] = {
         0xf3, 0x26, 0x81, 0xc4, 0x39, 0x86, 0xdb, 0x92,
         0x71, 0xa3, 0xb9, 0xe6, 0x53, 0x7a, 0x95, 0x7c};
     int j;
     for (j = 0; j < 16; j++){
         if (p[j] == 0) break;
-        pswd[j] = (p[j] ^ xor_table[j]);
+        char c = (p[j] ^ xor_table[j]);
+        if (c == 0){
+            EncryptedPassword += "\0";
+        }else{
+            EncryptedPassword += "\\";
+        }
+        EncryptedPassword += c;
     }
-    pswd[j] = 0;
-    EncryptedPassword = pswd;
     DecryptedPassword = "";
 }
 
