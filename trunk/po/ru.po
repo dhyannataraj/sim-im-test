@@ -6,7 +6,8 @@
 # translation of ru.po to
 # translation of ru.po to
 # Copyright (C) 2002 Free Software Foundation, Inc., 2002,2003
-# Vladimir Shutoff <vovan@shutoff.ru>, 2002,2003
+# Vladimir Shutoff <vovan@shutoff.ru>, 2002,2003.
+# Albert R. Valiev <darkstar@altlinux.ru>, 2003.
 #
 msgid ""
 msgstr ""
@@ -910,7 +911,7 @@ msgid ""
 "_n: Message\n"
 "%n messages"
 msgstr ""
-"Сообщение\n"
+"%n сообщение\n"
 "%n сообщения\n"
 "%n сообщений"
 
@@ -921,7 +922,7 @@ msgid ""
 "_n: SMS\n"
 "%n SMSs"
 msgstr ""
-"SMS\n"
+"%n SMS\n"
 "%n SMS\n"
 "%n SMS"
 
@@ -932,7 +933,7 @@ msgid ""
 "_n: File\n"
 "%n files"
 msgstr ""
-"Файл\n"
+"%n файл\n"
 "%n файла\n"
 "%n файлов"
 
@@ -943,7 +944,7 @@ msgid ""
 "_n: Authorize request\n"
 "%n authorize requests"
 msgstr ""
-"Запрос авторизации\n"
+"%n запрос авторизации\n"
 "%n запроса авторизации\n"
 "%n запросов авторизации"
 
@@ -964,7 +965,7 @@ msgid ""
 "_n: Authorization granted\n"
 "%n authorization granted"
 msgstr ""
-"Авторизация принята\n"
+"Авторизация принята %n раз\n"
 "Авторизация принята %n раза\n"
 "Авторизация принята %n раз"
 
@@ -975,7 +976,7 @@ msgid ""
 "_n: Authorization refused\n"
 "%n authorization refused"
 msgstr ""
-"Авторизация отклонена\n"
+"Авторизация отклонена %n раз\n"
 "Авторизация отклонена %n раза\n"
 "Авторизация отклонена %n раз"
 
@@ -986,7 +987,7 @@ msgid ""
 "_n: Add to contacts\n"
 "%n add to contacts"
 msgstr ""
-"Добавил в список контактов\n"
+"Добавил в список контактов %n раз\n"
 "Добавил в список контактов %n раза\n"
 "Добавил в список контактов %n раз"
 
@@ -997,7 +998,7 @@ msgid ""
 "_n: Removed from contacts\n"
 "%n removed from contacts"
 msgstr ""
-"Удалил из списка контактов\n"
+"Удалил из списка контактов %n раз\n"
 "Удалил из списка контактов %n раза\n"
 "Удалил из списка контактов %n раз"
 
@@ -1008,7 +1009,7 @@ msgid ""
 "_n: Status changed\n"
 "%n times status changed"
 msgstr ""
-"Статус изменен\n"
+"Статус изменен %n раз\n"
 "Статус изменен %n раза\n"
 "Статус изменен %n раз"
 
@@ -1452,7 +1453,7 @@ msgstr "&Все в одном контейнере"
 #: plugins/_core/interfacecfgbase.cc:156
 #: plugins/_core/interfacecfgbase.cpp:156
 msgid "Use \"&Enter\" for send message"
-msgstr "Отправлять сообщения по \"Enter\""
+msgstr "Отправлять сообщения по \"&Enter\""
 
 # ui/themesetupbase.cpp:162
 #: plugins/_core/userviewcfgbase.cc:179 plugins/_core/userviewcfgbase.cpp:191
@@ -2740,7 +2741,7 @@ msgid ""
 "_n: WWW-panel message\n"
 "%n WWW-panel messages"
 msgstr ""
-"WWW сообщение\n"
+"%n WWW сообщение\n"
 "%n WWW сообщения\n"
 "%n WWW сообщений"
 
@@ -2751,7 +2752,7 @@ msgid ""
 "_n: Email pager message\n"
 "%n Email pager messages"
 msgstr ""
-"Email сообщение\n"
+"%n Email сообщение\n"
 "%n Email сообщения\n"
 "%n Email сообщений"
 
@@ -2762,7 +2763,7 @@ msgid ""
 "_n: Request secure channel\n"
 "%n requests secure channel"
 msgstr ""
-"Запрос защищенного соединения\n"
+"%n запрос защищенного соединения\n"
 "%n запроса защищенного соединения\n"
 "%n запросов защищенного соединения"
 
@@ -2773,7 +2774,7 @@ msgid ""
 "_n: Close secure channel\n"
 "%n times close secure channel"
 msgstr ""
-"Запрос защищенного соединения\n"
+"%n запрос защищенного соединения\n"
 "%n запроса защищенного соединения\n"
 "%n запросов защищенного соединения"
 
@@ -2783,8 +2784,9 @@ msgid ""
 "_n: Check invisible\n"
 "%n times check invisible"
 msgstr ""
-"Проверка невидимости %n раза проверка "
-"невидимости %n раз проверка невидимости"
+"%n проверка невидимости\n"
+"%n раза проверка невидимости\n"
+"%n раз проверка невидимости"
 
 # client.cpp:909
 #: plugins/icq/icqmessage.cpp:961
@@ -2793,7 +2795,7 @@ msgid ""
 "_n: Contact request\n"
 "%n contact requests"
 msgstr ""
-"Запрос списка контактов\n"
+"%n запрос списка контактов\n"
 "%n запроса списка контактов\n"
 "%n запросов списка контактов"
 
@@ -2804,7 +2806,7 @@ msgid ""
 "_n: URL\n"
 "%n URLs"
 msgstr ""
-"URL\n"
+"%n URL\n"
 "%n URL\n"
 "%n URL"
 
@@ -2815,7 +2817,7 @@ msgid ""
 "_n: Contact list\n"
 "%n contact lists"
 msgstr ""
-"Список контактов\n"
+"%n список контактов\n"
 "%n списка контактов\n"
 "%n списков контактов"
 
@@ -3661,7 +3663,7 @@ msgid ""
 "_n: Found 1 contact\n"
 "Found %n contacts"
 msgstr ""
-"Найден 1 контакт\n"
+"Найден %n контакт\n"
 "Найдено %n контакта\n"
 "Найдено %n контактов"
 
@@ -4431,11 +4433,11 @@ msgstr "Зарегестрированные агенты:"
 # passwddlg.cpp:48
 #: plugins/jabber/servicesbase.cpp:169
 msgid "Log &On"
-msgstr "Войти"
+msgstr "Войти в &сеть"
 
 #: plugins/jabber/servicesbase.cpp:170
 msgid "Log O&ff"
-msgstr "Выйти"
+msgstr "В&ыйти из сети"
 
 # ui/logindlgbase.cpp:87
 #: plugins/jabber/servicesbase.cpp:171
@@ -4489,12 +4491,12 @@ msgstr "&Jabber"
 # control.cpp:191
 #: plugins/jabber/jabberconfigbase.cpp:189
 msgid "Use &SSL"
-msgstr "Использовать SSL"
+msgstr "Использовать &SSL"
 
 #: plugins/jabber/jabberconfigbase.cpp:191
 msgid "Use &plain text login"
 msgstr ""
-"Использовать авторизацию открытым "
+"Использовать авторизацию &открытым "
 "текстом"
 
 #: plugins/jabber/jabberconfigbase.cpp:192
@@ -6944,7 +6946,8 @@ msgid ""
 "%2"
 msgstr ""
 "Не могк переименовать\n"
-"%1n в\n"
+"%1\n "
+"в\n"
 "%2"
 
 #: sim/ui/qt3/i18n.cpp:216
