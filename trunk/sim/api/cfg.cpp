@@ -981,7 +981,7 @@ EXPORT void saveGeometry(QWidget *w, Data geo[5])
     if (info.onAllDesktops())
         geo[4].value = (unsigned)(-1);
 #else
-KWin::Info info = KWin::info(w->winId());
+    KWin::Info info = KWin::info(w->winId());
     geo[4].value = info.desktop;
     if (info.onAllDesktops)
         geo[4].value = (unsigned)(-1);
@@ -1020,7 +1020,7 @@ EXPORT void restoreGeometry(QWidget *w, Data geo[5], bool bPos, bool bSize)
 #endif
 }
 
-EXPORT void saveToolbar(QToolBar *bar, Data state[7])
+EXPORT void saveToolbar(QToolBar *bar, Data state[8])
 {
     memset(state, 0, sizeof(state));
     if (bar == NULL)
@@ -1051,7 +1051,7 @@ EXPORT void saveToolbar(QToolBar *bar, Data state[7])
     }
 }
 
-EXPORT void restoreToolbar(QToolBar *bar, Data state[7])
+EXPORT void restoreToolbar(QToolBar *bar, Data state[8])
 {
     if (bar == NULL)
         return;

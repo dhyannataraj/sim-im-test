@@ -64,7 +64,7 @@ string ICQMessage::save()
     return s;
 }
 
-QString ICQMessage::getText()
+QString ICQMessage::getText() const
 {
     const char *serverText = getServerText();
     if ((serverText == NULL) || (*serverText == 0))
@@ -123,7 +123,7 @@ QString ICQFileMessage::getDescription()
     return ICQClient::toUnicode(serverText, client(), contact());
 }
 
-QString ICQFileMessage::getText()
+QString ICQFileMessage::getText() const
 {
     const char *serverText = getServerText();
     if ((serverText == NULL) || (*serverText == 0))
@@ -173,7 +173,7 @@ string IcqUrlMessage::save()
     return s;
 }
 
-QString IcqUrlMessage::getText()
+QString IcqUrlMessage::getText() const
 {
     const char *serverText = getServerText();
     if ((serverText == NULL) || (*serverText == 0))
@@ -181,7 +181,7 @@ QString IcqUrlMessage::getText()
     return ICQClient::toUnicode(serverText, client(), contact());
 }
 
-QString IcqUrlMessage::getUrl()
+QString IcqUrlMessage::getUrl() const
 {
     const char *serverText = data.ServerUrl.ptr;
     if (serverText && *serverText)
@@ -206,7 +206,7 @@ IcqContactsMessage::~IcqContactsMessage()
     free_data(icqContactsMessageData, &data);
 }
 
-QString IcqContactsMessage::getContacts()
+QString IcqContactsMessage::getContacts() const
 {
     const char *serverText = getServerText();
     if ((serverText == NULL) || (*serverText == 0))
@@ -245,7 +245,7 @@ ICQAuthMessage::~ICQAuthMessage()
     free_data(icqAuthMessageData, &data);
 }
 
-QString ICQAuthMessage::getText()
+QString ICQAuthMessage::getText() const
 {
     const char *serverText = getServerText();
     if ((serverText == NULL) || (*serverText == 0))

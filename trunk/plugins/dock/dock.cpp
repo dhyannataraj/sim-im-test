@@ -185,6 +185,8 @@ void DockPlugin::init()
     connect(dock, SIGNAL(toggleWin()), this, SLOT(toggleWin()));
     connect(dock, SIGNAL(doubleClicked()), this, SLOT(doubleClicked()));
     bQuit = false;
+    Event e(EventSocketActive);
+    e.process();
 }
 
 bool DockPlugin::eventFilter(QObject *o, QEvent *e)

@@ -972,8 +972,8 @@ const int DESKTOP	= 4;
 
 EXPORT void saveGeometry(QWidget*, Data[5]);
 EXPORT void restoreGeometry(QWidget*, Data[5], bool bPos, bool bSize);
-EXPORT void saveToolbar(QToolBar*, Data[7]);
-EXPORT void restoreToolbar(QToolBar*, Data[7]);
+EXPORT void saveToolbar(QToolBar*, Data[8]);
+EXPORT void restoreToolbar(QToolBar*, Data[8]);
 EXPORT bool cmp(char *s1, char *s2);
 
 // _____________________________________________________________________________________
@@ -1062,10 +1062,10 @@ class EXPORT Message
 public:
     Message(unsigned type = MessageGeneric, const char *cfg = NULL);
     virtual ~Message();
-    unsigned type() { return m_type; }
-    unsigned id() { return m_id; }
+    unsigned type() const { return m_type; }
+    unsigned id() const { return m_id; }
     void setId(unsigned id) { m_id = id; }
-    unsigned contact() { return m_contact; }
+    unsigned contact() const { return m_contact; }
     void setContact(unsigned contact) { m_contact = contact; }
     virtual string save();
     virtual unsigned baseType() { return m_type; }
@@ -1080,7 +1080,7 @@ public:
     PROP_STR(Error);
     PROP_STR(Font);
     PROP_ULONG(RetryCode);
-    const char *client() { return m_client.c_str(); }
+    const char *client() const { return m_client.c_str(); }
     void setClient(const char *client);
     virtual QString presentation();
 protected:
@@ -1466,6 +1466,7 @@ const unsigned PROTOCOL_NOSMS			= 0x01000000;
 const unsigned PROTOCOL_NOPROXY			= 0x02000000;
 const unsigned PROTOCOL_TEMP_DATA		= 0x04000000;
 const unsigned PROTOCOL_NODATA			= 0x08000000;
+const unsigned PROTOCOL_NO_AUTH			= 0x10000000;
 
 class ContactList;
 class Client;

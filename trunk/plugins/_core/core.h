@@ -53,7 +53,7 @@ typedef struct CoreData
     Data	StatusTime;
     Data	Invisible;
     Data	geometry[5];
-    Data	toolBarState[7];
+    Data	toolBarState[8];
     Data	Buttons;
     Data	Menues;
     Data	ShowOnLine;
@@ -71,13 +71,13 @@ typedef struct CoreData
     Data	ContainerMode;
     Data	SendOnEnter;
     Data	containerGeo[5];
-    Data	containerBar[7];
+    Data	containerBar[8];
     Data	ContainerStatusSize;
     Data	Containers;
     Data	Container;
     Data	CopyMessages;
     Data	EditHeight;
-    Data	editBar[7];
+    Data	editBar[8];
     Data	EditBackground;
     Data	EditForeground;
     Data	EditFont;
@@ -88,7 +88,7 @@ typedef struct CoreData
     Data	HistoryPage;
     Data	HistoryDirection;
     Data	historySize[2];
-    Data	historyBar[7];
+    Data	historyBar[8];
     Data	HistorySearch;
     Data	Unread;
     Data	NoShowAutoReply;

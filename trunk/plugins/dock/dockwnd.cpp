@@ -922,7 +922,10 @@ void DockWnd::setIcon(const char *icon)
     drawIcon = Pict(icon);
 #ifndef WIN32
 #ifndef QT_MACOSX_VERSION
-    if (!inTray) return;
+    if (!inTray){
+	repaint();
+	return;
+    }
 #endif
 #endif
 #ifdef WIN32

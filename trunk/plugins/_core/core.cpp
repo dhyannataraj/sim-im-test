@@ -230,7 +230,7 @@ static DataDef coreData[] =
         { "", DATA_ULONG, 1, 0 },		// StatusTime
         { "Invisible", DATA_BOOL, 1, 0 },
         { "Geometry", DATA_LONG, 5, DATA(-1) },
-        { "ToolBar", DATA_LONG, 7, 0 },
+        { "ToolBar", DATA_LONG, 8, 0 },
         { "Buttons", DATA_STRLIST, 1, 0 },
         { "Menues", DATA_STRLIST, 1, 0 },
         { "ShowOnLine", DATA_BOOL, 1, 0 },
@@ -248,13 +248,13 @@ static DataDef coreData[] =
         { "ContainerMode", DATA_ULONG, 1, DATA(2) },
         { "SendOnEnter", DATA_BOOL, 1, 0 },
         { "ContainerGeometry", DATA_ULONG, 5, DATA(-1) },
-        { "ContainerBar", DATA_ULONG, 7, 0 },
+        { "ContainerBar", DATA_ULONG, 8, 0 },
         { "ContainerStatusSize", DATA_ULONG, 1, 0 },
         { "Containers", DATA_STRING, 1, 0 },
         { "Container", DATA_STRLIST, 1, 0 },
         { "CopyMessages", DATA_ULONG, 1, DATA(3) },
         { "EditHeight", DATA_ULONG, 1, DATA(100) },
-        { "EditBar", DATA_ULONG, 7, 0 },
+        { "EditBar", DATA_ULONG, 8, 0 },
         { "EditForeground", DATA_ULONG, 1, DATA(0xffffff) },
         { "EditBackground", DATA_ULONG, 1, DATA(0x000000) },
         { "EditFont", DATA_STRING, 1, 0 },
@@ -265,7 +265,7 @@ static DataDef coreData[] =
         { "HistoryPage", DATA_ULONG, 1, DATA(100) },
         { "HistoryDirection", DATA_BOOL, 1, 0 },
         { "HistorySize", DATA_ULONG, 2, 0 },
-        { "HistoryBar", DATA_ULONG, 7, 0 },
+        { "HistoryBar", DATA_ULONG, 8, 0 },
         { "HistorySearch", DATA_UTF, 1, 0 },
         { "Unread", DATA_STRING, 1, 0 },
         { "NoShowAutoReply", DATA_STRLIST, 1, 0 },
@@ -1330,7 +1330,7 @@ QString CorePlugin::poFile(const char *lang)
     QFile f(QFile::decodeName(s.c_str()));
     if (!f.exists()) return "";
 #else
-string s = PREFIX "/share/locale/";
+    string s = PREFIX "/share/locale/";
     string l;
     if (lang)
         l = lang;

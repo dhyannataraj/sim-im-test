@@ -219,7 +219,7 @@ static CommandDef sms_descr =
         0,
         0,
         0,
-        PROTOCOL_NOPROXY | PROTOCOL_TEMP_DATA | PROTOCOL_NODATA,
+        PROTOCOL_NOPROXY | PROTOCOL_TEMP_DATA | PROTOCOL_NODATA | PROTOCOL_NO_AUTH,
         NULL,
         NULL
     };

@@ -142,8 +142,17 @@ void LoginDialog::accept()
     getContacts()->load();
 
     m_bLogin = false;
+    unsigned j = 0;
     for (unsigned i = 0; i < passwords.size(); i++){
-        Client *client = getContacts()->getClient(i);
+        Client *client = NULL;
+        while (j < getContacts()->nClients()){
+            client = getContacts()->getClient(j++);
+            if ((client->protocol()->description()->flags & PROTOCOL_NO_AUTH) == 0)
+                break;
+            client = NULL;
+        }
+        if (client == NULL)
+            break;
         client->setSavePassword(chkSave->isChecked());
         QString pswd = client->getPassword();
         QString new_pswd = passwords[i]->text();
@@ -199,17 +208,26 @@ void LoginDialog::profileChanged(int)
         CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->m_profiles[n].c_str());
         ClientList clients;
         CorePlugin::m_plugin->loadClients(clients);
-        if (clients.size() > 1){
+        unsigned nClients = 0;
+        for (unsigned i = 0; i < clients.size(); i++){
+            if (clients[i]->protocol()->description()->flags & PROTOCOL_NO_AUTH)
+                continue;
+            nClients++;
+        }
+        if (nClients > 1){
             lblPasswd->show();
         }else{
             lblPasswd->hide();
         }
         unsigned row = 2;
-        if (clients.size() == 1){
+        if (nClients == 1){
             makeInputs(row, clients[0], true);
         }else{
-            for (unsigned i = 0; i < clients.size(); i++)
+            for (i = 0; i < clients.size(); i++){
+                if (clients[i]->protocol()->description()->flags & PROTOCOL_NO_AUTH)
+                    continue;
                 makeInputs(row, clients[i], false);
+            }
         }
         if (passwords.size())
             passwords[0]->setFocus();
@@ -230,7 +248,7 @@ static void rmDir(const QString &path)
 #ifdef WIN32
         p += "\\";
 #else
-p += "/";
+        p += "/";
 #endif
         p += *it;
         rmDir(p);

@@ -12,7 +12,7 @@ OutputBaseFilename=sim-0.9.3
 [Code]
 const url1 = 'http://cesnet.dl.sourceforge.net/sourceforge/sim-icq/qt.exe';
 const url2 = 'http://cesnet.dl.sourceforge.net/sourceforge/sim-icq/ssl.exe';
-const url3 = 'http://cesnet.dl.sourceforge.net/sourceforge/sim-icq/expat.exe';
+const url3 = 'http://cesnet.dl.sourceforge.net/sourceforge/sim-icq/libxml.exe';
 const url4 = 'http://cesnet.dl.sourceforge.net/sourceforge/sim-icq/msvcrt.exe';
 const url5 = 'http://cesnet.dl.sourceforge.net/sourceforge/sim-icq/opengl.exe';
 
@@ -23,7 +23,7 @@ var
   nCode: Integer;
   bDownloadQt: Boolean;
   bDownloadSSL: Boolean;
-  bDownloadExpat: Boolean;
+  bDownloadXML: Boolean;
   bDownloadMsvcrt: Boolean;
   bDownloadOpengl: Boolean;
   sParam: String;
@@ -31,7 +31,7 @@ begin
   Result := true;
   bDownloadQt := false;
   bDownloadSSL := false;
-  bDownloadExpat := false;
+  bDownloadXML := false;
   bDownloadMsvcrt := false;
   bDownloadOpengl := false;
 
@@ -62,13 +62,13 @@ begin
     if not FileExists(sFileName) then begin
       bDownloadOpengl := true;
     end;
-    sFileName := ExpandConstant('{app}\libexpat.dll');
+    sFileName := ExpandConstant('{app}\libxml2.dll');
     if not FileExists(sFileName) then begin
-      bDownloadExpat := true;
+      bDownloadXML := true;
     end;
-    sFileName := ExpandConstant('{app}\sablot.dll');
+    sFileName := ExpandConstant('{app}\libxslt.dll');
     if not FileExists(sFileName) then begin
-      bDownloadExpat := true;
+      bDownloadXML := true;
     end;
 
     sFileName := ExpandConstant('{app}\qt-mt230nc.dll');
@@ -79,8 +79,8 @@ begin
     if bDownloadSSL then begin
       isxdl_AddFileSize(url2, ExpandConstant('{tmp}\ssl.exe'), 740165);
     end;
-    if bDownloadExpat then begin
-      isxdl_AddFileSize(url3, ExpandConstant('{tmp}\expat.exe'), 567991);
+    if bDownloadXML then begin
+      isxdl_AddFileSize(url3, ExpandConstant('{tmp}\libxml.exe'), 645304);
     end;
     if bDownloadMsvcrt then begin
       isxdl_AddFileSize(url4, ExpandConstant('{tmp}\msvcrt.exe'), 627790);
@@ -89,7 +89,7 @@ begin
       isxdl_AddFileSize(url5, ExpandConstant('{tmp}\opengl.exe'), 724992);
     end;
 
-    if bDownloadQt or bDownloadSSL or bDownloadExpat or bDownloadMsvcrt or bDownloadOpengl then begin
+    if bDownloadQt or bDownloadSSL or bDownloadXML or bDownloadMsvcrt or bDownloadOpengl then begin
       if isxdl_DownloadFiles(hWnd) <> 0 then begin
         sParam := ExpandConstant('/VERYSILENT /DIR="{app}"');
         if (bDownloadQt) then begin
@@ -120,8 +120,8 @@ begin
             else
               Result := false;
         end
-        if (Result and bDownloadExpat) then begin
-            sFileName := ExpandConstant('{tmp}\expat.exe');
+        if (Result and bDownloadXML) then begin
+            sFileName := ExpandConstant('{tmp}\libxml.exe');
             if FileExists(sFileName) then
                InstExec(sFileName, sParam, '', true, false, 0, nCode)
             else

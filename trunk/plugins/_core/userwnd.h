@@ -31,7 +31,7 @@ class UserList;
 typedef struct UserWndData
 {
     Data	EditHeight;
-    Data	editBar[7];
+    Data	editBar[8];
     Data	MessageType;
 } UserWndData;
 
