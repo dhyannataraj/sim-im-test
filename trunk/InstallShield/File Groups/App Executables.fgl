@@ -7,4 +7,5 @@ file0=C:\sim\Release\sim.exe
 file1=C:\sim\Debug\IdleTrac.dll
 file2=C:\WINDOWS\libeay32.dll
 file3=C:\WINDOWS\ssleay32.dll
+file4=C:\sim\xpstyle\Release\xpstyle.dll
 
