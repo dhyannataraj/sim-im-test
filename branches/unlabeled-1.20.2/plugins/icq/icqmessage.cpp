@@ -355,19 +355,41 @@ static Message *parseContactMessage(const char *str)
     }
     string serverText;
     for (unsigned i = 0; i < nContacts; i++){
-        unsigned uin = atol(c[i*2].c_str());
-        if (uin == 0){
-            log(L_WARN, "Bad contact UIN");
-            return NULL;
-        }
-        if (!serverText.empty())
-            serverText += ';';
-		serverText += "icq:";
-        serverText += number(uin);
-        serverText += ",(";
-        serverText += number(uin);
-		serverText += ") ";
-        serverText += c[i*2+1];
+        string screen = c[i*2];
+		string alias  = c[i*2+1];
+		if (!serverText.empty())
+			serverText += ";";
+		if (atol(screen.c_str())){
+			serverText += "icq:";
+			serverText += screen;
+			serverText += "/";
+			serverText += alias;
+			serverText += ",";
+			if (screen == alias){
+				serverText += "ICQ ";
+				serverText += screen;
+			}else{
+				serverText += alias;
+				serverText += " (ICQ ";
+				serverText += screen;
+				serverText += ")";
+			}
+		}else{
+			serverText += "aim:";
+			serverText += screen;
+			serverText += "/";
+			serverText += alias;
+			serverText += ",";
+			if (screen == alias){
+				serverText += "AIM ";
+				serverText += screen;
+			}else{
+				serverText += alias;
+				serverText += " (AIM ";
+				serverText += screen;
+				serverText += ")";
+			}
+		}
     }
     IcqContactsMessage *m = new IcqContactsMessage;
     m->setServerText(serverText.c_str());
@@ -1043,6 +1065,48 @@ void ICQClient::packExtendedMessage(Message *msg, Buffer &buf, Buffer &msgBuf, I
     }
 }
 
+bool my_string::operator < (const my_string &a) const
+{
+    return strcmp(c_str(), a.c_str()) < 0;
+}
+
+CONTACTS_MAP ICQClient::packContacts(ContactsMessage *msg, ICQUserData *data)
+{
+		CONTACTS_MAP c;
+        QString contacts = msg->getContacts();
+        while (!contacts.isEmpty()){
+            QString contact = getToken(contacts, ';');
+            QString url = getToken(contact, ',');
+			QString proto = getToken(url, ':');
+			if (proto == "sim"){
+				Contact *contact = getContacts()->contact(atol(url.latin1()));
+				if (contact){
+					ClientDataIterator it(contact->clientData);
+					clientData *cdata;
+					while ((cdata = ++it) != NULL){
+						Contact *cc;
+						if (!isMyData(cdata, cc))
+							continue;
+						ICQUserData *d = (ICQUserData*)cdata;
+						string screen = this->screen(d);
+						CONTACTS_MAP::iterator it = c.find(screen.c_str());
+						if (it == c.end())
+							c.insert(CONTACTS_MAP::value_type(screen.c_str(), fromUnicode(contact->getName(), data)));
+					}
+				}
+			}
+			if ((proto == "icq") || (proto == "aim")){
+				QString screen = getToken(url, '/');
+				if (url.isEmpty())
+					url = screen;
+				CONTACTS_MAP::iterator it = c.find(screen.latin1());
+				if (it == c.end())
+					c.insert(CONTACTS_MAP::value_type(screen.latin1(), fromUnicode(url, data)));
+			}
+		}
+		return c;
+}
+
 void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned short &type, unsigned short flags)
 {
     Buffer msgBuf;
@@ -1056,21 +1120,17 @@ void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned
         type = ICQ_MSGxURL;
         break;
     case MessageContacts:{
-            unsigned nContacts = 0;
-            QString contacts = static_cast<ContactsMessage*>(msg)->getContacts();
-            while (!contacts.isEmpty()){
-                QString contact = getToken(contacts, ';');
-                nContacts++;
-            }
-            res = number(nContacts);
-            contacts = static_cast<ContactsMessage*>(msg)->getContacts();
-            while (!contacts.isEmpty()){
-                QString contact = getToken(contacts, ';');
-                QString uin = getToken(contact, ',');
+		CONTACTS_MAP c = packContacts(static_cast<ContactsMessage*>(msg), data);
+			if (c.empty()){
+				msg->setError(I18N_NOOP("No contacts for send"));
+				return;
+			}
+            res = number(c.size());
+            for (CONTACTS_MAP::iterator it = c.begin(); it != c.end(); ++it){
                 res += '\xFE';
-                res += uin.latin1();
+                res += (*it).first.c_str();
                 res += '\xFE';
-                res += fromUnicode(contact, data);
+                res += (*it).second.c_str();
             }
             res += '\xFE';
             type = ICQ_MSGxCONTACTxLIST;

@@ -815,6 +815,39 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &msg, bool needA
         return;
     }
 
+    if (!memcmp(cap, capabilities[CAP_AIM_BUDDYLIST], sizeof(cap))){
+        log(L_DEBUG, "AIM buddies list");
+	    if (!tlv(0x2711)){
+		    log(L_WARN, "No found body in ICMB message");
+			return;
+		}	
+	    Buffer adv(*tlv(0x2711));
+		unsigned short len;
+		unsigned short nBuddies;
+		adv.unpack(len);
+		adv.incReadPos(len);
+		adv.unpack(nBuddies);
+		QString contacts;
+		for (unsigned short i = 0; i < nBuddies; i++){
+			string s = adv.unpackScreen();
+			if (atol(s.c_str())){
+				contacts += "icq:";
+				contacts += s.c_str();
+				contacts += ",ICQ ";
+				contacts += s.c_str();
+			}else{
+				contacts += "aim:";
+				contacts += s.c_str();
+				contacts += ",AIM ";
+				contacts += s.c_str();
+			}
+		}
+		ContactsMessage *msg = new ContactsMessage;
+		msg->setContacts(contacts);
+		messageReceived(msg, screen);
+        return;
+    }
+
     if (memcmp(cap, capabilities[CAP_SRV_RELAY], sizeof(cap))){
         string s;
         for (unsigned i = 0; i < sizeof(cap); i++){
@@ -1152,9 +1185,38 @@ void ICQClient::processSendQueue()
             m_send.id.id_l = rand();
             m_send.id.id_h = rand();
             switch (m_send.msg->type()){
-            case MessageUrl:
             case MessageContacts:
+				if (data->Uin == 0){
+					CONTACTS_MAP c = packContacts(static_cast<ContactsMessage*>(m_send.msg), data);
+					if (c.empty()){
+						m_send.msg->setError(I18N_NOOP("No contacts for send"));
+						Event e(EventMessageSent, m_send.msg);
+						e.process();
+						delete m_send.msg;
+						m_send.msg = NULL;
+						continue;
+					}
+					Buffer msgBuf;
+					string s = "Buddies";
+					msgBuf.pack(s);
+					unsigned short size = c.size();
+					msgBuf.pack(size);
+					for (CONTACTS_MAP::iterator it = c.begin(); it != c.end(); ++it)
+						msgBuf.pack((*it).first);
+					m_send.id.id_l = rand();
+					m_send.id.id_h = rand();
+				    sendType2(m_send.screen.c_str(), msgBuf, m_send.id, CAP_AIM_BUDDYLIST, true, false, false);
+					return;
+				}
+            case MessageUrl:
                 packMessage(b, m_send.msg, data, type);
+				if (m_send.msg->getError()){
+					Event e(EventMessageSent, m_send.msg);
+					e.process();
+					delete m_send.msg;
+					m_send.msg = NULL;
+					continue;
+				}
                 sendThroughServer(screen(data).c_str(), 4, b, m_send.id, true);
                 if (data->Status != ICQ_STATUS_OFFLINE)
                     ackMessage(m_send);

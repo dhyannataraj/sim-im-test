@@ -2851,7 +2851,7 @@ void *ICQClient::processEvent(Event *e)
         if (n < 0)
             return NULL;
         proto = url.substr(0, n);
-        if (proto != "icq")
+        if ((proto != "icq") && (proto != "aim"))
             return NULL;
         url = url.substr(proto.length() + 1);
         while (url[0] == '/')
@@ -3026,6 +3026,9 @@ bool ICQClient::send(Message *msg, void *_data)
 #endif
     case MessageWarning:
         return sendThruServer(msg, data);
+	case MessageContacts:
+		if ((data == NULL) || ((data->Uin == 0) && !hasCap(data, CAP_AIM_BUDDYLIST)))
+			return false;
     }
     if (data == NULL)
         return false;
@@ -3067,8 +3070,9 @@ bool ICQClient::canSend(unsigned type, void *_data)
         return true;
     case MessageGeneric:
     case MessageUrl:
-    case MessageContacts:
         return (data != NULL);
+    case MessageContacts:
+		return (data != NULL) && (data->Uin || hasCap(data, CAP_AIM_BUDDYLIST));
     case MessageAuthRequest:
         return data && (data->WaitAuth);
     case MessageAuthGranted:

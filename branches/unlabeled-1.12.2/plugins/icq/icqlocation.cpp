@@ -255,6 +255,8 @@ const capability arrCapabilities[] =
         { 0x09, 0x46, 0x13, 0x45, cap_mid, cap_id },
         // CAP_AIM_SENDFILE
         { 0x09, 0x46, 0x13, 0x43, cap_mid, cap_id },
+        // CAP_AIM_BUDDY_LIST
+        { 0x09, 0x46, 0x13, 0x4b, cap_mid, cap_id },
         // CAP_MICQ
         { 'm', 'I', 'C', 'Q', ' ', (unsigned char)'©', 'R', '.',
           'K', ' ', '.', ' ', 0, 0, 0, 0 },
@@ -370,6 +372,7 @@ void ICQClient::sendCapability(const char *away_msg)
         cap.pack((char*)capabilities[CAP_AIM_BUDDYCON], sizeof(capability));
         cap.pack((char*)capabilities[CAP_AIM_IMIMAGE], sizeof(capability));
         cap.pack((char*)capabilities[CAP_AIM_SENDFILE], sizeof(capability));
+        cap.pack((char*)capabilities[CAP_AIM_BUDDYLIST], sizeof(capability));
     }else{
         cap.pack((char*)capabilities[CAP_DIRECT], sizeof(capability));
         cap.pack((char*)capabilities[CAP_SRV_RELAY], sizeof(capability));

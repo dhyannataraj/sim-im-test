@@ -196,6 +196,7 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd)
     connect(m_edit, SIGNAL(textChanged()), this, SLOT(editTextChanged()));
     connect(m_edit, SIGNAL(ctrlEnterPressed()), this, SLOT(editEnterPressed()));
     connect(m_edit, SIGNAL(colorsChanged()), this, SLOT(colorsChanged()));
+	connect(m_edit, SIGNAL(finished()), this, SLOT(editFinished()));
 
     QFontMetrics fm(m_edit->font());
     m_edit->setMinimumSize(QSize(fm.maxWidth(), fm.height() + 10));
@@ -221,6 +222,12 @@ MsgEdit::~MsgEdit()
     editLostFocus();
     if (m_retry.msg)
         delete m_retry.msg;
+	emit finished();
+}
+
+void MsgEdit::editFinished()
+{
+	m_edit = NULL;
 }
 
 void MsgEdit::execCommand(CommandDef *cmd)

@@ -1406,6 +1406,7 @@ bool JabberClient::canSend(unsigned type, void *_data)
     switch (type){
     case MessageGeneric:
 	case MessageFile:
+
 	case MessageUrl:
         return true;
     case MessageAuthRequest:
@@ -1804,12 +1805,13 @@ bool JabberClient::send(Message *msg, void *_data)
             m_socket->writeBuffer
             << "\'><body>"
 			<< (const char*)(quoteString(m->getUrl(), false).utf8());
-			QString text = m->getPlainText();
+			QString t = m->getPlainText();
 			if (!t.isEmpty()){
 	            m_socket->writeBuffer
-				<< "\n";
-				<< (const char*)(quoteString(m->getPlainText(), false).utf8())
+				<< "\n"
+				<< (const char*)(quoteString(m->getPlainText(), false).utf8());
 			}
+            m_socket->writeBuffer
             << "</body>";
             if (data->richText && getRichText()){
                 m_socket->writeBuffer
@@ -1821,7 +1823,7 @@ bool JabberClient::send(Message *msg, void *_data)
 				<< "</a>";
 				if (!t.isEmpty()){
 	                m_socket->writeBuffer
-					<< <br/>
+					<< "<br/>"
 					<< removeImages(msg->getRichText(), msg->getBackground()).utf8();
 				}
                 m_socket->writeBuffer

@@ -67,6 +67,7 @@ public:
     static QString unquoteString(const QString &s, int from, int to);
 signals:
     void showPopup(QPoint);
+	void finished();
 protected:
     void startDrag();
     void keyPressEvent(QKeyEvent *e);

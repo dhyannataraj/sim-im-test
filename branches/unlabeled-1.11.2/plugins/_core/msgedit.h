@@ -60,6 +60,7 @@ public:
 signals:
     void heightChanged(int);
     void init();
+	void finished();
 public slots:
     void insertSmile(int id);
     void modeChanged();
@@ -71,6 +72,7 @@ public slots:
     void setupNext();
     void colorsChanged();
     void execCommand();
+	void editFinished();
 protected:
     QObject  *m_processor;
     QObject	 *m_recvProcessor;

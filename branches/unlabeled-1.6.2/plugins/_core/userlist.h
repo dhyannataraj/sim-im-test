@@ -138,6 +138,7 @@ public:
     list<unsigned> selected;
 signals:
     void selectChanged();
+	void finished();
 protected:
     virtual void contentsMouseReleaseEvent(QMouseEvent *e);
     virtual void drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin);
