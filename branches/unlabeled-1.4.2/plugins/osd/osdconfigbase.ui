@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>301</width>
+            <width>293</width>
             <height>158</height>
         </rect>
     </property>
@@ -59,6 +59,17 @@
             <property>
                 <name>text</name>
                 <string>Enable &amp;typing notification</string>
+            </property>
+        </widget>
+        <widget>
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkMessageContent</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Show message content</string>
             </property>
         </widget>
         <spacer>

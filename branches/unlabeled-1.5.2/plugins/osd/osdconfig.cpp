@@ -33,6 +33,7 @@ OSDConfig::OSDConfig(QWidget *parent, void *d, OSDPlugin *plugin)
     m_plugin = plugin;
     OSDUserData *data = (OSDUserData*)d;
     chkMessage->setChecked(data->EnableMessage.bValue);
+    chkMessageContent->setChecked(data->EnableMessageShowContent.bValue);
     chkStatus->setChecked(data->EnableAlert.bValue);
     chkTyping->setChecked(data->EnableTyping.bValue);
     for (QObject *p = parent; p != NULL; p = p->parent()){
@@ -44,6 +45,8 @@ OSDConfig::OSDConfig(QWidget *parent, void *d, OSDPlugin *plugin)
         tab->addTab(m_iface, i18n("&Interface"));
         break;
     }
+    connect(chkMessage, SIGNAL(clicked()), this, SLOT(showMessageToggled()));
+    showMessageToggled();
 }
 
 void OSDConfig::apply()
@@ -55,9 +58,15 @@ void OSDConfig::apply(void *d)
 {
     OSDUserData *data = (OSDUserData*)d;
     data->EnableMessage.bValue = chkMessage->isChecked();
+    data->EnableMessageShowContent.bValue = chkMessageContent->isChecked();
     data->EnableAlert.bValue = chkStatus->isChecked();
     data->EnableTyping.bValue = chkTyping->isChecked();
     m_iface->apply(d);
+}
+
+void OSDConfig::showMessageToggled()
+{
+    chkMessageContent->setEnabled(chkMessage->isChecked());
 }
 
 #ifndef WIN32
