@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2004-06-06 14:00+0200\n"
-"PO-Revision-Date: 2004-06-12 13:21+0100\n"
+"PO-Revision-Date: 2004-06-13 12:00+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -6624,7 +6624,7 @@ msgstr "&Zuletzt verwendete Schriftart benutzen"
 
 #: plugins/_core/interfacecfgbase.cpp:128
 msgid "Container mode"
-msgstr "Containermodus"
+msgstr "Fenstermodus"
 
 #: plugins/_core/interfacecfgbase.cpp:129
 msgid "Open each contact in &new container"
@@ -6862,7 +6862,7 @@ msgstr "&Hauptfenster in Taskleiste anzeigen "
 
 #: plugins/ontop/ontopcfgbase.cpp:59
 msgid "&Container always on top"
-msgstr "&Container immer im Vordergrund"
+msgstr "&Nachrichtenfenster immer im Vordergrund"
 
 #: plugins/proxy/proxyerrorbase.cpp:78
 msgid "Proxy error"
