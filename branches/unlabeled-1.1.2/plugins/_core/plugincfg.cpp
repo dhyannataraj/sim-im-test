@@ -35,12 +35,14 @@ PluginCfg::PluginCfg(QWidget *parent, pluginInfo *info)
             QVBoxLayout *lay = new QVBoxLayout(addWnd);
             lay->addWidget(w);
             QObject::connect(parent->topLevelWidget(), SIGNAL(applyChanges()), w, SLOT(apply()));
+            w->resize(w->minimumSize());
             addWnd->setMinimumSize(w->sizeHint());
             setMinimumSize(sizeHint());
         }
     }
     tabWnd->setCurrentPage(0);
     tabWnd->changeTab(tabWnd->currentPage(), i18n(m_info->info->title));
+    tabWnd->adjustSize();
     if (m_info->info->description){
         lblDescription->setText(i18n(m_info->info->description));
     }else{

@@ -186,7 +186,12 @@ void ShortcutsConfig::selectionChanged()
 
 void ShortcutsConfig::keyClear()
 {
+    QListViewItem *item = lstKeys->currentItem();
+    if (item == NULL)
+        return;
+    item->setText(1, "");
     edtKey->setText("");
+    edtKey->clearFocus();
 }
 
 void ShortcutsConfig::keyChanged()
@@ -202,6 +207,7 @@ void ShortcutsConfig::keyChanged()
         chkGlobal->setEnabled(true);
     }
     item->setText(1, key);
+    edtKey->clearFocus();
 }
 
 void ShortcutsConfig::globalChanged(bool)
