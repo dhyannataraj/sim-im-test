@@ -527,6 +527,7 @@ QString MsgEdit::userName()
 
 void MsgEdit::fillPhones()
 {
+	log(L_DEBUG, "FillPhones");
     QString phoneNumber = phoneEdit->lineEdit()->text();
     phoneEdit->clear();
     ICQUser *u = pClient->getUser(Uin);
@@ -539,6 +540,9 @@ void MsgEdit::fillPhones()
         if (phoneNumber.isEmpty())
             phoneNumber = pClient->from8Bit(Uin, phone->getNumber());
     }
+	string s;
+	if (!phoneNumber.isEmpty()) s = phoneNumber.local8Bit();
+	log(L_DEBUG, "Fill [%s]", s.c_str());
     phoneEdit->lineEdit()->setText(phoneNumber);
 }
 
@@ -1469,8 +1473,10 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                         edit->append(subst(pMain->SMSSignBottom.c_str()));
                         edit->setCursorPosition(parag, index);
                     }
-                    if (*m->Phone.c_str())
+                    if (*m->Phone.c_str()){
+						log(L_DEBUG, "Set msg [%s]", m->Phone.c_str());
                         phoneEdit->lineEdit()->setText(pClient->from8Bit(Uin, m->Phone, NULL));
+					}
                 }
                 edit->setFocus();
                 break;
