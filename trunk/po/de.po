@@ -8522,7 +8522,7 @@ msgstr ""
 "Feuchtigkeit: <b>%h</b><br>\n"
 "Druck: <b>%p</b> (%q)<br>\n"
 "Wind: <b>%b</b> <b>%w %g</b><br>\n"
-"Sichtbarkeit: <b>%v</b><br>\n"
+"Sichtweite: <b>%v</b><br>\n"
 "Taupunkt: <b>%d</b><br>\n"
 "Sonnenaufgang: %r<br>\n"
 "Sonnenuntergang: %s<br>\n"
@@ -8588,7 +8588,7 @@ msgstr "Druckstatus"
 
 #: plugins/weather/wifacecfg.cpp:47
 msgid "Visibility"
-msgstr "Sichtbarkeit"
+msgstr "Sichtweite"
 
 #: plugins/weather/wifacecfg.cpp:49
 msgid "Dew Point"
