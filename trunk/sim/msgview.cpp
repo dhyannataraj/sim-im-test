@@ -445,15 +445,15 @@ void MsgView::deleteUser(unsigned long uin)
                 if (text(i).find("<a href=\"msg://") >= 0) break;
             continue;
         }
-		removeParagraph(i);
+        removeParagraph(i);
         for (; i < paragraphs(); ){
-			int n = paragraphs();
             if (text(i).find("<a href=\"msg://") >= 0) break;
+            int n = paragraphs();
             removeParagraph(i);
-			if (n == paragraphs()){
-				i++;
-				break;
-			}
+            if (n == paragraphs()){
+                i++;
+                break;
+            }
         }
     }
 }
@@ -534,6 +534,7 @@ void MsgView::addMessage(ICQMessage *msg, bool bUnread, bool bSet)
             setMsgBgColor(msg->getUin(), msg->Id, backColor, 0);
     }else{
         int n = paragraphs();
+        if (n > 0) n--;
         append(s);
         if (foreColor != backColor)
             setMsgBgColor(msg->getUin(), msg->Id, backColor, n);
@@ -553,6 +554,7 @@ int MsgView::setMsgBgColor(unsigned long uin, unsigned long id, unsigned long rg
         if (text(n).find(pat) < 0) continue;
         pat = "<a href=\"msg://";
         for (n++; n < paragraphs(); n++){
+            if (text(n).isEmpty()) break;
             if (text(n).find(pat) >= 0) break;
             setParagraphBackgroundColor(n, QColor(rgb));
         }

@@ -1342,8 +1342,8 @@ void MsgEdit::editTextChanged()
 {
     if (msg){
         if (msg->Received()){
-	    if (edit->length())
-            	action(mnuMessage, true);
+            if (edit->length())
+                action(mnuMessage, true);
         }else if (msg->Type() == ICQ_MSGxSMS){
             if (edit->length() == 0){
                 emit setStatus("");

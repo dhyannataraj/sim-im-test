@@ -187,6 +187,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             }
             list<ICQUser*>::iterator it;
             for (it = contacts.users.begin(); it != contacts.users.end(); it++){
+                if ((*it)->inIgnore()) continue;
                 if (!bFull && (*it)->Nick.size()) continue;
                 addInfoRequest((*it)->Uin);
             }

@@ -370,7 +370,7 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
         unsigned short port = 0;
         if (tlv(3)) real_ip = htonl((unsigned long)(*tlv(3)));
         if (tlv(4)) ip = htonl((unsigned long)(*tlv(4)));
-	log(L_DEBUG, "IP: %X %X", ip, real_ip);
+        log(L_DEBUG, "IP: %X %X", ip, real_ip);
         payload >> msg;
         if (*msg.c_str() || (msgType == ICQ_MSGxEXT)){
             if (payload.readPos() < payload.writePos())
@@ -466,8 +466,9 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
                         if (port && (u->Port() != port)){
                             u->Port = port;
                             bChanged = true;
+                            bChanged = true;
                         }
-			log(L_DEBUG, "set IP");
+                        log(L_DEBUG, "set IP");
                         if (bChanged){
                             ICQEvent e(EVENT_STATUS_CHANGED, u->Uin());
                             process_event(&e);

@@ -54,6 +54,10 @@
 #define CHECK_NOCHANGE	QStyle::Style_NoChange
 #endif
 
+const unsigned STATE_ONLINE = 0;
+const unsigned STATE_OFFLINE = 1;
+const unsigned STATE_NOTINLIST = 2;
+
 UserViewItemBase::UserViewItemBase(UserView *parent)
         : QListViewItem(parent)
 {
@@ -155,6 +159,7 @@ void UserViewItemBase::paint(QPainter *p, const QString s, const QColorGroup &c,
 UserViewItem::UserViewItem(ICQUser *u, UserView *parent)
         : UserViewItemBase(parent)
 {
+    m_itemState = 0;
     update(u, true);
     UserView *users = static_cast<UserView*>(listView());
     if (users->bList) setText(3, QString::number(CHECK_OFF));
@@ -166,6 +171,7 @@ UserViewItem::UserViewItem(ICQUser *u, UserView *parent)
 UserViewItem::UserViewItem(ICQUser *u, UserViewItemBase *parent)
         : UserViewItemBase(parent)
 {
+    m_itemState = 0;
     update(u, true);
     UserView *users = static_cast<UserView*>(listView());
     if (users->bList) setText(3, QString::number(CHECK_OFF));
@@ -252,15 +258,18 @@ void UserViewItem::update(ICQUser *u, bool bFirst)
     if (!bFirst && ((u->uStatus == ICQ_STATUS_OFFLINE) != (m_status == ICQ_STATUS_OFFLINE))){
         if (parent() && (m_status != ICQ_STATUS_OFFLINE))
             static_cast<GroupViewItem*>(parent())->changeCounter(false);
-        users->decStateCount(m_status != ICQ_STATUS_OFFLINE);
+        users->decStateCount(m_itemState);
         bFirst = true;
     }
     if (u->uStatus != ICQ_STATUS_OFFLINE){
         m_bInvisible = ((u->uStatus & ICQ_STATUS_FxPRIVATE) != 0);
         m_bBirthday = ((u->uStatus & ICQ_STATUS_FxBIRTHDAY) != 0);
+        m_itemState = STATE_ONLINE;
     }else{
         m_bInvisible = m_bBirthday = false;
+        m_itemState = STATE_OFFLINE;
     }
+    if (u->GrpId() == 0) m_itemState = STATE_NOTINLIST;
     m_bMobile = false;
     m_bPhone = false;
     m_bPhoneBusy = false;
@@ -280,7 +289,7 @@ void UserViewItem::update(ICQUser *u, bool bFirst)
     if (bFirst){
         if (parent() && (u->uStatus != ICQ_STATUS_OFFLINE))
             static_cast<GroupViewItem*>(parent())->changeCounter(true);
-        users->incStateCount(u->uStatus != ICQ_STATUS_OFFLINE);
+        users->incStateCount(m_itemState);
     }
     unsigned short msgType = 0;
     if (u->unreadMsgs.size()){
@@ -329,7 +338,7 @@ void UserViewItem::update(ICQUser *u, bool bFirst)
         }
     }
     char b[32];
-    snprintf(b, sizeof(b), "%u1%08lX", st, -(u->LastActive()+1));
+    snprintf(b, sizeof(b), "%u%u1%08lX", m_itemState, st, -(u->LastActive()+1));
     QString t = b;
     t += name;
     setText(1, t);
@@ -341,7 +350,7 @@ UserViewItem::~UserViewItem()
         static_cast<GroupViewItem*>(parent())->changeCounter(false);
     UserView *users = static_cast<UserView*>(listView());
     if (users)
-        users->decStateCount(m_status != ICQ_STATUS_OFFLINE);
+        users->decStateCount(m_itemState);
 }
 
 int UserViewItem::type()
@@ -461,8 +470,7 @@ UserView::UserView (QWidget *parent, bool _bList, bool bFill, WFlags f)
     header()->hide();
     addColumn("", -1);
     setSorting(0);
-    m_nOnline = 0;
-    m_nOffline = 0;
+    memset(m_counts, 0, sizeof(m_counts));
     grp_id = 0;
     menuGroup = new KPopupMenu(this);
 #ifdef USE_KDE
@@ -656,8 +664,7 @@ void UserView::paintEmptyArea(QPainter *p, const QRect &r)
 
 void UserView::clear()
 {
-    m_nOnline = 0;
-    m_nOffline = 0;
+    memset(m_counts, 0, sizeof(m_counts));
     QListView::clear();
 }
 
@@ -865,23 +872,35 @@ void UserView::setGroupExpand(unsigned short grpId, bool bState)
     g->Expand = bState;
 }
 
-void UserView::incStateCount(bool bOnline)
+void UserView::incStateCount(unsigned state)
 {
     if (m_bGroupMode) return;
-    unsigned *counter = bOnline ? &m_nOnline : &m_nOffline;
+    unsigned *counter = m_counts + state;
     if ((*counter)++) return;
     if (bFloaty) return;
-    new DivItem(bOnline ? i18n("Online") : i18n("Offline"), bOnline ? "10" : "90", this);
+    QString name;
+    switch (state){
+    case STATE_ONLINE:
+        name = i18n("Online");
+        break;
+    case STATE_OFFLINE:
+        name = i18n("Offline");
+        break;
+    case STATE_NOTINLIST:
+        name = i18n("Not in list");
+        break;
+    }
+    new DivItem(name, QString::number(state) + "0", this);
     sort();
 }
 
-void UserView::decStateCount(bool bOnline)
+void UserView::decStateCount(unsigned state)
 {
     if (m_bGroupMode) return;
-    unsigned *counter = bOnline ? &m_nOnline : &m_nOffline;
+    unsigned *counter = m_counts + state;
     if (--(*counter)) return;
     for (QListViewItemIterator it(this); it.current(); it++){
-        if (it.current()->text(1) == (bOnline ? "10" : "90")){
+        if (it.current()->text(1) == (QString::number(state) + "0")){
             delete it.current();
             break;
         }
@@ -1225,8 +1244,6 @@ UserFloat::UserFloat()
 {
     bFloaty = true;
     transparent = new TransparentTop(this, pMain->UseTransparent, pMain->Transparent);
-    m_nOnline++;
-    m_nOffline++;
     m_bShowOffline = true;
     setVScrollBarMode(AlwaysOff);
     bMoveMode = false;

@@ -505,7 +505,7 @@ static int match_ip(unsigned long ip1, unsigned long ip2)
     unsigned n = 1 << 31;
     int n_ip_match = 0;
     for (n_ip_match = 0; n_ip_match < 32; n_ip_match++, n = (n >> 1))
-    	if ((ip1 & n) != (ip2 & n)) break;
+        if ((ip1 & n) != (ip2 & n)) break;
     return n_ip_match;
 }
 
@@ -525,7 +525,7 @@ bool Socket::getLocalAddr(char *&host, unsigned short &port, unsigned long remot
             if (phe){
                 for (char **p_ip = phe->h_addr_list; *p_ip; p_ip++){
                     unsigned long ip = *((unsigned long*)(*p_ip));
-		    if (ip == 0x7F000001) continue;
+                    if (ip == 0x7F000001) continue;
                     string s_ip = ip2s(ip);
                     int n_ip_match = match_ip(ip, remote_ip);
                     if (n_ip_match >= n_match){

@@ -61,6 +61,7 @@ public:
     void update(ICQUser *u, bool bFirst=false);
     unsigned m_uin;
     unsigned m_status;
+    unsigned m_itemState;
     unsigned nBlink;
     bool m_bItalic, m_bUnderline, m_bStrikeOut;
     bool m_bInvisible, m_bBirthday, m_bMobile, m_bPhone, m_bPhoneBusy, m_bPager;
@@ -150,13 +151,10 @@ protected:
     QPoint mousePressPos;
     KPopupMenu *menuGroup;
 
-    unsigned m_nOnline;
-    unsigned m_nOffline;
-
+    unsigned m_counts[3];
     unsigned short grp_id;
-
-    void incStateCount(bool bOnline);
-    void decStateCount(bool bOnline);
+    void incStateCount(unsigned state);
+    void decStateCount(unsigned state);
 
     void setOpen(bool bOpen);
 

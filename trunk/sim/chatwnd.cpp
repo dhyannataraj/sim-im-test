@@ -163,8 +163,8 @@ void ChatWindow::setBackgroundPixmap(const QPixmap &pm)
 void ChatWindow::sendLine()
 {
     if (!bConnected){
-	qApp->beep();
-	return;
+        qApp->beep();
+        return;
     }
     QColor oldColor = edtChat->color();
     QString s = edtChat->text();
@@ -239,7 +239,7 @@ void ChatWindow::processEvent(ICQEvent *e)
                 logFile->writeBlock(s, s.length());
                 logFile->flush();
             }
-	    bConnected = true;
+            bConnected = true;
             break;
         }
     case CHAT_FONT_FACE:
