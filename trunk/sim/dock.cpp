@@ -316,11 +316,11 @@ DockWnd::DockWnd(QWidget *main)
     XUngrabServer(dsp);
     XFlush(dsp);
     if (manager_window != None){
-	inNetTray = true;
+        inNetTray = true;
         if (!send_message(dsp, manager_window, SYSTEM_TRAY_REQUEST_DOCK, win, 0, 0)){
             log(L_DEBUG, "Fail send message");
-	    inNetTray = false;
-	}
+            inNetTray = false;
+        }
     }
 
     Atom kde_net_system_tray_window_for_atom = XInternAtom(dsp, "_KDE_NET_WM_SYSTEM_TRAY_WINDOW_FOR", false);
@@ -344,7 +344,7 @@ DockWnd::DockWnd(QWidget *main)
     XSetCommand(dsp, win, _argv, _argc);
 
     if (!inNetTray)
-    	move(-21, -21);
+        move(-21, -21);
     show();
 #endif
     reset();
@@ -369,9 +369,9 @@ DockWnd::~DockWnd()
 
 bool DockWnd::x11Event(XEvent *e)
 {
-//    log(L_DEBUG, "Dock %u", e->type);
+    //    log(L_DEBUG, "Dock %u", e->type);
     if (e->type == ClientMessage){
-	log(L_DEBUG, "Got client message %u %s", inTray, XGetAtomName( qt_xdisplay(), e->xclient.message_type));
+        log(L_DEBUG, "Got client message %u %s", inTray, XGetAtomName( qt_xdisplay(), e->xclient.message_type));
         if (!inTray){
             Atom xembed_atom = XInternAtom( qt_xdisplay(), "_XEMBED", FALSE );
             if (e->xclient.message_type == xembed_atom){
@@ -386,29 +386,29 @@ bool DockWnd::x11Event(XEvent *e)
         }
     }
     if ((e->type == ReparentNotify) && !bInit && inNetTray){
-	Display *dsp = qt_xdisplay();
-	if (e->xreparent.parent == XRootWindow(dsp, 
-				XScreenNumberOfScreen(XDefaultScreenOfDisplay(dsp)))){
-		inNetTray = false;
-	}else{
-		log(L_DEBUG, "Set in net tray");
-		inTray = true;
-		if (wharfIcon){
-			delete wharfIcon;
-			wharfIcon = NULL;
-		}
-		bInit = true;
-		move(0, 0);
-		resize(22, 22);
-		XResizeWindow(dsp, winId(), 22, 22);
-		reset();
-		log(L_DEBUG, "Set tn net try OK");
-	}
+        Display *dsp = qt_xdisplay();
+        if (e->xreparent.parent == XRootWindow(dsp,
+                                               XScreenNumberOfScreen(XDefaultScreenOfDisplay(dsp)))){
+            inNetTray = false;
+        }else{
+            log(L_DEBUG, "Set in net tray");
+            inTray = true;
+            if (wharfIcon){
+                delete wharfIcon;
+                wharfIcon = NULL;
+            }
+            bInit = true;
+            move(0, 0);
+            resize(22, 22);
+            XResizeWindow(dsp, winId(), 22, 22);
+            reset();
+            log(L_DEBUG, "Set tn net try OK");
+        }
     }
     if (e->type == ConfigureNotify){
-	    log(L_DEBUG, "Configure %i %i %i %i",
-			    e->xconfigure.x, e->xconfigure.y,
-			    e->xconfigure.width, e->xconfigure.height);
+        log(L_DEBUG, "Configure %i %i %i %i",
+            e->xconfigure.x, e->xconfigure.y,
+            e->xconfigure.width, e->xconfigure.height);
     }
     if (((e->type == FocusIn) || (e->type == Expose)) && !bInit){
         if (wharfIcon){
@@ -417,7 +417,7 @@ bool DockWnd::x11Event(XEvent *e)
         }
 
         if (!inTray){
-	    log(L_DEBUG, "We not in tray");
+            log(L_DEBUG, "We not in tray");
             bInit = true;
             setFocusPolicy(NoFocus);
             move(pMain->DockX, pMain->DockY);

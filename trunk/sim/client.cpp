@@ -1002,9 +1002,9 @@ QString SIMClient::getMessageText(int type, int n)
     case ICQ_MSGxMAIL:
         return i18n("Email", "%n emails", n);
     case ICQ_MSGxSECURExOPEN:
-        return i18n("Request secure channel", "%n requests sequre channel", n);
+        return i18n("Request secure channel", "%n requests secure channel", n);
     case ICQ_MSGxSECURExCLOSE:
-        return i18n("Close secure channel", "%n times close sequre channel", n);
+        return i18n("Close secure channel", "%n times close secure channel", n);
     default:
         log(L_WARN, "Unknown message type %u", type);
     }

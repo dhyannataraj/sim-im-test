@@ -100,7 +100,7 @@ void ICQClientPrivate::snac_buddy(unsigned short type, unsigned short)
                     unsigned long ip = htonl((unsigned long)(*tlvIP));
                     if (user->IP != ip) user->HostName = "";
                     user->IP = ip;
-log(L_DEBUG, "IP %s %lu", user->Alias.c_str(), user->IP);
+                    log(L_DEBUG, "IP %s %lu", user->Alias.c_str(), user->IP);
                     changed = true;
                 }
 

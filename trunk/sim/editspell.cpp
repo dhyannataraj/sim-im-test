@@ -100,9 +100,9 @@ void EditSpell::keyPressEvent(QKeyEvent *e)
 #endif
 #if QT_VERSION >= 300
     if ((e->key() == Key_Return) || (e->key() == Key_Enter)){
-	QKeyEvent e1(QEvent::KeyPress, e->key(), e->ascii(), e->state() | ControlButton, e->text(), e->count());
-	QTextEdit::keyPressEvent(&e1);
-	return;
+        QKeyEvent e1(QEvent::KeyPress, e->key(), e->ascii(), e->state() | ControlButton, e->text(), e->count());
+        QTextEdit::keyPressEvent(&e1);
+        return;
     }
 #endif
     QTextEdit::keyPressEvent(e);
