@@ -31,8 +31,8 @@
 
 XOSD::XOSD(QWidget *p)
         : QWidget(NULL, "xosd",
-				WStyle_StaysOnTop |  WStyle_Customize | WStyle_NoBorder | 
-				WStyle_Tool |WRepaintNoErase | WX11BypassWM)
+                  WStyle_StaysOnTop |  WStyle_Customize | WStyle_NoBorder |
+                  WStyle_Tool |WRepaintNoErase | WX11BypassWM)
 {
     init();
 }
@@ -57,7 +57,7 @@ void XOSD::init()
 void XOSD::set(const QString &str, unsigned long _uin)
 {
     uin = _uin;
-	setFocusPolicy(NoFocus);
+    setFocusPolicy(NoFocus);
     QPainter p(this);
     p.setFont(font());
     QWidget *d = qApp->desktop();
@@ -148,9 +148,9 @@ void XOSD::set(const QString &str, unsigned long _uin)
     p.drawText(rc, AlignLeft | AlignTop | WordBreak, str);
     p.end();
     bgPict = pict;
-	setFocusPolicy(NoFocus);
+    setFocusPolicy(NoFocus);
     show();
-	raise();
+    raise();
     QTimer::singleShot(pMain->XOSD_timeout * 1000, this, SLOT(timeout()));
 }
 

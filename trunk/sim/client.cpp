@@ -1132,10 +1132,10 @@ unsigned long SIMClient::getFileSize(QString name, QString base, vector<fileName
             f.localName = fName.local8Bit();
             f.size = fInfo.size();
             files.push_back(f);
-	        return fInfo.size();
-		}
-		log(L_WARN, "File %s is not readable", (const char*)(name.local8Bit()));
-		return 0;
+            return fInfo.size();
+        }
+        log(L_WARN, "File %s is not readable", (const char*)(name.local8Bit()));
+        return 0;
     }
     QDir d(fName);
     const QFileInfoList *f = d.entryInfoList();
@@ -1297,7 +1297,7 @@ bool SIMClient::createFile(ICQFile *f, int mode)
     file->at(size);
     f->setPos(size);
     f->p = (unsigned long)file;
-	f->client = this;
+    f->client = this;
     return true;
 }
 
@@ -1309,7 +1309,7 @@ bool SIMClient::openFile(ICQFile *f)
         return false;
     }
     f->p = (unsigned long)file;
-	f->client = this;
+    f->client = this;
     return true;
 }
 
@@ -1344,7 +1344,7 @@ void SIMClient::closeFile(ICQFile *f)
 {
     if (f->p) delete (QFile*)(f->p);
     f->p = 0;
-	f->client = NULL;
+    f->client = NULL;
 }
 
 QTextCodec *SIMClient::codecForUser(unsigned long uin)
