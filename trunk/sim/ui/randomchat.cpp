@@ -83,6 +83,7 @@ RandomChat::RandomChat()
     initCombo(cmbGender, pClient->ChatGender ? pClient->ChatGender : pClient->owner->Gender, genders);
     initCombo(cmbCountry, pClient->ChatCountry ? pClient->ChatCountry : pClient->owner->Country, countries);
     initCombo(cmbLanguage, pClient->ChatLanguage ? pClient->ChatLanguage : pClient->owner->Language1, languages);
+    cmbMyGrp->setEnabled(true);
     initCombo(cmbMyGrp, pClient->ChatGroup, chat_groups, false);
     initCombo(cmbGroup, pMain->getChatGroup(), chat_groups, false);
     adjustDetails();
