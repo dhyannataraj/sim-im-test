@@ -23,6 +23,7 @@
 #include "kabcsync.h"
 
 #include <kabc/stdaddressbook.h>
+#include <kdeversion.h>
 
 #include "country.h"
 #include "mainwin.h"
@@ -48,7 +49,9 @@ bool KabcSync::open(void)
         return false;
 
     m_pAB=StdAddressBook::self();
+#if KDE_VERSION >= 310
     m_pAB->addCustomField(i18n("IM Address"),KABC::Field::Personal,"X-IMAddress","KADDRESSBOOK");
+#endif
     m_bOpen=true;
     return true;
 }
