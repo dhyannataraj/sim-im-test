@@ -5,7 +5,9 @@ action_la_SOURCES = \
  actioncfg.cpp \
  actioncfgbase.ui \
  menucfg.cpp \
- menucfgbase.ui
+ menucfgbase.ui \
+ additem.cpp \
+ additembase.ui
 
 INCLUDES=-I../../sim/api -I../../sim/ui -I../_core $(all_includes)
 

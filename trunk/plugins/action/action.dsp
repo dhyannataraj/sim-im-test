@@ -104,6 +104,14 @@ SOURCE=.\actioncfgbase.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\additem.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\additembase.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\menucfg.cpp
 # End Source File
 # Begin Source File
@@ -117,6 +125,14 @@ SOURCE=.\moc_actioncfg.cpp
 # Begin Source File
 
 SOURCE=.\moc_actioncfgbase.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\moc_additem.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\moc_additembase.cpp
 # End Source File
 # Begin Source File
 
@@ -171,6 +187,43 @@ InputName=actioncfg
 # Begin Source File
 
 SOURCE=.\actioncfgbase.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\additem.h
+
+!IF  "$(CFG)" == "action - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\additem.h
+InputName=additem
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "action - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\additem.h
+InputName=additem
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\additembase.h
 # End Source File
 # Begin Source File
 
@@ -256,6 +309,61 @@ BuildCmds= \
 InputDir=.
 InputPath=.\actioncfgbase.ui
 InputName=actioncfgbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\additembase.ui
+
+!IF  "$(CFG)" == "action - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Uic'ing $(InputName).ui ...
+InputDir=.
+InputPath=.\additembase.ui
+InputName=additembase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "action - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Uic'ing $(InputName).ui ...
+InputDir=.
+InputPath=.\additembase.ui
+InputName=additembase
 
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \

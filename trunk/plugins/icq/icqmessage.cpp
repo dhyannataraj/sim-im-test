@@ -758,26 +758,6 @@ static MessageDef defCloseSecure =
     };
 
 #if 0
-i18n("Check invisible", "%n times check invisible", 1);
-#endif
-
-static Message *createCheckInvisible(const char *cfg)
-{
-    return new Message(MessageCheckInvisible, cfg);
-}
-
-static MessageDef defCheckInvisible =
-    {
-        NULL,
-        MESSAGE_SILENT | MESSAGE_SENDONLY,
-        "Check invisible",
-        "%n times checkInvisible",
-        createCheckInvisible,
-        NULL,
-        NULL
-    };
-
-#if 0
 i18n("Warning", "%n warnings", 1);
 #endif
 
@@ -1006,13 +986,6 @@ void ICQPlugin::registerMessages()
     cmd->param		= &defCloseSecure;
     eMsg.process();
 
-    cmd->id			= MessageCheckInvisible;
-    cmd->text		= I18N_NOOP("Check invisible");
-    cmd->icon		= "ICQ_invisible";
-    cmd->menu_grp	= 0x30F1;
-    cmd->param		= &defCheckInvisible;
-    eMsg.process();
-
     cmd->id			= MessageWarning;
     cmd->text		= I18N_NOOP("Warning");
     cmd->icon		= "error";
@@ -1075,9 +1048,6 @@ void ICQPlugin::unregisterMessages()
 
     Event eWarning(EventRemoveMessageType, (void*)MessageWarning);
     eWarning.process();
-
-    Event eCheckInvisible(EventRemoveMessageType, (void*)MessageCheckInvisible);
-    eCheckInvisible.process();
 
     Event eURL(EventCommandRemove, (void*)CmdUrlInput);
     eURL.process();

@@ -231,6 +231,10 @@ class MessageRequest : public ServerRequest
         string m_subj;
         string m_error;
         string m_contacts;
+        string m_target;
+        string m_desc;
+        vector<string> m_targets;
+        vector<string> m_descs;
         bool   m_bBody;
         bool   m_bRosters;
         string m_id;

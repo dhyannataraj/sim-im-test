@@ -1,5 +1,5 @@
 /***************************************************************************
-                          menucfg.h  -  description
+                          additem.cpp  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,30 +15,36 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _MENUCFG_H
-#define _MENUCFG_H
+#include "additem.h"
 
-#include "menucfgbase.h"
-#include "simapi.h"
+#include <qpixmap.h>
+#include <qtimer.h>
+#include <qlineedit.h>
+#include <qpushbutton.h>
 
-class QListViewItem;
-
-class MenuConfig : public MenuConfigBase
+AddItem::AddItem(QWidget *parent)
+        : AddItemBase(parent, NULL, true)
 {
-    Q_OBJECT
-public:
-    MenuConfig(QWidget *parent, struct ActionUserData *data);
-    virtual ~MenuConfig();
-public slots:
-    void apply(void*);
-    void selectionChanged(QListViewItem*);
-    void add();
-    void edit();
-    void remove();
-protected:
-    void resizeEvent(QResizeEvent *e);
-    struct ActionUserData	*m_data;
-};
+    SET_WNDPROC("additem")
+    setIcon(Pict("run"));
+    setButtonsPict(this);
+    setCaption(caption());
+    QTimer::singleShot(0, this, SLOT(changed()));
+    connect(edtItem, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
+    connect(edtPrg, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
+}
 
+void AddItem::changed()
+{
+    buttonOk->setEnabled(!edtItem->text().isEmpty() && !edtPrg->text().isEmpty());
+}
+
+void AddItem::changed(const QString&)
+{
+    changed();
+}
+
+#ifndef WIN32
+#include "additem.moc"
 #endif
 
