@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
 "POT-Creation-Date: 2002-10-15 03:23+0400\n"
-"PO-Revision-Date: 2002-10-13 11:50+0300\n"
+"PO-Revision-Date: 2002-10-16 12:45+0300\n"
 "Last-Translator: ismail donmez <voidcartman@yahoo.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1807,7 +1807,7 @@ msgstr "Kapat"
 
 #: mainwin.cpp:1621
 msgid "Alphabetically sort"
-msgstr ""
+msgstr "Alfabetik Sırala"
 
 #: mainwin.cpp:1775
 msgid "Delete %1?"
@@ -2059,9 +2059,8 @@ msgid "Next"
 msgstr "Sonraki"
 
 #: msgedit.cpp:956
-#, fuzzy
 msgid "&New message"
-msgstr "%1 mesajı oku"
+msgstr "&Yeni Mesaj"
 
 #: msgedit.cpp:998
 msgid "%1 (ICQ# %2) wrote:<br>\n"
@@ -2136,12 +2135,11 @@ msgstr "&Arama"
 
 #: msgview.cpp:613
 msgid "&Previous page"
-msgstr ""
+msgstr "&Önceki Mesaj"
 
 #: msgview.cpp:617
-#, fuzzy
 msgid "&Next page"
-msgstr "&Sonraki"
+msgstr "&Sonraki sayfa"
 
 #: passwddlg.cpp:34 ui/logindlgbase.cpp:55
 msgid "Password:"
@@ -2641,9 +2639,8 @@ msgid "Bug report"
 msgstr "Hata Raporu"
 
 #: ui/securedlg.cpp:54
-#, fuzzy
 msgid "[Failed]"
-msgstr "[işlem başarısız]"
+msgstr "[İşlem başarısız]"
 
 #: ui/searchbase.cpp:75
 msgid "Online only"
@@ -3147,8 +3144,7 @@ msgstr "Global alarm ayarlarının üzerine yaz"
 
 #: ui/alertdialogbase.cpp:97
 msgid "Activate online alert when user returns from Away or NA"
-msgstr ""
-"Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
+msgstr "Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
 
 #: ui/alertdialogbase.cpp:102
 msgid "Online alert options"
@@ -3428,8 +3424,7 @@ msgid "Hide main window after"
 msgstr "Ana menüyü sakla"
 
 #: ui/statussetupbase.cpp:107
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "\"Uzakta\", \"N/A\", \"DND\" ve \"Meşgul\"-Listelerinde bağlı alamını "
 "iptal et "
@@ -3528,8 +3523,7 @@ msgstr "Zaman Dilimi:"
 
 #: ui/generalsecbase.cpp:124
 msgid "My &authorization is required before users add me to Contact List"
-msgstr ""
-"Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
+msgstr "Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
 
 #: ui/generalsecbase.cpp:128
 msgid "Don't show my &IP-address"
@@ -3610,9 +3604,8 @@ msgid "Additional information about user:"
 msgstr "Kullanıcı hakkında ek bilgiler:"
 
 #: ui/securedlgbase.cpp:32
-#, fuzzy
 msgid "Secure chanel request"
-msgstr "Güvenli kanal isteği başarısız"
+msgstr "Güvenli kanal isteği"
 
 #: ui/securedlgbase.cpp:36
 msgid ""
@@ -3621,6 +3614,9 @@ msgid ""
 "\n"
 "This only works with other SIM and Licq clients"
 msgstr ""
+"Güvenli kanal isteği SSL,Diffie-Hellman anahtar değişimi methodu ve TLS v1 protokolüyle sağlanıyor\n"
+"\n"
+"Bu sadece karşı tarafta SIM ya da Licq varsa çalışır"
 
 #: about.cpp:280
 msgid "replace this with information about your translation team"
@@ -3925,3 +3921,4 @@ msgstr "Uzakta"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
