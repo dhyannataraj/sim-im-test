@@ -174,7 +174,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     // in one chunk (since it's more efficient and causes less redraws), and there's
     // no way to set block's background color directly in Qt's HTML), so we make a note
     // of it in the HTML and set it retroactively in setBackground.
-    if (msg->getBackground() != 0xFFFFFFFF)
+    if ((msg->getBackground() != 0xFFFFFFFF) && (msg->getForeground() != msg->getBackground()))
         id += QString::number(msg->getBackground());
     // </hack>
     string client_str;
@@ -241,7 +241,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     msgText = parseText(msgText, CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
     s += "<body";
 
-    if (msg->getForeground() != 0xFFFFFFFF)
+    if ((msg->getForeground() != 0xFFFFFFFF) && (msg->getForeground() != msg->getBackground()))
     {
         s += " fgcolor=\"#";
         s += QString::number(msg->getForeground(), 16).rightJustify(6, '0');
@@ -250,7 +250,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
 
     // Some bright day might come when one could specify background color from inside Qt's richtext.
     // Meanwhile, this is useless:
-    if (msg->getBackground() != 0xFFFFFFFF)
+    if ((msg->getBackground() != 0xFFFFFFFF) && (msg->getForeground() != msg->getBackground()))
     {
         s += " bgcolor=\"#";
         s += QString::number(msg->getBackground(), 16).rightJustify(6, '0');
@@ -272,6 +272,11 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     anchor += id;
     anchor += "\">";
     res = anchor + res;
+
+    string ss;
+    ss = res.local8Bit();
+    log(L_DEBUG, "Set: %s", ss.c_str());
+
     return res;
 }
 
@@ -313,8 +318,13 @@ void MsgViewBase::setBackground(unsigned n)
 
     for (unsigned i = n; i < (unsigned)paragraphs(); i++){
         QString s = text(i);
+
+        string ss;
+        ss = s.local8Bit();
+        log(L_DEBUG, "%u> %s", i, ss.c_str());
+
         int anchorPos = s.find(sAnchor);
-        if (anchorPos >= 0)
+        if (anchorPos == 0)
         {
             bInMsg = false;
 
@@ -335,6 +345,7 @@ void MsgViewBase::setBackground(unsigned n)
                 {
                     QString sBgcolor = id.mid(bgcolorStart, bgcolorEnd - bgcolorStart);
                     bgcolor = QColor(sBgcolor.toULong(&bSet));
+                    log(L_DEBUG, "%u: Set BG %X", i, bgcolor.rgb());
                 }
             }
         }
@@ -346,10 +357,13 @@ void MsgViewBase::setBackground(unsigned n)
             }
         }
 
-        if (bInMsg && bSet)
+        if (bInMsg && bSet){
             setParagraphBackgroundColor(i, bgcolor);
-        else
+            log(L_DEBUG, "%u: set", i);
+        }else{
             clearParagraphBackground(i);
+            log(L_DEBUG, "%u: clear", i);
+        }
     }
 
 }

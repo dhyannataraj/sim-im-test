@@ -105,7 +105,6 @@ Message *MsgTextEdit::createMessage(QMimeSource *src)
 void MsgTextEdit::contentsDropEvent(QDropEvent *e)
 {
     Message *msg = createMessage(e);
-    log(L_DEBUG, "Drop %u", (unsigned)msg);
     if (msg){
         e->accept();
         msg->setContact(m_edit->m_userWnd->id());
@@ -120,7 +119,6 @@ void MsgTextEdit::contentsDropEvent(QDropEvent *e)
 void MsgTextEdit::contentsDragEnterEvent(QDragEnterEvent *e)
 {
     Message *msg = createMessage(e);
-    log(L_DEBUG, "Drag enter %u", (unsigned)msg);
     if (msg){
         delete msg;
         e->acceptAction();
@@ -132,7 +130,6 @@ void MsgTextEdit::contentsDragEnterEvent(QDragEnterEvent *e)
 void MsgTextEdit::contentsDragMoveEvent(QDragMoveEvent *e)
 {
     Message *msg = createMessage(e);
-    log(L_DEBUG, "Drag enter %u", (unsigned)msg);
     if (msg){
         delete msg;
         e->acceptAction();
