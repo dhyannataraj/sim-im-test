@@ -1714,11 +1714,9 @@ Client *ContactList::getClient(unsigned n)
 void ContactList::clearClients()
 {
     p->bNoRemove = true;
-    for (unsigned i = 0; i < p->clients.size(); i++){
-        Client *client = p->clients[i];
-        delete client;
+    while (!p->clients.empty()){
+        delete p->clients[0];
     }
-    p->clients.clear();
     p->bNoRemove = false;
 }
 

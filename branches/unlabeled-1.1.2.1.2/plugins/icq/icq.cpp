@@ -259,6 +259,8 @@ ICQPlugin::ICQPlugin(unsigned base, const char *cfg)
 
     ICQPacket = registerType();
     getContacts()->addPacketType(ICQPacket, icq_descr.text);
+    ICQDirectPacket = registerType();
+    getContacts()->addPacketType(ICQDirectPacket, "ICQ.Direct");
 
     IconDef icon;
     icon.name = "ICQ_online";
@@ -470,6 +472,7 @@ ICQPlugin::~ICQPlugin()
 
     delete m_protocol;
     getContacts()->removePacketType(ICQPacket);
+    getContacts()->removePacketType(ICQDirectPacket);
 
     Event eVisible(EventCommandRemove, (void*)CmdVisibleList);
     eVisible.process();

@@ -199,6 +199,7 @@ static DataDef _icqUserData[] =
         { "", DATA_BOOL, 1, 0 },				// bTyping
         { "", DATA_BOOL, 1, 0 },				// bBadClient
         { "", DATA_SOCKET, 1, 0 },				// Direct
+		{ "", DATA_BOOL, 1, 0 },				// bNoDirect
         { NULL, 0, 0, 0 }
     };
 
@@ -778,6 +779,7 @@ void ICQClient::setOffline(ICQUserData *data)
         delete (SocketNotify*)(data->Direct);
         data->Direct = NULL;
     }
+	data->bNoDirect = false;
     data->Status = ICQ_STATUS_OFFLINE;
     data->bTyping = false;
     data->bBadClient = false;
@@ -1759,12 +1761,19 @@ void *ICQClient::processEvent(Event *e)
         if (it == arRequests.end())
             return NULL;
         ar_request ar = (*it);
-        Buffer copy;
-        string response;
-        response = t->tmpl.utf8();
-        sendAutoReply(ar.uin, ar.timestamp1, ar.timestamp2, plugins[PLUGIN_NULL],
+		if (ar.bDirect){
+			Contact *contact;
+			ICQUserData *data = findContact(ar.uin, NULL, false, contact);
+			if (data && data->Direct)
+				data->Direct->sendAutoResponse(ar.timestamp1, ar.type, fromUnicode(t->tmpl, data).c_str());
+		}else{
+			Buffer copy;
+			string response;
+			response = t->tmpl.utf8();
+			sendAutoReply(ar.uin, ar.timestamp1, ar.timestamp2, plugins[PLUGIN_NULL],
                       ar.id1, ar.id2, ar.type, 3, 256, response.c_str(), 0, copy);
-        arRequests.erase(it);
+		}
+		arRequests.erase(it);
         return e->param();
     }
     if (e->type() == EventContactChanged){
@@ -1856,6 +1865,15 @@ void *ICQClient::processEvent(Event *e)
                 }
             }
         }else{
+			Contact *contact = getContacts()->contact(msg->contact());
+			if (contact){
+				ICQUserData *data;
+				ClientDataIterator it(contact->clientData, this);
+				while ((data = (ICQUserData*)(++it)) != NULL){
+					if (data->Direct && data->Direct->cancelMessage(msg))
+						return msg;
+				}
+			}
             if (m_send.msg == msg){
                 m_send.msg = NULL;
                 m_send.uin = 0;
@@ -2199,16 +2217,40 @@ bool ICQClient::send(Message *msg, void *_data)
     case MessageAuthRequest:
         if (data && data->WaitAuth)
             return sendAuthRequest(msg, data);
-        break;
+        return false;
     case MessageAuthGranted:
         if (data && data->WantAuth)
             return sendAuthGranted(msg, data);
-        break;
+        return false;
     case MessageAuthRefused:
         if (data && data->WantAuth)
             return sendAuthRefused(msg, data);
-        break;
+        return false;
     }
+	if (data == NULL)
+		return false;
+	bool bCreateDirect = false;
+	if ((data->Direct == NULL) && 
+		!data->bNoDirect &&
+		(data->Status != ICQ_STATUS_OFFLINE) &&
+		(get_ip(data->IP) == get_ip(this->data.owner.IP)))
+		bCreateDirect = true;
+	if (!bCreateDirect && 
+		(msg->type() == MessageGeneric) && 
+		(data->Status != ICQ_STATUS_OFFLINE) &&
+		get_ip(data->IP) && 
+		(msg->getPlainText().length() >= MAX_MESSAGE_SIZE))
+		bCreateDirect = true;
+	if ((getInvisible() && (data->VisibleId == 0)) ||
+		(!getInvisible() && data->InvisibleId))
+		bCreateDirect = false;
+	if (bCreateDirect){
+		data->Direct = new DirectClient(data, this);
+		data->Direct->connect();
+	}
+	if (data->Direct)
+		return data->Direct->sendMessage(msg);
+
     if (sendThruServer(msg, data))
         return true;
     return false;

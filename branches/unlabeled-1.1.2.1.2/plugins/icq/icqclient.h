@@ -22,6 +22,8 @@
 #include "socket.h"
 #include "icq.h"
 
+const unsigned MESSAGE_DIRECT	= 0x0100;
+
 const unsigned STATUS_OCCUPIED	= 0x10;
 const unsigned STATUS_FFC		= 0x11;
 
@@ -84,11 +86,21 @@ const unsigned short ICQ_MSGxEMAILxPAGER       = 0x000E;
 const unsigned short ICQ_MSGxCONTACTxLIST      = 0x0013;
 const unsigned short ICQ_MSGxEXT			   = 0x001A;
 
+const unsigned short ICQ_MSGxAR_AWAY		   = 0x03E8;
+const unsigned short ICQ_MSGxAR_OCCUPIED	   = 0x03E9;
+const unsigned short ICQ_MSGxAR_NA			   = 0x03EA;
+const unsigned short ICQ_MSGxAR_DND			   = 0x03EB;
+const unsigned short ICQ_MSGxAR_FFC			   = 0x03EC;
+
 const unsigned short ICQ_MTN_FINISH	= 0x0000;
 const unsigned short ICQ_MTN_TYPED	= 0x0001;
 const unsigned short ICQ_MTN_START	= 0x0002;
 
+const unsigned MAX_MESSAGE_SIZE = 450;
+
 const unsigned PING_TIMEOUT = 60;
+
+class DirectClient;
 
 typedef struct ICQUserData
 {
@@ -172,7 +184,8 @@ typedef struct ICQUserData
     char			*PhoneBook;
     unsigned long	bTyping;
     unsigned long	bBadClient;
-    void			*Direct;
+    DirectClient	*Direct;
+	unsigned long	bNoDirect;
 } ICQUserData;
 
 typedef struct ICQClientData
@@ -202,7 +215,6 @@ typedef struct SearchResult
     ICQClient		*client;
 } SearchResult;
 
-class ClientSocket;
 class QTimer;
 
 typedef unsigned char capability[0x10];
@@ -269,12 +281,12 @@ class ICQListener : public ServerSocketNotify
 public:
     ICQListener(ICQClient *client);
     ~ICQListener();
-    bool created() { return (sock != NULL); }
+    bool created() { return (m_socket != NULL); }
     unsigned short port();
 protected:
     virtual void accept(Socket *s);
-    ServerSocket *sock;
-    ICQClient  *client;
+    ServerSocket *m_socket;
+    ICQClient  *m_client;
 };
 
 class ServerRequest;
@@ -322,6 +334,7 @@ typedef struct ar_request
     unsigned short	id1;
     unsigned short	id2;
     unsigned long	uin;
+	bool			bDirect;
 } ar_request;
 
 class ICQClient : public TCPClient, public EventReceiver
@@ -375,6 +388,11 @@ public:
     void changePassword(const char *new_pswd);
     void searchChat(unsigned short);
     void randomChatInfo(unsigned long uin);
+    Message *parseMessage(unsigned short type, unsigned long uin,
+                          string &p, Buffer &packet,
+                          unsigned short cookie1, unsigned short cookie2,
+                          unsigned long timestamp1, unsigned long timestamp2);
+    void messageReceived(Message*, unsigned long);
     static QTextCodec *_getCodec(const char *encoding);
     static QString toUnicode(const char *serverText, const char *clientName, unsigned contactId);
     static QString parseRTF(const char *str, const char *encoding);
@@ -508,25 +526,99 @@ protected:
     bool sendAuthGranted(Message *msg, void *data);
     bool sendAuthRefused(Message *msg, void *data);
     void sendAdvMessage(unsigned long uin, Buffer &msgText, unsigned plugin_index, const MessageId &id);
-    Message *parseMessage(unsigned short type, unsigned long uin,
-                          string &p, Buffer &packet,
-                          unsigned short cookie1, unsigned short cookie2,
-                          unsigned long timestamp1, unsigned long timestamp2);
     void parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAck, unsigned long timestamp1, unsigned long timestamp2);
     void sendAutoReply(unsigned long uin, unsigned long timestamp1, unsigned long timestamp2,
                        const plugin p, unsigned short cookie1, unsigned short cookie2,
                        unsigned char msgType, unsigned char msgFlags, unsigned long msgState,
                        const char *response, unsigned short response_type, Buffer &copy);
-    void messageReceived(Message*, unsigned long);
     void addPluginInfoRequest(unsigned long uin, unsigned plugin_index);
     void sendMTN(unsigned long uin, unsigned short type);
     void setChatGroup();
+	string packMessage(Message *msg, ICQUserData *data, unsigned short &type);
     unsigned short m_advCounter;
     unsigned m_nUpdates;
     unsigned m_nSendTimeout;
     SendMsg  m_send;
     friend class FullInfoRequest;
     friend class SMSRequest;
+	friend class DirectClient;
+};
+
+class DirectSocket : public ClientSocketNotify
+{
+public:
+    enum SocketState{
+        NotConnected,
+        ConnectIP1,
+        ConnectIP2,
+        WaitInit,
+        WaitAck,
+        Logged
+    };
+    DirectSocket(Socket *s, ICQClient*);
+    DirectSocket(ICQUserData *data, ICQClient *client);
+    ~DirectSocket();
+    virtual void packet_ready();
+    SocketState m_state;
+    void connect();
+    virtual bool error_state(const char *err, unsigned code);
+    virtual void connect_ready();
+protected:
+    virtual void processPacket() = 0;
+    void init();
+    void sendInit();
+    void sendInitAck();
+    bool			m_bHeader;
+    bool			m_bIncoming;
+    unsigned short	m_nSequence;
+    char			m_version;
+    unsigned long	m_nSessionId;
+	ICQUserData		*m_data;
+    ClientSocket	*m_socket;
+	ICQClient		*m_client;
+};
+
+typedef struct SendDirectMsg
+{
+	Message		*msg;
+	unsigned	type;
+	unsigned short	seq;
+	unsigned short	icq_type;
+} SendDirectMsg;
+
+class DirectClient : public DirectSocket
+{
+public:
+    DirectClient(Socket *s, ICQClient *client);
+    DirectClient(ICQUserData *data, ICQClient *client);
+    ~DirectClient();
+    bool sendMessage(Message*);
+    void sendAutoResponse(unsigned short seq, unsigned short type, const char *answer);
+    void acceptMessage(Message*);
+    void declineMessage(Message*, const char *reason);
+	bool cancelMessage(Message*);
+    bool isLogged() { return (m_state != None) && (m_state != WaitInit2); }
+protected:
+    enum State{
+        None,
+        WaitLogin,
+        WaitInit2,
+        Logged
+    };
+    State m_state;
+    void processPacket();
+    void connect_ready();
+    bool error_state(const char *err, unsigned code);
+    void sendInit2();
+    void startPacket(unsigned short cms, unsigned short seq);
+    void startMsgPacket(unsigned short msgType, const string &s);
+    void sendPacket();
+    void sendAck(unsigned short, unsigned short msgType);
+    void secureConnect();
+    void secureListen();
+    void secureStop(bool bShutdown);
+	void processMsgQueue();
+	list<SendDirectMsg> m_queue;
 };
 
 #endif

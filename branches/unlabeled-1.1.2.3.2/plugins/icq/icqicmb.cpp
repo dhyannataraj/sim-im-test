@@ -44,8 +44,6 @@ const unsigned short ICQ_SNACxMSG_AUTOREPLY        = 0x000B;
 const unsigned short ICQ_SNACxMSG_ACK              = 0x000C;
 const unsigned short ICQ_SNACxMSG_MTN			   = 0x0014;
 
-const unsigned MAX_MESSAGE_SIZE = 450;
-
 void ICQClient::snac_icmb(unsigned short type, unsigned short)
 {
     switch (type){
@@ -673,7 +671,7 @@ static void b2h(char *&p, char c)
     *(p++) = c2h(c);
 }
 
-static void packCap(Buffer &b, const capability &c)
+void packCap(Buffer &b, const capability &c)
 {
     char pack_cap[0x27];
     char *p = pack_cap;
@@ -1088,29 +1086,29 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
         return;
     }
 
-    unsigned char msgType, msgFlags;
-    adv >> msgType >> msgFlags;
+    unsigned short msgType;
+    adv.unpack(msgType);
     unsigned long msgState;
     adv >> msgState;
     Buffer copy;
     switch (msgType){
-    case 0xE8:
-    case 0xE9:
-    case 0xEA:
-    case 0xEB:
-    case 0xEC:{
+    case ICQ_MSGxAR_AWAY:
+    case ICQ_MSGxAR_OCCUPIED:
+    case ICQ_MSGxAR_NA:
+    case ICQ_MSGxAR_DND:
+    case ICQ_MSGxAR_FFC:{
             unsigned req_status = STATUS_AWAY;
             switch (msgType){
-            case 0xE9:
+            case ICQ_MSGxAR_OCCUPIED:
                 req_status = STATUS_OCCUPIED;
                 break;
-            case 0xEA:
+            case ICQ_MSGxAR_NA:
                 req_status = STATUS_NA;
                 break;
-            case 0xEB:
+            case ICQ_MSGxAR_DND:
                 req_status = STATUS_DND;
                 break;
-            case 0xEC:
+            case ICQ_MSGxAR_FFC:
                 req_status = STATUS_FFC;
                 break;
             }
@@ -1126,8 +1124,9 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
             req.type = msgType;
             req.timestamp1 = timestamp1;
             req.timestamp2 = timestamp2;
-            req.id1 = cookie1;
-            req.id2 = cookie2;
+            req.id1     = cookie1;
+            req.id2     = cookie2;
+			req.bDirect = false;
             arRequests.push_back(req);
 
             ARRequest ar;
@@ -1257,52 +1256,20 @@ void ICQClient::processSendQueue()
 
         if (m_send.msg){
             switch (m_send.msg->type()){
-            case MessageURL:{
-                    Buffer msgBuffer;
-                    string message = fromUnicode(m_send.msg->getPlainText(), data);
-                    string url = fromUnicode(static_cast<URLMessage*>(m_send.msg)->getUrl(), data);
-                    msgBuffer << message.c_str();
-                    msgBuffer << (char)0xFE;
-                    msgBuffer << url.c_str();
-                    Buffer b;
-                    b.pack(this->data.owner.Uin);
-                    b << (char)ICQ_MSGxURL << (char)0;
-                    b << msgBuffer;
-                    sendThroughServer(data->Uin, 4, b);
-                    if (data->Status != ICQ_STATUS_OFFLINE)
-                        ackMessage();
-                    return;
-                }
+            case MessageURL:
             case MessageContact:{
-                    Buffer msgBuf;
-                    unsigned nContacts = 0;
-                    QString contacts = static_cast<ContactMessage*>(m_send.msg)->getContacts();
-                    while (!contacts.isEmpty()){
-                        QString contact = getToken(contacts, ';');
-                        nContacts++;
-                    }
-                    msgBuf << number(nContacts).c_str();
-                    contacts = static_cast<ContactMessage*>(m_send.msg)->getContacts();
-                    while (!contacts.isEmpty()){
-                        QString contact = getToken(contacts, ';');
-                        QString uin = getToken(contact, ',');
-                        msgBuf << (char)0xFE;
-                        msgBuf << uin.latin1();
-                        msgBuf << (char)0xFE;
-                        msgBuf << fromUnicode(contact, data).c_str();
-                    }
-                    msgBuf << (char)0xFE;
+				unsigned short type;
+				string message = packMessage(m_send.msg, data, type);
                     Buffer b;
                     b.pack(this->data.owner.Uin);
-                    b << (char)ICQ_MSGxCONTACTxLIST << (char)0;
-                    b << msgBuf;
+                    b << (char)type << (char)0;
+                    b << message;
                     sendThroughServer(data->Uin, 4, b);
                     if (data->Status != ICQ_STATUS_OFFLINE)
                         ackMessage();
                     return;
-                }
             }
-
+			}
             string text;
             string encoding;
             if (data->Encoding)
@@ -1359,15 +1326,15 @@ void ICQClient::processSendQueue()
             if ((status == ICQ_STATUS_ONLINE) || (status == ICQ_STATUS_OFFLINE))
                 continue;
 
-            unsigned char type = 0xE8;
+            unsigned short type = ICQ_MSGxAR_AWAY;
             if (status & ICQ_STATUS_DND){
-                type = 0xEB;
+                type = ICQ_MSGxAR_DND;
             }else if (status & ICQ_STATUS_OCCUPIED){
-                type = 0xE9;
+                type = ICQ_MSGxAR_OCCUPIED;
             }else if (status & ICQ_STATUS_NA){
-                type = 0xEA;
+                type = ICQ_MSGxAR_NA;
             }else if (status & ICQ_STATUS_FFC){
-                type = 0xEC;
+                type = ICQ_MSGxAR_FFC;
             }
 
             Buffer msg;
@@ -1412,6 +1379,40 @@ void ICQClient::processSendQueue()
             return;
         }
     }
+}
+
+string ICQClient::packMessage(Message *msg, ICQUserData *data, unsigned short &type)
+{
+	string res;
+    switch (msg->type()){
+    case MessageURL:
+		res = fromUnicode(msg->getPlainText(), data);
+		res += (char)0xFE;
+        res += fromUnicode(static_cast<URLMessage*>(msg)->getUrl(), data);
+		type = ICQ_MSGxURL;
+		break;
+    case MessageContact:{
+        unsigned nContacts = 0;
+        QString contacts = static_cast<ContactMessage*>(msg)->getContacts();
+        while (!contacts.isEmpty()){
+              QString contact = getToken(contacts, ';');
+              nContacts++;
+        }
+        res = number(nContacts);
+        contacts = static_cast<ContactMessage*>(msg)->getContacts();
+        while (!contacts.isEmpty()){
+                        QString contact = getToken(contacts, ';');
+                        QString uin = getToken(contact, ',');
+                        res += (char)0xFE;
+                        res += uin.latin1();
+                        res += (char)0xFE;
+                        res += fromUnicode(contact, data);
+        }
+        res += (char)0xFE;
+		break;
+	}
+	}
+	return res;
 }
 
 void ICQClient::send(bool bTimer)
