@@ -116,7 +116,7 @@ void ICQClient::chn_login()
         string pswd = cryptPassword();
         log(L_DEBUG, "Login %lu [%s]", data.owner.Uin, pswd.c_str());
         char uin[20];
-        sprintf(uin, "%lu", data.owner.Uin);
+        sprintf(uin, "%lu", data.owner.Uin.value);
 
         flap(ICQ_CHNxNEW);
         m_socket->writeBuffer << 0x00000001L;
