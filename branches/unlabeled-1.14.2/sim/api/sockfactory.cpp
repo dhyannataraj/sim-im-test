@@ -393,7 +393,8 @@ void SIMServerSocket::activated(int)
             QSocket *s = new QSocket;
             s->setSocket(fd);
             if (notify->accept(new SIMClientSocket(s), htonl(s->address().ip4Addr()))){
-                notify->m_listener = NULL;
+				if (notify)
+					notify->m_listener = NULL;
                 getSocketFactory()->remove(this);
             }
         }else{

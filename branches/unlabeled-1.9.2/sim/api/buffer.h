@@ -128,6 +128,9 @@ unsigned size() const { return m_size; }
     void init(unsigned size);
     unsigned allocSize() { return m_alloc_size; }
     void allocate(unsigned size, unsigned add_size);
+
+	void fromBase64(Buffer &from);
+	void toBase64(Buffer &from);
 protected:
     unsigned m_packetStartPos;
     unsigned m_size;

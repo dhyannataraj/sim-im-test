@@ -166,7 +166,7 @@ void HTMLParser::parse(const QString &str)
 		case TAG_END:
 			p->flushText();
 			s = yytext + 2;
-			tag_end(s.left(s.length() - 1));
+			tag_end(s.left(s.length() - 1).lower());
 			break;
 		case SYMBOL:
 			s = yytext + 1;
@@ -184,8 +184,7 @@ void HTMLParser::parse(const QString &str)
 			}else if (s == "nbsp"){
 				p->text += " ";
 			}else if (s[0] == '#'){
-				bool bOk;
-				
+				bool bOk;				
 				unsigned short code;
 				if (s[1] == 'x')
 				   code = s.mid(2).toUShort(&bOk, 16); // hex

@@ -1698,10 +1698,6 @@ SOURCE=.\xpm\past.xpm
 # End Source File
 # Begin Source File
 
-SOURCE=.\xpm\pict.xpm
-# End Source File
-# Begin Source File
-
 SOURCE=.\xpm\sharedfiles.xpm
 # End Source File
 # Begin Source File

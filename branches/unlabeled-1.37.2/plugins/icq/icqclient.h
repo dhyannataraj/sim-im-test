@@ -441,7 +441,13 @@ public:
     bool operator < (const my_string &str) const;
 };
 
-typedef map<my_string, string> CONTACTS_MAP;
+typedef struct alias_group
+{
+	string		alias;
+	unsigned	grp;
+} alias_group;
+
+typedef map<my_string, alias_group> CONTACTS_MAP;
 
 class ICQClient : public TCPClient, public EventReceiver, public OscarSocket
 {
@@ -650,7 +656,7 @@ protected:
     void setProfile(ICQUserData *data);
     bool isOwnData(const char *screen);
     void packInfoList(char *str);
-    CONTACTS_MAP packContacts(ContactsMessage *msg, ICQUserData *data);
+    QString packContacts(ContactsMessage *msg, ICQUserData *data, CONTACTS_MAP &c);
     string createRTF(const QString &text, unsigned long foreColor, const char *encoding);
     QString removeImages(const QString &text, unsigned maxSmile);
     void ackMessage(SendMsg &s);

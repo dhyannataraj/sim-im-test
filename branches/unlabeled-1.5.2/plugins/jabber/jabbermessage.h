@@ -63,6 +63,8 @@ protected:
 
 typedef struct JabberMessageFileData
 {
+	char		*ID;
+	char		*From;
     char		*Host;
     unsigned	Port;
 } JabberMessageFileData;
@@ -72,6 +74,8 @@ class JabberFileMessage : public FileMessage
 public:
     JabberFileMessage(const char *cfg = NULL);
     ~JabberFileMessage();
+	PROP_STR(ID);
+	PROP_STR(From);
     PROP_STR(Host);
     PROP_USHORT(Port);
 protected:

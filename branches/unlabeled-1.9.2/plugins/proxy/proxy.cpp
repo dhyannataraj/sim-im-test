@@ -544,50 +544,15 @@ void HTTPS_Proxy::connect(const char *host, unsigned short port)
     m_state = Connect;
 }
 
-static char alphabet[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" "0123456789+/";
-
-string tobase64(const char *text)
+static string tobase64(const char *s)
 {
-    string out;
-    const char *c;
-    unsigned int tmp = 0;
-    int n = 0;
-
-    c = text;
-
-    while (*c) {
-        tmp = tmp << 8;
-        tmp += *c;
-        n++;
-
-        if (n == 3) {
-            out += alphabet[(tmp >> 18) & 0x3f];
-            out += alphabet[(tmp >> 12) & 0x3f];
-            out += alphabet[(tmp >> 6) & 0x3f];
-            out += alphabet[tmp & 0x3f];
-            tmp = 0;
-            n = 0;
-        }
-        c++;
-    }
-
-    switch (n) {
-    case 2:
-        tmp <<= 8;
-        out += alphabet[(tmp >> 18) & 0x3f];
-        out += alphabet[(tmp >> 12) & 0x3f];
-        out += alphabet[(tmp >> 6) & 0x3f];
-        out += '=';
-        break;
-    case 1:
-        tmp <<= 16;
-        out += alphabet[(tmp >> 18) & 0x3f];
-        out += alphabet[(tmp >> 12) & 0x3f];
-        out += '=';
-        out += '=';
-        break;
-    }
-    return out;
+	Buffer from;
+	Buffer to;
+	from.pack(s);
+	to.toBase64(from);
+	string res;
+	res.append(to.data(), to.size());
+	return res;
 }
 
 void HTTPS_Proxy::connect_ready()

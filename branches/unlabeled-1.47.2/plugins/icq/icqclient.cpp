@@ -2867,6 +2867,7 @@ void *ICQClient::processEvent(Event *e)
             cmd->param	 = (void*)(contact->id());
             Event eCmd(EventCommandExec, cmd);
             eCmd.process();
+			return e->param();
         }
     }
     if (e->type() == EventOpenMessage){

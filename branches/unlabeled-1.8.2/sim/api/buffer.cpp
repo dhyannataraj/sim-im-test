@@ -523,4 +523,92 @@ EXPORT void log_packet(Buffer &buf, bool bOut, unsigned packet_id, const char *a
     e.process();
 }
 
+void Buffer::fromBase64(Buffer &from)
+{
+    unsigned n = 0;
+    unsigned tmp2 = 0;
+    for (;;) {
+		char res[3];
+		char c;
+		from >> c;
+		if (c == 0)
+			break;
+        char tmp = 0;
+        if ((c >= 'A') && (c <= 'Z')) {
+            tmp = (char)(c - 'A');
+        } else if ((c >= 'a') && (c <= 'z')) {
+            tmp = (char)(26 + (c - 'a'));
+        } else if ((c >= '0') && (c <= 57)) {
+            tmp = (char)(52 + (c - '0'));
+        } else if (c == '+') {
+            tmp = 62;
+        } else if (c == '/') {
+            tmp = 63;
+        } else if ((c == '\r') || (c == '\n')) {
+            continue;
+        } else if (c == '=') {
+            if (n == 3) {
+                res[0] = (char)((tmp2 >> 10) & 0xff);
+                res[1] = (char)((tmp2 >> 2) & 0xff);
+				pack(res, 2);
+            } else if (n == 2) {
+                res[0] = (char)((tmp2 >> 4) & 0xff);
+				pack(res, 1);
+            }
+            break;
+        }
+        tmp2 = ((tmp2 << 6) | (tmp & 0xff));
+        n++;
+        if (n == 4) {
+            res[0] = (char)((tmp2 >> 16) & 0xff);
+            res[1] = (char)((tmp2 >> 8) & 0xff);
+            res[2] = (char)(tmp2 & 0xff);
+			pack(res, 3);
+            tmp2 = 0;
+            n = 0;
+        }
+    }
+}
+
+static const char alphabet[] =
+	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+	"0123456789+/";
+
+void Buffer::toBase64(Buffer &from)
+{
+	unsigned char b[3];
+	char res[4];
+	unsigned tmp;
+
+	while (from.readPos() + 3 < from.size()){
+		from.unpack((char*)b, 3);
+		tmp = (b[0] << 16) | (b[1] << 8) | b[2];
+		res[0] = alphabet[(tmp >> 18) & 0x3F];
+		res[1] = alphabet[(tmp >> 12) & 0x3F];
+		res[2] = alphabet[(tmp >> 6) & 0x3F];
+		res[3] = alphabet[tmp & 0x3F];
+		pack(res, 4);
+	}
+
+	switch(from.size() - from.readPos()){
+		case 2:
+			from.unpack((char*)b, 2);
+			tmp = (b[0] << 16) | (b[1] << 8);
+			res[0] = alphabet[(tmp >> 18) & 0x3F];
+			res[1] = alphabet[(tmp >> 12) & 0x3F];
+			res[2] = alphabet[(tmp >> 6) & 0x3F];
+			res[3] = '=';
+			pack(res, 4);
+			break;
+		case 1:
+			from.unpack((char*)b, 1);
+			tmp = b[0] << 16;
+			res[0] = alphabet[(tmp >> 18) & 0x3F];
+			res[1] = alphabet[(tmp >> 12) & 0x3F];
+			res[2] = res[3] = '=';
+			pack(res, 4);
+			break;
+	}
+}
+
 
