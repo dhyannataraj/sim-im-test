@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
-    email                : vovan.ru
+    email                : vovan@shutoff.ru
  ***************************************************************************/
 
 /***************************************************************************
@@ -171,7 +171,7 @@ private:
  * @short Holds information needed by the "About" box and other
  * classes.
  * @author Espen Sand (espen@kde.org), David Faure (faure@kde.org)
- * @version $Id: about.h,v 1.2 2002-12-21 14:26:26 shutoff Exp $
+ * @version $Id: about.h,v 1.3 2002-12-30 00:52:20 shutoff Exp $
  */
 class KAboutData
 {

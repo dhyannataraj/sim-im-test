@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sun Mar 10 2002
     copyright            : (C) 2002 by Vladimir Shutoff
-    email                : vovan.ru
+    email                : vovan@shutoff.ru
  ***************************************************************************/
 
 /***************************************************************************
@@ -620,7 +620,9 @@ int main(int argc, char *argv[])
         pLoginDlg->show();
     }
     pSplash->hide();
-    return app.exec();
+    int res = app.exec();
+    delete cl;
+    return res;
 }
 
 #ifdef USE_KDE

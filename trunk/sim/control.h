@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
-    email                : vovan.ru
+    email                : vovan@shutoff.ru
  ***************************************************************************/
 
 /***************************************************************************
@@ -40,6 +40,7 @@ protected slots:
     void finished(ControlSocket*);
     void finished();
 protected:
+    string local_name;
     list<ControlSocket*> deleted;
     bool setOptions(int nPort);
     QSocketNotifier *n;
@@ -58,12 +59,13 @@ protected slots:
     void read_ready(int);
     void processEvent(ICQEvent*);
     void reset();
+    void iconChanged();
 protected:
-    void ownerChanged();
     int  s;
     bool bEscape;
     bool bNotify;
     string read_line;
+    QString icons;
     QString status;
     QString msg;
     void write(const char*);

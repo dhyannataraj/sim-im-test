@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sun Mar 24 2002
     copyright            : (C) 2002 by Vladimir Shutoff
-    email                : vovan.ru
+    email                : vovan@shutoff.ru
  ***************************************************************************/
 
 /***************************************************************************
@@ -20,12 +20,16 @@
 #include "client.h"
 #include "history.h"
 #include "cuser.h"
+#include "icons.h"
 #include "log.h"
 
 #include <qsocketnotifier.h>
 #include <qstringlist.h>
 #include <qtimer.h>
 #include <qtextcodec.h>
+#include <qimage.h>
+#include <qbuffer.h>
+#include <qregexp.h>
 
 #ifdef WIN32
 #include <winsock.h>
@@ -64,6 +68,8 @@ ControlListener::ControlListener(QObject *parent)
 ControlListener::~ControlListener()
 {
     if (s != -1) sockclose(s);
+    if (*local_name.c_str())
+        unlink(local_name.c_str());
 }
 
 bool ControlListener::bind(const char *addr)
@@ -97,6 +103,7 @@ bool ControlListener::bind(const char *addr)
         }
         addr = addr_buf;
     }
+    local_name = addr;
     unlink(addr);
     s = socket(PF_UNIX, SOCK_STREAM, 0);
     if (s == -1){
@@ -197,16 +204,19 @@ ControlSocket::~ControlSocket()
 }
 
 #define CMD_STATUS		0
-#define CMD_INVISIBLE	1
+#define CMD_INVISIBLE		1
 #define CMD_MESSAGE		2
 #define CMD_SMS			3
 #define CMD_MAINWND		4
-#define CMD_SEARCHWND	5
+#define CMD_SEARCHWND		5
 #define CMD_DOCK		6
 #define CMD_NOTIFY		7
-#define CMD_QUIT		8
-#define CMD_CLOSE		9
-#define CMD_HELP		10
+#define CMD_ICON		8
+#define CMD_OPEN		9
+#define CMD_POPUP		10
+#define CMD_QUIT		11
+#define CMD_CLOSE		12
+#define CMD_HELP		13
 
 typedef struct cmdDef
 {
@@ -223,10 +233,13 @@ static cmdDef cmds[] =
         { "INVISIBLE", I18N_NOOP("set invisible mode"), "INVISIBLE [on|off]", 0, 1 },
         { "MESSAGE", I18N_NOOP("send message"), "MESSAGE <UIN|Name> <message>", 2, 2 },
         { "SMS", I18N_NOOP("send SMS"), "SMS <phone> <message>", 2, 2 },
-        { "MAINWINDOW", I18N_NOOP("show/hide main window"), "MAINWINDOW [on|off]", 0, 1 },
+        { "MAINWINDOW", I18N_NOOP("show/hide main window"), "MAINWINDOW [on|off|toggle]", 0, 1 },
         { "SEARCHWINDOW", I18N_NOOP("show/hide search window"), "SEARCHWINDOW [on|off]", 0, 1 },
         { "DOCK", I18N_NOOP("show/hide dock"), "DOCK [on|off]", 0, 1 },
         { "NOTIFY", I18N_NOOP("set notify mode"), "NOTIFY [on|off]", 0, 1 },
+        { "ICON", I18N_NOOP("get icon in xpm fomrat"), "ICON nIcon", 1, 1 },
+        { "OPEN", I18N_NOOP("open upread message"), "OPEN", 0, 0 },
+	{ "POPUP", I18N_NOOP("show popup"), "POPUP x y", 2, 2 },
         { "QUIT", I18N_NOOP("quit SIM"), "QUIT", 0, 0 },
         { "CLOSE", I18N_NOOP("close session"), "CLOSE", 0, 0 },
         { "HELP", I18N_NOOP("command help information"), "HELP [<cmd>]", 0, 1 }
@@ -384,12 +397,24 @@ void ControlSocket::read_ready(int)
         if (pMain){
             if (nArgs){
                 arg = args[1].upper();
-                pMain->setShow((arg != "OFF") && (arg != "0"));
+                if (arg == "TOGGLE"){
+                    pMain->setShow(!pMain->isShow());
+                }else{
+                    pMain->setShow((arg != "OFF") && (arg != "0"));
+                }
             }
             write("MAINWINDOW ");
             write(pMain->isShow() ? "on" : "off");
         }
         break;
+    case CMD_OPEN:
+        if (pMain)
+            pMain->dockDblClicked();
+        break;
+    case CMD_POPUP:
+	if (pMain)
+	    pMain->showPopup(QPoint(args[1].toInt(), args[2].toInt()));
+	break;
     case CMD_DOCK:
         if (pMain){
             if (nArgs){
@@ -409,12 +434,14 @@ void ControlSocket::read_ready(int)
         write("NOTIFY ");
         write(bNotify ? "on" : "off");
         if (bNotify){
-            ownerChanged();
             reset();
-            if (pMain)
+            if (pMain){
                 connect(pMain, SIGNAL(msgChanged()), this, SLOT(reset()));
+                connect(pMain, SIGNAL(iconChanged()), this, SLOT(iconChanged()));
+            }
         }else if (pMain){
             disconnect(pMain, SIGNAL(msgChanged()), this, SLOT(reset()));
+            disconnect(pMain, SIGNAL(iconChanged()), this, SLOT(iconChanged()));
         }
         break;
     case CMD_SEARCHWND:
@@ -427,6 +454,32 @@ void ControlSocket::read_ready(int)
             write(pMain->isSearch() ? "on" : "off");
         }
         break;
+    case CMD_ICON:{
+            QPixmap p = Pict(args[1].latin1());
+            QImage img;
+            img = p.convertToImage();
+            QBuffer buf;
+            buf.open(IO_WriteOnly);
+            QImageIO io(&buf, "XPM");
+            io.setImage(img);
+            if (!io.write()){
+                write("? Can't save icon\n");
+                break;
+            }
+            buf.close();
+            QString data = buf.buffer();
+            QString res;
+            QRegExp exp("\"[^\"]+\"");
+            int pos;
+            int length;
+            while ((pos = exp.match(data, 0, &length)) >= 0){
+                res += data.mid(pos, length-1);
+                data = data.mid(pos + length);
+            }
+            write("\nICON ");
+            write((args[1] + " " + res).latin1());
+            break;
+        }
     case CMD_QUIT:
         if (pMain) pMain->quit();
         break;
@@ -489,7 +542,7 @@ void ControlSocket::processEvent(ICQEvent *e)
         break;
     case EVENT_STATUS_CHANGED:
         if ((e->Uin() == pClient->owner->Uin) || (e->Uin() == 0))
-            ownerChanged();
+            reset();
         break;
     }
     if (e != sendEvent) return;
@@ -503,6 +556,13 @@ void ControlSocket::processEvent(ICQEvent *e)
     h.addMessage(msg);
     write("\n>");
 }
+
+void ControlSocket::iconChanged()
+{
+    if (!bNotify) return;
+    write("\nClear icons\n");
+}
+
 
 void ControlSocket::reset()
 {
@@ -520,23 +580,32 @@ void ControlSocket::reset()
         }
         s = str.join(" ");
     }
-    if (s == msg) return;
-    msg = s;
-    write("\nMessage:");
-    if (!msg.isEmpty())
-        write(msg.local8Bit());
-    write("\n");
-}
-
-void ControlSocket::ownerChanged()
-{
-    if (!bNotify) return;
+    if (s != msg){
+        msg = s;
+        write("\nMessage:");
+        if (!msg.isEmpty())
+            write(msg.local8Bit());
+        write("\n");
+    }
     QString st = pClient->getStatusText();
-    if (st == status) return;
-    status = st;
-    write("\nStatus:");
-    write(status.local8Bit());
-    write("\n");
+    if (st != status){
+        status = st;
+        write("\nStatus:");
+        write(status.local8Bit());
+        write("\n");
+    }
+    QString icon = pClient->getStatusIcon();
+    if (pClient->isConnecting()) icon = "online offline";
+    if (msgs.size()){
+        icon += " ";
+        icon += pClient->getMessageIcon(pMain->messages.back().type());
+    }
+    if (icon != icons){
+        icons = icon;
+        write("\nIcons:");
+        write(icons.latin1());
+        write("\n");
+    }
 }
 
 #ifndef _WINDOWS

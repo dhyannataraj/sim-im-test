@@ -2,7 +2,7 @@
                           kabcsync.cpp  -  description
                              -------------------
     begin                : Mon Dec 02 2002
-    copyright            : (C) 2002 by Vladimir Shutoff (vovan.ru)
+    copyright            : (C) 2002 by Vladimir Shutoff (vovan@shutoff.ru)
     copyright            : (C) 2002 by Stanislav Klyuhin (crz@hot.ee)
 
  ***************************************************************************/

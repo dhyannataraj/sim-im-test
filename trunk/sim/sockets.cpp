@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sun Mar 10 2002
     copyright            : (C) 2002 by Vladimir Shutoff
-    email                : vovan.ru
+    email                : vovan@shutoff.ru
  ***************************************************************************/
 
 /***************************************************************************
@@ -78,7 +78,7 @@ void SIMSockets::resultsReady()
 void SIMSockets::resolve(const char *host)
 {
     log(L_DEBUG, "Resolve set label %s", host);
-#ifndef QT_VERSION >= 300
+#if QT_VERSION >= 300
     /* Workaround for Qt QDns error - no set timer for next query */
     delete resolver;
     resolver = new QDns(QString(host) + ".", QDns::A);

@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sun Mar 10 2002
     copyright            : (C) 2002 by Vladimir Shutoff
-    email                : vovan.ru
+    email                : vovan@shutoff.ru
  ***************************************************************************/
 
 /***************************************************************************
@@ -546,6 +546,7 @@ public slots:
     void setupClosed();
     void deleteLogin();
     void realSetStatus();
+    void dockDblClicked();
 protected slots:
     void toggleWindow();
     void autoAway();
@@ -554,7 +555,6 @@ protected slots:
     void processEvent(ICQEvent*);
     void messageReceived(ICQMessage *msg);
     void messageRead(ICQMessage*);
-    void dockDblClicked();
     void setPhoneLocation(int);
     void setPhoneStatus(int);
     void toContainer(int);
