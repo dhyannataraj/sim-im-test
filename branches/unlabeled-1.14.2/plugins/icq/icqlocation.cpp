@@ -81,7 +81,9 @@ QString ICQClient::convert(const char *text, unsigned size, TlvList &tlvs, unsig
             if (e)
                 *e = 0;
             charset = p;
-        }
+        }else{
+			charset = type;
+		}
     }
     QString res;
     if (strstr(charset.c_str(), "us-ascii") || strstr(charset.c_str(), "utf")){
@@ -487,7 +489,7 @@ void ICQClient::setAIMInfo(ICQUserData *data)
         }
     }
     snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_SETxDIRxINFO);
-    string encoding = bWide ? "unicode-2" : "us-ascii";
+    string encoding = bWide ? "unicode-2-0" : "us-ascii";
     m_socket->writeBuffer.tlv(0x1C, encoding.c_str());
     m_socket->writeBuffer.tlv(0x0A, (unsigned short)0x01);
     encodeString(data->FirstName, 0x01, bWide);
