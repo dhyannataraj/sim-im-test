@@ -60,6 +60,7 @@ void EncodingDlg::apply()
             continue;
         if (n--){
             set_str(&m_client->data.owner.Encoding, e->codec);
+            static_cast<ICQPlugin*>(m_client->protocol()->plugin())->setDefaultEncoding(e->codec);
             return;
         }
     }
@@ -68,6 +69,7 @@ void EncodingDlg::apply()
             continue;
         if (n--){
             set_str(&m_client->data.owner.Encoding, e->codec);
+            static_cast<ICQPlugin*>(m_client->protocol()->plugin())->setDefaultEncoding(e->codec);
             return;
         }
     }

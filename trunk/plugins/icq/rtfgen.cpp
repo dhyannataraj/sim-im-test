@@ -360,6 +360,8 @@ string RTFGenParser::parse(const QString &text)
     Tag& tag = *(m_tags.pushNew());
     tag.setCharStyle(style);
 
+    // Assume we go immediately after a tag.
+    m_bSpace = true;
     HTMLParser::parse(text);
 
     string s;
@@ -401,11 +403,10 @@ string RTFGenParser::parse(const QString &text)
         s += ";";
     }
     s += "}\r\n";
-    s += "\\viewkind4";
+    s += "\\viewkind4\\pard";
     s += style.getDiffRTF(CharStyle()).utf8();
-    s += " ";
     s += res;
-    s += "}\r\n";
+    s += "\r\n}\r\n";
 
     log(L_DEBUG, "Resulting RTF: %s", s.c_str());
 
@@ -525,7 +526,6 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
         }
     }
     else if (tagName == "p"){
-        res += "\\par";
         m_paragraphDir = DirUnknown;
         m_lastParagraphPos = res.length();
         m_bSpace = true;
@@ -703,6 +703,7 @@ void RTFGenParser::tag_end(const QString &tagName)
 
             // We must pop here, so that getTopTagWithCharStyle will find a parent tag.
             m_tags.pop();
+            pTag = NULL; // to avoid confusion
 
             Tag* pParentTag = m_tags.getTopTagWithCharStyle();
             if (pParentTag != NULL)
@@ -725,6 +726,16 @@ void RTFGenParser::tag_end(const QString &tagName)
         else // if this tag has no char style attached
         {
             m_tags.pop(); // just pop the tag out
+            pTag = NULL; // to avoid confusion
+        }
+
+        if (found)
+        {
+            if (tagName.lower() == "p")
+            {
+                res += "\\par";
+                m_bSpace = true;
+            }
         }
     }
 }

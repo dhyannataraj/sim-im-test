@@ -352,6 +352,7 @@ typedef struct IconsData
 static DataDef icqData[] =
     {
         { "ShowAllEncodings", DATA_BOOL, 1, 0 },
+        { "DefaultEncoding", DATA_STRING, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 

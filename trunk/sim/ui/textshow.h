@@ -49,6 +49,10 @@ public:
     QString plainText(int paraFrom=0, int paraTo=0x7FFFFFFF, int indexFrom=0, int indexTo=0);
     void setText(const QString &text);
     void setSource(const QString &url);
+    const QColor &background() const;
+    const QColor &foreground() const;
+    void setForeground(const QColor&);
+    void setBackground(const QColor&);
     static unsigned textPosition(const QString &text, unsigned pos);
     static QString unquoteString(const QString &s, int from, int to);
 signals:
@@ -68,11 +72,9 @@ public:
     TextEdit(QWidget *parent, const char *name = NULL);
     ~TextEdit();
     void setCtrlMode(bool);
-    const QColor &background() const;
+    void setTextFormat(QTextEdit::TextFormat);
     const QColor &foreground() const;
     void setForeground(const QColor&);
-    void setBackground(const QColor&);
-    void setTextFormat(QTextEdit::TextFormat);
     void changeText();
 signals:
     void ctrlEnterPressed();

@@ -265,6 +265,7 @@ const unsigned	EventGetIcons			= (CmdBase + 12);
 const unsigned	EventSortChanged		= (CmdBase + 13);
 const unsigned	EventActiveContact		= (CmdBase + 14);
 const unsigned	EventMessageRetry		= (CmdBase + 15);
+const unsigned	EventHistoryColors		= (CmdBase + 16);
 
 const unsigned	BarHistory				= (CmdBase + 1);
 const unsigned	BarReceived				= (CmdBase + 2);

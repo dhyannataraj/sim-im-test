@@ -38,6 +38,8 @@ MsgViewBase::MsgViewBase(QWidget *parent, unsigned id)
     style_p->setMargin(QStyleSheetItem::MarginTop, 0);
     style_p->setMargin(QStyleSheetItem::MarginBottom, 0);
     setStyleSheet(style);
+
+    setColors();
 }
 
 MsgViewBase::~MsgViewBase()
@@ -50,21 +52,19 @@ void MsgViewBase::setSelect(const QString &str)
     m_selectStr = str;
 }
 
-#define FONT_FORMAT "%06lX"
+#define COLOR_FORMAT "%06lX"
 QString MsgViewBase::messageText(Message *msg)
 {
     QString color;
-    unsigned long c_sender   = 0x800000;
-    unsigned long c_receiver = 0x000080;
+    unsigned long c_sender   = (CorePlugin::m_plugin->getColorSender())  & 0xFFFFFF;
+    unsigned long c_receiver = (CorePlugin::m_plugin->getColorReceiver())& 0xFFFFFF;
     unsigned long c_send     = 0x000000;
     unsigned long c_receive  = 0x000000;
     if (CorePlugin::m_plugin->getOwnColors()) {
         c_send     = (CorePlugin::m_plugin->getColorSend())    & 0xFFFFFF;
         c_receive  = (CorePlugin::m_plugin->getColorReceive()) & 0xFFFFFF;
-        c_sender   = (CorePlugin::m_plugin->getColorSender())  & 0xFFFFFF;
-        c_receiver = (CorePlugin::m_plugin->getColorReceiver())& 0xFFFFFF;
     }
-    color.sprintf(FONT_FORMAT,
+    color.sprintf(COLOR_FORMAT,
                   ((msg->getFlags() & MESSAGE_RECEIVED) ? c_receiver : c_sender));
     const char *icon = "message";
     const CommandDef *def = CorePlugin::m_plugin->messageTypes.find(msg->type());
@@ -152,20 +152,6 @@ QString MsgViewBase::messageText(Message *msg)
                 .arg(bUnread ? "</b>" : "");
     if (msg->type() != MessageStatus){
         QString msgText = msg->presentation();
-        // replace font color if we use own colors
-        // some of the incoming messages are saved as html with an extra <font> - tag
-        // so we need to replace until no more <font> - tag is found
-        // this behaviour should be checked!
-        if (CorePlugin::m_plugin->getOwnColors()) {
-            int pos = msgText.find("font color=\"#",0);
-            while (pos != -1) {
-                pos += 13;
-                QString color;
-                color.sprintf(FONT_FORMAT, (msg->getFlags() & MESSAGE_RECEIVED) ? c_receive : c_send);
-                msgText.replace(pos,6,color);
-                pos = msgText.find("font color=\"#",pos);
-            }
-        }
         if (msgText.isEmpty()){
             unsigned type = msg->type();
             for (;;){
@@ -187,9 +173,19 @@ QString MsgViewBase::messageText(Message *msg)
         }
         Event e(EventEncodeText, &msgText);
         e.process();
-        msgText = parseText(msgText, false, CorePlugin::m_plugin->getUseSmiles());
+        msgText = parseText(msgText, CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
+        if (CorePlugin::m_plugin->getOwnColors()){
+            color.sprintf(COLOR_FORMAT,
+                          ((msg->getFlags() & MESSAGE_RECEIVED) ? c_receive : c_send));
+            s += "<span style=\"color:#";
+            s += color;
+            s += "\">";
+        }
         s += msgText;
+        if (CorePlugin::m_plugin->getOwnColors())
+            s += "</span>";
     }
+    log(L_DEBUG, "> %s", s.latin1());
     return s;
 }
 
@@ -323,6 +319,12 @@ bool MsgViewBase::findMessage(Message *msg)
     return true;
 }
 
+void MsgViewBase::setColors()
+{
+    TextShow::setBackground(CorePlugin::m_plugin->getEditBackground());
+    TextShow::setForeground(CorePlugin::m_plugin->getEditForeground());
+}
+
 void *MsgViewBase::processEvent(Event *e)
 {
     if (e->type() == EventMessageRead){
@@ -399,6 +401,9 @@ void *MsgViewBase::processEvent(Event *e)
             setCursorPosition(para, pos);
             ensureCursorVisible();
         }
+    }
+    if (e->type() == EventHistoryColors){
+        setColors();
     }
     if (e->type() == EventCheckState){
         CommandDef *cmd = (CommandDef*)(e->param());
@@ -876,7 +881,7 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
         tagText += name;
         if (!value.isEmpty()){
             tagText += "=\"";
-            tagText += quoteString(value);
+            tagText += value;
             tagText += "\"";
         }
     }
@@ -885,22 +890,29 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
     // It won't filter out colors as part of 'background', but life's tough.
     // (If it's any comfort, Qt probably won't display it either.)
     if (!style.isEmpty()){
-        list<QString> opt = parseStyle(style);
-        list<QString> new_opt;
-        for (list<QString>::iterator it = opt.begin(); it != opt.end(); ++it){
-            QString name = *it;
-            it++;
-            if (it == opt.end())
-                break;
-            QString value = *it;
-            if ((name == "color") || (name == "background-color"))
-                continue;
-            new_opt.push_back(name);
-            new_opt.push_back(value);
+        if (m_bIgnoreColors){
+            list<QString> opt = parseStyle(style);
+            list<QString> new_opt;
+            for (list<QString>::iterator it = opt.begin(); it != opt.end(); ++it){
+                QString name = *it;
+                it++;
+                if (it == opt.end())
+                    break;
+                QString value = *it;
+                if ((name == "color") ||
+                        (name == "background-color") ||
+                        (name == "font-size") ||
+                        (name == "font-style") ||
+                        (name == "font-weight") ||
+                        (name == "font-family"))
+                    continue;
+                new_opt.push_back(name);
+                new_opt.push_back(value);
+            }
+            style = makeStyle(new_opt);
         }
-        style = makeStyle(new_opt);
-        if (!style.isEmpty())
-            tagText += " style=\"" + quoteString(style) + "\"";
+        if (style.isEmpty())
+            tagText += " style=\"" + style + "\"";
     }
     tagText += ">";
     res += tagText;

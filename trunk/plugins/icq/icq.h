@@ -48,6 +48,7 @@ public:
 typedef struct ICQData
 {
     unsigned	ShowAllEncodings;
+    char		*DefaultEncoding;
 } ICQData;
 
 class ICQPlugin : public Plugin
@@ -58,6 +59,7 @@ public:
     unsigned OscarPacket;
     unsigned ICQDirectPacket;
     PROP_BOOL(ShowAllEncodings);
+    PROP_STR(DefaultEncoding);
     unsigned EventSearch;
     unsigned EventSearchDone;
     unsigned EventAutoReplyFail;

@@ -38,6 +38,7 @@ protected:
     void		*processEvent(Event*);
     void		setBackground(unsigned start);
     void		setSource(const QString&);
+    void		setColors();
     Message		*currentMessage();
     QString		messageText(Message *msg);
     QPoint		m_popupPos;

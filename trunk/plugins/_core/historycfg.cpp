@@ -63,10 +63,7 @@ void HistoryConfig::useOwnColorsChanged(bool AToggled)
 {
     btnSend->setEnabled(AToggled);
     btnReceive->setEnabled(AToggled);
-    btnSender->setEnabled(AToggled);
-    btnReceiver->setEnabled(AToggled);
 }
-
 
 void HistoryConfig::apply()
 {
