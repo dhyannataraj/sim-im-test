@@ -1327,7 +1327,7 @@ void ICQPlugin::registerMessages()
     eMsg.process();
 
     cmd->id			= MessageICQ;
-    cmd->text		= "";
+    cmd->text		= I18N_NOOP("Message");
     cmd->icon		= "message";
     cmd->accel		= NULL;
     cmd->menu_grp	= 0;

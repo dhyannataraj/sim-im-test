@@ -1369,6 +1369,8 @@ void *CorePlugin::processEvent(Event *e)
                         }
                     }
                 }
+            } else {
+                log(L_WARN,"No CommandDef for message %u found!",msg->type());
             }
             return NULL;
         }
@@ -2803,6 +2805,9 @@ string CorePlugin::typeName(const char *name)
     int n = text.find("&", 0);
     if (n >= 0)
         text.replace(n, 1, "");
+    if (!text.length()) {
+        log(L_DEBUG,"defText is empty!");
+    }
     return text;
 }
 
