@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2003-12-28 15:38+0300\n"
-"PO-Revision-Date: 2003-12-27 02:44GMT\n"
+"PO-Revision-Date: 2003-12-28 19:08GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,13 +17,11 @@ msgstr ""
 
 #: sim/api/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
-msgstr ""
-"Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
+msgstr "Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
 
 #: sim/api/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
 
 #: sim/api/country.cpp:25
 msgid "Afghanistan"
@@ -4251,14 +4249,12 @@ msgid "&Open message"
 msgstr "Nachricht ö&ffnen"
 
 #: plugins/_core/core.cpp:817
-#, fuzzy
 msgid "&Delete message"
-msgstr "Nachrichten ablehnen"
+msgstr "Nachricht &löschen"
 
 #: plugins/_core/core.cpp:823
-#, fuzzy
 msgid "&Cut history"
-msgstr "&Verlauf"
+msgstr "Verlauf ausschneiden"
 
 #: plugins/_core/core.cpp:828
 msgid "&Quote"
@@ -5173,8 +5169,7 @@ msgstr "Typ:"
 
 #: plugins/_core/searchbase.cpp:74
 msgid "Choose type of contact which you want to find or add:"
-msgstr ""
-"Art des Kontaktes auswählen, der gefunden oder hinzugefügt werden soll"
+msgstr "Art des Kontaktes auswählen, der gefunden oder hinzugefügt werden soll"
 
 #: plugins/_core/searchbase.cpp:75
 msgid "Contact type:"
@@ -5434,8 +5429,7 @@ msgstr "\"N/A\"-Status setzen wenn"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:125
 #: plugins/sound/soundconfigbase.cpp:166
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -5572,8 +5566,7 @@ msgstr "Nachrichten nur von &Benutzern der Kontaktliste empfangen"
 
 #: plugins/filter/filtercfgbase.cpp:98
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: plugins/filter/filtercfgbase.cpp:99
 msgid ""
@@ -5595,8 +5588,7 @@ msgstr "Floatings"
 
 #: plugins/floaty/floaty.cpp:44
 msgid "Plugin provides floating windows for contacts"
-msgstr ""
-"Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
+msgstr "Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
 
 #: plugins/floaty/floaty.cpp:91 plugins/floaty/floaty.cpp:165
 msgid "Floating on"
@@ -5616,8 +5608,7 @@ msgstr "Plugin stellt Nachrichtenweiterleitung an Handys bereit"
 
 #: plugins/forward/forwardcfgbase.cpp:102
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
-"Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
+msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
 
 #: plugins/forward/forwardcfgbase.cpp:103
 msgid ""
@@ -5975,8 +5966,7 @@ msgid "Navigate"
 msgstr "Navigation"
 
 #: plugins/navigate/navigate.cpp:199
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Plugin stellt Navigation von Hyperlinks bereit und ruft externe Browser- "
 "oder Mailprogramme auf"
@@ -6110,8 +6100,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:48
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Plugin stellt Bildschirmbenachrichtigungen über Nachrichten und "
 "Kontaktstatus bereit"
@@ -6162,8 +6151,7 @@ msgstr "Bei Nachrichteneingang informieren (per OSD)"
 
 #: plugins/osd/osdconfigbase.cpp:93
 msgid "Enable &status notification"
-msgstr ""
-"Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
+msgstr "Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
 
 #: plugins/jabber/jabberconfigbase.cpp:325 plugins/osd/osdconfigbase.cpp:94
 msgid "Enable &typing notification"
@@ -6187,8 +6175,7 @@ msgstr "Proxy"
 
 #: plugins/proxy/proxy.cpp:1244
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS and HTTP)"
-msgstr ""
-"Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
+msgstr "Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
 
 #: plugins/proxy/proxycfg.cpp:42
 msgid "&Proxy"
@@ -6196,8 +6183,7 @@ msgstr "&Proxy"
 
 #: plugins/proxy/proxycfg.cpp:140
 msgid "<b>Note !</b><br>HTTP-proxy support only ICQ-protocol"
-msgstr ""
-"<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
+msgstr "<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
 
 #: plugins/proxy/proxycfg.cpp:209
 msgid "Default"
@@ -6381,8 +6367,7 @@ msgstr "Aktualisieren"
 
 #: plugins/update/update.cpp:40
 msgid "Plugin provides notifications about update SIM software"
-msgstr ""
-"Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
+msgstr "Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
 
 #: plugins/update/update.cpp:153
 msgid "Show details"
@@ -6897,8 +6882,7 @@ msgstr "Aktion"
 
 #: plugins/action/action.cpp:34
 msgid "Plugin execute external programs on event or from contact menu"
-msgstr ""
-"Plugin führt externe Programme bei einem Ereignis oder von Kontaktmenü aus"
+msgstr "Plugin führt externe Programme bei einem Ereignis oder von Kontaktmenü aus"
 
 #: plugins/action/action.cpp:84
 msgid "&Action"
@@ -7030,12 +7014,11 @@ msgstr "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
 #: plugins/livejournal/livejournal.cpp:51
 #: plugins/livejournal/livejournal.cpp:252
 msgid "LiveJournal"
-msgstr ""
+msgstr "LiveJournal"
 
 #: plugins/livejournal/livejournal.cpp:52
-#, fuzzy
 msgid "Plugin provides posting to LiveJournal"
-msgstr "Plugin stellt die \"Über\"-Information bereit"
+msgstr "Plugin stellt posten zum LiveJournal bereit"
 
 #: plugins/livejournal/livejournal.cpp:108
 #, c-format
@@ -7043,660 +7026,596 @@ msgid ""
 "_n: LiveJournal post\n"
 "%n LiveJournal posts"
 msgstr ""
+"1 LiveJournal-Post\n"
+"%n LiveJournal-Posts"
 
 #: plugins/livejournal/livejournal.cpp:125
-#, fuzzy
 msgid "&Remove from journal"
-msgstr "Von den Kontakten löschen"
+msgstr "Vom Journal &löschen"
 
 #: plugins/livejournal/livejournal.cpp:200
 msgid "LiveJournal &post"
-msgstr ""
+msgstr "LiveJournal-&Post"
 
 #: plugins/livejournal/livejournal.cpp:210
 msgid "LiveJournal &WWW"
-msgstr ""
+msgstr "LiveJournal &WWW"
 
 #: plugins/livejournal/livejournal.cpp:552
-#, fuzzy
 msgid "Posting failed"
-msgstr "Anmeldung fehlgeschlagen"
+msgstr "Posten fehlgeschlagen"
 
 #: plugins/livejournal/livejournal.cpp:1107
-#, fuzzy
 msgid "Invalid username"
-msgstr "Ungültige Nachrichten"
+msgstr "Ungültiger Benutzername"
 
 #: plugins/livejournal/livejournal.cpp:1109
 msgid "aggravated"
-msgstr ""
+msgstr "beschwert"
 
 #: plugins/livejournal/livejournal.cpp:1110
-#, fuzzy
 msgid "angry"
-msgstr "Zornig"
+msgstr "zornig"
 
 #: plugins/livejournal/livejournal.cpp:1111
-#, fuzzy
 msgid "annoyed"
-msgstr "Verärgert"
+msgstr "verärgert"
 
 #: plugins/livejournal/livejournal.cpp:1112
-#, fuzzy
 msgid "anxious"
-msgstr "anonymous"
+msgstr "besorgt"
 
 #: plugins/livejournal/livejournal.cpp:1113
-#, fuzzy
 msgid "bored"
-msgstr "fett"
+msgstr "gelangweilt"
 
 #: plugins/livejournal/livejournal.cpp:1114
-#, fuzzy
 msgid "confused"
-msgstr "Icons"
+msgstr "konfus"
 
 #: plugins/livejournal/livejournal.cpp:1115
 msgid "crappy"
-msgstr ""
+msgstr "beschissen"
 
 #: plugins/livejournal/livejournal.cpp:1116
-#, fuzzy
 msgid "cranky"
-msgstr "Deutschland"
+msgstr "launig"
 
 #: plugins/livejournal/livejournal.cpp:1117
 msgid "depressed"
-msgstr ""
+msgstr "depressiv"
 
 #: plugins/livejournal/livejournal.cpp:1118
-#, fuzzy
 msgid "discontent"
-msgstr "Hören"
+msgstr "unzufrieden"
 
 #: plugins/livejournal/livejournal.cpp:1119
 msgid "energetic"
-msgstr ""
+msgstr "energisch"
 
 #: plugins/livejournal/livejournal.cpp:1120
 msgid "enraged"
-msgstr ""
+msgstr "erzürnt"
 
 #: plugins/livejournal/livejournal.cpp:1121
-#, fuzzy
 msgid "enthralled"
-msgstr "Steht"
+msgstr "bezaubert"
 
 #: plugins/livejournal/livejournal.cpp:1122
 msgid "exhausted"
-msgstr ""
+msgstr "abgehetzt"
 
 #: plugins/livejournal/livejournal.cpp:1123
 msgid "happy"
-msgstr ""
+msgstr "glücklich"
 
 #: plugins/livejournal/livejournal.cpp:1124
-#, fuzzy
 msgid "high"
-msgstr "Hell"
+msgstr "hoch"
 
 #: plugins/livejournal/livejournal.cpp:1125
 msgid "horny"
-msgstr ""
+msgstr "geil"
 
 #: plugins/livejournal/livejournal.cpp:1126
-#, fuzzy
 msgid "hungry"
-msgstr "Ungarn"
+msgstr "hungrig"
 
 #: plugins/livejournal/livejournal.cpp:1127
 msgid "infuriated"
-msgstr ""
+msgstr "wütend"
 
 #: plugins/livejournal/livejournal.cpp:1128
-#, fuzzy
 msgid "irate"
-msgstr "Konvertieren"
+msgstr "wütend"
 
 #: plugins/livejournal/livejournal.cpp:1129
 msgid "jubilant"
-msgstr ""
+msgstr "jubelnd"
 
 #: plugins/livejournal/livejournal.cpp:1130
 msgid "lonely"
-msgstr ""
+msgstr "einsam"
 
 #: plugins/livejournal/livejournal.cpp:1131
 msgid "moody"
-msgstr ""
+msgstr "launisch"
 
 #: plugins/livejournal/livejournal.cpp:1132
 msgid "pissed off"
-msgstr ""
+msgstr "stinksauer"
 
 #: plugins/livejournal/livejournal.cpp:1133
-#, fuzzy
 msgid "sad"
-msgstr "Traurig"
+msgstr "betrübt"
 
 #: plugins/livejournal/livejournal.cpp:1134
 msgid "satisfied"
-msgstr ""
+msgstr "zufrieden"
 
 #: plugins/livejournal/livejournal.cpp:1135
-#, fuzzy
 msgid "sore"
-msgstr "&Wiederherstellen"
+msgstr "verwundet"
 
 #: plugins/livejournal/livejournal.cpp:1136
 msgid "stressed"
-msgstr ""
+msgstr "gestresst"
 
 #: plugins/livejournal/livejournal.cpp:1137
 msgid "thirsty"
-msgstr ""
+msgstr "durstig"
 
 #: plugins/livejournal/livejournal.cpp:1138
 msgid "thoughtful"
-msgstr ""
+msgstr "fürsorglich"
 
 #: plugins/livejournal/livejournal.cpp:1139
-#, fuzzy
 msgid "tired"
-msgstr "Pensionär"
+msgstr "müde"
 
 #: plugins/livejournal/livejournal.cpp:1140
 msgid "touched"
-msgstr ""
+msgstr "berührt"
 
 #: plugins/livejournal/livejournal.cpp:1141
-#, fuzzy
 msgid "lazy"
-msgstr "Malaysisch"
+msgstr "faul"
 
 #: plugins/livejournal/livejournal.cpp:1142
 msgid "drunk"
-msgstr ""
+msgstr "betrunken"
 
 #: plugins/livejournal/livejournal.cpp:1143
-#, fuzzy
 msgid "ditzy"
-msgstr "Stadt"
+msgstr "dumm"
 
 #: plugins/livejournal/livejournal.cpp:1144
 msgid "mischievous"
-msgstr ""
+msgstr "schädlich"
 
 #: plugins/livejournal/livejournal.cpp:1145
-#, fuzzy
 msgid "morose"
-msgstr "Komoren"
+msgstr "mürrisch"
 
 #: plugins/livejournal/livejournal.cpp:1146
 msgid "gloomy"
-msgstr ""
+msgstr "düster"
 
 #: plugins/livejournal/livejournal.cpp:1147
 msgid "melancholy"
-msgstr ""
+msgstr "schwermütig"
 
 #: plugins/livejournal/livejournal.cpp:1148
-#, fuzzy
 msgid "drained"
-msgstr "Ukraine"
+msgstr "ausgetrocknet"
 
 #: plugins/livejournal/livejournal.cpp:1149
 msgid "excited"
-msgstr ""
+msgstr "aufgeregt"
 
 #: plugins/livejournal/livejournal.cpp:1150
 msgid "relieved"
-msgstr ""
+msgstr "erleichtert"
 
 #: plugins/livejournal/livejournal.cpp:1151
 msgid "hopeful"
-msgstr ""
+msgstr "hoffnungsvoll"
 
 #: plugins/livejournal/livejournal.cpp:1152
-#, fuzzy
 msgid "amused"
-msgstr "&Pause"
+msgstr "amüsiert"
 
 #: plugins/livejournal/livejournal.cpp:1153
-#, fuzzy
 msgid "determined"
-msgstr "Unterstrichen"
+msgstr "entschlossen"
 
 #: plugins/livejournal/livejournal.cpp:1154
 msgid "scared"
-msgstr ""
+msgstr "aufgeschreckt"
 
 #: plugins/livejournal/livejournal.cpp:1155
-#, fuzzy
 msgid "frustrated"
-msgstr "Übertragung gestartet"
+msgstr "frustriert"
 
 #: plugins/livejournal/livejournal.cpp:1156
 msgid "indescribable"
-msgstr ""
+msgstr "unbeschreiblich"
 
 #: plugins/livejournal/livejournal.cpp:1157
 msgid "sleepy"
-msgstr ""
+msgstr "schläfrig"
 
 #: plugins/livejournal/livejournal.cpp:1158
 msgid "groggy"
-msgstr ""
+msgstr "angeschlagen"
 
 #: plugins/livejournal/livejournal.cpp:1159
-#, fuzzy
 msgid "hyper"
-msgstr "Typ"
+msgstr "über"
 
 #: plugins/livejournal/livejournal.cpp:1160
-#, fuzzy
 msgid "relaxed"
-msgstr "Irland"
+msgstr "entspannt"
 
 #: plugins/livejournal/livejournal.cpp:1161
 msgid "restless"
-msgstr ""
+msgstr "ruhelos"
 
 #: plugins/livejournal/livejournal.cpp:1162
 msgid "disappointed"
-msgstr ""
+msgstr "enttäuscht"
 
 #: plugins/livejournal/livejournal.cpp:1163
-#, fuzzy
 msgid "curious"
-msgstr "Wassermann"
+msgstr "neugierig"
 
 #: plugins/livejournal/livejournal.cpp:1164
 msgid "mellow"
-msgstr ""
+msgstr "mürbe"
 
 #: plugins/livejournal/livejournal.cpp:1165
-#, fuzzy
 msgid "peaceful"
-msgstr "Raumfahrt"
+msgstr "friedlich"
 
 #: plugins/livejournal/livejournal.cpp:1166
 msgid "bouncy"
-msgstr ""
+msgstr "lebhaft"
 
 #: plugins/livejournal/livejournal.cpp:1167
-#, fuzzy
 msgid "nostalgic"
-msgstr "kursiv"
+msgstr "nostalgisch"
 
 #: plugins/livejournal/livejournal.cpp:1168
 msgid "okay"
-msgstr ""
+msgstr "in Ordnung"
 
 #: plugins/livejournal/livejournal.cpp:1169
 msgid "rejuvenated"
-msgstr ""
+msgstr "verjüngt"
 
 #: plugins/livejournal/livejournal.cpp:1170
-#, fuzzy
 msgid "complacent"
-msgstr "Beendet"
+msgstr "selbstgefällig"
 
 #: plugins/livejournal/livejournal.cpp:1171
-#, fuzzy
 msgid "content"
-msgstr "Internet"
+msgstr "zufrieden"
 
 #: plugins/livejournal/livejournal.cpp:1172
-#, fuzzy
 msgid "indifferent"
-msgstr "Gleichgültig"
+msgstr "gleichgültig"
 
 #: plugins/livejournal/livejournal.cpp:1173
 msgid "silly"
-msgstr ""
+msgstr "töricht"
 
 #: plugins/livejournal/livejournal.cpp:1174
 msgid "flirty"
-msgstr ""
+msgstr "hartherzig"
 
 #: plugins/livejournal/livejournal.cpp:1175
 msgid "calm"
-msgstr ""
+msgstr "ruhig"
 
 #: plugins/livejournal/livejournal.cpp:1176
-#, fuzzy
 msgid "refreshed"
-msgstr "&Aktualisieren"
+msgstr "aufgefrischt"
 
 #: plugins/livejournal/livejournal.cpp:1177
 msgid "optimistic"
-msgstr ""
+msgstr "optimistisch"
 
 #: plugins/livejournal/livejournal.cpp:1178
 msgid "pessimistic"
-msgstr ""
+msgstr "pessimistisch"
 
 #: plugins/livejournal/livejournal.cpp:1179
 msgid "giggly"
-msgstr ""
+msgstr "albern"
 
 #: plugins/livejournal/livejournal.cpp:1180
 msgid "pensive"
-msgstr ""
+msgstr "nachdenklich"
 
 #: plugins/livejournal/livejournal.cpp:1181
 msgid "uncomfortable"
-msgstr ""
+msgstr "unbequem"
 
 #: plugins/livejournal/livejournal.cpp:1182
 msgid "lethargic"
-msgstr ""
+msgstr "lustlos"
 
 #: plugins/livejournal/livejournal.cpp:1183
-#, fuzzy
 msgid "listless"
-msgstr "Fitness"
+msgstr "lustlos"
 
 #: plugins/livejournal/livejournal.cpp:1184
-#, fuzzy
 msgid "recumbent"
-msgstr "aktuell"
+msgstr "liegend"
 
 #: plugins/livejournal/livejournal.cpp:1185
 msgid "exanimate"
-msgstr ""
+msgstr "leblos"
 
 #: plugins/livejournal/livejournal.cpp:1186
-#, fuzzy
 msgid "embarrassed"
-msgstr "Beschämt"
+msgstr "beschämt"
 
 #: plugins/livejournal/livejournal.cpp:1187
-#, fuzzy
 msgid "envious"
-msgstr "Nevis"
+msgstr "neidisch"
 
 #: plugins/livejournal/livejournal.cpp:1188
 msgid "sympathetic"
-msgstr ""
+msgstr "sympatisch"
 
 #: plugins/livejournal/livejournal.cpp:1189
-#, fuzzy
 msgid "sick"
-msgstr "Spitzname"
+msgstr "krank"
 
 #: plugins/livejournal/livejournal.cpp:1190
-#, fuzzy
 msgid "hot"
-msgstr "Foto"
+msgstr "heiss"
 
 #: plugins/livejournal/livejournal.cpp:1191
-#, fuzzy
 msgid "cold"
-msgstr "fett"
+msgstr "kalt"
 
 #: plugins/livejournal/livejournal.cpp:1192
-#, fuzzy
 msgid "worried"
-msgstr "Überrascht"
+msgstr "besorgt"
 
 #: plugins/livejournal/livejournal.cpp:1193
-#, fuzzy
 msgid "loved"
-msgstr "Slowenien"
+msgstr "geliebt"
 
 #: plugins/livejournal/livejournal.cpp:1194
 msgid "awake"
-msgstr ""
+msgstr "wach"
 
 #: plugins/livejournal/livejournal.cpp:1195
-#, fuzzy
 msgid "working"
-msgstr "Sortierung"
+msgstr "arbeitend"
 
 #: plugins/livejournal/livejournal.cpp:1196
 msgid "productive"
-msgstr ""
+msgstr "produktiv"
 
 #: plugins/livejournal/livejournal.cpp:1197
 msgid "accomplished"
-msgstr ""
+msgstr "vollbracht"
 
 #: plugins/livejournal/livejournal.cpp:1198
-#, fuzzy
 msgid "busy"
-msgstr "Beschäftigt"
+msgstr "beschäftigt"
 
 #: plugins/livejournal/livejournal.cpp:1199
-#, fuzzy
 msgid "blah"
-msgstr "Schwarz"
+msgstr "Quatsch"
 
 #: plugins/livejournal/livejournal.cpp:1200
 msgid "full"
-msgstr ""
+msgstr "voll"
 
 #: plugins/livejournal/livejournal.cpp:1201
 msgid "grumpy"
-msgstr ""
+msgstr "brumming"
 
 #: plugins/livejournal/livejournal.cpp:1202
-#, fuzzy
 msgid "weird"
-msgstr "Pensionär"
+msgstr "unheimlich"
 
 #: plugins/livejournal/livejournal.cpp:1203
 msgid "nauseated"
-msgstr ""
+msgstr "verabscheuend"
 
 #: plugins/livejournal/livejournal.cpp:1204
 msgid "ecstatic"
-msgstr ""
+msgstr "verzückt"
 
 #: plugins/livejournal/livejournal.cpp:1205
 msgid "chipper"
-msgstr ""
+msgstr "zwitschernd"
 
 #: plugins/livejournal/livejournal.cpp:1206
 msgid "rushed"
-msgstr ""
+msgstr "gehetzt"
 
 #: plugins/livejournal/livejournal.cpp:1207
 msgid "contemplative"
-msgstr ""
+msgstr "nachdenklich"
 
 #: plugins/livejournal/livejournal.cpp:1208
 msgid "nerdy"
-msgstr ""
+msgstr "intelligent"
 
 #: plugins/livejournal/livejournal.cpp:1209
 msgid "geeky"
-msgstr ""
+msgstr "strebend"
 
 #: plugins/livejournal/livejournal.cpp:1210
-#, fuzzy
 msgid "cynical"
-msgstr "Techniker"
+msgstr "zynisch"
 
 #: plugins/livejournal/livejournal.cpp:1211
 msgid "quixotic"
-msgstr ""
+msgstr "phantastisch"
 
 #: plugins/livejournal/livejournal.cpp:1212
 msgid "crazy"
-msgstr ""
+msgstr "verrückt"
 
 #: plugins/livejournal/livejournal.cpp:1213
-#, fuzzy
 msgid "creative"
-msgstr "Empfang"
+msgstr "kreativ"
 
 #: plugins/livejournal/livejournal.cpp:1214
-#, fuzzy
 msgid "artistic"
-msgstr "&Statistik"
+msgstr "künstlerisch"
 
 #: plugins/livejournal/livejournal.cpp:1215
-#, fuzzy
 msgid "pleased"
-msgstr "Neckend"
+msgstr "erfreut"
 
 #: plugins/livejournal/livejournal.cpp:1216
 msgid "bitchy"
-msgstr ""
+msgstr "boshaft"
 
 #: plugins/livejournal/livejournal.cpp:1217
 msgid "guilty"
-msgstr ""
+msgstr "schuldig"
 
 #: plugins/livejournal/livejournal.cpp:1218
-#, fuzzy
 msgid "irritated"
-msgstr "Konvertieren"
+msgstr "irritiert"
 
 #: plugins/livejournal/livejournal.cpp:1219
-#, fuzzy
 msgid "blank"
-msgstr "Schwarz"
+msgstr "leer"
 
 #: plugins/livejournal/livejournal.cpp:1220
 msgid "apathetic"
-msgstr ""
+msgstr "apathisch"
 
 #: plugins/livejournal/livejournal.cpp:1221
 msgid "dorky"
-msgstr ""
+msgstr "idiotisch"
 
 #: plugins/livejournal/livejournal.cpp:1222
 msgid "impressed"
-msgstr ""
+msgstr "beeindruckt"
 
 #: plugins/livejournal/livejournal.cpp:1223
 msgid "naughty"
-msgstr ""
+msgstr "unartig"
 
 #: plugins/livejournal/livejournal.cpp:1224
-#, fuzzy
 msgid "predatory"
-msgstr "Verzeichnis"
+msgstr "räuberisch"
 
 #: plugins/livejournal/livejournal.cpp:1225
-#, fuzzy
 msgid "dirty"
-msgstr "Stadt"
+msgstr "dreckig"
 
 #: plugins/livejournal/livejournal.cpp:1226
 msgid "giddy"
-msgstr ""
+msgstr "schwindlig"
 
 #: plugins/livejournal/livejournal.cpp:1227
-#, fuzzy
 msgid "surprised"
-msgstr "Überrascht"
+msgstr "überrascht"
 
 #: plugins/livejournal/livejournal.cpp:1228
 msgid "shocked"
-msgstr ""
+msgstr "geschockt"
 
 #: plugins/livejournal/livejournal.cpp:1229
-#, fuzzy
 msgid "rejected"
-msgstr "Griechenland"
+msgstr "zurückgewiesen"
 
 #: plugins/livejournal/livejournal.cpp:1230
 msgid "numb"
-msgstr ""
+msgstr "betäubt"
 
 #: plugins/livejournal/livejournal.cpp:1231
 msgid "cheerful"
-msgstr ""
+msgstr "fröhlich"
 
 #: plugins/livejournal/livejournal.cpp:1232
 msgid "good"
-msgstr ""
+msgstr "artig"
 
 #: plugins/livejournal/livejournal.cpp:1233
 msgid "distressed"
-msgstr ""
+msgstr "gequält"
 
 #: plugins/livejournal/livejournal.cpp:1234
-#, fuzzy
 msgid "intimidated"
-msgstr "Minimieren"
+msgstr "eingeschüchtert"
 
 #: plugins/livejournal/livejournal.cpp:1235
 msgid "crushed"
-msgstr ""
+msgstr "gedrückt"
 
 #: plugins/livejournal/livejournal.cpp:1236
-#, fuzzy
 msgid "devious"
-msgstr "Nevis"
+msgstr "abwegig"
 
 #: plugins/livejournal/livejournal.cpp:1237
 msgid "thankful"
-msgstr ""
+msgstr "dankbar"
 
 #: plugins/livejournal/livejournal.cpp:1238
-#, fuzzy
 msgid "grateful"
-msgstr "Konvertieren"
+msgstr "dankbar"
 
 #: plugins/livejournal/livejournal.cpp:1239
 msgid "jealous"
-msgstr ""
+msgstr "eifersüchtig"
 
 #: plugins/livejournal/livejournal.cpp:1240
-#, fuzzy
 msgid "nervous"
-msgstr "Gruppen"
+msgstr "nervös"
 
 #: plugins/livejournal/livejournal.cpp:1242
 msgid "Recent Entries"
-msgstr ""
+msgstr "Letzte Einträge"
 
 #: plugins/livejournal/livejournal.cpp:1243
 msgid "Calendar View"
-msgstr ""
+msgstr "Kalenderansicht"
 
 #: plugins/livejournal/livejournal.cpp:1244
-#, fuzzy
 msgid "Friends View"
-msgstr "Liste anzeigen"
+msgstr "Freunde-Ansicht"
 
 #: plugins/livejournal/livejournal.cpp:1245
-#, fuzzy
 msgid "Your Profile"
-msgstr "&Profil"
+msgstr "Ihr Profil"
 
 #: plugins/livejournal/livejournal.cpp:1246
 msgid "Your To-Do List"
-msgstr ""
+msgstr "Ihre zu erledigen-Liste"
 
 #: plugins/livejournal/livejournal.cpp:1247
-#, fuzzy
 msgid "Change Settings"
-msgstr "Kodierung ä&ndern"
+msgstr "Einstellungen ändern"
 
 #: plugins/livejournal/livejournal.cpp:1248
-#, fuzzy
 msgid "Support"
-msgstr "Sport"
+msgstr "Unterstützung"
 
 #: plugins/livejournal/livejournal.cpp:1249
 msgid "Personal Info"
-msgstr ""
+msgstr "Personelle Information"
 
 #: plugins/livejournal/livejournal.cpp:1250
-#, fuzzy
 msgid "Journal Settings"
-msgstr "Einstellungen"
+msgstr "Journaleinstellungen"
 
 #: plugins/livejournal/livejournalcfg.cpp:35
-#, fuzzy
 msgid "Register new user"
-msgstr "Neue UIN &registrieren"
+msgstr "Neuen Benutzer registrieren"
 
 #~ msgid "Use &UNIX socket"
 #~ msgstr "&UNIX-Socket benutzen"
@@ -8883,3 +8802,4 @@ msgstr "Neue UIN &registrieren"
 
 #~ msgid "Transfer completed"
 #~ msgstr "Übertragung abgeschlossen"
+
