@@ -1374,7 +1374,7 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
         e->ignore();
         return;
     }
-    QListViewItem *list_item = itemAt(e->pos());
+    QListViewItem *list_item = itemAt(contentsToViewport(e->pos()));
     if (list_item == NULL){
         e->ignore();
         return;
@@ -1616,7 +1616,12 @@ MyTextDrag::MyTextDrag(QListView *view, const QString &str)
 
 MyTextDrag::~MyTextDrag()
 {
-	mView->clearSelection();
+	QTimer::singleShot(0, mView, SLOT(selectionClear()));
+}
+
+void UserView::selectionClear()
+{
+	clearSelection();
 }
 
 QDragObject *UserView::dragObject()

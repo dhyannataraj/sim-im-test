@@ -114,6 +114,7 @@ public slots:
     void setShowOffline(bool);
     void setGroupMode(bool);
     void refresh();
+	void selectionClear();
 signals:
     void checked();
 protected slots:
