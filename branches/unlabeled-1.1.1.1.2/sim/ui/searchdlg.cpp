@@ -33,10 +33,7 @@
 #include <qpopupmenu.h>
 #include <qstyle.h>
 #include <qcombobox.h>
-
-#ifdef HAVE_KROOTPIXMAP_H
-#include <krootpixmap.h>
-#endif
+#include <qcheckbox.h>
 
 SearchDialog::SearchDialog(QWidget*)
         : SearchDlgBase(NULL)
@@ -87,6 +84,7 @@ void SearchDialog::setState()
     if (event){
         btnSearch->setEnabled(false);
         btnNew->setEnabled(false);
+        chkOnline->setEnabled(false);
         btnClose->setText(i18n("Cancel"));
         return;
     }else{
@@ -99,14 +97,17 @@ void SearchDialog::setState()
                               cmbAge->currentItem() ||
                               cmbCountry->currentItem() ||
                               cmbLang->currentItem());
+        chkOnline->setEnabled(true);
         break;
     case 1:
         btnSearch->setEnabled(edtFirst->text().length() ||
                               edtLast->text().length() ||
                               edtNick->text().length());
+        chkOnline->setEnabled(true);
         break;
     case 2:
         btnSearch->setEnabled(edtUin->text().length());
+        chkOnline->setEnabled(false);
         break;
     }
     btnNew->setEnabled(!tblUsers->isEmpty());
@@ -134,12 +135,12 @@ void SearchDialog::search()
         event = pClient->searchWP("", "", "", edtEmail->text().local8Bit(),
                                   cmbAge->currentItem(), cmbGender->currentItem(),
                                   cmbLang->currentItem(), "", "",
-                                  getComboValue(cmbCountry, countries), "", "", "", false);
+                                  getComboValue(cmbCountry, countries), "", "", "", chkOnline->isChecked());
         break;
     case 1:
         event = pClient->searchWP(edtFirst->text().local8Bit(),
                                   edtLast->text().local8Bit(), edtNick->text().local8Bit(), "", 0, 0,
-                                  0, "", "", 0, "", "", "", false);
+                                  0, "", "", 0, "", "", "", chkOnline->isChecked());
         break;
     case 2:
         event = pClient->searchByUin(edtUin->text().toULong());

@@ -1,6 +1,5 @@
 # Makefile.in generated automatically by automake 1.5 from Makefile.am.
 # KDE tags expanded automatically by am_edit - $Revision: 1.1.1.1 $ 
-
 # Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
 # Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -408,7 +407,7 @@ distclean-tags:
 
 #>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 #>+ 4
-KDE_DIST=configure.files sim.dsw sim.rc sim.plg subdirs Makefile.dist sim.ncb configure.lineno ACLOCAL.M4 sim.dsp 
+KDE_DIST=configure.files sim.dsw sim.rc stamp-h.inT sim.plg subdirs Makefile.dist sim.ncb sim.kdevses configure.lineno ACLOCAL.M4 sim.dsp 
 
 DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
 
@@ -603,6 +602,7 @@ dist-hook:
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
+
 
 #>+ 2
 docs-am:

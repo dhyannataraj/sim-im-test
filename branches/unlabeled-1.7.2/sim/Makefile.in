@@ -1,6 +1,5 @@
 # Makefile.in generated automatically by automake 1.5 from Makefile.am.
-# KDE tags expanded automatically by am_edit - $Revision: 1.15 $ 
-
+# KDE tags expanded automatically by am_edit - $Revision: 1.1.1.1 $ 
 # Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
 # Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -568,7 +567,7 @@ distclean-tags:
 
 #>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 #>+ 4
-KDE_DIST=sim 
+KDE_DIST=moc_transparent.cpp moc_about.cpp moc_msgview.cpp moc_editspell.cpp moc_userbox.cpp moc_passwddlg.cpp sim.exe sim moc_fontedit.cpp moc_toolbtn.cpp moc_logindlg.cpp moc_intedit.cpp moc_mainwin.cpp parse.cpp moc_client.cpp moc_dock.cpp moc_themes.cpp moc_msgedit.cpp moc_userview.cpp moc_xosd.cpp moc_usertbl.cpp moc_chatwnd.cpp 
 
 DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
 
@@ -755,6 +754,7 @@ messages: rc.cpp
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
+
 
 #>+ 3
 usertbl.moc: $(srcdir)/usertbl.h

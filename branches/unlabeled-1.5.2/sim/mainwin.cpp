@@ -1690,6 +1690,11 @@ void MainWindow::setFonts()
 
 extern KAboutData *appAboutData;
 
+void MainWindow::bug_report()
+{
+    goURL("http://sourceforge.net/tracker/?group_id=56866");
+}
+
 void MainWindow::about()
 {
     if( mAboutApp == 0 )
@@ -1782,6 +1787,7 @@ void MainWindow::loadMenu()
     menuFunction->insertItem(i18n("Always on top"), this, SLOT(toggleOnTop()), 0, mnuOnTop);
 #endif
     menuFunction->insertSeparator();
+    menuFunction->insertItem(i18n("&Bug report"), this, SLOT(bug_report()));
     menuFunction->insertItem(Icon("licq"), i18n("&About SIM"), this, SLOT(about()));
 #ifdef USE_KDE
     menuFunction->insertItem(Icon("about_kde"), i18n("About &KDE"), this, SLOT(about_kde()));

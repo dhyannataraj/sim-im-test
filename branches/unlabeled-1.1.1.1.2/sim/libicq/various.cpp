@@ -593,7 +593,7 @@ ICQEvent *ICQClient::searchWP(const char *szFirst, const char *szLast, const cha
     return e;
 }
 
-ICQEvent *ICQClient::searchByName(const char *first, const char *last, const char *nick)
+ICQEvent *ICQClient::searchByName(const char *first, const char *last, const char *nick, bool bOnline)
 {
     if (m_state != Logged) return 0;
     serverRequest(ICQ_SRVxREQ_MORE);
@@ -609,6 +609,10 @@ ICQEvent *ICQClient::searchByName(const char *first, const char *last, const cha
     << sNick
     << sFirst
     << sNick;
+    if (bOnline){
+        writeBuffer << 0x30020100L
+        << (char)0x01;
+    }
     sendServerRequest();
     ICQEvent *e = new SearchEvent(m_nMsgSequence);
     varEvents.push_back(e);
