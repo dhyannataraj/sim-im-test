@@ -330,6 +330,7 @@ void YahooClient::scan_packet()
 
 void YahooClient::process_packet(Params &params)
 {
+    log(L_DEBUG,"Service type: %02X",m_service);
     switch (m_service){
     case YAHOO_SERVICE_VERIFY:
         if (m_pkt_status != 1){
@@ -455,8 +456,16 @@ void YahooClient::process_packet(Params &params)
             break;
         }
     case YAHOO_SERVICE_FILETRANSFER:
-        if (params[4] && params[27] && params[28] && params[14] && params[20])
+        /*
+        
+        	params[14] - can be empty when no message is send with the file...
+            params[20] - url - just for filetransfer through website
+        */
+        if (params[4] && params[27] && params[28])
             process_file(params[4], params[27], params[28], params[14], params[20], params[11]);
+        else
+            /* file-url-message */
+            process_fileurl(params[4],params[14],params[20], params[11]);
         break;
     case YAHOO_SERVICE_ADDBUDDY:
         if (params[1] && params[7] && params[65])
@@ -849,7 +858,7 @@ void YahooClient::contact_rejected(const char *id, const char *message)
     messageReceived(msg, id);
 }
 
-static bool _cmp(const char *s1, const char *s2)
+static bool equal(const char *s1, const char *s2)
 {
     if (s1 == NULL)
         s1 = "";
@@ -986,10 +995,24 @@ void YahooClient::process_file(const char *id, const char *fileName, const char 
     YahooFileMessage *m = new YahooFileMessage;
     m->setDescription(getContacts()->toUnicode(NULL, fileName));
     m->setSize(atol(fileSize));
-    m->setUrl(url);
-    m->setServerText(msg);
-    if (id)
+    if (url)
+        m->setUrl(url);
+    if (msg)
+        m->setServerText(msg);
+    if (msgid)
         m->setMsgID(atol(msgid));
+    messageReceived(m, id);
+}
+
+void YahooClient::process_fileurl(const char *id, const char *msg, const char *url, const char *msgid)
+{
+    UrlMessage *m = new UrlMessage(MessageUrl);
+    
+    if (msg)
+        m->setServerText(msg);
+    m->setUrl(url);
+/*    if (msgid)
+        m->setMsgID(atol(msgid)); */
     messageReceived(m, id);
 }
 
@@ -2000,7 +2023,8 @@ void YahooClient::sendStatus(unsigned long _status, const char *msg)
     unsigned long service = YAHOO_SERVICE_ISAWAY;
     if (msg)
         status = YAHOO_STATUS_CUSTOM;
-    if (data.owner.Status.value == YAHOO_STATUS_AVAILABLE)
+    /* data.owner.Status contains sim-status, not protocol-status! */
+    if (data.owner.Status.value == STATUS_ONLINE)
         service = YAHOO_SERVICE_ISBACK;
     addParam(10, number(status).c_str());
     if ((status == YAHOO_STATUS_CUSTOM) && msg) {

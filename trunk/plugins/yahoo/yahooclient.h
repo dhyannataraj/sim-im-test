@@ -215,6 +215,7 @@ protected:
     void messageReceived(Message *msg, const char *id);
     void process_message(const char *id, const char *msg, const char *utf);
     void process_file(const char *id, const char *fileName, const char *fileSize, const char *msg, const char *url, const char *msgid);
+    void process_fileurl(const char *id, const char *msg, const char *url, const char *msgid);
     void notify(const char *id, const char *msg, const char *state);
     void sendMessage(const QString &msgText, Message *msg, YahooUserData*);
     void sendTyping(YahooUserData*, bool);
