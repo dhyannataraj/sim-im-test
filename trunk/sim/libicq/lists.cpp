@@ -62,6 +62,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 log(L_WARN, "Bad first roster byte %02X", c);
                 break;
             }
+	    bool bIgnoreTime = false;
             vector<ICQGroup*>::iterator it_grp;
             list<ICQUser*>::iterator it_usr;
             if (!m_bRosters){
@@ -111,7 +112,9 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                                 user->Phones.add(*tlv_phone, "Private cellular", SMS, true, false);
                                 user->adjustPhones();
                             }
-                        }
+                        }else{
+			    bIgnoreTime = true;
+			}
                         break;
                     }
                 case ICQ_GROUPS:{
@@ -159,7 +162,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             }
             unsigned long time;
             sock->readBuffer >> time;
-            if (time == 0)
+            if ((time == 0) && !bIgnoreTime)
                 break;
 
             contacts.Time = time;

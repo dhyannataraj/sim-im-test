@@ -625,7 +625,7 @@ void MsgEdit::processEvent(ICQEvent *e)
                     close();
                     return;
                 }
-                if (msgView && message()->Id){
+                if (msgView){
                     msgView->addMessage(message(), false, true);
                     msgView->setMessage(Uin, message()->Id);
                 }
