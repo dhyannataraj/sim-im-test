@@ -1,0 +1,441 @@
+<!DOCTYPE UI><UI>
+<class>SoundSetupBase</class>
+<widget>
+    <class>QWidget</class>
+    <property stdset="1">
+        <name>name</name>
+        <cstring>soundSetup</cstring>
+    </property>
+    <property>
+        <name>geometry</name>
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>452</width>
+            <height>341</height>
+        </rect>
+    </property>
+    <property>
+        <name>caption</name>
+        <string>Form1</string>
+    </property>
+    <vbox>
+        <property>
+            <name>margin</name>
+            <number>11</number>
+        </property>
+        <property>
+            <name>spacing</name>
+            <number>6</number>
+        </property>
+        <widget>
+            <class>QTabWidget</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>tabWnd</cstring>
+            </property>
+            <widget>
+                <class>QWidget</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>tab</cstring>
+                </property>
+                <attribute>
+                    <name>title</name>
+                    <string>&amp;Sounds</string>
+                </attribute>
+                <grid>
+                    <property>
+                        <name>margin</name>
+                        <number>11</number>
+                    </property>
+                    <property>
+                        <name>spacing</name>
+                        <number>6</number>
+                    </property>
+                    <spacer row="11"  column="1" >
+                        <property>
+                            <name>name</name>
+                            <cstring>Spacer2</cstring>
+                        </property>
+                        <property>
+                            <name>orientation</name>
+                            <enum>Vertical</enum>
+                        </property>
+                        <property>
+                            <name>sizeType</name>
+                            <enum>Expanding</enum>
+                        </property>
+                        <property>
+                            <name>sizeHint</name>
+                            <size>
+                                <width>20</width>
+                                <height>20</height>
+                            </size>
+                        </property>
+                    </spacer>
+                    <widget row="10"  column="1" >
+                        <class>EditSound</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>edtStartup</cstring>
+                        </property>
+                    </widget>
+                    <widget row="9"  column="1" >
+                        <class>EditSound</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>edtChat</cstring>
+                        </property>
+                    </widget>
+                    <widget row="6"  column="1" >
+                        <class>EditSound</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>edtAlert</cstring>
+                        </property>
+                    </widget>
+                    <widget row="5"  column="1" >
+                        <class>EditSound</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>edtAuth</cstring>
+                        </property>
+                    </widget>
+                    <widget row="4"  column="1" >
+                        <class>EditSound</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>edtSMS</cstring>
+                        </property>
+                    </widget>
+                    <widget row="3"  column="1" >
+                        <class>EditSound</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>edtURL</cstring>
+                        </property>
+                    </widget>
+                    <widget row="2"  column="1" >
+                        <class>EditSound</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>edtMessage</cstring>
+                        </property>
+                    </widget>
+                    <widget row="0"  column="0"  rowspan="1"  colspan="2" >
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkOverride</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>&amp;Override sounds</string>
+                        </property>
+                    </widget>
+                    <widget row="1"  column="0"  rowspan="1"  colspan="2" >
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkDisable</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>&amp;Disable all sounds</string>
+                        </property>
+                    </widget>
+                    <widget row="2"  column="0" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>lblMessage</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Message:</string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>AlignVCenter|AlignRight</set>
+                        </property>
+                        <property>
+                            <name>hAlign</name>
+                        </property>
+                    </widget>
+                    <widget row="3"  column="0" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>lblURL</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>URL:</string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>AlignVCenter|AlignRight</set>
+                        </property>
+                        <property>
+                            <name>hAlign</name>
+                        </property>
+                    </widget>
+                    <widget row="4"  column="0" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>lblSMS</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>SMS:</string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>AlignVCenter|AlignRight</set>
+                        </property>
+                        <property>
+                            <name>hAlign</name>
+                        </property>
+                    </widget>
+                    <widget row="5"  column="0" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>lblAuth</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Authorization:</string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>AlignVCenter|AlignRight</set>
+                        </property>
+                        <property>
+                            <name>hAlign</name>
+                        </property>
+                    </widget>
+                    <widget row="6"  column="0" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>lblAlert</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Online alert:</string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>AlignVCenter|AlignRight</set>
+                        </property>
+                        <property>
+                            <name>hAlign</name>
+                        </property>
+                    </widget>
+                    <widget row="7"  column="0" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>lblFile</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Incoming file:</string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>AlignVCenter|AlignRight</set>
+                        </property>
+                        <property>
+                            <name>hAlign</name>
+                        </property>
+                    </widget>
+                    <widget row="8"  column="0" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>lblFileDone</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>File transfer done:</string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>AlignVCenter|AlignRight</set>
+                        </property>
+                        <property>
+                            <name>hAlign</name>
+                        </property>
+                    </widget>
+                    <widget row="9"  column="0" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>lblChat</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Chat Request:</string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>AlignVCenter|AlignRight</set>
+                        </property>
+                        <property>
+                            <name>hAlign</name>
+                        </property>
+                    </widget>
+                    <widget row="10"  column="0" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>lblStartup</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Startup sound:</string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>AlignVCenter|AlignRight</set>
+                        </property>
+                        <property>
+                            <name>hAlign</name>
+                        </property>
+                    </widget>
+                    <widget row="7"  column="1" >
+                        <class>EditSound</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>edtFile</cstring>
+                        </property>
+                    </widget>
+                    <widget row="8"  column="1" >
+                        <class>EditSound</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>edtFileDone</cstring>
+                        </property>
+                    </widget>
+                </grid>
+            </widget>
+            <widget>
+                <class>QWidget</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>tab</cstring>
+                </property>
+                <attribute>
+                    <name>title</name>
+                    <string>&amp;Programm</string>
+                </attribute>
+                <grid>
+                    <property>
+                        <name>margin</name>
+                        <number>11</number>
+                    </property>
+                    <property>
+                        <name>spacing</name>
+                        <number>6</number>
+                    </property>
+                    <widget row="1"  column="1" >
+                        <class>EditFile</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>edtProgram</cstring>
+                        </property>
+                    </widget>
+                    <widget row="1"  column="0" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>lblProgram</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Program for play:</string>
+                        </property>
+                    </widget>
+                    <widget row="0"  column="0"  rowspan="1"  colspan="2" >
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkArts</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>UseArts</string>
+                        </property>
+                    </widget>
+                    <spacer row="2"  column="1" >
+                        <property>
+                            <name>name</name>
+                            <cstring>Spacer2_2</cstring>
+                        </property>
+                        <property>
+                            <name>orientation</name>
+                            <enum>Vertical</enum>
+                        </property>
+                        <property>
+                            <name>sizeType</name>
+                            <enum>Expanding</enum>
+                        </property>
+                        <property>
+                            <name>sizeHint</name>
+                            <size>
+                                <width>20</width>
+                                <height>20</height>
+                            </size>
+                        </property>
+                    </spacer>
+                </grid>
+            </widget>
+        </widget>
+    </vbox>
+</widget>
+<customwidgets>
+    <customwidget>
+        <class>QWidget</class>
+        <header location="global">qwidget.h</header>
+        <sizehint>
+            <width>-1</width>
+            <height>-1</height>
+        </sizehint>
+        <container>0</container>
+        <sizepolicy>
+            <hordata>5</hordata>
+            <verdata>5</verdata>
+        </sizepolicy>
+    </customwidget>
+    <customwidget>
+        <class>EditFile</class>
+        <header location="local">editfile.h</header>
+        <sizehint>
+            <width>-1</width>
+            <height>-1</height>
+        </sizehint>
+        <container>0</container>
+        <sizepolicy>
+            <hordata>5</hordata>
+            <verdata>5</verdata>
+        </sizepolicy>
+    </customwidget>
+    <customwidget>
+        <class>EditSound</class>
+        <header location="local">editfile.h</header>
+        <sizehint>
+            <width>-1</width>
+            <height>-1</height>
+        </sizehint>
+        <container>0</container>
+        <sizepolicy>
+            <hordata>7</hordata>
+            <verdata>1</verdata>
+        </sizepolicy>
+    </customwidget>
+</customwidgets>
+</UI>

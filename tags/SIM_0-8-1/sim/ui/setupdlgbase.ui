@@ -1,0 +1,192 @@
+<!DOCTYPE UI><UI>
+<class>SetupDialogBase</class>
+<widget>
+    <class>QDialog</class>
+    <property stdset="1">
+        <name>name</name>
+        <cstring>setupDialog</cstring>
+    </property>
+    <property>
+        <name>geometry</name>
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>568</width>
+            <height>480</height>
+        </rect>
+    </property>
+    <property>
+        <name>caption</name>
+        <string>Form1</string>
+    </property>
+    <vbox>
+        <property>
+            <name>margin</name>
+            <number>11</number>
+        </property>
+        <property>
+            <name>spacing</name>
+            <number>6</number>
+        </property>
+        <widget>
+            <class>QLayoutWidget</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>Layout3</cstring>
+            </property>
+            <hbox>
+                <property>
+                    <name>margin</name>
+                    <number>0</number>
+                </property>
+                <property>
+                    <name>spacing</name>
+                    <number>6</number>
+                </property>
+                <widget>
+                    <class>QListView</class>
+                    <column>
+                        <property>
+                            <name>text</name>
+                            <string>Column 1</string>
+                        </property>
+                        <property>
+                            <name>clickable</name>
+                            <bool>true</bool>
+                        </property>
+                        <property>
+                            <name>resizeable</name>
+                            <bool>true</bool>
+                        </property>
+                    </column>
+                <item>
+                    <property>
+                        <name>text</name>
+                        <string>New Item</string>
+                    </property>
+                    <property>
+                        <name>pixmap</name>
+                        <pixmap></pixmap>
+                    </property>
+                </item>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>lstBars</cstring>
+                    </property>
+                    <property>
+                        <name>sizePolicy</name>
+                        <sizepolicy>
+                            <hsizetype>1</hsizetype>
+                            <vsizetype>7</vsizetype>
+                        </sizepolicy>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QWidgetStack</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>tabBars</cstring>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget>
+            <class>QLayoutWidget</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>Layout5</cstring>
+            </property>
+            <hbox>
+                <property>
+                    <name>margin</name>
+                    <number>0</number>
+                </property>
+                <property>
+                    <name>spacing</name>
+                    <number>6</number>
+                </property>
+                <widget>
+                    <class>QPushButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>btnUpdate</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>&amp;Update</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property>
+                        <name>name</name>
+                        <cstring>Spacer1</cstring>
+                    </property>
+                    <property>
+                        <name>orientation</name>
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property>
+                        <name>sizeType</name>
+                        <enum>Expanding</enum>
+                    </property>
+                    <property>
+                        <name>sizeHint</name>
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget>
+                    <class>QPushButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>btnOK</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>&amp;Ok</string>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QPushButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>btnApply</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>&amp;Apply</string>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QPushButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>btnClose</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>&amp;Close</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+    </vbox>
+</widget>
+<customwidgets>
+    <customwidget>
+        <class>QWidgetStack</class>
+        <header location="local">qwidgetstack.h</header>
+        <sizehint>
+            <width>-1</width>
+            <height>-1</height>
+        </sizehint>
+        <container>1</container>
+        <sizepolicy>
+            <hordata>7</hordata>
+            <verdata>7</verdata>
+        </sizepolicy>
+    </customwidget>
+</customwidgets>
+</UI>

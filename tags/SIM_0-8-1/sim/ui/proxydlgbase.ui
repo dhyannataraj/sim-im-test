@@ -1,0 +1,480 @@
+<!DOCTYPE UI><UI>
+<class>ProxyDlgBase</class>
+<widget>
+    <class>QDialog</class>
+    <property stdset="1">
+        <name>name</name>
+        <cstring>ProxyDlg</cstring>
+    </property>
+    <property>
+        <name>geometry</name>
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>310</width>
+            <height>364</height>
+        </rect>
+    </property>
+    <property>
+        <name>caption</name>
+        <string>Proxy settings</string>
+    </property>
+    <spacer>
+        <property>
+            <name>name</name>
+            <cstring>Spacer10_2</cstring>
+        </property>
+        <property>
+            <name>orientation</name>
+            <enum>Vertical</enum>
+        </property>
+        <property>
+            <name>sizeType</name>
+            <enum>Expanding</enum>
+        </property>
+        <property>
+            <name>sizeHint</name>
+            <size>
+                <width>20</width>
+                <height>20</height>
+            </size>
+        </property>
+    </spacer>
+    <widget>
+        <class>Line</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>Line5</cstring>
+        </property>
+        <property>
+            <name>geometry</name>
+            <rect>
+                <x>11</x>
+                <y>316</y>
+                <width>292</width>
+                <height>16</height>
+            </rect>
+        </property>
+        <property>
+            <name>frameShape</name>
+            <enum>HLine</enum>
+        </property>
+        <property>
+            <name>frameShadow</name>
+            <enum>Sunken</enum>
+        </property>
+        <property>
+            <name>orientation</name>
+            <enum>Horizontal</enum>
+        </property>
+        <property>
+            <name>frameShape</name>
+            <enum>HLine</enum>
+        </property>
+    </widget>
+    <widget>
+        <class>QLayoutWidget</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>Layout4</cstring>
+        </property>
+        <property>
+            <name>geometry</name>
+            <rect>
+                <x>11</x>
+                <y>325</y>
+                <width>292</width>
+                <height>28</height>
+            </rect>
+        </property>
+        <hbox>
+            <property>
+                <name>margin</name>
+                <number>0</number>
+            </property>
+            <property>
+                <name>spacing</name>
+                <number>6</number>
+            </property>
+            <spacer>
+                <property>
+                    <name>name</name>
+                    <cstring>Spacer13</cstring>
+                </property>
+                <property>
+                    <name>orientation</name>
+                    <enum>Horizontal</enum>
+                </property>
+                <property>
+                    <name>sizeType</name>
+                    <enum>Expanding</enum>
+                </property>
+                <property>
+                    <name>sizeHint</name>
+                    <size>
+                        <width>20</width>
+                        <height>20</height>
+                    </size>
+                </property>
+            </spacer>
+            <widget>
+                <class>QPushButton</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>btnOK</cstring>
+                </property>
+                <property>
+                    <name>text</name>
+                    <string>&amp;Ok</string>
+                </property>
+                <property>
+                    <name>default</name>
+                    <bool>true</bool>
+                </property>
+            </widget>
+            <widget>
+                <class>QPushButton</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>btnClose</cstring>
+                </property>
+                <property>
+                    <name>text</name>
+                    <string>&amp;Close</string>
+                </property>
+            </widget>
+        </hbox>
+    </widget>
+    <widget>
+        <class>QGroupBox</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>GroupBox1</cstring>
+        </property>
+        <property>
+            <name>geometry</name>
+            <rect>
+                <x>10</x>
+                <y>30</y>
+                <width>292</width>
+                <height>189</height>
+            </rect>
+        </property>
+        <property>
+            <name>title</name>
+            <string>Proxy</string>
+        </property>
+        <vbox>
+            <property>
+                <name>margin</name>
+                <number>11</number>
+            </property>
+            <property>
+                <name>spacing</name>
+                <number>6</number>
+            </property>
+            <widget>
+                <class>QLayoutWidget</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>Layout14</cstring>
+                </property>
+                <hbox>
+                    <property>
+                        <name>margin</name>
+                        <number>0</number>
+                    </property>
+                    <property>
+                        <name>spacing</name>
+                        <number>6</number>
+                    </property>
+                    <widget>
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>TextLabel3</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Use proxy</string>
+                        </property>
+                    </widget>
+                    <widget>
+                        <class>QComboBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>cmbProxy</cstring>
+                        </property>
+                    </widget>
+                    <spacer>
+                        <property>
+                            <name>name</name>
+                            <cstring>Spacer10</cstring>
+                        </property>
+                        <property>
+                            <name>orientation</name>
+                            <enum>Horizontal</enum>
+                        </property>
+                        <property>
+                            <name>sizeType</name>
+                            <enum>Expanding</enum>
+                        </property>
+                        <property>
+                            <name>sizeHint</name>
+                            <size>
+                                <width>20</width>
+                                <height>20</height>
+                            </size>
+                        </property>
+                    </spacer>
+                </hbox>
+            </widget>
+            <widget>
+                <class>QLayoutWidget</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>Layout17</cstring>
+                </property>
+                <grid>
+                    <property>
+                        <name>margin</name>
+                        <number>0</number>
+                    </property>
+                    <property>
+                        <name>spacing</name>
+                        <number>6</number>
+                    </property>
+                    <widget row="0"  column="0" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>lblProxyHost</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Proxy host:</string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>AlignVCenter|AlignRight</set>
+                        </property>
+                        <property>
+                            <name>hAlign</name>
+                        </property>
+                    </widget>
+                    <widget row="4"  column="1" >
+                        <class>QLineEdit</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>edtProxyPasswd</cstring>
+                        </property>
+                    </widget>
+                    <widget row="4"  column="0" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>lblProxyPasswd</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Proxy password:</string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>AlignVCenter|AlignRight</set>
+                        </property>
+                        <property>
+                            <name>hAlign</name>
+                        </property>
+                    </widget>
+                    <widget row="1"  column="1" >
+                        <class>QLineEdit</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>edtProxyPort</cstring>
+                        </property>
+                    </widget>
+                    <widget row="3"  column="1" >
+                        <class>QLineEdit</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>edtProxyUser</cstring>
+                        </property>
+                    </widget>
+                    <widget row="3"  column="0" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>lblProxyUser</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Proxy user:</string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>AlignVCenter|AlignRight</set>
+                        </property>
+                        <property>
+                            <name>hAlign</name>
+                        </property>
+                    </widget>
+                    <widget row="2"  column="0"  rowspan="1"  colspan="2" >
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkProxyAuth</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>User proxy authorization</string>
+                        </property>
+                    </widget>
+                    <widget row="0"  column="1" >
+                        <class>QLineEdit</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>edtProxyHost</cstring>
+                        </property>
+                    </widget>
+                    <widget row="1"  column="0" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>lblProxyPort</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Proxy port:</string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>AlignVCenter|AlignRight</set>
+                        </property>
+                        <property>
+                            <name>hAlign</name>
+                        </property>
+                    </widget>
+                </grid>
+            </widget>
+        </vbox>
+    </widget>
+    <widget>
+        <class>QGroupBox</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>GroupBox2</cstring>
+        </property>
+        <property>
+            <name>geometry</name>
+            <rect>
+                <x>10</x>
+                <y>210</y>
+                <width>292</width>
+                <height>80</height>
+            </rect>
+        </property>
+        <property>
+            <name>title</name>
+            <string>Server</string>
+        </property>
+        <vbox>
+            <property>
+                <name>margin</name>
+                <number>11</number>
+            </property>
+            <property>
+                <name>spacing</name>
+                <number>6</number>
+            </property>
+            <widget>
+                <class>QLayoutWidget</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>Layout13</cstring>
+                </property>
+                <grid>
+                    <property>
+                        <name>margin</name>
+                        <number>0</number>
+                    </property>
+                    <property>
+                        <name>spacing</name>
+                        <number>6</number>
+                    </property>
+                    <widget row="0"  column="0" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>TextLabel1</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Host:</string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>AlignVCenter|AlignRight</set>
+                        </property>
+                        <property>
+                            <name>hAlign</name>
+                        </property>
+                    </widget>
+                    <widget row="1"  column="0" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>TextLabel2</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Port:</string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>AlignVCenter|AlignRight</set>
+                        </property>
+                        <property>
+                            <name>hAlign</name>
+                        </property>
+                    </widget>
+                    <widget row="0"  column="1" >
+                        <class>QLineEdit</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>edtHost</cstring>
+                        </property>
+                    </widget>
+                    <widget row="1"  column="1" >
+                        <class>QLineEdit</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>edtPort</cstring>
+                        </property>
+                    </widget>
+                </grid>
+            </widget>
+        </vbox>
+    </widget>
+    <widget>
+        <class>QLabel</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>lblMessage</cstring>
+        </property>
+        <property>
+            <name>geometry</name>
+            <rect>
+                <x>10</x>
+                <y>0</y>
+                <width>291</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property>
+            <name>text</name>
+            <string></string>
+        </property>
+    </widget>
+</widget>
+</UI>
