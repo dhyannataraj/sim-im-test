@@ -80,6 +80,7 @@ JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig)
     connect(chkSSL1, SIGNAL(toggled(bool)), this, SLOT(toggledSSL(bool)));
     connect(chkVHost, SIGNAL(toggled(bool)), this, SLOT(toggledVHost(bool)));
     chkHTTP->setChecked(m_client->getUseHTTP());
+	edtUrl->setText(m_client->getURL());
 }
 
 void JabberConfig::apply(Client*, void*)
@@ -146,6 +147,7 @@ void JabberConfig::apply()
     set_str(&m_client->data.owner.Resource.ptr, edtResource->text().utf8());
     m_client->setPriority(atol(edtPriority->text().latin1()));
     m_client->setUseHTTP(chkHTTP->isChecked());
+	m_client->setURL(edtUrl->text().latin1());
 }
 
 void JabberConfig::toggledSSL(bool bState)

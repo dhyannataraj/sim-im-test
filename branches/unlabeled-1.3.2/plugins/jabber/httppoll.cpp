@@ -78,7 +78,6 @@ string JabberHttpPool::getKey()
     SHA_CTX ctx;
     SHA1_Init(&ctx);
     SHA1_Update(&ctx, m_key.c_str(), m_key.length());
-    SHA1_Update(&ctx, m_seed.c_str(), m_seed.length());
     SHA1_Final(digest, &ctx);
     Buffer b;
     b.pack((char*)digest, sizeof(digest));
@@ -109,7 +108,13 @@ void JabberHttpPool::write(const char *buf, unsigned size)
     if (!isDone())
         return;
     Buffer *packet = new Buffer;
-    *packet << m_cookie.c_str() << ";" << getKey().c_str() << ",";
+	string key = getKey();
+    *packet << m_cookie.c_str();
+#ifdef USE_OPENSSL
+	*packet << ";" << key.c_str();
+#endif
+	*packet << ",";
+	log(L_DEBUG, "%s,", m_cookie.c_str());
     packet->pack(writeData.data(), writeData.writePos());
     char headers[] = "Content-Type: application/x-www-form-urlencoded";
     fetch(m_url.c_str(), headers, packet);
