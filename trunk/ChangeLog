@@ -7,6 +7,8 @@ Add history size config
 Add remote control plugin
 Add spell checking
 Jabber: Add jabber browser/disco
+Fix bind socket for direct connection
+Fix save history on win32
 
 Version 0.9.1
 ICQ: Fix login

@@ -47,7 +47,7 @@ static PluginInfo info =
         I18N_NOOP("Home directory"),
         I18N_NOOP("Plugin provides select directory for store config files"),
 #else
-NULL,
+        NULL,
         NULL,
 #endif
         VERSION,
@@ -171,6 +171,8 @@ string HomeDirPlugin::defaultPath()
         QFile f(lockTest);
         if (!f.open(IO_ReadWrite | IO_Truncate))
             defPath = "";
+        f.close();
+        QFile::remove(lockTest);
     }
     if (!defPath.isEmpty()){
         s = QFile::encodeName(defPath);

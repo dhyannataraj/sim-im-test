@@ -93,7 +93,7 @@ HistoryFile::HistoryFile(const char *name, unsigned contact)
     }
 
     f_name = user_file(f_name.c_str());
-    setName(QString::fromUtf8(f_name.c_str()));
+    setName(QFile::decodeName(f_name.c_str()));
     open(IO_ReadOnly);
 }
 
@@ -555,7 +555,7 @@ void History::add(Message *msg, const char *type)
     f_name += name;
 
     name = user_file(f_name.c_str());
-    QFile f(QString::fromUtf8(name.c_str()));
+    QFile f(QFile::decodeName(name.c_str()));
     if (!f.open(IO_ReadWrite | IO_Append)){
         log(L_ERROR, "Can't open %s", name.c_str());
         return;
