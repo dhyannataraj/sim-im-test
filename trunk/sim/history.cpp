@@ -416,8 +416,6 @@ bool History::iterator::operator ++()
                 unsigned long f_size = f.size();
                 if (start_block > f_size)
                     start_block = f_size;
-            }else{
-                start_block = 0;
             }
         }
         if (msgs.size()){

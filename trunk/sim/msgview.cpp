@@ -895,7 +895,7 @@ void HistoryView::fill()
 {
     toolbar->setEnabled(btnPrev, false);
     toolbar->setEnabled(btnNext, false);
-    viewFill((unsigned long)(-1), 0);
+    viewFill(toolbar->isOn(btnDirection) ? (unsigned long)(-1) : 0, 0);
 }
 
 void HistoryView::viewFill(unsigned long offs, unsigned long findId)
@@ -1010,6 +1010,8 @@ void HistoryView::slotSearch()
 void HistoryView::slotDirection(bool dir)
 {
     pMain->setHistoryDirection(dir);
+    while (pages.size())
+        pages.pop();
     fill();
 }
 
@@ -1045,7 +1047,7 @@ void HistoryView::searchTextChanged(const QString &searchText)
 void HistoryView::prevPage()
 {
     if (toolbar->isEnabled(btnNext)) pages.pop();
-    unsigned long offs = (unsigned long)(-1);
+    unsigned long offs = toolbar->isOn(btnDirection) ? (unsigned long)(-1) : 0;
     if (pages.size()) pages.pop();
     if (pages.size()) offs = pages.top();
     toolbar->setEnabled(btnPrev, pages.size() > 0);

@@ -40,6 +40,7 @@
 #define UNICODE_CHAR		7
 #define SKIP			8
 #define SLASH			9
+#define S_TXT			10
 
 #define YY_NEVER_INTERACTIVE	1
 #define YY_ALWAYS_INTERACTIVE	0
@@ -649,10 +650,12 @@ string RTF2HTML::Parse(const char *rtf, const char *_encoding)
                 break;
             }
         case DOWN:{
+				if (stack.size()){
                 cur_level.flush();
                 cur_level.reset();
                 cur_level = stack.top();
                 stack.pop();
+				}
                 break;
             }
         case IMG:{
