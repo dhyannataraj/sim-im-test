@@ -773,7 +773,9 @@ void Container::wndClosed()
 
 bool Container::event(QEvent *e)
 {
-    if (e->type() == QEvent::WindowActivate){
+    if ((e->type() == QEvent::WindowActivate) ||
+		(((e->type() == QEvent::ShowNormal) || (e->type() == QEvent::ShowMaximized)) &&
+		isActiveWindow())){
         UserWnd *userWnd = m_tabBar->currentWnd();
         if (userWnd && !m_bNoRead)
             userWnd->markAsRead();

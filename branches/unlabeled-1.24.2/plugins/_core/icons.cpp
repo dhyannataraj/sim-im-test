@@ -76,6 +76,8 @@ using namespace std;
 #include "xpm/message.xpm"
 #include "xpm/file.xpm"
 #include "xpm/sms.xpm"
+#include "xpm/url.xpm"
+#include "xpm/contacts.xpm"
 #include "xpm/auth.xpm"
 #include "xpm/empty.xpm"
 #include "xpm/translit.xpm"
@@ -235,6 +237,8 @@ Icons::Icons()
     ICON(message)
     ICON(file)
     ICON(sms)
+	ICON(url)
+	ICON(contacts)
     ICON(auth)
     ICON(empty)
     ICON(translit)

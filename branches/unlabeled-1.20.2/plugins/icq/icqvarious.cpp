@@ -1378,6 +1378,7 @@ public:
     SetPasswordRequest(ICQClient *client, unsigned short id, const char *pwd);
 protected:
     bool answer(Buffer &b, unsigned short nSubtype);
+    virtual void fail(unsigned short error_code);
     string m_pwd;
     ICQClient *m_client;
 };
@@ -1393,6 +1394,18 @@ bool SetPasswordRequest::answer(Buffer&, unsigned short)
 {
     m_client->setPassword(QString::fromUtf8(m_pwd.c_str()));
     return true;
+}
+
+void SetPasswordRequest::fail(unsigned short error_code)
+{
+	log(L_DEBUG, "Password change fail: %X", error_code);
+    clientErrorData d;
+    d.client  = m_client;
+    d.code    = 0;
+    d.err_str = I18N_NOOP("Change password fail");
+    d.args    = NULL;
+    Event e(EventClientError, &d);
+    e.process();
 }
 
 void ICQClient::changePassword(const char *new_pswd)

@@ -18,7 +18,9 @@
 #include "jabberclient.h"
 #include "fetch.h"
 
+#ifdef USE_OPENSSL
 #include <openssl/sha.h>
+#endif
 
 class JabberHttpPool : public Socket, public FetchClient
 {
@@ -49,6 +51,7 @@ JabberHttpPool::JabberHttpPool(const char *url)
 {
     m_url = url;
     m_cookie = "0";
+#ifdef USE_OPENSSL
     Buffer k;
     for (unsigned i = 0; i < 48; i++){
         char c = get_random() & 0xFF;
@@ -57,6 +60,7 @@ JabberHttpPool::JabberHttpPool(const char *url)
     Buffer to;
     to.toBase64(k);
     m_seed.append(to.data(), to.size());
+#endif
 }
 
 JabberHttpPool::~JabberHttpPool()
@@ -65,6 +69,7 @@ JabberHttpPool::~JabberHttpPool()
 
 string JabberHttpPool::getKey()
 {
+#ifdef USE_OPENSSL
     if (m_key.empty()){
         m_key = m_seed;
         return m_key;
@@ -82,6 +87,9 @@ string JabberHttpPool::getKey()
     m_key = "";
     m_key.append(r.data(), r.size());
     return m_key;
+#else
+	return "";
+#endif
 }
 
 int JabberHttpPool::read(char *buf, unsigned size)

@@ -823,6 +823,7 @@ bool QTextEdit::event( QEvent *e )
             case Key_Home:
             case Key_End:
             case Key_Tab:
+            case Key_Backspace:
 #if defined (Q_WS_WIN)
             case Key_Insert:
 #endif
@@ -920,12 +921,16 @@ void QTextEdit::keyPressEvent( QKeyEvent *e )
             removeSelectedText();
             break;
         }
-        if ( !cursor->parag()->prev() &&
-                cursor->atParagStart() )
-            break;
-        doKeyboardAction( ActionBackspace );
-        clearUndoRedoInfo = FALSE;
-
+		if (e->state() & ControlButton){
+            moveCursor(MoveWordBackward, false);
+            moveCursor(MoveWordForward, true);
+            removeSelectedText();
+		}else{
+			if (!cursor->parag()->prev() && cursor->atParagStart())
+				break;
+			doKeyboardAction( ActionBackspace );
+			clearUndoRedoInfo = FALSE;
+		}
         break;
     case Key_F16: // Copy key on Sun keyboards
         copy();
