@@ -344,16 +344,16 @@ void Level::resetTag(TagEnum tag)
             case TAG_FONT_SIZE:
             case TAG_BG_COLOR:
             case TAG_FONT_FAMILY:
-                p->PrintUnquoted(" </span>");
+                p->PrintUnquoted("</span>");
                 break;
             case TAG_BOLD:
-                p->PrintUnquoted(" </b>");
+                p->PrintUnquoted("</b>");
                 break;
             case TAG_ITALIC:
-                p->PrintUnquoted(" </i>");
+                p->PrintUnquoted("</i>");
                 break;
             case TAG_UNDERLINE:
-                p->PrintUnquoted(" </u>");
+                p->PrintUnquoted("</u>");
                 break;
             default:
                 break;
