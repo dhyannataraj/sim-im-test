@@ -1703,10 +1703,10 @@ void MainWindow::playSound(const char *wav)
 #ifdef USE_KDE
     KAudioPlayer::play(wav);
 #else
-    if (*(SoundPlayer.c_str()) == 0) return;
+    if (*(pSplash->SoundPlayer.c_str()) == 0) return;
 
     const char *arglist[3];
-    arglist[0] = SoundPlayer.c_str();
+    arglist[0] = pSplash->SoundPlayer.c_str();
     arglist[1] = wav;
     arglist[2] = NULL;
 
