@@ -16,13 +16,19 @@
  ***************************************************************************/
 
 #include "gpggen.h"
+#include "gpgcfg.h"
+#include "gpg.h"
+#include "exec.h"
+#include "ballonmsg.h"
+#include "editfile.h"
 
 #include <qpixmap.h>
 #include <qlineedit.h>
 #include <qcombobox.h>
 #include <qpushbutton.h>
+#include <qlabel.h>
 
-GpgGen::GpgGen()
+GpgGen::GpgGen(GpgCfg *cfg)
         : GpgGenBase(NULL, NULL, true)
 {
     SET_WNDPROC("genkey")
@@ -30,6 +36,8 @@ GpgGen::GpgGen()
     setButtonsPict(this);
     setCaption(caption());
     cmbMail->setEditable(true);
+	m_exec = NULL;
+	m_cfg  = cfg;
     connect(edtName, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     connect(cmbMail->lineEdit(), SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     Contact *owner = getContacts()->owner();
@@ -57,11 +65,108 @@ GpgGen::GpgGen()
 
 GpgGen::~GpgGen()
 {
+	if (m_exec)
+		delete m_exec;
 }
 
 void GpgGen::textChanged(const QString&)
 {
     buttonOk->setEnabled(!edtName->text().isEmpty() && !cmbMail->lineEdit()->text().isEmpty());
+}
+
+#ifdef WIN32
+#define CRLF	"\r\n"
+#else
+#define CRLF	"\n"
+#endif
+
+static string toLatin(const QString &str)
+{
+    QString s = toTranslit(str);
+    string res;
+    for (int i = 0; i < (int)s.length(); i++){
+        if (s[i].unicode() > 0x7F){
+            res += "?";
+        }else{
+            res += s[i].latin1();
+        }
+    }
+    return res;
+}
+
+void GpgGen::accept()
+{
+	edtName->setEnabled(false);
+	cmbMail->setEnabled(false);
+	edtComment->setEnabled(false);
+	buttonOk->setEnabled(false);
+	lblProcess->setText(i18n("Move mouse for generate tandom key"));
+#ifdef WIN32
+            QString gpg  = m_cfg->edtGPG->text();
+#else
+			QString gpg  = QFile::decodeName(m_plugin->GPG());
+#endif
+            QString home = m_cfg->edtHome->text();
+            if (gpg.isEmpty() || home.isEmpty())
+                return;
+            if (home[(int)(home.length() - 1)] == '\\')
+                home = home.left(home.length() - 1);
+            string in =
+                "Key-Type: 1" CRLF
+                "Key-Length: 1024" CRLF
+                "Expire-Date: 0" CRLF
+                "Name-Real: ";
+            in += toLatin(edtName->text());
+            in += CRLF;
+            if (!edtComment->text().isEmpty()){
+                in += "Name-Comment: ";
+                in += toLatin(edtComment->text());
+                in += CRLF;
+            }
+            in += "Name-Email: ";
+            in += toLatin(cmbMail->lineEdit()->text());
+            in += CRLF;
+
+#ifdef WIN32
+            QString fname = QFile::decodeName(user_file("keys\\genkey.txt").c_str());
+#else
+            QString fname = QFile::decodeName(user_file("keys/genkey.txt").c_str());
+#endif
+            QFile f(fname);
+            f.open(IO_WriteOnly | IO_Truncate);
+            f.writeBlock(in.c_str(), in.length());
+            f.close();
+
+            gpg = QString("\"") + gpg + "\"";
+            gpg += " --homedir \"";
+            gpg += home;
+            gpg += "\" ";
+            gpg += GpgPlugin::plugin->getGenKey();
+            gpg += " \"";
+            gpg += fname.local8Bit();
+            gpg += "\"";
+            m_exec = new Exec;
+            connect(m_exec, SIGNAL(ready(Exec*,int,const char*)), this, SLOT(genKeyReady(Exec*,int,const char*)));
+            m_exec->execute(gpg.local8Bit(), "");
+}
+
+void GpgGen::genKeyReady(Exec*,int res,const char*)
+{
+#ifdef WIN32
+    QFile::remove(QFile::decodeName(user_file("keys\\genkey.txt").c_str()));
+#else
+    QFile::remove(QFile::decodeName(user_file("keys/genkey.txt").c_str()));
+#endif
+	if (res == 0){
+		GpgGenBase::accept();
+		return;
+	}
+	edtName->setEnabled(true);
+	cmbMail->setEnabled(true);
+	edtComment->setEnabled(true);
+	lblProcess->setText("");
+	buttonOk->setEnabled(true);
+	BalloonMsg::message(i18n("Generate key failed"), buttonOk);
 }
 
 #ifndef WIN32
