@@ -700,7 +700,8 @@ ViewParser::ViewParser(bool bIgnoreColors, bool bUseSmiles)
                         Smile ss;
                         ss.nSmile = i;
                         ss.re = QRegExp(str.c_str());
-                        m_smiles.push_back(ss);
+                        if (ss.re.isValid())
+                            m_smiles.push_back(ss);
                     }
                     if (*p == 0)
                         break;
@@ -720,7 +721,8 @@ ViewParser::ViewParser(bool bIgnoreColors, bool bUseSmiles)
                 Smile ss;
                 ss.nSmile = i;
                 ss.re = QRegExp(s->exp);
-                m_smiles.push_back(ss);
+                if (ss.re.isValid())
+                    m_smiles.push_back(ss);
             }
 #endif
         }
@@ -739,9 +741,14 @@ void ViewParser::text(const QString &text)
     if (!m_bUseSmiles)
         res += text;
     QString str = text;
+    string s;
+    s = str.local8Bit();
     for (list<Smile>::iterator it = m_smiles.begin(); it != m_smiles.end(); ++it){
         Smile &s = *it;
+        s.size = 0;
         s.pos = s.re.match(str, 0, &s.size);
+        if (s.size == 0)
+            s.pos = -1;
     }
     for (;;){
         unsigned pos = (unsigned)(-1);
@@ -752,13 +759,13 @@ void ViewParser::text(const QString &text)
             Smile &s = *it;
             if (s.pos < 0)
                 continue;
-            if (((unsigned)(s.pos) < pos) || (((unsigned)(s.pos) == pos) && ((unsigned)(s.size) > size))){
+            if (((unsigned)(s.pos) < pos) || (((unsigned)(s.pos) == pos) && ((unsigned)(s.size) > size) && (s.pos != -1))){
                 pos = s.pos;
                 size = s.size;
                 curSmile = &s;
             }
         }
-        if (curSmile == NULL)
+        if ((curSmile == NULL) || (size == 0))
             break;
         if (pos)
             res += quoteString(str.left(pos));
@@ -772,11 +779,16 @@ void ViewParser::text(const QString &text)
             if (s.pos < 0)
                 continue;
             s.pos -= len;
-            if (s.pos < 0)
+            if (s.pos < 0){
+                s.size = 0;
                 s.pos = s.re.match(str, 0, &s.size);
+                if (s.size == 0)
+                    s.pos = -1;
+            }
         }
     }
     res += quoteString(str);
+    s = res.local8Bit();
 }
 
 static const char *formatTags[] =

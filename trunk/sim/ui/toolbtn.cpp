@@ -166,8 +166,10 @@ void CToolButton::setState()
         }
     }else{
         const QIconSet *icon = Icon(m_def.icon);
-        if (icon)
+        if (icon){
+            QPixmap p = icon->pixmap(QIconSet::Small, QIconSet::Normal);
             setIconSet(*icon);
+        }
     }
 }
 
@@ -415,6 +417,21 @@ CToolCustom::CToolCustom(QToolBar *parent, CommandDef *def)
     m_lay->setSpacing(3);
     m_lay->addWidget(m_label);
     setState();
+}
+
+void CToolCustom::paintEvent(QPaintEvent *e)
+{
+    for (QWidget *w = parentWidget(); w; w = w->parentWidget()){
+        const QPixmap *bg = w->backgroundPixmap();
+        if (bg){
+            QPoint pos = mapToGlobal(QPoint(0, 0));
+            pos = w->mapFromGlobal(pos);
+            QPainter p(this);
+            p.drawTiledPixmap(0, 0, width(), height(), *bg, pos.x(), pos.y());
+            return;
+        }
+    }
+    QWidget::paintEvent(e);
 }
 
 void CToolCustom::addWidget(QWidget *w)

@@ -362,7 +362,19 @@ bool Smiles::load(const QString &file)
             SmileDef sd;
             sd.title = getValue(r.title.c_str());
             sd.paste = sd.title;
-            sd.exp   = getValue(r.smiles.c_str());
+            string exp   = getValue(r.smiles.c_str());
+            for (const char *p = exp.c_str(); *p; p++){
+                if (*p == '\\'){
+                    if (*(++p) == 0)
+                        break;
+                    sd.exp += '\\';
+                    sd.exp += *p;
+                    continue;
+                }
+                if ((*p == '{') || (*p == '}'))
+                    sd.exp += '\\';
+                sd.exp += *p;
+            }
             QIconSet *is = new QIconSet(pict);
             m_icons.push_back(is);
             sd.icon	 = is;
@@ -409,7 +421,6 @@ bool Smiles::load(const QString &file)
     fname = fname.replace(QRegExp("\\"), "/");
 #endif
     int pos = fname.findRev("/");
-    log(L_DEBUG, "Pos %s %i", fname.latin1(), pos);
     if (pos >= 0){
         fname = fname.left(pos + 1);
     }else{
@@ -446,7 +457,7 @@ bool Smiles::load(const QString &file)
         getToken(line, '\"');
         QString tip = getToken(line, '\"', false);
         QString dllName = fname + dll;
-        dllName = dllName.replace(QRegExp("/./"), "/");
+        dllName = dllName.replace(QRegExp("/\\./"), "/");
         string fn;
         fn = dllName.utf8();
         ICONS_MAP::iterator it = icons.find(fn.c_str());
@@ -504,7 +515,6 @@ bool Smiles::load(const QString &file)
         sd.paste   = paste.latin1();
         sd.title   = tip.latin1();
         sd.icon    = icon;
-        log(L_DEBUG, "Store %u %s", index, sd.exp.c_str());
         if (index < 16){
             m_smiles[index] = sd;
         }else{

@@ -597,7 +597,7 @@ I18N_NOOP("Grin")
 
 static smile _smiles[] =
     {
-        { ":-?)", ":-)", "Smile" },
+        { ":-?\\)", ":-)", "Smile" },
         { ":[-=][O0]", ":-0", "Surprised" },
         { ":-\\||:-!", ":-|", "Indifferent" },
         { ":-[/\\\\]", ":-/", "Skeptical" },
