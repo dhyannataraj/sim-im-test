@@ -43,17 +43,48 @@ EditSpell::EditSpell(QWidget *parent) : QTextEdit(parent)
     baseFG = colorGroup().color(QColorGroup::Text);
     curFG = baseFG;
     QAccel *a = new QAccel(this);
-    if (pMain->SendEnter){
-        a->connectItem(a->insertItem(Key_Enter),
-                       this, SIGNAL(ctrlEnterPressed()));
-        a->connectItem(a->insertItem(Key_Return),
-                       this, SIGNAL(ctrlEnterPressed()));
-    }else{
+    if (!pMain->SendEnter){
         a->connectItem(a->insertItem(Key_Enter + CTRL),
                        this, SIGNAL(ctrlEnterPressed()));
         a->connectItem(a->insertItem(Key_Return + CTRL),
                        this, SIGNAL(ctrlEnterPressed()));
     }
+}
+
+QSize EditSpell::sizeHint()
+{
+    QSize s = QTextEdit::sizeHint();
+    if (pMain->SimpleMode || !pMain->SendEnter)
+        return s;
+    QFontMetrics fm(font());
+    s.setHeight(fm.height() + 4);
+    return s;
+}
+
+QSize EditSpell::minimumSizeHint()
+{
+    QSize s = QTextEdit::minimumSizeHint();
+    if (pMain->SimpleMode || !pMain->SendEnter)
+        return QTextEdit::minimumSizeHint();
+    QFontMetrics fm(font());
+    s.setHeight(fm.height() + 4);
+    return s;
+}
+
+void EditSpell::keyPressEvent(QKeyEvent *e)
+{
+    if (pMain->SendEnter && ((e->key() == Key_Enter) || (e->key() == Key_Return)))
+        return;
+    QTextEdit::keyPressEvent(e);
+}
+
+void EditSpell::keyReleaseEvent(QKeyEvent *e)
+{
+    if (pMain->SendEnter && ((e->key() == Key_Enter) || (e->key() == Key_Return))){
+        ctrlEnterPressed();
+        return;
+    }
+    QTextEdit::keyReleaseEvent(e);
 }
 
 void EditSpell::focusOutEvent(QFocusEvent *e)

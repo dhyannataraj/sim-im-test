@@ -68,8 +68,11 @@ protected slots:
     void corrected (const QString & originalword, const QString & newword, unsigned int pos);
     void spell_done(const QString&);
 protected:
-    QSize minimumSizeHint();
     void focusOutEvent(QFocusEvent*);
+    QSize sizeHint();
+    QSize minimumSizeHint();
+    void keyReleaseEvent(QKeyEvent*);
+    void keyPressEvent(QKeyEvent*);
     TransparentBg *bgTransparent;
     QColor baseBG;
     QColor baseFG;
