@@ -66,8 +66,9 @@
 	<object mime="image/png">10.png</object>
   </icon>
   <icon>
-	<text>:-/</text>
-	<text>:-\</text>
+	<text>:-|</text>
+	<text>:-!</text>
+	<text>:-$</text>
 	<object mime="image/png">11.png</object>
   </icon>
   <icon>
@@ -82,9 +83,8 @@
 	<object mime="image/png">13.png</object>
   </icon>
   <icon>
-	<text>:-|</text>
-	<text>:-!</text>
-	<text>:-$</text>
+	<text>:-/</text>
+	<text>:-\</text>
 	<object mime="image/png">14.png</object>
   </icon>
   <icon>
