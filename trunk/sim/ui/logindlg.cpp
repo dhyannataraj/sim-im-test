@@ -81,17 +81,15 @@ void LoginDialog::login()
     pClient->load(uin);
     if (uin && pClient->EncryptedPassword.length()){
         string s = ICQClient::cryptPassword(edtPasswd->text().local8Bit());
-        if (strcmp(s.c_str(), pClient->EncryptedPassword.c_str())){
-            BalloonMsg::message(i18n("Invalid password"), btnLogin);
+        if (!strcmp(s.c_str(), pClient->EncryptedPassword.c_str())){
+            pSplash->LastUIN = pClient->owner->Uin;
+            pSplash->SavePassword = chkSave->isChecked();
+            pSplash->save();
+            pMain->init();
+            bCloseMain = false;
+            close();
             return;
         }
-        pSplash->LastUIN = pClient->owner->Uin;
-        pSplash->SavePassword = chkSave->isChecked();
-        pSplash->save();
-        pMain->init();
-        bCloseMain = false;
-        close();
-        return;
     }
     btnProxy->setEnabled(false);
     btnClose->setText(i18n("Cancel"));
