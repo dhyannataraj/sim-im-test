@@ -217,7 +217,7 @@ void TextShow::keyPressEvent(QKeyEvent *e)
 
 void TextShow::copy()
 {
-#if QT_VERSION < 310
+#if QT_VERSION <= 0x030100
     QApplication::clipboard()->setText(selectedText());
 #else
     QApplication::clipboard()->setText(selectedText(),QClipboard::Selection);
