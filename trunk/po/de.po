@@ -1,0 +1,1394 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2002-07-05 14:17+0200\n"
+"PO-Revision-Date: 2002-07-05 14:24GMT\n"
+"Last-Translator: Crissi <crissi99@gmx.de>\n"
+"Language-Team: deutsch <de@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 0.9.6\n"
+
+#: sim-0.6/sim/chatwnd.cpp:80 sim-0.6/sim/msgedit.cpp:134
+msgid "Bold"
+msgstr "Fett"
+
+#: sim-0.6/sim/chatwnd.cpp:92 sim-0.6/sim/msgedit.cpp:150
+msgid "Underline"
+msgstr "Unterstrichen"
+
+#: sim-0.6/sim/chatwnd.cpp:213
+msgid "Enter to chat"
+msgstr "Chat betreten"
+
+#: sim-0.6/sim/chatwnd.cpp:316
+#, c-format, ycp-format
+msgid "Can't create %1"
+msgstr "Konnte %1 nicht erstellen"
+
+#: sim-0.6/sim/fontedit.cpp:57
+msgid "light"
+msgstr "Hell"
+
+#: sim-0.6/sim/fontedit.cpp:61
+msgid "demibold"
+msgstr "mittelfett"
+
+#: sim-0.6/sim/fontedit.cpp:65
+msgid "bold"
+msgstr "fett"
+
+#: sim-0.6/sim/fontedit.cpp:69
+msgid "black"
+msgstr "Schwarz"
+
+#: sim-0.6/sim/fontedit.cpp:76
+msgid "italic"
+msgstr "kursiv"
+
+#: sim-0.6/sim/userview.cpp:319
+msgid "Not in list"
+msgstr "Nicht in Liste"
+
+#: sim-0.6/sim/userview.cpp:411
+msgid "Group"
+msgstr "Gruppe"
+
+#: sim-0.6/sim/userview.cpp:413
+msgid "Rename"
+msgstr "Umbenennen"
+
+#: sim-0.6/sim/mainwin.cpp:1591 sim-0.6/sim/userview.cpp:415
+msgid "Create group"
+msgstr "Gruppe erstellen"
+
+#: sim-0.6/sim/userview.cpp:417
+msgid "Up"
+msgstr "Nach oben"
+
+#: sim-0.6/sim/userview.cpp:418
+msgid "Down"
+msgstr "Abwärts"
+
+#: sim-0.6/sim/mainwin.cpp:1593 sim-0.6/sim/userview.cpp:420
+msgid "Expand all"
+msgstr "Alle aufklappen"
+
+#: sim-0.6/sim/mainwin.cpp:1594 sim-0.6/sim/userview.cpp:421
+msgid "Collapse all"
+msgstr "Alle zusammenklappen"
+
+#: sim-0.6/sim/userview.cpp:493 sim-0.6/sim/userview.cpp:506
+msgid "New group"
+msgstr "Neue Gruppe"
+
+#: sim-0.6/sim/client.cpp:460 sim-0.6/sim/client.cpp:472
+#: sim-0.6/sim/cuser.cpp:203 sim-0.6/sim/userview.cpp:788
+msgid "Online"
+msgstr "Online"
+
+#: sim-0.6/sim/client.cpp:457 sim-0.6/sim/userview.cpp:788
+msgid "Offline"
+msgstr "Offline"
+
+#: sim-0.6/sim/ui/searchbase.cpp:185 sim-0.6/sim/usertbl.cpp:109
+msgid "UIN"
+msgstr "UIN"
+
+#: sim-0.6/sim/usertbl.cpp:111
+msgid "Alias"
+msgstr "Alias"
+
+#: sim-0.6/sim/mainwin.cpp:1604 sim-0.6/sim/ui/statussetupbase.cpp:79
+#: sim-0.6/sim/usertbl.cpp:112
+msgid "Status"
+msgstr "Status"
+
+#: sim-0.6/sim/usertbl.cpp:114
+msgid "Name"
+msgstr "Name"
+
+#: sim-0.6/sim/client.cpp:419 sim-0.6/sim/usertbl.cpp:115
+msgid "Email"
+msgstr "E-Mail"
+
+#: sim-0.6/sim/usertbl.cpp:118
+msgid "Erase"
+msgstr "Radieren"
+
+#: sim-0.6/sim/usertbl.cpp:120
+msgid "Add group"
+msgstr "Gruppe hinzufügen"
+
+#: sim-0.6/sim/usertbl.cpp:121
+msgid "Add all"
+msgstr "Alle hinzufügen"
+
+#: sim-0.6/sim/userbox.cpp:132
+msgid "Add to ignore list"
+msgstr "Zur Ignorieren-Liste hinzufügen"
+
+#: sim-0.6/sim/userbox.cpp:139
+msgid "Move to group"
+msgstr "Zu Gruppe verschieben"
+
+#: sim-0.6/sim/mainwin.cpp:1205 sim-0.6/sim/ui/userinfo.cpp:53
+#: sim-0.6/sim/userbox.cpp:145 sim-0.6/sim/userbox.cpp:245
+msgid "User info"
+msgstr "Benutzerinformation"
+
+#: sim-0.6/sim/mainwin.cpp:1206 sim-0.6/sim/userbox.cpp:150
+#: sim-0.6/sim/userbox.cpp:288
+msgid "History"
+msgstr "Verlauf"
+
+#: sim-0.6/sim/themes.cpp:72
+msgid "Platinum"
+msgstr "Platin"
+
+#: sim-0.6/sim/themes.cpp:73
+msgid "Windows"
+msgstr "Windows"
+
+#: sim-0.6/sim/themes.cpp:74
+msgid "CDE"
+msgstr "CDE"
+
+#: sim-0.6/sim/themes.cpp:75
+msgid "Motif"
+msgstr "Motif"
+
+#: sim-0.6/sim/themes.cpp:76
+msgid "Motif +"
+msgstr "Motif +"
+
+#: sim-0.6/sim/themes.cpp:77
+msgid "Norwegian wood"
+msgstr "Norwegisches Holz"
+
+#: sim-0.6/sim/themes.cpp:78
+msgid "Metal"
+msgstr "Metall"
+
+#: sim-0.6/sim/themes.cpp:80
+msgid ".Net"
+msgstr ".Net"
+
+#: sim-0.6/sim/themes.cpp:81
+msgid "Liquid"
+msgstr "Liquid"
+
+#: sim-0.6/sim/themes.cpp:82
+msgid "MegaGradient"
+msgstr "MegaGradient"
+
+#: sim-0.6/sim/themes.cpp:83
+msgid "Web"
+msgstr "Web"
+
+#: sim-0.6/sim/sim.cpp:115
+msgid "ICQ client"
+msgstr "ICQ Klient"
+
+#: sim-0.6/sim/sim.cpp:122
+msgid "Maintainer"
+msgstr "Betreuer"
+
+#: sim-0.6/sim/sim.cpp:127
+msgid "Directory for files"
+msgstr "Verzeichnis für Dateien"
+
+#: sim-0.6/sim/sim.cpp:128
+msgid "Loglevel"
+msgstr "Protokollierungstufe"
+
+#: sim-0.6/sim/logindlg.cpp:42 sim-0.6/sim/passwddlg.cpp:34
+msgid "Password:"
+msgstr "Passwort:"
+
+#: sim-0.6/sim/passwddlg.cpp:48
+msgid "Login"
+msgstr "Benutzer"
+
+#: sim-0.6/sim/logindlg.cpp:145 sim-0.6/sim/passwddlg.cpp:53
+msgid "Invalid password"
+msgstr "Ungültiges Paßwort"
+
+#: sim-0.6/sim/client.cpp:397 sim-0.6/sim/msgview.cpp:144
+msgid "Authorization request"
+msgstr "Authorisierungsanfrage"
+
+#: sim-0.6/sim/client.cpp:399 sim-0.6/sim/msgview.cpp:153
+msgid "Authorization refused"
+msgstr "Authorisierung abgelehnt"
+
+#: sim-0.6/sim/client.cpp:401 sim-0.6/sim/msgview.cpp:161
+msgid "Authorization granted"
+msgstr "Authorisierung gewährt"
+
+#: sim-0.6/sim/client.cpp:403 sim-0.6/sim/msgview.cpp:164
+msgid "Added to contact list"
+msgstr "Zur Kontaktliste hinzugefügt"
+
+#: sim-0.6/sim/msgview.cpp:168
+msgid "Contact request"
+msgstr "Kontaktanfrage"
+
+#: sim-0.6/sim/msgview.cpp:177
+msgid "File: "
+msgstr "Datei:"
+
+#: sim-0.6/sim/msgview.cpp:182
+msgid "bytes"
+msgstr "Byte"
+
+#: sim-0.6/sim/msgview.cpp:195
+msgid "Contact list received"
+msgstr "Kontakliste empfangen"
+
+#: sim-0.6/sim/msgview.cpp:195
+msgid "Contact list sent"
+msgstr "Kontaktliste gesendet"
+
+#: sim-0.6/sim/msgedit.cpp:63
+msgid "Decline file without reason"
+msgstr "Ohne Grund abgelehnt"
+
+#: sim-0.6/sim/msgedit.cpp:65
+msgid "Sorry, I'm busy right now, and can not respond to your request"
+msgstr ""
+"Entschuldigung, bin gerade beschäftigt und kann nicht auf die Anfrage "
+"antworten."
+
+#: sim-0.6/sim/msgedit.cpp:67
+msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
+msgstr "Entschuldigung, bin gerade beschäftigt, werde aber später antworten."
+
+#: sim-0.6/sim/msgedit.cpp:69
+msgid "Enter a decline reason"
+msgstr "Ablehungsgrund eingeben"
+
+#: sim-0.6/sim/msgedit.cpp:91
+msgid "Background color"
+msgstr "Hintergrundfarbe"
+
+#: sim-0.6/sim/msgedit.cpp:96
+msgid "&Reply"
+msgstr "&Antwort"
+
+#: sim-0.6/sim/msgedit.cpp:100
+msgid "&Grant"
+msgstr "&Bewilligung"
+
+#: sim-0.6/sim/msgedit.cpp:104
+msgid "&Accept"
+msgstr "&Annehmen"
+
+#: sim-0.6/sim/msgedit.cpp:109
+msgid "Text color"
+msgstr "Textfarbe"
+
+#: sim-0.6/sim/msgedit.cpp:115
+msgid "&Quote"
+msgstr "&Zitieren"
+
+#: sim-0.6/sim/msgedit.cpp:119
+msgid "&Refuse"
+msgstr "&Ablehnen"
+
+#: sim-0.6/sim/msgedit.cpp:129
+msgid "&Decline"
+msgstr "&Ablehnen"
+
+#: sim-0.6/sim/msgedit.cpp:158
+msgid "Text font"
+msgstr "Schriftart"
+
+#: sim-0.6/sim/editspell.cpp:203 sim-0.6/sim/msgedit.cpp:166
+#: sim-0.6/sim/ui/setupdlg.cpp:102
+msgid "Spell check"
+msgstr "Rechtschreibprüfung"
+
+#: sim-0.6/sim/msgedit.cpp:175
+msgid "C&lose after send"
+msgstr "Nach dem Senden &schließen"
+
+#: sim-0.6/sim/msgedit.cpp:189
+msgid "Phone:"
+msgstr "Telefon:"
+
+#: sim-0.6/sim/msgedit.cpp:199
+msgid "URL:"
+msgstr "URL:"
+
+#: sim-0.6/sim/msgedit.cpp:207
+msgid "File:"
+msgstr "Datei:"
+
+#: sim-0.6/sim/msgedit.cpp:212
+msgid "Drag users here"
+msgstr "Benutzer hierher ziehen"
+
+#: sim-0.6/sim/msgedit.cpp:266
+msgid "Sending"
+msgstr "Sende"
+
+#: sim-0.6/sim/msgedit.cpp:273
+msgid "&Send"
+msgstr "&Senden"
+
+#: sim-0.6/sim/msgedit.cpp:405
+msgid "Transfer started"
+msgstr "Übertragung gestartet"
+
+#: sim-0.6/sim/msgedit.cpp:408
+msgid "Chat started"
+msgstr "Chat gestartet"
+
+#: sim-0.6/sim/msgedit.cpp:436
+msgid "Message sent"
+msgstr "Nachricht gesendet"
+
+#: sim-0.6/sim/msgedit.cpp:440
+msgid "Send failed"
+msgstr "Senden fehlgeschlagen"
+
+#: sim-0.6/sim/msgedit.cpp:698
+msgid "Next"
+msgstr "Weiter"
+
+#: sim-0.6/sim/mainwin.cpp:1388 sim-0.6/sim/msgedit.cpp:701
+msgid "New"
+msgstr "Neu"
+
+#: sim-0.6/sim/msgedit.cpp:1299
+msgid "Decline reason"
+msgstr "Ablehnungsgrund"
+
+#: sim-0.6/sim/msgedit.cpp:1299
+msgid "Please, input decline reason:"
+msgstr "Bitte geben Sie einen Ablehnungsgrund ein:"
+
+#: sim-0.6/sim/mainwin.cpp:263
+msgid "Current location"
+msgstr "Aktueller Ort"
+
+#: sim-0.6/sim/mainwin.cpp:264
+msgid "Phone status"
+msgstr "Telefonstatus"
+
+#: sim-0.6/sim/mainwin.cpp:266
+msgid "Phone Book"
+msgstr "Adreßbuch"
+
+#: sim-0.6/sim/mainwin.cpp:280
+msgid "Show offline"
+msgstr "Offline anzeigen"
+
+#: sim-0.6/sim/mainwin.cpp:284
+msgid "Group mode"
+msgstr "Gruppenmodus"
+
+#: sim-0.6/sim/mainwin.cpp:296
+msgid "Menu"
+msgstr "Menü"
+
+#: sim-0.6/sim/mainwin.cpp:697
+msgid "Your UIN used from another location"
+msgstr "Ihre UIN wird von einem anderem Ort benutzt"
+
+#: sim-0.6/sim/mainwin.cpp:1110 sim-0.6/sim/mainwin.cpp:1319
+msgid "&Yes"
+msgstr "&Ja"
+
+#: sim-0.6/sim/mainwin.cpp:1111 sim-0.6/sim/mainwin.cpp:1320
+msgid "&No"
+msgstr "&Nein"
+
+#: sim-0.6/sim/mainwin.cpp:1112
+#, ycp-format
+msgid "Add user %1 to ignore list ?"
+msgstr "Benutzer %1 zur Ignorierenliste hinzufügen?"
+
+#: sim-0.6/sim/dock.cpp:478 sim-0.6/sim/mainwin.cpp:1135
+msgid "Connecting"
+msgstr "Verbindungsaufbau"
+
+#: sim-0.6/sim/mainwin.cpp:1178
+msgid "In visible list"
+msgstr "In Sichtbar-Liste"
+
+#: sim-0.6/sim/mainwin.cpp:1180
+msgid "In invisible list"
+msgstr "In Unsichtbar-Liste"
+
+#: sim-0.6/sim/mainwin.cpp:1183
+msgid "In ignore list"
+msgstr "In Ignorieren-Liste"
+
+#: sim-0.6/sim/mainwin.cpp:1200 sim-0.6/sim/mainwin.cpp:1607
+msgid "Groups"
+msgstr "Gruppen"
+
+#: sim-0.6/sim/mainwin.cpp:1209
+msgid "Floating off"
+msgstr "Floating aus"
+
+#: sim-0.6/sim/mainwin.cpp:1209
+msgid "Floating on"
+msgstr "Floating an"
+
+#: sim-0.6/sim/mainwin.cpp:1212
+msgid "Users"
+msgstr "Benutzer"
+
+#: sim-0.6/sim/mainwin.cpp:1321
+#, ycp-format
+msgid "Delete user %1?"
+msgstr "Benutzer %1 löschen?"
+
+#: sim-0.6/sim/mainwin.cpp:1391
+msgid "To container"
+msgstr "In Kontainer"
+
+#: sim-0.6/sim/mainwin.cpp:1583
+msgid "Invisible"
+msgstr "Unsichtbar"
+
+#: sim-0.6/sim/mainwin.cpp:1586
+msgid "Don't show"
+msgstr "Nicht anzeigen"
+
+#: sim-0.6/sim/mainwin.cpp:1587
+msgid "Available"
+msgstr "Verfügbar"
+
+#: sim-0.6/sim/mainwin.cpp:1588
+msgid "Busy"
+msgstr "Beschäftigt"
+
+#: sim-0.6/sim/mainwin.cpp:1598
+msgid "ICQ"
+msgstr "ICQ"
+
+#: sim-0.6/sim/mainwin.cpp:1601
+msgid "Find User"
+msgstr "Benutzer suchen"
+
+#: sim-0.6/sim/mainwin.cpp:1602
+msgid "Add Non-IM contact"
+msgstr "Nicht-IM-Kontakt hinzufügen"
+
+#: sim-0.6/sim/mainwin.cpp:1606 sim-0.6/sim/ui/setupdlg.cpp:63
+msgid "Setup"
+msgstr "Einrichten"
+
+#: sim-0.6/sim/mainwin.cpp:1608
+msgid "Phone \"Follow Me\""
+msgstr "\"Folge mir\" anrufen"
+
+#: sim-0.6/sim/mainwin.cpp:1611
+msgid "Always on top"
+msgstr "Immer oben"
+
+#: sim-0.6/sim/mainwin.cpp:1615
+msgid "&About SIM"
+msgstr "&Über SIM"
+
+#: sim-0.6/sim/mainwin.cpp:1616
+msgid "About &KDE"
+msgstr "Über &KDE"
+
+#: sim-0.6/sim/logindlg.cpp:35 sim-0.6/sim/ui/searchbase.cpp:178
+msgid "UIN:"
+msgstr "ICQ#:"
+
+#: sim-0.6/sim/logindlg.cpp:49
+msgid "Use existing UIN"
+msgstr "Existierende UIN benutzen"
+
+#: sim-0.6/sim/logindlg.cpp:59
+msgid "Register"
+msgstr "Registrieren"
+
+#: sim-0.6/sim/logindlg.cpp:64
+msgid "Registration"
+msgstr "Registrierung"
+
+#: sim-0.6/sim/logindlg.cpp:137
+msgid "Unknown login error"
+msgstr "Unbekannter Loginfehler"
+
+#: sim-0.6/sim/logindlg.cpp:141
+msgid "Rate limit"
+msgstr "Rate begrenzen"
+
+#: sim-0.6/sim/dock.cpp:473
+#, c-format
+msgid "%n unread message"
+msgstr "%n ungelesene Nachricht"
+
+#: sim-0.6/sim/cuser.cpp:195
+msgid "Last online"
+msgstr "Zuletzt online"
+
+#: sim-0.6/sim/client.cpp:389 sim-0.6/sim/ui/msgdialogbase.cpp:78
+msgid "Message"
+msgstr "Nachricht"
+
+#: sim-0.6/sim/client.cpp:391
+msgid "Chat request"
+msgstr "Chatanfrage"
+
+#: sim-0.6/sim/client.cpp:395 sim-0.6/sim/ui/soundsetupbase.cpp:124
+msgid "URL"
+msgstr "URL"
+
+#: sim-0.6/sim/client.cpp:405
+msgid "WWW-panel message"
+msgstr "WWW-Feld Nachricht"
+
+#: sim-0.6/sim/client.cpp:407
+msgid "Email pager message"
+msgstr "Email Pager-Nachricht"
+
+#: sim-0.6/sim/client.cpp:409
+msgid "Contact list"
+msgstr "Kontaktliste"
+
+#: sim-0.6/sim/client.cpp:411
+msgid "Contacts request"
+msgstr "Kontaktanfrage"
+
+#: sim-0.6/sim/client.cpp:413
+msgid "External unknown message"
+msgstr "Externe unbekannte Nachricht"
+
+#: sim-0.6/sim/client.cpp:415 sim-0.6/sim/ui/soundsetupbase.cpp:131
+msgid "SMS"
+msgstr "SMS"
+
+#: sim-0.6/sim/client.cpp:417
+msgid "SMS receipt"
+msgstr "SMS Empfänger"
+
+#: sim-0.6/sim/client.cpp:462
+msgid "Away"
+msgstr "Weg"
+
+#: sim-0.6/sim/client.cpp:464
+msgid "Do not disturb"
+msgstr "Nicht stören"
+
+#: sim-0.6/sim/client.cpp:466
+msgid "Occupied"
+msgstr "Besetzt"
+
+#: sim-0.6/sim/client.cpp:468
+msgid "Free for chat"
+msgstr "Frei für Chat"
+
+#: sim-0.6/sim/client.cpp:470
+msgid "N/A"
+msgstr "N/A"
+
+#: sim-0.6/sim/ui/network.cpp:44
+msgid "No proxy"
+msgstr "Kein Proxy"
+
+#: sim-0.6/sim/ui/network.cpp:45
+msgid "SOCKS4"
+msgstr "SOCKS4"
+
+#: sim-0.6/sim/ui/network.cpp:46
+msgid "SOCKS5"
+msgstr "SOCKS5"
+
+#: sim-0.6/sim/ui/network.cpp:47
+msgid "HTTP"
+msgstr "HTTP"
+
+#: sim-0.6/sim/ui/filetransfer.cpp:46
+msgid "Receive file"
+msgstr "Datei empfangen"
+
+#: sim-0.6/sim/ui/filetransfer.cpp:47 sim-0.6/sim/ui/filetransfer.cpp:54
+#: sim-0.6/sim/ui/filetransferbase.cpp:42
+msgid "Remote file:"
+msgstr "Enfernte Datei:"
+
+#: sim-0.6/sim/ui/filetransfer.cpp:48 sim-0.6/sim/ui/filetransfer.cpp:53
+#: sim-0.6/sim/ui/filetransferbase.cpp:47
+msgid "Local file:"
+msgstr "Lokale Datei:"
+
+#: sim-0.6/sim/ui/filetransfer.cpp:52
+msgid "Send file"
+msgstr "Datei senden"
+
+#: sim-0.6/sim/ui/filetransfer.cpp:82
+msgid "Transfer completed"
+msgstr "Übertragung abgeschlossen"
+
+#: sim-0.6/sim/ui/filetransfer.cpp:85
+msgid "Transfer failed"
+msgstr "Übertragung fehlgeschlagen"
+
+#: sim-0.6/sim/ui/filetransfer.cpp:143
+#, ycp-format
+msgid "File %1 exist"
+msgstr "Datei %1 existiert"
+
+#: sim-0.6/sim/ui/ballonmsg.cpp:180
+msgid "&Ok"
+msgstr "&OK"
+
+#: sim-0.6/sim/ui/autoreply.cpp:81
+#, ycp-format
+msgid "Close in %1 sec"
+msgstr "Schließt in %1 Sek"
+
+#: sim-0.6/sim/ui/alertmsg.cpp:39
+msgid "User "
+msgstr "Benutzer"
+
+#: sim-0.6/sim/ui/alertmsg.cpp:39
+msgid " is online"
+msgstr " it online"
+
+#: sim-0.6/sim/ui/alertmsg.cpp:49
+#, ycp-format
+msgid "Close [%1 sec]"
+msgstr "Schließen [%1 Sek]"
+
+#: sim-0.6/sim/ui/msgdialog.cpp:32
+#, ycp-format
+msgid "Autoreply message for status \"%1\""
+msgstr "Autoantwort für Status \"%\""
+
+#: sim-0.6/sim/ui/editfile.cpp:71
+msgid "Directory for incoming files"
+msgstr "Verzeichnis für ankommende Dateien"
+
+#: sim-0.6/sim/ui/phonebook.cpp:73
+msgid "Type"
+msgstr "Typ"
+
+#: sim-0.6/sim/ui/phonebook.cpp:75
+msgid "Number"
+msgstr "Nummer"
+
+#: sim-0.6/sim/ui/phonebook.cpp:76
+msgid "Publish"
+msgstr "Publizieren"
+
+#: sim-0.6/sim/ui/maininfobase.cpp:81 sim-0.6/sim/ui/setupdlg.cpp:76
+#: sim-0.6/sim/ui/userinfo.cpp:56
+msgid "Main info"
+msgstr "Haupt-Info"
+
+#: sim-0.6/sim/ui/homeinfobase.cpp:80 sim-0.6/sim/ui/setupdlg.cpp:77
+#: sim-0.6/sim/ui/userinfo.cpp:58
+msgid "Home info"
+msgstr "Heim-Info"
+
+#: sim-0.6/sim/ui/setupdlg.cpp:78 sim-0.6/sim/ui/userinfo.cpp:59
+#: sim-0.6/sim/ui/workinfobase.cpp:80
+msgid "Work info"
+msgstr "Arbeit-Info"
+
+#: sim-0.6/sim/ui/moreinfobase.cpp:80 sim-0.6/sim/ui/setupdlg.cpp:79
+#: sim-0.6/sim/ui/userinfo.cpp:60
+msgid "More info"
+msgstr "Zusatz-Info"
+
+#: sim-0.6/sim/ui/aboutinfobase.cpp:77 sim-0.6/sim/ui/setupdlg.cpp:80
+#: sim-0.6/sim/ui/userinfo.cpp:61
+msgid "About info"
+msgstr "Über-Info"
+
+#: sim-0.6/sim/ui/interestsinfobase.cpp:78 sim-0.6/sim/ui/setupdlg.cpp:81
+#: sim-0.6/sim/ui/userinfo.cpp:62
+msgid "Interests"
+msgstr "Interessen"
+
+#: sim-0.6/sim/ui/pastinfobase.cpp:78 sim-0.6/sim/ui/setupdlg.cpp:82
+#: sim-0.6/sim/ui/userinfo.cpp:63
+msgid "Group/Past"
+msgstr "Gruppe/Geschichte"
+
+#: sim-0.6/sim/ui/phonebookbase.cpp:80 sim-0.6/sim/ui/setupdlg.cpp:83
+#: sim-0.6/sim/ui/userinfo.cpp:65
+msgid "Phone book"
+msgstr "Telefonbuch"
+
+#: sim-0.6/sim/ui/setupdlg.cpp:85 sim-0.6/sim/ui/userinfo.cpp:70
+msgid "Preferences"
+msgstr "Einstellungen"
+
+#: sim-0.6/sim/ui/alertdialogbase.cpp:47 sim-0.6/sim/ui/setupdlg.cpp:94
+#: sim-0.6/sim/ui/userinfo.cpp:72
+msgid "Alert"
+msgstr "Warnung"
+
+#: sim-0.6/sim/ui/setupdlg.cpp:73
+msgid "My details"
+msgstr "Meine Details"
+
+#: sim-0.6/sim/ui/setupdlg.cpp:88
+msgid "Status mode"
+msgstr "Statusmodus"
+
+#: sim-0.6/sim/ui/setupdlg.cpp:89
+msgid "Connection"
+msgstr "Verbindung"
+
+#: sim-0.6/sim/ui/setupdlg.cpp:90 sim-0.6/sim/ui/themesetupbase.cpp:79
+msgid "Style"
+msgstr "Stil"
+
+#: sim-0.6/sim/ui/setupdlg.cpp:92 sim-0.6/sim/ui/soundsetupbase.cpp:105
+msgid "Sound"
+msgstr "Persönliche Einstellungen"
+
+#: sim-0.6/sim/ui/acceptbase.cpp:110 sim-0.6/sim/ui/setupdlg.cpp:95
+msgid "Accept file"
+msgstr "Akzeptiere Datei"
+
+#: sim-0.6/sim/ui/miscsetupbase.cpp:106 sim-0.6/sim/ui/setupdlg.cpp:98
+msgid "Miscellanious"
+msgstr "Verschiedenes"
+
+#: sim-0.6/sim/ui/setupdlg.cpp:105
+msgid "Auto reply"
+msgstr "Automatische Antwort"
+
+#: sim-0.6/sim/ui/generalsecbase.cpp:79 sim-0.6/sim/ui/setupdlg.cpp:114
+msgid "Security"
+msgstr "Sicherheit"
+
+#: sim-0.6/sim/ui/setupdlg.cpp:117
+msgid "General"
+msgstr "Allgemein"
+
+#: sim-0.6/sim/ui/setupdlg.cpp:118
+msgid "Password"
+msgstr "Passwort"
+
+#: sim-0.6/sim/ui/listsec.cpp:129 sim-0.6/sim/ui/setupdlg.cpp:119
+msgid "Ignore list"
+msgstr "Ignorieren-Liste"
+
+#: sim-0.6/sim/ui/listsec.cpp:111 sim-0.6/sim/ui/setupdlg.cpp:120
+msgid "Invisible list"
+msgstr "Unsichbarkeit-Liste"
+
+#: sim-0.6/sim/ui/listsec.cpp:93 sim-0.6/sim/ui/setupdlg.cpp:121
+msgid "Visible list"
+msgstr "Sichtbarkeit-Liste"
+
+#: sim-0.6/sim/ui/searchdlg.cpp:180
+msgid "No users was found"
+msgstr "Kein Benutzer wurde gefunden"
+
+#: sim-0.6/sim/ui/themesetup.cpp:83
+msgid "Default icons"
+msgstr "Standard Icons"
+
+#: sim-0.6/sim/ui/moreinfo.cpp:66
+msgid "January"
+msgstr "Januar"
+
+#: sim-0.6/sim/ui/moreinfo.cpp:67
+msgid "February"
+msgstr "Februar"
+
+#: sim-0.6/sim/ui/moreinfo.cpp:68
+msgid "March"
+msgstr "März"
+
+#: sim-0.6/sim/ui/moreinfo.cpp:69
+msgid "April"
+msgstr "April"
+
+#: sim-0.6/sim/ui/moreinfo.cpp:70
+msgid "May"
+msgstr "Mai"
+
+#: sim-0.6/sim/ui/moreinfo.cpp:71
+msgid "June"
+msgstr "Juni"
+
+#: sim-0.6/sim/ui/moreinfo.cpp:72
+msgid "July"
+msgstr "Juli"
+
+#: sim-0.6/sim/ui/moreinfo.cpp:73
+msgid "August"
+msgstr "August"
+
+#: sim-0.6/sim/ui/moreinfo.cpp:74
+msgid "September"
+msgstr "September"
+
+#: sim-0.6/sim/ui/moreinfo.cpp:75
+msgid "October"
+msgstr "Oktober"
+
+#: sim-0.6/sim/ui/moreinfo.cpp:76
+msgid "November"
+msgstr "November"
+
+#: sim-0.6/sim/ui/moreinfo.cpp:77
+msgid "December"
+msgstr "Dezember"
+
+#: sim-0.6/sim/ui/changepasswd.cpp:36
+msgid "Confirm password does not match"
+msgstr "Paßwörter stimmen nicht überein"
+
+#: sim-0.6/sim/ui/searchbase.cpp:68 sim-0.6/sim/ui/searchbase.cpp:191
+msgid "Search"
+msgstr "Suchen"
+
+#: sim-0.6/sim/ui/moreinfobase.cpp:99 sim-0.6/sim/ui/searchbase.cpp:85
+msgid "Age:"
+msgstr "Alter:"
+
+#: sim-0.6/sim/ui/searchbase.cpp:101
+msgid "Email:"
+msgstr "E-Mail:"
+
+#: sim-0.6/sim/ui/moreinfobase.cpp:110 sim-0.6/sim/ui/searchbase.cpp:107
+msgid "Gender:"
+msgstr "Geschlecht:"
+
+#: sim-0.6/sim/ui/homeinfobase.cpp:117 sim-0.6/sim/ui/phonebase.cpp:117
+#: sim-0.6/sim/ui/searchbase.cpp:113 sim-0.6/sim/ui/workinfobase.cpp:140
+msgid "Country:"
+msgstr "Land:"
+
+#: sim-0.6/sim/ui/searchbase.cpp:124
+msgid "Language:"
+msgstr "Sprache:"
+
+#: sim-0.6/sim/ui/searchbase.cpp:133
+msgid "Email/Info"
+msgstr "Email/Info"
+
+#: sim-0.6/sim/ui/maininfobase.cpp:95 sim-0.6/sim/ui/searchbase.cpp:141
+msgid "Last Name:"
+msgstr "Nachname:"
+
+#: sim-0.6/sim/ui/maininfobase.cpp:209 sim-0.6/sim/ui/searchbase.cpp:147
+msgid "First name:"
+msgstr "Vorname:"
+
+#: sim-0.6/sim/ui/searchbase.cpp:157
+msgid "Nickname:"
+msgstr "Spitzname:"
+
+#: sim-0.6/sim/ui/searchbase.cpp:170
+msgid "Names"
+msgstr "Namen"
+
+#: sim-0.6/sim/ui/searchbase.cpp:195
+msgid "New search"
+msgstr "Neue Suche"
+
+#: sim-0.6/sim/ui/acceptbase.cpp:95 sim-0.6/sim/ui/alertdialogbase.cpp:32
+#: sim-0.6/sim/ui/fontsetupbase.cpp:92 sim-0.6/sim/ui/generalsecbase.cpp:63
+#: sim-0.6/sim/ui/homeinfobase.cpp:65 sim-0.6/sim/ui/miscsetupbase.cpp:90
+#: sim-0.6/sim/ui/msgdialogbase.cpp:63 sim-0.6/sim/ui/networkbase.cpp:65
+#: sim-0.6/sim/ui/pastinfobase.cpp:63 sim-0.6/sim/ui/phonebase.cpp:65
+#: sim-0.6/sim/ui/phonebookbase.cpp:65 sim-0.6/sim/ui/setupdlgbase.cpp:65
+#: sim-0.6/sim/ui/soundsetupbase.cpp:90 sim-0.6/sim/ui/spellsetupbase.cpp:63
+#: sim-0.6/sim/ui/statussetupbase.cpp:63 sim-0.6/sim/ui/themesetupbase.cpp:64
+#: sim-0.6/sim/ui/userinfobase.cpp:92
+msgid "Form1"
+msgstr "Form1"
+
+#: sim-0.6/sim/ui/networkbase.cpp:80
+msgid "Network"
+msgstr "Netzwerk"
+
+#: sim-0.6/sim/ui/networkbase.cpp:92
+msgid "ICQ server:"
+msgstr "ICQ Server:"
+
+#: sim-0.6/sim/ui/networkbase.cpp:105
+msgid "Port:"
+msgstr "Port:"
+
+#: sim-0.6/sim/ui/networkbase.cpp:111
+msgid "Host:"
+msgstr "Rechner:"
+
+#: sim-0.6/sim/ui/networkbase.cpp:132
+msgid "Use proxy"
+msgstr "Proxy benutzen"
+
+#: sim-0.6/sim/ui/networkbase.cpp:151
+msgid "Proxy host:"
+msgstr "Proxy-Host:"
+
+#: sim-0.6/sim/ui/networkbase.cpp:157
+msgid "Proxy port:"
+msgstr "Proxy-Port:"
+
+#: sim-0.6/sim/ui/networkbase.cpp:171
+msgid "User proxy authorization"
+msgstr "Benutzerauthentisierung Proxy"
+
+#: sim-0.6/sim/ui/networkbase.cpp:179
+msgid "Proxy user:"
+msgstr "Proxy-Benutzer:"
+
+#: sim-0.6/sim/ui/networkbase.cpp:193
+msgid "Proxy password:"
+msgstr "Proxy-Paßwort:"
+
+#: sim-0.6/sim/ui/networkbase.cpp:207
+msgid "Use the following TCP listen ports:"
+msgstr "Folgende hörende TCP-Ports verwenden:"
+
+#: sim-0.6/sim/ui/networkbase.cpp:213
+msgid "From:"
+msgstr "Von:"
+
+#: sim-0.6/sim/ui/networkbase.cpp:221
+msgid "To:"
+msgstr "An:"
+
+#: sim-0.6/sim/ui/filetransferbase.cpp:36
+msgid "File transfer"
+msgstr "Dateiübertragung"
+
+#: sim-0.6/sim/ui/filetransferbase.cpp:69
+msgid "1000000/100000"
+msgstr "1000000/100000"
+
+#: sim-0.6/sim/ui/filetransferbase.cpp:78
+msgid "100000"
+msgstr "100000"
+
+#: sim-0.6/sim/ui/filetransferbase.cpp:94
+msgid "Close after send"
+msgstr "Nach dem Senden schließen"
+
+#: sim-0.6/sim/ui/acceptbase.cpp:122
+msgid "Override global settings"
+msgstr "Globale Einstellungen überschreiben"
+
+#: sim-0.6/sim/ui/acceptbase.cpp:126
+msgid "Path for incoming files:"
+msgstr "Pfad für eingehende Dateien:"
+
+#: sim-0.6/sim/ui/acceptbase.cpp:133
+msgid "Accept mode"
+msgstr "Akzeptieren-Modus"
+
+#: sim-0.6/sim/ui/acceptbase.cpp:141
+msgid "Show response"
+msgstr "Antwort zeigen"
+
+#: sim-0.6/sim/ui/acceptbase.cpp:145
+msgid "Auto accept"
+msgstr "Automatisch akzeptieren"
+
+#: sim-0.6/sim/ui/acceptbase.cpp:149
+msgid "Overwrite files"
+msgstr "Dateien überschreiben"
+
+#: sim-0.6/sim/ui/acceptbase.cpp:153
+msgid "Auto decline"
+msgstr "Automatisch ablehnen"
+
+#: sim-0.6/sim/ui/fontsetupbase.cpp:119
+msgid "Use systems fonts"
+msgstr "Benutze Systemschriftarten"
+
+#: sim-0.6/sim/ui/fontsetupbase.cpp:123
+msgid "Base font"
+msgstr "Basisschriftart"
+
+#: sim-0.6/sim/ui/fontsetupbase.cpp:130
+msgid "Menu font"
+msgstr "Menüschriftart"
+
+#: sim-0.6/sim/ui/fontsetupbase.cpp:147
+msgid "Received messages color"
+msgstr "Farbe der emfangenen Nachrichten"
+
+#: sim-0.6/sim/ui/fontsetupbase.cpp:158
+msgid "Sending messages color"
+msgstr "Nachrichtenfarben senden"
+
+#: sim-0.6/sim/ui/emaileditbase.cpp:36
+msgid "Edit Email"
+msgstr "Email bearbeiten"
+
+#: sim-0.6/sim/ui/emaileditbase.cpp:40
+msgid "Enter Email address:"
+msgstr "Email-Adressen eingeben:"
+
+#: sim-0.6/sim/ui/emaileditbase.cpp:47
+msgid "Don't publish my Email address"
+msgstr "Meine Email-Adresse nicht veröffentlichen"
+
+#: sim-0.6/sim/ui/pastinfobase.cpp:89
+msgid "Organization, Affiliation, Group:"
+msgstr "Organisation, Zugehörigkeit, Gruppe:"
+
+#: sim-0.6/sim/ui/pastinfobase.cpp:131
+msgid "Past background:"
+msgstr "Geschichtlicher Hintergrund:"
+
+#: sim-0.6/sim/ui/autoreplybase.cpp:34
+msgid "Autoreply message"
+msgstr "Automatische Nachricht"
+
+#: sim-0.6/sim/ui/autoreplybase.cpp:41
+msgid "Close after ...."
+msgstr "Schließen nach..."
+
+#: sim-0.6/sim/ui/autoreplybase.cpp:45
+msgid "Don't show this dialog"
+msgstr "Diesen Dialog nicht wieder anzeigen"
+
+#: sim-0.6/sim/ui/alertmsgbase.cpp:33 sim-0.6/sim/ui/alertmsgbase.cpp:37
+msgid "User is online"
+msgstr "Benutzer ist online"
+
+#: sim-0.6/sim/ui/changepasswdbase.cpp:62
+#: sim-0.6/sim/ui/interestsinfobase.cpp:63 sim-0.6/sim/ui/pagerbase.cpp:62
+#: sim-0.6/sim/ui/workinfobase.cpp:65
+msgid "Form2"
+msgstr "Form 2"
+
+#: sim-0.6/sim/ui/msgdialogbase.cpp:90
+msgid "Customize message"
+msgstr "Nachricht anpassen"
+
+#: sim-0.6/sim/ui/msgdialogbase.cpp:97
+msgid "Don't show message dialog"
+msgstr "Nachrichtendialog nicht anzeigen"
+
+#: sim-0.6/sim/ui/alertdialogbase.cpp:56
+msgid "Override global alert"
+msgstr "Globalen Online-Alarm überschreiben"
+
+#: sim-0.6/sim/ui/alertdialogbase.cpp:60
+msgid "Activate online alert when user returns from Away or NA"
+msgstr "Online-Alarm aktivieren, wenn der Benutzer von NA oder Weg zurückkehrt"
+
+#: sim-0.6/sim/ui/alertdialogbase.cpp:64
+msgid "Online alert options"
+msgstr "Online-Alarm Optionen"
+
+#: sim-0.6/sim/ui/alertdialogbase.cpp:72
+msgid "Blinking alert effect"
+msgstr "Blinkalarmeffekt "
+
+#: sim-0.6/sim/ui/alertdialogbase.cpp:76
+msgid "Play online alert sound"
+msgstr "Onlineton abspielen"
+
+#: sim-0.6/sim/ui/alertdialogbase.cpp:80
+msgid "Popup online alert dialog"
+msgstr "Onlinedialog anzeigen"
+
+#: sim-0.6/sim/ui/alertdialogbase.cpp:84
+msgid "Open user window when online"
+msgstr "Öffnet Benutzerfenster, wenn online"
+
+#: sim-0.6/sim/ui/phonebase.cpp:71
+msgid "Area code:"
+msgstr "Gebietskode:"
+
+#: sim-0.6/sim/ui/phonebase.cpp:81
+msgid "Extension:"
+msgstr "Erweiterung:"
+
+#: sim-0.6/sim/ui/phonebase.cpp:101 sim-0.6/sim/ui/phonebase.cpp:112
+#: sim-0.6/sim/ui/phonebase.cpp:123
+msgid "-"
+msgstr "-"
+
+#: sim-0.6/sim/ui/pagerbase.cpp:92 sim-0.6/sim/ui/phonebase.cpp:106
+msgid "Number:"
+msgstr "Anzahl:"
+
+#: sim-0.6/sim/ui/phonebase.cpp:132
+msgid "Publish in global directory"
+msgstr "In globalem Verzeichnis publizieren"
+
+#: sim-0.6/sim/ui/phonebase.cpp:138
+msgid "SMS service available"
+msgstr "SMS Dienst verfügbar"
+
+#: sim-0.6/sim/ui/pagerbase.cpp:76
+msgid "Provider:"
+msgstr "Anbieter:"
+
+#: sim-0.6/sim/ui/pagerbase.cpp:82
+msgid "Email gateway:"
+msgstr "Email Gataway:"
+
+#: sim-0.6/sim/ui/addphonebase.cpp:68
+msgid "Add phone"
+msgstr "Telefon hinzufügen"
+
+#: sim-0.6/sim/ui/addphonebase.cpp:72
+msgid "Number details:"
+msgstr "Nummerdetails:"
+
+#: sim-0.6/sim/ui/addphonebase.cpp:82
+msgid "Type:"
+msgstr "Typ:"
+
+#: sim-0.6/sim/ui/miscsetupbase.cpp:118
+msgid "Browser program path:"
+msgstr "Pfad des Browserprogramms:"
+
+#: sim-0.6/sim/ui/miscsetupbase.cpp:125
+msgid "Email client:"
+msgstr "Emailprogramm:"
+
+#: sim-0.6/sim/ui/soundsetupbase.cpp:117
+msgid "Message:"
+msgstr "Lauftext:"
+
+#: sim-0.6/sim/ui/soundsetupbase.cpp:138
+msgid "Authorization"
+msgstr "Autorisierung"
+
+#: sim-0.6/sim/ui/soundsetupbase.cpp:145
+msgid "Online alert"
+msgstr "Onlinealarm"
+
+#: sim-0.6/sim/ui/soundsetupbase.cpp:152
+msgid "Incoming file"
+msgstr "Ankommende Datei"
+
+#: sim-0.6/sim/ui/soundsetupbase.cpp:159
+msgid "File transfer done"
+msgstr "Dateiübertragung beendet"
+
+#: sim-0.6/sim/ui/soundsetupbase.cpp:166
+msgid "ChatRequest"
+msgstr "Chatanfrage"
+
+#: sim-0.6/sim/ui/soundsetupbase.cpp:177
+msgid "Program for play"
+msgstr "Programm zum Abspielen"
+
+#: sim-0.6/sim/ui/phonebookbase.cpp:91
+msgid "User is currently available at:"
+msgstr "Der Benutzer ist aktuell bei:"
+
+#: sim-0.6/sim/ui/phonebookbase.cpp:102 sim-0.6/sim/ui/setupdlgbase.cpp:71
+#: sim-0.6/sim/ui/userinfobase.cpp:96
+msgid "Column 1"
+msgstr "Spalte 1"
+
+#: sim-0.6/sim/ui/phonebookbase.cpp:104 sim-0.6/sim/ui/setupdlgbase.cpp:73
+#: sim-0.6/sim/ui/themesetupbase.cpp:96 sim-0.6/sim/ui/themesetupbase.cpp:108
+#: sim-0.6/sim/ui/userinfobase.cpp:98
+msgid "New Item"
+msgstr "Neues Element"
+
+#: sim-0.6/sim/ui/phonebookbase.cpp:111
+msgid "&Add"
+msgstr "&Hinzufügen"
+
+#: sim-0.6/sim/ui/spellsetupbase.cpp:78
+msgid "Spell checking"
+msgstr "Rechtschreibprüfung"
+
+#: sim-0.6/sim/ui/spellsetupbase.cpp:95
+msgid "Check all messages on send"
+msgstr "Nachrichten beim Versenden prüfen"
+
+#: sim-0.6/sim/ui/setupdlgbase.cpp:85 sim-0.6/sim/ui/userinfobase.cpp:115
+msgid "Update"
+msgstr "Aktualisieren"
+
+#: sim-0.6/sim/ui/workinfobase.cpp:97
+msgid "Occupation:"
+msgstr "Beschäftigung:"
+
+#: sim-0.6/sim/ui/workinfobase.cpp:111
+msgid "Div / dept:"
+msgstr "Abteilung:"
+
+#: sim-0.6/sim/ui/workinfobase.cpp:117
+msgid "Name:"
+msgstr "Name:"
+
+#: sim-0.6/sim/ui/workinfobase.cpp:146
+msgid "Web site:"
+msgstr "Webseite:"
+
+#: sim-0.6/sim/ui/homeinfobase.cpp:102 sim-0.6/sim/ui/workinfobase.cpp:168
+msgid "Address:"
+msgstr "Adresse:"
+
+#: sim-0.6/sim/ui/homeinfobase.cpp:129 sim-0.6/sim/ui/workinfobase.cpp:178
+msgid "City:"
+msgstr "Stadt:"
+
+#: sim-0.6/sim/ui/homeinfobase.cpp:139 sim-0.6/sim/ui/workinfobase.cpp:184
+msgid "Zip code:"
+msgstr "Postleitzahl:"
+
+#: sim-0.6/sim/ui/homeinfobase.cpp:96 sim-0.6/sim/ui/workinfobase.cpp:190
+msgid "State:"
+msgstr "Staat:"
+
+#: sim-0.6/sim/ui/workinfobase.cpp:196
+msgid "Position:"
+msgstr "Position:"
+
+#: sim-0.6/sim/ui/themesetupbase.cpp:92
+msgid "Select style:"
+msgstr "Stil auswählen:"
+
+#: sim-0.6/sim/ui/themesetupbase.cpp:104
+msgid "Icons:"
+msgstr "Symbole:"
+
+#: sim-0.6/sim/ui/themesetupbase.cpp:112
+msgid "Transparent main window"
+msgstr "Transparentes Hauptfenster"
+
+#: sim-0.6/sim/ui/themesetupbase.cpp:116 sim-0.6/sim/ui/themesetupbase.cpp:128
+msgid "Transparency"
+msgstr "Folie"
+
+#: sim-0.6/sim/ui/themesetupbase.cpp:124
+msgid "Transparent container"
+msgstr "Transparenter Container"
+
+#: sim-0.6/sim/ui/themesetupbase.cpp:140
+msgid "Show user window in task manager"
+msgstr "Benutzerfenster in Prozeßliste anzeigen"
+
+#: sim-0.6/sim/ui/statussetupbase.cpp:95
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgstr "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste deaktivieren"
+
+#: sim-0.6/sim/ui/statussetupbase.cpp:102
+msgid "minutes not using computer"
+msgstr "Minuten keine Computerbenutzung"
+
+#: sim-0.6/sim/ui/statussetupbase.cpp:132
+msgid "minutes of \"Away\""
+msgstr "Minuten von \"Weg\""
+
+#: sim-0.6/sim/ui/statussetupbase.cpp:139
+msgid "Set \"N/A\" status after"
+msgstr "\"N/A\"-Status setzen nach"
+
+#: sim-0.6/sim/ui/statussetupbase.cpp:146
+msgid "Set \"Away\" status after"
+msgstr "\"Weg\"-Status setzen nach"
+
+#: sim-0.6/sim/ui/listsecbase.cpp:90 sim-0.6/sim/ui/moreinfobase.cpp:65
+msgid "Form3"
+msgstr "Form 3"
+
+#: sim-0.6/sim/ui/moreinfobase.cpp:135
+msgid "Homepage:"
+msgstr "Homepage:"
+
+#: sim-0.6/sim/ui/moreinfobase.cpp:142
+msgid "Birth date:"
+msgstr "Geburtstag:"
+
+#: sim-0.6/sim/ui/moreinfobase.cpp:148
+msgid "Month:"
+msgstr "Monat:"
+
+#: sim-0.6/sim/ui/moreinfobase.cpp:155
+msgid "Day:"
+msgstr "Tag:"
+
+#: sim-0.6/sim/ui/moreinfobase.cpp:162
+msgid "Year:"
+msgstr "Jahr:"
+
+#: sim-0.6/sim/ui/moreinfobase.cpp:177
+msgid "Spoken languages:"
+msgstr "Gesprochene Sprachen:"
+
+#: sim-0.6/sim/ui/maininfobase.cpp:66
+msgid "Form5"
+msgstr "Form 5"
+
+#: sim-0.6/sim/ui/maininfobase.cpp:112
+msgid "Uin:"
+msgstr "UIN:"
+
+#: sim-0.6/sim/ui/maininfobase.cpp:118
+msgid "Nick:"
+msgstr "Spitzname:"
+
+#: sim-0.6/sim/ui/maininfobase.cpp:203
+msgid "Display:"
+msgstr "Anzeige:"
+
+#: sim-0.6/sim/ui/maininfobase.cpp:221
+msgid "Email addresses:"
+msgstr "E-Mail-Adressen:"
+
+#: sim-0.6/sim/ui/maininfobase.cpp:244
+msgid "Set as default"
+msgstr "Als Standard festlegen"
+
+#: sim-0.6/sim/ui/maininfobase.cpp:256
+msgid "Notes"
+msgstr "Bemerkungen"
+
+#: sim-0.6/sim/ui/homeinfobase.cpp:153
+msgid "Time zone:"
+msgstr "Zeitzone:"
+
+#: sim-0.6/sim/ui/generalsecbase.cpp:96
+msgid "My authorization is required before users add me to Contact List"
+msgstr "Meine Authorisierung ist erforderlich, bevor Benutzer mich zu Ihrer Kontaktliste hinzufügen können"
+
+#: sim-0.6/sim/ui/generalsecbase.cpp:109
+msgid "Allow others to view my status from the Web"
+msgstr "Erlaubt anderen meinem Status im Web anzusehen"
+
+#: sim-0.6/sim/ui/generalsecbase.cpp:122
+msgid "Don't show my IP-address"
+msgstr "IP-Adresse nicht anzeigen"
+
+#: sim-0.6/sim/ui/changepasswdbase.cpp:77
+msgid "Change password"
+msgstr "Passwort ändern"
+
+#: sim-0.6/sim/ui/changepasswdbase.cpp:90
+msgid "Retype new password:"
+msgstr "Neues Paßwort erneut eingeben:"
+
+#: sim-0.6/sim/ui/changepasswdbase.cpp:97
+msgid "New password:"
+msgstr "Neues Paßwort:"
+
+#: sim-0.6/sim/ui/aboutinfobase.cpp:62
+msgid "Form4"
+msgstr "Form 4"
+
+#: sim-0.6/sim/ui/aboutinfobase.cpp:87
+msgid "Additional information about user:"
+msgstr "Zusätzliche Information über den Benutzer:"
+
+

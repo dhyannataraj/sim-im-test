@@ -1,0 +1,15 @@
+####### kdevelop will overwrite this part!!! (begin)##########
+noinst_LIBRARIES = libui.a
+
+## INCLUDES were found outside kdevelop specific part
+
+libui_a_METASOURCES = AUTO
+
+libui_a_SOURCES = effect.cpp networkbase.ui network.cpp filetransferbase.ui filetransfer.cpp accept.cpp acceptbase.ui ballonmsg.cpp qcolorbutton.cpp fontsetupbase.ui fontsetup.cpp emaileditbase.ui emailedit.cpp pastinfo.cpp pastinfobase.ui autoreplybase.ui autoreply.cpp alertmsgbase.ui alertmsg.cpp interestsinfobase.ui interestsinfo.cpp msgdialogbase.ui msgdialog.cpp alertdialogbase.ui alertdialog.cpp phonedetails.cpp phonebase.ui pagerdetails.cpp pagerbase.ui addphonebase.ui addphone.cpp miscsetupbase.ui miscsetup.cpp soundsetupbase.ui soundsetup.cpp editfile.cpp phonebookbase.ui phonebook.cpp spellsetupbase.ui spellsetup.cpp userinfobase.ui userinfo.cpp setupdlgbase.ui setupdlg.cpp searchdlg.cpp enable.cpp workinfo.cpp themesetup.cpp statussetup.cpp searchbase.cpp moreinfo.cpp maininfo.cpp listsec.cpp homeinfo.cpp generalsec.cpp changepasswd.cpp workinfobase.ui themesetupbase.ui statussetupbase.ui searchbase.ui moreinfobase.ui maininfobase.ui listsecbase.ui homeinfobase.ui generalsecbase.ui changepasswdbase.ui aboutinfobase.ui aboutinfo.cpp 
+
+
+EXTRA_DIST = effect.h aboutinfo.cpp aboutinfo.h aboutinfobase.ui changepasswdbase.ui generalsecbase.ui homeinfobase.ui listsecbase.ui maininfobase.ui Makefile.am moreinfobase.ui searchbase.ui statussetupbase.ui themesetupbase.ui workinfobase.ui changepasswd.cpp changepasswd.h generalsec.cpp generalsec.h homeinfo.cpp homeinfo.h listsec.cpp listsec.h maininfo.cpp maininfo.h moreinfo.cpp moreinfo.h searchbase.cpp searchbase.h statussetup.cpp statussetup.h themesetup.cpp themesetup.h workinfo.cpp workinfo.h enable.cpp enable.h searchdlg.cpp searchdlg.h setupdlg.cpp setupdlg.h setupdlgbase.ui userinfo.cpp userinfo.h userinfobase.ui spellsetup.cpp spellsetup.h spellsetupbase.ui phonebook.cpp phonebook.h phonebookbase.ui editfile.cpp editfile.h soundsetup.cpp soundsetup.h soundsetupbase.ui miscsetup.cpp miscsetup.h miscsetupbase.ui addphone.cpp addphone.h addphonebase.ui pagerbase.ui pagerdetails.cpp pagerdetails.h phonebase.ui phonedetails.cpp phonedetails.h alertdialog.cpp alertdialog.h alertdialogbase.ui msgdialog.cpp msgdialog.h msgdialogbase.ui interestsinfo.cpp interestsinfo.h interestsinfobase.ui alertmsg.cpp alertmsg.h alertmsgbase.ui autoreply.cpp autoreply.h autoreplybase.ui pastinfobase.ui pastinfo.h pastinfo.cpp emailedit.cpp emailedit.h emaileditbase.ui fontsetup.cpp fontsetup.h fontsetupbase.ui qcolorbutton.cpp qcolorbutton.h ballonmsg.cpp ballonmsg.h acceptbase.ui accept.h accept.cpp filetransfer.cpp filetransfer.h filetransferbase.ui network.cpp network.h networkbase.ui 
+
+####### kdevelop will overwrite this part!!! (end)############
+
+INCLUDES = $(all_includes) -I.. -I../libicq
