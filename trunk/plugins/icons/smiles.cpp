@@ -22,6 +22,11 @@
 #include <expat.h>
 #endif
 
+#ifndef XML_STATUS_OK
+#define XML_STATUS_OK    1
+#define XML_STATUS_ERROR 0
+#endif
+
 #include <qfile.h>
 #include <qregexp.h>
 #include <qpainter.h>
@@ -118,7 +123,7 @@ void XepParser::p_end_cdata(void *data)
 static void replace(char *b, unsigned size, const char *str1, const char *str2)
 {
     unsigned str_size = strlen(str1);
-    for (int i = 0; i < size - str_size; i++, b++){
+    for (unsigned i = 0; i < size - str_size; i++, b++){
         if (*b != *str1)
             continue;
         if (memcmp(b, str1, str_size))
@@ -158,9 +163,9 @@ bool XepParser::parse(QFile &f)
     string pict;
     const char *c = m_pict.c_str();
     unsigned n = 0;
-    unsigned tmp2;
+    unsigned tmp2 = 0;
     while (*c) {
-        char tmp;
+        char tmp = 0;
         if (*c >= 'A' && *c <= 'Z') {
             tmp = *c - 'A';
         } else if (*c >= 'a' && *c <= 'z') {
@@ -385,7 +390,7 @@ bool Smiles::load(const QString &file)
 #else
                 QRegExp re(s->exp);
                 int len;
-                if ((re.match(sd.paste.c_str(), 0, &len) == 0) && (len == sd.paste.length())){
+                if ((re.match(sd.paste.c_str(), 0, &len) == 0) && ((unsigned)len == sd.paste.length())){
                     sd.title = s->title;
                     break;
                 }
