@@ -641,7 +641,7 @@ protected:
     unsigned short m_sendSmsId;
     unsigned short m_offlineMessagesRequestId;
     ListServerRequest *m_listRequest;
-    unsigned m_listRequestTime;
+    time_t m_listRequestTime;
     bool m_bRosters;
     bool m_bBirthday;
     bool m_bNoSend;

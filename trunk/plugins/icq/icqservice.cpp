@@ -368,8 +368,8 @@ void ICQClient::sendLogonStatus()
         sendInvisible(false);
     sendContactList();
 
-    unsigned long now;
-    time((time_t*)&now);
+    time_t now;
+    time(&now);
     if (data.owner.PluginInfoTime.value == 0)
         data.owner.PluginInfoTime.value = now;
     if (data.owner.PluginStatusTime.value == 0)

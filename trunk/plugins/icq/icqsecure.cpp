@@ -39,7 +39,7 @@ ICQSecure::ICQSecure(QWidget *parent, ICQClient *client)
 void ICQSecure::deleteVisibleItem(QListViewItem *item)
 {
     Contact *contact = getContacts()->contact(item->text(0).toUInt());
-    log(L_DEBUG,"contact: %s, %lu",item->text(0).ascii(),item->text(0).toUInt());
+    log(L_DEBUG,"contact: %s, %u",item->text(0).ascii(),item->text(0).toUInt());
     if (contact) {
         ICQUserData *data;
         ClientDataIterator it(contact->clientData);
@@ -54,7 +54,7 @@ void ICQSecure::deleteVisibleItem(QListViewItem *item)
 void ICQSecure::deleteInvisibleItem(QListViewItem *item)
 {
     Contact *contact = getContacts()->contact(item->text(0).toUInt());
-    log(L_DEBUG,"contact: %s, %lu",item->text(0).ascii(),item->text(0).toUInt());
+    log(L_DEBUG,"contact: %s, %u",item->text(0).ascii(),item->text(0).toUInt());
     if (contact) {
         ICQUserData *data;
         ClientDataIterator it(contact->clientData);

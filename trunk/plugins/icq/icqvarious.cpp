@@ -394,7 +394,7 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
     }else{
         data = m_client->findContact(number(m_uin).c_str(), NULL, false, contact);
         if (data == NULL){
-            log(L_DEBUG, "Info request %u not found", m_uin);
+            log(L_DEBUG, "Info request %lu not found", m_uin);
             m_client->removeFullInfoRequest(m_uin);
             return true;
         }
