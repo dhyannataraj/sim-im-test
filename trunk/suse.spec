@@ -3,7 +3,7 @@
 %define release %(release="`echo "%{suse_release} * 10" | bc 2>/dev/null`" ; if test $? != 0 ; then release="" ; fi ; echo "$release")
 
 Name:           sim
-Version:        0.9.1
+Version:        0.9.2
 Release:	1.suse%{release}
 Vendor:		Vladimir Shutoff <shutoff@mail.ru>
 Packager:	Christoph Thielecke <crissi99@gmx.de>

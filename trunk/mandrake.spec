@@ -1,5 +1,5 @@
 %define name	sim
-%define version	0.9.1
+%define version	0.9.2
 %define release	1mdk
 
 %define major 0
@@ -118,6 +118,9 @@ EOF
 rm -r $RPM_BUILD_ROOT
 
 %changelog
+* Sun Nov 23 2003 Robert Scheck <sim@robert-scheck.de> 0.9.2-1mdk
+- Upgrade to 0.9.2
+
 * Wed Nov 05 2003 Robert Scheck <sim@robert-scheck.de> 0.9.1-1mdk
 - Upgrade to 0.9.1
 - Initial spec file based on the official one from Mandrake

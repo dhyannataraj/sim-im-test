@@ -2,7 +2,7 @@
 %define release %(release="`echo "%{rh_release} * 10" | bc 2>/dev/null`" ; if test $? != 0 ; then release="" ; fi ; echo "$release")
 
 Name: 		sim
-Version: 	0.9.1
+Version: 	0.9.2
 Release: 	1.rh%{release}
 Vendor: 	Vladimir Shutoff <shutoff@mail.ru>
 Packager:	Robert Scheck <sim@robert-scheck.de>
@@ -88,6 +88,9 @@ rm -rf $RPM_BUILD_DIR/sim*
 %{_datadir}/icons/*/*/*/*
 
 %changelog
+* Sun Nov 23 2003 - Robert Scheck <sim@robert-scheck.de> - 0.9.2-1
+- Upgrade to 0.9.2
+
 * Wed Nov 05 2003 - Robert Scheck <sim@robert-scheck.de> - 0.9.1-1
 - Upgrade to 0.9.1
 
