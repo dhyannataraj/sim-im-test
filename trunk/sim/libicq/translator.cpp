@@ -200,7 +200,7 @@ bool WordIterator::getNext()
     return true;
 }
 
-static bool match(const QString &str, const QString &pat, int strPos=0, int patPos=0)
+static bool match(const QString &str, const QString &pat, int strPos, int patPos)
 {
     for (; (strPos < (int)str.length()) && (patPos < (int)pat.length()); strPos++, patPos++){
         if (pat[patPos] == '?') continue;
@@ -264,7 +264,7 @@ bool ICQClient::match(const char *sStr, const char *sPat)
         for (PatList::Iterator itPat = pats.begin(); itPat != pats.end(); ++itPat){
             QStringList::Iterator itStr;
             for (itStr = (*itPat).begin(); itStr != (*itPat).end(); ++itStr, it.getNext())
-                if (!match(*it, *itStr)) break;
+                if (!::match(*it, *itStr, 0, 0)) break;
             if (itStr == (*itPat).end()) return true;
             it.back();
         }
