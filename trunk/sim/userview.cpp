@@ -763,7 +763,7 @@ void UserView::accelActivated(int id)
 
 bool UserView::eventFilter(QObject *obj, QEvent *e)
 {
-    if (e->type() == QEvent::Leave) 
+    if (e->type() == QEvent::Leave)
         hideTip();
     if (obj == menuGroup){
         if (e->type() == QEvent::Hide)

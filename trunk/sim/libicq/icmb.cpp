@@ -68,9 +68,9 @@ void ICQClientPrivate::snac_message(unsigned short type, unsigned short)
                 ICQMessage *m = e->message();
                 if ((m->timestamp1 != timestamp1) != (m->timestamp2 != timestamp2)) continue;
                 if (m->Type() != ICQ_MSGxCHATxINFO){
-					time_t now;
-					time(&now);
-					m->Time = now;
+                    time_t now;
+                    time(&now);
+                    m->Time = now;
                     e->state = ICQEvent::Success;
                     msgQueue.remove(e);
                     client->process_event(e);

@@ -47,13 +47,13 @@
 %x x_word
 %%
 
-(http|https|ftp)"://"([A-Za-z0-9-]+\.)*[A-Za-z0-9-]+"/"[A-Za-z0-9/\,\.\?\@\&:\;\(\)\-_\+\%=~\#]+		{ return URL; }
-(http|https|ftp)"://"([A-Za-z0-9-]+\.)*[A-Za-z0-9-]+				{ return URL; }
+(http|https|ftp)"://"([A-Za-z0-9-]+\.)*[A-Za-z0-9-]+(\:[0-9]+)?"/"[A-Za-z0-9/\,\.\?\@\&:\;\(\)\-_\+\%=~\#]+		{ return URL; }
+(http|https|ftp)"://"([A-Za-z0-9-]+\.)*[A-Za-z0-9-]+(\:[0-9]+)?				{ return URL; }
 (mailto:)?[A-Za-z0-9\-_]+\@([A-Za-z0-9\-]+\.)+[A-Za-z]+				{ return MAIL; }
-"www"(\.[A-Za-z0-9-]+)+"/"[A-Za-z0-9/\,\.\?\&:\;\(\)\-_\+\%=~\#]+	{ return HTTP_URL; }
-"www"(\.[A-Za-z0-9-]+)+												{ return HTTP_URL; }
-"ftp"(\.[A-Za-z0-9-]+)+"/"[A-Za-z0-9/\,\.:\;\-_\+~]+				{ return FTP_URL; }
-"ftp"(\.[A-Za-z0-9-]+)+												{ return FTP_URL; }
+"www"(\.[A-Za-z0-9-]+)+(:[0-9]+)?"/"[A-Za-z0-9/\,\.\?\&:\;\(\)\-_\+\%=~\#]+	{ return HTTP_URL; }
+"www"(\.[A-Za-z0-9-]+)+(:[0-9]+)?												{ return HTTP_URL; }
+"ftp"(\.[A-Za-z0-9-]+)+(:[0-9]+)?"/"[A-Za-z0-9/\,\.:\;\-_\+~]+				{ return FTP_URL; }
+"ftp"(\.[A-Za-z0-9-]+)+(:[0-9]+)?												{ return FTP_URL; }
 <INITIAL,x_word>"&quot;"		{ BEGIN(INITIAL); return TXT; }
 <INITIAL,x_word>"&amp;"			{ BEGIN(INITIAL); return TXT; }
 <INITIAL,x_word>"&lt;"			{ BEGIN(INITIAL); return TXT; }
@@ -191,11 +191,11 @@ QString MainWindow::ParseText(const string &text, bool bIgnoreColors)
         case URL:{
                 string url = ICQClient::unquoteText(yytext);
                 string text = yytext;
-                res += "<a href=\"";
+                res += "<ul><a href=\"";
                 res += url.c_str();
                 res += "\">";
                 res += text.c_str();
-                res += "</a>";
+                res += "</a></ul>";
                 break;
             }
         case MAIL:{
@@ -203,11 +203,11 @@ QString MainWindow::ParseText(const string &text, bool bIgnoreColors)
                 string text = yytext;
                 if (url.substr(0, 7) != "mailto:")
                     url = string("mailto:") + url;
-                res += "<a href=\"";
+                res += "<ul><a href=\"";
                 res += url.c_str();
                 res += "\">";
                 res += text.c_str();
-                res += "</a>";
+                res += "</a></ul>";
                 break;
             }
         case HTTP_URL:{

@@ -156,7 +156,7 @@ void SSLClient::initSSL()
         SSL_CTX_set_cipher_list(gSSL_CTX, "ADH");
 #endif
 #ifdef DEBUG        
-		(gSSL_CTX, (void (*)())ssl_info_callback);
+        (gSSL_CTX, (void (*)())ssl_info_callback);
 #endif
         DH *dh = get_dh512();
         SSL_CTX_set_tmp_dh(gSSL_CTX, dh);

@@ -300,24 +300,24 @@ void ICQClient::setShare(bool bState)
 {
     if(isLogged()) {
 
-    if (bState == ShareOn) return;
-    ShareOn = bState;
-    time_t now;
-    time(&now);
-    Buffer b;
-    b << (char)3;
-    b.pack((unsigned long)now);
-    b.pack((unsigned short)0);
-    b.pack((unsigned short)1);
-    b.pack((unsigned short)1);
-    b.pack((char*)(ICQClientPrivate::SHARED_FILES_SIGN), 16);
-    b << (char)4 << (unsigned short)1;
-    b.pack((unsigned long)(bState ? 1 : 0));
-    b.pack((unsigned long)now);
-    b.pack((unsigned long)0);
-    b.pack((unsigned short)1);
-    p->sendUpdate(b);
-    p->needShareUpdate = true;
+        if (bState == ShareOn) return;
+        ShareOn = bState;
+        time_t now;
+        time(&now);
+        Buffer b;
+        b << (char)3;
+        b.pack((unsigned long)now);
+        b.pack((unsigned short)0);
+        b.pack((unsigned short)1);
+        b.pack((unsigned short)1);
+        b.pack((char*)(ICQClientPrivate::SHARED_FILES_SIGN), 16);
+        b << (char)4 << (unsigned short)1;
+        b.pack((unsigned long)(bState ? 1 : 0));
+        b.pack((unsigned long)now);
+        b.pack((unsigned long)0);
+        b.pack((unsigned short)1);
+        p->sendUpdate(b);
+        p->needShareUpdate = true;
 
     }
 }
