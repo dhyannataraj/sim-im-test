@@ -191,6 +191,14 @@ void PastInfo::adjustEnabled(int)
     edtAf3->setEnabled(cmbAf2->currentItem() != 0);
 }
 
+void PastInfo::load(ICQGroup*)
+{
+}
+
+void PastInfo::save(ICQGroup*)
+{
+}
+
 #ifndef _WINDOWS
 #include "pastinfo.moc"
 #endif

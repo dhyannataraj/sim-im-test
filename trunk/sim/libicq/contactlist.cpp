@@ -234,8 +234,9 @@ ICQUser *ICQClient::getUser(unsigned long id, bool create, bool bIsTemp)
     }
     u = contacts.getUser(id, true);
     u->bIsTemp = bIsTemp;
-    ICQEvent e(EVENT_INFO_CHANGED, id);
+    ICQEvent e(EVENT_INFO_CHANGED, u->Uin);
     process_event(&e);
+    if (id == 0) return u;
     if (u->IgnoreId == 0)
         p->addToContacts(id);
     addInfoRequest(id, true);
@@ -334,6 +335,17 @@ string ICQUser::name(bool UseUin)
             return info->Email;
         }
     }
+    if (FirstName.c_str()[0])
+        s = FirstName;
+    if (LastName.c_str()[0]){
+        if (!s.empty())
+            s += " ";
+        s += LastName;
+    }
+    if (!s.empty())
+        return s;
+    if (Type == USER_TYPE_EXT)
+        return s;
     if (Uin && UseUin){
         char b[32];
         snprintf(b, sizeof(b), "%lu", Uin);

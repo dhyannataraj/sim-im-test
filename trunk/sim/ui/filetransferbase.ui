@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>309</width>
+            <width>305</width>
             <height>231</height>
         </rect>
     </property>
@@ -243,6 +243,10 @@
                         <property stdset="1">
                             <name>name</name>
                             <cstring>edtLog</cstring>
+                        </property>
+                        <property>
+                            <name>wordWrap</name>
+                            <enum>WidgetWidth</enum>
                         </property>
                     </widget>
                 </vbox>

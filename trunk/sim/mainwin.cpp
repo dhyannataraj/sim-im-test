@@ -2585,12 +2585,16 @@ void MainWindow::playSound(const char *wav)
 
 void MainWindow::addNonIM()
 {
-    showUser(0, mnuInfo);
+    ICQUser *u = pClient->getUser(0, true, true);
+    u->Type = USER_TYPE_EXT;
+    userFunction(u->Uin, mnuInfo);
 }
 
 void MainWindow::sendSMS()
 {
-    showUser(0, mnuSMS);
+    ICQUser *u = pClient->getUser(0, true, true);
+    u->Type = USER_TYPE_EXT;
+    showUser(u->Uin, mnuSMS);
 }
 
 void MainWindow::setFonts()

@@ -22,6 +22,7 @@
 #include "workinfobase.h"
 
 class ICQUser;
+class ICQGroup;
 
 class WorkInfo : public WorkInfoBase
 {
@@ -32,6 +33,8 @@ public slots:
     void apply(ICQUser*);
     void load(ICQUser*);
     void save(ICQUser*);
+    void load(ICQGroup*);
+    void save(ICQGroup*);
 protected slots:
     void goUrl();
 };

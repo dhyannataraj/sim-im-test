@@ -52,6 +52,7 @@ MainInfo::MainInfo(QWidget *p, bool readOnly)
     connect(btnEdit, SIGNAL(clicked()), this, SLOT(editEmail()));
     connect(btnRemove, SIGNAL(clicked()), this, SLOT(removeEmail()));
     connect(btnDefault, SIGNAL(clicked()), this, SLOT(defaultEmail()));
+    connect(cmbDisplay, SIGNAL(textChanged(const QString&)), this, SLOT(aliasChanged(const QString&)));
     if (!readOnly){
         load(pClient->owner);
     }else{
@@ -94,7 +95,9 @@ void MainInfo::load(ICQUser *u)
         lineDiv->show();
     }else{
         tabWnd->setCurrentPage(2);
-        tabWnd->removePage(tabWnd->currentPage());
+        if (tabWnd->currentPageIndex() == 2)
+            tabWnd->removePage(tabWnd->currentPage());
+        tabWnd->setCurrentPage(0);
     }
     setCurrentEncoding(pClient->userEncoding(u->Uin));
     edtFirst->setText(QString::fromLocal8Bit(u->FirstName.c_str()));
@@ -120,7 +123,8 @@ void MainInfo::load(ICQUser *u)
     cmbDisplay->clear();
     cmbDisplay->insertStringList(strDisplay);
     CUser user(u);
-    cmbDisplay->lineEdit()->setText(user.name());
+    oldName = user.name();
+    cmbDisplay->lineEdit()->setText(oldName);
     mails = u->EMails;
     for (EMailList::iterator it = mails.begin(); it != mails.end(); it++){
         EMailInfo *email = static_cast<EMailInfo*>(*it);
@@ -218,6 +222,7 @@ void MainInfo::load(ICQUser *u)
         edtClient->setText(sClient);
     }
     setButtons(-1);
+    bDirty = false;
 }
 
 void MainInfo::reloadList()
@@ -321,9 +326,16 @@ void MainInfo::save(ICQUser *u)
     set(u->FirstName, edtFirst->text());
     set(u->LastName, edtLast->text());
     set(u->Nick, edtNick->text());
-    QString alias = getAlias();
-    if (!alias.isEmpty())
-        pClient->renameUser(u, alias.local8Bit());
+    if (bDirty){
+        QString alias = getAlias();
+        if (!alias.isEmpty())
+            pClient->renameUser(u, alias.local8Bit());
+    }else{
+        CUser user(u);
+        QString newName = user.name();
+        if (newName != oldName)
+            pClient->renameUser(u, newName.local8Bit());
+    }
 }
 
 void MainInfo::apply(ICQUser *u)
@@ -365,6 +377,19 @@ void MainInfo::setButtons(int)
     btnEdit->setEnabled((curMail >= 0) && (!bReadOnly || currentMail()->MyInfo));
     btnRemove->setEnabled((curMail >= 0) && (!bReadOnly || currentMail()->MyInfo));
     btnDefault->setEnabled(curMail > 0);
+}
+
+void MainInfo::load(ICQGroup*)
+{
+}
+
+void MainInfo::save(ICQGroup*)
+{
+}
+
+void MainInfo::aliasChanged(const QString&)
+{
+    bDirty = true;
 }
 
 #ifndef _WINDOWS

@@ -22,6 +22,7 @@
 #include "moreinfobase.h"
 
 class ICQUser;
+class ICQGroup;
 class QComboBox;
 
 class MoreInfo : public MoreInfoBase
@@ -33,6 +34,8 @@ public slots:
     void apply(ICQUser *u);
     void load(ICQUser *u);
     void save(ICQUser *u);
+    void load(ICQGroup *g);
+    void save(ICQGroup *g);
 protected slots:
     void birthDayChanged(int);
     void setLang(int);

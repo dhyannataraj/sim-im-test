@@ -1199,8 +1199,16 @@ QString SIMClient::getMessageAccel(int type)
 
 const char *SIMClient::getUserIcon(ICQUser *u)
 {
-    switch (u->Type){
-    case USER_TYPE_EXT:
+    if (u == NULL) return "nonim";
+    if (u->Type == USER_TYPE_EXT){
+        for (PhoneBook::iterator itPhone = u->Phones.begin(); itPhone != u->Phones.end(); ++itPhone){
+            PhoneInfo *info = static_cast<PhoneInfo*>(*itPhone);
+            if (info->Type == SMS)
+                return "cell";
+        }
+        for (EMailList::iterator itMail = u->EMails.begin(); itMail != u->EMails.end(); ++itMail){
+            return "mail_generic";
+        }
         return "nonim";
     }
     return getStatusIcon(u->uStatus);

@@ -141,8 +141,6 @@ static const char* translatedMsg[] =
 void FileTransferDlg::setLog(const QString &str)
 {
     lblState->setText(str);
-    if (!edtLog->text().isEmpty())
-        edtLog->append("\n");
     edtLog->append(str);
 }
 
@@ -163,6 +161,10 @@ void FileTransferDlg::processEvent(ICQEvent *e)
                    .arg(u.name())
                    .arg(u.realAddr()));
             break;
+        case ICQFile::ThruServerSend:
+            setLog(i18n("Send thru server to %1")
+                   .arg(u.name()));
+            break;
         default:
             break;
         }
@@ -172,6 +174,7 @@ void FileTransferDlg::processEvent(ICQEvent *e)
     bool bClose = true;
     if (e->state == ICQEvent::Success){
         if (e->type() != EVENT_DONE) return;
+        setLog(i18n("File transfer done"));
         file->state = file->Size;
         c = title + " " + i18n("[done]");
         pMain->playSound(pClient->FileDone.c_str());
@@ -179,6 +182,8 @@ void FileTransferDlg::processEvent(ICQEvent *e)
     }else if (e->state == ICQEvent::Fail){
         c = title + " " + i18n("[fail]");
         if (file && file->DeclineReason.length()){
+            setLog(i18n("File transfer declined with reason %1")
+                   .arg(QString::fromLocal8Bit(file->DeclineReason.c_str())));
             bClose = false;
             tabFT->setCurrentPage(0);
             raiseWindow(this);
@@ -193,6 +198,8 @@ void FileTransferDlg::processEvent(ICQEvent *e)
             BalloonMsg::message(reason, lblState);
         }
     }else{
+        if (e->type() == EVENT_ACKED)
+            setLog(i18n("File transfer acked"));
         return;
     }
     setCaption(c);

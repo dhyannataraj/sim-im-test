@@ -69,6 +69,14 @@ void HomeInfo::apply(ICQUser *u)
     u->TimeZone = getTZComboValue(cmbZone);
 }
 
+void HomeInfo::load(ICQGroup*)
+{
+}
+
+void HomeInfo::save(ICQGroup*)
+{
+}
+
 #ifndef _WINDOWS
 #include "homeinfo.moc"
 #endif

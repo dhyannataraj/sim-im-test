@@ -35,12 +35,15 @@ public slots:
     void apply(ICQUser *u);
     void load(ICQUser *u);
     void save(ICQUser *u);
+    void load(ICQGroup *g);
+    void save(ICQGroup *g);
 protected slots:
     void setButtons(int);
     void addEmail();
     void editEmail();
     void removeEmail();
     void defaultEmail();
+    void aliasChanged(const QString&);
 protected:
     EMailInfo *currentMail();
     void addString(QStringList &list, QString str);
@@ -49,7 +52,9 @@ protected:
     void reloadList();
     QString getAlias();
     EMailList mails;
+    QString oldName;
     bool bReadOnly;
+    bool bDirty;
 };
 
 #endif

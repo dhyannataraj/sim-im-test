@@ -105,6 +105,8 @@ UserInfo::UserInfo(unsigned long uin, unsigned short grpId, int page)
         addWidget(p_AlertDialog, SETUP_ALERT, i18n("Alert"), "alert");
         addWidget(p_AcceptDialog, SETUP_ACCEPT, i18n("Accept"), "message");
         addWidget(p_SoundSetup, SETUP_SOUND, i18n("Sound"), "sound");
+    }
+    if (g || (u && (u->Type == USER_TYPE_ICQ))){
         itemMain = new QListViewItem(lstBars, i18n("Auto reply"), QString::number(SETUP_AUTOREPLY));
         itemMain->setOpen(true);
         addWidget(p_MsgDialog, SETUP_AR_AWAY,
@@ -156,7 +158,7 @@ void UserInfo::setTitle()
 void UserInfo::setIcon()
 {
     if (m_nUin){
-        QWidget::setIcon(Pict(pClient->getStatusIcon(m_nUin)));
+        QWidget::setIcon(Pict(pClient->getUserIcon(pClient->getUser(m_nUin))));
     }else{
         QWidget::setIcon(Pict("grp_create"));
     }
@@ -185,6 +187,8 @@ void UserInfo::saveInfo()
             inSave = false;
             ICQEvent e(EVENT_INFO_CHANGED, m_nUin);
             processEvent(&e);
+            if (u->bIsTemp)
+                pClient->getUser(m_nUin, true);
         }
     }else{
         ICQGroup *g = NULL;

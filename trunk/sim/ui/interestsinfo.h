@@ -22,6 +22,7 @@
 #include "interestsinfobase.h"
 
 class ICQUser;
+class ICQGroup;
 
 class InterestsInfo : public InterestsInfoBase
 {
@@ -32,6 +33,8 @@ public slots:
     void apply(ICQUser *u);
     void load(ICQUser *u);
     void save(ICQUser *u);
+    void load(ICQGroup *g);
+    void save(ICQGroup *g);
 protected slots:
     void adjustEnabled(int);
 };

@@ -22,6 +22,7 @@
 #include "pastinfobase.h"
 
 class ICQUser;
+class ICQGroup;
 
 class PastInfo : public PastInfoBase
 {
@@ -32,6 +33,8 @@ public slots:
     void apply(ICQUser *u);
     void load(ICQUser *u);
     void save(ICQUser *u);
+    void load(ICQGroup *g);
+    void save(ICQGroup *g);
 protected slots:
     void adjustEnabled(int);
 };

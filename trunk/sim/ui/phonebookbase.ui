@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>343</width>
-            <height>346</height>
+            <width>421</width>
+            <height>329</height>
         </rect>
     </property>
     <property>
@@ -130,18 +130,51 @@
                         <class>QLayoutWidget</class>
                         <property stdset="1">
                             <name>name</name>
-                            <cstring>Layout5</cstring>
+                            <cstring>Layout8</cstring>
                         </property>
-                        <hbox>
+                        <property>
+                            <name>layoutMargin</name>
+                        </property>
+                        <grid>
                             <property>
                                 <name>margin</name>
-                                <number>0</number>
+                                <number>6</number>
                             </property>
                             <property>
                                 <name>spacing</name>
                                 <number>6</number>
                             </property>
-                            <spacer>
+                            <widget row="1"  column="0"  rowspan="1"  colspan="4" >
+                                <class>QLabel</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>lblNote</cstring>
+                                </property>
+                                <property>
+                                    <name>sizePolicy</name>
+                                    <sizepolicy>
+                                        <hsizetype>5</hsizetype>
+                                        <vsizetype>5</vsizetype>
+                                    </sizepolicy>
+                                </property>
+                                <property>
+                                    <name>text</name>
+                                    <string>Note:
+You can change only those numbers which have entered.
+It is impossible to change numbers which were received from the user.</string>
+                                </property>
+                                <property>
+                                    <name>alignment</name>
+                                    <set>WordBreak|AlignTop|AlignLeft</set>
+                                </property>
+                                <property>
+                                    <name>vAlign</name>
+                                </property>
+                                <property>
+                                    <name>wordwrap</name>
+                                </property>
+                            </widget>
+                            <spacer row="0"  column="0" >
                                 <property>
                                     <name>name</name>
                                     <cstring>Spacer2</cstring>
@@ -162,18 +195,7 @@
                                     </size>
                                 </property>
                             </spacer>
-                            <widget>
-                                <class>QPushButton</class>
-                                <property stdset="1">
-                                    <name>name</name>
-                                    <cstring>btnAdd</cstring>
-                                </property>
-                                <property>
-                                    <name>text</name>
-                                    <string>&amp;Add</string>
-                                </property>
-                            </widget>
-                            <widget>
+                            <widget row="0"  column="2" >
                                 <class>QPushButton</class>
                                 <property stdset="1">
                                     <name>name</name>
@@ -184,7 +206,7 @@
                                     <string>&amp;Edit</string>
                                 </property>
                             </widget>
-                            <widget>
+                            <widget row="0"  column="3" >
                                 <class>QPushButton</class>
                                 <property stdset="1">
                                     <name>name</name>
@@ -195,30 +217,18 @@
                                     <string>&amp;Delete</string>
                                 </property>
                             </widget>
-                        </hbox>
-                    </widget>
-                    <widget>
-                        <class>QLabel</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>lblNote</cstring>
-                        </property>
-                        <property>
-                            <name>text</name>
-                            <string>Note:
-You can change only those numbers which have entered.
-It is impossible to change numbers which were received from the user.</string>
-                        </property>
-                        <property>
-                            <name>alignment</name>
-                            <set>WordBreak|AlignTop|AlignLeft</set>
-                        </property>
-                        <property>
-                            <name>vAlign</name>
-                        </property>
-                        <property>
-                            <name>wordwrap</name>
-                        </property>
+                            <widget row="0"  column="1" >
+                                <class>QPushButton</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>btnAdd</cstring>
+                                </property>
+                                <property>
+                                    <name>text</name>
+                                    <string>&amp;Add</string>
+                                </property>
+                            </widget>
+                        </grid>
                     </widget>
                 </vbox>
             </widget>

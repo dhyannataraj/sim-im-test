@@ -1141,6 +1141,23 @@ void HistoryView::saveToFile(int n)
         return;
     }
     showProgress(0);
+    if (saveMode == HTML){
+        QTextCodec *codec = pClient->codecForUser(0);
+        QString charset = codec->name();
+        CUser u(view->Uin());
+        QString header = QString(
+                             "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n"
+                             "<HTML>\n"
+                             "<HEADER>\n"
+                             "<TITLE>History %1</TITLE>\n"
+                             "<META http-equiv=Content-Type content=\"text/html; charset=%2\">\n"
+                             "</HEADER>\n"
+                             "<BODY>\n")
+                         .arg(u.name(true))
+                         .arg(codec->name());
+        QCString ss = header.local8Bit();
+        f.writeBlock(ss, ss.length());
+    }
     History h(view->Uin());
     History::iterator &it = h.messages();
     it.setDirection(true);
@@ -1152,22 +1169,33 @@ void HistoryView::saveToFile(int n)
             encoding = codec->name();
         string msg_text;
         QString s;
+        CUser u(msg->Received ? msg->getUin() : pClient->owner->Uin);
+        s = u.name();
+        s += " ";
+        QDateTime time;
+        time.setTime_t(msg->Time);
+#ifdef USE_KDE
+        s += KGlobal::locale()->formatDateTime(time);
+#else
+        s += time.toString();
+#endif
+        s += " ";
         switch (msg->Type()){
         case ICQ_MSGxMSG:
             msg_text = (static_cast<ICQMsg*>(msg))->Message.c_str();
             SIMClient::toUTF(msg_text, encoding);
-            s += QString::fromLocal8Bit(pClient->clearHTML(msg_text).c_str());
+            s += QString::fromUtf8(pClient->clearHTML(msg_text).c_str());
             break;
         case ICQ_MSGxURL:{
                 ICQUrl *url = static_cast<ICQUrl*>(msg);
                 s += i18n("URL:");
-		s += " ";
+                s += " ";
                 s += url->URL.c_str();
                 if (*url->Message.c_str()){
                     msg_text = url->Message.c_str();
                     SIMClient::toUTF(msg_text, encoding);
                     s += "\n";
-                    s += QString::fromLocal8Bit(pClient->clearHTML(msg_text).c_str());
+                    s += QString::fromUtf8(pClient->clearHTML(msg_text).c_str());
                 }
                 break;
             }
@@ -1178,7 +1206,7 @@ void HistoryView::saveToFile(int n)
                     msg_text = req->Message.c_str();
                     SIMClient::toUTF(msg_text, encoding);
                     s += ": ";
-                    s += QString::fromLocal8Bit(pClient->clearHTML(msg_text).c_str());
+                    s += QString::fromUtf8(pClient->clearHTML(msg_text).c_str());
                 }
                 break;
             }
@@ -1189,7 +1217,7 @@ void HistoryView::saveToFile(int n)
                     msg_text = req->Message.c_str();
                     SIMClient::toUTF(msg_text, encoding);
                     s += ": ";
-                    s += QString::fromLocal8Bit(pClient->clearHTML(msg_text).c_str());
+                    s += QString::fromUtf8(pClient->clearHTML(msg_text).c_str());
                 }
                 break;
             }
@@ -1206,7 +1234,7 @@ void HistoryView::saveToFile(int n)
                     msg_text = req->Message.c_str();
                     SIMClient::toUTF(msg_text, encoding);
                     s += ": ";
-                    s += QString::fromLocal8Bit(pClient->clearHTML(msg_text).c_str());
+                    s += QString::fromUtf8(pClient->clearHTML(msg_text).c_str());
                 }
                 break;
             }
@@ -1225,17 +1253,19 @@ void HistoryView::saveToFile(int n)
                 s += " ";
                 s += i18n("bytes");
                 s += ")";
-                s += "<br>";
                 msg_text = file->Description.c_str();
-                SIMClient::toUTF(msg_text, encoding);
-                s += QString::fromLocal8Bit(pClient->clearHTML(msg_text).c_str());
+                if (*msg_text.c_str()){
+                    SIMClient::toUTF(msg_text, encoding);
+                    s += "\n";
+                    s += QString::fromUtf8(pClient->clearHTML(msg_text).c_str());
+                }
                 break;
             }
         case ICQ_MSGxCHAT:{
                 ICQChat *chat = static_cast<ICQChat*>(msg);
                 msg_text = chat->Reason.c_str();
                 SIMClient::toUTF(msg_text, encoding);
-                s += QString::fromLocal8Bit(pClient->clearHTML(msg_text).c_str());
+                s += QString::fromUtf8(pClient->clearHTML(msg_text).c_str());
                 break;
             }
         case ICQ_MSGxCONTACTxLIST:{
@@ -1254,7 +1284,7 @@ void HistoryView::saveToFile(int n)
                 ICQSMS *sms = static_cast<ICQSMS*>(msg);
                 msg_text = sms->Message.c_str();
                 SIMClient::toUTF(msg_text, encoding);
-                s += QString::fromLocal8Bit(pClient->clearHTML(msg_text).c_str());
+                s += QString::fromUtf8(pClient->clearHTML(msg_text).c_str());
                 if (*sms->Phone.c_str()){
                     s += "\n";
                     s += QString::fromLocal8Bit(sms->Phone.c_str());
@@ -1267,14 +1297,14 @@ void HistoryView::saveToFile(int n)
                 ICQWebPanel *m = static_cast<ICQWebPanel*>(msg);
                 msg_text = m->Message.c_str();
                 SIMClient::toUTF(msg_text, encoding);
-                s += QString::fromLocal8Bit(pClient->clearHTML(msg_text).c_str());
+                s += QString::fromUtf8(pClient->clearHTML(msg_text).c_str());
                 break;
             }
         case ICQ_MSGxEMAILxPAGER:{
                 ICQEmailPager *m = static_cast<ICQEmailPager*>(msg);
                 msg_text = m->Message.c_str();
                 SIMClient::toUTF(msg_text, encoding);
-                s += QString::fromLocal8Bit(pClient->clearHTML(msg_text).c_str());
+                s += QString::fromUtf8(pClient->clearHTML(msg_text).c_str());
                 break;
             }
         default:
@@ -1286,6 +1316,13 @@ void HistoryView::saveToFile(int n)
         QCString ss = s.local8Bit();
         f.writeBlock(ss, ss.length());
         showProgress(it.progress());
+    }
+    if (saveMode == HTML){
+        QString footer =
+            "</BODY>\n"
+            "</HTML>";
+        QCString ss = footer.local8Bit();
+        f.writeBlock(ss, ss.length());
     }
     showProgress(101);
 }

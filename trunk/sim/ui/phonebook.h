@@ -22,6 +22,7 @@
 #include "phonebookbase.h"
 
 class ICQUser;
+class ICQGroup;
 class QListViewItem;
 
 class PhoneBookDlg : public PhoneBookBase
@@ -33,6 +34,8 @@ public slots:
     void apply(ICQUser *u);
     void load(ICQUser *u);
     void save(ICQUser *u);
+    void load(ICQGroup *g);
+    void save(ICQGroup *g);
 protected slots:
     void phoneEdit(QListViewItem*);
     void addPhone();
@@ -41,6 +44,7 @@ protected slots:
     void setButtons();
 protected:
     void resizeEvent(QResizeEvent*);
+    void showEvent(QShowEvent*);
     void adjustTable();
     void fillPhones();
     int country;

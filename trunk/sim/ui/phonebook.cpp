@@ -152,6 +152,12 @@ void PhoneBookDlg::resizeEvent(QResizeEvent *e)
     adjustTable();
 }
 
+void PhoneBookDlg::showEvent(QShowEvent *e)
+{
+    PhoneBookBase::showEvent(e);
+    adjustTable();
+}
+
 void PhoneBookDlg::adjustTable()
 {
     int w = tblPhone->width() - 5;
@@ -240,6 +246,14 @@ void PhoneBookDlg::apply(ICQUser *u)
             }
         }
     }
+}
+
+void PhoneBookDlg::load(ICQGroup*)
+{
+}
+
+void PhoneBookDlg::save(ICQGroup*)
+{
 }
 
 #ifndef _WINDOWS

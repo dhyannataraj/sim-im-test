@@ -140,6 +140,14 @@ void InterestsInfo::apply(ICQUser *u)
     u->Interests = interestsList;
 }
 
+void InterestsInfo::load(ICQGroup*)
+{
+}
+
+void InterestsInfo::save(ICQGroup*)
+{
+}
+
 #ifndef _WINDOWS
 #include "interestsinfo.moc"
 #endif

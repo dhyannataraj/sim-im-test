@@ -84,7 +84,12 @@ void MsgDialog::setup(ICQUser *u, unsigned offs)
 
 void MsgDialog::setup(ICQGroup *g, unsigned offs)
 {
-    UserSettings *settings = &static_cast<SIMGroup*>(g)->settings;
+    UserSettings *settings;
+    if (g){
+        settings = &static_cast<SIMGroup*>(g)->settings;
+    }else{
+        settings = &pClient->notInListSettings;
+    }
     char **s = (char**)((char*)settings + offs);
     if ((*s == NULL) || (**s == 0)){
         chkOverride->setChecked(false);

@@ -158,6 +158,14 @@ void MoreInfo::apply(ICQUser *u)
     u->Language3 = getComboValue(cmbLang3, languages);
 }
 
+void MoreInfo::load(ICQGroup*)
+{
+}
+
+void MoreInfo::save(ICQGroup*)
+{
+}
+
 #ifndef _WINDOWS
 #include "moreinfo.moc"
 #endif

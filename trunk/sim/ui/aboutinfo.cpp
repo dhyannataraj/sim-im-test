@@ -54,6 +54,14 @@ void AboutInfo::apply(ICQUser *u)
     set(static_cast<SIMUser*>(pClient->owner)->Notes, edtNotes->text());
 }
 
+void AboutInfo::load(ICQGroup*)
+{
+}
+
+void AboutInfo::save(ICQGroup*)
+{
+}
+
 #ifndef _WINDOWS
 #include "aboutinfo.moc"
 #endif

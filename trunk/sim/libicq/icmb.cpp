@@ -538,6 +538,29 @@ void ICQClientPrivate::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool
                         }
                         if (it == processQueue.end())
                             log(L_WARN, "Accept message not found event");
+                        if (u){
+                            bool bChanged = false;
+                            if (real_ip && (u->RealIP != real_ip)){
+                                u->RealIP = real_ip;
+                                u->RealHostName = "";
+                                bChanged = true;
+                            }
+                            if (ip && (u->IP != ip)){
+                                u->IP = ip;
+                                u->HostName = "";
+                                bChanged = true;
+                            }
+                            if (port && (u->Port != port)){
+                                u->Port = port;
+                                bChanged = true;
+                                bChanged = true;
+                            }
+                            log(L_DEBUG, "set IP");
+                            if (bChanged){
+                                ICQEvent e(EVENT_STATUS_CHANGED, u->Uin);
+                                client->process_event(&e);
+                            }
+                        }
                         delete m;
                         m = NULL;
                         needAck = false;
@@ -1149,6 +1172,10 @@ void ICQClientPrivate::processMsgQueueThruServer()
                 b.tlv(0x05, (unsigned short)client->owner->Port);
                 b.tlv(0x2711, mb);
                 sendThroughServer(file->getUin(), 2, b, &id);
+                file->ftState = ICQFile::ThruServerSend;
+                ICQEvent eft(EVENT_FILETRANSFER);
+                eft.setMessage(file);
+                client->process_event(&eft);
                 msgQueue.remove(e);
                 processQueue.push_back(e);
                 it = msgQueue.begin();

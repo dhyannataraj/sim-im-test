@@ -427,7 +427,8 @@ void UserViewItem::update(ICQUser *u, bool bFirst)
     m_bSecure = u->isSecure();
     for (PhoneBook::iterator it = u->Phones.begin(); it != u->Phones.end(); it++){
         PhoneInfo *phone = static_cast<PhoneInfo*>(*it);
-        if (phone->Type == SMS) m_bMobile = true;
+        if ((phone->Type == SMS) && (u->Type != USER_TYPE_EXT))
+            m_bMobile = true;
         if (phone->Type == PAGER) m_bPager = true;
         if (phone->Active){
             if (u->PhoneState == 2) m_bPhoneBusy = true;

@@ -87,6 +87,14 @@ void WorkInfo::apply(ICQUser *u)
     set(u->WorkHomepage, edtSite->text());
 }
 
+void WorkInfo::load(ICQGroup*)
+{
+}
+
+void WorkInfo::save(ICQGroup*)
+{
+}
+
 #ifndef _WINDOWS
 #include "workinfo.moc"
 #endif
