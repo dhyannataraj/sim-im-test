@@ -836,7 +836,7 @@ QClientSocket::QClientSocket(QSocket *s)
 #else
         sock = new QSocket(this);
 #endif
-#ifdef HAVE_LEXTSOCK_H
+#ifdef HAVE_KEXTSOCK_H
     QObject::connect(sock, SIGNAL(connectionSuccess()), this, SLOT(slotConnected()));
     QObject::connect(sock, SIGNAL(connectionFailed(int)), this, SLOT(slotError(int)));
     QObject::connect(sock, SIGNAL(closed(int)), this, SLOT(slotError(int)));
