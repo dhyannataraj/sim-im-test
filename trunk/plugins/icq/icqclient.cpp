@@ -50,6 +50,7 @@
 #include <winsock.h>
 #else
 #include <netinet/in.h>
+#include <ctype.h>
 #endif
 
 /*
