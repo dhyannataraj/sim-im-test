@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bg\n"
 "POT-Creation-Date: 2004-04-16 04:18+0400\n"
-"PO-Revision-Date: 2004-04-09 00:38+0300\n"
+"PO-Revision-Date: 2004-04-17 01:56+0300\n"
 "Last-Translator: Атанас Мавров <bugar@developer.bg>\n"
 "Language-Team: Bulgarian <dict@linux.zonebg.com>\n"
 "MIME-Version: 1.0\n"
@@ -1121,8 +1121,7 @@ msgstr "Грешка при инициализиране на SSL"
 
 #: sim/api/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
-msgstr ""
-"Атанас Мавров <bugar@developer.bg>; Варна-България;"
+msgstr "Атанас Мавров <bugar@developer.bg>; Варна-България;"
 
 #: sim/api/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."
@@ -2226,14 +2225,12 @@ msgstr "Изключен"
 #: plugins/_core/searchall.cpp:26 plugins/icq/icqsearch.cpp:68
 #: plugins/jabber/jabberadd.cpp:40 plugins/msn/msnsearch.cpp:35
 #: plugins/yahoo/yahoosearch.cpp:53
-#, fuzzy
 msgid "&E-Mail address"
-msgstr "Електронни адреси:"
+msgstr "&Електронната поща"
 
 #: plugins/msn/msnsearch.cpp:36
-#, fuzzy
 msgid "&Hotmail directory"
-msgstr "Домашна директория"
+msgstr "&Hotmail директория"
 
 #: plugins/_core/nonimbase.cpp:87 plugins/_core/pagerbase.cpp:87
 #: plugins/_core/userviewcfgbase.cpp:247 plugins/filter/ignorelistbase.cpp:54
@@ -2444,8 +2441,7 @@ msgstr "Използване на път по &подразбиране"
 
 #: plugins/__homedir/homedircfgbase.cpp:64
 msgid "Path for config files:"
-msgstr ""
-"Директория за конфигурационни файлове:"
+msgstr "Директория за конфигурационни файлове:"
 
 #: plugins/styles/wood/wood.cpp:1269
 msgid "Norwegian Wood"
@@ -2465,8 +2461,7 @@ msgstr "Стилове"
 
 #: plugins/styles/styles.cpp:52
 msgid "Plugin provides styles"
-msgstr ""
-"Приставката осигурява изменение на стила"
+msgstr "Приставката осигурява изменение на стила"
 
 #: plugins/styles/fontconfigbase.cpp:100
 msgid "Use &system fonts"
@@ -2508,8 +2503,7 @@ msgstr "Спиране на промяната?"
 
 #: plugins/__migrate/migratedlgbase.cpp:89
 msgid "Convert configuration from old version"
-msgstr ""
-"Променя конфигурацията от стара версия"
+msgstr "Променя конфигурацията от стара версия"
 
 #: plugins/__migrate/migratedlgbase.cpp:90
 msgid "Directories for convert:"
@@ -2905,8 +2899,7 @@ msgstr "Прякор"
 
 #: plugins/_core/core.cpp:1597
 msgid "number of unread messages from this contact"
-msgstr ""
-"количество на непрочетените съобщения"
+msgstr "количество на непрочетените съобщения"
 
 #: plugins/_core/core.cpp:1599
 msgid "contact status"
@@ -2949,8 +2942,7 @@ msgstr ""
 
 #: plugins/_core/core.cpp:1631
 msgid "Don't show this message in next time"
-msgstr ""
-"Не показвай това съобщение следващия път"
+msgstr "Не показвай това съобщение следващия път"
 
 #: plugins/_core/core.cpp:1658
 msgid "`<command>` - call <command> and substitute command output\n"
@@ -3211,8 +3203,7 @@ msgstr "Достъпен"
 
 #: plugins/_core/maininfo.cpp:85
 msgid "User is crrently available at:"
-msgstr ""
-"Потребителят в момента е на разположение: "
+msgstr "Потребителят в момента е на разположение: "
 
 #: plugins/_core/maininfo.cpp:230 plugins/_core/maininfo.cpp:350
 #: plugins/_core/maininfo.cpp:374 plugins/_core/maininfo.cpp:473
@@ -3311,9 +3302,8 @@ msgid "&Search"
 msgstr "Тър&сене"
 
 #: plugins/_core/search.cpp:156
-#, fuzzy
 msgid "All networks"
-msgstr "Мрежа"
+msgstr "Всички мрежи"
 
 #: plugins/_core/nonimbase.cpp:88 plugins/_core/search.cpp:175
 msgid "Non-IM contact"
@@ -3413,14 +3403,12 @@ msgid "Search"
 msgstr "Търсене"
 
 #: plugins/_core/searchbase.cpp:88
-#, fuzzy
 msgid "&Add to list"
-msgstr "Изпращане до &списък"
+msgstr "&Прибавяне"
 
 #: plugins/_core/searchbase.cpp:90
-#, fuzzy
 msgid "More &options"
-msgstr "&Възможности"
+msgstr "&Допълнителни възможности"
 
 #: plugins/_core/newprotocolbase.cpp:67
 msgid "New connection"
@@ -3510,15 +3498,13 @@ msgstr "Форма 4"
 
 #: plugins/_core/searchallbase.cpp:94 plugins/icq/aimsearchbase.cc:163
 #: plugins/icq/icqsearchbase.cc:148 plugins/jabber/jabberaddbase.cpp:109
-#, fuzzy
 msgid "First:"
 msgstr "Име:"
 
 #: plugins/_core/searchallbase.cpp:95 plugins/icq/aimsearchbase.cc:164
 #: plugins/icq/icqsearchbase.cc:149 plugins/jabber/jabberaddbase.cpp:110
-#, fuzzy
 msgid "Last:"
-msgstr "Лаос"
+msgstr "Фамилия:"
 
 #: plugins/_core/arcfgbase.cpp:79 plugins/_core/prefcfgbase.cpp:66
 msgid "&Override global settings"
@@ -3805,8 +3791,7 @@ msgstr "&Запазване на паролата"
 
 #: plugins/_core/logindlgbase.cpp:131
 msgid "&Do not show this window on startup"
-msgstr ""
-"&Не показва този прозорец при стартиране"
+msgstr "&Не показва този прозорец при стартиране"
 
 #: plugins/_core/userviewcfgbase.cpp:248
 msgid "Sorting"
@@ -4097,9 +4082,8 @@ msgid "&Notes"
 msgstr "Бележ&ки:"
 
 #: plugins/_core/nonimbase.cpp:91
-#, fuzzy
 msgid "E-Mail address:"
-msgstr "Електронни адреси:"
+msgstr "Адреси на електронната поща:"
 
 #: plugins/_core/nonimbase.cpp:92 plugins/jabber/discoinfobase.cpp:286
 msgid "Phone:"
@@ -4131,9 +4115,8 @@ msgstr "Действащо:"
 
 #: plugins/_core/searchall.cpp:27 plugins/icq/icqsearch.cpp:58
 #: plugins/jabber/jabberadd.cpp:41 plugins/yahoo/yahoosearch.cpp:54
-#, fuzzy
 msgid "&Name"
-msgstr "Име&на:"
+msgstr "&Имена:"
 
 #: plugins/about/aboutdlg.cpp:44
 msgid "%1 Version: %2"
@@ -4201,8 +4184,7 @@ msgstr "Лицензия"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:103
 msgid "Set \"Away\" status after"
-msgstr ""
-"Включване на \"Не съм пред компютъра\" след"
+msgstr "Включване на \"Не съм пред компютъра\" след"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:104
 msgid "minutes not using computer"
@@ -4225,8 +4207,7 @@ msgid "Set \"Offline\" status after"
 msgstr "Включване на \"Изключен\" след"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:109
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Изключва известяване при \"Не съм пред "
 "компютъра\", \"Няма ме\", \"Моля не ме "
@@ -4335,8 +4316,7 @@ msgstr ""
 
 #: plugins/dock/dock.cpp:148
 msgid "Toggle main window"
-msgstr ""
-"Скриване/показване на главния прозорец"
+msgstr "Скриване/показване на главния прозорец"
 
 #: plugins/dock/dock.cpp:269
 msgid "Hide main window"
@@ -4866,8 +4846,7 @@ msgstr "AIM"
 
 #: plugins/icq/icq.cpp:422
 msgid "Visible list"
-msgstr ""
-"Списък на потребители, за които съм видим"
+msgstr "Списък на потребители, за които съм видим"
 
 #: plugins/icq/icq.cpp:431
 msgid "Invisible list"
@@ -4983,8 +4962,7 @@ msgstr "Този клиент е остарял"
 
 #: plugins/icq/icqlogin.cpp:201
 msgid "Too many clients from same IP"
-msgstr ""
-"Твърде много потребители ползващи едно IP"
+msgstr "Твърде много потребители ползващи едно IP"
 
 #: plugins/icq/icqlogin.cpp:206
 msgid "Rate limit"
@@ -5027,10 +5005,8 @@ msgstr ""
 "опитайте по - късно."
 
 #: plugins/icq/icqlogin.cpp:271
-#, fuzzy
 msgid "Your UIN is being used from another location"
-msgstr ""
-"Твоят номер се използва от друг компютър "
+msgstr "Твоят номер се използва от друг компютър"
 
 #: plugins/icq/icqlogin.cpp:291
 msgid "Close packet from server"
@@ -5134,22 +5110,19 @@ msgstr "Няма потребител за изпращане"
 
 #: plugins/icq/icqpicture.cpp:126
 msgid "Picture can not be more than 7 kbytes"
-msgstr ""
-"Не може картинката да е по - голяма от 7 Кб"
+msgstr "Не може картинката да е по - голяма от 7 Кб"
 
 #: plugins/icq/icqpicture.cpp:136 plugins/jabber/jabberpicture.cpp:138
 msgid "Picture is not available"
 msgstr "Картинката не е налична"
 
 #: plugins/icq/icqsearch.cpp:41 plugins/icq/icqsearch.cpp:57
-#, fuzzy
 msgid "AIM s&creenname"
-msgstr "Име:"
+msgstr "AIM потребител"
 
 #: plugins/icq/icqsearch.cpp:42 plugins/icq/icqsearch.cpp:56
-#, fuzzy
 msgid "&UIN"
-msgstr "Номер"
+msgstr "&Номер"
 
 #: plugins/icq/icqsecure.cpp:46
 msgid "Input current password"
@@ -5923,9 +5896,8 @@ msgid "No contact"
 msgstr "Няма потребител"
 
 #: plugins/icq/icqsearchbase.cc:153
-#, fuzzy
 msgid "Advanced"
-msgstr "&Напреднал"
+msgstr "Допълнително"
 
 #: plugins/icq/advsearchbase.cc:262 plugins/jabber/jabber.cpp:313
 msgid "Info"
@@ -5942,9 +5914,8 @@ msgid "Gender:"
 msgstr "Пол:"
 
 #: plugins/icq/advsearchbase.cc:269
-#, fuzzy
 msgid "Work"
-msgstr "Служебен факс"
+msgstr "Работа"
 
 #: plugins/icq/advsearchbase.cc:270 plugins/icq/workinfobase.cc:188
 msgid "Occupation:"
@@ -5965,7 +5936,7 @@ msgstr "Длъжност:"
 
 #: plugins/icq/advsearchbase.cc:274
 msgid "Search &online users only"
-msgstr ""
+msgstr "Търсене само на &свързаните потребители"
 
 #: plugins/icq/advsearchbase.cc:275 plugins/icq/icqclient.cpp:1857
 #: plugins/icq/icqclient.cpp:2045
@@ -5973,23 +5944,20 @@ msgid "Interests"
 msgstr "Интереси"
 
 #: plugins/icq/advsearchbase.cc:276
-#, fuzzy
 msgid "Past"
-msgstr "Вмъкване"
+msgstr "Минало"
 
 #: plugins/icq/advsearchbase.cc:278
-#, fuzzy
 msgid "Affilations"
-msgstr "С&дружение"
+msgstr "Сдружения"
 
 #: plugins/icq/advsearchbase.cc:279
-#, fuzzy
 msgid "Homepage"
 msgstr "Лична страница"
 
 #: plugins/icq/advsearchbase.cc:280
 msgid "Keywords"
-msgstr ""
+msgstr "Ключови думи"
 
 #: plugins/icq/aimconfig.cpp:43
 msgid "Register new ScreenName"
@@ -6077,8 +6045,7 @@ msgstr "Парол&а"
 
 #: plugins/icq/icqsecurebase.cc:168
 msgid "&Visible list"
-msgstr ""
-"&Списък на потребители, за които съм видим"
+msgstr "&Списък на потребители, за които съм видим"
 
 #: plugins/icq/icqsecurebase.cc:169
 msgid "&Invisible list"
@@ -6230,13 +6197,11 @@ msgstr ""
 
 #: plugins/icq/encodingdlgbase.cc:85
 msgid "You will choose the coding by default which want to use:"
-msgstr ""
-"Избиране на кодировка по подразбиране:"
+msgstr "Избиране на кодировка по подразбиране:"
 
 #: plugins/icq/aboutinfobase.cc:66
 msgid "Additional information about user:"
-msgstr ""
-"Допълнителна информация за потребителя:"
+msgstr "Допълнителна информация за потребителя:"
 
 #: plugins/icq/aboutinfobase.cc:67
 msgid "A&bout"
@@ -6271,8 +6236,7 @@ msgstr "Формат на съобщението:"
 
 #: plugins/icq/icqconfigbase.cc:244
 msgid "Accept in &occupied mode"
-msgstr ""
-"Приемане на файлове в режим \"&Зает съм\""
+msgstr "Приемане на файлове в режим \"&Зает съм\""
 
 #: plugins/icq/icqconfigbase.cc:245
 msgid "Accept in &DND mode"
@@ -6596,8 +6560,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:69
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Приставката поддържа известяване на "
 "състоянието на съобщенията и "
@@ -6709,8 +6672,7 @@ msgstr "Машина:"
 
 #: plugins/proxy/proxycfgbase.cpp:133
 msgid "Proxy require &authorization"
-msgstr ""
-"&Прокси сървъра изисква удостоверяване"
+msgstr "&Прокси сървъра изисква удостоверяване"
 
 #: plugins/proxy/proxycfgbase.cpp:134
 msgid "User:"
@@ -6762,8 +6724,7 @@ msgstr "Отдалечено управление"
 
 #: plugins/remote/remote.cpp:43
 msgid "Plugin provides remote control"
-msgstr ""
-"Приставката осигурява отдалечен контрол"
+msgstr "Приставката осигурява отдалечен контрол"
 
 #: plugins/remote/remotecfgbase.cpp:105
 msgid "Use &UNIX socket"
@@ -6869,7 +6830,7 @@ msgstr ""
 msgid ""
 "Qt provides sound output so you just need to set a player if you don't like "
 "Qt's sound."
-msgstr ""
+msgstr "Qt поддържа звуци. Ако вие не желаете да използвате Qt звука, то тогава е необходимо да укажете плеър."
 
 #: plugins/sound/soundconfigbase.cpp:97
 msgid "&Use artsd"
@@ -7053,9 +7014,8 @@ msgid "Please translate this to short language name (ru, de)"
 msgstr "bg"
 
 #: plugins/jabber/jabberadd.cpp:39
-#, fuzzy
 msgid "&JID"
-msgstr "JID"
+msgstr "&JID"
 
 #: plugins/jabber/jabberconfig.cpp:53
 msgid "jabber.org"
@@ -7504,8 +7464,7 @@ msgstr "&Агенти"
 
 #: plugins/jabber/jabberaboutinfobase.cpp:57
 msgid "Additional information:"
-msgstr ""
-"Допълнителна информация за потребителя:"
+msgstr "Допълнителна информация за потребителя:"
 
 #: plugins/livejournal/livejournalcfg.cpp:36
 msgid "Register new user"
@@ -8185,9 +8144,8 @@ msgid "Disable comments"
 msgstr "Изключване на коментари"
 
 #: plugins/livejournal/journalsearchbase.cpp:65
-#, fuzzy
 msgid "Add community"
-msgstr "&Добавяне на съобщество"
+msgstr "Добавяне на съобщество"
 
 #: plugins/spell/spellcfg.cpp:46
 msgid "ASpell(aspell.exe)"
@@ -8207,8 +8165,7 @@ msgstr "Пренебрегване на %1"
 
 #: plugins/spell/spell.cpp:62
 msgid "Plugin provides check spelling"
-msgstr ""
-"Приставка осигурява правописна проверка"
+msgstr "Приставка осигурява правописна проверка"
 
 #: plugins/action/menucfg.cpp:31
 msgid "Item"
@@ -8220,8 +8177,7 @@ msgstr "Програма"
 
 #: plugins/action/actioncfg.cpp:179 plugins/action/additem.cpp:54
 msgid "In command line you can use:"
-msgstr ""
-"В командния ред вие може да използвате:"
+msgstr "В командния ред вие може да използвате:"
 
 #: plugins/action/actioncfg.cpp:41
 msgid "Event"
@@ -8290,8 +8246,7 @@ msgid "Navigate"
 msgstr "Препратки към външни програми"
 
 #: plugins/navigate/navigate.cpp:214
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Приставката осигурява управление на "
 "препратките - свързва се с външен "
@@ -8378,13 +8333,12 @@ msgid "Conditions"
 msgstr "Състояние"
 
 #: plugins/yahoo/yahoosearch.cpp:52
-#, fuzzy
 msgid "&Yahoo! ID"
-msgstr "Yahoo! потребител"
+msgstr "&Yahoo! ID"
 
 #: plugins/yahoo/yahoosearch.cpp:55
 msgid "&Keywords"
-msgstr ""
+msgstr "&Ключови думи"
 
 #: plugins/replace/replace.cpp:33
 msgid "Replace text"
@@ -8410,8 +8364,7 @@ msgstr "Време"
 
 #: plugins/weather/weather.cpp:97
 msgid "Plugin provides show weather"
-msgstr ""
-"Приставката осигурява преглед на времето"
+msgstr "Приставката осигурява преглед на времето"
 
 #: plugins/weather/weather.cpp:168
 msgid "Not connected"
@@ -8515,7 +8468,7 @@ msgstr "Ясно"
 msgid ""
 "_: weather\n"
 "Showers"
-msgstr "Сняг"
+msgstr "Преваляване"
 
 #: plugins/weather/weather.cpp:473
 msgid ""
@@ -8560,7 +8513,6 @@ msgid ""
 msgstr "Ветровито"
 
 #: plugins/weather/weather.cpp:480
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Windy"
@@ -8711,11 +8663,10 @@ msgid ""
 msgstr "Северен североизточен"
 
 #: plugins/weather/weather.cpp:505
-#, fuzzy
 msgid ""
 "_: weather\n"
 "VAR"
-msgstr "Северен"
+msgstr "Променливо"
 
 #: plugins/weather/weather.cpp:506
 msgid "km"
@@ -8903,177 +8854,3 @@ msgstr "Прогнозирани дни:"
 msgid "Units:"
 msgstr "Система:"
 
-#, fuzzy
-#~ msgid "JabberAdd"
-#~ msgstr "Jabber"
-
-#~ msgid "Contact %1 added to list"
-#~ msgstr "Потребител %1 е добавен към списъка"
-
-#~ msgid "Invalid address: %1"
-#~ msgstr "Неправилен адрес: %1"
-
-#~ msgid "MSN search results"
-#~ msgstr "Резултат от търсене в MSN"
-
-#~ msgid "Contact %1 allready in list"
-#~ msgstr "Потребител %1 вече е в списъка"
-
-#~ msgid "Add to group:"
-#~ msgstr "Прибавяне към група"
-
-#~ msgid "&Add contact"
-#~ msgstr "&Добавяне на потребител"
-
-#~ msgid "Search %1"
-#~ msgstr "Търсене на %1"
-
-#~ msgid "Choose type of contact which you want to find or add:"
-#~ msgstr ""
-#~ "Избиране на вида потребител който "
-#~ "желаете да търсите или добавите:"
-
-#~ msgid "Contact type:"
-#~ msgstr "Вид на потребителя:"
-
-#~ msgid "Choose contact type"
-#~ msgstr "Избиране на вида потребител"
-
-#~ msgid "AIM search results"
-#~ msgstr "AIM търси резултат"
-
-#~ msgid "%1 already in contact list"
-#~ msgstr "%1 вече е в списъка с потребители"
-
-#~ msgid "%1 added to contact list"
-#~ msgstr ""
-#~ "%1 е добавен към списъка с потребители"
-
-#~ msgid "ICQ search results"
-#~ msgstr "ICQ търси резултат"
-
-#~ msgid "&Stop search"
-#~ msgstr "Спиране на търсе&нето"
-
-#~ msgid "Find an &Online Chat Friend"
-#~ msgstr ""
-#~ "Търсене на &включени приятели за "
-#~ "бърборене"
-
-#~ msgid "Request UIN"
-#~ msgstr "Изисква номер"
-
-#~ msgid "Search fail"
-#~ msgstr "Търсенето приключи неуспешно"
-
-#~ msgid "Request user info"
-#~ msgstr "Изисква информация за потребител"
-
-#~ msgid "<p>UIN: <b><a href=\"icq://%1\"><u>%2</u></a></b></p>"
-#~ msgstr "<p>Номер: <b><a href=\"icq://%1\"><u>%2</u></a></b></p>"
-
-#~ msgid "<p><b>%1</b></p>"
-#~ msgstr "<p><b>%1</b></p>"
-
-#~ msgid "%1<br>"
-#~ msgstr "%1<br>"
-
-#~ msgid "<p>Age: <b>%1</b></p>"
-#~ msgstr "<p>Години: <b>%1</b></p>"
-
-#~ msgid "<p>Gender: <b>%1</b></p>"
-#~ msgstr "<p>Пол: <b>%1</b></p>"
-
-#~ msgid "<p>Country: <b>%1</b></p>"
-#~ msgstr "<p>Държава: <b>%1</b></p>"
-
-#~ msgid "<p>Language: <b>%1</b></p>"
-#~ msgstr "<p>Език: <b>%1</b></p>"
-
-#~ msgid "<p>Homepage: <a href=\"%1\"><u>%2</u></a></p>"
-#~ msgstr "<p>Лична страница: <a href=\"%1\"><u>%2</u></a></p>"
-
-#~ msgid "Alias"
-#~ msgstr "Псевдоним"
-
-#~ msgid "Search done"
-#~ msgstr "Търсенето завърши"
-
-#~ msgid ""
-#~ "_n: Found 1 contact\n"
-#~ "Found %n contacts"
-#~ msgstr ""
-#~ "Намерен един потребител\n"
-#~ "Намерени %n потребители"
-
-#~ msgid "Email:"
-#~ msgstr "Електронна поща:"
-
-#~ msgid "Interests:"
-#~ msgstr "Интереси:"
-
-#~ msgid "Email/Info"
-#~ msgstr "Електронна поща/информация"
-
-#~ msgid "Group:"
-#~ msgstr "Групи:"
-
-#~ msgid "Send &message"
-#~ msgstr "Изпращане на &съобщение"
-
-#~ msgid "Random chat"
-#~ msgstr "Случаен събеседник"
-
-#~ msgid "AIM user"
-#~ msgstr "AIM потребител"
-
-#~ msgid "&Email"
-#~ msgstr "&Електронна поща"
-
-#~ msgid ""
-#~ "The first or last name nust be present. All other fields are optional, but "
-#~ "will help narrow your search."
-#~ msgstr ""
-#~ "Името и фамилията е нужно да се въведат. "
-#~ "Останалите полета не са задължителни но "
-#~ "значително биха улеснили вашето търсене."
-
-#~ msgid "Add Jabber contact"
-#~ msgstr "Добавяне на Jabber потребител"
-
-#~ msgid "%1 is already in contact list"
-#~ msgstr "%1 вече е в списъка с потребители"
-
-#~ msgid "ID"
-#~ msgstr "ID"
-
-#~ msgid "Jabber ID:"
-#~ msgstr "Jabber ID:"
-
-#~ msgid "Jabber ID"
-#~ msgstr "Jabber ID"
-
-#~ msgid "Service:"
-#~ msgstr "Услуга:"
-
-#~ msgid "Add community results"
-#~ msgstr ""
-#~ "Резултат от добавянето на съобщество"
-
-#~ msgid "Community %1 added to list"
-#~ msgstr "Съобщество %1 е добавено към списъка"
-
-#~ msgid "Community %1 already in list"
-#~ msgstr "Съобщество %1 вече е в списъка"
-
-#~ msgid "Community:"
-#~ msgstr "Съобщност:"
-
-#~ msgid "Yahoo! search results"
-#~ msgstr "резултат от търсене на Yahoo!"
-
-#~ msgid "Contact %1 added to group %2"
-#~ msgstr "Потребител %1 е добавен към група %2"
-
-#~ msgid "Contact %1 already in list"
-#~ msgstr "Потребител %1 вече е в списъка"
