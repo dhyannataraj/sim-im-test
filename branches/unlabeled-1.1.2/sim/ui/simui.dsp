@@ -1,24 +1,24 @@
 # Microsoft Developer Studio Project File - Name="simui" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
-# ** DO NOT EDIT **
+# ** NICHT BEARBEITEN **
 
 # TARGTYPE "Win32 (x86) Dynamic-Link Library" 0x0102
 
 CFG=simui - Win32 Debug
-!MESSAGE This is not a valid makefile. To build this project using NMAKE,
-!MESSAGE use the Export Makefile command and run
+!MESSAGE Dies ist kein gültiges Makefile. Zum Erstellen dieses Projekts mit NMAKE
+!MESSAGE verwenden Sie den Befehl "Makefile exportieren" und führen Sie den Befehl
 !MESSAGE 
 !MESSAGE NMAKE /f "simui.mak".
 !MESSAGE 
-!MESSAGE You can specify a configuration when running NMAKE
-!MESSAGE by defining the macro CFG on the command line. For example:
+!MESSAGE Sie können beim Ausführen von NMAKE eine Konfiguration angeben
+!MESSAGE durch Definieren des Makros CFG in der Befehlszeile. Zum Beispiel:
 !MESSAGE 
 !MESSAGE NMAKE /f "simui.mak" CFG="simui - Win32 Debug"
 !MESSAGE 
-!MESSAGE Possible choices for configuration are:
+!MESSAGE Für die Konfiguration stehen zur Auswahl:
 !MESSAGE 
-!MESSAGE "simui - Win32 Release" (based on "Win32 (x86) Dynamic-Link Library")
-!MESSAGE "simui - Win32 Debug" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "simui - Win32 Release" (basierend auf  "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "simui - Win32 Debug" (basierend auf  "Win32 (x86) Dynamic-Link Library")
 !MESSAGE 
 
 # Begin Project
@@ -225,15 +225,6 @@ SOURCE=.\ballonmsg.h
 !IF  "$(CFG)" == "simui - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.
-InputPath=.\ballonmsg.h
-InputName=ballonmsg
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
 
 !ELSEIF  "$(CFG)" == "simui - Win32 Debug"
 
@@ -258,15 +249,6 @@ SOURCE=.\editfile.h
 !IF  "$(CFG)" == "simui - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.
-InputPath=.\editfile.h
-InputName=editfile
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
 
 !ELSEIF  "$(CFG)" == "simui - Win32 Debug"
 
@@ -291,15 +273,6 @@ SOURCE=.\fontedit.h
 !IF  "$(CFG)" == "simui - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.
-InputPath=.\fontedit.h
-InputName=fontedit
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
 
 !ELSEIF  "$(CFG)" == "simui - Win32 Debug"
 
@@ -324,15 +297,6 @@ SOURCE=.\linklabel.h
 !IF  "$(CFG)" == "simui - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.
-InputPath=.\linklabel.h
-InputName=linklabel
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
 
 !ELSEIF  "$(CFG)" == "simui - Win32 Debug"
 
@@ -357,15 +321,6 @@ SOURCE=.\listview.h
 !IF  "$(CFG)" == "simui - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.
-InputPath=.\listview.h
-InputName=listview
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
 
 !ELSEIF  "$(CFG)" == "simui - Win32 Debug"
 
@@ -398,15 +353,6 @@ SOURCE=.\qcolorbutton.h
 !IF  "$(CFG)" == "simui - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.
-InputPath=.\qcolorbutton.h
-InputName=qcolorbutton
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
 
 !ELSEIF  "$(CFG)" == "simui - Win32 Debug"
 
@@ -435,15 +381,6 @@ SOURCE=.\qkeybutton.h
 !IF  "$(CFG)" == "simui - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.
-InputPath=.\qkeybutton.h
-InputName=qkeybutton
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
 
 !ELSEIF  "$(CFG)" == "simui - Win32 Debug"
 
@@ -472,15 +409,6 @@ SOURCE=.\qt3\qrichtext_p.h
 !IF  "$(CFG)" == "simui - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\qt3
-InputPath=.\qt3\qrichtext_p.h
-InputName=qrichtext_p
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
 
 !ELSEIF  "$(CFG)" == "simui - Win32 Debug"
 
@@ -509,15 +437,6 @@ SOURCE=.\qt3\qstylesheet.h
 !IF  "$(CFG)" == "simui - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\qt3
-InputPath=.\qt3\qstylesheet.h
-InputName=qstylesheet
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
 
 !ELSEIF  "$(CFG)" == "simui - Win32 Debug"
 
@@ -546,15 +465,6 @@ SOURCE=.\qt3\qtextbrowser.h
 !IF  "$(CFG)" == "simui - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\qt3
-InputPath=.\qt3\qtextbrowser.h
-InputName=qtextbrowser
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
 
 !ELSEIF  "$(CFG)" == "simui - Win32 Debug"
 
@@ -579,15 +489,6 @@ SOURCE=.\qt3\qtextedit.h
 !IF  "$(CFG)" == "simui - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\qt3
-InputPath=.\qt3\qtextedit.h
-InputName=qtextedit
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
 
 !ELSEIF  "$(CFG)" == "simui - Win32 Debug"
 
@@ -612,15 +513,6 @@ SOURCE=.\textshow.h
 !IF  "$(CFG)" == "simui - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.
-InputPath=.\textshow.h
-InputName=textshow
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
 
 !ELSEIF  "$(CFG)" == "simui - Win32 Debug"
 
@@ -645,15 +537,6 @@ SOURCE=.\toolbtn.h
 !IF  "$(CFG)" == "simui - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.
-InputPath=.\toolbtn.h
-InputName=toolbtn
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
 
 !ELSEIF  "$(CFG)" == "simui - Win32 Debug"
 

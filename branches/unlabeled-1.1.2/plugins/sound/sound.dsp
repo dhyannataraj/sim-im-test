@@ -1,24 +1,24 @@
 # Microsoft Developer Studio Project File - Name="sound" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
-# ** DO NOT EDIT **
+# ** NICHT BEARBEITEN **
 
 # TARGTYPE "Win32 (x86) Dynamic-Link Library" 0x0102
 
 CFG=sound - Win32 Debug
-!MESSAGE This is not a valid makefile. To build this project using NMAKE,
-!MESSAGE use the Export Makefile command and run
+!MESSAGE Dies ist kein gültiges Makefile. Zum Erstellen dieses Projekts mit NMAKE
+!MESSAGE verwenden Sie den Befehl "Makefile exportieren" und führen Sie den Befehl
 !MESSAGE 
 !MESSAGE NMAKE /f "sound.mak".
 !MESSAGE 
-!MESSAGE You can specify a configuration when running NMAKE
-!MESSAGE by defining the macro CFG on the command line. For example:
+!MESSAGE Sie können beim Ausführen von NMAKE eine Konfiguration angeben
+!MESSAGE durch Definieren des Makros CFG in der Befehlszeile. Zum Beispiel:
 !MESSAGE 
 !MESSAGE NMAKE /f "sound.mak" CFG="sound - Win32 Debug"
 !MESSAGE 
-!MESSAGE Possible choices for configuration are:
+!MESSAGE Für die Konfiguration stehen zur Auswahl:
 !MESSAGE 
-!MESSAGE "sound - Win32 Release" (based on "Win32 (x86) Dynamic-Link Library")
-!MESSAGE "sound - Win32 Debug" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "sound - Win32 Release" (basierend auf  "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "sound - Win32 Debug" (basierend auf  "Win32 (x86) Dynamic-Link Library")
 !MESSAGE 
 
 # Begin Project
@@ -141,15 +141,6 @@ SOURCE=.\soundconfig.h
 !IF  "$(CFG)" == "sound - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.
-InputPath=.\soundconfig.h
-InputName=soundconfig
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
 
 !ELSEIF  "$(CFG)" == "sound - Win32 Debug"
 
@@ -170,6 +161,23 @@ InputName=soundconfig
 # Begin Source File
 
 SOURCE=.\soundconfigbase.h
+
+!IF  "$(CFG)" == "sound - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "sound - Win32 Debug"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\soundconfigbase.h
+InputName=soundconfigbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -178,15 +186,6 @@ SOURCE=.\sounduser.h
 !IF  "$(CFG)" == "sound - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.
-InputPath=.\sounduser.h
-InputName=sounduser
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
 
 !ELSEIF  "$(CFG)" == "sound - Win32 Debug"
 
@@ -207,6 +206,23 @@ InputName=sounduser
 # Begin Source File
 
 SOURCE=.\sounduserbase.h
+
+!IF  "$(CFG)" == "sound - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "sound - Win32 Debug"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\sounduserbase.h
+InputName=sounduserbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # End Group
 # Begin Group "Resource Files"
@@ -223,26 +239,6 @@ SOURCE=.\soundconfigbase.ui
 !IF  "$(CFG)" == "sound - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
-InputDir=.
-InputPath=.\soundconfigbase.ui
-InputName=soundconfigbase
-
-BuildCmds= \
-	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
-	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
-	
-
-"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-# End Custom Build
 
 !ELSEIF  "$(CFG)" == "sound - Win32 Debug"
 
@@ -255,16 +251,12 @@ InputName=soundconfigbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -278,26 +270,6 @@ SOURCE=.\sounduserbase.ui
 !IF  "$(CFG)" == "sound - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
-InputDir=.
-InputPath=.\sounduserbase.ui
-InputName=sounduserbase
-
-BuildCmds= \
-	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
-	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
-	
-
-"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-# End Custom Build
 
 !ELSEIF  "$(CFG)" == "sound - Win32 Debug"
 
@@ -310,16 +282,12 @@ InputName=sounduserbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -333,234 +301,34 @@ BuildCmds= \
 # Begin Source File
 
 SOURCE=.\sounds\alert.wav
-
-!IF  "$(CFG)" == "sound - Win32 Release"
-
-# Begin Custom Build - copy /Y $(InputPath) $(OutDir)\$(InputPath)
-OutDir=.\..\..\Release
-InputPath=.\sounds\alert.wav
-
-"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /Y $(InputPath) $(OutDir)\$(InputPath)
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sound - Win32 Debug"
-
-# Begin Custom Build - copy /Y $(InputPath) $(OutDir)\$(InputPath)
-OutDir=.\..\..\Debug
-InputPath=.\sounds\alert.wav
-
-"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /Y $(InputPath) $(OutDir)\$(InputPath)
-
-# End Custom Build
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\sounds\auth.wav
-
-!IF  "$(CFG)" == "sound - Win32 Release"
-
-# Begin Custom Build - copy /Y $(InputPath) $(OutDir)\$(InputPath)
-OutDir=.\..\..\Release
-InputPath=.\sounds\auth.wav
-
-"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /Y $(InputPath) $(OutDir)\$(InputPath)
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sound - Win32 Debug"
-
-# Begin Custom Build - copy /Y $(InputPath) $(OutDir)\$(InputPath)
-OutDir=.\..\..\Debug
-InputPath=.\sounds\auth.wav
-
-"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /Y $(InputPath) $(OutDir)\$(InputPath)
-
-# End Custom Build
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\sounds\file.wav
-
-!IF  "$(CFG)" == "sound - Win32 Release"
-
-# Begin Custom Build - copy /Y $(InputPath) $(OutDir)\$(InputPath)
-OutDir=.\..\..\Release
-InputPath=.\sounds\file.wav
-
-"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /Y $(InputPath) $(OutDir)\$(InputPath)
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sound - Win32 Debug"
-
-# Begin Custom Build - copy /Y $(InputPath) $(OutDir)\$(InputPath)
-OutDir=.\..\..\Debug
-InputPath=.\sounds\file.wav
-
-"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /Y $(InputPath) $(OutDir)\$(InputPath)
-
-# End Custom Build
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\sounds\filedone.wav
-
-!IF  "$(CFG)" == "sound - Win32 Release"
-
-# Begin Custom Build - copy /Y $(InputPath) $(OutDir)\$(InputPath)
-OutDir=.\..\..\Release
-InputPath=.\sounds\filedone.wav
-
-"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /Y $(InputPath) $(OutDir)\$(InputPath)
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sound - Win32 Debug"
-
-# Begin Custom Build - copy /Y $(InputPath) $(OutDir)\$(InputPath)
-OutDir=.\..\..\Debug
-InputPath=.\sounds\filedone.wav
-
-"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /Y $(InputPath) $(OutDir)\$(InputPath)
-
-# End Custom Build
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\sounds\message.wav
-
-!IF  "$(CFG)" == "sound - Win32 Release"
-
-# Begin Custom Build - Copy $(InputPath)
-OutDir=.\..\..\Release
-InputPath=.\sounds\message.wav
-
-"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /Y $(InputPath) $(OutDir)\$(InputPath)
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sound - Win32 Debug"
-
-# Begin Custom Build - Copy $(InputPath)
-OutDir=.\..\..\Debug
-InputPath=.\sounds\message.wav
-
-"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /Y $(InputPath) $(OutDir)\$(InputPath)
-
-# End Custom Build
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\sounds\msgsent.wav
-
-!IF  "$(CFG)" == "sound - Win32 Release"
-
-# Begin Custom Build - Copy $(InputPath)
-OutDir=.\..\..\Release
-InputPath=.\sounds\msgsent.wav
-
-"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /Y $(InputPath) $(OutDir)\$(InputPath)
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sound - Win32 Debug"
-
-# Begin Custom Build - Copy $(InputPath)
-OutDir=.\..\..\Debug
-InputPath=.\sounds\msgsent.wav
-
-"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /Y $(InputPath) $(OutDir)\$(InputPath)
-
-# End Custom Build
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\sounds\sms.wav
-
-!IF  "$(CFG)" == "sound - Win32 Release"
-
-# Begin Custom Build - copy /Y $(InputPath) $(OutDir)\$(InputPath)
-OutDir=.\..\..\Release
-InputPath=.\sounds\sms.wav
-
-"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /Y $(InputPath) $(OutDir)\$(InputPath)
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sound - Win32 Debug"
-
-# Begin Custom Build - copy /Y $(InputPath) $(OutDir)\$(InputPath)
-OutDir=.\..\..\Debug
-InputPath=.\sounds\sms.wav
-
-"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /Y $(InputPath) $(OutDir)\$(InputPath)
-
-# End Custom Build
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\sounds\startup.wav
-
-!IF  "$(CFG)" == "sound - Win32 Release"
-
-# Begin Custom Build - Copy $(InputPath)
-OutDir=.\..\..\Release
-InputPath=.\sounds\startup.wav
-
-"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /Y $(InputPath) $(OutDir)\$(InputPath)
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sound - Win32 Debug"
-
-# Begin Custom Build - Copy $(InputPath)
-OutDir=.\..\..\Debug
-InputPath=.\sounds\startup.wav
-
-"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /Y $(InputPath) $(OutDir)\$(InputPath)
-
-# End Custom Build
-
-!ENDIF 
-
 # End Source File
 # End Group
 # Begin Group "xpm"
