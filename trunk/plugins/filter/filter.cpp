@@ -117,27 +117,31 @@ void *FilterPlugin::processEvent(Event *e)
 {
     if (e->type() == EventMessageReceived){
         Message *msg = (Message*)(e->param());
-        if (msg->type() == MessageStatus)
+        if (!msg || (msg->type() == MessageStatus))
             return NULL;
         Contact *contact = getContacts()->contact(msg->contact());
         FilterUserData *data = NULL;
-        if (getFromList()){
-            if ((contact == NULL) || contact->getTemporary()){
-                delete msg;
-                delete contact;
-                return msg;
-            }
-        }
-        if (contact && contact->getIgnore()){
+        if (!contact) {
             delete msg;
-            return msg;
+            return NULL;
         }
-        if (contact)
-            data = (FilterUserData*)(contact->getUserData(user_data_id));
+        // check if we accept only from users on the list
+        if (getFromList() && contact->getTemporary()){
+            delete msg;
+            delete contact;
+            return NULL;
+        }
+        // check if the user is a ignored user
+        if (contact->getIgnore()){
+            delete msg;
+            return NULL;
+        }
+        // get filter-data
+        data = (FilterUserData*)(contact->getUserData(user_data_id));
         if (data && data->SpamList && *data->SpamList){
             if (checkSpam(msg->getPlainText(), QString::fromUtf8(data->SpamList))){
                 delete msg;
-                return msg;
+                return NULL;
             }
         }
         return NULL;
@@ -228,7 +232,7 @@ void FilterPlugin::getWords(const QString &text, QStringList &words)
     for (int i = 0; i < (int)(text.length()); i++){
         QChar c = text[i];
         if (!c.isSpace()){
-            words += c;
+            word += c;
             continue;
         }
         if (word.isEmpty())
