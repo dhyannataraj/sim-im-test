@@ -72,7 +72,7 @@ BkgndCfg::BkgndCfg(QWidget *parent, BackgroundPlugin *plugin)
     spnMargin->setMaxValue(20);
     spnMargin->setValue(plugin->getMargin());
     lblLink->setText(i18n("Get more skins"));
-    connect(lblLink, SIGNAL(click()), this, SLOT(goSkins()));
+    lblLink->setUrl("http://miranda-im.org/download/index.php?action=display&id=32");
 }
 
 void BkgndCfg::apply()
@@ -82,12 +82,6 @@ void BkgndCfg::apply()
     m_plugin->setBackground(QFile::encodeName(edtPicture->text()));
     m_plugin->setMargin(atol(spnMargin->text().latin1()));
     m_plugin->redraw();
-}
-
-void BkgndCfg::goSkins()
-{
-    Event e(EventGoURL, (void*)"http://miranda-im.org/download/index.php?action=display&id=32");
-    e.process();
 }
 
 #ifndef WIN32

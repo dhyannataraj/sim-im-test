@@ -62,17 +62,13 @@ begin
     if not FileExists(sFileName) then begin
       bDownloadOpengl := true;
     end;
-    
-    if bDownloadOpengl then begin
-      isxdl_AddFileSize(url4, ExpandConstant('{tmp}\opengl.exe'), 724992);
+    sFileName := ExpandConstant('{app}\libexpat.dll');
+    if not FileExists(sFileName) then begin
+      bDownloadExpat := true;
     end;
-    
-    if bDownloadMsvcrt then begin
-      isxdl_AddFileSize(url3, ExpandConstant('{tmp}\msvcrt.exe'), 627790);
-    end;
-    
-    if bDownloadSSL then begin
-      isxdl_AddFileSize(url2, ExpandConstant('{tmp}\ssl.exe'), 740165);
+    sFileName := ExpandConstant('{app}\sablot.dll');
+    if not FileExists(sFileName) then begin
+      bDownloadExpat := true;
     end;
 
     sFileName := ExpandConstant('{app}\qt-mt230nc.dll');
@@ -80,14 +76,20 @@ begin
       isxdl_AddFileSize(url1, ExpandConstant('{tmp}\qt.exe'), 1673352);
       bDownloadQt := true;
     end;
-
-    sFileName := ExpandConstant('{app}\libexpat.dll');
-    if not FileExists(sFileName) then begin
-      isxdl_AddFileSize(url3, ExpandConstant('{tmp}\expat.exe'), 430860);
-      bDownloadExpat := true;
+    if bDownloadSSL then begin
+      isxdl_AddFileSize(url2, ExpandConstant('{tmp}\ssl.exe'), 740165);
+    end;
+    if bDownloadExpat then begin
+      isxdl_AddFileSize(url3, ExpandConstant('{tmp}\expat.exe'), 567991);
+    end;
+    if bDownloadMsvcrt then begin
+      isxdl_AddFileSize(url4, ExpandConstant('{tmp}\msvcrt.exe'), 627790);
+    end;
+    if bDownloadOpengl then begin
+      isxdl_AddFileSize(url5, ExpandConstant('{tmp}\opengl.exe'), 724992);
     end;
 
-    if bDownloadQt or bDownloadSSL or bDownloadExpat then begin
+    if bDownloadQt or bDownloadSSL or bDownloadExpat or bDownloadMsvcrt or bDownloadOpengl then begin
       if isxdl_DownloadFiles(hWnd) <> 0 then begin
         sParam := ExpandConstant('/VERYSILENT /DIR="{app}"');
         if (bDownloadQt) then begin

@@ -51,7 +51,6 @@ MsgTextEdit::MsgTextEdit(MsgEdit *edit, QWidget *parent)
         : TextEdit(parent)
 {
     m_edit = edit;
-    setFont(CorePlugin::m_plugin->editFont);
     setBackground(CorePlugin::m_plugin->getEditBackground());
     setForeground(CorePlugin::m_plugin->getEditForeground());
 }
@@ -258,6 +257,8 @@ void MsgEdit::resizeEvent(QResizeEvent *e)
 
 void MsgEdit::editFontChanged(const QFont &f)
 {
+	if (!CorePlugin::m_plugin->getEditSaveFont())
+		return;
     CorePlugin::m_plugin->editFont = f;
     Event e(EventHistoryFont);
     e.process();

@@ -430,8 +430,10 @@ void ConfigureDialog::closeEvent(QCloseEvent *e)
 
 void ConfigureDialog::itemSelected(QListViewItem *item)
 {
-    if (item)
+    if (item){
         static_cast<ConfigItem*>(item)->show();
+        lstBox->setCurrentItem(item);
+    }
 }
 
 void ConfigureDialog::apply(QListViewItem *item)

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-11-23 16:25+0300\n"
+"POT-Creation-Date: 2003-11-24 00:30+0300\n"
 "PO-Revision-Date: 2003-09-17 18:18+0100\n"
 "Last-Translator: Pau Bosch i Crespo <paubcrespo@hotmail.com>\n"
 "Language-Team: LANGUAGE <paubcrespo@hotmail.com>\n"
@@ -1028,7 +1028,7 @@ msgid ""
 "Definition of PluralForm - to be set by the translator of kdelibs.po"
 msgstr ""
 
-#: plugins/_core/autoreplybase.cpp:86 plugins/_core/cfgdlg.cpp:485
+#: plugins/_core/autoreplybase.cpp:86 plugins/_core/cfgdlg.cpp:487
 #: plugins/_core/cfgdlgbase.cpp:126
 #: plugins/_core/connectionsettingsbase.cpp:106
 #: plugins/_core/declinedlgbase.cpp:82 plugins/_core/editmailbase.cpp:97
@@ -1044,7 +1044,7 @@ msgstr "&D'acord"
 msgid "&Yes"
 msgstr "&Sí"
 
-#: plugins/_core/cfgdlg.cpp:484 plugins/_core/cfgdlgbase.cpp:125
+#: plugins/_core/cfgdlg.cpp:486 plugins/_core/cfgdlgbase.cpp:125
 #: plugins/_core/toolsetupbase.cpp:134 sim/api/simapi.cpp:425
 msgid "&Apply"
 msgstr "&Aplica"
@@ -1053,7 +1053,7 @@ msgstr "&Aplica"
 msgid "&Register"
 msgstr "&Registre"
 
-#: plugins/_core/autoreplybase.cpp:87 plugins/_core/cfgdlg.cpp:486
+#: plugins/_core/autoreplybase.cpp:87 plugins/_core/cfgdlg.cpp:488
 #: plugins/_core/cfgdlgbase.cpp:127
 #: plugins/_core/connectionsettingsbase.cpp:107
 #: plugins/_core/declinedlgbase.cpp:83 plugins/_core/editmailbase.cpp:98
@@ -1066,7 +1066,7 @@ msgstr "&Registre"
 msgid "&Cancel"
 msgstr "&Anul·la"
 
-#: plugins/_core/core.cpp:546 plugins/_core/filetransfer.cpp:310
+#: plugins/_core/core.cpp:547 plugins/_core/filetransfer.cpp:310
 #: plugins/_core/managerbase.cpp:110 plugins/_core/toolsetupbase.cpp:136
 #: plugins/about/aboutdlgbase.cpp:156 plugins/icq/securedlg.cpp:92
 #: sim/api/simapi.cpp:427 sim/ui/qt3/i18n.cpp:287
@@ -1242,7 +1242,7 @@ msgstr "&Defineix els colors actuals >>"
 msgid "OK"
 msgstr "D'acord"
 
-#: plugins/_core/msgedit.cpp:887 sim/ui/qt3/i18n.cpp:23
+#: plugins/_core/msgedit.cpp:888 sim/ui/qt3/i18n.cpp:23
 msgid "Cancel"
 msgstr "Anul·la"
 
@@ -1389,12 +1389,12 @@ msgstr "&Obre"
 msgid "&Save"
 msgstr "&Desa"
 
-#: plugins/_core/core.cpp:1046 plugins/_core/historycfgbase.cpp:173
+#: plugins/_core/core.cpp:1047 plugins/_core/historycfgbase.cpp:173
 #: sim/ui/qt3/i18n.cpp:97
 msgid "&Rename"
 msgstr "&Reanomena"
 
-#: plugins/_core/core.cpp:1055 plugins/_core/historycfgbase.cpp:174
+#: plugins/_core/core.cpp:1056 plugins/_core/historycfgbase.cpp:174
 #: plugins/_core/logindlgbase.cpp:129 plugins/_core/maininfobase.cpp:237
 #: plugins/_core/maininfobase.cpp:247 sim/ui/listview.cpp:37
 #: sim/ui/qt3/i18n.cpp:99
@@ -1516,7 +1516,7 @@ msgstr "Efectes"
 msgid "Stri&keout"
 msgstr ""
 
-#: plugins/_core/core.cpp:649 plugins/_core/core.cpp:746
+#: plugins/_core/core.cpp:650 plugins/_core/core.cpp:747
 #: sim/ui/qt3/i18n.cpp:160
 msgid "&Underline"
 msgstr "&Subratllat"
@@ -1705,12 +1705,12 @@ msgstr "Copia"
 msgid "Paste"
 msgstr "Enganxa"
 
-#: plugins/_core/core.cpp:887 sim/ui/qt3/i18n.cpp:255
+#: plugins/_core/core.cpp:888 sim/ui/qt3/i18n.cpp:255
 #: sim/ui/qt3/qtextedit.cpp:4023
 msgid "Clear"
 msgstr "Neteja"
 
-#: plugins/_core/core.cpp:895 sim/ui/qt3/i18n.cpp:257
+#: plugins/_core/core.cpp:896 sim/ui/qt3/i18n.cpp:257
 #: sim/ui/qt3/qtextedit.cpp:4027 sim/ui/qt3/qtextedit.cpp:4029
 msgid "Select All"
 msgstr "Selecciona-ho tot"
@@ -1799,25 +1799,25 @@ msgstr "Restaura amunt"
 msgid "Roll down"
 msgstr "Llisca cap abaix"
 
-#: plugins/_core/core.cpp:844 sim/ui/qt3/qtextedit.cpp:4011
+#: plugins/_core/core.cpp:845 sim/ui/qt3/qtextedit.cpp:4011
 msgid "&Undo"
 msgstr "&Desfés"
 
-#: plugins/_core/core.cpp:855 sim/ui/qt3/qtextedit.cpp:4012
+#: plugins/_core/core.cpp:856 sim/ui/qt3/qtextedit.cpp:4012
 msgid "&Redo"
 msgstr "&Refés"
 
-#: plugins/_core/core.cpp:863 sim/ui/qt3/qtextedit.cpp:4017
+#: plugins/_core/core.cpp:864 sim/ui/qt3/qtextedit.cpp:4017
 msgid "Cu&t"
 msgstr "&Talla"
 
-#: plugins/_core/core.cpp:791 plugins/_core/core.cpp:871
+#: plugins/_core/core.cpp:792 plugins/_core/core.cpp:872
 #: plugins/_core/historycfgbase.cpp:172 plugins/netmonitor/monitor.cpp:67
 #: sim/ui/qt3/qtextedit.cpp:4018
 msgid "&Copy"
 msgstr "&Copia"
 
-#: plugins/_core/core.cpp:879 sim/ui/qt3/qtextedit.cpp:4020
+#: plugins/_core/core.cpp:880 sim/ui/qt3/qtextedit.cpp:4020
 msgid "&Paste"
 msgstr "&Enganxa"
 
@@ -1921,13 +1921,13 @@ msgstr "ICQ"
 msgid "Online"
 msgstr "En línia"
 
-#: plugins/_core/userviewcfgbase.cpp:231 plugins/icq/icq.cpp:125
+#: plugins/_core/userviewcfgbase.cpp:232 plugins/icq/icq.cpp:125
 #: plugins/icq/icq.cpp:295 plugins/icq/icqclient.cpp:1490
 #: plugins/jabber/jabber.cpp:123 plugins/msn/msn.cpp:104
 msgid "Away"
 msgstr "Absent"
 
-#: plugins/_core/userviewcfgbase.cpp:232 plugins/icq/icq.cpp:140
+#: plugins/_core/userviewcfgbase.cpp:233 plugins/icq/icq.cpp:140
 #: plugins/jabber/jabber.cpp:138 plugins/msn/msn.cpp:119
 msgid "N/A"
 msgstr "N/A"
@@ -1944,7 +1944,7 @@ msgstr "Ocupat"
 msgid "Free for chat"
 msgstr "Lliure per xatejar"
 
-#: plugins/_core/userlist.cpp:575 plugins/_core/userviewcfgbase.cpp:229
+#: plugins/_core/userlist.cpp:575 plugins/_core/userviewcfgbase.cpp:231
 #: plugins/icq/icq.cpp:200 plugins/icq/icq.cpp:310
 #: plugins/icq/icqclient.cpp:1484 plugins/jabber/jabber.cpp:183
 #: plugins/jabber/services.cpp:231 plugins/msn/msn.cpp:194
@@ -1972,12 +1972,12 @@ msgstr "&Mostra totes les codificacions"
 msgid "Change &encoding"
 msgstr "&Canvia la codificació"
 
-#: plugins/_core/msgedit.cpp:1533 plugins/icq/icq.cpp:552
+#: plugins/_core/msgedit.cpp:1534 plugins/icq/icq.cpp:552
 #: plugins/jabber/jabber.cpp:346
 msgid "&Message"
 msgstr "&Missatge"
 
-#: plugins/_core/core.cpp:532 plugins/_core/core.cpp:1071
+#: plugins/_core/core.cpp:533 plugins/_core/core.cpp:1072
 #: plugins/icq/icq.cpp:562 plugins/jabber/jabber.cpp:355
 msgid "User &info"
 msgstr "Informació d'usuari"
@@ -2530,7 +2530,7 @@ msgstr "Revisa invisible"
 msgid "Warning"
 msgstr "&Avisos"
 
-#: plugins/_core/msgedit.cpp:1552 plugins/icq/icqmessage.cpp:1018
+#: plugins/_core/msgedit.cpp:1553 plugins/icq/icqmessage.cpp:1018
 msgid "&URL"
 msgstr "&URL"
 
@@ -3521,7 +3521,7 @@ msgstr "IP Interna:"
 msgid "Client:"
 msgstr "Client:"
 
-#: plugins/_core/core.cpp:1126 plugins/icq/aiminfobase.cc:305
+#: plugins/_core/core.cpp:1127 plugins/icq/aiminfobase.cc:305
 #: plugins/icq/icqinfobase.cc:319 plugins/jabber/jabberinfobase.cpp:219
 #: plugins/msn/msninfobase.cpp:167
 msgid "&Status"
@@ -3744,7 +3744,7 @@ msgstr "Llistat &invisible"
 msgid "Email:"
 msgstr "Correu:"
 
-#: plugins/_core/interfacecfgbase.cpp:148 plugins/icq/icqsearchbase.cc:325
+#: plugins/_core/interfacecfgbase.cpp:147 plugins/icq/icqsearchbase.cc:325
 msgid "Language:"
 msgstr "Idioma:"
 
@@ -4052,17 +4052,17 @@ msgstr "Auto replica"
 msgid "Plugins"
 msgstr "Pedaços"
 
-#: plugins/_core/cfgdlg.cpp:487 plugins/_core/cfgdlgbase.cpp:122
-#: plugins/_core/core.cpp:441 plugins/_core/core.cpp:1004
-#: plugins/_core/core.cpp:1086
+#: plugins/_core/cfgdlg.cpp:489 plugins/_core/cfgdlgbase.cpp:122
+#: plugins/_core/core.cpp:442 plugins/_core/core.cpp:1005
+#: plugins/_core/core.cpp:1087
 msgid "Setup"
 msgstr "Configuració"
 
-#: plugins/_core/cfgdlg.cpp:532
+#: plugins/_core/cfgdlg.cpp:534
 msgid "Configure"
 msgstr "Configura"
 
-#: plugins/_core/cfgdlg.cpp:535
+#: plugins/_core/cfgdlg.cpp:537
 msgid "Update info"
 msgstr "Actualitza la informació"
 
@@ -4091,7 +4091,7 @@ msgstr "Interfície"
 msgid "System interface"
 msgstr "Interfície de sistema"
 
-#: plugins/_core/core.cpp:369
+#: plugins/_core/core.cpp:370
 msgid ""
 "I am currently away from ICQ.\n"
 "Please leave your message and I will get back to you as soon as I return!\n"
@@ -4099,7 +4099,7 @@ msgstr ""
 "Actualment estic fora de l'ICQ.\n"
 "Deixeu-me el vostre missatge i respondré tan aviat qcom torni!\n"
 
-#: plugins/_core/core.cpp:373
+#: plugins/_core/core.cpp:374
 msgid ""
 "I am out'a here.\n"
 "See you tomorrow!\n"
@@ -4107,289 +4107,289 @@ msgstr ""
 "Me n'he anat. \n"
 "Ja us veuré demà!\n"
 
-#: plugins/_core/core.cpp:377
+#: plugins/_core/core.cpp:378
 msgid "Please do not disturb me now. Disturb me later.\n"
 msgstr "No em molesteu ara, sis us plau. Molesteu-me més tard.\n"
 
-#: plugins/_core/core.cpp:380
+#: plugins/_core/core.cpp:381
 msgid "We'd love to hear what you have to say. Join our chat.\n"
 msgstr ""
 "Ens encantaria saber què hi teniu a dir. Participeu en el nostre xat..\n"
 
-#: plugins/_core/core.cpp:451
+#: plugins/_core/core.cpp:452
 msgid "Unread messages"
 msgstr "Missatges no llegits"
 
-#: plugins/_core/core.cpp:459
+#: plugins/_core/core.cpp:460
 msgid "Quit"
 msgstr "Surt"
 
-#: plugins/_core/core.cpp:468
+#: plugins/_core/core.cpp:469
 msgid "&Menu"
 msgstr "&Menú"
 
-#: plugins/_core/core.cpp:478 plugins/_core/searchbase.cpp:73
+#: plugins/_core/core.cpp:479 plugins/_core/searchbase.cpp:73
 msgid "Search / Add contact"
 msgstr "Recerca / Més contactes"
 
-#: plugins/_core/core.cpp:489
+#: plugins/_core/core.cpp:490
 msgid "&Send SMS"
 msgstr "&Evia SMS"
 
-#: plugins/_core/core.cpp:496
+#: plugins/_core/core.cpp:497
 msgid "&Phone service"
 msgstr "Servei &telefònic"
 
-#: plugins/_core/core.cpp:506
+#: plugins/_core/core.cpp:507
 msgid "Message"
 msgstr "Missatge"
 
-#: plugins/_core/core.cpp:517 plugins/filter/ignorelist.cpp:26
+#: plugins/_core/core.cpp:518 plugins/filter/ignorelist.cpp:26
 msgid "Contact"
 msgstr "Contacte"
 
-#: plugins/_core/core.cpp:524 plugins/_core/core.cpp:1038
+#: plugins/_core/core.cpp:525 plugins/_core/core.cpp:1039
 msgid "Group"
 msgstr "Grup"
 
-#: plugins/_core/core.cpp:539 plugins/_core/core.cpp:1079
+#: plugins/_core/core.cpp:540 plugins/_core/core.cpp:1080
 msgid "&History"
 msgstr "&Historial"
 
-#: plugins/_core/core.cpp:580 plugins/_core/msgedit.cpp:978
+#: plugins/_core/core.cpp:581 plugins/_core/msgedit.cpp:979
 msgid "&Send"
 msgstr "&Envia"
 
-#: plugins/_core/core.cpp:590
+#: plugins/_core/core.cpp:591
 msgid "&Insert smile"
 msgstr "&IInsereix ganyota"
 
-#: plugins/_core/core.cpp:597 plugins/forward/forwardcfgbase.cpp:106
+#: plugins/_core/core.cpp:598 plugins/forward/forwardcfgbase.cpp:106
 msgid "Send in &translit"
 msgstr ""
 
-#: plugins/_core/core.cpp:605 plugins/_core/msgedit.cpp:241
+#: plugins/_core/core.cpp:606 plugins/_core/msgedit.cpp:240
 msgid "C&lose after send"
 msgstr "&Tanca després d'enviar"
 
-#: plugins/_core/core.cpp:613 plugins/_core/msgedit.cpp:967
+#: plugins/_core/core.cpp:614 plugins/_core/msgedit.cpp:968
 msgid "&Multiply send"
 msgstr "&Enviament múltiple"
 
-#: plugins/_core/core.cpp:621 plugins/_core/core.cpp:717
+#: plugins/_core/core.cpp:622 plugins/_core/core.cpp:718
 #, fuzzy
 msgid "Back&ground color"
 msgstr "&Color de fons"
 
-#: plugins/_core/core.cpp:629 plugins/_core/core.cpp:726
+#: plugins/_core/core.cpp:630 plugins/_core/core.cpp:727
 #, fuzzy
 msgid "&Foreground color"
 msgstr "&Color de fons"
 
-#: plugins/_core/core.cpp:635 plugins/_core/core.cpp:732
+#: plugins/_core/core.cpp:636 plugins/_core/core.cpp:733
 msgid "&Bold"
 msgstr "&Negreta"
 
-#: plugins/_core/core.cpp:642 plugins/_core/core.cpp:739
+#: plugins/_core/core.cpp:643 plugins/_core/core.cpp:740
 msgid "&Italic"
 msgstr "&Cursiva"
 
-#: plugins/_core/core.cpp:656 plugins/_core/core.cpp:753
+#: plugins/_core/core.cpp:657 plugins/_core/core.cpp:754
 #, fuzzy
 msgid "Select &font"
 msgstr "Seleccioneu font"
 
-#: plugins/_core/core.cpp:663
+#: plugins/_core/core.cpp:664
 #, fuzzy
 msgid "Select &file"
 msgstr "Selecciona fitxer"
 
-#: plugins/_core/core.cpp:671
+#: plugins/_core/core.cpp:672
 #, fuzzy
 msgid "&Phone number"
 msgstr "Afegeix el número de telèfon"
 
-#: plugins/_core/core.cpp:679 plugins/_core/msgedit.cpp:1410
+#: plugins/_core/core.cpp:680 plugins/_core/msgedit.cpp:1411
 msgid "&Next"
 msgstr "&Següent"
 
-#: plugins/_core/core.cpp:686
+#: plugins/_core/core.cpp:687
 msgid "&Direction"
 msgstr "&Direcció"
 
-#: plugins/_core/core.cpp:695 plugins/filter/filter.cpp:110
+#: plugins/_core/core.cpp:696 plugins/filter/filter.cpp:110
 msgid "&Filter"
 msgstr "&Filtre"
 
-#: plugins/_core/core.cpp:703
+#: plugins/_core/core.cpp:704
 msgid "&Previous page"
 msgstr "&Pàgina anterior"
 
-#: plugins/_core/core.cpp:711
+#: plugins/_core/core.cpp:712
 msgid "&Next page"
 msgstr "&Pàgina següent"
 
-#: plugins/_core/core.cpp:775
+#: plugins/_core/core.cpp:776
 msgid "&Open message"
 msgstr "&Obre missatge"
 
-#: plugins/_core/core.cpp:797
+#: plugins/_core/core.cpp:798
 msgid "&Quote"
 msgstr "&Cita"
 
-#: plugins/_core/core.cpp:814 plugins/forward/forward.cpp:65
+#: plugins/_core/core.cpp:815 plugins/forward/forward.cpp:65
 msgid "&Forward"
 msgstr "&Endavant"
 
-#: plugins/_core/core.cpp:829
+#: plugins/_core/core.cpp:830
 msgid "&Answer"
 msgstr "&Resposta"
 
-#: plugins/_core/core.cpp:902
+#: plugins/_core/core.cpp:903
 msgid "&Messages"
 msgstr "&Missatges"
 
-#: plugins/_core/core.cpp:911 plugins/_core/msgedit.cpp:1561
+#: plugins/_core/core.cpp:912 plugins/_core/msgedit.cpp:1562
 msgid "&SMS"
 msgstr "&SMS"
 
-#: plugins/_core/core.cpp:919 plugins/_core/core.cpp:950
+#: plugins/_core/core.cpp:920 plugins/_core/core.cpp:951
 msgid "Show &offline"
 msgstr "Mostra f%ora de línia"
 
-#: plugins/_core/core.cpp:931
+#: plugins/_core/core.cpp:932
 msgid "&No show groups"
 msgstr "&No mostris els grups"
 
-#: plugins/_core/core.cpp:941
+#: plugins/_core/core.cpp:942
 msgid "Group mode 1"
 msgstr "Mode de grup 1"
 
-#: plugins/_core/core.cpp:946
+#: plugins/_core/core.cpp:947
 msgid "Group mode 2"
 msgstr "Mode de grup 2"
 
-#: plugins/_core/core.cpp:957
+#: plugins/_core/core.cpp:958
 msgid "&Create group"
 msgstr "&Crea grup"
 
-#: plugins/_core/core.cpp:968
+#: plugins/_core/core.cpp:969
 msgid "&Rename group"
 msgstr "&Reanomena grup"
 
-#: plugins/_core/core.cpp:975
+#: plugins/_core/core.cpp:976
 msgid "&Delete group"
 msgstr "&Elimina grup"
 
-#: plugins/_core/core.cpp:982
+#: plugins/_core/core.cpp:983
 msgid "Up"
 msgstr "Amunt"
 
-#: plugins/_core/core.cpp:989
+#: plugins/_core/core.cpp:990
 msgid "Down"
 msgstr "Avall"
 
-#: plugins/_core/core.cpp:1063
+#: plugins/_core/core.cpp:1064
 #, fuzzy
 msgid "Show &always"
 msgstr "Mostr&a sempre"
 
-#: plugins/_core/core.cpp:1093
+#: plugins/_core/core.cpp:1094
 msgid "To container"
 msgstr "Al contenidor"
 
-#: plugins/_core/core.cpp:1118
+#: plugins/_core/core.cpp:1119
 msgid "&Location"
 msgstr "&Localització"
 
-#: plugins/_core/core.cpp:1133
+#: plugins/_core/core.cpp:1134
 msgid "&Phone book"
 msgstr "&Llistat telefònic"
 
-#: plugins/_core/core.cpp:1140
+#: plugins/_core/core.cpp:1141
 msgid "&No show"
 msgstr "&No mostris"
 
-#: plugins/_core/core.cpp:1147
+#: plugins/_core/core.cpp:1148
 msgid "&Available"
 msgstr "&Disponible"
 
-#: plugins/_core/core.cpp:1155
+#: plugins/_core/core.cpp:1156
 msgid "&Busy"
 msgstr "&Emfeinat"
 
-#: plugins/_core/core.cpp:1171
+#: plugins/_core/core.cpp:1172
 msgid "Decline file without reason"
 msgstr ""
 
-#: plugins/_core/core.cpp:1179 plugins/_core/core.cpp:2599
+#: plugins/_core/core.cpp:1180 plugins/_core/core.cpp:2600
 msgid "Sorry, I'm busy right now, and can not respond to your request"
 msgstr ""
 
-#: plugins/_core/core.cpp:1184 plugins/_core/core.cpp:2608
+#: plugins/_core/core.cpp:1185 plugins/_core/core.cpp:2609
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
 msgstr ""
 
-#: plugins/_core/core.cpp:1189
+#: plugins/_core/core.cpp:1190
 msgid "Enter a decline reason"
 msgstr ""
 
-#: plugins/_core/core.cpp:1885
+#: plugins/_core/core.cpp:1886
 msgid "&Separate"
 msgstr "&Separa"
 
-#: plugins/_core/core.cpp:1923 plugins/_core/userwnd.cpp:124
+#: plugins/_core/core.cpp:1924 plugins/_core/userwnd.cpp:124
 #, fuzzy, c-format
 msgid "from %1"
 msgstr "%1 des de %2"
 
-#: plugins/_core/core.cpp:2005
+#: plugins/_core/core.cpp:2006
 msgid "&New"
 msgstr "&Nou"
 
-#: plugins/_core/core.cpp:2069
+#: plugins/_core/core.cpp:2070
 msgid "Not available"
 msgstr "No disponible"
 
-#: plugins/_core/core.cpp:2162 plugins/dock/dockwnd.cpp:1168
+#: plugins/_core/core.cpp:2163 plugins/dock/dockwnd.cpp:1168
 #: plugins/osd/osd.cpp:323
 msgid "%1 from %2"
 msgstr "%1 des de %2"
 
-#: plugins/_core/core.cpp:2297
+#: plugins/_core/core.cpp:2298
 msgid "%1 wrote:"
 msgstr "%1 ha escrit:"
 
-#: plugins/_core/core.cpp:2385
+#: plugins/_core/core.cpp:2386
 msgid "Send SMS"
 msgstr "Evia SMS"
 
-#: plugins/_core/core.cpp:3312 plugins/_core/core.cpp:3334
+#: plugins/_core/core.cpp:3313 plugins/_core/core.cpp:3335
 #: plugins/_core/managerbase.cpp:103
 msgid "Connection manager"
 msgstr "Gestor de connexió"
 
-#: plugins/_core/core.cpp:3320
+#: plugins/_core/core.cpp:3321
 msgid "Show status panel"
 msgstr "Mostra el plafó d'estat"
 
-#: plugins/_core/core.cpp:3327
+#: plugins/_core/core.cpp:3328
 msgid "Connections"
 msgstr "Connexions"
 
-#: plugins/_core/core.cpp:3342
+#: plugins/_core/core.cpp:3343
 msgid "Change profile"
 msgstr "Canvia perfil"
 
-#: plugins/_core/core.cpp:3371
+#: plugins/_core/core.cpp:3372
 msgid "Common status"
 msgstr "Estat comú"
 
-#: plugins/_core/core.cpp:3377
+#: plugins/_core/core.cpp:3378
 msgid "Configure client"
 msgstr "Configura client"
 
-#: plugins/_core/core.cpp:3401 plugins/_core/status.cpp:152
+#: plugins/_core/core.cpp:3402 plugins/_core/status.cpp:152
 #: plugins/_core/status.cpp:220
 msgid "&Invisible"
 msgstr "&Invisible"
@@ -4522,26 +4522,6 @@ msgstr "S'està carregant"
 msgid "History"
 msgstr "Historial"
 
-#: plugins/_core/interfacecfg.cpp:60
-msgid "Swabian"
-msgstr ""
-
-#: plugins/_core/interfacecfg.cpp:76
-msgid "Contact list"
-msgstr "Llistat de contactes"
-
-#: plugins/_core/interfacecfg.cpp:81
-msgid "Messages"
-msgstr "Missatges"
-
-#: plugins/_core/interfacecfg.cpp:84
-msgid "SMS"
-msgstr "SMS"
-
-#: plugins/_core/interfacecfg.cpp:125
-msgid "Copy %1 messages from history"
-msgstr "Copia %1 missatges des de l'historial"
-
 #: plugins/_core/logindlg.cpp:57
 msgid "Select profile"
 msgstr "Seleccioneu el perfil"
@@ -4617,7 +4597,7 @@ msgstr "L'usuari es troba actualment disponible a:"
 msgid "Yes"
 msgstr "Sí"
 
-#: plugins/_core/msgedit.cpp:416 plugins/update/update.cpp:105
+#: plugins/_core/msgedit.cpp:417 plugins/update/update.cpp:105
 #, c-format
 msgid ""
 "_n: Message\n"
@@ -4626,7 +4606,7 @@ msgstr ""
 "_n: Missatge\n"
 "%n missatges"
 
-#: plugins/_core/msgedit.cpp:441
+#: plugins/_core/msgedit.cpp:442
 #, c-format
 msgid ""
 "_n: SMS\n"
@@ -4635,7 +4615,7 @@ msgstr ""
 "_n: SMS\n"
 "%n SMS"
 
-#: plugins/_core/msgedit.cpp:456
+#: plugins/_core/msgedit.cpp:457
 #, c-format
 msgid ""
 "_n: URL\n"
@@ -4644,7 +4624,7 @@ msgstr ""
 "_n: URL\n"
 "%n URLs"
 
-#: plugins/_core/msgedit.cpp:518
+#: plugins/_core/msgedit.cpp:519
 #, c-format
 msgid ""
 "_n: Contact list\n"
@@ -4653,7 +4633,7 @@ msgstr ""
 "_n:Llistat de contactes\n"
 "%n llistats de contactes"
 
-#: plugins/_core/msgedit.cpp:564
+#: plugins/_core/msgedit.cpp:565
 #, c-format
 msgid ""
 "_n: File\n"
@@ -4662,17 +4642,17 @@ msgstr ""
 "_n: Fitxer\n"
 "%n fitxers"
 
-#: plugins/_core/msgedit.cpp:571
+#: plugins/_core/msgedit.cpp:572
 #, fuzzy
 msgid "&Accept"
 msgstr "Mode d'acceptació"
 
-#: plugins/_core/msgedit.cpp:586
+#: plugins/_core/msgedit.cpp:587
 #, fuzzy
 msgid "&Decline"
 msgstr "&Direcció"
 
-#: plugins/_core/msgedit.cpp:638
+#: plugins/_core/msgedit.cpp:639
 #, c-format
 msgid ""
 "_n: Authorize request\n"
@@ -4681,15 +4661,15 @@ msgstr ""
 "_n: Sol·licitud d'autorització\n"
 "%n sol·licituds d'autorització"
 
-#: plugins/_core/msgedit.cpp:645
+#: plugins/_core/msgedit.cpp:646
 msgid "&Grant"
 msgstr "&Concesió"
 
-#: plugins/_core/msgedit.cpp:660
+#: plugins/_core/msgedit.cpp:661
 msgid "&Refuse"
 msgstr "&Refusa"
 
-#: plugins/_core/msgedit.cpp:707
+#: plugins/_core/msgedit.cpp:708
 #, c-format
 msgid ""
 "_n: Authorization granted\n"
@@ -4698,7 +4678,7 @@ msgstr ""
 "_n: Autorizació concedida\n"
 "%n autorizació concedida"
 
-#: plugins/_core/msgedit.cpp:727
+#: plugins/_core/msgedit.cpp:728
 #, c-format
 msgid ""
 "_n: Authorization refused\n"
@@ -4707,7 +4687,7 @@ msgstr ""
 "_n: Autorizació rebutjada\n"
 "%n autorizació rebutjada"
 
-#: plugins/_core/msgedit.cpp:747
+#: plugins/_core/msgedit.cpp:748
 #, c-format
 msgid ""
 "_n: Add to contacts\n"
@@ -4716,7 +4696,7 @@ msgstr ""
 "_n: Afegit al llistat de contactes\n"
 "%n afegits al llistat de contactes"
 
-#: plugins/_core/msgedit.cpp:767
+#: plugins/_core/msgedit.cpp:768
 #, c-format
 msgid ""
 "_n: Removed from contacts\n"
@@ -4725,7 +4705,7 @@ msgstr ""
 "_n: Extreu del llistat de contactes\n"
 "%n s'ha extret del llistat de contactes"
 
-#: plugins/_core/msgedit.cpp:787
+#: plugins/_core/msgedit.cpp:788
 #, c-format
 msgid ""
 "_n: Status changed\n"
@@ -4734,27 +4714,27 @@ msgstr ""
 "_n: Estat canviat\n"
 "%n cops que ha canviat l'estat"
 
-#: plugins/_core/msgedit.cpp:955
+#: plugins/_core/msgedit.cpp:956
 msgid "No such client for send message"
 msgstr "Sense client per enviar-li el missatge"
 
-#: plugins/_core/msgedit.cpp:1543 plugins/netmonitor/monitor.cpp:64
+#: plugins/_core/msgedit.cpp:1544 plugins/netmonitor/monitor.cpp:64
 msgid "&File"
 msgstr "&Fitxer"
 
-#: plugins/_core/msgedit.cpp:1570
+#: plugins/_core/msgedit.cpp:1571
 msgid "&Contact list"
 msgstr "&Llistat de contacte"
 
-#: plugins/_core/msgedit.cpp:1578
+#: plugins/_core/msgedit.cpp:1579
 msgid "&Authorization request"
 msgstr "Sol·licitud d'&autorització"
 
-#: plugins/_core/msgedit.cpp:1587
+#: plugins/_core/msgedit.cpp:1588
 msgid "&Grant autorization"
 msgstr "&Concedeix autorització"
 
-#: plugins/_core/msgedit.cpp:1596
+#: plugins/_core/msgedit.cpp:1597
 msgid "&Refuse autorization"
 msgstr "&Refusa autorització"
 
@@ -4961,17 +4941,21 @@ msgstr "Sobreescriu fitxers"
 msgid "Auto decline"
 msgstr "Declina automàticament"
 
-#: plugins/_core/interfacecfgbase.cpp:149
+#: plugins/_core/interfacecfgbase.cpp:148
 msgid "Message window"
 msgstr "Finestra de missatge"
 
-#: plugins/_core/interfacecfgbase.cpp:150
+#: plugins/_core/interfacecfgbase.cpp:149
 msgid "&Simple mode"
 msgstr "Mode &simple"
 
-#: plugins/_core/interfacecfgbase.cpp:151
+#: plugins/_core/interfacecfgbase.cpp:150
 msgid "&Chat mode"
 msgstr "Mode de &conversa"
+
+#: plugins/_core/interfacecfgbase.cpp:151
+msgid "&Using last selected font"
+msgstr ""
 
 #: plugins/_core/interfacecfgbase.cpp:152
 msgid "Container mode"
@@ -5112,17 +5096,17 @@ msgstr ""
 msgid "3rd:"
 msgstr ""
 
-#: plugins/_core/userviewcfgbase.cpp:233
+#: plugins/_core/userviewcfgbase.cpp:229
+msgid "Show group &separator"
+msgstr "Mostra el &separador de grups"
+
+#: plugins/_core/userviewcfgbase.cpp:234
 msgid "Do not distrub"
 msgstr "No molesteu, si us plau"
 
-#: plugins/_core/userviewcfgbase.cpp:234
+#: plugins/_core/userviewcfgbase.cpp:235
 msgid "Groups"
 msgstr "Grups"
-
-#: plugins/_core/userviewcfgbase.cpp:235
-msgid "Show group &separator"
-msgstr "Mostra el &separador de grups"
 
 #: plugins/_core/historycfgbase.cpp:168
 msgid "Use &own colors and fonts settings"
@@ -5250,6 +5234,26 @@ msgstr "Complet"
 #: plugins/_core/arcfgbase.cpp:101
 msgid "Don't show autoreply dialog"
 msgstr "No mostris el missatge d'autorèplica"
+
+#: plugins/_core/interfacecfg.cpp:60
+msgid "Swabian"
+msgstr ""
+
+#: plugins/_core/interfacecfg.cpp:76
+msgid "Contact list"
+msgstr "Llistat de contactes"
+
+#: plugins/_core/interfacecfg.cpp:81
+msgid "Messages"
+msgstr "Missatges"
+
+#: plugins/_core/interfacecfg.cpp:84
+msgid "SMS"
+msgstr "SMS"
+
+#: plugins/_core/interfacecfg.cpp:126
+msgid "Copy %1 messages from history"
+msgstr "Copia %1 missatges des de l'historial"
 
 #: plugins/_core/autoreplybase.cpp:84
 msgid "Don't show this dialog"

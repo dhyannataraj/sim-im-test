@@ -256,6 +256,7 @@ static DataDef coreData[] =
         { "EditForeground", DATA_ULONG, 1, 0xffffff },
         { "EditBackground", DATA_ULONG, 1, 0x000000 },
         { "EditFont", DATA_STRING, 1, 0 },
+        { "EditSaveFont", DATA_BOOL, 1, 0 },
         { "OwnColors", DATA_BOOL, 1, 0 },
         { "UseSmiles", DATA_BOOL, 1, 1 },
         { "CloseSend", DATA_BOOL, 1, 0 },
@@ -1253,7 +1254,7 @@ QString CorePlugin::poFile(const char *lang)
     QFile f(QFile::decodeName(s.c_str()));
     if (!f.exists()) return "";
 #else
-string s = PREFIX "/share/locale/";
+    string s = PREFIX "/share/locale/";
     string l;
     if (lang)
         l = lang;
@@ -1294,7 +1295,7 @@ void CorePlugin::installTranslator()
 #ifdef USE_KDE
         return;
 #else
-char *p = getenv("LANG");
+        char *p = getenv("LANG");
         if (p){
             for (; *p; p++){
                 if (*p == '.') break;
@@ -3045,7 +3046,7 @@ string CorePlugin::getConfig()
     string def_ef;
     def_ef = FontEdit::font2str(QApplication::font(), false).latin1();
     setEditFont(ef.c_str());
-    if (ef == def_ef)
+    if ((ef == def_ef) || !getEditSaveFont())
         setEditFont(NULL);
 
     clearContainer();

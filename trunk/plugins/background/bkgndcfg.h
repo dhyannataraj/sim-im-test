@@ -30,7 +30,6 @@ public:
     BkgndCfg(QWidget *parent, BackgroundPlugin *plugin);
 public slots:
     void apply();
-    void goSkins();
 protected:
     BackgroundPlugin *m_plugin;
 };
