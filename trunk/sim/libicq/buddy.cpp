@@ -149,7 +149,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                     for (; info.readPos() < info.size(); ){
                         capability cap;
                         info.unpack((char*)cap, sizeof(capability));
-                        if (!memcmp(cap, capabilities[1], sizeof(capability))){
+                        if (!memcmp(cap, capabilities[2], sizeof(capability))){
                             user->GetRTF = true;
                             if (!user->CanPlugin){
                                 if (user->bPhoneChanged) addPhoneRequest(uin);
@@ -162,6 +162,8 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                             user->ClientType = 2;
                         if (!memcmp(cap, capabilities[4], sizeof(capability)))
                             user->ClientType = 1;
+                        if (!memcmp(cap, capabilities[6], sizeof(capability)))
+                            user->ClientType = 6;
                         if (!memcmp(cap, capabilities[4], sizeof(capability)-1) &&
                                 (cap[sizeof(capability)-1] > (1 << 6)) &&
                                 (cap[sizeof(capability)-1] != 0x92))

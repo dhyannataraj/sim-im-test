@@ -281,6 +281,9 @@ QString CUser::toolTip()
             case 5:
                 r += "vICQ";
                 break;
+			case 6:
+				r += "ICQ2Go!";
+				break;
             default:
                 if ((unsigned char)(u->ClientType) >= (1 << 6)){
                     r += "SIM ";
