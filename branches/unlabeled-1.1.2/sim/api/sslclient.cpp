@@ -32,7 +32,7 @@
 
 #include "socket.h"
 
-static void ssl_info_callback(SSL *s, int where, int ret)
+static void ssl_info_callback(const SSL *s, int where, int ret)
 {
     const char *str;
     int w;
@@ -45,7 +45,7 @@ static void ssl_info_callback(SSL *s, int where, int ret)
 
     if (where & SSL_CB_LOOP)
     {
-        log(L_DEBUG, "SSL: %s", SSL_state_string_long(s));
+        log(L_DEBUG, "SSL: %s", SSL_state_string_long((SSL*)s));
     }
     else if (where & SSL_CB_ALERT)
     {
@@ -58,10 +58,10 @@ static void ssl_info_callback(SSL *s, int where, int ret)
     {
         if (ret == 0)
             log(L_DEBUG, "SSL: %s:failed in %s",
-                str,SSL_state_string_long(s));
+                str,SSL_state_string_long((SSL*)s));
         else if (ret < 0)
         {
-            log(L_DEBUG, "SSL: %s:%s", str,SSL_state_string_long(s));
+            log(L_DEBUG, "SSL: %s:%s", str,SSL_state_string_long((SSL*)s));
         }
     }
     else if (where & SSL_CB_ALERT)
@@ -75,11 +75,11 @@ static void ssl_info_callback(SSL *s, int where, int ret)
     {
         if (ret == 0)
             log(L_DEBUG, "SSL: %s:failed in %s",
-                str,SSL_state_string_long(s));
+                str,SSL_state_string_long((SSL*)s));
         else if (ret < 0)
         {
             log(L_DEBUG, "SSL: %s:error in %s",
-                str,SSL_state_string_long(s));
+                str,SSL_state_string_long((SSL*)s));
         }
     }
 }

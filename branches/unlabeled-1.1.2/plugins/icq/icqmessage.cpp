@@ -1503,6 +1503,239 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
     }
 }
 
+static const char* plugin_name[] =
+    {
+        "Phone Book",				// PLUGIN_PHONEBOOK
+        "Picture",					// PLUGIN_PICTURE
+        "Shared Files Directory",	// PLUGIN_FILESERVER
+        "Phone \"Follow Me\"",		// PLUGIN_FOLLOWME
+        "ICQphone Status"			// PLUGIN_ICQPHONE
+    };
+
+static const char* plugin_descr[] =
+    {
+        "Phone Book / Phone \"Follow Me\"",		// PLUGIN_PHONEBOOK
+        "Picture",								// PLUGIN_PICTURE
+        "Shared Files Directory",				// PLUGIN_FILESERVER
+        "Phone Book / Phone \"Follow Me\"",		// PLUGIN_FOLLOWME
+        "ICQphone Status"						// PLUGIN_ICQPHONE
+    };
+
+void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &info)
+{
+    Contact *contact;
+    ICQUserData *data = findContact(uin, NULL, false, contact);
+    log(L_DEBUG, "Request about %u", plugin_type);
+    Buffer answer;
+    unsigned long typeAnswer = 0;
+    unsigned long nEntries = 0;
+    unsigned long time = 0;
+    switch (plugin_type){
+    case PLUGIN_PHONEBOOK:{
+            if (data && data->GrpId && !contact->getIgnore()){
+                Buffer answer1;
+                time = this->data.owner.PluginInfoTime;
+                QString phones = getContacts()->owner()->getPhones();
+                while (!phones.isEmpty()){
+                    QString item = getToken(phones, ';', false);
+                    unsigned long publish = 0;
+                    QString phoneItem = getToken(item, '/', false);
+                    if (item != "-")
+                        publish = 1;
+                    QString number = getToken(phoneItem, ',');
+                    QString descr = getToken(phoneItem, ',');
+                    unsigned long type = getToken(phoneItem, ',').toUInt();
+                    unsigned long active = 0;
+                    if (!phoneItem.isEmpty())
+                        active = 1;
+                    QString area;
+                    QString phone;
+                    QString ext;
+                    QString country;
+                    QString gateway;
+                    if (type == PAGER){
+                        phone = getToken(number, '@');
+                        int n = number.find('[');
+                        if (n >= 0){
+                            getToken(number, '[');
+                            gateway = getToken(number, ']');
+                        }else{
+                            gateway = number;
+                        }
+                    }else{
+                        int n = number.find('(');
+                        if (n >= 0){
+                            country = getToken(number, '(');
+                            area    = getToken(number, ')');
+                            if (country[0] == '+')
+                                country = country.mid(1);
+                            unsigned code = atol(country.latin1());
+                            country = "";
+                            for (const ext_info *e = getCountries(); e->nCode; e++){
+                                if (e->nCode == code){
+                                    country = e->szName;
+                                    break;
+                                }
+                            }
+                        }
+                        n = number.find(" - ");
+                        if (n >= 0){
+                            ext = number.mid(n + 3);
+                            number = number.left(n);
+                        }
+                        phone = number;
+                    }
+                    answer.packStr32(descr.local8Bit());
+                    answer.packStr32(area.local8Bit());
+                    answer.packStr32(phone.local8Bit());
+                    answer.packStr32(ext.local8Bit());
+                    answer.packStr32(country.local8Bit());
+                    answer.pack(active);
+
+                    unsigned long len = gateway.length() + 24;
+                    unsigned long sms_available = 0;
+                    switch (type){
+                    case PHONE:
+                        type = 0;
+                        break;
+                    case FAX:
+                        type = 3;
+                        break;
+                    case CELLULAR:
+                        type = 2;
+                        sms_available = 1;
+                        break;
+                    case PAGER:
+                        type = 4;
+                        break;
+                    }
+                    answer1.pack(len);
+                    answer1.pack(type);
+                    answer1.packStr32(gateway.local8Bit());
+                    answer1.pack((unsigned long)0);
+                    answer1.pack(sms_available);
+                    answer1.pack((unsigned long)0);
+                    answer1.pack(publish);
+                    nEntries++;
+                }
+                answer.pack(answer1.data(0), answer1.size());
+                typeAnswer = 0x00000003;
+                break;
+            }
+        }
+    case PLUGIN_PICTURE:{
+            time = this->data.owner.PluginInfoTime;
+            typeAnswer = 0x00000001;
+            QString pictFile = getPicture();
+            if (!pictFile.isEmpty()){
+#ifdef WIN32
+                pictFile = pictFile.replace(QRegExp("/"), "\\");
+#endif
+                QFile f(pictFile);
+                if (f.open(IO_ReadOnly)){
+#ifdef WIN32
+                    int n = pictFile.findRev("\\");
+#else
+                    int n = pictFile.findRev("/");
+#endif
+                    if (n >= 0)
+                        pictFile = pictFile.mid(n + 1);
+                    nEntries = pictFile.length();
+                    answer.pack(pictFile.local8Bit(), pictFile.length());
+                    unsigned long size = f.size();
+                    answer.pack(size);
+                    while (size > 0){
+                        char buf[2048];
+                        unsigned tail = sizeof(buf);
+                        if (tail > size)
+                            tail = size;
+                        f.readBlock(buf, tail);
+                        answer.pack(buf, tail);
+                        size -= tail;
+                    }
+                }
+            }
+            break;
+        }
+    case PLUGIN_FOLLOWME:
+        time = this->data.owner.PluginStatusTime;
+        break;
+    case PLUGIN_QUERYxINFO:
+        time = this->data.owner.PluginInfoTime;
+        typeAnswer = 0x00010002;
+        if (!getPicture().isEmpty()){
+            nEntries++;
+            answer.pack((char*)plugins[PLUGIN_PICTURE], sizeof(plugin));
+            answer.pack((unsigned short)0);
+            answer.pack((unsigned short)1);
+            answer.packStr32(plugin_name[PLUGIN_PICTURE]);
+            answer.packStr32(plugin_descr[PLUGIN_PICTURE]);
+            answer.pack((unsigned long)0);
+        }
+        if (!getContacts()->owner()->getPhones().isEmpty()){
+            nEntries++;
+            answer.pack((char*)plugins[PLUGIN_PHONEBOOK], sizeof(plugin));
+            answer.pack((unsigned short)0);
+            answer.pack((unsigned short)1);
+            answer.packStr32(plugin_name[PLUGIN_PHONEBOOK]);
+            answer.packStr32(plugin_descr[PLUGIN_PHONEBOOK]);
+            answer.pack((unsigned long)0);
+        }
+        break;
+    case PLUGIN_QUERYxSTATUS:
+        time = this->data.owner.PluginStatusTime;
+        typeAnswer = 0x00010000;
+        nEntries++;
+        answer.pack((char*)plugins[PLUGIN_FOLLOWME], sizeof(plugin));
+        answer.pack((unsigned short)0);
+        answer.pack((unsigned short)1);
+        answer.packStr32(plugin_name[PLUGIN_FOLLOWME]);
+        answer.packStr32(plugin_descr[PLUGIN_FOLLOWME]);
+        answer.pack((unsigned long)0);
+        if (this->data.owner.SharedFiles){
+            nEntries++;
+            answer.pack((char*)plugins[PLUGIN_FILESERVER], sizeof(plugin));
+            answer.pack((unsigned short)0);
+            answer.pack((unsigned short)1);
+            answer.packStr32(plugin_name[PLUGIN_FILESERVER]);
+            answer.packStr32(plugin_descr[PLUGIN_FILESERVER]);
+            answer.pack((unsigned long)0);
+        }
+        if (this->data.owner.ICQPhone){
+            nEntries++;
+            answer.pack((char*)plugins[PLUGIN_ICQPHONE], sizeof(plugin));
+            answer.pack((unsigned short)0);
+            answer.pack((unsigned short)1);
+            answer.packStr32(plugin_name[PLUGIN_ICQPHONE]);
+            answer.packStr32(plugin_descr[PLUGIN_ICQPHONE]);
+            answer.pack((unsigned long)0);
+        }
+        break;
+    default:
+        log(L_DEBUG, "Bad plugin type request %u", plugin_type);
+    }
+    unsigned long size = answer.size() + 8;
+    info.pack((unsigned short)0);
+    info.pack((unsigned short)1);
+    switch (plugin_type){
+    case PLUGIN_FOLLOWME:
+        info.pack(this->data.owner.FollowMe);
+        info.pack(time);
+        info.pack((char)1);
+        break;
+    case PLUGIN_QUERYxSTATUS:
+        info.pack((unsigned long)0);
+        info.pack((unsigned long)0);
+        info.pack((char)1);
+    default:
+        info.pack(time);
+        info.pack(size);
+        info.pack(typeAnswer);
+        info.pack(nEntries);
+        info.pack(answer.data(0), answer.size());
+    }
+}
+
 #ifndef WIN32
 #include "icqmessage.moc"
 #endif
