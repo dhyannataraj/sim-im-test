@@ -986,7 +986,7 @@ void JabberClient::ServerRequest::start_element(const char *name)
 void JabberClient::ServerRequest::add_attribute(const char *name, const char *value)
 {
     m_client->m_socket->writeBuffer
-    << " " << name << "=\'" << JabberClient::encodeXML(value) << "\'";
+    << " " << name << "=\'" << JabberClient::encodeXML(QString::fromUtf8(value)) << "\'";
 }
 
 void JabberClient::ServerRequest::end_element(bool bNewLevel)
@@ -1154,9 +1154,9 @@ JabberUserData *JabberClient::findContact(const char *_jid, const char *name, bo
     it.reset();
     QString sname;
     if (name && *name){
-        sname = QString::fromUtf8(name).lower();
+        sname = QString::fromUtf8(name);
     }else{
-        sname = QString::fromUtf8(jid.c_str()).lower();
+        sname = QString::fromUtf8(jid.c_str());
         int pos = sname.find('@');
         if (pos > 0)
             sname = sname.left(pos);

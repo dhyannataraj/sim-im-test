@@ -20,10 +20,11 @@
 #include "serial.h"
 #include "gsm_ta.h"
 #include "core.h"
+#include "maininfo.h"
 
 #include "xpm/cell_off.xpm"
 #include "xpm/cell_on.xpm"
-#include "xpm/nocell.xpm"
+#include "xpm/simcard.xpm"
 
 #include <qtimer.h>
 
@@ -96,8 +97,8 @@ SMSPlugin::SMSPlugin(unsigned base)
     icon.xpm  = cell_on;
     eIcon.process();
 
-    icon.name = "nocell";
-    icon.xpm  = nocell;
+    icon.name = "simcard";
+    icon.xpm  = simcard;
     eIcon.process();
 
     SerialPacket = registerType();

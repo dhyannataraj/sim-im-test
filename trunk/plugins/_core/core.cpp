@@ -274,6 +274,7 @@ static DataDef coreData[] =
         { "AuthStyle", DATA_ULONG, 1, STYLE_UNDER },
         { "VisibleStyle", DATA_ULONG, 1, STYLE_ITALIC },
         { "InvisibleStyle", DATA_ULONG, 1, STYLE_STRIKE },
+        { "SmallGroupFont", DATA_BOOL, 1, 1 },
         { NULL, 0, 0, 0 }
     };
 
@@ -455,6 +456,10 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     eMenuPhoneState.process();
     Event eMenuFileDecline(EventMenuCreate, (void*)MenuFileDecline);
     eMenuFileDecline.process();
+    Event eMenuMailList(EventMenuCreate, (void*)MenuMailList);
+    eMenuMailList.process();
+    Event eMenuPhoneList(EventMenuCreate, (void*)MenuPhoneList);
+    eMenuPhoneList.process();
 
     Command cmd;
     cmd->id          = CmdConfigure;
@@ -1228,6 +1233,33 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     cmd->text		= I18N_NOOP("Enter a decline reason");
     cmd->menu_grp   = 0x1004;
     eCmd.process();
+
+    cmd->id			= CmdEditList;
+    cmd->text		= I18N_NOOP("&Edit");
+    cmd->icon		= "mail_generic";
+    cmd->menu_id	= MenuMailList;
+    cmd->menu_grp	= 0x1000;
+    cmd->flags		= COMMAND_CHECK_STATE;
+    eCmd.process();
+
+    cmd->id			= CmdRemoveList;
+    cmd->text		= I18N_NOOP("&Delete");
+    cmd->icon		= "remove";
+    cmd->menu_grp	= 0x1001;
+    eCmd.process();
+
+    cmd->id			= CmdEditList;
+    cmd->text		= I18N_NOOP("&Edit");
+    cmd->icon		= "phone";
+    cmd->menu_id	= MenuPhoneList;
+    cmd->menu_grp	= 0x1000;
+    eCmd.process();
+
+    cmd->id			= CmdRemoveList;
+    cmd->text		= I18N_NOOP("&Delete");
+    cmd->icon		= "remove";
+    cmd->menu_grp	= 0x1001;
+    eCmd.process();
 }
 
 void CorePlugin::initData()
@@ -1293,7 +1325,7 @@ QString CorePlugin::poFile(const char *lang)
     QFile f(QFile::decodeName(s.c_str()));
     if (!f.exists()) return "";
 #else
-    string s = PREFIX "/share/locale/";
+string s = PREFIX "/share/locale/";
     string l;
     if (lang)
         l = lang;
@@ -3004,8 +3036,8 @@ bool CorePlugin::init(bool bInit)
         getContacts()->load();
     for (unsigned i = 0; i < getContacts()->nClients(); i++){
         Client *client = getContacts()->getClient(i);
-		if (client->getCommonStatus())
-			client->setManualStatus(getManualStatus());
+        if (client->getCommonStatus())
+            client->setManualStatus(getManualStatus());
         client->setStatus(client->getManualStatus(), client->getCommonStatus());
     }
     if (m_main)

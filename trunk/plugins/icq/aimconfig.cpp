@@ -38,6 +38,7 @@ AIMConfig::AIMConfig(QWidget *parent, ICQClient *client, bool bConfig)
         QTimer::singleShot(0, this, SLOT(changed()));
         if (m_client->data.owner.Screen)
             edtScreen->setText(m_client->data.owner.Screen);
+        edtScreen->setValidator(new AIMValidator(edtScreen));
         edtPasswd->setText(m_client->getPassword());
         edtScreen->setValidator(new AIMValidator(edtScreen));
         connect(edtScreen, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
@@ -60,7 +61,7 @@ void AIMConfig::apply(Client*, void*)
 void AIMConfig::apply()
 {
     if (m_bConfig){
-        m_client->setScreen(edtScreen->text().latin1());
+        m_client->setScreen(edtScreen->text().lower().latin1());
         m_client->setPassword(edtPasswd->text());
     }
     m_client->setServer(edtServer->text().local8Bit());

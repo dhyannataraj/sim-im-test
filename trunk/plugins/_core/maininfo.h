@@ -34,6 +34,8 @@ protected slots:
     void phoneSelectionChanged();
     void deleteMail(QListViewItem *item);
     void deletePhone(QListViewItem *item);
+    void editMail(QListViewItem *item);
+    void editPhone(QListViewItem *item);
     void addMail();
     void editMail();
     void deleteMail();
