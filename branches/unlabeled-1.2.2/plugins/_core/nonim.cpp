@@ -32,6 +32,31 @@ void NonIM::showEvent(QShowEvent *e)
     emit setAdd(true);
 }
 
+void NonIM::add(unsigned grp_id)
+{
+	Contact *contact = getContacts()->contact(0, true);
+	contact->setFirstName(edtFirst->text());
+	contact->setLastName(edtLast->text());
+	if (!edtMail->text().isEmpty())
+		contact->setEMails(edtMail->text() + "/-");
+	if (!edtPhone->text().isEmpty())
+		contact->setPhones(edtPhone->text() + "/-");
+	QString nick = edtNick->text();
+	if (nick.isEmpty()){
+		nick = edtFirst->text();
+		if (!nick.isEmpty() && !edtLast->text().isEmpty())
+			nick += " ";
+		nick += edtLast->text();
+	}
+	if (nick.isEmpty())
+		nick = edtMail->text();
+	if (nick.isEmpty())
+		nick = edtPhone->text();
+	contact->setName(nick);
+	contact->setGroup(grp_id);
+	Event e(EventContactChanged, contact);
+	e.process();
+}
 
 #ifndef WIN32
 #include "nonim.moc"

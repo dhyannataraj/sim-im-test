@@ -1531,7 +1531,11 @@ QString ICQClient::contactTip(void *_data)
     }
     if (data->AutoReply.ptr && *data->AutoReply.ptr){
         res += "<br><br>";
-        res += quoteString(getContacts()->toUnicode(getContact(data), data->AutoReply.ptr));
+		if (data->Uin.value){
+			res += quoteString(getContacts()->toUnicode(getContact(data), data->AutoReply.ptr));
+		}else{
+			res += quoteString(QString::fromUtf8(data->AutoReply.ptr));
+		}
     }
     return res;
 }
@@ -2595,6 +2599,11 @@ void *ICQClient::processEvent(Event *e)
     }
     if (e->type() == EventCheckState){
         CommandDef *cmd = (CommandDef*)(e->param());
+            if (cmd->id == CmdPhones){
+				if (!m_bAIM)
+					return e->param();
+                return NULL;
+            }
         if (cmd->id == CmdCheckInvisibleAll){
             cmd->flags &= ~COMMAND_CHECKED;
             if ((getState() != Connected) || m_bAIM)

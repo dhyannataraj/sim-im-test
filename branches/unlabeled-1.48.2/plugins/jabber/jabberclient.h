@@ -290,7 +290,7 @@ class MessageRequest : public ServerRequest
     PROP_STR(URL);
 
     string		buildId(JabberUserData *data);
-    JabberUserData	*findContact(const char *jid, const char *name, bool bCreate, Contact *&contact, string &resource);
+    JabberUserData	*findContact(const char *jid, const char *name, bool bCreate, Contact *&contact, string &resource, bool bJoin=true);
     bool		add_contact(const char *id, unsigned grp);
     string		get_agents(const char *jid);
     string		get_agent_info(const char *jid, const char *node, const char *type);

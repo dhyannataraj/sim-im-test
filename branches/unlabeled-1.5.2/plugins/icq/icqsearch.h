@@ -36,6 +36,7 @@ signals:
     void setAdd(bool);
     void addResult(QWidget*);
     void showResult(QWidget*);
+	void showError(const QString&);
 protected slots:
     void advDestroyed();
     void radioToggled(bool);
@@ -44,6 +45,7 @@ protected slots:
 protected:
     void showEvent(QShowEvent*);
     void setAdv(bool);
+	void add(const QString &screen, unsigned grp_id);
     ICQClient			*m_client;
     QWidget				*m_adv;
     GroupRadioButton	*m_btnUin;

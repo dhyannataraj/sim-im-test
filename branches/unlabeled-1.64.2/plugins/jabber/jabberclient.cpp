@@ -1003,7 +1003,7 @@ QCString JabberClient::encodeXML(const QString &str)
     return quoteString(str, quoteNOBR).utf8();
 }
 
-JabberUserData *JabberClient::findContact(const char *_jid, const char *name, bool bCreate, Contact *&contact, string &resource)
+JabberUserData *JabberClient::findContact(const char *_jid, const char *name, bool bCreate, Contact *&contact, string &resource, bool bJoin)
 {
     resource = "";
     string jid = _jid;
@@ -1038,6 +1038,7 @@ JabberUserData *JabberClient::findContact(const char *_jid, const char *name, bo
         if (pos > 0)
             sname = sname.left(pos);
     }
+	if (bJoin){
     while ((contact = ++it) != NULL){
         if (contact->getName().lower() == sname.lower()){
             JabberUserData *data = (JabberUserData*)(contact->clientData.createData(this));
@@ -1053,6 +1054,7 @@ JabberUserData *JabberClient::findContact(const char *_jid, const char *name, bo
             return data;
         }
     }
+	}
     contact = getContacts()->contact(0, true);
     JabberUserData *data = (JabberUserData*)(contact->clientData.createData(this));
     set_str(&data->ID.ptr, jid.c_str());

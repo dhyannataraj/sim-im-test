@@ -30,6 +30,9 @@ public:
     JournalSearch(LiveJournalClient *client, QWidget *parent);
 signals:
     void setAdd(bool);
+	void showError(const QString&);
+protected slots:
+	void add(unsigned grp);
 protected:
     void showEvent(QShowEvent*);
     LiveJournalClient *m_client;

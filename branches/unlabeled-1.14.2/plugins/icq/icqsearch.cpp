@@ -148,8 +148,23 @@ void ICQSearch::setAdv(bool bAdv)
     }
 }
 
-void ICQSearch::add(unsigned)
+void ICQSearch::add(unsigned grp_id)
 {
+	if (m_btnScreen && m_btnScreen->isChecked() && !edtScreen->text().isEmpty())
+		add(edtScreen->text(), grp_id);
+	if (m_btnAOL && m_btnAOL->isChecked() && !edtAOL->text().isEmpty())
+		add(edtAOL->text(), grp_id);
+}
+
+void ICQSearch::add(const QString &screen, unsigned grp_id)
+{
+	Contact *contact;
+	ICQUserData *data = m_client->findContact(screen.utf8(), NULL, false, contact);
+	if (data){
+		emit showError(i18n("%1 already in contact list") .arg(screen));
+		return;
+	}
+	m_client->findContact(screen.utf8(), screen.utf8(), true, contact, getContacts()->group(grp_id), false);
 }
 
 #ifndef WIN32

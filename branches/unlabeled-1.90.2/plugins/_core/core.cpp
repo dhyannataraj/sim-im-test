@@ -2686,14 +2686,6 @@ if (fname[0] != '/')
                 cmd->flags |= COMMAND_RECURSIVE;
                 return e->param();
             }
-            if (cmd->id == CmdPhones){
-                for (unsigned i = 0; i < getContacts()->nClients(); i++){
-                    Client *client = getContacts()->getClient(i);
-                    if (client->protocol()->description()->flags & PROTOCOL_FOLLOWME)
-                        return e->param();
-                }
-                return NULL;
-            }
             if (cmd->id == CmdUnread){
                 unsigned contact_id = 0;
                 if (cmd->menu_id == MenuContact){

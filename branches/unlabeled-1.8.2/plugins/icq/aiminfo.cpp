@@ -136,24 +136,26 @@ void AIMInfo::fill()
     cmbStatus->clear();
     unsigned status = STATUS_ONLINE;
     if (m_data){
-        unsigned s = m_data->Status.value;
-        if (s == ICQ_STATUS_OFFLINE){
-            status = STATUS_OFFLINE;
-        }else if (s & ICQ_STATUS_AWAY){
+        switch (m_data->Status.value){
+		case STATUS_ONLINE:
+		case STATUS_OFFLINE:
+            status = m_data->Status.value;
+			break;
+		default:
             status = STATUS_AWAY;
         }
     }else{
         status = m_client->getStatus();
     }
-    if ((status != STATUS_ONLINE) && (status != STATUS_OFFLINE) && m_data){
-        edtAutoReply->setText(getContacts()->toUnicode(getContacts()->contact(m_contact), m_data->AutoReply.ptr));
+    if (m_data && m_data->AutoReply.ptr && *m_data->AutoReply.ptr){
+        edtAutoReply->setText(QString::fromUtf8(m_data->AutoReply.ptr));
     }else{
         edtAutoReply->hide();
     }
 
     int current = 0;
     const char *text = NULL;
-    for (const CommandDef *cmd = m_client->protocol()->statusList(); cmd->id; cmd++){
+    for (const CommandDef *cmd = ICQPlugin::m_aim->statusList(); cmd->id; cmd++){
         if (cmd->flags & COMMAND_CHECK_STATE)
             continue;
         if (status == cmd->id){

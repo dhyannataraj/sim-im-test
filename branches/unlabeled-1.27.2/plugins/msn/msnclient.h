@@ -192,7 +192,7 @@ public:
     void setLogin(const QString&);
     MSNClientData	data;
     string dataName(void*);
-    MSNUserData *findContact(const char *mail, const char *name, Contact *&contact);
+    MSNUserData *findContact(const char *mail, const char *name, Contact *&contact, bool nJoin=true);
     MSNUserData *findContact(const char *mail, Contact *&contact);
     MSNUserData *findGroup(unsigned long id, const char *name, Group *&grp);
     void auth_message(Contact *contact, unsigned type, MSNUserData *data);

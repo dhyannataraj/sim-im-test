@@ -150,7 +150,7 @@ public:
     PROP_STR(LastUpdate);
     void auth_fail(const char *err);
     void auth_ok();
-    LiveJournalUserData	*findContact(const char *user, Contact *&contact, bool bCreate=true);
+    LiveJournalUserData	*findContact(const char *user, Contact *&contact, bool bCreate=true, bool bJoin=true);
     QTimer  *m_timer;
     virtual bool error_state(const char *err, unsigned code);
     bool add(const char *name);

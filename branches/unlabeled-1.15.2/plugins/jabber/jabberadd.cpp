@@ -110,6 +110,25 @@ void JabberAdd::setBrowser(bool bBrowser)
     }
 }
 
+void JabberAdd::add(unsigned grp)
+{
+	if (!m_btnJID->isChecked() || edtJID->text().isEmpty())
+		return;
+	Contact *contact;
+	string resource;
+    if (m_client->findContact(edtJID->text().utf8(), NULL, false, contact, resource)){
+		emit showError(i18n("%1 already in contact list") .arg(edtJID->text()));
+		return;
+	}
+	QString name = edtJID->text();
+	int n = name.find('@');
+	if (n > 0)
+		name = name.left(n);
+	m_client->findContact(edtJID->text().utf8(), name.utf8(), true, contact, resource, false);
+	contact->setGroup(grp);
+	Event e(EventContactChanged, contact);
+	e.process();
+}
 
 #ifndef WIN32
 #include "jabberadd.moc"

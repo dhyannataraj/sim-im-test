@@ -775,7 +775,7 @@ bool LiveJournalClient::add(const char *name)
     return true;
 }
 
-LiveJournalUserData *LiveJournalClient::findContact(const char *user, Contact *&contact, bool bCreate)
+LiveJournalUserData *LiveJournalClient::findContact(const char *user, Contact *&contact, bool bCreate, bool bJoin)
 {
     ContactList::ContactIterator it;
     while ((contact = ++it) != NULL){
@@ -786,6 +786,7 @@ LiveJournalUserData *LiveJournalClient::findContact(const char *user, Contact *&
                 return data;
         }
     }
+	if (bJoin){
     QString sname = QString::fromUtf8(user);
     it.reset();
     while ((contact = ++it) != NULL){
@@ -798,6 +799,7 @@ LiveJournalUserData *LiveJournalClient::findContact(const char *user, Contact *&
         contact = getContacts()->contact(0, true);
         contact->setName(sname);
     }
+	}
     LiveJournalUserData *data = (LiveJournalUserData*)(contact->clientData.createData(this));
     set_str(&data->User.ptr, user);
     Event e(EventContactChanged, contact);

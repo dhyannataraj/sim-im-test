@@ -75,6 +75,19 @@ void YahooSearch::showEvent(QShowEvent *e)
     emit setAdd(m_btnID->isChecked());
 }
 
+void YahooSearch::add(unsigned grp)
+{
+	if (!m_btnID->isChecked() || edtID->text().isEmpty())
+		return;
+	Contact *contact;
+	if (m_client->findContact(edtID->text().utf8(), NULL, contact)){
+		emit showError(i18n("%1 already in contact list") .arg(edtID->text()));
+		return;
+	}
+	Group *group = getContacts()->group(grp);
+	m_client->findContact(edtID->text().utf8(), group->getName().utf8(), contact, true, false);
+}
+
 #ifndef WIN32
 #include "yahoosearch.moc"
 #endif

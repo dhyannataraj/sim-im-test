@@ -160,7 +160,7 @@ void ICQInfo::fill()
     if (m_data && (status == STATUS_OFFLINE) && m_data->bInvisible.bValue){
         cmbStatus->insertItem(Pict("ICQ_invisible"), i18n("Possibly invisible"));
     }else{
-        for (const CommandDef *cmd = m_client->protocol()->statusList(); cmd->id; cmd++){
+        for (const CommandDef *cmd = ICQPlugin::m_icq->statusList(); cmd->id; cmd++){
             if (cmd->flags & COMMAND_CHECK_STATE)
                 continue;
             if (status == cmd->id){

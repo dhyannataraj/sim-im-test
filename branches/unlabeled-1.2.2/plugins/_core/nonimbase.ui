@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>236</width>
-            <height>439</height>
+            <width>232</width>
+            <height>309</height>
         </rect>
     </property>
     <property>
@@ -91,6 +91,24 @@
                     <property stdset="1">
                         <name>name</name>
                         <cstring>edtLast</cstring>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QLabel</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>TextLabel1_2</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Nickname:</string>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QLineEdit</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>edtNick</cstring>
                     </property>
                 </widget>
                 <widget>

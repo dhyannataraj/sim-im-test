@@ -5073,6 +5073,39 @@ InputName=sw
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\po\th.po
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build - msg2qm on $(InputPath)
+OutDir=.\..\..\Release
+InputPath=..\..\po\th.po
+InputName=th
+
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
+	
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build - msg2qm on $(InputPath)
+OutDir=.\..\..\Debug
+InputPath=..\..\po\th.po
+InputName=th
+
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
+	
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\po\tr.po
 
 !IF  "$(CFG)" == "_core - Win32 Release"

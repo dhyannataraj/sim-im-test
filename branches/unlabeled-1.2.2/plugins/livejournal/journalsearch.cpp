@@ -18,6 +18,8 @@
 #include "journalsearch.h"
 #include "livejournal.h"
 
+#include <qlineedit.h>
+
 JournalSearch::JournalSearch(LiveJournalClient *client, QWidget *parent)
         : JournalSearchBase(parent)
 {
@@ -29,6 +31,21 @@ void JournalSearch::showEvent(QShowEvent *e)
 {
     JournalSearchBase::showEvent(e);
     emit setAdd(true);
+}
+
+void JournalSearch::add(unsigned grp_id)
+{
+	if (edtCommunity->text().isEmpty())
+		return;
+	Contact *contact;
+    if (m_client->findContact(edtCommunity->text().utf8(), contact, false)){
+		emit showError(i18n("%1 already in contact list") .arg(edtCommunity->text()));
+		return;
+	}
+	m_client->findContact(edtCommunity->text().utf8(), contact, true, false);
+	contact->setGroup(grp_id);
+	Event e(EventContactChanged, contact);
+	e.process();
 }
 
 #ifndef WIN32

@@ -21,10 +21,12 @@
 #include "simapi.h"
 #include "stl.h"
 
-#include "searchbase.h"
+#include <qmainwindow.h>
 
 class CorePlugin;
 class ListView;
+class SearchBase;
+class QStatusBar;
 
 typedef struct ClientWidget
 {
@@ -32,7 +34,7 @@ typedef struct ClientWidget
     QWidget		*widget;
 } ClientWidget;
 
-class SearchDialog : public SearchBase, public EventReceiver
+class SearchDialog : public QMainWindow, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -51,14 +53,21 @@ public slots:
 signals:
     void finished();
     void add(unsigned grp_id);
+	void search();
 protected slots:
     void searchClick();
     void addGroup(int);
+	void setColumns(const QStringList&, int);
+	void addItem(const QStringList&);
+	void searchDone();
 protected:
     vector<ClientWidget>	m_widgets;
+	void		setStatus();
+	void		setAddButton();
     ListView	*m_result;
     QWidget		*m_current;
     QWidget		*m_currentResult;
+	QWidget		*m_active;
     void		*processEvent(Event*);
     void		resizeEvent(QResizeEvent*);
     void		moveEvent(QMoveEvent*);
@@ -70,6 +79,8 @@ protected:
     bool		m_bAdd;
     unsigned	m_id;
     unsigned	m_result_id;
+	SearchBase	*m_search;
+	QStatusBar	*m_status;
 };
 
 #endif

@@ -1169,7 +1169,7 @@ void YahooClient::loadList(const char *str)
         delete *itr;
 }
 
-YahooUserData *YahooClient::findContact(const char *id, const char *grpname, Contact *&contact, bool bSend)
+YahooUserData *YahooClient::findContact(const char *id, const char *grpname, Contact *&contact, bool bSend, bool bJoin)
 {
     ContactList::ContactIterator it;
     while ((contact = ++it) != NULL){
@@ -1181,6 +1181,7 @@ YahooUserData *YahooClient::findContact(const char *id, const char *grpname, Con
         }
     }
     it.reset();
+	if (bJoin){
     while ((contact = ++it) != NULL){
         if (contact->getName() == id){
             YahooUserData *data = (YahooUserData*)contact->clientData.createData(this);
@@ -1191,6 +1192,7 @@ YahooUserData *YahooClient::findContact(const char *id, const char *grpname, Con
             return data;
         }
     }
+	}
     if (grpname == NULL)
         return NULL;
     Group *grp = NULL;

@@ -35,10 +35,12 @@ signals:
     void setAdd(bool);
     void addResult(QWidget*);
     void showResult(QWidget*);
+	void showError(const QString&);
 protected slots:
     void radioToggled(bool);
     void browserDestroyed();
     void browserClick();
+	void add(unsigned);
 protected:
     void setBrowser(bool bBrowser);
     void showEvent(QShowEvent*);

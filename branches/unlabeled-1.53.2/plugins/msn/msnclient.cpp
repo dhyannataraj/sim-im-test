@@ -1201,7 +1201,7 @@ QString MSNClient::contactName(void *clientData)
     return res;
 }
 
-MSNUserData *MSNClient::findContact(const char *mail, const char *name, Contact *&contact)
+MSNUserData *MSNClient::findContact(const char *mail, const char *name, Contact *&contact, bool bJoin)
 {
     unsigned i;
     for (i = 1; i <= getNDeleted(); i++){
@@ -1228,6 +1228,7 @@ MSNUserData *MSNClient::findContact(const char *mail, const char *name, Contact 
         setupContact(contact, data);
         return data;
     }
+	if (bJoin){
     ContactList::ContactIterator it;
     while ((contact = ++it) != NULL){
         if (contact->getName() == name_str){
@@ -1270,6 +1271,7 @@ MSNUserData *MSNClient::findContact(const char *mail, const char *name, Contact 
             }
         }
     }
+	}
     contact = getContacts()->contact(0, true);
     data = (MSNUserData*)(contact->clientData.createData(this));
     set_str(&data->EMail.ptr, mail);
