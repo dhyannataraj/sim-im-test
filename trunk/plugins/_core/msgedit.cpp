@@ -89,21 +89,8 @@ Message *MsgTextEdit::createMessage(QMimeSource *src)
         if (def && def->drag){
             msg = def->drag(src);
             if (msg){
-                unsigned type = cmd->id;
-                if (def->base_type){
-                    type = def->base_type;
-                    for (;;){
-                        const CommandDef *c = CorePlugin::m_plugin->messageTypes.find(type);
-                        if (c == NULL)
-                            break;
-                        MessageDef *def = (MessageDef*)(cmd->param);
-                        if (def->base_type == 0)
-                            break;
-                        type = def->base_type;
-                    }
-                }
                 Command cmd;
-                cmd->id      = type;
+                cmd->id      = cmd->id;
                 cmd->menu_id = MenuMessage;
                 cmd->param	 = (void*)(m_edit->m_userWnd->id());
                 Event e(EventCheckState, cmd);
@@ -281,7 +268,6 @@ void MsgEdit::resizeEvent(QResizeEvent *e)
 bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
 {
     m_type = msg->type();
-    unsigned type = m_type;
     m_bReceived = msg->getFlags() & MESSAGE_RECEIVED;
     QObject *processor = NULL;
     MsgReceived *rcv = NULL;
@@ -297,20 +283,13 @@ bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
         }
     }else{
         QObject *(*create)(MsgEdit *custom, Message *msg) = NULL;
-        for (;;){
-            CommandDef *cmd = CorePlugin::m_plugin->messageTypes.find(type);
-            if (cmd == NULL)
+        CommandDef *cmd = CorePlugin::m_plugin->messageTypes.find(msg->baseType());
+        if (cmd == NULL)
                 return false;
             MessageDef *def = (MessageDef*)(cmd->param);
             if (def == NULL)
                 return false;
             create = def->generate;
-            if (create)
-                break;
-            if (def->base_type == 0)
-                return false;
-            type = def->base_type;
-        }
         if (create){
             m_userWnd->setStatus("");
             processor = create(this, msg);
@@ -443,7 +422,6 @@ static MessageDef defGeneric =
     {
         NULL,
         MESSAGE_DEFAULT,
-        0,
         "Message",
         "%n messages",
         createGeneric,
@@ -469,7 +447,6 @@ static MessageDef defSMS =
     {
         NULL,
         MESSAGE_DEFAULT,
-        0,
         "SMS",
         "SMSs",
         createSMS,
@@ -510,7 +487,6 @@ static MessageDef defUrl =
     {
         NULL,
         MESSAGE_DEFAULT,
-        0,
         "URL",
         "%n URLs",
         createUrl,
@@ -548,7 +524,6 @@ static MessageDef defContacts =
     {
         NULL,
         MESSAGE_DEFAULT,
-        0,
         "Contact list",
         "%n contact lists",
         createContacts,
@@ -644,7 +619,6 @@ static MessageDef defFile =
     {
         fileCommands,
         MESSAGE_DEFAULT,
-        0,
         "File",
         "%n files",
         createFile,
@@ -719,7 +693,6 @@ static MessageDef defAuthRequest =
     {
         authRequestCommands,
         MESSAGE_DEFAULT,
-        0,
         "Authorize request",
         "%n authorize requests",
         createAuthRequest,
@@ -740,7 +713,6 @@ static MessageDef defAuthGranted =
     {
         NULL,
         MESSAGE_SILENT,
-        0,
         "Authorization granted",
         "%n authorization granted",
         createAuthGranted,
@@ -761,7 +733,6 @@ static MessageDef defAuthRefused =
     {
         NULL,
         MESSAGE_SILENT,
-        0,
         "Authorization refused",
         "%n authorization refused",
         createAuthRefused,
@@ -782,7 +753,6 @@ static MessageDef defAdded =
     {
         NULL,
         MESSAGE_DEFAULT,
-        0,
         "Add to contacts",
         "%n add to contacts",
         createAdded,
@@ -803,7 +773,6 @@ static MessageDef defRemoved =
     {
         NULL,
         MESSAGE_DEFAULT,
-        0,
         "Removed from contacts",
         "%n removed from contacts",
         createRemoved,
@@ -824,7 +793,6 @@ static MessageDef defStatus =
     {
         NULL,
         MESSAGE_HIDDEN,
-        0,
         "Status changed",
         "%n times status changed",
         createStatus,
@@ -936,6 +904,8 @@ bool MsgEdit::send()
     bool bSent = false;
     void *data = NULL;
     if (contact){
+		Event e(EventMessageSend, m_msg);
+		e.process();
         if (client_str.empty()){
             Client *c = client(data, true, false, m_msg->contact(), (m_msg->getFlags() & MESSAGE_MULTIPLY) == 0);
             if (c){
@@ -1443,15 +1413,7 @@ void MsgEdit::setupNext()
         str += QString(" [%1]") .arg(count);
 
     CommandDef *def = NULL;
-    for (;;){
-        def = CorePlugin::m_plugin->messageTypes.find(type);
-        if ((def == NULL) || (def->param == NULL))
-            break;
-        MessageDef *mdef = (MessageDef*)(def->param);
-        if (mdef->base_type == 0)
-            break;
-        type = mdef->base_type;
-    }
+    def = CorePlugin::m_plugin->messageTypes.find(type);
 
     CommandDef c = *btnNext->def();
     c.text_wrk = strdup(str.utf8());

@@ -180,10 +180,6 @@ SOURCE=.\editphonebase.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\exec.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\filetransfer.cpp
 # End Source File
 # Begin Source File
@@ -367,11 +363,6 @@ SOURCE=.\moc_editphone.cpp
 # Begin Source File
 
 SOURCE=.\moc_editphonebase.cpp
-# ADD CPP /W3
-# End Source File
-# Begin Source File
-
-SOURCE=.\moc_exec.cpp
 # ADD CPP /W3
 # End Source File
 # Begin Source File
@@ -1231,39 +1222,6 @@ InputName=editphone
 # Begin Source File
 
 SOURCE=.\editphonebase.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\exec.h
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.
-InputPath=.\exec.h
-InputName=exec
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.
-InputPath=.\exec.h
-InputName=exec
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 

@@ -153,20 +153,13 @@ QString MsgViewBase::messageText(Message *msg)
     if (msg->type() != MessageStatus){
         QString msgText = msg->presentation();
         if (msgText.isEmpty()){
-            unsigned type = msg->type();
-            for (;;){
-                CommandDef *cmd = CorePlugin::m_plugin->messageTypes.find(type);
-                if (cmd == NULL)
-                    break;
+            unsigned type = msg->baseType();
+            CommandDef *cmd = CorePlugin::m_plugin->messageTypes.find(type);
+            if (cmd){
                 MessageDef *def = (MessageDef*)(cmd->param);
-                if (def->base_type){
-                    type = def->base_type;
-                    continue;
-                }
                 msgText += "<p>";
                 msgText += i18n(def->singular, def->plural, 1);
                 msgText += "</p>";
-                break;
             }
             QString text = msg->getRichText();
             msgText += text;
@@ -460,22 +453,14 @@ void *MsgViewBase::processEvent(Event *e)
         case CmdMsgOpen:
             msg = currentMessage();
             if (msg){
-                unsigned type = msg->type();
+                unsigned type = msg->baseType();
                 delete msg;
-                for (;;){
-                    CommandDef *def = CorePlugin::m_plugin->messageTypes.find(type);
-                    if (def == NULL){
+                CommandDef *def = CorePlugin::m_plugin->messageTypes.find(type);
+                if (def == NULL)
                         return NULL;
-                    }
-                    MessageDef *mdef = (MessageDef*)(def->param);
-                    if (mdef->base_type){
-                        type = mdef->base_type;
-                        continue;
-                    }
                     cmd->icon = def->icon;
                     cmd->flags &= ~COMMAND_CHECKED;
                     return e->param();
-                }
             }
             return NULL;
         case CmdMsgSpecial:
@@ -487,16 +472,10 @@ void *MsgViewBase::processEvent(Event *e)
                 unsigned n = 0;
                 MessageDef *mdef = NULL;
                 if (msg->getFlags() & MESSAGE_RECEIVED){
-                    unsigned type = msg->type();
-                    for (;;){
-                        CommandDef *msgCmd = CorePlugin::m_plugin->messageTypes.find(type);
-                        if (msgCmd == NULL)
-                            break;
-                        mdef = (MessageDef*)(msgCmd->param);
-                        if (mdef->base_type == 0)
-                            break;
-                        type = mdef->base_type;
-                    }
+                    unsigned type = msg->baseType();
+                    CommandDef *msgCmd = CorePlugin::m_plugin->messageTypes.find(type);
+                        if (msgCmd )
+	                        mdef = (MessageDef*)(msgCmd->param);
                 }
                 if (mdef && mdef->cmd){
                     for (const CommandDef *d = mdef->cmd; d->text; d++)
@@ -566,16 +545,10 @@ void *MsgViewBase::processEvent(Event *e)
             if (msg){
                 if (cmd->id >= CmdMsgSpecial){
                     MessageDef *mdef = NULL;
-                    unsigned type = msg->type();
-                    for (;;){
+                    unsigned type = msg->baseType();
                         CommandDef *msgCmd = CorePlugin::m_plugin->messageTypes.find(type);
-                        if (msgCmd == NULL)
-                            break;
-                        mdef = (MessageDef*)(msgCmd->param);
-                        if (mdef->base_type == 0)
-                            break;
-                        type = mdef->base_type;
-                    }
+                        if (msgCmd)
+	                        mdef = (MessageDef*)(msgCmd->param);
                     if (mdef && mdef->cmd){
                         unsigned n = cmd->id - CmdMsgSpecial;
                         for (const CommandDef *d = mdef->cmd; d->text; d++){

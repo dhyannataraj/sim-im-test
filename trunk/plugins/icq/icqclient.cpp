@@ -1673,7 +1673,16 @@ string ICQClient::clientName(ICQUserData *data)
     }
     if (hasCap(data, CAP_TYPING))
     {
-        res += (data->Version == 9) ? "ICQ Lite" : "ICQ2go";
+        switch (data->Version){
+	case 10:
+		res += "ICQ 2003b";
+		break;
+        case 9:
+		res += "ICQ Lite";
+		break;
+	default:
+		res += "ICQ2go";
+	}
         return res;
     }
     if (hasCap(data, CAP_MACICQ)){
@@ -3061,7 +3070,7 @@ bool ICQClient::send(Message *msg, void *_data)
                 (msg->type() == MessageGeneric) &&
                 (data->Status != ICQ_STATUS_OFFLINE) &&
                 get_ip(data->IP) &&
-                (msg->getPlainText().length() >= MAX_MESSAGE_SIZE))
+                (msg->getPlainText().length() >= MAX_TYPE2_MESSAGE_SIZE))
             bCreateDirect = true;
         if ((getInvisible() && (data->VisibleId == 0)) ||
                 (!getInvisible() && data->InvisibleId))

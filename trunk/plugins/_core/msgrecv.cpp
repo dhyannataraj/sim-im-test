@@ -77,17 +77,10 @@ void *MsgReceived::processEvent(Event *e)
         CommandDef *cmd = (CommandDef*)(e->param());
         unsigned id = cmd->bar_grp;
         if (cmd->param == m_edit){
-            MessageDef *mdef = NULL;
-            unsigned type = m_type;
-            for (;;){
-                CommandDef *msgCmd = CorePlugin::m_plugin->messageTypes.find(type);
-                if (msgCmd == NULL)
-                    break;
+			MessageDef *mdef = NULL;
+            CommandDef *msgCmd = CorePlugin::m_plugin->messageTypes.find(m_type);
+            if (msgCmd)
                 mdef = (MessageDef*)(msgCmd->param);
-                if (mdef->base_type == 0)
-                    break;
-                type = mdef->base_type;
-            }
             if (mdef && mdef->cmd){
                 for (const CommandDef *d = mdef->cmd; d->text; d++){
                     if (d->popup_id && (d->popup_id == cmd->menu_id)){
@@ -140,16 +133,9 @@ void *MsgReceived::processEvent(Event *e)
                     }
                 }
                 MessageDef *mdef = NULL;
-                unsigned type = m_type;
-                for (;;){
-                    CommandDef *msgCmd = CorePlugin::m_plugin->messageTypes.find(type);
-                    if (msgCmd == NULL)
-                        break;
-                    mdef = (MessageDef*)(msgCmd->param);
-                    if (mdef->base_type == 0)
-                        break;
-                    type = mdef->base_type;
-                }
+                    CommandDef *msgCmd = CorePlugin::m_plugin->messageTypes.find(m_type);
+                    if (msgCmd)
+	                    mdef = (MessageDef*)(msgCmd->param);
                 if (mdef && mdef->cmd){
                     for (const CommandDef *d = mdef->cmd; d->text; d++){
                         if (d->id + CmdReceived == cmd->id){

@@ -2,7 +2,6 @@ sim_plugin_LTLIBRARIES = _core.la
 
 _core_la_SOURCES = \
  core.cpp \
- exec.cpp \
  kpopup.cpp \
  commands.cpp \
  cmenu.cpp \

@@ -205,7 +205,7 @@ void UserWnd::setMessage(Message *&msg)
         m_edit->setMessage(msg, bSetFocus);
     }
     if (container){
-        container->setMessageType(msg->type());
+        container->setMessageType(msg->baseType());
         container->contactChanged(getContacts()->contact(m_id));
     }
 

@@ -19,6 +19,7 @@
 #include "sockfactory.h"
 #include "fetch.h"
 #include "ltdl.h"
+#include "exec.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -119,6 +120,8 @@ protected:
     bool m_bInInit;
     bool m_bAbort;
 
+    ExecManager	 *m_exec;
+
     friend class PluginManager;
 };
 
@@ -140,6 +143,7 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
 {
     m_argc = argc;
     m_argv = argv;
+    m_exec = new ExecManager;
 
     app_name = *argv;
     for (argv++, argc--; argc > 0; argv++, argc--)
@@ -165,7 +169,7 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
 #ifdef WIN32
         info.name		 = strdup(QFile::encodeName(f.lower()));
 #else
-        info.name		 = strdup(QFile::encodeName(f));
+info.name		 = strdup(QFile::encodeName(f));
 #endif
         info.config		 = NULL;
         info.bDisabled	 = false;
@@ -199,6 +203,7 @@ PluginManagerPrivate::~PluginManagerPrivate()
     for (vector<pluginInfo>::iterator itp = plugins.begin(); itp != plugins.end(); ++itp){
         free((*itp).name);
     }
+    delete m_exec;
 }
 
 void *PluginManagerPrivate::processEvent(Event *e)

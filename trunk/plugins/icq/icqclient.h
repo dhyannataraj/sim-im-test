@@ -34,7 +34,7 @@ const unsigned MESSAGE_DIRECT    = 0x0100;
 const unsigned STATUS_INVISIBLE	  = 2;
 const unsigned STATUS_OCCUPIED    = 100;
 
-const unsigned char ICQ_TCP_VERSION = 0x08;
+const unsigned char ICQ_TCP_VERSION = 0x0A;
 
 const unsigned char MODE_DENIED   = 0x01;
 const unsigned char MODE_INDIRECT = 0x02;
@@ -135,7 +135,8 @@ const char DIRECT_MODE_DENIED    = 0x01;
 const char DIRECT_MODE_INDIRECT    = 0x02;
 const char DIRECT_MODE_DIRECT    = 0x04;
 
-const unsigned MAX_MESSAGE_SIZE = 450;
+const unsigned MAX_PLAIN_MESSAGE_SIZE = 450;
+const unsigned MAX_TYPE2_MESSAGE_SIZE = 4096;
 
 const unsigned PING_TIMEOUT = 60;
 
@@ -394,9 +395,10 @@ typedef struct SendMsg
 const unsigned SEND_PLAIN		= 0x0001;
 const unsigned SEND_UTF			= 0x0002;
 const unsigned SEND_RTF			= 0x0003;
-const unsigned SEND_RAW			= 0x0004;
-const unsigned SEND_2GO			= 0x0005;
+const unsigned SEND_TYPE2		= 0x0004;
+const unsigned SEND_RAW			= 0x0005;
 const unsigned SEND_HTML		= 0x0006;
+const unsigned SEND_HTML_PLAIN	= 0x0007;
 const unsigned SEND_MASK		= 0x000F;
 const unsigned SEND_1STPART		= 0x0010;
 

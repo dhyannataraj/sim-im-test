@@ -34,20 +34,20 @@
 #include <sys/wait.h>
 #endif
 
-#include <stl.h>
+#include "stl.h"
 
 #define READ 0
 #define WRITE 1
 
-Exec::Exec(ExecManager *parent)
-        : QObject(parent)
+Exec::Exec()
+        : QObject(ExecManager::manager)
 {
     result = -1;
 #ifndef WIN32
     hIn = -1;
     hOut = -1;
     hErr = -1;
-    connect(parent, SIGNAL(childExited(int, int)), this, SLOT(childExited(int, int)));
+    connect(ExecManager::manager, SIGNAL(childExited(int, int)), this, SLOT(childExited(int, int)));
 #endif
 }
 
@@ -61,10 +61,10 @@ typedef struct PIPE_READ
 {
     HANDLE pipe;
     Buffer *b;
-    HANDLE event;
+    HANDLE hThread;
 } PIPE_READ;
 
-void __cdecl ReadPipeThread(LPVOID lpParameter)
+DWORD __stdcall ReadPipeThread(LPVOID lpParameter)
 {
     PIPE_READ *p = (PIPE_READ*)lpParameter;
     for (;;){
@@ -75,10 +75,21 @@ void __cdecl ReadPipeThread(LPVOID lpParameter)
         p->b->pack(buff, r);
     }
     CloseHandle(p->pipe);
-    SetEvent(p->event);
+    return 0;
 }
 
-void __cdecl ExecProcThread(LPVOID lpParameter)
+static bool isWindowsNT()
+{
+    OSVERSIONINFO ovi;
+
+    ZeroMemory(&ovi, sizeof(ovi));
+    ovi.dwOSVersionInfoSize=sizeof(OSVERSIONINFO);
+    GetVersionEx(&ovi);
+
+    return (ovi.dwPlatformId==VER_PLATFORM_WIN32_NT);
+}
+
+DWORD __stdcall ExecProcThread(LPVOID lpParameter)
 {
     Exec *exec = (Exec*)lpParameter;
 
@@ -87,9 +98,16 @@ void __cdecl ExecProcThread(LPVOID lpParameter)
     HANDLE errPipe[2] = { NULL, NULL };
 
     SECURITY_ATTRIBUTES sa;
+    SECURITY_DESCRIPTOR sd;
+    ZeroMemory(&sa, sizeof(sa));
     sa.nLength = sizeof(sa);
     sa.lpSecurityDescriptor = NULL;
     sa.bInheritHandle = TRUE;
+    if(isWindowsNT()){
+        InitializeSecurityDescriptor(&sd, SECURITY_DESCRIPTOR_REVISION);
+        SetSecurityDescriptorDacl(&sd, TRUE, NULL, FALSE);
+        sa.lpSecurityDescriptor = &sd;
+    }
 
     if (!CreatePipe(&inPipe[0], &inPipe[1],&sa, PIPE_SIZE) ||
             !CreatePipe(&outPipe[0],&outPipe[1],&sa,PIPE_SIZE) ||
@@ -101,7 +119,7 @@ void __cdecl ExecProcThread(LPVOID lpParameter)
         if (errPipe[READ]) CloseHandle(errPipe[READ]);
         if (errPipe[WRITE]) CloseHandle(errPipe[WRITE]);
         QTimer::singleShot(0, exec, SLOT(finished()));
-        return;
+        return 0;
     }
 
     _STARTUPINFOA si;
@@ -145,7 +163,6 @@ void __cdecl ExecProcThread(LPVOID lpParameter)
         if (ext && (!strcmp(ext, ".exe") || !strcmp(ext, ".com")))
             bScript = false;
     }
-
     if (bScript){
         shell = getenv("COMSPEC");
         if (shell == NULL) shell = "command.com";
@@ -158,7 +175,7 @@ void __cdecl ExecProcThread(LPVOID lpParameter)
 
     PROCESS_INFORMATION pi;
     if (!CreateProcessA(shell, (char*)(args.c_str()), NULL, NULL, TRUE,
-                        NORMAL_PRIORITY_CLASS, NULL, NULL, &si, &pi)){
+                        CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi)){
         log(L_WARN, "Can't create process %s (%X)", exec->prog.c_str(), GetLastError());
         CloseHandle(inPipe[READ]);
         CloseHandle(inPipe[WRITE]);
@@ -167,48 +184,56 @@ void __cdecl ExecProcThread(LPVOID lpParameter)
         CloseHandle(errPipe[READ]);
         CloseHandle(errPipe[WRITE]);
         QTimer::singleShot(0, exec, SLOT(finished()));
-        return;
+        return 0;
     }
     CloseHandle(outPipe[WRITE]);
     CloseHandle(errPipe[WRITE]);
     CloseHandle(inPipe[READ]);
 
+    DWORD threadId;
+
     PIPE_READ pOut;
     pOut.pipe = outPipe[READ];
     pOut.b = &exec->bOut;
-    pOut.event = CreateEvent(NULL, true, false, NULL);
-    _beginthread(ReadPipeThread, 0, &pOut);
+    pOut.hThread = CreateThread(NULL, 0, ReadPipeThread, &pOut, 0, &threadId);
 
     PIPE_READ pErr;
     pErr.pipe = errPipe[READ];
     pErr.b = &exec->bErr;
-    pErr.event = CreateEvent(NULL, true, false, NULL);
-    _beginthread(ReadPipeThread, 0, &pErr);
+    pErr.hThread = CreateThread(NULL, 0, ReadPipeThread, &pErr, 0, &threadId);
 
+    DWORD exitCode;
+    unsigned long wrtn;
     for (; exec->bIn.readPos() < exec->bIn.size();){
+        BOOL success = GetExitCodeProcess(pi.hProcess, &exitCode);
+        if (success && (exitCode != STILL_ACTIVE))
+            break;
         unsigned tail = exec->bIn.size() - exec->bIn.readPos();
         if (tail > PIPE_SIZE) tail = PIPE_SIZE;
-        unsigned long wrtn;
         if (WriteFile(inPipe[WRITE],
                       exec->bIn.data(exec->bIn.readPos()), tail, &wrtn, NULL) == 0) break;
         exec->bIn.incReadPos(tail);
     }
-    CloseHandle(inPipe[WRITE]);
+    BOOL success = GetExitCodeProcess(pi.hProcess, &exitCode);
+    if (!success || (exitCode == STILL_ACTIVE))
+        WriteFile(inPipe[WRITE], "", 0, &wrtn, NULL);
 
-    WaitForSingleObject(pi.hProcess, INFINITE);
-    WaitForSingleObject(pOut.event, INFINITE);
-    WaitForSingleObject(pErr.event, INFINITE);
+    HANDLE h[4];
+    h[0] = pi.hProcess;
+    h[1] = pOut.hThread;
+    h[2] = pErr.hThread;
+    WaitForMultipleObjects(3, h, TRUE, INFINITE);
 
-    DWORD exitCode;
     GetExitCodeProcess(pi.hProcess, &exitCode);
 
+    CloseHandle(inPipe[WRITE]);
     CloseHandle(pi.hThread);
     CloseHandle(pi.hProcess);
-    CloseHandle(pOut.event);
-    CloseHandle(pErr.event);
 
     exec->result = exitCode;
     QTimer::singleShot(0, exec, SLOT(finished()));
+
+    return 0;
 }
 
 #endif
@@ -223,7 +248,7 @@ void Exec::finished()
     emit ready(this, result, bOut.data(0));
 }
 
-void Exec::execute(const char *prg, const char *input)
+void Exec::execute(const char *prg, const char *input, bool bSync)
 {
     result = -1;
     prog = prg;
@@ -233,7 +258,10 @@ void Exec::execute(const char *prg, const char *input)
     if (input)
         bIn.pack(input, strlen(input));
 #ifdef WIN32
-    _beginthread(ExecProcThread, 0, this);
+    DWORD threadId;
+    HANDLE hThread = CreateThread(NULL, 0, ExecProcThread, this, 0, &threadId);
+    if (bSync && hThread)
+        WaitForSingleObject(hThread, INFINITE);
 #else
     int inPipe[2] = { -1, - 1};
     int outPipe[2] = { -1, -1 };
@@ -279,6 +307,11 @@ void Exec::execute(const char *prg, const char *input)
         connect(n_out, SIGNAL(activated(int)), this, SLOT(outReady(int)));
         QSocketNotifier *n_err = new QSocketNotifier(hErr, QSocketNotifier::Read, this);
         connect(n_err, SIGNAL(activated(int)), this, SLOT(errReady(int)));
+        if (bSync){
+            int status;
+            pid_t child = waitpid(0, &status, 0);
+            childExited(child, status);
+        }
         return;
     }
     close(inPipe[WRITE]);
@@ -428,6 +461,8 @@ static void child_proc(int sig)
 
 #endif
 
+ExecManager *ExecManager::manager = NULL;
+
 ExecManager::ExecManager()
 {
 #ifndef WIN32
@@ -450,6 +485,7 @@ ExecManager::ExecManager()
         oldChildAct = NULL;
     }
 #endif
+    manager = this;
 }
 
 ExecManager::~ExecManager()

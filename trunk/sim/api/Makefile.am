@@ -8,6 +8,7 @@ libsimapi_la_SOURCES = \
  cmddef.cpp \
  contacts.cpp \
  country.cpp \
+ exec.cpp \
  fetch.cpp \
  log.cpp \
  message.cpp \

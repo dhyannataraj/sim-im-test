@@ -309,22 +309,20 @@ void OSDPlugin::processQueue()
             default:
                 if (data->EnableMessage && core){
                     unsigned type = m_request.type;
-                    for (;;){
-                        CommandDef *cmd = core->messageTypes.find(type);
-                        if (cmd == NULL)
-                            break;
+                    CommandDef *cmd = core->messageTypes.find(type);
+                    if (cmd){
                         MessageDef *def = (MessageDef*)(cmd->param);
-                        if (def->base_type){
-                            type = def->base_type;
-                            continue;
-                        }
                         text = i18n(def->singular, def->plural, 1);
-                        text = text.replace(QRegExp("1 "), "");
+			int pos = text.find("1 ");
+			if (pos > 0){
+				text = text.left(pos);
+			}else if (pos == 0){
+				text = text.mid(2);
+			}
                         text = text.left(1).upper() + text.mid(1);
                         text = i18n("%1 from %2")
                                .arg(text)
                                .arg(contact->getName());
-                        break;
                     }
                 }
             }
@@ -388,7 +386,7 @@ void *OSDPlugin::processEvent(Event *e)
         if (msg->type() == MessageStatus)
             break;
         osd.contact = msg->contact();
-        osd.type    = msg->type();
+        osd.type    = msg->baseType();
         osd.msg_id	= msg->id();
         osd.client	= msg->client();
         queue.push_back(osd);

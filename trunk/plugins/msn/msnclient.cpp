@@ -2238,7 +2238,14 @@ void SBSocket::process(bool bTyping)
         sendTyping();
     if (m_msgText.isEmpty() && !m_queue.empty()){
         Message *msg = m_queue.front();
-        m_msgText = msg->getPlainText();
+        string text;
+        text = msg->getPlainText().utf8();
+        messageSend ms;
+        ms.msg  = msg;
+        ms.text = &text;
+        Event e(EventSend, &ms);
+        e.process();
+        m_msgText = QString::fromUtf8(text.c_str());
         if (msg->type() == MessageUrl){
             UrlMessage *m = static_cast<UrlMessage*>(msg);
             QString msgText = m->getUrl();
@@ -2262,7 +2269,6 @@ void SBSocket::process(bool bTyping)
     }
     if (m_msgText.isEmpty())
         return;
-    m_msgPart = getPart(m_msgText, 1664);
     Message *msg = m_queue.front();
     char color[10];
     sprintf(color, "%06lX", msg->getBackground());

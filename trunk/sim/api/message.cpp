@@ -57,6 +57,11 @@ Message::~Message()
     free_data(messageData, &data);
 }
 
+bool Message::setText(const char *text)
+{
+    return set_str(&data.Text, text);
+}
+
 QString Message::getPlainText()
 {
     QString res = ((getFlags() & MESSAGE_RICHTEXT) == 0) ? getText() : unquoteText(getText());

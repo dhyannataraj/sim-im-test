@@ -1,7 +1,7 @@
 /***************************************************************************
-                          exec.h  -  description
+                          gpggen.h  -  description
                              -------------------
-    begin                : Sun Mar 10 2002
+    begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
     email                : vovan@shutoff.ru
  ***************************************************************************/
@@ -15,58 +15,20 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _EXEC_H
-#define _EXEC_H
+#ifndef _GPGGEN_H
+#define _GPGGEN_H
 
 #include "simapi.h"
-#include "buffer.h"
-#include <qobject.h>
+#include "gpggenbase.h"
 
-class ExecManager;
-
-class Exec : public QObject
+class GpgGen : public GpgGenBase
 {
     Q_OBJECT
 public:
-    Exec(ExecManager*);
-    ~Exec();
-    int result;
-    Buffer bIn;
-    Buffer bOut;
-    Buffer bErr;
-    string prog;
-public slots:
-    void execute(const char *prog, const char *input);
-    void finished();
-signals:
-    void ready(Exec*, int res, const char *out);
+    GpgGen();
+    ~GpgGen();
 protected slots:
-    void childExited(int, int);
-    void inReady(int);
-    void outReady(int);
-    void errReady(int);
-protected:
-#ifndef WIN32
-    int child_pid;
-    int hIn;
-    int hOut;
-    int hErr;
-#endif
-};
-
-class ExecManager : public QObject
-{
-    Q_OBJECT
-public:
-    ExecManager();
-    ~ExecManager();
-#ifndef WIN32
-    struct sigaction *oldChildAct;
-#endif
-signals:
-    void childExited(int, int);
-public slots:
-    void checkChilds();
+    void textChanged(const QString&);
 };
 
 #endif

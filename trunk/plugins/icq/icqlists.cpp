@@ -491,11 +491,11 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             log(L_DEBUG, "Auth request %s", screen.c_str());
             Message *m = NULL;
             if (charset.empty()){
-                AuthMessage *msg = new ICQAuthMessage(MessageAuthRequest);
+                AuthMessage *msg = new AuthMessage(MessageAuthRequest);
                 msg->setText(QString::fromUtf8(message.c_str()));
                 m = msg;
             }else{
-                ICQAuthMessage *msg = new ICQAuthMessage(MessageICQAuthRequest);
+                ICQAuthMessage *msg = new ICQAuthMessage(MessageICQAuthRequest, MessageAuthRequest);
                 msg->setServerText(message.c_str());
                 msg->setCharset(charset.c_str());
                 m = msg;
@@ -523,11 +523,11 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             log(L_DEBUG, "Auth %u %s", auth_ok, screen.c_str());
             Message *m = NULL;
             if (charset.empty()){
-                AuthMessage *msg = new ICQAuthMessage(auth_ok ? MessageAuthGranted : MessageAuthRefused);
+                AuthMessage *msg = new AuthMessage(auth_ok ? MessageAuthGranted : MessageAuthRefused);
                 msg->setText(QString::fromUtf8(message.c_str()));
                 m = msg;
             }else{
-                ICQAuthMessage *msg = new ICQAuthMessage(auth_ok ? MessageICQAuthGranted : MessageICQAuthRefused);
+                ICQAuthMessage *msg = new ICQAuthMessage(auth_ok ? MessageICQAuthGranted : MessageICQAuthRefused, auth_ok ? MessageAuthGranted : MessageAuthRefused);
                 msg->setServerText(message.c_str());
                 msg->setCharset(charset.c_str());
                 m = msg;

@@ -38,7 +38,6 @@ class Commands;
 class MainWindow;
 class UserView;
 class SearchDialog;
-class ExecManager;
 class CommonStatus;
 class StatusWnd;
 class ConnectionManager;
@@ -275,11 +274,19 @@ const unsigned	EventSortChanged		= (CmdBase + 13);
 const unsigned	EventActiveContact		= (CmdBase + 14);
 const unsigned	EventMessageRetry		= (CmdBase + 15);
 const unsigned	EventHistoryColors		= (CmdBase + 16);
+const unsigned  EventCheckSend			= (CmdBase + 17);
 
 const unsigned	BarHistory				= (CmdBase + 1);
 
 class MsgEdit;
 class Tmpl;
+
+typedef struct CheckSend
+{
+	unsigned	id;
+	Client		*client;
+	void		*data;
+} CheckSend;
 
 typedef struct MessageID
 {
@@ -322,7 +329,6 @@ typedef struct MessageDef
 {
     const CommandDef	*cmd;
     unsigned			flags;
-    unsigned			base_type;
     const char			*singular;
     const char			*plural;
     Message*			(*create)(const char *cfg);
@@ -463,7 +469,6 @@ protected:
     char				*m_profile;
     unsigned			m_nClients;
     unsigned			m_nClientsMenu;
-    ExecManager			*m_exec;
     Commands			*m_cmds;
     MainWindow			*m_main;
     Icons				*m_icons;
