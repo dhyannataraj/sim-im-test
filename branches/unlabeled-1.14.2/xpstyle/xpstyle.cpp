@@ -433,8 +433,8 @@ void QWindowsXPStyle::polish( QWidget *widget )
         widget->setMouseTracking( TRUE );
     } else if ( widget->inherits("KPopupTitle")) {
         widget->installEventFilter( this );
-    } else if ( widget->inherits( "QWidgetStack" ) {
-		for (QWidget *p = widget->parentWidget(); *p; p = p->parentWidget())
+    } else if ( widget->inherits("QWidgetStack")) {
+		for (QWidget *p = widget->parentWidget(); p; p = p->parentWidget())
 			if (p->inherits("QTabWidget"))
 				break;
 		if (p)

@@ -729,23 +729,6 @@ InputName=arcfg
 # Begin Source File
 
 SOURCE=.\arcfgbase.h
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build
-InputDir=.
-InputPath=.\arcfgbase.h
-InputName=arcfgbase
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -783,23 +766,6 @@ InputName=autoreply
 # Begin Source File
 
 SOURCE=.\autoreplybase.h
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build
-InputDir=.
-InputPath=.\autoreplybase.h
-InputName=autoreplybase
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -837,23 +803,6 @@ InputName=cfgdlg
 # Begin Source File
 
 SOURCE=.\cfgdlgbase.h
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build
-InputDir=.
-InputPath=.\cfgdlgbase.h
-InputName=cfgdlgbase
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -957,23 +906,6 @@ InputName=connectionsettings
 # Begin Source File
 
 SOURCE=.\connectionsettingsbase.h
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build
-InputDir=.
-InputPath=.\connectionsettingsbase.h
-InputName=connectionsettingsbase
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -1011,23 +943,6 @@ InputName=connectwnd
 # Begin Source File
 
 SOURCE=.\connectwndbase.h
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build
-InputDir=.
-InputPath=.\connectwndbase.h
-InputName=connectwndbase
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -1131,23 +1046,6 @@ InputName=editmail
 # Begin Source File
 
 SOURCE=.\editmailbase.h
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build
-InputDir=.
-InputPath=.\editmailbase.h
-InputName=editmailbase
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -1185,23 +1083,6 @@ InputName=editphone
 # Begin Source File
 
 SOURCE=.\editphonebase.h
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build
-InputDir=.
-InputPath=.\editphonebase.h
-InputName=editphonebase
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -1272,44 +1153,10 @@ InputName=filetransfer
 # Begin Source File
 
 SOURCE=.\filetransferbase.h
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build
-InputDir=.
-InputPath=.\filetransferbase.h
-InputName=filetransferbase
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\history.h
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build
-InputDir=.
-InputPath=.\history.h
-InputName=history
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -1347,23 +1194,6 @@ InputName=historycfg
 # Begin Source File
 
 SOURCE=.\historycfgbase.h
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build
-InputDir=.
-InputPath=.\historycfgbase.h
-InputName=historycfgbase
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -1500,23 +1330,6 @@ InputName=interfacecfg
 # Begin Source File
 
 SOURCE=.\interfacecfgbase.h
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build
-InputDir=.
-InputPath=.\interfacecfgbase.h
-InputName=interfacecfgbase
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -1587,23 +1400,6 @@ InputName=logindlg
 # Begin Source File
 
 SOURCE=.\logindlgbase.h
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build
-InputDir=.
-InputPath=.\logindlgbase.h
-InputName=logindlgbase
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -1641,23 +1437,6 @@ InputName=maininfo
 # Begin Source File
 
 SOURCE=.\maininfobase.h
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build
-InputDir=.
-InputPath=.\maininfobase.h
-InputName=maininfobase
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -1728,23 +1507,6 @@ InputName=manager
 # Begin Source File
 
 SOURCE=.\managerbase.h
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build
-InputDir=.
-InputPath=.\managerbase.h
-InputName=managerbase
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -1815,23 +1577,6 @@ InputName=msgcfg
 # Begin Source File
 
 SOURCE=.\msgcfgbase.h
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build
-InputDir=.
-InputPath=.\msgcfgbase.h
-InputName=msgcfgbase
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -2067,44 +1812,10 @@ InputName=newprotocol
 # Begin Source File
 
 SOURCE=.\newprotocolbase.h
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build
-InputDir=.
-InputPath=.\newprotocolbase.h
-InputName=newprotocolbase
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\pagerbase.h
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build
-InputDir=.
-InputPath=.\pagerbase.h
-InputName=pagerbase
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -2142,23 +1853,6 @@ InputName=pagerdetails
 # Begin Source File
 
 SOURCE=.\phonebase.h
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build
-InputDir=.
-InputPath=.\phonebase.h
-InputName=phonebase
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -2229,23 +1923,6 @@ InputName=plugincfg
 # Begin Source File
 
 SOURCE=.\plugincfgbase.h
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build
-InputDir=.
-InputPath=.\plugincfgbase.h
-InputName=plugincfgbase
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -2283,23 +1960,6 @@ InputName=prefcfg
 # Begin Source File
 
 SOURCE=.\prefcfgbase.h
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build
-InputDir=.
-InputPath=.\prefcfgbase.h
-InputName=prefcfgbase
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -2337,23 +1997,6 @@ InputName=search
 # Begin Source File
 
 SOURCE=.\searchbase.h
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build
-InputDir=.
-InputPath=.\searchbase.h
-InputName=searchbase
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -2391,23 +2034,6 @@ InputName=smscfg
 # Begin Source File
 
 SOURCE=.\smscfgbase.h
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build
-InputDir=.
-InputPath=.\smscfgbase.h
-InputName=smscfgbase
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -2544,23 +2170,6 @@ InputName=toolsetup
 # Begin Source File
 
 SOURCE=.\toolsetupbase.h
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build
-InputDir=.
-InputPath=.\toolsetupbase.h
-InputName=toolsetupbase
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -2697,23 +2306,6 @@ InputName=userviewcfg
 # Begin Source File
 
 SOURCE=.\userviewcfgbase.h
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build
-InputDir=.
-InputPath=.\userviewcfgbase.h
-InputName=userviewcfgbase
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
