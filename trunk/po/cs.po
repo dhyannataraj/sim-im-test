@@ -6473,13 +6473,13 @@ msgstr "%1 je online"
 #: plugins/osd/osd.cpp:422
 msgid ""
 "_: male\n"
-"%1 typed"
+"%1 is typing"
 msgstr "%1 píše"
 
 #: plugins/osd/osd.cpp:423
 msgid ""
 "_: female\n"
-"%1 typed"
+"%1 is typing"
 msgstr "%1 píše"
 
 #: plugins/osd/osdconfigbase.cpp:81

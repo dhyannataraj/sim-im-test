@@ -8228,7 +8228,7 @@ msgstr "%1 está online"
 #, fuzzy
 msgid ""
 "_: male\n"
-"%1 typed"
+"%1 is typing"
 msgstr "%1 está digitando"
 
 # plugins/osd/osd.cpp:307
@@ -8236,7 +8236,7 @@ msgstr "%1 está digitando"
 #, fuzzy
 msgid ""
 "_: female\n"
-"%1 typed"
+"%1 is typing"
 msgstr "%1 está digitando"
 
 # plugins/osd/osdconfigbase.cpp:92

@@ -6687,13 +6687,13 @@ msgstr "%1 в мережі"
 #: plugins/osd/osd.cpp:422
 msgid ""
 "_: male\n"
-"%1 typed"
+"%1 is typing"
 msgstr "%1 пише"
 
 #: plugins/osd/osd.cpp:423
 msgid ""
 "_: female\n"
-"%1 typed"
+"%1 is typing"
 msgstr "%1 пише"
 
 #: plugins/osd/osdconfigbase.cpp:81

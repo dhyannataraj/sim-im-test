@@ -6632,14 +6632,14 @@ msgstr "%1 és en línia"
 #, fuzzy
 msgid ""
 "_: male\n"
-"%1 typed"
+"%1 is typing"
 msgstr "%1 teclejat"
 
 #: plugins/osd/osd.cpp:423
 #, fuzzy
 msgid ""
 "_: female\n"
-"%1 typed"
+"%1 is typing"
 msgstr "%1 teclejat"
 
 #: plugins/osd/osdconfigbase.cpp:81

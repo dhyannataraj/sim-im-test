@@ -446,8 +446,8 @@ i18n("male", "%1 is free for chat")
 i18n("female", "%1 is free for chat")
 i18n("male", "%1 is offline")
 i18n("female", "%1 is offline")
-i18n("male", "%1 typed")
-i18n("female", "%1 typed")
+i18n("male", "%1 is typing")
+i18n("female", "%1 is typing")
 #endif
 
 typedef map<unsigned, unsigned> TYPE_MAP;

@@ -6866,13 +6866,13 @@ msgstr "%1 מחובר כעת"
 #: plugins/osd/osd.cpp:422
 msgid ""
 "_: male\n"
-"%1 typed"
+"%1 is typing"
 msgstr ""
 
 #: plugins/osd/osd.cpp:423
 msgid ""
 "_: female\n"
-"%1 typed"
+"%1 is typing"
 msgstr ""
 
 #: plugins/osd/osdconfigbase.cpp:81

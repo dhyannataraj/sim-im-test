@@ -6493,14 +6493,14 @@ msgstr "%1 kapcsolódott"
 #, fuzzy
 msgid ""
 "_: male\n"
-"%1 typed"
+"%1 is typing"
 msgstr "%1 üzenetet gépel be"
 
 #: plugins/osd/osd.cpp:423
 #, fuzzy
 msgid ""
 "_: female\n"
-"%1 typed"
+"%1 is typing"
 msgstr "%1 üzenetet gépel be"
 
 #: plugins/osd/osdconfigbase.cpp:81
