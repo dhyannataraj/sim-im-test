@@ -164,7 +164,7 @@ IconCfg::IconCfg(QWidget *parent, IconsPlugin *plugin)
 #ifdef WIN32
     edtIcon->setStartDir(QFile::decodeName(app_file("icons/").c_str()));
 #else
-edtIcon->setStartDir(QFile::decodeName(user_file("icons/").c_str()));
+    edtIcon->setStartDir(QFile::decodeName(user_file("icons/").c_str()));
 #endif
     edtIcon->setTitle(i18n("Select icons DLL"));
     edtIcon->setFilePreview(createPreview);

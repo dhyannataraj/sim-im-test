@@ -658,7 +658,7 @@ static MessageDef defIcq =
     {
         NULL,
         NULL,
-        MESSAGE_DEFAULT,
+        MESSAGE_CHILD,
         "Message",
         "%n messages",
         createIcq,
@@ -679,7 +679,7 @@ static MessageDef defIcqFile =
     {
         NULL,
         NULL,
-        MESSAGE_DEFAULT,
+        MESSAGE_CHILD,
         "File",
         "%n files",
         createIcqFile,
@@ -851,7 +851,7 @@ static MessageDef defIcqAuthRequest =
     {
         NULL,
         NULL,
-        MESSAGE_DEFAULT,
+        MESSAGE_CHILD,
         NULL,
         NULL,
         createIcqAuthRequest,
@@ -868,7 +868,7 @@ static MessageDef defIcqAuthGranted =
     {
         NULL,
         NULL,
-        MESSAGE_DEFAULT,
+        MESSAGE_CHILD,
         NULL,
         NULL,
         createIcqAuthGranted,
@@ -885,7 +885,7 @@ static MessageDef defIcqAuthRefused =
     {
         NULL,
         NULL,
-        MESSAGE_DEFAULT,
+        MESSAGE_CHILD,
         NULL,
         NULL,
         createIcqAuthRefused,
@@ -923,7 +923,7 @@ static MessageDef defIcqUrl =
     {
         NULL,
         NULL,
-        MESSAGE_DEFAULT,
+        MESSAGE_CHILD,
         NULL,
         NULL,
         createIcqUrl,
@@ -940,7 +940,7 @@ static MessageDef defIcqContacts =
     {
         NULL,
         NULL,
-        MESSAGE_DEFAULT,
+        MESSAGE_CHILD,
         NULL,
         NULL,
         createIcqContacts,

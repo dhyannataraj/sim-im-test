@@ -92,26 +92,28 @@ bool SSLClient::init()
     return initBIO();
 }
 
-void SSLClient::process(bool bInRead)
+void SSLClient::process(bool bInRead, bool bWantRead)
 {
     for (;;){
-        switch (state){
-        case SSLWrite:
-            write();
-            break;
-        case SSLConnect:
-            connect();
-            break;
-        case SSLAccept:
-            accept();
-            break;
-        case SSLShutdown:
-            shutdown();
-            break;
-        case SSLConnected:
-            if (!bInRead && (SSL_pending(pSSL) > 0))
-                notify->read_ready();
-            break;
+        if (!bWantRead){
+            switch (state){
+            case SSLWrite:
+                write();
+                break;
+            case SSLConnect:
+                connect();
+                break;
+            case SSLAccept:
+                accept();
+                break;
+            case SSLShutdown:
+                shutdown();
+                break;
+            case SSLConnected:
+                if (!bInRead && (SSL_pending(pSSL) > 0))
+                    notify->read_ready();
+                break;
+            }
         }
         char b[2048];
         int i = BIO_read(wBIO, b, sizeof(b));
@@ -279,12 +281,15 @@ void SSLClient::write()
     int tmp = SSL_get_error(pSSL, nBytesSend);
     const char *file;
     int line;
+    bool bWantRead = false;
     unsigned long err;
     switch (tmp){
     case SSL_ERROR_NONE:
-    case SSL_ERROR_WANT_READ:
     case SSL_ERROR_WANT_WRITE:
     case SSL_ERROR_WANT_X509_LOOKUP:
+        break;
+    case SSL_ERROR_WANT_READ:
+        bWantRead = true;
         break;
     case SSL_ERROR_SSL:
         err = ERR_get_error_line(&file, &line);
@@ -303,7 +308,7 @@ void SSLClient::write()
         wBuffer.init(0);
         state = SSLConnected;
     }
-    process();
+    process(false, true);
 }
 
 void SSLClient::connect(const char *host, unsigned short port)

@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>391</width>
-            <height>353</height>
+            <width>417</width>
+            <height>352</height>
         </rect>
     </property>
     <property>
@@ -192,6 +192,10 @@
                                 <cstring>lblCopy1</cstring>
                             </property>
                             <property>
+                                <name>backgroundOrigin</name>
+                                <enum>ParentOrigin</enum>
+                            </property>
+                            <property>
                                 <name>text</name>
                                 <string></string>
                             </property>
@@ -219,6 +223,10 @@
                                     <hsizetype>1</hsizetype>
                                     <vsizetype>1</vsizetype>
                                 </sizepolicy>
+                            </property>
+                            <property>
+                                <name>backgroundOrigin</name>
+                                <enum>ParentOrigin</enum>
                             </property>
                             <property>
                                 <name>text</name>

@@ -371,6 +371,7 @@ const unsigned	MESSAGE_SENDONLY	= 0x0004;
 const unsigned	MESSAGE_INFO		= 0x0008;
 const unsigned  MESSAGE_SYSTEM		= 0x0010;
 const unsigned  MESSAGE_ERROR		= 0x0020;
+const unsigned	MESSAGE_CHILD		= 0x0040;
 
 const unsigned  MIN_INPUT_BAR_ID = 0x1010;
 const unsigned  MAX_INPUT_BAR_ID = 0x1500;

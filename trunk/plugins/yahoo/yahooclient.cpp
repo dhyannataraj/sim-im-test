@@ -2039,7 +2039,7 @@ static MessageDef defYahooFile =
     {
         NULL,
         NULL,
-        MESSAGE_DEFAULT,
+        MESSAGE_CHILD,
         "File",
         "%n files",
         createYahooFile,
@@ -2407,6 +2407,7 @@ void YahooFileTransfer::write_ready()
                 FileTransfer::m_state = FileTransfer::Wait;
                 if (!((Client*)m_client)->send(m_msg, m_data))
                     error_state(I18N_NOOP("File transfer failed"), 0);
+                break;
             }
         }
         if (m_notify)
