@@ -131,6 +131,20 @@ void LoginDialog::processEvent(ICQEvent *e)
         BalloonMsg::message(i18n("Invalid password"), edtPasswd);
         stopLogin();
         return;
+    case EVENT_PROXY_ERROR:{
+            stopLogin();
+            ProxyDialog d(this, i18n("Can't connect to proxy server"));
+            d.exec();
+            return;
+        }
+    case EVENT_PROXY_BAD_AUTH:{
+            stopLogin();
+            ProxyDialog d(this, pClient->ProxyAuth() ?
+                          i18n("Proxy server require authorization") :
+                          i18n("Invalid password for proxy"));
+            d.exec();
+            return;
+        }
     }
 }
 

@@ -39,6 +39,18 @@
 
 #include "buffer.h"
 
+enum SocketError
+{
+    ErrorSocket,
+    ErrorConnect,
+    ErrorRead,
+    ErrorWrite,
+    ErrorConnectionClosed,
+    ErrorProtocol,
+    ErrorProxyAuth,
+    ErrorProxyConnect,
+};
+
 class SocketNotify
 {
 public:
@@ -47,7 +59,7 @@ public:
     virtual void connect_ready() = 0;
     virtual void read_ready() = 0;
     virtual void write_ready() = 0;
-    virtual void error_state() = 0;
+    virtual void error_state(SocketError) = 0;
 };
 
 class Socket
@@ -61,7 +73,7 @@ public:
     virtual void close() = 0;
     virtual unsigned long localHost() = 0;
     virtual void pause(unsigned) = 0;
-    void error(int);
+    void error(SocketError err=ErrorProtocol);
     void setNotify(SocketNotify *n) { notify = n; }
 protected:
     SocketNotify *notify;
@@ -102,7 +114,7 @@ class ClientSocketNotify
 public:
     ClientSocketNotify() {}
     virtual ~ClientSocketNotify() {}
-    virtual void error_state() = 0;
+    virtual void error_state(SocketError) = 0;
     virtual void connect_ready() = 0;
     virtual void packet_ready() = 0;
     virtual void write_ready() {}
@@ -115,7 +127,7 @@ public:
     ~ClientSocket();
     Buffer readBuffer;
     Buffer writeBuffer;
-    void error();
+    void error(SocketError err=ErrorProtocol);
     void connect(const char *host, int port);
     void write();
     void pause(unsigned);
@@ -129,7 +141,7 @@ public:
 protected:
     virtual void connect_ready();
     virtual void write_ready();
-    virtual void error_state();
+    virtual void error_state(SocketError);
 
     Socket *sock;
     ClientSocketNotify *notify;

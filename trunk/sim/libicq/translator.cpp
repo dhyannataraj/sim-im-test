@@ -31,10 +31,6 @@ int strcasecmp(const char *a, const char *b);
 
 static QTextCodec *codecForName(const char *name)
 {
-    if (!strcasecmp(name, "utf-8"))
-        return QTextCodec::codecForName("utf8");
-    if (!strcasecmp(name, "ucs-2"))
-        return QTextCodec::codecForName("utf16");
     string n = name;
     for (char *p = (char*)n.c_str(); *p; p++)
         *p = toupper(*p);
@@ -47,47 +43,43 @@ bool ICQClient::translate(const char *to, const char *from, string &str)
         return true;
     if (!strcasecmp(from, to))
         return true;
-    QTextCodec *fromCodec = (*from) ? codecForName(from) : QTextCodec::codecForLocale();
-    QTextCodec *toCodec = (*to) ? codecForName(to) : QTextCodec::codecForLocale();
-    if ((fromCodec == NULL) && (toCodec == NULL) &&
-            strcasecmp(from, "UCS-2") &&
-            strcasecmp(from, "UTF-8") && strcasecmp(to, "UTF-8")){
-        if ((*from && strcmp(from, "ascii")) || (*to && strcmp(to, "ascii")))
-            log(L_WARN, "Codec for %s -> %s not found", from, to);
-        return true;
-    }
     QString s;
-    if (fromCodec == NULL){
-        if (strcasecmp(from, "utf-8") == 0){
-            s = QString::fromUtf8(str.c_str());
-        }else if (strcasecmp(from, "ucs-2") == 0){
-            for (unsigned i = 0; i < str.length() / 2; i += 2)
-                s += QChar(*((uint*)(str.c_str() + i)));
-        }else{
-            if (*from && strcmp(from, "ascii"))
+    if (strcasecmp(from, "utf-8") == 0){
+        s = QString::fromUtf8(str.c_str());
+    }else{
+        QTextCodec *fromCodec = (*from) ? codecForName(from) : QTextCodec::codecForLocale();
+        if (fromCodec == NULL){
+            if (strcasecmp(from, "ascii"))
                 log(L_WARN, "Codec for %s not found", from);
             s = QString::fromLocal8Bit(str.c_str());
+        }else{
+            QTextDecoder *decoder = fromCodec->makeDecoder();
+            s = decoder->toUnicode(str.c_str(), strlen(str.c_str()));
         }
-    }else{
-        QTextDecoder *decoder = fromCodec->makeDecoder();
-        s = decoder->toUnicode(str.c_str(), strlen(str.c_str()));
     }
     if (s.length() == 0){
         s = "";
         return true;
     }
-    if (toCodec == NULL){
-        if (strcasecmp(to, "utf-8")){
+    QCString r;
+    if (strcasecmp(to, "utf-8") == 0){
+        r = s.utf8();
+    }else{
+        QTextCodec *toCodec = (*to) ? codecForName(to) : QTextCodec::codecForLocale();
+        if (toCodec == NULL){
             if (*to && strcmp(to, "ascii"))
                 log(L_WARN, "Codec for %s not found", to);
-            str = s.local8Bit();
+            r = s.local8Bit();
         }else{
-            str = s.utf8();
+            QTextEncoder *encoder = toCodec->makeEncoder();
+            int size = s.length();
+            r = encoder->fromUnicode(s, size);
         }
+    }
+    if (r.length()){
+        str = (const char*)r;
     }else{
-        QTextEncoder *encoder = toCodec->makeEncoder();
-        int size = s.length();
-        str = encoder->fromUnicode(s, size);
+        str = "";
     }
     return true;
 }

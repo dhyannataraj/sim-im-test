@@ -31,6 +31,7 @@
 #include "themes.h"
 #include "xosd.h"
 #include "ui/logindlg.h"
+#include "ui/proxydlg.h"
 #include "passwddlg.h"
 #include "transparent.h"
 #include "ui/searchdlg.h"
@@ -608,6 +609,11 @@ void MainWindow::setShowOffline(bool bState)
     users->setShowOffline(bState);
 }
 
+#ifdef WIN32
+typedef BOOL WINAPI _SHGetSpecialFolderPath(HWND hwndOwner, LPSTR lpszPath, int nFolder, BOOL fCreate);
+_SHGetSpecialFolderPath *_SHGetSpecialFolderPathA = NULL;
+#endif
+
 void MainWindow::buildFileName(string &s, const char *name, bool bUseKDE, bool bCreate)
 {
     s = homeDir;
@@ -638,13 +644,16 @@ void MainWindow::buildFileName(string &s, const char *name, bool bUseKDE, bool b
         }
 #else
         char szPath[MAX_PATH];
-        if (SHGetSpecialFolderPathA(NULL, szPath, CSIDL_APPDATA, true)){
+        HINSTANCE hLib = LoadLibraryA("Shell32.dll");
+        if (hLib != NULL)
+            (DWORD&)_SHGetSpecialFolderPathA = (DWORD)GetProcAddress(hLib,"SHGetSpecialFolderPathA");
+        if (_SHGetSpecialFolderPathA && _SHGetSpecialFolderPathA(NULL, szPath, CSIDL_APPDATA, true)){
             s = szPath;
             if (s.length()  == 0) s = "c:\\";
             if (s[s.length() - 1] != '\\') s += '\\';
             s += "sim\\";
         }else{
-            s = "c:\\";
+            s = app_file("");
         }
 #endif
     }
@@ -653,8 +662,8 @@ void MainWindow::buildFileName(string &s, const char *name, bool bUseKDE, bool b
 #else
     if (s[s.length() - 1] != '\\') s += '\\';
 #endif
+    homeDir = s;
     s += name;
-    s += '\x00';
     if (bCreate) makedir((char*)s.c_str());
 }
 
@@ -875,6 +884,18 @@ void MainWindow::processEvent(ICQEvent *e)
             }
             if (((pClient->uStatus & 0xFF) != ICQ_STATUS_AWAY) && ((pClient->uStatus & 0xFF) != ICQ_STATUS_NA))
                 playSound(wav);
+            return;
+        }
+    case EVENT_PROXY_ERROR:{
+            ProxyDialog d(this, i18n("Can't connect to proxy server"));
+            d.exec();
+            return;
+        }
+    case EVENT_PROXY_BAD_AUTH:{
+            ProxyDialog d(this, pClient->ProxyAuth() ?
+                          i18n("Proxy server require authorization") :
+                          i18n("Invalid password for proxy"));
+            d.exec();
             return;
         }
     case EVENT_BAD_PASSWORD:

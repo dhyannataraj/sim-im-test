@@ -61,9 +61,7 @@ CREATE_STYLE *createXpStyle = NULL;
 XpStyle::XpStyle()
 {
     HINSTANCE hLib = LoadLibraryA("UxTheme.dll");
-
     if (hLib != NULL)
-
         hLib = LoadLibraryA("xpstyle.dll");
     if (hLib != NULL)
         (DWORD&)createXpStyle = (DWORD)GetProcAddress(hLib,"_createXpStyle@0");

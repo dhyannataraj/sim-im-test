@@ -122,7 +122,7 @@ void DirectSocket::remove()
 
 void DirectSocket::init()
 {
-    if (!sock->created()) error_state();
+    if (!sock->created()) error_state(ErrorConnect);
     m_nSequence = 0xFFFF;
     sock->writeBuffer.init(0);
     sock->readBuffer.init(2);
@@ -130,7 +130,7 @@ void DirectSocket::init()
     m_bUseInternalIP = true;
 }
 
-void DirectSocket::error_state()
+void DirectSocket::error_state(SocketError)
 {
     if ((state == ConnectIP1) || (state == ConnectIP2)){
         connect();
@@ -435,7 +435,7 @@ void SSLClient::process(bool bInRead)
         }
         if (i < 0){
             if (!BIO_should_retry(wBIO))
-                notify->error_state();
+                notify->error_state(ErrorWrite);
             return;
         }
     }
@@ -445,7 +445,7 @@ void SSLClient::connect()
 {
     log(L_DEBUG, "SSL connect");
     if (pSSL == NULL){
-        notify->error_state();
+        notify->error_state(ErrorConnect);
         return;
     }
     int i = SSL_connect(pSSL);
@@ -467,7 +467,7 @@ void SSLClient::connect()
         err = ERR_get_error_line(&file, &line);
         log(L_WARN, "SSL: SSL_connect error = %lx, %s:%i", err, file, line);
         ERR_clear_error();
-        notify->error_state();
+        notify->error_state(ErrorConnect);
         return;
     case SSL_ERROR_WANT_WRITE:
     case SSL_ERROR_WANT_READ:
@@ -475,7 +475,7 @@ void SSLClient::connect()
         return;
     default:
         log(L_DEBUG, "SSL: SSL_connect error %d, SSL_%d", i, j);
-        notify->error_state();
+        notify->error_state(ErrorConnect);
     }
 }
 
@@ -483,7 +483,7 @@ void SSLClient::shutdown()
 {
     log(L_DEBUG, "SSL shutdown");
     if (pSSL == NULL){
-        notify->error_state();
+        notify->error_state(ErrorConnect);
         return;
     }
     int i = SSL_shutdown(pSSL);
@@ -505,7 +505,7 @@ void SSLClient::shutdown()
         err = ERR_get_error_line(&file, &line);
         log(L_WARN, "SSL: SSL_shutdown error = %lx, %s:%i", err, file, line);
         ERR_clear_error();
-        notify->error_state();
+        notify->error_state(ErrorConnect);
         return;
     case SSL_ERROR_WANT_READ:
     case SSL_ERROR_WANT_WRITE:
@@ -513,7 +513,7 @@ void SSLClient::shutdown()
         return;
     default:
         log(L_DEBUG, "SSL: SSL_shutdown error %d, SSL_%d", i, j);
-        notify->error_state();
+        notify->error_state(ErrorConnect);
     }
 }
 
@@ -521,7 +521,7 @@ void SSLClient::accept()
 {
     log(L_DEBUG, "SSL accept");
     if (pSSL == NULL){
-        notify->error_state();
+        notify->error_state(ErrorConnect);
         return;
     }
     int i = SSL_accept(pSSL);
@@ -543,7 +543,7 @@ void SSLClient::accept()
         err = ERR_get_error_line(&file, &line);
         log(L_WARN, "SSL: SSL_accept error = %lx, %s:%i", err, file, line);
         ERR_clear_error();
-        notify->error_state();
+        notify->error_state(ErrorConnect);
         return;
     case SSL_ERROR_WANT_READ:
     case SSL_ERROR_WANT_WRITE:
@@ -551,7 +551,7 @@ void SSLClient::accept()
         return;
     default:
         log(L_DEBUG, "SSL: SSL_accept error %d, SSL_%d", i, j);
-        notify->error_state();
+        notify->error_state(ErrorConnect);
     }
 }
 
@@ -573,11 +573,11 @@ int SSLClient::read(char *buf, unsigned int size)
         err = ERR_get_error_line(&file, &line);
         log(L_WARN, "SSL: SSL_read error = %lx, %s:%i", err, file, line);
         ERR_clear_error();
-        notify->error_state();
+        notify->error_state(ErrorRead);
         return -1;
     default:
         log(L_DEBUG, "SSL: SSL_read error %d, SSL_%d", nBytesReceived, tmp);
-        notify->error_state();
+        notify->error_state(ErrorRead);
         return -1;
     }
     process(true);
@@ -609,11 +609,11 @@ void SSLClient::write()
         err = ERR_get_error_line(&file, &line);
         log(L_WARN, "SSL: SSL_write error = %lx, %s:%i", err, file, line);
         ERR_clear_error();
-        notify->error_state();
+        notify->error_state(ErrorWrite);
         return;
     default:
         log(L_DEBUG, "SSL: SSL_write error %d, SSL_%d", nBytesSend, tmp);
-        notify->error_state();
+        notify->error_state(ErrorWrite);
         return;
     }
     if (nBytesSend > 0)
@@ -652,13 +652,13 @@ void SSLClient::read_ready()
         char b[2048];
         int n = sock->read(b, sizeof(b));
         if (n == -1){
-            notify->error_state();
+            notify->error_state(ErrorRead);
             return;
         }
         if (n == 0) break;
         n = BIO_write(rBIO, b, n);
         if (n == -1)
-            error_state();
+            notify->error_state(ErrorRead);
         process();
     }
     if (state == SSLConnected)
@@ -669,9 +669,9 @@ void SSLClient::write_ready()
 {
 }
 
-void SSLClient::error_state()
+void SSLClient::error_state(SocketError err)
 {
-    notify->error_state();
+    notify->error_state(err);
 }
 
 #endif
@@ -1091,7 +1091,7 @@ void DirectClient::sendInit2()
     sock->write();
 }
 
-void DirectClient::error_state()
+void DirectClient::error_state(SocketError err)
 {
     if (u){
         list<ICQEvent*>::iterator it;
@@ -1105,7 +1105,7 @@ void DirectClient::error_state()
             delete e;
         }
     }
-    DirectSocket::error_state();
+    DirectSocket::error_state(err);
 }
 
 void DirectClient::sendAck(unsigned short seq, unsigned short type)
@@ -1543,7 +1543,7 @@ void FileTransfer::processPacket()
     }
 }
 
-void FileTransfer::error_state()
+void FileTransfer::error_state(SocketError)
 {
     state = None;
     if (file == NULL) return;
@@ -2002,7 +2002,7 @@ void ChatSocket::sendPacket()
     sock->write();
 }
 
-void ChatSocket::error_state()
+void ChatSocket::error_state(SocketError)
 {
     ICQEvent e(EVENT_CHAT, chat->getUin(), CHAT_CONNECT, chat);
     e.state = ICQEvent::Fail;

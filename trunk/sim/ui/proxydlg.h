@@ -25,7 +25,7 @@ class ProxyDialog : public ProxyDlgBase
 {
     Q_OBJECT
 public:
-    ProxyDialog(QWidget *p);
+    ProxyDialog(QWidget *p, const QString &msg = QString::null);
 protected slots:
     void apply();
     void proxyChanged(bool);

@@ -27,10 +27,11 @@
 #include <qcombobox.h>
 #include <qcheckbox.h>
 
-ProxyDialog::ProxyDialog(QWidget *p)
+ProxyDialog::ProxyDialog(QWidget *p, const QString &msg)
         : ProxyDlgBase(p, "proxy", true)
 {
     setIcon(Pict("network"));
+    lblMessage->setText(msg);
 
     connect(btnClose, SIGNAL(clicked()), this, SLOT(close()));
     connect(btnOK, SIGNAL(clicked()), this, SLOT(apply()));

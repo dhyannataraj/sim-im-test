@@ -30,8 +30,6 @@
 #pragma data_seg(".IdleTrac")	// you must define as SHARED in .def
 HHOOK 	g_hHkKeyboard = NULL;	// handle to the keyboard hook
 HHOOK 	g_hHkMouse = NULL;	// handle to the mouse hook
-HHOOK	g_hHkKeyboardLL = NULL;
-HHOOK 	g_hHkMouseLL = NULL;	// handle to the mouse hook
 DWORD	g_dwLastTick = 0;	// tick time of last input event
 LONG	g_mouseLocX = -1;	// x-location of mouse position
 LONG	g_mouseLocY = -1;	// y-location of mouse position
@@ -78,35 +76,6 @@ __declspec(dllexport) LRESULT CALLBACK MouseTracker(int code, WPARAM wParam, LPA
 }
 
 /**
- * Keyboard hook: record tick count
- **/
-__declspec(dllexport) LRESULT CALLBACK KeyboardTrackerLL(int code, WPARAM wParam, LPARAM lParam)
-{
-	if (code==HC_ACTION) {
-		g_dwLastTick = GetTickCount();
-	}
-	return ::CallNextHookEx(g_hHkKeyboardLL, code, wParam, lParam);
-}
-
-/**
- * Mouse hook: record tick count
- **/
-__declspec(dllexport) LRESULT CALLBACK MouseTrackerLL(int code, WPARAM wParam, LPARAM lParam)
-{
-	if (code==HC_ACTION) {
-		MOUSEHOOKSTRUCT* pStruct = (MOUSEHOOKSTRUCT*)lParam;
-		//we will assume that any mouse msg with the same locations as spurious
-		if (pStruct->pt.x != g_mouseLocX || pStruct->pt.y != g_mouseLocY)
-		{
-			g_mouseLocX = pStruct->pt.x;
-			g_mouseLocY = pStruct->pt.y;
-			g_dwLastTick = GetTickCount();
-		}
-	}
-	return ::CallNextHookEx(g_hHkMouseLL, code, wParam, lParam);
-}
-
-/**
  * Initialize DLL: install kbd/mouse hooks.
  **/
 __declspec(dllexport) BOOL IdleTrackerInit()
@@ -116,13 +85,6 @@ __declspec(dllexport) BOOL IdleTrackerInit()
 	}
 	if (g_hHkMouse == NULL) {
 		g_hHkMouse = SetWindowsHookEx(WH_MOUSE, MouseTracker, g_hInstance, 0);
-	}
-
-	if (g_hHkKeyboardLL == NULL) {
-		g_hHkKeyboardLL = SetWindowsHookEx(WH_KEYBOARD_LL, KeyboardTrackerLL, g_hInstance, 0);
-	}
-	if (g_hHkMouseLL == NULL) {
-		g_hHkMouseLL = SetWindowsHookEx(WH_MOUSE_LL, MouseTrackerLL, g_hInstance, 0);
 	}
 
 	_ASSERT(g_hHkKeyboard);
@@ -153,16 +115,6 @@ __declspec(dllexport) void IdleTrackerTerm()
 		bResult = UnhookWindowsHookEx(g_hHkMouse);
 		_ASSERT(bResult);
 		g_hHkMouse = NULL;
-	}
-	if (g_hHkKeyboardLL)
-	{
-		bResult = UnhookWindowsHookEx(g_hHkKeyboardLL);
-		g_hHkKeyboardLL = NULL;
-	}
-	if (g_hHkMouseLL)
-	{
-		bResult = UnhookWindowsHookEx(g_hHkMouseLL);
-		g_hHkMouseLL = NULL;
 	}
 }
 

@@ -853,7 +853,7 @@ int QClientSocket::read(char *buf, unsigned int size)
 {
     int res = sock->readBlock(buf, size);
     if (res < 0){
-        notify->error_state();
+        notify->error_state(ErrorRead);
         res = 0;
     }
     return res;
@@ -865,8 +865,7 @@ void QClientSocket::write(const char *buf, unsigned int size)
     int res = sock->writeBlock(buf, size);
     bInWrite = false;
     if (res != (int)size){
-        log(L_WARN, "Write error");
-        notify->error_state();
+        notify->error_state(ErrorWrite);
         return;
     }
     if (sock->bytesToWrite() == 0)
@@ -889,7 +888,7 @@ void QClientSocket::slotConnectionClosed()
 {
     log(L_WARN, "Connection closed");
     if (sock->bytesToWrite() == 0) notify->write_ready();
-    notify->error_state();
+    notify->error_state(ErrorConnectionClosed);
 }
 
 void QClientSocket::slotReadReady()
@@ -916,7 +915,7 @@ unsigned long QClientSocket::localHost()
 void QClientSocket::slotError(int err)
 {
     log(L_DEBUG, "Error %u", err);
-    notify->error_state();
+    notify->error_state(ErrorSocket);
 }
 
 void QClientSocket::pause(unsigned t)

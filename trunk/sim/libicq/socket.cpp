@@ -47,9 +47,34 @@ ClientSocket::~ClientSocket()
     if (sock) delete sock;
 }
 
-void ClientSocket::error()
+void ClientSocket::error(SocketError err)
 {
-    log(L_WARN, "Protocol error");
+    switch (err){
+    case ErrorSocket:
+        log(L_WARN, "Socket error");
+        break;
+    case ErrorConnect:
+        log(L_WARN, "Connect error");
+        break;
+    case ErrorRead:
+        log(L_WARN, "Read error");
+        break;
+    case ErrorWrite:
+        log(L_WARN, "Write error");
+        break;
+    case ErrorConnectionClosed:
+        log(L_WARN, "Connection closed");
+        break;
+    case ErrorProtocol:
+        log(L_WARN, "Protocol error");
+        break;
+    case ErrorProxyAuth:
+        log(L_WARN, "Proxy auth error");
+        break;
+    case ErrorProxyConnect:
+        log(L_WARN, "Proxy connect error");
+        break;
+    }
 }
 
 void ClientSocket::connect(const char *host, int port)
@@ -100,7 +125,7 @@ void ClientSocket::read_ready()
                                readBuffer.size() - readBuffer.writePos());
         log(L_DEBUG, "Read ready %X %u", this, readn);
         if (readn < 0){
-            notify->error_state();
+            notify->error_state(ErrorRead);
             return;
         }
         if (readn == 0) break;
@@ -115,9 +140,9 @@ void ClientSocket::write_ready()
     notify->write_ready();
 }
 
-void ClientSocket::error_state()
+void ClientSocket::error_state(SocketError err)
 {
-    notify->error_state();
+    notify->error_state(err);
 }
 
 void ClientSocket::remove()

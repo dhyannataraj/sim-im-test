@@ -198,12 +198,29 @@ void ICQClient::packet_ready()
     m_bHeader = true;
 }
 
-void ICQClient::error_state()
+void ICQClient::error_state(SocketError err)
 {
-    if (m_reconnectTime == (time_t)(-1)){
-        m_reconnectTime = 0;
-    }else{
-        m_state = ForceReconnect;
+    switch (err){
+    case ErrorProxyConnect:{
+            m_reconnectTime = (time_t)(-1);
+            m_state = ErrorState;
+            ICQEvent e(EVENT_PROXY_ERROR);
+            process_event(&e);
+            break;
+        }
+    case ErrorProxyAuth:{
+            m_reconnectTime = (time_t)(-1);
+            m_state = ErrorState;
+            ICQEvent e(EVENT_PROXY_BAD_AUTH);
+            process_event(&e);
+            break;
+        }
+    default:
+        if (m_reconnectTime == (time_t)(-1)){
+            m_reconnectTime = 0;
+        }else{
+            m_state = ForceReconnect;
+        }
     }
     setStatus(ICQ_STATUS_OFFLINE);
 }

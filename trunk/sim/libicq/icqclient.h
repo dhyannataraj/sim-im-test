@@ -267,6 +267,8 @@ const int EVENT_AUTH_REQUIRED		= 14;
 const int EVENT_ACKED				= 15;
 const int EVENT_DONE			    = 16;
 const int EVENT_CHAT				= 17;
+const int EVENT_PROXY_ERROR			= 18;
+const int EVENT_PROXY_BAD_AUTH		= 19;
 
 const int EVENT_SUBTYPE_FULLINFO	= 1;
 const int EVENT_SUBTYPE_AUTOREPLY	= 2;
@@ -345,7 +347,7 @@ public:
     SocketState state;
     void connect();
     void remove();
-    virtual void error_state();
+    virtual void error_state(SocketError);
     virtual void connect_ready();
 protected:
     virtual void processPacket() = 0;
@@ -406,7 +408,7 @@ protected:
     virtual void connect_ready();
     virtual void read_ready();
     virtual void write_ready();
-    virtual void error_state();
+    virtual void error_state(SocketError);
     Socket *sock;
     enum State
     {
@@ -456,7 +458,7 @@ protected:
     State state;
     void processPacket();
     void connect_ready();
-    void error_state();
+    void error_state(SocketError);
     ICQUser *u;
     void sendInit2();
     void startPacket(unsigned short cms, unsigned short seq);
@@ -515,7 +517,7 @@ protected:
     ICQFile *file;
     void processPacket();
     void connect_ready();
-    void error_state();
+    void error_state(SocketError);
 
     void write_ready();
     void init();
@@ -611,7 +613,7 @@ protected:
     unsigned long myFgColor;
     unsigned long curMyFgColor;
 
-    void error_state();
+    void error_state(SocketError);
     void startPacket();
     void sendPacket();
     void packet_ready();
@@ -1164,7 +1166,8 @@ public:
         Logged,
         Register,
         Reconnect,
-        ForceReconnect
+        ForceReconnect,
+        ErrorState
     };
     LoginState m_state;
     list<ICQEvent*> processQueue;
@@ -1204,7 +1207,7 @@ protected:
     unsigned short m_nMsgSequence;
 
     virtual void packet_ready();
-    virtual void error_state();
+    virtual void error_state(SocketError);
     virtual void connect_ready();
     virtual void idle();
 
