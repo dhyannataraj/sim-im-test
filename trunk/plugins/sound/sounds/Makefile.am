@@ -9,7 +9,11 @@ EXTRA_DIST = \
  startup.wav \
  contacts.wav \
  url.wav \
- system.wav
+ system.wav \
+ message2.wav \
+ VIP_online.wav
+
+
 
 install-data-local:
 	$(mkinstalldirs) $(kde_datadir)/sim/sounds/
