@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: sk\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-05 15:33+0200\n"
-"PO-Revision-Date: 2004-07-27 13:47+0200\n"
+"PO-Revision-Date: 2004-08-18 08:30+0200\n"
 "Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1859,9 +1859,8 @@ msgstr "Očakávaná autorizácia"
 # userview.cpp:889
 # userview.cpp:905
 #: plugins/_core/userviewcfgbase.cpp:280
-#, fuzzy
 msgid "No show scroller"
-msgstr "Žiad&ne zobrazené skrolovátko"
+msgstr "Žiadne zobrazené skrolovátko"
 
 # ui/fontsetupbase.cpp:236
 #: plugins/_core/historycfgbase.cpp:167
@@ -7950,14 +7949,12 @@ msgstr "&Yahoo!"
 # ui/maininfobase.cpp:319
 # ui/searchbase.cpp:294
 #: plugins/yahoo/yahooinfobase.cpp:155
-#, fuzzy
 msgid "First name:"
 msgstr "Meno:"
 
 # ui/maininfobase.cpp:315
 # ui/searchbase.cpp:293
 #: plugins/yahoo/yahooinfobase.cpp:156
-#, fuzzy
 msgid "Last name:"
 msgstr "Priezvisko:"
 
@@ -10145,7 +10142,6 @@ msgid "Usage: %1 "
 msgstr "Použitie: %1"
 
 #: sim/sim.cpp:200
-#, fuzzy
 msgid "Multiprotocol Instant Messenger"
 msgstr "Multiprotokolový instantný messenger"
 
@@ -10309,3 +10305,4 @@ msgstr "Vlastné"
 #: xpstyle/xpstyle.cpp:63
 msgid "Windows XP style"
 msgstr "Štýl \"Windows XP\""
+
