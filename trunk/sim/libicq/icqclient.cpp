@@ -427,7 +427,7 @@ unsigned long ICQClientPrivate::fullStatus(unsigned long s)
 
 void ICQClientPrivate::connect_ready()
 {
-    if ((factory->ProxyType != PROXY_HTTP) && (factory->ProxyType != PROXY_HTTPS))
+    if (!factory->isHttpProxy())
         sock->setProxyConnected();
     sock->readBuffer.init(6);
     m_bHeader = true;

@@ -126,7 +126,7 @@ void save(void *_obj, const cfgParam *params, ostream &out, DICT &dict)
             bool writeEmpty = false;
             string value;
             string *s;
-            const char *v;
+            string v;
             list<unsigned long> *l;
             list<unsigned long>::iterator it;
 
@@ -157,7 +157,7 @@ void save(void *_obj, const cfgParam *params, ostream &out, DICT &dict)
                 v = "";
                 if (p->defValue)
                     v = (const char*)(p->defValue);
-                if (*s != v){
+                if (strcmp(s->c_str(), v.c_str())){
                     value = *s;
                     writeEmpty = true;
                 }
@@ -166,13 +166,20 @@ void save(void *_obj, const cfgParam *params, ostream &out, DICT &dict)
                 if (*((bool*)(obj + p->offs)) != (bool)(p->defValue))
                     value = *((bool*)(obj + p->offs)) ? "true" : "false";
                 break;
-            case PARAM_I18N:
+            case PARAM_I18N:{
                 s = (string*)(obj + p->offs);
                 v = "";
-                if (p->defValue)
-                    v = i18n((const char*)(p->defValue)).local8Bit();
-                if (*s != v) value = v;
+				QString vStr;
+                if (p->defValue){
+                    vStr = i18n((const char*)(p->defValue));
+					if (!vStr.isEmpty()) v = (const char*)(vStr.local8Bit());
+				}
+                if (strcmp(s->c_str(), v.c_str())){
+					value = *s;
+					writeEmpty = true;
+				}
                 break;
+			}
             case PARAM_ULONGS:{
                     l = (list<unsigned long>*)(obj + p->offs);
                     if (l->size()){

@@ -201,7 +201,7 @@ void ICQClientPrivate::chn_close()
     *port = 0;
     port++;
     m_state = Login;
-    if ((factory->ProxyType == PROXY_HTTP) || (factory->ProxyType == PROXY_HTTPS)){
+    if (factory->isHttpProxy()){
         sock->connect(host, atol(port));
     }else{
         sock->close();

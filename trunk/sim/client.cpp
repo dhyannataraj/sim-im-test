@@ -304,7 +304,7 @@ cfgParam ICQClient_Params[] =
         { "BypassAuth", OFFSET_OF(ICQClient, BypassAuth), PARAM_BOOL, 0 },
         { "ShareDir", OFFSET_OF(ICQClient, ShareDir), PARAM_STRING, (unsigned)"Shared" },
         { "ShareOn", OFFSET_OF(ICQClient, ShareOn), PARAM_BOOL, 0 },
-        { "", OFFSET_OF(ICQClient, owner), PARAM_OFFS, (unsigned)ClientOwner_Params },
+        { "owner", OFFSET_OF(ICQClient, owner), PARAM_OFFS, (unsigned)ClientOwner_Params },
         { "", 0, 0, 0 },
     };
 
@@ -320,8 +320,8 @@ static void *icqClient(void *p)
 
 cfgParam Client_Params[] =
     {
-        { "", (int)factory, PARAM_PROC, (unsigned)Sockets_Params },
-        { "", (int)icqClient, PARAM_PROC, (unsigned)ICQClient_Params },
+        { "_factory", (int)factory, PARAM_PROC, (unsigned)Sockets_Params },
+        { "_icqclient", (int)icqClient, PARAM_PROC, (unsigned)ICQClient_Params },
         { "BirthdayReminder", OFFSET_OF(SIMClient, BirthdayReminder), PARAM_STRING, (unsigned)"birthday.wav" },
         { "FileDone", OFFSET_OF(SIMClient, FileDone), PARAM_STRING, (unsigned)"filedone.wav" },
         { "", 0, 0, 0 }

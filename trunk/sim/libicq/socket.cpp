@@ -219,6 +219,15 @@ SocketFactory::SocketFactory()
     ProxyAuth = false;
 }
 
+bool SocketFactory::isHttpProxy()
+{
+	if (ProxyType == PROXY_HTTP) return true;
+#ifdef USE_OPENSSL
+	if (ProxyType == PROXY_HTTPS) return true;
+#endif
+	return false;
+}
+
 Proxy *SocketFactory::getProxy()
 {
     switch (ProxyType){

@@ -226,7 +226,9 @@ void ICQClientSocket::slotError(int err)
     if (!(err & KBufferedIO::involuntary)) return;
     log(L_DEBUG, "Connection closed by peer");
 #else
+#ifndef WIN32
     if (!err) return;
+#endif
     log(L_DEBUG, "Slot error %u", err);
 #endif
     if (notify) notify->error_state(ErrorSocket);
