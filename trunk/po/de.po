@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2002-11-25 10:46+0300\n"
-"PO-Revision-Date: 2002-11-25 14:25GMT\n"
+"PO-Revision-Date: 2002-11-25 14:28GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2709,7 +2709,7 @@ msgstr "Tastaturkürzel"
 
 #: ui/setupdlg.cpp:137 ui/userinfo.cpp:91
 msgid "Accept file"
-msgstr "Akzeptiere Datei"
+msgstr "Datei akzeptieren"
 
 #: ui/setupdlg.cpp:138
 msgid "SMS"
