@@ -602,16 +602,17 @@ void ICQClient::sendType2(unsigned long uin, Buffer &msgBuf, const MessageId &id
 void ICQClient::clearMsgQueue()
 {
     for (list<SendMsg>::iterator it = sendQueue.begin(); it != sendQueue.end(); ++it){
-        if ((*it).socket == NULL){
+        if ((*it).socket){
+            // dunno know if this is ok - vladimir please take a look
             (*it).socket->acceptReverse(NULL);
             continue;
         }
-        if ((*it).msg == NULL)
-            continue;
-        (*it).msg->setError(I18N_NOOP("Client go offline"));
-        Event e(EventMessageSent, (*it).msg);
-        e.process();
-        delete (*it).msg;
+        if ((*it).msg) {
+            (*it).msg->setError(I18N_NOOP("Client go offline"));
+            Event e(EventMessageSent, (*it).msg);
+            e.process();
+            delete (*it).msg;
+        }
     }
     sendQueue.clear();
     if (m_send.msg){
