@@ -305,14 +305,14 @@ FetchManager::FetchManager()
 
 FetchManager::~FetchManager()
 {
-    for (list<FetchClient*>::iterator it = m_clients.begin(); it != m_clients.end(); it = m_clients.begin())
-        delete *it;
 #ifdef WIN32
     if (hInet){
         _InternetCloseHandle(hInet);
         return;
     }
 #endif
+    for (list<FetchClient*>::iterator it = m_clients.begin(); it != m_clients.end(); it = m_clients.begin())
+        delete *it;
     getContacts()->removePacketType(HTTPPacket);
 }
 

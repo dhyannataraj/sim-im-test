@@ -116,7 +116,7 @@ bool IPC::process(const BSTR &in_str, BSTR *out_str)
             char b[5];
             sprintf(b, "%u", i);
             name += b;
-            hMem = CreateFileMappingA(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, 0x4000, name.c_str());
+            hMem = CreateFileMappingA(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, 0x8000, name.c_str());
             if (hMem == NULL)
                 return false;
             mem = (unsigned short*)MapViewOfFile(hMem, FILE_MAP_ALL_ACCESS, 0, 0, 0);

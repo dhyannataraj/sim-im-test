@@ -141,6 +141,14 @@ SOURCE=.\simext.rc
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
+SOURCE=.\IContextMenuImpl.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\IShellExtInitImpl.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\Resource.h
 # End Source File
 # Begin Source File

@@ -27,6 +27,8 @@
 #include <qregexp.h>
 #include <qtimer.h>
 #include <qfile.h>
+#include <qthread.h>
+#include <qpixmap.h>
 #include <time.h>
 
 Plugin *createRemotePlugin(unsigned base, bool, const char *config)
@@ -65,7 +67,7 @@ static DataDef remoteData[] =
 
 static RemotePlugin *remote = NULL;
 
-class IPC
+class IPC : public QThread
 {
 public:
     IPC();
@@ -79,7 +81,7 @@ protected:
     HANDLE	hEventIn;
     HANDLE	hEventOut;
     bool    bExit;
-    static  DWORD __stdcall IPCThread(LPVOID lpParameter);
+	virtual void run();
     friend class IPCLock;
 };
 
@@ -108,6 +110,7 @@ IPC::IPC()
     name = prefix() + "out";
     hEventOut = CreateEventA(NULL, TRUE, FALSE, name.c_str());
     bExit = false;
+	start();
 }
 
 IPC::~IPC()
@@ -124,19 +127,18 @@ IPC::~IPC()
         CloseHandle(hEventIn);
     if (hEventOut)
         CloseHandle(hEventOut);
+	wait();
 }
 
-DWORD __stdcall IPC::IPCThread(LPVOID lpParameter)
+void IPC::run()
 {
-    IPC *ipc = (IPC*)lpParameter;
     for (;;){
-        ResetEvent(ipc->hEventIn);
-        WaitForSingleObject(ipc->hEventIn, INFINITE);
-        if (ipc->bExit)
+        ResetEvent(hEventIn);
+        WaitForSingleObject(hEventIn, INFINITE);
+        if (bExit)
             break;
         QTimer::singleShot(0, remote, SLOT(command()));
     }
-    return 0;
 }
 
 void IPC::process()
@@ -301,6 +303,10 @@ const unsigned CMD_OPEN			= 9;
 const unsigned CMD_FILE			= 10;
 const unsigned CMD_CONTACTS		= 11;
 const unsigned CMD_SENDFILE		= 12;
+const unsigned CMD_GROUP		= 13;
+#ifdef WIN32
+const unsigned CMD_ICON			= 14;
+#endif
 
 typedef struct cmdDef
 {
@@ -326,6 +332,10 @@ static cmdDef cmds[] =
         { "FILE", "process UIN file", "FILE <file>", 1, 1 },
         { "CONTACTS", "print contact list", "CONTACTS [<message_type>]", 0, 1 },
         { "SENDFILE", "send file", "SENDFILE <file> <contact>", 2, 2 },
+		{ "GROUP", "get group name", "GROUP id", 1, 1 },
+#ifdef WIN32
+		{ "ICON", "get used icon", "ICON name", 1, 1 },
+#endif
         { NULL, NULL, NULL, 0, 0 }
     };
 
@@ -365,6 +375,102 @@ static QWidget *findWidget(const char *className)
     }
     return w;
 }
+
+typedef struct ContactInfo
+{
+	QString		name;
+	unsigned	id;
+	unsigned	group;
+	QString		key;
+	string		icon;
+} ContactInfo;
+
+static bool cmp_info(const ContactInfo &p1, const ContactInfo &p2)
+{
+	return p1.key < p2.key;
+}
+
+#ifdef WIN32
+
+void packData(QString &out, void *data, unsigned size)
+{
+	unsigned char *p = (unsigned char*)data;
+	for (unsigned i = 0; i < size; i++, p++){
+		char b[3];
+		sprintf(b, "%02X", *p);
+		out += b;
+	}
+}
+
+void packBitmap(QString &out, HBITMAP hBmp)
+{
+    BITMAP		bmp; 
+    BITMAPINFO	*pbmi; 
+    WORD    cClrBits; 
+    if (!GetObject(hBmp, sizeof(BITMAP), (LPSTR)&bmp)) 
+        return;
+
+    cClrBits = (WORD)(bmp.bmPlanes * bmp.bmBitsPixel); 
+    if (cClrBits == 1) 
+        cClrBits = 1; 
+    else if (cClrBits <= 4) 
+        cClrBits = 4; 
+    else if (cClrBits <= 8) 
+        cClrBits = 8; 
+    else if (cClrBits <= 16) 
+        cClrBits = 16; 
+    else if (cClrBits <= 24) 
+        cClrBits = 24; 
+    else cClrBits = 32; 
+
+	unsigned size = sizeof(BITMAPINFOHEADER);
+    if (cClrBits != 24) 
+		size += sizeof(RGBQUAD) * (1<< cClrBits); 
+	pbmi = (BITMAPINFO*)malloc(size);
+
+    pbmi->bmiHeader.biSize   = sizeof(BITMAPINFOHEADER); 
+    pbmi->bmiHeader.biWidth  = bmp.bmWidth; 
+    pbmi->bmiHeader.biHeight = bmp.bmHeight; 
+    pbmi->bmiHeader.biPlanes = bmp.bmPlanes; 
+    pbmi->bmiHeader.biBitCount = bmp.bmBitsPixel; 
+    if (cClrBits < 24) 
+        pbmi->bmiHeader.biClrUsed = (1<<cClrBits); 
+
+    pbmi->bmiHeader.biCompression = BI_RGB; 
+    pbmi->bmiHeader.biSizeImage = ((pbmi->bmiHeader.biWidth * cClrBits +31) & ~31) /8
+                                  * pbmi->bmiHeader.biHeight; 
+	packData(out, pbmi, size);
+	out += "\n";
+
+	HDC hDC = CreateCompatibleDC(NULL);
+	void *bits = malloc(pbmi->bmiHeader.biSizeImage);
+	GetDIBits(hDC, hBmp, 0, (WORD) pbmi->bmiHeader.biHeight, bits, pbmi, DIB_RGB_COLORS);
+	
+	packData(out, bits, pbmi->bmiHeader.biSizeImage);
+
+	DeleteDC(hDC);
+	free(bits);
+	free(pbmi);
+}
+
+class IconWidget : public QWidget
+{
+public:
+	IconWidget(const QPixmap &p);
+	HICON icon();
+};
+
+IconWidget::IconWidget(const QPixmap &p)
+{
+	setIcon(p);
+}
+
+HICON IconWidget::icon()
+{
+	return topData()->winIcon;
+}
+
+#endif
 
 bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
 {
@@ -429,6 +535,19 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
     QWidget *w;
     unsigned n;
     switch (nCmd){
+#ifdef WIN32
+	case CMD_ICON:{
+			IconWidget w(Pict(args[0].utf8()));
+			HICON icon = w.icon();
+			ICONINFO info;
+			if (!GetIconInfo(icon, &info))
+				return false;
+			packBitmap(out, info.hbmMask);
+			out += "\n";
+			packBitmap(out, info.hbmColor);
+			return true;
+		}
+#endif
     case CMD_SENDFILE:{
             FileMessage *msg = new FileMessage;
             msg->setContact(args[1].toUInt());
@@ -438,13 +557,28 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             delete msg;
             return true;
         }
+	case CMD_GROUP:{
+			Group *grp = getContacts()->group(args[0].toUInt());
+			if (grp == NULL)
+				return false;
+			if (grp->id() == 0){
+				out += i18n("Not in list");
+			}else{
+				out += grp->getName();
+			}
+			return true;
+		}
     case CMD_CONTACTS:{
             unsigned type = 0;
             if (args.size())
                 type = args[0].toUInt();
             ContactList::ContactIterator it;
             Contact *contact;
+			vector<ContactInfo> contacts;
+			list<unsigned> groups;
             while ((contact = ++it) != NULL){
+				if (contact->getTemporary() || contact->getIgnore())
+					continue;
                 if (type){
                     Command cmd;
                     cmd->id      = type;
@@ -454,11 +588,68 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                     if (!e.process())
                         continue;
                 }
-                if (!out.isEmpty())
-                    out += "\n";
-                out += QString::number(contact->id());
+				unsigned style = 0;
+				const char *statusIcon = NULL;
+				unsigned status = contact->contactInfo(style, statusIcon);
+				if ((status == STATUS_OFFLINE) && core->getShowOnLine())
+					continue;
+				unsigned mode = core->getSortMode();
+				ContactInfo info;
+				QString active;
+			    active.sprintf("%08lX", 0xFFFFFFFF - contact->getLastActive());
+				if (core->getGroupMode()){
+					unsigned index = 0;
+					Group *grp = getContacts()->group(contact->getGroup());
+					if (grp)
+						index = getContacts()->groupIndex(grp->id());
+					QString grpIndex;
+				    grpIndex.sprintf("%08lX", 0xFFFFFFFF - index);
+					info.key += grpIndex;
+				}
+		        for (;;){
+					if ((mode & 0xFF) == 0)
+						break;
+					switch (mode & 0xFF){
+					case SORT_STATUS:
+						info.key += QString::number(9 - status);
+						break;
+					case SORT_ACTIVE:
+						info.key += active.lower();
+						break;
+					case SORT_NAME:
+						info.key += contact->getName().lower();
+						break;
+					}
+					mode = mode >> 8;
+				}
+				info.name  = contact->getName();
+				info.id    = contact->id();
+				info.icon  = statusIcon;
+				info.group = contact->getGroup();
+				if (core->getGroupMode()){
+					info.group = contact->getGroup();
+					list<unsigned>::iterator it;
+					for (it = groups.begin(); it != groups.end(); ++it)
+						if ((*it) == contact->getGroup())
+							break;
+						groups.push_back(contact->getGroup());
+				}
+				contacts.push_back(info);
+			}
+			sort(contacts.begin(), contacts.end(), cmp_info);
+			out += QString::number(contacts.size());
+			out += " ";
+			out += QString::number(groups.size());
+			out += "\n";
+			for (vector<ContactInfo>::iterator itl = contacts.begin(); itl != contacts.end(); ++itl){
+                out += "\n";
+                out += QString::number((*itl).id);
                 out += " ";
-                out += contact->getName();
+				out += QString::number((*itl).group);
+				out += " ";
+				out += (*itl).icon.c_str();
+				out += " ";
+                out += (*itl).name;
             }
             return true;
         }

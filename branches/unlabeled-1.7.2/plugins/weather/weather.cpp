@@ -465,6 +465,7 @@ i18n("weather", "Storm")
 i18n("weather", "Rain")
 i18n("weather", "Snow Showers")
 i18n("weather", "Light Rain")
+i18n("weather", "Light Snow")
 i18n("weather", "Few Snow Showers")
 i18n("weather", "Scattered Snow Showers")
 i18n("weather", "Snow Shower")
@@ -478,6 +479,7 @@ i18n("weather", "Mostly Cloudy")
 i18n("weather", "Partly Cloudy")
 i18n("weather", "Wind")
 i18n("weather", "steady")
+i18n("weather", "rising")
 i18n("weather", "falling")
 i18n("weather", "Unlimited")
 #endif
@@ -702,12 +704,12 @@ void WeatherPlugin::element_end(const char *el)
         m_data = "";
         return;
     }
-    if (!strcmp(el, "sunr") && m_bCC){
+    if (!strcmp(el, "sunr") && (m_day == 0)){
         setSun_raise(m_data.c_str());
         m_data = "";
         return;
     }
-    if (!strcmp(el, "suns") && m_bCC){
+    if (!strcmp(el, "suns") && (m_day == 0)){
         setSun_set(m_data.c_str());
         m_data = "";
         return;
