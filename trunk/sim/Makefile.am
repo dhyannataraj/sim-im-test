@@ -13,6 +13,8 @@ SUBDIRS = libicq ui xpm qt3
 EXTRA_DIST = sim.desktop lo32-app-sim.png lo16-app-sim.png client.cpp client.h cuser.cpp cuser.h defs.h dock.cpp dock.h editspell.cpp editspell.h history.cpp history.h icons.cpp icons.h mainwin.cpp mainwin.h msgedit.cpp msgedit.h msgview.cpp msgview.h sim.cpp sim.h themes.cpp themes.h toolbtn.cpp toolbtn.h userbox.cpp userbox.h usertbl.cpp usertbl.h userview.cpp userview.h intedit.cpp intedit.h transparent.cpp transparent.h fontedit.cpp fontedit.h chatwnd.cpp chatwnd.h xosd.cpp xosd.h hi16-app-sim.png hi32-app-sim.png about.cpp about.h parse.ll splash.cpp splash.h keys.cpp keys.h cfg.cpp cfg.h mgrep.cpp mgrep.h exec.cpp exec.h tmpl.cpp tmpl.h sockets.cpp sockets.h monitor.cpp monitor.h control.cpp control.h 
 
 install-data-local:
+	$(mkinstalldirs) $(libdir)/menu
+	$(INSTALL_DATA) $(srcdir)/sim-kde.menu $(libdir)/menu
 	$(mkinstalldirs) $(kde_appsdir)/Internet/
 	$(INSTALL_DATA) $(srcdir)/sim.desktop $(kde_appsdir)/Internet/sim.desktop
 	if [ -d /usr/share/applnk-mdk/Networking/Instant\ messaging/ ] ; then $(INSTALL_DATA) $(srcdir)/sim.desktop /usr/share/applnk-mdk/Networking/Instant\ messaging/sim.desktop ; fi

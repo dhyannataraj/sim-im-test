@@ -51,36 +51,45 @@ AC_DEFUN(AC_CHECK_OPENSSL,
     AC_MSG_RESULT(no)
   else
     AC_MSG_RESULT(yes)
-    dnl AC_MSG_CHECKING(for the OpenSSL headers)
-    temp=$CPPFLAGS
-    if test "$openssl_incdir" != "no"; then
-      CPPFLAGS="$CPPFLAGS -I$openssl_incdir"
+    LIBS_SSL = ""
+    AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
+    if text "x$PKG_CONFIG" != "xno" ; then
+      if $PKG_CONFIG openssl >/dev/null 2>&1; then
+        CPPFLAGS="$CPPFLAGS `$PKG_CONFIG --cflags openssl`"
+        LIBS_SSL="`$PKG_CONFIG --libs openssl`"
+      fi 
     fi
-    AC_CHECK_HEADER(openssl/ssl.h, WITH_OPENSSL="yes", WITH_OPENSSL="no")
-    if test "$WITH_OPENSSL" = "no"; then
-      CPPFLAGS="$temp"
-    fi
-
-    if test "$WITH_OPENSSL" = "yes"; then
-      dnl AC_MSG_CHECKING(for the OpenSSL library)
-      LIBS_SSL=""
-      save_libs="$LIBS"
-      if test "$openssl_libdir" != "no"; then
-        LIBS_SSL=" -L$openssl_libdir"
+    if text "x$LIBSS_SSL" = "x" ; then
+      dnl AC_MSG_CHECKING(for the OpenSSL headers)
+      temp=$CPPFLAGS
+      if test "$openssl_incdir" != "no"; then
+        CPPFLAGS="$CPPFLAGS -I$openssl_incdir"
       fi
-      AC_CHECK_LIB(crypto, DH_free, WITH_OPENSSL="yes", WITH_OPENSSL="no")
-      if test "$WITH_OPENSSL" = "yes"; then
-	LIBS="-lcrypto $LIBS"
-        AC_CHECK_LIB(ssl, SSL_new, WITH_OPENSSL="yes", WITH_OPENSSL="no")
-      else
-        WITH_OPENSSL="no"
-      fi
+      AC_CHECK_HEADER(openssl/ssl.h, WITH_OPENSSL="yes", WITH_OPENSSL="no")
       if test "$WITH_OPENSSL" = "no"; then
-        LIBS_SSL=""
-      else
-        LIBS_SSL="$LIBS_SSL -lssl -lcrypto"
+        CPPFLAGS="$temp"
       fi
-      LIBS="$save_libs"
+      if test "$WITH_OPENSSL" = "yes"; then
+        dnl AC_MSG_CHECKING(for the OpenSSL library)
+        LIBS_SSL=""
+        save_libs="$LIBS"
+        if test "$openssl_libdir" != "no"; then
+          LIBS_SSL=" -L$openssl_libdir"
+        fi
+        AC_CHECK_LIB(crypto, DH_free, WITH_OPENSSL="yes", WITH_OPENSSL="no")
+        if test "$WITH_OPENSSL" = "yes"; then
+	  LIBS="-lcrypto $LIBS"
+          AC_CHECK_LIB(ssl, SSL_new, WITH_OPENSSL="yes", WITH_OPENSSL="no")
+        else
+          WITH_OPENSSL="no"
+        fi
+        if test "$WITH_OPENSSL" = "no"; then
+          LIBS_SSL=""
+        else
+          LIBS_SSL="$LIBS_SSL -lssl -lcrypto"
+        fi
+        LIBS="$save_libs"
+      fi
     fi
     AC_SUBST(LIBS_SSL)
     AC_MSG_CHECKING(if OpenSSL support can be enabled)
