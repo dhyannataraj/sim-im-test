@@ -484,7 +484,7 @@ Tlv::~Tlv()
     delete[] m_data;
 }
 
-void log_packet(Buffer &buf, bool bOut, unsigned packet_id, const char *add_info)
+EXPORT void log_packet(Buffer &buf, bool bOut, unsigned packet_id, const char *add_info)
 {
     LogInfo li;
     li.log_level = bOut ? L_PACKET_OUT : L_PACKET_IN;

@@ -130,6 +130,7 @@ class QComboBox;
 class QLineEdit;
 
 class KAboutData;
+class Buffer;
 
 namespace SIM
 {
@@ -140,7 +141,6 @@ namespace SIM
 class PluginManagerPrivate;
 class ContactList;
 class SocketFactory;
-class Buffer;
 
 class EXPORT PluginManager
 {
