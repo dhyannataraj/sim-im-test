@@ -70,9 +70,8 @@ class ExecManager : public QObject
 public:
     ExecManager();
     ~ExecManager();
-    static ExecManager *manager;
+	static ExecManager *manager;
 #ifndef WIN32
-    struct sigaction *oldChildAct;
     QTimer *m_timer;
 #endif
 signals:

@@ -31,6 +31,7 @@ typedef struct StyleDef
     QString name;
     QString text;
     bool	bCustom;
+	bool	bChanged;
     bool	operator < (const StyleDef &s) const { return name < s.name; }
 } StyleDef;
 

@@ -87,6 +87,15 @@ void JabberConfig::apply(Client*, void*)
 
 void JabberConfig::apply()
 {
+    if (m_bConfig){
+        m_client->setServer(edtServer->text().local8Bit());
+        m_client->setPort((unsigned short)atol(edtPort->text()));
+    }else{
+        m_client->setServer(edtServer1->text().local8Bit());
+        m_client->setPort((unsigned short)atol(edtPort1->text()));
+    }
+    if (chkVHost->isChecked())
+        set_str(&m_client->data.VHost, edtVHost->text().utf8());
     QString jid = edtID->text();
     if (jid.find('@') < 0){
         QString host;
@@ -99,18 +108,14 @@ void JabberConfig::apply()
             jid += "@";
             jid += host;
         }
-    }
+    }else{
+		QString host = jid.mid(jid.find('@') + 1);
+        set_str(&m_client->data.VHost, host.utf8());
+	}
     if (!m_bConfig){
         m_client->setID(jid);
         m_client->setPassword(edtPasswd->text());
         m_client->setRegister(chkRegister->isChecked());
-    }
-    if (m_bConfig){
-        m_client->setServer(edtServer->text().local8Bit());
-        m_client->setPort((unsigned short)atol(edtPort->text()));
-    }else{
-        m_client->setServer(edtServer1->text().local8Bit());
-        m_client->setPort((unsigned short)atol(edtPort1->text()));
     }
 #ifdef USE_OPENSSL
     if (m_bConfig){
@@ -134,8 +139,6 @@ void JabberConfig::apply()
     }
     set_str(&m_client->data.owner.Resource, edtResource->text().utf8());
     m_client->setPriority(atol(edtPriority->text().latin1()));
-    if (chkVHost->isChecked())
-        set_str(&m_client->data.VHost, edtVHost->text().utf8());
 }
 
 void JabberConfig::toggledSSL(bool bState)

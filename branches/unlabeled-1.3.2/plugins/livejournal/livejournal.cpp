@@ -107,6 +107,7 @@ QString JournalMessage::presentation()
 
 #if 0
 i18n("LiveJournal post", "%n LiveJournal posts", 1);
+i18n("Friends updated", "Friends updated %n", 1);
 #endif
 
 static Message *createJournalMessage(const char *cfg)

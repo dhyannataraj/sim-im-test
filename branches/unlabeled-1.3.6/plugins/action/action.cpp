@@ -243,6 +243,8 @@ void *ActionPlugin::processEvent(Event *e)
         t.contact  = contact;
         t.receiver = this;
         t.param	   = msg;
+            Event eTmpl(EventTemplateExpand, &t);
+            eTmpl.process();
         return e->param();
     }
     if (e->type() == EventTemplateExpanded){
@@ -252,7 +254,7 @@ void *ActionPlugin::processEvent(Event *e)
             MsgExec *exec = new MsgExec;
             exec->msg = msg;
             m_exec.push_back(exec);
-            connect(exec, SIGNAL(msg_ready(Exec*,int,const char*)), this, SLOT(ready(Exec*,int,const char*)));
+            connect(exec, SIGNAL(ready(Exec*,int,const char*)), this, SLOT(msg_ready(Exec*,int,const char*)));
             QString text = msg->presentation();
             exec->execute(t->tmpl.local8Bit(), unquoteText(text).local8Bit());
         }else{

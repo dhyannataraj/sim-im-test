@@ -150,6 +150,10 @@ QString i18n(const char *singular, const char *plural, unsigned long n)
     char *newstring = new char[strlen(singular) + strlen(plural) + 6];
     sprintf(newstring, "_n: %s\n%s", singular, plural);
     QString r = i18n(newstring);
+	if (r == newstring){
+		delete[] newstring;
+		goto NoTranslate;
+	}
     delete [] newstring;
     initPlural();
     if ( r.isEmpty() || plural_form == -1) {

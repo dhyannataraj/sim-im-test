@@ -534,9 +534,6 @@ QString TextShow::plainText(int paraFrom, int paraTo, int indexFrom, int indexTo
 
 QString TextShow::unquoteString(const QString &s, int from, int to)
 {
-    string ss;
-    if (!s.isEmpty())
-        ss = s.local8Bit();
     unsigned startPos = textPosition(s, from);
     unsigned endPos = textPosition(s, to);
     return SIM::unquoteText(s.mid(startPos, endPos - startPos));
@@ -570,13 +567,13 @@ unsigned TextShow::textPosition(const QString &text, unsigned pos)
             continue;
         }
         if (c == '&'){
-            unsigned n = i;
-            for (; n < text.length(); n++){
-                c = text[(int)n];
+			if (pos == 0)
+				return i;
+            for (; i < text.length(); i++){
+                c = text[(int)i];
                 if (c == ';')
                     break;
             }
-            i = n;
         }
         if (pos == 0)
             return i;

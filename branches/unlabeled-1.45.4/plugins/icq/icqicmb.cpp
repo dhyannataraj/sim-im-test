@@ -374,7 +374,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         break;
                     }
                     Message *mm = NULL;
-                    if (atol(screen.c_str())){
+                    if (!m_bAIM && atol(screen.c_str())){
                         ICQMessage *msg = new ICQMessage;
                         msg->setServerText(m_data);
                         mm = msg;
@@ -1311,7 +1311,7 @@ void ICQClient::processSendQueue()
         send(true);
         return;
     }
-    m_sendTimer->start(30000);
+    m_sendTimer->start(50000);
     for (;;){
         if ((getState() != Connected) || sendQueue.empty()){
             m_sendTimer->stop();
