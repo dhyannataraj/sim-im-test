@@ -177,6 +177,11 @@ QSize PictButton::sizeHint() const
     return p;
 }
 
+void PictButton::setText(const QString &text)
+{
+    setState(icon, text);
+}
+
 void PictButton::setState(const QString& _icon, const QString& _text)
 {
     icon = _icon;

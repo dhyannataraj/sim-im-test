@@ -87,6 +87,7 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
         : QSplitter(Vertical, p),
         Uin(this, "Uin")
 {
+    bFirstShow = true;
     Uin = uin;
     msg = NULL;
     tabId = -1;
@@ -100,6 +101,7 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     frmEdit = new QFrame(w);
     w->setCentralWidget(frmEdit);
     QToolBar *t = new QToolBar(w);
+    t->installEventFilter(this);
     t->setHorizontalStretchable(true);
     t->setVerticalStretchable(true);
     QVBoxLayout *lay = new QVBoxLayout(frmEdit);
@@ -152,7 +154,7 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
 
     btnGrant = new PictButton(t);
     btnGrant->hide();
-    btnGrant->setState("ok", i18n("&Grant"));
+    btnGrant->setState("apply", i18n("&Grant"));
     connect(btnGrant, SIGNAL(clicked()), this, SLOT(grantClick()));
 
     btnRefuse = new PictButton(t);
@@ -162,7 +164,7 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
 
     btnAccept = new PictButton(t);
     btnAccept->hide();
-    btnAccept->setState("ok", i18n("&Accept"));
+    btnAccept->setState("apply", i18n("&Accept"));
     connect(btnAccept, SIGNAL(clicked()), this, SLOT(acceptMessage()));
 
     btnDecline = new PictButton(t);
@@ -172,17 +174,17 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
 
     btnReply = new PictButton(t);
     btnReply->hide();
-    btnReply->setState("reply", i18n("&Reply"));
+    btnReply->setState("mail_reply", i18n("&Reply"));
     connect(btnReply, SIGNAL(clicked()), this, SLOT(replyClick()));
 
     btnQuote = new PictButton(t);
     btnQuote->hide();
-    btnQuote->setState("quote", i18n("&Quote"));
+    btnQuote->setState("mail_replylist", i18n("&Quote"));
     connect(btnQuote, SIGNAL(clicked()), this, SLOT(quoteClick()));
 
     btnForward = new PictButton(t);
     btnForward->hide();
-    btnForward->setState("forward", i18n("&Forward"));
+    btnForward->setState("mail_forward", i18n("&Forward"));
     connect(btnForward, SIGNAL(clicked()), this, SLOT(forwardClick()));
 
 #ifdef USE_SPELL
@@ -195,19 +197,23 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
 
     btnCloseSend = new QToolButton(t);
     btnCloseSend->setTextLabel(i18n("C&lose after send"));
-    btnCloseSend->setIconSet(Icon("closesend"));
+    btnCloseSend->setIconSet(Icon("close"));
     btnCloseSend->setToggleButton(true);
     btnCloseSend->setOn(pMain->CloseAfterSend());
     connect(btnCloseSend, SIGNAL(toggled(bool)), this, SLOT(closeToggle(bool)));
 
+    t->addSeparator();
+
     btnSend = new PictButton(t);
-    btnSend->setState("send", i18n("&Send"));
+    btnSend->setState("mail_send", i18n("&Send"));
     connect(btnSend, SIGNAL(clicked()), this, SLOT(sendClick()));
 
     btnNext = new PictButton(t);
     btnNext->hide();
-    btnNext->setState("send", i18n("&Next"));
+    btnNext->setState("message", i18n("&Next"));
     connect(btnNext, SIGNAL(clicked()), this, SLOT(nextClick()));
+
+    t->addSeparator();
 
     btnMultiply = new QToolButton(t);
     btnMultiply->setTextLabel(i18n("Multiply send"));
@@ -240,7 +246,7 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     lblUsers = new QHGroupBox(frmEdit);
     lblUsers->hide();
     lay->addWidget(lblUsers);
-    QLabel *l = new QLabel(i18n("Drag users here"), lblUsers);
+    new QLabel(i18n("Drag users here"), lblUsers);
 
     edit  = new EditSpell(frmEdit);
     edit->hide();
@@ -835,7 +841,7 @@ void MsgEdit::setupNext()
         btnNext->setState(Client::getMessageIcon(msgType), i18n("Next") + s);
         return;
     }
-    btnNext->setState("", i18n("New"));
+    btnNext->setState("message", i18n("New"));
 }
 
 void MsgEdit::nextClick()
@@ -905,7 +911,7 @@ void MsgEdit::forwardClick()
     setMessage(newMsg);
     edit->moveCursor(QTextEdit::MoveEnd, false);
     bMultiply = true;
-    btnMultiply->setPixmap(Pict("1leftarrow"));
+    btnMultiply->setIconSet(Icon("1leftarrow"));
     emit showUsers(true, 0);
     textChanged();
 }
@@ -913,7 +919,7 @@ void MsgEdit::forwardClick()
 void MsgEdit::toggleMultiply()
 {
     bMultiply = !bMultiply;
-    btnMultiply->setPixmap(Pict(bMultiply ? "1leftarrow" : "1rightarrow"));
+    btnMultiply->setIconSet(Icon(bMultiply ? "1leftarrow" : "1rightarrow"));
     emit showUsers(bMultiply, Uin);
 }
 
@@ -966,6 +972,15 @@ void MsgEdit::refuseClick()
     ICQMessage *msg = new ICQAuthRefused;
     msg->Uin.push_back(Uin);
     setMessage(msg);
+}
+
+bool MsgEdit::eventFilter(QObject *o, QEvent *e)
+{
+    if ((e->type() != QEvent::Show) || !bFirstShow) return false;
+    bFirstShow = false;
+    o->event(e);
+    setMessage(msg);
+    return true;
 }
 
 void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEdit)

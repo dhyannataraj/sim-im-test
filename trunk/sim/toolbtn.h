@@ -62,6 +62,7 @@ class PictButton : public CToolButton
     Q_OBJECT
 public:
     PictButton(QToolBar*);
+    void setText(const QString& text);
 public slots:
     void setState(const QString& icon, const QString& text);
 protected slots:

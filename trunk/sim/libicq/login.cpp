@@ -33,7 +33,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
     case ICQ_SNACxLOGIN_ERROR:
         m_reconnectTime = (time_t)(-1);
         log(L_WARN, "Login error");
-        sock->error();
+        sock->error_state(ErrorProtocol);
         break;
     case ICQ_SNACxLOGIN_REGISTER:{
             if (m_state != Register){
@@ -137,8 +137,7 @@ void ICQClient::chn_close()
             log(L_WARN, "Unknown error %04X", err);
         }
         if (err){
-
-            if (sock) sock->error();
+            if (sock) sock->error_state(ErrorProtocol);
             return;
         }
     }
@@ -159,7 +158,7 @@ void ICQClient::chn_close()
             log(L_WARN, "Unknown run-time error %04X", err);
         }
         if (err){
-            sock->error();
+            if (sock) sock->error_state(ErrorProtocol);
             return;
         }
     }
@@ -168,14 +167,14 @@ void ICQClient::chn_close()
     Tlv *tlv_cookie = tlv(6);
     if ((tlv_host == NULL) || (tlv_cookie == NULL)){
         log(L_ERROR, "Close packet");
-        sock->error();
+        sock->error_state(ErrorProtocol);
         return;
     }
     char *host = *tlv_host;
     char *port = strchr(host, ':');
     if (port == NULL){
         log(L_ERROR, "Bad host address %s", host);
-        sock->error();
+        sock->error_state(ErrorProtocol);
         return;
     }
 

@@ -41,7 +41,7 @@
 #ifdef USE_KDE
 #include <kglobal.h>
 #include <kcharsets.h>
-#include <kextendedsocket.h>
+#include <kextsock.h>
 #include <ksockaddr.h>
 #endif
 

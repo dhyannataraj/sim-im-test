@@ -388,6 +388,7 @@ bool ICQSetListEvent::process(ICQClient *icq, unsigned short result)
 void ICQClient::processListQueue()
 {
     for (;;){
+	if ((sock == NULL) || (sock->isError())) return;
         if (listQueue.size() == 0) return;
         list_req lr = *listQueue.begin();
         ICQUser *u = getUser(lr.uin);

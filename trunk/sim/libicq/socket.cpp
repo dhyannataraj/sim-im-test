@@ -40,17 +40,18 @@ ClientSocket::ClientSocket(ClientSocketNotify *n, SocketFactory *f)
     notify = n;
     factory = f;
     bRawMode = false;
+    bClosed  = false;
     m_sock = f->createSocket();
     m_sock->setNotify(this);
     m_proxy = NULL;
-    bInProcess = false;
-    bClosed = false;
 }
 
 ClientSocket::~ClientSocket()
 {
     setProxy(NULL);
     if (m_sock) delete m_sock;
+    if (err == ErrorNone) return;
+    factory->errSockets.remove(this);
 }
 
 void ClientSocket::close()
@@ -79,9 +80,9 @@ void ClientSocket::setProxyConnected()
     setProxy(NULL);
 }
 
-void ClientSocket::error(SocketError err)
+void ClientSocket::error_state(SocketError _err)
 {
-    switch (err){
+    switch (_err){
     case ErrorSocket:
         log(L_WARN, "Socket error");
         break;
@@ -106,12 +107,16 @@ void ClientSocket::error(SocketError err)
     case ErrorProxyConnect:
         log(L_WARN, "Proxy connect error");
         break;
+    case ErrorCancel:
+	break;
     case ErrorNone:
         return;
     }
-    bInProcess = true;
-    notify->error_state(err);
-    bInProcess = false;
+    err = _err; 
+    list<ClientSocket*>::iterator it;
+    for (it = factory->errSockets.begin(); it != factory->errSockets.end(); ++it)
+	if ((*it) == this) return; 
+    factory->errSockets.push_back(this);
 }
 
 void ClientSocket::connect(const char *host, int port)
@@ -133,7 +138,6 @@ bool ClientSocket::created()
 
 void ClientSocket::connect_ready()
 {
-    bClosed = false;
     notify->connect_ready();
 }
 
@@ -142,16 +146,6 @@ void ClientSocket::setRaw(bool mode)
     bRawMode = mode;
     read_ready();
     if (mode) readBuffer.init(0);
-}
-
-void ClientSocket::processPacket()
-{
-    bInProcess = true;
-    err = ErrorNone;
-    notify->packet_ready();
-    if (err != ErrorNone)
-        notify->error_state(err);
-    bInProcess = false;
 }
 
 void ClientSocket::read_ready()
@@ -172,7 +166,7 @@ void ClientSocket::read_ready()
         int readn = m_sock->read(readBuffer.Data(readBuffer.writePos()),
                                  readBuffer.size() - readBuffer.writePos());
         if (readn < 0){
-            notify->error_state(ErrorRead);
+            error_state(ErrorRead);
             return;
         }
         if (readn == 0) break;
@@ -185,23 +179,6 @@ void ClientSocket::read_ready()
 void ClientSocket::write_ready()
 {
     notify->write_ready();
-}
-
-void ClientSocket::error_state(SocketError _err)
-{
-    if (bInProcess){
-        err = _err;
-        return;
-    }
-    bInProcess = true;
-    notify->error_state(_err);
-    bInProcess = false;
-}
-
-void ClientSocket::remove()
-{
-    m_sock->close();
-    factory->removedNotifies.push_back(this);
 }
 
 unsigned long ClientSocket::localHost()
@@ -222,8 +199,19 @@ void ClientSocket::setSocket(Socket *s)
 
 void SocketFactory::idle()
 {
-    for (list<SocketNotify*>::iterator itNot = removedNotifies.begin(); itNot != removedNotifies.end(); ++itNot)
-        delete (*itNot);
-    removedNotifies.clear();
+    for (list<ClientSocket*>::iterator it = errSockets.begin(); it != errSockets.end();){
+       ClientSocket *s = *it;
+       ClientSocketNotify *n = s->notify;
+       if (n){
+   	  SocketError err = s->err;
+          s->err = ErrorNone;
+          if (n->error_state(err))
+		delete n;
+       }else{
+	  delete s;
+       }
+       errSockets.remove(s);
+       it = errSockets.begin();
+    }
 }
 

@@ -867,6 +867,7 @@ void ICQClient::processMsgQueueThruServer()
 {
     list<ICQEvent*>::iterator it;
     for (it = msgQueue.begin(); it != msgQueue.end();){
+	if ((sock == NULL) || (sock->isError())) return;
         bool bToStart = false;
         ICQEvent *e = *it;
         if (e->message() == NULL){

@@ -108,16 +108,9 @@ DirectSocket::~DirectSocket()
     if (sock) delete sock;
 }
 
-void DirectSocket::remove()
-{
-    for (list<DirectSocket*>::iterator it = client->removedSockets.begin(); it != client->removedSockets.end(); ++it)
-        if ((*it) == this) return;
-    client->removedSockets.push_back(this);
-}
-
 void DirectSocket::init()
 {
-    if (!sock->created()) error_state(ErrorConnect);
+    if (!sock->created()) sock->error_state(ErrorConnect);
     m_nSequence = 0xFFFF;
     sock->writeBuffer.init(0);
     sock->readBuffer.init(2);
@@ -125,13 +118,13 @@ void DirectSocket::init()
     m_bUseInternalIP = true;
 }
 
-void DirectSocket::error_state(SocketError)
+bool DirectSocket::error_state(SocketError)
 {
     if ((state == ConnectIP1) || (state == ConnectIP2)){
         connect();
-    }else{
-        remove();
+	return false;
     }
+    return true;
 }
 
 void DirectSocket::connect()
@@ -168,7 +161,7 @@ void DirectSocket::connect()
         }
     }
     log(L_WARN, "Can't established direct connection");
-    remove();
+    sock->error_state(ErrorConnect);
 }
 
 void DirectSocket::packet_ready()
@@ -194,7 +187,7 @@ void DirectSocket::packet_ready()
             sock->readBuffer.unpack(s2);
             if ((s1 != 1) || (s2 != 0)){
                 log(L_WARN, "Bad ack %X %X", s1, s2);
-                sock->error();
+                sock->error_state(ErrorProtocol);
                 return;
             }
             if (m_bIncoming){
@@ -210,13 +203,13 @@ void DirectSocket::packet_ready()
             sock->readBuffer.unpack(cmd);
             if ((unsigned char)cmd != 0xFF){
                 log(L_WARN, "Bad direct init command (%X)", cmd & 0xFF);
-                sock->error();
+                sock->error_state(ErrorProtocol);
                 return;
             }
             sock->readBuffer.unpack(version);
             if (version < 6){
                 log(L_WARN, "Use old protocol");
-                sock->error();
+                sock->error_state(ErrorProtocol);
                 return;
             }
             sock->readBuffer.incReadPos(3);
@@ -224,7 +217,7 @@ void DirectSocket::packet_ready()
             sock->readBuffer.unpack(my_uin);
             if (my_uin != client->Uin()){
                 log(L_WARN, "Bad UIN");
-                sock->error();
+                sock->error_state(ErrorProtocol);
                 return;
             }
             sock->readBuffer.incReadPos(6);
@@ -234,14 +227,14 @@ void DirectSocket::packet_ready()
                 ICQUser *user = client->getUser(p_uin, true, true);
                 if ((user == NULL) || user->inIgnore()){
                     log(L_WARN, "User %lu not found", p_uin);
-                    sock->error();
+                    sock->error_state(ErrorProtocol);
                     return;
                 }
                 uin = p_uin;
             }else{
                 if (p_uin != uin){
                     log(L_WARN, "Bad sender UIN");
-                    sock->error();
+                    sock->error_state(ErrorProtocol);
                     return;
                 }
             }
@@ -256,7 +249,7 @@ void DirectSocket::packet_ready()
             }else{
                 if (sessionId != m_nSessionId){
                     log(L_WARN, "Bad session ID");
-                    sock->error();
+                    sock->error_state(ErrorProtocol);
                     return;
                 }
                 sendInitAck();
@@ -267,7 +260,7 @@ void DirectSocket::packet_ready()
         }
     default:
         log(L_WARN, "Bad state");
-        sock->error();
+        sock->error_state(ErrorProtocol);
         return;
     }
     sock->readBuffer.init(2);
@@ -279,7 +272,7 @@ void DirectSocket::sendInit()
     if (!m_bIncoming){
         if (DCcookie == 0){
             log(L_WARN, "No direct info");
-            sock->error();
+            sock->error_state(ErrorProtocol);
             return;
         }
         m_nSessionId = DCcookie;
@@ -458,7 +451,7 @@ void DirectClient::processPacket()
     switch (state){
     case None:
         log(L_WARN, "DirectClient::processPacket bad state");
-        sock->error();
+        sock->error_state(ErrorProtocol);
         return;
     case WaitInit2:
         if (m_bIncoming) sendInit2();
@@ -503,14 +496,14 @@ void DirectClient::processPacket()
     M1 = (B1 >> 24) & 0xFF;
     if(M1 < 10 || M1 >= size){
         log(L_WARN, "Decrypt packet failed");
-        sock->error();
+        sock->error_state(ErrorProtocol);
         return;
     }
 
     X1 = p[M1] ^ 0xFF;
     if(((B1 >> 16) & 0xFF) != X1){
         log(L_WARN, "Decrypt packet failed");
-        sock->error();
+        sock->error_state(ErrorProtocol);
         return;
     }
 
@@ -519,7 +512,7 @@ void DirectClient::processPacket()
         X3 = client_check_data[X2] ^ 0xFF;
         if((B1 & 0xFF) != X3){
             log(L_WARN, "Decrypt packet failed");
-            sock->error();
+            sock->error_state(ErrorProtocol);
             return;
         }
     }
@@ -531,7 +524,7 @@ void DirectClient::processPacket()
         sock->readBuffer.unpack(startByte);
         if (startByte != 0x02){
             log(L_WARN, "Bad start byte");
-            sock->error();
+            sock->error_state(ErrorProtocol);
         }
     }
     unsigned long checksum;
@@ -554,7 +547,7 @@ void DirectClient::processPacket()
     switch (command){
     case TCP_START:
         if (m == NULL){
-            sock->error();
+            sock->error_state(ErrorProtocol);
             return;
         }
         m->Received = true;
@@ -617,7 +610,6 @@ void DirectClient::processPacket()
         break;
     case TCP_CANCEL:
         if (m) client->cancelMessage(m, false);
-        remove();
         break;
     case TCP_ACK:
         if (m){
@@ -721,7 +713,7 @@ void DirectClient::processPacket()
         break;
     default:
         log(L_WARN, "Unknown TCP command %X", command);
-        sock->error();
+        sock->error_state(ErrorProtocol);
     }
 }
 
@@ -742,11 +734,11 @@ void DirectClient::connect_ready()
         u = client->getUser(uin);
         if ((u == NULL) || u->inIgnore()){
             log(L_WARN, "Connection from unknown user");
-            sock->error();
+            sock->error_state(ErrorProtocol);
             return;
         }
         if (u->direct){
-            sock->error();
+            sock->error_state(ErrorProtocol);
             return;
         }
         u->direct = this;
@@ -790,8 +782,9 @@ void DirectClient::sendInit2()
     sock->write();
 }
 
-void DirectClient::error_state(SocketError err)
+bool DirectClient::error_state(SocketError err)
 {
+    if (!DirectSocket::error_state(err)) return false;
     if (u){
         list<ICQEvent*>::iterator it;
         for (it = u->msgQueue.begin(); it != u->msgQueue.end(); it = u->msgQueue.begin()){
@@ -804,7 +797,7 @@ void DirectClient::error_state(SocketError err)
             delete e;
         }
     }
-    DirectSocket::error_state(err);
+    return true;
 }
 
 void DirectClient::sendAck(unsigned short seq, unsigned short type)
@@ -1031,12 +1024,13 @@ void FileTransfer::write_ready()
                 e->state = ICQEvent::Success;
                 e->setType(EVENT_DONE);
                 client->process_event(e);
+		file->ft = NULL;
                 delete file;
                 delete e;
                 file = NULL;
                 break;
             }
-            remove();
+	    sock->error_state(ErrorCancel);
             return;
         }
         curName = file->files[m_curFile].name;
@@ -1062,7 +1056,7 @@ void FileTransfer::write_ready()
     unsigned long pos = sock->writeBuffer.writePos();
     if (!client->readFile(file, sock->writeBuffer, tail)){
         log(L_WARN, "Error read file");
-        sock->error();
+        sock->error_state(ErrorProtocol);
         return;
     }
     m_fileSize += (sock->writeBuffer.writePos() - pos);
@@ -1130,7 +1124,7 @@ void FileTransfer::processPacket()
     case WaitInit:{
             if (cmd != FT_INIT){
                 log(L_WARN, "No init command");
-                sock->error();
+                sock->error_state(ErrorProtocol);
                 return;
             }
             unsigned long n;
@@ -1154,7 +1148,7 @@ void FileTransfer::processPacket()
     case InitReceive:{
             if (cmd != FT_FILEINFO){
                 log(L_WARN, "Bad command in init receive");
-                sock->error();
+                sock->error_state(ErrorProtocol);
                 return;
             }
             sock->readBuffer.incReadPos(1);
@@ -1181,7 +1175,7 @@ void FileTransfer::processPacket()
                 m_fileSize = pos;
                 if (!client->openFile(file) || !client->seekFile(file, pos)){
                     log(L_WARN, "Can't open file");
-                    sock->error();
+                    sock->error_state(ErrorProtocol);
                     return;
                 }
                 state = Send;
@@ -1190,13 +1184,13 @@ void FileTransfer::processPacket()
             break;
         default:
             log(L_WARN, "Bad init client command %X", cmd);
-            sock->error();
+            sock->error_state(ErrorProtocol);
         }
         break;
     case Receive:{
             if (cmd != FT_DATA){
                 log(L_WARN, "Bad data command");
-                sock->error();
+                sock->error_state(ErrorProtocol);
                 return;
             }
             unsigned short size = sock->readBuffer.size() - sock->readBuffer.readPos();
@@ -1204,7 +1198,7 @@ void FileTransfer::processPacket()
             m_totalSize += size;
             if (!client->writeFile(file, sock->readBuffer)){
                 log(L_WARN, "Error write file");
-                sock->error();
+                sock->error_state(ErrorProtocol);
                 return;
             }
             if (m_fileSize >= m_curSize){
@@ -1222,13 +1216,14 @@ void FileTransfer::processPacket()
                         e->setType(EVENT_DONE);
                         e->state = ICQEvent::Success;
                         client->process_event(e);
+			file->ft = NULL;
                         delete e;
                         delete file;
                         file = NULL;
                         break;
                     }
+		    sock->error_state(ErrorCancel);
                     state = None;
-                    remove();
                     return;
                 }
                 state = InitReceive;
@@ -1238,18 +1233,21 @@ void FileTransfer::processPacket()
         }
     default:
         log(L_WARN, "Packet in bad state");
-        sock->error();
+        sock->error_state(ErrorProtocol);
         return;
     }
 }
 
-void FileTransfer::error_state(SocketError)
+bool FileTransfer::error_state(SocketError err)
 {
+    if (!DirectSocket::error_state(err))
+	return false;
     state = None;
-    if (file == NULL) return;
-    file->ft = NULL;
-    client->cancelMessage(file);
-    remove();
+    if (file){
+    	file->ft = NULL;
+    	client->cancelMessage(file);
+    }
+    return true;
 }
 
 void FileTransfer::connect_ready()
@@ -1276,7 +1274,7 @@ void FileTransfer::connect_ready()
         string uin = b;
         sock->writeBuffer << uin;
         sendPacket();
-        if (m_nFiles == 0) sock->error();
+        if (m_nFiles == 0) sock->error_state(ErrorCancel);
         curName = file->files[0].name;
         m_curSize = file->files[0].size;
     }
@@ -1656,7 +1654,7 @@ void ChatSocket::processPacket()
         }
     default:
         log(L_WARN, "Chat packet in unknown state");
-        sock->error();
+        sock->error_state(ErrorProtocol);
         return;
     }
 }
@@ -1703,11 +1701,14 @@ void ChatSocket::sendPacket()
     sock->write();
 }
 
-void ChatSocket::error_state(SocketError)
+bool ChatSocket::error_state(SocketError err)
 {
+    if (!DirectSocket::error_state(err))
+	return false;
     ICQEvent e(EVENT_CHAT, chat->getUin(), CHAT_CONNECT, chat);
     e.state = ICQEvent::Fail;
     client->process_event(&e);
+    return false;
 }
 
 ICQEvent *ICQUser::addMessage(ICQMessage *msg, ICQClient *client)

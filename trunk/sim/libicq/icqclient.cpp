@@ -126,7 +126,7 @@ void ICQClient::close()
             flap(ICQ_CHNxCLOSE);
             sendPacket();
         }
-        sock->remove();
+	delete sock;
         sock = NULL;
     }
 }
@@ -139,7 +139,7 @@ void ICQClient::packet_ready()
         sock->readBuffer >> c;
         if (c != 0x2A){
             log(L_ERROR, "Server send bad packet start code: %02X", c);
-            sock->error();
+            sock->error_state(ErrorProtocol);
             return;
         }
         sock->readBuffer >> m_nChannel;
@@ -206,7 +206,7 @@ void ICQClient::packet_ready()
     m_bHeader = true;
 }
 
-void ICQClient::error_state(SocketError err)
+bool ICQClient::error_state(SocketError err)
 {
     log(L_DEBUG, "Error: %u", err);
     switch (err){
@@ -232,6 +232,7 @@ void ICQClient::error_state(SocketError err)
         }
     }
     setStatus(ICQ_STATUS_OFFLINE);
+    return false;
 }
 
 void ICQClient::setStatus(unsigned short status)
@@ -332,10 +333,6 @@ void ICQClient::dropPacket()
 void ICQClient::idle()
 {
     SocketFactory::idle();
-    for (list<DirectSocket*>::iterator it = removedSockets.begin(); it != removedSockets.end(); ++it){
-        delete (*it);
-    }
-    removedSockets.clear();
     time_t now;
     time(&now);
     if (m_state == Logged){

@@ -35,7 +35,7 @@ project_type=normal_kde2
 sub_dir=sim/
 version=0.1
 version_control=CVS
-workspace=-1371063821
+workspace=690707264
 
 [INSTALL]
 dist=true
@@ -1656,7 +1656,7 @@ install_location=
 type=DATA
 
 [sim/xpm/Makefile.am]
-files=sim/xpm/auth.xpm,sim/xpm/away.xpm,sim/xpm/bgcolor.xpm,sim/xpm/birthday.xpm,sim/xpm/cell.xpm,sim/xpm/collapsed.xpm,sim/xpm/configure.xpm,sim/xpm/contacts.xpm,sim/xpm/dnd.xpm,sim/xpm/downarrow.xpm,sim/xpm/editclear.xpm,sim/xpm/editdelete.xpm,sim/xpm/empty.xpm,sim/xpm/exit.xpm,sim/xpm/expanded.xpm,sim/xpm/ffc.xpm,sim/xpm/fgcolor.xpm,sim/xpm/file.xpm,sim/xpm/find.xpm,sim/xpm/floating.xpm,sim/xpm/grp_collapse.xpm,sim/xpm/grp_create.xpm,sim/xpm/grp_expand.xpm,sim/xpm/grp_off.xpm,sim/xpm/grp_on.xpm,sim/xpm/history.xpm,sim/xpm/home.xpm,sim/xpm/ignorelist.xpm,sim/xpm/info.xpm,sim/xpm/invisible.xpm,sim/xpm/invisiblelist.xpm,sim/xpm/mail_generic.xpm,sim/xpm/mail_reply.xpm,sim/xpm/main.xpm,sim/xpm/message.xpm,sim/xpm/more.xpm,sim/xpm/na.xpm,sim/xpm/occupied.xpm,sim/xpm/offline.xpm,sim/xpm/online.xpm,sim/xpm/online_off.xpm,sim/xpm/online_on.xpm,sim/xpm/password.xpm,sim/xpm/phone.xpm,sim/xpm/security.xpm,sim/xpm/smile0.xpm,sim/xpm/smile1.xpm,sim/xpm/smile2.xpm,sim/xpm/smile3.xpm,sim/xpm/smile4.xpm,sim/xpm/smile5.xpm,sim/xpm/smile6.xpm,sim/xpm/smile7.xpm,sim/xpm/smile8.xpm,sim/xpm/smile9.xpm,sim/xpm/smileA.xpm,sim/xpm/smileB.xpm,sim/xpm/smileC.xpm,sim/xpm/smileD.xpm,sim/xpm/smileE.xpm,sim/xpm/smileF.xpm,sim/xpm/sms.xpm,sim/xpm/spellcheck.xpm,sim/xpm/status.xpm,sim/xpm/style.xpm,sim/xpm/url.xpm,sim/xpm/useroffline.xpm,sim/xpm/useronline.xpm,sim/xpm/userunknown.xpm,sim/xpm/visiblelist.xpm,sim/xpm/webaware.xpm,sim/xpm/work.xpm,sim/xpm/1downarrow.xpm,sim/xpm/1uparrow.xpm,sim/xpm/grp_rename.xpm,sim/xpm/added.xpm,sim/xpm/pager.xpm,sim/xpm/web.xpm,sim/xpm/fax.xpm,sim/xpm/wpager.xpm,sim/xpm/1rightarrow.xpm,sim/xpm/fileopen.xpm,sim/xpm/sound.xpm,sim/xpm/editcopy.xpm,sim/xpm/misc.xpm,sim/xpm/nophone.xpm,sim/xpm/text_bold.xpm,sim/xpm/text_italic.xpm,sim/xpm/text_under.xpm,sim/xpm/text.xpm,sim/xpm/alert.xpm,sim/xpm/interest.xpm,sim/xpm/past.xpm,sim/xpm/licq.xpm,sim/xpm/licq_big.xpm,sim/xpm/nonim.xpm,sim/xpm/remove.xpm,sim/xpm/network.xpm,sim/xpm/chat.xpm,sim/xpm/save_all.xpm,sim/xpm/about_kde.xpm,sim/xpm/1leftarrow.xpm,sim/xpm/screen.xpm,sim/xpm/encrypted.xpm,sim/xpm/key_bindings.xpm,sim/xpm/encoding.xpm
+files=sim/xpm/auth.xpm,sim/xpm/away.xpm,sim/xpm/bgcolor.xpm,sim/xpm/birthday.xpm,sim/xpm/cell.xpm,sim/xpm/collapsed.xpm,sim/xpm/configure.xpm,sim/xpm/contacts.xpm,sim/xpm/dnd.xpm,sim/xpm/downarrow.xpm,sim/xpm/editclear.xpm,sim/xpm/editdelete.xpm,sim/xpm/empty.xpm,sim/xpm/exit.xpm,sim/xpm/expanded.xpm,sim/xpm/ffc.xpm,sim/xpm/fgcolor.xpm,sim/xpm/file.xpm,sim/xpm/find.xpm,sim/xpm/floating.xpm,sim/xpm/grp_collapse.xpm,sim/xpm/grp_create.xpm,sim/xpm/grp_expand.xpm,sim/xpm/grp_off.xpm,sim/xpm/grp_on.xpm,sim/xpm/history.xpm,sim/xpm/home.xpm,sim/xpm/ignorelist.xpm,sim/xpm/info.xpm,sim/xpm/invisible.xpm,sim/xpm/invisiblelist.xpm,sim/xpm/mail_generic.xpm,sim/xpm/mail_reply.xpm,sim/xpm/main.xpm,sim/xpm/message.xpm,sim/xpm/more.xpm,sim/xpm/na.xpm,sim/xpm/occupied.xpm,sim/xpm/offline.xpm,sim/xpm/online.xpm,sim/xpm/online_off.xpm,sim/xpm/online_on.xpm,sim/xpm/password.xpm,sim/xpm/phone.xpm,sim/xpm/security.xpm,sim/xpm/smile0.xpm,sim/xpm/smile1.xpm,sim/xpm/smile2.xpm,sim/xpm/smile3.xpm,sim/xpm/smile4.xpm,sim/xpm/smile5.xpm,sim/xpm/smile6.xpm,sim/xpm/smile7.xpm,sim/xpm/smile8.xpm,sim/xpm/smile9.xpm,sim/xpm/smileA.xpm,sim/xpm/smileB.xpm,sim/xpm/smileC.xpm,sim/xpm/smileD.xpm,sim/xpm/smileE.xpm,sim/xpm/smileF.xpm,sim/xpm/sms.xpm,sim/xpm/spellcheck.xpm,sim/xpm/status.xpm,sim/xpm/style.xpm,sim/xpm/url.xpm,sim/xpm/useroffline.xpm,sim/xpm/useronline.xpm,sim/xpm/userunknown.xpm,sim/xpm/visiblelist.xpm,sim/xpm/webaware.xpm,sim/xpm/work.xpm,sim/xpm/1downarrow.xpm,sim/xpm/1uparrow.xpm,sim/xpm/grp_rename.xpm,sim/xpm/added.xpm,sim/xpm/pager.xpm,sim/xpm/web.xpm,sim/xpm/fax.xpm,sim/xpm/wpager.xpm,sim/xpm/1rightarrow.xpm,sim/xpm/fileopen.xpm,sim/xpm/sound.xpm,sim/xpm/editcopy.xpm,sim/xpm/misc.xpm,sim/xpm/nophone.xpm,sim/xpm/text_bold.xpm,sim/xpm/text_italic.xpm,sim/xpm/text_under.xpm,sim/xpm/text.xpm,sim/xpm/alert.xpm,sim/xpm/interest.xpm,sim/xpm/past.xpm,sim/xpm/licq.xpm,sim/xpm/licq_big.xpm,sim/xpm/nonim.xpm,sim/xpm/remove.xpm,sim/xpm/network.xpm,sim/xpm/chat.xpm,sim/xpm/save_all.xpm,sim/xpm/about_kde.xpm,sim/xpm/1leftarrow.xpm,sim/xpm/screen.xpm,sim/xpm/encrypted.xpm,sim/xpm/key_bindings.xpm,sim/xpm/encoding.xpm,sim/xpm/apply.xpm,sim/xpm/cancel.xpm,sim/xpm/mail_forward.xpm,sim/xpm/mail_replylist.xpm,sim/xpm/mail_send.xpm
 sub_dirs=
 type=normal
 
@@ -1673,6 +1673,12 @@ install_location=
 type=DATA
 
 [sim/xpm/alert.xpm]
+dist=true
+install=false
+install_location=
+type=DATA
+
+[sim/xpm/apply.xpm]
 dist=true
 install=false
 install_location=
@@ -1697,6 +1703,12 @@ install_location=
 type=DATA
 
 [sim/xpm/birthday.xpm]
+dist=true
+install=false
+install_location=
+type=DATA
+
+[sim/xpm/cancel.xpm]
 dist=true
 install=false
 install_location=
@@ -1930,6 +1942,12 @@ install=false
 install_location=
 type=DATA
 
+[sim/xpm/mail_forward.xpm]
+dist=true
+install=false
+install_location=
+type=DATA
+
 [sim/xpm/mail_generic.xpm]
 dist=true
 install=false
@@ -1937,6 +1955,18 @@ install_location=
 type=DATA
 
 [sim/xpm/mail_reply.xpm]
+dist=true
+install=false
+install_location=
+type=DATA
+
+[sim/xpm/mail_replylist.xpm]
+dist=true
+install=false
+install_location=
+type=DATA
+
+[sim/xpm/mail_send.xpm]
 dist=true
 install=false
 install_location=

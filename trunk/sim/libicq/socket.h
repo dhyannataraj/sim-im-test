@@ -42,6 +42,7 @@
 enum SocketError
 {
     ErrorNone,
+    ErrorCancel,
     ErrorSocket,
     ErrorConnect,
     ErrorRead,
@@ -99,6 +100,8 @@ protected:
     ServerSocketNotify *notify;
 };
 
+class ClientSocket;
+
 class SocketFactory
 {
 public:
@@ -106,9 +109,10 @@ public:
     virtual ~SocketFactory() {}
     virtual Socket *createSocket() = 0;
     virtual ServerSocket *createServerSocket() = 0;
-    void removeSocket(Socket*);
     void idle();
-    list<SocketNotify*> removedNotifies;
+protected:
+    list<ClientSocket*> errSockets;
+    friend class ClientSocket;
 };
 
 class ClientSocketNotify
@@ -116,7 +120,7 @@ class ClientSocketNotify
 public:
     ClientSocketNotify() {}
     virtual ~ClientSocketNotify() {}
-    virtual void error_state(SocketError) = 0;
+    virtual bool error_state(SocketError) = 0;
     virtual void connect_ready() = 0;
     virtual void packet_ready() = 0;
     virtual void write_ready() {}
@@ -131,7 +135,7 @@ public:
     ~ClientSocket();
     Buffer readBuffer;
     Buffer writeBuffer;
-    void error(SocketError err=ErrorProtocol);
+    virtual void error_state(SocketError err);
     void connect(const char *host, int port);
     void write();
     void pause(unsigned);
@@ -139,7 +143,6 @@ public:
     bool created();
     virtual void read_ready();
     void close();
-    void remove();
     void setRaw(bool mode);
 
     Socket *socket() { return m_sock; }
@@ -148,12 +151,13 @@ public:
     void setProxy(Proxy *proxy);
     void setProxyConnected();
 
+    bool isError() { return err != ErrorNone; }
+
 protected:
     void processPacket();
 
     virtual void connect_ready();
     virtual void write_ready();
-    virtual void error_state(SocketError);
 
     Socket *m_sock;
     Proxy  *m_proxy;
@@ -161,9 +165,10 @@ protected:
     ClientSocketNotify *notify;
     SocketFactory *factory;
     bool bRawMode;
-    bool bInProcess;
     bool bClosed;
+
     SocketError err;
+    friend class SocketFactory;
 };
 
 #endif

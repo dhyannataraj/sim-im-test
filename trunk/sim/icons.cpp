@@ -89,7 +89,12 @@ using namespace std;
 #include "xpm/editdelete.xpm"
 #include "xpm/editcopy.xpm"
 #include "xpm/mail_reply.xpm"
+#include "xpm/mail_replylist.xpm"
+#include "xpm/mail_forward.xpm"
 #include "xpm/mail_generic.xpm"
+#include "xpm/mail_send.xpm"
+#include "xpm/apply.xpm"
+#include "xpm/cancel.xpm"
 #include "xpm/smile0.xpm"
 #include "xpm/smile1.xpm"
 #include "xpm/smile2.xpm"
@@ -680,6 +685,11 @@ void Icons::init(const char *name)
     KICON(encrypted, 10079)
     KICON(key_bindings, 10080)
     ICON(encoding, 10081)
+    KICON(mail_forward, 10082)
+    KICON(mail_replylist, 10083)
+    KICON(mail_send, 10084)
+    KICON(apply, 10085)
+    KICON(cancel, 10086)
 
     QIconSet pict = getIcon("licq");
     QPixmap dllPict = dll.getIcon(104);

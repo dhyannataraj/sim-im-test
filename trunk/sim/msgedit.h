@@ -115,6 +115,7 @@ protected slots:
 protected:
     MsgView *msgView;
     QFrame  *frmEdit;
+    virtual bool eventFilter(QObject*, QEvent*);
     virtual void closeEvent(QCloseEvent *e);
     string smsChunk();
     QString trim(const QString&);
@@ -163,6 +164,7 @@ protected:
     ICQEvent *sendEvent;
     bool bCloseSend;
     bool bInIgnore;
+    bool bFirstShow;
     QString msgTail;
     WndCancel *wndCancel;
 };

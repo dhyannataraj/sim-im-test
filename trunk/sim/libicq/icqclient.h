@@ -346,8 +346,7 @@ public:
     virtual void packet_ready();
     SocketState state;
     void connect();
-    void remove();
-    virtual void error_state(SocketError);
+    virtual bool error_state(SocketError);
     virtual void connect_ready();
 protected:
     virtual void processPacket() = 0;
@@ -407,7 +406,7 @@ protected:
     State state;
     void processPacket();
     void connect_ready();
-    void error_state(SocketError);
+    bool error_state(SocketError);
     ICQUser *u;
     void sendInit2();
     void startPacket(unsigned short cms, unsigned short seq);
@@ -466,7 +465,7 @@ protected:
     ICQFile *file;
     void processPacket();
     void connect_ready();
-    void error_state(SocketError);
+    bool error_state(SocketError);
 
     void write_ready();
     void init();
@@ -562,7 +561,7 @@ protected:
     unsigned long myFgColor;
     unsigned long curMyFgColor;
 
-    void error_state(SocketError);
+    bool error_state(SocketError);
     void startPacket();
     void sendPacket();
     void packet_ready();
@@ -1140,7 +1139,6 @@ public:
 
 protected:
     Buffer cookie;
-    list<DirectSocket*> removedSockets;
 
     void close();
     void create_socket();
@@ -1164,7 +1162,7 @@ protected:
     unsigned short m_nMsgSequence;
 
     virtual void packet_ready();
-    virtual void error_state(SocketError);
+    virtual bool error_state(SocketError);
     virtual void connect_ready();
     virtual void idle();
 
