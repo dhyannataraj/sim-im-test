@@ -1,18 +1,18 @@
-# Translation of es.po to Español
+# translation of es.po to Español
 # Translation to Spanish
 # This file is distributed under the same license as the SIM package.
-#
-# $Id: es.po,v 1.130 2004-04-16 04:46:26 jorgelt Exp $
 # Copyright (C) 2004
 # Jorge Lopez Trescastro <jorge@acm.asoc.fi.upm.es>, 2002, 2003, 2004.
+#
+# $Id: es.po,v 1.131 2004-04-17 06:42:21 jorgelt Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: SIM\n"
 "POT-Creation-Date: 2004-04-16 04:18+0400\n"
-"PO-Revision-Date: 2004-04-16 06:43+0200\n"
+"PO-Revision-Date: 2004-04-17 08:32+0200\n"
 "Last-Translator: Jorge Lopez Trescastro\n"
-"Language-Team: sim-es <es@li.org>\n"
+"Language-Team:  sim-es<es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2066,7 +2066,7 @@ msgstr "Error protocolo MSN"
 
 #: plugins/msn/msnclient.cpp:707
 msgid "Youur account is being used from another location"
-msgstr "Tu cuenta está siendo usada desde otro lugar"
+msgstr "Su cuenta está siendo usada desde otro lugar"
 
 #: plugins/_core/logindlg.cpp:469 plugins/jabber/jabberclient.cpp:988
 #: plugins/livejournal/livejournal.cpp:934 plugins/msn/msnclient.cpp:827
@@ -2506,7 +2506,7 @@ msgstr "Convertir configuración"
 
 #: plugins/_core/cfgdlg.cpp:274 plugins/_core/usercfg.cpp:195
 msgid "User info"
-msgstr "Información de usuario"
+msgstr "Información del usuario"
 
 #: plugins/_core/cfgdlg.cpp:363 plugins/_core/usercfg.cpp:341
 msgid "Autoreply"
@@ -2629,7 +2629,7 @@ msgstr "Grupo"
 #: plugins/_core/core.cpp:609 plugins/_core/core.cpp:1185
 #: plugins/icq/icq.cpp:446 plugins/jabber/jabber.cpp:251
 msgid "User &info"
-msgstr "&Información de usuario"
+msgstr "&Información del usuario"
 
 #: plugins/_core/core.cpp:616 plugins/_core/core.cpp:1018
 #: plugins/_core/core.cpp:1193
@@ -2654,7 +2654,7 @@ msgstr "Cer&rar después de enviar"
 
 #: plugins/_core/core.cpp:690 plugins/_core/msgedit.cpp:1005
 msgid "&Multiply send"
-msgstr "Envio &múltiple"
+msgstr "Envío &múltiple"
 
 #: plugins/_core/core.cpp:698 plugins/_core/core.cpp:794
 msgid "Back&ground color"
@@ -2855,7 +2855,7 @@ msgstr "correo"
 
 #: plugins/_core/core.cpp:1593
 msgid "phone"
-msgstr "telefono"
+msgstr "teléfono"
 
 #: plugins/_core/core.cpp:1595
 msgid "contact nick"
@@ -2940,7 +2940,7 @@ msgstr "Administrador de conexiones"
 
 #: plugins/_core/core.cpp:4085
 msgid "Show status panel"
-msgstr "Mostrar panel de estado"
+msgstr "Mostrar barra de estado"
 
 #: plugins/_core/core.cpp:4092
 msgid "Connections"
@@ -2973,11 +2973,11 @@ msgstr "Editar correo"
 
 #: plugins/_core/editphone.cpp:38
 msgid "Add phone number"
-msgstr "Añadir número de telefono"
+msgstr "Añadir número de teléfono"
 
 #: plugins/_core/editphone.cpp:38
 msgid "Edit phone number"
-msgstr "Editar número de telefono"
+msgstr "Editar número de teléfono"
 
 #: plugins/_core/filetransfer.cpp:91
 #, c-format
@@ -3115,7 +3115,7 @@ msgstr "Nuevo perfil"
 
 #: plugins/_core/maininfo.cpp:47
 msgid "Home Phone"
-msgstr "Telefono casa"
+msgstr "Teleféno casa"
 
 #: plugins/_core/maininfo.cpp:48
 msgid "Home Fax"
@@ -3123,7 +3123,7 @@ msgstr "Fax casa"
 
 #: plugins/_core/maininfo.cpp:49
 msgid "Work Phone"
-msgstr "Telefono trabajo"
+msgstr "Teléfono trabajo"
 
 #: plugins/_core/maininfo.cpp:50
 msgid "Work Fax"
@@ -3139,7 +3139,7 @@ msgstr ""
 
 #: plugins/_core/maininfo.cpp:73
 msgid "Phone"
-msgstr "Telefono"
+msgstr "Teléfono"
 
 #: plugins/_core/maininfo.cpp:77 plugins/_core/maininfo.cpp:78
 msgid "Publish"
@@ -3221,7 +3221,7 @@ msgstr "El mensaje será dividido"
 
 #: plugins/_core/msgsms.cpp:301
 msgid "Save phone in contact list"
-msgstr "Guardar telefono en lista de contactos"
+msgstr "Guardar teléfono en lista de contactos"
 
 #: plugins/_core/search.cpp:56 plugins/icq/icqsecure.cpp:126
 #: plugins/jabber/jabbersearch.cpp:100
@@ -3344,7 +3344,7 @@ msgstr "Estado"
 
 #: plugins/_core/userviewcfg.cpp:162
 msgid "Last message time"
-msgstr ""
+msgstr "Tiempo transcurrido desde el último mensaje"
 
 #: plugins/_core/userviewcfg.cpp:163
 msgid "Contact name"
@@ -3392,7 +3392,7 @@ msgstr "Abrir y &minimizar"
 
 #: plugins/_core/msgcfgbase.cpp:89
 msgid "Open and &raise"
-msgstr "Abrir y subi&r"
+msgstr "Abrir y &recoger"
 
 #: plugins/_core/filetransferbase.cpp:131
 msgid "File transfer"
@@ -3528,7 +3528,7 @@ msgstr "Eslovaco"
 
 #: plugins/_core/interfacecfg.cpp:69
 msgid "Swabian"
-msgstr ""
+msgstr "Swabian"
 
 #: plugins/_core/interfacecfg.cpp:72 plugins/icq/moreinfo.cpp:94
 msgid "Chinese"
@@ -3608,7 +3608,7 @@ msgstr "Mb"
 #: plugins/_core/historycfgbase.cpp:173
 #: plugins/_core/userhistorycfgbase.cpp:96
 msgid "Keep history "
-msgstr "Guardar historial"
+msgstr "Mantener historial"
 
 #: plugins/_core/historycfgbase.cpp:174
 #: plugins/_core/userhistorycfgbase.cpp:95
@@ -3636,9 +3636,9 @@ msgid "&Source"
 msgstr "&Fuente"
 
 #: plugins/_core/userwnd.cpp:132
-#, fuzzy, c-format
+#, c-format
 msgid "to %1"
-msgstr "Col %1"
+msgstr "a %1"
 
 #: plugins/_core/interfacecfgbase.cpp:123 plugins/icq/advsearchbase.cc:263
 #: plugins/spell/spellcfgbase.cpp:86
@@ -3659,7 +3659,7 @@ msgstr "Modo &chat"
 
 #: plugins/_core/interfacecfgbase.cpp:127
 msgid "&Using last selected font"
-msgstr ""
+msgstr "&Usar la última fuente seleccionada"
 
 #: plugins/_core/interfacecfgbase.cpp:128
 msgid "Container mode"
@@ -3703,7 +3703,7 @@ msgstr "&Publicar"
 
 #: plugins/_core/editphonebase.cpp:108
 msgid "EditPhone"
-msgstr "Editar Telefono"
+msgstr "Editar Teléfono"
 
 #: plugins/_core/editphonebase.cpp:109
 msgid "Number details:"
@@ -3787,7 +3787,7 @@ msgstr "Mostrar &separador del grupo"
 
 #: plugins/_core/plugincfgbase.cpp:71
 msgid "Plugin &enabled"
-msgstr "&Habilitar Plugin"
+msgstr "&Habilitar plugin"
 
 #: plugins/_core/autoreply.cpp:48
 msgid "Autoreply message"
@@ -3804,7 +3804,7 @@ msgstr ""
 
 #: plugins/_core/phonebase.cpp:114
 msgid "Area code:"
-msgstr "Codigo de área:"
+msgstr "Código de área:"
 
 #: plugins/_core/phonebase.cpp:115
 msgid "Extension:"
@@ -3991,7 +3991,7 @@ msgstr "&Emails"
 
 #: plugins/_core/maininfobase.cpp:200
 msgid "Phones:"
-msgstr "Telefonos:"
+msgstr "Teléfonos:"
 
 #: plugins/_core/maininfobase.cpp:202
 msgid "Phone Status:"
@@ -4009,7 +4009,7 @@ msgstr ""
 
 #: plugins/_core/maininfobase.cpp:209
 msgid "&Phones"
-msgstr "&Telefonos"
+msgstr "&Teléfonos"
 
 #: plugins/_core/maininfobase.cpp:210
 msgid "&Notes"
@@ -4021,7 +4021,7 @@ msgstr "Direccion Email:"
 
 #: plugins/_core/nonimbase.cpp:92 plugins/jabber/discoinfobase.cpp:286
 msgid "Phone:"
-msgstr "Telefono:"
+msgstr "Teléfono:"
 
 #: plugins/_core/toolsetupbase.cpp:123
 msgid "Toolbar setup"
@@ -4074,7 +4074,7 @@ msgstr "Este plugin habilita información acerca de SIM"
 
 #: plugins/about/about.cpp:61
 msgid "&Bug report"
-msgstr "&Informe de fallo"
+msgstr "&Informar de fallo"
 
 #: plugins/about/about.cpp:71
 msgid "&About SIM"
@@ -4139,7 +4139,7 @@ msgstr "Establecer estado \"Desconectado\" después de"
 #: plugins/autoaway/autoawaycfgbase.cpp:109
 msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
-"Desactivar alertas en línea en \"Ausente\", \"N/D\", \"No molestar\" y "
+"Desactivar alertas en \"Ausente\", \"N/D\", \"No molestar\" y "
 "\"Ocupado\""
 
 #: plugins/autoaway/autoaway.cpp:66
@@ -4338,8 +4338,8 @@ msgid ""
 "specified in the beginning of the message a line:\n"
 "<UIN>:"
 msgstr ""
-"Para la respuesta o envío de nuevos mensajes puedes responder en el SMS "
-"especificando en el comienzo del mensaje con una línea:\n"
+"Para la respuesta o envío de nuevos mensajes puede responder en el SMS "
+"especificando en el comienzo del mensaje con una linea:\n"
 "<UIN>:"
 
 #: plugins/forward/forwardcfgbase.cpp:74
@@ -4373,7 +4373,7 @@ msgstr "&Avanzado"
 #: plugins/gpg/gpgcfg.cpp:141 plugins/gpg/gpguser.cpp:83
 #: plugins/proxy/proxycfg.cpp:38
 msgid "None"
-msgstr "Ninguno"
+msgstr "Ninguna"
 
 #: plugins/gpg/gpgcfg.cpp:169
 msgid "New"
@@ -4406,11 +4406,11 @@ msgstr "Nombre:"
 
 #: plugins/gpg/gpggenbase.cpp:137
 msgid "Passphrase:"
-msgstr ""
+msgstr "Frase de paso:"
 
 #: plugins/gpg/gpggenbase.cpp:138
 msgid "Retype passphrase:"
-msgstr ""
+msgstr "Repetir frase de paso:"
 
 #: plugins/gpg/gpguserbase.cpp:68
 msgid "Key:"
@@ -4422,11 +4422,11 @@ msgstr "&Recargar"
 
 #: plugins/gpg/passphrasebase.cpp:82
 msgid "Input passphrase"
-msgstr ""
+msgstr "Entrada para frase de paso"
 
 #: plugins/gpg/passphrasebase.cpp:84
 msgid "&Save passphrase"
-msgstr ""
+msgstr "&Guardar frase de paso"
 
 #: plugins/gpg/gpg.cpp:53
 msgid "GPG"
@@ -4472,11 +4472,11 @@ msgstr "clave &GPG"
 #: plugins/gpg/passphrase.cpp:37
 #, c-format
 msgid "Input passphrase for key %1"
-msgstr ""
+msgstr "Entrada de frase de paso para la clave %1 "
 
 #: plugins/gpg/passphrase.cpp:62
 msgid "Bad passphrase"
-msgstr ""
+msgstr "Frase de paso no válida."
 
 #: plugins/gpg/gpgcfgbase.cpp:102
 msgid "Executable:"
@@ -4492,11 +4492,11 @@ msgstr "&Buscar"
 
 #: plugins/gpg/gpgcfgbase.cpp:105
 msgid "Your key:"
-msgstr ""
+msgstr "Su clave:"
 
 #: plugins/gpg/gpgadvbase.cpp:125
 msgid "Command arguments"
-msgstr ""
+msgstr "Argumentos para el comando"
 
 #: plugins/gpg/gpgadvbase.cpp:126
 msgid "Generate key:"
@@ -4508,7 +4508,7 @@ msgstr "Lista de claves públicas:"
 
 #: plugins/gpg/gpgadvbase.cpp:128
 msgid "List secret keys:"
-msgstr "Lista claves secretas:"
+msgstr "Lista de claves secretas:"
 
 #: plugins/gpg/gpgadvbase.cpp:129
 msgid "Import public:"
@@ -4532,7 +4532,7 @@ msgstr "Iconos"
 
 #: plugins/icons/icon.cpp:33
 msgid "Plugin provides Miranda icons themes and emoticons"
-msgstr "Este plugin habilita temas de iconos Miranda y emoticones"
+msgstr "Este plugin le permite usar temas de iconos Miranda y emoticones"
 
 #: plugins/icons/iconcfg.cpp:169
 msgid "Select icons DLL"
@@ -4552,7 +4552,7 @@ msgstr "Obtener más temas de iconos"
 
 #: plugins/icons/iconcfg.cpp:183
 msgid "Smiles"
-msgstr "Emoticon"
+msgstr "Emoticones"
 
 #: plugins/icons/smilecfg.cpp:128
 msgid "Select smiles"
@@ -4587,16 +4587,14 @@ msgid ""
 "There is already an auto hidden window on this edge.\n"
 "Only one auto hidden window is allowed on each edge."
 msgstr ""
-"Ya hay una ventana ocultada automaticamente en este borde.\n"
-"Solo se permite una ventana oculta automatica en cada borde."
 
 #: plugins/windock/windock.cpp:358
 msgid "AutoHide"
-msgstr "Ocultar automaticamente"
+msgstr "Ocultar automáticamente"
 
 #: plugins/logger/logger.cpp:38
 msgid "Logger"
-msgstr "Logger"
+msgstr "Registro de sucesos"
 
 #: plugins/logger/logger.cpp:39
 msgid ""
@@ -4606,24 +4604,23 @@ msgid ""
 "to 4\n"
 "If you want to log more than one you may add the levels"
 msgstr ""
-"Este plugin muestra el log de la aplicacion\n"
-"Puedes establecer el nivel de depuracion desde la linea de comandos con -d "
-"<nivel>\n"
+"Este plugin proporciona el registro de sucesos\n"
+"Puede establecer el nivel de depuración desde la linea de comandos con -d<nivel>\n"
 "Para errores, establezca nivel a 1, para avisos a 2 y para mensajes de "
-"depuracion a 4\n"
-"Pueden añadirse niveles si se desea un log mayor."
+"depuración a 4\n"
+"Pueden añadirse más niveles si se desea un log mayor."
 
 #: plugins/logger/logger.cpp:78
 msgid "Set debug level"
-msgstr "Establecer nivel de depuracion"
+msgstr "Establecer nivel de depuración"
 
 #: plugins/logger/logconfigbase.cpp:68
 msgid "File:"
-msgstr "Fichero:"
+msgstr "Archivo:"
 
 #: plugins/logger/logconfigbase.cpp:69
 msgid "Log level:"
-msgstr "Log level:"
+msgstr "Nivel de Log:"
 
 #: plugins/icq/icqmessage.cpp:871 plugins/logger/logconfig.cpp:93
 msgid "Warning"
@@ -4643,7 +4640,7 @@ msgstr "Eventos"
 
 #: plugins/zodiak/zodiak.cpp:50
 msgid "Zodiak"
-msgstr ""
+msgstr "Horóscopo"
 
 #: plugins/zodiak/zodiak.cpp:51
 msgid "Plugin provides show zodiak puctures for date edit"
@@ -4651,60 +4648,60 @@ msgstr ""
 
 #: plugins/zodiak/zodiak.cpp:159
 msgid "View horoscope"
-msgstr ""
+msgstr "Ver horóscopo"
 
 #: plugins/zodiak/zodiak.cpp:180
 msgid "Aries"
-msgstr ""
+msgstr "Aries"
 
 #: plugins/zodiak/zodiak.cpp:181
 msgid "Taurus"
-msgstr ""
+msgstr "Tauro"
 
 #: plugins/zodiak/zodiak.cpp:182
 msgid "Gemini"
-msgstr ""
+msgstr "Géminis"
 
 #: plugins/zodiak/zodiak.cpp:183
 msgid "Cancer"
-msgstr ""
+msgstr "Cancer"
 
 #: plugins/zodiak/zodiak.cpp:184
 msgid "Leo"
-msgstr ""
+msgstr "Leo"
 
 #: plugins/zodiak/zodiak.cpp:185
 msgid "Virgo"
-msgstr ""
+msgstr "Virgo"
 
 #: plugins/zodiak/zodiak.cpp:186
 msgid "Libra"
-msgstr ""
+msgstr "Libra"
 
 #: plugins/zodiak/zodiak.cpp:187
 msgid "Scorpio"
-msgstr ""
+msgstr "Escorpio"
 
 #: plugins/zodiak/zodiak.cpp:188
 msgid "Saqittarius"
-msgstr ""
+msgstr "Sagitario"
 
 #: plugins/zodiak/zodiak.cpp:189
 msgid "Capricorn"
-msgstr ""
+msgstr "Capricornio"
 
 #: plugins/zodiak/zodiak.cpp:190
 msgid "Aquarius"
-msgstr ""
+msgstr "Acuario"
 
 #: plugins/zodiak/zodiak.cpp:191
 msgid "Pisces"
-msgstr ""
+msgstr "Piscis"
 
 #: plugins/zodiak/zodiak.cpp:233
 #, c-format
 msgid "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
-msgstr ""
+msgstr "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
 
 #: plugins/icq/icq.cpp:72
 msgid "ICQ"
@@ -4744,7 +4741,7 @@ msgstr "Comprobar &invisibilidad"
 
 #: plugins/icq/icq.cpp:474
 msgid "&All"
-msgstr ""
+msgstr "&Todos"
 
 #: plugins/icq/icq.cpp:483
 msgid "&Only invisible"
@@ -4768,7 +4765,7 @@ msgstr "Conexión a puerto desconocido"
 
 #: plugins/icq/icqdirect.cpp:833
 msgid "Other side does not support the secure connection"
-msgstr "La otra parte no soporta conexión segura"
+msgstr "La otra parte no tiene soporte para conexión segura"
 
 #: plugins/icq/icqdirect.cpp:846 plugins/icq/icqdirect.cpp:1047
 msgid "Send message fail"
@@ -4780,7 +4777,7 @@ msgstr "Tipo de mensaje desconocido"
 
 #: plugins/icq/icqdirect.cpp:1859
 msgid "No files for transfer"
-msgstr "No hay ficheros para transferir"
+msgstr "No hay archivos a transferir"
 
 #: plugins/icq/icqinfo.cpp:32
 msgid "General chat"
@@ -4788,7 +4785,7 @@ msgstr "Chat general"
 
 #: plugins/icq/icqinfo.cpp:33
 msgid "Romance"
-msgstr "Romances"
+msgstr "Romance"
 
 #: plugins/icq/icqinfo.cpp:34 plugins/icq/interestsinfo.cpp:98
 msgid "Games"
@@ -4828,7 +4825,7 @@ msgstr "Posiblemente invisible"
 
 #: plugins/icq/icqlogin.cpp:70
 msgid "Login error"
-msgstr "Error en el Login"
+msgstr "Error en la autentificación"
 
 #: plugins/icq/icqlogin.cpp:74
 msgid "Registered in no register state"
@@ -4836,7 +4833,7 @@ msgstr ""
 
 #: plugins/icq/icqlogin.cpp:196
 msgid "This client is outdated"
-msgstr ""
+msgstr "Este cliente está desactualizado"
 
 #: plugins/icq/icqlogin.cpp:201
 msgid "Too many clients from same IP"
@@ -4844,11 +4841,11 @@ msgstr "Demasiados clientes desde la misma IP"
 
 #: plugins/icq/icqlogin.cpp:206
 msgid "Rate limit"
-msgstr "Limitar ancho de banda"
+msgstr "Rate limit"
 
 #: plugins/icq/icqlogin.cpp:212
 msgid "Invalid UIN and password combination"
-msgstr "Login y/o password incorrecto"
+msgstr "Combinación de UIN y contraseña no válida"
 
 #: plugins/icq/icqlogin.cpp:218
 msgid "Non-existant UIN"
@@ -4856,7 +4853,7 @@ msgstr "UIN inexistente"
 
 #: plugins/icq/icqlogin.cpp:223
 msgid "Bad login procedure"
-msgstr ""
+msgstr "Procedimiento erroneo de autentificación"
 
 #: plugins/icq/icqlogin.cpp:234
 msgid "Service temporarly unavailable"
@@ -4864,23 +4861,23 @@ msgstr "Servicio temporalmente no disponible"
 
 #: plugins/icq/icqlogin.cpp:238
 msgid "Invalid SecureID"
-msgstr ""
+msgstr "SecureID inválida"
 
 #: plugins/icq/icqlogin.cpp:242
 msgid "Too young!"
-msgstr ""
+msgstr "¡Demasiado joven!"
 
 #: plugins/icq/icqlogin.cpp:246
 msgid "UIN was suspended"
-msgstr ""
+msgstr "La UIN fue suspendida"
 
 #: plugins/icq/icqlogin.cpp:250
 msgid "Can't login to ICQ network - Please try again later"
-msgstr ""
+msgstr "No se puede acceder a la red ICQ - Por favor intentelo nuevo"
 
 #: plugins/icq/icqlogin.cpp:271
 msgid "Your UIN is being used from another location"
-msgstr ""
+msgstr "Su UIN está siendo usada desde otro lugar"
 
 #: plugins/icq/icqlogin.cpp:291
 msgid "Close packet from server"
@@ -4888,7 +4885,7 @@ msgstr "Paquete cerrado del servidor"
 
 #: plugins/icq/icqlogin.cpp:298
 msgid "Bad host address"
-msgstr "Host erroneo"
+msgstr "Dirección del servidor erronea"
 
 #: plugins/icq/icqmessage.cpp:552
 #, c-format
@@ -4896,8 +4893,8 @@ msgid ""
 "_n: WWW-panel message\n"
 "%n WWW-panel messages"
 msgstr ""
-"WWW Mensaje\n"
-"%n WWW mensajes"
+"mensaje WWW\n"
+"%n mensajes WWW"
 
 #: plugins/icq/icqmessage.cpp:573
 #, c-format
@@ -4905,8 +4902,8 @@ msgid ""
 "_n: Email pager message\n"
 "%n Email pager messages"
 msgstr ""
-"Email Mensaje\n"
-"%n Email mensajes"
+"mensaje Email\n"
+"%n mensajes Email"
 
 #: plugins/icq/icqmessage.cpp:594
 #, c-format
@@ -4924,7 +4921,7 @@ msgid ""
 "%n times close secure channel"
 msgstr ""
 "Cerrar canal seguro\n"
-"%n veces cerrado canal seguro"
+"cerrar %n canales seguros"
 
 #: plugins/icq/icqmessage.cpp:636
 #, c-format
@@ -4933,7 +4930,7 @@ msgid ""
 "%n times check invisible"
 msgstr ""
 "Comprobar invisibilidad\n"
-"%n comprobar invisibilidad"
+"comprobar %n veces invisibilidad"
 
 #: plugins/icq/icqmessage.cpp:657
 #, c-format
@@ -4950,6 +4947,8 @@ msgid ""
 "_n: Contact request\n"
 "%n contact requests"
 msgstr ""
+"Petición de contacto\n"
+"%n peticiones de contacto"
 
 #: plugins/icq/icqmessage.cpp:813
 msgid "Contact Request"
@@ -4978,7 +4977,7 @@ msgstr "Comprobar Invisibilidad"
 #: plugins/icq/icqicmb.cpp:1665 plugins/icq/icqmessage.cpp:1053
 #: plugins/jabber/jabberclient.cpp:2256
 msgid "No contacts for send"
-msgstr ""
+msgstr "No hay contactos para enviar"
 
 #: plugins/icq/icqpicture.cpp:126
 msgid "Picture can not be more than 7 kbytes"
@@ -4990,7 +4989,7 @@ msgstr "Fotografía no disponible"
 
 #: plugins/icq/icqsearch.cpp:41 plugins/icq/icqsearch.cpp:57
 msgid "AIM s&creenname"
-msgstr ""
+msgstr "AIM s&creenname"
 
 #: plugins/icq/icqsearch.cpp:42 plugins/icq/icqsearch.cpp:56
 msgid "&UIN"
@@ -5002,11 +5001,11 @@ msgstr "Introduzca contraseña actual"
 
 #: plugins/icq/icqsecure.cpp:49
 msgid "Confirm password does not match"
-msgstr "La contraseña no concuerda"
+msgstr "La contraseña de confirmación no concuerda"
 
 #: plugins/icq/icqsecure.cpp:52
 msgid "Invalid password"
-msgstr "Contraseña no valida"
+msgstr "Contraseña no válida"
 
 #: plugins/icq/icqsecure.cpp:125
 msgid "UIN"
@@ -5023,7 +5022,7 @@ msgstr "Has sido avisado por %1"
 
 #: plugins/icq/icqvarious.cpp:1412
 msgid "Change password fail"
-msgstr ""
+msgstr "Cambio de password fallido"
 
 #: plugins/icq/icqvarious.cpp:1445
 msgid ""
@@ -5031,19 +5030,19 @@ msgid ""
 "recipient. Please try again later."
 msgstr ""
 "El servidor de mensajes es incapaz de enviar tu mensaje al destinatario en "
-"este momento. Por favor intentelo mas tarde."
+"este momento. Por favor intentelo más tarde."
 
 #: plugins/icq/icqvarious.cpp:1446
 msgid "INVALID NUMBER"
-msgstr "NUMERO NO VALIDO"
+msgstr "NUMERO NO VÁLIDO"
 
 #: plugins/icq/icqvarious.cpp:1447
 msgid "RATE LIMIT"
-msgstr "TASA LIMITE"
+msgstr "RATE LIMIT"
 
 #: plugins/icq/icqvarious.cpp:1480 plugins/icq/icqvarious.cpp:1539
 msgid "SMS send fail"
-msgstr "Falló el envio del sms"
+msgstr "Envío de sms fallido"
 
 #: plugins/icq/icqvarious.cpp:1564
 msgid "Jan"
@@ -5062,17 +5061,14 @@ msgid "Apr"
 msgstr "Abril"
 
 #: plugins/icq/icqvarious.cpp:1569
-#, fuzzy
 msgid "Jun"
 msgstr "Junio"
 
 #: plugins/icq/icqvarious.cpp:1570
-#, fuzzy
 msgid "Jul"
 msgstr "Julio"
 
 #: plugins/icq/icqvarious.cpp:1571
-#, fuzzy
 msgid "Aug"
 msgstr "Agosto"
 
@@ -5310,75 +5306,75 @@ msgstr "Masculino"
 
 #: plugins/icq/moreinfo.cpp:89
 msgid "Bhojpuri"
-msgstr ""
+msgstr "Bhojpuri"
 
 #: plugins/icq/moreinfo.cpp:91
 msgid "Burmese"
-msgstr ""
+msgstr "Burmano"
 
 #: plugins/icq/moreinfo.cpp:92
 msgid "Cantonese"
-msgstr ""
+msgstr "Cantonés"
 
 #: plugins/icq/moreinfo.cpp:95
 msgid "Croatian"
-msgstr ""
+msgstr "Croata"
 
 #: plugins/icq/moreinfo.cpp:97
 msgid "Danish"
-msgstr ""
+msgstr "Danés"
 
 #: plugins/icq/moreinfo.cpp:101
 msgid "Estonian"
-msgstr ""
+msgstr "Estonio"
 
 #: plugins/icq/moreinfo.cpp:102
 msgid "Farsi"
-msgstr ""
+msgstr "Farsi"
 
 #: plugins/icq/moreinfo.cpp:103
 msgid "Finnish"
-msgstr ""
+msgstr "Finlandés"
 
 #: plugins/icq/moreinfo.cpp:105
 msgid "Gaelic"
-msgstr ""
+msgstr "Gaélico"
 
 #: plugins/icq/moreinfo.cpp:109
 msgid "Hindi"
-msgstr ""
+msgstr "Hindi"
 
 #: plugins/icq/moreinfo.cpp:111
 msgid "Icelandic"
-msgstr ""
+msgstr "Islándico"
 
 #: plugins/icq/moreinfo.cpp:112
 msgid "Indonesian"
-msgstr ""
+msgstr "Indonesio"
 
 #: plugins/icq/moreinfo.cpp:115
 msgid "Khmer"
-msgstr ""
+msgstr "Khmer"
 
 #: plugins/icq/moreinfo.cpp:117
 msgid "Lao"
-msgstr ""
+msgstr "Lao"
 
 #: plugins/icq/moreinfo.cpp:118
 msgid "Latvian"
-msgstr ""
+msgstr "Letón"
 
 #: plugins/icq/moreinfo.cpp:119
 msgid "Lithuanian"
-msgstr ""
+msgstr "Lituano"
 
 #: plugins/icq/moreinfo.cpp:120
 msgid "Malay"
-msgstr ""
+msgstr "Malayo"
 
 #: plugins/icq/moreinfo.cpp:121
 msgid "Norwegian"
-msgstr ""
+msgstr "Noruego"
 
 #: plugins/icq/moreinfo.cpp:124
 msgid "Romanian"
@@ -5394,59 +5390,59 @@ msgstr "Esloveno"
 
 #: plugins/icq/moreinfo.cpp:129
 msgid "Somali"
-msgstr ""
+msgstr "Somalí"
 
 #: plugins/icq/moreinfo.cpp:131
 msgid "Swahili"
-msgstr ""
+msgstr "Swahili"
 
 #: plugins/icq/moreinfo.cpp:132
 msgid "Swedish"
-msgstr ""
+msgstr "Sueco"
 
 #: plugins/icq/moreinfo.cpp:133
 msgid "Tagalog"
-msgstr ""
+msgstr "Tagalog"
 
 #: plugins/icq/moreinfo.cpp:134
 msgid "Tatar"
-msgstr ""
+msgstr "Tatar"
 
 #: plugins/icq/moreinfo.cpp:138
 msgid "Urdu"
-msgstr ""
+msgstr "Urdu"
 
 #: plugins/icq/moreinfo.cpp:139
 msgid "Vietnamese"
-msgstr ""
+msgstr "Vietnamita"
 
 #: plugins/icq/moreinfo.cpp:140
 msgid "Yiddish"
-msgstr ""
+msgstr "Yiddish"
 
 #: plugins/icq/moreinfo.cpp:141
 msgid "Yoruba"
-msgstr ""
+msgstr "Yoruba"
 
 #: plugins/icq/moreinfo.cpp:142
 msgid "Taiwanese"
-msgstr ""
+msgstr "Taiwanés"
 
 #: plugins/icq/moreinfo.cpp:143
 msgid "Afrikaans"
-msgstr ""
+msgstr "Africano"
 
 #: plugins/icq/moreinfo.cpp:144
 msgid "Persian"
-msgstr ""
+msgstr "Persa"
 
 #: plugins/icq/moreinfo.cpp:145
 msgid "Albanian"
-msgstr ""
+msgstr "Albano"
 
 #: plugins/icq/moreinfo.cpp:146
 msgid "Armenian"
-msgstr ""
+msgstr "Armenio"
 
 #: plugins/icq/pastinfo.cpp:76
 msgid "Elementary School"
@@ -5558,11 +5554,11 @@ msgstr "Asociaciones de voluntarios"
 
 #: plugins/icq/securedlg.cpp:59
 msgid "Request secure channel fail"
-msgstr "Peticion de canal seguro fallida"
+msgstr "Petición de canal seguro fallida"
 
 #: plugins/icq/icqicmb.cpp:1276 plugins/icq/warndlg.cpp:66
 msgid "Send fail"
-msgstr "Fallo al enviar"
+msgstr "Envío fallido"
 
 #: plugins/icq/workinfo.cpp:73
 msgid "Academic"
@@ -5705,11 +5701,11 @@ msgstr "Ciudad:"
 #: plugins/icq/homeinfobase.cc:148 plugins/icq/workinfobase.cc:182
 #: plugins/jabber/jabberhomeinfobase.cpp:106
 msgid "Zip code:"
-msgstr "Codigo Postal:"
+msgstr "Código Postal:"
 
 #: plugins/icq/homeinfobase.cc:149
 msgid "Time zone:"
-msgstr "Tiempo-zona:"
+msgstr "Zona horaria:"
 
 #: plugins/icq/homeinfobase.cc:150
 msgid "&Home info"
@@ -5726,7 +5722,7 @@ msgstr "No soportado por el cliente"
 
 #: plugins/icq/icqicmb.cpp:184
 msgid "Invalid message"
-msgstr "Mensaje invalido"
+msgstr "Mensaje inválido"
 
 #: plugins/icq/icqicmb.cpp:187
 msgid "Message was too large"
@@ -5734,7 +5730,7 @@ msgstr "El mensaje era demasiado largo"
 
 #: plugins/icq/icqicmb.cpp:190
 msgid "Message rate exceeded"
-msgstr "Tasa de mensajes excedida"
+msgstr ""
 
 #: plugins/icq/icqclient.cpp:707 plugins/icq/icqicmb.cpp:193
 msgid "Sender too evil"
@@ -5763,7 +5759,7 @@ msgstr ""
 
 #: plugins/icq/icqicmb.cpp:1493
 msgid "Send timeout"
-msgstr "Tiempo de espera agotado al enviar"
+msgstr "Tiempo de espera agotado"
 
 #: plugins/icq/icqicmb.cpp:1641
 msgid "No contact"
@@ -5785,7 +5781,7 @@ msgstr "Edad:"
 #: plugins/icq/advsearchbase.cc:268 plugins/icq/moreinfobase.cc:156
 #: plugins/yahoo/yahoosearchbase.cpp:125
 msgid "Gender:"
-msgstr "Sexo:"
+msgstr "Género:"
 
 #: plugins/icq/advsearchbase.cc:269
 msgid "Work"
@@ -5810,7 +5806,7 @@ msgstr "Posición:"
 
 #: plugins/icq/advsearchbase.cc:274
 msgid "Search &online users only"
-msgstr ""
+msgstr "Buscar sólo usuarios c&onectados"
 
 #: plugins/icq/advsearchbase.cc:275 plugins/icq/icqclient.cpp:1857
 #: plugins/icq/icqclient.cpp:2045
@@ -5823,19 +5819,19 @@ msgstr ""
 
 #: plugins/icq/advsearchbase.cc:278
 msgid "Affilations"
-msgstr ""
+msgstr "Organizaciones"
 
 #: plugins/icq/advsearchbase.cc:279
 msgid "Homepage"
-msgstr "Pagina web:"
+msgstr "Página web:"
 
 #: plugins/icq/advsearchbase.cc:280
 msgid "Keywords"
-msgstr ""
+msgstr "Palabras clave"
 
 #: plugins/icq/aimconfig.cpp:43
 msgid "Register new ScreenName"
-msgstr ""
+msgstr "Registrar nuevo ScreenName"
 
 #: plugins/icq/workinfobase.cc:186
 msgid "Web site:"
@@ -5869,7 +5865,7 @@ msgstr "Permitir que otros usuarios vean mi e&stado desde la Web"
 
 #: plugins/icq/icqsecurebase.cc:158
 msgid "I&gnore user authorization"
-msgstr "I&gnorar autorizacion del usuario"
+msgstr "I&gnorar autorización del usuario"
 
 #: plugins/icq/icqsecurebase.cc:159
 msgid "Direct connections"
@@ -5887,7 +5883,7 @@ msgstr ""
 
 #: plugins/icq/icqsecurebase.cc:162
 msgid "Allow direct connection from user &upon authorization"
-msgstr ""
+msgstr "Permitir conexión directa de usuarios &una vez lo haya autorizado"
 
 #: plugins/icq/icqsecurebase.cc:163
 msgid "&Security"
@@ -5911,11 +5907,11 @@ msgstr "&Contraseña"
 
 #: plugins/icq/icqsecurebase.cc:168
 msgid "&Visible list"
-msgstr "Lista &visible"
+msgstr "Lista de &visibles"
 
 #: plugins/icq/icqsecurebase.cc:169
 msgid "&Invisible list"
-msgstr "Lista &invisible"
+msgstr "Lista de &invisibles"
 
 #: plugins/icq/icqpicturebase.cc:76 plugins/jabber/jabberpicturebase.cpp:76
 #: plugins/shortcuts/shortcutcfgbase.cpp:84
@@ -5944,7 +5940,7 @@ msgstr ""
 
 #: plugins/icq/aiminfobase.cc:258 plugins/icq/aimsearchbase.cc:165
 msgid "Middle:"
-msgstr ""
+msgstr "Centro:"
 
 #: plugins/icq/aiminfobase.cc:259 plugins/icq/aimsearchbase.cc:166
 msgid "Maiden:"
@@ -5952,15 +5948,15 @@ msgstr ""
 
 #: plugins/icq/aiminfobase.cc:261 plugins/icq/aimsearchbase.cc:173
 msgid "Street:"
-msgstr ""
+msgstr "Calle:"
 
 #: plugins/icq/aiminfobase.cc:264 plugins/icq/aimsearchbase.cc:172
 msgid "Zip:"
-msgstr "Codigo Postal:"
+msgstr "Código Postal:"
 
 #: plugins/icq/aimconfigbase.cc:144 plugins/icq/aiminfobase.cc:266
 msgid "ScreenName:"
-msgstr ""
+msgstr "ScreenName:"
 
 #: plugins/icq/aiminfobase.cc:267
 msgid "&Profile"
@@ -5975,6 +5971,9 @@ msgid ""
 "Click OK to send warning to %1. This will raise %1's warning and limit his "
 "or her activity. Do this only if %1 has done something to merit a warning."
 msgstr ""
+"Presione OK para enviar un aviso a %1. Esto elevará los avisos de %1"
+"y limitará su actividad. Úselo sólo si %1 ha hecho algo que merezca un"
+"aviso."
 
 #: plugins/icq/warndlgbase.cc:85
 msgid "Warn &anonymously"
@@ -5985,6 +5984,8 @@ msgid ""
 "Check this if you don't want your screen name revealed.\n"
 "Anonymous warinings are less severe."
 msgstr ""
+"Seleccione esta opción si no desea que su screenname sea revelado.\n"
+"Los avisos anónimos son menos severos."
 
 #: plugins/icq/aimsearchbase.cc:162
 msgid "Names"
@@ -5992,7 +5993,7 @@ msgstr "Nombres"
 
 #: plugins/icq/aimsearchbase.cc:168 plugins/weather/wifacecfg.cpp:51
 msgid "Location"
-msgstr ""
+msgstr "Localización"
 
 #: plugins/icq/pastinfobase.cc:139
 msgid "Organization, Affiliation, Group:"
@@ -6013,7 +6014,7 @@ msgstr "&Afiliaciones"
 #: plugins/icq/moreinfobase.cc:154 plugins/jabber/discoinfobase.cpp:281
 #: plugins/jabber/jabberinfobase.cpp:199
 msgid "Homepage:"
-msgstr "Pagina web:"
+msgstr "Página web:"
 
 #: plugins/icq/moreinfobase.cc:157 plugins/jabber/discoinfobase.cpp:282
 #: plugins/jabber/jabberinfobase.cpp:198
@@ -6040,7 +6041,7 @@ msgstr "Elija codificación por defecto"
 msgid ""
 "Your current system encoding (UTF-8) may cause problems saving your personal "
 "information and reading offline messages from other users."
-msgstr ""
+msgstr "La codificación de su sistema (UTF 8) puede causar problemas guardando su información personal y leyendo mensajes offline de otros usuarios."
 
 #: plugins/icq/encodingdlgbase.cc:85
 msgid "You will choose the coding by default which want to use:"
@@ -6077,23 +6078,23 @@ msgstr ""
 
 #: plugins/icq/icqconfigbase.cc:243
 msgid "Send format:"
-msgstr "Formato de envio:"
+msgstr "Formato de envío:"
 
 #: plugins/icq/icqconfigbase.cc:244
 msgid "Accept in &occupied mode"
-msgstr "Aceptar en modo &Ocupado"
+msgstr "Aceptar en modo &ocupado"
 
 #: plugins/icq/icqconfigbase.cc:245
 msgid "Accept in &DND mode"
-msgstr "Aceptar en modo No molestar"
+msgstr "Aceptar en modo no-molestar"
 
 #: plugins/icq/icqconfigbase.cc:246
 msgid "Support &typing notification"
-msgstr ""
+msgstr "Habilitar no&tificación de tecleo"
 
 #: plugins/icq/icqconfigbase.cc:247
 msgid "Automatically &update user info"
-msgstr "Automaticamente act&ualizar información del usuario"
+msgstr "Act&ualizar automáticamente información del usuario"
 
 #: plugins/icq/icqconfigbase.cc:248
 msgid "Automaticaly &request autoreply on change status"
@@ -6101,7 +6102,7 @@ msgstr ""
 
 #: plugins/icq/icqconfigbase.cc:249
 msgid "Send message:"
-msgstr ""
+msgstr "Enviar mensaje:"
 
 #: plugins/icq/icqconfigbase.cc:251
 msgid "No wait ack"
@@ -6134,7 +6135,7 @@ msgstr "Proceso de mensaje fallido"
 
 #: plugins/icq/icqclient.cpp:691
 msgid "Invalid SNAC header"
-msgstr "Cabecera SNAC invalida"
+msgstr "Cabecera SNAC inválida"
 
 #: plugins/icq/icqclient.cpp:692
 msgid "Server rate limit exceeded"
@@ -6178,7 +6179,7 @@ msgstr "Respuesta perdida"
 
 #: plugins/icq/icqclient.cpp:703
 msgid "Request denied"
-msgstr "Peticion denegada"
+msgstr "Petición denegada"
 
 #: plugins/icq/icqclient.cpp:704
 msgid "Incorrect SNAC format"
@@ -6186,11 +6187,11 @@ msgstr "Formato SNAC incorrecto"
 
 #: plugins/icq/icqclient.cpp:705
 msgid "Insufficient rights"
-msgstr ""
+msgstr "Derechos insuficientes"
 
 #: plugins/icq/icqclient.cpp:706
 msgid "Recipient blocked"
-msgstr "Receptor bloqueado"
+msgstr "Destinatario bloqueado"
 
 #: plugins/icq/icqclient.cpp:708
 msgid "Receiver too evil"
@@ -6198,19 +6199,19 @@ msgstr "Receptor demasiado malvado"
 
 #: plugins/icq/icqclient.cpp:709
 msgid "User temporarily unavailable"
-msgstr "El usuario no está disponible"
+msgstr "El usuario está temporalmente no disponible"
 
 #: plugins/icq/icqclient.cpp:710
 msgid "No match"
-msgstr ""
+msgstr "Sin correspondencia"
 
 #: plugins/icq/icqclient.cpp:711
 msgid "List overflow"
-msgstr "Desbordamiento de lista"
+msgstr "Lista desbordada"
 
 #: plugins/icq/icqclient.cpp:712
 msgid "Request ambiguous"
-msgstr "Petición ambigua"
+msgstr "Solicitud ambígua"
 
 #: plugins/icq/icqclient.cpp:713
 msgid "Server queue full"
@@ -6218,7 +6219,7 @@ msgstr "Cola del servidor llena"
 
 #: plugins/icq/icqclient.cpp:714
 msgid "Not while on AOL"
-msgstr ""
+msgstr "Nada en AOL"
 
 #: plugins/icq/icqclient.cpp:731
 msgid "Protocol error"
@@ -6258,7 +6259,7 @@ msgstr "Grupo"
 
 #: plugins/icq/icqclient.cpp:1887 plugins/icq/icqclient.cpp:2075
 msgid "Picture"
-msgstr "Fotografía"
+msgstr "Imagen"
 
 #: plugins/icq/icqclient.cpp:2105
 msgid "Security"
@@ -6291,16 +6292,16 @@ msgstr "&Salir"
 
 #: plugins/netmonitor/monitor.cpp:68
 msgid "&Erase"
-msgstr "&Borrar"
+msgstr "&Eliminar"
 
 #: plugins/netmonitor/monitor.cpp:74
 msgid "&Log"
-msgstr "&Log"
+msgstr "Re&gistro"
 
 #: plugins/netmonitor/monitor.cpp:89
 #, c-format
 msgid "Can't create file %1"
-msgstr "No se puede crear el fichero %1"
+msgstr "No se puede crear el archivo %1"
 
 #: plugins/netmonitor/monitor.cpp:112
 msgid "&Resume"
@@ -6312,7 +6313,7 @@ msgstr "&Depurar"
 
 #: plugins/netmonitor/monitor.cpp:158
 msgid "&Warnings"
-msgstr "Ale&rtas"
+msgstr "A&visos"
 
 #: plugins/netmonitor/monitor.cpp:159
 msgid "&Errors"
@@ -6320,7 +6321,7 @@ msgstr "&Errores"
 
 #: plugins/netmonitor/monitor.cpp:160
 msgid "&Packets"
-msgstr ""
+msgstr "&Paquetes"
 
 #: plugins/netmonitor/netmonitor.cpp:36
 msgid ""
@@ -6336,7 +6337,7 @@ msgstr "Mostrar monitor de red"
 
 #: plugins/ontop/ontop.cpp:45
 msgid "On Top"
-msgstr "Siempre encima"
+msgstr "Encima"
 
 #: plugins/ontop/ontop.cpp:46
 msgid "Plugin provides main window and containers always on top"
@@ -6358,7 +6359,7 @@ msgstr "&Contenedor siempre encima"
 
 #: plugins/osd/osdconfig.cpp:45
 msgid "&Interface"
-msgstr "Aspec&to"
+msgstr "&Interfaz"
 
 #: plugins/osd/osdiface.cpp:33
 msgid "Left-bottom"
@@ -6378,11 +6379,11 @@ msgstr "Arriba derecha"
 
 #: plugins/osd/osdiface.cpp:37
 msgid "Center-bottom"
-msgstr "Abajo"
+msgstr "Abajo centrado"
 
 #: plugins/osd/osdiface.cpp:38
 msgid "Center-top"
-msgstr "Arriba"
+msgstr "Arriba centrado"
 
 #: plugins/osd/osdiface.cpp:39
 msgid "Center"
@@ -6394,7 +6395,7 @@ msgstr "OSD"
 
 #: plugins/osd/osd.cpp:69
 msgid "Plugin provides on screen notification about messages and contacts status"
-msgstr "Este plugin notifica en pantalla los mensajes y el estado de los contactos"
+msgstr "Este plugin notifica por pantalla los mensajes y el estado de los contactos"
 
 #: plugins/osd/osd.cpp:138
 msgid "&OSD"
@@ -6404,25 +6405,25 @@ msgstr "&OSD"
 msgid ""
 "_: male\n"
 "%1 is online"
-msgstr ""
+msgstr "%1 está conectado"
 
 #: plugins/osd/osd.cpp:414
 msgid ""
 "_: female\n"
 "%1 is online"
-msgstr ""
+msgstr "%1 está conectada"
 
 #: plugins/osd/osd.cpp:415
 msgid ""
 "_: male\n"
 "%1 typed"
-msgstr ""
+msgstr "%1 escribió"
 
 #: plugins/osd/osd.cpp:416
 msgid ""
 "_: female\n"
 "%1 typed"
-msgstr ""
+msgstr "%1 escribió"
 
 #: plugins/osd/osdconfigbase.cpp:81
 msgid "Enable &messages notification"
@@ -6434,19 +6435,19 @@ msgstr "Habilitar notificación de e&stado"
 
 #: plugins/jabber/jabberconfigbase.cpp:298 plugins/osd/osdconfigbase.cpp:83
 msgid "Enable &typing notification"
-msgstr ""
+msgstr "Habilitar notificación cuando el usuario teclee"
 
 #: plugins/osd/osdconfigbase.cpp:84
 msgid "Show message content"
-msgstr ""
+msgstr "Mostrar contenido del mensaje"
 
 #: plugins/osd/osdconfigbase.cpp:85
 msgid "All"
-msgstr ""
+msgstr "Todo"
 
 #: plugins/osd/osdconfigbase.cpp:86
 msgid "Show lines of content:"
-msgstr ""
+msgstr "Mostrar lineas de contenido:"
 
 #: plugins/osd/osdifacebase.cpp:129
 msgid "Offset:"
@@ -6482,15 +6483,15 @@ msgstr "&Proxy"
 
 #: plugins/proxy/proxycfg.cpp:205
 msgid "Default"
-msgstr "Por defecto"
+msgstr "Predeterminado"
 
 #: plugins/proxy/proxycfg.cpp:224
 msgid "HTTP requests"
-msgstr ""
+msgstr "Peticiones HTTP"
 
 #: plugins/proxy/proxycfgbase.cpp:131
 msgid "Host:"
-msgstr "Dirección:"
+msgstr "Servidor:"
 
 #: plugins/proxy/proxycfgbase.cpp:133
 msgid "Proxy require &authorization"
@@ -6502,11 +6503,11 @@ msgstr "Usuario:"
 
 #: plugins/proxy/proxycfgbase.cpp:136
 msgid "Proxy type:"
-msgstr "Tipo proxy:"
+msgstr "Tipo de proxy:"
 
 #: plugins/proxy/proxycfgbase.cpp:138
 msgid "Do not show error dialog (automatically reconnect)"
-msgstr ""
+msgstr "No mostrar el dialogo de error (reconectar automáticamente)"
 
 #: plugins/proxy/proxy.cpp:42
 msgid "Can't connect to proxy"
@@ -6518,16 +6519,15 @@ msgstr "Respuesta del proxy erronea"
 
 #: plugins/proxy/proxy.cpp:44
 msgid "Proxy authorization failed"
-msgstr "Autorización del proxy erronea"
+msgstr "Autorización del proxy fallida"
 
 #: plugins/proxy/proxy.cpp:1152
 msgid "Proxy"
 msgstr "Proxy"
 
 #: plugins/proxy/proxy.cpp:1153
-#, fuzzy
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS/HTTP)"
-msgstr "Este plugin habilita proxy(SOCSK4, SOCKS5, HTTPS y HTTP)"
+msgstr "Este plugin proporciona soporte proxy(SOCSK4, SOCKS5, HTTPS y HTTP)"
 
 #: plugins/proxy/proxyerrorbase.cpp:78
 msgid "Proxy error"
@@ -6535,19 +6535,19 @@ msgstr "Error del proxy"
 
 #: plugins/remote/remote.cpp:42
 msgid "Remote control"
-msgstr ""
+msgstr "Control remoto"
 
 #: plugins/remote/remote.cpp:43
 msgid "Plugin provides remote control"
-msgstr ""
+msgstr "Este plugin proporciona control remoto"
 
 #: plugins/remote/remotecfgbase.cpp:105
 msgid "Use &UNIX socket"
-msgstr ""
+msgstr "Usar puerto &UNIX"
 
 #: plugins/remote/remotecfgbase.cpp:107 plugins/remote/remotecfgbase.cpp:108
 msgid "Use &TCP socket"
-msgstr ""
+msgstr "Usar puerto &TCP"
 
 #: plugins/remote/remotecfgbase.cpp:109
 msgid "Enable IE context emnu extension"
@@ -6555,7 +6555,7 @@ msgstr ""
 
 #: plugins/shortcuts/shortcutcfg.cpp:52
 msgid "Mouse"
-msgstr "Raton"
+msgstr "Ratón"
 
 #: plugins/shortcuts/shortcutcfg.cpp:90 plugins/shortcuts/shortcutcfg.cpp:223
 #: plugins/shortcuts/shortcutcfgbase.cpp:40
@@ -6570,7 +6570,7 @@ msgstr "Accesos rápidos"
 
 #: plugins/shortcuts/shortcuts.cpp:51
 msgid "Plugin provides keyboards shortcuts and global mouse functions"
-msgstr "Este plugin habilita el uso de accesos rapidos de teclado y raton"
+msgstr "Este plugin habilita el uso de accesos rapidos de teclado y ratón"
 
 #: plugins/shortcuts/mousecfgbase.cpp:36 plugins/shortcuts/mousecfgbase.cpp:78
 #: plugins/shortcuts/shortcutcfgbase.cpp:37
@@ -6617,7 +6617,7 @@ msgstr "Sonido"
 
 #: plugins/sound/sounduser.cpp:44
 msgid "Online alert"
-msgstr "Alerta online"
+msgstr "Alerta en linea"
 
 #: plugins/sound/sound.cpp:47
 msgid "Plugin provides sounds on any events"
@@ -6633,13 +6633,13 @@ msgstr "&Desactivar todos los sonidos"
 
 #: plugins/sound/sounduserbase.cpp:64
 msgid "No sound if windows has &focus"
-msgstr "No reproducir ningun sonido si la ventana tiene el &foco"
+msgstr "No reproducir ningún sonido si la ventana tiene el &foco"
 
 #: plugins/sound/soundconfig.cpp:50
 msgid ""
 "Qt provides sound output so you just need to set a player if you don't like "
 "Qt's sound."
-msgstr ""
+msgstr "Qt proporciona una salida de sonido así que debe especificar un reproductor si no desea usar Qt's sound."
 
 #: plugins/sound/soundconfigbase.cpp:97
 msgid "&Use artsd"
@@ -6651,7 +6651,7 @@ msgstr "Reproductor:"
 
 #: plugins/sound/soundconfigbase.cpp:99
 msgid "File transfer done:"
-msgstr "Transferencia de fichero realizada:"
+msgstr "Transferencia de archivo realizada:"
 
 #: plugins/sound/soundconfigbase.cpp:100
 msgid "Message sent:"
@@ -6667,7 +6667,7 @@ msgstr "Splash"
 
 #: plugins/splash/splash.cpp:35
 msgid "Plugin provides splash screen"
-msgstr "Este plugin activa el splash screen al arrancar la aplicacion"
+msgstr "Este plugin activa una pantalla de bienvenida al arrancar la aplicación"
 
 #: plugins/transparent/transparent.cpp:65
 msgid "Transparent"
@@ -6686,13 +6686,12 @@ msgid "Plugin provides windows transparency"
 msgstr "Este plugin habilita el uso de transparencia en las ventanas"
 
 #: plugins/transparent/transparentcfgbase.cpp:71
-#, fuzzy
 msgid "Transparency of main window:"
-msgstr "Transparencia ventana principal:"
+msgstr "Transparencia de la ventana principal:"
 
 #: plugins/transparent/transparentcfgbase.cpp:72
 msgid "Transparent only if inactive"
-msgstr "Transparente solamente si es inactivo"
+msgstr "Transparente solamente si está inactivo"
 
 #: plugins/update/update.cpp:39
 msgid "Update"
@@ -6720,66 +6719,68 @@ msgid ""
 "_n: Phone call\n"
 "%n phone calls"
 msgstr ""
+"llamada telefónica\n"
+"%n llamadas telefónicas"
 
 #: plugins/sms/sms.cpp:108
 msgid "Phone call"
-msgstr ""
+msgstr "llamada telefónica"
 
 #: plugins/sms/sms.cpp:552
 msgid "Port error"
-msgstr ""
+msgstr "Error de puerto"
 
 #: plugins/sms/smssetup.cpp:56
 msgid "Charging:"
-msgstr ""
+msgstr "Cargando:"
 
 #: plugins/sms/smssetup.cpp:58
 msgid "Battery:"
-msgstr ""
+msgstr "Batería:"
 
 #: plugins/sms/smssetupbase.cpp:139
 msgid "SMSSetup"
-msgstr ""
+msgstr "Configurar SMS"
 
 #: plugins/sms/smssetupbase.cpp:141
 msgid "Baudrate:"
-msgstr ""
+msgstr "Baudios:"
 
 #: plugins/sms/smssetupbase.cpp:143
 msgid "115200"
-msgstr ""
+msgstr "115200"
 
 #: plugins/sms/smssetupbase.cpp:144
 msgid "38400"
-msgstr ""
+msgstr "38400"
 
 #: plugins/sms/smssetupbase.cpp:145
 msgid "19200"
-msgstr ""
+msgstr "19200"
 
 #: plugins/sms/smssetupbase.cpp:146
 msgid "9600"
-msgstr ""
+msgstr "9600"
 
 #: plugins/sms/smssetupbase.cpp:147
 msgid "4800"
-msgstr ""
+msgstr "4800"
 
 #: plugins/sms/smssetupbase.cpp:148
 msgid "2400"
-msgstr ""
+msgstr "2400"
 
 #: plugins/sms/smssetupbase.cpp:149
 msgid "1200"
-msgstr ""
+msgstr "1200"
 
 #: plugins/sms/smssetupbase.cpp:150
 msgid "600"
-msgstr ""
+msgstr "600"
 
 #: plugins/sms/smssetupbase.cpp:151
 msgid "300"
-msgstr ""
+msgstr "300"
 
 #: plugins/sms/smssetupbase.cpp:152
 msgid "Software handshake"
@@ -6787,19 +6788,19 @@ msgstr ""
 
 #: plugins/sms/smssetupbase.cpp:154
 msgid "Model:"
-msgstr ""
+msgstr "Modelo:"
 
 #: plugins/sms/smssetupbase.cpp:155
 msgid "Signal quality:"
-msgstr ""
+msgstr "Calidad de la señal:"
 
 #: plugins/sms/smssetupbase.cpp:157
 msgid "Operator:"
-msgstr ""
+msgstr "Operador:"
 
 #: plugins/sms/smssetupbase.cpp:158
 msgid "&Phone"
-msgstr "&Telefono:"
+msgstr "&Teléfono"
 
 #: plugins/jabber/jabber_rosters.cpp:2002
 msgid "Password does not match"
@@ -6849,57 +6850,52 @@ msgid "Log Off"
 msgstr "Desconectar"
 
 #: plugins/jabber/jabberpicture.cpp:47 plugins/jabber/jabberpicturebase.cpp:77
-#, fuzzy
 msgid "&Photo"
-msgstr "&Telefonos:"
+msgstr "&Foto"
 
 #: plugins/jabber/jabberpicture.cpp:47
-#, fuzzy
 msgid "&Logo"
-msgstr "&Log"
+msgstr "&Logotipo"
 
 #: plugins/jabber/jabbersearch.cpp:99 plugins/jabber/jabbersearch.cpp:320
 msgid "Username"
 msgstr "Nombre de usuario"
 
 #: plugins/jabber/jabbersearch.cpp:104
-#, fuzzy
 msgid "Age min"
-msgstr "Agentes"
+msgstr "Edad mínima"
 
 #: plugins/jabber/jabbersearch.cpp:105
 msgid "Age max"
-msgstr ""
+msgstr "Edad máxima"
 
 #: plugins/jabber/jabbersearch.cpp:106
-#, fuzzy
 msgid "City"
-msgstr "Ciudad:"
+msgstr "Ciudad"
 
 #: plugins/jabber/jabbersearch.cpp:194
 msgid "Online only"
 msgstr "Solo conectados"
 
 #: plugins/jabber/jabbersearch.cpp:201
-#, fuzzy
 msgid "Gender"
-msgstr "Sexo:"
+msgstr "Género:"
 
 #: plugins/jabber/jabbersearch.cpp:307
 msgid "First (Given)"
-msgstr "Nombre"
+msgstr ""
 
 #: plugins/jabber/jabbersearch.cpp:308
 msgid "Last (Family)"
-msgstr "Apellido"
+msgstr ""
 
 #: plugins/jabber/jabbersearch.cpp:309
 msgid "Nick (Alias)"
-msgstr "Nick (Alias)"
+msgstr ""
 
 #: plugins/jabber/jabbersearch.cpp:310
 msgid "Email"
-msgstr "Email"
+msgstr "Correo"
 
 #: plugins/jabber/jabbersearch.cpp:311
 msgid ""
@@ -6908,9 +6904,9 @@ msgid ""
 "\"Slower\" matches your string anywhere in the field (ie. \"b\" would yield "
 "Bob, Bill, Caleb, Robbie, etc...)"
 msgstr ""
-"Seleccione la velocidad de la búsqueda.  \"Rápida\" busca tu cadena solo al "
+"Seleccione la velocidad de la búsqueda.  \"Rápida\" busca la cadena solo al "
 "principio del campo (por ejemplo, \"b\" encajaría con Bob, Bill,etc...)  "
-"\"Lenta\" busca tu cadena en cualquier parte del campo (por ejemplo, \"b\" "
+"\"Lenta\" busca la cadena en cualquier parte del campo (por ejemplo, \"b\" "
 "encajaría con Bob,Bill,Caleb,Robbie,etc...)"
 
 #: plugins/jabber/jabbersearch.cpp:312
@@ -6927,7 +6923,7 @@ msgstr "Lenta / Más amplia"
 
 #: plugins/jabber/jabbersearch.cpp:315
 msgid "Full name"
-msgstr "Nombre:"
+msgstr "Nombre completo"
 
 #: plugins/jabber/jabbersearch.cpp:318
 msgid "Nickname"
@@ -6942,20 +6938,20 @@ msgid ""
 "Enter your MSN Messenger account and password. Example: user@hotmail.com.  "
 "Nickname is optional."
 msgstr ""
-"Inserta tu cuenta MSN Messenger y contraseña. Ejemplo: usuario@hotmail.com. "
-"El alias es opcional."
+"Inserte su cuenta MSN Messenger y contraseña. Ejemplo: usuario@hotmail.com. "
+"El apodo es opcional."
 
 #: plugins/jabber/jabbersearch.cpp:323
 msgid "Enter your AIM screenname or ICQ UIN and the password for that account"
-msgstr "Inserta tu AIM o tu UIN ICQ y la contraseña."
+msgstr "Inserte su ScreenName de AIM o su UIN de ICQ y la contraseña."
 
 #: plugins/jabber/jabbersearch.cpp:324
 msgid "Enter your YAHOO! Messenger Username and Password."
-msgstr "Inserta tu cuenta y contraseña YAHOO! Messenger."
+msgstr "Inserte su cuenta y contraseña YAHOO! Messenger."
 
 #: plugins/jabber/jabbersearch.cpp:325
 msgid "Please enter your UIN and password"
-msgstr "Por favor inserta tu UIN y la contraseña"
+msgstr "Por favor inserte su UIN y la contraseña"
 
 #: plugins/jabber/jabbersearch.cpp:326
 msgid "You need a x:data capable client to register."
@@ -6963,7 +6959,7 @@ msgstr ""
 
 #: plugins/jabber/jabbersearch.cpp:327
 msgid "Enter nick you want to register."
-msgstr "Inserta el nick que quieres registrar."
+msgstr "Inserte el nick que quiera registrar."
 
 #: plugins/jabber/jabbersearch.cpp:328
 msgid ""
@@ -7002,39 +6998,32 @@ msgid "Units"
 msgstr ""
 
 #: plugins/jabber/discoinfo.cpp:65
-#, fuzzy
 msgid "Value"
-msgstr "Masculino"
+msgstr "Valor"
 
 #: plugins/jabber/discoinfo.cpp:126 plugins/jabber/discoinfobase.cpp:274
-#, fuzzy
 msgid "&Version"
-msgstr "%1 Versión: %2"
+msgstr "&Versión"
 
 #: plugins/jabber/discoinfo.cpp:141 plugins/jabber/discoinfobase.cpp:277
-#, fuzzy
 msgid "&Time"
-msgstr "Tiempo:"
+msgstr "&Tiempo"
 
 #: plugins/jabber/discoinfo.cpp:168
-#, fuzzy
 msgid "&Stat"
-msgstr "E&stado"
+msgstr ""
 
 #: plugins/jabber/discoinfo.cpp:251
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: %n day\n"
 "%n days"
 msgstr ""
-"Archivo\n"
-"%n archivos"
 
 #: plugins/jabber/jabberconfigbase.cpp:279
 #: plugins/livejournal/livejournalcfgbase.cpp:149
-#, fuzzy
 msgid "Username:"
-msgstr "Nombre de usuario"
+msgstr "Usuario:"
 
 #: plugins/jabber/jabberconfigbase.cpp:280
 msgid "&Register new account"
@@ -7063,22 +7052,20 @@ msgid "Resource:"
 msgstr "Recurso:"
 
 #: plugins/jabber/jabberconfigbase.cpp:296
-#, fuzzy
 msgid "Priority:"
-msgstr "Puerto:"
+msgstr "Prioridad:"
 
 #: plugins/jabber/jabberconfigbase.cpp:297
 msgid "Manualy specify Jabber host:"
-msgstr "Especificar host Jabber manualmente:"
+msgstr "Especificar servidor Jabber manualmente:"
 
 #: plugins/jabber/jabberconfigbase.cpp:299
 msgid "Use protocol &icons for agents contacts"
 msgstr ""
 
 #: plugins/jabber/jabberconfigbase.cpp:300
-#, fuzzy
 msgid "Send &rich text messages if possible"
-msgstr "Fallo al enviar el mensaje"
+msgstr ""
 
 #: plugins/jabber/jabberconfigbase.cpp:301
 msgid "Automaticaly send &subscribe request"
@@ -7097,37 +7084,32 @@ msgid "DiscoInfo"
 msgstr ""
 
 #: plugins/jabber/discoinfobase.cpp:266
-#, fuzzy
 msgid "Namespaces:"
-msgstr "Nombre:"
+msgstr ""
 
 #: plugins/jabber/discoinfobase.cpp:267
 msgid "Category:"
 msgstr ""
 
 #: plugins/jabber/discoinfobase.cpp:272
-#, fuzzy
 msgid "Version:"
-msgstr "%1 Versión: %2"
+msgstr "Versión:"
 
 #: plugins/jabber/discoinfobase.cpp:273
-#, fuzzy
 msgid "System:"
-msgstr "Sistema"
+msgstr "Sistema:"
 
 #: plugins/jabber/discoinfobase.cpp:275
-#, fuzzy
 msgid "UTC client time:"
-msgstr "Cliente ICQ"
+msgstr ""
 
 #: plugins/jabber/discoinfobase.cpp:276
 msgid "Last activity, idle response:"
 msgstr ""
 
 #: plugins/jabber/discoinfobase.cpp:279
-#, fuzzy
 msgid "&Statistic"
-msgstr "E&stado"
+msgstr ""
 
 #: plugins/jabber/jabberinfobase.cpp:195
 msgid "ID:"
@@ -7135,29 +7117,26 @@ msgstr "ID:"
 
 #: plugins/jabber/jabberaddbase.cpp:111
 msgid "Nickname:"
-msgstr "Nickname:"
+msgstr "Apodo:"
 
 #: plugins/jabber/jabberaddbase.cpp:112
-#, fuzzy
 msgid "Jabber &browser"
-msgstr "ID Jabber"
+msgstr ""
 
 #: plugins/jabber/jabberbrowser.cpp:42
-#, fuzzy
 msgid "Process"
-msgstr "Profesional"
+msgstr "Progreso"
 
 #: plugins/jabber/jabberbrowser.cpp:84 plugins/jabber/jabberbrowser.cpp:280
 #: plugins/jabber/jabberbrowser.cpp:309 plugins/jabber/jabberbrowser.cpp:338
 #: plugins/jabber/jabberbrowser.cpp:518 plugins/jabber/jabberbrowser.cpp:588
-#, fuzzy, c-format
+#, c-format
 msgid "Error %1"
-msgstr "Error"
+msgstr "Error %1"
 
 #: plugins/jabber/jabberbrowser.cpp:87
-#, fuzzy
 msgid "Done"
-msgstr "Abajo"
+msgstr "Hecho"
 
 #: plugins/jabber/jabber.cpp:286 plugins/jabber/jabberbrowser.cpp:116
 #: plugins/jabber/jabberbrowser.cpp:748
@@ -7165,34 +7144,28 @@ msgid "JID"
 msgstr "JID"
 
 #: plugins/jabber/jabber.cpp:293 plugins/jabber/jabberbrowser.cpp:117
-#, fuzzy
 msgid "Node"
-msgstr "Ninguno"
+msgstr ""
 
 #: plugins/jabber/jabberbrowser.cpp:248
-#, fuzzy
 msgid "Client offline"
 msgstr "Cliente desconectado"
 
 #: plugins/jabber/jabberbrowser.cpp:255
-#, fuzzy
 msgid "Stop"
-msgstr "Configurar"
+msgstr ""
 
 #: plugins/jabber/jabberbrowser.cpp:430
-#, fuzzy
 msgid "%1 Search"
-msgstr "Buscando"
+msgstr ""
 
 #: plugins/jabber/jabberbrowser.cpp:437
-#, fuzzy
 msgid "%1 Register"
-msgstr "&Registrar"
+msgstr ""
 
 #: plugins/jabber/jabberbrowser.cpp:444
-#, fuzzy
 msgid "%1 Configure"
-msgstr "Configurar"
+msgstr ""
 
 #: plugins/jabber/jabberbrowser.cpp:939
 msgid "Choose a user and password to register with the server"
@@ -7200,45 +7173,39 @@ msgstr ""
 
 #: plugins/jabber/jabberclient.cpp:1481 plugins/jabber/jabberclient.cpp:1590
 msgid "Photo"
-msgstr ""
+msgstr "Foto"
 
 #: plugins/jabber/jabberclient.cpp:1496 plugins/jabber/jabberclient.cpp:1605
-#, fuzzy
 msgid "Logo"
-msgstr "&Log"
+msgstr "Logotipo"
 
 #: plugins/jabber/jabberclient.cpp:2917 plugins/yahoo/yahooclient.cpp:2490
-#, fuzzy
 msgid "File transfer fail"
-msgstr "Fallo en la transferencia"
+msgstr "Transferencia de archivo fallida"
 
 #: plugins/jabber/jabber.cpp:62
 msgid "Jabber"
 msgstr "Jabber"
 
 #: plugins/jabber/jabber.cpp:271
-#, fuzzy
 msgid "&Back"
-msgstr "Atras"
+msgstr "&Atrás"
 
 #: plugins/jabber/jabber.cpp:325
-#, fuzzy
 msgid "Browser mode"
-msgstr "Navegador:"
+msgstr ""
 
 #: plugins/jabber/jabber.cpp:333
-#, fuzzy
 msgid "Load one level"
-msgstr "Log level:"
+msgstr ""
 
 #: plugins/jabber/jabber.cpp:344
-#, fuzzy
 msgid "Load all levels"
-msgstr "Todos los ficheros (*)"
+msgstr ""
 
 #: plugins/jabber/servicesbase.cpp:108 plugins/jabber/servicesbase.cpp:114
 msgid "Jabber agents are available online after login"
-msgstr "Los agentes Jabber estan disponibles despues de conectarse"
+msgstr "Los agentes Jabber están disponibles después de conectarse"
 
 #: plugins/jabber/servicesbase.cpp:109
 msgid "Registered agents:"
@@ -7265,14 +7232,12 @@ msgid "&Agents"
 msgstr "&Agentes"
 
 #: plugins/jabber/jabberaboutinfobase.cpp:57
-#, fuzzy
 msgid "Additional information:"
-msgstr "Información adicional del usuario:"
+msgstr "Información adicional:"
 
 #: plugins/livejournal/livejournalcfg.cpp:36
-#, fuzzy
 msgid "Register new user"
-msgstr "&Registrar nuevo UIN"
+msgstr "Registrar nuevo usuario"
 
 #: plugins/livejournal/msgjournal.cpp:153
 msgid "Remove record from journal?"
@@ -7305,51 +7270,44 @@ msgid "LiveJournal &WWW"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:251
-#, fuzzy
 msgid "Friends updated"
-msgstr "Mostrar listado"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:295
 msgid "LiveJournal"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:621
-#, fuzzy
 msgid "Posting failed"
-msgstr "Error en el Login"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1373
-#, fuzzy
 msgid "Invalid username"
-msgstr "Mensaje invalido"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1375
 msgid "aggravated"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1376
-#, fuzzy
 msgid "angry"
-msgstr "Enfadado"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1377
-#, fuzzy
 msgid "annoyed"
-msgstr "Molesto"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1378
 msgid "anxious"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1379
-#, fuzzy
 msgid "bored"
-msgstr "negrita"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1380
-#, fuzzy
 msgid "confused"
-msgstr "Iconos"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1381
 msgid "crappy"
@@ -7364,9 +7322,8 @@ msgid "depressed"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1384
-#, fuzzy
 msgid "discontent"
-msgstr "Escuchar"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1385
 msgid "energetic"
@@ -7377,9 +7334,8 @@ msgid "enraged"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1387
-#, fuzzy
 msgid "enthralled"
-msgstr "Atascado"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1388
 msgid "exhausted"
@@ -7390,27 +7346,24 @@ msgid "happy"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1390
-#, fuzzy
 msgid "high"
-msgstr "luz"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1391
 msgid "horny"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1392
-#, fuzzy
 msgid "hungry"
-msgstr "Enfadado"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1393
 msgid "infuriated"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1394
-#, fuzzy
 msgid "irate"
-msgstr "Migrar"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1395
 msgid "jubilant"
@@ -7429,18 +7382,16 @@ msgid "pissed off"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1399
-#, fuzzy
 msgid "sad"
-msgstr "Triste"
+msgstr "triste"
 
 #: plugins/livejournal/livejournal.cpp:1400
 msgid "satisfied"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1401
-#, fuzzy
 msgid "sore"
-msgstr "R&estaurar"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1402
 msgid "stressed"
@@ -7455,9 +7406,8 @@ msgid "thoughtful"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1405
-#, fuzzy
 msgid "tired"
-msgstr "Jubilado"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1406
 msgid "touched"
@@ -7472,9 +7422,8 @@ msgid "drunk"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1409
-#, fuzzy
 msgid "ditzy"
-msgstr "Ciudad:"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1410
 msgid "mischievous"
@@ -7493,9 +7442,8 @@ msgid "melancholy"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1414
-#, fuzzy
 msgid "drained"
-msgstr "subrayado"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1415
 msgid "excited"
@@ -7510,14 +7458,12 @@ msgid "hopeful"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1418
-#, fuzzy
 msgid "amused"
-msgstr "&Pausa"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1419
-#, fuzzy
 msgid "determined"
-msgstr "subrayado"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1420
 msgid "scared"
@@ -7540,9 +7486,8 @@ msgid "groggy"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1425
-#, fuzzy
 msgid "hyper"
-msgstr "Tipo"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1426
 msgid "relaxed"
@@ -7557,27 +7502,24 @@ msgid "disappointed"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1429
-#, fuzzy
 msgid "curious"
-msgstr "Grupos"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1430
 msgid "mellow"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1431
-#, fuzzy
 msgid "peaceful"
-msgstr "Espacio"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1432
 msgid "bouncy"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1433
-#, fuzzy
 msgid "nostalgic"
-msgstr "cursiva"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1434
 msgid "okay"
@@ -7588,19 +7530,16 @@ msgid "rejuvenated"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1436
-#, fuzzy
 msgid "complacent"
-msgstr "CompletoInformatica"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1437
-#, fuzzy
 msgid "content"
-msgstr "Internet"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1438
-#, fuzzy
 msgid "indifferent"
-msgstr "Indiferente"
+msgstr "indiferente"
 
 #: plugins/livejournal/livejournal.cpp:1439
 msgid "silly"
@@ -7615,9 +7554,8 @@ msgid "calm"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1442
-#, fuzzy
 msgid "refreshed"
-msgstr "&Rechazar"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1443
 msgid "optimistic"
@@ -7644,9 +7582,8 @@ msgid "lethargic"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1449
-#, fuzzy
 msgid "listless"
-msgstr "Gimnasia"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1450
 msgid "recumbent"
@@ -7657,9 +7594,8 @@ msgid "exanimate"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1452
-#, fuzzy
 msgid "embarrassed"
-msgstr "Vergonzoso"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1453
 msgid "envious"
@@ -7670,24 +7606,20 @@ msgid "sympathetic"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1455
-#, fuzzy
 msgid "sick"
-msgstr "Nick"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1456
-#, fuzzy
 msgid "hot"
-msgstr "&Telefonos:"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1457
-#, fuzzy
 msgid "cold"
-msgstr "negrita"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1458
-#, fuzzy
 msgid "worried"
-msgstr "Sorprendido"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1459
 msgid "loved"
@@ -7698,9 +7630,8 @@ msgid "awake"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1461
-#, fuzzy
 msgid "working"
-msgstr "Ordenando"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1462
 msgid "productive"
@@ -7711,14 +7642,12 @@ msgid "accomplished"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1464
-#, fuzzy
 msgid "busy"
-msgstr "Ocupado"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1465
-#, fuzzy
 msgid "blah"
-msgstr "negro"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1466
 msgid "full"
@@ -7729,9 +7658,8 @@ msgid "grumpy"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1468
-#, fuzzy
 msgid "weird"
-msgstr "Jubilado"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1469
 msgid "nauseated"
@@ -7762,9 +7690,8 @@ msgid "geeky"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1476
-#, fuzzy
 msgid "cynical"
-msgstr "Técnico"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1477
 msgid "quixotic"
@@ -7775,19 +7702,16 @@ msgid "crazy"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1479
-#, fuzzy
 msgid "creative"
-msgstr "Recibir"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1480
-#, fuzzy
 msgid "artistic"
-msgstr "E&stado"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1481
-#, fuzzy
 msgid "pleased"
-msgstr "Bromista"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1482
 msgid "bitchy"
@@ -7798,14 +7722,12 @@ msgid "guilty"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1484
-#, fuzzy
 msgid "irritated"
-msgstr "Migrar"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1485
-#, fuzzy
 msgid "blank"
-msgstr "negro"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1486
 msgid "apathetic"
@@ -7824,23 +7746,20 @@ msgid "naughty"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1490
-#, fuzzy
 msgid "predatory"
-msgstr "Directorios"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1491
-#, fuzzy
 msgid "dirty"
-msgstr "Ciudad:"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1492
 msgid "giddy"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1493
-#, fuzzy
 msgid "surprised"
-msgstr "Sorprendido"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1494
 msgid "shocked"
@@ -7867,9 +7786,8 @@ msgid "distressed"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1500
-#, fuzzy
 msgid "intimidated"
-msgstr "Minimizar"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1501
 msgid "crushed"
@@ -7884,18 +7802,16 @@ msgid "thankful"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1504
-#, fuzzy
 msgid "grateful"
-msgstr "Migrar"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1505
 msgid "jealous"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1506
-#, fuzzy
 msgid "nervous"
-msgstr "Grupos"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1508
 msgid "Recent Entries"
@@ -7906,37 +7822,32 @@ msgid "Calendar View"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1510
-#, fuzzy
 msgid "Friends View"
-msgstr "Mostrar listado"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1511
-#, fuzzy
 msgid "Your Profile"
-msgstr "&Perfil"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1512
 msgid "Your To-Do List"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1513
-#, fuzzy
 msgid "Change Settings"
-msgstr "&Cambiar codificación"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1514
-#, fuzzy
 msgid "Support"
-msgstr "Deportes"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1515
 msgid "Personal Info"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1516
-#, fuzzy
 msgid "Journal Settings"
-msgstr "ConfiguracionesEnviando"
+msgstr ""
 
 #: plugins/livejournal/livejournalcfgbase.cpp:151
 msgid "&LiveJournal"
@@ -7948,43 +7859,36 @@ msgid "Path:"
 msgstr ""
 
 #: plugins/livejournal/livejournalcfgbase.cpp:156
-#, fuzzy
 msgid "Check interval:"
-msgstr "Comprobar Invisibilidad"
+msgstr ""
 
 #: plugins/livejournal/livejournalcfgbase.cpp:157
-#, fuzzy
 msgid "minutes"
-msgstr "Ordenadores"
+msgstr ""
 
 #: plugins/livejournal/livejournalcfgbase.cpp:158
 msgid "Use &fast server - only for paying customers"
 msgstr ""
 
 #: plugins/livejournal/msgjournalbase.cpp:82
-#, fuzzy
 msgid "Subject:"
-msgstr "<p>Asunto: %1</p>"
+msgstr "Asunto:"
 
 #: plugins/livejournal/msgjournalbase.cpp:83
-#, fuzzy
 msgid "Security:"
-msgstr "Seguridad"
+msgstr "Seguridad:"
 
 #: plugins/livejournal/msgjournalbase.cpp:85
-#, fuzzy
 msgid "Public"
-msgstr "Editar"
+msgstr ""
 
 #: plugins/livejournal/msgjournalbase.cpp:86
-#, fuzzy
 msgid "Friends-Only"
-msgstr "Solo escritura"
+msgstr ""
 
 #: plugins/livejournal/msgjournalbase.cpp:87
-#, fuzzy
 msgid "Private"
-msgstr "Pegar"
+msgstr ""
 
 #: plugins/livejournal/msgjournalbase.cpp:88
 msgid "Mood:"
@@ -7999,14 +7903,12 @@ msgid "No email comments"
 msgstr ""
 
 #: plugins/livejournal/msgjournalbase.cpp:94
-#, fuzzy
 msgid "Disable comments"
-msgstr "&Desactivar todos los sonidos"
+msgstr ""
 
 #: plugins/livejournal/journalsearchbase.cpp:65
-#, fuzzy
 msgid "Add community"
-msgstr "&Añadir contacto"
+msgstr ""
 
 #: plugins/spell/spellcfg.cpp:46
 msgid "ASpell(aspell.exe)"
@@ -8021,19 +7923,16 @@ msgid "Add '%1'"
 msgstr ""
 
 #: plugins/spell/spellhighlight.cpp:258
-#, fuzzy
 msgid "Ignore '%1'"
-msgstr "Lista ignorado"
+msgstr ""
 
 #: plugins/spell/spell.cpp:62
-#, fuzzy
 msgid "Plugin provides check spelling"
-msgstr "Este plugin habilita un icono en la bandeja de sistema"
+msgstr ""
 
 #: plugins/action/menucfg.cpp:31
-#, fuzzy
 msgid "Item"
-msgstr "Nuevo asunto"
+msgstr ""
 
 #: plugins/action/actioncfg.cpp:42 plugins/action/menucfg.cpp:32
 msgid "Program"
@@ -8044,24 +7943,20 @@ msgid "In command line you can use:"
 msgstr ""
 
 #: plugins/action/actioncfg.cpp:41
-#, fuzzy
 msgid "Event"
-msgstr "Eventos"
+msgstr "Evento"
 
 #: plugins/action/actioncfg.cpp:47
-#, fuzzy
 msgid "Contact online"
-msgstr "Nombre del contacto"
+msgstr ""
 
 #: plugins/action/actioncfg.cpp:53
-#, fuzzy
 msgid "Status changed"
-msgstr "Mostrar panel de estado"
+msgstr ""
 
 #: plugins/action/actioncfg.cpp:91
-#, fuzzy
 msgid "Menu"
-msgstr "&Menu"
+msgstr "Menú"
 
 #: plugins/action/actioncfg.cpp:184
 msgid ""
@@ -8074,33 +7969,28 @@ msgid ""
 msgstr ""
 
 #: plugins/action/action.cpp:33
-#, fuzzy
 msgid "Action"
-msgstr "Educacion"
+msgstr ""
 
 #: plugins/action/action.cpp:34
 msgid "Plugin execute external programs on event or from contact menu"
 msgstr ""
 
 #: plugins/action/action.cpp:84
-#, fuzzy
 msgid "&Action"
-msgstr "&Localización"
+msgstr ""
 
 #: plugins/action/additembase.cpp:91
-#, fuzzy
 msgid "Add Item"
-msgstr "Nuevo asunto"
+msgstr "Añadir elemento"
 
 #: plugins/action/additembase.cpp:92
-#, fuzzy
 msgid "Item:"
-msgstr "Nuevo asunto"
+msgstr "Elemento"
 
 #: plugins/action/additembase.cpp:93
-#, fuzzy
 msgid "Program:"
-msgstr "Puerto:"
+msgstr "Programa:"
 
 #: plugins/navigate/navigate.cpp:213
 msgid "Navigate"
@@ -8108,7 +7998,7 @@ msgstr "Navegar"
 
 #: plugins/navigate/navigate.cpp:214
 msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
-msgstr "Este plugin establece el navegador y el cliente de correo"
+msgstr ""
 
 #: plugins/navigate/navigate.cpp:262
 msgid "Send mail"
@@ -8128,17 +8018,19 @@ msgstr ""
 
 #: plugins/yahoo/yahoo.cpp:81
 msgid "Yahoo!"
-msgstr ""
+msgstr "Yahoo!"
 
 #: plugins/yahoo/yahoo.cpp:84
 msgid ""
 "http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.ya"
 "hoo.com/&.redir_from=MESSENGER"
 msgstr ""
+"http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.ya"
+"hoo.com/&.redir_from=MESSENGER"
 
 #: plugins/yahoo/yahoocfg.cpp:46
 msgid "Get a Yahoo! ID"
-msgstr ""
+msgstr "Obtener una ID Yahoo!"
 
 #: plugins/yahoo/yahooclient.cpp:338
 msgid "Yahoo! login lock"
@@ -8149,14 +8041,12 @@ msgid "Your account has been locked"
 msgstr ""
 
 #: plugins/yahoo/yahooclient.cpp:365 plugins/yahoo/yahooclient.cpp:378
-#, fuzzy
 msgid "Your account is being used from another location"
-msgstr "Tu cuenta esta siendo usada desde otro lugar"
+msgstr "Su cuenta está siendo usada desde otro lugar"
 
 #: plugins/yahoo/yahooclient.cpp:1374
-#, fuzzy
 msgid "Not at home"
-msgstr "Nombre del contacto"
+msgstr ""
 
 #: plugins/yahoo/yahooclient.cpp:1377
 msgid "Not at my desk"
@@ -8167,104 +8057,89 @@ msgid "Not in the office"
 msgstr ""
 
 #: plugins/yahoo/yahooclient.cpp:1386
-#, fuzzy
 msgid "On vacation"
-msgstr "Ocupación:"
+msgstr ""
 
 #: plugins/yahoo/yahooclient.cpp:1389
-#, fuzzy
 msgid "Out to lunch"
-msgstr "Almorzando"
+msgstr "He salido a comer"
 
 #: plugins/yahoo/yahooclient.cpp:1392
-#, fuzzy
 msgid "Stepped out"
-msgstr "Tiempo de espera agotado al enviar"
+msgstr ""
 
 #: plugins/yahoo/yahoocfgbase.cpp:177
-#, fuzzy
 msgid "&Yahoo!"
-msgstr "&Telefonos:"
+msgstr "&Yahoo!"
 
 #: plugins/weather/wifacecfg.cpp:59 plugins/weather/wifacecfg.cpp:74
 #: plugins/yahoo/yahoosearchbase.cpp:124
-#, fuzzy
 msgid "Conditions"
-msgstr "Conexiones"
+msgstr "Condiciones"
 
 #: plugins/yahoo/yahoosearch.cpp:52
-#, fuzzy
 msgid "&Yahoo! ID"
-msgstr "&Telefonos:"
+msgstr "&Yahoo! ID"
 
 #: plugins/yahoo/yahoosearch.cpp:55
 msgid "&Keywords"
-msgstr ""
+msgstr "Palabras &clave:"
 
 #: plugins/replace/replace.cpp:33
-#, fuzzy
 msgid "Replace text"
-msgstr "&Renombrar"
+msgstr "Reemplazar texto"
 
 #: plugins/replace/replace.cpp:34
-#, fuzzy
 msgid "Plugin provides text replacing in message edit window"
-msgstr "Este plugin habilita el filtro de mensajes"
+msgstr ""
 
 #: plugins/replace/replacecfg.cpp:31
-#, fuzzy
 msgid "You type"
-msgstr "Tipo proxy:"
+msgstr ""
 
 #: plugins/replace/replacecfg.cpp:32
-#, fuzzy
 msgid "You send"
-msgstr "Iconos"
+msgstr ""
 
 #: plugins/weather/weather.cpp:96
-#, fuzzy
 msgid "Weather"
-msgstr "Otros"
+msgstr ""
 
 #: plugins/weather/weather.cpp:97
-#, fuzzy
 msgid "Plugin provides show weather"
-msgstr "Este plugin activa el splash screen al arrancar la aplicacion"
+msgstr ""
 
 #: plugins/weather/weather.cpp:168
-#, fuzzy
 msgid "Not connected"
-msgstr "Nueva conexión"
+msgstr "No conectado"
 
 #: plugins/weather/weather.cpp:453
-#, fuzzy
 msgid "Monday"
-msgstr "Mayo"
+msgstr "Lunes"
 
 #: plugins/weather/weather.cpp:454
 msgid "Tuesday"
-msgstr ""
+msgstr "Martes"
 
 #: plugins/weather/weather.cpp:455
 msgid "Wednesday"
-msgstr ""
+msgstr "Miércoles"
 
 #: plugins/weather/weather.cpp:456
 msgid "Thursday"
-msgstr ""
+msgstr "Jueves"
 
 #: plugins/weather/weather.cpp:457
 msgid "Friday"
-msgstr ""
+msgstr "Viernes"
 
 #: plugins/weather/weather.cpp:458
 msgid "Saturday"
-msgstr ""
+msgstr "Sábado"
 
 #: plugins/weather/weather.cpp:459
-#, fuzzy
 msgid "Sunday"
-msgstr "Sonido"
+msgstr "Domingo"
 
 #: plugins/weather/weather.cpp:461
 msgid ""
@@ -8297,11 +8172,10 @@ msgid ""
 msgstr ""
 
 #: plugins/weather/weather.cpp:466
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Snow"
-msgstr "Otros"
+msgstr ""
 
 #: plugins/weather/weather.cpp:467
 msgid ""
@@ -8316,18 +8190,16 @@ msgid ""
 msgstr ""
 
 #: plugins/weather/weather.cpp:469
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Few Snow"
-msgstr "Otros"
+msgstr ""
 
 #: plugins/weather/weather.cpp:470
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Scattered Snow"
-msgstr "Otros"
+msgstr ""
 
 #: plugins/weather/weather.cpp:471
 msgid ""
@@ -8384,39 +8256,34 @@ msgid ""
 msgstr ""
 
 #: plugins/weather/weather.cpp:480
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Windy"
-msgstr "Otros"
+msgstr ""
 
 #: plugins/weather/weather.cpp:481
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Drizzle"
-msgstr "Otros"
+msgstr ""
 
 #: plugins/weather/weather.cpp:482
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Light Drizzle"
-msgstr "Otros"
+msgstr ""
 
 #: plugins/weather/weather.cpp:483
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Drifting Snow"
-msgstr "Otros"
+msgstr ""
 
 #: plugins/weather/weather.cpp:484
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Scattered"
-msgstr "Otros"
+msgstr ""
 
 #: plugins/weather/weather.cpp:485
 msgid ""
@@ -8443,11 +8310,10 @@ msgid ""
 msgstr ""
 
 #: plugins/weather/weather.cpp:489
-#, fuzzy
 msgid ""
 "_: weather\n"
 "N"
-msgstr "Otros"
+msgstr ""
 
 #: plugins/weather/weather.cpp:490
 msgid ""
@@ -8462,25 +8328,22 @@ msgid ""
 msgstr ""
 
 #: plugins/weather/weather.cpp:492
-#, fuzzy
 msgid ""
 "_: weather\n"
 "WNW"
-msgstr "Otros"
+msgstr ""
 
 #: plugins/weather/weather.cpp:493
-#, fuzzy
 msgid ""
 "_: weather\n"
 "W"
-msgstr "Otros"
+msgstr ""
 
 #: plugins/weather/weather.cpp:494
-#, fuzzy
 msgid ""
 "_: weather\n"
 "WSW"
-msgstr "Otros"
+msgstr ""
 
 #: plugins/weather/weather.cpp:495
 msgid ""
@@ -8495,11 +8358,10 @@ msgid ""
 msgstr ""
 
 #: plugins/weather/weather.cpp:497
-#, fuzzy
 msgid ""
 "_: weather\n"
 "S"
-msgstr "Otros"
+msgstr ""
 
 #: plugins/weather/weather.cpp:498
 msgid ""
@@ -8514,25 +8376,22 @@ msgid ""
 msgstr ""
 
 #: plugins/weather/weather.cpp:500
-#, fuzzy
 msgid ""
 "_: weather\n"
 "ESE"
-msgstr "Otros"
+msgstr ""
 
 #: plugins/weather/weather.cpp:501
-#, fuzzy
 msgid ""
 "_: weather\n"
 "E"
-msgstr "Otros"
+msgstr ""
 
 #: plugins/weather/weather.cpp:502
-#, fuzzy
 msgid ""
 "_: weather\n"
 "ENE"
-msgstr "Otros"
+msgstr ""
 
 #: plugins/weather/weather.cpp:503
 msgid ""
@@ -8547,11 +8406,10 @@ msgid ""
 msgstr ""
 
 #: plugins/weather/weather.cpp:505
-#, fuzzy
 msgid ""
 "_: weather\n"
 "VAR"
-msgstr "Otros"
+msgstr ""
 
 #: plugins/weather/weather.cpp:506
 msgid "km"
@@ -8562,9 +8420,8 @@ msgid "km/h"
 msgstr ""
 
 #: plugins/weather/weather.cpp:519
-#, fuzzy
 msgid "and"
-msgstr "Triste"
+msgstr ""
 
 #: plugins/weather/weather.cpp:522
 msgid ""
@@ -8579,14 +8436,12 @@ msgid ""
 msgstr ""
 
 #: plugins/weather/weather.cpp:540 plugins/weather/weather.cpp:542
-#, fuzzy
 msgid "m/s"
-msgstr "b/s"
+msgstr ""
 
 #: plugins/weather/weather.cpp:541 plugins/weather/weather.cpp:542
-#, fuzzy
 msgid "gust "
-msgstr "Agosto"
+msgstr ""
 
 #: plugins/weather/weather.cpp:604
 msgid "%t | %c"
@@ -8617,19 +8472,16 @@ msgid ""
 msgstr ""
 
 #: plugins/weather/weathercfg.cpp:101
-#, fuzzy
 msgid "Location %1 not found"
-msgstr "Host %1 encontrado"
+msgstr ""
 
 #: plugins/weather/wifacecfgbase.cpp:81
-#, fuzzy
 msgid "Button text:"
-msgstr "Botón"
+msgstr ""
 
 #: plugins/weather/wifacecfgbase.cpp:82
-#, fuzzy
 msgid "Button tip:"
-msgstr "Botón"
+msgstr ""
 
 #: plugins/weather/wifacecfgbase.cpp:83
 msgid "Forecast tip:"
@@ -8644,14 +8496,12 @@ msgid "Feels like"
 msgstr ""
 
 #: plugins/weather/wifacecfg.cpp:31
-#, fuzzy
 msgid "Humidity"
-msgstr "Ciudad:"
+msgstr ""
 
 #: plugins/weather/wifacecfg.cpp:33
-#, fuzzy
 msgid "Wind direction"
-msgstr "Buscar directorio"
+msgstr ""
 
 #: plugins/weather/wifacecfg.cpp:35
 msgid "Wind speed"
@@ -8670,66 +8520,56 @@ msgid "Wind gust (m/s)"
 msgstr ""
 
 #: plugins/weather/wifacecfg.cpp:43
-#, fuzzy
 msgid "Pressure"
-msgstr "Profesional"
+msgstr ""
 
 #: plugins/weather/wifacecfg.cpp:45
-#, fuzzy
 msgid "Pressure state"
-msgstr "Profesional"
+msgstr ""
 
 #: plugins/weather/wifacecfg.cpp:47
-#, fuzzy
 msgid "Visibility"
-msgstr "Lista visible"
+msgstr ""
 
 #: plugins/weather/wifacecfg.cpp:49
 msgid "Dew Point"
 msgstr ""
 
 #: plugins/weather/wifacecfg.cpp:53
-#, fuzzy
 msgid "Updated"
-msgstr "Actualizar"
+msgstr ""
 
 #: plugins/weather/wifacecfg.cpp:55
-#, fuzzy
 msgid "Sunraise"
-msgstr "Sorprendido"
+msgstr ""
 
 #: plugins/weather/wifacecfg.cpp:57
-#, fuzzy
 msgid "Sunset"
-msgstr "Sonido"
+msgstr ""
 
 #: plugins/weather/wifacecfg.cpp:68
-#, fuzzy
 msgid "Number"
-msgstr "Número:"
+msgstr ""
 
 #: plugins/weather/wifacecfg.cpp:70
 msgid "Day of week"
 msgstr ""
 
 #: plugins/weather/weathercfgbase.cpp:110
-#, fuzzy
 msgid "Location ID:"
-msgstr "&Localización"
+msgstr ""
 
 #: plugins/weather/weathercfgbase.cpp:112
 msgid "You can enter ID as part URL for your location on weather.com"
 msgstr ""
 
 #: plugins/weather/weathercfgbase.cpp:114
-#, fuzzy
 msgid "Metric"
-msgstr "Misticismo"
+msgstr ""
 
 #: plugins/weather/weathercfgbase.cpp:115
-#, fuzzy
 msgid "Standart"
-msgstr "E&stado"
+msgstr ""
 
 #: plugins/weather/weathercfgbase.cpp:116
 msgid "Forecast days:"
