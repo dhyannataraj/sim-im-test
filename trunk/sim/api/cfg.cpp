@@ -982,7 +982,7 @@ EXPORT void saveGeometry(QWidget *w, Data geo[5])
     if (info.onAllDesktops())
         geo[4].value = (unsigned)(-1);
 #else
-    KWin::Info info = KWin::info(w->winId());
+KWin::Info info = KWin::info(w->winId());
     geo[4].value = info.desktop;
     if (info.onAllDesktops)
         geo[4].value = (unsigned)(-1);

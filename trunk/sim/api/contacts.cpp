@@ -1089,16 +1089,19 @@ void Client::freeData()
             continue;
         contact->clientData.freeClientData(this);
         if (contact->clientData.size()){
-            contact->setup();
-            Event e(EventContactChanged, contact);
-            e.process();
+            if (!getContacts()->p->bNoRemove){
+                contact->setup();
+                Event e(EventContactChanged, contact);
+                e.process();
+            }
             continue;
         }
         forRemove.push_back(contact);
     }
     list<Contact*>::iterator itr;
     for (itr = forRemove.begin(); itr != forRemove.end(); ++itr){
-        delete *itr;
+        Contact *contact = *itr;
+        delete contact;
     }
     ContactListPrivate *p = getContacts()->p;
     for (vector<Client*>::iterator it = p->clients.begin(); it != p->clients.end(); ++it){

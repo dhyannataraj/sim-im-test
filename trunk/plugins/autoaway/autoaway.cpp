@@ -184,7 +184,7 @@ AutoAwayPlugin::AutoAwayPlugin(unsigned base, const char *config)
     }
 #else
 #ifdef HAVE_CARBON_CARBNON_H
-    CFBundleRef carbonBundle;
+CFBundleRef carbonBundle;
     if (LoadFrameworkBundle( CFSTR("Carbon.framework"), &carbonBundle ) == noErr) {
         InstallEventLoopIdleTimerPtr myInstallEventLoopIdleTimer = (InstallEventLoopIdleTimerPtr)CFBundleGetFunctionPointerForName(carbonBundle, CFSTR("InstallEventLoopIdleTimer"));
         if (myInstallEventLoopIdleTimer){
@@ -316,7 +316,7 @@ unsigned AutoAwayPlugin::getIdleTime()
 #ifdef HAVE_CARBON_CARBON_H
     return mSecondsIdle;
 #else
-    QWidgetList *list = QApplication::topLevelWidgets();
+QWidgetList *list = QApplication::topLevelWidgets();
     QWidgetListIt it(*list);
     QWidget *w = it.current();
     delete list;

@@ -132,10 +132,8 @@ MSNClient::MSNClient(Protocol *protocol, const char *cfg)
 
 MSNClient::~MSNClient()
 {
-
     TCPClient::setStatus(STATUS_OFFLINE, false);
     free_data(msnClientData, &data);
-
     freeData();
 }
 

@@ -126,6 +126,9 @@ using namespace std;
 #include "xpm/msn.xpm"
 #include "xpm/aim.xpm"
 #include "xpm/yahoo.xpm"
+#include "xpm/yahoo_offline.xpm"
+#include "xpm/yahoo_away.xpm"
+#include "xpm/yahoo_dnd.xpm"
 
 #define KICON(A)    addIcon(#A, p_##A, #A, 0);
 #define ICON(A)		addIcon(#A, A, NULL, 0);
@@ -185,6 +188,10 @@ Icons::Icons()
     addIcon("MSN", msn, NULL, 0x200);
     addIcon("AIM", aim, NULL, 0);
     addIcon("Yahoo!", yahoo, NULL, 0);
+    addIcon("Yahoo!_offline", yahoo_offline, NULL, 0);
+    addIcon("Yahoo!_away", yahoo_away, NULL, 0);
+    addIcon("Yahoo!_na", yahoo_away, NULL, 0);
+    addIcon("Yahoo!_dnd", yahoo_dnd, NULL, 0);
     ICON(away)
     ICON(na)
     ICON(dnd)

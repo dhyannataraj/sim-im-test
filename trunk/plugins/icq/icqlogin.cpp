@@ -250,7 +250,7 @@ void ICQClient::chn_close()
             errString = I18N_NOOP("Can't login to ICQ network - Please try again later");
             m_reconnect = NO_RECONNECT;
             break;
-		case 0:
+        case 0:
             break;
         default:
             errString = "Unknown error ";

@@ -599,6 +599,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name sms
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name yahoo
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -839,6 +842,24 @@ Package=<5>
 
 Package=<4>
 {{{
+}}}
+
+###############################################################################
+
+Project: "yahoo"=.\plugins\yahoo\yahoo.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simui
+    End Project Dependency
 }}}
 
 ###############################################################################

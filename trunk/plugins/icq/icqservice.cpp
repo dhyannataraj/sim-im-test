@@ -52,29 +52,29 @@ const unsigned short ICQ_SNACxSRV_SETxSTATUS    = 0x001E;
 void ICQClient::snac_service(unsigned short type, unsigned short)
 {
     switch (type){
-	case ICQ_SNACxSRV_PAUSE:
+    case ICQ_SNACxSRV_PAUSE:
         log(L_DEBUG, "Server pause");
         /* we now shouldn't send any packets to the server ...
-		   but I don't know how to solve this. Valdimir do you
-		   have an idea? */
-/*        m_bDontSendPakets = true; */
+        but I don't know how to solve this. Valdimir do you
+        have an idea? */
+        /*        m_bDontSendPakets = true; */
         snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_PAUSExACK);
         m_socket->writeBuffer << ICQ_SNACxFAM_SERVICE
-                              << ICQ_SNACxFAM_LOCATION
-                              << ICQ_SNACxFAM_BUDDY
-                              << ICQ_SNACxFAM_MESSAGE
-                              << ICQ_SNACxFAM_BOS
-                              << ICQ_SNACxFAM_PING
-                              << ICQ_SNACxFAM_LISTS
-                              << ICQ_SNACxFAM_VARIOUS
-                              << ICQ_SNACxFAM_LOGIN;
+        << ICQ_SNACxFAM_LOCATION
+        << ICQ_SNACxFAM_BUDDY
+        << ICQ_SNACxFAM_MESSAGE
+        << ICQ_SNACxFAM_BOS
+        << ICQ_SNACxFAM_PING
+        << ICQ_SNACxFAM_LISTS
+        << ICQ_SNACxFAM_VARIOUS
+        << ICQ_SNACxFAM_LOGIN;
         sendPacket();
         break;
-	case ICQ_SNACxSRV_RESUME:
-/*        m_bDontSendPakets = true;
-		emit canSendPakets(); */
-		break;
-	case ICQ_SNACxSRV_MIGRATE:{
+    case ICQ_SNACxSRV_RESUME:
+        /*        m_bDontSendPakets = true;
+        		emit canSendPakets(); */
+        break;
+    case ICQ_SNACxSRV_MIGRATE:{
             int i;
             unsigned short cnt;
             unsigned short fam[0x17];
@@ -89,11 +89,11 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
             for (; i >= 0; i--) {
                 setServiceSocket(tlv_adr,tlv_cookie,fam[i]);
             }
-/*            m_bDontSendPakets = true;
-            emit canSendPakets(); */
+            /*            m_bDontSendPakets = true;
+                        emit canSendPakets(); */
             break;
-		}
-	case ICQ_SNACxSRV_RATExCHANGE:
+        }
+    case ICQ_SNACxSRV_RATExCHANGE:
         log(L_DEBUG, "Rate change");
         if (m_nSendTimeout < 200){
             m_nSendTimeout = m_nSendTimeout + 2;
@@ -148,9 +148,9 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
                 log(L_WARN, "No service id in response");
                 break;
             }
-			Tlv *tlv_adr    = tlv(0x05);
-			Tlv *tlv_cookie = tlv(0x06);
-			setServiceSocket(tlv_adr,tlv_cookie,(unsigned short)(*tlv_id));
+            Tlv *tlv_adr    = tlv(0x05);
+            Tlv *tlv_cookie = tlv(0x06);
+            setServiceSocket(tlv_adr,tlv_cookie,(unsigned short)(*tlv_id));
             break;
         }
     case ICQ_SNACxSRV_READYxSERVER:
@@ -209,9 +209,9 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
     }
 }
 
-void ICQClient::setServiceSocket(Tlv *tlv_addr, Tlv *tlv_cookie, unsigned short service) 
+void ICQClient::setServiceSocket(Tlv *tlv_addr, Tlv *tlv_cookie, unsigned short service)
 {
-	ServiceSocket *s = NULL;
+    ServiceSocket *s = NULL;
     for (list<ServiceSocket*>::iterator it = m_services.begin(); it != m_services.end(); ++it){
         if ((*it)->id() == service){
             s = *it;
@@ -238,8 +238,8 @@ void ICQClient::setServiceSocket(Tlv *tlv_addr, Tlv *tlv_cookie, unsigned short 
         *p = 0;
         port = (unsigned short)atol(p + 1);
     }
-	if (s->connected())
-		s->close();
+    if (s->connected())
+        s->close();
     s->connect(addr.c_str(), port, *tlv_cookie, tlv_cookie->Size());
 }
 void ICQClient::sendClientReady()

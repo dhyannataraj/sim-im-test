@@ -4345,6 +4345,18 @@ SOURCE=.\xpm\webpress.xpm
 
 SOURCE=.\xpm\yahoo.xpm
 # End Source File
+# Begin Source File
+
+SOURCE=.\xpm\yahoo_away.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\yahoo_dnd.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\yahoo_offline.xpm
+# End Source File
 # End Group
 # Begin Group "po"
 

@@ -849,7 +849,7 @@ static void addIcon(string *s, const char *icon, const char *statusIcon)
 void LiveJournalClient::contactInfo(void*, unsigned long &curStatus, unsigned&, const char *&statusIcon, string *icons)
 {
     unsigned long status = STATUS_OFFLINE;
-    const char *dicon = "livejournal_off";
+    const char *dicon = "LiveJournal_offline";
     if ((getState() == Connected) && (m_status != STATUS_OFFLINE)){
         status = STATUS_ONLINE;
         dicon = "LiveJournal_online";
