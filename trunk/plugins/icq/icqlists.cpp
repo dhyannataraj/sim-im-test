@@ -174,19 +174,11 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 switch (type){
                 case ICQ_USER: {
                         if (str.length()){
-<<<<<<< icqlists.cpp
                             if ((str.length() == strlen(PLEASE_UPGRADE) + 3) &&
                                     (str.substr(0, strlen(PLEASE_UPGRADE)) == PLEASE_UPGRADE)){
                                 log(L_DEBUG, "Upgrade warning");
                                 continue;
                             }
-=======
-							if ((str.length() == strlen(PLEASE_UPGRADE) + 3) && 
-								(str.substr(0, strlen(PLEASE_UPGRADE)) == PLEASE_UPGRADE)){
-								log(L_DEBUG, "Upgrade warning");
-								continue;
-							}
->>>>>>> 1.15.2.1
                             log(L_DEBUG, "User %s", str.c_str());
                             // check for own uin in contact lsit
                             if (!m_bAIM && ((unsigned)atol(str.c_str()) == getUin())) {
