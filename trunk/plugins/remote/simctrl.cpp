@@ -44,6 +44,7 @@
 #ifdef WIN32
 #include <windows.h>
 #define socklen_t	int
+#define in_addr_t int
 #endif
 
 #ifndef INADDR_NONE
