@@ -21,109 +21,113 @@
  *
  */
 
-//***************************************************************************
+/***************************************************************************/
 
-//***************************************************************************
+/***************************************************************************/
 
-const int yahoo_f01_00(int Salt, int Parameter);
-const int yahoo_f01_01(int Salt, int Parameter);
-const int yahoo_f01_02(int Salt, int Parameter);
-const int yahoo_f01_03(int Salt, int Parameter);
-const int yahoo_f01_04(int Salt, int Parameter);
-const int yahoo_f01_05(int Salt, int Parameter);
-const int yahoo_f01_06(int Salt, int Parameter);
-const int yahoo_f01_07(int Salt, int Parameter);
-const int yahoo_f01_08(int Salt, int Parameter);
-const int yahoo_f01_09(int Salt, int Parameter);
-const int yahoo_f01_0a(int Salt, int Parameter);
-const int yahoo_f01_0b(int Salt, int Parameter);
-const int yahoo_f01_0c(int Salt, int Parameter);
-const int yahoo_f01_0d(int Salt, int Parameter);
-const int yahoo_f01_0e(int Salt, int Parameter);
-const int yahoo_f01_0f(int Salt, int Parameter);
-const int yahoo_f01_10(int Salt, int Parameter);
-const int yahoo_f01_11(int Salt, int Parameter);
-const int yahoo_f01_12(int Salt, int Parameter);
-const int yahoo_f01_13(int Salt, int Parameter);
-const int yahoo_f01_14(int Salt, int Parameter);
-const int yahoo_f01_15(int Salt, int Parameter);
-const int yahoo_f01_16(int Salt, int Parameter);
-const int yahoo_f01_17(int Salt, int Parameter);
-const int yahoo_f01_18(int Salt, int Parameter);
-const int yahoo_f01_19(int Salt, int Parameter);
-const int yahoo_f01_1a(int Salt, int Parameter);
-const int yahoo_f01_1b(int Salt, int Parameter);
-const int yahoo_f01_1c(int Salt, int Parameter);
-const int yahoo_f01_1d(int Salt, int Parameter);
-const int yahoo_f01_1e(int Salt, int Parameter);
-const int yahoo_f01_1f(int Salt, int Parameter);
-const int yahoo_f01_20(int Salt, int Parameter);
-const int yahoo_f01_21(int Salt, int Parameter);
-const int yahoo_f01_22(int Salt, int Parameter);
-const int yahoo_f01_23(int Salt, int Parameter);
-const int yahoo_f01_24(int Salt, int Parameter);
-const int yahoo_f01_25(int Salt, int Parameter);
-const int yahoo_f01_26(int Salt, int Parameter);
-const int yahoo_f01_27(int Salt, int Parameter);
-const int yahoo_f01_28(int Salt, int Parameter);
-const int yahoo_f01_29(int Salt, int Parameter);
-const int yahoo_f01_2a(int Salt, int Parameter);
-const int yahoo_f01_2b(int Salt, int Parameter);
-const int yahoo_f01_2c(int Salt, int Parameter);
-const int yahoo_f01_2d(int Salt, int Parameter);
-const int yahoo_f01_2e(int Salt, int Parameter);
-const int yahoo_f01_2f(int Salt, int Parameter);
-const int yahoo_f01_30(int Salt, int Parameter);
-const int yahoo_f01_31(int Salt, int Parameter);
-const int yahoo_f01_32(int Salt, int Parameter);
-const int yahoo_f01_33(int Salt, int Parameter);
-const int yahoo_f01_34(int Salt, int Parameter);
-const int yahoo_f01_35(int Salt, int Parameter);
-const int yahoo_f01_36(int Salt, int Parameter);
-const int yahoo_f01_37(int Salt, int Parameter);
-const int yahoo_f01_38(int Salt, int Parameter);
-const int yahoo_f01_39(int Salt, int Parameter);
-const int yahoo_f01_3a(int Salt, int Parameter);
-const int yahoo_f01_3b(int Salt, int Parameter);
-const int yahoo_f01_3c(int Salt, int Parameter);
-const int yahoo_f01_3d(int Salt, int Parameter);
-const int yahoo_f01_3e(int Salt, int Parameter);
-const int yahoo_f01_3f(int Salt, int Parameter);
-const int yahoo_f01_40(int Salt, int Parameter);
-const int yahoo_f01_41(int Salt, int Parameter);
-const int yahoo_f01_42(int Salt, int Parameter);
-const int yahoo_f01_43(int Salt, int Parameter);
-const int yahoo_f01_44(int Salt, int Parameter);
-const int yahoo_f01_45(int Salt, int Parameter);
-const int yahoo_f01_46(int Salt, int Parameter);
-const int yahoo_f01_47(int Salt, int Parameter);
-const int yahoo_f01_48(int Salt, int Parameter);
-const int yahoo_f01_49(int Salt, int Parameter);
-const int yahoo_f01_4a(int Salt, int Parameter);
-const int yahoo_f01_4b(int Salt, int Parameter);
-const int yahoo_f01_4c(int Salt, int Parameter);
-const int yahoo_f01_4d(int Salt, int Parameter);
-const int yahoo_f01_4e(int Salt, int Parameter);
-const int yahoo_f01_4f(int Salt, int Parameter);
-const int yahoo_f01_50(int Salt, int Parameter);
-const int yahoo_f01_51(int Salt, int Parameter);
-const int yahoo_f01_52(int Salt, int Parameter);
-const int yahoo_f01_53(int Salt, int Parameter);
-const int yahoo_f01_54(int Salt, int Parameter);
-const int yahoo_f01_55(int Salt, int Parameter);
-const int yahoo_f01_56(int Salt, int Parameter);
-const int yahoo_f01_57(int Salt, int Parameter);
-const int yahoo_f01_58(int Salt, int Parameter);
-const int yahoo_f01_59(int Salt, int Parameter);
-const int yahoo_f01_5a(int Salt, int Parameter);
-const int yahoo_f01_5b(int Salt, int Parameter);
-const int yahoo_f01_5c(int Salt, int Parameter);
-const int yahoo_f01_5d(int Salt, int Parameter);
-const int yahoo_f01_5e(int Salt, int Parameter);
-const int yahoo_f01_5f(int Salt, int Parameter);
+int yahoo_f01_00(int Salt, int Parameter);
+int yahoo_f01_01(int Salt, int Parameter);
+int yahoo_f01_02(int Salt, int Parameter);
+int yahoo_f01_03(int Salt, int Parameter);
+int yahoo_f01_04(int Salt, int Parameter);
+int yahoo_f01_05(int Salt, int Parameter);
+int yahoo_f01_06(int Salt, int Parameter);
+int yahoo_f01_07(int Salt, int Parameter);
+int yahoo_f01_08(int Salt, int Parameter);
+int yahoo_f01_09(int Salt, int Parameter);
+int yahoo_f01_0a(int Salt, int Parameter);
+int yahoo_f01_0b(int Salt, int Parameter);
+int yahoo_f01_0c(int Salt, int Parameter);
+int yahoo_f01_0d(int Salt, int Parameter);
+int yahoo_f01_0e(int Salt, int Parameter);
+int yahoo_f01_0f(int Salt, int Parameter);
+int yahoo_f01_10(int Salt, int Parameter);
+int yahoo_f01_11(int Salt, int Parameter);
+int yahoo_f01_12(int Salt, int Parameter);
+int yahoo_f01_13(int Salt, int Parameter);
+int yahoo_f01_14(int Salt, int Parameter);
+int yahoo_f01_15(int Salt, int Parameter);
+int yahoo_f01_16(int Salt, int Parameter);
+int yahoo_f01_17(int Salt, int Parameter);
+int yahoo_f01_18(int Salt, int Parameter);
+int yahoo_f01_19(int Salt, int Parameter);
+int yahoo_f01_1a(int Salt, int Parameter);
+int yahoo_f01_1b(int Salt, int Parameter);
+int yahoo_f01_1c(int Salt, int Parameter);
+int yahoo_f01_1d(int Salt, int Parameter);
+int yahoo_f01_1e(int Salt, int Parameter);
+int yahoo_f01_1f(int Salt, int Parameter);
+int yahoo_f01_20(int Salt, int Parameter);
+int yahoo_f01_21(int Salt, int Parameter);
+int yahoo_f01_22(int Salt, int Parameter);
+int yahoo_f01_23(int Salt, int Parameter);
+int yahoo_f01_24(int Salt, int Parameter);
+int yahoo_f01_25(int Salt, int Parameter);
+int yahoo_f01_26(int Salt, int Parameter);
+int yahoo_f01_27(int Salt, int Parameter);
+int yahoo_f01_28(int Salt, int Parameter);
+int yahoo_f01_29(int Salt, int Parameter);
+int yahoo_f01_2a(int Salt, int Parameter);
+int yahoo_f01_2b(int Salt, int Parameter);
+int yahoo_f01_2c(int Salt, int Parameter);
+int yahoo_f01_2d(int Salt, int Parameter);
+int yahoo_f01_2e(int Salt, int Parameter);
+int yahoo_f01_2f(int Salt, int Parameter);
+int yahoo_f01_30(int Salt, int Parameter);
+int yahoo_f01_31(int Salt, int Parameter);
+int yahoo_f01_32(int Salt, int Parameter);
+int yahoo_f01_33(int Salt, int Parameter);
+int yahoo_f01_34(int Salt, int Parameter);
+int yahoo_f01_35(int Salt, int Parameter);
+int yahoo_f01_36(int Salt, int Parameter);
+int yahoo_f01_37(int Salt, int Parameter);
+int yahoo_f01_38(int Salt, int Parameter);
+int yahoo_f01_39(int Salt, int Parameter);
+int yahoo_f01_3a(int Salt, int Parameter);
+int yahoo_f01_3b(int Salt, int Parameter);
+int yahoo_f01_3c(int Salt, int Parameter);
+int yahoo_f01_3d(int Salt, int Parameter);
+int yahoo_f01_3e(int Salt, int Parameter);
+int yahoo_f01_3f(int Salt, int Parameter);
+int yahoo_f01_40(int Salt, int Parameter);
+int yahoo_f01_41(int Salt, int Parameter);
+int yahoo_f01_42(int Salt, int Parameter);
+int yahoo_f01_43(int Salt, int Parameter);
+int yahoo_f01_44(int Salt, int Parameter);
+int yahoo_f01_45(int Salt, int Parameter);
+int yahoo_f01_46(int Salt, int Parameter);
+int yahoo_f01_47(int Salt, int Parameter);
+int yahoo_f01_48(int Salt, int Parameter);
+int yahoo_f01_49(int Salt, int Parameter);
+int yahoo_f01_4a(int Salt, int Parameter);
+int yahoo_f01_4b(int Salt, int Parameter);
+int yahoo_f01_4c(int Salt, int Parameter);
+int yahoo_f01_4d(int Salt, int Parameter);
+int yahoo_f01_4e(int Salt, int Parameter);
+int yahoo_f01_4f(int Salt, int Parameter);
+int yahoo_f01_50(int Salt, int Parameter);
+int yahoo_f01_51(int Salt, int Parameter);
+int yahoo_f01_52(int Salt, int Parameter);
+int yahoo_f01_53(int Salt, int Parameter);
+int yahoo_f01_54(int Salt, int Parameter);
+int yahoo_f01_55(int Salt, int Parameter);
+int yahoo_f01_56(int Salt, int Parameter);
+int yahoo_f01_57(int Salt, int Parameter);
+int yahoo_f01_58(int Salt, int Parameter);
+int yahoo_f01_59(int Salt, int Parameter);
+int yahoo_f01_5a(int Salt, int Parameter);
+int yahoo_f01_5b(int Salt, int Parameter);
+int yahoo_f01_5c(int Salt, int Parameter);
+int yahoo_f01_5d(int Salt, int Parameter);
+int yahoo_f01_5e(int Salt, int Parameter);
+int yahoo_f01_5f(int Salt, int Parameter);
+int yahoo_Dispatch(int Salt, int Parameter);
+int yahoo_M1Common(unsigned b, int Parameter);
+int yahoo_M1ObfuscatedTableCommon(int Salt, int Parameter, const unsigned char *LUT);
+int yahoo_M1TableCommon(int Salt, int Parameter, const unsigned char *Table);
 
-//***************************************************************************
-typedef const int (*tableFunc)(int, int);
+/***************************************************************************/
+typedef int (*tableFunc)(int, int);
 
 tableFunc yahoo_M1[] = {
                            &yahoo_f01_00,
@@ -142,7 +146,7 @@ tableFunc yahoo_M1[] = {
                            &yahoo_f01_0d,
                            &yahoo_f01_0e,
                            &yahoo_f01_0f,
-                           &yahoo_f01_10,
+                           &yahoo_f01_10,	/* 10 */
                            &yahoo_f01_11,
                            &yahoo_f01_12,
                            &yahoo_f01_13,
@@ -158,7 +162,7 @@ tableFunc yahoo_M1[] = {
                            &yahoo_f01_1d,
                            &yahoo_f01_1e,
                            &yahoo_f01_1f,
-                           &yahoo_f01_20,  // 20
+                           &yahoo_f01_20,  /* 20 */
                            &yahoo_f01_21,
                            &yahoo_f01_22,
                            &yahoo_f01_23,
@@ -174,7 +178,7 @@ tableFunc yahoo_M1[] = {
                            &yahoo_f01_2d,
                            &yahoo_f01_2e,
                            &yahoo_f01_2f,
-                           &yahoo_f01_30,  // 30
+                           &yahoo_f01_30,  /* 30 */
                            &yahoo_f01_31,
                            &yahoo_f01_32,
                            &yahoo_f01_33,
@@ -190,7 +194,7 @@ tableFunc yahoo_M1[] = {
                            &yahoo_f01_3d,
                            &yahoo_f01_3e,
                            &yahoo_f01_3f,
-                           &yahoo_f01_40,  // 40
+                           &yahoo_f01_40,  /* 40 */
                            &yahoo_f01_41,
                            &yahoo_f01_42,
                            &yahoo_f01_43,
@@ -206,7 +210,7 @@ tableFunc yahoo_M1[] = {
                            &yahoo_f01_4d,
                            &yahoo_f01_4e,
                            &yahoo_f01_4f,
-                           &yahoo_f01_50,  // 50
+                           &yahoo_f01_50,  /* 50 */
                            &yahoo_f01_51,
                            &yahoo_f01_52,
                            &yahoo_f01_53,
@@ -224,13 +228,13 @@ tableFunc yahoo_M1[] = {
                            &yahoo_f01_5f,
                        };
 
-//***************************************************************************
+/***************************************************************************/
 int yahoo_Dispatch(int Salt, int Parameter)
 {
     return (yahoo_M1[(unsigned) Salt % 96])(Salt, Parameter);
 }
 
-//***************************************************************************
+/***************************************************************************/
 
 int   yahoo_M1Common(unsigned b, int Parameter)
 {
@@ -256,7 +260,7 @@ int   yahoo_M1Common(unsigned b, int Parameter)
     return (yahoo_M1[(unsigned) (a % 96)])(b, Parameter-1);
 }
 
-//***************************************************************************
+/***************************************************************************/
 
 int yahoo_M1ObfuscatedTableCommon(int Salt, int Parameter, const unsigned char *LUT)
 {
@@ -282,15 +286,15 @@ int yahoo_M1TableCommon(int Salt, int Parameter, const unsigned char *Table)
     return yahoo_M1Common(b, Parameter);
 }
 
-//***************************************************************************
+/***************************************************************************/
 
-const int yahoo_f01_00(int Salt, int Parameter)
+int yahoo_f01_00(int Salt, int Parameter)
 {
     unsigned b = Salt * 0x36056CD7 + 0x4387;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_01(int Salt, int Parameter)
+int yahoo_f01_01(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -330,7 +334,7 @@ const int yahoo_f01_01(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_02(int Salt, int Parameter)
+int yahoo_f01_02(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -370,7 +374,7 @@ const int yahoo_f01_02(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_03(int Salt, int Parameter)
+int yahoo_f01_03(int Salt, int Parameter)
 {
     static unsigned char LUT[32] =
         {
@@ -382,7 +386,7 @@ const int yahoo_f01_03(int Salt, int Parameter)
     return yahoo_M1ObfuscatedTableCommon(Salt, Parameter, LUT);
 }
 
-const int yahoo_f01_04(int Salt, int Parameter)
+int yahoo_f01_04(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -422,7 +426,7 @@ const int yahoo_f01_04(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_05(int Salt, int Parameter)
+int yahoo_f01_05(int Salt, int Parameter)
 {
     static unsigned char LUT[32] =
         {
@@ -434,37 +438,37 @@ const int yahoo_f01_05(int Salt, int Parameter)
     return yahoo_M1ObfuscatedTableCommon(Salt, Parameter, LUT);
 }
 
-const int yahoo_f01_06(int Salt, int Parameter)
+int yahoo_f01_06(int Salt, int Parameter)
 {
     unsigned b = Salt * 0x4ABB534D + 0x3769;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_07(int Salt, int Parameter)
+int yahoo_f01_07(int Salt, int Parameter)
 {
     unsigned b = Salt ^ 0x1D242DA5;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_08(int Salt, int Parameter)
+int yahoo_f01_08(int Salt, int Parameter)
 {
     unsigned b = Salt * 0x3C23132D + 0x339B;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_09(int Salt, int Parameter)
+int yahoo_f01_09(int Salt, int Parameter)
 {
     unsigned b = Salt ^ 0x191265C;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_0a(int Salt, int Parameter)
+int yahoo_f01_0a(int Salt, int Parameter)
 {
     unsigned b = Salt ^ 0x3Db979DB;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_0b(int Salt, int Parameter)
+int yahoo_f01_0b(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -505,37 +509,37 @@ const int yahoo_f01_0b(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_0c(int Salt, int Parameter)
+int yahoo_f01_0c(int Salt, int Parameter)
 {
     unsigned b = Salt ^ 0x1A550E1E;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_0d(int Salt, int Parameter)
+int yahoo_f01_0d(int Salt, int Parameter)
 {
     unsigned b = Salt ^ 0x2F140A2D;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_0e(int Salt, int Parameter)
+int yahoo_f01_0e(int Salt, int Parameter)
 {
     unsigned b = Salt * 0x7C466A4B + 0x29BF;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_0f(int Salt, int Parameter)
+int yahoo_f01_0f(int Salt, int Parameter)
 {
     unsigned b = Salt ^ 0x2D3F30D3;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_10(int Salt, int Parameter)
+int yahoo_f01_10(int Salt, int Parameter)
 {
     unsigned b = Salt * 0x7E823B21 + 0x6BB3;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_11(int Salt, int Parameter)
+int yahoo_f01_11(int Salt, int Parameter)
 {
     static unsigned char LUT[32] =
         {
@@ -547,7 +551,7 @@ const int yahoo_f01_11(int Salt, int Parameter)
     return yahoo_M1ObfuscatedTableCommon(Salt, Parameter, LUT);
 }
 
-const int yahoo_f01_12(int Salt, int Parameter)
+int yahoo_f01_12(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -588,7 +592,7 @@ const int yahoo_f01_12(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_13(int Salt, int Parameter)
+int yahoo_f01_13(int Salt, int Parameter)
 {
     static unsigned char LUT[32] =
         {
@@ -600,7 +604,7 @@ const int yahoo_f01_13(int Salt, int Parameter)
     return yahoo_M1ObfuscatedTableCommon(Salt, Parameter, LUT);
 }
 
-const int yahoo_f01_14(int Salt, int Parameter)
+int yahoo_f01_14(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -640,7 +644,7 @@ const int yahoo_f01_14(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_15(int Salt, int Parameter)
+int yahoo_f01_15(int Salt, int Parameter)
 {
     static unsigned char LUT[32] =
         {
@@ -652,7 +656,7 @@ const int yahoo_f01_15(int Salt, int Parameter)
     return yahoo_M1ObfuscatedTableCommon(Salt, Parameter, LUT);
 }
 
-const int yahoo_f01_16(int Salt, int Parameter)
+int yahoo_f01_16(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -692,7 +696,7 @@ const int yahoo_f01_16(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_17(int Salt, int Parameter)
+int yahoo_f01_17(int Salt, int Parameter)
 {
     static unsigned char LUT[32] =
         {
@@ -704,7 +708,7 @@ const int yahoo_f01_17(int Salt, int Parameter)
     return yahoo_M1ObfuscatedTableCommon(Salt, Parameter, LUT);
 }
 
-const int yahoo_f01_18(int Salt, int Parameter)
+int yahoo_f01_18(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -745,7 +749,7 @@ const int yahoo_f01_18(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_19(int Salt, int Parameter)
+int yahoo_f01_19(int Salt, int Parameter)
 {
     static unsigned char LUT[32] =
         {
@@ -757,13 +761,13 @@ const int yahoo_f01_19(int Salt, int Parameter)
     return yahoo_M1ObfuscatedTableCommon(Salt, Parameter, LUT);
 }
 
-const int yahoo_f01_1a(int Salt, int Parameter)
+int yahoo_f01_1a(int Salt, int Parameter)
 {
     unsigned b = Salt * 0x5B756AB9 + 0x7E9B;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_1b(int Salt, int Parameter)
+int yahoo_f01_1b(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -804,13 +808,13 @@ const int yahoo_f01_1b(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_1c(int Salt, int Parameter)
+int yahoo_f01_1c(int Salt, int Parameter)
 {
     unsigned b = Salt ^ 0x1D1C4911;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_1d(int Salt, int Parameter)
+int yahoo_f01_1d(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -851,7 +855,7 @@ const int yahoo_f01_1d(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_1e(int Salt, int Parameter)
+int yahoo_f01_1e(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -892,31 +896,31 @@ const int yahoo_f01_1e(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_1f(int Salt, int Parameter)
+int yahoo_f01_1f(int Salt, int Parameter)
 {
     unsigned b = Salt ^ 0x46BD7771;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_20(int Salt, int Parameter)
+int yahoo_f01_20(int Salt, int Parameter)
 {
     unsigned b = Salt ^ 0x51AE2B42;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_21(int Salt, int Parameter)
+int yahoo_f01_21(int Salt, int Parameter)
 {
     unsigned b = Salt * 0x2417591b + 0x177b;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_22(int Salt, int Parameter)
+int yahoo_f01_22(int Salt, int Parameter)
 {
     unsigned b = Salt * 0x57f27c5F + 0x2433;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_23(int Salt, int Parameter)
+int yahoo_f01_23(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -957,7 +961,7 @@ const int yahoo_f01_23(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_24(int Salt, int Parameter)
+int yahoo_f01_24(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -998,13 +1002,13 @@ const int yahoo_f01_24(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_25(int Salt, int Parameter)
+int yahoo_f01_25(int Salt, int Parameter)
 {
     unsigned b = Salt ^ 0x71422261;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_26(int Salt, int Parameter)
+int yahoo_f01_26(int Salt, int Parameter)
 {
     static unsigned char LUT[32] =
         {
@@ -1016,13 +1020,13 @@ const int yahoo_f01_26(int Salt, int Parameter)
     return yahoo_M1ObfuscatedTableCommon(Salt, Parameter, LUT);
 }
 
-const int yahoo_f01_27(int Salt, int Parameter)
+int yahoo_f01_27(int Salt, int Parameter)
 {
     unsigned b = Salt * 0x58E937F9 + 0x1075;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_28(int Salt, int Parameter)
+int yahoo_f01_28(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -1062,7 +1066,7 @@ const int yahoo_f01_28(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_29(int Salt, int Parameter)
+int yahoo_f01_29(int Salt, int Parameter)
 {
     static unsigned char LUT[32] =
         {
@@ -1074,7 +1078,7 @@ const int yahoo_f01_29(int Salt, int Parameter)
     return yahoo_M1ObfuscatedTableCommon(Salt, Parameter, LUT);
 }
 
-const int yahoo_f01_2a(int Salt, int Parameter)
+int yahoo_f01_2a(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -1114,7 +1118,7 @@ const int yahoo_f01_2a(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_2b(int Salt, int Parameter)
+int yahoo_f01_2b(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -1154,13 +1158,13 @@ const int yahoo_f01_2b(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_2c(int Salt, int Parameter)
+int yahoo_f01_2c(int Salt, int Parameter)
 {
     unsigned b = Salt * 0xB4C3D13 + 0x1597;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_2d(int Salt, int Parameter)
+int yahoo_f01_2d(int Salt, int Parameter)
 {
     static unsigned char LUT[32] =
         {
@@ -1172,19 +1176,19 @@ const int yahoo_f01_2d(int Salt, int Parameter)
     return yahoo_M1ObfuscatedTableCommon(Salt, Parameter, LUT);
 }
 
-const int yahoo_f01_2e(int Salt, int Parameter)
+int yahoo_f01_2e(int Salt, int Parameter)
 {
     unsigned b = Salt ^ 0xFE07D38;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_2f(int Salt, int Parameter)
+int yahoo_f01_2f(int Salt, int Parameter)
 {
     unsigned b = Salt * 0x689B4017 + 0x3CFB;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_30(int Salt, int Parameter)
+int yahoo_f01_30(int Salt, int Parameter)
 {
     static unsigned char LUT[32] =
         {
@@ -1196,7 +1200,7 @@ const int yahoo_f01_30(int Salt, int Parameter)
     return yahoo_M1ObfuscatedTableCommon(Salt, Parameter, LUT);
 }
 
-const int yahoo_f01_31(int Salt, int Parameter)
+int yahoo_f01_31(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -1237,31 +1241,31 @@ const int yahoo_f01_31(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_32(int Salt, int Parameter)
+int yahoo_f01_32(int Salt, int Parameter)
 {
     unsigned b = Salt ^ 0x35413DF3;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_33(int Salt, int Parameter)
+int yahoo_f01_33(int Salt, int Parameter)
 {
     unsigned b = Salt * 0x5B611AB + 0x570B;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_34(int Salt, int Parameter)
+int yahoo_f01_34(int Salt, int Parameter)
 {
     unsigned b = Salt * 0xDA5334F + 0x3AC7;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_35(int Salt, int Parameter)
+int yahoo_f01_35(int Salt, int Parameter)
 {
     unsigned b = Salt ^ 0x47706008;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_36(int Salt, int Parameter)
+int yahoo_f01_36(int Salt, int Parameter)
 {
     static unsigned char LUT[32] =
         {
@@ -1273,7 +1277,7 @@ const int yahoo_f01_36(int Salt, int Parameter)
     return yahoo_M1ObfuscatedTableCommon(Salt, Parameter, LUT);
 }
 
-const int yahoo_f01_37(int Salt, int Parameter)
+int yahoo_f01_37(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -1313,7 +1317,7 @@ const int yahoo_f01_37(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_38(int Salt, int Parameter)
+int yahoo_f01_38(int Salt, int Parameter)
 {
     static unsigned char LUT[32] =
         {
@@ -1325,31 +1329,31 @@ const int yahoo_f01_38(int Salt, int Parameter)
     return yahoo_M1ObfuscatedTableCommon(Salt, Parameter, LUT);
 }
 
-const int yahoo_f01_39(int Salt, int Parameter)
+int yahoo_f01_39(int Salt, int Parameter)
 {
     unsigned b = Salt ^ 0x57611b36;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_3a(int Salt, int Parameter)
+int yahoo_f01_3a(int Salt, int Parameter)
 {
     unsigned b = Salt * 0x314C2CD1 + 0x2B5B;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_3b(int Salt, int Parameter)
+int yahoo_f01_3b(int Salt, int Parameter)
 {
     unsigned b = Salt ^ 0x1EF33946;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_3c(int Salt, int Parameter)
+int yahoo_f01_3c(int Salt, int Parameter)
 {
     unsigned b = Salt * 0x28EA041F + 0x638F;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_3d(int Salt, int Parameter)
+int yahoo_f01_3d(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -1390,7 +1394,7 @@ const int yahoo_f01_3d(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_3e(int Salt, int Parameter)
+int yahoo_f01_3e(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -1431,7 +1435,7 @@ const int yahoo_f01_3e(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_3f(int Salt, int Parameter)
+int yahoo_f01_3f(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -1472,25 +1476,25 @@ const int yahoo_f01_3f(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_40(int Salt, int Parameter)
+int yahoo_f01_40(int Salt, int Parameter)
 {
     unsigned b = Salt * 0x511537CB + 0x7135;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_41(int Salt, int Parameter)
+int yahoo_f01_41(int Salt, int Parameter)
 {
     unsigned b = Salt * 0x1CF71007 + 0x5E17;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_42(int Salt, int Parameter)
+int yahoo_f01_42(int Salt, int Parameter)
 {
     unsigned b = Salt ^ 0x583D4BCF;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_43(int Salt, int Parameter)
+int yahoo_f01_43(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -1531,19 +1535,19 @@ const int yahoo_f01_43(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_44(int Salt, int Parameter)
+int yahoo_f01_44(int Salt, int Parameter)
 {
     unsigned b = Salt ^ 0x373E6856;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_45(int Salt, int Parameter)
+int yahoo_f01_45(int Salt, int Parameter)
 {
     unsigned b = Salt * 0x4D595519 + 0x1A7D;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_46(int Salt, int Parameter)
+int yahoo_f01_46(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -1584,7 +1588,7 @@ const int yahoo_f01_46(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_47(int Salt, int Parameter)
+int yahoo_f01_47(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -1624,13 +1628,13 @@ const int yahoo_f01_47(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_48(int Salt, int Parameter)
+int yahoo_f01_48(int Salt, int Parameter)
 {
     unsigned b = Salt ^ 0xE2A36A7;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_49(int Salt, int Parameter)
+int yahoo_f01_49(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -1670,7 +1674,7 @@ const int yahoo_f01_49(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_4a(int Salt, int Parameter)
+int yahoo_f01_4a(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -1710,7 +1714,7 @@ const int yahoo_f01_4a(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_4b(int Salt, int Parameter)
+int yahoo_f01_4b(int Salt, int Parameter)
 {
     static unsigned char LUT[32] =
         {
@@ -1723,7 +1727,7 @@ const int yahoo_f01_4b(int Salt, int Parameter)
     return yahoo_M1ObfuscatedTableCommon(Salt, Parameter, LUT);
 }
 
-const int yahoo_f01_4c(int Salt, int Parameter)
+int yahoo_f01_4c(int Salt, int Parameter)
 {
     static unsigned char LUT[32] =
         {
@@ -1736,13 +1740,13 @@ const int yahoo_f01_4c(int Salt, int Parameter)
     return yahoo_M1ObfuscatedTableCommon(Salt, Parameter, LUT);
 }
 
-const int yahoo_f01_4d(int Salt, int Parameter)
+int yahoo_f01_4d(int Salt, int Parameter)
 {
     unsigned b = Salt ^ 0x53F3604F;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_4e(int Salt, int Parameter)
+int yahoo_f01_4e(int Salt, int Parameter)
 {
     static unsigned char LUT[32] =
         {
@@ -1755,7 +1759,7 @@ const int yahoo_f01_4e(int Salt, int Parameter)
     return yahoo_M1ObfuscatedTableCommon(Salt, Parameter, LUT);
 }
 
-const int yahoo_f01_4f(int Salt, int Parameter)
+int yahoo_f01_4f(int Salt, int Parameter)
 {
     static unsigned char LUT[32] =
         {
@@ -1767,13 +1771,13 @@ const int yahoo_f01_4f(int Salt, int Parameter)
     return yahoo_M1ObfuscatedTableCommon(Salt, Parameter, LUT);
 }
 
-const int yahoo_f01_50(int Salt, int Parameter)
+int yahoo_f01_50(int Salt, int Parameter)
 {
     unsigned b = Salt * 0x1EDC0BA3 + 0x7531;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_51(int Salt, int Parameter)
+int yahoo_f01_51(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -1813,13 +1817,13 @@ const int yahoo_f01_51(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_52(int Salt, int Parameter)
+int yahoo_f01_52(int Salt, int Parameter)
 {
     unsigned b = Salt ^ 0x10DF1038;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_53(int Salt, int Parameter)
+int yahoo_f01_53(int Salt, int Parameter)
 {
     static unsigned char LUT[32] =
         {
@@ -1831,7 +1835,7 @@ const int yahoo_f01_53(int Salt, int Parameter)
     return yahoo_M1ObfuscatedTableCommon(Salt, Parameter, LUT);
 }
 
-const int yahoo_f01_54(int Salt, int Parameter)
+int yahoo_f01_54(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -1871,31 +1875,31 @@ const int yahoo_f01_54(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_55(int Salt, int Parameter)
+int yahoo_f01_55(int Salt, int Parameter)
 {
     unsigned b = Salt ^ 0x4EDE0CAC;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_56(int Salt, int Parameter)
+int yahoo_f01_56(int Salt, int Parameter)
 {
     unsigned b = Salt * 0x2F076EEB + 0x5BCF;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_57(int Salt, int Parameter)
+int yahoo_f01_57(int Salt, int Parameter)
 {
     unsigned b = Salt ^ 0x6D86030F;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_58(int Salt, int Parameter)
+int yahoo_f01_58(int Salt, int Parameter)
 {
     unsigned b = Salt ^ 0x3F331713;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_59(int Salt, int Parameter)
+int yahoo_f01_59(int Salt, int Parameter)
 {
     static unsigned char Table[256] =
         {
@@ -1935,13 +1939,13 @@ const int yahoo_f01_59(int Salt, int Parameter)
     return yahoo_M1TableCommon(Salt, Parameter, Table);
 }
 
-const int yahoo_f01_5a(int Salt, int Parameter)
+int yahoo_f01_5a(int Salt, int Parameter)
 {
     unsigned b = Salt * 0x41CD726F + 0x3F79;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_5b(int Salt, int Parameter)
+int yahoo_f01_5b(int Salt, int Parameter)
 {
     static unsigned char LUT[32] =
         {
@@ -1954,19 +1958,19 @@ const int yahoo_f01_5b(int Salt, int Parameter)
     return yahoo_M1ObfuscatedTableCommon(Salt, Parameter, LUT);
 }
 
-const int yahoo_f01_5c(int Salt, int Parameter)
+int yahoo_f01_5c(int Salt, int Parameter)
 {
     unsigned b = Salt ^ 0xECE0054;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_5d(int Salt, int Parameter)
+int yahoo_f01_5d(int Salt, int Parameter)
 {
     unsigned b = Salt * 0x19B32B03 + 0x4AD1;
     return yahoo_M1Common(b, Parameter);
 }
 
-const int yahoo_f01_5e(int Salt, int Parameter)
+int yahoo_f01_5e(int Salt, int Parameter)
 {
     static unsigned char LUT[32] =
         {
@@ -1979,7 +1983,7 @@ const int yahoo_f01_5e(int Salt, int Parameter)
     return yahoo_M1ObfuscatedTableCommon(Salt, Parameter, LUT);
 }
 
-const int yahoo_f01_5f(int Salt, int Parameter)
+int yahoo_f01_5f(int Salt, int Parameter)
 {
     static unsigned char LUT[32] =
         {
@@ -1992,4 +1996,4 @@ const int yahoo_f01_5f(int Salt, int Parameter)
     return yahoo_M1ObfuscatedTableCommon(Salt, Parameter, LUT);
 }
 
-//***************************************************************************
+/***************************************************************************/
