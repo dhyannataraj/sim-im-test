@@ -1382,7 +1382,7 @@ void MSNClient::processRequests()
                         packet = new AddPacket(this, "BL", data->EMail.ptr, quote(contact->getName()).utf8());
                         set_str(&data->ScreenName.ptr, contact->getName().utf8());
                     }else{
-                        packet = new RemPacket(this, "BL", data->EMail.ptr, 0);
+                        packet = new RemPacket(this, "BL", data->EMail.ptr);
                     }
                 }
                 unsigned grp_id = 0;
@@ -1406,8 +1406,7 @@ void MSNClient::processRequests()
                     packet = new AddPacket(this, "FL", data->EMail.ptr, quote(QString::fromUtf8(data->ScreenName.ptr)).utf8(), grp_id);
                     packet->send();
                     packet = NULL;
-                    if (data->Group.value != NO_GROUP)
-                        packet = new RemPacket(this, "FL", data->EMail.ptr, data->Group.value);
+                    packet = new RemPacket(this, "FL", data->EMail.ptr, data->Group.value);
                     data->Group.value = grp_id;
                 }
                 if (contact->getName() != QString::fromUtf8(data->ScreenName.ptr)){
@@ -1419,10 +1418,10 @@ void MSNClient::processRequests()
             }
             break;
         case LR_CONTACTxREMOVED:
-            packet = new RemPacket(this, "FL", (*it).Name.c_str(), (*it).Group);
+            packet = new RemPacket(this, "FL", (*it).Name.c_str());
             break;
         case LR_CONTACTxREMOVED_BL:
-            packet = new RemPacket(this, "BL", (*it).Name.c_str(), 0);
+            packet = new RemPacket(this, "BL", (*it).Name.c_str());
             break;
         case LR_GROUPxCHANGED:
             grp = getContacts()->group(strtoul((*it).Name.c_str(), NULL, 10));

@@ -20,9 +20,7 @@
 
 #include "simapi.h"
 #include "stl.h"
-
-class MSNClient;
-class SBSocket;
+#include "msnclient.h"
 
 class MSNPacket
 {
@@ -129,7 +127,7 @@ protected:
 class RemPacket : public MSNPacket
 {
 public:
-    RemPacket(MSNClient *client, const char *listType, const char *mail, unsigned grp);
+    RemPacket(MSNClient *client, const char *listType, const char *mail, unsigned group=NO_GROUP);
 };
 
 class ReaPacket : public MSNPacket

@@ -54,6 +54,7 @@ protected:
     bool m_bSpan;
     bool m_bPara;
     bool m_bRTL;
+	bool m_bParaEnd;
     list<Smile> m_smiles;
     virtual void text(const QString &text);
     virtual void tag_start(const QString &tag, const list<QString> &options);
@@ -1022,6 +1023,7 @@ ViewParser::ViewParser(bool bIgnoreColors, bool bUseSmiles)
     m_bPara			= false;
     m_bParaStart	= false;
     m_bRTL			= false;
+	m_bParaEnd		= false;
     RTL				= false;
     if (m_bUseSmiles){
         for (unsigned i = 0; ;i++){
@@ -1077,12 +1079,16 @@ QString ViewParser::parse(const QString &str)
 
 void ViewParser::text(const QString &text)
 {
+    if (text.isEmpty())
+        return;
+	if (m_bParaEnd){
+		m_bParaEnd = false;
+		res += "<br/>";
+	}
     if (!m_bUseSmiles || m_bInLink){
         res += quoteString(text);
         return;
     }
-    if (text.isEmpty())
-        return;
     m_bFirst = false;
     QString str = text;
     for (list<Smile>::iterator it = m_smiles.begin(); it != m_smiles.end(); ++it){
@@ -1177,6 +1183,7 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
         oTag = "span";
     }else if (tag == "p"){
         bool bRTL = false;
+		m_bParaEnd = false;
         for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
             QString name = (*it).lower();
             ++it;
@@ -1202,6 +1209,10 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
         }
         return;
     }
+	if (m_bParaEnd){
+		res += "<br/>";
+		m_bParaEnd = false;
+	}
     QString tagText;
     tagText += "<";
     tagText += oTag;
@@ -1281,6 +1292,7 @@ void ViewParser::tag_end(const QString &tag)
     }else if (tag == "body"){
         oTag = "span";
     }else if (tag == "p"){
+		m_bParaEnd = true;
         return;
     }
     if (m_bInHead)
