@@ -23,7 +23,12 @@
 
 #include <qwidget.h>
 #include <qlistview.h>
+#ifdef WIN32
+#include "qt3/qtooltip.h"
+#define QToolTip MyQToolTip
+#else
 #include <qtooltip.h>
+#endif
 #include <qimage.h>
 
 class ICQContactList;

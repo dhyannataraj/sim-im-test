@@ -97,7 +97,7 @@ void EditFile::showFiles()
             s = startDir;
             if (!s.isEmpty()){
                 string d;
-		d = s.local8Bit();
+                d = s.local8Bit();
                 makedir((char*)d.c_str());
             }
         }
@@ -119,7 +119,11 @@ EditSound::EditSound(QWidget *p, const char *name)
     lay->addWidget(btnPlay);
     btnPlay->setPixmap(Pict("1rightarrow"));
     connect(btnPlay, SIGNAL(clicked()), this, SLOT(play()));
+#ifdef USE_KDE
     filter = i18n("*.wav|Sounds");
+#else
+    filter = i18n("Sounds(*.wav)");
+#endif
     startDir = app_file("sound");
 }
 

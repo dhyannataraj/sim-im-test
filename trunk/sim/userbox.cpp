@@ -281,7 +281,7 @@ void UserBox::showUsers(bool bShow, unsigned long uin)
             QWidget *fw = qApp->focusWidget();
             if (fw) fw->releaseMouse();
             users = new UserView(vSplitter, true, false);
-	    users->setMinimumSize(QSize(100, 10));
+            users->setMinimumSize(QSize(100, 10));
             users->bStaticBg = true;
             vSplitter->setResizeMode(users, QSplitter::KeepSize);
             users->show();

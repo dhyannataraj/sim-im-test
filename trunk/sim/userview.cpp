@@ -748,8 +748,8 @@ extern Time qt_x_time;
 
 bool UserView::eventFilter(QObject *obj, QEvent *e)
 {
-#ifndef WIN32
     if ((e->type() == QEvent::Enter) && !qApp->focusWidget()){
+#ifndef WIN32
         XEvent ev;
         memset(&ev, 0, sizeof(ev));
         ev.xfocus.display = qt_xdisplay();
@@ -761,8 +761,8 @@ bool UserView::eventFilter(QObject *obj, QEvent *e)
         qt_x_time = 1;
         qApp->x11ProcessEvent( &ev );
         qt_x_time = time;
-    }
 #endif
+    }
     if (obj == menuGroup){
         if (e->type() == QEvent::Hide)
             QTimer::singleShot(0, this, SLOT(clearGroupMenu()));
@@ -1011,8 +1011,8 @@ void UserView::paintEmptyArea(QPainter *p, const QRect &r)
             QPixmap bPict(w, r.height());
             QPainter pBuf(&bPict);
             if (pix){
-		QPoint pp(w, r.top());
-		pp = viewport()->mapToParent(pp);
+                QPoint pp(w, r.top());
+                pp = viewport()->mapToParent(pp);
                 pp = topLevelWidget()->mapFromGlobal(mapToGlobal(pp));
                 pBuf.drawTiledPixmap(0, 0, w, h, *pix, pp.x(), pp.y());
             }else{
@@ -1027,8 +1027,8 @@ void UserView::paintEmptyArea(QPainter *p, const QRect &r)
         w += r.left();
         if (w < r.right()){
             if (pix){
-		QPoint pp(w, r.top());
-		pp = viewport()->mapToParent(pp);
+                QPoint pp(w, r.top());
+                pp = viewport()->mapToParent(pp);
                 pp = topLevelWidget()->mapFromGlobal(mapToGlobal(pp));
                 p->drawTiledPixmap(w, r.top(), r.right() - w, r.bottom(), *pix, pp.x(), pp.y());
             }else{
@@ -1748,6 +1748,8 @@ void UserFloat::contentsMousePressEvent(QMouseEvent *e)
     if (e->button() == QObject::LeftButton){
         QRect rc(geometry());
         mousePos = e->globalPos() - rc.topLeft();
+        Left = pos().x();
+        Top = pos().y();
     }
     UserView::contentsMousePressEvent(e);
 }
@@ -1758,6 +1760,12 @@ void UserFloat::contentsMouseReleaseEvent(QMouseEvent *e)
         move(e->globalPos() - mousePos);
         bMoveMode = false;
         viewport()->releaseMouse();
+        QPoint p(pos().x() - Left, pos().y() - Top);
+        if (p.manhattanLength() > 6){
+            clearSelection();
+            mousePos = QPoint();
+            return;
+        }
     }
     mousePos = QPoint();
     UserView::contentsMouseReleaseEvent(e);

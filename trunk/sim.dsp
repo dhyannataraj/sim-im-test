@@ -721,6 +721,10 @@ SOURCE=.\sim\qt3\moc_qtextedit.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\sim\qt3\moc_qtooltip.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\sim\ui\moc_searchbase.cpp
 # End Source File
 # Begin Source File
@@ -995,6 +999,10 @@ SOURCE=.\sim\qt3\qtextbrowser.cpp
 # Begin Source File
 
 SOURCE=.\sim\qt3\qtextedit.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qt3\qtooltip.cpp
 # End Source File
 # Begin Source File
 
@@ -2905,6 +2913,39 @@ InputName=qtextedit
 InputDir=.\sim\qt3
 InputPath=.\sim\qt3\qtextedit.h
 InputName=qtextedit
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qt3\qtooltip.h
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\qt3
+InputPath=.\sim\qt3\qtooltip.h
+InputName=qtooltip
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\qt3
+InputPath=.\sim\qt3\qtooltip.h
+InputName=qtooltip
 
 "$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp

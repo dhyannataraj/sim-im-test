@@ -109,13 +109,27 @@ ThemeSetup::ThemeSetup(QWidget *parent)
     QStrListIterator it(formats);
     char *fmt;
     while ((fmt = ++it) != NULL){
-        if (format.length()) format += " ";
+        if (format.length())
+#ifdef USE_KDE
+            format += " ";
+#else
+            format += ";";
+#endif
         QString f = fmt;
-	f = f.lower();
+        f = f.lower();
         format += "*." + f;
-	if (f == "jpeg") format += " *.jpg";
+        if (f == "jpeg")
+#ifdef USE_KDE
+            format += " *.jpg";
+#else
+            format += ";*.jpg";
+#endif
     }
+#ifdef USE_KDE
     edtBg->setFilter(i18n("%1|Graphics") .arg(format));
+#else
+    edtBg->setFilter(i18n("Graphics(%1)") .arg(format));
+#endif
     edtBg->setStartDir(app_file("pict"));
     edtBg->setText(QString::fromLocal8Bit(pMain->BackgroundFile.c_str()));
     cmbPos->clear();

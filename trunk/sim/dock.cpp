@@ -82,12 +82,12 @@ void DockWnd::callProc(unsigned long param)
         emit showPopup(QPoint(pos.x, pos.y));
         return;
     case WM_LBUTTONDBLCLK:
-        needToggle = false;
+        bNoToggle = true;
         emit doubleClicked();
         return;
     case WM_LBUTTONDOWN:
-        needToggle = true;
-        QTimer::singleShot(500, this, SLOT(toggle()));
+        if (!bNoToggle)
+            QTimer::singleShot(500, this, SLOT(toggle()));
         return;
     }
 }
@@ -571,8 +571,8 @@ void DockWnd::toggle()
 {
     log(L_DEBUG, "Toggle %u", bNoToggle);
     if (bNoToggle){
-	bNoToggle = false;
-	return;
+        bNoToggle = false;
+        return;
     }
     emit toggleWin();
 }
@@ -582,8 +582,8 @@ void DockWnd::mouseEvent( QMouseEvent *e)
     switch(e->button()){
     case QWidget::LeftButton:
         log(L_DEBUG, "Shot toggle");
-	if (!bNoToggle)
-        	QTimer::singleShot(700, this, SLOT(toggle()));
+        if (!bNoToggle)
+            QTimer::singleShot(700, this, SLOT(toggle()));
         break;
     case QWidget::RightButton:
         emit showPopup(e->globalPos());

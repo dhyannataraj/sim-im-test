@@ -316,7 +316,7 @@ static void child_proc(int sig)
     if (pMain)
         QTimer::singleShot(0, pMain, SLOT(checkChilds()));
     if (oldChildAct.sa_handler)
-	oldChildAct.sa_handler(sig);
+        oldChildAct.sa_handler(sig);
 }
 
 #endif
