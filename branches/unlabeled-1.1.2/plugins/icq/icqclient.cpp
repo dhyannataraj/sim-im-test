@@ -547,7 +547,8 @@ void ICQClient::packet_ready()
 					err_code = 0;
 				}
 				log(L_DEBUG,icq_error_codes[err_code]);
-//				break; not until fixed in icqicmb.cpp ...
+				// now decrease for icqicmb & icqvarious
+				m_socket->readBuffer.incReadPos(-(sizeof(unsigned short)));
 			}
             switch (fam){
             case ICQ_SNACxFAM_SERVICE:
