@@ -33,12 +33,12 @@ case "$AUTOCONF_VERSION" in
   Autoconf*2.5* | autoconf*2.5* ) : ;;
   "" )
     echo "*** AUTOCONF NOT FOUND!."
-    echo "*** SIM requires autoconf 2.52 or 2.53"
+    echo "*** SIM requires autoconf 2.52 or higher"
     exit 1
     ;;
   * )
     echo "*** YOU'RE USING $AUTOCONF_VERSION."
-    echo "*** SIM requires autoconf 2.52 or 2.53"
+    echo "*** SIM requires autoconf 2.52 or higher"
     exit 1
     ;;
 esac
@@ -48,12 +48,12 @@ case "$AUTOHEADER_VERSION" in
   Autoconf*2.5* | autoheader*2.5* ) : ;;
   "" )
     echo "*** AUTOHEADER NOT FOUND!."
-    echo "*** SIM requires autoheader 2.52 or 2.53 (part of autoconf)"
+    echo "*** SIM requires autoheader 2.52 or higher (part of autoconf)"
     exit 1
     ;;
   * )
     echo "*** YOU'RE USING $AUTOHEADER_VERSION."
-    echo "*** SIM requires autoheader 2.52 or 2.53 (part of autoconf)"
+    echo "*** SIM requires autoheader 2.52 or higher (part of autoconf)"
     exit 1
     ;;
 esac
@@ -62,13 +62,13 @@ AUTOMAKE_STRING=`$AUTOMAKE --version | head -n 1`
 case "$AUTOMAKE_STRING" in
   automake*1.5d* )
     echo "*** YOU'RE USING $AUTOMAKE_STRING."
-    echo "*** SIM requires automake 1.5"
+    echo "*** SIM requires automake 1.5 or higher"
     exit 1
     ;;
-  automake*1.5* | automake*1.5-* | automake*1.6* | automake*1.7* ) : ;;
+  automake*1.5* | automake*1.5-* | automake*1.6* | automake*1.7* | automake*1.8* ) : ;;
   "" )
     echo "*** AUTOMAKE NOT FOUND!."
-    echo "*** SIM requires automake 1.5, 1.6 or 1.7"
+    echo "*** SIM requires automake 1.5 or higher"
     exit 1
     ;;
   unsermake* ) :
@@ -77,7 +77,7 @@ case "$AUTOMAKE_STRING" in
     ;;
   * )
     echo "*** YOU'RE USING $AUTOMAKE_STRING."
-    echo "*** SIM requires automake 1.5, 1.6 or 1.7"
+    echo "*** SIM requires automake 1.5 or higher"
     exit 1
     ;;
 esac
@@ -507,6 +507,8 @@ automake_1_6=`type -p automake-1.6`
 aclocal_1_6=`type -p aclocal-1.6`
 automake_1_7=`type -p automake-1.7`
 aclocal_1_7=`type -p aclocal-1.7`
+automake_1_7=`type -p automake-1.8`
+aclocal_1_7=`type -p aclocal-1.8`
 
 if test -z "$UNSERMAKE"; then
   if test -x "$automake_1_5" ; then
@@ -518,6 +520,9 @@ if test -z "$UNSERMAKE"; then
    elif test -x "$automake_1_7" ; then
       AUTOMAKE="$automake_1_7"
       ACLOCAL="$aclocal_1_7"
+   elif test -x "$automake_1_8" ; then
+      AUTOMAKE="$automake_1_8"
+      ACLOCAL="$aclocal_1_8"
   else
      AUTOMAKE="automake"
      ACLOCAL="aclocal"
