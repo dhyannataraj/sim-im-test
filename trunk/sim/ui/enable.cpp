@@ -4,6 +4,7 @@
 #include <qwidget.h>
 #include <qcombobox.h>
 #include <qpalette.h>
+#include <qstringlist.h>
 
 void disableWidget(QWidget *w)
 {
@@ -17,17 +18,27 @@ void initCombo(QComboBox *cmb, unsigned short code, const ext_info *tbl)
 {
     if (cmb->isEnabled()){
         cmb->insertItem("");
-        unsigned nSel = 0;
-        unsigned n = 1;
-        for (const ext_info *i = tbl; i->nCode; i++, n++){
-            cmb->insertItem(i->szName);
-            if (i->nCode == code) nSel = n;
+        QStringList items;
+        QString current;
+        for (const ext_info *i = tbl; i->nCode; i++){
+            items.append(i18n(i->szName));
+            if (i->nCode == code) current = i18n(i->szName);
         }
-        cmb->setCurrentItem(nSel);
+        items.sort();
+        cmb->insertStringList(items);
+        unsigned n = 1;
+        if (!current.isEmpty()){
+            for (QStringList::Iterator it = items.begin(); it != items.end(); ++it, n++){
+                if ((*it) == current){
+                    cmb->setCurrentItem(n);
+                    break;
+                }
+            }
+        }
     }else{
         for (const ext_info *i = tbl; i->nCode; i++){
             if (i->nCode == code){
-                cmb->insertItem(i->szName);
+                cmb->insertItem(i18n(i->szName));
                 return;
             }
         }
@@ -38,8 +49,13 @@ unsigned short getComboValue(QComboBox *cmb, const ext_info *tbl)
 {
     int res = cmb->currentItem();
     if (res <= 0) return 0;
+    QStringList items;
     for (const ext_info *i = tbl; i->nCode; i++)
-        if (--res == 0) return i->nCode;
+        items.append(i18n(i->szName));
+    items.sort();
+    QString current = items[res-1];
+    for (const ext_info *i = tbl; i->nCode; i++)
+        if (i18n(i->szName) == current) return i->nCode;
     return 0;
 }
 

@@ -268,7 +268,7 @@ TAGS:
 
 #>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 #>+ 4
-KDE_DIST=sim.pot ru.po de.gmo tr.po de.po ru.gmo zh_TW.po zh_TW.gmo 
+KDE_DIST=sim.pot ru.po de.gmo tr.po de.po tr.gmo ru.gmo zh_TW.po zh_TW.gmo 
 
 #>- DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
 #>+ 1

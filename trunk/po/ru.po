@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "POT-Creation-Date: 2002-08-09 06:42+0400\n"
-"PO-Revision-Date: 2002-08-08 03:28GMT+3\n"
+"PO-Revision-Date: 2002-08-09 09:14GMT+3\n"
 "Last-Translator: Vladimir Shutoff <shutoff@mail.ru>\n"
 "Language-Team: Русский <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -23,1661 +23,1611 @@ msgstr ""
 
 #: libicq/country.cpp:6
 msgid "Arabic"
-msgstr ""
+msgstr "Арабский"
 
 #: libicq/country.cpp:7
 msgid "Bhojpuri"
-msgstr ""
+msgstr "Бходжпури"
 
 #: libicq/country.cpp:8
 msgid "Bulgarian"
-msgstr ""
+msgstr "Болгарский"
 
 #: libicq/country.cpp:9
 msgid "Burmese"
-msgstr ""
+msgstr "Бурменский"
 
 #: libicq/country.cpp:10
 msgid "Cantonese"
-msgstr ""
+msgstr "Кантонский"
 
 #: libicq/country.cpp:11
 msgid "Catalan"
-msgstr ""
+msgstr "Каталанский"
 
 #: libicq/country.cpp:12
 msgid "Chinese"
-msgstr ""
+msgstr "Китайский"
 
 #: libicq/country.cpp:13
 msgid "Croatian"
-msgstr ""
+msgstr "Хорватский"
 
 #: libicq/country.cpp:14
 msgid "Czech"
-msgstr ""
+msgstr "Чешский"
 
 #: libicq/country.cpp:15
 msgid "Danish"
-msgstr ""
+msgstr "Датский"
 
 #: libicq/country.cpp:16
 msgid "Dutch"
-msgstr ""
+msgstr "Голландский"
 
 #: libicq/country.cpp:17
 msgid "English"
-msgstr ""
+msgstr "Английский"
 
 #: libicq/country.cpp:18
 msgid "Esperanto"
-msgstr ""
+msgstr "Эсперанто"
 
 #: libicq/country.cpp:19
-#, fuzzy
 msgid "Estonian"
-msgstr "Последний раз в сети"
+msgstr "Эстонский"
 
 #: libicq/country.cpp:20
 msgid "Farsi"
-msgstr ""
+msgstr "Фарси"
 
 #: libicq/country.cpp:21
 msgid "Finnish"
-msgstr ""
+msgstr "Финский"
 
 #: libicq/country.cpp:22
 msgid "French"
-msgstr ""
+msgstr "Французский"
 
 #: libicq/country.cpp:23
-#, fuzzy
 msgid "Gaelic"
-msgstr "Курсив"
+msgstr "Гаэльский"
 
 #: libicq/country.cpp:24
-#, fuzzy
 msgid "German"
-msgstr "&Авторизовать"
+msgstr "Немецкий"
 
 #: libicq/country.cpp:25
 msgid "Greek"
-msgstr ""
+msgstr "Греческий"
 
 #: libicq/country.cpp:26
 msgid "Hebrew"
-msgstr ""
+msgstr "Иврит"
 
 #: libicq/country.cpp:27
-#, fuzzy
 msgid "Hindi"
-msgstr "Поиск"
+msgstr "Хинди"
 
 #: libicq/country.cpp:28
 msgid "Hungarian"
-msgstr ""
+msgstr "Венгерский"
 
 #: libicq/country.cpp:29
 msgid "Icelandic"
-msgstr ""
+msgstr "Исландский"
 
 #: libicq/country.cpp:30
 msgid "Indonesian"
-msgstr ""
+msgstr "Индонезийский"
 
 #: libicq/country.cpp:31
-#, fuzzy
 msgid "Italian"
-msgstr "Курсив"
+msgstr "Итальянский"
 
 #: libicq/country.cpp:32
 msgid "Japanese"
-msgstr ""
+msgstr "Японский"
 
 #: libicq/country.cpp:33
 msgid "Khmer"
-msgstr ""
+msgstr "Кхмерский"
 
 #: libicq/country.cpp:34
 msgid "Korean"
-msgstr ""
+msgstr "Корейский"
 
 #: libicq/country.cpp:35
 msgid "Lao"
-msgstr ""
+msgstr "Лао"
 
 #: libicq/country.cpp:36
 msgid "Latvian"
-msgstr ""
+msgstr "Латвийский"
 
 #: libicq/country.cpp:37
 msgid "Lithuanian"
-msgstr ""
+msgstr "Литовский"
 
 #: libicq/country.cpp:38
-#, fuzzy
 msgid "Malay"
-msgstr "Май"
+msgstr "Малайский"
 
 #: libicq/country.cpp:39
-#, fuzzy
 msgid "Norwegian"
-msgstr "Норвежский лес"
+msgstr "Норвежский"
 
 #: libicq/country.cpp:40
-#, fuzzy
 msgid "Polish"
-msgstr "Общедоступный"
+msgstr "Польский"
 
 #: libicq/country.cpp:41
 msgid "Portuguese"
-msgstr ""
+msgstr "Португальский"
 
 #: libicq/country.cpp:42
 msgid "Romanian"
-msgstr ""
+msgstr "Румынский"
 
 #: libicq/country.cpp:43
 msgid "Russian"
-msgstr ""
+msgstr "Русский"
 
 #: libicq/country.cpp:44
 msgid "Serbian"
-msgstr ""
+msgstr "Сербский"
 
 #: libicq/country.cpp:45
 msgid "Slovak"
-msgstr ""
+msgstr "Словацкий"
 
 #: libicq/country.cpp:46
-#, fuzzy
 msgid "Slovenian"
-msgstr "Отправка"
+msgstr "Словенский"
 
 #: libicq/country.cpp:47
 msgid "Somali"
-msgstr ""
+msgstr "Сомали"
 
 #: libicq/country.cpp:48
 msgid "Spanish"
-msgstr ""
+msgstr "Испанский"
 
 #: libicq/country.cpp:49
 msgid "Swahili"
-msgstr ""
+msgstr "Суахили"
 
 #: libicq/country.cpp:50
 msgid "Swedish"
-msgstr ""
+msgstr "Шведский"
 
 #: libicq/country.cpp:51
 msgid "Tagalog"
-msgstr ""
+msgstr "Тагалогский"
 
 #: libicq/country.cpp:52
 msgid "Tatar"
-msgstr ""
+msgstr "Татарский"
 
 #: libicq/country.cpp:53
 msgid "Thai"
-msgstr ""
+msgstr "Тайский"
 
 #: libicq/country.cpp:54
 msgid "Turkish"
-msgstr ""
+msgstr "Турецкий"
 
 #: libicq/country.cpp:55
 msgid "Ukrainian"
-msgstr ""
+msgstr "Украинский"
 
 #: libicq/country.cpp:56
 msgid "Urdu"
-msgstr ""
+msgstr "Урду"
 
 #: libicq/country.cpp:57
-#, fuzzy
 msgid "Vietnamese"
-msgstr "Переименовать"
+msgstr "Вьетнамский"
 
 #: libicq/country.cpp:58
 msgid "Yiddish"
-msgstr ""
+msgstr "Идиш"
 
 #: libicq/country.cpp:59
 msgid "Yoruba"
-msgstr ""
+msgstr "Еруба"
 
 #: libicq/country.cpp:60
 msgid "Taiwanese"
-msgstr ""
+msgstr "Тайваньский"
 
 #: libicq/country.cpp:61
 msgid "Afrikaans"
-msgstr ""
+msgstr "Африканский"
 
 #: libicq/country.cpp:62
 msgid "Persian"
-msgstr ""
+msgstr "Персидский"
 
 #: libicq/country.cpp:63
-#, fuzzy
 msgid "Albanian"
-msgstr "Псевдоним"
+msgstr "Албанский"
 
 #: libicq/country.cpp:64
 msgid "Armenian"
-msgstr ""
+msgstr "Армянский"
 
 #: libicq/country.cpp:70
 msgid "Afghanistan"
-msgstr ""
+msgstr "Афганистан"
 
 #: libicq/country.cpp:71
-#, fuzzy
 msgid "Albania"
-msgstr "Псевдоним"
+msgstr "Албания"
 
 #: libicq/country.cpp:72
-#, fuzzy
 msgid "Algeria"
-msgstr "Уведомления"
+msgstr "Алжир"
 
 #: libicq/country.cpp:73
 msgid "American Samoa"
-msgstr ""
+msgstr "Американская Самоа"
 
 #: libicq/country.cpp:74
 msgid "Andorra"
-msgstr ""
+msgstr "Андорра"
 
 #: libicq/country.cpp:75
 msgid "Angola"
-msgstr ""
+msgstr "Ангола"
 
 #: libicq/country.cpp:76
 msgid "Anguilla"
-msgstr ""
+msgstr "Ангола"
 
 #: libicq/country.cpp:77
 msgid "Antigua"
-msgstr ""
+msgstr "Антигуа"
 
 #: libicq/country.cpp:78
 msgid "Argentina"
-msgstr ""
+msgstr "Аргентина"
 
 #: libicq/country.cpp:79
 msgid "Armenia"
-msgstr ""
+msgstr "Армения"
 
 #: libicq/country.cpp:80
 msgid "Aruba"
-msgstr ""
+msgstr "Аруба"
 
 #: libicq/country.cpp:81
 msgid "Ascension Island"
-msgstr ""
+msgstr "Остров Вознесения"
 
 #: libicq/country.cpp:82
 msgid "Australia"
-msgstr ""
+msgstr "Австралия"
 
 #: libicq/country.cpp:83
 msgid "Australian Antarctic Territory"
-msgstr ""
+msgstr "Австралийская антарктическая территория"
 
 #: libicq/country.cpp:84
-#, fuzzy
 msgid "Austria"
-msgstr "Август"
+msgstr "Австрия"
 
 #: libicq/country.cpp:85
 msgid "Azerbaijan"
-msgstr ""
+msgstr "Азербайджан"
 
 #: libicq/country.cpp:86
 msgid "Bahamas"
-msgstr ""
+msgstr "Багамы"
 
 #: libicq/country.cpp:87
 msgid "Bahrain"
-msgstr ""
+msgstr "Бахрейн"
 
 #: libicq/country.cpp:88
 msgid "Bangladesh"
-msgstr ""
+msgstr "Бангладеш"
 
 #: libicq/country.cpp:89
 msgid "Barbados"
-msgstr ""
+msgstr "Барбадос"
 
 #: libicq/country.cpp:90
 msgid "Barbuda"
-msgstr ""
+msgstr "Барбуда"
 
 #: libicq/country.cpp:91
 msgid "Belarus"
-msgstr ""
+msgstr "Беларусь"
 
 #: libicq/country.cpp:92
 msgid "Belgium"
-msgstr ""
+msgstr "Бельгия"
 
 #: libicq/country.cpp:93
 msgid "Belize"
-msgstr ""
+msgstr "Белиз"
 
 #: libicq/country.cpp:94
-#, fuzzy
 msgid "Benin"
-msgstr "Отправка"
+msgstr "Бенин"
 
 #: libicq/country.cpp:95
 msgid "Bermuda"
-msgstr ""
+msgstr "Бурмуды"
 
 #: libicq/country.cpp:96
 msgid "Bhutan"
-msgstr ""
+msgstr "Бутан"
 
 #: libicq/country.cpp:97
 msgid "Bolivia"
-msgstr ""
+msgstr "Боливия"
 
 #: libicq/country.cpp:98
 msgid "Bosnia and Herzegovina"
-msgstr ""
+msgstr "Босния и Герцеговина"
 
 #: libicq/country.cpp:99
 msgid "Botswana"
-msgstr ""
+msgstr "Ботсвана"
 
 #: libicq/country.cpp:100
 msgid "Brazil"
-msgstr ""
+msgstr "Бразилия"
 
 #: libicq/country.cpp:101
 msgid "British Virgin Islands"
-msgstr ""
+msgstr "Виргинские острова"
 
 #: libicq/country.cpp:102
 msgid "Brunei"
-msgstr ""
+msgstr "Бруней"
 
 #: libicq/country.cpp:103
 msgid "Bulgaria"
-msgstr ""
+msgstr "Болгария"
 
 #: libicq/country.cpp:104
 msgid "Burkina Faso"
-msgstr ""
+msgstr "Буркина-Фасо"
 
 #: libicq/country.cpp:105
 msgid "Burundi"
-msgstr ""
+msgstr "Бурундия"
 
 #: libicq/country.cpp:106
 msgid "Cambodia"
-msgstr ""
+msgstr "Камбоджия"
 
 #: libicq/country.cpp:107
 msgid "Cameroon"
-msgstr ""
+msgstr "Камерун"
 
 #: libicq/country.cpp:108
 msgid "Canada"
-msgstr ""
+msgstr "Канада"
 
 #: libicq/country.cpp:109
 msgid "Cape Verde Islands"
-msgstr ""
+msgstr "Острова Зеленого Мыса"
 
 #: libicq/country.cpp:110
 msgid "Cayman Islands"
-msgstr ""
+msgstr "Кайманские острова"
 
 #: libicq/country.cpp:111
 msgid "Central African Republic"
-msgstr ""
+msgstr "Центральная Африканская Республика"
 
 #: libicq/country.cpp:112
-#, fuzzy
 msgid "Chad"
-msgstr "Чат"
+msgstr "Чад"
 
 #: libicq/country.cpp:113
-#, fuzzy
 msgid "Chile"
-msgstr "Файл"
+msgstr "Чили"
 
 #: libicq/country.cpp:114
-#, fuzzy
 msgid "China"
-msgstr "Чат"
+msgstr "Китай"
 
 #: libicq/country.cpp:115
 msgid "Christmas Island"
-msgstr ""
+msgstr "Остров Кристмаса"
 
 #: libicq/country.cpp:116
 msgid "Cocos-Keeling Islands"
-msgstr ""
+msgstr "Кокосовые острова"
 
 #: libicq/country.cpp:117
 msgid "Colombia"
-msgstr ""
+msgstr "Колумбия"
 
 #: libicq/country.cpp:118
-#, fuzzy
 msgid "Comoros"
-msgstr "Цвета"
+msgstr "Коморские Острова"
 
 #: libicq/country.cpp:119
 msgid "Congo"
-msgstr ""
+msgstr "Конго"
 
 #: libicq/country.cpp:120
 msgid "Cook Islands"
-msgstr ""
+msgstr "Острова Кука"
 
 #: libicq/country.cpp:121
 msgid "Costa Rica"
-msgstr ""
+msgstr "Коста-Рика"
 
 #: libicq/country.cpp:122
 msgid "Croatia"
-msgstr ""
+msgstr "Хорватия"
 
 #: libicq/country.cpp:123
 msgid "Cuba"
-msgstr ""
+msgstr "Куба"
 
 #: libicq/country.cpp:124
 msgid "Cyprus"
-msgstr ""
+msgstr "Кипр"
 
 #: libicq/country.cpp:125
 msgid "Czech Republic"
-msgstr ""
+msgstr "Чехия"
 
 #: libicq/country.cpp:126
 msgid "Denmark"
-msgstr ""
+msgstr "Дания"
 
 #: libicq/country.cpp:127
 msgid "Diego Garcia"
-msgstr ""
+msgstr "Диего-Гарсия"
 
 #: libicq/country.cpp:128
-#, fuzzy
 msgid "Djibouti"
-msgstr "О приложении"
+msgstr "Джиботи"
 
 #: libicq/country.cpp:129
 msgid "Dominica"
-msgstr ""
+msgstr "Доминика"
 
 #: libicq/country.cpp:130
 msgid "Dominican Republic"
-msgstr ""
+msgstr "Доминиканская республика"
 
 #: libicq/country.cpp:131
 msgid "Ecuador"
-msgstr ""
+msgstr "Эквадор"
 
 #: libicq/country.cpp:132
 msgid "Egypt"
-msgstr ""
+msgstr "Египет"
 
 #: libicq/country.cpp:133
 msgid "El Salvador"
-msgstr ""
+msgstr "Эль-Сальвадор"
 
 #: libicq/country.cpp:134
 msgid "Equatorial Guinea"
-msgstr ""
+msgstr "Экваториальная Гвинея"
 
 #: libicq/country.cpp:135
 msgid "Eritrea"
-msgstr ""
+msgstr "Эритрея"
 
 #: libicq/country.cpp:136
 msgid "Estonia"
-msgstr ""
+msgstr "Эстония"
 
 #: libicq/country.cpp:137
 msgid "Ethiopia"
-msgstr ""
+msgstr "Эфиопия"
 
 #: libicq/country.cpp:138
 msgid "Faeroe Islands"
-msgstr ""
+msgstr "Ферские острова"
 
 #: libicq/country.cpp:139
 msgid "Falkland Islands"
-msgstr ""
+msgstr "Фолклендские острова"
 
 #: libicq/country.cpp:140
 msgid "Fiji Islands"
-msgstr ""
+msgstr "Острова Фуджи"
 
 #: libicq/country.cpp:141
-#, fuzzy
 msgid "Finland"
-msgstr "Поиск"
+msgstr "Финляндия"
 
 #: libicq/country.cpp:142
-#, fuzzy
 msgid "France"
-msgstr "Отменить"
+msgstr "Франция"
 
 #: libicq/country.cpp:143
 msgid "French Antilles"
-msgstr ""
+msgstr "Французские Антиллы"
 
 #: libicq/country.cpp:144
 msgid "French Guiana"
-msgstr ""
+msgstr "Французская Гвинея"
 
 #: libicq/country.cpp:145
 msgid "French Polynesia"
-msgstr ""
+msgstr "Французская Полинезия"
 
 #: libicq/country.cpp:146
 msgid "Gabon"
-msgstr ""
+msgstr "Габон"
 
 #: libicq/country.cpp:147
 msgid "Gambia"
-msgstr ""
+msgstr "Гамбия"
 
 #: libicq/country.cpp:148
 msgid "Georgia"
-msgstr ""
+msgstr "Грузия"
 
 #: libicq/country.cpp:149
-#, fuzzy
 msgid "Germany"
-msgstr "&Авторизовать"
+msgstr "Германия"
 
 #: libicq/country.cpp:150
 msgid "Ghana"
-msgstr ""
+msgstr "Гана"
 
 #: libicq/country.cpp:151
 msgid "Gibraltar"
-msgstr ""
+msgstr "Гибралтар"
 
 #: libicq/country.cpp:152
 msgid "Greece"
-msgstr ""
+msgstr "Греция"
 
 #: libicq/country.cpp:153
 msgid "Greenland"
-msgstr ""
+msgstr "Гренландия"
 
 #: libicq/country.cpp:154
 msgid "Grenada"
-msgstr ""
+msgstr "Гренада"
 
 #: libicq/country.cpp:155
 msgid "Guadeloupe"
-msgstr ""
+msgstr "Гваделупа"
 
 #: libicq/country.cpp:156
 msgid "Guam"
-msgstr ""
+msgstr "Остров Гуам"
 
 #: libicq/country.cpp:157
 msgid "Guantanamo Bay"
-msgstr ""
+msgstr "Бухта Гуантанамо"
 
 #: libicq/country.cpp:158
 msgid "Guatemala"
-msgstr ""
+msgstr "Гватемала"
 
 #: libicq/country.cpp:159
-#, fuzzy
 msgid "Guinea"
-msgstr "Основная"
+msgstr "Гвинея"
 
 #: libicq/country.cpp:160
 msgid "Guinea-Bissau"
-msgstr ""
+msgstr "Гвинея-Бессау"
 
 #: libicq/country.cpp:161
 msgid "Guyana"
-msgstr ""
+msgstr "Гайана"
 
 #: libicq/country.cpp:162
 msgid "Haiti"
-msgstr ""
+msgstr "Хайти"
 
 #: libicq/country.cpp:163
 msgid "Honduras"
-msgstr ""
+msgstr "Гондурас"
 
 #: libicq/country.cpp:164
 msgid "Hong Kong"
-msgstr ""
+msgstr "Гонк-Конг"
 
 #: libicq/country.cpp:165
 msgid "Hungary"
-msgstr ""
+msgstr "Венгрия"
 
 #: libicq/country.cpp:166
 msgid "INMARSAT (Atlantic-East)"
-msgstr ""
+msgstr "INMARSAT (Восточная Атлантика)"
 
 #: libicq/country.cpp:167
 msgid "INMARSAT (Atlantic-West)"
-msgstr ""
+msgstr "INMARSAT (Западная Атлантика)"
 
 #: libicq/country.cpp:168
 msgid "INMARSAT (Indian)"
-msgstr ""
+msgstr "INMARSAT (Индийский океан)"
 
 #: libicq/country.cpp:169
 msgid "INMARSAT (Pacific)"
-msgstr ""
+msgstr "INMARSAT (Тихий океан)"
 
 #: libicq/country.cpp:170
 msgid "INMARSAT"
-msgstr ""
+msgstr "INMARSAT"
 
 #: libicq/country.cpp:171
 msgid "Iceland"
-msgstr ""
+msgstr "Исландия"
 
 #: libicq/country.cpp:172
 msgid "India"
-msgstr ""
+msgstr "Индия"
 
 #: libicq/country.cpp:173
 msgid "Indonesia"
-msgstr ""
+msgstr "Индонезия"
 
 #: libicq/country.cpp:174
 msgid "International Freephone Service"
-msgstr ""
+msgstr "International Freephone Service"
 
 #: libicq/country.cpp:175
 msgid "Iran"
-msgstr ""
+msgstr "Иран"
 
 #: libicq/country.cpp:176
 msgid "Iraq"
-msgstr ""
+msgstr "Ирак"
 
 #: libicq/country.cpp:177
 msgid "Ireland"
-msgstr ""
+msgstr "Ирландия"
 
 #: libicq/country.cpp:178
 msgid "Israel"
-msgstr ""
+msgstr "Израиль"
 
 #: libicq/country.cpp:179
-#, fuzzy
 msgid "Italy"
-msgstr "Курсив"
+msgstr "Италия"
 
 #: libicq/country.cpp:180
 msgid "Ivory Coast"
-msgstr ""
+msgstr "Кот-д'Ивуар"
 
 #: libicq/country.cpp:181
 msgid "Jamaica"
-msgstr ""
+msgstr "Ямайка"
 
 #: libicq/country.cpp:182
 msgid "Japan"
-msgstr ""
+msgstr "Япония"
 
 #: libicq/country.cpp:183
 msgid "Jordan"
-msgstr ""
+msgstr "Иордан"
 
 #: libicq/country.cpp:184
 msgid "Kazakhstan"
-msgstr ""
+msgstr "Казахстан"
 
 #: libicq/country.cpp:185
 msgid "Kenya"
-msgstr ""
+msgstr "Кения"
 
 #: libicq/country.cpp:186
 msgid "Kiribati Republic"
-msgstr ""
+msgstr "Кирибати"
 
 #: libicq/country.cpp:187
 msgid "Korea (North)"
-msgstr ""
+msgstr "Северная Корея"
 
 #: libicq/country.cpp:188
 msgid "Korea (Republic of)"
-msgstr ""
+msgstr "Республика Корея"
 
 #: libicq/country.cpp:189
 msgid "Kuwait"
-msgstr ""
+msgstr "Кувейт"
 
 #: libicq/country.cpp:190
 msgid "Kyrgyz Republic"
-msgstr ""
+msgstr "Киргизия"
 
 #: libicq/country.cpp:191
 msgid "Laos"
-msgstr ""
+msgstr "Лаос"
 
 #: libicq/country.cpp:192
 msgid "Latvia"
-msgstr ""
+msgstr "Латвия"
 
 #: libicq/country.cpp:193
 msgid "Lebanon"
-msgstr ""
+msgstr "Ливан"
 
 #: libicq/country.cpp:194
 msgid "Lesotho"
-msgstr ""
+msgstr "Лесотто"
 
 #: libicq/country.cpp:195
 msgid "Liberia"
-msgstr ""
+msgstr "Либерия"
 
 #: libicq/country.cpp:196
 msgid "Libya"
-msgstr ""
+msgstr "Ливия"
 
 #: libicq/country.cpp:197
-#, fuzzy
 msgid "Liechtenstein"
-msgstr "Лицензия"
+msgstr "Лихтештейн"
 
 #: libicq/country.cpp:198
 msgid "Lithuania"
-msgstr ""
+msgstr "Литва"
 
 #: libicq/country.cpp:199
 msgid "Luxembourg"
-msgstr ""
+msgstr "Люксембург"
 
 #: libicq/country.cpp:200
 msgid "Macau"
-msgstr ""
+msgstr "Макау"
 
 #: libicq/country.cpp:201
 msgid "Madagascar"
-msgstr ""
+msgstr "Иадагаскар"
 
 #: libicq/country.cpp:202
 msgid "Malawi"
-msgstr ""
+msgstr "Малавия"
 
 #: libicq/country.cpp:203
 msgid "Malaysia"
-msgstr ""
+msgstr "Малазия"
 
 #: libicq/country.cpp:204
-#, fuzzy
 msgid "Maldives"
-msgstr "Мужчина"
+msgstr "Малдивы"
 
 #: libicq/country.cpp:205
-#, fuzzy
 msgid "Mali"
-msgstr "Мужчина"
+msgstr "Мали"
 
 #: libicq/country.cpp:206
-#, fuzzy
 msgid "Malta"
-msgstr "Мужчина"
+msgstr "Мальта"
 
 #: libicq/country.cpp:207
 msgid "Marshall Islands"
-msgstr ""
+msgstr "Маршалловы острова"
 
 #: libicq/country.cpp:208
 msgid "Martinique"
-msgstr ""
+msgstr "Остров Мартиника"
 
 #: libicq/country.cpp:209
 msgid "Mauritania"
-msgstr ""
+msgstr "Мавритания"
 
 #: libicq/country.cpp:210
 msgid "Mauritius"
-msgstr ""
+msgstr "Маврикия"
 
 #: libicq/country.cpp:211
 msgid "Mayotte Island"
-msgstr ""
+msgstr "Остров Майотта"
 
 #: libicq/country.cpp:212
 msgid "Mexico"
-msgstr ""
+msgstr "Мексика"
 
 #: libicq/country.cpp:213
 msgid "Micronesia, Federated States of"
-msgstr ""
+msgstr "Соединенные Штаты Микронезии"
 
 #: libicq/country.cpp:214
 msgid "Moldova"
-msgstr ""
+msgstr "Молдова"
 
 #: libicq/country.cpp:215
 msgid "Monaco"
-msgstr ""
+msgstr "Монако"
 
 #: libicq/country.cpp:216
 msgid "Mongolia"
-msgstr ""
+msgstr "Монголия"
 
 #: libicq/country.cpp:217
 msgid "Montserrat"
-msgstr ""
+msgstr "Монстеррат"
 
 #: libicq/country.cpp:218
 msgid "Morocco"
-msgstr ""
+msgstr "Марокко"
 
 #: libicq/country.cpp:219
 msgid "Mozambique"
-msgstr ""
+msgstr "Мозамбик"
 
 #: libicq/country.cpp:220
 msgid "Myanmar"
-msgstr ""
+msgstr "Мьянма"
 
 #: libicq/country.cpp:221
 msgid "Namibia"
-msgstr ""
+msgstr "Намибия"
 
 #: libicq/country.cpp:222
 msgid "Nauru"
-msgstr ""
+msgstr "Науру"
 
 #: libicq/country.cpp:223
 msgid "Nepal"
-msgstr ""
+msgstr "Непал"
 
 #: libicq/country.cpp:224
 msgid "Netherlands Antilles"
-msgstr ""
+msgstr "Нидерландские Антиллы"
 
 #: libicq/country.cpp:225
 msgid "Netherlands"
-msgstr ""
+msgstr "Нидерланды"
 
 #: libicq/country.cpp:226
 msgid "Nevis"
-msgstr ""
+msgstr "Невис"
 
 #: libicq/country.cpp:227
 msgid "New Caledonia"
-msgstr ""
+msgstr "Новая Каледония"
 
 #: libicq/country.cpp:228
 msgid "New Zealand"
-msgstr ""
+msgstr "Новая Зеландия"
 
 #: libicq/country.cpp:229
 msgid "Nicaragua"
-msgstr ""
+msgstr "Никарагуа"
 
 #: libicq/country.cpp:230
 msgid "Niger"
-msgstr ""
+msgstr "Нигер"
 
 #: libicq/country.cpp:231
 msgid "Nigeria"
-msgstr ""
+msgstr "Нигерия"
 
 #: libicq/country.cpp:232
 msgid "Niue"
-msgstr ""
+msgstr "Ниу"
 
 #: libicq/country.cpp:233
 msgid "Norfolk Island"
-msgstr ""
+msgstr "Остров Норфолка"
 
 #: libicq/country.cpp:234
 msgid "Norway"
-msgstr ""
+msgstr "Норвегия"
 
 #: libicq/country.cpp:235
 msgid "Oman"
-msgstr ""
+msgstr "Оман"
 
 #: libicq/country.cpp:236
 msgid "Pakistan"
-msgstr ""
+msgstr "Пакистан"
 
 #: libicq/country.cpp:237
-#, fuzzy
 msgid "Palau"
-msgstr "Платиновый"
+msgstr "Палау"
 
 #: libicq/country.cpp:238
 msgid "Panama"
-msgstr ""
+msgstr "Панама"
 
 #: libicq/country.cpp:239
 msgid "Papua New Guinea"
-msgstr ""
+msgstr "Папуа Новая Гвинея"
 
 #: libicq/country.cpp:240
 msgid "Paraguay"
-msgstr ""
+msgstr "Парагвай"
 
 #: libicq/country.cpp:241
 msgid "Peru"
-msgstr ""
+msgstr "Перу"
 
 #: libicq/country.cpp:242
 msgid "Philippines"
-msgstr ""
+msgstr "Филипины"
 
 #: libicq/country.cpp:243
 msgid "Poland"
-msgstr ""
+msgstr "Польша"
 
 #: libicq/country.cpp:244
-#, fuzzy
 msgid "Portugal"
-msgstr "Порт:"
+msgstr "Португалия"
 
 #: libicq/country.cpp:245
 msgid "Puerto Rico"
-msgstr ""
+msgstr "Пуэрто-Рико"
 
 #: libicq/country.cpp:246
 msgid "Qatar"
-msgstr ""
+msgstr "Кватар"
 
 #: libicq/country.cpp:247
 msgid "Republic of Macedonia"
-msgstr ""
+msgstr "Македония"
 
 #: libicq/country.cpp:248
 msgid "Reunion Island"
-msgstr ""
+msgstr "Остров Реюньон"
 
 #: libicq/country.cpp:249
 msgid "Romania"
-msgstr ""
+msgstr "Румыния"
 
 #: libicq/country.cpp:250
 msgid "Rota Island"
-msgstr ""
+msgstr "Остров Рота"
 
 #: libicq/country.cpp:251
 msgid "Russia"
-msgstr ""
+msgstr "Россия"
 
 #: libicq/country.cpp:252
 msgid "Rwanda"
-msgstr ""
+msgstr "Руанда"
 
 #: libicq/country.cpp:253
 msgid "Saint Lucia"
-msgstr ""
+msgstr "Сант-Лучия"
 
 #: libicq/country.cpp:254
 msgid "Saipan Island"
-msgstr ""
+msgstr "Остров Сайпан"
 
 #: libicq/country.cpp:255
-#, fuzzy
 msgid "San Marino"
-msgstr "Основная информация"
+msgstr "Сан-Марино"
 
 #: libicq/country.cpp:256
 msgid "Sao Tome and Principe"
-msgstr ""
+msgstr "Сао Томе-энд-Принсипи"
 
 #: libicq/country.cpp:257
 msgid "Saudi Arabia"
-msgstr ""
+msgstr "Саудовская Аравия"
 
 #: libicq/country.cpp:258
 msgid "Senegal Republic"
-msgstr ""
+msgstr "Сенегал"
 
 #: libicq/country.cpp:259
 msgid "Seychelle Islands"
-msgstr ""
+msgstr "Сейшельские острова"
 
 #: libicq/country.cpp:260
 msgid "Sierra Leone"
-msgstr ""
+msgstr "Сиерра-Лионе"
 
 #: libicq/country.cpp:261
 msgid "Singapore"
-msgstr ""
+msgstr "Сингапур"
 
 #: libicq/country.cpp:262
 msgid "Slovak Republic"
-msgstr ""
+msgstr "Словакия"
 
 #: libicq/country.cpp:263
 msgid "Slovenia"
-msgstr ""
+msgstr "Словения"
 
 #: libicq/country.cpp:264
 msgid "Solomon Islands"
-msgstr ""
+msgstr "Соломоновы острова"
 
 #: libicq/country.cpp:265
 msgid "Somalia"
-msgstr ""
+msgstr "Сомали"
 
 #: libicq/country.cpp:266
 msgid "South Africa"
-msgstr ""
+msgstr "Южная африка"
 
 #: libicq/country.cpp:267
 msgid "Spain"
-msgstr ""
+msgstr "Испания"
 
 #: libicq/country.cpp:268
 msgid "Sri Lanka"
-msgstr ""
+msgstr "Шри-Ланка"
 
 #: libicq/country.cpp:269
 msgid "St. Helena"
-msgstr ""
+msgstr "Остров Святой Елены"
 
 #: libicq/country.cpp:270
 msgid "St. Kitts"
-msgstr ""
+msgstr "Остров святого Киттса"
 
 #: libicq/country.cpp:271
 msgid "St. Pierre and Miquelon"
-msgstr ""
+msgstr "Остров святого Пирра"
 
 #: libicq/country.cpp:272
 msgid "St. Vincent and the Grenadines"
-msgstr ""
+msgstr "Остров святого Винсента"
 
 #: libicq/country.cpp:273
 msgid "Sudan"
-msgstr ""
+msgstr "Судан"
 
 #: libicq/country.cpp:274
 msgid "Suriname"
-msgstr ""
+msgstr "Шуринаме"
 
 #: libicq/country.cpp:275
 msgid "Swaziland"
-msgstr ""
+msgstr "Свазиленд"
 
 #: libicq/country.cpp:276
-#, fuzzy
 msgid "Sweden"
-msgstr "Отправка"
+msgstr "Швеция"
 
 #: libicq/country.cpp:277
 msgid "Switzerland"
-msgstr ""
+msgstr "Швейцария"
 
 #: libicq/country.cpp:278
 msgid "Syria"
-msgstr ""
+msgstr "Сирия"
 
 #: libicq/country.cpp:279
 msgid "Taiwan, Republic of China"
-msgstr ""
+msgstr "Тайвань"
 
 #: libicq/country.cpp:280
 msgid "Tajikistan"
-msgstr ""
+msgstr "Таджикистан"
 
 #: libicq/country.cpp:281
 msgid "Tanzania"
-msgstr ""
+msgstr "Танзания"
 
 #: libicq/country.cpp:282
 msgid "Thailand"
-msgstr ""
+msgstr "Таиланд"
 
 #: libicq/country.cpp:283
 msgid "Tinian Island"
-msgstr ""
+msgstr "Остров Тиниан"
 
 #: libicq/country.cpp:284
 msgid "Togo"
-msgstr ""
+msgstr "Того"
 
 #: libicq/country.cpp:285
 msgid "Tokelau"
-msgstr ""
+msgstr "Токелау"
 
 #: libicq/country.cpp:286
 msgid "Tonga"
-msgstr ""
+msgstr "Тонго"
 
 #: libicq/country.cpp:287
 msgid "Trinidad and Tobago"
-msgstr ""
+msgstr "Тринидад-энд-Тобаго"
 
 #: libicq/country.cpp:288
 msgid "Tunisia"
-msgstr ""
+msgstr "Тунис"
 
 #: libicq/country.cpp:289
 msgid "Turkey"
-msgstr ""
+msgstr "Турция"
 
 #: libicq/country.cpp:290
 msgid "Turkmenistan"
-msgstr ""
+msgstr "Туркменистан"
 
 #: libicq/country.cpp:291
 msgid "Turks and Caicos Islands"
-msgstr ""
+msgstr "Острова Туркс"
 
 #: libicq/country.cpp:292
 msgid "Tuvalu"
-msgstr ""
+msgstr "Тувалу"
 
 #: libicq/country.cpp:293
 msgid "USA"
-msgstr ""
+msgstr "США"
 
 #: libicq/country.cpp:294
 msgid "Uganda"
-msgstr ""
+msgstr "Уганда"
 
 #: libicq/country.cpp:295
-#, fuzzy
 msgid "Ukraine"
-msgstr "Подчеркнутый"
+msgstr "Украина"
 
 #: libicq/country.cpp:296
 msgid "United Arab Emirates"
-msgstr ""
+msgstr "Объединенные Арабские Эмираты"
 
 #: libicq/country.cpp:297
 msgid "United Kingdom"
-msgstr ""
+msgstr "Великобритания"
 
 #: libicq/country.cpp:298
 msgid "United States Virgin Islands"
-msgstr ""
+msgstr "Виржинские острова"
 
 #: libicq/country.cpp:299
 msgid "Uruguay"
-msgstr ""
+msgstr "Уругвай"
 
 #: libicq/country.cpp:300
 msgid "Uzbekistan"
-msgstr ""
+msgstr "Узбекистан"
 
 #: libicq/country.cpp:301
 msgid "Vanuatu"
-msgstr ""
+msgstr "Вануату"
 
 #: libicq/country.cpp:302
 msgid "Vatican City"
-msgstr ""
+msgstr "Ватикан"
 
 #: libicq/country.cpp:303
 msgid "Venezuela"
-msgstr ""
+msgstr "Венесуэла"
 
 #: libicq/country.cpp:304
-#, fuzzy
 msgid "Vietnam"
-msgstr "Переименовать"
+msgstr "Вьетнам"
 
 #: libicq/country.cpp:305
 msgid "Wallis and Futuna Islands"
-msgstr ""
+msgstr "Уэльские острова"
 
 #: libicq/country.cpp:306
 msgid "Western Samoa"
-msgstr ""
+msgstr "Западная Самоа"
 
 #: libicq/country.cpp:307
 msgid "Yemen"
-msgstr ""
+msgstr "Йемен"
 
 #: libicq/country.cpp:308
 msgid "Yugoslavia"
-msgstr ""
+msgstr "Югославия"
 
 #: libicq/country.cpp:309
 msgid "Zaire"
-msgstr ""
+msgstr "Заир"
 
 #: libicq/country.cpp:310
 msgid "Zambia"
-msgstr ""
+msgstr "Замбия"
 
 #: libicq/country.cpp:311
 msgid "Zimbabwe"
-msgstr ""
+msgstr "Зимбабве"
 
 #: libicq/country.cpp:330
-#, fuzzy
 msgid "Art"
-msgstr "Уведомления"
+msgstr "Искусство"
 
 #: libicq/country.cpp:331
 msgid "Cars"
-msgstr ""
+msgstr "Машины"
 
 #: libicq/country.cpp:332
 msgid "Celebrity Fans"
-msgstr ""
+msgstr "Фанат"
 
 #: libicq/country.cpp:333
-#, fuzzy
 msgid "Collections"
-msgstr "Соединение"
+msgstr "Коллекционирование"
 
 #: libicq/country.cpp:334 libicq/country.cpp:415
 msgid "Computers"
-msgstr ""
+msgstr "Компьютеры"
 
 #: libicq/country.cpp:335
 msgid "Culture & Literature"
-msgstr ""
+msgstr "Культура и литература"
 
 #: libicq/country.cpp:336
 msgid "Fitness"
-msgstr ""
+msgstr "Здоровье"
 
 #: libicq/country.cpp:337
-#, fuzzy
 msgid "Games"
-msgstr "Имена"
+msgstr "Игры"
 
 #: libicq/country.cpp:338
 msgid "Hobbies"
-msgstr ""
+msgstr "Хобби"
 
 #: libicq/country.cpp:339 libicq/country.cpp:423
 msgid "ICQ - Providing Help"
-msgstr ""
+msgstr "ICQ - помощь"
 
 #: libicq/country.cpp:340
-#, fuzzy
 msgid "Internet"
-msgstr "Интересы"
+msgstr "Интернет"
 
 #: libicq/country.cpp:341
-#, fuzzy
 msgid "Lifestyle"
-msgstr "Лицензия"
+msgstr "Стиль жизни"
 
 #: libicq/country.cpp:342
 msgid "Movies/TV"
-msgstr ""
+msgstr "Кино/ТВ"
 
 #: libicq/country.cpp:343
 msgid "Music"
-msgstr ""
+msgstr "Музыка"
 
 #: libicq/country.cpp:344
 msgid "Outdoor Activities"
-msgstr ""
+msgstr "Путешествия"
 
 #: libicq/country.cpp:345
-#, fuzzy
 msgid "Parenting"
-msgstr "Отправка"
+msgstr "Дети"
 
 #: libicq/country.cpp:346
 msgid "Pets/Animals"
-msgstr ""
+msgstr "Животные"
 
 #: libicq/country.cpp:347
 msgid "Religion"
-msgstr ""
+msgstr "Религия"
 
 #: libicq/country.cpp:348
 msgid "Science/Technology"
-msgstr ""
+msgstr "Наука/технологии"
 
 #: libicq/country.cpp:349
 msgid "Skills"
-msgstr ""
+msgstr "Учеба"
 
 #: libicq/country.cpp:350 libicq/country.cpp:435
 msgid "Sports"
-msgstr ""
+msgstr "Спорт"
 
 #: libicq/country.cpp:351
-#, fuzzy
 msgid "Web Design"
-msgstr "WWW страница:"
+msgstr "Веб-дизайн"
 
 #: libicq/country.cpp:352
 msgid "Nature and Environment"
-msgstr ""
+msgstr "Природа"
 
 #: libicq/country.cpp:353
 msgid "News & Media"
-msgstr ""
+msgstr "Новости"
 
 #: libicq/country.cpp:354 libicq/country.cpp:420
 msgid "Government"
-msgstr ""
+msgstr "Государственная служба"
 
 #: libicq/country.cpp:355
 msgid "Business & Economy"
-msgstr ""
+msgstr "Бизнесс"
 
 #: libicq/country.cpp:356
 msgid "Mystics"
-msgstr ""
+msgstr "Мистицизм"
 
 #: libicq/country.cpp:357
 msgid "Travel"
-msgstr ""
+msgstr "Туризм"
 
 #: libicq/country.cpp:358
 msgid "Astronomy"
-msgstr ""
+msgstr "Астрономия"
 
 #: libicq/country.cpp:359
-#, fuzzy
 msgid "Space"
-msgstr "Cохранить"
+msgstr "Пространство"
 
 #: libicq/country.cpp:360
-#, fuzzy
 msgid "Clothing"
-msgstr "Соединение"
+msgstr "Одежда"
 
 #: libicq/country.cpp:361
 msgid "Parties"
-msgstr ""
+msgstr "Вечеринки"
 
 #: libicq/country.cpp:362
 msgid "Women"
-msgstr ""
+msgstr "Женщина"
 
 #: libicq/country.cpp:363
 msgid "Social science"
-msgstr ""
+msgstr "Общественные науки"
 
 #: libicq/country.cpp:364
 msgid "60's"
-msgstr ""
+msgstr "60-е"
 
 #: libicq/country.cpp:365
 msgid "70's"
-msgstr ""
+msgstr "70-е"
 
 #: libicq/country.cpp:366
 msgid "80's"
-msgstr ""
+msgstr "80-е"
 
 #: libicq/country.cpp:367
 msgid "50's"
-msgstr ""
+msgstr "50-е"
 
 #: libicq/country.cpp:368
 msgid "Finance and corporate"
-msgstr ""
+msgstr "Финансы"
 
 #: libicq/country.cpp:369
-#, fuzzy
 msgid "Entertainment"
-msgstr "Вошел в чат"
+msgstr "Развлечения"
 
 #: libicq/country.cpp:370
 msgid "Consumer electronics"
-msgstr ""
+msgstr "Бытовая электроника"
 
 #: libicq/country.cpp:371
 msgid "Retail stores"
-msgstr ""
+msgstr "Анекдоты"
 
 #: libicq/country.cpp:372
 msgid "Health and beauty"
-msgstr ""
+msgstr "Здоровье и красота"
 
 #: libicq/country.cpp:373
 msgid "Media"
-msgstr ""
+msgstr "Медиа"
 
 #: libicq/country.cpp:374
 msgid "Household products"
-msgstr ""
+msgstr "Бытовая техника"
 
 #: libicq/country.cpp:375
 msgid "Mail order catalog"
-msgstr ""
+msgstr "Покупки по каталогу"
 
 #: libicq/country.cpp:376
 msgid "Business services"
-msgstr ""
+msgstr "Поддержка бизнеса"
 
 #: libicq/country.cpp:377
 msgid "Audio and visual"
-msgstr ""
+msgstr "Аудио и видео"
 
 #: libicq/country.cpp:378
 msgid "Sporting and athletic"
-msgstr ""
+msgstr "Спорт и атлетика"
 
 #: libicq/country.cpp:379
-#, fuzzy
 msgid "Publishing"
-msgstr "Общедоступный"
+msgstr "Публицистика"
 
 #: libicq/country.cpp:380
 msgid "Home automation"
-msgstr ""
+msgstr "Домашняя автоматика"
 
 #: libicq/country.cpp:386
 msgid "Alumni Org."
-msgstr ""
+msgstr "Общества выпускников"
 
 #: libicq/country.cpp:387
 msgid "Charity Org."
-msgstr ""
+msgstr "Благотворительное общество"
 
 #: libicq/country.cpp:388
 msgid "Club/Social Org."
-msgstr ""
+msgstr "Клуб"
 
 #: libicq/country.cpp:389
 msgid "Community Org."
-msgstr ""
+msgstr "Клуб общения"
 
 #: libicq/country.cpp:390
 msgid "Cultural Org."
-msgstr ""
+msgstr "Культурное общество"
 
 #: libicq/country.cpp:391
 msgid "Fan Clubs"
-msgstr ""
+msgstr "Фан-клуб"
 
 #: libicq/country.cpp:392
 msgid "Fraternity/Sorority"
-msgstr ""
+msgstr "Братство"
 
 #: libicq/country.cpp:393
 msgid "Hobbyists Org."
-msgstr ""
+msgstr "Клуб по интересам"
 
 #: libicq/country.cpp:394
 msgid "International Org."
-msgstr ""
+msgstr "Международное общество"
 
 #: libicq/country.cpp:395
 msgid "Nature and Environment Org."
-msgstr ""
+msgstr "Луб натуралистов"
 
 #: libicq/country.cpp:396
 msgid "Professional Org."
-msgstr ""
+msgstr "Профессиональное объединение"
 
 #: libicq/country.cpp:397
 msgid "Scientific/Technical Org."
-msgstr ""
+msgstr "Научное общество"
 
 #: libicq/country.cpp:398
 msgid "Self Improvement Group"
-msgstr ""
+msgstr "Клуб самосовершенствования"
 
 #: libicq/country.cpp:399
 msgid "Spiritual/Religious Org."
-msgstr ""
+msgstr "Религиозное объединение"
 
 #: libicq/country.cpp:400
 msgid "Sports Org."
-msgstr ""
+msgstr "Сопртивное общество"
 
 #: libicq/country.cpp:401
 msgid "Support Org."
-msgstr ""
+msgstr "Общество поддержки"
 
 #: libicq/country.cpp:402
 msgid "Trade and Business Org."
-msgstr ""
+msgstr "Торговое объединение"
 
 #: libicq/country.cpp:403
-#, fuzzy
 msgid "Union"
-msgstr "Uin:"
+msgstr "Объединение"
 
 #: libicq/country.cpp:404
 msgid "Volunteer Org."
-msgstr ""
+msgstr "Общество добровольцев"
 
 #: libicq/country.cpp:405 libicq/country.cpp:451
-#, fuzzy
 msgid "Other"
-msgstr "Октябрь"
+msgstr "Другое"
 
 #: libicq/country.cpp:411
 msgid "Academic"
-msgstr ""
+msgstr "Академик"
 
 #: libicq/country.cpp:412
 msgid "Administrative"
-msgstr ""
+msgstr "Администратор"
 
 #: libicq/country.cpp:413
 msgid "Art/Entertainment"
-msgstr ""
+msgstr "Искусство/Развлечения"
 
 #: libicq/country.cpp:414
 msgid "College Student"
-msgstr ""
+msgstr "Студент колледжа"
 
 #: libicq/country.cpp:416
 msgid "Community & Social"
-msgstr ""
+msgstr "Общественная деятельность"
 
 #: libicq/country.cpp:417
 msgid "Education"
-msgstr ""
+msgstr "Образование"
 
 #: libicq/country.cpp:418
 msgid "Engineering"
-msgstr ""
+msgstr "Инженер"
 
 #: libicq/country.cpp:419
 msgid "Financial Services"
-msgstr ""
+msgstr "Финансы"
 
 #: libicq/country.cpp:421
 msgid "High School Student"
-msgstr ""
+msgstr "Студент института"
 
 #: libicq/country.cpp:422
-#, fuzzy
 msgid "Home"
-msgstr "Домашняя информация"
+msgstr "Домосед"
 
 #: libicq/country.cpp:424
 msgid "Law"
-msgstr ""
+msgstr "Юрист"
 
 #: libicq/country.cpp:425
 msgid "Managerial"
-msgstr ""
+msgstr "Менеджер"
 
 #: libicq/country.cpp:426
 msgid "Manufacturing"
-msgstr ""
+msgstr "Производство"
 
 #: libicq/country.cpp:427
 msgid "Medical/Health"
-msgstr ""
+msgstr "Медицина"
 
 #: libicq/country.cpp:428 libicq/country.cpp:448
 msgid "Military"
-msgstr ""
+msgstr "Военный"
 
 #: libicq/country.cpp:429
 msgid "Non-Goverment Organisation"
-msgstr ""
+msgstr "Негосударственная организация"
 
 #: libicq/country.cpp:430
 msgid "Other services"
-msgstr ""
+msgstr "Другие службы"
 
 #: libicq/country.cpp:431
 msgid "Professional"
-msgstr ""
+msgstr "Профессионал"
 
 #: libicq/country.cpp:432
-#, fuzzy
 msgid "Retail"
-msgstr "Металл"
+msgstr "Розничная торговля"
 
 #: libicq/country.cpp:433
 msgid "Retired"
-msgstr ""
+msgstr "Пенсионер"
 
 #: libicq/country.cpp:434
 msgid "Science & Research"
-msgstr ""
+msgstr "Наука"
 
 #: libicq/country.cpp:436
 msgid "Technical"
-msgstr ""
+msgstr "Техника"
 
 #: libicq/country.cpp:437
 msgid "University student"
-msgstr ""
+msgstr "Студент университета"
 
 #: libicq/country.cpp:438
 msgid "Web building"
-msgstr ""
+msgstr "Веб строительство"
 
 #: libicq/country.cpp:444
 msgid "Elementary School"
-msgstr ""
+msgstr "Начальная школа"
 
 #: libicq/country.cpp:445
 msgid "High School"
-msgstr ""
+msgstr "Высшая школа"
 
 #: libicq/country.cpp:446
 msgid "College"
-msgstr ""
+msgstr "Колледж"
 
 #: libicq/country.cpp:447
 msgid "University"
-msgstr ""
+msgstr "Университет"
 
 #: libicq/country.cpp:449
 msgid "Past Work Place"
-msgstr ""
+msgstr "Прошлое место работы"
 
 #: libicq/country.cpp:450
 msgid "Past Organization"
-msgstr ""
+msgstr "Бывшие организации"
 
 #: libicq/country.cpp:457
 msgid "Female"
@@ -1957,8 +1907,7 @@ msgstr "%1 от %2"
 
 #: mainwin.cpp:805
 msgid "Your UIN used from another location"
-msgstr ""
-"Ваш UIN используется с другого компьютера"
+msgstr "Ваш UIN используется с другого компьютера"
 
 #: mainwin.cpp:854
 msgid "User %1 is online"
@@ -2936,8 +2885,7 @@ msgstr "&Ok"
 
 #: ui/pastinfobase.cpp:89
 msgid "Organization, Affiliation, Group:"
-msgstr ""
-"Объединения, общественные организации:"
+msgstr "Объединения, общественные организации:"
 
 #: ui/pastinfobase.cpp:131
 msgid "Past background:"
@@ -3113,8 +3061,7 @@ msgstr "Цвета"
 
 #: ui/fontsetupbase.cpp:197
 msgid "Use &own colors in history"
-msgstr ""
-"Использовать &собственные цвета в истории"
+msgstr "Использовать &собственные цвета в истории"
 
 #: ui/fontsetupbase.cpp:207
 msgid "Received messages color"
@@ -3223,8 +3170,7 @@ msgstr "Прозрачный контейнер"
 
 #: ui/themesetupbase.cpp:140
 msgid "Show main window in task manager"
-msgstr ""
-"Показывать основное окно в панели задач"
+msgstr "Показывать основное окно в панели задач"
 
 #: ui/themesetupbase.cpp:144
 msgid "Show user window in task manager"
@@ -3267,8 +3213,7 @@ msgid "Spoken languages:"
 msgstr "Языки:"
 
 #: ui/statussetupbase.cpp:95
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Запретить оповещение в состояниях "
 "\"Отошел\", \"Не активный\", \"Занят\""
@@ -3556,3 +3501,4 @@ msgstr ""
 
 #~ msgid "Spell"
 #~ msgstr "Проверка орфографии"
+
