@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
 "POT-Creation-Date: 2002-11-19 15:31+0300\n"
-"PO-Revision-Date: 2002-11-18 21:19+0200\n"
+"PO-Revision-Date: 2002-11-20 17:26+0200\n"
 "Last-Translator: ismail donmez <voidcartman@yahoo.com>\n"
 "Language-Team: Türkçe <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1935,7 +1935,7 @@ msgstr "Hepsini Kapat"
 
 #: mainwin.cpp:2399 toolbtn.cpp:643
 msgid "Customize toolbar..."
-msgstr ""
+msgstr "Araç çubuğunu özelleştir..."
 
 #: mainwin.cpp:2402
 msgid "ICQ"
@@ -3261,8 +3261,7 @@ msgstr "Global alarm ayarlarının üzerine yaz"
 
 #: ui/alertdialogbase.cpp:97
 msgid "Activate online alert when user returns from Away or NA"
-msgstr ""
-"Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
+msgstr "Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
 
 #: ui/alertdialogbase.cpp:102
 msgid "Online alert options"
@@ -3527,7 +3526,7 @@ msgstr "Ana pencereyi Task Manager'da göster"
 
 #: ui/themesetupbase.cpp:158
 msgid "Show user window in task manager"
-msgstr "Kullanıcı penceresini Task Manager'sa göster"
+msgstr "Kullanıcı penceresini Task Manager'da göster"
 
 #: ui/themesetupbase.cpp:162
 msgid "Use dock"
@@ -3542,8 +3541,7 @@ msgid "Hide main window after"
 msgstr "Ana menüyü sakla"
 
 #: ui/statussetupbase.cpp:107
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "\"Uzakta\", \"N/A\", \"DND\" ve \"Meşgul\"-Listelerinde bağlı alamını "
 "iptal et "
@@ -3642,8 +3640,7 @@ msgstr "Zaman Dilimi:"
 
 #: ui/generalsecbase.cpp:124
 msgid "My &authorization is required before users add me to Contact List"
-msgstr ""
-"Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
+msgstr "Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
 
 #: ui/generalsecbase.cpp:128
 msgid "Don't show my &IP-address"
@@ -3749,45 +3746,39 @@ msgstr "Dış program çalıştır"
 
 #: ui/toolsetup.cpp:56 ui/toolsetup.cpp:126 ui/toolsetup.cpp:153
 msgid "Separator"
-msgstr ""
+msgstr "Ayraç"
 
 #: ui/toolsetupbase.cpp:34
 msgid "Toolbar setup"
-msgstr ""
+msgstr "Araç Çubuğu Ayarları"
 
 #: ui/toolsetupbase.cpp:42
 msgid "All buttons:"
-msgstr ""
+msgstr "Tüm düğmeler"
 
 #: ui/toolsetupbase.cpp:55
-#, fuzzy
 msgid "&Add ->"
-msgstr "&Ekle"
+msgstr "&Ekle ->"
 
 #: ui/toolsetupbase.cpp:59
-#, fuzzy
 msgid "<- &Remove"
-msgstr "Sil"
+msgstr "<- &Sil"
 
 #: ui/toolsetupbase.cpp:68
-#, fuzzy
 msgid "Active:"
-msgstr "Hareketler:"
+msgstr "Aktif:"
 
 #: ui/toolsetupbase.cpp:81
-#, fuzzy
 msgid "&Up"
-msgstr "Üst"
+msgstr "&Yukarı"
 
 #: ui/toolsetupbase.cpp:85
-#, fuzzy
 msgid "&Down"
-msgstr "Alt"
+msgstr "&Aşağı"
 
 #: ui/toolsetupbase.cpp:104
-#, fuzzy
 msgid "&Apply"
-msgstr "Uygula"
+msgstr "&Uygula"
 
 #: about.cpp:280
 msgid "replace this with information about your translation team"
@@ -4296,3 +4287,4 @@ msgstr "? Bilinmeyen statü %1"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
