@@ -71,7 +71,7 @@ void MSNHttpPool::write(const char *buf, unsigned size)
             url += "Action=poll&";
         url += "SessionID=" + m_session_id;
     }
-    char *headers =
+    const char *headers =
         "Content-Type: application/x-msn-messenger\x00"
         "Proxy-Connection: Keep-Alive\x00";
     m_fetch_id = fetch(url.c_str(), writeData, headers);
@@ -117,18 +117,20 @@ void *MSNHttpPool::processEvent(Event *e)
         for (const char *p = d->headers; *p; p += strlen(p) + 1){
             string h = p;
             if (getToken(h, ':') == "X-MSN-Messenger"){
-                for (const char *p = h.c_str(); *p; p++){
-                    if (*p != ' ')
+				const char *p1;
+				for (p1 = h.c_str(); *p1; p1++){
+                    if (*p1 != ' ')
                         break;
                 }
-                string h = p;
+                string h = p1;
                 while (!h.empty()){
                     string part = getToken(h, ';');
-                    for (const char *p = part.c_str(); *p; p++){
-                        if (*p != ' ')
+                    const char *p2;
+                    for (p2 = part.c_str(); *p2; p2++){
+                        if (*p2 != ' ')
                             break;
                     }
-                    string v = p;
+                    string v = p2;
                     string k = getToken(v, '=');
                     if (k == "SessionID"){
                         m_session_id = v;
