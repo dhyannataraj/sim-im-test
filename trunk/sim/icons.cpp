@@ -144,6 +144,7 @@ using namespace std;
 #include "xpm/screen.xpm"
 #include "xpm/encrypted.xpm"
 #include "xpm/key_bindings.xpm"
+#include "xpm/encoding.xpm"
 
 class str
 {
@@ -678,6 +679,7 @@ void Icons::init(const char *name)
     ICON(screen, 10078)
     KICON(encrypted, 10079)
     KICON(key_bindings, 10080)
+    ICON(encoding, 10081)
 
     QIconSet pict = getIcon("licq");
     QPixmap dllPict = dll.getIcon(104);
