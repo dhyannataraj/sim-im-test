@@ -139,7 +139,7 @@ msgstr "Bidde ned schdera. Vrsucha Se s bidde schbädr.\n"
 
 #: plugins/_core/core.cpp:334
 msgid "We'd love to hear what you have to say. Join our chat.\n"
-msgstr "I mechde grn chatta."
+msgstr "I mechde grn chatta.\n"
 
 #: plugins/_core/core.cpp:404
 msgid "Unread messages"
