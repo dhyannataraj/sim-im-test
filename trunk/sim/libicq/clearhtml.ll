@@ -7,14 +7,14 @@
         email                : shutoff@mail.ru
      ***************************************************************************/
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+    /***************************************************************************
+     *                                                                         *
+     *   This program is free software; you can redistribute it and/or modify  *
+     *   it under the terms of the GNU General Public License as published by  *
+     *   the Free Software Foundation; either version 2 of the License, or     *
+     *   (at your option) any later version.                                   *
+     *                                                                         *
+     ***************************************************************************/
 
 #include <stdio.h>
 #include "icqclient.h"
@@ -23,7 +23,7 @@
 
 #ifdef WIN32
 #if _MSC_VER > 1020
-using namespace std;
+    using namespace std;
 #pragma warning(disable:4786)
 #endif
 #endif
@@ -42,17 +42,18 @@ using namespace std;
 %}
 
 %option nounput
-%option stack
+%option nostack
 %option prefix="clearhtml"
 
 %x tag
 %x symbol
 %%
-[\xC0-\xDF][\x80-\xBF]		{ return WIDECHAR; }
-[\xE0-\xEF][\x00-\xFF]{2}	{ return WIDECHAR; }
-[\xF0-\xF7][\x00-\xFF]{3}	{ return WIDECHAR; }
-[\xF8-\xFB][\x00-\xFF]{4}	{ return WIDECHAR; }
-[\xFC-\xFD][\x00-\xFF]{5}	{ return WIDECHAR; }
+
+[\xC0-\xDF][\x80-\xBF]				{ return WIDECHAR; }
+[\xE0-\xEF][\x00-\xFF]{2}			{ return WIDECHAR; }
+[\xF0-\xF7][\x00-\xFF]{3}			{ return WIDECHAR; }
+[\xF8-\xFB][\x00-\xFF]{4}			{ return WIDECHAR; }
+[\xFC-\xFD][\x00-\xFF]{5}			{ return WIDECHAR; }
 "<br"\/?">"					{ return BR; }
 "</p>"						{ return BR; }
 "<"						{ BEGIN(tag); return SKIP; }
@@ -98,7 +99,7 @@ string ICQClient::clearHTML(const string &text)
         if (!r) break;
         switch (r){
         case TXT:
-            res += yytext;
+                res += yytext;
             break;
         case WIDECHAR:
             res += yytext;

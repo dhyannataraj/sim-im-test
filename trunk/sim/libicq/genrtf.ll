@@ -7,14 +7,14 @@
         email                : shutoff@mail.ru
      ***************************************************************************/
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+    /***************************************************************************
+     *                                                                         *
+     *   This program is free software; you can redistribute it and/or modify  *
+     *   it under the terms of the GNU General Public License as published by  *
+     *   the Free Software Foundation; either version 2 of the License, or     *
+     *   (at your option) any later version.                                   *
+     *                                                                         *
+     ***************************************************************************/
 
 #include <stdio.h>
 
@@ -30,7 +30,7 @@
 
 #ifdef WIN32
 #if _MSC_VER > 1020
-using namespace std;
+    using namespace std;
 #pragma warning(disable:4786)
 #endif
 #endif
@@ -53,7 +53,7 @@ using namespace std;
 %}
 
 %option prefix="genrtf"
-%option stack
+%option nostack
 
 %x s_tag
 %x s_attr
@@ -61,6 +61,7 @@ using namespace std;
 %x s_string
 %x s_symbol
 %%
+
 [\xC0-\xDF][\x80-\xBF]		{ return WIDECHAR; }
 [\xE0-\xEF][\x00-\xFF]{2}	{ return WIDECHAR; }
 [\xF0-\xF7][\x00-\xFF]{3}	{ return WIDECHAR; }
@@ -248,7 +249,7 @@ string ICQClientPrivate::createRTF(const string &text, unsigned long foreColor, 
                     char b[5];
                     snprintf(b, sizeof(b), "\\\'%02x", *p & 0xFF);
                     res += b;
-					res += *p;
+                    res += *p;
                     bSpace = false;
                     continue;
                 }
@@ -425,11 +426,11 @@ string ICQClientPrivate::createRTF(const string &text, unsigned long foreColor, 
                         if (eq((*it).name.c_str(), "style")){
                             char FONT_SIZE[] = "font-size:";
                             if (((*it).value.length() > strlen(FONT_SIZE)) && !memcmp((*it).value.c_str(), FONT_SIZE, strlen(FONT_SIZE))){
-								const char *v = (*it).value.c_str() + strlen(FONT_SIZE);
-								if ((*v >= '0') && (*v <= '9')){
-									size = atol(v) * 2;
-									if (size == 0) size = f.size;
-								}
+                                const char *v = (*it).value.c_str() + strlen(FONT_SIZE);
+                                if ((*v >= '0') && (*v <= '9')){
+                                    size = atol(v) * 2;
+                                    if (size == 0) size = f.size;
+                                }
                             }
                         }
                         if (eq((*it).name.c_str(), "size")){

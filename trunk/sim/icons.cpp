@@ -154,6 +154,8 @@ using namespace std;
 #include "xpm/filter.xpm"
 #include "xpm/exec.xpm"
 #include "xpm/separator.xpm"
+#include "xpm/button_ok.xpm"
+#include "xpm/button_cancel.xpm"
 
 class str
 {
@@ -695,6 +697,8 @@ void Icons::init(const char *name)
     KICON(filter, 10088)
     KICON(exec, 10089)
     ICON(separator, 10090)
+    KICON(button_ok, 10091)
+    KICON(button_cancel, 10092)
 
     QIconSet pict = getIcon("licq");
     QPixmap dllPict = dll.getIcon(104);

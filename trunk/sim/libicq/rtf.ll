@@ -7,14 +7,14 @@
         email                : shutoff@mail.ru
      ***************************************************************************/
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+    /***************************************************************************
+     *                                                                         *
+     *   This program is free software; you can redistribute it and/or modify  *
+     *   it under the terms of the GNU General Public License as published by  *
+     *   the Free Software Foundation; either version 2 of the License, or     *
+     *   (at your option) any later version.                                   *
+     *                                                                         *
+     ***************************************************************************/
 
 #include <stdio.h>
 
@@ -31,44 +31,44 @@
 #include <stdarg.h>
 
 
-#define UP					1	
-#define DOWN					2
-#define CMD					3
-#define TXT					4
-#define HEX					5
-#define IMG					6
+#define UP			1	
+#define DOWN			2
+#define CMD			3
+#define TXT			4
+#define HEX			5
+#define IMG			6
 #define UNICODE_CHAR		7
-#define SKIP				8
-#define SLASH				9
+#define SKIP			8
+#define SLASH			9
 
 #define YY_NEVER_INTERACTIVE	1
 #define YY_ALWAYS_INTERACTIVE	0
-#define YY_MAIN					0	
+#define YY_MAIN			0	
 
 %}
 
 %option nounput
-%option stack
+%option nostack
 %option prefix="rtf"
 
 %%
 
 "{"				{ return UP; }
 "}"				{ return DOWN; }
-"\\"[\\\{\}]	{ return SLASH; }
+"\\"[\\\{\}]			{ return SLASH; }
 "\\u"[0-9]{3,7}"?"		{ return UNICODE_CHAR; }
 "\\"[A-Za-z]+[0-9]*[ ]? 	{ return CMD; }
 "\\'"[0-9A-Fa-f][0-9A-Fa-f]	{ return HEX; }
-"<##"[^>]+">"	{ return IMG; }
-[^\\{}<]+		{ return TXT; }
+"<##"[^>]+">"			{ return IMG; }
+[^\\{}<]+			{ return TXT; }
 .				{ return TXT; }
 %%
 
 typedef struct color
 {
-    unsigned char red;
-    unsigned char green;
-    unsigned char blue;
+     unsigned char red;
+     unsigned char green;
+     unsigned char blue;
 } color;
 
 typedef struct fontDef
@@ -736,9 +736,9 @@ string RTF2HTML::Parse(const char *rtf, const char *_encoding)
             }
         case SKIP:
             break;
-		case SLASH:
-			cur_level.setText(yytext+1);
-			break;
+        case SLASH:
+            cur_level.setText(yytext+1);
+            break;
         case TXT:
             cur_level.setText(yytext);
             break;
@@ -746,7 +746,7 @@ string RTF2HTML::Parse(const char *rtf, const char *_encoding)
                 cur_level.flush();
                 string s;
                 icq->utf16to8(atol(yytext + 2), s);
-				PrintQuoted(s.c_str());
+                PrintQuoted(s.c_str());
                 break;
             }
         case HEX:{
