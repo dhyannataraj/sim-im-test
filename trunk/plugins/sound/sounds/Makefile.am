@@ -11,7 +11,7 @@ EXTRA_DIST = \
  url.wav \
  system.wav \
  message2.wav \
- vip_online.wav
+ vip-online.wav
 
 
 
