@@ -250,9 +250,9 @@ static DataDef icqClientData[] =
     {
         { "Server", DATA_STRING, 1, 0 },
         { "ServerPort", DATA_ULONG, 1, DATA(5190) },
-        { "ContactTime", DATA_ULONG, 1, 0 },
-        { "ContactLength", DATA_ULONG, 1, 0 },
-        { "ContactInvisible", DATA_ULONG, 1, 0 },
+        { "", DATA_ULONG, 1, 0 },
+        { "", DATA_ULONG, 1, 0 },
+        { "", DATA_ULONG, 1, 0 },
         { "HideIP", DATA_BOOL, 1, 0 },
         { "IgnoreAuth", DATA_BOOL, 1, 0 },
         { "DirectMode", DATA_ULONG, 1, 0 },
@@ -309,7 +309,9 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
     m_infoTimer = new QTimer(this);
     connect(m_infoTimer, SIGNAL(timeout()), this, SLOT(infoRequestFail()));
     m_sendTimer = new QTimer(this);
-    connect(m_sendTimer, SIGNAL(timeout()), this, SLOT(processSendQueue()));
+    connect(m_sendTimer, SIGNAL(timeout()), this, SLOT(sendTimeout()));
+    m_processTimer = new QTimer(this);
+    connect(m_processTimer, SIGNAL(timeout()), this, SLOT(processSendQueue()));
     if (getListRequests()){
         string requests = getListRequests();
         while (requests.length()){
@@ -332,6 +334,7 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
         while ((data = (ICQUserData*)(++itd)) != NULL)
             set_str(&data->Alias.ptr, contact->getName().utf8());
     }
+    m_winSize	= 0;
 }
 
 ICQClient::~ICQClient()
@@ -485,8 +488,6 @@ OscarSocket::OscarSocket()
 {
     m_nSequence    = (unsigned short)(rand() & 0x7FFF);
     m_nMsgSequence = 0;
-    m_time	       = 0;
-    m_packets	   = 0;
 }
 
 OscarSocket::~OscarSocket()
@@ -498,9 +499,6 @@ void OscarSocket::connect_ready()
     socket()->readBuffer.init(6);
     socket()->readBuffer.packetStart();
     m_bHeader = true;
-    m_time	       = 0;
-    m_packets	   = 0;
-    delayed.init(0);
 }
 
 void ICQClient::connect_ready()
@@ -510,8 +508,45 @@ void ICQClient::connect_ready()
         m_listener = new ICQListener(this);
         m_listener->bind(getMinPort(), getMaxPort(), NULL);
     }
+    m_bNoSend	= false;
+    m_curLevel	= 0;
+    m_maxLevel	= 0;
+    m_minLevel	= 0;
+    m_winSize	= 0;
+    m_bReady	= false;
+    m_lastSend	= QDateTime::currentDateTime();
+    delayed.init(0);
     OscarSocket::connect_ready();
     TCPClient::connect_ready();
+}
+
+unsigned ICQClient::newLevel()
+{
+    if (m_winSize == 0)
+        return 0;
+    QDateTime now = QDateTime::currentDateTime();
+    unsigned delta = 0;
+    if (now.date() == m_lastSend.date())
+        delta = m_lastSend.time().msecsTo(now.time());
+    unsigned res = (((m_winSize - 1) * m_curLevel) + delta) / m_winSize;
+    if (res > m_maxLevel)
+        res = m_maxLevel;
+    return res;
+}
+
+unsigned ICQClient::delayTime()
+{
+    if (m_winSize == 0)
+        return 0;
+    int res = m_minLevel * m_winSize - m_curLevel * (m_winSize - 1);
+    if (res < 0)
+        return 0;
+    QDateTime now = QDateTime::currentDateTime();
+    unsigned delta = 0;
+    if (now.date() == m_lastSend.date())
+        delta = m_lastSend.time().msecsTo(now.time());
+    res -= delta;
+    return (res > 0) ? res : 0;
 }
 
 void ICQClient::setStatus(unsigned status, bool bCommon)
@@ -594,6 +629,7 @@ void ICQClient::disconnected()
 {
     m_infoTimer->stop();
     m_sendTimer->stop();
+    m_processTimer->stop();
     clearServerRequests();
     clearListServerRequest();
     clearSMSQueue();
@@ -630,19 +666,14 @@ void ICQClient::disconnected()
     m_cookie.init(0);
     m_advCounter = 0;
     m_nUpdates = 0;
-    m_nSendTimeout = 1;
     m_info_req.clear();
     while (!m_services.empty()){
         ServiceSocket *s = m_services.front();
         delete s;
     }
-
     if (m_listener){
-
         delete m_listener;
-
         m_listener = NULL;
-
     }
 }
 
@@ -705,11 +736,6 @@ void OscarSocket::packet_ready()
 void ICQClient::packet_ready()
 {
     OscarSocket::packet_ready();
-}
-
-void ICQClient::write_ready()
-{
-    OscarSocket::write_ready();
 }
 
 void ICQClient::packet()
@@ -805,65 +831,41 @@ void OscarSocket::snac(unsigned short fam, unsigned short type, bool msgId, bool
     << (bType ? type : (unsigned short)0);
 }
 
-const unsigned RATE_PAUSE = 3;
-const unsigned RATE_LIMIT = 5;
-
-void OscarSocket::sendPacket()
+void OscarSocket::sendPacket(bool bSend)
 {
     Buffer &writeBuffer = socket()->writeBuffer;
     char *packet = writeBuffer.data(writeBuffer.packetStartPos());
     unsigned size = writeBuffer.size() - writeBuffer.packetStartPos() - 6;
     packet[4] = (char)((size >> 8) & 0xFF);
     packet[5] = (char)(size & 0xFF);
-    log_packet(socket()->writeBuffer, true, ICQPlugin::icq_plugin->OscarPacket);
-    time_t now;
-    time(&now);
-    if ((unsigned)now > m_time + RATE_PAUSE){
-        m_packets = 0;
-        m_time = now;
+    if (bSend){
+        log_packet(socket()->writeBuffer, true, ICQPlugin::icq_plugin->OscarPacket);
+        socket()->write();
     }
-    if ((m_packets > RATE_LIMIT) || (delayed.readPos() != delayed.writePos())){
-        delayed.pack(writeBuffer.data(writeBuffer.packetStartPos()), writeBuffer.size() - writeBuffer.packetStartPos());
-        writeBuffer.setSize(writeBuffer.packetStartPos());
-        log(L_DEBUG, "> delay %u %i", delayed.readPos(), delayed.writePos());
-        socket()->pause(RATE_PAUSE);
-        return;
-    }
-    m_packets++;
-    socket()->write();
 }
 
-void OscarSocket::write_ready()
+void ICQClient::sendPacket(bool bSend)
 {
-    if (delayed.readPos() == delayed.writePos())
+    unsigned delay = delayTime();
+    if (m_bNoSend){
+        bSend = false;
+    }else if (!bSend && (delay == 0)){
+        bSend = true;
+    }
+    log(L_DEBUG, "Send packet: %u %u", bSend, delay);
+    OscarSocket::sendPacket(bSend);
+    if (bSend){
+        m_curLevel = newLevel();
+        m_lastSend = QDateTime::currentDateTime();
+        log(L_DEBUG, "New level: %X", m_curLevel);
         return;
-    time_t now;
-    time(&now);
-    if ((unsigned)now > m_time + RATE_PAUSE){
-        m_packets = 0;
-        m_time = now;
     }
-    if (m_packets > RATE_LIMIT){
-        socket()->pause(RATE_PAUSE);
-        return;
-    }
-    while (m_packets <= RATE_LIMIT){
-        m_packets++;
-        unsigned char *packet = (unsigned char*)(delayed.data(delayed.readPos()));
-        unsigned size = (packet[4] << 8) + packet[5] + 6;
-        socket()->writeBuffer.pack(delayed.data(delayed.readPos()), size);
-        delayed.incReadPos(size);
-        log(L_DEBUG, "< delay %u %i", delayed.readPos(), delayed.writePos());
-        if (delayed.readPos() == delayed.writePos())
-            break;
-    }
-    socket()->write();
-    if (delayed.readPos() == delayed.writePos()){
-        delayed.init(0);
-        log(L_DEBUG, "Delay init");
-    }else{
-        socket()->pause(RATE_PAUSE);
-    }
+    Buffer &writeBuffer = socket()->writeBuffer;
+    delayed.pack(writeBuffer.data(writeBuffer.packetStartPos()), writeBuffer.size() - writeBuffer.packetStartPos());
+    writeBuffer.setSize(writeBuffer.packetStartPos());
+    log(L_DEBUG, "> delay %u %i", delayed.readPos(), delayed.writePos());
+    m_processTimer->stop();
+    m_processTimer->start(delay);
 }
 
 string ICQClient::cryptPassword()
@@ -1276,12 +1278,11 @@ void ICQClient::ping()
             m_bBirthday = bBirthday;
             setStatus(m_status);
         }else if (getKeepAlive() || m_bHTTP){
-            flap(ICQ_CHNxPING);
-            sendPacket();
+            if (delayed.size() == 0){
+                flap(ICQ_CHNxPING);
+                sendPacket(false);
+            }
         }
-        m_nSendTimeout = m_nSendTimeout / 2;
-        if (m_nSendTimeout < 1)
-            m_nSendTimeout = 1;
         checkListRequest();
         QTimer::singleShot(PING_TIMEOUT * 1000, this, SLOT(ping()));
     }
@@ -2387,7 +2388,7 @@ void *ICQClient::processEvent(Event *e)
                     sendCapability(t->tmpl.utf8());
                     sendICMB(1, 11);
                     sendICMB(0, 11);
-                    processListRequest();
+                    processSendQueue();
                     fetchProfiles();
                 }
             }
@@ -2476,7 +2477,7 @@ void *ICQClient::processEvent(Event *e)
             lr.invisible_id = (unsigned short)(data->ContactInvisibleId.value);
             lr.ignore_id    = (unsigned short)(data->IgnoreId.value);
             listRequests.push_back(lr);
-            processListRequest();
+            processSendQueue();
         }
         removeBuddy(contact);
     }
@@ -2494,7 +2495,7 @@ void *ICQClient::processEvent(Event *e)
                 lr.type   = LIST_GROUP_DELETED;
                 lr.icq_id = (unsigned short)(data->IcqID.value);
                 listRequests.push_back(lr);
-                processListRequest();
+                processSendQueue();
             }
         }
     }
@@ -2533,13 +2534,21 @@ void *ICQClient::processEvent(Event *e)
             if (m_send.msg == msg){
                 m_send.msg = NULL;
                 m_send.screen = "";
-                send(true);
+                m_sendTimer->stop();
+                processSendQueue();
                 return msg;
             }
             list<SendMsg>::iterator it;
-            for (it = sendQueue.begin(); it != sendQueue.end(); ++it){
+            for (it = sendFgQueue.begin(); it != sendFgQueue.end(); ++it){
                 if ((*it).msg == msg){
-                    sendQueue.erase(it);
+                    sendFgQueue.erase(it);
+                    delete msg;
+                    return msg;
+                }
+            }
+            for (it = sendBgQueue.begin(); it != sendBgQueue.end(); ++it){
+                if ((*it).msg == msg){
+                    sendBgQueue.erase(it);
                     delete msg;
                     return msg;
                 }
@@ -3156,18 +3165,18 @@ void ICQClient::addPluginInfoRequest(unsigned long uin, unsigned plugin_index)
         }
     }
     list<SendMsg>::iterator it;
-    for (it = sendQueue.begin(); it != sendQueue.end(); ++it){
+    for (it = sendBgQueue.begin(); it != sendBgQueue.end(); ++it){
         SendMsg &s = *it;
         if (((unsigned)atol(s.screen.c_str()) == uin) && (s.flags == plugin_index) && (s.msg == NULL))
             break;
     }
-    if (it != sendQueue.end())
+    if (it != sendBgQueue.end())
         return;
     SendMsg s;
     s.screen = number(uin);
     s.flags  = plugin_index;
-    sendQueue.push_back(s);
-    send(true);
+    sendBgQueue.push_back(s);
+    processSendQueue();
 }
 
 void ICQClient::randomChatInfo(unsigned long uin)

@@ -443,7 +443,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
         {
             log(L_DEBUG, "Rosters OK");
             snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_ACTIVATE);
-            sendPacket();
+            sendPacket(true);
             QTimer::singleShot(PING_TIMEOUT * 1000, this, SLOT(ping()));
             setPreviousPassword(NULL);
             sendClientReady();
@@ -485,7 +485,8 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                     eAR.process();
                 }
                 setState(Connected);
-                processListRequest();
+				m_bReady = true;
+				processSendQueue();
                 break;
             }
             sendCapability();
@@ -494,17 +495,6 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             sendLogonStatus();
             setState(Connected);
             sendMessageRequest();
-            if (getContactsInvisible() == 0){
-                snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_EDIT);
-                sendPacket();
-                snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_CREATE, true);
-                m_socket->writeBuffer
-                << 0x00000000L << 0x00000001L
-                << 0x000400C8L << (unsigned short)0;
-                sendPacket();
-                snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_SAVE);
-                sendPacket();
-            }
             fetchProfiles();
             break;
         }
@@ -641,7 +631,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             m_listRequest->process(this, res);
             delete m_listRequest;
             m_listRequest = NULL;
-            processListRequest();
+            processSendQueue();
         }
         break;
     default:
@@ -653,40 +643,25 @@ void ICQClient::listsRequest()
 {
     log(L_DEBUG, "lists request");
     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_REQxRIGHTS);
-    sendPacket();
+    sendPacket(true);
     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_REQxROSTER);
     unsigned long	contactsTime	= getContactsTime();
     unsigned short	contactsLength	= getContactsLength();
     m_socket->writeBuffer << contactsTime << contactsLength;
-    sendPacket();
+    sendPacket(true);
 }
 
-void ICQClient::sendVisibleList()
+void ICQClient::sendInvisible(bool bInvisible)
 {
-    if (getContactsInvisible() == 0)
+	unsigned short cmd = ICQ_SNACxLISTS_RENAME;
+    if (getContactsInvisible() == 0){
+		cmd = ICQ_SNACxLISTS_CREATE;
         setContactsInvisible((unsigned short)(get_random() & 0x7FFF));
-    snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_RENAME, true);
-    m_socket->writeBuffer
-    << 0x00000000L << getContactsInvisible()
-    << (unsigned short)0x0004
-    << (unsigned short)0x0005
-    << 0x00CA0001L
-    << (char)3;
-    sendPacket();
-}
-
-void ICQClient::sendInvisibleList()
-{
-    if (getContactsInvisible() == 0)
-        setContactsInvisible((unsigned short)(get_random() & 0x7FFF));
-    snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_RENAME, true);
-    m_socket->writeBuffer
-    << 0x00000000L << getContactsInvisible()
-    << (unsigned short)0x0004
-    << (unsigned short)0x0005
-    << 0x00CA0001L
-    << (char)4;
-    sendPacket();
+	}
+	char data = bInvisible ? 4 : 3;
+	TlvList tlvs;
+	tlvs + new Tlv(0xCA, 1, &data);
+    sendRoster(cmd, NULL, 0, getContactsInvisible(), ICQ_INVISIBLE_STATE, &tlvs);
 }
 
 ListRequest *ICQClient::findContactListRequest(const char *screen)
@@ -928,7 +903,7 @@ unsigned short ICQClient::sendRoster(unsigned short cmd, const char *name, unsig
     }else{
         m_socket->writeBuffer << (unsigned short)0;
     }
-    sendPacket();
+    sendPacket(true);
     return m_nMsgSequence;
 }
 
@@ -954,7 +929,7 @@ void ICQClient::sendRosterGrp(const char *name, unsigned short grpId, unsigned s
         << (unsigned short) 0xC8
         << (unsigned short) 0;
     }
-    sendPacket();
+    sendPacket(true);
 }
 
 static string userStr(Contact *contact, ICQUserData *data)
@@ -969,13 +944,15 @@ static string userStr(Contact *contact, ICQUserData *data)
     return res;
 }
 
-void ICQClient::processListRequest()
+bool ICQClient::processListRequest()
 {
-    if (m_listRequest || (getState() != Connected))
-        return;
+    if (m_listRequest || (getState() != Connected) || !m_bReady)
+        return false;
     for (;;){
         if (listRequests.size() == 0)
-            return;
+            return false;
+		if (delayTime())
+			return true;
         ListRequest &lr = listRequests.front();
         string name;
         unsigned short seq = 0;
@@ -1045,10 +1022,10 @@ void ICQClient::processListRequest()
                         snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_FUTURE_AUTH);
                         m_socket->writeBuffer.packScreen(screen(data).c_str());
                         m_socket->writeBuffer << 0x00000000L;
-                        sendPacket();
+                        sendPacket(true);
                     }
                     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_EDIT);
-                    sendPacket();
+                    sendPacket(true);
                     if (data->IcqID.value == 0)
                         data->IcqID.value = getListId();
                     TlvList *tlv = createListTlv(data, contact);
@@ -1057,7 +1034,7 @@ void ICQClient::processListRequest()
                     seq = sendRoster(ICQ_SNACxLISTS_CREATE, screen(data).c_str(), grp_id, (unsigned short)(data->IcqID.value), 0, tlv);
                     sendRosterGrp(group->getName().utf8(), grp_id, (unsigned short)(data->IcqID.value));
                     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_SAVE);
-                    sendPacket();
+                    sendPacket(true);
                     log(L_DEBUG, "%s move to group %s", userStr(contact, data).c_str(), (const char*)group->getName().local8Bit());
                     m_listRequest = new ContactServerRequest(seq, screen(data).c_str(), (unsigned short)(data->IcqID.value), grp_id, tlv);
                     time((time_t*)&m_listRequestTime);
@@ -1127,10 +1104,10 @@ void ICQClient::processListRequest()
                     log(L_DEBUG, "create group %s", (const char*)group->getName().local8Bit());
                     icq_id = getListId();
                     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_EDIT);
-                    sendPacket();
+                    sendPacket(true);
                     seq = sendRoster(ICQ_SNACxLISTS_CREATE, name.c_str(), icq_id, 0, ICQ_GROUPS);
                     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_SAVE);
-                    sendPacket();
+                    sendPacket(true);
                 }
                 if (seq)
                     m_listRequest = new GroupServerRequest(seq, group->id(), icq_id, name.c_str());
@@ -1141,19 +1118,20 @@ void ICQClient::processListRequest()
             if (lr.icq_id){
                 log(L_DEBUG, "delete group");
                 snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_EDIT);
-                sendPacket();
+                sendPacket(true);
                 seq = sendRoster(ICQ_SNACxLISTS_DELETE, "", lr.icq_id, 0, ICQ_GROUPS);
                 snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_SAVE);
-                sendPacket();
+                sendPacket(true);
                 m_listRequest = new GroupServerRequest(seq, 0, lr.icq_id, name.c_str());
                 time((time_t*)&m_listRequestTime);
             }
             break;
         }
         if (m_listRequest)
-            return;
+            return true;
         listRequests.erase(listRequests.begin());
     }
+	return false;
 }
 
 void ICQClient::checkListRequest()
@@ -1167,7 +1145,7 @@ void ICQClient::checkListRequest()
         m_listRequest->process(this, (unsigned short)(-1));
         delete m_listRequest;
         m_listRequest = NULL;
-        processListRequest();
+        processSendQueue();
     }
 }
 
@@ -1188,7 +1166,7 @@ void ICQClient::addGroupRequest(Group *group)
         lr.type   = LIST_GROUP_CHANGED;
         lr.screen = number(group->id());
         listRequests.push_back(lr);
-        processListRequest();
+        processSendQueue();
         return;
     }
     list<ListRequest>::iterator it;
@@ -1208,7 +1186,7 @@ void ICQClient::addGroupRequest(Group *group)
     lr.icq_id  = (unsigned short)(data->IcqID.value);
     lr.screen  = number(group->id());
     listRequests.push_back(lr);
-    processListRequest();
+    processSendQueue();
 }
 
 void ICQClient::addContactRequest(Contact *contact)
@@ -1272,7 +1250,7 @@ void ICQClient::addContactRequest(Contact *contact)
         lr.type   = LIST_USER_CHANGED;
         lr.screen = screen(data);
         listRequests.push_back(lr);
-        processListRequest();
+        processSendQueue();
     }
 }
 
@@ -1351,7 +1329,7 @@ bool ICQClient::sendAuthRequest(Message *msg, void *_data)
         << (unsigned short)(charset.length())
         << charset.c_str();
     }
-    sendPacket();
+    sendPacket(true);
 
     msg->setClient(dataName(data).c_str());
     Event eSent(EventSent, msg);
@@ -1374,7 +1352,7 @@ bool ICQClient::sendAuthGranted(Message *msg, void *_data)
     m_socket->writeBuffer
     << (char)0x01
     << (unsigned long)0;
-    sendPacket();
+    sendPacket(true);
 
     msg->setClient(dataName(data).c_str());
     Event eSent(EventSent, msg);
@@ -1416,7 +1394,7 @@ bool ICQClient::sendAuthRefused(Message *msg, void *_data)
         << (unsigned short)(charset.length())
         << charset.c_str();
     }
-    sendPacket();
+    sendPacket(true);
 
     msg->setClient(dataName(data).c_str());
     Event eSent(EventSent, msg);

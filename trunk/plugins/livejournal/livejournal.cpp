@@ -1016,9 +1016,9 @@ void LiveJournalClient::setStatus(unsigned status)
     version = "Win32";
 #else
 #ifdef QT_MACOSX_VERSION
-version = "MacOS";
+    version = "MacOS";
 #else
-version = "Qt";
+    version = "Qt";
 #endif
 #endif
     version += "-" PACKAGE "/" VERSION;
@@ -1103,6 +1103,8 @@ void *LiveJournalClient::processEvent(Event *e)
                 if (dataName(data) == msg->client()){
                     Buffer cfg;
                     cfg << "[Title]\n" << msg->save().c_str();
+                    cfg.setWritePos(0);
+                    cfg.getSection();
                     JournalMessage *m = new JournalMessage(&cfg);
                     m->setContact(msg->contact());
                     m->setOldID(msg->id());

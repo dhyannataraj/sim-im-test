@@ -695,13 +695,6 @@ EXPORT QString getPart(QString &str, unsigned size)
     return res;
 }
 
-EXPORT QString getRichTextPart(QString &str, unsigned)
-{
-    QString res = str;
-    str = "";
-    return res;
-}
-
 #if 0
 I18N_NOOP("Smile")
 I18N_NOOP("Surprised")

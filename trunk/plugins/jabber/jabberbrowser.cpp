@@ -627,6 +627,7 @@ void *JabberBrowser::processEvent(Event *e)
             }
             if (it->text(COL_NAME).isEmpty() || (it->text(COL_NAME) == it->text(COL_JID)))
                 it->setText(COL_NAME, QString::fromUtf8(item->name.c_str()));
+            it->setText(COL_NODE, "");
             it->setText(COL_CATEGORY, QString::fromUtf8(item->category.c_str()));
             it->setText(COL_TYPE, QString::fromUtf8(item->type.c_str()));
             it->setText(COL_FEATURES, QString::fromUtf8(item->features.c_str()));

@@ -117,7 +117,7 @@ void Buffer::insert(unsigned size)
 {
     if (size == 0)
         return;
-    allocate(size, size);
+    allocate(m_size + size, 0);
     if (m_size)
         memmove(data(size), data(), m_size);
     m_size += size;

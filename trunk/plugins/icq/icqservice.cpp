@@ -54,10 +54,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
     switch (type){
     case ICQ_SNACxSRV_PAUSE:
         log(L_DEBUG, "Server pause");
-        /* we now shouldn't send any packets to the server ...
-        but I don't know how to solve this. Valdimir do you
-        have an idea? */
-        /*        m_bDontSendPakets = true; */
+        m_bNoSend = true;
         snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_PAUSExACK);
         m_socket->writeBuffer << ICQ_SNACxFAM_SERVICE
         << ICQ_SNACxFAM_LOCATION
@@ -68,13 +65,16 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
         << ICQ_SNACxFAM_LISTS
         << ICQ_SNACxFAM_VARIOUS
         << ICQ_SNACxFAM_LOGIN;
-        sendPacket();
+        sendPacket(true);
         break;
     case ICQ_SNACxSRV_RESUME:
-        /*        m_bDontSendPakets = true;
-        		emit canSendPakets(); */
+        log(L_DEBUG, "Server resume");
+        m_bNoSend = false;
+        processSendQueue();
         break;
     case ICQ_SNACxSRV_MIGRATE:{
+            log(L_DEBUG, "Server migrate");
+            m_bNoSend = true;
             int i;
             unsigned short cnt;
             unsigned short fam[0x17];
@@ -89,86 +89,68 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
             for (; i >= 0; i--) {
                 setServiceSocket(tlv_adr,tlv_cookie,fam[i]);
             }
-            /*            m_bDontSendPakets = true;
-                        emit canSendPakets(); */
-            break;
-        }
-    case ICQ_SNACxSRV_RATExCHANGE:{
-            const char *msg_text;
-            unsigned short msg_code;
-            unsigned short class_id;
-            int window_size;
-            int clear_level;
-            int alert_level;
-            int limit_level;
-            int discon_level;
-            int current_level;
-            int max_level;
-            int last_level;
-            char current_state;
-            m_socket->readBuffer >> msg_code;
-            m_socket->readBuffer >> class_id;
-            m_socket->readBuffer >> window_size;
-            m_socket->readBuffer >> clear_level;
-            m_socket->readBuffer >> alert_level;
-            m_socket->readBuffer >> limit_level;
-            m_socket->readBuffer >> discon_level;
-            m_socket->readBuffer >> current_level;
-            m_socket->readBuffer >> max_level;
-            m_socket->readBuffer >> last_level;
-            m_socket->readBuffer >> current_state;
-            switch (msg_code) {
-            case 0x0001:
-                msg_text = "Rate limits parameters changed";
-                break;
-            case 0x0002:
-                msg_text = "Rate limits warning";
-                if (m_nSendTimeout < 200){
-                    m_nSendTimeout = m_nSendTimeout + 2;
-                    if (m_sendTimer->isActive()){
-                        m_sendTimer->stop();
-                        m_sendTimer->start(m_nSendTimeout * 500);
-                    }
-                }
-                break;
-            case 0x0003:
-                msg_text = "Rate limit hit";
-                if (m_nSendTimeout < 200){
-                    m_nSendTimeout = m_nSendTimeout + 4;
-                    if (m_sendTimer->isActive()){
-                        m_sendTimer->stop();
-                        m_sendTimer->start(m_nSendTimeout * 500);
-                    }
-                }
-                break;
-            case 0x0004:
-                msg_text = "Rate limit clear";
-                m_nSendTimeout = m_nSendTimeout /2;
-                if (m_sendTimer->isActive()){
-                    m_sendTimer->stop();
-                    m_sendTimer->start(m_nSendTimeout * 500);
-                    msg_text = "Rate limit clear - set new Timer";
-                }
-                break;
-            default:
-                msg_text = "Unknown";
-            }
-            log(L_DEBUG, msg_text);
-            log(L_DEBUG, "ws: %04X, cl %04X, al %04X, ll %04X, dl: %04X, cur %04X, ml %04X",
-                window_size,clear_level,alert_level,limit_level,discon_level,
-                current_level,max_level);
-            /*          This just increases the traffic and the server gets angry...
-                        snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_RATExACK);
-                        m_socket->writeBuffer << class_id;
-                        sendPacket(); */
             break;
         }
     case ICQ_SNACxSRV_RATExINFO:
+    case ICQ_SNACxSRV_RATExCHANGE:{
+            const char *msg_text = NULL;
+            unsigned short msg_code;
+            unsigned short class_id;
+            unsigned long  window_size;
+            unsigned long  clear_level;
+            unsigned long  alert_level;
+            unsigned long  limit_level;
+            unsigned long  discon_level;
+            unsigned long  current_level;
+            unsigned long  max_level;
+            unsigned long  last_level;
+            char current_state;
+            m_socket->readBuffer >> msg_code
+            >> class_id
+            >> window_size
+            >> clear_level
+            >> alert_level
+            >> limit_level
+            >> discon_level
+            >> current_level
+            >> max_level
+            >> last_level
+            >> current_state;
+            if (type == ICQ_SNACxSRV_RATExCHANGE){
+                switch (msg_code) {
+                case 0x0001:
+                    msg_text = "Rate limits parameters changed";
+                    break;
+                case 0x0002:
+                    msg_text = "Rate limits warning";
+                    break;
+                case 0x0003:
+                    msg_text = "Rate limit hit";
+                    break;
+                case 0x0004:
+                    msg_text = "Rate limit clear";
+                    break;
+                default:
+                    msg_text = "Unknown";
+                }
+                log(L_DEBUG, msg_text);
+            }
+            log(L_DEBUG, "ws: %04X, cl %04X, al %04X, ll %04X, dl: %04X, cur %04X, ml %04X",
+                window_size,clear_level,alert_level,limit_level,discon_level,
+                current_level,max_level);
+            m_winSize  = window_size;
+            m_maxLevel = max_level;
+            m_minLevel = alert_level;
+            m_curLevel = current_level;
+            processSendQueue();
+        }
+        if (type != ICQ_SNACxSRV_RATExINFO)
+            break;
         snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_RATExACK);
         m_socket->writeBuffer << 0x00010002L << 0x00030004L << 0x0005;
-        sendPacket();
+        sendPacket(true);
         snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_GETxUSERxINFO);
-        sendPacket();
+        sendPacket(true);
         listsRequest();
         locationRequest();
         buddyRequest();
@@ -179,7 +161,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
         break;
     case ICQ_SNACxSRV_ACKxIMxICQ:
         snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_REQxRATExINFO);
-        sendPacket();
+        sendPacket(true);
         break;
     case ICQ_SNACxSRV_NAMExINFO:{
             string screen = m_socket->readBuffer.unpackScreen();
@@ -241,7 +223,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
             << 0x000A0001L
             << 0x000B0001L;
         }
-        sendPacket();
+        sendPacket(true);
         break;
     case ICQ_SNACxSRV_ERROR:
         break;
@@ -320,14 +302,14 @@ void ICQClient::sendClientReady()
     << 0x000A0001L << 0x0110047BL
     << 0x000B0001L << 0x0110047BL;
 
-    sendPacket();
+    sendPacket(true);
 }
 
 void ICQClient::sendLogonStatus()
 {
     log(L_DEBUG, "Logon status %u", m_logonStatus);
     if (getInvisible())
-        sendVisibleList();
+        sendInvisible(false);
     sendContactList();
 
     unsigned long now;
@@ -360,9 +342,9 @@ void ICQClient::sendLogonStatus()
     m_socket->writeBuffer.tlv(0x0008, (unsigned short)0);
     m_socket->writeBuffer.tlv(0x000C, directInfo);
 
-    sendPacket();
+    sendPacket(true);
     if (!getInvisible())
-        sendInvisibleList();
+        sendInvisible(true);
     sendIdleTime();
     m_status = m_logonStatus;
 }
@@ -370,19 +352,19 @@ void ICQClient::sendLogonStatus()
 void ICQClient::setInvisible()
 {
     if (getInvisible())
-        sendVisibleList();
+        sendInvisible(false);
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
     m_socket->writeBuffer.tlv(0x0006, fullStatus(m_status));
-    sendPacket();
+    sendPacket(true);
     if (!getInvisible())
-        sendInvisibleList();
+        sendInvisible(true);
 }
 
 void ICQClient::sendStatus()
 {
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
     m_socket->writeBuffer.tlv(0x0006, fullStatus(m_status));
-    sendPacket();
+    sendPacket(true);
     sendIdleTime();
 }
 
@@ -404,7 +386,7 @@ void ICQClient::sendPluginInfoUpdate(unsigned plugin_id)
     b << (char)0;
     m_socket->writeBuffer.tlv(0x0011, b);
     m_socket->writeBuffer.tlv(0x0012, (unsigned short)0);
-    sendPacket();
+    sendPacket(false);
 }
 
 void ICQClient::sendPluginStatusUpdate(unsigned plugin_id, unsigned long status)
@@ -429,7 +411,7 @@ void ICQClient::sendPluginStatusUpdate(unsigned plugin_id, unsigned long status)
     b.pack((unsigned short)1);
     m_socket->writeBuffer.tlv(0x0011, b);
     m_socket->writeBuffer.tlv(0x0012, (unsigned short)0);
-    sendPacket();
+    sendPacket(false);
 }
 
 void ICQClient::sendUpdate()
@@ -446,7 +428,7 @@ void ICQClient::sendUpdate()
     Buffer directInfo(25);
     fillDirectInfo(directInfo);
     m_socket->writeBuffer.tlv(0x000C, directInfo);
-    sendPacket();
+    sendPacket(false);
 }
 
 void ICQClient::fillDirectInfo(Buffer &directInfo)
@@ -506,7 +488,7 @@ void ICQClient::sendIdleTime()
         idle = 1;
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxIDLE);
     m_socket->writeBuffer << idle;
-    sendPacket();
+    sendPacket(false);
     m_bIdleTime = true;
 }
 
@@ -514,5 +496,5 @@ void ICQClient::requestService(ServiceSocket *s)
 {
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SERVICExREQ, true);
     m_socket->writeBuffer << s->id();
-    sendPacket();
+    sendPacket(true);
 }

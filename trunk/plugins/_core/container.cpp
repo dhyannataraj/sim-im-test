@@ -140,6 +140,7 @@ Container::Container(unsigned id, const char *cfg)
     if (cfg && *cfg){
         Buffer config;
         config << "[Title]\n" << cfg;
+        config.setWritePos(0);
         config.getSection();
         load_data(containerData, &data, &config);
     }else{
@@ -386,6 +387,7 @@ void Container::init()
         const char *cfg = getWndConfig(id);
         if (cfg && *cfg){
             config << "[Title]\n" << cfg;
+            config.setWritePos(0);
             config.getSection();
         }
         addUserWnd(new UserWnd(id, &config, false, true), true);
@@ -581,7 +583,7 @@ void Container::flash()
 #else
 #if defined(USE_KDE)
 #if KDE_IS_VERSION(3,2,0)
-KWin::demandAttention(winId(), true);
+    KWin::demandAttention(winId(), true);
 #endif	/* KDE_IS_VERSION(3,2,0) */
 #endif	/* USE_KDE */
 #endif	/* ndef WIN32 */

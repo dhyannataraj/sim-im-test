@@ -1302,7 +1302,9 @@ void DirectClient::processMsgQueue()
                 if ((sm.msg->getFlags() & MESSAGE_RICHTEXT) &&
                         (m_client->getSendFormat() == 0) &&
                         (m_client->hasCap(m_data, CAP_RTF))){
-                    message = m_client->createRTF(sm.msg->getRichText(), sm.msg->getForeground(), m_client->getContact(m_data));
+                    QString text = sm.msg->getRichText();
+                    QString part;
+                    message = m_client->createRTF(text, part, sm.msg->getForeground(), m_client->getContact(m_data), 0xFFFFFFFF);
                     sm.type = CAP_RTF;
                 }else if (m_client->hasCap(m_data, CAP_UTF) &&
                           (m_client->getSendFormat() <= 1) &&
@@ -1337,7 +1339,7 @@ void DirectClient::processMsgQueue()
             case MessageOpenSecure:
             case MessageCloseSecure:
                 startPacket(TCP_START, 0);
-                m_client->packMessage(mb, sm.msg, m_data, sm.icq_type);
+                m_client->packMessage(mb, sm.msg, m_data, sm.icq_type, true);
                 sendPacket();
                 sm.seq = m_nSequence;
                 break;
@@ -1478,7 +1480,7 @@ bool ICQ_SSLClient::initSSL()
 #if OPENSSL_VERSION_NUMBER >= 0x00905000L
     SSL_CTX_set_cipher_list(pCTX, "ADH:@STRENGTH");
 #else
-SSL_CTX_set_cipher_list(pCTX, "ADH");
+    SSL_CTX_set_cipher_list(pCTX, "ADH");
 #endif
     DH *dh = get_dh512();
     SSL_CTX_set_tmp_dh(pCTX, dh);
@@ -2105,8 +2107,8 @@ void AIMFileTransfer::bind_ready(unsigned short port)
     s.socket = this;
     s.screen = m_client->screen(m_data);
     s.msg	 = m_msg;
-    m_client->sendQueue.push_front(s);
-    m_client->send(false);
+    m_client->sendFgQueue.push_front(s);
+    m_client->processSendQueue();
 }
 
 bool AIMFileTransfer::accept(Socket *s, unsigned long)

@@ -1799,7 +1799,6 @@ EXPORT void disableWidget(QWidget *w);
 EXPORT QString toTranslit(const QString&);
 EXPORT bool isLatin(const QString&);
 EXPORT QString getPart(QString&, unsigned size);
-EXPORT QString getRichTextPart(QString&, unsigned size);
 
 typedef struct smile
 {

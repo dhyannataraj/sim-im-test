@@ -86,6 +86,7 @@ ProxyData::ProxyData(const char *cfg)
 {
     Buffer config;
     config << "[Title]\n" << cfg;
+    config.setWritePos(0);
     config.getSection();
     load_data(_proxyData, this, &config);
     bInit = true;
@@ -132,6 +133,8 @@ ProxyData& ProxyData::operator = (const ProxyData &d)
     if (d.bInit){
         Buffer cfg;
         cfg << "[Title]\n" << save_data(_proxyData, (void*)(&d)).c_str();
+        cfg.setWritePos(0);
+        cfg.getSection();
         load_data(_proxyData, this, &cfg);
         bInit = true;
         Default = d.Default;

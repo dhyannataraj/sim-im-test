@@ -1035,7 +1035,7 @@ QString ICQClient::packContacts(ContactsMessage *msg, ICQUserData *data, CONTACT
     return newContacts;
 }
 
-void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned short &type, unsigned short flags)
+void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned short &type, bool bDirect, unsigned short flags)
 {
     Buffer msgBuf;
     Buffer buf;
@@ -1089,9 +1089,14 @@ void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned
         if (msg->getFlags() & MESSAGE_LIST)
             flags = ICQ_TCPxMSG_LIST;
     }
-    b.pack(type);
-    b.pack(msgStatus());
-    b.pack(flags);
+    if (bDirect || (type == ICQ_MSGxEXT)){
+        b.pack(type);
+        b.pack(msgStatus());
+        b.pack(flags);
+    }else{
+        b.pack(this->data.owner.Uin.value);
+        b.pack(type);
+    }
     b << res;
     if (buf.size()){
         b.pack((unsigned short)buf.size());

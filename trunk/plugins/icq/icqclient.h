@@ -24,6 +24,8 @@
 #include "socket.h"
 #include "icq.h"
 
+#include <qdatetime.h>
+
 #include <map>
 using namespace std;
 
@@ -139,6 +141,9 @@ const unsigned MAX_PLAIN_MESSAGE_SIZE = 450;
 const unsigned MAX_TYPE2_MESSAGE_SIZE = 4096;
 
 const unsigned PING_TIMEOUT = 60;
+
+const unsigned RATE_PAUSE = 3;
+const unsigned RATE_LIMIT = 5;
 
 const unsigned short SEARCH_DONE = (unsigned short)(-1);
 
@@ -419,19 +424,15 @@ public:
     OscarSocket();
     virtual ~OscarSocket();
 protected:
+    void sendPacket(bool bSend=true);
     virtual ClientSocket *socket() = 0;
     virtual void packet() = 0;
-    void sendPacket();
     void flap(char channel);
     void snac(unsigned short fam, unsigned short type, bool msgId=false, bool bType=true);
     void connect_ready();
     void packet_ready();
-    void write_ready();
     bool m_bHeader;
     char m_nChannel;
-    Buffer   delayed;
-    unsigned m_time;
-    unsigned m_packets;
     unsigned short m_nSequence;
     unsigned short m_nMsgSequence;
 };
@@ -535,11 +536,13 @@ public:
     static QString addCRLF(const QString &str);
 protected slots:
     void ping();
-    void infoRequest();
+    bool infoRequest();
     void infoRequestFail();
     void processSendQueue();
+    void sendTimeout();
     void retry(int n, void*);
 protected:
+    void sendPacket(bool bSend);
     virtual void setInvisible(bool bState);
     virtual void setStatus(unsigned status, bool bCommon);
     virtual void setStatus(unsigned status);
@@ -590,23 +593,21 @@ protected:
     void setServiceSocket(Tlv *tlv_addr, Tlv *tlv_cookie, unsigned short service);
     void serverRequest(unsigned short cmd, unsigned short seq=0);
     void sendServerRequest();
-    void sendVisibleList();
-    void sendInvisibleList();
+    void sendInvisible(bool bState);
     void sendContactList();
     void setInvisible();
     void setOffline(ICQUserData*);
     void fillDirectInfo(Buffer &directInfo);
     void removeFullInfoRequest(unsigned long uin);
-    void send(bool bTimer);
     void requestService(ServiceSocket*);
     unsigned long fullStatus(unsigned status);
     string cryptPassword();
     virtual void connect_ready();
     virtual void packet_ready();
-    virtual void write_ready();
     const char* error_message(unsigned short error);
     ICQListener		*m_listener;
     list<ServiceSocket*> m_services;
+    QTimer *m_processTimer;
     QTimer *m_sendTimer;
     QTimer *m_infoTimer;
     unsigned short m_infoRequestId;
@@ -616,12 +617,14 @@ protected:
     unsigned m_listRequestTime;
     bool m_bRosters;
     bool m_bBirthday;
+    bool m_bNoSend;
     list<ServerRequest*> varRequests;
     list<unsigned long>  infoRequests;
     list<string>		 buddies;
     list<ListRequest>    listRequests;
     list<SendMsg>        smsQueue;
-    list<SendMsg>        sendQueue;
+    list<SendMsg>        sendFgQueue;
+    list<SendMsg>		 sendBgQueue;
     list<SendMsg>        replyQueue;
     list<ar_request>    arRequests;
     void addGroupRequest(Group *group);
@@ -634,8 +637,8 @@ protected:
     void clearListServerRequest();
     void clearSMSQueue();
     void clearMsgQueue();
-    void processListRequest();
-    void processSMSQueue();
+    bool processListRequest();
+    bool processSMSQueue();
     void infoRequestPause();
     void sendIdleTime();
     void sendPluginInfoUpdate(unsigned plugin_id);
@@ -659,7 +662,7 @@ protected:
     bool isOwnData(const char *screen);
     void packInfoList(char *str);
     QString packContacts(ContactsMessage *msg, ICQUserData *data, CONTACTS_MAP &c);
-    string createRTF(const QString &text, unsigned long foreColor, Contact *contact);
+    string createRTF(QString &text, QString &part, unsigned long foreColor, Contact *contact, unsigned max_size);
     QString removeImages(const QString &text, unsigned maxSmile);
     void ackMessage(SendMsg &s);
     void accept(Message *msg, const char *dir, OverwriteMode overwrite);
@@ -682,7 +685,7 @@ protected:
     Message *parseExtendedMessage(const char *screen, Buffer &packet, MessageId &id, unsigned cookie);
     void parsePluginPacket(Buffer &b, unsigned plugin_index, ICQUserData *data, unsigned uin, bool bDirect);
     void pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &b);
-    void packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned short &type, unsigned short flags=ICQ_TCPxMSG_NORMAL);
+    void packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned short &type, bool bDirect, unsigned short flags=ICQ_TCPxMSG_NORMAL);
     void packExtendedMessage(Message *msg, Buffer &buf, Buffer &msgBuf, ICQUserData *data);
     bool ackMessage(Message *msg, unsigned short ackFlags, const char *str);
     void fetchProfile(ICQUserData *data);
@@ -691,16 +694,25 @@ protected:
     void setAwayMessage(const char *msg);
     void encodeString(const QString &text, const char *type, unsigned short charsetTlv, unsigned short infoTlv);
     void encodeString(const char *_str, unsigned short nTlv, bool bWide);
+    bool processMsg();
+    Buffer   delayed;
     ICQUserData *findInfoRequest(unsigned short seq, Contact *&contact);
     INFO_REQ_MAP m_info_req;
     unsigned short msgStatus();
     unsigned short m_advCounter;
     unsigned m_nUpdates;
-    unsigned m_nSendTimeout;
     bool     m_bJoin;
     bool	 m_bFirstTry;
     bool	 m_bHTTP;
+    bool	 m_bReady;
     SendMsg  m_send;
+    QDateTime m_lastSend;
+    unsigned			m_curLevel;
+    unsigned			m_maxLevel;
+    unsigned			m_minLevel;
+    unsigned			m_winSize;
+    unsigned			newLevel();
+    unsigned			delayTime();
     list<Message*>     	m_processMsg;
     list<DirectSocket*>	m_sockets;
     list<Message*>		m_acceptMsg;
@@ -726,7 +738,6 @@ public:
 protected:
     virtual void connect_ready();
     virtual void packet_ready();
-    virtual void write_ready();
     virtual ClientSocket *socket();
     virtual void packet();
     virtual void data(unsigned short fam, unsigned short type, unsigned short seq) = 0;

@@ -659,7 +659,7 @@ void JabberClient::setClientInfo(void *_data)
     JabberUserData *data = (JabberUserData*)_data;
     if (getState() != Connected)
         return;
-    SetInfoRequest *req = new SetInfoRequest(this, data);
+    SetInfoRequest *req = new SetInfoRequest(this, &this->data.owner);
     req->start_element("vCard");
     req->add_attribute("prodid", "-//HandGen//NONSGML vGen v1.0//EN");
     req->add_attribute("xmlns", "vcard-temp");

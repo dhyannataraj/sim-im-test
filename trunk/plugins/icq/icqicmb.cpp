@@ -39,6 +39,9 @@
 #include <qimage.h>
 #include <qregexp.h>
 
+const unsigned MAX_TYPE2_SIZE	= 0x1800;
+const unsigned SEND_TIMEOUT		= 50000;
+
 bool operator < (const alias_group &s1, const alias_group &s2)
 {
     return s1.grp < s2.grp;
@@ -90,7 +93,8 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                 Contact *contact;
                 ICQUserData *data = findContact(m_send.screen.c_str(), NULL, false, contact);
                 if (data){
-                    for (list<SendMsg>::iterator it = sendQueue.begin(); it != sendQueue.end();){
+                    list<SendMsg>::iterator it;
+                    for (it = sendFgQueue.begin(); it != sendFgQueue.end();){
                         if ((*it).screen != m_send.screen){
                             ++it;
                             continue;
@@ -100,8 +104,21 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                             ++it;
                             continue;
                         }
-                        sendQueue.erase(it);
-                        it = sendQueue.begin();
+                        sendFgQueue.erase(it);
+                        it = sendFgQueue.begin();
+                    }
+                    for (it = sendBgQueue.begin(); it != sendBgQueue.end();){
+                        if ((*it).screen != m_send.screen){
+                            ++it;
+                            continue;
+                        }
+                        if ((*it).msg){
+                            (*it).flags = 0;
+                            ++it;
+                            continue;
+                        }
+                        sendBgQueue.erase(it);
+                        it = sendBgQueue.begin();
                     }
                     data->bBadClient.bValue = true;
                     if (m_send.msg)
@@ -109,7 +126,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                     m_send.msg    = NULL;
                     m_send.screen = "";
                     m_sendTimer->stop();
-                    send(true);
+                    processSendQueue();
                     break;
                 }
             }else{
@@ -134,7 +151,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             m_send.msg    = NULL;
             m_send.screen = "";
             m_sendTimer->stop();
-            send(true);
+            processSendQueue();
             break;
         }
     case ICQ_SNACxMSG_SRV_MISSED_MSG: {
@@ -226,7 +243,9 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         ICQUserData *data = findContact(screen.c_str(), NULL, false, contact);
                         if (((data == NULL) || (data->Status.value == ICQ_STATUS_OFFLINE) || (getAckMode() == 1)) &&
                                 (m_send.msg->type() != MessageFile)){
+                            m_sendTimer->stop();
                             ackMessage(m_send);
+                            return;
                         }else{
                             replyQueue.push_back(m_send);
                         }
@@ -238,7 +257,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             m_send.msg    = NULL;
             m_send.screen = "";
             m_sendTimer->stop();
-            send(true);
+            processSendQueue();
             break;
         }
     case ICQ_SNACxMSG_AUTOREPLY:{
@@ -484,7 +503,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
 void ICQClient::icmbRequest()
 {
     snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_REQUESTxRIGHTS);
-    sendPacket();
+    sendPacket(true);
 }
 
 void ICQClient::sendICMB(unsigned short channel, unsigned long flags)
@@ -497,7 +516,7 @@ void ICQClient::sendICMB(unsigned short channel, unsigned long flags)
     << (unsigned short)999		// max receiver warning level
     << (unsigned short)0		// min message interval
     << (unsigned short)0;		// unknown
-    sendPacket();
+    sendPacket(true);
 }
 
 bool ICQClient::sendThruServer(Message *msg, void *_data)
@@ -516,8 +535,8 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
             s.msg    = msg;
             s.text   = msg->getRichText();
             s.screen = screen(data);
-            sendQueue.push_front(s);
-            send(false);
+            sendFgQueue.push_back(s);
+            processSendQueue();
             return true;
         }
         if ((data->Status.value != ICQ_STATUS_OFFLINE) &&
@@ -529,8 +548,8 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
             s.msg    = msg;
             s.text   = addCRLF(msg->getPlainText());
             s.screen = screen(data);
-            sendQueue.push_front(s);
-            send(false);
+            sendFgQueue.push_back(s);
+            processSendQueue();
             return true;
         }
         if ((data->Status.value != ICQ_STATUS_OFFLINE) &&
@@ -541,8 +560,8 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
             s.msg    = msg;
             s.text   = msg->getPlainText();
             s.screen = screen(data);
-            sendQueue.push_front(s);
-            send(false);
+            sendFgQueue.push_back(s);
+            processSendQueue();
             return true;
         }
         if ((data->Uin.value == 0) || m_bAIM ||
@@ -557,16 +576,16 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
                 s.text	 = msg->getPlainText();
             }
             s.screen = screen(data);
-            sendQueue.push_front(s);
-            send(false);
+            sendFgQueue.push_back(s);
+            processSendQueue();
             return true;
         }
         s.flags	 = SEND_PLAIN;
         s.msg	 = msg;
         s.text	 = addCRLF(msg->getPlainText());
         s.screen = screen(data);
-        sendQueue.push_front(s);
-        send(false);
+        sendFgQueue.push_back(s);
+        processSendQueue();
         return true;
     case MessageUrl:
         if ((data->Uin.value == 0) || m_bAIM ||
@@ -583,8 +602,8 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
             s.msg	 = msg;
             s.text	 = text;
             s.screen = screen(data);
-            sendQueue.push_front(s);
-            send(false);
+            sendFgQueue.push_back(s);
+            processSendQueue();
             return true;
         }
     case MessageContacts:
@@ -594,8 +613,12 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
         s.flags  = SEND_RAW;
         s.msg    = msg;
         s.screen = screen(data);
-        sendQueue.push_front(s);
-        send(false);
+        if (msg->type() == MessageCheckInvisible){
+            sendBgQueue.push_back(s);
+        }else{
+            sendFgQueue.push_back(s);
+        }
+        processSendQueue();
         return true;
     }
     return false;
@@ -617,7 +640,7 @@ void ICQClient::sendThroughServer(const char *screen, unsigned short channel, Bu
         m_socket->writeBuffer.tlv(3);		// req. ack from server
     if (bOffline)
         m_socket->writeBuffer.tlv(6);	// store if user is offline
-    sendPacket();
+    sendPacket(true);
 }
 
 static char c2h(char c)
@@ -663,7 +686,8 @@ void ICQClient::ackMessage(SendMsg &s)
         delete s.msg;
         s.msg = NULL;
         s.screen = "";
-        send(true);
+        m_sendTimer->stop();
+        processSendQueue();
         return;
     }
     if ((s.msg->getFlags() & MESSAGE_NOHISTORY) == 0){
@@ -700,9 +724,10 @@ void ICQClient::ackMessage(SendMsg &s)
         s.msg = NULL;
         s.screen = "";
     }else{
-        sendQueue.push_front(s);
+        sendFgQueue.push_front(s);
     }
-    send(true);
+    m_sendTimer->stop();
+    processSendQueue();
 }
 
 bool ICQClient::ackMessage(Message *msg, unsigned short ackFlags, const char *str)
@@ -787,7 +812,8 @@ void ICQClient::sendType2(const char *screen, Buffer &msgBuf, const MessageId &i
 
 void ICQClient::clearMsgQueue()
 {
-    for (list<SendMsg>::iterator it = sendQueue.begin(); it != sendQueue.end(); ++it){
+    list<SendMsg>::iterator it;
+    for (it = sendFgQueue.begin(); it != sendFgQueue.end(); ++it){
         if ((*it).socket){
             // dunno know if this is ok - vladimir please take a look
             (*it).socket->acceptReverse(NULL);
@@ -800,7 +826,21 @@ void ICQClient::clearMsgQueue()
             delete (*it).msg;
         }
     }
-    sendQueue.clear();
+    sendFgQueue.clear();
+    for (it = sendBgQueue.begin(); it != sendBgQueue.end(); ++it){
+        if ((*it).socket){
+            // dunno know if this is ok - vladimir please take a look
+            (*it).socket->acceptReverse(NULL);
+            continue;
+        }
+        if ((*it).msg) {
+            (*it).msg->setError(I18N_NOOP("Client go offline"));
+            Event e(EventMessageSent, (*it).msg);
+            e.process();
+            delete (*it).msg;
+        }
+    }
+    sendBgQueue.clear();
     if (m_send.msg){
         m_send.msg->setError(I18N_NOOP("Client go offline"));
         Event e(EventMessageSent, m_send.msg);
@@ -994,7 +1034,7 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
         m_socket->writeBuffer << id.id_l << id.id_h << 0x0002;
         m_socket->writeBuffer.packScreen(screen);
         m_socket->writeBuffer << 0x0003 << 0x0002 << 0x0002;
-        sendPacket();
+        sendPacket(false);
         ContactsMessage *msg = new ContactsMessage;
         msg->setContacts(contacts);
         messageReceived(msg, screen);
@@ -1158,7 +1198,8 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
                     m_send.msg    = NULL;
                     m_send.screen = "";
                     m_sendTimer->stop();
-                    send(true);
+                    processSendQueue();
+                    return;
                 }
                 list<SendMsg>::iterator it;
                 for (it = replyQueue.begin(); it != replyQueue.end(); ++it){
@@ -1297,7 +1338,7 @@ void ICQClient::sendAutoReply(const char *screen, MessageId id,
             m_socket->writeBuffer << 0x00000000L << 0xFFFFFF00L;
         }
     }
-    sendPacket();
+    sendPacket(false);
 }
 
 void ICQClient::sendMTN(const char *screen, unsigned short type)
@@ -1308,7 +1349,7 @@ void ICQClient::sendMTN(const char *screen, unsigned short type)
     m_socket->writeBuffer << 0x00000000L << 0x00000000L << (unsigned short)0x0001;
     m_socket->writeBuffer.packScreen(screen);
     m_socket->writeBuffer << type;
-    sendPacket();
+    sendPacket(true);
 }
 
 class AIMParser : public HTMLParser
@@ -1432,7 +1473,7 @@ void AIMParser::tag_end(const QString &tag)
     res += ">";
 }
 
-void ICQClient::processSendQueue()
+void ICQClient::sendTimeout()
 {
     m_sendTimer->stop();
     if (m_send.screen.length()){
@@ -1454,388 +1495,529 @@ void ICQClient::processSendQueue()
         }
         m_send.msg = NULL;
         m_send.screen = "";
-        send(true);
+    }
+    processSendQueue();
+}
+
+void ICQClient::processSendQueue()
+{
+    log(L_DEBUG, "Process send queue");
+    if (m_sendTimer->isActive())
+        return;
+    m_processTimer->stop();
+    if (m_bNoSend)
+        return;
+    if (getState() != Connected){
+        m_sendTimer->stop();
         return;
     }
-    m_sendTimer->start(50000);
-    for (;;){
-        if ((getState() != Connected) || sendQueue.empty()){
+    if (m_bReady){
+        while (!sendFgQueue.empty()){
+            unsigned delay = delayTime();
+            if (delay){
+                log(L_DEBUG, "Delay: %u", delay);
+                m_processTimer->start(delay);
+                return;
+            }
+            log(L_DEBUG, "Process fg queue");
+            m_send = sendFgQueue.front();
+            sendFgQueue.pop_front();
+            m_sendTimer->start(SEND_TIMEOUT);
+            if (processMsg())
+                return;
             m_sendTimer->stop();
+        }
+    }
+    for (;;){
+        if (delayed.readPos() == delayed.writePos())
+            break;
+        unsigned delay = delayTime();
+        if (delay){
+            log(L_DEBUG, "Delay: %u", delay);
+            m_processTimer->start(delay);
             return;
         }
-        m_send = sendQueue.front();
-        sendQueue.pop_front();
-
-        Contact *contact;
-        ICQUserData *data = findContact(m_send.screen.c_str(), NULL, false, contact);
-        if ((data == NULL) && (m_send.flags != PLUGIN_RANDOMxCHAT)){
-            if (m_send.msg != NULL)
-            {
-                m_send.msg->setError(I18N_NOOP("No contact"));
-                Event e(EventMessageSent, m_send.msg);
-                e.process();
-                delete m_send.msg;
-                m_send.msg = NULL;
-            }
-            m_send.screen = "";
-            continue;
-        }
-        unsigned type = 0;
-        if (m_send.msg)
-            type = m_send.msg->type(),
-                   log(L_DEBUG, "Send: %s %u %X", m_send.screen.c_str(), type, m_send.flags);
-        if (m_send.msg && (m_send.socket == NULL)){
-            unsigned short type;
-            Buffer b;
-            m_send.id.id_l = rand();
-            m_send.id.id_h = rand();
-            switch (m_send.msg->type()){
-            case MessageContacts:
-                if (data->Uin.value == 0){
-                    CONTACTS_MAP c;
-                    QString nc = packContacts(static_cast<ContactsMessage*>(m_send.msg), data, c);
-                    if (c.empty()){
-                        m_send.msg->setError(I18N_NOOP("No contacts for send"));
-                        Event e(EventMessageSent, m_send.msg);
-                        e.process();
-                        delete m_send.msg;
-                        m_send.msg = NULL;
-                        m_send.screen = "";
-                        continue;
-                    }
-                    static_cast<ContactsMessage*>(m_send.msg)->setContacts(nc);
-                    Buffer msgBuf;
-                    vector<alias_group> cc;
-                    for (CONTACTS_MAP::iterator it = c.begin(); it != c.end(); ++it){
-                        alias_group c;
-                        c.alias = (*it).first.c_str();
-                        c.grp   = (*it).second.grp;
-                        cc.push_back(c);
-                    }
-                    sort(cc.begin(), cc.end());
-
-                    unsigned grp   = (unsigned)(-1);
-                    unsigned start = 0;
-                    unsigned short size = 0;
-                    unsigned i;
-                    for (i = 0; i < cc.size(); i++){
-                        if (cc[i].grp != grp){
-                            if (grp != (unsigned)(-1)){
-                                string s = "Not in list";
-                                if (grp){
-                                    Group *group = getContacts()->group(grp);
-                                    if (group)
-                                        s = group->getName().utf8();
-                                }
-                                msgBuf.pack(s);
-                                msgBuf << size;
-                                for (unsigned j = start; j < i; j++)
-                                    msgBuf.pack(cc[j].alias);
-                            }
-                            size  = 0;
-                            start = i;
-                            grp   = cc[i].grp;
-                        }
-                        size++;
-                    }
-                    string s = "Not in list";
-                    if (grp){
-                        Group *group = getContacts()->group(grp);
-                        if (group)
-                            s = group->getName().utf8();
-                    }
-                    msgBuf.pack(s);
-                    msgBuf << size;
-                    for (unsigned j = start; j < i; j++)
-                        msgBuf.pack(cc[j].alias);
-                    m_send.id.id_l = rand();
-                    m_send.id.id_h = rand();
-                    sendType2(m_send.screen.c_str(), msgBuf, m_send.id, CAP_AIM_BUDDYLIST, false, 0);
-                    return;
-                }
-            case MessageUrl:{
-                    if (data->Uin.value == 0)
-                        break;
-                    packMessage(b, m_send.msg, data, type);
-                    const char *err = m_send.msg->getError();
-                    if (err && *err){
-                        Event e(EventMessageSent, m_send.msg);
-                        e.process();
-                        delete m_send.msg;
-                        m_send.msg = NULL;
-                        m_send.screen = "";
-                        continue;
-                    }
-                    sendThroughServer(screen(data).c_str(), 4, b, m_send.id, true, true);
-                    if ((data->Status.value != ICQ_STATUS_OFFLINE) || (getAckMode() == 0))
-                        ackMessage(m_send);
-                    return;
-                }
-            case MessageFile:
-                packMessage(b, m_send.msg, data, type);
-                sendAdvMessage(screen(data).c_str(), b, PLUGIN_NULL, m_send.id, false, true);
-                return;
-            case MessageCheckInvisible:{
-                    Buffer b;
-                    sendThroughServer(m_send.screen.c_str(), 2, b, m_send.id, true, false);
-                    return;
-                }
-            case MessageWarning:{
-                    WarningMessage *msg = static_cast<WarningMessage*>(m_send.msg);
-                    snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_BLAMExUSER, true);
-                    m_send.id.id_l = m_nMsgSequence;
-                    unsigned short flag = 0;
-                    if (msg->getAnonymous())
-                        flag = 1;
-                    m_socket->writeBuffer << flag;
-                    m_socket->writeBuffer.packScreen(screen(data).c_str());
-                    sendPacket();
-                    return;
-                }
-            }
-            string text;
-            switch (m_send.flags & SEND_MASK){
-            case SEND_RTF:
-                m_send.part = getRichTextPart(m_send.text, MAX_TYPE2_MESSAGE_SIZE);
-                text = createRTF(m_send.part, m_send.msg->getForeground(), contact);
-                break;
-            case SEND_UTF:
-                m_send.part = getPart(m_send.text, MAX_TYPE2_MESSAGE_SIZE);
-                text = m_send.part.utf8();
-                break;
-            case SEND_TYPE2:{
-                    m_send.part = getPart(m_send.text, MAX_TYPE2_MESSAGE_SIZE);
-                    text = getContacts()->fromUnicode(contact, m_send.part);
-                    messageSend ms;
-                    ms.msg  = m_send.msg;
-                    ms.text = &text;
-                    Event e(EventSend, &ms);
-                    e.process();
-                    break;
-                }
-            case SEND_HTML:
-            case SEND_HTML_PLAIN:{
-                    QString t;
-                    if ((m_send.flags & SEND_MASK) == SEND_HTML){
-                        m_send.part = getRichTextPart(m_send.text, MAX_TYPE2_MESSAGE_SIZE);
-                    }else{
-                        m_send.part = getPart(m_send.text, MAX_TYPE2_MESSAGE_SIZE);
-                    }
-                    char b[15];
-                    sprintf(b, "%06X", (unsigned)(m_send.msg->getBackground() & 0xFFFFFF));
-                    t += "<HTML><BODY BGCOLOR=\"#";
-                    t += b;
-                    t += "\">";
-                    if ((m_send.flags & SEND_MASK) == SEND_HTML){
-                        AIMParser p;
-                        t += p.parse(m_send.part);
-                    }else{
-                        string s;
-                        s = m_send.part.utf8();
-                        messageSend ms;
-                        ms.msg  = m_send.msg;
-                        ms.text = &s;
-                        Event e(EventSend, &ms);
-                        e.process();
-                        t += quoteString(QString::fromUtf8(s.c_str()));
-                    }
-                    t += "</BODY></HTML>";
-                    bool bWide = false;
-                    for (int i = 0; i < (int)(t.length()); i++){
-                        if (t[i].unicode() > 0x7F){
-                            bWide = true;
-                            break;
-                        }
-                    }
-                    sendType1(t, bWide, data);
-                    return;
-                }
-            default:
-                m_send.part = getPart(m_send.text, MAX_PLAIN_MESSAGE_SIZE);
-                sendType1(m_send.part, false, data);
-                return;
-            }
-
-            Buffer msgBuf;
-            unsigned short size  = (unsigned short)(text.length() + 1);
-            unsigned short flags = ICQ_TCPxMSG_NORMAL;
-            if (m_send.msg->getFlags() & MESSAGE_URGENT)
-                flags = ICQ_TCPxMSG_URGENT;
-            if (m_send.msg->getFlags() & MESSAGE_LIST)
-                flags = ICQ_TCPxMSG_LIST;
-            msgBuf.pack((unsigned short)1);
-            msgBuf.pack(msgStatus());
-            msgBuf.pack(flags);
-            msgBuf.pack(size);
-            msgBuf.pack(text.c_str(), size);
-            if (m_send.msg->getBackground() == m_send.msg->getForeground()){
-                msgBuf << 0x00000000L << 0xFFFFFF00L;
-            }else{
-                msgBuf << (m_send.msg->getForeground() << 8) << (m_send.msg->getBackground() << 8);
-            }
-            if ((m_send.flags & SEND_MASK) != SEND_TYPE2){
-                msgBuf << 0x26000000L;
-                packCap(msgBuf, capabilities[((m_send.flags & SEND_MASK) == SEND_RTF) ? CAP_RTF : CAP_UTF]);
-            }
-            m_send.id.id_l = rand();
-            m_send.id.id_h = rand();
-            sendAdvMessage(m_send.screen.c_str(), msgBuf, PLUGIN_NULL, m_send.id, true, false);
-            return;
-        }
-        if (m_send.socket){
-            Buffer msgBuf;
-            if (m_send.flags == PLUGIN_AIM_FT_ACK){
-                AIMFileMessage *msg = static_cast<AIMFileMessage*>(m_send.msg);
-                m_send.id.id_l = msg->getID_L();
-                m_send.id.id_h = msg->getID_H();
-                Buffer b;
-                b << (unsigned short)0;
-                b << m_send.id.id_l << m_send.id.id_h;
-                b.pack((char*)capabilities[CAP_AIM_SENDFILE], sizeof(capability));
-                b.tlv(0x0A, (unsigned short)2);
-                b.tlv(0x03, (unsigned long)htonl(get_ip(this->data.owner.RealIP)));
-                b.tlv(0x05, static_cast<AIMFileTransfer*>(msg->m_transfer)->remotePort());
-                sendThroughServer(m_send.screen.c_str(), 2, b, m_send.id, false, false);
-                replyQueue.push_back(m_send);
-                m_send.msg    = NULL;
-                m_send.screen = "";
-                continue;
-            }
-            m_send.id.id_l = rand();
-            m_send.id.id_h = rand();
-            if (m_send.flags == PLUGIN_AIM_FT){
-                TlvList tlvs;
-                tlvs + new Tlv(0x0E, 2, "en");
-                char b[15];
-                sprintf(b, "%06X", (unsigned)(m_send.msg->getBackground() & 0xFFFFFF));
-                QString text = QString("<HTML><BODY BGCOLOR=\"#%1\">%2</BODY></HTML>")
-                               .arg(b)
-                               .arg(removeImages(m_send.msg->getRichText(), 0));
-                bool bWide = false;
-                int i;
-                for (i = 0; i < (int)(text.length()); i++){
-                    if (text[i].unicode() > 0x7F){
-                        bWide = true;
-                        break;
-                    }
-                }
-                string charset = bWide ? "unicode-2-0" : "us-ascii";
-                tlvs + new Tlv(0x0D, charset.length(), charset.c_str());
-                string st;
-                if (bWide){
-                    for (i = 0; i < (int)(text.length()); i++){
-                        unsigned short s = text[i].unicode();
-                        st += (char)((s >> 8) & 0xFF);
-                        st += (char)(s & 0xFF);
-                    }
-                }else{
-                    st = text.utf8();
-                }
-                tlvs + new Tlv(0x0C, st.length(), st.c_str());
-                FileMessage *msg = static_cast<FileMessage*>(m_send.msg);
-                FileMessage::Iterator it(*msg);
-                msgBuf
-                << (unsigned short)0x0001
-                << (unsigned short)(it.count())
-                << (unsigned long)(it.size());
-                QString fname;
-                if (it.count() == 1){
-                    fname = *(it[0]);
-                    fname = fname.replace(QRegExp("\\\\"), "/");
-                    int n = fname.findRev("/");
-                    if (n >= 0)
-                        fname = fname.mid(n + 1);
-                }else{
-                    fname = QString::number(it.count());
-                    fname += " files";
-                }
-                bWide = false;
-                for (i = 0; i < (int)(fname.length()); i++){
-                    if (fname[i].unicode() > 0x7F){
-                        bWide = true;
-                        break;
-                    }
-                }
-                charset = bWide ? "utf8" : "us-ascii";
-                tlvs + new Tlv(0x2712, charset.length(), charset.c_str());
-                msgBuf << (const char*)(fname.utf8()) << (char)0;
-                sendType2(m_send.screen.c_str(), msgBuf, m_send.id, CAP_AIM_SENDFILE, false, m_send.socket->localPort(), &tlvs);
-                return;
-            }
-            msgBuf.pack(this->data.owner.Uin.value);
-            unsigned long ip = get_ip(this->data.owner.IP);
-            if (ip == get_ip(m_send.socket->m_data->IP))
-                ip = get_ip(this->data.owner.RealIP);
-            msgBuf.pack(ip);
-            msgBuf.pack((unsigned long)(m_send.socket->localPort()));
-            msgBuf.pack((char)MODE_DIRECT);
-            msgBuf.pack((unsigned long)(m_send.socket->remotePort()));
-            msgBuf.pack(this->data.owner.Port.value);
-            msgBuf.pack((unsigned short)8);
-            msgBuf.pack((unsigned long)m_nMsgSequence);
-            sendType2(m_send.screen.c_str(), msgBuf, m_send.id, CAP_DIRECT, false, 0);
-            return;
-        }
-        if (m_send.flags == PLUGIN_AR){
-            log(L_DEBUG, "Request auto response %s", m_send.screen.c_str());
-
-            unsigned long status = data->Status.value;
-            if ((status == ICQ_STATUS_ONLINE) || (status == ICQ_STATUS_OFFLINE))
-                continue;
-
-            unsigned short type = ICQ_MSGxAR_AWAY;
-            if (status & ICQ_STATUS_DND){
-                type = ICQ_MSGxAR_DND;
-            }else if (status & ICQ_STATUS_OCCUPIED){
-                type = ICQ_MSGxAR_OCCUPIED;
-            }else if (status & ICQ_STATUS_NA){
-                type = ICQ_MSGxAR_NA;
-            }else if (status & ICQ_STATUS_FFC){
-                type = ICQ_MSGxAR_FFC;
-            }
-
-            Buffer msg;
-            msg.pack(type);
-            msg.pack((unsigned short)(fullStatus(m_status) & 0xFFFF));
-            msg << 0x0100 << 0x0100 << (char)0;
-
-            m_send.id.id_l = rand();
-            m_send.id.id_h = rand();
-            sendAdvMessage(screen(data).c_str(), msg, PLUGIN_NULL, m_send.id, false, false);
-            return;
-        }else if (m_send.flags == PLUGIN_RANDOMxCHAT){
-            m_send.id.id_l = rand();
-            m_send.id.id_h = rand();
-            Buffer b;
-            b << (char)1 << 0x00000000L << 0x00010000L;
-            sendAdvMessage(m_send.screen.c_str(), b, PLUGIN_RANDOMxCHAT, m_send.id, false, false);
-        }else{
-            unsigned plugin_index = m_send.flags;
-            log(L_DEBUG, "Plugin info request %s (%u)", m_send.screen.c_str(), plugin_index);
-
-            Buffer b;
-            unsigned short type = 0;
-            switch (plugin_index){
-            case PLUGIN_QUERYxINFO:
-            case PLUGIN_PHONEBOOK:
-            case PLUGIN_PICTURE:
-                type = 2;
-                break;
-            }
-            b.pack((unsigned short)1);
-            b.pack((unsigned short)0);
-            b.pack((unsigned short)2);
-            b.pack((unsigned short)1);
-            b.pack((char)0);
-            b.pack((char*)plugins[plugin_index], sizeof(plugin));
-            b.pack((unsigned long)0);
-
-            m_send.id.id_l = rand();
-            m_send.id.id_h = rand();
-            sendAdvMessage(m_send.screen.c_str(), b, type ? PLUGIN_INFOxMANAGER : PLUGIN_STATUSxMANAGER, m_send.id, false, false);
+        unsigned char *packet = (unsigned char*)(delayed.data(delayed.readPos()));
+        unsigned size = (packet[4] << 8) + packet[5] + 6;
+        socket()->writeBuffer.packetStart();
+        socket()->writeBuffer.pack(delayed.data(delayed.readPos()), size);
+        log_packet(socket()->writeBuffer, true, ICQPlugin::icq_plugin->OscarPacket);
+        delayed.incReadPos(size);
+        m_curLevel = newLevel();
+        log(L_DEBUG, "< delay %u %i %X", delayed.readPos(), delayed.writePos(), m_curLevel);
+        socket()->write();
+    }
+    if (delayed.readPos() == delayed.writePos()){
+        delayed.init(0);
+        log(L_DEBUG, "Delay init");
+    }else{
+        m_processTimer->start(RATE_PAUSE * 1000);
+        return;
+    }
+    if (processSMSQueue()){
+        unsigned delay = delayTime();
+        if (delay){
+            log(L_DEBUG, "Delay: %u", delay);
+            m_processTimer->start(delay);
             return;
         }
     }
+    if (infoRequest()){
+        unsigned delay = delayTime();
+        if (delay){
+            log(L_DEBUG, "Delay: %u", delay);
+            m_processTimer->start(delay);
+            return;
+        }
+    }
+    if (processListRequest()){
+        unsigned delay = delayTime();
+        if (delay){
+            log(L_DEBUG, "Delay: %u", delay);
+            m_processTimer->start(delay);
+            return;
+        }
+    }
+    if (m_bReady){
+        while (!sendBgQueue.empty()){
+            unsigned delay = delayTime();
+            if (delay){
+                log(L_DEBUG, "Delay: %u", delay);
+                m_processTimer->start(delay);
+                return;
+            }
+            log(L_DEBUG, "Process bg queue");
+            m_send = sendBgQueue.front();
+            sendBgQueue.pop_front();
+            m_sendTimer->start(SEND_TIMEOUT);
+            if (processMsg())
+                return;
+            m_sendTimer->stop();
+        }
+    }
+}
+
+static QString getUtf8Part(QString &str, unsigned size)
+{
+    if (str.utf8().length() < size){
+        QString res;
+        str = "";
+        return res;
+    }
+    unsigned s = 0;
+    int n;
+    int wordStart = 0;
+    bool bWord = false;
+    for (n = 0; (unsigned)n < str.length(); n++){
+        QChar c = str[n];
+        if (c.isSpace()){
+            if (bWord){
+                unsigned word_size = str.mid(wordStart, n - wordStart).utf8().length();
+                if (s + word_size > 0){
+                    if (wordStart == 0){
+                        s = 0;
+                        for (n = 0; (unsigned)n < str.length(); n++){
+                            unsigned char_size = str.mid(n, 1).utf8().length();
+                            if (s + char_size > 0)
+                                break;
+                        }
+                    }
+                    break;
+                }
+                s += word_size;
+                bWord = false;
+            }
+            unsigned char_size = str.mid(n, 1).utf8().length();
+            if (s + char_size > 0)
+                break;
+            s += char_size;
+        }else if (!bWord){
+            wordStart = n;
+            bWord = true;
+        }
+    }
+    QString res = str.left(n);
+    str = str.mid(n);
+    return res;
+}
+
+bool ICQClient::processMsg()
+{
+    Contact *contact;
+    ICQUserData *data = findContact(m_send.screen.c_str(), NULL, false, contact);
+    if ((data == NULL) && (m_send.flags != PLUGIN_RANDOMxCHAT)){
+        if (m_send.msg != NULL)
+        {
+            m_send.msg->setError(I18N_NOOP("No contact"));
+            Event e(EventMessageSent, m_send.msg);
+            e.process();
+            delete m_send.msg;
+            m_send.msg = NULL;
+        }
+        m_send.screen = "";
+        return false;
+    }
+    unsigned type = 0;
+    if (m_send.msg)
+        type = m_send.msg->type(),
+               log(L_DEBUG, "Send: %s %u %X", m_send.screen.c_str(), type, m_send.flags);
+    if (m_send.msg && (m_send.socket == NULL)){
+        unsigned short type;
+        Buffer b;
+        m_send.id.id_l = rand();
+        m_send.id.id_h = rand();
+        switch (m_send.msg->type()){
+        case MessageContacts:
+            if (data->Uin.value == 0){
+                CONTACTS_MAP c;
+                QString nc = packContacts(static_cast<ContactsMessage*>(m_send.msg), data, c);
+                if (c.empty()){
+                    m_send.msg->setError(I18N_NOOP("No contacts for send"));
+                    Event e(EventMessageSent, m_send.msg);
+                    e.process();
+                    delete m_send.msg;
+                    m_send.msg = NULL;
+                    m_send.screen = "";
+                    return false;
+                }
+                static_cast<ContactsMessage*>(m_send.msg)->setContacts(nc);
+                Buffer msgBuf;
+                vector<alias_group> cc;
+                for (CONTACTS_MAP::iterator it = c.begin(); it != c.end(); ++it){
+                    alias_group c;
+                    c.alias = (*it).first.c_str();
+                    c.grp   = (*it).second.grp;
+                    cc.push_back(c);
+                }
+                sort(cc.begin(), cc.end());
+
+                unsigned grp   = (unsigned)(-1);
+                unsigned start = 0;
+                unsigned short size = 0;
+                unsigned i;
+                for (i = 0; i < cc.size(); i++){
+                    if (cc[i].grp != grp){
+                        if (grp != (unsigned)(-1)){
+                            string s = "Not in list";
+                            if (grp){
+                                Group *group = getContacts()->group(grp);
+                                if (group)
+                                    s = group->getName().utf8();
+                            }
+                            msgBuf.pack(s);
+                            msgBuf << size;
+                            for (unsigned j = start; j < i; j++)
+                                msgBuf.pack(cc[j].alias);
+                        }
+                        size  = 0;
+                        start = i;
+                        grp   = cc[i].grp;
+                    }
+                    size++;
+                }
+                string s = "Not in list";
+                if (grp){
+                    Group *group = getContacts()->group(grp);
+                    if (group)
+                        s = group->getName().utf8();
+                }
+                msgBuf.pack(s);
+                msgBuf << size;
+                for (unsigned j = start; j < i; j++)
+                    msgBuf.pack(cc[j].alias);
+                m_send.id.id_l = rand();
+                m_send.id.id_h = rand();
+                sendType2(m_send.screen.c_str(), msgBuf, m_send.id, CAP_AIM_BUDDYLIST, false, 0);
+                return true;
+            }
+        case MessageUrl:{
+                if (data->Uin.value == 0)
+                    break;
+                packMessage(b, m_send.msg, data, type, false);
+                const char *err = m_send.msg->getError();
+                if (err && *err){
+                    Event e(EventMessageSent, m_send.msg);
+                    e.process();
+                    delete m_send.msg;
+                    m_send.msg = NULL;
+                    m_send.screen = "";
+                    return false;
+                }
+                sendThroughServer(screen(data).c_str(), 4, b, m_send.id, true, false);
+                if (data->Status.value != ICQ_STATUS_OFFLINE)
+                    m_sendTimer->stop();
+                if ((data->Status.value != ICQ_STATUS_OFFLINE) || (getAckMode() == 0))
+                    ackMessage(m_send);
+                return true;
+            }
+        case MessageFile:
+            packMessage(b, m_send.msg, data, type, false);
+            sendAdvMessage(screen(data).c_str(), b, PLUGIN_NULL, m_send.id, false, true);
+            return true;
+        case MessageCheckInvisible:{
+                Buffer b;
+                sendThroughServer(m_send.screen.c_str(), 2, b, m_send.id, true, false);
+                return true;
+            }
+        case MessageWarning:{
+                WarningMessage *msg = static_cast<WarningMessage*>(m_send.msg);
+                snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_BLAMExUSER, true);
+                m_send.id.id_l = m_nMsgSequence;
+                unsigned short flag = 0;
+                if (msg->getAnonymous())
+                    flag = 1;
+                m_socket->writeBuffer << flag;
+                m_socket->writeBuffer.packScreen(screen(data).c_str());
+                sendPacket(false);
+                return true;
+            }
+        }
+        string text;
+        switch (m_send.flags & SEND_MASK){
+        case SEND_RTF:
+            text = createRTF(m_send.text, m_send.part, m_send.msg->getForeground(), contact, MAX_TYPE2_MESSAGE_SIZE);
+            break;
+        case SEND_UTF:
+            m_send.part = getUtf8Part(m_send.text, MAX_TYPE2_MESSAGE_SIZE);
+            text = m_send.part.utf8();
+            break;
+        case SEND_TYPE2:{
+                m_send.part = getPart(m_send.text, MAX_TYPE2_MESSAGE_SIZE);
+                text = getContacts()->fromUnicode(contact, m_send.part);
+                messageSend ms;
+                ms.msg  = m_send.msg;
+                ms.text = &text;
+                Event e(EventSend, &ms);
+                e.process();
+                break;
+            }
+        case SEND_HTML:
+        case SEND_HTML_PLAIN:{
+                QString t;
+                unsigned max_size = MAX_TYPE2_MESSAGE_SIZE;
+                int i;
+                for (i = 0; i < (int)(m_send.text.length()); i++){
+                    if (m_send.text[i].unicode() > 0x7F){
+                        max_size = max_size / 2;
+                        break;
+                    }
+                }
+                m_send.part = getPart(m_send.text, max_size);
+                char b[15];
+                sprintf(b, "%06X", (unsigned)(m_send.msg->getBackground() & 0xFFFFFF));
+                t += "<HTML><BODY BGCOLOR=\"#";
+                t += b;
+                t += "\">";
+                if ((m_send.flags & SEND_MASK) == SEND_HTML){
+                    AIMParser p;
+                    t += p.parse(m_send.part);
+                }else{
+                    string s;
+                    s = m_send.part.utf8();
+                    messageSend ms;
+                    ms.msg  = m_send.msg;
+                    ms.text = &s;
+                    Event e(EventSend, &ms);
+                    e.process();
+                    t += quoteString(QString::fromUtf8(s.c_str()));
+                }
+                t += "</BODY></HTML>";
+                bool bWide = false;
+                for (i = 0; i < (int)(t.length()); i++){
+                    if (t[i].unicode() > 0x7F){
+                        bWide = true;
+                        break;
+                    }
+                }
+                sendType1(t, bWide, data);
+                return true;
+            }
+        default:
+            m_send.part = getPart(m_send.text, MAX_PLAIN_MESSAGE_SIZE);
+            sendType1(m_send.part, false, data);
+            return true;
+        }
+
+        Buffer msgBuf;
+        unsigned short size  = (unsigned short)(text.length() + 1);
+        unsigned short flags = ICQ_TCPxMSG_NORMAL;
+        if (m_send.msg->getFlags() & MESSAGE_URGENT)
+            flags = ICQ_TCPxMSG_URGENT;
+        if (m_send.msg->getFlags() & MESSAGE_LIST)
+            flags = ICQ_TCPxMSG_LIST;
+        msgBuf.pack((unsigned short)1);
+        msgBuf.pack(msgStatus());
+        msgBuf.pack(flags);
+        msgBuf.pack(size);
+        msgBuf.pack(text.c_str(), size);
+        if (m_send.msg->getBackground() == m_send.msg->getForeground()){
+            msgBuf << 0x00000000L << 0xFFFFFF00L;
+        }else{
+            msgBuf << (m_send.msg->getForeground() << 8) << (m_send.msg->getBackground() << 8);
+        }
+        if ((m_send.flags & SEND_MASK) != SEND_TYPE2){
+            msgBuf << 0x26000000L;
+            packCap(msgBuf, capabilities[((m_send.flags & SEND_MASK) == SEND_RTF) ? CAP_RTF : CAP_UTF]);
+        }
+        m_send.id.id_l = rand();
+        m_send.id.id_h = rand();
+        sendAdvMessage(m_send.screen.c_str(), msgBuf, PLUGIN_NULL, m_send.id, true, false);
+        return true;
+    }
+    if (m_send.socket){
+        Buffer msgBuf;
+        if (m_send.flags == PLUGIN_AIM_FT_ACK){
+            AIMFileMessage *msg = static_cast<AIMFileMessage*>(m_send.msg);
+            m_send.id.id_l = msg->getID_L();
+            m_send.id.id_h = msg->getID_H();
+            Buffer b;
+            b << (unsigned short)0;
+            b << m_send.id.id_l << m_send.id.id_h;
+            b.pack((char*)capabilities[CAP_AIM_SENDFILE], sizeof(capability));
+            b.tlv(0x0A, (unsigned short)2);
+            b.tlv(0x03, (unsigned long)htonl(get_ip(this->data.owner.RealIP)));
+            b.tlv(0x05, static_cast<AIMFileTransfer*>(msg->m_transfer)->remotePort());
+            sendThroughServer(m_send.screen.c_str(), 2, b, m_send.id, false, false);
+            replyQueue.push_back(m_send);
+            m_send.msg    = NULL;
+            m_send.screen = "";
+            return false;
+        }
+        m_send.id.id_l = rand();
+        m_send.id.id_h = rand();
+        if (m_send.flags == PLUGIN_AIM_FT){
+            TlvList tlvs;
+            tlvs + new Tlv(0x0E, 2, "en");
+            char b[15];
+            sprintf(b, "%06X", (unsigned)(m_send.msg->getBackground() & 0xFFFFFF));
+            QString text = QString("<HTML><BODY BGCOLOR=\"#%1\">%2</BODY></HTML>")
+                           .arg(b)
+                           .arg(removeImages(m_send.msg->getRichText(), 0));
+            bool bWide = false;
+            int i;
+            for (i = 0; i < (int)(text.length()); i++){
+                if (text[i].unicode() > 0x7F){
+                    bWide = true;
+                    break;
+                }
+            }
+            string charset = bWide ? "unicode-2-0" : "us-ascii";
+            tlvs + new Tlv(0x0D, charset.length(), charset.c_str());
+            string st;
+            if (bWide){
+                for (i = 0; i < (int)(text.length()); i++){
+                    unsigned short s = text[i].unicode();
+                    st += (char)((s >> 8) & 0xFF);
+                    st += (char)(s & 0xFF);
+                }
+            }else{
+                st = text.utf8();
+            }
+            tlvs + new Tlv(0x0C, st.length(), st.c_str());
+            FileMessage *msg = static_cast<FileMessage*>(m_send.msg);
+            FileMessage::Iterator it(*msg);
+            msgBuf
+            << (unsigned short)0x0001
+            << (unsigned short)(it.count())
+            << (unsigned long)(it.size());
+            QString fname;
+            if (it.count() == 1){
+                fname = *(it[0]);
+                fname = fname.replace(QRegExp("\\\\"), "/");
+                int n = fname.findRev("/");
+                if (n >= 0)
+                    fname = fname.mid(n + 1);
+            }else{
+                fname = QString::number(it.count());
+                fname += " files";
+            }
+            bWide = false;
+            for (i = 0; i < (int)(fname.length()); i++){
+                if (fname[i].unicode() > 0x7F){
+                    bWide = true;
+                    break;
+                }
+            }
+            charset = bWide ? "utf8" : "us-ascii";
+            tlvs + new Tlv(0x2712, charset.length(), charset.c_str());
+            msgBuf << (const char*)(fname.utf8()) << (char)0;
+            sendType2(m_send.screen.c_str(), msgBuf, m_send.id, CAP_AIM_SENDFILE, false, m_send.socket->localPort(), &tlvs);
+            return true;
+        }
+        msgBuf.pack(this->data.owner.Uin.value);
+        unsigned long ip = get_ip(this->data.owner.IP);
+        if (ip == get_ip(m_send.socket->m_data->IP))
+            ip = get_ip(this->data.owner.RealIP);
+        msgBuf.pack(ip);
+        msgBuf.pack((unsigned long)(m_send.socket->localPort()));
+        msgBuf.pack((char)MODE_DIRECT);
+        msgBuf.pack((unsigned long)(m_send.socket->remotePort()));
+        msgBuf.pack(this->data.owner.Port.value);
+        msgBuf.pack((unsigned short)8);
+        msgBuf.pack((unsigned long)m_nMsgSequence);
+        sendType2(m_send.screen.c_str(), msgBuf, m_send.id, CAP_DIRECT, false, 0);
+        return true;
+    }
+    if (m_send.flags == PLUGIN_AR){
+        log(L_DEBUG, "Request auto response %s", m_send.screen.c_str());
+
+        unsigned long status = data->Status.value;
+        if ((status == ICQ_STATUS_ONLINE) || (status == ICQ_STATUS_OFFLINE))
+            return false;
+
+        unsigned short type = ICQ_MSGxAR_AWAY;
+        if (status & ICQ_STATUS_DND){
+            type = ICQ_MSGxAR_DND;
+        }else if (status & ICQ_STATUS_OCCUPIED){
+            type = ICQ_MSGxAR_OCCUPIED;
+        }else if (status & ICQ_STATUS_NA){
+            type = ICQ_MSGxAR_NA;
+        }else if (status & ICQ_STATUS_FFC){
+            type = ICQ_MSGxAR_FFC;
+        }
+
+        Buffer msg;
+        msg.pack(type);
+        msg.pack((unsigned short)(fullStatus(m_status) & 0xFFFF));
+        msg << 0x0100 << 0x0100 << (char)0;
+
+        m_send.id.id_l = rand();
+        m_send.id.id_h = rand();
+        sendAdvMessage(screen(data).c_str(), msg, PLUGIN_NULL, m_send.id, false, false);
+        return true;
+    }else if (m_send.flags == PLUGIN_RANDOMxCHAT){
+        m_send.id.id_l = rand();
+        m_send.id.id_h = rand();
+        Buffer b;
+        b << (char)1 << 0x00000000L << 0x00010000L;
+        sendAdvMessage(m_send.screen.c_str(), b, PLUGIN_RANDOMxCHAT, m_send.id, false, false);
+    }else{
+        unsigned plugin_index = m_send.flags;
+        log(L_DEBUG, "Plugin info request %s (%u)", m_send.screen.c_str(), plugin_index);
+
+        Buffer b;
+        unsigned short type = 0;
+        switch (plugin_index){
+        case PLUGIN_QUERYxINFO:
+        case PLUGIN_PHONEBOOK:
+        case PLUGIN_PICTURE:
+            type = 2;
+            break;
+        }
+        b.pack((unsigned short)1);
+        b.pack((unsigned short)0);
+        b.pack((unsigned short)2);
+        b.pack((unsigned short)1);
+        b.pack((char)0);
+        b.pack((char*)plugins[plugin_index], sizeof(plugin));
+        b.pack((unsigned long)0);
+
+        m_send.id.id_l = rand();
+        m_send.id.id_h = rand();
+        sendAdvMessage(m_send.screen.c_str(), b, type ? PLUGIN_INFOxMANAGER : PLUGIN_STATUSxMANAGER, m_send.id, false, false);
+        return true;
+    }
+    return false;
 }
 
 void ICQClient::sendType1(const QString &text, bool bWide, ICQUserData *data)
@@ -1899,7 +2081,7 @@ void ICQClient::accept(Message *msg, ICQUserData *data)
         id.id_h = static_cast<ICQFileMessage*>(msg)->getID_H();
         Buffer b;
         unsigned short type = ICQ_MSGxEXT;
-        packMessage(b, msg, data, type, 0);
+        packMessage(b, msg, data, type, false, 0);
         unsigned cookie  = static_cast<ICQFileMessage*>(msg)->getCookie();
         sendAdvMessage(screen(data).c_str(), b, PLUGIN_NULL, id, false, true, (unsigned short)(cookie & 0xFFFF), (unsigned short)((cookie >> 16) & 0xFFFF), 2);
     }
@@ -2020,7 +2202,7 @@ void ICQClient::decline(Message *msg, const char *reason)
                 m_socket->writeBuffer << id.id_l << id.id_h << 0x0002;
                 m_socket->writeBuffer.packScreen(screen(data).c_str());
                 m_socket->writeBuffer << 0x0003 << 0x0002 << 0x0001;
-                sendPacket();
+                sendPacket(false);
                 if (reason && *reason){
                     Message *msg = new Message(MessageGeneric);
                     msg->setText(QString::fromUtf8(reason));
@@ -2043,29 +2225,8 @@ void ICQClient::requestReverseConnection(const char *screen, DirectSocket *socke
     s.flags  = PLUGIN_REVERSE;
     s.socket = socket;
     s.screen = screen;
-    sendQueue.push_front(s);
-    send(false);
-}
-
-void ICQClient::send(bool bTimer)
-{
-    if (!m_send.screen.empty()){
-        m_sendTimer->start(m_nSendTimeout * 500);
-        return;
-    }
-    if (sendQueue.size() == 0){
-        if (m_sendTimer->isActive() && m_send.screen.empty()){
-            log(L_DEBUG, "Stop send timer");
-            m_sendTimer->stop();
-        }
-        return;
-    }
-    if (!bTimer){
-        processSendQueue();
-        return;
-    }
-    if (!m_sendTimer->isActive())
-        m_sendTimer->start(m_nSendTimeout * 500);
+    sendFgQueue.push_back(s);
+    processSendQueue();
 }
 
 static const plugin arrPlugins[] =

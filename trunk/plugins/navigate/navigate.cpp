@@ -170,12 +170,6 @@ string getCurrentUrl()
     DDEconversation conv(topic.c_str(), "WWW_GetWindowInfo");
     DDEdataHandle answer(conv.Execute("-1"));
     const char *url = answer;
-    if (url == NULL)
-        return "";
-    url++;
-    char *end = strchr((char*)url, '\"');
-    if (end)
-        *end = 0;
     return url;
 }
 
@@ -244,7 +238,7 @@ static DataDef navigateData[] =
         { "Browser", DATA_STRING, 1, "konqueror" },
         { "Mailer", DATA_STRING, 1, "kmail" },
 #else
-{ "Browser", DATA_STRING, 1, "netscape" },
+        { "Browser", DATA_STRING, 1, "netscape" },
         { "Mailer", DATA_STRING, 1, "netscape mailto:%s" },
 #endif
 #endif

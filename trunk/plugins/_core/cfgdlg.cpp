@@ -475,6 +475,7 @@ void ConfigureDialog::apply()
             Buffer config;
             config << "[Title]\n";
             config.pack(cfg.c_str(), cfg.length());
+            config.setWritePos(0);
             config.getSection();
             load_data(def, data, &config);
         }

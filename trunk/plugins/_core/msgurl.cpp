@@ -48,8 +48,23 @@ MsgUrl::MsgUrl(MsgEdit *parent, Message *msg)
             string url;
             Event e(EventGetURL, &url);
             e.process();
-            if (!url.empty())
-                edtUrl->setText(QString::fromUtf8(url.c_str()));
+            if (!url.empty()){
+                url = url.substr(1);
+                int n = url.find('\"');
+                if (n > 0){
+                    string u = url.substr(0, n);
+                    edtUrl->setText(QString::fromLocal8Bit(u.c_str()));
+                    url = url.substr(n + 1);
+                    n = url.find('\"');
+                    if (n > 0)
+                        url = url.substr(n + 1);
+                }
+                n = url.find('\"');
+                if (n > 0){
+                    url = url.substr(0, n);
+                    m_edit->m_edit->setText(QString::fromLocal8Bit(url.c_str()));
+                }
+            }
         }
         urlChanged(edtUrl->text());
     }

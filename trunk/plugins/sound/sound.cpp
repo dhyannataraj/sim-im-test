@@ -310,7 +310,7 @@ string SoundPlugin::fullName(const char *name)
     if (((((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z'))) && (name[1] == ':')) ||
             ((c == '\\') && (name[1] == '\\'))){
 #else
-if (name[0] == '/'){
+    if (name[0] == '/'){
 #endif
         sound = name;
     }else{

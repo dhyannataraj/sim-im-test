@@ -212,28 +212,31 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                     addFullInfoRequest(data->Uin.value);
                     break;
                 case 2:
-                    info.incReadPos(6);
-                    info.unpack((char*)p, sizeof(p));
-                    data->PluginInfoTime.value = time;
-                    for (plugin_index = 0; plugin_index < PLUGIN_NULL; plugin_index++)
-                        if (!memcmp(p, plugins[plugin_index], sizeof(p)))
+                    if		((getInvisible() && data->VisibleId.value) ||
+                            (!getInvisible() && (data->InvisibleId.value == 0))){
+                        info.incReadPos(6);
+                        info.unpack((char*)p, sizeof(p));
+                        data->PluginInfoTime.value = time;
+                        for (plugin_index = 0; plugin_index < PLUGIN_NULL; plugin_index++)
+                            if (!memcmp(p, plugins[plugin_index], sizeof(p)))
+                                break;
+                        switch (plugin_index){
+                        case PLUGIN_PHONEBOOK:
+                            log(L_DEBUG, "Updated phonebook");
+                            addPluginInfoRequest(data->Uin.value, plugin_index);
                             break;
-                    switch (plugin_index){
-                    case PLUGIN_PHONEBOOK:
-                        log(L_DEBUG, "Updated phonebook");
-                        addPluginInfoRequest(data->Uin.value, plugin_index);
-                        break;
-                    case PLUGIN_PICTURE:
-                        log(L_DEBUG, "Updated picture");
-                        addPluginInfoRequest(data->Uin.value, plugin_index);
-                        break;
-                    case PLUGIN_QUERYxINFO:
-                        log(L_DEBUG, "Updated info plugin list");
-                        addPluginInfoRequest(data->Uin.value, plugin_index);
-                        break;
-                    default:
-                        if (plugin_index >= PLUGIN_NULL)
-                            log(L_WARN, "Unknown plugin sign");
+                        case PLUGIN_PICTURE:
+                            log(L_DEBUG, "Updated picture");
+                            addPluginInfoRequest(data->Uin.value, plugin_index);
+                            break;
+                        case PLUGIN_QUERYxINFO:
+                            log(L_DEBUG, "Updated info plugin list");
+                            addPluginInfoRequest(data->Uin.value, plugin_index);
+                            break;
+                        default:
+                            if (plugin_index >= PLUGIN_NULL)
+                                log(L_WARN, "Unknown plugin sign");
+                        }
                     }
                     break;
                 case 3:
@@ -275,7 +278,9 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 data->InfoUpdateTime.value   = infoUpdateTime;
                 data->PluginInfoTime.value   = pluginInfoTime;
                 data->PluginStatusTime.value = pluginStatusTime;
-                if (getAutoUpdate()){
+                if (getAutoUpdate() &&
+                        ((getInvisible() && data->VisibleId.value) ||
+                         (!getInvisible() && (data->InvisibleId.value == 0)))){
                     if (infoUpdateTime == 0)
                         infoUpdateTime = 1;
                     if (infoUpdateTime != data->InfoFetchTime.value)
@@ -361,7 +366,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
 void ICQClient::buddyRequest()
 {
     snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_REQUESTxRIGHTS);
-    sendPacket();
+    sendPacket(true);
 }
 
 void ICQClient::sendContactList()
@@ -388,7 +393,7 @@ void ICQClient::sendContactList()
                 m_socket->writeBuffer.packScreen(screen(data).c_str());
         }
     }
-    sendPacket();
+    sendPacket(true);
 }
 
 void ICQClient::addBuddy(Contact *contact)
@@ -410,7 +415,7 @@ void ICQClient::addBuddy(Contact *contact)
         if ((data->IgnoreId.value == 0)  && (data->WaitAuth.bValue || (data->GrpId.value == 0))){
             snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_ADDxTOxLIST);
             m_socket->writeBuffer.packScreen(screen(data).c_str());
-            sendPacket();
+            sendPacket(true);
             buddies.push_back(screen(data));
         }
     }
@@ -434,7 +439,7 @@ void ICQClient::removeBuddy(Contact *contact)
             continue;
         snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_REMOVExFROMxLIST);
         m_socket->writeBuffer.packScreen(screen(data).c_str());
-        sendPacket();
+        sendPacket(true);
         buddies.erase(it);
     }
 }

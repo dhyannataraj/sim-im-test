@@ -1307,6 +1307,7 @@ void *MsgEdit::processEvent(Event *e)
                         string cfg = m_msg->save();
                         Buffer config;
                         config << "[Title]\n" << cfg.c_str();
+                        config.setWritePos(0);
                         config.getSection();
                         m_msg = (mdef->create)(&config);
                         m_msg->setContact(*multiply_it);
