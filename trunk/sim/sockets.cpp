@@ -131,7 +131,7 @@ string SIMResolver::host()
 #if defined(HAVE_GETHOSTBYNAME_R) && defined(QT_THREAD_SUPPORT)
     return m_host.c_str();
 #else
-    return dns->label();
+    return dns->label().latin1();
 #endif
 }
 
