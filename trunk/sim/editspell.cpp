@@ -49,6 +49,9 @@ EditSpell::EditSpell(QWidget *parent) : QTextEdit(parent)
         a->connectItem(a->insertItem(QAccel::stringToKey("Ctrl+Return")),
                        this, SIGNAL(ctrlEnterPressed()));
     }
+#if QT_VERSION >= 0x030100
+    setAutoFormatting(0);
+#endif
 }
 
 QSize EditSpell::sizeHint()
@@ -89,6 +92,15 @@ void EditSpell::keyPressEvent(QKeyEvent *e)
         paste();
         return;
     }
+#if (QT_VERSION >= 300) && (QT_VERSION < 0x030100)
+    // Workaround about autoformat feature in qt 3.0.x
+    if ((e->text()[0] == '-') || (e->text()[0] == '*')){
+        if (isOverwriteMode() && !hasSelectedText())
+            moveCursor(MoveForward, true);
+        insert( e->text(), TRUE, FALSE );
+        return;
+    }
+#endif
     QTextEdit::keyPressEvent(e);
 }
 
