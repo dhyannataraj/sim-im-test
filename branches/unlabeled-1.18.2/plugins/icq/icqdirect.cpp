@@ -1322,8 +1322,8 @@ void DirectClient::processMsgQueue()
                 sm.icq_type = ICQ_MSGxMSG;
                 break;
             case MessageFile:
-            case MessageURL:
-            case MessageContact:
+            case MessageUrl:
+            case MessageContacts:
             case MessageOpenSecure:
             case MessageCloseSecure:
                 startPacket(TCP_START, 0);

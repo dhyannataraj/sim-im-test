@@ -527,8 +527,8 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
         sendQueue.push_front(s);
         send(false);
         return true;
-    case MessageURL:
-    case MessageContact:
+    case MessageUrl:
+    case MessageContacts:
     case MessageFile:
     case MessageCheckInvisible:
     case MessageWarning:
@@ -1135,8 +1135,8 @@ void ICQClient::processSendQueue()
             m_send.id.id_l = rand();
             m_send.id.id_h = rand();
             switch (m_send.msg->type()){
-            case MessageURL:
-            case MessageContact:
+            case MessageUrl:
+            case MessageContacts:
                 packMessage(b, m_send.msg, data, type);
                 sendThroughServer(screen(data).c_str(), 4, b, m_send.id, true);
                 if (data->Status != ICQ_STATUS_OFFLINE)

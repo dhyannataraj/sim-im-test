@@ -81,6 +81,7 @@ typedef struct JabberClientData
     char			*ListRequest;
     char			*VHost;
     unsigned		Typing;
+	unsigned		RichText;
     unsigned		ProtocolIcons;
 	unsigned		MinPort;
 	unsigned		MaxPort;
@@ -231,6 +232,7 @@ class MessageRequest : public ServerRequest
     PROP_ULONG(Priority);
     PROP_UTF8(ListRequest);
     PROP_BOOL(Typing);
+    PROP_BOOL(RichText);
     PROP_BOOL(ProtocolIcons);
 	PROP_USHORT(MinPort);
 	PROP_USHORT(MaxPort);

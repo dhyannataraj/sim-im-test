@@ -486,6 +486,10 @@ SOURCE=.\moc_msgcfgbase.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\moc_msgcontacts.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\moc_msgedit.cpp
 # ADD CPP /W3
 # End Source File
@@ -508,6 +512,10 @@ SOURCE=.\moc_msgrecv.cpp
 
 SOURCE=.\moc_msgsms.cpp
 # ADD CPP /W3
+# End Source File
+# Begin Source File
+
+SOURCE=.\moc_msgurl.cpp
 # End Source File
 # Begin Source File
 
@@ -654,6 +662,10 @@ SOURCE=.\msgcfgbase.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\msgcontacts.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\msgedit.cpp
 # End Source File
 # Begin Source File
@@ -671,6 +683,10 @@ SOURCE=.\msgrecv.cpp
 # Begin Source File
 
 SOURCE=.\msgsms.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\msgurl.cpp
 # End Source File
 # Begin Source File
 
@@ -1749,6 +1765,39 @@ SOURCE=.\msgcfgbase.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\msgcontacts.h
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\msgcontacts.h
+InputName=msgcontacts
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\msgcontacts.h
+InputName=msgcontacts
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
 SOURCE=.\msgedit.h
 
 !IF  "$(CFG)" == "_core - Win32 Release"
@@ -1903,6 +1952,39 @@ InputName=msgsms
 InputDir=.
 InputPath=.\msgsms.h
 InputName=msgsms
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\msgurl.h
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\msgurl.h
+InputName=msgurl
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\msgurl.h
+InputName=msgurl
 
 "$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp

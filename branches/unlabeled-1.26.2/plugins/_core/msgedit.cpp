@@ -23,6 +23,8 @@
 #include "msgfile.h"
 #include "msggen.h"
 #include "msgauth.h"
+#include "msgurl.h"
+#include "msgcontacts.h"
 #include "msgrecv.h"
 #include "ballonmsg.h"
 #include "userwnd.h"
@@ -468,6 +470,85 @@ static MessageDef defSMS =
         createSMS,
         generateSMS,
         NULL
+    };
+
+#if 0
+i18n("URL", "%n URLs", 1);
+#endif
+
+static Message *createUrl(const char *cfg)
+{
+    return new UrlMessage(MessageUrl, cfg);
+}
+
+static QObject *generateUrl(MsgEdit *p, Message *msg)
+{
+    return new MsgUrl(p, msg);
+}
+
+static Message *dropUrl(QMimeSource *src)
+{
+    if (QUriDrag::canDecode(src)){
+        QStringList l;
+        if (QUriDrag::decodeLocalFiles(src, l))
+            return NULL;
+        if (!QUriDrag::decodeToUnicodeUris(src, l) || (l.count() < 1))
+            return NULL;
+        UrlMessage *msg = new UrlMessage;
+        msg->setUrl(l[0]);
+        return msg;
+    }
+    return NULL;
+}
+
+static MessageDef defUrl =
+    {
+        NULL,
+        MESSAGE_DEFAULT,
+        MessageUrl,
+        "URL",
+        "%n URLs",
+        createUrl,
+        generateUrl,
+        dropUrl
+    };
+
+static Message *createContacts(const char *cfg)
+{
+    return new ContactsMessage(MessageContacts, cfg);
+}
+
+static QObject *generateContacts(MsgEdit *p, Message *msg)
+{
+    return new MsgContacts(p, msg);
+}
+
+static Message *dropContacts(QMimeSource *src)
+{
+    if (ContactDragObject::canDecode(src)){
+        Contact *contact = ContactDragObject::decode(src);
+        ContactsMessage *msg = new ContactsMessage;
+        QString name = contact->getName();
+        msg->setContacts(QString("sim:") + QString::number(contact->id()) + "," + getToken(name, '/'));
+        return msg;
+    }
+    return NULL;
+}
+
+#if 0
+i18n("Contact list", "%n contact lists", 1);
+#endif
+
+static MessageDef defContacts =
+    {
+        NULL,
+        MESSAGE_DEFAULT,
+        0,
+        "Contact list",
+        "%n contact lists",
+        createContacts,
+        generateContacts,
+        dropContacts
     };
 
 static Message *createFile(const char *cfg)
@@ -1467,20 +1548,37 @@ void MsgEdit::setupMessages()
     cmd->param		= &defFile;
     eMsg.process();
 
+    cmd->id			 = MessageUrl;
+    cmd->text		 = I18N_NOOP("&URL");
+    cmd->icon		 = "url";
+    cmd->accel		 = "Ctrl+U";
+    cmd->menu_grp	 = 0x3030;
+    cmd->flags		 = COMMAND_DEFAULT;
+    cmd->param		 = &defUrl;
+    eMsg.process();
+
     cmd->id			= MessageSMS;
     cmd->text		= I18N_NOOP("&SMS");
     cmd->icon		= "sms";
     cmd->accel		= "Ctrl+S";
-    cmd->menu_grp	= 0x3030;
+    cmd->menu_grp	= 0x3040;
     cmd->flags		= COMMAND_DEFAULT;
     cmd->param		= &defSMS;
+    eMsg.process();
+
+    cmd->id			= MessageContacts;
+    cmd->text		= I18N_NOOP("&Contact list");
+    cmd->icon		= "contacts";
+    cmd->accel		= "Ctrl+L";
+    cmd->menu_grp	= 0x3050;
+    cmd->param		= &defContacts;
     eMsg.process();
 
     cmd->id			= MessageAuthRequest;
     cmd->text		= I18N_NOOP("&Authorization request");
     cmd->icon		= "auth";
     cmd->accel		= "Ctrl+A";
-    cmd->menu_grp	= 0x3040;
+    cmd->menu_grp	= 0x3060;
     cmd->flags		= COMMAND_DEFAULT;
     cmd->param		= &defAuthRequest;
     eMsg.process();
@@ -1489,7 +1587,7 @@ void MsgEdit::setupMessages()
     cmd->text		= I18N_NOOP("&Grant autorization");
     cmd->icon		= "auth";
     cmd->accel		= "Ctrl+G";
-    cmd->menu_grp	= 0x3050;
+    cmd->menu_grp	= 0x3070;
     cmd->flags		= COMMAND_DEFAULT;
     cmd->param		= &defAuthGranted;
     eMsg.process();
@@ -1498,7 +1596,7 @@ void MsgEdit::setupMessages()
     cmd->text		= I18N_NOOP("&Refuse autorization");
     cmd->icon		= "auth";
     cmd->accel		= "Ctrl+R";
-    cmd->menu_grp	= 0x3050;
+    cmd->menu_grp	= 0x3071;
     cmd->flags		= COMMAND_DEFAULT;
     cmd->param		= &defAuthRefused;
     eMsg.process();

@@ -3066,10 +3066,9 @@ bool ICQClient::canSend(unsigned type, void *_data)
     case MessageSMS:
         return true;
     case MessageGeneric:
+    case MessageUrl:
+    case MessageContacts:
         return (data != NULL);
-    case MessageURL:
-    case MessageContact:
-        return (data != NULL) && data->Uin && !m_bAIM;
     case MessageAuthRequest:
         return data && (data->WaitAuth);
     case MessageAuthGranted:

@@ -130,6 +130,7 @@ static DataDef jabberClientData[] =
         { "ListRequest", DATA_UTF, 1, 0 },
         { "VHost", DATA_UTF, 1, 0 },
         { "Typing", DATA_BOOL, 1, 1 },
+        { "RichText", DATA_BOOL, 1, 1 },
         { "ProtocolIcons", DATA_BOOL, 1, 1 },
         { "MinPort", DATA_ULONG, 1, 1024 },
         { "MaxPort", DATA_ULONG, 1, 0xFFFF },
@@ -1762,7 +1763,7 @@ bool JabberClient::send(Message *msg, void *_data)
             << "\'><body>"
             << (const char*)(quoteString(msg->getPlainText(), false).utf8())
             << "</body>";
-            if (data->richText){
+            if (data->richText && getRichText()){
                 m_socket->writeBuffer
                 << "<html xmlns='http://jabber.org/protocol/xhtml-im'>"
                 << removeImages(msg->getRichText(), msg->getBackground()).utf8()

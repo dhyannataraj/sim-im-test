@@ -20,10 +20,6 @@
 #include "icq.h"
 #include "toolbtn.h"
 #include "core.h"
-#include "msgedit.h"
-#include "textshow.h"
-#include "listview.h"
-#include "userwnd.h"
 #include "searchresult.h"
 #include "xml.h"
 
@@ -31,175 +27,7 @@
 #include <qlayout.h>
 #include <qtextcodec.h>
 #include <qfile.h>
-
-#include <vector>
-
-using namespace std;
-
-#ifdef WIN32
-#include <windows.h>
-#include <ddeml.h>
-
-class DDEbase
-{
-public:
-    DDEbase();
-    ~DDEbase();
-    operator DWORD() { return m_idDDE; }
-    static DDEbase *base;
-protected:
-    DWORD m_idDDE;
-    static HDDEDATA CALLBACK DDECallback(UINT, UINT, HCONV, HSZ, HSZ, HDDEDATA, DWORD, DWORD);
-};
-
-DDEbase *DDEbase::base = NULL;
-
-DDEbase::DDEbase()
-{
-    m_idDDE = 0;
-    FARPROC lpDdeProc = MakeProcInstance((FARPROC) DDECallback, hInstance);
-    DdeInitializeA((LPDWORD) &m_idDDE, (PFNCALLBACK) lpDdeProc,	APPCMD_CLIENTONLY, 0L);
-    base = this;
-}
-
-DDEbase::~DDEbase()
-{
-    base = NULL;
-    if (m_idDDE)
-        DdeUninitialize(m_idDDE);
-}
-
-HDDEDATA CALLBACK DDEbase::DDECallback(UINT, UINT, HCONV, HSZ, HSZ, HDDEDATA, DWORD, DWORD)
-{
-    return NULL;
-}
-
-class DDEstring
-{
-public:
-    DDEstring(const char *name);
-    ~DDEstring();
-    operator HSZ() { return hSz; }
-protected:
-    HSZ hSz;
-};
-
-DDEstring::DDEstring(const char *name) : hSz(NULL)
-{
-    hSz = DdeCreateStringHandleA(*DDEbase::base, name, CP_WINANSI);
-}
-
-DDEstring::~DDEstring()
-{
-    if (hSz)
-        DdeFreeStringHandle(*DDEbase::base, hSz);
-}
-
-class DDEdataHandle
-{
-public:
-    DDEdataHandle(const char *text);
-    DDEdataHandle(HDDEDATA data);
-    ~DDEdataHandle();
-    operator HDDEDATA() { return hData; }
-    operator const char *();
-protected:
-    HDDEDATA hData;
-};
-
-DDEdataHandle::DDEdataHandle(const char *text)
-{
-    hData = DdeCreateDataHandle(*DDEbase::base, (unsigned char*)text, strlen(text) + 1, 0, NULL, CF_TEXT, 0);
-}
-
-DDEdataHandle::DDEdataHandle(HDDEDATA data)
-{
-    hData = data;
-}
-
-DDEdataHandle::~DDEdataHandle()
-{
-    if (hData) DdeFreeDataHandle(hData);
-}
-
-DDEdataHandle::operator const char*()
-{
-    if (hData == NULL)
-        return NULL;
-    return (const char*)DdeAccessData(hData, NULL);
-}
-
-class DDEconversation
-{
-protected:
-    HCONV hConv;
-public:
-    DDEconversation(const char *_server, const char *_topic);
-    ~DDEconversation();
-    operator HCONV() { return hConv; }
-    HDDEDATA Execute(const char *cmd);
-};
-
-DDEconversation::DDEconversation(const char *_server, const char *_topic)
-        : hConv(NULL)
-{
-    DDEstring server(_server);
-    DDEstring topic(_topic);
-    hConv = DdeConnect(*DDEbase::base, server, topic, NULL);
-}
-
-DDEconversation::~DDEconversation()
-{
-    if (hConv)
-        DdeDisconnect(hConv);
-}
-
-HDDEDATA DDEconversation::Execute(const char *cmd)
-{
-    DDEstring c(cmd);
-    DWORD res = NULL;
-    HDDEDATA hData = DdeClientTransaction(NULL, 0, hConv, c, CF_TEXT, XTYP_REQUEST, 30000, &res);
-    if (hData == NULL)
-        DdeGetLastError((DWORD)DDEbase::base);
-    return hData;
-}
-
-string getCurrentUrl()
-{
-    DWORD keyLen = 0;
-    HKEY hKeyOpen;
-    if (RegOpenKeyExA(HKEY_CLASSES_ROOT,
-                      "HTTP\\Shell\\open\\ddeexec\\application",
-                      0, KEY_READ | KEY_QUERY_VALUE, &hKeyOpen) != ERROR_SUCCESS)
-        return "";
-    if (RegQueryValueExA(hKeyOpen, "", 0, 0, 0, &keyLen) != ERROR_SUCCESS){
-        RegCloseKey(hKeyOpen);
-        return "";
-    }
-    string topic;
-    topic.append(keyLen, 0);
-
-    DWORD type;
-    if (RegQueryValueExA(hKeyOpen, "", 0, &type, (unsigned char*)(topic.c_str()), &keyLen) != ERROR_SUCCESS){
-        RegCloseKey(hKeyOpen);
-        return "";
-    }
-    RegCloseKey(hKeyOpen);
-
-    DDEbase b;
-    DDEconversation conv(topic.c_str(), "WWW_GetWindowInfo");
-    DDEdataHandle answer(conv.Execute("-1"));
-    const char *url = answer;
-    if (url == NULL)
-        return "";
-    url++;
-    char *end = strchr((char*)url, '\"');
-    if (end)
-        *end = 0;
-    return url;
-}
-
-#endif
+#include <qimage.h>
 
 static DataDef icqMessageData[] =
     {
@@ -290,29 +118,28 @@ string ICQFileMessage::save()
     return s;
 }
 
-static DataDef urlMessageData[] =
+static DataDef icqUrlMessageData[] =
     {
-        { "Url", DATA_UTF, 1, 0 },
         { "ServerUrl", DATA_STRING, 1, 0 },
         { "ServerText", DATA_STRING, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
-URLMessage::URLMessage(const char *cfg)
-        : Message(MessageURL, cfg)
+IcqUrlMessage::IcqUrlMessage(const char *cfg)
+        : UrlMessage(MessageICQUrl, cfg)
 {
-    load_data(urlMessageData, &data, cfg);
+    load_data(icqUrlMessageData, &data, cfg);
 }
 
-URLMessage::~URLMessage()
+IcqUrlMessage::~IcqUrlMessage()
 {
-    free_data(urlMessageData, &data);
+    free_data(icqUrlMessageData, &data);
 }
 
-string URLMessage::save()
+string IcqUrlMessage::save()
 {
     string s = Message::save();
-    string s1 = save_data(urlMessageData, &data);
+    string s1 = save_data(icqUrlMessageData, &data);
     if (!s1.empty()){
         if (!s.empty())
             s += '\n';
@@ -321,7 +148,7 @@ string URLMessage::save()
     return s;
 }
 
-QString URLMessage::getText()
+QString IcqUrlMessage::getText()
 {
     const char *serverText = getServerText();
     if ((serverText == NULL) || (*serverText == 0))
@@ -329,90 +156,49 @@ QString URLMessage::getText()
     return ICQClient::toUnicode(serverText, client(), contact());
 }
 
-QString URLMessage::getUrl()
+QString IcqUrlMessage::getUrl()
 {
     const char *serverText = data.ServerUrl;
-    if ((serverText == NULL) || (*serverText == 0))
-        return data.Url ? QString::fromUtf8(data.Url) : QString("");
-    return ICQClient::toUnicode(serverText, client(), contact());
+    if (serverText && *serverText)
+	    return ICQClient::toUnicode(serverText, client(), contact());
+	return UrlMessage::getUrl();
 }
 
-bool URLMessage::setUrl(const QString &url)
-{
-    return set_str(&data.Url, url.utf8());
-}
-
-QString URLMessage::presentation()
-{
-    QString url = quoteString(getUrl());
-    QString res = "<p><a href=\"";
-    res += url;
-    res += "\">";
-    res += url;
-    res += "</a></p><p>";
-    res += getRichText();
-    res += "</p>";
-    return res;
-}
-
-static DataDef contactMessageData[] =
+static DataDef icqContactsMessageData[] =
     {
-        { "Contacts", DATA_UTF, 1, 0 },
         { "ServerText", DATA_STRING, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
-ContactMessage::ContactMessage(const char *cfg)
-        : Message(MessageContact, cfg)
+IcqContactsMessage::IcqContactsMessage(const char *cfg)
+        : ContactsMessage(MessageICQContacts, cfg)
 {
-    load_data(contactMessageData, &data, cfg);
+    load_data(icqContactsMessageData, &data, cfg);
 }
 
-ContactMessage::~ContactMessage()
+IcqContactsMessage::~IcqContactsMessage()
 {
-    free_data(contactMessageData, &data);
+    free_data(icqContactsMessageData, &data);
 }
 
-QString ContactMessage::getContacts()
+QString IcqContactsMessage::getContacts()
 {
     const char *serverText = getServerText();
     if ((serverText == NULL) || (*serverText == 0))
-        return data.Contacts ? QString::fromUtf8(data.Contacts) : QString("");
+        return ContactsMessage::getContacts();
     return ICQClient::toUnicode(serverText, client(), contact());
 }
 
-bool ContactMessage::setContacts(const QString &str)
-{
-    return set_str(&data.Contacts, str.utf8());
-}
-
-string ContactMessage::save()
+string IcqContactsMessage::save()
 {
     string s = Message::save();
-    string s1 = save_data(contactMessageData, &data);
+    string s1 = save_data(icqContactsMessageData, &data);
     if (!s1.empty()){
         if (!s.empty())
             s += '\n';
         s += s1;
     }
     return s;
-}
-
-QString ContactMessage::presentation()
-{
-    QString res;
-    QString contacts = getContacts();
-    while (contacts.length()){
-        QString contact = getToken(contacts, ';');
-        QString uin = getToken(contact, ',');
-        contact = quoteString(contact);
-        res += QString("<p><a href=\"icq://%1,%2\">%3</a> %4</p>")
-               .arg(uin)
-               .arg(contact)
-               .arg(uin)
-               .arg(contact);
-    }
-    return res;
 }
 
 static DataDef icqAuthMessageData[] =
@@ -544,7 +330,7 @@ static Message *parseURLMessage(const char *str)
         log(L_WARN, "Parse error URL message");
         return NULL;
     }
-    URLMessage *m = new URLMessage;
+    IcqUrlMessage *m = new IcqUrlMessage;
     m->setServerText(l[0].c_str());
     m->setServerUrl(l[1].c_str());
     return m;
@@ -576,11 +362,14 @@ static Message *parseContactMessage(const char *str)
         }
         if (!serverText.empty())
             serverText += ';';
+		serverText += "icq:";
         serverText += number(uin);
-        serverText += ',';
+        serverText += ",(";
+        serverText += number(uin);
+		serverText += ") ";
         serverText += c[i*2+1];
     }
-    ContactMessage *m = new ContactMessage;
+    IcqContactsMessage *m = new IcqContactsMessage;
     m->setServerText(serverText.c_str());
     return m;
 }
@@ -1044,441 +833,78 @@ static MessageDef defContactRequest =
         NULL
     };
 
-static Message *createUrl(const char *cfg)
+static Message *createIcqUrl(const char *cfg)
 {
-    return new URLMessage(cfg);
+    return new IcqUrlMessage(cfg);
 }
 
-static QObject *generateUrl(MsgEdit *p, Message *msg)
-{
-    return new MsgUrl(p, msg);
-}
-
-static Message *dropUrl(QMimeSource *src)
-{
-    if (QUriDrag::canDecode(src)){
-        QStringList l;
-        if (QUriDrag::decodeLocalFiles(src, l))
-            return NULL;
-        if (!QUriDrag::decodeToUnicodeUris(src, l) || (l.count() < 1))
-            return NULL;
-        URLMessage *msg = new URLMessage;
-        msg->setUrl(l[0]);
-        return msg;
-    }
-    return NULL;
-}
-
-#if 0
-i18n("URL", "%n URLs", 1);
-#endif
-
-static MessageDef defUrl =
+static MessageDef defIcqUrl =
     {
         NULL,
         MESSAGE_DEFAULT,
-        0,
-        "URL",
-        "%n URLs",
-        createUrl,
-        generateUrl,
-        dropUrl
+        MessageUrl,
+        NULL,
+        NULL,
+        createIcqUrl,
+        NULL,
+        NULL
     };
 
-static Message *createContact(const char *cfg)
+static Message *createIcqContacts(const char *cfg)
 {
-    return new ContactMessage(cfg);
+    return new IcqContactsMessage(cfg);
 }
 
-static QObject *generateContact(MsgEdit *p, Message *msg)
-{
-    return new MsgContacts(p, msg, ICQPlugin::m_icq);
-}
-
-static Message *dropContact(QMimeSource *src)
-{
-    if (ContactDragObject::canDecode(src)){
-        Contact *contact = ContactDragObject::decode(src);
-        void *data = NULL;
-        ClientDataIterator it(contact->clientData);
-        while ((data = ++it) != NULL){
-            if (it.client()->protocol() == ICQPlugin::m_icq)
-                break;
-        }
-        if (data == NULL)
-            return NULL;
-        ContactMessage *msg = new ContactMessage;
-        ICQUserData *d = (ICQUserData*)data;
-        QString name = contact->getName();
-        msg->setContacts(QString::number(d->Uin) + "," + getToken(name, '/'));
-        return msg;
-    }
-    return NULL;
-}
-
-#if 0
-i18n("Contact list", "%n contact lists", 1);
-#endif
-
-static MessageDef defContact =
+static MessageDef defIcqContacts =
     {
         NULL,
         MESSAGE_DEFAULT,
-        0,
-        "Contact list",
-        "%n contact lists",
-        createContact,
-        generateContact,
-        dropContact
+        MessageContacts,
+        NULL,
+        NULL,
+        createIcqContacts,
+        NULL,
+        NULL
     };
-
-MsgUrl::MsgUrl(MsgEdit *parent, Message *msg)
-        : QObject(parent)
-{
-    m_client = msg->client();
-    m_edit   = parent;
-    if (m_edit->m_edit->isReadOnly()){
-        m_edit->m_edit->setText("");
-        m_edit->m_edit->setReadOnly(false);
-    }
-    m_edit->m_edit->setTextFormat(PlainText);
-    QString t = msg->getPlainText();
-    if (!t.isEmpty())
-        m_edit->m_edit->setText(t);
-    Command cmd;
-    cmd->id    = CmdUrlInput;
-    cmd->param = m_edit;
-    Event e(EventCommandWidget, cmd);
-    CToolEdit *edtUrl = (CToolEdit*)(e.process());
-    if (edtUrl){
-        connect(edtUrl, SIGNAL(textChanged(const QString&)), this, SLOT(urlChanged(const QString&)));
-        edtUrl->setText(static_cast<URLMessage*>(msg)->getUrl());
-#ifdef WIN32
-        if (edtUrl->text().isEmpty())
-            edtUrl->setText(QString::fromUtf8(getCurrentUrl().c_str()));
-#endif
-        urlChanged(edtUrl->text());
-    }
-}
-
-void MsgUrl::init()
-{
-    Command cmd;
-    cmd->id    = CmdUrlInput;
-    cmd->param = m_edit;
-    Event e(EventCommandWidget, cmd);
-    CToolEdit *edtUrl = (CToolEdit*)(e.process());
-    if (edtUrl && edtUrl->text().isEmpty()){
-        edtUrl->setFocus();
-        return;
-    }
-    m_edit->m_edit->setFocus();
-}
-
-void MsgUrl::urlChanged(const QString &str)
-{
-    Command cmd;
-    cmd->id = CmdSend;
-    cmd->flags = str.isEmpty() ? COMMAND_DISABLED : 0;
-    cmd->param = m_edit;
-    Event e(EventCommandDisabled, cmd);
-    e.param();
-}
-
-void *MsgUrl::processEvent(Event *e)
-{
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
-        if (cmd->param == m_edit){
-            unsigned id = cmd->bar_grp;
-            if ((id >= MIN_INPUT_BAR_ID) && (id < MAX_INPUT_BAR_ID)){
-                cmd->flags |= BTN_HIDE;
-                if (cmd->id == CmdUrlInput)
-                    cmd->flags &= ~BTN_HIDE;
-                return e->param();
-            }
-            switch (cmd->id){
-            case CmdTranslit:
-            case CmdSmile:
-            case CmdSend:
-            case CmdSendClose:
-                e->process(this);
-                cmd->flags &= ~BTN_HIDE;
-                return e->param();
-            case CmdNextMessage:
-            case CmdMsgAnswer:
-                e->process(this);
-                cmd->flags |= BTN_HIDE;
-                return e->param();
-            }
-        }
-    }
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
-        if ((cmd->id == CmdSend) && (cmd->param == m_edit)){
-            QString msgText = m_edit->m_edit->text();
-            QString urlText;
-            Command cmd;
-            cmd->id    = CmdUrlInput;
-            cmd->param = m_edit;
-            Event eUrl(EventCommandWidget, cmd);
-            CToolEdit *edtUrl = (CToolEdit*)(eUrl.process());
-            if (edtUrl)
-                urlText = edtUrl->text();
-            if (!urlText.isEmpty()){
-                URLMessage *msg = new URLMessage;
-                msg->setContact(m_edit->m_userWnd->id());
-                msg->setText(msgText);
-                msg->setUrl(urlText);
-                msg->setClient(m_client.c_str());
-                MsgSend s;
-                s.edit = m_edit;
-                s.msg  = msg;
-                Event e(EventRealSendMessage, &s);
-                e.process();
-            }
-            return e->param();
-        }
-    }
-    if (e->type() == EventRemoveMessageType){
-        if ((unsigned)(e->param()) == MessageURL)
-            m_edit->m_userWnd->close();
-    }
-    return NULL;
-}
-
-MsgContacts::MsgContacts(MsgEdit *parent, Message *msg, Protocol *protocol)
-        : QObject(parent)
-{
-    m_client = msg->client();
-    m_msg  = NULL;
-    m_edit = parent;
-    m_contacts = new ListView(m_edit->m_frame);
-    Command cmd;
-    cmd->id    = CmdSend;
-    cmd->param = m_edit;
-    Event e(EventCommandWidget, cmd);
-    btnSend = (QToolButton*)(e.process());
-    connect(m_contacts, SIGNAL(destroyed()), this, SLOT(contactsDestroyed()));
-    connect(m_contacts, SIGNAL(dragEnter(QMimeSource*)), this, SLOT(contactsDragEnter(QMimeSource*)));
-    connect(m_contacts, SIGNAL(drop(QMimeSource*)), this, SLOT(contactsDrop(QMimeSource*)));
-    connect(m_contacts, SIGNAL(deleteItem(QListViewItem*)), this, SLOT(deleteItem(QListViewItem*)));
-    m_edit->m_layout->addWidget(m_contacts);
-    m_edit->m_edit->hide();
-    m_edit->m_edit->setTextFormat(QTextEdit::PlainText);
-    int wChar = QFontMetrics(m_contacts->font()).width('0');
-    m_contacts->addColumn(i18n("UIN"), -10*wChar);
-    m_contacts->setColumnAlignment(0, AlignRight);
-    m_contacts->addColumn(i18n("Alias"), 20*wChar);
-    m_contacts->addColumn("");
-    m_contacts->addColumn(i18n("Name"));
-    m_contacts->addColumn(i18n("Email"));
-    m_contacts->setExpandingColumn(3);
-    m_contacts->setSorting(0);
-    m_contacts->show();
-    m_protocol = protocol;
-    ContactMessage *m = static_cast<ContactMessage*>(msg);
-    QString contacts = m->getContacts();
-    while (contacts.length()){
-        QString item = getToken(contacts, ';');
-        unsigned long uin = atol(getToken(item, ','));
-        if (uin == 0)
-            continue;
-        new UserTblItem(m_contacts, uin, item);
-    }
-    changed();
-}
-
-MsgContacts::~MsgContacts()
-{
-    m_edit->m_edit->show();
-    if (m_contacts)
-        delete m_contacts;
-}
-
-void MsgContacts::contactsDragEnter(QMimeSource *s)
-{
-    if (!ContactDragObject::canDecode(s))
-        return;
-    Contact *contact = ContactDragObject::decode(s);
-    if (contact == NULL)
-        return;
-    ClientDataIterator it(contact->clientData);
-    void *data;
-    while ((data = ++it) != NULL){
-        if (it.client()->protocol() == m_protocol){
-            m_contacts->acceptDrop(true);
-            return;
-        }
-    }
-}
-
-void MsgContacts::contactsDrop(QMimeSource *s)
-{
-    if (!ContactDragObject::canDecode(s))
-        return;
-    Contact *contact = ContactDragObject::decode(s);
-    if (contact == NULL)
-        return;
-    ClientDataIterator it(contact->clientData);
-    void *_data;
-    while ((_data = ++it) != NULL){
-        if (it.client()->protocol() != m_protocol)
-            continue;
-        ICQUserData *data = (ICQUserData*)_data;
-        QListViewItem *item;
-        for (item = m_contacts->firstChild(); item; item = item->nextSibling()){
-            if (item->text(0).toUInt() == data->Uin)
-                break;
-        }
-        if (item)
-            continue;
-        new UserTblItem(m_contacts, static_cast<ICQClient*>(it.client()), data);
-    }
-    changed();
-}
-
-void MsgContacts::deleteItem(QListViewItem *item)
-{
-    delete item;
-    changed();
-}
-
-void MsgContacts::changed()
-{
-    if (btnSend == NULL)
-        return;
-    btnSend->setEnabled(m_contacts->firstChild() != NULL);
-}
-
-void MsgContacts::contactsDestroyed()
-{
-    m_contacts = NULL;
-}
-
-void MsgContacts::init()
-{
-    m_contacts->setFocus();
-}
-
-void *MsgContacts::processEvent(Event *e)
-{
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
-        if (cmd->param == m_edit){
-            unsigned id = cmd->bar_grp;
-            if ((id >= MIN_INPUT_BAR_ID) && (id < MAX_INPUT_BAR_ID)){
-                cmd->flags |= BTN_HIDE;
-                return e->param();
-            }
-            switch (cmd->id){
-            case CmdSend:
-            case CmdSendClose:
-                e->process(this);
-                cmd->flags &= ~BTN_HIDE;
-                return e->param();
-            case CmdTranslit:
-            case CmdSmile:
-            case CmdNextMessage:
-            case CmdMsgAnswer:
-                e->process(this);
-                cmd->flags |= BTN_HIDE;
-                return e->param();
-            }
-        }
-    }
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
-        if ((cmd->id == CmdSend) && (cmd->param == m_edit)){
-            QString msgText = m_edit->m_edit->text();
-            QString contacts;
-            for (QListViewItem *item = m_contacts->firstChild(); item; item = item->nextSibling()){
-                if (!contacts.isEmpty())
-                    contacts += ";";
-                contacts += item->text(0);
-                contacts += ",";
-                contacts += quoteChars(item->text(1), ";");
-            }
-            if (!contacts.isEmpty()){
-                ContactMessage *msg = new ContactMessage;
-                msg->setContact(m_edit->m_userWnd->id());
-                msg->setContacts(contacts);
-                msg->setClient(m_client.c_str());
-                MsgSend s;
-                s.edit = m_edit;
-                s.msg  = msg;
-                m_msg  = msg;
-                Event e(EventRealSendMessage, &s);
-                e.process();
-            }
-            return e->param();
-        }
-    }
-    if (e->type() == EventRemoveMessageType){
-        if ((unsigned)(e->param()) == MessageContact)
-            m_edit->m_userWnd->close();
-    }
-    if (e->type() == EventMessageSent){
-        Message *msg = (Message*)(e->param());
-        if (msg == m_msg){
-            m_msg = NULL;
-            const char *err = msg->getError();
-            if ((err == NULL) || (*err == 0))
-                m_contacts->clear();
-        }
-    }
-    return NULL;
-}
 
 void ICQPlugin::registerMessages()
 {
     Command cmd;
 
-    cmd->id			 = MessageURL;
-    cmd->text		 = I18N_NOOP("&URL");
+    cmd->id			 = MessageICQUrl;
+    cmd->text		 = "ICQUrl";
     cmd->icon		 = "url";
-    cmd->accel		 = "Ctrl+U";
-    cmd->menu_grp	 = 0x3012;
-    cmd->flags		 = COMMAND_DEFAULT;
-    cmd->param		 = &defUrl;
+    cmd->param		 = &defIcqUrl;
     Event eMsg(EventCreateMessageType, cmd);
     eMsg.process();
 
-    cmd->id			 = MessageContact;
-    cmd->text		 = I18N_NOOP("&Contact list");
+    cmd->id			 = MessageICQContacts;
+    cmd->text		 = "ICQContacts";
     cmd->icon		 = "contacts";
-    cmd->accel		 = "Ctrl+L";
-    cmd->menu_grp	 = 0x3013;
-    cmd->param		 = &defContact;
+    cmd->param		 = &defIcqContacts;
     eMsg.process();
 
     cmd->id			= MessageICQ;
     cmd->text		= "ICQMessage";
     cmd->icon		= "message";
-    cmd->accel		= NULL;
-    cmd->menu_grp	= 0;
     cmd->param		= &defIcq;
     eMsg.process();
 
     cmd->id			= MessageICQFile;
     cmd->text		= "ICQFile";
     cmd->icon		= "file";
-    cmd->accel		= NULL;
-    cmd->menu_grp	= 0;
     cmd->param		= &defIcqFile;
     eMsg.process();
 
     cmd->id			= MessageContactRequest;
     cmd->text		= I18N_NOOP("Contact Request");
     cmd->icon		= "contacts";
-    cmd->menu_grp	= 0;
     cmd->param		= &defContactRequest;
     eMsg.process();
 
     cmd->id         = MessageICQAuthRequest;
     cmd->text       = "ICQAuthRequest";
     cmd->icon       = "auth";
-    cmd->menu_grp   = 0;
     cmd->param      = &defIcqAuthRequest;
     eMsg.process();
 
@@ -1486,28 +912,24 @@ void ICQPlugin::registerMessages()
     cmd->id			= MessageICQAuthGranted;
     cmd->text		= "ICQAuthGranted";
     cmd->icon		= "auth";
-    cmd->menu_grp	= 0;
     cmd->param		= &defIcqAuthGranted;
     eMsg.process();
 
     cmd->id			= MessageICQAuthRefused;
     cmd->text		= "ICQAuthRefused";
     cmd->icon		= "auth";
-    cmd->menu_grp	= 0;
     cmd->param		= &defIcqAuthRefused;
     eMsg.process();
 
     cmd->id			= MessageWebPanel;
     cmd->text		= I18N_NOOP("Web panel");
     cmd->icon		= "web";
-    cmd->menu_grp	= 0;
     cmd->param		= &defWebPanel;
     eMsg.process();
 
     cmd->id			= MessageEmailPager;
     cmd->text		= I18N_NOOP("Email pager");
     cmd->icon		= "mailpager";
-    cmd->menu_grp	= 0;
     cmd->param		= &defEmailPager;
     eMsg.process();
 
@@ -1556,10 +978,10 @@ void ICQPlugin::registerMessages()
 
 void ICQPlugin::unregisterMessages()
 {
-    Event eUrl(EventRemoveMessageType, (void*)MessageURL);
+    Event eUrl(EventRemoveMessageType, (void*)MessageICQUrl);
     eUrl.process();
 
-    Event eContact(EventRemoveMessageType, (void*)MessageContact);
+    Event eContact(EventRemoveMessageType, (void*)MessageICQContacts);
     eContact.process();
 
     Event eIcq(EventRemoveMessageType, (void*)MessageICQ);
@@ -1627,21 +1049,21 @@ void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned
     Buffer buf;
     string res;
     switch (msg->type()){
-    case MessageURL:
+    case MessageUrl:
         res = fromUnicode(msg->getPlainText(), data);
         res += '\xFE';
-        res += fromUnicode(static_cast<URLMessage*>(msg)->getUrl(), data);
+        res += fromUnicode(static_cast<UrlMessage*>(msg)->getUrl(), data);
         type = ICQ_MSGxURL;
         break;
-    case MessageContact:{
+    case MessageContacts:{
             unsigned nContacts = 0;
-            QString contacts = static_cast<ContactMessage*>(msg)->getContacts();
+            QString contacts = static_cast<ContactsMessage*>(msg)->getContacts();
             while (!contacts.isEmpty()){
                 QString contact = getToken(contacts, ';');
                 nContacts++;
             }
             res = number(nContacts);
-            contacts = static_cast<ContactMessage*>(msg)->getContacts();
+            contacts = static_cast<ContactsMessage*>(msg)->getContacts();
             while (!contacts.isEmpty()){
                 QString contact = getToken(contacts, ';');
                 QString uin = getToken(contact, ',');
@@ -2202,10 +1624,6 @@ void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &in
         info.pack(answer.data(0), answer.size());
     }
 }
-
-#ifndef WIN32
-#include "icqmessage.moc"
-#endif
 
 
 
