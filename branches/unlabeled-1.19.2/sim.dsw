@@ -267,6 +267,21 @@ Package=<4>
 
 ###############################################################################
 
+Project: "livejournal"=.\plugins\livejournal\livejournal.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+}}}
+
+###############################################################################
+
 Project: "loger"=.\plugins\logger\logger.dsp - Package Owner=<4>
 
 Package=<5>
@@ -422,12 +437,6 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name simctrl
     End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name simremote
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name simext
-    End Project Dependency
 }}}
 
 ###############################################################################
@@ -560,6 +569,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name zodiak
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name livejournal
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -596,9 +608,6 @@ Package=<5>
 
 Package=<4>
 {{{
-    Begin Project Dependency
-    Project_Dep_Name simremote
-    End Project Dependency
 }}}
 
 ###############################################################################
@@ -611,9 +620,6 @@ Package=<5>
 
 Package=<4>
 {{{
-    Begin Project Dependency
-    Project_Dep_Name simremote
-    End Project Dependency
 }}}
 
 ###############################################################################
