@@ -473,7 +473,7 @@ void OSDPlugin::processQueue()
             }
             break;
         case OSD_ALERTOFFLINE:
-            if (data->EnableAlertOffline.bValue){
+            if (data->EnableAlertOffline.bValue && !(core->getManualStatus() == STATUS_OFFLINE)){
                 text = g_i18n("%1 is offline", contact) .arg(contact->getName());
             }
             break;
