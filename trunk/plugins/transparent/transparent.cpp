@@ -108,6 +108,7 @@ TransparentPlugin::TransparentPlugin(unsigned base, const char *config)
 #endif
 {
     load_data(transparentData, &data, config);
+    if (getTransparency() >100) setTransparency(100);
 #ifdef WIN32
     timer = NULL;
 #else
@@ -236,8 +237,10 @@ void TransparentPlugin::tick()
 
 void *TransparentPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventInit)
+    if (e->type() == EventInit) {
+        top = NULL;
         setState();
+    }
 #ifndef WIN32
     if (e->type() == EventPaintView){
         PaintView *pv = (PaintView*)(e->param());

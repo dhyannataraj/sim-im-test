@@ -36,6 +36,11 @@ TransparentTop::TransparentTop(QWidget *parent, unsigned transparent)
     transparentChanged();
 }
 
+TransparentTop::~TransparentTop()
+{
+    log(L_DEBUG,"TransparentTop deleted!");
+}
+
 void TransparentTop::transparentChanged()
 {
     rootpixmap->start();

@@ -30,6 +30,7 @@ class TransparentTop : public QObject
     Q_OBJECT
 public:
     TransparentTop(QWidget *parent, unsigned transparent);
+    ~TransparentTop();
     static void setTransparent(QWidget*, bool isTransparent, unsigned long transparency);
     static bool bCanTransparent;
     static TransparentTop *getTransparent(QWidget*);
