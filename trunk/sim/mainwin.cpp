@@ -860,7 +860,7 @@ void MainWindow::messageReceived(ICQMessage *msg)
     if (!u->AcceptFileOverride)
         u = pClient->owner;
     if (u->AcceptMsgWindow)
-        userFunction(msg->getUin(), mnuAction);
+        userFunction(msg->getUin(), mnuActionAuto);
 }
 
 void MainWindow::showUser(int id)
@@ -1163,6 +1163,10 @@ void MainWindow::showUser(unsigned long uin, int function, unsigned long param)
             ICQMessage *msg = (*it)->currentMessage();
             bool bOK = false;
             switch (function){
+            case mnuActionAuto:
+                if (u->unreadMsgs.size()){
+                    if (msg && msg->Received) return;
+                }
             case mnuAction:
             case mnuActionInt:
                 if (u->unreadMsgs.size()){
@@ -1278,7 +1282,7 @@ void MainWindow::toggleWindow()
 
 void MainWindow::toggleShow()
 {
-	if (menuFunction && menuFunction->isVisible()) return;
+    if (menuFunction && menuFunction->isVisible()) return;
     if (noToggle) return;
     setShow(!isShow());
     noToggle = true;
@@ -1710,6 +1714,7 @@ void MainWindow::userFunction(unsigned long uin, int function, unsigned long par
     case mnuClose:
         closeUser(uin);
         return;
+    case mnuActionAuto:
     case mnuAction: {
             ICQUser *u = pClient->getUser(uin);
             if (u && (u->unreadMsgs.size() == 0) && (u->Type == USER_TYPE_EXT)){
@@ -1724,7 +1729,7 @@ void MainWindow::userFunction(unsigned long uin, int function, unsigned long par
                     return;
                 }
             }
-            showUser(uin, mnuAction, param);
+            showUser(uin, function, param);
             return;
         }
     case mnuChat:{

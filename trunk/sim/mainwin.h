@@ -86,6 +86,7 @@ const int mnuSecureOff = 37;
 const int mnuAutoResponse = 38;
 const int mnuShare = 39;
 const int mnuSort = 40;
+const int mnuActionAuto = 41;
 const int mnuGrpTitle = 0x10000;
 const int mnuPopupStatus = 0x20000;
 

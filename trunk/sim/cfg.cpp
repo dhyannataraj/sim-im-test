@@ -167,31 +167,37 @@ void save(void *_obj, const cfgParam *params, ostream &out)
                     out << "[]\n";
             }
             if ((value.size() == 0) && !writeEmpty) continue;
-            string quoted;
-            for (unsigned i = 0; i < value.size(); i++){
-                switch (value[i]){
-                case '\\':
-                    quoted += "\\\\";
-                    break;
-                case '\n':
-                    quoted += "\\n";
-                    break;
-                default:
-                    if ((unsigned char)value[i] >= ' '){
-                        quoted += value[i];
-                    }else if (value[i]){
-                        quoted += "\\x";
-                        quoted += toHex(value[i] >> 4);
-                        quoted += toHex(value[i]);
-                    }
-                }
-            }
-            out << p->name << "=" << quoted << "\n";
+            value = quoteString(value);
+            out << p->name << "=" << value << "\n";
         }
         if (p->defValue == 0) break;
         params = (const cfgParam*)(p->defValue);
         if (p->offs) obj = *((char**)(obj + p->offs));
     }
+}
+
+string quoteString(const string &value)
+{
+    string quoted;
+    for (unsigned i = 0; i < value.size(); i++){
+        switch (value[i]){
+        case '\\':
+            quoted += "\\\\";
+            break;
+        case '\n':
+            quoted += "\\n";
+            break;
+        default:
+            if ((unsigned char)value[i] >= ' '){
+                quoted += value[i];
+            }else if (value[i]){
+                quoted += "\\x";
+                quoted += toHex(value[i] >> 4);
+                quoted += toHex(value[i]);
+            }
+        }
+    }
+    return quoted;
 }
 
 typedef void *createObj();

@@ -85,8 +85,8 @@ public:
     void addUnread(unsigned long uin);
     void deleteUser(unsigned long uin);
     void setUin(unsigned long uin);
-	unsigned long msgId(int parag);
-	int findMsg(unsigned long msgId, int startParag);
+    unsigned long msgId(int parag);
+    int findMsg(unsigned long msgId, int startParag);
 public slots:
     void addMessage(ICQMessage *msg, bool bUnread, bool bSet);
     void setMessage(unsigned long uin, unsigned long msgId);
@@ -111,16 +111,16 @@ public:
     HistoryTextView(QWidget *p, unsigned long uin);
     ~HistoryTextView();
     void fill(unsigned long offs, const QString &filter, unsigned long findId);
-	unsigned long findId;
+    unsigned long findId;
 signals:
     void showProgress(int);
     void fillDone(unsigned long offs);
-	void findDone(unsigned long id);
+    void findDone(unsigned long id);
 protected slots:
     virtual void ownColorsChanged();
     void fill();
 protected:
-	list<unsigned long> msgs;
+    list<unsigned long> msgs;
     unsigned nMsg;
     bool bFill;
     ICQUser *u;
@@ -140,31 +140,31 @@ signals:
 protected slots:
     void slotShowProgress(int);
     void slotGoMessage(unsigned long uin, unsigned long msgId);
-	void slotFilter(bool);
+    void slotFilter(bool);
     void slotSearch();
     void slotSearch(int);
     void searchTextChanged(const QString&);
     void searchChanged();
     void prevPage();
     void nextPage();
-	void nextPage(unsigned long findId);
+    void nextPage(unsigned long findId);
     void messageReceived(ICQMessage *msg);
     void processEvent(ICQEvent *e);
     void fill();
-	void viewFill(unsigned long pos, unsigned long findId);
+    void viewFill(unsigned long pos, unsigned long findId);
     void fillDone(unsigned long id);
-	void findDone(unsigned long id);
+    void findDone(unsigned long id);
 protected:
     stack<unsigned long> pages;
     int searchParag;
     int searchIndex;
     HistoryTextView *view;
     CToolButton *btnSearch;
-	CToolButton *btnFilter;
+    CToolButton *btnFilter;
     QComboBox   *cmbSearch;
     CToolButton *btnNext;
     CToolButton *btnPrev;
-	QString filter;
+    QString filter;
 };
 
 #endif

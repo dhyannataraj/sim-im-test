@@ -448,6 +448,7 @@ void MsgEdit::action(int type, bool bSaveEdit)
     if (sendEvent) return;
     if (Uin == 0)
         log(L_WARN, "Bad UIN for message create");
+    if (type == mnuActionAuto) type = mnuAction;
     if ((type == mnuAction) || (type == mnuActionInt)){
         if ((type == mnuAction) && canSend())
             return;
@@ -947,7 +948,11 @@ void MsgEdit::setupNext()
         QString s;
         if (nUnread > 1) s.sprintf(" [%u]", nUnread);
         btnNext->setState(SIMClient::getMessageIcon(msgType), i18n("Next") + s);
-        if (btnSend->isVisible()) btnNext->hide();
+        if (btnSend->isVisible()){
+            btnNext->hide();
+        }else{
+            btnNext->show();
+        }
         return;
     }
     if (btnReply->isVisible() || btnSend->isVisible()){

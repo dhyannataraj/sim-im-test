@@ -272,117 +272,119 @@ QString CUser::client()
         res = "AIM(?)";
     else if ((u->Version == 7) && !u->hasCap(CAP_RTF))
         res = "ICQ 2000 (?)";
-    if (u->Version)
-        res = QString("v") + QString::number(u->Version) + " " + res;
-    if (v1 || v2){
-        res += " ";
-        res += QString::number(v1);
-        res += ".";
-        res += QString::number(v2);
-    }
-    if (v3){
-        res += ".";
-        res += QString::number(v3);
-    }
-    if (v4){
-        res += ".";
-        res += QString::number(v4);
-    }
-    if (!add.isEmpty())
-        res += add;
-    return res;
-}
+    else if ((u->Version == 7)
+             res = "GnomeICU";
+             if (u->Version)
+                 res = QString("v") + QString::number(u->Version) + " " + res;
+                 if (v1 || v2){
+                     res += " ";
+                     res += QString::number(v1);
+                         res += ".";
+                         res += QString::number(v2);
+                     }
+             if (v3){
+             res += ".";
+             res += QString::number(v3);
+             }
+             if (v4){
+             res += ".";
+             res += QString::number(v4);
+             }
+             if (!add.isEmpty())
+             res += add;
+             return res;
+         }
 
-QString CUser::toolTip()
-{
-    if (u == NULL) return "";
-    QString r;
-    QString s;
-    r = "<nobr>";
-    r += name(true);
-    r += "</nobr>";
-    if (u->Uin < UIN_SPECIAL)
-        r += s.sprintf("<br><nobr><font size=-1>UIN:</font> %lu</nobr>", u->Uin);
-    QString sFirstName = firstName(true);
-    QString sLastName = lastName(true);
-    if (sFirstName.length() || sLastName.length()){
-        r += "<br>";
-        r += sFirstName;
-        r += " ";
-        r += sLastName;
-    }
-    QString sEmail = email(true);
-    if (sEmail.length()){
-        r += "<br>";
-        r += sEmail;
-    }
-    if (u->uStatus == ICQ_STATUS_OFFLINE){
-        if (u->StatusTime){
-            r += "<br>_____________";
-            r += "<br><font size=-1>";
-            r += i18n("Last online");
-            r += ": </font>";
-            r += statusTime();
-        }
-    }else{
-        if (u->OnlineTime){
-            r += "<br>_____________";
-            r += "<br><font size=-1>";
-            r += i18n("Online");
-            r += ": </font>";
-            r += onlineTime();
-        }
-        if (u->uStatus & (ICQ_STATUS_AWAY | ICQ_STATUS_NA)){
-            r += "<br><font size=-1>";
-            r += SIMClient::getStatusText(u->uStatus);
-            r += ": </font>";
-            r += statusTime();
-        }
-    }
-    if (u->IP || u->RealIP){
-        r += "<br>";
-        r += addr();
-    }
-    bool isDiv = false;
-    PhoneBook::iterator it;
-    for (it = u->Phones.begin(); it != u->Phones.end(); it++){
-        PhoneInfo *phone = static_cast<PhoneInfo*>(*it);
-        if (phone->Type != SMS) continue;
-        if (!isDiv){
-            r += "<br>_____________";
-            isDiv = true;
-        }
-        r += "<br><img src=\"icon:cell\">";
-        r += pClient->from8Bit(u->Uin, phone->getNumber().c_str());
-    }
-    for (it = u->Phones.begin(); it != u->Phones.end(); it++){
-        PhoneInfo *phone = static_cast<PhoneInfo*>(*it);
-        if (!phone->Active) continue;
-        if (!isDiv){
-            r += "<br>_____________";
-            isDiv = true;
-        }
-        r += "<br><img src=\"icon:phone\">";
-        r += pClient->from8Bit(u->Uin, phone->getNumber().c_str());
-    }
-    QString sAutoReply = autoReply(true);
-    if (sAutoReply.length()){
-        r += "<br>_____________<br>";
-        r += sAutoReply;
-    }
-    QString sClient = client();
-    if (!sClient.isEmpty()){
-        r += "<br>_____________<br>";
-        r += sClient;
-    }
-    return r;
-}
+         QString CUser::toolTip()
+         {
+             if (u == NULL) return "";
+             QString r;
+             QString s;
+             r = "<nobr>";
+             r += name(true);
+             r += "</nobr>";
+             if (u->Uin < UIN_SPECIAL)
+                 r += s.sprintf("<br><nobr><font size=-1>UIN:</font> %lu</nobr>", u->Uin);
+             QString sFirstName = firstName(true);
+             QString sLastName = lastName(true);
+             if (sFirstName.length() || sLastName.length()){
+                 r += "<br>";
+                 r += sFirstName;
+                 r += " ";
+                 r += sLastName;
+             }
+             QString sEmail = email(true);
+             if (sEmail.length()){
+                 r += "<br>";
+                 r += sEmail;
+             }
+             if (u->uStatus == ICQ_STATUS_OFFLINE){
+                 if (u->StatusTime){
+                     r += "<br>_____________";
+                     r += "<br><font size=-1>";
+                     r += i18n("Last online");
+                     r += ": </font>";
+                     r += statusTime();
+                 }
+             }else{
+                 if (u->OnlineTime){
+                     r += "<br>_____________";
+                     r += "<br><font size=-1>";
+                     r += i18n("Online");
+                     r += ": </font>";
+                     r += onlineTime();
+                 }
+                 if (u->uStatus & (ICQ_STATUS_AWAY | ICQ_STATUS_NA)){
+                     r += "<br><font size=-1>";
+                     r += SIMClient::getStatusText(u->uStatus);
+                     r += ": </font>";
+                     r += statusTime();
+                 }
+             }
+             if (u->IP || u->RealIP){
+                 r += "<br>";
+                 r += addr();
+             }
+             bool isDiv = false;
+             PhoneBook::iterator it;
+             for (it = u->Phones.begin(); it != u->Phones.end(); it++){
+                 PhoneInfo *phone = static_cast<PhoneInfo*>(*it);
+                 if (phone->Type != SMS) continue;
+                 if (!isDiv){
+                     r += "<br>_____________";
+                     isDiv = true;
+                 }
+                 r += "<br><img src=\"icon:cell\">";
+                 r += pClient->from8Bit(u->Uin, phone->getNumber().c_str());
+             }
+             for (it = u->Phones.begin(); it != u->Phones.end(); it++){
+                 PhoneInfo *phone = static_cast<PhoneInfo*>(*it);
+                 if (!phone->Active) continue;
+                 if (!isDiv){
+                     r += "<br>_____________";
+                     isDiv = true;
+                 }
+                 r += "<br><img src=\"icon:phone\">";
+                 r += pClient->from8Bit(u->Uin, phone->getNumber().c_str());
+             }
+             QString sAutoReply = autoReply(true);
+             if (sAutoReply.length()){
+                 r += "<br>_____________<br>";
+                 r += sAutoReply;
+             }
+             QString sClient = client();
+             if (!sClient.isEmpty()){
+                 r += "<br>_____________<br>";
+                 r += sClient;
+             }
+             return r;
+         }
 
-CGroup::CGroup(ICQGroup *_g) : g(_g) {}
+         CGroup::CGroup(ICQGroup *_g) : g(_g) {}
 
-QString CGroup::name()
-{
-    string n;
-    return QString::fromLocal8Bit(g->Name.c_str());
-}
+         QString CGroup::name()
+         {
+             string n;
+             return QString::fromLocal8Bit(g->Name.c_str());
+         }
 

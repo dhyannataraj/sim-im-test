@@ -98,6 +98,8 @@ public:
     UserView	*users;
     virtual void setBackgroundPixmap(const QPixmap&);
     ICQMessage	*currentMessage();
+    bool bHistory;
+    bool bUserInfo;
 signals:
     void messageReceived(ICQMessage*);
 public slots:

@@ -62,7 +62,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 log(L_WARN, "Bad first roster byte %02X", c);
                 break;
             }
-	    bool bIgnoreTime = false;
+            bool bIgnoreTime = false;
             vector<ICQGroup*>::iterator it_grp;
             list<ICQUser*>::iterator it_usr;
             if (!m_bRosters){
@@ -113,8 +113,8 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                                 user->adjustPhones();
                             }
                         }else{
-			    bIgnoreTime = true;
-			}
+                            bIgnoreTime = true;
+                        }
                         break;
                     }
                 case ICQ_GROUPS:{

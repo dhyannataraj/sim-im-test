@@ -43,7 +43,7 @@ public:
     void remove();
     unsigned long addMessage(ICQMessage*);
     ICQMessage *getMessage(unsigned long);
-	static bool matchMessage(ICQMessage*, const QString &pattern);
+    static bool matchMessage(ICQMessage*, const QString &pattern);
 
     class iterator
     {
@@ -52,18 +52,18 @@ public:
         bool operator++();
         int progress();
         void setOffs(unsigned long);
-		void setFilter(const QString &filter);
-		void setCondition(const QString &condition);
-		~iterator() 
-		{ 
-			if (msg) delete msg; 
-			f.close(); 
-			setFilter("");
-			setCondition("");
-		}
+        void setFilter(const QString &filter);
+        void setCondition(const QString &condition);
+        ~iterator()
+        {
+            if (msg) delete msg;
+            f.close();
+            setFilter("");
+            setCondition("");
+        }
 protected:
-		QString filter;
-		QString condition;
+        QString filter;
+        QString condition;
         History &h;
         iterator(History &_h);
         std::fstream f;
@@ -73,8 +73,8 @@ protected:
         stack<unsigned long> msgs;
         string type;
         ICQMessage *msg;
-		Grep *grepFilter;
-		Grep *grepCondition;
+        Grep *grepFilter;
+        Grep *grepCondition;
         friend class History;
 private:
         iterator(iterator&);

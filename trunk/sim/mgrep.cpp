@@ -19,8 +19,6 @@ Copyright (c) 1991 Sun Wu and Udi Manber.  All Rights Reserved.
  *                                                                         *
  ***************************************************************************/
 
-#include "mgrep.h"
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -42,19 +40,8 @@ Copyright (c) 1991 Sun Wu and Udi Manber.  All Rights Reserved.
 #include <qstring.h>
 #include <qtextcodec.h>
 
-#ifdef WIN32
-#if _MSC_VER > 1020
-#pragma warning(disable:4530)
-#endif
-#endif
-
-#include <string>
-using namespace std;
-#ifdef WIN32
-#if _MSC_VER > 1020
-#pragma warning(disable:4786)
-#endif
-#endif
+#include "cfg.h"
+#include "mgrep.h"
 
 // _____________________________________________________________________________________________________________________
 
@@ -84,13 +71,15 @@ Grep::Grep(const QString &pat, QTextCodec *codec)
     bShort = bLong = 0;
 
     int lenOut = pat.length();
-	if (lenOut){
-		QCString uStr = pat.utf8();
-		QCString lStr = codec->makeEncoder()->fromUnicode(pat, lenOut);
-		add_pattern(uStr);
-		if (uStr != lStr)
-			add_pattern(lStr);
-	}
+    if (lenOut){
+        string uStr;
+        uStr = pat.utf8();
+        string lStr;
+        lStr = codec->makeEncoder()->fromUnicode(pat, lenOut);
+        add_pattern(quoteString(uStr).c_str());
+        if (strcmp(uStr.c_str(), lStr.c_str()))
+            add_pattern(quoteString(lStr).c_str());
+    }
     prepare_engine();
 }
 
@@ -217,7 +206,7 @@ bool Grep::monkey1(unsigned char *text, int start, int end )
         }
         text = text + shift;
     }
-	return false;
+    return false;
 }
 
 bool Grep::m_short(unsigned char *text, int start, int end )
@@ -246,10 +235,10 @@ bool Grep::m_short(unsigned char *text, int start, int end )
             {
                 if(text >= textend) return false;
                 return true;
-			}
+            }
         }
     }
-	return false;
+    return false;
 }
 
 void Grep::f_prep(int pat_index, unsigned char *Pattern)

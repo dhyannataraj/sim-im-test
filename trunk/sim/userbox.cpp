@@ -85,6 +85,8 @@ static cfgParam UserBox_Params[] =
         { "ToolbarDock", OFFSET_OF(UserBox, ToolbarDock), PARAM_STRING, (unsigned)("Top") },
         { "ToolbarOffset", OFFSET_OF(UserBox, ToolbarOffset), PARAM_SHORT, 0 },
         { "ToolbarY", OFFSET_OF(UserBox, ToolbarY), PARAM_SHORT, 0 },
+        { "History", OFFSET_OF(UserBox, bHistory), PARAM_BOOL, 0 },
+        { "UserInfo", OFFSET_OF(UserBox, bUserInfo), PARAM_BOOL, 0 },
         { "", 0, 0, 0 }
     };
 
@@ -100,7 +102,6 @@ UserBox::UserBox(unsigned long grpId)
 {
 
     SET_WNDPROC
-
     ::init(this, UserBox_Params);
     ToolbarDock = pMain->UserBoxToolbarDock;
     ToolbarOffset = pMain->UserBoxToolbarOffset;
@@ -633,6 +634,8 @@ bool UserBox::load(std::istream &s, string &part)
     if (curTab != -1) selectedUser(curTab);
     adjustToolbar();
     setShow();
+    if (bHistory) btnHistory->setOn(true);
+    if (bUserInfo) btnInfo->setOn(true);
     return true;
 }
 

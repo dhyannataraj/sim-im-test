@@ -78,6 +78,7 @@ const unsigned PARAM_CHAR	 = 7;
 void init(void *obj, const cfgParam *params);
 void save(void *obj, const cfgParam *params, ostream &s);
 bool load(void *obj, const cfgParam *params, istream &s, string &nextPart);
+string quoteString(const string &value);
 
 #endif
 

@@ -772,8 +772,8 @@ bool ICQClient::requestAutoResponse(unsigned long uin, bool bAuto)
     unsigned long status = user->uStatus & 0xFF;
     if (status == 0) return false;
     if (!bAuto){
-	if (owner->inInvisible && !user->inVisible) return false;
-	if (!owner->inInvisible && user->inInvisible) return false;
+        if (owner->inInvisible && !user->inVisible) return false;
+        if (!owner->inInvisible && user->inInvisible) return false;
     }
 
     responseRequestSeq = --advCounter;
