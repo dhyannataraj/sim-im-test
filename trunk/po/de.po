@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2002-08-11 20:42+0400\n"
-"PO-Revision-Date: 2002-08-09 23:51GMT\n"
-"Last-Translator: Crissi <crissi99@gmx.de>\n"
-"Language-Team: deutsch <de@li.org>\n"
+"PO-Revision-Date: 2002-08-11 22:00GMT\n"
+"Last-Translator: \n"
+"Language-Team:  <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2571,7 +2571,7 @@ msgstr "Schnittstelle"
 
 #: ui/setupdlg.cpp:94
 msgid "Key shortcuts"
-msgstr ""
+msgstr "Tastaturkürzel"
 
 #: ui/alertdialogbase.cpp:115 ui/setupdlg.cpp:96
 msgid "On Screen notification"
@@ -3069,7 +3069,7 @@ msgstr "Startbild &anzeigen"
 
 #: ui/fontsetupbase.cpp:230
 msgid "Use emotional &icons"
-msgstr ""
+msgstr "Emotionelle &Icons benutzen"
 
 #: ui/phonebookbase.cpp:91
 msgid "User is currently available at:"
@@ -3166,9 +3166,8 @@ msgid "Transparent container"
 msgstr "Transparenter Container"
 
 #: ui/themesetupbase.cpp:136
-#, fuzzy
 msgid "Transparent only if inactive"
-msgstr "Transparenter Container"
+msgstr "Nur transparent wenn inaktiv"
 
 #: ui/themesetupbase.cpp:144
 msgid "Show main window in task manager"
@@ -3215,8 +3214,7 @@ msgid "Spoken languages:"
 msgstr "Gesprochene Sprachen:"
 
 #: ui/statussetupbase.cpp:95
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -3345,8 +3343,7 @@ msgstr "&Andere Nachrichten ablehnen"
 
 #: ui/generalsecbase.cpp:185
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: ui/aboutinfobase.cpp:62
 msgid "Form4"
@@ -3413,41 +3410,36 @@ msgid "Names"
 msgstr "Namen"
 
 #: ui/keysetup.cpp:33
-#, fuzzy
 msgid "Action"
-msgstr "Bildung"
+msgstr "Aktion"
 
 #: ui/keysetup.cpp:34
-#, fuzzy
 msgid "Keys"
-msgstr "Kenia"
+msgstr "Tasten"
 
 #: ui/keysetup.cpp:35
-#, fuzzy
 msgid "Show/Hide main window"
-msgstr "Startbild &anzeigen"
+msgstr "Hauptfenster anzeigen/verstecken"
 
 #: ui/keysetup.cpp:36
 msgid "Double click on dock"
-msgstr ""
+msgstr "Doppelklick zum Docken"
 
 #: ui/keysetup.cpp:37
-#, fuzzy
 msgid "Show search window"
-msgstr "Startbild &anzeigen"
+msgstr "Suchfenster anzeigen"
 
 #: ui/keysetupbase.cpp:109
 msgid "Keyboard shortcuts"
-msgstr ""
+msgstr "Tastaturkürzel"
 
 #: ui/keysetupbase.cpp:121
-#, fuzzy
 msgid "Actions:"
-msgstr "Icons:"
+msgstr "Aktionen:"
 
 #: ui/keysetupbase.cpp:134
 msgid "&Enable"
-msgstr ""
+msgstr "&Aktivieren"
 
 #: about.cpp:280
 msgid "replace this with information about your translation team"
@@ -3455,8 +3447,7 @@ msgstr ";-)"
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
 
 #~ msgid "&Simple mode"
 #~ msgstr "&Einfacher Modus"
@@ -3466,3 +3457,4 @@ msgstr ""
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
