@@ -8438,7 +8438,7 @@ msgstr "km"
 
 #: plugins/weather/weather.cpp:501
 msgid "km/h"
-msgstr "km/"
+msgstr "km/h"
 
 #: plugins/weather/weather.cpp:513
 msgid "and"
@@ -8487,7 +8487,7 @@ msgstr ""
 "<img src=\"icon:weather\"> %c<br>\n"
 "Demberadur: <b>%t</b> (gfihld wie <b>%f</b>)<br>\n"
 "Feichdigkeid: <b>%h</b><br>\n"
-"Drugg: <b>%p</b>(%q)<br>\n"
+"Drugg: <b>%p</b> (%q)<br>\n"
 "Wend: <b>%b</b> <b>%w %g</b><br>\n"
 "Sichdbarkeid: <b>%v</b><br>\n"
 "Daubunkd: <b>%d</b><br>\n"
