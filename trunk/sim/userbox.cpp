@@ -201,12 +201,15 @@ UserBox::UserBox(unsigned long grpId)
     connect(accel, SIGNAL(activated(int)), this, SLOT(accelActivated(int)));
     accel->insertItem(Key_Left + ALT, mnuWindow + 11);
     accel->insertItem(Key_Right + ALT, mnuWindow + 12);
+    accel->insertItem(Key_Left + SHIFT, mnuWindow + 11);
+    accel->insertItem(Key_Right + SHIFT, mnuWindow + 12);
     accel->insertItem(ACCEL(ICQ_MSGxMSG), mnuMessage);
     accel->insertItem(ACCEL(ICQ_MSGxURL), mnuURL);
     accel->insertItem(ACCEL(ICQ_MSGxFILE), mnuFile);
     accel->insertItem(ACCEL(ICQ_MSGxCHAT), mnuChat);
     accel->insertItem(ACCEL(ICQ_MSGxCONTACTxLIST), mnuContacts);
     accel->insertItem(ACCEL(ICQ_MSGxMAIL), mnuMail);
+	accel->insertItem(Key_Escape, mnuWindow + 13);
     setOnTop();
 }
 
@@ -531,6 +534,10 @@ void UserBox::accelActivated(int id)
 {
     if (id > mnuWindow){
         id -= mnuWindow;
+		if (id == 13){
+			if (curWnd) curWnd->close();
+			return;
+		}
         int pos = 0;
         int curId = tabs->currentTab();
         list<MsgEdit*>::iterator it;

@@ -33,7 +33,6 @@
 #include "ui/enable.h"
 #include "ui/editfile.h"
 #include "ui/ballonmsg.h"
-#include "ui/wndcancel.h"
 #include "ui/filetransfer.h"
 
 #include <stdio.h>
@@ -229,7 +228,6 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     setUIN(uin);
     connect(pMain, SIGNAL(modeChanged(bool)), this, SLOT(modeChanged(bool)));
     modeChanged(pMain->isSimpleMode());
-    wndCancel = new WndCancel(this);
 }
 
 MsgEdit::~MsgEdit()

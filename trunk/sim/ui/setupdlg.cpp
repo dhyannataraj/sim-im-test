@@ -40,7 +40,6 @@
 #include "ui/accept.h"
 #include "ui/network.h"
 #include "ui/keysetup.h"
-#include "ui/wndcancel.h"
 #include "ui/smssetup.h"
 
 #include "ui/enable.h"

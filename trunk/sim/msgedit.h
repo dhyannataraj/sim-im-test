@@ -47,7 +47,6 @@ class EditFile;
 class UserTab;
 class History;
 class MsgViewConv;
-class WndCancel;
 class CToolButton;
 class PictButton;
 class Tmpl;
@@ -202,7 +201,6 @@ protected:
     bool bInIgnore;
     bool bFirstShow;
     QString msgTail;
-    WndCancel *wndCancel;
 };
 
 #endif
