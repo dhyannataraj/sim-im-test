@@ -1385,7 +1385,7 @@ msgstr "Email Gataway:"
 
 #: ui/soundsetupbase.cpp:117
 msgid "Message:"
-msgstr "Lauftext:"
+msgstr "Nachricht:"
 
 #: ui/soundsetupbase.cpp:138
 msgid "Authorization"
@@ -1482,7 +1482,7 @@ msgstr "Postleitzahl:"
 
 #: ui/homeinfobase.cpp:96 ui/searchbase.cpp:164 ui/workinfobase.cpp:190
 msgid "State:"
-msgstr "Staat:"
+msgstr "Status:"
 
 #: ui/themesetupbase.cpp:92
 msgid "Select style:"
@@ -1490,7 +1490,7 @@ msgstr "Stil auswählen:"
 
 #: ui/themesetupbase.cpp:104
 msgid "Icons:"
-msgstr "Symbole:"
+msgstr "Icons:"
 
 #: ui/themesetupbase.cpp:112
 msgid "Transparent main window"
@@ -1498,7 +1498,7 @@ msgstr "Transparentes Hauptfenster"
 
 #: ui/themesetupbase.cpp:116 ui/themesetupbase.cpp:128
 msgid "Transparency"
-msgstr "Folie"
+msgstr "Transpararenz"
 
 #: ui/themesetupbase.cpp:124
 msgid "Transparent container"
@@ -1507,11 +1507,11 @@ msgstr "Transparenter Container"
 #: ui/themesetupbase.cpp:140
 #, fuzzy
 msgid "Show main window in task manager"
-msgstr "Benutzerfenster in Prozeßliste anzeigen"
+msgstr "Hauptfenster in Fensterleiste  anzeigen"
 
 #: ui/themesetupbase.cpp:144
 msgid "Show user window in task manager"
-msgstr "Benutzerfenster in Prozeßliste anzeigen"
+msgstr "Benutzerfenster in Fensterliste  anzeigen"
 
 #: ui/statussetupbase.cpp:95
 msgid ""
@@ -1725,7 +1725,7 @@ msgstr "Sprache:"
 
 #: ui/searchbase.cpp:174
 msgid "Department:"
-msgstr ""
+msgstr "Abteilung:"
 
 #: ui/searchbase.cpp:184
 #, fuzzy
@@ -1735,7 +1735,7 @@ msgstr "Land:"
 #: ui/searchbase.cpp:194
 #, fuzzy
 msgid "Interests:"
-msgstr "Interessen"
+msgstr "Interessen:"
 
 #: ui/searchbase.cpp:202
 msgid "Email/Info"
