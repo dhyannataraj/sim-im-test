@@ -3405,7 +3405,7 @@ LTCC=$lt_LTCC
 CC=$lt_[]_LT_AC_TAGVAR(compiler, $1)
 
 # An ERE matcher.
-EGREP=$EGREP
+EGREP="$EGREP"
 
 # Is the compiler the GNU C compiler?
 with_gcc=$_LT_AC_TAGVAR(GCC, $1)
