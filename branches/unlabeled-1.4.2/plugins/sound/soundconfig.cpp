@@ -43,7 +43,6 @@ chkArts->hide();
 #endif
     edtPlayer->setText(QString::fromLocal8Bit(plugin->getPlayer()));
 #endif
-    chkAlert->setChecked(plugin->getDisableAlert());
     string s;
     s = plugin->fullName(plugin->getStartUp());
     edtStartup->setText(QFile::decodeName(s.c_str()));
@@ -85,7 +84,6 @@ void SoundConfig::apply()
     m_plugin->setStartUp(QFile::encodeName(sound(edtStartup->text(), "startup.wav")));
     m_plugin->setFileDone(QFile::encodeName(sound(edtFileDone->text(), "startup.wav")));
     m_plugin->setMessageSent(QFile::encodeName(sound(edtSent->text(), "startup.wav")));
-    m_plugin->setDisableAlert(chkAlert->isChecked());
 }
 
 QString SoundConfig::sound(QString text, const char *def)

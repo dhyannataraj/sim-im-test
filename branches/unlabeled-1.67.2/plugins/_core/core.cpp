@@ -2007,7 +2007,7 @@ void *CorePlugin::processEvent(Event *e)
             }
             delete list;
             if (userWnd == NULL){
-                userWnd = new UserWnd(contact->id(), NULL, (*msg)->getFlags() & MESSAGE_RECEIVED);
+                userWnd = new UserWnd(contact->id(), NULL, (*msg)->getFlags() & MESSAGE_RECEIVED, false);
                 if (getContainerMode() == 3){
                     QWidgetList  *list = QApplication::topLevelWidgets();
                     QWidgetListIt it(*list);

@@ -446,11 +446,13 @@ void TextEdit::setForeground(const QColor& c, bool bDef)
     if (!hasSelectedText())
         setColor(c);
     int r = c.red();
+#if COMPAT_QT_VERSION >= 0x030000
     if (r){
         r--;
     }else{
         r++;
     }
+#endif
     QPalette pal = palette();
     pal.setColor(QPalette::Active, QColorGroup::Text, QColor(r, c.green(), c.blue()));
     setPalette(pal);

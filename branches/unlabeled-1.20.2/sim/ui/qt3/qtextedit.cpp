@@ -3761,13 +3761,12 @@ void QTextEdit::pasteSubType( const QCString& subtype, QMimeSource *m )
     st.prepend( "application/" );
     if ( !m )
         return;
-    if ( doc->hasSelection( QTextDocument::Standard ) )
-        removeSelectedText();
     if ( !QRichTextDrag::canDecode( m ) )
         return;
     QString t;
     if ( !QRichTextDrag::decode( m, t, st.data(), subtype ) )
         return;
+    if ( st == "application/x-qrichtext" ) {
     int start;
     if ((start = t.find( "<!--StartFragment-->" )) != -1 ) {
         start += 20;
@@ -3822,6 +3821,22 @@ void QTextEdit::pasteSubType( const QCString& subtype, QMimeSource *m )
     emit textChanged();
     repaintChanged();
     ensureCursorVisible();
+    } else {
+#if defined(Q_OS_WIN32)
+	// Need to convert CRLF to LF
+	t.replace( "\r\n", "\n" );
+#elif defined(Q_OS_MAC)
+	//need to convert CR to LF
+	t.replace( '\r', '\n' );
+#endif
+	QChar *uc = (QChar *)t.unicode();
+	for ( int i=0; (uint) i<t.length(); i++ ) {
+	    if ( uc[ i ] < ' ' && uc[ i ] != '\n' && uc[ i ] != '\t' )
+		uc[ i ] = ' ';
+	}
+	if ( !t.isEmpty() )
+	    insert( t, FALSE, TRUE );
+    }
 }
 
 #ifndef QT_NO_MIMECLIPBOARD

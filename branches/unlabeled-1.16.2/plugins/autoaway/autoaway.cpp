@@ -283,7 +283,11 @@ void AutoAwayPlugin::timeout()
 
 void *AutoAwayPlugin::processEvent(Event *e)
 {
-    if ((e->type() == EventContactOnline) && getDisableAlert()){
+	if (e->type() == EventPlaySound){
+		if (getDisableAlert() && (bAway || bNA || bOff))
+			return e->param();
+	}
+    if (e->type() == EventContactOnline){
         unsigned commonStatus = STATUS_UNKNOWN;
         for (unsigned i = 0; i < getContacts()->nClients(); i++){
             Client *client = getContacts()->getClient(i);

@@ -39,7 +39,7 @@ class UserWnd : public QSplitter
 {
     Q_OBJECT
 public:
-    UserWnd(unsigned id, const char *cfg, bool bReceived);
+    UserWnd(unsigned id, const char *cfg, bool bReceived, bool bAdjust);
     ~UserWnd();
     string getConfig();
     unsigned id() { return m_id; }
