@@ -714,8 +714,11 @@ void History::del(const char *name, unsigned contact, unsigned id, bool bCopy, M
         }
         config.setSize(size + readn);
         string section = config.getSection();
-        if (section.empty())
+        if (section.empty()){
+			if (readn == 0)
+				return;
             continue;
+		}
         if ((config.writePos() != config.size()) || (readn == 0))
             break;
     }

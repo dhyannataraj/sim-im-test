@@ -1590,7 +1590,7 @@ void ICQClient::processSendQueue()
 static QString getUtf8Part(QString &str, unsigned size)
 {
     if (str.utf8().length() < size){
-        QString res;
+        QString res = str;
         str = "";
         return res;
     }
