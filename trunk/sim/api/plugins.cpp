@@ -169,17 +169,19 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
 #else
     QDir pluginDir(PLUGIN_PATH);
 #endif
-    /* do some test so we can blame when sim couldn't access / find
+    /* do some test so we can blame when sim can't access / find
        the plugins */
     pluginsList = pluginDir.entryList("*" LTDL_SHLIB_EXT);
     if (pluginsList.isEmpty()) {
-        fprintf(stderr,
-                "Couldn't access %s or directory contains no plugins!\n",
+        log(L_ERROR,
+                "Can't access %s or directory contains no plugins!",
                 pluginDir.path().ascii());
-        exit(1);
+        m_bAbort = true;
+		return;
     }
     m_bAbort = false;
 
+	log(L_DEBUG,"Loading plugins from %s",pluginDir.path().ascii());
     for (QStringList::Iterator it = pluginsList.begin(); it != pluginsList.end(); ++it){
         QString f = *it;
         int p = f.findRev('.');
@@ -199,7 +201,7 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
         info.info		 = NULL;
         info.base		 = 0;
         plugins.push_back(info);
-        fprintf(stderr,"Loaded plugin %s\n",info.name);
+        log(L_DEBUG,"Found plugin %s",info.name);
     }
     sort(plugins.begin(), plugins.end(), cmp_plugin);
     for (vector<pluginInfo>::iterator itp = plugins.begin(); itp != plugins.end(); ++itp){
@@ -207,15 +209,19 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
         if (m_bAbort)
             return;
     }
-    m_bInInit = false;
     Event eStart(EventInit);
-    eStart.process();
+    if ((int)eStart.process() == -1) {
+		log(L_ERROR,"EventInit failed - aborting!");
+        m_bAbort = true;
+		return;
+	}
     for (list<string>::iterator it_args = args.begin(); it_args != args.end(); ++it_args){
         if ((*it_args).length()){
             usage((*it_args).c_str());
             break;
         }
     }
+    m_bInInit = false;
 }
 
 PluginManagerPrivate::~PluginManagerPrivate()
@@ -262,6 +268,16 @@ void *PluginManagerPrivate::processEvent(Event *e)
         return (void*)(m_argc);
     case EventArgv:
         return (void*)(m_argv);
+    case EventLog:
+        if (m_bInInit) {
+            LogInfo *li = (LogInfo*)e->param();
+            if (li->log_level == L_ERROR) {
+                fprintf(stderr,"%s\n",li->log_info);
+            } else {
+                fprintf(stdout,"%s\n",li->log_info);
+            }
+        }
+        break;
 #ifndef WIN32
     case EventExec:
         exec = (ExecParam*)(e->param());
@@ -311,15 +327,15 @@ void PluginManagerPrivate::load(pluginInfo &info)
 #ifdef WIN32
         string pluginName = "plugins\\";
 #else
-        string pluginName = "plugins/";
+        string pluginName = PLUGIN_PATH;
+        pluginName += "/";
 #endif
         pluginName += info.name;
         pluginName += LTDL_SHLIB_EXT;
         string fullName = app_file(pluginName.c_str());
         info.module = (void*)lt_dlopen(fullName.c_str());
         if (info.module == NULL){
-            log(L_WARN, "Can't load plugin %s: %s", fullName.c_str(), lt_dlerror());
-            return;
+            log(L_WARN, "Can't load plugin %s", lt_dlerror());
         }
     }
     if (info.module == NULL)
@@ -328,7 +344,7 @@ void PluginManagerPrivate::load(pluginInfo &info)
         PluginInfo* (*getInfo)() = NULL;
         (lt_ptr&)getInfo = lt_dlsym((lt_dlhandle)info.module, "GetPluginInfo");
         if (getInfo == NULL){
-            log(L_WARN, "Plugin %s haven't entry GetInfo", info.name);
+            log(L_WARN, "Plugin %s hasn't entry GetInfo", info.name);
             release(info);
             return;
         }
@@ -336,16 +352,16 @@ void PluginManagerPrivate::load(pluginInfo &info)
 #ifndef WIN32
 #ifdef USE_KDE
         if (!(info.info->flags & PLUGIN_KDE_COMPILE)){
-            log(L_WARN, "Plugin %s compile without KDE support", info.name);
+            log(L_WARN, "Plugin %s is compiled without KDE support!", info.name);
             release(info);
             return;
         }
 #else
-if (info.info->flags & PLUGIN_KDE_COMPILE){
-        log(L_WARN, "Plugin %s compile with KDE support", info.name);
-        release(info);
-        return;
-    }
+        if (info.info->flags & PLUGIN_KDE_COMPILE){
+            log(L_WARN, "Plugin %s is compiled with KDE support!", info.name);
+            release(info);
+            return;
+        }
 #endif
 #endif
     }
@@ -544,7 +560,7 @@ void PluginManagerPrivate::saveState()
 #endif
     f.close();
     if (status != IO_Ok) {
-        log(L_ERROR, "IO error during writting to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());
+        log(L_ERROR, "I/O error during writing to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());
         return;
     }
 
