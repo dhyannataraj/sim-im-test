@@ -83,7 +83,7 @@ void init(void *_obj, const cfgParam *params)
             }
             break;
         case PARAM_CHARS:
-	    *((char**)(obj + p->offs)) = NULL;
+            *((char**)(obj + p->offs)) = NULL;
             set_str((char**)(obj + p->offs), (const char*)(p->defValue));
             break;
         case PARAM_BOOL:
@@ -120,9 +120,9 @@ void free(void *_obj, const cfgParam *params)
         case PARAM_OFFS:
             free(obj + p->offs, (cfgParam*)(p->defValue));
             break;
-	case PARAM_CHARS:
-	    set_str((char**)(obj + p->offs), NULL);
-	    break;
+        case PARAM_CHARS:
+            set_str((char**)(obj + p->offs), NULL);
+            break;
         }
     }
 }

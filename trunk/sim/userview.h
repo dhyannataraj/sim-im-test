@@ -203,20 +203,28 @@ protected:
     friend class GroupViewItem;
 };
 
+typedef struct UserFload_Data
+{
+    unsigned long	Uin;
+    unsigned short	Left;
+    unsigned short	Top;
+} UserFloat_Data;
+
 class UserFloat : public UserView
 {
     Q_OBJECT
 public:
     UserFloat();
     ~UserFloat();
-    unsigned long	Uin;
-    unsigned short	Left;
-    unsigned short	Top;
-    bool setUin(unsigned long uin);
+    PROP_ULONG(Uin)
+    PROP_USHORT(Left)
+    PROP_USHORT(Top)
+    bool setUIN(unsigned long uin);
     void save(QFile &s);
     bool load(QFile &s, string &nextPart);
     virtual void setBackgroundPixmap(const QPixmap&);
 protected:
+    UserFloat_Data data;
     void userChanged();
     bool bMoveMode;
     QPoint mousePos;

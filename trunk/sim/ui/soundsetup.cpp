@@ -32,8 +32,8 @@
 SoundSetup::SoundSetup(QWidget *p, bool bUser)
         : SoundSetupBase(p)
 {
-    chkDisable->setChecked(pSplash->getSoundDisable());
-    disableToggled(pSplash->getSoundDisable());
+    chkDisable->setChecked(pSplash->isSoundDisable());
+    disableToggled(pSplash->isSoundDisable());
 #ifdef WIN32
     tabWnd->setCurrentPage(1);
     tabWnd->removePage(tabWnd->currentPage());

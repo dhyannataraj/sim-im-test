@@ -30,7 +30,7 @@
 KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *parent, const char *name, bool modal)
         : AboutDlgBase(parent, name, modal)
 {
-    SET_WNDPROC
+    SET_WNDPROC("about")
 
     setButtonsPict(this);
     setCaption(caption());

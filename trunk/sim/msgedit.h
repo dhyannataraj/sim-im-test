@@ -86,13 +86,21 @@ protected:
     void resizeEvent(QResizeEvent*);
 };
 
+typedef struct MsgEdit_Data
+{
+    unsigned long	Uin;
+    unsigned short	EditHeight;
+} MsgEdit_Data;
+
 class MsgEdit : public QSplitter
 {
     Q_OBJECT
 public:
     MsgEdit(QWidget *parent, unsigned long Uin=0);
     ~MsgEdit();
-    void setUin(unsigned long uin);
+    PROP_ULONG(Uin)
+    PROP_SHORT(EditHeight)
+    void setUIN(unsigned long uin);
     void setMessage(ICQMessage *m=NULL, bool bMark=false, bool bInTop=false, bool bSaveEdit=false);
     ICQMessage *message() { return msg; }
     void markAsRead();
@@ -101,8 +109,6 @@ public:
     QString userName();
     int tabId;
     UserTab *tab;
-    unsigned long	Uin;
-    unsigned short	EditHeight;
     bool load(QFile &s, string &part);
     void save(QFile &s);
     bool isMultiply();
@@ -157,6 +163,7 @@ protected slots:
     void heightChanged(int);
     void insertSmile(int);
 protected:
+    MsgEdit_Data data;
     Tmpl *tmpl;
     MsgViewConv *msgView;
     QFrame  *frmEdit;

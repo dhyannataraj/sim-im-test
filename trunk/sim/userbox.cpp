@@ -78,17 +78,17 @@ UserTab::UserTab(MsgEdit *wnd, QTabBar *bar, int index)
 
 static cfgParam UserBox_Params[] =
     {
-        { "Group", OFFSET_OF(UserBox, GrpId), PARAM_ULONG, 0 },
-        { "CurrentUser", OFFSET_OF(UserBox, CurrentUser), PARAM_ULONG, 0 },
-        { "Left", OFFSET_OF(UserBox, mLeft), PARAM_SHORT, 0 },
-        { "Top", OFFSET_OF(UserBox, mTop), PARAM_SHORT, 0 },
-        { "Width", OFFSET_OF(UserBox, mWidth), PARAM_SHORT, 0 },
-        { "Height", OFFSET_OF(UserBox, mHeight), PARAM_SHORT, 0 },
-        { "ToolbarDock", OFFSET_OF(UserBox, ToolbarDock), PARAM_STRING, (unsigned)("Top") },
-        { "ToolbarOffset", OFFSET_OF(UserBox, ToolbarOffset), PARAM_SHORT, 0 },
-        { "ToolbarY", OFFSET_OF(UserBox, ToolbarY), PARAM_SHORT, 0 },
-        { "History", OFFSET_OF(UserBox, bHistory), PARAM_BOOL, 0 },
-        { "UserInfo", OFFSET_OF(UserBox, bUserInfo), PARAM_BOOL, 0 },
+        { "Group", offsetof(UserBox_Data, GrpId), PARAM_ULONG, 0 },
+        { "CurrentUser", offsetof(UserBox_Data, CurrentUser), PARAM_ULONG, 0 },
+        { "Left", offsetof(UserBox_Data, Left), PARAM_SHORT, 0 },
+        { "Top", offsetof(UserBox_Data, Top), PARAM_SHORT, 0 },
+        { "Width", offsetof(UserBox_Data, Width), PARAM_SHORT, 0 },
+        { "Height", offsetof(UserBox_Data, Height), PARAM_SHORT, 0 },
+        { "ToolbarDock", offsetof(UserBox_Data, ToolbarDock), PARAM_CHARS, (unsigned)("Top") },
+        { "ToolbarOffset", offsetof(UserBox_Data, ToolbarOffset), PARAM_SHORT, 0 },
+        { "ToolbarY", offsetof(UserBox_Data, ToolbarY), PARAM_SHORT, 0 },
+        { "History", offsetof(UserBox_Data, History), PARAM_BOOL, 0 },
+        { "UserInfo", offsetof(UserBox_Data, UserInfo), PARAM_BOOL, 0 },
         { "", 0, 0, 0 }
     };
 
@@ -130,14 +130,13 @@ UserBox::UserBox(unsigned long grpId)
                        (pMain->UserWndOnTop ? WStyle_StaysOnTop : 0))
                      )
 {
-
     SET_WNDPROC("userbox")
-    ::init(this, UserBox_Params);
-    ToolbarDock = pMain->UserBoxToolbarDock;
-    ToolbarOffset = pMain->UserBoxToolbarOffset;
-    ToolbarY = pMain->UserBoxToolbarY;
+    ::init(&data, UserBox_Params);
+    setToolbarDock(pMain->UserBoxToolbarDock.c_str());
+    setToolbarOffset(pMain->UserBoxToolbarOffset);
+    setToolbarY(pMain->UserBoxToolbarY);
     users = NULL;
-    GrpId = grpId;
+    setGrpId(grpId);
     progress = NULL;
     infoPage = 0;
     setWFlags(WDestructiveClose);
@@ -246,7 +245,7 @@ void UserBox::showEncodingPopup()
         pClient->fillEncodings(menuEncoding, false);
     }
     if (curWnd){
-        int encoding = pClient->userEncoding(curWnd->Uin);
+        int encoding = pClient->userEncoding(curWnd->getUin());
         if (encoding)
             menuEncoding->setItemChecked(encoding, true);
     }
@@ -263,7 +262,7 @@ void UserBox::setUserEncoding(int n)
         return;
     }
     if (curWnd)
-        pClient->setUserEncoding(curWnd->Uin, n);
+        pClient->setUserEncoding(curWnd->getUin(), n);
 }
 
 void UserBox::showUsers(bool bShow, unsigned long uin)
@@ -296,7 +295,7 @@ void UserBox::setBackgroundPixmap(const QPixmap &pm)
 
 void UserBox::iconChanged()
 {
-    ICQUser *u = pClient->getUser(curWnd->Uin);
+    ICQUser *u = pClient->getUser(curWnd->getUin());
     if (u){
         pMain->adjustUserMenu(menuType, u, true, true);
         toolbar->setPopup(btnType, menuType);
@@ -314,7 +313,7 @@ unsigned UserBox::count()
 void UserBox::moveUser(int grp)
 {
     if (curWnd == NULL) return;
-    pMain->m_uin = curWnd->Uin;
+    pMain->m_uin = curWnd->getUin();
     pMain->moveUser(grp);
 }
 
@@ -327,7 +326,7 @@ void UserBox::showEvent(QShowEvent *e)
 void UserBox::resizeEvent(QResizeEvent *e)
 {
     QMainWindow::resizeEvent(e);
-    if (!bHistory && !bUserInfo){
+    if (!isHistory() && !isUserInfo()){
         pMain->UserBoxWidth = size().width();
         pMain->UserBoxHeight = size().height();
     }
@@ -336,7 +335,7 @@ void UserBox::resizeEvent(QResizeEvent *e)
 void UserBox::moveEvent(QMoveEvent *e)
 {
     QMainWindow::moveEvent(e);
-    if (!bHistory && !bUserInfo){
+    if (!isHistory() && !isUserInfo()){
         pMain->UserBoxX = pos().x();
         pMain->UserBoxY = pos().y();
     }
@@ -344,17 +343,17 @@ void UserBox::moveEvent(QMoveEvent *e)
 
 QString UserBox::containerName()
 {
-    if (GrpId == ContainerAllUsers)
+    if (getGrpId() == ContainerAllUsers)
         return i18n("All users");
-    if (GrpId < 0x10000){
-        ICQGroup *grp = pClient->getGroup(GrpId);
+    if (getGrpId() < 0x10000){
+        ICQGroup *grp = pClient->getGroup(getGrpId());
         if (grp){
             CGroup g(grp);
             return g.name();
         }
     }
     if (curWnd == NULL) return "???";
-    CUser u(curWnd->Uin);
+    CUser u(curWnd->getUin());
     return u.name();
 }
 
@@ -362,11 +361,12 @@ UserBox::~UserBox()
 {
     removeChilds();
     if (pMain) pMain->destroyBox(this);
+    ::free(&data, UserBox_Params);
 }
 
 void UserBox::saveInfo(ICQUser *u)
 {
-    if ((curWnd == NULL) || curWnd->Uin) return;
+    if ((curWnd == NULL) || curWnd->getUin()) return;
     curWnd->setUin(u->Uin);
     ICQEvent e(EVENT_INFO_CHANGED, u->Uin);
     processEvent(&e);
@@ -379,8 +379,8 @@ void UserBox::saveInfo(ICQUser *u)
 
 void UserBox::toggleInfo(bool bShow)
 {
-    if (bShow && !bUserInfo){
-        pMain->userFunction(curWnd->Uin, mnuInfo, 0);
+    if (bShow && !isUserInfo()){
+        pMain->userFunction(curWnd->getUin(), mnuInfo, 0);
         toolbar->setOn(btnInfo, false);
         return;
     }
@@ -396,16 +396,16 @@ void UserBox::toggleInfo(bool bShow)
         disconnect(curWnd, SIGNAL(setMessageType(const QString&, const QString&)), toolbar->getWidget(btnType), SLOT(setState(const QString&, const QString&)));
         toolbar->setState(btnType, "info", i18n("User info"));
         if (infoWnd == NULL){
-            infoWnd = new UserInfo(frm, curWnd->Uin, infoPage);
+            infoWnd = new UserInfo(frm, curWnd->getUin(), infoPage);
             infoPage = 0;
             connect(infoWnd, SIGNAL(saveInfo(ICQUser*)), this, SLOT(saveInfo(ICQUser*)));
             vSplitter->hide();
             lay->insertWidget(0, infoWnd);
             infoWnd->show();
-            pClient->addInfoRequest(curWnd->Uin, true);
+            pClient->addInfoRequest(curWnd->getUin(), true);
         }
     }else if (infoWnd){
-        if (curWnd && (curWnd->Uin == 0)){
+        if (curWnd && (curWnd->getUin() == 0)){
             curWnd->close();
             return;
         }
@@ -434,20 +434,20 @@ void UserBox::hideHistory()
 
 void UserBox::toggleHistory(bool bShow)
 {
-    if (bShow && !bHistory && (toolbar->isCtrl(btnHistory) || pMain->isHistory(curWnd->Uin))){
-        pMain->userFunction(curWnd->Uin, mnuHistoryNew, 0);
+    if (bShow && !isHistory() && (toolbar->isCtrl(btnHistory) || pMain->isHistory(curWnd->getUin()))){
+        pMain->userFunction(curWnd->getUin(), mnuHistoryNew, 0);
         toolbar->setOn(btnHistory, false);
         return;
     }
     bool oldState = isUpdatesEnabled();
     if (bShow){
-        if ((curWnd == NULL) || (curWnd->Uin == 0)) return;
+        if ((curWnd == NULL) || (curWnd->getUin() == 0)) return;
         setUpdatesEnabled(false);
         toolbar->setOn(btnInfo, false);
         disconnect(curWnd, SIGNAL(setMessageType(const QString&, const QString&)), toolbar->getWidget(btnType), SLOT(setState(const QString&, const QString&)));
         toolbar->setState(btnType, "history", i18n("History"));
         if (historyWnd == NULL){
-            historyWnd = new HistoryView(frm, curWnd->Uin);
+            historyWnd = new HistoryView(frm, curWnd->getUin());
             connect(historyWnd, SIGNAL(goMessage(unsigned long, unsigned long)), this, SLOT(showMessage(unsigned long, unsigned long)));
             connect(historyWnd, SIGNAL(showProgress(int)), this, SLOT(showProgress(int)));
             historyWnd->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
@@ -560,7 +560,7 @@ void UserBox::accelActivated(int id)
     case mnuChat:
     case mnuContacts:
     case mnuMail:
-        pMain->m_uin = curWnd->Uin;
+        pMain->m_uin = curWnd->getUin();
         pMain->userFunction(id);
         break;
     }
@@ -577,7 +577,7 @@ MsgEdit *UserBox::getChild(unsigned long uin, bool bCreate)
     if (uin){
         for (it = wnds.begin(); it != wnds.end(); it++){
             MsgEdit *e = *it;
-            if (e->Uin == uin) return *it;
+            if (e->getUin() == uin) return *it;
         }
     }
     if (!bCreate) return NULL;
@@ -591,14 +591,14 @@ MsgEdit *UserBox::getChild(unsigned long uin, bool bCreate)
 
 void UserBox::save(QFile &s)
 {
-    mLeft = pos().x();
-    mTop = pos().y();
-    mWidth = size().width();
-    mHeight = size().height();
+    setLeft(pos().x());
+    setTop(pos().y());
+    setWidth(size().width());
+    setHeight(size().height());
     MsgEdit *wnd = getWnd(tabs->currentTab());
-    if (wnd) CurrentUser = wnd->Uin;
+    if (wnd) setCurrentUser(wnd->getUin());
     getToolbarPosition();
-    ::save(this, UserBox_Params, s);
+    ::save(&data, UserBox_Params, s);
     list<MsgEdit*>::iterator it;
     for (it = wnds.begin(); it != wnds.end(); it++){
         writeStr(s, "[UserTab]\n");
@@ -613,43 +613,43 @@ void UserBox::getToolbarPosition()
     bool nl;
     int extraOffset;
     getLocation(toolbar, tDock, index, nl, extraOffset);
-    ToolbarOffset = (short)extraOffset;
+    setToolbarOffset((short)extraOffset);
     switch (tDock){
     case Minimized:
-        ToolbarDock = "Minimized";
+        setToolbarDock("Minimized");
         break;
     case Bottom:
-        ToolbarDock = "Bottom";
+        setToolbarDock("Bottom");
         break;
     case Left:
-        ToolbarDock = "Left";
+        setToolbarDock("Left");
         break;
     case Right:
-        ToolbarDock = "Right";
+        setToolbarDock("Right");
         break;
     case TornOff:
-        ToolbarDock = "TornOff";
-        ToolbarOffset = toolbar->geometry().left();
-        ToolbarY = toolbar->geometry().top();
+        setToolbarDock("TornOff");
+        setToolbarOffset(toolbar->geometry().left());
+        setToolbarY(toolbar->geometry().top());
         break;
     default:
-        ToolbarDock = "Top";
+        setToolbarDock("Top");
     }
 }
 
 void UserBox::toolBarChanged(QToolBar*)
 {
     getToolbarPosition();
-    pMain->UserBoxToolbarDock = ToolbarDock;
-    if (ToolbarDock == "TornOff"){
-        pMain->UserBoxToolbarOffset = ToolbarOffset;
-        pMain->UserBoxToolbarY = ToolbarY;
+    pMain->UserBoxToolbarDock = getToolbarDock();
+    if (!strcmp(getToolbarDock(), "TornOff")){
+        pMain->UserBoxToolbarOffset = getToolbarOffset();
+        pMain->UserBoxToolbarY = getToolbarY();
     }
 }
 
 bool UserBox::load(QFile &s, string &part)
 {
-    ::load(this, UserBox_Params, s, part);
+    ::load(&data, UserBox_Params, s, part);
     int curTab = -1;
     for (;;){
         if (part.size() == 0) break;
@@ -658,7 +658,7 @@ bool UserBox::load(QFile &s, string &part)
         MsgEdit *wnd = getChild(0);
         if (wnd->load(s, part) && (wnd->tab == NULL)){
             new UserTab(wnd, tabs);
-            if (wnd->Uin == CurrentUser) curTab = wnd->tabId;
+            if (wnd->getUin() == getCurrentUser()) curTab = wnd->tabId;
             toolbar->setPopup(btnUser, menuUser);
             continue;
         }
@@ -671,28 +671,28 @@ bool UserBox::load(QFile &s, string &part)
     if (curTab != -1) selectedUser(curTab);
     adjustToolbar();
     setShow();
-    if (bHistory) toolbar->setOn(btnHistory, true);
-    if (bUserInfo) toolbar->setOn(btnInfo, true);
+    if (isHistory()) toolbar->setOn(btnHistory, true);
+    if (isUserInfo()) toolbar->setOn(btnInfo, true);
     return true;
 }
 
 void UserBox::adjustToolbar()
 {
     ToolBarDock tDock = Top;
-    if (ToolbarDock == "Minimized"){
+    if (!strcmp(getToolbarDock(), "Minimized")){
         tDock = Minimized;
-    }else if (ToolbarDock == "Bottom"){
+    }else if (!strcmp(getToolbarDock(), "Bottom")){
         tDock = Bottom;
-    }else if (ToolbarDock == "Left"){
+    }else if (!strcmp(getToolbarDock(), "Left")){
         tDock = Left;
-    }else if (ToolbarDock == "Right"){
+    }else if (!strcmp(getToolbarDock(), "Right")){
         tDock = Right;
-    }else if (ToolbarDock == "TornOff"){
+    }else if (!strcmp(getToolbarDock(), "TornOff")){
         tDock = TornOff;
     }
-    moveToolBar(toolbar, tDock, false, 0, ToolbarOffset);
+    moveToolBar(toolbar, tDock, false, 0, getToolbarOffset());
     if (tDock == TornOff){
-        toolbar->move(ToolbarOffset, ToolbarY);
+        toolbar->move(getToolbarOffset(), getToolbarY());
         toolbar->show();
     }
 }
@@ -700,36 +700,40 @@ void UserBox::adjustToolbar()
 void UserBox::adjustPos()
 {
     bool bReposition = false;
-    if ((mLeft == 0) && (mTop == 0)){
+    if ((getLeft() == 0) && (getTop() == 0)){
         if ((pMain->UserBoxX == 0) && (pMain->UserBoxY == 0)){
-            mLeft = pos().x();
-            mTop  = pos().y();
+            setLeft(pos().x());
+            setTop(pos().y());
         }else{
-            mLeft = pMain->UserBoxX;
-            mTop  = pMain->UserBoxY;
+            setLeft(pMain->UserBoxX);
+            setTop(pMain->UserBoxY);
             bReposition = true;
         }
     }
-    if ((mWidth == 0) || (mHeight == 0)){
-        mWidth  = (short)pMain->UserBoxWidth;
-        mHeight = (short)pMain->UserBoxHeight;
+    if ((getWidth() == 0) || (getHeight() == 0)){
+        setWidth((short)pMain->UserBoxWidth);
+        setHeight((short)pMain->UserBoxHeight);
     }
-    if (mLeft < 5) mLeft = 5;
-    if (mTop < 5) mTop = 5;
-    if (mLeft > QApplication::desktop()->width() - 5) mLeft = QApplication::desktop()->width() - 5;
-    if (mTop > QApplication::desktop()->height() - 5) mTop = QApplication::desktop()->height() - 5;
-    if (mWidth > QApplication::desktop()->width() - 5) mWidth = QApplication::desktop()->width() - 5;
-    if (mHeight > QApplication::desktop()->height() - 5) mHeight = QApplication::desktop()->height() - 5;
+    if (getLeft() < 5) setLeft(5);
+    if (getTop() < 5) setTop(5);
+    if (getLeft() > QApplication::desktop()->width() - 5)
+        setLeft(QApplication::desktop()->width() - 5);
+    if (getTop() > QApplication::desktop()->height() - 5)
+        setTop(QApplication::desktop()->height() - 5);
+    if (getWidth() > QApplication::desktop()->width() - 5)
+        setWidth(QApplication::desktop()->width() - 5);
+    if (getHeight() > QApplication::desktop()->height() - 5)
+        setHeight(QApplication::desktop()->height() - 5);
     if (bReposition){
         for (unsigned n = 0; n < 32; n++){
-            if (mLeft > QApplication::desktop()->width() - mWidth)
-                mLeft = 0;
-            if (mTop > QApplication::desktop()->height() - mHeight)
-                mTop = 0;
-            if (mLeft < 0)
-                mLeft = 0;
-            if (mTop < 0)
-                mTop  = 0;
+            if (getLeft() > QApplication::desktop()->width() - getWidth())
+                setLeft(0);
+            if (getTop() > QApplication::desktop()->height() - getHeight())
+                setTop(0);
+            if (getLeft() < 0)
+                setLeft(0);
+            if (getTop() < 0)
+                setTop(0);
             bool bOK = true;
             QWidgetList *list = QApplication::topLevelWidgets();
             QWidgetListIt it( *list );
@@ -738,28 +742,28 @@ void UserBox::adjustPos()
                 ++it;
                 if (w == this) continue;
                 if (!w->inherits("UserBox")) continue;
-                if ((w->x() == mLeft) && (w->y() == mTop)){
+                if ((w->x() == getLeft()) && (w->y() == getTop())){
                     bOK = false;
                     break;
                 }
             }
             delete list;
             if (bOK) break;
-            mLeft += 23;
-            mTop += 22;
+            setLeft(getLeft() + 23);
+            setTop(getTop() + 22);
         }
     }
-    if (mLeft && mTop){
+    if (getLeft() && getTop()){
         short saveX = pMain->UserBoxX;
         short saveY = pMain->UserBoxY;
-        move(mLeft, mTop);
+        move(getLeft(), getTop());
         pMain->UserBoxX = saveX;
         pMain->UserBoxY = saveY;
     }
-    if (mWidth && mHeight){
+    if (getWidth() && getHeight()){
         unsigned short saveWidth = pMain->UserBoxWidth;
         unsigned short saveHeight = pMain->UserBoxHeight;
-        resize(mWidth, mHeight);
+        resize(getWidth(), getHeight());
         pMain->UserBoxWidth  = saveWidth;
         pMain->UserBoxHeight = saveHeight;
     }
@@ -784,7 +788,7 @@ void UserBox::toIgnore()
     QWidget *btn = toolbar->getWidget(btnIgnore);
     QPoint p = btn->mapToGlobal(btn->rect().topLeft());
     QRect rc(p.x(), p.y(), btn->width(), btn->height());
-    pMain->m_uin = curWnd->Uin;
+    pMain->m_uin = curWnd->getUin();
     pMain->m_rc = rc;
     pMain->moveUser(mnuGroupIgnore);
 }
@@ -818,11 +822,11 @@ void UserBox::processEvent(ICQEvent *e)
             break;
         }
     case EVENT_USERGROUP_CHANGED:
-        if (curWnd && (e->Uin() == curWnd->Uin))
+        if (curWnd && (e->Uin() == curWnd->getUin()))
             setGroupButtons();
         break;
     case EVENT_INFO_CHANGED:{
-            if (curWnd && (e->Uin() == curWnd->Uin)){
+            if (curWnd && (e->Uin() == curWnd->getUin())){
                 setGroupButtons();
                 CUser u(e->Uin());
                 setCaption(u.name());
@@ -837,7 +841,7 @@ void UserBox::processEvent(ICQEvent *e)
             list<MsgEdit*>::iterator it;
             int index = 0;
             for (it = wnds.begin(); it != wnds.end(); it++, index++)
-                if ((*it)->Uin == e->Uin()) break;
+                if ((*it)->getUin() == e->Uin()) break;
             tabs->removeTab(tab);
             new UserTab(wnd, tabs, index);
             adjustUserMenu(true);
@@ -855,7 +859,7 @@ void UserBox::processEvent(ICQEvent *e)
 void UserBox::setGroupButtons()
 {
     ICQUser *u = NULL;
-    if (curWnd) u = pClient->getUser(curWnd->Uin);
+    if (curWnd) u = pClient->getUser(curWnd->getUin());
     if (u == NULL){
         toolbar->hide(btnIgnore);
         toolbar->hide(btnGroup);
@@ -882,8 +886,8 @@ void UserBox::statusChanged(unsigned long uin)
 {
     MsgEdit *wnd = getWnd(tabs->currentTab());
     if (wnd == NULL) return;
-    if (wnd->Uin != uin) return;
-    ICQUser *u = pClient->getUser(curWnd->Uin);
+    if (wnd->getUin() != uin) return;
+    ICQUser *u = pClient->getUser(curWnd->getUin());
     if (u){
         toolbar->setState(btnUser, SIMClient::getUserIcon(u), curWnd->userName());
         setIcon(Pict(SIMClient::getUserIcon(u)));
@@ -895,7 +899,7 @@ void UserBox::statusChanged(unsigned long uin)
 unsigned long UserBox::currentUser()
 {
     if (curWnd == NULL) return 0;
-    return curWnd->Uin;
+    return curWnd->getUin();
 }
 
 void UserBox::selectedUser(int id)
@@ -939,14 +943,14 @@ void UserBox::selectedUser(int id)
     curWnd->show();
     curWnd->setState();
     lay->invalidate();
-    ICQUser *u = pClient->getUser(curWnd->Uin);
+    ICQUser *u = pClient->getUser(curWnd->getUin());
     if (u){
         pMain->adjustUserMenu(menuType, u, false, true);
         toolbar->setPopup(btnType, menuType);
         toolbar->setState(btnUser, SIMClient::getUserIcon(u), curWnd->userName());
         setIcon(Pict(SIMClient::getUserIcon(u)));
     }
-    showUsers(curWnd->isMultiply(), curWnd->Uin);
+    showUsers(curWnd->isMultiply(), curWnd->getUin());
     setGroupButtons();
     adjustUserMenu(true);
 }
@@ -1068,12 +1072,12 @@ void UserBox::showUserPopup(int id, QPoint pos)
     QPoint p(0, 0);
     p = tabs->mapToGlobal(p);
     QRect rc(pos.x(), p.y(), 0, tabs->height());
-    pMain->showUserPopup(wnd->Uin, pos, menuUser, rc);
+    pMain->showUserPopup(wnd->getUin(), pos, menuUser, rc);
 }
 
 void UserBox::showMessage(unsigned long uin, unsigned long id)
 {
-    if (bHistory){
+    if (isHistory()){
         pMain->userFunction(uin, mnuGo, id);
         return;
     }
@@ -1086,7 +1090,7 @@ void UserBox::showMessage(unsigned long uin, unsigned long id)
 void UserBox::showGrpMenu()
 {
     if (curWnd == NULL) return;
-    pMain->adjustGroupMenu(menuGroup, curWnd->Uin);
+    pMain->adjustGroupMenu(menuGroup, curWnd->getUin());
 }
 
 void UserBox::showProgress(int n)
@@ -1148,7 +1152,7 @@ void UserBox::slotMessageReceived(ICQMessage *msg)
         }
         return;
     }
-    if (curWnd && (msg->getUin() == curWnd->Uin) &&
+    if (curWnd && (msg->getUin() == curWnd->getUin()) &&
             !pMain->SimpleMode &&
             ((msg->Type() == ICQ_MSGxMSG) || (msg->Type() == ICQ_MSGxURL) ||
              (msg->Type() == ICQ_MSGxSMS))){

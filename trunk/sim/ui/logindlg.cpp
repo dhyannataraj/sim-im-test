@@ -57,11 +57,11 @@ LoginDialog::LoginDialog()
     QSize s = sizeHint();
     QWidget *desktop = QApplication::desktop();
     move((desktop->width() - s.width()) / 2, (desktop->height() - s.height()) / 2);
-    chkSave->setChecked(pSplash->getSavePassword());
-    chkNoShow->setChecked(pSplash->getNoShowLogin());
+    chkSave->setChecked(pSplash->isSavePassword());
+    chkNoShow->setChecked(pSplash->isNoShowLogin());
     uinChanged("");
     bPswdChanged = true;
-    if (pSplash->getSavePassword()){
+    if (pSplash->isSavePassword()){
         unsigned long uin = cmbUIN->lineEdit()->text().toULong();
         if (uin){
             pClient->load(uin);
@@ -122,7 +122,7 @@ void LoginDialog::saveChanged(bool)
 
 void LoginDialog::login()
 {
-	pMain->reset();
+    pMain->reset();
     unsigned long uin = cmbUIN->lineEdit()->text().toULong();
     pClient->load(uin);
     if (uin){
@@ -167,9 +167,9 @@ void LoginDialog::login()
 void LoginDialog::closeEvent(QCloseEvent *e)
 {
     if (!bLogin){
-        if (bCloseMain){
-		if (!pMain->isLoad())
-            pMain->quit();
+        if (!pMain->isLoad()){
+            if (bCloseMain)
+                pMain->quit();
         }else{
             QTimer::singleShot(0, pMain, SLOT(deleteLogin()));
         }
@@ -248,7 +248,7 @@ void LoginDialog::processEvent(ICQEvent *e)
 
 void LoginDialog::proxySetup()
 {
-	pMain->reset();
+    pMain->reset();
     pClient->load(cmbUIN->lineEdit()->text().toULong());
     ProxyDialog d(this);
     d.exec();

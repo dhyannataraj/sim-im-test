@@ -1517,6 +1517,10 @@ void UserView::contentsMousePressEvent(QMouseEvent *e)
         }
     }
 #endif
+    if (e->button() == QObject::MidButton){
+        QListViewItem *list_item = itemAt(contentsToViewport(e->pos()));
+        if (list_item) doubleClick(list_item);
+    }
     if (e->button() == QObject::LeftButton){
         pressedItem = itemAt(contentsToViewport(e->pos()));
     }
@@ -1715,9 +1719,9 @@ void UserView::maybeTip ( const QPoint &p )
 
 cfgParam UserFloat_Params[] =
     {
-        { "Uin", OFFSET_OF(UserFloat, Uin), PARAM_ULONG, 0 },
-        { "Left", OFFSET_OF(UserFloat, Left), PARAM_SHORT, 0 },
-        { "Top", OFFSET_OF(UserFloat, Top), PARAM_SHORT, 0 },
+        { "Uin", offsetof(UserFloat_Data, Uin), PARAM_ULONG, 0 },
+        { "Left", offsetof(UserFloat_Data, Left), PARAM_SHORT, 0 },
+        { "Top", offsetof(UserFloat_Data, Top), PARAM_SHORT, 0 },
         { "", 0, 0, 0 }
     };
 
@@ -1726,7 +1730,7 @@ UserFloat::UserFloat()
                    QObject::WType_TopLevel | QObject::WStyle_Customize | QObject::WStyle_NoBorder |
                    QObject::WStyle_Tool  | QObject::WStyle_StaysOnTop )
 {
-    ::init(this, UserFloat_Params);
+    ::init(&data, UserFloat_Params);
     bFloaty = true;
     transparent = new TransparentTop(this, pMain->UseTransparent, pMain->Transparent);
     m_bShowOffline = true;
@@ -1738,9 +1742,10 @@ UserFloat::UserFloat()
 UserFloat::~UserFloat()
 {
     transparent = NULL;
+    ::free(&data, UserFloat_Params);
 }
 
-bool UserFloat::setUin(unsigned long uin)
+bool UserFloat::setUIN(unsigned long uin)
 {
     ICQUser *u = pClient->getUser(uin);
     if (u == NULL) return false;
@@ -1751,25 +1756,25 @@ bool UserFloat::setUin(unsigned long uin)
     s.setWidth(it.current()->width(QFontMetrics(QFont()), this, 0) + 10);
     s.setHeight(it.current()->totalHeight() + 6);
     resize(s);
-    Uin = uin;
+    setUin(uin);
     return true;
 }
 
 void UserFloat::save(QFile &s)
 {
-    Left = pos().x();
-    Top = pos().y();
-    ::save(this, UserFloat_Params, s);
+    setLeft(pos().x());
+    setTop(pos().y());
+    ::save(&data, UserFloat_Params, s);
 }
 
 bool UserFloat::load(QFile &s, string &nextPart)
 {
-    ::load(this, UserFloat_Params, s, nextPart);
-    if (!setUin(Uin)){
-        Uin = 0;
+    ::load(&data, UserFloat_Params, s, nextPart);
+    if (!setUIN(getUin())){
+        setUin(0);
         return false;
     }
-    move(Left, Top);
+    move(getLeft(), getTop());
     show();
     return true;
 }
@@ -1799,8 +1804,8 @@ void UserFloat::contentsMousePressEvent(QMouseEvent *e)
     if (e->button() == QObject::LeftButton){
         QRect rc(geometry());
         mousePos = e->globalPos() - rc.topLeft();
-        Left = pos().x();
-        Top = pos().y();
+        setLeft(pos().x());
+        setTop(pos().y());
     }
     UserView::contentsMousePressEvent(e);
 }
@@ -1811,7 +1816,7 @@ void UserFloat::contentsMouseReleaseEvent(QMouseEvent *e)
         move(e->globalPos() - mousePos);
         bMoveMode = false;
         viewport()->releaseMouse();
-        QPoint p(pos().x() - Left, pos().y() - Top);
+        QPoint p(pos().x() - getLeft(), pos().y() - getTop());
         if (p.manhattanLength() > 6){
             clearSelection();
             mousePos = QPoint();

@@ -72,25 +72,42 @@ protected:
     virtual void paintLabel(QPainter *p, const QRect &rc, QTab *t, bool bFocus) const;
 };
 
+typedef struct UserBox_Data
+{
+    unsigned long	GrpId;
+    unsigned long	CurrentUser;
+    short			Left;
+    short			Top;
+    short			Width;
+    short			Height;
+    char*			ToolbarDock;
+    short			ToolbarOffset;
+    short			ToolbarY;
+    bool			History;
+    bool			UserInfo;
+} UserBox_Data;
+
 class UserBox : public QMainWindow
 {
     Q_OBJECT
 public:
     UserBox(unsigned long GrpId=0);
     ~UserBox();
+    PROP_ULONG(GrpId)
+    PROP_ULONG(CurrentUser)
+    PROP_SHORT(Left)
+    PROP_SHORT(Top)
+    PROP_SHORT(Width)
+    PROP_SHORT(Height)
+    PROP_STR(ToolbarDock)
+    PROP_SHORT(ToolbarOffset)
+    PROP_SHORT(ToolbarY)
+    PROP_BOOL(History)
+    PROP_BOOL(UserInfo)
     void setShow();
     bool isShow();
     void save(QFile &s);
     bool load(QFile &s, string &nextPart);
-    unsigned long	GrpId;
-    unsigned long	CurrentUser;
-    short			mLeft;
-    short			mTop;
-    short			mWidth;
-    short			mHeight;
-    string			ToolbarDock;
-    short			ToolbarOffset;
-    short			ToolbarY;
     unsigned long currentUser();
     bool haveUser(unsigned long uin);
     QString containerName();
@@ -98,8 +115,6 @@ public:
     UserView	*users;
     virtual void setBackgroundPixmap(const QPixmap&);
     ICQMessage	*currentMessage();
-    bool bHistory;
-    bool bUserInfo;
     void hideToolbar();
 signals:
     void messageReceived(ICQMessage*);
@@ -135,6 +150,7 @@ protected slots:
     void accelActivated(int id);
     void setOnTop();
 protected:
+    UserBox_Data data;
     void getToolbarPosition();
     void showEvent(QShowEvent *e);
     void resizeEvent(QResizeEvent *e);

@@ -953,22 +953,19 @@ QPixmap IconsDLL::getIcon(int id)
     int bits = bh.biBitCount;
     int depth = bits;
     int numColors = bh.biClrUsed;
-    if (bits == 8){
+    if (bits == 2){
+        depth = 8;
+        if (numColors == 0) numColors = 4;
+    }else if (bits == 4){
+        depth = 8;
+        if (numColors == 0) numColors = 16;
+    }else if (bits == 8){
         if (numColors == 0) numColors = 256;
     }else if (bits == 24){
         depth = 32;
     }
     QImage img(w, h, depth, numColors, QImage::BigEndian);
-    if ((bits == 2) || (bits == 4)){
-        QRgb *p = img.colorTable();
-        if (p){
-            for (int i = 0; i < numColors; i++){
-                RGBQUAD rgb;
-                f.readBlock((char*)&rgb, sizeof(rgb));
-                (*p++) = (rgb.rgbRed << 16) | (rgb.rgbGreen << 8) | rgb.rgbBlue;
-            }
-        }
-    }else if (bits == 8){
+    if (depth == 8){
         QRgb *p = img.colorTable();
         for (int i = 0; i < numColors; i++){
             RGBQUAD rgb;
@@ -983,7 +980,31 @@ QPixmap IconsDLL::getIcon(int id)
     for (i = 0; i < h; i++){
         uchar *data = img.scanLine(h - i - 1);
         f.readBlock((char*)data, lineBytes);
-        if (bits == 24){
+        if (bits == 2){
+            unsigned char *line = new unsigned char[lineBytes];
+            memcpy(line, data, lineBytes);
+            unsigned char *to = (unsigned char*)data;
+            unsigned char *from = line;
+            unsigned char curByte;
+            for (int x = 0; x < w; x++){
+                if ((x & 3) == 0) curByte = *(from++);
+                *(to++) = (curByte >> 6) & 3;
+                curByte <<= 2;
+            }
+            delete[] line;
+        }else if (bits == 4){
+            unsigned char *line = new unsigned char[lineBytes];
+            memcpy(line, data, lineBytes);
+            unsigned char *to = (unsigned char*)data;
+            unsigned char *from = line;
+            unsigned char curByte;
+            for (int x = 0; x < w; x++){
+                if ((x & 1) == 0) curByte = *(from++);
+                *(to++) = (curByte >> 4) & 0x0F;
+                curByte <<= 4;
+            }
+            delete[] line;
+        }else if (bits == 24){
             for (int j = (lineBytes / 3) - 1; j >= 0; j--){
                 memmove(data + (j * 4 + 1), data + (j * 3), 3);
                 data[j*4] = 0;
@@ -994,20 +1015,24 @@ QPixmap IconsDLL::getIcon(int id)
     res.convertFromImage(img);
 
     if (!img.hasAlphaBuffer()){
-        QImage imgMask(w, h, 1, 0, QImage::BigEndian);
-        lineBytes = (w + 7) >> 3;
+        QBitmap mask(w, h);
+        QPainter pMask(&mask);
+        pMask.fillRect(0, 0, w, h, QColor(0, 0, 0));
+        pMask.setPen(QColor(255, 255, 255));
         unsigned fileBytes = ((w + 31) >> 3) & (~3);
-        for (i = 0; i < h; i++){
-            uchar *data = imgMask.scanLine(h - i -1);
-            f.readBlock((char*)data, lineBytes);
-            unsigned j = 0;
-            for (j = 0; j < lineBytes; j++){
-                data[j] ^= 0xFF;
+        unsigned char *line = new unsigned char[fileBytes];
+        for (int y = 0; y < h; y++){
+            f.readBlock((char*)line, fileBytes);
+            unsigned char *b = line;
+            unsigned char curByte;
+            for (int x = 0; x < w; x++){
+                if ((x & 7) == 0) curByte = *(b++);
+                if (curByte & 0x80) pMask.drawPoint(x, h - y - 1);
+                curByte <<= 1;
             }
-            if (fileBytes > lineBytes) f.at(f.at() + fileBytes - lineBytes);
         }
-        QBitmap mask;
-        mask.convertFromImage(imgMask, QPixmap::Mono);
+        delete[] line;
+        pMask.end();
         res.setMask(mask);
     }
     return res;

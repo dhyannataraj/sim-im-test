@@ -123,6 +123,8 @@ static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
 const unsigned short ABE_FLOAT   = (unsigned short)(-1);
 #endif
 
+#define OFFSET_OF(A, B)		offsetof(A, B)
+
 const char *MainWindow::sound(const char *wav)
 {
     if (*wav == 0) return wav;
@@ -1491,7 +1493,7 @@ void MainWindow::dockDblClicked()
 {
     if (menuFunction && menuFunction->isVisible()) return;
     for (list<UserBox*>::iterator itBox = containers.begin(); itBox != containers.end(); ++itBox){
-        if ((*itBox)->bHistory || (*itBox)->bUserInfo) continue;
+        if ((*itBox)->isHistory() || (*itBox)->isUserInfo()) continue;
         if (!(*itBox)->isActiveWindow()) continue;
         ICQUser *u = pClient->getUser((*itBox)->currentUser());
         if (u && u->unreadMsgs.size()){
@@ -1527,7 +1529,7 @@ void MainWindow::showUser(unsigned long uin, int function, unsigned long param)
     list<UserBox*>::iterator it;
     if (SimpleMode){
         for (it = containers.begin(); it != containers.end(); ++it){
-            if ((*it)->bHistory || (*it)->bUserInfo) continue;
+            if ((*it)->isHistory() || (*it)->isUserInfo()) continue;
             if (!(*it)->haveUser(uin)) continue;
             ICQMessage *msg = (*it)->currentMessage();
             bool bOK = false;
@@ -1591,15 +1593,15 @@ void MainWindow::showUser(unsigned long uin, int function, unsigned long param)
     switch (ContainerMode){
     case ContainerModeAll:
         for (it = containers.begin(); it != containers.end(); ++it){
-            if ((*it)->bHistory || (*it)->bUserInfo) continue;
-            if ((*it)->GrpId == ContainerAllUsers) break;
+            if ((*it)->isHistory() || (*it)->isUserInfo()) continue;
+            if ((*it)->getGrpId() == ContainerAllUsers) break;
         }
         if (it == containers.end()){
             for (it = containers.begin(); it != containers.end(); ++it)
-                if (!(*it)->bHistory && !(*it)->bUserInfo) break;
+                if (!(*it)->isHistory() && !(*it)->isUserInfo()) break;
         }
         if (it != containers.end()){
-            (*it)->GrpId = ContainerAllUsers;
+            (*it)->setGrpId(ContainerAllUsers);
             (*it)->showUser(uin, function, param);
             return;
         }
@@ -1607,8 +1609,8 @@ void MainWindow::showUser(unsigned long uin, int function, unsigned long param)
         break;
     case ContainerModeGroup:
         for (it = containers.begin(); it != containers.end(); ++it){
-            if ((*it)->bHistory || (*it)->bUserInfo) continue;
-            if ((*it)->GrpId != (unsigned long)grpId) continue;
+            if ((*it)->isHistory() || (*it)->isUserInfo()) continue;
+            if ((*it)->getGrpId() != (unsigned long)grpId) continue;
             (*it)->showUser(uin, function, param);
             return;
         }
@@ -1617,9 +1619,9 @@ void MainWindow::showUser(unsigned long uin, int function, unsigned long param)
     default:
         grpId = 0x7FFFFFFF;
         for (it = containers.begin(); it != containers.end(); ++it){
-            if ((*it)->bHistory || (*it)->bUserInfo) continue;
-            if ((*it)->GrpId < 0x10000L) continue;
-            if ((*it)->GrpId < grpId) grpId = (*it)->GrpId - 1;
+            if ((*it)->isHistory() || (*it)->isUserInfo()) continue;
+            if ((*it)->getGrpId() < 0x10000L) continue;
+            if ((*it)->getGrpId() < grpId) grpId = (*it)->getGrpId() - 1;
         }
         box = new UserBox(uin);
     }
@@ -2228,7 +2230,7 @@ void MainWindow::userFunction(unsigned long uin, int function, unsigned long par
                 delete uFloat;
             }else{
                 uFloat = new UserFloat;
-                if (!uFloat->setUin(m_uin)){
+                if (!uFloat->setUIN(m_uin)){
                     delete uFloat;
                     return;
                 }
@@ -2375,27 +2377,27 @@ void MainWindow::userFunction(unsigned long uin, int function, unsigned long par
             break;
         }
         for (it = containers.begin(); it != containers.end(); ++it){
-            if (!(*it)->bUserInfo) continue;
+            if (!(*it)->isUserInfo()) continue;
             if (!(*it)->haveUser(uin)) continue;
             (*it)->showUser(uin, mnuInfo, param);
             return;
         }
         box = new UserBox(uin);
         containers.push_back(box);
-        box->bUserInfo = true;
+        box->setUserInfo(true);
         box->hideToolbar();
         box->showUser(uin, mnuInfo, param);
         return;
     case mnuHistoryNew:
         for (it = containers.begin(); it != containers.end(); ++it){
-            if (!(*it)->bHistory) continue;
+            if (!(*it)->isHistory()) continue;
             if (!(*it)->haveUser(uin)) continue;
             (*it)->showUser(uin, mnuHistory, 0);
             return;
         }
         box = new UserBox(uin);
         containers.push_back(box);
-        box->bHistory = true;
+        box->setHistory(true);
         box->hideToolbar();
         box->showUser(uin, mnuHistory, 0);
         return;
@@ -2408,7 +2410,7 @@ bool MainWindow::isHistory(unsigned long uin)
 {
     list<UserBox*>::iterator it;
     for (it = containers.begin(); it != containers.end(); ++it){
-        if (!(*it)->bHistory) continue;
+        if (!(*it)->isHistory()) continue;
         if ((*it)->haveUser(uin)) return true;
     }
     return false;
@@ -2418,7 +2420,7 @@ bool MainWindow::isUserInfo(unsigned long uin)
 {
     list<UserBox*>::iterator it;
     for (it = containers.begin(); it != containers.end(); ++it){
-        if (!(*it)->bUserInfo) continue;
+        if (!(*it)->isUserInfo()) continue;
         if ((*it)->haveUser(uin)) return true;
     }
     return false;
@@ -2428,7 +2430,7 @@ UserFloat *MainWindow::findFloating(unsigned long uin, bool bDelete)
 {
     list<UserFloat*>::iterator it;
     for (it = floating.begin(); it != floating.end(); it++){
-        if ((*it)->Uin == uin){
+        if ((*it)->getUin() == uin){
             UserFloat *res = *it;
             if (bDelete) floating.remove(res);
             return res;
@@ -2441,13 +2443,13 @@ void MainWindow::toContainer(int containerId)
 {
     list<UserBox*>::iterator it;
     for (it = containers.begin(); it != containers.end(); ++it){
-        if ((*it)->bHistory || (*it)->bUserInfo) continue;
+        if ((*it)->isHistory() || (*it)->isUserInfo()) continue;
         if (!(*it)->haveUser(uinMenu)) continue;
-        if ((*it)->GrpId == (unsigned long)containerId) return;
+        if ((*it)->getGrpId() == (unsigned long)containerId) return;
         (*it)->closeUser(uinMenu);
     }
     for (it = containers.begin(); it != containers.end(); ++it)
-        if ((*it)->GrpId == (unsigned long)containerId) break;
+        if ((*it)->getGrpId() == (unsigned long)containerId) break;
     UserBox *box = NULL;
     if (it != containers.end()) box = *it;
     if (box == NULL){
@@ -2465,19 +2467,19 @@ void MainWindow::adjustUserMenu(QPopupMenu *menu, ICQUser *u, bool haveTitle, bo
         bool canNew = true;
         list<UserBox*>::iterator it;
         for (it = containers.begin(); it != containers.end(); ++it){
-            if ((*it)->bHistory || (*it)->bUserInfo) continue;
-            menuContainers->insertItem((*it)->containerName(), (*it)->GrpId);
+            if ((*it)->isHistory() || (*it)->isUserInfo()) continue;
+            menuContainers->insertItem((*it)->containerName(), (*it)->getGrpId());
             if (!(*it)->haveUser(uinMenu)) continue;
-            menuContainers->setItemChecked((*it)->GrpId, true);
-            if (((*it)->GrpId >= 0x10000L) && ((*it)->count() == 1))
+            menuContainers->setItemChecked((*it)->getGrpId(), true);
+            if (((*it)->getGrpId() >= 0x10000L) && ((*it)->count() == 1))
                 canNew = false;
         }
         if (canNew){
             unsigned long newId = 0x7FFFFFFF;
             for (it = containers.begin(); it != containers.end(); ++it){
-                if ((*it)->bHistory || (*it)->bUserInfo) continue;
-                if ((*it)->GrpId < 0x10000L) continue;
-                if ((*it)->GrpId <= newId) newId = (*it)->GrpId - 1;
+                if ((*it)->isHistory() || (*it)->isUserInfo()) continue;
+                if ((*it)->getGrpId() < 0x10000L) continue;
+                if ((*it)->getGrpId() <= newId) newId = (*it)->getGrpId() - 1;
             }
             menuContainers->insertItem(i18n("New"), newId);
         }
@@ -2579,13 +2581,13 @@ void MainWindow::exec(const char *prg, const char *arg)
 
 void MainWindow::playSound(const char *wav)
 {
-    if ((wav == NULL) || (*wav == 0) || pSplash->getSoundDisable()) return;
+    if ((wav == NULL) || (*wav == 0) || pSplash->isSoundDisable()) return;
     wav = sound(wav);
 #ifdef WIN32
     sndPlaySoundA(wav, SND_ASYNC | SND_NODEFAULT);
 #else
 #ifdef USE_KDE
-    if (pSplash->getUseArts()){
+    if (pSplash->isUseArts()){
         KAudioPlayer::play(wav);
         return;
     }

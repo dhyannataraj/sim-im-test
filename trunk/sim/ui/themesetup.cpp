@@ -163,7 +163,7 @@ ThemeSetup::ThemeSetup(QWidget *parent)
     int n = 0;
     for (const language *l = langs; l->code; l++, n++){
         cmbLang->insertItem(i18n(l->name));
-        if (!strcmp(pSplash->Language.c_str(), l->code))
+        if (!strcmp(pSplash->getLanguage(), l->code))
             cmbLang->setCurrentItem(n);
     }
     bLangChanged = false;
@@ -174,7 +174,7 @@ ThemeSetup::ThemeSetup(QWidget *parent)
 #endif
     chkDblClick->setChecked(pMain->UseDoubleClick);
     chkDock->setChecked(pMain->UseDock);
-    chkSplash->setChecked(pSplash->getShow());
+    chkSplash->setChecked(pSplash->isShow());
     chkEmotional->setChecked(pMain->UseEmotional);
     chkUserWndOnTop->setChecked(pMain->UserWndOnTop);
     chkSystemColors->setChecked(pMain->UseSystemColors);
@@ -200,7 +200,7 @@ void ThemeSetup::langChanged(int)
         if (n-- > 0) continue;
         break;
     }
-    if (l->code && !strcmp(l->code, pSplash->Language.c_str())) return;
+    if (l->code && !strcmp(l->code, pSplash->getLanguage())) return;
     bLangChanged = true;
     BalloonMsg::message(i18n("Need restart SIM for change language"), cmbLang);
 #endif
@@ -314,7 +314,7 @@ void ThemeSetup::apply(ICQUser*)
     int n = cmbLang->currentItem();
     for (const language *l = langs; l->code; l++){
         if (n-- > 0) continue;
-        pSplash->Language = l->code;
+        pSplash->setLanguage(l->code);
         break;
     }
     pSplash->save();

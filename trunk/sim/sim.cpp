@@ -577,7 +577,7 @@ int main(int argc, char *argv[])
     }
     scanUIN();
     unsigned startUIN = pSplash->getLastUIN();
-    if (!pSplash->getSavePassword()) startUIN = 0;
+    if (!pSplash->isSavePassword()) startUIN = 0;
     if (startUIN){
         list<unsigned long>::iterator it;
         for (it = uins.begin(); it != uins.end(); ++it)
@@ -589,7 +589,7 @@ int main(int argc, char *argv[])
         pClient->load(startUIN);
         if (pClient->EncryptedPassword.length() == 0) startUIN = 0;
     }
-    if (startUIN && pSplash->getNoShowLogin()){
+    if (startUIN && pSplash->isNoShowLogin()){
         if (!pMain->init())
             exit(1);
     }else{

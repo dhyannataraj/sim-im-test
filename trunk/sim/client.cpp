@@ -42,6 +42,8 @@
 #include <kcharsets.h>
 #endif
 
+#define OFFSET_OF(A, B)		offsetof(A, B)
+
 typedef struct encoding
 {
     const char *language;

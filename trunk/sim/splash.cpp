@@ -48,16 +48,16 @@ static const char SPLASH_CONF[] = "splash.conf";
 
 cfgParam Splash_Params[] =
     {
-        { "Show", OFFSET_OF(Splash_Data, Show), PARAM_BOOL, (unsigned)true },
-        { "Picture", OFFSET_OF(Splash_Data, Picture), PARAM_CHARS, (unsigned)"pict/splash.png" },
-        { "UseArts", OFFSET_OF(Splash_Data, UseArts), PARAM_BOOL, (unsigned)true },
-        { "SoundPlayer", OFFSET_OF(Splash_Data, SoundPlayer), PARAM_CHARS, 0 },
-        { "StartupSound", OFFSET_OF(Splash_Data, StartupSound), PARAM_CHARS, (unsigned)"startup.wav" },
-        { "SoundDisable", OFFSET_OF(Splash_Data, SoundDisable), PARAM_BOOL, 0 },
-        { "Langauge", OFFSET_OF(Splash_Data, Language), PARAM_CHARS, 0 },
-        { "LastUIN", OFFSET_OF(Splash_Data, LastUIN), PARAM_ULONG, 0 },
-        { "SavePassword", OFFSET_OF(Splash_Data, SavePassword), PARAM_BOOL, 1 },
-        { "NoShowLogin", OFFSET_OF(Splash_Data, NoShowLogin), PARAM_BOOL, 0 },
+        { "Show", offsetof(Splash_Data, Show), PARAM_BOOL, (unsigned)true },
+        { "Picture", offsetof(Splash_Data, Picture), PARAM_CHARS, (unsigned)"pict/splash.png" },
+        { "UseArts", offsetof(Splash_Data, UseArts), PARAM_BOOL, (unsigned)true },
+        { "SoundPlayer", offsetof(Splash_Data, SoundPlayer), PARAM_CHARS, 0 },
+        { "StartupSound", offsetof(Splash_Data, StartupSound), PARAM_CHARS, (unsigned)"startup.wav" },
+        { "SoundDisable", offsetof(Splash_Data, SoundDisable), PARAM_BOOL, 0 },
+        { "Langauge", offsetof(Splash_Data, Language), PARAM_CHARS, 0 },
+        { "LastUIN", offsetof(Splash_Data, LastUIN), PARAM_ULONG, 0 },
+        { "SavePassword", offsetof(Splash_Data, SavePassword), PARAM_BOOL, 1 },
+        { "NoShowLogin", offsetof(Splash_Data, NoShowLogin), PARAM_BOOL, 0 },
         { "", 0, 0, 0 }
     };
 
@@ -71,7 +71,7 @@ Splash::Splash()
     QFile fs(QString::fromLocal8Bit(file.c_str()));
     if (fs.open(IO_ReadOnly))
         ::load(&data, Splash_Params, fs, part);
-    if (getShow()){
+    if (isShow()){
         QPixmap pict(QString::fromLocal8Bit(app_file(getPicture())));
         if (!pict.isNull()){
             wnd = new QWidget(NULL, "splash",

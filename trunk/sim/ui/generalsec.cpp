@@ -46,8 +46,8 @@ GeneralSecurity::GeneralSecurity(QWidget *p)
     chkRejectWeb->setChecked(pClient->RejectWeb);
     chkRejectEmail->setChecked(pClient->RejectEmail);
     chkRejectOther->setChecked(pClient->RejectOther);
-    chkSave->setChecked(pSplash->getSavePassword());
-    chkNoShow->setChecked(pSplash->getNoShowLogin());
+    chkSave->setChecked(pSplash->isSavePassword());
+    chkNoShow->setChecked(pSplash->isNoShowLogin());
     edtFilter->setText(QString::fromLocal8Bit(pClient->RejectFilter.c_str()));
     grpDirect->setButton(pClient->DirectMode);
     rejectToggled(chkRejectMsg->isChecked());
@@ -74,8 +74,8 @@ void GeneralSecurity::apply(ICQUser*)
     QWidget *errWidget = NULL;
     if (edtCurrent->text().isEmpty()){
         if (!edtPasswd1->text().isEmpty() || !edtPasswd2->text().isEmpty() ||
-                (chkSave->isChecked() != pSplash->getSavePassword()) ||
-                (chkNoShow->isChecked() != pSplash->getNoShowLogin())){
+                (chkSave->isChecked() != pSplash->isSavePassword()) ||
+                (chkNoShow->isChecked() != pSplash->isNoShowLogin())){
             err = i18n("Input current password");
             errWidget = edtCurrent;
         }

@@ -92,22 +92,25 @@ extern const char *empty_str;
 void set_str(char **a, const char *r);
 
 #define PROP_BOOL(A)								\
-	bool get##A() { return data.A; }					\
+	bool is##A() { return data.A; }					\
 	void set##A(bool r) { data.A = r; }
 
 #define PROP_ULONG(A)                                                           \
 	unsigned long get##A() { return data.A; }                               \
 	void set##A(unsigned long r) { data.A = r; }
 
+#define PROP_USHORT(A)                                                           \
+	unsigned short get##A() { return data.A; }                               \
+	void set##A(unsigned short r) { data.A = r; }
+
+#define PROP_SHORT(A)                                                           \
+	short get##A() { return data.A; }                               \
+	void set##A(short r) { data.A = r; }
+
 #define PROP_STR(A)                                                             \
 	const char *get##A() { return data.A ? data.A : empty_str; }            \
 	void set##A(const char *r) { ::set_str(&data.A, r); }			\
 	char **_##A() { return &data.A; }
-
-#define OFFSET_OF(type, field)                                               \
-            (reinterpret_cast <size_t>                                       \
-                (reinterpret_cast <char *>                                   \
-                    (&(reinterpret_cast <type *> (0))->field)))
 
 #endif
 

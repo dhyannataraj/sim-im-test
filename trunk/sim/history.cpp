@@ -39,6 +39,8 @@ using namespace std;
 #endif
 #endif
 
+#define OFFSET_OF(A, B)		offsetof(A, B)
+
 cfgParam ICQMessage_Params[] =
     {
         { "Time", OFFSET_OF(ICQMessage, Time), PARAM_ULONG, 0 },
