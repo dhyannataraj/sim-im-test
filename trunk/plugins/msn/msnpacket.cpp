@@ -29,6 +29,7 @@
 #include <arpa/inet.h>
 #endif
 
+#include <stdio.h>
 #include <qtimer.h>
 #include <openssl/md5.h>
 
