@@ -37,6 +37,7 @@ class AutoAwayPlugin : public QObject, public Plugin, public EventReceiver
     Q_OBJECT
 public:
     AutoAwayPlugin(unsigned, const char*);
+    ~AutoAwayPlugin();
     PROP_ULONG(AwayTime);
     PROP_BOOL(EnableAway);
     PROP_ULONG(NATime);

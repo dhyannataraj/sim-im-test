@@ -23,6 +23,7 @@
 #else
 #include <sys/socket.h>
 #include <sys/time.h>
+#include <sys/un.h>
 #include <netinet/in.h>
 #include <netdb.h>
 #include <arpa/inet.h>
@@ -30,6 +31,8 @@
 
 #include <errno.h>
 
+#include <qfile.h>
+#include <qregexp.h>
 #include <qsocket.h>
 #include <qsocketdevice.h>
 #include <qsocketnotifier.h>
@@ -343,6 +346,8 @@ void SIMServerSocket::close()
         delete sock;
         sock = NULL;
     }
+	if (!m_name.isEmpty())
+		QFile::remove(m_name);
 }
 
 void SIMServerSocket::bind(unsigned short minPort, unsigned short maxPort, TCPClient *client)
@@ -360,27 +365,78 @@ void SIMServerSocket::bind(unsigned short minPort, unsigned short maxPort, TCPCl
         if (m_nPort == startPort)
             break;
     }
-    if (!bOK || !sock->listen(50)){
+	if (!bOK || !sock->listen(50)){
+		error(I18N_NOOP("Can't allocate port"));
+		return;
+	}
+	listen(client);
+}
+
+#ifndef WIN32
+
+void SIMServerSocket::bind(const char *path)
+{
+	m_name = QFile::decodeName(path);
+	string user_id;
+    uid_t uid = getuid();
+    struct passwd *pwd = getpwuid(uid);
+    if (pwd){
+		user_id = pwd->pw_name;
+    }else{
+		user_id = number(uid);
+    }
+	m_name = m_name.replace(QRegExp("\\%user\\%"), user_id.c_str());
+	QFile::remove(m_name);
+
+    s = socket(PF_UNIX, SOCK_STREAM, 0);
+    if (s == -1){
+        error("Can't create listener");
+        return;
+    }
+	sock->setSocket(s);
+
+    struct sockaddr_un sun;
+    sun.sun_family = AF_UNIX;
+    strcpy(sun.sun_path, QFile::decodeName(m_name));
+    if (::bind(s, (struct sockaddr*)&sun, sizeof(sun)) < 0){
+        log(L_WARN, "Can't bind %s: %s", sun.sun_path, strerror(errno));
+		error("Can't bind");
+		return;
+    }
+    if (::listen(s, 156) < 0){
+        log(L_WARN, "Can't listen %s: %s", sun.sun_path, strerror(errno));
+		error("Can't listen");
+		return;
+    }
+	listen(NULL);
+}
+
+#endif
+
+void SIMServerSocket::error(const char *err)
+{
         close();
-        if (notify && notify->error(I18N_NOOP("Can't allocate port"))){
+        if (notify && notify->error(err)){
             notify->m_listener = NULL;
             getSocketFactory()->remove(this);
         }
-        return;
-    }
+}
+
+void SIMServerSocket::listen(TCPClient *client)
+{
     sn = new QSocketNotifier(sock->socket(), QSocketNotifier::Read, this);
     connect(sn, SIGNAL(activated(int)), this, SLOT(activated(int)));
     if (client && notify){
         ListenParam p;
         p.notify = notify;
-        p.port   = port;
+        p.port   = m_nPort;
         p.client = client;
         Event e(EventSocketListen, &p);
         if (e.process())
             return;
     }
     if (notify)
-        notify->bind_ready(port);
+        notify->bind_ready(m_nPort);
 }
 
 void SIMServerSocket::activated(int)

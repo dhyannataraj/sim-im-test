@@ -366,6 +366,19 @@ void ServerSocketNotify::bind(unsigned short minPort, unsigned short maxPort, TC
     m_listener->bind(minPort, maxPort, client);
 }
 
+#ifndef WIN32
+
+void ServerSocketNotify::bind(const char *path)
+{
+    if (m_listener)
+        getSocketFactory()->remove(m_listener);
+    m_listener = getSocketFactory()->createServerSocket();
+    m_listener->setNotify(this);
+    m_listener->bind(path);
+}
+
+#endif
+
 };
 
 #ifndef WIN32

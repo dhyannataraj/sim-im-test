@@ -92,6 +92,11 @@ AutoAwayPlugin::AutoAwayPlugin(unsigned base, const char *config)
     m_timer->start(AUTOAWAY_TIME);
 }
 
+AutoAwayPlugin::~AutoAwayPlugin()
+{
+    free_data(autoAwayData, &data);
+}
+
 string AutoAwayPlugin::getConfig()
 {
     return save_data(autoAwayData, &data);
