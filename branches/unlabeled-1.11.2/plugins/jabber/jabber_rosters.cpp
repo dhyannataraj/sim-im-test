@@ -1247,17 +1247,18 @@ void JabberClient::processList()
     if (getState() != Connected)
         return;
     for (list<JabberListRequest>::iterator it = m_listRequests.begin(); it != m_listRequests.end(); ++it){
+		JabberListRequest &r = (*it);
         JabberClient::ServerRequest *req = new JabberClient::ServerRequest(this, JabberClient::ServerRequest::_SET, NULL, NULL);
         req->start_element("query");
         req->add_attribute("xmlns", "jabber:iq:roster");
         req->start_element("item");
-        req->add_attribute("jid", (*it).jid.c_str());
+        req->add_attribute("jid", r.jid.c_str());
         if ((*it).bDelete)
             req->add_attribute("subscription", "remove");
         if (!(*it).name.empty())
-            req->add_attribute("name", (*it).name.c_str());
+            req->add_attribute("name", r.name.c_str());
         if (!(*it).bDelete)
-            req->text_tag("group", (*it).grp.c_str());
+            req->text_tag("group", r.grp.c_str());
         req->send();
         m_requests.push_back(req);
     }

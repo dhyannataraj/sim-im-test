@@ -691,7 +691,7 @@ void JabberClient::ServerRequest::text_tag(const char *name, const char *value)
     end_element(true);
     m_client->m_socket->writeBuffer
     << "<" << name << ">"
-    << JabberClient::encodeXML(value)
+    << JabberClient::encodeXML(QString::fromUtf8(value))
     << "</" << name << ">\n";
 }
 
