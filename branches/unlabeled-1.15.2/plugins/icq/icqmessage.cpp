@@ -643,7 +643,6 @@ Message *ICQClient::parseExtendedMessage(const char *screen, Buffer &packet, Mes
         b >> fileName;
         unsigned long fileSize;
         b.unpack(fileSize);
-        Contact *contact;
         ICQFileMessage *m = new ICQFileMessage;
         m->setServerDescr(fileName.c_str());
         m->setServerText(fileDescr.c_str());
@@ -763,7 +762,6 @@ Message *ICQClient::parseMessage(unsigned short type, const char *screen, string
     case ICQ_MSGxFILE:{
             ICQFileMessage *m = new ICQFileMessage;
             m->setServerText(p.c_str());
-            Contact *contact;
             unsigned short port;
             unsigned long  fileSize;
             string fileName;
