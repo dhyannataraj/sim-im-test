@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
 "POT-Creation-Date: 2004-01-12 01:41+0300\n"
-"PO-Revision-Date: 2004-01-20 17:03+0100\n"
+"PO-Revision-Date: 2004-01-21 10:18+0100\n"
 "Last-Translator: Tomáš Oláh <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -5396,7 +5396,7 @@ msgstr ""
 #: plugins/_core/arcfg.cpp:94
 #: plugins/_core/autoreply.cpp:107
 msgid "In text you can use:"
-msgstr ""
+msgstr "V texte je možné použiť:"
 
 # ui/userinfo.cpp:86
 # usertbl.cpp:405
@@ -5830,6 +5830,14 @@ msgid ""
 "\n"
 "`<command>` - call <command> and substitute command output\n"
 msgstr ""
+"&IP; - ip adresa\n"
+"&Mail; - e-mail\n"
+"&Telefón; - telefón\n"
+"&Prezývka; - contaktná prezývka\n"
+"&Neprečítaných; - počet neprečítaných správ tohoto kontaktu\n"
+"&Status; - status kontaktu\n"
+"\n"
+"`<príkaz>` - zavolanie <príkaz> a substitúcia výstupu príakazu\n"
 
 # ui/toolsetup.cpp:76
 # ui/toolsetup.cpp:172
@@ -6510,9 +6518,8 @@ msgid "Open and &minimize"
 msgstr "Otvoriť a &minimalizovať"
 
 #: plugins/_core/msgcfgbase.cpp:120
-#, fuzzy
 msgid "Open and &raise"
-msgstr "Otvoriť a &raise"
+msgstr "Otvoriť a daj na pop&redie"
 
 # ui/toolsetupbase.cpp:123
 #: plugins/_core/toolsetupbase.cpp:123
@@ -6621,7 +6628,7 @@ msgstr "Ukazať oddeľovač &skupín"
 
 #: plugins/_core/userviewcfgbase.cpp:329
 msgid "Use small &font for group"
-msgstr ""
+msgstr "Použiť malé &písmo pre skupinu"
 
 #: plugins/_core/autoreplybase.cpp:87
 #: plugins/_core/connectionsettingsbase.cpp:105
@@ -7143,9 +7150,8 @@ msgstr "minutách \"Away\""
 
 # ui/statussetupbase.cpp:145
 #: plugins/autoaway/autoawaycfgbase.cpp:137
-#, fuzzy
 msgid "minutes of \"N/A\""
-msgstr "minutách \"Away\""
+msgstr "minút \"Away\""
 
 # ui/statussetupbase.cpp:147
 #: plugins/autoaway/autoawaycfgbase.cpp:138
@@ -7154,9 +7160,8 @@ msgstr "Nastaviť \"N/A\" status po"
 
 # ui/statussetupbase.cpp:147
 #: plugins/autoaway/autoawaycfgbase.cpp:139
-#, fuzzy
 msgid "Set \"Offline\" status after"
-msgstr "Nastaviť \"N/A\" status po"
+msgstr "Nastaviť \"Offline\" status po"
 
 # ui/statussetupbase.cpp:142
 #: plugins/autoaway/autoawaycfgbase.cpp:140
@@ -7273,9 +7278,8 @@ msgstr "sekundách neaktivity"
 
 # ui/keysetup.cpp:36
 #: plugins/dock/dockcfgbase.cpp:125
-#, fuzzy
 msgid "Show Mainwin on desktop"
-msgstr "Ukázať hlavné okno"
+msgstr "Ukázať hlavné okno na pracovnej ploche"
 
 #: plugins/dock/dockcfgbase.cpp:126
 msgid "current"
@@ -8296,6 +8300,8 @@ msgid ""
 "_n: Phone call\n"
 "%n phone calls"
 msgstr ""
+"_n: Telefónny hovor\n"
+"%n telefónne hovory"
 
 # msgedit.cpp:184
 #: plugins/sms/sms.cpp:115
@@ -8307,9 +8313,8 @@ msgid "Port error"
 msgstr "Chyba portu"
 
 #: plugins/sms/smssetup.cpp:57
-#, fuzzy
 msgid "Charging:"
-msgstr "Plačúci"
+msgstr "Nabíjanie:"
 
 #: plugins/sms/smssetup.cpp:59
 msgid "Battery:"
@@ -8365,7 +8370,7 @@ msgstr "300"
 
 #: plugins/sms/smssetupbase.cpp:192
 msgid "Software handshake"
-msgstr ""
+msgstr "Dohoda software"
 
 #: plugins/sms/smssetupbase.cpp:193
 msgid "Init string:"
@@ -8941,11 +8946,11 @@ msgstr "Odoslať sp&rávu vo formáte RTF ak je to možné"
 
 #: plugins/jabber/jabberconfigbase.cpp:328
 msgid "Automaticaly send &subscribe request"
-msgstr ""
+msgstr "Automaticky odoslať podpí&sanú požiadavku"
 
 #: plugins/jabber/jabberconfigbase.cpp:329
 msgid "Automaticaly &accept subscribe requests"
-msgstr ""
+msgstr "Automaticky &akceptovať podpísané požiadavky"
 
 #: plugins/spell/spell.cpp:61
 msgid "Spell check"
@@ -8980,7 +8985,7 @@ msgstr "Akcia"
 
 #: plugins/action/action.cpp:34
 msgid "Plugin execute external programs on event or from contact menu"
-msgstr ""
+msgstr "Zásuvný modul dovoľuje spúšťanie programov na základe udalostí alebo z poznuky kontaktov"
 
 # ui/workinfobase.cpp:220
 #: plugins/action/action.cpp:84
@@ -9006,9 +9011,8 @@ msgstr "Program"
 
 # qt3/i18n.cpp:156
 #: plugins/action/actioncfg.cpp:41
-#, fuzzy
 msgid "Event"
-msgstr "Udalosti"
+msgstr "Udalost"
 
 # ui/themesetup.cpp:139
 #: plugins/action/actioncfg.cpp:47
@@ -9036,7 +9040,7 @@ msgid ""
 "If the program will return a zero error code message text will be replaced with program output.\n"
 "If program output is empty,  message will be destroyed.\n"
 "Thus it is possible to organize additional messages filters.\n"
-msgstr ""
+msgstr "Pri udalosti správa bude text správy poslaný ako štandardný vstup pre program.\n"
 
 # ui/keysetupbase.cpp:148
 # ui/phonebookbase.cpp:133
@@ -9059,9 +9063,8 @@ msgstr "Pridať položku"
 # ui/toolsetupbase.cpp:131
 # ui/userinfobase.cpp:148
 #: plugins/action/additembase.cpp:91
-#, fuzzy
 msgid "Item:"
-msgstr "Nová položka"
+msgstr "Položka:"
 
 # ui/networkbase.cpp:227
 # ui/proxydlgbase.cpp:183
@@ -9074,9 +9077,8 @@ msgid "Zodiak"
 msgstr "Znamenie zverokruhu"
 
 #: plugins/zodiak/zodiak.cpp:51
-#, fuzzy
 msgid "Plugin provides show zodiak puctures for date edit"
-msgstr "Zásuvny modul umožňuje nastaviť obrázky pozadia pre zoznam užívateľov"
+msgstr "Zásuvny modul umožňuje zobraziť obrázok znamenia podľa dátumu"
 
 #: plugins/zodiak/zodiak.cpp:159
 msgid "View horoscope"
@@ -9150,6 +9152,8 @@ msgid ""
 "_n: LiveJournal post\n"
 "%n LiveJournal posts"
 msgstr ""
+"_n: Aktualny denník odoslaní\n"
+"%n aktuálnych denníkov odoslaní"
 
 #: plugins/livejournal/livejournal.cpp:111
 #, c-format
@@ -9157,34 +9161,34 @@ msgid ""
 "_n: Friends updated\n"
 "Friends updated %n"
 msgstr ""
+"_n: Priatelia aktualizovaný\n"
+"Priateľov aktualizovaných %n"
 
 #: plugins/livejournal/livejournal.cpp:128
 msgid "&Remove from journal"
-msgstr ""
+msgstr "Odst&rániť z denníka"
 
 #: plugins/livejournal/livejournal.cpp:236
 msgid "LiveJournal &post"
-msgstr ""
+msgstr "Aktuálny denník &odoslaní"
 
 #: plugins/livejournal/livejournal.cpp:246
 msgid "LiveJournal &WWW"
-msgstr ""
+msgstr "Aktuálny denník &WWW"
 
 # qt3/i18n.cpp:61
 #: plugins/livejournal/livejournal.cpp:256
-#, fuzzy
 msgid "Friends updated"
-msgstr "Pohľad (zoznam)"
+msgstr "Priatelia aktualizovaný"
 
 #: plugins/livejournal/livejournal.cpp:300
 msgid "LiveJournal"
-msgstr ""
+msgstr "Aktuálny denník"
 
 # ui/soundsetupbase.cpp:235
 #: plugins/livejournal/livejournal.cpp:611
-#, fuzzy
 msgid "Posting failed"
-msgstr "Chybné prihlásenie"
+msgstr "Chybné odslanie"
 
 # control.cpp:241
 #: plugins/livejournal/livejournal.cpp:1357
@@ -9193,659 +9197,603 @@ msgstr "Neplatné užívateľské meno"
 
 #: plugins/livejournal/livejournal.cpp:1359
 msgid "aggravated"
-msgstr ""
+msgstr "zvýšený"
 
 # libicq/country.cpp:166
 #: plugins/livejournal/livejournal.cpp:1360
-#, fuzzy
 msgid "angry"
-msgstr "Naštvaný"
+msgstr "naštvaný"
 
 #: plugins/livejournal/livejournal.cpp:1361
-#, fuzzy
 msgid "annoyed"
-msgstr "Zlostný"
+msgstr "zlostný"
 
 #: plugins/livejournal/livejournal.cpp:1362
-#, fuzzy
 msgid "anxious"
-msgstr "Anonymný"
+msgstr "úzkostlivý"
 
 # mainwin.cpp:3113
 #: plugins/livejournal/livejournal.cpp:1363
-#, fuzzy
 msgid "bored"
-msgstr "tučné"
+msgstr "nudný"
 
 # ui/themesetupbase.cpp:294
 #: plugins/livejournal/livejournal.cpp:1364
-#, fuzzy
 msgid "confused"
-msgstr "Ikony"
+msgstr "popletený"
 
 #: plugins/livejournal/livejournal.cpp:1365
 msgid "crappy"
-msgstr ""
+msgstr "mizerný"
 
 # libicq/country.cpp:150
 #: plugins/livejournal/livejournal.cpp:1366
-#, fuzzy
 msgid "cranky"
-msgstr "Nemecko"
+msgstr "vratký"
 
 #: plugins/livejournal/livejournal.cpp:1367
 msgid "depressed"
-msgstr ""
+msgstr "deprimovaný"
 
 # libicq/country.cpp:342
 #: plugins/livejournal/livejournal.cpp:1368
-#, fuzzy
 msgid "discontent"
-msgstr "Počúvať"
+msgstr "nespokojný"
 
 #: plugins/livejournal/livejournal.cpp:1369
 msgid "energetic"
-msgstr ""
+msgstr "aktívny"
 
 #: plugins/livejournal/livejournal.cpp:1370
 msgid "enraged"
-msgstr ""
+msgstr "rozzúrený"
 
 # ui/setupdlg.cpp:128
 #: plugins/livejournal/livejournal.cpp:1371
-#, fuzzy
 msgid "enthralled"
-msgstr "Zastavené"
+msgstr "fascinovaný"
 
 #: plugins/livejournal/livejournal.cpp:1372
 msgid "exhausted"
-msgstr ""
+msgstr "vyčerpaný"
 
 #: plugins/livejournal/livejournal.cpp:1373
 msgid "happy"
-msgstr ""
+msgstr "šťastný"
 
 # mainwin.cpp:3105
 #: plugins/livejournal/livejournal.cpp:1374
-#, fuzzy
 msgid "high"
-msgstr "svetlé"
+msgstr "vysoký"
 
 #: plugins/livejournal/livejournal.cpp:1375
 msgid "horny"
-msgstr ""
+msgstr "rohatý"
 
 # libicq/country.cpp:166
 #: plugins/livejournal/livejournal.cpp:1376
-#, fuzzy
 msgid "hungry"
-msgstr "Maďarsko"
+msgstr "hladný"
 
 #: plugins/livejournal/livejournal.cpp:1377
 msgid "infuriated"
-msgstr ""
+msgstr "rozúrený"
 
 # libicq/country.cpp:231
 #: plugins/livejournal/livejournal.cpp:1378
-#, fuzzy
 msgid "irate"
-msgstr "Migrovať"
+msgstr "rozhnevaný"
 
 #: plugins/livejournal/livejournal.cpp:1379
 msgid "jubilant"
-msgstr ""
+msgstr "víťazoslávny"
 
 #: plugins/livejournal/livejournal.cpp:1380
 msgid "lonely"
-msgstr ""
+msgstr "osamelý"
 
 #: plugins/livejournal/livejournal.cpp:1381
 msgid "moody"
-msgstr ""
+msgstr "náladový"
 
 #: plugins/livejournal/livejournal.cpp:1382
 msgid "pissed off"
-msgstr ""
+msgstr "naštvaný"
 
 # ui/alertdialogbase.cpp:248
 #: plugins/livejournal/livejournal.cpp:1383
-#, fuzzy
 msgid "sad"
-msgstr "Smutný"
+msgstr "smutný"
 
 #: plugins/livejournal/livejournal.cpp:1384
 msgid "satisfied"
-msgstr ""
+msgstr "spokojný"
 
 # qt3/i18n.cpp:267
 #: plugins/livejournal/livejournal.cpp:1385
-#, fuzzy
 msgid "sore"
-msgstr "O&bnoviť"
+msgstr "boľavý"
 
 #: plugins/livejournal/livejournal.cpp:1386
 msgid "stressed"
-msgstr ""
+msgstr "stresovaný"
 
 #: plugins/livejournal/livejournal.cpp:1387
 msgid "thirsty"
-msgstr ""
+msgstr "smädný"
 
 #: plugins/livejournal/livejournal.cpp:1388
 msgid "thoughtful"
-msgstr ""
+msgstr "zamyslený"
 
 # libicq/country.cpp:434
 #: plugins/livejournal/livejournal.cpp:1389
-#, fuzzy
 msgid "tired"
-msgstr "Na dôchodku"
+msgstr "unavený"
 
 #: plugins/livejournal/livejournal.cpp:1390
 msgid "touched"
-msgstr ""
+msgstr "dotknutý"
 
 # libicq/country.cpp:39
 #: plugins/livejournal/livejournal.cpp:1391
-#, fuzzy
 msgid "lazy"
-msgstr "Malaysky"
+msgstr "lenivý"
 
 #: plugins/livejournal/livejournal.cpp:1392
 msgid "drunk"
-msgstr ""
+msgstr "opitý"
 
 # ui/homeinfobase.cpp:167
 # ui/searchbase.cpp:287
 # ui/workinfobase.cpp:209
 #: plugins/livejournal/livejournal.cpp:1393
-#, fuzzy
 msgid "ditzy"
-msgstr "Mesto"
+msgstr "pochabý"
 
 #: plugins/livejournal/livejournal.cpp:1394
 msgid "mischievous"
-msgstr ""
+msgstr "zlomyselný"
 
 # libicq/country.cpp:119
 #: plugins/livejournal/livejournal.cpp:1395
-#, fuzzy
 msgid "morose"
-msgstr "Komoren"
+msgstr "mrzutý"
 
 #: plugins/livejournal/livejournal.cpp:1396
 msgid "gloomy"
-msgstr ""
+msgstr "skľúčený"
 
 #: plugins/livejournal/livejournal.cpp:1397
 msgid "melancholy"
-msgstr ""
+msgstr "melancholický"
 
 # libicq/country.cpp:296
 #: plugins/livejournal/livejournal.cpp:1398
-#, fuzzy
 msgid "drained"
-msgstr "Ukrajina"
+msgstr "vyčerpaný"
 
 #: plugins/livejournal/livejournal.cpp:1399
 msgid "excited"
-msgstr ""
+msgstr "vzrušený"
 
 #: plugins/livejournal/livejournal.cpp:1400
 msgid "relieved"
-msgstr ""
+msgstr "ukľudnený"
 
 #: plugins/livejournal/livejournal.cpp:1401
 msgid "hopeful"
-msgstr ""
+msgstr "nádejný"
 
 # qt3/i18n.cpp:253
 #: plugins/livejournal/livejournal.cpp:1402
-#, fuzzy
 msgid "amused"
-msgstr "&Pauza"
+msgstr "pobavený"
 
 # chatwnd.cpp:60
 # msgedit.cpp:117
 # qt3/i18n.cpp:160
 #: plugins/livejournal/livejournal.cpp:1403
-#, fuzzy
 msgid "determined"
-msgstr "Podčiarkn&uté"
+msgstr "rozhodnutý"
 
 #: plugins/livejournal/livejournal.cpp:1404
 msgid "scared"
-msgstr ""
+msgstr "vystrašený"
 
 #: plugins/livejournal/livejournal.cpp:1405
 msgid "frustrated"
-msgstr ""
+msgstr "frustrovaný"
 
 #: plugins/livejournal/livejournal.cpp:1406
 msgid "indescribable"
-msgstr ""
+msgstr "nepopísateľný"
 
 #: plugins/livejournal/livejournal.cpp:1407
 msgid "sleepy"
-msgstr ""
+msgstr "ospalý"
 
 #: plugins/livejournal/livejournal.cpp:1408
 msgid "groggy"
-msgstr ""
+msgstr "otrasený"
 
 # qt3/i18n.cpp:43
 # ui/phonebook.cpp:78
 #: plugins/livejournal/livejournal.cpp:1409
-#, fuzzy
 msgid "hyper"
-msgstr "Typ"
+msgstr "rozrušený"
 
 # libicq/country.cpp:178
 #: plugins/livejournal/livejournal.cpp:1410
-#, fuzzy
 msgid "relaxed"
-msgstr "Írsko"
+msgstr "uvoľnený"
 
 #: plugins/livejournal/livejournal.cpp:1411
 msgid "restless"
-msgstr ""
+msgstr "nepokojný"
 
 #: plugins/livejournal/livejournal.cpp:1412
 msgid "disappointed"
-msgstr ""
+msgstr "zklamaný"
 
 # libicq/country.cpp:211
 #: plugins/livejournal/livejournal.cpp:1413
-#, fuzzy
 msgid "curious"
-msgstr "Mauritius"
+msgstr "zvedavý"
 
 #: plugins/livejournal/livejournal.cpp:1414
 msgid "mellow"
-msgstr ""
+msgstr "zrelý"
 
 # libicq/country.cpp:360
 #: plugins/livejournal/livejournal.cpp:1415
-#, fuzzy
 msgid "peaceful"
-msgstr "Vesmír"
+msgstr "pokojný"
 
 #: plugins/livejournal/livejournal.cpp:1416
 msgid "bouncy"
-msgstr ""
+msgstr "živý"
 
 # mainwin.cpp:3124
 #: plugins/livejournal/livejournal.cpp:1417
-#, fuzzy
 msgid "nostalgic"
-msgstr "kurzíva"
+msgstr "nostalgický"
 
 #: plugins/livejournal/livejournal.cpp:1418
 msgid "okay"
-msgstr ""
+msgstr "v poriadku"
 
 #: plugins/livejournal/livejournal.cpp:1419
 msgid "rejuvenated"
-msgstr ""
+msgstr "omladený"
 
 # libicq/country.cpp:335
 # libicq/country.cpp:416
 #: plugins/livejournal/livejournal.cpp:1420
-#, fuzzy
 msgid "complacent"
-msgstr "Hotovo"
+msgstr "spokojný"
 
 # libicq/country.cpp:341
 #: plugins/livejournal/livejournal.cpp:1421
-#, fuzzy
 msgid "content"
-msgstr "Internet"
+msgstr "spokojný"
 
 # libicq/country.cpp:341
 #: plugins/livejournal/livejournal.cpp:1422
-#, fuzzy
 msgid "indifferent"
-msgstr "Ľahostajný"
+msgstr "bezvýznamný"
 
 #: plugins/livejournal/livejournal.cpp:1423
 msgid "silly"
-msgstr ""
+msgstr "hlúpy"
 
 #: plugins/livejournal/livejournal.cpp:1424
 msgid "flirty"
-msgstr ""
+msgstr "koketný"
 
 #: plugins/livejournal/livejournal.cpp:1425
 msgid "calm"
-msgstr ""
+msgstr "kľudný"
 
 # msgedit.cpp:121
 #: plugins/livejournal/livejournal.cpp:1426
-#, fuzzy
 msgid "refreshed"
-msgstr "O&bnoviť"
+msgstr "vyspelý"
 
 #: plugins/livejournal/livejournal.cpp:1427
 msgid "optimistic"
-msgstr ""
+msgstr "optimistický"
 
 #: plugins/livejournal/livejournal.cpp:1428
 msgid "pessimistic"
-msgstr ""
+msgstr "pesimistický"
 
 #: plugins/livejournal/livejournal.cpp:1429
 msgid "giggly"
-msgstr ""
+msgstr "hihňavý"
 
 #: plugins/livejournal/livejournal.cpp:1430
 msgid "pensive"
-msgstr ""
+msgstr "zamyslený"
 
 #: plugins/livejournal/livejournal.cpp:1431
 msgid "uncomfortable"
-msgstr ""
+msgstr "nepohodlný"
 
 #: plugins/livejournal/livejournal.cpp:1432
 msgid "lethargic"
-msgstr ""
+msgstr "letargický"
 
 # libicq/country.cpp:337
 #: plugins/livejournal/livejournal.cpp:1433
-#, fuzzy
 msgid "listless"
-msgstr "Fitness"
+msgstr "apatický"
 
 #: plugins/livejournal/livejournal.cpp:1434
 msgid "recumbent"
-msgstr ""
+msgstr "ležiaci"
 
 #: plugins/livejournal/livejournal.cpp:1435
 msgid "exanimate"
-msgstr ""
+msgstr "bezduchý"
 
 # usertbl.cpp:392
 #: plugins/livejournal/livejournal.cpp:1436
-#, fuzzy
 msgid "embarrassed"
-msgstr "V rozpakoch"
+msgstr "rozpačitý"
 
 # libicq/country.cpp:227
 #: plugins/livejournal/livejournal.cpp:1437
-#, fuzzy
 msgid "envious"
-msgstr "Nevis"
+msgstr "závistlivý"
 
 #: plugins/livejournal/livejournal.cpp:1438
 msgid "sympathetic"
-msgstr ""
+msgstr "solidárny"
 
 # ui/maininfobase.cpp:317
 #: plugins/livejournal/livejournal.cpp:1439
-#, fuzzy
 msgid "sick"
-msgstr "Prezývka (Nick)"
+msgstr "chorý"
 
 #: plugins/livejournal/livejournal.cpp:1440
-#, fuzzy
 msgid "hot"
-msgstr "Foto"
+msgstr "horúci"
 
 # mainwin.cpp:3113
 #: plugins/livejournal/livejournal.cpp:1441
-#, fuzzy
 msgid "cold"
-msgstr "tučné"
+msgstr "studený"
 
 #: plugins/livejournal/livejournal.cpp:1442
-#, fuzzy
 msgid "worried"
-msgstr "Prekvapený"
+msgstr "ustaraný"
 
 # libicq/country.cpp:264
 #: plugins/livejournal/livejournal.cpp:1443
-#, fuzzy
 msgid "loved"
-msgstr "Slovinsko"
+msgstr "milý"
 
 #: plugins/livejournal/livejournal.cpp:1444
 msgid "awake"
-msgstr ""
+msgstr "zobudený"
 
 # qt3/i18n.cpp:111
 #: plugins/livejournal/livejournal.cpp:1445
-#, fuzzy
 msgid "working"
-msgstr "Zoradenie"
+msgstr "pracovný"
 
 #: plugins/livejournal/livejournal.cpp:1446
 msgid "productive"
-msgstr ""
+msgstr "produktívny"
 
 #: plugins/livejournal/livejournal.cpp:1447
 msgid "accomplished"
-msgstr ""
+msgstr "hotový"
 
 # mainwin.cpp:2713
 #: plugins/livejournal/livejournal.cpp:1448
-#, fuzzy
 msgid "busy"
-msgstr "Zanepráznený"
+msgstr "zanepráznený"
 
 # mainwin.cpp:3117
 #: plugins/livejournal/livejournal.cpp:1449
-#, fuzzy
 msgid "blah"
-msgstr "čierne"
+msgstr "nezmyselný"
 
 #: plugins/livejournal/livejournal.cpp:1450
 msgid "full"
-msgstr ""
+msgstr "plný"
 
 #: plugins/livejournal/livejournal.cpp:1451
 msgid "grumpy"
-msgstr ""
+msgstr "mrzutý"
 
 # libicq/country.cpp:434
 #: plugins/livejournal/livejournal.cpp:1452
-#, fuzzy
 msgid "weird"
-msgstr "Na dôchodku"
+msgstr "podivný"
 
 #: plugins/livejournal/livejournal.cpp:1453
 msgid "nauseated"
-msgstr ""
+msgstr "zhnusený"
 
 #: plugins/livejournal/livejournal.cpp:1454
 msgid "ecstatic"
-msgstr ""
+msgstr "vo vytŕžení"
 
 #: plugins/livejournal/livejournal.cpp:1455
 msgid "chipper"
-msgstr ""
+msgstr "čiperný"
 
 #: plugins/livejournal/livejournal.cpp:1456
 msgid "rushed"
-msgstr ""
+msgstr "splašený"
 
 #: plugins/livejournal/livejournal.cpp:1457
 msgid "contemplative"
-msgstr ""
+msgstr "hĺbavý"
 
 #: plugins/livejournal/livejournal.cpp:1458
 msgid "nerdy"
-msgstr ""
+msgstr "chrapúňsky"
 
 #: plugins/livejournal/livejournal.cpp:1459
 msgid "geeky"
-msgstr ""
+msgstr "morbidný"
 
 # libicq/country.cpp:437
 #: plugins/livejournal/livejournal.cpp:1460
-#, fuzzy
 msgid "cynical"
-msgstr "Technik"
+msgstr "cynický"
 
 #: plugins/livejournal/livejournal.cpp:1461
 msgid "quixotic"
-msgstr ""
+msgstr "donchichotský"
 
 #: plugins/livejournal/livejournal.cpp:1462
 msgid "crazy"
-msgstr ""
+msgstr "bláznivý"
 
 #: plugins/livejournal/livejournal.cpp:1463
-#, fuzzy
 msgid "creative"
-msgstr "Prijať"
+msgstr "tvorivý"
 
 # ui/maininfobase.cpp:334
 # ui/statussetupbase.cpp:148
 #: plugins/livejournal/livejournal.cpp:1464
-#, fuzzy
 msgid "artistic"
-msgstr "Štatis&tika"
+msgstr "umelecký"
 
 # ui/filetransfer.cpp:177
 #: plugins/livejournal/livejournal.cpp:1465
-#, fuzzy
 msgid "pleased"
-msgstr "Chytrák"
+msgstr "potešený"
 
 #: plugins/livejournal/livejournal.cpp:1466
 msgid "bitchy"
-msgstr ""
+msgstr "nemravný"
 
 #: plugins/livejournal/livejournal.cpp:1467
 msgid "guilty"
-msgstr ""
+msgstr "vinný"
 
 # libicq/country.cpp:231
 #: plugins/livejournal/livejournal.cpp:1468
-#, fuzzy
 msgid "irritated"
-msgstr "Migrovať"
+msgstr "podráždený"
 
 # mainwin.cpp:3117
 #: plugins/livejournal/livejournal.cpp:1469
-#, fuzzy
 msgid "blank"
-msgstr "čierne"
+msgstr "prázdny"
 
 #: plugins/livejournal/livejournal.cpp:1470
 msgid "apathetic"
-msgstr ""
+msgstr "apatický"
 
 #: plugins/livejournal/livejournal.cpp:1471
 msgid "dorky"
-msgstr ""
+msgstr "nemotorný"
 
 #: plugins/livejournal/livejournal.cpp:1472
 msgid "impressed"
-msgstr ""
+msgstr "ohromený"
 
 #: plugins/livejournal/livejournal.cpp:1473
 msgid "naughty"
-msgstr ""
+msgstr "nezbedný"
 
 # qt3/i18n.cpp:137
 #: plugins/livejournal/livejournal.cpp:1474
-#, fuzzy
 msgid "predatory"
-msgstr "Adresár"
+msgstr "krutý"
 
 # ui/homeinfobase.cpp:167
 # ui/searchbase.cpp:287
 # ui/workinfobase.cpp:209
 #: plugins/livejournal/livejournal.cpp:1475
-#, fuzzy
 msgid "dirty"
-msgstr "Mesto"
+msgstr "špinavý"
 
 #: plugins/livejournal/livejournal.cpp:1476
 msgid "giddy"
-msgstr ""
+msgstr "povrchný"
 
 #: plugins/livejournal/livejournal.cpp:1477
-#, fuzzy
 msgid "surprised"
-msgstr "Prekvapený"
+msgstr "prekvapený"
 
 #: plugins/livejournal/livejournal.cpp:1478
 msgid "shocked"
-msgstr ""
+msgstr "šokovaný"
 
 # libicq/country.cpp:153
 #: plugins/livejournal/livejournal.cpp:1479
-#, fuzzy
 msgid "rejected"
-msgstr "Grécko"
+msgstr "odmietnutý"
 
 #: plugins/livejournal/livejournal.cpp:1480
 msgid "numb"
-msgstr ""
+msgstr "zkrehlý"
 
 #: plugins/livejournal/livejournal.cpp:1481
 msgid "cheerful"
-msgstr ""
+msgstr "radostný"
 
 #: plugins/livejournal/livejournal.cpp:1482
 msgid "good"
-msgstr ""
+msgstr "dobrý"
 
 #: plugins/livejournal/livejournal.cpp:1483
 msgid "distressed"
-msgstr ""
+msgstr "smutný"
 
 # qt3/i18n.cpp:291
 #: plugins/livejournal/livejournal.cpp:1484
-#, fuzzy
 msgid "intimidated"
-msgstr "Minimalizovať"
+msgstr "vystrašený"
 
 #: plugins/livejournal/livejournal.cpp:1485
 msgid "crushed"
-msgstr ""
+msgstr "zdrtený"
 
 # libicq/country.cpp:227
 #: plugins/livejournal/livejournal.cpp:1486
-#, fuzzy
 msgid "devious"
-msgstr "Nevis"
+msgstr "krivoľaký"
 
 #: plugins/livejournal/livejournal.cpp:1487
 msgid "thankful"
-msgstr ""
+msgstr "vďačný"
 
 # libicq/country.cpp:231
 #: plugins/livejournal/livejournal.cpp:1488
-#, fuzzy
 msgid "grateful"
-msgstr "Migrovať"
+msgstr "vďačný"
 
 #: plugins/livejournal/livejournal.cpp:1489
 msgid "jealous"
-msgstr ""
+msgstr "žiarlivý"
 
 # mainwin.cpp:2059
 # mainwin.cpp:2734
 #: plugins/livejournal/livejournal.cpp:1490
-#, fuzzy
 msgid "nervous"
-msgstr "Skupiny"
+msgstr "nervózny"
 
 #: plugins/livejournal/livejournal.cpp:1492
 msgid "Recent Entries"
-msgstr ""
+msgstr "Posledné záznamy"
 
 #: plugins/livejournal/livejournal.cpp:1493
 msgid "Calendar View"
-msgstr ""
+msgstr "Pohľad na kalendár"
 
 # qt3/i18n.cpp:61
 #: plugins/livejournal/livejournal.cpp:1494
-#, fuzzy
 msgid "Friends View"
-msgstr "Pohľad (zoznam)"
+msgstr "Pohľad na priateľov"
 
 # ui/pagerbase.cpp:114
 #: plugins/livejournal/livejournal.cpp:1495
@@ -9854,7 +9802,7 @@ msgstr "Váš profil"
 
 #: plugins/livejournal/livejournal.cpp:1496
 msgid "Your To-Do List"
-msgstr ""
+msgstr "Váš zoznam pracovných úloh"
 
 # userbox.cpp:114
 #: plugins/livejournal/livejournal.cpp:1497
@@ -9869,13 +9817,12 @@ msgstr "Podpora"
 
 #: plugins/livejournal/livejournal.cpp:1499
 msgid "Personal Info"
-msgstr ""
+msgstr "Osobné informácie"
 
 # msgedit.cpp:348
 #: plugins/livejournal/livejournal.cpp:1500
-#, fuzzy
 msgid "Journal Settings"
-msgstr "Nastavenia"
+msgstr "Nastavenia denníka"
 
 # ui/enable.cpp:134
 #: plugins/livejournal/livejournalcfg.cpp:36
@@ -9884,7 +9831,7 @@ msgstr "Registrácia nového užívateľa"
 
 #: plugins/livejournal/msgjournal.cpp:150
 msgid "Remove record from journal?"
-msgstr ""
+msgstr "Odstrániť záznam z denníka?"
 
 #: plugins/livejournal/msgjournalbase.cpp:110
 msgid "Subject:"
@@ -9907,11 +9854,11 @@ msgstr "Súkromný"
 
 #: plugins/livejournal/msgjournalbase.cpp:115
 msgid "Mood:"
-msgstr ""
+msgstr "Nálada:"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:210
 msgid "&LiveJournal"
-msgstr ""
+msgstr "Aktuá&lny denník"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:212
 msgid "Path:"
@@ -9931,11 +9878,11 @@ msgstr "minúty"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:217
 msgid "Use &fast server - only for paying customers"
-msgstr ""
+msgstr "Použiť rýchly server - len pre platiacich zákazníkov"
 
 #: plugins/livejournal/journalsearch.cpp:54
 msgid "Add community results"
-msgstr ""
+msgstr "Pridať výsledky komunity"
 
 # ui/themesetup.cpp:140
 #: plugins/livejournal/journalsearch.cpp:80
@@ -9955,9 +9902,8 @@ msgstr "Komunita %1 je už v zozname"
 # ui/searchbase.cpp:286
 # ui/workinfobase.cpp:212
 #: plugins/livejournal/journalsearchbase.cpp:101
-#, fuzzy
 msgid "Community:"
-msgstr "Štát:"
+msgstr "Komunia:"
 
 # mainwin.cpp:628
 # mainwin.cpp:2727
