@@ -624,6 +624,8 @@ public:
     string  localName;
     string  shortName();
 
+	ICQClient *client;
+
     void resume(int mode);
     vector<fileName> files;
 

@@ -1295,6 +1295,7 @@ bool SIMClient::createFile(ICQFile *f, int mode)
     file->at(size);
     f->setPos(size);
     f->p = (unsigned long)file;
+	f->client = this;
     return true;
 }
 
@@ -1306,6 +1307,7 @@ bool SIMClient::openFile(ICQFile *f)
         return false;
     }
     f->p = (unsigned long)file;
+	f->client = this;
     return true;
 }
 
@@ -1340,6 +1342,7 @@ void SIMClient::closeFile(ICQFile *f)
 {
     if (f->p) delete (QFile*)(f->p);
     f->p = 0;
+	f->client = NULL;
 }
 
 QTextCodec *SIMClient::codecForUser(unsigned long uin)

@@ -998,12 +998,12 @@ QPixmap IconsDLL::getIcon(int id)
         for (i = 0; i < h; i++){
             uchar *data = imgMask.scanLine(h - i -1);
             f.readBlock((char*)data, lineBytes);
-#ifndef WIN32
+// #ifndef WIN32
             unsigned j = 0;
             for (j = 0; j < lineBytes; j++){
                 data[j] ^= 0xFF;
             }
-#endif
+// #endif
             if (fileBytes > lineBytes) f.at(f.at() + fileBytes - lineBytes);
         }
         QBitmap mask;

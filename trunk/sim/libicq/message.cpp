@@ -114,12 +114,14 @@ ICQFile::ICQFile()
     listener = NULL;
     ft = NULL;
     p = 0;
+	client = NULL;
     autoAccept = false;
     wait = false;
 }
 
 ICQFile::~ICQFile()
 {
+	if (p && client) client->closeFile(this);
     if (listener) delete listener;
     if (ft) delete ft;
 }
