@@ -126,7 +126,11 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
         break;
     case ICQ_MSGxURL:{
             ICQUrl *url = static_cast<ICQUrl*>(msg);
+            s += "<a href=\"";
             s += quoteText(url->URL);
+            s += "\">";
+            s += quoteText(url->URL);
+            s += "</a>";
             if (*url->Message.c_str()){
                 s += "<br>";
                 s += MainWindow::ParseText(url->Message, true);

@@ -587,7 +587,7 @@ void ICQClient::declineMessage(ICQMessage *m, const char *reason)
         writeBuffer << m->timestamp1 << m->timestamp2 << 0x0002;
         writeBuffer.packUin(m->getUin());
         writeBuffer << (unsigned short)0x03;
-        packMessage(writeBuffer, m, reason, 1, 0, 0);
+        packMessage(writeBuffer, m, reason, 1, 0, 0, false, true);
         sendPacket();
     }
     cancelMessage(m, false);
@@ -628,7 +628,7 @@ void ICQClient::acceptMessage(ICQMessage *m)
     }else{
 
         Buffer msgBuf;
-        packMessage(msgBuf, m, NULL, 0, 0, 4);
+        packMessage(msgBuf, m, NULL, 0, 0, 4, false, true);
 
         char *host;
         unsigned short port;
@@ -736,13 +736,21 @@ void ICQClient::sendThroughServer(unsigned long uin, unsigned short type, Buffer
     sendPacket();
 }
 
+static void packColor(Buffer &mb, unsigned long color)
+{
+    char r = color & 0xFF;
+    char g = (color >> 8) & 0xFF;
+    char b = (color >> 16) & 0xFF;
+    mb << b << g << r << (char)0;
+}
+
 void ICQClient::packMessage(Buffer &mb, ICQMessage *m, const char *msg,
                             unsigned short msgType, unsigned short msgFlags,
-                            char oper, bool bShort)
+                            char oper, bool bShort, bool bConvert)
 {
     string message;
     if (msg) message = msg;
-    toServer(message);
+    if (bConvert) toServer(message);
 
     if (!bShort){
         mb  << (unsigned short)0x1B00 << 0x08000000L
@@ -760,6 +768,24 @@ void ICQClient::packMessage(Buffer &mb, ICQMessage *m, const char *msg,
 
     if (!m->isExt){
         switch (m->Type()){
+        case ICQ_MSGxMSG:{
+                ICQMsg *msg = static_cast<ICQMsg*>(m);
+                if (msg->ForeColor() != msg->BackColor()){
+                    packColor(mb, msg->ForeColor());
+                    packColor(mb, msg->BackColor());
+                }else{
+                    packColor(mb, 0x00000000L);
+                    packColor(mb, 0x00FFFFFFL);
+                }
+                ICQUser *u = getUser(msg->getUin());
+                if (u && u->GetRTF)
+                    mb.packStr32("{97B12751-243C-4334-AD22-D6ABF73F1492}");
+                break;
+            }
+        case ICQ_MSGxURL:
+            packColor(mb, 0x00000000L);
+            packColor(mb, 0x00FFFFFFL);
+            break;
         case ICQ_MSGxFILE:{
                 ICQFile *file = static_cast<ICQFile*>(m);
                 string fileName = file->shortName();
@@ -784,6 +810,9 @@ void ICQClient::packMessage(Buffer &mb, ICQMessage *m, const char *msg,
                 << (unsigned short)0;
                 break;
             }
+        case ICQ_MSGxSECURExOPEN:
+        case ICQ_MSGxSECURExCLOSE:
+            break;
         default:
             log(L_WARN, "Unknow type %u in pack message", m->Type());
         }
@@ -914,7 +943,7 @@ void ICQClient::processMsgQueueThruServer()
                 file->cookie1 = advCounter;
                 file->cookie2 = 0x0E00;
                 file->isExt = true;
-                packMessage(mb, file, NULL, 0, 1, 0);
+                packMessage(mb, file, NULL, 0, 1, 0, false, true);
                 Buffer b;
                 msg_id id;
                 id.h = rand();
@@ -944,7 +973,7 @@ void ICQClient::processMsgQueueThruServer()
                 chat->cookie2 = 0x0E00;
                 chat->isExt = true;
 
-                packMessage(mb, chat, NULL, 0, 1, 0);
+                packMessage(mb, chat, NULL, 0, 1, 0, false, true);
                 Buffer b;
                 msg_id id;
                 id.h = rand();

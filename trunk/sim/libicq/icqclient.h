@@ -110,10 +110,14 @@ const unsigned short ICQ_MSGxWEBxPANEL         = 0x000D;
 const unsigned short ICQ_MSGxEMAILxPAGER       = 0x000E;
 const unsigned short ICQ_MSGxCONTACTxLIST      = 0x0013;
 const unsigned short ICQ_MSGxEXT			   = 0x001A;
-const unsigned short ICQ_MSGxMAIL			   = 0x00ED;
-const unsigned short ICQ_MSGxSMS               = 0x00EC;
-const unsigned short ICQ_MSGxSMSxRECEIPT       = 0x00EE;
-const unsigned short ICQ_MSGxCONTACTxREQUEST   = 0x00EF;
+
+const unsigned short ICQ_MSGxMAIL			   = 0x00E0;
+const unsigned short ICQ_MSGxSMS               = 0x00E1;
+const unsigned short ICQ_MSGxSMSxRECEIPT       = 0x00E2;
+const unsigned short ICQ_MSGxCONTACTxREQUEST   = 0x00E3;
+
+const unsigned short ICQ_MSGxSECURExCLOSE  = 0x00EE;
+const unsigned short ICQ_MSGxSECURExOPEN   = 0x00EF;
 
 const unsigned long  UIN_SPECIAL    = 0xF0000000L;
 
@@ -373,6 +377,7 @@ public:
     unsigned short sendMessage(ICQMessage*);
     void acceptMessage(ICQMessage*);
     void declineMessage(ICQMessage*, const char *reason);
+    bool isLogged() { return state == Logged; }
 protected:
     enum State{
         None,
@@ -809,6 +814,18 @@ public:
     ConfigString  MessageType;
 };
 
+class ICQSecureOn : public ICQMessage
+{
+public:
+    ICQSecureOn();
+};
+
+class ICQSecureOff : public ICQMessage
+{
+public:
+    ICQSecureOff();
+};
+
 const unsigned long ICQ_ACCEPTED = 0;
 const unsigned long ICQ_DECLINED = (unsigned long)-1;
 
@@ -1196,7 +1213,7 @@ protected:
     void packInfoList(const ExtInfoList &info);
 
     void packMessage(Buffer &b, ICQMessage *m, const char *msg, unsigned short msgFlags,
-                     unsigned short msgState, char oper, bool bShort=false);
+                     unsigned short msgState, char oper, bool bShort, bool bConvert);
 
     unsigned long m_nProcessId;
 

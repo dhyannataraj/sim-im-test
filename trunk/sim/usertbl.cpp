@@ -274,7 +274,7 @@ void UserTbl::contentsDragEnterEvent(QDragEnterEvent *e)
     QString text;
     if (!QTextDrag::decode(e, text)) return;
     unsigned long uin = text.toULong();
-    if (uin < 10000) return;
+    if ((uin < 10000) || (uin >= UIN_SPECIAL)) return;
     if (findItem(uin)) return;
     e->accept();
     return;
@@ -286,7 +286,7 @@ void UserTbl::contentsDropEvent(QDropEvent *e)
     QString text;
     if (!QTextDrag::decode(e, text)) return;
     unsigned long uin = text.toULong();
-    if (uin < 10000) return;
+    if ((uin < 10000) || (uin >= UIN_SPECIAL)) return;
     addUin(uin);
 }
 

@@ -472,8 +472,8 @@ void HotKeys::unregKeys()
 #else
 #ifdef USE_KDE
     if (accel){
-	delete accel;
-	accel = NULL;
+        delete accel;
+        accel = NULL;
     }
 #endif
 #endif

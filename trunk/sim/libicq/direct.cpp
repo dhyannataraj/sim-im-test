@@ -432,7 +432,6 @@ void DirectClient::processPacket()
     string msg_str;
     readBuffer >> msg_str;
     ICQMessage *m = client->parseMessage(type, u->Uin(), msg_str, readBuffer, 0, 0, seq, 0);
-
     switch (command){
     case TCP_START:
         if (m == NULL){
@@ -441,8 +440,18 @@ void DirectClient::processPacket()
         }
         m->Received = true;
         m->Direct = true;
-        client->messageReceived(m);
-        sendAck(seq);
+        if ((m->Type() == ICQ_MSGxSECURExOPEN) || (m->Type() == ICQ_MSGxSECURExCLOSE)){
+            startPacket(TCP_ACK, seq);
+            const char *answer = NULL;
+#ifdef USE_OPENSSL
+            answer = "1";
+#endif
+            client->packMessage(writeBuffer, m, answer, 0, 0, 0, true, true);
+            sendPacket();
+        }else{
+            client->messageReceived(m);
+            sendAck(seq);
+        }
         break;
     case TCP_CANCEL:
         remove();
@@ -463,29 +472,42 @@ void DirectClient::processPacket()
                         msg->DeclineReason = msg_str;
                         client->cancelMessage(msg, false);
                     }else{
+                        bool bToProcess = false;
                         switch (msg->Type()){
                         case ICQ_MSGxFILE:{
+                                bToProcess = true;
                                 ICQFile *file = static_cast<ICQFile*>(msg);
                                 file->ft = new FileTransfer(u->IP(), u->RealIP(), m->id1, u, client, file);
                                 file->ft->connect();
                                 break;
                             }
                         case ICQ_MSGxCHAT:{
+                                bToProcess = true;
                                 ICQChat *chat = static_cast<ICQChat*>(msg);
                                 chat->chat = new ChatSocket(u->IP(), u->RealIP(), m->id1, u, client, chat);
                                 chat->chat->connect();
                                 break;
                             }
+                        case ICQ_MSGxMSG:
+                        case ICQ_MSGxURL:
+                            break;
                         default:
                             log(L_WARN, "Unknown accept message type");
                             client->cancelMessage(msg, false);
                             return;
                         }
                         u->msgQueue.remove(e);
-                        client->processQueue.push_back(e);
-                        ICQEvent eAck(EVENT_ACKED, m->getUin());
-                        eAck.setMessage(msg);
-                        client->process_event(&eAck);
+                        if (bToProcess){
+                            client->processQueue.push_back(e);
+                            ICQEvent eAck(EVENT_ACKED, msg->getUin());
+                            eAck.setMessage(msg);
+                            client->process_event(&eAck);
+                        }else{
+                            ICQEvent eSend(EVENT_MESSAGE_SEND, msg->getUin());
+                            eSend.setMessage(msg);
+                            eSend.state = ICQEvent::Success;
+                            client->process_event(&eSend);
+                        }
                     }
                     break;
                 }
@@ -638,19 +660,20 @@ void DirectClient::sendPacket()
 void DirectClient::acceptMessage(ICQMessage *m)
 {
     startPacket(TCP_ACK, m->timestamp1);
-    client->packMessage(writeBuffer, m, NULL, 0, 0, 0, true);
+    client->packMessage(writeBuffer, m, NULL, 0, 0, 0, true, true);
     sendPacket();
 }
 
 void DirectClient::declineMessage(ICQMessage *m, const char *reason)
 {
     startPacket(TCP_ACK, m->timestamp1);
-    client->packMessage(writeBuffer, m, reason, 1, 0, 0, true);
+    client->packMessage(writeBuffer, m, reason, 1, 0, 0, true, true);
     sendPacket();
 }
 
 unsigned short DirectClient::sendMessage(ICQMessage *msg)
 {
+    bool bConvert = true;
     string message;
     switch (msg->Type()){
     case ICQ_MSGxFILE:{
@@ -664,12 +687,54 @@ unsigned short DirectClient::sendMessage(ICQMessage *msg)
             chat->id1 = client->Port();
             break;
         }
+    case ICQ_MSGxMSG:{
+            ICQMsg *m = static_cast<ICQMsg*>(msg);
+            if (u->GetRTF){
+                string msg_text = m->Message;
+                client->toServer(msg_text);
+                message = client->createRTF(msg_text.c_str(), m->ForeColor);
+                bConvert = false;
+            }else{
+                message = client->clearHTML(m->Message.c_str());
+            }
+            break;
+        }
+    case ICQ_MSGxURL:{
+            ICQUrl *url = static_cast<ICQUrl*>(msg);
+            message = client->clearHTML(url->Message.c_str());
+            client->toServer(message);
+            message += '\xFE';
+            message += url->URL.c_str();
+            bConvert = false;
+            break;
+        }
+    case ICQ_MSGxCONTACTxLIST:{
+            ICQContacts *m = static_cast<ICQContacts*>(msg);
+            message = "";
+            unsigned nContacts = m->Contacts.size();
+            char u[13];
+            snprintf(u, sizeof(u), "%u", nContacts);
+            message += u;
+            for (ContactList::iterator it_msg = m->Contacts.begin(); it_msg != m->Contacts.end(); it_msg++){
+                Contact *contact = static_cast<Contact*>(*it_msg);
+                message += '\xFE';
+                snprintf(u, sizeof(u), "%lu", contact->Uin());
+                message += u;
+                message += '\xFE';
+                string alias = contact->Alias;
+                client->toServer(alias);
+                message += alias.c_str();
+            }
+            message += '\xFE';
+            bConvert = false;
+            break;
+        }
     default:
         log(L_WARN, "Unknown type %u for direct send", msg->Type());
         return 0;
     }
     startPacket(TCP_START, 0);
-    client->packMessage(writeBuffer, msg, message.c_str(), 0, 0, 0, true);
+    client->packMessage(writeBuffer, msg, message.c_str(), 0, 0, 0, true, bConvert);
     sendPacket();
     return m_nSequence;
 }
@@ -1390,6 +1455,7 @@ void ICQUser::processMsgQueue(ICQClient *client)
                     e->message()->bDelete = true;
                     client->process_event(e);
                     if (e->message()->bDelete) delete e->message();
+                    msgQueue.remove(e);
                     delete e;
                     it = msgQueue.begin();
                 }

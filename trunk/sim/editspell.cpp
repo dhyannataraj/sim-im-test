@@ -62,6 +62,27 @@ bool EditSpell::fontChanged()
     return bFontChanged;
 }
 
+void EditSpell::setBold(bool bBold)
+{
+    QTextEdit::setBold(bBold);
+    bFontChanged = true;
+    fCurrent.setBold(bBold);
+}
+
+void EditSpell::setItalic(bool bItalic)
+{
+    QTextEdit::setItalic(bItalic);
+    bFontChanged = true;
+    fCurrent.setItalic(bItalic);
+}
+
+void EditSpell::setUnderline(bool bUnderline)
+{
+    QTextEdit::setUnderline(bUnderline);
+    bFontChanged = true;
+    fCurrent.setUnderline(bUnderline);
+}
+
 void EditSpell::setCurrentFont(const QFont &f)
 {
     QTextEdit::setCurrentFont(f);

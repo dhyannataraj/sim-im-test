@@ -193,6 +193,16 @@ ICQContactRequest::ICQContactRequest()
 {
 }
 
+ICQSecureOn::ICQSecureOn()
+        : ICQMessage(ICQ_MSGxSECURExOPEN)
+{
+}
+
+ICQSecureOff::ICQSecureOff()
+        : ICQMessage(ICQ_MSGxSECURExCLOSE)
+{
+}
+
 ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, string &p, Buffer &packet,
                                     unsigned short cookie1, unsigned short cookie2,
                                     unsigned long timestamp1, unsigned long timestamp2)
@@ -347,6 +357,16 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
         msg->Size = htonl(fileSize);
         msg->id1 = port;
         msg->timestamp1 = timestamp1;
+        return msg;
+    }
+    if (type == ICQ_MSGxSECURExOPEN){
+        ICQSecureOn *msg = new ICQSecureOn;
+        msg->Uin.push_back(uin);
+        return msg;
+    }
+    if (type == ICQ_MSGxSECURExCLOSE){
+        ICQSecureOff *msg = new ICQSecureOff;
+        msg->Uin.push_back(uin);
         return msg;
     }
     if (type == ICQ_MSGxEXT){
@@ -700,13 +720,35 @@ ICQEvent *ICQClient::sendMessage(ICQMessage *msg)
         }
     }
 
-    if ((msg->Type() == ICQ_MSGxCHAT) || (msg->Type() == ICQ_MSGxFILE)){
+    if (msg->Uin.size() == 1){
         ICQUser *u = getUser(msg->getUin(), false);
-        if (u && (u->uStatus != ICQ_STATUS_OFFLINE) &&
-                (u->direct || (Port() && (IP() || RealIP()))))
-            return u->addMessage(msg, this);
+        if ((msg->Type() == ICQ_MSGxCHAT) || (msg->Type() == ICQ_MSGxFILE)){
+            if (u && (u->uStatus != ICQ_STATUS_OFFLINE) &&
+                    (u->direct || (u->Port() && (u->IP() || u->RealIP())))){
+                ICQEvent *e = u->addMessage(msg, this);
+                if (e){
+                    for (list<ICQEvent*>::iterator it = u->msgQueue.begin(); it != u->msgQueue.end(); it++)
+                        if ((*it) == e){
+                            return e;
+                        }
+                }
+                return NULL;
+            }
+        }
+        if (u && u->direct && u->direct->isLogged() &&
+                ((msg->Type() == ICQ_MSGxMSG) ||
+                 (msg->Type() == ICQ_MSGxURL) ||
+                 (msg->Type() == ICQ_MSGxCONTACTxLIST))){
+            ICQEvent *e = u->addMessage(msg, this);
+            if (e){
+                for (list<ICQEvent*>::iterator it = u->msgQueue.begin(); it != u->msgQueue.end(); it++)
+                    if ((*it) == e){
+                        return e;
+                    }
+            }
+            return NULL;
+        }
     }
-
 
     list<ICQEvent*>::iterator it;
     for (it = msgQueue.begin(); it != msgQueue.end(); it++){

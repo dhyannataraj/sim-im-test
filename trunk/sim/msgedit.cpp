@@ -477,6 +477,7 @@ void MsgEdit::processEvent(ICQEvent *e)
                 emit addMessage(message(), false, true);
                 emit showMessage(Uin(), message()->Id);
                 setMessage();
+                sendEvent = NULL;
                 action(mnuAction);
                 emit setStatus(i18n("Message sent"), 2000);
             }else{

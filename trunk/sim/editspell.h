@@ -49,6 +49,9 @@ public:
     bool colorChanged();
     bool fontChanged();
     void resetColors(bool bCanRich);
+    void setBold(bool bBold);
+    void setItalic(bool bItalic);
+    void setUnderline(bool bUnderline);
     void setCurrentFont(const QFont &f);
     QFont currentFont() { return fCurrent; }
 public slots:
