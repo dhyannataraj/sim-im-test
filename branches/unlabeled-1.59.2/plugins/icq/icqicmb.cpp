@@ -1501,7 +1501,6 @@ void ICQClient::sendTimeout()
 
 void ICQClient::processSendQueue()
 {
-    log(L_DEBUG, "Process send queue");
     if (m_sendTimer->isActive())
         return;
     m_processTimer->stop();
@@ -1545,12 +1544,14 @@ void ICQClient::processSendQueue()
 			}
 			unsigned char *packet = (unsigned char*)(r.delayed.data(r.delayed.readPos()));
 			unsigned size = (packet[4] << 8) + packet[5] + 6;
+			++m_nFlapSequence;
+			packet[2] = (m_nFlapSequence >> 8);
+			packet[3] = m_nFlapSequence;
 			socket()->writeBuffer.packetStart();
 			socket()->writeBuffer.pack(r.delayed.data(r.delayed.readPos()), size);
 			log_packet(socket()->writeBuffer, true, ICQPlugin::icq_plugin->OscarPacket);
 			r.delayed.incReadPos(size);
 			setNewLevel(r);
-			log(L_DEBUG, "< delay %u %i %X", r.delayed.readPos(), r.delayed.writePos(), r.m_curLevel);
 			socket()->write();
 		}
 	    if (r.delayed.readPos() == r.delayed.writePos())
@@ -1570,7 +1571,6 @@ void ICQClient::processSendQueue()
 					delay = send_delay;
 				break;
             }
-            log(L_DEBUG, "Process bg queue");
             m_send = sendBgQueue.front();
             sendBgQueue.pop_front();
             m_sendTimer->start(SEND_TIMEOUT);

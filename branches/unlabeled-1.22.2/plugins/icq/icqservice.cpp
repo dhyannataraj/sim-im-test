@@ -141,7 +141,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
 				RateInfo &r = m_rates[class_id];
 				r.m_winSize  = window_size;
 				r.m_maxLevel = max_level;
-				r.m_minLevel = clear_level;
+				r.m_minLevel = alert_level;
 				r.m_curLevel = current_level;
 				r.m_lastSend = QDateTime::currentDateTime();
 				processSendQueue();
@@ -180,7 +180,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
 					current_level,max_level);
 				RateInfo r;
 				r.m_winSize		= window_size;
-				r.m_minLevel	= clear_level;
+				r.m_minLevel	= alert_level;
 				r.m_maxLevel	= max_level;
 				r.m_curLevel	= current_level;
 				r.m_lastSend	= QDateTime::currentDateTime();
@@ -214,36 +214,6 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
 			buddyRequest();
 			icmbRequest();
 			bosRequest();
-		}else{
-			unsigned short n_rates;
-            m_socket->readBuffer >> n_rates;
-			unsigned n;
-			for (n = 0; n < n_rates; n++){
-				unsigned short class_id;
-				unsigned long  window_size;
-				unsigned long  clear_level;
-				unsigned long  alert_level;
-				unsigned long  limit_level;
-				unsigned long  discon_level;
-				unsigned long  current_level;
-				unsigned long  max_level;
-				unsigned long  last_send;
-				char current_state;
-				m_socket->readBuffer
-					>> class_id
-					>> window_size
-					>> clear_level
-					>> alert_level
-					>> limit_level
-					>> discon_level
-					>> current_level
-					>> max_level
-					>> last_send
-					>> current_state;
-				log(L_DEBUG, "grp: %02X, ws: %04X, cl %04X, al %04X, ll %04X, dl: %04X, cur %04X, ml %04X",
-					class_id,window_size,clear_level,alert_level,limit_level,discon_level,
-					current_level,max_level);
-			}
 		}
         break;
     case ICQ_SNACxSRV_MOTD:
@@ -269,7 +239,6 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
             Tlv *tlvIP = tlv(0x000A);
             if (tlvIP)
                 set_ip(&data.owner.IP, htonl((unsigned long)(*tlvIP)));
-            log(L_DEBUG, "Name info");
             break;
         }
     case ICQ_SNACxSRV_SERVICExRESP:{
@@ -285,7 +254,6 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
             break;
         }
     case ICQ_SNACxSRV_READYxSERVER:
-        log(L_DEBUG, "Server ready");
         snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_IMxICQ);
         if (m_bAIM){
             m_socket->writeBuffer
@@ -396,7 +364,6 @@ void ICQClient::sendClientReady()
 
 void ICQClient::sendLogonStatus()
 {
-    log(L_DEBUG, "Logon status %u", m_logonStatus);
     if (getInvisible())
         sendInvisible(false);
     sendContactList();

@@ -435,7 +435,7 @@ protected:
     void packet_ready();
     bool m_bHeader;
     char m_nChannel;
-    unsigned short m_nSequence;
+    unsigned short m_nFlapSequence;
     unsigned short m_nMsgSequence;
 };
 
