@@ -39,6 +39,7 @@ FloatyWnd::FloatyWnd(FloatyPlugin *plugin, unsigned id)
     m_plugin = plugin;
     m_id = id;
     init();
+	setAcceptDrops(true);
 #ifdef USE_KDE
     KWin::setState(winId(), NET::SkipTaskbar | NET::SkipPager);
     KWin::setOnAllDesktops(winId(), true);
@@ -286,6 +287,76 @@ void FloatyWnd::showTip()
         m_tip = new TipLabel(text);
     }
     m_tip->show(QRect(pos().x(), pos().y(), width(), height()));
+}
+
+void FloatyWnd::dragEnterEvent(QDragEnterEvent *e)
+{
+    dragEvent(e, false);
+}
+
+void FloatyWnd::dropEvent(QDropEvent *e)
+{
+    dragEvent(e, true);
+}
+
+void FloatyWnd::dragEvent(QDropEvent *e, bool isDrop)
+{
+    Message *msg = NULL;
+    CommandDef *cmd;
+    CommandsMapIterator it(m_plugin->core->messageTypes);
+    while ((cmd = ++it) != NULL){
+        MessageDef *def = (MessageDef*)(cmd->param);
+        if (def && def->drag){
+            msg = def->drag(e);
+            if (msg){
+                unsigned type = cmd->id;
+                if (def->base_type){
+                    type = def->base_type;
+                    for (;;){
+                        const CommandDef *c = m_plugin->core->messageTypes.find(type);
+                        if (c == NULL)
+                            break;
+                        MessageDef *def = (MessageDef*)(cmd->param);
+                        if (def->base_type == 0)
+                            break;
+                        type = def->base_type;
+                    }
+                }
+                Command cmd;
+                cmd->id      = type;
+                cmd->menu_id = MenuMessage;
+                cmd->param	 = (void*)m_id;
+                Event e(EventCheckState, cmd);
+                if (e.process())
+                    break;
+            }
+        }
+    }
+    if (msg){
+        e->accept();
+        if (isDrop){
+            msg->setContact(m_id);
+            Event e(EventOpenMessage, msg);
+            e.process();
+        }
+        delete msg;
+        return;
+    }
+    if (QTextDrag::canDecode(e)){
+        QString str;
+        if (QTextDrag::decode(e, str)){
+            e->accept();
+            if (isDrop){
+                Message *msg = new Message(MessageGeneric);
+                msg->setText(str);
+                msg->setContact(m_id);
+                Event e(EventOpenMessage, msg);
+                e.process();
+                delete msg;
+            }
+            return;
+        }
+    }
 }
 
 #ifndef WIN32

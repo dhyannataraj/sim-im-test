@@ -47,6 +47,9 @@ protected:
     void mouseDoubleClickEvent(QMouseEvent*);
     void enterEvent(QEvent*);
     void leaveEvent(QEvent*);
+	void dragEnterEvent(QDragEnterEvent*);
+	void dropEvent(QDropEvent*);
+    void dragEvent(QDropEvent *e, bool isDrop);
     QPoint   mousePos;
     QPoint	 initMousePos;
     QString  m_text;
