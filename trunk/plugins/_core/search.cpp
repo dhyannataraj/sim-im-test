@@ -332,10 +332,7 @@ void *SearchDialog::processEvent(Event *e)
                             }else if ((QWidget*)(cmd->param) == m_search->btnSearch){
                                 BalloonMsg::message(err, m_search->btnSearch);
                             }else{
-                                QRect rc = m_result->itemRect((QListViewItem*)(e->param()));
-                                QPoint p = m_result->viewport()->mapToGlobal(QPoint(rc.left(), rc.top()));
-                                rc = QRect(p.x(), p.y(), rc.width(), rc.height());
-                                BalloonMsg::message(err, m_result, false, 150, &rc);
+                                BalloonMsg::message(err, m_result);
                             }
                             return e->param();
                         }
