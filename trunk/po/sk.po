@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: sk\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-05 15:33+0200\n"
-"PO-Revision-Date: 2004-08-18 08:30+0200\n"
+"PO-Revision-Date: 2004-09-20 15:27+0200\n"
 "Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -430,7 +430,7 @@ msgstr "Ďalšia strá&nka"
 
 #: core.cpp:820
 msgid "&Save as text"
-msgstr ""
+msgstr "Ulo i  ako text"
 
 # control.cpp:234
 #: plugins/_core/core.cpp:878
@@ -979,19 +979,19 @@ msgstr "História"
 
 #: plugins/_core/historywnd.cpp:191
 msgid "File already exists. Overwrite?"
-msgstr ""
+msgstr "Súbor u  existuje. Prepísa  ho?"
 
 #: plugins/_core/historywnd.cpp:196
 msgid "&Overwrite"
-msgstr ""
+msgstr "Prepísa"
 
 #: plugins/_core/historywnd.cpp:197
 msgid "&Append"
-msgstr ""
+msgstr "Pripoji "
 
 #: plugins/_core/historywnd.cpp:211
 msgid "Save failed"
-msgstr ""
+msgstr "Ukladanie skon ilo s chybou"
 
 # libicq/country.cpp:18
 # ui/themesetup.cpp:54
@@ -7657,25 +7657,22 @@ msgstr "km/h"
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:423
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Low"
-msgstr "Sneženie"
+msgstr "N zko"
 
 #: plugins/weather/weather.cpp:424
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Moderate"
-msgstr "Neskoro"
+msgstr "Stredne"
 
 #: plugins/weather/weather.cpp:425
-#, fuzzy
 msgid ""
 "_: weather\n"
 "High"
-msgstr "Hmla"
+msgstr "Vysoko"
 
 # libicq/country.cpp:109
 #: plugins/weather/weather.cpp:437
@@ -7708,7 +7705,6 @@ msgid "%t | %c"
 msgstr "%t | %c"
 
 #: plugins/weather/weather.cpp:562
-#, fuzzy
 msgid ""
 "%l<br><br>\n"
 "<img src=\"icon:weather%i\"> %c<br>\n"
@@ -8072,7 +8068,7 @@ msgstr "&Sítosť:"
 
 #: sim/qt3/i18n.cpp:5
 msgid "&Val:"
-msgstr ""
+msgstr "Hodnota:"
 
 # qt3/i18n.cpp:247
 #: sim/qt3/i18n.cpp:7
@@ -8451,9 +8447,8 @@ msgid "Select Font"
 msgstr "Výber písma"
 
 #: sim/qt3/i18n.cpp:177
-#, fuzzy
 msgid "<h3>About Qt</h3><p>This program uses Qt version %1, a multiplatform C++ GUI toolkit from Trolltech. Qt provides single-source portability across Windows 95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of Unix with X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more information.</p>"
-msgstr "<h3>About Qt</h3><p>Tento program používa Qt verziu %1, multiplatformový C++ GUI toolkit od Trolltech. Qt provides single-source portability across Windows 95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of Unix with X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more information.</p>"
+msgstr "<h3>About Qt</h3><p>Tento program používa Qt verziu %1, multiplatformový C++ GUI toolkit od Trolltech. Qt poskytuje prenositeinosg medzi platformamidows 95/98/NT/2000, Linux, Solaris, HP-UX and m mnohými aalními verziami ith -u s/p><p>See <tPozrite sa na tp://www.trolltech.com/qt/</tt> for mo, získate viac informáacií."
 
 # qt3/i18n.cpp:183
 #: sim/qt3/i18n.cpp:183
@@ -10321,6 +10316,3 @@ msgstr "Vlastné"
 msgid "Windows XP style"
 msgstr "Štýl \"Windows XP\""
 
-# ui/setupdlg.cpp:127
-#~ msgid "SSL shuwdown error"
-#~ msgstr "Chyba pri ukončovaní SSL (shutdown error)"
