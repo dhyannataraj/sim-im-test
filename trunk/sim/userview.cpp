@@ -30,6 +30,7 @@
 #include "ui/enable.h"
 
 #include <qheader.h>
+#include <qtooltip.h>
 #include <qpopupmenu.h>
 #include <qdragobject.h>
 #include <qpainter.h>
@@ -43,8 +44,10 @@
 #include <qstringlist.h>
 #include <qaccel.h>
 #include <qwidgetlist.h>
+#include <qlabel.h>
 
 #include <stdio.h>
+#include <time.h>
 
 #ifdef USE_KDE
 #include <kwin.h>
@@ -618,7 +621,7 @@ void DivItem::paintCell(QPainter *p, const QColorGroup &cg, int, int, int)
 #define ACCEL(a)	QAccel::stringToKey(SIMClient::getMessageAccel(a))
 
 UserView::UserView (QWidget *parent, bool _bList, bool bFill, WFlags f)
-        : QListView(parent, NULL, f), QToolTip(viewport())
+        : QListView(parent, NULL, f)
 {
     bList = _bList;
     bStaticBg = false;
@@ -693,7 +696,11 @@ UserView::UserView (QWidget *parent, bool _bList, bool bFill, WFlags f)
     accel->insertItem(QListView::CTRL + QListView::Key_Minus, mnuGrpCollapseAll);
     bgChanged();
     mPressedItem = NULL;
+    tipItem = NULL;
     viewport()->setMouseTracking(true);
+    tipTimer = new QTimer(this);
+    connect(tipTimer, SIGNAL(timeout()), this, SLOT(showTip()));
+    tipLabel = NULL;
 }
 
 void UserView::accelActivated(int id)
@@ -754,27 +761,10 @@ void UserView::accelActivated(int id)
     }
 }
 
-#ifndef WIN32
-extern Time qt_x_time;
-#endif
-
 bool UserView::eventFilter(QObject *obj, QEvent *e)
 {
-    if ((e->type() == QEvent::Enter) && !qApp->focusWidget()){
-#ifndef WIN32
-        XEvent ev;
-        memset(&ev, 0, sizeof(ev));
-        ev.xfocus.display = qt_xdisplay();
-        ev.xfocus.type = FocusIn;
-        ev.xfocus.window = static_cast<QWidget*>(obj)->topLevelWidget()->winId();
-        ev.xfocus.mode = NotifyNormal;
-        ev.xfocus.detail = NotifyAncestor;
-        Time time = qt_x_time;
-        qt_x_time = 1;
-        qApp->x11ProcessEvent( &ev );
-        qt_x_time = time;
-#endif
-    }
+    if ((e->type() == QEvent::Leave) || (e->type() == QEvent::KeyPress))
+        hideTip();
     if (obj == menuGroup){
         if (e->type() == QEvent::Hide)
             QTimer::singleShot(0, this, SLOT(clearGroupMenu()));
@@ -1561,6 +1551,7 @@ void UserView::doubleClick()
 
 void UserView::contentsMousePressEvent(QMouseEvent *e)
 {
+    hideTip();
 #if QT_VERSION < 300
     if (!bList){
         if ((e->button() == QObject::LeftButton) && !bFloaty){
@@ -1589,7 +1580,109 @@ void UserView::contentsMouseMoveEvent(QMouseEvent *e)
         }
     }
 #endif
+    QListViewItem *list_item = itemAt(contentsToViewport(e->pos()));
+    if (list_item != tipItem){
+        hideTip();
+        tipItem = list_item;
+        UserViewItem *item = NULL;
+        if (tipItem){
+            UserViewItemBase *base_item = static_cast<UserViewItemBase*>(tipItem);
+            if (base_item->type() == 1)
+                item = static_cast<UserViewItem*>(tipItem);
+        }
+        if (item)
+            tipTimer->start(1000, true);
+    }
     QListView::contentsMouseMoveEvent(e);
+}
+
+class TipLabel : public QLabel
+{
+public:
+    TipLabel( QWidget* parent, const QString& text) : QLabel( parent, "toolTipTip",
+                    WStyle_StaysOnTop | WStyle_Customize | WStyle_NoBorder | WStyle_Tool | WX11BypassWM )
+    {
+        setMargin(1);
+        setIndent(0);
+        setAutoMask( FALSE );
+        setFrameStyle( QFrame::Plain | QFrame::Box );
+        setLineWidth( 1 );
+        setAlignment( AlignTop );
+        polish();
+        setText(text);
+        adjustSize();
+        setPalette(QToolTip::palette());
+    }
+};
+
+void UserView::tipDestroyed()
+{
+    tipLabel = NULL;
+}
+
+void UserView::hideTip()
+{
+    tipTimer->stop();
+    tipItem = NULL;
+    if (tipLabel)
+        tipLabel->hide();
+}
+
+void UserView::showTip()
+{
+    UserViewItem *item = NULL;
+    if (tipItem){
+        UserViewItemBase *base_item = static_cast<UserViewItemBase*>(tipItem);
+        if (base_item->type() == 1)
+            item = static_cast<UserViewItem*>(tipItem);
+    }
+    if (item){
+        CUser user(item->m_uin);
+        QRect tipRect = itemRect(tipItem);
+        QString tip = user.toolTip();
+        if ( tipLabel
+#if defined(Q_WS_X11)
+                && tipLabel->x11Screen() == widget->x11Screen()
+#endif
+           ) {
+            tipLabel->setText( tip );
+            tipLabel->adjustSize();
+        } else {
+#if defined(Q_WS_X11)
+            delete tipLabel;
+            tipLabel = new TipLabel( QApplication::desktop()->screen( widget->x11Screen() ), tip);
+#else
+            tipLabel = new TipLabel( 0, tip);
+#endif
+            connect(tipLabel, SIGNAL(destoyed()), this, SLOT(tipDestroyed()));
+        }
+        QPoint p;
+        int dw = QApplication::desktop()->width();
+        int dh = QApplication::desktop()->height();
+        p = viewport()->mapToGlobal( tipRect.topLeft() );
+        tipLabel->setAlignment( WordBreak | AlignCenter );
+        int h = tipLabel->heightForWidth( tipRect.width() - 4 );
+        tipLabel->resize( tipLabel->width(), h );
+        int x = p.x() + tipRect.width() / 2 - tipLabel->width();
+        if (x < 0)
+            x = p.x() + tipRect.width() / 2;
+        if (x + tipLabel->width() > dw - 2)
+            x = dw - 2 - tipLabel->width();
+        int y = p.y() + tipRect.height() + 4;
+        if (y + tipLabel->height() > dh)
+            y = p.y() - 4 - tipLabel->height();
+        if (y < 0)
+            y = p.y() + tipRect.height() + 4;
+        tipLabel->move(x, y);
+#if !defined(QT_NO_EFFECTS) && (QT_VERSION >= 300)
+        if ( QApplication::isEffectEnabled( UI_FadeTooltip ) )
+            qFadeEffect( tipLabel );
+        else
+            qScrollEffect( tipLabel );
+#else
+        tipLabel->show();
+#endif
+    }
 }
 
 void UserView::check(unsigned long uin)
@@ -1770,15 +1863,6 @@ void UserView::viewportContextMenuEvent( QContextMenuEvent *e)
         break;
     }
     mPressedItem = NULL;
-}
-
-void UserView::maybeTip ( const QPoint &p )
-{
-    QPoint pos = mapToGlobal(p);
-    UserViewItem *item = findUserItem(pos);
-    if (item == NULL) return;
-    CUser user(item->m_uin);
-    tip(itemRect(item), user.toolTip());
 }
 
 cfgParam UserFloat_Params[] =

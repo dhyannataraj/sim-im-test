@@ -2755,6 +2755,8 @@ void MainWindow::loadMenu()
     menuFunctionDock->setCheckable(true);
     menuFunctionDock->insertItem("", this, SLOT(toggleShow()), 0, mnuToggleWnd);
     menuFunctionDock->insertItem(i18n("Status"), menuStatus, mnuPopupStatus);
+    menuFunctionDock->insertSeparator();
+    menuFunctionDock->insertItem(Icon("exit"), i18n("Quit"), this, SLOT(quit()));
 }
 
 void MainWindow::changeWm()

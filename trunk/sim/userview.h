@@ -23,12 +23,6 @@
 
 #include <qwidget.h>
 #include <qlistview.h>
-#ifdef WIN32
-#include "qt3/qtooltip.h"
-#define QToolTip MyQToolTip
-#else
-#include <qtooltip.h>
-#endif
 #include <qimage.h>
 
 class ICQContactList;
@@ -43,6 +37,7 @@ class QLineEdit;
 class QDragObject;
 class TransparentTop;
 class TransparentBg;
+class QLabel;
 
 class UserViewItemBase : public QListViewItem
 {
@@ -98,7 +93,7 @@ public:
     void paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align);
 };
 
-class UserView : public QListView, public QToolTip
+class UserView : public QListView
 {
     Q_OBJECT
 public:
@@ -133,6 +128,9 @@ protected slots:
     void itemClicked(QListViewItem*);
     void accelActivated(int);
     void clearGroupMenu();
+    void showTip();
+    void hideTip();
+    void tipDestroyed();
 protected:
     bool hasChecked(QListViewItem*);
     void fillChecked(QListViewItem*, ICQMessage*);
@@ -165,6 +163,10 @@ protected:
 
     void updateUser(unsigned long uin, bool bFull);
 
+    QTimer			*tipTimer;
+    QListViewItem	*tipItem;
+    QLabel			*tipLabel;
+
     QListViewItem *mPressedItem;
     QListViewItem *mClickItem;
     QLineEdit *edtGroup;
@@ -196,7 +198,6 @@ protected:
 
     bool m_bGroupMode;
     bool m_bShowOffline;
-    virtual void maybeTip ( const QPoint & );
 
     TransparentBg *transparent;
 

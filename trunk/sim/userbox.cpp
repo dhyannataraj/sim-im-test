@@ -199,8 +199,10 @@ UserBox::UserBox(unsigned long grpId)
     connect(accel, SIGNAL(activated(int)), this, SLOT(accelActivated(int)));
     accel->insertItem(Key_Left + ALT, mnuWindow + 11);
     accel->insertItem(Key_Right + ALT, mnuWindow + 12);
+#ifndef WIN32
     accel->insertItem(Key_Left + SHIFT, mnuWindow + 11);
     accel->insertItem(Key_Right + SHIFT, mnuWindow + 12);
+#endif
     accel->insertItem(ACCEL(ICQ_MSGxMSG), mnuMessage);
     accel->insertItem(ACCEL(ICQ_MSGxURL), mnuURL);
     accel->insertItem(ACCEL(ICQ_MSGxFILE), mnuFile);
