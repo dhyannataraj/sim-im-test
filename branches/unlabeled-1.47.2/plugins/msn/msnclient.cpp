@@ -1002,6 +1002,8 @@ bool MSNClient::canSend(unsigned type, void *_data)
     case MessageGeneric:
     case MessageFile:
     case MessageUrl:
+		if (getInvisible())
+			return false;
         return true;
     case MessageAuthGranted:
     case MessageAuthRefused:
@@ -1040,6 +1042,8 @@ bool MSNClient::send(Message *msg, void *_data)
     case MessageFile:
     case MessageUrl:
         if (data->sb.ptr == NULL){
+			if (getInvisible())
+				return false;
             Contact *contact;
             findContact(data->EMail.ptr, contact);
             data->sb.ptr = (char*)(new SBSocket(this, contact, data));
@@ -1048,6 +1052,8 @@ bool MSNClient::send(Message *msg, void *_data)
         return ((SBSocket*)(data->sb.ptr))->send(msg);
     case MessageTypingStart:
         if (data->sb.ptr == NULL){
+			if (getInvisible())
+				return false;
             Contact *contact;
             findContact(data->EMail.ptr, contact);
             data->sb.ptr = (char*)(new SBSocket(this, contact, data));

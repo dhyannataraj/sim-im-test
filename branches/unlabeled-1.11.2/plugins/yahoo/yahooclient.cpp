@@ -870,7 +870,7 @@ void YahooClient::processStatus(unsigned short service, const char *id,
         data->StatusTime.value = now;
 
         unsigned long new_status = STATUS_UNKNOWN;
-        contactInfo(data, old_status, style, statusIcon);
+        contactInfo(data, new_status, style, statusIcon);
 
         if (old_status != new_status){
             StatusMessage m;
@@ -880,7 +880,8 @@ void YahooClient::processStatus(unsigned short service, const char *id,
             m.setStatus(STATUS_OFFLINE);
             Event e(EventMessageReceived, &m);
             e.process();
-            if ((new_status == STATUS_ONLINE) && !contact->getIgnore()){
+            if ((new_status == STATUS_ONLINE) && !contact->getIgnore() && (getState() == Connected) &&
+				(data->StatusTime.value > this->data.owner.OnlineTime.value + 30)){
                 Event e(EventContactOnline, contact);
                 e.process();
             }
