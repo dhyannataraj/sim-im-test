@@ -34,8 +34,8 @@ SoundSetup::SoundSetup(QWidget *p, bool bUser)
     chkDisable->setChecked(pSplash->SoundDisable);
     disableToggled(pSplash->SoundDisable);
 #ifdef WIN32
-        tabWnd->setCurrentPage(1);
-        tabWnd->removePage(tabWnd->currentPage());
+    tabWnd->setCurrentPage(1);
+    tabWnd->removePage(tabWnd->currentPage());
 #endif
     if (bUser){
         edtProgram->hide();

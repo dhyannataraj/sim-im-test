@@ -336,7 +336,7 @@ int main(int argc, char *argv[])
             ctrlSock = argv[++i];
     }
 #endif
-	MainWindow::homeDir = homeDir;
+    MainWindow::homeDir = homeDir;
     pSplash = new Splash;
     initIcons("");
     pMain = new MainWindow;

@@ -116,7 +116,7 @@ protected slots:
     void editEscape();
     void editEnter();
     void messageRead(ICQMessage*);
-	void messageReceived(ICQMessage*);
+    void messageReceived(ICQMessage*);
     void dragStart();
     void blink();
     void iconChanged();

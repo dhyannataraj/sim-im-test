@@ -36,9 +36,9 @@ protected slots:
     void checkedTransparent(bool);
     void apply(QListBoxItem*);
     void setupInit();
-	void langChanged(int);
+    void langChanged(int);
 protected:
-	bool bLangChanged;
+    bool bLangChanged;
 };
 
 #endif

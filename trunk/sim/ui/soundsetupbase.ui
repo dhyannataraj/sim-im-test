@@ -331,7 +331,7 @@
                 </property>
                 <attribute>
                     <name>title</name>
-                    <string>&amp;Program</string>
+                    <string>&amp;Programm</string>
                 </attribute>
                 <grid>
                     <property>

@@ -1106,7 +1106,7 @@ bool MainWindow::init()
     }
 #endif
     setOnTop();
-	setUserBoxOnTop();
+    setUserBoxOnTop();
 
     setShowOffline(ShowOffline);
     setGroupMode(GroupMode);
@@ -1139,33 +1139,33 @@ void MainWindow::messageReceived(ICQMessage *msg)
     if (u == NULL) u = pClient->owner;
     SIMUser *_u = static_cast<SIMUser*>(u);
     if (!_u->SoundOverride)
-		_u = static_cast<SIMUser*>(pClient->owner);
+        _u = static_cast<SIMUser*>(pClient->owner);
 
-            const char *wav;
-            switch (msg->Type()){
-            case ICQ_MSGxURL:
-                wav = _u->IncomingURL.c_str();
-                break;
-            case ICQ_MSGxSMS:
-                wav = _u->IncomingSMS.c_str();
-                break;
-            case ICQ_MSGxFILE:
-                wav = _u->IncomingFile.c_str();
-                break;
-            case ICQ_MSGxCHAT:
-                wav = _u->IncomingChat.c_str();
-                break;
-            case ICQ_MSGxAUTHxREQUEST:
-            case ICQ_MSGxAUTHxREFUSED:
-            case ICQ_MSGxAUTHxGRANTED:
-            case ICQ_MSGxADDEDxTOxLIST:
-                wav = _u->IncomingAuth.c_str();
-                break;
-            default:
-                wav = _u->IncomingMessage.c_str();
-            }
-            if (((pClient->owner->uStatus & 0xFF) != ICQ_STATUS_AWAY) && ((pClient->owner->uStatus & 0xFF) != ICQ_STATUS_NA))
-                playSound(wav);
+    const char *wav;
+    switch (msg->Type()){
+    case ICQ_MSGxURL:
+        wav = _u->IncomingURL.c_str();
+        break;
+    case ICQ_MSGxSMS:
+        wav = _u->IncomingSMS.c_str();
+        break;
+    case ICQ_MSGxFILE:
+        wav = _u->IncomingFile.c_str();
+        break;
+    case ICQ_MSGxCHAT:
+        wav = _u->IncomingChat.c_str();
+        break;
+    case ICQ_MSGxAUTHxREQUEST:
+    case ICQ_MSGxAUTHxREFUSED:
+    case ICQ_MSGxAUTHxGRANTED:
+    case ICQ_MSGxADDEDxTOxLIST:
+        wav = _u->IncomingAuth.c_str();
+        break;
+    default:
+        wav = _u->IncomingMessage.c_str();
+    }
+    if (((pClient->owner->uStatus & 0xFF) != ICQ_STATUS_AWAY) && ((pClient->owner->uStatus & 0xFF) != ICQ_STATUS_NA))
+        playSound(wav);
 
     unread_msg m(msg);
     u = pClient->getUser(msg->getUin());
@@ -2290,18 +2290,18 @@ void MainWindow::userFunction(unsigned long uin, int function, unsigned long par
     case mnuAccept:
     case mnuSound:
     case mnuInfo:
-		param = 0;
-		switch (function){
-	    case mnuAlert:
-			param = SETUP_ALERT;
-			break;
-		case mnuAccept:
-			param = SETUP_ACCEPT;
-			break;
-		case mnuSound:
-			param = SETUP_SOUND;
-			break;
-		}
+        param = 0;
+        switch (function){
+        case mnuAlert:
+            param = SETUP_ALERT;
+            break;
+        case mnuAccept:
+            param = SETUP_ACCEPT;
+            break;
+        case mnuSound:
+            param = SETUP_SOUND;
+            break;
+        }
         for (it = containers.begin(); it != containers.end(); ++it){
             if (!(*it)->bUserInfo) continue;
             if (!(*it)->haveUser(uin)) continue;
@@ -2471,7 +2471,7 @@ void MainWindow::sendMail(const char *mail)
 
 void MainWindow::setUserBoxOnTop()
 {
-	emit onTopChanged();
+    emit onTopChanged();
 }
 
 void MainWindow::exec(const char *prg, const char *arg)
@@ -3024,6 +3024,7 @@ void MainWindow::initTranslator()
         qApp->removeTranslator(translator);
     translator = NULL;
     string lang = pSplash->Language;
+    if (*lang.c_str() == '-') return;
     if (lang.size() == 0){
 #ifdef WIN32
         char buff[256];

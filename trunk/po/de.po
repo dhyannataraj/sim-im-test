@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
-"POT-Creation-Date: 2002-11-29 13:10+0300\n"
+"POT-Creation-Date: 2002-11-30 01:58+0300\n"
 "PO-Revision-Date: 2002-11-29 11:33GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -40,7 +40,7 @@ msgstr "Kantonesien"
 msgid "Catalan"
 msgstr "Catalanisch"
 
-#: libicq/country.cpp:13
+#: libicq/country.cpp:13 ui/themesetup.cpp:54
 msgid "Chinese"
 msgstr "Chinesisch"
 
@@ -48,7 +48,7 @@ msgstr "Chinesisch"
 msgid "Croatian"
 msgstr "Kroatisch"
 
-#: libicq/country.cpp:15
+#: libicq/country.cpp:15 ui/themesetup.cpp:47
 msgid "Czech"
 msgstr "Tschechisch"
 
@@ -60,7 +60,7 @@ msgstr "Dänisch"
 msgid "Dutch"
 msgstr "Holländisch"
 
-#: libicq/country.cpp:18
+#: libicq/country.cpp:18 ui/themesetup.cpp:46
 msgid "English"
 msgstr "Englisch"
 
@@ -88,7 +88,7 @@ msgstr "Französisch"
 msgid "Gaelic"
 msgstr "Gaelic"
 
-#: libicq/country.cpp:25
+#: libicq/country.cpp:25 ui/themesetup.cpp:48
 msgid "German"
 msgstr "Deutsch"
 
@@ -116,7 +116,7 @@ msgstr "Islandändisch"
 msgid "Indonesian"
 msgstr "Indonesisch"
 
-#: libicq/country.cpp:32
+#: libicq/country.cpp:32 ui/themesetup.cpp:50
 msgid "Italian"
 msgstr "Italienisch"
 
@@ -164,7 +164,7 @@ msgstr "Portugiesisch"
 msgid "Romanian"
 msgstr "Romänisch"
 
-#: libicq/country.cpp:44
+#: libicq/country.cpp:44 ui/themesetup.cpp:51
 msgid "Russian"
 msgstr "Russisch"
 
@@ -184,7 +184,7 @@ msgstr "Slovenisch"
 msgid "Somali"
 msgstr "Somalisch"
 
-#: libicq/country.cpp:49
+#: libicq/country.cpp:49 ui/themesetup.cpp:49
 msgid "Spanish"
 msgstr "Spanisch"
 
@@ -208,11 +208,11 @@ msgstr "Tatarisch"
 msgid "Thai"
 msgstr "Thai"
 
-#: client.cpp:96 client.cpp:97 libicq/country.cpp:55
+#: client.cpp:96 client.cpp:97 libicq/country.cpp:55 ui/themesetup.cpp:52
 msgid "Turkish"
 msgstr "Türkisch"
 
-#: client.cpp:99 libicq/country.cpp:56
+#: client.cpp:99 libicq/country.cpp:56 ui/themesetup.cpp:53
 msgid "Ukrainian"
 msgstr "Ukrainisch"
 
@@ -1669,15 +1669,15 @@ msgstr "Unbekannt"
 msgid "Last online"
 msgstr "Zuletzt online"
 
-#: client.cpp:1075 cuser.cpp:215 userview.cpp:1000
+#: client.cpp:1075 cuser.cpp:215 userview.cpp:1005
 msgid "Online"
 msgstr "Online"
 
-#: dock.cpp:487 mainwin.cpp:760
+#: dock.cpp:487 mainwin.cpp:756
 msgid "%1 from %2"
 msgstr "%1 von %2"
 
-#: dock.cpp:500 mainwin.cpp:1928
+#: dock.cpp:500 mainwin.cpp:1922
 msgid "Connecting"
 msgstr "Verbindungsaufbau"
 
@@ -1685,111 +1685,111 @@ msgstr "Verbindungsaufbau"
 msgid "Spell check"
 msgstr "Rechtschreibprüfung"
 
-#: mainwin.cpp:529
+#: mainwin.cpp:528
 msgid "Show &offline"
 msgstr "&Offline anzeigen"
 
-#: mainwin.cpp:530
+#: mainwin.cpp:529
 msgid "&Group mode"
 msgstr "&Gruppenmodus"
 
-#: mainwin.cpp:532 mainwin.cpp:2813 usertbl.cpp:113
+#: mainwin.cpp:531 mainwin.cpp:2818 usertbl.cpp:113
 msgid "Status"
 msgstr "Status"
 
-#: mainwin.cpp:533
+#: mainwin.cpp:532
 msgid "&Menu"
 msgstr "&Menü"
 
-#: mainwin.cpp:535 mainwin.cpp:2809
+#: mainwin.cpp:534 mainwin.cpp:2814
 msgid "Find User"
 msgstr "Benutzer suchen"
 
-#: mainwin.cpp:536 mainwin.cpp:2810
+#: mainwin.cpp:535 mainwin.cpp:2815
 msgid "Add Non-IM contact"
 msgstr "Nicht-ICQ-Kontakt hinzufügen"
 
-#: mainwin.cpp:537 mainwin.cpp:2811
+#: mainwin.cpp:536 mainwin.cpp:2816
 msgid "Send SMS"
 msgstr "SMS senden"
 
-#: mainwin.cpp:538 mainwin.cpp:2815 ui/setupdlg.cpp:104
+#: mainwin.cpp:537 mainwin.cpp:2820 ui/setupdlg.cpp:104
 msgid "Setup"
 msgstr "Einrichten"
 
-#: mainwin.cpp:539 mainwin.cpp:2830 monitor.cpp:59
+#: mainwin.cpp:538 mainwin.cpp:2835 monitor.cpp:59
 msgid "Network monitor"
 msgstr "Netzwerkmonitor"
 
-#: mainwin.cpp:620
+#: mainwin.cpp:619
 msgid "Current location"
 msgstr "Aktueller Ort"
 
-#: mainwin.cpp:621
+#: mainwin.cpp:620
 msgid "Phone status"
 msgstr "Telefonstatus"
 
-#: mainwin.cpp:623
+#: mainwin.cpp:622
 msgid "Phone Book"
 msgstr "Adreßbuch"
 
-#: mainwin.cpp:1153
+#: mainwin.cpp:1183
 msgid "%1 from %2 received"
 msgstr "%1 von %2 empfangen"
 
-#: mainwin.cpp:1225 ui/logindlg.cpp:140
+#: mainwin.cpp:1219 ui/logindlg.cpp:140
 msgid "Can't connect to proxy server"
 msgstr "Kann nicht zum Proxyserver verbinden"
 
-#: mainwin.cpp:1231 ui/logindlg.cpp:147
+#: mainwin.cpp:1225 ui/logindlg.cpp:147
 msgid "Proxy server require authorization"
 msgstr "Benutzerauthentisierung ignorieren"
 
-#: mainwin.cpp:1232 ui/logindlg.cpp:148
+#: mainwin.cpp:1226 ui/logindlg.cpp:148
 msgid "Invalid password for proxy"
 msgstr "Ungültiges Paßwort für Proxyserver"
 
-#: mainwin.cpp:1245
+#: mainwin.cpp:1239
 msgid "Your UIN used from another location"
 msgstr "Ihre UIN wird von einem anderem Ort benutzt"
 
-#: mainwin.cpp:1299
+#: mainwin.cpp:1293
 msgid "%1 is online"
 msgstr "%1 ist online"
 
-#: mainwin.cpp:1904 mainwin.cpp:2244 ui/enable.cpp:122
+#: mainwin.cpp:1898 mainwin.cpp:2229 ui/enable.cpp:122
 msgid "&Yes"
 msgstr "&Ja"
 
-#: mainwin.cpp:1905 mainwin.cpp:2245 ui/enable.cpp:126
+#: mainwin.cpp:1899 mainwin.cpp:2230 ui/enable.cpp:126
 msgid "&No"
 msgstr "&Nein"
 
-#: mainwin.cpp:1906
+#: mainwin.cpp:1900
 msgid "Add %1 to ignore list ?"
 msgstr "Benutzer %1 zur Ignorierenliste hinzufügen?"
 
-#: mainwin.cpp:1970
+#: mainwin.cpp:1964
 msgid "In visible list"
 msgstr "In Sichtbar-Liste"
 
-#: mainwin.cpp:1972
+#: mainwin.cpp:1966
 msgid "In invisible list"
 msgstr "In Unsichtbar-Liste"
 
-#: mainwin.cpp:1975
+#: mainwin.cpp:1969
 msgid "In ignore list"
 msgstr "In Ignorieren-Liste"
 
-#: mainwin.cpp:1991 mainwin.cpp:2816
+#: mainwin.cpp:1985 mainwin.cpp:2821
 msgid "Groups"
 msgstr "Gruppen"
 
-#: mainwin.cpp:1992 usertbl.cpp:391 userview.cpp:1348
+#: mainwin.cpp:1986 usertbl.cpp:391 userview.cpp:1353
 msgid "Delete"
 msgstr "Löschen"
 
-#: mainwin.cpp:1993 userview.cpp:556 userview.cpp:1349
+#: mainwin.cpp:1987 userview.cpp:557 userview.cpp:1354
 msgid ""
 "_: Del\n"
 "Delete"
@@ -1797,98 +1797,98 @@ msgstr ""
 "Löschen\n"
 "Löschen"
 
-#: mainwin.cpp:1997
+#: mainwin.cpp:1991
 msgid "&User info"
 msgstr "&Benutzerinformation"
 
-#: mainwin.cpp:1998
+#: mainwin.cpp:1992
 msgid ""
 "_: Ctrl+U\n"
 "UserInfo"
 msgstr "Strg+U"
 
-#: mainwin.cpp:1999
+#: mainwin.cpp:1993
 msgid "&History"
 msgstr "&Verlauf"
 
-#: mainwin.cpp:2000
+#: mainwin.cpp:1994
 msgid ""
 "_: Ctrl+H\n"
 "History"
 msgstr "Strg+H"
 
-#: mainwin.cpp:2002 ui/setupdlg.cpp:136 ui/userinfo.cpp:90
+#: mainwin.cpp:1996 ui/setupdlg.cpp:136 ui/userinfo.cpp:90
 msgid "Alert"
 msgstr "Warnung"
 
-#: mainwin.cpp:2003
+#: mainwin.cpp:1997
 msgid ""
 "_: Ctrl+L\n"
 "Alert"
 msgstr "Strg+L"
 
-#: mainwin.cpp:2004 ui/acceptbase.cpp:179
+#: mainwin.cpp:1998 ui/acceptbase.cpp:179
 msgid "Accept mode"
 msgstr "Akzeptieren-Modus"
 
-#: mainwin.cpp:2005
+#: mainwin.cpp:1999
 msgid ""
 "_: Ctrl+A\n"
 "Accept"
 msgstr "Strg+A"
 
-#: mainwin.cpp:2006 ui/setupdlg.cpp:135 ui/userinfo.cpp:92
+#: mainwin.cpp:2000 ui/setupdlg.cpp:135 ui/userinfo.cpp:92
 msgid "Sound"
 msgstr "Klänge"
 
-#: mainwin.cpp:2007
+#: mainwin.cpp:2001
 msgid ""
 "_: Ctrl+S\n"
 "Sound"
 msgstr "Strg+S"
 
-#: mainwin.cpp:2010
+#: mainwin.cpp:2004
 msgid "Floating off"
 msgstr "Floating aus"
 
-#: mainwin.cpp:2010
+#: mainwin.cpp:2004
 msgid "Floating on"
 msgstr "Floating an"
 
-#: mainwin.cpp:2011
+#: mainwin.cpp:2005
 msgid ""
 "_: Ctrl+T\n"
 "Floating"
 msgstr "Strg+T"
 
-#: mainwin.cpp:2014
+#: mainwin.cpp:2008
 msgid "Users"
 msgstr "Benutzer"
 
-#: mainwin.cpp:2015 ui/aboutdlgbase.cpp:156 ui/enable.cpp:125
+#: mainwin.cpp:2009 ui/aboutdlgbase.cpp:156 ui/enable.cpp:125
 #: ui/filetransfer.cpp:156 ui/finddlgbase.cpp:66 ui/logindlgbase.cpp:115
 #: ui/proxydlgbase.cpp:172 ui/securedlg.cpp:56 ui/setupdlgbase.cpp:122
 #: ui/toolsetupbase.cpp:136 ui/userautoreply.cpp:76
 msgid "&Close"
 msgstr "&Schließen"
 
-#: mainwin.cpp:2016
+#: mainwin.cpp:2010
 msgid ""
 "_: Ctrl+C\n"
 "Close"
 msgstr "Strg+C"
 
-#: mainwin.cpp:2018
+#: mainwin.cpp:2012
 msgid "Alphabetically sort"
 msgstr "Alphabetisch sortieren"
 
-#: mainwin.cpp:2019
+#: mainwin.cpp:2013
 msgid ""
 "_: Ctrl+B\n"
 "Alphabetically sort"
 msgstr "Strg+B"
 
-#: mainwin.cpp:2246
+#: mainwin.cpp:2231
 msgid "Delete %1?"
 msgstr "%1 löschen?"
 
@@ -1904,103 +1904,103 @@ msgstr "In Container"
 msgid "Read %1 message"
 msgstr "Nachricht %1 lesen"
 
-#: client.cpp:1088 mainwin.cpp:2791
+#: client.cpp:1088 mainwin.cpp:2796
 msgid "Invisible"
 msgstr "Unsichtbar"
 
-#: mainwin.cpp:2794
+#: mainwin.cpp:2799
 msgid "Don't show"
 msgstr "Nicht anzeigen"
 
-#: mainwin.cpp:2795
+#: mainwin.cpp:2800
 msgid "Available"
 msgstr "Verfügbar"
 
-#: mainwin.cpp:2796
+#: mainwin.cpp:2801
 msgid "Busy"
 msgstr "Beschäftigt"
 
-#: mainwin.cpp:2799 userview.cpp:1350
+#: mainwin.cpp:2804 userview.cpp:1355
 msgid "Create group"
 msgstr "Gruppe erstellen"
 
-#: mainwin.cpp:2801 userview.cpp:1359
+#: mainwin.cpp:2806 userview.cpp:1364
 msgid "Expand all"
 msgstr "Alle aufklappen"
 
-#: mainwin.cpp:2802 userview.cpp:1361
+#: mainwin.cpp:2807 userview.cpp:1366
 msgid "Collapse all"
 msgstr "Alle zusammenklappen"
 
-#: mainwin.cpp:2804 toolbtn.cpp:684
+#: mainwin.cpp:2809 toolbtn.cpp:684
 msgid "Customize toolbar..."
 msgstr "Werkzeugleiste anpassen..."
 
-#: mainwin.cpp:2807
+#: mainwin.cpp:2812
 msgid "ICQ"
 msgstr "ICQ"
 
-#: mainwin.cpp:2817
+#: mainwin.cpp:2822
 msgid "Phone \"Follow Me\""
 msgstr "Telefonweiterleitungen"
 
-#: mainwin.cpp:2819
+#: mainwin.cpp:2824
 msgid "Shared files"
 msgstr "Freigegebene Dateien"
 
-#: mainwin.cpp:2823
+#: mainwin.cpp:2828
 msgid "Always on top"
 msgstr "Immer oben"
 
-#: mainwin.cpp:2827
+#: mainwin.cpp:2832
 msgid "Synchronize with KDE address book"
 msgstr "Mit KDE Adressbuch sychronisieren"
 
-#: mainwin.cpp:2831
+#: mainwin.cpp:2836
 msgid "&Bug report"
 msgstr "Be&richten Sie Probleme oder Wünsche"
 
-#: mainwin.cpp:2832
+#: mainwin.cpp:2837
 msgid "&About SIM"
 msgstr "&Über SIM"
 
-#: mainwin.cpp:2834
+#: mainwin.cpp:2839
 msgid "About &KDE"
 msgstr "Über &KDE"
 
-#: mainwin.cpp:2837
+#: mainwin.cpp:2842
 msgid "Quit"
 msgstr "Beenden"
 
-#: _translatorinfo.cpp:1 mainwin.cpp:3055
+#: _translatorinfo.cpp:1 mainwin.cpp:3061
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
 msgstr "Christoph Thielecke"
 
-#: _translatorinfo.cpp:3 mainwin.cpp:3056
+#: _translatorinfo.cpp:3 mainwin.cpp:3062
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
 msgstr "crissi99@gmx.de"
 
-#: mainwin.cpp:3079
+#: mainwin.cpp:3085
 msgid "light"
 msgstr "Hell"
 
-#: mainwin.cpp:3083
+#: mainwin.cpp:3089
 msgid "demibold"
 msgstr "mittelfett"
 
-#: mainwin.cpp:3087
+#: mainwin.cpp:3093
 msgid "bold"
 msgstr "fett"
 
-#: mainwin.cpp:3091
+#: mainwin.cpp:3097
 msgid "black"
 msgstr "Schwarz"
 
-#: mainwin.cpp:3098
+#: mainwin.cpp:3104
 msgid "italic"
 msgstr "kursiv"
 
@@ -2217,23 +2217,23 @@ msgstr "Kontakliste empfangen"
 msgid "Contact list sent"
 msgstr "Kontaktliste wird gesendet"
 
-#: msgview.cpp:810 ui/searchbase.cpp:276 ui/searchbase.cpp:278
+#: msgview.cpp:824 ui/searchbase.cpp:276 ui/searchbase.cpp:278
 msgid "Search"
 msgstr "Suchen"
 
-#: msgview.cpp:811
+#: msgview.cpp:825
 msgid "&Search"
 msgstr "&Suchen"
 
-#: msgview.cpp:812
+#: msgview.cpp:826
 msgid "&Filter"
 msgstr "&Filter"
 
-#: msgview.cpp:814
+#: msgview.cpp:828
 msgid "&Previous page"
 msgstr "&Vorherige Seite"
 
-#: msgview.cpp:815
+#: msgview.cpp:829
 msgid "&Next page"
 msgstr "&Nächste Seite"
 
@@ -2327,23 +2327,23 @@ msgstr "&Kodierung"
 msgid "Close user &window"
 msgstr "Benutzer&fenster schließen"
 
-#: userbox.cpp:260
+#: userbox.cpp:262
 msgid "All encodings"
 msgstr "Alle Kodierungen"
 
-#: userbox.cpp:352
+#: userbox.cpp:354
 msgid "All users"
 msgstr "Alle Benutzer"
 
-#: ui/userinfo.cpp:73 userbox.cpp:401 usertbl.cpp:405
+#: ui/userinfo.cpp:73 userbox.cpp:403 usertbl.cpp:405
 msgid "User info"
 msgstr "Benutzerinformation"
 
-#: userbox.cpp:452
+#: userbox.cpp:454
 msgid "History"
 msgstr "Verlauf"
 
-#: userbox.cpp:1110
+#: userbox.cpp:1112
 msgid "History loading"
 msgstr "Lade Verlauf..."
 
@@ -2379,33 +2379,33 @@ msgstr "Alle hinzufügen"
 msgid "Add to group"
 msgstr "Zu Gruppe hinzufügen"
 
-#: userview.cpp:407 userview.cpp:1006
+#: userview.cpp:407 userview.cpp:1011
 msgid "Not in list"
 msgstr "Nicht in Liste"
 
-#: userview.cpp:558 userview.cpp:1351
+#: userview.cpp:559 userview.cpp:1356
 msgid ""
 "_: Ctrl+N\n"
 "Create group"
 msgstr "Strg+N"
 
-#: userview.cpp:687 userview.cpp:703
+#: userview.cpp:688 userview.cpp:704
 msgid "New group"
 msgstr "Neue Gruppe"
 
-#: client.cpp:1069 userview.cpp:1003
+#: client.cpp:1069 userview.cpp:1008
 msgid "Offline"
 msgstr "Offline"
 
-#: userview.cpp:1346
+#: userview.cpp:1351
 msgid "Rename"
 msgstr "Umbenennen"
 
-#: userview.cpp:1354
+#: userview.cpp:1359
 msgid "Up"
 msgstr "Nach oben"
 
-#: userview.cpp:1356
+#: userview.cpp:1361
 msgid "Down"
 msgstr "Abwärts"
 
@@ -2739,7 +2739,15 @@ msgstr "Sicherheit"
 msgid "General"
 msgstr "Allgemein"
 
-#: ui/themesetup.cpp:108
+#: ui/themesetup.cpp:45
+msgid "System"
+msgstr ""
+
+#: ui/themesetup.cpp:147
+msgid "Need restart SIM for change language"
+msgstr ""
+
+#: ui/themesetup.cpp:157
 msgid "Default icons"
 msgstr "Standard Icons"
 
@@ -2750,40 +2758,6 @@ msgstr "%1 Version: %2"
 #: ui/aboutdlg.cpp:44
 msgid "Bug report"
 msgstr "Berichten Sie Probleme oder Wünsche"
-
-#: ui/toolsetupbase.cpp:123
-msgid "Toolbar setup"
-msgstr "Werkzeugleisten-Einrichtung"
-
-#: ui/toolsetupbase.cpp:124
-msgid "All buttons:"
-msgstr "Alle Knöpfe:"
-
-#: ui/keysetupbase.cpp:148 ui/phonebookbase.cpp:124 ui/setupdlgbase.cpp:117
-#: ui/themesetupbase.cpp:191 ui/themesetupbase.cpp:195
-#: ui/toolsetupbase.cpp:126 ui/toolsetupbase.cpp:131 ui/userinfobase.cpp:151
-msgid "New Item"
-msgstr "Neues Element"
-
-#: ui/toolsetupbase.cpp:127
-msgid "&Add ->"
-msgstr "&Hinzufügen ->"
-
-#: ui/toolsetupbase.cpp:128
-msgid "<- &Remove"
-msgstr "<- &Entfernen"
-
-#: ui/toolsetupbase.cpp:129
-msgid "Active:"
-msgstr "Aktiv:"
-
-#: ui/toolsetupbase.cpp:132
-msgid "&Up"
-msgstr "Nach &oben"
-
-#: ui/toolsetupbase.cpp:133
-msgid "&Down"
-msgstr "Nach &unten"
 
 #: ui/searchbase.cpp:277
 msgid "Online only"
@@ -2838,11 +2812,11 @@ msgstr "Interessen:"
 msgid "Email/Info"
 msgstr "Email/Info"
 
-#: ui/maininfobase.cpp:314 ui/searchbase.cpp:292
+#: ui/maininfobase.cpp:315 ui/searchbase.cpp:292
 msgid "Last Name:"
 msgstr "Nachname:"
 
-#: ui/maininfobase.cpp:318 ui/searchbase.cpp:293
+#: ui/maininfobase.cpp:319 ui/searchbase.cpp:293
 msgid "First name:"
 msgstr "Vorname:"
 
@@ -2858,9 +2832,55 @@ msgstr "Namen"
 msgid "UIN:"
 msgstr "ICQ#:"
 
-#: ui/securedlg.cpp:55
-msgid "[Failed]"
-msgstr "[fehlgeschlagen]"
+#: ui/toolsetupbase.cpp:123
+msgid "Toolbar setup"
+msgstr "Werkzeugleisten-Einrichtung"
+
+#: ui/toolsetupbase.cpp:124
+msgid "All buttons:"
+msgstr "Alle Knöpfe:"
+
+#: ui/keysetupbase.cpp:148 ui/phonebookbase.cpp:124 ui/setupdlgbase.cpp:117
+#: ui/themesetupbase.cpp:191 ui/themesetupbase.cpp:195
+#: ui/toolsetupbase.cpp:126 ui/toolsetupbase.cpp:131 ui/userinfobase.cpp:151
+msgid "New Item"
+msgstr "Neues Element"
+
+#: ui/toolsetupbase.cpp:127
+msgid "&Add ->"
+msgstr "&Hinzufügen ->"
+
+#: ui/toolsetupbase.cpp:128
+msgid "<- &Remove"
+msgstr "<- &Entfernen"
+
+#: ui/toolsetupbase.cpp:129
+msgid "Active:"
+msgstr "Aktiv:"
+
+#: ui/toolsetupbase.cpp:132
+msgid "&Up"
+msgstr "Nach &oben"
+
+#: ui/toolsetupbase.cpp:133
+msgid "&Down"
+msgstr "Nach &unten"
+
+#: ui/securedlgbase.cpp:66
+msgid "Secure chanel request"
+msgstr "Anforderung \"sicherer Kanal\""
+
+#: ui/securedlgbase.cpp:67
+msgid ""
+"Secure channel is established using SSL with Diffie-Hellman key exchange and "
+" the TLS version 1 protocol.\n"
+"\n"
+"This only works with other SIM and Licq clients"
+msgstr ""
+"Der sichere Kanal benutzt SSL mit dem Diffie-Hellman-Schlüsselaustausch und "
+"dem TLS-Protokoll Version 1.\n"
+"\n"
+"Dies funktioniert nur mit anderen SIM- oder Licq-Klienten."
 
 #: ui/acceptbase.cpp:172 ui/alertdialogbase.cpp:229 ui/fontsetupbase.cpp:221
 #: ui/forwardsetupbase.cpp:62 ui/generalsecbase.cpp:185
@@ -2873,21 +2893,54 @@ msgstr "[fehlgeschlagen]"
 msgid "Form1"
 msgstr "Form1"
 
-#: ui/networkbase.cpp:226
-msgid "ICQ server:"
-msgstr "ICQ-Server:"
+#: ui/smssetupbase.cpp:123
+msgid "Text before cursor:"
+msgstr "Text vor dem Cursor:"
 
-#: ui/networkbase.cpp:227 ui/proxydlgbase.cpp:182
-msgid "Port:"
-msgstr "Port:"
+#: ui/smssetupbase.cpp:124
+msgid "Text after cursor:"
+msgstr "Text hinter dem Cursor:"
 
-#: ui/networkbase.cpp:228 ui/proxydlgbase.cpp:181
-msgid "Host:"
-msgstr "Rechner:"
+#: ui/smssetupbase.cpp:125
+msgid ""
+"You case use:\n"
+"&Alias; -  receipent name\n"
+"&Uin; - receipent UIN\n"
+"&MyAlias; - own name\n"
+"&MyUin; - own UIN"
+msgstr ""
+"Es wird benutzt:\n"
+"&Alias; -  Empfängername\n"
+"&Uin; - Empfänger UIN\n"
+"&MyAlias; - eigener Name\n"
+"&MyUin; - eigene UIN"
 
-#: ui/networkbase.cpp:229
-msgid "&Server"
-msgstr "&Server"
+#: ui/smssetupbase.cpp:130
+msgid "&Signature"
+msgstr "&Signatur"
+
+#: ui/forwardsetupbase.cpp:89 ui/smssetupbase.cpp:131
+msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
+msgstr ""
+"Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
+
+#: ui/forwardsetupbase.cpp:97 ui/smssetupbase.cpp:132
+msgid ""
+"For the answer or sending of the new message you can answer on SMS having "
+"specified in the beginning of the message a line:\n"
+"<UIN>:"
+msgstr ""
+"Für die Antwort oder beim Senden einer neuen Nachricht über SMS können "
+"Sie eine Zeile vor der Nachricht einfügen:\n"
+"<UUN>:"
+
+#: ui/proxydlgbase.cpp:170
+msgid "Proxy settings"
+msgstr "Proxy-Einstellungen"
+
+#: ui/proxydlgbase.cpp:173
+msgid "Proxy"
+msgstr "Proxy"
 
 #: ui/networkbase.cpp:230 ui/proxydlgbase.cpp:174
 msgid "Use proxy"
@@ -2897,21 +2950,99 @@ msgstr "Proxy-Server benutzen"
 msgid "Proxy host:"
 msgstr "Proxy-Host:"
 
-#: ui/networkbase.cpp:232 ui/proxydlgbase.cpp:179
-msgid "Proxy port:"
-msgstr "Proxy-Port:"
-
-#: ui/networkbase.cpp:233
-msgid "Use proxy authorization"
-msgstr "Benutzerauthentisierung bei Proxy-Server benutzen"
+#: ui/networkbase.cpp:235 ui/proxydlgbase.cpp:176
+msgid "Proxy password:"
+msgstr "Proxy-Paßwort:"
 
 #: ui/networkbase.cpp:234 ui/proxydlgbase.cpp:177
 msgid "Proxy user:"
 msgstr "Proxy-Benutzer:"
 
-#: ui/networkbase.cpp:235 ui/proxydlgbase.cpp:176
-msgid "Proxy password:"
-msgstr "Proxy-Paßwort:"
+#: ui/proxydlgbase.cpp:178
+msgid "User proxy authorization"
+msgstr "Benutzerauthentisierung bei Proxy-Server"
+
+#: ui/networkbase.cpp:232 ui/proxydlgbase.cpp:179
+msgid "Proxy port:"
+msgstr "Proxy-Port:"
+
+#: ui/proxydlgbase.cpp:180
+msgid "Server"
+msgstr "Server"
+
+#: ui/networkbase.cpp:228 ui/proxydlgbase.cpp:181
+msgid "Host:"
+msgstr "Rechner:"
+
+#: ui/networkbase.cpp:227 ui/proxydlgbase.cpp:182
+msgid "Port:"
+msgstr "Port:"
+
+#: ui/logindlgbase.cpp:110
+msgid "Registration"
+msgstr "Registrierung"
+
+#: ui/logindlgbase.cpp:113
+msgid "Use existing UIN"
+msgstr "Existierende UIN benutzen"
+
+#: ui/logindlgbase.cpp:114
+msgid "&Proxy settings"
+msgstr "&Proxy-Einstellungen"
+
+#: ui/keysetupbase.cpp:105 ui/keysetupbase.cpp:145 ui/phonebookbase.cpp:83
+#: ui/phonebookbase.cpp:121 ui/setupdlgbase.cpp:71 ui/setupdlgbase.cpp:114
+#: ui/userinfobase.cpp:95 ui/userinfobase.cpp:148
+msgid "Column 1"
+msgstr "Spalte 1"
+
+#: ui/keysetupbase.cpp:144
+msgid "Actions:"
+msgstr "Aktionen:"
+
+#: ui/keysetupbase.cpp:150
+msgid "&Enable"
+msgstr "&Aktivieren"
+
+#: ui/keysetupbase.cpp:151
+msgid "Send messages on \"Enter\""
+msgstr "Nachrichten mit \"Enter\" senden"
+
+#: ui/keysetupbase.cpp:152
+msgid "&Key"
+msgstr "&Tasten"
+
+#: ui/aboutdlgbase.cpp:149
+msgid "About SIM"
+msgstr "Über SIM"
+
+#: ui/aboutdlgbase.cpp:152
+msgid "About"
+msgstr "Über"
+
+#: ui/aboutdlgbase.cpp:153
+msgid "Authors"
+msgstr "Autoren"
+
+#: ui/aboutdlgbase.cpp:154
+msgid "Translation"
+msgstr "Übersetzung"
+
+#: ui/aboutdlgbase.cpp:155
+msgid "License"
+msgstr "Lizenz"
+
+#: ui/networkbase.cpp:226
+msgid "ICQ server:"
+msgstr "ICQ-Server:"
+
+#: ui/networkbase.cpp:229
+msgid "&Server"
+msgstr "&Server"
+
+#: ui/networkbase.cpp:233
+msgid "Use proxy authorization"
+msgstr "Benutzerauthentisierung bei Proxy-Server benutzen"
 
 #: ui/networkbase.cpp:236
 msgid "&Proxy"
@@ -2932,6 +3063,34 @@ msgstr "bis:"
 #: ui/networkbase.cpp:240
 msgid "P&orts"
 msgstr "P&orts"
+
+#: ui/filetransferbase.cpp:130
+msgid "File transfer"
+msgstr "Dateiübertragung"
+
+#: ui/filetransferbase.cpp:131
+msgid "File:"
+msgstr "Datei:"
+
+#: ui/filetransferbase.cpp:132
+msgid "Batch"
+msgstr "Stapel"
+
+#: ui/filetransferbase.cpp:134
+msgid "1000000/100000"
+msgstr "1000000/100000"
+
+#: ui/filetransferbase.cpp:135
+msgid "100000"
+msgstr "100000"
+
+#: ui/filetransferbase.cpp:136
+msgid "Speed:"
+msgstr "Geschwindigkeit:"
+
+#: ui/filetransferbase.cpp:137
+msgid "Close after send"
+msgstr "Nach dem Senden schließen"
 
 #: ui/acceptbase.cpp:173 ui/msgbase.cpp:94
 msgid "Automaitcaly open window"
@@ -2972,245 +3131,6 @@ msgstr "Automatisch ablehnen"
 #: monitor.cpp:70 ui/acceptbase.cpp:184
 msgid "&File"
 msgstr "&Datei"
-
-#: ui/proxydlgbase.cpp:170
-msgid "Proxy settings"
-msgstr "Proxy-Einstellungen"
-
-#: ui/proxydlgbase.cpp:173
-msgid "Proxy"
-msgstr "Proxy"
-
-#: ui/proxydlgbase.cpp:178
-msgid "User proxy authorization"
-msgstr "Benutzerauthentisierung bei Proxy-Server"
-
-#: ui/proxydlgbase.cpp:180
-msgid "Server"
-msgstr "Server"
-
-#: ui/smssetupbase.cpp:123
-msgid "Text before cursor:"
-msgstr "Text vor dem Cursor:"
-
-#: ui/smssetupbase.cpp:124
-msgid "Text after cursor:"
-msgstr "Text hinter dem Cursor:"
-
-#: ui/smssetupbase.cpp:125
-msgid ""
-"You case use:\n"
-"&Alias; -  receipent name\n"
-"&Uin; - receipent UIN\n"
-"&MyAlias; - own name\n"
-"&MyUin; - own UIN"
-msgstr ""
-"Es wird benutzt:\n"
-"&Alias; -  Empfängername\n"
-"&Uin; - Empfänger UIN\n"
-"&MyAlias; - eigener Name\n"
-"&MyUin; - eigene UIN"
-
-#: ui/smssetupbase.cpp:130
-msgid "&Signature"
-msgstr "&Signatur"
-
-#: ui/forwardsetupbase.cpp:89 ui/smssetupbase.cpp:131
-msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
-
-#: ui/forwardsetupbase.cpp:97 ui/smssetupbase.cpp:132
-msgid ""
-"For the answer or sending of the new message you can answer on SMS having "
-"specified in the beginning of the message a line:\n"
-"<UIN>:"
-msgstr ""
-"Für die Antwort oder beim Senden einer neuen Nachricht über SMS können "
-"Sie eine Zeile vor der Nachricht einfügen:\n"
-"<UUN>:"
-
-#: ui/finddlgbase.cpp:34
-msgid "Find"
-msgstr "Suchen"
-
-#: ui/finddlgbase.cpp:42
-msgid "Find:"
-msgstr "Suchen:"
-
-#: ui/finddlgbase.cpp:51
-msgid "Case &sensitivy"
-msgstr "Groß-/kleinschreibung &beachten"
-
-#: ui/finddlgbase.cpp:55
-msgid "Find &backwards"
-msgstr "&Rückwärts suchen"
-
-#: ui/finddlgbase.cpp:62
-msgid "&Find"
-msgstr "&Suchen"
-
-#: ui/logindlgbase.cpp:110
-msgid "Registration"
-msgstr "Registrierung"
-
-#: ui/logindlgbase.cpp:113
-msgid "Use existing UIN"
-msgstr "Existierende UIN benutzen"
-
-#: ui/logindlgbase.cpp:114
-msgid "&Proxy settings"
-msgstr "&Proxy-Einstellungen"
-
-#: ui/phonebase.cpp:153
-msgid "Area code:"
-msgstr "Vorwahl:"
-
-#: ui/phonebase.cpp:154
-msgid "Extension:"
-msgstr "Durchwahl:"
-
-#: ui/phonebase.cpp:155 ui/phonebase.cpp:157 ui/phonebase.cpp:159
-msgid "-"
-msgstr "-"
-
-#: ui/pagerbase.cpp:116 ui/phonebase.cpp:156
-msgid "Number:"
-msgstr "Nummer:"
-
-#: ui/phonebase.cpp:160
-msgid "Publish in global directory"
-msgstr "In globalem Verzeichnis publizieren"
-
-#: ui/phonebase.cpp:161
-msgid "SMS service available"
-msgstr "SMS Dienst verfügbar"
-
-#: ui/forwardsetupbase.cpp:77
-msgid "Autoforward"
-msgstr "Automatisches weiterleiten"
-
-#: ui/keysetupbase.cpp:105 ui/keysetupbase.cpp:145 ui/phonebookbase.cpp:83
-#: ui/phonebookbase.cpp:121 ui/setupdlgbase.cpp:71 ui/setupdlgbase.cpp:114
-#: ui/userinfobase.cpp:95 ui/userinfobase.cpp:148
-msgid "Column 1"
-msgstr "Spalte 1"
-
-#: ui/keysetupbase.cpp:144
-msgid "Actions:"
-msgstr "Aktionen:"
-
-#: ui/keysetupbase.cpp:150
-msgid "&Enable"
-msgstr "&Aktivieren"
-
-#: ui/keysetupbase.cpp:151
-msgid "Send messages on \"Enter\""
-msgstr "Nachrichten mit \"Enter\" senden"
-
-#: ui/keysetupbase.cpp:152
-msgid "&Key"
-msgstr "&Tasten"
-
-#: ui/xosdbase.cpp:109
-msgid "Notify On Screen"
-msgstr "Benachrichtigung auf Bildschirm"
-
-#: ui/alertdialogbase.cpp:240 ui/xosdbase.cpp:120
-msgid "Enable notify on screen"
-msgstr "Benachrichtigung auf Bildschirm (OSD) aktivieren"
-
-#: ui/alertdialogbase.cpp:248 ui/xosdbase.cpp:127
-msgid "Background color:"
-msgstr "Hintergrundfarbe:"
-
-#: ui/alertdialogbase.cpp:244 ui/xosdbase.cpp:141
-msgid "Color:"
-msgstr "Farbe:"
-
-#: ui/alertdialogbase.cpp:245 ui/xosdbase.cpp:151
-msgid "Font:"
-msgstr "Schriftart:"
-
-#: ui/alertdialogbase.cpp:243 ui/xosdbase.cpp:157
-msgid "Show time:"
-msgstr "Offline anzeigen"
-
-#: ui/alertdialogbase.cpp:242 ui/xosdbase.cpp:175
-msgid "Offset:"
-msgstr "Verschiebung:"
-
-#: ui/alertdialogbase.cpp:241 ui/xosdbase.cpp:181
-msgid "Place:"
-msgstr "Platz:"
-
-#: ui/alertdialogbase.cpp:246 ui/xosdbase.cpp:193
-msgid "Shadow"
-msgstr "Schatten"
-
-#: ui/alertdialogbase.cpp:247 ui/xosdbase.cpp:202
-msgid "Background"
-msgstr "Hintergrund"
-
-#: ui/aboutdlgbase.cpp:149
-msgid "About SIM"
-msgstr "Über SIM"
-
-#: ui/aboutdlgbase.cpp:152
-msgid "About"
-msgstr "Über"
-
-#: ui/aboutdlgbase.cpp:153
-msgid "Authors"
-msgstr "Autoren"
-
-#: ui/aboutdlgbase.cpp:154
-msgid "Translation"
-msgstr "Übersetzung"
-
-#: ui/aboutdlgbase.cpp:155
-msgid "License"
-msgstr "Lizenz"
-
-#: ui/changepasswdbase.cpp:62 ui/interestsinfobase.cpp:138
-#: ui/pagerbase.cpp:113 ui/workinfobase.cpp:207
-msgid "Form2"
-msgstr "Form 2"
-
-#: ui/pagerbase.cpp:114
-msgid "Provider:"
-msgstr "Anbieter:"
-
-#: ui/pagerbase.cpp:115
-msgid "Email gateway:"
-msgstr "Email Gataway:"
-
-#: ui/filetransferbase.cpp:130
-msgid "File transfer"
-msgstr "Dateiübertragung"
-
-#: ui/filetransferbase.cpp:131
-msgid "File:"
-msgstr "Datei:"
-
-#: ui/filetransferbase.cpp:132
-msgid "Batch"
-msgstr "Stapel"
-
-#: ui/filetransferbase.cpp:134
-msgid "1000000/100000"
-msgstr "1000000/100000"
-
-#: ui/filetransferbase.cpp:135
-msgid "100000"
-msgstr "100000"
-
-#: ui/filetransferbase.cpp:136
-msgid "Speed:"
-msgstr "Geschwindigkeit:"
-
-#: ui/filetransferbase.cpp:137
-msgid "Close after send"
-msgstr "Nach dem Senden schließen"
 
 #: ui/fontsetupbase.cpp:222
 msgid "Mode"
@@ -3296,6 +3216,30 @@ msgstr "Email-Adressen eingeben:"
 msgid "Don't publish my Email address"
 msgstr "Meine Email-Adresse nicht veröffentlichen"
 
+#: ui/phonebase.cpp:153
+msgid "Area code:"
+msgstr "Vorwahl:"
+
+#: ui/phonebase.cpp:154
+msgid "Extension:"
+msgstr "Durchwahl:"
+
+#: ui/phonebase.cpp:155 ui/phonebase.cpp:157 ui/phonebase.cpp:159
+msgid "-"
+msgstr "-"
+
+#: ui/pagerbase.cpp:116 ui/phonebase.cpp:156
+msgid "Number:"
+msgstr "Nummer:"
+
+#: ui/phonebase.cpp:160
+msgid "Publish in global directory"
+msgstr "In globalem Verzeichnis publizieren"
+
+#: ui/phonebase.cpp:161
+msgid "SMS service available"
+msgstr "SMS Dienst verfügbar"
+
 #: ui/pastinfobase.cpp:155
 msgid "Organization, Affiliation, Group:"
 msgstr "Organisation, Zugehörigkeit, Gruppe:"
@@ -3327,6 +3271,15 @@ msgstr "Diesen Dialog nicht wieder anzeigen"
 #: ui/alertmsgbase.cpp:73 ui/alertmsgbase.cpp:74
 msgid "User is online"
 msgstr "Benutzer ist online"
+
+#: ui/changepasswdbase.cpp:62 ui/interestsinfobase.cpp:138
+#: ui/pagerbase.cpp:113 ui/workinfobase.cpp:207
+msgid "Form2"
+msgstr "Form 2"
+
+#: ui/interestsinfobase.cpp:139
+msgid "&Interests"
+msgstr "&Interessen"
 
 #: ui/msgdialogbase.cpp:99
 msgid "Customize message"
@@ -3382,9 +3335,53 @@ msgstr "In Verlauf schreiben"
 msgid "&Alert"
 msgstr "&Alarm"
 
+#: ui/alertdialogbase.cpp:240 ui/xosdbase.cpp:120
+msgid "Enable notify on screen"
+msgstr "Benachrichtigung auf Bildschirm (OSD) aktivieren"
+
+#: ui/alertdialogbase.cpp:241 ui/xosdbase.cpp:181
+msgid "Place:"
+msgstr "Platz:"
+
+#: ui/alertdialogbase.cpp:242 ui/xosdbase.cpp:175
+msgid "Offset:"
+msgstr "Verschiebung:"
+
+#: ui/alertdialogbase.cpp:243 ui/xosdbase.cpp:157
+msgid "Show time:"
+msgstr "Offline anzeigen"
+
+#: ui/alertdialogbase.cpp:244 ui/xosdbase.cpp:141
+msgid "Color:"
+msgstr "Farbe:"
+
+#: ui/alertdialogbase.cpp:245 ui/xosdbase.cpp:151
+msgid "Font:"
+msgstr "Schriftart:"
+
+#: ui/alertdialogbase.cpp:246 ui/xosdbase.cpp:193
+msgid "Shadow"
+msgstr "Schatten"
+
+#: ui/alertdialogbase.cpp:247 ui/xosdbase.cpp:202
+msgid "Background"
+msgstr "Hintergrund"
+
+#: ui/alertdialogbase.cpp:248 ui/xosdbase.cpp:127
+msgid "Background color:"
+msgstr "Hintergrundfarbe:"
+
 #: ui/alertdialogbase.cpp:249
 msgid "On Screen"
 msgstr "Auf den Bildschirm"
+
+#: ui/pagerbase.cpp:114
+msgid "Provider:"
+msgstr "Anbieter:"
+
+#: ui/pagerbase.cpp:115
+msgid "Email gateway:"
+msgstr "Email Gataway:"
 
 #: ui/addphonebase.cpp:135
 msgid "Add phone"
@@ -3397,42 +3394,6 @@ msgstr "Nummerdetails:"
 #: ui/addphonebase.cpp:137
 msgid "Type:"
 msgstr "Typ:"
-
-#: ui/keysetup.cpp:33
-msgid "Action"
-msgstr "Aktion"
-
-#: ui/keysetup.cpp:34
-msgid "Keys"
-msgstr "Tasten"
-
-#: ui/keysetup.cpp:36
-msgid "Show/Hide main window"
-msgstr "Hauptfenster anzeigen/verstecken"
-
-#: ui/keysetup.cpp:39
-msgid "Double click on dock"
-msgstr "Doppelklick zum Docken"
-
-#: ui/keysetup.cpp:42
-msgid "Show search window"
-msgstr "Suchfenster anzeigen"
-
-#: ui/interestsinfobase.cpp:139
-msgid "&Interests"
-msgstr "&Interessen"
-
-#: ui/logindlg.cpp:127
-msgid "Unknown login error"
-msgstr "Unbekannter Loginfehler"
-
-#: ui/logindlg.cpp:131
-msgid "Rate limit"
-msgstr "Rate begrenzen"
-
-#: ui/listsecbase.cpp:120 ui/moreinfobase.cpp:185
-msgid "Form3"
-msgstr "Form 3"
 
 #: ui/miscsetupbase.cpp:150
 msgid "Browser program path:"
@@ -3542,6 +3503,10 @@ msgstr "Nachrichten beim Versenden prüfen"
 msgid "&Spell check"
 msgstr "Recht&schreibprüfung"
 
+#: ui/userinfobase.cpp:154
+msgid "Update"
+msgstr "Aktualisieren"
+
 #: ui/setupdlgbase.cpp:119
 msgid "&Update"
 msgstr "&Aktualisieren"
@@ -3581,18 +3546,6 @@ msgstr "Position:"
 #: ui/workinfobase.cpp:220
 msgid "&Occupation"
 msgstr "&Beschäftigung"
-
-#: ui/userautoreply.cpp:51
-msgid "%1 autoresponse for %2"
-msgstr "Autoantwort von %1 für %2"
-
-#: ui/userautoreply.cpp:90
-msgid "&Check again"
-msgstr "&Erneut prüfen"
-
-#: ui/userinfobase.cpp:154
-msgid "Update"
-msgstr "Aktualisieren"
 
 #: ui/themesetupbase.cpp:189
 msgid "Select style:"
@@ -3670,28 +3623,13 @@ msgstr "Sprache:"
 msgid "&Miscellaneous"
 msgstr "&Verschiedenes"
 
-#: ui/securedlgbase.cpp:66
-msgid "Secure chanel request"
-msgstr "Anforderung \"sicherer Kanal\""
-
-#: ui/securedlgbase.cpp:67
-msgid ""
-"Secure channel is established using SSL with Diffie-Hellman key exchange and "
-" the TLS version 1 protocol.\n"
-"\n"
-"This only works with other SIM and Licq clients"
-msgstr ""
-"Der sichere Kanal benutzt SSL mit dem Diffie-Hellman-Schlüsselaustausch und "
-"dem TLS-Protokoll Version 1.\n"
-"\n"
-"Dies funktioniert nur mit anderen SIM- oder Licq-Klienten."
-
 #: ui/statussetupbase.cpp:140
 msgid "Hide main window after"
 msgstr "Hauptfenster anzeigen/verstecken nach"
 
 #: ui/statussetupbase.cpp:141
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -3716,9 +3654,13 @@ msgstr "Sekunden Inaktivität"
 msgid "Set \"N/A\" status after"
 msgstr "\"N/A\"-Status setzen wenn"
 
-#: ui/maininfobase.cpp:333 ui/statussetupbase.cpp:147
+#: ui/maininfobase.cpp:334 ui/statussetupbase.cpp:147
 msgid "&Status"
 msgstr "&Status"
+
+#: ui/listsecbase.cpp:120 ui/moreinfobase.cpp:185
+msgid "Form3"
+msgstr "Form 3"
 
 #: ui/moreinfobase.cpp:186
 msgid "Homepage:"
@@ -3752,71 +3694,71 @@ msgstr "Gesprochene Sprachen:"
 msgid "&Languages"
 msgstr "&Sprachen"
 
-#: ui/maininfobase.cpp:313
+#: ui/maininfobase.cpp:314
 msgid "Form5"
 msgstr "Form5"
 
-#: ui/maininfobase.cpp:315
+#: ui/maininfobase.cpp:316
 msgid "Uin:"
 msgstr "UIN:"
 
-#: ui/maininfobase.cpp:316
+#: ui/maininfobase.cpp:317
 msgid "Nick:"
 msgstr "Nickname:"
 
-#: ui/maininfobase.cpp:317
+#: ui/maininfobase.cpp:318
 msgid "Display:"
 msgstr "Anzeige:"
 
-#: ui/maininfobase.cpp:319
+#: ui/maininfobase.cpp:320
 msgid "Encoding:"
 msgstr "Kodierung:"
 
-#: ui/maininfobase.cpp:320
+#: ui/maininfobase.cpp:321
 msgid "&Names"
 msgstr "&Namen"
 
-#: ui/maininfobase.cpp:321
+#: ui/maininfobase.cpp:322
 msgid "Email addresses:"
 msgstr "E-Mail-Adressen:"
 
-#: ui/maininfobase.cpp:322
+#: ui/maininfobase.cpp:323
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: ui/maininfobase.cpp:323
+#: ui/maininfobase.cpp:324
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: ui/maininfobase.cpp:324
+#: ui/maininfobase.cpp:325
 msgid "Remove"
 msgstr "Entfernen"
 
-#: ui/maininfobase.cpp:325
+#: ui/maininfobase.cpp:326
 msgid "Set as default"
 msgstr "Als Standard festlegen"
 
-#: ui/maininfobase.cpp:326
+#: ui/maininfobase.cpp:327
 msgid "&EMail"
 msgstr "&E-Mail"
 
-#: ui/maininfobase.cpp:327
+#: ui/maininfobase.cpp:328
 msgid "Status:"
 msgstr "Status:"
 
-#: ui/maininfobase.cpp:328
+#: ui/maininfobase.cpp:329
 msgid "Online:"
 msgstr "Online:"
 
-#: ui/maininfobase.cpp:330
+#: ui/maininfobase.cpp:331
 msgid "External IP:"
 msgstr "Externe IP:"
 
-#: ui/maininfobase.cpp:331
+#: ui/maininfobase.cpp:332
 msgid "Internal IP:"
 msgstr "Interne IP:"
 
-#: ui/maininfobase.cpp:332
+#: ui/maininfobase.cpp:333
 msgid "Client:"
 msgstr "Klient:"
 
@@ -3892,7 +3834,8 @@ msgstr "&Ablehnen"
 
 #: ui/generalsecbase.cpp:201
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr ""
+"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: ui/generalsecbase.cpp:202
 msgid ""
@@ -3944,6 +3887,74 @@ msgstr "Meine Bemerkungen:"
 msgid "&Notes"
 msgstr "&Bemerkungen"
 
+#: ui/securedlg.cpp:55
+msgid "[Failed]"
+msgstr "[fehlgeschlagen]"
+
+#: ui/finddlgbase.cpp:34
+msgid "Find"
+msgstr "Suchen"
+
+#: ui/finddlgbase.cpp:42
+msgid "Find:"
+msgstr "Suchen:"
+
+#: ui/finddlgbase.cpp:51
+msgid "Case &sensitivy"
+msgstr "Groß-/kleinschreibung &beachten"
+
+#: ui/finddlgbase.cpp:55
+msgid "Find &backwards"
+msgstr "&Rückwärts suchen"
+
+#: ui/finddlgbase.cpp:62
+msgid "&Find"
+msgstr "&Suchen"
+
+#: ui/forwardsetupbase.cpp:77
+msgid "Autoforward"
+msgstr "Automatisches weiterleiten"
+
+#: ui/xosdbase.cpp:109
+msgid "Notify On Screen"
+msgstr "Benachrichtigung auf Bildschirm"
+
+#: ui/keysetup.cpp:33
+msgid "Action"
+msgstr "Aktion"
+
+#: ui/keysetup.cpp:34
+msgid "Keys"
+msgstr "Tasten"
+
+#: ui/keysetup.cpp:36
+msgid "Show/Hide main window"
+msgstr "Hauptfenster anzeigen/verstecken"
+
+#: ui/keysetup.cpp:39
+msgid "Double click on dock"
+msgstr "Doppelklick zum Docken"
+
+#: ui/keysetup.cpp:42
+msgid "Show search window"
+msgstr "Suchfenster anzeigen"
+
+#: ui/logindlg.cpp:127
+msgid "Unknown login error"
+msgstr "Unbekannter Loginfehler"
+
+#: ui/logindlg.cpp:131
+msgid "Rate limit"
+msgstr "Rate begrenzen"
+
+#: ui/userautoreply.cpp:51
+msgid "%1 autoresponse for %2"
+msgstr "Autoantwort von %1 für %2"
+
+#: ui/userautoreply.cpp:90
+msgid "&Check again"
+msgstr "&Erneut prüfen"
+
 #: ui/changepasswdbase.cpp:77
 msgid "Change password"
 msgstr "Passwort ändern"
@@ -3958,7 +3969,8 @@ msgstr ";-)"
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
+msgstr ""
+"Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
 
 #: client.cpp:55
 msgid "Unicode"
@@ -4566,4 +4578,3 @@ msgstr "? Unbekannter Status %1"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
-

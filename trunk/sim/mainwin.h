@@ -335,7 +335,7 @@ public:
     bool isHistory(unsigned long uin);
     bool isUserInfo(unsigned long uin);
 
-	void setUserBoxOnTop();
+    void setUserBoxOnTop();
 signals:
     void searchChanged();
     void modeChanged(bool);
@@ -345,7 +345,7 @@ signals:
     void setupInit();
     void iconChanged();
     void wmChanged();
-	void onTopChanged();
+    void onTopChanged();
     void chatChanged();
     void ftChanged();
     void childExited(int pid, int status);

@@ -133,7 +133,7 @@ protected slots:
     void slotMessageReceived(ICQMessage*);
     void modeChanged(bool);
     void accelActivated(int id);
-	void setOnTop();
+    void setOnTop();
 protected:
     void getToolbarPosition();
     void showEvent(QShowEvent *e);

@@ -978,7 +978,7 @@ void UserView::processEvent(ICQEvent *e)
 
 void UserView::messageReceived(ICQMessage *msg)
 {
-	updateUser(msg->getUin(), false);
+    updateUser(msg->getUin(), false);
 }
 
 void UserView::setGroupExpand(unsigned short grpId, bool bState)

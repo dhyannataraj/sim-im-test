@@ -216,7 +216,7 @@ UserBox::UserBox(unsigned long grpId)
     accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxCHAT)), mnuChat);
     accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxCONTACTxLIST)), mnuContacts);
     accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxMAIL)), mnuMail);
-	setOnTop();
+    setOnTop();
 }
 
 void UserBox::hideToolbar()
@@ -1194,9 +1194,9 @@ void UserBox::setOnTop()
         clearWFlags(WStyle_StaysOnTop);
     }
 #ifdef WIN32
-        HWND hState = HWND_NOTOPMOST;
-        if (pMain->UserWndOnTop) hState = HWND_TOPMOST;
-        SetWindowPos(winId(), hState, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+    HWND hState = HWND_NOTOPMOST;
+    if (pMain->UserWndOnTop) hState = HWND_TOPMOST;
+    SetWindowPos(winId(), hState, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 #else
 #ifdef USE_KDE
     if (pMain->UserWndOnTop){
