@@ -35,8 +35,8 @@ using namespace std;
 
 %}
 
-%option prefix="parse"
 %option nounput
+%option prefix="parser"
 
 %x x_tag
 %%

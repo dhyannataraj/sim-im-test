@@ -245,7 +245,9 @@ MainWindow::MainWindow(const char *name)
     translator = NULL;
     mAboutApp = NULL;
 
+#if HAVE_UMASK
     umask(0077);
+#endif
 
     initTranslator();
 
@@ -1113,7 +1115,7 @@ void MainWindow::quit()
 
 void MainWindow::search()
 {
-    if (searchDlg == NULL) searchDlg = new SearchDialog(this);
+    if (searchDlg == NULL) searchDlg = new SearchDialog(NULL);
     searchDlg->show();
     searchDlg->raise();
 }

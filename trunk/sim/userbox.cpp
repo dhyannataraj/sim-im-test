@@ -119,7 +119,14 @@ UserBox::UserBox(unsigned long grpId)
     tabSplitter->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
     tabs = new UserTabBar(tabSplitter);
     tabs->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
+    QSize s;
     status = new QStatusBar(tabSplitter);
+    {
+        QProgressBar p(status);
+        status->addWidget(&p);
+        s = status->minimumSizeHint();
+    }
+    status->setMinimumSize(QSize(0, s.height()));
     tabSplitter->setResizeMode(status, QSplitter::KeepSize);
     lay->addWidget(tabSplitter);
     setIcon(Pict(pClient->getStatusIcon()));
@@ -970,6 +977,7 @@ void UserBox::showProgress(int n)
     if (n > 100){
         if (progress){
             status->removeWidget(progress);
+            status->clear();
             delete progress;
             progress = NULL;
         }
@@ -977,8 +985,9 @@ void UserBox::showProgress(int n)
     }
     if (progress == NULL){
         progress = new QProgressBar(100, status);
-        status->addWidget(progress, 50, true);
         progress->show();
+        status->addWidget(progress, 0, true);
+        status->message(i18n("History loading"));
     }
     progress->setProgress(n);
 }

@@ -40,8 +40,8 @@ using namespace std;
 
 %}
 
-%option prefix="html"
 %option nounput
+%option prefix="clearhtml"
 
 %x tag
 %x symbol

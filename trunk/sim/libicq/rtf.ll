@@ -45,8 +45,8 @@
 
 %}
 
-%option prefix="rtf"
 %option nounput
+%option prefix="rtf"
 
 %%
 "{"		{ return UP; }

@@ -139,7 +139,7 @@ void Client::process_event(ICQEvent *e)
         }
         switch (e->message()->Type()){
         case ICQ_MSGxFILE:{
-                FileTransferDlg *dlg = new FileTransferDlg(pMain, static_cast<ICQFile*>(e->message()));
+                FileTransferDlg *dlg = new FileTransferDlg(NULL, static_cast<ICQFile*>(e->message()));
                 dlg->show();
                 break;
             }

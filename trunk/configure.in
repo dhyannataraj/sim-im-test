@@ -61,6 +61,8 @@ dnl PACKAGE set before
 AC_STDC_HEADERS
 AM_ICONV
 AM_PROG_LEX
+LFLAGS="-o${LEX_OUTPUT_ROOT}.c"
+AC_SUBST(LFLAGS)
 AC_CYGWIN
 if "$CYGWIN" = "yes"; then
  LDFLAGS="$LDFLAGS --enable-auto-import"
@@ -73,7 +75,6 @@ ac_save_CPPFLAGS="$CPPFLAGS"
 ac_save_LDFLAGS="$LDFLAGS"
 LDFLAGS="$LDFLAGS $all_libraries"
 CPPFLAGS="$CPPFLAGS $X_INCLUDES"
-LEX="$LEX -o${LEX_OUTPUT_ROOT}.c"
 AC_CHECK_LIB(Xext, XScreenSaverRegister,[XSS_LIBS=""],[], [-lX11 -lXext -lm])
 AC_CHECK_LIB(Xss, XScreenSaverRegister,[XSS_LIBS="-lXss"],[],[-lX11 -lXext -lm])
 if test \! "$XSS_LIBS" = "no"; then
@@ -82,7 +83,7 @@ else
   dnl Don't include the screensaver libs if we can't find the header.
   XSS_LIBS=""
 fi
-LIBS="$LIBS $XSS_LIBS $XPMLIB"
+LIBS="$LIBS $XSS_LIBS"
 CPPFLAGS="$ac_save_CPPFLAGS"
 LDFLAGS="$ac_save_LDFLAGS"
 if test "$use_kde" = "yes" ; then

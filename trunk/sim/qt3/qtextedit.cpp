@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qtextedit.cpp,v 1.4 2002-07-11 01:26:48 shutoff Exp $
+** $Id: qtextedit.cpp,v 1.5 2002-07-26 01:54:26 shutoff Exp $
 **
 ** Implementation of the QTextEdit class
 **
@@ -65,7 +65,7 @@
 #include "qpopupmenu.h"
 
 #ifndef QT_NO_ACCEL
-#include <qkeysequence.h>
+#include "qkeysequence.h"
 #define ACCEL_KEY(k) "\t" + QString(QKeySequence( Qt::CTRL | Qt::Key_ ## k ))
 #else
 #define ACCEL_KEY(k) "\t" + QString("Ctrl+" #k)

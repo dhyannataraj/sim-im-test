@@ -26,3 +26,4 @@ package-messages:
 
 dist-hook:
 	cd $(top_distdir) && perl admin/am_edit -padmin
+
