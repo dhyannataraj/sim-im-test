@@ -1,4 +1,5 @@
 Version 0.8.1
+Add Czech translation
 Add copy messages from history to conversation
 Fix works with accel
 Fix receiving unicode messages from ICQ2Go!
