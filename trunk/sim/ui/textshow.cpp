@@ -306,8 +306,14 @@ void TextEdit::setCtrlMode(bool mode)
 
 void TextEdit::keyPressEvent(QKeyEvent *e)
 {
-    if (((e->key() == Key_Enter) || (e->key() == Key_Return))){
-        if (!m_bCtrlMode || (e->state() & ControlButton)){
+    if (((e->key() == Key_Enter) || (e->key() == Key_Return)))
+    {
+        //   in m_bCtrlMode:    enter      --> newLine
+        //                      ctrl+enter --> sendMsg
+        //   in !m_bCtrlMode:   enter      --> sendMsg
+        //                      ctrl+enter --> newLine
+        // the (bool) is required due to the bitmap
+        if (m_bCtrlMode == (bool)(e->state() & ControlButton)){
             emit ctrlEnterPressed();
             return;
         }
