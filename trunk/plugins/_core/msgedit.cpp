@@ -1235,7 +1235,11 @@ void MsgEdit::setEmptyMessage()
         Command cmd;
         cmd->id      = MessageGeneric;
         cmd->menu_id = MenuMessage;
+<<<<<<< msgedit.cpp
         cmd->param   = (void*)(m_userWnd->id());
+=======
+		cmd->param   = (void*)(m_userWnd->id());
+>>>>>>> 1.30.2.2
         Event e(EventCheckState, cmd);
         if (e.process() == NULL){
             QString phones = contact->getPhones();

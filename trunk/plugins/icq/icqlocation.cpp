@@ -81,9 +81,15 @@ QString ICQClient::convert(const char *text, unsigned size, TlvList &tlvs, unsig
             if (e)
                 *e = 0;
             charset = p;
+<<<<<<< icqlocation.cpp
         }else{
             charset = type;
         }
+=======
+        }else{
+			charset = type;
+		}
+>>>>>>> 1.14.2.1
     }
     QString res;
     if (strstr(charset.c_str(), "us-ascii") || strstr(charset.c_str(), "utf")){

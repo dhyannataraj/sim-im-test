@@ -2539,10 +2539,16 @@ void *ICQClient::processEvent(Event *e)
                 send(true);
                 return msg;
             }
+<<<<<<< icqclient.cpp
             list<SendMsg>::iterator it;
             for (it = sendQueue.begin(); it != sendQueue.end(); ++it){
+=======
+			list<SendMsg>::iterator it;
+            for (it = sendQueue.begin(); it != sendQueue.end(); ++it){
+>>>>>>> 1.49.2.1
                 if ((*it).msg == msg){
                     sendQueue.erase(it);
+<<<<<<< icqclient.cpp
                     delete msg;
                     return msg;
                 }
@@ -2551,6 +2557,16 @@ void *ICQClient::processEvent(Event *e)
                 if ((*it).msg == msg){
                     replyQueue.erase(it);
                     delete msg;
+=======
+					delete msg;
+                    return msg;
+                }
+            }
+            for (it = replyQueue.begin(); it != replyQueue.end(); ++it){
+                if ((*it).msg == msg){
+                    replyQueue.erase(it);
+					delete msg;
+>>>>>>> 1.49.2.1
                     return msg;
                 }
             }
@@ -3007,6 +3023,7 @@ bool ICQClient::send(Message *msg, void *_data)
                sendThruServer(msg, data);
     case MessageFile:
         if (data && ((data->Status & 0xFFFF) != ICQ_STATUS_OFFLINE)){
+<<<<<<< icqclient.cpp
             if (data->Uin){
                 if (data->Direct == NULL){
                     data->Direct = new DirectClient(data, this, PLUGIN_NULL);
@@ -3020,6 +3037,21 @@ bool ICQClient::send(Message *msg, void *_data)
             AIMFileTransfer *ft = new AIMFileTransfer(static_cast<FileMessage*>(msg), data, this);
             ft->listen();
             return true;
+=======
+			if (data->Uin){
+				if (data->Direct == NULL){
+					data->Direct = new DirectClient(data, this, PLUGIN_NULL);
+					data->Direct->connect();
+				}
+				return data->Direct->sendMessage(msg);
+			}
+			if (!hasCap(data, CAP_AIM_SENDFILE))
+				return false;
+			m_processMsg.push_back(msg);
+			AIMFileTransfer *ft = new AIMFileTransfer(static_cast<FileMessage*>(msg), data, this);
+			ft->listen();
+			return true;
+>>>>>>> 1.49.2.1
         }
         return false;
     case MessageTypingStart:
