@@ -45,17 +45,25 @@ Socket::Socket()
     notify = NULL;
 }
 
+void Socket::error(const char *err_text, unsigned code)
+{
+    if (notify)
+        notify->error_state(err_text, code);
+}
+
 ServerSocket::ServerSocket()
 {
     notify = NULL;
 }
 
-ClientSocket::ClientSocket(ClientSocketNotify *notify)
+ClientSocket::ClientSocket(ClientSocketNotify *notify, Socket *sock)
 {
     m_notify = notify;
     bRawMode = false;
     bClosed  = false;
-    m_sock = getSocketFactory()->createSocket();
+    m_sock   = sock;
+    if (m_sock == NULL)
+        m_sock = getSocketFactory()->createSocket();
     m_sock->setNotify(this);
 }
 
@@ -268,8 +276,8 @@ void SocketFactory::idle()
     p->removedServerSockets.clear();
 }
 
-TCPClient::TCPClient(Protocol *protocol, const char *cfg)
-        : Client(protocol, cfg)
+TCPClient::TCPClient(Protocol *protocol, const char *cfg, unsigned priority)
+        : Client(protocol, cfg), EventReceiver(priority)
 {
     m_socket = NULL;
     m_ip     = 0;
@@ -279,6 +287,15 @@ TCPClient::TCPClient(Protocol *protocol, const char *cfg)
     m_bWaitReconnect = false;
     connect(m_timer, SIGNAL(timeout()), this, SLOT(reconnect()));
     connect(m_loginTimer, SIGNAL(timeout()), this, SLOT(loginTimeout()));
+}
+
+void *TCPClient::processEvent(Event *e)
+{
+    if (e->type() == EventSocketActive){
+        if (m_bWaitReconnect && e->param())
+            reconnect();
+    }
+    return NULL;
 }
 
 void TCPClient::resolve_ready(unsigned long ip)
@@ -339,12 +356,17 @@ void TCPClient::loginTimeout()
         m_socket->error_state("Login timeout");
 }
 
+Socket *TCPClient::createSocket()
+{
+    return NULL;
+}
+
 void TCPClient::socketConnect()
 {
     if (m_socket)
         m_socket->close();
     if (m_socket == NULL)
-        m_socket = new ClientSocket(this);
+        m_socket = new ClientSocket(this, createSocket());
     log(L_DEBUG, "Start connect %s:%u", getServer(), getPort());
     m_socket->connect(getServer(), getPort(), this);
 }

@@ -25,7 +25,6 @@ const unsigned PROXY_NONE	= 0;
 const unsigned PROXY_SOCKS4	= 1;
 const unsigned PROXY_SOCKS5 = 2;
 const unsigned PROXY_HTTPS	= 3;
-const unsigned PROXY_HTTP	= 4;
 
 typedef struct ProxyData
 {
@@ -68,9 +67,10 @@ public:
     unsigned ProxyPacket;
     list<Proxy*>	proxies;
     ProxyData data;
-    void clientData(Client*, ProxyData &data);
+    void clientData(TCPClient*, ProxyData &data);
     static const DataDef *proxyData;
     unsigned ProxyErr;
+    string clientName(TCPClient *client);
 protected:
     virtual void *processEvent(Event*);
     virtual QWidget *createConfigWindow(QWidget *parent);

@@ -20,6 +20,7 @@
 #include "socket.h"
 #include "newprotocol.h"
 #include "proxyerror.h"
+#include "fetch.h"
 
 #include <qtabwidget.h>
 #include <qobjectlist.h>
@@ -220,6 +221,8 @@ Proxy::Proxy(ProxyPlugin *plugin, ProxyData *d, TCPClient *client)
 
 Proxy::~Proxy()
 {
+    if (notify)
+        static_cast<ClientSocket*>(notify)->setSocket(m_sock);
     if (m_sock)
         delete m_sock;
     for (list<Proxy*>::iterator it = m_plugin->proxies.begin(); it != m_plugin->proxies.end(); ++it){
@@ -812,6 +815,7 @@ protected:
     virtual void connect_ready();
     virtual void read_ready();
     void error_state(const char *text, unsigned code);
+    void send_auth();
     string m_host;
     unsigned short m_port;
     enum State
@@ -839,22 +843,11 @@ void HTTPS_Proxy::connect(const char *host, unsigned short port)
     }
     m_host = host;
     m_port = port;
-    if (m_client->protocol()->description()->flags & PROTOCOL_ANY_PORT)
+    if ((m_client != (TCPClient*)(-1)) && (m_client->protocol()->description()->flags & PROTOCOL_ANY_PORT))
         m_port = 443;
     log(L_DEBUG, "Connect to proxy HTTPS %s:%u", getHost(), getPort());
     m_sock->connect(getHost(), getPort());
     m_state = Connect;
-}
-
-static string tobase64(const char *s)
-{
-    Buffer from;
-    Buffer to;
-    from << s;
-    to.toBase64(from);
-    string res;
-    res.append(to.data(), to.size());
-    return res;
 }
 
 void HTTPS_Proxy::connect_ready()
@@ -871,25 +864,23 @@ void HTTPS_Proxy::connect_ready()
     << number(m_port).c_str()
     << " HTTP/1.0\r\n"
     << "User-Agent: Mozilla/4.08 [en]] (WinNT; U ;Nav)\r\n";
-    if (getAuth()){
-        string s;
-        s = getUser();
-        s += ":";
-        s += getPassword();
-        s = tobase64(s.c_str());
-        bOut << "Proxy-Authorization: basic ";
-        bOut << s.c_str();
-        bOut << "\r\n";
-        bOut << "Authorization: basic ";
-        bOut << s.c_str();
-        bOut << "\r\n";
-    }
+    send_auth();
     bOut << "\r\n";
     m_state = WaitConnect;
     write();
 }
 
 static char HTTP[] = "HTTP/";
+
+void HTTPS_Proxy::send_auth()
+{
+    if (getAuth()){
+        string s = basic_auth(getUser(), getPassword());
+        bOut << "Proxy-Authorization: basic ";
+        bOut << s.c_str();
+        bOut << "\r\n";
+    }
+}
 
 void HTTPS_Proxy::error_state(const char *text, unsigned code)
 {
@@ -959,568 +950,165 @@ bool HTTPS_Proxy::readLine(string &s)
 
 // ______________________________________________________________________________________
 
-const unsigned short HTTP_PROXY_VERSION = 0x0443;
-
-const unsigned short HTTP_PROXY_HELLO	   = 2;
-const unsigned short HTTP_PROXY_LOGIN      = 3;
-const unsigned short HTTP_PROXY_UNK1	   = 4;
-const unsigned short HTTP_PROXY_FLAP       = 5;
-const unsigned short HTTP_PROXY_CONNECT	   = 6;
-const unsigned short HTTP_PROXY_UNK2       = 7;
-
-class HttpPacket
+class HTTP_Proxy : public HTTPS_Proxy
 {
 public:
-    HttpPacket(const char *data, unsigned short size, unsigned short type, unsigned long nSock);
-    ~HttpPacket();
-    char *data;
-    unsigned short size;
-    unsigned short type;
-    unsigned long  nSock;
-private:
-    HttpPacket(HttpPacket&);
-    void operator = (HttpPacket&);
-};
-
-HttpPacket::HttpPacket(const char *_data, unsigned short _size, unsigned short _type, unsigned long _nSock)
-{
-    size = _size;
-    type = _type;
-    nSock = _nSock;
-    data = NULL;
-    if (size){
-        data = new char[size];
-        memcpy(data, _data, size);
-    }
-}
-
-HttpPacket::~HttpPacket()
-{
-    if (data) delete[] data;
-}
-
-// ______________________________________________________________________________________
-
-class HttpPacket;
-class HttpRequest;
-
-class HTTP_Proxy : public Proxy
-{
-public:
-    HTTP_Proxy(ProxyPlugin *plugin, ProxyData *d, TCPClient *client);
-    ~HTTP_Proxy();
-    virtual void connect(const char *host, unsigned short port);
-    virtual int read(char *buf, unsigned size);
-    virtual void write(const char *buf, unsigned size);
-    virtual void close();
-    virtual Mode mode() { return Web; }
+    HTTP_Proxy(ProxyPlugin *plugin, ProxyData*, TCPClient *client);
+    void connect(const char *host, unsigned short port);
 protected:
+    virtual void write(const char *buf, unsigned int size);
+    virtual int read(char *buf, unsigned int size);
+    void read_ready();
+    void connect_ready();
     enum State
     {
-        None,
-        Connected
+        WaitHeader,
+        Headers,
+        Data
     };
-    State state;
-    virtual void request();
-    virtual void read_ready();
-    virtual void connect_ready();
-
-    string sid;
-    string m_host;
-
-    list<HttpPacket*> queue;
-    unsigned seq;
-    unsigned readn;
-    Buffer readData;
-
-    HttpRequest *hello;
-    HttpRequest *monitor;
-    HttpRequest *post;
-
-    unsigned short nSock;
-
-    friend class HttpRequest;
-    friend class HelloRequest;
-    friend class MonitorRequest;
-    friend class PostRequest;
+    State		m_state;
+    Buffer		m_out;
+    bool		m_bHTTP;
+    unsigned	m_size;
+    string		m_head;
 };
 
-class HttpRequest : public SocketNotify
+HTTP_Proxy::HTTP_Proxy(ProxyPlugin *plugin, ProxyData *data, TCPClient *client)
+        : HTTPS_Proxy(plugin, data, client)
 {
-public:
-    HttpRequest(HTTP_Proxy *proxy);
-    ~HttpRequest();
-    bool isReady() { return (state == None); }
-protected:
-    enum State{
-        None,
-        WaitConnect,
-        Connected,
-        ReadHeader,
-        ReadData
-    };
-    State state;
-    virtual HttpPacket *packet() = 0;
-    virtual const char *host() = 0;
-    virtual const char *uri() = 0;
-    virtual void data_ready() = 0;
-    void connect_ready();
-    void read_ready();
-    void write_ready();
-    void error_state(const char *err, unsigned code = 0);
-    bool readLine(string &s);
-    Buffer bIn;
-    unsigned data_size;
-    HTTP_Proxy *m_proxy;
-    Socket *m_sock;
-};
-
-HttpRequest::HttpRequest(HTTP_Proxy *proxy)
-{
-    data_size = 0;
-    m_proxy = proxy;
-    m_sock = getSocketFactory()->createSocket();
-    m_sock->setNotify(this);
-    state = WaitConnect;
-    m_sock->connect(proxy->getHost(), proxy->getPort());
-    bIn.packetStart();
-}
-
-HttpRequest::~HttpRequest()
-{
-    m_sock->close();
-    getSocketFactory()->remove(m_sock);
-}
-
-void HttpRequest::write_ready()
-{
-}
-
-void HttpRequest::connect_ready()
-{
-    if (state == WaitConnect)
-        state = Connected;
-
-    const char *h = host();
-    HttpPacket *p = packet();
-
-    Buffer bOut;
-    bOut.packetStart();
-    bOut << (p ? "POST" : "GET") << " http://" << h << uri() << " HTTP/1.1\r\n" <<
-    "Host: " << h << "\r\n"
-    "User-agent: Mozilla/4.08 [en] (WinNT; U ;Nav)\r\n"
-    "Cache-control: no-store, no-cache\r\n"
-    "Connection: close\r\n"
-    "Pragma: no-cache\r\n";
-
-    if (p){
-        char b[15];
-        snprintf(b, sizeof(b), "%u", p->size + 14);
-        bOut << "Content-Length: " << b << "\r\n";
-    }
-
-    if (m_proxy->getAuth()){
-        string s;
-        s = m_proxy->getUser();
-        s += ":";
-        s += m_proxy->getPassword();
-        s = tobase64(s.c_str());
-        bOut << "Proxy-Authorization: basic ";
-        bOut << s.c_str();
-        bOut << "\r\n";
-        bOut << "Authorization: basic ";
-        bOut << s.c_str();
-        bOut << "\r\n";
-    }
-    bOut << "\r\n";
-    if (p){
-        unsigned short len = (unsigned short)(p->size + 12);
-        bOut
-        << len
-        << HTTP_PROXY_VERSION
-        << p->type
-        << 0x00000000L
-        << p->nSock;
-        if (p->size)
-            bOut.pack(p->data, p->size);
-        m_proxy->queue.remove(p);
-        delete p;
-    }
-    log_packet(bOut, true, m_proxy->m_plugin->ProxyPacket);
-    m_sock->write(bOut.data(0), bOut.size());
-    bOut.init(0);
-}
-
-bool HttpRequest::readLine(string &s)
-{
-    for (;;){
-        char c;
-        int n = m_sock->read(&c, 1);
-        if (n < 0){
-            m_proxy->error_state(CONNECT_ERROR, m_proxy->m_plugin->ProxyErr);
-            return false;
-        }
-        if (n == 0) return false;
-        bIn << c;
-        if (c == '\n') break;
-    }
-    s = "";
-    for (; bIn.readPos() < bIn.writePos(); ){
-        char c;
-        bIn.unpack(&c, 1);
-        if ((c == '\r') || (c == '\n')) continue;
-        s += c;
-    }
-    return true;
-}
-
-static char CONTENT_LENGTH[] = "Content-Length:";
-
-void HttpRequest::read_ready()
-{
-    if (state == Connected){
-        string s;
-        if (!readLine(s)) return;
-        if (s.length() < strlen(HTTP)){
-            m_proxy->error_state(ANSWER_ERROR, m_proxy->m_plugin->ProxyErr);
-            return;
-        }
-        const char *r = strchr(s.c_str(), ' ');
-        if (r == NULL){
-            m_proxy->error_state(ANSWER_ERROR, m_proxy->m_plugin->ProxyErr);
-            return;
-        }
-        r++;
-        int code = atoi(r);
-        if (code == 407){
-            log_packet(bIn, false, m_proxy->m_plugin->ProxyPacket);
-            m_proxy->error_state(AUTH_ERROR, m_proxy->m_plugin->ProxyErr);
-            return;
-        }
-        if (code == 502){
-            log_packet(bIn, false, m_proxy->m_plugin->ProxyPacket);
-            m_proxy->error_state(ANSWER_ERROR, 0);
-            return;
-        }
-        if (code != 200){
-            log_packet(bIn, false, m_proxy->m_plugin->ProxyPacket);
-            m_proxy->error_state(ANSWER_ERROR, m_proxy->m_plugin->ProxyErr);
-            return;
-        }
-        state = ReadHeader;
-    }
-    if (state == ReadHeader){
-        for (;;){
-            string s;
-            if (!readLine(s)) return;
-            if (s.length() == 0){
-                state = ReadData;
-                break;
-            }
-            string h = s.substr(0, strlen(CONTENT_LENGTH));
-            if (!strcasecmp(h.c_str(), CONTENT_LENGTH)){
-                h = s.substr(strlen(CONTENT_LENGTH), s.size());
-                for (const char *p = h.c_str(); *p; p++){
-                    if ((*p >= '0') && (*p <= '9')){
-                        data_size = atol(p);
-                        break;
-                    }
-                }
-            }
-        }
-    }
-    if (state == ReadData){
-        while (data_size > 0){
-            char b[2048];
-            unsigned tail = data_size;
-            if (tail > sizeof(b)) tail = sizeof(b);
-            int n = m_sock->read(b, tail);
-            if (n < 0){
-                log_packet(bIn, false, m_proxy->m_plugin->ProxyPacket);
-                m_proxy->error_state(ANSWER_ERROR, m_proxy->m_plugin->ProxyErr);
-                return;
-            }
-            if (n == 0) break;
-            bIn.pack(b, n);
-            data_size -= n;
-        }
-        if (data_size == 0){
-            log_packet(bIn, false, m_proxy->m_plugin->ProxyPacket);
-            state = None;
-            data_ready();
-        }
-    }
-}
-
-void HttpRequest::error_state(const char *err, unsigned code)
-{
-    if (state == None) return;
-    if (m_proxy->notify)
-        m_proxy->notify->error_state(err, code);
-}
-
-// ______________________________________________________________________________________
-
-class HelloRequest : public HttpRequest
-{
-public:
-    HelloRequest(HTTP_Proxy *proxy);
-protected:
-    virtual HttpPacket *packet();
-    virtual const char *host();
-    virtual const char *uri();
-    virtual void data_ready();
-};
-
-HelloRequest::HelloRequest(HTTP_Proxy *proxy)
-        : HttpRequest(proxy)
-{
-}
-
-HttpPacket *HelloRequest::packet()
-{
-    return NULL;
-}
-
-const char *HelloRequest::host()
-{
-    return "http.proxy.icq.com";
-}
-
-const char *HelloRequest::uri()
-{
-    return "/hello";
-}
-
-void HelloRequest::data_ready()
-{
-    bIn.incReadPos(12);
-    unsigned long SID[4];
-    bIn >> SID[0] >> SID[1] >> SID[2] >> SID[3];
-    char b[34];
-    snprintf(b, sizeof(b), "%08lx%08lx%08lx%08lx", SID[0], SID[1], SID[2], SID[3]);
-    m_proxy->sid = b;
-    bIn.unpack(m_proxy->m_host);
-    m_proxy->request();
-}
-
-// ______________________________________________________________________________________
-
-class MonitorRequest : public HttpRequest
-{
-public:
-    MonitorRequest(HTTP_Proxy *proxy);
-protected:
-    virtual HttpPacket *packet();
-    virtual const char *host();
-    virtual const char *uri();
-    virtual void data_ready();
-    string sURI;
-};
-
-MonitorRequest::MonitorRequest(HTTP_Proxy *proxy)
-        : HttpRequest(proxy)
-{
-}
-
-HttpPacket *MonitorRequest::packet()
-{
-    return NULL;
-}
-
-const char *MonitorRequest::host()
-{
-    return m_proxy->m_host.c_str();
-}
-
-const char *MonitorRequest::uri()
-{
-    sURI  = "/monitor?sid=";
-    sURI += m_proxy->sid.c_str();
-    return sURI.c_str();
-}
-
-void MonitorRequest::data_ready()
-{
-    m_proxy->readn = 0;
-    while (bIn.readPos() < bIn.size()){
-        unsigned short len, ver, type;
-        bIn >> len >> ver >> type;
-        bIn.incReadPos(8);
-        len -= 12;
-        if (len > (bIn.size() - bIn.readPos())){
-            m_proxy->error_state(ANSWER_ERROR, m_proxy->m_plugin->ProxyErr);
-            return;
-        }
-        if (ver != HTTP_PROXY_VERSION){
-            m_proxy->error_state(ANSWER_ERROR, m_proxy->m_plugin->ProxyErr);
-            return;
-        }
-        switch (type){
-        case HTTP_PROXY_FLAP:
-            if (len){
-                char *data = bIn.data(bIn.readPos());
-                m_proxy->readData.pack(data, len);
-                m_proxy->readn += len;
-                bIn.incReadPos(len);
-            }
-            break;
-        case HTTP_PROXY_UNK1:
-        case HTTP_PROXY_UNK2:
-            if (len)
-                bIn.incReadPos(len);
-            break;
-        default:
-            m_proxy->error_state(ANSWER_ERROR, m_proxy->m_plugin->ProxyErr);
-            return;
-        }
-    }
-    m_proxy->request();
-}
-
-// ______________________________________________________________________________________
-
-class PostRequest : public HttpRequest
-{
-public:
-    PostRequest(HTTP_Proxy *proxy);
-protected:
-    virtual HttpPacket *packet();
-    virtual const char *host();
-    virtual const char *uri();
-    virtual void data_ready();
-    string sURI;
-};
-
-PostRequest::PostRequest(HTTP_Proxy *proxy)
-        : HttpRequest(proxy)
-{
-}
-
-HttpPacket *PostRequest::packet()
-{
-    if (m_proxy->queue.size()) return m_proxy->queue.front();
-    return NULL;
-}
-
-const char *PostRequest::host()
-{
-    return m_proxy->m_host.c_str();
-}
-
-const char *PostRequest::uri()
-{
-    sURI  = "/data?sid=";
-    sURI += m_proxy->sid.c_str();
-    sURI += "&seq=";
-    char b[15];
-    snprintf(b, sizeof(b), "%u", ++m_proxy->seq);
-    sURI += b;
-    return sURI.c_str();
-}
-
-void PostRequest::data_ready()
-{
-    m_proxy->request();
-}
-
-// ______________________________________________________________________________________
-
-HTTP_Proxy::HTTP_Proxy(ProxyPlugin *plugin, ProxyData *d, TCPClient *client)
-        : Proxy(plugin, d, client)
-{
-    hello = NULL;
-    monitor = NULL;
-    post = NULL;
-    state = None;
-    seq = 0;
-    readn = 0;
-    nSock = 0;
-}
-
-HTTP_Proxy::~HTTP_Proxy()
-{
-    if (hello) delete hello;
-    if (monitor) delete monitor;
-    if (post) delete post;
-    for (list<HttpPacket*>::iterator it = queue.begin(); it != queue.end(); ++it)
-        delete *it;
+    m_bHTTP = true;
+    m_state = WaitHeader;
+    m_size  = 0;
 }
 
 void HTTP_Proxy::read_ready()
 {
-}
-
-void HTTP_Proxy::connect_ready()
-{
-}
-
-int HTTP_Proxy::read(char *buf, unsigned size)
-{
-    unsigned tail = readData.size() - readData.readPos();
-    if (size > tail) size = tail;
-    if (size == 0) return 0;
-    readData.unpack(buf, size);
-    if (readData.readPos() == readData.size())
-        readData.init(0);
-    return size;
-}
-
-void HTTP_Proxy::write(const char *buf, unsigned size)
-{
-    queue.push_back(new HttpPacket(buf, (unsigned short)size, HTTP_PROXY_FLAP, nSock));
-    request();
-}
-
-void HTTP_Proxy::close()
-{
+    if (!m_bHTTP){
+        HTTPS_Proxy::read_ready();
+        return;
+    }
+    if (!m_head.empty())
+        return;
+    if (!readLine(m_head)) return;
+    if (m_head.length() < strlen(HTTP)){
+        error_state(ANSWER_ERROR, m_plugin->ProxyErr);
+        return;
+    }
+    const char *r = strchr(m_head.c_str(), ' ');
+    if (r == NULL){
+        error_state(ANSWER_ERROR, m_plugin->ProxyErr);
+        return;
+    }
+    r++;
+    int code = atoi(r);
+    if (code == 407){
+        error_state(AUTH_ERROR, m_plugin->ProxyErr);
+        return;
+    }
+    m_head += "\r\n";
+    if (notify)
+        notify->read_ready();
 }
 
 void HTTP_Proxy::connect(const char *host, unsigned short port)
 {
-    state = None;
-    Buffer b;
-    unsigned short len = (unsigned short)strlen(host);
-    b << len << host << port;
-    nSock++;
-    queue.push_back(new HttpPacket(b.data(0), (unsigned short)(b.size()), HTTP_PROXY_LOGIN, nSock));
-    if (sid.length()){
-        unsigned char close_packet[] = { 0x2A, 0x04, 0x14, 0xAB, 0x00, 0x00 };
-        queue.push_back(new HttpPacket((char*)close_packet, sizeof(close_packet), HTTP_PROXY_FLAP, 1));
-        queue.push_back(new HttpPacket(NULL, 0, HTTP_PROXY_CONNECT, 1));
-    }
-    request();
+    if (port == 443)
+        m_bHTTP = false;
+    HTTPS_Proxy::connect(host, port);
 }
 
-void HTTP_Proxy::request()
+void HTTP_Proxy::connect_ready()
 {
-    if (sid.length() == 0){
-        if (hello == NULL) hello = new HelloRequest(this);
+    if (!m_bHTTP){
+        HTTPS_Proxy::connect_ready();
         return;
     }
-    if (hello){
-        delete hello;
-        hello = NULL;
+    bIn.packetStart();
+    if (notify)
+        notify->connect_ready();
+}
+
+int HTTP_Proxy::read(char *buf, unsigned int size)
+{
+    if (!m_bHTTP)
+        return HTTPS_Proxy::read(buf, size);
+    if (m_head.empty())
+        return 0;
+    if (size > m_head.length())
+        size = m_head.length();
+    memcpy(buf, m_head.c_str(), size);
+    m_head = m_head.substr(size);
+    if (m_head.empty()){
+        static_cast<ClientSocket*>(notify)->setSocket(m_sock);
+        m_sock = NULL;
+        getSocketFactory()->remove(this);
     }
-    if (monitor && monitor->isReady()){
-        delete monitor;
-        monitor = NULL;
+    return size;
+}
+
+void HTTP_Proxy::write(const char *buf, unsigned int size)
+{
+    if (!m_bHTTP){
+        HTTPS_Proxy::write(buf, size);
+        return;
     }
-    if (monitor == NULL)
-        monitor = new MonitorRequest(this);
-    if (post && post->isReady()){
-        delete post;
-        post = NULL;
+    if (m_state == Data){
+        unsigned out_size = size;
+        if (out_size > m_size)
+            out_size = m_size;
+        if (out_size == 0)
+            return;
+        bOut.pack(buf, out_size);
+        m_size -= out_size;
+        HTTPS_Proxy::write();
+        return;
     }
-    if (queue.size() && (post == NULL))
-        post = new PostRequest(this);
-    if (readn && notify){
-        if (state == None){
-            state = Connected;
-            notify->connect_ready();
+    m_out.pack(buf, size);
+    string line;
+    if (m_state == WaitHeader){
+        if (!m_out.scan("\r\n", line))
+            return;
+        bOut
+        << getToken(line, ' ', false).c_str()
+        << " http://"
+        << m_host.c_str();
+        if (m_port != 80)
+            bOut << ":" << number(m_port).c_str();
+        bOut << getToken(line, ' ', false).c_str();
+        bOut << " HTTP/1.1\r\n";
+        m_state = Headers;
+    }
+    if (m_state == Headers){
+        for (;;){
+            if (!m_out.scan("\r\n", line)){
+                HTTPS_Proxy::write();
+                return;
+            }
+            if (line.empty())
+                break;
+            string param = getToken(line, ':');
+            if (param == "Context-Length"){
+                const char *p = line.c_str();
+                for (; *p; p++){
+                    if (*p != ' ')
+                        break;
+                }
+                m_size = atol(p);
+            }
+            bOut << param.c_str() << ":" << line.c_str() << "\r\n";
         }
-        readn = 0;
-        notify->read_ready();
+        send_auth();
+        bOut << "\r\n";
+        if (m_out.readPos() < m_out.writePos()){
+            unsigned out_size = m_out.writePos() - m_out.readPos();
+            if (out_size > m_size)
+                out_size = m_size;
+            bOut.pack(m_out.data(m_out.readPos()), out_size);
+            m_size -= out_size;
+        }
+        m_out.init(0);
+        m_state = Data;
+        HTTPS_Proxy::write();
     }
 }
 
@@ -1536,7 +1124,7 @@ Plugin *createProxyPlugin(unsigned base, bool, const char *config)
 static PluginInfo info =
     {
         I18N_NOOP("Proxy"),
-        I18N_NOOP("Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS and HTTP)"),
+        I18N_NOOP("Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS/HTTP)"),
         VERSION,
         createProxyPlugin,
         PLUGIN_DEFAULT
@@ -1564,22 +1152,29 @@ ProxyPlugin::~ProxyPlugin()
     getContacts()->removePacketType(ProxyPacket);
 }
 
-void ProxyPlugin::clientData(Client *client, ProxyData &cdata)
+string ProxyPlugin::clientName(TCPClient *client)
+{
+    if (client == (TCPClient*)(-1))
+        return "HTTP";
+    return static_cast<Client*>(client)->name();
+}
+
+void ProxyPlugin::clientData(TCPClient *client, ProxyData &cdata)
 {
     for (unsigned i = 1;; i++){
         const char *proxyCfg = getClients(i);
         if ((proxyCfg == NULL) || (*proxyCfg == 0))
             break;
         ProxyData wdata(proxyCfg);
-        if (wdata.Client.ptr && (client->name() == wdata.Client.ptr)){
+        if (wdata.Client.ptr && (clientName(client) == wdata.Client.ptr)){
             cdata = wdata;
             cdata.Default.bValue = false;
-            set_str(&cdata.Client.ptr, client->name().c_str());
+            set_str(&cdata.Client.ptr, clientName(client).c_str());
             return;
         }
     }
     cdata = data;
-    set_str(&cdata.Client.ptr, client->name().c_str());
+    set_str(&cdata.Client.ptr, clientName(client).c_str());
     cdata.Default.bValue = true;
     clear_list(&cdata.Clients);
 }
@@ -1615,11 +1210,12 @@ void *ProxyPlugin::processEvent(Event *e)
             proxy = new SOCKS5_Proxy(this, &data, p->client);
             break;
         case PROXY_HTTPS:
-            proxy = new HTTPS_Proxy(this, &data, p->client);
-            break;
-        case PROXY_HTTP:
-            if (!strcmp(p->client->protocol()->description()->text, "ICQ"))
+            if (p->client == (TCPClient*)(-1)){
                 proxy = new HTTP_Proxy(this, &data, p->client);
+            }else{
+                proxy = new HTTPS_Proxy(this, &data, p->client);
+            }
+            break;
         }
         if (proxy){
             proxy->setSocket(p->socket);

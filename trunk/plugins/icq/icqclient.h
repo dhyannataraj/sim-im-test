@@ -265,6 +265,8 @@ typedef struct ICQClientData
     Data		MaxPort;
     Data		WarnAnonimously;
     Data		AckMode;
+    Data		UseHTTP;
+    Data		AutoHTTP;
     ICQUserData	owner;
 } ICQClientData;
 
@@ -437,7 +439,7 @@ typedef struct alias_group
 
 typedef map<my_string, alias_group> CONTACTS_MAP;
 
-class ICQClient : public TCPClient, public EventReceiver, public OscarSocket
+class ICQClient : public TCPClient, public OscarSocket
 {
     Q_OBJECT
 public:
@@ -474,6 +476,8 @@ public:
     PROP_USHORT(MaxPort);
     PROP_BOOL(WarnAnonimously);
     PROP_USHORT(AckMode);
+    PROP_BOOL(UseHTTP);
+    PROP_BOOL(AutoHTTP);
     ICQClientData    data;
     QString toUnicode(const char *str, ICQUserData *client_data);
     string fromUnicode(const QString &str, ICQUserData *client_data);
@@ -552,6 +556,7 @@ protected:
     virtual QWidget *searchWindow();
     virtual void updateInfo(Contact *contact, void *_data);
     virtual void setClientInfo(void *data);
+    virtual Socket  *createSocket();
     virtual QString ownerName();
     virtual QString contactName(void *clientData);
     string  dataName(const char *screen);

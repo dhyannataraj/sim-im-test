@@ -15,6 +15,7 @@ icq_la_SOURCES = \
  icqping.cpp \
  icqservice.cpp \
  icqvarious.cpp \
+ polling.cpp \
  icqinfo.cpp \
  icqinfobase.ui \
  homeinfo.cpp \

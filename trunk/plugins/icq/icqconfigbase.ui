@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>328</width>
-            <height>268</height>
+            <width>434</width>
+            <height>248</height>
         </rect>
     </property>
     <property>
@@ -160,6 +160,84 @@
                         <name>spacing</name>
                         <number>6</number>
                     </property>
+                    <widget row="1"  column="1" >
+                        <class>QSpinBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>edtPort</cstring>
+                        </property>
+                        <property>
+                            <name>maxValue</name>
+                            <number>65535</number>
+                        </property>
+                        <property>
+                            <name>minValue</name>
+                            <number>1</number>
+                        </property>
+                    </widget>
+                    <widget row="4"  column="0"  rowspan="1"  colspan="3" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>TextLabel1_4</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Note: For HTTP-pooling using proxy setings for HTTP</string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>WordBreak|AlignVCenter|AlignLeft</set>
+                        </property>
+                        <property>
+                            <name>wordwrap</name>
+                        </property>
+                    </widget>
+                    <widget row="3"  column="0"  rowspan="1"  colspan="3" >
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkAuto</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>&amp;Automaticaly use HTTP pooling if proxy required</string>
+                        </property>
+                    </widget>
+                    <widget row="2"  column="0"  rowspan="1"  colspan="3" >
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkHTTP</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Use &amp;HTTP polling</string>
+                        </property>
+                    </widget>
+                    <widget row="5"  column="0"  rowspan="1"  colspan="3" >
+                        <class>Line</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>Line1</cstring>
+                        </property>
+                        <property>
+                            <name>frameShape</name>
+                            <enum>HLine</enum>
+                        </property>
+                        <property>
+                            <name>frameShadow</name>
+                            <enum>Sunken</enum>
+                        </property>
+                        <property>
+                            <name>orientation</name>
+                            <enum>Horizontal</enum>
+                        </property>
+                        <property>
+                            <name>frameShape</name>
+                            <enum>HLine</enum>
+                        </property>
+                    </widget>
                     <widget row="0"  column="0" >
                         <class>QLabel</class>
                         <property stdset="1">
@@ -203,21 +281,6 @@
                             <name>hAlign</name>
                         </property>
                     </widget>
-                    <widget row="1"  column="1" >
-                        <class>QSpinBox</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>edtPort</cstring>
-                        </property>
-                        <property>
-                            <name>maxValue</name>
-                            <number>65535</number>
-                        </property>
-                        <property>
-                            <name>minValue</name>
-                            <number>1</number>
-                        </property>
-                    </widget>
                     <spacer row="1"  column="2" >
                         <property>
                             <name>name</name>
@@ -239,30 +302,7 @@
                             </size>
                         </property>
                     </spacer>
-                    <widget row="2"  column="0"  rowspan="1"  colspan="3" >
-                        <class>Line</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>Line1</cstring>
-                        </property>
-                        <property>
-                            <name>frameShape</name>
-                            <enum>HLine</enum>
-                        </property>
-                        <property>
-                            <name>frameShadow</name>
-                            <enum>Sunken</enum>
-                        </property>
-                        <property>
-                            <name>orientation</name>
-                            <enum>Horizontal</enum>
-                        </property>
-                        <property>
-                            <name>frameShape</name>
-                            <enum>HLine</enum>
-                        </property>
-                    </widget>
-                    <spacer row="5"  column="0" >
+                    <spacer row="8"  column="0" >
                         <property>
                             <name>name</name>
                             <cstring>Spacer4</cstring>
@@ -283,7 +323,7 @@
                             </size>
                         </property>
                     </spacer>
-                    <widget row="3"  column="0"  rowspan="1"  colspan="3" >
+                    <widget row="6"  column="0"  rowspan="1"  colspan="3" >
                         <class>QLabel</class>
                         <property stdset="1">
                             <name>name</name>
@@ -294,7 +334,7 @@
                             <string>Port range for direct connections:</string>
                         </property>
                     </widget>
-                    <widget row="4"  column="0"  rowspan="1"  colspan="3" >
+                    <widget row="7"  column="0"  rowspan="1"  colspan="3" >
                         <class>QLayoutWidget</class>
                         <property stdset="1">
                             <name>name</name>
@@ -590,5 +630,16 @@
     <tabstop>edtPasswd</tabstop>
     <tabstop>edtServer</tabstop>
     <tabstop>edtPort</tabstop>
+    <tabstop>chkHTTP</tabstop>
+    <tabstop>chkAuto</tabstop>
+    <tabstop>edtMinPort</tabstop>
+    <tabstop>edtMaxPort</tabstop>
+    <tabstop>cmbFormat</tabstop>
+    <tabstop>chkAutoReply</tabstop>
+    <tabstop>chkUpdate</tabstop>
+    <tabstop>chkTyping</tabstop>
+    <tabstop>chkDND</tabstop>
+    <tabstop>chkOccupied</tabstop>
+    <tabstop>cmbAck</tabstop>
 </tabstops>
 </UI>

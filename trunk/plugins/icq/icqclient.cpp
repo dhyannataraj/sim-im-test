@@ -272,12 +272,14 @@ static DataDef icqClientData[] =
         { "MaxPort", DATA_ULONG, 1, DATA(0xFFFE) },
         { "WarnAnonimously", DATA_BOOL, 1, 0 },
         { "ACKMode", DATA_ULONG, 1, DATA(1) },
+        { "UseHTTP", DATA_BOOL, 1, DATA(0) },
+        { "AutoHTTP", DATA_BOOL, 1, DATA(1) },
         { "", DATA_STRUCT, sizeof(ICQUserData) / sizeof(Data), DATA(_icqUserData) },
         { NULL, 0, 0, 0 }
     };
 
 ICQClient::ICQClient(Protocol *protocol, const char *cfg, bool bAIM)
-        : TCPClient(protocol, cfg), EventReceiver(HighPriority - 1)
+        : TCPClient(protocol, cfg, HighPriority - 1)
 {
     m_bAIM = bAIM;
 
@@ -909,67 +911,67 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
     }
     if (!bCreate)
         return NULL;
-	if (bJoin){
-    for (unsigned i = 0; i < getContacts()->nClients(); i++){
-        Client *client = getContacts()->getClient(i);
-        if (client == this)
-            continue;
-        if (client->protocol() != protocol())
-            continue;
-        ICQClient *c = static_cast<ICQClient*>(client);
-        it.reset();
-        while ((contact = ++it) != NULL){
-            ClientDataIterator it(contact->clientData, c);
-            while ((data = (ICQUserData*)(++it)) != NULL){
-                if (uin && (data->Uin.value != uin))
-                    continue;
-                if ((uin == 0) &&
-                        ((data->Screen.ptr == NULL) || (s != data->Screen.ptr)))
-                    continue;
-                data = (ICQUserData*)(contact->clientData.createData(this));
-                data->Uin.value = uin;
-                if (uin == 0)
-                    set_str(&data->Screen.ptr, s.c_str());
-                bool bChanged = false;
-                if (alias){
-                    if (*alias){
-                        QString name = QString::fromUtf8(alias);
-                        bChanged = contact->setName(name);
+    if (bJoin){
+        for (unsigned i = 0; i < getContacts()->nClients(); i++){
+            Client *client = getContacts()->getClient(i);
+            if (client == this)
+                continue;
+            if (client->protocol() != protocol())
+                continue;
+            ICQClient *c = static_cast<ICQClient*>(client);
+            it.reset();
+            while ((contact = ++it) != NULL){
+                ClientDataIterator it(contact->clientData, c);
+                while ((data = (ICQUserData*)(++it)) != NULL){
+                    if (uin && (data->Uin.value != uin))
+                        continue;
+                    if ((uin == 0) &&
+                            ((data->Screen.ptr == NULL) || (s != data->Screen.ptr)))
+                        continue;
+                    data = (ICQUserData*)(contact->clientData.createData(this));
+                    data->Uin.value = uin;
+                    if (uin == 0)
+                        set_str(&data->Screen.ptr, s.c_str());
+                    bool bChanged = false;
+                    if (alias){
+                        if (*alias){
+                            QString name = QString::fromUtf8(alias);
+                            bChanged = contact->setName(name);
+                        }
+                        set_str(&data->Alias.ptr, alias);
                     }
+                    if (grp){
+                        if (grp->id() != contact->getGroup()){
+                            contact->setGroup(grp->id());
+                            bChanged = true;
+                        }
+                    }
+                    if (bChanged){
+                        Event e(EventContactChanged, contact);
+                        e.process();
+                    }
+                    return data;
+                }
+            }
+        }
+        if (alias && *alias){
+            QString name = QString::fromUtf8(alias).lower();
+            it.reset();
+            while ((contact = ++it) != NULL){
+                if (contact->getName().lower() == name){
+                    ICQUserData *data = (ICQUserData*)(contact->clientData.createData(this));
+                    data->Uin.value = uin;
+                    if (uin == 0)
+                        set_str(&data->Screen.ptr, screen);
                     set_str(&data->Alias.ptr, alias);
-                }
-                if (grp){
-                    if (grp->id() != contact->getGroup()){
-                        contact->setGroup(grp->id());
-                        bChanged = true;
-                    }
-                }
-                if (bChanged){
                     Event e(EventContactChanged, contact);
                     e.process();
+                    m_bJoin = true;
+                    return data;
                 }
-                return data;
             }
         }
     }
-    if (alias && *alias){
-        QString name = QString::fromUtf8(alias).lower();
-        it.reset();
-        while ((contact = ++it) != NULL){
-            if (contact->getName().lower() == name){
-                ICQUserData *data = (ICQUserData*)(contact->clientData.createData(this));
-                data->Uin.value = uin;
-                if (uin == 0)
-                    set_str(&data->Screen.ptr, screen);
-                set_str(&data->Alias.ptr, alias);
-                Event e(EventContactChanged, contact);
-                e.process();
-                m_bJoin = true;
-                return data;
-            }
-        }
-    }
-	}
     contact = getContacts()->contact(0, true);
     data = (ICQUserData*)(contact->clientData.createData(this));
     data->Uin.value = uin;
@@ -2276,6 +2278,7 @@ void ICQClient::updateInfo(Contact *contact, void *_data)
 
 void *ICQClient::processEvent(Event *e)
 {
+    TCPClient::processEvent(e);
     if (e->type() == EventAddContact){
         addContact *ac = (addContact*)(e->param());
         if (ac->proto && !strcmp(protocol()->description()->text, ac->proto)){

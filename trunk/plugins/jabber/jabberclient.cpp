@@ -351,6 +351,7 @@ static bool cmp(const string &str, const char *s)
 
 void *JabberClient::processEvent(Event *e)
 {
+    TCPClient::processEvent(e);
     if (e->type() == EventAddContact){
         addContact *ac = (addContact*)(e->param());
         if (ac->proto && !strcmp(protocol()->description()->text, ac->proto)){

@@ -135,7 +135,7 @@ class TCPClient;
 class EXPORT ClientSocket : public SocketNotify
 {
 public:
-    ClientSocket(ClientSocketNotify*);
+    ClientSocket(ClientSocketNotify*, Socket *sock=NULL);
     ~ClientSocket();
     Buffer readBuffer;
     Buffer writeBuffer;
@@ -169,11 +169,11 @@ protected:
 
 const unsigned NO_RECONNECT = (unsigned)(-1);
 
-class EXPORT TCPClient : public QObject, public Client, public ClientSocketNotify
+class EXPORT TCPClient : public QObject, public Client, public ClientSocketNotify, public EventReceiver
 {
     Q_OBJECT
 public:
-    TCPClient(Protocol *protocol, const char *cfg);
+    TCPClient(Protocol *protocol, const char *cfg, unsigned priority = DefaultPriority);
     virtual const char		*getServer() const = 0;
     virtual unsigned short	getPort() const = 0;
     unsigned		m_reconnect;
@@ -190,6 +190,8 @@ protected:
     virtual void	connect_ready();
     virtual bool	error_state(const char *err, unsigned code);
     virtual void	socketConnect();
+    virtual void	*processEvent(Event*);
+    virtual Socket  *createSocket();
     void			setClientStatus(unsigned status);
     ClientSocket	*m_socket;
     unsigned		m_logonStatus;

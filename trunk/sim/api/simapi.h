@@ -1733,7 +1733,7 @@ EXPORT const pager_provider *getProviders();
 // _____________________________________________________________________________________
 // Fetch Data
 
-EXPORT unsigned fetch(TCPClient *client, const char *url, Buffer *postData=NULL, const char *headers=NULL);
+EXPORT unsigned fetch(const char *url, Buffer *postData=NULL, const char *headers=NULL, bool bRedirect=true);
 
 // _____________________________________________________________________________________
 // User interface

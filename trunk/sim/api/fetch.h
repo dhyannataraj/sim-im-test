@@ -28,12 +28,18 @@ typedef map<my_string, string> HEADERS_MAP;
 class FetchClient : public ClientSocketNotify
 {
 public:
-    FetchClient(TCPClient *client, const char *url, Buffer *postData, const char *headers);
+    FetchClient(const char *url, Buffer *postData, const char *headers, bool bRedirect);
     ~FetchClient();
     unsigned id() { return m_id; }
     bool	 done()	{ return m_bDone; }
     void	 fail();
-    TCPClient	 *m_client;
+    string		m_uri;
+    string		m_hIn;
+    HEADERS_MAP	m_hOut;
+    unsigned	m_code;
+    Buffer		m_res;
+    Buffer		*m_post;
+    bool		m_bRedirect;
 protected:
     virtual bool error_state(const char *err, unsigned code);
     virtual void connect_ready();
@@ -41,43 +47,49 @@ protected:
     bool read_line(string&);
     ClientSocket *m_socket;
     unsigned	m_id;
-    HEADERS_MAP	m_hOut;
-    string		m_hIn;
     bool		m_bDone;
-    unsigned short	m_port;
+    bool		crackUrl(const char *url, string &proto, string &host, unsigned short &port, string &user, string &pass, string &uri, string &extra);
+    void		fetch();
     unsigned	m_size;
-    string		m_host;
-    string		m_uri;
     void		addHeader(const char *key, const char *value);
-    Buffer		*m_post;
-    Buffer		m_res;
+    bool		findHeader(const char *key);
     enum State{
 #ifdef USE_OPENSSL
         SSLConnect,
 #endif
         None,
         Header,
-        Data
+        Data,
+        Redirect
     };
     State		m_state;
-    unsigned	m_code;
 #ifdef USE_OPENSSL
     bool		m_bHTTPS;
 #endif
 };
 
-class FetchManager : public EventReceiver
+class FetchManager : public QObject, public EventReceiver
 {
+    Q_OBJECT
 public:
     FetchManager();
     ~FetchManager();
     static FetchManager *manager;
+    bool useWinInet();
+    void remove(FetchClient*);
+protected slots:
+    void remove();
 protected:
     void *processEvent(Event*);
     list<FetchClient*> m_clients;
+    list<FetchClient*> m_remove;
     unsigned m_id;
     friend class FetchClient;
 };
+
+EXPORT string basic_auth(const char *user, const char *pass);
+EXPORT bool get_connection_state(bool &state);
+EXPORT bool get_connection_proxy();
 
 #endif
 

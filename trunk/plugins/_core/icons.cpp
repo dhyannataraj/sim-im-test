@@ -592,6 +592,8 @@ const QIconSet *Icons::getIcon(const char *name)
                     res = makeOffline(flags, icon);
                 }else if (s == "invisible"){
                     res = makeInvisible(flags, icon);
+                }else if (s == "inactive"){
+                    res = makeInactive(icon);
                 }else{
                     const QIconSet *i = Icon(s.c_str());
                     if (i){
