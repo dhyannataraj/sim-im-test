@@ -1,5 +1,6 @@
 # Makefile.in generated automatically by automake 1.5 from Makefile.am.
-# KDE tags expanded automatically by am_edit - $Revision: 1.4 $ 
+# KDE tags expanded automatically by am_edit - $Revision: 1.1.1.1 $ 
+
 # Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
 # Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -352,7 +353,7 @@ $(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 #>+ 3
 	cd $(top_srcdir) && \
 	$(AUTOMAKE) --gnu  sim/ui/Makefile
-	cd $(top_srcdir) && perl admin/am_edit sim-0.7/sim/ui/Makefile.in
+	cd $(top_srcdir) && perl admin/am_edit sim/ui/Makefile.in
 Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && \
 	CONFIG_HEADERS= CONFIG_LINKS= \
@@ -469,7 +470,7 @@ distclean-tags:
 
 #>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 #>+ 4
-KDE_DIST=acceptbase.h statussetupbase.h themesetupbase.h fontsetupbase.h userinfobase.h pagerbase.h libui.a msgdialogbase.h phonebase.h listsecbase.h alertdialogbase.h setupdlgbase.h spellsetupbase.h changepasswdbase.h generalsecbase.h xosdbase.h addphonebase.h phonebookbase.h workinfobase.h maininfobase.h homeinfobase.h soundsetupbase.h miscsetupbase.h moreinfobase.h pastinfobase.h filetransferbase.h alertmsgbase.h autoreplybase.h aboutinfobase.h networkbase.h interestsinfobase.h emaileditbase.h 
+KDE_DIST=acceptbase.h statussetupbase.h themesetupbase.h fontsetupbase.h userinfobase.h pagerbase.h msgdialogbase.h phonebase.h listsecbase.h setupdlgbase.h alertdialogbase.h spellsetupbase.h changepasswdbase.h generalsecbase.h xosdbase.h addphonebase.h phonebookbase.h workinfobase.h maininfobase.h homeinfobase.h soundsetupbase.h miscsetupbase.h moreinfobase.h pastinfobase.h filetransferbase.h alertmsgbase.h autoreplybase.h aboutinfobase.h networkbase.h interestsinfobase.h emaileditbase.h 
 
 DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
 
@@ -580,8 +581,6 @@ uninstall-am: uninstall-info-am
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
-
-
 
 #>+ 353
 xosdbase.cpp: $(srcdir)/xosdbase.ui xosdbase.h xosdbase.moc
@@ -958,16 +957,16 @@ aboutinfo.moc: $(srcdir)/aboutinfo.h
 	$(MOC) $(srcdir)/aboutinfo.h -o aboutinfo.moc
 
 #>+ 3
+setupdlg.moc: $(srcdir)/setupdlg.h
+	$(MOC) $(srcdir)/setupdlg.h -o setupdlg.moc
+
+#>+ 3
 fontsetup.moc: $(srcdir)/fontsetup.h
 	$(MOC) $(srcdir)/fontsetup.h -o fontsetup.moc
 
 #>+ 3
 alertdialog.moc: $(srcdir)/alertdialog.h
 	$(MOC) $(srcdir)/alertdialog.h -o alertdialog.moc
-
-#>+ 3
-setupdlg.moc: $(srcdir)/setupdlg.h
-	$(MOC) $(srcdir)/setupdlg.h -o setupdlg.moc
 
 #>+ 3
 network.moc: $(srcdir)/network.h
@@ -1079,7 +1078,7 @@ ballonmsg.moc: $(srcdir)/ballonmsg.h
 
 #>+ 3
 clean-metasources:
-	-rm -f  phonedetails.moc themesetup.moc autoreply.moc editfile.moc aboutinfo.moc fontsetup.moc alertdialog.moc setupdlg.moc network.moc userinfo.moc searchdlg.moc xosdsetup.moc spellsetup.moc pagerdetails.moc homeinfo.moc msgdialog.moc changepasswd.moc generalsec.moc soundsetup.moc miscsetup.moc moreinfo.moc addphone.moc pastinfo.moc filetransfer.moc phonebook.moc qcolorbutton.moc interestsinfo.moc emailedit.moc workinfo.moc accept.moc maininfo.moc statussetup.moc listsec.moc alertmsg.moc ballonmsg.moc
+	-rm -f  phonedetails.moc themesetup.moc autoreply.moc editfile.moc aboutinfo.moc setupdlg.moc fontsetup.moc alertdialog.moc network.moc userinfo.moc searchdlg.moc xosdsetup.moc spellsetup.moc pagerdetails.moc homeinfo.moc msgdialog.moc changepasswd.moc generalsec.moc soundsetup.moc miscsetup.moc moreinfo.moc addphone.moc pastinfo.moc filetransfer.moc phonebook.moc qcolorbutton.moc interestsinfo.moc emailedit.moc workinfo.moc accept.moc maininfo.moc statussetup.moc listsec.moc alertmsg.moc ballonmsg.moc
 
 #>+ 35
 clean-ui:
@@ -1130,16 +1129,16 @@ apidox: apidox-am
 force-reedit:
 		cd $(top_srcdir) && \
 	$(AUTOMAKE) --gnu  sim/ui/Makefile
-	cd $(top_srcdir) && perl admin/am_edit sim-0.7/sim/ui/Makefile.in
+	cd $(top_srcdir) && perl admin/am_edit sim/ui/Makefile.in
 
 
 #>+ 15
-libui_a_meta_unload.cpp:  phonedetails.moc autoreplybase.moc aboutinfobase.moc fontsetupbase.moc themesetup.moc autoreply.moc aboutinfo.moc fontsetup.moc spellsetupbase.moc searchdlg.moc spellsetup.moc searchbase.moc generalsecbase.moc pagerdetails.moc phonebase.moc soundsetupbase.moc generalsec.moc soundsetup.moc addphonebase.moc pastinfobase.moc phonebookbase.moc addphone.moc pastinfo.moc phonebook.moc interestsinfobase.moc workinfobase.moc maininfobase.moc interestsinfo.moc workinfo.moc statussetupbase.moc maininfo.moc statussetup.moc alertdialogbase.moc setupdlgbase.moc networkbase.moc userinfobase.moc editfile.moc alertdialog.moc setupdlg.moc pagerbase.moc network.moc userinfo.moc xosdsetup.moc homeinfobase.moc msgdialogbase.moc changepasswdbase.moc homeinfo.moc msgdialog.moc miscsetupbase.moc changepasswd.moc xosdbase.moc moreinfobase.moc miscsetup.moc moreinfo.moc filetransferbase.moc filetransfer.moc emaileditbase.moc acceptbase.moc qcolorbutton.moc emailedit.moc accept.moc listsecbase.moc listsec.moc alertmsgbase.moc ballonmsg.moc alertmsg.moc themesetupbase.moc
+libui_a_meta_unload.cpp:  phonedetails.moc autoreplybase.moc aboutinfobase.moc fontsetupbase.moc themesetup.moc autoreply.moc aboutinfo.moc fontsetup.moc spellsetupbase.moc searchdlg.moc spellsetup.moc searchbase.moc generalsecbase.moc pagerdetails.moc phonebase.moc soundsetupbase.moc generalsec.moc soundsetup.moc addphonebase.moc pastinfobase.moc phonebookbase.moc addphone.moc pastinfo.moc phonebook.moc interestsinfobase.moc workinfobase.moc maininfobase.moc interestsinfo.moc workinfo.moc statussetupbase.moc maininfo.moc statussetup.moc alertdialogbase.moc setupdlgbase.moc networkbase.moc userinfobase.moc editfile.moc setupdlg.moc alertdialog.moc pagerbase.moc network.moc userinfo.moc xosdsetup.moc homeinfobase.moc msgdialogbase.moc changepasswdbase.moc homeinfo.moc msgdialog.moc miscsetupbase.moc changepasswd.moc xosdbase.moc moreinfobase.moc miscsetup.moc moreinfo.moc filetransferbase.moc filetransfer.moc emaileditbase.moc acceptbase.moc qcolorbutton.moc emailedit.moc accept.moc listsecbase.moc listsec.moc alertmsgbase.moc ballonmsg.moc alertmsg.moc themesetupbase.moc
 	@echo 'creating libui_a_meta_unload.cpp'
 	@-rm -f libui_a_meta_unload.cpp
 	@if test ${kde_qtver} = 2; then \
 		echo 'static const char * _metalist_libui_a[] = {' > libui_a_meta_unload.cpp ;\
-		cat  phonedetails.moc autoreplybase.moc aboutinfobase.moc fontsetupbase.moc themesetup.moc autoreply.moc aboutinfo.moc fontsetup.moc spellsetupbase.moc searchdlg.moc spellsetup.moc searchbase.moc generalsecbase.moc pagerdetails.moc phonebase.moc soundsetupbase.moc generalsec.moc soundsetup.moc addphonebase.moc pastinfobase.moc phonebookbase.moc addphone.moc pastinfo.moc phonebook.moc interestsinfobase.moc workinfobase.moc maininfobase.moc interestsinfo.moc workinfo.moc statussetupbase.moc maininfo.moc statussetup.moc alertdialogbase.moc setupdlgbase.moc networkbase.moc userinfobase.moc editfile.moc alertdialog.moc setupdlg.moc pagerbase.moc network.moc userinfo.moc xosdsetup.moc homeinfobase.moc msgdialogbase.moc changepasswdbase.moc homeinfo.moc msgdialog.moc miscsetupbase.moc changepasswd.moc xosdbase.moc moreinfobase.moc miscsetup.moc moreinfo.moc filetransferbase.moc filetransfer.moc emaileditbase.moc acceptbase.moc qcolorbutton.moc emailedit.moc accept.moc listsecbase.moc listsec.moc alertmsgbase.moc ballonmsg.moc alertmsg.moc themesetupbase.moc | grep 'char.*className' | sed -e 's/.*[^A-Za-z0-9_:]\([A-Za-z0-9_:]*\)::className.*$$/\"\1\",/' | sort | uniq >> libui_a_meta_unload.cpp ;\
+		cat  phonedetails.moc autoreplybase.moc aboutinfobase.moc fontsetupbase.moc themesetup.moc autoreply.moc aboutinfo.moc fontsetup.moc spellsetupbase.moc searchdlg.moc spellsetup.moc searchbase.moc generalsecbase.moc pagerdetails.moc phonebase.moc soundsetupbase.moc generalsec.moc soundsetup.moc addphonebase.moc pastinfobase.moc phonebookbase.moc addphone.moc pastinfo.moc phonebook.moc interestsinfobase.moc workinfobase.moc maininfobase.moc interestsinfo.moc workinfo.moc statussetupbase.moc maininfo.moc statussetup.moc alertdialogbase.moc setupdlgbase.moc networkbase.moc userinfobase.moc editfile.moc setupdlg.moc alertdialog.moc pagerbase.moc network.moc userinfo.moc xosdsetup.moc homeinfobase.moc msgdialogbase.moc changepasswdbase.moc homeinfo.moc msgdialog.moc miscsetupbase.moc changepasswd.moc xosdbase.moc moreinfobase.moc miscsetup.moc moreinfo.moc filetransferbase.moc filetransfer.moc emaileditbase.moc acceptbase.moc qcolorbutton.moc emailedit.moc accept.moc listsecbase.moc listsec.moc alertmsgbase.moc ballonmsg.moc alertmsg.moc themesetupbase.moc | grep 'char.*className' | sed -e 's/.*[^A-Za-z0-9_:]\([A-Za-z0-9_:]*\)::className.*$$/\"\1\",/' | sort | uniq >> libui_a_meta_unload.cpp ;\
 		echo '0};' >> libui_a_meta_unload.cpp ;\
 		echo '#include "defs.h"' >> libui_a_meta_unload.cpp ;\
 		echo '#ifdef USE_KDE' >> libui_a_meta_unload.cpp ;\
@@ -1154,7 +1153,7 @@ clean-moc-classes:
 	-rm -f  libui_a_meta_unload.cpp
 
 #>+ 11
-libui_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/xosdsetup.cpp $(srcdir)/effect.cpp $(srcdir)/network.cpp $(srcdir)/filetransfer.cpp $(srcdir)/accept.cpp $(srcdir)/ballonmsg.cpp $(srcdir)/qcolorbutton.cpp $(srcdir)/fontsetup.cpp $(srcdir)/emailedit.cpp $(srcdir)/pastinfo.cpp $(srcdir)/autoreply.cpp $(srcdir)/alertmsg.cpp $(srcdir)/interestsinfo.cpp $(srcdir)/msgdialog.cpp $(srcdir)/alertdialog.cpp $(srcdir)/phonedetails.cpp $(srcdir)/pagerdetails.cpp $(srcdir)/addphone.cpp $(srcdir)/miscsetup.cpp $(srcdir)/soundsetup.cpp $(srcdir)/editfile.cpp $(srcdir)/phonebook.cpp $(srcdir)/spellsetup.cpp $(srcdir)/userinfo.cpp $(srcdir)/setupdlg.cpp $(srcdir)/searchdlg.cpp $(srcdir)/enable.cpp $(srcdir)/workinfo.cpp $(srcdir)/themesetup.cpp $(srcdir)/statussetup.cpp $(srcdir)/searchbase.cpp $(srcdir)/moreinfo.cpp $(srcdir)/maininfo.cpp $(srcdir)/listsec.cpp $(srcdir)/homeinfo.cpp $(srcdir)/generalsec.cpp $(srcdir)/changepasswd.cpp $(srcdir)/aboutinfo.cpp $(srcdir)/xosdbase.cpp $(srcdir)/networkbase.cpp $(srcdir)/filetransferbase.cpp $(srcdir)/acceptbase.cpp $(srcdir)/fontsetupbase.cpp $(srcdir)/emaileditbase.cpp $(srcdir)/pastinfobase.cpp $(srcdir)/autoreplybase.cpp $(srcdir)/alertmsgbase.cpp $(srcdir)/interestsinfobase.cpp $(srcdir)/msgdialogbase.cpp $(srcdir)/alertdialogbase.cpp $(srcdir)/phonebase.cpp $(srcdir)/pagerbase.cpp $(srcdir)/addphonebase.cpp $(srcdir)/miscsetupbase.cpp $(srcdir)/soundsetupbase.cpp $(srcdir)/phonebookbase.cpp $(srcdir)/spellsetupbase.cpp $(srcdir)/userinfobase.cpp $(srcdir)/setupdlgbase.cpp $(srcdir)/workinfobase.cpp $(srcdir)/themesetupbase.cpp $(srcdir)/statussetupbase.cpp $(srcdir)/searchbase.cpp $(srcdir)/moreinfobase.cpp $(srcdir)/maininfobase.cpp $(srcdir)/listsecbase.cpp $(srcdir)/homeinfobase.cpp $(srcdir)/generalsecbase.cpp $(srcdir)/changepasswdbase.cpp $(srcdir)/aboutinfobase.cpp libui_a_meta_unload.cpp
+libui_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/xosdsetup.cpp $(srcdir)/effect.cpp $(srcdir)/network.cpp $(srcdir)/filetransfer.cpp $(srcdir)/accept.cpp $(srcdir)/ballonmsg.cpp $(srcdir)/qcolorbutton.cpp $(srcdir)/fontsetup.cpp $(srcdir)/emailedit.cpp $(srcdir)/pastinfo.cpp $(srcdir)/autoreply.cpp $(srcdir)/alertmsg.cpp $(srcdir)/interestsinfo.cpp $(srcdir)/msgdialog.cpp $(srcdir)/alertdialog.cpp $(srcdir)/phonedetails.cpp $(srcdir)/pagerdetails.cpp $(srcdir)/addphone.cpp $(srcdir)/miscsetup.cpp $(srcdir)/soundsetup.cpp $(srcdir)/editfile.cpp $(srcdir)/phonebook.cpp $(srcdir)/spellsetup.cpp $(srcdir)/userinfo.cpp $(srcdir)/setupdlg.cpp $(srcdir)/searchdlg.cpp $(srcdir)/enable.cpp $(srcdir)/workinfo.cpp $(srcdir)/themesetup.cpp $(srcdir)/statussetup.cpp searchbase.cpp $(srcdir)/moreinfo.cpp $(srcdir)/maininfo.cpp $(srcdir)/listsec.cpp $(srcdir)/homeinfo.cpp $(srcdir)/generalsec.cpp $(srcdir)/changepasswd.cpp $(srcdir)/aboutinfo.cpp xosdbase.cpp networkbase.cpp filetransferbase.cpp acceptbase.cpp fontsetupbase.cpp emaileditbase.cpp pastinfobase.cpp autoreplybase.cpp alertmsgbase.cpp interestsinfobase.cpp msgdialogbase.cpp alertdialogbase.cpp phonebase.cpp pagerbase.cpp addphonebase.cpp miscsetupbase.cpp soundsetupbase.cpp phonebookbase.cpp spellsetupbase.cpp userinfobase.cpp setupdlgbase.cpp workinfobase.cpp themesetupbase.cpp statussetupbase.cpp searchbase.cpp moreinfobase.cpp maininfobase.cpp listsecbase.cpp homeinfobase.cpp generalsecbase.cpp changepasswdbase.cpp aboutinfobase.cpp libui_a_meta_unload.cpp
 	@echo 'creating libui_a.all_cpp.cpp ...'; \
 	rm -f libui_a.all_cpp.files libui_a.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> libui_a.all_cpp.final; \
@@ -1222,8 +1221,8 @@ $(srcdir)/phonebook.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.
 autoreply.o: autoreply.moc 
 editfile.o: editfile.moc 
 aboutinfo.o: aboutinfo.moc 
-alertdialog.o: alertdialog.moc 
 setupdlg.o: setupdlg.moc 
+alertdialog.o: alertdialog.moc 
 network.o: network.moc 
 ballonmsg.lo: ballonmsg.moc 
 alertmsg.lo: alertmsg.moc 
@@ -1258,8 +1257,8 @@ $(srcdir)/maininfo.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h
 accept.o: accept.moc 
 filetransfer.lo: filetransfer.moc 
 maininfo.o: maininfo.moc 
-setupdlg.lo: setupdlg.moc 
 alertdialog.lo: alertdialog.moc 
+setupdlg.lo: setupdlg.moc 
 statussetup.o: statussetup.moc 
 $(srcdir)/msgdialog.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 workinfo.lo: workinfo.moc 

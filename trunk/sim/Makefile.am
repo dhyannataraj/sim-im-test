@@ -8,7 +8,7 @@ sim_LDADD   = ./libicq/liblibicq.a ./ui/libui.a ./qt3/libqt3.a  $(LIB_QT) $(LIB_
 
 SUBDIRS = libicq ui xpm qt3 
 
-EXTRA_DIST = sim.desktop lo32-app-sim.png lo16-app-sim.png client.cpp client.h cuser.cpp cuser.h defs.h dock.cpp dock.h editspell.cpp editspell.h history.cpp history.h icons.cpp icons.h logindlg.cpp logindlg.h mainwin.cpp mainwin.h msgedit.cpp msgedit.h msgview.cpp msgview.h passwddlg.cpp passwddlg.h sim.cpp sim.h themes.cpp themes.h toolbtn.cpp toolbtn.h userbox.cpp userbox.h usertbl.cpp usertbl.h userview.cpp userview.h intedit.cpp intedit.h parse.ll transparent.cpp transparent.h fontedit.cpp fontedit.h chatwnd.cpp chatwnd.h xosd.cpp xosd.h 
+EXTRA_DIST = sim.desktop lo32-app-sim.png lo16-app-sim.png client.cpp client.h cuser.cpp cuser.h defs.h dock.cpp dock.h editspell.cpp editspell.h history.cpp history.h icons.cpp icons.h logindlg.cpp logindlg.h mainwin.cpp mainwin.h msgedit.cpp msgedit.h msgview.cpp msgview.h passwddlg.cpp passwddlg.h sim.cpp sim.h themes.cpp themes.h toolbtn.cpp toolbtn.h userbox.cpp userbox.h usertbl.cpp usertbl.h userview.cpp userview.h intedit.cpp intedit.h parse.ll transparent.cpp transparent.h fontedit.cpp fontedit.h chatwnd.cpp chatwnd.h xosd.cpp xosd.h hi16-app-sim.png hi32-app-sim.png 
 
 install-data-local:
 	$(mkinstalldirs) $(kde_appsdir)/Applications/
@@ -17,11 +17,17 @@ install-data-local:
 	$(INSTALL_DATA) $(srcdir)/lo32-app-sim.png $(kde_icondir)/locolor/32x32/apps/sim.png
 	$(mkinstalldirs) $(kde_icondir)/locolor/16x16/apps/
 	$(INSTALL_DATA) $(srcdir)/lo16-app-sim.png $(kde_icondir)/locolor/16x16/apps/sim.png
+	$(mkinstalldirs) $(kde_icondir)/hicolor/16x16/apps/
+	$(INSTALL_DATA) $(srcdir)/hi16-app-sim.png $(kde_icondir)/hicolor/16x16/apps/sim.png
+	$(mkinstalldirs) $(kde_icondir)/hicolor/32x32/apps/
+	$(INSTALL_DATA) $(srcdir)/hi32-app-sim.png $(kde_icondir)/hicolor/32x32/apps/sim.png
 
 uninstall-local:
 	-rm -f $(kde_appsdir)/Applications/sim.desktop
 	-rm -f $(kde_icondir)/locolor/32x32/apps/sim.png
 	-rm -f $(kde_icondir)/locolor/16x16/apps/sim.png
+	-rm -f $(kde_icondir)/hicolor/16x16/apps/sim.png
+	-rm -f $(kde_icondir)/hicolor/32x32/apps/sim.png
 
 ####### kdevelop will overwrite this part!!! (end)############
 # this 10 paths are KDE specific. Use them:
