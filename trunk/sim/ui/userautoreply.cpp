@@ -48,9 +48,10 @@ void UserAutoReplyDlg::setStatus()
     ICQUser *u = pClient->getUser(uin);
     if (u == NULL) return;
     CUser usr(u);
-    setCaption(i18n("%1 autoresponse for %2")
+    QString c = i18n("%1 autoresponse for %2")
                .arg(Client::getStatusText(u->uStatus))
-               .arg(usr.name()));
+               .arg(usr.name());
+	setCaption(c);
     setIcon(Pict(Client::getStatusIcon(u->uStatus)));
 }
 

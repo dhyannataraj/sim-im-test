@@ -1,6 +1,10 @@
 #include "enable.h"
 #include "country.h"
 
+#ifdef WIN32
+#include <windows.h>
+#endif
+
 #include <qwidget.h>
 #include <qcombobox.h>
 #include <qpalette.h>

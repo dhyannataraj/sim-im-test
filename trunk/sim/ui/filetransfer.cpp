@@ -59,14 +59,16 @@ FileTransferDlg::FileTransferDlg(QWidget *p, ICQFile *_file)
     int nFiles = 0;
     if (file->ft) nFiles = file->ft->nFiles();
     CUser u(file->getUin());
+	QString c;
     if (file->Received){
         QString name = file->Name.c_str();
         if (name.find(QRegExp("^[0-9]+ Files$")) >= 0)
             nFiles = name.toUInt();
-        setCaption(i18n("Receive file from %1") .arg(u.name()));
+        c = i18n("Receive file from %1") .arg(u.name());
     }else{
-        setCaption(i18n("Send file to %1") .arg(u.name()));
+        c = i18n("Send file to %1") .arg(u.name());
     }
+	setCaption(c);
     if (nFiles <= 1){
         barBatch->hide();
         lblBatch->hide();
@@ -116,16 +118,18 @@ void FileTransferDlg::timeout()
 void FileTransferDlg::processEvent(ICQEvent *e)
 {
     if (e->message() != file) return;
+	QString c;
     if (e->state == ICQEvent::Success){
         if (e->type() != EVENT_DONE) return;
         file->state = file->Size;
-        setCaption(caption() + " " + i18n("[done]"));
+        c = caption() + " " + i18n("[done]");
         pMain->playSound(pClient->FileDone.c_str());
     }else if (e->state == ICQEvent::Fail){
-        setCaption(caption() + " " + i18n("[fail]"));
+        c = caption() + " " + i18n("[fail]");
     }else{
         return;
     }
+	setCaption(c);
     if (chkClose->isChecked()){
         file = NULL;
         pMain->ftClose();
