@@ -191,11 +191,11 @@ QString MainWindow::ParseText(const string &text, bool bIgnoreColors)
         case URL:{
                 string url = ICQClient::unquoteText(yytext);
                 string text = yytext;
-                res += "<ul><a href=\"";
+                res += "<a href=\"";
                 res += url.c_str();
-                res += "\">";
+                res += "\"><u>";
                 res += text.c_str();
-                res += "</a></ul>";
+                res += "</u></a>";
                 break;
             }
         case MAIL:{
@@ -203,11 +203,11 @@ QString MainWindow::ParseText(const string &text, bool bIgnoreColors)
                 string text = yytext;
                 if (url.substr(0, 7) != "mailto:")
                     url = string("mailto:") + url;
-                res += "<ul><a href=\"";
+                res += "<a href=\"";
                 res += url.c_str();
-                res += "\">";
+                res += "\"><u>";
                 res += text.c_str();
-                res += "</a></ul>";
+                res += "</u></a>";
                 break;
             }
         case HTTP_URL:{
@@ -215,9 +215,9 @@ QString MainWindow::ParseText(const string &text, bool bIgnoreColors)
                 string text = yytext;
                 res += "<a href=\"http://";
                 res += url.c_str();
-                res += "\">";
+                res += "\"><u>";
                 res += text.c_str();
-                res += "</a>";
+                res += "</u></a>";
                 break;
             }
         case FTP_URL:{
@@ -225,9 +225,9 @@ QString MainWindow::ParseText(const string &text, bool bIgnoreColors)
                 string text = yytext;
                 res += "<a href=\"ftp://";
                 res += url.c_str();
-                res += "\">";
+                res += "\"><u>";
                 res += text.c_str();
-                res += "</a>";
+                res += "</u></a>";
                 break;
             }
         case SKIP:
