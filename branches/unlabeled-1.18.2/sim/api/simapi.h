@@ -1454,6 +1454,7 @@ typedef struct ext_info
 } ext_info;
 
 EXPORT const ext_info *getCountries();
+EXPORT const ext_info *getCountryCodes();
 
 typedef struct pager_provider
 {

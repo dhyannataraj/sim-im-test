@@ -30,6 +30,8 @@
 const unsigned short ICQ_SNACxSRV_ERROR         = 0x0001;
 const unsigned short ICQ_SNACxSRV_READYxCLIENT  = 0x0002;
 const unsigned short ICQ_SNACxSRV_READYxSERVER	= 0x0003;
+const unsigned short ICQ_SNACxSRV_SERVICExREQ	= 0x0004;
+const unsigned short ICQ_SNACxSRV_SERVICExRESP	= 0x0005;
 const unsigned short ICQ_SNACxSRV_REQxRATExINFO = 0x0006;
 const unsigned short ICQ_SNACxSRV_RATExINFO     = 0x0007;
 const unsigned short ICQ_SNACxSRV_RATExACK      = 0x0008;
@@ -43,7 +45,7 @@ const unsigned short ICQ_SNACxSRV_IMxICQ        = 0x0017;
 const unsigned short ICQ_SNACxSRV_ACKxIMxICQ    = 0x0018;
 const unsigned short ICQ_SNACxSRV_SETxSTATUS    = 0x001E;
 
-void ICQClient::snac_service(unsigned short type, unsigned short)
+void ICQClient::snac_service(unsigned short type, unsigned short seq)
 {
     switch (type){
     case ICQ_SNACxSRV_RATExCHANGE:
@@ -94,6 +96,45 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
             log(L_DEBUG, "Name info");
             break;
         }
+	case ICQ_SNACxSRV_SERVICExRESP:{
+	    TlvList tlv(m_socket->readBuffer);
+		Tlv *tlv_id = tlv(0x0D);
+		if (tlv_id == NULL){
+			log(L_WARN, "No service id in response");
+			break;
+		}
+		ServiceSocket *s = NULL;
+		for (list<ServiceSocket*>::iterator it = m_services.begin(); it != m_services.end(); ++it){
+			if ((*it)->id() == (unsigned short)(*tlv_id)){
+				s = *it;
+				break;
+			}
+		}
+		if (s == NULL){
+			log(L_WARN, "Service not found");
+			break;
+		}
+		Tlv *tlv_addr   = tlv(0x05);
+		if (tlv_addr == NULL){
+			s->error_state("No address for service", 0);
+			break;
+		}
+		Tlv *tlv_cookie = tlv(0x06);
+		if (tlv_cookie == NULL){
+			s->error_state("No cookie for service", 0);
+			break;
+		}
+		unsigned short port = getPort();
+		string addr;
+		addr = *tlv_addr;
+		char *p = (char*)strchr(addr.c_str(), ':');
+		if (p){
+			*p = 0;
+			port = atol(p + 1);
+		}
+		s->connect(addr.c_str(), port, *tlv_cookie, tlv_cookie->Size());
+		break;
+		}
     case ICQ_SNACxSRV_READYxSERVER:
         log(L_DEBUG, "Server ready");
         snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_IMxICQ);
@@ -353,4 +394,11 @@ void ICQClient::sendIdleTime()
     m_socket->writeBuffer << idle;
     sendPacket();
     m_bIdleTime = true;
+}
+
+void ICQClient::requestService(ServiceSocket *s)
+{
+    snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SERVICExREQ, true);
+	m_socket->writeBuffer << s->id();
+	sendPacket();
 }

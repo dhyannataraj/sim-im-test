@@ -55,15 +55,15 @@ class ICQPlugin : public Plugin
 public:
     ICQPlugin(unsigned base, const char *cfg);
     virtual ~ICQPlugin();
-    unsigned ICQPacket;
+    unsigned OscarPacket;
     unsigned ICQDirectPacket;
-    unsigned AIMPacket;
     PROP_BOOL(ShowAllEncodings);
     unsigned EventSearch;
     unsigned EventSearchDone;
     unsigned EventAutoReplyFail;
     unsigned EventRandomChat;
     unsigned EventRandomChatInfo;
+	unsigned EventServiceReady;
     unsigned CmdVisibleList;
     unsigned CmdInvisibleList;
     unsigned CmdChangeEncoding;
@@ -78,6 +78,7 @@ public:
     unsigned RetrySendOccupied;
     static Protocol *m_icq;
     static Protocol *m_aim;
+	static ICQPlugin *icq_plugin;
     void registerMessages();
     void unregisterMessages();
 protected:

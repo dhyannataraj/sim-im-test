@@ -252,6 +252,7 @@ void ICQSearch::startSearch()
                                       company.c_str(), department.c_str(),
                                       "", 0, 0, "", 0, interests.c_str(),
                                       0, "", 0, "", chkOnline->isChecked());
+			m_client->aimEMailSearch(mail.c_str());
             break;
         }
     case 1:{

@@ -24,7 +24,7 @@
 #include <qlabel.h>
 #include <qwizard.h>
 
-const unsigned short SEARCH_FAIL = (unsigned short)(-1);
+const unsigned short SEARCH_DONE = (unsigned short)(-1);
 
 UserTblItem::UserTblItem(QListView *parent, ICQClient *client, ICQUserData *data)
         : QListViewItem(parent)
@@ -104,7 +104,7 @@ void UserTblItem::init(ICQClient *client, ICQUserData *data)
 ICQSearchResult::ICQSearchResult(QWidget *parent, ICQClient *client)
         : ICQSearchResultBase(parent)
 {
-    m_id = 0;
+    m_id = SEARCH_DONE;
     m_nFound = 0;
     m_client = client;
     int wChar = QFontMetrics(font()).width('0');
@@ -128,7 +128,7 @@ ICQSearchResult::~ICQSearchResult()
 
 void ICQSearchResult::clear()
 {
-    setRequestId(0);
+    setRequestId(SEARCH_DONE);
     m_nFound = 0;
     tblUser->clear();
 }
@@ -139,7 +139,7 @@ void ICQSearchResult::setRequestId(unsigned short id)
     setStatus();
     tblUser->show();
     QWizard *wizard = static_cast<QWizard*>(topLevelWidget());
-    wizard->setFinishEnabled(this, (m_id == 0) || (m_id == SEARCH_FAIL));
+    wizard->setFinishEnabled(this, (m_id == SEARCH_DONE));
 }
 
 void ICQSearchResult::setText(const QString &text)
@@ -153,12 +153,10 @@ void ICQSearchResult::setText(const QString &text)
 void ICQSearchResult::setStatus()
 {
     QString text;
-    if (m_id == SEARCH_FAIL){
-        text = i18n("Search failed");
-    }else if (m_id){
-        text = i18n("Search");
-    }else{
+    if (m_id == SEARCH_DONE){
         text = i18n("Search done");
+    }else{
+        text = i18n("Search");
     }
     if (m_nFound){
         text += " - ";
@@ -169,11 +167,11 @@ void ICQSearchResult::setStatus()
 
 void *ICQSearchResult::processEvent(Event *e)
 {
-    if ((e->type() > EventUser) && m_id && (m_id != SEARCH_FAIL)){
+    if ((e->type() > EventUser) && (m_id != SEARCH_DONE)){
         ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
         if (e->type() == plugin->EventSearch){
             SearchResult *result = (SearchResult*)(e->param());
-            if ((result->id == m_id) && (result->client == m_client)){
+            if ((result->client == m_client) && (result->id == m_id)){
                 new UserTblItem(tblUser, m_client, &result->data);
                 m_nFound++;
                 setStatus();
@@ -181,8 +179,10 @@ void *ICQSearchResult::processEvent(Event *e)
         }
         if (e->type() == plugin->EventSearchDone){
             SearchResult *result = (SearchResult*)(e->param());
-            if ((result->id == m_id) && (result->client == m_client))
-                setRequestId(0);
+			if (result->client == m_client){
+				if (result->id == m_id)
+	                setRequestId(SEARCH_DONE);
+			}
         }
     }
     if (e->type() == EventCommandExec){

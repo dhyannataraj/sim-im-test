@@ -25,6 +25,7 @@
 #include <qtabwidget.h>
 #include <qwizard.h>
 #include <qpushbutton.h>
+#include <qcombobox.h>
 
 AIMSearch::AIMSearch(ICQClient *client)
 {
@@ -34,11 +35,36 @@ AIMSearch::AIMSearch(ICQClient *client)
     fillGroups();
     edtScreen->setValidator(new AIMValidator(edtScreen));
     edtUin->setValidator(new QIntValidator(10000, 0x7FFFFFFF, edtUin));
+	QStringList l;
+	for (const ext_info *c = getCountryCodes(); c->nCode; c++){
+		for (const ext_info *cc = getCountries(); cc->nCode; cc++){
+			if (cc->nCode == c->nCode){
+				l.append(i18n(cc->szName));
+				break;
+			}
+		}
+	}
+	l.sort();
+	cmbCountry->insertItem("");
+	cmbCountry->insertStringList(l);
     connect(tabSearch, SIGNAL(currentChanged(QWidget*)), this, SLOT(currentChanged(QWidget*)));
     connect(edtScreen, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     connect(edtUin, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
+    connect(edtMail, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
+    connect(edtFirst, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
+    connect(edtLast, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     connect(edtScreen, SIGNAL(returnPressed()), this, SLOT(search()));
     connect(edtUin, SIGNAL(returnPressed()), this, SLOT(search()));
+    connect(edtMail, SIGNAL(returnPressed()), this, SLOT(search()));
+    connect(edtFirst, SIGNAL(returnPressed()), this, SLOT(search()));
+    connect(edtLast, SIGNAL(returnPressed()), this, SLOT(search()));
+    connect(edtMidle, SIGNAL(returnPressed()), this, SLOT(search()));
+    connect(edtMaiden, SIGNAL(returnPressed()), this, SLOT(search()));
+    connect(edtNick, SIGNAL(returnPressed()), this, SLOT(search()));
+    connect(edtStreet, SIGNAL(returnPressed()), this, SLOT(search()));
+    connect(edtCity, SIGNAL(returnPressed()), this, SLOT(search()));
+    connect(edtState, SIGNAL(returnPressed()), this, SLOT(search()));
+    connect(edtZip, SIGNAL(returnPressed()), this, SLOT(search()));
 }
 
 AIMSearch::~AIMSearch()
@@ -112,6 +138,13 @@ void AIMSearch::changed()
     case 1:
         bSearch = !edtUin->text().isEmpty();
         break;
+    case 2:
+        bSearch = !edtMail->text().isEmpty();
+        break;
+    case 3:
+        bSearch = !edtFirst->text().isEmpty() ||
+			!edtLast->text().isEmpty();
+        break;
     }
     if (m_wizard)
         m_wizard->setNextEnabled(this, bSearch);
@@ -135,6 +168,7 @@ void AIMSearch::startSearch()
     QString screen;
     QComboBox *cmbGrp;
     unsigned long uin = 0;
+	unsigned short id;
     switch (tabSearch->currentPageIndex()){
     case 0:
         screen = edtScreen->text();
@@ -146,6 +180,34 @@ void AIMSearch::startSearch()
             screen = QString::number(uin);
         cmbGrp = cmbGroupICQ;
         break;
+    case 2:
+		id = m_client->aimEMailSearch(edtMail->text().utf8());
+        return;
+    case 3:{
+		QString country = cmbCountry->text(cmbCountry->currentItem());
+		if (!country.isEmpty()){
+			const ext_info *c;
+			for (c = getCountries(); c->nCode; c++)
+				if (i18n(c->szName) == country)
+					break;
+			const ext_info *cc;
+			for (cc = getCountryCodes(); cc->nCode; cc++)
+				if (cc->nCode == c->nCode)
+					break;
+			if (cc->nCode){
+				country = cc->szName;
+				country = country.upper();
+			}else{
+				country = "";
+			}
+		}
+		id = m_client->aimInfoSearch(edtFirst->text().utf8(), edtLast->text().utf8(),
+			edtMidle->text().utf8(), edtMaiden->text().utf8(),
+			country.utf8(), edtStreet->text().utf8(),
+			edtCity->text().utf8(), edtNick->text().utf8(),
+			edtZip->text().utf8(), edtState->text().utf8());
+        return;
+		   }
     }
     if (screen.isEmpty())
         return;
