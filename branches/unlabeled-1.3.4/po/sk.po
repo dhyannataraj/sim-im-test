@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
-"POT-Creation-Date: 2003-07-26 00:43+0400\n"
+"POT-Creation-Date: 2003-07-28 16:26+0400\n"
 "PO-Revision-Date: 2003-03-06 19:24--100\n"
 "Last-Translator: Tom�Ol� <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
@@ -149,8 +149,9 @@ msgstr "&OK"
 #: plugins/_core/autoreplybase.cc:87 plugins/_core/cfgdlg.cpp:471
 #: plugins/_core/cfgdlgbase.cc:127 plugins/_core/connectionsettingsbase.cc:107
 #: plugins/_core/editmailbase.cc:98 plugins/_core/editphonebase.cc:144
-#: plugins/_core/logindlgbase.cc:122 plugins/icq/securedlgbase.cc:78
-#: sim/api/simapi.cpp:393 sim/ui/qt3/i18n.cpp:35
+#: plugins/_core/filetransferbase.cc:130 plugins/_core/logindlgbase.cc:122
+#: plugins/icq/securedlgbase.cc:78 sim/api/simapi.cpp:393
+#: sim/ui/qt3/i18n.cpp:35
 msgid "&Cancel"
 msgstr "&Zrušiť"
 
@@ -363,7 +364,7 @@ msgid "SMS"
 msgstr "SMS"
 
 # ui/themesetup.cpp:53
-#: plugins/_core/interfacecfg.cpp:83 plugins/icq/icqclient.cpp:2011
+#: plugins/_core/interfacecfg.cpp:83 plugins/icq/icqclient.cpp:2017
 msgid "System"
 msgstr "Systém"
 
@@ -603,7 +604,7 @@ msgstr "&Historie"
 # ui/toolsetupbase.cpp:136
 # ui/userautoreply.cpp:76
 # ui/userinfobase.cpp:153
-#: plugins/_core/core.cpp:471 plugins/_core/managerbase.cc:102
+#: plugins/_core/core.cpp:471 plugins/_core/managerbase.cc:110
 #: plugins/_core/toolsetupbase.cc:136 plugins/about/aboutdlgbase.cpp:156
 #: plugins/icq/securedlg.cpp:92 sim/api/simapi.cpp:393 sim/ui/qt3/i18n.cpp:287
 msgid "&Close"
@@ -847,7 +848,7 @@ msgstr "P&ovolanie:"
 
 # ui/maininfobase.cpp:334
 # ui/statussetupbase.cpp:148
-#: plugins/_core/core.cpp:965 plugins/icq/icqinfobase.cc:317
+#: plugins/_core/core.cpp:965 plugins/icq/icqinfobase.cc:319
 #: plugins/jabber/jabberinfobase.cpp:219 plugins/msn/msninfobase.cpp:167
 msgid "&Status"
 msgstr "&Stav"
@@ -919,7 +920,7 @@ msgstr "Poslať SMS"
 # client.cpp:1250
 # dock.cpp:957
 #: plugins/_core/core.cpp:2801 plugins/_core/core.cpp:2823
-#: plugins/_core/managerbase.cc:95
+#: plugins/_core/managerbase.cc:103
 #, fuzzy
 msgid "Connection manager"
 msgstr "Pripájanie"
@@ -1140,8 +1141,8 @@ msgstr "Pridať kontakt (ne-ICQ)"
 # userview.cpp:1336
 #: plugins/_core/usercfg.cpp:288 plugins/_core/userlist.cpp:910
 #: plugins/_core/userview.cpp:162 plugins/_core/userview.cpp:608
-#: plugins/_core/userview.cpp:646 plugins/icq/searchresult.cpp:228
-#: plugins/jabber/addresult.cpp:132
+#: plugins/_core/userview.cpp:646 plugins/icq/searchresult.cpp:231
+#: plugins/jabber/addresult.cpp:135
 msgid "Not in list"
 msgstr "Nie sú v zozname"
 
@@ -1168,7 +1169,7 @@ msgstr "Odosielanie"
 # cuser.cpp:231
 # userview.cpp:1330
 #: plugins/_core/userlist.cpp:544 plugins/icq/icq.cpp:108
-#: plugins/icq/icqclient.cpp:1198 plugins/jabber/jabber.cpp:90
+#: plugins/icq/icqclient.cpp:1204 plugins/jabber/jabber.cpp:90
 #: plugins/jabber/jabberclient.cpp:915 plugins/msn/msn.cpp:89
 #: plugins/msn/msnclient.cpp:1271
 msgid "Online"
@@ -1422,6 +1423,13 @@ msgstr "Uložiť he&slo"
 msgid "&Do not show this window on startup"
 msgstr "Nezobrazovať tento &dialog"
 
+# ui/acceptbase.cpp:173
+# ui/acceptbase.cpp:177
+#: plugins/_core/arcfgbase.cc:100 plugins/_core/prefcfgbase.cc:97
+#, fuzzy
+msgid "&Override global settings"
+msgstr "Potlačiť globálne nastavenia"
+
 # ui/phonebase.cpp:154
 #: plugins/_core/phonebase.cc:145
 msgid "Area code:"
@@ -1480,13 +1488,6 @@ msgstr "Poskytovateľ:"
 msgid "Email gateway:"
 msgstr "Email brána:"
 
-# ui/acceptbase.cpp:173
-# ui/acceptbase.cpp:177
-#: plugins/_core/arcfgbase.cc:100 plugins/_core/prefcfgbase.cc:97
-#, fuzzy
-msgid "&Override global settings"
-msgstr "Potlačiť globálne nastavenia"
-
 # ui/toolsetupbase.cpp:123
 #: plugins/_core/toolsetupbase.cc:123
 msgid "Toolbar setup"
@@ -1525,12 +1526,12 @@ msgid "Active:"
 msgstr "Aktívny:"
 
 # ui/toolsetupbase.cpp:132
-#: plugins/_core/managerbase.cc:97 plugins/_core/toolsetupbase.cc:132
+#: plugins/_core/managerbase.cc:105 plugins/_core/toolsetupbase.cc:132
 msgid "&Up"
 msgstr "Ho&re"
 
 # ui/toolsetupbase.cpp:133
-#: plugins/_core/managerbase.cc:99 plugins/_core/toolsetupbase.cc:133
+#: plugins/_core/managerbase.cc:107 plugins/_core/toolsetupbase.cc:133
 msgid "&Down"
 msgstr "&Dole"
 
@@ -1605,7 +1606,7 @@ msgid "Colors:"
 msgstr "Farba:"
 
 # ui/maininfobase.cpp:329
-#: plugins/_core/userviewcfgbase.cc:173 plugins/icq/icqinfobase.cc:312
+#: plugins/_core/userviewcfgbase.cc:173 plugins/icq/icqinfobase.cc:314
 #: plugins/jabber/jabberinfobase.cpp:216 plugins/msn/msninfobase.cpp:165
 msgid "Online:"
 msgstr "Online:"
@@ -1661,7 +1662,7 @@ msgstr "Použiť emot&ikony"
 
 # ui/maininfobase.cpp:319
 # ui/searchbase.cpp:294
-#: plugins/_core/maininfobase.cc:230 plugins/icq/icqinfobase.cc:307
+#: plugins/_core/maininfobase.cc:230 plugins/icq/icqinfobase.cc:309
 #: plugins/icq/icqsearchbase.cc:311 plugins/jabber/jabberinfobase.cpp:209
 msgid "First name:"
 msgstr "Meno:"
@@ -1818,24 +1819,24 @@ msgid "Complete"
 msgstr "Počítače"
 
 # ui/setupdlg.cpp:127
-#: plugins/_core/managerbase.cc:46 plugins/_core/managerbase.cc:98
+#: plugins/_core/managerbase.cc:46 plugins/_core/managerbase.cc:106
 msgid "Connection"
 msgstr "Spojenie"
 
 # sim.cpp:527
-#: plugins/_core/managerbase.cc:96
+#: plugins/_core/managerbase.cc:104
 #, fuzzy
 msgid "&Configure"
 msgstr "ICQ klient"
 
 # ui/maininfobase.cpp:325
-#: plugins/_core/managerbase.cc:100
+#: plugins/_core/managerbase.cc:108
 #, fuzzy
 msgid "&Remove"
 msgstr "Odobrať"
 
 # ui/generalsecbase.cpp:216
-#: plugins/_core/managerbase.cc:101
+#: plugins/_core/managerbase.cc:109
 #, fuzzy
 msgid "&New connection"
 msgstr "Pripojiť priamo"
@@ -1928,6 +1929,44 @@ msgstr "Text za kurzorom:"
 #: plugins/_core/smscfgbase.cc:102 plugins/forward/forwardcfgbase.cpp:106
 msgid "Send in &translit"
 msgstr ""
+
+# qt3/i18n.cpp:257
+#: plugins/_core/filetransfer.cpp:29
+#, fuzzy
+msgid "Receive file"
+msgstr "Vybrať všetko"
+
+# msgedit.cpp:588
+#: plugins/_core/filetransfer.cpp:29
+#, fuzzy
+msgid "Send file"
+msgstr "Chyba pri odosielaní"
+
+# ui/filetransferbase.cpp:123
+#: plugins/_core/filetransferbase.cc:128
+msgid "File transfer"
+msgstr "Prenos súboru"
+
+# msgedit.cpp:130
+#: plugins/_core/filetransferbase.cc:129
+#, fuzzy
+msgid "Close after send"
+msgstr "Po odoslaní &zavrieť"
+
+# ui/homeinfobase.cpp:169
+#: plugins/_core/filetransferbase.cc:132
+#, fuzzy
+msgid "Time:"
+msgstr "Časová zóna:"
+
+#: plugins/_core/filetransferbase.cc:133
+msgid "Estimated time:"
+msgstr ""
+
+# ui/filetransferbase.cpp:127
+#: plugins/_core/filetransferbase.cc:134
+msgid "Speed:"
+msgstr "Rýchlosť:"
 
 # ui/aboutdlgbase.cpp:152
 #: plugins/about/about.cpp:38 plugins/about/aboutdlgbase.cpp:152
@@ -2186,7 +2225,7 @@ msgstr "&Filter"
 
 # qt3/i18n.cpp:39
 # usertbl.cpp:115
-#: plugins/filter/ignorelist.cpp:27 plugins/icq/icqmessage.cpp:1143
+#: plugins/filter/ignorelist.cpp:27 plugins/icq/icqmessage.cpp:1173
 #: plugins/icq/icqsecure.cpp:122 plugins/icq/searchresult.cpp:115
 #: sim/ui/qt3/i18n.cpp:39
 msgid "Name"
@@ -2350,35 +2389,43 @@ msgid "&Add to group"
 msgstr "Pridať do skupiny"
 
 # qt3/i18n.cpp:233
-#: plugins/icq/icqdirect.cpp:158
+#: plugins/icq/icqdirect.cpp:160
 #, fuzzy
 msgid "Connect to unknown port"
 msgstr "Pripojený k serveru"
 
 # ui/generalsecbase.cpp:216
-#: plugins/icq/icqdirect.cpp:186
+#: plugins/icq/icqdirect.cpp:188
 #, fuzzy
 msgid "Can't established direct connection"
 msgstr "Pripojiť priamo"
 
-#: plugins/icq/icqdirect.cpp:711
+#: plugins/icq/icqdirect.cpp:713
 msgid "Other side does not support the secure connection"
 msgstr ""
 
 # ui/randomchatbase.cpp:287
-#: plugins/icq/icqdirect.cpp:720 plugins/icq/icqdirect.cpp:893
+#: plugins/icq/icqdirect.cpp:722 plugins/icq/icqdirect.cpp:895
 #, fuzzy
 msgid "Send message fail"
 msgstr "Po&slať správu"
 
-#: plugins/icq/icqdirect.cpp:1082
+#: plugins/icq/icqdirect.cpp:1084
 msgid "Unknown message type"
 msgstr ""
 
 # ui/filetransfer.cpp:137
-#: plugins/icq/icqdirect.cpp:1381
+#: plugins/icq/icqdirect.cpp:1446
 msgid "No files for transfer"
 msgstr "Žiadne súbory na prenos"
+
+# qt3/i18n.cpp:216
+#: plugins/icq/icqdirect.cpp:1528
+#, fuzzy
+msgid "Can't open file"
+msgstr ""
+"Nie je možné otvoriť\n"
+"%1"
 
 # ui/logindlg.cpp:226
 #: plugins/icq/icqicmb.cpp:73 plugins/icq/icqicmb.cpp:157
@@ -2495,14 +2542,14 @@ msgid "Seeking Men"
 msgstr "Hľadanie muža"
 
 # control.cpp:233
-#: plugins/icq/icqclient.cpp:1170 plugins/icq/icqinfo.cpp:212
+#: plugins/icq/icqclient.cpp:1176 plugins/icq/icqinfo.cpp:212
 #, fuzzy
 msgid "Possibly invisible"
 msgstr "Nastaviť neviditeľný mód"
 
 # cuser.cpp:223
 # ui/maininfo.cpp:144
-#: plugins/icq/icqclient.cpp:1191 plugins/icq/icqinfo.cpp:227
+#: plugins/icq/icqclient.cpp:1197 plugins/icq/icqinfo.cpp:227
 #: plugins/jabber/jabberclient.cpp:908 plugins/jabber/jabberinfo.cpp:103
 #: plugins/msn/msnclient.cpp:1264 plugins/msn/msninfo.cpp:88
 msgid "Last online"
@@ -2556,7 +2603,7 @@ msgid "Bad host address"
 msgstr "Email adresy:"
 
 # client.cpp:1150
-#: plugins/icq/icqmessage.cpp:762
+#: plugins/icq/icqmessage.cpp:792
 #, c-format
 msgid ""
 "_n: WWW-panel message\n"
@@ -2566,7 +2613,7 @@ msgstr ""
 "%n WWW-správ"
 
 # client.cpp:1152
-#: plugins/icq/icqmessage.cpp:784
+#: plugins/icq/icqmessage.cpp:814
 #, c-format
 msgid ""
 "_n: Email pager message\n"
@@ -2576,7 +2623,7 @@ msgstr ""
 "%n správ email pageru"
 
 # client.cpp:1166
-#: plugins/icq/icqmessage.cpp:806
+#: plugins/icq/icqmessage.cpp:836
 #, c-format
 msgid ""
 "_n: Request secure channel\n"
@@ -2586,7 +2633,7 @@ msgstr ""
 "%n požiadaviek o bezpečný kanál"
 
 # client.cpp:1166
-#: plugins/icq/icqmessage.cpp:828
+#: plugins/icq/icqmessage.cpp:858
 #, fuzzy, c-format
 msgid ""
 "_n: Close secure channel\n"
@@ -2595,7 +2642,7 @@ msgstr ""
 "Požiadavka o bezpečný kanál\n"
 "%n požiadaviek o bezpečný kanál"
 
-#: plugins/icq/icqmessage.cpp:850
+#: plugins/icq/icqmessage.cpp:880
 #, c-format
 msgid ""
 "_n: Check invisible\n"
@@ -2603,7 +2650,7 @@ msgid ""
 msgstr ""
 
 # client.cpp:1156
-#: plugins/icq/icqmessage.cpp:931
+#: plugins/icq/icqmessage.cpp:961
 #, fuzzy, c-format
 msgid ""
 "_n: Contact request\n"
@@ -2613,7 +2660,7 @@ msgstr ""
 "%n žiadostí o kontakt"
 
 # client.cpp:1140
-#: plugins/icq/icqmessage.cpp:973
+#: plugins/icq/icqmessage.cpp:1003
 #, fuzzy, c-format
 msgid ""
 "_n: URL\n"
@@ -2621,7 +2668,7 @@ msgid ""
 msgstr "URL"
 
 # client.cpp:1156
-#: plugins/icq/icqmessage.cpp:1021
+#: plugins/icq/icqmessage.cpp:1051
 #, fuzzy, c-format
 msgid ""
 "_n: Contact list\n"
@@ -2633,29 +2680,29 @@ msgstr ""
 # msgedit.cpp:193
 # msgview.cpp:1191
 # ui/soundsetupbase.cpp:231
-#: plugins/icq/icqmessage.cpp:1053
+#: plugins/icq/icqmessage.cpp:1083
 msgid "URL:"
 msgstr "URL:"
 
 # msgedit.cpp:207
-#: plugins/icq/icqmessage.cpp:1125
+#: plugins/icq/icqmessage.cpp:1155
 msgid "Drag users here"
 msgstr "Sem presuňte užívateľa"
 
 # ui/searchbase.cpp:298
 # usertbl.cpp:110
-#: plugins/icq/icqmessage.cpp:1139 plugins/icq/icqsearchbase.cc:315
+#: plugins/icq/icqmessage.cpp:1169 plugins/icq/icqsearchbase.cc:315
 #: plugins/icq/icqsecure.cpp:120 plugins/icq/searchresult.cpp:111
 msgid "UIN"
 msgstr "UIN"
 
 # usertbl.cpp:112
-#: plugins/icq/icqmessage.cpp:1141 plugins/icq/searchresult.cpp:113
+#: plugins/icq/icqmessage.cpp:1171 plugins/icq/searchresult.cpp:113
 msgid "Alias"
 msgstr "Alias"
 
 # usertbl.cpp:116
-#: plugins/icq/icqmessage.cpp:1144 plugins/icq/searchresult.cpp:116
+#: plugins/icq/icqmessage.cpp:1174 plugins/icq/searchresult.cpp:116
 #: plugins/jabber/addresult.cpp:33 plugins/jabber/jabbersearch.cpp:159
 msgid "Email"
 msgstr "Email"
@@ -2663,14 +2710,14 @@ msgstr "Email"
 # msgedit.cpp:193
 # msgview.cpp:1191
 # ui/soundsetupbase.cpp:231
-#: plugins/icq/icqmessage.cpp:1283
+#: plugins/icq/icqmessage.cpp:1313
 #, fuzzy
 msgid "&URL"
 msgstr "URL:"
 
 # msgview.cpp:231
 # msgview.cpp:1273
-#: plugins/icq/icqmessage.cpp:1293
+#: plugins/icq/icqmessage.cpp:1323
 #, fuzzy
 msgid "&Contact list"
 msgstr "Zoznam kontaktov odoslaný"
@@ -3496,15 +3543,15 @@ msgstr "Zdieľané súbory"
 # ui/searchbase.cpp:277
 # ui/searchbase.cpp:279
 #: plugins/icq/icqsearchbase.cc:298 plugins/icq/searchresult.cpp:150
-#: plugins/jabber/addresult.cpp:145 plugins/jabber/addresult.cpp:169
-#: plugins/jabber/addresult.cpp:197
+#: plugins/jabber/addresult.cpp:148 plugins/jabber/addresult.cpp:172
+#: plugins/jabber/addresult.cpp:200
 msgid "Search"
 msgstr "Vyhľadávanie"
 
 # msgview.cpp:853
 # ui/searchbase.cpp:277
 # ui/searchbase.cpp:279
-#: plugins/icq/searchresult.cpp:152 plugins/jabber/addresult.cpp:160
+#: plugins/icq/searchresult.cpp:152 plugins/jabber/addresult.cpp:163
 #, fuzzy
 msgid "Search done"
 msgstr "Vyhľadávanie"
@@ -3686,68 +3733,68 @@ msgid "Tamil"
 msgstr "Tamilske"
 
 # ui/randomchatbase.cpp:287
-#: plugins/icq/icqclient.cpp:364
+#: plugins/icq/icqclient.cpp:365
 #, fuzzy
 msgid "Process message failed"
 msgstr "Po&slať správu"
 
-#: plugins/icq/icqclient.cpp:519
+#: plugins/icq/icqclient.cpp:525
 msgid "Protocol error"
 msgstr ""
 
 # ui/setupdlg.cpp:115
 # ui/userinfo.cpp:92
-#: plugins/icq/icqclient.cpp:1463 plugins/icq/icqclient.cpp:1602
+#: plugins/icq/icqclient.cpp:1469 plugins/icq/icqclient.cpp:1608
 #: plugins/jabber/jabberclient.cpp:967 plugins/jabber/jabberclient.cpp:1046
 msgid "Home info"
 msgstr "Domov"
 
 # ui/setupdlg.cpp:116
 # ui/userinfo.cpp:93
-#: plugins/icq/icqclient.cpp:1478 plugins/icq/icqclient.cpp:1617
+#: plugins/icq/icqclient.cpp:1484 plugins/icq/icqclient.cpp:1623
 #: plugins/jabber/jabberclient.cpp:982 plugins/jabber/jabberclient.cpp:1061
 msgid "Work info"
 msgstr "Práca"
 
 # ui/setupdlg.cpp:117
 # ui/userinfo.cpp:94
-#: plugins/icq/icqclient.cpp:1493 plugins/icq/icqclient.cpp:1632
+#: plugins/icq/icqclient.cpp:1499 plugins/icq/icqclient.cpp:1638
 msgid "More info"
 msgstr "Viac informácií"
 
 # ui/setupdlg.cpp:118
 # ui/userinfo.cpp:95
-#: plugins/icq/icqclient.cpp:1508 plugins/icq/icqclient.cpp:1647
+#: plugins/icq/icqclient.cpp:1514 plugins/icq/icqclient.cpp:1653
 #: plugins/jabber/jabberclient.cpp:997 plugins/jabber/jabberclient.cpp:1076
 msgid "About info"
 msgstr "Informácie o..."
 
 # ui/setupdlg.cpp:119
 # ui/userinfo.cpp:96
-#: plugins/icq/icqclient.cpp:1523 plugins/icq/icqclient.cpp:1662
+#: plugins/icq/icqclient.cpp:1529 plugins/icq/icqclient.cpp:1668
 msgid "Interests"
 msgstr "Záujmy"
 
 # ui/setupdlg.cpp:120
 # ui/userinfo.cpp:97
-#: plugins/icq/icqclient.cpp:1538 plugins/icq/icqclient.cpp:1677
+#: plugins/icq/icqclient.cpp:1544 plugins/icq/icqclient.cpp:1683
 msgid "Group/Past"
 msgstr "Skupiny/Minulosť"
 
-#: plugins/icq/icqclient.cpp:1553 plugins/icq/icqclient.cpp:1692
+#: plugins/icq/icqclient.cpp:1559 plugins/icq/icqclient.cpp:1698
 msgid "Picture"
 msgstr ""
 
 # ui/filetransfer.cpp:301
 # ui/filetransfer.cpp:317
-#: plugins/icq/icqclient.cpp:1707 plugins/jabber/jabberclient.cpp:1091
+#: plugins/icq/icqclient.cpp:1713 plugins/jabber/jabberclient.cpp:1091
 #: plugins/msn/msnclient.cpp:618
 #, fuzzy
 msgid "Network"
 msgstr "&Nový"
 
 # ui/setupdlg.cpp:149
-#: plugins/icq/icqclient.cpp:1722
+#: plugins/icq/icqclient.cpp:1728
 msgid "Security"
 msgstr "Zabezpečenie"
 
@@ -3833,64 +3880,64 @@ msgid "&Home info"
 msgstr "&Domov"
 
 # ui/maininfobase.cpp:314
-#: plugins/icq/icqinfobase.cc:303
+#: plugins/icq/icqinfobase.cc:305
 msgid "Form5"
 msgstr "Form5"
 
 # ui/maininfobase.cpp:315
 # ui/searchbase.cpp:293
-#: plugins/icq/icqinfobase.cc:304 plugins/icq/icqsearchbase.cc:310
+#: plugins/icq/icqinfobase.cc:306 plugins/icq/icqsearchbase.cc:310
 msgid "Last Name:"
 msgstr "Priezvisko:"
 
 # ui/maininfobase.cpp:316
-#: plugins/icq/icqinfobase.cc:305
+#: plugins/icq/icqinfobase.cc:307
 msgid "Uin:"
 msgstr "UIN:"
 
 # ui/maininfobase.cpp:317
-#: plugins/icq/icqinfobase.cc:306 plugins/jabber/jabberinfobase.cpp:210
+#: plugins/icq/icqinfobase.cc:308 plugins/jabber/jabberinfobase.cpp:210
 #: plugins/msn/msninfobase.cpp:162
 msgid "Nick:"
 msgstr "Prezývka (Nick):"
 
 # ui/maininfobase.cpp:320
-#: plugins/icq/icqinfobase.cc:308
+#: plugins/icq/icqinfobase.cc:310
 msgid "Encoding:"
 msgstr "Kódovánie:"
 
 # mainwin.cpp:631
 # mainwin.cpp:2729
 # ui/randomchatbase.cpp:278
-#: plugins/icq/icqinfobase.cc:309
+#: plugins/icq/icqinfobase.cc:311
 #, fuzzy
 msgid "Random chat group:"
 msgstr "Náhodný chat"
 
 # ui/maininfobase.cpp:321
-#: plugins/icq/icqinfobase.cc:310 plugins/jabber/jabberinfobase.cpp:214
+#: plugins/icq/icqinfobase.cc:312 plugins/jabber/jabberinfobase.cpp:214
 #: plugins/msn/msninfobase.cpp:163
 msgid "&Names"
 msgstr "Me&ná"
 
 # ui/maininfobase.cpp:328
-#: plugins/icq/icqinfobase.cc:311 plugins/jabber/jabberinfobase.cpp:215
+#: plugins/icq/icqinfobase.cc:313 plugins/jabber/jabberinfobase.cpp:215
 #: plugins/msn/msninfobase.cpp:164
 msgid "Status:"
 msgstr "Stav:"
 
 # ui/maininfobase.cpp:331
-#: plugins/icq/icqinfobase.cc:314
+#: plugins/icq/icqinfobase.cc:316
 msgid "External IP:"
 msgstr "Externá IP:"
 
 # ui/maininfobase.cpp:332
-#: plugins/icq/icqinfobase.cc:315
+#: plugins/icq/icqinfobase.cc:317
 msgid "Internal IP:"
 msgstr "Interná IP:"
 
 # ui/maininfobase.cpp:333
-#: plugins/icq/icqinfobase.cc:316
+#: plugins/icq/icqinfobase.cc:318
 msgid "Client:"
 msgstr "Klient:"
 
@@ -4124,6 +4171,24 @@ msgstr "Odznačiť"
 msgid "&Picture"
 msgstr "Podpi&s"
 
+# ui/securedlgbase.cpp:66
+#: plugins/icq/securedlgbase.cc:73
+msgid "Secure chanel request"
+msgstr "Žiadosť o zabezpečený kanál"
+
+# ui/securedlgbase.cpp:67
+#: plugins/icq/securedlgbase.cc:74
+msgid ""
+"Secure channel is established using SSL with Diffie-Hellman key exchange and "
+" the TLS version 1 protocol.\n"
+"\n"
+"This only works with other SIM and Licq clients"
+msgstr ""
+"Zabezpečený kanál použije SSL s Diffie-Hellman výmenou klúčov a TLS  "
+"protokol verzie 1.\n"
+"\n"
+"Funguje len s ostatními SIM a Licq klientami"
+
 # ui/searchbase.cpp:282
 #: plugins/icq/icqsearchbase.cc:299
 msgid "Email:"
@@ -4190,24 +4255,6 @@ msgstr "Náhodný chat"
 #: plugins/icq/icqsearchbase.cc:321
 msgid "Online only"
 msgstr "Len pripojení"
-
-# ui/securedlgbase.cpp:66
-#: plugins/icq/securedlgbase.cc:73
-msgid "Secure chanel request"
-msgstr "Žiadosť o zabezpečený kanál"
-
-# ui/securedlgbase.cpp:67
-#: plugins/icq/securedlgbase.cc:74
-msgid ""
-"Secure channel is established using SSL with Diffie-Hellman key exchange and "
-" the TLS version 1 protocol.\n"
-"\n"
-"This only works with other SIM and Licq clients"
-msgstr ""
-"Zabezpečený kanál použije SSL s Diffie-Hellman výmenou klúčov a TLS  "
-"protokol verzie 1.\n"
-"\n"
-"Funguje len s ostatními SIM a Licq klientami"
 
 # ui/randomchat.cpp:217
 #: plugins/icq/securedlg.cpp:59
@@ -7979,10 +8026,6 @@ msgstr "Podčiarkn&uté"
 #~ msgid "P&orts"
 #~ msgstr "P&orty"
 
-# ui/filetransferbase.cpp:123
-#~ msgid "File transfer"
-#~ msgstr "Prenos súboru"
-
 # ui/filetransferbase.cpp:125
 #~ msgid "1000000/100000"
 #~ msgstr "1000000/100000"
@@ -7990,10 +8033,6 @@ msgstr "Podčiarkn&uté"
 # ui/filetransferbase.cpp:126
 #~ msgid "100000"
 #~ msgstr "100000"
-
-# ui/filetransferbase.cpp:127
-#~ msgid "Speed:"
-#~ msgstr "Rýchlosť:"
 
 # ui/filetransferbase.cpp:129
 # ui/randomchatbase.cpp:304

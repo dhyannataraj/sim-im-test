@@ -289,6 +289,8 @@ void ICQClient::fillDirectInfo(Buffer &directInfo)
     case Socket::Web:
         mode = DIRECT_MODE_DENIED;
         break;
+    default:
+	break;
     }
     directInfo
     << mode

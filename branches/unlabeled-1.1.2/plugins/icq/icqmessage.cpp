@@ -241,21 +241,21 @@ QString ICQMessage::getText()
 
 static DataDef icqFileMessageData[] =
     {
-		{ "ServerText", DATA_STRING, 1, 0 },
+        { "ServerText", DATA_STRING, 1, 0 },
         { "", DATA_ULONG, 1, 0 },				// IP
         { "", DATA_ULONG, 1, 0 },				// Port
         { NULL, 0, 0, 0 }
     };
 
 ICQFileMessage::ICQFileMessage(const char *cfg)
-: FileMessage(MessageICQFile, cfg)
+        : FileMessage(MessageICQFile, cfg)
 {
-	load_data(icqFileMessageData, &data, cfg);
+    load_data(icqFileMessageData, &data, cfg);
 }
 
 ICQFileMessage::~ICQFileMessage()
 {
-	free_data(icqFileMessageData, &data);
+    free_data(icqFileMessageData, &data);
 }
 
 QString ICQFileMessage::getText()
@@ -571,11 +571,6 @@ static Message *parseContactMessage(const char *str)
     return m;
 }
 
-static Message *parseFileMessage(const char *str, Buffer &packet)
-{
-	return NULL;
-}
-
 static Message *parseAuthRequest(const char *str)
 {
     vector<string> l;
@@ -588,7 +583,7 @@ static Message *parseAuthRequest(const char *str)
     return m;
 }
 
-static Message *parseExtendedMessage(Buffer &packet)
+Message *ICQClient::parseExtendedMessage(unsigned long uin, Buffer &packet)
 {
     string header;
     packet >> header;
@@ -604,7 +599,8 @@ static Message *parseExtendedMessage(Buffer &packet)
     Buffer b(info.size());
     b.pack(info.c_str(), info.size());
     log(L_DEBUG, "Extended message %s [%04X] %u", msgType.c_str(), msg_type, info.size());
-    if (msgType.find("URL")){
+    int n = msgType.find("URL");
+    if (n >= 0){
         string info;
         b.unpackStr32(info);
         return parseURLMessage(info.c_str());
@@ -620,6 +616,26 @@ static Message *parseExtendedMessage(Buffer &packet)
         string p;
         b.unpackStr32(p);
         return parseContactMessage(p.c_str());
+    }
+    n = msgType.find("File");
+    if (n >= 0){
+        string fileDescr;
+        b.unpackStr32(fileDescr);
+        unsigned short port;
+        b >> port;
+        b.incReadPos(2);
+        string fileName;
+        b >> fileName;
+        unsigned long fileSize;
+        b.unpack(fileSize);
+        Contact *contact;
+        ICQUserData *data = findContact(uin, NULL, false, contact);
+        ICQFileMessage *m = new ICQFileMessage;
+        m->setServerText(fileDescr.c_str());
+        m->setDescription(toUnicode(fileName.c_str(), data));
+        m->setSize(fileSize);
+        m->setPort(port);
+        return m;
     }
     if (msgType == "ICQSMS"){
         string p;
@@ -657,7 +673,6 @@ static Message *parseExtendedMessage(Buffer &packet)
             if (senders_network != NULL)
                 m->setNetwork(QString::fromUtf8(senders_network->getValue().c_str()));
             m->setText(QString::fromUtf8(text->getValue().c_str()));
-
             return m;
         }
     }
@@ -728,11 +743,26 @@ Message *ICQClient::parseMessage(unsigned short type, unsigned long uin, string 
     case ICQ_MSGxCONTACTxLIST:
         msg = parseContactMessage(p.c_str());
         break;
-	case ICQ_MSGxFILE:
-		msg = parseFileMessage(p.c_str(), packet);
-		break;
+    case ICQ_MSGxFILE:{
+            ICQFileMessage *m = new ICQFileMessage;
+            m->setServerText(p.c_str());
+            Contact *contact;
+            ICQUserData *data = findContact(uin, NULL, false, contact);
+            unsigned short port;
+            unsigned long  fileSize;
+            string fileName;
+            packet >> port;
+            packet.incReadPos(2);
+            packet >> fileName;
+            packet.unpack(fileSize);
+            m->setPort(port);
+            m->setSize(fileSize);
+            m->setDescription(toUnicode(fileName.c_str(), data));
+            msg = m;
+            break;
+        }
     case ICQ_MSGxEXT:
-        msg = parseExtendedMessage(packet);
+        msg = parseExtendedMessage(uin, packet);
         break;
     default:
         log(L_WARN, "Unknown message type %04X", type);

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
-"POT-Creation-Date: 2003-07-26 00:43+0400\n"
+"POT-Creation-Date: 2003-07-28 16:26+0400\n"
 "PO-Revision-Date: 2003-02-04 03:03+0200\n"
 "Last-Translator: Amir Tal <tal@whatsup.org.il>\n"
 "Language-Team: Hebrew <kde-il@yahoogroups.com>\n"
@@ -122,8 +122,9 @@ msgstr "&אישור"
 #: plugins/_core/autoreplybase.cc:87 plugins/_core/cfgdlg.cpp:471
 #: plugins/_core/cfgdlgbase.cc:127 plugins/_core/connectionsettingsbase.cc:107
 #: plugins/_core/editmailbase.cc:98 plugins/_core/editphonebase.cc:144
-#: plugins/_core/logindlgbase.cc:122 plugins/icq/securedlgbase.cc:78
-#: sim/api/simapi.cpp:393 sim/ui/qt3/i18n.cpp:35
+#: plugins/_core/filetransferbase.cc:130 plugins/_core/logindlgbase.cc:122
+#: plugins/icq/securedlgbase.cc:78 sim/api/simapi.cpp:393
+#: sim/ui/qt3/i18n.cpp:35
 msgid "&Cancel"
 msgstr "&ביטול"
 
@@ -278,7 +279,7 @@ msgstr "הודעה"
 msgid "SMS"
 msgstr "SMS"
 
-#: plugins/_core/interfacecfg.cpp:83 plugins/icq/icqclient.cpp:2011
+#: plugins/_core/interfacecfg.cpp:83 plugins/icq/icqclient.cpp:2017
 msgid "System"
 msgstr "מערכת"
 
@@ -464,7 +465,7 @@ msgstr "מידע &משתמש"
 msgid "&History"
 msgstr "&היסטוריה"
 
-#: plugins/_core/core.cpp:471 plugins/_core/managerbase.cc:102
+#: plugins/_core/core.cpp:471 plugins/_core/managerbase.cc:110
 #: plugins/_core/toolsetupbase.cc:136 plugins/about/aboutdlgbase.cpp:156
 #: plugins/icq/securedlg.cpp:92 sim/api/simapi.cpp:393 sim/ui/qt3/i18n.cpp:287
 msgid "&Close"
@@ -657,7 +658,7 @@ msgstr "אל קונטיינר"
 msgid "&Location"
 msgstr "&עיסוק"
 
-#: plugins/_core/core.cpp:965 plugins/icq/icqinfobase.cc:317
+#: plugins/_core/core.cpp:965 plugins/icq/icqinfobase.cc:319
 #: plugins/jabber/jabberinfobase.cpp:219 plugins/msn/msninfobase.cpp:167
 msgid "&Status"
 msgstr "&מצב"
@@ -711,7 +712,7 @@ msgid "Send SMS"
 msgstr "שלח SMS"
 
 #: plugins/_core/core.cpp:2801 plugins/_core/core.cpp:2823
-#: plugins/_core/managerbase.cc:95
+#: plugins/_core/managerbase.cc:103
 #, fuzzy
 msgid "Connection manager"
 msgstr "מתחבר"
@@ -873,8 +874,8 @@ msgstr "הוסף משתמש שאינו לקוח מסרים מידיים"
 
 #: plugins/_core/usercfg.cpp:288 plugins/_core/userlist.cpp:910
 #: plugins/_core/userview.cpp:162 plugins/_core/userview.cpp:608
-#: plugins/_core/userview.cpp:646 plugins/icq/searchresult.cpp:228
-#: plugins/jabber/addresult.cpp:132
+#: plugins/_core/userview.cpp:646 plugins/icq/searchresult.cpp:231
+#: plugins/jabber/addresult.cpp:135
 msgid "Not in list"
 msgstr "לא ברשימה"
 
@@ -894,7 +895,7 @@ msgid "Settings"
 msgstr "שולח"
 
 #: plugins/_core/userlist.cpp:544 plugins/icq/icq.cpp:108
-#: plugins/icq/icqclient.cpp:1198 plugins/jabber/jabber.cpp:90
+#: plugins/icq/icqclient.cpp:1204 plugins/jabber/jabber.cpp:90
 #: plugins/jabber/jabberclient.cpp:915 plugins/msn/msn.cpp:89
 #: plugins/msn/msnclient.cpp:1271
 msgid "Online"
@@ -1100,6 +1101,11 @@ msgstr "&שמור סיסמא"
 msgid "&Do not show this window on startup"
 msgstr "&אל תראה את החלון הזה"
 
+#: plugins/_core/arcfgbase.cc:100 plugins/_core/prefcfgbase.cc:97
+#, fuzzy
+msgid "&Override global settings"
+msgstr "עקוף הגדרות כלליות"
+
 #: plugins/_core/phonebase.cc:145
 msgid "Area code:"
 msgstr "איזור חיוג:"
@@ -1140,11 +1146,6 @@ msgstr "ספק:"
 msgid "Email gateway:"
 msgstr "שער דוא\"ל:"
 
-#: plugins/_core/arcfgbase.cc:100 plugins/_core/prefcfgbase.cc:97
-#, fuzzy
-msgid "&Override global settings"
-msgstr "עקוף הגדרות כלליות"
-
 #: plugins/_core/toolsetupbase.cc:123
 msgid "Toolbar setup"
 msgstr "הגדרות סרגל כלים"
@@ -1169,11 +1170,11 @@ msgstr "<- &הסר"
 msgid "Active:"
 msgstr "פעיל"
 
-#: plugins/_core/managerbase.cc:97 plugins/_core/toolsetupbase.cc:132
+#: plugins/_core/managerbase.cc:105 plugins/_core/toolsetupbase.cc:132
 msgid "&Up"
 msgstr "למ&עלה"
 
-#: plugins/_core/managerbase.cc:99 plugins/_core/toolsetupbase.cc:133
+#: plugins/_core/managerbase.cc:107 plugins/_core/toolsetupbase.cc:133
 msgid "&Down"
 msgstr "למ&טה"
 
@@ -1234,7 +1235,7 @@ msgstr "השתמש בצבעי &מערכת"
 msgid "Colors:"
 msgstr "צבע:"
 
-#: plugins/_core/userviewcfgbase.cc:173 plugins/icq/icqinfobase.cc:312
+#: plugins/_core/userviewcfgbase.cc:173 plugins/icq/icqinfobase.cc:314
 #: plugins/jabber/jabberinfobase.cpp:216 plugins/msn/msninfobase.cpp:165
 msgid "Online:"
 msgstr "מקוון"
@@ -1279,7 +1280,7 @@ msgstr ""
 msgid "Use emotional &icons"
 msgstr "השתמש ב&אייקונים של רגשות"
 
-#: plugins/_core/maininfobase.cc:230 plugins/icq/icqinfobase.cc:307
+#: plugins/_core/maininfobase.cc:230 plugins/icq/icqinfobase.cc:309
 #: plugins/icq/icqsearchbase.cc:311 plugins/jabber/jabberinfobase.cpp:209
 msgid "First name:"
 msgstr "שם פרטי:"
@@ -1411,21 +1412,21 @@ msgstr "טופס3"
 msgid "Complete"
 msgstr "מחשבים"
 
-#: plugins/_core/managerbase.cc:46 plugins/_core/managerbase.cc:98
+#: plugins/_core/managerbase.cc:46 plugins/_core/managerbase.cc:106
 msgid "Connection"
 msgstr "חיבור"
 
-#: plugins/_core/managerbase.cc:96
+#: plugins/_core/managerbase.cc:104
 #, fuzzy
 msgid "&Configure"
 msgstr "לקוח ICQ"
 
-#: plugins/_core/managerbase.cc:100
+#: plugins/_core/managerbase.cc:108
 #, fuzzy
 msgid "&Remove"
 msgstr "הסר"
 
-#: plugins/_core/managerbase.cc:101
+#: plugins/_core/managerbase.cc:109
 #, fuzzy
 msgid "&New connection"
 msgstr "קישור ישיר"
@@ -1502,6 +1503,38 @@ msgstr "טקסט אחרי סמן:"
 #: plugins/_core/smscfgbase.cc:102 plugins/forward/forwardcfgbase.cpp:106
 msgid "Send in &translit"
 msgstr ""
+
+#: plugins/_core/filetransfer.cpp:29
+#, fuzzy
+msgid "Receive file"
+msgstr "בחר הכל"
+
+#: plugins/_core/filetransfer.cpp:29
+#, fuzzy
+msgid "Send file"
+msgstr "השליחה נכשלה"
+
+#: plugins/_core/filetransferbase.cc:128
+msgid "File transfer"
+msgstr "העברת קבצים"
+
+#: plugins/_core/filetransferbase.cc:129
+#, fuzzy
+msgid "Close after send"
+msgstr "סגור לאחר שליחה"
+
+#: plugins/_core/filetransferbase.cc:132
+#, fuzzy
+msgid "Time:"
+msgstr "איזור זמן:"
+
+#: plugins/_core/filetransferbase.cc:133
+msgid "Estimated time:"
+msgstr ""
+
+#: plugins/_core/filetransferbase.cc:134
+msgid "Speed:"
+msgstr "מהירות:"
 
 #: plugins/about/about.cpp:38 plugins/about/aboutdlgbase.cpp:152
 msgid "About"
@@ -1714,7 +1747,7 @@ msgstr "רשימת התעלמות"
 msgid "&Filter"
 msgstr "&סינון"
 
-#: plugins/filter/ignorelist.cpp:27 plugins/icq/icqmessage.cpp:1143
+#: plugins/filter/ignorelist.cpp:27 plugins/icq/icqmessage.cpp:1173
 #: plugins/icq/icqsecure.cpp:122 plugins/icq/searchresult.cpp:115
 #: sim/ui/qt3/i18n.cpp:39
 msgid "Name"
@@ -1858,32 +1891,39 @@ msgstr "&קידוד"
 msgid "&Add to group"
 msgstr "הוסף לקבוצה "
 
-#: plugins/icq/icqdirect.cpp:158
+#: plugins/icq/icqdirect.cpp:160
 #, fuzzy
 msgid "Connect to unknown port"
 msgstr "מחובר למארח"
 
-#: plugins/icq/icqdirect.cpp:186
+#: plugins/icq/icqdirect.cpp:188
 #, fuzzy
 msgid "Can't established direct connection"
 msgstr "קישור ישיר"
 
-#: plugins/icq/icqdirect.cpp:711
+#: plugins/icq/icqdirect.cpp:713
 msgid "Other side does not support the secure connection"
 msgstr ""
 
-#: plugins/icq/icqdirect.cpp:720 plugins/icq/icqdirect.cpp:893
+#: plugins/icq/icqdirect.cpp:722 plugins/icq/icqdirect.cpp:895
 #, fuzzy
 msgid "Send message fail"
 msgstr "שלח &הודעה"
 
-#: plugins/icq/icqdirect.cpp:1082
+#: plugins/icq/icqdirect.cpp:1084
 msgid "Unknown message type"
 msgstr ""
 
-#: plugins/icq/icqdirect.cpp:1381
+#: plugins/icq/icqdirect.cpp:1446
 msgid "No files for transfer"
 msgstr "אין קבצים להעברה"
+
+#: plugins/icq/icqdirect.cpp:1528
+#, fuzzy
+msgid "Can't open file"
+msgstr ""
+"אין אפשרות לפתוח את\n"
+"%1"
 
 #: plugins/icq/icqicmb.cpp:73 plugins/icq/icqicmb.cpp:157
 #, fuzzy
@@ -1980,12 +2020,12 @@ msgstr "מחפש אישה"
 msgid "Seeking Men"
 msgstr "מחפשת גבר"
 
-#: plugins/icq/icqclient.cpp:1170 plugins/icq/icqinfo.cpp:212
+#: plugins/icq/icqclient.cpp:1176 plugins/icq/icqinfo.cpp:212
 #, fuzzy
 msgid "Possibly invisible"
 msgstr "קבע מצב לא נראה"
 
-#: plugins/icq/icqclient.cpp:1191 plugins/icq/icqinfo.cpp:227
+#: plugins/icq/icqclient.cpp:1197 plugins/icq/icqinfo.cpp:227
 #: plugins/jabber/jabberclient.cpp:908 plugins/jabber/jabberinfo.cpp:103
 #: plugins/msn/msnclient.cpp:1264 plugins/msn/msninfo.cpp:88
 msgid "Last online"
@@ -2031,7 +2071,7 @@ msgstr ""
 msgid "Bad host address"
 msgstr "כתובות דוא\"ל:"
 
-#: plugins/icq/icqmessage.cpp:762
+#: plugins/icq/icqmessage.cpp:792
 #, c-format
 msgid ""
 "_n: WWW-panel message\n"
@@ -2040,7 +2080,7 @@ msgstr ""
 "WWW-panel message\n"
 "%n WWW-panel messages"
 
-#: plugins/icq/icqmessage.cpp:784
+#: plugins/icq/icqmessage.cpp:814
 #, c-format
 msgid ""
 "_n: Email pager message\n"
@@ -2049,7 +2089,7 @@ msgstr ""
 "Email pager message\n"
 "%n Email pager messages"
 
-#: plugins/icq/icqmessage.cpp:806
+#: plugins/icq/icqmessage.cpp:836
 #, c-format
 msgid ""
 "_n: Request secure channel\n"
@@ -2058,7 +2098,7 @@ msgstr ""
 "Request secure channel\n"
 "%n requests secure channel"
 
-#: plugins/icq/icqmessage.cpp:828
+#: plugins/icq/icqmessage.cpp:858
 #, fuzzy, c-format
 msgid ""
 "_n: Close secure channel\n"
@@ -2067,14 +2107,14 @@ msgstr ""
 "Request secure channel\n"
 "%n requests secure channel"
 
-#: plugins/icq/icqmessage.cpp:850
+#: plugins/icq/icqmessage.cpp:880
 #, c-format
 msgid ""
 "_n: Check invisible\n"
 "%n times check invisible"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:931
+#: plugins/icq/icqmessage.cpp:961
 #, fuzzy, c-format
 msgid ""
 "_n: Contact request\n"
@@ -2083,7 +2123,7 @@ msgstr ""
 "Contacts request\n"
 "%n contacts requests"
 
-#: plugins/icq/icqmessage.cpp:973
+#: plugins/icq/icqmessage.cpp:1003
 #, fuzzy, c-format
 msgid ""
 "_n: URL\n"
@@ -2092,7 +2132,7 @@ msgstr ""
 "URL\n"
 "%n URL"
 
-#: plugins/icq/icqmessage.cpp:1021
+#: plugins/icq/icqmessage.cpp:1051
 #, fuzzy, c-format
 msgid ""
 "_n: Contact list\n"
@@ -2101,34 +2141,34 @@ msgstr ""
 "Contacts request\n"
 "%n contacts requests"
 
-#: plugins/icq/icqmessage.cpp:1053
+#: plugins/icq/icqmessage.cpp:1083
 msgid "URL:"
 msgstr "כתובת:"
 
-#: plugins/icq/icqmessage.cpp:1125
+#: plugins/icq/icqmessage.cpp:1155
 msgid "Drag users here"
 msgstr "גרור משתמשים לכאן"
 
-#: plugins/icq/icqmessage.cpp:1139 plugins/icq/icqsearchbase.cc:315
+#: plugins/icq/icqmessage.cpp:1169 plugins/icq/icqsearchbase.cc:315
 #: plugins/icq/icqsecure.cpp:120 plugins/icq/searchresult.cpp:111
 msgid "UIN"
 msgstr "UIN"
 
-#: plugins/icq/icqmessage.cpp:1141 plugins/icq/searchresult.cpp:113
+#: plugins/icq/icqmessage.cpp:1171 plugins/icq/searchresult.cpp:113
 msgid "Alias"
 msgstr "כינוי "
 
-#: plugins/icq/icqmessage.cpp:1144 plugins/icq/searchresult.cpp:116
+#: plugins/icq/icqmessage.cpp:1174 plugins/icq/searchresult.cpp:116
 #: plugins/jabber/addresult.cpp:33 plugins/jabber/jabbersearch.cpp:159
 msgid "Email"
 msgstr "דוא\"ל"
 
-#: plugins/icq/icqmessage.cpp:1283
+#: plugins/icq/icqmessage.cpp:1313
 #, fuzzy
 msgid "&URL"
 msgstr "כתובת:"
 
-#: plugins/icq/icqmessage.cpp:1293
+#: plugins/icq/icqmessage.cpp:1323
 #, fuzzy
 msgid "&Contact list"
 msgstr "רשימת קשר נשלחה"
@@ -2787,12 +2827,12 @@ msgid "Search failed"
 msgstr "קבצים משותפים"
 
 #: plugins/icq/icqsearchbase.cc:298 plugins/icq/searchresult.cpp:150
-#: plugins/jabber/addresult.cpp:145 plugins/jabber/addresult.cpp:169
-#: plugins/jabber/addresult.cpp:197
+#: plugins/jabber/addresult.cpp:148 plugins/jabber/addresult.cpp:172
+#: plugins/jabber/addresult.cpp:200
 msgid "Search"
 msgstr "חפש"
 
-#: plugins/icq/searchresult.cpp:152 plugins/jabber/addresult.cpp:160
+#: plugins/icq/searchresult.cpp:152 plugins/jabber/addresult.cpp:163
 #, fuzzy
 msgid "Search done"
 msgstr "חפש"
@@ -2936,53 +2976,53 @@ msgstr "מערב אירופי"
 msgid "Tamil"
 msgstr "טמילי"
 
-#: plugins/icq/icqclient.cpp:364
+#: plugins/icq/icqclient.cpp:365
 #, fuzzy
 msgid "Process message failed"
 msgstr "שלח &הודעה"
 
-#: plugins/icq/icqclient.cpp:519
+#: plugins/icq/icqclient.cpp:525
 msgid "Protocol error"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:1463 plugins/icq/icqclient.cpp:1602
+#: plugins/icq/icqclient.cpp:1469 plugins/icq/icqclient.cpp:1608
 #: plugins/jabber/jabberclient.cpp:967 plugins/jabber/jabberclient.cpp:1046
 msgid "Home info"
 msgstr "מידע בית"
 
-#: plugins/icq/icqclient.cpp:1478 plugins/icq/icqclient.cpp:1617
+#: plugins/icq/icqclient.cpp:1484 plugins/icq/icqclient.cpp:1623
 #: plugins/jabber/jabberclient.cpp:982 plugins/jabber/jabberclient.cpp:1061
 msgid "Work info"
 msgstr "מידע עבודה"
 
-#: plugins/icq/icqclient.cpp:1493 plugins/icq/icqclient.cpp:1632
+#: plugins/icq/icqclient.cpp:1499 plugins/icq/icqclient.cpp:1638
 msgid "More info"
 msgstr "עוד מידע "
 
-#: plugins/icq/icqclient.cpp:1508 plugins/icq/icqclient.cpp:1647
+#: plugins/icq/icqclient.cpp:1514 plugins/icq/icqclient.cpp:1653
 #: plugins/jabber/jabberclient.cpp:997 plugins/jabber/jabberclient.cpp:1076
 msgid "About info"
 msgstr "מידע אודות"
 
-#: plugins/icq/icqclient.cpp:1523 plugins/icq/icqclient.cpp:1662
+#: plugins/icq/icqclient.cpp:1529 plugins/icq/icqclient.cpp:1668
 msgid "Interests"
 msgstr "תחומי עניין"
 
-#: plugins/icq/icqclient.cpp:1538 plugins/icq/icqclient.cpp:1677
+#: plugins/icq/icqclient.cpp:1544 plugins/icq/icqclient.cpp:1683
 msgid "Group/Past"
 msgstr "קבוצה / עבר"
 
-#: plugins/icq/icqclient.cpp:1553 plugins/icq/icqclient.cpp:1692
+#: plugins/icq/icqclient.cpp:1559 plugins/icq/icqclient.cpp:1698
 msgid "Picture"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:1707 plugins/jabber/jabberclient.cpp:1091
+#: plugins/icq/icqclient.cpp:1713 plugins/jabber/jabberclient.cpp:1091
 #: plugins/msn/msnclient.cpp:618
 #, fuzzy
 msgid "Network"
 msgstr "ח&דש"
 
-#: plugins/icq/icqclient.cpp:1722
+#: plugins/icq/icqclient.cpp:1728
 msgid "Security"
 msgstr "אבטחה"
 
@@ -3045,51 +3085,51 @@ msgstr "איזור זמן:"
 msgid "&Home info"
 msgstr "&מידע ביתי"
 
-#: plugins/icq/icqinfobase.cc:303
+#: plugins/icq/icqinfobase.cc:305
 msgid "Form5"
 msgstr "טופס5"
 
-#: plugins/icq/icqinfobase.cc:304 plugins/icq/icqsearchbase.cc:310
+#: plugins/icq/icqinfobase.cc:306 plugins/icq/icqsearchbase.cc:310
 msgid "Last Name:"
 msgstr "שם משפחה:"
 
-#: plugins/icq/icqinfobase.cc:305
+#: plugins/icq/icqinfobase.cc:307
 msgid "Uin:"
 msgstr "Uin:"
 
-#: plugins/icq/icqinfobase.cc:306 plugins/jabber/jabberinfobase.cpp:210
+#: plugins/icq/icqinfobase.cc:308 plugins/jabber/jabberinfobase.cpp:210
 #: plugins/msn/msninfobase.cpp:162
 msgid "Nick:"
 msgstr "כינוי:"
 
-#: plugins/icq/icqinfobase.cc:308
+#: plugins/icq/icqinfobase.cc:310
 msgid "Encoding:"
 msgstr "קידוד:"
 
-#: plugins/icq/icqinfobase.cc:309
+#: plugins/icq/icqinfobase.cc:311
 #, fuzzy
 msgid "Random chat group:"
 msgstr "צ'אט אקראי"
 
-#: plugins/icq/icqinfobase.cc:310 plugins/jabber/jabberinfobase.cpp:214
+#: plugins/icq/icqinfobase.cc:312 plugins/jabber/jabberinfobase.cpp:214
 #: plugins/msn/msninfobase.cpp:163
 msgid "&Names"
 msgstr "&שמות"
 
-#: plugins/icq/icqinfobase.cc:311 plugins/jabber/jabberinfobase.cpp:215
+#: plugins/icq/icqinfobase.cc:313 plugins/jabber/jabberinfobase.cpp:215
 #: plugins/msn/msninfobase.cpp:164
 msgid "Status:"
 msgstr "מצב:"
 
-#: plugins/icq/icqinfobase.cc:314
+#: plugins/icq/icqinfobase.cc:316
 msgid "External IP:"
 msgstr "כתובת IP חיצונית:"
 
-#: plugins/icq/icqinfobase.cc:315
+#: plugins/icq/icqinfobase.cc:317
 msgid "Internal IP:"
 msgstr "גתובת IP פנימית:"
 
-#: plugins/icq/icqinfobase.cc:316
+#: plugins/icq/icqinfobase.cc:318
 msgid "Client:"
 msgstr "תוכנית:"
 
@@ -3272,6 +3312,22 @@ msgstr "נקה"
 msgid "&Picture"
 msgstr "&חתימה"
 
+#: plugins/icq/securedlgbase.cc:73
+msgid "Secure chanel request"
+msgstr "ברשת ערוץ מאובטח"
+
+#: plugins/icq/securedlgbase.cc:74
+msgid ""
+"Secure channel is established using SSL with Diffie-Hellman key exchange and "
+" the TLS version 1 protocol.\n"
+"\n"
+"This only works with other SIM and Licq clients"
+msgstr ""
+"Secure channel is established using SSL with Diffie-Hellman key exchange and "
+" the TLS version 1 protocol.\n"
+"\n"
+"זה עובד רק עם לקוחות SIM ן LICQ אחרים"
+
 #: plugins/icq/icqsearchbase.cc:299
 msgid "Email:"
 msgstr "דוא\"ל:"
@@ -3322,22 +3378,6 @@ msgstr "צ'אט אקראי"
 #: plugins/icq/icqsearchbase.cc:321
 msgid "Online only"
 msgstr "רק מקוון"
-
-#: plugins/icq/securedlgbase.cc:73
-msgid "Secure chanel request"
-msgstr "ברשת ערוץ מאובטח"
-
-#: plugins/icq/securedlgbase.cc:74
-msgid ""
-"Secure channel is established using SSL with Diffie-Hellman key exchange and "
-" the TLS version 1 protocol.\n"
-"\n"
-"This only works with other SIM and Licq clients"
-msgstr ""
-"Secure channel is established using SSL with Diffie-Hellman key exchange and "
-" the TLS version 1 protocol.\n"
-"\n"
-"זה עובד רק עם לקוחות SIM ן LICQ אחרים"
 
 #: plugins/icq/securedlg.cpp:59
 #, fuzzy
@@ -6323,17 +6363,11 @@ msgstr "קו &תחתון"
 #~ msgid "P&orts"
 #~ msgstr "יצ&יאות"
 
-#~ msgid "File transfer"
-#~ msgstr "העברת קבצים"
-
 #~ msgid "1000000/100000"
 #~ msgstr "1000000/100000"
 
 #~ msgid "100000"
 #~ msgstr "100000"
-
-#~ msgid "Speed:"
-#~ msgstr "מהירות:"
 
 #~ msgid "&Details"
 #~ msgstr "&פרטים"

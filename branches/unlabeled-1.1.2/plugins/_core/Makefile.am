@@ -72,7 +72,9 @@ _core_la_SOURCES = \
  smscfgbase.ui \
  arcfg.cpp \
  arcfgbase.ui \
- tmpl.cpp
+ tmpl.cpp \
+ filetransfer.cpp \
+ filetransferbase.ui
 
 SUBDIRS=pict
 

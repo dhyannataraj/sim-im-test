@@ -203,10 +203,10 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
             if (it == replyQueue.end())
                 break;
 
-			unsigned plugin_type = (*it).flags;
+            unsigned plugin_type = (*it).flags;
             replyQueue.erase(it);
 
-			Contact *contact;
+            Contact *contact;
             ICQUserData *data = findContact(uin, NULL, false, contact);
 
             if (memcmp(p, plugins[PLUGIN_NULL], sizeof(plugin))){
@@ -233,17 +233,17 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
                 break;
             }
 
-			if (plugin_type == PLUGIN_AR){
-				string answer;
-				m_socket->readBuffer >> answer;
-				log(L_DEBUG, "Autoreply from %u %s", uin, answer.c_str());
-				Contact *contact;
-				ICQUserData *data = findContact(uin, NULL, false, contact);
-				if (data && set_str(&data->AutoReply, answer.c_str())){
-					Event e(EventContactChanged, contact);
-					e.process();
-				}
-			}
+            if (plugin_type == PLUGIN_AR){
+                string answer;
+                m_socket->readBuffer >> answer;
+                log(L_DEBUG, "Autoreply from %u %s", uin, answer.c_str());
+                Contact *contact;
+                ICQUserData *data = findContact(uin, NULL, false, contact);
+                if (data && set_str(&data->AutoReply, answer.c_str())){
+                    Event e(EventContactChanged, contact);
+                    e.process();
+                }
+            }
             break;
         }
     case ICQ_SNACxMSG_SERVERxMESSAGE:{
@@ -558,42 +558,42 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
     capability cap;
     msg.unpack((char*)cap, sizeof(cap));
     if (!memcmp(cap, capabilities[CAP_DIRECT], sizeof(cap))){
-	    TlvList tlv(msg);
-		if (!tlv(0x2711)){
-			log(L_DEBUG, "No 2711 tlv in direct message");
-			return;
-		}
+        TlvList tlv(msg);
+        if (!tlv(0x2711)){
+            log(L_DEBUG, "No 2711 tlv in direct message");
+            return;
+        }
         unsigned long req_uin;
         unsigned long localIP;
         unsigned long localPort;
         unsigned long remotePort;
         unsigned long localPort1;
         char mode;
-	    Buffer adv(*tlv(0x2711));
+        Buffer adv(*tlv(0x2711));
         adv.unpack(req_uin);
-		adv.unpack(localIP);
-		adv.unpack(localPort);
-		adv.unpack(mode);
-		adv.unpack(remotePort);
-		adv.unpack(localPort1);
-		if (req_uin != uin){
-			log(L_WARN, "Bad UIN in reverse direct request");
-			return;
-		}
-		Contact *contact;
-		ICQUserData *data = findContact(uin, NULL, false, contact);
-		if ((data == NULL) || contact->getIgnore()){
-			log(L_DEBUG, "Reverse direct request from unknown user");
-			return;
-		}
-		if (get_ip(data->RealIP) == 0)
-			set_ip(&data->RealIP, localIP);
-		in_addr addr;
-		addr.s_addr = localIP;
-		log(L_DEBUG, "Setup reverse connect to %u %s:%u", uin, inet_ntoa(addr), localPort);
-		DirectClient *direct = new DirectClient(data, this);
-		m_sockets.push_back(direct);
-		direct->reverseConnect(localIP, localPort);
+        adv.unpack(localIP);
+        adv.unpack(localPort);
+        adv.unpack(mode);
+        adv.unpack(remotePort);
+        adv.unpack(localPort1);
+        if (req_uin != uin){
+            log(L_WARN, "Bad UIN in reverse direct request");
+            return;
+        }
+        Contact *contact;
+        ICQUserData *data = findContact(uin, NULL, false, contact);
+        if ((data == NULL) || contact->getIgnore()){
+            log(L_DEBUG, "Reverse direct request from unknown user");
+            return;
+        }
+        if (get_ip(data->RealIP) == 0)
+            set_ip(&data->RealIP, localIP);
+        in_addr addr;
+        addr.s_addr = localIP;
+        log(L_DEBUG, "Setup reverse connect to %u %s:%u", uin, inet_ntoa(addr), localPort);
+        DirectClient *direct = new DirectClient(data, this);
+        m_sockets.push_back(direct);
+        direct->reverseConnect(localIP, localPort);
         return;
     }
 

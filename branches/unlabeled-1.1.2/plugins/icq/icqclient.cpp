@@ -351,7 +351,7 @@ ICQClient::ICQClient(ICQProtocol *protocol, const char *cfg)
         }
     }
     disconnected();
-	m_infoRequestId = 0;
+    m_infoRequestId = 0;
 }
 
 ICQClient::~ICQClient()

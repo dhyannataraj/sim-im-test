@@ -47,13 +47,13 @@ void MessageConfig::apply(void *_data)
     data->OpenOnReceive = chkWindow->isChecked();
     data->OpenOnOnline  = chkWindow->isChecked();
     data->LogStatus     = chkStatus->isChecked();
-	QString def;
-	if (edtPath->text().isEmpty()) {
-		const char *defPath = "Incoming Files";
-		def = QString::fromUtf8(user_file(defPath).c_str());
-	} else {
-		def = edtPath->text();
-	}
+    QString def;
+    if (edtPath->text().isEmpty()) {
+        const char *defPath = "Incoming Files";
+        def = QString::fromUtf8(user_file(defPath).c_str());
+    } else {
+        def = edtPath->text();
+    }
     set_str(&data->IncomingPath, def.utf8());
     data->AcceptMode = grpAccept->id(grpAccept->selected());
     if (data->AcceptMode == 1)

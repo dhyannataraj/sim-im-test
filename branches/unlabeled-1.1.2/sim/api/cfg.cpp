@@ -142,12 +142,12 @@ EXPORT string app_file(const char *f)
 
 EXPORT string user_file(const char *f)
 {
-	string res;
-	if (f) {
-		res = f;
-	} else {
-		res = "";
-	}
+    string res;
+    if (f) {
+        res = f;
+    } else {
+        res = "";
+    }
     Event e(EventHomeDir, &res);
     if (e.process())
         return res;

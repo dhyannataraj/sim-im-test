@@ -24,6 +24,7 @@
 #include <qstringlist.h>
 
 #include <list>
+#include <vector>
 
 namespace SIM
 {
@@ -149,11 +150,11 @@ QString SMSMessage::presentation()
     return res;
 }
 
-class FileMessageIteratorPrivate : public list<string>
+class FileMessageIteratorPrivate : public vector<string>
 {
 public:
     FileMessageIteratorPrivate(const FileMessage &msg);
-    list<string>::iterator it;
+    vector<string>::iterator it;
     void add(const QString&);
 };
 
@@ -199,6 +200,13 @@ FileMessage::Iterator::~Iterator()
     delete p;
 }
 
+const char *FileMessage::Iterator::operator[](unsigned n)
+{
+    if (n >= p->size())
+        return NULL;
+    return (*p)[n].c_str();
+}
+
 const char *FileMessage::Iterator::operator++()
 {
     if (p->it == p->end())
@@ -221,6 +229,7 @@ unsigned FileMessage::Iterator::count()
 static DataDef messageFileData[] =
     {
         { "File", DATA_UTF, 1, 0 },
+        { "", DATA_UTF, 1, 0 },			// Description
         { "Size", DATA_ULONG, 1, 0 },
         { NULL, 0, 0, 0 }
     };
@@ -259,8 +268,10 @@ void FileMessage::setSize(unsigned size)
     data.Size = size;
 }
 
-QString FileMessage::description()
+QString FileMessage::getDescription()
 {
+    if (data.Description && *data.Description)
+        return QString::fromUtf8(data.Description);
     Iterator it(*this);
     if (it.count() <= 1){
         const char *name = ++it;
@@ -282,6 +293,11 @@ QString FileMessage::description()
     return QString("%1 files") .arg(it.count());
 }
 
+void FileMessage::setDescription(const QString &str)
+{
+    set_str(&data.Description, str.utf8());
+}
+
 string FileMessage::save()
 {
     string s = Message::save();
@@ -301,16 +317,17 @@ QString FileMessage::presentation()
 
 FileTransfer::FileTransfer(FileMessage *msg)
 {
-    m_msg		= msg;
-    m_notify	= NULL;
-    m_file		= NO_FILE;
-    m_files		= 0;
-    m_bytes		= 0;
-    m_fileSize	= 0;
-    m_totalSize	= 0;
-    m_realSpeed	= 0;
-    m_speed		= 100;
-    m_state		= Unknown;
+    m_msg		 = msg;
+    m_notify	 = NULL;
+    m_file		 = NO_FILE;
+    m_files		 = 0;
+    m_bytes		 = 0;
+    m_totalBytes = 0;
+    m_fileSize	 = 0;
+    m_totalSize	 = 0;
+    m_realSpeed	 = 0;
+    m_speed		 = 100;
+    m_state		 = Unknown;
     if (msg->m_transfer)
         delete msg->m_transfer;
     msg->m_transfer = this;
@@ -331,7 +348,7 @@ void FileTransfer::setNotify(FileTransferNotify *notify)
 {
     if (m_notify)
         delete m_notify;
-    m_notify = NULL;
+    m_notify = notify;
 }
 
 QString AuthMessage::presentation()

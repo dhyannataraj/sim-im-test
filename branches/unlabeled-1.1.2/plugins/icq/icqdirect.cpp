@@ -39,6 +39,8 @@
 #include <arpa/inet.h>
 #endif
 
+#include <qfile.h>
+
 const unsigned short TCP_START  = 0x07EE;
 const unsigned short TCP_ACK    = 0x07DA;
 const unsigned short TCP_CANCEL	= 0x07D0;
@@ -727,7 +729,7 @@ void DirectClient::processPacket()
                     m_queue.erase(it);
                     delete msg;
                 }else{
-                    if (m->type() != MessageFile){
+                    if (m->type() != MessageICQFile){
                         m_socket->error_state("Bad message type in ack file");
                         return;
                     }
@@ -1069,10 +1071,10 @@ void DirectClient::processMsgQueue()
                 case MessageFile:
                     mb << m_nSequence
                     << (unsigned short)0
-                    << m_client->fromUnicode(static_cast<FileMessage*>(sm.msg)->description(), m_data)
-                    << (unsigned long)htonl(static_cast<FileMessage*>(sm.msg)->getSize())
-                    << (unsigned short)htons(m_nSequence)
-                    << (unsigned short)0;
+                    << m_client->fromUnicode(static_cast<FileMessage*>(sm.msg)->getDescription(), m_data);
+                    mb.pack((unsigned long)(static_cast<FileMessage*>(sm.msg)->getSize()));
+                    mb.pack(m_nSequence);
+                    mb << (unsigned short)0;
                     break;
                 }
                 sendPacket();
@@ -1306,9 +1308,6 @@ const char *DirectClient::name()
         m_name = "Unknown.";
     }
     m_name += number(m_data->Uin);
-    char b[12];
-    sprintf(b, ".%X", this);
-    m_name += b;
     return m_name.c_str();
 }
 
@@ -1323,6 +1322,17 @@ ICQFileTransfer::ICQFileTransfer(FileMessage *msg, ICQUserData *data, ICQClient 
         : FileTransfer(msg), DirectSocket(data, client)
 {
     m_state = None;
+    FileMessage::Iterator it(*msg);
+    m_files     = it.count();
+    m_totalSize = msg->getSize();
+    m_sendTime  = 0;
+    m_sendSize  = 0;
+    m_f = new QFile;
+}
+
+ICQFileTransfer::~ICQFileTransfer()
+{
+    delete m_f;
 }
 
 void ICQFileTransfer::connect(unsigned short port)
@@ -1338,15 +1348,72 @@ void ICQFileTransfer::processPacket()
 {
     ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
     log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket);
+    char cmd;
+    m_socket->readBuffer >> cmd;
+    if (cmd == FT_SPEED){
+        char speed;
+        m_socket->readBuffer.unpack(speed);
+        m_speed = speed;
+        return;
+    }
+    switch (m_state){
+    case InitSend:
+        switch (cmd){
+        case FT_INIT_ACK:
+            sendFileInfo();
+            break;
+        case FT_START:{
+                unsigned long pos, empty, speed, curFile;
+                m_socket->readBuffer.unpack(pos);
+                m_socket->readBuffer.unpack(empty);
+                m_socket->readBuffer.unpack(speed);
+                m_socket->readBuffer.unpack(curFile);
+                curFile--;
+                log(L_DEBUG, "Start send at %lu %lu", pos, curFile);
+                FileMessage::Iterator it(*m_msg);
+                if (curFile >= it.count()){
+                    m_socket->error_state("Bad file index");
+                    return;
+                }
+                if (curFile != m_file){
+                    m_f->setName(QString::fromLocal8Bit(it[curFile]));
+                    if (!m_f->open(IO_ReadOnly)){
+                        m_socket->error_state("Can't open file");
+                        return;
+                    }
+                    if (!m_f->at(pos)){
+                        m_socket->error_state("Can't set transfer position");
+                        return;
+                    }
+                    m_file     = curFile;
+                }
+                m_bytes    = pos;
+                m_fileSize = m_f->size();
+                m_state    = Send;
+                if (m_notify)
+                    m_notify->process();
+                write_ready();
+                break;
+            }
+        default:
+            log(L_WARN, "Bad init client command %X", cmd);
+            m_socket->error_state("Bad packet");
+        }
+        break;
+    default:
+        log(L_WARN, "Bas state in process packet");
+    }
 }
 
 bool ICQFileTransfer::error_state(const char *err, unsigned code)
 {
     if (!DirectSocket::error_state(err, code))
         return false;
-    m_state = None;
-    FileTransfer::m_state = FileTransfer::Error;
-    m_msg->setError(err);
+    if (FileTransfer::m_state != FileTransfer::Done){
+        m_state = None;
+        FileTransfer::m_state = FileTransfer::Error;
+        m_msg->setError(err);
+    }
     m_msg->m_transfer = NULL;
     Event e(EventMessageSent, m_msg);
     e.process();
@@ -1407,7 +1474,79 @@ void ICQFileTransfer::sendPacket(bool dump)
 
 void ICQFileTransfer::write_ready()
 {
-    DirectSocket::write_ready();
+    if (m_state != Send){
+        DirectSocket::write_ready();
+        return;
+    }
+    if (m_bytes >= m_fileSize){
+        m_state = None;
+        m_f->close();
+        m_file++;
+        if (m_file >= m_files){
+            FileTransfer::m_state = FileTransfer::Done;
+            m_socket->error_state("Done");
+            return;
+        }
+        m_state = InitSend;
+        sendFileInfo();
+        return;
+    }
+    time_t now;
+    time(&now);
+    if ((unsigned)now != m_sendTime){
+        m_sendTime = now;
+        m_sendSize = 0;
+    }
+    if (m_sendSize > (m_speed << 18)){
+        m_socket->pause(1);
+        return;
+    }
+    unsigned long tail = m_fileSize - m_bytes;
+    if (tail > 2048) tail = 2048;
+    startPacket(FT_DATA);
+    char buf[2048];
+    int readn = m_f->readBlock(buf, tail);
+    if (readn <= 0){
+        m_socket->error_state("Read file error");
+        return;
+    }
+    m_bytes      += readn;
+    m_totalBytes += readn;
+    m_sendSize   += readn;
+    m_socket->writeBuffer.pack(buf, readn);
+    sendPacket(false);
 }
+
+void ICQFileTransfer::sendFileInfo()
+{
+    startPacket(FT_FILEINFO);
+    m_socket->writeBuffer.pack((char)0);
+    FileMessage::Iterator it(*m_msg);
+    QString curFile = QString::fromLocal8Bit(it[m_file]);
+    m_f->setName(curFile);
+    if (!m_f->open(IO_ReadOnly)){
+        m_socket->error_state(I18N_NOOP("Can't open file"));
+        return;
+    }
+    m_bytes    = 0;
+    m_fileSize = m_f->size();
+    if (m_notify)
+        m_notify->process();
+    string empty;
+    string s = it[m_file];
+#ifdef WIN32
+    const char *p = strrchr(s.c_str(), '\\');
+#else
+    const char *p = strrchr(s.c_str(), '/');
+#endif
+    if (p) s = p + 1;
+    m_client->fromUnicode(QString::fromLocal8Bit(s.c_str()), m_data);
+    m_socket->writeBuffer << s << empty;
+    m_socket->writeBuffer.pack((unsigned long)m_fileSize);
+    m_socket->writeBuffer.pack((unsigned long)0);
+    m_socket->writeBuffer.pack((unsigned long)m_speed);
+    sendPacket();
+}
+
 
 

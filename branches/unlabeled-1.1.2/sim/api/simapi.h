@@ -904,6 +904,7 @@ protected:
 typedef struct MessageFileData
 {
     char		*File;
+    char		*Description;
     unsigned	Size;
 } MessageFileData;
 
@@ -952,6 +953,7 @@ protected:
     unsigned m_file;
     unsigned m_files;
     unsigned m_bytes;
+    unsigned m_totalBytes;
     unsigned m_fileSize;
     unsigned m_totalSize;
     unsigned m_realSpeed;
@@ -967,9 +969,10 @@ public:
     PROP_UTF8(File);
     unsigned getSize();
     void     setSize(unsigned);
-    virtual string save();
+    virtual	string save();
     virtual QString presentation();
-    QString description();
+    QString getDescription();
+    void	setDescription(const QString&);
     class EXPORT Iterator
     {
     public:
