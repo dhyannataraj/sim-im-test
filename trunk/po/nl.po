@@ -2422,13 +2422,13 @@ msgstr "Bijnaam:"
 #: plugins/icq/icqsearch.cpp:299 plugins/jabber/jabberadd.cpp:279
 #: plugins/jabber/jabbersearch.cpp:104 plugins/jabber/jabbersearch.cpp:304
 #, fuzzy
-msgid "First name"
+msgid "First Name"
 msgstr "Voornaam:"
 
 #: plugins/icq/icqsearch.cpp:301 plugins/jabber/jabberadd.cpp:280
 #: plugins/jabber/jabbersearch.cpp:105 plugins/jabber/jabbersearch.cpp:305
 #, fuzzy
-msgid "Last name"
+msgid "Last Name"
 msgstr "Achternaam:"
 
 #: plugins/icq/icqsearch.cpp:304 plugins/jabber/jabbersearch.cpp:108
@@ -7588,11 +7588,11 @@ msgstr "Contactlijst verzonden"
 #~ msgid "&Source"
 #~ msgstr "Sport"
 
-#~ msgid "First name:"
+#~ msgid "First Name:"
 #~ msgstr "Voornaam:"
 
 #, fuzzy
-#~ msgid "Last name:"
+#~ msgid "Last Name:"
 #~ msgstr "Achternaam:"
 
 #~ msgid "Display:"

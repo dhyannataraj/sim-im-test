@@ -449,7 +449,7 @@
                         </property>
                         <property>
                             <name>text</name>
-                            <string>First name:</string>
+                            <string>First Name:</string>
                         </property>
                         <property>
                             <name>alignment</name>

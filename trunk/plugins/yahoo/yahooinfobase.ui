@@ -146,7 +146,7 @@
                         </property>
                         <property>
                             <name>text</name>
-                            <string>First name:</string>
+                            <string>First Name:</string>
                         </property>
                         <property>
                             <name>alignment</name>
@@ -164,7 +164,7 @@
                         </property>
                         <property>
                             <name>text</name>
-                            <string>Last name:</string>
+                            <string>Last Name:</string>
                         </property>
                         <property>
                             <name>alignment</name>

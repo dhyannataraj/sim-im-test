@@ -2921,7 +2921,7 @@ msgstr "Pseudo :"
 #: plugins/icq/icqsearch.cpp:299 plugins/jabber/jabberadd.cpp:279
 #: plugins/jabber/jabbersearch.cpp:104 plugins/jabber/jabbersearch.cpp:304
 #, fuzzy
-msgid "First name"
+msgid "First Name"
 msgstr "Prénom"
 
 # ui/maininfobase.cpp:77
@@ -2929,7 +2929,7 @@ msgstr "Prénom"
 #: plugins/icq/icqsearch.cpp:301 plugins/jabber/jabberadd.cpp:280
 #: plugins/jabber/jabbersearch.cpp:105 plugins/jabber/jabbersearch.cpp:305
 #, fuzzy
-msgid "Last name"
+msgid "Last Name"
 msgstr "Nom"
 
 # ui/homeinfobase.cpp:114
@@ -9094,13 +9094,13 @@ msgstr "Fenêtre - scale"
 
 # ui/maininfobase.cpp:194
 # ui/searchbase.cpp:185
-#~ msgid "First name:"
+#~ msgid "First Name:"
 #~ msgstr "Prénom"
 
 # ui/maininfobase.cpp:77
 # ui/searchbase.cpp:179
 #, fuzzy
-#~ msgid "Last name:"
+#~ msgid "Last Name:"
 #~ msgstr "Nom"
 
 # ui/maininfobase.cpp:188

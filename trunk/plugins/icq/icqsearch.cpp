@@ -296,9 +296,9 @@ void ICQSearch::addColumns()
     columns.append("nick");
     columns.append(i18n("Nick"));
     columns.append("first");
-    columns.append(i18n("First name"));
+    columns.append(i18n("First Name"));
     columns.append("last");
-    columns.append(i18n("Last name"));
+    columns.append(i18n("Last Name"));
     if (m_client->m_bAIM){
         columns.append("city");
         columns.append(i18n("City"));

@@ -276,8 +276,8 @@ void *JabberAdd::processEvent(Event *e)
             (*it).id_search = m_client->search((*it).jid.c_str(), (*it).node.c_str(), (*it).condition.utf8());
             if ((*it).condition.left(6) != "x:data"){
                 addAttr("", i18n("JID"));
-                addAttr("first", i18n("First name"));
-                addAttr("last", i18n("Last name"));
+                addAttr("first", i18n("First Name"));
+                addAttr("last", i18n("Last Name"));
                 addAttr("nick", i18n("Nick"));
                 addAttr("email", i18n("E-Mail"));
                 addAttrs();

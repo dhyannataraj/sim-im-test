@@ -2239,12 +2239,12 @@ msgstr "Niggname:"
 
 #: plugins/icq/icqsearch.cpp:299 plugins/jabber/jabberadd.cpp:279
 #: plugins/jabber/jabbersearch.cpp:104 plugins/jabber/jabbersearch.cpp:304
-msgid "First name"
+msgid "First Name"
 msgstr "Vorname:"
 
 #: plugins/icq/icqsearch.cpp:301 plugins/jabber/jabberadd.cpp:280
 #: plugins/jabber/jabbersearch.cpp:105 plugins/jabber/jabbersearch.cpp:305
-msgid "Last name"
+msgid "Last Name"
 msgstr "Nachname:"
 
 #: plugins/icq/icqsearch.cpp:304 plugins/jabber/jabbersearch.cpp:108
@@ -7149,10 +7149,10 @@ msgstr "Wendows XB-Schdil"
 #~ msgid "&Source"
 #~ msgstr "&Quelle"
 
-#~ msgid "First name:"
+#~ msgid "First Name:"
 #~ msgstr "Vorname:"
 
-#~ msgid "Last name:"
+#~ msgid "Last Name:"
 #~ msgstr "Nachname:"
 
 #~ msgid "Display:"

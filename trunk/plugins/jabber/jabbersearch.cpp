@@ -101,8 +101,8 @@ static defFlds fields[] =
         { "username", I18N_NOOP("Username"), true },
         { "nick", I18N_NOOP("Nick"), false },
         { "email", I18N_NOOP("EMail"), false },
-        { "first", I18N_NOOP("First name"), false },
-        { "last", I18N_NOOP("Last name"), false },
+        { "first", I18N_NOOP("First Name"), false },
+        { "last", I18N_NOOP("Last Name"), false },
         { "age_min", I18N_NOOP("Age min"), false },
         { "age_max", I18N_NOOP("Age max"), false },
         { "city", I18N_NOOP("City"), false },
@@ -301,8 +301,8 @@ static const char *any_data[] =
         I18N_NOOP("Fast / Less accurate"),
         I18N_NOOP("Slower / More extensive")
         I18N_NOOP("Full name")
-        I18N_NOOP("First name")
-        I18N_NOOP("Last name")
+        I18N_NOOP("First Name")
+        I18N_NOOP("Last Name")
         I18N_NOOP("Nickname")
         I18N_NOOP("E-mail")
         I18N_NOOP("Username")

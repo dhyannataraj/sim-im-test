@@ -470,7 +470,7 @@ QString WeatherPlugin::replace(const QString &text)
     sun_set = getSun_set();
     sun_raise = getSun_raise();
     updated = getUpdated();
-#endif    
+#endif
     res = res.replace(QRegExp("\\%t"), number(getTemperature()) + QChar((unsigned short)176) + getUT());
     res = res.replace(QRegExp("\\%f"), number(getFeelsLike()) + QChar((unsigned short)176) + getUT());
     res = res.replace(QRegExp("\\%d"), number(getDewPoint()) + QChar((unsigned short)176) + getUT());
@@ -604,7 +604,7 @@ static const char *tags[] =
         "ud",
         "gust",
         "vis",
-        "devp",
+        "dewp",
         "hi",
         "low",
         NULL,
@@ -708,7 +708,7 @@ void WeatherPlugin::element_end(const char *el)
         m_data = "";
         return;
     }
-    if (!strcmp(el, "devp") && m_bCC){
+    if (!strcmp(el, "dewp") && m_bCC){
         setDewPoint(atol(m_data.c_str()));
         m_data = "";
         return;
