@@ -49,12 +49,11 @@ signals:
     void showPopup(QPoint);
     void toggleWin();
     void doubleClicked();
-public slots:
-    void reset();
 protected slots:
     void processEvent(ICQEvent*);
     void timer();
     void toggle();
+    void reset();
 protected:
     enum ShowIcon
     {

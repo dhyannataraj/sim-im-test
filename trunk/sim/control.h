@@ -57,10 +57,15 @@ signals:
 protected slots:
     void read_ready(int);
     void processEvent(ICQEvent*);
+    void reset();
 protected:
+    void ownerChanged();
     int  s;
     bool bEscape;
+    bool bNotify;
     string read_line;
+    QString status;
+    QString msg;
     void write(const char*);
     ICQEvent *sendEvent;
 };

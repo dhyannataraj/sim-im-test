@@ -504,6 +504,8 @@ void scanUIN()
     }
 }
 
+bool bNoDock = false;
+
 int main(int argc, char *argv[])
 {
     _argc = argc;
@@ -538,6 +540,7 @@ int main(int argc, char *argv[])
             { "b <dir>", i18n("Directory for files"), 0 },
             { "d <loglevel>", i18n("Loglevel"), 0 },
             { "s <socket>", i18n("Control socket"), 0 },
+            { "nodock", i18n("No dock"), 0 },
             { 0, 0, 0 }
         };
     KCmdLineArgs::addCmdLineOptions( options );
@@ -559,7 +562,10 @@ int main(int argc, char *argv[])
         log_level = atoi(args->getOption("d"));
     if (args->isSet("s"))
         ctrlSock = strdup(args->getOption("s"));
+    if (args->isSet("nodock"))
+        bNoDock = true;
 #else
+    bool bFork = true;
     for (int i = 0; i < argc; i++){
         if (!strcmp(argv[i], "-b") && argv[i+1])
             homeDir = argv[++i];
@@ -567,6 +573,10 @@ int main(int argc, char *argv[])
             log_level = atoi(argv[++i]);
         if (!strcmp(argv[i], "-s") && argv[i+1])
             ctrlSock = argv[++i];
+        if (!strcmp(argv[i], "--nofork"))
+            bFork = false;
+        if (!strcmp(argv[i], "-nodock"))
+            bNoDock = true;
     }
 #endif
     pSplash = new Splash;
@@ -578,6 +588,17 @@ int main(int argc, char *argv[])
         if (ctrlSock.length())
             return 1;
     }
+#if !defined(USE_KDE) && !defined(WIN32)
+    if (bFork){
+        pid_t child = fork();
+        if (child == -1){
+            fprintf(stderr, "Can't fork: %s\n", strerror(errno));
+            exit(1);
+        }
+        if (child)
+            exit(0);
+    }
+#endif
     scanUIN();
     unsigned startUIN = pSplash->getLastUIN();
     if (!pSplash->isSavePassword()) startUIN = 0;

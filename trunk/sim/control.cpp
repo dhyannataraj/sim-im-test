@@ -19,6 +19,7 @@
 #include "mainwin.h"
 #include "client.h"
 #include "history.h"
+#include "cuser.h"
 #include "log.h"
 
 #include <qsocketnotifier.h>
@@ -186,6 +187,7 @@ ControlSocket::ControlSocket(int _s, QObject *parent)
     write("SIM ready\n>");
     log(L_DEBUG, "Get control connection");
     sendEvent = NULL;
+    bNotify = false;
 }
 
 ControlSocket::~ControlSocket()
@@ -200,9 +202,11 @@ ControlSocket::~ControlSocket()
 #define CMD_SMS			3
 #define CMD_MAINWND		4
 #define CMD_SEARCHWND	5
-#define CMD_QUIT		6
-#define CMD_CLOSE		7
-#define CMD_HELP		8
+#define CMD_DOCK		6
+#define CMD_NOTIFY		7
+#define CMD_QUIT		8
+#define CMD_CLOSE		9
+#define CMD_HELP		10
 
 typedef struct cmdDef
 {
@@ -221,6 +225,8 @@ static cmdDef cmds[] =
         { "SMS", I18N_NOOP("send SMS"), "SMS <phone> <message>", 2, 2 },
         { "MAINWINDOW", I18N_NOOP("show/hide main window"), "MAINWINDOW [on|off]", 0, 1 },
         { "SEARCHWINDOW", I18N_NOOP("show/hide search window"), "SEARCHWINDOW [on|off]", 0, 1 },
+        { "DOCK", I18N_NOOP("show/hide dock"), "DOCK [on|off]", 0, 1 },
+        { "NOTIFY", I18N_NOOP("set notify mode"), "NOTIFY [on|off]", 0, 1 },
         { "QUIT", I18N_NOOP("quit SIM"), "QUIT", 0, 0 },
         { "CLOSE", I18N_NOOP("close session"), "CLOSE", 0, 0 },
         { "HELP", I18N_NOOP("command help information"), "HELP [<cmd>]", 0, 1 }
@@ -256,16 +262,16 @@ void ControlSocket::read_ready(int)
         bEscape = false;
         return;
     }
-    if (ch == '\r') return;
     if (ch == '\\'){
         bEscape = true;
         return;
     }
-    if (ch != '\n'){
+    if ((ch != '\n') && (ch != '\r')){
         read_line += ch;
         return;
     }
     QString line = QString::fromLocal8Bit(read_line.c_str());
+    read_line = "";
     log(L_DEBUG, "Control line: %s", (const char*)(line.local8Bit()));
     QStringList args;
     QString arg;
@@ -384,6 +390,33 @@ void ControlSocket::read_ready(int)
             write(pMain->isShow() ? "on" : "off");
         }
         break;
+    case CMD_DOCK:
+        if (pMain){
+            if (nArgs){
+                arg = args[1].upper();
+                pMain->setUseDock((arg != "OFF") && (arg != "0"));
+                pMain->setDock();
+            }
+            write("DOCK ");
+            write(pMain->isUseDock() ? "on" : "off");
+        }
+        break;
+    case CMD_NOTIFY:
+        if (nArgs){
+            arg = args[1].upper();
+            bNotify = (arg != "OFF") && (arg != "0");
+        }
+        write("NOTIFY ");
+        write(bNotify ? "on" : "off");
+        if (bNotify){
+            ownerChanged();
+            reset();
+            if (pMain)
+                connect(pMain, SIGNAL(msgChanged()), this, SLOT(reset()));
+        }else if (pMain){
+            disconnect(pMain, SIGNAL(msgChanged()), this, SLOT(reset()));
+        }
+        break;
     case CMD_SEARCHWND:
         if (pMain){
             if (nArgs){
@@ -450,6 +483,15 @@ void ControlSocket::write(const char *l)
 
 void ControlSocket::processEvent(ICQEvent *e)
 {
+    switch (e->type()){
+    case EVENT_USER_DELETED:
+        reset();
+        break;
+    case EVENT_STATUS_CHANGED:
+        if ((e->Uin() == pClient->owner->Uin) || (e->Uin() == 0))
+            ownerChanged();
+        break;
+    }
     if (e != sendEvent) return;
     if (e->state != ICQEvent::Success){
         pClient->cancelMessage(e->message());
@@ -460,6 +502,41 @@ void ControlSocket::processEvent(ICQEvent *e)
     History h(msg->getUin());
     h.addMessage(msg);
     write("\n>");
+}
+
+void ControlSocket::reset()
+{
+    if (!bNotify) return;
+    list<msgInfo> msgs;
+    pMain->fillUnread(msgs);
+    QString s;
+    if (msgs.size()){
+        QStringList str;
+        for (list<msgInfo>::iterator it_msg = msgs.begin(); it_msg != msgs.end(); ++it_msg){
+            CUser u((*it_msg).uin);
+            str.append(i18n("%1 from %2")
+                       .arg(SIMClient::getMessageText((*it_msg).type, (*it_msg).count))
+                       .arg(u.name()));
+        }
+        s = str.join(" ");
+    }
+    if (s == msg) return;
+    msg = s;
+    write("\nMessage:");
+    if (!msg.isEmpty())
+        write(msg.local8Bit());
+    write("\n");
+}
+
+void ControlSocket::ownerChanged()
+{
+    if (!bNotify) return;
+    QString st = pClient->getStatusText();
+    if (st == status) return;
+    status = st;
+    write("\nStatus:");
+    write(status.local8Bit());
+    write("\n");
 }
 
 #ifndef _WINDOWS

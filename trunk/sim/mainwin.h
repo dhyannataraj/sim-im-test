@@ -511,6 +511,7 @@ signals:
     void ftChanged();
     void childExited(int pid, int status);
     void toolBarChanged(const ToolBarDef *def);
+    void msgChanged();
 public slots:
     void quit();
     void setup();

@@ -1226,7 +1226,7 @@ void MainWindow::messageReceived(ICQMessage *msg)
         if ((*it) == msg->Id) break;
     if (it == u->unreadMsgs.end()) return;
     messages.push_back(m);
-    if (dock) dock->reset();
+    emit msgChanged();
 
     CUser user(u);
     xosd->setMessage(i18n("%1 from %2 received")
@@ -1479,9 +1479,16 @@ bool MainWindow::isDock()
     return (dock != NULL);
 }
 
+extern bool bNoDock;
+
 void MainWindow::setDock()
 {
-    if (isUseDock()){
+    bool bDock = isUseDock();
+    if (bNoDock){
+        bDock = false;
+        bNoDock = false;
+    }
+    if (bDock){
         if (dock) return;
         dock = new DockWnd(this);
         return;
@@ -1997,7 +2004,7 @@ void MainWindow::setIcons()
     if (!pClient->isConnecting()){
         toolbar->setState(btnStatus, pClient->getStatusIcon(), pClient->getStatusText());
     }else{
-        toolbar->setState(btnStatus, SIMClient::getStatusIcon(bBlinkState ? ICQ_STATUS_OFFLINE : ICQ_STATUS_ONLINE), i18n("Connecting"));
+        toolbar->setState(btnStatus, SIMClient::getStatusIcon(bBlinkState ? ICQ_STATUS_OFFLINE : ICQ_STATUS_ONLINE), pClient->getStatusText());
         icon = Pict(SIMClient::getStatusIcon(bBlinkState ? ICQ_STATUS_OFFLINE : ICQ_STATUS_ONLINE));
     }
     setIcon(icon);
@@ -2905,7 +2912,7 @@ void MainWindow::messageRead(ICQMessage *msg)
 {
     unread_msg m(msg);
     messages.remove(m);
-    if (dock) dock->reset();
+    emit msgChanged();
 }
 
 bool msgInfo::operator < (const msgInfo &m) const

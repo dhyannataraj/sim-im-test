@@ -1115,6 +1115,7 @@ const char *SIMClient::getStatusIcon()
 QString SIMClient::getStatusText()
 {
     if (!isActive()) return i18n("Inactive");
+    if (isConnecting()) return i18n("Connecting");
     if (((owner->uStatus && 0xFF) == ICQ_STATUS_ONLINE) && owner->InvisibleId)
         return i18n("Invisible");
     return getStatusText(owner->uStatus);

@@ -551,6 +551,7 @@ DockWnd::DockWnd(QWidget *main)
     connect(this, SIGNAL(doubleClicked()), main, SLOT(dockDblClicked()));
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     connect(pMain, SIGNAL(iconChanged()), this, SLOT(reset()));
+    connect(pMain, SIGNAL(msgChanged()), this, SLOT(reset()));
     m_state = 0;
     showIcon = State;
     QTimer *t = new QTimer(this);
