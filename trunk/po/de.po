@@ -1,4 +1,4 @@
-# translation of de.po to deutsch
+﻿# translation of de.po to deutsch
 # Copyright (C) 2002,2003 Free Software Foundation, Inc.
 # Christoph Thielecke <crissi99@gmx.de>, 2002,2003.
 # Crissi <crissi99@gmx.de>, 2003.
@@ -8,11 +8,19 @@ msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2003-10-10 11:13+0400\n"
 "PO-Revision-Date: 2003-10-10 16:16GMT\n"
-"Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
+"Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.0.2\n"
+
+#: plugins/__homedir/homedircfgbase.cpp:37
+msgid "Use &default path"
+msgstr "Standardverzeichnis benutzen"
+
+#: plugins/__homedir/homedircfgbase.cpp:41
+msgid "Path for config files:"
+msgstr "Verzeichnis für die Konfigurationsdateien:"
 
 #: plugins/__homedir/homedir.cpp:47
 msgid "Home directory"
@@ -21,7 +29,7 @@ msgstr "Persönliches Verzeichnis"
 #: plugins/__homedir/homedir.cpp:48
 msgid "Plugin provides select directory for store config files"
 msgstr ""
-"Plugin stellt Auswahl eines Verzeichnisses zum Speichernder "
+"Plugin stellt Auswahl eines Verzeichnisses zum Speichern der "
 "Konfigurationsdateien zur Verfügung"
 
 #: plugins/__homedir/homedir.cpp:91
@@ -1656,7 +1664,7 @@ msgstr "Christoph Thielecke, Tobias Franz"
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
-msgstr "crissi99@gmx.de"
+msgstr "crissi99@gmx.de,noragen@gmx.net"
 
 #: plugins/about/aboutdlg.cpp:44
 msgid "%1 Version: %2"
