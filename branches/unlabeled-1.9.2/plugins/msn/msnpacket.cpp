@@ -21,8 +21,6 @@
 #include <qtimer.h>
 #include <openssl/md5.h>
 
-const unsigned NO_GROUP = (unsigned)(-1);
-
 MSNPacket::MSNPacket(MSNClient *client, const char *cmd)
 {
     m_bAnswer = false;
@@ -399,7 +397,7 @@ bool SynPacket::answer(const char *_cmd, vector<string> &args)
         }
         m_data->sFlags |= MSN_CHECKED;
         lr = m_client->findRequest(mail.c_str(), LR_CONTACTxCHANGED);
-        unsigned grp = NO_GROUP;
+        unsigned grp = 0;
         if (args.size() > 3)
             grp = atol(args[3].c_str());
         m_data->Group = grp;
@@ -409,7 +407,7 @@ bool SynPacket::answer(const char *_cmd, vector<string> &args)
 		set_str(&m_data->PhoneMobile, NULL);
 		m_data->Mobile = false;
         Group *group = NULL;
-        if (grp == NO_GROUP){
+        if (grp == 0){
             group = getContacts()->group(0);
         }else{
             m_client->findGroup(grp, NULL, group);

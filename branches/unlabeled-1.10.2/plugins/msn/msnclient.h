@@ -189,6 +189,7 @@ protected:
     void getLine(const char*);
     void clearPackets();
     void sendStatus();
+	void clearPacket();
     virtual void	packet_ready();
     virtual void	connect_ready();
     virtual void	setStatus(unsigned status);
