@@ -175,10 +175,11 @@ void ControlListener::finished()
     deleted.clear();
 }
 
-ControlSocket::ControlSocket(int s, QObject *parent)
+ControlSocket::ControlSocket(int _s, QObject *parent)
         : QObject(parent)
 {
-    setSocket(s, QSocketDevice::Stream);
+	s = _s;
+	bEscape = false;
     QSocketNotifier *notify = new QSocketNotifier(s, QSocketNotifier::Read, this);
     QObject::connect(notify, SIGNAL(activated(int)), this, SLOT(read_ready(int)));
     QObject::connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
@@ -244,36 +245,28 @@ static statusDef statusDefs[] =
 
 void ControlSocket::read_ready(int)
 {
-    log(L_DEBUG, "Read_ready");
-    QString line;
-    for (;;){
-        int pos = read_line.find('\n');
-        if (pos < 0){
-            int n = bytesAvailable();
-	    log(L_DEBUG, "Bytes: %i", n);
-            if (n == -1){
-                emit finished(this);
-                return;
-            }
-	    if (n == 0) return;
-            char buf[1024];
-            while (n > 0){
-                int tail = n;
-                if (tail > (int)(sizeof(buf) - 1))
-                    tail = sizeof(buf) - 1;
-                int readn = readBlock(buf, tail);
-                if (readn < 0){
-                    emit finished(this);
-                    return;
-                }
-                buf[readn] = 0;
-                read_line += QString::fromLocal8Bit(buf);
-            }
-        }
-        line = read_line.left(pos);
-        read_line = read_line.mid(pos + 1);
-
-        log(L_DEBUG, "Control line: %s", (const char*)(line.local8Bit()));
+	char ch;
+	int readn = recv(s, &ch, 1, 0);
+	if (readn <= 0){
+		emit finished(this);
+		return;
+	}
+	if (bEscape){
+		read_line += ch;
+		bEscape = false;
+		return;
+	}
+	if (ch == '\r') return;
+	if (ch == '\\'){
+		bEscape = true;
+		return;
+	}
+	if (ch != '\n'){
+		read_line += ch;
+		return;
+	}
+	QString line = QString::fromLocal8Bit(read_line.c_str());
+    log(L_DEBUG, "Control line: %s", (const char*)(line.local8Bit()));
         QStringList args;
         QString arg;
         unsigned n;
@@ -435,23 +428,22 @@ void ControlSocket::read_ready(int)
             break;
         }
         write("\n>");
-    }
 }
 
-void ControlSocket::write(const char *s)
+void ControlSocket::write(const char *l)
 {
 #ifdef WIN32
     string str;
-    for (; *s; s++){
-        if (*s == '\r') continue;
-        if (*s == '\n')
+    for (; *l; l++){
+        if (*l == '\r') continue;
+        if (*l == '\n')
             str += '\r';
-        str += *s;
+        str += *l;
     }
-    if (writeBlock(str.c_str(), str.size()) < 0)
+    if (send(s, str.c_str(), str.size(), 0) < 0)
         emit finished(this);
 #else
-    if (writeBlock(s, strlen(s)) < 0)
+    if (send(s, l, strlen(l), 0) < 0)
         emit finished(this);
 #endif
 }

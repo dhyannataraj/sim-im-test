@@ -46,7 +46,7 @@ protected:
     int s;
 };
 
-class ControlSocket : public QObject, public QSocketDevice
+class ControlSocket : public QObject
 {
     Q_OBJECT
 public:
@@ -58,7 +58,9 @@ protected slots:
     void read_ready(int);
     void processEvent(ICQEvent*);
 protected:
-    QString read_line;
+	int  s;
+	bool bEscape;
+    string read_line;
     void write(const char*);
     ICQEvent *sendEvent;
 };

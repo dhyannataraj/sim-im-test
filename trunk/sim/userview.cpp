@@ -1791,6 +1791,7 @@ void UserFloat::contentsMouseDoubleClickEvent(QMouseEvent *e)
         viewport()->releaseMouse();
     }
     mousePos = QPoint();
+	UserView::contentsMouseDoubleClickEvent(e);
 }
 
 void UserFloat::contentsMousePressEvent(QMouseEvent *e)
