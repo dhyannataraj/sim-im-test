@@ -42,12 +42,9 @@ JabberAdd::JabberAdd(JabberClient *client, QWidget *parent)
     connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));
     connect(this, SIGNAL(addResult(QWidget*)), topLevelWidget(), SLOT(addResult(QWidget*)));
     connect(this, SIGNAL(showResult(QWidget*)), topLevelWidget(), SLOT(showResult(QWidget*)));
-    m_btnJID  = new GroupRadioButton(i18n("&JID"), grpJID);
-    m_btnMail = new GroupRadioButton(i18n("&E-Mail address"), grpMail);
-    m_btnName = new GroupRadioButton(i18n("&Name"), grpName);
-    connect(m_btnJID,  SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
-    connect(m_btnMail, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
-    connect(m_btnName, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
+    connect(grpJID,  SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
+    connect(grpMail, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
+    connect(grpName, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
     connect(btnBrowser, SIGNAL(clicked()), this, SLOT(browserClick()));
     const QIconSet *is = Icon("1rightarrow");
     if (is)
@@ -68,13 +65,14 @@ void JabberAdd::browserDestroyed()
 void JabberAdd::radioToggled(bool)
 {
     setBrowser(false);
-    emit setAdd(m_btnJID->isChecked());
+    if (isVisible())
+        emit setAdd(grpJID->isChecked());
 }
 
 void JabberAdd::showEvent(QShowEvent *e)
 {
     JabberAddBase::showEvent(e);
-    emit setAdd(m_btnJID->isChecked());
+    emit setAdd(grpJID->isChecked());
     if (m_browser && m_bBrowser)
         emit showResult(m_browser);
 }
@@ -110,50 +108,53 @@ void JabberAdd::setBrowser(bool bBrowser)
         lblNick->setEnabled(false);
         emit setAdd(false);
     }else{
-        m_btnJID->slotToggled(m_btnJID->isChecked());
-        m_btnName->slotToggled(m_btnName->isChecked());
-        m_btnMail->slotToggled(m_btnMail->isChecked());
+        grpJID->slotToggled();
+        grpName->slotToggled();
+        grpMail->slotToggled();
     }
 }
 
-void JabberAdd::add(unsigned grp)
+void JabberAdd::createContact(unsigned tmpFlags, Contact *&contact)
 {
-    if (!m_btnJID->isChecked() || edtJID->text().isEmpty())
+    if (!grpJID->isChecked() || edtJID->text().isEmpty())
         return;
-    Contact *contact;
     string resource;
-    if (m_client->findContact(edtJID->text().utf8(), NULL, false, contact, resource)){
-        emit showError(i18n("%1 already in contact list") .arg(edtJID->text()));
+    if (m_client->findContact(edtJID->text().utf8(), NULL, false, contact, resource))
         return;
-    }
     QString name = edtJID->text();
     int n = name.find('@');
     if (n > 0)
         name = name.left(n);
     m_client->findContact(edtJID->text().utf8(), name.utf8(), true, contact, resource, false);
-    contact->setGroup(grp);
-    Event e(EventContactChanged, contact);
-    e.process();
+    contact->setFlags(contact->getFlags() | tmpFlags);
 }
 
 void JabberAdd::search()
 {
     if (m_bBrowser)
         return;
-    if (m_btnName->isChecked()){
-        m_first = edtFirst->text();
-        m_last  = edtLast->text();
-        m_nick	= edtNick->text();
-        m_mail	= "";
-        startSearch();
-    }
-    if (m_btnMail->isChecked()){
-        m_mail	= edtMail->text();
-        m_first	= "";
-        m_last	= "";
-        m_nick	= "";
-        startSearch();
-    }
+    if (grpName->isChecked())
+        searchName(edtFirst->text(), edtLast->text(), edtNick->text());
+    if (grpMail->isChecked())
+        searchMail(edtMail->text());
+}
+
+void JabberAdd::searchMail(const QString &mail)
+{
+    m_mail	= mail;
+    m_first	= "";
+    m_last	= "";
+    m_nick	= "";
+    startSearch();
+}
+
+void JabberAdd::searchName(const QString &first, const QString &last, const QString &nick)
+{
+    m_first = first;
+    m_last  = last;
+    m_nick	= nick;
+    m_mail	= "";
+    startSearch();
 }
 
 void JabberAdd::startSearch()
@@ -163,12 +164,12 @@ void JabberAdd::startSearch()
     m_labels.clear();
     m_agents.clear();
     m_nFields = 0;
+    m_id_disco = "";
     QString url;
     if (m_client->getUseVHost())
         url = QString::fromUtf8(m_client->getVHost());
     if (url.isEmpty())
         url = QString::fromUtf8(m_client->getServer());
-    m_id_disco  = m_client->discoItems(url.utf8(), "");
     m_id_browse = m_client->browse(url.utf8());
 }
 
@@ -182,14 +183,27 @@ void JabberAdd::addAttr(const char *name, const QString &label)
     m_labels.push_back(label);
 }
 
+void JabberAdd::searchStop()
+{
+    m_id_browse = "";
+    m_id_disco  = "";
+    m_disco_items.clear();
+    m_fields.clear();
+    m_labels.clear();
+    m_agents.clear();
+    m_nFields = 0;
+}
+
 void JabberAdd::addAttrs()
 {
     if (m_fields.size() <= m_nFields)
         return;
     QStringList attrs;
-    for (; m_nFields < m_fields.size(); m_nFields++)
+    for (; m_nFields < m_fields.size(); m_nFields++){
+        attrs.append(m_fields[m_nFields].c_str());
         attrs.append(m_labels[m_nFields]);
-    emit setColumns(attrs, 0);
+    }
+    emit setColumns(attrs, 0, this);
 }
 
 void *JabberAdd::processEvent(Event *e)
@@ -198,6 +212,14 @@ void *JabberAdd::processEvent(Event *e)
         DiscoItem *item = (DiscoItem*)(e->param());
         if (m_id_browse == item->id){
             if (item->jid.empty()){
+                if (!item->node.empty()){
+                    QString url;
+                    if (m_client->getUseVHost())
+                        url = QString::fromUtf8(m_client->getVHost());
+                    if (url.isEmpty())
+                        url = QString::fromUtf8(m_client->getServer());
+                    m_id_disco  = m_client->discoItems(url.utf8(), "");
+                }
                 m_id_browse = "";
                 checkDone();
                 return e->param();
@@ -253,7 +275,7 @@ void *JabberAdd::processEvent(Event *e)
             }
             (*it).id_search = m_client->search((*it).jid.c_str(), (*it).node.c_str(), (*it).condition.utf8());
             if ((*it).condition.left(6) != "x:data"){
-                addAttr("jid", i18n("JID"));
+                addAttr("", i18n("JID"));
                 addAttr("first", i18n("First name"));
                 addAttr("last", i18n("Last name"));
                 addAttr("nick", i18n("Nick"));
@@ -329,7 +351,7 @@ void *JabberAdd::processEvent(Event *e)
         if (it == m_agents.end())
             return NULL;
         if (data->JID.ptr == NULL){
-            addAttr("jid", i18n("JID"));
+            addAttr("", i18n("JID"));
             for (unsigned i = 0; i < data->nFields.value; i++){
                 addAttr(get_str(data->Fields, i * 2), get_str(data->Fields, i * 2 + 1));
                 (*it).fields.push_back(get_str(data->Fields, i * 2));
@@ -359,7 +381,7 @@ void *JabberAdd::processEvent(Event *e)
         l.append(QString::fromUtf8(data->JID.ptr));
         for (unsigned i = 0; i < m_fields.size(); i++){
             QString v;
-            if (m_fields[i] == "jid"){
+            if (m_fields[i] == ""){
                 v = QString::fromUtf8(data->JID.ptr);
             }else if ((m_fields[i] == "first") && data->First.ptr){
                 v = QString::fromUtf8(data->First.ptr);
@@ -379,7 +401,7 @@ void *JabberAdd::processEvent(Event *e)
             }
             l.append(v);
         }
-        emit addItem(l);
+        emit addItem(l, this);
     }
     if (e->type() == EventSearchDone){
         const char *id = (const char*)(e->param());
@@ -422,7 +444,17 @@ void JabberAdd::checkDone()
 {
     if (m_id_browse.empty() && m_id_disco.empty() &&
             m_disco_items.empty() && m_agents.empty())
-        emit searchDone();
+        emit searchDone(this);
+}
+
+void JabberAdd::createContact(const QString &name, unsigned tmpFlags, Contact *&contact)
+{
+    string resource;
+    if (m_client->findContact(name.utf8(), NULL, false, contact, resource))
+        return;
+    if (m_client->findContact(name.utf8(), NULL, true, contact, resource, false) == NULL)
+        return;
+    contact->setFlags(contact->getFlags() | tmpFlags);
 }
 
 #ifndef WIN32

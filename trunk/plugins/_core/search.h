@@ -51,18 +51,23 @@ public slots:
     void toggled(bool);
     void addResult(QWidget*);
     void showResult(QWidget*);
-    void showError(const QString&);
 signals:
     void finished();
-    void add(unsigned grp_id);
     void search();
+    void searchStop();
+    void createContact(const QString&, unsigned tmpFlags, Contact *&contact);
+    void createContact(unsigned tmpFlags, Contact *&contact);
 protected slots:
     void searchClick();
-    void addGroup(int);
-    void setColumns(const QStringList&, int);
-    void addItem(const QStringList&);
-    void searchDone();
+    void setColumns(const QStringList&, int, QWidget*);
+    void addItem(const QStringList&, QWidget *search);
+    void searchDone(QWidget*);
     void update();
+    void addClick();
+    void optionsClick();
+    void selectionChanged();
+    void dragStart();
+    void newSearch();
 protected:
     vector<ClientWidget>	m_widgets;
     void		setStatus();
@@ -79,6 +84,8 @@ protected:
     void		attach(QWidget*);
     void		detach(QWidget*);
     bool		checkSearch(QWidget*, bool&);
+    Contact		*createContact(unsigned flags);
+    void		setTitle();
     bool		m_bAdd;
     bool		m_bColumns;
     unsigned	m_id;
@@ -86,6 +93,7 @@ protected:
     SearchBase	*m_search;
     QStatusBar	*m_status;
     QTimer		*m_update;
+    friend class SearchAll;
 };
 
 #endif

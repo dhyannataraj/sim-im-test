@@ -201,8 +201,10 @@ void ListView::showPopup(QListViewItem *item, QPoint p)
     mp->key	 = 0;
     Event eMenu(EventProcessMenu, mp);
     QPopupMenu *menu = (QPopupMenu*)eMenu.process();
-    if (menu)
+    if (menu){
+        setCurrentItem(item);
         menu->popup(p);
+    }
 }
 
 bool ListView::eventFilter(QObject *o, QEvent *e)
@@ -254,8 +256,11 @@ void ListView::adjustColumn()
         for (QListViewItem *item = firstChild(); item; item = item->nextSibling()){
             QFontMetrics fm(font());
             int ww = fm.width(item->text(m_expandingColumn));
+            const QPixmap *pict = item->pixmap(m_expandingColumn);
+            if (pict)
+                ww += pict->width() + 2;
             if (ww > minW)
-                minW = ww;
+                minW = ww + 8;
         }
         if (w < minW)
             w = minW;

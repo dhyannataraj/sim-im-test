@@ -31,15 +31,11 @@ public:
     MSNSearch(MSNClient *client, QWidget *parent);
 signals:
     void setAdd(bool);
-    void showError(const QString&);
 protected slots:
-    void radioToggled(bool);
-    void add(unsigned grp);
+    void createContact(unsigned tmpFlags, Contact *&contact);
 protected:
     MSNClient *m_client;
     void showEvent(QShowEvent*);
-    GroupRadioButton	*m_btnMail;
-    GroupRadioButton	*m_btnInfo;
 };
 
 #endif

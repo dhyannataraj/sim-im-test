@@ -118,6 +118,7 @@ public slots:
     void modeChanged();
     void wndClosed();
     void flash();
+    void setReadMode();
 protected:
     virtual void resizeEvent(QResizeEvent*);
     virtual void moveEvent(QMoveEvent*);

@@ -36,6 +36,9 @@
 #include <qstatusbar.h>
 #include <qtimer.h>
 
+const unsigned COL_KEY			= 0x100;
+const unsigned COL_SEARCH_WND	= 0x101;
+
 SearchDialog::SearchDialog()
 {
     SET_WNDPROC("search")
@@ -49,11 +52,15 @@ SearchDialog::SearchDialog()
     m_result_id = 0;
     m_active	= NULL;
     m_search	= new SearchBase(this);
+    m_update = new QTimer(this);
+    connect(m_update, SIGNAL(timeout()), this, SLOT(update()));
     setCentralWidget(m_search);
     m_status = statusBar();
+    m_result = NULL;
     setAdd(false);
     m_search->btnOptions->setIconSet(*Icon("1downarrow"));
     m_search->btnAdd->setIconSet(*Icon("add"));
+    m_search->btnNew->setIconSet(*Icon("new"));
     connect(m_search->wndCondition, SIGNAL(aboutToShow(QWidget*)), this, SLOT(aboutToShow(QWidget*)));
     connect(m_search->wndResult, SIGNAL(aboutToShow(QWidget*)), this, SLOT(resultShow(QWidget*)));
     fillClients();
@@ -68,8 +75,15 @@ SearchDialog::SearchDialog()
     showResult(NULL);
     aboutToShow(m_search->wndCondition->visibleWidget());
     connect(m_search->btnSearch, SIGNAL(clicked()), this, SLOT(searchClick()));
-    m_update = new QTimer(this);
-    connect(m_update, SIGNAL(timeout()), this, SLOT(update()));
+    m_search->cmbClients->setFocus();
+    connect(m_search->btnOptions, SIGNAL(clicked()), this, SLOT(optionsClick()));
+    connect(m_search->btnAdd, SIGNAL(clicked()), this, SLOT(addClick()));
+    m_search->btnOptions->setEnabled(false);
+    m_search->btnAdd->setEnabled(false);
+    connect(m_result, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
+    connect(m_result, SIGNAL(dragStart()), this, SLOT(dragStart()));
+    connect(m_search->btnNew, SIGNAL(clicked()), this, SLOT(newSearch()));
+    m_result->setMenu(MenuSearch);
 }
 
 SearchDialog::~SearchDialog()
@@ -104,6 +118,7 @@ void SearchDialog::setAdd(bool bAdd)
         return;
     m_bAdd = bAdd;
     setAddButton();
+    setTitle();
 }
 
 void SearchDialog::setAddButton()
@@ -131,7 +146,8 @@ void SearchDialog::fillClients()
     m_widgets.clear();
     m_search->cmbClients->clear();
     unsigned nClients = 0;
-    int current = -1;
+    int current    = -1;
+    int defCurrent = -1;
     for (unsigned i = 0; i < getContacts()->nClients(); i++){
         Client *client = getContacts()->getClient(i);
         QWidget *search = client->searchWindow(m_search->wndCondition);
@@ -155,7 +171,10 @@ void SearchDialog::fillClients()
         m_widgets.push_back(cw);
         if (search == m_current)
             current = m_widgets.size() - 1;
-        nClients++;
+        if (client->protocol()->description()->flags & PROTOCOL_SEARCH)
+            nClients++;
+        if (client->name() == CorePlugin::m_plugin->getSearchClient())
+            defCurrent = m_widgets.size() - 1;
     }
     if (nClients > 1){
         unsigned n;
@@ -200,27 +219,66 @@ void SearchDialog::fillClients()
     if (search == m_current)
         current = m_widgets.size() - 1;
 
+    if (m_update->isActive()){
+        m_update->stop();
+    }else if (m_result){
+        m_result->viewport()->setUpdatesEnabled(false);
+    }
     for (n = 0; n < widgets.size(); n++){
         if (widgets[n].widget){
             if (widgets[n].widget == m_active)
-                searchDone();
+                searchDone(m_active);
+            if (widgets[n].widget == m_current)
+                m_current = NULL;
+            for (QListViewItem *item = m_result->firstChild(); item; ){
+                QListViewItem *next = item->nextSibling();
+                if ((QWidget*)(item->text(COL_SEARCH_WND).toUInt()) == widgets[n].widget)
+                    delete item;
+                if (next == NULL)
+                    break;
+                item = next;
+            }
             delete widgets[n].widget;
         }
     }
     if (current == -1)
+        current = defCurrent;
+    if (current == -1)
         current = 0;
     m_search->cmbClients->setCurrentItem(current);
     clientActivated(current);
+    setStatus();
+    m_update->start(500);
 }
 
 void SearchDialog::clientActivated(int n)
 {
     if ((unsigned)n >= m_widgets.size())
         return;
-    searchDone();
+    searchDone(m_active);
     if (m_widgets[n].widget != m_current)
         showResult(NULL);
     m_search->wndCondition->raiseWidget(m_widgets[n].widget);
+    setTitle();
+}
+
+void SearchDialog::setTitle()
+{
+    unsigned n = m_search->cmbClients->currentItem();
+    if (n >= m_widgets.size())
+        return;
+    Client *client = m_widgets[n].client;
+    string name;
+    if ((client != NULL) && (client != (Client*)(-1)))
+        name = client->name().c_str();
+    CorePlugin::m_plugin->setSearchClient(name.c_str());
+    if (m_bAdd){
+        setCaption(i18n("Add") + ": " + m_search->cmbClients->currentText());
+        setIcon(Pict("add"));
+    }else{
+        setCaption(i18n("Search") + ": " + m_search->cmbClients->currentText());
+        setIcon(Pict("find"));
+    }
 }
 
 void SearchDialog::toggled(bool)
@@ -235,6 +293,98 @@ void *SearchDialog::processEvent(Event *e)
     case EventClientChanged:
         fillClients();
         break;
+    case EventCommandExec:{
+            CommandDef *cmd = (CommandDef*)(e->param());
+            if (cmd->menu_id == MenuSearchGroups){
+                Group *grp = getContacts()->group(cmd->id - CmdContactGroup);
+                if (grp){
+                    Contact *contact = NULL;
+                    if ((QWidget*)(cmd->param) == m_search->btnSearch){
+                        if (m_current){
+                            connect(this, SIGNAL(createContact(unsigned,Contact*&)), m_current, SLOT(createContact(unsigned,Contact*&)));
+                            emit createContact(CONTACT_TEMP, contact);
+                            disconnect(this, SIGNAL(createContact(unsigned,Contact*&)), m_current, SLOT(createContact(unsigned,Contact*&)));
+                        }
+                    }else{
+                        contact = createContact(CONTACT_TEMP);
+                    }
+                    if (contact){
+                        if ((contact->getFlags() & CONTACT_TEMP) == 0){
+                            QString err = i18n("%1 already in contact list") .arg(contact->getName());
+                            if ((QWidget*)(cmd->param) == m_search->btnAdd){
+                                BalloonMsg::message(err, m_search->btnAdd);
+                            }else if ((QWidget*)(cmd->param) == m_search->btnSearch){
+                                BalloonMsg::message(err, m_search->btnSearch);
+                            }else{
+                                QRect rc = m_result->itemRect((QListViewItem*)(e->param()));
+                                QPoint p = m_result->viewport()->mapToGlobal(QPoint(rc.left(), rc.top()));
+                                rc = QRect(p.x(), p.y(), rc.width(), rc.height());
+                                BalloonMsg::message(err, m_result, false, 150, &rc);
+                            }
+                            return e->param();
+                        }
+                        contact->setFlags(contact->getFlags() & ~CONTACT_TEMP);
+                        contact->setGroup(grp->id());
+                        Event e(EventContactChanged, contact);
+                        e.process();
+                    }
+                }
+                return e->param();
+            }
+            if (cmd->id == CmdSearchInfo){
+                Contact *contact = createContact(CONTACT_TEMP);
+                if (contact == NULL)
+                    return e->param();
+                Command cmd;
+                cmd->id		 = CmdInfo;
+                cmd->menu_id = MenuContact;
+                cmd->param   = (void*)(contact->id());
+                CorePlugin::m_plugin->showInfo(cmd);
+                return e->param();
+            }
+            if (cmd->id == CmdSearchMsg){
+                Contact *contact = createContact(CONTACT_TEMP);
+                if (contact == NULL)
+                    return e->param();
+                Message *m = new Message(MessageGeneric);
+                m->setContact(contact->id());
+                Event e(EventOpenMessage, &m);
+                e.process();
+                delete m;
+            }
+            break;
+        }
+    case EventCheckState:{
+            CommandDef *cmd = (CommandDef*)(e->param());
+            if ((cmd->id == CmdContactGroup) && (cmd->menu_id == MenuSearchGroups)){
+                Group *grp;
+                ContactList::GroupIterator it;
+                unsigned nGrp = 0;
+                while ((grp = ++it) != NULL)
+                    nGrp++;
+                it.reset();
+                CommandDef *cmds = new CommandDef[nGrp + 1];
+                memset(cmds, 0, sizeof(CommandDef) * (nGrp + 1));
+                nGrp = 0;
+                while ((grp = ++it) != NULL){
+                    if (grp->id() == 0)
+                        continue;
+                    cmds[nGrp].id      = CmdContactGroup + grp->id();
+                    cmds[nGrp].menu_id = MenuSearchGroups;
+                    cmds[nGrp].text    = "_";
+                    cmds[nGrp].text_wrk = strdup(grp->getName().utf8());
+                    nGrp++;
+                }
+                cmds[nGrp].id      = CmdContactGroup;
+                cmds[nGrp].menu_id = MenuSearchGroups;
+                cmds[nGrp].text    = I18N_NOOP("Not in list");
+
+                cmd->param = cmds;
+                cmd->flags |= COMMAND_RECURSIVE;
+                return e->param();
+            }
+            break;
+        }
     }
     return NULL;
 }
@@ -316,6 +466,8 @@ void SearchDialog::detach(QWidget *w)
 
 void SearchDialog::attach(QWidget *w)
 {
+    if (w == NULL)
+        return;
     QObjectList *l = w->queryList();
     QObjectListIt it(*l);
     QObject *obj;
@@ -367,6 +519,7 @@ void SearchDialog::showResult(QWidget *w)
     if (w == NULL)
         w = m_result;
     m_search->wndResult->raiseWidget(w);
+    selectionChanged();
 }
 
 const unsigned NO_GROUP = 0x10000;
@@ -375,65 +528,49 @@ void SearchDialog::searchClick()
 {
     if (m_bAdd){
         if (CorePlugin::m_plugin->getGroupMode()){
-            QPopupMenu *popup = new QPopupMenu(this);
-            Group *grp;
-            ContactList::GroupIterator it;
-            while ((grp = ++it) != NULL){
-                if (grp->id() == 0)
-                    continue;
-                popup->insertItem(grp->getName(), grp->id());
-            }
-            popup->insertItem(i18n("Not in list"), NO_GROUP);
-            connect(popup, SIGNAL(activated(int)), this, SLOT(addGroup(int)));
-            popup->popup(CToolButton::popupPos(m_search->btnSearch, popup));
+            ProcessMenuParam mp;
+            mp.id    = MenuSearchGroups;
+            mp.param = m_search->btnSearch;
+            mp.key	= 0;
+            Event eMenu(EventProcessMenu, &mp);
+            QPopupMenu *popup = (QPopupMenu*)(eMenu.process());
+            if (popup)
+                popup->popup(CToolButton::popupPos(m_search->btnSearch, popup));
         }else{
-            if (m_current){
-                connect(this, SIGNAL(add(unsigned)), m_current, SLOT(add(unsigned)));
-                emit add(0);
-                disconnect(this, SIGNAL(add(unsigned)), m_current, SLOT(add(unsigned)));
-            }
+            Command cmd;
+            cmd->id = CmdContactGroup;
+            cmd->menu_id = MenuSearchGroups;
+            cmd->param = m_search->btnSearch;
+            Event e(EventCommandExec, cmd);
+            e.process();
         }
         return;
     }
     if (m_active){
-        searchDone();
+        emit searchStop();
+        searchDone(m_active);
         return;
     }
     m_active = m_current;
     m_result->clear();
+    m_search->btnAdd->setEnabled(false);
+    m_search->btnOptions->setEnabled(false);
     setAddButton();
     setStatus();
     m_bColumns = false;
     connect(this, SIGNAL(search()), m_active, SLOT(search()));
-    connect(m_active, SIGNAL(setColumns(const QStringList&, int)), this, SLOT(setColumns(const QStringList&, int)));
-    connect(m_active, SIGNAL(addItem(const QStringList&)), this, SLOT(addItem(const QStringList&)));
-    connect(m_active, SIGNAL(searchDone()), this, SLOT(searchDone()));
+    connect(this, SIGNAL(searchStop()), m_active, SLOT(searchStop()));
+    connect(m_active, SIGNAL(setColumns(const QStringList&, int, QWidget*)), this, SLOT(setColumns(const QStringList&, int, QWidget*)));
+    connect(m_active, SIGNAL(addItem(const QStringList&,QWidget*)), this, SLOT(addItem(const QStringList&,QWidget*)));
+    connect(m_active, SIGNAL(searchDone(QWidget*)), this, SLOT(searchDone(QWidget*)));
     emit search();
-}
-
-void SearchDialog::addGroup(int n)
-{
-    if (n == NO_GROUP)
-        n = 0;
-    Group *grp = getContacts()->group(n);
-    if (grp == NULL)
-        return;
-    if (m_current){
-        connect(this, SIGNAL(add(unsigned)), m_current, SLOT(add(unsigned)));
-        connect(m_current, SIGNAL(showError(const QString&)), this, SLOT(showError(const QString&)));
-        emit add(n);
-        disconnect(this, SIGNAL(add(unsigned)), m_current, SLOT(add(unsigned)));
-        disconnect(m_current, SIGNAL(showError(const QString&)), this, SLOT(showError(const QString&)));
-    }
-}
-
-void SearchDialog::showError(const QString &err)
-{
-    BalloonMsg::message(err, m_search->btnSearch);
+    m_result->setFocus();
 }
 
 void SearchDialog::setStatus()
 {
+    if (m_result == NULL)
+        return;
     QString message = i18n("Search");
     if (m_result->firstChild()){
         message += ": ";
@@ -442,21 +579,22 @@ void SearchDialog::setStatus()
     m_status->message(message);
 }
 
-void SearchDialog::searchDone()
+void SearchDialog::searchDone(QWidget*)
 {
     if (m_active == NULL)
         return;
     m_status->message("");
     disconnect(this, SIGNAL(search()), m_active, SLOT(search()));
-    disconnect(m_active, SIGNAL(setColumns(const QStringList&, int)), this, SLOT(setColumns(const QStringList&, int)));
-    disconnect(m_active, SIGNAL(addItem(const QStringList&)), this, SLOT(addItem(const QStringList&)));
-    disconnect(m_active, SIGNAL(searchDone()), this, SLOT(searchDone()));
+    disconnect(this, SIGNAL(searchStop()), m_active, SLOT(searchStop()));
+    disconnect(m_active, SIGNAL(setColumns(const QStringList&, int, QWidget*)), this, SLOT(setColumns(const QStringList&, int, QWidget*)));
+    disconnect(m_active, SIGNAL(addItem(const QStringList&,QWidget*)), this, SLOT(addItem(const QStringList&,QWidget*)));
+    disconnect(m_active, SIGNAL(searchDone(QWidget*)), this, SLOT(searchDone(QWidget*)));
     m_active = NULL;
     textChanged("");
     setAddButton();
 }
 
-void SearchDialog::setColumns(const QStringList &columns, int n)
+void SearchDialog::setColumns(const QStringList &columns, int n, QWidget*)
 {
     int i;
     if (!m_bColumns){
@@ -464,8 +602,8 @@ void SearchDialog::setColumns(const QStringList &columns, int n)
             m_result->removeColumn(i);
         m_bColumns = true;
     }
-    for (i = 0; (unsigned)i < columns.count(); i++)
-        m_result->addColumn(columns[i]);
+    for (i = 0; (unsigned)i < columns.count() / 2; i++)
+        m_result->addColumn(columns[2 * i + 1]);
     m_result->setExpandingColumn(n);
     m_result->adjustColumn();
 }
@@ -481,22 +619,40 @@ QString SearchViewItem::key(int column, bool ascending) const
 {
     if (column)
         return QListViewItem::key(column, ascending);
-    QString res = text(listView()->columns());
+    QString res = text(COL_KEY);
     return res;
 }
 
-void SearchDialog::addItem(const QStringList &values)
+void SearchDialog::addItem(const QStringList &values, QWidget *wnd)
 {
+    QListViewItem *item;
+    for (item = m_result->firstChild(); item; item = item->nextSibling()){
+        if (item->text(COL_KEY) == values[1])
+            break;
+    }
+    if (item){
+        QWidget *oldSearch = (QWidget*)(item->text(COL_SEARCH_WND).toUInt());
+        for (unsigned i = 0; i < m_widgets.size(); i++){
+            if (m_widgets[i].widget == wnd){
+                item->setText(COL_SEARCH_WND, QString::number((unsigned)wnd));
+                return;
+            }
+            if (m_widgets[i].widget == oldSearch)
+                return;
+        }
+        return;
+    }
     if (m_update->isActive()){
         m_update->stop();
     }else{
         m_result->viewport()->setUpdatesEnabled(false);
     }
-    QListViewItem *item = new SearchViewItem(m_result);
+    item = new SearchViewItem(m_result);
     item->setPixmap(0, Pict(values[0].latin1()));
-    item->setText(values.count() - 2, values[1]);
+    item->setText(COL_KEY, values[1]);
     for (int i = 2; (unsigned)i < values.count(); i++)
         item->setText(i - 2, values[i]);
+    item->setText(COL_SEARCH_WND, QString::number((unsigned)wnd));
     setStatus();
     m_update->start(500);
 }
@@ -506,6 +662,95 @@ void SearchDialog::update()
     m_update->stop();
     m_result->viewport()->setUpdatesEnabled(true);
     m_result->viewport()->repaint();
+    m_result->adjustColumn();
+}
+
+void SearchDialog::selectionChanged()
+{
+    bool bEnable = false;
+    if (m_result && ((m_currentResult == NULL) || (m_currentResult == m_result)))
+        bEnable = (m_result->selectedItem() != NULL);
+    m_search->btnAdd->setEnabled(bEnable);
+    m_search->btnOptions->setEnabled(bEnable);
+}
+
+void SearchDialog::addClick()
+{
+    if (CorePlugin::m_plugin->getGroupMode()){
+        ProcessMenuParam mp;
+        mp.id    = MenuSearchGroups;
+        mp.param = m_search->btnAdd;
+        mp.key	= 0;
+        Event eMenu(EventProcessMenu, &mp);
+        QPopupMenu *popup = (QPopupMenu*)(eMenu.process());
+        if (popup)
+            popup->popup(CToolButton::popupPos(m_search->btnAdd, popup));
+    }else{
+        Command cmd;
+        cmd->id = CmdContactGroup;
+        cmd->menu_id = MenuSearchGroups;
+        cmd->param = m_search->btnAdd;
+        Event e(EventCommandExec, cmd);
+        e.process();
+    }
+}
+
+Contact *SearchDialog::createContact(unsigned flags)
+{
+    Contact *contact = NULL;
+    if (m_result->currentItem() == NULL)
+        return NULL;
+    QWidget *w = (QWidget*)(m_result->currentItem()->text(COL_SEARCH_WND).toUInt());
+    connect(this, SIGNAL(createContact(const QString&, unsigned, Contact*&)), w, SLOT(createContact(const QString&, unsigned, Contact*&)));
+    QString name = m_result->currentItem()->text(0);
+    emit createContact(name, flags, contact);
+    return contact;
+}
+
+void SearchDialog::dragStart()
+{
+    Contact *contact = createContact(CONTACT_DRAG);
+    if (contact == NULL)
+        return;
+    m_result->startDrag(new ContactDragObject(m_result, contact));
+}
+
+void SearchDialog::optionsClick()
+{
+    ProcessMenuParam mp;
+    mp.id    = MenuSearchOptions;
+    mp.param = NULL;
+    mp.key	= 0;
+    Event eMenu(EventProcessMenu, &mp);
+    QPopupMenu *popup = (QPopupMenu*)(eMenu.process());
+    if (popup)
+        popup->popup(CToolButton::popupPos(m_search->btnOptions, popup));
+}
+
+void SearchDialog::newSearch()
+{
+    searchStop();
+    QObjectList *l = queryList();
+    QObjectListIt it(*l);
+    QObject *obj;
+    while ((obj=it.current()) != NULL){
+        if (!obj->inherits("QWidget")){
+            ++it;
+            continue;
+        }
+        QWidget *parent = static_cast<QWidget*>(obj)->parentWidget();
+        if (obj->inherits("QLineEdit") && parent && !parent->inherits("QComboBox"))
+            static_cast<QLineEdit*>(obj)->setText("");
+        if (obj->inherits("QLineEdit") && parent && !parent->inherits("QToolBar"))
+            static_cast<QComboBox*>(obj)->setCurrentItem(0);
+        ++it;
+    }
+    delete l;
+    m_result->clear();
+    for (int i = m_result->columns() - 1; i >= 0; i--)
+        m_result->removeColumn(i);
+    m_result->addColumn(i18n("Results"));
+    m_result->setExpandingColumn(0);
     m_result->adjustColumn();
 }
 

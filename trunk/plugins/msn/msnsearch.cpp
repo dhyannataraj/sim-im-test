@@ -31,44 +31,28 @@ MSNSearch::MSNSearch(MSNClient *client, QWidget *parent)
     m_client = client;
     connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));
     edtMail->setValidator(new EMailValidator(edtMail));
-    initCombo(cmbCountry, 0, getCountries(), true, getCountryCodes());
-    m_btnMail = new GroupRadioButton(i18n("&E-Mail address"), grpMail);
-    m_btnInfo = new GroupRadioButton(i18n("&Hotmail directory"), grpHotmail);
-    connect(m_btnInfo, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
-    connect(m_btnMail, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
-}
-
-void MSNSearch::radioToggled(bool)
-{
-    emit setAdd(m_btnMail->isChecked());
 }
 
 void MSNSearch::showEvent(QShowEvent *e)
 {
     MSNSearchBase::showEvent(e);
-    emit setAdd(m_btnMail->isChecked());
+    emit setAdd(true);
 }
 
-void MSNSearch::add(unsigned grp)
+void MSNSearch::createContact(unsigned tmpFlags, Contact *&contact)
 {
     QString mail = edtMail->text();
     int pos = 0;
-    if (!m_btnMail->isChecked() ||
-            (edtMail->validator()->validate(mail, pos) != QValidator::Acceptable))
+    if ((edtMail->validator()->validate(mail, pos) != QValidator::Acceptable))
         return;
-    Contact *contact;
-    if (m_client->findContact(mail.utf8(), contact)){
-        emit showError(i18n("%1 already in contact list") .arg(mail));
+    if (m_client->findContact(mail.utf8(), contact))
         return;
-    }
     QString name = mail;
     int n = name.find('@');
     if (n > 0)
         name = name.left(n);
     m_client->findContact(mail.utf8(), name.utf8(), contact, false);
-    contact->setGroup(grp);
-    Event e(EventContactChanged, contact);
-    e.process();
+    contact->setFlags(contact->getFlags() | tmpFlags);
 }
 
 #ifndef WIN32

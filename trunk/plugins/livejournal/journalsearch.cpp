@@ -33,19 +33,14 @@ void JournalSearch::showEvent(QShowEvent *e)
     emit setAdd(true);
 }
 
-void JournalSearch::add(unsigned grp_id)
+void JournalSearch::createContact(unsigned tmpFlags, Contact *&contact)
 {
     if (edtCommunity->text().isEmpty())
         return;
-    Contact *contact;
-    if (m_client->findContact(edtCommunity->text().utf8(), contact, false)){
-        emit showError(i18n("%1 already in contact list") .arg(edtCommunity->text()));
+    if (m_client->findContact(edtCommunity->text().utf8(), contact, false))
         return;
-    }
     m_client->findContact(edtCommunity->text().utf8(), contact, true, false);
-    contact->setGroup(grp_id);
-    Event e(EventContactChanged, contact);
-    e.process();
+    contact->setFlags(contact->getFlags() | tmpFlags);
 }
 
 #ifndef WIN32

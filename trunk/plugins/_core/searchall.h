@@ -19,7 +19,10 @@
 #define _SEARCHALL_H
 
 #include "simapi.h"
+#include "stl.h"
 #include "searchallbase.h"
+
+typedef map<QWidget*, QStringList>	WND_MAP;
 
 class SearchAll : public SearchAllBase
 {
@@ -28,8 +31,25 @@ public:
     SearchAll(QWidget *parent);
 signals:
     void setAdd(bool);
+    void searchName(const QString &first, const QString &last, const QString &nick);
+    void searchMail(const QString &mail);
+    void setColumns(const QStringList&, int, QWidget*);
+    void addItem(const QStringList&, QWidget*);
+    void searchDone(QWidget*);
+    void sSearchStop();
+protected slots:
+    void search();
+    void searchStop();
+    void wndDestroyed();
+    void refresh();
+    void slotSearchDone(QWidget*);
+    void slotSetColumns(const QStringList&, int, QWidget*);
+    void slotAddItem(const QStringList&, QWidget*);
 protected:
     void showEvent(QShowEvent*);
+    bool makeSearches();
+    WND_MAP		m_searches;
+    QStringList	m_attrs;
 };
 
 #endif

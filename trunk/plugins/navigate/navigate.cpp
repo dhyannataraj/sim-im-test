@@ -17,6 +17,7 @@
 
 #include "navigate.h"
 #include "navcfg.h"
+#include "core.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -253,6 +254,7 @@ NavigatePlugin::NavigatePlugin(unsigned base, Buffer *config)
     CmdMail = registerType();
     CmdMailList = registerType();
     MenuMail = registerType();
+    CmdCopyLocation = registerType();
 
     Event eMenu(EventMenuCreate, (void*)MenuMail);
     eMenu.process();
@@ -273,7 +275,16 @@ NavigatePlugin::NavigatePlugin(unsigned base, Buffer *config)
     cmd->text		 = "_";
     cmd->menu_grp	 = 0x1000;
     cmd->menu_id	 = MenuMail;
+    eCmd.process();
 
+    cmd->id		= CmdCopyLocation;
+    cmd->text		= I18N_NOOP("Copy &location");
+    cmd->icon		= NULL;
+    cmd->menu_id	= MenuTextEdit;
+    cmd->menu_grp	= 0x7010;
+    eCmd.process();
+
+    cmd->menu_id	= MenuMsgView;
     eCmd.process();
 }
 

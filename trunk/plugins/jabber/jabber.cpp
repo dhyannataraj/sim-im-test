@@ -69,7 +69,7 @@ static CommandDef jabber_descr =
         0,
         0,
         0,
-        PROTOCOL_INFO | PROTOCOL_AR | PROTOCOL_INVISIBLE,
+        PROTOCOL_INFO | PROTOCOL_AR | PROTOCOL_INVISIBLE | PROTOCOL_SEARCH | PROTOCOL_AR_OFFLINE,
         NULL,
         NULL
     };

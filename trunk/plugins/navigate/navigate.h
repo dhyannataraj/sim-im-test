@@ -40,6 +40,7 @@ protected:
     QString parseUrl(const QString &text);
     unsigned CmdMail;
     unsigned CmdMailList;
+    unsigned CmdCopyLocation;
     unsigned MenuMail;
 #ifdef WIN32
     PROP_BOOL(NewWindow);

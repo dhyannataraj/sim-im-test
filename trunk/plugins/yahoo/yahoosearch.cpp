@@ -49,43 +49,36 @@ YahooSearch::YahooSearch(YahooClient *client, QWidget *parent)
     edtID->setValidator(new RegExpValidator("[0-9A-Za-z \\-_]+", this));
     initCombo(cmbAge, 0, ages);
     initCombo(cmbGender, 0, genders);
-    m_btnID			= new GroupRadioButton(i18n("&Yahoo! ID"), grpID);
-    m_btnMail		= new GroupRadioButton(i18n("&E-Mail address"), grpMail);
-    m_btnName		= new GroupRadioButton(i18n("&Name"), grpName);
-    m_btnKeyword	= new GroupRadioButton(i18n("&Keywords"), grpKeyword);
-    connect(m_btnID,		SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
-    connect(m_btnMail,		SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
-    connect(m_btnName,		SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
-    connect(m_btnKeyword,	SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
+    connect(grpID, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
+    connect(grpMail, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
+    connect(grpName, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
+    connect(grpKeyword,	SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
 }
 
 void YahooSearch::radioToggled(bool)
 {
-    emit setAdd(m_btnID->isChecked());
-    lblGender->setEnabled(!m_btnID->isChecked());
-    lblAge->setEnabled(!m_btnID->isChecked());
-    cmbGender->setEnabled(!m_btnID->isChecked());
-    cmbAge->setEnabled(!m_btnID->isChecked());
+    emit setAdd(grpID->isChecked());
+    lblGender->setEnabled(!grpID->isChecked());
+    lblAge->setEnabled(!grpID->isChecked());
+    cmbGender->setEnabled(!grpID->isChecked());
+    cmbAge->setEnabled(!grpID->isChecked());
 }
 
 void YahooSearch::showEvent(QShowEvent *e)
 {
     YahooSearchBase::showEvent(e);
     radioToggled(false);
-    emit setAdd(m_btnID->isChecked());
+    emit setAdd(grpID->isChecked());
 }
 
-void YahooSearch::add(unsigned grp)
+void YahooSearch::createContact(unsigned tmpFlags, Contact *&contact)
 {
-    if (!m_btnID->isChecked() || edtID->text().isEmpty())
+    if (!grpID->isChecked() || edtID->text().isEmpty())
         return;
-    Contact *contact;
-    if (m_client->findContact(edtID->text().utf8(), NULL, contact)){
-        emit showError(i18n("%1 already in contact list") .arg(edtID->text()));
+    if (m_client->findContact(edtID->text().utf8(), NULL, contact))
         return;
-    }
-    Group *group = getContacts()->group(grp);
-    m_client->findContact(edtID->text().utf8(), group->getName().utf8(), contact, true, false);
+    m_client->findContact(edtID->text().utf8(), NULL, contact, true, false);
+    contact->setFlags(contact->getFlags() | tmpFlags);
 }
 
 #ifndef WIN32

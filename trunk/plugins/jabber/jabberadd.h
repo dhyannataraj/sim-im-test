@@ -56,16 +56,19 @@ signals:
     void setAdd(bool);
     void addResult(QWidget*);
     void showResult(QWidget*);
-    void showError(const QString&);
-    void setColumns(const QStringList&, int);
-    void addItem(const QStringList&);
-    void searchDone();
+    void setColumns(const QStringList&, int, QWidget*);
+    void addItem(const QStringList&, QWidget*);
+    void searchDone(QWidget*);
 protected slots:
     void radioToggled(bool);
     void browserDestroyed();
     void browserClick();
-    void add(unsigned);
     void search();
+    void searchStop();
+    void searchMail(const QString&);
+    void searchName(const QString&, const QString&, const QString&);
+    void createContact(const QString&, unsigned tmpFlags, Contact *&contact);
+    void createContact(unsigned tmpFlags, Contact *&contact);
 protected:
     void *processEvent(Event*);
     void setBrowser(bool bBrowser);
@@ -77,9 +80,6 @@ protected:
     void addSearch(const char *jid, const char *node, const char *features, const char *type);
     JabberClient	*m_client;
     JabberBrowser	*m_browser;
-    GroupRadioButton	*m_btnJID;
-    GroupRadioButton	*m_btnMail;
-    GroupRadioButton	*m_btnName;
     bool			m_bBrowser;
     QString			m_first;
     QString			m_last;

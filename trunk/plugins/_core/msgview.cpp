@@ -184,7 +184,7 @@ void MsgViewBase::update()
     viewport()->setUpdatesEnabled(true);
     append(text);
     if (!CorePlugin::m_plugin->getOwnColors())
-        setBackground(0);
+        setBackground(i);
     if ((paraFrom != paraTo) || (indexFrom != indexTo))
         setSelection(paraFrom, indexFrom, paraTo, indexTo);
     sync();
@@ -452,7 +452,13 @@ void MsgViewBase::setBackground(unsigned n)
     QString sAnchor = QString::fromLatin1(MSG_ANCHOR),
                       sBegin = QString::fromLatin1(MSG_BEGIN);
 
-    for (unsigned i = n; i < (unsigned)paragraphs(); i++){
+    int i;
+    for (i = n; i >= 0; i--){
+        QString s = text(i);
+        if (s.find(sAnchor) >= 0)
+            break;
+    }
+    for (; i < (unsigned)paragraphs(); i++){
         QString s = text(i);
         int anchorPos = s.find(sAnchor);
         if (anchorPos >= 0)
@@ -1131,13 +1137,13 @@ ViewParser::ViewParser(bool bIgnoreColors, bool bUseSmiles)
                 str += *p;
             }
 #else
-if (*(s->exp)){
-            Smile ss;
-            ss.nSmile = i;
-            ss.re = QRegExp(s->exp);
-            if (ss.re.isValid())
-                m_smiles.push_back(ss);
-        }
+            if (*(s->exp)){
+                Smile ss;
+                ss.nSmile = i;
+                ss.re = QRegExp(s->exp);
+                if (ss.re.isValid())
+                    m_smiles.push_back(ss);
+            }
 #endif
         }
     }

@@ -5,6 +5,7 @@ GPG: Add support passphrase
 ICQ: Add packets flow control
 ICQ: Fix send URL and contacts
 ICQ: Fix send large messages
+Redesign search window
 
 Version 0.9.3
 Add LiveJournal plugin
