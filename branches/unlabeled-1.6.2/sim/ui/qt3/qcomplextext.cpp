@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qcomplextext.cpp,v 1.6 2004-01-06 01:51:47 shutoff Exp $
+** $Id: qcomplextext.cpp,v 1.6.2.1 2004-01-06 02:47:48 shutoff Exp $
 **
 ** Implementation of some internal classes
 **
@@ -36,7 +36,7 @@
 **********************************************************************/
 
 
-#include <qt.h>
+#include <qglobal.h>
 
 #if QT_VERSION < 300
 

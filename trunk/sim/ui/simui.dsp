@@ -199,6 +199,15 @@ SOURCE=.\qcolorbutton.cpp
 # Begin Source File
 
 SOURCE=.\qt3\qcomplextext.cpp
+
+!IF  "$(CFG)" == "simui - Win32 Release"
+
+# ADD CPP /W3
+
+!ELSEIF  "$(CFG)" == "simui - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 

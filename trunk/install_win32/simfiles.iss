@@ -47,8 +47,8 @@ Name: "pt"; MessagesFile: "BrazilianPortuguese.isl"
 Source: "..\Release\sim.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Release\simctrl.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Release\simipc.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\Release\simremote.dll"; DestDir: "{app}"; Flags: ignoreversion regserver
-Source: "..\Release\simext.dll"; DestDir: "{app}"; Flags: ignoreversion regserver
+Source: "..\Release\simremote.dll"; DestDir: "{app}"; Flags: regserver
+Source: "..\Release\simext.dll"; DestDir: "{app}"; Flags: regserver
 Source: "..\Release\simapi.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Release\simui.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Release\qjpegio.dll"; DestDir: "{app}"; Flags: ignoreversion
@@ -78,6 +78,7 @@ Source: "..\Release\plugins\osd.dll"; DestDir: "{app}\plugins"; Flags: ignorever
 Source: "..\Release\plugins\proxy.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\remote.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\shortcuts.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
+Source: "..\Release\plugins\sms.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\splash.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\sound.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\spell.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
