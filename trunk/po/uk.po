@@ -26,6 +26,7 @@
 # translation of uk.po to
 # translation of uk.po to
 # translation of uk.po to
+# translation of uk.po to
 # translation of uk2.po to
 # translation of uk.po to
 # translation of uk.po to Ukrainian
@@ -37,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2004-01-09 20:29+0300\n"
-"PO-Revision-Date: 2004-01-11 15:06+0200\n"
+"PO-Revision-Date: 2004-01-11 22:50+0200\n"
 "Last-Translator: Ivan Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team:  <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -7688,226 +7689,203 @@ msgstr "екстатичний"
 
 #: plugins/livejournal/livejournal.cpp:1455
 msgid "chipper"
-msgstr ""
+msgstr "живий"
 
 #: plugins/livejournal/livejournal.cpp:1456
 msgid "rushed"
-msgstr ""
+msgstr "кидається"
 
 #: plugins/livejournal/livejournal.cpp:1457
 msgid "contemplative"
-msgstr ""
+msgstr "задумливий"
 
 #: plugins/livejournal/livejournal.cpp:1458
 msgid "nerdy"
-msgstr ""
+msgstr "заумний"
 
 #: plugins/livejournal/livejournal.cpp:1459
 msgid "geeky"
-msgstr ""
+msgstr "ідіотський"
 
 #: plugins/livejournal/livejournal.cpp:1460
-#, fuzzy
 msgid "cynical"
-msgstr "Техніка"
+msgstr "цинічний"
 
 #: plugins/livejournal/livejournal.cpp:1461
 msgid "quixotic"
-msgstr ""
+msgstr "донкіхотський"
 
 #: plugins/livejournal/livejournal.cpp:1462
 msgid "crazy"
-msgstr ""
+msgstr "божевільний"
 
 #: plugins/livejournal/livejournal.cpp:1463
-#, fuzzy
 msgid "creative"
-msgstr "Отримати"
+msgstr "творчий"
 
 #: plugins/livejournal/livejournal.cpp:1464
-#, fuzzy
 msgid "artistic"
-msgstr "&Статистика"
+msgstr "артистичний"
 
 #: plugins/livejournal/livejournal.cpp:1465
-#, fuzzy
 msgid "pleased"
-msgstr "Задирання"
+msgstr "задоволений"
 
 #: plugins/livejournal/livejournal.cpp:1466
 msgid "bitchy"
-msgstr ""
+msgstr "злісний"
 
 #: plugins/livejournal/livejournal.cpp:1467
 msgid "guilty"
-msgstr ""
+msgstr "злочинний"
 
 #: plugins/livejournal/livejournal.cpp:1468
-#, fuzzy
 msgid "irritated"
-msgstr "Міграція"
+msgstr "роз'ятрений"
 
 #: plugins/livejournal/livejournal.cpp:1469
-#, fuzzy
 msgid "blank"
-msgstr "темний"
+msgstr "порожній"
 
 #: plugins/livejournal/livejournal.cpp:1470
 msgid "apathetic"
-msgstr ""
+msgstr "байдужий"
 
 #: plugins/livejournal/livejournal.cpp:1471
 msgid "dorky"
-msgstr ""
+msgstr "тупий"
 
 #: plugins/livejournal/livejournal.cpp:1472
 msgid "impressed"
-msgstr ""
+msgstr "вражаючий"
 
 #: plugins/livejournal/livejournal.cpp:1473
 msgid "naughty"
-msgstr ""
+msgstr "бешкетний"
 
 #: plugins/livejournal/livejournal.cpp:1474
-#, fuzzy
 msgid "predatory"
-msgstr "Каталог"
+msgstr "хижий"
 
 #: plugins/livejournal/livejournal.cpp:1475
-#, fuzzy
 msgid "dirty"
-msgstr "Місто"
+msgstr "брудний"
 
 #: plugins/livejournal/livejournal.cpp:1476
 msgid "giddy"
-msgstr ""
+msgstr "легковажний"
 
 #: plugins/livejournal/livejournal.cpp:1477
-#, fuzzy
 msgid "surprised"
-msgstr "Здивування"
+msgstr "здивований"
 
 #: plugins/livejournal/livejournal.cpp:1478
 msgid "shocked"
-msgstr ""
+msgstr "приголомшений"
 
 #: plugins/livejournal/livejournal.cpp:1479
-#, fuzzy
 msgid "rejected"
-msgstr "Греція"
+msgstr "відмежовується"
 
 #: plugins/livejournal/livejournal.cpp:1480
 msgid "numb"
-msgstr ""
+msgstr "заціпенілий"
 
 #: plugins/livejournal/livejournal.cpp:1481
 msgid "cheerful"
-msgstr ""
+msgstr "жвавий"
 
 #: plugins/livejournal/livejournal.cpp:1482
 msgid "good"
-msgstr ""
+msgstr "добрий"
 
 #: plugins/livejournal/livejournal.cpp:1483
 msgid "distressed"
-msgstr ""
+msgstr "терплячий"
 
 #: plugins/livejournal/livejournal.cpp:1484
-#, fuzzy
 msgid "intimidated"
-msgstr "Згорнути"
+msgstr "заляканий"
 
 #: plugins/livejournal/livejournal.cpp:1485
 msgid "crushed"
-msgstr ""
+msgstr "роздавлений"
 
 #: plugins/livejournal/livejournal.cpp:1486
-#, fuzzy
 msgid "devious"
-msgstr "Невіс"
+msgstr "нещирий"
 
 #: plugins/livejournal/livejournal.cpp:1487
 msgid "thankful"
-msgstr ""
+msgstr "вдячний"
 
 #: plugins/livejournal/livejournal.cpp:1488
-#, fuzzy
 msgid "grateful"
-msgstr "Міграція"
+msgstr "приємний"
 
 #: plugins/livejournal/livejournal.cpp:1489
 msgid "jealous"
-msgstr ""
+msgstr "ревнивий"
 
 #: plugins/livejournal/livejournal.cpp:1490
-#, fuzzy
 msgid "nervous"
-msgstr "Групи"
+msgstr "нервовий"
 
 #: plugins/livejournal/livejournal.cpp:1492
 msgid "Recent Entries"
-msgstr ""
+msgstr "Недавні записи"
 
 #: plugins/livejournal/livejournal.cpp:1493
 msgid "Calendar View"
-msgstr ""
+msgstr "Перегляд календаря"
 
 #: plugins/livejournal/livejournal.cpp:1494
-#, fuzzy
 msgid "Friends View"
-msgstr "Список"
+msgstr "Спиок друзів"
 
 #: plugins/livejournal/livejournal.cpp:1495
-#, fuzzy
 msgid "Your Profile"
-msgstr "&Профіль"
+msgstr "Ваш профіль"
 
 #: plugins/livejournal/livejournal.cpp:1496
 msgid "Your To-Do List"
-msgstr ""
+msgstr "Ваш To-Do"
 
 #: plugins/livejournal/livejournal.cpp:1497
-#, fuzzy
 msgid "Change Settings"
-msgstr "Змінити &кодування"
+msgstr "Змінити установки"
 
 #: plugins/livejournal/livejournal.cpp:1498
-#, fuzzy
 msgid "Support"
-msgstr "Спорт"
+msgstr "Підтримка"
 
 #: plugins/livejournal/livejournal.cpp:1499
 msgid "Personal Info"
-msgstr ""
+msgstr "Персональна інформація"
 
 #: plugins/livejournal/livejournal.cpp:1500
-#, fuzzy
 msgid "Journal Settings"
-msgstr "Установки"
+msgstr "Установки Журнала"
 
 #: plugins/livejournal/journalsearch.cpp:54
 msgid "Add community results"
-msgstr ""
+msgstr "Результи додавання товариства"
 
 #: plugins/livejournal/journalsearch.cpp:80
-#, fuzzy
 msgid "Community %1 added to list"
-msgstr "Контакт %1 добавлений в список контактів"
+msgstr "Товариство %1 добавлено в список контактів"
 
 #: plugins/livejournal/journalsearch.cpp:82
-#, fuzzy
 msgid "Community %1 already in list"
-msgstr "Контакт %1 вже в списку"
+msgstr "Товариство %1 вже в списку"
 
 #: plugins/livejournal/journalsearchbase.cpp:101
-#, fuzzy
 msgid "Community:"
-msgstr "Країна:"
+msgstr "Товариство:"
 
 #: plugins/livejournal/journalsearchbase.cpp:102
-#, fuzzy
 msgid "&Add community"
-msgstr "&Додати контакт"
+msgstr "&Додати товариство"
 
 #: plugins/spell/spellcfg.cpp:46
 msgid "ASpell(aspell.exe)"
