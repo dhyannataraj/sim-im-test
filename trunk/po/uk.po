@@ -1,5 +1,6 @@
 # translation of uk.po to 
 # translation of uk.po to
+# translation of uk.po to
 # translation of uk1.po to
 # translation of uk.po to
 # translation of uk.po to
@@ -26,7 +27,7 @@ msgstr ""
 "Project-Id-Version: uk\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-06-06 14:00+0200\n"
-"PO-Revision-Date: 2004-05-11 23:50+0300\n"
+"PO-Revision-Date: 2004-06-11 21:48+0300\n"
 "Last-Translator: Ivan Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team:  <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2636,8 +2637,7 @@ msgstr "-"
 #: plugins/jabber/jabberconfigbase.cpp:308 plugins/msn/msnconfigbase.cpp:178
 #: plugins/yahoo/yahoocfgbase.cpp:180
 msgid "Note: For HTTP-pooling using proxy setings for HTTP"
-msgstr ""
-"Примітка: Для HTTP-з'єднання використовуйте налаштування проксі для HTTP"
+msgstr "Примітка: Для HTTP-з'єднання використовуйте налаштування проксі для HTTP"
 
 #: plugins/icq/aimconfigbase.cc:152 plugins/icq/icqconfigbase.cc:274
 msgid "&Keep-alive connection"
@@ -3151,7 +3151,7 @@ msgid "Bad host address"
 msgstr "Помилковий адрес сервера"
 
 #: plugins/_core/msgedit.cpp:582 plugins/icq/icqmessage.cpp:536
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: File\n"
 "%n files"
@@ -3161,7 +3161,7 @@ msgstr ""
 "%n файлів"
 
 #: plugins/icq/icqmessage.cpp:552
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: WWW-panel message\n"
 "%n WWW-panel messages"
@@ -3171,7 +3171,7 @@ msgstr ""
 "%n WWW повідомлень"
 
 #: plugins/icq/icqmessage.cpp:573
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Email pager message\n"
 "%n Email pager messages"
@@ -3181,7 +3181,7 @@ msgstr ""
 "%n Email повідомлень"
 
 #: plugins/icq/icqmessage.cpp:594
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Request secure channel\n"
 "%n requests secure channel"
@@ -3191,7 +3191,7 @@ msgstr ""
 "%n запитів захищеного з'єднання"
 
 #: plugins/icq/icqmessage.cpp:615
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Close secure channel\n"
 "%n times close secure channel"
@@ -3201,7 +3201,7 @@ msgstr ""
 "%n закриттів захищеного з'єднання"
 
 #: plugins/icq/icqmessage.cpp:636
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Check invisible\n"
 "%n times check invisible"
@@ -3211,7 +3211,7 @@ msgstr ""
 "%n разів перевірка невидимості"
 
 #: plugins/icq/icqmessage.cpp:657
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Warning\n"
 "%n warnings"
@@ -3221,7 +3221,7 @@ msgstr ""
 "%n попереджень"
 
 #: plugins/icq/icqmessage.cpp:763
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Contact request\n"
 "%n contact requests"
@@ -3346,7 +3346,7 @@ msgid "Directory"
 msgstr "Каталог"
 
 #: plugins/icq/icqicmb.cpp:989 plugins/icq/icqicmb.cpp:995
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: %n file\n"
 "%n files"
@@ -3748,7 +3748,7 @@ msgid "File transfer failed"
 msgstr "Помилкова пересилка файла"
 
 #: plugins/msn/msnpacket.cpp:472
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: You have %n unread message\n"
 "You have %n unread messages"
@@ -3863,8 +3863,7 @@ msgid "OSD"
 msgstr "Екран"
 
 #: plugins/osd/osd.cpp:71
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Модуль забезпечує вивід попереджень на екран про прихід повідомлень або "
 "зміну статусу"
@@ -3970,7 +3969,7 @@ msgid ""
 msgstr "%1 пише"
 
 #: plugins/sms/sms.cpp:87
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Phone call\n"
 "%n phone calls"
@@ -4094,8 +4093,7 @@ msgstr "Системний лоток"
 
 #: plugins/dock/dock.cpp:50
 msgid "Plugin provides dock main window in system tray"
-msgstr ""
-"Модуль забезпечує згортання головного вікна в іконку в системному лотку"
+msgstr "Модуль забезпечує згортання головного вікна в іконку в системному лотку"
 
 #: plugins/dock/dock.cpp:52 plugins/windock/windock.cpp:43
 msgid "Dock"
@@ -4189,7 +4187,7 @@ msgid "<p>Subject: %1</p>"
 msgstr "<p>Тема: %1</p>"
 
 #: plugins/livejournal/livejournal.cpp:110
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: LiveJournal post\n"
 "%n LiveJournal posts"
@@ -4199,7 +4197,7 @@ msgstr ""
 "%n записів в LiveJournal"
 
 #: plugins/livejournal/livejournal.cpp:111
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Friends updated\n"
 "Friends updated %n"
@@ -4874,8 +4872,7 @@ msgid "Navigate"
 msgstr "Навігація"
 
 #: plugins/navigate/navigate.cpp:215
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr "Модуль забезпечує навігацію по гіперпосиланнях"
 
 #: plugins/navigate/navigate.cpp:264
@@ -5779,21 +5776,22 @@ msgid "time from set status"
 msgstr "час від встановлення статусу"
 
 #: plugins/_core/core.cpp:1664
-#, fuzzy
 msgid ""
 "_: male\n"
+"%1 wrote:"
+msgstr ""
+"написав:\n"
+"%1 написали:\n"
+"%1 написали:"
+
+#: plugins/_core/core.cpp:1665
+msgid ""
+"_: female\n"
 "%1 wrote:"
 msgstr ""
 "написала:\n"
 "%1 написали:\n"
 "%1 написали:"
-
-#: plugins/_core/core.cpp:1665
-#, fuzzy
-msgid ""
-"_: female\n"
-"%1 wrote:"
-msgstr "%1 в мережі"
 
 #: plugins/_core/core.cpp:1681 plugins/_core/status.cpp:321
 msgid "OK"
@@ -5972,7 +5970,7 @@ msgid "%1 already in contact list"
 msgstr "%1 вже в списку контактів"
 
 #: plugins/_core/search.cpp:631
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: %n contact found\n"
 "%n contacts found"
@@ -6123,7 +6121,7 @@ msgstr ""
 "Ви можете додати з'єднання пізніше використовуючи менеджер з'єднань"
 
 #: plugins/_core/msgedit.cpp:430 plugins/update/update.cpp:106
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Message\n"
 "%n messages"
@@ -6133,7 +6131,7 @@ msgstr ""
 "%n повідомлень"
 
 #: plugins/_core/msgedit.cpp:456
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: SMS\n"
 "%n SMSs"
@@ -6143,7 +6141,7 @@ msgstr ""
 "%n SMS"
 
 #: plugins/_core/msgedit.cpp:472
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: URL\n"
 "%n URLs"
@@ -6153,7 +6151,7 @@ msgstr ""
 "%n URL"
 
 #: plugins/_core/msgedit.cpp:535
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Contact list\n"
 "%n contact lists"
@@ -6171,7 +6169,7 @@ msgid "&Decline"
 msgstr "&Відмовити"
 
 #: plugins/_core/msgedit.cpp:657
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Authorize request\n"
 "%n authorize requests"
@@ -6189,7 +6187,7 @@ msgid "&Refuse"
 msgstr "&Відмовити"
 
 #: plugins/_core/msgedit.cpp:727
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Authorization granted\n"
 "%n authorization granted"
@@ -6199,7 +6197,7 @@ msgstr ""
 "Авторизація прийнята %n разів"
 
 #: plugins/_core/msgedit.cpp:748
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Authorization refused\n"
 "%n authorization refused"
@@ -6209,7 +6207,7 @@ msgstr ""
 "Авторизація відхилена %n разів"
 
 #: plugins/_core/msgedit.cpp:769
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Add to contacts\n"
 "%n add to contacts"
@@ -6219,7 +6217,7 @@ msgstr ""
 "Додав в список контактів %n разів"
 
 #: plugins/_core/msgedit.cpp:790
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Removed from contacts\n"
 "%n removed from contacts"
@@ -6229,7 +6227,7 @@ msgstr ""
 "Вилучив контактів %n разів"
 
 #: plugins/_core/msgedit.cpp:811
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Status changed\n"
 "%n times status changed"
@@ -6283,7 +6281,7 @@ msgid "Autoreply message"
 msgstr "Повідомлення автовідповіді"
 
 #: plugins/_core/autoreply.cpp:51 plugins/_core/autoreply.cpp:97
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Close after %n second\n"
 "Close after %n seconds"
@@ -6792,8 +6790,7 @@ msgid "Set \"Offline\" status after"
 msgstr "Встановити статус \"Вимкнений\" через"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:109
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Заборонити попередження в стані \"Відійшов\", \"Неактивний\", \"Не турбувати"
 "\", \"Зайнятий\""
@@ -6932,8 +6929,7 @@ msgstr "Дія"
 
 #: plugins/action/action.cpp:34
 msgid "Plugin execute external programs on event or from contact menu"
-msgstr ""
-"Модуль забезпечує запуск зовнішніх програм з подій або з меню контактів"
+msgstr "Модуль забезпечує запуск зовнішніх програм з подій або з меню контактів"
 
 #: plugins/action/action.cpp:84
 msgid "&Action"
@@ -7259,7 +7255,7 @@ msgid "&Stat"
 msgstr "&Статус"
 
 #: plugins/jabber/discoinfo.cpp:251
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: %n day\n"
 "%n days"
@@ -7325,7 +7321,7 @@ msgid "Original message:"
 msgstr "Оригінальне повідомлення:"
 
 #: plugins/jabber/jabbermessage.cpp:133
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Error\n"
 "%n errors"
@@ -7725,8 +7721,7 @@ msgstr "Поновлення"
 
 #: plugins/update/update.cpp:41
 msgid "Plugin provides notifications about update SIM software"
-msgstr ""
-"Модуль забезпечує вивід попередження про наявність поновлення SIM-програми"
+msgstr "Модуль забезпечує вивід попередження про наявність поновлення SIM-програми"
 
 #: plugins/update/update.cpp:127
 msgid "Show details"
@@ -8335,8 +8330,7 @@ msgstr "Модуль забезпечує прозорість вікон"
 
 #: plugins/windock/windock.cpp:44
 msgid "Plugin provides dock main window to left or right side of screen"
-msgstr ""
-"Модуль забезпечує прив'язку головного вікна до лівої чи правої сторони екрана"
+msgstr "Модуль забезпечує прив'язку головного вікна до лівої чи правої сторони екрана"
 
 #: plugins/windock/windock.cpp:181
 msgid ""
@@ -8800,3 +8794,4 @@ msgstr "Панель, що сама ховається"
 
 #~ msgid "Norwegian Wood"
 #~ msgstr "Норвезький Ліс"
+
