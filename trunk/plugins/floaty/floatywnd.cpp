@@ -80,7 +80,7 @@ void FloatyWnd::init()
         if ((unsigned)(pict.height()) > h)
             h = pict.height();
     }
-    w += 6;
+    w += 8;
     h += 6;
     resize(w, h);
     for (list<msg_id>::iterator it = m_plugin->core->unread.begin(); it != m_plugin->core->unread.end(); ++it){
@@ -160,7 +160,7 @@ void FloatyWnd::paintEvent(QPaintEvent*)
         const QPixmap &pict = Pict(icon.c_str());
         x += 2;
         p.drawPixmap(x, (h - pict.height()) / 2, pict);
-        x += pict.width() + 2;
+        x += pict.width();
     }
     p.end();
 

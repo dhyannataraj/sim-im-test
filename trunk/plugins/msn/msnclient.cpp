@@ -857,7 +857,7 @@ void MSNClient::setupContact(Contact *contact, void *_data)
         if (!phones.isEmpty())
             phones += ";";
         phones += QString::fromUtf8(data->PhoneMobile);
-        phones += ",Private Cellular,3";
+        phones += ",Private Cellular,2";
     }
     bool bChanged = contact->setPhones(phones, name().c_str());
     bChanged |= contact->setEMails(data->EMail, name().c_str());

@@ -114,11 +114,13 @@ void *CommandsDefPrivate::processEvent(Event *e)
         break;
     case EventCommandChange:
         def = (CommandDef*)(e->param());
-        for (it = buttons.begin(); it != buttons.end(); ++it){
-            if ((*it).id == def->id){
-                *it = *def;
-                break;
-            }
+		if (def->param == NULL){
+			for (it = buttons.begin(); it != buttons.end(); ++it){
+				if ((*it).id == def->id){
+					*it = *def;
+					break;
+				}
+			}
         }
         break;
     case EventCommandRemove:

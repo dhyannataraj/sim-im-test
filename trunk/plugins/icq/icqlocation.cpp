@@ -354,7 +354,11 @@ void ICQClient::sendCapability(const char *away_msg)
 #ifdef WIN32
     os_ver = 0x80;
 #else
+#ifdef QT_MACOSX_VERSION
+	os_ver = 0x40;
+#else
     os_ver = 0;
+#endif
 #endif
     *(pack_ver++) = os_ver;
     if (m_bAIM){
