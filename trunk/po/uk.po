@@ -1,5 +1,6 @@
 # translation of uk.po to 
 # translation of uk.po to
+# translation of uk.po to
 # translation of uk2.po to
 # translation of uk.po to
 # translation of uk.po to Ukrainian
@@ -11,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2003-09-15 10:52+0400\n"
-"PO-Revision-Date: 2003-09-15 17:45+0300\n"
+"PO-Revision-Date: 2003-09-15 22:26+0300\n"
 "Last-Translator: Ivan Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team:  <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3177,9 +3178,9 @@ msgid ""
 "_n: Found 1 contact\n"
 "Found %n contacts"
 msgstr ""
-"Знайдено %nктів\n"
-"%спиЗнайдено скитів\n"
-"%аспиЗнайдено скітів"
+"Знайдено %n контакт\n"
+"Знайдено %n контакта\n"
+"Знайдено %n контактів"
 
 #: plugins/icq/securedlg.cpp:59
 msgid "Request secure channel fail"
@@ -3363,12 +3364,11 @@ msgstr "&Автоматично поновляти інформацію про �
 
 #: plugins/icq/icqconfigbase.cc:201
 msgid "Automaticaly &request autoreply on change status"
-msgstr ""
+msgstr "Автоматично запитувати &автовідповідь при зміні статусу"
 
 #: plugins/icq/icqconfigbase.cc:202
-#, fuzzy
 msgid "&Options"
-msgstr "Дія:"
+msgstr "&Опції"
 
 #: plugins/icq/icqinfobase.cc:305
 msgid "Form5"
@@ -3392,9 +3392,8 @@ msgid "Encoding:"
 msgstr "Кодова сторінка:"
 
 #: plugins/icq/icqinfobase.cc:311
-#, fuzzy
 msgid "Random chat group:"
-msgstr "Випадкова розмова"
+msgstr "Група випадкового пошуку:"
 
 #: plugins/icq/icqinfobase.cc:312 plugins/jabber/jabberinfobase.cpp:214
 #: plugins/msn/msninfobase.cpp:163
@@ -3426,7 +3425,7 @@ msgstr ""
 
 #: plugins/icq/icqsecurebase.cc:214
 msgid "Don't show my &IP-address"
-msgstr "Не показувати мою &IP-адресу"
+msgstr "Не показувати свою &IP-адресу"
 
 #: plugins/icq/icqsecurebase.cc:216
 msgid "Allow other to view my &status from the Web"
@@ -3439,7 +3438,6 @@ msgid "I&gnore user authorization"
 msgstr "І&гнорувати вимоги авторизації"
 
 #: plugins/icq/icqsecurebase.cc:218
-#, fuzzy
 msgid "Direct connections"
 msgstr "Прямі з'єднання"
 
@@ -3482,14 +3480,12 @@ msgid "&Password"
 msgstr "&Пароль"
 
 #: plugins/icq/icqsecurebase.cc:227
-#, fuzzy
 msgid "&Visible list"
-msgstr "Список видимості"
+msgstr "Список &видимості"
 
 #: plugins/icq/icqsecurebase.cc:228
-#, fuzzy
 msgid "&Invisible list"
-msgstr "Список невидимості"
+msgstr "Список &невидимості"
 
 #: plugins/icq/moreinfobase.cc:202 plugins/jabber/jabberinfobase.cpp:212
 msgid "Homepage:"
@@ -3620,14 +3616,12 @@ msgid "Names"
 msgstr "Імена"
 
 #: plugins/icq/icqsearchbase.cc:340
-#, fuzzy
 msgid "Group:"
 msgstr "Група:"
 
 #: plugins/icq/icqsearchbase.cc:342 plugins/msn/msnsearchbase.cpp:112
-#, fuzzy
 msgid "&Add contact"
-msgstr "Додати зовнішній контакт"
+msgstr "&Додати контакт"
 
 #: plugins/icq/icqsearchbase.cc:343
 msgid "Send &message"
@@ -3638,20 +3632,17 @@ msgid "Random chat"
 msgstr "Випадкова розмова"
 
 #: plugins/icq/icqsearchbase.cc:345
-#, fuzzy
 msgid "Screen name:"
-msgstr "Ім'я:"
+msgstr "Ім'я користувача:"
 
 #: plugins/icq/icqsearchbase.cc:346 plugins/jabber/jabberaddbase.cpp:124
 #: plugins/msn/msnsearchbase.cpp:111
-#, fuzzy
 msgid "Add to group:"
-msgstr "Додати в групу"
+msgstr "Додати в групу:"
 
 #: plugins/icq/icqsearchbase.cc:347
-#, fuzzy
 msgid "AIM user"
-msgstr "Всі користувачі"
+msgstr "Користувач AIM"
 
 #: plugins/icq/icqsearchbase.cc:348
 msgid "Online only"
@@ -3659,7 +3650,7 @@ msgstr "Тільки в мережі"
 
 #: plugins/icq/securedlgbase.cc:73
 msgid "Secure chanel request"
-msgstr "Запит шифрованого з'єднання"
+msgstr "Запит захищеного з'єднання"
 
 #: plugins/icq/securedlgbase.cc:74
 msgid ""
@@ -3668,7 +3659,7 @@ msgid ""
 "\n"
 "This only works with other SIM and Licq clients"
 msgstr ""
-"Шифроване з'єднання встановлюється з "
+"Захищене з'єднання встановлюється з "
 "допомогою SSL з обміном ключами методом "
 "Діффі-Хелмана і протоколом TLS версії 1\n"
 "\n"
@@ -3676,87 +3667,76 @@ msgstr ""
 "і Licq"
 
 #: plugins/icq/aimconfig.cpp:45
-#, fuzzy
 msgid "Register new ScreenName"
-msgstr "&Реєстрація"
+msgstr "Зареєструвати новий акаунт"
 
 #: plugins/icq/aimconfigbase.cc:149
-#, fuzzy
 msgid "ScreenName:"
 msgstr "Ім'я:"
 
 #: plugins/icq/aimconfigbase.cc:151
 msgid "&AIM"
-msgstr ""
+msgstr "&AIM"
 
 #: plugins/jabber/addresult.cpp:31 plugins/jabber/jabbersearch.cpp:181
-#, fuzzy
 msgid "First name"
-msgstr "Ім'я:"
+msgstr "Ім'я"
 
 #: plugins/jabber/addresult.cpp:32 plugins/jabber/jabbersearch.cpp:182
-#, fuzzy
 msgid "Last name"
-msgstr "Прізвище:"
+msgstr "Прізвище"
 
 #: plugins/jabber/addresult.cpp:34
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: plugins/jabber/jabber.cpp:69
 msgid "Jabber"
-msgstr ""
+msgstr "Jabber"
 
 #: plugins/jabber/jabber_rosters.cpp:1174
-#, fuzzy
 msgid "Password does not match"
-msgstr "Підтвердження і пароль не співпадають"
+msgstr "Невірний пароль"
 
 #: plugins/jabber/jabber_rosters.cpp:1175
-#, fuzzy
 msgid "Low level network error"
-msgstr "Монітор мережі"
+msgstr "Низькорівнева мережева помилка"
 
 #: plugins/jabber/jabberadd.cpp:163
-#, fuzzy
 msgid "Add Jabber contact"
-msgstr "Додати зовнішній контакт"
+msgstr "Додати Jabber контакт"
 
 #: plugins/jabber/jabberclient.cpp:1122
-#, fuzzy
 msgid "Agents"
-msgstr "Ефекти"
+msgstr "Агенти"
 
 #: plugins/jabber/jabberconfig.cpp:54
 msgid "List of public servers"
-msgstr ""
+msgstr "Список публічних серверів"
 
 #: plugins/jabber/jabbermessage.cpp:53
 msgid "<p>Subject: %1</p>"
-msgstr ""
+msgstr "<p>Тема: %1</p>"
 
 #: plugins/jabber/jabbermessage.cpp:87 plugins/jabber/jabbermessage.cpp:125
-#, fuzzy
 msgid "Log On"
-msgstr "Авторизація"
+msgstr "Ввійти"
 
 #: plugins/jabber/jabbermessage.cpp:105 plugins/jabber/jabbermessage.cpp:134
-#, fuzzy
 msgid "Log Off"
-msgstr "Авторизація"
+msgstr "Вийти"
 
 #: plugins/jabber/jabbersearch.cpp:172
 msgid "First (Given)"
-msgstr ""
+msgstr "Ім'я"
 
 #: plugins/jabber/jabbersearch.cpp:173
-#, fuzzy
 msgid "Last (Family)"
-msgstr "Прізвище:"
+msgstr "Прізвище"
 
 #: plugins/jabber/jabbersearch.cpp:174
 msgid "Nick (Alias)"
-msgstr ""
+msgstr "Псевдонім"
 
 #: plugins/jabber/jabbersearch.cpp:176
 msgid ""
@@ -3765,6 +3745,12 @@ msgid ""
 "\"Slower\" matches your string anywhere in the field (ie. \"b\" would yield "
 "Bob, Bill, Caleb, Robbie, etc...)"
 msgstr ""
+"Виберіть швидкість пошуку  \"Швидкий\" шукає "
+"тільки по початку стрічки (тобто є по \"b\" "
+"буде знайдено Bob, Bill і т.д.)  \"Повільний\" "
+"буде шукати підстроку в любому місці "
+"поля (тобто по \"b\" буде знайдено Bob, Bill, "
+"Caleb, Robby і т.д.)"
 
 #: plugins/jabber/jabbersearch.cpp:177
 #, fuzzy
