@@ -37,6 +37,7 @@ JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig)
     edtPasswd->setText(m_client->getPassword());
     edtServer->setText(QString::fromLocal8Bit(m_client->getServer()));
     edtPort->setValue(m_client->getPort());
+	edtPriority->setValue(m_client->getPriority());
     if (m_client->data.owner.Resource)
         edtResource->setText(QString::fromUtf8(m_client->data.owner.Resource));
     if (m_client->data.VHost)
@@ -106,6 +107,7 @@ void JabberConfig::apply()
 #endif
     m_client->setUseVHost(chkVHost->isChecked());
     set_str(&m_client->data.owner.Resource, edtResource->text().utf8());
+	m_client->setPriority(atol(edtPriority->text().latin1()));
     if (chkVHost->isChecked())
         set_str(&m_client->data.VHost, edtVHost->text().utf8());
 }

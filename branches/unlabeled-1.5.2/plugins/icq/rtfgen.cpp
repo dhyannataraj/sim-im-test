@@ -445,12 +445,14 @@ protected:
     virtual void tag_start(const QString &tag, const list<QString> &options);
     virtual void tag_end(const QString &tag);
     QString res;
+	bool    m_bPara;
     unsigned m_maxSmile;
 };
 
 ImageParser::ImageParser(unsigned maxSmile)
 {
     m_maxSmile = maxSmile;
+	m_bPara    = false;
 }
 
 QString ImageParser::parse(const QString &text)
@@ -492,6 +494,13 @@ void ImageParser::tag_start(const QString &tag, const list<QString> &options)
             }
         }
     }
+	if (tag == "p"){
+		if (m_bPara){
+			res += "<br>";
+			m_bPara = false;
+		}
+		return;
+	}
     res += "<";
     res += tag;
     for (list<QString>::const_iterator it = options.begin(); it != options.end(); ++it){
@@ -511,6 +520,10 @@ void ImageParser::tag_start(const QString &tag, const list<QString> &options)
 
 void ImageParser::tag_end(const QString &tag)
 {
+	if (tag == "p"){
+		m_bPara = true;
+		return;
+	}
     res += "</";
     res += tag;
     res += ">";

@@ -27,7 +27,10 @@ typedef struct LoggerData
 {
     unsigned LogLevel;
     char	 *LogPackets;
+	char	 *File;
 } LoggerData;
+
+class QFile;
 
 class LoggerPlugin : public Plugin, public EventReceiver
 {
@@ -36,6 +39,7 @@ public:
     virtual ~LoggerPlugin();
     PROP_ULONG(LogLevel);
     PROP_STR(LogPackets);
+	PROP_STR(File);
     bool isLogType(unsigned id);
     void setLogType(unsigned id, bool bLog);
 protected:
@@ -43,6 +47,8 @@ protected:
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual string getConfig();
     void *processEvent(Event*);
+	void openFile();
+	QFile *m_file;
     LoggerData data;
     friend class LogConfig;
 };

@@ -736,7 +736,9 @@ QWidget *MSNClient::configWindow(QWidget *parent, unsigned id)
 
 bool MSNClient::canSend(unsigned type, void *_data)
 {
-    if ((_data == NULL) || (getState() != Connected))
+	if ((_data == NULL) || (((clientData*)_data)->Sign != MSN_SIGN))
+		return false;
+    if (getState() != Connected)
         return false;
     MSNUserData *data = (MSNUserData*)_data;
     switch (type){
@@ -776,14 +778,30 @@ string MSNClient::dataName(void *_data)
     return res;
 }
 
-bool MSNClient::isMyData(clientData *_data, Contact *&contact)
+bool MSNClient::isMyData(clientData *&_data, Contact *&contact)
 {
     if (_data->Sign != MSN_SIGN)
         return false;
     MSNUserData *data = (MSNUserData*)_data;
-    if (findContact(data->EMail, contact) == NULL)
+	if (data->EMail && this->data.owner.EMail &&
+		QString(data->EMail).lower() == QString(this->data.owner.EMail).lower())
+		return false;
+    MSNUserData *my_data = findContact(data->EMail, contact);
+	if (my_data){
+		data = my_data;
+	}else{
         contact = NULL;
+	}
     return true;
+}
+
+bool MSNClient::createData(clientData *&_data, Contact *contact)
+{
+	MSNUserData *data = (MSNUserData*)_data;
+    MSNUserData *new_data = (MSNUserData*)(contact->clientData.createData(this));
+    set_str(&new_data->EMail, data->EMail);
+	_data = (clientData*)new_data;
+	return true;
 }
 
 void MSNClient::setupContact(Contact *contact, void *_data)

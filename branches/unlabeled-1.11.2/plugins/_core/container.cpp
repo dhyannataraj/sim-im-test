@@ -362,7 +362,7 @@ void Container::contactSelected(int)
     Event e(EventCommandChange, cmd);
     m_bar->processEvent(&e);
     setIcon(Pict(cmd->icon));
-    setCaption(name);
+    setCaption(userWnd->getLongName());
     m_bar->checkState();
     m_status->message(userWnd->status());
     if (isActiveWindow())
@@ -563,16 +563,12 @@ void *Container::processEvent(Event *e)
         contact = (Contact*)(e->param());
         userWnd = wnd(contact->id());
         if (userWnd){
-
 			if (contact->getIgnore()){
-
 				removeUserWnd(userWnd);
-
 				break;
-
 			}
             m_tabBar->changeTab(contact->id());
-
+			contactChanged(contact);
 		}
     case EventClientsChanged:
         setupAccel();
@@ -725,7 +721,7 @@ void Container::contactChanged(Contact *contact)
         Event e(EventCommandChange, cmd);
         m_bar->processEvent(&e);
         setIcon(Pict(cmd->icon));
-        setCaption(name);
+        setCaption(userWnd->getLongName());
     }
 }
 

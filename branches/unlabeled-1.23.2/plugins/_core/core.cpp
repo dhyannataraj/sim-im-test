@@ -1180,6 +1180,50 @@ bool operator < (const struct msgIndex &a, const struct msgIndex &b)
 
 typedef map<msgIndex, msgCount> MAP_COUNT;
 
+void CorePlugin::getWays(vector<clientContact> &ways, Contact *contact)
+{
+					clientData *data;
+					ClientDataIterator it(contact->clientData);
+					while ((data = ++it) != NULL){
+						clientData *data1;
+						ClientDataIterator it1(contact->clientData);
+						bool bOK = true;
+						while ((data1 = ++it1) != NULL){
+							if (data1 == data)
+								break;
+							if (data->Sign != data1->Sign)
+								continue;
+							if (it.client()->compareData(data, data1)){
+								bOK = false;
+								break;
+							}
+						}
+						if (!bOK)
+							continue;
+						clientContact c;
+						c.client = it.client();
+						c.data   = data;
+						c.bNew   = false;
+						ways.push_back(c);
+						for (unsigned i = 0; i < getContacts()->nClients(); i++){
+							Client *client = getContacts()->getClient(i);
+							if (client == it.client())
+								continue;
+							Contact *clContact;
+							clientData *data1 = data;
+							if (client->isMyData(data1, clContact)){
+								if ((clContact == contact) || (clContact == NULL)){
+									clientContact c;
+									c.client = client;
+									c.data   = data1;
+									c.bNew   = (clContact == NULL);
+									ways.push_back(c);
+								}
+							}
+						}
+					}
+}
+
 void *CorePlugin::processEvent(Event *e)
 {
     switch (e->type()){
@@ -1551,17 +1595,17 @@ void *CorePlugin::processEvent(Event *e)
                 Contact *contact = getContacts()->contact((unsigned)(cmd->param));
                 if (contact == NULL)
                     return NULL;
+				vector<clientContact> ways;
+				getWays(ways, contact);
                 if (cmd->menu_id == MenuMessage){
-                    unsigned n = contact->clientData.size();
-                    if (n <= 1)
+					unsigned n = ways.size();
+					if (n <= 1)
                         return NULL;
-                    void *data;
-                    ClientDataIterator it(contact->clientData);
                     CommandDef *cmds = new CommandDef[n + 2];
                     memset(cmds, 0, sizeof(CommandDef) * (n + 2));
+					cmds[0].text = "_";
                     n = 1;
-                    cmds[0].text = "_";
-                    while ((data = ++it) != NULL){
+                    for (vector<clientContact>::iterator itw = ways.begin(); itw != ways.end(); ++itw, n++){
                         unsigned id  = CmdContactClients + n;
                         if (n > m_nClientsMenu){
                             m_nClientsMenu = n;
@@ -1589,32 +1633,45 @@ void *CorePlugin::processEvent(Event *e)
                         unsigned long status = STATUS_UNKNOWN;
                         unsigned style = 0;
                         const char *statusIcon = NULL;
-                        it.client()->contactInfo(data, status, style, statusIcon);
+						if ((*itw).bNew){
+							void *data = (*itw).data;
+							Client *client = contact->clientData.activeClient(data, (*itw).client);
+							if (client == NULL){
+								client = (*itw).client;
+								data   = (*itw).data;
+							}
+							client->contactInfo(data, status, style, statusIcon);
+						}else{
+							(*itw).client->contactInfo((*itw).data, status, style, statusIcon);
+						}
                         cmds[n].icon = statusIcon;
-                        QString t = it.client()->contactName(data);
+                        QString t = (*itw).client->contactName((*itw).data);
+						bool bFrom = false;
+						for (unsigned i = 0; i < getContacts()->nClients(); i++){
+							Client *client = getContacts()->getClient(i);
+							if (client == (*itw).client)
+								continue;
+							Contact *contact;
+							clientData *data = (*itw).data;
+							if (client->isMyData(data, contact)){
+								bFrom = true;
+								break;
+							}
+						}
+						if (bFrom){
+							t += " ";
+							t += i18n("from %1") .arg((*itw).client->name().c_str());
+						}
                         cmds[n].text_wrk = strdup(t.utf8());
-                        n++;
                     }
                     cmd->param = cmds;
                     cmd->flags |= COMMAND_RECURSIVE;
                     return e->param();
                 }
                 unsigned n = cmd->menu_id - CmdContactClients - 1;
-                if (n >= contact->clientData.size())
+                if (n >= ways.size())
                     return NULL;
-
-                void *data;
-                Client *client = NULL;
-                ClientDataIterator itc(contact->clientData);
-                while ((data = ++itc) != NULL){
-                    if (n == 0){
-                        client = itc.client();
-                        break;
-                    }
-                    n--;
-                }
-                if (data == NULL)
-                    return NULL;
+				clientContact &cc = ways[n];
 
                 Event eMenu(EventGetMenuDef, (void*)MenuMessage);
                 CommandsDef *cmdsMsg = (CommandsDef*)(eMenu.process());
@@ -1632,7 +1689,7 @@ void *CorePlugin::processEvent(Event *e)
                 CommandsList it(*cmdsMsg, true);
                 CommandDef *c;
                 while ((c = ++it) != NULL){
-                    if (!client->canSend(c->id, data))
+                    if (!cc.client->canSend(c->id, cc.data))
                         continue;
                     cmds[nCmds] = *c;
                     cmds[nCmds].id      = c->id;
@@ -1693,6 +1750,13 @@ void *CorePlugin::processEvent(Event *e)
                     while ((data = ++it) != NULL){
                         if (it.client()->canSend(cmd->id, data))
                             return e->param();
+                    }
+					it.reset();
+                    while ((data = ++it) != NULL){
+						for (unsigned i = 0; i < getContacts()->nClients(); i++){
+							if (getContacts()->getClient(i)->canSend(cmd->id, data))
+                            return e->param();
+						}
                     }
                 }
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
@@ -2019,11 +2083,24 @@ void *CorePlugin::processEvent(Event *e)
                 if (contact == NULL)
                     return NULL;
                 unsigned n = cmd->menu_id - CmdContactClients - 1;
-                if (n >= contact->clientData.size())
+				vector<clientContact> ways;
+				getWays(ways, contact);
+                if (n >= ways.size())
                     return NULL;
+				clientContact &cc = ways[n];
+				clientData *data;
+				ClientDataIterator it(contact->clientData, cc.client);
+				while ((data = ++it) != NULL){
+					if (data == cc.data)
+						break;
+				}
+				if (data == NULL){
+					data = cc.data;
+					cc.client->createData(data, contact);
+				}
                 Contact *newContact = getContacts()->contact(0, true);
                 newContact->setGroup(contact->getGroup());
-                newContact->clientData.join(n, contact->clientData);
+                newContact->clientData.join(data, contact->clientData);
                 contact->setup();
                 newContact->setup();
                 Event e1(EventContactChanged, contact);
@@ -2241,22 +2318,29 @@ void *CorePlugin::processEvent(Event *e)
                 Contact *contact = getContacts()->contact((unsigned)(cmd->param));
                 CommandDef *def = messageTypes.find(cmd->id);
                 if (def && contact){
-                    Client *client = NULL;
-                    void *data;
                     unsigned n = cmd->menu_id - CmdContactClients - 1;
-                    ClientDataIterator it(contact->clientData);
-                    while ((data = ++it) != NULL){
-                        if (n == 0){
-                            client = it.client();
-                            break;
-                        }
-                        n--;
-                    }
-                    if (client){
+					vector<clientContact> ways;
+					getWays(ways, contact);
+					if (n < ways.size()){
+						clientContact &cc = ways[n];
+				
+						clientData *data;
+						ClientDataIterator it(contact->clientData, cc.client);
+						while ((data = ++it) != NULL){
+							if (data == cc.data)
+								break;
+						}
+						if (data == NULL){
+							data = cc.data;
+							cc.client->createData(data, contact);
+							Event e(EventContactChanged, contact);
+							e.process();
+						}
+
                         MessageDef *mdef = (MessageDef*)(def->param);
                         Message *msg = mdef->create(NULL);
                         msg->setContact((unsigned)(cmd->param));
-                        msg->setClient(client->dataName(data).c_str());
+                        msg->setClient(cc.client->dataName(data).c_str());
                         Event eOpen(EventOpenMessage, msg);
                         eOpen.process();
                         delete msg;

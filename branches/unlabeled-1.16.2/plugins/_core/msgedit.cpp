@@ -166,6 +166,7 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd, bool bReceived)
     m_type		= NO_TYPE;
     m_flags		= 0;
     m_retry.msg = NULL;
+	m_bReceived = false;
 
     connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
 
@@ -237,18 +238,20 @@ void MsgEdit::resizeEvent(QResizeEvent *e)
     emit heightChanged(height());
 }
 
-void MsgEdit::setMessage(Message *msg, bool bSetFocus)
+bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
 {
-    unsigned type = msg->type();
+    m_type = msg->type();
+	unsigned type = m_type;
+	m_bReceived = msg->getFlags() & MESSAGE_RECEIVED;
     QObject *(*create)(QWidget *custom, Message *msg) = NULL;
     for (;;){
         CommandDef *cmd = CorePlugin::m_plugin->messageTypes.find(type);
         if (cmd == NULL)
-            return;
+            return false;
         MessageDef *def = (MessageDef*)(cmd->param);
         if (def == NULL)
-            return;
-        if (msg->getFlags() & MESSAGE_RECEIVED){
+            return false;
+        if (m_bReceived){
             create = def->show;
         }else{
             create = def->generate;
@@ -256,9 +259,9 @@ void MsgEdit::setMessage(Message *msg, bool bSetFocus)
         if (create)
             break;
         if (def->base_type == 0){
-            if (msg->getFlags() & MESSAGE_RECEIVED)
+            if (m_bReceived)
                 break;
-            return;
+            return false;
         }
         type = def->base_type;
     }
@@ -274,7 +277,7 @@ void MsgEdit::setMessage(Message *msg, bool bSetFocus)
 
     QObject *initObj = NULL;
     if (wInput){
-        if (msg->getFlags() & MESSAGE_RECEIVED){
+        if (m_bReceived){
             wInput->hide();
             if (m_type == NO_TYPE){
                 wInput->removeWidgets();
@@ -289,7 +292,7 @@ void MsgEdit::setMessage(Message *msg, bool bSetFocus)
         }
     }
     if (wReceive){
-        if (msg->getFlags() & MESSAGE_RECEIVED){
+        if (m_bReceived){
             wReceive->removeWidgets();
             initObj = new MsgReceived(wReceive, msg);
             wReceive->show();
@@ -325,14 +328,45 @@ void MsgEdit::setMessage(Message *msg, bool bSetFocus)
         emit init();
         disconnect(this, SIGNAL(init()), initObj, SLOT(init()));
     }
+	return true;
 }
 
-Client *MsgEdit::client(void *&data)
+Client *MsgEdit::client(void *&data, bool bCreate)
 {
     data = NULL;
-    if (m_client.empty())
-        return NULL;
     Contact *contact = getContacts()->contact(m_userWnd->id());
+    if (m_client.empty()){
+		if (contact == NULL)
+			return NULL;
+		vector<ClientStatus> cs;
+		getWays(cs, contact);
+		unsigned i;
+        for (i = 0; i < cs.size(); i++){
+                Client *client = getContacts()->getClient(cs[i].client);
+                if (client->canSend(m_type, cs[i].data)){
+					data = cs[i].data;
+					return client;
+                }
+        }
+		for (i = 0; i < cs.size(); i++){
+			for (unsigned n = 0; n < getContacts()->nClients(); n++){
+				Client *client = getContacts()->getClient(n);
+				clientData *d = cs[i].data;
+				Contact *c;
+				if (!client->isMyData(d, c))
+					continue;
+				if (c && (c != contact))
+					continue;
+				if (client->canSend(m_type, d)){
+					if (bCreate)
+						client->createData(cs[i].data, contact);
+					data = cs[i].data;
+					return client;
+				}
+			}
+		}
+		return NULL;
+	}
     if (contact == NULL)
         return NULL;
     void *d;
@@ -664,20 +698,38 @@ static MessageDef defStatus =
         NULL
     };
 
-typedef struct ClientStatus
-{
-    unsigned long	status;
-    unsigned		client;
-    void			*data;
-} ClientStatus;
-
 static bool cmp_status(ClientStatus s1, ClientStatus s2)
 {
     if (s1.status > s2.status)
         return true;
     if (s1.status < s2.status)
         return false;
+	if (s1.data->LastSend > s2.data->LastSend)
+		return true;
+	if (s1.data->LastSend < s2.data->LastSend)
+		return false;
     return s1.client < s2.client;
+}
+
+void MsgEdit::getWays(vector<ClientStatus> &cs, Contact *contact)
+{
+            for (unsigned i = 0; i < getContacts()->nClients(); i++){
+                Client *client = getContacts()->getClient(i);
+                ClientDataIterator it(contact->clientData, client);
+				clientData *data;
+                while ((data = ++it) != NULL){
+                    unsigned long status = STATUS_UNKNOWN;
+                    unsigned style = 0;
+                    const char *statusIcon = NULL;
+                    client->contactInfo(data, status, style, statusIcon);
+                    ClientStatus s;
+                    s.client = i;
+                    s.status = status;
+                    s.data   = data;
+                    cs.push_back(s);
+                }
+            }
+            sort(cs.begin(), cs.end(), cmp_status);
 }
 
 bool MsgEdit::sendMessage(Message *msg)
@@ -727,37 +779,19 @@ bool MsgEdit::sendMessage(Message *msg)
 bool MsgEdit::send()
 {
     unsigned i;
-    vector<ClientStatus> cs;
     Contact *contact = getContacts()->contact(m_msg->contact());
     string client_str = m_msg->client();
     bool bSent = false;
+	void *data = NULL;
     if (contact){
         if (client_str.empty()){
-            for (i = 0; i < getContacts()->nClients(); i++){
-                Client *client = getContacts()->getClient(i);
-                void *data;
-                ClientDataIterator it(contact->clientData, client);
-                while ((data = ++it) != NULL){
-                    unsigned long status = STATUS_UNKNOWN;
-                    unsigned style = 0;
-                    const char *statusIcon = NULL;
-                    client->contactInfo(data, status, style, statusIcon);
-                    ClientStatus s;
-                    s.client = i;
-                    s.status = status;
-                    s.data   = data;
-                    cs.push_back(s);
-                }
-            }
-            sort(cs.begin(), cs.end(), cmp_status);
-            for (i = 0; i < cs.size(); i++){
-                Client *client = getContacts()->getClient(cs[i].client);
-                if (client->send(m_msg, cs[i].data)){
-                    bSent = true;
-                    break;
-                }
-            }
-            if (!bSent){
+		    vector<ClientStatus> cs;
+			getWays(cs, contact);
+            Client *c = client(data, true);
+            if (c){
+				bSent = c->send(m_msg, data);
+			}else{
+				data = NULL;
                 for (i = 0; i < getContacts()->nClients(); i++){
                     Client *client = getContacts()->getClient(i);
                     if (client->send(m_msg, NULL)){
@@ -767,7 +801,6 @@ bool MsgEdit::send()
                 }
             }
         }else{
-            void *data;
             ClientDataIterator it(contact->clientData);
             while ((data = ++it) != NULL){
                 if (it.client()->dataName(data) == client_str){
@@ -778,7 +811,13 @@ bool MsgEdit::send()
             }
         }
     }
-    if (!bSent){
+    if (bSent){
+		if (data){
+			time_t now;
+			time(&now);
+			((clientData*)data)->LastSend = now;
+		}
+	}else{
         if (m_msg){
             delete m_msg;
             m_msg = NULL;

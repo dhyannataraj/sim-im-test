@@ -107,7 +107,7 @@ void TextEdit::setCtrlMode(bool mode)
 void TextEdit::keyPressEvent(QKeyEvent *e)
 {
     if (((e->key() == Key_Enter) || (e->key() == Key_Return))){
-        if (!m_bCtrlMode || (e->state() == ControlButton)){
+        if (!m_bCtrlMode || (e->state() & ControlButton)){
             emit ctrlEnterPressed();
             return;
         }

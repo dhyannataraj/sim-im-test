@@ -319,6 +319,13 @@ typedef struct MessageDef
     Message*			(*drag)(QMimeSource*);
 } MessageDef;
 
+typedef struct clientContact
+{
+	clientData	*data;
+	Client		*client;
+	bool		bNew;
+} clientContact;
+
 class CorePlugin : public QObject, public Plugin, public EventReceiver
 {
     Q_OBJECT
@@ -426,6 +433,7 @@ protected:
     void initData();
     void loadUnread();
     void clearUnread(unsigned contact_id);
+	void getWays(vector<clientContact> &ways, Contact *contact);
     string typeName(const char *name);
     void setAutoReplies();
 

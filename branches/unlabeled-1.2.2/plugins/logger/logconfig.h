@@ -21,13 +21,8 @@
 #include "simapi.h"
 #include "logconfigbase.h"
 
-#include <map>
-using namespace std;
-
-class QCheckBox;
-typedef map<unsigned, QCheckBox*> BOX_MAP;
-
 class LoggerPlugin;
+class QListViewItem;
 
 class LogConfig : public LogConfigBase, public EventReceiver
 {
@@ -36,11 +31,14 @@ public:
     LogConfig(QWidget *parent, LoggerPlugin *plugin);
 public slots:
     void apply();
+	void clickItem(QListViewItem*);
 protected:
+	void resizeEvent(QResizeEvent *e);
     void *processEvent(Event*);
     void fill();
+	void addItem(const char *name, bool bChecked, unsigned level, unsigned packet);
+	void setCheck(QListViewItem*);
     LoggerPlugin	*m_plugin;
-    BOX_MAP			m_boxes;
 };
 
 #endif

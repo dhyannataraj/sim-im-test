@@ -98,6 +98,40 @@ QString UserWnd::getName()
     return contact->getName();
 }
 
+QString UserWnd::getLongName()
+{
+	QString res;
+    Contact *contact = getContacts()->contact(m_id);
+    res = contact->getName();
+    void *data;
+    Client *client = m_edit->client(data, false);
+	if (client && data){
+		res += " ";
+        res += client->contactName(data);
+		bool bFrom = false;
+		for (unsigned i = 0; i < getContacts()->nClients(); i++){
+			Client *pClient = getContacts()->getClient(i);
+			if (pClient == client)
+				continue;
+			Contact *contact;
+			clientData *data1 = (clientData*)data;
+			if (pClient->isMyData(data1, contact)){
+				bFrom = true;
+				break;
+			}
+		}
+		if (bFrom){
+			res += " ";
+			if (m_edit->m_bReceived){
+				res += i18n("to %1") .arg(client->name().c_str());
+			}else{
+				res += i18n("from %1") .arg(client->name().c_str());
+			}
+		}
+	}
+	return res;
+}
+
 const char *UserWnd::getIcon()
 {
     Contact *contact = getContacts()->contact(m_id);
@@ -105,7 +139,7 @@ const char *UserWnd::getIcon()
     unsigned style;
     const char *statusIcon;
     void *data;
-    Client *client = m_edit->client(data);
+    Client *client = m_edit->client(data, false);
     if (client){
         client->contactInfo(data, status, style, statusIcon);
     }else{
@@ -157,18 +191,27 @@ void UserWnd::toolbarChanged(QToolBar*)
     memcpy(CorePlugin::m_plugin->data.editBar, data.editBar, sizeof(data.editBar));
 }
 
-void UserWnd::setMessage(Message *msg)
+void UserWnd::setMessage(Message *&msg)
 {
     bool bSetFocus = false;
+
+	Container *container = NULL;
     if (topLevelWidget() && topLevelWidget()->inherits("Container")){
-        Container *container = static_cast<Container*>(topLevelWidget());
-        container->setMessageType(msg->type());
+        container = static_cast<Container*>(topLevelWidget());
         if (container->wnd() == this)
             bSetFocus = true;
     }
 
     data.MessageType = msg->type();
-    m_edit->setMessage(msg, bSetFocus);
+    if (!m_edit->setMessage(msg, bSetFocus)){
+		delete msg;
+		msg = new Message(MessageGeneric);
+		m_edit->setMessage(msg, bSetFocus);
+	}
+	if (container){
+		container->setMessageType(msg->type());
+		container->contactChanged(getContacts()->contact(m_id));
+	}
 
     if ((m_view == NULL) || (msg->id() == 0))
         return;

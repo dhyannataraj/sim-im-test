@@ -78,6 +78,7 @@ typedef struct JabberClientData
     unsigned		UsePlain;
     unsigned		UseVHost;
     unsigned		Register;
+	unsigned		Priority;
     char			*ListRequest;
     char			*VHost;
     JabberUserData	owner;
@@ -207,6 +208,7 @@ QString getID() { return QString::fromUtf8(data.owner.ID ? data.owner.ID : ""); 
     PROP_BOOL(UsePlain);
     PROP_BOOL(UseVHost);
     PROP_BOOL(Register);
+	PROP_ULONG(Priority);
     PROP_UTF8(ListRequest);
 
     string		buildId(JabberUserData *data);
@@ -247,8 +249,8 @@ protected:
     virtual void connect_ready();
     virtual void packet_ready();
     virtual void setInvisible(bool bState);
-    virtual bool isMyData(clientData*, Contact*&);
-
+    virtual bool isMyData(clientData*&, Contact*&);
+	virtual bool createData(clientData*&, Contact*);
     virtual bool compareData(void*, void*);
     virtual bool canSend(unsigned, void*);
     virtual void contactInfo(void *data, unsigned long &curStatus, unsigned &style, const char *&statusIcon, string *icons = NULL);

@@ -34,6 +34,13 @@ class QVBoxLayout;
 class QFrame;
 class TextEdit;
 
+typedef struct ClientStatus
+{
+    unsigned long	status;
+    unsigned		client;
+    clientData		*data;
+} ClientStatus;
+
 class MsgEdit : public QMainWindow, public EventReceiver
 {
     Q_OBJECT
@@ -41,14 +48,16 @@ public:
     MsgEdit(QWidget *parent, UserWnd *userWnd, bool bReceived);
     ~MsgEdit();
     CToolBar	*m_bar;
-    void setMessage(Message *msg, bool bSetFocus);
+    bool setMessage(Message *msg, bool bSetFocus);
     UserWnd		*m_userWnd;
     TextEdit	*m_edit;
     QVBoxLayout	*m_layout;
     QFrame		*m_frame;
     bool sendMessage(Message *msg);
     static void setupMessages();
-    Client		*client(void *&data);
+	void		getWays(vector<ClientStatus> &cs, Contact *contact);
+    Client		*client(void *&data, bool bCreate);
+	bool		m_bReceived;
     unsigned	m_flags;
 signals:
     void heightChanged(int);
