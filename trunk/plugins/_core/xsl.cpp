@@ -15,15 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "xsl.h"
-
-#include <qfile.h>
-#include <qregexp.h>
-
+/* before xsl.h because auf STL - problem !! */
 #include <libxslt/xslt.h>
 #include <libxslt/transform.h>
 #include <libxslt/xsltutils.h>
 #include <libxslt/xsltInternals.h>
+
+#include "xsl.h"
+
+#include <qfile.h>
+#include <qregexp.h>
 
 class XSLPrivate
 {
