@@ -466,8 +466,8 @@ bool ServerSocket::listen(int minPort, int maxPort, const char *host)
         return false;
     }
     char *localHost;
-    getLocalAddr(localHost, m_nPort);
-    setHost(localHost);
+    if (getLocalAddr(localHost, m_nPort))
+    	setHost(localHost);
     if (::listen(m_fd, 256) == -1)
     {
         error(ErrorListen);

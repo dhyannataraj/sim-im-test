@@ -232,7 +232,6 @@ void DirectSocket::packet_ready()
 
 void DirectSocket::sendInit()
 {
-    log(L_DEBUG, "Send init packet");
     if (!m_bIncoming){
         if (DCcookie == 0){
             log(L_WARN, "No direct info");
@@ -242,13 +241,14 @@ void DirectSocket::sendInit()
         m_nSessionId = DCcookie;
     }
 
-    log(L_DEBUG, "Get local addr");
+    unsigned long remote_ip = 0;
     char *host;
     unsigned short port;
-    getLocalAddr(host, port);
+    if (getLocalAddr(host, port)){
+	log(L_DEBUG, "get local addr OK");
+	remote_ip = inet_addr(host);
+    }
     port = 0;
-
-    log(L_DEBUG, "pack");
     unsigned pos = writeBuffer.writePos();
     writeBuffer.pack((unsigned short)((version >= 7) ? 0x0030 : 0x002c));
     writeBuffer.pack((char)0xFF);
@@ -259,7 +259,7 @@ void DirectSocket::sendInit()
     writeBuffer.pack((unsigned long)port);
     writeBuffer.pack(client->Uin());
     writeBuffer.pack(client->IP());
-    writeBuffer.pack((unsigned long)inet_addr(host));
+    writeBuffer.pack(remote_ip);
     writeBuffer.pack((char)0x01);
     writeBuffer.pack((unsigned long)port);
     writeBuffer.pack(m_nSessionId);

@@ -42,6 +42,7 @@ using namespace std;
 %x symbol
 %%
 "<br"\/?">"					{ return BR; }
+"</p>"						{ return BR; }
 "<"							{ BEGIN(tag); }
 <tag>">"					{ BEGIN(INITIAL); }
 "&gt";?						{ return SYMBOL; }

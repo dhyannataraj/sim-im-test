@@ -117,10 +117,11 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
 
 void ICQClient::sendLogonStatus()
 {
+    IP = 0;
     char *host;
     unsigned short port;
-    getLocalAddr(host, port);
-    IP = inet_addr(host);
+    if (getLocalAddr(host, port))
+    	IP = inet_addr(host);
 
     log(L_DEBUG, "Logon status");
     sendContactList();

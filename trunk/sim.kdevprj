@@ -35,7 +35,7 @@ project_type=normal_kde2
 sub_dir=sim/
 version=0.1
 version_control=CVS
-workspace=698487824
+workspace=64
 
 [INSTALL]
 dist=true
