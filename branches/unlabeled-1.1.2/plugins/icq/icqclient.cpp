@@ -205,6 +205,7 @@ static DataDef _icqUserData[] =
         { "", DATA_SOCKET, 1, 0 },				// DirectPluginInfo
         { "", DATA_SOCKET, 1, 0 },				// DirectPluginStatus
         { "", DATA_BOOL, 1, 0 },				// bNoDirect
+        { "", DATA_BOOL, 1, 0 },				// bInviisble
         { NULL, 0, 0, 0 }
     };
 
@@ -801,6 +802,7 @@ void ICQClient::setOffline(ICQUserData *data)
     data->Status = ICQ_STATUS_OFFLINE;
     data->bTyping = false;
     data->bBadClient = false;
+    data->bInvisible = false;
     time_t now;
     time(&now);
     data->StatusTime  = now;
@@ -875,9 +877,11 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
             statusIcon = dicon;
         }
     }
-    if ((iconStatus != STATUS_ONLINE) && (iconStatus != STATUS_OFFLINE) && (s & ICQ_STATUS_FxPRIVATE))
-        addIcon(icons, "ICQ_invisible");
     if (icons){
+        if ((iconStatus != STATUS_ONLINE) && (iconStatus != STATUS_OFFLINE) && (s & ICQ_STATUS_FxPRIVATE))
+            addIcon(icons, "ICQ_invisible");
+        if (data->bInvisible)
+            addIcon(icons, "ICQ_invisible");
         if (data->Status & ICQ_STATUS_FxBIRTHDAY)
             addIcon(icons, "birthday");
         if (data->FollowMe == 1)
@@ -1104,15 +1108,20 @@ QString ICQClient::contactTip(void *_data)
     unsigned style  = 0;
     const char *statusIcon = NULL;
     contactInfo(data, status, style, statusIcon);
-    res += "<img src=\"icon:";
-    res += statusIcon;
-    res += "\">";
-    for (const CommandDef *cmd = protocol()->statusList(); cmd->text; cmd++){
-        if (!strcmp(cmd->icon, statusIcon)){
-            res += " ";
-            statusText += i18n(cmd->text);
-            res += statusText;
-            break;
+    if ((status == STATUS_OFFLINE) && data->bInvisible){
+        res += "<img src=\"icon:ICQ_invisible\">";
+        res += i18n("Possibly invisible");
+    }else{
+        res += "<img src=\"icon:";
+        res += statusIcon;
+        res += "\">";
+        for (const CommandDef *cmd = protocol()->statusList(); cmd->text; cmd++){
+            if (!strcmp(cmd->icon, statusIcon)){
+                res += " ";
+                statusText += i18n(cmd->text);
+                res += statusText;
+                break;
+            }
         }
     }
     res += "<br>";
@@ -2217,7 +2226,9 @@ void *ICQClient::processEvent(Event *e)
     }
     if (e->type() == EventOpenMessage){
         Message *msg = (Message*)(e->param());
-        if ((msg->type() != MessageOpenSecure) && (msg->type() != MessageCloseSecure))
+        if ((msg->type() != MessageOpenSecure) &&
+                (msg->type() != MessageCloseSecure) &&
+                (msg->type() != MessageCheckInvisible))
             return NULL;
         const char *client = msg->client();
         if (client && (*client == 0))
@@ -2238,6 +2249,16 @@ void *ICQClient::processEvent(Event *e)
         }
         if (data == NULL)
             return NULL;
+        if (msg->type() == MessageCheckInvisible){
+            Message *m = new Message(MessageCheckInvisible);
+            m->setContact(msg->contact());
+            m->setClient(msg->client());
+            if (!send(m, data)){
+                delete m;
+                return NULL;
+            }
+            return e->param();
+        }
         if (msg->type() == MessageOpenSecure){
             SecureDlg *dlg = NULL;
             QWidgetList  *list = QApplication::topLevelWidgets();
@@ -2301,6 +2322,11 @@ bool ICQClient::send(Message *msg, void *_data)
         if (data && data->WantAuth)
             return sendAuthRefused(msg, data);
         return false;
+    case MessageCheckInvisible:
+        return data &&
+               ((data->Status & 0xFFFF) == ICQ_STATUS_OFFLINE) &&
+               sendThruServer(msg, data);
+#ifdef USE_OPENSSL
     case MessageOpenSecure:
         if (data == NULL)
             return false;
@@ -2316,6 +2342,7 @@ bool ICQClient::send(Message *msg, void *_data)
             return data->Direct->sendMessage(msg);
         return false;
     }
+#endif
     if (data == NULL)
         return false;
     bool bCreateDirect = false;
@@ -2361,6 +2388,8 @@ bool ICQClient::canSend(unsigned type, void *_data)
         return data && (data->WaitAuth);
     case MessageAuthGranted:
         return data && (data->WantAuth);
+    case MessageCheckInvisible:
+        return data && ((data->Status & 0xFFFF) == ICQ_STATUS_OFFLINE);
 #ifdef USE_OPENSSL
     case MessageOpenSecure:
         if ((data == NULL) || ((data->Status & 0xFFFF) == ICQ_STATUS_OFFLINE))

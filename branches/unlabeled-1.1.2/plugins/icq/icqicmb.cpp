@@ -112,6 +112,16 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
             }
             log(L_DEBUG, "ICMB error %u (%s)", error, err_str);
             if (m_send.msg){
+                if (m_send.msg->type() == MessageCheckInvisible){
+                    bool bInvisible = (error == 0x000E);
+                    Contact *contact;
+                    ICQUserData *data = findContact(m_send.uin, NULL, false, contact);
+                    if (data && ((bool)(data->bInvisible) != bInvisible)){
+                        data->bInvisible = bInvisible;
+                        Event e(EventContactStatus, contact);
+                        e.process();
+                    }
+                }
                 m_send.msg->setError(err_str);
                 Event e(EventMessageSent, m_send.msg);
                 e.process();
@@ -123,33 +133,33 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
             send(true);
             break;
         }
-	case ICQ_SNACxMSG_SRV_MISSED_MSG: {
-			unsigned short error;
-			m_socket->readBuffer >> error;
-			unsigned short uin = m_socket->readBuffer.unpackUin();
-			const char *err_str = NULL;
-			switch (error) {
-			case 0x00:
-				err_str = I18N_NOOP("Invalid message");
-				break;
-			case 0x01:
-				err_str = I18N_NOOP("Message was too large");
-				break;
-			case 0x02:
-				err_str = I18N_NOOP("Message rate exceeded");
-				break;
-			case 0x03:
-				err_str = I18N_NOOP("Sender too evil");
-				break;
-			case 0x04:
-				err_str = I18N_NOOP("We are to evil :(");
-				break;
-			default:
-				err_str = I18N_NOOP("Unknown error");
-			}
+    case ICQ_SNACxMSG_SRV_MISSED_MSG: {
+            unsigned short error;
+            m_socket->readBuffer >> error;
+            unsigned short uin = m_socket->readBuffer.unpackUin();
+            const char *err_str = NULL;
+            switch (error) {
+            case 0x00:
+                err_str = I18N_NOOP("Invalid message");
+                break;
+            case 0x01:
+                err_str = I18N_NOOP("Message was too large");
+                break;
+            case 0x02:
+                err_str = I18N_NOOP("Message rate exceeded");
+                break;
+            case 0x03:
+                err_str = I18N_NOOP("Sender too evil");
+                break;
+            case 0x04:
+                err_str = I18N_NOOP("We are to evil :(");
+                break;
+            default:
+                err_str = I18N_NOOP("Unknown error");
+            }
             log(L_DEBUG, "ICMB error %u (%s) - uin(%u)", error, err_str, uin);
-			
-		}
+
+        }
     case ICQ_SNACxMSG_ACK:
         {
             log(L_DEBUG, "Ack message");
@@ -396,6 +406,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
         return true;
     case MessageURL:
     case MessageContact:
+    case MessageCheckInvisible:
         s.flags = SEND_RAW;
         s.msg   = msg;
         s.uin	= data->Uin;
@@ -485,7 +496,7 @@ void ICQClient::ackMessage()
     send(true);
 }
 
-void ICQClient::sendAdvMessage(unsigned long uin, Buffer &msgText, unsigned plugin_index, const MessageId &id)
+void ICQClient::sendAdvMessage(unsigned long uin, Buffer &msgText, unsigned plugin_index, const MessageId &id, bool bPeek)
 {
     Buffer msgBuf;
     m_advCounter--;
@@ -508,6 +519,8 @@ void ICQClient::sendAdvMessage(unsigned long uin, Buffer &msgText, unsigned plug
     b.tlv(0x0A, (unsigned short)0x01);
     b.tlv(0x0F);
     b.tlv(0x2711, msgBuf);
+    if (bPeek)
+        b.tlv(0x03);
     sendThroughServer(uin, 2, b, id.id_l, id.id_h);
 }
 
@@ -800,6 +813,17 @@ void ICQClient::processSendQueue()
                     sendThroughServer(data->Uin, 4, b);
                     if (data->Status != ICQ_STATUS_OFFLINE)
                         ackMessage();
+                    return;
+                }
+            case MessageCheckInvisible:{
+                    Buffer msg;
+                    msg.pack(ICQ_MSGxAR_AWAY);
+                    msg.pack((unsigned short)(fullStatus(m_status) & 0xFFFF));
+                    msg << 0x0100 << 0x0100 << (char)0;
+
+                    m_send.id.id_l = rand();
+                    m_send.id.id_h = rand();
+                    sendAdvMessage(data->Uin, msg, PLUGIN_NULL, m_send.id, true);
                     return;
                 }
             }

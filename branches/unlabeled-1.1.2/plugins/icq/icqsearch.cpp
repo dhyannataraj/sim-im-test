@@ -302,10 +302,10 @@ void *ICQSearch::processEvent(Event *e)
         }
         page = quoteString(page);
         const ext_info *e;
-        QString text = i18n("<b>%1</b><br>") .arg(name);
+        QString text = i18n("<p><b>%1</b></p>") .arg(name);
         if (!topic.isEmpty())
             text += i18n("%1<br>") .arg(topic);
-        text += i18n("Age: <b>%1</b><br>") .arg(data->Age);
+        text += i18n("<p>Age: <b>%1</b></p>") .arg(data->Age);
         QString gender;
         for (e = p_genders; e->nCode; e++){
             if (e->nCode == data->Gender){
@@ -314,7 +314,7 @@ void *ICQSearch::processEvent(Event *e)
             }
         }
         if (!gender.isEmpty())
-            text += i18n("Gender: <b>%1</b><br>")
+            text += i18n("<p>Gender: <b>%1</b></p>")
                     .arg(gender);
         QString country;
         for (e = getCountries(); e->nCode; e++){
@@ -324,7 +324,7 @@ void *ICQSearch::processEvent(Event *e)
             }
         }
         if (!country.isEmpty())
-            text += i18n("Country: <b>%1</b><br>")
+            text += i18n("<p>Country: <b>%1</b></p>")
                     .arg(country);
         QString lang;
         for (e = p_languages; e->nCode; e++){
@@ -334,10 +334,10 @@ void *ICQSearch::processEvent(Event *e)
             }
         }
         if (!lang.isEmpty())
-            text += i18n("Language: <b>%1</b><br>")
+            text += i18n("<p>Language: <b>%1</b></p>")
                     .arg(lang);
         if (!page.isEmpty())
-            text += i18n("Homepage: <a href=\"%1\"><u>%2</u></a>")
+            text += i18n("<p>Homepage: <a href=\"%1\"><u>%2</u></a></p>")
                     .arg(pageLink)
                     .arg(page);
         edtInfo->append(text);

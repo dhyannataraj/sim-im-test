@@ -794,6 +794,27 @@ static MessageDef defCloseSecure =
         NULL
     };
 
+#if 0
+i18n("Check invisible", "%n times check invisible", 1);
+#endif
+
+static Message *createCheckInvisible(const char *cfg)
+{
+    return new Message(MessageCheckInvisible, cfg);
+}
+
+static MessageDef defCheckInvisible =
+    {
+        NULL,
+        MESSAGE_HIDDEN,
+        0,
+        "Check invisible",
+        "%n times checkInvisible",
+        createCheckInvisible,
+        NULL,
+        NULL
+    };
+
 static Message *createIcqAuthRequest(const char *cfg)
 {
     return new ICQAuthMessage(MessageICQAuthRequest, cfg);
@@ -1245,6 +1266,13 @@ void ICQPlugin::registerMessages()
     cmd->menu_grp	= 0x30F0;
     cmd->param		= &defCloseSecure;
     eMsg.process();
+
+    cmd->id			= MessageCheckInvisible;
+    cmd->text		= "Check invisible";
+    cmd->icon		= "ICQ_invisible";
+    cmd->menu_grp	= 0x30F1;
+    cmd->param		= &defCheckInvisible;
+    eMsg.process();
 }
 
 void ICQPlugin::unregisterMessages()
@@ -1281,6 +1309,9 @@ void ICQPlugin::unregisterMessages()
 
     Event eCloseSecure(EventRemoveMessageType, (void*)MessageCloseSecure);
     eCloseSecure.process();
+
+    Event eCheckInvisible(EventRemoveMessageType, (void*)MessageCheckInvisible);
+    eCheckInvisible.process();
 }
 
 void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *data, unsigned uin, bool bDirect)
@@ -1326,25 +1357,29 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 ICQUserData data;
                 load_data(static_cast<ICQProtocol*>(protocol())->icqUserData, &data, NULL);
                 data.Uin = uin;
-                set_str(&data.Alias, toUnicode(name.c_str(), NULL).utf8());
-                set_str(&data.About, toUnicode(topic.c_str(), NULL).utf8());
+                set_str(&data.Alias, name.c_str());
+                set_str(&data.About, topic.c_str());
                 data.Age = age;
                 data.Gender = gender;
                 data.Country = country;
                 data.Language = language;
-                set_str(&data.Homepage, toUnicode(homepage.c_str(), NULL).utf8());
+                set_str(&data.Homepage, homepage.c_str());
                 Event e(static_cast<ICQPlugin*>(protocol()->plugin())->EventRandomChatInfo, &data);
                 e.process();
                 free_data(static_cast<ICQProtocol*>(protocol())->icqUserData, &data);
                 break;
             }
         case PLUGIN_QUERYxSTATUS:
+            if (data == NULL)
+                break;
             if (!bDirect){
                 b.incReadPos(5);
                 b.unpack(nEntries);
             }
             log(L_DEBUG, "Status info answer %u", nEntries);
         case PLUGIN_QUERYxINFO:
+            if (data == NULL)
+                break;
             if (nEntries > 0x80){
                 log(L_DEBUG, "Bad entries value %X", nEntries);
                 break;
@@ -1392,7 +1427,8 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 data->PluginStatusFetchTime = data->PluginStatusTime;
             }
             break;
-        case PLUGIN_PICTURE:{
+        case PLUGIN_PICTURE:
+            if (data){
                 b.incReadPos(-4);
                 string pict;
                 b.unpackStr32(pict);
@@ -1409,160 +1445,149 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 }
                 data->PictureWidth  = img.width();
                 data->PictureHeight = img.height();
-                break;
-            }
-        case PLUGIN_PHONEBOOK:
-            nActive = (unsigned)(-1);
-            if (nEntries > 0x80){
-                log(L_DEBUG, "Bad entries value %X", nEntries);
-                break;
-            }
-            for (i = 0; i < nEntries; i++){
-                string descr, area, phone, ext, country;
-                unsigned long active;
-                b.unpackStr32(descr);
-                b.unpackStr32(area);
-                b.unpackStr32(phone);
-                b.unpackStr32(ext);
-                b.unpackStr32(country);
-                numbers.push_back(phone);
-                string value;
-                for (const ext_info *e = getCountries(); e->szName; e++){
-                    if (country == e->szName){
-                        value = "+";
-                        value += number(e->nCode);
-                        break;
-                    }
-                }
-                if (!area.empty()){
-                    if (!value.empty())
-                        value += " ";
-                    value += "(";
-                    value += area;
-                    value += ")";
-                }
-                if (!value.empty())
-                    value += " ";
-                value += phone;
-                if (!ext.empty()){
-                    value += " - ";
-                    value += ext;
-                }
-                b.unpack(active);
-                if (active)
-                    nActive = i;
-                phonebook.push_back(value);
-                phonedescr.push_back(descr);
-            }
-            for (i = 0; i < nEntries; i++){
-                unsigned long type;
-                string phone = phonebook[i];
-                string gateway;
-                b.incReadPos(4);
-                b.unpack(type);
-                b.unpackStr32(gateway);
-                b.incReadPos(16);
-                switch (type){
-                case 1:
-                case 2:
-                    type = CELLULAR;
-                    break;
-                case 3:
-                    type = FAX;
-                    break;
-                case 4:{
-                        type = PAGER;
-                        phone = numbers[i];
-                        const pager_provider *p;
-                        for (p = getProviders(); *p->szName; p++){
-                            if (gateway == p->szName){
-                                phone += "@";
-                                phone += p->szGate;
-                                phone += "[";
-                                phone += p->szName;
-                                phone += "]";
-                                break;
-                            }
-                        }
-                        if (*p->szName == 0){
-                            phone += "@";
-                            phone += gateway;
-                        }
-                        break;
-                    }
-                default:
-                    type = PHONE;
-                }
-                phone += ",";
-                phone += phonedescr[i];
-                phone += ",";
-                phone += number(type);
-                if (i == nActive)
-                    phone += ",1";
-                if (!phones.empty())
-                    phones += ";";
-                phones += phone;
-            }
-            set_str(&data->PhoneBook, phones.c_str());
-            Contact *contact = NULL;
-            findContact(data->Uin, NULL, false, contact);
-            if (contact){
-                setupContact(contact, data);
-                Event e(EventContactChanged, contact);
-                e.process();
             }
             break;
+        case PLUGIN_PHONEBOOK:
+            if (data){
+                nActive = (unsigned)(-1);
+                if (nEntries > 0x80){
+                    log(L_DEBUG, "Bad entries value %X", nEntries);
+                    break;
+                }
+                for (i = 0; i < nEntries; i++){
+                    string descr, area, phone, ext, country;
+                    unsigned long active;
+                    b.unpackStr32(descr);
+                    b.unpackStr32(area);
+                    b.unpackStr32(phone);
+                    b.unpackStr32(ext);
+                    b.unpackStr32(country);
+                    numbers.push_back(phone);
+                    string value;
+                    for (const ext_info *e = getCountries(); e->szName; e++){
+                        if (country == e->szName){
+                            value = "+";
+                            value += number(e->nCode);
+                            break;
+                        }
+                    }
+                    if (!area.empty()){
+                        if (!value.empty())
+                            value += " ";
+                        value += "(";
+                        value += area;
+                        value += ")";
+                    }
+                    if (!value.empty())
+                        value += " ";
+                    value += phone;
+                    if (!ext.empty()){
+                        value += " - ";
+                        value += ext;
+                    }
+                    b.unpack(active);
+                    if (active)
+                        nActive = i;
+                    phonebook.push_back(value);
+                    phonedescr.push_back(descr);
+                }
+                for (i = 0; i < nEntries; i++){
+                    unsigned long type;
+                    string phone = phonebook[i];
+                    string gateway;
+                    b.incReadPos(4);
+                    b.unpack(type);
+                    b.unpackStr32(gateway);
+                    b.incReadPos(16);
+                    switch (type){
+                    case 1:
+                    case 2:
+                        type = CELLULAR;
+                        break;
+                    case 3:
+                        type = FAX;
+                        break;
+                    case 4:{
+                            type = PAGER;
+                            phone = numbers[i];
+                            const pager_provider *p;
+                            for (p = getProviders(); *p->szName; p++){
+                                if (gateway == p->szName){
+                                    phone += "@";
+                                    phone += p->szGate;
+                                    phone += "[";
+                                    phone += p->szName;
+                                    phone += "]";
+                                    break;
+                                }
+                            }
+                            if (*p->szName == 0){
+                                phone += "@";
+                                phone += gateway;
+                            }
+                            break;
+                        }
+                    default:
+                        type = PHONE;
+                    }
+                    phone += ",";
+                    phone += phonedescr[i];
+                    phone += ",";
+                    phone += number(type);
+                    if (i == nActive)
+                        phone += ",1";
+                    if (!phones.empty())
+                        phones += ";";
+                    phones += phone;
+                }
+                set_str(&data->PhoneBook, phones.c_str());
+                Contact *contact = NULL;
+                findContact(data->Uin, NULL, false, contact);
+                if (contact){
+                    setupContact(contact, data);
+                    Event e(EventContactChanged, contact);
+                    e.process();
+                }
+            }
         }
         break;
     case 2:
-        if (bDirect)
-            b.incReadPos(3);
-        b.unpack(state);
-        b.unpack(time);
-        log(L_DEBUG, "Plugin status reply %u %u %u (%u)", uin, state, time, plugin_type);
-        findContact(uin, NULL, false, contact);
-        if (contact == NULL)
-            break;
-        switch (plugin_type){
-        case PLUGIN_FILESERVER:
-            if ((state != 0) != (data->SharedFiles != 0)){
-                data->SharedFiles = state;
-                Event e(EventContactChanged, contact);
-                e.process();
+        if (data){
+            if (bDirect)
+                b.incReadPos(3);
+            b.unpack(state);
+            b.unpack(time);
+            log(L_DEBUG, "Plugin status reply %u %u %u (%u)", uin, state, time, plugin_type);
+            findContact(uin, NULL, false, contact);
+            if (contact == NULL)
+                break;
+            switch (plugin_type){
+            case PLUGIN_FILESERVER:
+                if ((state != 0) != (data->SharedFiles != 0)){
+                    data->SharedFiles = state;
+                    Event e(EventContactChanged, contact);
+                    e.process();
+                }
+                break;
+            case PLUGIN_FOLLOWME:
+                if (state != data->FollowMe){
+                    data->FollowMe = state;
+                    Event e(EventContactChanged, contact);
+                    e.process();
+                }
+                break;
+            case PLUGIN_ICQPHONE:
+                if (state != data->ICQPhone){
+                    data->ICQPhone = state;
+                    Event e(EventContactChanged, contact);
+                    e.process();
+                }
+                break;
             }
-            break;
-        case PLUGIN_FOLLOWME:
-            if (state != data->FollowMe){
-                data->FollowMe = state;
-                Event e(EventContactChanged, contact);
-                e.process();
-            }
-            break;
-        case PLUGIN_ICQPHONE:
-            if (state != data->ICQPhone){
-                data->ICQPhone = state;
-                Event e(EventContactChanged, contact);
-                e.process();
-            }
-            break;
         }
         break;
     default:
         log(L_DEBUG, "Unknown plugin type answer %u %u (%u)", uin, type, plugin_type);
-        switch (plugin_type){
-        case PLUGIN_PICTURE:
-            if (data->PictureWidth || data->PictureHeight){
-                data->PictureWidth  = 0;
-                data->PictureHeight = 0;
-                Event e(EventContactChanged, contact);
-                e.process();
-            }
-            break;
-        case PLUGIN_PHONEBOOK:
-            set_str(&data->PhoneBook, NULL);
-            setupContact(contact, data);
-            break;
-        }
     }
 }
 

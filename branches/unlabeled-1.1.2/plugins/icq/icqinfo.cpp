@@ -208,14 +208,18 @@ void ICQInfo::fill()
 
     int current = 0;
     const char *text = NULL;
-    for (const CommandDef *cmd = m_client->protocol()->statusList(); cmd->id; cmd++){
-        if (cmd->flags & COMMAND_CHECK_STATE)
-            continue;
-        if (status == cmd->id){
-            current = cmbStatus->count();
-            text = cmd->text;
+    if (m_data && (status == STATUS_OFFLINE) && m_data->bInvisible){
+        cmbStatus->insertItem(Pict("ICQ_invisible"), i18n("Possibly invisible"));
+    }else{
+        for (const CommandDef *cmd = m_client->protocol()->statusList(); cmd->id; cmd++){
+            if (cmd->flags & COMMAND_CHECK_STATE)
+                continue;
+            if (status == cmd->id){
+                current = cmbStatus->count();
+                text = cmd->text;
+            }
+            cmbStatus->insertItem(Pict(cmd->icon), i18n(cmd->text));
         }
-        cmbStatus->insertItem(Pict(cmd->icon), i18n(cmd->text));
     }
     cmbStatus->setCurrentItem(current);
     disableWidget(cmbStatus);

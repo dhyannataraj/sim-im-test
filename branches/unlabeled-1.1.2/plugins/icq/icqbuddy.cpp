@@ -46,11 +46,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
     case ICQ_SNACxBDY_USEROFFLINE:
         uin = m_socket->readBuffer.unpackUin();
         data = findContact(uin, NULL, false, contact);
-        if (data && (data->Status != ICQ_STATUS_OFFLINE)){
-            setOffline(data);
-            Event e(EventContactChanged, contact);
-            e.process();
-        }
+        setOffline(data);
         break;
     case ICQ_SNACxBDY_USERONLINE:
         uin = m_socket->readBuffer.unpackUin();
@@ -270,7 +266,10 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                         addPluginInfoRequest(data->Uin, PLUGIN_QUERYxSTATUS);
                 }
             }
-
+            if (data->bInvisible){
+                data->bInvisible = false;
+                bChanged = true;
+            }
             if (bChanged){
                 Event e(EventContactChanged, contact);
                 e.process();
