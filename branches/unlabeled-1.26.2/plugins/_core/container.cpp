@@ -597,13 +597,15 @@ void *Container::processEvent(Event *e)
                 }
             }
 #else
-#if defined(USE_KDE) && KDE_IS_VERSION(3,2,0)
+#ifdef USE_KDE
+#if KDE_IS_VERSION(3,2,0)
 if (!isActiveWindow()){
             msg = (Message*)(e->param());
             userWnd = wnd(msg->contact());
             if (userWnd)
                 KWin::demandAttention(winId(), true);
         }
+#endif
 #endif
 #endif
         }

@@ -50,7 +50,7 @@ protected:
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual string getConfig();
     bool checkSpam(const QString &text, const QString &filter);
-    void getWords(const QString &text, QStringList &words);
+    void getWords(const QString &text, QStringList &words, bool bPattern);
     FilterData data;
 };
 

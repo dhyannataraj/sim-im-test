@@ -406,7 +406,7 @@ bool raiseWindow(QWidget *w, unsigned)
     /* info.currentDesktop is 0 when iconified :(
     also onAllDesktops is 0 when Objekt isn't
     shown already */
-#if KDE_IS_VERSION(3,1,94)
+#if KDE_IS_VERSION(3,2,0)
     KWin::WindowInfo info = KWin::windowInfo(w->winId());
     if ((!info.onAllDesktops()) || (desk == 0)) {
         if (desk == 0) desk = KWin::currentDesktop();

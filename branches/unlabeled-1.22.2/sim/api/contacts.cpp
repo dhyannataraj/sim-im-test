@@ -301,7 +301,7 @@ bool Contact::setLastName(const QString &name, const char *client)
     return setLastName(addString(getLastName(), name, client));
 }
 
-static char tipDiv[] = "<br>___________<br>";
+static char tipDiv[] = "<hr>";
 
 QString Contact::tipText()
 {
