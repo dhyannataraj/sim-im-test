@@ -51,22 +51,28 @@ EncodingDlg::EncodingDlg(QWidget *parent, ICQClient *client)
 
 void EncodingDlg::apply()
 {
+    // Subtract 1 to account for the first menu item which is empty
     int n = cmbEncoding->currentItem();
-    if (n-- == 0)
-        return;
-    const ENCODING *e = getContacts()->getEncodings();
-    for (e++; e->language; e++){
+    
+    if (n == 0)
+        return; // User selected the empty menu item
+
+    const ENCODING *e;
+    for (e = getContacts()->getEncodings() + 1; e->language; e++){
         if (!e->bMain)
             continue;
-        if (n--){
+        --n;
+        if (n == 0){
             getContacts()->owner()->setEncoding(e->codec);
             return;
         }
     }
+    
     for (e = getContacts()->getEncodings(); e->language; e++){
-        if (e->bMain)
+        if (!e->bMain)
             continue;
-        if (n--){
+        --n;
+        if (n == 0){
             getContacts()->owner()->setEncoding(e->codec);
             return;
         }
