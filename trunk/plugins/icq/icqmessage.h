@@ -21,6 +21,7 @@
 #include "simapi.h"
 
 #include <qlineedit.h>
+#include <qtoolbutton.h>
 
 const unsigned MessageICQ				= 0x100;
 const unsigned MessageURL				= 0x101;
