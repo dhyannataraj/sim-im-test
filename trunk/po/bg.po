@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bg\n"
 "POT-Creation-Date: 2004-04-26 03:39+0400\n"
-"PO-Revision-Date: 2004-04-25 17:02+0300\n"
+"PO-Revision-Date: 2004-04-26 03:20+0300\n"
 "Last-Translator: Атанас Мавров <bugar@developer.bg>\n"
 "Language-Team: Bulgarian <dict@linux.zonebg.com>\n"
 "MIME-Version: 1.0\n"
@@ -2385,12 +2385,11 @@ msgstr "Много бихме искали да чуем какво имате �
 
 #: plugins/_core/core.cpp:444
 msgid "I'm here.\n"
-msgstr ""
+msgstr "Тук съм.\n"
 
 #: plugins/_core/core.cpp:447
-#, fuzzy
 msgid "I'm offline.\n"
-msgstr "Показване/скриване на &изключените"
+msgstr "Изключен съм.\n"
 
 #: plugins/_core/core.cpp:541
 msgid "Unread messages"
@@ -5984,9 +5983,8 @@ msgid "&ICQ"
 msgstr "&ICQ"
 
 #: plugins/icq/icqconfigbase.cc:276
-#, fuzzy
 msgid "Automatically check &invisible"
-msgstr "Проверка за &невидими"
+msgstr "Автоматинчна проверка за &невидими"
 
 #: plugins/icq/icqconfigbase.cc:277
 msgid "Send format:"
@@ -6018,31 +6016,27 @@ msgstr "Приемане на файлове във режим \"&Моля не 
 
 #: plugins/icq/icqconfigbase.cc:285
 msgid "For decrease traffic you can:"
-msgstr ""
+msgstr "За намаляване на трафика можете:"
 
 #: plugins/icq/icqconfigbase.cc:286
 msgid "Disable answer on phonebook and &picture requests"
-msgstr ""
+msgstr "Забраняване на отговор от указателя и заявка за снимка"
 
 #: plugins/icq/icqconfigbase.cc:287
-#, fuzzy
 msgid "Disable automaticaly &request autoreply on change status"
-msgstr "Автоматична &заявка за автоматичен отговор при смяна на състоянието"
+msgstr "Забраняване на автоматична &заявка за отговор при смяна на състоянието"
 
 #: plugins/icq/icqconfigbase.cc:288
-#, fuzzy
 msgid "Disable automatically &update user info"
-msgstr "Автоматично обновява &информацията за потребител"
+msgstr "Забраняване на автоматичното &обновяване на потребителите"
 
 #: plugins/icq/icqconfigbase.cc:289
-#, fuzzy
 msgid "Disable &typing notification"
-msgstr "&Уведомяване за въвеждане на текст"
+msgstr "Забраняване на &уведомяването за въвеждане на текст"
 
 #: plugins/icq/icqconfigbase.cc:290
-#, fuzzy
 msgid "Check invisible every"
-msgstr "Проверка за невидими потребители"
+msgstr "Проверяване на всички невидими"
 
 #: plugins/icq/icqconfigbase.cc:291 plugins/livejournal/livejournalcfgbase.cpp:157
 msgid "minutes"
@@ -8443,5 +8437,3 @@ msgstr "Прогнозирани дни:"
 msgid "Units:"
 msgstr "Система:"
 
-#~ msgid "Support &typing notification"
-#~ msgstr "Поддържане на &известяване при въвеждане на съобщение"
