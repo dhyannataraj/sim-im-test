@@ -8,6 +8,7 @@
 # Copyright (C) 2002 Free Software Foundation, Inc., 2002,2003, 2004
 # Vladimir Shutoff <vovan@shutoff.ru>, 2002,2003, 2004.
 # Albert R. Valiev <darkstar@altlinux.ru>, 2003.
+# Kir Kolyshkin <kir@sacred.ru>, 2004.
 #
 msgid ""
 msgstr ""
@@ -2521,7 +2522,7 @@ msgstr "-"
 #: plugins/jabber/jabberconfigbase.cpp:291 plugins/msn/msnconfigbase.cpp:172
 #: plugins/yahoo/yahoocfgbase.cpp:172
 msgid "Use &HTTP polling"
-msgstr "Использовать &HTTP оспрос"
+msgstr "Использовать &HTTP опрос"
 
 #: plugins/icq/aimconfigbase.cc:150 plugins/icq/icqconfigbase.cc:234
 #: plugins/msn/msnconfigbase.cpp:173 plugins/yahoo/yahoocfgbase.cpp:171
@@ -3014,15 +3015,15 @@ msgid ""
 "Please leave your message and I will get back to you as soon as I return!\n"
 msgstr ""
 "Я отошел.\n"
-"Оставьте ваше сообщение, когда вернусь "
-"прочитаю\n"
+"Оставьте ваше сообщение, когда вернусь - "
+"прочитаю.\n"
 
 # client.cpp:268
 #: plugins/_core/core.cpp:450
 msgid ""
 "I am out'a here.\n"
 "See you tomorrow!\n"
-msgstr "Ушел далеко\n"
+msgstr "Ушел далеко.\n"
 
 # client.cpp:272
 #: plugins/_core/core.cpp:454
@@ -3032,7 +3033,7 @@ msgstr "Просьба не беспокоить меня.\n"
 # client.cpp:279
 #: plugins/_core/core.cpp:457
 msgid "We'd love to hear what you have to say. Join our chat.\n"
-msgstr "Делать нечего, присоединюсь к чату\n"
+msgstr "Делать нечего, присоединюсь к чату.\n"
 
 # control.cpp:190
 #: plugins/_core/core.cpp:542
@@ -4053,7 +4054,8 @@ msgstr "Режим &чата"
 
 #: plugins/_core/interfacecfgbase.cpp:122
 msgid "&Using last selected font"
-msgstr "Использовать .последний выбранный шоифт"
+msgstr "Использовать последний "
+"выбранный шрифт"
 
 # mainwin.cpp:2115
 #: plugins/_core/interfacecfgbase.cpp:123
@@ -4138,7 +4140,7 @@ msgstr ""
 "Замечание:\n"
 "Вы можете изменять и удалять только те "
 "адреса, которые ввели сами.\n"
-"Нельзя изменить или удалить адрес "
+"Нельзя изменить или удалить адрес, "
 "полученный от пользователя"
 
 # usertbl.cpp:116
@@ -4165,7 +4167,7 @@ msgstr ""
 "Замечание:\n"
 "Вы можете изменять и удалять только те "
 "номера, которые ввели сами.\n"
-"Нельзя изменить или удалить номер "
+"Нельзя изменить или удалить номер, "
 "полученный от пользователя"
 
 # msgedit.cpp:238
@@ -4443,7 +4445,7 @@ msgstr "Сохранять изменения &статуса в историю"
 #: plugins/_core/msgcfgbase.cpp:85
 msgid "Open window if user go online"
 msgstr ""
-"Открыть окно если пользователь появился "
+"Открыть окно, если пользователь появился "
 "в сети"
 
 # userview.cpp:684 userview.cpp:697
@@ -4830,7 +4832,7 @@ msgstr "Авто-статус"
 msgid "Plugin provides set away and N/A status after some idle time"
 msgstr ""
 "Модуль обеспечивает "
-"автоматическоепереключение в состояние "
+"автоматическое переключение в состояние "
 "\"Отошел\" и \"Неактивный\" при "
 "неиспользовании компьютера"
 
@@ -5044,8 +5046,8 @@ msgstr "Выключить плавающее окно"
 #: plugins/forward/forwardcfgbase.cpp:71
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
 msgstr ""
-"Пересылать все сообщения полученные в "
-"режимах \"Отошел\" и \"N/A\" на мобильный "
+"Пересылать все сообщения, полученные в "
+"режимах \"Отошел\" и \"N/A\", на мобильный "
 "телефон:"
 
 # ui/forwardsetupbase.cpp:97
@@ -5149,8 +5151,9 @@ msgstr "Комментарий:"
 # ui/workinfobase.cpp:117
 #: plugins/gpg/gpggenbase.cpp:118 plugins/icq/workinfobase.cc:184
 #: plugins/jabber/discoinfobase.cpp:269 plugins/jabber/discoinfobase.cpp:271
+# Name - название фирмы
 msgid "Name:"
-msgstr "Наименование:"
+msgstr "Название:"
 
 # ui/keysetup.cpp:35
 #: plugins/gpg/gpguserbase.cpp:68
@@ -5333,7 +5336,7 @@ msgstr ""
 "предупреждений loglevel=2, для вывода "
 "отладочной информации loglevel=4. Для "
 "включения нескольких уровней введите "
-"число равное сумме нужных вам уровней."
+"число, равное сумме нужных вам уровней."
 
 #: plugins/logger/logger.cpp:78
 msgid "Set debug level"
@@ -6400,7 +6403,7 @@ msgstr "Женский"
 # libicq/country.cpp:206
 #: plugins/icq/moreinfo.cpp:79 plugins/jabber/jabbersearch.cpp:198
 msgid "Male"
-msgstr "Мужчина"
+msgstr "Мужской"
 
 # libicq/country.cpp:8
 #: plugins/icq/moreinfo.cpp:88
@@ -7349,10 +7352,10 @@ msgid ""
 "Check this if you don't want your screen name revealed.\n"
 "Anonymous warinings are less severe."
 msgstr ""
-"Включите если вы не хотите расскрывать "
+"Включите, если вы не хотите расскрывать "
 "свое имя в предупреждении. Анонимные "
-"предупреждения оказываю меньшее влияние "
-"на уровень предупреждений."
+"предупреждения оказывают меньшее "
+"влияние на уровень предупреждений."
 
 #: plugins/icq/aiminfobase.cc:284
 msgid "&Profile"
@@ -7841,7 +7844,7 @@ msgstr "Пользователь в сети"
 msgid "Plugin provides sounds on any events"
 msgstr ""
 "Модуль обеспечивает вывод звуков на "
-"разные события."
+"разные события"
 
 # mainwin.cpp:1708 ui/setupdlg.cpp:143 ui/soundsetupbase.cpp:106
 # ui/userinfo.cpp:93
@@ -7856,7 +7859,7 @@ msgstr "&Запретить все звуки"
 #: plugins/sound/sounduserbase.cpp:64
 msgid "No sound if windows has &focus"
 msgstr ""
-"Не играть звук если окно пользователя "
+"Не играть звук, если окно пользователя "
 "имеет &фокус"
 
 # ui/soundsetupbase.cpp:193
@@ -7904,7 +7907,7 @@ msgid ""
 "Plugin provides windows transparency\n"
 "This plugin works only on Windows 2000 or Windows XP"
 msgstr ""
-"Модуль обеспечивает прозрачные окошки "
+"Модуль обеспечивает прозрачные окошки\n"
 "Этот модуль работает только в Windows 2000 или "
 "Windows XP"
 
@@ -7920,7 +7923,8 @@ msgstr "Прозрачность главного окна:"
 # ui/themesetupbase.cpp:146
 #: plugins/transparent/transparentcfgbase.cpp:72
 msgid "Transparent only if inactive"
-msgstr "Прозрачные окна только если неактивные"
+msgstr "Прозрачное только в случае "
+"неактивности"
 
 # ui/setupdlgbase.cpp:85 ui/userinfobase.cpp:115
 #: plugins/update/update.cpp:39
