@@ -298,7 +298,7 @@ static DataDef coreUserData[] =
     {
         { "LogStatus", DATA_BOOL, 1, 0 },
         { "LogMessage", DATA_BOOL, 1, 1 },
-        { "OpenOnReceive", DATA_BOOL, 1, 0 },
+        { "OpenNewMessage", DATA_ULONG, 1, NEW_MSG_MINIMIZE },
         { "OpenOnOnline", DATA_BOOL, 1, 0 },
         { "IncomingPath", DATA_UTF, 1, (unsigned)"Incoming Files" },
         { "AcceptMode", DATA_ULONG, 1, 0 },
@@ -1721,7 +1721,9 @@ void *CorePlugin::processEvent(Event *e)
                     }
                     if (contact){
                         CoreUserData *data = (CoreUserData*)(contact->getUserData(user_data_id));
-                        if (data->OpenOnReceive){
+                        if (data->OpenNewMessage){
+							if (data->OpenNewMessage == NEW_MSG_MINIMIZE)
+								msg->setFlags(msg->getFlags() | MESSAGE_NORAISE);
                             Event e(EventOpenMessage, msg);
                             e.process();
                         }
@@ -1773,6 +1775,7 @@ void *CorePlugin::processEvent(Event *e)
             QWidgetList  *list = QApplication::topLevelWidgets();
             QWidgetListIt itw(*list);
             QWidget * w;
+			bool bNew = false;
             while ((w = itw.current()) != NULL){
                 if (w->inherits("Container")){
                     container =  static_cast<Container*>(w);
@@ -1805,8 +1808,10 @@ void *CorePlugin::processEvent(Event *e)
                         ++it;
                     }
                     delete list;
-                    if (container == NULL)
+                    if (container == NULL){
                         container = new Container(1);
+						bNew = true;
+					}
                 }else if (getContainerMode() == 2){
                     unsigned id = contact->getGroup() + CONTAINER_GRP;
                     QWidgetList  *list = QApplication::topLevelWidgets();
@@ -1822,8 +1827,10 @@ void *CorePlugin::processEvent(Event *e)
                         ++it;
                     }
                     delete list;
-                    if (container == NULL)
+                    if (container == NULL){
                         container = new Container(id);
+						bNew = true;
+					}
                 }else{
                     unsigned max_id = 0;
                     QWidgetList  *list = QApplication::topLevelWidgets();
@@ -1841,6 +1848,7 @@ void *CorePlugin::processEvent(Event *e)
                     }
                     delete list;
                     container = new Container(max_id + 1);
+					bNew = true;
                     if (getContainerMode() == 0)
                         container->setReceived(msg->getFlags() & MESSAGE_RECEIVED);
                 }
@@ -1849,9 +1857,14 @@ void *CorePlugin::processEvent(Event *e)
                 container->raiseUserWnd(userWnd);
             }
             container->setNoSwitch();
-            container->show();
             userWnd->setMessage(msg);
-            raiseWindow(container);
+			if (msg->getFlags() & MESSAGE_NORAISE){
+				if (bNew)
+					container->showMinimized();
+			}else{
+				container->show();
+				raiseWindow(container);
+			}
             return e->param();
         }
     case EventContactOnline:{

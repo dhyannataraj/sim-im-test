@@ -991,6 +991,7 @@ const unsigned	MESSAGE_MULTIPLY	= 0x00100000;
 const unsigned	MESSAGE_FORWARD		= 0x00200000;
 const unsigned	MESSAGE_INSERT		= 0x00400000;
 const unsigned	MESSAGE_OPEN		= 0x00800000;
+const unsigned  MESSAGE_NORAISE		= 0x01000000;
 const unsigned	MESSAGE_TEMP		= 0x10000000;
 
 typedef struct MessageData

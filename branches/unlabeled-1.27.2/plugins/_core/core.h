@@ -111,11 +111,15 @@ const unsigned char SORT_STATUS	= 1;
 const unsigned char SORT_ACTIVE	= 2;
 const unsigned char SORT_NAME	= 3;
 
+const unsigned NEW_MSG_NOOPEN	= 0;
+const unsigned NEW_MSG_MINIMIZE	= 1;
+const unsigned NEW_MSG_RAISE	= 2;
+
 typedef struct CoreUserData
 {
     unsigned	LogStatus;
     unsigned	LogMessage;
-    unsigned	OpenOnReceive;
+    unsigned	OpenNewMessage;
     unsigned	OpenOnOnline;
     char		*IncomingPath;
     unsigned	AcceptMode;

@@ -313,6 +313,7 @@ static Message *parseTextMessage(const char *str, const char *pp, const char *en
 {
     if (*str == 0)
         return NULL;
+	log(L_DEBUG, "Text message: %s %s", str, pp);
     if (strlen(pp) == 38){
         string cap;
         if ((*(pp++) == '{') &&
@@ -333,6 +334,7 @@ static Message *parseTextMessage(const char *str, const char *pp, const char *en
                 QString text;
                 if (ICQClient::parseRTF(str, encoding, text))
                     msg->setFlags(MESSAGE_RICHTEXT);
+				log(L_DEBUG, "Msg: %s", str);
                 msg->setText(text);
                 return msg;
             }
@@ -549,6 +551,10 @@ Message *ICQClient::parseExtendedMessage(const char *screen, Buffer &packet, Mes
             return m;
         }
     }
+	if (msgType == "StatusMsgExt"){
+		StatusMessage *m = new StatusMessage;
+		return m;
+	}
     log(L_WARN, "Unknown extended message type %s", msgType.c_str());
     return NULL;
 }

@@ -746,7 +746,7 @@ void *MsgView::processEvent(Event *e)
             Contact *contact = getContacts()->contact(msg->contact());
             if (contact){
                 CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
-                if (data->OpenOnReceive)
+                if (data->OpenNewMessage)
                     bAdd = false;
             }
         }

@@ -34,7 +34,7 @@ const unsigned MESSAGE_DIRECT    = 0x0100;
 const unsigned STATUS_INVISIBLE	  = 2;
 const unsigned STATUS_OCCUPIED    = 100;
 
-const unsigned char ICQ_TCP_VERSION = 0x0A;
+const unsigned char ICQ_TCP_VERSION = 0x09;
 
 const unsigned char MODE_DENIED   = 0x01;
 const unsigned char MODE_INDIRECT = 0x02;

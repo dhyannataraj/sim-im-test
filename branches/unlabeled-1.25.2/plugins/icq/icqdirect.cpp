@@ -790,11 +790,13 @@ void DirectClient::processPacket()
         for (it = m_queue.begin(); it != m_queue.end(); ++it){
             if ((*it).seq != seq)
                 continue;
-
             if ((*it).msg == NULL){
-                if ((*it).type == PLUGIN_AR)
+                if ((*it).type == PLUGIN_AR){
                     set_str(&m_data->AutoReply, msg_str.c_str());
-                unsigned plugin_index = (*it).type;
+	                m_queue.erase(it);
+					break;
+				}
+				unsigned plugin_index = (*it).type;
                 m_queue.erase(it);
                 switch (plugin_index){
                 case PLUGIN_FILESERVER:

@@ -143,7 +143,7 @@ void AIMInfo::fill()
         status = m_client->getStatus();
     }
     if ((status != STATUS_ONLINE) && (status != STATUS_OFFLINE) && m_data){
-        edtAutoReply->setText(m_client->toUnicode(m_data->AutoReply, m_data));
+		edtAutoReply->setText(m_client->toUnicode(m_data->AutoReply, m_data));
     }else{
         edtAutoReply->hide();
     }
