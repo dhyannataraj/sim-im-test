@@ -153,6 +153,7 @@ void ICQClientSocket::connect(const char *host, int _port)
 #ifdef HAVE_KEXTSOCK_H
     sock->setAddress(host, port);
     sock->enableRead(true);
+	sock->enableWrite(true);
     if (sock->lookup() < 0){
 	log(L_WARN, "Can't lookup");
 	if (notify) notify->error_state(ErrorConnect);

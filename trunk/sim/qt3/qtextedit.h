@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qtextedit.h,v 1.4 2002-07-11 01:26:48 shutoff Exp $
+** $Id: qtextedit.h,v 1.5 2002-12-26 17:01:21 shutoff Exp $
 **
 ** Definition of the QTextEdit class
 **
@@ -353,7 +353,7 @@ private slots:
     void doAutoScroll();
     void blinkCursor();
     void setModified();
-    void startDrag();
+    virtual void startDrag();
     void documentWidthChanged( int w );
 
 private:
