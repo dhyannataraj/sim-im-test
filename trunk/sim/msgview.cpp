@@ -302,50 +302,6 @@ void MsgView::setUin(unsigned long uin)
     if (bAdd) addUnread(uin);
 }
 
-QPopupMenu *TextShow::createPopupMenu(const QPoint &p)
-{
-    QPopupMenu *popup = QTextEdit::createPopupMenu(p);
-    if (popup){
-        popup->insertSeparator();
-    }else{
-        popup = new QPopupMenu(this);
-    }
-    popup->insertItem(Icon("find"), i18n("&Find"), this, SLOT(search()), CTRL+Key_F);
-    popup->insertItem(Icon("find_next"), i18n("Find &next"), this, SLOT(repeatSearch()), Key_F3);
-    return popup;
-}
-
-void TextShow::keyPressEvent( QKeyEvent *e )
-{
-#ifdef USE_KDE
-#if QT_VERSION < 300
-    if ( KStdAccel::isEqual( e, KStdAccel::find()) ) {
-        search();
-        e->accept();
-        return;
-    }
-    else if ( KStdAccel::isEqual( e, KStdAccel::findNext()) ) {
-        repeatSearch();
-        e->accept();
-        return;
-    }
-#else
-    KKey key( e );
-    if ( KStdAccel::find().contains( key ) ) {
-        search();
-        e->accept();
-        return;
-    }
-    if ( KStdAccel::findNext().contains( key ) ) {
-        repeatSearch();
-        e->accept();
-        return;
-    }
-#endif
-#endif
-    QTextEdit::keyPressEvent(e);
-}
-
 static char FONT_FORMAT[] = "<font color=\"#%06X\">";
 
 void MsgView::colorsChanged()
@@ -678,9 +634,18 @@ HistoryView::HistoryView(QWidget *p, unsigned long uin)
     setDockEnabled(t, Right, false);
     searchChanged();
     QAccel *accel = new QAccel(this);
+#ifdef USE_KDE
+    accel->connectItem(accel->insertItem(KStdAccel::find()), this, SLOT(slotSearch(int)));
+    accel->connectItem(accel->insertItem(KStdAccel::findNext()), this, SLOT(slotSearch(int)));
+#else
     accel->connectItem(accel->insertItem(Key_F3), this, SLOT(slotSearch(int)));
     accel->connectItem(accel->insertItem(CTRL + Key_F), this, SLOT(slotSearch(int)));
+#endif
 }
+
+#ifdef USE_KDE
+#undef QLineEdit
+#endif
 
 void HistoryView::searchChanged()
 {

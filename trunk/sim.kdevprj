@@ -777,7 +777,7 @@ type=HEADER
 
 [sim/ui/Makefile.am]
 dist=true
-files=sim/ui/aboutinfo.cpp,sim/ui/aboutinfo.h,sim/ui/aboutinfobase.ui,sim/ui/changepasswdbase.ui,sim/ui/generalsecbase.ui,sim/ui/homeinfobase.ui,sim/ui/listsecbase.ui,sim/ui/maininfobase.ui,sim/ui/Makefile.am,sim/ui/moreinfobase.ui,sim/ui/searchbase.ui,sim/ui/statussetupbase.ui,sim/ui/themesetupbase.ui,sim/ui/workinfobase.ui,sim/ui/changepasswd.cpp,sim/ui/changepasswd.h,sim/ui/generalsec.cpp,sim/ui/generalsec.h,sim/ui/homeinfo.cpp,sim/ui/homeinfo.h,sim/ui/listsec.cpp,sim/ui/listsec.h,sim/ui/maininfo.cpp,sim/ui/maininfo.h,sim/ui/moreinfo.cpp,sim/ui/moreinfo.h,sim/ui/searchbase.cpp,sim/ui/searchbase.h,sim/ui/statussetup.cpp,sim/ui/statussetup.h,sim/ui/themesetup.cpp,sim/ui/themesetup.h,sim/ui/workinfo.cpp,sim/ui/workinfo.h,sim/ui/enable.cpp,sim/ui/enable.h,sim/ui/searchdlg.cpp,sim/ui/searchdlg.h,sim/ui/setupdlg.cpp,sim/ui/setupdlg.h,sim/ui/setupdlgbase.ui,sim/ui/userinfo.cpp,sim/ui/userinfo.h,sim/ui/userinfobase.ui,sim/ui/spellsetup.cpp,sim/ui/spellsetup.h,sim/ui/spellsetupbase.ui,sim/ui/phonebook.cpp,sim/ui/phonebook.h,sim/ui/phonebookbase.ui,sim/ui/editfile.cpp,sim/ui/editfile.h,sim/ui/soundsetup.cpp,sim/ui/soundsetup.h,sim/ui/soundsetupbase.ui,sim/ui/miscsetup.cpp,sim/ui/miscsetup.h,sim/ui/miscsetupbase.ui,sim/ui/addphone.cpp,sim/ui/addphone.h,sim/ui/addphonebase.ui,sim/ui/pagerbase.ui,sim/ui/pagerdetails.cpp,sim/ui/pagerdetails.h,sim/ui/phonebase.ui,sim/ui/phonedetails.cpp,sim/ui/phonedetails.h,sim/ui/alertdialog.cpp,sim/ui/alertdialog.h,sim/ui/alertdialogbase.ui,sim/ui/msgdialog.cpp,sim/ui/msgdialog.h,sim/ui/msgdialogbase.ui,sim/ui/interestsinfo.cpp,sim/ui/interestsinfo.h,sim/ui/interestsinfobase.ui,sim/ui/alertmsg.cpp,sim/ui/alertmsg.h,sim/ui/alertmsgbase.ui,sim/ui/autoreply.cpp,sim/ui/autoreply.h,sim/ui/autoreplybase.ui,sim/ui/pastinfobase.ui,sim/ui/pastinfo.h,sim/ui/pastinfo.cpp,sim/ui/emailedit.cpp,sim/ui/emailedit.h,sim/ui/emaileditbase.ui,sim/ui/fontsetup.cpp,sim/ui/fontsetup.h,sim/ui/fontsetupbase.ui,sim/ui/qcolorbutton.cpp,sim/ui/qcolorbutton.h,sim/ui/ballonmsg.cpp,sim/ui/ballonmsg.h,sim/ui/acceptbase.ui,sim/ui/accept.h,sim/ui/accept.cpp,sim/ui/filetransfer.cpp,sim/ui/filetransfer.h,sim/ui/filetransferbase.ui,sim/ui/network.cpp,sim/ui/network.h,sim/ui/networkbase.ui,sim/ui/effect.cpp,sim/ui/effect.h,sim/ui/xosdbase.ui,sim/ui/xosdsetup.cpp,sim/ui/xosdsetup.h,sim/ui/aboutdlg.cpp,sim/ui/aboutdlg.h,sim/ui/aboutdlgbase.ui,sim/ui/finddlg.cpp,sim/ui/finddlg.h,sim/ui/finddlgbase.ui,sim/ui/helpedit.cpp,sim/ui/helpedit.h,sim/ui/keysetup.cpp,sim/ui/keysetup.h,sim/ui/keysetupbase.ui,sim/ui/qkeybutton.cpp,sim/ui/qkeybutton.h,sim/ui/logindlg.cpp,sim/ui/logindlg.h,sim/ui/logindlgbase.ui,sim/ui/proxydlg.cpp,sim/ui/proxydlg.h,sim/ui/proxydlgbase.ui,sim/ui/userautoreply.cpp,sim/ui/userautoreply.h,sim/ui/wndcancel.cpp,sim/ui/wndcancel.h,sim/ui/kpopup.cpp,sim/ui/kpopup.h,sim/ui/smssetup.cpp,sim/ui/smssetup.h,sim/ui/smssetupbase.ui,sim/ui/forwardsetup.cpp,sim/ui/forwardsetup.h,sim/ui/forwardsetupbase.ui
+files=sim/ui/aboutinfo.cpp,sim/ui/aboutinfo.h,sim/ui/aboutinfobase.ui,sim/ui/changepasswdbase.ui,sim/ui/generalsecbase.ui,sim/ui/homeinfobase.ui,sim/ui/listsecbase.ui,sim/ui/maininfobase.ui,sim/ui/Makefile.am,sim/ui/moreinfobase.ui,sim/ui/searchbase.ui,sim/ui/statussetupbase.ui,sim/ui/themesetupbase.ui,sim/ui/workinfobase.ui,sim/ui/changepasswd.cpp,sim/ui/changepasswd.h,sim/ui/generalsec.cpp,sim/ui/generalsec.h,sim/ui/homeinfo.cpp,sim/ui/homeinfo.h,sim/ui/listsec.cpp,sim/ui/listsec.h,sim/ui/maininfo.cpp,sim/ui/maininfo.h,sim/ui/moreinfo.cpp,sim/ui/moreinfo.h,sim/ui/searchbase.cpp,sim/ui/searchbase.h,sim/ui/statussetup.cpp,sim/ui/statussetup.h,sim/ui/themesetup.cpp,sim/ui/themesetup.h,sim/ui/workinfo.cpp,sim/ui/workinfo.h,sim/ui/enable.cpp,sim/ui/enable.h,sim/ui/searchdlg.cpp,sim/ui/searchdlg.h,sim/ui/setupdlg.cpp,sim/ui/setupdlg.h,sim/ui/setupdlgbase.ui,sim/ui/userinfo.cpp,sim/ui/userinfo.h,sim/ui/userinfobase.ui,sim/ui/spellsetup.cpp,sim/ui/spellsetup.h,sim/ui/spellsetupbase.ui,sim/ui/phonebook.cpp,sim/ui/phonebook.h,sim/ui/phonebookbase.ui,sim/ui/editfile.cpp,sim/ui/editfile.h,sim/ui/soundsetup.cpp,sim/ui/soundsetup.h,sim/ui/soundsetupbase.ui,sim/ui/miscsetup.cpp,sim/ui/miscsetup.h,sim/ui/miscsetupbase.ui,sim/ui/addphone.cpp,sim/ui/addphone.h,sim/ui/addphonebase.ui,sim/ui/pagerbase.ui,sim/ui/pagerdetails.cpp,sim/ui/pagerdetails.h,sim/ui/phonebase.ui,sim/ui/phonedetails.cpp,sim/ui/phonedetails.h,sim/ui/alertdialog.cpp,sim/ui/alertdialog.h,sim/ui/alertdialogbase.ui,sim/ui/msgdialog.cpp,sim/ui/msgdialog.h,sim/ui/msgdialogbase.ui,sim/ui/interestsinfo.cpp,sim/ui/interestsinfo.h,sim/ui/interestsinfobase.ui,sim/ui/alertmsg.cpp,sim/ui/alertmsg.h,sim/ui/alertmsgbase.ui,sim/ui/autoreply.cpp,sim/ui/autoreply.h,sim/ui/autoreplybase.ui,sim/ui/pastinfobase.ui,sim/ui/pastinfo.h,sim/ui/pastinfo.cpp,sim/ui/emailedit.cpp,sim/ui/emailedit.h,sim/ui/emaileditbase.ui,sim/ui/fontsetup.cpp,sim/ui/fontsetup.h,sim/ui/fontsetupbase.ui,sim/ui/qcolorbutton.cpp,sim/ui/qcolorbutton.h,sim/ui/ballonmsg.cpp,sim/ui/ballonmsg.h,sim/ui/acceptbase.ui,sim/ui/accept.h,sim/ui/accept.cpp,sim/ui/filetransfer.cpp,sim/ui/filetransfer.h,sim/ui/filetransferbase.ui,sim/ui/network.cpp,sim/ui/network.h,sim/ui/networkbase.ui,sim/ui/effect.cpp,sim/ui/effect.h,sim/ui/xosdbase.ui,sim/ui/xosdsetup.cpp,sim/ui/xosdsetup.h,sim/ui/aboutdlg.cpp,sim/ui/aboutdlg.h,sim/ui/aboutdlgbase.ui,sim/ui/helpedit.cpp,sim/ui/helpedit.h,sim/ui/keysetup.cpp,sim/ui/keysetup.h,sim/ui/keysetupbase.ui,sim/ui/qkeybutton.cpp,sim/ui/qkeybutton.h,sim/ui/logindlg.cpp,sim/ui/logindlg.h,sim/ui/logindlgbase.ui,sim/ui/proxydlg.cpp,sim/ui/proxydlg.h,sim/ui/proxydlgbase.ui,sim/ui/userautoreply.cpp,sim/ui/userautoreply.h,sim/ui/wndcancel.cpp,sim/ui/wndcancel.h,sim/ui/kpopup.cpp,sim/ui/kpopup.h,sim/ui/smssetup.cpp,sim/ui/smssetup.h,sim/ui/smssetupbase.ui,sim/ui/forwardsetup.cpp,sim/ui/forwardsetup.h,sim/ui/forwardsetupbase.ui
 install=false
 install_location=
 sharedlib_LDFLAGS=-version-info 0:0:1
@@ -1008,24 +1008,6 @@ install_location=
 type=HEADER
 
 [sim/ui/filetransferbase.ui]
-dist=true
-install=false
-install_location=
-type=SOURCE
-
-[sim/ui/finddlg.cpp]
-dist=true
-install=false
-install_location=
-type=SOURCE
-
-[sim/ui/finddlg.h]
-dist=true
-install=false
-install_location=
-type=HEADER
-
-[sim/ui/finddlgbase.ui]
 dist=true
 install=false
 install_location=

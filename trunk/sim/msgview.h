@@ -64,8 +64,6 @@ protected slots:
 protected:
     QTextCodec *codec;
     unsigned long m_nUin;
-    void keyPressEvent( QKeyEvent *e );
-    virtual QPopupMenu *createPopupMenu(const QPoint&);
     TransparentBg *bg;
     virtual void resizeEvent(QResizeEvent*);
     void setSource(const QString&);
