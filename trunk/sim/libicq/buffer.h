@@ -49,8 +49,10 @@
 #include <string>
 
 using namespace std;
+#ifdef WIN32
 #if _MSC_VER > 1020
 #pragma warning(disable:4786)
+#endif
 #endif
 
 class Buffer;

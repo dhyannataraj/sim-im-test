@@ -37,10 +37,12 @@
 #include <unistd.h>
 #endif
 
+#ifdef WIN32
 #if _MSC_VER > 1020
 #pragma warning(disable:4530)
 #pragma warning(disable:4355)
 #pragma warning(disable:4786)
+#endif
 #endif
 
 #include <list>

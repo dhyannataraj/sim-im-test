@@ -57,8 +57,10 @@ QString i18n(const char *singular, const char *plural, unsigned long n);
 #define KPopupMenu QPopupMenu
 #endif
 
+#ifdef WIN32
 #if _MSC_VER > 1020
 #pragma warning(disable:4530)
+#endif
 #endif
 
 #ifndef HAVE_STRCASECMP

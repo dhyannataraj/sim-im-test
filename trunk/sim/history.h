@@ -24,9 +24,11 @@
 #include <fstream>
 #include <string>
 
+#ifdef WIN32
 #if _MSC_VER > 1020
 using namespace std;
 #pragma warning(disable:4786)
+#endif
 #endif
 
 class ICQMessage;

@@ -22,10 +22,14 @@
 #include <errno.h>
 
 #ifndef WIN32
-#include <stdio.h>
 #include <sys/socket.h>
+#include <sys/time.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <netinet/tcp.h>
+#include <netdb.h>
+#include <unistd.h>
+#include <stdio.h>
 #endif
 
 const char FT_INIT	= 0;
