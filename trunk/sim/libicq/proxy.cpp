@@ -271,7 +271,7 @@ void SOCKS5_Proxy::send_connect()
     write();
 }
 
-HTTP_Proxy::HTTP_Proxy(const char *host, unsigned short port, const char *user, const char *passwd)
+HTTPS_Proxy::HTTPS_Proxy(const char *host, unsigned short port, const char *user, const char *passwd)
 {
     m_host = host;
     m_port = port;
@@ -280,7 +280,7 @@ HTTP_Proxy::HTTP_Proxy(const char *host, unsigned short port, const char *user, 
     state = None;
 }
 
-void HTTP_Proxy::connect(const char *host, int port)
+void HTTPS_Proxy::connect(const char *host, int port)
 {
     if (state != None){
         log(L_WARN, "Proxy::connect in bad state");
@@ -340,23 +340,17 @@ string tobase64(const char *text)
     return out;
 }
 
-void HTTP_Proxy::connect_ready()
+void HTTPS_Proxy::connect_ready()
 {
     if (state != Connect){
         log(L_WARN, "Proxy::connect_ready in bad state");
         if (notify) notify->error_state(ErrorProxyConnect);
         return;
     }
-    char b[13];
-    snprintf(b, sizeof(b), "%u", m_connectPort);
     bOut << "CONNECT "
     << m_connectHost.c_str()
-    << ":"
-    << b
-    << " HTTP/1.1\r\n"
-    << "Host: "
-    << m_connectHost.c_str()
-    << "\r\n";
+    << ":443 HTTP/1.0\r\n"
+    << "User-Agent: Mozilla/4.08 [en]] (WinNT; U ;Nav)\r\n";
     if (m_user.length()){
         string s;
         s = m_user.c_str();
@@ -364,6 +358,9 @@ void HTTP_Proxy::connect_ready()
         s += m_passwd.c_str();
         s = tobase64(s.c_str());
         bOut << "Proxy-Auth: basic ";
+        bOut << s.c_str();
+        bOut << "\r\n";
+        bOut << "Auth: basic ";
         bOut << s.c_str();
         bOut << "\r\n";
     }
@@ -374,7 +371,7 @@ void HTTP_Proxy::connect_ready()
 
 static char HTTP[] = "HTTP/";
 
-void HTTP_Proxy::read_ready()
+void HTTPS_Proxy::read_ready()
 {
     if (state == WaitConnect){
         string s;
@@ -410,7 +407,7 @@ void HTTP_Proxy::read_ready()
     }
 }
 
-bool HTTP_Proxy::readLine(string &s)
+bool HTTPS_Proxy::readLine(string &s)
 {
     for (;;){
         char c;
@@ -430,43 +427,3 @@ bool HTTP_Proxy::readLine(string &s)
     return true;
 }
 
-#ifdef USE_OPENSSL
-
-HTTPS_Proxy::HTTPS_Proxy(const char *host, unsigned short port, const char *user, const char *passwd)
-        : HTTP_Proxy(host, port, user, passwd)
-{
-    state = Connect;
-}
-
-void HTTPS_Proxy::connect_ready()
-{
-    if (state == Connect){
-        SSLClient *ssl = new SSLClient(sock);
-        if (!ssl->initHTTPS()){
-            delete ssl;
-            ssl = NULL;
-            if (notify) notify->error_state(ErrorProxyConnect);
-            return;
-        }
-        setSocket(ssl);
-        state = SSLconnect;
-        ssl->connect();
-        ssl->process();
-        return;
-    }
-    HTTP_Proxy::connect_ready();
-}
-
-void HTTPS_Proxy::proxy_connect_ready()
-{
-    /*
-    	stay in ssl mode after connect ? (mod_ssl + mod_proxy - no)
-
-        SSLClient *ssl = static_cast<SSLClient*>(sock);
-        setSocket(ssl->socket());
-        delete ssl;
-    */
-    HTTP_Proxy::proxy_connect_ready();
-}
-
-#endif

@@ -223,9 +223,6 @@ SocketFactory::SocketFactory()
 bool SocketFactory::isHttpProxy()
 {
     if (ProxyType == PROXY_HTTP) return true;
-#ifdef USE_OPENSSL
-    if (ProxyType == PROXY_HTTPS) return true;
-#endif
     return false;
 }
 
@@ -245,13 +242,10 @@ Proxy *SocketFactory::getProxy()
                                   ProxyHost.c_str(), ProxyPort,
                                   ProxyAuth ? ProxyUser.c_str() : "",
                                   ProxyAuth ? ProxyPasswd.c_str() : "");
-#ifdef USE_OPENSSL
     case PROXY_HTTPS:
-        return new ICQ_HTTPS_Proxy(this,
-                                   ProxyHost.c_str(), ProxyPort,
+        return new HTTPS_Proxy(ProxyHost.c_str(), ProxyPort,
                                    ProxyAuth ? ProxyUser.c_str() : "",
                                    ProxyAuth ? ProxyPasswd.c_str() : "");
-#endif
     default:
         log(L_WARN, "Unknown proxy type");
     }

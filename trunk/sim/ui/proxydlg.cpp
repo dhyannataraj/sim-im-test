@@ -42,9 +42,7 @@ ProxyDialog::ProxyDialog(QWidget *p, const QString &msg)
     cmbProxy->insertItem(i18n("SOCKS4"));
     cmbProxy->insertItem(i18n("SOCKS5"));
     cmbProxy->insertItem(i18n("HTTP"));
-#ifdef USE_OPENSSL
     cmbProxy->insertItem(i18n("HTTPS"));
-#endif
 
     SocketFactory *factory = pClient->factory();
     cmbProxy->setCurrentItem((int)(factory->ProxyType));

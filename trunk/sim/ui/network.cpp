@@ -49,9 +49,7 @@ NetworkSetup::NetworkSetup(QWidget *p)
     cmbProxy->insertItem(i18n("SOCKS4"));
     cmbProxy->insertItem(i18n("SOCKS5"));
     cmbProxy->insertItem(i18n("HTTP"));
-#ifdef USE_OPENSSL
     cmbProxy->insertItem(i18n("HTTPS"));
-#endif
     cmbProxy->setCurrentItem((int)(factory->ProxyType));
 
     edtProxyHost->setText(QString::fromLocal8Bit(factory->ProxyHost.c_str()));

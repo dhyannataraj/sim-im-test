@@ -107,10 +107,8 @@ enum PROXY_TYPE
     PROXY_NONE,
     PROXY_SOCKS4,
     PROXY_SOCKS5,
-    PROXY_HTTP
-#ifdef USE_OPENSSL
-    ,PROXY_HTTPS
-#endif
+    PROXY_HTTP,
+    PROXY_HTTPS
 };
 
 class Proxy;

@@ -90,10 +90,10 @@ protected:
     void send_connect();
 };
 
-class HTTP_Proxy : public Proxy
+class HTTPS_Proxy : public Proxy
 {
 public:
-    HTTP_Proxy(const char *host, unsigned short port, const char *user, const char *passwd);
+    HTTPS_Proxy(const char *host, unsigned short port, const char *user, const char *passwd);
     virtual void connect(const char *host, int port);
 protected:
     virtual void connect_ready();
@@ -115,22 +115,4 @@ protected:
     bool readLine(string &s);
 };
 
-#ifdef USE_OPENSSL
-
-class HTTPS_Proxy : public HTTP_Proxy
-{
-public:
-    HTTPS_Proxy(const char *host, unsigned short port, const char *user, const char *passwd);
-protected:
-    virtual void connect_ready();
-    virtual void proxy_connect_ready();
-    enum State
-    {
-        Connect,
-        SSLconnect
-    };
-    State state;
-};
-
-#endif
 #endif
