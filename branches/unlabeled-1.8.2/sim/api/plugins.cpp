@@ -93,7 +93,7 @@ protected:
     bool create(pluginInfo&);
     bool createPlugin(pluginInfo&);
 
-    void release(pluginInfo&);
+    void release(pluginInfo&, bool bFree = true);
     void release(const char *name);
     void release_all(Plugin *to);
 
@@ -277,7 +277,7 @@ void PluginManagerPrivate::release_all(Plugin *to)
             break;
         if (to && info.info && (info.info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT)))
             continue;
-        release(info);
+        release(info, to != NULL);
         info.bDisabled = false;
         info.bFromCfg  = false;
     }
@@ -458,7 +458,7 @@ void PluginManagerPrivate::release(const char *name)
         release(*info);
 }
 
-void PluginManagerPrivate::release(pluginInfo &info)
+void PluginManagerPrivate::release(pluginInfo &info, bool bFree)
 {
     if (info.plugin){
         log(L_DEBUG, "Unload plugin %s", info.name);
@@ -468,11 +468,13 @@ void PluginManagerPrivate::release(pluginInfo &info)
         e.process();
     }
     if (info.module){
+		if (bFree){
 #ifdef WIN32
         FreeLibrary((HINSTANCE)(info.module));
 #else
         dlclose(info.module);
 #endif
+		}
         info.module = NULL;
     }
     info.info = NULL;
@@ -726,6 +728,8 @@ PluginManager::PluginManager(int argc, char **argv)
     p = new PluginManagerPrivate(argc, argv);
 }
 
+void destroySmiles();
+
 PluginManager::~PluginManager()
 {
     save_state();
@@ -736,6 +740,7 @@ PluginManager::~PluginManager()
 	delete contacts;
 	delete factory;
 	EventReceiver::destroyList();
+	destroySmiles();
 }
 
 bool PluginManager::isLoaded()

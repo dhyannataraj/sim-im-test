@@ -165,13 +165,13 @@ extern "C" {
 
 #endif
 
+
 int main(int argc, char *argv[])
 {
     int res = 1;
 #ifdef WIN32
     HANDLE hMutex = CreateMutexA(NULL, FALSE, "SIM_Mutex");
 #endif
-	{
     QApplication::setColorSpec( QApplication::ManyColor );
 #ifndef WIN32
     qInstallMsgHandler(simMessageOutput);
@@ -268,12 +268,8 @@ int main(int argc, char *argv[])
     PluginManager p(argc, argv);
     if (p.isLoaded())
         res = app.exec();
-	}
 #ifdef WIN32
     CloseHandle(hMutex);
-#endif
-#if defined(_MSC_VER) && defined(_DEBUG) && !defined(NO_CHECK_NEW)
-	_CrtDumpMemoryLeaks();
 #endif
     return res;
 };

@@ -1,5 +1,5 @@
 #/****************************************************************************
-** $Id: qrichtext.cpp,v 1.3 2003-08-26 20:06:35 shutoff Exp $
+** $Id: qrichtext.cpp,v 1.3.2.1 2003-08-31 21:57:01 shutoff Exp $
 **
 ** Implementation of the internal Qt classes dealing with rich text
 **
@@ -6163,6 +6163,8 @@ formatAgain:
                 }
             }
         }
+		if (reg)
+			delete reg;
     }
 
     QString QTextImage::richText() const

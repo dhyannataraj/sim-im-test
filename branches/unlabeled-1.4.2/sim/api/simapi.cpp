@@ -596,26 +596,27 @@ static const char *_smiles =
 		DIV DIV
     };
 
-static vector<string> pSmiles;
-static vector<string> pDefaultSmiles;
+static vector<string> *pSmiles = NULL;
+static vector<string> *pDefaultSmiles = NULL;
 
-static const char *getSmiles(unsigned n, vector<string> &pSmiles)
+static const char *getSmiles(unsigned n, vector<string> *pSmiles)
 {
-	if (n < pSmiles.size())
-		return pSmiles[n].c_str();
+	if (n < pSmiles->size())
+		return (*pSmiles)[n].c_str();
 	return NULL;
 }
 
 EXPORT const char *smiles(unsigned n)
 {
-	if (pSmiles.size() == 0)
+	if (pSmiles == NULL)
 		setSmiles(NULL);
 	return getSmiles(n, pSmiles);
 }
 
 EXPORT const char *defaultSmiles(unsigned n)
 {
-	if (pDefaultSmiles.size() == 0){
+	if (pDefaultSmiles == NULL){
+		pDefaultSmiles = new vector<string>;
 		for (const char *p = _smiles; *p; ){
 			string s;
 			for (; *p; ){
@@ -624,7 +625,7 @@ EXPORT const char *defaultSmiles(unsigned n)
 				p += strlen(p) + 1;
 			}
 			s += '\x00';
-			pDefaultSmiles.push_back(s);
+			pDefaultSmiles->push_back(s);
 			p++;
 		}
 	}
@@ -635,9 +636,13 @@ EXPORT void setSmiles(const char *p)
 {
 	if (p == NULL)
 		p = _smiles;
-	pSmiles.clear();
+	if (pSmiles){
+		pSmiles->clear();
+	}else{
+		pSmiles = new vector<string>;
+	}
 	for (unsigned i = 0; i < 16; i++)
-		pSmiles.push_back("");
+		pSmiles->push_back("");
 	for (; *p; ){
 		string s;
 		unsigned index;
@@ -656,11 +661,23 @@ EXPORT void setSmiles(const char *p)
 		}
 		s += '\x00';
 		if (index < 16){
-			pSmiles[index] = s;
+			(*pSmiles)[index] = s;
 		}else{
-			pSmiles.push_back(s);
+			pSmiles->push_back(s);
 		}
 		p++;
+	}
+}
+
+void destroySmiles()
+{
+	if (pSmiles){
+		delete pSmiles;
+		pSmiles = NULL;
+	}
+	if (pDefaultSmiles){
+		delete pDefaultSmiles;
+		pDefaultSmiles = NULL;
 	}
 }
 
@@ -787,7 +804,11 @@ EXPORT int strcasecmp(const char *a, const char *b)
  **/
 int WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
 {
-    return TRUE;
+#if defined(_MSC_VER) && defined(_DEBUG) && !defined(NO_CHECK_NEW)
+	if (dwReason == DLL_PROCESS_DETACH)
+		_CrtDumpMemoryLeaks();
+#endif
+ 	return TRUE;
 }
 
 /**
