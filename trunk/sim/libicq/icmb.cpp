@@ -874,7 +874,7 @@ void ICQClientPrivate::sendICMB()
 {
     snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_SETxICQxMODE);
     sock->writeBuffer
-    << 0x00000000L << 0x00031F40L
+    << 0x00000000L << 0x000B1F40L
     << 0x03E703E7L << 0x00000000L;
     sendPacket();
 }

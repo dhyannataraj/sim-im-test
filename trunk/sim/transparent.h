@@ -47,7 +47,7 @@ class TransparentTop : public QObject
     Q_OBJECT
 public:
     TransparentTop(QWidget *parent, bool *useTransparent, unsigned long *transparent);
-    static void setTransparent(QWidget*, bool isTransparent, unsigned long transparency);
+    static void setTransparent(QWidget*, bool isTransparent, unsigned long transparency, bool isSet);
     static bool bCanTransparent;
     static TransparentTop *getTransparent(QWidget*);
     const QPixmap *background(QColor bgColor);
@@ -63,10 +63,12 @@ signals:
     void backgroundUpdated();
 protected slots:
     void transparentChanged();
+	void setTransparent();
 protected:
-    bool eventFilter(QObject *obj, QEvent *e);
+    bool			eventFilter(QObject *obj, QEvent *e);
     bool			*useTransparent;
     unsigned long	*transparent;
+	bool			m_bUseTransparent;
 };
 
 #endif
