@@ -83,7 +83,7 @@ void FontEdit::chooseFont()
 #if USE_KDE
     QFont _f = f;
     if (KFontDialog::getFont(_f, false, topLevelWidget()) == KFontDialog::Accepted)
-        setFont(_f);
+        setWinFont(_f);
 #else
     bool ok = false;
     QFont _f = QFontDialog::getFont(&ok, f, topLevelWidget());

@@ -92,7 +92,8 @@ void LoginDialog::login()
     chkOldUser->setEnabled(false);
     btnLogin->setEnabled(false);
     bLogin = true;
-    pClient->Password = edtPasswd->text().local8Bit();
+    pClient->storePassword(edtPasswd->text().local8Bit());
+    pClient->DecryptedPassword = edtPasswd->text().local8Bit();
     if (chkOldUser->isOn())
         pClient->Uin = edtUIN->text().toULong();
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
@@ -114,7 +115,8 @@ void LoginDialog::stopLogin()
     disconnect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     pClient->setStatus(ICQ_STATUS_OFFLINE);
     pClient->Uin = 0;
-    pClient->Password = "";
+    pClient->EncryptedPassword = "";
+    pClient->DecryptedPassword = "";
     btnClose->setText(i18n("Close"));
     lblPasswd->setEnabled(true);
     edtPasswd->setEnabled(true);
@@ -130,6 +132,7 @@ void LoginDialog::processEvent(ICQEvent *e)
     case EVENT_STATUS_CHANGED:
         if (pClient->m_state == ICQClient::Logged){
             bLogin = false;
+            pClient->DecryptedPassword = "";
             close();
         }
         return;

@@ -67,6 +67,7 @@
 #include <qtoolbar.h>
 #include <qapplication.h>
 #include <qdns.h>
+#include <qfile.h>
 #include <qstyle.h>
 #include <qwidgetlist.h>
 #include <qobjectlist.h>
@@ -121,8 +122,15 @@ const char *app_file(const char *f)
 #else
 #if USE_KDE
     QStringList lst = KGlobal::dirs()->findDirs("data", "sim");
+    for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
+	QFile f(*it + f);
+	if (f.exists()){
+		app_file_name = (const char*)f.name().local8Bit();
+		return app_file_name.c_str();
+	}
+    }
     if (lst.size()){
-        app_file_name = (const char*)lst[0];
+        app_file_name = (const char*)lst[0].local8Bit();
     }
 #else
     app_file_name = PREFIX "/share/apps/sim/";
@@ -646,7 +654,7 @@ bool MainWindow::init()
     }
     menuStatus->setItemChecked(ICQ_STATUS_FxPRIVATE, pClient->Invisible);
 
-    if (pClient->Uin == 0){
+    if ((pClient->Uin == 0) || (*pClient->EncryptedPassword.c_str() == 0)){
         bInLogin = true;
         LoginDialog dlg;
         dlg.exec();

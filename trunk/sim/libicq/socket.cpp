@@ -474,6 +474,7 @@ bool ServerSocket::listen(int minPort, int maxPort, const char *host)
         close();
         return false;
     }
+    log(L_DEBUG, "Listen on port %u", m_nPort);
     pSockets->createSocket(this);
     return true;
 }
@@ -524,6 +525,7 @@ void ServerSocket::read_ready()
         error(ErrorAccept);
         return;
     }
+    log(L_DEBUG, "Accept connection");
     accept(fd, inet_ntoa(addr.sin_addr), htons(addr.sin_port));
 }
 

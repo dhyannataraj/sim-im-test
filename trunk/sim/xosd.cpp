@@ -34,8 +34,9 @@ XOSD::XOSD(QWidget *p)
 void XOSD::init()
 {
     if (pMain->XOSD_FontSize()){
-        setFont(QFont(pMain->XOSD_FontFamily.c_str(), pMain->XOSD_FontSize(),
-                      pMain->XOSD_FontWeight(), pMain->XOSD_FontItalic()));
+        QFont f(pMain->XOSD_FontFamily.c_str(), pMain->XOSD_FontSize(),
+                pMain->XOSD_FontWeight(), pMain->XOSD_FontItalic());
+        setFont(f);
     }else{
         QFont f = pMain->font();
         int size = f.pixelSize();

@@ -29,7 +29,7 @@ PasswdDialog::PasswdDialog()
         : QDialog(NULL, NULL, true)
 {
     bLogin = false;
-    oldPassword = QString::fromLocal8Bit(pClient->Password);
+    oldPassword = QString::fromLocal8Bit(pClient->EncryptedPassword);
     QGridLayout *lay = new QGridLayout(this, 2, 2, 10, 5);
     lblPasswd = new QLabel(i18n("Password:"), this);
     lblPasswd->setAlignment(AlignRight | AlignVCenter);
@@ -69,7 +69,7 @@ void PasswdDialog::login()
     edtPasswd->setEnabled(false);
     btnLogin->setEnabled(false);
     bLogin = true;
-    pClient->Password = edtPasswd->text().local8Bit();
+    pClient->storePassword(edtPasswd->text().local8Bit());
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     pClient->setStatus(pMain->ManualStatus);
 }
@@ -85,7 +85,7 @@ void PasswdDialog::stopLogin()
 {
     disconnect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     pClient->setStatus(ICQ_STATUS_OFFLINE);
-    pClient->Password = oldPassword;
+    pClient->EncryptedPassword = oldPassword;
     btnClose->setText(i18n("Close"));
     lblPasswd->setEnabled(true);
     edtPasswd->setEnabled(true);

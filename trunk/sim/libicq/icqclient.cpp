@@ -34,7 +34,8 @@ ICQClient::ICQClient()
         ServerPort(this, "ServerPort", 5190),
         MinTCPPort(this, "MinTCPPort", 1024),
         MaxTCPPort(this, "MaxTCPPort", 0xFFFF),
-        Password(this, "Password"),
+        DecryptedPassword(this, "Password"),
+        EncryptedPassword(this, "EncryptPassword"),
         WebAware(this, "WebAware"),
         Authorize(this, "Authorize"),
         HideIp(this, "HideIp"),
@@ -74,6 +75,22 @@ ICQClient::ICQClient()
 ICQClient::~ICQClient()
 {
     close();
+}
+
+void ICQClient::storePassword(const char *p)
+{
+    char pswd[16];
+    unsigned char xor_table[] = {
+        0xf3, 0x26, 0x81, 0xc4, 0x39, 0x86, 0xdb, 0x92,
+        0x71, 0xa3, 0xb9, 0xe6, 0x53, 0x7a, 0x95, 0x7c};
+    int j;
+    for (j = 0; j < 16; j++){
+        if (p[j] == 0) break;
+        pswd[j] = (p[j] ^ xor_table[j]);
+    }
+    pswd[j] = 0;
+    EncryptedPassword = pswd;
+    DecryptedPassword = "";
 }
 
 void ICQClient::process_event(ICQEvent *e)
@@ -405,6 +422,8 @@ bool ICQClient::load(istream &s, string &nextPart)
         }
         break;
     }
+    if (*EncryptedPassword.c_str() == 0)
+        storePassword(DecryptedPassword.c_str());
     setupProxy();
     ICQEvent e(EVENT_INFO_CHANGED);
     process_event(&e);

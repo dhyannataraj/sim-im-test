@@ -301,6 +301,13 @@ bool ConfigArray::operator == (const ConfigArray &a) const
     return true;
 }
 
+static char toHex(char c)
+{
+    c &= 0x0F;
+    if (c < 10) return c + '0';
+    return c - 10 + 'a';
+}
+
 void ConfigArray::save(std::ostream &sout)
 {
     list<ConfigValue*>::iterator it;
@@ -321,11 +328,25 @@ void ConfigArray::save(std::ostream &sout)
                 quoted += "\\n";
                 break;
             default:
-                if ((unsigned char)s[i] >= ' ') quoted += s[i];
+                if ((unsigned char)s[i] >= ' '){
+                    quoted += s[i];
+                }else if (s[i]){
+                    quoted += "\\x";
+                    quoted += toHex(s[i] >> 4);
+                    quoted += toHex(s[i]);
+                }
             }
         }
         sout << (*it)->m_name << "=" << quoted << "\n";
     }
+}
+
+static char fromHex(char c)
+{
+    if ((c >= '0') && (c <= '9')) return c - '0';
+    if ((c >= 'A') && (c <= 'F')) return c + 10 - 'A';
+    if ((c >= 'a') && (c <= 'f')) return c + 10 - 'a';
+    return 0;
 }
 
 bool ConfigArray::load(std::istream &sin, string &s)
@@ -392,6 +413,17 @@ bool ConfigArray::load(std::istream &sin, string &s)
                     break;
                 case 'n':
                     unquoted += '\n';
+                    break;
+                case 't':
+                    unquoted += '\t';
+                    break;
+                case 'x':
+                    if (p[1] && p[2]){
+                        char c = 0;
+                        c = (fromHex(p[1]) << 4) + fromHex(p[2]);
+                        unquoted += c;
+                        p += 2;
+                    }
                     break;
                 default:
                     p--;
