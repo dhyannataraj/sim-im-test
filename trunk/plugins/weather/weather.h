@@ -67,6 +67,8 @@ typedef struct WeatherData
     Data	MaxT;
     Data	DayIcon;
     Data	DayConditions;
+	Data	UV_Intensity;
+	Data	UV_Description;
 } WeatherData;
 
 class WeatherPlugin : public QObject, public Plugin, public EventReceiver, public FetchClient, public SAXParser
@@ -109,6 +111,9 @@ public:
     PROP_STRLIST(MaxT);
     PROP_STRLIST(DayIcon);
     PROP_STRLIST(DayConditions);
+	PROP_LONG(UV_Intensity);
+	PROP_STR(UV_Description);
+
     QString getButtonText();
     QString getTipText();
     QString getForecastText();

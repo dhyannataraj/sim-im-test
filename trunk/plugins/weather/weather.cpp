@@ -93,6 +93,8 @@ static DataDef weatherData[] =
         { "MaxT", DATA_STRLIST, 1, 0 },
         { "DayIcon", DATA_STRLIST, 1, 0 },
         { "DayConditions", DATA_STRLIST, 1, 0 },
+		{ "UV_Intensity", DATA_LONG, 1, 0 },
+		{ "UV_Description", DATA_STRING, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -358,9 +360,7 @@ void WeatherPlugin::updateButton()
 
 static QString number(unsigned long n)
 {
-    char b[32];
-    sprintf(b, "%li", n);
-    return b;
+	return QString("%1").arg(n);
 }
 
 #if 0
@@ -490,6 +490,8 @@ QString WeatherPlugin::replace(const QString &text)
     res = res.replace(QRegExp("\\%c"), i18n_conditions(getConditions()));
     res = res.replace(QRegExp("\\%v"), i18n("weather", getVisibility()) + (atol(getVisibility()) ? QString(" ") + i18n(getUD()) : QString("")));
     res = res.replace(QRegExp("\\%i"), number(getIcon()));
+	res = res.replace(QRegExp("\\%ut"), getUV_Description());
+	res = res.replace(QRegExp("\\%ui"), number(getUV_Intensity())); 
     return res;
 }
 
@@ -625,8 +627,27 @@ void WeatherPlugin::element_start(const char *el, const char **attr)
         m_bWind = true;
         return;
     }
-    if (!strcmp(el, "uv")){
-        m_bUv = true;
+    if (!strcmp(el, "uv")) {
+		unsigned int uv_intensity = 0;
+		string uv_description;
+		for (const char **p = attr; *p;) {
+			string key = *(p++);;
+			string value = *(p++);
+		
+			if (key == "i") {
+				uv_intensity = strtol(value.c_str(),NULL,10);
+				continue;
+			}
+		        
+			if (key == "t") {
+				uv_description = value;
+				continue;
+			}
+		}
+	
+		setUV_Intensity(uv_intensity);
+		//setUV_Description(uv_description);
+		m_bUv = true;
         return;
     }
     if (!strcmp(el, "day")){

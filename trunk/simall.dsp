@@ -65,7 +65,7 @@ CFG=simall - Win32 Debug
 # PROP Cmd_Line ""
 # PROP Rebuild_Opt "/a"
 # PROP Target_File "sim.exe"
-# PROP Bsc_Name "simall.bsc"
+# PROP Bsc_Name "sim.bsc"
 # PROP Target_Dir ""
 
 !ENDIF 
