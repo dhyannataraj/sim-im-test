@@ -104,7 +104,9 @@ InterfaceConfig::InterfaceConfig(QWidget *parent)
         cmbLang->setCurrentItem(0);
     }
 #else
+#ifdef USE_KDE
     cmbLang->hide();
+#endif
 #endif
     connect(grpMode, SIGNAL(clicked(int)), this, SLOT(modeChanged(int)));
     if (CorePlugin::m_plugin->getContainerMode()){
