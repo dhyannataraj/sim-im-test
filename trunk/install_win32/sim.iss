@@ -58,6 +58,9 @@ Name: "{userdesktop}\Simple Instant Messenger"; Filename: "{app}\sim.exe"; Tasks
 [Run]
 Filename: "{app}\sim.exe"; Description: "Launch Simple Instant Messenger"; Flags: nowait postinstall skipifsilent
 
+[UninstallDelete]
+Type: filesandordirs; Name: {userappdata}\sim
+
 [Code]
 const url1 = 'http://osdn.dl.sourceforge.net/sourceforge/sim-icq/qt.exe';
 const url2 = 'http://osdn.dl.sourceforge.net/sourceforge/sim-icq/ssl.exe';

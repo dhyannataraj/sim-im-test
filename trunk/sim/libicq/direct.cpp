@@ -645,7 +645,7 @@ void DirectClient::processPacket()
                         secureStop(true);
                         return;
                     case ICQ_MSGxSECURExOPEN:
-                        if (!msg_str.c_str()){
+                        if (!*msg_str.c_str()){
                             ICQEvent eSend(EVENT_MESSAGE_SEND, msg->getUin());
                             eSend.setMessage(msg);
                             eSend.state = ICQEvent::Fail;

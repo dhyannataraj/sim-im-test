@@ -679,16 +679,18 @@ void MsgEdit::messageReceived(ICQMessage *m)
     if (m->getUin() != Uin) return;
     if (msgView){
         bool bUnread = false;
-        ICQUser *u = pClient->getUser(m->getUin());
-        if (u){
-            for (list<unsigned long>::iterator it = u->unreadMsgs.begin(); it != u->unreadMsgs.end(); it++){
-                if ((*it) == m->Id){
-                    bUnread = true;
-                    break;
-                }
-            }
-            msgView->addMessage(m, bUnread, true);
-        }
+		if (msgView->findMsg(m->Id, 0) < 0){
+			ICQUser *u = pClient->getUser(m->getUin());
+			if (u){
+				for (list<unsigned long>::iterator it = u->unreadMsgs.begin(); it != u->unreadMsgs.end(); it++){
+					if ((*it) == m->Id){
+						bUnread = true;
+						break;
+					}
+				}
+				msgView->addMessage(m, bUnread, true);
+			}
+		}
     }
     setupNext();
     if (msg && msg->Received && (static_cast<UserBox*>(topLevelWidget())->currentUser() == Uin)) return;
