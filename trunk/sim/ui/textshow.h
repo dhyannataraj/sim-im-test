@@ -117,6 +117,7 @@ protected:
     bool m_bBold;
     bool m_bItalic;
     bool m_bUnderline;
+    bool m_bChanged;
     QColor curFG;
     QColor defFG;
     bool m_bCtrlMode;

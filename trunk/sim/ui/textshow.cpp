@@ -156,6 +156,7 @@ TextEdit::TextEdit(QWidget *p, const char *name)
     m_bSelected  = false;
     m_bNoSelected = false;
     m_bInClick = false;
+    m_bChanged = false;
     setReadOnly(false);
     curFG = colorGroup().color(QColorGroup::Text);
     m_bCtrlMode = true;
@@ -275,6 +276,7 @@ void TextEdit::fontChanged(const QFont &f)
     }
     if (m_param == NULL)
         return;
+    m_bChanged = true;
     if (f.bold() != m_bBold){
         m_bBold = f.bold();
         Command cmd;
@@ -302,6 +304,7 @@ void TextEdit::fontChanged(const QFont &f)
         Event e(EventCommandChecked, cmd);
         e.process();
     }
+    m_bChanged = false;
 }
 
 void TextEdit::setCtrlMode(bool mode)
@@ -394,16 +397,22 @@ void *TextEdit::processEvent(Event *e)
                 return e->param();
             }
         case CmdBold:
-            m_bSelected = true;
-            setBold((cmd->flags & COMMAND_CHECKED) != 0);
+	    if (!m_bChanged){
+            	m_bSelected = true;
+            	setBold((cmd->flags & COMMAND_CHECKED) != 0);
+	    }
             return e->param();
         case CmdItalic:
-            m_bSelected = true;
-            setItalic((cmd->flags & COMMAND_CHECKED) != 0);
+	    if (!m_bChanged){
+            	m_bSelected = true;
+            	setItalic((cmd->flags & COMMAND_CHECKED) != 0);
+	    }
             return e->param();
         case CmdUnderline:
-            m_bSelected = true;
-            setUnderline((cmd->flags & COMMAND_CHECKED) != 0);
+	    if (!m_bChanged){
+            	m_bSelected = true;
+            	setUnderline((cmd->flags & COMMAND_CHECKED) != 0);
+	    }
             return e->param();
         case CmdFont:{
 #ifdef USE_KDE
@@ -448,9 +457,16 @@ void TextEdit::setForeground(const QColor& c, bool bDef)
     curFG = c;
     if (bDef)
         defFG = c;
-    setColor(c);
+    if (!hasSelectedText())
+    	setColor(c);
+    int r = c.red();
+    if (r){
+      r--;
+    }else{
+      r++;
+    }
     QPalette pal = palette();
-    pal.setColor(QPalette::Active, QColorGroup::Text, c);
+    pal.setColor(QPalette::Active, QColorGroup::Text, QColor(r, c.green(), c.blue()));
     setPalette(pal);
 }
 

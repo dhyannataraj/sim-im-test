@@ -18,6 +18,7 @@
 #include "statuswnd.h"
 #include "core.h"
 #include "ballonmsg.h"
+#include "toolbtn.h"
 
 #include <qpopupmenu.h>
 #include <qlabel.h>
@@ -26,6 +27,7 @@
 #include <qtooltip.h>
 #include <qtimer.h>
 #include <qframe.h>
+#include <qtoolbutton.h>
 
 StatusLabel::StatusLabel(QWidget *parent, Client *client, unsigned id)
         : QLabel(parent)
@@ -113,29 +115,28 @@ void StatusLabel::mousePressEvent(QMouseEvent *me)
         mp.key	 = 0;
         Event eMenu(EventProcessMenu, &mp);
         QPopupMenu *popup = (QPopupMenu*)eMenu.process();
-        if (popup)
-            popup->popup(me->globalPos());
+        if (popup){
+            QPoint pos = CToolButton::popupPos(this, popup);
+            popup->popup(pos);
+        }
     }
 }
 
-StatusWnd::StatusWnd()
-        :EventReceiver(LowPriority + 1)
+StatusFrame::StatusFrame(QWidget *parent)
+        : QFrame(parent), EventReceiver(LowPriority + 1)
 {
     setFrameStyle(NoFrame);
-    WindowDef wnd;
-    wnd.widget = this;
-    wnd.bDown  = true;
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
-    m_lay = new QHBoxLayout(this);
+    m_frame = new QFrame(this);
+    m_frame->show();
+    m_lay = new QHBoxLayout(m_frame);
     m_lay->setMargin(1);
     m_lay->setSpacing(2);
     m_lay->addStretch();
     addClients();
-    Event e(EventAddStatus, &wnd);
-    e.process();
 }
 
-void StatusWnd::mousePressEvent(QMouseEvent *me)
+void StatusFrame::mousePressEvent(QMouseEvent *me)
 {
     if (me->button() == RightButton){
         Command cmd;
@@ -147,9 +148,62 @@ void StatusWnd::mousePressEvent(QMouseEvent *me)
     }
 }
 
-void *StatusWnd::processEvent(Event *e)
+void *StatusFrame::processEvent(Event *e)
 {
+    CommandDef *cmd;
     switch (e->type()){
+    case EventCheckState:
+        cmd = (CommandDef*)(e->param());
+        if ((cmd->menu_id == MenuStatusWnd) && (cmd->id == CmdStatusWnd)){
+            unsigned n = 0;
+            {
+                QObjectList *l = queryList("StatusLabel");
+                QObjectListIt itObject(*l);
+                QObject *obj;
+                while ((obj=itObject.current()) != NULL) {
+                    ++itObject;
+                    StatusLabel *lbl = static_cast<StatusLabel*>(obj);
+                    if (lbl->x() + lbl->width() > width())
+                        n++;
+                }
+                delete l;
+            }
+            CommandDef *cmds = new CommandDef[n + 1];
+            memset(cmds, 0, sizeof(CommandDef) * (n + 1));
+            QObjectList *l = queryList("StatusLabel");
+            QObjectListIt itObject(*l);
+            QObject *obj;
+            n = 0;
+            while ((obj=itObject.current()) != NULL) {
+                ++itObject;
+                StatusLabel *lbl = static_cast<StatusLabel*>(obj);
+                if (lbl->x() + lbl->width() > width()){
+                    cmds[n].id = 1;
+                    cmds[n].text = "_";
+                    cmds[n].text_wrk = strdup(CorePlugin::m_plugin->clientName(lbl->m_client).utf8());
+                    cmds[n].popup_id = lbl->m_id;
+                    if (lbl->m_client->getState() == Client::Error){
+                        cmds[n].icon = "error";
+                    }else{
+                        Protocol *protocol = lbl->m_client->protocol();
+                        const CommandDef *cmd = protocol->description();
+                        cmds[n].icon = cmd->icon;
+                        for (cmd = protocol->statusList(); cmd->text; cmd++){
+                            if (cmd->id == lbl->m_client->getStatus()){
+                                cmds[n].icon = cmd->icon;
+                                break;
+                            }
+                        }
+                    }
+                    n++;
+                }
+            }
+            delete l;
+            cmd->param = cmds;
+            cmd->flags |= COMMAND_RECURSIVE;
+            return e->param();
+        }
+        break;
     case EventClientsChanged:
         addClients();
         break;
@@ -192,10 +246,10 @@ void *StatusWnd::processEvent(Event *e)
     return NULL;
 }
 
-void StatusWnd::addClients()
+void StatusFrame::addClients()
 {
     list<StatusLabel*> lbls;
-    QObjectList* l = queryList("StatusLabel");
+    QObjectList* l = m_frame->queryList("StatusLabel");
     QObjectListIt itObject(*l);
     QObject *obj;
     while ((obj=itObject.current()) != NULL){
@@ -207,16 +261,17 @@ void StatusWnd::addClients()
         delete *it;
     for (unsigned i = 0; i < getContacts()->nClients(); i++){
         Client *client = getContacts()->getClient(i);
-        QWidget *w = new StatusLabel(this, client, CmdClient + i);
+        QWidget *w = new StatusLabel(m_frame, client, CmdClient + i);
         m_lay->addWidget(w);
         w->show();
     }
+    adjustPos();
     repaint();
 }
 
-StatusLabel *StatusWnd::findLabel(Client *client)
+StatusLabel *StatusFrame::findLabel(Client *client)
 {
-    QObjectList* l = queryList("StatusLabel");
+    QObjectList* l = m_frame->queryList("StatusLabel");
     QObjectListIt itObject(*l);
     QObject *obj;
     while ((obj=itObject.current()) != NULL){
@@ -228,6 +283,98 @@ StatusLabel *StatusWnd::findLabel(Client *client)
     }
     delete l;
     return NULL;
+}
+
+QSize StatusFrame::sizeHint() const
+{
+    QSize res = m_frame->sizeHint();
+    res.setWidth(20);
+    return res;
+}
+
+QSize StatusFrame::minimumSizeHint() const
+{
+    QSize res = m_frame->minimumSizeHint();
+    res.setWidth(20);
+    return res;
+}
+
+void StatusFrame::resizeEvent(QResizeEvent *e)
+{
+    QFrame::resizeEvent(e);
+    adjustPos();
+}
+
+void StatusFrame::adjustPos()
+{
+    QSize s = m_frame->minimumSizeHint();
+    m_frame->resize(s);
+    m_frame->move(width() > s.width() ? width() - s.width() : 0, 0);
+    emit showButton(width() < s.width());
+    repaint();
+    m_frame->repaint();
+    QObjectList* l = m_frame->queryList("StatusLabel");
+    QObjectListIt itObject(*l);
+    QObject *obj;
+    while ((obj=itObject.current()) != NULL){
+        ++itObject;
+        static_cast<StatusLabel*>(obj)->repaint();
+    }
+    delete l;
+}
+
+static const char * const arrow_h_xpm[] = {
+            "9 7 3 1",
+            "	    c None",
+            ".	    c #000000",
+            "+	    c none",
+            "..++..+++",
+            "+..++..++",
+            "++..++..+",
+            "+++..++..",
+            "++..++..+",
+            "+..++..++",
+            "..++..+++"};
+
+StatusWnd::StatusWnd()
+{
+    setFrameStyle(NoFrame);
+    m_lay = new QHBoxLayout(this);
+    m_frame = new StatusFrame(this);
+    m_btn = new QToolButton(this);
+    m_btn->setPixmap( QPixmap((const char **)arrow_h_xpm));
+    m_btn->setMinimumSize(QSize(10, 10));
+    m_lay->addWidget(m_frame);
+    m_lay->addWidget(m_btn);
+    connect(m_frame, SIGNAL(showButton(bool)), this, SLOT(showButton(bool)));
+    connect(m_btn, SIGNAL(clicked()), this, SLOT(clicked()));
+    WindowDef wnd;
+    wnd.widget = this;
+    wnd.bDown  = true;
+    Event e(EventAddStatus, &wnd);
+    e.process();
+}
+
+void StatusWnd::showButton(bool bState)
+{
+    if (bState){
+        m_btn->show();
+    }else{
+        m_btn->hide();
+    }
+}
+
+void StatusWnd::clicked()
+{
+    Command cmd;
+    cmd->popup_id = MenuStatusWnd;
+    cmd->flags    = COMMAND_NEW_POPUP;
+    Event e(EventGetMenu, cmd);
+    QPopupMenu *popup = (QPopupMenu*)(e.process());
+    if (popup){
+        QPoint pos = CToolButton::popupPos(m_btn, popup);
+        popup->popup(pos);
+    }
 }
 
 #ifndef WIN32

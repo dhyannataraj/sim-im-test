@@ -20,14 +20,17 @@
 
 #include <qaccel.h>
 #include <qtimer.h>
+#include <qapplication.h>
 
 CMenu::CMenu(CommandsDef *def)
         : KPopupMenu(NULL)
 {
     m_def = def;
     m_param = NULL;
+    m_bInit = false;
     setCheckable(true);
     connect(this, SIGNAL(aboutToShow()), this, SLOT(showMenu()));
+    connect(this, SIGNAL(aboutToHide()), this, SLOT(hideMenu()));
     connect(this, SIGNAL(activated(int)), this, SLOT(menuActivated(int)));
 }
 
@@ -66,11 +69,22 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
             return;
         }
     }
+    if (m_wrk->count()){
+        QSize s = m_wrk->sizeHint();
+        QWidget *desktop = qApp->desktop();
+        int nHeight = (s.height() - margin() * 2) / m_wrk->count();
+        if (s.height() + nHeight * 2 + margin() * 2 >= desktop->height()){
+            KPopupMenu *more = new KPopupMenu(m_wrk);
+            m_wrk->insertItem(i18n("More..."), more);
+            m_wrk = more;
+            connect(m_wrk, SIGNAL(activated(int)), this, SLOT(menuActivated(int)));
+        }
+    }
     if (bFirst){
         bFirst = false;
         bSeparator = false;
     }else if (bSeparator){
-        insertSeparator();
+        m_wrk->insertSeparator();
         bSeparator = false;
     }
     const QIconSet *icons = NULL;
@@ -89,9 +103,9 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
     }
     if (s->flags & COMMAND_TITLE){
         if (icons){
-            insertTitle(icons->pixmap(QIconSet::Automatic, QIconSet::Normal), title);
+            m_wrk->insertTitle(icons->pixmap(QIconSet::Automatic, QIconSet::Normal), title);
         }else{
-            insertTitle(title);
+            m_wrk->insertTitle(title);
         }
         bFirst = true;
         bSeparator = false;
@@ -109,9 +123,9 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
     unsigned id = 0;
     if (popup){
         if (icons){
-            insertItem(*icons, title, popup);
+            m_wrk->insertItem(*icons, title, popup);
         }else{
-            insertItem(title, popup);
+            m_wrk->insertItem(title, popup);
         }
     }else{
         CMD c;
@@ -120,23 +134,48 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
         m_cmds.push_back(c);
         id = m_cmds.size();
         if (icons){
-            insertItem(*icons, title, id);
+            m_wrk->insertItem(*icons, title, id);
         }else{
-            insertItem(title, id);
+            m_wrk->insertItem(title, id);
         }
     }
     if (id){
         if (s->flags & COMMAND_DISABLED)
-            setItemEnabled(id, false);
+            m_wrk->setItemEnabled(id, false);
         if (s->accel)
-            setAccel(QAccel::stringToKey(i18n(s->accel)), id);
-        setItemChecked(id, (s->flags & COMMAND_CHECKED) != 0);
+            m_wrk->setAccel(QAccel::stringToKey(i18n(s->accel)), id);
+        m_wrk->setItemChecked(id, (s->flags & COMMAND_CHECKED) != 0);
     }
     bSeparator = false;
 }
 
 void CMenu::showMenu()
 {
+    initMenu();
+}
+
+void CMenu::hideMenu()
+{
+    m_bInit = false;
+}
+
+void CMenu::clearMenu()
+{
+    clear();
+}
+
+QSize CMenu::sizeHint() const
+{
+    ((CMenu*)this)->initMenu();
+    return KPopupMenu::sizeHint();
+}
+
+void CMenu::initMenu()
+{
+    if (m_bInit)
+        return;
+    m_bInit = true;
+    m_wrk   = this;
     clear();
     m_cmds.clear();
     bool bSeparator = false;
@@ -146,11 +185,6 @@ void CMenu::showMenu()
     while ((s = ++list) != NULL){
         processItem(s, bSeparator, bFirst, 0);
     }
-}
-
-void CMenu::clearMenu()
-{
-    clear();
 }
 
 void CMenu::menuActivated(int n)

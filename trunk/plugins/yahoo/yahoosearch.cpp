@@ -104,7 +104,7 @@ void YahooSearch::startSearch()
 {
     if (!edtID->text().isEmpty()){
         Group *grp = NULL;
-        unsigned n = cmbGroup->currentItem();
+        int n = cmbGroup->currentItem();
         if (n >= 0){
             ContactList::GroupIterator it;
             while ((grp = ++it) != NULL){

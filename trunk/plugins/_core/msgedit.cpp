@@ -1300,7 +1300,6 @@ void *MsgEdit::processEvent(Event *e)
                 if (bClose){
                     QTimer::singleShot(0, m_userWnd, SLOT(close()));
                 }else{
-                    m_edit->setText("");
                     setEmptyMessage();
                     m_edit->setFont(CorePlugin::m_plugin->editFont);
                     m_edit->setForeground(CorePlugin::m_plugin->getEditForeground(), true);
@@ -1315,7 +1314,13 @@ void *MsgEdit::processEvent(Event *e)
 
 void MsgEdit::setEmptyMessage()
 {
-    m_edit->setText("");
+    if (m_edit->textFormat() == QTextEdit::RichText){
+      QString color;
+      color.sprintf("<p style=\"#06X\"></p>", CorePlugin::m_plugin->getEditForeground());
+      m_edit->setText(color);
+    }else{
+      m_edit->setText("");
+    }
     Event eMenu(EventGetMenuDef, (void*)MenuMessage);
     CommandsDef *cmdsMsg = (CommandsDef*)(eMenu.process());
     CommandsList itc(*cmdsMsg, true);

@@ -27,6 +27,7 @@ class CorePlugin;
 
 class QHBoxLayout;
 class QTimer;
+class QToolButton;
 
 class StatusLabel : public QLabel
 {
@@ -42,23 +43,43 @@ protected:
     Client		*m_client;
     unsigned	m_id;
     bool		m_bBlink;
-    friend class StatusWnd;
+    friend class StatusFrame;
 };
 
-class StatusWnd : public QFrame, public EventReceiver
+class StatusFrame : public QFrame, public EventReceiver
+{
+    Q_OBJECT
+public:
+    StatusFrame(QWidget *parent);
+    void adjustPos();
+signals:
+    void showButton(bool);
+protected slots:
+    void addClients();
+protected:
+    virtual void resizeEvent(QResizeEvent*);
+    virtual void mousePressEvent(QMouseEvent *e);
+    virtual void *processEvent(Event *e);
+    virtual QSize sizeHint() const;
+    virtual QSize minimumSizeHint() const;
+    StatusLabel *findLabel(Client*);
+    QFrame		*m_frame;
+    QHBoxLayout	*m_lay;
+};
+
+class StatusWnd : public QFrame
 {
     Q_OBJECT
 public:
     StatusWnd();
 protected slots:
-    void addClients();
+    void showButton(bool);
+    void clicked();
 protected:
-    virtual void mousePressEvent(QMouseEvent *e);
-    virtual void *processEvent(Event *e);
-    StatusLabel *findLabel(Client*);
+    StatusFrame *m_frame;
     QHBoxLayout	*m_lay;
+    QToolButton	*m_btn;
 };
-
 
 #endif
 

@@ -175,8 +175,8 @@ typedef struct ENCODING
     const char *language;
     const char *codec;
     int         mib;
-    int			rtf_code;
-    int			cp_code;
+    int		rtf_code;
+    int		cp_code;
     bool        bMain;
 } ENCODING;
 
@@ -266,6 +266,7 @@ const unsigned	CmdCutHistory			= (CmdBase + 90);
 const unsigned	CmdDeleteMessage		= (CmdBase + 91);
 const unsigned	CmdEditList				= (CmdBase + 92);
 const unsigned	CmdRemoveList			= (CmdBase + 93);
+const unsigned	CmdStatusWnd			= (CmdBase + 94);
 
 const unsigned	CmdContactGroup			= (CmdBase + 0x100);
 const unsigned	CmdUnread				= (CmdBase + 0x200);
@@ -287,6 +288,7 @@ const unsigned	MenuPhoneState			= (CmdBase + 10);
 const unsigned	MenuFileDecline			= (CmdBase + 11);
 const unsigned	MenuMailList			= (CmdBase + 12);
 const unsigned	MenuPhoneList			= (CmdBase + 13);
+const unsigned	MenuStatusWnd			= (CmdBase + 14);
 
 const unsigned	EventCreateMessageType	= (CmdBase + 1);
 const unsigned	EventRemoveMessageType	= (CmdBase + 2);

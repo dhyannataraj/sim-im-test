@@ -22,6 +22,8 @@
 
 class CorePlugin;
 
+class CorePlugin;
+
 const unsigned IcqCmdBase	= 0x00040000;
 
 const unsigned EventSearch			= IcqCmdBase;
