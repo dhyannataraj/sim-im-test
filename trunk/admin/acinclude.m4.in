@@ -82,7 +82,7 @@ AC_DEFUN(AC_CHECK_OPENSSL,
       fi
       LIBS="$save_libs"
     fi
-
+    AC_SUBST(LIBS_SSL)
     AC_MSG_CHECKING(if OpenSSL support can be enabled)
     if test "$WITH_OPENSSL" = "yes"; then
       AC_DEFINE(USE_OPENSSL, 1, [Use OpenSSL])
