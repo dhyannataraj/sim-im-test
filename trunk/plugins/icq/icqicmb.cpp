@@ -1293,14 +1293,14 @@ void ICQClient::processSendQueue()
         log(L_WARN, "Send timeout");
         if (m_send.msg){
             if (m_send.msg->type() == MessageCheckInvisible){
-                        Contact *contact;
-                        ICQUserData *data = findContact(m_send.screen.c_str(), NULL, false, contact);
-                        if (data && (data->bInvisible == 0)) {
-                            data->bInvisible = true;
-                            Event e(EventContactStatus, contact);
-                            e.process();
-                        }
-			}
+                Contact *contact;
+                ICQUserData *data = findContact(m_send.screen.c_str(), NULL, false, contact);
+                if (data && (data->bInvisible == 0)) {
+                    data->bInvisible = true;
+                    Event e(EventContactStatus, contact);
+                    e.process();
+                }
+            }
             m_send.msg->setError(I18N_NOOP("Send timeout"));
             Event e(EventMessageSent, m_send.msg);
             e.process();
@@ -1427,12 +1427,12 @@ void ICQClient::processSendQueue()
                 sendAdvMessage(screen(data).c_str(), b, PLUGIN_NULL, m_send.id, false, true);
                 return;
             case MessageCheckInvisible:{
-				Buffer b;
-				b.pack(this->data.owner.Uin);
-				b << 0xE8000100L << (char)00;
-			    sendThroughServer(m_send.screen.c_str(), 4, b, m_send.id, true, false);
-                return;
-			}
+                    Buffer b;
+                    b.pack(this->data.owner.Uin);
+                    b << 0xE8000100L << (char)00;
+                    sendThroughServer(m_send.screen.c_str(), 4, b, m_send.id, true, false);
+                    return;
+                }
             case MessageWarning:{
                     WarningMessage *msg = static_cast<WarningMessage*>(m_send.msg);
                     snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_BLAMExUSER, true);
