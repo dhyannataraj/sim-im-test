@@ -64,7 +64,7 @@ QString CComboBox::value()
     return QString::fromUtf8(m_values[index].c_str());
 }
 
-const unsigned MAX_ELEMENTS = 10;
+const unsigned MAX_ELEMENTS = 8;
 
 JabberSearch::JabberSearch(QWidget *receiver, JabberClient *client, const char *jid, const char *node, const QString &name)
         : QChildWidget(NULL)
@@ -74,11 +74,9 @@ JabberSearch::JabberSearch(QWidget *receiver, JabberClient *client, const char *
     if (node)
         m_node = node;
     m_name	 = name;
-    m_nPos	    = 0;
-    m_nPosStart = 0;
-    m_nCol	    = 0;
-    m_receiver = receiver;
-    m_bXData = false;
+    m_receiver	= receiver;
+    m_bXData	= false;
+	m_bFirst	= true;
     QVBoxLayout *vlay = new QVBoxLayout(this);
     vlay->setMargin(6);
     lay = new QGridLayout(vlay);
@@ -141,17 +139,29 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
                 static_cast<QCheckBox*>(widget)->setChecked(true);
             set_str(&data->Label, NULL);
             bJoin = true;
-        }else if (!strcmp(data->Type, "fixed") || !strcmp(data->Type, "instructions")){
+        }else if (!strcmp(data->Type, "fixed")){
             if (data->Value){
+				QString text = i18(data->Value);
+				text = text.replace(QRegExp("  +"), "\n");
+				if (m_bFirst){
+					if (!m_label.isEmpty())
+						m_label += "\n";
+					m_label += text;
+				}else{
+					QLabel *label = new QLabel(text, this);
+		            label->setAlignment(WordBreak);
+			        widget = label;
+				    bJoin = true;
+				}
+            }
+		}else if (!strcmp(data->Type, "instructions")){
+			if (data->Value){
                 QString text = i18(data->Value);
                 text = text.replace(QRegExp("  +"), "\n");
-                QLabel *label = new QLabel(text, this);
-                label->setAlignment(WordBreak);
-                widget = label;
-                bJoin = true;
-                if (m_nPos == m_nPosStart)
-                    m_nPosStart++;
-            }
+				if (!m_instruction.isEmpty())
+					m_instruction += "\n";
+				m_instruction += text;
+			}
         }else if (!strcmp(data->Type, "list-single")){
             CComboBox *box = new CComboBox(this, data->Field);
             int cur = 0;
@@ -210,30 +220,59 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
                     static_cast<QLineEdit*>(widget)->setText(QString::fromUtf8(data->Value));
             }
         }
-    }
-    if (widget){
-        if (data->bRequired)
-            m_required.push_back(widget);
-        if (bJoin){
-            lay->addMultiCellWidget(widget, m_nPos, m_nPos, m_nCol, m_nCol + 1);
-        }else{
-            lay->addWidget(widget, m_nPos, m_nCol + 1);
-            if (data->Label){
-                QLabel *label = new QLabel(i18(data->Label), this);
-                label->setAlignment(AlignRight);
-                lay->addWidget(label, m_nPos, m_nCol);
-                label->show();
-            }
-        }
-        widget->show();
-        m_nPos++;
-        if (m_nPos >= MAX_ELEMENTS){
-            m_nPos  = m_nPosStart;
-            m_nCol += 2;
-        }
+    }else{
+		if (!m_widgets.empty()){
+			unsigned nCols = (m_widgets.size() + MAX_ELEMENTS - 1) / MAX_ELEMENTS;
+			unsigned nRows = (m_widgets.size() + nCols - 1) / nCols;
+			unsigned start = 0;
+			if (!m_label.isEmpty()){
+				QLabel *label = new QLabel(m_label, this);
+				label->setAlignment(WordBreak);
+				lay->addMultiCellWidget(label, 0, 0, 0, nCols * 2 + 1);
+				m_label = "";
+				start = 1;
+			}
+			unsigned row = start;
+			unsigned col = 0;
+			for (unsigned i = 0; i < m_widgets.size(); i++, row++){
+				if (row >= nRows + start){
+					row  = 0;
+					col += 2;
+				}
+				if (m_labels[i]){
+		            lay->addWidget(m_labels[i], row, col);
+		            lay->addWidget(m_widgets[i], row, col + 1);
+					m_labels[i]->show();
+				}else{
+		            lay->addMultiCellWidget(m_widgets[i], row, row, col, col + 1);
+				}
+				m_widgets[i]->show();
+			}
+			if (!m_instruction.isEmpty()){
+				QLabel *label = new QLabel(m_instruction, this);
+				label->setAlignment(WordBreak);
+				lay->addMultiCellWidget(label, nRows + start, nRows + start, 0, nCols * 2 + 1);			
+				m_instruction = "";
+			}
+		}
+		m_widgets.clear();
+		m_labels.clear();
         m_bDirty = true;
         QTimer::singleShot(0, this, SLOT(setSize()));
-    }
+		return;
+	}
+    if (widget){
+		m_bFirst = false;
+        if (data->bRequired)
+            m_required.push_back(widget);
+		QLabel *label = NULL;
+		if (!bJoin && data->Label){
+            label = new QLabel(i18(data->Label), this);
+            label->setAlignment(AlignRight);
+		}
+		m_labels.push_back(label);
+		m_widgets.push_back(widget);
+	}
 }
 
 void JabberSearch::setSize()

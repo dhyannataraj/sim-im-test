@@ -45,14 +45,16 @@ protected:
     QString			i18(const char *text);
     QGridLayout		*lay;
     QString			m_name;
+	QString			m_instruction;
+	QString			m_label;
     QWidget			*m_receiver;
     string			m_key;
-    unsigned		m_nPos;
-    unsigned		m_nCol;
-    unsigned		m_nPosStart;
     bool			m_bDirty;
     bool			m_bXData;
+	bool			m_bFirst;
     list<QWidget*>	m_required;
+	vector<QWidget*>	m_widgets;
+	vector<QWidget*>	m_labels;
 };
 
 #endif

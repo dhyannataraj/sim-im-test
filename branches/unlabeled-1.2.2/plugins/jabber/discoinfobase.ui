@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>455</width>
+            <width>451</width>
             <height>308</height>
         </rect>
     </property>
@@ -742,6 +742,12 @@
         <signal>clicked()</signal>
         <receiver>DiscoInfo</receiver>
         <slot>reject()</slot>
+    </connection>
+    <connection>
+        <sender>buttonOk</sender>
+        <signal>clicked()</signal>
+        <receiver>DiscoInfo</receiver>
+        <slot>accept()</slot>
     </connection>
 </connections>
 <tabstops>

@@ -74,6 +74,8 @@ void *Services::processEvent(Event *e)
     }
     if (e->type() == static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentInfo){
         JabberAgentInfo *data = (JabberAgentInfo*)(e->param());
+		if (data->ID == NULL)
+			return NULL;
         AGENTS_MAP::iterator it = m_agents.find(data->ID);
         if (it != m_agents.end()){
             agentInfo &info = (*it).second;

@@ -121,7 +121,7 @@ FilterPlugin::FilterPlugin(unsigned base, const char *cfg)
     cmd->flags		 = COMMAND_CHECK_STATE;
     eCmd.process();
 
-    cmd->menu_grp    = MenuMsgView;
+    cmd->menu_id     = MenuMsgView;
     eCmd.process();
 
     cmd->id			 = user_data_id + 1;
@@ -195,11 +195,12 @@ void *FilterPlugin::processEvent(Event *e)
             return e->param();
         }
         if (cmd->id == CmdIgnoreText){
+			cmd->flags &= ~COMMAND_CHECKED;
             if (cmd->menu_id == MenuMsgView){
                 MsgViewBase *edit = (MsgViewBase*)(cmd->param);
                 if (edit->hasSelectedText())
                     return e->param();
-            }else{
+            }else if (cmd->menu_id == MenuTextEdit){
                 TextEdit *edit = ((MsgEdit*)(cmd->param))->m_edit;
                 if (edit->hasSelectedText())
                     return e->param();
@@ -242,7 +243,7 @@ void *FilterPlugin::processEvent(Event *e)
                     text = view->selectedText();
 					id = view->m_id;
 				}
-            }else{
+            }else if (cmd->menu_id == MenuTextEdit){
                 MsgEdit *medit = (MsgEdit*)(cmd->param);
                 TextEdit *edit = medit->m_edit;
                 if (edit->hasSelectedText()){
@@ -258,7 +259,7 @@ void *FilterPlugin::processEvent(Event *e)
                         break;
                     }
                 if (bSpace)
-                    text = QString("\"") + text + "";
+                    text = QString("\"") + text + "\"";
                 FilterUserData *data = NULL;
                 Contact *contact = getContacts()->contact(id);
                 if (contact){
