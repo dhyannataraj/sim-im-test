@@ -19,6 +19,11 @@
 #include <stdarg.h>
 #include <time.h>
 
+#ifdef QT_DLL
+#include <qapplication.h>
+#endif
+
+
 #ifdef WIN32
 #if _MSC_VER > 1020
 #pragma warning(disable:4530)
@@ -30,10 +35,6 @@ using namespace std;
 
 #ifndef WIN32
 #include <syslog.h>
-#endif
-
-#ifdef QT_DLL
-#include <qapplication.h>
 #endif
 
 #include "buffer.h"
@@ -56,6 +57,10 @@ static const char *level_name(unsigned short n)
     if (n & L_PACKET) return "PKT";
     return "???";
 }
+
+#ifdef WIN32
+#define vsnprintf _vsnprintf
+#endif
 
 void vformat(string &s, const char *fmt, va_list ap)
 {
@@ -84,7 +89,13 @@ void log_string(unsigned short l, const char *s)
     m += s;
     if (bLog){
 #ifdef QT_DLL
-        qWarning("%s", m.c_str());
+		for (char *p = (char*)m.c_str(); *p; ){
+			char *r = strchr(p, '\n');
+			if (r) *r = 0;
+	        qWarning("%s", p);
+			if (r == NULL) break;
+			p = r + 1;
+		}
 #else
         fprintf(stderr, "%s", m.c_str());
         fprintf(stderr, "\n");
