@@ -723,6 +723,11 @@ void WeatherPlugin::element_start(const char *el, const char **attr)
 
 void WeatherPlugin::element_end(const char *el)
 {
+	if (!strcmp(el, "day")){
+		if ((*getMinT(m_day) == 0) || (*getMaxT(m_day) == 0))
+			m_day--;
+		return;
+	}
     if (!strcmp(el, "obst")){
         setLocation(m_data.c_str());
         m_data = "";
@@ -769,12 +774,14 @@ void WeatherPlugin::element_end(const char *el)
         return;
     }
     if (!strcmp(el, "low") && m_day){
-        setMinT(m_day, m_data.c_str());
+		if (m_data != "N/A")
+			setMinT(m_day, m_data.c_str());
         m_data = "";
         return;
     }
     if (!strcmp(el, "hi") && m_day){
-        setMaxT(m_day, m_data.c_str());
+		if (m_data != "N/A")
+	        setMaxT(m_day, m_data.c_str());
         m_data = "";
         return;
     }
