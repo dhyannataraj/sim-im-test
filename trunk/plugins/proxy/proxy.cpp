@@ -313,10 +313,12 @@ void Proxy::write()
 
 void Proxy::proxy_connect_ready()
 {
-    static_cast<ClientSocket*>(notify)->setSocket(m_sock);
-    m_sock = NULL;
-    if (notify)
-        notify->connect_ready();
+    if (notify){
+        SocketNotify *n = notify;
+        static_cast<ClientSocket*>(n)->setSocket(m_sock);
+        m_sock = NULL;
+        n->connect_ready();
+    }
     getSocketFactory()->remove(this);
 }
 
@@ -959,6 +961,7 @@ protected:
     virtual void write(const char *buf, unsigned int size);
     virtual int read(char *buf, unsigned int size);
     void read_ready();
+    void write_ready();
     void connect_ready();
     enum State
     {
@@ -1028,6 +1031,12 @@ void HTTP_Proxy::connect_ready()
         notify->connect_ready();
 }
 
+void HTTP_Proxy::write_ready()
+{
+    if ((m_state == Data) && notify)
+        notify->write_ready();
+}
+
 int HTTP_Proxy::read(char *buf, unsigned int size)
 {
     if (!m_bHTTP)
@@ -1087,7 +1096,7 @@ void HTTP_Proxy::write(const char *buf, unsigned int size)
             if (line.empty())
                 break;
             string param = getToken(line, ':');
-            if (param == "Context-Length"){
+            if (param == "Content-Length"){
                 const char *p = line.c_str();
                 for (; *p; p++){
                     if (*p != ' ')

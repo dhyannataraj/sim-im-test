@@ -55,7 +55,8 @@ static DataDef backgroundData[] =
     {
         { "Background", DATA_STRING, 1, 0 },
         { "Position", DATA_ULONG, 1, 0 },
-        { "Margin", DATA_ULONG, 1, 0 },
+        { "MarginContact", DATA_ULONG, 1, 0 },
+        { "MarginGroup", DATA_ULONG, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -90,47 +91,49 @@ QWidget *BackgroundPlugin::createConfigWindow(QWidget *parent)
 
 void *BackgroundPlugin::processEvent(Event *e)
 {
-    if ((e->type() == EventPaintView) && !bgImage.isNull()){
+    if (e->type() == EventPaintView){
         PaintView *pv = (PaintView*)(e->param());
-        unsigned w = bgImage.width();
-        unsigned h = bgImage.height();
-        int x = pv->pos.x();
-        int y = pv->pos.y();
-        bool bTiled = false;
-        unsigned pos = getPosition();
-        switch(pos){
-        case ContactLeft:
-            h = pv->height;
-            bTiled = true;
-            break;
-        case ContactScale:
-            h = pv->height;
-            w = pv->win->width();
-            bTiled = true;
-            break;
-        case WindowTop:
-            break;
-        case WindowBottom:
-            y += (bgImage.height() - pv->win->height());
-            break;
-        case WindowCenter:
-            y += (bgImage.height() - pv->win->height()) / 2;
-            break;
-        case WindowScale:
-            w = pv->win->width();
-            h = pv->win->height();
-            break;
-        }
-        const QPixmap &bg = makeBackground(w, h);
-        if (bTiled){
-            for (int py = 0; py < pv->size.height(); py += bg.height()){
-                pv->p->drawPixmap(QPoint(0, py), bgScale, QRect(x, 0, w, h));
+        if (!bgImage.isNull()){
+            unsigned w = bgImage.width();
+            unsigned h = bgImage.height();
+            int x = pv->pos.x();
+            int y = pv->pos.y();
+            bool bTiled = false;
+            unsigned pos = getPosition();
+            switch(pos){
+            case ContactLeft:
+                h = pv->height;
+                bTiled = true;
+                break;
+            case ContactScale:
+                h = pv->height;
+                w = pv->win->width();
+                bTiled = true;
+                break;
+            case WindowTop:
+                break;
+            case WindowBottom:
+                y += (bgImage.height() - pv->win->height());
+                break;
+            case WindowCenter:
+                y += (bgImage.height() - pv->win->height()) / 2;
+                break;
+            case WindowScale:
+                w = pv->win->width();
+                h = pv->win->height();
+                break;
             }
-        }else{
-            pv->p->drawPixmap(QPoint(0, 0), bgScale, QRect(x, y, pv->size.width(), pv->size.height()));
-            pv->isStatic = true;
+            const QPixmap &bg = makeBackground(w, h);
+            if (bTiled){
+                for (int py = 0; py < pv->size.height(); py += bg.height()){
+                    pv->p->drawPixmap(QPoint(0, py), bgScale, QRect(x, 0, w, h));
+                }
+            }else{
+                pv->p->drawPixmap(QPoint(0, 0), bgScale, QRect(x, y, pv->size.width(), pv->size.height()));
+                pv->isStatic = true;
+            }
         }
-        pv->margin = getMargin();
+        pv->margin = pv->isGroup ? getMarginGroup() : getMarginContact();
     }
     return NULL;
 }

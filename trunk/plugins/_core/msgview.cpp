@@ -402,11 +402,6 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     if (p == NULL)
         p = CorePlugin::m_plugin->historyXSL;
     QString res = p->process(s);
-
-    string ss;
-    ss = res.local8Bit();
-    log(L_DEBUG, "> %s", ss.c_str());
-
     QString anchor = MSG_ANCHOR;
     anchor += id;
     anchor += "\">";
@@ -1146,13 +1141,13 @@ ViewParser::ViewParser(bool bIgnoreColors, bool bUseSmiles)
                 str += *p;
             }
 #else
-if (*(s->exp)){
-            Smile ss;
-            ss.nSmile = i;
-            ss.re = QRegExp(s->exp);
-            if (ss.re.isValid())
-                m_smiles.push_back(ss);
-        }
+            if (*(s->exp)){
+                Smile ss;
+                ss.nSmile = i;
+                ss.re = QRegExp(s->exp);
+                if (ss.re.isValid())
+                    m_smiles.push_back(ss);
+            }
 #endif
         }
     }

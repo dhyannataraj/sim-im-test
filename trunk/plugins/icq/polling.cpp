@@ -18,6 +18,9 @@
 #include "simapi.h"
 #include "icqclient.h"
 #include "fetch.h"
+#include "polling.h"
+
+#include <qtimer.h>
 
 const unsigned short HTTP_PROXY_VERSION = 0x0443;
 
@@ -56,54 +59,6 @@ HttpPacket::~HttpPacket()
 {
     if (data) delete[] data;
 }
-
-// ______________________________________________________________________________________
-
-class HttpRequest;
-
-class HttpPool : public Socket
-{
-public:
-    HttpPool(bool bAIM);
-    ~HttpPool();
-    virtual void connect(const char *host, unsigned short port);
-    virtual int  read(char *buf, unsigned size);
-    virtual void write(const char *buf, unsigned size);
-    virtual void close();
-    virtual Mode mode() { return Web; }
-protected:
-    enum State
-    {
-        None,
-        Connected
-    };
-    State state;
-
-    string sid;
-    string m_host;
-    string m_url;
-
-    list<HttpPacket*> queue;
-    unsigned seq;
-    unsigned readn;
-    Buffer readData;
-
-    HttpRequest *hello;
-    HttpRequest *monitor;
-    HttpRequest *post;
-
-    unsigned short nSock;
-    void   request();
-    virtual unsigned long localHost();
-    virtual void pause(unsigned);
-
-    bool m_bAIM;
-
-    friend class HttpRequest;
-    friend class HelloRequest;
-    friend class MonitorRequest;
-    friend class PostRequest;
-};
 
 // ___________________________________________________________________________________
 
@@ -166,8 +121,15 @@ unsigned long HttpPool::localHost()
     return 0;
 }
 
-void HttpPool::pause(unsigned)
+void HttpPool::pause(unsigned time)
 {
+    QTimer::singleShot(time * 1000, this, SLOT(timeout()));
+}
+
+void HttpPool::timeout()
+{
+    if (notify)
+        notify->write_ready();
 }
 
 // ______________________________________________________________________________________
@@ -209,11 +171,7 @@ void HelloRequest::data_ready(Buffer *bIn)
     char b[34];
     snprintf(b, sizeof(b), "%08lx%08lx%08lx%08lx", SID[0], SID[1], SID[2], SID[3]);
     m_pool->sid = b;
-    if (m_bAIM){
-        bIn->unpackStr(m_pool->m_host);
-    }else{
-        bIn->unpack(m_pool->m_host);
-    }
+    bIn->unpackStr(m_pool->m_host);
     m_pool->request();
 }
 
@@ -406,10 +364,10 @@ void HttpPool::request()
         if (hello == NULL) hello = new HelloRequest(this, m_bAIM);
         return;
     }
-    if (queue.size() && (post == NULL))
-        post = new PostRequest(this);
     if (monitor == NULL)
         monitor = new MonitorRequest(this);
+    if (queue.size() && (post == NULL))
+        post = new PostRequest(this);
     if (readn && notify){
         if (state == None){
             state = Connected;
@@ -432,5 +390,9 @@ Socket *ICQClient::createSocket()
         return new HttpPool(m_bAIM);
     return NULL;
 }
+
+#ifndef WIN32
+#include "polling.moc"
+#endif
 
 

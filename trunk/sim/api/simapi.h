@@ -648,6 +648,7 @@ typedef struct PaintView
     int		 margin;	// icon margin
     QWidget	 *win;		// window
     bool	 isStatic;	// need static background
+    bool	 isGroup;	// draw group
 } PaintView;
 
 /* Event repaint list view */

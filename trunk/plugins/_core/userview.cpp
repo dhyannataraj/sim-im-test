@@ -138,6 +138,7 @@ void UserView::paintEmptyArea(QPainter *p, const QRect &r)
     pv.isStatic = false;
     pv.height   = r.height();
     pv.margin   = 0;
+    pv.isGroup  = false;
     QListViewItem *item = firstChild();
     if (item)
         pv.height = item->height();

@@ -111,6 +111,9 @@ Container::Container(unsigned id, const char *cfg)
     m_bReceived = false;
     m_bNoSwitch = false;
     m_bNoRead   = false;
+#ifdef WIN32
+    m_bInitWnd	= false;
+#endif
 
     SET_WNDPROC("container")
     setWFlags(WDestructiveClose);
@@ -539,8 +542,8 @@ static bool initFlash = false;
 #endif
 
 #if 0
-i18n("male", "%1 typing")
-i18n("female", "%1 typing")
+i18n("male", "%1 is typing")
+i18n("female", "%1 is typing")
 #endif
 
 void Container::flash()
@@ -564,7 +567,7 @@ void Container::flash()
 #else
 #if defined(USE_KDE)
 #if KDE_IS_VERSION(3,2,0)
-KWin::demandAttention(winId(), true);
+    KWin::demandAttention(winId(), true);
 #endif	/* KDE_IS_VERSION(3,2,0) */
 #endif	/* USE_KDE */
 #endif	/* ndef WIN32 */
@@ -658,7 +661,7 @@ void *Container::processEvent(Event *e)
             if (userWnd->m_bTyping != bTyping){
                 userWnd->m_bTyping = bTyping;
                 if (bTyping){
-                    userWnd->setStatus(g_i18n("%1 typing", contact) .arg(contact->getName()));
+                    userWnd->setStatus(g_i18n("%1 is typing", contact) .arg(contact->getName()));
                 }else{
                     userWnd->setStatus("");
                 }
@@ -752,6 +755,13 @@ void Container::wndClosed()
 
 bool Container::event(QEvent *e)
 {
+#ifdef WIN32
+    if ((e->type() == QEvent::WindowActivate) && !m_bInitWnd){
+        m_bInitWnd = true;
+        m_bNoRead  = false;
+        show();
+    }
+#endif
     if ((e->type() == QEvent::WindowActivate) ||
             (((e->type() == QEvent::ShowNormal) || (e->type() == QEvent::ShowMaximized)) &&
              isActiveWindow())){

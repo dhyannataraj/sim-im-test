@@ -27,7 +27,8 @@ typedef struct BackgroundData
 {
     Data	Background;
     Data	Position;
-    Data	Margin;
+    Data	MarginContact;
+    Data	MarginGroup;
 } BackgroundData;
 
 const unsigned ContactLeft  = 0;
@@ -48,7 +49,8 @@ protected:
     virtual QWidget *createConfigWindow(QWidget *parent);
     PROP_STR(Background);
     PROP_ULONG(Position);
-    PROP_ULONG(Margin);
+    PROP_ULONG(MarginContact);
+    PROP_ULONG(MarginGroup);
     BackgroundData data;
     QImage	bgImage;
     QPixmap	bgScale;

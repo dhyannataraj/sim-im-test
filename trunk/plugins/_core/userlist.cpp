@@ -64,6 +64,7 @@ void UserViewItemBase::paintCell(QPainter *p, const QColorGroup &cg, int, int wi
         pv.isStatic = false;
         pv.height   = height();
         pv.margin   = 0;
+        pv.isGroup  = (type() == GRP_ITEM);
         if (CorePlugin::m_plugin->getUseSysColors()){
             pp.setPen(cg.text());
         }else{
@@ -111,7 +112,7 @@ void UserViewItemBase::drawSeparator(QPainter *p, int x, int width, const QColor
         QRect rcSep(x, height()/2, width - 6 - x, 1);
         listView()->style().drawPrimitive(QStyle::PE_Separator, p, rcSep, cg);
 #else
-listView()->style().drawSeparator(p, x, height() / 2, width - 6, height() / 2, cg);
+        listView()->style().drawSeparator(p, x, height() / 2, width - 6, height() / 2, cg);
 #endif
     }
 }

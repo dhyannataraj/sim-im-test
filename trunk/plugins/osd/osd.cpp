@@ -403,7 +403,7 @@ void OSDPlugin::processQueue()
                     }
                 }
                 if (bTyping)
-                    text = g_i18n("%1 typing", contact) .arg(contact->getName());
+                    text = g_i18n("%1 is typing", contact) .arg(contact->getName());
             }
             break;
         case OSD_MESSAGE:
