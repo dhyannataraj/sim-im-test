@@ -131,6 +131,7 @@ protected:
     string getConfig();
     bool isDay();
     bool parseTime(const char *str, int &h, int &m);
+    bool parseDateTime(const char *str, QDateTime &dt);
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual bool done(unsigned code, Buffer &data, const char *headers);
     void *processEvent(Event*);

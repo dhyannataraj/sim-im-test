@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qdatetime.h>
+
 #include "weather.h"
 #include "weathercfg.h"
 #include "buffer.h"
@@ -283,8 +285,28 @@ bool WeatherPlugin::parseTime(const char *str, int &h, int &m)
     string s = str;
     h = atol(getToken(s, ':').c_str());
     m = atol(getToken(s, ' ').c_str());
-    if (getToken(s, ' ') == "PM")
+    /* 12:20 PM is 12:20 and not 24:20 ... */
+    if ((getToken(s, ' ') == "PM") && (h < 12))
         h += 12;
+    return true;
+}
+
+bool WeatherPlugin::parseDateTime(const char *str, QDateTime &dt)
+{
+    int h, m, D, M, Y;
+    
+    string s = str;
+    D = atol(getToken(s, '/').c_str());
+    M = atol(getToken(s, '/').c_str());
+    Y = atol(getToken(s, ' ').c_str());
+    h = atol(getToken(s, ':').c_str());
+    m = atol(getToken(s, ' ').c_str());
+    if ((getToken(s, ' ') == "PM") && (h < 12))
+        h += 12;
+    if (Y < 70)
+        Y += 2000;    
+    dt.setDate(QDate(Y,M,D));
+    dt.setTime(QTime(h,m,0,0));
     return true;
 }
 
@@ -533,6 +555,30 @@ static QString i18n_conditions(const QString &str)
 QString WeatherPlugin::replace(const QString &text)
 {
     QString res = text;
+    QString sun_set, sun_raise, updated;
+#if COMPAT_QT_VERSION >= 0x030000
+    QTime tmp_time;
+    QDateTime dt;
+    int h,m;
+    
+    parseTime(getSun_set(),h,m);
+    tmp_time.setHMS(h,m,0,0);
+    sun_set = tmp_time.toString(Qt::LocalDate);
+    sun_set = sun_set.left(sun_set.length() - 3);
+    
+    parseTime(getSun_raise(),h,m);
+    tmp_time.setHMS(h,m,0,0);
+    sun_raise = tmp_time.toString(Qt::LocalDate);
+    sun_raise = sun_raise.left(sun_raise.length() - 3);
+
+    parseDateTime(getUpdated(),dt);
+    updated = dt.toString(Qt::LocalDate);
+    updated = updated.left(updated.length() - 3);
+#else
+    sun_set = getSun_set();
+    sun_raise = getSun_raise();
+    updated = getUpdated();
+#endif    
     res = res.replace(QRegExp("\\%t"), number(getTemperature()) + QChar((unsigned short)176) + getUT());
     res = res.replace(QRegExp("\\%f"), number(getFeelsLike()) + QChar((unsigned short)176) + getUT());
     res = res.replace(QRegExp("\\%d"), number(getDewPoint()) + QChar((unsigned short)176) + getUT());
@@ -546,9 +592,9 @@ QString WeatherPlugin::replace(const QString &text)
     res = res.replace(QRegExp("\\%q"), i18n("weather", getPressureD()));
     res = res.replace(QRegExp("\\%l"), getLocation());
     res = res.replace(QRegExp("\\%b"), i18n("weather", getWind()));
-    res = res.replace(QRegExp("\\%u"), getUpdated());
-    res = res.replace(QRegExp("\\%r"), getSun_raise());
-    res = res.replace(QRegExp("\\%s"), getSun_set());
+    res = res.replace(QRegExp("\\%u"), updated);
+    res = res.replace(QRegExp("\\%r"), sun_raise);
+    res = res.replace(QRegExp("\\%s"), sun_set);
     res = res.replace(QRegExp("\\%c"), i18n_conditions(getConditions()));
     res = res.replace(QRegExp("\\%v"), i18n("weather", getVisibility()) + (atol(getVisibility()) ? QString(" ") + i18n(getUD()) : QString("")));
     return res;
@@ -562,6 +608,7 @@ QString WeatherPlugin::forecastReplace(const QString &text)
     QString temp;
     int minT = atol(getMinT(m_day));
     int maxT = atol(getMaxT(m_day));
+    if (maxT == -255)
     if ((minT < 0) && (maxT <= 0)){
         int r = minT;
         minT = maxT;
@@ -576,19 +623,21 @@ QString WeatherPlugin::forecastReplace(const QString &text)
     temp += number((unsigned)minT).c_str();
     temp += QChar((unsigned short)176);
     temp += getUT();
-    if (maxT < 0){
-        temp += "-";
-        maxT = -maxT;
-    }else if (maxT >= 0){
-        temp += "+";
+    if (maxT != -255) {
+      if (maxT < 0){
+          temp += "-";
+          maxT = -maxT;
+      }else if (maxT >= 0){
+          temp += "+";
+      }
+      temp += number((unsigned)maxT).c_str();
+      temp += QChar((unsigned short)176);
+      temp += getUT();
     }
-    temp += number((unsigned)maxT).c_str();
-    temp += QChar((unsigned short)176);
-    temp += getUT();
     string dd = getDay(m_day);
     string mon = getToken(dd, ' ');
     QString day = dd.c_str();
-    day += " ";
+    day += ". ";
     day += i18n(mon.c_str());
     res = res.replace(QRegExp("\\%n"), number(m_day).c_str());
     res = res.replace(QRegExp("\\%t"), temp);
@@ -785,7 +834,7 @@ void WeatherPlugin::element_end(const char *el)
     }
     if (!strcmp(el, "hi") && m_day){
         if (m_data == "N/A")
-            m_data = "";
+            m_data = "-255";
         setMaxT(m_day, m_data.c_str());
         m_data = "";
         return;
