@@ -86,7 +86,11 @@ void OSDIface::apply(void *d)
     data->Offset = atol(spnOffs->text().latin1());
     data->Timeout = atol(spnTimeout->text().latin1());
     data->Color = btnColor->color().rgb();
-    set_str(&data->Font, edtFont->getFont().c_str());
+    string f = edtFont->getFont();
+    string base = FontEdit::font2str(font(), false).latin1();
+    if (f == base)
+        f = "";
+    set_str(&data->Font, f.c_str());
     data->Shadow = chkShadow->isChecked();
     data->Background = chkBackground->isChecked();
     if (data->Background){

@@ -61,13 +61,7 @@ void FontEdit::setFont(const char *fontname)
 
 string FontEdit::getFont()
 {
-    string res;
-    res = font2str(f, false).latin1();
-    string base;
-    base = font2str(font(), false).latin1();
-    if (res == base)
-        res = "";
-    return res;
+    return font2str(f, false).latin1();
 }
 
 void FontEdit::chooseFont()
