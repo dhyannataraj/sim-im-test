@@ -1084,7 +1084,7 @@ void JabberClient::handshake(const char *id)
             auth_digest();
         }
 #else
-auth_plain();
+        auth_plain();
 #endif
     }
 }
@@ -1991,9 +1991,9 @@ void JabberImageParser::startBody(const list<QString> &attrs)
         newStyles.push_back("background-color");
         newStyles.push_back(b);
     }
-    res += "<span style=\'";
+    res += "<span style=\"";
     res += makeStyle(newStyles);
-    res += "\'>";
+    res += "\">";
 }
 
 void JabberImageParser::endBody()

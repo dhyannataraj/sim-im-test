@@ -239,6 +239,9 @@ void *FilterPlugin::processEvent(Event *e)
                 MsgViewBase *view = (MsgViewBase*)(cmd->param);
                 if (view->hasSelectedText()){
                     text = view->selectedText();
+#if (QT_VERSION < 0x300) || (QT_VERSION >= 0x030100)
+                    text = unquoteText(text);
+#endif
                     id = view->m_id;
                 }
             }else if (cmd->menu_id == MenuTextEdit){
@@ -246,32 +249,40 @@ void *FilterPlugin::processEvent(Event *e)
                 TextEdit *edit = medit->m_edit;
                 if (edit->hasSelectedText()){
                     text = edit->selectedText();
+#if (QT_VERSION < 0x300) || (QT_VERSION >= 0x030100)
+                    if (edit->textFormat() == QTextEdit::RichText)
+                        text = unquoteText(text);
+#endif
                     id = medit->m_userWnd->id();
                 }
             }
-            if (!text.isEmpty()){
+            FilterUserData *data = NULL;
+            Contact *contact = getContacts()->contact(id);
+            if (contact){
+                data = (FilterUserData*)(contact->getUserData(user_data_id));
+            }else{
+                data = (FilterUserData*)(getContacts()->getUserData(user_data_id));
+            }
+            QString s;
+            s = QString::fromUtf8(data->SpamList);
+            while (!text.isEmpty()){
+                QString line = getToken(text, '\n');
+                line = line.replace(QRegExp("\r"), "");
+                if (line.isEmpty())
+                    continue;
                 bool bSpace = false;
-                for (int i = 0; i < (int)(text.length()); i++)
-                    if (text[i] == ' '){
+                for (int i = 0; i < (int)(line.length()); i++)
+                    if (line[i] == ' '){
                         bSpace = true;
                         break;
                     }
                 if (bSpace)
-                    text = QString("\"") + text + "\"";
-                FilterUserData *data = NULL;
-                Contact *contact = getContacts()->contact(id);
-                if (contact){
-                    data = (FilterUserData*)(contact->getUserData(user_data_id));
-                }else{
-                    data = (FilterUserData*)(getContacts()->getUserData(user_data_id));
-                }
-                QString s;
-                s = QString::fromUtf8(data->SpamList);
+                    line = QString("\"") + line + "\"";
                 if (!s.isEmpty())
                     s += " ";
-                s += text;
-                set_str(&data->SpamList, s.utf8());
+                s += line;
             }
+            set_str(&data->SpamList, s.utf8());
             return NULL;
         }
         if (cmd->menu_id == MenuContactGroup){

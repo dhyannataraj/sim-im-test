@@ -2323,16 +2323,7 @@ void QTextEdit::paste()
 #ifndef QT_NO_CLIPBOARD
     if ( isReadOnly() )
         return;
-    QString subType = "plain";
-    if ( textFormat() != PlainText ) {
-        QMimeSource *m = QApplication::clipboard()->data();
-        if ( !m )
-            return;
-        if ( m->provides( "application/x-qrichtext" ) )
-            subType = "x-qrichtext";
-    }
-
-    pasteSubType( subType.latin1() );
+    pasteSubType("plain");
     if ( hasFocus() || viewport()->hasFocus() ) {
         int h = cursor->parag()->lineHeightOfChar( cursor->index() );
         QFont f = cursor->parag()->at( cursor->index() )->format()->font();
@@ -3768,10 +3759,7 @@ void QTextEdit::pasteSubType( const QCString& subtype, QMimeSource *m )
 {
 #ifndef QT_NO_MIME
     QCString st = subtype;
-    if ( subtype != "x-qrichtext" )
-        st.prepend( "text/" );
-    else
-        st.prepend( "application/" );
+    st.prepend( "application/" );
     if ( !m )
         return;
     if ( doc->hasSelection( QTextDocument::Standard ) )
@@ -3781,96 +3769,20 @@ void QTextEdit::pasteSubType( const QCString& subtype, QMimeSource *m )
     QString t;
     if ( !QRichTextDrag::decode( m, t, st.data(), subtype ) )
         return;
-    if ( st == "application/x-qrichtext" ) {
-        int start;
-        if ( (start = t.find( "<!--StartFragment-->" )) != -1 ) {
-            start += 20;
-            int end = t.find( "<!--EndFragment-->" );
-            QTextCursor oldC = *cursor;
-
-            // during the setRichTextInternal() call the cursors
-            // paragraph might get joined with the provious one, so
-            // the cursors one would get deleted and oldC.paragraph()
-            // would be a dnagling pointer. To avoid that try to go
-            // one letter back and later go one forward again.
-            oldC.gotoPreviousLetter();
-            bool couldGoBack = oldC != *cursor;
-            // first para might get deleted, so remember to reset it
-            bool wasAtFirst = oldC.parag() == doc->firstParag();
-
-            if ( start < end )
-                t = t.mid( start, end - start );
-            else
-                t = t.mid( start );
-            lastFormatted = cursor->parag();
-            if ( lastFormatted->prev() )
-                lastFormatted = lastFormatted->prev();
-            doc->setRichTextInternal( t, cursor );
-
-            // the first para might have been deleted in
-            // setRichTextInternal(). To be sure, reset it if
-            // necessary.
-            if ( wasAtFirst ) {
-                int index = oldC.index();
-                oldC.setParag( doc->firstParag() );
-                oldC.setIndex( index );
-            }
-
-            // if we went back one letter before (see last comment),
-            // go one forward to point to the right position
-            if ( couldGoBack )
-                oldC.gotoNextLetter();
-
-            if ( undoEnabled && !isReadOnly() ) {
-                doc->setSelectionStart( QTextDocument::Temp, &oldC );
-                doc->setSelectionEnd( QTextDocument::Temp, cursor );
-
-                checkUndoRedoInfo( UndoRedoInfo::Insert );
-                if ( !undoRedoInfo.valid() ) {
-                    undoRedoInfo.id = oldC.parag()->paragId();
-                    undoRedoInfo.index = oldC.index();
-                    undoRedoInfo.d->text = QString::null;
-                }
-                int oldLen = undoRedoInfo.d->text.length();
-                if ( !doc->preProcessor() ) {
-                    QString txt = doc->selectedText( QTextDocument::Temp );
-                    undoRedoInfo.d->text += txt;
-                    for ( int i = 0; i < (int)txt.length(); ++i ) {
-                        if ( txt[ i ] != '\n' && oldC.parag()->at( oldC.index() )->format() ) {
-                            oldC.parag()->at( oldC.index() )->format()->addRef();
-                            undoRedoInfo.d->text.
-                            setFormat( oldLen + i, oldC.parag()->at( oldC.index() )->format(), TRUE );
-                        }
-                        oldC.gotoNextLetter();
-                    }
-                }
-                undoRedoInfo.clear();
-                removeSelection( QTextDocument::Temp );
-            }
-
-            formatMore();
-            setModified();
-            emit textChanged();
-            repaintChanged();
-            ensureCursorVisible();
-            return;
-        }
-    } else {
 #if defined(Q_OS_WIN32)
-        // Need to convert CRLF to LF
-        t.replace( "\r\n", "\n" );
+    // Need to convert CRLF to LF
+    t.replace( "\r\n", "\n" );
 #elif defined(Q_OS_MAC)
-        //need to convert CR to LF
-        t.replace( '\r', '\n' );
+    //need to convert CR to LF
+    t.replace( '\r', '\n' );
 #endif
-        QChar *uc = (QChar *)t.unicode();
-        for ( int i=0; (uint) i<t.length(); i++ ) {
-            if ( uc[ i ] < ' ' && uc[ i ] != '\n' && uc[ i ] != '\t' )
-                uc[ i ] = ' ';
-        }
-        if ( !t.isEmpty() )
-            insert( t, FALSE, TRUE );
+    QChar *uc = (QChar *)t.unicode();
+    for ( int i=0; (uint) i<t.length(); i++ ) {
+        if ( uc[ i ] < ' ' && uc[ i ] != '\n' && uc[ i ] != '\t' )
+            uc[ i ] = ' ';
     }
+    if ( !t.isEmpty() )
+        insert( t, FALSE, TRUE );
 #endif //QT_NO_MIME
 }
 

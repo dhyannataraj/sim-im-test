@@ -47,6 +47,7 @@ signals:
 protected slots:
     void toggle();
     void blink();
+    void showPopup();
 protected:
     virtual void *processEvent(Event *e);
     void  reset();

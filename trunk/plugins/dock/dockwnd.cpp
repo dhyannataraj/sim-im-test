@@ -70,10 +70,8 @@ LRESULT CALLBACK DockWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 void DockWnd::callProc(unsigned long param)
 {
     switch (param){
-    case WM_RBUTTONDOWN:
-        POINT pos;
-        GetCursorPos(&pos);
-        emit showPopup(QPoint(pos.x, pos.y));
+    case WM_RBUTTONUP:
+        QTimer::singleShot(0, this, SLOT(showPopup()));
         return;
     case WM_LBUTTONDBLCLK:
         bNoToggle = true;
@@ -86,7 +84,18 @@ void DockWnd::callProc(unsigned long param)
     }
 }
 
+void DockWnd::showPopup()
+{
+    POINT pos;
+    GetCursorPos(&pos);
+    emit showPopup(QPoint(pos.x, pos.y));
+}
+
 #else
+
+void DockWnd::showPopup()
+{
+}
 
 #ifndef QT_MACOSX_VERSION
 
