@@ -386,15 +386,19 @@ void setWndClass(QWidget *w, const char *name)
 #endif
 #endif
 
-bool raiseWindow(QWidget *w)
+bool raiseWindow(QWidget *w, unsigned desk)
 {
     Event e(EventRaiseWindow, w);
     if (e.process())
         return false;
 #ifdef USE_KDE
-    KWin::Info info = KWin::info(w->winId());
-    if (!info.onAllDesktops)
-        KWin::setCurrentDesktop(info.desktop);
+	/* info.currentDesktop is 0 when iconified :( */
+	KWin::Info info = KWin::info(w->winId());
+    if (!info.onAllDesktops) {
+		if (desk == 0) desk = KWin::currentDesktop();
+			KWin::setOnDesktop(w->winId(), desk);
+		KWin::Info info = KWin::info(w->winId());
+    }
 #endif
     w->show();
     w->showNormal();

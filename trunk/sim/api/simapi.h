@@ -1688,7 +1688,8 @@ EXPORT void setWndClass(QWidget*, const char*);
 #endif
 #endif
 
-EXPORT bool raiseWindow(QWidget *w);
+/* Raises widget w (on the KDE-Desktop desk) */
+EXPORT bool raiseWindow(QWidget *w, unsigned desk = 0);
 EXPORT void setButtonsPict(QWidget *w);
 
 EXPORT const QIconSet *Icon(const char *name);
