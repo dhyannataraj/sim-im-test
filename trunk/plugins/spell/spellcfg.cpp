@@ -33,8 +33,8 @@
 #include <qpainter.h>
 #include <qstyle.h>
 
-const unsigned COL_CHECK	= 0;
-const unsigned COL_NAME		= 1;
+const unsigned COL_NAME		= 0;
+const unsigned COL_CHECK	= 1;
 const unsigned COL_CHECKED	= 2;
 
 SpellConfig::SpellConfig(QWidget *parent, SpellPlugin *plugin)
@@ -53,11 +53,11 @@ SpellConfig::SpellConfig(QWidget *parent, SpellPlugin *plugin)
 #endif
     connect(edtPath, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     connect(btnFind, SIGNAL(clicked()), this, SLOT(find()));
-    connect(lstLang, SIGNAL(clicked(QListViewItem*)), this, SLOT(langClicked(QListViewItem*)));
+    connect(lstLang, SIGNAL(clickItem(QListViewItem*)), this, SLOT(langClicked(QListViewItem*)));
     lstLang->addColumn("");
     lstLang->addColumn("");
     lstLang->header()->hide();
-    lstLang->setExpandingColumn(1);
+    lstLang->setExpandingColumn(0);
     lstLang->adjustColumn();
     textChanged(edtPath->text());
 }
@@ -95,18 +95,29 @@ void SpellConfig::resizeEvent(QResizeEvent *e)
 
 #ifdef WIN32
 void SpellConfig::textChanged(const QString &str)
+#else
+void SpellConfig::textChanged(const QString&)
+#endif
 {
     string langs;
+#ifdef WIN32
     if (str.isEmpty()){
         lnkAspell->show();
         btnFind->show();
     }else{
+#endif
         lnkAspell->hide();
         btnFind->hide();
+#ifdef WIN32
         SpellerBase base(QFile::encodeName(str));
+#else
+	SpellerBase base;
+#endif
         SpellerConfig cfg(base);
         langs = cfg.getLangs();
+#ifdef WIN32
     }
+#endif
     lstLang->clear();
     if (langs.empty()){
         lblLang->setEnabled(false);
@@ -125,18 +136,11 @@ void SpellConfig::textChanged(const QString &str)
                     break;
                 }
             }
-            QListViewItem *item = new QListViewItem(lstLang, "", l.c_str(), bCheck ? "1" : "");
+            QListViewItem *item = new QListViewItem(lstLang, l.c_str(), "", bCheck ? "1" : "");
             setCheck(item);
         }
     }
 }
-#else
-void SpellConfig::textChanged(const QString &str)
-{
-    lnkAspell->hide();
-    btnFind->hide();
-}
-#endif
 
 void SpellConfig::find()
 {
@@ -158,6 +162,7 @@ void SpellConfig::findFinished()
 
 void SpellConfig::langClicked(QListViewItem *item)
 {
+    log(L_DEBUG, "langClicked");
     if (item->text(COL_CHECKED) == ""){
         item->setText(COL_CHECKED, "1");
     }else{
@@ -196,14 +201,11 @@ void SpellConfig::setCheck(QListViewItem *item)
     int h = style().pixelMetric(QStyle::PM_IndicatorHeight);
     QPixmap pixInd(w, h);
     QPainter pInd(&pixInd);
+    pInd.setBrush(cg.background());
     QRect rc(0, 0, w, h);
+    pInd.eraseRect(rc);
     style().drawPrimitive(QStyle::PE_Indicator, &pInd, rc, cg, state);
     pInd.end();
-    QBitmap mInd(w, h);
-    pInd.begin(&mInd);
-    style().drawPrimitive(QStyle::PE_IndicatorMask, &pInd, rc, cg, state);
-    pInd.end();
-    pixInd.setMask(mInd);
 #endif
     item->setPixmap(COL_CHECK, pixInd);
 }

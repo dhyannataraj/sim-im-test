@@ -141,18 +141,15 @@ void LogConfig::setCheck(QListViewItem *item)
     pInd.end();
     pixInd.setMask(mInd);
 #else
-	int w = style().pixelMetric(QStyle::PM_IndicatorWidth);
+    int w = style().pixelMetric(QStyle::PM_IndicatorWidth);
     int h = style().pixelMetric(QStyle::PM_IndicatorHeight);
     QPixmap pixInd(w, h);
     QPainter pInd(&pixInd);
     QRect rc(0, 0, w, h);
+    pInd.setBrush(cg.background());
+    pInd.eraseRect(rc);
     style().drawPrimitive(QStyle::PE_Indicator, &pInd, rc, cg, state);
     pInd.end();
-    QBitmap mInd(w, h);
-    pInd.begin(&mInd);
-    style().drawPrimitive(QStyle::PE_IndicatorMask, &pInd, rc, cg, state);
-    pInd.end();
-    pixInd.setMask(mInd);
 #endif
     item->setPixmap(COL_CHECK, pixInd);
 }

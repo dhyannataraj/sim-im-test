@@ -48,6 +48,10 @@ Exec::Exec()
     hOut = -1;
     hErr = -1;
     connect(ExecManager::manager, SIGNAL(childExited(int, int)), this, SLOT(childExited(int, int)));
+#else
+    n_in 	= NULL;
+    n_out	= NULL;
+    n_err	= NULL;
 #endif
 }
 
@@ -301,11 +305,11 @@ void Exec::execute(const char *prg, const char *input, bool bSync)
         fcntl(hIn, F_SETFL, fcntl(hIn, F_GETFL, 0) | O_NONBLOCK);
         fcntl(hOut, F_SETFL, fcntl(hOut, F_GETFL, 0) | O_NONBLOCK);
         fcntl(hErr, F_SETFL, fcntl(hErr, F_GETFL, 0) | O_NONBLOCK);
-        QSocketNotifier *n_in = new QSocketNotifier(hIn, QSocketNotifier::Write, this);
+        n_in = new QSocketNotifier(hIn, QSocketNotifier::Write, this);
         connect(n_in, SIGNAL(activated(int)), this, SLOT(inReady(int)));
-        QSocketNotifier *n_out = new QSocketNotifier(hOut, QSocketNotifier::Read, this);
+        n_out = new QSocketNotifier(hOut, QSocketNotifier::Read, this);
         connect(n_out, SIGNAL(activated(int)), this, SLOT(outReady(int)));
-        QSocketNotifier *n_err = new QSocketNotifier(hErr, QSocketNotifier::Read, this);
+        n_err = new QSocketNotifier(hErr, QSocketNotifier::Read, this);
         connect(n_err, SIGNAL(activated(int)), this, SLOT(errReady(int)));
         if (bSync){
             int status;
@@ -392,7 +396,10 @@ void Exec::childExited(int pid, int status)
 void Exec::inReady(int)
 {
 #ifndef WIN32
-    if (hIn == -1) return;
+    if (hIn == -1){
+	n_in->setEnabled(false);
+	return;
+    }
     unsigned tail = bIn.size() - bIn.readPos();
     if (tail){
         if (tail > 2048) tail = 2048;
@@ -408,19 +415,24 @@ void Exec::inReady(int)
     if (tail) return;
     close(hIn);
     hIn = -1;
+    n_in->setEnabled(false);
 #endif
 }
 
 void Exec::outReady(int)
 {
 #ifndef WIN32
-    if (hOut == -1) return;
+    if (hOut == -1){
+	n_out->setEnabled(false);
+	return;
+    }
     char buf[2048];
     int readn = read(hOut, buf, sizeof(buf));
     if (readn == -1){
         if (errno == EAGAIN) return;
         close(hOut);
         hOut = -1;
+	n_out->setEnabled(false);
         return;
     }
     bOut.pack(buf, readn);
@@ -430,13 +442,17 @@ void Exec::outReady(int)
 void Exec::errReady(int)
 {
 #ifndef WIN32
-    if (hErr == -1) return;
+    if (hErr == -1){
+	n_err->setEnabled(false);
+	return;
+    }
     char buf[2048];
     int readn = read(hErr, buf, sizeof(buf));
     if (readn == -1){
         if (errno == EAGAIN) return;
         close(hErr);
         hErr = -1;
+	n_err->setEnabled(false);
         return;
     }
     bErr.pack(buf, readn);

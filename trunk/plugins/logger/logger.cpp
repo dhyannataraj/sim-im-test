@@ -191,7 +191,7 @@ void *LoggerPlugin::processEvent(Event *e)
                 p = r + 1;
             }
 #else
-            fprintf(stderr, "%s", s.c_str());
+            fprintf(stderr, "%s\n", s.c_str());
 #endif
         }
     }

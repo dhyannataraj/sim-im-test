@@ -89,20 +89,31 @@ if test "x$expat" != "xyes"; then
 See: http://sf.net/projects/expat
 ])
 fi
-AC_CHECK_HEADER(sablot.h, [sablot="yes"])
-if test "x$sablot" = "xyes"; then
+LIB_SABLOT=""
+if test "x$PKG_CONFIG" != "xno" ; then
+  if $PKG_CONFIG sablot >/dev/null 2>&1; then
+    LIB_SABLOT=`$PKG_CONFIG --libs sablot 2>/dev/null`
+    if test "x$LIBS_SSL" != "x" ; then
+       CPPFLAGS="$CPPFLAGS `$PKG_CONFIG --cflags sablot`"
+    fi
+  fi
+fi
+if text "x$LIB_SABLOT" = ""; then
+  AC_CHECK_HEADER(sablot.h, [sablot="yes"])
+  if test "x$sablot" = "xyes"; then
 	sablot="no"
 	save_libs="$LIBS"
 	LIBS="$LIBS $LIB_EXPAT"
 	AC_CHECK_LIB(sablot, main, [sablot="yes"; LIB_SABLOT="-lsablot"])
-	AC_SUBST(LIB_SABLOT)
 	LIBS="$save_libs"
-fi
-if test "x$sablot" != "xyes"; then
+  fi
+  if test "x$sablot" != "xyes"; then
    AC_MSG_ERROR([No sablotron library found!
 See: http://www.gingerall.org/
 ])
+  fi
 fi
+AC_SUBST(LIB_SABLOT)
 
 
 if test "$WITH_OPENSSL" = "no"; then

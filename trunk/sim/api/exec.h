@@ -23,6 +23,7 @@
 #include <qobject.h>
 
 class ExecManager;
+class QSocketNotifier;
 
 class EXPORT Exec : public QObject
 {
@@ -51,6 +52,9 @@ protected:
     int hIn;
     int hOut;
     int hErr;
+    QSocketNotifier *n_in;
+    QSocketNotifier *n_out;
+    QSocketNotifier *n_err;
 #endif
 };
 
