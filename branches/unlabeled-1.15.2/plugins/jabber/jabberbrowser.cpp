@@ -915,6 +915,8 @@ void JabberBrowser::setItemPict(QListViewItem *item)
         name = "find";
     }else if (category == "conference"){
         name = "chat";
+	}else if (category == "proxy"){
+		name = "connect";
     }else if (type == "jud"){
         name = "find";
     }else if (type == "sms"){

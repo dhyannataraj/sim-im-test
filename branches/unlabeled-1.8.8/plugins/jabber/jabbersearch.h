@@ -22,9 +22,22 @@
 #include "stl.h"
 #include "qchildwidget.h"
 
+#include <qpushbutton.h>
+
 class JabberClient;
 
 class QGridLayout;
+
+class HelpButton : public QPushButton
+{
+	Q_OBJECT
+public:
+	HelpButton(const QString &help, QWidget *parent);
+protected slots:
+	void click();
+protected:
+	QString m_help;
+};
 
 class JabberSearch : public QChildWidget
 {
@@ -56,6 +69,7 @@ protected:
     list<QWidget*>	m_required;
     vector<QWidget*>	m_widgets;
     vector<QWidget*>	m_labels;
+	vector<QWidget*>	m_descs;
 };
 
 #endif

@@ -847,6 +847,9 @@ void OscarSocket::sendPacket(bool bSend)
     packet[4] = (char)((size >> 8) & 0xFF);
     packet[5] = (char)(size & 0xFF);
     if (bSend){
+        ++m_nFlapSequence;
+        packet[2] = (m_nFlapSequence >> 8);
+        packet[3] = m_nFlapSequence;
         log_packet(socket()->writeBuffer, true, ICQPlugin::icq_plugin->OscarPacket);
         socket()->write();
     }
@@ -873,9 +876,6 @@ void ICQClient::sendPacket(bool bSend)
         bSend = true;
     }
     if (bSend){
-        ++m_nFlapSequence;
-        packet[2] = (m_nFlapSequence >> 8);
-        packet[3] = m_nFlapSequence;
         if (r)
             setNewLevel(*r);
         OscarSocket::sendPacket(true);

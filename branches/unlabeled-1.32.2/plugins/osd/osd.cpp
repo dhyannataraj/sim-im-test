@@ -41,7 +41,9 @@
 
 #ifdef WIN32
 #include <windows.h>
-
+#ifndef CS_DROPSHADOW
+#define CS_DROPSHADOW   0x00020000
+#endif
 #ifndef SPI_GETSCREENSAVERRUNNING 
 #define SPI_GETSCREENSAVERRUNNING 114
 #endif
@@ -54,7 +56,7 @@
 #endif
 #endif
 
-const unsigned SHADOW_OFFS	= 2;
+const unsigned SHADOW_DEF	= 2;
 const unsigned XOSD_MARGIN	= 5;
 
 Plugin *createOSDPlugin(unsigned base, bool, Buffer*)
@@ -268,6 +270,11 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     unsigned nScreens = screens();
     if (nScreen >= nScreens)
         nScreen = 0;
+	int SHADOW_OFFS = SHADOW_DEF;
+#ifdef WIN32
+    if (GetClassLong(winId(), GCL_STYLE) & CS_DROPSHADOW)
+		SHADOW_OFFS = 0;
+#endif
     QRect rcScreen = screenGeometry(nScreen);
     rcScreen = QRect(0, 0,
                      rcScreen.width() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.value,

@@ -435,9 +435,29 @@ void Buffer::tlv(unsigned short n, const char *data, unsigned short len)
     pack(data, len);
 }
 
+void Buffer::tlvLE(unsigned short n, const char *data, unsigned short len)
+{
+    pack(n);
+	pack(len);
+    pack(data, len);
+}
+
 void Buffer::tlv(unsigned short n, const char *data)
 {
+	if (data == NULL)
+		data = "";
     tlv(n, data, (unsigned short)strlen(data));
+}
+
+void Buffer::tlvLE(unsigned short n, const char *data)
+{
+	if (data == NULL)
+		data = "";
+	unsigned short len = strlen(data) + 1;
+    pack(n);
+	pack((unsigned short)(len + 2));
+	pack(len);
+	pack(data, len);
 }
 
 void Buffer::tlv(unsigned short n, unsigned short c)
@@ -446,10 +466,24 @@ void Buffer::tlv(unsigned short n, unsigned short c)
     tlv(n, (char*)&c, 2);
 }
 
+void Buffer::tlvLE(unsigned short n, unsigned short c)
+{
+    pack(n);
+	pack((unsigned short)2);
+	pack(c);
+}
+
 void Buffer::tlv(unsigned short n, unsigned long c)
 {
     c = htonl(c);
     tlv(n, (char*)&c, 4);
+}
+
+void Buffer::tlvLE(unsigned short n, unsigned long c)
+{
+    pack(n);
+	pack((unsigned short)4);
+	pack(c);
 }
 
 void Buffer::packetStart()
@@ -485,12 +519,14 @@ TlvList::TlvList()
     m_tlv = new listTlv;
 }
 
-TlvList::TlvList(Buffer &b)
+TlvList::TlvList(Buffer &b, unsigned nTlvs)
 {
     m_tlv = new listTlv;
-    for (; b.readPos() < b.size(); ){
+    for (unsigned n = 0; (b.readPos() < b.size()) && (n < nTlvs); n++){
         unsigned short num, size;
         b >> num >> size;
+		if (b.readPos() + size > b.size())
+			break;
         *this + new Tlv(num, size, b.data(b.readPos()));
         b.incReadPos(size);
     }

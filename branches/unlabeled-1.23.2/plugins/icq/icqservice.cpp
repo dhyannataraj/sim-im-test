@@ -317,7 +317,7 @@ void ICQClient::setServiceSocket(Tlv *tlv_addr, Tlv *tlv_cookie, unsigned short 
     for (list<ServiceSocket*>::iterator it = m_services.begin(); it != m_services.end(); ++it){
         if ((*it)->id() == service){
             s = *it;
-            return;
+            break;
         }
     }
     if (!s){

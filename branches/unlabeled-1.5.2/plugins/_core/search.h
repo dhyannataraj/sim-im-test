@@ -27,6 +27,7 @@ class CorePlugin;
 class ListView;
 class SearchBase;
 class QStatusBar;
+class QTimer;
 
 typedef struct ClientWidget
 {
@@ -45,6 +46,7 @@ public slots:
     void clientActivated(int);
     void aboutToShow(QWidget*);
     void resultShow(QWidget*);
+	void resultDestroyed();
     void textChanged(const QString&);
     void toggled(bool);
     void addResult(QWidget*);
@@ -60,6 +62,7 @@ protected slots:
 	void setColumns(const QStringList&, int);
 	void addItem(const QStringList&);
 	void searchDone();
+	void update();
 protected:
     vector<ClientWidget>	m_widgets;
 	void		setStatus();
@@ -77,10 +80,12 @@ protected:
     void		detach(QWidget*);
     bool		checkSearch(QWidget*, bool&);
     bool		m_bAdd;
+	bool		m_bColumns;
     unsigned	m_id;
     unsigned	m_result_id;
 	SearchBase	*m_search;
 	QStatusBar	*m_status;
+	QTimer		*m_update;
 };
 
 #endif

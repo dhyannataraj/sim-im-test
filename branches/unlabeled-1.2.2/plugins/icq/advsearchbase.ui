@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>625</width>
+            <width>613</width>
             <height>418</height>
         </rect>
     </property>
@@ -32,7 +32,7 @@
             <class>QLayoutWidget</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>Layout8</cstring>
+                <cstring>Layout4</cstring>
             </property>
             <vbox>
                 <property>
@@ -218,7 +218,7 @@
                     <class>QGroupBox</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>edtCompany</cstring>
+                        <cstring>grpWork</cstring>
                     </property>
                     <property>
                         <name>title</name>
@@ -280,7 +280,7 @@
                             <class>QLineEdit</class>
                             <property stdset="1">
                                 <name>name</name>
-                                <cstring>LineEdit17</cstring>
+                                <cstring>edtCompany</cstring>
                             </property>
                         </widget>
                         <widget row="2"  column="0" >
@@ -335,17 +335,6 @@
                         </widget>
                     </grid>
                 </widget>
-                <widget>
-                    <class>QCheckBox</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>chkOnline</cstring>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>Search &amp;online users only</string>
-                    </property>
-                </widget>
                 <spacer>
                     <property>
                         <name>name</name>
@@ -373,7 +362,7 @@
             <class>QLayoutWidget</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>Layout10</cstring>
+                <cstring>Layout3</cstring>
             </property>
             <vbox>
                 <property>
@@ -497,41 +486,6 @@
                     <class>QGroupBox</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>GroupBox26</cstring>
-                    </property>
-                    <property>
-                        <name>title</name>
-                        <string>Homepage</string>
-                    </property>
-                    <vbox>
-                        <property>
-                            <name>margin</name>
-                            <number>11</number>
-                        </property>
-                        <property>
-                            <name>spacing</name>
-                            <number>6</number>
-                        </property>
-                        <widget>
-                            <class>QComboBox</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>cmbHomepage</cstring>
-                            </property>
-                        </widget>
-                        <widget>
-                            <class>QLineEdit</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>edtHomepage</cstring>
-                            </property>
-                        </widget>
-                    </vbox>
-                </widget>
-                <widget>
-                    <class>QGroupBox</class>
-                    <property stdset="1">
-                        <name>name</name>
                         <cstring>GroupBox5</cstring>
                     </property>
                     <property>
@@ -555,6 +509,17 @@
                             </property>
                         </widget>
                     </vbox>
+                </widget>
+                <widget>
+                    <class>QCheckBox</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>chkOnline</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Search &amp;online users only</string>
+                    </property>
                 </widget>
                 <spacer>
                     <property>
@@ -612,7 +577,7 @@
     <tabstop>edtCity</tabstop>
     <tabstop>cmbLang</tabstop>
     <tabstop>cmbOccupation</tabstop>
-    <tabstop>LineEdit17</tabstop>
+    <tabstop>edtCompany</tabstop>
     <tabstop>edtDepartment</tabstop>
     <tabstop>edtPosition</tabstop>
     <tabstop>chkOnline</tabstop>
@@ -622,8 +587,6 @@
     <tabstop>edtPast</tabstop>
     <tabstop>cmbAffilation</tabstop>
     <tabstop>edtAffilation</tabstop>
-    <tabstop>cmbHomepage</tabstop>
-    <tabstop>edtHomepage</tabstop>
     <tabstop>edtKeywords</tabstop>
 </tabstops>
 </UI>

@@ -1696,6 +1696,7 @@ static DataDef jabberAgentInfo[] =
         { "", DATA_STRING, 1, 0 },
         { "", DATA_STRING, 1, 0 },
         { "", DATA_STRING, 1, 0 },
+        { "", DATA_STRING, 1, 0 },
         { "", DATA_STRLIST, 1, 0 },
         { "", DATA_STRLIST, 1, 0 },
         { "", DATA_ULONG, 1, 0 },
@@ -1774,6 +1775,10 @@ void AgentInfoRequest::element_end(const char *el)
     }
     if (m_bError)
         return;
+	if (!strcmp(el, "desc")){
+		set_str(&data.Desc.ptr, m_data.c_str());
+		return;
+	}
     if (!strcmp(el, "field")){
         if (data.Field.ptr && *data.Field.ptr){
             set_str(&data.VHost.ptr, m_client->VHost().c_str());
@@ -1879,6 +1884,7 @@ static DataDef jabberSearchData[] =
         { "", DATA_STRING, 1, 0 },
         { "", DATA_STRING, 1, 0 },
         { "", DATA_STRING, 1, 0 },
+        { "", DATA_STRING, 1, 0 },
         { "", DATA_STRLIST, 1, 0 },
         { "", DATA_ULONG, 1, 0 },
         { NULL, 0, 0, 0 }
@@ -1916,11 +1922,7 @@ void SearchRequest::element_start(const char *el, const char **attr)
                 if (label.empty())
                     label = var;
                 m_values.insert(VALUE_MAP::value_type(var.c_str(), label));
-                if (var == "nickname"){
-                    m_fields.push_front(var);
-                }else{
-                    m_fields.push_back(var);
-                }
+                m_fields.push_back(var);
             }
         }else{
             m_attr = var;
@@ -1940,11 +1942,14 @@ void SearchRequest::element_end(const char *el)
             VALUE_MAP::iterator itv = m_values.find((*it).c_str());
             if (itv != m_values.end())
                 value = (*itv).second;
-            set_str(&data.Fields, data.nFields.value++, value.c_str());
+            set_str(&data.Fields, data.nFields.value * 2, value.c_str());
+            set_str(&data.Fields, data.nFields.value * 2 + 1, value.c_str());
+			data.nFields.value++;
         }
         set_str(&data.ID.ptr, m_id.c_str());
         Event e(EventSearch, &data);
         e.process();
+		m_values.clear();
     }else if (!strcmp(el, "item")){
         if (data.JID.ptr && *data.JID.ptr){
             for (list<string>::iterator it = m_fields.begin(); it != m_fields.end(); ++it){
@@ -1977,6 +1982,8 @@ void SearchRequest::element_end(const char *el)
         set_str(&data.Nick.ptr, m_data.c_str());
     }else if (!strcmp(el, "email")){
         set_str(&data.EMail.ptr, m_data.c_str());
+    }else if (!strcmp(el, "status")){
+        set_str(&data.Status.ptr, m_data.c_str());
     }
 }
 

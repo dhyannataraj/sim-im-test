@@ -18,6 +18,7 @@
 #include "jabberclient.h"
 #include "jabbersearch.h"
 #include "jabber.h"
+#include "ballonmsg.h"
 
 #include <qlayout.h>
 #include <qlabel.h>
@@ -114,6 +115,20 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
     if (data->Type.ptr){
         if (!strcmp(data->Type.ptr, "x")){
             m_bXData = true;
+			vector<QWidget*>::iterator it;
+			for (it = m_widgets.begin(); it != m_widgets.end(); ++it)
+				if (*it)
+					delete (*it);
+			m_widgets.clear();
+			for (it = m_labels.begin(); it != m_labels.end(); ++it)
+				if (*it)
+					delete (*it);
+		    m_labels.clear();
+			for (it = m_descs.begin(); it != m_descs.end(); ++it)
+				if (*it)
+					delete (*it);
+			m_descs.clear();
+			m_instruction = "";
         }else if (!strcmp(data->Type.ptr, "title")){
             if (data->Value.ptr && *data->Value.ptr)
                 m_title = QString::fromUtf8(data->Value.ptr);
@@ -233,7 +248,7 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
             if (!m_label.isEmpty()){
                 QLabel *label = new QLabel(m_label, this);
                 label->setAlignment(WordBreak);
-                lay->addMultiCellWidget(label, 0, 0, 0, nCols * 2 + 1);
+                lay->addMultiCellWidget(label, 0, 0, 0, nCols * 3 + 1);
                 m_label = "";
                 start = 1;
             }
@@ -242,14 +257,27 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
             for (unsigned i = 0; i < m_widgets.size(); i++, row++){
                 if (row >= nRows + start){
                     row  = 0;
-                    col += 2;
+                    col += 3;
                 }
                 if (m_labels[i]){
+					static_cast<QLabel*>(m_labels[i])->setAlignment( AlignBottom | AlignRight);
                     lay->addWidget(m_labels[i], row, col);
-                    lay->addWidget(m_widgets[i], row, col + 1);
+					if (m_descs[i]){
+						lay->addWidget(m_widgets[i], row, col + 1, AlignBottom | AlignRight);
+						lay->addWidget(m_descs[i], row, col + 2, AlignBottom);
+						m_descs[i]->show();
+					}else{
+						lay->addMultiCellWidget(m_widgets[i], row, row, col + 1, col + 2, AlignBottom);
+					}
                     m_labels[i]->show();
                 }else{
-                    lay->addMultiCellWidget(m_widgets[i], row, row, col, col + 1);
+					if (m_descs[i]){
+						lay->addMultiCellWidget(m_widgets[i], row, row, col, col + 1, AlignBottom);
+						lay->addWidget(m_descs[i], row, col + 2, AlignBottom);
+						m_descs[i]->show();
+					}else{
+						lay->addMultiCellWidget(m_widgets[i], row, row, col, col + 2, AlignBottom);
+					}
                 }
                 m_widgets[i]->show();
             }
@@ -257,11 +285,12 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
         if (!m_instruction.isEmpty()){
             QLabel *label = new QLabel(m_instruction, this);
             label->setAlignment(WordBreak);
-            lay->addMultiCellWidget(label, nRows + start, nRows + start, 0, nCols * 2 + 1);
+            lay->addMultiCellWidget(label, nRows + start, nRows + start, 0, nCols * 3 - 1);
             m_instruction = "";
         }
         m_widgets.clear();
         m_labels.clear();
+		m_descs.clear();
         m_bDirty = true;
         QTimer::singleShot(0, this, SLOT(setSize()));
         return;
@@ -275,8 +304,12 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
             label = new QLabel(i18(data->Label.ptr), this);
             label->setAlignment(AlignRight);
         }
+		QWidget *help = NULL;
+		if (data->Desc.ptr && *data->Desc.ptr)
+			help = new HelpButton(QString::fromUtf8(data->Desc.ptr), this);
         m_labels.push_back(label);
         m_widgets.push_back(widget);
+		m_descs.push_back(help);
     }
 }
 
@@ -465,6 +498,19 @@ QString JabberSearch::condition(bool &bXSearch)
     }
 
     return res;
+}
+
+HelpButton::HelpButton(const QString &help, QWidget *parent)
+: QPushButton(parent)
+{
+	setPixmap(Pict("help"));
+	m_help = help;
+	connect(this, SIGNAL(clicked()), this, SLOT(click()));
+}
+
+void HelpButton::click()
+{
+	BalloonMsg::message(m_help, this);
 }
 
 #ifndef WIN32

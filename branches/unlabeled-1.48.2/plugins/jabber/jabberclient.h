@@ -124,6 +124,7 @@ typedef struct JabberAgentInfo
     Data		Type;
     Data		Label;
     Data		Value;
+	Data		Desc;
     Data		Options;
     Data		OptionLabels;
     Data		nOptions;
@@ -138,6 +139,7 @@ typedef struct JabberSearchData
     Data		Last;
     Data		Nick;
     Data		EMail;
+	Data		Status;
     Data		Fields;
     Data		nFields;
 } JabberSearchData;

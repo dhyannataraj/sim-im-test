@@ -34,13 +34,14 @@
 #include <qobjectlist.h>
 #include <qpopupmenu.h>
 #include <qstatusbar.h>
+#include <qtimer.h>
 
 SearchDialog::SearchDialog()
 {
     SET_WNDPROC("search")
     setIcon(Pict("find"));
     setButtonsPict(this);
-    setCaption(caption());
+    setCaption(i18n("Search"));
     m_current = NULL;
     m_currentResult = NULL;
     m_bAdd = true;
@@ -67,6 +68,8 @@ SearchDialog::SearchDialog()
     showResult(NULL);
     aboutToShow(m_search->wndCondition->visibleWidget());
     connect(m_search->btnSearch, SIGNAL(clicked()), this, SLOT(searchClick()));
+	m_update = new QTimer(this);
+	connect(m_update, SIGNAL(timeout()), this, SLOT(update()));
 }
 
 SearchDialog::~SearchDialog()
@@ -214,6 +217,7 @@ void SearchDialog::clientActivated(int n)
 {
     if ((unsigned)n >= m_widgets.size())
         return;
+	searchDone();
     if (m_widgets[n].widget != m_current)
         showResult(NULL);
     m_search->wndCondition->raiseWidget(m_widgets[n].widget);
@@ -237,6 +241,10 @@ void *SearchDialog::processEvent(Event *e)
 
 void SearchDialog::textChanged(const QString&)
 {
+	if (m_active != NULL){
+	    m_search->btnSearch->setEnabled(true);
+		return;
+	}
     bool bEnable = false;
     checkSearch(m_current, bEnable) && checkSearch(m_currentResult, bEnable);
     m_search->btnSearch->setEnabled(bEnable);
@@ -334,11 +342,19 @@ void SearchDialog::aboutToShow(QWidget *w)
 
 void SearchDialog::resultShow(QWidget *w)
 {
-    if (m_currentResult)
+    if (m_currentResult){
+		disconnect(m_currentResult, SIGNAL(destroyed()), this, SLOT(resultDestroyed()));
         detach(m_currentResult);
+	}
     m_currentResult = w;
     attach(m_currentResult);
+	connect(m_currentResult, SIGNAL(destroyed()), this, SLOT(resultDestroyed()));
     textChanged("");
+}
+
+void SearchDialog::resultDestroyed()
+{
+	m_currentResult = NULL;
 }
 
 void SearchDialog::addResult(QWidget *w)
@@ -387,6 +403,7 @@ void SearchDialog::searchClick()
 	m_result->clear();
 	setAddButton();
 	setStatus();
+	m_bColumns = false;
     connect(this, SIGNAL(search()), m_active, SLOT(search()));
 	connect(m_active, SIGNAL(setColumns(const QStringList&, int)), this, SLOT(setColumns(const QStringList&, int)));
 	connect(m_active, SIGNAL(addItem(const QStringList&)), this, SLOT(addItem(const QStringList&)));
@@ -435,26 +452,61 @@ void SearchDialog::searchDone()
 	disconnect(m_active, SIGNAL(addItem(const QStringList&)), this, SLOT(addItem(const QStringList&)));
 	disconnect(m_active, SIGNAL(searchDone()), this, SLOT(searchDone()));
 	m_active = NULL;
+	textChanged("");
 	setAddButton();
 }
 
 void SearchDialog::setColumns(const QStringList &columns, int n)
 {
 	int i;
-	for (i = m_result->columns() - 1; i >= 0; i--)
-		m_result->removeColumn(i);
+	if (!m_bColumns){
+		for (i = m_result->columns() - 1; i >= 0; i--)
+			m_result->removeColumn(i);
+		m_bColumns = true;
+	}
 	for (i = 0; (unsigned)i < columns.count(); i++)
 		m_result->addColumn(columns[i]);
 	m_result->setExpandingColumn(n);
 	m_result->adjustColumn();
 }
 
+class SearchViewItem : public QListViewItem
+{
+public:
+	SearchViewItem(QListView *view) : QListViewItem(view) {}
+	QString key(int column, bool ascending) const;
+};
+
+QString SearchViewItem::key(int column, bool ascending) const 
+{
+	if (column)
+		return QListViewItem::key(column, ascending);
+	QString res = text(listView()->columns());
+	return res;
+}
+
 void SearchDialog::addItem(const QStringList &values)
 {
-	QListViewItem *item = new QListViewItem(m_result);
-	for (int i = 1; (unsigned)i < values.count(); i++)
-		item->setText(i, values[i]);
+	if (m_update->isActive()){
+		m_update->stop();
+	}else{
+		m_result->viewport()->setUpdatesEnabled(false);
+	}
+	QListViewItem *item = new SearchViewItem(m_result);
 	item->setPixmap(0, Pict(values[0].latin1()));
+	item->setText(values.count() - 2, values[1]);
+	for (int i = 2; (unsigned)i < values.count(); i++)
+		item->setText(i - 2, values[i]);
+	setStatus();
+	m_update->start(500);
+}
+
+void SearchDialog::update()
+{
+	m_update->stop();
+	m_result->viewport()->setUpdatesEnabled(true);
+	m_result->viewport()->repaint();
+	m_result->adjustColumn();
 }
 
 #ifndef WIN32
