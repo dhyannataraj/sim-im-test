@@ -1875,7 +1875,7 @@ msgstr "Nicht-existierende UIN"
 
 #: plugins/icq/icqlogin.cpp:230
 msgid "Youur UIN is being used from another location"
-msgstr "Ihre UIN wird gerade von einem anderem aus Ort benutzt"
+msgstr "Ihre UIN wird gerade von einem anderen Ort aus benutzt"
 
 #: plugins/icq/icqlogin.cpp:250
 msgid "Close packet from server"
