@@ -18,6 +18,7 @@
 #include "tmpl.h"
 #include "exec.h"
 #include "core.h"
+#include <sockfactory.h>
 
 #ifdef WIN32
 #include <windows.h>
@@ -146,7 +147,11 @@ QString Tmpl::process(TmplExpand *t, const QString &str)
         if (tagName == "IP"){
             Event e(EventGetContactIP, contact);
             struct in_addr addr;
-            addr.s_addr = (unsigned)(e.process());
+            IP* ip = (IP*)e.process();
+            if (ip)
+                addr.s_addr = ip->ip();
+            else
+                addr.s_addr = 0;
             res += inet_ntoa(addr);
             continue;
         }
