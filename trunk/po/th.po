@@ -1,4 +1,4 @@
-# translation of th.po to Thai
+﻿# translation of th.po to Thai
 # Copyright (C) 2004 Free Software Foundation, Inc.
 # Narachai Sakorn <arm2001@hunsa.com>, 2004.
 # Narachai Sakorn <narachai@opentle.org>, 2004.
@@ -1410,9 +1410,8 @@ msgid "Awaiting authorization"
 msgstr "กำลังคอยการอนุญาต"
 
 #: plugins/_core/userviewcfgbase.cpp:280
-#, fuzzy
 msgid "No show scroller"
-msgstr "ห้ามแ&สดงกลุ่ม"
+msgstr "ไม่ต้องแสดงแถบเลื่อน"
 
 #: plugins/_core/historycfgbase.cpp:167
 msgid "Use &own colors and fonts settings"
@@ -1459,7 +1458,6 @@ msgid "&Source"
 msgstr "ที่&มา"
 
 #: plugins/_core/maininfobase.cpp:187 plugins/_core/nonimbase.cpp:95 plugins/icq/aiminfobase.cc:256 plugins/icq/icqinfobase.cc:312 plugins/jabber/discoinfobase.cpp:283 plugins/jabber/jabberinfobase.cpp:240
-#, fuzzy
 msgid "First Name:"
 msgstr "ชื่อ:"
 
@@ -2304,9 +2302,8 @@ msgid "Icons"
 msgstr "ไอคอน"
 
 #: plugins/icons/icon.cpp:31
-#, fuzzy
 msgid "Plugin provides JISP icons themes and emoticons"
-msgstr "ปลั๊กอินนี้จะรวบรวบไอคอนแสดงอารมณ์และรูปลักษณะของ Miranda"
+msgstr "ปลั๊กอินนี้จะรวบรวบไอคอนแสดงอารมณ์และรูปลักษณะของ JISP"
 
 #: plugins/icons/iconcfg.cpp:91
 msgid "*.jisp|Icon set"
@@ -2317,9 +2314,8 @@ msgid "Icon set(*.jisp)"
 msgstr ""
 
 #: plugins/icons/iconcfg.cpp:95
-#, fuzzy
 msgid "Select icon set"
-msgstr "เลือกไอคอน DLL"
+msgstr "เลือกชุดไอคอน"
 
 #: plugins/icq/aimconfig.cpp:43
 msgid "Register new ScreenName"
@@ -2615,7 +2611,6 @@ msgstr ""
 "%n แฟ้ม"
 
 #: plugins/icq/icqicmb.cpp:1286 plugins/icq/warndlg.cpp:66
-#, fuzzy
 msgid "Send failed"
 msgstr "การส่งล้มเหลว"
 
@@ -2837,14 +2832,12 @@ msgid "Nick"
 msgstr "ชื่อเล่น"
 
 #: plugins/icq/icqsearch.cpp:299 plugins/jabber/jabberadd.cpp:279 plugins/jabber/jabbersearch.cpp:104 plugins/jabber/jabbersearch.cpp:304
-#, fuzzy
 msgid "First Name"
 msgstr "ชื่อ"
 
 #: plugins/icq/icqsearch.cpp:301 plugins/jabber/jabberadd.cpp:280 plugins/jabber/jabbersearch.cpp:105 plugins/jabber/jabbersearch.cpp:305
-#, fuzzy
 msgid "Last Name"
-msgstr "นามสกุล:"
+msgstr "นามสกุล"
 
 #: plugins/icq/icqsearch.cpp:304 plugins/jabber/jabbersearch.cpp:108
 msgid "City"
@@ -3109,7 +3102,7 @@ msgstr ""
 
 #: plugins/icq/interestsinfo.cpp:129
 msgid "Finance and corporate"
-msgstr "บริษัททางการเงิน"
+msgstr ""
 
 #: plugins/icq/interestsinfo.cpp:130
 msgid "Entertainment"
@@ -3604,9 +3597,8 @@ msgid "Disable answer on phonebook and &picture requests"
 msgstr ""
 
 #: plugins/icq/icqconfigbase.cc:287
-#, fuzzy
 msgid "Disable automatically &request autoreply on change status"
-msgstr "ปิดการ&ปรับปรุงข้อมูลผู้ใช้อัตโนมัติ"
+msgstr "ปิดการร้อง&ขออัตโนมัติของระบบตอบกลับอัตโนมัติขณะเปลี่ยนสถานะ"
 
 #: plugins/icq/icqconfigbase.cc:288
 msgid "Disable automatically &update user info"
@@ -4303,18 +4295,16 @@ msgid "Use protocol &icons for agents contacts"
 msgstr ""
 
 #: plugins/jabber/jabberconfigbase.cpp:315
-#, fuzzy
 msgid "Automatically send &subscribe request"
-msgstr "ตรวจสอบคู่สนทนาที่&มองไม่เห็นอัตโนมัติ"
+msgstr "ส่งการร้องขอการ&สมัครสมาชิกอัตโนมัติ"
 
 #: plugins/jabber/jabberconfigbase.cpp:316
-#, fuzzy
 msgid "Automatically &accept subscribe requests"
-msgstr "ตรวจสอบคู่สนทนาที่&มองไม่เห็นอัตโนมัติ"
+msgstr "&ยอมรับการร้องขอการสมัครสมาชิกอัตโนมัติ"
 
 #: plugins/jabber/jabberconfigbase.cpp:317
 msgid "Send &rich text messages if possible"
-msgstr "ถ้าเป็นไปได้ให้ส่งข้อความในรูปแบบ rich textาม"
+msgstr "ถ้าเป็นไปได้ให้ส่งข้อความในรูปแบบ rich text"
 
 #: plugins/jabber/jabberconfigbase.cpp:318 plugins/osd/osdconfigbase.cpp:118
 msgid "Enable &typing notification"
@@ -5466,15 +5456,15 @@ msgstr "ปริยาย"
 
 #: plugins/proxy/proxycfg.cpp:224
 msgid "HTTP requests"
-msgstr ""
+msgstr "การร้องขอ HTTP"
 
 #: plugins/proxy/proxycfgbase.cpp:131
 msgid "Host:"
-msgstr "โฮสต์"
+msgstr "โฮสต์:"
 
 #: plugins/proxy/proxycfgbase.cpp:133
 msgid "Proxy require &authorization"
-msgstr "ใช้การขอ&อนุญาตพร็อกซี"
+msgstr "ขอ&อนุญาตใช้พร็อกซี"
 
 #: plugins/proxy/proxycfgbase.cpp:134
 msgid "User:"
@@ -6425,12 +6415,10 @@ msgid "&Yahoo!"
 msgstr "&Yahoo!"
 
 #: plugins/yahoo/yahooinfobase.cpp:155
-#, fuzzy
 msgid "First name:"
 msgstr "ชื่อ:"
 
 #: plugins/yahoo/yahooinfobase.cpp:156
-#, fuzzy
 msgid "Last name:"
 msgstr "นามสกุล:"
 
@@ -6444,12 +6432,11 @@ msgstr "คำค้น&หา"
 
 #: plugins/zodiak/zodiak.cpp:50
 msgid "Zodiak"
-msgstr ""
+msgstr "Zodiak"
 
 #: plugins/zodiak/zodiak.cpp:51
-#, fuzzy
 msgid "Plugin provides show zodiak pictures for date edit"
-msgstr "ปลั๊กอินนี้จะแสดงภาพพื้นหลังสำหรับรายชื่อคู่สนทนา"
+msgstr "ปลั๊กอินนี้จะแสดงภาพของ zodiak สำหรับการแก้ไขวันที่"
 
 #: plugins/zodiak/zodiak.cpp:158
 msgid "View horoscope"
@@ -6513,9 +6500,8 @@ msgid "Hu&e:"
 msgstr ""
 
 #: sim/qt3/i18n.cpp:3
-#, fuzzy
 msgid "&Sat:"
-msgstr "เสาร์"
+msgstr ""
 
 #: sim/qt3/i18n.cpp:5
 msgid "&Val:"
@@ -7018,9 +7004,8 @@ msgid "Minimize"
 msgstr "ย่อหน้าต่าง"
 
 #: sim/qt3/i18n.cpp:293
-#, fuzzy
 msgid "Restore Down"
-msgstr "เรีย&กคืน"
+msgstr ""
 
 #: sim/qt3/i18n.cpp:295
 msgid "Maximize"
@@ -7031,9 +7016,8 @@ msgid "Roll up"
 msgstr "ม้วนขึ้น"
 
 #: sim/qt3/i18n.cpp:299
-#, fuzzy
 msgid "Restore Up"
-msgstr "เรีย&กคืน"
+msgstr ""
 
 #: sim/qt3/i18n.cpp:301
 msgid "Roll down"
@@ -8189,7 +8173,6 @@ msgid "Usage: %1 "
 msgstr "วิธีใช้: %1 "
 
 #: sim/sim.cpp:200
-#, fuzzy
 msgid "Multiprotocol Instant Messenger"
 msgstr "โปรแกรมสื่อสารหลากหลายโพรโตคอล"
 
