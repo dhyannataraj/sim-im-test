@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
-"POT-Creation-Date: 2002-08-30 11:34+0400\n"
+"POT-Creation-Date: 2002-09-28 03:45+0400\n"
 "PO-Revision-Date: 2002-09-10 01:09+0300\n"
 "Last-Translator: ismail donmez <voidcartman@yahoo.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
@@ -17,1619 +17,1619 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.0beta2\n"
 
-#: client.cpp:125 libicq/country.cpp:6
+#: client.cpp:81 libicq/country.cpp:7
 msgid "Arabic"
 msgstr "Arapça"
 
-#: libicq/country.cpp:7
+#: libicq/country.cpp:8
 msgid "Bhojpuri"
 msgstr "Bhojpuri"
 
-#: libicq/country.cpp:8
+#: libicq/country.cpp:9
 msgid "Bulgarian"
 msgstr "Bulgarca"
 
-#: libicq/country.cpp:9
+#: libicq/country.cpp:10
 msgid "Burmese"
 msgstr "Burmese"
 
-#: libicq/country.cpp:10
+#: libicq/country.cpp:11
 msgid "Cantonese"
 msgstr "Kantonca"
 
-#: libicq/country.cpp:11
+#: libicq/country.cpp:12
 msgid "Catalan"
 msgstr "Katalanca"
 
-#: libicq/country.cpp:12
+#: libicq/country.cpp:13
 msgid "Chinese"
 msgstr "Çinçe"
 
-#: libicq/country.cpp:13
+#: libicq/country.cpp:14
 msgid "Croatian"
 msgstr "Croatian"
 
-#: libicq/country.cpp:14
+#: libicq/country.cpp:15
 msgid "Czech"
 msgstr "Çekçe"
 
-#: libicq/country.cpp:15
+#: libicq/country.cpp:16
 msgid "Danish"
 msgstr "Danish"
 
-#: libicq/country.cpp:16
+#: libicq/country.cpp:17
 msgid "Dutch"
 msgstr "Hollandaca"
 
-#: libicq/country.cpp:17
+#: libicq/country.cpp:18
 msgid "English"
 msgstr "İngilizce"
 
-#: client.cpp:114 libicq/country.cpp:18
+#: client.cpp:70 libicq/country.cpp:19
 msgid "Esperanto"
 msgstr "Esperanto"
 
-#: libicq/country.cpp:19
+#: libicq/country.cpp:20
 msgid "Estonian"
 msgstr "Estonian "
 
-#: libicq/country.cpp:20
+#: libicq/country.cpp:21
 msgid "Farsi"
 msgstr "Farsça"
 
-#: libicq/country.cpp:21
+#: libicq/country.cpp:22
 msgid "Finnish"
 msgstr "Fince"
 
-#: libicq/country.cpp:22
+#: libicq/country.cpp:23
 msgid "French"
 msgstr "Fransızca"
 
-#: libicq/country.cpp:23
+#: libicq/country.cpp:24
 msgid "Gaelic"
 msgstr "Gaelic"
 
-#: libicq/country.cpp:24
+#: libicq/country.cpp:25
 msgid "German"
 msgstr "Almanca"
 
-#: client.cpp:126 libicq/country.cpp:25
+#: client.cpp:82 libicq/country.cpp:26
 msgid "Greek"
 msgstr "Yunanca"
 
-#: client.cpp:127 libicq/country.cpp:26
+#: client.cpp:83 libicq/country.cpp:27
 msgid "Hebrew"
 msgstr "İbranice"
 
-#: libicq/country.cpp:27
+#: libicq/country.cpp:28
 msgid "Hindi"
 msgstr "Hintçe"
 
-#: libicq/country.cpp:28
+#: libicq/country.cpp:29
 msgid "Hungarian"
 msgstr "Macarca"
 
-#: libicq/country.cpp:29
+#: libicq/country.cpp:30
 msgid "Icelandic"
 msgstr "Icelandic"
 
-#: libicq/country.cpp:30
+#: libicq/country.cpp:31
 msgid "Indonesian"
 msgstr "Endonezyaca"
 
-#: libicq/country.cpp:31
+#: libicq/country.cpp:32
 msgid "Italian"
 msgstr "İtalyanca"
 
-#: client.cpp:134 client.cpp:135 client.cpp:136 libicq/country.cpp:32
+#: client.cpp:90 client.cpp:91 client.cpp:92 libicq/country.cpp:33
 msgid "Japanese"
 msgstr "Japonca"
 
-#: libicq/country.cpp:33
+#: libicq/country.cpp:34
 msgid "Khmer"
 msgstr "Khmer"
 
-#: client.cpp:133 libicq/country.cpp:34
+#: client.cpp:89 libicq/country.cpp:35
 msgid "Korean"
 msgstr "Korece"
 
-#: libicq/country.cpp:35
+#: libicq/country.cpp:36
 msgid "Lao"
 msgstr "Lao"
 
-#: libicq/country.cpp:36
+#: libicq/country.cpp:37
 msgid "Latvian"
 msgstr "Litvanyaca"
 
-#: libicq/country.cpp:37
+#: libicq/country.cpp:38
 msgid "Lithuanian"
 msgstr "Lithuanian"
 
-#: libicq/country.cpp:38
+#: libicq/country.cpp:39
 msgid "Malay"
 msgstr "Malay"
 
-#: libicq/country.cpp:39
+#: libicq/country.cpp:40
 msgid "Norwegian"
 msgstr "Norveçce"
 
-#: libicq/country.cpp:40
+#: libicq/country.cpp:41
 msgid "Polish"
 msgstr "Polonyaca"
 
-#: libicq/country.cpp:41
+#: libicq/country.cpp:42
 msgid "Portuguese"
 msgstr "Portekizce"
 
-#: libicq/country.cpp:42
+#: libicq/country.cpp:43
 msgid "Romanian"
 msgstr "Romanca"
 
-#: libicq/country.cpp:43
+#: libicq/country.cpp:44
 msgid "Russian"
 msgstr "Rusça"
 
-#: libicq/country.cpp:44
+#: libicq/country.cpp:45
 msgid "Serbian"
 msgstr "Sırpça"
 
-#: libicq/country.cpp:45
+#: libicq/country.cpp:46
 msgid "Slovak"
 msgstr "Slovakça"
 
-#: libicq/country.cpp:46
+#: libicq/country.cpp:47
 msgid "Slovenian"
 msgstr "Slovence"
 
-#: libicq/country.cpp:47
+#: libicq/country.cpp:48
 msgid "Somali"
 msgstr "Somalice"
 
-#: libicq/country.cpp:48
+#: libicq/country.cpp:49
 msgid "Spanish"
 msgstr "İspanyolca"
 
-#: libicq/country.cpp:49
+#: libicq/country.cpp:50
 msgid "Swahili"
 msgstr "Swahili"
 
-#: libicq/country.cpp:50
+#: libicq/country.cpp:51
 msgid "Swedish"
 msgstr "İsveççe"
 
-#: libicq/country.cpp:51
+#: libicq/country.cpp:52
 msgid "Tagalog"
 msgstr "Tagalog"
 
-#: libicq/country.cpp:52
+#: libicq/country.cpp:53
 msgid "Tatar"
 msgstr "Tatarca"
 
-#: libicq/country.cpp:53
+#: libicq/country.cpp:54
 msgid "Thai"
 msgstr "Thai"
 
-#: client.cpp:131 client.cpp:132 libicq/country.cpp:54
+#: client.cpp:87 client.cpp:88 libicq/country.cpp:55
 msgid "Turkish"
 msgstr "Türkçe"
 
-#: libicq/country.cpp:55
+#: libicq/country.cpp:56
 msgid "Ukrainian"
 msgstr "Ukraynaca"
 
-#: libicq/country.cpp:56
+#: libicq/country.cpp:57
 msgid "Urdu"
 msgstr "Urduca"
 
-#: libicq/country.cpp:57
+#: libicq/country.cpp:58
 msgid "Vietnamese"
 msgstr "Vietnamca"
 
-#: libicq/country.cpp:58
+#: libicq/country.cpp:59
 msgid "Yiddish"
 msgstr "Yiddish"
 
-#: libicq/country.cpp:59
+#: libicq/country.cpp:60
 msgid "Yoruba"
 msgstr "Yoruba"
 
-#: libicq/country.cpp:60
+#: libicq/country.cpp:61
 msgid "Taiwanese"
 msgstr "Tayvanca"
 
-#: libicq/country.cpp:61
+#: libicq/country.cpp:62
 msgid "Afrikaans"
 msgstr "Afrika"
 
-#: libicq/country.cpp:62
+#: libicq/country.cpp:63
 msgid "Persian"
 msgstr "Pers"
 
-#: libicq/country.cpp:63
+#: libicq/country.cpp:64
 msgid "Albanian"
 msgstr "Albanian"
 
-#: libicq/country.cpp:64
+#: libicq/country.cpp:65
 msgid "Armenian"
 msgstr "Ermenistan"
 
-#: libicq/country.cpp:70
+#: libicq/country.cpp:71
 msgid "Afghanistan"
 msgstr "Afganistan"
 
-#: libicq/country.cpp:71
+#: libicq/country.cpp:72
 msgid "Albania"
 msgstr "Albania"
 
-#: libicq/country.cpp:72
+#: libicq/country.cpp:73
 msgid "Algeria"
 msgstr "Algeria"
 
-#: libicq/country.cpp:73
+#: libicq/country.cpp:74
 msgid "American Samoa"
 msgstr "American Samoa"
 
-#: libicq/country.cpp:74
+#: libicq/country.cpp:75
 msgid "Andorra"
 msgstr "Andorra"
 
-#: libicq/country.cpp:75
+#: libicq/country.cpp:76
 msgid "Angola"
 msgstr "Angola"
 
-#: libicq/country.cpp:76
+#: libicq/country.cpp:77
 msgid "Anguilla"
 msgstr "Anguilla"
 
-#: libicq/country.cpp:77
+#: libicq/country.cpp:78
 msgid "Antigua"
 msgstr "Antigua"
 
-#: libicq/country.cpp:78
+#: libicq/country.cpp:79
 msgid "Argentina"
 msgstr "Arjantin"
 
-#: libicq/country.cpp:79
+#: libicq/country.cpp:80
 msgid "Armenia"
 msgstr "Ermenistan"
 
-#: libicq/country.cpp:80
+#: libicq/country.cpp:81
 msgid "Aruba"
 msgstr "Aruba"
 
-#: libicq/country.cpp:81
+#: libicq/country.cpp:82
 msgid "Ascension Island"
 msgstr "Ascension Island"
 
-#: libicq/country.cpp:82
+#: libicq/country.cpp:83
 msgid "Australia"
 msgstr "Avustralya"
 
-#: libicq/country.cpp:83
+#: libicq/country.cpp:84
 msgid "Australian Antarctic Territory"
 msgstr "Avustralya Antartica Bölgesi"
 
-#: libicq/country.cpp:84
+#: libicq/country.cpp:85
 msgid "Austria"
 msgstr "Avusturya"
 
-#: libicq/country.cpp:85
+#: libicq/country.cpp:86
 msgid "Azerbaijan"
 msgstr "Azerbeycan"
 
-#: libicq/country.cpp:86
+#: libicq/country.cpp:87
 msgid "Bahamas"
 msgstr "Bahamalar"
 
-#: libicq/country.cpp:87
+#: libicq/country.cpp:88
 msgid "Bahrain"
 msgstr "Bahreyn"
 
-#: libicq/country.cpp:88
+#: libicq/country.cpp:89
 msgid "Bangladesh"
 msgstr "Bangladeş"
 
-#: libicq/country.cpp:89
+#: libicq/country.cpp:90
 msgid "Barbados"
 msgstr "Barbados"
 
-#: libicq/country.cpp:90
+#: libicq/country.cpp:91
 msgid "Barbuda"
 msgstr "Barbuda"
 
-#: libicq/country.cpp:91
+#: libicq/country.cpp:92
 msgid "Belarus"
 msgstr "Belarus"
 
-#: libicq/country.cpp:92
+#: libicq/country.cpp:93
 msgid "Belgium"
 msgstr "Belçika"
 
-#: libicq/country.cpp:93
+#: libicq/country.cpp:94
 msgid "Belize"
 msgstr "Belize"
 
-#: libicq/country.cpp:94
+#: libicq/country.cpp:95
 msgid "Benin"
 msgstr "Benin"
 
-#: libicq/country.cpp:95
+#: libicq/country.cpp:96
 msgid "Bermuda"
 msgstr "Bermuda"
 
-#: libicq/country.cpp:96
+#: libicq/country.cpp:97
 msgid "Bhutan"
 msgstr "Bhutan"
 
-#: libicq/country.cpp:97
+#: libicq/country.cpp:98
 msgid "Bolivia"
 msgstr "Bolivya"
 
-#: libicq/country.cpp:98
+#: libicq/country.cpp:99
 msgid "Bosnia and Herzegovina"
 msgstr "Bosna"
 
-#: libicq/country.cpp:99
+#: libicq/country.cpp:100
 msgid "Botswana"
 msgstr "Botswana"
 
-#: libicq/country.cpp:100
+#: libicq/country.cpp:101
 msgid "Brazil"
 msgstr "Brezilya"
 
-#: libicq/country.cpp:101
+#: libicq/country.cpp:102
 msgid "British Virgin Islands"
 msgstr "British Virgin Islands"
 
-#: libicq/country.cpp:102
+#: libicq/country.cpp:103
 msgid "Brunei"
 msgstr "Brunei"
 
-#: libicq/country.cpp:103
+#: libicq/country.cpp:104
 msgid "Bulgaria"
 msgstr "Bulgaristan"
 
-#: libicq/country.cpp:104
+#: libicq/country.cpp:105
 msgid "Burkina Faso"
 msgstr "Burkina Faso"
 
-#: libicq/country.cpp:105
+#: libicq/country.cpp:106
 msgid "Burundi"
 msgstr "Burundi"
 
-#: libicq/country.cpp:106
+#: libicq/country.cpp:107
 msgid "Cambodia"
 msgstr "Kamboçya"
 
-#: libicq/country.cpp:107
+#: libicq/country.cpp:108
 msgid "Cameroon"
 msgstr "Kameron"
 
-#: libicq/country.cpp:108
+#: libicq/country.cpp:109
 msgid "Canada"
 msgstr "Kanada"
 
-#: libicq/country.cpp:109
+#: libicq/country.cpp:110
 msgid "Cape Verde Islands"
 msgstr "Cape Verde Adaları"
 
-#: libicq/country.cpp:110
+#: libicq/country.cpp:111
 msgid "Cayman Islands"
 msgstr "Cayman Adaları"
 
-#: libicq/country.cpp:111
+#: libicq/country.cpp:112
 msgid "Central African Republic"
 msgstr "Afrika Cumhuriyeti"
 
-#: libicq/country.cpp:112
+#: libicq/country.cpp:113
 msgid "Chad"
 msgstr "Chad"
 
-#: libicq/country.cpp:113
+#: libicq/country.cpp:114
 msgid "Chile"
 msgstr "Chile"
 
-#: libicq/country.cpp:114
+#: libicq/country.cpp:115
 msgid "China"
 msgstr "Çin"
 
-#: libicq/country.cpp:115
+#: libicq/country.cpp:116
 msgid "Christmas Island"
 msgstr "Christmas Adası"
 
-#: libicq/country.cpp:116
+#: libicq/country.cpp:117
 msgid "Cocos-Keeling Islands"
 msgstr "Cocos-Keeling Adaları"
 
-#: libicq/country.cpp:117
+#: libicq/country.cpp:118
 msgid "Colombia"
 msgstr "Kolombiya"
 
-#: libicq/country.cpp:118
+#: libicq/country.cpp:119
 msgid "Comoros"
 msgstr "Comoros"
 
-#: libicq/country.cpp:119
+#: libicq/country.cpp:120
 msgid "Congo"
 msgstr "Kongo"
 
-#: libicq/country.cpp:120
+#: libicq/country.cpp:121
 msgid "Cook Islands"
 msgstr "Cook Adaları"
 
-#: libicq/country.cpp:121
+#: libicq/country.cpp:122
 msgid "Costa Rica"
 msgstr "Costa Rica"
 
-#: libicq/country.cpp:122
+#: libicq/country.cpp:123
 msgid "Croatia"
 msgstr "Croatia"
 
-#: libicq/country.cpp:123
+#: libicq/country.cpp:124
 msgid "Cuba"
 msgstr "Küba"
 
-#: libicq/country.cpp:124
+#: libicq/country.cpp:125
 msgid "Cyprus"
 msgstr "Kıbrıs"
 
-#: libicq/country.cpp:125
+#: libicq/country.cpp:126
 msgid "Czech Republic"
 msgstr "Çek Cumhuriyeti"
 
-#: libicq/country.cpp:126
+#: libicq/country.cpp:127
 msgid "Denmark"
 msgstr "Danimarka"
 
-#: libicq/country.cpp:127
+#: libicq/country.cpp:128
 msgid "Diego Garcia"
 msgstr "Diego Garcia"
 
-#: libicq/country.cpp:128
+#: libicq/country.cpp:129
 msgid "Djibouti"
 msgstr "Djibouti"
 
-#: libicq/country.cpp:129
+#: libicq/country.cpp:130
 msgid "Dominica"
 msgstr "Dominica"
 
-#: libicq/country.cpp:130
+#: libicq/country.cpp:131
 msgid "Dominican Republic"
 msgstr "Dominik Cumhuriyeti"
 
-#: libicq/country.cpp:131
+#: libicq/country.cpp:132
 msgid "Ecuador"
 msgstr "Ekvator"
 
-#: libicq/country.cpp:132
+#: libicq/country.cpp:133
 msgid "Egypt"
 msgstr "Mısır"
 
-#: libicq/country.cpp:133
+#: libicq/country.cpp:134
 msgid "El Salvador"
 msgstr "El Salvador"
 
-#: libicq/country.cpp:134
+#: libicq/country.cpp:135
 msgid "Equatorial Guinea"
 msgstr "Equatorial Guinea"
 
-#: libicq/country.cpp:135
+#: libicq/country.cpp:136
 msgid "Eritrea"
 msgstr "Eritrea"
 
-#: libicq/country.cpp:136
+#: libicq/country.cpp:137
 msgid "Estonia"
 msgstr "Estonya"
 
-#: libicq/country.cpp:137
+#: libicq/country.cpp:138
 msgid "Ethiopia"
 msgstr "Etopya"
 
-#: libicq/country.cpp:138
+#: libicq/country.cpp:139
 msgid "Faeroe Islands"
 msgstr "Faeroe Adaları"
 
-#: libicq/country.cpp:139
+#: libicq/country.cpp:140
 msgid "Falkland Islands"
 msgstr "Falkland Adaları"
 
-#: libicq/country.cpp:140
+#: libicq/country.cpp:141
 msgid "Fiji Islands"
 msgstr "Fiji Adaları"
 
-#: libicq/country.cpp:141
+#: libicq/country.cpp:142
 msgid "Finland"
 msgstr "Finlandiya"
 
-#: libicq/country.cpp:142
+#: libicq/country.cpp:143
 msgid "France"
 msgstr "Fransa"
 
-#: libicq/country.cpp:143
+#: libicq/country.cpp:144
 msgid "French Antilles"
 msgstr "French Antilles"
 
-#: libicq/country.cpp:144
+#: libicq/country.cpp:145
 msgid "French Guiana"
 msgstr "Fransız Guenası"
 
-#: libicq/country.cpp:145
+#: libicq/country.cpp:146
 msgid "French Polynesia"
 msgstr "French Polynesia"
 
-#: libicq/country.cpp:146
+#: libicq/country.cpp:147
 msgid "Gabon"
 msgstr "Gabon"
 
-#: libicq/country.cpp:147
+#: libicq/country.cpp:148
 msgid "Gambia"
 msgstr "Gambia"
 
-#: libicq/country.cpp:148
+#: libicq/country.cpp:149
 msgid "Georgia"
 msgstr "Georgia"
 
-#: libicq/country.cpp:149
+#: libicq/country.cpp:150
 msgid "Germany"
 msgstr "Almanya"
 
-#: libicq/country.cpp:150
+#: libicq/country.cpp:151
 msgid "Ghana"
 msgstr "Ghana"
 
-#: libicq/country.cpp:151
+#: libicq/country.cpp:152
 msgid "Gibraltar"
 msgstr "Gibraltar"
 
-#: libicq/country.cpp:152
+#: libicq/country.cpp:153
 msgid "Greece"
 msgstr "Yunanistan"
 
-#: libicq/country.cpp:153
+#: libicq/country.cpp:154
 msgid "Greenland"
 msgstr "Greenland"
 
-#: libicq/country.cpp:154
+#: libicq/country.cpp:155
 msgid "Grenada"
 msgstr "Grenada"
 
-#: libicq/country.cpp:155
+#: libicq/country.cpp:156
 msgid "Guadeloupe"
 msgstr "Guadeloupe"
 
-#: libicq/country.cpp:156
+#: libicq/country.cpp:157
 msgid "Guam"
 msgstr "Guam"
 
-#: libicq/country.cpp:157
+#: libicq/country.cpp:158
 msgid "Guantanamo Bay"
 msgstr "Guantanamo Körfezi"
 
-#: libicq/country.cpp:158
+#: libicq/country.cpp:159
 msgid "Guatemala"
 msgstr "Guatemala"
 
-#: libicq/country.cpp:159
+#: libicq/country.cpp:160
 msgid "Guinea"
 msgstr "Guinea"
 
-#: libicq/country.cpp:160
+#: libicq/country.cpp:161
 msgid "Guinea-Bissau"
 msgstr "Guinea-Bissau"
 
-#: libicq/country.cpp:161
+#: libicq/country.cpp:162
 msgid "Guyana"
 msgstr "Guyana"
 
-#: libicq/country.cpp:162
+#: libicq/country.cpp:163
 msgid "Haiti"
 msgstr "Haiti"
 
-#: libicq/country.cpp:163
+#: libicq/country.cpp:164
 msgid "Honduras"
 msgstr "Honduras"
 
-#: libicq/country.cpp:164
+#: libicq/country.cpp:165
 msgid "Hong Kong"
 msgstr "Hong Kong"
 
-#: libicq/country.cpp:165
+#: libicq/country.cpp:166
 msgid "Hungary"
 msgstr "Macaristan"
 
-#: libicq/country.cpp:166
+#: libicq/country.cpp:167
 msgid "INMARSAT (Atlantic-East)"
 msgstr "INMARSAT (Atlantic-East)"
 
-#: libicq/country.cpp:167
+#: libicq/country.cpp:168
 msgid "INMARSAT (Atlantic-West)"
 msgstr "INMARSAT (Atlantic-West)"
 
-#: libicq/country.cpp:168
+#: libicq/country.cpp:169
 msgid "INMARSAT (Indian)"
 msgstr "INMARSAT (Indian)"
 
-#: libicq/country.cpp:169
+#: libicq/country.cpp:170
 msgid "INMARSAT (Pacific)"
 msgstr "INMARSAT (Pacific)"
 
-#: libicq/country.cpp:170
+#: libicq/country.cpp:171
 msgid "INMARSAT"
 msgstr "INMARSAT"
 
-#: libicq/country.cpp:171
+#: libicq/country.cpp:172
 msgid "Iceland"
 msgstr "Kutuplar"
 
-#: libicq/country.cpp:172
+#: libicq/country.cpp:173
 msgid "India"
 msgstr "Hindistan"
 
-#: libicq/country.cpp:173
+#: libicq/country.cpp:174
 msgid "Indonesia"
 msgstr "Endonezya"
 
-#: libicq/country.cpp:174
+#: libicq/country.cpp:175
 msgid "International Freephone Service"
 msgstr "International Freephone Service"
 
-#: libicq/country.cpp:175
+#: libicq/country.cpp:176
 msgid "Iran"
 msgstr "İran"
 
-#: libicq/country.cpp:176
+#: libicq/country.cpp:177
 msgid "Iraq"
 msgstr "Irak"
 
-#: libicq/country.cpp:177
+#: libicq/country.cpp:178
 msgid "Ireland"
 msgstr "İrlanda"
 
-#: libicq/country.cpp:178
+#: libicq/country.cpp:179
 msgid "Israel"
 msgstr "İsrail"
 
-#: libicq/country.cpp:179
+#: libicq/country.cpp:180
 msgid "Italy"
 msgstr "İtalya"
 
-#: libicq/country.cpp:180
+#: libicq/country.cpp:181
 msgid "Ivory Coast"
 msgstr "Ivory Coast"
 
-#: libicq/country.cpp:181
+#: libicq/country.cpp:182
 msgid "Jamaica"
 msgstr "Jamaica"
 
-#: libicq/country.cpp:182
+#: libicq/country.cpp:183
 msgid "Japan"
 msgstr "Japonya"
 
-#: libicq/country.cpp:183
+#: libicq/country.cpp:184
 msgid "Jordan"
 msgstr "Jordan"
 
-#: libicq/country.cpp:184
+#: libicq/country.cpp:185
 msgid "Kazakhstan"
 msgstr "Kazakistan"
 
-#: libicq/country.cpp:185
+#: libicq/country.cpp:186
 msgid "Kenya"
 msgstr "Kenya"
 
-#: libicq/country.cpp:186
+#: libicq/country.cpp:187
 msgid "Kiribati Republic"
 msgstr "Kiribati Cumhuriyeti"
 
-#: libicq/country.cpp:187
+#: libicq/country.cpp:188
 msgid "Korea (North)"
 msgstr "Kuzey Kore"
 
-#: libicq/country.cpp:188
+#: libicq/country.cpp:189
 msgid "Korea (Republic of)"
 msgstr "Kore Cumhuriyeti"
 
-#: libicq/country.cpp:189
+#: libicq/country.cpp:190
 msgid "Kuwait"
 msgstr "Kuveyt"
 
-#: libicq/country.cpp:190
+#: libicq/country.cpp:191
 msgid "Kyrgyz Republic"
 msgstr "Kırgız Cumhuriyeti"
 
-#: libicq/country.cpp:191
+#: libicq/country.cpp:192
 msgid "Laos"
 msgstr "Laos"
 
-#: libicq/country.cpp:192
+#: libicq/country.cpp:193
 msgid "Latvia"
 msgstr "Latvia"
 
-#: libicq/country.cpp:193
+#: libicq/country.cpp:194
 msgid "Lebanon"
 msgstr "Lübnan"
 
-#: libicq/country.cpp:194
+#: libicq/country.cpp:195
 msgid "Lesotho"
 msgstr "Lesotho"
 
-#: libicq/country.cpp:195
+#: libicq/country.cpp:196
 msgid "Liberia"
 msgstr "Liberia"
 
-#: libicq/country.cpp:196
+#: libicq/country.cpp:197
 msgid "Libya"
 msgstr "Libya"
 
-#: libicq/country.cpp:197
+#: libicq/country.cpp:198
 msgid "Liechtenstein"
 msgstr "Liechtenstein"
 
-#: libicq/country.cpp:198
+#: libicq/country.cpp:199
 msgid "Lithuania"
 msgstr "Litvanya"
 
-#: libicq/country.cpp:199
+#: libicq/country.cpp:200
 msgid "Luxembourg"
 msgstr "Lüxemburg"
 
-#: libicq/country.cpp:200
+#: libicq/country.cpp:201
 msgid "Macau"
 msgstr "Macau"
 
-#: libicq/country.cpp:201
+#: libicq/country.cpp:202
 msgid "Madagascar"
 msgstr "Magadaskar"
 
-#: libicq/country.cpp:202
+#: libicq/country.cpp:203
 msgid "Malawi"
 msgstr "Malawi"
 
-#: libicq/country.cpp:203
+#: libicq/country.cpp:204
 msgid "Malaysia"
 msgstr "Malezya"
 
-#: libicq/country.cpp:204
+#: libicq/country.cpp:205
 msgid "Maldives"
 msgstr "Maldives"
 
-#: libicq/country.cpp:205
+#: libicq/country.cpp:206
 msgid "Mali"
 msgstr "Mali"
 
-#: libicq/country.cpp:206
+#: libicq/country.cpp:207
 msgid "Malta"
 msgstr "Malta"
 
-#: libicq/country.cpp:207
+#: libicq/country.cpp:208
 msgid "Marshall Islands"
 msgstr "Marshall Adaları"
 
-#: libicq/country.cpp:208
+#: libicq/country.cpp:209
 msgid "Martinique"
 msgstr "Martinique"
 
-#: libicq/country.cpp:209
+#: libicq/country.cpp:210
 msgid "Mauritania"
 msgstr "Mauritania"
 
-#: libicq/country.cpp:210
+#: libicq/country.cpp:211
 msgid "Mauritius"
 msgstr "Mauritius"
 
-#: libicq/country.cpp:211
+#: libicq/country.cpp:212
 msgid "Mayotte Island"
 msgstr "Mayotte Adası"
 
-#: libicq/country.cpp:212
+#: libicq/country.cpp:213
 msgid "Mexico"
 msgstr "Meksika"
 
-#: libicq/country.cpp:213
+#: libicq/country.cpp:214
 msgid "Micronesia, Federated States of"
 msgstr "Micronesia, Federated States of"
 
-#: libicq/country.cpp:214
+#: libicq/country.cpp:215
 msgid "Moldova"
 msgstr "Moldova"
 
-#: libicq/country.cpp:215
+#: libicq/country.cpp:216
 msgid "Monaco"
 msgstr "Monaco"
 
-#: libicq/country.cpp:216
+#: libicq/country.cpp:217
 msgid "Mongolia"
 msgstr "Mongolia"
 
-#: libicq/country.cpp:217
+#: libicq/country.cpp:218
 msgid "Montserrat"
 msgstr "Montserrat"
 
-#: libicq/country.cpp:218
+#: libicq/country.cpp:219
 msgid "Morocco"
 msgstr "Morocco"
 
-#: libicq/country.cpp:219
+#: libicq/country.cpp:220
 msgid "Mozambique"
 msgstr "Mozambik"
 
-#: libicq/country.cpp:220
+#: libicq/country.cpp:221
 msgid "Myanmar"
 msgstr "Myanmar"
 
-#: libicq/country.cpp:221
+#: libicq/country.cpp:222
 msgid "Namibia"
 msgstr "Namibia"
 
-#: libicq/country.cpp:222
+#: libicq/country.cpp:223
 msgid "Nauru"
 msgstr "Nauru"
 
-#: libicq/country.cpp:223
+#: libicq/country.cpp:224
 msgid "Nepal"
 msgstr "Nepal"
 
-#: libicq/country.cpp:224
+#: libicq/country.cpp:225
 msgid "Netherlands Antilles"
 msgstr "Netherlands Antilles"
 
-#: libicq/country.cpp:225
+#: libicq/country.cpp:226
 msgid "Netherlands"
 msgstr "Hollanda"
 
-#: libicq/country.cpp:226
+#: libicq/country.cpp:227
 msgid "Nevis"
 msgstr "Nevis"
 
-#: libicq/country.cpp:227
+#: libicq/country.cpp:228
 msgid "New Caledonia"
 msgstr "New Caledonia"
 
-#: libicq/country.cpp:228
+#: libicq/country.cpp:229
 msgid "New Zealand"
 msgstr "Yeni Zelanda"
 
-#: libicq/country.cpp:229
+#: libicq/country.cpp:230
 msgid "Nicaragua"
 msgstr "Nicaragua"
 
-#: libicq/country.cpp:230
+#: libicq/country.cpp:231
 msgid "Niger"
 msgstr "Niger"
 
-#: libicq/country.cpp:231
+#: libicq/country.cpp:232
 msgid "Nigeria"
 msgstr "Nijerya"
 
-#: libicq/country.cpp:232
+#: libicq/country.cpp:233
 msgid "Niue"
 msgstr "Niue"
 
-#: libicq/country.cpp:233
+#: libicq/country.cpp:234
 msgid "Norfolk Island"
 msgstr "Norfolk Adası"
 
-#: libicq/country.cpp:234
+#: libicq/country.cpp:235
 msgid "Norway"
 msgstr "Norveç"
 
-#: libicq/country.cpp:235
+#: libicq/country.cpp:236
 msgid "Oman"
 msgstr "Oman"
 
-#: libicq/country.cpp:236
+#: libicq/country.cpp:237
 msgid "Pakistan"
 msgstr "Pakistan"
 
-#: libicq/country.cpp:237
+#: libicq/country.cpp:238
 msgid "Palau"
 msgstr "Palau"
 
-#: libicq/country.cpp:238
+#: libicq/country.cpp:239
 msgid "Panama"
 msgstr "Panama"
 
-#: libicq/country.cpp:239
+#: libicq/country.cpp:240
 msgid "Papua New Guinea"
 msgstr "Papua Yeni Gine"
 
-#: libicq/country.cpp:240
+#: libicq/country.cpp:241
 msgid "Paraguay"
 msgstr "Paraguay"
 
-#: libicq/country.cpp:241
+#: libicq/country.cpp:242
 msgid "Peru"
 msgstr "Peru"
 
-#: libicq/country.cpp:242
+#: libicq/country.cpp:243
 msgid "Philippines"
 msgstr "Filipinler"
 
-#: libicq/country.cpp:243
+#: libicq/country.cpp:244
 msgid "Poland"
 msgstr "Polonya"
 
-#: libicq/country.cpp:244
+#: libicq/country.cpp:245
 msgid "Portugal"
 msgstr "Portekiz"
 
-#: libicq/country.cpp:245
+#: libicq/country.cpp:246
 msgid "Puerto Rico"
 msgstr "Porto Riko"
 
-#: libicq/country.cpp:246
+#: libicq/country.cpp:247
 msgid "Qatar"
 msgstr "Qatar"
 
-#: libicq/country.cpp:247
+#: libicq/country.cpp:248
 msgid "Republic of Macedonia"
 msgstr "Makedonya Cumhuriyeti"
 
-#: libicq/country.cpp:248
+#: libicq/country.cpp:249
 msgid "Reunion Island"
 msgstr "Reunion Adası"
 
-#: libicq/country.cpp:249
+#: libicq/country.cpp:250
 msgid "Romania"
 msgstr "Romanya"
 
-#: libicq/country.cpp:250
+#: libicq/country.cpp:251
 msgid "Rota Island"
 msgstr "Rota Adası"
 
-#: libicq/country.cpp:251
+#: libicq/country.cpp:252
 msgid "Russia"
 msgstr "Rusya"
 
-#: libicq/country.cpp:252
+#: libicq/country.cpp:253
 msgid "Rwanda"
 msgstr "Rwanda"
 
-#: libicq/country.cpp:253
+#: libicq/country.cpp:254
 msgid "Saint Lucia"
 msgstr "Saint Lucia"
 
-#: libicq/country.cpp:254
+#: libicq/country.cpp:255
 msgid "Saipan Island"
 msgstr "Saipan Adası"
 
-#: libicq/country.cpp:255
+#: libicq/country.cpp:256
 msgid "San Marino"
 msgstr "San Marino"
 
-#: libicq/country.cpp:256
+#: libicq/country.cpp:257
 msgid "Sao Tome and Principe"
 msgstr "Sao Tome and Principe"
 
-#: libicq/country.cpp:257
+#: libicq/country.cpp:258
 msgid "Saudi Arabia"
 msgstr "Sudi Arabistan"
 
-#: libicq/country.cpp:258
+#: libicq/country.cpp:259
 msgid "Senegal Republic"
 msgstr "Senegal Cumhuriyeti"
 
-#: libicq/country.cpp:259
+#: libicq/country.cpp:260
 msgid "Seychelle Islands"
 msgstr "Seychelle Adaları"
 
-#: libicq/country.cpp:260
+#: libicq/country.cpp:261
 msgid "Sierra Leone"
 msgstr "Sierra Leone"
 
-#: libicq/country.cpp:261
+#: libicq/country.cpp:262
 msgid "Singapore"
 msgstr "Singapur"
 
-#: libicq/country.cpp:262
+#: libicq/country.cpp:263
 msgid "Slovak Republic"
 msgstr "Slovak Cumhuriyeti"
 
-#: libicq/country.cpp:263
+#: libicq/country.cpp:264
 msgid "Slovenia"
 msgstr "Slovenya"
 
-#: libicq/country.cpp:264
+#: libicq/country.cpp:265
 msgid "Solomon Islands"
 msgstr "Solomon Adaları"
 
-#: libicq/country.cpp:265
+#: libicq/country.cpp:266
 msgid "Somalia"
 msgstr "Somali"
 
-#: libicq/country.cpp:266
+#: libicq/country.cpp:267
 msgid "South Africa"
 msgstr "Güney Afrika"
 
-#: libicq/country.cpp:267
+#: libicq/country.cpp:268
 msgid "Spain"
 msgstr "İspanya"
 
-#: libicq/country.cpp:268
+#: libicq/country.cpp:269
 msgid "Sri Lanka"
 msgstr "Sri Lanka"
 
-#: libicq/country.cpp:269
+#: libicq/country.cpp:270
 msgid "St. Helena"
 msgstr "St. Helena"
 
-#: libicq/country.cpp:270
+#: libicq/country.cpp:271
 msgid "St. Kitts"
 msgstr "St. Kitts"
 
-#: libicq/country.cpp:271
+#: libicq/country.cpp:272
 msgid "St. Pierre and Miquelon"
 msgstr "St. Pierre and Miquelon"
 
-#: libicq/country.cpp:272
+#: libicq/country.cpp:273
 msgid "St. Vincent and the Grenadines"
 msgstr "St. Vincent and the Grenadines"
 
-#: libicq/country.cpp:273
+#: libicq/country.cpp:274
 msgid "Sudan"
 msgstr "Sudan"
 
-#: libicq/country.cpp:274
+#: libicq/country.cpp:275
 msgid "Suriname"
 msgstr "Suriname"
 
-#: libicq/country.cpp:275
+#: libicq/country.cpp:276
 msgid "Swaziland"
 msgstr "Swaziland"
 
-#: libicq/country.cpp:276
+#: libicq/country.cpp:277
 msgid "Sweden"
 msgstr "İsveç"
 
-#: libicq/country.cpp:277
+#: libicq/country.cpp:278
 msgid "Switzerland"
 msgstr "İsviçre"
 
-#: libicq/country.cpp:278
+#: libicq/country.cpp:279
 msgid "Syria"
 msgstr "Syria"
 
-#: libicq/country.cpp:279
+#: libicq/country.cpp:280
 msgid "Taiwan, Republic of China"
 msgstr "Tayvan"
 
-#: libicq/country.cpp:280
+#: libicq/country.cpp:281
 msgid "Tajikistan"
 msgstr "Tacikistan"
 
-#: libicq/country.cpp:281
+#: libicq/country.cpp:282
 msgid "Tanzania"
 msgstr "Tanzanya"
 
-#: libicq/country.cpp:282
+#: libicq/country.cpp:283
 msgid "Thailand"
 msgstr "Tayland"
 
-#: libicq/country.cpp:283
+#: libicq/country.cpp:284
 msgid "Tinian Island"
 msgstr "Tinian Adası"
 
-#: libicq/country.cpp:284
+#: libicq/country.cpp:285
 msgid "Togo"
 msgstr "Togo"
 
-#: libicq/country.cpp:285
+#: libicq/country.cpp:286
 msgid "Tokelau"
 msgstr "Tokelau"
 
-#: libicq/country.cpp:286
+#: libicq/country.cpp:287
 msgid "Tonga"
 msgstr "Tonga"
 
-#: libicq/country.cpp:287
+#: libicq/country.cpp:288
 msgid "Trinidad and Tobago"
 msgstr "Trinidad and Tobago"
 
-#: libicq/country.cpp:288
+#: libicq/country.cpp:289
 msgid "Tunisia"
 msgstr "Tunus"
 
-#: libicq/country.cpp:289
+#: libicq/country.cpp:290
 msgid "Turkey"
 msgstr "Türkiye"
 
-#: libicq/country.cpp:290
+#: libicq/country.cpp:291
 msgid "Turkmenistan"
 msgstr "Türkmenistan"
 
-#: libicq/country.cpp:291
+#: libicq/country.cpp:292
 msgid "Turks and Caicos Islands"
 msgstr "Turks and Caicos Islands"
 
-#: libicq/country.cpp:292
+#: libicq/country.cpp:293
 msgid "Tuvalu"
 msgstr "Tuvalu"
 
-#: libicq/country.cpp:293
+#: libicq/country.cpp:294
 msgid "USA"
 msgstr "ABD"
 
-#: libicq/country.cpp:294
+#: libicq/country.cpp:295
 msgid "Uganda"
 msgstr "Uganda"
 
-#: libicq/country.cpp:295
+#: libicq/country.cpp:296
 msgid "Ukraine"
 msgstr "Ukrayna"
 
-#: libicq/country.cpp:296
+#: libicq/country.cpp:297
 msgid "United Arab Emirates"
 msgstr "Birleşik Arap Emirlikleri"
 
-#: libicq/country.cpp:297
+#: libicq/country.cpp:298
 msgid "United Kingdom"
 msgstr "United Kingdom"
 
-#: libicq/country.cpp:298
+#: libicq/country.cpp:299
 msgid "United States Virgin Islands"
 msgstr "United States Virgin Islands"
 
-#: libicq/country.cpp:299
+#: libicq/country.cpp:300
 msgid "Uruguay"
 msgstr "Uruguay"
 
-#: libicq/country.cpp:300
+#: libicq/country.cpp:301
 msgid "Uzbekistan"
 msgstr "Özbekistan"
 
-#: libicq/country.cpp:301
+#: libicq/country.cpp:302
 msgid "Vanuatu"
 msgstr "Vanuatu"
 
-#: libicq/country.cpp:302
+#: libicq/country.cpp:303
 msgid "Vatican City"
 msgstr "Vatican City"
 
-#: libicq/country.cpp:303
+#: libicq/country.cpp:304
 msgid "Venezuela"
 msgstr "Venezuella "
 
-#: libicq/country.cpp:304
+#: libicq/country.cpp:305
 msgid "Vietnam"
 msgstr "Vietnam"
 
-#: libicq/country.cpp:305
+#: libicq/country.cpp:306
 msgid "Wallis and Futuna Islands"
 msgstr "Wallis and Futuna Islands"
 
-#: libicq/country.cpp:306
+#: libicq/country.cpp:307
 msgid "Western Samoa"
 msgstr "Western Samoa"
 
-#: libicq/country.cpp:307
+#: libicq/country.cpp:308
 msgid "Yemen"
 msgstr "Yemen"
 
-#: libicq/country.cpp:308
+#: libicq/country.cpp:309
 msgid "Yugoslavia"
 msgstr "Yugoslavya"
 
-#: libicq/country.cpp:309
+#: libicq/country.cpp:310
 msgid "Zaire"
 msgstr "Zaire"
 
-#: libicq/country.cpp:310
+#: libicq/country.cpp:311
 msgid "Zambia"
 msgstr "Zambia"
 
-#: libicq/country.cpp:311
+#: libicq/country.cpp:312
 msgid "Zimbabwe"
 msgstr "Zimbabwe"
 
-#: libicq/country.cpp:330
+#: libicq/country.cpp:331
 msgid "Art"
 msgstr "Sanat"
 
-#: libicq/country.cpp:331
+#: libicq/country.cpp:332
 msgid "Cars"
 msgstr "Arabalar"
 
-#: libicq/country.cpp:332
+#: libicq/country.cpp:333
 msgid "Celebrity Fans"
 msgstr "Ünlüler"
 
-#: libicq/country.cpp:333
+#: libicq/country.cpp:334
 msgid "Collections"
 msgstr "Koleksiyonlar"
 
-#: libicq/country.cpp:334 libicq/country.cpp:415
+#: libicq/country.cpp:335 libicq/country.cpp:416
 msgid "Computers"
 msgstr "Bilgisayar"
 
-#: libicq/country.cpp:335
+#: libicq/country.cpp:336
 msgid "Culture & Literature"
 msgstr "Kültür & Literatür"
 
-#: libicq/country.cpp:336
+#: libicq/country.cpp:337
 msgid "Fitness"
 msgstr "Sağlık"
 
-#: libicq/country.cpp:337
+#: libicq/country.cpp:338
 msgid "Games"
 msgstr "Oyunlar"
 
-#: libicq/country.cpp:338
+#: libicq/country.cpp:339
 msgid "Hobbies"
 msgstr "Hobiler"
 
-#: libicq/country.cpp:339 libicq/country.cpp:423
+#: libicq/country.cpp:340 libicq/country.cpp:424
 msgid "ICQ - Providing Help"
 msgstr "ICQ - Yardım"
 
-#: libicq/country.cpp:340
+#: libicq/country.cpp:341
 msgid "Internet"
 msgstr "İnternet"
 
-#: libicq/country.cpp:341
+#: libicq/country.cpp:342
 msgid "Lifestyle"
 msgstr "Stil"
 
-#: libicq/country.cpp:342
+#: libicq/country.cpp:343
 msgid "Movies/TV"
 msgstr "Filmler/TV"
 
-#: libicq/country.cpp:343
+#: libicq/country.cpp:344
 msgid "Music"
 msgstr "Müzik"
 
-#: libicq/country.cpp:344
+#: libicq/country.cpp:345
 msgid "Outdoor Activities"
 msgstr "Outdoor Aktiviteler"
 
-#: libicq/country.cpp:345
+#: libicq/country.cpp:346
 msgid "Parenting"
 msgstr "Bakıcılık"
 
-#: libicq/country.cpp:346
+#: libicq/country.cpp:347
 msgid "Pets/Animals"
 msgstr "Hayvanlar"
 
-#: libicq/country.cpp:347
+#: libicq/country.cpp:348
 msgid "Religion"
 msgstr "Din"
 
-#: libicq/country.cpp:348
+#: libicq/country.cpp:349
 msgid "Science/Technology"
 msgstr "Bilim/Teknoloji"
 
-#: libicq/country.cpp:349
+#: libicq/country.cpp:350
 msgid "Skills"
 msgstr "Yetenekler"
 
-#: libicq/country.cpp:350 libicq/country.cpp:435
+#: libicq/country.cpp:351 libicq/country.cpp:436
 msgid "Sports"
 msgstr "Spor"
 
-#: libicq/country.cpp:351
+#: libicq/country.cpp:352
 msgid "Web Design"
 msgstr "Web Dizayn"
 
-#: libicq/country.cpp:352
+#: libicq/country.cpp:353
 msgid "Nature and Environment"
 msgstr "Doğa"
 
-#: libicq/country.cpp:353
+#: libicq/country.cpp:354
 msgid "News & Media"
 msgstr "Haber & Medya"
 
-#: libicq/country.cpp:354 libicq/country.cpp:420
+#: libicq/country.cpp:355 libicq/country.cpp:421
 msgid "Government"
 msgstr "Hükümet"
 
-#: libicq/country.cpp:355
+#: libicq/country.cpp:356
 msgid "Business & Economy"
 msgstr "İş & Ekonomi"
 
-#: libicq/country.cpp:356
+#: libicq/country.cpp:357
 msgid "Mystics"
 msgstr "Mistik"
 
-#: libicq/country.cpp:357
+#: libicq/country.cpp:358
 msgid "Travel"
 msgstr "Gezi"
 
-#: libicq/country.cpp:358
+#: libicq/country.cpp:359
 msgid "Astronomy"
 msgstr "Astronomi"
 
-#: libicq/country.cpp:359
+#: libicq/country.cpp:360
 msgid "Space"
 msgstr "Uzay"
 
-#: libicq/country.cpp:360
+#: libicq/country.cpp:361
 msgid "Clothing"
 msgstr "Giyim"
 
-#: libicq/country.cpp:361
+#: libicq/country.cpp:362
 msgid "Parties"
 msgstr "Partiler"
 
-#: libicq/country.cpp:362
+#: libicq/country.cpp:363
 msgid "Women"
 msgstr "Kadınlar"
 
-#: libicq/country.cpp:363
+#: libicq/country.cpp:364
 msgid "Social science"
 msgstr "Sosyal Bilim"
 
-#: libicq/country.cpp:364
+#: libicq/country.cpp:365
 msgid "60's"
 msgstr "60'lar"
 
-#: libicq/country.cpp:365
+#: libicq/country.cpp:366
 msgid "70's"
 msgstr "70'ler"
 
-#: libicq/country.cpp:366
+#: libicq/country.cpp:367
 msgid "80's"
 msgstr "80'ler"
 
-#: libicq/country.cpp:367
+#: libicq/country.cpp:368
 msgid "50's"
 msgstr "50'ler"
 
-#: libicq/country.cpp:368
+#: libicq/country.cpp:369
 msgid "Finance and corporate"
 msgstr "Finans"
 
-#: libicq/country.cpp:369
+#: libicq/country.cpp:370
 msgid "Entertainment"
 msgstr "Eğlence"
 
-#: libicq/country.cpp:370
+#: libicq/country.cpp:371
 msgid "Consumer electronics"
 msgstr "Elektronik"
 
-#: libicq/country.cpp:371
+#: libicq/country.cpp:372
 msgid "Retail stores"
 msgstr "Alışveriş"
 
-#: libicq/country.cpp:372
+#: libicq/country.cpp:373
 msgid "Health and beauty"
 msgstr "Sağlık ve Güzellik"
 
-#: libicq/country.cpp:373
+#: libicq/country.cpp:374
 msgid "Media"
 msgstr "Medya"
 
-#: libicq/country.cpp:374
+#: libicq/country.cpp:375
 msgid "Household products"
 msgstr "Ev eşyaları"
 
-#: libicq/country.cpp:375
+#: libicq/country.cpp:376
 msgid "Mail order catalog"
 msgstr "Ürün Kataloğu"
 
-#: libicq/country.cpp:376
+#: libicq/country.cpp:377
 msgid "Business services"
 msgstr "İş Sevisleri"
 
-#: libicq/country.cpp:377
+#: libicq/country.cpp:378
 msgid "Audio and visual"
 msgstr "Ses ve görüntü"
 
-#: libicq/country.cpp:378
+#: libicq/country.cpp:379
 msgid "Sporting and athletic"
 msgstr "Spor ve atletizm"
 
-#: libicq/country.cpp:379
+#: libicq/country.cpp:380
 msgid "Publishing"
 msgstr "Yayın"
 
-#: libicq/country.cpp:380
+#: libicq/country.cpp:381
 msgid "Home automation"
 msgstr "Ev otomasyonu"
 
-#: libicq/country.cpp:386
+#: libicq/country.cpp:387
 msgid "Alumni Org."
 msgstr "Mezun dernekleri"
 
-#: libicq/country.cpp:387
+#: libicq/country.cpp:388
 msgid "Charity Org."
 msgstr "Yardım Org."
 
-#: libicq/country.cpp:388
+#: libicq/country.cpp:389
 msgid "Club/Social Org."
 msgstr "Klüp/Sosyal Org."
 
-#: libicq/country.cpp:389
+#: libicq/country.cpp:390
 msgid "Community Org."
 msgstr "Topluluk Org."
 
-#: libicq/country.cpp:390
+#: libicq/country.cpp:391
 msgid "Cultural Org."
 msgstr "Kültürel Org."
 
-#: libicq/country.cpp:391
+#: libicq/country.cpp:392
 msgid "Fan Clubs"
 msgstr "Hayran Klüpleri"
 
-#: libicq/country.cpp:392
+#: libicq/country.cpp:393
 msgid "Fraternity/Sorority"
 msgstr "Fraternity/Sorority"
 
-#: libicq/country.cpp:393
+#: libicq/country.cpp:394
 msgid "Hobbyists Org."
 msgstr "Hobi Org."
 
-#: libicq/country.cpp:394
+#: libicq/country.cpp:395
 msgid "International Org."
 msgstr "Uluslararası Org."
 
-#: libicq/country.cpp:395
+#: libicq/country.cpp:396
 msgid "Nature and Environment Org."
 msgstr "Doğa Org."
 
-#: libicq/country.cpp:396
+#: libicq/country.cpp:397
 msgid "Professional Org."
 msgstr "Profesyonel Org."
 
-#: libicq/country.cpp:397
+#: libicq/country.cpp:398
 msgid "Scientific/Technical Org."
 msgstr "Bilimsel/Teknik Org."
 
-#: libicq/country.cpp:398
+#: libicq/country.cpp:399
 msgid "Self Improvement Group"
 msgstr "Kendini Geliştirme Org."
 
-#: libicq/country.cpp:399
+#: libicq/country.cpp:400
 msgid "Spiritual/Religious Org."
 msgstr "Dini Org."
 
-#: libicq/country.cpp:400
+#: libicq/country.cpp:401
 msgid "Sports Org."
 msgstr "Spor Org."
 
-#: libicq/country.cpp:401
+#: libicq/country.cpp:402
 msgid "Support Org."
 msgstr "Destek Org."
 
-#: libicq/country.cpp:402
+#: libicq/country.cpp:403
 msgid "Trade and Business Org."
 msgstr "Ticaret ve İş Org."
 
-#: libicq/country.cpp:403
+#: libicq/country.cpp:404
 msgid "Union"
 msgstr "Birlik"
 
-#: libicq/country.cpp:404
+#: libicq/country.cpp:405
 msgid "Volunteer Org."
 msgstr "Gönüllü Org."
 
-#: libicq/country.cpp:405 libicq/country.cpp:451
+#: libicq/country.cpp:406 libicq/country.cpp:452
 msgid "Other"
 msgstr "Diğer"
 
-#: libicq/country.cpp:411
+#: libicq/country.cpp:412
 msgid "Academic"
 msgstr "Akademic"
 
-#: libicq/country.cpp:412
+#: libicq/country.cpp:413
 msgid "Administrative"
 msgstr "Yönetim"
 
-#: libicq/country.cpp:413
+#: libicq/country.cpp:414
 msgid "Art/Entertainment"
 msgstr "Sanat/Eğlence"
 
-#: libicq/country.cpp:414
+#: libicq/country.cpp:415
 msgid "College Student"
 msgstr "Kolej"
 
-#: libicq/country.cpp:416
+#: libicq/country.cpp:417
 msgid "Community & Social"
 msgstr "Sosyal & Toplum"
 
-#: libicq/country.cpp:417
+#: libicq/country.cpp:418
 msgid "Education"
 msgstr "Eğitim"
 
-#: libicq/country.cpp:418
+#: libicq/country.cpp:419
 msgid "Engineering"
 msgstr "Mühendislik"
 
-#: libicq/country.cpp:419
+#: libicq/country.cpp:420
 msgid "Financial Services"
 msgstr "Finans Servisleri"
 
-#: libicq/country.cpp:421
+#: libicq/country.cpp:422
 msgid "High School Student"
 msgstr "Lise Öğrencisi"
 
-#: libicq/country.cpp:422
+#: libicq/country.cpp:423
 msgid "Home"
 msgstr "Ev"
 
-#: libicq/country.cpp:424
+#: libicq/country.cpp:425
 msgid "Law"
 msgstr "Kanuni İşler"
 
-#: libicq/country.cpp:425
+#: libicq/country.cpp:426
 msgid "Managerial"
 msgstr "Menejer"
 
-#: libicq/country.cpp:426
+#: libicq/country.cpp:427
 msgid "Manufacturing"
 msgstr "Üretim"
 
-#: libicq/country.cpp:427
+#: libicq/country.cpp:428
 msgid "Medical/Health"
 msgstr "Sağlık"
 
-#: libicq/country.cpp:428 libicq/country.cpp:448
+#: libicq/country.cpp:429 libicq/country.cpp:449
 msgid "Military"
 msgstr "Askeri"
 
-#: libicq/country.cpp:429
+#: libicq/country.cpp:430
 msgid "Non-Goverment Organisation"
 msgstr "Hükümet Dışı Org."
 
-#: libicq/country.cpp:430
+#: libicq/country.cpp:431
 msgid "Other services"
 msgstr "Diğer"
 
-#: libicq/country.cpp:431
+#: libicq/country.cpp:432
 msgid "Professional"
 msgstr "Profesyonel"
 
-#: libicq/country.cpp:432
+#: libicq/country.cpp:433
 msgid "Retail"
 msgstr "Satış"
 
-#: libicq/country.cpp:433
+#: libicq/country.cpp:434
 msgid "Retired"
 msgstr "Emekli"
 
-#: libicq/country.cpp:434
+#: libicq/country.cpp:435
 msgid "Science & Research"
 msgstr "Bilim & Araştırma"
 
-#: libicq/country.cpp:436
+#: libicq/country.cpp:437
 msgid "Technical"
 msgstr "Teknik"
 
-#: libicq/country.cpp:437
+#: libicq/country.cpp:438
 msgid "University student"
 msgstr "Üniversite Öğrencisi"
 
-#: libicq/country.cpp:438
+#: libicq/country.cpp:439
 msgid "Web building"
 msgstr "Web Tasarım"
 
-#: libicq/country.cpp:444
+#: libicq/country.cpp:445
 msgid "Elementary School"
 msgstr "İlkokul"
 
-#: libicq/country.cpp:445
+#: libicq/country.cpp:446
 msgid "High School"
 msgstr "Lise"
 
-#: libicq/country.cpp:446
+#: libicq/country.cpp:447
 msgid "College"
 msgstr "Kolej"
 
-#: libicq/country.cpp:447
+#: libicq/country.cpp:448
 msgid "University"
 msgstr "Üniversite"
 
-#: libicq/country.cpp:449
+#: libicq/country.cpp:450
 msgid "Past Work Place"
 msgstr "Eski işyeri"
 
-#: libicq/country.cpp:450
+#: libicq/country.cpp:451
 msgid "Past Organization"
 msgstr "Eski Organizasyon"
 
-#: libicq/country.cpp:457
+#: libicq/country.cpp:458
 msgid "Female"
 msgstr "Kadın"
 
-#: libicq/country.cpp:458
+#: libicq/country.cpp:459
 msgid "Male"
 msgstr "Erkek"
 
@@ -1637,696 +1637,488 @@ msgstr "Erkek"
 msgid "Save"
 msgstr "Kaydet"
 
-#: chatwnd.cpp:82 msgedit.cpp:144
+#: chatwnd.cpp:82 msgedit.cpp:128
 msgid "Bold"
 msgstr "Kalın"
 
-#: chatwnd.cpp:88 msgedit.cpp:156
+#: chatwnd.cpp:88 msgedit.cpp:135
 msgid "Italic"
 msgstr "Eğik"
 
-#: chatwnd.cpp:94 msgedit.cpp:164
+#: chatwnd.cpp:94 msgedit.cpp:142
 msgid "Underline"
 msgstr "Altını Çiz"
 
-#: chatwnd.cpp:99 msgedit.cpp:119
+#: chatwnd.cpp:99 msgedit.cpp:122
 msgid "Text color"
 msgstr "Yazı Rengi"
 
-#: chatwnd.cpp:239
+#: chatwnd.cpp:240
 msgid "Enter to chat"
 msgstr "Chate Gir"
 
-#: chatwnd.cpp:350 ui/filetransfer.cpp:213
+#: chatwnd.cpp:351 ui/filetransfer.cpp:232
 #, c-format
 msgid "Can't create %1"
 msgstr "%1 yaratılamadı"
 
-#: client.cpp:108
-msgid "Unicode"
-msgstr "Unicode"
+#: cuser.cpp:208
+msgid "Last online"
+msgstr "En son bağlantı"
 
-#: client.cpp:109 client.cpp:110 client.cpp:111
-msgid "Western European"
-msgstr "Batı Avrupa"
+#: client.cpp:760 cuser.cpp:216 userview.cpp:929
+msgid "Online"
+msgstr "Bağlı"
 
-#: client.cpp:112 client.cpp:113
-msgid "Central European"
-msgstr "Merkez Avrupa"
+#: dock.cpp:462 mainwin.cpp:478
+msgid "%1 from %2"
+msgstr "%2 den %1 alındı"
 
-#: client.cpp:115 client.cpp:116
-msgid "Baltic"
-msgstr "Baltık"
+#: dock.cpp:475 mainwin.cpp:1499
+msgid "Connecting"
+msgstr "Bağlanıyor"
 
-#: client.cpp:118 client.cpp:120
-msgid "Cyrillic"
-msgstr "Cyrillic"
+#: editspell.cpp:257 msgedit.cpp:191 ui/setupdlg.cpp:113
+msgid "Spell check"
+msgstr "Yazım Kontrolü"
 
-#: client.cpp:122 client.cpp:124
-msgid "Ukrainan"
-msgstr "Ukraynaca"
+#: mainwin.cpp:336
+msgid "Current location"
+msgstr "Şu andaki adres"
 
-#: client.cpp:128
-msgid "Chinese Traditional"
-msgstr "Geleneksel Çince"
+#: mainwin.cpp:337
+msgid "Phone status"
+msgstr "Telefon statüsü"
 
-#: client.cpp:129 client.cpp:130
-msgid "Chinese Simplified"
-msgstr "Basit Çince"
+#: mainwin.cpp:339
+msgid "Phone Book"
+msgstr "Telefon Defteri"
 
-#: client.cpp:137
-msgid "Tamil"
-msgstr "Tamil"
+#: mainwin.cpp:356
+msgid "Show offline"
+msgstr "Bağlı değil göster"
 
-#: client.cpp:138
-msgid "UTF8"
-msgstr "UTF8"
+#: mainwin.cpp:360
+msgid "Group mode"
+msgstr "Grup Modu"
 
-#: client.cpp:139
-msgid "UTF16"
-msgstr "UTF16"
+#: mainwin.cpp:372
+msgid "Menu"
+msgstr "Menü"
 
-#: client.cpp:163
-msgid ""
-"I am currently away from ICQ.\n"
-"Please leave your message and I will get back to you as soon as I return!\n"
+#: mainwin.cpp:834
+msgid "%1 from %2 received"
+msgstr "%2 den %1 alındı!"
+
+#: mainwin.cpp:902 ui/logindlg.cpp:136
+msgid "Can't connect to proxy server"
 msgstr ""
-"Şu anda icqda değilim.\n"
-"Eğer mesaj bırakırsanız döner dönmez cevaplıyabilirim!\n"
 
-#: client.cpp:167
+#: mainwin.cpp:908 ui/logindlg.cpp:143
+#, fuzzy
+msgid "Proxy server require authorization"
+msgstr "Kullanıcıdan &izin isteme"
+
+#: mainwin.cpp:909 ui/logindlg.cpp:144
+#, fuzzy
+msgid "Invalid password for proxy"
+msgstr "Geçersiz Şifre"
+
+#: mainwin.cpp:926
+msgid "Your UIN used from another location"
+msgstr "UIN'niz başka bi yerden kullanıldı"
+
+#: mainwin.cpp:977
+msgid "User %1 is online"
+msgstr "Kullanıcı %1  bağlı"
+
+#: mainwin.cpp:1472 mainwin.cpp:1730 msgview.cpp:361
+msgid "&Yes"
+msgstr "&Evet"
+
+#: mainwin.cpp:1473 mainwin.cpp:1731 msgview.cpp:362
+msgid "&No"
+msgstr "&Hayır"
+
+#: mainwin.cpp:1474
+msgid "Add user %1 to ignore list ?"
+msgstr "%1 i umursama listesine ekle?"
+
+#: mainwin.cpp:1541
+msgid "In visible list"
+msgstr "Görünürler listesinde"
+
+#: mainwin.cpp:1543
+msgid "In invisible list"
+msgstr "Görünmezler listesinde"
+
+#: mainwin.cpp:1546
+msgid "In ignore list"
+msgstr "Umursama listesinde"
+
+#: mainwin.cpp:1562 mainwin.cpp:2087
+msgid "Groups"
+msgstr "Gruplar"
+
+#: mainwin.cpp:1563 usertbl.cpp:391 userview.cpp:503
+msgid "Delete"
+msgstr "Sil"
+
+#: mainwin.cpp:1567 ui/userinfo.cpp:55 userbox.cpp:174 userbox.cpp:365
+#: usertbl.cpp:405
+msgid "User info"
+msgstr "Kullanıcı Bilgisi"
+
+#: mainwin.cpp:1568 userbox.cpp:179 userbox.cpp:411
+msgid "History"
+msgstr "Geçmiş"
+
+#: mainwin.cpp:1570 ui/alertdialogbase.cpp:79 ui/setupdlg.cpp:105
+#: ui/userinfo.cpp:72
+msgid "Alert"
+msgstr "Alarm"
+
+#: mainwin.cpp:1571 ui/acceptbase.cpp:137
+msgid "Accept mode"
+msgstr "Kabul Modu"
+
+#: mainwin.cpp:1572 ui/setupdlg.cpp:103 ui/soundsetupbase.cpp:106
+#: ui/userinfo.cpp:74
+msgid "Sound"
+msgstr "Ses"
+
+#: mainwin.cpp:1575
+msgid "Floating off"
+msgstr "Floating kapalı"
+
+#: mainwin.cpp:1575
+msgid "Floating on"
+msgstr "Floating açık"
+
+#: mainwin.cpp:1578
+msgid "Users"
+msgstr "Kullanıcılar"
+
+#: mainwin.cpp:1579 passwddlg.cpp:44 passwddlg.cpp:90 ui/logindlg.cpp:102
+#: ui/searchbase.cpp:90 ui/searchdlg.cpp:110 ui/setupdlgbase.cpp:95
+#: userbox.cpp:196
+msgid "Close"
+msgstr "Kapat"
+
+#: mainwin.cpp:1732
+msgid "Delete user %1?"
+msgstr " %1 i sil?"
+
+#: mainwin.cpp:1833 msgedit.cpp:865
+msgid "New"
+msgstr "Yeni"
+
+#: mainwin.cpp:1836
+msgid "To container"
+msgstr "Bölüme Taşı"
+
+#: mainwin.cpp:1852
+msgid "Read %1 message"
+msgstr "%1 mesajı oku"
+
+#: client.cpp:773 mainwin.cpp:2064
+msgid "Invisible"
+msgstr "Görünmez"
+
+#: mainwin.cpp:2067
+msgid "Don't show"
+msgstr "Gösterme"
+
+#: mainwin.cpp:2068
+msgid "Available"
+msgstr "Ulaşılabilir"
+
+#: mainwin.cpp:2069
+msgid "Busy"
+msgstr "Meşgul"
+
+#: mainwin.cpp:2072 userview.cpp:504
+msgid "Create group"
+msgstr "Grup yarat"
+
+#: mainwin.cpp:2074 userview.cpp:509
+msgid "Expand all"
+msgstr "Hepsini Aç"
+
+#: mainwin.cpp:2075 userview.cpp:510
+msgid "Collapse all"
+msgstr "Hepsini Kapat"
+
+#: mainwin.cpp:2078
+msgid "ICQ"
+msgstr "ICQ"
+
+#: mainwin.cpp:2080
+msgid "Find User"
+msgstr "Kullanıcı Bul"
+
+#: mainwin.cpp:2081
+msgid "Add Non-IM contact"
+msgstr "Icq dışından kontak ekle"
+
+#: mainwin.cpp:2082
+msgid "Send SMS"
+msgstr "SMS gönder"
+
+#: mainwin.cpp:2084 ui/statussetupbase.cpp:79 usertbl.cpp:113
+msgid "Status"
+msgstr "Bağlantı"
+
+#: mainwin.cpp:2086 ui/setupdlg.cpp:72
+msgid "Setup"
+msgstr "Ayarlar"
+
+#: mainwin.cpp:2088
+msgid "Phone \"Follow Me\""
+msgstr "Telefon"
+
+#: mainwin.cpp:2091
+msgid "Always on top"
+msgstr "Daima en üstte"
+
+#: mainwin.cpp:2094
+msgid "&Bug report"
+msgstr "&Hata Raporu"
+
+#: mainwin.cpp:2095
+msgid "&About SIM"
+msgstr "&SIM Hakkında"
+
+#: mainwin.cpp:2097
+msgid "About &KDE"
+msgstr "&KDE Hakkında"
+
+#: mainwin.cpp:2100
+msgid "Quit"
+msgstr "Çık"
+
+#: _translatorinfo.cpp:1 mainwin.cpp:2282
 msgid ""
-"I am out'a here.\n"
-"See you tomorrow!\n"
-msgstr ""
-"Ben Çıkıyorum.\n"
-"Yarın görüşürüz!\n"
+"_: NAME OF TRANSLATORS\n"
+"Your names"
+msgstr "Ismail Donmez"
 
-#: client.cpp:171
-msgid "Please do not disturb me now. Disturb me later.\n"
-msgstr "Lütfen şimdi rahatsız etmeyin , bir süre sonra gelin.\n"
-
-#: client.cpp:174
+#: _translatorinfo.cpp:3 mainwin.cpp:2283
 msgid ""
-"Please do not disturb me now.\n"
-"Disturb me later.\n"
-"Only urgent messages, please!\n"
-msgstr ""
-"Lütfen şimdi rahatsız etmeyin , bir süre sonra gelin.\n"
-"Sadece acil mesajlar!\n"
+"_: EMAIL OF TRANSLATORS\n"
+"Your emails"
+msgstr "voidcartman@yahoo.com"
 
-#: client.cpp:179
-msgid "We'd love to hear what you have to say. Join our chat.\n"
-msgstr "Seninde chatimize katılmanı çok istiyoruz.\n"
+#: mainwin.cpp:2306
+msgid "light"
+msgstr "hafif"
 
-#: client.cpp:477
-#, c-format
-msgid ""
-"_n: Message\n"
-"%n messages"
-msgstr "%n Mesaj "
+#: mainwin.cpp:2310
+msgid "demibold"
+msgstr "hafif kalın"
 
-#: client.cpp:479
-#, c-format
-msgid ""
-"_n: Chat request\n"
-"%n chat requests"
-msgstr "%n chat isteği"
+#: mainwin.cpp:2314
+msgid "bold"
+msgstr "kalın"
 
-#: client.cpp:481 msgview.cpp:203
+#: mainwin.cpp:2318
+msgid "black"
+msgstr "siyah"
+
+#: mainwin.cpp:2325
+msgid "italic"
+msgstr "eğik"
+
+#: msgedit.cpp:75
+msgid "Decline file without reason"
+msgstr "Dosyayı sebepsiz reddet"
+
+#: msgedit.cpp:77
+msgid "Sorry, I'm busy right now, and can not respond to your request"
+msgstr "Şu anda meşgulüm , size cevap veremiyorum "
+
+#: msgedit.cpp:79
+msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
+msgstr "Üzgünüm şu anda meşgulüm , size daha sonra cevap vericem"
+
+#: msgedit.cpp:81
+msgid "Enter a decline reason"
+msgstr "Red sebebi girin"
+
+#: msgedit.cpp:116
+msgid "Background color"
+msgstr "Arkaplan rengi"
+
+#: msgedit.cpp:149
+msgid "Text font"
+msgstr "Yazı fontu"
+
+#: msgedit.cpp:156
+msgid "&Grant"
+msgstr "&Onayla"
+
+#: msgedit.cpp:161
+msgid "&Refuse"
+msgstr "&Reddet"
+
+#: msgedit.cpp:166
+msgid "&Accept"
+msgstr "&Kabul"
+
+#: msgedit.cpp:172
+msgid "&Decline"
+msgstr "&Reddet"
+
+#: msgedit.cpp:176
+msgid "&Reply"
+msgstr "&Cevapla"
+
+#: msgedit.cpp:181
+msgid "&Quote"
+msgstr "&Alıntı"
+
+#: msgedit.cpp:186
+msgid "&Forward"
+msgstr "&Transfer"
+
+#: msgedit.cpp:198
+msgid "C&lose after send"
+msgstr "&Gönderdikten sonra kapat"
+
+#: msgedit.cpp:207 msgedit.cpp:334
+msgid "&Send"
+msgstr "&Gönder"
+
+#: msgedit.cpp:212
+#, fuzzy
+msgid "&Next"
+msgstr "Sonraki"
+
+#: msgedit.cpp:218
+msgid "Multiply send"
+msgstr "Çoklu gönder"
+
+#: msgedit.cpp:225
+msgid "Phone:"
+msgstr "Telefon:"
+
+#: msgedit.cpp:234
+msgid "URL:"
+msgstr "URL:"
+
+#: msgedit.cpp:241 msgedit.cpp:1305 msgview.cpp:209
+msgid "File"
+msgstr "Dosya"
+
+#: msgedit.cpp:248
+msgid "Drag users here"
+msgstr "Kullanıcıları mousela buraya sürükleyin"
+
+#: msgedit.cpp:324
+msgid "Sending"
+msgstr "Gönderiyor"
+
+#: msgedit.cpp:332 ui/addphonebase.cpp:103 ui/emaileditbase.cpp:61
+#: ui/filetransfer.cpp:228 ui/filetransferbase.cpp:117
+msgid "&Cancel"
+msgstr "&İptal"
+
+#: msgedit.cpp:462
+msgid "No files for transfer"
+msgstr "Transfer edicek dosya yok"
+
+#: msgedit.cpp:480
+msgid "Transfer started"
+msgstr "Transfer Başladı"
+
+#: msgedit.cpp:483
+msgid "Chat started"
+msgstr "Chat başladı"
+
+#: msgedit.cpp:550
+msgid "Message sent"
+msgstr "Mesaj Gönderildi"
+
+#: msgedit.cpp:553
+msgid "Send failed"
+msgstr "Gönderme başarısız"
+
+#: msgedit.cpp:862
+msgid "Next"
+msgstr "Sonraki"
+
+#: msgedit.cpp:905
+msgid "%1 (ICQ# %2) wrote:<br>\n"
+msgstr "%1 (ICQ# %2) yazdı:<br>\n"
+
+#: msgedit.cpp:1119
+msgid "Save to"
+msgstr "Adrese kaydet"
+
+#: msgedit.cpp:1489
+msgid "Size: %1 / Max. size: %2"
+msgstr "Büyüklük: %1 / Max. büyüklük: %2"
+
+#: msgedit.cpp:1493
+msgid "Message will be split"
+msgstr "Mesaj parçalara bölünecek"
+
+#: msgedit.cpp:1663
+msgid "Decline reason"
+msgstr "Reddetme nedeni"
+
+#: msgedit.cpp:1663
+msgid "Please, input decline reason:"
+msgstr "Lütfen , reddetme sebebini girin:"
+
+#: msgview.cpp:166
+msgid "Authorization request"
+msgstr "İzin İsteği"
+
+#: msgview.cpp:177
+msgid "Authorization refused"
+msgstr "İzin reddedildi"
+
+#: msgview.cpp:187
+msgid "Authorization granted"
+msgstr "İzin kabul edildi"
+
+#: msgview.cpp:190
+msgid "Added to contact list"
+msgstr "Kontak listesine eklendi"
+
+#: msgview.cpp:194
+msgid "Contact request"
+msgstr "Kontak İsteği"
+
+#: client.cpp:695 msgview.cpp:207
 #, c-format
 msgid ""
 "_n: File\n"
 "%n files"
 msgstr "%n dosya"
 
-#: client.cpp:483
-#, c-format
-msgid ""
-"_n: URL\n"
-"%n URL"
-msgstr "%n URL"
-
-#: client.cpp:485
-#, c-format
-msgid ""
-"_n: Authorization request\n"
-"%n authorization requests"
-msgstr "%n izin isteği"
-
-#: client.cpp:487
-#, c-format
-msgid ""
-"_n: Authorization refused\n"
-"%n authorizations refused"
-msgstr "%n izin isteği reddedildi"
-
-#: client.cpp:489
-#, c-format
-msgid ""
-"_n: Authorization granted\n"
-"%n authorizations granted"
-msgstr "%n izin kabul edildi"
-
-#: client.cpp:491
-#, c-format
-msgid ""
-"_n: Added to contact list\n"
-"%n times added to contact list"
-msgstr "%n kontak listesine ekledi"
-
-#: client.cpp:493
-#, c-format
-msgid ""
-"_n: WWW-panel message\n"
-"%n WWW-panel messages"
-msgstr "%n WWW-panel mesajı"
-
-#: client.cpp:495
-#, c-format
-msgid ""
-"_n: Email pager message\n"
-"%n Email pager messages"
-msgstr "%n Email pager mesajı"
-
-#: client.cpp:497
-#, c-format
-msgid ""
-"_n: Contact list\n"
-"%n contact lists"
-msgstr "%n kontak listesi"
-
-#: client.cpp:499
-#, c-format
-msgid ""
-"_n: Contacts request\n"
-"%n contacts requests"
-msgstr "%n kontak isteği"
-
-#: client.cpp:501
-#, c-format
-msgid ""
-"_n: External unknown message\n"
-"%n unknown messages"
-msgstr "%n bilinmeyen dış mesaj"
-
-#: client.cpp:503
-#, c-format
-msgid ""
-"_n: SMS\n"
-"%n SMS"
-msgstr "%n SMS"
-
-#: client.cpp:505
-#, c-format
-msgid ""
-"_n: SMS receipt\n"
-"%n SMS receipts"
-msgstr "%n SMS alıcısı"
-
-#: client.cpp:507
-#, c-format
-msgid ""
-"_n: Email\n"
-"%n emails"
-msgstr "%n Email"
-
-#: client.cpp:509
-#, c-format
-msgid ""
-"_n: Request secure channel\n"
-"%n requests sequre channel"
-msgstr "%n güvenli kanal iste"
-
-#: client.cpp:511
-#, c-format
-msgid ""
-"_n: Close secure channel\n"
-"%n times close sequre channel"
-msgstr "%n güvenli kanalı kapat"
-
-#: client.cpp:515
-#, c-format
-msgid ""
-"_n: Unknown message\n"
-"%n unknown messages"
-msgstr "%n bilinmeyen mesaj"
-
-#: client.cpp:540 userview.cpp:932
-msgid "Offline"
-msgstr "Bağlı değil"
-
-#: client.cpp:541
-msgid "Do not disturb"
-msgstr "Rahatsız Etmeyin"
-
-#: client.cpp:542
-msgid "Occupied"
-msgstr "Meşgul"
-
-#: client.cpp:543
-msgid "N/A"
-msgstr "N/A"
-
-#: client.cpp:544
-msgid "Free for chat"
-msgstr "Chat için Boş"
-
-#: client.cpp:545
-msgid "Away"
-msgstr "Uzakta"
-
-#: client.cpp:546 cuser.cpp:216 userview.cpp:929
-msgid "Online"
-msgstr "Bağlı"
-
-#: client.cpp:559 mainwin.cpp:2037
-msgid "Invisible"
-msgstr "Görünmez"
-
-#: cuser.cpp:208
-msgid "Last online"
-msgstr "En son bağlantı"
-
-#: dock.cpp:462 mainwin.cpp:465
-msgid "%1 from %2"
-msgstr "%2 den %1 alındı"
-
-#: dock.cpp:475 mainwin.cpp:1458
-msgid "Connecting"
-msgstr "Bağlanıyor"
-
-#: editspell.cpp:264 msgedit.cpp:180 ui/setupdlg.cpp:106
-msgid "Spell check"
-msgstr "Yazım Kontrolü"
-
-#: fontedit.cpp:57
-msgid "light"
-msgstr "hafif"
-
-#: fontedit.cpp:61
-msgid "demibold"
-msgstr "hafif kalın"
-
-#: fontedit.cpp:65
-msgid "bold"
-msgstr "kalın"
-
-#: fontedit.cpp:69
-msgid "black"
-msgstr "siyah"
-
-#: fontedit.cpp:76
-msgid "italic"
-msgstr "eğik"
-
-#: mainwin.cpp:327
-msgid "Current location"
-msgstr "Şu andaki adres"
-
-#: mainwin.cpp:328
-msgid "Phone status"
-msgstr "Telefon statüsü"
-
-#: mainwin.cpp:330
-msgid "Phone Book"
-msgstr "Telefon Defteri"
-
-#: mainwin.cpp:347
-msgid "Show offline"
-msgstr "Bağlı değil göster"
-
-#: mainwin.cpp:351
-msgid "Group mode"
-msgstr "Grup Modu"
-
-#: mainwin.cpp:363
-msgid "Menu"
-msgstr "Menü"
-
-#: mainwin.cpp:813
-msgid "%1 from %2 received"
-msgstr "%2 den %1 alındı!"
-
-#: mainwin.cpp:893
-msgid "Your UIN used from another location"
-msgstr "UIN'niz başka bi yerden kullanıldı"
-
-#: mainwin.cpp:946
-msgid "User %1 is online"
-msgstr "Kullanıcı %1  bağlı"
-
-#: mainwin.cpp:1431 mainwin.cpp:1696 msgview.cpp:357
-msgid "&Yes"
-msgstr "&Evet"
-
-#: mainwin.cpp:1432 mainwin.cpp:1697 msgview.cpp:358
-msgid "&No"
-msgstr "&Hayır"
-
-#: mainwin.cpp:1433
-msgid "Add user %1 to ignore list ?"
-msgstr "%1 i umursama listesine ekle?"
-
-#: mainwin.cpp:1501
-msgid "In visible list"
-msgstr "Görünürler listesinde"
-
-#: mainwin.cpp:1503
-msgid "In invisible list"
-msgstr "Görünmezler listesinde"
-
-#: mainwin.cpp:1506
-msgid "In ignore list"
-msgstr "Umursama listesinde"
-
-#: mainwin.cpp:1524 mainwin.cpp:2062
-msgid "Groups"
-msgstr "Gruplar"
-
-#: mainwin.cpp:1525 usertbl.cpp:391 userview.cpp:503
-msgid "Delete"
-msgstr "Sil"
-
-#: mainwin.cpp:1529 ui/userinfo.cpp:55 userbox.cpp:163 userbox.cpp:354
-#: usertbl.cpp:405
-msgid "User info"
-msgstr "Kullanıcı Bilgisi"
-
-#: mainwin.cpp:1530 userbox.cpp:168 userbox.cpp:400
-msgid "History"
-msgstr "Geçmiş"
-
-#: mainwin.cpp:1532 ui/alertdialogbase.cpp:79 ui/setupdlg.cpp:98
-#: ui/userinfo.cpp:72
-msgid "Alert"
-msgstr "Alarm"
-
-#: mainwin.cpp:1533 ui/acceptbase.cpp:137
-msgid "Accept mode"
-msgstr "Kabul Modu"
-
-#: mainwin.cpp:1534 ui/setupdlg.cpp:96 ui/soundsetupbase.cpp:106
-#: ui/userinfo.cpp:74
-msgid "Sound"
-msgstr "Ses"
-
-#: mainwin.cpp:1537
-msgid "Floating off"
-msgstr "Floating kapalı"
-
-#: mainwin.cpp:1537
-msgid "Floating on"
-msgstr "Floating açık"
-
-#: mainwin.cpp:1540
-msgid "Users"
-msgstr "Kullanıcılar"
-
-#: mainwin.cpp:1541 passwddlg.cpp:44 passwddlg.cpp:89 ui/logindlg.cpp:102
-#: ui/searchbase.cpp:90 ui/searchdlg.cpp:106 ui/setupdlgbase.cpp:95
-#: userbox.cpp:185
-msgid "Close"
-msgstr "Kapat"
-
-#: mainwin.cpp:1698
-msgid "Delete user %1?"
-msgstr " %1 i sil?"
-
-#: mainwin.cpp:1799 msgedit.cpp:825
-msgid "New"
-msgstr "Yeni"
-
-#: mainwin.cpp:1802
-msgid "To container"
-msgstr "Bölüme Taşı"
-
-#: mainwin.cpp:1818
-msgid "Read %1 message"
-msgstr "%1 mesajı oku"
-
-#: mainwin.cpp:2040
-msgid "Don't show"
-msgstr "Gösterme"
-
-#: mainwin.cpp:2041
-msgid "Available"
-msgstr "Ulaşılabilir"
-
-#: mainwin.cpp:2042
-msgid "Busy"
-msgstr "Meşgul"
-
-#: mainwin.cpp:2045 userview.cpp:504
-msgid "Create group"
-msgstr "Grup yarat"
-
-#: mainwin.cpp:2047 userview.cpp:509
-msgid "Expand all"
-msgstr "Hepsini Aç"
-
-#: mainwin.cpp:2048 userview.cpp:510
-msgid "Collapse all"
-msgstr "Hepsini Kapat"
-
-#: mainwin.cpp:2052
-msgid "ICQ"
-msgstr "ICQ"
-
-#: mainwin.cpp:2055
-msgid "Find User"
-msgstr "Kullanıcı Bul"
-
-#: mainwin.cpp:2056
-msgid "Add Non-IM contact"
-msgstr "Icq dışından kontak ekle"
-
-#: mainwin.cpp:2057
-msgid "Send SMS"
-msgstr "SMS gönder"
-
-#: mainwin.cpp:2059 ui/statussetupbase.cpp:79 usertbl.cpp:113
-msgid "Status"
-msgstr "Bağlantı"
-
-#: mainwin.cpp:2061 ui/setupdlg.cpp:66
-msgid "Setup"
-msgstr "Ayarlar"
-
-#: mainwin.cpp:2063
-msgid "Phone \"Follow Me\""
-msgstr "Telefon"
-
-#: mainwin.cpp:2066
-msgid "Always on top"
-msgstr "Daima en üstte"
-
-#: mainwin.cpp:2069
-msgid "&Bug report"
-msgstr "&Hata Raporu"
-
-#: mainwin.cpp:2070
-msgid "&About SIM"
-msgstr "&SIM Hakkında"
-
-#: mainwin.cpp:2072
-msgid "About &KDE"
-msgstr "&KDE Hakkında"
-
-#: mainwin.cpp:2075
-msgid "Quit"
-msgstr "Çık"
-
-#: _translatorinfo.cpp:1 mainwin.cpp:2257
-msgid ""
-"_: NAME OF TRANSLATORS\n"
-"Your names"
-msgstr "Ismail Donmez"
-
-#: _translatorinfo.cpp:3 mainwin.cpp:2258
-msgid ""
-"_: EMAIL OF TRANSLATORS\n"
-"Your emails"
-msgstr "voidcartman@yahoo.com"
-
-#: msgedit.cpp:70
-msgid "Decline file without reason"
-msgstr "Dosyayı sebepsiz reddet"
-
-#: msgedit.cpp:72
-msgid "Sorry, I'm busy right now, and can not respond to your request"
-msgstr "Şu anda meşgulüm , size cevap veremiyorum "
-
-#: msgedit.cpp:74
-msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
-msgstr "Üzgünüm şu anda meşgulüm , size daha sonra cevap vericem"
-
-#: msgedit.cpp:76
-msgid "Enter a decline reason"
-msgstr "Red sebebi girin"
-
-#: msgedit.cpp:101
-msgid "Background color"
-msgstr "Arkaplan rengi"
-
-#: msgedit.cpp:106
-msgid "&Reply"
-msgstr "&Cevapla"
-
-#: msgedit.cpp:110
-msgid "&Grant"
-msgstr "&Onayla"
-
-#: msgedit.cpp:114
-msgid "&Accept"
-msgstr "&Kabul"
-
-#: msgedit.cpp:125
-msgid "&Quote"
-msgstr "&Alıntı"
-
-#: msgedit.cpp:129
-msgid "&Refuse"
-msgstr "&Reddet"
-
-#: msgedit.cpp:139
-msgid "&Decline"
-msgstr "&Reddet"
-
-#: msgedit.cpp:151
-msgid "&Forward"
-msgstr "&Transfer"
-
-#: msgedit.cpp:172
-msgid "Text font"
-msgstr "Yazı fontu"
-
-#: msgedit.cpp:189
-msgid "C&lose after send"
-msgstr "&Gönderdikten sonra kapat"
-
-#: msgedit.cpp:203
-msgid "Phone:"
-msgstr "Telefon:"
-
-#: msgedit.cpp:213
-msgid "URL:"
-msgstr "URL:"
-
-#: msgedit.cpp:221 msgedit.cpp:1252 msgview.cpp:205
-msgid "File"
-msgstr "Dosya"
-
-#: msgedit.cpp:227
-msgid "Multiply send"
-msgstr "Çoklu gönder"
-
-#: msgedit.cpp:232
-msgid "Drag users here"
-msgstr "Kullanıcıları mousela buraya sürükleyin"
-
-#: msgedit.cpp:295
-msgid "Sending"
-msgstr "Gönderiyor"
-
-#: msgedit.cpp:302 ui/addphonebase.cpp:103 ui/emaileditbase.cpp:61
-#: ui/filetransfer.cpp:209 ui/filetransferbase.cpp:117
-msgid "&Cancel"
-msgstr "&İptal"
-
-#: msgedit.cpp:302
-msgid "&Send"
-msgstr "&Gönder"
-
-#: msgedit.cpp:429
-msgid "No files for transfer"
-msgstr "Transfer edicek dosya yok"
-
-#: msgedit.cpp:447
-msgid "Transfer started"
-msgstr "Transfer Başladı"
-
-#: msgedit.cpp:450
-msgid "Chat started"
-msgstr "Chat başladı"
-
-#: msgedit.cpp:510
-msgid "Message sent"
-msgstr "Mesaj Gönderildi"
-
-#: msgedit.cpp:513
-msgid "Send failed"
-msgstr "Gönderme başarısız"
-
-#: msgedit.cpp:822
-msgid "Next"
-msgstr "Sonraki"
-
-#: msgedit.cpp:865
-msgid "%1 (ICQ# %2) wrote:<br>\n"
-msgstr "%1 (ICQ# %2) yazdı:<br>\n"
-
-#: msgedit.cpp:1068
-msgid "Save to"
-msgstr "Adrese kaydet"
-
-#: msgedit.cpp:1428
-msgid "Size: %1 / Max. size: %2"
-msgstr "Büyüklük: %1 / Max. büyüklük: %2"
-
-#: msgedit.cpp:1432
-msgid "Message will be split"
-msgstr "Mesaj parçalara bölünecek"
-
-#: msgedit.cpp:1607
-msgid "Decline reason"
-msgstr "Reddetme nedeni"
-
-#: msgedit.cpp:1607
-msgid "Please, input decline reason:"
-msgstr "Lütfen , reddetme sebebini girin:"
-
-#: msgview.cpp:162
-msgid "Authorization request"
-msgstr "İzin İsteği"
-
-#: msgview.cpp:173
-msgid "Authorization refused"
-msgstr "İzin reddedildi"
-
-#: msgview.cpp:183
-msgid "Authorization granted"
-msgstr "İzin kabul edildi"
-
-#: msgview.cpp:186
-msgid "Added to contact list"
-msgstr "Kontak listesine eklendi"
-
-#: msgview.cpp:190
-msgid "Contact request"
-msgstr "Kontak İsteği"
-
-#: msgview.cpp:212
+#: msgview.cpp:216
 msgid "bytes"
 msgstr "Byte"
 
-#: msgview.cpp:229
+#: msgview.cpp:233
 msgid "Contact list received"
 msgstr "Kontak listesi alındı"
 
-#: msgview.cpp:229
+#: msgview.cpp:233
 msgid "Contact list sent"
 msgstr "Kontak listesi gönderildi"
 
-#: msgview.cpp:318 ui/finddlgbase.cpp:62
+#: msgview.cpp:322 ui/finddlgbase.cpp:62
 msgid "&Find"
 msgstr "&Bul"
 
-#: msgview.cpp:319
+#: msgview.cpp:323
 msgid "Find &next"
 msgstr "&Sonrakini bul"
 
-#: msgview.cpp:372
+#: msgview.cpp:376
 msgid ""
 "End of document reached.\n"
 "Continue from the beginning?"
@@ -2334,7 +2126,7 @@ msgstr ""
 "Dokümanın sonu geldi\n"
 "Dökümanın başından devam et?"
 
-#: msgview.cpp:373
+#: msgview.cpp:377
 msgid ""
 "Beginning of document reached.\n"
 "Continue from the end?"
@@ -2354,7 +2146,7 @@ msgstr "Giriş"
 msgid "Invalid password"
 msgstr "Geçersiz Şifre"
 
-#: passwddlg.cpp:67 ui/logindlg.cpp:69 ui/searchdlg.cpp:103
+#: passwddlg.cpp:68 ui/logindlg.cpp:69 ui/searchdlg.cpp:107
 msgid "Cancel"
 msgstr "İptal"
 
@@ -2387,27 +2179,27 @@ msgstr "Dosyaların tutulacağı yer"
 msgid "Loglevel"
 msgstr "Log Düzeyi"
 
-#: themes.cpp:128 themes.cpp:137
+#: themes.cpp:123 themes.cpp:132
 msgid "Default style"
 msgstr "Standart İkonlar"
 
-#: userbox.cpp:150
+#: userbox.cpp:161
 msgid "Add to ignore list"
 msgstr "Umursama listesine ekle"
 
-#: userbox.cpp:157
+#: userbox.cpp:168
 msgid "Move to group"
 msgstr "Gruba taşı"
 
-#: userbox.cpp:181
+#: userbox.cpp:192
 msgid "Encoding"
 msgstr "Kodlama"
 
-#: userbox.cpp:310
+#: userbox.cpp:321
 msgid "All users"
 msgstr "Tüm Kullanıcılar"
 
-#: userbox.cpp:978
+#: userbox.cpp:991
 msgid "History loading"
 msgstr "Geçmiş yükleniyor..."
 
@@ -2443,11 +2235,11 @@ msgstr "Tümünü ekle"
 msgid "Add to group"
 msgstr "Gruba ekle"
 
-#: userview.cpp:394 userview.cpp:935
+#: userview.cpp:396 userview.cpp:935
 msgid "Not in list"
 msgstr "Listede kayıtlı değil"
 
-#: userview.cpp:500
+#: userview.cpp:501
 msgid "Group"
 msgstr "Grup"
 
@@ -2475,6 +2267,10 @@ msgstr "Tamam"
 #: userview.cpp:887
 msgid "Secure channel request failed"
 msgstr "Güvenli kanal isteği başarısız"
+
+#: client.cpp:754 userview.cpp:932
+msgid "Offline"
+msgstr "Bağlı değil"
 
 #: ui/addphone.cpp:33
 msgid "Home Phone"
@@ -2512,7 +2308,7 @@ msgstr " şu anda bağlı"
 msgid "Close [%1 sec]"
 msgstr "Kapat [%1 Saniye]"
 
-#: ui/autoreply.cpp:81
+#: ui/autoreply.cpp:82
 msgid "Close in %1 sec"
 msgstr " %1 Saniye içinde kapat"
 
@@ -2532,46 +2328,46 @@ msgstr "Gelen dosyaların kaydedileceği yer"
 msgid "*.wav(Sounds)"
 msgstr "*.wav(Sesler)"
 
-#: ui/filetransfer.cpp:66
+#: ui/filetransfer.cpp:74
 #, c-format
 msgid "Receive file from %1"
 msgstr " %1 den dosya al"
 
-#: ui/filetransfer.cpp:68
+#: ui/filetransfer.cpp:77
 #, c-format
 msgid "Send file to %1"
 msgstr " %1 e dosya gönder"
 
-#: ui/filetransfer.cpp:123
+#: ui/filetransfer.cpp:136
 msgid "[done]"
 msgstr "[işlem tamam]"
 
-#: ui/filetransfer.cpp:126
+#: ui/filetransfer.cpp:139
 msgid "[fail]"
 msgstr "[işlem başarısız]"
 
-#: ui/aboutdlgbase.cpp:131 ui/filetransfer.cpp:141 ui/finddlgbase.cpp:66
-#: ui/logindlgbase.cpp:83 ui/proxydlgbase.cpp:110 ui/userautoreply.cpp:73
+#: ui/aboutdlgbase.cpp:131 ui/filetransfer.cpp:158 ui/finddlgbase.cpp:66
+#: ui/logindlgbase.cpp:83 ui/proxydlgbase.cpp:123 ui/userautoreply.cpp:76
 msgid "&Close"
 msgstr "&Kapat"
 
-#: ui/filetransfer.cpp:208 ui/filetransfer.cpp:227
+#: ui/filetransfer.cpp:227 ui/filetransfer.cpp:246
 msgid "&New"
 msgstr "&Yeni"
 
-#: ui/filetransfer.cpp:225
+#: ui/filetransfer.cpp:244
 msgid "&Replace"
 msgstr "&Değiştir"
 
-#: ui/filetransfer.cpp:226
+#: ui/filetransfer.cpp:245
 msgid "R&esume"
 msgstr "&Devam et"
 
-#: ui/filetransfer.cpp:228
+#: ui/filetransfer.cpp:247
 msgid "&Skip"
 msgstr "&Geç"
 
-#: ui/filetransfer.cpp:232
+#: ui/filetransfer.cpp:251
 msgid "File %1 exist"
 msgstr " %1 dosyası önceden mevcut"
 
@@ -2589,19 +2385,19 @@ msgstr ""
 " * - örnek* örnek ile başlayan tüm msgları bloklamak için\n"
 "? - örn?k  şeklinde ise ? yerine herhangi bi kelime gelebilir örnek gibi\n"
 
-#: ui/listsec.cpp:93 ui/setupdlg.cpp:125
+#: ui/listsec.cpp:93 ui/setupdlg.cpp:132
 msgid "Visible list"
 msgstr "Görünürler Listesi"
 
-#: ui/listsec.cpp:111 ui/setupdlg.cpp:124
+#: ui/listsec.cpp:111 ui/setupdlg.cpp:131
 msgid "Invisible list"
 msgstr "Görünmezler listesi"
 
-#: ui/listsec.cpp:129 ui/setupdlg.cpp:123
+#: ui/listsec.cpp:129 ui/setupdlg.cpp:130
 msgid "Ignore list"
 msgstr "Umursama listesi"
 
-#: ui/maininfo.cpp:40
+#: ui/maininfo.cpp:41
 msgid "Default"
 msgstr "Varsayılan"
 
@@ -2653,24 +2449,29 @@ msgstr "Kasım"
 msgid "December"
 msgstr "Aralık"
 
-#: ui/msgdialog.cpp:32
+#: ui/msgdialog.cpp:40
 msgid "Autoreply message for status \"%1\""
 msgstr " \"%1\" statüsü için oto mesaj"
 
-#: ui/network.cpp:44 ui/proxydlg.cpp:38
+#: ui/network.cpp:45 ui/proxydlg.cpp:40
 msgid "No proxy"
 msgstr "Proxy yok"
 
-#: ui/network.cpp:45 ui/proxydlg.cpp:39
+#: ui/network.cpp:46 ui/proxydlg.cpp:41
 msgid "SOCKS4"
 msgstr "SOCKS4"
 
-#: ui/network.cpp:46 ui/proxydlg.cpp:40
+#: ui/network.cpp:47 ui/proxydlg.cpp:42
 msgid "SOCKS5"
 msgstr "SOCKS5"
 
-#: ui/network.cpp:47 ui/proxydlg.cpp:41
+#: ui/network.cpp:48 ui/proxydlg.cpp:43
 msgid "HTTP"
+msgstr "HTTP"
+
+#: ui/network.cpp:50 ui/proxydlg.cpp:45
+#, fuzzy
+msgid "HTTPS"
 msgstr "HTTP"
 
 #: ui/phonebook.cpp:55
@@ -2689,95 +2490,95 @@ msgstr "Sayı"
 msgid "Publish"
 msgstr "Yayınla"
 
-#: ui/searchdlg.cpp:212
+#: ui/searchdlg.cpp:218
 msgid "No users was found"
 msgstr "Hiçbir kullanıcı bulunamadı"
 
-#: ui/setupdlg.cpp:76
+#: ui/setupdlg.cpp:83
 msgid "My details"
 msgstr "Benim özelliklerim"
 
-#: ui/maininfobase.cpp:81 ui/setupdlg.cpp:79 ui/userinfo.cpp:58
+#: ui/maininfobase.cpp:81 ui/setupdlg.cpp:86 ui/userinfo.cpp:58
 msgid "Main info"
 msgstr "Ana özellikler"
 
-#: ui/homeinfobase.cpp:80 ui/setupdlg.cpp:80 ui/userinfo.cpp:60
+#: ui/homeinfobase.cpp:80 ui/setupdlg.cpp:87 ui/userinfo.cpp:60
 msgid "Home info"
 msgstr "Adres"
 
-#: ui/setupdlg.cpp:81 ui/userinfo.cpp:61 ui/workinfobase.cpp:80
+#: ui/setupdlg.cpp:88 ui/userinfo.cpp:61 ui/workinfobase.cpp:80
 msgid "Work info"
 msgstr "İş"
 
-#: ui/moreinfobase.cpp:80 ui/setupdlg.cpp:82 ui/userinfo.cpp:62
+#: ui/moreinfobase.cpp:80 ui/setupdlg.cpp:89 ui/userinfo.cpp:62
 msgid "More info"
 msgstr "Daha fazla ayrıntı"
 
-#: ui/aboutinfobase.cpp:77 ui/setupdlg.cpp:83 ui/userinfo.cpp:63
+#: ui/aboutinfobase.cpp:77 ui/setupdlg.cpp:90 ui/userinfo.cpp:63
 msgid "About info"
 msgstr "Hakkında"
 
-#: ui/interestsinfobase.cpp:78 ui/setupdlg.cpp:84 ui/userinfo.cpp:64
+#: ui/interestsinfobase.cpp:78 ui/setupdlg.cpp:91 ui/userinfo.cpp:64
 msgid "Interests"
 msgstr "İlgi alanları"
 
-#: ui/pastinfobase.cpp:78 ui/setupdlg.cpp:85 ui/userinfo.cpp:65
+#: ui/pastinfobase.cpp:78 ui/setupdlg.cpp:92 ui/userinfo.cpp:65
 msgid "Group/Past"
 msgstr "Grup/Geçmiş"
 
-#: ui/phonebookbase.cpp:80 ui/setupdlg.cpp:86 ui/userinfo.cpp:67
+#: ui/phonebookbase.cpp:80 ui/setupdlg.cpp:93 ui/userinfo.cpp:67
 msgid "Phone book"
 msgstr "Telefon defteri"
 
-#: ui/setupdlg.cpp:88 ui/userinfo.cpp:70
+#: ui/setupdlg.cpp:95 ui/userinfo.cpp:70
 msgid "Preferences"
 msgstr "Seçenekler"
 
-#: ui/setupdlg.cpp:91
+#: ui/setupdlg.cpp:98
 msgid "Status mode"
 msgstr "Bağlantı modu"
 
-#: ui/setupdlg.cpp:92
+#: ui/setupdlg.cpp:99
 msgid "Connection"
 msgstr "Bağlantı"
 
-#: ui/setupdlg.cpp:93 ui/themesetupbase.cpp:80
+#: ui/setupdlg.cpp:100 ui/themesetupbase.cpp:80
 msgid "Style"
 msgstr "Stil"
 
-#: ui/fontsetupbase.cpp:111 ui/setupdlg.cpp:94
+#: ui/fontsetupbase.cpp:111 ui/setupdlg.cpp:101
 msgid "Interface"
 msgstr "Arayüz"
 
-#: ui/setupdlg.cpp:95
+#: ui/setupdlg.cpp:102
 msgid "Key shortcuts"
 msgstr "Kısa yollar"
 
-#: ui/alertdialogbase.cpp:115 ui/setupdlg.cpp:97
+#: ui/alertdialogbase.cpp:115 ui/setupdlg.cpp:104
 msgid "On Screen notification"
 msgstr "Ekranda Uyarı Sistemi"
 
-#: ui/acceptbase.cpp:110 ui/setupdlg.cpp:99 ui/userinfo.cpp:73
+#: ui/acceptbase.cpp:110 ui/setupdlg.cpp:106 ui/userinfo.cpp:73
 msgid "Accept file"
 msgstr "Dosyayı kabul et"
 
-#: ui/miscsetupbase.cpp:106 ui/setupdlg.cpp:102
+#: ui/miscsetupbase.cpp:106 ui/setupdlg.cpp:109
 msgid "Miscellaneous"
 msgstr "Diğerleri"
 
-#: ui/setupdlg.cpp:109
+#: ui/setupdlg.cpp:116
 msgid "Auto reply"
 msgstr "Otomatik cevap"
 
-#: ui/generalsecbase.cpp:111 ui/setupdlg.cpp:118
+#: ui/generalsecbase.cpp:111 ui/setupdlg.cpp:125
 msgid "Security"
 msgstr "Güvenlik"
 
-#: ui/setupdlg.cpp:121
+#: ui/setupdlg.cpp:128
 msgid "General"
 msgstr "Genel"
 
-#: ui/setupdlg.cpp:122
+#: ui/setupdlg.cpp:129
 msgid "Password"
 msgstr "Şifre"
 
@@ -2809,13 +2610,138 @@ msgstr "Merkez alt"
 msgid "Center-top"
 msgstr "Merkez üst"
 
-#: ui/aboutdlg.cpp:34
+#: ui/aboutdlg.cpp:44
 msgid "%1 Version: %2"
 msgstr "%1 Versiyon: %2"
 
-#: ui/aboutdlg.cpp:37
+#: ui/aboutdlg.cpp:47
 msgid "Bug report"
 msgstr "Hata Raporu"
+
+#: ui/searchbase.cpp:69 ui/searchbase.cpp:82
+msgid "Search"
+msgstr "Arama"
+
+#: ui/searchbase.cpp:75
+msgid "Online only"
+msgstr "Sadece bağlı olanlar"
+
+#: ui/searchbase.cpp:86
+msgid "New search"
+msgstr "Yeni arama"
+
+#: ui/searchbase.cpp:108
+msgid "Email:"
+msgstr "E-Mail:"
+
+#: ui/moreinfobase.cpp:99 ui/searchbase.cpp:126
+msgid "Age:"
+msgstr "Yaş:"
+
+#: ui/searchbase.cpp:136
+msgid "Language:"
+msgstr "Dil:"
+
+#: ui/moreinfobase.cpp:110 ui/searchbase.cpp:142
+msgid "Gender:"
+msgstr "Cinsiyet:"
+
+#: ui/homeinfobase.cpp:117 ui/phonebase.cpp:117 ui/searchbase.cpp:148
+#: ui/workinfobase.cpp:140
+msgid "Country:"
+msgstr "Ülke:"
+
+#: ui/homeinfobase.cpp:129 ui/searchbase.cpp:154 ui/workinfobase.cpp:178
+msgid "City:"
+msgstr "Şehir:"
+
+#: ui/homeinfobase.cpp:96 ui/searchbase.cpp:164 ui/workinfobase.cpp:190
+msgid "State:"
+msgstr "Bölge:"
+
+#: ui/searchbase.cpp:174
+msgid "Department:"
+msgstr "Departman:"
+
+#: ui/searchbase.cpp:184
+msgid "Company:"
+msgstr "Firma:"
+
+#: ui/searchbase.cpp:194
+msgid "Interests:"
+msgstr "İlgi Alanları:"
+
+#: ui/searchbase.cpp:202
+msgid "Email/Info"
+msgstr "Email/Bilgi"
+
+#: ui/maininfobase.cpp:95 ui/searchbase.cpp:210
+msgid "Last Name:"
+msgstr "Soyadı:"
+
+#: ui/maininfobase.cpp:209 ui/searchbase.cpp:216
+msgid "First name:"
+msgstr "Adı :"
+
+#: ui/searchbase.cpp:226
+msgid "Nickname:"
+msgstr "Nick:"
+
+#: ui/searchbase.cpp:239
+msgid "Names"
+msgstr "Adlar"
+
+#: ui/logindlgbase.cpp:49 ui/searchbase.cpp:247
+msgid "UIN:"
+msgstr "ICQ#:"
+
+#: ui/proxydlgbase.cpp:36
+msgid "Proxy settings"
+msgstr "Proxy ayarları"
+
+#: ui/networkbase.cpp:132 ui/proxydlgbase.cpp:50
+msgid "Use proxy"
+msgstr "Proxy kullan"
+
+#: ui/networkbase.cpp:151 ui/proxydlgbase.cpp:62
+msgid "Proxy host:"
+msgstr "Proxy-Hostu:"
+
+#: ui/networkbase.cpp:193 ui/proxydlgbase.cpp:72
+msgid "Proxy password:"
+msgstr "Proxy-Şifresi:"
+
+#: ui/networkbase.cpp:179 ui/proxydlgbase.cpp:86
+msgid "Proxy user:"
+msgstr "Proxy-Kullanıcı adı:"
+
+#: ui/networkbase.cpp:171 ui/proxydlgbase.cpp:92
+msgid "User proxy authorization"
+msgstr "Proxy kullanıcı şifresi"
+
+#: ui/networkbase.cpp:157 ui/proxydlgbase.cpp:101
+msgid "Proxy port:"
+msgstr "Proxy-Portu:"
+
+#: ui/addphonebase.cpp:109 ui/emaileditbase.cpp:67 ui/proxydlgbase.cpp:118
+msgid "&OK"
+msgstr "&Tamam"
+
+#: ui/logindlgbase.cpp:35
+msgid "Registration"
+msgstr "Kayıt"
+
+#: ui/logindlgbase.cpp:62
+msgid "Use existing UIN"
+msgstr "Varolan UIN'i Kullan"
+
+#: ui/logindlgbase.cpp:77
+msgid "&Proxy settings"
+msgstr "&Proxy ayarları"
+
+#: ui/logindlgbase.cpp:87
+msgid "&Register"
+msgstr "&Kaydet"
 
 #: ui/acceptbase.cpp:95 ui/alertdialogbase.cpp:64 ui/fontsetupbase.cpp:96
 #: ui/generalsecbase.cpp:95 ui/homeinfobase.cpp:65 ui/keysetupbase.cpp:94
@@ -2826,6 +2752,64 @@ msgstr "Hata Raporu"
 #: ui/xosdbase.cpp:94
 msgid "Form1"
 msgstr "Form1"
+
+#: ui/keysetupbase.cpp:109
+msgid "Keyboard shortcuts"
+msgstr "Klavye kısayolları"
+
+#: ui/keysetupbase.cpp:121
+msgid "Actions:"
+msgstr "Hareketler:"
+
+#: ui/keysetupbase.cpp:125 ui/phonebookbase.cpp:102 ui/setupdlgbase.cpp:71
+#: ui/userinfobase.cpp:96
+msgid "Column 1"
+msgstr "Sütun 1"
+
+#: ui/keysetupbase.cpp:127 ui/phonebookbase.cpp:104 ui/setupdlgbase.cpp:73
+#: ui/themesetupbase.cpp:97 ui/themesetupbase.cpp:109 ui/userinfobase.cpp:98
+msgid "New Item"
+msgstr "Yeni Element"
+
+#: ui/keysetupbase.cpp:134
+msgid "&Enable"
+msgstr "&Aktifleştir"
+
+#: ui/aboutdlgbase.cpp:67
+msgid "About SIM"
+msgstr "SIM hakkında"
+
+#: ui/aboutdlgbase.cpp:94
+msgid "About"
+msgstr "Hakkında"
+
+#: ui/aboutdlgbase.cpp:102
+msgid "Authors"
+msgstr "Yazarlar"
+
+#: ui/aboutdlgbase.cpp:109
+msgid "Translation"
+msgstr "Çeviri"
+
+#: ui/aboutdlgbase.cpp:116
+msgid "License"
+msgstr "Lisans"
+
+#: ui/finddlgbase.cpp:34
+msgid "Find"
+msgstr "Bul"
+
+#: ui/finddlgbase.cpp:42
+msgid "Find:"
+msgstr "Bul:"
+
+#: ui/finddlgbase.cpp:51
+msgid "Case &sensitivy"
+msgstr "Büyük-küçük harf &ayrımı"
+
+#: ui/finddlgbase.cpp:55
+msgid "Find &backwards"
+msgstr "&Geride ara"
 
 #: ui/xosdbase.cpp:109
 msgid "Notify On Screen"
@@ -2867,42 +2851,6 @@ msgstr "Gölge"
 msgid "Background"
 msgstr "Arkaplan"
 
-#: ui/finddlgbase.cpp:34
-msgid "Find"
-msgstr "Bul"
-
-#: ui/finddlgbase.cpp:42
-msgid "Find:"
-msgstr "Bul:"
-
-#: ui/finddlgbase.cpp:51
-msgid "Case &sensitivy"
-msgstr "Büyük-küçük harf &ayrımı"
-
-#: ui/finddlgbase.cpp:55
-msgid "Find &backwards"
-msgstr "&Geride ara"
-
-#: ui/aboutdlgbase.cpp:67
-msgid "About SIM"
-msgstr "SIM hakkında"
-
-#: ui/aboutdlgbase.cpp:94
-msgid "About"
-msgstr "Hakkında"
-
-#: ui/aboutdlgbase.cpp:102
-msgid "Authors"
-msgstr "Yazarlar"
-
-#: ui/aboutdlgbase.cpp:109
-msgid "Translation"
-msgstr "Çeviri"
-
-#: ui/aboutdlgbase.cpp:116
-msgid "License"
-msgstr "Lisans"
-
 #: ui/networkbase.cpp:80
 msgid "Network"
 msgstr "Network"
@@ -2919,30 +2867,6 @@ msgstr "Port:"
 msgid "Host:"
 msgstr "Host:"
 
-#: ui/networkbase.cpp:132 ui/proxydlgbase.cpp:42
-msgid "Use proxy"
-msgstr "Proxy kullan"
-
-#: ui/networkbase.cpp:151 ui/proxydlgbase.cpp:54
-msgid "Proxy host:"
-msgstr "Proxy-Hostu:"
-
-#: ui/networkbase.cpp:157 ui/proxydlgbase.cpp:93
-msgid "Proxy port:"
-msgstr "Proxy-Portu:"
-
-#: ui/networkbase.cpp:171 ui/proxydlgbase.cpp:84
-msgid "User proxy authorization"
-msgstr "Proxy kullanıcı şifresi"
-
-#: ui/networkbase.cpp:179 ui/proxydlgbase.cpp:78
-msgid "Proxy user:"
-msgstr "Proxy-Kullanıcı adı:"
-
-#: ui/networkbase.cpp:193 ui/proxydlgbase.cpp:64
-msgid "Proxy password:"
-msgstr "Proxy-Şifresi:"
-
 #: ui/networkbase.cpp:207
 msgid "Use the following TCP listen ports:"
 msgstr "Şu TCP portlarını kullan:"
@@ -2954,252 +2878,6 @@ msgstr "Gönderen:"
 #: ui/networkbase.cpp:221
 msgid "To:"
 msgstr "Alıcı:"
-
-#: ui/acceptbase.cpp:122
-msgid "Override global settings"
-msgstr "Global ayarların üzerine yaz"
-
-#: ui/acceptbase.cpp:126
-msgid "Automatically open all messages"
-msgstr "Tüm mesajları otomatik aç"
-
-#: ui/acceptbase.cpp:130
-msgid "Path for incoming files:"
-msgstr "Gelen dosyaların saklanacağı yer :"
-
-#: ui/acceptbase.cpp:145
-msgid "Show response"
-msgstr "Cevabı göster"
-
-#: ui/acceptbase.cpp:149
-msgid "Auto accept"
-msgstr "Otomatik kabul et"
-
-#: ui/acceptbase.cpp:153
-msgid "Overwrite files"
-msgstr "Eski dosyanın üzerine yaz"
-
-#: ui/acceptbase.cpp:157
-msgid "Auto decline"
-msgstr "Otomatik reddet"
-
-#: ui/soundsetupbase.cpp:118
-msgid "&Override sounds"
-msgstr "&Ses ayarlarının üzerine yaz"
-
-#: ui/soundsetupbase.cpp:122
-msgid "Message:"
-msgstr "Mesaj:"
-
-#: ui/soundsetupbase.cpp:129
-msgid "URL"
-msgstr "URL"
-
-#: ui/soundsetupbase.cpp:136
-msgid "SMS"
-msgstr "SMS"
-
-#: ui/soundsetupbase.cpp:143
-msgid "Authorization"
-msgstr "Onay "
-
-#: ui/soundsetupbase.cpp:150
-msgid "Online alert"
-msgstr "Bağlı alarmı"
-
-#: ui/soundsetupbase.cpp:157
-msgid "Incoming file"
-msgstr "Gelen dosya transferi"
-
-#: ui/soundsetupbase.cpp:164
-msgid "File transfer done"
-msgstr "Dosya transferi tamamlandı"
-
-#: ui/soundsetupbase.cpp:171
-msgid "ChatRequest"
-msgstr "Chat İsteği"
-
-#: ui/soundsetupbase.cpp:178
-msgid "Startup sound"
-msgstr "Başlangıç Sesi"
-
-#: ui/soundsetupbase.cpp:189
-msgid "UseArts"
-msgstr "KDE Arts ses sunucusunu kullan"
-
-#: ui/soundsetupbase.cpp:193
-msgid "Program for play"
-msgstr "Sesleri çalmak için geçerli program"
-
-#: ui/filetransferbase.cpp:37
-msgid "File transfer"
-msgstr "Dosya transferi"
-
-#: ui/filetransferbase.cpp:43
-msgid "File:"
-msgstr "Dosya:"
-
-#: ui/filetransferbase.cpp:57
-msgid "Batch"
-msgstr "Batch"
-
-#: ui/filetransferbase.cpp:74
-msgid "1000000/100000"
-msgstr "1000000/100000"
-
-#: ui/filetransferbase.cpp:83
-msgid "100000"
-msgstr "100000"
-
-#: ui/filetransferbase.cpp:90
-msgid "Speed:"
-msgstr "Hız:"
-
-#: ui/filetransferbase.cpp:111
-msgid "Close after send"
-msgstr "Gönderdikten sonra kapat"
-
-#: ui/emaileditbase.cpp:36
-msgid "Edit Email"
-msgstr "Email'i değiştir"
-
-#: ui/emaileditbase.cpp:40
-msgid "Enter Email address:"
-msgstr "Email adresi gir:"
-
-#: ui/emaileditbase.cpp:47
-msgid "Don't publish my Email address"
-msgstr "Email adresimi yayınlama"
-
-#: ui/addphonebase.cpp:109 ui/emaileditbase.cpp:67 ui/proxydlgbase.cpp:114
-msgid "&OK"
-msgstr "&Tamam"
-
-#: ui/pastinfobase.cpp:89
-msgid "Organization, Affiliation, Group:"
-msgstr "Organizasyon,Grup :"
-
-#: ui/pastinfobase.cpp:131
-msgid "Past background:"
-msgstr "Geçmiş Background:"
-
-#: ui/autoreplybase.cpp:34
-msgid "Autoreply message"
-msgstr "Otomatik Cevap"
-
-#: ui/autoreplybase.cpp:41
-msgid "Close after ...."
-msgstr "Kapat bitince ...."
-
-#: ui/autoreplybase.cpp:45
-msgid "Don't show this dialog"
-msgstr "Bu dialoğu bir daha gösterme"
-
-#: ui/alertmsgbase.cpp:33 ui/alertmsgbase.cpp:37
-msgid "User is online"
-msgstr "Kullanıcı bağlı"
-
-#: ui/changepasswdbase.cpp:62 ui/interestsinfobase.cpp:63 ui/pagerbase.cpp:62
-#: ui/workinfobase.cpp:65
-msgid "Form2"
-msgstr "Form 2"
-
-#: ui/msgdialogbase.cpp:78
-msgid "Message"
-msgstr "Mesaj"
-
-#: ui/msgdialogbase.cpp:90
-msgid "Customize message"
-msgstr "Mesajı değiştir"
-
-#: ui/msgdialogbase.cpp:97
-msgid "Don't show message dialog"
-msgstr "Bu mesaj dialoğunu gösterme"
-
-#: ui/alertdialogbase.cpp:91
-msgid "Override global alert"
-msgstr "Global alarm ayarlarının üzerine yaz"
-
-#: ui/alertdialogbase.cpp:95
-msgid "Activate online alert when user returns from Away or NA"
-msgstr "Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
-
-#: ui/alertdialogbase.cpp:99
-msgid "Online alert options"
-msgstr "Bağlı-Alarm Seçenekleri"
-
-#: ui/alertdialogbase.cpp:107
-msgid "Blinking alert effect"
-msgstr "Alarm efektinden sonra yanıp-sön"
-
-#: ui/alertdialogbase.cpp:111
-msgid "Play online alert sound"
-msgstr "Bağlı alarm sesi çal"
-
-#: ui/alertdialogbase.cpp:119
-msgid "Popup online alert dialog"
-msgstr "Bağlı alarm dialoğu göster"
-
-#: ui/alertdialogbase.cpp:123
-msgid "Open user window when online"
-msgstr "Kullanıcı bağlı olunca mesaj penceresi aç"
-
-#: ui/phonebase.cpp:71
-msgid "Area code:"
-msgstr "Alan Kodu:"
-
-#: ui/phonebase.cpp:81
-msgid "Extension:"
-msgstr "Ülke Kodu:"
-
-#: ui/phonebase.cpp:101 ui/phonebase.cpp:112 ui/phonebase.cpp:123
-msgid "-"
-msgstr "-"
-
-#: ui/pagerbase.cpp:92 ui/phonebase.cpp:106
-msgid "Number:"
-msgstr "Sayı:"
-
-#: ui/homeinfobase.cpp:117 ui/phonebase.cpp:117 ui/searchbase.cpp:148
-#: ui/workinfobase.cpp:140
-msgid "Country:"
-msgstr "Ülke:"
-
-#: ui/phonebase.cpp:132
-msgid "Publish in global directory"
-msgstr "Global sistemde yayınla"
-
-#: ui/phonebase.cpp:138
-msgid "SMS service available"
-msgstr "SMS servisi mevcut"
-
-#: ui/addphonebase.cpp:68
-msgid "Add phone"
-msgstr "Telefon ekle"
-
-#: ui/addphonebase.cpp:72
-msgid "Number details:"
-msgstr "Numara ayrıntıları:"
-
-#: ui/addphonebase.cpp:82
-msgid "Type:"
-msgstr "Tip:"
-
-#: ui/miscsetupbase.cpp:118
-msgid "Browser program path:"
-msgstr "Browser Program Adresi:"
-
-#: ui/miscsetupbase.cpp:125
-msgid "Email client:"
-msgstr "Email programı:"
-
-#: ui/pagerbase.cpp:76
-msgid "Provider:"
-msgstr "Servis Sağlayıcı:"
-
-#: ui/pagerbase.cpp:82
-msgid "Email gateway:"
-msgstr "Email Gateway:"
 
 #: ui/fontsetupbase.cpp:123
 msgid "User window mode"
@@ -3273,19 +2951,251 @@ msgstr "Açılış logosunu &göster"
 msgid "Use emotional &icons"
 msgstr "&Duygu ikonları kullan"
 
+#: ui/acceptbase.cpp:122
+msgid "Override global settings"
+msgstr "Global ayarların üzerine yaz"
+
+#: ui/acceptbase.cpp:126
+msgid "Automatically open all messages"
+msgstr "Tüm mesajları otomatik aç"
+
+#: ui/acceptbase.cpp:130
+msgid "Path for incoming files:"
+msgstr "Gelen dosyaların saklanacağı yer :"
+
+#: ui/acceptbase.cpp:145
+msgid "Show response"
+msgstr "Cevabı göster"
+
+#: ui/acceptbase.cpp:149
+msgid "Auto accept"
+msgstr "Otomatik kabul et"
+
+#: ui/acceptbase.cpp:153
+msgid "Overwrite files"
+msgstr "Eski dosyanın üzerine yaz"
+
+#: ui/acceptbase.cpp:157
+msgid "Auto decline"
+msgstr "Otomatik reddet"
+
+#: ui/filetransferbase.cpp:37
+msgid "File transfer"
+msgstr "Dosya transferi"
+
+#: ui/filetransferbase.cpp:43
+msgid "File:"
+msgstr "Dosya:"
+
+#: ui/filetransferbase.cpp:57
+msgid "Batch"
+msgstr "Batch"
+
+#: ui/filetransferbase.cpp:74
+msgid "1000000/100000"
+msgstr "1000000/100000"
+
+#: ui/filetransferbase.cpp:83
+msgid "100000"
+msgstr "100000"
+
+#: ui/filetransferbase.cpp:90
+msgid "Speed:"
+msgstr "Hız:"
+
+#: ui/filetransferbase.cpp:111
+msgid "Close after send"
+msgstr "Gönderdikten sonra kapat"
+
+#: ui/phonebase.cpp:71
+msgid "Area code:"
+msgstr "Alan Kodu:"
+
+#: ui/phonebase.cpp:81
+msgid "Extension:"
+msgstr "Ülke Kodu:"
+
+#: ui/phonebase.cpp:101 ui/phonebase.cpp:112 ui/phonebase.cpp:123
+msgid "-"
+msgstr "-"
+
+#: ui/pagerbase.cpp:92 ui/phonebase.cpp:106
+msgid "Number:"
+msgstr "Sayı:"
+
+#: ui/phonebase.cpp:132
+msgid "Publish in global directory"
+msgstr "Global sistemde yayınla"
+
+#: ui/phonebase.cpp:138
+msgid "SMS service available"
+msgstr "SMS servisi mevcut"
+
+#: ui/emaileditbase.cpp:36
+msgid "Edit Email"
+msgstr "Email'i değiştir"
+
+#: ui/emaileditbase.cpp:40
+msgid "Enter Email address:"
+msgstr "Email adresi gir:"
+
+#: ui/emaileditbase.cpp:47
+msgid "Don't publish my Email address"
+msgstr "Email adresimi yayınlama"
+
+#: ui/pastinfobase.cpp:89
+msgid "Organization, Affiliation, Group:"
+msgstr "Organizasyon,Grup :"
+
+#: ui/pastinfobase.cpp:131
+msgid "Past background:"
+msgstr "Geçmiş Background:"
+
+#: ui/autoreplybase.cpp:34
+msgid "Autoreply message"
+msgstr "Otomatik Cevap"
+
+#: ui/autoreplybase.cpp:41
+msgid "Close after ...."
+msgstr "Kapat bitince ...."
+
+#: ui/autoreplybase.cpp:45
+msgid "Don't show this dialog"
+msgstr "Bu dialoğu bir daha gösterme"
+
+#: ui/alertmsgbase.cpp:33 ui/alertmsgbase.cpp:37
+msgid "User is online"
+msgstr "Kullanıcı bağlı"
+
+#: ui/changepasswdbase.cpp:62 ui/interestsinfobase.cpp:63 ui/pagerbase.cpp:62
+#: ui/workinfobase.cpp:65
+msgid "Form2"
+msgstr "Form 2"
+
+#: ui/msgdialogbase.cpp:78
+msgid "Message"
+msgstr "Mesaj"
+
+#: ui/msgdialogbase.cpp:90
+msgid "Customize message"
+msgstr "Mesajı değiştir"
+
+#: ui/msgdialogbase.cpp:97
+msgid "Don't show message dialog"
+msgstr "Bu mesaj dialoğunu gösterme"
+
+#: ui/pagerbase.cpp:76
+msgid "Provider:"
+msgstr "Servis Sağlayıcı:"
+
+#: ui/pagerbase.cpp:82
+msgid "Email gateway:"
+msgstr "Email Gateway:"
+
+#: ui/listsecbase.cpp:90 ui/moreinfobase.cpp:65
+msgid "Form3"
+msgstr "Form 3"
+
+#: ui/alertdialogbase.cpp:91
+msgid "Override global alert"
+msgstr "Global alarm ayarlarının üzerine yaz"
+
+#: ui/alertdialogbase.cpp:95
+msgid "Activate online alert when user returns from Away or NA"
+msgstr ""
+"Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
+
+#: ui/alertdialogbase.cpp:99
+msgid "Online alert options"
+msgstr "Bağlı-Alarm Seçenekleri"
+
+#: ui/alertdialogbase.cpp:107
+msgid "Blinking alert effect"
+msgstr "Alarm efektinden sonra yanıp-sön"
+
+#: ui/alertdialogbase.cpp:111
+msgid "Play online alert sound"
+msgstr "Bağlı alarm sesi çal"
+
+#: ui/alertdialogbase.cpp:119
+msgid "Popup online alert dialog"
+msgstr "Bağlı alarm dialoğu göster"
+
+#: ui/alertdialogbase.cpp:123
+msgid "Open user window when online"
+msgstr "Kullanıcı bağlı olunca mesaj penceresi aç"
+
+#: ui/addphonebase.cpp:68
+msgid "Add phone"
+msgstr "Telefon ekle"
+
+#: ui/addphonebase.cpp:72
+msgid "Number details:"
+msgstr "Numara ayrıntıları:"
+
+#: ui/addphonebase.cpp:82
+msgid "Type:"
+msgstr "Tip:"
+
+#: ui/miscsetupbase.cpp:118
+msgid "Browser program path:"
+msgstr "Browser Program Adresi:"
+
+#: ui/miscsetupbase.cpp:125
+msgid "Email client:"
+msgstr "Email programı:"
+
+#: ui/soundsetupbase.cpp:118
+msgid "&Override sounds"
+msgstr "&Ses ayarlarının üzerine yaz"
+
+#: ui/soundsetupbase.cpp:122
+msgid "Message:"
+msgstr "Mesaj:"
+
+#: ui/soundsetupbase.cpp:129
+msgid "URL"
+msgstr "URL"
+
+#: ui/soundsetupbase.cpp:136
+msgid "SMS"
+msgstr "SMS"
+
+#: ui/soundsetupbase.cpp:143
+msgid "Authorization"
+msgstr "Onay "
+
+#: ui/soundsetupbase.cpp:150
+msgid "Online alert"
+msgstr "Bağlı alarmı"
+
+#: ui/soundsetupbase.cpp:157
+msgid "Incoming file"
+msgstr "Gelen dosya transferi"
+
+#: ui/soundsetupbase.cpp:164
+msgid "File transfer done"
+msgstr "Dosya transferi tamamlandı"
+
+#: ui/soundsetupbase.cpp:171
+msgid "ChatRequest"
+msgstr "Chat İsteği"
+
+#: ui/soundsetupbase.cpp:178
+msgid "Startup sound"
+msgstr "Başlangıç Sesi"
+
+#: ui/soundsetupbase.cpp:189
+msgid "UseArts"
+msgstr "KDE Arts ses sunucusunu kullan"
+
+#: ui/soundsetupbase.cpp:193
+msgid "Program for play"
+msgstr "Sesleri çalmak için geçerli program"
+
 #: ui/phonebookbase.cpp:91
 msgid "User is currently available at:"
 msgstr "Kullanıcı şu anda ulaşılabilir :"
-
-#: ui/keysetupbase.cpp:125 ui/phonebookbase.cpp:102 ui/setupdlgbase.cpp:71
-#: ui/userinfobase.cpp:96
-msgid "Column 1"
-msgstr "Sütun 1"
-
-#: ui/keysetupbase.cpp:127 ui/phonebookbase.cpp:104 ui/setupdlgbase.cpp:73
-#: ui/themesetupbase.cpp:97 ui/themesetupbase.cpp:109 ui/userinfobase.cpp:98
-msgid "New Item"
-msgstr "Yeni Element"
 
 #: ui/phonebookbase.cpp:111
 msgid "&Add"
@@ -3335,17 +3245,9 @@ msgstr "Web Sitesi:"
 msgid "Address:"
 msgstr "Adres:"
 
-#: ui/homeinfobase.cpp:129 ui/searchbase.cpp:154 ui/workinfobase.cpp:178
-msgid "City:"
-msgstr "Şehir:"
-
 #: ui/homeinfobase.cpp:139 ui/workinfobase.cpp:184
 msgid "Zip code:"
 msgstr "Posta kodu:"
-
-#: ui/homeinfobase.cpp:96 ui/searchbase.cpp:164 ui/workinfobase.cpp:190
-msgid "State:"
-msgstr "Bölge:"
 
 #: ui/themesetupbase.cpp:93
 msgid "Select style:"
@@ -3383,17 +3285,36 @@ msgstr "Ana pencereyi Task Manager'da göster"
 msgid "Show user window in task manager"
 msgstr "Kullanıcı penceresini Task Manager'sa göster"
 
-#: ui/listsecbase.cpp:90 ui/moreinfobase.cpp:65
-msgid "Form3"
-msgstr "Form 3"
+#: ui/statussetupbase.cpp:94
+msgid "Hide main window after"
+msgstr "Ana menüyü sakla"
 
-#: ui/moreinfobase.cpp:99 ui/searchbase.cpp:126
-msgid "Age:"
-msgstr "Yaş:"
+#: ui/statussetupbase.cpp:107
+msgid ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgstr ""
+"\"Uzakta\", \"N/A\", \"DND\" ve \"Meşgul\"-Listelerinde bağlı alamını "
+"iptal et "
 
-#: ui/moreinfobase.cpp:110 ui/searchbase.cpp:142
-msgid "Gender:"
-msgstr "Cinsiyet:"
+#: ui/statussetupbase.cpp:112
+msgid "Set \"Away\" status after"
+msgstr "\"Uzakta\"-Statüsüne geç"
+
+#: ui/statussetupbase.cpp:118
+msgid "minutes not using computer"
+msgstr "dakikadır bilgisayarı kullanmıyor"
+
+#: ui/statussetupbase.cpp:125
+msgid "minutes of \"Away\""
+msgstr "dakikadır \"Uzakta\"-Statüsünde"
+
+#: ui/statussetupbase.cpp:131
+msgid "seconds inactive"
+msgstr "saniye inaktif"
+
+#: ui/statussetupbase.cpp:140
+msgid "Set \"N/A\" status after"
+msgstr "\"N/A\"-Statusüne geç"
 
 #: ui/moreinfobase.cpp:135
 msgid "Homepage:"
@@ -3419,43 +3340,9 @@ msgstr "Yıl:"
 msgid "Spoken languages:"
 msgstr "Bildiği Diller:"
 
-#: ui/statussetupbase.cpp:94
-msgid "Hide main window after"
-msgstr "Ana menüyü sakla"
-
-#: ui/statussetupbase.cpp:107
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
-msgstr ""
-"\"Uzakta\", \"N/A\", \"DND\" ve \"Meşgul\"-Listelerinde bağlı alamını "
-"iptal et "
-
-#: ui/statussetupbase.cpp:112
-msgid "Set \"Away\" status after"
-msgstr "\"Uzakta\"-Statüsüne geç"
-
-#: ui/statussetupbase.cpp:118
-msgid "minutes not using computer"
-msgstr "dakikadır bilgisayarı kullanmıyor"
-
-#: ui/statussetupbase.cpp:125
-msgid "minutes of \"Away\""
-msgstr "dakikadır \"Uzakta\"-Statüsünde"
-
-#: ui/statussetupbase.cpp:131
-msgid "seconds inactive"
-msgstr "saniye inaktif"
-
-#: ui/statussetupbase.cpp:140
-msgid "Set \"N/A\" status after"
-msgstr "\"N/A\"-Statusüne geç"
-
 #: ui/maininfobase.cpp:66
 msgid "Form5"
 msgstr "Form5"
-
-#: ui/maininfobase.cpp:95 ui/searchbase.cpp:210
-msgid "Last Name:"
-msgstr "Soyadı:"
 
 #: ui/maininfobase.cpp:112
 msgid "Uin:"
@@ -3468,10 +3355,6 @@ msgstr "Nick:"
 #: ui/maininfobase.cpp:203
 msgid "Display:"
 msgstr "Gösteriş Şekli:"
-
-#: ui/maininfobase.cpp:209 ui/searchbase.cpp:216
-msgid "First name:"
-msgstr "Adı :"
 
 #: ui/maininfobase.cpp:221
 msgid "Email addresses:"
@@ -3507,7 +3390,8 @@ msgstr "Zaman Dilimi:"
 
 #: ui/generalsecbase.cpp:124
 msgid "My &authorization is required before users add me to Contact List"
-msgstr "Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
+msgstr ""
+"Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
 
 #: ui/generalsecbase.cpp:128
 msgid "Don't show my &IP-address"
@@ -3587,54 +3471,6 @@ msgstr "Yeni şifreyi tekrar girin:"
 msgid "New password:"
 msgstr "Yeni Şifre:"
 
-#: ui/searchbase.cpp:69 ui/searchbase.cpp:82
-msgid "Search"
-msgstr "Arama"
-
-#: ui/searchbase.cpp:75
-msgid "Online only"
-msgstr "Sadece bağlı olanlar"
-
-#: ui/searchbase.cpp:86
-msgid "New search"
-msgstr "Yeni arama"
-
-#: ui/searchbase.cpp:108
-msgid "Email:"
-msgstr "E-Mail:"
-
-#: ui/searchbase.cpp:136
-msgid "Language:"
-msgstr "Dil:"
-
-#: ui/searchbase.cpp:174
-msgid "Department:"
-msgstr "Departman:"
-
-#: ui/searchbase.cpp:184
-msgid "Company:"
-msgstr "Firma:"
-
-#: ui/searchbase.cpp:194
-msgid "Interests:"
-msgstr "İlgi Alanları:"
-
-#: ui/searchbase.cpp:202
-msgid "Email/Info"
-msgstr "Email/Bilgi"
-
-#: ui/searchbase.cpp:226
-msgid "Nickname:"
-msgstr "Nick:"
-
-#: ui/searchbase.cpp:239
-msgid "Names"
-msgstr "Adlar"
-
-#: ui/logindlgbase.cpp:49 ui/searchbase.cpp:247
-msgid "UIN:"
-msgstr "ICQ#:"
-
 #: ui/keysetup.cpp:33
 msgid "Action"
 msgstr "Hareket"
@@ -3663,43 +3499,11 @@ msgstr "Bilinmeyen Giriş Hatası"
 msgid "Rate limit"
 msgstr "Deneme limiti"
 
-#: ui/keysetupbase.cpp:109
-msgid "Keyboard shortcuts"
-msgstr "Klavye kısayolları"
-
-#: ui/keysetupbase.cpp:121
-msgid "Actions:"
-msgstr "Hareketler:"
-
-#: ui/keysetupbase.cpp:134
-msgid "&Enable"
-msgstr "&Aktifleştir"
-
-#: ui/proxydlgbase.cpp:36
-msgid "Proxy settings"
-msgstr "Proxy ayarları"
-
-#: ui/logindlgbase.cpp:35
-msgid "Registration"
-msgstr "Kayıt"
-
-#: ui/logindlgbase.cpp:62
-msgid "Use existing UIN"
-msgstr "Varolan UIN'i Kullan"
-
-#: ui/logindlgbase.cpp:77
-msgid "&Proxy settings"
-msgstr "&Proxy ayarları"
-
-#: ui/logindlgbase.cpp:87
-msgid "&Register"
-msgstr "&Kaydet"
-
 #: ui/userautoreply.cpp:51
 msgid "%1 autoresponse for %2"
 msgstr "%2 için %1 otomatik cevap"
 
-#: ui/userautoreply.cpp:87
+#: ui/userautoreply.cpp:90
 msgid "&Check again"
 msgstr "&Tekrar kontrol et"
 
@@ -3710,6 +3514,229 @@ msgstr "Reach me at voidcartman@yahoo.com "
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
 msgstr "Bu program GPL v2 lisansı altında dağıtılmaktadır."
+
+#: client.cpp:64
+msgid "Unicode"
+msgstr "Unicode"
+
+#: client.cpp:65 client.cpp:66 client.cpp:67
+msgid "Western European"
+msgstr "Batı Avrupa"
+
+#: client.cpp:68 client.cpp:69
+msgid "Central European"
+msgstr "Merkez Avrupa"
+
+#: client.cpp:71 client.cpp:72
+msgid "Baltic"
+msgstr "Baltık"
+
+#: client.cpp:74 client.cpp:76
+msgid "Cyrillic"
+msgstr "Cyrillic"
+
+#: client.cpp:78 client.cpp:80
+msgid "Ukrainan"
+msgstr "Ukraynaca"
+
+#: client.cpp:84
+msgid "Chinese Traditional"
+msgstr "Geleneksel Çince"
+
+#: client.cpp:85 client.cpp:86
+msgid "Chinese Simplified"
+msgstr "Basit Çince"
+
+#: client.cpp:93
+msgid "Tamil"
+msgstr "Tamil"
+
+#: client.cpp:94
+msgid "UTF8"
+msgstr "UTF8"
+
+#: client.cpp:95
+msgid "UTF16"
+msgstr "UTF16"
+
+#: client.cpp:264
+msgid ""
+"I am currently away from ICQ.\n"
+"Please leave your message and I will get back to you as soon as I return!\n"
+msgstr ""
+"Şu anda icqda değilim.\n"
+"Eğer mesaj bırakırsanız döner dönmez cevaplıyabilirim!\n"
+
+#: client.cpp:268
+msgid ""
+"I am out'a here.\n"
+"See you tomorrow!\n"
+msgstr ""
+"Ben Çıkıyorum.\n"
+"Yarın görüşürüz!\n"
+
+#: client.cpp:272
+msgid "Please do not disturb me now. Disturb me later.\n"
+msgstr "Lütfen şimdi rahatsız etmeyin , bir süre sonra gelin.\n"
+
+#: client.cpp:275
+msgid ""
+"Please do not disturb me now.\n"
+"Disturb me later.\n"
+"Only urgent messages, please!\n"
+msgstr ""
+"Lütfen şimdi rahatsız etmeyin , bir süre sonra gelin.\n"
+"Sadece acil mesajlar!\n"
+
+#: client.cpp:279
+msgid "We'd love to hear what you have to say. Join our chat.\n"
+msgstr "Seninde chatimize katılmanı çok istiyoruz.\n"
+
+#: client.cpp:691
+#, c-format
+msgid ""
+"_n: Message\n"
+"%n messages"
+msgstr "%n Mesaj "
+
+#: client.cpp:693
+#, c-format
+msgid ""
+"_n: Chat request\n"
+"%n chat requests"
+msgstr "%n chat isteği"
+
+#: client.cpp:697
+#, c-format
+msgid ""
+"_n: URL\n"
+"%n URL"
+msgstr "%n URL"
+
+#: client.cpp:699
+#, c-format
+msgid ""
+"_n: Authorization request\n"
+"%n authorization requests"
+msgstr "%n izin isteği"
+
+#: client.cpp:701
+#, c-format
+msgid ""
+"_n: Authorization refused\n"
+"%n authorizations refused"
+msgstr "%n izin isteği reddedildi"
+
+#: client.cpp:703
+#, c-format
+msgid ""
+"_n: Authorization granted\n"
+"%n authorizations granted"
+msgstr "%n izin kabul edildi"
+
+#: client.cpp:705
+#, c-format
+msgid ""
+"_n: Added to contact list\n"
+"%n times added to contact list"
+msgstr "%n kontak listesine ekledi"
+
+#: client.cpp:707
+#, c-format
+msgid ""
+"_n: WWW-panel message\n"
+"%n WWW-panel messages"
+msgstr "%n WWW-panel mesajı"
+
+#: client.cpp:709
+#, c-format
+msgid ""
+"_n: Email pager message\n"
+"%n Email pager messages"
+msgstr "%n Email pager mesajı"
+
+#: client.cpp:711
+#, c-format
+msgid ""
+"_n: Contact list\n"
+"%n contact lists"
+msgstr "%n kontak listesi"
+
+#: client.cpp:713
+#, c-format
+msgid ""
+"_n: Contacts request\n"
+"%n contacts requests"
+msgstr "%n kontak isteği"
+
+#: client.cpp:715
+#, c-format
+msgid ""
+"_n: External unknown message\n"
+"%n unknown messages"
+msgstr "%n bilinmeyen dış mesaj"
+
+#: client.cpp:717
+#, c-format
+msgid ""
+"_n: SMS\n"
+"%n SMS"
+msgstr "%n SMS"
+
+#: client.cpp:719
+#, c-format
+msgid ""
+"_n: SMS receipt\n"
+"%n SMS receipts"
+msgstr "%n SMS alıcısı"
+
+#: client.cpp:721
+#, c-format
+msgid ""
+"_n: Email\n"
+"%n emails"
+msgstr "%n Email"
+
+#: client.cpp:723
+#, c-format
+msgid ""
+"_n: Request secure channel\n"
+"%n requests sequre channel"
+msgstr "%n güvenli kanal iste"
+
+#: client.cpp:725
+#, c-format
+msgid ""
+"_n: Close secure channel\n"
+"%n times close sequre channel"
+msgstr "%n güvenli kanalı kapat"
+
+#: client.cpp:729
+#, c-format
+msgid ""
+"_n: Unknown message\n"
+"%n unknown messages"
+msgstr "%n bilinmeyen mesaj"
+
+#: client.cpp:755
+msgid "Do not disturb"
+msgstr "Rahatsız Etmeyin"
+
+#: client.cpp:756
+msgid "Occupied"
+msgstr "Meşgul"
+
+#: client.cpp:757
+msgid "N/A"
+msgstr "N/A"
+
+#: client.cpp:758
+msgid "Free for chat"
+msgstr "Chat için Boş"
+
+#: client.cpp:759
+msgid "Away"
+msgstr "Uzakta"
 
 #, fuzzy
 #~ msgid "Send file"
@@ -3761,4 +3788,3 @@ msgstr "Bu program GPL v2 lisansı altında dağıtılmaktadır."
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
-
