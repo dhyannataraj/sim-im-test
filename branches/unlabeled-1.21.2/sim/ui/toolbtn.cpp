@@ -144,6 +144,11 @@ CToolButton::~CToolButton()
     emit buttonDestroyed();
 }
 
+void CToolButton::setTextLabel(const QString &text)
+{
+	m_text = text;
+}
+
 void CToolButton::setTextLabel()
 {
     QString text = m_text;

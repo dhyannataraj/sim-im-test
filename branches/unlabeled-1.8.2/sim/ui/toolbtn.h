@@ -59,6 +59,7 @@ public:
     virtual void setState();
     virtual QWidget *widget() { return this; }
     static QPoint popupPos(QWidget*, QWidget*);
+	void setTextLabel(const QString &text);
 signals:
     void showPopup(QPoint);
     void buttonDestroyed();
