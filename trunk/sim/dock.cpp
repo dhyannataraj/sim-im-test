@@ -141,6 +141,8 @@ WharfIcon::~WharfIcon()
     if (vish) delete vish;
 }
 
+#define SMALL_PICT_OFFS	8
+
 void WharfIcon::set(const char *icon, const char *msg)
 {
     const QIconSet &icons = Icon(icon);
@@ -152,18 +154,18 @@ void WharfIcon::set(const char *icon, const char *msg)
         QRegion *rgn = NULL;
         if (nvis->mask() && msgPict.mask()){
             rgn = new QRegion(*msgPict.mask());
-            rgn->translate(nvis->width() - msgPict.width() - 2,
-                           nvis->height() - msgPict.height() - 2);
+            rgn->translate(nvis->width() - msgPict.width() - SMALL_PICT_OFFS,
+                           nvis->height() - msgPict.height() - SMALL_PICT_OFFS);
             *rgn += *nvis->mask();
         }
         QPainter p;
         p.begin(nvis);
-        p.drawPixmap(nvis->width() - msgPict.width() - 2,
-                     nvis->height() - msgPict.height() - 2, msgPict);
+        p.drawPixmap(nvis->width() - msgPict.width() - SMALL_PICT_OFFS,
+                     nvis->height() - msgPict.height() - SMALL_PICT_OFFS, msgPict);
         p.end();
         p.begin(nvish);
-        p.drawPixmap(nvish->width() - msgPict.width() - 2,
-                     nvish->height() - msgPict.height() - 2, msgPict);
+        p.drawPixmap(nvish->width() - msgPict.width() - SMALL_PICT_OFFS,
+                     nvish->height() - msgPict.height() - SMALL_PICT_OFFS, msgPict);
         p.end();
         if (rgn){
             setMask(*rgn);
@@ -336,7 +338,9 @@ void DockWnd::paintEvent( QPaintEvent* )
 {
     if ((width() != 24) || (height() != 24)){
         hide();
+#ifndef WIN32
         showWharf();
+#endif
         return;
     }
     QPainter p(this);
