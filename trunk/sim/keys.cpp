@@ -22,6 +22,7 @@
 
 #include <qnamespace.h>
 #include <string>
+#include <cctype>
 
 using namespace std;
 
