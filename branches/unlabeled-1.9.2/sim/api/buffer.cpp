@@ -93,6 +93,7 @@ void Buffer::init(unsigned size)
     m_size = size;
     m_posRead = 0;
     m_posWrite = 0;
+	m_packetStartPos = 0;
 }
 
 void Buffer::add(unsigned size)
@@ -193,7 +194,8 @@ void Buffer::unpackStr32(string &s)
     size = htonl(size);
     s.erase();
     if (size == 0) return;
-    if (size > m_size - m_posRead) size = m_size - m_posRead;
+    if (size > m_size - m_posRead) 
+		size = m_size - m_posRead;
     s.append(size, '\x00');
     unpack((char*)s.c_str(), size);
 }
@@ -207,7 +209,7 @@ Buffer &Buffer::operator >> (string &s)
     if (size){
         if (size > m_size - m_posRead)
             size = (unsigned short)(m_size - m_posRead);
-        s.append(size, '\x00');
+        s.append((unsigned)size, '\x00');
         unpack((char*)s.c_str(), size);
     }
     return *this;

@@ -168,6 +168,8 @@ SOURCE=.\sim\api\ltdl.c
 
 !IF  "$(CFG)" == "simapi - Win32 Release"
 
+# ADD CPP /W3
+
 !ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
 
 # ADD CPP /W3

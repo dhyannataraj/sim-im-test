@@ -1081,7 +1081,9 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &msg, bool needA
     adv.unpack(msgType);
     adv.unpack(msgState);
     adv.unpack(msgFlags);
-    Buffer copy;
+    string msg;
+    adv >> msg;
+
     switch (msgType){
     case ICQ_MSGxAR_AWAY:
     case ICQ_MSGxAR_OCCUPIED:
@@ -1128,8 +1130,6 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &msg, bool needA
             Event e(EventARRequest, &ar);
             e.process();
 
-            string msg;
-            adv >> msg;
             if (!msg.empty()){
                 set_str(&data->AutoReply, msg.c_str());
                 Event e(EventContactChanged, contact);
@@ -1137,9 +1137,8 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &msg, bool needA
             }
             return;
         }
-    default:
-        string msg;
-        adv >> msg;
+	}
+	    Buffer copy;
         if (*msg.c_str() || (msgType == ICQ_MSGxEXT)){
             if (adv.readPos() < adv.writePos())
                 copy.pack(adv.data(adv.readPos()), adv.writePos() - adv.readPos());
@@ -1230,7 +1229,7 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &msg, bool needA
                     }
                 }
             }
-        }
+    Buffer copy;
     }
     if (!needAck) return;
     sendAutoReply(screen, id, p, cookie1, cookie2,

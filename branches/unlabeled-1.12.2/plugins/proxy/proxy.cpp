@@ -555,7 +555,7 @@ static string tobase64(const char *s)
 {
     Buffer from;
     Buffer to;
-    from.pack(s);
+    from << s;
     to.toBase64(from);
     string res;
     res.append(to.data(), to.size());
@@ -585,7 +585,7 @@ void HTTPS_Proxy::connect_ready()
         bOut << "Proxy-Authorization: basic ";
         bOut << s.c_str();
         bOut << "\r\n";
-        bOut << "Auth: basic ";
+        bOut << "Authorization: basic ";
         bOut << s.c_str();
         bOut << "\r\n";
     }
@@ -831,6 +831,9 @@ void HttpRequest::connect_ready()
         s += m_proxy->getPassword();
         s = tobase64(s.c_str());
         bOut << "Proxy-Authorization: basic ";
+        bOut << s.c_str();
+        bOut << "\r\n";
+        bOut << "Authorization: basic ";
         bOut << s.c_str();
         bOut << "\r\n";
     }

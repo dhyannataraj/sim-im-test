@@ -759,7 +759,6 @@ bool QTextEdit::event( QEvent *e )
 {
     if ( e->type() == QEvent::AccelOverride && !isReadOnly() ) {
         QKeyEvent* ke = (QKeyEvent*) e;
-        log(L_DEBUG, "Key %04X", ke->key());
         if ( ke->state() == NoButton ) {
             if ( ke->key() < Key_Escape ) {
                 ke->accept();
