@@ -44,6 +44,43 @@ UserViewConfig::UserViewConfig(QWidget *parent)
     connect(cmbSort1, SIGNAL(activated(int)), this, SLOT(sortChanged(int)));
     connect(cmbSort2, SIGNAL(activated(int)), this, SLOT(sortChanged(int)));
     connect(cmbSort3, SIGNAL(activated(int)), this, SLOT(sortChanged(int)));
+	btnAuth1->setPixmap(Pict("text_strike"));
+	btnAuth2->setPixmap(Pict("text_italic"));
+	btnAuth3->setPixmap(Pict("text_under"));
+	btnVisible1->setPixmap(Pict("text_strike"));
+	btnVisible2->setPixmap(Pict("text_italic"));
+	btnVisible3->setPixmap(Pict("text_under"));
+	btnInvisible1->setPixmap(Pict("text_strike"));
+	btnInvisible2->setPixmap(Pict("text_italic"));
+	btnInvisible3->setPixmap(Pict("text_under"));
+	btnAuth1->setToggleButton(true);
+	btnAuth2->setToggleButton(true);
+	btnAuth3->setToggleButton(true);
+	btnVisible1->setToggleButton(true);
+	btnVisible2->setToggleButton(true);
+	btnVisible3->setToggleButton(true);
+	btnInvisible1->setToggleButton(true);
+	btnInvisible2->setToggleButton(true);
+	btnInvisible3->setToggleButton(true);
+	connect(btnAuth1, SIGNAL(toggled(bool)), this, SLOT(setFonts(bool)));
+	connect(btnAuth2, SIGNAL(toggled(bool)), this, SLOT(setFonts(bool)));
+	connect(btnAuth3, SIGNAL(toggled(bool)), this, SLOT(setFonts(bool)));
+	connect(btnVisible1, SIGNAL(toggled(bool)), this, SLOT(setFonts(bool)));
+	connect(btnVisible2, SIGNAL(toggled(bool)), this, SLOT(setFonts(bool)));
+	connect(btnVisible3, SIGNAL(toggled(bool)), this, SLOT(setFonts(bool)));
+	connect(btnInvisible1, SIGNAL(toggled(bool)), this, SLOT(setFonts(bool)));
+	connect(btnInvisible2, SIGNAL(toggled(bool)), this, SLOT(setFonts(bool)));
+	connect(btnInvisible3, SIGNAL(toggled(bool)), this, SLOT(setFonts(bool)));
+	btnAuth1->setOn((CorePlugin::m_plugin->getAuthStyle() & STYLE_STRIKE) != 0);
+	btnAuth2->setOn((CorePlugin::m_plugin->getAuthStyle() & STYLE_ITALIC) != 0);
+	btnAuth3->setOn((CorePlugin::m_plugin->getAuthStyle() & STYLE_UNDER) != 0);
+	btnVisible1->setOn((CorePlugin::m_plugin->getVisibleStyle() & STYLE_STRIKE) != 0);
+	btnVisible2->setOn((CorePlugin::m_plugin->getVisibleStyle() & STYLE_ITALIC) != 0);
+	btnVisible3->setOn((CorePlugin::m_plugin->getVisibleStyle() & STYLE_UNDER) != 0);
+	btnInvisible1->setOn((CorePlugin::m_plugin->getInvisibleStyle() & STYLE_STRIKE) != 0);
+	btnInvisible2->setOn((CorePlugin::m_plugin->getInvisibleStyle() & STYLE_ITALIC) != 0);
+	btnInvisible3->setOn((CorePlugin::m_plugin->getInvisibleStyle() & STYLE_UNDER) != 0);
+	setFonts(true);
 }
 
 UserViewConfig::~UserViewConfig()
@@ -71,6 +108,21 @@ void UserViewConfig::apply()
         CorePlugin::m_plugin->setColorDND(btnDND->color().rgb());
         CorePlugin::m_plugin->setColorGroup(btnGroup->color().rgb());
     }
+	unsigned style = 0;
+	if (btnAuth1->isOn()) style |= STYLE_STRIKE;
+	if (btnAuth2->isOn()) style |= STYLE_ITALIC;
+	if (btnAuth3->isOn()) style |= STYLE_UNDER;
+	CorePlugin::m_plugin->setAuthStyle(style);
+	style = 0;
+	if (btnVisible1->isOn()) style |= STYLE_STRIKE;
+	if (btnVisible2->isOn()) style |= STYLE_ITALIC;
+	if (btnVisible3->isOn()) style |= STYLE_UNDER;
+	CorePlugin::m_plugin->setVisibleStyle(style);
+	style = 0;
+	if (btnInvisible1->isOn()) style |= STYLE_STRIKE;
+	if (btnInvisible2->isOn()) style |= STYLE_ITALIC;
+	if (btnInvisible3->isOn()) style |= STYLE_UNDER;
+	CorePlugin::m_plugin->setInvisibleStyle(style);
     Event e(EventRepaintView);
     e.process();
 }
@@ -133,6 +185,25 @@ void UserViewConfig::setSortMode(unsigned mode)
 void UserViewConfig::sortChanged(int)
 {
     setSortMode(getSortMode());
+}
+
+void UserViewConfig::setFonts(bool)
+{
+	QFont fAuth(font());
+	fAuth.setStrikeOut(btnAuth1->isOn());
+	fAuth.setItalic(btnAuth2->isOn());
+	fAuth.setUnderline(btnAuth3->isOn());
+	lblAuth->setFont(fAuth);
+	QFont fVisible(font());
+	fVisible.setStrikeOut(btnVisible1->isOn());
+	fVisible.setItalic(btnVisible2->isOn());
+	fVisible.setUnderline(btnVisible3->isOn());
+	lblVisible->setFont(fVisible);
+	QFont fInvisible(font());
+	fInvisible.setStrikeOut(btnInvisible1->isOn());
+	fInvisible.setItalic(btnInvisible2->isOn());
+	fInvisible.setUnderline(btnInvisible3->isOn());
+	lblInvisible->setFont(fInvisible);
 }
 
 unsigned UserViewConfig::getSortMode()

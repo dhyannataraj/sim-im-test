@@ -47,11 +47,10 @@ Exec::Exec()
     hIn = -1;
     hOut = -1;
     hErr = -1;
-    connect(ExecManager::manager, SIGNAL(childExited(int, int)), this, SLOT(childExited(int, int)));
-#else
     n_in 	= NULL;
     n_out	= NULL;
     n_err	= NULL;
+    connect(ExecManager::manager, SIGNAL(childExited(int, int)), this, SLOT(childExited(int, int)));
 #endif
 }
 

@@ -271,6 +271,9 @@ static DataDef coreData[] =
         { "SortMode", DATA_ULONG, 1, 0x00030201 },
         { "CloseTransfer", DATA_BOOL, 1, 0 },
         { "HistoryStyle", DATA_STRING, 1, (unsigned)"SIM" },
+        { "AuthStyle", DATA_ULONG, 1, STYLE_UNDER },
+        { "VisibleStyle", DATA_ULONG, 1, STYLE_ITALIC },
+        { "InvisibleStyle", DATA_ULONG, 1, STYLE_STRIKE },
         { NULL, 0, 0, 0 }
     };
 

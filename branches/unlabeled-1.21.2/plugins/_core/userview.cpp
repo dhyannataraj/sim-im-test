@@ -203,12 +203,30 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
     if (base->type() == USR_ITEM){
         ContactItem *item = static_cast<ContactItem*>(base);
         QFont f(font());
-        if (item->style() & CONTACT_ITALIC)
-            f.setItalic(true);
-        if (item->style() & CONTACT_UNDERLINE)
-            f.setUnderline(true);
-        if (item->style() & CONTACT_STRIKEOUT)
-            f.setStrikeOut(true);
+        if (item->style() & CONTACT_ITALIC){
+			if (CorePlugin::m_plugin->getVisibleStyle()  & STYLE_ITALIC)
+				f.setItalic(true);
+			if (CorePlugin::m_plugin->getVisibleStyle()  & STYLE_UNDER)
+				f.setUnderline(true);
+			if (CorePlugin::m_plugin->getVisibleStyle()  & STYLE_STRIKE)
+				f.setStrikeOut(true);
+		}
+        if (item->style() & CONTACT_UNDERLINE){
+			if (CorePlugin::m_plugin->getAuthStyle()  & STYLE_ITALIC)
+				f.setItalic(true);
+			if (CorePlugin::m_plugin->getAuthStyle()  & STYLE_UNDER)
+				f.setUnderline(true);
+			if (CorePlugin::m_plugin->getAuthStyle()  & STYLE_STRIKE)
+				f.setStrikeOut(true);
+		}
+        if (item->style() & CONTACT_STRIKEOUT){
+			if (CorePlugin::m_plugin->getInvisibleStyle()  & STYLE_ITALIC)
+				f.setItalic(true);
+			if (CorePlugin::m_plugin->getInvisibleStyle()  & STYLE_UNDER)
+				f.setUnderline(true);
+			if (CorePlugin::m_plugin->getInvisibleStyle()  & STYLE_STRIKE)
+				f.setStrikeOut(true);
+		}
         if (item->m_bBlink){
             f.setBold(true);
         }else{
