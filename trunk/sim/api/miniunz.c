@@ -5,7 +5,7 @@
 #include <errno.h>
 #include <fcntl.h>
 
-#ifdef unix
+#if defined(__linux__) || defined(__unix__) 
 # include <unistd.h>
 # include <utime.h>
 #else
@@ -22,6 +22,26 @@
 #define CASESENSITIVITY (0)
 #define WRITEBUFFERSIZE (8192)
 
+#if defined(__linux__) || defined (__unix__)
+void change_file_date(const char *filename, tm_unz tmu_date);
+#else
+void change_file_date(const char *filename, uLong dosdate);
+#endif
+int makedir (const char *newdir);
+int mymkdir(const char *dirname);
+void do_help(void);
+void do_banner(void);
+int do_list(unzFile uf);
+int do_extract_currentfile(unzFile uf,
+                           const int* popt_extract_without_path,
+                           int* popt_overwrite);
+int do_extract(unzFile uf,
+               int opt_extract_without_path,
+               int opt_overwrite);
+int do_extract_onefile(unzFile uf,
+                       const char* filename,
+                       int opt_extract_without_path,
+                       int opt_overwrite);
 /*
   mini unzip, demo of unzip package
 
@@ -37,26 +57,12 @@
     filename : the filename of the file where date/time must be modified
     dosdate : the new date at the MSDos format (4 bytes)
     tmu_date : the SAME new date at the tm_unz format */
-void change_file_date(filename,dosdate,tmu_date)
-	const char *filename;
-	uLong dosdate;
-	tm_unz tmu_date;
+#if defined(__linux__) || defined (__unix__)
+void change_file_date(const char *filename, tm_unz tmu_date)
 {
-#ifdef WIN32
-  HANDLE hFile;
-  FILETIME ftm,ftLocal,ftCreate,ftLastAcc,ftLastWrite;
-
-  hFile = CreateFileA(filename,GENERIC_READ | GENERIC_WRITE,
-                      0,NULL,OPEN_EXISTING,0,NULL);
-  GetFileTime(hFile,&ftCreate,&ftLastAcc,&ftLastWrite);
-  DosDateTimeToFileTime((WORD)(dosdate>>16),(WORD)dosdate,&ftLocal);
-  LocalFileTimeToFileTime(&ftLocal,&ftm);
-  SetFileTime(hFile,&ftm,&ftLastAcc,&ftm);
-  CloseHandle(hFile);
-#else
-#ifdef unix
   struct utimbuf ut;
   struct tm newdate;
+  
   newdate.tm_sec = tmu_date.tm_sec;
   newdate.tm_min=tmu_date.tm_min;
   newdate.tm_hour=tmu_date.tm_hour;
@@ -70,30 +76,37 @@ void change_file_date(filename,dosdate,tmu_date)
 
   ut.actime=ut.modtime=mktime(&newdate);
   utime(filename,&ut);
-#endif
-#endif
 }
+#else
+void change_file_date(const char *filename, uLong dosdate)
+{
+  HANDLE hFile;
+  FILETIME ftm,ftLocal,ftCreate,ftLastAcc,ftLastWrite;
+
+  hFile = CreateFileA(filename,GENERIC_READ | GENERIC_WRITE,
+                      0,NULL,OPEN_EXISTING,0,NULL);
+  GetFileTime(hFile,&ftCreate,&ftLastAcc,&ftLastWrite);
+  DosDateTimeToFileTime((WORD)(dosdate>>16),(WORD)dosdate,&ftLocal);
+  LocalFileTimeToFileTime(&ftLocal,&ftm);
+  SetFileTime(hFile,&ftm,&ftLastAcc,&ftm);
+  CloseHandle(hFile);
+}
+#endif
 
 
 /* mymkdir and change_file_date are not 100 % portable
    As I don't know well Unix, I wait feedback for the unix portion */
 
-int mymkdir(dirname)
-	const char* dirname;
+int mymkdir(const char *dirname)
 {
-    int ret=0;
-#ifdef WIN32
-	ret = mkdir(dirname);
+#if defined(__linux__) || defined (__unix__)
+	return (mkdir (dirname,0775));
 #else
-#ifdef unix
-	ret = mkdir (dirname,0775);
+	return (mkdir(dirname));
 #endif
-#endif
-	return ret;
 }
 
-int makedir (newdir)
-    char *newdir;
+int makedir (const char *newdir)
 {
   char *buffer ;
   char *p;
@@ -148,9 +161,7 @@ void do_help()
 	printf("Usage : miniunz [-exvlo] file.zip [file_to_extract]\n\n") ;
 }
 
-
-int do_list(uf)
-	unzFile uf;
+int do_list(unzFile uf)
 {
 	uLong i;
 	unz_global_info gi;
@@ -214,11 +225,9 @@ int do_list(uf)
 	return 0;
 }
 
-
-int do_extract_currentfile(uf,popt_extract_without_path,popt_overwrite)
-	unzFile uf;
-	const int* popt_extract_without_path;
-    int* popt_overwrite;
+int do_extract_currentfile(unzFile uf,
+                           const int* popt_extract_without_path,
+                           int* popt_overwrite)
 {
 	char filename_inzip[256];
 	char* filename_withoutpath;
@@ -229,7 +238,6 @@ int do_extract_currentfile(uf,popt_extract_without_path,popt_overwrite)
     uInt size_buf;
 	
 	unz_file_info file_info;
-	uLong ratio=0;
 	err = unzGetCurrentFileInfo(uf,&file_info,filename_inzip,sizeof(filename_inzip),NULL,0,NULL,0);
 
 	if (err!=UNZ_OK)
@@ -349,8 +357,11 @@ int do_extract_currentfile(uf,popt_extract_without_path,popt_overwrite)
 			while (err>0);
 			fclose(fout);
 			if (err==0) 
-				change_file_date(write_filename,file_info.dosDate,
-					             file_info.tmu_date);
+#if defined(__linux__) || defined(__unix__) 
+				change_file_date(write_filename,file_info.tmu_date);
+#else
+				change_file_date(write_filename,file_info.dosDate);
+#endif
 		}
 
         if (err==UNZ_OK)
@@ -370,15 +381,11 @@ int do_extract_currentfile(uf,popt_extract_without_path,popt_overwrite)
 }
 
 
-int do_extract(uf,opt_extract_without_path,opt_overwrite)
-	unzFile uf;
-	int opt_extract_without_path;
-    int opt_overwrite;
+int do_extract(unzFile uf,int opt_extract_without_path,int opt_overwrite)
 {
 	uLong i;
 	unz_global_info gi;
 	int err;
-	FILE* fout=NULL;	
 
 	err = unzGetGlobalInfo (uf,&gi);
 	if (err!=UNZ_OK)
@@ -404,13 +411,11 @@ int do_extract(uf,opt_extract_without_path,opt_overwrite)
 	return 0;
 }
 
-int do_extract_onefile(uf,filename,opt_extract_without_path,opt_overwrite)
-	unzFile uf;
-	const char* filename;
-	int opt_extract_without_path;
-    int opt_overwrite;
+int do_extract_onefile(unzFile uf,
+                       const char* filename,
+                       int opt_extract_without_path,
+                       int opt_overwrite)
 {
-    int err = UNZ_OK;
     if (unzLocateFile(uf,filename,CASESENSITIVITY)!=UNZ_OK)
     {
         printf("file %s not found in the zipfile\n",filename);
