@@ -2307,7 +2307,7 @@ msgstr "Істо&рія<br>CTRL - відкрити в новомому вікн�
 
 #: userbox.cpp:193
 msgid "&Encoding"
-msgstr "&Кодування"
+msgstr "&Кодова сторінка"
 
 #: userbox.cpp:199
 msgid "Close user &window"
@@ -3636,7 +3636,7 @@ msgstr "Замітки"
 
 #: ui/maininfobase.cpp:265
 msgid "Encoding:"
-msgstr "Кодування:"
+msgstr "Кодова сторінка:"
 
 #: ui/homeinfobase.cpp:153
 msgid "Time zone:"
