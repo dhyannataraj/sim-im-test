@@ -977,9 +977,6 @@ void UserBox::showProgress(int n)
     }
     if (progress == NULL){
         progress = new QProgressBar(100, status);
-        progress->setFrameShape(NoFrame);
-        progress->setLineWidth(0);
-        progress->setMidLineWidth(0);
         status->addWidget(progress, 50, true);
         progress->show();
     }

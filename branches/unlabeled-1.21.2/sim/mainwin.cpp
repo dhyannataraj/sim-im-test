@@ -97,12 +97,6 @@
 #include <qpopupmenu.h>
 #endif
 
-#ifdef WIN32
-#define FS(a, b)	 fs(a, b);
-#else
-#define FS(a, b)	 fs(a, b, 0600);
-#endif
-
 #ifdef USE_SCRNSAVER
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -258,6 +252,8 @@ MainWindow::MainWindow(const char *name)
     lockFile = -1;
     translator = NULL;
     mAboutApp = NULL;
+
+    umask(0077);
 
     initTranslator();
 
@@ -653,7 +649,7 @@ bool MainWindow::init()
 
     string part;
     buildFileName(file, SIM_CONF);
-    std::ifstream FS(file.c_str(), ios::in);
+    std::ifstream fs(file.c_str(), ios::in);
     load(fs, part);
 
     setDock(true);
@@ -672,7 +668,7 @@ bool MainWindow::init()
     {
         string file, part;
         buildFileName(file, ICQ_CONF);
-        ifstream FS(file.c_str(), ios::in);
+        ifstream fs(file.c_str(), ios::in);
         pClient->load(fs, part);
     }
     for (;;){
@@ -920,7 +916,7 @@ void MainWindow::saveState()
     if ((stat(file.c_str(), &st) >= 0) && (st.st_mode != 0600))
         unlink(file.c_str());
 #endif
-    std::ofstream FS(file.c_str(), ios::out);
+    std::ofstream fs(file.c_str(), ios::out);
     save(fs);
     for (list<UserFloat*>::iterator itFloat = floating.begin(); itFloat != floating.end(); itFloat++){
         fs << "[Floaty]\n";
@@ -943,7 +939,7 @@ void MainWindow::saveContacts()
     if ((stat(file.c_str(), &st) >= 0) && (st.st_mode != 0600))
         unlink(file.c_str());
 #endif
-    ofstream FS(file.c_str(), ios::out);
+    ofstream fs(file.c_str(), ios::out);
     pClient->save(fs);
     fs.close();
 }
