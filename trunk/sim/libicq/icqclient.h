@@ -1051,6 +1051,8 @@ public:
     ConfigString BirthdayReminder;
     ConfigString FileDone;
 
+    ConfigBool		BypassAuth;
+
     void fromServer(string &s, ICQUser*);
     void toServer(string &s, ICQUser*);
     const char *localCharset(ICQUser*);

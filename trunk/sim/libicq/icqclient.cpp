@@ -55,6 +55,7 @@ ICQClient::ICQClient()
         DirectMode(this, "DirectMode"),
         BirthdayReminder(this, "BirthdayReminder", "birthday.wav"),
         FileDone(this, "FileDone", "filedone.wav"),
+        BypassAuth(this, "BypassAuth"),
         contacts(this),
         m_bHeader(true), m_bBirthday(false)
 {

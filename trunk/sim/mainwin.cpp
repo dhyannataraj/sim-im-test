@@ -829,7 +829,8 @@ void MainWindow::processEvent(ICQEvent *e)
 {
     switch (e->type()){
     case EVENT_AUTH_REQUIRED:
-        userFunction(e->Uin(), mnuAuth, 0);
+        if (!pClient->BypassAuth())
+            userFunction(e->Uin(), mnuAuth, 0);
         return;
     case EVENT_USER_DELETED:{
             UserFloat *floaty = findFloating(e->Uin(), true);

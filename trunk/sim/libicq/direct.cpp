@@ -431,7 +431,7 @@ void DirectClient::idle()
 {
 #ifdef USE_OPENSSL
     if (pSSL && SSL_pending(pSSL))
-	read_ready();
+        read_ready();
 #endif
     DirectSocket::idle();
 }
@@ -464,9 +464,9 @@ void DirectClient::write_ready()
             int size = writeBuffer.writePos() - writeBuffer.readPos();
             if (size > 2048) size = 2048;
 
-	    log(L_DEBUG, "SSL write: %i", size);
+            log(L_DEBUG, "SSL write: %i", size);
             int res = SSL_write(pSSL, writeBuffer.Data(writeBuffer.readPos()), size);
-	    log(L_DEBUG, "SSL write res: %i", size);
+            log(L_DEBUG, "SSL write res: %i", size);
             int tmp = SSL_get_error(pSSL, res);
             switch (tmp)
             {
@@ -486,7 +486,7 @@ void DirectClient::write_ready()
             writeBuffer.incReadPos(res);
             if (writeBuffer.readPos() == writeBuffer.size()) writeBuffer.init(0);
         }
-	return;
+        return;
     }
 #endif
     DirectSocket::write_ready();
@@ -1105,8 +1105,8 @@ void DirectClient::sendPacket()
     dumpPacket(writeBuffer, m_packetOffs, "Encrypted packet");
 #ifdef USE_OPENSSL
     if (pSSL){
-	write_ready();
-	return;
+        write_ready();
+        return;
     }
 #endif
     fd_set wf;

@@ -307,7 +307,7 @@ void UserViewItem::update(ICQUser *u, bool bFirst)
         }
     }
     m_bItalic = u->inVisible;
-    m_bUnderline = u->WaitAuth;
+    m_bUnderline = !pClient->BypassAuth() && u->WaitAuth();
     m_bStrikeOut = u->inInvisible;
     if (bFirst){
         if (parent() && (u->uStatus != ICQ_STATUS_OFFLINE))
