@@ -1,5 +1,6 @@
 Version 0.8
-Fix drag-and-drop files
+Fix receive messages from ICQLite
+Fix drag-and-drop files 
 Fix user encoding for encode/decode RTF 
 Add process escape for close user window
 Fix set status for icq2go

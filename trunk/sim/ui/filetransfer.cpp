@@ -58,13 +58,14 @@ FileTransferDlg::FileTransferDlg(QWidget *p, ICQFile *_file)
     barBatch->setTotalSteps(file->Size());
     int nFiles = 0;
     if (file->ft) nFiles = file->ft->nFiles();
+    CUser u(file->getUin());
     if (file->Received()){
         QString name = file->Name.c_str();
         if (name.find(QRegExp("^[0-9]+ Files$")) >= 0)
             nFiles = name.toUInt();
-        setCaption(i18n("Receive file"));
+        setCaption(i18n("Receive file from %1") .arg(u.name()));
     }else{
-        setCaption(i18n("Send file"));
+        setCaption(i18n("Send file to %1") .arg(u.name()));
     }
     if (nFiles <= 1){
         barBatch->hide();
