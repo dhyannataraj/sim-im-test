@@ -6,25 +6,25 @@
         <name>name</name>
         <cstring>themes</cstring>
     </property>
-    <property>
+    <property stdset="1">
         <name>geometry</name>
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>315</width>
+            <width>311</width>
             <height>275</height>
         </rect>
     </property>
-    <property>
+    <property stdset="1">
         <name>caption</name>
         <string>Form1</string>
     </property>
     <vbox>
-        <property>
+        <property stdset="1">
             <name>margin</name>
             <number>11</number>
         </property>
-        <property>
+        <property stdset="1">
             <name>spacing</name>
             <number>6</number>
         </property>
@@ -45,11 +45,11 @@
                     <string>&amp;Style</string>
                 </attribute>
                 <vbox>
-                    <property>
+                    <property stdset="1">
                         <name>margin</name>
                         <number>11</number>
                     </property>
-                    <property>
+                    <property stdset="1">
                         <name>spacing</name>
                         <number>6</number>
                     </property>
@@ -59,7 +59,7 @@
                             <name>name</name>
                             <cstring>TextLabel1</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Select style:</string>
                         </property>
@@ -90,11 +90,11 @@
                     <string>&amp;Icons</string>
                 </attribute>
                 <vbox>
-                    <property>
+                    <property stdset="1">
                         <name>margin</name>
                         <number>11</number>
                     </property>
-                    <property>
+                    <property stdset="1">
                         <name>spacing</name>
                         <number>6</number>
                     </property>
@@ -104,7 +104,7 @@
                             <name>name</name>
                             <cstring>TextLabel1_2</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Icons:</string>
                         </property>
@@ -129,11 +129,11 @@
                             <cstring>Layout2</cstring>
                         </property>
                         <hbox>
-                            <property>
+                            <property stdset="1">
                                 <name>margin</name>
                                 <number>0</number>
                             </property>
-                            <property>
+                            <property stdset="1">
                                 <name>spacing</name>
                                 <number>6</number>
                             </property>
@@ -164,7 +164,7 @@
                                     <name>name</name>
                                     <cstring>btnAddIcons</cstring>
                                 </property>
-                                <property>
+                                <property stdset="1">
                                     <name>text</name>
                                     <string>Add icons</string>
                                 </property>
@@ -184,11 +184,11 @@
                     <string>&amp;Transparency</string>
                 </attribute>
                 <vbox>
-                    <property>
+                    <property stdset="1">
                         <name>margin</name>
                         <number>11</number>
                     </property>
-                    <property>
+                    <property stdset="1">
                         <name>spacing</name>
                         <number>6</number>
                     </property>
@@ -198,7 +198,7 @@
                             <name>name</name>
                             <cstring>chkTransparent</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Transparent main window</string>
                         </property>
@@ -209,7 +209,7 @@
                             <name>name</name>
                             <cstring>lblTransparent</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Transparency</string>
                         </property>
@@ -220,7 +220,7 @@
                             <name>name</name>
                             <cstring>sldTransparent</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>orientation</name>
                             <enum>Horizontal</enum>
                         </property>
@@ -231,7 +231,7 @@
                             <name>name</name>
                             <cstring>chkTransparentContainer</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Transparent container</string>
                         </property>
@@ -242,7 +242,7 @@
                             <name>name</name>
                             <cstring>lblTransparentContainer</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Transparency</string>
                         </property>
@@ -253,7 +253,7 @@
                             <name>name</name>
                             <cstring>sldTransparentContainer</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>orientation</name>
                             <enum>Horizontal</enum>
                         </property>
@@ -264,7 +264,7 @@
                             <name>name</name>
                             <cstring>chkInactive</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Transparent only if inactive</string>
                         </property>
@@ -303,11 +303,11 @@
                     <string>&amp;Miscellaneous</string>
                 </attribute>
                 <grid>
-                    <property>
+                    <property stdset="1">
                         <name>margin</name>
                         <number>11</number>
                     </property>
-                    <property>
+                    <property stdset="1">
                         <name>spacing</name>
                         <number>6</number>
                     </property>
@@ -317,7 +317,7 @@
                             <name>name</name>
                             <cstring>chkMainWnd</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Show main window in task manager</string>
                         </property>
@@ -328,7 +328,7 @@
                             <name>name</name>
                             <cstring>chkUserWnd</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Show user window in task manager</string>
                         </property>
@@ -339,7 +339,7 @@
                             <name>name</name>
                             <cstring>chkDock</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Use dock</string>
                         </property>
@@ -350,7 +350,7 @@
                             <name>name</name>
                             <cstring>chkWM</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Use WindowMaker applet</string>
                         </property>
@@ -359,9 +359,9 @@
                         <class>QCheckBox</class>
                         <property stdset="1">
                             <name>name</name>
-                            <cstring>chkUserWnd</cstring>
+                            <cstring>chkUserWndOnTop</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>User window stays on &amp;top</string>
                         </property>
@@ -372,7 +372,7 @@
                             <name>name</name>
                             <cstring>chkSplash</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>&amp;Show splash window</string>
                         </property>
@@ -383,7 +383,7 @@
                             <name>name</name>
                             <cstring>chkEmotional</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Use emotional &amp;icons</string>
                         </property>
@@ -415,11 +415,11 @@
                             <name>name</name>
                             <cstring>lblLang</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Lnaguage:</string>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>alignment</name>
                             <set>AlignVCenter|AlignRight</set>
                         </property>

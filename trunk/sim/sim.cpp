@@ -336,10 +336,10 @@ int main(int argc, char *argv[])
             ctrlSock = argv[++i];
     }
 #endif
+	MainWindow::homeDir = homeDir;
     pSplash = new Splash;
     initIcons("");
     pMain = new MainWindow;
-    pMain->homeDir = homeDir;
     ControlListener *cl = new ControlListener(pMain);
     if (!cl->bind(ctrlSock.c_str())){
         delete cl;

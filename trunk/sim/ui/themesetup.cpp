@@ -20,6 +20,7 @@
 #include "themes.h"
 #include "icons.h"
 #include "transparent.h"
+#include "ballonmsg.h"
 #include "splash.h"
 #include "log.h"
 
@@ -31,6 +32,27 @@
 #include <qregexp.h>
 #include <qstringlist.h>
 #include <qpushbutton.h>
+#include <qcombobox.h>
+
+typedef struct language
+{
+	const char *code;
+	const char *name;
+} language;
+
+static language langs[] =
+{
+	{ "", I18N_NOOP("System") },
+	{ "cs", I18N_NOOP("Czech") },
+	{ "de", I18N_NOOP("German") },
+	{ "es", I18N_NOOP("Spanish") },
+	{ "it", I18N_NOOP("Italian")},
+	{ "ru", I18N_NOOP("Russian") },
+	{ "tr", I18N_NOOP("Turkish") },
+	{ "uk", I18N_NOOP("Ukrainian") },
+	{ "zh_TW", I18N_NOOP("Chinese") },
+	{ NULL, NULL }
+};
 
 ThemeSetup::ThemeSetup(QWidget *parent)
         : ThemeSetupBase(parent)
@@ -90,14 +112,40 @@ ThemeSetup::ThemeSetup(QWidget *parent)
 #ifdef WIN32
     chkDock->hide();
     chkWM->hide();
+	int n = 0;
+	for (const language *l = langs; l->code; l++, n++){
+		cmbLang->insertItem(i18n(l->name));
+		if (!strcmp(pSplash->Language.c_str(), l->code))
+			cmbLang->setCurrentItem(n);
+	}
+	bLangChanged = false;
+	connect(cmbLang, SIGNAL(activated(int)), this, SLOT(langChanged(int)));
+#else
+	lblLang->hide();
+	cmbLang->hide();
 #endif
     chkSplash->setChecked(pSplash->Show);
     chkEmotional->setChecked(pMain->UseEmotional);
-    chkUserWnd->setChecked(pMain->UserWndOnTop);
+    chkUserWndOnTop->setChecked(pMain->UserWndOnTop);
     setupInit();
 }
 
 const char *app_file(const char *f);
+
+void ThemeSetup::langChanged(int)
+{
+#ifdef WIN32
+	if (bLangChanged) return;
+	int n = cmbLang->currentItem();
+	for (const language *l = langs; l->code; l++){
+		if (n-- > 0) continue;
+		break;
+	}
+	if (l->code && !strcmp(l->code, pSplash->Language.c_str())) return;
+	bLangChanged = true;
+	BalloonMsg::message(i18n("Need restart SIM for change language"), cmbLang);
+#endif
+}
 
 void ThemeSetup::setupInit()
 {
@@ -163,7 +211,10 @@ void ThemeSetup::apply(ICQUser*)
     pMain->changeTransparent();
     pSplash->Show = chkSplash->isChecked();
     pMain->UseEmotional = chkEmotional->isChecked();
-    pMain->UserWndOnTop = chkUserWnd->isChecked();
+	if (chkUserWndOnTop->isChecked() != pMain->UserWndOnTop){
+		pMain->UserWndOnTop = chkUserWndOnTop->isChecked();
+		pMain->setUserBoxOnTop();
+	}
 #if defined(USE_KDE) || defined(WIN32)
     bool bChange = false;
     if (pMain->UserWindowInTaskManager != chkUserWnd->isChecked()){
@@ -175,6 +226,15 @@ void ThemeSetup::apply(ICQUser*)
         bChange = true;
     }
     if (bChange) pMain->changeWm();
+#endif
+#ifdef WIN32
+	int n = cmbLang->currentItem();
+	for (const language *l = langs; l->code; l++){
+		if (n-- > 0) continue;
+		pSplash->Language = l->code;
+		break;
+	}
+	pSplash->save();
 #endif
 }
 

@@ -33,6 +33,10 @@ SoundSetup::SoundSetup(QWidget *p, bool bUser)
 {
     chkDisable->setChecked(pSplash->SoundDisable);
     disableToggled(pSplash->SoundDisable);
+#ifdef WIN32
+        tabWnd->setCurrentPage(1);
+        tabWnd->removePage(tabWnd->currentPage());
+#endif
     if (bUser){
         edtProgram->hide();
         lblProgram->hide();
@@ -45,10 +49,6 @@ SoundSetup::SoundSetup(QWidget *p, bool bUser)
     }else{
         connect(chkDisable, SIGNAL(toggled(bool)), this, SLOT(disableToggled(bool)));
         chkOverride->hide();
-#ifdef WIN32
-        tabWnd->setCurrentPage(1);
-        tabWnd->removePage(tabWnd->currentPage());
-#endif
 #ifdef USE_KDE
         chkArts->setChecked(pSplash->UseArts);
         connect(chkArts, SIGNAL(toggled(bool)), this, SLOT(artsToggled(bool)));

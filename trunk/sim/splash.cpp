@@ -53,6 +53,7 @@ cfgParam Splash_Params[] =
         { "SoundPlayer", OFFSET_OF(Splash, SoundPlayer), PARAM_STRING, 0 },
         { "StartupSound", OFFSET_OF(Splash, StartupSound), PARAM_STRING, (unsigned)"startup.wav" },
         { "SoundDisable", OFFSET_OF(Splash, SoundDisable), PARAM_BOOL, 0 },
+        { "Langauge", OFFSET_OF(Splash, Language), PARAM_STRING, 0 },
         { "", 0, 0, 0 }
     };
 

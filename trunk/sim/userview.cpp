@@ -517,6 +517,7 @@ UserView::UserView (QWidget *parent, bool _bList, bool bFill, WFlags f)
     connect(this, SIGNAL(doubleClicked(QListViewItem*)), this, SLOT(doubleClick(QListViewItem*)));
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     connect(pClient, SIGNAL(messageRead(ICQMessage*)), this, SLOT(messageRead(ICQMessage*)));
+    connect(pClient, SIGNAL(messageReceived(ICQMessage*)), this, SLOT(messageReceived(ICQMessage*)));
     edtGroup = new IntLineEdit(viewport());
     edtGroup->hide();
     QFont font(QListView::font());
@@ -961,7 +962,6 @@ void UserView::processEvent(ICQEvent *e)
     case EVENT_GROUP_CHANGED:
         refresh();
         return;
-    case EVENT_MESSAGE_RECEIVED:
     case EVENT_USER_DELETED:
     case EVENT_USERGROUP_CHANGED:
     case EVENT_STATUS_CHANGED:
@@ -974,6 +974,11 @@ void UserView::processEvent(ICQEvent *e)
             break;
         }
     }
+}
+
+void UserView::messageReceived(ICQMessage *msg)
+{
+	updateUser(msg->getUin(), false);
 }
 
 void UserView::setGroupExpand(unsigned short grpId, bool bState)

@@ -188,6 +188,7 @@ UserBox::UserBox(unsigned long grpId)
     connect(pClient, SIGNAL(messageRead(ICQMessage*)), this, SLOT(messageRead(ICQMessage*)));
     connect(pMain, SIGNAL(iconChanged()), this, SLOT(iconChanged()));
     connect(pMain, SIGNAL(wmChanged()), this, SLOT(wmChanged()));
+    connect(pMain, SIGNAL(onTopChanged()), this, SLOT(setOnTop()));
     connect(this, SIGNAL(toolBarPositionChanged(QToolBar*)), this, SLOT(toolBarChanged(QToolBar*)));
     connect(pClient, SIGNAL(messageReceived(ICQMessage*)), this, SLOT(slotMessageReceived(ICQMessage*)));
     setGroupButtons();
@@ -215,6 +216,7 @@ UserBox::UserBox(unsigned long grpId)
     accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxCHAT)), mnuChat);
     accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxCONTACTxLIST)), mnuContacts);
     accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxMAIL)), mnuMail);
+	setOnTop();
 }
 
 void UserBox::hideToolbar()
@@ -1182,6 +1184,28 @@ void UserBox::modeChanged(bool bSimple)
         (*it)->close();
         wnds.begin();
     }
+}
+
+void UserBox::setOnTop()
+{
+    if (pMain->UserWndOnTop){
+        setWFlags(WStyle_StaysOnTop);
+    }else{
+        clearWFlags(WStyle_StaysOnTop);
+    }
+#ifdef WIN32
+        HWND hState = HWND_NOTOPMOST;
+        if (pMain->UserWndOnTop) hState = HWND_TOPMOST;
+        SetWindowPos(winId(), hState, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+#else
+#ifdef USE_KDE
+    if (pMain->UserWndOnTop){
+        KWin::setState(winId(), NET::StaysOnTop);
+    }else{
+        KWin::clearState(winId(), NET::StaysOnTop);
+    }
+#endif
+#endif
 }
 
 UserTabBar::UserTabBar(QWidget *parent) : QTabBar(parent)
