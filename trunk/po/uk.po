@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2002-11-25 10:46+0300\n"
-"PO-Revision-Date: 2002-11-19 19:23+0200\n"
+"PO-Revision-Date: 2002-11-25 11:30+0200\n"
 "Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1740,8 +1740,7 @@ msgstr "%1 від %2"
 
 #: mainwin.cpp:1223 ui/logindlg.cpp:140
 msgid "Can't connect to proxy server"
-msgstr ""
-"Неможливо з'єднатися з проксі-сервером"
+msgstr "Неможливо з'єднатися з проксі-сервером"
 
 #: mainwin.cpp:1229 ui/logindlg.cpp:147
 msgid "Proxy server require authorization"
@@ -1773,8 +1772,7 @@ msgstr "&Ні"
 
 #: mainwin.cpp:1902
 msgid "Add %1 to ignore list ?"
-msgstr ""
-"Додати \"%1\" в список тих що ігноруються?"
+msgstr "Додати \"%1\" в список тих що ігноруються?"
 
 #: mainwin.cpp:1966
 msgid "In visible list"
@@ -1959,7 +1957,7 @@ msgstr "Завжди зверху"
 
 #: mainwin.cpp:2683
 msgid "Synchronize with KDE address book"
-msgstr ""
+msgstr "Синхронізувати з адресною книгою KDE"
 
 #: mainwin.cpp:2687
 msgid "&Bug report"
@@ -2173,8 +2171,7 @@ msgstr "Розмір: %1 / Максимальний: %2"
 
 #: msgedit.cpp:1556
 msgid "Message will be split"
-msgstr ""
-"Повідомлення буде розділено на частини"
+msgstr "Повідомлення буде розділено на частини"
 
 #: msgedit.cpp:1731
 msgid "Decline reason"
@@ -2889,9 +2886,8 @@ msgid "Host:"
 msgstr "Сервер:"
 
 #: ui/networkbase.cpp:108
-#, fuzzy
 msgid "&Server"
-msgstr "Сервер"
+msgstr "&Сервер"
 
 #: ui/networkbase.cpp:116 ui/proxydlgbase.cpp:73
 msgid "Use proxy"
@@ -2906,7 +2902,6 @@ msgid "Proxy port:"
 msgstr "Проксі порт:"
 
 #: ui/networkbase.cpp:155
-#, fuzzy
 msgid "Use proxy authorization"
 msgstr "Проксі-сервер вимагає авторизацію"
 
@@ -2919,9 +2914,8 @@ msgid "Proxy password:"
 msgstr "Пароль:"
 
 #: ui/networkbase.cpp:187
-#, fuzzy
 msgid "&Proxy"
-msgstr "Проксі"
+msgstr "&Проксі"
 
 #: ui/networkbase.cpp:193
 msgid "Use the following TCP listen ports:"
@@ -2938,9 +2932,8 @@ msgid "To:"
 msgstr "По:"
 
 #: ui/networkbase.cpp:218
-#, fuzzy
 msgid "P&orts"
-msgstr "Порт:"
+msgstr "П&орт:"
 
 #: ui/proxydlgbase.cpp:37
 msgid "Proxy settings"
@@ -2981,9 +2974,8 @@ msgstr ""
 "&MyUIN; - власний UIN"
 
 #: ui/smssetupbase.cpp:93
-#, fuzzy
 msgid "&Signature"
-msgstr "Підпис для SMS"
+msgstr "&Підпис"
 
 #: ui/forwardsetupbase.cpp:89 ui/smssetupbase.cpp:99
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
@@ -3058,9 +3050,8 @@ msgid "Send messages on \"Enter\""
 msgstr "Відправляти повідомлення по \"Enter\""
 
 #: ui/keysetupbase.cpp:130
-#, fuzzy
 msgid "&Key"
-msgstr "Кнопки"
+msgstr "&Кнопки"
 
 #: ui/xosdbase.cpp:109
 msgid "Notify On Screen"
@@ -3129,17 +3120,15 @@ msgstr "Режим користувача для прийому файлів"
 # #
 #: ui/acceptbase.cpp:109 ui/msgbase.cpp:94
 msgid "Automaitcaly open window"
-msgstr ""
-"Автоматично відкривати вікно повідомлень"
+msgstr "Автоматично відкривати вікно повідомлень"
 
 #: ui/acceptbase.cpp:113 ui/msgbase.cpp:98
 msgid "Run external program"
 msgstr "Запуск зовнішньої програми"
 
 #: ui/acceptbase.cpp:120
-#, fuzzy
 msgid "&Message"
-msgstr "Повідомлення"
+msgstr "&Повідомлення"
 
 #: ui/acceptbase.cpp:130
 msgid "Path for incoming files:"
@@ -3195,7 +3184,7 @@ msgstr "Закрити після відправки"
 
 #: ui/fontsetupbase.cpp:105
 msgid "Mode"
-msgstr ""
+msgstr "Режим"
 
 #: ui/fontsetupbase.cpp:113
 msgid "Split mode (&Chat style)"
@@ -3215,7 +3204,7 @@ msgstr "останніх повідомлень із історії"
 
 #: ui/fontsetupbase.cpp:138
 msgid "Open"
-msgstr ""
+msgstr "Відкрити"
 
 #: ui/fontsetupbase.cpp:146
 msgid "&Each user in new container"
@@ -3230,9 +3219,8 @@ msgid "&All users in one container"
 msgstr "&Всі в одному контейнері"
 
 #: ui/fontsetupbase.cpp:159
-#, fuzzy
 msgid "&User window"
-msgstr "&Інформація про користувача"
+msgstr "&Вікно користувача"
 
 #: ui/fontsetupbase.cpp:165
 msgid "&Use systems fonts"
@@ -3265,9 +3253,8 @@ msgid "Sending messages color"
 msgstr "Колір відправлених повідомлень"
 
 #: ui/fontsetupbase.cpp:217
-#, fuzzy
 msgid "&Colors"
-msgstr "Кольори"
+msgstr "&Кольори"
 
 #: ui/emaileditbase.cpp:36
 msgid "Edit Email"
@@ -3287,16 +3274,15 @@ msgstr "Об'єднання, громадські організації:"
 
 #: ui/pastinfobase.cpp:102
 msgid "A&ffilation"
-msgstr ""
+msgstr "&Об'єднання"
 
 #: ui/pastinfobase.cpp:108
 msgid "Past background:"
 msgstr "Освіта:"
 
 #: ui/pastinfobase.cpp:137
-#, fuzzy
 msgid "&Background"
-msgstr "Фон"
+msgstr "&Фон"
 
 #: ui/autoreplybase.cpp:34
 msgid "Autoreply message"
@@ -3324,7 +3310,7 @@ msgstr "Не показувати діалог автовідповіді"
 
 #: ui/listsecbase.cpp:101 ui/msgdialogbase.cpp:81
 msgid "Tab 1"
-msgstr ""
+msgstr "Таб"
 
 #: ui/alertdialogbase.cpp:105
 msgid "Override global alert"
@@ -3365,14 +3351,12 @@ msgid "Write to history"
 msgstr "В історію"
 
 #: ui/alertdialogbase.cpp:145
-#, fuzzy
 msgid "&Alert"
-msgstr "Попередження"
+msgstr "&Попередження"
 
 #: ui/alertdialogbase.cpp:228
-#, fuzzy
 msgid "On Screen"
-msgstr "On-Screen повідомлення"
+msgstr "On-Screen"
 
 #: ui/addphonebase.cpp:68
 msgid "Add phone"
@@ -3412,9 +3396,8 @@ msgid "Form2"
 msgstr "Про роботу"
 
 #: ui/interestsinfobase.cpp:110
-#, fuzzy
 msgid "&Interests"
-msgstr "Інтереси"
+msgstr "&Інтереси"
 
 #: ui/logindlg.cpp:127
 msgid "Unknown login error"
@@ -3457,9 +3440,8 @@ msgid "Email client:"
 msgstr "Поштовий клієнт:"
 
 #: ui/miscsetupbase.cpp:114
-#, fuzzy
 msgid "&Miscelanious"
-msgstr "Різні налагодження"
+msgstr "&Різні налагодження"
 
 #: ui/pagerbase.cpp:76
 msgid "Provider:"
@@ -3486,49 +3468,40 @@ msgid "Message:"
 msgstr "Повідомлення:"
 
 #: ui/soundsetupbase.cpp:175
-#, fuzzy
 msgid "SMS:"
-msgstr "SMS"
+msgstr "SMS:"
 
 #: ui/soundsetupbase.cpp:181
-#, fuzzy
 msgid "Authorization:"
-msgstr "Авторизація"
+msgstr "Авторизація:"
 
 #: ui/soundsetupbase.cpp:187
-#, fuzzy
 msgid "Online alert:"
-msgstr "Попередження"
+msgstr "Попередження:"
 
 #: ui/soundsetupbase.cpp:193
-#, fuzzy
 msgid "Incoming file:"
-msgstr "Прийом файлу"
+msgstr "Прийом файлу:"
 
 #: ui/soundsetupbase.cpp:199
-#, fuzzy
 msgid "File transfer done:"
-msgstr "Передача файлу завершена"
+msgstr "Передача файла завершена:"
 
 #: ui/soundsetupbase.cpp:205
-#, fuzzy
 msgid "Chat Request:"
-msgstr "Чат"
+msgstr "Чат запит:"
 
 #: ui/soundsetupbase.cpp:211
-#, fuzzy
 msgid "Startup sound:"
-msgstr "Звук при старті"
+msgstr "Звук при старті:"
 
 #: ui/soundsetupbase.cpp:217
-#, fuzzy
 msgid "Program for play:"
-msgstr "Програма проигравач"
+msgstr "Програма проигравач:"
 
 #: ui/soundsetupbase.cpp:220
-#, fuzzy
 msgid "&Sounds"
-msgstr "Звук"
+msgstr "&Звук"
 
 #: ui/phonebookbase.cpp:76
 msgid "User is currently available at:"
@@ -3547,9 +3520,8 @@ msgid "&Delete"
 msgstr "&Знищити"
 
 #: ui/phonebookbase.cpp:107
-#, fuzzy
 msgid "&Phonebook"
-msgstr "Телефонна книжка"
+msgstr "&Телефонна книжка"
 
 #: ui/spellsetupbase.cpp:81
 msgid "Check all messages on send"
@@ -3558,14 +3530,12 @@ msgstr ""
 "відправці"
 
 #: ui/spellsetupbase.cpp:91
-#, fuzzy
 msgid "&Spell check"
-msgstr "Перевірка орфографії"
+msgstr "&Перевірка орфографії"
 
 #: ui/setupdlgbase.cpp:85
-#, fuzzy
 msgid "&Update"
-msgstr "Поновити"
+msgstr "&Поновити"
 
 #: ui/homeinfobase.cpp:87 ui/workinfobase.cpp:78
 msgid "Address:"
@@ -3584,9 +3554,8 @@ msgid "Web site:"
 msgstr "WWW сторінка:"
 
 #: ui/workinfobase.cpp:151
-#, fuzzy
 msgid "&Company"
-msgstr "Компанія:"
+msgstr "&Компанія:"
 
 #: ui/workinfobase.cpp:157
 msgid "Occupation:"
@@ -3601,9 +3570,8 @@ msgid "Position:"
 msgstr "Посада:"
 
 #: ui/workinfobase.cpp:187
-#, fuzzy
 msgid "&Occupation"
-msgstr "Діяльність:"
+msgstr "&Діяльність:"
 
 #: ui/userautoreply.cpp:51
 msgid "%1 autoresponse for %2"
@@ -3626,9 +3594,8 @@ msgid "Select style:"
 msgstr "Виберіть стиль:"
 
 #: ui/themesetupbase.cpp:80
-#, fuzzy
 msgid "&Style"
-msgstr "Стиль"
+msgstr "&Стиль"
 
 #: ui/themesetupbase.cpp:86
 msgid "Icons:"
@@ -3639,9 +3606,8 @@ msgid "Add icons"
 msgstr "Додати іконки"
 
 #: ui/themesetupbase.cpp:101
-#, fuzzy
 msgid "&Icons"
-msgstr "Іконки:"
+msgstr "&Іконки"
 
 #: ui/themesetupbase.cpp:107
 msgid "Transparent main window"
@@ -3660,14 +3626,12 @@ msgid "Transparent only if inactive"
 msgstr "Прозорі вікна тільки якщо неактивні"
 
 #: ui/themesetupbase.cpp:135
-#, fuzzy
 msgid "&Transparency"
-msgstr "Прозорість"
+msgstr "&Прозорість"
 
 #: ui/themesetupbase.cpp:141
 msgid "Show main window in task manager"
-msgstr ""
-"Показувати основне вікно в панелі задач"
+msgstr "Показувати основне вікно в панелі задач"
 
 #: ui/themesetupbase.cpp:145
 msgid "Show user window in task manager"
@@ -3694,17 +3658,15 @@ msgid "Use emotional &icons"
 msgstr "Використовувати &смайлики"
 
 #: ui/themesetupbase.cpp:169
-#, fuzzy
 msgid "&Miscellaneous"
-msgstr "Різні налагодження"
+msgstr "&Різні налагодження"
 
 #: ui/statussetupbase.cpp:75
 msgid "Hide main window after"
 msgstr "Сховати головне вікно"
 
 #: ui/statussetupbase.cpp:88
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Заборонити попередження в стані "
 "\"Відійшов\", \"Не активний\", \"Зайнятий\""
@@ -3730,9 +3692,8 @@ msgid "Set \"N/A\" status after"
 msgstr "Встановити статус \"Не активний\" через"
 
 #: ui/statussetupbase.cpp:127
-#, fuzzy
 msgid "&Status"
-msgstr "Статус"
+msgstr "&Статус"
 
 #: ui/moreinfobase.cpp:75
 msgid "Homepage:"
@@ -3755,18 +3716,16 @@ msgid "Birth date:"
 msgstr "Дата народження:"
 
 #: ui/moreinfobase.cpp:156
-#, fuzzy
 msgid "&More info"
-msgstr "Розширена інформація"
+msgstr "&Розширена інформація"
 
 #: ui/moreinfobase.cpp:162
 msgid "Spoken languages:"
 msgstr "Мови:"
 
 #: ui/moreinfobase.cpp:175
-#, fuzzy
 msgid "&Languages"
-msgstr "Мова:"
+msgstr "&Мова"
 
 #: ui/maininfobase.cpp:66
 msgid "Form5"
@@ -3789,9 +3748,8 @@ msgid "Encoding:"
 msgstr "Кодова сторінка:"
 
 #: ui/maininfobase.cpp:209
-#, fuzzy
 msgid "&Names"
-msgstr "Імена"
+msgstr "&Імена"
 
 #: ui/maininfobase.cpp:215
 msgid "Email addresses:"
@@ -3814,18 +3772,16 @@ msgid "Set as default"
 msgstr "По-замовчуванню"
 
 #: ui/maininfobase.cpp:243
-#, fuzzy
 msgid "&EMail"
-msgstr "Пошта"
+msgstr "&Пошта"
 
 #: ui/homeinfobase.cpp:138
 msgid "Time zone:"
 msgstr "Часовий пояс:"
 
 #: ui/homeinfobase.cpp:147
-#, fuzzy
 msgid "&Home info"
-msgstr "Домашня інформація"
+msgstr "&Домашня інформація"
 
 #: ui/generalsecbase.cpp:76
 msgid "My &authorization is required before users add me to Contact List"
@@ -3870,9 +3826,8 @@ msgstr ""
 "&авторизації"
 
 #: ui/generalsecbase.cpp:113
-#, fuzzy
 msgid "&Security"
-msgstr "Безпека"
+msgstr "&Безпека"
 
 #: ui/generalsecbase.cpp:119
 msgid "Reject &messages from unknown users"
@@ -3882,8 +3837,7 @@ msgstr ""
 
 #: ui/generalsecbase.cpp:123
 msgid "Reject &URL from unknown users"
-msgstr ""
-"Відкидати &URL від невідомих користувачів"
+msgstr "Відкидати &URL від невідомих користувачів"
 
 #: ui/generalsecbase.cpp:127
 msgid "Reject &World Wide pager messages"
@@ -3899,7 +3853,7 @@ msgstr "Відкидати &решту повідомлень"
 
 #: ui/generalsecbase.cpp:139
 msgid "&Reject"
-msgstr ""
+msgstr "&Відмова"
 
 #: ui/generalsecbase.cpp:145
 msgid "Reject messages from unknown users contains this words or phrases:"
@@ -3908,7 +3862,6 @@ msgstr ""
 "користувачів, які містять слова або фрази:"
 
 #: ui/generalsecbase.cpp:152
-#, fuzzy
 msgid ""
 "Words are divided by any separators (space, comma, i.e.)\n"
 "Phrase (sequence of words) consists in quotas\n"
@@ -3916,19 +3869,15 @@ msgid ""
 "* - any amount of symbols (or is empty)\n"
 "? - any symbol"
 msgstr ""
-"Слова розділяються будь-якими "
-"розділювачами (пробіл, кома і т.д.)\n"
-"Фраза (послідовність слів) береться в "
-"кавички\n"
-"Слова можуть містити наступні маски:\n"
-"* - будь-яка послідовність символів "
-"(можлива пуста)\n"
-" ? - будь-який символ\n"
+"Слова розділяються будь-якими розділювачами (пробіл, кома і т.д.)"
+"Фраза (послідовність слів) береться в лапки"
+"Слова можуть містити наступні маски:"
+"* - будь-яка послідовність символів (або пустота)"
+"? - будь-який символ"
 
 #: ui/generalsecbase.cpp:158
-#, fuzzy
 msgid "Spam &filter"
-msgstr "&Фільтр"
+msgstr "Спам &фільтр"
 
 #: ui/changepasswdbase.cpp:97 ui/generalsecbase.cpp:165
 msgid "New password:"
@@ -3939,9 +3888,8 @@ msgid "Retype new password:"
 msgstr "Введіть новий пароль ще раз:"
 
 #: ui/generalsecbase.cpp:186
-#, fuzzy
 msgid "&Password"
-msgstr "Пароль"
+msgstr "&Пароль"
 
 #: ui/aboutinfobase.cpp:63
 msgid "Form4"
@@ -3952,18 +3900,16 @@ msgid "Additional information about user:"
 msgstr "Додаткова інформація про користувача:"
 
 #: ui/aboutinfobase.cpp:77
-#, fuzzy
 msgid "A&bout"
-msgstr "Про додаток"
+msgstr "&Про"
 
 #: ui/aboutinfobase.cpp:83
 msgid "My notes:"
-msgstr ""
+msgstr "Мої нотатки:"
 
 #: ui/aboutinfobase.cpp:88
-#, fuzzy
 msgid "&Notes"
-msgstr "Замітки"
+msgstr "&Нотатки"
 
 #: ui/changepasswdbase.cpp:77
 msgid "Change password"
@@ -3997,8 +3943,7 @@ msgstr "..."
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Ця програма поширюється під ліцензією GPL v2"
+msgstr "Ця програма поширюється під ліцензією GPL v2"
 
 #: client.cpp:54
 msgid "Unicode"
@@ -4648,3 +4593,4 @@ msgstr "? Невідомий статус %1"
 
 #~ msgid "Spell"
 #~ msgstr "Проверка орфографии"
+
