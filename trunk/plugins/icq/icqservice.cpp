@@ -27,6 +27,7 @@
 
 #include <qtimer.h>
 
+const unsigned short ICQ_SNACxSRV_ERROR         = 0x0001;
 const unsigned short ICQ_SNACxSRV_READYxCLIENT  = 0x0002;
 const unsigned short ICQ_SNACxSRV_READYxSERVER	= 0x0003;
 const unsigned short ICQ_SNACxSRV_REQxRATExINFO = 0x0006;
@@ -35,12 +36,11 @@ const unsigned short ICQ_SNACxSRV_RATExACK      = 0x0008;
 const unsigned short ICQ_SNACxSRV_RATExCHANGE   = 0x000A;
 const unsigned short ICQ_SNACxSRV_GETxUSERxINFO = 0x000E;
 const unsigned short ICQ_SNACxSRV_NAMExINFO     = 0x000F;
-const unsigned short ICQ_SNACxSRV_NAMExINFOxACK = 0x0011;
+const unsigned short ICQ_SNACxSRV_SETxIDLE      = 0x0011;
 const unsigned short ICQ_SNACxSRV_MOTD          = 0x0013;
-const unsigned short ICQ_SNACxSRV_IMxICQ 		= 0x0017;
+const unsigned short ICQ_SNACxSRV_IMxICQ        = 0x0017;
 const unsigned short ICQ_SNACxSRV_ACKxIMxICQ    = 0x0018;
 const unsigned short ICQ_SNACxSRV_SETxSTATUS    = 0x001E;
-const unsigned short ICQ_SNACxSRV_SETxIDLE		= 0x001F;
 
 void ICQClient::snac_service(unsigned short type, unsigned short)
 {
@@ -111,6 +111,8 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
         << 0x000a0001L
         << 0x000b0001L;
         sendPacket();
+        break;
+    case ICQ_SNACxSRV_ERROR:
         break;
     default:
         log(L_WARN, "Unknown service family type %04X", type);
