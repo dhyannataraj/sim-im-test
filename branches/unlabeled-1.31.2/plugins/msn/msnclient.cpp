@@ -2269,6 +2269,7 @@ void SBSocket::process(bool bTyping)
     }
     if (m_msgText.isEmpty())
         return;
+	m_msgPart = getPart(m_msgText, 1664);
     Message *msg = m_queue.front();
     char color[10];
     sprintf(color, "%06lX", msg->getBackground());
