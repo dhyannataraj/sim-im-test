@@ -141,7 +141,7 @@ ICQUser *ICQClient::getUser(unsigned long id, bool create, bool bIsTemp)
     process_event(&e);
     if (!u->inIgnore())
         addToContacts(id);
-    addInfoRequest(id);
+    addInfoRequest(id, true);
     return u;
 }
 

@@ -182,8 +182,14 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
         }
     case ICQ_MSGxFILE:{
             ICQFile *file = static_cast<ICQFile*>(msg);
-            s += i18n("File: ");
-            s += file->Name.c_str();
+            QString name = QString::fromLocal8Bit(file->Name.c_str());
+            if (name.find(QRegExp("^[0-9]+ Files$")) >= 0){
+                s += i18n("File", "%n files", name.toInt());
+            }else{
+                s += i18n("File");
+                s += ": ";
+                s += file->Name.c_str();
+            }
             s += " (";
             s += QString::number(file->Size);
             s += " ";

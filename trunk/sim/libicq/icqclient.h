@@ -445,6 +445,13 @@ public:
     void resume(int mode);
     int  speed() { return m_nSpeed; }
     void setSpeed(int nSpeed);
+    void setPos(unsigned long n) { m_fileSize = n; }
+    unsigned long sendSize()	{ return m_fileSize; }
+    unsigned long totalSize()	{ return m_totalSize; }
+    unsigned long curFile()		{ return m_curFile; }
+    unsigned long nFiles()		{ return m_nFiles; }
+    unsigned curSize()	{ return m_curSize; }
+    string curName;
 protected:
     enum State
     {
@@ -466,13 +473,19 @@ protected:
 
     void startPacket(char cmd);
     void sendPacket(bool dump=true);
+    void sendFileInfo();
 
     State state;
     unsigned long m_packetOffs;
     unsigned long m_nSpeed;
+    unsigned long m_nFiles;
+    unsigned long m_curFile;
+    unsigned long m_curSize;
+    unsigned long m_fileSize;
+    unsigned long m_totalSize;
 
-    unsigned sendTime;
-    unsigned sendSize;
+    unsigned long m_sendTime;
+    unsigned long m_sendSize;
 };
 
 class ChatListener : public ServerSocket
@@ -867,6 +880,14 @@ const unsigned long ICQ_DECLINED = (unsigned long)-1;
 const int FT_DEFAULT	= 0;
 const int FT_REPLACE	= 1;
 const int FT_RESUME		= 2;
+const int FT_SKIP		= 3;
+
+typedef struct fileName
+{
+    string localName;
+    string name;
+    unsigned long size;
+} fileName;
 
 class ICQFile : public ICQMessage
 {
@@ -885,6 +906,7 @@ public:
     string  shortName();
 
     void resume(int mode);
+    vector<fileName> files;
 
     bool wait;
     bool autoAccept;
@@ -1106,7 +1128,7 @@ protected:
     virtual bool writeFile(ICQFile *f, Buffer &b);
     virtual void closeFile(ICQFile *f);
 
-    virtual unsigned long getFileSize(const char *name);
+    virtual unsigned long getFileSize(const char *name, int *nSrcFile, vector<fileName> &files);
 
     unsigned short m_nLogonStatus;
     char m_nChannel;

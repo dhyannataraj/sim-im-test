@@ -27,6 +27,7 @@
 #include <qtimer.h>
 #include <qstring.h>
 #include <qfileinfo.h>
+#include <qdir.h>
 #include <qstringlist.h>
 #include <qtextcodec.h>
 
@@ -557,19 +558,142 @@ QString Client::getStatusText()
     return getStatusText(uStatus);
 }
 
-unsigned long Client::getFileSize(const char *name)
+unsigned long Client::getFileSize(QString name, QString base, vector<fileName> &files)
 {
-    QFileInfo fInfo(name);
-    return fInfo.size();
+#ifdef WIN32
+    QString fName = base + "\\" + name;
+#else
+    QString fName = base + "/" + name;
+#endif
+    QFileInfo fInfo(fName);
+    if (!fInfo.exists()) return 0;
+    if (!fInfo.isDir()){
+        if (fInfo.isReadable()){
+            fileName f;
+            QString n = name;
+            n = n.replace(QRegExp("/"), "\\");
+            f.name = n.local8Bit();
+            f.localName = fName.local8Bit();
+            f.size = fInfo.size();
+            files.push_back(f);
+        }
+        return fInfo.size();
+    }
+    QDir d(fName);
+    const QFileInfoList *f = d.entryInfoList();
+    if (f == NULL)
+        return 0;
+    QFileInfoList ff = *f;
+    unsigned long res = 0;
+    for (const QFileInfo *fi = ff.first(); fi != NULL; fi = ff.next()){
+        if ((fi->baseName() == ".") || (fi->baseName() == "..") || fi->isSymLink()) continue;
+        QString fName = name;
+        if (fName.length()){
+#ifdef WIN32
+            if (fName[(int)(fName.length()-1)] != '\\') name += "\\";
+#else
+            if (fName[(int)(fName.length()-1)] != '/') name += "/";
+#endif
+        }
+        fName += fi->baseName();
+        res += getFileSize(fName, base, files);
+    }
+    return res;
 }
+
+unsigned long Client::getFileSize(QString fName, vector<fileName> &files)
+{
+    if (fName.isEmpty()) return 0;
+    for (int i = fName.length() - 1; i >= 0; i--){
+#ifdef WIN32
+        if (fName[i] != '\\') continue;
+#else
+        if (fName[i] != '/') continue;
+#endif
+        return getFileSize(fName.mid(i+1), fName.left(i), files);
+    }
+    return 0;
+}
+
+unsigned long Client::getFileSize(const char *name, int *nSrcFiles, vector<fileName> &files)
+{
+    *nSrcFiles = 0;
+    unsigned long res = 0;
+    bool bInQuote = false;
+    int start = 0;
+    QString file = QString::fromLocal8Bit(name);
+    for (int i = 0; i < file.length(); i++){
+        if (file[i] == '\"'){
+            QString fname = file.mid(start, i - start);
+            if (!fname.isEmpty()){
+                (*nSrcFiles)++;
+                res += getFileSize(fname, files);
+            }
+            bInQuote = !bInQuote;
+            start = i + 1;
+            continue;
+        }
+        if ((file[i].isSpace() || (file[i] == ',')) && !bInQuote){
+            QString fname = file.mid(start, i - start);
+            if (!fname.isEmpty()){
+                (*nSrcFiles)++;
+                res += getFileSize(fname, files);
+            }
+            start = i + 1;
+            continue;
+        }
+    }
+    QString fname = file.mid(start);
+    if (!fname.isEmpty()){
+        (*nSrcFiles)++;
+        res += getFileSize(fname, files);
+    }
+    return res;
+}
+
+bool makedir(char *p);
 
 bool Client::createFile(ICQFile *f, int mode)
 {
     bool bTruncate = false;
     int size = 0;
-    QFile *file = new QFile(QString::fromLocal8Bit(f->localName.c_str()));
+    QString name = QString::fromLocal8Bit(f->localName.c_str());
+#ifdef WIN32
+    if (name.isEmpty() || (name[(int)(name.length() - 1)] != '\\'))
+        name += "\\";
+#else
+    if (name.isEmpty() || (name[(int)(name.length() - 1)] != '/'))
+        name += "/";
+#endif
+    QString shortName = QString::fromLocal8Bit(f->ft->curName.c_str());
+    int s = shortName.findRev(':');
+    if (s >= 0) shortName = shortName.mid(s + 1);
+    shortName = shortName.replace(QRegExp("\\"), "/");
+    if (shortName[0] == '/'){
+        int s = shortName.findRev('/');
+        if (s >= 0) shortName = shortName.mid(s + 1);
+    }
+    s = shortName.findRev("/../");
+    if (s >= 0) shortName = shortName.mid(s + 4);
+    if (shortName.left(3) == "../") shortName = shortName.mid(3);
+    shortName = shortName.replace(QRegExp("//"), "/");
+    shortName = shortName.replace(QRegExp("/./"), "/");
+#ifdef WIN32
+    shortName = shortName.replace(QRegExp("/"), "\\");
+    name += shortName;
+#else
+    name += shortName;
+#endif
+    f->ft->curName = shortName.local8Bit();
+    QFile *file = new QFile(name);
     QFileInfo info(*file);
     if (info.exists()){
+        if (info.isDir()){
+            if (f->autoAccept)
+                return false;
+            emit fileNoCreate(f, name);
+            return false;
+        }
         size = info.size();
         if ((mode == FT_REPLACE) || (mode == FT_RESUME)){
             if ((mode == FT_REPLACE) || (info.size() > f->Size())){
@@ -584,24 +708,38 @@ bool Client::createFile(ICQFile *f, int mode)
                 size = 0;
             }
         }else{
-            emit fileExist(f, info.size() < f->Size());
-            f->wait = true;
+            emit fileExist(f, name, info.size() < f->ft->curSize());
             return false;
         }
     }
+    QString path = name;
+#ifdef WIN32
+    int p = path.findRev('\\');
+#else
+    int p = path.findRev('/');
+#endif
+    if (p >= 0){
+        path = path.left(p);
+        if (!path.isEmpty()){
+            string p = path.local8Bit();
+            makedir((char*)p.c_str());
+        }
+    }
     if (!file->open(IO_WriteOnly | (bTruncate ? IO_Truncate : 0))){
-        delete file;
+        if (f->autoAccept)
+            return false;
+        emit fileNoCreate(f, name);
         return false;
     }
     file->at(size);
-    f->state = size;
+    f->ft->setPos(size);
     f->p = (unsigned long)file;
     return true;
 }
 
 bool Client::openFile(ICQFile *f)
 {
-    QFile *file = new QFile(QString::fromLocal8Bit(f->Name.c_str()));
+    QFile *file = new QFile(QString::fromLocal8Bit(f->files[f->ft->curFile()].localName.c_str()));
     if (!file->open(IO_ReadOnly)){
         delete file;
         return false;
@@ -629,6 +767,7 @@ bool Client::readFile(ICQFile *f, Buffer &b, unsigned short size)
 
 bool Client::writeFile(ICQFile *f, Buffer &b)
 {
+    if (f->p == NULL) return false;
     unsigned size = b.size() - b.readPos();
     char *p = b.Data(b.readPos());
     bool res = (((QFile*)(f->p))->writeBlock(p, size) >= 0);
@@ -649,17 +788,15 @@ QTextCodec *Client::codecForUser(unsigned long uin)
         if (u->Encoding.c_str()){
             QTextCodec *res = QTextCodec::codecForName(u->Encoding.c_str());
             if (res){
-		log(L_DEBUG, "Codec for %lu %s", uin, res->name());
-		return res;
-	    }
+                return res;
+            }
         }
     }
     if (pClient->Encoding.c_str()){
         QTextCodec *res = QTextCodec::codecForName(Encoding.c_str());
         if (res){
-		log(L_DEBUG, "Codec for %lu %s", uin, res->name()); 
-		return res;
-	}
+            return res;
+        }
     }
     log(L_DEBUG, "For user %lu default codec", uin);
     return QTextCodec::codecForLocale();

@@ -216,8 +216,8 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     file = new QFrame(boxSend);
     file->hide();
     hlay = new QHBoxLayout(file);
-    title = new QLabel(i18n("File:"), file);
-    hlay->addWidget(title);
+    lblFile = new QLabel(i18n("File")+":", file);
+    hlay->addWidget(lblFile);
     fileEdit = new EditFile(file);
     hlay->addWidget(fileEdit);
     connect(fileEdit, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
@@ -421,6 +421,12 @@ void MsgEdit::fillPhones()
     phoneEdit->lineEdit()->setText(phoneNumber);
 }
 
+static const char* translatedMsg[] =
+    {
+        I18N_NOOP("No files for transfer"),
+        NULL
+    };
+
 void MsgEdit::processEvent(ICQEvent *e)
 {
     ICQUser *u;
@@ -491,9 +497,18 @@ void MsgEdit::processEvent(ICQEvent *e)
             }else{
                 e->message()->bDelete = false;
                 emit setStatus(i18n("Send failed"), 2000);
-                if (e->message() && *(e->message()->DeclineReason.c_str()))
-                    BalloonMsg::message(pClient->from8Bit(Uin(), msg->DeclineReason),
-                                        btnSend);
+                if (e->message() && *(e->message()->DeclineReason.c_str())){
+                    QString declineReason;
+                    const char **trMsg;
+                    for (trMsg = translatedMsg; *trMsg; trMsg++){
+                        if (msg->DeclineReason == *trMsg){
+                            declineReason = i18n(*trMsg);
+                        }
+                    }
+                    if (*trMsg == NULL)
+                        declineReason = pClient->from8Bit(Uin(), msg->DeclineReason);
+                    BalloonMsg::message(declineReason, btnSend);
+                }
             }
             bCloseSend = false;
             sendEvent = NULL;
@@ -541,7 +556,7 @@ void MsgEdit::sendClick()
         pClient->cancelMessage(sendEvent->message());
         return;
     }
-    bCloseSend = chkClose->isChecked();
+    bCloseSend = pMain->SimpleMode() || chkClose->isChecked();
     send();
 }
 
@@ -1033,9 +1048,10 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                         if ((name.length() == 0) || (name[(int)(name.length() - 1)] != '/'))
                             name += "/";
 #endif
-                        name += QString::fromLocal8Bit(f->Name.c_str());
+                        lblFile->setText(i18n("Save to") + ":");
                         fileEdit->setText(name);
-                        fileEdit->setSaveMode(true);
+                        fileEdit->setDirMode(false);
+                        fileEdit->setMultiplyMode(true);
                         ftChanged();
                     }else{
                         btnAccept->hide();
@@ -1129,7 +1145,11 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
         btnNext->hide();
         btnAccept->hide();
         btnDecline->hide();
-        chkClose->show();
+        if (pMain->SimpleMode()){
+            chkClose->hide();
+        }else{
+            chkClose->show();
+        }
         btnSend->show();
         switch (msg->Type()){
         case ICQ_MSGxMSG:{
@@ -1212,7 +1232,9 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 ICQFile *m = static_cast<ICQFile*>(msg);
                 edit->resetColors(false);
                 edit->setText(pClient->from8Bit(Uin, m->Description));
-                fileEdit->setSaveMode(false);
+                lblFile->setText(i18n("File") + ":");
+                fileEdit->setDirMode(true);
+                fileEdit->setMultiplyMode(false);
                 fileEdit->setText(pClient->from8Bit(Uin, m->Name));
                 fileEdit->setFocus();
                 break;
@@ -1638,27 +1660,11 @@ string MsgEdit::smsChunk()
     if (!isLatin1(part))
         part = chunk(msgTail, MAX_SMS_LEN_UNICODE);
     msgTail = trim(msgTail.mid(part.length()));
-    string s;
-    s = part.local8Bit();
-    for (unsigned i = 0; i < s.length(); i++){
-        char c = s[i];
-        switch (c){
-        case '<':
-            res += "&lt;";
-            break;
-        case '>':
-            res += "&gt;";
-            break;
-        case '&':
-            res += "&amp;";
-            break;
-        case '\"':
-            res += "&quot;";
-            break;
-        default:
-            res += c;
-        }
-    }
+    part = part.replace(QRegExp("&"), "&amp;");
+    part = part.replace(QRegExp("\""), "&quot;");
+    part = part.replace(QRegExp("<"), "&lt;");
+    part = part.replace(QRegExp(">"), "&gt;");
+    res = pClient->to8Bit(Uin, part);
     return res;
 }
 

@@ -97,6 +97,7 @@ public:
     unsigned count();
     UserView	*users;
     virtual void setBackgroundPixmap(const QPixmap&);
+    ICQMessage	*currentMessage();
 public slots:
     void quit();
     void typeChanged(int);
@@ -125,6 +126,7 @@ protected slots:
     void showEncodingPopup();
     void setUserEncoding(int);
     void messageReceived(ICQMessage*);
+    void modeChanged(bool);
 protected:
     void getToolbarPosition();
     void showEvent(QShowEvent *e);

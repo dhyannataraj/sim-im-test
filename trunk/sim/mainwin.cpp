@@ -541,7 +541,7 @@ void MainWindow::setStatusItem(int status)
 
 #ifdef WIN32
 
-static bool makedir(char *p)
+bool makedir(char *p)
 {
     char *r = strrchr(p, '\\');
     if (r == NULL) return true;
@@ -553,7 +553,7 @@ static bool makedir(char *p)
 
 #else
 
-static bool makedir(char *p)
+bool makedir(char *p)
 {
     bool res = true;
     char *r = strrchr(p, '/');
@@ -1069,6 +1069,52 @@ void MainWindow::showUser(unsigned long uin, int function, unsigned long param)
     ICQUser *u = pClient->getUser(uin);
     if (uin && (u == NULL)) return;
     list<UserBox*>::iterator it;
+    if (SimpleMode()){
+        for (it = containers.begin(); it != containers.end(); ++it){
+            if (!(*it)->haveUser(uin)) continue;
+            ICQMessage *msg = (*it)->currentMessage();
+            bool bOK = false;
+            switch (function){
+            case mnuAction:
+            case mnuActionInt:
+                if (u->unreadMsgs.size()){
+                    bOK = msg && msg->Received();
+                    break;
+                }
+            case mnuMessage:
+                bOK = msg && (msg->Type() == ICQ_MSGxMSG) && !msg->Received();
+                break;
+            case mnuURL:
+                bOK = msg && (msg->Type() == ICQ_MSGxURL) && !msg->Received();
+                break;
+            case mnuSMS:
+                bOK = msg && (msg->Type() == ICQ_MSGxSMS) && !msg->Received();
+                break;
+            case mnuFile:
+                bOK = msg && (msg->Type() == ICQ_MSGxFILE) && !msg->Received();
+                break;
+            case mnuContacts:
+                bOK = msg && (msg->Type() == ICQ_MSGxCONTACTxLIST) && !msg->Received();
+                break;
+            case mnuAuth:
+                bOK = msg && (msg->Type() == ICQ_MSGxAUTHxREQUEST) && !msg->Received();
+                break;
+            case mnuChat:
+                bOK = msg && (msg->Type() == ICQ_MSGxCHAT) && !msg->Received();
+                break;
+            default:
+                bOK = true;
+            }
+            if (bOK){
+                (*it)->showUser(uin, function, param);
+                return;
+            }
+        }
+        UserBox *box = new UserBox(uin);
+        containers.push_back(box);
+        box->showUser(uin, function, param);
+        return;
+    }
     if (uin){
         for (it = containers.begin(); it != containers.end(); ++it){
             if (!(*it)->haveUser(uin)) continue;
@@ -1102,7 +1148,7 @@ void MainWindow::showUser(unsigned long uin, int function, unsigned long param)
             if ((*it)->GrpId < 0x10000L) continue;
             if ((*it)->GrpId < grpId) grpId = (*it)->GrpId - 1;
         }
-        box = new UserBox(grpId);
+        box = new UserBox(uin);
     }
     containers.push_back(box);
     box->showUser(uin, function, param);

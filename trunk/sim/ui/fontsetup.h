@@ -32,6 +32,7 @@ public slots:
     void apply(ICQUser*);
 protected slots:
     void systemToggled(bool);
+    void modeChanged(bool);
 };
 
 #endif

@@ -23,6 +23,7 @@
 #include <qpushbutton.h>
 #include <qiconset.h>
 #include <qlayout.h>
+#include <qstringlist.h>
 #ifdef USE_KDE
 #include <kfiledialog.h>
 #define QFileDialog	KFileDialog
@@ -35,7 +36,7 @@ EditFile::EditFile(QWidget *p, const char *name)
 {
     bDirMode = false;
     lay = new QHBoxLayout(this);
-    edtFile = new QLineEdit(this);
+    edtFile = new FileLineEdit(this);
     lay->addWidget(edtFile);
     lay->addSpacing(3);
     QPushButton *btnOpen = new QPushButton(this);
@@ -69,8 +70,14 @@ void EditFile::showFiles()
     if (bDirMode){
         s = QFileDialog::getExistingDirectory(s, this,
                                               i18n("Directory for incoming files"));
-    }else if (bSaveMode){
-        s = QFileDialog::getSaveFileName(s, filter, this);
+    }else if (bMultiplyMode){
+        QStringList lst = QFileDialog::getOpenFileNames(QString::null, QString::null, this);
+        if (lst.count() > 1){
+            for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
+                *it = QString("\"") + *it + QString("\"");
+            }
+        }
+        s = lst.join(", ");
     }else{
         s = QFileDialog::getOpenFileName(s, filter, this);
     }
@@ -94,6 +101,21 @@ EditSound::EditSound(QWidget *p, const char *name)
 void EditSound::play()
 {
     pMain->playSound(edtFile->text().local8Bit());
+}
+
+FileLineEdit::FileLineEdit(EditFile *p, const char *name)
+        : QLineEdit(p, name)
+{
+}
+
+void FileLineEdit::dragEnterEvent(QDragEnterEvent *e)
+{
+    QLineEdit::dragEnterEvent(e);
+}
+
+void FileLineEdit::dropEvent(QDropEvent *e)
+{
+    QLineEdit::dropEvent(e);
 }
 
 #ifndef _WINDOWS

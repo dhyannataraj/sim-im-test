@@ -438,22 +438,22 @@ void HotKeys::regKeys()
     int keys;
     keys = str2key(pMain->KeyWindow.c_str());
     if (keys)
-        accel->insert("sim_window", 
-		"Show/hide main window", 
-		"Show/hide main window",
-                keys, keys, this, SLOT(slotToggleWindow()));
+        accel->insert("sim_window",
+                      "Show/hide main window",
+                      "Show/hide main window",
+                      keys, keys, this, SLOT(slotToggleWindow()));
     keys = str2key(pMain->KeyDblClick.c_str());
     if (keys)
-        accel->insert("sim_dblclick", 
-		"Double click on dock", 
-		"Double click on dock",
-                keys, keys, this, SLOT(slotDblClick()));
+        accel->insert("sim_dblclick",
+                      "Double click on dock",
+                      "Double click on dock",
+                      keys, keys, this, SLOT(slotDblClick()));
     keys = str2key(pMain->KeySearch.c_str());
     if (keys)
         accel->insert("sim_search",
-		"Show search window",
-		"Show search window",
-                keys, keys, this, SLOT(slotShowSearch()));
+                      "Show search window",
+                      "Show search window",
+                      keys, keys, this, SLOT(slotShowSearch()));
     accel->updateConnections();
 #else
     if (*pMain->KeyWindow.c_str()){
@@ -473,9 +473,9 @@ void HotKeys::regKeys()
     if (*pMain->KeySearch.c_str()){
         QString k = pMain->KeySearch.c_str();
         k.replace(QRegExp("\\-"), "+");
-	char name[] = "Show search window";
-	accel->insertItem(name, name, k);
-	accel->connectItem(name, this, SLOT(slotShowSearch()));
+        char name[] = "Show search window";
+        accel->insertItem(name, name, k);
+        accel->connectItem(name, this, SLOT(slotShowSearch()));
     }
     accel->readSettings();
 #endif

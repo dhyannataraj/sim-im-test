@@ -192,6 +192,7 @@ UserBox::UserBox(unsigned long grpId)
     wmChanged();
     adjustPos();
     adjustToolbar();
+    connect(pMain, SIGNAL(modeChanged(bool)), this, SLOT(modeChanged(bool)));
 }
 
 void UserBox::wmChanged()
@@ -986,6 +987,25 @@ void UserBox::messageReceived(ICQMessage *msg)
             ((msg->Type() == ICQ_MSGxMSG) || (msg->Type() == ICQ_MSGxURL) ||
              (msg->Type() == ICQ_MSGxSMS))){
         pClient->markAsRead(msg);
+    }
+}
+
+ICQMessage *UserBox::currentMessage()
+{
+    if (curWnd == NULL) return NULL;
+    return curWnd->message();
+}
+
+void UserBox::modeChanged(bool bSimple)
+{
+    if (!bSimple) return;
+    for (list<MsgEdit*>::iterator it = wnds.begin(); it != wnds.end();){
+        if ((*it) == curWnd){
+            ++it;
+            continue;
+        }
+        (*it)->close();
+        wnds.begin();
     }
 }
 

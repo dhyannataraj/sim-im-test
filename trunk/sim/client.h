@@ -84,7 +84,8 @@ signals:
     void messageReceived(ICQMessage *msg);
     void messageRead(ICQMessage *msg);
     void fileProcess(ICQFile*);
-    void fileExist(ICQFile*, bool canResume);
+    void fileExist(ICQFile*, const QString&, bool canResume);
+    void fileNoCreate(ICQFile*, const QString&);
     void encodingChanged(unsigned long uin);
 protected slots:
     void ptr_resolve_ready();
@@ -101,7 +102,9 @@ protected:
 
     void start_resolve();
     virtual void resolve();
-    virtual unsigned long getFileSize(const char *name);
+    virtual unsigned long getFileSize(const char *name, int *nSrcFiles, vector<fileName> &files);
+    unsigned long getFileSize(QString name, QString base, vector<fileName> &file);
+    unsigned long getFileSize(QString name, vector<fileName> &file);
 };
 
 extern Client *pClient;

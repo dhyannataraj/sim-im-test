@@ -365,31 +365,41 @@ unsigned long ICQClient::fullStatus(unsigned long s)
 
 void ICQClient::getAutoResponse(unsigned long uin, string &res)
 {
-    ICQUser *u = getUser(uin, false);
+    ICQUser *u = getUser(uin);
     switch (uStatus){
     case ICQ_STATUS_AWAY:
-        res = u->AutoResponseAway;
-        if (*res.c_str()) break;
+        if (u){
+            res = u->AutoResponseAway;
+            if (*res.c_str()) break;
+        }
         res = AutoResponseAway;
         break;
     case ICQ_STATUS_NA:
-        res = u->AutoResponseNA;
-        if (*res.c_str()) break;
+        if (u){
+            res = u->AutoResponseNA;
+            if (*res.c_str()) break;
+        }
         res = AutoResponseNA;
         break;
     case ICQ_STATUS_DND:
-        res = u->AutoResponseDND;
-        if (*res.c_str()) break;
+        if (u){
+            res = u->AutoResponseDND;
+            if (*res.c_str()) break;
+        }
         res = AutoResponseDND;
         break;
     case ICQ_STATUS_OCCUPIED:
-        res = u->AutoResponseOccupied;
-        if (*res.c_str()) break;
+        if (u){
+            res = u->AutoResponseOccupied;
+            if (*res.c_str()) break;
+        }
         res = AutoResponseOccupied;
         break;
     case ICQ_STATUS_FREEFORCHAT:
-        res = u->AutoResponseFFC;
-        if (*res.c_str()) break;
+        if (u){
+            res = u->AutoResponseFFC;
+            if (*res.c_str()) break;
+        }
         res = AutoResponseFFC;
         break;
     default:
@@ -470,7 +480,10 @@ void ICQClient::addInfoRequest(unsigned long uin, bool bPriority)
 {
     if (uin >= UIN_SPECIAL) return;
     for (list<unsigned long>::iterator it = infoRequestQueue.begin(); it != infoRequestQueue.end(); it++){
-        if ((*it) == uin) return;
+        if ((*it) != uin) continue;
+        if (!bPriority) return;
+        infoRequestQueue.remove(uin);
+        break;
     }
     if (bPriority){
         infoRequestQueue.push_front(uin);
@@ -500,7 +513,10 @@ void ICQClient::addResponseRequest(unsigned long uin, bool bPriority)
     if (u == NULL) return;
     if (!u->CanResponse) return;
     for (list<unsigned long>::iterator it = responseRequestQueue.begin(); it != responseRequestQueue.end(); it++){
-        if ((*it) == uin) return;
+        if ((*it) != uin) continue;
+        if (!bPriority) return;
+        responseRequestQueue.remove(uin);
+        break;
     }
     if (bPriority){
         responseRequestQueue.push_front(uin);
@@ -552,8 +568,9 @@ void ICQClient::processResponseRequestQueue(unsigned short seq)
     log(L_DEBUG, "Request response %X", advCounter);
 }
 
-unsigned long ICQClient::getFileSize(const char*)
+unsigned long ICQClient::getFileSize(const char*, int *nSrcFiles, vector<fileName>&)
 {
+    *nSrcFiles = 0;
     return 0;
 }
 

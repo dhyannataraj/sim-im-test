@@ -146,6 +146,7 @@ protected:
     QFrame     *phone;
     QFrame     *url;
     QFrame	   *file;
+    QLabel	   *lblFile;
     QComboBox  *phoneEdit;
     QLineEdit  *urlEdit;
     EditFile   *fileEdit;

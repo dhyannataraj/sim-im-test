@@ -32,10 +32,12 @@ public:
     ~FileTransferDlg();
     ICQFile *file;
 protected slots:
-    void fileExist(ICQFile *f, bool canResume);
+    void fileExist(ICQFile *f, const QString&, bool canResume);
+    void fileNoCreate(ICQFile *f, const QString&);
     void processed(ICQFile*);
     void processEvent(ICQEvent*);
     void action(int);
+    void action();
     void speedChanged(int);
     void timeout();
     void closeToggled(bool);
@@ -45,8 +47,12 @@ protected:
     bool bDirty;
     bool bSending;
     bool bCanResume;
+    bool bIsExist;
+    bool bStarted;
     QString formatSize(unsigned size);
     QString formatKBytes(unsigned size);
+    int  curAction;
+    unsigned long curFile;
 };
 
 #endif

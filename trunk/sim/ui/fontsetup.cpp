@@ -51,6 +51,9 @@ FontSetup::FontSetup(QWidget *p)
     grpWndMode->setButton(pMain->SimpleMode() ? 1 : 0);
     chkSplash->setChecked(pSplash->Show());
     chkEmotional->setChecked(pMain->UseEmotional());
+    connect(btnModeSplit, SIGNAL(toggled(bool)), this, SLOT(modeChanged(bool)));
+    connect(btnModePlain, SIGNAL(toggled(bool)), this, SLOT(modeChanged(bool)));
+    modeChanged(false);
 }
 
 void FontSetup::systemToggled(bool)
@@ -59,6 +62,11 @@ void FontSetup::systemToggled(bool)
     edtFont->setEnabled(!chkSystem->isChecked());
     edtFontMenu->setEnabled(!chkSystem->isChecked());
 #endif
+}
+
+void FontSetup::modeChanged(bool)
+{
+    grpContainer->setEnabled(btnModeSplit->isOn());
 }
 
 void FontSetup::apply(ICQUser*)

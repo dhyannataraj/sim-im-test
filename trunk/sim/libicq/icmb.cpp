@@ -790,7 +790,7 @@ void ICQClient::packMessage(Buffer &mb, ICQMessage *m, const char *msg,
             break;
         case ICQ_MSGxFILE:{
                 ICQFile *file = static_cast<ICQFile*>(m);
-                string fileName = file->shortName();
+                string fileName = file->Name();
                 toServer(fileName, u);
                 mb
                 << (unsigned short)file->id1
@@ -826,7 +826,7 @@ void ICQClient::packMessage(Buffer &mb, ICQMessage *m, const char *msg,
     case ICQ_MSGxFILE:{
             ICQFile *file = static_cast<ICQFile*>(m);
             string fileDescr = file->Description;
-            string fileName = file->shortName();
+            string fileName = file->Name;
             toServer(fileDescr, u);
             toServer(fileName, u);
             msgBuf.packStr32(fileDescr.c_str());

@@ -899,7 +899,10 @@ void DirectClient::connected()
             error(ErrorProtocol);
             return;
         }
-        if (u->direct) u->direct->remove();
+        if (u->direct){
+            error(ErrorProtocol);
+            return;
+        }
         u->direct = this;
         if (version >= 7){
             state = WaitInit2;
@@ -1150,8 +1153,8 @@ FileTransfer::FileTransfer(int fd, const char *host, unsigned short port, ICQCli
     state = None;
     file = _file;
     m_nSpeed = 100;
-    sendTime = 0;
-    sendSize = 0;
+    m_fileSize = 0;
+    m_totalSize = 0;
 }
 
 FileTransfer::FileTransfer(unsigned long ip, unsigned long real_ip, unsigned short port, ICQUser *u, ICQClient *client, ICQFile *_file)
@@ -1160,8 +1163,8 @@ FileTransfer::FileTransfer(unsigned long ip, unsigned long real_ip, unsigned sho
     state = None;
     file = _file;
     m_nSpeed = 100;
-    sendTime = 0;
-    sendSize = 0;
+    m_sendTime = 0;
+    m_sendSize = 0;
 }
 
 bool FileTransfer::have_data()
@@ -1169,11 +1172,11 @@ bool FileTransfer::have_data()
     if (state != Send) return DirectSocket::have_data();
     time_t now;
     time(&now);
-    if ((unsigned)now != sendTime){
-        sendTime = now;
-        sendSize = 0;
+    if ((unsigned)now != m_sendTime){
+        m_sendTime = now;
+        m_sendSize = 0;
     }
-    if (sendSize > m_nSpeed * 2048)
+    if (m_sendSize > m_nSpeed * 2048)
         return false;
     return true;
 }
@@ -1184,28 +1187,37 @@ void FileTransfer::write_ready()
         DirectSocket::write_ready();
         return;
     }
-    if (file->state >= file->Size()){
+    if (m_fileSize >= m_curSize){
         if (writeBuffer.readPos() < writeBuffer.writePos())
             return;
         state = None;
         client->closeFile(file);
-        file->ft = NULL;
-        remove();
-        list<ICQEvent*>::iterator it;
-        for (it = client->processQueue.begin(); it != client->processQueue.end(); ++it){
-            ICQEvent *e = *it;
-            if (e->message() != file) continue;
-            client->processQueue.remove(e);
-            e->state = ICQEvent::Success;
-            e->setType(EVENT_DONE);
-            client->process_event(e);
-            delete file;
-            delete e;
-            break;
+        m_curFile++;
+        if (m_curFile >= m_nFiles){
+            file->ft = NULL;
+            remove();
+            list<ICQEvent*>::iterator it;
+            for (it = client->processQueue.begin(); it != client->processQueue.end(); ++it){
+                ICQEvent *e = *it;
+                if (e->message() != file) continue;
+                client->processQueue.remove(e);
+                e->state = ICQEvent::Success;
+                e->setType(EVENT_DONE);
+                client->process_event(e);
+                delete file;
+                delete e;
+                break;
+            }
+            return;
         }
+        curName = file->files[m_curFile].name;
+        m_curSize = file->files[m_curFile].size;
+        m_fileSize = 0;
+        state = InitSend;
+        sendFileInfo();
         return;
     }
-    unsigned long tail = file->Size() - file->state;
+    unsigned long tail = m_curSize - m_fileSize;
     if (tail > 2048) tail = 2048;
     startPacket(FT_DATA);
     unsigned long pos = writeBuffer.writePos();
@@ -1214,30 +1226,34 @@ void FileTransfer::write_ready()
         error(ErrorProtocol);
         return;
     }
-    file->state += (writeBuffer.writePos() - pos);
+    m_fileSize += (writeBuffer.writePos() - pos);
+    m_totalSize += (writeBuffer.writePos() - pos);
     sendPacket(false);
     time_t now;
     time(&now);
-    if ((unsigned)now != sendTime){
-        sendTime = now;
-        sendSize = 0;
+    if ((unsigned)now != m_sendTime){
+        m_sendTime = now;
+        m_sendSize = 0;
     }
-    sendSize += tail;
+    m_sendSize += tail;
 }
 
 void FileTransfer::resume(int mode)
 {
     if (state != Wait) return;
-    if (!client->createFile(file, mode)){
-        if (file->wait){
-            state = Wait;
-            return;
+    if (mode == FT_SKIP){
+        m_fileSize = m_curSize;
+    }else{
+        if (!client->createFile(file, mode)){
+            if (file->wait){
+                state = Wait;
+                return;
+            }
+            m_fileSize = m_curSize;
         }
-        error(ErrorProtocol);
-        return;
     }
     startPacket(FT_START);
-    writeBuffer.pack((unsigned long)file->state);
+    writeBuffer.pack((unsigned long)m_fileSize);
     writeBuffer.pack((unsigned long)0);
     writeBuffer.pack(m_nSpeed);
     writeBuffer.pack((unsigned long)1);
@@ -1249,6 +1265,21 @@ void FileTransfer::setSpeed(int nSpeed)
 {
     m_nSpeed = nSpeed;
     startPacket(FT_SPEED);
+    writeBuffer.pack(m_nSpeed);
+    sendPacket();
+}
+
+void FileTransfer::sendFileInfo()
+{
+    startPacket(FT_FILEINFO);
+    writeBuffer.pack((char)0);
+    string empty;
+    string s = curName;
+    ICQUser *u = client->getUser(file->getUin());
+    client->toServer(s, u);
+    writeBuffer << s << empty;
+    writeBuffer.pack(m_curSize);
+    writeBuffer.pack((unsigned long)0);
     writeBuffer.pack(m_nSpeed);
     sendPacket();
 }
@@ -1268,6 +1299,11 @@ void FileTransfer::processPacket()
                 error(ErrorProtocol);
                 return;
             }
+            unsigned long n;
+            readBuffer.unpack(n);
+            readBuffer.unpack(m_nFiles);
+            readBuffer.unpack(n);
+            file->Size = n;
             state = InitReceive;
             startPacket(FT_SPEED);
             writeBuffer.pack(m_nSpeed);
@@ -1281,29 +1317,27 @@ void FileTransfer::processPacket()
             sendPacket();
             break;
         }
-    case InitReceive:
-        if (cmd != FT_FILEINFO){
-            log(L_WARN, "Bad command in init receive");
-            error(ErrorProtocol);
-            return;
+    case InitReceive:{
+            if (cmd != FT_FILEINFO){
+                log(L_WARN, "Bad command in init receive");
+                error(ErrorProtocol);
+                return;
+            }
+            readBuffer.incReadPos(1);
+            readBuffer >> curName;
+            ICQUser *u = client->getUser(file->getUin());
+            client->fromServer(curName, u);
+            string empty;
+            readBuffer >> empty;
+            readBuffer.unpack(m_curSize);
+            state = Wait;
+            resume(FT_DEFAULT);
+            break;
         }
-        state = Wait;
-        resume(FT_DEFAULT);
-        break;
     case InitSend:
         switch (cmd){
         case FT_INIT_ACK:{
-                startPacket(FT_FILEINFO);
-                writeBuffer.pack((char)0);
-                string empty;
-                string s = file->shortName();
-                ICQUser *u = client->getUser(file->getUin());
-                client->toServer(s, u);
-                writeBuffer << s << empty;
-                writeBuffer.pack(file->Size());
-                writeBuffer.pack((unsigned long)0);
-                writeBuffer.pack(m_nSpeed);
-                sendPacket();
+                sendFileInfo();
                 break;
             }
         case FT_START:{
@@ -1331,30 +1365,38 @@ void FileTransfer::processPacket()
                 return;
             }
             unsigned short size = readBuffer.size() - readBuffer.readPos();
-            file->state += size;
+            m_fileSize += size;
+            m_totalSize += size;
             if (!client->writeFile(file, readBuffer)){
                 log(L_WARN, "Error write file");
                 error(ErrorProtocol);
                 return;
             }
-            if (file->state >= file->Size()){
-                log(L_DEBUG, "File transfer OK");
+            if (m_fileSize >= m_curSize){
                 client->closeFile(file);
-                file->ft = NULL;
-                remove();
-                list<ICQEvent*>::iterator it;
-                for (it = client->processQueue.begin(); it != client->processQueue.end(); ++it){
-                    ICQEvent *e = *it;
-                    if (e->message() != file) continue;
-                    client->processQueue.remove(e);
-                    e->setType(EVENT_DONE);
-                    e->state = ICQEvent::Success;
-                    client->process_event(e);
-                    delete e;
-                    delete file;
-                    break;
+                m_curFile++;
+                m_fileSize = 0;
+                if (m_curFile >= m_nFiles){
+                    log(L_DEBUG, "File transfer OK");
+                    file->ft = NULL;
+                    remove();
+                    list<ICQEvent*>::iterator it;
+                    for (it = client->processQueue.begin(); it != client->processQueue.end(); ++it){
+                        ICQEvent *e = *it;
+                        if (e->message() != file) continue;
+                        client->processQueue.remove(e);
+                        e->setType(EVENT_DONE);
+                        e->state = ICQEvent::Success;
+                        client->process_event(e);
+                        delete e;
+                        delete file;
+                        break;
+                    }
+                    state = None;
+                    return;
                 }
-                state = None;
+                state = InitReceive;
+                return;
             }
             break;
         }
@@ -1375,21 +1417,26 @@ void FileTransfer::error_state()
 
 void FileTransfer::connected()
 {
+    m_curFile = 0;
     log(L_DEBUG, "Connected");
     if (m_bIncoming){
         state = WaitInit;
     }else{
+        m_nFiles = file->files.size();
         state = InitSend;
         startPacket(FT_INIT);
         writeBuffer.pack((unsigned long)0);
-        writeBuffer.pack((unsigned long)1);		// nFiles
-        writeBuffer.pack(file->Size());			// Total size
-        writeBuffer.pack(m_nSpeed);				// speed
+        writeBuffer.pack((unsigned long)(m_nFiles));		// nFiles
+        writeBuffer.pack(file->Size());						// Total size
+        writeBuffer.pack(m_nSpeed);							// speed
         char b[12];
         snprintf(b, sizeof(b), "%lu", client->Uin());
         string uin = b;
         writeBuffer << uin;
         sendPacket();
+        if (m_nFiles == 0) error(ErrorProtocol);
+        curName = file->files[0].name;
+        m_curSize = file->files[0].size;
     }
 }
 

@@ -51,7 +51,7 @@ extern KApplication *kApp;
 class XpStyle
 {
 public:
-	XpStyle();
+    XpStyle();
 };
 
 typedef QStyle *WINAPI CREATE_STYLE ();
@@ -80,7 +80,7 @@ QStringList QStyleFactory::keys()
 {
     QStringList styles;
     styles << "windows" << "motif" << "cde" << "platinum" << "sgi" << "motifplus";
-	if (createXpStyle) styles << "xp";
+    if (createXpStyle) styles << "xp";
     return styles;
 }
 
@@ -98,12 +98,12 @@ QStyle *QStyleFactory::create(const QString &name)
         return new QSGIStyle();
     if (name == "motifplus")
         return new QMotifPlusStyle();
-	if (name == "xp"){
-		QStyle *xpStyle = NULL;
-		if (createXpStyle) xpStyle = createXpStyle();
-		if (xpStyle) return xpStyle;
-		return new QWindowsStyle();
-	}
+    if (name == "xp"){
+        QStyle *xpStyle = NULL;
+        if (createXpStyle) xpStyle = createXpStyle();
+        if (xpStyle) return xpStyle;
+        return new QWindowsStyle();
+    }
     return NULL;
 }
 

@@ -720,8 +720,26 @@ ICQEvent *ICQClient::sendMessage(ICQMessage *msg)
 {
     if (msg->Type() == ICQ_MSGxFILE){
         ICQFile *f = static_cast<ICQFile*>(msg);
-        if (f->Size() == 0)
-            f->Size = getFileSize(f->Name.c_str());
+        if (f->Size() == 0){
+            f->localName = f->Name();
+            int nSrcFiles = 0;
+            f->Size = getFileSize(f->Name.c_str(), &nSrcFiles, f->files);
+            if (f->files.size() == 0){
+                f->DeclineReason = "No files for transfer";
+                ICQEvent e(f->getUin(), EVENT_MESSAGE_SEND);
+                e.setMessage(f);
+                e.state = ICQEvent::Fail;
+                process_event(&e);
+                return NULL;
+            }
+            if (nSrcFiles > 1){
+                char b[32];
+                snprintf(b, sizeof(b), "%u Files", nSrcFiles);
+                f->Name = b;
+            }else{
+                f->Name = f->shortName();
+            }
+        }
     }
     for (ConfigULongs::iterator itUin = msg->Uin.begin(); itUin != msg->Uin.end(); ++itUin){
         ICQUser *u = getUser(*itUin);

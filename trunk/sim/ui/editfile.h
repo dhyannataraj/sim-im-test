@@ -20,9 +20,20 @@
 
 #include "defs.h"
 #include <qframe.h>
+#include <qlineedit.h>
 
-class QLineEdit;
 class QHBoxLayout;
+class EditFile;
+
+class FileLineEdit : public QLineEdit
+{
+    Q_OBJECT
+public:
+    FileLineEdit(EditFile *p, const char *name = NULL);
+protected:
+    virtual void dragEnterEvent(QDragEnterEvent*);
+    virtual void dropEvent(QDropEvent*);
+};
 
 class EditFile : public QFrame
 {
@@ -32,7 +43,7 @@ public:
     void setText(const QString&);
     QString text();
     void setDirMode(bool bMode) { bDirMode = bMode; }
-    void setSaveMode(bool bMode) { bSaveMode = bMode; }
+    void setMultiplyMode(bool bMode) { bDirMode = bMode; }
 signals:
     void textChanged(const QString&);
 protected slots:
@@ -40,9 +51,9 @@ protected slots:
     void editTextChanged(const QString&);
 protected:
     bool bDirMode;
-    bool bSaveMode;
+    bool bMultiplyMode;
     QString filter;
-    QLineEdit *edtFile;
+    FileLineEdit *edtFile;
     QHBoxLayout *lay;
 };
 
