@@ -63,7 +63,6 @@ ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig)
     chkTyping->setChecked(client->getTypingNotification());
     chkDND->setChecked(client->getAcceptInDND());
     chkOccupied->setChecked(client->getAcceptInOccupied());
-    cmbAck->setCurrentItem(client->getAckMode());
 }
 
 void ICQConfig::apply(Client*, void*)
@@ -86,7 +85,6 @@ void ICQConfig::apply()
     m_client->setTypingNotification(chkTyping->isChecked());
     m_client->setAcceptInDND(chkDND->isChecked());
     m_client->setAcceptInOccupied(chkOccupied->isChecked());
-    m_client->setAckMode(cmbAck->currentItem());
 }
 
 void ICQConfig::changed(const QString&)
