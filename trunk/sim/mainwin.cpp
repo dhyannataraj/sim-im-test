@@ -275,6 +275,9 @@ cfgParam MainWindow_Params[] =
         { "ForwardPhone", OFFSET_OF(MainWindow, ForwardPhone), PARAM_STRING, 0 },
         { "SendEnter", OFFSET_OF(MainWindow, SendEnter), PARAM_BOOL, 0 },
         { "AlphabetSort", OFFSET_OF(MainWindow, AlphabetSort), PARAM_BOOL, 0 },
+        { "UseDock", OFFSET_OF(MainWindow, UseDock), PARAM_BOOL, 0 },
+        { "DockX", OFFSET_OF(MainWindow, DockX), PARAM_SHORT, 0 },
+        { "DockY", OFFSET_OF(MainWindow, DockY), PARAM_SHORT, 0 },
         { "MonitorX", OFFSET_OF(MainWindow, MonitorX), PARAM_SHORT, 0 },
         { "MonitorY", OFFSET_OF(MainWindow, MonitorY), PARAM_SHORT, 0 },
         { "MonitorWidth", OFFSET_OF(MainWindow, MonitorWidth), PARAM_USHORT, 0 },
@@ -291,7 +294,7 @@ cfgParam MainWindow_Params[] =
         { "BarAutoHide", OFFSET_OF(MainWindow, BarAutoHide), PARAM_BOOL, 0 },
 #endif
 #ifdef USE_KDE
-	{ "AutoSync", OFFSET_OF(MainWindow, AutoSync), PARAM_BOOL, 0 },
+        { "AutoSync", OFFSET_OF(MainWindow, AutoSync), PARAM_BOOL, 0 },
 #endif
         { "", 0, 0, 0 }
     };
@@ -1038,17 +1041,13 @@ bool MainWindow::init()
         return false;
     }
 #endif
-
-    dock = new DockWnd(this);
-    connect(dock, SIGNAL(showPopup(QPoint)), this, SLOT(showPopup(QPoint)));
-    connect(dock, SIGNAL(toggleWin()), this, SLOT(toggleShow()));
-    connect(dock, SIGNAL(doubleClicked()), this, SLOT(dockDblClicked()));
-
     string part;
     buildFileName(file, SIM_CONF);
     QFile fs(QString::fromLocal8Bit(file.c_str()));
-    if (!fs.open(IO_ReadOnly))
+    if (!fs.open(IO_ReadOnly)){
+        setDock();
         return true;
+    }
     ::load(this, MainWindow_Params, fs, part);
 
     if (ToolBarMain.size()) emit toolBarChanged(mainWndToolBar);
@@ -1141,6 +1140,7 @@ bool MainWindow::init()
     xosd->init();
     transparentChanged();
     setShow(Show);
+    setDock();
     setOnTop();
     setUserBoxOnTop();
 
@@ -1452,8 +1452,16 @@ bool MainWindow::isDock()
     return (dock != NULL);
 }
 
-void MainWindow::disableDock()
+void MainWindow::setDock()
 {
+    if (UseDock){
+        if (dock) return;
+        dock = new DockWnd(this);
+        connect(dock, SIGNAL(showPopup(QPoint)), this, SLOT(showPopup(QPoint)));
+        connect(dock, SIGNAL(toggleWin()), this, SLOT(toggleShow()));
+        connect(dock, SIGNAL(doubleClicked()), this, SLOT(dockDblClicked()));
+        return;
+    }
     if (dock){
         delete dock;
         dock = NULL;
@@ -1657,9 +1665,9 @@ void MainWindow::toggleShow()
     if (menuFunction && menuFunction->isVisible()) return;
     if (noToggle) return;
     if (!isShow() || !isActiveWindow()){
-    	setShow(true);
+        setShow(true);
     }else{
-	setShow(false);
+        setShow(false);
     }
     noToggle = true;
     QTimer::singleShot(1000, this, SLOT(setToggle()));

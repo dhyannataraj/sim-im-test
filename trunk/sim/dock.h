@@ -67,13 +67,18 @@ protected:
     QPixmap drawIcon;
     virtual void paintEvent( QPaintEvent *e);
     virtual void mousePressEvent( QMouseEvent *e);
+    virtual void mouseReleaseEvent( QMouseEvent *e);
+    virtual void mouseMoveEvent( QMouseEvent *e);
     virtual void mouseDoubleClickEvent( QMouseEvent *e);
     void setIcon(const QPixmap&);
     void setTip(const QString&);
 #ifndef WIN32
+    QPoint mousePos;
     WharfIcon *wharfIcon;
     bool x11Event(XEvent*);
     bool inTray;
+    bool bInit;
+    QPixmap *vis;
 #endif
     friend class WharfIcon;
 };

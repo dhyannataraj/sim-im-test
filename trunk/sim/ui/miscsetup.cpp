@@ -195,7 +195,7 @@ void MiscSetup::clickedSync()
         }
 
         StdAddressBook::save();
-		pMain->saveContacts();
+        pMain->saveContacts();
     }
 #endif
 }

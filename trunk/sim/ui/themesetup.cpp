@@ -125,6 +125,7 @@ ThemeSetup::ThemeSetup(QWidget *parent)
     lblLang->hide();
     cmbLang->hide();
 #endif
+    chkDock->setChecked(pMain->UseDock);
     chkSplash->setChecked(pSplash->Show);
     chkEmotional->setChecked(pMain->UseEmotional);
     chkUserWndOnTop->setChecked(pMain->UserWndOnTop);
@@ -222,6 +223,10 @@ void ThemeSetup::apply(ICQUser*)
     }
     if (bChange) pMain->changeWm();
 #endif
+    if (pMain->UseDock != chkDock->isChecked()){
+        pMain->UseDock = chkDock->isChecked();
+        pMain->setDock();
+    }
 #ifdef WIN32
     int n = cmbLang->currentItem();
     for (const language *l = langs; l->code; l++){

@@ -134,9 +134,9 @@ WharfIcon::~WharfIcon()
 bool WharfIcon::x11Event(XEvent *e)
 {
     if ((e->type == ReparentNotify) && !bActivated){
-	bActivated = true;
-	if (vis) resize(vis->width(), vis->height());
-	repaint(false);
+        bActivated = true;
+        if (vis) resize(vis->width(), vis->height());
+        repaint(false);
     }
     if ((e->type == Expose) && !bActivated)
         return false;
@@ -229,6 +229,9 @@ DockWnd::DockWnd(QWidget *main)
     notifyIconData.uID = 0;
     Shell_NotifyIconA(NIM_ADD, &notifyIconData);
 #else
+    bInit = false;
+    vis = NULL;
+
     wharfIcon = new WharfIcon(this);
     Display *dsp = x11Display();
     WId win = winId();
@@ -284,6 +287,8 @@ DockWnd::~DockWnd()
 #endif
 }
 
+#ifndef WIN32
+
 bool DockWnd::x11Event(XEvent *e)
 {
     if (e->type == ClientMessage){
@@ -291,6 +296,7 @@ bool DockWnd::x11Event(XEvent *e)
             Atom xembed = XInternAtom( qt_xdisplay(), "_XEMBED", FALSE );
             if (e->xclient.message_type == xembed){
                 inTray = true;
+                bInit = true;
                 if (wharfIcon){
                     delete wharfIcon;
                     wharfIcon = NULL;
@@ -304,18 +310,21 @@ bool DockWnd::x11Event(XEvent *e)
                 delete wharfIcon;
                 wharfIcon = NULL;
             }
-        }else if (isVisible()){
-            hide();
-            QTimer::singleShot(0, pMain, SLOT(disableDock()));
-            return true;
+        }else{
+            resize(32, 32);
+            bInit = true;
         }
     }
     return QWidget::x11Event(e);
 }
 
+#endif
+
 void DockWnd::paintEvent( QPaintEvent* )
 {
-    if (!inTray) return;
+#ifndef WIN32
+    if (!bInit) return;
+#endif
     QPainter p(this);
     p.drawPixmap((width() - drawIcon.width())/2, (height() - drawIcon.height())/2, drawIcon);
 }
@@ -488,6 +497,17 @@ void DockWnd::mousePressEvent( QMouseEvent *e)
     default:
         break;
     }
+    QWidget::mousePressEvent(e);
+}
+
+void DockWnd::mouseReleaseEvent( QMouseEvent *e)
+{
+    QWidget::mouseReleaseEvent(e);
+}
+
+void DockWnd::mouseMoveEvent( QMouseEvent *e)
+{
+    QWidget::mouseMoveEvent(e);
 }
 
 void DockWnd::mouseDoubleClickEvent( QMouseEvent*)

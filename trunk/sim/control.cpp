@@ -85,31 +85,31 @@ bool ControlListener::bind(const char *addr)
 #ifndef WIN32
     char addr_buf[256];
     if ((addr == NULL) || (*addr == 0)){
-	uid_t uid = getuid();
-	struct passwd *pwd = getpwuid(uid);
-	if (pwd){
-		snprintf(addr_buf, sizeof(addr_buf), "/tmp/sim.%s", pwd->pw_name);
-	}else{
-		snprintf(addr_buf, sizeof(addr_buf), "/tmp/sim.%u", uid);
-	}
-	addr = addr_buf;
+        uid_t uid = getuid();
+        struct passwd *pwd = getpwuid(uid);
+        if (pwd){
+            snprintf(addr_buf, sizeof(addr_buf), "/tmp/sim.%s", pwd->pw_name);
+        }else{
+            snprintf(addr_buf, sizeof(addr_buf), "/tmp/sim.%u", uid);
+        }
+        addr = addr_buf;
     }
     unlink(addr);
     s = socket(PF_UNIX, SOCK_STREAM, 0);
     if (s == -1){
-	log(L_WARN, "Can't create control listener");
-	return false;
+        log(L_WARN, "Can't create control listener");
+        return false;
     }
     struct sockaddr_un sun;
     sun.sun_family = AF_UNIX;
     strcpy(sun.sun_path, addr);
     if (::bind(s, (struct sockaddr*)&sun, sizeof(sun)) < 0){
-	log(L_WARN, "Can't bind %s: %s", addr, strerror(errno));
-	return false;
+        log(L_WARN, "Can't bind %s: %s", addr, strerror(errno));
+        return false;
     }
     if (listen(s, 156) < 0){
-	log(L_WARN, "Can't listen %s: %s", addr, strerror(errno));
-	return false;
+        log(L_WARN, "Can't listen %s: %s", addr, strerror(errno));
+        return false;
     }
     n = new QSocketNotifier(s, QSocketNotifier::Read);
     connect(n, SIGNAL(activated(int)), this, SLOT(activated(int)));

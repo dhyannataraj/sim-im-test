@@ -249,6 +249,10 @@ public:
     bool			SendEnter;
     bool			AlphabetSort;
 
+    bool			UseDock;
+    short			DockX;
+    short			DockY;
+
     short			MonitorX;
     short			MonitorY;
     unsigned short	MonitorWidth;
@@ -377,7 +381,7 @@ public slots:
     void ftClose();
     void checkChilds();
     void changeToolBar(const ToolBarDef *def);
-    void disableDock();
+    void setDock();
 protected slots:
     void toggleWindow();
     void realSetStatus();
