@@ -50,7 +50,7 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
     while ((cmd = ++it) != NULL){
         MessageDef *def = (MessageDef*)(cmd->param);
         if ((def == NULL) || (cmd->icon == NULL) ||
-                (def->flags & (MESSAGE_HIDDEN | MESSAGE_SENDONLY)))
+                (def->flags & (MESSAGE_HIDDEN | MESSAGE_SENDONLY | MESSAGE_CHILD)))
             continue;
         if ((def->singular == NULL) || (def->plural == NULL) ||
                 (*def->singular == 0) || (*def->plural == 0))

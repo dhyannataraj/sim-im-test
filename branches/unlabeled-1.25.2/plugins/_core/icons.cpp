@@ -303,8 +303,14 @@ void *Icons::processEvent(Event *e)
             remove("online");
             remove("offline");
             remove("inactive");
-            for (PIXMAP_MAP::iterator it = icons.begin(); it != icons.end(); ++it)
-                (*it).second.iconSet = QIconSet();
+            for (PIXMAP_MAP::iterator it = icons.begin(); it != icons.end();){
+				if ((*it).second.xpm){
+					++it;
+					continue;
+				}
+				icons.erase(it);
+				it = icons.begin();
+			}
             break;
         }
     case EventGetIcons:

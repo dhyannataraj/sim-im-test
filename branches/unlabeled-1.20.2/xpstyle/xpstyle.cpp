@@ -495,7 +495,7 @@ void QWindowsXPStyle::polish( QWidget *widget )
                 break;
         }
         if (p){
-            widget->setBackgroundMode(QWidget::NoBackground);
+//            widget->setBackgroundMode(QWidget::NoBackground);
             widget->installEventFilter( this );
         }
     }

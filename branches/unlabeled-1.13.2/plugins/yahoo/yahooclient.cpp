@@ -2039,7 +2039,7 @@ static MessageDef defYahooFile =
     {
         NULL,
         NULL,
-        MESSAGE_DEFAULT,
+        MESSAGE_CHILD,
         "File",
         "%n files",
         createYahooFile,

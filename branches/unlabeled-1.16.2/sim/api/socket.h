@@ -222,7 +222,7 @@ public:
     void accept();
     void connect();
     void shutdown();
-    void process(bool bInRead=false);
+    void process(bool bInRead=false, bool bWantRead=false);
     void write();
     void clear();
 protected:

@@ -375,9 +375,14 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                             msg->setBackground(bgColor);
                             msg->setFlags(MESSAGE_RICHTEXT);
                         }
+						string s;
+						if (!text.isEmpty())
+							s = text.local8Bit();
+						log(L_DEBUG, "Message %s", s.c_str());
                         messageReceived(msg, screen.c_str());
                         break;
                     }
+					log(L_DEBUG, "ServerText: %s", m_data);
                     ICQMessage *msg = new ICQMessage;
                     if (!m_bAIM && atol(screen.c_str())){
                         msg->setServerText(m_data);
