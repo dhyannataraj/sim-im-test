@@ -192,8 +192,6 @@ public:
     void renameGroup(ICQGroup *g, const char *name);
 
     void sendContactList();
-    void sendVisibleList();
-    void sendInvisibleList();
     void sendLogonStatus();
     void sendStatus(unsigned long status);
     void sendMessageRequest();

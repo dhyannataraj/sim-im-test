@@ -558,32 +558,6 @@ bool MoveUserEvent::process(ICQClientPrivate *icq, unsigned short result)
     return true;
 }
 
-void ICQClientPrivate::sendVisibleList()
-{
-    if (client->contacts.Invisible == 0) client->contacts.Invisible = rand() & 0x7FFF;
-    snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_RENAME, true);
-    sock->writeBuffer
-    << 0x00000000L << client->contacts.Invisible
-    << (unsigned short)0x0004
-    << (unsigned short)0x0005
-    << 0x00CA0001L
-    << (char)3;
-    sendPacket();
-}
-
-void ICQClientPrivate::sendInvisibleList()
-{
-    if (client->contacts.Invisible == 0) client->contacts.Invisible = rand() & 0x7FFF;
-    snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_RENAME, true);
-    sock->writeBuffer
-    << 0x00000000L << client->contacts.Invisible
-    << (unsigned short)0x0004
-    << (unsigned short)0x0005
-    << 0x00CA0001L
-    << (char)4;
-    sendPacket();
-}
-
 void ICQClientPrivate::sendRosterGrp(const char *name, unsigned short grpId, unsigned short usrId)
 {
     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_RENAME, true);

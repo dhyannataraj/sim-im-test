@@ -18,6 +18,8 @@
 #ifndef _TOOLSETUP_H
 #define _TOOLSETUP_H
 
+#include "defs.h"
+
 #include "toolsetupbase.h"
 #include "toolbtn.h"
 

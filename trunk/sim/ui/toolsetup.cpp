@@ -22,6 +22,11 @@
 #include <qapplication.h>
 #include <qwidgetlist.h>
 #include <qlistbox.h>
+#include <qregexp.h>
+
+#ifdef USE_KDE
+#include <kwin.h>
+#endif
 
 #include <vector>
 using namespace std;

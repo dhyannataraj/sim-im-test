@@ -129,7 +129,6 @@ void ICQClientPrivate::sendLogonStatus()
     log(L_DEBUG, "RealIP: %X", client->owner->RealIP);
 
     log(L_DEBUG, "Logon status");
-    if (client->owner->inInvisible) sendVisibleList();
     sendContactList();
 
     unsigned long now;
@@ -148,7 +147,6 @@ void ICQClientPrivate::sendLogonStatus()
 
     sendPacket();
 
-    if (!client->owner->inInvisible) sendInvisibleList();
     m_state = Logged;
     client->owner->OnlineTime = now;
 
@@ -168,11 +166,9 @@ void ICQClient::setInvisible(bool bInvisible)
     if (owner->inInvisible == bInvisible) return;
     owner->inInvisible = bInvisible;
     if (!isLogged()) return;
-    if (owner->inInvisible) p->sendVisibleList();
     p->snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
     p->sock->writeBuffer.tlv(0x0006, p->fullStatus(owner->uStatus));
     p->sendPacket();
-    if (!owner->inInvisible) p->sendInvisibleList();
     ICQEvent e(EVENT_STATUS_CHANGED, owner->Uin);
     process_event(&e);
 }
