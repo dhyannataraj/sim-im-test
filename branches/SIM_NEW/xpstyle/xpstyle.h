@@ -74,6 +74,8 @@ public:
                                     const QPalette& pal,
                                     bool act, bool enabled,
                                     int x, int y, int w, int h);
+    virtual void drawSlider ( QPainter * p, int x, int y, int w, int h, const QColorGroup & g, Orientation, bool tickAbove, bool tickBelow );
+    virtual void drawSliderGroove ( QPainter * p, int x, int y, int w, int h, const QColorGroup & g, QCOORD c, Orientation );
 protected slots:
     void activeTabChanged();
 protected:

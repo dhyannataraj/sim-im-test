@@ -532,7 +532,7 @@ void DirectClient::processPacket()
     sock->readBuffer.unpack(msgFlags);
     string msg_str;
     sock->readBuffer >> msg_str;
-    ICQMessage *m = client->parseMessage(type, u->Uin, msg_str, sock->readBuffer, 0, 0, seq, 0);
+    ICQMessage *m = client->parseMessage(type & 0x7fff, u->Uin, msg_str, sock->readBuffer, 0, 0, seq, 0);
     switch (command){
     case TCP_START:
         if (m == NULL){
@@ -570,7 +570,7 @@ void DirectClient::processPacket()
             }
         default:
             if ((m->Type() != ICQ_MSGxFILE) && (m->Type() != ICQ_MSGxCHAT))
-                sendAck(seq, m->Type());
+                sendAck(seq, type);
             client->messageReceived(m);
         }
         break;

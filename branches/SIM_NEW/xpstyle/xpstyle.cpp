@@ -19,6 +19,7 @@
 #include "kpopup.h"
 
 #include <windows.h>
+#include <stdio.h>
 #include "uxtheme.h"
 #include "tmschema.h"
 
@@ -211,6 +212,8 @@ public:
     const QWidget *hotWidget;
     static const QWidget *currentWidget;
 
+    QRgb tabPaneBorderColor;
+
     QTab *hotTab;
     QRect hotHeader;
 
@@ -335,11 +338,17 @@ const QPixmap *QWindowsXPStylePrivate::tabBody( QWidget *widget )
         XPThemeData theme( widget, &painter, "TAB", TABP_BODY, 0 );
         SIZE sz;
         GetThemePartSize( theme.handle(), painter.handle(), TABP_BODY, 0, 0, TS_TRUE, &sz );
+        COLORREF cref;
+        GetThemeColor( theme.handle(), TABP_PANE, 0, TMT_BORDERCOLORHINT, &cref );
+        tabPaneBorderColor = qRgb( GetRValue(cref), GetGValue(cref), GetBValue(cref) );
         painter.end();
-        tabbody->resize( sz.cx, sz.cy );
+        tabbody->resize( sz.cx, QApplication::desktop()->height() );
         painter.begin( tabbody );
         theme.rec = QRect( 0, 0, sz.cx, sz.cy );
         theme.drawBackground();
+        QPixmap temp( sz.cx, 1 );
+        bitBlt( &temp, 0,0, tabbody, 0, sz.cy-1 );
+        painter.drawTiledPixmap( 0, sz.cy, sz.cx, tabbody->height()-sz.cy, temp );
         painter.end();
     }
     return tabbody;
@@ -427,6 +436,11 @@ void QWindowsXPStyle::polish( QWidget *widget )
                 widget->parentWidget() &&
                 widget->parentWidget()->inherits( "QTabWidget" ) ) {
         widget->setBackgroundPixmap( *d->tabBody( widget ) );
+    } else if ( widget->parentWidget() &&
+                widget->parentWidget()->inherits( "QWidgetStack" ) &&
+                widget->parentWidget()->parentWidget() &&
+                widget->parentWidget()->parentWidget()->inherits( "QTabWidget" ) ) {
+        widget->setBackgroundPixmap( *d->tabBody( widget ) );
     } else if ( widget->inherits( "QMenuBar" ) ) {
         QPalette pal = widget->palette();
         XPThemeData theme( widget, 0, "MENUBAR", 0, 0 );
@@ -442,6 +456,19 @@ void QWindowsXPStyle::polish( QWidget *widget )
             pal.setColor( QPalette::Disabled, QColorGroup::Button, apal.color( QPalette::Disabled, QColorGroup::Button ) );
         }
         widget->setPalette( pal );
+    }else if (widget->inherits("QLabel") ||
+              widget->inherits("QGroupBox")){
+        QWidget *p;
+        for ( p = widget->parentWidget(); p; p = p->parentWidget()){
+            if (p->inherits("QWidgetStack") &&
+                    p->parentWidget() &&
+                    p->parentWidget()->inherits("QTabWidget"))
+                break;
+        }
+        if (p){
+            widget->setBackgroundMode(QWidget::NoBackground);
+            widget->installEventFilter( this );
+        }
     }
 
     updateRegion( widget );
@@ -586,6 +613,9 @@ bool QWindowsXPStyle::eventFilter( QObject *o, QEvent *e )
                 else
                     d->hotHeader = header->sectionRect( header->sectionAt( d->hotSpot.y() ) );
 
+                char b[512];
+                sprintf(b, "hotspot: %u %u: %X %X\n", d->hotSpot.x(), d->hotSpot.y(), oldHeader, d->hotHeader);
+
                 if ( oldHeader != d->hotHeader ) {
                     if ( oldHeader.isValid() )
                         header->update( oldHeader );
@@ -726,28 +756,29 @@ bool QWindowsXPStyle::eventFilter( QObject *o, QEvent *e )
             QPixmap pict(widget->width(), w->height());
             QPainter p(&pict);
             p.drawImage(0, 0, img);
-            QFont f(w->font());
-            f.setBold(true);
-            p.setFont(f);
-            p.setPen(darkXp(colorSel(w->colorGroup())));
-            QRect rc(bitmapWidth + 1, 1, w->width(), w->height());
-            p.drawText(rc, AlignVCenter | AlignLeft, w->title());
-            rc.moveBy(-1, -1);
-            p.setPen(w->colorGroup().highlightedText());
-            p.drawText(rc, AlignVCenter | AlignLeft, w->title());
+            int x = 2;
             if (!w->icon().isNull()){
-                int pictx = (w->width() - w->icon().width()) / 2;
                 int picty = (w->height() - w->icon().height()) / 2;
                 const QBitmap *mask = w->icon().mask();
                 if (mask){
                     QPixmap maskPict = *mask;
                     maskPict.setMask(*mask);
                     p.setBrush(darkXp(colorSel(w->colorGroup())));
-                    p.drawPixmap(pictx+1, picty+1, maskPict);
+                    p.drawPixmap(x+1, picty+1, maskPict);
                 }
                 p.setPen(w->colorGroup().highlightedText());
-                p.drawPixmap(pictx, picty, w->icon());
+                p.drawPixmap(x, picty, w->icon());
+                x += w->icon().width() + 2;
             }
+            QFont f(w->font());
+            f.setBold(true);
+            p.setFont(f);
+            p.setPen(darkXp(colorSel(w->colorGroup())));
+            QRect rc(x, 1, w->width(), w->height());
+            p.drawText(rc, AlignVCenter | AlignLeft, w->title());
+            rc.moveBy(-1, -1);
+            p.setPen(w->colorGroup().highlightedText());
+            p.drawText(rc, AlignVCenter | AlignLeft, w->title());
             p.end();
             p.begin(w);
             p.drawPixmap(0, 0, pict);
@@ -756,6 +787,22 @@ bool QWindowsXPStyle::eventFilter( QObject *o, QEvent *e )
             p.drawLine(0, w->height()-1, w->width(), w->height()-1);
             p.end();
             return true;
+        }
+        if (o->inherits("QLabel") ||
+                o->inherits("QGroupBox")){
+            QWidget *w = static_cast<QWidget*>(o);
+            for (QWidget *p = w->parentWidget(); p; p = p->parentWidget()){
+                const QPixmap *bg = p->backgroundPixmap();
+                if (bg){
+                    QPoint pos = w->mapToGlobal(QPoint(0, 0));
+                    pos = p->mapFromGlobal(pos);
+                    QPainter pp(w);
+                    pp.drawTiledPixmap(0, 0, w->width(), w->height(), *bg, pos.x(), pos.y());
+                    pp.setClipRect(static_cast<QPaintEvent*>(e)->rect());
+                    break;
+                }
+            }
+            return false;
         }
         if (d->currentWidget != widget){
             const QWidget *w = d->currentWidget;
@@ -780,7 +827,9 @@ void QWindowsXPStyle::drawButton( QPainter *p, int x, int y, int w, int h,
     if (d->currentWidget){
         if (!d->currentWidget->isEnabled())
             stateId = PBS_DISABLED;
-        if (d->currentWidget->inherits("QHeader") && QRect(x, y, w, h).contains(d->hotSpot))
+        if (d->currentWidget->inherits("QHeader") &&
+                (d->currentWidget == d->hotWidget) &&
+                QRect(x, y, w, h).contains(d->hotSpot))
             stateId = PBS_HOT;
     }
     XPThemeData theme( 0, p, "BUTTON", BP_PUSHBUTTON,
@@ -905,6 +954,12 @@ void QWindowsXPStyle::drawScrollBarControls( QPainter *p,  const QScrollBar *sba
     int partId = 0;
     int stateId = 0;
     XPThemeData theme( bar, p, "SCROLLBAR" );
+
+    if ( !theme.isValid() ){
+        QWindowsStyle::drawScrollBarControls(p, sbar, sliderStart, controls, activeControl);
+        return;
+    }
+
     bool maxedOut = ( bar->maxValue() == bar->minValue() );
     if ( controls & AddLine ) {
         QRect rc;
@@ -1147,6 +1202,11 @@ void QWindowsXPStyle::drawComboButton( QPainter *p, int x, int y, int w, int h,
     else
         stateId = ETS_NORMAL;
     XPThemeData theme1( 0, p, "EDIT", partId, stateId, QRect(x, y, w, h) );
+    if (!theme1.isValid()){
+        QWindowsStyle::drawComboButton(p, x, y, w, h, g, sunken, editable, enabled, fill);
+        return;
+    }
+
     theme1.drawBackground();
     XPThemeData theme( 0, p, "COMBOBOX" );
     int xpos = x;
@@ -1176,6 +1236,7 @@ void QWindowsXPStyle::drawPopupPanel(QPainter *p, int x, int y, int w, int h,
         int stateId = ETS_NORMAL;
         if (!d->currentWidget->isEnabled()) stateId = ETS_DISABLED;
         if (d->currentWidget->hasFocus()) stateId = ETS_FOCUSED;
+
         XPThemeData theme( 0, p, "EDIT", EP_EDITTEXT, stateId, QRect(x, y, w, h));
         if ( theme.isValid() ) {
             theme.drawBackground();
@@ -1258,6 +1319,62 @@ void QWindowsXPStyle::drawTab( QPainter *p, const QTabBar *tbar, QTab *t, bool s
 
 void QWindowsXPStyle::drawTabMask( QPainter*, const QTabBar*, QTab*, bool selected )
 {
+}
+
+void QWindowsXPStyle::drawSlider ( QPainter * p, int x, int y, int w, int h, const QColorGroup & g, Orientation o, bool tickAbove, bool tickBelow )
+{
+    QRect rc(x, y, w, h);
+    int partId = 0;
+    int stateId = 0;
+    if ( o == Horizontal ) {
+        partId = TKP_THUMB;
+        if (tickAbove)
+            partId = TKP_THUMBTOP;
+        if (tickBelow)
+            partId = TKP_THUMBBOTTOM;
+        stateId = TUS_NORMAL;
+        if (!d->currentWidget->isEnabled()) stateId = TUS_DISABLED;
+        if (d->currentWidget->hasFocus()) stateId = TUS_FOCUSED;
+        if ((d->currentWidget == d->hotWidget) && rc.contains(d->hotSpot))
+            stateId = TUS_HOT;
+    } else {
+        partId = TKP_THUMBVERT;
+        if (tickAbove)
+            partId = TKP_THUMBLEFT;
+        if (tickBelow)
+            partId = TKP_THUMBRIGHT;
+        stateId = TUVS_NORMAL;
+        if (!d->currentWidget->isEnabled()) stateId = TUVS_DISABLED;
+        if (d->currentWidget->hasFocus()) stateId = TUVS_FOCUSED;
+        if ((d->currentWidget == d->hotWidget) && rc.contains(d->hotSpot))
+            stateId = TUVS_HOT;
+    }
+    XPThemeData theme( NULL, p, "TRACKBAR", partId, stateId,  rc);
+    if (!theme.isValid()){
+        QWindowsStyle::drawSlider(p, x, y, w, h, g, o, tickAbove, tickBelow);
+        return;
+    }
+    theme.drawBackground();
+}
+
+void QWindowsXPStyle::drawSliderGroove ( QPainter * p, int x, int y, int w, int h, const QColorGroup & g, QCOORD c, Orientation o)
+{
+    QRect rc(x, y, w, h);
+    int partId = 0;
+    int stateId = 0;
+    if ( o == Horizontal ) {
+        partId = TKP_TRACK;
+        stateId = TRS_NORMAL;
+    } else {
+        partId = TKP_TRACKVERT;
+        stateId = TRVS_NORMAL;
+    }
+    XPThemeData theme( NULL, p, "TRACKBAR", partId, stateId,  rc);
+    if (!theme.isValid()){
+        QWindowsStyle::drawSliderGroove(p, x, y, w, h, g, c, o);
+        return;
+    }
+    theme.drawBackground();
 }
 
 void QWindowsXPStyle::drawPopupMenuItem( QPainter* p, bool checkable,
