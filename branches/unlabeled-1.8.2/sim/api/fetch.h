@@ -44,6 +44,8 @@ public:
     bool		m_bRedirect;
 #ifdef WIN32
 	FetchThread	*m_thread;
+	string		m_err;
+	unsigned	m_errCode;
 #endif
 protected:
     virtual bool error_state(const char *err, unsigned code);

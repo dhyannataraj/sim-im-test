@@ -103,7 +103,7 @@ void FetchThread::run()
     }
     if (url.nScheme == INTERNET_SCHEME_HTTPS){
 		 flags |= INTERNET_FLAG_SECURE;
-	}else if (url.nScheme != INTERNET_SCHEME_HTTPS){
+	}else if (url.nScheme != INTERNET_SCHEME_HTTP){
 		m_client->m_errCode = GetLastError();
         m_client->m_err     = "Unsupported scheme";
         FetchManager::manager->remove(m_client);
