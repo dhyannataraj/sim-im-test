@@ -158,9 +158,11 @@ void SearchDialog::search()
     switch (tabSearch->currentPageIndex()){
     case 0:
         event = pClient->searchWP("", "", "", edtEmail->text().local8Bit(),
-                                  cmbAge->currentItem(), cmbGender->currentItem(),
-                                  cmbLang->currentItem(),
-                                  edtCity->text().local8Bit(), edtState->text().local8Bit(),
+                                  getComboValue(cmbAge, ages), 
+				  getComboValue(cmbGender, genders),
+                                  getComboValue(cmbLang, languages),
+                                  edtCity->text().local8Bit(), 
+				  edtState->text().local8Bit(),
                                   getComboValue(cmbCountry, countries),
                                   edtCompany->text().local8Bit(),
                                   edtDepartment->text().local8Bit(),"", 0,
