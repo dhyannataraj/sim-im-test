@@ -112,6 +112,10 @@ SOURCE=.\ignorelistbase.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\moc_filter.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\moc_filtercfg.cpp
 # End Source File
 # Begin Source File
@@ -133,6 +137,35 @@ SOURCE=.\moc_ignorelistbase.cpp
 # Begin Source File
 
 SOURCE=.\filter.h
+
+!IF  "$(CFG)" == "filter - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\filter.h
+InputName=filter
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "filter - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\filter.h
+InputName=filter
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -367,6 +400,14 @@ BuildCmds= \
 
 !ENDIF 
 
+# End Source File
+# End Group
+# Begin Group "xpm"
+
+# PROP Default_Filter "xpm"
+# Begin Source File
+
+SOURCE=.\xpm\ignorelist.xpm
 # End Source File
 # End Group
 # End Target

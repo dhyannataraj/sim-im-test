@@ -27,6 +27,7 @@ ServiceSocket::ServiceSocket(ICQClient *client, unsigned short id)
     m_id     = id;
     m_client->m_services.push_back(this);
     m_socket = NULL;
+	m_bConnected = false;
 }
 
 ServiceSocket::~ServiceSocket()
@@ -327,25 +328,35 @@ unsigned ICQClient::aimInfoSearch(const char *first, const char *last, const cha
     }
     string info;
     info += (char)0;
-    info += first;
+	if (first)
+		info += first;
     info += (char)0;
-    info += last;
+	if (last)
+		info += last;
     info += (char)0;
-    info += middle;
+	if (middle)
+		info += middle;
     info += (char)0;
-    info += maiden;
+	if (maiden)
+		info += maiden;
     info += (char)0;
-    info += country;
+	if (country)
+		info += country;
     info += (char)0;
-    info += street;
+	if (street)
+		info += street;
     info += (char)0;
-    info += city;
+	if (city)
+		info += city;
     info += (char)0;
-    info += nick;
+	if (nick)
+		info += nick;
     info += (char)0;
-    info += zip;
+	if (zip)
+		info += zip;
     info += (char)0;
-    info += state;
+	if (state)
+		info += state;
     return s->add(info);
 }
 

@@ -32,15 +32,19 @@ typedef struct FilterUserData
 
 class QStringList;
 
-class FilterPlugin : public Plugin, public EventReceiver
+class FilterPlugin : public QObject, public Plugin, public EventReceiver
 {
+Q_OBJECT
 public:
     FilterPlugin(unsigned, const char *cfg);
     virtual ~FilterPlugin();
     PROP_BOOL(FromList);
+protected slots:
+	void addToIgnore(void*);
 protected:
     unsigned user_data_id;
     unsigned CmdIgnoreList;
+	unsigned CmdIgnore;
     virtual void *processEvent(Event*);
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual string getConfig();

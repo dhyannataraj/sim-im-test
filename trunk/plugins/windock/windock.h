@@ -42,6 +42,7 @@ protected:
     unsigned CmdAutoHide;
     bool m_bInit;
     void init();
+    void uninit();
     WinDockData data;
 };
 

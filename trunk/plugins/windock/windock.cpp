@@ -107,7 +107,7 @@ static void getBarRect(UINT state, QRect &rc, RECT *rcWnd = NULL)
         w = rcWnd->right - rcWnd->left;
     }else{
         GetWindowRect(pMain->winId(), &rcWork);
-        w = rcWork.right - rcWork.left + GetSystemMetrics(SM_CXBORDER) * 2;
+        w = rcWork.right - rcWork.left;
     }
     switch (state){
     case ABE_LEFT:
@@ -199,7 +199,7 @@ void setBarState(bool bAnimate = false)
     if (pMain->isVisible()){
         Event eOnTop(EventOnTop, (void*)bFullScreen);
         eOnTop.process();
-        if (!bFullScreen)
+        if (!bFullScreen && (qApp->activeWindow() == pMain))
             appBarMessage(ABM_ACTIVATE);
     }
 }
@@ -225,11 +225,14 @@ LRESULT CALLBACK dockWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     QRect rc;
     switch (msg){
     case WM_ACTIVATE:
-        if ((wParam == WA_INACTIVE) && dock->getAutoHide() && bAutoHideVisible){
-            bAutoHideVisible = false;
-            setBarState();
+        if (dock->getState() != ABE_FLOAT){
+            if ((wParam == WA_INACTIVE) && dock->getAutoHide() && bAutoHideVisible){
+                bAutoHideVisible = false;
+                setBarState();
+            }
+            appBarMessage(ABM_ACTIVATE);
+
         }
-        appBarMessage(ABM_ACTIVATE);
         break;
     case WM_NCMOUSEMOVE:
         if ((dock->getState() != ABE_FLOAT) && dock->getAutoHide() && !bAutoHideVisible){
@@ -272,7 +275,8 @@ LRESULT CALLBACK dockWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         return 1;
     case WM_WINDOWPOSCHANGED:
         res = oldProc(hWnd, msg, wParam, lParam);
-        appBarMessage(ABM_WINDOWPOSCHANGED);
+        if (dock->getState() != ABE_FLOAT)
+            appBarMessage(ABM_WINDOWPOSCHANGED);
         return res;
     }
     return oldProc(hWnd, msg, wParam, lParam);
@@ -318,8 +322,15 @@ WinDockPlugin::WinDockPlugin(unsigned base, const char *config)
 
 WinDockPlugin::~WinDockPlugin()
 {
+
+    uninit();
     Event eCmd(EventCommandRemove, (void*)CmdAutoHide);
     eCmd.process();
+    free_data(winDockData, &data);
+}
+
+void WinDockPlugin::uninit()
+{
     QWidget *main = getMainWindow();
     if (main && oldProc){
         appBarMessage(ABM_REMOVE);
@@ -327,12 +338,15 @@ WinDockPlugin::~WinDockPlugin()
         p = (WNDPROC)SetWindowLongW(main->winId(), GWL_WNDPROC, (LONG)oldProc);
         if (p == 0)
             p = (WNDPROC)SetWindowLongA(main->winId(), GWL_WNDPROC, (LONG)oldProc);
+        oldProc = NULL;
     }
-    free_data(winDockData, &data);
 }
+
 
 void *WinDockPlugin::processEvent(Event *e)
 {
+    if (e->type() == EventQuit)
+        uninit();
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
         if (cmd->id == CmdAutoHide){

@@ -186,6 +186,7 @@ protected:
     virtual void setupContact(Contact*, void *data);
     virtual void *processEvent(Event*);
     virtual QWidget *searchWindow();
+    virtual bool isMyData(clientData*, Contact*&);
     void getLine(const char*);
     void clearPackets();
     void sendStatus();

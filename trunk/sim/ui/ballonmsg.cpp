@@ -298,16 +298,18 @@ void BalloonMsg::message(const QString &text, QWidget *parent, bool bModal)
     }
 }
 
-void BalloonMsg::ask(void *param, const QString &text, QWidget *parent, const char *slotYes, const char *slotNo, const QRect *rc)
+void BalloonMsg::ask(void *param, const QString &text, QWidget *parent, const char *slotYes, const char *slotNo, const QRect *rc, QObject *receiver)
 {
     QStringList btns;
     btns.append(i18n("&Yes"));
     btns.append(i18n("&No"));
     BalloonMsg *msg = new BalloonMsg(param, text, btns, parent, rc, false);
+    if (receiver == NULL)
+        receiver = parent;
     if (slotYes)
-        connect(msg, SIGNAL(yes_action(void*)), parent, slotYes);
+        connect(msg, SIGNAL(yes_action(void*)), receiver, slotYes);
     if (slotNo)
-        connect(msg, SIGNAL(no_action(void*)), parent, slotNo);
+        connect(msg, SIGNAL(no_action(void*)), receiver, slotNo);
     msg->show();
 }
 

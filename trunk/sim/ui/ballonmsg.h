@@ -33,7 +33,7 @@ public:
     BalloonMsg(void *param, const QString &text, QStringList&, QWidget *p, const QRect *rc = NULL, bool bModal=false, bool bAutoHide=true);
     ~BalloonMsg();
     static void message(const QString &text, QWidget *parent, bool bModal=false);
-    static void ask(void *param, const QString &text, QWidget *parent, const char *slotYes, const char *slotNo, const QRect *rc = NULL);
+    static void ask(void *param, const QString &text, QWidget *parent, const char *slotYes, const char *slotNo, const QRect *rc=NULL, QObject *receiver=NULL);
 signals:
     void action(int, void*);
     void yes_action(void*);
