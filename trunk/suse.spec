@@ -26,8 +26,8 @@ SIM - Multiprotokoll Instant Messenger
 
 SIM (Simple Instant Messenger) ist ein Plugin-basierender
 open-source Instant Messenger, der verschiedene Protokolle
-(ICQ, Jabber, AIM, MSN) unterstuetzt. Dafuer wird die QT-
-Bibliothek und X11 (mit optionaler KDE-Unterstuetzung)
+(ICQ, Jabber, AIM, MSN, YIM) unterstuetzt. Dafuer wird die
+QT-Bibliothek und X11 (mit optionaler KDE-Unterstuetzung)
 verwendet.
 
 SIM hat sehr viele Features, viele von diesen sind
@@ -38,8 +38,8 @@ SIM - Multiprotocol Instant Messenger
 
 SIM (Simple Instant Messenger) is a plugins-based open-
 source instant messenger that supports various protocols
-(ICQ, Jabber, AIM, MSN). It uses the QT library and works
-on X11 (with optional KDE-support).
+(ICQ, Jabber, AIM, MSN, YIM). It uses the QT library and
+works on X11 (with optional KDE-support).
 
 SIM has a lot of features, many of them are listed
 at: http://sim-icq.sourceforge.net/

@@ -8,7 +8,7 @@ Version: 	0.9.3
 Release: 	%{release}.rh%(dist_release="`echo "%{rh_release} * 10" | bc 2>/dev/null`" ; echo "$dist_release")
 Distribution:	Red Hat Linux %{rh_release}
 %else
-Release:	%{release}.fdr%(dist_release="`echo "%{rh_release} * 10" | bc 2>/dev/null`" ; echo "$dist_release")
+Release:	%{release}.fdr%(dist_release="`echo "%{fdr_release} * 10" | bc 2>/dev/null`" ; echo "$dist_release")
 Distribution:	Fedora Core %{fdr_release}
 %endif
 Vendor: 	Vladimir Shutoff <shutoff@mail.ru>
@@ -21,8 +21,8 @@ URL: 		http://sim-icq.sourceforge.net/
 Source0: 	http://osdn.dl.sourceforge.net/sourceforge/sim-icq/%{name}-%{version}.tar.gz
 BuildRequires:	autoconf >= 2.52, automake >= 1.5
 BuildRequires:  gcc, gcc-c++, XFree86-devel, zlib-devel, libjpeg-devel, expat-devel, flex, libart_lgpl-devel, libpng-devel, gettext
-BuildRequires:  kdelibs-devel >= 3.0.0, qt-devel >= 3.0.0, openssl-devel, pcre-devel >= 3.9, arts-devel >= 1.0, sablotron-devel >= 1.0.1
-Requires:       kdebase >= 3.0.0, kdelibs >= 3.0.0, qt >= 3.0.0, openssl, arts >= 1.0, sablotron >= 1.0.1
+BuildRequires:  kdelibs-devel >= 3.0.0, qt-devel >= 3.0.0, openssl-devel, pcre-devel >= 3.9, arts-devel >= 1.0, libxml2-devel, libxslt-devel
+Requires:       kdebase >= 3.0.0, kdelibs >= 3.0.0, qt >= 3.0.0, openssl, arts >= 1.0, libxml2, libxslt
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-root
 Prefix:         /usr
 
@@ -31,8 +31,8 @@ SIM - Multiprotokoll Instant Messenger
 
 SIM (Simple Instant Messenger) ist ein Plugin-basierender
 open-source Instant Messenger, der verschiedene Protokolle
-(ICQ, Jabber, AIM, MSN) unterstuetzt. Dafuer wird die QT-
-Bibliothek und X11 (mit optionaler KDE-Unterstuetzung)
+(ICQ, Jabber, AIM, MSN, YIM) unterstuetzt. Dafuer wird die
+QT-Bibliothek und X11 (mit optionaler KDE-Unterstuetzung)
 verwendet.
 
 SIM hat sehr viele Features, viele von diesen sind
@@ -43,8 +43,8 @@ SIM - Multiprotocol Instant Messenger
 
 SIM (Simple Instant Messenger) is a plugins-based open-
 source instant messenger that supports various protocols
-(ICQ, Jabber, AIM, MSN). It uses the QT library and works
-on X11 (with optional KDE-support).
+(ICQ, Jabber, AIM, MSN, YIM). It uses the QT library and 
+works on X11 (with optional KDE-support).
 
 SIM has a lot of features, many of them are listed
 at: http://sim-icq.sourceforge.net/
@@ -81,20 +81,13 @@ rm -rf $RPM_BUILD_DIR/%{name}-%{version}
 %{_libdir}/libsim*
 %{_libdir}/menu/sim-kde.menu
 %{_datadir}/applnk-redhat/Internet/sim.desktop
-%dir %{_datadir}/apps/sim
-%{_datadir}/apps/sim/COPYING
-%dir %{_datadir}/apps/sim/plugins
-%{_datadir}/apps/sim/plugins/*
-%dir %{_datadir}/apps/sim/pict
-%{_datadir}/apps/sim/pict/*
-%dir %{_datadir}/apps/sim/sounds
-%{_datadir}/apps/sim/sounds/*
-%dir %{_datadir}/apps/sim/styles
-%{_datadir}/apps/sim/styles/*
+%{_datadir}/apps/
 %{_datadir}/icons/*/*/*/*
+%{_datadir}/mimelnk/application/x-icq.desktop
+%{_datadir}/services/simctrl.desktop
 
 %changelog
-* Fri Jan 02 2004 - Robert Scheck <sim@robert-scheck.de> - 0.9.3-1
+* Fri Feb 06 2004 - Robert Scheck <sim@robert-scheck.de> - 0.9.3-1
 - Upgrade to 0.9.3
 - Merged Red Hat spec file into Fedora spec file
 
