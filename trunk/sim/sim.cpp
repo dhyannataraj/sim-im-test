@@ -64,21 +64,6 @@ QString i18n(const char *text)
     return QObject::tr(text);
 }
 
-<<<<<<< sim.cpp
-class SimApp : public QApplication
-{
-	public:
-		    SimApp(int &argc, char **argv)
-			                : QApplication(argc, argv) {}
-	protected:
-		        void saveState(QSessionManager&);
-};
-
-#endif
-
-#if !defined(USE_KDE) || (QT_VERSION < 300)
-
-=======
 class SimApp : public QApplication
 {
 public:
@@ -92,15 +77,14 @@ protected:
 
 #if !defined(USE_KDE) || (QT_VERSION < 300)
 
->>>>>>> 1.1.1.1.2.1
 QString put_n_in(const QString &orig, unsigned long n)
 {
-	    QString ret = orig;
-	        int index = ret.find("%n");
-		    if (index == -1)
-			            return ret;
-		        ret.replace(index, 2, QString::number(n));
-			    return ret;
+    QString ret = orig;
+    int index = ret.find("%n");
+    if (index == -1)
+        return ret;
+    ret.replace(index, 2, QString::number(n));
+    return ret;
 }
 
 QString i18n(const char *singular, const char *plural, unsigned long n)
