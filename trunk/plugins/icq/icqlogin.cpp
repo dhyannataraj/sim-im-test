@@ -245,7 +245,12 @@ void ICQClient::chn_close()
         case ICQ_LOGIN_ERRxSUSPENDED1:
             errString = I18N_NOOP("UIN was suspended");
             m_reconnect = NO_RECONNECT;
-        case 0:
+            break;
+        case ICQ_LOGIN_ERRxCANT_REGISTER:
+            errString = I18N_NOOP("Can't login to ICQ network - Please try again later");
+            m_reconnect = NO_RECONNECT;
+            break;
+		case 0:
             break;
         default:
             errString = "Unknown error ";
