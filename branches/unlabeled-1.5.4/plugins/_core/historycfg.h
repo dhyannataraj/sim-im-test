@@ -63,6 +63,7 @@ protected:
     void fillCombo(const char *current);
     bool m_bDirty;
     int  m_cur;
+	int  m_edit;
     vector<StyleDef> m_styles;
 };
 
