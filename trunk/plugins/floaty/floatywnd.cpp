@@ -39,6 +39,7 @@ FloatyWnd::FloatyWnd(FloatyPlugin *plugin, unsigned id)
 {
     m_plugin = plugin;
     m_id = id;
+    m_blink = 0;
     init();
     setAcceptDrops(true);
     setBackgroundMode(NoBackground);
@@ -51,6 +52,8 @@ FloatyWnd::FloatyWnd(FloatyPlugin *plugin, unsigned id)
     connect(tipTimer, SIGNAL(timeout()), this, SLOT(showTip()));
     moveTimer = new QTimer(this);
     connect(moveTimer, SIGNAL(timeout()), this, SLOT(startMove()));
+    blinkTimer = new QTimer(this);
+    connect(blinkTimer, SIGNAL(timeout()), this, SLOT(blink()));
     setMouseTracking(true);
 }
 
@@ -68,7 +71,14 @@ void FloatyWnd::init()
         return;
     m_text = contact->getName();
     m_status = contact->contactInfo(m_style, m_statusIcon, &m_icons);
-    QRect br = fontMetrics().boundingRect(m_text);
+    QPainter p(this);
+    unsigned blink = m_blink;
+    m_blink = 1;
+    setFont(&p);
+    m_blink = blink;
+    QRect br = qApp->desktop()->rect();
+    br = p.boundingRect(br, AlignLeft | AlignVCenter, m_text);
+    p.end();
     unsigned h = br.height();
     unsigned w = br.width() + 5;
     const QPixmap &pict = Pict(m_statusIcon);
@@ -155,6 +165,7 @@ void FloatyWnd::paintEvent(QPaintEvent*)
         x += pict.width() + 2;
     }
     QRect br;
+    setFont(&p);
     p.drawText(x, 0, w, h, AlignLeft | AlignVCenter, m_text, -1, &br);
     x = br.right() + 5;
     string icons = m_icons;
@@ -189,6 +200,41 @@ void FloatyWnd::paintEvent(QPaintEvent*)
     p.moveTo(width() - 1, 0);
     p.lineTo(0, 0);
     p.lineTo(0, height() - 1);
+}
+
+void FloatyWnd::setFont(QPainter *p)
+{
+    QFont f(font());
+    if (m_style & CONTACT_ITALIC){
+        if (m_plugin->core->getVisibleStyle()  & STYLE_ITALIC)
+            f.setItalic(true);
+        if (m_plugin->core->getVisibleStyle()  & STYLE_UNDER)
+            f.setUnderline(true);
+        if (m_plugin->core->getVisibleStyle()  & STYLE_STRIKE)
+            f.setStrikeOut(true);
+    }
+    if (m_style & CONTACT_UNDERLINE){
+        if (m_plugin->core->getAuthStyle()  & STYLE_ITALIC)
+            f.setItalic(true);
+        if (m_plugin->core->getAuthStyle()  & STYLE_UNDER)
+            f.setUnderline(true);
+        if (m_plugin->core->getAuthStyle()  & STYLE_STRIKE)
+            f.setStrikeOut(true);
+    }
+    if (m_style & CONTACT_STRIKEOUT){
+        if (m_plugin->core->getInvisibleStyle()  & STYLE_ITALIC)
+            f.setItalic(true);
+        if (m_plugin->core->getInvisibleStyle()  & STYLE_UNDER)
+            f.setUnderline(true);
+        if (m_plugin->core->getInvisibleStyle()  & STYLE_STRIKE)
+            f.setStrikeOut(true);
+    }
+    if (m_blink & 1){
+        f.setBold(true);
+    }else{
+        f.setBold(false);
+    }
+    p->setFont(f);
 }
 
 void FloatyWnd::mousePressEvent(QMouseEvent *e)
@@ -245,6 +291,16 @@ void FloatyWnd::startMove()
     mousePos = initMousePos;
     initMousePos = QPoint(0, 0);
     grabMouse();
+}
+
+void FloatyWnd::blink()
+{
+    if (m_blink){
+        m_blink--;
+    }else{
+        blinkTimer->stop();
+    }
+    repaint();
 }
 
 void FloatyWnd::mouseDoubleClickEvent(QMouseEvent *)

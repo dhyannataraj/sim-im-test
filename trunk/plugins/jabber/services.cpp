@@ -278,7 +278,7 @@ void Services::unregAgent()
     jid = item->text(COL_JID).latin1();
     jid += "/registered";
     Contact *contact;
-	string resource;
+    string resource;
     JabberUserData *data = m_client->findContact(jid.c_str(), NULL, false, contact, resource);
     if (data == NULL)
         return;
@@ -301,7 +301,7 @@ void Services::logon()
     jid = item->text(COL_JID).latin1();
     jid += "/registered";
     Contact *contact;
-	string resource;
+    string resource;
     JabberUserData *data = m_client->findContact(jid.c_str(), NULL, false, contact, resource);
     if (data == NULL)
         return;
@@ -319,7 +319,7 @@ void Services::logoff()
     jid = item->text(COL_JID).latin1();
     jid += "/registered";
     Contact *contact;
-	string resource;
+    string resource;
     JabberUserData *data = m_client->findContact(jid.c_str(), NULL, false, contact, resource);
     if (data == NULL)
         return;

@@ -34,7 +34,8 @@ public:
     FetchClientPrivate(FetchClient*);
     ~FetchClientPrivate();
 protected:
-    void fetch(const char *url, const char *headers = NULL, Buffer *postData = NULL, bool bRedirect = true);;
+    void fetch(const char *url, const char *headers = NULL, Buffer *postData = NULL, bool bRedirect = true);
+    void _fetch(const char *headers = NULL, Buffer *postData = NULL, bool bRedirect = true);
     void stop();
     FetchClient *m_client;
     void		fail();
@@ -589,13 +590,18 @@ FetchClientPrivate::FetchClientPrivate(FetchClient *client)
 
 void FetchClientPrivate::fetch(const char *url, const char *headers, Buffer *postData, bool bRedirect)
 {
+    m_uri = url;
+    _fetch(headers, postData, bRedirect);
+}
+
+void FetchClientPrivate::_fetch(const char *headers, Buffer *postData, bool bRedirect)
+{
     stop();
     m_bDone = false;
     m_data.init(0);
     m_data.packetStart();
     m_postData  = postData;
     m_bRedirect = bRedirect;
-    m_uri	    = url;
     m_postSize  = 0;
     m_sendTime	= 0;
     m_sendSize  = 0;
@@ -692,6 +698,7 @@ void FetchClientPrivate::stop()
         m_postData = NULL;
     }
     m_bDone = true;
+    m_state = None;
 }
 
 bool FetchClient::crackUrl(const char *_url, string &protocol, string &host, unsigned short &port, string &user, string &pass, string &uri, string &extra)
@@ -764,13 +771,17 @@ string basic_auth(const char *user, const char *pass)
 
 bool FetchClientPrivate::error_state(const char *err, unsigned)
 {
+    if (m_state == None)
+        return false;
     if (m_state == Redirect){
-        delete m_socket;
-        m_socket = NULL;
+        if (m_socket){
+            delete m_socket;
+            m_socket = NULL;
+        }
         m_code = 0;
         m_hIn  = "";
         m_state = None;
-        fetch(m_uri.c_str());
+        _fetch();
         return false;
     }
     if ((m_state != Done) && ((m_state != Data) || (m_size != UNKNOWN_SIZE))){
@@ -779,6 +790,8 @@ bool FetchClientPrivate::error_state(const char *err, unsigned)
     }
     m_bDone = true;
     m_state = None;
+    if (m_socket)
+        m_socket->close();
     return m_client->done(m_code, m_data, m_hIn.c_str());
 }
 
@@ -980,6 +993,7 @@ void FetchClientPrivate::packet_ready()
                     m_uri += extra;
                 }
                 m_state = Redirect;
+                m_socket->close();
                 m_socket->error_state("");
                 return;
             }

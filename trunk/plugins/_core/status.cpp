@@ -53,8 +53,9 @@ CommonStatus::CommonStatus()
     Event eCmd(EventCommandCreate, cmd);
     eCmd.process();
 
-    setBarStatus(true);
+    m_bInit = false;
     rebuildStatus();
+    QTimer::singleShot(500, this, SLOT(setBarStatus()));
 }
 
 CommonStatus::~CommonStatus()
@@ -65,7 +66,7 @@ CommonStatus::~CommonStatus()
     eMenuRemove.process();
 }
 
-void CommonStatus::setBarStatus(bool bFirst)
+void CommonStatus::setBarStatus()
 {
     const char *text = I18N_NOOP("Inactive");
     const char *icon = "inactive";
@@ -176,8 +177,10 @@ void CommonStatus::setBarStatus(bool bFirst)
     cmd->popup_id    = MenuStatus;
     cmd->flags		 = BTN_PICT;
 
-    Event eCmd(bFirst ? EventCommandCreate : EventCommandChange, cmd);
+    Event eCmd(m_bInit ? EventCommandChange : EventCommandCreate, cmd);
     eCmd.process();
+
+    m_bInit = true;
 
     Event eIcon(EventSetMainIcon, (void*)icon);
     eIcon.process();
@@ -189,7 +192,7 @@ void CommonStatus::setBarStatus(bool bFirst)
 void CommonStatus::timeout()
 {
     m_bBlink = !m_bBlink;
-    setBarStatus(false);
+    setBarStatus();
 }
 
 void CommonStatus::rebuildStatus()
@@ -248,7 +251,7 @@ void CommonStatus::rebuildStatus()
     if (ManualStatus == 0)
         ManualStatus = FirstStatus;
     CorePlugin::m_plugin->setManualStatus(ManualStatus);
-    setBarStatus(false);
+    setBarStatus();
 }
 
 void CommonStatus::checkInvisible()
@@ -278,7 +281,7 @@ void *CommonStatus::processEvent(Event *e)
     switch (e->type()){
     case EventClientChanged:
         checkInvisible();
-        setBarStatus(false);
+        setBarStatus();
         break;
     case EventClientError:{
             clientErrorData *data = (clientErrorData*)(e->param());
@@ -307,7 +310,7 @@ void *CommonStatus::processEvent(Event *e)
     case EventClientStatus:
     case EventSocketActive:
     case EventInit:
-        setBarStatus(false);
+        setBarStatus();
         break;
     case EventClientsChanged:{
             unsigned i;

@@ -144,6 +144,7 @@ void WeatherCfg::apply()
         if (m_plugin->m_bar)
             m_plugin->m_bar->show();
         m_plugin->setTime(0);
+        m_plugin->setForecastTime(0);
         QTimer::singleShot(0, m_plugin, SLOT(timeout()));
     }else{
         m_plugin->hideBar();

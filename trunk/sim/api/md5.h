@@ -79,7 +79,7 @@ extern "C" {
 #elif defined(_CRAY) || defined(__ILP64__)
 #define MD5_LONG unsigned long
 #define MD5_LONG_LOG2 3
-    /*
+/*
     * _CRAY note. I could declare short, but I have no idea what impact
     * does it have on performance on none-T3E machines. I could declare
     * int, but at least on C90 sizeof(int) can be chosen at compile time.

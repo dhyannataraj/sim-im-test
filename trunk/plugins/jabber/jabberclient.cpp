@@ -1099,7 +1099,7 @@ void JabberClient::handshake(const char *id)
             auth_digest();
         }
 #else
-        auth_plain();
+auth_plain();
 #endif
     }
 }

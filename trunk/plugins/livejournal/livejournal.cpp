@@ -1003,9 +1003,9 @@ void LiveJournalClient::setStatus(unsigned status)
     version = "Win32";
 #else
 #ifdef QT_MACOSX_VERSION
-    version = "MacOS";
+version = "MacOS";
 #else
-    version = "Qt";
+version = "Qt";
 #endif
 #endif
     version += "-" PACKAGE "/" VERSION;

@@ -205,7 +205,7 @@ void WeatherPlugin::timeout()
     if ((unsigned)now < getTime() + CHECK1_INTERVAL)
         return;
     m_bForecast = false;
-    if ((unsigned)now >= getTime() + CHECK2_INTERVAL)
+    if ((unsigned)now >= getForecastTime() + CHECK2_INTERVAL)
         m_bForecast = true;
     string url = "http://xoap.weather.com/weather/local/";
     url += getID();
@@ -257,6 +257,8 @@ bool WeatherPlugin::done(unsigned code, Buffer &data, const char*)
     time_t now;
     time(&now);
     setTime(now);
+    if (m_bForecast)
+        setForecastTime(now);
     updateButton();
     Event eUpdate(EventWeather);
     eUpdate.process();

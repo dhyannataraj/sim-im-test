@@ -25,6 +25,7 @@
 class FloatyPlugin;
 class QTimer;
 class TipLabel;
+class QPainter;
 
 class FloatyWnd : public QWidget
 {
@@ -34,11 +35,13 @@ public:
     ~FloatyWnd();
     unsigned id() { return m_id; }
     void init();
+    void startBlink();
 protected slots:
     void showTip();
     void hideTip();
     void tipDestroyed();
     void startMove();
+    void blink();
 protected:
     void paintEvent(QPaintEvent*);
     void mousePressEvent(QMouseEvent*);
@@ -50,6 +53,7 @@ protected:
     void dragEnterEvent(QDragEnterEvent*);
     void dropEvent(QDropEvent*);
     void dragEvent(QDropEvent *e, bool isDrop);
+    void setFont(QPainter *p);
     QPoint   mousePos;
     QPoint	 initMousePos;
     QString  m_text;
@@ -58,8 +62,10 @@ protected:
     unsigned m_id;
     unsigned m_style;
     unsigned m_unread;
+    unsigned m_blink;
     unsigned long m_status;
     TipLabel *m_tip;
+    QTimer	 *blinkTimer;
     QTimer	 *tipTimer;
     QTimer	 *moveTimer;
     FloatyPlugin *m_plugin;

@@ -31,12 +31,13 @@ public:
     ~CommonStatus();
 protected slots:
     void timeout();
+    void setBarStatus();
 protected:
     QTimer *m_timer;
     void *processEvent(Event*);
-    void setBarStatus(bool bFirst);
     void rebuildStatus();
     void checkInvisible();
+    bool m_bInit;
     bool m_bBlink;
     bool m_bConnected;
 };
