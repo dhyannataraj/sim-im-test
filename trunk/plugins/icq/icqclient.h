@@ -336,7 +336,7 @@ const unsigned LIST_GROUP_DELETED    = 3;
 class ListRequest
 {
 public:
-ListRequest() : type(0),icq_id(0),grp_id(0),visible_id(0),invisible_id(0),ignore_id(0) {}
+    ListRequest() : type(0),icq_id(0),grp_id(0),visible_id(0),invisible_id(0),ignore_id(0) {}
 
 public:
     unsigned        type;
@@ -426,8 +426,12 @@ protected:
     void snac(unsigned short fam, unsigned short type, bool msgId=false, bool bType=true);
     void connect_ready();
     void packet_ready();
+    void write_ready();
     bool m_bHeader;
     char m_nChannel;
+    Buffer   delayed;
+    unsigned m_time;
+    unsigned m_packets;
     unsigned short m_nSequence;
     unsigned short m_nMsgSequence;
 };
@@ -605,6 +609,7 @@ protected:
     string cryptPassword();
     virtual void connect_ready();
     virtual void packet_ready();
+    virtual void write_ready();
     const char* error_message(unsigned short error);
     ICQListener		*m_listener;
     list<ServiceSocket*> m_services;
@@ -726,6 +731,7 @@ public:
 protected:
     virtual void connect_ready();
     virtual void packet_ready();
+    virtual void write_ready();
     virtual ClientSocket *socket();
     virtual void packet();
     virtual void data(unsigned short fam, unsigned short type, unsigned short seq) = 0;

@@ -234,11 +234,19 @@ class MessageRequest : public ServerRequest
         string m_richText;
         string m_subj;
         string m_error;
+<<<<<<< jabberclient.h
         string m_contacts;
         string m_target;
         string m_desc;
         vector<string> m_targets;
         vector<string> m_descs;
+=======
+        string m_contacts;
+		string m_target;
+		string m_desc;
+		vector<string> m_targets;
+		vector<string> m_descs;
+>>>>>>> 1.28.2.1
         bool   m_bBody;
         bool   m_bRosters;
         bool   m_bError;

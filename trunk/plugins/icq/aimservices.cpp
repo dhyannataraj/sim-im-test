@@ -77,6 +77,11 @@ void ServiceSocket::packet_ready()
     OscarSocket::packet_ready();
 }
 
+void ServiceSocket::write_ready()
+{
+    OscarSocket::write_ready();
+}
+
 void ServiceSocket::packet()
 {
     log_packet(m_socket->readBuffer, false,ICQPlugin::icq_plugin->OscarPacket);

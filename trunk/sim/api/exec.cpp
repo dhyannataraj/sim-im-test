@@ -62,12 +62,18 @@ Exec::Exec()
 Exec::~Exec()
 {
 #ifdef WIN32
-    if (errThread)
+    if (errThread){
+        errThread->wait(2000);
         delete errThread;
-    if (outThread)
+    }
+    if (outThread){
+        outThread->wait(2000);
         delete outThread;
-    if (thread)
+    }
+    if (thread){
+        thread->wait(2000);
         delete thread;
+    }
 #endif
 }
 
