@@ -43,6 +43,7 @@
 #include "tmpl.h"
 #include "autoreply.h"
 #include "textshow.h"
+#include "filetransfer.h"
 
 #include <qtimer.h>
 #include <qapplication.h>
@@ -226,6 +227,7 @@ static DataDef coreData[] =
         { "Unread", DATA_STRING, 1, 0 },
         { "NoShowAutoReply", DATA_STRLIST, 1, 0 },
         { "SortLexic", DATA_BOOL, 1, 0 },
+        { "CloseTransfer", DATA_BOOL, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -1310,6 +1312,24 @@ void *CorePlugin::processEvent(Event *e)
             Contact *contact = (Contact*)(e->param());
             if (contact->getIgnore())
                 clearUnread(contact->id());
+            return NULL;
+        }
+    case EventMessageAcked:{
+            Message *msg = (Message*)(e->param());
+            unsigned type = msg->type();
+            for (;;){
+                CommandDef *def = messageTypes.find(type);
+                if (def == NULL)
+                    break;
+                MessageDef *mdef = (MessageDef*)(def->param);
+                if (mdef->base_type == 0)
+                    break;
+                type = mdef->base_type;
+            }
+            if (type == MessageFile){
+                QWidget *w = new FileTransferDlg(static_cast<FileMessage*>(msg));
+                raiseWindow(w);
+            }
             return NULL;
         }
     case EventMessageReceived:{

@@ -21,15 +21,41 @@
 #include "simapi.h"
 #include "filetransferbase.h"
 
-class FileTransferDlg : public FileTransferBase, public EventReceiver
+class QTimer;
+
+class FileTransferDlg : public FileTransferBase
 {
     Q_OBJECT
 public:
     FileTransferDlg(FileMessage*);
     ~FileTransferDlg();
+protected slots:
+    void speedChanged(int);
+    void closeToggled(bool);
+    void timeout();
 protected:
-    void *processEvent(Event *e);
-    FileMessage *m_msg;
+    void process();
+    void notifyDestroyed();
+    void printTime();
+    void transfer(bool);
+    void calcSpeed();
+    void setBars();
+    FileMessage	*m_msg;
+    QTimer	*m_timer;
+    unsigned m_time;
+    unsigned m_file;
+    bool     m_bTransfer;
+    unsigned m_transferTime;
+    unsigned m_transferBytes;
+    unsigned m_speed;
+    unsigned m_nAverage;
+    unsigned m_files;
+    unsigned m_bytes;
+    unsigned m_fileSize;
+    unsigned m_totalBytes;
+    unsigned m_totalSize;
+    FileTransfer::State m_state;
+    friend class FileTransferDlgNotify;
 };
 
 #endif

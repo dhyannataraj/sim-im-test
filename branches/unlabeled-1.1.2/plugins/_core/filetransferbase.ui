@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>356</width>
+            <width>352</width>
             <height>263</height>
         </rect>
     </property>
@@ -51,7 +51,7 @@
                     </property>
                     <property>
                         <name>text</name>
-                        <string>Close after send</string>
+                        <string>Close after &amp;transfer</string>
                     </property>
                 </widget>
                 <spacer>

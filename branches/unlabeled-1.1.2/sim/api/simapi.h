@@ -917,6 +917,7 @@ public:
     FileTransferNotify() {}
     virtual ~FileTransferNotify() {}
     virtual void process() = 0;
+    virtual void transfer(bool) = 0;
 };
 
 const unsigned NO_FILE	= (unsigned)(-1);
@@ -930,10 +931,11 @@ public:
     unsigned file()			{ return m_file; }
     unsigned files()		{ return m_files; }
     unsigned bytes()		{ return m_bytes; }
+    unsigned totalBytes()	{ return m_totalBytes; }
     unsigned fileSize()		{ return m_fileSize; }
     unsigned totalSize()	{ return m_totalSize; }
-    unsigned realSpeed()	{ return m_realSpeed; }
     unsigned speed()		{ return m_speed; }
+    unsigned transferBytes()	{ return m_transferBytes; }
     virtual void setSpeed(unsigned speed);
     enum State
     {
@@ -956,8 +958,8 @@ protected:
     unsigned m_totalBytes;
     unsigned m_fileSize;
     unsigned m_totalSize;
-    unsigned m_realSpeed;
     unsigned m_speed;
+    unsigned m_transferBytes;
     State	 m_state;
 };
 
