@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
-"POT-Creation-Date: 2002-11-25 10:46+0300\n"
+"POT-Creation-Date: 2002-11-26 11:38+0300\n"
 "PO-Revision-Date: 2002-11-25 11:30+0200\n"
 "Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -1657,7 +1657,7 @@ msgstr "Колір тексту"
 msgid "Enter to chat"
 msgstr "Зайшов в чат"
 
-#: chatwnd.cpp:351 ui/filetransfer.cpp:238
+#: chatwnd.cpp:351 ui/filetransfer.cpp:250
 #, c-format
 msgid "Can't create %1"
 msgstr "Не можу створити %1"
@@ -1674,11 +1674,11 @@ msgstr "Останній раз в мережі"
 msgid "Online"
 msgstr "В мережі"
 
-#: dock.cpp:486 mainwin.cpp:755
+#: dock.cpp:486 mainwin.cpp:762
 msgid "%1 from %2"
 msgstr "%1 від %2"
 
-#: dock.cpp:499 mainwin.cpp:1924
+#: dock.cpp:499 mainwin.cpp:1931
 msgid "Connecting"
 msgstr "З'єднання"
 
@@ -1686,324 +1686,326 @@ msgstr "З'єднання"
 msgid "Spell check"
 msgstr "Перевірка орфографії"
 
-#: mainwin.cpp:522
+#: mainwin.cpp:529
 msgid "Show &offline"
 msgstr "Показувати користувачів не в &мережі"
 
-#: mainwin.cpp:523
+#: mainwin.cpp:530
 msgid "&Group mode"
 msgstr "Показувати &групи"
 
-#: mainwin.cpp:525 mainwin.cpp:2669 usertbl.cpp:113
+#: mainwin.cpp:532 mainwin.cpp:2676 usertbl.cpp:113
 msgid "Status"
 msgstr "Статус"
 
-#: mainwin.cpp:526
+#: mainwin.cpp:533
 msgid "&Menu"
 msgstr "&Меню"
 
-#: mainwin.cpp:528 mainwin.cpp:2665
+#: mainwin.cpp:535 mainwin.cpp:2672
 msgid "Find User"
 msgstr "Пошук користувача"
 
-#: mainwin.cpp:529 mainwin.cpp:2666
+#: mainwin.cpp:536 mainwin.cpp:2673
 msgid "Add Non-IM contact"
 msgstr "Додати зовнішній контакт"
 
-#: mainwin.cpp:530 mainwin.cpp:2667
+#: mainwin.cpp:537 mainwin.cpp:2674
 msgid "Send SMS"
 msgstr "Відправити SMS"
 
-#: mainwin.cpp:531 mainwin.cpp:2671 ui/setupdlg.cpp:104
+#: mainwin.cpp:538 mainwin.cpp:2678 ui/setupdlg.cpp:104
 msgid "Setup"
 msgstr "Налагодження"
 
-#: mainwin.cpp:532 mainwin.cpp:2686 monitor.cpp:59
+#: mainwin.cpp:539 mainwin.cpp:2693 monitor.cpp:59
 msgid "Network monitor"
 msgstr "Монітор мережі"
 
-#: mainwin.cpp:613
+#: mainwin.cpp:620
 msgid "Current location"
 msgstr "Зараз знаходжусь"
 
-#: mainwin.cpp:614
+#: mainwin.cpp:621
 msgid "Phone status"
 msgstr "Телефон"
 
-#: mainwin.cpp:616
+#: mainwin.cpp:623
 msgid "Phone Book"
 msgstr "Телефонна книжка"
 
-#: mainwin.cpp:1152
+#: mainwin.cpp:1159
 msgid "%1 from %2 received"
 msgstr "%1 від %2"
 
-#: mainwin.cpp:1223 ui/logindlg.cpp:140
+#: mainwin.cpp:1230 ui/logindlg.cpp:140
 msgid "Can't connect to proxy server"
-msgstr "Неможливо з'єднатися з проксі-сервером"
+msgstr ""
+"Неможливо з'єднатися з проксі-сервером"
 
-#: mainwin.cpp:1229 ui/logindlg.cpp:147
+#: mainwin.cpp:1236 ui/logindlg.cpp:147
 msgid "Proxy server require authorization"
 msgstr "Проксі-сервер вимагає авторизацію"
 
-#: mainwin.cpp:1230 ui/logindlg.cpp:148
+#: mainwin.cpp:1237 ui/logindlg.cpp:148
 msgid "Invalid password for proxy"
 msgstr ""
 "Помилковий пароль для доступу до "
 "прокси-сервера"
 
-#: mainwin.cpp:1242
+#: mainwin.cpp:1249
 msgid "Your UIN used from another location"
 msgstr ""
 "Ваш UIN використовується з іншого "
 "комп'ютера"
 
-#: mainwin.cpp:1296
+#: mainwin.cpp:1303
 msgid "%1 is online"
 msgstr "%1 в мережі"
 
-#: mainwin.cpp:1900 mainwin.cpp:2240 ui/enable.cpp:122
+#: mainwin.cpp:1907 mainwin.cpp:2247 ui/enable.cpp:122
 msgid "&Yes"
 msgstr "&Так"
 
-#: mainwin.cpp:1901 mainwin.cpp:2241
+#: mainwin.cpp:1908 mainwin.cpp:2248
 msgid "&No"
 msgstr "&Ні"
 
-#: mainwin.cpp:1902
+#: mainwin.cpp:1909
 msgid "Add %1 to ignore list ?"
-msgstr "Додати \"%1\" в список тих що ігноруються?"
+msgstr ""
+"Додати \"%1\" в список тих що ігноруються?"
 
-#: mainwin.cpp:1966
+#: mainwin.cpp:1973
 msgid "In visible list"
 msgstr "В списку видимих"
 
-#: mainwin.cpp:1968
+#: mainwin.cpp:1975
 msgid "In invisible list"
 msgstr "В списку невидимих"
 
-#: mainwin.cpp:1971
+#: mainwin.cpp:1978
 msgid "In ignore list"
 msgstr "В списку ігнорованих"
 
-#: mainwin.cpp:1987 mainwin.cpp:2672
+#: mainwin.cpp:1994 mainwin.cpp:2679
 msgid "Groups"
 msgstr "Групи"
 
-#: mainwin.cpp:1988 usertbl.cpp:391 userview.cpp:1348
+#: mainwin.cpp:1995 usertbl.cpp:391 userview.cpp:1348
 msgid "Delete"
 msgstr "Знищити"
 
-#: mainwin.cpp:1989 userview.cpp:556 userview.cpp:1349
+#: mainwin.cpp:1996 userview.cpp:556 userview.cpp:1349
 msgid ""
 "_: Del\n"
 "Delete"
 msgstr "Del"
 
-#: mainwin.cpp:1993
+#: mainwin.cpp:2000
 msgid "&User info"
 msgstr "&Інформація про користувача"
 
-#: mainwin.cpp:1994
+#: mainwin.cpp:2001
 msgid ""
 "_: Ctrl+U\n"
 "UserInfo"
 msgstr "Ctrl+U"
 
-#: mainwin.cpp:1995
+#: mainwin.cpp:2002
 msgid "&History"
 msgstr "Істо&рія"
 
-#: mainwin.cpp:1996
+#: mainwin.cpp:2003
 msgid ""
 "_: Ctrl+H\n"
 "History"
 msgstr "Ctrl+H"
 
-#: mainwin.cpp:1998 ui/setupdlg.cpp:136 ui/userinfo.cpp:90
+#: mainwin.cpp:2005 ui/setupdlg.cpp:136 ui/userinfo.cpp:90
 msgid "Alert"
 msgstr "Попередження"
 
-#: mainwin.cpp:1999
+#: mainwin.cpp:2006
 msgid ""
 "_: Ctrl+L\n"
 "Alert"
 msgstr "Ctrl+L"
 
-#: mainwin.cpp:2000 ui/acceptbase.cpp:137
+#: mainwin.cpp:2007 ui/acceptbase.cpp:137
 msgid "Accept mode"
 msgstr "Прийом файлів"
 
-#: mainwin.cpp:2001
+#: mainwin.cpp:2008
 msgid ""
 "_: Ctrl+A\n"
 "Accept"
 msgstr "Ctrl+A"
 
-#: mainwin.cpp:2002 ui/setupdlg.cpp:135 ui/userinfo.cpp:92
+#: mainwin.cpp:2009 ui/setupdlg.cpp:135 ui/userinfo.cpp:92
 msgid "Sound"
 msgstr "Звук"
 
-#: mainwin.cpp:2003
+#: mainwin.cpp:2010
 msgid ""
 "_: Ctrl+S\n"
 "Sound"
 msgstr "Ctrl+S"
 
-#: mainwin.cpp:2006
+#: mainwin.cpp:2013
 msgid "Floating off"
 msgstr "Вимкнути плаваюче вікно"
 
-#: mainwin.cpp:2006
+#: mainwin.cpp:2013
 msgid "Floating on"
 msgstr "Ввімкнути плаваюче вікно"
 
-#: mainwin.cpp:2007
+#: mainwin.cpp:2014
 msgid ""
 "_: Ctrl+T\n"
 "Floating"
 msgstr "Ctrl+T"
 
-#: mainwin.cpp:2010
+#: mainwin.cpp:2017
 msgid "Users"
 msgstr "Користувачі"
 
-#: mainwin.cpp:2011 ui/aboutdlgbase.cpp:131 ui/enable.cpp:125
+#: mainwin.cpp:2018 ui/aboutdlgbase.cpp:131 ui/enable.cpp:125
 #: ui/filetransfer.cpp:156 ui/finddlgbase.cpp:66 ui/logindlgbase.cpp:83
 #: ui/proxydlgbase.cpp:58 ui/securedlg.cpp:56 ui/setupdlgbase.cpp:99
 #: ui/toolsetupbase.cpp:113 ui/userautoreply.cpp:76
 msgid "&Close"
 msgstr "&Закрити"
 
-#: mainwin.cpp:2012
+#: mainwin.cpp:2019
 msgid ""
 "_: Ctrl+C\n"
 "Close"
 msgstr "Ctrl+C"
 
-#: mainwin.cpp:2014
+#: mainwin.cpp:2021
 msgid "Alphabetically sort"
 msgstr "За абеткою"
 
-#: mainwin.cpp:2015
+#: mainwin.cpp:2022
 msgid ""
 "_: Ctrl+B\n"
 "Alphabetically sort"
 msgstr "Ctrl+B"
 
-#: mainwin.cpp:2242
+#: mainwin.cpp:2249
 msgid "Delete %1?"
 msgstr "Знищити \"%1\"?"
 
-#: mainwin.cpp:2406
+#: mainwin.cpp:2413
 msgid "New"
 msgstr "Нове"
 
-#: mainwin.cpp:2409
+#: mainwin.cpp:2416
 msgid "To container"
 msgstr "В контейнер"
 
-#: mainwin.cpp:2414
+#: mainwin.cpp:2421
 msgid "Read %1 message"
 msgstr "%1 автовідповідь"
 
-#: client.cpp:1070 mainwin.cpp:2647
+#: client.cpp:1070 mainwin.cpp:2654
 msgid "Invisible"
 msgstr "Невидимий"
 
-#: mainwin.cpp:2650
+#: mainwin.cpp:2657
 msgid "Don't show"
 msgstr "Не показувати"
 
-#: mainwin.cpp:2651
+#: mainwin.cpp:2658
 msgid "Available"
 msgstr "Доступний"
 
-#: mainwin.cpp:2652
+#: mainwin.cpp:2659
 msgid "Busy"
 msgstr "Зайнятий"
 
-#: mainwin.cpp:2655 userview.cpp:1350
+#: mainwin.cpp:2662 userview.cpp:1350
 msgid "Create group"
 msgstr "Створити групу"
 
-#: mainwin.cpp:2657 userview.cpp:1359
+#: mainwin.cpp:2664 userview.cpp:1359
 msgid "Expand all"
 msgstr "Розгорнути всі групи"
 
-#: mainwin.cpp:2658 userview.cpp:1361
+#: mainwin.cpp:2665 userview.cpp:1361
 msgid "Collapse all"
 msgstr "Згорнути всі групи"
 
-#: mainwin.cpp:2660 toolbtn.cpp:684
+#: mainwin.cpp:2667 toolbtn.cpp:684
 msgid "Customize toolbar..."
 msgstr "Налаштування панелі інструментів"
 
-#: mainwin.cpp:2663
+#: mainwin.cpp:2670
 msgid "ICQ"
 msgstr "ICQ"
 
-#: mainwin.cpp:2673
+#: mainwin.cpp:2680
 msgid "Phone \"Follow Me\""
 msgstr "Телефонний сервіс"
 
-#: mainwin.cpp:2675
+#: mainwin.cpp:2682
 msgid "Shared files"
 msgstr "Спільні файли"
 
-#: mainwin.cpp:2679
+#: mainwin.cpp:2686
 msgid "Always on top"
 msgstr "Завжди зверху"
 
-#: mainwin.cpp:2683
+#: mainwin.cpp:2690
 msgid "Synchronize with KDE address book"
 msgstr "Синхронізувати з адресною книгою KDE"
 
-#: mainwin.cpp:2687
+#: mainwin.cpp:2694
 msgid "&Bug report"
 msgstr "&Повідомлення про помилки"
 
-#: mainwin.cpp:2688
+#: mainwin.cpp:2695
 msgid "&About SIM"
 msgstr "Про &додаток SIM"
 
-#: mainwin.cpp:2690
+#: mainwin.cpp:2697
 msgid "About &KDE"
 msgstr "Про &KDE"
 
-#: mainwin.cpp:2693
+#: mainwin.cpp:2700
 msgid "Quit"
 msgstr "Вихід"
 
-#: _translatorinfo.cpp:1 mainwin.cpp:2909
+#: _translatorinfo.cpp:1 mainwin.cpp:2916
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
 msgstr "Іван Крутиголова"
 
-#: _translatorinfo.cpp:3 mainwin.cpp:2910
+#: _translatorinfo.cpp:3 mainwin.cpp:2917
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
 msgstr "ivan@city.gov.te.ua"
 
-#: mainwin.cpp:2933
+#: mainwin.cpp:2940
 msgid "light"
 msgstr "легкий"
 
-#: mainwin.cpp:2937
+#: mainwin.cpp:2944
 msgid "demibold"
 msgstr "напівжирний"
 
-#: mainwin.cpp:2941
+#: mainwin.cpp:2948
 msgid "bold"
 msgstr "жирний"
 
-#: mainwin.cpp:2945
+#: mainwin.cpp:2952
 msgid "black"
 msgstr "темний"
 
-#: mainwin.cpp:2952
+#: mainwin.cpp:2959
 msgid "italic"
 msgstr "курсив"
 
@@ -2111,7 +2113,7 @@ msgstr "Телефон:"
 msgid "URL:"
 msgstr "URL:"
 
-#: msgedit.cpp:194 msgedit.cpp:1356 msgview.cpp:202
+#: msgedit.cpp:194 msgedit.cpp:1352 msgview.cpp:202
 msgid "File"
 msgstr "Файл"
 
@@ -2124,60 +2126,61 @@ msgid "Sending"
 msgstr "Посилка"
 
 #: msgedit.cpp:361 ui/addphonebase.cpp:106 ui/emaileditbase.cpp:64
-#: ui/enable.cpp:125 ui/filetransfer.cpp:234 ui/filetransferbase.cpp:117
+#: ui/enable.cpp:125 ui/filetransfer.cpp:246 ui/filetransferbase.cpp:117
 #: ui/securedlgbase.cpp:47
 msgid "&Cancel"
 msgstr "&Відмінити"
 
-#: msgedit.cpp:499
+#: msgedit.cpp:495
 msgid "No files for transfer"
 msgstr "Нема файлів для відправки"
 
-#: msgedit.cpp:517
+#: msgedit.cpp:513
 msgid "Transfer started"
 msgstr "Відправка файлу почалась"
 
-#: msgedit.cpp:520
+#: msgedit.cpp:516
 msgid "Chat started"
 msgstr "Чат почавсь"
 
-#: msgedit.cpp:589
+#: msgedit.cpp:585
 msgid "Message sent"
 msgstr "Повідомлення відіслано"
 
-#: msgedit.cpp:592
+#: msgedit.cpp:588
 msgid "Send failed"
 msgstr "Помилка відправки"
 
-#: msgedit.cpp:860
+#: msgedit.cpp:856
 msgid "Next"
 msgstr "Наступний"
 
-#: msgedit.cpp:871
+#: msgedit.cpp:867
 msgid "&New message"
 msgstr "&Нове повідомлення"
 
-#: msgedit.cpp:913
+#: msgedit.cpp:909
 msgid "%1 (ICQ# %2) wrote:<br>\n"
 msgstr "%1 (ICQ# %2) пише:<br>\n"
 
-#: msgedit.cpp:1166
+#: msgedit.cpp:1162
 msgid "Save to"
 msgstr "Зберегти в"
 
-#: msgedit.cpp:1552
+#: msgedit.cpp:1548
 msgid "Size: %1 / Max. size: %2"
 msgstr "Розмір: %1 / Максимальний: %2"
 
-#: msgedit.cpp:1556
+#: msgedit.cpp:1552
 msgid "Message will be split"
-msgstr "Повідомлення буде розділено на частини"
+msgstr ""
+"Повідомлення буде розділено на частини"
 
-#: msgedit.cpp:1731
+#: msgedit.cpp:1729
 msgid "Decline reason"
 msgstr "Причина відмови"
 
-#: msgedit.cpp:1731
+#: msgedit.cpp:1729
 msgid "Please, input decline reason:"
 msgstr "Введіть причину відмови:"
 
@@ -2527,23 +2530,39 @@ msgstr "[виконано]"
 msgid "[fail]"
 msgstr "[помилка]"
 
-#: ui/filetransfer.cpp:233 ui/filetransfer.cpp:252
+#: ui/filetransfer.cpp:201
+#, fuzzy
+msgid "Receive file %1 of %2 files from %3"
+msgstr ""
+"Прийом файлу від %1\n"
+"Прийом %n файлів від %1\n"
+"Прийом %n файлів від %1"
+
+#: ui/filetransfer.cpp:203
+#, fuzzy
+msgid "Send file %1 of %2 files to %3"
+msgstr ""
+"Передача файлу %1\n"
+"Передача %n файлів %1\n"
+"Передача %n файлів %1"
+
+#: ui/filetransfer.cpp:245 ui/filetransfer.cpp:264
 msgid "&New"
 msgstr "&Новий"
 
-#: ui/filetransfer.cpp:250
+#: ui/filetransfer.cpp:262
 msgid "&Replace"
 msgstr "&Замінити"
 
-#: ui/filetransfer.cpp:251
+#: ui/filetransfer.cpp:263
 msgid "R&esume"
 msgstr "&Відновити"
 
-#: ui/filetransfer.cpp:253
+#: ui/filetransfer.cpp:265
 msgid "&Skip"
 msgstr "&Пропустити"
 
-#: ui/filetransfer.cpp:257
+#: ui/filetransfer.cpp:269
 msgid "File %1 exist"
 msgstr "File %1 існує"
 
@@ -3120,7 +3139,8 @@ msgstr "Режим користувача для прийому файлів"
 # #
 #: ui/acceptbase.cpp:109 ui/msgbase.cpp:94
 msgid "Automaitcaly open window"
-msgstr "Автоматично відкривати вікно повідомлень"
+msgstr ""
+"Автоматично відкривати вікно повідомлень"
 
 #: ui/acceptbase.cpp:113 ui/msgbase.cpp:98
 msgid "Run external program"
@@ -3631,7 +3651,8 @@ msgstr "&Прозорість"
 
 #: ui/themesetupbase.cpp:141
 msgid "Show main window in task manager"
-msgstr "Показувати основне вікно в панелі задач"
+msgstr ""
+"Показувати основне вікно в панелі задач"
 
 #: ui/themesetupbase.cpp:145
 msgid "Show user window in task manager"
@@ -3666,7 +3687,8 @@ msgid "Hide main window after"
 msgstr "Сховати головне вікно"
 
 #: ui/statussetupbase.cpp:88
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Заборонити попередження в стані "
 "\"Відійшов\", \"Не активний\", \"Зайнятий\""
@@ -3837,7 +3859,8 @@ msgstr ""
 
 #: ui/generalsecbase.cpp:123
 msgid "Reject &URL from unknown users"
-msgstr "Відкидати &URL від невідомих користувачів"
+msgstr ""
+"Відкидати &URL від невідомих користувачів"
 
 #: ui/generalsecbase.cpp:127
 msgid "Reject &World Wide pager messages"
@@ -3869,11 +3892,12 @@ msgid ""
 "* - any amount of symbols (or is empty)\n"
 "? - any symbol"
 msgstr ""
-"Слова розділяються будь-якими розділювачами (пробіл, кома і т.д.)"
-"Фраза (послідовність слів) береться в лапки"
-"Слова можуть містити наступні маски:"
-"* - будь-яка послідовність символів (або пустота)"
-"? - будь-який символ"
+"Слова розділяються будь-якими "
+"розділювачами (пробіл, кома і т.д.)Фраза "
+"(послідовність слів) береться в "
+"лапкиСлова можуть містити наступні "
+"маски:* - будь-яка послідовність символів "
+"(або пустота)? - будь-який символ"
 
 #: ui/generalsecbase.cpp:158
 msgid "Spam &filter"
@@ -3943,7 +3967,8 @@ msgstr "..."
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr "Ця програма поширюється під ліцензією GPL v2"
+msgstr ""
+"Ця програма поширюється під ліцензією GPL v2"
 
 #: client.cpp:54
 msgid "Unicode"
@@ -4593,4 +4618,3 @@ msgstr "? Невідомий статус %1"
 
 #~ msgid "Spell"
 #~ msgstr "Проверка орфографии"
-
