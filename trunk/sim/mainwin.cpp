@@ -1062,7 +1062,7 @@ void MainWindow::setup()
 void MainWindow::phonebook()
 {
     if (setupDlg == NULL)
-        setupDlg = new SetupDialog(this, 18);
+        setupDlg = new SetupDialog(this, 108);
     setupDlg->show();
 #if USE_KDE
     KWin::setOnDesktop(setupDlg->winId(), KWin::currentDesktop());

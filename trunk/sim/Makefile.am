@@ -13,7 +13,7 @@ EXTRA_DIST = sim.desktop lo32-app-sim.png lo16-app-sim.png client.cpp client.h c
 install-data-local:
 	$(mkinstalldirs) $(kde_appsdir)/Internet/
 	$(INSTALL_DATA) $(srcdir)/sim.desktop $(kde_appsdir)/Internet/sim.desktop
-	if test -f $(kde_appsdir)/Applications/sim.desktop ; then rm $(kde_appsdir)/Applications/sim.desktop
+	if test -f $(kde_appsdir)/Applications/sim.desktop ; then rm $(kde_appsdir)/Applications/sim.desktop ; fi
 	$(mkinstalldirs) $(kde_icondir)/locolor/32x32/apps/
 	$(INSTALL_DATA) $(srcdir)/lo32-app-sim.png $(kde_icondir)/locolor/32x32/apps/sim.png
 	$(mkinstalldirs) $(kde_icondir)/locolor/16x16/apps/
