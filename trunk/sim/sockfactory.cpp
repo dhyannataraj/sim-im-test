@@ -637,7 +637,7 @@ void IPResolver::start_resolve()
 {
     if (resolver && resolver->isWorking()) return;
     struct in_addr inaddr;
-    while (true){
+    for(;;) {
         if (queue.empty())
             return;
         IP *ip = *queue.begin();
