@@ -148,6 +148,32 @@ static rtf_charset _rtf_charsets[] =
 
 const rtf_charset *rtf_charsets = _rtf_charsets;
 
+typedef struct rtf_cp
+{
+	unsigned cp;
+	unsigned charset;
+} rtf_cp;
+
+rtf_cp rtf_cps[] = 
+{
+{ 737, 161 },
+{ 855, 204 },
+{ 857, 162 },
+{ 862, 177 },
+{ 864, 180 }, 
+{ 866, 204 },
+{ 869, 161 },
+{ 875, 161 },
+{ 932, 128 },
+{ 1026, 162 },
+{ 1250, 238 },
+{ 1251, 204 },
+{ 1253, 161 },
+{ 1254, 162 },
+{ 1255, 177 },
+{ 0, 0 }
+};
+
 string ICQClient::createRTF(const UTFstring &text, unsigned long foreColor, const char *encoding)
 {
 	int charset = 0;
@@ -157,6 +183,21 @@ string ICQClient::createRTF(const UTFstring &text, unsigned long foreColor, cons
 			break;
 		}
 	}
+#ifdef WIN32
+	if (charset == 0){
+		char buff[256];
+	    int res = GetLocaleInfoA(LOCALE_USER_DEFAULT, LOCALE_IDEFAULTANSICODEPAGE, (char*)&buff, sizeof(buff));
+		if (res){
+			unsigned codepage = atol(buff);
+			if (codepage){
+				for (const rtf_cp *c = rtf_cps; c->cp; c++){
+					if (c->cp == codepage)
+						charset = c->charset;
+				}
+			}
+		}
+	}
+#endif
 	const char *send_encoding = 0;
 	if (charset){
 		for (const rtf_charset *c = rtf_charsets; c->rtf_code; c++){
