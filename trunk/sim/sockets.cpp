@@ -66,6 +66,7 @@ ICQClientSocket::ICQClientSocket(QSocket *s)
 #ifdef HAVE_KEXTSOCK_H
         sock = new KExtendedSocket;
     sock->setSocketFlags(KExtendedSocket::bufferedSocket | KExtendedSocket::inetSocket);
+    sock->setBlockingMode(false);
 #else
         sock = new QSocket(this);
     bConnected = false;
@@ -151,6 +152,7 @@ void ICQClientSocket::connect(const char *host, int _port)
     port = _port;
     log(L_DEBUG, "Connect to %s:%u", host, port);
 #ifdef HAVE_KEXTSOCK_H
+	sock->setBlockingMode(true);
     sock->setAddress(host, port);
     sock->enableRead(true);
 	sock->enableWrite(true);
