@@ -74,6 +74,8 @@ void HistoryProgressBar::setProgress(unsigned n)
 
 HistoryWindow::HistoryWindow(unsigned id)
 {
+    m_history_page_count=CorePlugin::m_plugin->getHistoryPage();
+
     setWFlags(WDestructiveClose);
     m_id = id;
     SET_WNDPROC("history")
@@ -261,7 +263,7 @@ void HistoryWindow::fill()
         m_status->addWidget(m_progress, 1);
     }
     m_it->setFilter(m_filter);
-    m_progress->setTotalSteps(CorePlugin::m_plugin->getHistoryPage());
+    m_progress->setTotalSteps(m_history_page_count);
     m_progress->setProgress(0);
     m_progress->show();
     m_nMessages = 0;
@@ -291,7 +293,7 @@ void HistoryWindow::fill()
 
 void HistoryWindow::next()
 {
-    if (m_it == NULL)
+    if ( (m_it == NULL) || (m_nMessages) )
         return;
     time_t start;
     bool bAdd = false;
@@ -307,7 +309,8 @@ void HistoryWindow::next()
         }else{
             msg = ++(*m_it);
         }
-        if (++m_nMessages > CorePlugin::m_plugin->getHistoryPage()){
+
+        if (++m_nMessages > m_history_page_count){
             if (msg){
                 Command cmd;
                 cmd->id		= CmdHistoryNext;
@@ -316,9 +319,11 @@ void HistoryWindow::next()
                 Event eNext(EventCommandDisabled, cmd);
                 eNext.process();
                 msg = NULL;
-                m_states.push_back(state);
+                if (m_page+1>=m_states.size())
+                   m_states.push_back(state);
             }
         }
+
         if (msg == NULL)
             break;
         bAdd = true;
@@ -373,4 +378,3 @@ void HistoryWindow::addHistory(const QString &str)
 #ifndef WIN32
 #include "historywnd.moc"
 #endif
-

@@ -57,7 +57,7 @@ protected:
     unsigned m_id;
     unsigned m_page;
     vector<string> m_states;
+    unsigned m_history_page_count;
 };
 
 #endif
-
