@@ -144,6 +144,7 @@ string HomeDirPlugin::defaultPath()
 #else
     s += ".sim";
 #endif
+   fprintf(stderr, "defPath %s\n", s.c_str());
 #else
     char szPath[1024];
     szPath[0] = 0;
