@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
-"POT-Creation-Date: 2003-11-24 00:30+0300\n"
+"POT-Creation-Date: 2003-11-26 10:03+0300\n"
 "PO-Revision-Date: 2003-11-03 14:12-0200\n"
 "Last-Translator: Carlos Tadeu Panato Jr. <ctpj@terra.com.br>\n"
 "Language-Team: Brazilian Portuguese\n"
@@ -2938,7 +2938,7 @@ msgid "We are to evil :("
 msgstr "Vocę é um demônio :("
 
 # plugins/icq/icqicmb.cpp:632 plugins/jabber/jabber_rosters.cpp:1733
-#: plugins/icq/icqicmb.cpp:650 plugins/jabber/jabber_rosters.cpp:1733
+#: plugins/icq/icqicmb.cpp:650 plugins/jabber/jabber_rosters.cpp:1831
 #, fuzzy
 msgid "File transfer declined"
 msgstr "Transferência de arquivo concluída"
@@ -3327,13 +3327,15 @@ msgstr "UIN"
 
 # plugins/icq/icqsecure.cpp:125 plugins/jabber/addresult.cpp:30
 #: plugins/icq/icqsecure.cpp:125 plugins/jabber/addresult.cpp:30
+#: plugins/jabber/jabbersearch.cpp:91
 msgid "Nick"
 msgstr "Apelido"
 
 # plugins/_core/maininfo.cpp:69 plugins/filter/ignorelist.cpp:28
 # plugins/icq/icqsecure.cpp:127 plugins/msn/msninfobase.cpp:161
 #: plugins/_core/maininfo.cpp:69 plugins/filter/ignorelist.cpp:28
-#: plugins/icq/icqsecure.cpp:127 plugins/msn/msninfobase.cpp:161
+#: plugins/icq/icqsecure.cpp:127 plugins/jabber/jabbersearch.cpp:92
+#: plugins/msn/msninfobase.cpp:161
 msgid "EMail"
 msgstr "Email"
 
@@ -3623,12 +3625,12 @@ msgid "Home automation"
 msgstr "Automação residencial"
 
 # plugins/icq/moreinfo.cpp:85
-#: plugins/icq/moreinfo.cpp:85
+#: plugins/icq/moreinfo.cpp:85 plugins/jabber/jabbersearch.cpp:145
 msgid "Female"
 msgstr "Feminino"
 
 # plugins/icq/moreinfo.cpp:86
-#: plugins/icq/moreinfo.cpp:86
+#: plugins/icq/moreinfo.cpp:86 plugins/jabber/jabbersearch.cpp:144
 msgid "Male"
 msgstr "Masculino"
 
@@ -4842,7 +4844,7 @@ msgid "AIM user"
 msgstr "Usuário AIM"
 
 # plugins/icq/icqsearchbase.cc:348
-#: plugins/icq/icqsearchbase.cc:348
+#: plugins/icq/icqsearchbase.cc:348 plugins/jabber/jabbersearch.cpp:139
 msgid "Online only"
 msgstr "Apenas os \"Online\""
 
@@ -5022,26 +5024,26 @@ msgstr "&Usar fontes do sistema"
 msgid "Base font:"
 msgstr "Fonte base"
 
-# plugins/_core/fontconfigbase.cpp:131
-#: plugins/_core/fontconfigbase.cpp:131 plugins/styles/fontconfigbase.cpp:161
-msgid "Menu font:"
-msgstr "Fonte do menu"
-
-# plugins/_core/userviewcfgbase.cc:180 plugins/_core/userviewcfgbase.cpp:223
-#: plugins/_core/userviewcfgbase.cpp:223 plugins/styles/fontconfigbase.cpp:162
-msgid "Use system &colors"
-msgstr "&Utilizar cor de sistema"
+# plugins/osd/osdifacebase.cpp:194
+#: plugins/osd/osdifacebase.cpp:194 plugins/styles/fontconfigbase.cpp:161
+msgid "Background color:"
+msgstr "Cor de fundo:"
 
 # plugins/osd/osdifacebase.cpp:194
-#: plugins/styles/fontconfigbase.cpp:163
+#: plugins/styles/fontconfigbase.cpp:162
 #, fuzzy
 msgid "Button color:"
 msgstr "Cor de fundo:"
 
-# plugins/osd/osdifacebase.cpp:194
-#: plugins/osd/osdifacebase.cpp:194 plugins/styles/fontconfigbase.cpp:164
-msgid "Background color:"
-msgstr "Cor de fundo:"
+# plugins/_core/userviewcfgbase.cc:180 plugins/_core/userviewcfgbase.cpp:223
+#: plugins/_core/userviewcfgbase.cpp:223 plugins/styles/fontconfigbase.cpp:163
+msgid "Use system &colors"
+msgstr "&Utilizar cor de sistema"
+
+# plugins/_core/fontconfigbase.cpp:131
+#: plugins/_core/fontconfigbase.cpp:131 plugins/styles/fontconfigbase.cpp:164
+msgid "Menu font:"
+msgstr "Fonte do menu"
 
 #: plugins/styles/styles.cpp:51
 #, fuzzy
@@ -7914,17 +7916,19 @@ msgid "New version SIM is released"
 msgstr "Nova versão do SIM foi liberada"
 
 # plugins/jabber/addresult.cpp:31 plugins/jabber/jabbersearch.cpp:181
-#: plugins/jabber/addresult.cpp:31 plugins/jabber/jabbersearch.cpp:181
+#: plugins/jabber/addresult.cpp:31 plugins/jabber/jabbersearch.cpp:93
+#: plugins/jabber/jabbersearch.cpp:213
 msgid "First name"
 msgstr "Nome"
 
 # plugins/jabber/addresult.cpp:32 plugins/jabber/jabbersearch.cpp:182
-#: plugins/jabber/addresult.cpp:32 plugins/jabber/jabbersearch.cpp:182
+#: plugins/jabber/addresult.cpp:32 plugins/jabber/jabbersearch.cpp:94
+#: plugins/jabber/jabbersearch.cpp:214
 msgid "Last name"
 msgstr "Sobrenome"
 
 # plugins/jabber/addresult.cpp:33 plugins/jabber/jabbersearch.cpp:175
-#: plugins/jabber/addresult.cpp:33 plugins/jabber/jabbersearch.cpp:175
+#: plugins/jabber/addresult.cpp:33 plugins/jabber/jabbersearch.cpp:207
 msgid "Email"
 msgstr "Email"
 
@@ -7939,12 +7943,12 @@ msgid "Jabber"
 msgstr ""
 
 # plugins/jabber/jabber_rosters.cpp:1612
-#: plugins/jabber/jabber_rosters.cpp:1612
+#: plugins/jabber/jabber_rosters.cpp:1710
 msgid "Password does not match"
 msgstr "A senha está incorreta"
 
 # plugins/jabber/jabber_rosters.cpp:1613
-#: plugins/jabber/jabber_rosters.cpp:1613
+#: plugins/jabber/jabber_rosters.cpp:1711
 msgid "Low level network error"
 msgstr "Nível baixo de erro da rede "
 
@@ -8027,23 +8031,52 @@ msgstr "&Telefones"
 msgid "&Logo"
 msgstr "&Log"
 
+# plugins/jabber/jabbersearch.cpp:185
+#: plugins/jabber/jabbersearch.cpp:90 plugins/jabber/jabbersearch.cpp:217
+msgid "Username"
+msgstr "Usuário"
+
+# sim/api/country.cpp:33
+#: plugins/jabber/jabbersearch.cpp:95
+#, fuzzy
+msgid "Age min"
+msgstr "Argentina"
+
+#: plugins/jabber/jabbersearch.cpp:96
+msgid "Age max"
+msgstr ""
+
+# plugins/icq/aiminfobase.cc:293 plugins/icq/aimsearchbase.cc:283
+# plugins/icq/homeinfobase.cc:178 plugins/icq/icqsearchbase.cc:328
+# plugins/icq/workinfobase.cc:211 plugins/jabber/jabberhomeinfobase.cpp:152
+#: plugins/jabber/jabbersearch.cpp:97
+#, fuzzy
+msgid "City"
+msgstr "Cidade:"
+
+# plugins/icq/icqsearchbase.cc:326 plugins/icq/moreinfobase.cc:204
+#: plugins/jabber/jabbersearch.cpp:146
+#, fuzzy
+msgid "Gender"
+msgstr "Sexo:"
+
 # plugins/jabber/jabbersearch.cpp:172
-#: plugins/jabber/jabbersearch.cpp:172
+#: plugins/jabber/jabbersearch.cpp:204
 msgid "First (Given)"
 msgstr "Primeiro (fornecido)"
 
 # plugins/jabber/jabbersearch.cpp:173
-#: plugins/jabber/jabbersearch.cpp:173
+#: plugins/jabber/jabbersearch.cpp:205
 msgid "Last (Family)"
 msgstr "Sobrenome"
 
 # plugins/jabber/jabbersearch.cpp:174
-#: plugins/jabber/jabbersearch.cpp:174
+#: plugins/jabber/jabbersearch.cpp:206
 msgid "Nick (Alias)"
 msgstr "Apelido"
 
 # plugins/jabber/jabbersearch.cpp:176
-#: plugins/jabber/jabbersearch.cpp:176
+#: plugins/jabber/jabbersearch.cpp:208
 msgid ""
 "Select the speed of the search.  \"Fast\" matches your string to the "
 "beginning of the field only (ie. \"b\" would yield Bob,Bill,etc...)  "
@@ -8052,47 +8085,42 @@ msgid ""
 msgstr ""
 
 # plugins/jabber/jabbersearch.cpp:177
-#: plugins/jabber/jabbersearch.cpp:177
+#: plugins/jabber/jabbersearch.cpp:209
 msgid "Search Speed"
 msgstr "Pesquisar velocidade"
 
 # plugins/jabber/jabbersearch.cpp:178
-#: plugins/jabber/jabbersearch.cpp:178
+#: plugins/jabber/jabbersearch.cpp:210
 msgid "Fast / Less accurate"
 msgstr "Rápido / pouca precisão"
 
 # plugins/jabber/jabbersearch.cpp:179
-#: plugins/jabber/jabbersearch.cpp:179
+#: plugins/jabber/jabbersearch.cpp:211
 msgid "Slower / More extensive"
 msgstr "Lento / mais extensivo"
 
 # plugins/jabber/jabbersearch.cpp:180
-#: plugins/jabber/jabbersearch.cpp:180
+#: plugins/jabber/jabbersearch.cpp:212
 msgid "Full name"
 msgstr "Nome completo"
 
 # plugins/jabber/jabbersearch.cpp:183
-#: plugins/jabber/jabbersearch.cpp:183
+#: plugins/jabber/jabbersearch.cpp:215
 msgid "Nickname"
 msgstr "Apelido"
 
 # plugins/jabber/jabbersearch.cpp:184
-#: plugins/jabber/jabbersearch.cpp:184
+#: plugins/jabber/jabbersearch.cpp:216
 msgid "E-mail"
 msgstr "E-mail"
 
-# plugins/jabber/jabbersearch.cpp:185
-#: plugins/jabber/jabbersearch.cpp:185
-msgid "Username"
-msgstr "Usuário"
-
 # plugins/jabber/jabbersearch.cpp:186
-#: plugins/jabber/jabbersearch.cpp:186
+#: plugins/jabber/jabbersearch.cpp:218
 msgid "Password"
 msgstr "Senha"
 
 # plugins/jabber/jabbersearch.cpp:187
-#: plugins/jabber/jabbersearch.cpp:187
+#: plugins/jabber/jabbersearch.cpp:219
 msgid ""
 "Enter your MSN Messenger account and password. Example: user@hotmail.com.  "
 "Nickname is optional."
@@ -8101,56 +8129,56 @@ msgstr ""
 "Apelido é opcional."
 
 # plugins/jabber/jabbersearch.cpp:188
-#: plugins/jabber/jabbersearch.cpp:188
+#: plugins/jabber/jabbersearch.cpp:220
 msgid "Enter your AIM screenname or ICQ UIN and the password for that account"
 msgstr "Entre com seu usuário AIM ou ICQ UIN e sua senha para a conta"
 
 # plugins/jabber/jabbersearch.cpp:189
-#: plugins/jabber/jabbersearch.cpp:189
+#: plugins/jabber/jabbersearch.cpp:221
 msgid "Enter your YAHOO! Messenger Username and Password."
 msgstr "Entre com o seu Username e senha do YAHOO! Messenger"
 
 # plugins/jabber/jabbersearch.cpp:190
-#: plugins/jabber/jabbersearch.cpp:190
+#: plugins/jabber/jabbersearch.cpp:222
 msgid "Please enter your UIN and password"
 msgstr "Por favor entre com seu UIN e senha"
 
 # plugins/jabber/jabbersearch.cpp:191
-#: plugins/jabber/jabbersearch.cpp:191
+#: plugins/jabber/jabbersearch.cpp:223
 msgid "You need a x:data capable client to register."
 msgstr ""
 
 # plugins/jabber/jabbersearch.cpp:192
-#: plugins/jabber/jabbersearch.cpp:192
+#: plugins/jabber/jabbersearch.cpp:224
 msgid "Enter nick you want to register."
 msgstr "Entre com seu apelido se você quer se registar"
 
 # plugins/jabber/jabbersearch.cpp:193
-#: plugins/jabber/jabbersearch.cpp:193
+#: plugins/jabber/jabbersearch.cpp:225
 msgid ""
 "Complete the form to submit your searchable attributes in the Jabber User "
 "Directory"
 msgstr ""
 
 # plugins/jabber/jabbersearch.cpp:194
-#: plugins/jabber/jabbersearch.cpp:194
+#: plugins/jabber/jabbersearch.cpp:226
 msgid "Fill in all of the fields to add yourself to the JUD."
 msgstr ""
 
 # plugins/jabber/jabbersearch.cpp:195
-#: plugins/jabber/jabbersearch.cpp:195
+#: plugins/jabber/jabbersearch.cpp:227
 msgid ""
 "Fill in a field to search for any matching Jabber User (POSIX regular "
 "expressions allowed)"
 msgstr ""
 
 # plugins/jabber/jabbersearch.cpp:196
-#: plugins/jabber/jabbersearch.cpp:196
+#: plugins/jabber/jabbersearch.cpp:228
 msgid "Fill in a field to search for any matching Jabber users."
 msgstr ""
 
 # plugins/jabber/jabbersearch.cpp:197
-#: plugins/jabber/jabbersearch.cpp:197
+#: plugins/jabber/jabbersearch.cpp:229
 msgid ""
 "To register, please fill out the following form.  Be as accurate as possible "
 "to make it easier for people to search for you."

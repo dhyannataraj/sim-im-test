@@ -17,7 +17,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bg\n"
-"POT-Creation-Date: 2003-11-24 00:30+0300\n"
+"POT-Creation-Date: 2003-11-26 10:03+0300\n"
 "PO-Revision-Date: 2003-09-18 18:44+0300\n"
 "Last-Translator: Атанас Мавров <bugar@mail.bg>\n"
 "Language-Team:  <bg@li.org>\n"
@@ -2342,7 +2342,7 @@ msgstr "Лимитът на съобщенията е превишен"
 msgid "We are to evil :("
 msgstr "Ние също сме лоши :-("
 
-#: plugins/icq/icqicmb.cpp:650 plugins/jabber/jabber_rosters.cpp:1733
+#: plugins/icq/icqicmb.cpp:650 plugins/jabber/jabber_rosters.cpp:1831
 #, fuzzy
 msgid "File transfer declined"
 msgstr "Файловата обмяна приключи:"
@@ -2664,11 +2664,13 @@ msgid "UIN"
 msgstr "Номер"
 
 #: plugins/icq/icqsecure.cpp:125 plugins/jabber/addresult.cpp:30
+#: plugins/jabber/jabbersearch.cpp:91
 msgid "Nick"
 msgstr "Прякор: "
 
 #: plugins/_core/maininfo.cpp:69 plugins/filter/ignorelist.cpp:28
-#: plugins/icq/icqsecure.cpp:127 plugins/msn/msninfobase.cpp:161
+#: plugins/icq/icqsecure.cpp:127 plugins/jabber/jabbersearch.cpp:92
+#: plugins/msn/msninfobase.cpp:161
 msgid "EMail"
 msgstr "Електронна поща"
 
@@ -2902,11 +2904,11 @@ msgstr "Публицистика"
 msgid "Home automation"
 msgstr "Домашна автоматика"
 
-#: plugins/icq/moreinfo.cpp:85
+#: plugins/icq/moreinfo.cpp:85 plugins/jabber/jabbersearch.cpp:145
 msgid "Female"
 msgstr "Жена"
 
-#: plugins/icq/moreinfo.cpp:86
+#: plugins/icq/moreinfo.cpp:86 plugins/jabber/jabbersearch.cpp:144
 msgid "Male"
 msgstr "Мъж"
 
@@ -3855,7 +3857,7 @@ msgstr "Прибавяне към група"
 msgid "AIM user"
 msgstr "AIM потребител"
 
-#: plugins/icq/icqsearchbase.cc:348
+#: plugins/icq/icqsearchbase.cc:348 plugins/jabber/jabbersearch.cpp:139
 msgid "Online only"
 msgstr "Само свързаните"
 
@@ -4010,23 +4012,23 @@ msgstr "&Използва системни шрифтове"
 msgid "Base font:"
 msgstr "Основен шрифт"
 
-#: plugins/_core/fontconfigbase.cpp:131 plugins/styles/fontconfigbase.cpp:161
-#, fuzzy
-msgid "Menu font:"
-msgstr "Шрифт за меню"
+#: plugins/osd/osdifacebase.cpp:194 plugins/styles/fontconfigbase.cpp:161
+msgid "Background color:"
+msgstr "Цвят на фон:"
 
-#: plugins/_core/userviewcfgbase.cpp:223 plugins/styles/fontconfigbase.cpp:162
-msgid "Use system &colors"
-msgstr "Използване на системни &цветове"
-
-#: plugins/styles/fontconfigbase.cpp:163
+#: plugins/styles/fontconfigbase.cpp:162
 #, fuzzy
 msgid "Button color:"
 msgstr "Цвят на фон:"
 
-#: plugins/osd/osdifacebase.cpp:194 plugins/styles/fontconfigbase.cpp:164
-msgid "Background color:"
-msgstr "Цвят на фон:"
+#: plugins/_core/userviewcfgbase.cpp:223 plugins/styles/fontconfigbase.cpp:163
+msgid "Use system &colors"
+msgstr "Използване на системни &цветове"
+
+#: plugins/_core/fontconfigbase.cpp:131 plugins/styles/fontconfigbase.cpp:164
+#, fuzzy
+msgid "Menu font:"
+msgstr "Шрифт за меню"
 
 #: plugins/styles/styles.cpp:51
 #, fuzzy
@@ -6490,15 +6492,17 @@ msgstr ""
 msgid "New version SIM is released"
 msgstr ""
 
-#: plugins/jabber/addresult.cpp:31 plugins/jabber/jabbersearch.cpp:181
+#: plugins/jabber/addresult.cpp:31 plugins/jabber/jabbersearch.cpp:93
+#: plugins/jabber/jabbersearch.cpp:213
 msgid "First name"
 msgstr "Име: "
 
-#: plugins/jabber/addresult.cpp:32 plugins/jabber/jabbersearch.cpp:182
+#: plugins/jabber/addresult.cpp:32 plugins/jabber/jabbersearch.cpp:94
+#: plugins/jabber/jabbersearch.cpp:214
 msgid "Last name"
 msgstr "Фамилия: "
 
-#: plugins/jabber/addresult.cpp:33 plugins/jabber/jabbersearch.cpp:175
+#: plugins/jabber/addresult.cpp:33 plugins/jabber/jabbersearch.cpp:207
 msgid "Email"
 msgstr "Електронна поща"
 
@@ -6510,12 +6514,12 @@ msgstr "ID"
 msgid "Jabber"
 msgstr "Jabber"
 
-#: plugins/jabber/jabber_rosters.cpp:1612
+#: plugins/jabber/jabber_rosters.cpp:1710
 #, fuzzy
 msgid "Password does not match"
 msgstr "Потвърждението и паролата не съвпадат"
 
-#: plugins/jabber/jabber_rosters.cpp:1613
+#: plugins/jabber/jabber_rosters.cpp:1711
 #, fuzzy
 msgid "Low level network error"
 msgstr "Показва мрежово наблюдение"
@@ -6588,19 +6592,42 @@ msgstr "&Телефонна книга"
 msgid "&Logo"
 msgstr "&Отчет"
 
-#: plugins/jabber/jabbersearch.cpp:172
+#: plugins/jabber/jabbersearch.cpp:90 plugins/jabber/jabbersearch.cpp:217
+msgid "Username"
+msgstr "Потребителско име"
+
+#: plugins/jabber/jabbersearch.cpp:95
+#, fuzzy
+msgid "Age min"
+msgstr "Аржентина"
+
+#: plugins/jabber/jabbersearch.cpp:96
+msgid "Age max"
+msgstr ""
+
+#: plugins/jabber/jabbersearch.cpp:97
+#, fuzzy
+msgid "City"
+msgstr "Град:"
+
+#: plugins/jabber/jabbersearch.cpp:146
+#, fuzzy
+msgid "Gender"
+msgstr "Пол:"
+
+#: plugins/jabber/jabbersearch.cpp:204
 msgid "First (Given)"
 msgstr "Име"
 
-#: plugins/jabber/jabbersearch.cpp:173
+#: plugins/jabber/jabbersearch.cpp:205
 msgid "Last (Family)"
 msgstr "Фамилия:"
 
-#: plugins/jabber/jabbersearch.cpp:174
+#: plugins/jabber/jabbersearch.cpp:206
 msgid "Nick (Alias)"
 msgstr "Прякор"
 
-#: plugins/jabber/jabbersearch.cpp:176
+#: plugins/jabber/jabbersearch.cpp:208
 msgid ""
 "Select the speed of the search.  \"Fast\" matches your string to the "
 "beginning of the field only (ie. \"b\" would yield Bob,Bill,etc...)  "
@@ -6615,39 +6642,35 @@ msgstr ""
 "Примерно за заявка \"b\" намерените "
 "резултати ще са Bob, Bill, Caleb, Robbie и т.н."
 
-#: plugins/jabber/jabbersearch.cpp:177
+#: plugins/jabber/jabbersearch.cpp:209
 msgid "Search Speed"
 msgstr "Скорост на търсене"
 
-#: plugins/jabber/jabbersearch.cpp:178
+#: plugins/jabber/jabbersearch.cpp:210
 msgid "Fast / Less accurate"
 msgstr "Бързо / по-неточно"
 
-#: plugins/jabber/jabbersearch.cpp:179
+#: plugins/jabber/jabbersearch.cpp:211
 msgid "Slower / More extensive"
 msgstr "Бавно / по-обширно"
 
-#: plugins/jabber/jabbersearch.cpp:180
+#: plugins/jabber/jabbersearch.cpp:212
 msgid "Full name"
 msgstr "Пълно име"
 
-#: plugins/jabber/jabbersearch.cpp:183
+#: plugins/jabber/jabbersearch.cpp:215
 msgid "Nickname"
 msgstr "Прякор:"
 
-#: plugins/jabber/jabbersearch.cpp:184
+#: plugins/jabber/jabbersearch.cpp:216
 msgid "E-mail"
 msgstr "Електронна поща "
 
-#: plugins/jabber/jabbersearch.cpp:185
-msgid "Username"
-msgstr "Потребителско име"
-
-#: plugins/jabber/jabbersearch.cpp:186
+#: plugins/jabber/jabbersearch.cpp:218
 msgid "Password"
 msgstr "Парола: "
 
-#: plugins/jabber/jabbersearch.cpp:187
+#: plugins/jabber/jabbersearch.cpp:219
 msgid ""
 "Enter your MSN Messenger account and password. Example: user@hotmail.com.  "
 "Nickname is optional."
@@ -6656,35 +6679,35 @@ msgstr ""
 "Примерно potrebitel@hotmail.com. Прякора е "
 "незадължителен."
 
-#: plugins/jabber/jabbersearch.cpp:188
+#: plugins/jabber/jabbersearch.cpp:220
 msgid "Enter your AIM screenname or ICQ UIN and the password for that account"
 msgstr ""
 "Въвеждане на AIM име или ICQ номер и парола "
 "за текущата сметка"
 
-#: plugins/jabber/jabbersearch.cpp:189
+#: plugins/jabber/jabbersearch.cpp:221
 msgid "Enter your YAHOO! Messenger Username and Password."
 msgstr ""
 "Въвеждане на YAHOO Messenger потребителско име и "
 "парола."
 
-#: plugins/jabber/jabbersearch.cpp:190
+#: plugins/jabber/jabbersearch.cpp:222
 msgid "Please enter your UIN and password"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:191
+#: plugins/jabber/jabbersearch.cpp:223
 msgid "You need a x:data capable client to register."
 msgstr ""
 "Необходим е клиент с поддръжка на \"х\" "
 "данни."
 
-#: plugins/jabber/jabbersearch.cpp:192
+#: plugins/jabber/jabbersearch.cpp:224
 msgid "Enter nick you want to register."
 msgstr ""
 "Въвеждане на прякора който искате да "
 "регистрирате."
 
-#: plugins/jabber/jabbersearch.cpp:193
+#: plugins/jabber/jabbersearch.cpp:225
 msgid ""
 "Complete the form to submit your searchable attributes in the Jabber User "
 "Directory"
@@ -6692,11 +6715,11 @@ msgstr ""
 "Попълнете всички данни за търсеният от "
 "вас потребител в каталога на Jabber"
 
-#: plugins/jabber/jabbersearch.cpp:194
+#: plugins/jabber/jabbersearch.cpp:226
 msgid "Fill in all of the fields to add yourself to the JUD."
 msgstr "Попълнете всички полета"
 
-#: plugins/jabber/jabbersearch.cpp:195
+#: plugins/jabber/jabbersearch.cpp:227
 msgid ""
 "Fill in a field to search for any matching Jabber User (POSIX regular "
 "expressions allowed)"
@@ -6705,13 +6728,13 @@ msgstr ""
 "да използвате  регулярни изрази по POSIX "
 "стандарта)"
 
-#: plugins/jabber/jabbersearch.cpp:196
+#: plugins/jabber/jabbersearch.cpp:228
 msgid "Fill in a field to search for any matching Jabber users."
 msgstr ""
 "Попълнете полетата за търсене на Jabber "
 "потребител"
 
-#: plugins/jabber/jabbersearch.cpp:197
+#: plugins/jabber/jabbersearch.cpp:229
 msgid ""
 "To register, please fill out the following form.  Be as accurate as possible "
 "to make it easier for people to search for you."

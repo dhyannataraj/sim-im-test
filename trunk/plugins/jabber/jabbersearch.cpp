@@ -28,6 +28,7 @@
 #include <qwidgetstack.h>
 #include <qobjectlist.h>
 #include <qregexp.h>
+#include <qcheckbox.h>
 
 #include <vector>
 
@@ -78,6 +79,25 @@ JabberSearch::JabberSearch(QWidget *receiver, JabberClient *client, const char *
     m_bDirty = false;
 }
 
+typedef struct defFlds
+{
+    char	*tag;
+    char	*name;
+} defFlds;
+
+static defFlds fields[] =
+    {
+        { "username", I18N_NOOP("Username") },
+        { "nick", I18N_NOOP("Nick") },
+        { "email", I18N_NOOP("EMail") },
+        { "first", I18N_NOOP("First name") },
+        { "last", I18N_NOOP("Last name") },
+        { "age_min", I18N_NOOP("Age min") },
+        { "age_max", I18N_NOOP("Age max") },
+        { "city", I18N_NOOP("City") },
+        { NULL, NULL }
+    };
+
 void JabberSearch::addWidget(JabberAgentInfo *data)
 {
     QWidget *widget = NULL;
@@ -108,22 +128,34 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
         }else if (!strcmp(data->Type, "key")){
             if (data->Value)
                 m_key = data->Value;
-        }else if (!strcmp(data->Type, "username")){
-            widget = new QLineEdit(this, "username");
-            connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
-            connect(widget, SIGNAL(textChanged(const QString&)), m_receiver, SLOT(textChanged(const QString&)));
-            set_str(&data->Label, "Username");
-        }else if (!strcmp(data->Type, "nick")){
-            widget = new QLineEdit(this, "nick");
-            connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
-            connect(widget, SIGNAL(textChanged(const QString&)), m_receiver, SLOT(textChanged(const QString&)));
-            set_str(&data->Label, "Nick");
         }else if (!strcmp(data->Type, "password")){
             widget = new QLineEdit(this, "password");
             static_cast<QLineEdit*>(widget)->setEchoMode(QLineEdit::Password);
             connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
             connect(widget, SIGNAL(textChanged(const QString&)), m_receiver, SLOT(textChanged(const QString&)));
             set_str(&data->Label, "Password");
+        }else if (!strcmp(data->Type, "online")){
+            widget = new QCheckBox(this, "online");
+            static_cast<QCheckBox*>(widget)->setText(i18n("Online only"));
+            bJoin = true;
+        }else if (!strcmp(data->Type, "sex")){
+            CComboBox *box = new CComboBox(this, data->Field);
+            box->addItem("", "0");
+            box->addItem(i18n("Male"), "1");
+            box->addItem(i18n("Female"), "2");
+            set_str(&data->Label, I18N_NOOP("Gender"));
+            widget = box;
+        }else{
+            defFlds *f;
+            for (f = fields; f->tag; f++)
+                if (!strcmp(data->Type, f->tag))
+                    break;
+            if (f->tag){
+                widget = new QLineEdit(this, f->tag);
+                connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
+                connect(widget, SIGNAL(textChanged(const QString&)), m_receiver, SLOT(textChanged(const QString&)));
+                set_str(&data->Label, f->name);
+            }
         }
     }
     if (widget){
@@ -262,12 +294,28 @@ QString JabberSearch::condition()
     QObjectListIt it1( *l );
     while ((obj = it1.current()) != 0 ){
         CComboBox *box = static_cast<CComboBox*>(obj);
+        if (box->currentText().isEmpty())
+            continue;
         if (!res.isEmpty())
             res += ";";
         res += box->name();
         res += "=";
         res += quoteChars(box->value(), ";");
         ++it1;
+    }
+    delete l;
+
+    l = queryList("QCheckBox");
+    QObjectListIt it2( *l );
+    while ((obj = it2.current()) != 0 ){
+        QCheckBox *box = static_cast<QCheckBox*>(obj);
+        if (!box->isChecked())
+            continue;
+        if (!res.isEmpty())
+            res += ";";
+        res += box->name();
+        res += "=1";
+        ++it2;
     }
     delete l;
 

@@ -280,6 +280,7 @@ class MessageRequest : public ServerRequest
 
     QString photoFile(JabberUserData*);
     QString logoFile(JabberUserData*);
+    list<ServerRequest*>	m_requests;
 
 protected slots:
     void	ping();
@@ -334,7 +335,6 @@ protected:
     static void p_element_end(void *data, const char *el);
     static void p_char_data(void *data, const char *str, int len);
 
-    list<ServerRequest*>	m_requests;
     list<JabberListRequest>	m_listRequests;
     ServerRequest			*m_curRequest;
 

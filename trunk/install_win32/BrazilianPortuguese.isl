@@ -1,20 +1,17 @@
-; *** Inno Setup version 3.0.2 Brazilian Portuguese messages ***
+; *** Inno Setup version 4.0.5+ English messages ***
 ;
-; Author: Silvio Otavio de Araujo - silvio.araujo@gpstec.com.br
-; www.gpstec.com.br
-; Last update: August 29, 2002
-; Please send corrections, suggestions, etc.
+; To download user-contributed translations of this file, go to:
+;   http://www.jrsoftware.org/is3rdparty.php
 ;
-; This translation is based in Josue's, Rubem's previous work for Inno Setup 1.3.x
-; and Julio Cezar's previous work for Inno Setup 3.0.2
+; Note: When translating this text, do not add periods (.) to the end of
+; messages that didn't have them already, because on those messages Inno
+; Setup adds the periods automatically (appending a period would result in
+; two periods being displayed).
 ;
-; WARNING:
-;
-;  This translation is not suitable for European Portuguese.
-;
+; $Id: BrazilianPortuguese.isl,v 1.3 2003-11-26 07:13:42 shutoff Exp $
 
 [LangOptions]
-LanguageName=Brazilian Portuguese
+LanguageName=Portuguese (Brazil)
 LanguageID=$0416
 ; If the language you are translating to requires special font faces or
 ; sizes, uncomment any of the following entries and change them accordingly.
@@ -34,10 +31,10 @@ LanguageID=$0416
 SetupAppTitle=Programa de Instalação
 SetupWindowTitle=Programa de Instalação - %1
 UninstallAppTitle=Desinstalação
-UninstallAppFullTitle=Desinstalação do %1
+UninstallAppFullTitle=Desinstalação - %1
 
 ; *** Misc. common
-InformationTitle=Informação
+InformationTitle=Informações
 ConfirmTitle=Confirmação
 ErrorTitle=Erro
 
@@ -51,21 +48,21 @@ LastErrorMessage=%1.%n%nErro %2: %3
 SetupFileMissing=O arquivo %1 está faltando na pasta de instalação. Corrija o problema ou obtenha uma nova cópia do programa.
 SetupFileCorrupt=Os arquivos de instalação estão corrompidos. Obtenha uma cópia nova do programa.
 SetupFileCorruptOrWrongVer=Os arquivos de instalação estão corrompidos ou são incompatíveis com esta versão do Programa de Instalação. Corrija o problema ou obtenha uma cópia nova.
-NotOnThisPlatform=Este programa não irá executar no %1.
-OnlyOnThisPlatform=Este programa deverá executar no %1.
+NotOnThisPlatform=Este programa não irá executar em %1.
+OnlyOnThisPlatform=Este programa deverá executar em %1.
 WinVersionTooLowError=Este programa exige o %1 versão %2 ou mais nova.
 WinVersionTooHighError=Este programa não pode ser instalado no %1 versão %2 ou mais nova.
-AdminPrivilegesRequired=Você deverá estar logado como Administrador para instalar este programa.
-PowerUserPrivilegesRequired=Você deverá estar logado como Administrador o ser 'Usuario avanzado' para instalar este programa.
-SetupAppRunningError=O Programa de Instalação detectou que %1 está executando.%n%nPor favor, feche todas as suas instâncias agora, e então clique em OK para continuar, ou Cancelar para sair.
+AdminPrivilegesRequired=Você deverá estar logado como administrador para instalar este programa.
+PowerUserPrivilegesRequired=Você deve ser logado como um administrador ou como um membro do grupo "Power Users" quando instalar este programa.
+SetupAppRunningError=O programa de instalação detectou que %1 está em executando.%n%nPor favor, feche todas as suas instâncias agora, e então clique em OK para continuar, ou    Cancelar para sair.
 UninstallAppRunningError=O programa de desinstalação detectou que %1 está executando.%n%nPor favor, feche todas as suas instâncias agora, e então clique em OK para continuar, ou Cancelar para sair.
 
 ; *** Misc. errors
-ErrorCreatingDir=O Programa de Instalação não pode criar a pasta "%1"
+ErrorCreatingDir=O programa de instalação não pode criar a pasta "%1"
 ErrorTooManyFilesInDir=Não foi possível criar um arquivo no pasta "%1" - muitos arquivos
 
 ; *** Setup common messages
-ExitSetupTitle=Terminar a instalação
+ExitSetupTitle=Terminar a Instalação
 ExitSetupMessage=A instalação não está completa. Se você terminar agora, o programa não será instalado.%n%nVocê poderá tentar novamente mais tarde para completar a instalação.%n%nTerminar a instalação?
 AboutSetupMenuItem=&Sobre o Programa de Instalação...
 AboutSetupTitle=Sobre o Programa de Instalação
@@ -86,8 +83,8 @@ ButtonFinish=&Concluir
 ButtonBrowse=&Procurar...
 
 ; *** "Select Language" dialog messages
-SelectLanguageTitle=Idioma
-SelectLanguageLabel=Escolha o idioma do Programa de Instalação:
+SelectLanguageTitle=Selecione o idioma da instalação
+SelectLanguageLabel=Selecione o idioma a ser utilizado durante a instalação:
 
 ; *** Common wizard text
 ClickNext=Clique Avançar para continuar, Cancelar para encerrar.
@@ -107,11 +104,11 @@ IncorrectPassword=A senha que você digitou não está correta. Tente novamente.
 ; *** "License Agreement" wizard page
 WizardLicense=Contrato de Licença de Uso
 LicenseLabel=Leia as seguintes informações importantes antes de continuar.
-LicenseLabel3=Por favor, leia o seguinte contrato de licença de uso. Você precisa aceitar os termos deste contrato antes de continuar com a instalação.
-LicenseAccepted=Eu &aceito as condições de uso
-LicenseNotAccepted=Eu &não aceito as condições de uso
+LicenseLabel3=Leia a licença seguinte. Você precisa aceitar os termos desta licença antes de continuar com a instalação
+LicenseAccepted=Eu &aceito a licença
+LicenseNotAccepted=Eu &não aceito a licença
 
-; *** "Information" wizard page
+; *** "Information" wizard pages
 WizardInfoBefore=Informação
 InfoBeforeLabel=Leia as seguintes informações importantes antes de continuar.
 InfoBeforeClickLabel=Quando você estiver pronto para continuar clique em Avançar.
@@ -120,12 +117,12 @@ InfoAfterLabel=Leia as seguintes informações importantes antes de continuar.
 InfoAfterClickLabel=Quando você estiver pronto para continuar clique em Avançar.
 
 ; *** "User Information" wizard page
-WizardUserInfo=Informações do usuário
-UserInfoDesc=Por favor, entre com as seguintes informações.
-UserInfoName=&Nome:
+WizardUserInfo=Informações do Usuário
+UserInfoDesc=Informe seus dados
+UserInfoName=&Nome de Usuário:
 UserInfoOrg=&Organização:
-UserInfoSerial=&Serial:
-UserInfoNameRequired=Você precisa entrar com um nome.
+UserInfoSerial=&Número Serial:
+UserInfoNameRequired=Você precisa informar um nome
 
 ; *** "Select Destination Directory" wizard page
 WizardSelectDir=Escolha a pasta destino
@@ -162,39 +159,39 @@ WizardSelectTasks=Selecione Tarefas Adicionais
 SelectTasksDesc=Que tarefas adicionais serão executadas?
 SelectTasksLabel2=Selecione as tarefas adicionais que você gostaria que o Programa de Instalação execute enquanto instala o [name] e então clique em Avançar.
 
-; *** "Select Program Group" wizard page
+; *** "Select Start Menu Folder" wizard page
 WizardSelectProgramGroup=Escolha a pasta do Menu Iniciar
 SelectStartMenuFolderDesc=Onde o Programa de Instalação irá criar os ícones do programa?
-SelectStartMenuFolderLabel=Escolha a pasta do Menu Iniciar onde o Setup Programa de Instalação irá criar os ícones do programa e então clique em Avançar.
+SelectStartMenuFolderLabel=Escolha a pasta do Menu Iniciar onde o Setup Programa de Instalação irá criar os ícones do programa e então clique em Avançar
 NoIconsCheck=Não criar ícones
-MustEnterGroupName=Você deve digitar um nome de uma pasta do Menu Iniciar.
+MustEnterGroupName=Você deve digitar um nome de uma pasta do Menu Iniciar
 BadGroupName=O nome do pasta não pode incluir os seguintes caracteres:%n%n%1
 NoProgramGroupCheck2=&Não criar a pasta do Menu Iniciar
 
 ; *** "Ready to Install" wizard page
 WizardReady=Pronto para Instalar
-ReadyLabel1=O Programa de Instalação está pronto para iniciar a instalar [name] no seu computador.
-ReadyLabel2a=Clique em Instalar para iniciar a instalação, ou clique Voltar se você quer rever ou verificar suas opções.
-ReadyLabel2b=Clique em Instalar para iniciar a instalação.
-ReadyMemoUserInfo=Informações do usuário:
+ReadyLabel1=O Programa de Instalação está pronto para iniciar a instalar [name] no seu computador
+ReadyLabel2a=Clique em Instalar para iniciar a instalação, ou clique Voltar se você quer rever ou verificar suas opções
+ReadyLabel2b=Clique em Instalar para iniciar a instalação
+ReadyMemoUserInfo=Informações do Usuário:
 ReadyMemoDir=Diretório Destino:
 ReadyMemoType=Tipo de Instalação:
 ReadyMemoComponents=Componentes Selecionados:
 ReadyMemoGroup=Grupo de Programas:
-ReadyMemoTasks=Tarefas adicionais:
+ReadyMemoTasks=Tarefas Adicionais:
 
 ; *** "Preparing to Install" wizard page
-WizardPreparing=Preparando-se para instalar
-PreparingDesc=O programa de instalação está se preparando para instalar [name] no seu computador.
-PreviousInstallNotCompleted=A instalação/remoção de um programa anterior não foi completa. Você precisa reiniciar seu computador para completar a instalação.%n%nDepois de reiniciar seu computador, execute o programa de instalação novamente para completar a instalação de [name].
-CannotContinue=A instalação não pode continuar. Por favor, clique em Cancelar para sair.
+WizardPreparing=Preparando para Instalar
+PreparingDesc=Instalação está preparando para instalar [name] em seu computador
+PreviousInstallNotCompleted=A instalação/remoção do programa anterior não foi completada. Você precisa reiniciar o computadorpara completar esta instalação. %n%nApós reiniciar seu computador, rode a Instalação novamente para completar a instalação do [name].
+CannotContinue=A Instalação não pode continuar. Clique em Cancelar para sair.
 
 ; *** "Installing" wizard page
 WizardInstalling=Instalando
-InstallingLabel=Aguarde enquanto o Programa de Instalação instala [name] em seu computador.
+InstallingLabel=Aguarde enquanto o Programa de Instalação instala [name] em seu computador
 
 ; *** "Setup Completed" wizard page
-FinishedHeadingLabel=Completando a instalação de [name]
+FinishedHeadingLabel=Instalação Terminada
 FinishedLabelNoIcons=O Programa de Instalação terminou de instalar [name] no seu computador.
 FinishedLabel=O Programa de Instalação terminou de instalar [name] no seu computador. A aplicação pode ser iniciada escolhendo os ícones instalados.
 ClickFinish=Clique em Concluir para finalizar o Programa de Instalação.
@@ -229,7 +226,7 @@ StatusCreateRegistryEntries=Criando entradas no registro...
 StatusRegisterFiles=Registrando arquivos...
 StatusSavingUninstall=Salvando informação para desinstalação...
 StatusRunProgram=Terminando a instalação...
-StatusRollback=Desfazendo alterações...
+StatusRollback=Rolando de volta as mudanças...
 
 ; *** Misc. errors
 ErrorInternal2=Erro interno: %1
@@ -244,7 +241,7 @@ ErrorRegCreateKey=Erro ao criar a chave de registro:%n%1\%2
 ErrorRegWriteKey=Erro ao escrever na chave de registro:%n%1\%2
 
 ; *** INI errors
-ErrorIniEntry=Error creating INI entry in file %1.
+ErrorIniEntry=Erro ao criar entrada INI no arquivo %1.
 
 ; *** File copying errors
 FileAbortRetryIgnore=Clique Repetir para tentar novamente, Ignorar para ignorar este arquivo (não recomendado), ou Anular para cancelar a instalação.
@@ -272,7 +269,7 @@ ErrorRestartingComputer=O Programa de Instalação não conseguiu reiniciar o compu
 
 ; *** Uninstaller messages
 UninstallNotFound=O arquivo "%1" não existe. Não é possível desinstalar.
-UninstallOpenError=O arquivo "%1" não pode abrirse. Não é possível desinstalar.
+UninstallOpenError=O arquivo "%1" não pode ser aberto. Não é possível desinstalar
 UninstallUnsupportedVer=O arquivo de log de desinstação "%1" está em um formato que não é reconhecido por esta versão do desinstalador. Não é possível desinstalar
 UninstallUnknownEntry=Uma entrada desconhecida (%1) foi encontrada no log de desinstalação
 ConfirmUninstall=Você tem certeza que quer remover completamente %1 e todos os seus componentes?
@@ -280,7 +277,7 @@ OnlyAdminCanUninstall=Está instalação só pode ser desinstalada por um usuário co
 UninstallStatusLabel=Por favor, aguarde enquanto o %1 é removido do seu computador.
 UninstalledAll=O %1 foi removido com sucesso do seu computador.
 UninstalledMost=A desinstalação do %1 terminou.%n%nAlguns elementos não podem ser removidos. Estes elementos podem ser removidos manualmente.
-UninstalledAndNeedsRestart=Para completar a desinstalação de %1, seu computador precisa ser reiniciado. %n%nGostaria de reiniciá-lo agora?
+UninstalledAndNeedsRestart=Para completar a desintalação do %1, você precisa reiniciar seu computador. %n%nVocê gostaria de reiniciar seu computador agora?
 UninstallDataCorrupted=O arquivo "%1" está corrompido. Não pode desinstalar
 
 ; *** Uninstallation phase messages

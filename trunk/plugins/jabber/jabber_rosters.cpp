@@ -1294,9 +1294,29 @@ public:
 protected:
     JabberAgentsInfo	data;
     string m_data;
+    bool   m_bError;
     virtual void element_start(const char *el, const char **attr);
     virtual void element_end(const char *el);
     virtual void char_data(const char *el, int len);
+};
+
+class AgentsDiscoRequest : public JabberClient::ServerRequest
+{
+public:
+    AgentsDiscoRequest(JabberClient *client);
+protected:
+    virtual void element_start(const char *el, const char **attr);
+};
+
+class AgentDiscoRequest : public JabberClient::ServerRequest
+{
+public:
+    AgentDiscoRequest(JabberClient *client, const char *jid);
+    ~AgentDiscoRequest();
+protected:
+    JabberAgentsInfo	data;
+    virtual void element_start(const char *el, const char **attr);
+    bool m_bError;
 };
 
 /*
@@ -1323,16 +1343,92 @@ static DataDef jabberAgentsInfo[] =
         { NULL, 0, 0, 0 }
     };
 
+AgentDiscoRequest::AgentDiscoRequest(JabberClient *client, const char *jid)
+        : ServerRequest(client, _GET, NULL, jid)
+{
+    load_data(jabberAgentsInfo, &data, NULL);
+    set_str(&data.ID, jid);
+    m_bError = false;
+}
+
+AgentDiscoRequest::~AgentDiscoRequest()
+{
+    if (data.Name == NULL){
+        string jid = data.ID;
+        int n = jid.find('.');
+        if (n > 0){
+            jid = jid.substr(0, n);
+            set_str(&data.Name, jid.c_str());
+        }
+    }
+    if (m_bError){
+        data.Register = true;
+        data.Search   = true;
+    }
+    if (data.Name){
+        set_str(&data.VHost, m_client->VHost().c_str());
+        data.Client = m_client;
+        Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentFound, &data);
+        e.process();
+    }
+    free_data(jabberAgentsInfo, &data);
+}
+
+void AgentDiscoRequest::element_start(const char *el, const char **attr)
+{
+    if (!strcmp(el, "error")){
+        m_bError = true;
+        return;
+    }
+    if (!strcmp(el, "identity")){
+        set_str(&data.Name, JabberClient::get_attr("name", attr).c_str());
+        return;
+    }
+    if (!strcmp(el, "feature")){
+        string s = JabberClient::get_attr("var", attr);
+        if (s == "jabber:iq:register")
+            data.Register = true;
+        if (s == "jabber:iq:search")
+            data.Search   = true;
+    }
+}
+
+AgentsDiscoRequest::AgentsDiscoRequest(JabberClient *client)
+        : ServerRequest(client, _GET, NULL, client->VHost().c_str())
+{
+}
+
+void AgentsDiscoRequest::element_start(const char *el, const char **attr)
+{
+    if (strcmp(el, "item"))
+        return;
+    string jid = JabberClient::get_attr("jid", attr);
+    if (!jid.empty()){
+        AgentDiscoRequest *req = new AgentDiscoRequest(m_client, jid.c_str());
+        req->start_element("query");
+        req->add_attribute("xmlns", "http://jabber.org/protocol/disco#info");
+        req->send();
+        m_client->m_requests.push_back(req);
+    }
+}
 
 AgentRequest::AgentRequest(JabberClient *client)
         : ServerRequest(client, _GET, NULL, client->VHost().c_str())
 {
     load_data(jabberAgentsInfo, &data, NULL);
+    m_bError = false;
 }
 
 AgentRequest::~AgentRequest()
 {
     free_data(jabberAgentsInfo, &data);
+    if (m_bError){
+        AgentsDiscoRequest *req = new AgentsDiscoRequest(m_client);
+        req->start_element("query");
+        req->add_attribute("xmlns", "http://jabber.org/protocol/disco#items");
+        req->send();
+        m_client->m_requests.push_back(req);
+    }
 }
 
 void AgentRequest::element_start(const char *el, const char **attr)
@@ -1346,6 +1442,8 @@ void AgentRequest::element_start(const char *el, const char **attr)
         data.Search = (unsigned)(-1);
     }else if (!strcmp(el, "register")){
         data.Register = (unsigned)(-1);
+    }else if (!strcmp(el, "error")){
+        m_bError = true;
     }
     m_data = "";
 }
@@ -1485,7 +1583,7 @@ void AgentInfoRequest::element_end(const char *el)
         set_str(&data.Type, el);
         Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentInfo, &data);
         e.process();
-    }else if (!strcmp(el, "username") || !strcmp(el, "password") || !strcmp(el, "nick")){
+    }else if (strcmp(el, "error") && strcmp(el, "iq") && strcmp(el, "query")){
         set_str(&data.Value, m_data.c_str());
         set_str(&data.ID, m_jid.c_str());
         set_str(&data.Type, el);
@@ -1628,7 +1726,7 @@ protected:
 };
 
 RegisterRequest::RegisterRequest(JabberClient *client, const char *jid)
-        : ServerRequest(client, _GET, NULL, jid)
+        : ServerRequest(client, _SET, NULL, jid)
 {
     m_data = NULL;
     m_bOK  = false;

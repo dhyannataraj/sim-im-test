@@ -31,6 +31,7 @@ Name: desktopicon\user; Description: "For the current user only"; GroupDescripti
 Name: "{app}\po"
 Name: "{app}\sounds"
 Name: "{app}\pict"
+Name: "{app}\styles"
 Name: "{app}\icons"
 Name: "{app}\plugins"
 Name: "{app}\plugins\styles"
@@ -38,6 +39,9 @@ Name: "{app}\plugins\styles"
 [Languages]
 Name: "en"; MessagesFile: "compiler:Default.isl"
 Name: "ru"; MessagesFile: "Russian.isl"
+Name: "it"; MessagesFile: "Italian.isl"
+Name: "de"; MessagesFile: "German.isl"
+Name: "pt"; MessagesFile: "BrazilianPortuguese.isl"
 
 [Files]
 Source: "..\Release\sim.exe"; DestDir: "{app}"; Flags: ignoreversion
@@ -91,6 +95,8 @@ Source: "..\Release\sounds\mailpager.wav"; DestDir: "{app}\sounds"; Flags: ignor
 Source: "..\Release\sounds\error.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
 Source: "..\Release\pict\splash.png"; DestDir: "{app}\pict"; Flags: ignoreversion
 Source: "..\Release\pict\connect.gif"; DestDir: "{app}\pict"; Flags: ignoreversion
+Source: "..\Release\styles\SIM.xsl"; DestDir: "{app}\styles"; Flags: ignoreversion
+Source: "..\Release\styles\XChat.xsl"; DestDir: "{app}\styles"; Flags: ignoreversion
 Source: "..\Release\po\bg.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\ca.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\cs.qm"; DestDir: "{app}\po"; Flags: ignoreversion
