@@ -3972,7 +3972,7 @@ msgstr "\"Enter\" zum &Senden von Nachrichten benutzen"
 
 #: plugins/_core/interfacecfgbase.cpp:135
 msgid "Start SIM on every &windows startup"
-msgstr "SIM bei jedem &Windowsstart starten"
+msgstr "SIM bei jedem &Windows-Start starten"
 
 #: plugins/about/aboutdlg.cpp:44
 msgid "%1 Version: %2"

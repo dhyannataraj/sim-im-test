@@ -2275,7 +2275,7 @@ msgstr "Bemerkong: Fir HTTP-Bolling, des Broxy-Oischdellonga fir HTTP benudzd"
 
 #: plugins/msn/msnconfigbase.cpp:179
 msgid "&Automaticaly add contacts in accept list"
-msgstr ""
+msgstr "Kondakde &audomadisch en Akzebdierenlischde hinzufiga"
 
 #: plugins/icq/aimconfigbase.cc:153 plugins/icq/icqconfigbase.cc:242
 #: plugins/jabber/jabberconfigbase.cpp:294
@@ -3062,7 +3062,7 @@ msgstr "Brofil auswähla"
 
 #: plugins/_core/logindlg.cpp:134
 msgid "Other instance of SIM use this profile"
-msgstr ""
+msgstr "A andere Enschdanz von SIM benudzd dieses Brofil"
 
 #: plugins/_core/logindlg.cpp:303
 msgid "Forgot password?"
@@ -3962,7 +3962,7 @@ msgstr "\"Enter\" zom &Nachrichdensenda benudza"
 
 #: plugins/_core/interfacecfgbase.cpp:135
 msgid "Start SIM on every &windows startup"
-msgstr ""
+msgstr "SIM bei jedem &Wendows-Schdard schdarda"
 
 #: plugins/about/aboutdlg.cpp:44
 msgid "%1 Version: %2"
