@@ -47,6 +47,8 @@
 #include <qpopupmenu.h>
 #include <qstringlist.h>
 #include <qtextcodec.h>
+#include <qmainwindow.h>
+#include <qtoolbar.h>
 #ifdef USE_KDE
 #include <kcolordialog.h>
 #include <kfontdialog.h>
@@ -91,7 +93,15 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     msgView = NULL;
     bMultiply = false;
     setWFlags(WDestructiveClose);
-    frmEdit = new QFrame(this);
+    QMainWindow *w = new QMainWindow(this, "msgedit", 0);
+	frmEdit = new QFrame(w);
+	w->setCentralWidget(frmEdit);
+	QToolBar *t = new QToolBar(w);
+	t->setHorizontalStretchable(true);
+	t->setVerticalStretchable(true);
+    QToolButton *btnIgnore = new QToolButton(t);
+    btnIgnore->setIconSet(Icon("ignorelist"));
+    btnIgnore->setTextLabel(i18n("Add to ignore list"));
     QVBoxLayout *lay = new QVBoxLayout(frmEdit);
     boxSend = new QVGroupBox(frmEdit);
     lay->addWidget(boxSend);

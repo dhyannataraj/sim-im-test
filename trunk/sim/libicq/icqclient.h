@@ -579,7 +579,7 @@ class ICQUser : public ConfigArray
 {
 public:
     ICQUser();
-    ~ICQUser();
+    virtual ~ICQUser();
 
     virtual bool load(istream &s, string &nextPart);
 

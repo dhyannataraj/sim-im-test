@@ -19,8 +19,8 @@
 #include "kpopup.h"
 
 #include <windows.h>
-#include <uxtheme.h>
-#include <tmschema.h>
+#include "uxtheme.h"
+#include "tmschema.h"
 
 #include <qmap.h>
 #include <qwidget.h>
@@ -431,7 +431,6 @@ void QWindowsXPStyle::polish( QWidget *widget )
         widget->setBackgroundPixmap( *d->tabBody( widget ) );
     } else if ( widget->inherits( "QMenuBar" ) ) {
         QPalette pal = widget->palette();
-
         XPThemeData theme( widget, 0, "MENUBAR", 0, 0 );
         if ( theme.isValid() ) {
             COLORREF cref;

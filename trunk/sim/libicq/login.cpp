@@ -137,7 +137,7 @@ void ICQClient::chn_close()
             log(L_WARN, "Unknown error %04X", err);
         }
         if (err){
-            sock->error();
+			if (sock) sock->error();
             return;
         }
     }

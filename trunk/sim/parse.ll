@@ -170,7 +170,7 @@ QString MainWindow::ParseText(const UTFstring &text, bool bIgnoreColors)
             res += "<a href=\"";
             res += url.c_str();
             res += "\">";
-            res += url.c_str();
+            res += text.c_str();
             res += "</a>";
             break;
 		}
@@ -182,7 +182,7 @@ QString MainWindow::ParseText(const UTFstring &text, bool bIgnoreColors)
             res += "<a href=\"";
             res += url.c_str();
             res += "\">";
-            res += url.c_str();
+            res += text.c_str();
             res += "</a>";
             break;
 		}

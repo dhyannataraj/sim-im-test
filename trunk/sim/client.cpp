@@ -869,8 +869,10 @@ int QClientSocket::read(char *buf, unsigned int size)
 {
     int res = sock->readBlock(buf, size);
     if (res < 0){
+#ifdef USE_KDE
 	if (errno == EWOULDBLOCK)
 	   return 0;
+#endif
         if (notify) notify->error_state(ErrorRead);
     }
     return res;
