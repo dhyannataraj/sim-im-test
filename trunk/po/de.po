@@ -1,4 +1,3 @@
-# translation of de.po to Deutsch
 # translation of de.po to deutsch
 # Copyright (C) 2002,2003 Free Software Foundation, Inc.
 # Christoph Thielecke <crissi99@gmx.de>, 2002,2003.
@@ -4056,7 +4055,7 @@ msgstr ""
 
 #: plugins/_core/arcfg.cpp:94 plugins/_core/autoreply.cpp:107
 msgid "In text you can use:"
-msgstr "In Text kann benutzt werden:"
+msgstr "Im Text kann benutzt werden:"
 
 #: plugins/_core/cfgdlg.cpp:271 plugins/_core/usercfg.cpp:195
 msgid "User info"
@@ -5024,7 +5023,7 @@ msgstr "Emot&icons benutzen"
 #: plugins/_core/historycfgbase.cpp:227
 #: plugins/_core/userhistorycfgbase.cpp:125
 msgid "Max history file size"
-msgstr "Maximalgrösse des Verlaufs"
+msgstr "Maximalgröße des Verlaufs"
 
 #: plugins/_core/historycfgbase.cpp:229
 #: plugins/_core/userhistorycfgbase.cpp:123
@@ -6436,7 +6435,7 @@ msgstr "Netzwerkfehler auf niedriger Ebene"
 
 #: plugins/jabber/jabber_rosters.cpp:2526
 msgid "Please translate this to short language name (ru, de)"
-msgstr "Biite dies zu kurzem Namen für Sprache übersetzen (ru, de)"
+msgstr "Bitte dies zu kurzem Namen für Sprache übersetzen (ru, de)"
 
 #: plugins/jabber/jabberadd.cpp:163
 msgid "Add Jabber contact"
@@ -6661,7 +6660,7 @@ msgstr "DiscoInfo"
 
 #: plugins/jabber/discoinfobase.cpp:297
 msgid "Namespaces:"
-msgstr "Namesräume:"
+msgstr "Namensräume:"
 
 #: plugins/jabber/discoinfobase.cpp:298
 msgid "Category:"
@@ -6949,7 +6948,7 @@ msgstr "Zodiak"
 #: plugins/zodiak/zodiak.cpp:51
 msgid "Plugin provides show zodiak puctures for date edit"
 msgstr ""
-"Plugin stellt das Anzeigen  von zodiac-Bildern zum Ändern des Datums "
+"Plugin stellt das Anzeigen von zodiac-Bildern zum Ändern des Datums "
 "bereit"
 
 #: plugins/zodiak/zodiak.cpp:159

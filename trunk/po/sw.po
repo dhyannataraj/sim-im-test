@@ -1082,9 +1082,8 @@ msgstr "&Noi"
 #: plugins/_core/arcfgbase.cpp:110 plugins/_core/autoreplybase.cpp:89
 #: plugins/action/actioncfgbase.cpp:121 plugins/action/additembase.cpp:93
 #: sim/api/simapi.cpp:442
-#, fuzzy
 msgid "&Help"
-msgstr "Hilfe"
+msgstr "&Hilfe"
 
 #: sim/api/simapi.cpp:645
 msgid "Smile"
@@ -1919,37 +1918,32 @@ msgid "December"
 msgstr "Dezembr"
 
 #: sim/ui/datepicker.cpp:232
-#, fuzzy
 msgid "Mon"
-msgstr "Monaco"
+msgstr "Mo"
 
 #: sim/ui/datepicker.cpp:233
-#, fuzzy
 msgid "Tue"
-msgstr "Dirkei"
+msgstr "Di"
 
 #: sim/ui/datepicker.cpp:234
 msgid "Wed"
-msgstr ""
+msgstr "Mi"
 
 #: sim/ui/datepicker.cpp:235
 msgid "Thu"
-msgstr ""
+msgstr "Do"
 
 #: sim/ui/datepicker.cpp:236
-#, fuzzy
 msgid "Fri"
-msgstr "Farsi"
+msgstr "Fr"
 
 #: sim/ui/datepicker.cpp:237
-#, fuzzy
 msgid "Sat"
-msgstr "&Sad:"
+msgstr "Sa"
 
 #: sim/ui/datepicker.cpp:238
-#, fuzzy
 msgid "Sun"
-msgstr "Sudan"
+msgstr "So"
 
 #: plugins/dock/dock.cpp:111 sim/sim.cpp:185
 msgid "SIM"
@@ -3835,7 +3829,7 @@ msgstr "E-Mail:"
 
 #: plugins/icq/aimsearchbase.cc:278
 msgid "&Email"
-msgstr "E-Mail"
+msgstr "&E-Mail"
 
 #: plugins/icq/aimsearchbase.cc:281 plugins/icq/icqsearchbase.cc:336
 msgid "Nickname:"
@@ -4060,7 +4054,7 @@ msgstr ""
 
 #: plugins/_core/arcfg.cpp:94 plugins/_core/autoreply.cpp:107
 msgid "In text you can use:"
-msgstr ""
+msgstr "Em Dexd ka benudzd werda:"
 
 #: plugins/_core/cfgdlg.cpp:271 plugins/_core/usercfg.cpp:195
 msgid "User info"
@@ -4362,10 +4356,18 @@ msgid ""
 "\n"
 "`<command>` - call <command> and substitute command output\n"
 msgstr ""
+"&IP; - IP-Adresse\n"
+"&Mail; - E-Mail\n"
+"&Phone; - Delefon\n"
+"&Nick; - Schbidzname\n"
+"&Unread; - Anzahl dr oglesena Nachrichda des Kondakds\n"
+"&Status; - Kondakdschdadus\n"
+"\n"
+"`<kommando>` - rufd <kommando> uff ond ersedzd Kommandozeilenausgabe\n"
 
 #: plugins/_core/core.cpp:1942
 msgid "&Separate"
-msgstr "&Drenner"
+msgstr "&Drenna"
 
 #: plugins/_core/core.cpp:1980 plugins/_core/userwnd.cpp:124
 #, c-format
@@ -4936,14 +4938,12 @@ msgid "3rd:"
 msgstr "3.:"
 
 #: plugins/_core/userviewcfgbase.cpp:299
-#, fuzzy
 msgid "Awaiting authorization"
-msgstr "Audhorisierong &gewähra"
+msgstr "Audhorisierong ausschdehend"
 
 #: plugins/_core/userviewcfgbase.cpp:303
-#, fuzzy
 msgid "Visible"
-msgstr "Onsichdbar"
+msgstr "Sichdbar"
 
 #: plugins/_core/autoreplybase.cpp:87
 #: plugins/_core/connectionsettingsbase.cpp:105
@@ -4988,7 +4988,7 @@ msgstr "&Chatmodus"
 
 #: plugins/_core/interfacecfgbase.cpp:151
 msgid "&Using last selected font"
-msgstr ""
+msgstr "Zuledzd benudzde Schrifdard &benudza"
 
 #: plugins/_core/interfacecfgbase.cpp:152
 msgid "Container mode"
@@ -5021,33 +5021,30 @@ msgstr "Emot&icons benudza"
 #: plugins/_core/historycfgbase.cpp:227
 #: plugins/_core/userhistorycfgbase.cpp:125
 msgid "Max history file size"
-msgstr ""
+msgstr "Maximolgreße des Vrlaufs"
 
 #: plugins/_core/historycfgbase.cpp:229
 #: plugins/_core/userhistorycfgbase.cpp:123
-#, fuzzy
 msgid "Mb"
-msgstr "MB/s"
+msgstr "MB"
 
 #: plugins/_core/historycfgbase.cpp:231
 #: plugins/_core/userhistorycfgbase.cpp:127
 msgid "Keep history "
-msgstr ""
+msgstr "Vrlauf behalda "
 
 #: plugins/_core/historycfgbase.cpp:232
 #: plugins/_core/userhistorycfgbase.cpp:126
 msgid "days"
-msgstr ""
+msgstr "Dage"
 
 #: plugins/_core/historycfgbase.cpp:238
-#, fuzzy
 msgid "&Preview"
-msgstr "&Vorherige Seide"
+msgstr "&Vorschao"
 
 #: plugins/_core/historycfgbase.cpp:239
-#, fuzzy
 msgid "&Source"
-msgstr "Resource:"
+msgstr "&Quelle"
 
 #: plugins/_core/maininfobase.cpp:232
 msgid "Display:"
@@ -5171,6 +5168,9 @@ msgid ""
 "If you want to add connection press button \" Next\".\n"
 "You can add connection later using connection manager"
 msgstr ""
+"Wenn a Vrbendong hinzugfigd werda sodd, da \"Weidr\"-Knobf "
+"kligga.\n"
+"Vrbendonga kenna schbädr mid dem Vrbendongsmanagr hinzugfigd werda"
 
 #: plugins/_core/filecfgbase.cpp:146
 msgid "Path for incoming files:"
@@ -5217,9 +5217,8 @@ msgid "Open window if user go online"
 msgstr "&Fenschdr effna, wenn Benudzr online gehd"
 
 #: plugins/_core/msgcfgbase.cpp:118
-#, fuzzy
 msgid "&No open"
-msgstr "&Ned anzeiga"
+msgstr "&Ned effna"
 
 #: plugins/_core/msgcfgbase.cpp:119
 msgid "Open and &minimize"
@@ -5512,13 +5511,12 @@ msgid "seconds inactive"
 msgstr "Sekonda Enakdividäd"
 
 #: plugins/dock/dockcfgbase.cpp:125
-#, fuzzy
 msgid "Show Mainwin on desktop"
-msgstr "Haubdfenschdr anzeiga"
+msgstr "Haubdfenschdr uff dr Arbeidsfläche anzeiga"
 
 #: plugins/dock/dockcfgbase.cpp:126
 msgid "current"
-msgstr ""
+msgstr "akduell"
 
 #: plugins/dock/dockcfgbase.cpp:127
 msgid "&Customize dock menu"
@@ -5541,9 +5539,8 @@ msgid "Ignore user"
 msgstr "Benudzr ignoriera"
 
 #: plugins/filter/filter.cpp:115
-#, fuzzy
 msgid "Ignore this phrase"
-msgstr "Ignoriera-Lischde"
+msgstr "Dieses Word ignoriera"
 
 #: plugins/filter/filter.cpp:227
 msgid "Add %1 to ignore list?"
@@ -6030,7 +6027,7 @@ msgstr "&Fehlr"
 
 #: plugins/netmonitor/monitor.cpp:160
 msgid "&Packets"
-msgstr ""
+msgstr "&Bakede"
 
 #: plugins/ontop/ontop.cpp:43
 msgid "On Top"
@@ -6409,14 +6406,12 @@ msgid "Jabber"
 msgstr "Jabber"
 
 #: plugins/jabber/jabber.cpp:421 plugins/jabber/jabber.cpp:430
-#, fuzzy
 msgid "Jabber browser"
-msgstr "Jabber-ID"
+msgstr "Jabber-Browser"
 
 #: plugins/jabber/jabber.cpp:439
-#, fuzzy
 msgid "&Back"
-msgstr "Zurigg"
+msgstr "&Zurigg"
 
 #: plugins/jabber/jabber.cpp:454 plugins/jabber/jabberbrowser.cpp:124
 #: plugins/jabber/jabberbrowser.cpp:513 plugins/jabber/services.cpp:45
@@ -6424,19 +6419,16 @@ msgid "JID"
 msgstr "JID"
 
 #: plugins/jabber/jabber.cpp:461 plugins/jabber/jabberbrowser.cpp:126
-#, fuzzy
 msgid "Node"
-msgstr "Koin Proxy"
+msgstr "Knoda"
 
 #: plugins/jabber/jabber.cpp:467
-#, fuzzy
 msgid "&Search"
-msgstr "Sucha"
+msgstr "&Sucha"
 
 #: plugins/jabber/jabber.cpp:481
-#, fuzzy
 msgid "Info"
-msgstr "Enformaz&ion"
+msgstr "Enfo"
 
 #: plugins/jabber/jabber_rosters.cpp:1901
 msgid "Password does not match"
@@ -6448,16 +6440,15 @@ msgstr "Nedzwerkfehlr uff niedrigr Ebene"
 
 #: plugins/jabber/jabber_rosters.cpp:2526
 msgid "Please translate this to short language name (ru, de)"
-msgstr ""
+msgstr "Bidde sell zu kurzem Nama fir Schbrache ibersedza (ru, de)"
 
 #: plugins/jabber/jabberadd.cpp:163
 msgid "Add Jabber contact"
 msgstr "Jabber-Kondakd hinzufiga"
 
 #: plugins/jabber/jabberadd.cpp:197
-#, fuzzy
 msgid "%1 is already in contact list"
-msgstr "%1 bereids en Kondakdlischde"
+msgstr "%1 bereids en dr Kondakdlischde"
 
 #: plugins/jabber/jabberclient.cpp:1584 plugins/jabber/jabberclient.cpp:1693
 msgid "Photo"
@@ -6522,23 +6513,20 @@ msgid "Username"
 msgstr "Benudzername"
 
 #: plugins/jabber/jabbersearch.cpp:103
-#, fuzzy
 msgid "Age min"
-msgstr "Argndinia"
+msgstr "Minimoles Aldr"
 
 #: plugins/jabber/jabbersearch.cpp:104
 msgid "Age max"
-msgstr ""
+msgstr "Maximoles Aldr"
 
 #: plugins/jabber/jabbersearch.cpp:105
-#, fuzzy
 msgid "City"
-msgstr "Schdadd:"
+msgstr "Schdadd"
 
 #: plugins/jabber/jabbersearch.cpp:200
-#, fuzzy
 msgid "Gender"
-msgstr "Gschlechd:"
+msgstr "Gschlechd"
 
 #: plugins/jabber/jabbersearch.cpp:303
 msgid "First (Given)"
@@ -6658,9 +6646,9 @@ msgstr ""
 #: plugins/jabber/jabberbrowser.cpp:294 plugins/jabber/jabberbrowser.cpp:323
 #: plugins/jabber/jabberbrowser.cpp:435 plugins/jabber/jabberbrowser.cpp:455
 #: plugins/jabber/services.cpp:106
-#, fuzzy, c-format
+#, c-format
 msgid "Error %1"
-msgstr "Fehlr"
+msgstr "Fehlr %1"
 
 #: plugins/jabber/jabberinfobase.cpp:242
 msgid "ID:"
@@ -6673,50 +6661,43 @@ msgstr "Resource:"
 
 #: plugins/jabber/discoinfobase.cpp:296
 msgid "DiscoInfo"
-msgstr ""
+msgstr "DiscoInfo"
 
 #: plugins/jabber/discoinfobase.cpp:297
-#, fuzzy
 msgid "Namespaces:"
-msgstr "Name:"
+msgstr "Namensräome:"
 
 #: plugins/jabber/discoinfobase.cpp:298
 msgid "Category:"
-msgstr ""
+msgstr "Kadegorie:"
 
 #: plugins/jabber/discoinfobase.cpp:303
-#, fuzzy
 msgid "Version:"
-msgstr "%1 Vrsion: %2"
+msgstr "Vrsion:"
 
 #: plugins/jabber/discoinfobase.cpp:304
-#, fuzzy
 msgid "System:"
-msgstr "Syschdem"
+msgstr "Syschdem:"
 
 #: plugins/jabber/discoinfo.cpp:121 plugins/jabber/discoinfobase.cpp:305
-#, fuzzy
 msgid "&Version"
-msgstr "Bersisch"
+msgstr "&Vrsion"
 
 #: plugins/jabber/discoinfobase.cpp:306
-#, fuzzy
 msgid "UTC client time:"
-msgstr "ICQ-Cliend fir QT/KDE"
+msgstr "UTC-Cliendzeid:"
 
 #: plugins/jabber/discoinfobase.cpp:307
 msgid "Last activity, idle response:"
-msgstr ""
+msgstr "Ledzde Akdividäd, Leerlaufandword:"
 
 #: plugins/jabber/discoinfo.cpp:136 plugins/jabber/discoinfobase.cpp:308
-#, fuzzy
 msgid "&Time"
-msgstr "Zeid:"
+msgstr "Zei&d:"
 
 #: plugins/jabber/discoinfobase.cpp:310
-#, fuzzy
 msgid "&Statistic"
-msgstr "&Schdadus"
+msgstr "&Schdadischdik"
 
 #: plugins/jabber/discoinfobase.cpp:317
 msgid "Phone:"
@@ -6735,7 +6716,6 @@ msgid "Service:"
 msgstr "Dienschd:"
 
 #: plugins/jabber/jabberconfigbase.cpp:309
-#, fuzzy
 msgid "Username:"
 msgstr "Benudzername"
 
@@ -6785,9 +6765,8 @@ msgid "Role:"
 msgstr "Funkzion:"
 
 #: plugins/jabber/jabberaboutinfobase.cpp:88
-#, fuzzy
 msgid "Additional information:"
-msgstr "Zusädzliche Enformazion ibr da Benudzr:"
+msgstr "Zusädzliche Enformazion:"
 
 #: plugins/jabber/servicesbase.cpp:167 plugins/jabber/servicesbase.cpp:173
 msgid "Jabber agents are available online after login"
@@ -6818,145 +6797,126 @@ msgid "&Agents"
 msgstr "&Agenda"
 
 #: plugins/jabber/jabberbrowser.cpp:45 plugins/jabber/jabberbrowser.cpp:243
-#, fuzzy
 msgid "Process"
-msgstr "Brofi"
+msgstr "Brozess"
 
 #: plugins/jabber/jabberbrowser.cpp:91
-#, fuzzy
 msgid "Done"
-msgstr "Nonda"
+msgstr "Ferdig"
 
 #: plugins/jabber/jabberbrowser.cpp:172
-#, fuzzy, c-format
+#, c-format
 msgid "Browser: %1"
-msgstr "Browsr:"
+msgstr "Browsr: %1"
 
 #: plugins/jabber/jabberbrowser.cpp:226
-#, fuzzy
 msgid "Stop"
-msgstr "Oirichda"
+msgstr "Schdobb"
 
 #: plugins/jabber/jabberbrowser.cpp:245
-#, fuzzy
 msgid "Client offline"
-msgstr "Client gehd offline"
+msgstr "Client offline"
 
 #: plugins/jabber/jabberbrowser.cpp:353
-#, fuzzy
 msgid "%1 Search"
-msgstr "Sucha"
+msgstr "%1 Sucha"
 
 #: plugins/jabber/jabberbrowser.cpp:360
-#, fuzzy
 msgid "%1 Register"
-msgstr "&Regischdriera"
+msgstr "%1 Regischdriera"
 
 #: plugins/jabber/jabberbrowser.cpp:367
-#, fuzzy
 msgid "%1 Configure"
-msgstr "Konfiguriera"
+msgstr "%1 Konfiguriera"
 
 #: plugins/jabber/jabberbrowser.cpp:630
 msgid "Choose a user and password to register with the server"
-msgstr ""
+msgstr "Bidde Benudzr ond Bassword zom Regischdriera mid dem Servr auswähla"
 
 #: plugins/jabber/discoinfo.cpp:59
 msgid "Units"
-msgstr ""
+msgstr "Oiheida"
 
 #: plugins/jabber/discoinfo.cpp:60
-#, fuzzy
 msgid "Value"
-msgstr "Männlich"
+msgstr "Werd"
 
 #: plugins/jabber/discoinfo.cpp:163
-#, fuzzy
 msgid "&Stat"
 msgstr "&Schdadus"
 
 #: plugins/jabber/discoinfo.cpp:246
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: %n day\n"
 "%n days"
 msgstr ""
-"%n GPG-Schlissl\n"
-"%n GPG-Schlissl"
+"%n Dag\n"
+"%n Dage"
 
 #: plugins/spell/spell.cpp:61
 msgid "Spell check"
-msgstr ""
+msgstr "Rechdschreibbrifong"
 
 #: plugins/spell/spell.cpp:62
-#, fuzzy
 msgid "Plugin provides check spelling"
-msgstr "Blugin schdelld Anzeiga ois Symbols en dr Kondrollleischde bereid"
+msgstr "Blugin schdelld Rechdschreibbrifong bereid"
 
 #: plugins/spell/spellcfg.cpp:46
 msgid "ASpell(aspell.exe)"
-msgstr ""
+msgstr "ASpell(aspell.exe)"
 
 #: plugins/spell/spellcfg.cpp:48
-#, fuzzy
 msgid "Download ASpell"
-msgstr "GPG ralada"
+msgstr "ASpell ralada"
 
 #: plugins/spell/spellhighlight.cpp:209
 msgid "Add '%1'"
-msgstr ""
+msgstr "'%1' hinzufiga"
 
 #: plugins/spell/spellhighlight.cpp:213
-#, fuzzy
 msgid "Ignore '%1'"
-msgstr "Ignoriera-Lischde"
+msgstr "'%1' ignoriera"
 
 #: plugins/action/action.cpp:33
-#, fuzzy
 msgid "Action"
-msgstr "Bildong"
+msgstr "Akzion"
 
 #: plugins/action/action.cpp:34
 msgid "Plugin execute external programs on event or from contact menu"
-msgstr ""
+msgstr "Blugin fihrd exderne Brogramme bei oim Ereignis odr von Kondakdmai aus"
 
 #: plugins/action/action.cpp:84
-#, fuzzy
 msgid "&Action"
-msgstr "&Ord"
+msgstr "&Akzion"
 
 #: plugins/action/menucfg.cpp:31
-#, fuzzy
 msgid "Item"
-msgstr "Neies Elemend"
+msgstr "Elemend"
 
 #: plugins/action/actioncfg.cpp:42 plugins/action/menucfg.cpp:32
 msgid "Program"
-msgstr ""
+msgstr "Brogramm"
 
 #: plugins/action/actioncfg.cpp:41
-#, fuzzy
 msgid "Event"
 msgstr "Ereignisse"
 
 #: plugins/action/actioncfg.cpp:47
-#, fuzzy
 msgid "Contact online"
-msgstr "Benudzr hodd sich abgmelded"
+msgstr "Kondakd ischd online"
 
 #: plugins/action/actioncfg.cpp:53
-#, fuzzy
 msgid "Status changed"
-msgstr "Schdadusleischde anzeiga"
+msgstr "Schdadus geänderd"
 
 #: plugins/action/actioncfg.cpp:91
-#, fuzzy
 msgid "Menu"
-msgstr "&Meni"
+msgstr "Meni"
 
 #: plugins/action/actioncfg.cpp:177 plugins/action/additem.cpp:52
 msgid "In command line you can use:"
-msgstr ""
+msgstr "En Kommandozeile ka benudzd werda:"
 
 #: plugins/action/actioncfg.cpp:182
 msgid ""
@@ -6967,96 +6927,91 @@ msgid ""
 "If program output is empty,  message will be destroyed.\n"
 "Thus it is possible to organize additional messages filters.\n"
 msgstr ""
+"Bei Nachrichdenereignissa wird dr Nachrichdendexd zur Schdandardeingabe des "
+"brogramms gsended.\n"
+"Wenn des Brogramm da Fehlercode Null lieferd, wird dr dexd durch d "
+"Brogrammausgabe ersedzd.\n"
+"Wenn d Brogrammausgabe ler ischd, wird d Nachrichd zerschderd.\n"
+"Dadurch ischd s meglich, zusädzliche Nachrichdenfildr zu vrwalda.\n"
 
 #: plugins/action/additembase.cpp:90
-#, fuzzy
 msgid "Add Item"
-msgstr "Neies Elemend"
+msgstr "Elemend hinzufiga"
 
 #: plugins/action/additembase.cpp:91
-#, fuzzy
 msgid "Item:"
-msgstr "Neies Elemend"
+msgstr "Elemend:"
 
 #: plugins/action/additembase.cpp:92
-#, fuzzy
 msgid "Program:"
-msgstr "Bord:"
+msgstr "Brogramm:"
 
 #: plugins/zodiak/zodiak.cpp:50
 msgid "Zodiak"
-msgstr ""
+msgstr "Zodiak"
 
 #: plugins/zodiak/zodiak.cpp:51
-#, fuzzy
 msgid "Plugin provides show zodiak puctures for date edit"
 msgstr ""
-"Dieses Blugin ermeglichd des Oifiga von Hendergrondbildern fir d "
-"Benudzerlischde"
+"Blugin schdelld des Anzeiga von zodiac-Bildern zom Ändern des Dadoms "
+"bereid"
 
 #: plugins/zodiak/zodiak.cpp:159
 msgid "View horoscope"
-msgstr ""
+msgstr "Horoskob anzeiga"
 
 #: plugins/zodiak/zodiak.cpp:180
-#, fuzzy
 msgid "Aries"
-msgstr "Addribude"
+msgstr "Widdr"
 
 #: plugins/zodiak/zodiak.cpp:181
-#, fuzzy
 msgid "Taurus"
-msgstr "Nauru"
+msgstr "Schdir"
 
 #: plugins/zodiak/zodiak.cpp:182
-#, fuzzy
 msgid "Gemini"
-msgstr "Deidsch"
+msgstr "Zwillinge"
 
 #: plugins/zodiak/zodiak.cpp:183
-#, fuzzy
 msgid "Cancer"
-msgstr "Abbrecha"
+msgstr "Krebs"
 
 #: plugins/zodiak/zodiak.cpp:184
-#, fuzzy
 msgid "Leo"
-msgstr "Lao"
+msgstr "Lewe"
 
 #: plugins/zodiak/zodiak.cpp:185
 msgid "Virgo"
-msgstr ""
+msgstr "Jongfrao"
 
 #: plugins/zodiak/zodiak.cpp:186
-#, fuzzy
 msgid "Libra"
-msgstr "Liberia"
+msgstr "Waage"
 
 #: plugins/zodiak/zodiak.cpp:187
 msgid "Scorpio"
-msgstr ""
+msgstr "Skorbion"
 
 #: plugins/zodiak/zodiak.cpp:188
 msgid "Saqittarius"
-msgstr ""
+msgstr "Schidze"
 
 #: plugins/zodiak/zodiak.cpp:189
 msgid "Capricorn"
-msgstr ""
+msgstr "Schdeinbogg"
 
 #: plugins/zodiak/zodiak.cpp:190
 msgid "Aquarius"
-msgstr ""
+msgstr "Wassermann"
 
 #: plugins/zodiak/zodiak.cpp:191
-#, fuzzy
 msgid "Pisces"
-msgstr "Bild"
+msgstr "Fische"
 
 #: plugins/zodiak/zodiak.cpp:233
 #, c-format
 msgid "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
-msgstr ""
+msgstr "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
 
 #~ msgid "Month:"
 #~ msgstr "Monad:"
