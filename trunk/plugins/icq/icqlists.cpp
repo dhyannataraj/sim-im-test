@@ -559,8 +559,30 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
     case ICQ_SNACxLISTS_DONE:
         if (m_listRequest && m_listRequest->seq() == seq){
             unsigned short res;
+			char *msg;
             m_socket->readBuffer >> res;
-            log(L_DEBUG, "List request answer %u", res);
+			switch (res) {
+				case 0x00:
+					msg = "No errors (success)";
+				case 0x02:
+					msg = "Item you want to modify not found in list";
+				case 0x03:
+					msg = "Item you want to add allready exists";
+				case 0x0a:
+					msg = "Error adding item (invalid id, allready in list, invalid data)";
+				case 0x0c:
+					msg = "Can't add item. Limit for this type of items exceeded";
+				case 0x0d:
+					msg = "Trying to add ICQ contact to an AIM list";
+				case 0x0e:
+					msg = "Can't add this contact because it requires authorization";
+				default:
+					msg = NULL;
+			}
+            if (msg)
+				log(L_DEBUG, msg);
+			else
+				log(L_DEBUG, "Unknown list request answer %u", res);
             m_listRequest->process(this, res);
             delete m_listRequest;
             m_listRequest = NULL;
@@ -607,7 +629,7 @@ void ICQClient::sendInvisibleList()
     << 0x00000000L << getContactsInvisible()
     << (unsigned short)0x0004
     << (unsigned short)0x0005
-    << 0x00CA0001L
+    << 000CA0001L
     << (char)4;
     sendPacket();
 }

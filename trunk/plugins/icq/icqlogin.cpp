@@ -36,13 +36,28 @@ const unsigned short ICQ_SNACxLOGIN_REGISTER			= 0x0005;
 const unsigned short ICQ_SNACxLOGIN_AUTHxREQUEST		= 0x0006;
 const unsigned short ICQ_SNACxLOGIN_AUTHxKEYxRESPONSE	= 0x0007;
 
-const unsigned ICQ_LOGIN_ERRxBAD_PASSWD				= 0x0004;
-const unsigned ICQ_LOGIN_ERRxBAD_PASSWD1			= 0x0005;
-const unsigned ICQ_LOGIN_ERRxNOT_EXISTS				= 0x0007;
-const unsigned ICQ_LOGIN_ERRxNOT_EXISTS1			= 0x0008;
-const unsigned ICQ_LOGIN_ERRxIP_RATE_LIMIT			= 0x0015;
+const unsigned ICQ_LOGIN_ERRxBAD_PASSWD1			= 0x0001;
+const unsigned ICQ_LOGIN_ERRxBAD_PASSWD2			= 0x0004;
+const unsigned ICQ_LOGIN_ERRxBAD_PASSWD3			= 0x0005;
+const unsigned ICQ_LOGIN_ERRxBAD_LOGIN				= 0x0006;
+const unsigned ICQ_LOGIN_ERRxNOT_EXISTS1			= 0x0007;
+const unsigned ICQ_LOGIN_ERRxNOT_EXISTS2			= 0x0008;
+const unsigned ICQ_LOGIN_ERRxUNAVAILABLE1			= 0x000c;
+const unsigned ICQ_LOGIN_ERRxUNAVAILABLE2			= 0x000d;
+const unsigned ICQ_LOGIN_ERRxSUSPENDED1				= 0x0011;
+const unsigned ICQ_LOGIN_ERRxUNAVAILABLE3			= 0x0012;
+const unsigned ICQ_LOGIN_ERRxUNAVAILABLE4			= 0x0013;
+const unsigned ICQ_LOGIN_ERRxUNAVAILABLE5			= 0x0014;
+const unsigned ICQ_LOGIN_ERRxUNAVAILABLE6			= 0x0015;
 const unsigned ICQ_LOGIN_ERRxIP_RATE_LIMIT1			= 0x0016;
-const unsigned ICQ_LOGIN_ERRxRATE_LIMIT				= 0x0018;
+const unsigned ICQ_LOGIN_ERRxRATE_LIMIT1			= 0x0018;
+const unsigned ICQ_LOGIN_ERRxUNAVAILABLE7			= 0x001a;
+const unsigned ICQ_LOGIN_ERRxOLDCLIENT1				= 0x001b;
+const unsigned ICQ_LOGIN_ERRxOLDCLIENT2				= 0x001c;
+const unsigned ICQ_LOGIN_ERRxRATE_LIMIT2			= 0x001d;
+const unsigned ICQ_LOGIN_ERRxUNAVAILABLE8			= 0x001f;
+const unsigned ICQ_LOGIN_ERRxINVALID_ID 			= 0x0020;
+const unsigned ICQ_LOGIN_ERRxTOO_YOUNG				= 0x0022;
 
 void ICQClient::snac_login(unsigned short type, unsigned short)
 {
@@ -174,32 +189,64 @@ void ICQClient::chn_close()
         unsigned short err = *tlv_error;
         string errString;
         switch (err){
-        case ICQ_LOGIN_ERRxIP_RATE_LIMIT:
+		case ICQ_LOGIN_ERRxOLDCLIENT1:
+		case ICQ_LOGIN_ERRxOLDCLIENT2:
+            errString = I18N_NOOP("This client is outdated");
+            m_reconnect = NO_RECONNECT;
+            break;
         case ICQ_LOGIN_ERRxIP_RATE_LIMIT1:
             errString = I18N_NOOP("Too many clients from same IP");
             m_reconnect = NO_RECONNECT;
             break;
-        case ICQ_LOGIN_ERRxRATE_LIMIT:
+        case ICQ_LOGIN_ERRxRATE_LIMIT1:
+        case ICQ_LOGIN_ERRxRATE_LIMIT2:
             errString = I18N_NOOP("Rate limit");
             m_reconnect = NO_RECONNECT;
             break;
-        case ICQ_LOGIN_ERRxBAD_PASSWD:
         case ICQ_LOGIN_ERRxBAD_PASSWD1:
+        case ICQ_LOGIN_ERRxBAD_PASSWD2:
+        case ICQ_LOGIN_ERRxBAD_PASSWD3:
             errString = I18N_NOOP("Invalid UIN and password combination");
             m_reconnect = NO_RECONNECT;
             errorCode = AuthError;
             break;
-        case ICQ_LOGIN_ERRxNOT_EXISTS:
         case ICQ_LOGIN_ERRxNOT_EXISTS1:
+        case ICQ_LOGIN_ERRxNOT_EXISTS2:
             errString = I18N_NOOP("Non-existant UIN");
             m_reconnect = NO_RECONNECT;
             errorCode = AuthError;
             break;
-        case 0:
+        case ICQ_LOGIN_ERRxBAD_LOGIN:
+			errString = I18N_NOOP("Bad login procedure");
+            m_reconnect = NO_RECONNECT;
+            break;
+		case ICQ_LOGIN_ERRxUNAVAILABLE1:
+		case ICQ_LOGIN_ERRxUNAVAILABLE2:
+		case ICQ_LOGIN_ERRxUNAVAILABLE3:
+		case ICQ_LOGIN_ERRxUNAVAILABLE4:
+		case ICQ_LOGIN_ERRxUNAVAILABLE5:
+		case ICQ_LOGIN_ERRxUNAVAILABLE6:
+		case ICQ_LOGIN_ERRxUNAVAILABLE7:
+		case ICQ_LOGIN_ERRxUNAVAILABLE8:
+			errString = I18N_NOOP("Service temporarly unavailable");
+            m_reconnect = NO_RECONNECT;
+			break;
+		case ICQ_LOGIN_ERRxINVALID_ID:
+			errString = I18N_NOOP("Invalid SecureID");
+            m_reconnect = NO_RECONNECT;
+			break;
+		case ICQ_LOGIN_ERRxTOO_YOUNG:
+			errString = I18N_NOOP("Too young!");
+            m_reconnect = NO_RECONNECT;
+			break;
+		case ICQ_LOGIN_ERRxSUSPENDED1:
+			errString = I18N_NOOP("UIN was suspended");
+            m_reconnect = NO_RECONNECT;
+		case 0:
             break;
         default:
             errString = "Unknown error ";
-            errString += number(err);
+            errString += number(err
         }
         if (err){
             log(L_ERROR, "%s", errString.c_str());
