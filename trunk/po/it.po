@@ -1,4 +1,5 @@
-# Translation to italian:
+# ITALIAN TRANSLATION OF SIM-ICQ
+# Copyright (C) 2002-2004 Free Software Foundation, Inc.
 # Salvatore Caligiore <caligiore@bigfoot.com>, 2002.
 # Lapo Luchini <lapo@lapo.it>, 2003-2004
 #
@@ -6,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sim\n"
 "POT-Creation-Date: 2004-04-11 14:17+0400\n"
-"PO-Revision-Date: 2004-04-15 12:46+0100\n"
+"PO-Revision-Date: 2004-04-15 12:54+0100\n"
 "Last-Translator: Lapo Luchini <lapo@lapo.it>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2381,7 +2382,7 @@ msgstr ""
 
 #: plugins/msn/msnconfigbase.cpp:179
 msgid "&Automaticaly add contacts in accept list"
-msgstr ""
+msgstr "&Aggiungi automaticamente i contatti in lista accettati"
 
 #: plugins/icq/aimconfigbase.cc:153
 #: plugins/icq/icqconfigbase.cc:242
@@ -6355,7 +6356,7 @@ msgstr "&AIM"
 #: plugins/icq/icqconfigbase.cc:234
 #: plugins/yahoo/yahoocfgbase.cpp:181
 msgid "&Automaticaly use HTTP pooling if proxy required"
-msgstr ""
+msgstr "Usa &automaticamente polling HTTP se è richiesto proxy"
 
 #: plugins/icq/aimconfigbase.cc:152
 #: plugins/icq/icqconfigbase.cc:241
