@@ -15,11 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qsimplerichtext.h>
+
 #include "linklabel.h"
 
 #include <qcursor.h>
 #include <qapplication.h>
 #include <qtooltip.h>
+#include <qstylesheet.h>
+#include <qpainter.h>
 
 LinkLabel::LinkLabel(QWidget *parent, const char *name)
         : QLabel(parent, name)
@@ -46,17 +50,14 @@ void LinkLabel::mouseReleaseEvent(QMouseEvent * e)
 }
 
 TipLabel::TipLabel(const QString &text)
-        : QLabel(NULL, "toolTipTip",
-                 WStyle_StaysOnTop | WStyle_Customize | WStyle_NoBorder | WStyle_Tool | WX11BypassWM )
+        : QLabel(NULL, "toolTipTip", WStyle_StaysOnTop | WStyle_Customize | WStyle_NoBorder | WStyle_Tool | WX11BypassWM)
 {
-    setMargin(1);
-    setIndent(0);
+    setMargin(3);
     setAutoMask( FALSE );
-    setFrameStyle( QFrame::Plain | QFrame::Box );
-    setLineWidth( 1 );
+    setFrameStyle(QFrame::Plain | QFrame::Box);
+    setLineWidth(1);
     polish();
-    setText(text);
-    adjustSize();
+    m_text = text;
     setPalette(QToolTip::palette());
 }
 
@@ -65,18 +66,20 @@ TipLabel::~TipLabel()
     emit finished();
 }
 
+extern QMimeSourceFactory *_factory;
+
 void TipLabel::setText(const QString &text)
 {
-    QLabel::setText(QString("<div align=\"left\">") + text);
+	m_text = text;
 }
 
 void TipLabel::show(const QRect &tipRect, bool bState)
 {
-    setAlignment( WordBreak | AlignCenter );
+	QSimpleRichText richText(m_text, font(), "", QStyleSheet::defaultSheet(), _factory, -1, Qt::blue, false);
+	richText.adjustSize();
+	QSize s(richText.widthUsed() + 8, richText.height() + 8);
+    resize(s.width(), s.height());
     QRect rc = screenGeometry();
-    QSize s = sizeHint();
-    int h = heightForWidth(s.width());
-    resize(s.width(), h );
     int x = tipRect.left() + tipRect.width() / 2 - width();
     if (x < 0)
         x = tipRect.left() + tipRect.width() / 2;
@@ -96,6 +99,13 @@ void TipLabel::show(const QRect &tipRect, bool bState)
         y = tipRect.top() + tipRect.height() + 4;
     move(x, y);
     QLabel::show();
+}
+
+void TipLabel::drawContents(QPainter *p)
+{
+	QSimpleRichText richText(m_text, font(), "", QStyleSheet::defaultSheet(), _factory, -1, Qt::blue, false);
+	richText.adjustSize();
+	richText.draw (p, 4, 4, QRegion(0, 0, width(), height()), QToolTip::palette());
 }
 
 #ifndef WIN32

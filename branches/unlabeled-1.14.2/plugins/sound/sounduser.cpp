@@ -43,7 +43,7 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
     s = plugin->fullName(user_data->Alert.ptr);
     QListViewItem *item = new QListViewItem(lstSound, i18n("Online alert"), QFile::decodeName(s.c_str()));
     item->setText(2, QString::number(ONLINE_ALERT));
-    item->setPixmap(0, makePixmap("licq"));
+    item->setPixmap(0, makePixmap("ICQ"));
 
     CommandDef *cmd;
     CommandsMapIterator it(m_plugin->core->messageTypes);

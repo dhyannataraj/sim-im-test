@@ -23,6 +23,8 @@
 #include "html.h"
 #include "core.h"
 
+#include "xpm/livejournal.xpm"
+
 #ifdef USE_OPENSSL
 #include <openssl/md5.h>
 #else
@@ -37,10 +39,6 @@
 
 #include <qtimer.h>
 #include <qregexp.h>
-
-#include "xpm/livejournal.xpm"
-#include "xpm/livejournal_off.xpm"
-#include "xpm/livejournal_upd.xpm"
 
 Plugin *createLiveJournalPlugin(unsigned base, bool, const char*)
 {
@@ -203,19 +201,15 @@ LiveJournalPlugin::LiveJournalPlugin(unsigned base)
         : Plugin(base)
 {
     IconDef icon;
-    icon.name = "livejournal";
-    icon.xpm  = livejournal;
-    icon.isSystem = false;
+    icon.name  = "LiveJournal";
+	icon.xpm   = livejournal;
 
     Event eIcon(EventAddIcon, &icon);
     eIcon.process();
 
-    icon.name = "livejournal_off";
-    icon.xpm  = livejournal_off;
-    eIcon.process();
-
-    icon.name = "livejournal_upd";
-    icon.xpm  = livejournal_upd;
+    icon.name	= "upd";
+	icon.xpm	= NULL;
+	icon.flags	= 160;
     eIcon.process();
 
     m_protocol = new LiveJournalProtocol(this);
@@ -234,7 +228,7 @@ LiveJournalPlugin::LiveJournalPlugin(unsigned base)
 
     cmd->id			 = MessageJournal;
     cmd->text		 = I18N_NOOP("LiveJournal &post");
-    cmd->icon		 = "livejournal";
+    cmd->icon		 = "LiveJournal";
     cmd->accel		 = "Ctrl+P";
     cmd->menu_grp	 = 0x3080;
     cmd->flags		 = COMMAND_DEFAULT;
@@ -254,7 +248,7 @@ LiveJournalPlugin::LiveJournalPlugin(unsigned base)
 
     cmd->id			 = MessageUpdated;
     cmd->text		 = I18N_NOOP("Friends updated");
-    cmd->icon		 = "livejournal_upd";
+    cmd->icon		 = "LiveJournal_upd";
     cmd->accel		 = NULL;
     cmd->menu_grp	 = 0;
     cmd->popup_id	 = 0;
@@ -298,7 +292,7 @@ static CommandDef livejournal_descr =
     {
         0,
         I18N_NOOP("LiveJournal"),
-        "livejournal",
+        "LiveJournal",
         NULL,
         NULL,
         0,
@@ -321,7 +315,7 @@ static CommandDef livejournal_status_list[] =
         {
             STATUS_ONLINE,
             I18N_NOOP("Online"),
-            "livejournal",
+            "LiveJournal_online",
             NULL,
             NULL,
             0,
@@ -336,7 +330,7 @@ static CommandDef livejournal_status_list[] =
         {
             STATUS_OFFLINE,
             I18N_NOOP("Offline"),
-            "livejournal_off",
+            "LiveJournal_offline",
             NULL,
             NULL,
             0,
@@ -707,7 +701,7 @@ static CommandDef cfgLiveJournalWnd[] =
         {
             MAIN_INFO,
             "",
-            "livejournal",
+            "LiveJournal",
             NULL,
             NULL,
             0,
@@ -858,7 +852,7 @@ void LiveJournalClient::contactInfo(void*, unsigned long &curStatus, unsigned&, 
     const char *dicon = "livejournal_off";
     if ((getState() == Connected) && (m_status != STATUS_OFFLINE)){
         status = STATUS_ONLINE;
-        dicon = "livejournal";
+        dicon = "LiveJournal_online";
     }
     if (status > curStatus){
         curStatus = status;

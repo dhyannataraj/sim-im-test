@@ -98,12 +98,12 @@ void SimApp::saveState(QSessionManager &sm)
     QApplication::saveState(sm);
 }
 
-#ifndef WIN32
-
 void simMessageOutput( QtMsgType, const char *msg )
 {
     log(L_DEBUG, "QT: %s", msg);
 }
+
+#ifndef WIN32
 
 static const char *qt_args[] =
     {
@@ -177,9 +177,7 @@ int main(int argc, char *argv[])
     HANDLE hMutex = CreateMutexA(NULL, FALSE, "SIM_Mutex");
 #endif
     QApplication::setColorSpec( QApplication::ManyColor );
-#ifndef WIN32
     qInstallMsgHandler(simMessageOutput);
-#endif
     KAboutData aboutData(PACKAGE,
                          I18N_NOOP("SIM"),
                          _VERSION,

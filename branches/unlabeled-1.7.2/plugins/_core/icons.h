@@ -27,11 +27,15 @@ using namespace std;
 
 typedef struct PictDef
 {
-    QIconSet 	 icon;
-    bool	 bSystem;
+    QIconSet	iconSet;
+	const char	**xpm;
+	const char	*system;
+	unsigned	flags;
 } PictDef;
 
 typedef map<my_string, PictDef> PIXMAP_MAP;
+
+class QMimeSourceFactory;
 
 class Icons : public QObject, public EventReceiver
 {
@@ -45,14 +49,12 @@ protected:
     PIXMAP_MAP icons;
     PIXMAP_MAP bigIcons;
     void *processEvent(Event*);
-    void addIcon(const char *name, const char **xpm, bool isSystem);
-    void addBigIcon(const char *name, const char **xpm, bool isSystem);
+    PictDef *addIcon(const char *name, const char **xpm, const char *system, unsigned flags);
     void remove(const char *name);
     void fill(list<string> *names);
-    const QIconSet *addIcon(const char *name, const QIconSet &icon, bool isSystem);
     const QIconSet *getIcon(const char *name);
-    const QIconSet *addBigIcon(const char *name, const QIconSet &icon, bool isSystem);
     const QIconSet *getBigIcon(const char *name);
+	QMimeSourceFactory	*my_factory;
 };
 
 #endif

@@ -106,7 +106,6 @@ OSDPlugin::OSDPlugin(unsigned base)
     IconDef icon;
     icon.name = "alert";
     icon.xpm = alert;
-    icon.isSystem = false;
     Event eIcon(EventAddIcon, &icon);
     eIcon.process();
 

@@ -20,35 +20,7 @@
 #include "simapi.h"
 #include "core.h"
 
-#include "xpm/jabber_online.xpm"
-#include "xpm/jabber_offline.xpm"
-#include "xpm/jabber_away.xpm"
-#include "xpm/jabber_na.xpm"
-#include "xpm/jabber_dnd.xpm"
-#include "xpm/jabber_ffc.xpm"
-#include "xpm/jabber_invisible.xpm"
-#include "xpm/icq_online.xpm"
-#include "xpm/icq_offline.xpm"
-#include "xpm/icq_away.xpm"
-#include "xpm/icq_na.xpm"
-#include "xpm/icq_dnd.xpm"
-#include "xpm/icq_ffc.xpm"
-#include "xpm/icq_invisible.xpm"
-#include "xpm/msn_online.xpm"
-#include "xpm/msn_offline.xpm"
-#include "xpm/msn_away.xpm"
-#include "xpm/msn_na.xpm"
-#include "xpm/msn_dnd.xpm"
-#include "xpm/msn_invisible.xpm"
-#include "xpm/aim_online.xpm"
-#include "xpm/aim_offline.xpm"
-#include "xpm/aim_away.xpm"
-#include "xpm/yahoo_online.xpm"
-#include "xpm/yahoo_offline.xpm"
-#include "xpm/yahoo_away.xpm"
-#include "xpm/yahoo_na.xpm"
-#include "xpm/yahoo_dnd.xpm"
-#include "xpm/yahoo_ffc.xpm"
+#include "xpm/jabber.xpm"
 #include "xpm/register.xpm"
 
 Plugin *createJabberPlugin(unsigned base, bool, const char*)
@@ -260,127 +232,13 @@ JabberPlugin::JabberPlugin(unsigned base)
     MenuClients		 = registerType();
 
     IconDef icon;
-    icon.name = "Jabber_online";
-    icon.xpm = jabber_online;
-    icon.isSystem = false;
-
+    icon.name = "Jabber";
+	icon.xpm  = jabber;
     Event eIcon(EventAddIcon, &icon);
     eIcon.process();
 
-    icon.name = "Jabber_offline";
-    icon.xpm = jabber_offline;
-    eIcon.process();
-
-    icon.name = "Jabber_away";
-    icon.xpm = jabber_away;
-    eIcon.process();
-
-    icon.name = "Jabber_na";
-    icon.xpm = jabber_na;
-    eIcon.process();
-
-    icon.name = "Jabber_dnd";
-    icon.xpm = jabber_dnd;
-    eIcon.process();
-
-    icon.name = "Jabber_ffc";
-    icon.xpm = jabber_ffc;
-    eIcon.process();
-
-    icon.name = "Jabber_invisible";
-    icon.xpm = jabber_invisible;
-    eIcon.process();
-
-    icon.name = "ICQ_offline";
-    icon.xpm = icq_offline;
-    eIcon.process();
-
-    icon.name = "ICQ_online";
-    icon.xpm = icq_online;
-    eIcon.process();
-
-    icon.name = "ICQ_away";
-    icon.xpm = icq_away;
-    eIcon.process();
-
-    icon.name = "ICQ_na";
-    icon.xpm = icq_na;
-    eIcon.process();
-
-    icon.name = "ICQ_dnd";
-    icon.xpm = icq_dnd;
-    eIcon.process();
-
-    icon.name = "ICQ_ffc";
-    icon.xpm = icq_ffc;
-    eIcon.process();
-
-    icon.name = "ICQ_invisible";
-    icon.xpm = icq_invisible;
-    eIcon.process();
-
-    icon.name = "MSN_offline";
-    icon.xpm = msn_offline;
-    eIcon.process();
-
-    icon.name = "MSN_online";
-    icon.xpm = msn_online;
-    eIcon.process();
-
-    icon.name = "MSN_away";
-    icon.xpm = msn_away;
-    eIcon.process();
-
-    icon.name = "MSN_na";
-    icon.xpm = msn_na;
-    eIcon.process();
-
-    icon.name = "MSN_dnd";
-    icon.xpm = msn_dnd;
-    eIcon.process();
-
-    icon.name = "MSN_invisible";
-    icon.xpm = msn_invisible;
-    eIcon.process();
-
-    icon.name = "AIM_offline";
-    icon.xpm = aim_offline;
-    eIcon.process();
-
-    icon.name = "AIM_online";
-    icon.xpm = aim_online;
-    eIcon.process();
-
-    icon.name = "AIM_away";
-    icon.xpm = aim_away;
-    eIcon.process();
-
-    icon.name = "Yahoo_offline";
-    icon.xpm = yahoo_offline;
-    eIcon.process();
-
-    icon.name = "Yahoo_online";
-    icon.xpm = yahoo_online;
-    eIcon.process();
-
-    icon.name = "Yahoo_away";
-    icon.xpm = yahoo_away;
-    eIcon.process();
-
-    icon.name = "Yahoo_na";
-    icon.xpm = yahoo_na;
-    eIcon.process();
-
-    icon.name = "Yahoo_dnd";
-    icon.xpm = yahoo_dnd;
-    eIcon.process();
-
-    icon.name = "Yahoo_ffc";
-    icon.xpm = yahoo_ffc;
-    eIcon.process();
-
     icon.name = "reg";
-    icon.xpm = reg;
+    icon.xpm  = reg;
     eIcon.process();
 
     Event eMenuSearch(EventMenuCreate, (void*)MenuSearchResult);

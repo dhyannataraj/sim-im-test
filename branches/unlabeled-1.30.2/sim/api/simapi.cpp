@@ -464,12 +464,6 @@ const QIconSet *Icon(const char *name)
     return res;
 }
 
-const QIconSet *BigIcon(const char *name)
-{
-    Event e(EventGetBigIcon, (void*)name);
-    return (const QIconSet*)e.process();
-}
-
 QPixmap Pict(const char *name)
 {
     const QIconSet *icons = Icon(name);

@@ -36,8 +36,8 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
     setCaption(caption());
 
     connect(btnOK, SIGNAL(clicked()), this, SLOT(close()));
-    setIcon(Pict("licq"));
-    const QIconSet *icon = Icon("licq");
+    setIcon(Pict("ICQ"));
+    const QIconSet *icon = Icon("ICQ");
     if (icon)
         lblIcon->setPixmap(icon->pixmap(QIconSet::Large, QIconSet::Normal));
     lblVersion->setText(i18n("%1 Version: %2") .arg(aboutData->appName()) .arg(aboutData->version()));

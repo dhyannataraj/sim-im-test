@@ -20,14 +20,6 @@
 #include "simapi.h"
 #include "core.h"
 
-#include "xpm/online.xpm"
-#include "xpm/offline.xpm"
-#include "xpm/away.xpm"
-#include "xpm/na.xpm"
-#include "xpm/occupied.xpm"
-#include "xpm/dnd.xpm"
-#include "xpm/ffc.xpm"
-#include "xpm/invisible.xpm"
 #include "xpm/birthday.xpm"
 #include "xpm/more.xpm"
 #include "xpm/interest.xpm"
@@ -43,9 +35,6 @@
 #include "xpm/icqphone.xpm"
 #include "xpm/icqphonebusy.xpm"
 #include "xpm/sharedfiles.xpm"
-#include "xpm/aim_offline.xpm"
-#include "xpm/aim_online.xpm"
-#include "xpm/aim_away.xpm"
 
 Plugin *createICQPlugin(unsigned base, bool, const char *cfg)
 {
@@ -382,43 +371,9 @@ ICQPlugin::ICQPlugin(unsigned base, const char *cfg)
     getContacts()->addPacketType(AIMDirectPacket, "AIM.Direct");
 
     IconDef icon;
-    icon.name = "ICQ_online";
-    icon.xpm = online;
-    icon.isSystem = false;
-
-    Event eIcon(EventAddIcon, &icon);
-    eIcon.process();
-
-    icon.name = "ICQ_offline";
-    icon.xpm = offline;
-    eIcon.process();
-
-    icon.name = "ICQ_away";
-    icon.xpm = away;
-    eIcon.process();
-
-    icon.name = "ICQ_na";
-    icon.xpm = na;
-    eIcon.process();
-
-    icon.name = "ICQ_occupied";
-    icon.xpm = occupied;
-    eIcon.process();
-
-    icon.name = "ICQ_dnd";
-    icon.xpm = dnd;
-    eIcon.process();
-
-    icon.name = "ICQ_ffc";
-    icon.xpm = ffc;
-    eIcon.process();
-
-    icon.name = "ICQ_invisible";
-    icon.xpm = invisible;
-    eIcon.process();
-
     icon.name = "birthday";
     icon.xpm = birthday;
+    Event eIcon(EventAddIcon, &icon);
     eIcon.process();
 
     icon.name = "more";
@@ -475,18 +430,6 @@ ICQPlugin::ICQPlugin(unsigned base, const char *cfg)
 
     icon.name = "sharedfiles";
     icon.xpm = sharedfiles;
-    eIcon.process();
-
-    icon.name = "AIM_offline";
-    icon.xpm = aim_offline;
-    eIcon.process();
-
-    icon.name = "AIM_online";
-    icon.xpm = aim_online;
-    eIcon.process();
-
-    icon.name = "AIM_away";
-    icon.xpm = aim_away;
     eIcon.process();
 
     m_icq = new ICQProtocol(this);

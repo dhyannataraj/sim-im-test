@@ -18,12 +18,14 @@
 #include "icons.h"
 #include "simapi.h"
 #include "core.h"
+#include "textshow.h"
 
 #include <qiconset.h>
 #include <qmime.h>
 #include <qimage.h>
 #include <qpainter.h>
 #include <qbitmap.h>
+#include <qdragobject.h>
 
 #ifdef USE_KDE
 #include <kapp.h>
@@ -34,8 +36,6 @@
 #include <map>
 using namespace std;
 
-#include "xpm/licq.xpm"
-#include "xpm/licq_big.xpm"
 #include "xpm/exit.xpm"
 #include "xpm/button_ok.xpm"
 #include "xpm/button_cancel.xpm"
@@ -116,19 +116,78 @@ using namespace std;
 #include "xpm/urgentmsg.xpm"
 #include "xpm/help.xpm"
 #include "xpm/more.xpm"
+#include "xpm/away.xpm"
+#include "xpm/na.xpm"
+#include "xpm/dnd.xpm"
+#include "xpm/occupied.xpm"
+#include "xpm/ffc.xpm"
+#include "xpm/icq.xpm"
+#include "xpm/msn.xpm"
+#include "xpm/aim.xpm"
+#include "xpm/yahoo.xpm"
 
-#define KICON(A)    addIcon(#A, p_##A, true);
-#define ICON(A)		addIcon(#A, A, false);
-#define KBIGICON(A)	addBigIcon(#A, b_##A, true);
+#define KICON(A)    addIcon(#A, p_##A, #A, 0);
+#define ICON(A)		addIcon(#A, A, NULL, 0);
+
+class MyMimeSourceFactory : public QMimeSourceFactory
+{
+public:
+	MyMimeSourceFactory();
+	~MyMimeSourceFactory();
+	virtual const QMimeSource* data(const QString &abs_name) const;
+protected:
+	void setDrag(QImageDrag*);
+	QImageDrag	*drag;
+};
+
+MyMimeSourceFactory::MyMimeSourceFactory()
+{
+	drag = NULL;
+	TextShow::setFactory(this);
+}
+
+MyMimeSourceFactory::~MyMimeSourceFactory()
+{
+	TextShow::setFactory(NULL);
+}
+
+void MyMimeSourceFactory::setDrag(QImageDrag *_drag)
+{
+	if (drag)
+		delete drag;
+	drag = _drag;
+}
+
+const QMimeSource *MyMimeSourceFactory::data(const QString &abs_name) const
+{
+	QString name = abs_name;
+	if (name.left(5) == "icon:"){
+		name = name.mid(5);
+		const QIconSet *icons = Icon(name.latin1());
+		if (icons){
+			((MyMimeSourceFactory*)this)->setDrag(new QImageDrag(icons->pixmap(QIconSet::Small, QIconSet::Normal).convertToImage()));
+			return drag;
+		}
+	}
+	return defaultFactory()->data(abs_name);
+}
 
 Icons::Icons()
 {
+	my_factory = new MyMimeSourceFactory;
 #ifdef USE_KDE
     connect(kapp, SIGNAL(iconChanged(int)), this, SLOT(iconChanged(int)));
     kapp->addKipcEventMask(KIPC::IconChanged);
 #endif
-    KICON(licq)
-    KBIGICON(licq)
+	addIcon("ICQ", icq, "licq", 0xFF00 | 60);
+	addIcon("MSN", msn, NULL, 0x200);
+	addIcon("AIM", aim, NULL, 0);
+	addIcon("Yahoo!", yahoo, NULL, 0);
+    ICON(away)
+    ICON(na)
+    ICON(dnd)
+    ICON(occupied)
+    ICON(ffc)
     KICON(exit)
     KICON(button_ok)
     KICON(button_cancel)
@@ -213,6 +272,7 @@ Icons::Icons()
 
 Icons::~Icons()
 {
+	delete my_factory;
 }
 
 void *Icons::processEvent(Event *e)
@@ -221,17 +281,18 @@ void *Icons::processEvent(Event *e)
     switch (e->type()){
     case EventAddIcon:
         def = (IconDef*)(e->param());
-        addIcon(def->name, def->xpm, def->isSystem);
+        addIcon(def->name, def->xpm, def->system, def->flags);
         return e->param();
     case EventGetIcon:
         return (void*)getIcon((const char*)(e->param()));
-    case EventGetBigIcon:
-        return (void*)getBigIcon((const char*)(e->param()));
-    case EventIconChanged:
-        remove("online");
-        remove("offline");
-        remove("inactive");
+    case EventIconChanged:{
+		remove("online");
+		remove("offline");
+		remove("inactive");
+		for (PIXMAP_MAP::iterator it = icons.begin(); it != icons.end(); ++it)
+			(*it).second.iconSet = QIconSet();
         break;
+	}
     case EventGetIcons:
         fill((list<string>*)(e->param()));
         return e->param();
@@ -251,26 +312,42 @@ void Icons::remove(const char *name)
         bigIcons.erase(it);
 }
 
-static QPixmap swapRG(const QPixmap &p)
+static QPixmap makeOffline(unsigned flags, const QPixmap &p)
 {
+	unsigned swapColor = flags & ICON_COLOR_MASK;
     QImage image = p.convertToImage();
     unsigned int *data = (image.depth() > 8) ? (unsigned int *)image.bits() :
                          (unsigned int *)image.colorTable();
     int pixels = (image.depth() > 8) ? image.width()*image.height() :
                  image.numColors();
     for (int i = 0; i < pixels; i++){
-        int r = qRed(data[i]);
-        int g = qGreen(data[i]);
-        int b = qBlue(data[i]);
+        QColor c(qRed(data[i]), qGreen(data[i]), qBlue(data[i]));
         int a = qAlpha(data[i]);
-        data[i] = qRgba(g, r, b, a);
+		int h, s, v;
+		c.hsv(&h, &s, &v);
+		if (swapColor){
+			h = (swapColor * 2 - h) & 0xFF;
+			c.setHsv(h, s, v);
+		}else{
+			c.setHsv(h, 0, v * 3 / 4);
+		}
+        data[i] = qRgba(c.red(), c.green(), c.blue(), a);
     }
     QPixmap pict;
     pict.convertFromImage(image);
     return pict;
 }
 
-static QPixmap setGB(const QPixmap &p)
+static QIconSet makeOffline(unsigned flags, const QIconSet *icon)
+{
+	QPixmap pict1 = icon->pixmap(QIconSet::Small, QIconSet::Normal);
+	QPixmap pict2 = icon->pixmap(QIconSet::Large, QIconSet::Normal);
+    pict1 = makeOffline(flags, pict1);
+    pict2 = makeOffline(flags, pict2);
+    return QIconSet(pict1, pict2);
+}
+
+static QPixmap makeInactive(const QPixmap &p)
 {
     QImage image = p.convertToImage();
     unsigned int *data = (image.depth() > 8) ? (unsigned int *)image.bits() :
@@ -280,15 +357,144 @@ static QPixmap setGB(const QPixmap &p)
     for (int i = 0; i < pixels; i++){
         QColor c(qRed(data[i]), qGreen(data[i]), qBlue(data[i]));
         int a = qAlpha(data[i]);
-        int h, s, v;
-        c.hsv(&h, &s, &v);
-        s = s / 8;
-        c.setHsv(h, s, v);
+		int h, s, v;
+		c.hsv(&h, &s, &v);
+		c.setHsv(h, s / 8, v);
         data[i] = qRgba(c.red(), c.green(), c.blue(), a);
     }
     QPixmap pict;
     pict.convertFromImage(image);
     return pict;
+}
+
+static QIconSet makeInactive(const QIconSet *icon)
+{
+	QPixmap pict1 = icon->pixmap(QIconSet::Small, QIconSet::Normal);
+	QPixmap pict2 = icon->pixmap(QIconSet::Large, QIconSet::Normal);
+    pict1 = makeInactive(pict1);
+    pict2 = makeInactive(pict2);
+    return QIconSet(pict1, pict2);
+}
+
+static QPixmap makeInvisible(unsigned flags, const QPixmap &p)
+{
+	unsigned swapColor = flags & ICON_COLOR_MASK;
+	char shift = (flags >> 8) & 0xFF;
+    QImage image = p.convertToImage();
+	if (image.depth() != 32)
+		image = image.convertDepth(32);
+    unsigned int *data = (unsigned int*)image.bits();
+	for (int y = 0; y < image.width(); y++){
+		int x = image.width() / 2 - (y - image.height() / 2) * 2 / 3 + shift;
+		if (x < 0)
+			x = 0;
+		if (x > image.width())
+			x = image.width();
+		unsigned int *line = data + y * (image.width()) + x;
+		for (; x < image.width(); x++, line++){
+	        QColor c(qRed(*line), qGreen(*line), qBlue(*line));
+			int a = qAlpha(*line);
+			int h, s, v;
+			c.hsv(&h, &s, &v);
+			if (swapColor){
+				h = (swapColor * 2 - h) & 0xFF;
+				c.setHsv(h, s / 2, v * 3 / 4);
+			}else{
+				c.setHsv(h, s / 2, v * 3 / 4);
+			}
+	        *line = qRgba(c.red(), c.green(), c.blue(), a);
+		}
+	}
+    QPixmap pict;
+    pict.convertFromImage(image);
+    return pict;
+}
+
+static QIconSet makeInvisible(unsigned flags, const QIconSet *icon)
+{
+	QPixmap pict1 = icon->pixmap(QIconSet::Small, QIconSet::Normal);
+	QPixmap pict2 = icon->pixmap(QIconSet::Large, QIconSet::Normal);
+    pict1 = makeInvisible(flags, pict1);
+    pict2 = makeInvisible(flags, pict2);
+    return QIconSet(pict1, pict2);
+}
+
+static QPixmap merge(const QPixmap &p1, const QPixmap &p2)
+{
+	QImage img1 = p1.convertToImage();
+	if (img1.depth() != 32)
+		img1 = img1.convertDepth(32);
+	QImage img2 = p2.convertToImage();
+	if (img2.depth() != 32)
+		img2 = img2.convertDepth(32);
+    unsigned int *data1 = (unsigned int*)img1.bits();
+    unsigned int *data2 = (unsigned int*)img2.bits();
+	for (int y1 = 0; y1 < img1.height(); y1++){
+		int y2 = y1 - (img1.height() - img2.height()); 
+		if ((y2 < 0) || (y2 >= img2.height()))
+			continue;
+		unsigned int *line1 = data1 + y1 * img1.width();
+		unsigned int *line2 = data2 + y2 * img2.width();
+		int w = img1.width();
+		if (w < img2.width()){
+			line2 += (img2.width() - w) / 2;
+		}else if (w > img2.width()){
+			w = img2.width();
+			line1 += (img1.width() - w) / 2;
+		}
+		for (int i = 0; i < w; i++, line1++, line2++){
+			int r1 = qRed(*line1);
+			int g1 = qGreen(*line1);
+			int b1 = qBlue(*line1);
+			int a1 = qAlpha(*line1);
+			int r2 = qRed(*line2);
+			int g2 = qGreen(*line2);
+			int b2 = qBlue(*line2);
+			int a2 = qAlpha(*line2);
+			r1 = (r2 * a2 + r1 * (255 - a2)) / 255;
+			g1 = (g2 * a2 + g1 * (255 - a2)) / 255;
+			b1 = (b2 * a2 + b1 * (255 - a2)) / 255;
+			if (a2 > a1)
+				a1 = a2;
+	        *line1 = qRgba(r1, g1, b1, a1);
+		}
+	}
+	QPixmap res;
+	res.convertFromImage(img1);
+    return res;
+}
+
+
+static QIconSet mergeIcon(const QIconSet *icon, const QPixmap &pict)
+{
+	QPixmap pict1 = icon->pixmap(QIconSet::Small, QIconSet::Normal);
+	QPixmap pict2 = icon->pixmap(QIconSet::Large, QIconSet::Normal);
+    pict1 = merge(pict1, pict);
+    pict2 = merge(pict2, pict);
+    return QIconSet(pict1, pict2);
+}
+
+QPixmap loadPict(const char *name)
+{
+	QPixmap p;
+	string fname = "pict/";
+	fname += name;
+	fname += ".png";
+	fname = user_file(fname.c_str());
+	QFile f(QFile::decodeName(fname.c_str()));
+	if (f.exists()){
+		p = QPixmap(f.name());
+		if (!p.isNull())
+			return p;
+	}
+	fname = "pict/";
+	fname += name;
+	fname += ".png";
+	fname = app_file(fname.c_str());
+	f.setName(QFile::decodeName(fname.c_str()));
+	if (f.exists())
+		p = QPixmap(f.name());
+	return p;
 }
 
 const QIconSet *Icons::getIcon(const char *name)
@@ -297,149 +503,162 @@ const QIconSet *Icons::getIcon(const char *name)
         return NULL;
     PIXMAP_MAP::iterator it = icons.find(name);
     if (it == icons.end()){
-        if (!strcmp(name, "online")){
+		string n = name;
+        if (n == "online"){
             unsigned i;
+			const QIconSet *icon = NULL;
+			const char *icon_name = NULL;
             for (i = 0; i < getContacts()->nClients(); i++){
                 Client *client = getContacts()->getClient(i);
-                const QIconSet *icon = Icon(client->protocol()->description()->icon);
+				icon_name = client->protocol()->description()->icon;
+                icon = Icon(icon_name);
                 if (icon)
-                    return addIcon("online", *icon, false);
+					break;
             }
-            if (i >= getContacts()->nClients()){
-                const QIconSet *icon = Icon("licq");
-                if (icon)
-                    return addIcon("online", *icon, false);
-            }
+			if (icon == NULL){
+				icon_name = "ICQ";
+				icon = Icon(icon_name);
+			}
+			if (icon == NULL)
+				return NULL;
+			unsigned flags = 0;
+			it = icons.find(icon_name);
+			if (it != icons.end())
+				flags = (*it).second.flags;
+			PictDef *d = addIcon(name, NULL, NULL, flags);
+			d->iconSet = *icon;
+			return icon;
         }
-        if (!strcmp(name, "offline")){
+        if (n == "offline"){
             const QIconSet *icon = Icon("online");
-            if (icon){
-                QPixmap pict = icon->pixmap(QIconSet::Small, QIconSet::Normal);
-                pict = swapRG(pict);
-                QIconSet offline(pict);
-                return addIcon("offline", offline, false);
-            }
+            if (icon == NULL)
+				return NULL;
+			unsigned flags = 0;
+			it = icons.find("online");
+			if (it != icons.end())
+				flags = (*it).second.flags;
+			QIconSet offline = makeOffline(flags, icon);
+			PictDef *d = addIcon(name, NULL, NULL, flags);
+			d->iconSet = offline;
+			return &d->iconSet;
         }
-        if (!strcmp(name, "inactive")){
+        if (n == "inactive"){
             const QIconSet *icon = Icon("online");
-            if (icon){
-                QPixmap pict = icon->pixmap(QIconSet::Small, QIconSet::Normal);
-                pict = setGB(pict);
-                QIconSet inactive(pict);
-                return addIcon("inactive", inactive, false);
-            }
+            if (icon == NULL)
+				return NULL;
+			unsigned flags = 0;
+			it = icons.find("online");
+			if (it != icons.end())
+				flags = (*it).second.flags;
+			QIconSet offline = makeInactive(icon);
+			PictDef *d = addIcon(name, NULL, NULL, flags);
+			d->iconSet = offline;
+			return &d->iconSet;
         }
+        if (n == "invisible"){
+            const QIconSet *icon = Icon("online");
+            if (icon == NULL)
+				return NULL;
+			unsigned flags = 0;
+			it = icons.find("online");
+			if (it != icons.end())
+				flags = (*it).second.flags;
+			QIconSet invisible = makeInvisible(flags, icon);
+			PictDef *d = addIcon(name, NULL, NULL, flags);
+			d->iconSet = invisible;
+			return &d->iconSet;
+        }
+		int pos = n.find('_');
+		if (pos > 0){
+			const QIconSet *icon = Icon(n.substr(0, pos).c_str());
+			unsigned flags = 0;
+			it = icons.find(n.substr(0, pos).c_str());
+			if (it != icons.end())
+				flags = (*it).second.flags;
+				QIconSet res;
+			if (icon){
+				string s = n.substr(pos + 1);
+				if (s == "online"){
+					res = *icon;
+				}else if (s == "offline"){
+					res = makeOffline(flags, icon);
+				}else if (s == "invisible"){
+					res = makeInvisible(flags, icon);
+				}else{
+					const QIconSet *i = Icon(s.c_str());
+					if (i){
+						res = mergeIcon(icon, i->pixmap(QIconSet::Small, QIconSet::Normal));
+					}else{
+					    it = icons.find(s.c_str());
+						if (it != icons.end()){
+							flags = (*it).second.flags;
+							res = makeOffline(flags, icon);
+						}
+					}
+				}
+			}
+			if (res.pixmap(QIconSet::Small, QIconSet::Normal).width()){
+				PictDef *d = addIcon(name, NULL, NULL, flags);
+				d->iconSet = res;
+				return &d->iconSet;
+			}
+		}
+		log(L_DEBUG, "Icon %s not found", name);
         return NULL;
     }
     PictDef &p = (*it).second;
+	if (p.iconSet.pixmap(QIconSet::Small, QIconSet::Normal).width())
+		return &p.iconSet;
 #ifdef USE_KDE
-    if (p.bSystem){
+    if (p.system){
         KIconLoader iconLoader;
-        QPixmap pict = iconLoader.loadIcon(name, KIcon::Small, -32, KIcon::DefaultState, NULL, true);
-        if (!pict.isNull())
-            p.icon = QIconSet(pict);
+        QPixmap pict = iconLoader.loadIcon(name, KIcon::Small, -22, KIcon::DefaultState, NULL, true);
+		if (!pict.isNull()){
+			QPixmap pict1 = iconLoader.loadIcon(name, KIcon::Desktop, -64, KIcon::DefaultState, NULL, true);
+			if (pict.isNull()){
+	            p.iconSet = QIconSet(pict);
+			}else{
+				p.iconSet = QIconSet(pict, pict1);
+			}
+			return &p.iconSet;
+		}
     }
 #endif
-    return &p.icon;
+	QPixmap pict = loadPict(name);
+	if (!pict.isNull()){
+		if (pict.width() > 16){
+			QImage img = pict.convertToImage();
+			img = img.smoothScale(16, 16);
+			QPixmap pict1(16, 16);
+			pict1.convertFromImage(img);
+			p.iconSet = QIconSet(pict1, pict);
+		}else{
+			p.iconSet = QIconSet(pict);
+		}
+		return &p.iconSet;
+	}
+	if (p.xpm){
+		p.iconSet = QIconSet(QPixmap(p.xpm));
+		return &p.iconSet;
+	}
+	log(L_DEBUG, "Icon %s is empty", name);
+	return NULL;
 }
 
-const QIconSet *Icons::getBigIcon(const char *name)
+PictDef *Icons::addIcon(const char *name, const char **xpm, const char *system, unsigned flags)
 {
-    PIXMAP_MAP::iterator it = bigIcons.find(name);
-    if (it == bigIcons.end()){
-        if (!strcmp(name, "online")){
-            const QIconSet *icon = BigIcon("licq");
-            if (icon)
-                return addBigIcon("online", *icon, false);
-        }
-        if (!strcmp(name, "offline")){
-            const QIconSet *icon = BigIcon("online");
-            if (icon){
-                QPixmap pict = icon->pixmap(QIconSet::Large, QIconSet::Normal);
-                pict = swapRG(pict);
-                QIconSet offline(pict);
-                return addBigIcon("offline", offline, false);
-            }
-        }
-        if (!strcmp(name, "inactive")){
-            const QIconSet *icon = BigIcon("online");
-            if (icon){
-                QPixmap pict = icon->pixmap(QIconSet::Large, QIconSet::Normal);
-                pict = setGB(pict);
-                QIconSet inactive(pict);
-                return addBigIcon("inactive", inactive, false);
-            }
-        }
-        return NULL;
-    }
-    PictDef &p = (*it).second;
-#ifdef USE_KDE
-    if (p.bSystem){
-        KIconLoader iconLoader;
-        QPixmap pict = iconLoader.loadIcon(name, KIcon::Desktop, -64, KIcon::DefaultState, NULL, true);
-        if (!pict.isNull())
-            p.icon = QIconSet(pict);
-    }
-#endif
-    return &p.icon;
-}
-
-void Icons::addIcon(const char *name, const char **xpm, bool bSystem)
-{
-    addIcon(name, QIconSet(QPixmap(xpm)), bSystem);
-}
-
-void Icons::addBigIcon(const char *name, const char **xpm, bool bSystem)
-{
-    addBigIcon(name, QIconSet(QPixmap(xpm)), bSystem);
-}
-
-const QIconSet *Icons::addIcon(const char *name, const QIconSet &icon, bool bSystem)
-{
-    const QIconSet *res;
+	PictDef *res;
     PIXMAP_MAP::iterator it = icons.find(name);
     if (it == icons.end()){
         PictDef p;
-        p.bSystem = bSystem;
-        p.icon = icon;
         icons.insert(PIXMAP_MAP::value_type(name, p));
         it = icons.find(name);
-        res = &(*it).second.icon;
-    }else{
-        PictDef &p = (*it).second;
-        p.icon = icon;
-        if (p.bSystem){
-            res = getIcon(name);
-        }else{
-            res = &p.icon;
-        }
-    }
-    QString url("icon:");
-    url += name;
-    QMimeSourceFactory::defaultFactory()->setPixmap(url, icon.pixmap(QIconSet::Small, QIconSet::Normal));
-    return res;
-}
-
-const QIconSet *Icons::addBigIcon(const char *name, const QIconSet &icon, bool bSystem)
-{
-    const QIconSet *res;
-    PIXMAP_MAP::iterator it = bigIcons.find(name);
-    if (it == bigIcons.end()){
-        PictDef p;
-        p.bSystem = bSystem;
-        p.icon = icon;
-        bigIcons.insert(PIXMAP_MAP::value_type(name, p));
-        it = bigIcons.find(name);
-        res = &(*it).second.icon;
-    }else{
-        PictDef &p = (*it).second;
-        p.icon = icon;
-        if (p.bSystem){
-            res = getBigIcon(name);
-        }else{
-            res = &p.icon;
-        }
-    }
+	}
+    res = &(*it).second;
+	res->iconSet = QIconSet();
+	res->xpm     = xpm;
+	res->system  = system;
+	res->flags	 = flags;
     return res;
 }
 

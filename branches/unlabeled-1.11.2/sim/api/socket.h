@@ -176,6 +176,7 @@ public:
     virtual void	setStatus(unsigned status, bool bCommon);
 protected slots:
     void reconnect();
+	void loginTimeout();
 protected:
     virtual void	setStatus(unsigned status) = 0;
     virtual void	disconnected() = 0;
@@ -187,6 +188,7 @@ protected:
     ClientSocket	*m_socket;
     unsigned		m_logonStatus;
     QTimer			*m_timer;
+	QTimer			*m_loginTimer;
     bool			m_bWaitReconnect;
 };
 

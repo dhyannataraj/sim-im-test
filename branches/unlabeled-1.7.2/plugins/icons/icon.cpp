@@ -167,7 +167,7 @@ typedef struct IconID
 
 static IconID icons_def[] =
     {
-        { "licq", 102 },
+        { "ICQ", 102 },
         { "message", 136 },
         { "url", 135 },
         { "sms", 103 },

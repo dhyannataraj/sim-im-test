@@ -19,12 +19,9 @@
 #include "msnclient.h"
 #include "simapi.h"
 
-#include "xpm/msn_online.xpm"
-#include "xpm/msn_offline.xpm"
-#include "xpm/msn_away.xpm"
-#include "xpm/msn_na.xpm"
-#include "xpm/msn_dnd.xpm"
-#include "xpm/msn_invisible.xpm"
+#include "xpm/lunch.xpm"
+#include "xpm/onback.xpm"
+#include "xpm/onphone.xpm"
 
 Plugin *createMSNPlugin(unsigned base, bool, const char*)
 {
@@ -147,7 +144,7 @@ static CommandDef msn_status_list[] =
         {
             STATUS_BRB,
             I18N_NOOP("Be right back"),
-            "MSN_away",
+            "MSN_onback",
             NULL,
             NULL,
             0,
@@ -162,7 +159,7 @@ static CommandDef msn_status_list[] =
         {
             STATUS_PHONE,
             I18N_NOOP("On the phone"),
-            "MSN_away",
+            "MSN_onphone",
             NULL,
             NULL,
             0,
@@ -177,7 +174,7 @@ static CommandDef msn_status_list[] =
         {
             STATUS_LUNCH,
             I18N_NOOP("On the lunch"),
-            "MSN_away",
+            "MSN_lunch",
             NULL,
             NULL,
             0,
@@ -236,37 +233,18 @@ MSNPlugin::MSNPlugin(unsigned base)
     getContacts()->addPacketType(MSNPacket, msn_descr.text, true);
 
     IconDef icon;
-    icon.name = "MSN_online";
-    icon.xpm = msn_online;
-    icon.isSystem = false;
-
+    icon.name  = "lunch";
+	icon.xpm   = lunch;
     Event eIcon(EventAddIcon, &icon);
     eIcon.process();
 
-    icon.name = "MSN_offline";
-    icon.xpm = msn_offline;
-    icon.isSystem = false;
-    eIcon.process();
+	icon.name  = "onback";
+	icon.xpm   = onback;
+	eIcon.process();
 
-    icon.name = "MSN_away";
-    icon.xpm = msn_away;
-    icon.isSystem = false;
-    eIcon.process();
-
-    icon.name = "MSN_na";
-    icon.xpm = msn_na;
-    icon.isSystem = false;
-    eIcon.process();
-
-    icon.name = "MSN_dnd";
-    icon.xpm = msn_dnd;
-    icon.isSystem = false;
-    eIcon.process();
-
-    icon.name = "MSN_invisible";
-    icon.xpm = msn_invisible;
-    icon.isSystem = false;
-    eIcon.process();
+	icon.name  = "onphone";
+	icon.xpm   = onphone;
+	eIcon.process();
 
     m_protocol = new MSNProtocol(this);
 }

@@ -1243,6 +1243,7 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
     if (m_bRichText){
         *m_data += "<";
         *m_data += el;
+		if (attr){
         for (const char **p = attr; *p; ){
             const char *key = *(p++);
             const char *val = *(p++);
@@ -1252,6 +1253,7 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
             *m_data += val;
             *m_data += "\'";
         }
+		}
         *m_data += ">";
         return;
     }

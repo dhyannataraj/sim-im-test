@@ -75,7 +75,6 @@ FloatyPlugin::FloatyPlugin(unsigned base)
     IconDef icon;
     icon.name = "floating";
     icon.xpm = floating;
-    icon.isSystem = false;
 
     m_bBlink = false;
     unreadTimer = new QTimer(this);

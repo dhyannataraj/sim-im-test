@@ -2,6 +2,8 @@
 // Microsoft Developer Studio generated include file.
 // Used by sim.rc
 //
+#include <winnt.h>
+
 #define IDI_ICON1                       1
 
 #define IDS_PROJNAME                    100

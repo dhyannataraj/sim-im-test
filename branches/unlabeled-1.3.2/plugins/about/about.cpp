@@ -69,7 +69,7 @@ AboutPlugin::AboutPlugin(unsigned base)
     about = NULL;
     cmd->id			= CmdAbout;
     cmd->text		= I18N_NOOP("&About SIM");
-    cmd->icon		= "licq";
+    cmd->icon		= "ICQ";
     eCmd.process();
 
 #ifdef USE_KDE

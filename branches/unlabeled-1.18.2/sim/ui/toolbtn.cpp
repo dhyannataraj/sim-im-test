@@ -407,6 +407,7 @@ void PictButton::paintEvent(QPaintEvent*)
     QRect rc(4, 4, width() - 4, height() - 4);
     if (m_def.icon && strcmp(m_def.icon, "empty")){
         const QIconSet *icons = Icon(m_def.icon);
+		if (icons){
         const QPixmap &pict = icons->pixmap(QIconSet::Small, isEnabled() ? QIconSet::Active : QIconSet::Disabled);
         QToolBar *bar = static_cast<QToolBar*>(parent());
         if (bar->orientation() == Vertical){
@@ -419,6 +420,7 @@ void PictButton::paintEvent(QPaintEvent*)
             p.drawPixmap(4, (height()  - pict.height()) / 2, pict);
             rc = QRect(8 + pict.width(), 4, width() - 4, height() - 4);
         }
+		}
     }
     const QColorGroup &cg = isEnabled() ? palette().active() : palette().disabled();
     p.setPen(cg.text());

@@ -23,6 +23,10 @@
 #include <qapplication.h>
 #include <qfile.h>
 
+#ifdef WIN32
+#include <windows.h>
+#endif
+
 Plugin *createLoggerPlugin(unsigned base, bool, const char *add_info)
 {
     LoggerPlugin *plugin = new LoggerPlugin(base, add_info);
@@ -182,11 +186,12 @@ void *LoggerPlugin::processEvent(Event *e)
                             l = s.substr(0, 256);
                             s = s.substr(256);
                         }
-                        qWarning("%s", l.c_str());
+						OutputDebugStringA(l.c_str());
                     }
                 }else{
-                    qWarning("%s", p);
+                    OutputDebugStringA(p);
                 }
+				OutputDebugStringA("\n");
                 if (r == NULL) break;
                 p = r + 1;
             }

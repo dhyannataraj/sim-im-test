@@ -13,7 +13,12 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- ***************************************************************************/
+ ***************************************************************************
+
+Detect idle time for MAC:
+Copyright (C) 2003  Tarkvara Design Inc.
+
+*/
 
 #include "autoaway.h"
 #include "autoawaycfg.h"
@@ -34,11 +39,18 @@ typedef struct tagLASTINPUTINFO {
 } LASTINPUTINFO, * PLASTINPUTINFO;
 
 static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
+static DWORD (__stdcall *_IdleUIGetLastInputTime)(void);
 
+static HMODULE hLibUI = NULL;
+
+#else
+#ifdef HAVE_CARBON_CARBON_H
+#include <Carbon/Carbon.h>
 #else
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/extensions/scrnsaver.h>
+#endif
 #endif
 
 const unsigned AUTOAWAY_TIME	= 10000;
@@ -63,6 +75,88 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
+#ifdef HAVE_CARBON_CARBON_H
+
+static unsigned mSecondsIdle = 0;
+static EventLoopTimerRef mTimerRef;
+
+static OSStatus LoadFrameworkBundle(CFStringRef framework, CFBundleRef *bundlePtr) {
+	OSStatus  err;
+	FSRef   frameworksFolderRef;
+	CFURLRef baseURL;
+	CFURLRef bundleURL;
+ 
+	if ( bundlePtr == nil ) return( -1 );
+ 
+	*bundlePtr = nil;
+ 
+	baseURL = nil;
+	bundleURL = nil;
+ 
+	err = FSFindFolder(kOnAppropriateDisk, kFrameworksFolderType, true, &frameworksFolderRef);
+	if (err == noErr) {
+		baseURL = CFURLCreateFromFSRef(kCFAllocatorSystemDefault, &frameworksFolderRef);
+		if (baseURL == nil) {
+			err = coreFoundationUnknownErr;
+		}
+	}
+	if (err == noErr) {
+		bundleURL = CFURLCreateCopyAppendingPathComponent(kCFAllocatorSystemDefault, baseURL, framework, false);
+		if (bundleURL == nil) {
+			err = coreFoundationUnknownErr;
+		}
+	}
+	if (err == noErr) {
+		*bundlePtr = CFBundleCreate(kCFAllocatorSystemDefault, bundleURL);
+		if (*bundlePtr == nil) {
+			err = coreFoundationUnknownErr;
+		}
+	}
+	if (err == noErr) {
+		if ( ! CFBundleLoadExecutable( *bundlePtr ) ) {
+			err = coreFoundationUnknownErr;
+		}
+	}
+
+	// Clean up.
+	if (err != noErr && *bundlePtr != nil) {
+		CFRelease(*bundlePtr);
+		*bundlePtr = nil;
+	}
+	if (bundleURL != nil) {
+		CFRelease(bundleURL);
+	} 
+	if (baseURL != nil) {
+		CFRelease(baseURL);
+	} 
+	return err;
+}
+
+pascal void IdleTimerAction(EventLoopTimerRef, EventLoopIdleTimerMessage inState, void* inUserData) 
+{
+	switch (inState) {
+		case kEventLoopIdleTimerStarted:
+		case kEventLoopIdleTimerStopped:
+    		// Get invoked with this constant at the start of the idle period,
+			// or whenever user activity cancels the idle.
+		   mSecondsIdle = 0;
+			break;
+		case kEventLoopIdleTimerIdling:
+			// Called every time the timer fires (i.e. every second).
+		   mSecondsIdle++;
+			break;
+	}
+}
+
+typedef OSStatus (*InstallEventLoopIdleTimerPtr)(EventLoopRef inEventLoop,
+																 EventTimerInterval   inFireDelay,
+																 EventTimerInterval   inInterval,
+																 EventLoopIdleTimerUPP    inTimerProc,
+																 void *               inTimerData,
+																 EventLoopTimerRef *  outTimer);
+
+#endif
+
 static DataDef autoAwayData[] =
     {
         { "AwayTime", DATA_ULONG, 1, DATA(3) },
@@ -81,8 +175,24 @@ AutoAwayPlugin::AutoAwayPlugin(unsigned base, const char *config)
     load_data(autoAwayData, &data, config);
 #ifdef WIN32
     HINSTANCE hLib = GetModuleHandleA("user32");
-    if (hLib != NULL)
+    if (hLib != NULL){
         (DWORD&)_GetLastInputInfo = (DWORD)GetProcAddress(hLib,"GetLastInputInfo");
+	}else{
+		hLibUI = LoadLibraryA("idleui.dll");
+		if (hLibUI != NULL)
+			(DWORD&)_IdleUIGetLastInputTime = (DWORD)GetProcAddress(hLibUI, "IdleUIGetLastInputTime");
+	}
+#else
+#ifdef HAVE_CARBON_CARBNON_H
+	CFBundleRef carbonBundle;
+	if (LoadFrameworkBundle( CFSTR("Carbon.framework"), &carbonBundle ) == noErr) {
+		InstallEventLoopIdleTimerPtr myInstallEventLoopIdleTimer = (InstallEventLoopIdleTimerPtr)CFBundleGetFunctionPointerForName(carbonBundle, CFSTR("InstallEventLoopIdleTimer"));
+		if (myInstallEventLoopIdleTimer){
+			EventLoopIdleTimerUPP timerUPP = NewEventLoopIdleTimerUPP(Private::IdleTimerAction);
+			(*myInstallEventLoopIdleTimer)(GetMainEventLoop(), kEventDurationSecond, kEventDurationSecond, timerUPP, 0, &mTimerRef);
+		}
+	}
+#endif
 #endif
     Event ePlugin(EventGetPluginInfo, (void*)"_core");
     pluginInfo *info = (pluginInfo*)(ePlugin.process());
@@ -97,6 +207,14 @@ AutoAwayPlugin::AutoAwayPlugin(unsigned base, const char *config)
 
 AutoAwayPlugin::~AutoAwayPlugin()
 {
+#ifdef WIN32
+	_IdleUIGetLastInputTime = NULL;
+	if (hLibUI)
+		FreeLibrary(hLibUI);
+#endif
+#ifdef HAVE_CARBON_CARBNON_H
+	RemoveEventLoopTimer(mTimerRef);
+#endif
     free_data(autoAwayData, &data);
 }
 
@@ -181,36 +299,24 @@ void *AutoAwayPlugin::processEvent(Event *e)
     return NULL;
 }
 
-#ifdef WIN32
-
-static int oldX = -1;
-static int oldY = -1;
-static time_t lastTime = 0;
-
-#endif
-
 unsigned AutoAwayPlugin::getIdleTime()
 {
 #ifdef WIN32
-    if (_GetLastInputInfo == NULL){
-        POINT p;
-        GetCursorPos(&p);
-        time_t now;
-        time(&now);
-        if ((p.x != oldX) || (p.y != oldY)){
-            oldX = p.x;
-            oldY = p.y;
-            lastTime = now;
-        }
-        return now - lastTime;
-    }
-    LASTINPUTINFO lii;
-    ZeroMemory(&lii,sizeof(lii));
-    lii.cbSize=sizeof(lii);
-    _GetLastInputInfo(&lii);
-    return (GetTickCount()-lii.dwTime) / 1000;
+    if (_GetLastInputInfo){
+	    LASTINPUTINFO lii;
+		ZeroMemory(&lii,sizeof(lii));
+		lii.cbSize=sizeof(lii);
+		_GetLastInputInfo(&lii);
+		return (GetTickCount()-lii.dwTime) / 1000;
+	}
+	if (_IdleUIGetLastInputTime)
+		return _IdleUIGetLastInputTime() / 1000;
+	return 0;
 #else
-QWidgetList *list = QApplication::topLevelWidgets();
+#ifdef HAVE_CARBON_CARBON_H
+	return mSecondsIdle;
+#else
+	QWidgetList *list = QApplication::topLevelWidgets();
     QWidgetListIt it(*list);
     QWidget *w = it.current();
     delete list;
@@ -235,6 +341,7 @@ QWidgetList *list = QApplication::topLevelWidgets();
         return 0;
     }
     return (mit_info->idle / 1000);
+#endif
 #endif
 }
 

@@ -403,13 +403,16 @@ typedef struct IconDef
 {
     const char *name;
     const char **xpm;
-    bool  isSystem;
+	const char *system;
+	unsigned   flags;
+	IconDef() : name(NULL), xpm(NULL), system(NULL), flags(0) {}
 } IconDef;
+
+const unsigned ICON_COLOR_MASK	= 0x000000FF;
 
 /* Get icon (param is const char *name)
    return const QIconSet* or NULL */
 const unsigned EventGetIcon = 0x0402;
-const unsigned EventGetBigIcon = 0x0403;
 
 /* Event icons changed */
 const unsigned EventIconChanged = 0x0404;
@@ -1747,7 +1750,6 @@ EXPORT bool raiseWindow(QWidget *w, unsigned desk = 0);
 EXPORT void setButtonsPict(QWidget *w);
 
 EXPORT const QIconSet *Icon(const char *name);
-EXPORT const QIconSet *BigIcon(const char *name);
 EXPORT QPixmap Pict(const char *name);
 
 EXPORT void setAboutData(KAboutData*);

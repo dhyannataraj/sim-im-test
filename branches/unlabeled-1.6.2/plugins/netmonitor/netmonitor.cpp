@@ -82,7 +82,6 @@ NetmonitorPlugin::NetmonitorPlugin(unsigned base, const char *config)
     IconDef icon;
     icon.name = "network";
     icon.xpm = network;
-    icon.isSystem = false;
 
     Event eIcon(EventAddIcon, &icon);
     eIcon.process();

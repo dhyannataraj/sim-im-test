@@ -285,15 +285,7 @@ SOURCE=.\sms.rc
 # PROP Default_Filter "xpm"
 # Begin Source File
 
-SOURCE=.\xpm\cell_off.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\cell_on.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\nocell.xpm
+SOURCE=.\xpm\cell.xpm
 # End Source File
 # Begin Source File
 

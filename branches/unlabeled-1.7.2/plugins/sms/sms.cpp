@@ -23,9 +23,8 @@
 #include "maininfo.h"
 #include "listview.h"
 
-#include "xpm/cell_off.xpm"
-#include "xpm/cell_on.xpm"
 #include "xpm/simcard.xpm"
+#include "xpm/cell.xpm"
 
 #include <qtimer.h>
 #include <qapplication.h>
@@ -92,15 +91,9 @@ SMSPlugin::SMSPlugin(unsigned base)
         : Plugin(base)
 {
     IconDef icon;
-    icon.name = "cell_off";
-    icon.xpm  = cell_off;
-    icon.isSystem = false;
-
+    icon.name = "SMS";
+    icon.xpm  = cell;
     Event eIcon(EventAddIcon, &icon);
-    eIcon.process();
-
-    icon.name = "cell_on";
-    icon.xpm  = cell_on;
     eIcon.process();
 
     icon.name = "simcard";
@@ -211,7 +204,7 @@ static CommandDef sms_descr =
     {
         0,
         I18N_NOOP("SMS"),
-        "cell_on",
+        "SMS",
         NULL,
         NULL,
         0,
@@ -234,7 +227,7 @@ static CommandDef sms_status_list[] =
         {
             STATUS_ONLINE,
             I18N_NOOP("Online"),
-            "cell_on",
+            "SMS_online",
             NULL,
             NULL,
             0,
@@ -249,7 +242,7 @@ static CommandDef sms_status_list[] =
         {
             STATUS_OFFLINE,
             I18N_NOOP("Offline"),
-            "cell_off",
+            "SMS_offline",
             NULL,
             NULL,
             0,
@@ -401,7 +394,7 @@ static CommandDef cfgSmsWnd[] =
         {
             MAIN_INFO,
             "",
-            "cell_on",
+            "SMS",
             NULL,
             NULL,
             0,

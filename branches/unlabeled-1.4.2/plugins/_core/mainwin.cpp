@@ -79,7 +79,7 @@ MainWindow::MainWindow()
     m_bNoResize = false;
 
     SET_WNDPROC("mainwnd")
-    setIcon(Pict("licq"));
+    setIcon(Pict("ICQ"));
     setTitle();
 
 #ifdef WIN32
@@ -215,7 +215,7 @@ void *MainWindow::processEvent(Event *e)
         addStatus(wnd->widget, wnd->bDown);
         return e->param();
     case EventIconChanged:
-        setIcon(Pict("licq"));
+        setIcon(Pict("ICQ"));
         break;
     case EventContactChanged:{
             Contact *contact = (Contact*)(e->param());
