@@ -36,6 +36,7 @@
 #include <qfile.h>
 #include <qtimer.h>
 #include <qimage.h>
+#include <qregexp.h>
 
 bool operator < (const alias_group &s1, const alias_group &s2)
 {
