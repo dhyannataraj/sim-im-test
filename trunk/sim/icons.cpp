@@ -546,7 +546,9 @@ static QPixmap scalePict(const QPixmap &pict, int w, int h)
 {
     QImage img = pict.convertToImage();
     img = img.smoothScale(w, h);
-    return QPixmap(img);
+    QPixmap res;
+    res.convertFromImage(img);
+    return res;
 }
 
 #endif

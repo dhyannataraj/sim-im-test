@@ -30,7 +30,8 @@
 #endif
 
 XOSD::XOSD(QWidget *p)
-        : QWidget(NULL, "xosd",
+        : QWidget(p, "xosd",
+                  WType_TopLevel |
                   WStyle_StaysOnTop |  WStyle_Customize | WStyle_NoBorder |
                   WStyle_Tool |WRepaintNoErase | WX11BypassWM)
 {

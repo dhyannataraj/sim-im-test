@@ -525,7 +525,7 @@ int main(int argc, char *argv[])
                          "http://sim-icq.sourceforge.net/",
                          "sim-icq-main@lists.sourceforge.net");
 
-    aboutData.addAuthor("Vladimir Shutoff",I18N_NOOP("Maintainer"),"shutoff@mail.ru");
+    aboutData.addAuthor("Vladimir Shutoff",I18N_NOOP("Maintainer"),"vovan@shutoff.ru");
     appAboutData = &aboutData;
 
 #ifdef USE_KDE

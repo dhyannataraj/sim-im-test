@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
-"POT-Creation-Date: 2002-12-15 12:38+0300\n"
+"POT-Creation-Date: 2002-12-18 11:44+0300\n"
 "PO-Revision-Date: 2002-12-13 16:49+0000\n"
 "Last-Translator: Jorge Lopez <jorgelt@terra.es>\n"
 "Language-Team: spain <es@li.org>\n"
@@ -39,7 +39,7 @@ msgstr ""
 msgid "Catalan"
 msgstr ""
 
-#: libicq/country.cpp:13 ui/themesetup.cpp:64
+#: libicq/country.cpp:13 ui/themesetup.cpp:65
 msgid "Chinese"
 msgstr ""
 
@@ -55,7 +55,7 @@ msgstr ""
 msgid "Danish"
 msgstr ""
 
-#: libicq/country.cpp:17 ui/themesetup.cpp:59
+#: libicq/country.cpp:17 ui/themesetup.cpp:60
 msgid "Dutch"
 msgstr ""
 
@@ -79,7 +79,7 @@ msgstr ""
 msgid "Finnish"
 msgstr ""
 
-#: libicq/country.cpp:23
+#: libicq/country.cpp:23 ui/themesetup.cpp:58
 msgid "French"
 msgstr ""
 
@@ -115,7 +115,7 @@ msgstr ""
 msgid "Indonesian"
 msgstr ""
 
-#: libicq/country.cpp:32 ui/themesetup.cpp:58
+#: libicq/country.cpp:32 ui/themesetup.cpp:59
 msgid "Italian"
 msgstr ""
 
@@ -151,7 +151,7 @@ msgstr ""
 msgid "Norwegian"
 msgstr ""
 
-#: libicq/country.cpp:41 ui/themesetup.cpp:60
+#: libicq/country.cpp:41 ui/themesetup.cpp:61
 msgid "Polish"
 msgstr ""
 
@@ -163,7 +163,7 @@ msgstr ""
 msgid "Romanian"
 msgstr ""
 
-#: libicq/country.cpp:44 ui/themesetup.cpp:61
+#: libicq/country.cpp:44 ui/themesetup.cpp:62
 msgid "Russian"
 msgstr ""
 
@@ -207,11 +207,11 @@ msgstr ""
 msgid "Thai"
 msgstr ""
 
-#: client.cpp:96 client.cpp:97 libicq/country.cpp:55 ui/themesetup.cpp:62
+#: client.cpp:96 client.cpp:97 libicq/country.cpp:55 ui/themesetup.cpp:63
 msgid "Turkish"
 msgstr ""
 
-#: client.cpp:99 libicq/country.cpp:56 ui/themesetup.cpp:63
+#: client.cpp:99 libicq/country.cpp:56 ui/themesetup.cpp:64
 msgid "Ukrainian"
 msgstr ""
 
@@ -3224,43 +3224,43 @@ msgstr "General"
 msgid "System"
 msgstr "Sistema"
 
-#: ui/themesetup.cpp:129
+#: ui/themesetup.cpp:130
 msgid "%1|Graphics"
 msgstr "%1|Gráficos"
 
-#: ui/themesetup.cpp:131
+#: ui/themesetup.cpp:132
 msgid "Graphics(%1)"
 msgstr "Gráficos(%1)"
 
-#: ui/themesetup.cpp:136
+#: ui/themesetup.cpp:137
 msgid "Contact - left"
 msgstr ""
 
-#: ui/themesetup.cpp:137
+#: ui/themesetup.cpp:138
 msgid "Contact - scale"
 msgstr ""
 
-#: ui/themesetup.cpp:138
+#: ui/themesetup.cpp:139
 msgid "Window - left top"
 msgstr ""
 
-#: ui/themesetup.cpp:139
+#: ui/themesetup.cpp:140
 msgid "Window - left bottom"
 msgstr ""
 
-#: ui/themesetup.cpp:140
+#: ui/themesetup.cpp:141
 msgid "Window - left center"
 msgstr ""
 
-#: ui/themesetup.cpp:141
+#: ui/themesetup.cpp:142
 msgid "Window - scale"
 msgstr ""
 
-#: ui/themesetup.cpp:204
+#: ui/themesetup.cpp:205
 msgid "Need restart SIM for change language"
 msgstr "SIM necesita reiniciarse para cambiar el idioma"
 
-#: ui/themesetup.cpp:214
+#: ui/themesetup.cpp:215
 msgid "Default icons"
 msgstr "Iconos por defecto"
 

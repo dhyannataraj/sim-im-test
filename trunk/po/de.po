@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
-"POT-Creation-Date: 2002-12-15 12:38+0300\n"
+"POT-Creation-Date: 2002-12-18 11:44+0300\n"
 "PO-Revision-Date: 2002-12-15 17:57GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -40,7 +40,7 @@ msgstr "Kantonesien"
 msgid "Catalan"
 msgstr "Catalanisch"
 
-#: libicq/country.cpp:13 ui/themesetup.cpp:64
+#: libicq/country.cpp:13 ui/themesetup.cpp:65
 msgid "Chinese"
 msgstr "Chinesisch"
 
@@ -56,7 +56,7 @@ msgstr "Tschechisch"
 msgid "Danish"
 msgstr "Dänisch"
 
-#: libicq/country.cpp:17 ui/themesetup.cpp:59
+#: libicq/country.cpp:17 ui/themesetup.cpp:60
 msgid "Dutch"
 msgstr "Holländisch"
 
@@ -80,7 +80,7 @@ msgstr "Farsi"
 msgid "Finnish"
 msgstr "Finnisch"
 
-#: libicq/country.cpp:23
+#: libicq/country.cpp:23 ui/themesetup.cpp:58
 msgid "French"
 msgstr "Französisch"
 
@@ -116,7 +116,7 @@ msgstr "Islandändisch"
 msgid "Indonesian"
 msgstr "Indonesisch"
 
-#: libicq/country.cpp:32 ui/themesetup.cpp:58
+#: libicq/country.cpp:32 ui/themesetup.cpp:59
 msgid "Italian"
 msgstr "Italienisch"
 
@@ -152,7 +152,7 @@ msgstr "Malaysisch"
 msgid "Norwegian"
 msgstr "Norwegisch"
 
-#: libicq/country.cpp:41 ui/themesetup.cpp:60
+#: libicq/country.cpp:41 ui/themesetup.cpp:61
 msgid "Polish"
 msgstr "Polnisch"
 
@@ -164,7 +164,7 @@ msgstr "Portugiesisch"
 msgid "Romanian"
 msgstr "Romänisch"
 
-#: libicq/country.cpp:44 ui/themesetup.cpp:61
+#: libicq/country.cpp:44 ui/themesetup.cpp:62
 msgid "Russian"
 msgstr "Russisch"
 
@@ -208,11 +208,11 @@ msgstr "Tatarisch"
 msgid "Thai"
 msgstr "Thai"
 
-#: client.cpp:96 client.cpp:97 libicq/country.cpp:55 ui/themesetup.cpp:62
+#: client.cpp:96 client.cpp:97 libicq/country.cpp:55 ui/themesetup.cpp:63
 msgid "Turkish"
 msgstr "Türkisch"
 
-#: client.cpp:99 libicq/country.cpp:56 ui/themesetup.cpp:63
+#: client.cpp:99 libicq/country.cpp:56 ui/themesetup.cpp:64
 msgid "Ukrainian"
 msgstr "Ukrainisch"
 
@@ -1638,7 +1638,8 @@ msgstr ";-)"
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
+msgstr ""
+"Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
 
 #: chatwnd.cpp:75 ui/userinfobase.cpp:54
 msgid "Save"
@@ -3235,43 +3236,43 @@ msgstr "Allgemein"
 msgid "System"
 msgstr "System"
 
-#: ui/themesetup.cpp:129
+#: ui/themesetup.cpp:130
 msgid "%1|Graphics"
 msgstr "%1|Grafiken"
 
-#: ui/themesetup.cpp:131
+#: ui/themesetup.cpp:132
 msgid "Graphics(%1)"
 msgstr "Grafiken (%1)"
 
-#: ui/themesetup.cpp:136
+#: ui/themesetup.cpp:137
 msgid "Contact - left"
 msgstr "Kontaktliste - links"
 
-#: ui/themesetup.cpp:137
+#: ui/themesetup.cpp:138
 msgid "Contact - scale"
 msgstr "Kontakt - skalieren"
 
-#: ui/themesetup.cpp:138
+#: ui/themesetup.cpp:139
 msgid "Window - left top"
 msgstr "Fenster - links oben"
 
-#: ui/themesetup.cpp:139
+#: ui/themesetup.cpp:140
 msgid "Window - left bottom"
 msgstr "Fenster - links unten"
 
-#: ui/themesetup.cpp:140
+#: ui/themesetup.cpp:141
 msgid "Window - left center"
 msgstr "Fenster - links zentriert"
 
-#: ui/themesetup.cpp:141
+#: ui/themesetup.cpp:142
 msgid "Window - scale"
 msgstr "Fenster - skaliert"
 
-#: ui/themesetup.cpp:204
+#: ui/themesetup.cpp:205
 msgid "Need restart SIM for change language"
 msgstr "SIM muß zum Ändern der Sprache neu gestartet werden"
 
-#: ui/themesetup.cpp:214
+#: ui/themesetup.cpp:215
 msgid "Default icons"
 msgstr "Standard Icons"
 
@@ -3447,7 +3448,8 @@ msgstr "&Signatur"
 
 #: ui/smssetupbase.cpp:68
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
+msgstr ""
+"Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
 
 #: ui/smssetupbase.cpp:76
 msgid ""
@@ -4177,7 +4179,8 @@ msgid "Hide main window after"
 msgstr "Hauptfenster anzeigen/verstecken nach"
 
 #: ui/statussetupbase.cpp:57
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -4380,7 +4383,8 @@ msgstr "&Ablehnen"
 
 #: ui/generalsecbase.cpp:146
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr ""
+"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: ui/generalsecbase.cpp:153
 msgid ""
@@ -4707,4 +4711,3 @@ msgstr "&Bemerkungen"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
-

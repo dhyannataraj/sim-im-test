@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"POT-Creation-Date: 2002-12-15 12:38+0300\n"
+"POT-Creation-Date: 2002-12-18 11:44+0300\n"
 "PO-Revision-Date: 2002-12-15 12:40+0300\n"
 "Last-Translator: Vladimir Shutoff <shutoff@mail.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -52,7 +52,7 @@ msgid "Catalan"
 msgstr "Каталанский"
 
 # libicq/country.cpp:13
-#: libicq/country.cpp:13 ui/themesetup.cpp:64
+#: libicq/country.cpp:13 ui/themesetup.cpp:65
 msgid "Chinese"
 msgstr "Китайский"
 
@@ -72,7 +72,7 @@ msgid "Danish"
 msgstr "Датский"
 
 # libicq/country.cpp:17
-#: libicq/country.cpp:17 ui/themesetup.cpp:59
+#: libicq/country.cpp:17 ui/themesetup.cpp:60
 msgid "Dutch"
 msgstr "Голландский"
 
@@ -102,7 +102,7 @@ msgid "Finnish"
 msgstr "Финский"
 
 # libicq/country.cpp:23
-#: libicq/country.cpp:23
+#: libicq/country.cpp:23 ui/themesetup.cpp:58
 msgid "French"
 msgstr "Французский"
 
@@ -147,7 +147,7 @@ msgid "Indonesian"
 msgstr "Индонезийский"
 
 # libicq/country.cpp:32
-#: libicq/country.cpp:32 ui/themesetup.cpp:58
+#: libicq/country.cpp:32 ui/themesetup.cpp:59
 msgid "Italian"
 msgstr "Итальянский"
 
@@ -192,7 +192,7 @@ msgid "Norwegian"
 msgstr "Норвежский"
 
 # libicq/country.cpp:41
-#: libicq/country.cpp:41 ui/themesetup.cpp:60
+#: libicq/country.cpp:41 ui/themesetup.cpp:61
 msgid "Polish"
 msgstr "Польский"
 
@@ -207,7 +207,7 @@ msgid "Romanian"
 msgstr "Румынский"
 
 # libicq/country.cpp:44
-#: libicq/country.cpp:44 ui/themesetup.cpp:61
+#: libicq/country.cpp:44 ui/themesetup.cpp:62
 msgid "Russian"
 msgstr "Русский"
 
@@ -262,12 +262,12 @@ msgid "Thai"
 msgstr "Тайский"
 
 # client.cpp:76 client.cpp:77 libicq/country.cpp:55
-#: client.cpp:96 client.cpp:97 libicq/country.cpp:55 ui/themesetup.cpp:62
+#: client.cpp:96 client.cpp:97 libicq/country.cpp:55 ui/themesetup.cpp:63
 msgid "Turkish"
 msgstr "Турецкий"
 
 # libicq/country.cpp:56
-#: client.cpp:99 libicq/country.cpp:56 ui/themesetup.cpp:63
+#: client.cpp:99 libicq/country.cpp:56 ui/themesetup.cpp:64
 msgid "Ukrainian"
 msgstr "Украинский"
 
@@ -384,7 +384,8 @@ msgstr "Австралия"
 # libicq/country.cpp:84
 #: libicq/country.cpp:84
 msgid "Australian Antarctic Territory"
-msgstr "Австралийская антарктическая территория"
+msgstr ""
+"Австралийская антарктическая территория"
 
 # libicq/country.cpp:85
 #: libicq/country.cpp:85
@@ -2658,7 +2659,8 @@ msgstr "%1 от %2"
 # mainwin.cpp:969 ui/logindlg.cpp:138
 #: mainwin.cpp:1261 ui/logindlg.cpp:232
 msgid "Can't connect to proxy server"
-msgstr "Невозможно соединиться с прокси-сервером"
+msgstr ""
+"Невозможно соединиться с прокси-сервером"
 
 # mainwin.cpp:975 ui/logindlg.cpp:145
 #: mainwin.cpp:1268 ui/logindlg.cpp:239
@@ -2675,7 +2677,8 @@ msgstr ""
 # mainwin.cpp:988
 #: mainwin.cpp:1282
 msgid "Your UIN used from another location"
-msgstr "Ваш UIN используется с другого компьютера"
+msgstr ""
+"Ваш UIN используется с другого компьютера"
 
 # mainwin.cpp:1042
 #: mainwin.cpp:1337
@@ -3784,7 +3787,8 @@ msgstr "Исчерпано количество попыток"
 #: ui/logindlg.cpp:300
 #, c-format
 msgid "Delete history and incoming files for %u?"
-msgstr "Удалить истроию и принятые файлы для %1?"
+msgstr ""
+"Удалить истроию и принятые файлы для %1?"
 
 # ui/maininfo.cpp:41
 #: ui/maininfo.cpp:46
@@ -4023,47 +4027,47 @@ msgstr "Основная"
 msgid "System"
 msgstr "Системный"
 
-#: ui/themesetup.cpp:129
+#: ui/themesetup.cpp:130
 msgid "%1|Graphics"
 msgstr "%1|Графика"
 
-#: ui/themesetup.cpp:131
+#: ui/themesetup.cpp:132
 msgid "Graphics(%1)"
 msgstr "Графика(%1)"
 
-#: ui/themesetup.cpp:136
+#: ui/themesetup.cpp:137
 msgid "Contact - left"
 msgstr "Контакт - слева"
 
 # msgview.cpp:226
-#: ui/themesetup.cpp:137
+#: ui/themesetup.cpp:138
 msgid "Contact - scale"
 msgstr "Контакт - растянуть"
 
-#: ui/themesetup.cpp:138
+#: ui/themesetup.cpp:139
 msgid "Window - left top"
 msgstr "Окно - слева вверху"
 
-#: ui/themesetup.cpp:139
+#: ui/themesetup.cpp:140
 msgid "Window - left bottom"
 msgstr "Окно - слева внизу"
 
-#: ui/themesetup.cpp:140
+#: ui/themesetup.cpp:141
 msgid "Window - left center"
 msgstr "Окно - слева по центру"
 
-#: ui/themesetup.cpp:141
+#: ui/themesetup.cpp:142
 msgid "Window - scale"
 msgstr "Окно - растянуть"
 
-#: ui/themesetup.cpp:204
+#: ui/themesetup.cpp:205
 msgid "Need restart SIM for change language"
 msgstr ""
 "Необходимо перезапустить SIM для "
 "изменения языка"
 
 # ui/themesetup.cpp:105
-#: ui/themesetup.cpp:214
+#: ui/themesetup.cpp:215
 msgid "Default icons"
 msgstr "Иконки по умолчанию"
 
@@ -4518,7 +4522,8 @@ msgstr "Закрыть после отправки"
 # ui/msgbase.cpp:94
 #: ui/acceptbase.cpp:105
 msgid "Automaitcaly open window"
-msgstr "Автоматически открывать окно сообщений"
+msgstr ""
+"Автоматически открывать окно сообщений"
 
 # ui/acceptbase.cpp:122 ui/msgbase.cpp:90
 #: ui/acceptbase.cpp:109 ui/acceptbase.cpp:126
@@ -4632,7 +4637,8 @@ msgstr "Шрифты"
 # ui/fontsetupbase.cpp:214
 #: ui/fontsetupbase.cpp:189
 msgid "Use &own colors and fonts settings"
-msgstr "Использовать &собственные цвета и шрифты"
+msgstr ""
+"Использовать &собственные цвета и шрифты"
 
 # ui/fontsetupbase.cpp:224
 #: ui/fontsetupbase.cpp:199
@@ -4667,7 +4673,8 @@ msgstr "Не показывать мой email"
 # ui/pastinfobase.cpp:89
 #: ui/pastinfobase.cpp:73
 msgid "Organization, Affiliation, Group:"
-msgstr "Объединения, общественные организации:"
+msgstr ""
+"Объединения, общественные организации:"
 
 #: ui/pastinfobase.cpp:102
 msgid "A&ffilation"
@@ -5148,7 +5155,8 @@ msgstr "Прозрачный контейнер"
 # ui/themesetupbase.cpp:146
 #: ui/themesetupbase.cpp:243
 msgid "Transparent only if inactive"
-msgstr "Прозрачные окна только если неактивные"
+msgstr ""
+"Прозрачные окна только если неактивные"
 
 # ui/themesetupbase.cpp:126 ui/themesetupbase.cpp:138
 #: ui/themesetupbase.cpp:247
@@ -5158,7 +5166,8 @@ msgstr "&Прозрачность"
 # ui/themesetupbase.cpp:154
 #: ui/themesetupbase.cpp:253
 msgid "Show main window in task manager"
-msgstr "Показывать основное окно в панели задач"
+msgstr ""
+"Показывать основное окно в панели задач"
 
 # ui/themesetupbase.cpp:158
 #: ui/themesetupbase.cpp:258
@@ -5197,7 +5206,8 @@ msgstr "Скрыть главное окно"
 
 # ui/statussetupbase.cpp:107
 #: ui/statussetupbase.cpp:57
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Запретить оповещение в состояниях "
 "\"Отошел\", \"Не активный\", \"Занят\""
@@ -5878,4 +5888,3 @@ msgstr "&Заметки"
 
 #~ msgid "Spell"
 #~ msgstr "Проверка орфографии"
-
