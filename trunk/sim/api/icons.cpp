@@ -193,7 +193,7 @@ QString Icons::parseSmiles(const QString &str)
             unsigned pos    = (unsigned)(-1);
             unsigned length = 0;
             string n_smile;
-            (*it)->parseSmiles(str, pos, length, n_smile);
+            (*it)->parseSmiles(s, pos, length, n_smile);
             if (length == 0)
                 continue;
             if (pos < start){
