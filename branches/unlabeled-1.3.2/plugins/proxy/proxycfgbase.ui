@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>339</width>
-            <height>264</height>
+            <width>335</width>
+            <height>267</height>
         </rect>
     </property>
     <property>
@@ -172,49 +172,6 @@
                 <enum>Password</enum>
             </property>
         </widget>
-        <spacer row="8"  column="0" >
-            <property>
-                <name>name</name>
-                <cstring>Spacer5</cstring>
-            </property>
-            <property>
-                <name>orientation</name>
-                <enum>Vertical</enum>
-            </property>
-            <property>
-                <name>sizeType</name>
-                <enum>Expanding</enum>
-            </property>
-            <property>
-                <name>sizeHint</name>
-                <size>
-                    <width>20</width>
-                    <height>20</height>
-                </size>
-            </property>
-        </spacer>
-        <widget row="7"  column="0"  rowspan="1"  colspan="3" >
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>lblNote</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string></string>
-            </property>
-            <property>
-                <name>textFormat</name>
-                <enum>RichText</enum>
-            </property>
-            <property>
-                <name>alignment</name>
-                <set>WordBreak|AlignVCenter|AlignLeft</set>
-            </property>
-            <property>
-                <name>wordwrap</name>
-            </property>
-        </widget>
         <widget row="1"  column="0" >
             <class>QLabel</class>
             <property stdset="1">
@@ -263,6 +220,60 @@
             <property stdset="1">
                 <name>name</name>
                 <cstring>cmbClient</cstring>
+            </property>
+        </widget>
+        <spacer row="9"  column="0" >
+            <property>
+                <name>name</name>
+                <cstring>Spacer5</cstring>
+            </property>
+            <property>
+                <name>orientation</name>
+                <enum>Vertical</enum>
+            </property>
+            <property>
+                <name>sizeType</name>
+                <enum>Expanding</enum>
+            </property>
+            <property>
+                <name>sizeHint</name>
+                <size>
+                    <width>20</width>
+                    <height>20</height>
+                </size>
+            </property>
+        </spacer>
+        <widget row="8"  column="0"  rowspan="1"  colspan="3" >
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>lblNote</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string></string>
+            </property>
+            <property>
+                <name>textFormat</name>
+                <enum>RichText</enum>
+            </property>
+            <property>
+                <name>alignment</name>
+                <set>WordBreak|AlignVCenter|AlignLeft</set>
+            </property>
+            <property>
+                <name>wordwrap</name>
+            </property>
+        </widget>
+        <widget row="7"  column="0"  rowspan="1"  colspan="3" >
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkNoShow</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Do not show error dialog (automatically reconnect)</string>
             </property>
         </widget>
     </grid>

@@ -16,10 +16,16 @@ Compression=bzip/9
 AppId=SIM
 AppMutex=SIM_Mutex
 AppCopyright=Copyright © 2002-2003, Vladimir Shutoff
+DetectLanguageUsingLocale=yes
+ShowLanguageDialog=no
 
 [Tasks]
-Name: "startup"; Description: "Launch SIM on &startup"
-Name: "desktopicon"; Description: "Create a &desktop icon"; GroupDescription: "Additional icons:"
+Name: startup; Description: "Launch SIM on &startup"; GroupDescription: "Startup:"
+Name: startup\common; Description: "For all users"; GroupDescription: "Startup:"; Flags: exclusive
+Name: startup\user; Description: "For the current user only"; GroupDescription: "Startup:"; Flags: exclusive unchecked
+Name: desktopicon; Description: "Create a &desktop icon"; GroupDescription: "Additional icons:"
+Name: desktopicon\common; Description: "For all users"; GroupDescription: "Additional icons:"; Flags: exclusive
+Name: desktopicon\user; Description: "For the current user only"; GroupDescription: "Additional icons:"; Flags: exclusive unchecked
 
 [Dirs]
 Name: "{app}\po"
@@ -28,6 +34,16 @@ Name: "{app}\pict"
 Name: "{app}\icons"
 Name: "{app}\plugins"
 Name: "{app}\plugins\styles"
+
+[Languages]
+Name: "en"; MessagesFile: "compiler:Default.isl"
+Name: "ru"; MessagesFile: "Russian.isl"
+Name: "pt"; MessagesFile: "BrazilianPortuguese.isl"
+Name: "bg"; MessagesFile: "Bulgarian.isl"
+Name: "cs"; MessagesFile: "Czech.isl"
+Name: "de"; MessagesFile: "German.isl"
+Name: "it"; MessagesFile: "Italian.isl"
+Name: "po"; MessagesFile: "Polish.isl"
 
 [Files]
 Source: "..\Release\sim.exe"; DestDir: "{app}"; Flags: ignoreversion
@@ -76,28 +92,13 @@ Source: "..\Release\sounds\mailpager.wav"; DestDir: "{app}\sounds"; Flags: ignor
 Source: "..\Release\sounds\error.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
 Source: "..\Release\pict\splash.png"; DestDir: "{app}\pict"; Flags: ignoreversion
 Source: "..\Release\pict\connect.gif"; DestDir: "{app}\pict"; Flags: ignoreversion
-Source: "..\Release\po\bg.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\ca.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\cs.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\de.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\es.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\fr.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\he.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\it.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\nl.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\pl.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\pt_BR.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\ru.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\sk.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\sw.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\tr.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\uk.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\zh_TW.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 
 [Icons]
 Name: "{commonprograms}\SIM"; Filename: "{app}\sim.exe"
-Name: "{userdesktop}\Simple Instant Messenger"; Filename: "{app}\sim.exe"; Tasks: desktopicon
-Name: "{userstartup}\SIM"; Filename: "{app}\sim.exe"; Tasks: startup
+Name: "{userdesktop}\Simple Instant Messenger"; Filename: "{app}\sim.exe"; Tasks: desktopicon/user
+Name: "{userstartup}\SIM"; Filename: "{app}\sim.exe"; Tasks: startup/user
+Name: "{commondesktop}\Simple Instant Messenger"; Filename: "{app}\sim.exe"; Tasks: desktopicon/common
+Name: "{commonstartup}\SIM"; Filename: "{app}\sim.exe"; Tasks: startup/common
 
 [Run]
 Filename: "{app}\sim.exe"; Description: "Launch Simple Instant Messenger"; Flags: nowait postinstall skipifsilent

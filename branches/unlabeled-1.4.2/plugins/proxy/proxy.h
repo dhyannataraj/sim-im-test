@@ -38,6 +38,7 @@ typedef struct ProxyData
     char			*User;
     char			*Password;
     unsigned		Default;
+	unsigned		NoShow;
     bool			bInit;
     ProxyData();
     ProxyData(const ProxyData&);
@@ -60,6 +61,7 @@ public:
     PROP_STR(Host);
     PROP_USHORT(Port);
     PROP_BOOL(Auth);
+	PROP_BOOL(NoShow);
     PROP_STR(User);
     PROP_STR(Password);
     unsigned ProxyPacket;

@@ -245,6 +245,7 @@ void ProxyConfig::fill(ProxyData *data)
         edtPswd->setText("");
     }
     typeChanged(data->Type);
+	chkNoShow->setChecked(data->NoShow != 0);
 }
 
 void ProxyConfig::get(ProxyData *data)
@@ -255,6 +256,7 @@ void ProxyConfig::get(ProxyData *data)
     data->Auth = chkAuth->isChecked();
     set_str(&data->User, edtUser->text().local8Bit());
     set_str(&data->Password, edtPswd->text().local8Bit());
+	data->NoShow = chkNoShow->isChecked();
 }
 
 #ifndef WIN32

@@ -66,6 +66,7 @@ static DataDef _proxyData[] =
         { "User", DATA_STRING, 1, 0 },
         { "Password", DATA_STRING, 1, 0 },
         { "", DATA_BOOL, 1, 0 },
+		{ "NoShow", DATA_BOOL, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -161,6 +162,7 @@ public:
     PROP_BOOL(Auth);
     PROP_STR(User);
     PROP_STR(Password);
+	PROP_BOOL(NoShow);
     ProxyPlugin *m_plugin;
 protected:
     virtual void write();
@@ -247,8 +249,13 @@ void Proxy::write_ready()
 void Proxy::error_state(const char *err, unsigned code)
 {
     if (notify){
-        if (code == m_plugin->ProxyErr)
-            m_client->m_reconnect = NO_RECONNECT;
+        if (code == m_plugin->ProxyErr){
+			if (getNoShow()){
+				code = 0;
+			}else{
+				m_client->m_reconnect = NO_RECONNECT;
+			}
+		}
         notify->error_state(err, code);
     }
 }
