@@ -1009,7 +1009,7 @@ void UserBox::slotMessageReceived(ICQMessage *msg)
 {
     if (qApp->activeWindow() != this){
         if (haveUser(msg->getUin()))
-            messageReceived(msg);
+            emit messageReceived(msg);
 #ifdef WIN32
         if (!initFlash){
             HINSTANCE hLib = GetModuleHandleA("user32");
