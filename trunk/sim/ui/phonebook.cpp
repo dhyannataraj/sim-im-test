@@ -46,9 +46,9 @@ void PhoneItem::update()
 {
     QString name = QString::fromLocal8Bit(phone.Name.c_str());
     for (const phoneName *n = phoneNames; *(n->name); n++){
-	if (name != n->name) continue;
-	name = i18n(n->name);
-	break;
+        if (name != n->name) continue;
+        name = i18n(n->name);
+        break;
     }
     setText(0, name);
     setText(1, QString::fromLocal8Bit(phone.getNumber().c_str()));

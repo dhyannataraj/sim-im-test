@@ -330,8 +330,8 @@ MainWindow::MainWindow(const char *name)
 
     menuFunction = new KPopupMenu(this);
     menuFunction->setCheckable(true);
-	connect(menuFunction, SIGNAL(aboutToShow()), this, SLOT(adjustFucntionMenu()));
-	connect(menuFunction, SIGNAL(activated(int)), this, SLOT(showUser(int)));
+    connect(menuFunction, SIGNAL(aboutToShow()), this, SLOT(adjustFucntionMenu()));
+    connect(menuFunction, SIGNAL(activated(int)), this, SLOT(showUser(int)));
 
     menuContainers = new QPopupMenu(this);
     connect(menuContainers, SIGNAL(activated(int)), this, SLOT(toContainer(int)));
@@ -447,22 +447,22 @@ void MainWindow::toggleOnTop()
 
 void MainWindow::adjustFucntionMenu()
 {
-	int n;
-	int oldItems = menuMsgs.size();
-	fillUnread(menuMsgs);
-	int index = menuFunction->indexOf(mnuPopupStatus);
-	for (n = 0; n < oldItems; n++)
-		menuFunction->removeItemAt(index+1);
-	int id = mnuPopupStatus;
-	for (list<msgInfo>::iterator it = menuMsgs.begin(); it != menuMsgs.end(); ++it){
-		CUser u((*it).uin);
-		(*it).menuId = ++id;
-		menuFunction->insertItem(Icon(Client::getMessageIcon((*it).type)), 
-			i18n("%1 from %2")
-				.arg(Client::getMessageText((*it).type, (*it).count))
-				.arg(u.name()),
-			id, ++index);
-	}
+    int n;
+    int oldItems = menuMsgs.size();
+    fillUnread(menuMsgs);
+    int index = menuFunction->indexOf(mnuPopupStatus);
+    for (n = 0; n < oldItems; n++)
+        menuFunction->removeItemAt(index+1);
+    int id = mnuPopupStatus;
+    for (list<msgInfo>::iterator it = menuMsgs.begin(); it != menuMsgs.end(); ++it){
+        CUser u((*it).uin);
+        (*it).menuId = ++id;
+        menuFunction->insertItem(Icon(Client::getMessageIcon((*it).type)),
+                                 i18n("%1 from %2")
+                                 .arg(Client::getMessageText((*it).type, (*it).count))
+                                 .arg(u.name()),
+                                 id, ++index);
+    }
 }
 
 void MainWindow::adjustGroupsMenu()
@@ -757,7 +757,7 @@ bool MainWindow::init()
         toolbar->show();
     }
 
-	loadUnread();
+    loadUnread();
     xosd->init();
     transparentChanged();
     setShow(Show());
@@ -806,11 +806,11 @@ void MainWindow::messageReceived(ICQMessage *msg)
 
 void MainWindow::showUser(int id)
 {
-	for (list<msgInfo>::iterator it = menuMsgs.begin(); it != menuMsgs.end(); ++it){
-		if ((*it).menuId != id) continue;
-		userFunction((*it).uin, mnuAction, 0);
-		return;
-	}
+    for (list<msgInfo>::iterator it = menuMsgs.begin(); it != menuMsgs.end(); ++it){
+        if ((*it).menuId != id) continue;
+        userFunction((*it).uin, mnuAction, 0);
+        return;
+    }
 }
 
 void MainWindow::processEvent(ICQEvent *e)
@@ -1176,9 +1176,9 @@ void MainWindow::phonebook()
 {
     if (setupDlg == NULL){
         setupDlg = new SetupDialog(this, SETUP_PHONE);
-	}else{
-		setupDlg->showPage(SETUP_PHONE);
-	}
+    }else{
+        setupDlg->showPage(SETUP_PHONE);
+    }
     setupDlg->show();
 #ifdef USE_KDE
     KWin::setOnDesktop(setupDlg->winId(), KWin::currentDesktop());
@@ -2091,7 +2091,7 @@ bool msgInfo::operator < (const msgInfo &m) const
 
 void MainWindow::fillUnread(list<msgInfo> &msgs)
 {
-	msgs.clear();
+    msgs.clear();
     for (list<unread_msg>::iterator it = messages.begin(); it != messages.end(); ++it){
         list<msgInfo>::iterator it_msg;
         for (it_msg = msgs.begin(); it_msg != msgs.end(); ++it_msg)

@@ -127,7 +127,7 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
     case ICQ_MSGxURL:{
             ICQUrl *url = static_cast<ICQUrl*>(msg);
             s += "<a href=\"";
-            s += quoteText(url->URL);
+            s += url->URL.c_str();
             s += "\">";
             s += quoteText(url->URL);
             s += "</a>";
@@ -235,8 +235,7 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
 
 QString TextShow::quoteText(const char *text)
 {
-    string msg;
-    pClient->quoteText(text, msg);
+    string msg = ICQClient::quoteText(text);
     QString s = QString::fromLocal8Bit(msg.c_str());
     return s;
 }

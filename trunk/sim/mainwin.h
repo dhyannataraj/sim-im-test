@@ -117,7 +117,7 @@ typedef struct msgInfo
     unsigned long  uin;
     unsigned short type;
     unsigned	   count;
-	int			   menuId;
+    int			   menuId;
     bool operator < (const msgInfo &m) const;
 } msgInfo;
 
@@ -282,7 +282,7 @@ public:
 
     static const char *sound(const char *wav);
 
-	void fillUnread(list<msgInfo> &msgs);
+    void fillUnread(list<msgInfo> &msgs);
     list<unread_msg> messages;
 signals:
     void modeChanged(bool);
@@ -310,7 +310,7 @@ public slots:
     void showUserPopup(unsigned long uin, QPoint, QPopupMenu*, const QRect&);
     void userFunction(int);
     void userFunction(unsigned long uin, int, unsigned long param=0);
-	void showUser(int);
+    void showUser(int);
     void goURL(const char*);
     void sendMail(unsigned long);
     void sendMail(const char*);
@@ -344,10 +344,10 @@ protected slots:
     void timerExpired();
     void currentDesktopChanged(int);
     void adjustGroupsMenu();
-	void adjustFucntionMenu();
+    void adjustFucntionMenu();
 protected:
-	list<msgInfo> menuMsgs;
-	void loadUnread();
+    list<msgInfo> menuMsgs;
+    void loadUnread();
 
     char realTZ;
     int lockFile;

@@ -239,7 +239,8 @@ ICQUser::ICQUser()
         IncomingAuth(this, "IncomingAuth", "auth.wav"),
         IncomingFile(this, "IncomingFile", "file.wav"),
         IncomingChat(this, "IncomingChat", "chat.wav"),
-        OnlineAlert(this, "OnlineAlert", "alert.wav")
+        OnlineAlert(this, "OnlineAlert", "alert.wav"),
+        Encoding(this, "Encoding")
 {
     direct = 0;
     GetRTF = false;

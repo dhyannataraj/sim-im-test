@@ -125,6 +125,7 @@ protected slots:
     void iconChanged();
     void wmChanged();
     void modeChanged(bool bSimple);
+    void showEncodingPopup();
 protected:
     void getToolbarPosition();
     void showEvent(QShowEvent *e);
@@ -136,6 +137,7 @@ protected:
     QToolButton *btnQuit;
     QToolButton *btnHistory;
     QToolButton *btnInfo;
+    QToolButton *btnEncoding;
     PictButton  *btnType;
     PictButton  *btnUser;
     QToolButton	*btnIgnore;

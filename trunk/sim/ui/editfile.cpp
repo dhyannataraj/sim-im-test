@@ -88,7 +88,7 @@ EditSound::EditSound(QWidget *p, const char *name)
     lay->addWidget(btnPlay);
     btnPlay->setPixmap(Pict("1rightarrow"));
     connect(btnPlay, SIGNAL(clicked()), this, SLOT(play()));
-    filter = "Sounds (*.wav)";
+    filter = i18n("*.wav(Sounds)");
 }
 
 void EditSound::play()

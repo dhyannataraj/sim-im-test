@@ -169,6 +169,7 @@ UserBox::UserBox(unsigned long grpId)
     btnHistory->setTextLabel(i18n("History"));
     btnHistory->setToggleButton(true);
     connect(btnHistory, SIGNAL(toggled(bool)), this, SLOT(toggleHistory(bool)));
+    btnEncoding = new QToolButton(Icon("encoding"), i18n("Encoding"), "", this, SLOT(showEncodingPopup()), toolbar);
     btnQuit = new QToolButton(Icon("exit"), i18n("Close"), "", this, SLOT(quit()), toolbar);
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     connect(pClient, SIGNAL(messageRead(ICQMessage*)), this, SLOT(messageRead(ICQMessage*)));
@@ -202,6 +203,10 @@ void UserBox::wmChanged()
     }
     if (bShow) show();
 #endif
+}
+
+void UserBox::showEncodingPopup()
+{
 }
 
 void UserBox::showUsers(bool bShow, unsigned long uin)

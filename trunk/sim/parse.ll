@@ -17,9 +17,8 @@
      ***************************************************************************/
 
 #include "mainwin.h"
-#include <string>
+#include "icqclient.h"
 #include <stack>
-using namespace std;
 
 #define TXT		 1
 #define URL		 2
@@ -27,6 +26,10 @@ using namespace std;
 #define BR		 4
 #define TAG		 5
 #define TAG_END  6
+#define AMP		 7
+#define QUOT	 8
+#define GT		 9
+#define LT		 10
 
 #define YY_STACK_USED   0
 #define YY_NEVER_INTERACTIVE    1
@@ -41,7 +44,7 @@ using namespace std;
 %x x_tag
 %%
 
-(http|https|ftp)"://"[A-Za-z0-9/\.\?\&\-_\+\%=~]+	{ return URL; }
+(http|https|ftp)"://"[A-Za-z0-9/\,\.\?\&\;\-_\+\%=~]+	{ return URL; }
 "<br>"							{ return BR; }
 "<p>"							{ }
 "</p>"							{ return BR; }
@@ -162,13 +165,15 @@ QString MainWindow::ParseText(const char *text, bool bIgnoreColors)
         case BR:
             res += "<br/>";
             break;
-        case URL:
+        case URL:{
+			string url = ICQClient::unquoteText(yytext);
             res += "<a href=\"";
-            res += yytext;
+            res += 
             res += "\">";
             res += yytext;
             res += "</a>";
             break;
+		}
         default:
 			if (pMain->UseEmotional()){
 				res += "<img src=\"icon:smile";

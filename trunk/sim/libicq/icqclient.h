@@ -704,6 +704,8 @@ public:
     ConfigString IncomingChat;
     ConfigString OnlineAlert;
 
+    ConfigString Encoding;
+
     void adjustPhones();
     void adjustEMails(const ConfigPtrList &mails);
 
@@ -1081,7 +1083,9 @@ public:
     };
     LoginState m_state;
     list<ICQEvent*> processQueue;
-    static void quoteText(const char *text, string &msg);
+
+    static string quoteText(const char *text);
+    static string unquoteText(const char *text);
 
     void setupProxy();
     void storePassword(const char*);

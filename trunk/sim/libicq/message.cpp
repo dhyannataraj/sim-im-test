@@ -569,37 +569,50 @@ void ICQClient::parseMessageText(const char *p, string &s)
         s = parseRTF(r.c_str());
         return;
     }
-    quoteText(p, s);
+    s = quoteText(p);
     fromServer(s);
 }
 
-void ICQClient::quoteText(const char *p, string &s)
-{
-    for (; *p; p++){
-        switch (*p){
-        case '\n':
-            s += "<br>";
-            break;
-        case '\t':
-            s += ' ';
-            break;
-        case '<':
-            s += "&lt;";
-            break;
-        case '>':
-            s += "&gt;";
-            break;
-        case '"':
-            s += "&quot;";
-            break;
-        case '&':
-            s += "&amp;";
-            break;
-        default:
-            if ((unsigned char)(*p) >= ' ')
-                s += *p;
-        }
+static string replace_all(const string& s, const string& r1, const string& r2) {
+    string t(s.c_str());
+    int curr = 0, next;
+    while ( (next = t.find( r1, curr )) != -1) {
+        t.replace( next, r1.size(), r2 );
+        curr = next + r2.size();
     }
+    return t;
+}
+
+string ICQClient::quoteText(const char *p)
+{
+    return
+        replace_all(
+            replace_all(
+                replace_all(
+                    replace_all(
+                        replace_all(
+                            replace_all(p,
+                                        "&", "&amp;"),
+                            "\"", "&quot;"),
+                        "<", "&lt;"),
+                    ">", "&gt;"),
+                "\t", " "),
+            "\n", "<br>");
+}
+
+string ICQClient::unquoteText(const char *p)
+{
+    return
+        replace_all(
+            replace_all(
+                replace_all(
+                    replace_all(
+                        replace_all(p,
+                                    "<br>", "\n"),
+                        "&lt;", "<"),
+                    "&gt;", ">"),
+                "&quot;", "\""),
+            "&amp;", "&");
 }
 
 bool ICQClient::parseFE(const char *str, vector<string> &l, unsigned n)

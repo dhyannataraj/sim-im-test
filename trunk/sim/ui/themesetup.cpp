@@ -28,6 +28,7 @@
 #include <qdir.h>
 #include <qregexp.h>
 #include <qstringlist.h>
+#include <qpushbutton.h>
 
 ThemeSetup::ThemeSetup(QWidget *parent)
         : ThemeSetupBase(parent)
@@ -40,6 +41,7 @@ ThemeSetup::ThemeSetup(QWidget *parent)
         lstThemes->setCurrentItem(i);
         break;
     }
+    connect(btnAddIcons, SIGNAL(clicked()), this, SLOT(addIcons()));
     connect(lstThemes, SIGNAL(doubleClicked(QListBoxItem*)), this, SLOT(apply(QListBoxItem*)));
     connect(lstIcons, SIGNAL(doubleClicked(QListBoxItem*)), this, SLOT(apply(QListBoxItem*)));
     if (TransparentTop::bCanTransparent){
@@ -103,6 +105,11 @@ void ThemeSetup::setupInit()
             lstIcons->setCurrentItem(i);
     }
 };
+
+void ThemeSetup::addIcons()
+{
+    pMain->goURL("http://sim-icq.sourceforge.net/icons.shtml");
+}
 
 void ThemeSetup::checkedTransparent(bool)
 {

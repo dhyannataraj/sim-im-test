@@ -32,6 +32,7 @@ public:
 public slots:
     void apply(ICQUser*);
 protected slots:
+    void addIcons();
     void checkedTransparent(bool);
     void apply(QListBoxItem*);
     void setupInit();

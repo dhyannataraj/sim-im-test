@@ -68,7 +68,7 @@ class SetupDialog : public SetupDialogBase
 public:
     SetupDialog(QWidget *parent, int nWin);
     ~SetupDialog();
-	void showPage(int n);
+    void showPage(int n);
 signals:
     void applyChanges(ICQUser*);
     void backgroundUpdated();

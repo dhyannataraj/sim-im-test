@@ -445,7 +445,7 @@ void DockWnd::processEvent(ICQEvent *e)
 {
     if ((e->type() == EVENT_STATUS_CHANGED) && (e->Uin() == pClient->Uin)){
         showIcon = Unknown;
-		reset();
+        reset();
         timer();
     }
 }
@@ -453,7 +453,7 @@ void DockWnd::processEvent(ICQEvent *e)
 void DockWnd::reset()
 {
     list<msgInfo> msgs;
-	pMain->fillUnread(msgs);
+    pMain->fillUnread(msgs);
     QString s;
     if (msgs.size()){
         QStringList str;

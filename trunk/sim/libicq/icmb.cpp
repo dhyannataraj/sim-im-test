@@ -1011,9 +1011,7 @@ void ICQClient::processMsgQueueThruServer()
                     b << msgBuffer;
                     sendThroughServer(*itUin, 4, b);
                 }
-                string s;
-                quoteText(msg->Message, s);
-                msg->Message = s;
+                msg->Message = quoteText(msg->Message);
                 (*it)->state = ICQEvent::Success;
                 break;
             }
