@@ -1998,15 +1998,22 @@ bool JabberClient::send(Message *msg, void *_data)
             Contact *contact = getContacts()->contact(msg->contact());
             if ((contact == NULL) || (data == NULL))
                 return false;
+			string text;
+			text = msg->getPlainText().utf8();
+			messageSend ms;
+			ms.msg  = msg;
+			ms.text = &text;
+			Event eSend(EventSend, &ms);
+			eSend.process();
             m_socket->writeBuffer.packetStart();
             m_socket->writeBuffer
             << "<message type=\'chat\' to=\'"
             << data->ID;
             m_socket->writeBuffer
             << "\'><body>"
-            << (const char*)(quoteString(msg->getPlainText(), false).utf8())
+            << (const char*)(quoteString(QString::fromUtf8(text.c_str()), false).utf8())
             << "</body>";
-            if (data->richText && getRichText()){
+            if (data->richText && getRichText() && (msg->getFlags() & MESSAGE_RICHTEXT)){
                 m_socket->writeBuffer
                 << "<html xmlns='http://jabber.org/protocol/xhtml-im'><body>"
                 << removeImages(msg->getRichText(), msg->getBackground()).utf8()

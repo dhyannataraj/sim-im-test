@@ -116,6 +116,10 @@ SOURCE=.\sim\api\country.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\sim\api\exec.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\sim\api\fetch.cpp
 # End Source File
 # Begin Source File
@@ -174,6 +178,11 @@ SOURCE=.\sim\api\ltdl.c
 # Begin Source File
 
 SOURCE=.\sim\api\message.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\api\moc_exec.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -236,6 +245,39 @@ SOURCE=.\sim\api\buffer.h
 # Begin Source File
 
 SOURCE=.\sim\api\cjk_variants.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\api\exec.h
+
+!IF  "$(CFG)" == "simapi - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\api
+InputPath=.\sim\api\exec.h
+InputName=exec
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\api
+InputPath=.\sim\api\exec.h
+InputName=exec
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 

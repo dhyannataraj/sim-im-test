@@ -86,7 +86,7 @@ bool Tmpl::process(TmplExpand *t)
     }
     QString prg = getToken(t->tmpl.tmpl, '`', false);
     prg = process(t, prg);
-    t->exec = new Exec(CorePlugin::m_plugin->m_exec);
+    t->exec = new Exec;
     connect(t->exec, SIGNAL(ready(Exec*, int, const char*)), this, SLOT(ready(Exec*, int, const char*)));
     t->exec->execute(prg.local8Bit(), "");
     return false;

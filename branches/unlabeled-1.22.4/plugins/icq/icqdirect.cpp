@@ -1301,11 +1301,17 @@ void DirectClient::processMsgQueue()
                     message = m_client->createRTF(sm.msg->getRichText(), sm.msg->getForeground(), m_data->Encoding);
                     sm.type = CAP_RTF;
                 }else if (m_client->hasCap(m_data, CAP_UTF) &&
-                          (m_client->getSendFormat() <= 1)){
+                          (m_client->getSendFormat() <= 1) &&
+						  ((sm.msg->getFlags() & MESSAGE_SECURE) == 0)){
                     message = ICQClient::addCRLF(sm.msg->getPlainText()).utf8();
                     sm.type = CAP_UTF;
                 }else{
                     message = m_client->fromUnicode(ICQClient::addCRLF(sm.msg->getPlainText()), m_data);
+					messageSend ms;
+					ms.msg  = sm.msg;
+					ms.text = &message;
+					Event e(EventSend, &ms);
+					e.process();
                 }
                 mb << message;
                 if (sm.msg->getBackground() == sm.msg->getForeground()){

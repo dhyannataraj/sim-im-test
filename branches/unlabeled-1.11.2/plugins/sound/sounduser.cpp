@@ -49,7 +49,7 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
     CommandsMapIterator it(m_plugin->core->messageTypes);
     while ((cmd = ++it) != NULL){
         MessageDef *def = (MessageDef*)(cmd->param);
-        if ((def == NULL) || (def->base_type) || (cmd->icon == NULL) ||
+        if ((def == NULL) || (cmd->icon == NULL) ||
                 (def->flags & (MESSAGE_HIDDEN | MESSAGE_SENDONLY)))
             continue;
         QString type = i18n(def->singular, def->plural, 1);

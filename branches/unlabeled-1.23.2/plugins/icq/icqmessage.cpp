@@ -46,6 +46,11 @@ ICQMessage::~ICQMessage()
     free_data(icqMessageData, &data);
 }
 
+bool ICQMessage::setText(const char *r)
+{
+	return setServerText(r);
+}
+
 string ICQMessage::save()
 {
     string s = Message::save();
@@ -227,10 +232,11 @@ static DataDef icqAuthMessageData[] =
         { NULL, 0, 0, 0 }
     };
 
-ICQAuthMessage::ICQAuthMessage(unsigned type, const char *cfg)
+ICQAuthMessage::ICQAuthMessage(unsigned type, unsigned baseType, const char *cfg)
         : AuthMessage(type, cfg)
 {
     load_data(icqAuthMessageData, &data, cfg);
+	m_baseType = baseType;
 }
 
 ICQAuthMessage::~ICQAuthMessage()
@@ -422,7 +428,7 @@ static Message *parseAuthRequest(const char *str)
         log(L_WARN, "Parse error auth request message");
         return NULL;
     }
-    ICQAuthMessage *m = new ICQAuthMessage(MessageICQAuthRequest);
+    ICQAuthMessage *m = new ICQAuthMessage(MessageICQAuthRequest, MessageAuthRequest);
     m->setServerText(l[4].c_str());
     return m;
 }
@@ -452,7 +458,7 @@ Message *ICQClient::parseExtendedMessage(Buffer &packet, MessageId &id, unsigned
     if (msgType == "Request For Contacts"){
         string info;
         b.unpackStr32(info);
-        ICQAuthMessage *m = new ICQAuthMessage(MessageContactRequest);
+        ICQAuthMessage *m = new ICQAuthMessage(MessageContactRequest, MessageContactRequest);
         m->setServerText(info.c_str());
         return m;
     }
@@ -622,7 +628,6 @@ static MessageDef defIcq =
     {
         NULL,
         MESSAGE_DEFAULT,
-        MessageGeneric,
         NULL,
         NULL,
         createIcq,
@@ -639,7 +644,6 @@ static MessageDef defIcqFile =
     {
         NULL,
         MESSAGE_DEFAULT,
-        MessageFile,
         NULL,
         NULL,
         createIcqFile,
@@ -660,7 +664,6 @@ static MessageDef defWebPanel =
     {
         NULL,
         MESSAGE_DEFAULT,
-        0,
         "WWW-panel message",
         "%n WWW-panel messages",
         createWebPanel,
@@ -681,7 +684,6 @@ static MessageDef defEmailPager =
     {
         NULL,
         MESSAGE_DEFAULT,
-        0,
         "Email pager message",
         "%n Email pager messages",
         createEmailPager,
@@ -702,7 +704,6 @@ static MessageDef defOpenSecure =
     {
         NULL,
         MESSAGE_SENDONLY,
-        0,
         "Request secure channel",
         "%n requests secure channel",
         createOpenSecure,
@@ -723,7 +724,6 @@ static MessageDef defCloseSecure =
     {
         NULL,
         MESSAGE_SILENT | MESSAGE_SENDONLY,
-        0,
         "Close secure channel",
         "%n times close secure channel",
         createCloseSecure,
@@ -744,7 +744,6 @@ static MessageDef defCheckInvisible =
     {
         NULL,
         MESSAGE_SILENT | MESSAGE_SENDONLY,
-        0,
         "Check invisible",
         "%n times checkInvisible",
         createCheckInvisible,
@@ -794,7 +793,6 @@ static MessageDef defWarning =
     {
         NULL,
         MESSAGE_SENDONLY,
-        0,
         "Warning",
         "%n warnings",
         createWarning,
@@ -804,14 +802,13 @@ static MessageDef defWarning =
 
 static Message *createIcqAuthRequest(const char *cfg)
 {
-    return new ICQAuthMessage(MessageICQAuthRequest, cfg);
+    return new ICQAuthMessage(MessageICQAuthRequest, MessageAuthRequest, cfg);
 }
 
 static MessageDef defIcqAuthRequest =
     {
         NULL,
         MESSAGE_DEFAULT,
-        MessageAuthRequest,
         NULL,
         NULL,
         createIcqAuthRequest,
@@ -821,14 +818,13 @@ static MessageDef defIcqAuthRequest =
 
 static Message *createIcqAuthGranted(const char *cfg)
 {
-    return new ICQAuthMessage(MessageICQAuthGranted, cfg);
+    return new ICQAuthMessage(MessageICQAuthGranted, MessageAuthGranted, cfg);
 }
 
 static MessageDef defIcqAuthGranted =
     {
         NULL,
         MESSAGE_DEFAULT,
-        MessageAuthGranted,
         NULL,
         NULL,
         createIcqAuthGranted,
@@ -838,14 +834,13 @@ static MessageDef defIcqAuthGranted =
 
 static Message *createIcqAuthRefused(const char *cfg)
 {
-    return new ICQAuthMessage(MessageICQAuthRefused, cfg);
+    return new ICQAuthMessage(MessageICQAuthRefused, MessageAuthRefused, cfg);
 }
 
 static MessageDef defIcqAuthRefused =
     {
         NULL,
         MESSAGE_DEFAULT,
-        MessageAuthRefused,
         NULL,
         NULL,
         createIcqAuthRefused,
@@ -855,7 +850,7 @@ static MessageDef defIcqAuthRefused =
 
 static Message *createContactRequest(const char *cfg)
 {
-    return new ICQAuthMessage(MessageContactRequest, cfg);
+    return new ICQAuthMessage(MessageContactRequest, MessageContactRequest, cfg);
 }
 
 #if 0
@@ -866,7 +861,6 @@ static MessageDef defContactRequest =
     {
         NULL,
         MESSAGE_DEFAULT,
-        0,
         "Contact request",
         "%n contact requests",
         createContactRequest,
@@ -883,7 +877,6 @@ static MessageDef defIcqUrl =
     {
         NULL,
         MESSAGE_DEFAULT,
-        MessageUrl,
         NULL,
         NULL,
         createIcqUrl,
@@ -900,7 +893,6 @@ static MessageDef defIcqContacts =
     {
         NULL,
         MESSAGE_DEFAULT,
-        MessageContacts,
         NULL,
         NULL,
         createIcqContacts,

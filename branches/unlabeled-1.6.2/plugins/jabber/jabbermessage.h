@@ -38,6 +38,7 @@ public:
     PROP_UTF8(Subject);
     virtual string save();
     virtual QString presentation();
+	virtual unsigned baseType() { return MessageGeneric; }
 protected:
     JabberMessageData	data;
 };
@@ -78,6 +79,7 @@ public:
     PROP_STR(From);
     PROP_STR(Host);
     PROP_USHORT(Port);
+	virtual unsigned baseType() { return MessageFile; }
 protected:
     JabberMessageFileData	data;
 };

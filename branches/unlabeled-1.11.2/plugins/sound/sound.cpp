@@ -209,7 +209,7 @@ void *SoundPlugin::processEvent(Event *e)
                 bEnable = false;
         }
         if (bEnable){
-            string sound = messageSound(msg->type(), data);
+            string sound = messageSound(msg->baseType(), data);
             if (!sound.empty())
                 playSound(sound.c_str());
         }
@@ -226,11 +226,6 @@ void *SoundPlugin::processEvent(Event *e)
 string SoundPlugin::messageSound(unsigned type, SoundUserData *data)
 {
     CommandDef *def = core->messageTypes.find(type);
-    if (def){
-        MessageDef *mdef = (MessageDef*)(def->param);
-        if (mdef->base_type)
-            type = mdef->base_type;
-    }
     string sound;
     if (data)
         sound = get_str(data->Receive, type);

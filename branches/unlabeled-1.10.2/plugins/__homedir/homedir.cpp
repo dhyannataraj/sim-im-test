@@ -165,6 +165,7 @@ string HomeDirPlugin::defaultPath()
         defPath += "sim";
         string ss;
         ss = QFile::encodeName(defPath);
+		ss += "\\";
         makedir((char*)(ss.c_str()));
         QString lockTest = defPath + "\\.lock";
         QFile f(lockTest);

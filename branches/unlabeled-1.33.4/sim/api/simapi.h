@@ -719,6 +719,12 @@ typedef struct messageDecline
     const char	*reason;
 } messageDecline;
 
+typedef struct messageSend
+{
+	Message		*msg;
+	string		*text;
+} messageSend;
+
 const unsigned EventMessageReceived	= 0x1100;
 const unsigned EventMessageSent		= 0x1101;
 const unsigned EventMessageCancel	= 0x1102;
@@ -729,6 +735,8 @@ const unsigned EventMessageAcked	= 0x1106;
 const unsigned EventMessageDeleted  = 0x1107;
 const unsigned EventMessageAccept	= 0x1108;
 const unsigned EventMessageDecline	= 0x1109;
+const unsigned EventMessageSend		= 0x110A;
+const unsigned EventSend			= 0x110B;
 
 const unsigned EventFetchDone		= 0x1300;
 
@@ -981,9 +989,11 @@ public:
     unsigned contact() { return m_contact; }
     void setContact(unsigned contact) { m_contact = contact; }
     virtual string save();
+	virtual unsigned baseType() { return m_type; }
     QString getPlainText();
     QString getRichText();
     VPROP_UTF8(Text)
+	virtual bool setText(const char *text);
     PROP_ULONG(Flags)
     PROP_ULONG(Background)
     PROP_ULONG(Foreground)

@@ -374,16 +374,9 @@ void Container::contactSelected(int)
 void Container::setMessageType(unsigned type)
 {
     CommandDef *def;
-    for (;;){
-        def = CorePlugin::m_plugin->messageTypes.find(type);
-        if (def == NULL)
+    def = CorePlugin::m_plugin->messageTypes.find(type);
+    if (def == NULL)
             return;
-        MessageDef *mdef = (MessageDef*)(def->param);
-        if (mdef->base_type == 0)
-            break;
-        type = mdef->base_type;
-    }
-
     Command cmd;
     cmd->id			 = CmdMessageType;
     cmd->text		 = def->text;

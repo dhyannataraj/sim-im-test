@@ -1147,12 +1147,6 @@ void DockWnd::reset()
         msgIndex m;
         m.contact = (*it).contact;
         m.type    = (*it).type;
-        CommandDef *def = m_plugin->core->messageTypes.find(m.type);
-        if (def){
-            MessageDef *mdef = (MessageDef*)(def->param);
-            if (mdef->base_type)
-                m.type = mdef->base_type;
-        }
         itc = count.find(m);
         if (itc == count.end()){
             count.insert(MAP_COUNT::value_type(m, 1));

@@ -381,7 +381,6 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
 
     m_tmpl	= new Tmpl(this);
     m_icons = new Icons;
-    m_exec	= new ExecManager;
     m_cmds	= new Commands;
     boundTypes();
 
@@ -1207,7 +1206,6 @@ CorePlugin::~CorePlugin()
 {
     destroy();
     delete m_cmds;
-    delete m_exec;
     delete m_icons;
     delete m_tmpl;
     if (m_status)
@@ -1587,17 +1585,7 @@ void *CorePlugin::processEvent(Event *e)
         }
     case EventMessageAcked:{
             Message *msg = (Message*)(e->param());
-            unsigned type = msg->type();
-            for (;;){
-                CommandDef *def = messageTypes.find(type);
-                if (def == NULL)
-                    break;
-                MessageDef *mdef = (MessageDef*)(def->param);
-                if (mdef->base_type == 0)
-                    break;
-                type = mdef->base_type;
-            }
-            if (type == MessageFile){
+            if (msg->baseType() == MessageFile){
                 QWidget *w = new FileTransferDlg(static_cast<FileMessage*>(msg));
                 raiseWindow(w);
             }
@@ -1620,17 +1608,7 @@ void *CorePlugin::processEvent(Event *e)
             Contact *contact = getContacts()->contact(msg->contact());
             if (contact == NULL)
                 return NULL;
-            MessageDef *mdef = NULL;
-            unsigned type = msg->type();
-            for (;;){
-                CommandDef *msgCmd = CorePlugin::m_plugin->messageTypes.find(type);
-                if (msgCmd == NULL)
-                    break;
-                mdef = (MessageDef*)(msgCmd->param);
-                if (mdef->base_type == 0)
-                    break;
-                type = mdef->base_type;
-            }
+            unsigned type = msg->baseType();
             if (type == MessageStatus){
                 CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
                 if ((data == NULL) || (data->LogStatus == 0))
@@ -1955,8 +1933,15 @@ void *CorePlugin::processEvent(Event *e)
                 CommandsList it(*cmdsMsg, true);
                 CommandDef *c;
                 while ((c = ++it) != NULL){
-                    if (!cc.client->canSend(c->id, cc.data))
-                        continue;
+                    if (!cc.client->canSend(c->id, cc.data)){
+						CheckSend cs;
+						cs.id     = c->id;
+						cs.data   = cc.data;
+						cs.client = cc.client;
+						Event e(EventCheckSend, &cs);
+						if (!e.process())
+							continue;
+					}
                     cmds[nCmds] = *c;
                     cmds[nCmds].id      = c->id;
                     cmds[nCmds].flags	= COMMAND_DEFAULT;
@@ -2034,16 +2019,7 @@ void *CorePlugin::processEvent(Event *e)
                         return NULL;
                     QString p = msg->presentation();
                     if (!p.isEmpty()){
-                        unsigned type = msg->type();
-                        for (;;){
-                            CommandDef *def = messageTypes.find(type);
-                            if (def == NULL)
-                                return NULL;
-                            MessageDef *mdef = (MessageDef*)(def->param);
-                            if (mdef->base_type == 0)
-                                break;
-                            type = mdef->base_type;
-                        }
+                        unsigned type = msg->baseType();
                         switch (type){
                         case MessageFile:
                             return NULL;
@@ -2136,12 +2112,6 @@ void *CorePlugin::processEvent(Event *e)
                     msgIndex m;
                     m.contact = (*it).contact;
                     m.type    = (*it).type;
-                    def = messageTypes.find(m.type);
-                    if (def){
-                        MessageDef *mdef = (MessageDef*)(def->param);
-                        if (mdef->base_type)
-                            m.type = mdef->base_type;
-                    }
                     itc = count.find(m);
                     if (itc == count.end()){
                         msgCount c;
@@ -3161,8 +3131,8 @@ void CorePlugin::loadUnread()
         msg_id m;
         m.id = id;
         m.contact = contact;
-        m.client = item.c_str();
-        m.type = msg->type();
+        m.client  = item.c_str();
+        m.type    = msg->baseType();
         unread.push_back(m);
     }
     setUnread(NULL);

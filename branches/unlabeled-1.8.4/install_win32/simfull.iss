@@ -4,7 +4,7 @@
 #include "simfiles.iss"
 
 [Setup]
-OutputBaseFilename=sim-full
+OutputBaseFilename=sim-0.9.1-full
 
 [Files]
 Source: "..\Release\po\bg.qm"; DestDir: "{app}\po"; Flags: ignoreversion

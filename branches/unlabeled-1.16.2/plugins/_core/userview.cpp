@@ -1331,18 +1331,6 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
                     msg = def->drag(e);
                     if (msg){
                         unsigned type = cmd->id;
-                        if (def->base_type){
-                            type = def->base_type;
-                            for (;;){
-                                const CommandDef *c = CorePlugin::m_plugin->messageTypes.find(type);
-                                if (c == NULL)
-                                    break;
-                                MessageDef *def = (MessageDef*)(cmd->param);
-                                if (def->base_type == 0)
-                                    break;
-                                type = def->base_type;
-                            }
-                        }
                         Command cmd;
                         cmd->id      = type;
                         cmd->menu_id = MenuMessage;

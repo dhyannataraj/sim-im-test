@@ -52,7 +52,9 @@ public:
     ~ICQMessage();
     PROP_STR(ServerText);
     virtual QString getText();
+	virtual bool setText(const char *r);
     virtual string  save();
+	virtual unsigned baseType() { return MessageGeneric; }
 protected:
     ICQMessageData data;
 };
@@ -73,6 +75,7 @@ public:
     virtual QString getUrl();
     virtual QString getText();
     virtual string  save();
+	virtual unsigned baseType() { return MessageUrl; }
 protected:
     IcqUrlMessageData data;
 };
@@ -90,6 +93,7 @@ public:
     QString getContacts();
     PROP_STR(ServerText);
     virtual string save();
+	virtual unsigned baseType() { return MessageContacts; }
 protected:
     IcqContactsMessageData data;
 };
@@ -103,13 +107,15 @@ typedef struct ICQAuthMessageData
 class ICQAuthMessage : public AuthMessage
 {
 public:
-    ICQAuthMessage(unsigned type, const char *cfg=NULL);
+    ICQAuthMessage(unsigned type, unsigned base_type, const char *cfg=NULL);
     ~ICQAuthMessage();
     PROP_STR(ServerText);
     PROP_STR(Charset);
     virtual QString getText();
     virtual string save();
+	virtual unsigned baseType() { return m_baseType; }
 protected:
+	unsigned m_baseType;
     ICQAuthMessageData data;
 };
 
@@ -141,6 +147,7 @@ public:
     virtual QString getText();
     virtual QString getDescription();
     virtual string  save();
+	virtual unsigned baseType() { return MessageFile; }
 protected:
     ICQFileMessageData data;
 };
@@ -160,6 +167,7 @@ public:
     PROP_USHORT(Port);
     PROP_ULONG(ID_L);
     PROP_ULONG(ID_H);
+	virtual unsigned baseType() { return MessageFile; }
 protected:
     AIMFileMessageData data;
 };
