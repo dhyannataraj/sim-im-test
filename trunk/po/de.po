@@ -192,7 +192,7 @@ msgstr "Kaimaninseln"
 
 #: sim/api/country.cpp:66
 msgid "Central African Republic"
-msgstr "Republik von Zentralafrika"
+msgstr "Zentralafrika"
 
 #: sim/api/country.cpp:67
 msgid "Chad"
@@ -228,7 +228,7 @@ msgstr "Kongo"
 
 #: sim/api/country.cpp:75
 msgid "Cook Islands"
-msgstr "Cook Inseln"
+msgstr "Cook-Inseln"
 
 #: sim/api/country.cpp:76
 msgid "Costa Rica"
@@ -308,7 +308,7 @@ msgstr "Falkland-Inseln"
 
 #: sim/api/country.cpp:95
 msgid "Fiji Islands"
-msgstr "Fijiinseln"
+msgstr "Fidschi-Inseln"
 
 #: sim/api/country.cpp:96
 msgid "Finland"
@@ -492,7 +492,7 @@ msgstr "Kenia"
 
 #: sim/api/country.cpp:141
 msgid "Kiribati Republic"
-msgstr "Republik von Kiribati"
+msgstr "Kiribati"
 
 #: sim/api/country.cpp:142
 msgid "Korea (North)"
@@ -500,7 +500,7 @@ msgstr "Nordkorea"
 
 #: sim/api/country.cpp:143
 msgid "Korea (Republic of)"
-msgstr "Republik von Korea"
+msgstr "Südkorea"
 
 #: sim/api/country.cpp:144
 msgid "Kuwait"
@@ -508,7 +508,7 @@ msgstr "Kuwait"
 
 #: sim/api/country.cpp:145
 msgid "Kyrgyz Republic"
-msgstr "Republik Kirgisien"
+msgstr "Kirgistan"
 
 #: sim/api/country.cpp:146
 msgid "Laos"
@@ -780,7 +780,7 @@ msgstr "Saudi Arabien"
 
 #: sim/api/country.cpp:213
 msgid "Senegal Republic"
-msgstr "Republik Senegal"
+msgstr "Senegal"
 
 #: sim/api/country.cpp:214
 msgid "Seychelle Islands"
@@ -796,7 +796,7 @@ msgstr "Singapur"
 
 #: sim/api/country.cpp:217
 msgid "Slovak Republic"
-msgstr "Slowakische Republik"
+msgstr "Slowakei"
 
 #: sim/api/country.cpp:218
 msgid "Slovenia"
@@ -864,11 +864,11 @@ msgstr "Syrien"
 
 #: sim/api/country.cpp:234
 msgid "Taiwan, Republic of China"
-msgstr "Taiwan, Republik von China"
+msgstr "Taiwan, China"
 
 #: sim/api/country.cpp:235
 msgid "Tajikistan"
-msgstr "Tadshikistan"
+msgstr "Tadschikistan"
 
 #: sim/api/country.cpp:236
 msgid "Tanzania"
@@ -940,7 +940,7 @@ msgstr "Vereinigtes Königreich"
 
 #: sim/api/country.cpp:253
 msgid "United States Virgin Islands"
-msgstr "Vereinigte Staaten Jungferninseln"
+msgstr "Amerikanische Jungferninseln"
 
 #: sim/api/country.cpp:254
 msgid "Uruguay"
@@ -984,7 +984,7 @@ msgstr "Jugoslawien"
 
 #: sim/api/country.cpp:264
 msgid "Zaire"
-msgstr "Zaire"
+msgstr "Kongo (Zaire)"
 
 #: sim/api/country.cpp:265
 msgid "Zambia"
@@ -2067,7 +2067,7 @@ msgstr "&Signatur"
 
 #: plugins/forward/forwardcfgbase.cpp:102 sim/ui/smssetupbase.cpp:132
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" auf ein Mobiltelefon weiterleiten:"
+msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
 
 #: plugins/forward/forwardcfgbase.cpp:103 sim/ui/smssetupbase.cpp:133
 msgid ""
@@ -3156,7 +3156,7 @@ msgstr "Konvertierungsverzeichnisse:"
 
 #: plugins/__migrate/migratedlgbase.cpp:91
 msgid "&Remove old files"
-msgstr "Alte Datei &löschen"
+msgstr "Alte Dateien &löschen"
 
 #: plugins/__migrate/migratedlgbase.cpp:92
 msgid ""
@@ -4114,7 +4114,7 @@ msgstr "Telefon bearbeiten:"
 
 #: plugins/_core/searchbase.cc:74
 msgid "Choose type of contact which you want to find or add:"
-msgstr "Art des Kontakt auswählen, der gefunden oder hinzugefügt werden soll"
+msgstr "Art des Kontaktes auswählen, der gefunden oder hinzugefügt werden soll"
 
 #: plugins/_core/searchbase.cc:75
 msgid "Contact type:"
@@ -4379,7 +4379,7 @@ msgstr "Icons"
 
 #: plugins/icons/icon.cpp:32
 msgid "Plugin provides Miranda icons themes"
-msgstr "Das Plugin unterstützt Miranda Icon Themen"
+msgstr "Das Plugin unterstützt Miranda-Icon-Themen"
 
 #: plugins/icons/iconcfg.cpp:141
 msgid "Select icons DLL"
@@ -4935,7 +4935,7 @@ msgid ""
 "The Cellular network is currently unable to send your message to the "
 "recipient. Please try again later."
 msgstr ""
-"Das Mobilfunknetz ist momentan nicht in der Lage, Ihre Nachricht dem "
+"Das Handynetz ist momentan nicht in der Lage, Ihre Nachricht dem "
 "Empfänger zu schicken. Bitte versuchen Sie es später erneut."
 
 #: plugins/icq/icqvarious.cpp:1414
