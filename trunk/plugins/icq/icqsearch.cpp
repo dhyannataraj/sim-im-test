@@ -290,7 +290,7 @@ void *ICQSearch::processEvent(Event *e)
         ICQUserData *data = (ICQUserData*)(e->param());
         if (data->Uin != m_randomUin)
             return NULL;
-        edtStatus->setText(i18n(""));
+        edtStatus->setText("");
         m_name  = QString::fromUtf8(data->Alias);
         QString name  = quoteString(m_name);
         QString topic = quoteString(QString::fromUtf8(data->About));
