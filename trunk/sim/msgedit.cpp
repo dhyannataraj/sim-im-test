@@ -27,6 +27,7 @@
 #include "toolbtn.h"
 #include "userbox.h"
 #include "cuser.h"
+#include "tmpl.h"
 #include "xml.h"
 #include "userview.h"
 #include "ui/enable.h"
@@ -106,6 +107,7 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     t->setHorizontalStretchable(true);
     t->setVerticalStretchable(true);
     QVBoxLayout *lay = new QVBoxLayout(frmEdit);
+    tmpl = new Tmpl(this);
 
     declineMenu = new QPopupMenu(this);
     connect(declineMenu, SIGNAL(activated(int)), this, SLOT(declineMessage(int)));
@@ -115,46 +117,46 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     declineMenu->insertItem(reason_string(DECLINE_REASON_INPUT), DECLINE_REASON_INPUT);
 
     btnBgColor = new CToolButton(t);
-    btnBgColor->setTextLabel(i18n("Background color"));
+    btnBgColor->setTextLabel(i18n("Bac&kground color"));
     btnBgColor->setIconSet(Icon("bgcolor"));
     connect(btnBgColor, SIGNAL(clicked()), this, SLOT(setMsgBackgroundColor()));
     btnBgColor->hide();
 
     btnFgColor = new CToolButton(t);
-    btnFgColor->setTextLabel(i18n("Text color"));
+    btnFgColor->setTextLabel(i18n("&Text color"));
     btnFgColor->setIconSet(Icon("fgcolor"));
     connect(btnFgColor, SIGNAL(clicked()), this, SLOT(setMsgForegroundColor()));
     btnFgColor->hide();
 
     btnBold = new CToolButton(t);
-    btnBold->setTextLabel(i18n("Bold"));
+    btnBold->setTextLabel(i18n("&Bold"));
     btnBold->setIconSet(Icon("text_bold"));
     btnBold->setToggleButton(true);
     connect(btnBold, SIGNAL(toggled(bool)), this, SLOT(setBold(bool)));
     btnBold->hide();
 
     btnItalic = new CToolButton(t);
-    btnItalic->setTextLabel(i18n("Italic"));
+    btnItalic->setTextLabel(i18n("&Italic"));
     btnItalic->setIconSet(Icon("text_italic"));
     btnItalic->setToggleButton(true);
     connect(btnItalic, SIGNAL(toggled(bool)), this, SLOT(setItalic(bool)));
     btnItalic->hide();
 
     btnUnder = new CToolButton(t);
-    btnUnder->setTextLabel(i18n("Underline"));
+    btnUnder->setTextLabel(i18n("&Underline"));
     btnUnder->setIconSet(Icon("text_under"));
     btnUnder->setToggleButton(true);
     connect(btnUnder, SIGNAL(toggled(bool)), this, SLOT(setUnder(bool)));
     btnUnder->hide();
 
     btnFont = new CToolButton(t);
-    btnFont->setTextLabel(i18n("Text font"));
+    btnFont->setTextLabel(i18n("Text &font"));
     btnFont->setIconSet(Icon("text"));
     connect(btnFont, SIGNAL(clicked()), this, SLOT(setFont()));
     btnFont->hide();
 
     btnSmile = new CToolButton(t);
-    btnSmile->setTextLabel(i18n("Insert smile"));
+    btnSmile->setTextLabel(i18n("Inser&t smile"));
     btnSmile->setIconSet(Icon("smile0"));
     connect(btnSmile, SIGNAL(clicked()), this, SLOT(insertSmile()));
     btnSmile->hide();
@@ -196,7 +198,7 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
 
 #ifdef USE_SPELL
     btnSpell = new CToolButton(t);
-    btnSpell->setTextLabel(i18n("Spell check"));
+    btnSpell->setTextLabel(i18n("Spell &check"));
     btnSpell->setIconSet(Icon("spellcheck"));
     connect(btnSpell, SIGNAL(clicked()), this, SLOT(spell()));
     btnSpell->hide();
@@ -223,7 +225,7 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     t->addSeparator();
 
     btnMultiply = new CToolButton(t);
-    btnMultiply->setTextLabel(i18n("Multiply send"));
+    btnMultiply->setTextLabel(i18n("&Multiply send"));
     btnMultiply->setIconSet(Icon("1rightarrow"));
     connect(btnMultiply, SIGNAL(clicked()), this, SLOT(toggleMultiply()));
 
@@ -1108,6 +1110,34 @@ bool MsgEdit::eventFilter(QObject *o, QEvent *e)
     return true;
 }
 
+static QString escape(const QString &r)
+{
+    QString s = r;
+    s = s.replace(QRegExp("\\&"), "&amp;");
+    s = s.replace(QRegExp("<"), "&lt;");
+    s = s.replace(QRegExp(">"), "&gt;");
+    s = s.replace(QRegExp("\n"), "<br>");
+    return s;
+}
+
+void MsgEdit::topReady(const QString &res)
+{
+    edit->setText(escape(res));
+    edit->moveCursor(QTextEdit::MoveEnd, false);
+    disconnect(tmpl, SIGNAL(ready(const QString&)), this, SLOT(topReady(const QString&)));
+    connect(tmpl, SIGNAL(ready(const QString&)), this, SLOT(bottomReady(const QString&)));
+    tmpl->expand(QString::fromLocal8Bit(pMain->SMSSignBottom.c_str()), Uin);
+}
+
+void MsgEdit::bottomReady(const QString &res)
+{
+    int parag, index;
+    edit->getCursorPosition(&parag, &index);
+    edit->append(escape(res));
+    edit->setCursorPosition(parag, index);
+    disconnect(tmpl, SIGNAL(ready(const QString&)), this, SLOT(bottomReady(const QString&)));
+}
+
 void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEdit)
 {
     msgTail = "";
@@ -1472,12 +1502,8 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                     if (*m->Message.c_str()){
                         edit->setText(pClient->from8Bit(Uin, pClient->clearHTML(m->Message.c_str())), m->Charset.c_str());
                     }else{
-                        edit->setText(subst(pMain->SMSSignTop.c_str()));
-                        edit->moveCursor(QTextEdit::MoveEnd, false);
-                        int parag, index;
-                        edit->getCursorPosition(&parag, &index);
-                        edit->append(subst(pMain->SMSSignBottom.c_str()));
-                        edit->setCursorPosition(parag, index);
+                        connect(tmpl, SIGNAL(ready(const QString&)), this, SLOT(topReady(const QString&)));
+                        tmpl->expand(QString::fromLocal8Bit(pMain->SMSSignTop.c_str()), Uin);
                     }
                     if (*m->Phone.c_str()){
                         log(L_DEBUG, "Set msg [%s]", m->Phone.c_str());
@@ -1869,32 +1895,6 @@ string MsgEdit::smsChunk()
     part = part.replace(QRegExp(">"), "&gt;");
     res = pClient->to8Bit(Uin, part);
     return res;
-}
-
-static QString escape(const QString &r)
-{
-    QString s = r;
-    s = s.replace(QRegExp("\\&"), "&amp;");
-    s = s.replace(QRegExp("<"), "&lt;");
-    s = s.replace(QRegExp(">"), "&gt;");
-    s = s.replace(QRegExp("\n"), "<br>");
-    return s;
-}
-
-QString MsgEdit::subst(const char *s)
-{
-    string _s;
-    if (s && *s) _s = s;
-    QString str;
-    set(str, s);
-    CUser owner(pClient->owner);
-    CUser u(Uin);
-    str = str.replace(QRegExp("&MyUin;"), QString::number(pClient->owner->Uin));
-    str = str.replace(QRegExp("&MyAlias;"), owner.name(true));
-    str = str.replace(QRegExp("&Uin;"), (Uin >= UIN_SPECIAL) ? QString("") : QString::number(Uin));
-    str = str.replace(QRegExp("&Alias;"), u.name(true));
-    str = escape(str);
-    return str;
 }
 
 void MsgEdit::modeChanged(bool bSimple)

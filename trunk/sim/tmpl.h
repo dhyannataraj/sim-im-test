@@ -1,5 +1,5 @@
 /***************************************************************************
-                          exec.h  -  description
+                          tmpl.h  -  description
                              -------------------
     begin                : Sun Mar 10 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,27 +15,33 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _EXEC_H
-#define _EXEC_H
+#ifndef _TMPL_H
+#define _TMPL_H
 
 #include "defs.h"
-#include "buffer.h"
 #include <qobject.h>
 
-class Exec : public QObject
+class Exec;
+
+class Tmpl : public QObject
 {
     Q_OBJECT
 public:
-    Exec(QObject *parent);
-    ~Exec();
+    Tmpl(QObject *parent);
+    ~Tmpl();
 public slots:
-    void execute(const char *prog, const char *input);
+    void expand(const QString &tmpl, unsigned long uin);
 signals:
-    void ready(int res, const char *out);
+    void ready(const QString &res);
+protected slots:
+    void expand();
+    void execReady(int, const char*);
 protected:
-    Buffer bIn;
-    Buffer bOut;
-    Buffer bErr;
+    Exec *exec;
+    unsigned long m_uin;
+    QString res;
+    QString t;
+    void expand(bool bExt);
 };
 
 #endif

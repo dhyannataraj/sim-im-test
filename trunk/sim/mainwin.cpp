@@ -93,6 +93,7 @@ static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
 #include <qregexp.h>
 #include <qpopupmenu.h>
 #include <qstringlist.h>
+#include <qaccel.h>
 
 #ifdef USE_KDE
 #include <kwin.h>
@@ -370,11 +371,11 @@ MainWindow::MainWindow(const char *name)
     toolbar->setHorizontalStretchable(true);
     toolbar->setVerticalStretchable(true);
 
-    btnShowOffline = new CToolButton(Icon("online_on"), Pict("online_off"), i18n("Show offline"), "",
+    btnShowOffline = new CToolButton(Icon("online_on"), Pict("online_off"), i18n("Show &offline"), "",
                                      this, SLOT(toggleShowOffline()), toolbar);
     btnShowOffline->setToggleButton(true);
 
-    btnGroupMode = new CToolButton(Icon("grp_off"), Pict("grp_on"), i18n("Group mode"), "",
+    btnGroupMode = new CToolButton(Icon("grp_off"), Pict("grp_on"), i18n("&Group mode"), "",
                                    this, SLOT(toggleGroupMode()), toolbar);
     btnGroupMode->setToggleButton(true);
 
@@ -386,7 +387,7 @@ MainWindow::MainWindow(const char *name)
     btnStatus->setPopupDelay(0);
 
     CToolButton *btnSetup = new CToolButton(toolbar);
-    btnSetup->setTextLabel(i18n("Menu"));
+    btnSetup->setTextLabel(i18n("&Menu"));
     btnSetup->setOffIconSet(Icon("2downarrow"));
     btnSetup->setPopup(menuFunction);
     btnSetup->setPopupDelay(0);
@@ -1276,6 +1277,12 @@ void MainWindow::setShow(bool bShow)
 #ifdef USE_KDE
     KWin::setActiveWindow(winId());
 #endif
+#ifdef WIN32
+    AttachThreadInput(GetWindowThreadProcessId(GetForegroundWindow(),NULL), GetCurrentThreadId(), TRUE);
+    SetForegroundWindow(winId());
+    SetFocus(winId());
+    AttachThreadInput(GetWindowThreadProcessId(GetForegroundWindow(),NULL), GetCurrentThreadId(), FALSE);
+#endif
 }
 
 bool MainWindow::isShow()
@@ -1620,40 +1627,50 @@ void MainWindow::showUserPopup(unsigned long uin, QPoint p, QPopupMenu *popup, c
     menuUser->insertSeparator();
     menuUser->insertItem(i18n("Groups"), menuGroup, mnuGroups);
     menuUser->insertItem(Pict("remove"), i18n("Delete"), mnuDelete);
+    menuUser->setAccel(QAccel::stringToKey(i18n("Del", "Delete")), mnuDelete);
     menuUser->setItemEnabled(mnuGroups, (pClient->m_state == ICQClient::Logged) || (u->Type != USER_TYPE_ICQ));
     menuUser->setItemEnabled(mnuDelete, (pClient->m_state == ICQClient::Logged) || (u->Type != USER_TYPE_ICQ) || (u->GrpId == 0));
     menuUser->insertSeparator();
-    menuUser->insertItem(Icon("info"), i18n("User info"), mnuInfo);
-    menuUser->insertItem(Icon("history"), i18n("History"), mnuHistory);
+    menuUser->insertItem(Icon("info"), i18n("&User info"), mnuInfo);
+    menuUser->setAccel(QAccel::stringToKey(i18n("Ctrl+U", "UserInfo")), mnuSound);
+    menuUser->insertItem(Icon("history"), i18n("&History"), mnuHistory);
+    menuUser->setAccel(QAccel::stringToKey(i18n("Ctrl+H", "History")), mnuSound);
     menuUser->insertSeparator();
     menuUser->insertItem(Icon("alert"), i18n("Alert"), mnuAlert);
+    menuUser->setAccel(QAccel::stringToKey(i18n("Ctrl+L", "Alert")), mnuAlert);
     menuUser->insertItem(Icon("file"), i18n("Accept mode"), mnuAccept);
+    menuUser->setAccel(QAccel::stringToKey(i18n("Ctrl+A", "Accept")), mnuAccept);
     menuUser->insertItem(Icon("sound"), i18n("Sound"), mnuSound);
+    menuUser->setAccel(QAccel::stringToKey(i18n("Ctrl+S", "Sound")), mnuSound);
     menuUser->insertSeparator();
     menuUser->insertItem(Icon("floating"),
                          findFloating(uin) ? i18n("Floating off") : i18n("Floating on"), mnuFloating);
+    menuUser->setAccel(QAccel::stringToKey(i18n("Ctrl+F", "Floating")), mnuFloating);
     if (popup){
         menuUser->insertSeparator();
         menuUser->insertItem(i18n("Users"), popup);
-        menuUser->insertItem(Icon("exit"), i18n("Close"), mnuClose);
+        menuUser->insertItem(Icon("exit"), i18n("&Close"), mnuClose);
+        menuUser->setAccel(QAccel::stringToKey(i18n("Ctrl+C", "Close")), mnuClose);
     }else{
         menuUser->insertItem(i18n("Alphabetically sort"), mnuSort);
+        menuUser->setAccel(QAccel::stringToKey(i18n("Ctrl+B", "Alphabetically sort")), mnuSort);
         menuUser->setItemChecked(mnuSort, AlphabetSort);
     }
     adjustUserMenu(menuUser, u, true, false);
+    menuUser->installEventFilter(this);
     menuUser->popup(p);
 }
 
 void MainWindow::addMessageType(QPopupMenu *menuUser, int type, int id,
-                                bool bAdd, bool bHaveTitle)
+                                bool bAdd, bool bHaveTitle, unsigned long uin)
 {
     addMenuItem(menuUser, SIMClient::getMessageIcon(type),
                 SIMClient::getMessageText(type, 1),
-                id, bAdd, bHaveTitle);
+                id, bAdd && canUserFunction(uin, id), bHaveTitle, SIMClient::getMessageAccel(type));
 }
 
 void MainWindow::addMenuItem(QPopupMenu *menuUser, const char *icon,
-                             const QString &n, int id, bool bAdd, bool bHaveTitle)
+                             const QString &n, int id, bool bAdd, bool bHaveTitle, const QString &accel)
 {
     if (bAdd){
         int pos = 0;
@@ -1662,7 +1679,10 @@ void MainWindow::addMenuItem(QPopupMenu *menuUser, const char *icon,
             if (menuUser->indexOf(id) == pos) return;
             menuUser->removeItem(id);
         }
-        menuUser->insertItem(Icon(icon), n, id, pos);
+        menuUser->insertItem(Icon(icon), n,
+                             id, pos);
+        if (!accel.isEmpty())
+            menuUser->setAccel(QAccel::stringToKey(accel), id);
         return;
     }
     if (menuUser->findItem(id) == NULL) return;
@@ -1701,8 +1721,75 @@ void MainWindow::currentDesktopChanged(int)
 #endif
 }
 
+bool MainWindow::canUserFunction(unsigned long uin, int function)
+{
+    ICQUser *u;
+    switch (function){
+    case mnuFloating:
+    case mnuClose:
+    case mnuActionAuto:
+    case mnuAction:
+    case mnuGo:
+    case mnuHistory:
+    case mnuInfo:
+    case mnuDelete:
+    case mnuSort:
+    case mnuInfoNew:
+    case mnuHistoryNew:
+        return true;
+    case mnuSecureOn:
+        u = pClient->getUser(uin);
+        return u && (u->Type == USER_TYPE_ICQ) && (u->uStatus != ICQ_STATUS_OFFLINE) &&
+               ((u->direct == NULL) || !u->direct->isSecure());
+    case mnuSecureOff:
+        u = pClient->getUser(uin);
+        return u && u->direct && u->direct->isSecure();
+    case mnuMail:
+        u = pClient->getUser(uin);
+        if (u){
+            for (EMailList::iterator it = u->EMails.begin(); it != u->EMails.end(); ++it){
+                EMailInfo *mailInfo = static_cast<EMailInfo*>(*it);
+                if (*mailInfo->Email.c_str()) return true;
+            }
+        }
+        break;
+    case mnuAuth:
+        u = pClient->getUser(uin);
+        return u && u->WaitAuth;
+    case mnuFile:
+    case mnuChat:
+        u = pClient->getUser(uin);
+        return u && (u->Type == USER_TYPE_ICQ) && u->isOnline();
+    case mnuContacts:
+        u = pClient->getUser(uin);
+        return u && (u->Type == USER_TYPE_ICQ);
+    case mnuSMS:
+        u = pClient->getUser(uin);
+        if (u == NULL) break;
+        if (u->Type != USER_TYPE_ICQ){
+            for (PhoneBook::iterator it = u->Phones.begin(); it != u->Phones.end(); ++it){
+                PhoneInfo *info = static_cast<PhoneInfo*>(*it);
+                if (info->Type == SMS) return true;
+            }
+        }
+        return true;
+    case mnuMessage:
+    case mnuURL:
+    case mnuAlert:
+    case mnuAccept:
+    case mnuSound:
+    case mnuAutoResponse:
+        u = pClient->getUser(uin);
+        return u && (u->Type == USER_TYPE_ICQ);
+    default:
+        break;
+    }
+    return false;
+}
+
 void MainWindow::userFunction(unsigned long uin, int function, unsigned long param)
 {
+    if (!canUserFunction(uin, function)) return;
     UserBox *box;
     list<UserBox*>::iterator it;
     switch (function){
@@ -1962,41 +2049,20 @@ void MainWindow::adjustUserMenu(QPopupMenu *menu, ICQUser *u, bool haveTitle, bo
         if (menu->findItem(mnuContainers) == NULL)
             menu->insertItem(i18n("To container"), menuContainers, mnuContainers);
     }
-    addMessageType(menu, ICQ_MSGxSECURExOPEN,  mnuSecureOn, !bShort &&
-                   (u->Type == USER_TYPE_ICQ) && (u->uStatus != ICQ_STATUS_OFFLINE) &&
-                   ((u->direct == NULL) || !u->direct->isSecure()), haveTitle);
-    addMessageType(menu, ICQ_MSGxSECURExCLOSE, mnuSecureOff, !bShort &&
-                   u->direct && u->direct->isSecure(), haveTitle);
-    bool haveEmail = false;
-    for (EMailList::iterator it = u->EMails.begin(); it != u->EMails.end(); ++it){
-        EMailInfo *mailInfo = static_cast<EMailInfo*>(*it);
-        if (*mailInfo->Email.c_str()){
-            haveEmail = true;
-            break;
-        }
-    }
+    addMessageType(menu, ICQ_MSGxSECURExOPEN,  mnuSecureOn, !bShort, haveTitle, u->Uin);
+    addMessageType(menu, ICQ_MSGxSECURExCLOSE, mnuSecureOff, !bShort, haveTitle, u->Uin);
     addMenuItem(menu, SIMClient::getStatusIcon(u->uStatus),
                 i18n("Read %1 message") .arg(SIMClient::getStatusText(u->uStatus)),
                 mnuAutoResponse,
                 (u->uStatus != ICQ_STATUS_OFFLINE) && ((u->uStatus & 0xFF) != ICQ_STATUS_ONLINE), haveTitle);
-    addMessageType(menu, ICQ_MSGxMAIL, mnuMail, haveEmail, haveTitle);
-    addMessageType(menu, ICQ_MSGxAUTHxREQUEST, mnuAuth, u->WaitAuth, haveTitle);
-    addMessageType(menu, ICQ_MSGxCHAT, mnuChat, (u->Type == USER_TYPE_ICQ) && u->isOnline(), haveTitle);
-    addMessageType(menu, ICQ_MSGxFILE, mnuFile, (u->Type == USER_TYPE_ICQ) && (u->uStatus != ICQ_STATUS_OFFLINE), haveTitle);
-    addMessageType(menu, ICQ_MSGxCONTACTxLIST, mnuContacts, u->Type == USER_TYPE_ICQ, haveTitle);
-    bool havePhone = (u->Type == USER_TYPE_ICQ);
-    if (!havePhone){
-        for (PhoneBook::iterator it = u->Phones.begin(); it != u->Phones.end(); ++it){
-            PhoneInfo *info = static_cast<PhoneInfo*>(*it);
-            if (info->Type == SMS){
-                havePhone = true;
-                break;
-            }
-        }
-    }
-    addMessageType(menu, ICQ_MSGxSMS, mnuSMS, havePhone, haveTitle);
-    addMessageType(menu, ICQ_MSGxURL, mnuURL, u->Type == USER_TYPE_ICQ, haveTitle);
-    addMessageType(menu, ICQ_MSGxMSG, mnuMessage, u->Type == USER_TYPE_ICQ, haveTitle);
+    addMessageType(menu, ICQ_MSGxMAIL, mnuMail, true, haveTitle, u->Uin);
+    addMessageType(menu, ICQ_MSGxAUTHxREQUEST, mnuAuth, true, haveTitle, u->Uin);
+    addMessageType(menu, ICQ_MSGxCHAT, mnuChat, true, haveTitle, u->Uin);
+    addMessageType(menu, ICQ_MSGxFILE, mnuFile, true, haveTitle, u->Uin);
+    addMessageType(menu, ICQ_MSGxCONTACTxLIST, mnuContacts, true, haveTitle, u->Uin);
+    addMessageType(menu, ICQ_MSGxSMS, mnuSMS, true, haveTitle, u->Uin);
+    addMessageType(menu, ICQ_MSGxURL, mnuURL, true, haveTitle, u->Uin);
+    addMessageType(menu, ICQ_MSGxMSG, mnuMessage, true, haveTitle, u->Uin);
     menu->setItemEnabled(mnuAlert, u->Type == USER_TYPE_ICQ);
     menu->setItemEnabled(mnuAccept, u->Type == USER_TYPE_ICQ);
     menu->setItemEnabled(mnuSound, u->Type == USER_TYPE_ICQ);
@@ -2552,6 +2618,18 @@ void MainWindow::addSearch(const QString &t)
         searches.remove(it);
     searches.prepend(t);
     emit searchChanged();
+}
+
+bool MainWindow::eventFilter(QObject *o, QEvent *e)
+{
+    if ((o == menuUser) && (e->type() == QEvent::Hide))
+        QTimer::singleShot(0, this, SLOT(clearUserMenu()));
+    return QMainWindow::eventFilter(o, e);
+}
+
+void MainWindow::clearUserMenu()
+{
+    menuUser->clear();
 }
 
 #ifndef _WINDOWS

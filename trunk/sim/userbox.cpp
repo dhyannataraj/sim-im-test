@@ -211,18 +211,24 @@ UserBox::UserBox(unsigned long grpId)
     connect(pMain, SIGNAL(modeChanged(bool)), this, SLOT(modeChanged(bool)));
     QAccel *accel = new QAccel(this);
     connect(accel, SIGNAL(activated(int)), this, SLOT(accelActivated(int)));
-    accel->insertItem(Key_1 + ALT, 1);
-    accel->insertItem(Key_2 + ALT, 2);
-    accel->insertItem(Key_3 + ALT, 3);
-    accel->insertItem(Key_4 + ALT, 4);
-    accel->insertItem(Key_5 + ALT, 5);
-    accel->insertItem(Key_6 + ALT, 6);
-    accel->insertItem(Key_7 + ALT, 7);
-    accel->insertItem(Key_8 + ALT, 8);
-    accel->insertItem(Key_9 + ALT, 9);
-    accel->insertItem(Key_0 + ALT, 10);
-    accel->insertItem(Key_Left + ALT, 11);
-    accel->insertItem(Key_Right + ALT, 12);
+    accel->insertItem(Key_1 + ALT, mnuWindow + 1);
+    accel->insertItem(Key_2 + ALT, mnuWindow + 2);
+    accel->insertItem(Key_3 + ALT, mnuWindow + 3);
+    accel->insertItem(Key_4 + ALT, mnuWindow + 4);
+    accel->insertItem(Key_5 + ALT, mnuWindow + 5);
+    accel->insertItem(Key_6 + ALT, mnuWindow + 6);
+    accel->insertItem(Key_7 + ALT, mnuWindow + 7);
+    accel->insertItem(Key_8 + ALT, mnuWindow + 8);
+    accel->insertItem(Key_9 + ALT, mnuWindow + 9);
+    accel->insertItem(Key_0 + ALT, mnuWindow + 10);
+    accel->insertItem(Key_Left + ALT, mnuWindow + 11);
+    accel->insertItem(Key_Right + ALT, mnuWindow + 12);
+    accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxMSG)), mnuMessage);
+    accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxURL)), mnuURL);
+    accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxFILE)), mnuFile);
+    accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxCHAT)), mnuChat);
+    accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxCONTACTxLIST)), mnuContacts);
+    accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxMAIL)), mnuMail);
 }
 
 void UserBox::hideToolbar()
@@ -529,24 +535,40 @@ MsgEdit *UserBox::getWnd(int id)
 
 void UserBox::accelActivated(int id)
 {
-    int pos = 0;
-    int curId = tabs->currentTab();
-    list<MsgEdit*>::iterator it;
-    for (it = wnds.begin(); it != wnds.end(); it++, pos++){
-        if ((*it)->tabId == curId) break;
-    }
-    if (id == 11){
-        id = pos - 1;
-    }else if (id == 12){
-        id = pos + 1;
-    }else{
-        id--;
-    }
-    for (it = wnds.begin(); it != wnds.end(); it++){
-        if (id-- == 0){
-            selectedUser((*it)->tabId);
-            return;
+    if (id > mnuWindow){
+        id -= mnuWindow;
+        int pos = 0;
+        int curId = tabs->currentTab();
+        list<MsgEdit*>::iterator it;
+        for (it = wnds.begin(); it != wnds.end(); it++, pos++){
+            if ((*it)->tabId == curId) break;
         }
+        if (id == 11){
+            id = pos - 1;
+        }else if (id == 12){
+            id = pos + 1;
+        }else{
+            id--;
+        }
+        for (it = wnds.begin(); it != wnds.end(); it++){
+            if (id-- == 0){
+                selectedUser((*it)->tabId);
+                return;
+            }
+        }
+        return;
+    }
+    if (curWnd == NULL) return;
+    switch (id){
+    case mnuMessage:
+    case mnuURL:
+    case mnuFile:
+    case mnuChat:
+    case mnuContacts:
+    case mnuMail:
+        pMain->m_uin = curWnd->Uin;
+        pMain->userFunction(id);
+        break;
     }
 }
 
@@ -1013,6 +1035,12 @@ void UserBox::setShow()
     setActiveWindow();
 #ifdef USE_KDE
     KWin::setActiveWindow(winId());
+#endif
+#ifdef WIN32
+    AttachThreadInput(GetWindowThreadProcessId(GetForegroundWindow(),NULL), GetCurrentThreadId(), TRUE);
+    SetForegroundWindow(winId());
+    SetFocus(winId());
+    AttachThreadInput(GetWindowThreadProcessId(GetForegroundWindow(),NULL), GetCurrentThreadId(), FALSE);
 #endif
 }
 

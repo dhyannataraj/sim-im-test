@@ -91,8 +91,9 @@ const int mnuInfoNew = 42;
 const int mnuHistoryNew = 43;
 const int mnuGo = 44;
 
-const int mnuGrpTitle = 0x10000;
+const int mnuGrpTitle    = 0x10000;
 const int mnuPopupStatus = 0x20000;
+const int mnuWindow		 = 0x30000;
 
 const unsigned long mnuGroupVisible = 0x10001;
 const unsigned long mnuGroupInvisible = 0x10002;
@@ -337,6 +338,7 @@ public slots:
     void showUserPopup(unsigned long uin, QPoint, QPopupMenu*, const QRect&);
     void userFunction(int);
     void userFunction(unsigned long uin, int, unsigned long param=0);
+    bool canUserFunction(unsigned long uin, int);
     void showUser(int);
     void goURL(const char*);
     void sendMail(unsigned long);
@@ -376,7 +378,10 @@ protected slots:
     void sharedFiles();
     void badPassword();
     void setupClosed();
+    void clearUserMenu();
 protected:
+    bool eventFilter(QObject *o, QEvent *e);
+
     list<msgInfo> menuMsgs;
     void loadUnread();
 
@@ -405,8 +410,8 @@ protected:
     HotKeys *keys;
     virtual bool event(QEvent*);
     virtual void closeEvent(QCloseEvent*);
-    void addMessageType(QPopupMenu *menu, int type, int id, bool bAdd, bool bHaveTitle);
-    void addMenuItem(QPopupMenu *menuUser, const char *icon, const QString &n, int id, bool bAdd, bool bHaveTitle);
+    void addMessageType(QPopupMenu *menu, int type, int id, bool bAdd, bool bHaveTitle, unsigned long uin);
+    void addMenuItem(QPopupMenu *menuUser, const char *icon, const QString &n, int id, bool bAdd, bool bHaveTitle, const QString &accel = QString::null);
     QToolBar *toolbar;
     list<UserBox*> containers;
     SearchDialog *searchDlg;

@@ -914,6 +914,31 @@ QString SIMClient::getMessageText(int type, int n)
     return i18n("Unknown message", "%n unknown messages", n);
 }
 
+QString SIMClient::getMessageAccel(int type)
+{
+    switch (type){
+    case ICQ_MSGxMSG:
+        return i18n("Ctrl+M", "Message");
+    case ICQ_MSGxCHAT:
+        return i18n("Ctrl+H", "Chat");
+    case ICQ_MSGxFILE:
+        return i18n("Ctrl+F", "File");
+    case ICQ_MSGxURL:
+        return i18n("Ctrl+U", "URL");
+    case ICQ_MSGxAUTHxREQUEST:
+        return i18n("Ctrl+A", "AuthRequest");
+    case ICQ_MSGxCONTACTxLIST:
+        return i18n("Ctrl+C", "Contacts");
+    case ICQ_MSGxSMS:
+        return i18n("Ctrl+S", "SMS");
+    case ICQ_MSGxMAIL:
+        return i18n("Ctrl+E", "EMail");
+    default:
+        break;
+    }
+    return "";
+}
+
 const char *SIMClient::getUserIcon(ICQUser *u)
 {
     switch (u->Type){

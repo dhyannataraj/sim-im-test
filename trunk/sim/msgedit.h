@@ -48,6 +48,7 @@ class MsgView;
 class WndCancel;
 class CToolButton;
 class PictButton;
+class Tmpl;
 
 class SmileLabel : public QLabel
 {
@@ -137,13 +138,15 @@ protected slots:
     void ftChanged();
     void modeChanged(bool);
     void insertSmile();
+    void topReady(const QString &res);
+    void bottomReady(const QString &res);
 protected:
+    Tmpl *tmpl;
     MsgView *msgView;
     QFrame  *frmEdit;
     virtual bool eventFilter(QObject*, QEvent*);
     virtual void closeEvent(QCloseEvent *e);
     string smsChunk();
-    QString subst(const char*);
     QString trim(const QString&);
     QString chunk(const QString &s, int len);
     bool isLatin1(const QString &s);

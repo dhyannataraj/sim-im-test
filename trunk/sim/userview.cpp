@@ -38,6 +38,7 @@
 #include <qbutton.h>
 #include <qobjectlist.h>
 #include <qstringlist.h>
+#include <qaccel.h>
 
 #include <stdio.h>
 
@@ -505,16 +506,6 @@ UserView::UserView (QWidget *parent, bool _bList, bool bFill, WFlags f)
     memset(m_counts, 0, sizeof(m_counts));
     grp_id = 0;
     menuGroup = new KPopupMenu(this);
-    menuGroup->insertTitle(i18n("Group"), mnuGrpTitle);
-    menuGroup->insertItem(Pict("grp_rename"), i18n("Rename"), mnuGrpRename);
-    menuGroup->insertItem(Pict("remove"), i18n("Delete"), mnuGrpDelete);
-    menuGroup->insertItem(Pict("grp_create"), i18n("Create group"), mnuGrpCreate);
-    menuGroup->insertSeparator();
-    menuGroup->insertItem(Pict("1uparrow"), i18n("Up"), mnuGrpUp);
-    menuGroup->insertItem(Pict("1downarrow"), i18n("Down"), mnuGrpDown);
-    menuGroup->insertSeparator();
-    menuGroup->insertItem(Pict("grp_expand"), i18n("Expand all"), mnuGrpExpandAll);
-    menuGroup->insertItem(Pict("grp_collapse"), i18n("Collapse all"), mnuGrpCollapseAll);
     connect(menuGroup, SIGNAL(activated(int)), this, SLOT(grpFunction(int)));
     setHScrollBarMode(AlwaysOff);
     setTreeStepSize(0);
@@ -551,14 +542,93 @@ UserView::UserView (QWidget *parent, bool _bList, bool bFill, WFlags f)
         obj->installEventFilter(this);
     }
     delete l;
+    QAccel *accel = new QAccel(this);
+    connect(accel, SIGNAL(activated(int)), this, SLOT(accelActivated(int)));
+    accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxMSG)), mnuMessage);
+    accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxURL)), mnuURL);
+    accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxFILE)), mnuFile);
+    accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxCHAT)), mnuChat);
+    accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxCONTACTxLIST)), mnuContacts);
+    accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxMAIL)), mnuMail);
+    accel->insertItem(QAccel::stringToKey(i18n("Del", "Delete")), mnuDelete);
+    accel->insertItem(QListView::Key_F2, mnuGrpRename);
+    accel->insertItem(QAccel::stringToKey(i18n("Ctrl+N", "Create group")), mnuGrpCreate);
+    accel->insertItem(QListView::CTRL + QListView::Key_Up, mnuGrpUp);
+    accel->insertItem(QListView::CTRL + QListView::Key_Down, mnuGrpDown);
+    accel->insertItem(QListView::CTRL + QListView::Key_Plus, mnuGrpExpandAll);
+    accel->insertItem(QListView::CTRL + QListView::Key_Minus, mnuGrpCollapseAll);
+}
+
+void UserView::accelActivated(int id)
+{
+    switch (id){
+    case mnuGrpExpandAll:
+    case mnuGrpCollapseAll:
+        grpFunction(id);
+        return;
+    default:
+        break;
+    }
+    QRect rc;
+    QPoint pRect;
+    QListViewItem *p = selectedItem();
+    if (p == NULL) return;
+    switch (static_cast<UserViewItemBase*>(p)->type()){
+    case 1:{
+            UserViewItem *item = static_cast<UserViewItem*>(p);
+            switch (id){
+            case mnuMessage:
+            case mnuURL:
+            case mnuFile:
+            case mnuChat:
+            case mnuContacts:
+            case mnuMail:
+            case mnuDelete:
+                pMain->m_uin = item->m_uin;
+                rc = itemRect(item);
+                pRect = mapToGlobal(rc.topLeft());
+                rc.setRect(pRect.x(), pRect.y(), rc.width(), rc.height());
+                pMain->m_rc = rc;
+                pMain->userFunction(id);
+                break;
+            }
+            break;
+        }
+    case 2:{
+            GroupViewItem *item = static_cast<GroupViewItem*>(p);
+            grp_id = item->Id();
+            switch (id){
+            case mnuDelete:
+                grpFunction(mnuGrpDelete);
+                break;
+            case mnuGrpRename:
+            case mnuGrpCreate:
+            case mnuGrpUp:
+            case mnuGrpDown:
+                grpFunction(id);
+                break;
+            }
+            break;
+        }
+    }
 }
 
 bool UserView::eventFilter(QObject *obj, QEvent *e)
 {
+    if (obj == menuGroup){
+        if (e->type() == QEvent::Hide)
+            QTimer::singleShot(0, this, SLOT(clearGroupMenu()));
+        return QListView::eventFilter(obj, e);
+    }
     bool res = QListView::eventFilter(obj, e);
     if ((e->type() == QEvent::Show) || (e->type() == QEvent::Hide))
         viewport()->repaint();
     return res;
+}
+
+void UserView::clearGroupMenu()
+{
+    menuGroup->clear();
 }
 
 void UserView::iconChanged()
@@ -596,60 +666,6 @@ void UserView::editEnter()
     ICQGroup *grp = pClient->getGroup(grp_id);
     if (grp == NULL) return;
     pClient->renameGroup(grp, edtGroup->text().local8Bit());
-}
-
-void UserView::keyReleaseEvent(QKeyEvent *e)
-{
-    QListViewItem *item = currentItem();
-    if (item){
-        UserViewItem *userItem = NULL;
-        GroupViewItem *grpItem = NULL;
-        switch (static_cast<UserViewItemBase*>(item)->type()){
-        case 1:
-            userItem = static_cast<UserViewItem*>(item);
-            break;
-        case 2:
-            grpItem = static_cast<GroupViewItem*>(item);
-            break;
-        }
-        if (e->state() == 0){
-            switch (e->key()){
-            case QListView::Key_F2:
-                if (grpItem){
-                    grp_id = grpItem->Id();
-                    grpFunction(mnuGrpRename);
-                    return;
-                }
-                break;
-            case QListView::Key_Delete:
-                if (grpItem){
-                    grp_id = grpItem->Id();
-                    grpFunction(mnuGrpDelete);
-                    return;
-                }
-                if (userItem){
-                    QRect rc = itemRect(item);
-                    QPoint p = mapToGlobal(rc.topLeft());
-                    pMain->m_rc.setRect(p.x(), p.y(), rc.width(), rc.height());
-                    pMain->userFunction(userItem->m_uin, mnuDelete, 0);
-                    return;
-                }
-                break;
-            }
-        }
-        if ((e->state() == QListView::ShiftButton) && grpItem){
-            grp_id = grpItem->Id();
-            switch (e->key()){
-            case QListView::Key_Down:
-                grpFunction(mnuGrpDown);
-                return;
-            case QListView::Key_Up:
-                grpFunction(mnuGrpUp);
-                return;
-            }
-        }
-    }
-    QListView::keyReleaseEvent(e);
 }
 
 void UserView::grpFunction(int id)
@@ -704,6 +720,8 @@ void UserView::grpFunction(int id)
             pClient->contacts.groups[i-1] = grp;
             pClient->contacts.groups[i] = s_grp;
             refresh();
+            QListViewItem *item = findGroupItem(grp_id);
+            if (item) setCurrentItem(item);
             return;
         }
     case mnuGrpDown:{
@@ -719,6 +737,8 @@ void UserView::grpFunction(int id)
             pClient->contacts.groups[i+1] = grp;
             pClient->contacts.groups[i] = s_grp;
             refresh();
+            QListViewItem *item = findGroupItem(grp_id);
+            if (item) setCurrentItem(item);
             return;
         }
     }
@@ -1309,12 +1329,29 @@ void UserView::viewportContextMenuEvent( QContextMenuEvent *e)
             if (pClient->contacts.groups[i] == grp) break;
         }
         CGroup g(grp);
-        menuGroup->changeTitle(mnuGrpTitle, g.name());
-        menuGroup->setItemEnabled(mnuGrpRename, pClient->m_state == ICQClient::Logged);
-        menuGroup->setItemEnabled(mnuGrpDelete, pClient->m_state == ICQClient::Logged);
+        menuGroup->clear();
+        menuGroup->insertTitle(g.name(), mnuGrpTitle);
+        if (pClient->m_state == ICQClient::Logged){
+            menuGroup->insertItem(Pict("grp_rename"), i18n("Rename"), mnuGrpRename);
+            menuGroup->setAccel(QListView::Key_F2, mnuGrpRename);
+            menuGroup->insertItem(Pict("remove"), i18n("Delete"), mnuGrpDelete);
+            menuGroup->setAccel(QAccel::stringToKey(i18n("Del", "Delete")), mnuGrpDelete);
+            menuGroup->insertItem(Pict("grp_create"), i18n("Create group"), mnuGrpCreate);
+            menuGroup->setAccel(QAccel::stringToKey(i18n("Ctrl+N", "Create group")), mnuGrpCreate);
+            menuGroup->insertSeparator();
+        }
+        menuGroup->insertItem(Pict("1uparrow"), i18n("Up"), mnuGrpUp);
+        menuGroup->setAccel(QListView::CTRL + QListView::Key_Up, mnuGrpUp);
+        menuGroup->insertItem(Pict("1downarrow"), i18n("Down"), mnuGrpDown);
+        menuGroup->setAccel(QListView::CTRL + QListView::Key_Down, mnuGrpDown);
+        menuGroup->insertSeparator();
+        menuGroup->insertItem(Pict("grp_expand"), i18n("Expand all"), mnuGrpExpandAll);
+        menuGroup->setAccel(QListView::CTRL + QListView::Key_Plus, mnuGrpExpandAll);
+        menuGroup->insertItem(Pict("grp_collapse"), i18n("Collapse all"), mnuGrpCollapseAll);
+        menuGroup->setAccel(QListView::CTRL + QListView::Key_Minus, mnuGrpCollapseAll);
         menuGroup->setItemEnabled(mnuGrpUp, i > 0);
         menuGroup->setItemEnabled(mnuGrpDown, i < pClient->contacts.groups.size() - 1);
-        menuGroup->setItemEnabled(mnuGrpCreate, pClient->m_state == ICQClient::Logged);
+        menuGroup->installEventFilter(this);
         menuGroup->popup(p);
         break;
     }

@@ -17,13 +17,22 @@
 
 #include "exec.h"
 
-Exec::Exec(const char *prog, const char *input)
+Exec::Exec(QObject *parent)
 {
-    in.pack(input, strlen(input));
 }
 
 Exec::~Exec()
 {
+}
+
+void Exec::execute(const char *prg, const char *input)
+{
+    bIn.init(0);
+    bOut.init(0);
+    bErr.init(0);
+    if (input)
+        bIn.pack(input, strlen(input));
+    emit ready(-1, prg);
 }
 
 #ifndef _WINDOWS

@@ -56,6 +56,7 @@ QString i18n(const char *singular, const char *plural, unsigned long n);
 #else
 #include <qobject.h>
 QString i18n(const char *text);
+QString i18n(const char *text, const char *comment);
 QString i18n(const char *singular, const char *plural, unsigned long n);
 #define I18N_NOOP(A)	(A)
 #endif

@@ -69,6 +69,7 @@ CToolButton::CToolButton( const QIconSet & pOff, const QPixmap & pOn, const QStr
     icon.setPixmap(pOn, QIconSet::Small, QIconSet::Normal, QIconSet::On);
     setIconSet(icon);
 #endif
+    setTextLabel(textLabel);
 }
 
 CToolButton::CToolButton ( QWidget * parent, const char * name  )

@@ -120,6 +120,8 @@ protected slots:
     void blink();
     void iconChanged();
     void itemClicked(QListViewItem*);
+    void accelActivated(int);
+    void clearGroupMenu();
 protected:
     bool hasChecked(QListViewItem*);
     void fillChecked(QListViewItem*, ICQMessage*);
@@ -128,7 +130,6 @@ protected:
     void blink(QListViewItem*);
     virtual void userChanged() {}
 
-    virtual void keyReleaseEvent(QKeyEvent*);
     virtual bool eventFilter(QObject*, QEvent*);
     virtual void styleChange(QStyle &old);
     virtual void paintEmptyArea(QPainter *p, const QRect &rc);

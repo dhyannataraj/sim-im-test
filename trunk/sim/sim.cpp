@@ -71,6 +71,11 @@ QString i18n(const char *text)
     return QObject::tr(text);
 }
 
+QString i18n(const char *text, const char *comment)
+{
+    return QObject::tr(text, comment);
+}
+
 class SimApp : public QApplication
 {
 public:
