@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"POT-Creation-Date: 2002-10-04 11:19+0400\n"
-"PO-Revision-Date: 2002-10-04 11:24GMT+3\n"
+"POT-Creation-Date: 2002-10-05 05:20+0400\n"
+"PO-Revision-Date: 2002-10-05 05:24GMT+3\n"
 "Last-Translator: Vladimir Shutoff <shutoff@mail.ru>\n"
 "Language-Team: Русский <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1666,11 +1666,15 @@ msgstr "Вошел в чат"
 msgid "Can't create %1"
 msgstr "Не могу создать %1"
 
-#: cuser.cpp:208
+#: cuser.cpp:61 cuser.cpp:73
+msgid "Unknown"
+msgstr "Неизвестный"
+
+#: cuser.cpp:214
 msgid "Last online"
 msgstr "Последний раз в сети"
 
-#: client.cpp:905 cuser.cpp:216 userview.cpp:983
+#: client.cpp:905 cuser.cpp:222 userview.cpp:983
 msgid "Online"
 msgstr "В сети"
 
@@ -1813,7 +1817,7 @@ msgstr "Закрыть"
 msgid "Delete user %1?"
 msgstr "Удалить пользователя \"%1\"?"
 
-#: mainwin.cpp:1852 msgedit.cpp:949
+#: mainwin.cpp:1852 msgedit.cpp:954
 msgid "New"
 msgstr "Новое"
 
@@ -2001,7 +2005,7 @@ msgstr "&Переслать"
 msgid "C&lose after send"
 msgstr "&Закрыть после отправки"
 
-#: msgedit.cpp:214 msgedit.cpp:418
+#: msgedit.cpp:214 msgedit.cpp:419
 msgid "&Send"
 msgstr "&Отправить"
 
@@ -2021,7 +2025,7 @@ msgstr "Телефон:"
 msgid "URL:"
 msgstr "URL:"
 
-#: msgedit.cpp:248 msgedit.cpp:1402 msgview.cpp:200
+#: msgedit.cpp:248 msgedit.cpp:1407 msgview.cpp:200
 msgid "File"
 msgstr "Файл"
 
@@ -2029,60 +2033,60 @@ msgstr "Файл"
 msgid "Drag users here"
 msgstr "Перенесите пользователей сюда"
 
-#: msgedit.cpp:408
+#: msgedit.cpp:409
 msgid "Sending"
 msgstr "Отправка"
 
-#: msgedit.cpp:416 ui/addphonebase.cpp:103 ui/emaileditbase.cpp:61
+#: msgedit.cpp:417 ui/addphonebase.cpp:103 ui/emaileditbase.cpp:61
 #: ui/filetransfer.cpp:235 ui/filetransferbase.cpp:117
 msgid "&Cancel"
 msgstr "&Отменить"
 
-#: msgedit.cpp:546
+#: msgedit.cpp:551
 msgid "No files for transfer"
 msgstr "Нет файлов для передачи"
 
-#: msgedit.cpp:564
+#: msgedit.cpp:569
 msgid "Transfer started"
 msgstr "Передача файла начата"
 
-#: msgedit.cpp:567
+#: msgedit.cpp:572
 msgid "Chat started"
 msgstr "Чат начат"
 
-#: msgedit.cpp:634
+#: msgedit.cpp:639
 msgid "Message sent"
 msgstr "Сообщение отправлено"
 
-#: msgedit.cpp:637
+#: msgedit.cpp:642
 msgid "Send failed"
 msgstr "Отправлено неудачно"
 
-#: msgedit.cpp:946
+#: msgedit.cpp:951
 msgid "Next"
 msgstr "Следующее"
 
-#: msgedit.cpp:989
+#: msgedit.cpp:994
 msgid "%1 (ICQ# %2) wrote:<br>\n"
 msgstr "%1 (ICQ# %2) пишет:<br>\n"
 
-#: msgedit.cpp:1211
+#: msgedit.cpp:1216
 msgid "Save to"
 msgstr "Сохранить в"
 
-#: msgedit.cpp:1601
+#: msgedit.cpp:1608
 msgid "Size: %1 / Max. size: %2"
 msgstr "Длина: %1 / Максимальная: %2"
 
-#: msgedit.cpp:1605
+#: msgedit.cpp:1612
 msgid "Message will be split"
 msgstr "Сообщение будет разделено на части"
 
-#: msgedit.cpp:1775
+#: msgedit.cpp:1782
 msgid "Decline reason"
 msgstr "Причина отказа"
 
-#: msgedit.cpp:1775
+#: msgedit.cpp:1782
 msgid "Please, input decline reason:"
 msgstr "Введите причину отказа:"
 
@@ -2373,7 +2377,7 @@ msgid "[fail]"
 msgstr "[ошибка]"
 
 #: ui/aboutdlgbase.cpp:131 ui/filetransfer.cpp:157 ui/finddlgbase.cpp:66
-#: ui/logindlgbase.cpp:83 ui/proxydlgbase.cpp:123 ui/userautoreply.cpp:76
+#: ui/logindlgbase.cpp:83 ui/proxydlgbase.cpp:55 ui/userautoreply.cpp:76
 msgid "&Close"
 msgstr "&Закрыть"
 
@@ -2731,37 +2735,53 @@ msgstr "Имена"
 msgid "UIN:"
 msgstr "UIN:"
 
-#: ui/proxydlgbase.cpp:36
+#: ui/proxydlgbase.cpp:37
 msgid "Proxy settings"
 msgstr "Установки прокси"
 
-#: ui/networkbase.cpp:132 ui/proxydlgbase.cpp:50
+#: ui/addphonebase.cpp:109 ui/emaileditbase.cpp:67 ui/proxydlgbase.cpp:50
+msgid "&OK"
+msgstr "&Ok"
+
+#: ui/proxydlgbase.cpp:60
+msgid "Proxy"
+msgstr "Прокси"
+
+#: ui/networkbase.cpp:132 ui/proxydlgbase.cpp:70
 msgid "Use proxy"
 msgstr "Использовать прокси-сервер"
 
-#: ui/networkbase.cpp:151 ui/proxydlgbase.cpp:62
+#: ui/networkbase.cpp:151 ui/proxydlgbase.cpp:82
 msgid "Proxy host:"
 msgstr "Прокси IP:"
 
-#: ui/networkbase.cpp:193 ui/proxydlgbase.cpp:72
+#: ui/networkbase.cpp:193 ui/proxydlgbase.cpp:92
 msgid "Proxy password:"
 msgstr "Пароль:"
 
-#: ui/networkbase.cpp:179 ui/proxydlgbase.cpp:86
+#: ui/networkbase.cpp:179 ui/proxydlgbase.cpp:106
 msgid "Proxy user:"
 msgstr "Имя пользователя:"
 
-#: ui/networkbase.cpp:171 ui/proxydlgbase.cpp:92
+#: ui/networkbase.cpp:171 ui/proxydlgbase.cpp:112
 msgid "User proxy authorization"
 msgstr "Прокси-сервер требует авторизацию"
 
-#: ui/networkbase.cpp:157 ui/proxydlgbase.cpp:101
+#: ui/networkbase.cpp:157 ui/proxydlgbase.cpp:121
 msgid "Proxy port:"
 msgstr "Прокси порт:"
 
-#: ui/addphonebase.cpp:109 ui/emaileditbase.cpp:67 ui/proxydlgbase.cpp:118
-msgid "&OK"
-msgstr "&Ok"
+#: ui/proxydlgbase.cpp:129
+msgid "Server"
+msgstr "Сервер"
+
+#: ui/networkbase.cpp:111 ui/proxydlgbase.cpp:139
+msgid "Host:"
+msgstr "Сервер:"
+
+#: ui/networkbase.cpp:105 ui/proxydlgbase.cpp:145
+msgid "Port:"
+msgstr "Порт:"
 
 #: ui/logindlgbase.cpp:35
 msgid "Registration"
@@ -2898,14 +2918,6 @@ msgstr "Соединение"
 #: ui/networkbase.cpp:92
 msgid "ICQ server:"
 msgstr "ICQ сервер:"
-
-#: ui/networkbase.cpp:105
-msgid "Port:"
-msgstr "Порт:"
-
-#: ui/networkbase.cpp:111
-msgid "Host:"
-msgstr "Сервер:"
 
 #: ui/networkbase.cpp:207
 msgid "Use the following TCP listen ports:"

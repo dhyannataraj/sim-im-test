@@ -527,11 +527,11 @@ QString MsgEdit::userName()
 
 void MsgEdit::fillPhones()
 {
-    log(L_DEBUG, "FillPhones");
     QString phoneNumber = phoneEdit->lineEdit()->text();
     phoneEdit->clear();
     ICQUser *u = pClient->getUser(Uin);
     if (u == NULL) return;
+    if (u->bIsTemp) return;
     for (PhoneBook::iterator it = u->Phones.begin(); it != u->Phones.end(); it++){
         PhoneInfo *phone = static_cast<PhoneInfo*>(*it);
         if (phone->Type != SMS) continue;
@@ -542,7 +542,6 @@ void MsgEdit::fillPhones()
     }
     string s;
     if (!phoneNumber.isEmpty()) s = phoneNumber.local8Bit();
-    log(L_DEBUG, "Fill [%s]", s.c_str());
     phoneEdit->lineEdit()->setText(phoneNumber);
 }
 
