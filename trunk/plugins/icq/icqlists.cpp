@@ -582,7 +582,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
     case ICQ_SNACxLISTS_DONE:
         if (m_listRequest && m_listRequest->seq() == seq){
             unsigned short res;
-            char *msg;
+            const char *msg;
             m_socket->readBuffer >> res;
             switch (res) {
             case 0x00:

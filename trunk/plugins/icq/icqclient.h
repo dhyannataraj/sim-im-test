@@ -588,6 +588,7 @@ protected:
     void sendLogonStatus();
     void sendClientReady();
     void sendMessageRequest();
+    void setServiceSocket(Tlv *tlv_addr, Tlv *tlv_cookie, unsigned short service); 
     void serverRequest(unsigned short cmd, unsigned short seq=0);
     void sendServerRequest();
     void sendVisibleList();
@@ -719,6 +720,7 @@ public:
     void connect(const char *addr, unsigned short port, const char *cookie, unsigned cookie_size);
     virtual bool error_state(const char *err, unsigned code);
     bool connected() { return m_bConnected; }
+	void close();
 protected:
     virtual void connect_ready();
     virtual void packet_ready();

@@ -56,6 +56,11 @@ void ServiceSocket::connect(const char *addr, unsigned short port, const char *c
     m_socket->connect(addr, port, m_client);
 }
 
+void ServiceSocket::close()
+{
+    m_socket->close();
+}
+
 bool ServiceSocket::error_state(const char *err, unsigned)
 {
     log(L_DEBUG, "Service error %s", err);
