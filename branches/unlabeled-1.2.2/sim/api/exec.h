@@ -36,6 +36,11 @@ public:
     Buffer bOut;
     Buffer bErr;
     string prog;
+#ifdef WIN32
+	void	*hThread;
+	void	*hOutThread;
+	void	*hErrThread;
+#endif
 public slots:
     void execute(const char *prog, const char *input, bool bSync = false);
     void finished();

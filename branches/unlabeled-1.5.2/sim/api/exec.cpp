@@ -43,7 +43,11 @@ Exec::Exec()
         : QObject(ExecManager::manager)
 {
     result = -1;
-#ifndef WIN32
+#ifdef WIN32
+	hThread    = NULL;
+	hOutThread = NULL;
+	hErrThread = NULL;
+#else
     hIn = -1;
     hOut = -1;
     hErr = -1;
@@ -56,15 +60,23 @@ Exec::Exec()
 
 Exec::~Exec()
 {
+#ifdef WIN32
+	if (hErrThread)
+		TerminateThread((HANDLE)hErrThread, 1);
+	if (hOutThread)
+		TerminateThread((HANDLE)hOutThread, 1);
+	if (hThread)
+		TerminateThread((HANDLE)hThread, 1);
+#endif
 }
 
 #ifdef WIN32
 
 typedef struct PIPE_READ
 {
-    HANDLE pipe;
-    Buffer *b;
-    HANDLE hThread;
+    HANDLE	pipe;
+    Buffer	*b;
+	void	**hThread;	
 } PIPE_READ;
 
 DWORD __stdcall ReadPipeThread(LPVOID lpParameter)
@@ -78,6 +90,7 @@ DWORD __stdcall ReadPipeThread(LPVOID lpParameter)
         p->b->pack(buff, r);
     }
     CloseHandle(p->pipe);
+	*(p->hThread) = NULL;
     return 0;
 }
 
@@ -122,6 +135,7 @@ DWORD __stdcall ExecProcThread(LPVOID lpParameter)
         if (errPipe[READ]) CloseHandle(errPipe[READ]);
         if (errPipe[WRITE]) CloseHandle(errPipe[WRITE]);
         QTimer::singleShot(0, exec, SLOT(finished()));
+		exec->hThread = NULL;
         return 0;
     }
 
@@ -186,6 +200,7 @@ DWORD __stdcall ExecProcThread(LPVOID lpParameter)
         CloseHandle(outPipe[WRITE]);
         CloseHandle(errPipe[READ]);
         CloseHandle(errPipe[WRITE]);
+		exec->hThread = NULL;
         QTimer::singleShot(0, exec, SLOT(finished()));
         return 0;
     }
@@ -196,14 +211,16 @@ DWORD __stdcall ExecProcThread(LPVOID lpParameter)
     DWORD threadId;
 
     PIPE_READ pOut;
-    pOut.pipe = outPipe[READ];
-    pOut.b = &exec->bOut;
-    pOut.hThread = CreateThread(NULL, 0, ReadPipeThread, &pOut, 0, &threadId);
+    pOut.pipe    = outPipe[READ];
+    pOut.b       = &exec->bOut;
+	pOut.hThread = &exec->hOutThread;
+    exec->hOutThread = CreateThread(NULL, 0, ReadPipeThread, &pOut, 0, &threadId);
 
     PIPE_READ pErr;
-    pErr.pipe = errPipe[READ];
-    pErr.b = &exec->bErr;
-    pErr.hThread = CreateThread(NULL, 0, ReadPipeThread, &pErr, 0, &threadId);
+    pErr.pipe	 = errPipe[READ];
+    pErr.b		 = &exec->bErr;
+	pErr.hThread = &exec->hErrThread;
+    exec->hErrThread = CreateThread(NULL, 0, ReadPipeThread, &pErr, 0, &threadId);
 
     DWORD exitCode;
     unsigned long wrtn;
@@ -223,8 +240,8 @@ DWORD __stdcall ExecProcThread(LPVOID lpParameter)
 
     HANDLE h[4];
     h[0] = pi.hProcess;
-    h[1] = pOut.hThread;
-    h[2] = pErr.hThread;
+    h[1] = exec->hOutThread;
+    h[2] = exec->hErrThread;
     WaitForMultipleObjects(3, h, TRUE, INFINITE);
 
     GetExitCodeProcess(pi.hProcess, &exitCode);
@@ -236,6 +253,7 @@ DWORD __stdcall ExecProcThread(LPVOID lpParameter)
     exec->result = exitCode;
     QTimer::singleShot(0, exec, SLOT(finished()));
 
+	exec->hThread = NULL;
     return 0;
 }
 
@@ -262,9 +280,9 @@ void Exec::execute(const char *prg, const char *input, bool bSync)
         bIn.pack(input, strlen(input));
 #ifdef WIN32
     DWORD threadId;
-    HANDLE hThread = CreateThread(NULL, 0, ExecProcThread, this, 0, &threadId);
+    hThread = (void*)CreateThread(NULL, 0, ExecProcThread, this, 0, &threadId);
     if (bSync && hThread)
-        WaitForSingleObject(hThread, INFINITE);
+        WaitForSingleObject((void*)hThread, INFINITE);
 #else
     int inPipe[2] = { -1, - 1};
     int outPipe[2] = { -1, -1 };
