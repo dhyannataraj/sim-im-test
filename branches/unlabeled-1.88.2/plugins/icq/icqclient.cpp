@@ -334,7 +334,6 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
         while ((data = (ICQUserData*)(++itd)) != NULL)
             set_str(&data->Alias.ptr, contact->getName().utf8());
     }
-    m_winSize	= 0;
 }
 
 ICQClient::~ICQClient()
@@ -509,42 +508,55 @@ void ICQClient::connect_ready()
         m_listener->bind(getMinPort(), getMaxPort(), NULL);
     }
     m_bNoSend	= false;
-    m_curLevel	= 0;
-    m_maxLevel	= 0;
-    m_minLevel	= 0;
-    m_winSize	= 0;
     m_bReady	= false;
-    m_lastSend	= QDateTime::currentDateTime();
-    delayed.init(0);
     OscarSocket::connect_ready();
     TCPClient::connect_ready();
 }
 
-unsigned ICQClient::newLevel()
+void ICQClient::setNewLevel(RateInfo &r)
 {
-    if (m_winSize == 0)
-        return 0;
     QDateTime now = QDateTime::currentDateTime();
     unsigned delta = 0;
-    if (now.date() == m_lastSend.date())
-        delta = m_lastSend.time().msecsTo(now.time());
-    unsigned res = (((m_winSize - 1) * m_curLevel) + delta) / m_winSize;
-    if (res > m_maxLevel)
-        res = m_maxLevel;
-    return res;
+    if (now.date() == r.m_lastSend.date())
+        delta = r.m_lastSend.time().msecsTo(now.time());
+    unsigned res = (((r.m_winSize - 1) * r.m_curLevel) + delta) / r.m_winSize;
+    if (res > r.m_maxLevel)
+        res = r.m_maxLevel;
+	r.m_curLevel = res;
+	r.m_lastSend = now;
+	log(L_DEBUG, "Level: %04X [%04X %04X %04X]", res, r.m_curLevel, r.m_minLevel, r.m_winSize);
 }
 
-unsigned ICQClient::delayTime()
+RateInfo *ICQClient::rateInfo(unsigned snac)
 {
-    if (m_winSize == 0)
+	RATE_MAP::iterator it = m_rate_grp.find(snac);
+	if (it == m_rate_grp.end()){
+		log(L_DEBUG, "No rate (%02X,%02X)", snac >> 16 & 0xFF, snac & 0xFF);
+		return NULL;
+	}
+	log(L_DEBUG, "Rate %u (%02X,%02X)", (*it).second, snac >> 16 & 0xFF, snac & 0xFF);
+	return &m_rates[(*it).second];
+}
+
+unsigned ICQClient::delayTime(unsigned snac)
+{
+	RateInfo *r = rateInfo(snac);
+	if (r == NULL)
+		return NULL;
+	return delayTime(*r);
+}
+
+unsigned ICQClient::delayTime(RateInfo &r)
+{
+    if (r.m_winSize == 0)
         return 0;
-    int res = m_minLevel * m_winSize - m_curLevel * (m_winSize - 1);
+    int res = r.m_minLevel * r.m_winSize - r.m_curLevel * (r.m_winSize - 1);
     if (res < 0)
         return 0;
     QDateTime now = QDateTime::currentDateTime();
     unsigned delta = 0;
-    if (now.date() == m_lastSend.date())
-        delta = m_lastSend.time().msecsTo(now.time());
+    if (now.date() == r.m_lastSend.date())
+        delta = r.m_lastSend.time().msecsTo(now.time());
     res -= delta;
     return (res > 0) ? res : 0;
 }
@@ -627,6 +639,8 @@ void ICQClient::setInvisible(bool bState)
 
 void ICQClient::disconnected()
 {
+	m_rates.clear();
+	m_rate_grp.clear();
     m_infoTimer->stop();
     m_sendTimer->stop();
     m_processTimer->stop();
@@ -846,24 +860,33 @@ void OscarSocket::sendPacket(bool bSend)
 
 void ICQClient::sendPacket(bool bSend)
 {
-    unsigned delay = delayTime();
+    Buffer &writeBuffer = socket()->writeBuffer;
+	unsigned char *packet = (unsigned char*)(writeBuffer.data(writeBuffer.readPos()));
+	unsigned long snac = 0;
+	if (writeBuffer.writePos() >= writeBuffer.readPos() + 10)
+		snac = (packet[6] << 24) + (packet[7] << 16) + (packet[8] << 8) + packet[9];
+    unsigned delay = delayTime(snac);
     if (m_bNoSend){
         bSend = false;
     }else if (!bSend && (delay == 0)){
         bSend = true;
     }
-    log(L_DEBUG, "Send packet: %u %u", bSend, delay);
+    log(L_DEBUG, "Send packet: %u %u (%02X,%02X)", bSend, delay, (snac >> 16) & 0xFF, snac &0xFF);
     OscarSocket::sendPacket(bSend);
+	RateInfo *r = rateInfo(snac);
+	if (r == NULL){
+		log(L_DEBUG, "No rate");
+		socket()->write();
+		return;
+	}
     if (bSend){
-        m_curLevel = newLevel();
-        m_lastSend = QDateTime::currentDateTime();
-        log(L_DEBUG, "New level: %X", m_curLevel);
+        setNewLevel(*r);
+		socket()->write();
         return;
     }
-    Buffer &writeBuffer = socket()->writeBuffer;
-    delayed.pack(writeBuffer.data(writeBuffer.packetStartPos()), writeBuffer.size() - writeBuffer.packetStartPos());
+    r->delayed.pack(writeBuffer.data(writeBuffer.packetStartPos()), writeBuffer.size() - writeBuffer.packetStartPos());
     writeBuffer.setSize(writeBuffer.packetStartPos());
-    log(L_DEBUG, "> delay %u %i", delayed.readPos(), delayed.writePos());
+    log(L_DEBUG, "> delay %u %i", r->delayed.readPos(), r->delayed.writePos());
     m_processTimer->stop();
     m_processTimer->start(delay);
 }
@@ -1281,11 +1304,11 @@ void ICQClient::ping()
             m_bBirthday = bBirthday;
             setStatus(m_status);
         }else if (getKeepAlive() || m_bHTTP){
-            if (delayed.size() == 0){
-                flap(ICQ_CHNxPING);
-                sendPacket(false);
-            }
+            flap(ICQ_CHNxPING);
+            sendPacket(false);
         }
+	    snac(ICQ_SNACxFAM_SERVICE, 0x0006);
+        sendPacket(true);
         checkListRequest();
         QTimer::singleShot(PING_TIMEOUT * 1000, this, SLOT(ping()));
     }

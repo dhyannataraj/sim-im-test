@@ -358,7 +358,8 @@ unsigned long SIMClientSocket::localHost()
 
 void SIMClientSocket::slotError(int err)
 {
-    log(L_DEBUG, "Slot error %u", err);
+	if (err)
+		log(L_DEBUG, "Slot error %u", err);
     timerStop();
     if (notify) notify->error_state(I18N_NOOP("Socket error"));
 }

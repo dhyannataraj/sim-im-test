@@ -944,15 +944,16 @@ static string userStr(Contact *contact, ICQUserData *data)
     return res;
 }
 
-bool ICQClient::processListRequest()
+unsigned ICQClient::processListRequest()
 {
     if (m_listRequest || (getState() != Connected) || !m_bReady)
         return false;
     for (;;){
         if (listRequests.size() == 0)
-            return false;
-		if (delayTime())
-			return true;
+            return 0;
+		unsigned delay = delayTime(SNAC(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_CREATE));
+		if (delay)
+			return delay;
         ListRequest &lr = listRequests.front();
         string name;
         unsigned short seq = 0;
@@ -1012,9 +1013,11 @@ bool ICQClient::processListRequest()
             }
             if (contact->getGroup()){
                 group = getContacts()->group(contact->getGroup());
-                ICQUserData *grp_data = (ICQUserData*)(group->clientData.getData(this));
-                if (grp_data)
-                    grp_id = (unsigned short)(grp_data->IcqID.value);
+				if (group){
+	                ICQUserData *grp_data = (ICQUserData*)(group->clientData.getData(this));
+		            if (grp_data)
+			            grp_id = (unsigned short)(grp_data->IcqID.value);
+				}
             }
             if (data->GrpId.value != grp_id){
                 if (grp_id){
@@ -1131,7 +1134,7 @@ bool ICQClient::processListRequest()
 			break;
         listRequests.erase(listRequests.begin());
     }
-	return true;
+	return 0;
 }
 
 void ICQClient::checkListRequest()

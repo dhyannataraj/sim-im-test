@@ -1511,13 +1511,14 @@ void ICQClient::processSendQueue()
         m_sendTimer->stop();
         return;
     }
+	unsigned delay = 0;
+	unsigned send_delay = 0;
     if (m_bReady){
         while (!sendFgQueue.empty()){
-            unsigned delay = delayTime();
-            if (delay){
-                log(L_DEBUG, "Delay: %u", delay);
-                m_processTimer->start(delay);
-                return;
+            send_delay = delayTime(SNAC(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_SENDxSERVER));
+            if (send_delay){
+				delay = send_delay;
+                break;
             }
             log(L_DEBUG, "Process fg queue");
             m_send = sendFgQueue.front();
@@ -1528,63 +1529,46 @@ void ICQClient::processSendQueue()
             m_sendTimer->stop();
         }
     }
-    for (;;){
-        if (delayed.readPos() == delayed.writePos())
-            break;
-        unsigned delay = delayTime();
-        if (delay){
-            log(L_DEBUG, "Delay: %u", delay);
-            m_processTimer->start(delay);
-            return;
-        }
-        unsigned char *packet = (unsigned char*)(delayed.data(delayed.readPos()));
-        unsigned size = (packet[4] << 8) + packet[5] + 6;
-        socket()->writeBuffer.packetStart();
-        socket()->writeBuffer.pack(delayed.data(delayed.readPos()), size);
-        log_packet(socket()->writeBuffer, true, ICQPlugin::icq_plugin->OscarPacket);
-        delayed.incReadPos(size);
-        m_curLevel = newLevel();
-        log(L_DEBUG, "< delay %u %i %X", delayed.readPos(), delayed.writePos(), m_curLevel);
-        socket()->write();
+    send_delay = processSMSQueue();
+    if (send_delay && (delay > send_delay))
+		delay = send_delay;
+	for (unsigned i = 0; i < m_rates.size(); i++){
+		RateInfo &r = m_rates[i];
+		for (;;){
+			if (r.delayed.readPos() == r.delayed.writePos())
+				break;
+			send_delay = delayTime(r);
+			if (send_delay){
+				log(L_DEBUG, "Delay: %u", send_delay);
+				m_processTimer->start(send_delay);
+	            return;
+			}
+			unsigned char *packet = (unsigned char*)(r.delayed.data(r.delayed.readPos()));
+			unsigned size = (packet[4] << 8) + packet[5] + 6;
+			socket()->writeBuffer.packetStart();
+			socket()->writeBuffer.pack(r.delayed.data(r.delayed.readPos()), size);
+			log_packet(socket()->writeBuffer, true, ICQPlugin::icq_plugin->OscarPacket);
+			r.delayed.incReadPos(size);
+			setNewLevel(r);
+			log(L_DEBUG, "< delay %u %i %X", r.delayed.readPos(), r.delayed.writePos(), r.m_curLevel);
+			socket()->write();
+		}
+	    if (r.delayed.readPos() == r.delayed.writePos())
+		    r.delayed.init(0);
     }
-    if (delayed.readPos() == delayed.writePos()){
-        delayed.init(0);
-        log(L_DEBUG, "Delay init");
-    }else{
-        m_processTimer->start(RATE_PAUSE * 1000);
-        return;
-    }
-    if (processSMSQueue()){
-        unsigned delay = delayTime();
-        if (delay){
-            log(L_DEBUG, "Delay: %u", delay);
-            m_processTimer->start(delay);
-            return;
-        }
-    }
-    if (infoRequest()){
-        unsigned delay = delayTime();
-        if (delay){
-            log(L_DEBUG, "Delay: %u", delay);
-            m_processTimer->start(delay);
-            return;
-        }
-    }
-    if (processListRequest()){
-        unsigned delay = delayTime();
-        if (delay){
-            log(L_DEBUG, "Delay: %u", delay);
-            m_processTimer->start(delay);
-            return;
-        }
-    }
+    send_delay = processInfoRequest();
+    if (send_delay && (delay > send_delay))
+		delay = send_delay;
+    send_delay = processListRequest();
+    if (send_delay && (delay > send_delay))
+		delay = send_delay;
     if (m_bReady){
         while (!sendBgQueue.empty()){
-            unsigned delay = delayTime();
-            if (delay){
-                log(L_DEBUG, "Delay: %u", delay);
-                m_processTimer->start(delay);
-                return;
+            send_delay = delayTime(SNAC(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_SENDxSERVER));
+            if (send_delay){
+				if (send_delay < delay)
+					delay = send_delay;
+				break;
             }
             log(L_DEBUG, "Process bg queue");
             m_send = sendBgQueue.front();
@@ -1595,6 +1579,10 @@ void ICQClient::processSendQueue()
             m_sendTimer->stop();
         }
     }
+	if (delay){
+		log(L_DEBUG, "Delay: %u", delay);
+		m_processTimer->start(delay);
+	}
 }
 
 static QString getUtf8Part(QString &str, unsigned size)
