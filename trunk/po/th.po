@@ -6,14 +6,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: th\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-05 15:33+0200\n"
-"PO-Revision-Date: 2004-09-25 12:35+0700\n"
+"PO-Revision-Date: 2004-10-02 10:05+0700\n"
 "Last-Translator: Narachai Sakorn <narachai@opentle.org>\n"
 "Language-Team: Thai <th@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0.2\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: plugins/__homedir/homedir.cpp:48
 msgid "Home directory"
@@ -994,7 +994,7 @@ msgstr "เขียนทั&บ"
 
 #: plugins/_core/historywnd.cpp:197
 msgid "&Append"
-msgstr ""
+msgstr "ข้อมูลเพิ่มเติ&ม"
 
 #: plugins/_core/historywnd.cpp:211
 msgid "Save failed"
@@ -4250,7 +4250,7 @@ msgstr "Uin:"
 
 #: plugins/icq/icqinfobase.cc:313
 msgid "Random chat group:"
-msgstr ""
+msgstr "กลุ่มการสุ่มสนทนา:"
 
 #: plugins/icq/icqinfobase.cc:314
 #: plugins/jabber/jabberinfobase.cpp:245
@@ -4270,12 +4270,12 @@ msgstr "สถานะ:"
 #: plugins/icq/aiminfobase.cc:269
 #: plugins/icq/icqinfobase.cc:318
 msgid "External IP:"
-msgstr ""
+msgstr "ไอพีภายนอก:"
 
 #: plugins/icq/aiminfobase.cc:273
 #: plugins/icq/icqinfobase.cc:319
 msgid "Internal IP:"
-msgstr ""
+msgstr "ไอพีภายใน:"
 
 #: plugins/icq/aiminfobase.cc:270
 #: plugins/icq/icqinfobase.cc:320
@@ -4543,7 +4543,7 @@ msgstr "รูป&ภาพ"
 
 #: plugins/icq/securedlgbase.cc:73
 msgid "Secure chanel request"
-msgstr ""
+msgstr "ร้องขอช่องการสื่อสารที่ปลอดภัย"
 
 #: plugins/icq/securedlgbase.cc:74
 msgid ""
@@ -4593,7 +4593,7 @@ msgstr "ชื่อ"
 #: plugins/weather/wifacecfg.cpp:51
 #: plugins/yahoo/yahoosearch.cpp:134
 msgid "Location"
-msgstr ""
+msgstr "ที่อยู่"
 
 #: plugins/icq/warndlgbase.cc:83
 msgid "Send warning"
@@ -4645,7 +4645,7 @@ msgstr "เ&วลา"
 
 #: plugins/jabber/discoinfo.cpp:168
 msgid "&Stat"
-msgstr ""
+msgstr "&สถิติ"
 
 #: plugins/jabber/discoinfo.cpp:251
 #, c-format
@@ -5029,7 +5029,7 @@ msgstr "เ&บราเซอร์ของ Jabber"
 
 #: plugins/jabber/jabberworkinfobase.cpp:91
 msgid "Role:"
-msgstr ""
+msgstr "ตำแหน่ง:"
 
 #: plugins/jabber/jabberaboutinfobase.cpp:57
 msgid "Additional information:"
@@ -5045,7 +5045,7 @@ msgstr ""
 
 #: plugins/jabber/discoinfobase.cpp:267
 msgid "Category:"
-msgstr ""
+msgstr "หัวข้อ:"
 
 #: plugins/jabber/discoinfobase.cpp:272
 msgid "Version:"
@@ -5072,14 +5072,14 @@ msgstr "&สถิติ"
 msgid ""
 "_n: LiveJournal post\n"
 "%n LiveJournal posts"
-msgstr ""
+msgstr "%n ประกาศ LiveJournal"
 
 #: plugins/livejournal/livejournal.cpp:103
 #, c-format
 msgid ""
 "_n: Friends updated\n"
 "Friends updated %n"
-msgstr ""
+msgstr "อัพเดตเพื่อน %n"
 
 #: plugins/livejournal/livejournal.cpp:120
 msgid "&Remove from journal"
@@ -5695,7 +5695,7 @@ msgstr "ตรวจสอบระยะเวลา:"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:158
 msgid "Use &fast server - only for paying customers"
-msgstr ""
+msgstr "ใช้เซิฟร์เวอร์"
 
 #: plugins/livejournal/msgjournalbase.cpp:82
 msgid "Subject:"
@@ -5723,11 +5723,11 @@ msgstr "อารมณ์:"
 
 #: plugins/livejournal/msgjournalbase.cpp:92
 msgid "Enable comments"
-msgstr ""
+msgstr "เปิดการใช้งานความคิดเห็น"
 
 #: plugins/livejournal/msgjournalbase.cpp:93
 msgid "No email comments"
-msgstr ""
+msgstr "ไม่มีความคิดเห็นของอีเมล"
 
 #: plugins/livejournal/msgjournalbase.cpp:94
 msgid "Disable comments"
@@ -6213,12 +6213,12 @@ msgstr ""
 
 #: plugins/remote/remotecfgbase.cpp:105
 msgid "Use &UNIX socket"
-msgstr ""
+msgstr "ใช้ &UNIX ซ็อกเก็ต"
 
 #: plugins/remote/remotecfgbase.cpp:107
 #: plugins/remote/remotecfgbase.cpp:108
 msgid "Use &TCP socket"
-msgstr ""
+msgstr "ใช้ &TCP ซ็อกเก็ต"
 
 #: plugins/remote/remotecfgbase.cpp:109
 msgid "Enable IE context menu extension"
@@ -6321,7 +6321,7 @@ msgstr "Shift"
 msgid ""
 "_n: Phone call\n"
 "%n phone calls"
-msgstr ""
+msgstr "&n โทรศัพท์เข้า"
 
 #: plugins/sms/sms.cpp:95
 msgid "Phone call"
