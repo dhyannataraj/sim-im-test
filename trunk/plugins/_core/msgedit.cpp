@@ -1023,7 +1023,7 @@ void *MsgEdit::processEvent(Event *e)
                     m_edit->setText("");
                     m_edit->setFont(CorePlugin::m_plugin->editFont);
                     m_edit->setForeground(CorePlugin::m_plugin->getEditForeground());
-		    m_edit->setBackground(CorePlugin::m_plugin->getEditBackground());
+                    m_edit->setBackground(CorePlugin::m_plugin->getEditBackground());
                 }
             }
             return NULL;

@@ -24,10 +24,12 @@
 #include <expat.h>
 
 #include <stack>
+#include <map>
 
 using namespace std;
 
 class JabberProtocol;
+class JabberClient;
 
 const unsigned SUBSCRIBE_NONE	= 0;
 const unsigned SUBSCRIBE_FROM	= 1;
@@ -78,15 +80,17 @@ typedef struct JabberClientData
     JabberUserData	owner;
 } JabberClientData;
 
-typedef struct JabberAgentInfo
+typedef struct JabberAgentsInfo
 {
     char			*VHost;
     char			*ID;
     char			*Name;
     unsigned		Search;
-} JabberAgentInfo;
+    unsigned		Register;
+    JabberClient	*Client;
+} JabberAgentsInfo;
 
-typedef struct JabberSearchInfo
+typedef struct JabberAgentInfo
 {
     char			*VHost;
     char			*ID;
@@ -97,7 +101,7 @@ typedef struct JabberSearchInfo
     void			*Options;
     void			*OptionLabels;
     unsigned		nOptions;
-} JabberSearchInfo;
+} JabberAgentInfo;
 
 typedef struct JabberSearchData
 {
@@ -206,9 +210,9 @@ QString getID() { return QString::fromUtf8(data.owner.ID ? data.owner.ID : ""); 
 
     string		buildId(JabberUserData *data);
     JabberUserData	*findContact(const char *jid, const char *host, const char *name, bool bCreate, Contact *&contact);
-    void		add_contact(const char *id, const char *host);
+    bool		add_contact(const char *id);
     void		get_agents();
-    void		get_search(const char *jid);
+    void		get_agent_info(const char *jid, const char *type);
     void		auth_request(const char *jid, unsigned type, const char *text, bool bCreate);
     string		search(const char *jid, const char *condition);
 
@@ -289,6 +293,23 @@ protected:
     friend class RostersRequest;
     friend class PresenceRequest;
 };
+
+class JabberSearch;
+
+typedef struct agentInfo
+{
+    JabberSearch	*search;
+    string			name;
+} agentInfo;
+
+class my_string : public string
+{
+public:
+    my_string(const char *str) : string(str) {}
+    bool operator < (const my_string &str) const;
+};
+
+typedef map<my_string, agentInfo> AGENTS_MAP;
 
 #endif
 

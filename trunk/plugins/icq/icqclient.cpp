@@ -204,9 +204,9 @@ static DataDef _icqUserData[] =
         { "PhoneBook", DATA_STRING, 1, 0 },
         { "", DATA_BOOL, 1, 0 },				// bTyping
         { "", DATA_BOOL, 1, 0 },				// bBadClient
-        { "", DATA_SOCKET, 1, 0 },				// Direct
-        { "", DATA_SOCKET, 1, 0 },				// DirectPluginInfo
-        { "", DATA_SOCKET, 1, 0 },				// DirectPluginStatus
+        { "", DATA_OBJECT, 1, 0 },				// Direct
+        { "", DATA_OBJECT, 1, 0 },				// DirectPluginInfo
+        { "", DATA_OBJECT, 1, 0 },				// DirectPluginStatus
         { "", DATA_BOOL, 1, 0 },				// bNoDirect
         { "", DATA_BOOL, 1, 0 },				// bInviisble
         { NULL, 0, 0, 0 }
@@ -484,6 +484,9 @@ void ICQClient::disconnected()
             }
         }
     }
+    for (list<Message*>::iterator itm = m_acceptMsg.begin(); itm != m_acceptMsg.end(); ++itm)
+        delete *itm;
+    m_acceptMsg.clear();
     m_bRosters = false;
     m_nMsgSequence = 0;
     m_bServerReady = false;
@@ -496,30 +499,30 @@ void ICQClient::disconnected()
 }
 
 const char *icq_error_codes[] = {I18N_NOOP("Unknown error"),
-                                    I18N_NOOP("Invalid SNAC header"),
-                                    I18N_NOOP("Server rate limit exceeded"),
-                                    I18N_NOOP("Client rate limit exceeded"),
-                                    I18N_NOOP("Recipient is not logged in"),
-                                    I18N_NOOP("Requested service unavailable"),
-                                    I18N_NOOP("Requested service not defined"),
-                                    I18N_NOOP("We sent an obsolete SNAC"),
-                                    I18N_NOOP("Not supported by server"),
-                                    I18N_NOOP("Not supported by client"),
-                                    I18N_NOOP("Refused by client"),
-                                    I18N_NOOP("Reply too big"),
-                                    I18N_NOOP("Responses lost"),
-                                    I18N_NOOP("Request denied"),
-                                    I18N_NOOP("Incorrect SNAC format"),
-                                    I18N_NOOP("Insufficient rights"),
-                                    I18N_NOOP("Recipient blocked"),
-                                    I18N_NOOP("Sender too evil"),
-                                    I18N_NOOP("Receiver too evil"),
-                                    I18N_NOOP("User temporarily unavailable"),
-                                    I18N_NOOP("No match"),
-                                    I18N_NOOP("List overflow"),
-                                    I18N_NOOP("Request ambiguous"),
-                                    I18N_NOOP("Server queue full"),
-                                    I18N_NOOP("Not while on AOL")};
+                                 I18N_NOOP("Invalid SNAC header"),
+                                 I18N_NOOP("Server rate limit exceeded"),
+                                 I18N_NOOP("Client rate limit exceeded"),
+                                 I18N_NOOP("Recipient is not logged in"),
+                                 I18N_NOOP("Requested service unavailable"),
+                                 I18N_NOOP("Requested service not defined"),
+                                 I18N_NOOP("We sent an obsolete SNAC"),
+                                 I18N_NOOP("Not supported by server"),
+                                 I18N_NOOP("Not supported by client"),
+                                 I18N_NOOP("Refused by client"),
+                                 I18N_NOOP("Reply too big"),
+                                 I18N_NOOP("Responses lost"),
+                                 I18N_NOOP("Request denied"),
+                                 I18N_NOOP("Incorrect SNAC format"),
+                                 I18N_NOOP("Insufficient rights"),
+                                 I18N_NOOP("Recipient blocked"),
+                                 I18N_NOOP("Sender too evil"),
+                                 I18N_NOOP("Receiver too evil"),
+                                 I18N_NOOP("User temporarily unavailable"),
+                                 I18N_NOOP("No match"),
+                                 I18N_NOOP("List overflow"),
+                                 I18N_NOOP("Request ambiguous"),
+                                 I18N_NOOP("Server queue full"),
+                                 I18N_NOOP("Not while on AOL")};
 
 const char* ICQClient::error_message(unsigned short error)
 {
@@ -1861,9 +1864,9 @@ CommandDef *ICQClient::infoWindows(Contact*, void *_data)
     QString name = i18n(protocol()->description()->text);
     name += " ";
     if (data->Uin){
-    	name += QString::number(data->Uin);
+        name += QString::number(data->Uin);
     }else{
-	name += data->Screen;
+        name += data->Screen;
     }
     def->text_wrk = strdup(name.utf8());
     return def;
@@ -2616,7 +2619,7 @@ string ICQClient::screen(ICQUserData *data)
     return number(data->Uin);
 }
 
-void ICQClient::messageReceived(Message *msg, const char *screen)
+bool ICQClient::messageReceived(Message *msg, const char *screen)
 {
     msg->setFlags(msg->getFlags() | MESSAGE_RECEIVED);
     if (msg->contact() == 0){
@@ -2626,7 +2629,7 @@ void ICQClient::messageReceived(Message *msg, const char *screen)
             data = findContact(screen, NULL, true, contact);
             if (data == NULL){
                 delete msg;
-                return;
+                return true;
             }
             contact->setTemporary(CONTACT_TEMP);
             Event e(EventContactChanged, contact);
@@ -2635,9 +2638,21 @@ void ICQClient::messageReceived(Message *msg, const char *screen)
         msg->setClient(dataName(data).c_str());
         msg->setContact(contact->id());
     }
+    bool bAccept = false;
+    switch (msg->type()){
+    case MessageICQFile:
+        bAccept = true;
+        break;
+    }
     Event e(EventMessageReceived, msg);
-    if (!e.process())
-        delete msg;
+    if (!e.process()){
+        if (bAccept){
+            m_acceptMsg.push_back(msg);
+        }else{
+            delete msg;
+        }
+    }
+    return !bAccept;
 }
 
 rtf_charset ICQClient::rtf_charsets[] =

@@ -1,5 +1,5 @@
 /***************************************************************************
-                          qchildwidget.h  -  description
+                         services.h  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,21 +15,31 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _QCHILDWIDGET_H
-#define _QCHILDWIDGET_H
+#ifndef _SERVICES_H
+#define _SERVICES_H
 
 #include "simapi.h"
+#include "servicesbase.h"
+#include "jabberclient.h"
 
-class QChildWidget : public QWidget
+class Services : public ServicesBase, public EventReceiver
 {
     Q_OBJECT
 public:
-    QChildWidget(QWidget *parent, const char *name = NULL);
-    virtual void childEvent(QChildEvent*);
-    virtual void paintEvent(QPaintEvent*);
-    virtual bool eventFilter(QObject*, QEvent*);
-    QRect rcChild;
-    bool m_bInit;
+    Services(QWidget *parent, JabberClient *client);
+protected slots:
+    void apply(Client*, void*);
+    void apply();
+    void textChanged(const QString&);
+    void search();
+    void regAgent();
+    void selectAgent(int);
+protected:
+    void *processEvent(Event *e);
+    void statusChanged();
+    bool m_bOnline;
+    AGENTS_MAP   m_agents;
+    JabberClient *m_client;
 };
 
 #endif

@@ -108,7 +108,7 @@ SOURCE=.\genrtf.ll
 
 !IF  "$(CFG)" == "icq - Win32 Release"
 
-# Begin Custom Build
+# Begin Custom Build - Flex $(InputPath)
 InputDir=.
 InputPath=.\genrtf.ll
 InputName=genrtf
@@ -125,7 +125,7 @@ InputDir=.
 InputPath=.\genrtf.ll
 InputName=genrtf
 
-"$(InputDir)\genrtf.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	flex -o$(InputDir)\$(InputName).cpp $(InputPath)
 
 # End Custom Build
@@ -379,7 +379,7 @@ SOURCE=.\rtf.ll
 
 !IF  "$(CFG)" == "icq - Win32 Release"
 
-# Begin Custom Build
+# Begin Custom Build - Flex $(InputPath)
 InputDir=.
 InputPath=.\rtf.ll
 InputName=rtf

@@ -64,18 +64,17 @@ void TipLabel::setText(const QString &text)
 void TipLabel::show(const QRect &tipRect)
 {
     setAlignment( WordBreak | AlignCenter );
-    int dw = QApplication::desktop()->width();
-    int dh = QApplication::desktop()->height();
+    QRect rc = screenGeometry();
     QSize s = sizeHint();
     int h = heightForWidth(s.width());
     resize(s.width(), h );
     int x = tipRect.left() + tipRect.width() / 2 - width();
     if (x < 0)
         x = tipRect.left() + tipRect.width() / 2;
-    if (x + width() > dw - 2)
-        x = dw - 2 - width();
+    if (x + width() > rc.width() - 2)
+        x = rc.width() - 2 - width();
     int y = tipRect.top() + tipRect.height() + 4;
-    if (y + height() > dh)
+    if (y + height() > rc.height())
         y = tipRect.top() - 4 - height();
     if (y < 0)
         y = tipRect.top() + tipRect.height() + 4;

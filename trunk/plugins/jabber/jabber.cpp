@@ -190,7 +190,7 @@ JabberPlugin::JabberPlugin(unsigned base)
     getContacts()->addPacketType(JabberPacket, jabber_descr.text, PACKET_TEXT);
 
     EventAgentFound = registerType();
-    EventSearchInfo	= registerType();
+    EventAgentInfo	= registerType();
     EventSearch		= registerType();
     EventSearchDone	= registerType();
 

@@ -171,12 +171,18 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     setFont(FontEdit::str2font(data->Font, baseFont));
     QPainter p(this);
     p.setFont(font());
-    QWidget *d = qApp->desktop();
-    QRect rc(0, 0,
-             d->width() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset,
-             d->height() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset);
+    unsigned nScreen = data->Screen;
+    unsigned nScreens = screens();
+    if (nScreen >= nScreens)
+        nScreen = 0;
+    QRect rc = screenGeometry(nScreen);
+    rc = QRect(0, 0,
+               rc.width() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset,
+               rc.height() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset);
     rc = p.boundingRect(rc, AlignLeft | AlignTop | WordBreak, str);
     p.end();
+    int x = rc.left();
+    int y = rc.top();
     int w = rc.width();
     int h = rc.height();
     if (data->Shadow){
@@ -190,25 +196,25 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     resize(QSize(w, h));
     switch (data->Position){
     case 1:
-        move(data->Offset, data->Offset);
+        move(x + data->Offset, y + data->Offset);
         break;
     case 2:
-        move(d->width() - data->Offset - w, d->height() - data->Offset - h);
+        move(x + rc.width() - data->Offset - w, y + rc.height() - data->Offset - h);
         break;
     case 3:
-        move(d->width() - data->Offset - w, data->Offset);
+        move(x + rc.width() - data->Offset - w, y + data->Offset);
         break;
     case 4:
-        move((d->width() - w) / 2, d->height() - data->Offset - h);
+        move(x + (rc.width() - w) / 2, y + rc.height() - data->Offset - h);
         break;
     case 5:
-        move((d->width() - w) / 2, data->Offset);
+        move(x + (rc.width() - w) / 2, y + data->Offset);
         break;
     case 6:
-        move((d->width() - w) / 2, (d->height() - h) /2);
+        move(x + (rc.width() - w) / 2, y + (rc.height() - h) /2);
         break;
     default:
-        move(data->Offset, d->height() - data->Offset - h);
+        move(x + data->Offset, y + rc.height() - data->Offset - h);
     }
     if (!data->Background || data->Shadow){
         QBitmap mask(w, h);
@@ -238,7 +244,7 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
         setMask(mask);
     }
     qApp->syncX();
-    QPixmap pict = QPixmap::grabWindow(QApplication::desktop()->winId(), x(), y(), width(), height());
+    QPixmap pict = QPixmap::grabWindow(QApplication::desktop()->winId(), this->x(), this->y(), width(), height());
     intensity(pict, -0.50f);
     p.begin(&pict);
     rc = QRect(0, 0, w, h);

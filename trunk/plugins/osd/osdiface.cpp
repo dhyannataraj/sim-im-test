@@ -62,6 +62,10 @@ OSDIface::OSDIface(QWidget *parent, void *d, OSDPlugin *plugin)
     }else{
         for (unsigned i = 0; i < nScreens; i++)
             cmbScreen->insertItem(QString::number(i));
+        unsigned curScreen = data->Screen;
+        if (curScreen >= nScreens)
+            curScreen = 0;
+        cmbScreen->setCurrentItem(curScreen);
     }
 }
 
@@ -89,6 +93,12 @@ void OSDIface::apply(void *d)
         data->BgColor = btnBgColor->color().rgb();
     }else{
         data->BgColor = 0;
+    }
+    unsigned nScreens = screens();
+    if (nScreens <= 1){
+        data->Screen = 0;
+    }else{
+        data->Screen = cmbScreen->currentItem();
     }
 }
 

@@ -1,24 +1,24 @@
 # Microsoft Developer Studio Project File - Name="simui" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
-# ** NICHT BEARBEITEN **
+# ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Dynamic-Link Library" 0x0102
 
 CFG=simui - Win32 Debug
-!MESSAGE Dies ist kein gültiges Makefile. Zum Erstellen dieses Projekts mit NMAKE
-!MESSAGE verwenden Sie den Befehl "Makefile exportieren" und führen Sie den Befehl
+!MESSAGE This is not a valid makefile. To build this project using NMAKE,
+!MESSAGE use the Export Makefile command and run
 !MESSAGE 
 !MESSAGE NMAKE /f "simui.mak".
 !MESSAGE 
-!MESSAGE Sie können beim Ausführen von NMAKE eine Konfiguration angeben
-!MESSAGE durch Definieren des Makros CFG in der Befehlszeile. Zum Beispiel:
+!MESSAGE You can specify a configuration when running NMAKE
+!MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
 !MESSAGE NMAKE /f "simui.mak" CFG="simui - Win32 Debug"
 !MESSAGE 
-!MESSAGE Für die Konfiguration stehen zur Auswahl:
+!MESSAGE Possible choices for configuration are:
 !MESSAGE 
-!MESSAGE "simui - Win32 Release" (basierend auf  "Win32 (x86) Dynamic-Link Library")
-!MESSAGE "simui - Win32 Debug" (basierend auf  "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "simui - Win32 Release" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "simui - Win32 Debug" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE 
 
 # Begin Project
@@ -132,6 +132,10 @@ SOURCE=.\moc_listview.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\moc_qchildwidget.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\moc_qcolorbutton.cpp
 # End Source File
 # Begin Source File
@@ -165,6 +169,10 @@ SOURCE=.\moc_toolbtn.cpp
 # Begin Source File
 
 SOURCE=.\preview.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\qchildwidget.cpp
 # End Source File
 # Begin Source File
 
@@ -386,6 +394,39 @@ InputName=listview
 # Begin Source File
 
 SOURCE=.\preview.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\qchildwidget.h
+
+!IF  "$(CFG)" == "simui - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\qchildwidget.h
+InputName=qchildwidget
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "simui - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\qchildwidget.h
+InputName=qchildwidget
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 

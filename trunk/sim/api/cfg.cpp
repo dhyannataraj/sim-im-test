@@ -436,8 +436,8 @@ EXPORT void free_data(const DataDef *def, void *data)
         if ((type == DATA_STRLIST) || (type == DATA_UTFLIST)){
             clear_list((void**)(((char*)data) + offs));
         }
-        if (type == DATA_SOCKET){
-            ClientSocketNotify **p = (ClientSocketNotify**)(((char*)data) + offs);
+        if (type == DATA_OBJECT){
+            QObject **p = (QObject**)(((char*)data) + offs);
             if (*p){
                 delete *p;
                 *p = NULL;
@@ -515,8 +515,8 @@ void init_data(const DataDef *d, void *data)
                 *p = NULL;
                 break;
             }
-        case DATA_SOCKET:{
-                ClientSocketNotify **p = (ClientSocketNotify**)(((char*)data) + offs);
+        case DATA_OBJECT:{
+                QObject **p = (QObject**)(((char*)data) + offs);
                 *p = NULL;
                 break;
             }
@@ -978,15 +978,15 @@ EXPORT void restoreGeometry(QWidget *w, long geo[4])
 {
     if (w == NULL)
         return;
-    QWidget *desktop = qApp->desktop();
-    if (geo[2] > desktop->width() - 10)
-        geo[2] = desktop->width() - 10;
-    if (geo[3] > desktop->height() - 10)
-        geo[3] = desktop->height() - 10;
-    if (geo[0] + geo[2] > desktop->width() - 5)
-        geo[0] = desktop->width() - geo[2] - 5;
-    if (geo[1] + geo[3] > desktop->height() - 5)
-        geo[1] = desktop->height() - geo[3] - 5;
+    QRect rc = screenGeometry();
+    if (geo[2] > rc.width() - 10)
+        geo[2] = rc.width() - 10;
+    if (geo[3] > rc.height() - 10)
+        geo[3] = rc.height() - 10;
+    if (geo[0] + geo[2] > rc.width() - 5)
+        geo[0] = rc.width() - geo[2] - 5;
+    if (geo[1] + geo[3] > rc.height() - 5)
+        geo[1] = rc.height() - geo[3] - 5;
     if (geo[0] < 0)
         geo[0] = 5;
     if (geo[1] < 0)

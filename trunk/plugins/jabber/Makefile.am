@@ -21,7 +21,9 @@ jabber_la_SOURCES = \
  addresult.cpp \
  addresultbase.ui \
  jabbersearch.cpp \
- jabbermessage.cpp
+ jabbermessage.cpp \
+ services.cpp \
+ servicesbase.ui
 
 INCLUDES=-I../../sim/api -I../../sim/ui -I../_core $(all_includes)
 

@@ -47,7 +47,7 @@ void UserViewItemBase::paintCell(QPainter *p, const QColorGroup &cg, int, int wi
     if (vBar->isVisible())
         width -= vBar->width();
     if (width < 1)
-	width = 1;
+        width = 1;
     QPixmap bg(width, height());
     QPainter pp(&bg);
     if (isSelected() && view->hasFocus() && CorePlugin::m_plugin->getUseDblClick()){

@@ -50,7 +50,6 @@ _core_la_SOURCES = \
  newprotocolbase.ui \
  status.cpp \
  statuswnd.cpp \
- qchildwidget.cpp \
  container.cpp \
  userwnd.cpp \
  msgedit.cpp \

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sim\n"
-"POT-Creation-Date: 2003-08-22 00:05+0400\n"
+"POT-Creation-Date: 2003-08-25 03:03+0400\n"
 "PO-Revision-Date: 2003-08-14 11:37+0100\n"
 "Last-Translator: Lapo Luchini <lapo@lapo.it>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -429,7 +429,7 @@ msgid "Not available"
 msgstr "Non disponibile"
 
 #: plugins/_core/core.cpp:1798 plugins/dock/dockwnd.cpp:1124
-#: plugins/osd/osd.cpp:305
+#: plugins/osd/osd.cpp:311
 msgid "%1 from %2"
 msgstr "%1 da %2"
 
@@ -657,7 +657,7 @@ msgstr "Password:"
 msgid "New profile"
 msgstr "Nuovo profilo"
 
-#: plugins/_core/logindlg.cpp:388 plugins/jabber/jabberclient.cpp:704
+#: plugins/_core/logindlg.cpp:388 plugins/jabber/jabberclient.cpp:707
 #: plugins/msn/msnclient.cpp:517
 msgid "Login failed"
 msgstr "Login fallito"
@@ -976,6 +976,7 @@ msgstr "Nuovo contatto"
 #: plugins/_core/userview.cpp:162 plugins/_core/userview.cpp:608
 #: plugins/_core/userview.cpp:646 plugins/icq/icqsearch.cpp:150
 #: plugins/icq/searchresult.cpp:240 plugins/jabber/addresult.cpp:135
+#: plugins/jabber/jabberadd.cpp:117
 msgid "Not in list"
 msgstr "Non in lista"
 
@@ -992,14 +993,14 @@ msgid "Settings"
 msgstr "Impostazioni"
 
 #: plugins/_core/userlist.cpp:546 plugins/icq/icq.cpp:111
-#: plugins/icq/icqclient.cpp:1242 plugins/icq/icqclient.cpp:1269
-#: plugins/jabber/jabber.cpp:90 plugins/jabber/jabberclient.cpp:915
+#: plugins/icq/icqclient.cpp:1244 plugins/icq/icqclient.cpp:1271
+#: plugins/jabber/jabber.cpp:90 plugins/jabber/jabberclient.cpp:918
 #: plugins/msn/msn.cpp:89 plugins/msn/msnclient.cpp:1271
 msgid "Online"
 msgstr "Connesso"
 
 #: plugins/_core/userlist.cpp:549 plugins/_core/userviewcfgbase.cc:174
-#: plugins/icq/icq.cpp:201 plugins/icq/icqclient.cpp:1239
+#: plugins/icq/icq.cpp:201 plugins/icq/icqclient.cpp:1241
 #: plugins/jabber/jabber.cpp:151 plugins/msn/msn.cpp:194
 msgid "Offline"
 msgstr "Sconnesso"
@@ -1034,14 +1035,15 @@ msgstr "A&ggiorna"
 #: plugins/icons/iconcfgbase.cpp:135 plugins/icq/homeinfobase.cc:174
 #: plugins/icq/icqconfigbase.cc:188 plugins/icq/icqpicturebase.cc:133
 #: plugins/icq/icqsecurebase.cc:212 plugins/icq/pastinfobase.cc:169
-#: plugins/jabber/addresultbase.cpp:116 plugins/jabber/jabberaddbase.cpp:114
+#: plugins/jabber/addresultbase.cpp:116 plugins/jabber/jabberaddbase.cpp:123
 #: plugins/jabber/jabberconfigbase.cpp:182
 #: plugins/jabber/jabberinfobase.cpp:207
 #: plugins/jabber/jabberworkinfobase.cpp:127
-#: plugins/logger/logconfigbase.cpp:95 plugins/msn/msninfobase.cpp:160
-#: plugins/msn/msnsearchbase.cpp:109 plugins/navigate/navcfgbase.cc:95
-#: plugins/ontop/ontopcfgbase.cpp:85 plugins/osd/osdconfigbase.cpp:90
-#: plugins/proxy/proxycfgbase.cpp:146 plugins/shortcuts/mousecfgbase.cpp:108
+#: plugins/jabber/servicesbase.cpp:137 plugins/logger/logconfigbase.cpp:95
+#: plugins/msn/msninfobase.cpp:160 plugins/msn/msnsearchbase.cpp:109
+#: plugins/navigate/navcfgbase.cc:95 plugins/ontop/ontopcfgbase.cpp:85
+#: plugins/osd/osdconfigbase.cpp:90 plugins/proxy/proxycfgbase.cpp:146
+#: plugins/shortcuts/mousecfgbase.cpp:108
 #: plugins/shortcuts/shortcutcfgbase.cpp:138
 #: plugins/sound/soundconfigbase.cpp:159 plugins/sound/sounduserbase.cpp:118
 #: plugins/transparent/transparentcfgbase.cpp:101
@@ -1185,7 +1187,7 @@ msgid "Online:"
 msgstr "Connesso:"
 
 #: plugins/_core/userviewcfgbase.cc:175 plugins/icq/icq.cpp:126
-#: plugins/icq/icqclient.cpp:1245 plugins/jabber/jabber.cpp:105
+#: plugins/icq/icqclient.cpp:1247 plugins/jabber/jabber.cpp:105
 #: plugins/msn/msn.cpp:104
 msgid "Away"
 msgstr "Assente"
@@ -1397,7 +1399,8 @@ msgid "Automaitcaly open window on receive message"
 msgstr "Apri finestra automaticamente su ricezione messaggio"
 
 #: plugins/_core/msgcfgbase.cc:164
-msgid "Open window if user go oonline"
+#, fuzzy
+msgid "Open window if user go online"
 msgstr "Apri la finestra quando l'utente si connette"
 
 #: plugins/_core/msgcfgbase.cc:165
@@ -1850,170 +1853,170 @@ msgstr ""
 msgid "Thai"
 msgstr "Tailandese"
 
-#: plugins/icq/icqclient.cpp:346
+#: plugins/icq/icqclient.cpp:345
 msgid "Process message failed"
 msgstr "Elaborazione del messaggio fallita"
 
-#: plugins/icq/icqclient.cpp:499 plugins/icq/icqicmb.cpp:77
+#: plugins/icq/icqclient.cpp:501 plugins/icq/icqicmb.cpp:77
 #: plugins/icq/icqicmb.cpp:170
 msgid "Unknown error"
 msgstr "Errore sconosciuto"
 
-#: plugins/icq/icqclient.cpp:500
+#: plugins/icq/icqclient.cpp:502
 #, fuzzy
 msgid "Invalid SNAC header"
 msgstr "Messaggio non valido"
 
-#: plugins/icq/icqclient.cpp:501
+#: plugins/icq/icqclient.cpp:503
 #, fuzzy
 msgid "Server rate limit exceeded"
 msgstr "Frequenza dei messaggi eccessiva"
 
-#: plugins/icq/icqclient.cpp:502
+#: plugins/icq/icqclient.cpp:504
 #, fuzzy
 msgid "Client rate limit exceeded"
 msgstr "Frequenza dei messaggi eccessiva"
 
-#: plugins/icq/icqclient.cpp:503
+#: plugins/icq/icqclient.cpp:505
 msgid "Recipient is not logged in"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:504
+#: plugins/icq/icqclient.cpp:506
 #, fuzzy
 msgid "Requested service unavailable"
 msgstr "Servizio SMs disponibile"
 
-#: plugins/icq/icqclient.cpp:505
+#: plugins/icq/icqclient.cpp:507
 #, fuzzy
 msgid "Requested service not defined"
 msgstr "Richiedi canale sicuro"
 
-#: plugins/icq/icqclient.cpp:506
+#: plugins/icq/icqclient.cpp:508
 msgid "We sent an obsolete SNAC"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:507
+#: plugins/icq/icqclient.cpp:509
 msgid "Not supported by server"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:508 plugins/icq/icqicmb.cpp:79
+#: plugins/icq/icqclient.cpp:510 plugins/icq/icqicmb.cpp:79
 msgid "Not supported by client"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:509
+#: plugins/icq/icqclient.cpp:511
 msgid "Refused by client"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:510
+#: plugins/icq/icqclient.cpp:512
 msgid "Reply too big"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:511
+#: plugins/icq/icqclient.cpp:513
 msgid "Responses lost"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:512
+#: plugins/icq/icqclient.cpp:514
 #, fuzzy
 msgid "Request denied"
 msgstr "Richiedi informazioni utente"
 
-#: plugins/icq/icqclient.cpp:513
+#: plugins/icq/icqclient.cpp:515
 msgid "Incorrect SNAC format"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:514
+#: plugins/icq/icqclient.cpp:516
 msgid "Insufficient rights"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:515
+#: plugins/icq/icqclient.cpp:517
 msgid "Recipient blocked"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:516 plugins/icq/icqicmb.cpp:164
+#: plugins/icq/icqclient.cpp:518 plugins/icq/icqicmb.cpp:164
 msgid "Sender too evil"
 msgstr "Mittente troppo cattivo"
 
-#: plugins/icq/icqclient.cpp:517
+#: plugins/icq/icqclient.cpp:519
 #, fuzzy
 msgid "Receiver too evil"
 msgstr "Mittente troppo cattivo"
 
-#: plugins/icq/icqclient.cpp:518
+#: plugins/icq/icqclient.cpp:520
 #, fuzzy
 msgid "User temporarily unavailable"
 msgstr "Utente attualmente reperibile presso:"
 
-#: plugins/icq/icqclient.cpp:519
+#: plugins/icq/icqclient.cpp:521
 msgid "No match"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:520
+#: plugins/icq/icqclient.cpp:522
 msgid "List overflow"
 msgstr "Overflow di lista"
 
-#: plugins/icq/icqclient.cpp:521
+#: plugins/icq/icqclient.cpp:523
 msgid "Request ambiguous"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:522
+#: plugins/icq/icqclient.cpp:524
 msgid "Server queue full"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:523
+#: plugins/icq/icqclient.cpp:525
 msgid "Not while on AOL"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:540
+#: plugins/icq/icqclient.cpp:542
 msgid "Protocol error"
 msgstr "Errore di protocollo"
 
-#: plugins/icq/icqclient.cpp:1222 plugins/icq/icqinfo.cpp:214
+#: plugins/icq/icqclient.cpp:1224 plugins/icq/icqinfo.cpp:214
 msgid "Possibly invisible"
 msgstr "Forse invisibile"
 
-#: plugins/icq/icqclient.cpp:1262 plugins/icq/icqinfo.cpp:229
-#: plugins/jabber/jabberclient.cpp:908 plugins/jabber/jabberinfo.cpp:103
+#: plugins/icq/icqclient.cpp:1264 plugins/icq/icqinfo.cpp:229
+#: plugins/jabber/jabberclient.cpp:911 plugins/jabber/jabberinfo.cpp:103
 #: plugins/msn/msnclient.cpp:1264 plugins/msn/msninfo.cpp:88
 msgid "Last online"
 msgstr "Ultima connessione"
 
-#: plugins/icq/icqclient.cpp:1534 plugins/icq/icqclient.cpp:1708
-#: plugins/jabber/jabberclient.cpp:967 plugins/jabber/jabberclient.cpp:1046
+#: plugins/icq/icqclient.cpp:1536 plugins/icq/icqclient.cpp:1710
+#: plugins/jabber/jabberclient.cpp:971 plugins/jabber/jabberclient.cpp:1050
 msgid "Home info"
 msgstr "Info casa"
 
-#: plugins/icq/icqclient.cpp:1549 plugins/icq/icqclient.cpp:1723
-#: plugins/jabber/jabberclient.cpp:982 plugins/jabber/jabberclient.cpp:1061
+#: plugins/icq/icqclient.cpp:1551 plugins/icq/icqclient.cpp:1725
+#: plugins/jabber/jabberclient.cpp:986 plugins/jabber/jabberclient.cpp:1065
 msgid "Work info"
 msgstr "Info lavoro"
 
-#: plugins/icq/icqclient.cpp:1564 plugins/icq/icqclient.cpp:1738
+#: plugins/icq/icqclient.cpp:1566 plugins/icq/icqclient.cpp:1740
 msgid "More info"
 msgstr "Maggiori info"
 
-#: plugins/icq/icqclient.cpp:1579 plugins/icq/icqclient.cpp:1753
-#: plugins/jabber/jabberclient.cpp:997 plugins/jabber/jabberclient.cpp:1076
+#: plugins/icq/icqclient.cpp:1581 plugins/icq/icqclient.cpp:1755
+#: plugins/jabber/jabberclient.cpp:1001 plugins/jabber/jabberclient.cpp:1080
 msgid "About info"
 msgstr "Informazioni"
 
-#: plugins/icq/icqclient.cpp:1594 plugins/icq/icqclient.cpp:1768
+#: plugins/icq/icqclient.cpp:1596 plugins/icq/icqclient.cpp:1770
 msgid "Interests"
 msgstr "Interessi"
 
-#: plugins/icq/icqclient.cpp:1609 plugins/icq/icqclient.cpp:1783
+#: plugins/icq/icqclient.cpp:1611 plugins/icq/icqclient.cpp:1785
 msgid "Group/Past"
 msgstr "Gruppi/Passato"
 
-#: plugins/icq/icqclient.cpp:1624 plugins/icq/icqclient.cpp:1798
+#: plugins/icq/icqclient.cpp:1626 plugins/icq/icqclient.cpp:1800
 msgid "Picture"
 msgstr "Foto"
 
-#: plugins/icq/icqclient.cpp:1813 plugins/jabber/jabberclient.cpp:1091
+#: plugins/icq/icqclient.cpp:1815 plugins/jabber/jabberclient.cpp:1110
 #: plugins/msn/msnclient.cpp:618
 msgid "Network"
 msgstr "Rete"
 
-#: plugins/icq/icqclient.cpp:1828
+#: plugins/icq/icqclient.cpp:1830
 msgid "Security"
 msgstr "Sicurezza"
 
@@ -2029,31 +2032,31 @@ msgstr "UTF"
 msgid "Plain text"
 msgstr "Testo in chiaro"
 
-#: plugins/icq/icqdirect.cpp:178
+#: plugins/icq/icqdirect.cpp:187
 msgid "Connect to unknown port"
 msgstr ""
 
-#: plugins/icq/icqdirect.cpp:220
+#: plugins/icq/icqdirect.cpp:229
 msgid "Can't established direct connection"
 msgstr "Non riesco a stabilire una connessione diretta"
 
-#: plugins/icq/icqdirect.cpp:878
+#: plugins/icq/icqdirect.cpp:888
 msgid "Other side does not support the secure connection"
 msgstr ""
 
-#: plugins/icq/icqdirect.cpp:891 plugins/icq/icqdirect.cpp:1063
+#: plugins/icq/icqdirect.cpp:901 plugins/icq/icqdirect.cpp:1073
 msgid "Send message fail"
 msgstr "Invio messaggio fallito"
 
-#: plugins/icq/icqdirect.cpp:1313
+#: plugins/icq/icqdirect.cpp:1323
 msgid "Unknown message type"
 msgstr "Tipo di messaggio sconosciuto"
 
-#: plugins/icq/icqdirect.cpp:1673
+#: plugins/icq/icqdirect.cpp:1683
 msgid "No files for transfer"
 msgstr "Nessun file da trasferire"
 
-#: plugins/icq/icqdirect.cpp:1785
+#: plugins/icq/icqdirect.cpp:1795
 msgid "Can't open file"
 msgstr "Non posso aprire il file"
 
@@ -2260,7 +2263,7 @@ msgid "Alias"
 msgstr "Alias"
 
 #: plugins/icq/icqmessage.cpp:1172 plugins/icq/searchresult.cpp:116
-#: plugins/jabber/addresult.cpp:33 plugins/jabber/jabbersearch.cpp:158
+#: plugins/jabber/addresult.cpp:33 plugins/jabber/jabbersearch.cpp:176
 msgid "Email"
 msgstr "Email"
 
@@ -2308,7 +2311,7 @@ msgstr "Nessuna foto disponibile"
 msgid "ICQ search results"
 msgstr "Risultati della ricerca ICQ"
 
-#: plugins/icq/icqsearch.cpp:288
+#: plugins/icq/icqsearch.cpp:288 plugins/jabber/jabberadd.cpp:203
 #, fuzzy
 msgid "%1 already in contact list"
 msgstr "Salva telefono nella lista contatti"
@@ -2923,8 +2926,7 @@ msgid "Search failed"
 msgstr "Ricerca fallita"
 
 #: plugins/icq/icqsearchbase.cc:322 plugins/icq/searchresult.cpp:159
-#: plugins/jabber/addresult.cpp:148 plugins/jabber/addresult.cpp:172
-#: plugins/jabber/addresult.cpp:200
+#: plugins/jabber/addresult.cpp:148 plugins/jabber/addresult.cpp:188
 msgid "Search"
 msgstr "Ricerca"
 
@@ -3036,6 +3038,14 @@ msgstr "Studente universitario"
 #: plugins/icq/workinfo.cpp:99
 msgid "Web building"
 msgstr "Costruzione siti web"
+
+#: plugins/icq/icqpicturebase.cc:135 plugins/shortcuts/shortcutcfgbase.cpp:143
+msgid "&Clear"
+msgstr "&Pulisci"
+
+#: plugins/icq/icqpicturebase.cc:136
+msgid "&Picture"
+msgstr "&Foto"
 
 #: plugins/icq/icqconfigbase.cc:190
 msgid "&Register new UIN"
@@ -3378,7 +3388,8 @@ msgstr "Chat casuale"
 msgid "Screen name:"
 msgstr "Nome:"
 
-#: plugins/icq/icqsearchbase.cc:346 plugins/msn/msnsearchbase.cpp:111
+#: plugins/icq/icqsearchbase.cc:346 plugins/jabber/jabberaddbase.cpp:124
+#: plugins/msn/msnsearchbase.cpp:111
 msgid "Add to group:"
 msgstr "Aggiungi al gruppo:"
 
@@ -3390,14 +3401,6 @@ msgstr "Mouse"
 #: plugins/icq/icqsearchbase.cc:348
 msgid "Online only"
 msgstr "Solo connessi"
-
-#: plugins/icq/icqpicturebase.cc:135 plugins/shortcuts/shortcutcfgbase.cpp:143
-msgid "&Clear"
-msgstr "&Pulisci"
-
-#: plugins/icq/icqpicturebase.cc:136
-msgid "&Picture"
-msgstr "&Foto"
 
 #: plugins/icq/securedlgbase.cc:73
 msgid "Secure chanel request"
@@ -3411,11 +3414,11 @@ msgid ""
 "This only works with other SIM and Licq clients"
 msgstr ""
 
-#: plugins/jabber/addresult.cpp:31
+#: plugins/jabber/addresult.cpp:31 plugins/jabber/jabbersearch.cpp:182
 msgid "First name"
 msgstr "Nome"
 
-#: plugins/jabber/addresult.cpp:32
+#: plugins/jabber/addresult.cpp:32 plugins/jabber/jabbersearch.cpp:183
 msgid "Last name"
 msgstr "Cognome"
 
@@ -3427,27 +3430,32 @@ msgstr "ID"
 msgid "Jabber"
 msgstr "Jabber"
 
-#: plugins/jabber/jabberadd.cpp:149
+#: plugins/jabber/jabberadd.cpp:163
 msgid "Add Jabber contact"
 msgstr "Aggiungi contatto Jabber"
+
+#: plugins/jabber/jabberclient.cpp:1095 plugins/jabber/servicesbase.cpp:140
+#, fuzzy
+msgid "Agents"
+msgstr "Eventi"
 
 #: plugins/jabber/jabbermessage.cpp:53
 msgid "<p>Subject: %1</p>"
 msgstr "<p>Oggetto: %1</p>"
 
-#: plugins/jabber/jabbersearch.cpp:155
+#: plugins/jabber/jabbersearch.cpp:173
 msgid "First (Given)"
 msgstr "Nome"
 
-#: plugins/jabber/jabbersearch.cpp:156
+#: plugins/jabber/jabbersearch.cpp:174
 msgid "Last (Family)"
 msgstr "Cognome"
 
-#: plugins/jabber/jabbersearch.cpp:157
+#: plugins/jabber/jabbersearch.cpp:175
 msgid "Nick (Alias)"
 msgstr "Nick (Alias)"
 
-#: plugins/jabber/jabbersearch.cpp:159
+#: plugins/jabber/jabbersearch.cpp:177
 msgid ""
 "Select the speed of the search.  \"Fast\" matches your string to the "
 "beginning of the field only (ie. \"b\" would yield Bob,Bill,etc...)  "
@@ -3455,19 +3463,95 @@ msgid ""
 "Bob, Bill, Caleb, Robbie, etc...)"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:160
+#: plugins/jabber/jabbersearch.cpp:178
 msgid "Search Speed"
 msgstr "Velocità di ricerca"
 
-#: plugins/jabber/jabbersearch.cpp:161
+#: plugins/jabber/jabbersearch.cpp:179
 msgid "Fast / Less accurate"
 msgstr "Veloce / Meno preciso"
 
-#: plugins/jabber/jabbersearch.cpp:162
+#: plugins/jabber/jabbersearch.cpp:180
 msgid "Slower / More extensive"
 msgstr "Lento / Più preciso"
 
-#: plugins/jabber/jabberaddbase.cpp:115
+#: plugins/jabber/jabbersearch.cpp:181
+#, fuzzy
+msgid "Full name"
+msgstr "&Nome file:"
+
+#: plugins/jabber/jabbersearch.cpp:184
+#, fuzzy
+msgid "Nickname"
+msgstr "Soprannome:"
+
+#: plugins/jabber/jabbersearch.cpp:185
+#, fuzzy
+msgid "E-mail"
+msgstr "Email"
+
+#: plugins/jabber/jabbersearch.cpp:186
+#, fuzzy
+msgid "Username"
+msgstr "&Rinomina"
+
+#: plugins/jabber/jabbersearch.cpp:187
+#, fuzzy
+msgid "Password"
+msgstr "Password:"
+
+#: plugins/jabber/jabbersearch.cpp:188
+msgid ""
+"Enter your MSN Messenger account and password. Example: user@hotmail.com.  "
+"Nickname is optional."
+msgstr ""
+
+#: plugins/jabber/jabbersearch.cpp:189
+msgid "Enter your AIM screenname or ICQ UIN and the password for that account"
+msgstr ""
+
+#: plugins/jabber/jabbersearch.cpp:190
+msgid "Enter your YAHOO! Messenger Username and Password."
+msgstr ""
+
+#: plugins/jabber/jabbersearch.cpp:191
+msgid "You need a x:data capable client to register."
+msgstr ""
+
+#: plugins/jabber/jabbersearch.cpp:192
+msgid "Enter nick you want to register."
+msgstr ""
+
+#: plugins/jabber/jabbersearch.cpp:193
+msgid ""
+"Complete the form to submit your searchable attributes in the Jabber User "
+"Directory"
+msgstr ""
+
+#: plugins/jabber/jabbersearch.cpp:194
+msgid "Fill in all of the fields to add yourself to the JUD."
+msgstr ""
+
+#: plugins/jabber/jabbersearch.cpp:195
+msgid ""
+"Fill in a field to search for any matching Jabber User (POSIX regular "
+"expressions allowed)"
+msgstr ""
+
+#: plugins/jabber/jabbersearch.cpp:196
+msgid "Fill in a field to search for any matching Jabber users."
+msgstr ""
+
+#: plugins/jabber/jabberinfobase.cpp:208
+msgid "ID:"
+msgstr "ID:"
+
+#: plugins/jabber/jabberconfigbase.cpp:190
+#: plugins/jabber/jabberinfobase.cpp:218
+msgid "Resource:"
+msgstr "Risorse:"
+
+#: plugins/jabber/jabberaddbase.cpp:125
 #: plugins/jabber/jabberconfigbase.cpp:184
 msgid "Jabber ID:"
 msgstr "Jabber ID:"
@@ -3484,11 +3568,6 @@ msgstr "&Jabber"
 msgid "Use &SSL"
 msgstr "Usa &SSL"
 
-#: plugins/jabber/jabberconfigbase.cpp:190
-#: plugins/jabber/jabberinfobase.cpp:218
-msgid "Resource:"
-msgstr "Risorse:"
-
 #: plugins/jabber/jabberconfigbase.cpp:191
 msgid "Use &plain text login"
 msgstr "Usa login in &chiaro"
@@ -3496,10 +3575,6 @@ msgstr "Usa login in &chiaro"
 #: plugins/jabber/jabberconfigbase.cpp:192
 msgid "Manualy specify Jabber host:"
 msgstr "Specifica manualmente l'host Jabber:"
-
-#: plugins/jabber/jabberinfobase.cpp:208
-msgid "ID:"
-msgstr "ID:"
 
 #: plugins/jabber/jabberworkinfobase.cpp:131
 msgid "Role:"
@@ -3509,13 +3584,21 @@ msgstr "Ruolo:"
 msgid "&Work info"
 msgstr "Info &lavoro"
 
-#: plugins/jabber/jabberaddbase.cpp:116
+#: plugins/jabber/jabberaddbase.cpp:126
 msgid "Jabber ID"
 msgstr "Jabber ID"
 
-#: plugins/jabber/jabberaddbase.cpp:117
+#: plugins/jabber/jabberaddbase.cpp:127
 msgid "Service:"
 msgstr "Servizio:"
+
+#: plugins/jabber/servicesbase.cpp:138
+msgid "Jabber agents are available online after login"
+msgstr ""
+
+#: plugins/jabber/servicesbase.cpp:139 sim/api/simapi.cpp:396
+msgid "&Register"
+msgstr "&Registra"
 
 #: plugins/logger/logger.cpp:33
 msgid "Logger"
@@ -3705,7 +3788,7 @@ msgstr ""
 msgid "&OSD"
 msgstr ""
 
-#: plugins/osd/osd.cpp:313
+#: plugins/osd/osd.cpp:319
 msgid "%1 is online"
 msgstr "%1 è collegato"
 
@@ -4974,6 +5057,18 @@ msgstr "Zambia"
 msgid "Zimbabwe"
 msgstr "Zimbabwe"
 
+#: sim/api/message.cpp:320
+msgid "%1 Mbytes"
+msgstr ""
+
+#: sim/api/message.cpp:322
+msgid "%1 kbytes"
+msgstr ""
+
+#: sim/api/message.cpp:324
+msgid "%1 bytes"
+msgstr ""
+
 #: sim/api/plugins.cpp:654
 #, c-format
 msgid "Bad option %1"
@@ -4992,15 +5087,11 @@ msgid ""
 "Definition of PluralForm - to be set by the translator of kdelibs.po"
 msgstr "TwoForms"
 
-#: sim/api/simapi.cpp:395 sim/ui/ballonmsg.cpp:302 sim/ui/qt3/i18n.cpp:125
+#: sim/api/simapi.cpp:395 sim/ui/ballonmsg.cpp:303 sim/ui/qt3/i18n.cpp:125
 msgid "&Yes"
 msgstr "&Sì"
 
-#: sim/api/simapi.cpp:396
-msgid "&Register"
-msgstr "&Registra"
-
-#: sim/api/simapi.cpp:399 sim/ui/ballonmsg.cpp:303 sim/ui/qt3/i18n.cpp:127
+#: sim/api/simapi.cpp:399 sim/ui/ballonmsg.cpp:304 sim/ui/qt3/i18n.cpp:127
 msgid "&No"
 msgstr "&No"
 
@@ -5602,7 +5693,7 @@ msgstr ""
 msgid "Roll down"
 msgstr "Srotola"
 
-#: sim/ui/ballonmsg.cpp:290
+#: sim/ui/ballonmsg.cpp:291
 msgid "&Ok"
 msgstr "&Ok"
 

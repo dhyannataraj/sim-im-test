@@ -753,7 +753,7 @@ const unsigned DATA_UTF			= 5;
 const unsigned DATA_IP			= 6;
 const unsigned DATA_STRUCT		= 7;
 const unsigned DATA_UTFLIST		= 8;
-const unsigned DATA_SOCKET		= 9;
+const unsigned DATA_OBJECT		= 9;
 
 EXPORT void free_data(const DataDef *def, void *data);
 EXPORT void load_data(const DataDef *def, void *data, const char *config);
@@ -1465,6 +1465,7 @@ EXPORT const char **smiles();
 
 EXPORT unsigned screens();
 EXPORT QRect screenGeometry(unsigned nScreen);
+EXPORT QRect screenGeometry();
 };
 
 using namespace SIM;

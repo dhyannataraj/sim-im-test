@@ -40,6 +40,7 @@
 #endif
 
 #include <qfile.h>
+#include <qtimer.h>
 
 const unsigned short TCP_START  = 0x07EE;
 const unsigned short TCP_ACK    = 0x07DA;
@@ -51,6 +52,8 @@ const char FT_FILEINFO	= 2;
 const char FT_START		= 3;
 const char FT_SPEED		= 5;
 const char FT_DATA		= 6;
+
+const unsigned DIRECT_TIMEOUT	= 20;
 
 ICQListener::ICQListener(ICQClient *client)
 {
@@ -114,6 +117,12 @@ DirectSocket::~DirectSocket()
     //    if (m_listener)
     //        delete m_listener;
     removeFromClient();
+}
+
+void DirectSocket::timeout()
+{
+    if ((m_state != Logged) && m_socket)
+        m_socket->error_state("Timeout direct connection");
 }
 
 void DirectSocket::removeFromClient()
@@ -404,6 +413,7 @@ void DirectSocket::sendInitAck()
 
 void DirectSocket::connect_ready()
 {
+    QTimer::singleShot(DIRECT_TIMEOUT * 1000, this, SLOT(timeout()));
     if (m_bIncoming){
         if (m_state == ReverseConnect)
             m_state = WaitInit;

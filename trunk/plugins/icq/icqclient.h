@@ -307,7 +307,7 @@ class ListRequest
 {
 public:
     ListRequest() : type(0),icq_id(0),grp_id(0),visible_id(0),invisible_id(0),ignore_id(0) {}
-    
+
 public:
     unsigned        type;
     string            screen;
@@ -446,7 +446,7 @@ public:
     virtual string dataName(void*);
     Message *parseMessage(unsigned short type, const char *screen,
                           string &p, Buffer &packet);
-    void messageReceived(Message*, const char *screen);
+    bool messageReceived(Message*, const char *screen);
     static QTextCodec *_getCodec(const char *encoding);
     static QString toUnicode(const char *serverText, const char *clientName, unsigned contactId);
     static QString parseRTF(const char *str, const char *encoding);
@@ -598,8 +598,9 @@ protected:
     unsigned m_nUpdates;
     unsigned m_nSendTimeout;
     SendMsg  m_send;
-    list<Message*>        m_processMsg;
-    list<DirectSocket*>    m_sockets;
+    list<Message*>     	m_processMsg;
+    list<DirectSocket*>	m_sockets;
+    list<Message*>	m_acceptMsg;
     friend class FullInfoRequest;
     friend class SMSRequest;
     friend class DirectSocket;
@@ -622,8 +623,9 @@ protected:
 };
 */
 
-class DirectSocket : public ClientSocketNotify
+class DirectSocket : public QObject, public ClientSocketNotify
 {
+    Q_OBJECT
 public:
     enum SocketState{
         NotConnected,
@@ -649,6 +651,8 @@ public:
     unsigned short localPort();
     unsigned short remotePort();
     unsigned long Uin();
+protected slots:
+    void timeout();
 protected:
     virtual void processPacket() = 0;
     void init();

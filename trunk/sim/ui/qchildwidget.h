@@ -1,5 +1,5 @@
 /***************************************************************************
-                          jabberadd.h  -  description
+                          qchildwidget.h  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,43 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _JABBERADD_H
-#define _JABBERADD_H
+#ifndef _QCHILDWIDGET_H
+#define _QCHILDWIDGET_H
 
 #include "simapi.h"
-#include "jabberaddbase.h"
-#include "jabberclient.h"
 
-class JabberSearch;
-class QWizard;
-class QValidator;
-class AddResult;
-
-class JabberAdd : public JabberAddBase, public EventReceiver
+class UI_EXPORT QChildWidget : public QWidget
 {
     Q_OBJECT
 public:
-    JabberAdd(JabberClient *client);
-    ~JabberAdd();
-signals:
-    void goNext();
-protected slots:
-    void serviceChanged(const QString&);
-    void currentChanged(QWidget*);
-    void textChanged(const QString&);
-    void search();
-    void startSearch();
-    void addResultFinished();
-protected:
-    virtual void *processEvent(Event*);
-    void showEvent(QShowEvent *e);
-    void fillGroup();
-    AGENTS_MAP	 m_agents;
-    JabberClient *findClient(const char *host);
-    AddResult	 *m_result;
-    QWizard		 *m_wizard;
-    QValidator	 *m_idValidator;
-    JabberClient *m_client;
+    QChildWidget(QWidget *parent, const char *name = NULL);
+    virtual void childEvent(QChildEvent*);
+    virtual void paintEvent(QPaintEvent*);
+    virtual bool eventFilter(QObject*, QEvent*);
+    QRect rcChild;
+    bool m_bInit;
 };
 
 #endif

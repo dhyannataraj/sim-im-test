@@ -142,8 +142,8 @@ void FileTransferDlg::process()
             if (m_msg->getError())
                 status = i18n(m_msg->getError());
             break;
-	default:
-	    break;
+        default:
+            break;
         }
         if (bName && (m_files > 1)){
             FileMessage::Iterator it(*m_msg);

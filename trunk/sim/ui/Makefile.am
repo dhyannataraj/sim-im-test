@@ -8,6 +8,7 @@ libsimui_la_SOURCES = \
  ballonmsg.cpp \
  qcolorbutton.cpp \
  qkeybutton.cpp \
+ qchildwidget.cpp \
  fontedit.cpp \
  listview.cpp \
  toolbtn.cpp
