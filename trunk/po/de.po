@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2002-12-09 12:55+0300\n"
-"PO-Revision-Date: 2002-12-09 12:18GMT\n"
+"PO-Revision-Date: 2002-12-09 22:51GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3654,7 +3654,7 @@ msgstr "Onlinekontaktfarbe:"
 
 #: ui/themesetupbase.cpp:245
 msgid "B&ackground"
-msgstr "Hi&nergrund"
+msgstr "Hi&ntergrund"
 
 #: ui/themesetupbase.cpp:246
 msgid "Transparent main window"
