@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.1\n"
-"POT-Creation-Date: 2004-02-17 12:43+0300\n"
+"POT-Creation-Date: 2004-02-18 09:08+0300\n"
 "PO-Revision-Date: 2003-03-01 10:24+0100\n"
 "Last-Translator: Roméo VIU-BERGES <apostledemencia@free.fr>\n"
 "Language-Team: Français <fr@li.org>\n"
@@ -3040,11 +3040,17 @@ msgstr "Client ICQ"
 msgid "Container"
 msgstr "Dans le groupe"
 
-# control.cpp:220
-#: plugins/_core/container.cpp:672
-#, fuzzy
-msgid "Contact typed message"
-msgstr "Ouvrir message lu"
+#: plugins/_core/container.cpp:557 plugins/osd/osd.cpp:294
+msgid ""
+"_: %1 typed\n"
+"male"
+msgstr ""
+
+#: plugins/_core/container.cpp:558 plugins/osd/osd.cpp:295
+msgid ""
+"_: %1 typed\n"
+"female"
+msgstr ""
 
 # ui/setupdlg.cpp:126
 #: plugins/_core/core.cpp:75
@@ -3580,7 +3586,7 @@ msgstr "Disponible"
 # dock.cpp:942
 # mainwin.cpp:871
 #: plugins/_core/core.cpp:2411 plugins/dock/dockwnd.cpp:1185
-#: plugins/osd/osd.cpp:329
+#: plugins/osd/osd.cpp:336
 msgid "%1 from %2"
 msgstr "%1 sur %2"
 
@@ -7994,13 +8000,20 @@ msgid "&OSD"
 msgstr ""
 
 # mainwin.cpp:1337
-#: plugins/osd/osd.cpp:308
-msgid "%1 is online"
+#: plugins/osd/osd.cpp:292
+#, fuzzy
+msgid ""
+"_: %1 is online\n"
+"male"
 msgstr "%1 est connecté."
 
-#: plugins/osd/osd.cpp:312
-msgid "%1 typed"
-msgstr ""
+# mainwin.cpp:1337
+#: plugins/osd/osd.cpp:293
+#, fuzzy
+msgid ""
+"_: %1 is online\n"
+"female"
+msgstr "%1 est connecté."
 
 # ui/alertdialogbase.cpp:130
 #: plugins/osd/osdconfigbase.cpp:61
@@ -10159,6 +10172,11 @@ msgstr "Hôte proxy :"
 #, fuzzy
 msgid "You send"
 msgstr "Icônes :"
+
+# control.cpp:220
+#, fuzzy
+#~ msgid "Contact typed message"
+#~ msgstr "Ouvrir message lu"
 
 # ui/moreinfobase.cpp:126
 #~ msgid "Month:"

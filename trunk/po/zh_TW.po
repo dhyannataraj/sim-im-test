@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: zh_TV\n"
-"POT-Creation-Date: 2004-02-17 12:43+0300\n"
+"POT-Creation-Date: 2004-02-18 09:08+0300\n"
 "PO-Revision-Date: 2002-07-24 12:05+0800\n"
 "Last-Translator: 劉盛光 <stacker_liew_200@yahoo.com.tw>\n"
 "Language-Team: zh_TW.Big5 <zh@li.org>\n"
@@ -2635,10 +2635,17 @@ msgstr "ICQ客戶端"
 msgid "Container"
 msgstr "至容器"
 
-#: plugins/_core/container.cpp:672
-#, fuzzy
-msgid "Contact typed message"
-msgstr "連絡名單"
+#: plugins/_core/container.cpp:557 plugins/osd/osd.cpp:294
+msgid ""
+"_: %1 typed\n"
+"male"
+msgstr ""
+
+#: plugins/_core/container.cpp:558 plugins/osd/osd.cpp:295
+msgid ""
+"_: %1 typed\n"
+"female"
+msgstr ""
 
 #: plugins/_core/core.cpp:75
 #, fuzzy
@@ -3067,7 +3074,7 @@ msgid "Not available"
 msgstr "存在"
 
 #: plugins/_core/core.cpp:2411 plugins/dock/dockwnd.cpp:1185
-#: plugins/osd/osd.cpp:329
+#: plugins/osd/osd.cpp:336
 msgid "%1 from %2"
 msgstr ""
 
@@ -6776,14 +6783,19 @@ msgstr ""
 msgid "&OSD"
 msgstr ""
 
-#: plugins/osd/osd.cpp:308
+#: plugins/osd/osd.cpp:292
 #, fuzzy
-msgid "%1 is online"
+msgid ""
+"_: %1 is online\n"
+"male"
 msgstr "已經上線"
 
-#: plugins/osd/osd.cpp:312
-msgid "%1 typed"
-msgstr ""
+#: plugins/osd/osd.cpp:293
+#, fuzzy
+msgid ""
+"_: %1 is online\n"
+"female"
+msgstr "已經上線"
 
 #: plugins/osd/osdconfigbase.cpp:61
 msgid "Enable &messages notification"
@@ -8654,6 +8666,10 @@ msgstr "埠："
 #, fuzzy
 msgid "You send"
 msgstr "連線"
+
+#, fuzzy
+#~ msgid "Contact typed message"
+#~ msgstr "連絡名單"
 
 #~ msgid "Day:"
 #~ msgstr "日："

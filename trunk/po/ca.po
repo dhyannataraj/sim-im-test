@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2004-02-17 12:43+0300\n"
+"POT-Creation-Date: 2004-02-18 09:08+0300\n"
 "PO-Revision-Date: 2003-09-17 18:18+0100\n"
 "Last-Translator: Pau Bosch i Crespo <paubcrespo@hotmail.com>\n"
 "Language-Team: LANGUAGE <paubcrespo@hotmail.com>\n"
@@ -2429,9 +2429,19 @@ msgstr "Configura el client %1"
 msgid "Container"
 msgstr "Contenidor"
 
-#: plugins/_core/container.cpp:672
-msgid "Contact typed message"
-msgstr "Contacta missatge teclejat"
+#: plugins/_core/container.cpp:557 plugins/osd/osd.cpp:294
+#, fuzzy
+msgid ""
+"_: %1 typed\n"
+"male"
+msgstr "%1 teclejat"
+
+#: plugins/_core/container.cpp:558 plugins/osd/osd.cpp:295
+#, fuzzy
+msgid ""
+"_: %1 typed\n"
+"female"
+msgstr "%1 teclejat"
 
 #: plugins/_core/core.cpp:75
 msgid "Interface"
@@ -2820,7 +2830,7 @@ msgid "Not available"
 msgstr "No disponible"
 
 #: plugins/_core/core.cpp:2411 plugins/dock/dockwnd.cpp:1185
-#: plugins/osd/osd.cpp:329
+#: plugins/osd/osd.cpp:336
 msgid "%1 from %2"
 msgstr "%1 des de %2"
 
@@ -6331,13 +6341,19 @@ msgstr ""
 msgid "&OSD"
 msgstr "&OSD"
 
-#: plugins/osd/osd.cpp:308
-msgid "%1 is online"
+#: plugins/osd/osd.cpp:292
+#, fuzzy
+msgid ""
+"_: %1 is online\n"
+"male"
 msgstr "%1 és en línia"
 
-#: plugins/osd/osd.cpp:312
-msgid "%1 typed"
-msgstr "%1 teclejat"
+#: plugins/osd/osd.cpp:293
+#, fuzzy
+msgid ""
+"_: %1 is online\n"
+"female"
+msgstr "%1 és en línia"
 
 #: plugins/osd/osdconfigbase.cpp:61
 msgid "Enable &messages notification"
@@ -8191,6 +8207,9 @@ msgstr "Tipus de proxy:"
 #, fuzzy
 msgid "You send"
 msgstr "Icones"
+
+#~ msgid "Contact typed message"
+#~ msgstr "Contacta missatge teclejat"
 
 #, fuzzy
 #~ msgid "Plugin provides posting to LiveJournal"

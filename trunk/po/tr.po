@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
-"POT-Creation-Date: 2004-02-17 12:43+0300\n"
+"POT-Creation-Date: 2004-02-18 09:08+0300\n"
 "PO-Revision-Date: 2003-01-14 20:31+0200\n"
 "Last-Translator: ismail donmez <voidcartman@yahoo.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
@@ -2478,10 +2478,17 @@ msgstr "ICQ programı"
 msgid "Container"
 msgstr "Bölüme Taşı"
 
-#: plugins/_core/container.cpp:672
-#, fuzzy
-msgid "Contact typed message"
-msgstr "Kontak listesi gönderildi"
+#: plugins/_core/container.cpp:557 plugins/osd/osd.cpp:294
+msgid ""
+"_: %1 typed\n"
+"male"
+msgstr ""
+
+#: plugins/_core/container.cpp:558 plugins/osd/osd.cpp:295
+msgid ""
+"_: %1 typed\n"
+"female"
+msgstr ""
 
 #: plugins/_core/core.cpp:75
 msgid "Interface"
@@ -2895,7 +2902,7 @@ msgid "Not available"
 msgstr "Ulaşılabilir"
 
 #: plugins/_core/core.cpp:2411 plugins/dock/dockwnd.cpp:1185
-#: plugins/osd/osd.cpp:329
+#: plugins/osd/osd.cpp:336
 msgid "%1 from %2"
 msgstr "%2 den %1 alındı"
 
@@ -6503,13 +6510,19 @@ msgstr ""
 msgid "&OSD"
 msgstr ""
 
-#: plugins/osd/osd.cpp:308
-msgid "%1 is online"
+#: plugins/osd/osd.cpp:292
+#, fuzzy
+msgid ""
+"_: %1 is online\n"
+"male"
 msgstr "%1 şu anda bağlı"
 
-#: plugins/osd/osd.cpp:312
-msgid "%1 typed"
-msgstr ""
+#: plugins/osd/osd.cpp:293
+#, fuzzy
+msgid ""
+"_: %1 is online\n"
+"female"
+msgstr "%1 şu anda bağlı"
 
 #: plugins/osd/osdconfigbase.cpp:61
 #, fuzzy
@@ -8393,6 +8406,10 @@ msgstr "Vekil sunucu adresi:"
 #, fuzzy
 msgid "You send"
 msgstr "İkonlar:"
+
+#, fuzzy
+#~ msgid "Contact typed message"
+#~ msgstr "Kontak listesi gönderildi"
 
 #~ msgid "Month:"
 #~ msgstr "Ay:"

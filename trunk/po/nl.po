@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
-"POT-Creation-Date: 2004-02-17 12:43+0300\n"
+"POT-Creation-Date: 2004-02-18 09:08+0300\n"
 "PO-Revision-Date: 2002-12-04 01:05+0100\n"
 "Last-Translator: Arend van Beelen jr. <junior@vergeetalles.nl>\n"
 "Language-Team: Nederlands <i18n@kde.nl>\n"
@@ -2542,10 +2542,17 @@ msgstr "ICQ"
 msgid "Container"
 msgstr "Naar container"
 
-#: plugins/_core/container.cpp:672
-#, fuzzy
-msgid "Contact typed message"
-msgstr "Kontaktliste"
+#: plugins/_core/container.cpp:557 plugins/osd/osd.cpp:294
+msgid ""
+"_: %1 typed\n"
+"male"
+msgstr ""
+
+#: plugins/_core/container.cpp:558 plugins/osd/osd.cpp:295
+msgid ""
+"_: %1 typed\n"
+"female"
+msgstr ""
 
 #: plugins/_core/core.cpp:75
 msgid "Interface"
@@ -2962,7 +2969,7 @@ msgid "Not available"
 msgstr "Beschikbaar"
 
 #: plugins/_core/core.cpp:2411 plugins/dock/dockwnd.cpp:1185
-#: plugins/osd/osd.cpp:329
+#: plugins/osd/osd.cpp:336
 msgid "%1 from %2"
 msgstr "%1 van %2"
 
@@ -6654,13 +6661,19 @@ msgstr ""
 msgid "&OSD"
 msgstr ""
 
-#: plugins/osd/osd.cpp:308
-msgid "%1 is online"
+#: plugins/osd/osd.cpp:292
+#, fuzzy
+msgid ""
+"_: %1 is online\n"
+"male"
 msgstr "%1 is online"
 
-#: plugins/osd/osd.cpp:312
-msgid "%1 typed"
-msgstr ""
+#: plugins/osd/osd.cpp:293
+#, fuzzy
+msgid ""
+"_: %1 is online\n"
+"female"
+msgstr "%1 is online"
 
 #: plugins/osd/osdconfigbase.cpp:61
 #, fuzzy
@@ -8540,6 +8553,10 @@ msgstr "Proxy-host:"
 #, fuzzy
 msgid "You send"
 msgstr "Pictogrammen:"
+
+#, fuzzy
+#~ msgid "Contact typed message"
+#~ msgstr "Kontaktliste"
 
 #~ msgid "Month:"
 #~ msgstr "Maand:"

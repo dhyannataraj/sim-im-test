@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
-"POT-Creation-Date: 2004-02-17 12:43+0300\n"
+"POT-Creation-Date: 2004-02-18 09:08+0300\n"
 "PO-Revision-Date: 2004-02-10 10:25+0100\n"
 "Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
@@ -3031,11 +3031,19 @@ msgstr "Konfigurova» %1 klienta"
 msgid "Container"
 msgstr "Kontajner"
 
-# msgview.cpp:231
-# msgview.cpp:1273
-#: plugins/_core/container.cpp:672
-msgid "Contact typed message"
-msgstr "U¾ívatel pí¹e správu"
+#: plugins/_core/container.cpp:557 plugins/osd/osd.cpp:294
+#, fuzzy
+msgid ""
+"_: %1 typed\n"
+"male"
+msgstr "%1 pí¹e"
+
+#: plugins/_core/container.cpp:558 plugins/osd/osd.cpp:295
+#, fuzzy
+msgid ""
+"_: %1 typed\n"
+"female"
+msgstr "%1 pí¹e"
 
 # ui/setupdlg.cpp:129
 #: plugins/_core/core.cpp:75
@@ -3548,7 +3556,7 @@ msgstr "Nedostupný"
 # dock.cpp:944
 # mainwin.cpp:911
 #: plugins/_core/core.cpp:2411 plugins/dock/dockwnd.cpp:1185
-#: plugins/osd/osd.cpp:329
+#: plugins/osd/osd.cpp:336
 msgid "%1 from %2"
 msgstr "%1 od u¾ívateµa %2"
 
@@ -7786,13 +7794,20 @@ msgid "&OSD"
 msgstr "&OSD"
 
 # mainwin.cpp:1380
-#: plugins/osd/osd.cpp:308
-msgid "%1 is online"
+#: plugins/osd/osd.cpp:292
+#, fuzzy
+msgid ""
+"_: %1 is online\n"
+"male"
 msgstr "U¾ívateµ %1 je pripojený"
 
-#: plugins/osd/osd.cpp:312
-msgid "%1 typed"
-msgstr "%1 pí¹e"
+# mainwin.cpp:1380
+#: plugins/osd/osd.cpp:293
+#, fuzzy
+msgid ""
+"_: %1 is online\n"
+"female"
+msgstr "U¾ívateµ %1 je pripojený"
 
 # ui/alertdialogbase.cpp:237
 #: plugins/osd/osdconfigbase.cpp:61
@@ -9802,3 +9817,8 @@ msgstr "Typ proxy:"
 #, fuzzy
 msgid "You send"
 msgstr "popletený"
+
+# msgview.cpp:231
+# msgview.cpp:1273
+#~ msgid "Contact typed message"
+#~ msgstr "U¾ívatel pí¹e správu"

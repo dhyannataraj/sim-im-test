@@ -87,6 +87,7 @@ Source: "..\Release\plugins\ontop.dll"; DestDir: "{app}\plugins"; Flags: ignorev
 Source: "..\Release\plugins\osd.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\proxy.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\remote.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
+Source: "..\Release\plugins\replace.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\shortcuts.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\sms.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\splash.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
@@ -118,7 +119,12 @@ Source: "..\Release\sounds\phone.wav"; DestDir: "{app}\sounds"; Flags: ignorever
 Source: "..\Release\pict\splash.png"; DestDir: "{app}\pict"; Flags: ignoreversion
 Source: "..\Release\pict\connect.gif"; DestDir: "{app}\pict"; Flags: ignoreversion
 Source: "..\Release\styles\SIM.xsl"; DestDir: "{app}\styles"; Flags: ignoreversion
+Source: "..\Release\styles\SIM.2.xsl"; DestDir: "{app}\styles"; Flags: ignoreversion
+Source: "..\Release\styles\SIM.3.xsl"; DestDir: "{app}\styles"; Flags: ignoreversion
 Source: "..\Release\styles\Separated.xsl"; DestDir: "{app}\styles"; Flags: ignoreversion
+Source: "..\Release\styles\Separated.2.xsl"; DestDir: "{app}\styles"; Flags: ignoreversion
+Source: "..\Release\styles\Separated.3.xsl"; DestDir: "{app}\styles"; Flags: ignoreversion
+Source: "..\Release\styles\Separated.4.xsl"; DestDir: "{app}\styles"; Flags: ignoreversion
 Source: "..\Release\styles\XChat.xsl"; DestDir: "{app}\styles"; Flags: ignoreversion
 Source: "..\Release\styles\XChat2seconds.xsl"; DestDir: "{app}\styles"; Flags: ignoreversion
 Source: "..\Release\styles\XChat3fullDate.xsl"; DestDir: "{app}\styles"; Flags: ignoreversion

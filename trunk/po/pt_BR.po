@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
-"POT-Creation-Date: 2004-02-17 12:43+0300\n"
+"POT-Creation-Date: 2004-02-18 09:08+0300\n"
 "PO-Revision-Date: 2003-11-03 14:12-0200\n"
 "Last-Translator: Carlos Tadeu Panato Jr. <ctpj@terra.com.br>\n"
 "Language-Team: Brazilian Portuguese\n"
@@ -3089,10 +3089,21 @@ msgstr "Configurar cliente %1"
 msgid "Container"
 msgstr "Recipiente"
 
-# plugins/_core/container.cpp:596
-#: plugins/_core/container.cpp:672
-msgid "Contact typed message"
-msgstr "Contato está digitando mensagem"
+# plugins/osd/osd.cpp:307
+#: plugins/_core/container.cpp:557 plugins/osd/osd.cpp:294
+#, fuzzy
+msgid ""
+"_: %1 typed\n"
+"male"
+msgstr "%1 está digitando"
+
+# plugins/osd/osd.cpp:307
+#: plugins/_core/container.cpp:558 plugins/osd/osd.cpp:295
+#, fuzzy
+msgid ""
+"_: %1 typed\n"
+"female"
+msgstr "%1 está digitando"
 
 # plugins/_core/core.cpp:73
 #: plugins/_core/core.cpp:75
@@ -3576,7 +3587,7 @@ msgstr "Não disponível"
 # plugins/_core/core.cpp:2174 plugins/dock/dockwnd.cpp:1173
 # plugins/osd/osd.cpp:324
 #: plugins/_core/core.cpp:2411 plugins/dock/dockwnd.cpp:1185
-#: plugins/osd/osd.cpp:329
+#: plugins/osd/osd.cpp:336
 msgid "%1 from %2"
 msgstr "%1 de %2"
 
@@ -7876,14 +7887,20 @@ msgid "&OSD"
 msgstr "&OSD"
 
 # plugins/osd/osd.cpp:303
-#: plugins/osd/osd.cpp:308
-msgid "%1 is online"
+#: plugins/osd/osd.cpp:292
+#, fuzzy
+msgid ""
+"_: %1 is online\n"
+"male"
 msgstr "%1 está online"
 
-# plugins/osd/osd.cpp:307
-#: plugins/osd/osd.cpp:312
-msgid "%1 typed"
-msgstr "%1 está digitando"
+# plugins/osd/osd.cpp:303
+#: plugins/osd/osd.cpp:293
+#, fuzzy
+msgid ""
+"_: %1 is online\n"
+"female"
+msgstr "%1 está online"
 
 # plugins/osd/osdconfigbase.cpp:92
 #: plugins/osd/osdconfigbase.cpp:61
@@ -10023,6 +10040,10 @@ msgstr "Tipo de proxy:"
 #, fuzzy
 msgid "You send"
 msgstr "Ícones"
+
+# plugins/_core/container.cpp:596
+#~ msgid "Contact typed message"
+#~ msgstr "Contato está digitando mensagem"
 
 # plugins/about/about.cpp:39
 #, fuzzy

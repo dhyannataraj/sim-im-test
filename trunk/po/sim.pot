@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2004-02-17 12:43+0300\n"
+"POT-Creation-Date: 2004-02-18 09:08+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2385,8 +2385,16 @@ msgstr ""
 msgid "Container"
 msgstr ""
 
-#: plugins/_core/container.cpp:672
-msgid "Contact typed message"
+#: plugins/_core/container.cpp:557 plugins/osd/osd.cpp:294
+msgid ""
+"_: %1 typed\n"
+"male"
+msgstr ""
+
+#: plugins/_core/container.cpp:558 plugins/osd/osd.cpp:295
+msgid ""
+"_: %1 typed\n"
+"female"
 msgstr ""
 
 #: plugins/_core/core.cpp:75
@@ -2763,7 +2771,7 @@ msgid "Not available"
 msgstr ""
 
 #: plugins/_core/core.cpp:2411 plugins/dock/dockwnd.cpp:1185
-#: plugins/osd/osd.cpp:329
+#: plugins/osd/osd.cpp:336
 msgid "%1 from %2"
 msgstr ""
 
@@ -6114,12 +6122,16 @@ msgstr ""
 msgid "&OSD"
 msgstr ""
 
-#: plugins/osd/osd.cpp:308
-msgid "%1 is online"
+#: plugins/osd/osd.cpp:292
+msgid ""
+"_: %1 is online\n"
+"male"
 msgstr ""
 
-#: plugins/osd/osd.cpp:312
-msgid "%1 typed"
+#: plugins/osd/osd.cpp:293
+msgid ""
+"_: %1 is online\n"
+"female"
 msgstr ""
 
 #: plugins/osd/osdconfigbase.cpp:61

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: swabian\n"
-"POT-Creation-Date: 2004-02-17 12:43+0300\n"
+"POT-Creation-Date: 2004-02-18 09:08+0300\n"
 "PO-Revision-Date: 2003-08-19 10:35GMT\n"
 "Last-Translator: Robert Scheck <sim@robert-scheck.de>\n"
 "Language-Team: schwäbisch <swabian@li.org>\n"
@@ -2399,9 +2399,19 @@ msgstr "Client %1 konfiguriera"
 msgid "Container"
 msgstr "Condainr"
 
-#: plugins/_core/container.cpp:672
-msgid "Contact typed message"
-msgstr "Kondakd schreibd grade an dr Nachrichd"
+#: plugins/_core/container.cpp:557 plugins/osd/osd.cpp:294
+#, fuzzy
+msgid ""
+"_: %1 typed\n"
+"male"
+msgstr "%1 schreibd"
+
+#: plugins/_core/container.cpp:558 plugins/osd/osd.cpp:295
+#, fuzzy
+msgid ""
+"_: %1 typed\n"
+"female"
+msgstr "%1 schreibd"
 
 #: plugins/_core/core.cpp:75
 msgid "Interface"
@@ -2791,7 +2801,7 @@ msgid "Not available"
 msgstr "Ned vrfigbar"
 
 #: plugins/_core/core.cpp:2411 plugins/dock/dockwnd.cpp:1185
-#: plugins/osd/osd.cpp:329
+#: plugins/osd/osd.cpp:336
 msgid "%1 from %2"
 msgstr "%1 von %2"
 
@@ -6260,13 +6270,19 @@ msgstr ""
 msgid "&OSD"
 msgstr "&OSD"
 
-#: plugins/osd/osd.cpp:308
-msgid "%1 is online"
+#: plugins/osd/osd.cpp:292
+#, fuzzy
+msgid ""
+"_: %1 is online\n"
+"male"
 msgstr "%1 ischd online"
 
-#: plugins/osd/osd.cpp:312
-msgid "%1 typed"
-msgstr "%1 schreibd"
+#: plugins/osd/osd.cpp:293
+#, fuzzy
+msgid ""
+"_: %1 is online\n"
+"female"
+msgstr "%1 ischd online"
 
 #: plugins/osd/osdconfigbase.cpp:61
 msgid "Enable &messages notification"
@@ -8020,6 +8036,9 @@ msgstr "Broxy-Hoschd:"
 #, fuzzy
 msgid "You send"
 msgstr "vrwirrd"
+
+#~ msgid "Contact typed message"
+#~ msgstr "Kondakd schreibd grade an dr Nachrichd"
 
 #~ msgid "Plugin provides posting to LiveJournal"
 #~ msgstr "Blugin erlaubd Beidräge an oi LiveJournal zu schreiba"

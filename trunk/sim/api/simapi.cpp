@@ -69,7 +69,7 @@ QString i18n(const char *text)
 {
     if ((text == NULL) || (*text == 0))
         return QString::null;
-    return i18n(text, NULL);
+    return i18n(text, (const char*)NULL);
 }
 
 QString i18n(const char *text, const char *comment)

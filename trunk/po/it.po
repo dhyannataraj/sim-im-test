@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sim\n"
-"POT-Creation-Date: 2004-02-17 12:43+0300\n"
+"POT-Creation-Date: 2004-02-18 09:08+0300\n"
 "PO-Revision-Date: 2004-02-10 01:01+0100\n"
 "Last-Translator: Lapo Luchini <lapo@lapo.it>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -2413,9 +2413,19 @@ msgstr "Configura client %1"
 msgid "Container"
 msgstr "Contenitore"
 
-#: plugins/_core/container.cpp:672
-msgid "Contact typed message"
-msgstr "Il contatto sta scrivendo un messaggio"
+#: plugins/_core/container.cpp:557 plugins/osd/osd.cpp:294
+#, fuzzy
+msgid ""
+"_: %1 typed\n"
+"male"
+msgstr "%1 ha scritto"
+
+#: plugins/_core/container.cpp:558 plugins/osd/osd.cpp:295
+#, fuzzy
+msgid ""
+"_: %1 typed\n"
+"female"
+msgstr "%1 ha scritto"
 
 #: plugins/_core/core.cpp:75
 msgid "Interface"
@@ -2795,7 +2805,7 @@ msgid "Not available"
 msgstr "Non disponibile"
 
 #: plugins/_core/core.cpp:2411 plugins/dock/dockwnd.cpp:1185
-#: plugins/osd/osd.cpp:329
+#: plugins/osd/osd.cpp:336
 msgid "%1 from %2"
 msgstr "%1 da %2"
 
@@ -6249,13 +6259,19 @@ msgstr ""
 msgid "&OSD"
 msgstr "&OSD"
 
-#: plugins/osd/osd.cpp:308
-msgid "%1 is online"
+#: plugins/osd/osd.cpp:292
+#, fuzzy
+msgid ""
+"_: %1 is online\n"
+"male"
 msgstr "%1 è collegato"
 
-#: plugins/osd/osd.cpp:312
-msgid "%1 typed"
-msgstr "%1 ha scritto"
+#: plugins/osd/osd.cpp:293
+#, fuzzy
+msgid ""
+"_: %1 is online\n"
+"female"
+msgstr "%1 è collegato"
 
 #: plugins/osd/osdconfigbase.cpp:61
 msgid "Enable &messages notification"
@@ -7972,3 +7988,6 @@ msgstr "Tipo di proxy:"
 #, fuzzy
 msgid "You send"
 msgstr "confuso"
+
+#~ msgid "Contact typed message"
+#~ msgstr "Il contatto sta scrivendo un messaggio"

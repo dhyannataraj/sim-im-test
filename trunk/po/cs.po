@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
-"POT-Creation-Date: 2004-02-17 12:43+0300\n"
+"POT-Creation-Date: 2004-02-18 09:08+0300\n"
 "PO-Revision-Date: 2004-01-03 17:27+0100\n"
 "Last-Translator: Pavel Rousar <p.rousar@sh.cvut.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -2419,9 +2419,19 @@ msgstr "Konfigurovat %1 klienta"
 msgid "Container"
 msgstr "Kontejner"
 
-#: plugins/_core/container.cpp:672
-msgid "Contact typed message"
-msgstr "Spojit napsané zprávy"
+#: plugins/_core/container.cpp:557 plugins/osd/osd.cpp:294
+#, fuzzy
+msgid ""
+"_: %1 typed\n"
+"male"
+msgstr "%1 napsáno"
+
+#: plugins/_core/container.cpp:558 plugins/osd/osd.cpp:295
+#, fuzzy
+msgid ""
+"_: %1 typed\n"
+"female"
+msgstr "%1 napsáno"
 
 #: plugins/_core/core.cpp:75
 msgid "Interface"
@@ -2813,7 +2823,7 @@ msgid "Not available"
 msgstr "Nedostupný"
 
 #: plugins/_core/core.cpp:2411 plugins/dock/dockwnd.cpp:1185
-#: plugins/osd/osd.cpp:329
+#: plugins/osd/osd.cpp:336
 msgid "%1 from %2"
 msgstr "%1 (%2)"
 
@@ -6248,13 +6258,19 @@ msgstr "Plugin poskytuje možnost oznamovat stav kontaktů na obrazovce"
 msgid "&OSD"
 msgstr "&OSD"
 
-#: plugins/osd/osd.cpp:308
-msgid "%1 is online"
+#: plugins/osd/osd.cpp:292
+#, fuzzy
+msgid ""
+"_: %1 is online\n"
+"male"
 msgstr "%1 je online"
 
-#: plugins/osd/osd.cpp:312
-msgid "%1 typed"
-msgstr "%1 napsáno"
+#: plugins/osd/osd.cpp:293
+#, fuzzy
+msgid ""
+"_: %1 is online\n"
+"female"
+msgstr "%1 je online"
 
 #: plugins/osd/osdconfigbase.cpp:61
 msgid "Enable &messages notification"
@@ -8067,6 +8083,9 @@ msgstr "Typ proxy:"
 #, fuzzy
 msgid "You send"
 msgstr "zmatený"
+
+#~ msgid "Contact typed message"
+#~ msgstr "Spojit napsané zprávy"
 
 #~ msgid "Plugin provides posting to LiveJournal"
 #~ msgstr "Plugin poskytuje ukládání do LiveJournal"

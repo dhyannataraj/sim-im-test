@@ -17,7 +17,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bg\n"
-"POT-Creation-Date: 2004-02-17 12:43+0300\n"
+"POT-Creation-Date: 2004-02-18 09:08+0300\n"
 "PO-Revision-Date: 2003-09-18 18:44+0300\n"
 "Last-Translator: Атанас Мавров <bugar@mail.bg>\n"
 "Language-Team:  <bg@li.org>\n"
@@ -2455,9 +2455,19 @@ msgstr "Настройване на клиент %1 "
 msgid "Container"
 msgstr "Прозорец"
 
-#: plugins/_core/container.cpp:672
-msgid "Contact typed message"
-msgstr "Потребителят въвежда съобщение"
+#: plugins/_core/container.cpp:557 plugins/osd/osd.cpp:294
+#, fuzzy
+msgid ""
+"_: %1 typed\n"
+"male"
+msgstr "%1 пише"
+
+#: plugins/_core/container.cpp:558 plugins/osd/osd.cpp:295
+#, fuzzy
+msgid ""
+"_: %1 typed\n"
+"female"
+msgstr "%1 пише"
 
 #: plugins/_core/core.cpp:75
 msgid "Interface"
@@ -2854,7 +2864,7 @@ msgid "Not available"
 msgstr "Недостъпен"
 
 #: plugins/_core/core.cpp:2411 plugins/dock/dockwnd.cpp:1185
-#: plugins/osd/osd.cpp:329
+#: plugins/osd/osd.cpp:336
 msgid "%1 from %2"
 msgstr "%1 от %2"
 
@@ -6472,13 +6482,19 @@ msgstr ""
 msgid "&OSD"
 msgstr "&OSD"
 
-#: plugins/osd/osd.cpp:308
-msgid "%1 is online"
+#: plugins/osd/osd.cpp:292
+#, fuzzy
+msgid ""
+"_: %1 is online\n"
+"male"
 msgstr "%1 е включен"
 
-#: plugins/osd/osd.cpp:312
-msgid "%1 typed"
-msgstr "%1 пише"
+#: plugins/osd/osd.cpp:293
+#, fuzzy
+msgid ""
+"_: %1 is online\n"
+"female"
+msgstr "%1 е включен"
 
 #: plugins/osd/osdconfigbase.cpp:61
 msgid "Enable &messages notification"
@@ -8387,6 +8403,9 @@ msgstr "Вид прокси:"
 #, fuzzy
 msgid "You send"
 msgstr "Икони: "
+
+#~ msgid "Contact typed message"
+#~ msgstr "Потребителят въвежда съобщение"
 
 #, fuzzy
 #~ msgid "Plugin provides posting to LiveJournal"

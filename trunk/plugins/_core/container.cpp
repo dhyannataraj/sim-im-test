@@ -553,6 +553,11 @@ static BOOL (WINAPI *FlashWindowEx)(FLASHWINFO*) = NULL;
 static bool initFlash = false;
 #endif
 
+#if 0
+i18n("%1 typed", "male")
+i18n("%1 typed", "female")
+#endif
+
 void *Container::processEvent(Event *e)
 {
     UserWnd *userWnd;
@@ -600,12 +605,12 @@ void *Container::processEvent(Event *e)
 #else
 #if defined(USE_KDE)
 #if KDE_IS_VERSION(3,2,0)
-if (!isActiveWindow()){
-            msg = (Message*)(e->param());
-            userWnd = wnd(msg->contact());
-            if (userWnd)
-                KWin::demandAttention(winId(), true);
-        }
+            if (!isActiveWindow()){
+                msg = (Message*)(e->param());
+                userWnd = wnd(msg->contact());
+                if (userWnd)
+                    KWin::demandAttention(winId(), true);
+            }
 #endif	/* KDE_IS_VERSION(3,2,0) */
 #endif	/* USE_KDE */
 #endif	/* ndef WIN32 */
@@ -669,7 +674,7 @@ if (!isActiveWindow()){
             if (userWnd->m_bTyping != bTyping){
                 userWnd->m_bTyping = bTyping;
                 if (bTyping){
-                    userWnd->setStatus(i18n("Contact typed message"));
+                    userWnd->setStatus(i18n("%1 typed", contact) .arg(contact->getName()));
                 }else{
                     userWnd->setStatus("");
                 }

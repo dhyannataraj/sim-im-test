@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
-"POT-Creation-Date: 2004-02-17 12:43+0300\n"
+"POT-Creation-Date: 2004-02-18 09:08+0300\n"
 "PO-Revision-Date: 2003-02-04 03:03+0200\n"
 "Last-Translator: Amir Tal <tal@whatsup.org.il>\n"
 "Language-Team: Hebrew <kde-il@yahoogroups.com>\n"
@@ -2485,10 +2485,17 @@ msgstr "לקוח ICQ"
 msgid "Container"
 msgstr "אל קונטיינר"
 
-#: plugins/_core/container.cpp:672
-#, fuzzy
-msgid "Contact typed message"
-msgstr "רשימת קשר נשלחה"
+#: plugins/_core/container.cpp:557 plugins/osd/osd.cpp:294
+msgid ""
+"_: %1 typed\n"
+"male"
+msgstr ""
+
+#: plugins/_core/container.cpp:558 plugins/osd/osd.cpp:295
+msgid ""
+"_: %1 typed\n"
+"female"
+msgstr ""
 
 #: plugins/_core/core.cpp:75
 msgid "Interface"
@@ -2909,7 +2916,7 @@ msgid "Not available"
 msgstr "זמין"
 
 #: plugins/_core/core.cpp:2411 plugins/dock/dockwnd.cpp:1185
-#: plugins/osd/osd.cpp:329
+#: plugins/osd/osd.cpp:336
 msgid "%1 from %2"
 msgstr "%1 מ %2"
 
@@ -6568,13 +6575,19 @@ msgstr ""
 msgid "&OSD"
 msgstr ""
 
-#: plugins/osd/osd.cpp:308
-msgid "%1 is online"
+#: plugins/osd/osd.cpp:292
+#, fuzzy
+msgid ""
+"_: %1 is online\n"
+"male"
 msgstr "%1 מחובר כעת"
 
-#: plugins/osd/osd.cpp:312
-msgid "%1 typed"
-msgstr ""
+#: plugins/osd/osd.cpp:293
+#, fuzzy
+msgid ""
+"_: %1 is online\n"
+"female"
+msgstr "%1 מחובר כעת"
 
 #: plugins/osd/osdconfigbase.cpp:61
 #, fuzzy
@@ -8461,6 +8474,10 @@ msgstr "כתובת פרוקסי:"
 #, fuzzy
 msgid "You send"
 msgstr "אייקונים:"
+
+#, fuzzy
+#~ msgid "Contact typed message"
+#~ msgstr "רשימת קשר נשלחה"
 
 #~ msgid "Month:"
 #~ msgstr "חודש"

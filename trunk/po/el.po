@@ -28,7 +28,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
-"POT-Creation-Date: 2004-02-17 12:43+0300\n"
+"POT-Creation-Date: 2004-02-18 09:08+0300\n"
 "PO-Revision-Date: 2003-11-28 17:01+0200\n"
 "Last-Translator: \n"
 "Language-Team:  <en@li.org>\n"
@@ -2495,10 +2495,17 @@ msgstr ""
 msgid "Container"
 msgstr "Κέντρο"
 
-#: plugins/_core/container.cpp:672
-#, fuzzy
-msgid "Contact typed message"
-msgstr "άνοιγμα μη αναγνωσμένου μηνύματος"
+#: plugins/_core/container.cpp:557 plugins/osd/osd.cpp:294
+msgid ""
+"_: %1 typed\n"
+"male"
+msgstr ""
+
+#: plugins/_core/container.cpp:558 plugins/osd/osd.cpp:295
+msgid ""
+"_: %1 typed\n"
+"female"
+msgstr ""
 
 #: plugins/_core/core.cpp:75
 msgid "Interface"
@@ -2919,7 +2926,7 @@ msgid "Not available"
 msgstr "Διαθέσιμος"
 
 #: plugins/_core/core.cpp:2411 plugins/dock/dockwnd.cpp:1185
-#: plugins/osd/osd.cpp:329
+#: plugins/osd/osd.cpp:336
 msgid "%1 from %2"
 msgstr "%1 από %2"
 
@@ -6516,13 +6523,19 @@ msgstr ""
 msgid "&OSD"
 msgstr ""
 
-#: plugins/osd/osd.cpp:308
-msgid "%1 is online"
+#: plugins/osd/osd.cpp:292
+#, fuzzy
+msgid ""
+"_: %1 is online\n"
+"male"
 msgstr "%1 είναι online"
 
-#: plugins/osd/osd.cpp:312
-msgid "%1 typed"
-msgstr ""
+#: plugins/osd/osd.cpp:293
+#, fuzzy
+msgid ""
+"_: %1 is online\n"
+"female"
+msgstr "%1 είναι online"
 
 #: plugins/osd/osdconfigbase.cpp:61
 #, fuzzy
@@ -8349,6 +8362,10 @@ msgstr "Proxy Κόμβος:"
 #, fuzzy
 msgid "You send"
 msgstr "Κατάσταση"
+
+#, fuzzy
+#~ msgid "Contact typed message"
+#~ msgstr "άνοιγμα μη αναγνωσμένου μηνύματος"
 
 #~ msgid "&Text color"
 #~ msgstr "&Χρώμα Κειμένου"

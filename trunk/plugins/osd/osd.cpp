@@ -288,6 +288,13 @@ void OSDWidget::mouseDoubleClickEvent(QMouseEvent*)
     emit dblClick();
 }
 
+#if 0
+i18n("%1 is online", "male")
+i18n("%1 is online", "female")
+i18n("%1 typed", "male")
+i18n("%1 typed", "female")
+#endif
+
 void OSDPlugin::processQueue()
 {
     if (m_timer->isActive())
@@ -305,11 +312,11 @@ void OSDPlugin::processQueue()
         switch (m_request.type){
         case OSD_ALERT:
             if (data->EnableAlert.bValue && contact)
-                text = i18n("%1 is online") .arg(contact->getName());
+                text = i18n("%1 is online", contact) .arg(contact->getName());
             break;
         case OSD_TYPING:
             if (data->EnableTyping.bValue && contact)
-                text = i18n("%1 typed") .arg(contact->getName());
+                text = i18n("%1 typed", contact) .arg(contact->getName());
             break;
         default:
             if (data->EnableMessage.bValue && core){
