@@ -354,8 +354,49 @@ void *JabberClient::processEvent(Event *e)
             cmd->flags &= ~COMMAND_CHECKED;
             if (getState() != Connected)
                 return NULL;
-            if (cmd->menu_id == MenuMain)
+            if (cmd->menu_id == MenuMain){
+				unsigned n = 0;
+				for (unsigned i = 0; i < getContacts()->nClients(); i++){
+					Client *client = getContacts()->getClient(i);
+					if (client->protocol() != protocol())
+						continue;
+					if (client->getState() != Connected)
+						continue;
+					n++;
+				}
+				if (n > 1){
+					cmd->popup_id = static_cast<JabberPlugin*>(protocol()->plugin())->MenuClients;
+				}else{
+					cmd->popup_id = 0;
+				}
                 return e->param();
+			}
+			if (cmd->menu_id == static_cast<JabberPlugin*>(protocol()->plugin())->MenuClients){
+				unsigned n = getContacts()->nClients() + 1;
+				CommandDef *cmds = new CommandDef[n];
+				memset(cmds, 0, sizeof(CommandDef) * n);
+				n = 0;
+				for (unsigned i = 0; i < getContacts()->nClients(); i++){
+					Client *client = getContacts()->getClient(i);
+					if (client->protocol() != protocol())
+						continue;
+					if (client->getState() != Connected)
+						continue;
+					JabberClient *jc = static_cast<JabberClient*>(client);
+					QString url;
+					if (jc->getUseVHost())
+						url = QString::fromUtf8(jc->getVHost());
+					if (url.isEmpty())
+						url = QString::fromUtf8(jc->getServer());
+					cmds[n].id       = static_cast<JabberPlugin*>(protocol()->plugin())->CmdBrowser + i;
+					cmds[n].text     = "_";
+					cmds[n].text_wrk = strdup(url.utf8());
+					n++;
+				}
+				cmd->param = cmds;
+				cmd->flags |= COMMAND_RECURSIVE;
+				return e->param();
+			}
             Contact *contact = getContacts()->contact((unsigned)(cmd->param));
             if (contact == NULL)
                 return NULL;
@@ -373,6 +414,30 @@ void *JabberClient::processEvent(Event *e)
     }
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
+        if (cmd->menu_id == static_cast<JabberPlugin*>(protocol()->plugin())->MenuClients){
+			unsigned n = cmd->id - static_cast<JabberPlugin*>(protocol()->plugin())->CmdBrowser;
+			if (n >= getContacts()->nClients())
+				return NULL;
+			Client *client = getContacts()->getClient(n);
+			if (client->protocol() != protocol())
+				return NULL;
+            if (getState() != Connected)
+                return NULL;
+			JabberClient *jc = static_cast<JabberClient*>(client);
+            if (jc->m_browser == NULL){
+                jc->m_browser = new JabberBrowser(jc);
+                bool bSize = (jc->data.browser_geo[WIDTH] && jc->data.browser_geo[HEIGHT]);
+                restoreGeometry(m_browser, jc->data.browser_geo, bSize, bSize);
+            }
+            QString url;
+            if (jc->getUseVHost())
+                url = QString::fromUtf8(jc->getVHost());
+            if (url.isEmpty())
+                url = QString::fromUtf8(jc->getServer());
+            jc->m_browser->goUrl(url, "");
+            raiseWindow(jc->m_browser);
+            return e->param();			
+		}
         if (cmd->id == static_cast<JabberPlugin*>(protocol()->plugin())->CmdBrowser){
             if (getState() != Connected)
                 return NULL;

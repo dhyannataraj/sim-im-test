@@ -141,9 +141,13 @@ JabberBrowser::JabberBrowser(JabberClient *client)
     cmd->id		= static_cast<JabberPlugin*>(m_client->protocol()->plugin())->CmdUrl;
     cmd->param	= this;
     Event eWidget(EventCommandWidget, cmd);
-    CToolCombo *cmbFind = (CToolCombo*)(eWidget.process());
-    if (cmbFind)
-        cmbFind->setText(QString::null);
+    CToolCombo *cmbUrl = (CToolCombo*)(eWidget.process());
+    if (cmbUrl){
+	    QString h = m_client->getBrowserHistory();
+		while (h.length())
+			cmbUrl->insertItem(getToken(h, ';'));
+        cmbUrl->setText(QString::null);
+	}
 
     m_search = NULL;
     m_reg    = NULL;
@@ -556,12 +560,20 @@ void JabberBrowser::addHistory(const QString &str)
     }
     l.prepend(str);
     QString res;
+	Command cmd;
+    cmd->id		= static_cast<JabberPlugin*>(m_client->protocol()->plugin())->CmdUrl;
+    cmd->param	= this;
+    Event eWidget(EventCommandWidget, cmd);
+    CToolCombo *cmbUrl = (CToolCombo*)(eWidget.process());
+	if (cmbUrl)
+		cmbUrl->clear();
     unsigned i = 0;
     for (it = l.begin(); it != l.end(); ++it){
         if (i++ > MAX_HISTORY)
             break;
         if (!res.isEmpty())
             res += ";";
+		cmbUrl->insertItem(*it);
         res += quoteChars(*it, ";");
     }
     m_client->setBrowserHistory(res);

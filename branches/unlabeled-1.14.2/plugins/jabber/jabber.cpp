@@ -257,6 +257,7 @@ JabberPlugin::JabberPlugin(unsigned base)
     CmdRegister		 = registerType();
     CmdSearch		 = registerType();
     CmdNode			 = registerType();
+	MenuClients		 = registerType();
 
     IconDef icon;
     icon.name = "Jabber_online";
@@ -382,6 +383,8 @@ JabberPlugin::JabberPlugin(unsigned base)
     eMenuSearch.process();
     Event eMenuGroups(EventMenuCreate, (void*)MenuGroups);
     eMenuGroups.process();
+    Event eMenuClients(EventMenuCreate, (void*)MenuClients);
+    eMenuClients.process();
     Event eToolbar(EventToolbarCreate, (void*)BarBrowser);
     eToolbar.process();
 
@@ -488,6 +491,17 @@ JabberPlugin::JabberPlugin(unsigned base)
     cmd->flags		 = COMMAND_CHECK_STATE;
     eCmd.process();
 
+    cmd->id			 = CmdBrowser;
+    cmd->text		 = "_";
+    cmd->icon		 = NULL;
+    cmd->menu_grp	 = 0x1000;
+    cmd->menu_id	 = MenuClients;
+	cmd->bar_grp	 = 0;
+	cmd->bar_id		 = 0;
+    cmd->popup_id	 = 0;
+    cmd->flags		 = COMMAND_CHECK_STATE;
+    eCmd.process();
+
     m_protocol = new JabberProtocol(this);
     registerMessages();
 }
@@ -501,6 +515,9 @@ JabberPlugin::~JabberPlugin()
 
     Event eMenuGroups(EventMenuRemove, (void*)MenuGroups);
     eMenuGroups.process();
+
+    Event eMenuClients(EventMenuRemove, (void*)MenuClients);
+    eMenuClients.process();
 
     Event eCmdBrowser(EventCommandRemove, (void*)CmdBrowser);
     eMenuGroups.process();

@@ -57,6 +57,7 @@ public:
     unsigned CmdConfigure;
     unsigned MenuSearchResult;
     unsigned MenuGroups;
+	unsigned MenuClients;
     unsigned BarBrowser;
     void registerMessages();
     void unregisterMessages();

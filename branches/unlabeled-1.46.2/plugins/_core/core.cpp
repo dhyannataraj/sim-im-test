@@ -1768,6 +1768,7 @@ void *CorePlugin::processEvent(Event *e)
     case EventOpenMessage:{
             Message *msg = (Message*)(e->param());
             Contact *contact = getContacts()->contact(msg->contact());
+			QWidget *focusWidget = qApp->focusWidget();
             if (contact == NULL)
                 return NULL;
             UserWnd		*userWnd	= NULL;
@@ -1862,6 +1863,8 @@ void *CorePlugin::processEvent(Event *e)
             if (msg->getFlags() & MESSAGE_NORAISE){
                 if (bNew)
                     container->showMinimized();
+				if (focusWidget)
+					focusWidget->setFocus();
             }else{
                 container->show();
                 raiseWindow(container);

@@ -1525,6 +1525,7 @@ protected:
     string m_data;
     string m_jid;
     string m_error;
+	bool   m_bError;
     unsigned m_error_code;
     virtual void element_start(const char *el, const char **attr);
     virtual void element_end(const char *el);
@@ -1572,6 +1573,7 @@ AgentInfoRequest::AgentInfoRequest(JabberClient *client, const char *jid)
     m_jid = jid;
     m_bOption = false;
     m_error_code = 0;
+	m_bError = false;
     load_data(jabberAgentInfo, &data, NULL);
 }
 
@@ -1591,8 +1593,11 @@ AgentInfoRequest::~AgentInfoRequest()
 void AgentInfoRequest::element_start(const char *el, const char **attr)
 {
     if (!strcmp(el, "error")){
+		m_bError = true;
         m_error_code = atol(JabberClient::get_attr("code", attr).c_str());
     }
+	if (m_bError)
+		return;
     if (!strcmp(el, "field")){
         free_data(jabberAgentInfo, &data);
         load_data(jabberAgentInfo, &data, NULL);
@@ -1626,6 +1631,7 @@ void AgentInfoRequest::element_end(const char *el)
     if (!strcmp(el, "error")){
         m_error = m_data;
         m_data  = "";
+		m_bError = false;
     }else if (!strcmp(el, "field")){
         if (data.Field && *data.Field){
             set_str(&data.VHost, m_client->VHost().c_str());
