@@ -52,7 +52,7 @@ int Proxy::read(char*, unsigned int)
     return 0;
 }
 
-void Proxy::write(const char *b, unsigned int size)
+void Proxy::write(const char*, unsigned int)
 {
     log(L_WARN, "Proxy can't write");
     if (notify) notify->error_state(ErrorSocket);

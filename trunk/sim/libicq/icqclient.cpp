@@ -208,6 +208,7 @@ void ICQClient::packet_ready()
 
 void ICQClient::error_state(SocketError err)
 {
+    log(L_DEBUG, "Error: %u", err);
     switch (err){
     case ErrorProxyConnect:{
             m_reconnectTime = (time_t)(-1);

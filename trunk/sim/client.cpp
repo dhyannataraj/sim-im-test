@@ -34,11 +34,15 @@
 #include <qtextcodec.h>
 #include <qregexp.h>
 
+#include <errno.h>
+
 #include <string>
 
 #ifdef USE_KDE
 #include <kglobal.h>
 #include <kcharsets.h>
+#include <kextendedsocket.h>
+#include <ksockaddr.h>
 #endif
 
 #ifndef USE_KDE
@@ -815,16 +819,35 @@ int Client::userEncoding(unsigned long uin)
 
 Client *pClient = NULL;
 
+#ifdef USE_KDE
+QClientSocket::QClientSocket(KExtendedSocket *s)
+#else
 QClientSocket::QClientSocket(QSocket *s)
+#endif
 {
     sock = s;
-    if (sock == NULL) sock = new QSocket(this);
+    if (sock == NULL)
+#if USE_KDE
+	sock = new KExtendedSocket;
+	sock->setBlockingMode(false);
+#else
+	sock = new QSocket(this);
+#endif
+#ifdef USE_KDE
+    QObject::connect(sock, SIGNAL(connectionSuccess()), this, SLOT(slotConnected()));
+    QObject::connect(sock, SIGNAL(connectionFailed(int)), this, SLOT(slotError(int)));
+    QObject::connect(sock, SIGNAL(closed(int)), this, SLOT(slotError(int)));
+#else
     QObject::connect(sock, SIGNAL(connected()), this, SLOT(slotConnected()));
     QObject::connect(sock, SIGNAL(connectionClosed()), this, SLOT(slotConnectionClosed()));
+    QObject::connect(sock, SIGNAL(error(int)), this, SLOT(slotError(int)));
+#endif
     QObject::connect(sock, SIGNAL(readyRead()), this, SLOT(slotReadReady()));
     QObject::connect(sock, SIGNAL(bytesWritten(int)), this, SLOT(slotBytesWritten(int)));
-    QObject::connect(sock, SIGNAL(error(int)), this, SLOT(slotError(int)));
     bInWrite = false;
+#ifdef USE_KDE
+    if (s) sock->enableRead(true);
+#endif
 }
 
 QClientSocket::~QClientSocket()
@@ -835,15 +858,20 @@ QClientSocket::~QClientSocket()
 
 void QClientSocket::close()
 {
+#ifdef USE_KDE
+    sock->closeNow();
+#else
     sock->close();
+#endif
 }
 
 int QClientSocket::read(char *buf, unsigned int size)
 {
     int res = sock->readBlock(buf, size);
     if (res < 0){
+	if (errno == EWOULDBLOCK)
+	   return 0;
         if (notify) notify->error_state(ErrorRead);
-        res = 0;
     }
     return res;
 }
@@ -864,13 +892,24 @@ void QClientSocket::write(const char *buf, unsigned int size)
 void QClientSocket::connect(const char *host, int port)
 {
     log(L_DEBUG, "Connect to %s:%u", host, port);
+#ifdef USE_KDE
+    sock->reset();
+    sock->enableRead(false);
+    sock->setAddress(host, port);
+    sock->startAsyncConnect();
+#else
     sock->connectToHost(host, port);
+#endif
 }
 
 void QClientSocket::slotConnected()
 {
     log(L_DEBUG, "Connected");
     if (notify) notify->connect_ready();
+#ifdef USE_KDE
+    sock->setBlockingMode(false);
+    sock->enableRead(true);
+#endif
 }
 
 void QClientSocket::slotConnectionClosed()
@@ -897,12 +936,28 @@ void QClientSocket::slotBytesWritten()
 
 unsigned long QClientSocket::localHost()
 {
+#ifdef USE_KDE
+    unsigned long res = 0;
+    const KSocketAddress *addr = sock->localAddress();
+    if (addr && addr->inherits("KInetSocketAddress")){
+	const KInetSocketAddress *addr_in = static_cast<const KInetSocketAddress*>(addr);
+	const sockaddr_in *a = addr_in->addressV4();
+	if (a) res = htonl(a->sin_addr.s_addr);
+    }
+    return res;
+#else
     return sock->address().ip4Addr();
+#endif
 }
 
 void QClientSocket::slotError(int err)
 {
+#ifdef USE_KDE
+    if (!(err & KBufferedIO::involuntary)) return;
+    log(L_DEBUG, "Connection closed by peer");
+#else
     log(L_DEBUG, "Error %u", err);
+#endif
     if (notify) notify->error_state(ErrorSocket);
 }
 
@@ -913,8 +968,24 @@ void QClientSocket::pause(unsigned t)
 
 QServerSocket::QServerSocket(unsigned short minPort, unsigned short maxPort)
 {
+#ifdef USE_KDE
+    sock = new KExtendedSocket;
+    connect(sock, SIGNAL(readyAccept()), this, SLOT(activated()));
+    for (m_nPort = minPort; m_nPort <= maxPort; m_nPort++){
+	sock->reset();
+	sock->setBlockingMode(false);
+	sock->setSocketFlags(KExtendedSocket::passiveSocket);
+	sock->setPort(m_nPort);
+	if (sock->listen() == 0)
+	    break;
+    }
+    if (m_nPort > maxPort){
+	delete sock;
+	sock = NULL;
+	return;
+    }
+#else
     sock = new QSocketDevice;
-    sock->setBlocking(false);
     for (m_nPort = minPort; m_nPort <= maxPort; m_nPort++){
         if (sock->bind(QHostAddress(), m_nPort))
             break;
@@ -926,6 +997,7 @@ QServerSocket::QServerSocket(unsigned short minPort, unsigned short maxPort)
         sock = NULL;
         return;
     }
+#endif
 }
 
 QServerSocket::~QServerSocket()
@@ -935,6 +1007,7 @@ QServerSocket::~QServerSocket()
 
 void QServerSocket::activated(int)
 {
+#ifndef USE_KDE
     int fd = sock->accept();
     if (fd >= 0){
         if (notify){
@@ -949,6 +1022,23 @@ void QServerSocket::activated(int)
 #endif
         }
     }
+#endif
+}
+
+void QServerSocket::activated()
+{
+#ifdef USE_KDE
+    log(L_DEBUG, "accept ready");
+    KExtendedSocket *s = NULL;
+    sock->accept(s);
+    log(L_DEBUG, "Accept: %u", s);
+    if (s == NULL) return;
+    if (notify){
+	notify->accept(new QClientSocket(s));
+    }else{
+	delete s;
+    }
+#endif
 }
 
 #ifndef _WINDOWS

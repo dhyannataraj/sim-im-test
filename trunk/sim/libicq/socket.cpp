@@ -44,6 +44,7 @@ ClientSocket::ClientSocket(ClientSocketNotify *n, SocketFactory *f)
     m_sock->setNotify(this);
     m_proxy = NULL;
     bInProcess = false;
+    bClosed = false;
 }
 
 ClientSocket::~ClientSocket()
@@ -56,6 +57,7 @@ void ClientSocket::close()
 {
     setProxy(NULL);
     m_sock->close();
+    bClosed = true;
 }
 
 void ClientSocket::setProxy(Proxy *p)
@@ -104,7 +106,12 @@ void ClientSocket::error(SocketError err)
     case ErrorProxyConnect:
         log(L_WARN, "Proxy connect error");
         break;
+    case ErrorNone:
+	return;
     }
+    bInProcess = true;
+    notify->error_state(err);
+    bInProcess = false;
 }
 
 void ClientSocket::connect(const char *host, int port)
@@ -126,6 +133,7 @@ bool ClientSocket::created()
 
 void ClientSocket::connect_ready()
 {
+    bClosed = false;
     notify->connect_ready();
 }
 
@@ -154,12 +162,13 @@ void ClientSocket::read_ready()
             int readn = m_sock->read(b, sizeof(b));
             if (readn == 0) break;
             readBuffer.setWritePos(readBuffer.writePos() + readn);
-            if (readn < sizeof(b)) break;
+            if (readn < (int)sizeof(b)) break;
         }
         processPacket();
         return;
     }
     for (;;){
+	if (bClosed) break;
         int readn = m_sock->read(readBuffer.Data(readBuffer.writePos()),
                                  readBuffer.size() - readBuffer.writePos());
         if (readn < 0){

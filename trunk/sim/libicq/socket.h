@@ -162,6 +162,7 @@ protected:
     SocketFactory *factory;
     bool bRawMode;
     bool bInProcess;
+    bool bClosed;
     SocketError err;
 };
 

@@ -16,16 +16,18 @@
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
 */
+
+#include "defs.h"
+#include "kpopup.h"
+
+#ifndef USE_KDE
+
 #include <qpainter.h>
 #include <qdrawutil.h>
 #include <qtimer.h>
 #include <qfont.h>
 #include <qfontmetrics.h>
 #include <qregexp.h>
-
-#include "kpopup.h"
-
-#ifndef USE_KDE
 
 KPopupTitle::KPopupTitle(QWidget *parent, const char *name)
         : QWidget(parent, name)

@@ -48,11 +48,19 @@ typedef struct searchResult
     bool auth;
 } searchResult;
 
+#ifdef USE_KDE
+class KExtendedSocket;
+#endif
+
 class QClientSocket : public QObject, public Socket
 {
     Q_OBJECT
 public:
+#ifdef USE_KDE
+    QClientSocket(KExtendedSocket *s=NULL);
+#else
     QClientSocket(QSocket *s=NULL);
+#endif
     virtual ~QClientSocket();
     virtual int read(char *buf, unsigned int size);
     virtual void write(const char *buf, unsigned int size);
@@ -68,7 +76,11 @@ protected slots:
     void slotBytesWritten();
     void slotError(int);
 protected:
+#ifdef USE_KDE
+    KExtendedSocket *sock;
+#else
     QSocket *sock;
+#endif
     bool bInWrite;
 };
 
@@ -82,9 +94,14 @@ public:
     bool created() { return (sock != NULL); }
 protected slots:
     void activated(int);
+    void activated();
 protected:
+#ifdef USE_KDE
+    KExtendedSocket *sock;
+#else
     QSocketDevice   *sock;
     QSocketNotifier *sn;
+#endif
     unsigned short m_nPort;
 };
 
