@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2003-10-20 12:11+0400\n"
-"PO-Revision-Date: 2003-10-18 00:49GMT\n"
+"PO-Revision-Date: 2003-10-20 17:04GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -279,14 +279,12 @@ msgid "&Multiply send"
 msgstr "An &mehrere senden"
 
 #: plugins/_core/core.cpp:591 plugins/_core/core.cpp:687
-#, fuzzy
 msgid "Back&ground color"
-msgstr "Hintergrund&farbe"
+msgstr "Hinter&grundfarbe"
 
 #: plugins/_core/core.cpp:599 plugins/_core/core.cpp:696
-#, fuzzy
 msgid "&Foreground color"
-msgstr "Hintergrund&farbe"
+msgstr "Vordergrund&farbe"
 
 #: plugins/_core/core.cpp:605 plugins/_core/core.cpp:702
 msgid "&Bold"
@@ -302,19 +300,16 @@ msgid "&Underline"
 msgstr "&Unterstrichen"
 
 #: plugins/_core/core.cpp:626 plugins/_core/core.cpp:723
-#, fuzzy
 msgid "Select &font"
-msgstr "Schriftart auswählen"
+msgstr "Schri&ftart auswählen"
 
 #: plugins/_core/core.cpp:633
-#, fuzzy
 msgid "Select &file"
-msgstr "Datei auswählen"
+msgstr "&Datei auswählen"
 
 #: plugins/_core/core.cpp:641
-#, fuzzy
 msgid "&Phone number"
-msgstr "Telefonnummer hinzufügen"
+msgstr "&Telefonnummer"
 
 #: plugins/_core/core.cpp:649 plugins/_core/msgedit.cpp:1286
 msgid "&Next"
@@ -1128,8 +1123,7 @@ msgstr "Dieses Fenster beim Start nicht &anzeigen"
 
 #: plugins/_core/searchbase.cc:74 plugins/_core/searchbase.cpp:74
 msgid "Choose type of contact which you want to find or add:"
-msgstr ""
-"Art des Kontaktes auswählen, der gefunden oder hinzugefügt werden soll"
+msgstr "Art des Kontaktes auswählen, der gefunden oder hinzugefügt werden soll"
 
 #: plugins/_core/searchbase.cc:75 plugins/_core/searchbase.cpp:75
 msgid "Contact type:"
@@ -1723,8 +1717,7 @@ msgstr "\"N/A\"-Status setzen wenn"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:125
 #: plugins/sound/soundconfigbase.cpp:166
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -1867,8 +1860,7 @@ msgstr "Nachrichten nur von &Benutzern der Kontaktliste empfangen"
 
 #: plugins/filter/filtercfgbase.cpp:98
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: plugins/filter/filtercfgbase.cpp:99
 msgid ""
@@ -1890,8 +1882,7 @@ msgstr "Floatings"
 
 #: plugins/floaty/floaty.cpp:44
 msgid "Plugin provides floating windows for contacts"
-msgstr ""
-"Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
+msgstr "Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
 
 #: plugins/floaty/floaty.cpp:91 plugins/floaty/floaty.cpp:165
 msgid "Floating on"
@@ -1911,8 +1902,7 @@ msgstr "Plugin stellt Nachrichtenweiterleitung an Handys bereit"
 
 #: plugins/forward/forwardcfgbase.cpp:102
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
-"Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
+msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
 
 #: plugins/forward/forwardcfgbase.cpp:103
 msgid ""
@@ -4194,8 +4184,7 @@ msgid "Navigate"
 msgstr "Navigation"
 
 #: plugins/navigate/navigate.cpp:38
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Plugin stellt Navigation von Hyperlinks bereit und ruft externe Browser- "
 "oder Mailprogramme auf"
@@ -4297,8 +4286,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:48
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Plugin stellt Bildschirmbenachrichtigungen über Nachrichten und "
 "Kontaktstatus bereit"
@@ -4353,8 +4341,7 @@ msgstr "Bei Nachrichteneingang informieren (per OSD)"
 
 #: plugins/osd/osdconfigbase.cpp:93
 msgid "Enable &status notification"
-msgstr ""
-"Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
+msgstr "Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
 
 #: plugins/osd/osdifacebase.cpp:188
 msgid "Offset:"
@@ -4398,8 +4385,7 @@ msgstr "&Proxy"
 
 #: plugins/proxy/proxycfg.cpp:140
 msgid "<b>Note !</b><br>HTTP-proxy support only ICQ-protocol"
-msgstr ""
-"<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
+msgstr "<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
 
 #: plugins/proxy/proxycfg.cpp:209
 msgid "Default"
@@ -4423,8 +4409,7 @@ msgstr "Proxy"
 
 #: plugins/proxy/proxy.cpp:1269
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS and HTTP)"
-msgstr ""
-"Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
+msgstr "Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
 
 #: plugins/proxy/proxycfgbase.cpp:164
 msgid "Host:"
@@ -4626,8 +4611,7 @@ msgstr "Aktualisieren"
 
 #: plugins/update/update.cpp:40
 msgid "Plugin provides notifications about update SIM software"
-msgstr ""
-"Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
+msgstr "Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
 
 #: plugins/update/update.cpp:151
 msgid "Show details"
@@ -4643,13 +4627,11 @@ msgstr "Neue Version von SIM wurde veröffentlicht"
 
 #: sim/api/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
-msgstr ""
-"Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
+msgstr "Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
 
 #: sim/api/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
 
 #: sim/api/country.cpp:25
 msgid "Afghanistan"
@@ -7565,3 +7547,4 @@ msgstr "Benutzerdefiniert"
 
 #~ msgid "Transfer completed"
 #~ msgstr "Übertragung abgeschlossen"
+
