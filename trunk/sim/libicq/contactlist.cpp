@@ -290,7 +290,6 @@ void ICQUser::setOffline()
     uStatus = ICQ_STATUS_OFFLINE;
     AutoReply = "";
     CanPlugin = false;
-    CanResponse = false;
     time_t now;
     time(&now);
     DCcookie = 0;

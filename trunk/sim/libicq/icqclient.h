@@ -603,7 +603,6 @@ public:
     unsigned long uStatus;
     unsigned long prevStatus;
     bool CanPlugin;
-    bool CanResponse;
 
     list<unsigned long> unreadMsgs;
 
