@@ -20,6 +20,7 @@
 
 #include "simapi.h"
 #include "stl.h"
+#include <qstringlist.h>
 
 class QTimer;
 class CorePlugin;
