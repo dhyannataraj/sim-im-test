@@ -142,6 +142,7 @@ public:
 };
 
 MyMimeSourceFactory::MyMimeSourceFactory()
+ : QMimeSourceFactory()
 {
 }
 
@@ -165,7 +166,15 @@ const QMimeSource *MyMimeSourceFactory::data(const QString &abs_name) const
 
 Icons::Icons()
 {
-    QMimeSourceFactory::setDefaultFactory(new MyMimeSourceFactory);
+    /* This idea came from kapplication.cpp
+       I had a similar idea with setting the old defaultFactory in
+       the destructor but this won't work :(
+       Christian */
+    QMimeSourceFactory* oldDefaultFactory = QMimeSourceFactory::takeDefaultFactory();
+    QMimeSourceFactory::setDefaultFactory( new MyMimeSourceFactory() );
+    if ( oldDefaultFactory ) {
+        QMimeSourceFactory::addFactory( oldDefaultFactory );
+    }
 #ifdef USE_KDE
     connect(kapp, SIGNAL(iconChanged(int)), this, SLOT(iconChanged(int)));
     kapp->addKipcEventMask(KIPC::IconChanged);
@@ -268,7 +277,6 @@ Icons::Icons()
 
 Icons::~Icons()
 {
-    QMimeSourceFactory::setDefaultFactory(new QMimeSourceFactory);
 }
 
 void *Icons::processEvent(Event *e)
