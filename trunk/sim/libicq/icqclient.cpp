@@ -18,6 +18,7 @@
 #include "icqclient.h"
 #include "icqprivate.h"
 #include "proxy.h"
+#include "icqhttp.h"
 #include "log.h"
 
 #include <stdio.h>
@@ -433,16 +434,10 @@ unsigned long ICQClientPrivate::fullStatus(unsigned long s)
 
 void ICQClientPrivate::connect_ready()
 {
-    sock->setProxyConnected();
+    if ((client->ProxyType != PROXY_HTTP) && (client->ProxyType != PROXY_HTTPS))
+        sock->setProxyConnected();
     sock->readBuffer.init(6);
     m_bHeader = true;
-    if (cookie.size()){
-        flap(ICQ_CHNxNEW);
-        sock->writeBuffer << 0x00000001L;
-        sock->writeBuffer.tlv(6, cookie.Data(0), cookie.size());
-        cookie.init(0);
-        sendPacket();
-    }
 }
 
 bool ICQClientPrivate::addRequest(unsigned long uin, bool bPriority, list<info_request> &queue)
@@ -589,23 +584,25 @@ void ICQClient::closeFile(ICQFile*)
 Proxy *ICQClientPrivate::getProxy()
 {
     switch (client->ProxyType){
-    case 0:
+    case PROXY_NONE:
         return 0;
-    case 1:
+    case PROXY_SOCKS4:
         return new SOCKS4_Proxy(client->ProxyHost.c_str(), client->ProxyPort);
-    case 2:
+    case PROXY_SOCKS5:
         return new SOCKS5_Proxy(client->ProxyHost.c_str(), client->ProxyPort,
                                 client->ProxyAuth ? client->ProxyUser.c_str() : "",
                                 client->ProxyAuth ? client->ProxyPasswd.c_str() : "");
-    case 3:
-        return new HTTP_Proxy(client->ProxyHost.c_str(), client->ProxyPort,
-                              client->ProxyAuth ? client->ProxyUser.c_str() : "",
-                              client->ProxyAuth ? client->ProxyPasswd.c_str() : "");
+    case PROXY_HTTP:
+        return new ICQ_HTTP_Proxy(factory,
+                                  client->ProxyHost.c_str(), client->ProxyPort,
+                                  client->ProxyAuth ? client->ProxyUser.c_str() : "",
+                                  client->ProxyAuth ? client->ProxyPasswd.c_str() : "");
 #ifdef USE_OPENSSL
-    case 4:
-        return new HTTPS_Proxy(client->ProxyHost.c_str(), client->ProxyPort,
-                               client->ProxyAuth ? client->ProxyUser.c_str() : "",
-                               client->ProxyAuth ? client->ProxyPasswd.c_str() : "");
+    case PROXY_HTTPS:
+        return new ICQ_HTTPS_Proxy(factory,
+                                   client->ProxyHost.c_str(), client->ProxyPort,
+                                   client->ProxyAuth ? client->ProxyUser.c_str() : "",
+                                   client->ProxyAuth ? client->ProxyPasswd.c_str() : "");
 #endif
     default:
         log(L_WARN, "Unknown proxy type");

@@ -110,8 +110,10 @@ public:
     virtual Socket *createSocket() = 0;
     virtual ServerSocket *createServerSocket() = 0;
     void idle();
+    void remove(Socket*);
 protected:
     list<ClientSocket*> errSockets;
+    list<Socket*> removedSockets;
     friend class ClientSocket;
 };
 

@@ -349,6 +349,10 @@ SOURCE=.\sim\libicq\icqclient.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\sim\libicq\icqhttp.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\sim\libicq\icqssl.cpp
 # End Source File
 # Begin Source File

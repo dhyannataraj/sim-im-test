@@ -17,6 +17,7 @@
 
 #include "icqclient.h"
 #include "icqprivate.h"
+#include "proxy.h"
 #include "log.h"
 
 #include <stdio.h>
@@ -114,6 +115,15 @@ void ICQClientPrivate::chn_login()
             sendPacket();
             break;
         }
+    case Login:
+        if (cookie.size()){
+            flap(ICQ_CHNxNEW);
+            sock->writeBuffer << 0x00000001L;
+            sock->writeBuffer.tlv(6, cookie.Data(0), cookie.size());
+            cookie.init(0);
+            sendPacket();
+        }
+        break;
     default:
         break;
     }
@@ -191,12 +201,16 @@ void ICQClientPrivate::chn_close()
     *port = 0;
     port++;
     m_state = Login;
-    sock->close();
-    Socket *s = sock->socket();
-    sock->setSocket(factory->createSocket());
-    sock->setProxy(getProxy());
-    sock->connect(host, atol(port));
-    delete s;
+    if ((client->ProxyType == PROXY_HTTP) || (client->ProxyType == PROXY_HTTPS)){
+        sock->connect(host, atol(port));
+    }else{
+        sock->close();
+        Socket *s = sock->socket();
+        sock->setSocket(factory->createSocket());
+        sock->setProxy(getProxy());
+        sock->connect(host, atol(port));
+        delete s;
+    }
     cookie.init(0);
     cookie.pack(*tlv_cookie, tlv_cookie->Size());
 }

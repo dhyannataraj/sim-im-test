@@ -296,7 +296,7 @@ void HTTP_Proxy::connect(const char *host, int port)
 
 static char alphabet[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" "0123456789+/";
 
-static string tobase64(const char *text)
+string tobase64(const char *text)
 {
     string out;
     const char *c;

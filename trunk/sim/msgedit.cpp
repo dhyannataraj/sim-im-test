@@ -91,6 +91,7 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
 {
     bFirstShow = true;
     Uin = uin;
+    EditHeight = 0;
     msg = NULL;
     tabId = -1;
     tab = NULL;
@@ -99,10 +100,12 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     msgView = NULL;
     bMultiply = false;
     setWFlags(WDestructiveClose);
-    QMainWindow *w = new QMainWindow(this, "msgedit", 0);
-    frmEdit = new QFrame(w);
-    w->setCentralWidget(frmEdit);
-    QToolBar *t = new QToolBar(w);
+    wndEdit = new WMainWindow(this, "msgedit");
+    connect(wndEdit, SIGNAL(heightChanged(int)), this, SLOT(heightChanged(int)));
+
+    frmEdit = new QFrame(wndEdit);
+    wndEdit->setCentralWidget(frmEdit);
+    QToolBar *t = new QToolBar(wndEdit);
     t->installEventFilter(this);
     t->setHorizontalStretchable(true);
     t->setVerticalStretchable(true);
@@ -258,7 +261,7 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     new QLabel(i18n("Drag users here"), lblUsers);
 
     edit  = new EditSpell(frmEdit);
-    edit->hide();
+    //    edit->hide();
     lay->addWidget(edit);
     users = new UserTbl(frmEdit);
     users->hide();
@@ -298,6 +301,7 @@ MsgEdit::~MsgEdit()
 cfgParam MsgEdit_Params[] =
     {
         { "Uin", OFFSET_OF(MsgEdit, Uin), PARAM_ULONG, 0 },
+        { "EditHeight", OFFSET_OF(MsgEdit, EditHeight), PARAM_USHORT, 0 },
         { "", 0, 0, 0 }
     };
 
@@ -307,12 +311,14 @@ bool MsgEdit::load(std::istream &s, string &part)
     setUin(Uin);
     ICQUser *u = pClient->getUser(Uin);
     if (u == NULL) return false;
+    adjustSplitter();
     action(mnuAction);
     return true;
 }
 
 void MsgEdit::save(std::ostream &s)
 {
+    EditHeight = wndEdit->height();
     ::save(this, MsgEdit_Params, s);
 }
 
@@ -617,7 +623,7 @@ void MsgEdit::processEvent(ICQEvent *e)
                         m->Uin.push_back(Uin);
                         m->Message = smsChunk();
                         m->Phone = pClient->to8Bit(Uin, phoneEdit->lineEdit()->text());
-			m->Charset = pClient->codecForUser(Uin)->name();
+                        m->Charset = pClient->codecForUser(Uin)->name();
                         msg = m;
                         sendEvent = pClient->sendMessage(msg);
                         return;
@@ -862,23 +868,6 @@ void MsgEdit::editFontChanged(const QFont &f)
     btnUnder->setOn(f.underline());
 }
 
-static bool fromHex(char c, char &res)
-{
-    if ((c >= '0') && (c <= '9')){
-        res |= (c - '0');
-        return true;
-    }
-    if ((c >= 'a') && (c <= 'f')){
-        res |= (c - 'a' + 10);
-        return true;
-    }
-    if ((c >= 'A') && (c <= 'F')){
-        res |= (c - 'A' + 10);
-        return true;
-    }
-    return false;
-}
-
 void MsgEdit::setParam(unsigned long param)
 {
     switch (msg->Type()){
@@ -892,30 +881,7 @@ void MsgEdit::setParam(unsigned long param)
         urlEdit->setText(*((QString*)param));
         break;
     case ICQ_MSGxFILE:{
-            string fileName;
-            fileName = pClient->to8Bit(Uin, *((QString*)param));
-            string decodeName;
-            for (unsigned i = 0; i < fileName.length(); i++){
-                char p = fileName[i];
-                switch (p){
-                case '+':
-                    decodeName += ' ';
-                    break;
-                case '%':
-                    p = 0;
-                    if (fromHex(fileName[i+1], p) && ((p = p << 4), fromHex(fileName[i+2], p))){
-                        if (p == 0x7C) p = ':';
-                        decodeName += p;
-                        i += 2;
-                    }else{
-                        decodeName += '%';
-                    }
-                    break;
-                default:
-                    decodeName += p;
-                }
-            }
-            QString name = pClient->from8Bit(Uin, decodeName, msg->Charset.c_str());
+            QString name = *((QString*)param);
             if (name.left(5) == "file:"){
                 name = name.mid(5);
 #ifdef WIN32
@@ -1711,7 +1677,7 @@ void MsgEdit::makeMessage()
             msgTail = trim(s);
             m->Message = smsChunk();
             m->Phone = phoneEdit->lineEdit()->text().local8Bit();
-	    m->Charset = pClient->codecForUser(Uin)->name();
+            m->Charset = pClient->codecForUser(Uin)->name();
             break;
         }
     case ICQ_MSGxCONTACTxLIST:{
@@ -1758,6 +1724,7 @@ void MsgEdit::spellDone(bool bResult)
 
 void MsgEdit::send()
 {
+    if (!canSend()) return;
     if (msg->Type() == ICQ_MSGxSMS){
         ICQUser *u = pClient->getUser(Uin);
         if (u){
@@ -1913,7 +1880,40 @@ void MsgEdit::modeChanged(bool bSimple)
     connect(msgView, SIGNAL(goMessage(unsigned long, unsigned long)), topLevelWidget(), SLOT(showMessage(unsigned long, unsigned long)));
     if (isVisible())
         msgView->show();
-    setResizeMode(msgView, QSplitter::KeepSize);
+    adjustSplitter();
+}
+
+void MsgEdit::adjustSplitter()
+{
+    if (EditHeight == 0)
+        EditHeight = pMain->UserBoxEditHeight;
+    if (EditHeight == 0){
+        QSize s = wndEdit->sizeHint();
+        EditHeight = s.height();
+    }
+    setResizeMode(wndEdit, QSplitter::KeepSize);
+    QValueList<int> s;
+    s.append(1);
+    s.append(EditHeight);
+    setSizes(s);
+}
+
+void MsgEdit::heightChanged(int h)
+{
+    if (pMain->SimpleMode) return;
+    EditHeight = h;
+    pMain->UserBoxEditHeight = h;
+}
+
+WMainWindow::WMainWindow(QWidget *parent, const char *name)
+        : QMainWindow(parent, name, 0)
+{
+}
+
+void WMainWindow::resizeEvent(QResizeEvent *e)
+{
+    QMainWindow::resizeEvent(e);
+    emit heightChanged(height());
 }
 
 #ifndef _WINDOWS

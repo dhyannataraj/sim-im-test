@@ -194,7 +194,7 @@ string ICQClientPrivate::createRTF(const string &text, unsigned long foreColor, 
         }
     }
 #ifdef WIN32
-    if (charset == 0){
+    if ((charset == 0) && !strcasecmp(encoding, "system")){
         char buff[256];
         int res = GetLocaleInfoA(LOCALE_USER_DEFAULT, LOCALE_IDEFAULTANSICODEPAGE, (char*)&buff, sizeof(buff));
         if (res){

@@ -467,17 +467,17 @@ void SSLClient::read_ready()
         char b[2048];
         int n = sock->read(b, sizeof(b));
         if (n == -1){
-            notify->error_state(ErrorRead);
+            if (notify) notify->error_state(ErrorRead);
             return;
         }
         if (n == 0) break;
         n = BIO_write(rBIO, b, n);
         if (n == -1)
-            notify->error_state(ErrorRead);
+            if (notify) notify->error_state(ErrorRead);
         process();
     }
     if (state == SSLConnected)
-        notify->read_ready();
+        if (notify) notify->read_ready();
 }
 
 void SSLClient::write_ready()
@@ -486,7 +486,7 @@ void SSLClient::write_ready()
 
 void SSLClient::error_state(SocketError err)
 {
-    notify->error_state(err);
+    if (notify) notify->error_state(err);
 }
 
 #endif

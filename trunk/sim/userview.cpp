@@ -1098,6 +1098,9 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
                 for (QStringList::Iterator it = urls.begin(); it != urls.end(); ++it){
                     *it = QString("\"") + *it + "\"";
                 }
+            }else{
+                if (urls[0].find(' ') >= 0)
+                    urls[0] = QString("\"") + urls[0] + QString("\"");
             }
             callUserFunction(ui->m_uin, urls.join(" "), true);
         }

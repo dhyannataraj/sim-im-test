@@ -1286,6 +1286,8 @@ void FileTransfer::connect_ready()
         sock->writeBuffer << uin;
         sendPacket();
         if (m_nFiles == 0) sock->error_state(ErrorCancel);
+        if (file->files.size() == 0)
+            sock->error_state(ErrorCancel);
         curName = file->files[0].name;
         m_curSize = file->files[0].size;
     }

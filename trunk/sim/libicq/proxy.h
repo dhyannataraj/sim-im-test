@@ -20,6 +20,14 @@
 
 #include "socket.h"
 
+const unsigned PROXY_NONE = 0;
+const unsigned PROXY_SOCKS4	= 1;
+const unsigned PROXY_SOCKS5 = 2;
+const unsigned PROXY_HTTP = 3;
+#ifdef USE_OPENSSL
+const unsigned PROXY_HTTPS = 4;
+#endif
+
 class Proxy : public SocketNotify, public Socket
 {
 public:

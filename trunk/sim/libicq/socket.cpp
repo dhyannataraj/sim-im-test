@@ -208,6 +208,14 @@ void ClientSocket::setSocket(Socket *s)
     s->setNotify(this);
 }
 
+void SocketFactory::remove(Socket *s)
+{
+    s->setNotify(NULL);
+    for (list<Socket*>::iterator it = removedSockets.begin(); it != removedSockets.end(); ++it)
+        if ((*it) == s) return;
+    removedSockets.push_back(s);
+}
+
 void SocketFactory::idle()
 {
     for (list<ClientSocket*>::iterator it = errSockets.begin(); it != errSockets.end();){
@@ -224,5 +232,8 @@ void SocketFactory::idle()
         errSockets.remove(s);
         it = errSockets.begin();
     }
+    for (list<Socket*>::iterator its = removedSockets.begin(); its != removedSockets.end(); ++its)
+        delete *its;
+    removedSockets.clear();
 }
 

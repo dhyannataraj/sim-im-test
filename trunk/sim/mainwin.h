@@ -201,6 +201,7 @@ public:
     string			UserBoxToolbarDock;
     short			UserBoxToolbarOffset;
     short			UserBoxToolbarY;
+    unsigned short	UserBoxEditHeight;
 
     string			UserBoxFont;
 

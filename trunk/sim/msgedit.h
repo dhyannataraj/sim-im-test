@@ -22,6 +22,7 @@
 #include "cfg.h"
 
 #include <qsplitter.h>
+#include <qmainwindow.h>
 #include <qlabel.h>
 
 class QCheckBox;
@@ -73,6 +74,17 @@ protected slots:
     void labelClicked(int id);
 };
 
+class WMainWindow : public QMainWindow
+{
+    Q_OBJECT
+public:
+    WMainWindow(QWidget *parent, const char *name);
+signals:
+    void heightChanged(int);
+protected:
+    void resizeEvent(QResizeEvent*);
+};
+
 class MsgEdit : public QSplitter
 {
     Q_OBJECT
@@ -89,6 +101,7 @@ public:
     int tabId;
     UserTab *tab;
     unsigned long	Uin;
+    unsigned short	EditHeight;
     bool load(std::istream &s, string &part);
     void save(std::ostream &s);
     bool bMultiply;
@@ -140,12 +153,14 @@ protected slots:
     void insertSmile();
     void topReady(const QString &res);
     void bottomReady(const QString &res);
+    void heightChanged(int);
 protected:
     Tmpl *tmpl;
     MsgView *msgView;
     QFrame  *frmEdit;
     virtual bool eventFilter(QObject*, QEvent*);
     virtual void closeEvent(QCloseEvent *e);
+    void adjustSplitter();
     string smsChunk();
     QString trim(const QString&);
     QString chunk(const QString &s, int len);
@@ -192,6 +207,7 @@ protected:
     UserTbl    *users;
     EditSpell *edit;
     ICQEvent *sendEvent;
+    WMainWindow *wndEdit;
     bool bCloseSend;
     bool bInIgnore;
     bool bFirstShow;
