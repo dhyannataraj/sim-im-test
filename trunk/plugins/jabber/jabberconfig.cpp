@@ -129,18 +129,7 @@ void JabberConfig::changed()
     emit okEnabled(bOK);
 }
 
-<<<<<<< jabberconfig.cpp
-void JabberConfig::showPublic()
-{
-    Event e(EventGoURL, (void*)"http://www.jabber.org/user/publicservers.php");
-    e.process();
-}
-
-
-=======
-    >>>>>>> 1.4.2.1
 #ifndef WIN32
 #include "jabberconfig.moc"
 #endif
-
 
