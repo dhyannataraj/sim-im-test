@@ -1,4 +1,5 @@
 # translation of uk.po to 
+# translation of uk.po to
 # translation of uk.po to Ukrainian
 # translation of uk.po to Український
 # Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
@@ -8,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2004-07-24 22:15+0200\n"
-"PO-Revision-Date: 2004-07-03 18:29+0300\n"
+"PO-Revision-Date: 2004-07-25 11:12+0300\n"
 "Last-Translator: Ivan Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team:  <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1506,7 +1507,6 @@ msgid "&Source"
 msgstr "&Джерело"
 
 #: plugins/_core/maininfobase.cpp:246 plugins/_core/nonimbase.cpp:126 plugins/icq/aiminfobase.cc:287 plugins/icq/icqinfobase.cc:343 plugins/jabber/discoinfobase.cpp:314 plugins/jabber/jabberinfobase.cpp:299 plugins/yahoo/yahooinfobase.cpp:186
-#, fuzzy
 msgid "First Name:"
 msgstr "Ім'я:"
 
@@ -2924,12 +2924,10 @@ msgid "Nick"
 msgstr "Псевдонім"
 
 #: plugins/icq/icqsearch.cpp:299 plugins/jabber/jabberadd.cpp:279 plugins/jabber/jabbersearch.cpp:104 plugins/jabber/jabbersearch.cpp:304
-#, fuzzy
 msgid "First Name"
 msgstr "Ім'я"
 
 #: plugins/icq/icqsearch.cpp:301 plugins/jabber/jabberadd.cpp:280 plugins/jabber/jabbersearch.cpp:105 plugins/jabber/jabbersearch.cpp:305
-#, fuzzy
 msgid "Last Name"
 msgstr "Прізвище:"
 
@@ -8539,3 +8537,4 @@ msgstr "Стиль Windows XP"
 
 #~ msgid "%1 wrote:"
 #~ msgstr "%1 написав:"
+
