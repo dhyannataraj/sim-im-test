@@ -57,8 +57,10 @@ MsgTextEdit::MsgTextEdit(MsgEdit *edit, QWidget *parent)
     m_edit = edit;
     setBackground(CorePlugin::m_plugin->getEditBackground());
     setForeground(CorePlugin::m_plugin->getEditForeground(), true);
-#if defined(USE_KDE) && KDE_IS_VERSION(3,2,90)
+#if defined(USE_KDE)
+#if KDE_IS_VERSION(3,2,90)
     setCheckSpellingEnabled(true);
+#endif
 #endif
 }
 

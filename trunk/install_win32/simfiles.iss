@@ -61,6 +61,7 @@ Source: "..\Release\simext.dll"; DestDir: "{app}"; Flags: regserver restartrepla
 Source: "..\Release\simapi.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Release\simui.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Release\qjpegio.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\Release\idleui.dll"; DestDir: "{app}"
 Source: "..\Release\COPYING"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Release\plugins\__homedir.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\__migrate.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
