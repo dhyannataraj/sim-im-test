@@ -6,7 +6,7 @@ splash_la_SOURCES = \
 INCLUDES=-I../../sim/api $(all_includes)
 
 splash_la_METASOURCES = AUTO
-splash_la_LIBADD = ../../sim/api/libsimapi.la $(LIB_QT) $(EXTRA_LIBS)
+splash_la_LIBADD = ../../sim/api/libsimapi.la $(LIB_QT) $(LIB_KDECORE) $(EXTRA_LIBS)
 splash_la_LDFLAGS = -module -no-undefined -avoid-version $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 EXTRA_DIST = splash.png

@@ -91,7 +91,7 @@ SUBDIRS=pict styles
 INCLUDES=-I../../sim/api -I../../sim/ui $(all_includes)
 
 _core_la_METASOURCES = AUTO
-_core_la_LIBADD = ../../sim/api/libsimapi.la $(LIBUI) $(LIB_QT) $(EXTRA_LIBS) $(LIB_XSLT) 
+_core_la_LIBADD = ../../sim/api/libsimapi.la $(LIBUI) $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(EXTRA_LIBS) $(LIB_XSLT) 
 _core_la_LDFLAGS = -module -no-undefined -avoid-version $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 install-data-hook:

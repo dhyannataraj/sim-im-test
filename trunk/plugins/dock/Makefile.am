@@ -9,7 +9,7 @@ dock_la_SOURCES = \
 INCLUDES=-I../../sim/api -I../_core $(all_includes)
 
 dock_la_METASOURCES = AUTO
-dock_la_LIBADD = ../../sim/api/libsimapi.la $(LIB_QT) $(EXTRA_LIBS)
+dock_la_LIBADD = ../../sim/api/libsimapi.la $(LIB_QT) $(LIB_KDECORE) $(EXTRA_LIBS)
 dock_la_LDFLAGS = -module -no-undefined -avoid-version $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 install-data-hook:

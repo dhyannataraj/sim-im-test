@@ -8,7 +8,7 @@ background_la_SOURCES = \
 INCLUDES=-I../../sim/api -I../../sim/ui $(all_includes)
 
 background_la_METASOURCES = AUTO
-background_la_LIBADD = ../../sim/api/libsimapi.la $(LIBUI) $(LIB_QT) $(EXTRA_LIBS)
+background_la_LIBADD = ../../sim/api/libsimapi.la $(LIBUI) $(LIB_QT) $(LIB_KDECORE) $(EXTRA_LIBS)
 background_la_LDFLAGS = -module -no-undefined -avoid-version $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 install-data-hook:

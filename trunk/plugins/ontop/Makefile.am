@@ -8,7 +8,7 @@ ontop_la_SOURCES = \
 INCLUDES=-I../../sim/api $(all_includes)
 
 ontop_la_METASOURCES = AUTO
-ontop_la_LIBADD = ../../sim/api/libsimapi.la $(LIB_QT) $(EXTRA_LIBS)
+ontop_la_LIBADD = ../../sim/api/libsimapi.la $(LIB_QT) $(LIB_KDECORE) $(EXTRA_LIBS)
 ontop_la_LDFLAGS = -module -no-undefined -avoid-version $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 install-data-hook:

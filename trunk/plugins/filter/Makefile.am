@@ -10,7 +10,7 @@ filter_la_SOURCES = \
 INCLUDES=-I../../sim/api -I../../sim/ui -I../_core $(all_includes)
 
 filter_la_METASOURCES = AUTO
-filter_la_LIBADD = ../../sim/api/libsimapi.la $(LIBUI) $(LIB_QT) $(EXTRA_LIBS)
+filter_la_LIBADD = ../../sim/api/libsimapi.la $(LIBUI) $(LIB_QT) $(LIB_KDECORE) $(EXTRA_LIBS)
 filter_la_LDFLAGS = -module -no-undefined -avoid-version $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 install-data-hook:

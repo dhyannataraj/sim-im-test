@@ -19,7 +19,7 @@ servicedir = $(kde_servicesdir)
 EXTRA_DIST = $(mime_DATA) $(service_DATA)
 
 remote_la_METASOURCES = AUTO
-remote_la_LIBADD = ../../sim/api/libsimapi.la $(LIB_QT) $(EXTRA_LIBS) 
+remote_la_LIBADD = ../../sim/api/libsimapi.la $(LIB_QT) $(LIB_KDECORE) $(EXTRA_LIBS) 
 remote_la_LDFLAGS = -module -no-undefined -avoid-version $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 install-data-hook:
