@@ -2404,7 +2404,7 @@ bool CorePlugin::init(bool bInit)
         if (!bInit || m_profiles.size()){
             if (bInit)
                 hideWindows();
-            LoginDialog dlg(bInit, NULL, "");
+            LoginDialog dlg(bInit, NULL, "", bInit ? "" : getProfile());
             if (dlg.exec() == 0){
                 if (bInit || dlg.isChanged()){
                     Event eAbort(EventPluginsLoad, (void*)ABORT_LOADING);
@@ -2427,9 +2427,21 @@ bool CorePlugin::init(bool bInit)
             return false;
         }
         Client *client = getContacts()->getClient(0);
-        setProfile(client->name().c_str());
+        string profile = client->name();
+        setProfile(NULL);
+        QString profileDir = QFile::decodeName(app_file("").c_str());
+        profileDir += profile.c_str();
+        for (unsigned i = 1;;i++){
+            QDir d(profileDir + "." + QString::number(i));
+            if (!d.exists()){
+                profile += '.';
+                profile += number(i);
+                break;
+            }
+        }
+
+        setProfile(profile.c_str());
         bLoaded = true;
-        getContacts()->save();
         bRes = false;
         bNew = true;
     }
@@ -2473,6 +2485,8 @@ bool CorePlugin::init(bool bInit)
     if (!bRes){
         Event eInit(EventInit);
         eInit.process();
+        Event eSave(EventSaveState);
+        eSave.process();
     }
     return bRes;
 }
@@ -2618,9 +2632,10 @@ string CorePlugin::getConfig()
     }
     delete list;
     setContainers(containers.c_str());
-
-    saveGeometry(m_main, data.geometry);
-    saveToolbar(m_main->bar, data.toolBarState);
+    if (m_main){
+        saveGeometry(m_main, data.geometry);
+        saveToolbar(m_main->bar, data.toolBarState);
+    }
     string cfg = save_data(coreData, &data);
     string saveProfile = getProfile();
     setProfile(NULL);

@@ -32,7 +32,7 @@
 #include <qapplication.h>
 #include <qtimer.h>
 
-LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text)
+LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const char *loginProfile)
         : LoginDialogBase(NULL, "logindlg",
                           client ? false : true,
                           client ? WDestructiveClose : 0)
@@ -42,14 +42,20 @@ LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text)
     m_profile = CorePlugin::m_plugin->getProfile();
     m_client = client;
     m_bLogin = false;
+    if (loginProfile && *loginProfile){
+        m_loginProfile = loginProfile;
+    }else{
+        btnDelete->hide();
+    }
     SET_WNDPROC("login")
-    setIcon(Pict("licq"));
     setButtonsPict(this);
     lblMessage->setText(text);
     if (m_client){
-        setCaption(caption());
+        setCaption(caption() + " " + QString::fromLocal8Bit(client->name().c_str()));
+        setIcon(Pict(m_client->protocol()->description()->icon));
     }else{
         setCaption(i18n("Select profile"));
+        setIcon(Pict("licq"));
     }
     if (m_client){
         chkSave->hide();
@@ -60,7 +66,6 @@ LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text)
     }
     chkSave->setChecked(CorePlugin::m_plugin->getSavePasswd());
     chkNoShow->setChecked(CorePlugin::m_plugin->getNoShow());
-    connect(buttonOk, SIGNAL(clicked()), this, SLOT(apply()));
     connect(chkSave, SIGNAL(toggled(bool)), this, SLOT(saveToggled(bool)));
     saveToggled(CorePlugin::m_plugin->getSavePasswd());
     fill();
@@ -69,43 +74,15 @@ LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text)
     profileChanged(cmbProfile->currentItem());
 }
 
+LoginDialog::~LoginDialog()
+{
+}
+
 void LoginDialog::saveToggled(bool bState)
 {
     if (!bState)
         chkNoShow->setChecked(false);
     chkNoShow->setEnabled(bState);
-}
-
-void LoginDialog::apply()
-{
-    if (m_client)
-        return;
-    getContacts()->clearClients();
-    int n = cmbProfile->currentItem();
-    if ((n < 0) || (n >= cmbProfile->count() - 1)){
-        CorePlugin::m_plugin->setSavePasswd(chkSave->isChecked());
-        CorePlugin::m_plugin->setNoShow(chkNoShow->isChecked());
-        CorePlugin::m_plugin->setProfile(NULL);
-        CorePlugin::m_plugin->changeProfile();
-        return;
-    }
-    CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->m_profiles[n].c_str());
-    if (m_profile != CorePlugin::m_plugin->getProfile()){
-        CorePlugin::m_plugin->changeProfile();
-        m_bProfileChanged = true;
-    }
-    CorePlugin::m_plugin->setSavePasswd(chkSave->isChecked());
-    CorePlugin::m_plugin->setNoShow(chkNoShow->isChecked());
-    ClientList clients;
-    CorePlugin::m_plugin->loadClients(clients);
-    clients.addToContacts();
-    getContacts()->load();
-    for (unsigned i = 0; i < passwords.size(); i++){
-        Client *client = getContacts()->getClient(i);
-        client->setPassword(passwords[i]->text());
-        client->setSavePassword(chkSave->isChecked());
-    }
-    m_bLogin = false;
 }
 
 void LoginDialog::closeEvent(QCloseEvent *e)
@@ -120,16 +97,72 @@ void LoginDialog::closeEvent(QCloseEvent *e)
 
 void LoginDialog::accept()
 {
+    if (m_bLogin){
+        stopLogin();
+        return;
+    }
+
     if (m_client){
-        if (m_bLogin){
-            stopLogin();
-        }else{
-            startLogin();
-            m_client->setPassword(passwords[0]->text());
-            unsigned status = m_client->getStatus();
+        startLogin();
+        QString prev = m_client->getPreviousPassword();
+        if (prev.isEmpty())
+            m_client->setPreviousPassword(m_client->getPassword());
+        m_client->setPassword(passwords[0]->text());
+        unsigned status = m_client->getStatus();
+        if (status == STATUS_OFFLINE)
+            status = STATUS_ONLINE;
+        m_client->setStatus(status, m_client->getCommonStatus());
+        LoginDialogBase::accept();
+        return;
+    }
+
+    getContacts()->clearClients();
+    int n = cmbProfile->currentItem();
+    if ((n < 0) || (n >= cmbProfile->count() - 1)){
+        CorePlugin::m_plugin->setSavePasswd(chkSave->isChecked());
+        CorePlugin::m_plugin->setNoShow(chkNoShow->isChecked());
+        CorePlugin::m_plugin->setProfile(NULL);
+        CorePlugin::m_plugin->changeProfile();
+        LoginDialogBase::accept();
+        return;
+    }
+
+    CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->m_profiles[n].c_str());
+    if (m_profile != CorePlugin::m_plugin->getProfile()){
+        CorePlugin::m_plugin->changeProfile();
+        m_bProfileChanged = true;
+    }
+
+    CorePlugin::m_plugin->setSavePasswd(chkSave->isChecked());
+    CorePlugin::m_plugin->setNoShow(chkNoShow->isChecked());
+
+    ClientList clients;
+    CorePlugin::m_plugin->loadClients(clients);
+    clients.addToContacts();
+    getContacts()->load();
+
+    m_bLogin = false;
+    for (unsigned i = 0; i < passwords.size(); i++){
+        Client *client = getContacts()->getClient(i);
+        client->setSavePassword(chkSave->isChecked());
+        QString pswd = client->getPassword();
+        QString new_pswd = passwords[i]->text();
+        if (pswd != new_pswd){
+            QString prev = client->getPreviousPassword();
+            if (!prev.isEmpty())
+                client->setPreviousPassword(pswd);
+            client->setPassword(new_pswd);
+            m_bLogin = true;
+        }
+    }
+    if (m_bLogin){
+        startLogin();
+        for (unsigned i = 0; i < passwords.size(); i++){
+            Client *client = getContacts()->getClient(i);
+            unsigned status = client->getStatus();
             if (status == STATUS_OFFLINE)
                 status = STATUS_ONLINE;
-            m_client->setStatus(status, m_client->getCommonStatus());
+            client->setStatus(status, client->getCommonStatus());
         }
         return;
     }
@@ -171,45 +204,16 @@ void LoginDialog::profileChanged(int)
         }else{
             lblPasswd->hide();
         }
+        unsigned row = 2;
         if (clients.size() == 1){
-            QLabel *txt = new QLabel(this);
-            txt->setText(i18n("Password:"));
-            txt->setAlignment(AlignRight);
-            QLineEdit *edt = new QLineEdit(this);
-            edt->setText(clients[0]->getPassword());
-            edt->setEchoMode(QLineEdit::Password);
-            connect(edt, SIGNAL(textChanged(const QString&)), this, SLOT(pswdChanged(const QString&)));
-            passwords.push_back(edt);
-            texts.push_back(txt);
-            PLayout->addWidget(txt, 2, 1);
-            PLayout->addWidget(edt, 2, 2);
-            edt->show();
-            txt->show();
+            makeInputs(row, clients[0], true);
         }else{
-            for (unsigned i = 0; i < clients.size(); i++){
-                Client *client = clients[i];
-                QLabel *pict = new QLabel(this);
-                pict->setPixmap(Pict(client->protocol()->description()->icon));
-                QLabel *txt = new QLabel(this);
-                txt->setText(QString::fromLocal8Bit(client->name().c_str()));
-                QLineEdit *edt = new QLineEdit(this);
-                edt->setText(client->getPassword());
-                edt->setEchoMode(QLineEdit::Password);
-                connect(edt, SIGNAL(textChanged(const QString&)), this, SLOT(pswdChanged(const QString&)));
-                passwords.push_back(edt);
-                texts.push_back(txt);
-                picts.push_back(pict);
-                PLayout->addWidget(pict, i + 2, 0);
-                PLayout->addWidget(txt, i + 2, 1);
-                PLayout->addWidget(edt, i + 2, 2);
-                pict->show();
-                txt->show();
-                edt->show();
-            }
+            for (unsigned i = 0; i < clients.size(); i++)
+                makeInputs(row, clients[i], false);
         }
         if (passwords.size())
             passwords[0]->setFocus();
-        btnDelete->setEnabled(true);
+        btnDelete->setEnabled(m_loginProfile == CorePlugin::m_plugin->m_profiles[n].c_str());
         buttonOk->setEnabled(false);
         pswdChanged("");
     }
@@ -246,36 +250,53 @@ static void rmDir(const QString &path)
     d.rmdir(path);
 }
 
+void LoginDialog::makeInputs(unsigned &row, Client *client, bool bQuick)
+{
+    if (!bQuick){
+        QLabel *pict = new QLabel(this);
+        pict->setPixmap(Pict(client->protocol()->description()->icon));
+        picts.push_back(pict);
+        PLayout->addWidget(pict, row, 0);
+        pict->show();
+    }
+    QLabel *txt = new QLabel(this);
+    txt->setText(bQuick ? i18n("Password:") : QString::fromLocal8Bit(client->name().c_str()));
+    txt->setAlignment(AlignRight);
+    QLineEdit *edt = new QLineEdit(this);
+    edt->setText(client->getPassword());
+    edt->setEchoMode(QLineEdit::Password);
+    connect(edt, SIGNAL(textChanged(const QString&)), this, SLOT(pswdChanged(const QString&)));
+    passwords.push_back(edt);
+    texts.push_back(txt);
+    PLayout->addWidget(txt, row, 1);
+    PLayout->addWidget(edt, row, 2);
+    txt->show();
+    edt->show();
+    const char *helpUrl = client->protocol()->description()->accel;
+    if (helpUrl && *helpUrl){
+        LinkLabel *lnkHelp = new LinkLabel(this);
+        PLayout->addWidget(lnkHelp, ++row, 2);
+        lnkHelp->setText(i18n("Forgot password?"));
+        lnkHelp->setUrl(i18n(helpUrl).latin1());
+        lnkHelp->show();
+        links.push_back(lnkHelp);
+    }
+    row++;
+}
+
 void LoginDialog::fill()
 {
     if (m_client){
         lblPasswd->hide();
-        QLabel *pict = new QLabel(this);
-        pict->setPixmap(Pict(m_client->protocol()->description()->icon));
-        QLabel *txt = new QLabel(this);
-        txt->setText(QString::fromLocal8Bit(m_client->name().c_str()));
-        QLineEdit *edt = new QLineEdit(this);
-        edt->setText(m_client->getPassword());
-        edt->setEchoMode(QLineEdit::Password);
-        connect(edt, SIGNAL(textChanged(const QString&)), this, SLOT(pswdChanged(const QString&)));
-        passwords.push_back(edt);
-        texts.push_back(txt);
-        picts.push_back(pict);
-        PLayout->addWidget(pict, 2, 0);
-        PLayout->addWidget(txt, 2, 1);
-        PLayout->addWidget(edt, 2, 2);
-        LinkLabel *lnkHelp = new LinkLabel(this);
-        PLayout->addWidget(lnkHelp, 3, 3);
-        lnkHelp->setText(i18n("Forgot password?"));
-        connect(lnkHelp, SIGNAL(click()), this, SLOT(clickHelp()));
-        pict->show();
-        txt->show();
-        edt->show();
+        unsigned row = 2;
+        makeInputs(row, m_client, true);
         return;
     }
     cmbProfile->clear();
     int newCur = -1;
     string save_profile = CorePlugin::m_plugin->getProfile();
+    CorePlugin::m_plugin->m_profiles.clear();
+    CorePlugin::m_plugin->loadDir();
     for (unsigned i = 0; i < CorePlugin::m_plugin->m_profiles.size(); i++){
         string curProfile = CorePlugin::m_plugin->m_profiles[i];
         if (!strcmp(curProfile.c_str(), save_profile.c_str()))
@@ -312,6 +333,9 @@ void LoginDialog::clearInputs()
     for (i = 0; i < passwords.size(); i++)
         delete passwords[i];
     passwords.clear();
+    for (i = 0; i < links.size(); i++)
+        delete links[i];
+    links.clear();
 }
 
 void LoginDialog::pswdChanged(const QString&)
@@ -333,6 +357,7 @@ void LoginDialog::profileDelete()
     CorePlugin::m_plugin->setProfile(curProfile.c_str());
     rmDir(QFile::decodeName(user_file("").c_str()));
     CorePlugin::m_plugin->setProfile(NULL);
+    CorePlugin::m_plugin->changeProfile();
     CorePlugin::m_plugin->m_profiles.clear();
     CorePlugin::m_plugin->loadDir();
     clearInputs();
@@ -370,55 +395,58 @@ void LoginDialog::loginComplete()
 {
     if (!m_bLogin)
         return;
-    m_client->setStatus(m_client->getManualStatus(), m_client->getCommonStatus());
+    if (m_client){
+        m_client->setStatus(m_client->getManualStatus(), m_client->getCommonStatus());
+    }else{
+        for (unsigned i = 0; i < passwords.size(); i++){
+            Client *client = getContacts()->getClient(i);
+            client->setStatus(client->getManualStatus(), client->getCommonStatus());
+        }
+    }
     m_bLogin = false;
     hide();
     close();
-}
-
-void LoginDialog::clickHelp()
-{
-    if (m_client == NULL)
-        return;
-    const char *url = m_client->protocol()->description()->accel;
-    if (url && *url){
-        string url_str;
-        url_str = i18n(url).latin1();
-        Event e(EventGoURL, (void*)(url_str.c_str()));
-        e.process();
-    }
+    setResult(true);
 }
 
 void *LoginDialog::processEvent(Event *e)
 {
     switch (e->type()){
     case EventClientChanged:
-            if ((Client*)(e->param()) == m_client){
-                if (m_client->getState() == Client::Connected){
-                    QTimer::singleShot(0, this, SLOT(loginComplete()));
-                    return NULL;
-                }
+        if (m_bLogin && ((m_client == NULL) || ((Client*)(e->param()) == m_client))){
+            if (((Client*)(e->param()))->getState() == Client::Connected){
+                QTimer::singleShot(0, this, SLOT(loginComplete()));
+                return NULL;
             }
+        }
         break;
     case EventClientError:
         if (m_bLogin){
             clientErrorData *d = (clientErrorData*)(e->param());
-            if (d->client == m_client){
-                stopLogin();
-                QString msg;
-                if (d->err_str && *d->err_str){
-                    msg = i18n(d->err_str);
-                    if (d->args)
-                        msg = msg.arg(QString::fromUtf8(d->args));
-                }else{
-                    msg = i18n("Login failed");
+            if (m_client){
+                if (d->client != m_client)
+                    return NULL;
+            }else{
+                for (unsigned i = 0; i < passwords.size(); i++){
+                    Client *client = getContacts()->getClient(i);
+                    if (client->getState() != Client::Error)
+                        return e->param();
                 }
-                if (msg.length()){
-                    raiseWindow(this);
-                    BalloonMsg::message(msg, buttonOk);
-                }
-                return e->param();
             }
+            stopLogin();
+            QString msg;
+            if (d->err_str && *d->err_str){
+                msg = i18n(d->err_str);
+                if (d->args)
+                    msg = msg.arg(QString::fromUtf8(d->args));
+            }else{
+                msg = i18n("Login failed");
+            }
+            if (msg.length()){
+                raiseWindow(this);
+                BalloonMsg::message(msg, buttonOk);
+            }
+            return e->param();
         }
         break;
     }

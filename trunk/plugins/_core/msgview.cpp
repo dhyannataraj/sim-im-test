@@ -677,6 +677,7 @@ protected:
     QString res;
     bool m_bIgnoreColors;
     bool m_bUseSmiles;
+    bool m_bInLink;
     list<Smile> m_smiles;
     virtual void text(const QString &text);
     virtual void tag_start(const QString &tag, const list<QString> &options);
@@ -687,6 +688,7 @@ ViewParser::ViewParser(bool bIgnoreColors, bool bUseSmiles)
 {
     m_bIgnoreColors = bIgnoreColors;
     m_bUseSmiles    = bUseSmiles;
+    m_bInLink       = false;
     if (m_bUseSmiles){
         for (unsigned i = 0; ;i++){
             const smile *s = smiles(i);
@@ -705,6 +707,7 @@ ViewParser::ViewParser(bool bIgnoreColors, bool bUseSmiles)
                     }
                     if (*p == 0)
                         break;
+                    str = "";
                     continue;
                 }
                 if (*p == '\\'){
@@ -738,7 +741,7 @@ QString ViewParser::parse(const QString &str)
 
 void ViewParser::text(const QString &text)
 {
-    if (!m_bUseSmiles){
+    if (!m_bUseSmiles || m_bInLink){
         res += text;
         return;
     }
@@ -830,7 +833,9 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &options)
             }
         }
     }
-    if (m_bIgnoreColors){
+    if (tag == "a"){
+        m_bInLink = true;
+    }else if (m_bIgnoreColors){
         const char **p;
         for (p = formatTags; *p; p++)
             if (tag == *p)
@@ -859,7 +864,9 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &options)
 
 void ViewParser::tag_end(const QString &tag)
 {
-    if (m_bIgnoreColors){
+    if (tag == "a"){
+        m_bInLink = false;
+    }else if (m_bIgnoreColors){
         const char **p;
         for (p = formatTags; *p; p++)
             if (tag == *p)

@@ -438,6 +438,7 @@ public:
     void addFullInfoRequest(unsigned long uin, bool bInLast = true);
     ListRequest *findContactListRequest(const char *screen);
     ListRequest *findGroupListRequest(unsigned short id);
+    void removeListRequest(ListRequest *lr);
     virtual void setupContact(Contact*, void *data);
     string clientName(ICQUserData*);
     void sendStatus();

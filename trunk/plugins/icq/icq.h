@@ -28,6 +28,7 @@ public:
     Client	*createClient(const char *cfg);
     const CommandDef *description();
     const CommandDef *statusList();
+    static const CommandDef *_statusList();
     virtual const DataDef *userDataDef();
     static const DataDef *icqUserData;
 };

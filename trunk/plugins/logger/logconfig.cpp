@@ -59,6 +59,7 @@ void LogConfig::fill()
         box->setChecked(m_plugin->isLogType(packet->id()));
         m_boxes.insert(BOX_MAP::value_type(packet->id(), box));
     }
+    setMinimumSize(sizeHint());
 }
 
 void *LogConfig::processEvent(Event *e)

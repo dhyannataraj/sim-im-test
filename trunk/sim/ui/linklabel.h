@@ -26,10 +26,10 @@ class UI_EXPORT LinkLabel : public QLabel
     Q_OBJECT
 public:
     LinkLabel(QWidget *parent = NULL, const char *name = NULL);
-signals:
-    void click();
+    void setUrl(const QString &url);
 protected:
     virtual void mouseReleaseEvent(QMouseEvent * e);
+    QString m_url;
 };
 
 class UI_EXPORT TipLabel : public QLabel

@@ -261,9 +261,9 @@ GlobalKey::GlobalKey(CommandDef *cmd)
         accel->updateConnections();
     }
 #else
-accel = new KGlobalAccel(this);
-accel->insertItem(i18n(s->text), i18n(s->text), s->accel);
-accel->connectItem(cmd->accel, this, SLOT(execute()));
+	accel = new KGlobalAccel(this);
+	accel->insertItem(i18n(s->text), i18n(s->text), s->accel);
+	accel->connectItem(cmd->accel, this, SLOT(execute()));
 #endif
 }
 

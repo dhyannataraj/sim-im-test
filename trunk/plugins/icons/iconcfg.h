@@ -43,7 +43,6 @@ public:
     IconCfg(QWidget *parent, IconsPlugin *plugin);
 public slots:
     void apply();
-    void goIcons();
     void protocolChanged(int);
     void textChanged(const QString &text);
 protected:

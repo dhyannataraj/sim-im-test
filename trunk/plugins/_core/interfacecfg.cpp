@@ -142,7 +142,7 @@ QStringList InterfaceConfig::getLangItems()
     QStringList items;
     const language *l;
     for (l = langs; l->code; l++){
-        if (strcmp(l->code, "-")){
+        if (strcmp(l->code, "-") == 0){
             items.append(i18n(l->name));
             continue;
         }

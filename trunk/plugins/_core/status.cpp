@@ -290,7 +290,7 @@ void *CommonStatus::processEvent(Event *e)
                     msg = msg.arg(QString::fromUtf8(data->args));
             }
             if (data->code == AuthError){
-                LoginDialog *loginDlg = new LoginDialog(false, data->client, msg);
+                LoginDialog *loginDlg = new LoginDialog(false, data->client, msg, NULL);
                 raiseWindow(loginDlg);
             }else{
                 Command cmd;

@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>430</width>
+            <width>426</width>
             <height>276</height>
         </rect>
     </property>
@@ -717,7 +717,7 @@
                         </property>
                         <property>
                             <name>text</name>
-                            <string>Screen name:</string>
+                            <string>ScreenName:</string>
                         </property>
                         <property>
                             <name>alignment</name>
