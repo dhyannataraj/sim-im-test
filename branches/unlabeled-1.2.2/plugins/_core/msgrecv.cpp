@@ -26,6 +26,7 @@
 #include <qtooltip.h>
 #include <qpainter.h>
 #include <qtimer.h>
+#include <qlayout.h>
 
 QString parseText(const string &text, bool bIgnoreColors, bool bUseSmiles);
 
@@ -62,11 +63,12 @@ MsgReceived::MsgReceived(CToolCustom *parent, Message *msg)
             type = mdef->base_type;
         }
     }
-    unsigned n = 0;
+
     if (mdef && mdef->cmd){
+		unsigned n = 0;
         for (const CommandDef *d = mdef->cmd; d->text; d++, n++){
-            CmdButton *btn = new CmdButton(parent, CmdMsgSpecial + n, d->text);
-            parent->addWidget(btn);
+            CmdButton *btn;
+			btn = new CmdButton(parent, CmdMsgSpecial + n, d->text);
             connect(btn, SIGNAL(command(unsigned)), this, SLOT(command(unsigned)));
             btn->show();
         }
@@ -79,8 +81,8 @@ MsgReceived::MsgReceived(CToolCustom *parent, Message *msg)
         Event e(EventCheckState, c);
         if (!e.process())
             continue;
-        CmdButton *btn = new CmdButton(parent, c->id, c->text);
-        parent->addWidget(btn);
+        CmdButton *btn;
+		btn = new CmdButton(parent, c->id, c->text);
         connect(btn, SIGNAL(command(unsigned)), this, SLOT(command(unsigned)));
         btn->show();
     }
@@ -165,8 +167,8 @@ void MsgReceived::textChanged()
     QTimer::singleShot(0, m_edit, SLOT(setInput()));
 }
 
-CmdButton::CmdButton(QWidget *parent, unsigned id, const char *text)
-        : QToolButton(parent)
+CmdButton::CmdButton(CToolCustom *parent, unsigned id, const char *text)
+	: QToolButton(parent)
 {
     m_id   = id;
     m_text = text;
@@ -175,6 +177,8 @@ CmdButton::CmdButton(QWidget *parent, unsigned id, const char *text)
     setSizePolicy(p);
     setText();
     connect(this, SIGNAL(clicked()), this, SLOT(click()));
+	parent->addWidget(this);
+	setAutoRaise(true);
 }
 
 void CmdButton::setText()
@@ -197,7 +201,10 @@ void CmdButton::paintEvent(QPaintEvent*)
 {
     QPixmap pict(width(), height());
     QPainter p(&pict);
-    QWidget *pw = static_cast<QWidget*>(parent());
+	QWidget *pw;
+	for (pw = parentWidget(); pw; pw = pw->parentWidget())
+		if (pw->inherits("QToolBar"))
+			break;
     if (pw){
         if (pw->backgroundPixmap()){
             p.drawTiledPixmap(0, 0, width(), height(), *pw->backgroundPixmap(), x(), y());

@@ -39,6 +39,7 @@
 
 static void set_button(QToolButton *btn, const char *icon, const char *label)
 {
+	btn->setAutoRaise(true);
     btn->setIconSet(*Icon(icon));
     QString text = i18n(label);
     int key = QAccel::shortcutKey(text);

@@ -1007,14 +1007,13 @@ Client::Client(Protocol *protocol, const char *cfg)
 
     // now uncrypt password somehow
     QString pswd = getPassword();
-    if (pswd.length()) {
+    if (pswd.length() && (pswd[0] == '$')) {
+		pswd = pswd.mid(1);
         QString new_pswd;
         unsigned short temp = 0x4345;
         QString tmp;
         do {
-            QString sub_str = pswd.left(4);
-            pswd.remove(0,5);
-
+            QString sub_str = getToken(pswd, '$');
             temp ^= sub_str.toUShort(0,16);
             new_pswd += tmp.setUnicodeCodes(&temp,1);
             temp = sub_str.toUShort(0,16);
@@ -1089,9 +1088,8 @@ string Client::getConfig()
         unsigned short temp = 0x4345;
         for (int i = 0; i < (int)(pswd.length()); i++) {
             temp ^= (pswd[i].unicode());
+			new_passwd += "$";
             new_passwd += QString::number(temp,16);
-            if (i+1 != pswd.length())
-                new_passwd +=";";
         }
         setPassword(new_passwd);
     }

@@ -50,6 +50,7 @@ MsgSMS::MsgSMS(CToolCustom *parent, Message *msg)
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
     parent->addWidget(this);
     btnTranslit = new QToolButton(parent);
+	btnTranslit->setAutoRaise(true);
     btnTranslit->setIconSet(*Icon("translit"));
     btnTranslit->setTextLabel(i18n("Send in translit"));
     btnTranslit->setToggleButton(true);
