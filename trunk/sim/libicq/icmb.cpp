@@ -327,8 +327,8 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
     payload.unpack(info, sizeof(info));
     unsigned long sign1;
     payload.unpack(sign1);
-    if (sign1 != 3){
-        log(L_WARN, "Bad sign in TLV 2711");
+    if ((sign1 != 3) && (sign1 != 0)){
+        log(L_WARN, "Bad sign in TLV 2711 (%u)", sign1);
         return;
     }
     char sign2;
@@ -340,11 +340,11 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
     unsigned short cookie1;
     unsigned short cookie2;
     unsigned short cookie3;
-    payload >> cookie1;
-    payload >> cookie2;
-    payload >> cookie3;
-    if (cookie1 != cookie3){
-        log(L_WARN, "Bad cookie in TLV 2711");
+    payload.unpack(cookie1);
+    payload.unpack(cookie2);
+    payload.unpack(cookie3);
+    if ((cookie1 != cookie3) && (cookie1 + 1 != cookie3)){
+        log(L_WARN, "Bad cookie in TLV 2711 (%X %X %X)", cookie1, cookie2, cookie3);
         return;
     }
     payload.incReadPos(12);

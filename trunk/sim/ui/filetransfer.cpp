@@ -62,6 +62,9 @@ FileTransferDlg::FileTransferDlg(QWidget *p, ICQFile *_file)
         QString name = file->Name.c_str();
         if (name.find(QRegExp("^[0-9]+ Files$")) >= 0)
             nFiles = name.toUInt();
+        setCaption(i18n("Receive file"));
+    }else{
+        setCaption(i18n("Send file"));
     }
     if (nFiles <= 1){
         barBatch->hide();

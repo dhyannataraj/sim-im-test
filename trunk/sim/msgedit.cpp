@@ -1466,6 +1466,7 @@ void MsgEdit::makeMessage()
             m->Charset = "utf-8";
             m->BackColor = (edit->background().rgb() & 0xFFFFFF);
             m->ForeColor = (edit->foreground().rgb() & 0xFFFFFF);
+
             pMain->MessageBgColor = m->BackColor();
             pMain->MessageFgColor = m->ForeColor();
             if (edit->fontChanged()){
