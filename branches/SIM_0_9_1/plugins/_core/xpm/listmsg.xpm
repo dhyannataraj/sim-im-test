@@ -1,0 +1,22 @@
+/* XPM */
+static const char *listmsg[]={
+"16 16 3 1",
+"# c #800000",
+"a c #ffff00",
+". c None",
+".....###########",
+"....#aaaaaaaaaa#",
+"..##aaaaaaaaaa#.",
+"..#aaaaaaaaaaa#.",
+".#aaaaaaaaaaa#..",
+"#aa########aa#..",
+"#aaaaaaaaaaaa#..",
+"#aa########aa#..",
+"#aaaaaaaaaaaa#..",
+"#aaaaaaaaaaaa#..",
+"#aa#######aaa#..",
+"#aaaaaaaaaaa#...",
+"#aaaaaaaaaa#....",
+"#aaaaaaaaa#.....",
+".#aaaaaaaa#.....",
+"..########......"};
