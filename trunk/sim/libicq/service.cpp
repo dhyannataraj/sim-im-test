@@ -262,7 +262,7 @@ bool ICQClient::updatePhoneBook()
 void ICQClientPrivate::sendInfoUpdate()
 {
     time_t now;
-    time(now);
+    time(&now);
     Buffer b;
     b << (char)1;
     b.pack((unsigned long)now);
