@@ -122,7 +122,9 @@ void ICQInfo::apply()
     if (!set_str(&data->Encoding, encoding.c_str()))
         return;
     Contact *contact;
-    if (m_client->findContact(data->Uin, NULL, false, contact)){
+    if (data->Uin ?
+            m_client->findContact(number(data->Uin).c_str(), NULL, false, contact) :
+            m_client->findContact(data->Screen, NULL, false, contact)){
         Event e(EventContactChanged, contact);
         e.process();
         Event eh(EventHistoryConfig, (void*)(contact->id()));

@@ -77,15 +77,15 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
         log(L_DEBUG, "Ack im icq");
         break;
     case ICQ_SNACxSRV_NAMExINFO:{
-            unsigned long uin = m_socket->readBuffer.unpackUin();
-            if (uin == 0){
+            string screen = m_socket->readBuffer.unpackScreen();
+            if (screen.length() == 0){
                 char n;
                 m_socket->readBuffer >> n;
                 m_socket->readBuffer.incReadPos(n);
-                uin = m_socket->readBuffer.unpackUin();
+                screen = m_socket->readBuffer.unpackScreen();
             }
-            if (uin != data.owner.Uin){
-                log(L_WARN, "No my name info (%lu)", uin);
+            if ((unsigned)atol(screen.c_str()) != data.owner.Uin){
+                log(L_WARN, "No my name info (%s)", screen.c_str());
                 break;
             }
             m_socket->readBuffer.incReadPos(4);

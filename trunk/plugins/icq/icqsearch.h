@@ -47,6 +47,7 @@ protected slots:
 protected:
     virtual void *processEvent(Event *e);
     virtual void showEvent(QShowEvent *e);
+    void fillGroup();
     string getString(QLineEdit*);
     void setFindText();
     bool m_bRandomSearch;

@@ -46,6 +46,7 @@ public:
     ~ICQSearchResult();
     void clear();
     void setRequestId(unsigned short id);
+    void setText(const QString &text);
 signals:
     void finished();
     void startSearch();

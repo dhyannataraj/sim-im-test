@@ -29,6 +29,7 @@
 #include <qstyle.h>
 #include <qcombobox.h>
 #include <qcheckbox.h>
+#include <qvalidator.h>
 
 extern const ext_info *p_genders;
 extern const ext_info *p_languages;
@@ -45,6 +46,36 @@ const ext_info ages[] =
         { "", 0 }
     };
 
+class AIMValidator : public QValidator
+{
+public:
+    AIMValidator(QWidget *parent);
+    virtual State validate(QString &input, int &pos) const;
+};
+
+AIMValidator::AIMValidator(QWidget *parent)
+        : QValidator(parent)
+{
+}
+
+QValidator::State AIMValidator::validate(QString &input, int &pos) const
+{
+    if (input.length() == 0)
+        return Intermediate;
+    char c = input[0].latin1();
+    if (((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z'))){
+        for (int i = 1; i < input.length(); i++){
+            char c = input[i].latin1();
+            if (((c >= 'a') && (c <= 'z')) ||
+                    ((c >= 'A') && (c <= 'Z')) ||
+                    ((c >= '0') && (c <= '9')))
+                continue;
+            return Invalid;
+        }
+        return Acceptable;
+    }
+    return Invalid;
+}
 
 ICQSearch::ICQSearch(ICQClient *client)
 {
@@ -72,6 +103,7 @@ ICQSearch::ICQSearch(ICQClient *client)
     connect(edtLast, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     connect(edtNick, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     connect(edtUin, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
+    connect(edtScreen, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     connect(edtEmail, SIGNAL(returnPressed()), this, SLOT(search()));
     connect(edtFirst, SIGNAL(returnPressed()), this, SLOT(search()));
     connect(edtLast, SIGNAL(returnPressed()), this, SLOT(search()));
@@ -93,6 +125,8 @@ ICQSearch::ICQSearch(ICQClient *client)
     btnMsg->setEnabled(false);
     connect(btnAdd, SIGNAL(clicked()), this, SLOT(addContact()));
     connect(btnMsg, SIGNAL(clicked()), this, SLOT(sendMessage()));
+    edtScreen->setValidator(new AIMValidator(edtScreen));
+    fillGroup();
 }
 
 ICQSearch::~ICQSearch()
@@ -102,6 +136,18 @@ ICQSearch::~ICQSearch()
             m_wizard->removePage(m_result);
         delete m_result;
     }
+}
+
+void ICQSearch::fillGroup()
+{
+    ContactList::GroupIterator itg;
+    Group *grp;
+    while ((grp = ++itg) != NULL){
+        if (grp->id() == 0)
+            continue;
+        cmbGrp->insertItem(grp->getName());
+    }
+    cmbGrp->insertItem(i18n("Not in list"));
 }
 
 void ICQSearch::resultFinished()
@@ -159,6 +205,11 @@ void ICQSearch::changed()
     case 3:
         bSearch = false;
         chkOnline->hide();
+        break;
+    case 4:
+        bSearch = edtScreen->text().length();
+        chkOnline->hide();
+        break;
     }
     if (m_wizard)
         m_wizard->setNextEnabled(this, bSearch);
@@ -227,6 +278,33 @@ void ICQSearch::startSearch()
         break;
     case 3:
         return;
+    case 4:{
+            QString screen = edtScreen->text();
+            if (screen.isEmpty())
+                return;
+            Contact *contact;
+            ICQUserData *data = m_client->findContact(screen.latin1(), NULL, false, contact);
+            if (data){
+                m_result->setText(i18n("%1 already in contact list") .arg(screen));
+                return;
+            }
+            data = m_client->findContact(screen.latin1(), NULL, true, contact);
+            int nGrp = cmbGrp->currentItem();
+            ContactList::GroupIterator it;
+            Group *grp;
+            while ((grp = ++it) != NULL){
+                if (grp->id() == 0)
+                    continue;
+                if (nGrp-- == 0){
+                    contact->setGroup(grp->id());
+                    Event e(EventContactChanged, contact);
+                    e.process();
+                    break;
+                }
+            }
+            m_result->setText(i18n("%1 added to contact list") .arg(screen));
+            return;
+        }
     }
     m_result->setRequestId(id);
 }
@@ -343,6 +421,12 @@ void *ICQSearch::processEvent(Event *e)
         edtInfo->append(text);
         edtInfo->sync();
     }
+    switch (e->type()){
+    case EventGroupCreated:
+    case EventGroupDeleted:
+    case EventGroupChanged:
+        fillGroup();
+    }
     return NULL;
 }
 
@@ -351,7 +435,7 @@ void ICQSearch::addContact()
     if (m_randomUin == 0)
         return;
     Contact *contact;
-    m_client->findContact(m_randomUin, m_name.utf8(), true, contact);
+    m_client->findContact(number(m_randomUin).c_str(), m_name.utf8(), true, contact);
 }
 
 void ICQSearch::sendMessage()
@@ -359,9 +443,9 @@ void ICQSearch::sendMessage()
     if (m_randomUin == 0)
         return;
     Contact *contact;
-    ICQUserData *data = m_client->findContact(m_randomUin, m_name.utf8(), false, contact);
+    ICQUserData *data = m_client->findContact(number(m_randomUin).c_str(), m_name.utf8(), false, contact);
     if (data == NULL){
-        data = m_client->findContact(m_randomUin, m_name.utf8(), true, contact);
+        data = m_client->findContact(number(m_randomUin).c_str(), m_name.utf8(), true, contact);
         contact->setTemporary(CONTACT_TEMP);
     }
     Message msg(MessageGeneric);

@@ -310,7 +310,7 @@ void DirectSocket::packet_ready()
             m_socket->readBuffer.unpack(p_uin);
             if (m_bIncoming){
                 Contact *contact;
-                m_data = m_client->findContact(p_uin, NULL, false, contact);
+                m_data = m_client->findContact(number(p_uin).c_str(), NULL, false, contact);
                 if ((m_data == NULL) || contact->getIgnore()){
                     m_socket->error_state("User not found");
                     return;
@@ -727,7 +727,7 @@ void DirectClient::processPacket()
                     break;
                 }
                 ar_request req;
-                req.uin     = m_data->Uin;
+                req.screen  = m_client->screen(m_data);
                 req.type    = type;
                 req.flags   = msgFlags;
                 req.id.id_l = seq;
@@ -737,7 +737,7 @@ void DirectClient::processPacket()
                 m_client->arRequests.push_back(req);
 
                 Contact *contact = NULL;
-                m_client->findContact(m_data->Uin, NULL, false, contact);
+                m_client->findContact(m_client->screen(m_data).c_str(), NULL, false, contact);
                 ARRequest ar;
                 ar.contact  = contact;
                 ar.param    = &m_client->arRequests.back();
@@ -766,7 +766,7 @@ void DirectClient::processPacket()
         if (m_channel == PLUGIN_NULL){
             MessageId id;
             id.id_l = seq;
-            m = m_client->parseMessage(type, m_data->Uin, msg_str, m_socket->readBuffer, 0, 0, id);
+            m = m_client->parseMessage(type, m_client->screen(m_data).c_str(), msg_str, m_socket->readBuffer);
             if (m == NULL){
                 m_socket->error_state("Start without message");
                 return;
@@ -794,7 +794,7 @@ void DirectClient::processPacket()
                     m->setFlags(m->getFlags() | MESSAGE_URGENT);
                 if (msgFlags & ICQ_TCPxMSG_LIST)
                     m->setFlags(m->getFlags() | MESSAGE_LIST);
-                m_client->messageReceived(m, m_data->Uin);
+                m_client->messageReceived(m, m_client->screen(m_data).c_str());
             }else{
                 sendAck(seq, type, ICQ_TCPxMSG_AUTOxREPLY);
                 delete m;
@@ -867,7 +867,7 @@ void DirectClient::processPacket()
             }
             MessageId id;
             id.id_l = seq;
-            Message *m = m_client->parseMessage(type, m_data->Uin, msg_str, m_socket->readBuffer, 0, 0, id);
+            Message *m = m_client->parseMessage(type, m_client->screen(m_data).c_str(), msg_str, m_socket->readBuffer);
             switch (msg->type()){
 #ifdef USE_OPENSSL
             case MessageCloseSecure:
@@ -979,7 +979,7 @@ void DirectClient::connect_ready()
         }
         m_state = Logged;
         Contact *contact;
-        if (m_client->findContact(m_data->Uin, NULL, false, contact)){
+        if (m_client->findContact(m_client->screen(m_data).c_str(), NULL, false, contact)){
             Event e(EventContactStatus, contact);
             e.process();
         }
@@ -998,7 +998,7 @@ void DirectClient::connect_ready()
         }
         m_state = Logged;
         Contact *contact;
-        if (m_client->findContact(m_data->Uin, NULL, false, contact)){
+        if (m_client->findContact(m_client->screen(m_data).c_str(), NULL, false, contact)){
             Event e(EventContactStatus, contact);
             e.process();
         }
@@ -1006,7 +1006,7 @@ void DirectClient::connect_ready()
     }
     if (m_bIncoming){
         Contact *contact;
-        m_data = m_client->findContact(m_data->Uin, NULL, false, contact);
+        m_data = m_client->findContact(m_client->screen(m_data).c_str(), NULL, false, contact);
         if ((m_data == NULL) || contact->getIgnore()){
             m_socket->error_state("Connection from unknown user");
             return;
@@ -1110,7 +1110,7 @@ void DirectClient::sendAck(unsigned short seq, unsigned short type, unsigned sho
     }
     if (!bAccept && (msg == NULL)){
         ar_request req;
-        req.uin     = m_data->Uin;
+        req.screen  = m_client->screen(m_data);
         req.type    = type;
         req.ack		= 0;
         req.flags   = flags;
@@ -1134,7 +1134,7 @@ void DirectClient::sendAck(unsigned short seq, unsigned short type, unsigned sho
         }
 
         Contact *contact = NULL;
-        m_client->findContact(m_data->Uin, NULL, false, contact);
+        m_client->findContact(m_client->screen(m_data).c_str(), NULL, false, contact);
         ARRequest ar;
         ar.contact  = contact;
         ar.param    = &m_client->arRequests.back();
@@ -1500,7 +1500,7 @@ void DirectClient::secureStop(bool bShutdown)
         delete m_ssl;
         m_ssl = NULL;
         Contact *contact;
-        if (m_client->findContact(m_data->Uin, NULL, false, contact)){
+        if (m_client->findContact(m_client->screen(m_data).c_str(), NULL, false, contact)){
             Event e(EventContactStatus, contact);
             e.process();
         }

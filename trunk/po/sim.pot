@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-08-18 00:44+0400\n"
+"POT-Creation-Date: 2003-08-20 09:04+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -216,7 +216,7 @@ msgstr ""
 msgid "&History"
 msgstr ""
 
-#: plugins/_core/core.cpp:473 plugins/_core/filetransfer.cpp:197
+#: plugins/_core/core.cpp:473 plugins/_core/filetransfer.cpp:199
 #: plugins/_core/managerbase.cc:110 plugins/_core/toolsetupbase.cc:136
 #: plugins/about/aboutdlgbase.cpp:156 plugins/icq/securedlg.cpp:92
 #: sim/api/simapi.cpp:393 sim/ui/qt3/i18n.cpp:287
@@ -422,7 +422,7 @@ msgstr ""
 msgid "Not available"
 msgstr ""
 
-#: plugins/_core/core.cpp:1798 plugins/dock/dockwnd.cpp:1110
+#: plugins/_core/core.cpp:1798 plugins/dock/dockwnd.cpp:1124
 #: plugins/osd/osd.cpp:304
 msgid "%1 from %2"
 msgstr ""
@@ -509,23 +509,23 @@ msgstr ""
 msgid "Transfer done"
 msgstr ""
 
-#: plugins/_core/filetransfer.cpp:206
+#: plugins/_core/filetransfer.cpp:208
 msgid "Transfer failed"
 msgstr ""
 
-#: plugins/_core/filetransfer.cpp:275
+#: plugins/_core/filetransfer.cpp:277
 msgid "Stalled"
 msgstr ""
 
-#: plugins/_core/filetransfer.cpp:287
+#: plugins/_core/filetransfer.cpp:289
 msgid "Mb/s"
 msgstr ""
 
-#: plugins/_core/filetransfer.cpp:290
+#: plugins/_core/filetransfer.cpp:292
 msgid "kb/s"
 msgstr ""
 
-#: plugins/_core/filetransfer.cpp:293
+#: plugins/_core/filetransfer.cpp:295
 msgid "b/s"
 msgstr ""
 
@@ -624,7 +624,7 @@ msgstr ""
 msgid "SMS"
 msgstr ""
 
-#: plugins/_core/interfacecfg.cpp:87 plugins/icq/icqclient.cpp:2040
+#: plugins/_core/interfacecfg.cpp:87 plugins/icq/icqclient.cpp:2131
 msgid "System"
 msgstr ""
 
@@ -676,7 +676,7 @@ msgid "Wireless Pager"
 msgstr ""
 
 #: plugins/_core/maininfo.cpp:69 plugins/filter/ignorelist.cpp:28
-#: plugins/icq/icqsecure.cpp:123 plugins/msn/msninfobase.cpp:161
+#: plugins/icq/icqsecure.cpp:127 plugins/msn/msninfobase.cpp:161
 msgid "EMail"
 msgstr ""
 
@@ -943,8 +943,8 @@ msgstr ""
 
 #: plugins/_core/usercfg.cpp:288 plugins/_core/userlist.cpp:912
 #: plugins/_core/userview.cpp:162 plugins/_core/userview.cpp:608
-#: plugins/_core/userview.cpp:646 plugins/icq/searchresult.cpp:231
-#: plugins/jabber/addresult.cpp:135
+#: plugins/_core/userview.cpp:646 plugins/icq/icqsearch.cpp:150
+#: plugins/icq/searchresult.cpp:240 plugins/jabber/addresult.cpp:135
 msgid "Not in list"
 msgstr ""
 
@@ -961,15 +961,15 @@ msgid "Settings"
 msgstr ""
 
 #: plugins/_core/userlist.cpp:546 plugins/icq/icq.cpp:111
-#: plugins/icq/icqclient.cpp:1217 plugins/jabber/jabber.cpp:90
-#: plugins/jabber/jabberclient.cpp:915 plugins/msn/msn.cpp:89
-#: plugins/msn/msnclient.cpp:1271
+#: plugins/icq/icqclient.cpp:1241 plugins/icq/icqclient.cpp:1268
+#: plugins/jabber/jabber.cpp:90 plugins/jabber/jabberclient.cpp:915
+#: plugins/msn/msn.cpp:89 plugins/msn/msnclient.cpp:1271
 msgid "Online"
 msgstr ""
 
 #: plugins/_core/userlist.cpp:549 plugins/_core/userviewcfgbase.cc:174
-#: plugins/icq/icq.cpp:201 plugins/jabber/jabber.cpp:151
-#: plugins/msn/msn.cpp:194
+#: plugins/icq/icq.cpp:201 plugins/icq/icqclient.cpp:1238
+#: plugins/jabber/jabber.cpp:151 plugins/msn/msn.cpp:194
 msgid "Offline"
 msgstr ""
 
@@ -1035,7 +1035,7 @@ msgid "Number:"
 msgstr ""
 
 #: plugins/_core/phonebase.cc:150 plugins/icq/homeinfobase.cc:177
-#: plugins/icq/icqsearchbase.cc:318 plugins/icq/workinfobase.cc:214
+#: plugins/icq/icqsearchbase.cc:327 plugins/icq/workinfobase.cc:214
 #: plugins/jabber/jabberhomeinfobase.cpp:155
 msgid "Country:"
 msgstr ""
@@ -1100,7 +1100,7 @@ msgstr ""
 msgid "&Down"
 msgstr ""
 
-#: plugins/_core/interfacecfgbase.cc:148 plugins/icq/icqsearchbase.cc:316
+#: plugins/_core/interfacecfgbase.cc:148 plugins/icq/icqsearchbase.cc:325
 msgid "Language:"
 msgstr ""
 
@@ -1154,7 +1154,8 @@ msgid "Online:"
 msgstr ""
 
 #: plugins/_core/userviewcfgbase.cc:175 plugins/icq/icq.cpp:126
-#: plugins/jabber/jabber.cpp:105 plugins/msn/msn.cpp:104
+#: plugins/icq/icqclient.cpp:1244 plugins/jabber/jabber.cpp:105
+#: plugins/msn/msn.cpp:104
 msgid "Away"
 msgstr ""
 
@@ -1192,7 +1193,7 @@ msgid "Use emotional &icons"
 msgstr ""
 
 #: plugins/_core/maininfobase.cc:230 plugins/icq/icqinfobase.cc:309
-#: plugins/icq/icqsearchbase.cc:326 plugins/jabber/jabberinfobase.cpp:209
+#: plugins/icq/icqsearchbase.cc:335 plugins/jabber/jabberinfobase.cpp:209
 msgid "First name:"
 msgstr ""
 
@@ -1626,8 +1627,8 @@ msgstr ""
 msgid "&Filter"
 msgstr ""
 
-#: plugins/filter/ignorelist.cpp:27 plugins/icq/icqmessage.cpp:1172
-#: plugins/icq/icqsecure.cpp:122 plugins/icq/searchresult.cpp:115
+#: plugins/filter/ignorelist.cpp:27 plugins/icq/icqmessage.cpp:1171
+#: plugins/icq/icqsecure.cpp:126 plugins/icq/searchresult.cpp:115
 #: sim/ui/qt3/i18n.cpp:39
 msgid "Name"
 msgstr ""
@@ -1696,19 +1697,19 @@ msgstr ""
 msgid "Plugin provides Miranda icons themes"
 msgstr ""
 
-#: plugins/icons/iconcfg.cpp:161
+#: plugins/icons/iconcfg.cpp:162
 msgid "Select icons DLL"
 msgstr ""
 
-#: plugins/icons/iconcfg.cpp:164
+#: plugins/icons/iconcfg.cpp:165
 msgid "*.dll|Icons themes"
 msgstr ""
 
-#: plugins/icons/iconcfg.cpp:166
+#: plugins/icons/iconcfg.cpp:167
 msgid "Icons themes(*.dll)"
 msgstr ""
 
-#: plugins/icons/iconcfg.cpp:168
+#: plugins/icons/iconcfg.cpp:169
 msgid "Get more icons themes"
 msgstr ""
 
@@ -1825,53 +1826,53 @@ msgstr ""
 msgid "Protocol error"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:1189 plugins/icq/icqinfo.cpp:212
+#: plugins/icq/icqclient.cpp:1221 plugins/icq/icqinfo.cpp:214
 msgid "Possibly invisible"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:1210 plugins/icq/icqinfo.cpp:227
+#: plugins/icq/icqclient.cpp:1261 plugins/icq/icqinfo.cpp:229
 #: plugins/jabber/jabberclient.cpp:908 plugins/jabber/jabberinfo.cpp:103
 #: plugins/msn/msnclient.cpp:1264 plugins/msn/msninfo.cpp:88
 msgid "Last online"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:1482 plugins/icq/icqclient.cpp:1621
+#: plugins/icq/icqclient.cpp:1533 plugins/icq/icqclient.cpp:1707
 #: plugins/jabber/jabberclient.cpp:967 plugins/jabber/jabberclient.cpp:1046
 msgid "Home info"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:1497 plugins/icq/icqclient.cpp:1636
+#: plugins/icq/icqclient.cpp:1548 plugins/icq/icqclient.cpp:1722
 #: plugins/jabber/jabberclient.cpp:982 plugins/jabber/jabberclient.cpp:1061
 msgid "Work info"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:1512 plugins/icq/icqclient.cpp:1651
+#: plugins/icq/icqclient.cpp:1563 plugins/icq/icqclient.cpp:1737
 msgid "More info"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:1527 plugins/icq/icqclient.cpp:1666
+#: plugins/icq/icqclient.cpp:1578 plugins/icq/icqclient.cpp:1752
 #: plugins/jabber/jabberclient.cpp:997 plugins/jabber/jabberclient.cpp:1076
 msgid "About info"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:1542 plugins/icq/icqclient.cpp:1681
+#: plugins/icq/icqclient.cpp:1593 plugins/icq/icqclient.cpp:1767
 msgid "Interests"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:1557 plugins/icq/icqclient.cpp:1696
+#: plugins/icq/icqclient.cpp:1608 plugins/icq/icqclient.cpp:1782
 msgid "Group/Past"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:1572 plugins/icq/icqclient.cpp:1711
+#: plugins/icq/icqclient.cpp:1623 plugins/icq/icqclient.cpp:1797
 msgid "Picture"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:1726 plugins/jabber/jabberclient.cpp:1091
+#: plugins/icq/icqclient.cpp:1812 plugins/jabber/jabberclient.cpp:1091
 #: plugins/msn/msnclient.cpp:618
 msgid "Network"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:1741
+#: plugins/icq/icqclient.cpp:1827
 msgid "Security"
 msgstr ""
 
@@ -1943,24 +1944,24 @@ msgstr ""
 msgid "We are to evil :("
 msgstr ""
 
-#: plugins/icq/icqicmb.cpp:564
+#: plugins/icq/icqicmb.cpp:563
 msgid "Message declined"
 msgstr ""
 
-#: plugins/icq/icqicmb.cpp:625 plugins/icq/icqicmb.cpp:633
-#: plugins/icq/icqvarious.cpp:1613
+#: plugins/icq/icqicmb.cpp:624 plugins/icq/icqicmb.cpp:632
+#: plugins/icq/icqvarious.cpp:1612
 msgid "Client go offline"
 msgstr ""
 
-#: plugins/icq/icqicmb.cpp:913
+#: plugins/icq/icqicmb.cpp:912
 msgid "Send fail"
 msgstr ""
 
-#: plugins/icq/icqicmb.cpp:992
+#: plugins/icq/icqicmb.cpp:991
 msgid "Send timeout"
 msgstr ""
 
-#: plugins/icq/icqicmb.cpp:1014
+#: plugins/icq/icqicmb.cpp:1013
 msgid "No contact"
 msgstr ""
 
@@ -2040,113 +2041,113 @@ msgstr ""
 msgid "Bad host address"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:791
+#: plugins/icq/icqmessage.cpp:790
 #, c-format
 msgid ""
 "_n: WWW-panel message\n"
 "%n WWW-panel messages"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:813
+#: plugins/icq/icqmessage.cpp:812
 #, c-format
 msgid ""
 "_n: Email pager message\n"
 "%n Email pager messages"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:835
+#: plugins/icq/icqmessage.cpp:834
 #, c-format
 msgid ""
 "_n: Request secure channel\n"
 "%n requests secure channel"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:857
+#: plugins/icq/icqmessage.cpp:856
 #, c-format
 msgid ""
 "_n: Close secure channel\n"
 "%n times close secure channel"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:879
+#: plugins/icq/icqmessage.cpp:878
 #, c-format
 msgid ""
 "_n: Check invisible\n"
 "%n times check invisible"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:960
+#: plugins/icq/icqmessage.cpp:959
 #, c-format
 msgid ""
 "_n: Contact request\n"
 "%n contact requests"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:1002
+#: plugins/icq/icqmessage.cpp:1001
 #, c-format
 msgid ""
 "_n: URL\n"
 "%n URLs"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:1050
+#: plugins/icq/icqmessage.cpp:1049
 #, c-format
 msgid ""
 "_n: Contact list\n"
 "%n contact lists"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:1082
+#: plugins/icq/icqmessage.cpp:1081
 msgid "URL:"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:1154
+#: plugins/icq/icqmessage.cpp:1153
 msgid "Drag users here"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:1168 plugins/icq/icqsearchbase.cc:330
-#: plugins/icq/icqsecure.cpp:120 plugins/icq/searchresult.cpp:111
+#: plugins/icq/icqmessage.cpp:1167 plugins/icq/icqsearchbase.cc:339
+#: plugins/icq/icqsecure.cpp:124 plugins/icq/searchresult.cpp:111
 msgid "UIN"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:1170 plugins/icq/searchresult.cpp:113
+#: plugins/icq/icqmessage.cpp:1169 plugins/icq/searchresult.cpp:113
 msgid "Alias"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:1173 plugins/icq/searchresult.cpp:116
-#: plugins/jabber/addresult.cpp:33 plugins/jabber/jabbersearch.cpp:159
+#: plugins/icq/icqmessage.cpp:1172 plugins/icq/searchresult.cpp:116
+#: plugins/jabber/addresult.cpp:33 plugins/jabber/jabbersearch.cpp:158
 msgid "Email"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:1312
+#: plugins/icq/icqmessage.cpp:1311
 msgid "&URL"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:1322
+#: plugins/icq/icqmessage.cpp:1321
 msgid "&Contact list"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:1338
+#: plugins/icq/icqmessage.cpp:1337
 msgid "Contact Request"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:1367
+#: plugins/icq/icqmessage.cpp:1366
 msgid "Web panel"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:1374
+#: plugins/icq/icqmessage.cpp:1373
 msgid "Email pager"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:1381
+#: plugins/icq/icqmessage.cpp:1380
 msgid "Request secure channel"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:1388
+#: plugins/icq/icqmessage.cpp:1387
 msgid "Close secure channel"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:1395
+#: plugins/icq/icqmessage.cpp:1394
 msgid "Check invisible"
 msgstr ""
 
@@ -2158,59 +2159,67 @@ msgstr ""
 msgid "Picture is not available"
 msgstr ""
 
-#: plugins/icq/icqsearch.cpp:123
+#: plugins/icq/icqsearch.cpp:169
 msgid "ICQ search results"
 msgstr ""
 
-#: plugins/icq/icqsearch.cpp:247
-msgid "&Stop search"
-msgstr ""
-
-#: plugins/icq/icqsearch.cpp:248
-msgid "Find an &Online Chat Friend"
-msgstr ""
-
-#: plugins/icq/icqsearch.cpp:259
-msgid "Request UIN"
-msgstr ""
-
-#: plugins/icq/icqsearch.cpp:276
-msgid "Search fail"
-msgstr ""
-
-#: plugins/icq/icqsearch.cpp:278
-msgid "Request user info"
-msgstr ""
-
-#: plugins/icq/icqsearch.cpp:281
-msgid "<p>UIN: <b><a href=\"icq://%1\"><u>%2</u></a></b></p>"
+#: plugins/icq/icqsearch.cpp:288
+msgid "%1 already in contact list"
 msgstr ""
 
 #: plugins/icq/icqsearch.cpp:305
-msgid "<p><b>%1</b></p>"
+msgid "%1 added to contact list"
 msgstr ""
 
-#: plugins/icq/icqsearch.cpp:307
-msgid "%1<br>"
+#: plugins/icq/icqsearch.cpp:325
+msgid "&Stop search"
 msgstr ""
 
-#: plugins/icq/icqsearch.cpp:308
-msgid "<p>Age: <b>%1</b></p>"
-msgstr ""
-
-#: plugins/icq/icqsearch.cpp:317
-msgid "<p>Gender: <b>%1</b></p>"
-msgstr ""
-
-#: plugins/icq/icqsearch.cpp:327
-msgid "<p>Country: <b>%1</b></p>"
+#: plugins/icq/icqsearch.cpp:326
+msgid "Find an &Online Chat Friend"
 msgstr ""
 
 #: plugins/icq/icqsearch.cpp:337
+msgid "Request UIN"
+msgstr ""
+
+#: plugins/icq/icqsearch.cpp:354
+msgid "Search fail"
+msgstr ""
+
+#: plugins/icq/icqsearch.cpp:356
+msgid "Request user info"
+msgstr ""
+
+#: plugins/icq/icqsearch.cpp:359
+msgid "<p>UIN: <b><a href=\"icq://%1\"><u>%2</u></a></b></p>"
+msgstr ""
+
+#: plugins/icq/icqsearch.cpp:383
+msgid "<p><b>%1</b></p>"
+msgstr ""
+
+#: plugins/icq/icqsearch.cpp:385
+msgid "%1<br>"
+msgstr ""
+
+#: plugins/icq/icqsearch.cpp:386
+msgid "<p>Age: <b>%1</b></p>"
+msgstr ""
+
+#: plugins/icq/icqsearch.cpp:395
+msgid "<p>Gender: <b>%1</b></p>"
+msgstr ""
+
+#: plugins/icq/icqsearch.cpp:405
+msgid "<p>Country: <b>%1</b></p>"
+msgstr ""
+
+#: plugins/icq/icqsearch.cpp:415
 msgid "<p>Language: <b>%1</b></p>"
 msgstr ""
 
-#: plugins/icq/icqsearch.cpp:340
+#: plugins/icq/icqsearch.cpp:418
 msgid "<p>Homepage: <a href=\"%1\"><u>%2</u></a></p>"
 msgstr ""
 
@@ -2226,25 +2235,25 @@ msgstr ""
 msgid "Invalid password"
 msgstr ""
 
-#: plugins/icq/icqsecure.cpp:121 plugins/jabber/addresult.cpp:30
+#: plugins/icq/icqsecure.cpp:125 plugins/jabber/addresult.cpp:30
 msgid "Nick"
 msgstr ""
 
-#: plugins/icq/icqvarious.cpp:1413
+#: plugins/icq/icqvarious.cpp:1412
 msgid ""
 "The Cellular network is currently unable to send your message to the "
 "recipient. Please try again later."
 msgstr ""
 
-#: plugins/icq/icqvarious.cpp:1414
+#: plugins/icq/icqvarious.cpp:1413
 msgid "INVALID NUMBER"
 msgstr ""
 
-#: plugins/icq/icqvarious.cpp:1415
+#: plugins/icq/icqvarious.cpp:1414
 msgid "RATE LIMIT"
 msgstr ""
 
-#: plugins/icq/icqvarious.cpp:1448 plugins/icq/icqvarious.cpp:1507
+#: plugins/icq/icqvarious.cpp:1447 plugins/icq/icqvarious.cpp:1506
 msgid "SMS send fail"
 msgstr ""
 
@@ -2760,21 +2769,21 @@ msgstr ""
 msgid "Volunteer Org."
 msgstr ""
 
-#: plugins/icq/searchresult.cpp:148
+#: plugins/icq/searchresult.cpp:157
 msgid "Search failed"
 msgstr ""
 
-#: plugins/icq/icqsearchbase.cc:313 plugins/icq/searchresult.cpp:150
+#: plugins/icq/icqsearchbase.cc:322 plugins/icq/searchresult.cpp:159
 #: plugins/jabber/addresult.cpp:148 plugins/jabber/addresult.cpp:172
 #: plugins/jabber/addresult.cpp:200
 msgid "Search"
 msgstr ""
 
-#: plugins/icq/searchresult.cpp:152 plugins/jabber/addresult.cpp:163
+#: plugins/icq/searchresult.cpp:161 plugins/jabber/addresult.cpp:163
 msgid "Search done"
 msgstr ""
 
-#: plugins/icq/searchresult.cpp:156 plugins/jabber/addresult.cpp:75
+#: plugins/icq/searchresult.cpp:165 plugins/jabber/addresult.cpp:75
 #, c-format
 msgid ""
 "_n: Found 1 contact\n"
@@ -2881,7 +2890,7 @@ msgstr ""
 msgid "&Register new UIN"
 msgstr ""
 
-#: plugins/icq/icqconfigbase.cc:191 plugins/icq/icqsearchbase.cc:329
+#: plugins/icq/icqconfigbase.cc:191 plugins/icq/icqsearchbase.cc:338
 msgid "UIN:"
 msgstr ""
 
@@ -2936,7 +2945,7 @@ msgstr ""
 msgid "Form5"
 msgstr ""
 
-#: plugins/icq/icqinfobase.cc:306 plugins/icq/icqsearchbase.cc:325
+#: plugins/icq/icqinfobase.cc:306 plugins/icq/icqsearchbase.cc:334
 msgid "Last Name:"
 msgstr ""
 
@@ -2979,7 +2988,7 @@ msgstr ""
 msgid "Client:"
 msgstr ""
 
-#: plugins/icq/homeinfobase.cc:175 plugins/icq/icqsearchbase.cc:320
+#: plugins/icq/homeinfobase.cc:175 plugins/icq/icqsearchbase.cc:329
 #: plugins/icq/workinfobase.cc:212 plugins/jabber/jabberhomeinfobase.cpp:153
 msgid "State:"
 msgstr ""
@@ -2989,7 +2998,7 @@ msgstr ""
 msgid "Address:"
 msgstr ""
 
-#: plugins/icq/homeinfobase.cc:178 plugins/icq/icqsearchbase.cc:319
+#: plugins/icq/homeinfobase.cc:178 plugins/icq/icqsearchbase.cc:328
 #: plugins/icq/workinfobase.cc:211 plugins/jabber/jabberhomeinfobase.cpp:152
 msgid "City:"
 msgstr ""
@@ -3011,11 +3020,11 @@ msgstr ""
 msgid "Homepage:"
 msgstr ""
 
-#: plugins/icq/icqsearchbase.cc:317 plugins/icq/moreinfobase.cc:204
+#: plugins/icq/icqsearchbase.cc:326 plugins/icq/moreinfobase.cc:204
 msgid "Gender:"
 msgstr ""
 
-#: plugins/icq/icqsearchbase.cc:315 plugins/icq/moreinfobase.cc:205
+#: plugins/icq/icqsearchbase.cc:324 plugins/icq/moreinfobase.cc:205
 msgid "Age:"
 msgstr ""
 
@@ -3167,59 +3176,63 @@ msgstr ""
 msgid "&Invisible list"
 msgstr ""
 
-#: plugins/icq/icqsearchbase.cc:314
+#: plugins/icq/icqsearchbase.cc:323
 msgid "Email:"
 msgstr ""
 
-#: plugins/icq/icqsearchbase.cc:321 plugins/jabber/jabberworkinfobase.cpp:129
+#: plugins/icq/icqsearchbase.cc:330 plugins/jabber/jabberworkinfobase.cpp:129
 msgid "Department:"
 msgstr ""
 
-#: plugins/icq/icqsearchbase.cc:322 plugins/jabber/jabberworkinfobase.cpp:128
+#: plugins/icq/icqsearchbase.cc:331 plugins/jabber/jabberworkinfobase.cpp:128
 msgid "Company:"
 msgstr ""
 
-#: plugins/icq/icqsearchbase.cc:323
+#: plugins/icq/icqsearchbase.cc:332
 msgid "Interests:"
 msgstr ""
 
-#: plugins/icq/icqsearchbase.cc:324
+#: plugins/icq/icqsearchbase.cc:333
 msgid "Email/Info"
 msgstr ""
 
-#: plugins/icq/icqsearchbase.cc:327
+#: plugins/icq/icqsearchbase.cc:336
 msgid "Nickname:"
 msgstr ""
 
-#: plugins/icq/icqsearchbase.cc:328
+#: plugins/icq/icqsearchbase.cc:337
 msgid "Names"
 msgstr ""
 
-#: plugins/icq/icqsearchbase.cc:331
+#: plugins/icq/icqsearchbase.cc:340
 msgid "Group:"
 msgstr ""
 
-#: plugins/icq/icqsearchbase.cc:333 plugins/msn/msnsearchbase.cpp:112
+#: plugins/icq/icqsearchbase.cc:342 plugins/msn/msnsearchbase.cpp:112
 msgid "&Add contact"
 msgstr ""
 
-#: plugins/icq/icqsearchbase.cc:334
+#: plugins/icq/icqsearchbase.cc:343
 msgid "Send &message"
 msgstr ""
 
-#: plugins/icq/icqsearchbase.cc:335
+#: plugins/icq/icqsearchbase.cc:344
 msgid "Random chat"
 msgstr ""
 
-#: plugins/icq/icqsearchbase.cc:336
+#: plugins/icq/icqsearchbase.cc:345
 msgid "Screen name:"
 msgstr ""
 
-#: plugins/icq/icqsearchbase.cc:337
+#: plugins/icq/icqsearchbase.cc:346 plugins/msn/msnsearchbase.cpp:111
+msgid "Add to group:"
+msgstr ""
+
+#: plugins/icq/icqsearchbase.cc:347
 msgid "AIM user"
 msgstr ""
 
-#: plugins/icq/icqsearchbase.cc:338
+#: plugins/icq/icqsearchbase.cc:348
 msgid "Online only"
 msgstr ""
 
@@ -3267,19 +3280,19 @@ msgstr ""
 msgid "<p>Subject: %1</p>"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:156
+#: plugins/jabber/jabbersearch.cpp:155
 msgid "First (Given)"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:157
+#: plugins/jabber/jabbersearch.cpp:156
 msgid "Last (Family)"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:158
+#: plugins/jabber/jabbersearch.cpp:157
 msgid "Nick (Alias)"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:160
+#: plugins/jabber/jabbersearch.cpp:159
 msgid ""
 "Select the speed of the search.  \"Fast\" matches your string to the "
 "beginning of the field only (ie. \"b\" would yield Bob,Bill,etc...)  "
@@ -3287,15 +3300,15 @@ msgid ""
 "Bob, Bill, Caleb, Robbie, etc...)"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:161
+#: plugins/jabber/jabbersearch.cpp:160
 msgid "Search Speed"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:162
+#: plugins/jabber/jabbersearch.cpp:161
 msgid "Fast / Less accurate"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:163
+#: plugins/jabber/jabbersearch.cpp:162
 msgid "Slower / More extensive"
 msgstr ""
 
@@ -3441,10 +3454,6 @@ msgstr ""
 
 #: plugins/msn/msnsearchbase.cpp:110
 msgid "EMail:"
-msgstr ""
-
-#: plugins/msn/msnsearchbase.cpp:111
-msgid "Add to group:"
 msgstr ""
 
 #: plugins/navigate/navigate.cpp:37

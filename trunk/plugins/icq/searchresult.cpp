@@ -51,7 +51,7 @@ UserTblItem::UserTblItem(QListView *parent, unsigned long uin, const QString &al
         if (c->protocol() != ICQPlugin::m_protocol)
             continue;
         ICQClient *client = static_cast<ICQClient*>(c);
-        ICQUserData *data = static_cast<ICQClient*>(c)->findContact(uin, NULL, false, contact);
+        ICQUserData *data = static_cast<ICQClient*>(c)->findContact(number(uin).c_str(), NULL, false, contact);
         if (data){
             init(client, data);
             break;
@@ -137,8 +137,17 @@ void ICQSearchResult::setRequestId(unsigned short id)
 {
     m_id = id;
     setStatus();
+    tblUser->show();
     QWizard *wizard = static_cast<QWizard*>(topLevelWidget());
     wizard->setFinishEnabled(this, (m_id == 0) || (m_id == SEARCH_FAIL));
+}
+
+void ICQSearchResult::setText(const QString &text)
+{
+    lblStatus->setText(text);
+    tblUser->hide();
+    QWizard *wizard = static_cast<QWizard*>(topLevelWidget());
+    wizard->setFinishEnabled(this, true);
 }
 
 void ICQSearchResult::setStatus()
@@ -255,9 +264,9 @@ Contact *ICQSearchResult::createContact(unsigned tmpFlags)
     if ((uin == 0) || (uin == m_client->getUin()))
         return NULL;
     Contact *contact;
-    ICQUserData *data = m_client->findContact(uin, item->text(1).utf8(), false, contact);
+    ICQUserData *data = m_client->findContact(number(uin).c_str(), item->text(1).utf8(), false, contact);
     if (data == NULL){
-        data = m_client->findContact(uin, item->text(1).utf8(), true, contact);
+        data = m_client->findContact(number(uin).c_str(), item->text(1).utf8(), true, contact);
         contact->setTemporary(tmpFlags);
         Event e(EventContactChanged, contact);
         e.process();
@@ -279,7 +288,7 @@ void ICQSearchResult::doubleClicked(QListViewItem *item)
     if (uin == 0)
         return;
     Contact *contact;
-    m_client->findContact(uin, item->text(1).utf8(), true, contact);
+    m_client->findContact(number(uin).c_str(), item->text(1).utf8(), true, contact);
 }
 
 #ifndef WIN32

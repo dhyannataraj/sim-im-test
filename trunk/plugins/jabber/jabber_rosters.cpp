@@ -686,7 +686,7 @@ JabberClient::PresenceRequest::~PresenceRequest()
                 Event e(EventMessageReceived, &m);
                 e.process();
             }
-            if (bOnLine){
+            if (bOnLine && !contact->getIgnore()){
                 Event e(EventContactOnline, contact);
                 e.process();
             }
