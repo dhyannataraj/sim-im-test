@@ -355,7 +355,7 @@ void MsgEdit::setInput()
         wReceive->removeWidgets();
         wReceive->hide();
     }
-#}
+}
 
 static Message *createGeneric(const char *cfg)
 {
