@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sim\n"
 "POT-Creation-Date: 2004-01-12 01:41+0300\n"
-"PO-Revision-Date: 2004-01-12 13:48+0100\n"
-"Last-Translator: Lapo Luchini <lapo@lapo.it>\n"
+"PO-Revision-Date: 2004-01-13 01:07+0100\n"
+"Last-Translator: Roberta Lazzeri <ripley@lapo.it>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -16,7 +16,10 @@ msgstr ""
 
 #: sim/api/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
-msgstr "Traduzione Italiana by SC Salvatore Caligiore UIN:#27434326 http://www.geocities.com/caligiore mailto://caligiore@bigfoot.come da Lapo Luchini <lapo@lapo.it>"
+msgstr ""
+"Traduzione Italiana by\n"
+"SC Salvatore Caligiore UIN:#27434326 http://www.geocities.com/caligiore mailto://caligiore@bigfoot\n"
+"Lapo Luchini <lapo@lapo.it>"
 
 #: sim/api/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."
@@ -24,7 +27,7 @@ msgstr "Questo programma è distribuito sotto i termini della GPL v2."
 
 #: sim/api/country.cpp:25
 msgid "Afghanistan"
-msgstr "Afghano"
+msgstr "Afghanistan"
 
 #: sim/api/country.cpp:26
 msgid "Albania"
@@ -68,7 +71,7 @@ msgstr "Aruba"
 
 #: sim/api/country.cpp:36
 msgid "Ascension Island"
-msgstr ""
+msgstr "Ascensione, Isola dell'"
 
 #: sim/api/country.cpp:37
 msgid "Australia"
@@ -204,11 +207,11 @@ msgstr "Cina"
 
 #: sim/api/country.cpp:70
 msgid "Christmas Island"
-msgstr ""
+msgstr "Natale, Isola di"
 
 #: sim/api/country.cpp:71
 msgid "Cocos-Keeling Islands"
-msgstr ""
+msgstr "Cocos-Keeling, Isole"
 
 #: sim/api/country.cpp:72
 msgid "Colombia"
@@ -252,7 +255,7 @@ msgstr "Danimarca"
 
 #: sim/api/country.cpp:82
 msgid "Diego Garcia"
-msgstr ""
+msgstr "Diego Garcia"
 
 #: sim/api/country.cpp:83
 msgid "Djibouti"
@@ -612,7 +615,7 @@ msgstr "Mongolia"
 
 #: sim/api/country.cpp:172
 msgid "Montserrat"
-msgstr ""
+msgstr "Montserrat"
 
 #: sim/api/country.cpp:173
 msgid "Morocco"
@@ -648,7 +651,7 @@ msgstr "Paesi bassi"
 
 #: sim/api/country.cpp:181
 msgid "Nevis"
-msgstr ""
+msgstr "Nevis"
 
 #: sim/api/country.cpp:182
 msgid "New Caledonia"
@@ -736,7 +739,7 @@ msgstr "Macedonia"
 
 #: sim/api/country.cpp:203
 msgid "Reunion Island"
-msgstr ""
+msgstr "Reunion, Isola"
 
 #: sim/api/country.cpp:204
 msgid "Romania"
@@ -824,11 +827,11 @@ msgstr "Sant'Elena"
 
 #: sim/api/country.cpp:225
 msgid "St. Kitts"
-msgstr ""
+msgstr "St. Kitts"
 
 #: sim/api/country.cpp:226
 msgid "St. Pierre and Miquelon"
-msgstr ""
+msgstr "St. Pierre and Miquelon"
 
 #: sim/api/country.cpp:227
 msgid "St. Vincent and the Grenadines"
@@ -2085,7 +2088,7 @@ msgstr "Assente"
 #: plugins/jabber/jabber.cpp:145
 #: plugins/msn/msn.cpp:119
 msgid "N/A"
-msgstr "N/A"
+msgstr "Non disponibile"
 
 #: plugins/icq/icq.cpp:155
 #: plugins/jabber/jabber.cpp:160
@@ -2247,7 +2250,7 @@ msgstr "Europa occidentale"
 
 #: plugins/icq/icqclient.cpp:317
 msgid "Tamil"
-msgstr ""
+msgstr "Tamil"
 
 #: plugins/icq/icqclient.cpp:319
 #: plugins/icq/moreinfo.cpp:134
@@ -2707,7 +2710,7 @@ msgid ""
 "_n: Warning\n"
 "%n warnings"
 msgstr ""
-"_n:Avvertimento\n"
+"Avvertimento\n"
 "%n avvertimenti"
 
 #: plugins/icq/icqmessage.cpp:895
@@ -3115,7 +3118,7 @@ msgstr "Maschio"
 
 #: plugins/icq/moreinfo.cpp:88
 msgid "Bhojpuri"
-msgstr ""
+msgstr "Bhojpuri"
 
 #: plugins/_core/interfacecfg.cpp:46
 #: plugins/icq/moreinfo.cpp:89
@@ -3169,7 +3172,7 @@ msgstr "Estone"
 
 #: plugins/icq/moreinfo.cpp:101
 msgid "Farsi"
-msgstr ""
+msgstr "Farsi"
 
 #: plugins/icq/moreinfo.cpp:102
 msgid "Finnish"
@@ -3728,7 +3731,7 @@ msgstr "Aggiorna a/utomaticamente le informazioni utente"
 
 #: plugins/icq/icqconfigbase.cc:232
 msgid "Automaticaly &request autoreply on change status"
-msgstr ""
+msgstr "&Richiedi automaticamente risposta sul cambiamento di stato"
 
 #: plugins/icq/icqconfigbase.cc:233
 #: plugins/jabber/jabberconfigbase.cpp:330
@@ -4546,7 +4549,7 @@ msgstr "&Cancella messaggio"
 
 #: plugins/_core/core.cpp:828
 msgid "&Cut history"
-msgstr ""
+msgstr "&Taglia lo storico"
 
 #: plugins/_core/core.cpp:833
 msgid "&Quote"
@@ -5307,7 +5310,7 @@ msgstr "Impostazioni  del gruppo '%1'"
 
 #: plugins/_core/userviewcfgbase.cpp:329
 msgid "Use small &font for group"
-msgstr ""
+msgstr "Usa &font piccolo per il gruppo"
 
 #: plugins/_core/autoreplybase.cpp:87
 #: plugins/_core/connectionsettingsbase.cpp:105
@@ -5345,11 +5348,11 @@ msgstr "&Nuova connessione"
 
 #: plugins/_core/phonebase.cpp:145
 msgid "Area code:"
-msgstr "CAP:"
+msgstr "Prefisso:"
 
 #: plugins/_core/phonebase.cpp:146
 msgid "Extension:"
-msgstr ""
+msgstr "Interno:"
 
 #: plugins/_core/interfacecfgbase.cpp:148
 msgid "Message window"
@@ -5524,6 +5527,8 @@ msgid ""
 "If you want to add connection press button \" Next\".\n"
 "You can add connection later using connection manager"
 msgstr ""
+"Se vuoi aggiungere connessioni premi il bottone \"Seguente\"\".\n"
+"Puoi aggiungere connessioni in seguito usando Gestore connessioni"
 
 #: plugins/_core/newprotocolbase.cpp:67
 msgid "New connection"
@@ -5572,7 +5577,7 @@ msgstr "Rifiuta automaticamente"
 
 #: plugins/_core/interfacecfg.cpp:60
 msgid "Swabian"
-msgstr ""
+msgstr "Svevo"
 
 #: plugins/_core/interfacecfg.cpp:76
 msgid "Contact list"
@@ -5720,7 +5725,7 @@ msgstr "Licenza"
 
 #: plugins/autoaway/autoaway.cpp:54
 msgid "AutoAway"
-msgstr ""
+msgstr "Assente automatico"
 
 #: plugins/autoaway/autoaway.cpp:55
 msgid "Plugin provides set away and N/A status after some idle time"
@@ -5744,7 +5749,7 @@ msgstr "minuti di \"Non disponibile\""
 
 #: plugins/autoaway/autoawaycfgbase.cpp:138
 msgid "Set \"N/A\" status after"
-msgstr "Imposto lo stato di \"non disponibile\" dopo"
+msgstr "Passa a \"Non disponibile\" dopo"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:139
 msgid "Set \"Offline\" status after"
@@ -5931,7 +5936,7 @@ msgstr "Questo plugin permette di mandare messaggi su una rete cellulare"
 
 #: plugins/forward/forwardcfgbase.cpp:102
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
+msgstr "Manda tutti i messaggi in stato\"Assente\" e \"Non disponibile\" sul cellulare"
 
 #: plugins/forward/forwardcfgbase.cpp:103
 msgid ""
@@ -6522,7 +6527,7 @@ msgstr "Tipo di proxy:"
 
 #: plugins/proxy/proxycfgbase.cpp:176
 msgid "Do not show error dialog (automatically reconnect)"
-msgstr ""
+msgstr "Non mostrare dialoghi di errore (riconnetti automaticamente)"
 
 #: plugins/remote/remote.cpp:39
 msgid "Remote control"
@@ -6710,6 +6715,8 @@ msgid ""
 "_n: Phone call\n"
 "%n phone calls"
 msgstr ""
+"Telefonata\n"
+"%n telefonate"
 
 #: plugins/sms/sms.cpp:115
 msgid "Phone call"
@@ -6721,7 +6728,7 @@ msgstr "Errore di porta"
 
 #: plugins/sms/smssetup.cpp:57
 msgid "Charging:"
-msgstr ""
+msgstr "Caricamento:"
 
 #: plugins/sms/smssetup.cpp:59
 msgid "Battery:"
@@ -6729,7 +6736,7 @@ msgstr "Batteria:"
 
 #: plugins/sms/smssetupbase.cpp:179
 msgid "SMSSetup"
-msgstr ""
+msgstr "Impostazione SMSS"
 
 #: plugins/sms/smssetupbase.cpp:181
 msgid "Baudrate:"
@@ -7087,7 +7094,7 @@ msgstr "Spazio dei nomi:"
 
 #: plugins/jabber/discoinfobase.cpp:298
 msgid "Category:"
-msgstr ""
+msgstr "Categoria:"
 
 #: plugins/jabber/discoinfobase.cpp:303
 msgid "Version:"
@@ -7192,7 +7199,7 @@ msgstr "%1 Configura"
 
 #: plugins/jabber/jabberbrowser.cpp:631
 msgid "Choose a user and password to register with the server"
-msgstr ""
+msgstr "Scegli un user e una password per registrarti col server"
 
 #: plugins/jabber/discoinfo.cpp:59
 msgid "Units"
@@ -7255,11 +7262,11 @@ msgstr "Invia in testo \"&rich text\" se possibile"
 
 #: plugins/jabber/jabberconfigbase.cpp:328
 msgid "Automaticaly send &subscribe request"
-msgstr ""
+msgstr "Spedisci automaticamente &richiesta di sottoscrizione"
 
 #: plugins/jabber/jabberconfigbase.cpp:329
 msgid "Automaticaly &accept subscribe requests"
-msgstr ""
+msgstr "&Accetta automaticamente richieste di sottoscrizione"
 
 #: plugins/spell/spell.cpp:61
 msgid "Spell check"
@@ -7325,7 +7332,7 @@ msgstr "Menu"
 #: plugins/action/actioncfg.cpp:177
 #: plugins/action/additem.cpp:52
 msgid "In command line you can use:"
-msgstr ""
+msgstr "Nella linea di comando puoi usare:"
 
 #: plugins/action/actioncfg.cpp:182
 msgid ""
@@ -7418,6 +7425,8 @@ msgid ""
 "_n: LiveJournal post\n"
 "%n LiveJournal posts"
 msgstr ""
+"Pubblicazione su LiveJournal\n"
+"%n pubblicazioni su LiveJournal"
 
 #: plugins/livejournal/livejournal.cpp:111
 #, c-format
@@ -7425,18 +7434,20 @@ msgid ""
 "_n: Friends updated\n"
 "Friends updated %n"
 msgstr ""
+"Aggiornamento amici\n"
+"%n aggiornamenti amici"
 
 #: plugins/livejournal/livejournal.cpp:128
 msgid "&Remove from journal"
-msgstr ""
+msgstr "&Elimina dal diario"
 
 #: plugins/livejournal/livejournal.cpp:236
 msgid "LiveJournal &post"
-msgstr ""
+msgstr "&Pubblica LiveJournal"
 
 #: plugins/livejournal/livejournal.cpp:246
 msgid "LiveJournal &WWW"
-msgstr ""
+msgstr "LiveJournal su &WWW"
 
 #: plugins/livejournal/livejournal.cpp:256
 msgid "Friends updated"
@@ -7444,11 +7455,11 @@ msgstr "Amici aggiornati"
 
 #: plugins/livejournal/livejournal.cpp:300
 msgid "LiveJournal"
-msgstr ""
+msgstr "LiveJournal"
 
 #: plugins/livejournal/livejournal.cpp:611
 msgid "Posting failed"
-msgstr "Pubblicazione fallite"
+msgstr "Pubblicazione fallita"
 
 #: plugins/livejournal/livejournal.cpp:1357
 msgid "Invalid username"
@@ -7456,7 +7467,7 @@ msgstr "Username non valido"
 
 #: plugins/livejournal/livejournal.cpp:1359
 msgid "aggravated"
-msgstr ""
+msgstr "seccato"
 
 #: plugins/livejournal/livejournal.cpp:1360
 msgid "angry"
@@ -7480,11 +7491,11 @@ msgstr "confuso"
 
 #: plugins/livejournal/livejournal.cpp:1365
 msgid "crappy"
-msgstr ""
+msgstr "pessimo"
 
 #: plugins/livejournal/livejournal.cpp:1366
 msgid "cranky"
-msgstr ""
+msgstr "malaticcio"
 
 #: plugins/livejournal/livejournal.cpp:1367
 msgid "depressed"
@@ -7496,15 +7507,15 @@ msgstr "scontento"
 
 #: plugins/livejournal/livejournal.cpp:1369
 msgid "energetic"
-msgstr ""
+msgstr "energico"
 
 #: plugins/livejournal/livejournal.cpp:1370
 msgid "enraged"
-msgstr ""
+msgstr "arrabbiato"
 
 #: plugins/livejournal/livejournal.cpp:1371
 msgid "enthralled"
-msgstr ""
+msgstr "incantato"
 
 #: plugins/livejournal/livejournal.cpp:1372
 msgid "exhausted"
@@ -7516,7 +7527,7 @@ msgstr "felice"
 
 #: plugins/livejournal/livejournal.cpp:1374
 msgid "high"
-msgstr ""
+msgstr "alto"
 
 #: plugins/livejournal/livejournal.cpp:1375
 msgid "horny"
@@ -7536,7 +7547,7 @@ msgstr "iroso"
 
 #: plugins/livejournal/livejournal.cpp:1379
 msgid "jubilant"
-msgstr ""
+msgstr "esultante"
 
 #: plugins/livejournal/livejournal.cpp:1380
 msgid "lonely"
@@ -7544,11 +7555,11 @@ msgstr "solo"
 
 #: plugins/livejournal/livejournal.cpp:1381
 msgid "moody"
-msgstr ""
+msgstr "imbronciato"
 
 #: plugins/livejournal/livejournal.cpp:1382
 msgid "pissed off"
-msgstr ""
+msgstr "incavolato"
 
 #: plugins/livejournal/livejournal.cpp:1383
 msgid "sad"
@@ -7560,7 +7571,7 @@ msgstr "soddisfatto"
 
 #: plugins/livejournal/livejournal.cpp:1385
 msgid "sore"
-msgstr ""
+msgstr "dolente"
 
 #: plugins/livejournal/livejournal.cpp:1386
 msgid "stressed"
@@ -7580,7 +7591,7 @@ msgstr "stanco"
 
 #: plugins/livejournal/livejournal.cpp:1390
 msgid "touched"
-msgstr ""
+msgstr "toccato"
 
 #: plugins/livejournal/livejournal.cpp:1391
 msgid "lazy"
@@ -7600,11 +7611,11 @@ msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1395
 msgid "morose"
-msgstr ""
+msgstr "scontroso"
 
 #: plugins/livejournal/livejournal.cpp:1396
 msgid "gloomy"
-msgstr ""
+msgstr "fosco"
 
 #: plugins/livejournal/livejournal.cpp:1397
 msgid "melancholy"
@@ -7612,7 +7623,7 @@ msgstr "melanconico"
 
 #: plugins/livejournal/livejournal.cpp:1398
 msgid "drained"
-msgstr "suotato"
+msgstr "svuotato"
 
 #: plugins/livejournal/livejournal.cpp:1399
 msgid "excited"
@@ -7620,11 +7631,11 @@ msgstr "eccitato"
 
 #: plugins/livejournal/livejournal.cpp:1400
 msgid "relieved"
-msgstr ""
+msgstr "confortato"
 
 #: plugins/livejournal/livejournal.cpp:1401
 msgid "hopeful"
-msgstr ""
+msgstr "fiducioso"
 
 #: plugins/livejournal/livejournal.cpp:1402
 msgid "amused"
@@ -7652,11 +7663,11 @@ msgstr "addormentato"
 
 #: plugins/livejournal/livejournal.cpp:1408
 msgid "groggy"
-msgstr ""
+msgstr "ubriaco"
 
 #: plugins/livejournal/livejournal.cpp:1409
 msgid "hyper"
-msgstr ""
+msgstr "iper"
 
 #: plugins/livejournal/livejournal.cpp:1410
 msgid "relaxed"
@@ -7664,11 +7675,11 @@ msgstr "rilassato"
 
 #: plugins/livejournal/livejournal.cpp:1411
 msgid "restless"
-msgstr ""
+msgstr "senza riposo"
 
 #: plugins/livejournal/livejournal.cpp:1412
 msgid "disappointed"
-msgstr ""
+msgstr "dispiaciuto"
 
 #: plugins/livejournal/livejournal.cpp:1413
 msgid "curious"
@@ -7676,7 +7687,7 @@ msgstr "curioso"
 
 #: plugins/livejournal/livejournal.cpp:1414
 msgid "mellow"
-msgstr ""
+msgstr "dolce"
 
 #: plugins/livejournal/livejournal.cpp:1415
 msgid "peaceful"
@@ -7684,7 +7695,7 @@ msgstr "pacifico"
 
 #: plugins/livejournal/livejournal.cpp:1416
 msgid "bouncy"
-msgstr ""
+msgstr "pimpante"
 
 #: plugins/livejournal/livejournal.cpp:1417
 msgid "nostalgic"
@@ -7704,7 +7715,7 @@ msgstr "compiacente"
 
 #: plugins/livejournal/livejournal.cpp:1421
 msgid "content"
-msgstr ""
+msgstr "contento"
 
 #: plugins/livejournal/livejournal.cpp:1422
 msgid "indifferent"
@@ -7712,11 +7723,11 @@ msgstr "indifferente"
 
 #: plugins/livejournal/livejournal.cpp:1423
 msgid "silly"
-msgstr ""
+msgstr "sciocco"
 
 #: plugins/livejournal/livejournal.cpp:1424
 msgid "flirty"
-msgstr ""
+msgstr "amoreggiante"
 
 #: plugins/livejournal/livejournal.cpp:1425
 msgid "calm"
@@ -7724,7 +7735,7 @@ msgstr "calmo"
 
 #: plugins/livejournal/livejournal.cpp:1426
 msgid "refreshed"
-msgstr ""
+msgstr "rinfrescato"
 
 #: plugins/livejournal/livejournal.cpp:1427
 msgid "optimistic"
@@ -7736,11 +7747,11 @@ msgstr "pessimista"
 
 #: plugins/livejournal/livejournal.cpp:1429
 msgid "giggly"
-msgstr ""
+msgstr "risatina"
 
 #: plugins/livejournal/livejournal.cpp:1430
 msgid "pensive"
-msgstr ""
+msgstr "meditabondo"
 
 #: plugins/livejournal/livejournal.cpp:1431
 msgid "uncomfortable"
@@ -7752,15 +7763,15 @@ msgstr "letargico"
 
 #: plugins/livejournal/livejournal.cpp:1433
 msgid "listless"
-msgstr ""
+msgstr "indifferente"
 
 #: plugins/livejournal/livejournal.cpp:1434
 msgid "recumbent"
-msgstr ""
+msgstr "disteso"
 
 #: plugins/livejournal/livejournal.cpp:1435
 msgid "exanimate"
-msgstr ""
+msgstr "esanime"
 
 #: plugins/livejournal/livejournal.cpp:1436
 msgid "embarrassed"
@@ -7772,7 +7783,7 @@ msgstr "invidioso"
 
 #: plugins/livejournal/livejournal.cpp:1438
 msgid "sympathetic"
-msgstr ""
+msgstr "comprensivo"
 
 #: plugins/livejournal/livejournal.cpp:1439
 msgid "sick"
@@ -7780,11 +7791,11 @@ msgstr "malato"
 
 #: plugins/livejournal/livejournal.cpp:1440
 msgid "hot"
-msgstr ""
+msgstr "caldo"
 
 #: plugins/livejournal/livejournal.cpp:1441
 msgid "cold"
-msgstr ""
+msgstr "freddo"
 
 #: plugins/livejournal/livejournal.cpp:1442
 msgid "worried"
@@ -7792,7 +7803,7 @@ msgstr "preoccupato"
 
 #: plugins/livejournal/livejournal.cpp:1443
 msgid "loved"
-msgstr ""
+msgstr "amato"
 
 #: plugins/livejournal/livejournal.cpp:1444
 msgid "awake"
@@ -7820,7 +7831,7 @@ msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1450
 msgid "full"
-msgstr ""
+msgstr "pieno"
 
 #: plugins/livejournal/livejournal.cpp:1451
 msgid "grumpy"
@@ -7864,7 +7875,7 @@ msgstr "cinico"
 
 #: plugins/livejournal/livejournal.cpp:1461
 msgid "quixotic"
-msgstr ""
+msgstr "donchisciottesco"
 
 #: plugins/livejournal/livejournal.cpp:1462
 msgid "crazy"
@@ -7880,15 +7891,15 @@ msgstr "artistico"
 
 #: plugins/livejournal/livejournal.cpp:1465
 msgid "pleased"
-msgstr ""
+msgstr "compiaciuto"
 
 #: plugins/livejournal/livejournal.cpp:1466
 msgid "bitchy"
-msgstr ""
+msgstr "maligno"
 
 #: plugins/livejournal/livejournal.cpp:1467
 msgid "guilty"
-msgstr ""
+msgstr "colpevole"
 
 #: plugins/livejournal/livejournal.cpp:1468
 msgid "irritated"
@@ -7896,11 +7907,11 @@ msgstr "irritato"
 
 #: plugins/livejournal/livejournal.cpp:1469
 msgid "blank"
-msgstr ""
+msgstr "vacuo"
 
 #: plugins/livejournal/livejournal.cpp:1470
 msgid "apathetic"
-msgstr ""
+msgstr "apatico"
 
 #: plugins/livejournal/livejournal.cpp:1471
 msgid "dorky"
@@ -7912,7 +7923,7 @@ msgstr "impressionato"
 
 #: plugins/livejournal/livejournal.cpp:1473
 msgid "naughty"
-msgstr ""
+msgstr "birichino"
 
 #: plugins/livejournal/livejournal.cpp:1474
 msgid "predatory"
@@ -7920,11 +7931,11 @@ msgstr "predatore"
 
 #: plugins/livejournal/livejournal.cpp:1475
 msgid "dirty"
-msgstr ""
+msgstr "sporco"
 
 #: plugins/livejournal/livejournal.cpp:1476
 msgid "giddy"
-msgstr ""
+msgstr "stordito"
 
 #: plugins/livejournal/livejournal.cpp:1477
 msgid "surprised"
@@ -7940,11 +7951,11 @@ msgstr "rifiutato"
 
 #: plugins/livejournal/livejournal.cpp:1480
 msgid "numb"
-msgstr ""
+msgstr "intontito"
 
 #: plugins/livejournal/livejournal.cpp:1481
 msgid "cheerful"
-msgstr ""
+msgstr "allegro"
 
 #: plugins/livejournal/livejournal.cpp:1482
 msgid "good"
@@ -7952,7 +7963,7 @@ msgstr "buono"
 
 #: plugins/livejournal/livejournal.cpp:1483
 msgid "distressed"
-msgstr ""
+msgstr "stressato"
 
 #: plugins/livejournal/livejournal.cpp:1484
 msgid "intimidated"
@@ -7984,11 +7995,11 @@ msgstr "nervoso"
 
 #: plugins/livejournal/livejournal.cpp:1492
 msgid "Recent Entries"
-msgstr ""
+msgstr "Voci recenti"
 
 #: plugins/livejournal/livejournal.cpp:1493
 msgid "Calendar View"
-msgstr ""
+msgstr "Vista Calendario"
 
 #: plugins/livejournal/livejournal.cpp:1494
 msgid "Friends View"
@@ -8016,7 +8027,7 @@ msgstr "Informazioni personali"
 
 #: plugins/livejournal/livejournal.cpp:1500
 msgid "Journal Settings"
-msgstr ""
+msgstr "Impostazioni del diario"
 
 #: plugins/livejournal/livejournalcfg.cpp:36
 msgid "Register new user"
@@ -8024,7 +8035,7 @@ msgstr "Registra nuovo utente"
 
 #: plugins/livejournal/msgjournal.cpp:150
 msgid "Remove record from journal?"
-msgstr ""
+msgstr "Cancella record dal diario?"
 
 #: plugins/livejournal/msgjournalbase.cpp:110
 msgid "Subject:"
@@ -8048,7 +8059,7 @@ msgstr "Stato d'animo:"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:210
 msgid "&LiveJournal"
-msgstr ""
+msgstr "&LiveJournal"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:212
 msgid "Path:"
@@ -8068,7 +8079,7 @@ msgstr "Usa server &veloce - solo per utenti paganti"
 
 #: plugins/livejournal/journalsearch.cpp:54
 msgid "Add community results"
-msgstr ""
+msgstr "Aggiungi esiti comunità"
 
 #: plugins/livejournal/journalsearch.cpp:80
 msgid "Community %1 added to list"
@@ -8076,7 +8087,7 @@ msgstr "Comunità %1 aggiunta in lista"
 
 #: plugins/livejournal/journalsearch.cpp:82
 msgid "Community %1 already in list"
-msgstr "Cmunità %1 già in lista"
+msgstr "Comunità %1 già in lista"
 
 #: plugins/livejournal/journalsearchbase.cpp:101
 msgid "Community:"
