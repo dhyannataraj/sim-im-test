@@ -99,6 +99,8 @@ typedef struct JabberClientData
     Data		BrowserHistory;
     Data		AutoSubscribe;
     Data		AutoAccept;
+	Data		UseHTTP;
+	Data		URL;
     JabberUserData	owner;
 } JabberClientData;
 
@@ -277,6 +279,8 @@ class MessageRequest : public ServerRequest
     PROP_UTF8(BrowserHistory);
     PROP_BOOL(AutoSubscribe);
     PROP_BOOL(AutoAccept);
+	PROP_BOOL(UseHTTP);
+	PROP_STR(URL);
 
     string		buildId(JabberUserData *data);
     JabberUserData	*findContact(const char *jid, const char *name, bool bCreate, Contact *&contact);
@@ -327,6 +331,7 @@ protected slots:
     void	auth_ok();
 protected:
     virtual void *processEvent(Event *e);
+	Socket *createSocket();
 
     virtual QString contactName(void *clientData);
     virtual void setStatus(unsigned status);
@@ -366,6 +371,7 @@ protected:
     unsigned	m_msg_id;
 
     bool		m_bXML;
+	bool		m_bHTTP;
     void		element_start(const char *el, const char **attr);
     void		element_end(const char *el);
     void		char_data(const char *str, int len);

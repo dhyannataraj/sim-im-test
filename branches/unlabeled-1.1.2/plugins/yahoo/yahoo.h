@@ -31,12 +31,15 @@ public:
     virtual const DataDef *userDataDef();
 };
 
+class CorePlugin;
+
 class YahooPlugin : public Plugin
 {
 public:
     YahooPlugin(unsigned);
     virtual ~YahooPlugin();
     static unsigned YahooPacket;
+    static CorePlugin *core;
 protected:
     Protocol *m_protocol;
 };

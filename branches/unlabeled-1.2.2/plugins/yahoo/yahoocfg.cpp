@@ -23,6 +23,7 @@
 #include <qtabwidget.h>
 #include <qlineedit.h>
 #include <qspinbox.h>
+#include <qcheckbox.h>
 
 YahooConfig::YahooConfig(QWidget *parent, YahooClient *client, bool bConfig)
         : YahooConfigBase(parent)
@@ -44,6 +45,10 @@ YahooConfig::YahooConfig(QWidget *parent, YahooClient *client, bool bConfig)
     connect(edtPort, SIGNAL(valueChanged(const QString&)), this, SLOT(changed(const QString&)));
     lnkReg->setText(i18n("Get a Yahoo! ID"));
     lnkReg->setUrl("http://edit.yahoo.com/config/eval_register");
+	chkHTTP->setChecked(m_client->getUseHTTP());
+	chkAuto->setChecked(m_client->getAutoHTTP());
+	connect(chkAuto, SIGNAL(toggled(bool)), this, SLOT(autoToggled(bool)));
+	autoToggled(m_client->getAutoHTTP());
 }
 
 void YahooConfig::apply(Client*, void*)
@@ -60,6 +65,13 @@ void YahooConfig::apply()
     m_client->setPort((unsigned short)atol(edtPort->text()));
     m_client->setFTServer(edtFTServer->text().local8Bit());
     m_client->setFTPort((unsigned short)atol(edtFTPort->text()));
+	m_client->setUseHTTP(chkHTTP->isChecked());
+	m_client->setAutoHTTP(chkAuto->isChecked());
+}
+
+void YahooConfig::autoToggled(bool bState)
+{
+	chkHTTP->setEnabled(!bState);
 }
 
 void YahooConfig::changed(const QString&)

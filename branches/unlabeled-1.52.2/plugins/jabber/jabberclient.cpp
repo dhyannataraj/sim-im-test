@@ -156,6 +156,8 @@ static DataDef jabberClientData[] =
         { "BrowserHistory", DATA_UTF, 1, 0 },
         { "AutoSubscribe", DATA_BOOL, 1, DATA(1) },
         { "AutoAccept", DATA_BOOL, 1, DATA(1) },
+		{ "UseHTTP", DATA_BOOL, 1, 0 },
+		{ "URL", DATA_STRING, 1, 0 },
         { "", DATA_STRUCT, sizeof(JabberUserData) / sizeof(Data), DATA(jabberUserData) },
         { NULL, 0, 0, 0 }
     };

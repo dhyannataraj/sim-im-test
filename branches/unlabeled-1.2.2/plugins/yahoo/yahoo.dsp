@@ -152,6 +152,10 @@ SOURCE=.\yahooclient.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\yahoohttp.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\yahooinfo.cpp
 # End Source File
 # Begin Source File

@@ -169,7 +169,7 @@ WeatherPlugin::WeatherPlugin(unsigned base, bool bInit, const char *config)
     cmd->icon = "weather";
     cmd->bar_id = BarWeather;
     cmd->bar_grp = 0x1000;
-    cmd->flags = BTN_PICT;
+    cmd->flags = BTN_PICT | BTN_DIV;
     Event eCmd(EventCommandCreate, cmd);
     eCmd.process();
     m_bar = NULL;
@@ -570,7 +570,7 @@ QString WeatherPlugin::getButtonText()
 {
     QString str = getText();
     if (str.isEmpty())
-        str = i18n("%t %c");
+        str = i18n("%t | %c");
     return str;
 }
 

@@ -416,6 +416,7 @@ void PictButton::paintEvent(QPaintEvent*)
 #else
     drawButton(&p);
 #endif
+	int w = 4;
     QRect rc(4, 4, width() - 4, height() - 4);
     if (m_def.icon && strcmp(m_def.icon, "empty")){
         const QIconSet *icons = Icon(m_def.icon);
@@ -428,9 +429,11 @@ void PictButton::paintEvent(QPaintEvent*)
                 m.rotate(90);
                 p.setWorldMatrix(m);
                 rc = QRect(8 + pict.height(), -4, height() - 4, 4 - width());
+				w = pict.height() + 4;
             }else{
                 p.drawPixmap(4, (height()  - pict.height()) / 2, pict);
                 rc = QRect(8 + pict.width(), 4, width() - 4, height() - 4);
+				w = pict.width() + 4;
             }
         }
     }else{
@@ -449,7 +452,23 @@ void PictButton::paintEvent(QPaintEvent*)
     QString text = m_text;
     if (text.isEmpty())
         text = i18n(m_def.text);
-    p.drawText(rc, AlignLeft | AlignVCenter | ShowPrefix, text);
+	if ((m_def.flags & BTN_DIV) && (text.find(" | ") >= 0)){
+		QStringList parts = QStringList::split(" | ", text);
+		unsigned n;
+		for (n = parts.count(); n > 0; n--){
+			text = "";
+			for (unsigned i = 0; i < n; i++){
+				if (!text.isEmpty())
+					text += " ";
+				text += parts[i];
+			}
+			QRect rcb(0, 0, qApp->desktop()->width(), qApp->desktop()->height());
+			rcb = p.boundingRect(rcb, AlignLeft | ShowPrefix | SingleLine, text);
+			if (rcb.width() + w < rc.width())
+				break;
+		}
+	}
+	p.drawText(rc, AlignLeft | AlignVCenter | ShowPrefix | SingleLine, text);
     p.end();
     p.begin(this);
     p.drawPixmap(0, 0, pict);

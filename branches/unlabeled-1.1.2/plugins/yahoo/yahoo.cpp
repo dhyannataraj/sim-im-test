@@ -17,6 +17,7 @@
 
 #include "yahoo.h"
 #include "yahooclient.h"
+#include "core.h"
 
 Plugin *createYahooPlugin(unsigned base, bool, const char*)
 {
@@ -39,10 +40,14 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 }
 
 unsigned YahooPlugin::YahooPacket = 0;
+CorePlugin *YahooPlugin::core = NULL;
 
 YahooPlugin::YahooPlugin(unsigned base)
         : Plugin(base)
 {
+    Event ePlugin(EventGetPluginInfo, (void*)"_core");
+    pluginInfo *info = (pluginInfo*)(ePlugin.process());
+    core = static_cast<CorePlugin*>(info->plugin);
     YahooPacket = registerType();
     getContacts()->addPacketType(YahooPacket, "Yahoo!");
     m_protocol = new YahooProtocol(this);

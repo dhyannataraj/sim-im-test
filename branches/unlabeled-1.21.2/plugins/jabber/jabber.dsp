@@ -109,6 +109,10 @@ SOURCE=.\discoinfobase.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\httppoll.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\infoproxy.cpp
 # End Source File
 # Begin Source File
