@@ -1802,10 +1802,6 @@ typedef struct smile
     const char	*title;
 } smile;
 
-EXPORT const smile *smiles(unsigned n);
-EXPORT const smile *defaultSmiles(unsigned n);
-EXPORT void setSmiles(const char *smiles_str);
-
 EXPORT unsigned screens();
 EXPORT QRect screenGeometry(unsigned nScreen);
 EXPORT QRect screenGeometry();

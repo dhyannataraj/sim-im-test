@@ -63,8 +63,10 @@ protected:
     virtual	void element_start(const char *el, const char **attr);
     virtual	void element_end(const char *el);
     virtual	void char_data(const char *str, int len);
+	list<string> m_smiles;
 	string		m_name;
 	string		m_file;
+	string		m_smile;
 	string		*m_data;
 	unsigned	m_flags;
 	UnZip		*m_zip;
@@ -94,6 +96,7 @@ Icons::Icons()
     if (oldDefaultFactory)
         QMimeSourceFactory::addFactory( oldDefaultFactory );
 #endif
+	m_sets.push_back(new FileIconSet("icons/smiles.jisp"));
 	m_sets.push_back(new FileIconSet("icons/sim.jisp"));
 	m_sets.push_back(new WrkIconSet);
 }
@@ -132,21 +135,57 @@ const QPixmap *Icons::getPict(const char *name, unsigned &flags)
 	return NULL;
 }
 
-static Icons *icons = NULL;
+QString Icons::parseSmiles(const QString &str)
+{
+	QString s = str;
+	QString res;
+	while (!s.isEmpty()){
+		unsigned start = (unsigned)(-1);
+		unsigned size  = 0;
+		string smile;
+		for (list<IconSet*>::iterator it = m_sets.begin(); it != m_sets.end(); ++it){
+			unsigned pos    = (unsigned)(-1);
+			unsigned length = 0;
+			string n_smile;
+			(*it)->parseSmiles(str, pos, length, n_smile);
+			if (length == 0)
+				continue;
+			if (pos < start){
+				start = pos;
+				size  = length;
+				smile = n_smile;
+			}
+		}
+		if (size == 0){
+			res += s;
+			break;
+		}
+		res += s.left(start);
+		res += "<img src=\"";
+		res += smile.c_str();
+		res += "\" alt=\"";
+		res += quoteString(s.mid(start, size));
+		res += "\">";
+		s = s.mid(start + size);
+	}
+	return res;
+}
+
+Icons *Icons::icons = NULL;
 
 void createIcons()
 {
-	icons = new Icons;
+	Icons::icons = new Icons;
 }
 
 void deleteIcons()
 {
-	delete icons;
+	delete Icons::icons;
 }
 
 const QPixmap *getPict(const char *name, unsigned &flags)
 {
-	return icons->getPict(name, flags);
+	return Icons::icons->getPict(name, flags);
 }
 
 QIconSet Icon(const char *name)
@@ -209,6 +248,26 @@ IconSet::~IconSet()
 		if ((*it).second.icon)
 			delete (*it).second.icon;
 	}
+}
+
+void IconSet::parseSmiles(const QString &text, unsigned &start, unsigned &size, string &name)
+{
+	for (PIXMAP_MAP::iterator it = m_icons.begin(); it != m_icons.end(); ++it){
+		list<string> &smiles = (*it).second.smiles;
+		if (smiles.empty())
+			continue;
+		for (list<string>::iterator itl = smiles.begin(); itl != smiles.end(); ++itl){
+			QString pat = QString::fromUtf8((*itl).c_str());
+			int n = text.find(pat);
+			if (n < 0)
+				continue;
+			if (((unsigned)n < start) || (((unsigned)n == start) && (pat.length() > size))){
+				start = n;
+				size  = pat.length();
+				name  = (*it).first.c_str();
+			}
+		}
+	}	
 }
 
 WrkIconSet::WrkIconSet()
@@ -479,7 +538,9 @@ void FileIconSet::clear()
 void FileIconSet::element_start(const char *el, const char **args)
 {
 	if (!strcmp(el, "icon")){
+		m_smiles.clear();
 		m_name  = "";
+		m_smile = "";
 		m_flags = 0;
 		m_file  = "";
 		if (args){
@@ -521,6 +582,10 @@ void FileIconSet::element_start(const char *el, const char **args)
 		}
 		return;
 	}
+	if (!strcmp(el, "text")){
+		m_smile = "";
+		m_data = &m_smile;
+	}
 }
 
 void FileIconSet::element_end(const char *el)
@@ -531,12 +596,19 @@ void FileIconSet::element_end(const char *el)
 			m_name += number(++Icons::nSmile);
 		}
 		PictDef p;
-		p.icon  = NULL;
-		p.file  = m_file;
-		p.flags = m_flags;
+		p.icon   = NULL;
+		p.file   = m_file;
+		p.flags  = m_flags;
+		p.smiles = m_smiles;
+		m_smiles.clear();
 		PIXMAP_MAP::iterator it = m_icons.find(m_name.c_str());
 		if (it == m_icons.end())
 			m_icons.insert(PIXMAP_MAP::value_type(m_name.c_str(), p));
+	}
+	if (!strcmp(el, "text")){
+		if (!m_smile.empty())
+			m_smiles.push_back(m_smile);
+		m_smile = "";
 	}
 	m_data = NULL;
 }
