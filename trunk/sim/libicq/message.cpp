@@ -782,7 +782,7 @@ ICQEvent *ICQClient::sendMessage(ICQMessage *msg)
                 return NULL;
             }
         }
-        if (u && u->direct && u->direct->isLogged() &&
+        if (u && u->direct && u->direct->isSecure() &&
                 ((msg->Type() == ICQ_MSGxMSG) ||
                  (msg->Type() == ICQ_MSGxURL) ||
                  (msg->Type() == ICQ_MSGxCONTACTxLIST))){
