@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bg\n"
 "POT-Creation-Date: 2004-03-30 03:46+0400\n"
-"PO-Revision-Date: 2004-03-29 23:38+0300\n"
+"PO-Revision-Date: 2004-03-31 12:08+0300\n"
 "Last-Translator: Атанас Мавров <bugar@developer.bg>\n"
 "Language-Team: Bulgarian <dict@linux.zonebg.com>\n"
 "MIME-Version: 1.0\n"
@@ -1191,8 +1191,7 @@ msgstr "Ухилен"
 
 #: sim/api/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
-msgstr ""
-"Атанас Мавров <bugar@developer.bg>; Варна-България;"
+msgstr "Атанас Мавров <bugar@developer.bg>; Варна-България;"
 
 #: sim/api/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."
@@ -2346,8 +2345,7 @@ msgstr "Използване на път по &подразбиране"
 
 #: plugins/__homedir/homedircfgbase.cpp:64
 msgid "Path for config files:"
-msgstr ""
-"Директория за конфигурационни файлове:"
+msgstr "Директория за конфигурационни файлове:"
 
 #: plugins/styles/wood/wood.cpp:1269
 msgid "Norwegian Wood"
@@ -2367,8 +2365,7 @@ msgstr "Стилове"
 
 #: plugins/styles/styles.cpp:52
 msgid "Plugin provides styles"
-msgstr ""
-"Приставката осигурява изменение на стила"
+msgstr "Приставката осигурява изменение на стила"
 
 #: plugins/styles/fontconfigbase.cpp:100
 msgid "Use &system fonts"
@@ -2410,8 +2407,7 @@ msgstr "Спиране на промяната?"
 
 #: plugins/__migrate/migratedlgbase.cpp:89
 msgid "Convert configuration from old version"
-msgstr ""
-"Променя конфигурацията от стара версия"
+msgstr "Променя конфигурацията от стара версия"
 
 #: plugins/__migrate/migratedlgbase.cpp:90
 msgid "Directories for convert:"
@@ -2483,14 +2479,12 @@ msgid "Container"
 msgstr "Прозорец"
 
 #: plugins/_core/container.cpp:545
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is typing"
 msgstr "%1 пише"
 
 #: plugins/_core/container.cpp:546
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is typing"
@@ -2881,8 +2875,7 @@ msgstr "Прякор"
 
 #: plugins/_core/core.cpp:1611
 msgid "number of unread messages from this contact"
-msgstr ""
-"количество на непрочетените съобщения"
+msgstr "количество на непрочетените съобщения"
 
 #: plugins/_core/core.cpp:1613
 msgid "contact status"
@@ -2913,8 +2906,7 @@ msgstr ""
 
 #: plugins/_core/core.cpp:1639
 msgid "Don't show this message in next time"
-msgstr ""
-"Не показвай това съобщение следващия път"
+msgstr "Не показвай това съобщение следващия път"
 
 #: plugins/_core/core.cpp:1666
 msgid "`<command>` - call <command> and substitute command output\n"
@@ -3180,8 +3172,7 @@ msgstr "Достъпен"
 
 #: plugins/_core/maininfo.cpp:84
 msgid "User is crrently available at:"
-msgstr ""
-"Потребителят в момента е на разположение: "
+msgstr "Потребителят в момента е на разположение: "
 
 #: plugins/_core/maininfo.cpp:229 plugins/_core/maininfo.cpp:346
 #: plugins/_core/maininfo.cpp:370 plugins/_core/maininfo.cpp:469
@@ -3489,8 +3480,7 @@ msgstr "&Запазване на паролата"
 
 #: plugins/_core/logindlgbase.cpp:131
 msgid "&Do not show this window on startup"
-msgstr ""
-"&Не показва този прозорец при стартиране"
+msgstr "&Не показва този прозорец при стартиране"
 
 #: plugins/_core/plugincfgbase.cpp:71
 msgid "Plugin &enabled"
@@ -4119,8 +4109,7 @@ msgstr "Лицензия"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:103
 msgid "Set \"Away\" status after"
-msgstr ""
-"Включване на \"Не съм пред компютъра\" след"
+msgstr "Включване на \"Не съм пред компютъра\" след"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:104
 msgid "minutes not using computer"
@@ -4143,8 +4132,7 @@ msgid "Set \"Offline\" status after"
 msgstr "Включване на \"Изключен\" след"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:109
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Изключва известяване при \"Не съм пред "
 "компютъра\", \"Няма ме\", \"Моля не ме "
@@ -4206,14 +4194,12 @@ msgid "Get more skins"
 msgstr "Вземане на повече кожи"
 
 #: plugins/background/bkgndcfgbase.cpp:114
-#, fuzzy
 msgid "Group margin:"
-msgstr "Поле на икона:"
+msgstr "Отместване на групите:"
 
 #: plugins/background/bkgndcfgbase.cpp:115
-#, fuzzy
 msgid "Contact margin:"
-msgstr "Поле на икона:"
+msgstr "Отместване на потребителите:"
 
 #: plugins/background/bkgndcfgbase.cpp:116
 msgid "Main window background:"
@@ -4255,8 +4241,7 @@ msgstr ""
 
 #: plugins/dock/dock.cpp:148
 msgid "Toggle main window"
-msgstr ""
-"Скриване/показване на главния прозорец"
+msgstr "Скриване/показване на главния прозорец"
 
 #: plugins/dock/dock.cpp:269
 msgid "Hide main window"
@@ -4770,8 +4755,7 @@ msgstr "AIM"
 
 #: plugins/icq/icq.cpp:440
 msgid "Visible list"
-msgstr ""
-"Списък на потребители, за които съм видим"
+msgstr "Списък на потребители, за които съм видим"
 
 #: plugins/icq/icq.cpp:449
 msgid "Invisible list"
@@ -4895,8 +4879,7 @@ msgstr "Този клиент е остарял"
 
 #: plugins/icq/icqlogin.cpp:201
 msgid "Too many clients from same IP"
-msgstr ""
-"Твърде много потребители ползващи едно IP"
+msgstr "Твърде много потребители ползващи едно IP"
 
 #: plugins/icq/icqlogin.cpp:206
 msgid "Rate limit"
@@ -4940,8 +4923,7 @@ msgstr ""
 
 #: plugins/icq/icqlogin.cpp:271
 msgid "Youur UIN is being used from another location"
-msgstr ""
-"Твоят номер се използва от друг компютър "
+msgstr "Твоят номер се използва от друг компютър "
 
 #: plugins/icq/icqlogin.cpp:291
 msgid "Close packet from server"
@@ -5045,8 +5027,7 @@ msgstr "Няма потребител за изпращане"
 
 #: plugins/icq/icqpicture.cpp:126
 msgid "Picture can not be more than 7 kbytes"
-msgstr ""
-"Не може картинката да е по - голяма от 7 Кб"
+msgstr "Не може картинката да е по - голяма от 7 Кб"
 
 #: plugins/icq/icqpicture.cpp:136 plugins/jabber/jabberpicture.cpp:138
 msgid "Picture is not available"
@@ -5888,8 +5869,7 @@ msgstr "Формат на съобщението:"
 
 #: plugins/icq/icqconfigbase.cc:244
 msgid "Accept in &occupied mode"
-msgstr ""
-"Приемане на файлове в режим \"&Зает съм\""
+msgstr "Приемане на файлове в режим \"&Зает съм\""
 
 #: plugins/icq/icqconfigbase.cc:245
 msgid "Accept in &DND mode"
@@ -6150,8 +6130,7 @@ msgstr "Парол&а"
 
 #: plugins/icq/icqsecurebase.cc:168
 msgid "&Visible list"
-msgstr ""
-"&Списък на потребители, за които съм видим"
+msgstr "&Списък на потребители, за които съм видим"
 
 #: plugins/icq/icqsecurebase.cc:169
 msgid "&Invisible list"
@@ -6253,8 +6232,7 @@ msgstr ""
 
 #: plugins/icq/encodingdlgbase.cc:85
 msgid "You will choose the coding by default which want to use:"
-msgstr ""
-"Избиране на кодировка по подразбиране:"
+msgstr "Избиране на кодировка по подразбиране:"
 
 #: plugins/icq/aboutinfobase.cc:65 plugins/jabber/jabberaboutinfobase.cpp:56
 msgid "Form4"
@@ -6262,8 +6240,7 @@ msgstr "Форма 4"
 
 #: plugins/icq/aboutinfobase.cc:66
 msgid "Additional information about user:"
-msgstr ""
-"Допълнителна информация за потребителя:"
+msgstr "Допълнителна информация за потребителя:"
 
 #: plugins/icq/aboutinfobase.cc:67
 msgid "A&bout"
@@ -6596,8 +6573,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:68
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Приставката поддържа известяване на "
 "състоянието на съобщенията и "
@@ -6709,8 +6685,7 @@ msgstr "Машина:"
 
 #: plugins/proxy/proxycfgbase.cpp:133
 msgid "Proxy require &authorization"
-msgstr ""
-"&Прокси сървъра изисква удостоверяване"
+msgstr "&Прокси сървъра изисква удостоверяване"
 
 #: plugins/proxy/proxycfgbase.cpp:134
 msgid "User:"
@@ -6762,8 +6737,7 @@ msgstr "Отдалечено управление"
 
 #: plugins/remote/remote.cpp:43
 msgid "Plugin provides remote control"
-msgstr ""
-"Приставката осигурява отдалечен контрол"
+msgstr "Приставката осигурява отдалечен контрол"
 
 #: plugins/remote/remotecfgbase.cpp:105
 msgid "Use &UNIX socket"
@@ -7435,8 +7409,7 @@ msgstr ""
 
 #: plugins/jabber/jabberaboutinfobase.cpp:57
 msgid "Additional information:"
-msgstr ""
-"Допълнителна информация за потребителя:"
+msgstr "Допълнителна информация за потребителя:"
 
 #: plugins/jabber/jabber.cpp:64
 msgid "Jabber"
@@ -8248,8 +8221,7 @@ msgstr "Пренебрегване на %1"
 
 #: plugins/spell/spell.cpp:62
 msgid "Plugin provides check spelling"
-msgstr ""
-"Приставка осигурява правописна проверка"
+msgstr "Приставка осигурява правописна проверка"
 
 #: plugins/action/menucfg.cpp:31
 msgid "Item"
@@ -8261,8 +8233,7 @@ msgstr "Програма"
 
 #: plugins/action/actioncfg.cpp:179 plugins/action/additem.cpp:54
 msgid "In command line you can use:"
-msgstr ""
-"В командния ред вие може да използвате:"
+msgstr "В командния ред вие може да използвате:"
 
 #: plugins/action/actioncfg.cpp:41
 msgid "Event"
@@ -8331,8 +8302,7 @@ msgid "Navigate"
 msgstr "Препратки към външни програми"
 
 #: plugins/navigate/navigate.cpp:220
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Приставката осигурява управление на "
 "препратките - свързва се с външен "
@@ -8449,8 +8419,7 @@ msgstr "Време"
 
 #: plugins/weather/weather.cpp:97
 msgid "Plugin provides show weather"
-msgstr ""
-"Приставката осигурява преглед на времето"
+msgstr "Приставката осигурява преглед на времето"
 
 #: plugins/weather/weather.cpp:168
 msgid "Not connected"
@@ -8923,3 +8892,4 @@ msgstr "Подсказка:"
 #: plugins/weather/wifacecfgbase.cpp:83
 msgid "Forecast tip:"
 msgstr "Прогноза:"
+
