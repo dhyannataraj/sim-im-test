@@ -67,8 +67,6 @@ TipLabel::~TipLabel()
     emit finished();
 }
 
-extern QMimeSourceFactory *_factory;
-
 void TipLabel::setText(const QString &text)
 {
     m_text = text;
@@ -120,7 +118,7 @@ void TipLabel::show(const QRect &tipRect, bool _bState)
             text += part;
             text += "</td></tr></table>";
         }
-        QSimpleRichText richText(text, font(), "", QStyleSheet::defaultSheet(), _factory, -1, Qt::blue, false);
+        QSimpleRichText richText(text, font(), "", QStyleSheet::defaultSheet(), QMimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
         richText.adjustSize();
         QSize s(richText.widthUsed() + 8, richText.height() + 8);
         resize(s.width(), s.height());
@@ -151,7 +149,7 @@ void TipLabel::show(const QRect &tipRect, bool _bState)
             l = QStringList::split("<hr>", m_text);
             unsigned i = 0;
             for (QStringList::Iterator it = l.begin(); it != l.end(); ++it, i++){
-                QSimpleRichText richText(*it, font(), "", QStyleSheet::defaultSheet(), _factory, -1, Qt::blue, false);
+                QSimpleRichText richText(*it, font(), "", QStyleSheet::defaultSheet(), QMimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
                 richText.adjustSize();
                 heights.push_back(richText.height() + 8);
                 log(L_DEBUG, "H[%u]=%u", i, richText.height() + 8);
@@ -164,12 +162,12 @@ void TipLabel::show(const QRect &tipRect, bool _bState)
 
 void TipLabel::drawContents(QPainter *p)
 {
-    QSimpleRichText richText(m_text, font(), "", QStyleSheet::defaultSheet(), _factory, -1, Qt::blue, false);
+    QSimpleRichText richText(m_text, font(), "", QStyleSheet::defaultSheet(), QMimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
     richText.adjustSize();
 #if QT_VERSION < 0x300
     richText.draw(p, 4, 4, QRegion(0, 0, width(), height()), QToolTip::palette());
 #else
-    richText.draw(p, 4, 4, QRect(0, 0, width(), height()), QToolTip::palette().active());
+richText.draw(p, 4, 4, QRect(0, 0, width(), height()), QToolTip::palette().active());
 #endif
 }
 

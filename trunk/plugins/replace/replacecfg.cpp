@@ -1,5 +1,5 @@
 /***************************************************************************
-                          icons.h  -  description
+                          replacecfg.cpp  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,46 +15,35 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _ICONS_H
-#define _ICONS_H
+#include "replacecfg.h"
+#include "replace.h"
+#include "listview.h"
 
-#include "simapi.h"
-#include "stl.h"
-
-#include <qiconset.h>
-
-using namespace std;
-
-typedef struct PictDef
+ReplaceCfg::ReplaceCfg(QWidget *parent, ReplacePlugin *plugin)
+        : ReplaceCfgBase(parent)
 {
-    QIconSet	iconSet;
-    const char	**xpm;
-    const char	*system;
-    unsigned	flags;
-} PictDef;
+    m_plugin = plugin;
+    lstKeys->addColumn(i18n("You type"));
+    lstKeys->addColumn(i18n("You send"));
+    lstKeys->setExpandingColumn(1);
+    lstKeys->adjustColumn();
+}
 
-typedef map<my_string, PictDef> PIXMAP_MAP;
-
-class QMimeSourceFactory;
-
-class Icons : public QObject, public EventReceiver
+ReplaceCfg::~ReplaceCfg()
 {
-    Q_OBJECT
-public:
-    Icons();
-    ~Icons();
-protected slots:
-    void iconChanged(int);
-protected:
-    PIXMAP_MAP icons;
-    PIXMAP_MAP bigIcons;
-    void *processEvent(Event*);
-    PictDef *addIcon(const char *name, const char **xpm, const char *system, unsigned flags);
-    void remove(const char *name);
-    void fill(list<string> *names);
-    const QIconSet *getIcon(const char *name);
-    const QIconSet *getBigIcon(const char *name);
-};
+}
 
+void ReplaceCfg::apply()
+{
+}
+
+void ReplaceCfg::resizeEvent(QResizeEvent *e)
+{
+    ReplaceCfgBase::resizeEvent(e);
+    lstKeys->adjustColumn();
+}
+
+#ifndef WIN32
+#include "replacecfg.moc"
 #endif
 

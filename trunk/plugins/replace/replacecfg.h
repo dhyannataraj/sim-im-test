@@ -1,5 +1,5 @@
 /***************************************************************************
-                          icons.h  -  description
+                          replacecfg.h  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,45 +15,24 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _ICONS_H
-#define _ICONS_H
+#ifndef _REPLACECFG_H
+#define _REPLACECFG_H
 
-#include "simapi.h"
-#include "stl.h"
+#include "replacecfgbase.h"
 
-#include <qiconset.h>
+class ReplacePlugin;
 
-using namespace std;
-
-typedef struct PictDef
-{
-    QIconSet	iconSet;
-    const char	**xpm;
-    const char	*system;
-    unsigned	flags;
-} PictDef;
-
-typedef map<my_string, PictDef> PIXMAP_MAP;
-
-class QMimeSourceFactory;
-
-class Icons : public QObject, public EventReceiver
+class ReplaceCfg : public ReplaceCfgBase
 {
     Q_OBJECT
 public:
-    Icons();
-    ~Icons();
-protected slots:
-    void iconChanged(int);
+    ReplaceCfg(QWidget *parent, ReplacePlugin *plugin);
+    virtual ~ReplaceCfg();
+public slots:
+    void apply();
 protected:
-    PIXMAP_MAP icons;
-    PIXMAP_MAP bigIcons;
-    void *processEvent(Event*);
-    PictDef *addIcon(const char *name, const char **xpm, const char *system, unsigned flags);
-    void remove(const char *name);
-    void fill(list<string> *names);
-    const QIconSet *getIcon(const char *name);
-    const QIconSet *getBigIcon(const char *name);
+    void resizeEvent(QResizeEvent *e);
+    ReplacePlugin *m_plugin;
 };
 
 #endif

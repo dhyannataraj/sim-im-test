@@ -1,7 +1,9 @@
 sim_plugin_LTLIBRARIES = replace.la
 
 replace_la_SOURCES = \
- replace.cpp 
+ replace.cpp \
+ replacecfg.cpp \
+ replacecfgbase.ui
 
 INCLUDES=-I../../sim/api -I../../sim/ui -I../_core $(all_includes)
 

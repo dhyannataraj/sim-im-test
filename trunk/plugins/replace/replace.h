@@ -20,11 +20,26 @@
 
 #include "simapi.h"
 
-class ReplacePlugin : public Plugin
+typedef struct ReplaceData
 {
+	Data	Keys;
+	Data	Key;
+	Data	Value;
+} ReplaceData;
+
+class ReplacePlugin : public QObject, public Plugin
+{
+	Q_OBJECT
 public:
-    ReplacePlugin(unsigned);
+    ReplacePlugin(unsigned, const char *cfg);
     virtual ~ReplacePlugin();
+	PROP_ULONG(Keys)
+	PROP_UTFLIST(Key)
+	PROP_UTFLIST(Value)
+protected:
+    virtual string getConfig();
+    virtual QWidget *createConfigWindow(QWidget *parent);
+	ReplaceData data;
 };
 
 #endif

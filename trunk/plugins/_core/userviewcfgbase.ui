@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>389</width>
-            <height>388</height>
+            <width>411</width>
+            <height>368</height>
         </rect>
     </property>
     <property>
@@ -28,190 +28,7 @@
             <name>spacing</name>
             <number>6</number>
         </property>
-        <widget row="0"  column="0"  rowspan="1"  colspan="5" >
-            <class>QCheckBox</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>chkDblClick</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>Use &amp;double click</string>
-            </property>
-        </widget>
-        <widget row="1"  column="0"  rowspan="1"  colspan="5" >
-            <class>QCheckBox</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>chkSysColors</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>Use system &amp;colors</string>
-            </property>
-        </widget>
-        <widget row="2"  column="0"  rowspan="1"  colspan="5" >
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>lblColors</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>Colors:</string>
-            </property>
-        </widget>
-        <widget row="3"  column="0" >
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>lblOnline</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>Online:</string>
-            </property>
-            <property>
-                <name>alignment</name>
-                <set>AlignVCenter|AlignRight</set>
-            </property>
-            <property>
-                <name>hAlign</name>
-            </property>
-        </widget>
-        <widget row="4"  column="0" >
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>lblOffline</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>Offline</string>
-            </property>
-            <property>
-                <name>alignment</name>
-                <set>AlignVCenter|AlignRight</set>
-            </property>
-            <property>
-                <name>hAlign</name>
-            </property>
-        </widget>
-        <widget row="5"  column="0" >
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>lblAway</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>Away</string>
-            </property>
-            <property>
-                <name>alignment</name>
-                <set>AlignVCenter|AlignRight</set>
-            </property>
-            <property>
-                <name>hAlign</name>
-            </property>
-        </widget>
-        <widget row="3"  column="1" >
-            <class>QColorButton</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>btnOnline</cstring>
-            </property>
-        </widget>
-        <widget row="4"  column="1" >
-            <class>QColorButton</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>btnOffline</cstring>
-            </property>
-        </widget>
-        <widget row="5"  column="1" >
-            <class>QColorButton</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>btnAway</cstring>
-            </property>
-        </widget>
-        <widget row="3"  column="2" >
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>lblNA</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>N/A</string>
-            </property>
-            <property>
-                <name>alignment</name>
-                <set>AlignVCenter|AlignRight</set>
-            </property>
-            <property>
-                <name>hAlign</name>
-            </property>
-        </widget>
-        <widget row="4"  column="2" >
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>lblDND</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>Do not distrub</string>
-            </property>
-            <property>
-                <name>alignment</name>
-                <set>AlignVCenter|AlignRight</set>
-            </property>
-            <property>
-                <name>hAlign</name>
-            </property>
-        </widget>
-        <widget row="5"  column="2" >
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>lblGroup</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>Groups</string>
-            </property>
-            <property>
-                <name>alignment</name>
-                <set>AlignVCenter|AlignRight</set>
-            </property>
-            <property>
-                <name>hAlign</name>
-            </property>
-        </widget>
-        <widget row="4"  column="3"  rowspan="1"  colspan="2" >
-            <class>QColorButton</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>btnDND</cstring>
-            </property>
-        </widget>
-        <widget row="3"  column="3"  rowspan="1"  colspan="2" >
-            <class>QColorButton</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>btnNA</cstring>
-            </property>
-        </widget>
-        <widget row="5"  column="3"  rowspan="1"  colspan="2" >
-            <class>QColorButton</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>btnGroup</cstring>
-            </property>
-        </widget>
-        <spacer row="12"  column="3" >
+        <spacer row="7"  column="1" >
             <property>
                 <name>name</name>
                 <cstring>Spacer1</cstring>
@@ -232,7 +49,7 @@
                 </size>
             </property>
         </spacer>
-        <widget row="11"  column="0"  rowspan="1"  colspan="5" >
+        <widget row="6"  column="0"  rowspan="1"  colspan="2" >
             <class>QGroupBox</class>
             <property stdset="1">
                 <name>name</name>
@@ -328,7 +145,7 @@
                 </widget>
             </grid>
         </widget>
-        <widget row="8"  column="0"  rowspan="1"  colspan="5" >
+        <widget row="3"  column="0"  rowspan="1"  colspan="2" >
             <class>QLayoutWidget</class>
             <property stdset="1">
                 <name>name</name>
@@ -416,7 +233,7 @@
                 </widget>
             </hbox>
         </widget>
-        <widget row="9"  column="0"  rowspan="1"  colspan="5" >
+        <widget row="4"  column="0"  rowspan="1"  colspan="2" >
             <class>QLayoutWidget</class>
             <property stdset="1">
                 <name>name</name>
@@ -504,7 +321,7 @@
                 </widget>
             </hbox>
         </widget>
-        <widget row="10"  column="0"  rowspan="1"  colspan="5" >
+        <widget row="5"  column="0"  rowspan="1"  colspan="2" >
             <class>QLayoutWidget</class>
             <property stdset="1">
                 <name>name</name>
@@ -592,18 +409,207 @@
                 </widget>
             </hbox>
         </widget>
-        <widget row="7"  column="0"  rowspan="1"  colspan="5" >
+        <widget row="1"  column="0"  rowspan="1"  colspan="2" >
+            <class>QLayoutWidget</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>Layout9</cstring>
+            </property>
+            <grid>
+                <property>
+                    <name>margin</name>
+                    <number>0</number>
+                </property>
+                <property>
+                    <name>spacing</name>
+                    <number>6</number>
+                </property>
+                <widget row="3"  column="3" >
+                    <class>QColorButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>btnGroup</cstring>
+                    </property>
+                </widget>
+                <widget row="3"  column="2" >
+                    <class>QLabel</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>lblGroup</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Groups</string>
+                    </property>
+                    <property>
+                        <name>alignment</name>
+                        <set>AlignVCenter|AlignRight</set>
+                    </property>
+                    <property>
+                        <name>hAlign</name>
+                    </property>
+                </widget>
+                <widget row="2"  column="2" >
+                    <class>QLabel</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>lblDND</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Do not distrub</string>
+                    </property>
+                    <property>
+                        <name>alignment</name>
+                        <set>AlignVCenter|AlignRight</set>
+                    </property>
+                    <property>
+                        <name>hAlign</name>
+                    </property>
+                </widget>
+                <widget row="2"  column="1" >
+                    <class>QColorButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>btnOffline</cstring>
+                    </property>
+                </widget>
+                <widget row="1"  column="3" >
+                    <class>QColorButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>btnNA</cstring>
+                    </property>
+                </widget>
+                <widget row="2"  column="0" >
+                    <class>QLabel</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>lblOffline</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Offline</string>
+                    </property>
+                    <property>
+                        <name>alignment</name>
+                        <set>AlignVCenter|AlignRight</set>
+                    </property>
+                    <property>
+                        <name>hAlign</name>
+                    </property>
+                </widget>
+                <widget row="1"  column="0" >
+                    <class>QLabel</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>lblOnline</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Online:</string>
+                    </property>
+                    <property>
+                        <name>alignment</name>
+                        <set>AlignVCenter|AlignRight</set>
+                    </property>
+                    <property>
+                        <name>hAlign</name>
+                    </property>
+                </widget>
+                <widget row="3"  column="1" >
+                    <class>QColorButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>btnAway</cstring>
+                    </property>
+                </widget>
+                <widget row="3"  column="0" >
+                    <class>QLabel</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>lblAway</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Away</string>
+                    </property>
+                    <property>
+                        <name>alignment</name>
+                        <set>AlignVCenter|AlignRight</set>
+                    </property>
+                    <property>
+                        <name>hAlign</name>
+                    </property>
+                </widget>
+                <widget row="2"  column="3" >
+                    <class>QColorButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>btnDND</cstring>
+                    </property>
+                </widget>
+                <widget row="1"  column="2" >
+                    <class>QLabel</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>lblNA</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>N/A</string>
+                    </property>
+                    <property>
+                        <name>alignment</name>
+                        <set>AlignVCenter|AlignRight</set>
+                    </property>
+                    <property>
+                        <name>hAlign</name>
+                    </property>
+                </widget>
+                <widget row="0"  column="0"  rowspan="1"  colspan="4" >
+                    <class>QLabel</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>lblColors</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Colors:</string>
+                    </property>
+                </widget>
+                <widget row="1"  column="1" >
+                    <class>QColorButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>btnOnline</cstring>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <widget row="0"  column="0" >
             <class>QCheckBox</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>chkGroupSeparator</cstring>
+                <cstring>chkDblClick</cstring>
             </property>
             <property>
                 <name>text</name>
-                <string>Show group &amp;separator</string>
+                <string>Use &amp;double click</string>
             </property>
         </widget>
-        <widget row="6"  column="0"  rowspan="1"  colspan="4" >
+        <widget row="0"  column="1" >
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkSysColors</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Use system &amp;colors</string>
+            </property>
+        </widget>
+        <widget row="2"  column="0" >
             <class>QCheckBox</class>
             <property stdset="1">
                 <name>name</name>
@@ -612,6 +618,17 @@
             <property>
                 <name>text</name>
                 <string>Use small &amp;font for group</string>
+            </property>
+        </widget>
+        <widget row="2"  column="1" >
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkGroupSeparator</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Show group &amp;separator</string>
             </property>
         </widget>
     </grid>

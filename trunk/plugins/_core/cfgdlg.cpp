@@ -30,6 +30,7 @@
 #include <qwidgetstack.h>
 #include <qobjectlist.h>
 #include <qheader.h>
+#include <qtimer.h>
 
 namespace ConfigDlg
 {
@@ -54,12 +55,12 @@ public:
     static unsigned curIndex;
     bool raisePage(QWidget *w);
     QWidget *widget() { return m_widget; }
+    QWidget *m_widget;
 protected:
     unsigned m_id;
     static unsigned defId;
     void init(unsigned id);
     virtual QWidget *getWidget(ConfigureDialog *dlg);
-    QWidget *m_widget;
 };
 
 unsigned ConfigItem::defId = 0x10000;
@@ -124,6 +125,7 @@ void ConfigItem::show()
         dlg->wnd->addWidget(m_widget, id() ? id() : defId++);
         dlg->wnd->setMinimumSize(dlg->wnd->sizeHint());
         QObject::connect(dlg, SIGNAL(applyChanges()), m_widget, SLOT(apply()));
+        QTimer::singleShot(50, dlg, SLOT(repaintCurrent()));
     }
     dlg->showUpdate(type() == CLIENT_ITEM);
     dlg->wnd->raiseWidget(m_widget);
@@ -607,6 +609,41 @@ void ConfigureDialog::raisePhoneBook()
     if (tab == NULL)
         return;
     tab->setCurrentPage(2);
+}
+
+void ConfigureDialog::repaintCurrent()
+{
+    log(L_DEBUG, "repaint");
+    QWidget *active = wnd->visibleWidget();
+    if (active == NULL)
+        return;
+    active->repaint();
+    QListViewItem *item = findItem(active);
+    if (item)
+        lstBox->setCurrentItem(item);
+    lstBox->repaint();
+}
+
+QListViewItem *ConfigureDialog::findItem(QWidget *w)
+{
+    for (QListViewItem *item = lstBox->firstChild(); item; item = item->nextSibling()){
+        QListViewItem *res = findItem(w, item);
+        if (res)
+            return res;
+    }
+    return NULL;
+}
+
+QListViewItem *ConfigureDialog::findItem(QWidget *w, QListViewItem *parent)
+{
+    if (static_cast<ConfigItem*>(parent)->m_widget == w)
+        return parent;
+    for (QListViewItem *item = parent->firstChild(); item; item = item->nextSibling()){
+        QListViewItem *res = findItem(w, item);
+        if (res)
+            return res;
+    }
+    return NULL;
 }
 
 #ifndef WIN32

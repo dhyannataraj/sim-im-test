@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
-"POT-Creation-Date: 2004-02-16 12:38+0300\n"
+"POT-Creation-Date: 2004-02-17 12:43+0300\n"
 "PO-Revision-Date: 2003-10-04 16:41+0000\n"
 "Last-Translator: Jorge Lopez <jorge@acm.asoc.fi.upm.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -1001,7 +1001,7 @@ msgid ""
 "Definition of PluralForm - to be set by the translator of kdelibs.po"
 msgstr ""
 
-#: plugins/_core/autoreplybase.cpp:91 plugins/_core/cfgdlg.cpp:487
+#: plugins/_core/autoreplybase.cpp:91 plugins/_core/cfgdlg.cpp:489
 #: plugins/_core/cfgdlgbase.cpp:95 plugins/_core/connectionsettingsbase.cpp:75
 #: plugins/_core/declinedlgbase.cpp:82 plugins/_core/editmailbase.cpp:97
 #: plugins/_core/editphonebase.cpp:112 plugins/_core/logindlgbase.cpp:132
@@ -1017,7 +1017,7 @@ msgstr "&Ok"
 msgid "&Yes"
 msgstr "&Si"
 
-#: plugins/_core/cfgdlg.cpp:486 plugins/_core/cfgdlgbase.cpp:94
+#: plugins/_core/cfgdlg.cpp:488 plugins/_core/cfgdlgbase.cpp:94
 #: plugins/_core/toolsetupbase.cpp:134 plugins/jabber/discoinfobase.cpp:288
 #: sim/api/simapi.cpp:447
 msgid "&Apply"
@@ -1028,7 +1028,7 @@ msgstr "&Aplicar"
 msgid "&Register"
 msgstr "&Registrar"
 
-#: plugins/_core/autoreplybase.cpp:92 plugins/_core/cfgdlg.cpp:488
+#: plugins/_core/autoreplybase.cpp:92 plugins/_core/cfgdlg.cpp:490
 #: plugins/_core/cfgdlgbase.cpp:96 plugins/_core/connectionsettingsbase.cpp:76
 #: plugins/_core/declinedlgbase.cpp:83 plugins/_core/editmailbase.cpp:98
 #: plugins/_core/editphonebase.cpp:113 plugins/_core/filetransferbase.cpp:138
@@ -1052,7 +1052,7 @@ msgstr "&Cerrar"
 msgid "&No"
 msgstr "&No"
 
-#: plugins/_core/arcfgbase.cpp:79 plugins/_core/autoreplybase.cpp:89
+#: plugins/_core/arcfgbase.cpp:80 plugins/_core/autoreplybase.cpp:89
 #: plugins/action/actioncfgbase.cpp:62 plugins/action/additembase.cpp:93
 #: sim/api/simapi.cpp:452
 #, fuzzy
@@ -1861,7 +1861,7 @@ msgstr ""
 msgid "underline"
 msgstr "subrayado"
 
-#: sim/ui/textshow.cpp:817
+#: sim/ui/textshow.cpp:801
 msgid "Custom"
 msgstr "Personalizar"
 
@@ -2071,7 +2071,7 @@ msgstr "Resultados busqueda MSN"
 msgid "Contact %1 allready in list"
 msgstr "Contacto %1 ya esta en la lista"
 
-#: plugins/_core/arcfgbase.cpp:76 plugins/_core/filecfgbase.cpp:86
+#: plugins/_core/arcfgbase.cpp:78 plugins/_core/filecfgbase.cpp:86
 #: plugins/_core/historycfgbase.cpp:165 plugins/_core/interfacecfgbase.cpp:115
 #: plugins/_core/maininfobase.cpp:170 plugins/_core/msgcfgbase.cpp:83
 #: plugins/_core/phonebase.cpp:113 plugins/_core/plugincfgbase.cpp:70
@@ -2100,7 +2100,7 @@ msgstr "Contacto %1 ya esta en la lista"
 #: plugins/msn/msnsearchbase.cpp:78 plugins/navigate/navcfgbase.cc:64
 #: plugins/ontop/ontopcfgbase.cpp:57 plugins/osd/osdconfigbase.cpp:60
 #: plugins/proxy/proxycfgbase.cpp:136 plugins/remote/remotecfgbase.cpp:95
-#: plugins/shortcuts/mousecfgbase.cpp:77
+#: plugins/replace/replacecfgbase.cpp:52 plugins/shortcuts/mousecfgbase.cpp:77
 #: plugins/shortcuts/shortcutcfgbase.cpp:79
 #: plugins/sound/soundconfigbase.cpp:100 plugins/sound/sounduserbase.cpp:62
 #: plugins/spell/spellcfgbase.cpp:83 plugins/styles/fontconfigbase.cpp:99
@@ -2133,7 +2133,7 @@ msgstr "&Nombres"
 msgid "Status:"
 msgstr "Estado:"
 
-#: plugins/_core/userviewcfgbase.cpp:247 plugins/icq/aiminfobase.cc:268
+#: plugins/_core/userviewcfgbase.cpp:267 plugins/icq/aiminfobase.cc:268
 #: plugins/icq/icqinfobase.cc:283 plugins/jabber/jabberinfobase.cpp:191
 #: plugins/msn/msninfobase.cpp:134 plugins/yahoo/yahooinfobase.cpp:154
 msgid "Online:"
@@ -2145,7 +2145,7 @@ msgstr "Conectado:"
 msgid "&Status"
 msgstr "E&stado"
 
-#: plugins/_core/pagerbase.cpp:87 plugins/_core/userviewcfgbase.cpp:243
+#: plugins/_core/pagerbase.cpp:87 plugins/_core/userviewcfgbase.cpp:247
 #: plugins/filter/ignorelistbase.cpp:54 plugins/icq/interestsinfobase.cc:108
 #: plugins/icq/searchresultbase.cc:56 plugins/icq/workinfobase.cc:178
 #: plugins/jabber/jabberhomeinfobase.cpp:104
@@ -2168,14 +2168,14 @@ msgstr ""
 "http://help.microsoft.com/!data/en_us/data/messengerv47_xp.its51/$content$/xp"
 "troublesignin.htm"
 
-#: plugins/_core/userviewcfgbase.cpp:249 plugins/icq/icq.cpp:114
+#: plugins/_core/userviewcfgbase.cpp:268 plugins/icq/icq.cpp:114
 #: plugins/icq/icq.cpp:284 plugins/icq/icqclient.cpp:1437
 #: plugins/jabber/jabber.cpp:102 plugins/msn/msn.cpp:101
 #: plugins/yahoo/yahoo.cpp:112
 msgid "Away"
 msgstr "Ausente"
 
-#: plugins/_core/userviewcfgbase.cpp:250 plugins/icq/icq.cpp:129
+#: plugins/_core/userviewcfgbase.cpp:269 plugins/icq/icq.cpp:129
 #: plugins/jabber/jabber.cpp:117 plugins/msn/msn.cpp:116
 #: plugins/yahoo/yahoo.cpp:127
 msgid "N/A"
@@ -2198,7 +2198,7 @@ msgstr "Al telefono"
 msgid "On the lunch"
 msgstr "Almorzando"
 
-#: plugins/_core/userlist.cpp:582 plugins/_core/userviewcfgbase.cpp:248
+#: plugins/_core/userlist.cpp:582 plugins/_core/userviewcfgbase.cpp:266
 #: plugins/icq/icq.cpp:189 plugins/icq/icq.cpp:299
 #: plugins/icq/icqclient.cpp:1431 plugins/jabber/jabber.cpp:162
 #: plugins/jabber/services.cpp:232 plugins/livejournal/livejournal.cpp:332
@@ -2330,7 +2330,7 @@ msgstr "Color de fondo:"
 msgid "Button color:"
 msgstr "Color de fondo:"
 
-#: plugins/_core/userviewcfgbase.cpp:245 plugins/styles/fontconfigbase.cpp:104
+#: plugins/_core/userviewcfgbase.cpp:272 plugins/styles/fontconfigbase.cpp:104
 msgid "Use system &colors"
 msgstr "&Usar colores del sistema"
 
@@ -2381,29 +2381,29 @@ msgstr "Seleccionar directorios a convertir"
 msgid "Convert configuration"
 msgstr "Configuración conversor"
 
-#: plugins/_core/cfgdlg.cpp:271 plugins/_core/usercfg.cpp:195
+#: plugins/_core/cfgdlg.cpp:273 plugins/_core/usercfg.cpp:195
 msgid "User info"
 msgstr "Informacion usuario"
 
-#: plugins/_core/cfgdlg.cpp:360 plugins/_core/usercfg.cpp:341
+#: plugins/_core/cfgdlg.cpp:362 plugins/_core/usercfg.cpp:341
 msgid "Autoreply"
 msgstr "Auto respuesta"
 
-#: plugins/_core/cfgdlg.cpp:378
+#: plugins/_core/cfgdlg.cpp:380
 msgid "Plugins"
 msgstr "Plugins"
 
-#: plugins/_core/cfgdlg.cpp:489 plugins/_core/cfgdlgbase.cpp:91
+#: plugins/_core/cfgdlg.cpp:491 plugins/_core/cfgdlgbase.cpp:91
 #: plugins/_core/core.cpp:526 plugins/_core/core.cpp:1108
 #: plugins/_core/core.cpp:1190
 msgid "Setup"
 msgstr "Configurar"
 
-#: plugins/_core/cfgdlg.cpp:534 plugins/jabber/jabber.cpp:350
+#: plugins/_core/cfgdlg.cpp:536 plugins/jabber/jabber.cpp:350
 msgid "Configure"
 msgstr "Configurar"
 
-#: plugins/_core/cfgdlg.cpp:537
+#: plugins/_core/cfgdlg.cpp:539
 msgid "Update info"
 msgstr "Actualizar informacion"
 
@@ -3361,59 +3361,59 @@ msgstr "Abrir todos los contactos en un c&ontenedor"
 msgid "Use \"&Enter\" for send message"
 msgstr "Usar \"&Enter\" para enviar mensajes"
 
-#: plugins/_core/userviewcfgbase.cpp:244
-msgid "Use &double click"
-msgstr "Usar &doble click"
-
-#: plugins/_core/userviewcfgbase.cpp:246
-msgid "Colors:"
-msgstr "Colores:"
-
-#: plugins/_core/userviewcfgbase.cpp:251
-msgid "Do not distrub"
-msgstr "No molestar"
-
-#: plugins/_core/userviewcfgbase.cpp:252
-msgid "Groups"
-msgstr "Grupos"
-
-#: plugins/_core/userviewcfgbase.cpp:253
+#: plugins/_core/userviewcfgbase.cpp:248
 msgid "Sorting"
 msgstr "Ordenando"
 
-#: plugins/_core/userviewcfgbase.cpp:254
+#: plugins/_core/userviewcfgbase.cpp:249
 msgid "1st:"
 msgstr "1º:"
 
-#: plugins/_core/userviewcfgbase.cpp:255
+#: plugins/_core/userviewcfgbase.cpp:250
 msgid "2nd:"
 msgstr "2º:"
 
-#: plugins/_core/userviewcfgbase.cpp:256
+#: plugins/_core/userviewcfgbase.cpp:251
 msgid "3rd:"
 msgstr "3º:"
 
-#: plugins/_core/userviewcfgbase.cpp:260
+#: plugins/_core/userviewcfgbase.cpp:255
 #, fuzzy
 msgid "Awaiting authorization"
 msgstr "&Conceder autorización"
 
-#: plugins/_core/userviewcfgbase.cpp:264
+#: plugins/_core/userviewcfgbase.cpp:259
 #, fuzzy
 msgid "Visible"
 msgstr "Invisible"
 
-#: plugins/_core/userviewcfgbase.cpp:268 plugins/icq/icqclient.cpp:1418
+#: plugins/_core/userviewcfgbase.cpp:263 plugins/icq/icqclient.cpp:1418
 msgid "Invisible"
 msgstr "Invisible"
 
-#: plugins/_core/userviewcfgbase.cpp:269
-msgid "Show group &separator"
-msgstr "Mostrar &separador de grupo"
+#: plugins/_core/userviewcfgbase.cpp:264
+msgid "Groups"
+msgstr "Grupos"
+
+#: plugins/_core/userviewcfgbase.cpp:265
+msgid "Do not distrub"
+msgstr "No molestar"
 
 #: plugins/_core/userviewcfgbase.cpp:270
+msgid "Colors:"
+msgstr "Colores:"
+
+#: plugins/_core/userviewcfgbase.cpp:271
+msgid "Use &double click"
+msgstr "Usar &doble click"
+
+#: plugins/_core/userviewcfgbase.cpp:273
 msgid "Use small &font for group"
 msgstr ""
+
+#: plugins/_core/userviewcfgbase.cpp:274
+msgid "Show group &separator"
+msgstr "Mostrar &separador de grupo"
 
 #: plugins/_core/historycfgbase.cpp:166
 msgid "Use &own colors and fonts settings"
@@ -3846,11 +3846,11 @@ msgstr "Elimina&r"
 msgid "&New connection"
 msgstr "&Nueva conexión"
 
-#: plugins/_core/arcfgbase.cpp:77 plugins/_core/prefcfgbase.cpp:66
+#: plugins/_core/arcfgbase.cpp:79 plugins/_core/prefcfgbase.cpp:66
 msgid "&Override global settings"
 msgstr "S&obreescribir configuración global"
 
-#: plugins/_core/arcfgbase.cpp:78
+#: plugins/_core/arcfgbase.cpp:81
 msgid "Don't show autoreply dialog"
 msgstr "No mostrar dialogo de autorespuesta"
 
@@ -8107,6 +8107,26 @@ msgstr "Resultados de la busqueda AIM"
 #, fuzzy
 msgid "Contact %1 added in group %2"
 msgstr "Contacto %1 añadido a la lista"
+
+#: plugins/replace/replace.cpp:29
+#, fuzzy
+msgid "Replace text"
+msgstr "&Renombrar"
+
+#: plugins/replace/replace.cpp:30
+#, fuzzy
+msgid "Plugin provides text replacing in message edit window"
+msgstr "Este plugin habilita el filtro de mensajes"
+
+#: plugins/replace/replacecfg.cpp:26
+#, fuzzy
+msgid "You type"
+msgstr "Tipo proxy:"
+
+#: plugins/replace/replacecfg.cpp:27
+#, fuzzy
+msgid "You send"
+msgstr "Iconos"
 
 #, fuzzy
 #~ msgid "Plugin provides posting to LiveJournal"

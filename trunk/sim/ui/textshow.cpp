@@ -131,20 +131,6 @@ void RichTextDrag::setRichText(const QString &txt)
     setText(unquoteText(txt));
 }
 
-QMimeSourceFactory *_factory = NULL;
-
-void TextShow::setFactory(QMimeSourceFactory *f)
-{
-    _factory = f;
-}
-
-QMimeSourceFactory *TextShow::factory()
-{
-    if (_factory)
-        return _factory;
-    return QMimeSourceFactory::defaultFactory();
-}
-
 TextEdit::TextEdit(QWidget *p, const char *name)
         : TextShow(p, name)
 {
@@ -397,22 +383,22 @@ void *TextEdit::processEvent(Event *e)
                 return e->param();
             }
         case CmdBold:
-	    if (!m_bChanged){
-            	m_bSelected = true;
-            	setBold((cmd->flags & COMMAND_CHECKED) != 0);
-	    }
+            if (!m_bChanged){
+                m_bSelected = true;
+                setBold((cmd->flags & COMMAND_CHECKED) != 0);
+            }
             return e->param();
         case CmdItalic:
-	    if (!m_bChanged){
-            	m_bSelected = true;
-            	setItalic((cmd->flags & COMMAND_CHECKED) != 0);
-	    }
+            if (!m_bChanged){
+                m_bSelected = true;
+                setItalic((cmd->flags & COMMAND_CHECKED) != 0);
+            }
             return e->param();
         case CmdUnderline:
-	    if (!m_bChanged){
-            	m_bSelected = true;
-            	setUnderline((cmd->flags & COMMAND_CHECKED) != 0);
-	    }
+            if (!m_bChanged){
+                m_bSelected = true;
+                setUnderline((cmd->flags & COMMAND_CHECKED) != 0);
+            }
             return e->param();
         case CmdFont:{
 #ifdef USE_KDE
@@ -458,12 +444,12 @@ void TextEdit::setForeground(const QColor& c, bool bDef)
     if (bDef)
         defFG = c;
     if (!hasSelectedText())
-    	setColor(c);
+        setColor(c);
     int r = c.red();
     if (r){
-      r--;
+        r--;
     }else{
-      r++;
+        r++;
     }
     QPalette pal = palette();
     pal.setColor(QPalette::Active, QColorGroup::Text, QColor(r, c.green(), c.blue()));
@@ -508,8 +494,6 @@ TextShow::TextShow(QWidget *p, const char *name)
 {
     setTextFormat(RichText);
     setReadOnly(true);
-    if (_factory)
-        setMimeSourceFactory(_factory);
 #if QT_VERSION >= 0x030100
     if (QApplication::clipboard()->supportsSelection())
         connect(this, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()));

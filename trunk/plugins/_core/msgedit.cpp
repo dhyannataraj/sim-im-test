@@ -59,7 +59,7 @@ MsgTextEdit::MsgTextEdit(MsgEdit *edit, QWidget *parent)
     setForeground(CorePlugin::m_plugin->getEditForeground(), true);
 #if defined(USE_KDE)
 #if KDE_IS_VERSION(3,2,0)
-    setCheckSpellingEnabled(true);
+    setCheckSpellingEnabled(false);
 #endif
 #endif
 }
@@ -1074,7 +1074,7 @@ bool MsgEdit::adjustType()
 
 void *MsgEdit::processEvent(Event *e)
 {
-    if ((e->type() == EventContactChanged) && (((Contact*)(e->param()))->id() != m_userWnd->m_id)){
+    if ((e->type() == EventContactChanged) && (((Contact*)(e->param()))->id() == m_userWnd->m_id)){
         adjustType();
         return NULL;
     }
@@ -1315,11 +1315,11 @@ void *MsgEdit::processEvent(Event *e)
 void MsgEdit::setEmptyMessage()
 {
     if (m_edit->textFormat() == QTextEdit::RichText){
-      QString color;
-      color.sprintf("<p style=\"#06X\"></p>", CorePlugin::m_plugin->getEditForeground());
-      m_edit->setText(color);
+        QString color;
+        color.sprintf("<p style=\"#06X\"></p>", CorePlugin::m_plugin->getEditForeground());
+        m_edit->setText(color);
     }else{
-      m_edit->setText("");
+        m_edit->setText("");
     }
     Event eMenu(EventGetMenuDef, (void*)MenuMessage);
     CommandsDef *cmdsMsg = (CommandsDef*)(eMenu.process());

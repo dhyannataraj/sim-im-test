@@ -16,10 +16,11 @@
  ***************************************************************************/
 
 #include "replace.h"
+#include "replacecfg.h"
 
-Plugin *createReplacePlugin(unsigned base, bool, const char*)
+Plugin *createReplacePlugin(unsigned base, bool, const char *cfg)
 {
-    Plugin *plugin = new ReplacePlugin(base);
+    Plugin *plugin = new ReplacePlugin(base, cfg);
     return plugin;
 }
 
@@ -37,13 +38,33 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-ReplacePlugin::ReplacePlugin(unsigned base)
+static DataDef replaceData[] =
+    {
+        { "Keys", DATA_UTFLIST, 1, 0 },
+        { "Key", DATA_UTFLIST, 1, 0 },
+        { "Value", DATA_UTFLIST, 1, 0 },
+        { NULL, 0, 0, 0 }
+    };
+
+ReplacePlugin::ReplacePlugin(unsigned base, const char *cfg)
         : Plugin(base)
 {
+    load_data(replaceData, &data, cfg);
 }
 
 ReplacePlugin::~ReplacePlugin()
 {
+    free_data(replaceData, &data);
+}
+
+string ReplacePlugin::getConfig()
+{
+    return save_data(replaceData, &data);
+}
+
+QWidget *ReplacePlugin::createConfigWindow(QWidget *parent)
+{
+    return new ReplaceCfg(parent, this);
 }
 
 #ifdef WIN32
@@ -66,5 +87,10 @@ extern "C" BOOL __stdcall _DllMainCRTStartup( HINSTANCE hinstDLL, DWORD fdwReaso
 }
 
 #endif
+
+#ifndef WIN32
+#include "replace.moc"
+#endif
+
 
 

@@ -108,7 +108,7 @@ void GpgCfg::textChanged(const QString &str)
     }
 }
 #else
-void GpgCfg::textChanged(const QString &str)
+void GpgCfg::textChanged(const QString&)
 {
     lnkGPG->hide();
     btnFind->hide();
