@@ -43,6 +43,7 @@ public:
     void		setSelect(const QString &str);
     void		setXSL(XSL*);
     static		QString parseText(const QString &text, bool bIgnoreColors, bool bUseSmiles);
+    unsigned	m_id;
 protected:
     virtual		QPopupMenu *createPopupMenu( const QPoint& pos );
     void		*processEvent(Event*);
@@ -53,7 +54,6 @@ protected:
     QString		messageText(Message *msg, bool bUnread);
     QPoint		m_popupPos;
     QString		m_selectStr;
-    unsigned	m_id;
     unsigned	m_nSelection;
     XSL			*xsl;
     vector<CutHistory>	m_cut;

@@ -1019,9 +1019,10 @@ EXPORT void saveGeometry(QWidget *w, long geo[5])
 #endif
 #ifdef USE_KDE
     KWin::Info info = KWin::info(w->winId());
+    log(L_DEBUG, "?? %u %u", info.desktop, info.onAllDesktops);
     geo[4] = info.desktop;
     if (info.onAllDesktops)
-       geo[4] = -1;
+        geo[4] = -1;
 #endif
 }
 
@@ -1050,7 +1051,7 @@ EXPORT void restoreGeometry(QWidget *w, long geo[5], bool bPos, bool bSize)
     if (geo[4] == -1){
         KWin::setOnAllDesktops(w->winId(), true);
     }else{
-	KWin::setOnAllDesktops(w->winId(), false);
+        KWin::setOnAllDesktops(w->winId(), false);
         KWin::setOnDesktop(w->winId(), geo[4]);
     }
 #endif

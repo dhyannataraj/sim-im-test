@@ -111,7 +111,7 @@ void SpellConfig::textChanged(const QString&)
 #ifdef WIN32
         SpellerBase base(QFile::encodeName(str));
 #else
-	SpellerBase base;
+        SpellerBase base;
 #endif
         SpellerConfig cfg(base);
         langs = cfg.getLangs();
@@ -162,8 +162,8 @@ void SpellConfig::findFinished()
 
 void SpellConfig::langClicked(QListViewItem *item)
 {
-    if(!item) 
-     return;
+    if(!item)
+        return;
     log(L_DEBUG, "langClicked");
     if (item->text(COL_CHECKED) == ""){
         item->setText(COL_CHECKED, "1");

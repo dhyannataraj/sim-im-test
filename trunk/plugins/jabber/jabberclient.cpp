@@ -111,7 +111,7 @@ DataDef jabberUserData[] =
         { "", DATA_BOOL, 1, 0 },			// bChecked
         { "", DATA_STRING, 1, 0 },			// TypingId
         { "", DATA_ULONG, 1, 0 },			// ComposeId
-        { "", DATA_ULONG, 1, 0 },			// richText
+        { "", DATA_ULONG, 1, 1 },			// richText
         { "", DATA_BOOL, 1, 0 },
         { "PhotoWidth", DATA_ULONG, 1, 0 },
         { "PhotoHeight", DATA_ULONG, 1, 0 },
@@ -374,6 +374,8 @@ void *JabberClient::processEvent(Event *e)
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
         if (cmd->id == static_cast<JabberPlugin*>(protocol()->plugin())->CmdBrowser){
+            if (getState() != Connected)
+                return NULL;
             if (m_browser == NULL){
                 m_browser = new JabberBrowser(this);
                 bool bSize = (data.browser_geo[WIDTH] && data.browser_geo[HEIGHT]);
@@ -441,7 +443,7 @@ void *JabberClient::processEvent(Event *e)
     }
     if (e->type() == EventTemplateExpanded){
         TemplateExpand *t = (TemplateExpand*)(e->param());
-        setStatus((unsigned)(t->param), quoteString(t->tmpl).utf8());
+        setStatus((unsigned)(t->param), quoteString(t->tmpl, quoteNOBR).utf8());
     }
     if (e->type() == EventContactChanged){
         Contact *contact = (Contact*)(e->param());

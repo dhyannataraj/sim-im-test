@@ -269,6 +269,7 @@ void *JabberBrowser::processEvent(Event *e)
                         parent = this;
                     BalloonMsg::message(err, parent);
                 }else{
+                    m_search->m_search->addWidget(data);
                     QTimer::singleShot(0, this, SLOT(showSearch()));
                 }
                 m_search_id = "";
@@ -297,6 +298,7 @@ void *JabberBrowser::processEvent(Event *e)
                         parent = this;
                     BalloonMsg::message(err, parent);
                 }else{
+                    m_reg->m_search->addWidget(data);
                     QTimer::singleShot(0, this, SLOT(showReg()));
                 }
                 m_reg_id = "";
@@ -325,6 +327,7 @@ void *JabberBrowser::processEvent(Event *e)
                         parent = this;
                     BalloonMsg::message(err, parent);
                 }else{
+                    m_config->m_search->addWidget(data);
                     QTimer::singleShot(0, this, SLOT(showConfig()));
                 }
                 m_config_id = "";
