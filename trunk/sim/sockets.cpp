@@ -67,12 +67,11 @@ ICQClientSocket::ICQClientSocket(QSocket *s)
 #ifdef HAVE_KEXTSOCK_H
         sock = new KExtendedSocket;
     sock->setSocketFlags(KExtendedSocket::bufferedSocket | KExtendedSocket::inetSocket);
-    sock->setBlockingMode(false);
     resolver = NULL;
 #else
         sock = new QSocket(this);
-    timer = NULL;
 #endif
+    timer = NULL;
     bConnected = false;
 #ifdef HAVE_KEXTSOCK_H
     QObject::connect(sock, SIGNAL(connectionSuccess()), this, SLOT(slotConnected()));
@@ -88,7 +87,7 @@ ICQClientSocket::ICQClientSocket(QSocket *s)
     QObject::connect(sock, SIGNAL(bytesWritten(int)), this, SLOT(slotBytesWritten(int)));
     bInWrite = false;
 #ifdef HAVE_KEXTSOCK_H
-    if (s) sock->enableRead(true);
+    sock->enableRead(true);
 #endif
 }
 
@@ -126,6 +125,16 @@ void ICQClientSocket::slotLookupFinished(int state)
 
 int ICQClientSocket::read(char *buf, unsigned int size)
 {
+#ifdef HAVE_KEXTSOCK_H
+    int avail = sock->bytesAvailable();
+    if (avail < 0){
+	if (notify) notify->error_state(ErrorRead);
+	return -1;
+    }
+    if (avail == 0)
+	return 0;
+    if (size > (unsigned)avail) size = avail;
+#endif
     int res = sock->readBlock(buf, size);
     if (res < 0){
 #ifdef HAVE_KEXTSOCK_H
@@ -176,7 +185,6 @@ void ICQClientSocket::connect(const char *host, int _port)
     port = _port;
     log(L_DEBUG, "Connect to %s:%u", host, port);
 #ifdef HAVE_KEXTSOCK_H
-    sock->setBlockingMode(true);
     if (inet_addr(host) == INADDR_NONE){
         if (resolver) delete resolver;
         resolver = new QDns(host, QDns::A);
@@ -220,10 +228,6 @@ void ICQClientSocket::doConnect(const char *host)
 void ICQClientSocket::resolveTimeout()
 {
     log(L_DEBUG, "Resolve timeout");
-    if (timer){
-        delete timer;
-        timer = NULL;
-    }
     if (!bConnected)
         slotError(1);
 }
@@ -232,7 +236,6 @@ void ICQClientSocket::slotConnected()
 {
     log(L_DEBUG, "Connected");
 #ifdef HAVE_KEXTSOCK_H
-    sock->setBlockingMode(false);
     sock->enableRead(true);
     sock->enableWrite(false);
     if (notify) notify->connect_ready();
@@ -329,7 +332,7 @@ ICQServerSocket::ICQServerSocket(unsigned short minPort, unsigned short maxPort)
     for (m_nPort = minPort; m_nPort <= maxPort; m_nPort++){
         sock = new KExtendedSocket(QString::null, m_nPort, KExtendedSocket::passiveSocket  | KExtendedSocket::inetSocket);
         sock->setBlockingMode(false);
-        if (sock->listen() == 0)
+	if (sock->listen() == 0)
             break;
         delete sock;
         sock = NULL;
