@@ -305,21 +305,31 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             Contact *contact;
             ContactList::ContactIterator it_c;
             while ((contact = ++it_c) != NULL){
-                ICQUserData *data = (ICQUserData*)(contact->clientData.getData(this));
-                if (data == NULL)
-                    continue;
-                unsigned grpId = data->GrpId;
-                ContactList::GroupIterator it_g;
-                while ((grp = ++it_g) != NULL){
-                    ICQUserData *data = (ICQUserData*)(grp->clientData.getData(this));
-                    if (data && (data->IcqID == grpId))
-                        break;
-                }
-                unsigned long newGroup = 0;
-                if (grp)
-                    newGroup = grp->id();
+                ICQUserData *data;
+				ClientDataIterator it_d(contact->clientData);
+				bool bOther = false;
+				unsigned long newGroup = 0;
+				while ((data = (ICQUserData*)(++it_d)) != NULL){
+					if (it_d.client() != this){
+						bOther = true;
+						continue;
+					}
+	                unsigned grpId = data->GrpId;
+		            ContactList::GroupIterator it_g;
+			        while ((grp = ++it_g) != NULL){
+				        ICQUserData *data = (ICQUserData*)(grp->clientData.getData(this));
+					    if (data && (data->IcqID == grpId))
+						    break;
+					}
+	                if (grp)
+		                newGroup = grp->id();
+				}
                 if (newGroup != contact->getGroup()){
-                    contact->setGroup(newGroup);
+					if ((newGroup == 0) && bOther){
+				        addContactRequest(contact);
+					}else{
+						contact->setGroup(newGroup);
+					}
                     Event e(EventContactChanged, contact);
                     e.process();
                 }
@@ -404,7 +414,9 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                     data->WaitAuth = false;
                     Event e(EventContactChanged, contact);
                     e.process();
-                }
+                    addPluginInfoRequest(data->Uin, PLUGIN_QUERYxSTATUS);
+                    addPluginInfoRequest(data->Uin, PLUGIN_QUERYxINFO);
+				}
             }
             break;
         }

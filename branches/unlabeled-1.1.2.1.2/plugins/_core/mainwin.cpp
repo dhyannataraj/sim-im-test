@@ -99,6 +99,55 @@ MainWindow::~MainWindow()
 
 bool MainWindow::eventFilter(QObject *o, QEvent *e)
 {
+#ifdef WIN32
+	if (o->inherits("QSizeGrip")){
+		QSizeGrip *grip = static_cast<QSizeGrip*>(o);
+		QMouseEvent *me;
+		switch (e->type()){
+		case QEvent::MouseButtonPress:
+			me = static_cast<QMouseEvent*>(e);
+			p = me->globalPos();
+		    s = grip->topLevelWidget()->size();
+			return true;
+		case QEvent::MouseMove:
+			me = static_cast<QMouseEvent*>(e);
+			if (me->state() != LeftButton)
+				break;
+			QWidget *tlw = grip->topLevelWidget();
+			QRect rc = tlw->geometry();
+			if (tlw->testWState(WState_ConfigPending))
+				break;
+			QPoint np(me->globalPos());
+			int w = np.x() - p.x() + s.width();
+			int h = np.y() - p.y() + s.height();
+			if ( w < 1 )
+				w = 1;
+			if ( h < 1 )
+				h = 1;
+			QSize ms(tlw->minimumSizeHint());
+			ms = ms.expandedTo(minimumSize());
+			if (w < ms.width())
+				w = ms.width();
+			if (h < ms.height())
+				h = ms.height();
+		    if (!(GetWindowLongA(tlw->winId(), GWL_EXSTYLE) & WS_EX_APPWINDOW)){
+				int dc = GetSystemMetrics(SM_CYCAPTION);
+				int ds = GetSystemMetrics(SM_CYSMCAPTION);
+				tlw->setGeometry(rc.left(), rc.top() + dc - ds, w, h);
+			}else{
+				tlw->resize(w, h);
+			}
+			MSG msg;
+			while (PeekMessage(&msg, winId(), WM_MOUSEMOVE, WM_MOUSEMOVE, PM_REMOVE));
+			return true;
+		}
+	}
+	if (e->type() == QEvent::ChildInserted){
+		QChildEvent *ce = static_cast<QChildEvent*>(e);
+		if (ce->child()->inherits("QSizeGrip"))
+			ce->child()->installEventFilter(this);
+	}
+#endif
     if (e->type() == QEvent::ChildRemoved){
         QChildEvent *ce = static_cast<QChildEvent*>(e);
         list<QWidget*>::iterator it;
@@ -258,6 +307,9 @@ void MainWindow::setGrip()
         h_lay->addWidget(w);
         h_lay->addSpacing(2);
         m_grip = new QSizeGrip(main);
+#ifdef WIN32
+		m_grip->installEventFilter(this);
+#endif
         m_grip->setFixedSize(m_grip->sizeHint());
         h_lay->addWidget(m_grip, 0, AlignBottom);
         w->show();

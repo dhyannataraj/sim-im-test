@@ -872,11 +872,7 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
             return;
         }
         Contact *contact;
-        ICQUserData *data = findContact(uin, NULL, false, contact);
-        if ((data == NULL) || contact->getIgnore()){
-            log(L_WARN, "Request plugins from unknown user %u");
-            return;
-        }
+		ICQUserData *data = findContact(uin, NULL, false, contact);
         log(L_DEBUG, "Request about %u (%u)", plugin_type, plugin_index);
         Buffer answer;
         unsigned long typeAnswer = 0;
@@ -884,6 +880,7 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
         unsigned long time = 0;
         switch (plugin_type){
         case PLUGIN_PHONEBOOK:{
+			if (data && data->GrpId && !contact->getIgnore()){
                 Buffer answer1;
                 time = this->data.owner.PluginInfoTime;
                 QString phones = getContacts()->owner()->getPhones();
@@ -973,6 +970,7 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
                 typeAnswer = 0x00000003;
                 break;
             }
+			}
         case PLUGIN_PICTURE:{
                 time = this->data.owner.PluginInfoTime;
                 typeAnswer = 0x00000001;

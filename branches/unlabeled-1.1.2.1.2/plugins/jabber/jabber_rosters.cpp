@@ -172,6 +172,20 @@ void RostersRequest::element_end(const char *el)
                 }
             }
             if (contact->getGroup() != grp){
+				if (grp == 0){
+					void *d = NULL;
+					ClientDataIterator it_d(contact->clientData);
+					while ((d = ++it_d) != NULL){
+						if (d != data)
+							break;
+					}
+					if (d){
+						grp = contact->getGroup();
+						Group *group = getContacts()->group(grp);
+						if (group)
+							m_client->listRequest(data, contact->getName().utf8(), group->getName().utf8(), false);
+					}
+				}
                 contact->setGroup(grp);
                 bChanged = true;
             }
