@@ -76,7 +76,7 @@ protected:
     bool bInit;
 #endif
 #else
-void *hShell;
+    void *hShell;
 #endif
     DockPlugin *m_plugin;
 };

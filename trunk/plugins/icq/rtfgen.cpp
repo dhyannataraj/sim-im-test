@@ -18,6 +18,7 @@
 #include "simapi.h"
 #include "icqclient.h"
 #include "html.h"
+#include "core.h"
 
 #include <qtextcodec.h>
 #include <qregexp.h>
@@ -316,7 +317,7 @@ string RTFGenParser::parse(const QString &text)
     m_codec = m_client->getCodec(m_encoding);
     m_encoding = m_codec->name();
     int charset = 0;
-    for (const ENCODING *c = ICQClient::encodings; c->language; c++){
+    for (const ENCODING *c = ICQPlugin::core->encodings; c->language; c++){
         if (!strcasecmp(c->codec, m_encoding)){
             charset = c->rtf_code;
             break;
@@ -341,7 +342,7 @@ string RTFGenParser::parse(const QString &text)
     const char *send_encoding = 0;
     m_codec = NULL;
     if (charset){
-        for (const ENCODING *c = ICQClient::encodings; c->language; c++){
+        for (const ENCODING *c = ICQPlugin::core->encodings; c->language; c++){
             if ((c->rtf_code == charset) && c->bMain){
                 send_encoding = c->codec;
                 m_codec = m_client->getCodec(send_encoding);

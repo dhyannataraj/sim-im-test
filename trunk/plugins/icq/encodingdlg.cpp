@@ -17,6 +17,7 @@
 
 #include "encodingdlg.h"
 #include "icqclient.h"
+#include "core.h"
 
 #include <qcombobox.h>
 #include <qpixmap.h>
@@ -35,13 +36,13 @@ EncodingDlg::EncodingDlg(QWidget *parent, ICQClient *client)
     connect(buttonOk, SIGNAL(clicked()), this, SLOT(apply()));
     connect(cmbEncoding, SIGNAL(activated(int)), this, SLOT(changed(int)));
     cmbEncoding->insertItem("");
-    const ENCODING *e = ICQClient::encodings;
+    const ENCODING *e = ICQPlugin::core->encodings;
     for (e++; e->language; e++){
         if (!e->bMain)
             continue;
         cmbEncoding->insertItem(i18n(e->language) + " (" + e->codec + ")");
     }
-    for (e = ICQClient::encodings; e->language; e++){
+    for (e = ICQPlugin::core->encodings; e->language; e++){
         if (e->bMain)
             continue;
         cmbEncoding->insertItem(i18n(e->language) + " (" + e->codec + ")");
@@ -54,22 +55,22 @@ void EncodingDlg::apply()
     int n = cmbEncoding->currentItem();
     if (n-- == 0)
         return;
-    const ENCODING *e = ICQClient::encodings;
+    const ENCODING *e = ICQPlugin::core->encodings;
     for (e++; e->language; e++){
         if (!e->bMain)
             continue;
         if (n--){
             set_str(&m_client->data.owner.Encoding.ptr, e->codec);
-            static_cast<ICQPlugin*>(m_client->protocol()->plugin())->setDefaultEncoding(e->codec);
+            ICQPlugin::core->setDefaultEncoding(e->codec);
             return;
         }
     }
-    for (e = ICQClient::encodings; e->language; e++){
+    for (e = ICQPlugin::core->encodings; e->language; e++){
         if (e->bMain)
             continue;
         if (n--){
             set_str(&m_client->data.owner.Encoding.ptr, e->codec);
-            static_cast<ICQPlugin*>(m_client->protocol()->plugin())->setDefaultEncoding(e->codec);
+            ICQPlugin::core->setDefaultEncoding(e->codec);
             return;
         }
     }

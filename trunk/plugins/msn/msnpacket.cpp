@@ -391,10 +391,13 @@ bool SynPacket::answer(const char *_cmd, vector<string> &args)
             log(L_WARN, "Bad size for LST");
             return true;
         }
+        if (args.size() == 3)
+            return true;
         string mail;
         mail = m_client->unquote(QString::fromUtf8(args[0].c_str())).utf8();
         string name;
         name = m_client->unquote(QString::fromUtf8(args[1].c_str())).utf8();
+        unsigned grp = atol(args[3].c_str());
         Contact *contact;
         MSNListRequest *lr = m_client->findRequest(mail.c_str(), LR_CONTACTxREMOVED);
         if (lr)
@@ -412,9 +415,6 @@ bool SynPacket::answer(const char *_cmd, vector<string> &args)
         }
         m_data->sFlags.value |= MSN_CHECKED;
         lr = m_client->findRequest(mail.c_str(), LR_CONTACTxCHANGED);
-        unsigned grp = NO_GROUP;
-        if (args.size() > 3)
-            grp = atol(args[3].c_str());
         m_data->Group.value = grp;
         m_data->Flags.value |= MSN_FORWARD;
         set_str(&m_data->PhoneHome.ptr, NULL);
@@ -552,7 +552,7 @@ RemPacket::RemPacket(MSNClient *client, const char *listType, const char *mail, 
 {
     addArg(listType);
     addArg(mail);
-    if (!strcmp(listType, "FL"))
+    if (!strcmp(listType, "FL") && (group != NO_GROUP))
         addArg(number(group).c_str());
 }
 

@@ -271,60 +271,10 @@ static DataDef icqClientData[] =
         { "MinPort", DATA_ULONG, 1, DATA(1024) },
         { "MaxPort", DATA_ULONG, 1, DATA(0xFFFE) },
         { "WarnAnonimously", DATA_BOOL, 1, 0 },
+        { "AckMode", DATA_ULONG, 1, DATA(2) },
         { "", DATA_STRUCT, sizeof(ICQUserData) / sizeof(Data), DATA(_icqUserData) },
         { NULL, 0, 0, 0 }
     };
-
-static ENCODING _encodingTbl[] =
-    {
-        { I18N_NOOP("Unicode"), "UTF-8", 106, 0, 65001, true },
-
-        { I18N_NOOP("Arabic"), "ISO 8859-6", 82, 180, 28596, false },
-        { I18N_NOOP("Arabic"), "CP 1256", 2256, 180, 1256, true },
-
-        { I18N_NOOP("Baltic"), "ISO 8859-13", 109, 186, 28594, false },
-        { I18N_NOOP("Baltic"), "CP 1257", 2257, 186, 1257, true },
-
-        { I18N_NOOP("Central European"), "ISO 8859-2", 5, 238, 28592, false },
-        { I18N_NOOP("Esperanto"), "ISO 8859-3", 6, 238, 28593, false },
-        { I18N_NOOP("Central European"), "CP 1250", 2250, 238, 1250, true },
-
-        { I18N_NOOP("Chinese "), "GBK", 2025, 134, 0, false },
-        { I18N_NOOP("Chinese Simplified"), "gbk2312",2312, 134, 0, true },
-        { I18N_NOOP("Chinese Traditional"), "Big5",2026, 136, 0, true },
-
-        { I18N_NOOP("Cyrillic"), "ISO 8859-5", 8, 204, 28595, false },
-        { I18N_NOOP("Cyrillic"), "KOI8-R", 2084, 204, 1251, false },
-        { I18N_NOOP("Ukrainian"), "KOI8-U", 2088, 204, 1251, false },
-        { I18N_NOOP("Cyrillic"), "CP 1251", 2251, 204, 1251, true },
-
-        { I18N_NOOP("Greek"), "ISO 8859-7", 10, 161, 28597, false },
-        { I18N_NOOP("Greek"), "CP 1253", 2253, 161, 1253, true },
-
-        { I18N_NOOP("Hebrew"), "ISO 8859-8-I", 85, 177, 28598,  false },
-        { I18N_NOOP("Hebrew"), "CP 1255", 2255, 177, 1255, true },
-
-        { I18N_NOOP("Japanese"), "JIS7", 16, 128, 0, false },
-        { I18N_NOOP("Japanese"), "eucJP", 18, 128, 0, false },
-        { I18N_NOOP("Japanese"), "Shift-JIS", 17, 128, 0, true },
-
-        { I18N_NOOP("Korean"), "eucKR", 38, 0, 0, true },
-
-        { I18N_NOOP("Western European"), "ISO 8859-1", 4, 0, 28591, false },
-        { I18N_NOOP("Western European"), "ISO 8859-15", 111, 0, 28605, false },
-        { I18N_NOOP("Western European"), "CP 1252", 2252, 0, 1252, true },
-
-        { I18N_NOOP("Tamil"), "TSCII", 2028, 0, 0, true },
-
-        { I18N_NOOP("Thai"), "TIS-620", 2259, 222, 0, true },
-
-        { I18N_NOOP("Turkish"), "ISO 8859-9", 12, 162, 28599, false },
-        { I18N_NOOP("Turkish"), "CP 1254", 2254, 162, 1254, true },
-
-        { NULL, NULL, 0, 0, 0, false }
-    };
-
-const ENCODING *ICQClient::encodings = _encodingTbl;
 
 ICQClient::ICQClient(Protocol *protocol, const char *cfg, bool bAIM)
         : TCPClient(protocol, cfg), EventReceiver(HighPriority - 1)
@@ -338,7 +288,7 @@ ICQClient::ICQClient(Protocol *protocol, const char *cfg, bool bAIM)
     if (data.owner.Screen.ptr && *data.owner.Screen.ptr)
         m_bAIM = true;
     if (!m_bAIM && (data.owner.Encoding.ptr == NULL)){
-        const char *default_enc = static_cast<ICQPlugin*>(protocol->plugin())->getDefaultEncoding();
+        const char *default_enc = ICQPlugin::core->getDefaultEncoding();
         if (default_enc && *default_enc){
             set_str(&data.owner.Encoding.ptr, default_enc);
         }else{
@@ -1376,7 +1326,7 @@ QTextCodec *ICQClient::_getCodec(const char *encoding)
     if (codec == NULL){
         codec = QTextCodec::codecForLocale();
         const ENCODING *e;
-        for (e = encodings; e->language; e++){
+        for (e = ICQPlugin::core->encodings; e->language; e++){
             if (!strcmp(codec->name(), e->codec))
                 break;
         }
@@ -2601,7 +2551,6 @@ void *ICQClient::processEvent(Event *e)
     if (e->type() == EventCheckState){
         CommandDef *cmd = (CommandDef*)(e->param());
         if (cmd->menu_id == MenuEncoding){
-            ICQPlugin *plugin = static_cast<ICQPlugin*>(protocol()->plugin());
             if (cmd->id == CmdChangeEncoding){
                 Contact *contact = getContacts()->contact((unsigned)(cmd->param));
                 if (contact == NULL)
@@ -2615,13 +2564,13 @@ void *ICQClient::processEvent(Event *e)
                 QStringList nomain;
                 QStringList::Iterator it;
                 const ENCODING *enc;
-                for (enc = encodings; enc->language; enc++){
+                for (enc = ICQPlugin::core->encodings; enc->language; enc++){
                     if (enc->bMain){
                         main.append(i18n(enc->language) + " (" + enc->codec + ")");
                         nEncoding++;
                         continue;
                     }
-                    if (!plugin->getShowAllEncodings())
+                    if (!ICQPlugin::core->getShowAllEncodings())
                         continue;
                     nomain.append(i18n(enc->language) + " (" + enc->codec + ")");
                     nEncoding++;
@@ -2650,7 +2599,7 @@ void *ICQClient::processEvent(Event *e)
                     cmds[nEncoding].text_wrk = strdup((*it).utf8());
                     nEncoding++;
                 }
-                if (!plugin->getShowAllEncodings())
+                if (!ICQPlugin::core->getShowAllEncodings())
                     return e->param();
                 cmds[nEncoding++].text = "_";
                 nomain.sort();
@@ -2671,7 +2620,7 @@ void *ICQClient::processEvent(Event *e)
             }
             if (cmd->id == CmdAllEncodings){
                 cmd->flags &= ~COMMAND_CHECKED;
-                if (plugin->getShowAllEncodings())
+                if (ICQPlugin::core->getShowAllEncodings())
                     cmd->flags |= COMMAND_CHECKED;
                 return e->param();
             }
@@ -2778,10 +2727,9 @@ void *ICQClient::processEvent(Event *e)
     }
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
-        ICQPlugin *plugin = static_cast<ICQPlugin*>(protocol()->plugin());
         if (cmd->menu_id == MenuEncoding){
             if (cmd->id == CmdAllEncodings){
-                plugin->setShowAllEncodings(!plugin->getShowAllEncodings());
+                ICQPlugin::core->setShowAllEncodings(!ICQPlugin::core->getShowAllEncodings());
                 return e->param();
             }
             Contact *contact = getContacts()->contact((unsigned)(cmd->param));
@@ -2796,12 +2744,12 @@ void *ICQClient::processEvent(Event *e)
                 QStringList nomain;
                 QStringList::Iterator it;
                 const ENCODING *enc;
-                for (enc = encodings; enc->language; enc++){
+                for (enc = ICQPlugin::core->encodings; enc->language; enc++){
                     if (enc->bMain){
                         main.append(i18n(enc->language) + " (" + enc->codec + ")");
                         continue;
                     }
-                    if (!plugin->getShowAllEncodings())
+                    if (!ICQPlugin::core->getShowAllEncodings())
                         continue;
                     nomain.append(i18n(enc->language) + " (" + enc->codec + ")");
                 }

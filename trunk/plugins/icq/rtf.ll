@@ -24,6 +24,7 @@
 #endif
 
 #include "icqclient.h"
+#include "core.h"
 
 #include <qtextcodec.h>
 
@@ -728,7 +729,7 @@ void Level::flush()
     if (text.length() == 0) return;
     const char *encoding = NULL;
     if (m_nEncoding){
-        for (const ENCODING *c = ICQClient::encodings; c->language; c++){
+        for (const ENCODING *c = ICQPlugin::core->encodings; c->language; c++){
 			if (!c->bMain)
 				continue;
             if ((unsigned)c->rtf_code == m_nEncoding){

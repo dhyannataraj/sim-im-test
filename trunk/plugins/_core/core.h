@@ -99,6 +99,8 @@ typedef struct CoreData
     Data	VisibleStyle;
     Data	InvisibleStyle;
     Data	SmallGroupFont;
+    Data	ShowAllEncodings;
+    Data	DefaultEncoding;
 } CoreData;
 
 const unsigned CONTAINER_SIMPLE	= 0;
@@ -167,6 +169,16 @@ public:
     ~ClientList();
     void addToContacts();
 };
+
+typedef struct ENCODING
+{
+    const char *language;
+    const char *codec;
+    int         mib;
+    int			rtf_code;
+    int			cp_code;
+    bool        bMain;
+} ENCODING;
 
 const unsigned  CmdBase					= 0x00020000;
 const unsigned	CmdInfo					= (CmdBase + 1);
@@ -432,6 +444,8 @@ public:
     PROP_ULONG(VisibleStyle);
     PROP_ULONG(InvisibleStyle);
     PROP_BOOL(SmallGroupFont);
+    PROP_BOOL(ShowAllEncodings);
+    PROP_STR(DefaultEncoding);
 
     unsigned user_data_id;
     unsigned sms_data_id;
@@ -455,6 +469,7 @@ public:
     CoreData	data;
 
     bool m_bIgnoreEvents;
+    const ENCODING *encodings;
 
 signals:
     void modeChanged();

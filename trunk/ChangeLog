@@ -8,6 +8,7 @@ Fix communication-problem with AIM-Screennames > 13 chars
 Fix not receive AuthGrant from some ICQ-users
 Proxy: add support listen sockets for SOCKS4 and SOCKS5
 Add Yahoo! plugin
+MSN: Fix remove contact
 
 Version 0.9.2
 Add styles plugin
