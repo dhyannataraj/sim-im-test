@@ -52,6 +52,15 @@ AIMConfig::AIMConfig(QWidget *parent, ICQClient *client, bool bConfig)
     edtPort->setValue(m_client->getPort());
     connect(edtServer, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(edtPort, SIGNAL(valueChanged(const QString&)), this, SLOT(changed(const QString&)));
+    chkHTTP->setChecked(client->getUseHTTP());
+    connect(chkAuto, SIGNAL(toggled(bool)), this, SLOT(autoToggled(bool)));
+    chkAuto->setChecked(client->getAutoHTTP());
+    chkKeepAlive->setChecked(client->getKeepAlive());
+}
+
+void AIMConfig::autoToggled(bool bState)
+{
+    chkHTTP->setEnabled(!bState);
 }
 
 void AIMConfig::apply(Client*, void*)
@@ -66,6 +75,9 @@ void AIMConfig::apply()
     }
     m_client->setServer(edtServer->text().local8Bit());
     m_client->setPort((unsigned short)atol(edtPort->text()));
+    m_client->setUseHTTP(chkHTTP->isChecked());
+    m_client->setAutoHTTP(chkAuto->isChecked());
+    m_client->setKeepAlive(chkKeepAlive->isChecked());
 }
 
 void AIMConfig::changed(const QString&)

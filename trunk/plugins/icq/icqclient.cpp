@@ -274,6 +274,7 @@ static DataDef icqClientData[] =
         { "ACKMode", DATA_ULONG, 1, DATA(1) },
         { "UseHTTP", DATA_BOOL, 1, DATA(0) },
         { "AutoHTTP", DATA_BOOL, 1, DATA(1) },
+        { "KeepAlive", DATA_BOOL, 1, DATA(1) },
         { "", DATA_STRUCT, sizeof(ICQUserData) / sizeof(Data), DATA(_icqUserData) },
         { NULL, 0, 0, 0 }
     };
@@ -329,6 +330,7 @@ ICQClient::ICQClient(Protocol *protocol, const char *cfg, bool bAIM)
     }
     disconnected();
     m_infoRequestId = 0;
+    m_bFirstTry = false;
 }
 
 ICQClient::~ICQClient()
@@ -497,6 +499,7 @@ void OscarSocket::connect_ready()
 
 void ICQClient::connect_ready()
 {
+    m_bFirstTry = false;
     if (m_listener == NULL){
         m_listener = new ICQListener(this);
         m_listener->bind(getMinPort(), getMaxPort(), NULL);
@@ -1209,7 +1212,7 @@ void ICQClient::ping()
         if (bBirthday != m_bBirthday){
             m_bBirthday = bBirthday;
             setStatus(m_status);
-        }else{
+        }else if (getKeepAlive() || m_bHTTP){
             flap(ICQ_CHNxPING);
             sendPacket();
         }
@@ -1370,13 +1373,8 @@ QString ICQClient::toUnicode(const char *str, ICQUserData *client_data)
         return QString();
     if (client_data != NULL)
     {
-        if (client_data->Uin.value == 0)
-            return QString::fromUtf8(str);
-        else
-        {
-            QTextCodec *codec = getCodec(client_data->Encoding.ptr);
-            return codec->toUnicode(str, strlen(str));
-        }
+        QTextCodec *codec = getCodec(client_data->Encoding.ptr);
+        return codec->toUnicode(str, strlen(str));
     }
     else
     {

@@ -702,10 +702,6 @@ unsigned SIM::fetch(const char *url, Buffer *postData, const char *headers, bool
 
 #ifdef WIN32
 
-#ifndef INTERNET_CONNECTION_PROXY
-#define INTERNET_CONNECTION_PROXY	4
-#endif
-
 bool get_connection_state(bool &bState)
 {
     if (_InternetGetConnectedState == NULL)
@@ -715,23 +711,9 @@ bool get_connection_state(bool &bState)
     return true;
 }
 
-bool get_connection_proxy()
-{
-    if (_InternetGetConnectedState == NULL)
-        return false;
-    DWORD flags;
-    bool bState = _InternetGetConnectedState(&flags, 0);
-    return bState && (flags & INTERNET_CONNECTION_PROXY);
-}
-
 #else
 
 bool get_connection_state(bool&)
-{
-    return false;
-}
-
-bool get_connection_proxy()
 {
     return false;
 }

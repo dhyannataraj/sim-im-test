@@ -17,7 +17,6 @@
 
 #include "icqconfig.h"
 #include "icq.h"
-#include "fetch.h"
 
 #include <qtimer.h>
 #include <qlineedit.h>
@@ -65,13 +64,9 @@ ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig)
     chkDND->setChecked(client->getAcceptInDND());
     chkOccupied->setChecked(client->getAcceptInOccupied());
     chkHTTP->setChecked(client->getUseHTTP());
-    bool bState;
-    if (get_connection_state(bState)){
-        connect(chkAuto, SIGNAL(toggled(bool)), this, SLOT(autoToggled(bool)));
-        chkAuto->setChecked(client->getAutoHTTP());
-    }else{
-        chkAuto->hide();
-    }
+    connect(chkAuto, SIGNAL(toggled(bool)), this, SLOT(autoToggled(bool)));
+    chkAuto->setChecked(client->getAutoHTTP());
+    chkKeepAlive->setChecked(client->getKeepAlive());
 }
 
 void ICQConfig::autoToggled(bool bState)
@@ -100,9 +95,8 @@ void ICQConfig::apply()
     m_client->setAcceptInDND(chkDND->isChecked());
     m_client->setAcceptInOccupied(chkOccupied->isChecked());
     m_client->setUseHTTP(chkHTTP->isChecked());
-    bool bState;
-    if (get_connection_state(bState))
-        m_client->setAutoHTTP(chkAuto->isChecked());
+    m_client->setAutoHTTP(chkAuto->isChecked());
+    m_client->setKeepAlive(chkKeepAlive->isChecked());
 }
 
 void ICQConfig::changed(const QString&)

@@ -374,20 +374,17 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         messageReceived(msg, screen.c_str());
                         break;
                     }
-                    Message *mm = NULL;
+                    ICQMessage *msg = new ICQMessage;
                     if (!m_bAIM && atol(screen.c_str())){
-                        ICQMessage *msg = new ICQMessage;
                         msg->setServerText(m_data);
-                        mm = msg;
                     }else{
-                        mm = new Message(MessageGeneric);
-                        QString text = QString::fromUtf8(m_data);
+                        QString text = m_data;
                         unsigned bgColor = clearTags(text);
-                        mm->setText(text);
-                        mm->setBackground(bgColor);
-                        mm->setFlags(MESSAGE_RICHTEXT);
+                        msg->setServerText(m_data);
+                        msg->setBackground(bgColor);
+                        msg->setFlags(MESSAGE_RICHTEXT);
                     }
-                    messageReceived(mm, screen.c_str());
+                    messageReceived(msg, screen.c_str());
                     break;
                 }
             case 0x0002:{
