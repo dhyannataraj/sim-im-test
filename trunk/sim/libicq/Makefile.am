@@ -12,6 +12,3 @@ EXTRA_DIST = bos.cpp buddy.cpp buffer.cpp buffer.h cfg.cpp cfg.h contactlist.cpp
 
 ####### kdevelop will overwrite this part!!! (end)############
 
-.ll.cc:
-	$(LEX) $(AM_LFLAGS) -o$@ $(LFLAGS) $< 
-

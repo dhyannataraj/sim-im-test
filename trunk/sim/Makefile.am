@@ -45,9 +45,6 @@ METASOURCES = AUTO
 # the library search path. 
 sim_LDFLAGS = $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)  $(LIBICONV)
 
-.ll.cc:
-	$(LEX) $(AM_LFLAGS) -o$@ $(LFLAGS) $<
-
 messages: rc.cpp
 	LIST=`find . -name \*.h -o -name \*.hh -o -name \*.H -o -name \*.hxx -o -name \*.hpp -o -name \*.cpp -o -name \*.cc -o -name \*.cxx -o -name \*.ecpp -o -name \*.C`; \
 	if test -n "$$LIST"; then \
