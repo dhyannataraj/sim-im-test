@@ -230,6 +230,9 @@ MSNPlugin::MSNPlugin(unsigned base)
         : Plugin(base)
 {
     MSNPacket = registerType();
+    EventAddOk   = registerType();
+    EventAddFail = registerType();
+
     getContacts()->addPacketType(MSNPacket, msn_descr.text, PACKET_TEXT);
 
     IconDef icon;

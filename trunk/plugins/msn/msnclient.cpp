@@ -311,6 +311,20 @@ void MSNClient::getLine(const char *line)
     QCString ll = l.local8Bit();
     log(L_DEBUG, "Get: %s", (const char*)ll);
     QString cmd = getToken(l, ' ');
+    if (!m_packets.empty()){
+        MSNPacket *packet = m_packets.front();
+        if (packet->m_bAnswer){
+            QString save_l = l;
+            vector<string> args;
+            while (l.length())
+                args.push_back(string(getToken(l, ' ', false).utf8()));
+            if (packet->answer(cmd.latin1(), args))
+                return;
+            l = save_l;
+            m_packets.erase(m_packets.begin());
+            delete packet;
+        }
+    }
     if (cmd == "XFR"){
         QString id   = getToken(l, ' ');	// ID
         QString type = getToken(l, ' ');	// NS
@@ -353,25 +367,29 @@ void MSNClient::getLine(const char *line)
     if (cmd == "QNG")
         return;
     if (cmd == "BPR"){
-        unsigned id = getToken(l, ' ').toUInt();
         Contact *contact;
         MSNUserData *data = findContact(getToken(l, ' ').utf8(), contact);
-        if (data == NULL){
-            log(L_WARN, "Contact %u not found", id);
-            return;
+        if (data){
+            QString info = getToken(l, ' ');
+            QString type = getToken(l, ' ');
+            bool bChanged = false;
+            if (type == "PHH"){
+                bChanged = set_str(&data->PhoneHome, unquote(info).utf8());
+            }else if (type == "PHW"){
+                bChanged = set_str(&data->PhoneWork, unquote(info).utf8());
+            }else if (type == "PHM"){
+                bChanged = set_str(&data->PhoneMobile, unquote(info).utf8());
+            }else if (type == "MOB"){
+                data->Mobile = (info[0] == 'Y');
+            }else{
+                log(L_DEBUG, "Unknown BPR type %s", type.latin1());
+            }
+            if (bChanged){
+                setupContact(contact, data);
+                Event e(EventContactChanged, contact);
+                e.process();
+            }
         }
-        cmd = getToken(l, ' ').latin1();
-        bool bChanged = false;
-        if (cmd == "PHH")
-            bChanged |= set_str(&data->PhoneHome, unquote(getToken(l, ' ')).utf8());
-        if (cmd == "PHW")
-            bChanged |= set_str(&data->PhoneHome, unquote(getToken(l, ' ')).utf8());
-        if (cmd == "PHM")
-            bChanged |= set_str(&data->PhoneHome, unquote(getToken(l, ' ')).utf8());
-        if (cmd == "MOB")
-            data->Mobile = (getToken(l, ' ') == "Y");
-        if (bChanged)
-            setupContact(contact, data);
         return;
     }
     if (cmd == "ILN"){
@@ -495,12 +513,22 @@ void MSNClient::getLine(const char *line)
     }
     unsigned code = cmd.toUInt();
     if (code){
-        if (!m_packets.empty()){
-            MSNPacket *packet = m_packets.front();
-            m_packets.erase(m_packets.begin());
-            packet->error(code);
-            delete packet;
+        MSNPacket *packet = NULL;
+        unsigned id = getToken(l, ' ').toUInt();
+        list<MSNPacket*>::iterator it;
+        for (it = m_packets.begin(); it != m_packets.end(); ++it){
+            if ((*it)->id() == id){
+                packet = *it;
+                break;
+            }
         }
+        if (it == m_packets.end()){
+            m_socket->error_state("Bad packet id");
+            return;
+        }
+        m_packets.erase(it);
+        packet->error(code);
+        delete packet;
         return;
     }
 
@@ -508,26 +536,18 @@ void MSNClient::getLine(const char *line)
         log(L_DEBUG, "Packet not found");
         return;
     }
-    MSNPacket *packet = m_packets.front();
-    if (packet->m_bAnswer){
-        QString save_l = l;
-        vector<string> args;
-        while (l.length())
-            args.push_back(string(getToken(l, ' ', false).utf8()));
-        if (packet->answer(cmd.latin1(), args))
-            return;
-        l = save_l;
-        m_packets.erase(m_packets.begin());
-        delete packet;
-        if (m_packets.empty()){
-            log(L_DEBUG, "Packet not found");
-            return;
+
+    MSNPacket *packet = NULL;
+    unsigned id = getToken(l, ' ').toUInt();
+    list<MSNPacket*>::iterator it;
+    for (it = m_packets.begin(); it != m_packets.end(); ++it){
+        if ((*it)->id() == id){
+            packet = *it;
+            break;
         }
-        packet = m_packets.front();
     }
 
-    unsigned id = getToken(l, ' ').toUInt();
-    if (packet->id() != id){
+    if (it == m_packets.end()){
         m_socket->error_state("Bad packet id");
         return;
     }
@@ -542,7 +562,7 @@ void MSNClient::getLine(const char *line)
         packet->m_bAnswer = true;
         return;
     }
-    m_packets.erase(m_packets.begin());
+    m_packets.erase(it);
     delete packet;
 }
 
@@ -573,8 +593,6 @@ void MSNClient::authOk()
     m_pingTime = now;
     setStatus(m_logonStatus);
     QTimer::singleShot(TYPING_TIME * 1000, this, SLOT(ping()));
-    setState(Connected);
-
     setPreviousPassword(NULL);
     MSNPacket *packet = new SynPacket(this);
     packet->send();
@@ -742,6 +760,7 @@ bool MSNClient::canSend(unsigned type, void *_data)
         return false;
     switch (type){
     case MessageGeneric:
+    case MessageFile:
         return true;
     }
     return false;
@@ -755,6 +774,7 @@ bool MSNClient::send(Message *msg, void *_data)
     MSNPacket *packet = NULL;
     switch (msg->type()){
     case MessageGeneric:
+    case MessageFile:
         if (data->sb == NULL){
             Contact *contact;
             findContact(data->EMail, contact);
@@ -1063,11 +1083,15 @@ void *MSNClient::processEvent(Event *e)
         while ((data = (MSNUserData*)(++it)) != NULL){
             findRequest(data->EMail, LR_CONTACTxCHANGED, true);
             MSNListRequest lr;
-            lr.Type = LR_CONTACTxREMOVED;
-            lr.Name = data->EMail;
-            m_requests.push_back(lr);
+            if (data->Group != NO_GROUP){
+                lr.Type  = LR_CONTACTxREMOVED;
+                lr.Name  = data->EMail;
+                lr.Group = data->Group;
+                m_requests.push_back(lr);
+            }
             if (data->Flags & MSN_BLOCKED){
                 lr.Type = LR_CONTACTxREMOVED_BL;
+                lr.Name  = data->EMail;
                 m_requests.push_back(lr);
             }
         }
@@ -1158,6 +1182,8 @@ void *MSNClient::processEvent(Event *e)
                 }
                 MSNPacket *packet = new UsrPacket(this, twn.c_str());
                 packet->send();
+            }else if (data->result == 401){
+                authFailed();
             }else{
                 m_socket->error_state("Bad answer code");
             }
@@ -1272,32 +1298,47 @@ void MSNClient::processRequests()
                         packet = new AddPacket(this, "BL", data->EMail, quote(contact->getName()).utf8());
                         set_str(&data->ScreenName, contact->getName().utf8());
                     }else{
-                        packet = new RemPacket(this, "BL", data->EMail);
+                        packet = new RemPacket(this, "BL", data->EMail, 0);
                     }
                 }
-                if ((data->Flags & MSN_FORWARD) == 0){
-                    packet = new AddPacket(this, "FL", data->EMail, quote(QString::fromUtf8(data->ScreenName)).utf8(), contact->getGroup());
-                    data->Group = contact->getGroup();
+                unsigned grp_id = 0;
+                if (contact->getGroup()){
+                    Group *grp = getContacts()->group(contact->getGroup());
+                    ClientDataIterator it(grp->clientData, this);
+                    MSNUserData *res = (MSNUserData*)(++it);
+                    if (res)
+                        grp_id = res->Group;
                 }
-                Group *group = NULL;
-                MSNUserData *grp_data = findGroup(data->Group, NULL, group);
-                if (group && (contact->getGroup() != group->id())){
-                    packet = new AddPacket(this, "FL", data->EMail, quote(QString::fromUtf8(data->ScreenName)).utf8(), contact->getGroup());
+                if (((data->Flags & MSN_FORWARD) == 0) || (data->Group == NO_GROUP)){
+                    if (packet)
+                        packet->send();
+                    packet = new AddPacket(this, "FL", data->EMail, quote(QString::fromUtf8(data->ScreenName)).utf8(), grp_id);
+                    data->Group = grp_id;
+                    data->Flags |= MSN_FORWARD;
+                }
+                if (data->Group != grp_id){
+                    if (packet)
+                        packet->send();
+                    packet = new AddPacket(this, "FL", data->EMail, quote(QString::fromUtf8(data->ScreenName)).utf8(), grp_id);
                     packet->send();
-                    packet = new RemPacket(this, "FL", data->EMail);
-                    data->Group = grp_data->Group;
+                    packet = NULL;
+                    if (data->Group != NO_GROUP)
+                        packet = new RemPacket(this, "FL", data->EMail, data->Group);
+                    data->Group = grp_id;
                 }
                 if (contact->getName() != QString::fromUtf8(data->ScreenName)){
+                    if (packet)
+                        packet->send();
                     packet = new ReaPacket(this, data->EMail, quote(contact->getName()).utf8());
                     set_str(&data->ScreenName, contact->getName().utf8());
                 }
             }
             break;
         case LR_CONTACTxREMOVED:
-            packet = new RemPacket(this, "FL", (*it).Name.c_str());
+            packet = new RemPacket(this, "FL", (*it).Name.c_str(), (*it).Group);
             break;
         case LR_CONTACTxREMOVED_BL:
-            packet = new RemPacket(this, "BL", (*it).Name.c_str());
+            packet = new RemPacket(this, "BL", (*it).Name.c_str(), 0);
             break;
         case LR_GROUPxCHANGED:
             grp = getContacts()->group(atol((*it).Name.c_str()));

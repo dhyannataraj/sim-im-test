@@ -24,17 +24,20 @@
 class MSNClient;
 class QWizard;
 
-class MSNResult : public MSNResultBase
+class MSNResult : public MSNResultBase, public EventReceiver
 {
     Q_OBJECT
 public:
     MSNResult(QWidget *parent, MSNClient *client);
     ~MSNResult();
-    void setStatus(const QString &status);
+    void setMail(const char *mail);
+    void setStatus(const QString &str);
 signals:
     void search();
 protected:
+    void *processEvent(Event*);
     void showEvent(QShowEvent*);
+    string	   m_mail;
     QWizard	  *m_wizard;
     MSNClient *m_client;
 };

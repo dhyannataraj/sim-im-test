@@ -555,9 +555,7 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     cmd->icon		= "fileclose";
     cmd->icon_on	= "fileclose";
     cmd->bar_grp	= 0x7010;
-    cmd->flags		= COMMAND_DEFAULT;
-    if (getCloseSend())
-        cmd->flags |= COMMAND_CHECKED;
+    cmd->flags		= COMMAND_CHECK_STATE;
     eCmd.process();
 
     cmd->id			= CmdMultiply;
@@ -1591,6 +1589,12 @@ void *CorePlugin::processEvent(Event *e)
         }
     case EventCheckState:{
             CommandDef *cmd = (CommandDef*)(e->param());
+            if (cmd->id == CmdSendClose){
+                cmd->flags &= COMMAND_CHECKED;
+                if (getCloseSend())
+                    cmd->flags |= COMMAND_CHECKED;
+                return e->param();
+            }
             if (cmd->id == CmdContactClients){
                 Contact *contact = getContacts()->contact((unsigned)(cmd->param));
                 if (contact == NULL)
@@ -2069,6 +2073,8 @@ void *CorePlugin::processEvent(Event *e)
                             name = contact->getName();
                         p = i18n("%1 wrote:") .arg(name) + "\n" + p;
                         m->setFlags(MESSAGE_FORWARD);
+                    }else{
+                        m->setFlags(MESSAGE_INSERT);
                     }
                     m->setText(p);
                     Event eOpen(EventOpenMessage, m);

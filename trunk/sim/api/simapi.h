@@ -645,6 +645,14 @@ typedef struct ConnectParam
 /* Event send & receive message
 */
 
+class Message;
+
+typedef struct messageChange
+{
+    Message		*msg;
+    unsigned	old_id;
+} messageChange;
+
 const unsigned EventMessageReceived	= 0x1100;
 const unsigned EventMessageSent		= 0x1101;
 const unsigned EventMessageCancel	= 0x1102;
@@ -652,6 +660,8 @@ const unsigned EventSent			= 0x1103;
 const unsigned EventOpenMessage		= 0x1104;
 const unsigned EventMessageRead		= 0x1105;
 const unsigned EventMessageAcked	= 0x1106;
+const unsigned EventMessageDeleted  = 0x1107;
+const unsigned EventMessageChanged	= 0x1108;
 
 const unsigned EventFetchDone		= 0x1300;
 
@@ -869,6 +879,8 @@ const unsigned  MESSAGE_NOHISTORY	= 0x00040000;
 const unsigned	MESSAGE_LAST		= 0x00080000;
 const unsigned	MESSAGE_MULTIPLY	= 0x00100000;
 const unsigned	MESSAGE_FORWARD		= 0x00200000;
+const unsigned	MESSAGE_INSERT		= 0x00400000;
+const unsigned	MESSAGE_TEMP		= 0x10000000;
 
 typedef struct MessageData
 {

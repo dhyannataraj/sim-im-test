@@ -121,7 +121,7 @@ void MSNSearch::startSearch()
             }
         }
         if (m_client->add(edtMail->text().utf8(), edtMail->text().utf8(), group)){
-            m_result->setStatus(i18n("Contact %1 added to list") .arg(edtMail->text()));
+            m_result->setMail(edtMail->text().utf8());
         }else{
             m_result->setStatus(i18n("Contact %1 allready in list") .arg(edtMail->text()));
         }

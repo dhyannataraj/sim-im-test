@@ -1,5 +1,5 @@
 #/****************************************************************************
-** $Id: qrichtext.cpp,v 1.5 2003-10-05 18:56:11 shutoff Exp $
+** $Id: qrichtext.cpp,v 1.6 2003-10-09 21:41:32 shutoff Exp $
 **
 ** Implementation of the internal Qt classes dealing with rich text
 **
@@ -1997,7 +1997,8 @@ int direction : 5;
                                  + direction_to_string( item->name(), p->direction() )  + ">" +
                                  ps + "</" + item->name() + ">\n";
                         else
-                            s += ps +"\n";
+                            s += "<p" + align_to_string( "p", p->alignment() ) + direction_to_string( "p", p->direction() )
+                                 + ">" + ps + "</p>\n";
                     }
                 } else {
                     QString end;

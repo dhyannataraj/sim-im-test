@@ -515,6 +515,7 @@ public:
     static QString convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n);
     string screen(ICQUserData*);
     static unsigned warnLevel(unsigned short);
+    static QString addCRLF(const QString &str);
     bool m_bAIM;
 protected slots:
     void ping();

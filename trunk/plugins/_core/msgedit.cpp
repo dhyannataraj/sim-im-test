@@ -767,6 +767,18 @@ bool MsgEdit::sendMessage(Message *msg)
         stopSend(false);
         return false;
     }
+    bool bClose = true;
+    if (CorePlugin::m_plugin->getContainerMode()){
+        bClose = false;
+        Command cmd;
+        cmd->id		= CmdSendClose;
+        cmd->param	= this;
+        Event e(EventCommandWidget, cmd);
+        QToolButton *btnClose = (QToolButton*)(e.process());
+        if (btnClose)
+            bClose = btnClose->isOn();
+    }
+    CorePlugin::m_plugin->setCloseSend(bClose);
 
     msg->setFlags(msg->getFlags() | m_flags);
     m_flags = 0;
@@ -1087,6 +1099,7 @@ void *MsgEdit::processEvent(Event *e)
                     if (btnClose)
                         bClose = btnClose->isOn();
                 }
+                CorePlugin::m_plugin->setCloseSend(bClose);
                 if (bClose){
                     QTimer::singleShot(0, m_userWnd, SLOT(close()));
                 }else{

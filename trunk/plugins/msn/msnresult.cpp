@@ -16,7 +16,8 @@
  ***************************************************************************/
 
 #include "msnresult.h"
-#include "listview.h"
+#include "msnclient.h"
+#include "msn.h"
 
 #include <qlabel.h>
 #include <qwizard.h>
@@ -38,9 +39,30 @@ void MSNResult::showEvent(QShowEvent*)
     emit search();
 }
 
-void MSNResult::setStatus(const QString &status)
+void MSNResult::setMail(const char *mail)
 {
-    lblStatus->setText(status);
+    m_mail = mail;
+}
+
+void MSNResult::setStatus(const QString &str)
+{
+    lblStatus->setText(str);
+    m_wizard = static_cast<QWizard*>(topLevelWidget());
+    m_wizard->setFinishEnabled(this, true);
+}
+
+void *MSNResult::processEvent(Event *e)
+{
+    MSNPlugin *plugin = static_cast<MSNPlugin*>(m_client->protocol()->plugin());
+    if (e->type() == plugin->EventAddOk){
+        if (m_mail == (char*)(e->param()))
+            setStatus(i18n("Contact %1 added to list") .arg(QString::fromUtf8(m_mail.c_str())));
+    }
+    if (e->type() == plugin->EventAddFail){
+        if (m_mail == (char*)(e->param()))
+            setStatus(i18n("Invalid address: %1") .arg(QString::fromUtf8(m_mail.c_str())));
+    }
+    return NULL;
 }
 
 #ifndef WIN32

@@ -36,6 +36,8 @@ class MSNPlugin : public Plugin
 public:
     MSNPlugin(unsigned base);
     virtual ~MSNPlugin();
+    unsigned EventAddOk;
+    unsigned EventAddFail;
 protected:
     unsigned MSNPacket;
     Protocol *m_protocol;
