@@ -1,6 +1,9 @@
 Version 0.8
 Fix drag-and-drop files
 Fix user encoding for encode/decode RTF 
+Add process escape for close user window
+Fix set status for icq2go
+Fix save options "Alert if Away" and "Require authorization"
 
 Version 0.7
 Sending of the messages to several users added

@@ -595,6 +595,7 @@ void MsgView::addMessage(ICQMessage *msg, bool bUnread, bool bSet)
     }else{
         int n = paragraphs();
         if (n > 0) n--;
+	insertParagraph("", -1);
         append(s);
         if (foreColor != backColor)
             setMsgBgColor(msg->getUin(), msg->Id, backColor, n);
