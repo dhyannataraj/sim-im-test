@@ -7,8 +7,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
+"POT-Creation-Date: 2002-12-12 15:08+0300\n"
+"PO-Revision-Date: 2002-12-13 22:42+0100\n"
 "POT-Creation-Date: 2002-12-13 08:04+0300\n"
-"PO-Revision-Date: 2002-12-11 17:53+0100\n"
+"PO-Revision-Date: 2002-12-13 22:42+0100\n"
 "Last-Translator: Pavel Rousar <rousarp@fel.cvut.cz>\n"
 "Language-Team: Čeština <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1984,7 +1986,7 @@ msgstr "Informace o prostředí &KDE"
 
 #: mainwin.cpp:2712
 msgid "Change UIN"
-msgstr ""
+msgstr "Změnit UIN"
 
 #: mainwin.cpp:2713
 msgid "Quit"
@@ -2562,7 +2564,7 @@ msgstr "Potvrzené heslo neodpovídá"
 
 #: ui/generalsec.cpp:76
 msgid "Input current password"
-msgstr ""
+msgstr "Vložte aktuální heslo"
 
 #: ui/generalsec.cpp:81 ui/logindlg.cpp:85 ui/logindlg.cpp:165
 #: ui/logindlg.cpp:199
@@ -2735,7 +2737,7 @@ msgstr "Status mód"
 
 #: ui/setupdlg.cpp:124
 msgid "Connection"
-msgstr "Připojování"
+msgstr "Připojení"
 
 #: ui/setupdlg.cpp:125
 msgid "Style"
@@ -3016,9 +3018,8 @@ msgid "&Proxy settings"
 msgstr "&Proxy-nastavení"
 
 #: ui/logindlgbase.cpp:126
-#, fuzzy
 msgid "&Save password"
-msgstr "Změna hesla"
+msgstr "Uložit he&slo"
 
 #: ui/proxydlgbase.cpp:170
 msgid "Proxy settings"
@@ -3655,7 +3656,7 @@ msgstr "Okraj ikon:"
 
 #: ui/themesetupbase.cpp:306
 msgid "Use &system colors"
-msgstr "Použít &systémová písma"
+msgstr "Použít &systémové barvy"
 
 #: ui/themesetupbase.cpp:307
 msgid "Online contact color:"
@@ -3714,9 +3715,8 @@ msgid "Use &dock"
 msgstr "Použít &dokování"
 
 #: ui/themesetupbase.cpp:323
-#, fuzzy
 msgid "Use double c&lick"
-msgstr "Použít &dokování"
+msgstr "Použít &dvojklik"
 
 #: ui/listsecbase.cpp:120 ui/moreinfobase.cpp:185
 msgid "Form3"
@@ -3727,8 +3727,7 @@ msgid "Hide main window after"
 msgstr "Schovat hlavní okno po"
 
 #: ui/statussetupbase.cpp:110
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Zakázat online výstrahu pro \"Away\", \"N/A\", \"DND\" a \"Occupied\" "
 "seznam"
@@ -3867,8 +3866,7 @@ msgstr "&Domov"
 
 #: ui/generalsecbase.cpp:205
 msgid "My &authorization is required before users add me to Contact List"
-msgstr ""
-"Má &autorizace je vyžadována před přidáním uživatele do kontaktlistu"
+msgstr "Má &autorizace je vyžadována před přidáním uživatele do kontaktlistu"
 
 #: ui/generalsecbase.cpp:206
 msgid "Don't show my &IP-address"
@@ -3958,14 +3956,12 @@ msgid "New password:"
 msgstr "Nové heslo:"
 
 #: ui/generalsecbase.cpp:229
-#, fuzzy
 msgid "Current password:"
-msgstr "Nové heslo:"
+msgstr "Aktuální heslo:"
 
 #: ui/generalsecbase.cpp:230
-#, fuzzy
 msgid "S&ave password"
-msgstr "Změna hesla"
+msgstr "Uložit hes&lo"
 
 #: ui/generalsecbase.cpp:231
 msgid "&Password"
@@ -4041,7 +4037,7 @@ msgstr "Zobrazit okno pro hledání"
 
 #: ui/logindlg.cpp:46
 msgid "<New UIN>"
-msgstr ""
+msgstr "<Nový UIN>"
 
 #: ui/logindlg.cpp:157
 msgid "Unknown login error"
@@ -4698,3 +4694,4 @@ msgstr "Nemohu vytvořit soubor %1"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
