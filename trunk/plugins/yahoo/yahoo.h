@@ -41,6 +41,8 @@ public:
     static unsigned YahooPacket;
     static CorePlugin *core;
 protected:
+    void registerMessages();
+    void unregisterMessages();
     Protocol *m_protocol;
 };
 

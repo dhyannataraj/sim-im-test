@@ -98,6 +98,7 @@ static DataDef osdUserData[] =
     {
         { "EnableMessage", DATA_BOOL, 1, DATA(1) },
         { "EnableMessageShowContent", DATA_BOOL, 1, DATA(0) },
+        { "ContentTypes", DATA_ULONG, 1, DATA(3) },
         { "EnableAlert", DATA_BOOL, 1, DATA(1) },
         { "EnableTyping", DATA_BOOL, 1, 0 },
         { "Position", DATA_ULONG, 1, 0 },
@@ -241,6 +242,12 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
                      rcScreen.height() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.value);
     QRect rc = p.boundingRect(rcScreen, AlignLeft | AlignTop | WordBreak, str);
     p.end();
+    if (data->EnableMessageShowContent.bValue && data->ContentLines.value){
+        QFontMetrics fm(font());
+        int maxHeight = fm.height() * (data->ContentLines.value + 1);
+        if (rc.height() > maxHeight)
+            rc.setHeight(maxHeight);
+    }
     int x = rcScreen.left();
     int y = rcScreen.top();
     int w = rc.width() + 1;
@@ -397,7 +404,7 @@ void OSDPlugin::processQueue()
                                .arg(contact->getName());
                     if ( data->EnableMessageShowContent.bValue &&
                             !(m_request.plaintext.isNull() || m_request.plaintext.isEmpty()) ){
-                        text += QString(": ") + m_request.plaintext.stripWhiteSpace();
+                        text += QString(":\n") + m_request.plaintext.stripWhiteSpace();
                     }
                 }
             }
@@ -460,11 +467,18 @@ void *OSDPlugin::processEvent(Event *e)
         msg = (Message*)(e->param());
         if (msg->type() == MessageStatus)
             break;
+        contact = getContacts()->contact(msg->contact());
+        if (contact == NULL)
+            break;
+        data = (OSDUserData*)(contact->getUserData(user_data_id));
+        if (data == NULL)
+            break;
         osd.contact = msg->contact();
         osd.type    = msg->baseType();
         osd.msg_id	= msg->id();
         osd.client	= msg->client();
-        osd.plaintext   = msg->getPlainText();
+        if (data->EnableMessageShowContent.bValue)
+            osd.plaintext   = msg->getPlainText();
         queue.push_back(osd);
         processQueue();
         break;

@@ -408,7 +408,6 @@ LiveJournalClient::LiveJournalClient(Protocol *proto, const char *cfg)
 {
     load_data(liveJournalClientData, &data, cfg);
     m_request = NULL;
-    m_fetchId = 0;
     m_timer   = new QTimer(this);
 }
 
@@ -1038,6 +1037,22 @@ QWidget *LiveJournalClient::searchWindow()
     return new JournalSearch(this);
 }
 
+bool LiveJournalClient::done(unsigned code, Buffer &data, const char*)
+{
+    if (code == 200){
+        m_request->result(&data);
+    }else{
+        string err = "Fetch error ";
+        err += number(code);
+        error_state(err.c_str(), 0);
+        statusChanged();
+    }
+    delete m_request;
+    m_request = NULL;
+    send();
+    return false;
+}
+
 void *LiveJournalClient::processEvent(Event *e)
 {
     TCPClient::processEvent(e);
@@ -1061,23 +1076,6 @@ void *LiveJournalClient::processEvent(Event *e)
         if (getState() == Connected)
             m_timer->start(getInterval() * 60 * 1000, true);
         return e->param();
-    }
-    if (e->type() == EventFetchDone){
-        fetchData *data = (fetchData*)e->param();
-        if (data->req_id != m_fetchId)
-            return NULL;
-        m_fetchId = 0;
-        if (data->result == 200){
-            m_request->result(data->data);
-        }else{
-            string err = "Fetch error ";
-            err += number(data->result);
-            error_state(err.c_str(), 0);
-            statusChanged();
-        }
-        delete m_request;
-        m_request = NULL;
-        send();
     }
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
@@ -1189,10 +1187,10 @@ void LiveJournalClient::send()
         url += number(getPort());
     }
     url += getURL();
-    string headers = "Content-Type: application/x-www-form-urlencoded";
+    string headers = "Content-Type: application/x-www-form-urlencoded\n";
     if (getFastServer())
         headers += "\r\nCookie: ljfastserver=1";
-    m_fetchId = fetch(url.c_str(), m_request->m_buffer);
+    fetch(url.c_str(), headers.c_str(), m_request->m_buffer);
     m_request->m_buffer = NULL;
 }
 

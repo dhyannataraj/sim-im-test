@@ -142,7 +142,7 @@ public:
 };
 
 MyMimeSourceFactory::MyMimeSourceFactory()
- : QMimeSourceFactory()
+        : QMimeSourceFactory()
 {
 }
 

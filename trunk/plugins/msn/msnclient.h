@@ -21,6 +21,7 @@
 #include "simapi.h"
 #include "stl.h"
 #include "socket.h"
+#include "fetch.h"
 
 const unsigned MSN_SIGN			= 0x0003;
 
@@ -157,7 +158,7 @@ typedef struct MSNListRequest
 class MSNPacket;
 class MSNServerMessage;
 
-class MSNClient : public TCPClient
+class MSNClient : public TCPClient, public FetchClient
 {
     Q_OBJECT
 public:
@@ -194,13 +195,13 @@ public:
     list<SBSocket*> m_SBsockets;
     virtual void setupContact(Contact*, void *data);
     bool		 m_bJoin;
-    unsigned	 m_fetchId;
     Socket *createSBSocket();
 protected slots:
     void ping();
     void authOk();
     void authFailed();
 protected:
+    virtual bool done(unsigned code, Buffer &data, const char *headers);
     virtual QString contactName(void *clientData);
     virtual void setInvisible(bool bState);
     virtual bool compareData(void*, void*);

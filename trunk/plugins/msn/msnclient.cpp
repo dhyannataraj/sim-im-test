@@ -262,7 +262,6 @@ void MSNClient::disconnected()
     }
     m_packetId = 0;
     m_pingTime = 0;
-    m_fetchId  = 0;
     m_state    = None;
     m_authChallenge = "";
     clearPackets();
@@ -1069,6 +1068,55 @@ void MSNClient::auth_message(Contact *contact, unsigned type, MSNUserData *data)
     e.process();
 }
 
+bool MSNClient::done(unsigned code, Buffer&, const char *headers)
+{
+    string h;
+    switch (m_state){
+    case LoginHost:
+        if (code == 200){
+            h = getHeader("PassportURLs", headers);
+            if (h.empty()){
+                m_socket->error_state("No PassportURLs answer");
+                break;
+            }
+            string loginHost = getValue("DALogin", h.c_str());
+            if (loginHost.empty()){
+                m_socket->error_state("No DALogin in PassportURLs answer");
+                break;
+            }
+            string loginUrl = "https://";
+            loginUrl += loginHost;
+            requestTWN(loginUrl.c_str());
+        }else{
+            m_socket->error_state("Bad answer code");
+        }
+        break;
+    case TWN:
+        if (code == 200){
+            h = getHeader("Authentication-Info", headers);
+            if (h.empty()){
+                m_socket->error_state("No Authentication-Info answer");
+                break;
+            }
+            string twn = getValue("from-PP", h.c_str());
+            if (twn.empty()){
+                m_socket->error_state("No from-PP in Authentication-Info answer");
+                break;
+            }
+            MSNPacket *packet = new UsrPacket(this, twn.c_str());
+            packet->send();
+        }else if (code == 401){
+            authFailed();
+        }else{
+            m_socket->error_state("Bad answer code");
+        }
+        break;
+    default:
+        log(L_WARN, "Fetch done in bad state");
+    }
+    return false;
+}
+
 void *MSNClient::processEvent(Event *e)
 {
     TCPClient::processEvent(e);
@@ -1224,67 +1272,12 @@ void *MSNClient::processEvent(Event *e)
                 return msg;
         }
     }
-    if (e->type() == EventFetchDone){
-        fetchData *data = (fetchData*)e->param();
-        if (data->req_id != m_fetchId)
-            return NULL;
-        m_fetchId = 0;
-        string h;
-        switch (m_state){
-        case LoginHost:
-            if (data->result == 200){
-                h = getHeader("PassportURLs", data->headers);
-                if (h.empty()){
-                    m_socket->error_state("No PassportURLs answer");
-                    break;
-                }
-                string loginHost = getValue("DALogin", h.c_str());
-                if (loginHost.empty()){
-                    m_socket->error_state("No DALogin in PassportURLs answer");
-                    break;
-                }
-                string loginUrl = "https://";
-                loginUrl += loginHost;
-                requestTWN(loginUrl.c_str());
-            }else{
-                m_socket->error_state("Bad answer code");
-            }
-            break;
-        case TWN:
-            if (data->result == 200){
-                h = getHeader("Authentication-Info", data->headers);
-                if (h.empty()){
-                    m_socket->error_state("No Authentication-Info answer");
-                    break;
-                }
-                string twn = getValue("from-PP", h.c_str());
-                if (twn.empty()){
-                    m_socket->error_state("No from-PP in Authentication-Info answer");
-                    break;
-                }
-                MSNPacket *packet = new UsrPacket(this, twn.c_str());
-                packet->send();
-            }else if (data->result == 401){
-                authFailed();
-            }else{
-                m_socket->error_state("Bad answer code");
-            }
-            break;
-        default:
-            log(L_WARN, "Fetch done in bad state");
-        }
-        return e->param();
-    }
     return NULL;
 }
 
 void MSNClient::requestLoginHost(const char *url)
 {
-    m_fetchId = fetch(url);
-    if (m_fetchId == 0){
-        authFailed();
-        return;
-    }
+    fetch(url);
     m_state = LoginHost;
 }
 
@@ -1296,10 +1289,8 @@ void MSNClient::requestTWN(const char *url)
     auth += quote(getPassword()).utf8();
     auth += ",";
     auth += m_authChallenge;
-    auth += '\x00';
-    auth += '\x00';
     m_state = TWN;
-    m_fetchId = fetch(url, NULL, auth.c_str());
+    fetch(url, auth.c_str());
 }
 
 string MSNClient::getValue(const char *key, const char *str)

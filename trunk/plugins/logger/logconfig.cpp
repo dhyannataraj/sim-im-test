@@ -143,7 +143,7 @@ void LogConfig::setCheck(QListViewItem *item)
     pInd.end();
     pixInd.setMask(mInd);
 #else
-    int w = style().pixelMetric(QStyle::PM_IndicatorWidth);
+int w = style().pixelMetric(QStyle::PM_IndicatorWidth);
     int h = style().pixelMetric(QStyle::PM_IndicatorHeight);
     QPixmap pixInd(w, h);
     QPainter pInd(&pixInd);

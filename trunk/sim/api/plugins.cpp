@@ -174,14 +174,14 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
     pluginsList = pluginDir.entryList("*" LTDL_SHLIB_EXT);
     if (pluginsList.isEmpty()) {
         log(L_ERROR,
-                "Can't access %s or directory contains no plugins!",
-                pluginDir.path().ascii());
+            "Can't access %s or directory contains no plugins!",
+            pluginDir.path().ascii());
         m_bAbort = true;
-		return;
+        return;
     }
     m_bAbort = false;
 
-	log(L_DEBUG,"Loading plugins from %s",pluginDir.path().ascii());
+    log(L_DEBUG,"Loading plugins from %s",pluginDir.path().ascii());
     for (QStringList::Iterator it = pluginsList.begin(); it != pluginsList.end(); ++it){
         QString f = *it;
         int p = f.findRev('.');
@@ -211,10 +211,10 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
     }
     Event eStart(EventInit);
     if ((int)eStart.process() == -1) {
-		log(L_ERROR,"EventInit failed - aborting!");
+        log(L_ERROR,"EventInit failed - aborting!");
         m_bAbort = true;
-		return;
-	}
+        return;
+    }
     for (list<string>::iterator it_args = args.begin(); it_args != args.end(); ++it_args){
         if ((*it_args).length()){
             usage((*it_args).c_str());
@@ -357,11 +357,11 @@ void PluginManagerPrivate::load(pluginInfo &info)
             return;
         }
 #else
-        if (info.info->flags & PLUGIN_KDE_COMPILE){
-            log(L_WARN, "Plugin %s is compiled with KDE support!", info.name);
-            release(info);
-            return;
-        }
+if (info.info->flags & PLUGIN_KDE_COMPILE){
+        log(L_WARN, "Plugin %s is compiled with KDE support!", info.name);
+        release(info);
+        return;
+    }
 #endif
 #endif
     }

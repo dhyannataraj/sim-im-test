@@ -26,7 +26,8 @@
 typedef struct OSDUserData
 {
     Data	EnableMessage;
-    Data        EnableMessageShowContent;
+    Data    EnableMessageShowContent;
+    Data	ContentLines;
     Data	EnableAlert;
     Data	EnableTyping;
     Data	Position;

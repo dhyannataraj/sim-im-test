@@ -70,7 +70,7 @@ void ShortcutsConfig::loadMenu(unsigned id, bool bCanGlobal)
                 continue;
             QString title = i18n(s->text);
             if (title == "_")
-            	continue;
+                continue;
             title = title.replace(QRegExp("&"), "");
             QString accel;
             int key = 0;

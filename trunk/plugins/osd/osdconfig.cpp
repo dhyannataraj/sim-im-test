@@ -45,8 +45,11 @@ OSDConfig::OSDConfig(QWidget *parent, void *d, OSDPlugin *plugin)
         tab->addTab(m_iface, i18n("&Interface"));
         break;
     }
-    connect(chkMessage, SIGNAL(clicked()), this, SLOT(showMessageToggled()));
-    showMessageToggled();
+    edtLines->setValue(data->ContentLines.value);
+    connect(chkMessage, SIGNAL(toggled(bool)), this, SLOT(showMessageToggled(bool)));
+    connect(chkMessageContent, SIGNAL(toggled(bool)), this, SLOT(contentToggled(bool)));
+    showMessageToggled(chkMessage->isChecked());
+    contentToggled(chkMessageContent->isChecked());
 }
 
 void OSDConfig::apply()
@@ -61,12 +64,21 @@ void OSDConfig::apply(void *d)
     data->EnableMessageShowContent.bValue = chkMessageContent->isChecked();
     data->EnableAlert.bValue = chkStatus->isChecked();
     data->EnableTyping.bValue = chkTyping->isChecked();
+    data->ContentLines.value = atol(edtLines->text());
     m_iface->apply(d);
 }
 
-void OSDConfig::showMessageToggled()
+void OSDConfig::showMessageToggled(bool bState)
 {
-    chkMessageContent->setEnabled(chkMessage->isChecked());
+    chkMessageContent->setEnabled(bState);
+    edtLines->setEnabled(bState && chkMessageContent->isChecked());
+    lblLines->setEnabled(bState && chkMessageContent->isChecked());
+}
+
+void OSDConfig::contentToggled(bool bState)
+{
+    edtLines->setEnabled(bState && chkMessage->isChecked());
+    lblLines->setEnabled(bState && chkMessage->isChecked());
 }
 
 #ifndef WIN32

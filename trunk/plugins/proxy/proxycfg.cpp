@@ -17,6 +17,7 @@
 
 #include "proxycfg.h"
 #include "proxy.h"
+#include "socket.h"
 #include "fetch.h"
 
 #include <qcombobox.h>
@@ -37,7 +38,7 @@ ProxyConfig::ProxyConfig(QWidget *parent, ProxyPlugin *plugin, QTabWidget *tab, 
     cmbType->insertItem(i18n("None"));
     cmbType->insertItem("SOCKS4");
     cmbType->insertItem("SOCKS5");
-    cmbType->insertItem("HTTPS");
+    cmbType->insertItem("HTTP/HTTPS");
     if (tab){
         tab->addTab(this, i18n("&Proxy"));
         for (QWidget *p = this; p; p = p->parentWidget()){

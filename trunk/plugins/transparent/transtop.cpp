@@ -30,7 +30,7 @@ TransparentTop::TransparentTop(QWidget *parent, unsigned transparent)
 #if COMPAT_QT_VERSION < 0x030000
     parent->installEventFilter(this);
 #else
-    rootpixmap->setCustomPainting(true);
+rootpixmap->setCustomPainting(true);
     connect(rootpixmap, SIGNAL(backgroundUpdated(const QPixmap&)), this, SLOT(backgroundUpdated(const QPixmap&)));
 #endif
     transparentChanged();

@@ -19,79 +19,41 @@
 #define _FETCH_H
 
 #include "simapi.h"
-#include "buffer.h"
-#include "socket.h"
-#include "stl.h"
 
-typedef map<my_string, string> HEADERS_MAP;
+class Buffer;
 
-class FetchThread;
+const unsigned NO_POSTSIZE	= (unsigned)(-1);
 
-class FetchClient : public ClientSocketNotify
+class FetchClientPrivate;
+
+class EXPORT FetchClient
 {
 public:
-    FetchClient(const char *url, Buffer *postData, const char *headers, bool bRedirect);
-    ~FetchClient();
-    unsigned id() { return m_id; }
-    bool	 done()	{ return m_bDone; }
-    void	 fail();
-    string		m_uri;
-    string		m_hIn;
-    HEADERS_MAP	m_hOut;
-    unsigned	m_code;
-    Buffer		m_res;
-    Buffer		*m_post;
-    bool		m_bRedirect;
-#ifdef WIN32
-    FetchThread	*m_thread;
-    string		m_err;
-    unsigned	m_errCode;
-#endif
-protected:
-    virtual bool error_state(const char *err, unsigned code);
-    virtual void connect_ready();
-    virtual void packet_ready();
-    bool read_line(string&);
-    ClientSocket *m_socket;
-    unsigned	m_id;
-    bool		m_bDone;
-    bool		crackUrl(const char *url, string &proto, string &host, unsigned short &port, string &user, string &pass, string &uri, string &extra);
-    void		fetch();
-    unsigned	m_size;
-    void		addHeader(const char *key, const char *value);
-    bool		findHeader(const char *key);
-    enum State{
-#ifdef USE_OPENSSL
-        SSLConnect,
-#endif
-        None,
-        Header,
-        Data,
-        Redirect
-    };
-    State		m_state;
-#ifdef USE_OPENSSL
-    bool		m_bHTTPS;
-#endif
+    FetchClient();
+    virtual ~FetchClient();
+    void fetch(const char *url, const char *headers = NULL, Buffer *postData = NULL, bool bRedirect = true);
+    virtual const char *read_data(const char *buf, unsigned &size);
+    virtual bool     write_data(const char *buf, unsigned size);
+    virtual unsigned post_size();
+    virtual bool	 done(unsigned code, Buffer &data, const char *headers) = 0;
+    bool	isDone();
+    void    stop();
+private:
+    FetchClientPrivate *p;
+    friend class FetchClientPrivate;
+    friend class FetchManager;
 };
 
-class FetchManager : public QObject, public EventReceiver
+class FetchManager : public QObject
 {
     Q_OBJECT
 public:
     FetchManager();
     ~FetchManager();
     static FetchManager *manager;
-    bool useWinInet();
-    void remove(FetchClient*);
+    void done(FetchClient *client);
 protected slots:
-    void remove();
-protected:
-    void *processEvent(Event*);
-    list<FetchClient*> m_clients;
-    list<FetchClient*> m_remove;
-    unsigned m_id;
-    friend class FetchClient;
+    void timeout();
 };
 
 EXPORT string basic_auth(const char *user, const char *pass);

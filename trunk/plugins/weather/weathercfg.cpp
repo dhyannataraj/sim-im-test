@@ -34,7 +34,6 @@ WeatherCfg::WeatherCfg(QWidget *parent, WeatherPlugin *plugin)
         : WeatherCfgBase(parent)
 {
     m_plugin = plugin;
-    m_fetch_id = 0;
     lblLnk->setUrl("http://www.weather.com/?prod=xoap&par=1004517364");
     lblLnk->setText(QString("Weather data provided by weather.com") + QChar((unsigned short)174));
     connect(btnSearch, SIGNAL(clicked()), this, SLOT(search()));
@@ -65,13 +64,13 @@ WeatherCfg::~WeatherCfg()
 
 void WeatherCfg::textChanged(const QString &text)
 {
-    btnSearch->setEnabled(!text.isEmpty() && (m_fetch_id == 0));
+    btnSearch->setEnabled(!text.isEmpty() && !isDone());
 }
 
 void WeatherCfg::search()
 {
-    if (m_fetch_id){
-        m_fetch_id = 0;
+    if (!isDone()){
+        stop();
         btnSearch->setText(i18n("&Search"));
         textChanged(cmbLocation->lineEdit()->text());
         return;
@@ -81,42 +80,39 @@ void WeatherCfg::search()
     btnSearch->setText(i18n("&Cancel"));
     string url = "http://xoap.weather.com/search/search?where=";
     url += toTranslit(cmbLocation->lineEdit()->text()).utf8();
-    m_fetch_id = fetch(url.c_str());
+    fetch(url.c_str());
+}
+
+bool WeatherCfg::done(unsigned, Buffer &data, const char*)
+{
+    m_ids.clear();
+    m_names.clear();
+    m_id = "";
+    m_data = "";
+    m_context = xmlCreatePushParserCtxt(&m_handler, this, "", 0, "");
+    if (xmlParseChunk(m_context, data.data(), data.size(), 0))
+        log(L_WARN, "XML parse error");
+    xmlFreeParserCtxt(m_context);
+    btnSearch->setText(i18n("&Search"));
+    QString oldText = cmbLocation->lineEdit()->text();
+    cmbLocation->clear();
+    if (m_ids.empty()){
+        cmbLocation->lineEdit()->setText(oldText);
+        BalloonMsg::message(i18n("Location %1 not found") .arg(oldText), btnSearch, false);
+    }else{
+        for (vector<string>::iterator it = m_names.begin(); it != m_names.end(); ++it)
+            cmbLocation->insertItem(QString::fromUtf8((*it).c_str()));
+        cmbLocation->setCurrentItem(0);
+        activated(0);
+    }
+    textChanged(cmbLocation->lineEdit()->text());
+    return false;
 }
 
 void *WeatherCfg::processEvent(Event *e)
 {
-    if (e->type() == m_plugin->EventWeather){
+    if (e->type() == m_plugin->EventWeather)
         fill();
-    }
-    if (e->type() == EventFetchDone){
-        fetchData *data = (fetchData*)(e->param());
-        if (data->req_id != m_fetch_id)
-            return NULL;
-        m_fetch_id = 0;
-        m_ids.clear();
-        m_names.clear();
-        m_id = "";
-        m_data = "";
-        m_context = xmlCreatePushParserCtxt(&m_handler, this, "", 0, "");
-        if (xmlParseChunk(m_context, data->data->data(), data->data->size(), 0))
-            log(L_WARN, "XML parse error");
-        xmlFreeParserCtxt(m_context);
-        btnSearch->setText(i18n("&Search"));
-        QString oldText = cmbLocation->lineEdit()->text();
-        cmbLocation->clear();
-        if (m_ids.empty()){
-            cmbLocation->lineEdit()->setText(oldText);
-            BalloonMsg::message(i18n("Location %1 not found") .arg(oldText), btnSearch, false);
-        }else{
-            for (vector<string>::iterator it = m_names.begin(); it != m_names.end(); ++it)
-                cmbLocation->insertItem(QString::fromUtf8((*it).c_str()));
-            cmbLocation->setCurrentItem(0);
-            activated(0);
-        }
-        textChanged(cmbLocation->lineEdit()->text());
-        return e->param();
-    }
     return NULL;
 }
 

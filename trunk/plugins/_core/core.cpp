@@ -1456,7 +1456,7 @@ void CorePlugin::installTranslator()
 #ifdef USE_KDE
         return;
 #else
-        char *p = getenv("LANG");
+char *p = getenv("LANG");
         if (p){
             for (; *p; p++){
                 if (*p == '.') break;
@@ -1892,6 +1892,11 @@ void *CorePlugin::processEvent(Event *e)
             Message *msg = (Message*)(e->param());
             Contact *contact = getContacts()->contact(msg->contact());
             if (contact){
+                if (msg->getTime() == 0){
+                    time_t now;
+                    time(&now);
+                    msg->setTime(now);
+                }
                 unsigned type = msg->baseType();
                 if (type == MessageStatus){
                     CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));

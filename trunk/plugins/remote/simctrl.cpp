@@ -22,7 +22,6 @@
 #include <errno.h>
 
 #ifndef WIN32
-#include <strings.h>
 #include <sys/socket.h>
 #include <unistd.h>
 #include <sys/un.h>

@@ -672,7 +672,7 @@ static Message *createIcqFile(const char *cfg)
 }
 
 #if 0
-i18n("File message", "%n File messages", 1);
+i18n("File", "%n files", 1);
 #endif
 
 static MessageDef defIcqFile =
@@ -680,8 +680,8 @@ static MessageDef defIcqFile =
         NULL,
         NULL,
         MESSAGE_DEFAULT,
-        "File message",
-        "%n File messages",
+        "File",
+        "%n files",
         createIcqFile,
         NULL,
         NULL

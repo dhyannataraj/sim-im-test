@@ -17,6 +17,7 @@ Move plugins from prefix/share into prefix/lib
 Fix acinclude for automake-1.8
 MSN: add HTTP polling
 Jabber: add HTTP polling
+OSD: add show message content
 
 Version 0.9.2
 Add styles plugin
