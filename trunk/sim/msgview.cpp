@@ -601,7 +601,7 @@ void MsgView::addMessage(ICQMessage *msg, bool bUnread, bool bSet)
         int n = paragraphs();
         if (n > 0) n--;
         append(s);
-        setParagraphBackgroundColor(n, colorGroup().base());
+	clearParagraphBackground(n+1);
         if (foreColor != backColor)
             setMsgBgColor(msg->getUin(), msg->Id, backColor, n);
     }
@@ -622,8 +622,6 @@ int MsgView::setMsgBgColor(unsigned long uin, unsigned long id, unsigned long rg
         if (text(n).find(pat) < 0) continue;
         pat = "<a href=\"msg://";
         for (n++; n < paragraphs(); n++){
-            string s;
-            if (!text(n).isEmpty()) s = text(n).local8Bit();
             if (text(n).isEmpty()) break;
             if (text(n).find(pat) >= 0) break;
             setParagraphBackgroundColor(n, QColor(rgb));

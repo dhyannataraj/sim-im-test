@@ -78,6 +78,7 @@
 [\xF0-\xF7][\x00-\xFF]{3}		{ return TXT; }
 [\xF8-\xFB][\x00-\xFF]{4}		{ return TXT; }
 [\xFC-\xFD][\x00-\xFF]{5}		{ return TXT; }
+"\n"								{ return TXT; }
 .								{ return TXT; }
 %%
 
@@ -118,7 +119,7 @@ QString MainWindow::ParseText(const string &text, bool bIgnoreColors)
         if (!r) break;
         switch (r){
         case TXT:
-			res += yytext;
+  	    res += yytext;
             break;
         case TAG:
             tag += yytext;
