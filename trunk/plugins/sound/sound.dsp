@@ -732,9 +732,9 @@ SOURCE=".\sounds\vip-online.wav"
 
 !IF  "$(CFG)" == "sound - Win32 Release"
 
-# Begin Custom Build
+# Begin Custom Build - Copy $(InputPath)
 OutDir=.\..\..\Release
-InputPath=.\sounds\vip-online.wav
+InputPath=".\sounds\vip-online.wav"
 
 "$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy /Y $(InputPath) $(OutDir)\$(InputPath)
@@ -745,7 +745,7 @@ InputPath=.\sounds\vip-online.wav
 
 # Begin Custom Build - Copy $(InputPath)
 OutDir=.\..\..\Debug
-InputPath=.\sounds\vip-online.wav
+InputPath=".\sounds\vip-online.wav"
 
 "$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy /Y $(InputPath) $(OutDir)\$(InputPath)
