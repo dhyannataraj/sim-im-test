@@ -38,6 +38,7 @@
 #include <qlayout.h>
 #include <qapplication.h>
 #include <qclipboard.h>
+#include <qregexp.h>
 
 #include <time.h>
 
