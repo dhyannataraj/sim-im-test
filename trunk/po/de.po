@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2002-11-25 10:46+0300\n"
-"PO-Revision-Date: 2002-11-25 14:24GMT\n"
+"PO-Revision-Date: 2002-11-25 14:25GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1839,7 +1839,7 @@ msgstr "Strg+A"
 
 #: mainwin.cpp:2002 ui/setupdlg.cpp:135 ui/userinfo.cpp:92
 msgid "Sound"
-msgstr "Persönliche Einstellungen"
+msgstr "Klänge"
 
 #: mainwin.cpp:2003
 msgid ""
