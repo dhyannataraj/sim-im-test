@@ -1137,7 +1137,7 @@ bool MainWindow::init()
 
     changeBackground();
 
-    QTimer::singleShot(0, this, realSetStatus());
+    QTimer::singleShot(0, this, SLOT(realSetStatus()));
     if (bNeedSetup) setup();
     return true;
 }
