@@ -2573,15 +2573,16 @@ bool ICQClient::canSend(unsigned type, void *_data)
     case MessageSMS:
         return true;
     case MessageGeneric:
+	return (data != NULL);
     case MessageURL:
     case MessageContact:
-        return (data != NULL);
+        return (data != NULL) && data->Uin;
     case MessageAuthRequest:
         return data && (data->WaitAuth);
     case MessageAuthGranted:
         return data && (data->WantAuth);
     case MessageCheckInvisible:
-        return data && ((data->Status & 0xFFFF) == ICQ_STATUS_OFFLINE);
+        return data && data->Uin && ((data->Status & 0xFFFF) == ICQ_STATUS_OFFLINE);
     case MessageFile:
         return data && ((data->Status & 0xFFFF) != ICQ_STATUS_OFFLINE);
 #ifdef USE_OPENSSL

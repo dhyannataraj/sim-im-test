@@ -252,6 +252,7 @@ GlobalKey::GlobalKey(CommandDef *cmd)
 {
 #if QT_VERSION >= 300
     int keys = QAccel::stringToKey(cmd->accel);
+    log(L_DEBUG, "Key %s %u", cmd->accel, keys);
     if (keys){
         string shortName = "sim_";
         shortName += number(cmd->id);
@@ -261,9 +262,9 @@ GlobalKey::GlobalKey(CommandDef *cmd)
                       keys, keys, this, SLOT(execute()));
     }
 #else
-accel = new KGlobalAccel(this);
-accel->insertItem(i18n(s->text), i18n(s->text), s->accel);
-accel->connectItem(cmd->accel, this, SLOT(execute()));
+    accel = new KGlobalAccel(this);
+    accel->insertItem(i18n(s->text), i18n(s->text), s->accel);
+    accel->connectItem(cmd->accel, this, SLOT(execute()));
 #endif
 }
 

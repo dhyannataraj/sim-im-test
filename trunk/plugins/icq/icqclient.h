@@ -571,7 +571,7 @@ protected:
     void packInfoList(char *str);
     string createRTF(const char *text, unsigned long foreColor, const char *encoding);
     void ackMessage(SendMsg &s);
-    void sendThroughServer(const char *screen, unsigned short type, Buffer &b, unsigned long id_l, unsigned long id_h, bool bOffline);
+    void sendThroughServer(const char *screen, unsigned short type, Buffer &b, const MessageId &id, bool bOffline);
     bool sendAuthRequest(Message *msg, void *data);
     bool sendAuthGranted(Message *msg, void *data);
     bool sendAuthRefused(Message *msg, void *data);

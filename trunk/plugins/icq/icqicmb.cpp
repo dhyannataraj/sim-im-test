@@ -179,7 +179,17 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
             m_socket->readBuffer >> id.id_l >> id.id_h;
             m_socket->readBuffer.incReadPos(2);
             string screen = m_socket->readBuffer.unpackScreen();
-            if ((m_send.screen != screen) || !(m_send.id == id)){
+	    bool bAck = false;
+            if (m_send.id == id){
+		const char *p1 = screen.c_str();
+		const char *p2 = m_send.screen.c_str();
+		for (; *p1 && *p2; p1++, p2++)
+			if (tolower(*p1) != tolower(*p2))
+				break;
+		if ((*p1 == 0) && (*p2 == 0))
+			bAck = true;
+	    }
+	    if (!bAck){
                 log(L_WARN, "Bad ack sequence");
 		if (m_send.msg){
 			m_send.msg->setError(I18N_NOOP("Bad ack sequence"));
@@ -474,12 +484,12 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
     return false;
 }
 
-void ICQClient::sendThroughServer(const char *screen, unsigned short channel, Buffer &b, unsigned long id_l, unsigned long id_h, bool bOffline)
+void ICQClient::sendThroughServer(const char *screen, unsigned short channel, Buffer &b, const MessageId &id, bool bOffline)
 {
     // we need informations about channel 2 tlvs !
     int tlv_type = 5;
     snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_SENDxSERVER);
-    m_socket->writeBuffer << id_l << id_h;
+    m_socket->writeBuffer << id.id_l << id.id_h;
     m_socket->writeBuffer << channel;
     m_socket->writeBuffer.packScreen(screen);
     if (channel == 1)
@@ -617,7 +627,7 @@ void ICQClient::sendType2(const char *screen, Buffer &msgBuf, const MessageId &i
     b.tlv(0x2711, msgBuf);
     if (bPeek)
         b.tlv(0x03);
-    sendThroughServer(screen, 2, b, id.id_l, id.id_h, bOffline);
+    sendThroughServer(screen, 2, b, id, bOffline);
 }
 
 void ICQClient::clearMsgQueue()
@@ -1036,7 +1046,7 @@ void ICQClient::processSendQueue()
             case MessageURL:
             case MessageContact:
                 packMessage(b, m_send.msg, data, type, 0);
-                sendThroughServer(screen(data).c_str(), 4, b, m_send.id.id_l, m_send.id.id_h, true);
+                sendThroughServer(screen(data).c_str(), 4, b, m_send.id, true);
                 if (data->Status != ICQ_STATUS_OFFLINE)
                     ackMessage(m_send);
                 return;
@@ -1088,7 +1098,7 @@ void ICQClient::processSendQueue()
                 Buffer b;
                 b.tlv(0x0501, "\x01", 1);
                 b.tlv(0x0101, msgBuf);
-                sendThroughServer(m_send.screen.c_str(), 1, b, m_send.id.id_l, m_send.id.id_h, true);
+                sendThroughServer(m_send.screen.c_str(), 1, b, m_send.id, true);
                 if (data->Status != ICQ_STATUS_OFFLINE)
                     ackMessage(m_send);
                 return;

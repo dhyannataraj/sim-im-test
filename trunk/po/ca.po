@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-08-25 03:03+0400\n"
+"POT-Creation-Date: 2003-08-26 05:48+0400\n"
 "PO-Revision-Date: 2003-08-05 09:10+0100\n"
 "Last-Translator: Pau Bosch i Crespo <paubcrespo@hotmail.com>\n"
 "Language-Team: LANGUAGE <paubcrespo@hotmail.com>\n"
@@ -122,8 +122,8 @@ msgid "&Cancel"
 msgstr "&Anul·la"
 
 #: plugins/_core/cfgdlg.cpp:473 plugins/_core/cfgdlgbase.cc:122
-#: plugins/_core/core.cpp:368 plugins/_core/core.cpp:839
-#: plugins/_core/core.cpp:920
+#: plugins/_core/core.cpp:371 plugins/_core/core.cpp:842
+#: plugins/_core/core.cpp:923
 msgid "Setup"
 msgstr "Configuració"
 
@@ -183,335 +183,340 @@ msgstr ""
 msgid "Please do not disturb me now. Disturb me later.\n"
 msgstr "No em molesteu ara, sis us plau. Molesteu-me més tard.\n"
 
-#: plugins/_core/core.cpp:378
+#: plugins/_core/core.cpp:312
+msgid "We'd love to hear what you have to say. Join our chat.\n"
+msgstr ""
+"Ens encantaria saber què hi teniu a dir. Participeu en el nostre xat..\n"
+
+#: plugins/_core/core.cpp:381
 #, fuzzy
 msgid "Unread messages"
 msgstr "envia missatge"
 
-#: plugins/_core/core.cpp:386
+#: plugins/_core/core.cpp:389
 msgid "Quit"
 msgstr "Surt"
 
-#: plugins/_core/core.cpp:395
+#: plugins/_core/core.cpp:398
 msgid "&Menu"
 msgstr "&Menú"
 
-#: plugins/_core/core.cpp:405 plugins/_core/searchbase.cc:73
+#: plugins/_core/core.cpp:408 plugins/_core/searchbase.cc:73
 msgid "Search / Add contact"
 msgstr ""
 
-#: plugins/_core/core.cpp:416
+#: plugins/_core/core.cpp:419
 #, fuzzy
 msgid "&Send SMS"
 msgstr "Evia SMS"
 
-#: plugins/_core/core.cpp:423
+#: plugins/_core/core.cpp:426
 #, fuzzy
 msgid "&Phone service"
 msgstr "Altres serveis"
 
-#: plugins/_core/core.cpp:433
+#: plugins/_core/core.cpp:436
 msgid "Message"
 msgstr "Missatge"
 
-#: plugins/_core/core.cpp:444 plugins/filter/ignorelist.cpp:26
+#: plugins/_core/core.cpp:447 plugins/filter/ignorelist.cpp:26
 #, fuzzy
 msgid "Contact"
 msgstr "Contacte - esquerra"
 
-#: plugins/_core/core.cpp:451 plugins/_core/core.cpp:880
+#: plugins/_core/core.cpp:454 plugins/_core/core.cpp:883
 #, fuzzy
 msgid "Group"
 msgstr "Grups"
 
-#: plugins/_core/core.cpp:459 plugins/_core/core.cpp:905
-#: plugins/icq/icq.cpp:463 plugins/jabber/jabber.cpp:242
+#: plugins/_core/core.cpp:462 plugins/_core/core.cpp:908
+#: plugins/icq/icq.cpp:463 plugins/jabber/jabber.cpp:266
 msgid "User &info"
 msgstr "Informació d'usuari"
 
-#: plugins/_core/core.cpp:466 plugins/_core/core.cpp:913
+#: plugins/_core/core.cpp:469 plugins/_core/core.cpp:916
 msgid "&History"
 msgstr "&Historial"
 
-#: plugins/_core/core.cpp:473 plugins/_core/filetransfer.cpp:199
+#: plugins/_core/core.cpp:476 plugins/_core/filetransfer.cpp:199
 #: plugins/_core/managerbase.cc:110 plugins/_core/toolsetupbase.cc:136
 #: plugins/about/aboutdlgbase.cpp:156 plugins/icq/securedlg.cpp:92
 #: sim/api/simapi.cpp:398 sim/ui/qt3/i18n.cpp:287
 msgid "&Close"
 msgstr "&Tanca"
 
-#: plugins/_core/core.cpp:507 plugins/_core/msgedit.cpp:810
+#: plugins/_core/core.cpp:510 plugins/_core/msgedit.cpp:810
 msgid "&Send"
 msgstr "&Envia"
 
-#: plugins/_core/core.cpp:517
+#: plugins/_core/core.cpp:520
 #, fuzzy
 msgid "&Insert smile"
 msgstr "Insereix dibuixet"
 
-#: plugins/_core/core.cpp:524 plugins/_core/msgedit.cpp:218
+#: plugins/_core/core.cpp:527 plugins/_core/msgedit.cpp:218
 msgid "C&lose after send"
 msgstr "&Tanca després d'enviar"
 
-#: plugins/_core/core.cpp:534 plugins/_core/msgedit.cpp:308
+#: plugins/_core/core.cpp:537 plugins/_core/msgedit.cpp:308
 #: plugins/_core/msgedit.cpp:799
 msgid "&Multiply send"
 msgstr "&Enviament múltiple"
 
-#: plugins/_core/core.cpp:542
+#: plugins/_core/core.cpp:545
 msgid "Input"
 msgstr ""
 
-#: plugins/_core/core.cpp:550 plugins/_core/filetransfer.cpp:131
+#: plugins/_core/core.cpp:553 plugins/_core/filetransfer.cpp:131
 #, fuzzy
 msgid "Receive"
 msgstr "Extreu"
 
-#: plugins/_core/core.cpp:561 plugins/_core/msgedit.cpp:1118
+#: plugins/_core/core.cpp:564 plugins/_core/msgedit.cpp:1118
 msgid "&Next"
 msgstr "&Següent"
 
-#: plugins/_core/core.cpp:568
+#: plugins/_core/core.cpp:571
 #, fuzzy
 msgid "&Answer"
 msgstr "&Transfereix"
 
-#: plugins/_core/core.cpp:575
+#: plugins/_core/core.cpp:578
 #, fuzzy
 msgid "&Direction"
 msgstr "&Declina"
 
-#: plugins/_core/core.cpp:586
+#: plugins/_core/core.cpp:589
 #, fuzzy
 msgid "Search:"
 msgstr "Recerca"
 
-#: plugins/_core/core.cpp:594
+#: plugins/_core/core.cpp:597
 msgid "&Previous page"
 msgstr "&Pàgina anterior"
 
-#: plugins/_core/core.cpp:601
+#: plugins/_core/core.cpp:604
 msgid "&Next page"
 msgstr "&Pàgina següent"
 
-#: plugins/_core/core.cpp:623
+#: plugins/_core/core.cpp:626
 #, fuzzy
 msgid "&Open message"
 msgstr "envia missatge"
 
-#: plugins/_core/core.cpp:639 plugins/_core/core.cpp:690
+#: plugins/_core/core.cpp:642 plugins/_core/core.cpp:693
 #: plugins/netmonitor/monitor.cpp:67 sim/ui/qt3/qtextedit.cpp:3993
 msgid "&Copy"
 msgstr "&Copia"
 
-#: plugins/_core/core.cpp:645
+#: plugins/_core/core.cpp:648
 msgid "&Quote"
 msgstr ""
 
-#: plugins/_core/core.cpp:652 plugins/forward/forward.cpp:65
+#: plugins/_core/core.cpp:655 plugins/forward/forward.cpp:65
 msgid "&Forward"
 msgstr "&Endavant"
 
-#: plugins/_core/core.cpp:666 sim/ui/qt3/qtextedit.cpp:3986
+#: plugins/_core/core.cpp:669 sim/ui/qt3/qtextedit.cpp:3986
 #, fuzzy
 msgid "&Undo"
 msgstr "Desfés"
 
-#: plugins/_core/core.cpp:674 sim/ui/qt3/qtextedit.cpp:3987
+#: plugins/_core/core.cpp:677 sim/ui/qt3/qtextedit.cpp:3987
 #, fuzzy
 msgid "&Redo"
 msgstr "Refés"
 
-#: plugins/_core/core.cpp:682 sim/ui/qt3/qtextedit.cpp:3992
+#: plugins/_core/core.cpp:685 sim/ui/qt3/qtextedit.cpp:3992
 #, fuzzy
 msgid "Cu&t"
 msgstr "Talla"
 
-#: plugins/_core/core.cpp:698 sim/ui/qt3/qtextedit.cpp:3995
+#: plugins/_core/core.cpp:701 sim/ui/qt3/qtextedit.cpp:3995
 #, fuzzy
 msgid "&Paste"
 msgstr "Enganxa"
 
-#: plugins/_core/core.cpp:706 sim/ui/qt3/i18n.cpp:255
+#: plugins/_core/core.cpp:709 sim/ui/qt3/i18n.cpp:255
 #: sim/ui/qt3/qtextedit.cpp:3998
 msgid "Clear"
 msgstr "Neteja"
 
-#: plugins/_core/core.cpp:714 sim/ui/qt3/i18n.cpp:257
+#: plugins/_core/core.cpp:717 sim/ui/qt3/i18n.cpp:257
 #: sim/ui/qt3/qtextedit.cpp:4002 sim/ui/qt3/qtextedit.cpp:4004
 msgid "Select All"
 msgstr "Selecciona-ho tot"
 
-#: plugins/_core/core.cpp:721
+#: plugins/_core/core.cpp:724
 #, fuzzy
 msgid "&Messages"
 msgstr "&Missatge"
 
-#: plugins/_core/core.cpp:730 plugins/_core/msgedit.cpp:1236
+#: plugins/_core/core.cpp:733 plugins/_core/msgedit.cpp:1236
 #, fuzzy
 msgid "&SMS"
 msgstr "SMS"
 
-#: plugins/_core/core.cpp:738
+#: plugins/_core/core.cpp:741
 #, fuzzy
 msgid "By &Status"
 msgstr "&Estat"
 
-#: plugins/_core/core.cpp:746
+#: plugins/_core/core.cpp:749
 #, fuzzy
 msgid "By &Name"
 msgstr "&Noms"
 
-#: plugins/_core/core.cpp:754 plugins/_core/core.cpp:785
+#: plugins/_core/core.cpp:757 plugins/_core/core.cpp:788
 msgid "Show &offline"
 msgstr "Mostra f%ora de línia"
 
-#: plugins/_core/core.cpp:766
+#: plugins/_core/core.cpp:769
 #, fuzzy
 msgid "&No show groups"
 msgstr "Grup nou"
 
-#: plugins/_core/core.cpp:776
+#: plugins/_core/core.cpp:779
 #, fuzzy
 msgid "Group mode 1"
 msgstr "Mode de &grup"
 
-#: plugins/_core/core.cpp:781
+#: plugins/_core/core.cpp:784
 #, fuzzy
 msgid "Group mode 2"
 msgstr "Mode de &grup"
 
-#: plugins/_core/core.cpp:792
+#: plugins/_core/core.cpp:795
 #, fuzzy
 msgid "&Create group"
 msgstr "Crea grup"
 
-#: plugins/_core/core.cpp:803
+#: plugins/_core/core.cpp:806
 #, fuzzy
 msgid "&Rename group"
 msgstr "Crea grup"
 
-#: plugins/_core/core.cpp:810
+#: plugins/_core/core.cpp:813
 #, fuzzy
 msgid "&Delete group"
 msgstr "Crea grup"
 
-#: plugins/_core/core.cpp:817
+#: plugins/_core/core.cpp:820
 msgid "Up"
 msgstr "Amunt"
 
-#: plugins/_core/core.cpp:824
+#: plugins/_core/core.cpp:827
 msgid "Down"
 msgstr "Avall"
 
-#: plugins/_core/core.cpp:846 plugins/_core/core.cpp:927
+#: plugins/_core/core.cpp:849 plugins/_core/core.cpp:930
 #, fuzzy
 msgid "&Sort"
 msgstr "Ordena"
 
-#: plugins/_core/core.cpp:888 sim/ui/qt3/i18n.cpp:97
+#: plugins/_core/core.cpp:891 sim/ui/qt3/i18n.cpp:97
 msgid "&Rename"
 msgstr "&Reanomena"
 
-#: plugins/_core/core.cpp:897 plugins/_core/logindlgbase.cc:118
+#: plugins/_core/core.cpp:900 plugins/_core/logindlgbase.cc:118
 #: plugins/_core/maininfobase.cc:237 plugins/_core/maininfobase.cc:247
 #: sim/ui/listview.cpp:37 sim/ui/qt3/i18n.cpp:99
 msgid "&Delete"
 msgstr "&Elimina"
 
-#: plugins/_core/core.cpp:934
+#: plugins/_core/core.cpp:937
 msgid "To container"
 msgstr ""
 
-#: plugins/_core/core.cpp:959
+#: plugins/_core/core.cpp:962
 #, fuzzy
 msgid "&Location"
 msgstr "&Ocupació"
 
-#: plugins/_core/core.cpp:967 plugins/icq/icqinfobase.cc:319
+#: plugins/_core/core.cpp:970 plugins/icq/icqinfobase.cc:319
 #: plugins/jabber/jabberinfobase.cpp:219 plugins/msn/msninfobase.cpp:167
 msgid "&Status"
 msgstr "&Estat"
 
-#: plugins/_core/core.cpp:974
+#: plugins/_core/core.cpp:977
 #, fuzzy
 msgid "&Phone book"
 msgstr "Llistat telefònic"
 
-#: plugins/_core/core.cpp:981
+#: plugins/_core/core.cpp:984
 #, fuzzy
 msgid "&No show"
 msgstr "No mostris"
 
-#: plugins/_core/core.cpp:988
+#: plugins/_core/core.cpp:991
 #, fuzzy
 msgid "&Available"
 msgstr "Disponible"
 
-#: plugins/_core/core.cpp:996
+#: plugins/_core/core.cpp:999
 #, fuzzy
 msgid "&Busy"
 msgstr "Emfeinat"
 
-#: plugins/_core/core.cpp:1544
+#: plugins/_core/core.cpp:1547
 #, fuzzy
 msgid "&Separate"
 msgstr "Separador"
 
-#: plugins/_core/core.cpp:1644
+#: plugins/_core/core.cpp:1647
 msgid "&New"
 msgstr "&Nou"
 
-#: plugins/_core/core.cpp:1699
+#: plugins/_core/core.cpp:1702
 #, fuzzy
 msgid "Not available"
 msgstr "Disponible"
 
-#: plugins/_core/core.cpp:1798 plugins/dock/dockwnd.cpp:1124
+#: plugins/_core/core.cpp:1801 plugins/dock/dockwnd.cpp:1124
 #: plugins/osd/osd.cpp:311
 msgid "%1 from %2"
 msgstr "%1 des de %2"
 
-#: plugins/_core/core.cpp:1969
+#: plugins/_core/core.cpp:1972
 msgid "%1 wrote:"
 msgstr ""
 
-#: plugins/_core/core.cpp:2005
+#: plugins/_core/core.cpp:2008
 msgid "Send SMS"
 msgstr "Evia SMS"
 
-#: plugins/_core/core.cpp:2827 plugins/_core/core.cpp:2849
+#: plugins/_core/core.cpp:2830 plugins/_core/core.cpp:2852
 #: plugins/_core/managerbase.cc:103
 #, fuzzy
 msgid "Connection manager"
 msgstr "S'està connectant"
 
-#: plugins/_core/core.cpp:2835
+#: plugins/_core/core.cpp:2838
 #, fuzzy
 msgid "Show status panel"
 msgstr "estat del telèfon"
 
-#: plugins/_core/core.cpp:2842
+#: plugins/_core/core.cpp:2845
 #, fuzzy
 msgid "Connections"
 msgstr "Connexió"
 
-#: plugins/_core/core.cpp:2857
+#: plugins/_core/core.cpp:2860
 #, fuzzy
 msgid "Change profile"
 msgstr "el fitxer"
 
-#: plugins/_core/core.cpp:2886
+#: plugins/_core/core.cpp:2889
 #, fuzzy
 msgid "Common status"
 msgstr "estat del telèfon"
 
-#: plugins/_core/core.cpp:2892
+#: plugins/_core/core.cpp:2895
 #, fuzzy
 msgid "Configure client"
 msgstr "Client ICQ"
 
-#: plugins/_core/core.cpp:2916 plugins/_core/status.cpp:135
+#: plugins/_core/core.cpp:2919 plugins/_core/status.cpp:135
 #: plugins/_core/status.cpp:217
 #, fuzzy
 msgid "&Invisible"
@@ -695,7 +700,7 @@ msgstr "Missatge"
 msgid "SMS"
 msgstr "SMS"
 
-#: plugins/_core/interfacecfg.cpp:88 plugins/icq/icqclient.cpp:2132
+#: plugins/_core/interfacecfg.cpp:88 plugins/icq/icqclient.cpp:2137
 msgid "System"
 msgstr "Sistema"
 
@@ -719,8 +724,8 @@ msgstr "Contrassenya:"
 msgid "New profile"
 msgstr "Carpeta nova"
 
-#: plugins/_core/logindlg.cpp:388 plugins/jabber/jabberclient.cpp:707
-#: plugins/msn/msnclient.cpp:517
+#: plugins/_core/logindlg.cpp:388 plugins/jabber/jabberclient.cpp:724
+#: plugins/msn/msnclient.cpp:518
 #, fuzzy
 msgid "Login failed"
 msgstr "Enviament fallit"
@@ -908,7 +913,7 @@ msgid "Send to &list"
 msgstr "Afegeix al llistat per &ignorar"
 
 #: plugins/_core/msgedit.cpp:1217 plugins/icq/icq.cpp:453
-#: plugins/jabber/jabber.cpp:233
+#: plugins/jabber/jabber.cpp:257
 msgid "&Message"
 msgstr "&Missatge"
 
@@ -1075,15 +1080,15 @@ msgid "Settings"
 msgstr "S'està enviant"
 
 #: plugins/_core/userlist.cpp:546 plugins/icq/icq.cpp:111
-#: plugins/icq/icqclient.cpp:1244 plugins/icq/icqclient.cpp:1271
-#: plugins/jabber/jabber.cpp:90 plugins/jabber/jabberclient.cpp:918
-#: plugins/msn/msn.cpp:89 plugins/msn/msnclient.cpp:1271
+#: plugins/icq/icqclient.cpp:1249 plugins/icq/icqclient.cpp:1276
+#: plugins/jabber/jabber.cpp:92 plugins/jabber/jabberclient.cpp:935
+#: plugins/msn/msn.cpp:89 plugins/msn/msnclient.cpp:1272
 msgid "Online"
 msgstr "En línia"
 
 #: plugins/_core/userlist.cpp:549 plugins/_core/userviewcfgbase.cc:174
-#: plugins/icq/icq.cpp:201 plugins/icq/icqclient.cpp:1241
-#: plugins/jabber/jabber.cpp:151 plugins/msn/msn.cpp:194
+#: plugins/icq/icq.cpp:201 plugins/icq/icqclient.cpp:1246
+#: plugins/jabber/jabber.cpp:167 plugins/msn/msn.cpp:194
 msgid "Offline"
 msgstr "Fora de línia"
 
@@ -1129,7 +1134,7 @@ msgstr "&Actualitza"
 #: plugins/osd/osdconfigbase.cpp:90 plugins/proxy/proxycfgbase.cpp:146
 #: plugins/shortcuts/mousecfgbase.cpp:108
 #: plugins/shortcuts/shortcutcfgbase.cpp:138
-#: plugins/sound/soundconfigbase.cpp:159 plugins/sound/sounduserbase.cpp:118
+#: plugins/sound/soundconfigbase.cpp:159 plugins/sound/sounduserbase.cpp:123
 #: plugins/transparent/transparentcfgbase.cpp:101
 msgid "Form1"
 msgstr ""
@@ -1281,13 +1286,13 @@ msgid "Online:"
 msgstr "En línia:"
 
 #: plugins/_core/userviewcfgbase.cc:175 plugins/icq/icq.cpp:126
-#: plugins/icq/icqclient.cpp:1247 plugins/jabber/jabber.cpp:105
+#: plugins/icq/icqclient.cpp:1252 plugins/jabber/jabber.cpp:107
 #: plugins/msn/msn.cpp:104
 msgid "Away"
 msgstr ""
 
 #: plugins/_core/userviewcfgbase.cc:176 plugins/icq/icq.cpp:141
-#: plugins/jabber/jabber.cpp:120 plugins/msn/msn.cpp:119
+#: plugins/jabber/jabber.cpp:122 plugins/msn/msn.cpp:119
 msgid "N/A"
 msgstr ""
 
@@ -1758,12 +1763,12 @@ msgstr "SIM"
 msgid "Toggle main window"
 msgstr "tanca la finestra principal"
 
-#: plugins/dock/dock.cpp:252
+#: plugins/dock/dock.cpp:256
 #, fuzzy
 msgid "Hide main window"
 msgstr "Mostra/amaga la finestra"
 
-#: plugins/dock/dock.cpp:253
+#: plugins/dock/dock.cpp:257
 #, fuzzy
 msgid "Show main window"
 msgstr "Mostra/amaga la finestra"
@@ -1865,20 +1870,20 @@ msgstr "Icones:"
 msgid "Plugin provides Miranda icons themes"
 msgstr ""
 
-#: plugins/icons/iconcfg.cpp:162
+#: plugins/icons/iconcfg.cpp:163
 #, fuzzy
 msgid "Select icons DLL"
 msgstr "Seleccioneu font"
 
-#: plugins/icons/iconcfg.cpp:165
+#: plugins/icons/iconcfg.cpp:166
 msgid "*.dll|Icons themes"
 msgstr ""
 
-#: plugins/icons/iconcfg.cpp:167
+#: plugins/icons/iconcfg.cpp:168
 msgid "Icons themes(*.dll)"
 msgstr ""
 
-#: plugins/icons/iconcfg.cpp:169
+#: plugins/icons/iconcfg.cpp:170
 msgid "Get more icons themes"
 msgstr ""
 
@@ -1890,7 +1895,7 @@ msgstr ""
 msgid "ICQ"
 msgstr "ICQ"
 
-#: plugins/icq/icq.cpp:156 plugins/jabber/jabber.cpp:135
+#: plugins/icq/icq.cpp:156 plugins/jabber/jabber.cpp:137
 #, fuzzy
 msgid "Do not Disturb"
 msgstr "No em molesteu"
@@ -1899,7 +1904,7 @@ msgstr "No em molesteu"
 msgid "Occupied"
 msgstr "Ocupat"
 
-#: plugins/icq/icq.cpp:186
+#: plugins/icq/icq.cpp:186 plugins/jabber/jabber.cpp:152
 msgid "Free for chat"
 msgstr "Lliure per xatejar"
 
@@ -1921,7 +1926,7 @@ msgstr "Totes les codificacions"
 msgid "Change &encoding"
 msgstr "&Codificació"
 
-#: plugins/icq/icq.cpp:469 plugins/jabber/jabber.cpp:248
+#: plugins/icq/icq.cpp:469 plugins/jabber/jabber.cpp:272
 #, fuzzy
 msgid "&Add to group"
 msgstr "Afegeix al grup"
@@ -1991,173 +1996,173 @@ msgstr "Tamil"
 msgid "Thai"
 msgstr "Tailandès"
 
-#: plugins/icq/icqclient.cpp:345
+#: plugins/icq/icqclient.cpp:346
 msgid "Process message failed"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:501 plugins/icq/icqicmb.cpp:77
+#: plugins/icq/icqclient.cpp:506 plugins/icq/icqicmb.cpp:77
 #: plugins/icq/icqicmb.cpp:170
 #, fuzzy
 msgid "Unknown error"
 msgstr "Error de registre desconegut"
 
-#: plugins/icq/icqclient.cpp:502
+#: plugins/icq/icqclient.cpp:507
 #, fuzzy
 msgid "Invalid SNAC header"
 msgstr "envia missatge"
 
-#: plugins/icq/icqclient.cpp:503
+#: plugins/icq/icqclient.cpp:508
 msgid "Server rate limit exceeded"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:504
+#: plugins/icq/icqclient.cpp:509
 #, fuzzy
 msgid "Client rate limit exceeded"
 msgstr "Llistat de contactes rebut"
 
-#: plugins/icq/icqclient.cpp:505
+#: plugins/icq/icqclient.cpp:510
 msgid "Recipient is not logged in"
-msgstr ""
-
-#: plugins/icq/icqclient.cpp:506
-#, fuzzy
-msgid "Requested service unavailable"
-msgstr "Servei SMS disponible"
-
-#: plugins/icq/icqclient.cpp:507
-#, fuzzy
-msgid "Requested service not defined"
-msgstr "Sol·licitud d'informació d'usuari"
-
-#: plugins/icq/icqclient.cpp:508
-msgid "We sent an obsolete SNAC"
-msgstr ""
-
-#: plugins/icq/icqclient.cpp:509
-msgid "Not supported by server"
-msgstr ""
-
-#: plugins/icq/icqclient.cpp:510 plugins/icq/icqicmb.cpp:79
-msgid "Not supported by client"
 msgstr ""
 
 #: plugins/icq/icqclient.cpp:511
 #, fuzzy
-msgid "Refused by client"
-msgstr "Client ICQ"
+msgid "Requested service unavailable"
+msgstr "Servei SMS disponible"
 
 #: plugins/icq/icqclient.cpp:512
-msgid "Reply too big"
-msgstr ""
+#, fuzzy
+msgid "Requested service not defined"
+msgstr "Sol·licitud d'informació d'usuari"
 
 #: plugins/icq/icqclient.cpp:513
-msgid "Responses lost"
+msgid "We sent an obsolete SNAC"
 msgstr ""
 
 #: plugins/icq/icqclient.cpp:514
+msgid "Not supported by server"
+msgstr ""
+
+#: plugins/icq/icqclient.cpp:515 plugins/icq/icqicmb.cpp:79
+msgid "Not supported by client"
+msgstr ""
+
+#: plugins/icq/icqclient.cpp:516
+#, fuzzy
+msgid "Refused by client"
+msgstr "Client ICQ"
+
+#: plugins/icq/icqclient.cpp:517
+msgid "Reply too big"
+msgstr ""
+
+#: plugins/icq/icqclient.cpp:518
+msgid "Responses lost"
+msgstr ""
+
+#: plugins/icq/icqclient.cpp:519
 #, fuzzy
 msgid "Request denied"
 msgstr "Sol·licitud d'informació d'usuari"
 
-#: plugins/icq/icqclient.cpp:515
+#: plugins/icq/icqclient.cpp:520
 msgid "Incorrect SNAC format"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:516
+#: plugins/icq/icqclient.cpp:521
 msgid "Insufficient rights"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:517
+#: plugins/icq/icqclient.cpp:522
 msgid "Recipient blocked"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:518 plugins/icq/icqicmb.cpp:164
+#: plugins/icq/icqclient.cpp:523 plugins/icq/icqicmb.cpp:164
 msgid "Sender too evil"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:519
+#: plugins/icq/icqclient.cpp:524
 msgid "Receiver too evil"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:520
+#: plugins/icq/icqclient.cpp:525
 #, fuzzy
 msgid "User temporarily unavailable"
 msgstr "L'usuari es troba actualment disponible a:"
 
-#: plugins/icq/icqclient.cpp:521
+#: plugins/icq/icqclient.cpp:526
 msgid "No match"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:522
+#: plugins/icq/icqclient.cpp:527
 #, fuzzy
 msgid "List overflow"
 msgstr "Mostra llistat"
 
-#: plugins/icq/icqclient.cpp:523
+#: plugins/icq/icqclient.cpp:528
 msgid "Request ambiguous"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:524
+#: plugins/icq/icqclient.cpp:529
 msgid "Server queue full"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:525
+#: plugins/icq/icqclient.cpp:530
 msgid "Not while on AOL"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:542
+#: plugins/icq/icqclient.cpp:547
 msgid "Protocol error"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:1224 plugins/icq/icqinfo.cpp:214
+#: plugins/icq/icqclient.cpp:1229 plugins/icq/icqinfo.cpp:214
 #, fuzzy
 msgid "Possibly invisible"
 msgstr "fixa mode invisible"
 
-#: plugins/icq/icqclient.cpp:1264 plugins/icq/icqinfo.cpp:229
-#: plugins/jabber/jabberclient.cpp:911 plugins/jabber/jabberinfo.cpp:103
-#: plugins/msn/msnclient.cpp:1264 plugins/msn/msninfo.cpp:88
+#: plugins/icq/icqclient.cpp:1269 plugins/icq/icqinfo.cpp:229
+#: plugins/jabber/jabberclient.cpp:928 plugins/jabber/jabberinfo.cpp:103
+#: plugins/msn/msnclient.cpp:1265 plugins/msn/msninfo.cpp:88
 msgid "Last online"
 msgstr "Últim en línia"
 
-#: plugins/icq/icqclient.cpp:1536 plugins/icq/icqclient.cpp:1710
-#: plugins/jabber/jabberclient.cpp:971 plugins/jabber/jabberclient.cpp:1050
+#: plugins/icq/icqclient.cpp:1541 plugins/icq/icqclient.cpp:1715
+#: plugins/jabber/jabberclient.cpp:988 plugins/jabber/jabberclient.cpp:1067
 msgid "Home info"
 msgstr "Informació principal"
 
-#: plugins/icq/icqclient.cpp:1551 plugins/icq/icqclient.cpp:1725
-#: plugins/jabber/jabberclient.cpp:986 plugins/jabber/jabberclient.cpp:1065
+#: plugins/icq/icqclient.cpp:1556 plugins/icq/icqclient.cpp:1730
+#: plugins/jabber/jabberclient.cpp:1003 plugins/jabber/jabberclient.cpp:1082
 msgid "Work info"
 msgstr "Informació de treball"
 
-#: plugins/icq/icqclient.cpp:1566 plugins/icq/icqclient.cpp:1740
+#: plugins/icq/icqclient.cpp:1571 plugins/icq/icqclient.cpp:1745
 msgid "More info"
 msgstr "Més informació"
 
-#: plugins/icq/icqclient.cpp:1581 plugins/icq/icqclient.cpp:1755
-#: plugins/jabber/jabberclient.cpp:1001 plugins/jabber/jabberclient.cpp:1080
+#: plugins/icq/icqclient.cpp:1586 plugins/icq/icqclient.cpp:1760
+#: plugins/jabber/jabberclient.cpp:1018 plugins/jabber/jabberclient.cpp:1097
 msgid "About info"
 msgstr "Quant a la informació"
 
-#: plugins/icq/icqclient.cpp:1596 plugins/icq/icqclient.cpp:1770
+#: plugins/icq/icqclient.cpp:1601 plugins/icq/icqclient.cpp:1775
 msgid "Interests"
 msgstr "Interesos"
 
-#: plugins/icq/icqclient.cpp:1611 plugins/icq/icqclient.cpp:1785
+#: plugins/icq/icqclient.cpp:1616 plugins/icq/icqclient.cpp:1790
 msgid "Group/Past"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:1626 plugins/icq/icqclient.cpp:1800
+#: plugins/icq/icqclient.cpp:1631 plugins/icq/icqclient.cpp:1805
 msgid "Picture"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:1815 plugins/jabber/jabberclient.cpp:1110
-#: plugins/msn/msnclient.cpp:618
+#: plugins/icq/icqclient.cpp:1820 plugins/jabber/jabberclient.cpp:1127
+#: plugins/msn/msnclient.cpp:619
 #, fuzzy
 msgid "Network"
 msgstr "Monitor de treball en xarxa"
 
-#: plugins/icq/icqclient.cpp:1830
+#: plugins/icq/icqclient.cpp:1835
 msgid "Security"
 msgstr "Seguretat"
 
@@ -2223,27 +2228,31 @@ msgstr ""
 msgid "We are to evil :("
 msgstr ""
 
-#: plugins/icq/icqicmb.cpp:565
+#: plugins/icq/icqicmb.cpp:186
+msgid "Bad ack sequence"
+msgstr ""
+
+#: plugins/icq/icqicmb.cpp:572
 #, fuzzy
 msgid "Message declined"
 msgstr "S'ha enviat el missatge"
 
-#: plugins/icq/icqicmb.cpp:626 plugins/icq/icqicmb.cpp:634
+#: plugins/icq/icqicmb.cpp:633 plugins/icq/icqicmb.cpp:641
 #: plugins/icq/icqvarious.cpp:1612
 msgid "Client go offline"
 msgstr ""
 
-#: plugins/icq/icqicmb.cpp:914
+#: plugins/icq/icqicmb.cpp:921
 #, fuzzy
 msgid "Send fail"
 msgstr "Enviament fallit"
 
-#: plugins/icq/icqicmb.cpp:993
+#: plugins/icq/icqicmb.cpp:1000
 #, fuzzy
 msgid "Send timeout"
 msgstr "Enviament fallit"
 
-#: plugins/icq/icqicmb.cpp:1015
+#: plugins/icq/icqicmb.cpp:1022
 msgid "No contact"
 msgstr ""
 
@@ -2411,7 +2420,7 @@ msgid "Alias"
 msgstr "Àlies"
 
 #: plugins/icq/icqmessage.cpp:1172 plugins/icq/searchresult.cpp:116
-#: plugins/jabber/addresult.cpp:33 plugins/jabber/jabbersearch.cpp:176
+#: plugins/jabber/addresult.cpp:33 plugins/jabber/jabbersearch.cpp:175
 msgid "Email"
 msgstr "Correu electrònic"
 
@@ -3593,12 +3602,12 @@ msgid ""
 "This only works with other SIM and Licq clients"
 msgstr ""
 
-#: plugins/jabber/addresult.cpp:31 plugins/jabber/jabbersearch.cpp:182
+#: plugins/jabber/addresult.cpp:31 plugins/jabber/jabbersearch.cpp:181
 #, fuzzy
 msgid "First name"
 msgstr "Nom:"
 
-#: plugins/jabber/addresult.cpp:32 plugins/jabber/jabbersearch.cpp:183
+#: plugins/jabber/addresult.cpp:32 plugins/jabber/jabbersearch.cpp:182
 #, fuzzy
 msgid "Last name"
 msgstr "Primer cognom:"
@@ -3607,7 +3616,7 @@ msgstr "Primer cognom:"
 msgid "ID"
 msgstr ""
 
-#: plugins/jabber/jabber.cpp:67
+#: plugins/jabber/jabber.cpp:69
 msgid "Jabber"
 msgstr ""
 
@@ -3616,7 +3625,7 @@ msgstr ""
 msgid "Add Jabber contact"
 msgstr "Afegit al llistat de contacte"
 
-#: plugins/jabber/jabberclient.cpp:1095 plugins/jabber/servicesbase.cpp:140
+#: plugins/jabber/jabberclient.cpp:1112 plugins/jabber/servicesbase.cpp:140
 #, fuzzy
 msgid "Agents"
 msgstr "Efectes"
@@ -3625,20 +3634,20 @@ msgstr "Efectes"
 msgid "<p>Subject: %1</p>"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:173
+#: plugins/jabber/jabbersearch.cpp:172
 msgid "First (Given)"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:174
+#: plugins/jabber/jabbersearch.cpp:173
 #, fuzzy
 msgid "Last (Family)"
 msgstr "Primer cognom:"
 
-#: plugins/jabber/jabbersearch.cpp:175
+#: plugins/jabber/jabbersearch.cpp:174
 msgid "Nick (Alias)"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:177
+#: plugins/jabber/jabbersearch.cpp:176
 msgid ""
 "Select the speed of the search.  \"Fast\" matches your string to the "
 "beginning of the field only (ie. \"b\" would yield Bob,Bill,etc...)  "
@@ -3646,83 +3655,83 @@ msgid ""
 "Bob, Bill, Caleb, Robbie, etc...)"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:178
+#: plugins/jabber/jabbersearch.cpp:177
 #, fuzzy
 msgid "Search Speed"
 msgstr "Recerca"
 
-#: plugins/jabber/jabbersearch.cpp:179
+#: plugins/jabber/jabbersearch.cpp:178
 msgid "Fast / Less accurate"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:180
+#: plugins/jabber/jabbersearch.cpp:179
 msgid "Slower / More extensive"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:181
+#: plugins/jabber/jabbersearch.cpp:180
 #, fuzzy
 msgid "Full name"
 msgstr "Nom de &fitxer:"
 
-#: plugins/jabber/jabbersearch.cpp:184
+#: plugins/jabber/jabbersearch.cpp:183
 #, fuzzy
 msgid "Nickname"
 msgstr "Sobrenom:"
 
-#: plugins/jabber/jabbersearch.cpp:185
+#: plugins/jabber/jabbersearch.cpp:184
 #, fuzzy
 msgid "E-mail"
 msgstr "Correu electrònic"
 
-#: plugins/jabber/jabbersearch.cpp:186
+#: plugins/jabber/jabbersearch.cpp:185
 #, fuzzy
 msgid "Username"
 msgstr "Reanomena"
 
-#: plugins/jabber/jabbersearch.cpp:187
+#: plugins/jabber/jabbersearch.cpp:186
 #, fuzzy
 msgid "Password"
 msgstr "Contrassenya:"
 
-#: plugins/jabber/jabbersearch.cpp:188
+#: plugins/jabber/jabbersearch.cpp:187
 msgid ""
 "Enter your MSN Messenger account and password. Example: user@hotmail.com.  "
 "Nickname is optional."
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:189
+#: plugins/jabber/jabbersearch.cpp:188
 msgid "Enter your AIM screenname or ICQ UIN and the password for that account"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:190
+#: plugins/jabber/jabbersearch.cpp:189
 msgid "Enter your YAHOO! Messenger Username and Password."
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:191
+#: plugins/jabber/jabbersearch.cpp:190
 msgid "You need a x:data capable client to register."
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:192
+#: plugins/jabber/jabbersearch.cpp:191
 msgid "Enter nick you want to register."
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:193
+#: plugins/jabber/jabbersearch.cpp:192
 msgid ""
 "Complete the form to submit your searchable attributes in the Jabber User "
 "Directory"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:194
+#: plugins/jabber/jabbersearch.cpp:193
 msgid "Fill in all of the fields to add yourself to the JUD."
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:195
+#: plugins/jabber/jabbersearch.cpp:194
 msgid ""
 "Fill in a field to search for any matching Jabber User (POSIX regular "
 "expressions allowed)"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:196
+#: plugins/jabber/jabbersearch.cpp:195
 msgid "Fill in a field to search for any matching Jabber users."
 msgstr ""
 
@@ -3840,17 +3849,17 @@ msgstr ""
 msgid "On the lunch"
 msgstr ""
 
-#: plugins/msn/msnclient.cpp:310 plugins/msn/msnclient.cpp:327
+#: plugins/msn/msnclient.cpp:311 plugins/msn/msnclient.cpp:328
 #: plugins/msn/msnpacket.cpp:60
 msgid "MSN protocol error"
 msgstr ""
 
-#: plugins/msn/msnclient.cpp:1319
+#: plugins/msn/msnclient.cpp:1322
 #, fuzzy
 msgid "Contact go offline"
 msgstr "Contacte - esquerra"
 
-#: plugins/msn/msnclient.cpp:1506
+#: plugins/msn/msnclient.cpp:1509
 #, fuzzy
 msgid "Send message failed"
 msgstr "Envia &missatge"
@@ -4228,7 +4237,7 @@ msgstr "So"
 msgid "Plugin provides sounds on any evenents"
 msgstr ""
 
-#: plugins/sound/sound.cpp:123
+#: plugins/sound/sound.cpp:124
 #, fuzzy
 msgid "&Sound"
 msgstr "&Sons"
@@ -4261,10 +4270,14 @@ msgstr "S'ha enviat el missatge"
 msgid "Sound on startup:"
 msgstr ""
 
-#: plugins/sound/sounduserbase.cpp:119
+#: plugins/sound/sounduserbase.cpp:124
 #, fuzzy
 msgid "On line alert:"
 msgstr "alerta en línia:"
+
+#: plugins/sound/sounduserbase.cpp:125
+msgid "No sound if windows has &focus"
+msgstr ""
 
 #: plugins/splash/splash.cpp:34
 #, fuzzy
@@ -5984,10 +5997,6 @@ msgstr "&Subratllat"
 #~ "No em molesteu ara, si us plau.\n"
 #~ "Molesteu-me més tard.\n"
 #~ "Només missatges urgents, si us plau!\n"
-
-#~ msgid "We'd love to hear what you have to say. Join our chat.\n"
-#~ msgstr ""
-#~ "Ens encantaria saber què hi teniu a dir. Participeu en el nostre xat..\n"
 
 #~ msgid ""
 #~ "_n: Chat request\n"
