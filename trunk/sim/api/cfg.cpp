@@ -255,12 +255,9 @@ EXPORT string quoteChars(const char *from, const char *chars)
 {
     string res;
     for (; *from; from++){
-        char c[2];
-        c[0] = *from;
-        c[1] = 0;
-        if ((c[0] == '\\') || strstr(c, chars))
+        if ((*from == '\\') || strchr(chars, *from))
             res += '\\';
-        res += c[0];
+        res += *from;
     }
     return res;
 }
@@ -335,19 +332,21 @@ EXPORT string getToken(string &from, char c, bool bUnEscape)
 
 EXPORT QString quoteChars(const QString &from, const char *chars, bool bQuoteSlash)
 {
-    QString res;
-    for (int i = 0; i < (int)(from.length()); i++){
-        QChar c = from[i];
-        if (c){
-            char s[2];
-            s[0] = c;
-            s[1] = 0;
-            if ((bQuoteSlash && (s[0] == '\\')) || strstr(s, chars))
-                res += '\\';
-        }
-        res += c;
+  QString     res;
+  QString     quote_chars;
+
+  quote_chars = chars;
+  if (bQuoteSlash) {
+    quote_chars += '\\';
+  }
+  for (int i = 0; i < (int) (from.length ()); i++) {
+    QChar       c = from[i];
+    if (quote_chars.contains (c)) {
+      res += '\\';
     }
-    return res;
+    res += c;
+  }
+  return res;
 }
 
 EXPORT QString getToken(QString &from, char c, bool bUnEscape)
