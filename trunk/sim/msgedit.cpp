@@ -233,7 +233,7 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     phoneEdit = new QComboBox(phone);
     phoneEdit->setEditable(true);
     phoneEdit->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
-    connect(phoneEdit, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
+    connect(phoneEdit, SIGNAL(textChanged(const QString&)), this, SLOT(phoneTextChanged(const QString&)));
 
     url   = new QHGroupBox(frmEdit);
     url->hide();
@@ -1615,6 +1615,16 @@ void MsgEdit::editTextChanged()
 void MsgEdit::textChanged(const QString&)
 {
     textChanged();
+}
+
+void MsgEdit::phoneTextChanged(const QString &str)
+{
+	if (!str.isEmpty() && prevPhone.isEmpty()){
+		char *a = NULL;
+		*a = 1;
+	}
+	prevPhone = str;
+	textChanged();
 }
 
 void MsgEdit::textChanged()
