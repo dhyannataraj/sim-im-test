@@ -460,17 +460,17 @@ void setBarState(bool bAnimate = false)
         }
         slideWindow(rc, bAnimate);
     }
-	if (pMain->isShowState()){
-    if ((bOnTop != pMain->isOnTop()) || bFullScreen){
-        bOnTop = pMain->isOnTop();
-        HWND hState = HWND_NOTOPMOST;
-        if (pMain->isOnTop()) hState = HWND_TOPMOST;
-        if (bFullScreen) hState = HWND_BOTTOM;
-        SetWindowPos(pMain->winId(), hState, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+    if (pMain->isShowState()){
+        if ((bOnTop != pMain->isOnTop()) || bFullScreen){
+            bOnTop = pMain->isOnTop();
+            HWND hState = HWND_NOTOPMOST;
+            if (pMain->isOnTop()) hState = HWND_TOPMOST;
+            if (bFullScreen) hState = HWND_BOTTOM;
+            SetWindowPos(pMain->winId(), hState, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+        }
+        if (!bFullScreen)
+            appBarMessage(ABM_ACTIVATE);
     }
-    if (!bFullScreen)
-        appBarMessage(ABM_ACTIVATE);
-	}
 }
 
 static bool bSizing = false;
@@ -2953,6 +2953,89 @@ void MainWindow::fillUnread(list<msgInfo> &msgs)
 void resetPlural();
 #endif
 
+#if !defined(USE_KDE) && (QT_VERSION >= 300)
+
+struct loaded_domain;
+
+struct loaded_l10nfile
+{
+    const char *filename;
+    int decided;
+    const void *data;
+    loaded_l10nfile() : filename(0), decided(0), data(0) {}
+};
+
+
+void k_nl_load_domain (struct loaded_l10nfile *domain_file);
+void k_nl_unload_domain (struct loaded_domain *domain);
+char *k_nl_find_msg (struct loaded_l10nfile *domain_file, const char *msgid);
+
+class SIMTranslator : public QTranslator
+{
+public:
+    SIMTranslator(QObject *parent, const QString & filename);
+    ~SIMTranslator();
+    virtual QTranslatorMessage findMessage(const char* context,
+                                           const char *sourceText,
+                                           const char* message) const;
+    void load ( const QString & filename);
+protected:
+    string fName;
+    loaded_l10nfile domain;
+};
+
+SIMTranslator::SIMTranslator(QObject *parent, const QString & filename)
+        : QTranslator(parent, "simtranslator")
+{
+    load(filename);
+}
+
+SIMTranslator::~SIMTranslator()
+{
+    if (domain.data)
+        k_nl_unload_domain((struct loaded_domain *)domain.data);
+}
+
+void SIMTranslator::load ( const QString & filename)
+{
+    fName = filename.local8Bit();
+    domain.filename = (char*)(fName.c_str());
+    k_nl_load_domain(&domain);
+}
+
+QTranslatorMessage SIMTranslator::findMessage(const char* context,
+        const char *sourceText,
+        const char* message) const
+{
+    QTranslatorMessage res;
+    char *text = NULL;
+    if (sourceText == NULL)
+        return res;
+    if (message && *message){
+        string s;
+        s = "_: ";
+        s += message;
+        s += "\n";
+        s += sourceText;
+        text = k_nl_find_msg((struct loaded_l10nfile*)&domain, s.c_str());
+    }
+    if ((text == NULL) && context && *context && message && *message){
+        string s;
+        s = "_: ";
+        s += context;
+        s += "\n";
+        s += message;
+        text = k_nl_find_msg((struct loaded_l10nfile*)&domain, s.c_str());
+    }
+    if (text == NULL)
+        text = k_nl_find_msg((struct loaded_l10nfile*)&domain, sourceText);
+    if (text)
+        res.setTranslation(QString::fromUtf8(text));
+    return res;
+}
+
+#endif
+
 void MainWindow::initTranslator()
 {
     if (translator)
@@ -2995,22 +3078,23 @@ void MainWindow::initTranslator()
     if (r) *r = 0;
     s += lang.c_str();
     s += "/LC_MESSAGES/sim.mo";
-    log(L_DEBUG, "Load translate %s", s.c_str());
     QFile f(QString::fromLocal8Bit(s.c_str()));
     if (!f.exists()){
-	    r = strchr(p, '_');
-	    if (r) *r = 0;
-	    s = PREFIX "/share/locale/";
-	    s += lang.c_str();
-	    s += "/LC_MESSAGES/sim.mo";
-	    f.setName(QString::fromLocal8Bit(s.c_str()));
-	    log(L_DEBUG, "Load translate %s", s.c_str());
-	    if (!f.exists()) return;
+        r = strchr(p, '_');
+        if (r) *r = 0;
+        s = PREFIX "/share/locale/";
+        s += lang.c_str();
+        s += "/LC_MESSAGES/sim.mo";
+        f.setName(QString::fromLocal8Bit(s.c_str()));
+        if (!f.exists()) return;
     }
 #endif
-    log(L_DEBUG, "Load translator");
+#if !defined(USE_KDE) && (QT_VERSION >= 300)
+    translator = new SIMTranslator(this, f.name());
+#else
     translator = new QTranslator(this);
     translator->load(f.name());
+#endif
     qApp->installTranslator(translator);
     appAboutData->setTranslator(I18N_NOOP("_: NAME OF TRANSLATORS\nYour names"),
                                 I18N_NOOP("_: EMAIL OF TRANSLATORS\nYour emails"));

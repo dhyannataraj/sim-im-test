@@ -578,8 +578,8 @@ int main(int argc, char *argv[])
     }
 #endif
 #if QT_VERSION >= 300
-    log(L_DEBUG, "Add library path %s", app_file("styles"));
-    qApp->addLibraryPath(QString::fromLocal8Bit(app_file("styles")));
+    log(L_DEBUG, "Add library path %s", app_file(""));
+    qApp->addLibraryPath(QString::fromLocal8Bit(app_file("")));
 #endif
     pSplash = new Splash;
     initIcons("");

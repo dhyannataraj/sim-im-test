@@ -667,21 +667,21 @@ void MsgEdit::markAsRead()
             History h(getUin());
             bool bChanged = false;
             for (list<unsigned long>::iterator it = u->unreadMsgs.begin(); it != u->unreadMsgs.end();){
-                    ICQMessage *msg = h.getMessage(*it);
-                    if (msg == NULL){
-						++it;
-						continue;
-					}
-                    if ((msg->Type() == ICQ_MSGxCHAT) ||
-						(msg->Type() == ICQ_MSGxFILE) ||
-						(msg->Type() == ICQ_MSGxAUTHxREQUEST) ||
-						(msg->Type() == ICQ_MSGxCONTACTxLIST))
-                        break;
-					if (pClient->markAsRead(msg)){
-						bChanged = true;
-						it = u->unreadMsgs.begin();
-					}
-					++it;
+                ICQMessage *msg = h.getMessage(*it);
+                if (msg == NULL){
+                    ++it;
+                    continue;
+                }
+                if ((msg->Type() == ICQ_MSGxCHAT) ||
+                        (msg->Type() == ICQ_MSGxFILE) ||
+                        (msg->Type() == ICQ_MSGxAUTHxREQUEST) ||
+                        (msg->Type() == ICQ_MSGxCONTACTxLIST))
+                    break;
+                if (pClient->markAsRead(msg)){
+                    bChanged = true;
+                    it = u->unreadMsgs.begin();
+                }
+                ++it;
             }
             if (msg == NULL) return;
             if (!msg->Received) return;
