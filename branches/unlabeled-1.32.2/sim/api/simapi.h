@@ -1629,6 +1629,8 @@ EXPORT unsigned fetch(TCPClient *client, const char *url, Buffer *postData=NULL,
 #ifdef WIN32
 EXPORT void setWndProc(QWidget*);
 EXPORT void mySetCaption(QWidget *w, const QString &caption);
+EXPORT void translate();
+EXPORT unsigned wndMessage();
 #define SET_WNDPROC(A)	setWndProc(this);
 #define setCaption(s)	mySetCaption(this, s);
 #else
