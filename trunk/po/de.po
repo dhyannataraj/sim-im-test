@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2004-06-03 03:53+0400\n"
-"PO-Revision-Date: 2004-06-04 11:38+0100\n"
+"PO-Revision-Date: 2004-06-04 16:23+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1178,7 +1178,7 @@ msgstr "&Ja"
 #: plugins/jabber/discoinfobase.cpp:288
 #: sim/api/simapi.cpp:468
 msgid "&Apply"
-msgstr "&Anwenden"
+msgstr "Ü&bernehmen"
 
 #: plugins/jabber/jabber.cpp:314
 #: plugins/jabber/servicesbase.cpp:115
