@@ -26,6 +26,7 @@
 
 class JabberProtocol;
 class JabberClient;
+class JabberBrowser;
 
 const unsigned JABBER_SIGN		= 0x0002;
 
@@ -92,6 +93,9 @@ typedef struct JabberClientData
     unsigned		MaxPort;
     char			*Photo;
     char			*Logo;
+	long			browser_geo[4];
+	long			browser_bar[7];
+	char			*BrowserHistory;
     JabberUserData	owner;
 } JabberClientData;
 
@@ -116,6 +120,7 @@ typedef struct JabberAgentInfo
     void			*Options;
     void			*OptionLabels;
     unsigned		nOptions;
+	unsigned		bRequired;
 } JabberAgentInfo;
 
 typedef struct JabberSearchData
@@ -135,6 +140,14 @@ typedef struct JabberListRequest
     string			name;
     bool			bDelete;
 } JabberListRequest;
+
+typedef struct JabberDiscoItem
+{
+	string			id;
+	string			jid;
+	string			name;
+	string			node;
+} JabberDiscoItem;
 
 class JabberClient : public TCPClient, public EventReceiver
 {
@@ -235,6 +248,7 @@ class MessageRequest : public ServerRequest
         return QString::fromUtf8(data.owner.ID ? data.owner.ID : "");
     }
     PROP_STR(Server);
+	PROP_STR(VHost);
     PROP_USHORT(Port);
     PROP_BOOL(UseSSL);
     PROP_BOOL(UsePlain);
@@ -249,6 +263,7 @@ class MessageRequest : public ServerRequest
     PROP_USHORT(MaxPort);
     PROP_UTF8(Photo);
     PROP_UTF8(Logo);
+	PROP_UTF8(BrowserHistory);
 
     string		buildId(JabberUserData *data);
     JabberUserData	*findContact(const char *jid, const char *name, bool bCreate, Contact *&contact);
@@ -281,6 +296,14 @@ class MessageRequest : public ServerRequest
     QString photoFile(JabberUserData*);
     QString logoFile(JabberUserData*);
     list<ServerRequest*>	m_requests;
+	JabberBrowser   *m_browser;
+
+	string discoItems(const char *jid);
+	string discoInfo(const char *jid);
+	string versionInfo(const char *jid);
+	string timeInfo(const char *jid);
+	string lastInfo(const char *jid);
+	string statInfo(const char *jid);
 
 protected slots:
     void	ping();
@@ -350,6 +373,7 @@ protected:
     friend class ServerRequest;
     friend class RostersRequest;
     friend class PresenceRequest;
+	friend class JabberBrowser;
 };
 
 class JabberFileTransfer : public FileTransfer, public ClientSocketNotify, public ServerSocketNotify

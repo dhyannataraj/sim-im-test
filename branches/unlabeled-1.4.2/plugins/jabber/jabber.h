@@ -42,10 +42,17 @@ public:
     unsigned EventAgentRegister;
     unsigned EventSearch;
     unsigned EventSearchDone;
+	unsigned EventDiscoItem;
     unsigned CmdSendMessage;
     unsigned CmdGroups;
+	unsigned CmdBrowser;
+	unsigned CmdBack;
+	unsigned CmdForward;
+	unsigned CmdUrl;
+	unsigned CmdInfo;
     unsigned MenuSearchResult;
     unsigned MenuGroups;
+	unsigned BarBrowser;
     void registerMessages();
     void unregisterMessages();
 protected:

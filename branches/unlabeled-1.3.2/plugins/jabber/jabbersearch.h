@@ -19,6 +19,7 @@
 #define _JABBERSEARCH_H
 
 #include "simapi.h"
+#include "stl.h"
 #include "qchildwidget.h"
 
 class JabberClient;
@@ -45,7 +46,9 @@ protected:
     string			m_key;
     unsigned		m_nPos;
     bool			m_bDirty;
+	bool			m_bXData;
     JabberClient	*m_client;
+	list<QWidget*>	m_required;
 };
 
 #endif
