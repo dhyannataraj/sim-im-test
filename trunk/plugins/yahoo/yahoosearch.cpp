@@ -45,40 +45,38 @@ YahooSearch::YahooSearch(YahooClient *client, QWidget *parent)
 {
     m_client = client;
     connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));
-    edtMail->setValidator(new EMailValidator(edtMail));
     edtID->setValidator(new RegExpValidator("[0-9A-Za-z \\-_]+", this));
     initCombo(cmbAge, 0, ages);
     initCombo(cmbGender, 0, genders);
-    connect(grpID, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
-    connect(grpMail, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
-    connect(grpName, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
-    connect(grpKeyword,	SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
-}
-
-void YahooSearch::radioToggled(bool)
-{
-    emit setAdd(grpID->isChecked());
-    lblGender->setEnabled(!grpID->isChecked());
-    lblAge->setEnabled(!grpID->isChecked());
-    cmbGender->setEnabled(!grpID->isChecked());
-    cmbAge->setEnabled(!grpID->isChecked());
 }
 
 void YahooSearch::showEvent(QShowEvent *e)
 {
     YahooSearchBase::showEvent(e);
-    radioToggled(false);
-    emit setAdd(grpID->isChecked());
+    emit setAdd(false);
 }
 
-void YahooSearch::createContact(unsigned tmpFlags, Contact *&contact)
+void YahooSearch::search()
 {
-    if (!grpID->isChecked() || edtID->text().isEmpty())
-        return;
-    if (m_client->findContact(edtID->text().utf8(), NULL, contact))
-        return;
-    m_client->findContact(edtID->text().utf8(), NULL, contact, true, false);
-    contact->setFlags(contact->getFlags() | tmpFlags);
+}
+
+void YahooSearch::searchStop()
+{
+}
+
+void YahooSearch::searchMail(const QString&)
+{
+    emit searchDone(this);
+}
+
+void YahooSearch::searchName(const QString&, const QString&, const QString&)
+{
+}
+
+bool YahooSearch::done(unsigned, Buffer&, const char*)
+{
+    emit searchDone(this);
+    return false;
 }
 
 #ifndef WIN32

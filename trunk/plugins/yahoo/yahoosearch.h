@@ -19,24 +19,31 @@
 #define _YAHOOSEARCH_H
 
 #include "simapi.h"
+#include "fetch.h"
 #include "yahoosearchbase.h"
 
 class YahooClient;
 class GroupRadioButton;
 
-class YahooSearch : public YahooSearchBase
+class YahooSearch : public YahooSearchBase, public FetchClient
 {
     Q_OBJECT
 public:
     YahooSearch(YahooClient *client, QWidget *parent);
 signals:
     void setAdd(bool);
+    void setColumns(const QStringList&, int, QWidget*);
+    void addItem(const QStringList&, QWidget*);
+    void searchDone(QWidget*);
 protected slots:
-    void radioToggled(bool);
-    void createContact(unsigned tmpFlags, Contact *&contact);
+    void search();
+    void searchStop();
+    void searchMail(const QString&);
+    void searchName(const QString&, const QString&, const QString&);
 protected:
     YahooClient *m_client;
     void showEvent(QShowEvent*);
+    bool done(unsigned code, Buffer &data, const char *headers);
 };
 
 #endif

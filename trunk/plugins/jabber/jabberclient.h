@@ -337,6 +337,7 @@ class MessageRequest : public ServerRequest
     void addLang(ServerRequest *req);
     void info_request(JabberUserData *user_data, bool bVCard);
     virtual void setClientInfo(void *data);
+    void changePassword(const char *pass);
 
 protected slots:
     void	ping();

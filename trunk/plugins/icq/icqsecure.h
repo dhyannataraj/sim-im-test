@@ -29,8 +29,6 @@ class ICQSecure : public ICQSecureBase, public EventReceiver
     Q_OBJECT
 public:
     ICQSecure(QWidget *parent, ICQClient *client);
-signals:
-    void raise(QWidget*);
 public slots:
     void apply();
     void apply(Client*, void*);

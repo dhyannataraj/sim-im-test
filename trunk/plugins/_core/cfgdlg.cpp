@@ -364,7 +364,8 @@ void ConfigureDialog::fill(unsigned id)
             parentItem->setOpen(true);
         }
         for (const CommandDef *d = protocol->statusList(); d->text; d++){
-            if ((d->id == STATUS_ONLINE) || (d->id == STATUS_OFFLINE))
+            if (((protocol->description()->flags & PROTOCOL_AR_OFFLINE) == 0) &&
+                    ((d->id == STATUS_ONLINE) || (d->id == STATUS_OFFLINE)))
                 continue;
             list<unsigned>::iterator it;
             for (it = st.begin(); it != st.end(); ++it)

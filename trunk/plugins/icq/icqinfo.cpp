@@ -19,6 +19,7 @@
 #include "icqinfo.h"
 #include "icqclient.h"
 #include "core.h"
+#include "ballonmsg.h"
 
 #include <qlineedit.h>
 #include <qmultilineedit.h>
@@ -26,6 +27,7 @@
 #include <qcombobox.h>
 #include <qpixmap.h>
 #include <qlabel.h>
+#include <qtabwidget.h>
 
 const ext_info chat_groups[] =
     {
@@ -58,8 +60,10 @@ ICQInfo::ICQInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, IC
         edtAutoReply->setReadOnly(true);
         lblRandom->hide();
         cmbRandom->hide();
+        tabWnd->removePage(password);
     }else{
         edtAutoReply->hide();
+        connect(this, SIGNAL(raise(QWidget*)), topLevelWidget(), SLOT(raisePage(QWidget*)));
     }
     edtOnline->setReadOnly(true);
     edtNA->setReadOnly(true);
@@ -73,6 +77,39 @@ void ICQInfo::apply()
 {
     ICQUserData *data = m_data;
     if (data == NULL){
+        if (m_client->getState() == Client::Connected){
+            QString errMsg;
+            QWidget *errWidget = edtCurrent;
+            if (!edtPswd1->text().isEmpty() || !edtPswd2->text().isEmpty()){
+                if (edtCurrent->text().isEmpty()){
+                    errMsg = i18n("Input current password");
+                }else{
+                    if (edtPswd1->text() != edtPswd2->text()){
+                        errMsg = i18n("Confirm password does not match");
+                        errWidget = edtPswd2;
+                    }else if (edtCurrent->text() != m_client->getPassword()){
+                        errMsg = i18n("Invalid password");
+                    }
+                }
+            }
+            if (!errMsg.isEmpty()){
+                for (QWidget *p = parentWidget(); p; p = p->parentWidget()){
+                    if (p->inherits("QTabWidget")){
+                        static_cast<QTabWidget*>(p)->showPage(this);
+                        break;
+                    }
+                }
+                emit raise(this);
+                BalloonMsg::message(errMsg, errWidget);
+                return;
+            }
+            if (!edtPswd1->text().isEmpty())
+                m_client->changePassword(edtPswd1->text().utf8());
+            // clear Textboxes
+            edtCurrent->clear();
+            edtPswd1->clear();
+            edtPswd2->clear();
+        }
         data = &m_client->data.owner;
         m_client->setRandomChatGroup(getComboValue(cmbRandom, chat_groups));
     }
@@ -132,6 +169,7 @@ void ICQInfo::fill()
             lastName = getToken(lastName, '/');
             edtLast->setText(lastName);
         }
+        password->setEnabled(m_client->getState() == Client::Connected);
     }
 
     cmbStatus->clear();

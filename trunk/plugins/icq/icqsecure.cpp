@@ -29,7 +29,6 @@ ICQSecure::ICQSecure(QWidget *parent, ICQClient *client)
         : ICQSecureBase(parent)
 {
     m_client = client;
-    connect(this, SIGNAL(raise(QWidget*)), topLevelWidget(), SLOT(raisePage(QWidget*)));
     connect(chkHideIP, SIGNAL(toggled(bool)), this, SLOT(hideIpToggled(bool)));
     setListView(lstVisible);
     setListView(lstInvisible);
@@ -38,39 +37,6 @@ ICQSecure::ICQSecure(QWidget *parent, ICQClient *client)
 
 void ICQSecure::apply()
 {
-    if (m_client->getState() == Client::Connected){
-        QString errMsg;
-        QWidget *errWidget = edtCurrent;
-        if (!edtPswd1->text().isEmpty() || !edtPswd2->text().isEmpty()){
-            if (edtCurrent->text().isEmpty()){
-                errMsg = i18n("Input current password");
-            }else{
-                if (edtPswd1->text() != edtPswd2->text()){
-                    errMsg = i18n("Confirm password does not match");
-                    errWidget = edtPswd2;
-                }else if (edtCurrent->text() != m_client->getPassword()){
-                    errMsg = i18n("Invalid password");
-                }
-            }
-        }
-        if (!errMsg.isEmpty()){
-            for (QWidget *p = parentWidget(); p; p = p->parentWidget()){
-                if (p->inherits("QTabWidget")){
-                    static_cast<QTabWidget*>(p)->showPage(this);
-                    break;
-                }
-            }
-            emit raise(this);
-            BalloonMsg::message(errMsg, errWidget);
-            return;
-        }
-        if (!edtPswd1->text().isEmpty())
-            m_client->changePassword(edtPswd1->text().utf8());
-        // clear Textboxes
-        edtCurrent->clear();
-        edtPswd1->clear();
-        edtPswd2->clear();
-    }
     bool bStatusChanged = false;
     if (chkHideIP->isChecked() != m_client->getHideIP()){
         bStatusChanged = true;
@@ -104,7 +70,6 @@ void ICQSecure::fill()
     chkHideIP->setChecked(m_client->getHideIP());
     chkIgnoreAuth->setChecked(m_client->getIgnoreAuth());
     grpDirect->setButton(m_client->getDirectMode());
-    tabPassword->setEnabled(m_client->getState() == Client::Connected);
     fillListView(lstVisible, offsetof(ICQUserData, VisibleId));
     fillListView(lstInvisible, offsetof(ICQUserData, InvisibleId));
     hideIpToggled(m_client->getHideIP());

@@ -19,6 +19,7 @@
 #include "jabberinfo.h"
 #include "jabberclient.h"
 #include "datepicker.h"
+#include "ballonmsg.h"
 
 #include <qmultilineedit.h>
 #include <qlineedit.h>
@@ -27,6 +28,7 @@
 #include <qpushbutton.h>
 #include <qpixmap.h>
 #include <qlabel.h>
+#include <qtabwidget.h>
 
 JabberInfo::JabberInfo(QWidget *parent, struct JabberUserData *data, JabberClient *client)
         : JabberInfoBase(parent)
@@ -44,8 +46,10 @@ JabberInfo::JabberInfo(QWidget *parent, struct JabberUserData *data, JabberClien
         disableWidget(edtDate);
         edtUrl->setReadOnly(true);
         edtAutoReply->setReadOnly(true);
+        tabWnd->removePage(password);
     }else{
         connect(edtUrl, SIGNAL(textChanged(const QString&)), this, SLOT(urlChanged(const QString&)));
+        connect(this, SIGNAL(raise(QWidget*)), topLevelWidget(), SLOT(raisePage(QWidget*)));
         edtAutoReply->hide();
     }
     fill();
@@ -54,6 +58,39 @@ JabberInfo::JabberInfo(QWidget *parent, struct JabberUserData *data, JabberClien
 
 void JabberInfo::apply()
 {
+    if ((m_data == NULL) && (m_client->getState() == Client::Connected)){
+        QString errMsg;
+        QWidget *errWidget = edtCurrent;
+        if (!edtPswd1->text().isEmpty() || !edtPswd2->text().isEmpty()){
+            if (edtCurrent->text().isEmpty()){
+                errMsg = i18n("Input current password");
+            }else{
+                if (edtPswd1->text() != edtPswd2->text()){
+                    errMsg = i18n("Confirm password does not match");
+                    errWidget = edtPswd2;
+                }else if (edtCurrent->text() != m_client->getPassword()){
+                    errMsg = i18n("Invalid password");
+                }
+            }
+        }
+        if (!errMsg.isEmpty()){
+            for (QWidget *p = parentWidget(); p; p = p->parentWidget()){
+                if (p->inherits("QTabWidget")){
+                    static_cast<QTabWidget*>(p)->showPage(this);
+                    break;
+                }
+            }
+            emit raise(this);
+            BalloonMsg::message(errMsg, errWidget);
+            return;
+        }
+        if (!edtPswd1->text().isEmpty())
+            m_client->changePassword(edtPswd1->text().utf8());
+        // clear Textboxes
+        edtCurrent->clear();
+        edtPswd1->clear();
+        edtPswd2->clear();
+    }
 }
 
 void JabberInfo::resourceActivated(int i)
@@ -163,6 +200,8 @@ void JabberInfo::fill()
         cmbResource->setEnabled(false);
     }
     resourceActivated(0);
+    if (m_data == NULL)
+        password->setEnabled(m_client->getState() == Client::Connected);
 }
 
 void JabberInfo::apply(Client *client, void *_data)

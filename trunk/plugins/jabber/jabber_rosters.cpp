@@ -2926,4 +2926,37 @@ void JabberClient::addLang(ServerRequest *req)
     req->add_attribute("xml:lang", s.utf8());
 }
 
+class ChangePasswordRequest : public JabberClient::ServerRequest
+{
+public:
+    ChangePasswordRequest(JabberClient *client, const char *password);
+    ~ChangePasswordRequest();
+protected:
+    string	m_password;
+};
+
+ChangePasswordRequest::ChangePasswordRequest(JabberClient *client, const char *password)
+        : JabberClient::ServerRequest(client, _SET, NULL, NULL)
+{
+    m_password = password;
+}
+
+ChangePasswordRequest::~ChangePasswordRequest()
+{
+    m_client->setPassword(m_password.c_str());
+}
+
+void JabberClient::changePassword(const char *password)
+{
+    if (getState() != Connected)
+        return;
+    ChangePasswordRequest *req = new ChangePasswordRequest(this, password);
+    req->start_element("query");
+    req->add_attribute("xmlns", "jabber:iq:register");
+    req->text_tag("username", data.owner.ID.ptr);
+    req->text_tag("password", password);
+    m_requests.push_back(req);
+    req->send();
+}
+
 

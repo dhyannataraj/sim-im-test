@@ -45,23 +45,11 @@ MsgAuth::MsgAuth(MsgEdit *parent, Message *msg)
     cmd->param = parent;
     Event e(EventCommandChecked, cmd);
     e.process();
-    connect(m_edit->m_edit, SIGNAL(emptyChanged(bool)), this, SLOT(emptyChanged(bool)));
-    emptyChanged(m_edit->m_edit->isEmpty());
 }
 
 void MsgAuth::init()
 {
     m_edit->m_edit->setFocus();
-}
-
-void MsgAuth::emptyChanged(bool bEmpty)
-{
-    Command cmd;
-    cmd->id    = CmdSend;
-    cmd->flags = bEmpty ? COMMAND_DISABLED : 0;
-    cmd->param = m_edit;
-    Event e(EventCommandDisabled, cmd);
-    e.process();
 }
 
 void *MsgAuth::processEvent(Event *e)
