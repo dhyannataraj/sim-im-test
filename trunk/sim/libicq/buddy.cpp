@@ -75,8 +75,8 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                         user->StatusTime = (unsigned long)now;
                         changed = true;
                     }
-                }else if (u->uStatus == ICQ_STATUS_OFFLINE){
-					u->uStatus = ICQ_STATUS_ONLINE;
+                }else if (user->uStatus == ICQ_STATUS_OFFLINE){
+					user->uStatus = ICQ_STATUS_ONLINE;
 				}
 
                 // Online time TLV
