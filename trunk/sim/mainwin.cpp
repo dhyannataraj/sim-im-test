@@ -81,8 +81,6 @@ static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
 #include <fcntl.h>
 #include <time.h>
 
-#include <fstream>
-
 #include <qframe.h>
 #include <qlayout.h>
 #include <qtoolbar.h>
@@ -97,6 +95,7 @@ static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
 #include <qpopupmenu.h>
 #include <qstringlist.h>
 #include <qaccel.h>
+#include <qfile.h>
 
 #ifdef USE_KDE
 #include <kwin.h>
@@ -994,7 +993,9 @@ bool MainWindow::init()
 
     string part;
     buildFileName(file, SIM_CONF);
-    std::ifstream fs(file.c_str(), ios::in);
+    QFile fs(QString::fromLocal8Bit(file.c_str()));
+    if (!fs.open(IO_ReadOnly))
+        return true;
     ::load(this, MainWindow_Params, fs, part);
 
     if (ToolBarMain.size()) emit toolBarChanged(mainWndToolBar);
@@ -1018,8 +1019,9 @@ bool MainWindow::init()
     {
         string file, part;
         buildFileName(file, ICQ_CONF);
-        ifstream fs(file.c_str(), ios::in);
-        pClient->load(fs, part);
+        QFile fs(QString::fromLocal8Bit(file.c_str()));
+        if (fs.open(IO_ReadOnly))
+            pClient->load(fs, part);
     }
     for (;;){
         if (part.size() == 0) break;
@@ -1378,15 +1380,17 @@ void MainWindow::saveState()
     if ((stat(file.c_str(), &st) >= 0) && (st.st_mode != 0600))
         unlink(file.c_str());
 #endif
-    std::ofstream fs(file.c_str(), ios::out);
-    ::save(this, MainWindow_Params, fs);
-    for (list<UserFloat*>::iterator itFloat = floating.begin(); itFloat != floating.end(); itFloat++){
-        fs << "[Floaty]\n";
-        (*itFloat)->save(fs);
-    }
-    for (list<UserBox*>::iterator itBox = containers.begin(); itBox != containers.end(); itBox++){
-        fs << "[UserBox]\n";
-        (*itBox)->save(fs);
+    QFile fs(file.c_str());
+    if (fs.open(IO_WriteOnly | IO_Truncate)){
+        ::save(this, MainWindow_Params, fs);
+        for (list<UserFloat*>::iterator itFloat = floating.begin(); itFloat != floating.end(); itFloat++){
+            writeStr(fs, "[Floaty]\n");
+            (*itFloat)->save(fs);
+        }
+        for (list<UserBox*>::iterator itBox = containers.begin(); itBox != containers.end(); itBox++){
+            writeStr(fs, "[UserBox]\n");
+            (*itBox)->save(fs);
+        }
     }
     saveContacts();
     pSplash->save();
@@ -1402,9 +1406,9 @@ void MainWindow::saveContacts()
     if ((stat(file.c_str(), &st) >= 0) && (st.st_mode != 0600))
         unlink(file.c_str());
 #endif
-    ofstream fs(file.c_str(), ios::out);
-    pClient->save(fs);
-    fs.close();
+    QFile fs(QString::fromLocal8Bit(file.c_str()));
+    if (fs.open(IO_WriteOnly | IO_Truncate))
+        pClient->save(fs);
 }
 
 bool MainWindow::isDock()
@@ -1574,6 +1578,9 @@ void MainWindow::showUser(unsigned long uin, int function, unsigned long param)
 
 void MainWindow::setShow(bool bShow)
 {
+#ifdef WIN32
+    if (BarState != ABE_FLOAT) bShow = true;
+#endif
     if (!bShow){
         hide();
         return;

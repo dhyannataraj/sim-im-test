@@ -31,7 +31,6 @@
 WorkInfo::WorkInfo(QWidget *p, bool readOnly)
         : WorkInfoBase(p)
 {
-    lblPict->setPixmap(Pict("work"));
     btnSite->setPixmap(Pict("home"));
     connect(btnSite, SIGNAL(clicked()), this, SLOT(goUrl()));
     if (!readOnly) {

@@ -19,6 +19,7 @@
 #include "mainwin.h"
 #include "icons.h"
 #include "log.h"
+#include "enable.h"
 
 #include <qapplication.h>
 #include <qwidgetlist.h>
@@ -35,6 +36,7 @@ using namespace std;
 ToolBarSetup::ToolBarSetup(const ToolBarDef *_def, list<unsigned long> *_active)
         : ToolBarSetupBase(NULL, "toolbar_setup", false, WDestructiveClose)
 {
+    setButtonsPict(this);
     def = _def;
     m_active = _active;
     active = *_active;

@@ -28,7 +28,6 @@
 #include "ui/aboutinfo.h"
 #include "ui/interestsinfo.h"
 #include "ui/pastinfo.h"
-#include "ui/changepasswd.h"
 #include "ui/generalsec.h"
 #include "ui/listsec.h"
 #include "ui/themesetup.h"
@@ -40,12 +39,9 @@
 #include "ui/fontsetup.h"
 #include "ui/accept.h"
 #include "ui/network.h"
-#include "ui/xosdsetup.h"
 #include "ui/keysetup.h"
 #include "ui/wndcancel.h"
 #include "ui/smssetup.h"
-#include "ui/forwardsetup.h"
-#include "ui/msgsetup.h"
 
 #include "ui/enable.h"
 
@@ -79,12 +75,9 @@ PAGE(ThemeSetup)
 PAGE(FontSetup)
 PAGE(KeySetup)
 PAGE(SoundSetup)
-PAGE(XOSDSetup)
 PAGE(AlertDialog)
-PAGE(MsgSetup)
 PAGE(AcceptDialog)
 PAGE(SMSSetup)
-PAGE(ForwardSetup)
 #ifndef WIN32
 PAGE(MiscSetup)
 #endif
@@ -92,7 +85,6 @@ PAGE(MiscSetup)
 PAGE(SpellSetup)
 #endif
 PAGE(GeneralSecurity)
-PAGE(ChangePasswd)
 PAGE(IgnoreListSetup)
 PAGE(InvisibleListSetup)
 PAGE(VisibleListSetup)
@@ -104,7 +96,7 @@ SetupDialog::SetupDialog(QWidget*, int nWin)
 {
     SET_WNDPROC
 
-    setCaption(caption());
+    setButtonsPict(this);
 
     new TransparentTop(this, pMain->UseTransparentContainer, pMain->TransparentContainer);
 
@@ -141,12 +133,9 @@ SetupDialog::SetupDialog(QWidget*, int nWin)
     addPage(p_FontSetup, SETUP_INTERFACE, i18n("Interface"), "text");
     addPage(p_KeySetup, SETUP_KEYS, i18n("Key shortcuts"), "key_bindings");
     addPage(p_SoundSetup, SETUP_SOUND, i18n("Sound"), "sound");
-    addPage(p_XOSDSetup, SETUP_XOSD, i18n("On Screen notification"), "screen");
     addPage(p_AlertDialog, SETUP_ALERT, i18n("Alert"), "alert");
-    addPage(p_MsgSetup, SETUP_MESSAGE, i18n("Message"), "message");
     addPage(p_AcceptDialog, SETUP_ACCEPT, i18n("Accept file"), "file");
     addPage(p_SMSSetup, SETUP_SMS, i18n("SMS"), "sms");
-    addPage(p_ForwardSetup, SETUP_FORWARD, i18n("Forward"), "mail_forward");
 
 #ifndef WIN32
     addPage(p_MiscSetup, SETUP_MISC, i18n("Miscellaneous"), "misc");
@@ -169,7 +158,6 @@ SetupDialog::SetupDialog(QWidget*, int nWin)
     itemMain->setOpen(true);
 
     addPage(p_GeneralSecurity, SETUP_GENERAL_SEC, i18n("General"), "webaware");
-    addPage(p_ChangePasswd, SETUP_PASSWD, i18n("Password"), "password");
     addPage(p_IgnoreListSetup, SETUP_IGNORE_LIST, i18n("Ignore list"), "ignorelist");
     addPage(p_InvisibleListSetup, SETUP_INVISIBLE_LIST, i18n("Invisible list"), "invisiblelist");
     addPage(p_VisibleListSetup, SETUP_VISIBLE_LIST, i18n("Visible list"), "visiblelist");
@@ -268,8 +256,10 @@ void SetupDialog::apply()
 
 void SetupDialog::ok()
 {
+    applyOk = true;
     apply();
-    close();
+    if (applyOk)
+        close();
 }
 
 void SetupDialog::setBackgroundPixmap(const QPixmap &pm)

@@ -201,7 +201,6 @@ cfgParam ICQUser_Params[] =
         { "PrivateCellular", OFFSET_OF(ICQUser, PrivateCellular), PARAM_STRING, 0 },
         { "EMailInfo", OFFSET_OF(ICQUser, EMail), PARAM_STRING, 0 },
         { "HiddenEMail", OFFSET_OF(ICQUser, HiddenEMail), PARAM_BOOL, 0 },
-        { "Notes", OFFSET_OF(ICQUser, Notes), PARAM_STRING, 0 },
         { "EMail", OFFSET_OF(ICQUser, EMails), (unsigned)createEMail, (unsigned)EMail_Params },
         { "Age", OFFSET_OF(ICQUser, Age), PARAM_CHAR, 0 },
         { "Gender", OFFSET_OF(ICQUser, Gender), PARAM_CHAR, 0 },
@@ -267,6 +266,7 @@ cfgParam SIMUser_Params[] =
         { "ProgMessageOn", OFFSET_OF(SIMUser, ProgMessageOn), PARAM_BOOL, 0 },
         { "ProgMessage", OFFSET_OF(SIMUser, ProgMessage), PARAM_STRING, 0 },
         { "KabUid", OFFSET_OF(SIMUser, strKabUid), PARAM_STRING, 0 },
+        { "Notes", OFFSET_OF(SIMUser, Notes), PARAM_STRING, 0 },
         { "", 0, PARAM_OFFS, (unsigned)ICQUser_Params },
         { "", 0, 0, 0 }
     };
@@ -362,23 +362,23 @@ ICQUser *SIMClient::createUser()
     return u;
 }
 
-void SIMClient::save(ostream &s)
+void SIMClient::save(QFile &s)
 {
     ::save(this, Client_Params, s);
-    s << "[ContactList]\n";
+    writeStr(s, "[ContactList]\n");
     ::save(&contacts, ICQContactList_Params, s);
     for (vector<ICQGroup*>::iterator it_grp = contacts.groups.begin(); it_grp != contacts.groups.end(); it_grp++){
-        s << "[Group]\n";
+        writeStr(s, "[Group]\n");
         ::save(*it_grp, ICQGroup_Params, s);
     }
     for (list<ICQUser*>::iterator it = contacts.users.begin(); it != contacts.users.end(); it++){
         if ((*it)->bIsTemp) continue;
-        s << "[User]\n";
+        writeStr(s, "[User]\n");
         ::save(*it, ICQUser_Params, s);
     }
 }
 
-bool SIMClient::load(istream &s, string &nextPart)
+bool SIMClient::load(QFile &s, string &nextPart)
 {
     if (!::load(this, Client_Params, s, nextPart))
         return false;

@@ -32,7 +32,6 @@ public slots:
     void apply(ICQUser*);
 protected slots:
     void rejectToggled(bool);
-    void hideHelp(bool);
 };
 
 #endif

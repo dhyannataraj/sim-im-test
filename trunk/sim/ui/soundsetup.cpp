@@ -30,7 +30,6 @@
 SoundSetup::SoundSetup(QWidget *p, bool bUser)
         : SoundSetupBase(p)
 {
-    lblPict->setPixmap(Pict("sound"));
     chkDisable->setChecked(pSplash->SoundDisable);
     disableToggled(pSplash->SoundDisable);
     if (bUser){

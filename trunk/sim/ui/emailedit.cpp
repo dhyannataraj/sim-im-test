@@ -28,6 +28,7 @@
 EmailEditDlg::EmailEditDlg(QWidget *p, EMailInfo *_info, bool bMyEmail)
         : EmailEditBase(p, NULL, true)
 {
+    setButtonsPict(this);
     info = _info;
     setIcon(Pict("mail_generic"));
     setResult(0);

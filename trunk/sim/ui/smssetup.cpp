@@ -25,22 +25,31 @@
 #include <qmultilineedit.h>
 #include <qlabel.h>
 #include <qpixmap.h>
+#include <qcombobox.h>
+#include <qlineedit.h>
 
 SMSSetup::SMSSetup(QWidget *p)
         : SMSSetupBase(p)
 {
-    lblPict->setPixmap(Pict("info"));
     QString s;
     set(s, pMain->SMSSignTop.c_str());
     edtBefore->setText(s);
     set(s, pMain->SMSSignBottom.c_str());
     edtAfter->setText(s);
+    cmbPhone->setEditable(true);
+    for (PhoneBook::iterator it = pClient->owner->Phones.begin(); it != pClient->owner->Phones.end(); ++it){
+        if (((*it)->Type != SMS) && ((*it)->Type != MOBILE)) continue;
+        string number = (*it)->getNumber();
+        cmbPhone->insertItem(QString::fromLocal8Bit(number.c_str()));
+    }
+    cmbPhone->lineEdit()->setText(pMain->ForwardPhone.c_str());
 }
 
 void SMSSetup::apply(ICQUser*)
 {
     set(pMain->SMSSignTop, edtBefore->text());
     set(pMain->SMSSignBottom, edtAfter->text());
+    set(pMain->ForwardPhone, cmbPhone->lineEdit()->text());
 }
 
 #ifndef _WINDOWS

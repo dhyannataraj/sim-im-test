@@ -22,6 +22,7 @@
 
 #include <qlabel.h>
 #include <qpixmap.h>
+#include <qtabwidget.h>
 
 ListSecurity::ListSecurity(QWidget *parent)
         : ListSecurityBase(parent)
@@ -90,8 +91,8 @@ VisibleListSetup::VisibleListSetup(QWidget *parent)
         : ListSecurity(parent)
 {
     init();
-    lblHead->setText(i18n("Visible list"));
-    lblPict->setPixmap(Pict("visiblelist"));
+    tabWnd->setCurrentPage(0);
+    tabWnd->changeTab(tabWnd->currentPage(), i18n("Visible list"));
 }
 
 bool VisibleListSetup::checkUser(ICQUser *u)
@@ -108,8 +109,8 @@ InvisibleListSetup::InvisibleListSetup(QWidget *parent)
         : ListSecurity(parent)
 {
     init();
-    lblHead->setText(i18n("Invisible list"));
-    lblPict->setPixmap(Pict("invisiblelist"));
+    tabWnd->setCurrentPage(0);
+    tabWnd->changeTab(tabWnd->currentPage(), i18n("Invisible list"));
 }
 
 bool InvisibleListSetup::checkUser(ICQUser *u)
@@ -126,8 +127,8 @@ IgnoreListSetup::IgnoreListSetup(QWidget *parent)
         : ListSecurity(parent)
 {
     init();
-    lblHead->setText(i18n("Ignore list"));
-    lblPict->setPixmap(Pict("ignorelist"));
+    tabWnd->setCurrentPage(0);
+    tabWnd->changeTab(tabWnd->currentPage(), i18n("Ignore list"));
 }
 
 bool IgnoreListSetup::checkUser(ICQUser *u)

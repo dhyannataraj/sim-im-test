@@ -75,9 +75,8 @@ PhoneBookDlg::PhoneBookDlg(QWidget *p, bool bReadOnly)
         : PhoneBookBase(p)
 {
     country = pClient->owner->Country;
-    lblPict->setPixmap(Pict("phone"));
     tblPhone->setColumnText(0, i18n("Type"));
-    tblPhone->setColumnWidth(0, -1);
+    tblPhone->setColumnWidth(0, 20);
     tblPhone->addColumn(i18n("Number"));
     tblPhone->addColumn(i18n("Publish"));
     tblPhone->clear();

@@ -1420,14 +1420,14 @@ bool UserFloat::setUin(unsigned long uin)
     return true;
 }
 
-void UserFloat::save(ostream &s)
+void UserFloat::save(QFile &s)
 {
     Left = pos().x();
     Top = pos().y();
     ::save(this, UserFloat_Params, s);
 }
 
-bool UserFloat::load(istream &s, string &nextPart)
+bool UserFloat::load(QFile &s, string &nextPart)
 {
     ::load(this, UserFloat_Params, s, nextPart);
     if (!setUin(Uin)){

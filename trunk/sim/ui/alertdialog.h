@@ -34,6 +34,7 @@ public slots:
     void save(ICQUser *u);
 protected slots:
     void overrideChanged(bool bSet);
+    void toggledOn(bool);
 };
 
 #endif

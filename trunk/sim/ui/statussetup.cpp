@@ -27,7 +27,6 @@
 StatusSetup::StatusSetup(QWidget *p)
         : StatusSetupBase(p)
 {
-    lblPict->setPixmap(Pict("status"));
     if (pMain->AutoAwayTime){
         chkAway->setChecked(true);
         spnAway->setValue(pMain->AutoAwayTime / 60);

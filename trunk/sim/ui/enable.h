@@ -22,6 +22,8 @@ char getTZComboValue(QComboBox *cmb);
 void set(string &s, const QString &str);
 void set(QString &s, const string &str);
 
+void setButtonsPict(QWidget *w);
+
 #ifdef WIN32
 
 void setWndProc(QWidget*);

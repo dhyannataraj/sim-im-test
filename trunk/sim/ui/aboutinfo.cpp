@@ -28,7 +28,6 @@
 AboutInfo::AboutInfo(QWidget *p, bool readOnly)
         : AboutInfoBase(p)
 {
-    lblPict->setPixmap(Pict("info"));
     if (readOnly){
         edtAbout->setReadOnly(true);
     }else{
@@ -36,18 +35,23 @@ AboutInfo::AboutInfo(QWidget *p, bool readOnly)
     }
 }
 
-void AboutInfo::load(ICQUser *u)
+void AboutInfo::load(ICQUser *_u)
 {
+    SIMUser *u = static_cast<SIMUser*>(_u);
     edtAbout->setText(QString::fromLocal8Bit(u->About.c_str()));
+    edtNotes->setText(QString::fromLocal8Bit(u->Notes.c_str()));
 }
 
-void AboutInfo::save(ICQUser*)
+void AboutInfo::save(ICQUser *_u)
 {
+    SIMUser *u = static_cast<SIMUser*>(_u);
+    set(u->Notes, edtNotes->text());
 }
 
 void AboutInfo::apply(ICQUser *u)
 {
     set(u->About, edtAbout->text());
+    set(static_cast<SIMUser*>(pClient->owner)->Notes, edtNotes->text());
 }
 
 #ifndef _WINDOWS

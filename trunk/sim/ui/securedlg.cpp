@@ -29,6 +29,7 @@ SecureDlg::SecureDlg(QWidget *parent, unsigned long uin)
         : SecureDlgBase(parent, "sceuredlg", false, WDestructiveClose)
 {
     SET_WNDPROC
+    setButtonsPict(this);
     Uin = uin;
     CUser user(Uin);
     setCaption(user.name() + " - " + caption());

@@ -31,7 +31,6 @@
 NetworkSetup::NetworkSetup(QWidget *p)
         : NetworkBase(p)
 {
-    lblPict->setPixmap(Pict("network"));
     edtPort->setValidator(new QIntValidator(1024, 0xFFFF, edtPort));
 
     edtMinPort->setValidator(new QIntValidator(1024, 0xFFFF, edtMinPort));

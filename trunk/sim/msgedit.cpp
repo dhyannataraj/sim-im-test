@@ -245,7 +245,7 @@ cfgParam MsgEdit_Params[] =
         { "", 0, 0, 0 }
     };
 
-bool MsgEdit::load(std::istream &s, string &part)
+bool MsgEdit::load(QFile &s, string &part)
 {
     ::load(this, MsgEdit_Params, s, part);
     setUin(Uin);
@@ -256,7 +256,7 @@ bool MsgEdit::load(std::istream &s, string &part)
     return true;
 }
 
-void MsgEdit::save(std::ostream &s)
+void MsgEdit::save(QFile &s)
 {
     EditHeight = wndEdit->height();
     ::save(this, MsgEdit_Params, s);

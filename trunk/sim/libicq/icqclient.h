@@ -357,8 +357,6 @@ public:
     string			EMail;
     bool			HiddenEMail;
 
-    string			Notes;
-
     // Email info
     EMailList			EMails;
 

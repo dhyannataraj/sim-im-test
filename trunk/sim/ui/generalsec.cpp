@@ -19,6 +19,8 @@
 #include "helpedit.h"
 #include "icons.h"
 #include "client.h"
+#include "ballonmsg.h"
+#include "setupdlg.h"
 
 #include <qlabel.h>
 #include <qradiobutton.h>
@@ -26,11 +28,11 @@
 #include <qbuttongroup.h>
 #include <qpixmap.h>
 #include <qlineedit.h>
+#include <qtabwidget.h>
 
 GeneralSecurity::GeneralSecurity(QWidget *p)
         : GeneralSecurityBase(p)
 {
-    lblPict->setPixmap(Pict("security"));
     chkAuth->setChecked(pClient->Authorize);
     chkHiddenIP->setChecked(pClient->HideIp);
     chkWeb->setChecked(pClient->WebAware);
@@ -44,29 +46,10 @@ GeneralSecurity::GeneralSecurity(QWidget *p)
     grpDirect->setButton(pClient->DirectMode);
     rejectToggled(chkRejectMsg->isChecked());
     connect(chkRejectMsg, SIGNAL(toggled(bool)), this, SLOT(rejectToggled(bool)));
-    edtFilter->helpText = i18n(
-                              "Words are divided by any separators (space, comma, i.e.)\n"
-                              "Phrase (sequence of words) consists in quotas\n"
-                              "Words can contain wildcards:\n"
-                              "* - any amount of symbols (or is empty)\n"
-                              "? - any symbol\n");
-    connect(chkAuth, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
-    connect(chkWeb, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
-    connect(chkHiddenIP, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
-    connect(chkBypassAuth, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
-    connect(chkRejectMsg, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
-    connect(chkRejectURL, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
-    connect(chkRejectWeb, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
-    connect(chkRejectEmail, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
-    connect(chkRejectOther, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
-    connect(btnDAll, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
-    connect(btnDContact, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
-    connect(btnDAuth, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
 }
 
 void GeneralSecurity::apply(ICQUser*)
 {
-    hideHelp(false);
     pClient->HideIp = chkHiddenIP->isChecked();
     pClient->BypassAuth = chkBypassAuth->isChecked();
     pClient->RejectMessage = chkRejectMsg->isChecked();
@@ -81,17 +64,21 @@ void GeneralSecurity::apply(ICQUser*)
     if (pClient->isLogged())
         pClient->setStatus(pClient->owner->uStatus);
     pClient->setSecurityInfo(chkAuth->isChecked(), chkWeb->isChecked());
+    if (edtPasswd1->text().length() == 0) return;
+    if (edtPasswd1->text() != edtPasswd2->text()){
+        tabWnd->setCurrentPage(3);
+        SetupDialog *setup = static_cast<SetupDialog*>(topLevelWidget());
+        setup->applyOk = false;
+        BalloonMsg::message(i18n("Confirm password does not match"), edtPasswd2, true);
+        return;
+    }
+    pClient->setPassword(edtPasswd1->text().local8Bit());
 }
 
 void GeneralSecurity::rejectToggled(bool bOn)
 {
     lblFilter->setEnabled(!bOn);
     edtFilter->setEnabled(!bOn);
-}
-
-void GeneralSecurity::hideHelp(bool)
-{
-    edtFilter->closeHelp();
 }
 
 #ifndef _WINDOWS

@@ -112,7 +112,10 @@ public:
     string				ProgMessage;
 
     // corresponding KAddressBook identifier
-    string strKabUid;
+    string				strKabUid;
+
+    // User notes
+    string				Notes;
 };
 
 class SIMClient : public QObject, public ICQClient
@@ -124,8 +127,8 @@ public:
     string			BirthdayReminder;
     string			FileDone;
     ICQUser *createUser();
-    void save(ostream &s);
-    bool load(istream &s, string &nextPart);
+    void save(QFile &s);
+    bool load(QFile &s, string &nextPart);
     QString getName(bool bUserUIN=true);
     const char *getStatusIcon();
     QString getStatusText();

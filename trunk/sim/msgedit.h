@@ -103,8 +103,8 @@ public:
     UserTab *tab;
     unsigned long	Uin;
     unsigned short	EditHeight;
-    bool load(std::istream &s, string &part);
-    void save(std::ostream &s);
+    bool load(QFile &s, string &part);
+    void save(QFile &s);
     bool bMultiply;
 public slots:
     void realSend();

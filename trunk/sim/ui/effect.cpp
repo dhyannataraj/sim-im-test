@@ -1,3 +1,4 @@
+#include <qfile.h>
 #include <qimage.h>
 #include <qpixmap.h>
 #include "effect.h"

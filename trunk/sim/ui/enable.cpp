@@ -2,6 +2,7 @@
 #include "country.h"
 #include "client.h"
 #include "mainwin.h"
+#include "icons.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -10,6 +11,8 @@
 #include <qcombobox.h>
 #include <qpalette.h>
 #include <qstringlist.h>
+#include <qobjectlist.h>
+#include <qpushbutton.h>
 
 void disableWidget(QWidget *w)
 {
@@ -103,6 +106,29 @@ void set(string &s, const QString &str)
 void set(QString &s, const string &str)
 {
     s = pClient->from8Bit(pClient->owner->Uin, str);
+}
+
+void setButtonsPict(QWidget *w)
+{
+    QObjectList *l = w->queryList( "QPushButton" );
+    QObjectListIt it( *l );
+    QObject *obj;
+    while ( (obj = it.current()) != 0 ) {
+        ++it;
+        QPushButton *btn = static_cast<QPushButton*>(obj);
+        if (btn->pixmap()) continue;
+        const QString &text = btn->text();
+        const char *icon = NULL;
+        if ((text == i18n("&Ok")) || (text == i18n("&Yes")) ||
+                (text == i18n("&Apply")) || (text == i18n("&Register"))){
+            icon = "button_ok";
+        }else if ((text == i18n("&Cancel")) || (text == i18n("&Close"))){
+            icon = "button_cancel";
+        }
+        if (icon == NULL) continue;
+        btn->setIconSet(Icon(icon));
+    }
+    delete l;
 }
 
 #ifdef WIN32

@@ -29,7 +29,6 @@
 PastInfo::PastInfo(QWidget *p, bool readOnly)
         : PastInfoBase(p)
 {
-    lblPict->setPixmap(Pict("past"));
     if (!readOnly){
         connect(cmbBg1, SIGNAL(activated(int)), this, SLOT(adjustEnabled(int)));
         connect(cmbBg2, SIGNAL(activated(int)), this, SLOT(adjustEnabled(int)));

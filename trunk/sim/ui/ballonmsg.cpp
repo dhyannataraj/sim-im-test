@@ -17,6 +17,7 @@
 
 #include "ballonmsg.h"
 #include "effect.h"
+#include "enable.h"
 
 #include <qtimer.h>
 #include <qpainter.h>
@@ -63,6 +64,7 @@ BalloonMsg::BalloonMsg(const QString &_text, const QRect &rc, QStringList &btn, 
         }
         hButton = b->height();
     }
+    setButtonsPict(this);
     lay->addStretch();
     int wndWidth = frm->minimumSizeHint().width();
 

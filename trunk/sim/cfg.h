@@ -47,7 +47,6 @@
 #endif
 #endif
 
-#include <iostream>
 #include <list>
 #include <string>
 
@@ -77,10 +76,16 @@ const unsigned PARAM_CHAR	 = 8;
 const unsigned PARAM_OFFS	 = 9;
 const unsigned PARAM_PROC	 = 10;
 
+class QFile;
+
 void init(void *obj, const cfgParam *params);
-void save(void *obj, const cfgParam *params, ostream &s);
-bool load(void *obj, const cfgParam *params, istream &s, string &nextPart);
+void save(void *obj, const cfgParam *params, QFile &f);
+bool load(void *obj, const cfgParam *params, QFile &f, string &nextPart);
 string quoteString(const string &value);
+
+void writeStr(QFile &f, const char *str);
+bool getLine(QFile &f, string &s);
+extern unsigned long line_start;
 
 #define OFFSET_OF(type, field)                                               \
             (reinterpret_cast <size_t>                                       \

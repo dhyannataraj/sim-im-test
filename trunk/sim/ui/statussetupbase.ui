@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>385</width>
-            <height>330</height>
+            <width>387</width>
+            <height>210</height>
         </rect>
     </property>
     <property>
@@ -29,256 +29,197 @@
             <number>6</number>
         </property>
         <widget>
-            <class>QLayoutWidget</class>
+            <class>QTabWidget</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>Layout7</cstring>
+                <cstring>TabWidget2</cstring>
             </property>
-            <hbox>
-                <property>
-                    <name>margin</name>
-                    <number>0</number>
+            <widget>
+                <class>QWidget</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>tab</cstring>
                 </property>
-                <property>
-                    <name>spacing</name>
-                    <number>6</number>
-                </property>
-                <widget>
-                    <class>QLabel</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>lblPict</cstring>
+                <attribute>
+                    <name>title</name>
+                    <string>&amp;Status</string>
+                </attribute>
+                <vbox>
+                    <property>
+                        <name>margin</name>
+                        <number>11</number>
                     </property>
                     <property>
-                        <name>frameShape</name>
-                        <enum>NoFrame</enum>
+                        <name>spacing</name>
+                        <number>6</number>
                     </property>
-                    <property>
-                        <name>text</name>
-                        <string></string>
-                    </property>
-                </widget>
-                <widget>
-                    <class>QLabel</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>TextLabel5</cstring>
-                    </property>
-                    <property>
-                        <name>sizePolicy</name>
-                        <sizepolicy>
-                            <hsizetype>7</hsizetype>
-                            <vsizetype>1</vsizetype>
-                        </sizepolicy>
-                    </property>
-                    <property>
-                        <name>font</name>
-                        <font>
-                            <pointsize>9</pointsize>
-                            <bold>1</bold>
-                        </font>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>Status</string>
-                    </property>
-                </widget>
-            </hbox>
+                    <widget>
+                        <class>QLayoutWidget</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>Layout6</cstring>
+                        </property>
+                        <grid>
+                            <property>
+                                <name>margin</name>
+                                <number>0</number>
+                            </property>
+                            <property>
+                                <name>spacing</name>
+                                <number>6</number>
+                            </property>
+                            <widget row="3"  column="0" >
+                                <class>QCheckBox</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>chkAutoHide</cstring>
+                                </property>
+                                <property>
+                                    <name>text</name>
+                                    <string>Hide main window after</string>
+                                </property>
+                            </widget>
+                            <widget row="0"  column="1" >
+                                <class>QSpinBox</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>spnAway</cstring>
+                                </property>
+                            </widget>
+                            <widget row="3"  column="1" >
+                                <class>QSpinBox</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>spnAutoHide</cstring>
+                                </property>
+                            </widget>
+                            <widget row="2"  column="0"  rowspan="1"  colspan="3" >
+                                <class>QCheckBox</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>chkAlert</cstring>
+                                </property>
+                                <property>
+                                    <name>text</name>
+                                    <string>Disable online alert in "Away", "N/A", "DND" and "Occupied" List</string>
+                                </property>
+                            </widget>
+                            <widget row="0"  column="0" >
+                                <class>QCheckBox</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>chkAway</cstring>
+                                </property>
+                                <property>
+                                    <name>text</name>
+                                    <string>Set "Away" status after</string>
+                                </property>
+                            </widget>
+                            <widget row="0"  column="2" >
+                                <class>QLabel</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>TextLabel1</cstring>
+                                </property>
+                                <property>
+                                    <name>sizePolicy</name>
+                                    <sizepolicy>
+                                        <hsizetype>7</hsizetype>
+                                        <vsizetype>5</vsizetype>
+                                    </sizepolicy>
+                                </property>
+                                <property>
+                                    <name>text</name>
+                                    <string>minutes not using computer</string>
+                                </property>
+                                <property>
+                                    <name>alignment</name>
+                                    <set>WordBreak|AlignVCenter|AlignLeft</set>
+                                </property>
+                                <property>
+                                    <name>wordwrap</name>
+                                </property>
+                            </widget>
+                            <widget row="1"  column="2" >
+                                <class>QLabel</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>TextLabel2</cstring>
+                                </property>
+                                <property>
+                                    <name>sizePolicy</name>
+                                    <sizepolicy>
+                                        <hsizetype>7</hsizetype>
+                                        <vsizetype>5</vsizetype>
+                                    </sizepolicy>
+                                </property>
+                                <property>
+                                    <name>text</name>
+                                    <string>minutes of "Away"</string>
+                                </property>
+                                <property>
+                                    <name>alignment</name>
+                                    <set>WordBreak|AlignVCenter|AlignLeft</set>
+                                </property>
+                                <property>
+                                    <name>wordwrap</name>
+                                </property>
+                            </widget>
+                            <widget row="3"  column="2" >
+                                <class>QLabel</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>TextLabel1_3</cstring>
+                                </property>
+                                <property>
+                                    <name>text</name>
+                                    <string>seconds inactive</string>
+                                </property>
+                            </widget>
+                            <widget row="1"  column="1" >
+                                <class>QSpinBox</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>spnNA</cstring>
+                                </property>
+                            </widget>
+                            <widget row="1"  column="0" >
+                                <class>QCheckBox</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>chkNA</cstring>
+                                </property>
+                                <property>
+                                    <name>text</name>
+                                    <string>Set "N/A" status after</string>
+                                </property>
+                            </widget>
+                        </grid>
+                    </widget>
+                    <spacer>
+                        <property>
+                            <name>name</name>
+                            <cstring>Spacer2</cstring>
+                        </property>
+                        <property>
+                            <name>orientation</name>
+                            <enum>Vertical</enum>
+                        </property>
+                        <property>
+                            <name>sizeType</name>
+                            <enum>Expanding</enum>
+                        </property>
+                        <property>
+                            <name>sizeHint</name>
+                            <size>
+                                <width>20</width>
+                                <height>20</height>
+                            </size>
+                        </property>
+                    </spacer>
+                </vbox>
+            </widget>
         </widget>
-        <widget>
-            <class>Line</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>Line6</cstring>
-            </property>
-            <property>
-                <name>minimumSize</name>
-                <size>
-                    <width>0</width>
-                    <height>5</height>
-                </size>
-            </property>
-            <property>
-                <name>frameShape</name>
-                <enum>HLine</enum>
-            </property>
-            <property>
-                <name>frameShadow</name>
-                <enum>Sunken</enum>
-            </property>
-            <property>
-                <name>orientation</name>
-                <enum>Horizontal</enum>
-            </property>
-            <property>
-                <name>frameShape</name>
-                <enum>HLine</enum>
-            </property>
-        </widget>
-        <widget>
-            <class>QLayoutWidget</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>Layout6</cstring>
-            </property>
-            <grid>
-                <property>
-                    <name>margin</name>
-                    <number>0</number>
-                </property>
-                <property>
-                    <name>spacing</name>
-                    <number>6</number>
-                </property>
-                <widget row="3"  column="0" >
-                    <class>QCheckBox</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>chkAutoHide</cstring>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>Hide main window after</string>
-                    </property>
-                </widget>
-                <widget row="0"  column="1" >
-                    <class>QSpinBox</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>spnAway</cstring>
-                    </property>
-                </widget>
-                <widget row="3"  column="1" >
-                    <class>QSpinBox</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>spnAutoHide</cstring>
-                    </property>
-                </widget>
-                <widget row="2"  column="0"  rowspan="1"  colspan="3" >
-                    <class>QCheckBox</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>chkAlert</cstring>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>Disable online alert in "Away", "N/A", "DND" and "Occupied" List</string>
-                    </property>
-                </widget>
-                <widget row="0"  column="0" >
-                    <class>QCheckBox</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>chkAway</cstring>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>Set "Away" status after</string>
-                    </property>
-                </widget>
-                <widget row="0"  column="2" >
-                    <class>QLabel</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>TextLabel1</cstring>
-                    </property>
-                    <property>
-                        <name>sizePolicy</name>
-                        <sizepolicy>
-                            <hsizetype>7</hsizetype>
-                            <vsizetype>5</vsizetype>
-                        </sizepolicy>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>minutes not using computer</string>
-                    </property>
-                    <property>
-                        <name>alignment</name>
-                        <set>WordBreak|AlignVCenter|AlignLeft</set>
-                    </property>
-                    <property>
-                        <name>wordwrap</name>
-                    </property>
-                </widget>
-                <widget row="1"  column="2" >
-                    <class>QLabel</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>TextLabel2</cstring>
-                    </property>
-                    <property>
-                        <name>sizePolicy</name>
-                        <sizepolicy>
-                            <hsizetype>7</hsizetype>
-                            <vsizetype>5</vsizetype>
-                        </sizepolicy>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>minutes of "Away"</string>
-                    </property>
-                    <property>
-                        <name>alignment</name>
-                        <set>WordBreak|AlignVCenter|AlignLeft</set>
-                    </property>
-                    <property>
-                        <name>wordwrap</name>
-                    </property>
-                </widget>
-                <widget row="3"  column="2" >
-                    <class>QLabel</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>TextLabel1_3</cstring>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>seconds inactive</string>
-                    </property>
-                </widget>
-                <widget row="1"  column="1" >
-                    <class>QSpinBox</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>spnNA</cstring>
-                    </property>
-                </widget>
-                <widget row="1"  column="0" >
-                    <class>QCheckBox</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>chkNA</cstring>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>Set "N/A" status after</string>
-                    </property>
-                </widget>
-            </grid>
-        </widget>
-        <spacer>
-            <property>
-                <name>name</name>
-                <cstring>Spacer2</cstring>
-            </property>
-            <property>
-                <name>orientation</name>
-                <enum>Vertical</enum>
-            </property>
-            <property>
-                <name>sizeType</name>
-                <enum>Expanding</enum>
-            </property>
-            <property>
-                <name>sizeHint</name>
-                <size>
-                    <width>20</width>
-                    <height>20</height>
-                </size>
-            </property>
-        </spacer>
     </vbox>
 </widget>
 <customwidgets>

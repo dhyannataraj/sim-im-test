@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>286</width>
+            <width>282</width>
             <height>123</height>
         </rect>
     </property>
@@ -106,7 +106,7 @@
                     </property>
                     <property>
                         <name>text</name>
-                        <string>OK</string>
+                        <string>&amp;Ok</string>
                     </property>
                 </widget>
                 <spacer>

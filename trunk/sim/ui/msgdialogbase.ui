@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>592</width>
-            <height>480</height>
+            <width>446</width>
+            <height>314</height>
         </rect>
     </property>
     <property>
@@ -29,109 +29,61 @@
             <number>6</number>
         </property>
         <widget>
-            <class>QLayoutWidget</class>
+            <class>QTabWidget</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>Layout1</cstring>
+                <cstring>tabWnd</cstring>
             </property>
-            <hbox>
-                <property>
-                    <name>margin</name>
-                    <number>0</number>
+            <widget>
+                <class>QWidget</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>tab</cstring>
                 </property>
-                <property>
-                    <name>spacing</name>
-                    <number>6</number>
-                </property>
-                <widget>
-                    <class>QLabel</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>lblPict</cstring>
+                <attribute>
+                    <name>title</name>
+                    <string>Tab 1</string>
+                </attribute>
+                <vbox>
+                    <property>
+                        <name>margin</name>
+                        <number>11</number>
                     </property>
                     <property>
-                        <name>text</name>
-                        <string></string>
+                        <name>spacing</name>
+                        <number>6</number>
                     </property>
-                </widget>
-                <widget>
-                    <class>QLabel</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>lblHeader</cstring>
-                    </property>
-                    <property>
-                        <name>sizePolicy</name>
-                        <sizepolicy>
-                            <hsizetype>7</hsizetype>
-                            <vsizetype>1</vsizetype>
-                        </sizepolicy>
-                    </property>
-                    <property>
-                        <name>font</name>
-                        <font>
-                            <pointsize>9</pointsize>
-                            <bold>1</bold>
-                        </font>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>Message</string>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
-        <widget>
-            <class>Line</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>Line1</cstring>
-            </property>
-            <property>
-                <name>frameShape</name>
-                <enum>HLine</enum>
-            </property>
-            <property>
-                <name>frameShadow</name>
-                <enum>Sunken</enum>
-            </property>
-            <property>
-                <name>orientation</name>
-                <enum>Horizontal</enum>
-            </property>
-            <property>
-                <name>frameShape</name>
-                <enum>HLine</enum>
-            </property>
-        </widget>
-        <widget>
-            <class>QCheckBox</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>chkOverride</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>Customize message</string>
-            </property>
-        </widget>
-        <widget>
-            <class>QMultiLineEdit</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>edtMessage</cstring>
-            </property>
-        </widget>
-        <widget>
-            <class>QCheckBox</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>chkNoShow</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>Don't show message dialog</string>
-            </property>
+                    <widget>
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkOverride</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Customize message</string>
+                        </property>
+                    </widget>
+                    <widget>
+                        <class>QMultiLineEdit</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>edtMessage</cstring>
+                        </property>
+                    </widget>
+                    <widget>
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkNoShow</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Don't show message dialog</string>
+                        </property>
+                    </widget>
+                </vbox>
+            </widget>
         </widget>
     </vbox>
 </widget>

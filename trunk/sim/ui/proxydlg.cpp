@@ -31,6 +31,7 @@
 ProxyDialog::ProxyDialog(QWidget *p, const QString &msg)
         : ProxyDlgBase(p, "proxy", true)
 {
+    setButtonsPict(this);
     setIcon(Pict("network"));
     lblMessage->setText(msg);
 

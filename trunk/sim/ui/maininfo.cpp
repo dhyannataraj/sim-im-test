@@ -35,7 +35,6 @@ MainInfo::MainInfo(QWidget *p, bool readOnly)
         : MainInfoBase(p)
 {
     bReadOnly = readOnly;
-    lblPict->setPixmap(Pict("main"));
     edtUin->setReadOnly(true);
     cmbDisplay->setEditable(true);
     cmbEncoding->insertStringList(i18n("Default"));
@@ -47,8 +46,6 @@ MainInfo::MainInfo(QWidget *p, bool readOnly)
     connect(btnRemove, SIGNAL(clicked()), this, SLOT(removeEmail()));
     connect(btnDefault, SIGNAL(clicked()), this, SLOT(defaultEmail()));
     if (!readOnly){
-        lblNotes->hide();
-        edtNotes->hide();
         load(pClient->owner);
     }else{
         edtUin->hide();
@@ -87,7 +84,6 @@ void MainInfo::load(ICQUser *u)
     setCurrentEncoding(pClient->userEncoding(u->Uin));
     edtFirst->setText(QString::fromLocal8Bit(u->FirstName.c_str()));
     edtLast->setText(QString::fromLocal8Bit(u->LastName.c_str()));
-    edtNotes->setText(QString::fromLocal8Bit(u->Notes.c_str()));
     edtNick->setText(QString::fromLocal8Bit(u->Nick.c_str()));
     QStringList strDisplay;
     cmbDisplay->lineEdit()->setText(QString::fromLocal8Bit(u->Alias.c_str()));
@@ -196,7 +192,6 @@ void MainInfo::save(ICQUser *u)
 {
     pClient->setUserEncoding(u->Uin, getCurrentEncoding());
     u->EMails = mails;
-    set(u->Notes, edtNotes->text());
     set(u->FirstName, edtFirst->text());
     set(u->LastName, edtLast->text());
     set(u->Nick, edtNick->text());

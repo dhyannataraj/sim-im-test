@@ -21,8 +21,6 @@
 #endif
 #endif
 
-#include <fstream>
-
 #include "history.h"
 #include "mainwin.h"
 #include "client.h"
@@ -197,7 +195,7 @@ void History::remove()
     unlink(fname.c_str());
 }
 
-bool History::open(bool bWrite, std::fstream &f, unsigned long *f_size)
+bool History::open(bool bWrite, QFile &f)
 {
     char buffer[64];
     snprintf(buffer, sizeof(buffer), "history%c%lu.history",
@@ -209,18 +207,11 @@ bool History::open(bool bWrite, std::fstream &f, unsigned long *f_size)
              m_nUin);
     string fname;
     pMain->buildFileName(fname, buffer);
-    if (f_size)
-        *f_size = 0;
-    f.open(fname.c_str(), bWrite ? ios::out | ios::app : ios::in);
-    if (!f.is_open()){
+    f.setName(QString::fromLocal8Bit(fname.c_str()));
+    if (!f.open(bWrite ? IO_ReadWrite | IO_Append : IO_ReadOnly)){
         log(L_WARN, "File %s not open", fname.c_str());
         return false;
     }
-    if (f_size){
-        f.seekp(0, ios::end);
-        *f_size = f.tellg();
-    }
-    if (bWrite) f.seekp(0, ios::end);
     return true;
 }
 
@@ -258,12 +249,14 @@ unsigned long History::addMessage(ICQMessage *msg)
     for (t = types; t->type; t++){
         if (t->type == msg->Type()) break;
     }
-    std::fstream f;
+    QFile f;
     if (!open(true, f)) return (unsigned long)(-1);
-    unsigned long res = f.tellp();
-    f << "[" << t->name << "]\n";
+    unsigned long res = f.at();
+    writeStr(f, "[");
+    writeStr(f, t->name);
+    writeStr(f, "]\n");
     ::save(msg, t->param, f);
-    f << "\n";
+    writeStr(f, "\n");
     msg->Id = res;
     f.close();
     return res;
@@ -272,18 +265,18 @@ unsigned long History::addMessage(ICQMessage *msg)
 ICQMessage *History::getMessage(unsigned long offs)
 {
     if (offs >= MSG_PROCESS_ID) return pClient->getProcessMessage(offs);
-    std::fstream f;
+    QFile f;
     if (!open(false, f))
         return NULL;
-    f.seekg(offs, ios::beg);
+    if (!f.at(offs))
+        return NULL;
     string type;
-    if (!getline(f, type)) return NULL;
+    if (!getLine(f, type)) return NULL;
     ICQMessage *res = loadMessage(f, type, offs);
-    f.close();
     return res;
 }
 
-ICQMessage *History::loadMessage(std::fstream &f, string &type, unsigned long id)
+ICQMessage *History::loadMessage(QFile &f, string &type, unsigned long id)
 {
     int pos = type.find('[');
     if (pos < 0) return NULL;
@@ -353,10 +346,10 @@ ICQMessage *History::loadMessage(std::fstream &f, string &type, unsigned long id
     return msg;
 }
 
-#define BLOCK_SIZE	1024
+#define BLOCK_SIZE	2048
 
 History::iterator::iterator(History &_h)
-        : h(_h), f_size(0)
+        : h(_h)
 {
     msg = NULL;
     grepFilter = NULL;
@@ -407,18 +400,18 @@ bool History::iterator::operator ++()
         msg = NULL;
     }
     for (;;){
-        if (!f.is_open()){
-            if (!h.open(false, f, &f_size))
+        if (f.handle() == -1){
+            if (!h.open(false, f))
                 return false;
+            unsigned long f_size = f.size();
             if (start_block > f_size)
                 start_block = f_size;
         }
         if (msgs.size()){
             unsigned long msgId = msgs.top();
             msgs.pop();
-            f.clear();
-            f.seekg(msgId, ios::beg);
-            if (!getline(f, type)) return false;
+            if (!f.at(msgId)) return false;
+            if (!getLine(f, type)) return false;
             msg = h.loadMessage(f, type, msgId);
             if (msg == NULL) continue;
             return true;
@@ -435,20 +428,18 @@ void History::iterator::loadBlock()
     if (start_block == 0) return;
     unsigned long start = start_block;
     for (;;){
-        f.clear();
         if (start > BLOCK_SIZE){
             start -= BLOCK_SIZE;
-            f.seekg(start, ios::beg);
-            if (!getline(f, type) || (f.tellg() > start_block) || f.eof())
+            if (!f.at(start) || !getLine(f, type) || (f.at() > start_block))
                 continue;
         }else{
             start = 0;
-            f.seekg(start, ios::beg);
+            if (!f.at(start)) return;
         }
         string line;
         for (;;){
-            int pos = f.tellg();
-            if (!getline(f, line) || (f.tellg() > start_block) || f.eof())
+            int pos = f.at();
+            if (!getLine(f, line) || (f.at() > start_block))
                 break;
             if (*line.c_str() != '[') continue;
             type = line.substr(1, line.length()-1);
@@ -461,36 +452,27 @@ void History::iterator::loadBlock()
             }
             if (t->type) break;
         }
-        if ((f.tellg() > start_block) || f.eof()){
+        if (f.at() > start_block){
             if (start == 0){
                 start_block = 0;
                 return;
             }
             continue;
         }
-        unsigned long msgId = (unsigned long)f.tellg() - line.length();
-#ifdef WIN32
-        msgId -= 2;
-#else
-        msgId--;
-#endif
-        f.clear();
-        f.seekg(msgId);
-        if (!getline(f, type)) return;
+        unsigned long msgId = line_start;
+        if (!f.at(msgId) || !getLine(f, type)) return;
         for (;;){
-            msgId = (unsigned long)f.tellg() - type.length();
-#ifdef WIN32
-            msgId -= 2;
-#else
-            msgId--;
-#endif
-            if ((msgId > start_block) || f.eof()) break;
+            bool bExit = false;
+            msgId = line_start;
+            if (msgId > start_block) break;
             if (grepFilter){
                 bool bMatch = false;
                 for (;;){
                     string line;
-                    if (f.eof()) break;
-                    if (!getline(f, line)) break;
+                    if (!getLine(f, line)){
+                        bExit = true;
+                        break;
+                    }
                     if (*line.c_str() == '[') break;
                     char *p = strchr(line.c_str(), '=');
                     if (p == NULL) continue;
@@ -500,19 +482,21 @@ void History::iterator::loadBlock()
                     }
                 }
                 if (!bMatch){
+                    if (bExit) break;
                     type = line;
                     continue;
                 }
                 string line;
-                f.seekg(msgId);
-                if (!f.eof())
-                    if (!getline(f, line)) break;
+                if (!f.at(msgId) || !getLine(f, line)) break;
             }
             if (grepCondition){
                 bool bMatch = false;
                 for (;;){
                     string line;
-                    if (f.eof() || !getline(f, line)) break;
+                    if (!getLine(f, line)){
+                        bExit = true;
+                        break;
+                    }
                     if (*line.c_str() == '[') break;
                     char *p = strchr(line.c_str(), '=');
                     if (p == NULL) continue;
@@ -522,15 +506,17 @@ void History::iterator::loadBlock()
                     }
                 }
                 if (!bMatch){
+                    if (bExit) break;
                     type = line;
                     continue;
                 }
                 string line;
-                f.seekg(msgId);
-                if (!f.eof())
-                    if (!getline(f, line)) break;
+                if (!f.at(msgId) || !getLine(f, line)) break;
             }
             msg = h.loadMessage(f, type, msgId);
+            if (msg == NULL){
+                if (!getLine(f, type)) break;
+            }
             if (msg && grepFilter && !h.matchMessage(msg, filter)){
                 delete msg;
                 msg = NULL;
@@ -543,9 +529,6 @@ void History::iterator::loadBlock()
                 msgs.push(msgId);
                 delete msg;
                 msg = NULL;
-            }else{
-                f.clear();
-                if (!getline(f, type)) break;
             }
         }
         start_block = start;
@@ -555,7 +538,8 @@ void History::iterator::loadBlock()
 
 int History::iterator::progress()
 {
-    if (!f.is_open()) return 0;
+    if (f.handle() == -1) return 0;
+    unsigned long f_size = f.size();
     if (f_size == 0) return 100;
     unsigned long p;
     if (msgs.size()){

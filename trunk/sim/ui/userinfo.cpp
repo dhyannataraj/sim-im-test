@@ -30,9 +30,9 @@
 #include "ui/phonebook.h"
 #include "ui/alertdialog.h"
 #include "ui/msgdialog.h"
-#include "ui/msgsetup.h"
 #include "ui/accept.h"
 #include "ui/soundsetup.h"
+#include "ui/enable.h"
 
 #include <qlistview.h>
 #include <qheader.h>
@@ -50,7 +50,6 @@ PAGE(InterestsInfo)
 PAGE(PastInfo)
 PAGE(PhoneBookDlg)
 PAGE(AlertDialog)
-PAGE(MsgSetup)
 PAGE(AcceptDialog)
 PAGE(SoundSetup)
 
@@ -60,6 +59,7 @@ UserInfo::UserInfo(QWidget *parent, unsigned long uin, int page)
         : UserInfoBase(parent)
 {
     inSave = false;
+    setButtonsPict(this);
 
     m_nUin = uin;
     ICQUser *u = pClient->getUser(m_nUin);
@@ -88,7 +88,6 @@ UserInfo::UserInfo(QWidget *parent, unsigned long uin, int page)
         itemMain = new QListViewItem(lstBars, i18n("Preferences"), QString::number(SETUP_PREFERENCES));
         itemMain->setOpen(true);
         addWidget(p_AlertDialog, SETUP_ALERT, i18n("Alert"), "alert");
-        addWidget(p_MsgSetup, SETUP_MESSAGE, i18n("Message"), "message");
         addWidget(p_AcceptDialog, SETUP_ACCEPT, i18n("Accept file"), "file");
         addWidget(p_SoundSetup, SETUP_SOUND, i18n("Sound"), "sound");
         addWidget(p_MsgDialog, SETUP_AR_AWAY,

@@ -195,8 +195,8 @@ public:
     unsigned short	Left;
     unsigned short	Top;
     bool setUin(unsigned long uin);
-    void save(ostream &s);
-    bool load(istream &s, string &nextPart);
+    void save(QFile &s);
+    bool load(QFile &s, string &nextPart);
     virtual void setBackgroundPixmap(const QPixmap&);
 protected:
     void userChanged();

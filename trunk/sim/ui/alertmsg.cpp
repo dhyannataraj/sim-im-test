@@ -19,6 +19,7 @@
 #include "client.h"
 #include "cuser.h"
 #include "icons.h"
+#include "enable.h"
 
 #include <qpushbutton.h>
 #include <qlabel.h>
@@ -27,6 +28,7 @@
 AlertMsgDlg::AlertMsgDlg(QWidget *p, unsigned long uin)
         : AlertMsgBase(p)
 {
+    setButtonsPict(this);
     setIcon(Pict(SIMClient::getStatusIcon(ICQ_STATUS_OFFLINE)));
     setWFlags(WDestructiveClose);
     connect(btnOK, SIGNAL(clicked()), this, SLOT(close()));

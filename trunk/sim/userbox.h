@@ -80,8 +80,8 @@ public:
     ~UserBox();
     void setShow();
     bool isShow();
-    void save(std::ostream &s);
-    bool load(std::istream &s, string &nextPart);
+    void save(QFile &s);
+    bool load(QFile &s, string &nextPart);
     unsigned long	GrpId;
     unsigned long	CurrentUser;
     short			mLeft;

@@ -34,7 +34,6 @@
 FontSetup::FontSetup(QWidget *p)
         : FontSetupBase(p)
 {
-    lblPict->setPixmap(Pict("text"));
     edtFont->setWinFont(qApp->font());
     QPopupMenu popup(this);
     edtFontMenu->setWinFont(qApp->font(&popup));
@@ -50,9 +49,6 @@ FontSetup::FontSetup(QWidget *p)
     btnSend->setColor(QColor(pMain->ColorSend));
     btnReceive->setColor(QColor(pMain->ColorReceive));
     grpWndMode->setButton(pMain->SimpleMode ? 1 : 0);
-    chkSplash->setChecked(pSplash->Show);
-    chkEmotional->setChecked(pMain->UseEmotional);
-    chkUserWnd->setChecked(pMain->UserWndOnTop);
     spnCopy->setMinValue(0);
     spnCopy->setMaxValue(9);
     spnCopy->setValue(pMain->CopyMessages);
@@ -102,10 +98,7 @@ void FontSetup::apply(ICQUser*)
         pMain->ContainerMode = ContainerModeGroup;
     if (w == rbtAll)
         pMain->ContainerMode = ContainerModeAll;
-    pMain->UserWndOnTop = chkUserWnd->isChecked();
     pMain->changeMode(grpWndMode->selected() == btnModePlain);
-    pSplash->Show = chkSplash->isChecked();
-    pMain->UseEmotional = chkEmotional->isChecked();
     pMain->CopyMessages = atol(spnCopy->text().latin1());
 }
 

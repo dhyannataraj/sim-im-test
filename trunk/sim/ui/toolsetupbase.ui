@@ -296,8 +296,20 @@
                 <cstring>Line1</cstring>
             </property>
             <property>
+                <name>frameShape</name>
+                <enum>HLine</enum>
+            </property>
+            <property>
+                <name>frameShadow</name>
+                <enum>Sunken</enum>
+            </property>
+            <property>
                 <name>orientation</name>
                 <enum>Horizontal</enum>
+            </property>
+            <property>
+                <name>frameShape</name>
+                <enum>HLine</enum>
             </property>
         </widget>
         <widget>
@@ -323,7 +335,7 @@
                     </property>
                     <property>
                         <name>text</name>
-                        <string>&amp;OK</string>
+                        <string>&amp;Ok</string>
                     </property>
                     <property>
                         <name>default</name>

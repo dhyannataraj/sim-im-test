@@ -42,14 +42,11 @@ const unsigned SETUP_STYLE			= 203;
 const unsigned SETUP_INTERFACE		= 204;
 const unsigned SETUP_KEYS			= 205;
 const unsigned SETUP_SOUND			= 206;
-const unsigned SETUP_XOSD			= 207;
-const unsigned SETUP_ALERT			= 208;
-const unsigned SETUP_MESSAGE		= 209;
-const unsigned SETUP_ACCEPT			= 210;
-const unsigned SETUP_SMS		    = 211;
-const unsigned SETUP_FORWARD		= 212;
-const unsigned SETUP_MISC			= 213;
-const unsigned SETUP_SPELL			= 214;
+const unsigned SETUP_ALERT			= 207;
+const unsigned SETUP_ACCEPT			= 208;
+const unsigned SETUP_SMS		    = 209;
+const unsigned SETUP_MISC			= 210;
+const unsigned SETUP_SPELL			= 211;
 
 const unsigned SETUP_AUTOREPLY		= 300;
 const unsigned SETUP_AR_AWAY		= 301;
@@ -60,10 +57,9 @@ const unsigned SETUP_AR_FREEFORCHAT	= 305;
 
 const unsigned SETUP_SECURITY		= 400;
 const unsigned SETUP_GENERAL_SEC	= 401;
-const unsigned SETUP_PASSWD			= 402;
-const unsigned SETUP_IGNORE_LIST	= 403;
-const unsigned SETUP_INVISIBLE_LIST	= 404;
-const unsigned SETUP_VISIBLE_LIST	= 405;
+const unsigned SETUP_IGNORE_LIST	= 402;
+const unsigned SETUP_INVISIBLE_LIST	= 403;
+const unsigned SETUP_VISIBLE_LIST	= 404;
 
 typedef QWidget *PAGEPROC(QWidget*, unsigned param);
 
@@ -74,6 +70,7 @@ public:
     SetupDialog(QWidget *parent, int nWin);
     ~SetupDialog();
     void showPage(int n);
+    bool applyOk;
 signals:
     void applyChanges(ICQUser*);
     void backgroundUpdated();

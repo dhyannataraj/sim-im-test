@@ -20,6 +20,7 @@
 #include "themes.h"
 #include "icons.h"
 #include "transparent.h"
+#include "splash.h"
 #include "log.h"
 
 #include <qlistbox.h>
@@ -34,7 +35,6 @@
 ThemeSetup::ThemeSetup(QWidget *parent)
         : ThemeSetupBase(parent)
 {
-    lblPict->setPixmap(Pict("style"));
     lstThemes->clear();
     pMain->themes->fillList(lstThemes);
     for (unsigned i = 0; i < lstThemes->count(); i++){
@@ -91,6 +91,9 @@ ThemeSetup::ThemeSetup(QWidget *parent)
     chkDock->hide();
     chkWM->hide();
 #endif
+    chkSplash->setChecked(pSplash->Show);
+    chkEmotional->setChecked(pMain->UseEmotional);
+    chkUserWnd->setChecked(pMain->UserWndOnTop);
     setupInit();
 }
 
@@ -158,6 +161,9 @@ void ThemeSetup::apply(ICQUser*)
     pMain->UseTransparentContainer = chkTransparentContainer->isChecked();
     pMain->TransparentContainer = sldTransparentContainer->value();
     pMain->changeTransparent();
+    pSplash->Show = chkSplash->isChecked();
+    pMain->UseEmotional = chkEmotional->isChecked();
+    pMain->UserWndOnTop = chkUserWnd->isChecked();
 #if defined(USE_KDE) || defined(WIN32)
     bool bChange = false;
     if (pMain->UserWindowInTaskManager != chkUserWnd->isChecked()){

@@ -32,7 +32,6 @@
 HomeInfo::HomeInfo(QWidget *p, bool readOnly)
         : HomeInfoBase(p)
 {
-    lblPict->setPixmap(Pict("home"));
     edtState->setMaxLength(5);
     if (!readOnly) {
         load(pClient->owner);

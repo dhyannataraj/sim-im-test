@@ -33,7 +33,6 @@ AcceptDialog::AcceptDialog(QWidget *p, bool _bReadOnly)
         : AcceptBase(p)
 {
     bReadOnly = _bReadOnly;
-    lblPict->setPixmap(Pict("file"));
     connect(grpAccept, SIGNAL(clicked(int)), this, SLOT(modeChanged(int)));
     if (bReadOnly){
         connect(chkOverride, SIGNAL(toggled(bool)), this, SLOT(overrideChanged(bool)));

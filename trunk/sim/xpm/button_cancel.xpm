@@ -48,7 +48,7 @@ static const char *p_button_cancel[]={
 "q c #f6f2f6",
 "r c #fff6ff",
 "p c #fffaff",
-". c #ffffff",
+". c None",
 "......................",
 "......................",
 "......................",

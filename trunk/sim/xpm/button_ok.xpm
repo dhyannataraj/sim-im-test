@@ -59,7 +59,7 @@ static const char *p_button_ok[]={
 "p c #f6f6f6",
 "P c #fff6ff",
 "L c #fffaff",
-". c #ffffff",
+". c None",
 "......................",
 "......................",
 "......................",

@@ -25,6 +25,7 @@
 #include <qcheckbox.h>
 #include <qpixmap.h>
 #include <qmultilineedit.h>
+#include <qtabwidget.h>
 
 static void set(QMultiLineEdit *edit, const string &s, ICQUser *u)
 {
@@ -34,8 +35,9 @@ static void set(QMultiLineEdit *edit, const string &s, ICQUser *u)
 MsgDialog::MsgDialog(QWidget *p, unsigned long _status, bool bReadOnly)
         : MsgDialogBase(p), status(_status)
 {
-    lblPict->setPixmap(Pict(SIMClient::getStatusIcon(status)));
-    lblHeader->setText(i18n("Autoreply message for status \"%1\"") .arg(SIMClient::getStatusText(status)));
+    tabWnd->setCurrentPage(0);
+    QWidget *w = tabWnd->currentPage();
+    tabWnd->changeTab(w, SIMClient::getStatusText(status));
     if (bReadOnly){
         chkNoShow->hide();
     }else{

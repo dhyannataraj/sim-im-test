@@ -21,6 +21,7 @@
 #include "phonedetails.h"
 #include "pagerdetails.h"
 #include "icqclient.h"
+#include "enable.h"
 
 #include <qwidgetstack.h>
 #include <qlineedit.h>
@@ -44,6 +45,7 @@ const phoneName *phoneNames = names;
 AddPhone::AddPhone(QWidget *p, PhoneInfo *_info, int userCountry, bool bMyPhones)
         : AddPhoneBase(p, NULL, true)
 {
+    setButtonsPict(this);
     bMyInfo = bMyPhones;
     info = _info;
     setResult(0);

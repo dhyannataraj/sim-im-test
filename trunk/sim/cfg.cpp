@@ -24,6 +24,8 @@
 #include <set>
 #include <string>
 
+#include <qfile.h>
+
 #ifdef WIN32
 #if _MSC_VER > 1020
 #pragma warning(disable:4786)
@@ -105,7 +107,12 @@ struct ltstr
 
 typedef set<const char*, ltstr>	DICT;
 
-void save(void *_obj, const cfgParam *params, ostream &out, DICT &dict)
+void writeStr(QFile &f, const char *str)
+{
+    f.writeBlock(str, strlen(str));
+}
+
+void save(void *_obj, const cfgParam *params, QFile &out, DICT &dict)
 {
     char *obj = (char*)(_obj);
     const cfgParam *p;
@@ -202,20 +209,25 @@ void save(void *_obj, const cfgParam *params, ostream &out, DICT &dict)
             default:
                 l = (list<unsigned long>*)(obj + p->offs);
                 for (it = l->begin(); it != l->end(); ++it){
-                    out << "[" << p->name << "]\n";
+                    writeStr(out, "[");
+                    writeStr(out, p->name);
+                    writeStr(out, "]\n");
                     save((void*)(*it), (const cfgParam*)(p->defValue), out);
                 }
                 if (l->size())
-                    out << "[]\n";
+                    writeStr(out, "[]\n");
             }
             if ((value.size() == 0) && !writeEmpty) continue;
             value = quoteString(value);
-            out << p->name << "=" << value << "\n";
+            writeStr(out, p->name);
+            writeStr(out, "=");
+            writeStr(out, value.c_str());
+            writeStr(out, "\n");
         }
     }
 }
 
-void save(void *_obj, const cfgParam *params, ostream &out)
+void save(void *_obj, const cfgParam *params, QFile &out)
 {
     DICT dict;
     save(_obj, params, out, dict);
@@ -255,7 +267,7 @@ static char fromHex(char c)
     return 0;
 }
 
-bool loadParam(void *_obj, const cfgParam *params, const char *name, const char *value, istream &sin, string &nextPart)
+bool loadParam(void *_obj, const cfgParam *params, const char *name, const char *value, QFile &sin, string &nextPart)
 {
     char *obj = (char*)_obj;
     const cfgParam *p;
@@ -338,14 +350,30 @@ bool loadParam(void *_obj, const cfgParam *params, const char *name, const char 
     return false;
 }
 
-bool load(void *_obj, const cfgParam *params, istream &sin, string &nextPart)
+unsigned long line_start = 0;
+
+bool getLine(QFile &f, string &s)
+{
+    s = "";
+    char b[0x4000];
+    line_start = f.at();
+    long res = f.readLine(b, sizeof(b));
+    if (res == -1) return false;
+    b[res] = 0;
+    for (res--; res >= 0; res--){
+        if ((b[res] != '\r') && (b[res] != '\n')) break;
+        b[res] = 0;
+    }
+    s = b;
+    return true;
+}
+
+bool load(void *_obj, const cfgParam *params, QFile &sin, string &nextPart)
 {
     nextPart = "";
     for (;;){
-        if (sin.eof() || sin.fail())
-            return true;
         string line;
-        if (!getline(sin, line))
+        if (!getLine(sin, line))
             return true;
         if (line[0] == '['){
             nextPart = line;

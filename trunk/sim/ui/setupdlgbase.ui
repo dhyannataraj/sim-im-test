@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>572</width>
+            <width>568</width>
             <height>480</height>
         </rect>
     </property>
@@ -94,7 +94,7 @@
             <class>QLayoutWidget</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>Layout2</cstring>
+                <cstring>Layout5</cstring>
             </property>
             <hbox>
                 <property>
@@ -113,7 +113,7 @@
                     </property>
                     <property>
                         <name>text</name>
-                        <string>Update</string>
+                        <string>&amp;Update</string>
                     </property>
                 </widget>
                 <spacer>
@@ -145,18 +145,7 @@
                     </property>
                     <property>
                         <name>text</name>
-                        <string>OK</string>
-                    </property>
-                </widget>
-                <widget>
-                    <class>QPushButton</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>btnClose</cstring>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>Close</string>
+                        <string>&amp;Ok</string>
                     </property>
                 </widget>
                 <widget>
@@ -167,7 +156,18 @@
                     </property>
                     <property>
                         <name>text</name>
-                        <string>Apply</string>
+                        <string>&amp;Apply</string>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QPushButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>btnClose</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>&amp;Close</string>
                     </property>
                 </widget>
             </hbox>

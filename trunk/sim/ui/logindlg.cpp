@@ -21,6 +21,7 @@
 #include "client.h"
 #include "icons.h"
 #include "log.h"
+#include "enable.h"
 
 #include <qlayout.h>
 #include <qlineedit.h>
@@ -33,6 +34,7 @@
 LoginDialog::LoginDialog()
         : LoginDlgBase(NULL, "logindlg", true)
 {
+    setButtonsPict(this);
     setIcon(Pict("licq"));
     bLogin = false;
     edtUIN->setValidator(new QIntValidator(100000, 0x7FFFFFFF, this));

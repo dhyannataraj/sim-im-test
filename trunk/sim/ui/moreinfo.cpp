@@ -32,7 +32,6 @@
 MoreInfo::MoreInfo(QWidget *p, bool readOnly)
         : MoreInfoBase(p)
 {
-    lblPict->setPixmap(Pict("more"));
     btnHomePage->setPixmap(Pict("home"));
     connect(btnHomePage, SIGNAL(clicked()), this, SLOT(goUrl()));
     spnDay->setMaxValue(31);

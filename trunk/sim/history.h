@@ -21,7 +21,6 @@
 #include "defs.h"
 #include "icqclient.h"
 
-#include <fstream>
 #include <string>
 #include <stack>
 
@@ -32,8 +31,9 @@ using namespace std;
 #endif
 #endif
 
+#include <qfile.h>
+
 class ICQMessage;
-class fstream;
 class Grep;
 class QTextCodec;
 
@@ -70,8 +70,7 @@ protected:
         QString condition;
         History &h;
         iterator(History &_h);
-        std::fstream f;
-        unsigned long f_size;
+        QFile f;
         unsigned long start_block;
         void loadBlock();
         stack<unsigned long> msgs;
@@ -89,8 +88,8 @@ protected:
     QTextCodec *codec;
     iterator it;
     unsigned long m_nUin;
-    bool open(bool bWrite, std::fstream &f, unsigned long *size=NULL);
-    ICQMessage *loadMessage(std::fstream &f, string &next, unsigned long offs);
+    bool open(bool bWrite, QFile &f);
+    ICQMessage *loadMessage(QFile &f, string &next, unsigned long offs);
 
     friend class History::iterator;
 };

@@ -593,7 +593,7 @@ MsgEdit *UserBox::getChild(unsigned long uin, bool bCreate)
     return wnd;
 }
 
-void UserBox::save(std::ostream &s)
+void UserBox::save(QFile &s)
 {
     mLeft = pos().x();
     mTop = pos().y();
@@ -605,7 +605,7 @@ void UserBox::save(std::ostream &s)
     ::save(this, UserBox_Params, s);
     list<MsgEdit*>::iterator it;
     for (it = wnds.begin(); it != wnds.end(); it++){
-        s << (const char*)"[UserTab]\n";
+        writeStr(s, "[UserTab]\n");
         (*it)->save(s);
     }
 }
@@ -651,7 +651,7 @@ void UserBox::toolBarChanged(QToolBar*)
     }
 }
 
-bool UserBox::load(std::istream &s, string &part)
+bool UserBox::load(QFile &s, string &part)
 {
     ::load(this, UserBox_Params, s, part);
     int curTab = -1;

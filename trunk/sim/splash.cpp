@@ -30,9 +30,9 @@
 #include <qwidget.h>
 #include <qpixmap.h>
 #include <qbitmap.h>
+#include <qfile.h>
 #include <qapplication.h>
 
-#include <fstream>
 using namespace std;
 
 #ifdef WIN32
@@ -80,8 +80,9 @@ Splash::Splash()
     string file;
     string part;
     MainWindow::buildFileName(file, SPLASH_CONF);
-    std::ifstream fs(file.c_str(), ios::in);
-    ::load(this, Splash_Params, fs, part);
+    QFile fs(QString::fromLocal8Bit(file.c_str()));
+    if (fs.open(IO_ReadOnly))
+        ::load(this, Splash_Params, fs, part);
     if (Show){
         QPixmap pict(QString::fromLocal8Bit(app_file(Picture.c_str())));
         if (!pict.isNull()){
@@ -117,8 +118,9 @@ void Splash::save()
 {
     string file;
     MainWindow::buildFileName(file, SPLASH_CONF);
-    std::ofstream fs(file.c_str(), ios::out);
-    ::save(this, Splash_Params, fs);
+    QFile fs(QString::fromLocal8Bit(file.c_str()));
+    if (fs.open(IO_WriteOnly | IO_Truncate))
+        ::save(this, Splash_Params, fs);
 }
 
 

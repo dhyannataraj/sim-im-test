@@ -19,8 +19,6 @@
 #include "icons.h"
 #include "msgview.h"
 
-
-
 #include "ui/enable.h"
 
 #ifndef USE_KDE
@@ -34,9 +32,8 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
 {
     SET_WNDPROC
 
+    setButtonsPict(this);
     setCaption(caption());
-
-
 
     connect(btnOK, SIGNAL(clicked()), this, SLOT(close()));
     setIcon(Pict("licq"));

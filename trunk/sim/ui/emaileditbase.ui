@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>347</width>
+            <width>343</width>
             <height>148</height>
         </rect>
     </property>
@@ -92,8 +92,20 @@
                 <cstring>Line2</cstring>
             </property>
             <property>
+                <name>frameShape</name>
+                <enum>HLine</enum>
+            </property>
+            <property>
+                <name>frameShadow</name>
+                <enum>Sunken</enum>
+            </property>
+            <property>
                 <name>orientation</name>
                 <enum>Horizontal</enum>
+            </property>
+            <property>
+                <name>frameShape</name>
+                <enum>HLine</enum>
             </property>
         </widget>
         <widget>
@@ -172,7 +184,7 @@
                     </property>
                     <property>
                         <name>text</name>
-                        <string>&amp;OK</string>
+                        <string>&amp;Ok</string>
                     </property>
                 </widget>
                 <spacer>
