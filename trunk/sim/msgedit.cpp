@@ -403,8 +403,8 @@ void MsgEdit::action(int type, bool bSaveEdit)
         ICQUser *u = pClient->getUser(Uin);
         if (u){
             ICQMessage *msg = NULL;
-			if (u->unreadMsgs.size())
-				msg = history()->getMessage(u->unreadMsgs.front());
+            if (u->unreadMsgs.size())
+                msg = history()->getMessage(u->unreadMsgs.front());
             if (msg){
                 setMessage(msg, true, true);
                 setState();

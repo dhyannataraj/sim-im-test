@@ -1812,7 +1812,7 @@ void MainWindow::autoAway()
     if (!m_bAutoNA && AutoNATime && (idle_time > AutoNATime)){
         m_bAutoNA = true;
         if ((ManualStatus == ICQ_STATUS_OFFLINE) ||
-            ((ManualStatus & 0xFF) == ICQ_STATUS_NA)) return;
+                ((ManualStatus & 0xFF) == ICQ_STATUS_NA)) return;
         if (!m_bAutoAway){
             m_autoStatus = ManualStatus;
             m_bAutoAway = true;
@@ -1824,8 +1824,8 @@ void MainWindow::autoAway()
     if (!m_bAutoAway && AutoAwayTime && (idle_time > AutoAwayTime)){
         m_bAutoAway = true;
         if ((ManualStatus == ICQ_STATUS_OFFLINE) ||
-			((ManualStatus & 0xFF) == ICQ_STATUS_NA) ||
-			((ManualStatus & 0xFF) == ICQ_STATUS_AWAY)) return;
+                ((ManualStatus & 0xFF) == ICQ_STATUS_NA) ||
+                ((ManualStatus & 0xFF) == ICQ_STATUS_AWAY)) return;
         m_autoStatus = ManualStatus;
         ManualStatus = ICQ_STATUS_AWAY;
         realSetStatus();
