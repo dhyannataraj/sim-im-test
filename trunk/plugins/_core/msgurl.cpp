@@ -76,7 +76,7 @@ void MsgUrl::urlChanged(const QString &str)
     cmd->flags = str.isEmpty() ? COMMAND_DISABLED : 0;
     cmd->param = m_edit;
     Event e(EventCommandDisabled, cmd);
-    e.param();
+    e.process();
 }
 
 void *MsgUrl::processEvent(Event *e)

@@ -33,11 +33,13 @@
 #include "xpm/icq_na.xpm"
 #include "xpm/icq_dnd.xpm"
 #include "xpm/icq_ffc.xpm"
+#include "xpm/icq_invisible.xpm"
 #include "xpm/msn_online.xpm"
 #include "xpm/msn_offline.xpm"
 #include "xpm/msn_away.xpm"
 #include "xpm/msn_na.xpm"
 #include "xpm/msn_dnd.xpm"
+#include "xpm/msn_invisible.xpm"
 #include "xpm/aim_online.xpm"
 #include "xpm/aim_offline.xpm"
 #include "xpm/aim_away.xpm"
@@ -213,9 +215,17 @@ const CommandDef *JabberProtocol::statusList()
     return jabber_status_list;
 }
 
+#ifdef WIN32
+void qInitJpeg();
+#endif
+
 JabberPlugin::JabberPlugin(unsigned base)
         : Plugin(base)
 {
+#ifdef WIN32
+    qInitJpeg();
+#endif
+
     JabberPacket = registerType();
     getContacts()->addPacketType(JabberPacket, jabber_descr.text, true);
 
@@ -286,6 +296,10 @@ JabberPlugin::JabberPlugin(unsigned base)
     icon.xpm = icq_ffc;
     eIcon.process();
 
+    icon.name = "ICQ_invisible";
+    icon.xpm = icq_invisible;
+    eIcon.process();
+
     icon.name = "MSN_offline";
     icon.xpm = msn_offline;
     eIcon.process();
@@ -304,6 +318,10 @@ JabberPlugin::JabberPlugin(unsigned base)
 
     icon.name = "MSN_dnd";
     icon.xpm = msn_dnd;
+    eIcon.process();
+
+    icon.name = "MSN_invisible";
+    icon.xpm = msn_invisible;
     eIcon.process();
 
     icon.name = "AIM_offline";

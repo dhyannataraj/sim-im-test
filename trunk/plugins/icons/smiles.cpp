@@ -17,6 +17,7 @@
 
 #include "smiles.h"
 #include "icondll.h"
+#include "buffer.h"
 
 #ifdef USE_EXPAT
 #include <expat.h>
@@ -55,7 +56,8 @@ protected:
     QPixmap				m_image;
     string				*m_data;
     string				m_str;
-    string				m_pict;
+    Buffer				m_pict;
+    Buffer				*m_cdata;
     bool				m_bRec;
     unsigned			m_width;
     unsigned			m_height;
@@ -81,7 +83,8 @@ XepParser::XepParser()
     XML_SetCharacterDataHandler(m_parser, p_char_data);
     XML_SetStartCdataSectionHandler(m_parser, p_start_cdata);
     XML_SetEndCdataSectionHandler(m_parser, p_end_cdata);
-    m_data = NULL;
+    m_data  = NULL;
+    m_cdata = NULL;
     m_bRec = false;
     m_width  = 0;
     m_height = 0;
@@ -154,50 +157,14 @@ bool XepParser::parse(QFile &f)
         if (start)
             memmove(buf, &buf[sizeof(buf) - start], start);
     }
-
-    if ((m_pict.length() == 0) || (m_width == 0) || (m_height == 0))
+    if ((m_pict.size() == 0) || (m_width == 0) || (m_height == 0))
         return false;
-    string pict;
-    const char *c = m_pict.c_str();
-    unsigned n = 0;
-    unsigned tmp2 = 0;
-    while (*c) {
-        char tmp = 0;
-        if (*c >= 'A' && *c <= 'Z') {
-            tmp = (char)(*c - 'A');
-        } else if (*c >= 'a' && *c <= 'z') {
-            tmp = (char)(26 + (*c - 'a'));
-        } else if (*c >= '0' && *c <= 57) {
-            tmp = (char)(52 + (*c - '0'));
-        } else if (*c == '+') {
-            tmp = 62;
-        } else if (*c == '/') {
-            tmp = 63;
-        } else if (*c == '\r' || *c == '\n') {
-            c++;
-            continue;
-        } else if (*c == '=') {
-            if (n == 3) {
-                pict += (char)((tmp2 >> 10) & 0xff);
-                pict += (char)((tmp2 >> 2) & 0xff);
-            } else if (n == 2) {
-                pict += (char)((tmp2 >> 4) & 0xff);
-            }
-            break;
-        }
-        tmp2 = ((tmp2 << 6) | (tmp & 0xff));
-        n++;
-        if (n == 4) {
-            pict += (char)((tmp2 >> 16) & 0xff);
-            pict += (char)((tmp2 >> 8) & 0xff);
-            pict += (char)(tmp2 & 0xff);
-            tmp2 = 0;
-            n = 0;
-        }
-        c++;
-    }
+    Buffer pict;
+    pict.fromBase64(m_pict);
+    if (pict.size() < 28)
+        return false;
     QByteArray arr;
-    arr.assign(pict.c_str() + 28, pict.length() - 28);
+    arr.assign(pict.data(28), pict.size() - 28);
     QImage img(arr);
     if ((img.width() == 0) || (img.height() == 0))
         return false;
@@ -253,18 +220,22 @@ void XepParser::element_end(const char *el)
 
 void XepParser::char_data(const char *str, int len)
 {
+    if (m_cdata){
+        m_cdata->pack(str, len);
+        return;
+    }
     if (m_data)
         m_data->append(str, len);
 }
 
 void XepParser::start_cdata()
 {
-    m_data = &m_pict;
+    m_cdata = &m_pict;
 }
 
 void XepParser::end_cdata()
 {
-    m_data = NULL;
+    m_cdata = NULL;
 }
 
 unsigned XepParser::parseNumber(const char *p)

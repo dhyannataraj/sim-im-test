@@ -73,6 +73,8 @@ protected:
     bool inNetTray;
     bool bInit;
 #endif
+#else
+    void *hShell;
 #endif
     DockPlugin *m_plugin;
 };

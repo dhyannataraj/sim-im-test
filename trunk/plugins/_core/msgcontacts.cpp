@@ -32,7 +32,6 @@ MsgContacts::MsgContacts(MsgEdit *parent, Message *msg)
     m_edit = parent;
     m_list = new UserList(m_edit->m_frame);
     m_edit->m_layout->addWidget(m_list);
-    m_edit->m_edit->hide();
     m_edit->m_edit->setTextFormat(QTextEdit::PlainText);
     connect(m_list, SIGNAL(selectChanged()), this, SLOT(changed()));
     ContactsMessage *m = static_cast<ContactsMessage*>(msg);
@@ -47,7 +46,6 @@ MsgContacts::MsgContacts(MsgEdit *parent, Message *msg)
                 m_list->selected.push_back(contact_id);
         }
     }
-    m_list->show();
     changed();
     connect(m_edit, SIGNAL(finished()), this, SLOT(editFinished()));
     connect(m_list, SIGNAL(finished()), this, SLOT(listFinished()));
@@ -83,6 +81,8 @@ void MsgContacts::changed()
 
 void MsgContacts::init()
 {
+    m_edit->m_edit->hide();
+    m_list->show();
     m_list->setFocus();
 }
 

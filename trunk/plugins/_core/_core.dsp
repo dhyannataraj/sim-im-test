@@ -4128,6 +4128,10 @@ SOURCE=.\xpm\phone.xpm
 # End Source File
 # Begin Source File
 
+SOURCE=.\xpm\pict.xpm
+# End Source File
+# Begin Source File
+
 SOURCE=.\xpm\remove.xpm
 # End Source File
 # Begin Source File

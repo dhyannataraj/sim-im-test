@@ -1,6 +1,4 @@
 EXTRA_DIST = \
- contacts.wav \
- url.wav \
  mailpager.wav \
  web.wav
 

@@ -45,6 +45,14 @@ begin
     if not FileExists(sFileName) then begin
       bDownloadSSL := true;
     end;
+    sFileName := ExpandConstant('{sys}\opengl32.dll');
+    if not FileExists(sFileName) then begin
+      bDownloadSSL := true;
+    end;
+    sFileName := ExpandConstant('{sys}\glu32.dll');
+    if not FileExists(sFileName) then begin
+      bDownloadSSL := true;
+    end;
     if bDownloadSSL then begin
       isxdl_AddFileSize(url2, ExpandConstant('{tmp}\ssl.exe'), 910557);
     end;

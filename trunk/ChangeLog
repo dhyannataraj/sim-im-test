@@ -17,6 +17,10 @@ Jabber: Add typing notification
 ICQ: File transfer and reverse direct connections support
 MSN: File transfer support
 ICQ: Fix protocol for bigendian
+Jabber: File transfer support
+Jabber: Picture in vCard support
+Jabber: Send & receive contacts list
+AIM: Send & receive contacts list
 
 Version 0.8.2
 Add Bulgarian translation

@@ -11,11 +11,13 @@ DisableReadyPage=yes
 Compression=bzip/9
 AppId=SIM
 AppMutex=SIM_Mutex
-OutputBaseFilename=qt
+OutputBaseFilename=ssl
 
 [Files]
-Source: "C:\openssl\bin\libeay32.dll"; DestDir: "{app}"; CopyMode: alwaysoverwrite
-Source: "C:\openssl\bin\ssleay32.dll"; DestDir: "{app}"; CopyMode: alwaysoverwrite
-Source: "C:\WINNT\system32\msvcrt.dll"; DestDir: "{sys}"; CopyMode: onlyifdoesntexist; Flags: uninsneveruninstall
-Source: "C:\WINNT\system32\msvcp60.dll"; DestDir: "{sys}"; CopyMode: onlyifdoesntexist; Flags: uninsneveruninstall
+Source: "C:\openssl\bin\libeay32.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\openssl\bin\ssleay32.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "msvcrt.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall onlyifdoesntexist
+Source: "msvcp60.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall onlyifdoesntexist
+Source: "opengl32.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall onlyifdoesntexist
+Source: "glu32.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall onlyifdoesntexist
 

@@ -317,7 +317,7 @@ static ENCODING _encodingTbl[] =
         { I18N_NOOP("Turkish"), "ISO 8859-9", 12, 162, 28599, false },
         { I18N_NOOP("Turkish"), "CP 1254", 2254, 162, 1254, true },
 
-        { NULL, NULL, 0, 0, false }
+        { NULL, NULL, 0, 0, 0, false }
     };
 
 const ENCODING *ICQClient::encodings = _encodingTbl;
@@ -2867,6 +2867,7 @@ void *ICQClient::processEvent(Event *e)
             cmd->param	 = (void*)(contact->id());
             Event eCmd(EventCommandExec, cmd);
             eCmd.process();
+            return e->param();
         }
     }
     if (e->type() == EventOpenMessage){

@@ -171,7 +171,22 @@ void *LoggerPlugin::processEvent(Event *e)
             for (char *p = (char*)(s.c_str()); *p; ){
                 char *r = strchr(p, '\n');
                 if (r) *r = 0;
-                qWarning("%s", p);
+                if (strlen(p) > 256){
+                    string s = p;
+                    while (!s.empty()){
+                        string l;
+                        if (s.length() < 256){
+                            l = s;
+                            s = "";
+                        }else{
+                            l = s.substr(0, 256);
+                            s = s.substr(256);
+                        }
+                        qWarning("%s", l.c_str());
+                    }
+                }else{
+                    qWarning("%s", p);
+                }
                 if (r == NULL) break;
                 p = r + 1;
             }

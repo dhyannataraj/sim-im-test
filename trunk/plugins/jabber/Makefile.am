@@ -22,6 +22,8 @@ jabber_la_SOURCES = \
  addresultbase.ui \
  jabbersearch.cpp \
  jabbermessage.cpp \
+ jabberpicture.cpp \
+ jabberpicturebase.ui \
  services.cpp \
  servicesbase.ui
 

@@ -181,8 +181,10 @@ static MessageDef defJabberOffline =
 
 static DataDef jabberMessageFileData[] =
     {
-        { "Host", DATA_STRING, 1, 0 },
-        { "Port", DATA_ULONG, 1, 0 },
+        { "", DATA_STRING, 1, 0 },		// ID
+        { "", DATA_STRING, 1, 0 },
+        { "", DATA_STRING, 1, 0 },		// Host
+        { "", DATA_ULONG, 1, 0 },		// Port
         { NULL, 0, 0, 0 }
     };
 

@@ -187,7 +187,7 @@ static DataDef coreData[] =
         { "SavePasswd", DATA_BOOL, 1, 1 },
         { "NoShow", DATA_BOOL, 1, 0 },
         { "ShowPanel", DATA_BOOL, 1, 1 },
-        { "ManualStatus", DATA_ULONG, 1, STATUS_OFFLINE },
+        { "ManualStatus", DATA_ULONG, 1, STATUS_ONLINE },
         { "Invisible", DATA_BOOL, 1, 0 },
         { "Geometry", DATA_LONG, 4, (unsigned)(-1) },
         { "ToolBar", DATA_LONG, 7, 0 },
@@ -2905,7 +2905,8 @@ bool CorePlugin::init(bool bInit)
         loadClients(clients);
         clients.addToContacts();
     }
-    getContacts()->load();
+    if (!bNew)
+        getContacts()->load();
     for (unsigned i = 0; i < getContacts()->nClients(); i++){
         Client *client = getContacts()->getClient(i);
         client->setStatus(client->getManualStatus(), client->getCommonStatus());

@@ -6,7 +6,9 @@ EXTRA_DIST = \
  message.wav \
  msgsent.wav \
  sms.wav \
- startup.wav
+ startup.wav \
+ contacts.wav \
+ url.wav
 
 install-data-local:
 	$(mkinstalldirs) $(kde_datadir)/sim/sounds/

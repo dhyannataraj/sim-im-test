@@ -512,7 +512,7 @@ static MessageDef defUrl =
     {
         NULL,
         MESSAGE_DEFAULT,
-        MessageUrl,
+        0,
         "URL",
         "%n URLs",
         createUrl,

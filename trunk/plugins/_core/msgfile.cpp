@@ -150,55 +150,61 @@ void *MsgFile::processEvent(Event *e)
     }
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
-        if ((cmd->id == CmdSend) && (cmd->param == m_edit)){
-            Command cmd;
-            cmd->id		= CmdFileName;
-            cmd->param	= m_edit;
-            Event eWidget(EventCommandWidget, cmd);
-            CToolEdit *edtName = (CToolEdit*)(eWidget.process());
-            if (edtName == NULL)
-                return NULL;
-            QString msgText = m_edit->m_edit->text();
-            QString file = edtName->text();
-            QStringList files;
-            QString f;
-            for (int i = 0; i < (int)file.length(); i++){
-                if (file[i] == '\"'){
-                    f = trim(f);
-                    if (!f.isEmpty())
-                        files.append(f);
-                    f = "";
-                    for (i++; i < (int)file.length(); i++){
-                        if (file[i] == '\"')
-                            break;
-                        f += file[i];
+        if (cmd->param == m_edit){
+            if (cmd->id == CmdSend){
+                Command cmd;
+                cmd->id		= CmdFileName;
+                cmd->param	= m_edit;
+                Event eWidget(EventCommandWidget, cmd);
+                CToolEdit *edtName = (CToolEdit*)(eWidget.process());
+                if (edtName == NULL)
+                    return NULL;
+                QString msgText = m_edit->m_edit->text();
+                QString file = edtName->text();
+                QStringList files;
+                QString f;
+                for (int i = 0; i < (int)file.length(); i++){
+                    if (file[i] == '\"'){
+                        f = trim(f);
+                        if (!f.isEmpty())
+                            files.append(f);
+                        f = "";
+                        for (i++; i < (int)file.length(); i++){
+                            if (file[i] == '\"')
+                                break;
+                            f += file[i];
+                        }
+                        f = trim(f);
+                        if (!f.isEmpty())
+                            files.append(f);
+                        f = "";
+                        continue;
                     }
-                    f = trim(f);
-                    if (!f.isEmpty())
-                        files.append(f);
-                    f = "";
-                    continue;
+                    f += file[i];
                 }
-                f += file[i];
+                f = trim(f);
+                if (!f.isEmpty())
+                    files.append(f);
+                file = "";
+                for (QStringList::Iterator it = files.begin(); it != files.end(); ++it){
+                    if (!file.isEmpty())
+                        file += ";";
+                    file += quoteChars(*it, ";");
+                }
+                if (!file.isEmpty()){
+                    FileMessage *msg = new FileMessage;
+                    msg->setText(msgText);
+                    msg->setFile(file);
+                    msg->setContact(m_edit->m_userWnd->id());
+                    msg->setClient(m_client.c_str());
+                    m_edit->sendMessage(msg);
+                }
+                return e->param();
             }
-            f = trim(f);
-            if (!f.isEmpty())
-                files.append(f);
-            file = "";
-            for (QStringList::Iterator it = files.begin(); it != files.end(); ++it){
-                if (!file.isEmpty())
-                    file += ";";
-                file += quoteChars(*it, ";");
+            if (cmd->id == CmdFileName){
+                selectFile();
+                return e->param();
             }
-            if (!file.isEmpty()){
-                FileMessage *msg = new FileMessage;
-                msg->setText(msgText);
-                msg->setFile(file);
-                msg->setContact(m_edit->m_userWnd->id());
-                msg->setClient(m_client.c_str());
-                m_edit->sendMessage(msg);
-            }
-            return e->param();
         }
     }
     return NULL;

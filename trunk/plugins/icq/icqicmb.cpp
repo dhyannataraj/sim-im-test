@@ -37,6 +37,13 @@
 #include <qtimer.h>
 #include <qimage.h>
 
+#include <algorithm>
+
+bool operator < (const alias_group &s1, const alias_group &s2)
+{
+    return s1.grp < s2.grp;
+}
+
 const unsigned short ICQ_SNACxMSG_ERROR            = 0x0001;
 const unsigned short ICQ_SNACxMSG_SETxICQxMODE     = 0x0002;
 const unsigned short ICQ_SNACxMSG_RESETxICQxMODE   = 0x0003;    // not implemented
@@ -78,7 +85,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             unsigned short error;
             m_socket->readBuffer >> error;
             const char *err_str = I18N_NOOP("Unknown error");
-            if (error == 0x0009){
+            if ((error == 0x0009) && ((m_send.msg == NULL) || (m_send.msg->type() != MessageContacts))){
                 err_str = I18N_NOOP("Not supported by client");
                 Contact *contact;
                 ICQUserData *data = findContact(m_send.screen.c_str(), NULL, false, contact);
@@ -822,26 +829,35 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &msg, bool needA
             return;
         }
         Buffer adv(*tlv(0x2711));
-        unsigned short len;
-        unsigned short nBuddies;
-        adv.unpack(len);
-        adv.incReadPos(len);
-        adv.unpack(nBuddies);
         QString contacts;
-        for (unsigned short i = 0; i < nBuddies; i++){
-            string s = adv.unpackScreen();
-            if (atol(s.c_str())){
-                contacts += "icq:";
-                contacts += s.c_str();
-                contacts += ",ICQ ";
-                contacts += s.c_str();
-            }else{
-                contacts += "aim:";
-                contacts += s.c_str();
-                contacts += ",AIM ";
-                contacts += s.c_str();
+        while (adv.readPos() < adv.size()){
+            string grp;
+            adv.unpackStr(grp);
+            unsigned short nBuddies;
+            adv >> nBuddies;
+            for (unsigned short i = 0; i < nBuddies; i++){
+                string s;
+                adv.unpackStr(s);
+                if (!contacts.isEmpty())
+                    contacts += ";";
+                if (atol(s.c_str())){
+                    contacts += "icq:";
+                    contacts += s.c_str();
+                    contacts += ",ICQ ";
+                    contacts += s.c_str();
+                }else{
+                    contacts += "aim:";
+                    contacts += s.c_str();
+                    contacts += ",AIM ";
+                    contacts += s.c_str();
+                }
             }
         }
+        snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_AUTOREPLY);
+        m_socket->writeBuffer << id.id_l << id.id_h << 0x0002;
+        m_socket->writeBuffer.packScreen(screen);
+        m_socket->writeBuffer << 0x0003 << 0x0002 << 0x0002;
+        sendPacket();
         ContactsMessage *msg = new ContactsMessage;
         msg->setContacts(contacts);
         messageReceived(msg, screen);
@@ -1187,40 +1203,84 @@ void ICQClient::processSendQueue()
             switch (m_send.msg->type()){
             case MessageContacts:
                 if (data->Uin == 0){
-                    CONTACTS_MAP c = packContacts(static_cast<ContactsMessage*>(m_send.msg), data);
+                    CONTACTS_MAP c;
+                    QString nc = packContacts(static_cast<ContactsMessage*>(m_send.msg), data, c);
                     if (c.empty()){
                         m_send.msg->setError(I18N_NOOP("No contacts for send"));
                         Event e(EventMessageSent, m_send.msg);
                         e.process();
                         delete m_send.msg;
                         m_send.msg = NULL;
+                        m_send.screen = "";
                         continue;
                     }
+                    static_cast<ContactsMessage*>(m_send.msg)->setContacts(nc);
                     Buffer msgBuf;
-                    string s = "Buddies";
+                    vector<alias_group> cc;
+                    for (CONTACTS_MAP::iterator it = c.begin(); it != c.end(); ++it){
+                        alias_group c;
+                        c.alias = (*it).first;
+                        c.grp   = (*it).second.grp;
+                        cc.push_back(c);
+                    }
+                    sort(cc.begin(), cc.end());
+
+                    unsigned grp   = (unsigned)(-1);
+                    unsigned start = 0;
+                    unsigned short size = 0;
+                    for (unsigned i = 0; i < cc.size(); i++){
+                        if (cc[i].grp != grp){
+                            if (grp != (unsigned)(-1)){
+                                string s = "Not in list";
+                                if (grp){
+                                    Group *group = getContacts()->group(grp);
+                                    if (group)
+                                        s = group->getName().utf8();
+                                }
+                                msgBuf.pack(s);
+                                msgBuf << size;
+                                for (unsigned j = start; j < i; j++)
+                                    msgBuf.pack(cc[j].alias);
+                            }
+                            size  = 0;
+                            start = i;
+                            grp   = cc[i].grp;
+                        }
+                        size++;
+                    }
+                    string s = "Not in list";
+                    if (grp){
+                        Group *group = getContacts()->group(grp);
+                        if (group)
+                            s = group->getName().utf8();
+                    }
                     msgBuf.pack(s);
-                    unsigned short size = c.size();
-                    msgBuf.pack(size);
-                    for (CONTACTS_MAP::iterator it = c.begin(); it != c.end(); ++it)
-                        msgBuf.pack((*it).first);
+                    msgBuf << size;
+                    for (unsigned j = start; j < i; j++)
+                        msgBuf.pack(cc[j].alias);
                     m_send.id.id_l = rand();
                     m_send.id.id_h = rand();
-                    sendType2(m_send.screen.c_str(), msgBuf, m_send.id, CAP_AIM_BUDDYLIST, true, false, false);
+                    sendType2(m_send.screen.c_str(), msgBuf, m_send.id, CAP_AIM_BUDDYLIST, false, false, false);
                     return;
                 }
-            case MessageUrl:
-                packMessage(b, m_send.msg, data, type);
-                if (m_send.msg->getError()){
-                    Event e(EventMessageSent, m_send.msg);
-                    e.process();
-                    delete m_send.msg;
-                    m_send.msg = NULL;
-                    continue;
+            case MessageUrl:{
+                    if (data->Uin == 0)
+                        break;
+                    packMessage(b, m_send.msg, data, type);
+                    const char *err = m_send.msg->getError();
+                    if (err && *err){
+                        Event e(EventMessageSent, m_send.msg);
+                        e.process();
+                        delete m_send.msg;
+                        m_send.msg = NULL;
+                        m_send.screen = "";
+                        continue;
+                    }
+                    sendThroughServer(screen(data).c_str(), 4, b, m_send.id, true);
+                    if (data->Status != ICQ_STATUS_OFFLINE)
+                        ackMessage(m_send);
+                    return;
                 }
-                sendThroughServer(screen(data).c_str(), 4, b, m_send.id, true);
-                if (data->Status != ICQ_STATUS_OFFLINE)
-                    ackMessage(m_send);
-                return;
             case MessageFile:
                 packMessage(b, m_send.msg, data, type);
                 sendAdvMessage(screen(data).c_str(), b, PLUGIN_NULL, m_send.id, false, false, true);

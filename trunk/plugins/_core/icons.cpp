@@ -92,6 +92,7 @@ using namespace std;
 #include "xpm/undo.xpm"
 #include "xpm/redo.xpm"
 #include "xpm/typing.xpm"
+#include "xpm/pict.xpm"
 #include "xpm/fileclose.xpm"
 #include "xpm/encrypted.xpm"
 #include "xpm/smile0.xpm"
@@ -174,6 +175,7 @@ Icons::Icons()
     ICON(translit)
     ICON(bgcolor)
     ICON(fgcolor)
+    ICON(pict)
     KICON(text_bold)
     KICON(text_italic)
     KICON(text_under)

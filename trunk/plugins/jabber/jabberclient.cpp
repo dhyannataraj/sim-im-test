@@ -24,6 +24,7 @@
 #include "jabberhomeinfo.h"
 #include "jabberworkinfo.h"
 #include "jabberaboutinfo.h"
+#include "jabberpicture.h"
 #include "jabbermessage.h"
 #include "services.h"
 #include "html.h"
@@ -32,6 +33,10 @@
 
 #include <qtimer.h>
 #include <qregexp.h>
+#include <qimage.h>
+#include <qpixmap.h>
+#include <qfile.h>
+
 #include <time.h>
 
 #ifndef WIN32
@@ -102,6 +107,11 @@ static DataDef jabberUserData[] =
         { "", DATA_STRING, 1, 0 },			// TypingId
         { "", DATA_ULONG, 1, 0 },			// ComposeId
         { "", DATA_ULONG, 1, 0 },			// richText
+        { "", DATA_BOOL, 1, 0 },
+        { "PhotoWidth", DATA_ULONG, 1, 0 },
+        { "PhotoHeight", DATA_ULONG, 1, 0 },
+        { "LogoWidth", DATA_ULONG, 1, 0 },
+        { "LogoHeight", DATA_ULONG, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -134,6 +144,8 @@ static DataDef jabberClientData[] =
         { "ProtocolIcons", DATA_BOOL, 1, 1 },
         { "MinPort", DATA_ULONG, 1, 1024 },
         { "MaxPort", DATA_ULONG, 1, 0xFFFF },
+        { "Photo", DATA_UTF, 1, 0 },
+        { "Logo", DATA_UTF, 1, 0 },
         { "", DATA_STRUCT, sizeof(JabberUserData) / sizeof(unsigned), (unsigned)jabberUserData },
         { NULL, 0, 0, 0 }
     };
@@ -324,6 +336,32 @@ static bool cmp(const string &str, const char *s)
 
 void *JabberClient::processEvent(Event *e)
 {
+    if (e->type() == EventGoURL){
+        string url = (const char*)(e->param());
+        string proto;
+        int n = url.find(':');
+        if (n < 0)
+            return NULL;
+        proto = url.substr(0, n);
+        if (proto != "jabber")
+            return NULL;
+        url = url.substr(proto.length() + 1);
+        while (url[0] == '/')
+            url = url.substr(1);
+        QString s = unquoteString(QString(url.c_str()));
+        QString jid = getToken(s, '/');
+        if (!jid.isEmpty()){
+            Contact *contact;
+            findContact(jid.utf8(), s.utf8(), true, contact);
+            Command cmd;
+            cmd->id		 = MessageGeneric;
+            cmd->menu_id = MenuMessage;
+            cmd->param	 = (void*)(contact->id());
+            Event eCmd(EventCommandExec, cmd);
+            eCmd.process();
+            return e->param();
+        }
+    }
     if (e->type() == EventTemplateExpanded){
         TemplateExpand *t = (TemplateExpand*)(e->param());
         setStatus((unsigned)(t->param), quoteString(t->tmpl, false).utf8());
@@ -380,6 +418,64 @@ void *JabberClient::processEvent(Event *e)
                     listRequest(data, contact->getName().utf8(), grpName.c_str(), false);
             }
         }
+    }
+    if (e->type() == EventMessageCancel){
+        Message *msg = (Message*)(e->param());
+        for (list<Message*>::iterator it = m_waitMsg.begin(); it != m_waitMsg.end(); ++it){
+            if ((*it) == msg){
+                m_waitMsg.erase(it);
+                delete msg;
+                return e->param();
+            }
+        }
+        return NULL;
+    }
+    if (e->type() == EventMessageAccept){
+        messageAccept *ma = (messageAccept*)(e->param());
+        for (list<Message*>::iterator it = m_ackMsg.begin(); it != m_ackMsg.end(); ++it){
+            if ((*it)->id() == ma->msg->id()){
+                JabberFileMessage *msg = static_cast<JabberFileMessage*>(*it);
+                m_ackMsg.erase(it);
+                Contact *contact;
+                JabberUserData *data = findContact(msg->getFrom(), NULL, false, contact);
+                if (data){
+                    JabberFileTransfer *ft = new JabberFileTransfer(static_cast<FileMessage*>(msg), data, this);
+                    ft->setDir(QFile::encodeName(ma->dir));
+                    ft->setOverwrite(ma->overwrite);
+                    Event e(EventMessageAcked, msg);
+                    e.process();
+                    ft->connect();
+                }
+                Event eDel(EventMessageDeleted, msg);
+                eDel.process();
+                if (data == NULL)
+                    delete msg;
+                return msg;
+            }
+        }
+        return NULL;
+    }
+    if (e->type() == EventMessageDecline){
+        messageDecline *md = (messageDecline*)(e->param());
+        for (list<Message*>::iterator it = m_ackMsg.begin(); it != m_ackMsg.end(); ++it){
+            if ((*it)->id() == md->msg->id()){
+                JabberFileMessage *msg = static_cast<JabberFileMessage*>(*it);
+                m_ackMsg.erase(it);
+                string reason = "File transfer declined";
+                if (md->reason)
+                    reason = md->reason;
+                ServerRequest req(this, "error", NULL, msg->getFrom(), msg->getID());
+                req.start_element("error");
+                req.add_attribute("code", "406");
+                req.add_text(reason.c_str());
+                req.send();
+                Event e(EventMessageDeleted, msg);
+                e.process();
+                delete msg;
+                return msg;
+            }
+        }
+        return NULL;
     }
     return NULL;
 }
@@ -647,12 +743,16 @@ string JabberClient::get_unique_id()
 }
 
 JabberClient::ServerRequest::ServerRequest(JabberClient *client, const char *type,
-        const char *from, const char *to)
+        const char *from, const char *to, const char *id)
 {
     m_client = client;
     if (type == NULL)
         return;
-    m_id  = m_client->get_unique_id();
+    if (id){
+        m_id = id;
+    }else{
+        m_id  = m_client->get_unique_id();
+    }
     m_client->m_socket->writeBuffer.packetStart();
     m_client->m_socket->writeBuffer
     << "<iq type=\'" << type << "\' id=\'"
@@ -723,6 +823,17 @@ void JabberClient::ServerRequest::end_element(bool bNewLevel)
         }
     }
     m_element = "";
+}
+
+void JabberClient::ServerRequest::add_text(const char *value)
+{
+    if (m_element.length()){
+        m_client->m_socket->writeBuffer << ">";
+        m_els.push(m_element);
+        m_element = "";
+    }
+    m_client->m_socket->writeBuffer
+    << JabberClient::encodeXML(QString::fromUtf8(value));
 }
 
 void JabberClient::ServerRequest::text_tag(const char *name, const char *value)
@@ -818,26 +929,24 @@ QCString JabberClient::encodeXML(const QString &str)
     return quoteString(str, false).utf8();
 }
 
-JabberUserData *JabberClient::findContact(const char *alias, const char *name, bool bCreate, Contact *&contact)
+JabberUserData *JabberClient::findContact(const char *_jid, const char *name, bool bCreate, Contact *&contact)
 {
-    char *resource = NULL;
-    char *p = strchr((char*)alias, '@');
-    if (p){
-        p = strchr(p, '/');
-        if (p){
-            *p = 0;
-            resource = p + 1;
-        }
+    string resource;
+    string jid = _jid;
+    int n = jid.find('/');
+    if (n >= 0){
+        resource = jid.substr(n + 1);
+        jid = jid.substr(0, n);
     }
     ContactList::ContactIterator it;
     while ((contact = ++it) != NULL){
         JabberUserData *data;
         ClientDataIterator it(contact->clientData, this);
         while ((data = (JabberUserData*)(++it)) != NULL){
-            if (strcmp(data->ID, alias))
+            if (jid != data->ID)
                 continue;
-            if (resource)
-                set_str(&data->Resource, resource);
+            if (!resource.empty())
+                set_str(&data->Resource, resource.c_str());
             if (name)
                 set_str(&data->Name, name);
             return data;
@@ -850,7 +959,7 @@ JabberUserData *JabberClient::findContact(const char *alias, const char *name, b
     if (name && *name){
         sname = QString::fromUtf8(name).lower();
     }else{
-        sname = QString::fromUtf8(alias).lower();
+        sname = QString::fromUtf8(jid.c_str()).lower();
         int pos = sname.find('@');
         if (pos > 0)
             sname = sname.left(pos);
@@ -858,9 +967,9 @@ JabberUserData *JabberClient::findContact(const char *alias, const char *name, b
     while ((contact = ++it) != NULL){
         if (contact->getName().lower() == sname.lower()){
             JabberUserData *data = (JabberUserData*)(contact->clientData.createData(this));
-            set_str(&data->ID, alias);
-            if (resource)
-                set_str(&data->Resource, resource);
+            set_str(&data->ID, jid.c_str());
+            if (!resource.empty())
+                set_str(&data->Resource, resource.c_str());
             if (name)
                 set_str(&data->Name, name);
             info_request(data);
@@ -871,9 +980,9 @@ JabberUserData *JabberClient::findContact(const char *alias, const char *name, b
     }
     contact = getContacts()->contact(0, true);
     JabberUserData *data = (JabberUserData*)(contact->clientData.createData(this));
-    set_str(&data->ID, alias);
-    if (resource)
-        set_str(&data->Resource, resource);
+    set_str(&data->ID, jid.c_str());
+    if (!resource.empty())
+        set_str(&data->Resource, resource.c_str());
     if (name)
         set_str(&data->Name, name);
     contact->setName(sname);
@@ -928,6 +1037,8 @@ void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &
     if ((def == NULL) || (def->text == NULL))
         return;
     const char *dicon = def->icon;
+    if (data->invisible)
+        dicon = "Jabber_invisible";
     if (getProtocolIcons()){
         char *host = strchr(data->ID, '@');
         if (host){
@@ -936,25 +1047,29 @@ void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &
             if (p)
                 *p = 0;
             if (strcmp(h.c_str(), "icq") == 0){
-                switch (data->Status){
-                case STATUS_ONLINE:
-                    dicon = "ICQ_online";
-                    break;
-                case STATUS_OFFLINE:
-                    dicon = "ICQ_offline";
-                    break;
-                case STATUS_AWAY:
-                    dicon = "ICQ_away";
-                    break;
-                case STATUS_NA:
-                    dicon = "ICQ_na";
-                    break;
-                case STATUS_DND:
-                    dicon = "ICQ_dnd";
-                    break;
-                case STATUS_FFC:
-                    dicon = "ICQ_ffc";
-                    break;
+                if (data->invisible){
+                    dicon = "ICQ_invisible";
+                }else{
+                    switch (data->Status){
+                    case STATUS_ONLINE:
+                        dicon = "ICQ_online";
+                        break;
+                    case STATUS_OFFLINE:
+                        dicon = "ICQ_offline";
+                        break;
+                    case STATUS_AWAY:
+                        dicon = "ICQ_away";
+                        break;
+                    case STATUS_NA:
+                        dicon = "ICQ_na";
+                        break;
+                    case STATUS_DND:
+                        dicon = "ICQ_dnd";
+                        break;
+                    case STATUS_FFC:
+                        dicon = "ICQ_ffc";
+                        break;
+                    }
                 }
             }else if (strcmp(h.c_str(), "aim") == 0){
                 switch (data->Status){
@@ -969,22 +1084,26 @@ void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &
                     break;
                 }
             }else if (strcmp(h.c_str(), "msn") == 0){
-                switch (data->Status){
-                case STATUS_ONLINE:
-                    dicon = "MSN_online";
-                    break;
-                case STATUS_OFFLINE:
-                    dicon = "MSN_offline";
-                    break;
-                case STATUS_AWAY:
-                    dicon = "MSN_away";
-                    break;
-                case STATUS_NA:
-                    dicon = "MSN_na";
-                    break;
-                case STATUS_DND:
-                    dicon = "MSN_dnd";
-                    break;
+                if (data->invisible){
+                    dicon = "MSN_invisible";
+                }else{
+                    switch (data->Status){
+                    case STATUS_ONLINE:
+                        dicon = "MSN_online";
+                        break;
+                    case STATUS_OFFLINE:
+                        dicon = "MSN_offline";
+                        break;
+                    case STATUS_AWAY:
+                        dicon = "MSN_away";
+                        break;
+                    case STATUS_NA:
+                        dicon = "MSN_na";
+                        break;
+                    case STATUS_DND:
+                        dicon = "MSN_dnd";
+                        break;
+                    }
                 }
             }
         }
@@ -1115,6 +1234,58 @@ QString JabberClient::contactTip(void *_data)
         res += "<br>";
         res += QString::fromUtf8(data->Resource);
     }
+    if (data->LogoWidth && data->LogoHeight){
+        QImage img(logoFile(data));
+        if (!img.isNull()){
+            QPixmap pict;
+            pict.convertFromImage(img);
+            int w = pict.width();
+            int h = pict.height();
+            if (h > w){
+                if (h > 60){
+                    w = w * 60 / h;
+                    h = 60;
+                }
+            }else{
+                if (w > 60){
+                    h = h * 60 / w;
+                    w = 60;
+                }
+            }
+            QMimeSourceFactory::defaultFactory()->setPixmap("pict://jabber.logo", pict);
+            res += "<br><img src=\"pict://jabber.logo\" width=\"";
+            res += number(w).c_str();
+            res += "\" height=\"";
+            res += number(h).c_str();
+            res += "\">";
+        }
+    }
+    if (data->PhotoWidth && data->PhotoHeight){
+        QImage img(photoFile(data));
+        if (!img.isNull()){
+            QPixmap pict;
+            pict.convertFromImage(img);
+            int w = pict.width();
+            int h = pict.height();
+            if (h > w){
+                if (h > 60){
+                    w = w * 60 / h;
+                    h = 60;
+                }
+            }else{
+                if (w > 60){
+                    h = h * 60 / w;
+                    w = 60;
+                }
+            }
+            QMimeSourceFactory::defaultFactory()->setPixmap("pict://jabber.photo", pict);
+            res += "<br><img src=\"pict://jabber.photo\" width=\"";
+            res += number(w).c_str();
+            res += "\" height=\"";
+            res += number(h).c_str();
+            res += "\">";
+        }
+    }
     if (data->AutoReply && *data->AutoReply){
         res += "<br><br>";
         res += QString::fromUtf8(data->AutoReply);
@@ -1136,12 +1307,14 @@ void JabberClient::setOffline(JabberUserData *data)
     }
 }
 
-const unsigned MAIN_INFO = 1;
-const unsigned HOME_INFO = 2;
-const unsigned WORK_INFO = 3;
+const unsigned MAIN_INFO  = 1;
+const unsigned HOME_INFO  = 2;
+const unsigned WORK_INFO  = 3;
 const unsigned ABOUT_INFO = 4;
-const unsigned SERVICES	 = 5;
-const unsigned NETWORK	 = 6;
+const unsigned PHOTO_INFO = 5;
+const unsigned LOGO_INFO  = 6;
+const unsigned SERVICES	  = 7;
+const unsigned NETWORK	  = 8;
 
 static CommandDef jabberWnd[] =
     {
@@ -1194,6 +1367,36 @@ static CommandDef jabberWnd[] =
             ABOUT_INFO,
             I18N_NOOP("About info"),
             "info",
+            NULL,
+            NULL,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            NULL,
+            NULL
+        },
+        {
+            PHOTO_INFO,
+            I18N_NOOP("Photo"),
+            "pict",
+            NULL,
+            NULL,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            NULL,
+            NULL
+        },
+        {
+            LOGO_INFO,
+            I18N_NOOP("Logo"),
+            "pict",
             NULL,
             NULL,
             0,
@@ -1285,6 +1488,36 @@ static CommandDef cfgJabberWnd[] =
             NULL
         },
         {
+            PHOTO_INFO,
+            I18N_NOOP("Photo"),
+            "pict",
+            NULL,
+            NULL,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            NULL,
+            NULL
+        },
+        {
+            LOGO_INFO,
+            I18N_NOOP("Logo"),
+            "pict",
+            NULL,
+            NULL,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            NULL,
+            NULL
+        },
+        {
             SERVICES,
             I18N_NOOP("Agents"),
             "configure",
@@ -1362,6 +1595,10 @@ QWidget *JabberClient::infoWindow(QWidget *parent, Contact*, void *_data, unsign
         return new JabberWorkInfo(parent, data, this);
     case ABOUT_INFO:
         return new JabberAboutInfo(parent, data, this);
+    case PHOTO_INFO:
+        return new JabberPicture(parent, data, this, true);
+    case LOGO_INFO:
+        return new JabberPicture(parent, data, this, false);
     }
     return NULL;
 }
@@ -1377,6 +1614,10 @@ QWidget *JabberClient::configWindow(QWidget *parent, unsigned id)
         return new JabberWorkInfo(parent, NULL, this);
     case ABOUT_INFO:
         return new JabberAboutInfo(parent, NULL, this);
+    case PHOTO_INFO:
+        return new JabberPicture(parent, NULL, this, true);
+    case LOGO_INFO:
+        return new JabberPicture(parent, NULL, this, false);
     case NETWORK:
         return new JabberConfig(parent, this, true);
     case SERVICES:
@@ -1406,7 +1647,7 @@ bool JabberClient::canSend(unsigned type, void *_data)
     switch (type){
     case MessageGeneric:
     case MessageFile:
-
+    case MessageContacts:
     case MessageUrl:
         return true;
     case MessageAuthRequest:
@@ -1851,9 +2092,123 @@ bool JabberClient::send(Message *msg, void *_data)
             delete msg;
             return true;
         }
+    case MessageContacts:{
+            Contact *contact = getContacts()->contact(msg->contact());
+            if ((contact == NULL) || (data == NULL))
+                return false;
+            ContactsMessage *m = static_cast<ContactsMessage*>(msg);
+            list<string> jids;
+            list<string> names;
+            QString contacts = m->getContacts();
+            QString nc;
+            while (!contacts.isEmpty()){
+                QString item = getToken(contacts, ';');
+                QString url = getToken(item, ',');
+                QString proto = getToken(url, ':');
+                if (proto == "sim"){
+                    Contact *contact = getContacts()->contact(atol(url.latin1()));
+                    if (contact){
+                        clientData *data;
+                        ClientDataIterator it(contact->clientData);
+                        while ((data = ++it) != NULL){
+                            Contact *c = contact;
+                            if (!isMyData(data, c))
+                                continue;
+                            JabberUserData *d = (JabberUserData*)data;
+                            jids.push_back(d->ID);
+                            string n;
+                            n = c->getName().utf8();
+                            names.push_back(n);
+                            if (!nc.isEmpty())
+                                nc += ";";
+                            nc += "jabber:";
+                            nc += d->ID;
+                            nc += ",";
+                            if (c->getName() == d->ID){
+                                nc += d->ID;
+                            }else{
+                                nc += c->getName();
+                                nc += " (";
+                                nc += d->ID;
+                                nc += ")";
+                            }
+                        }
+                    }
+                }
+            }
+            if (jids.empty()){
+                msg->setError(I18N_NOOP("No contacts for send"));
+                Event e(EventMessageSent, msg);
+                e.process();
+                delete msg;
+                return true;
+            }
+            m->setContacts(nc);
+            m_socket->writeBuffer.packetStart();
+            m_socket->writeBuffer
+            << "<message type=\'chat\' to=\'"
+            << data->ID;
+            m_socket->writeBuffer
+            << "\'><x xmlns='jabber:x:roster'>";
+            list<string>::iterator iti = jids.begin();
+            list<string>::iterator itn = names.begin();
+            for (; iti != jids.end(); ++iti, ++itn){
+                m_socket->writeBuffer
+                << "<item name=\'"
+                << (const char*)(quoteString(QString::fromUtf8((*itn).c_str()), false).utf8())
+                << "\' jid=\'"
+                << (const char*)(quoteString(QString::fromUtf8((*iti).c_str()), false).utf8())
+                << "\'><group/></item>";
+            }
+            m_socket->writeBuffer
+            << "</x><body>";
+            iti = jids.begin();
+            for (; iti != jids.end(); ++iti, ++itn){
+                m_socket->writeBuffer
+                << (const char*)(quoteString(QString::fromUtf8((*iti).c_str()), false).utf8())
+                << "\n";
+            }
+            m_socket->writeBuffer
+            << "</body>";
+            if (data->richText && getRichText()){
+                m_socket->writeBuffer
+                << "<html xmlns='http://jabber.org/protocol/xhtml-im'><body>";
+                iti = jids.begin();
+                for (; iti != jids.end(); ++iti, ++itn){
+                    m_socket->writeBuffer
+                    << (const char*)(quoteString(QString::fromUtf8((*iti).c_str()), false).utf8())
+                    << "<br/>\n";
+                }
+                m_socket->writeBuffer
+                << "</body></html>";
+            }
+            m_socket->writeBuffer
+            << "</message>";
+            sendPacket();
+            if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
+                if (data->richText){
+                    msg->setClient(dataName(data).c_str());
+                    Event e(EventSent, msg);
+                    e.process();
+                }else{
+                    Message m(MessageGeneric);
+                    m.setContact(msg->contact());
+                    m.setClient(dataName(data).c_str());
+                    m.setText(msg->getPlainText());
+                    Event e(EventSent, msg);
+                    e.process();
+                }
+            }
+            Event e(EventMessageSent, msg);
+            e.process();
+            delete msg;
+            return true;
+        }
     case MessageFile:{
             m_waitMsg.push_back(msg);
-            JabberFileTransfer *ft = new JabberFileTransfer(static_cast<FileMessage*>(msg), data, this);
+            JabberFileTransfer *ft = static_cast<JabberFileTransfer*>(static_cast<FileMessage*>(msg)->m_transfer);
+            if (ft == NULL)
+                ft = new JabberFileTransfer(static_cast<FileMessage*>(msg), data, this);
             ft->listen();
             return true;
         }
@@ -2096,6 +2451,8 @@ JabberFileTransfer::JabberFileTransfer(FileMessage *msg, JabberUserData *data, J
     m_client = client;
     m_state  = None;
     m_socket = new ClientSocket(this);
+    m_startPos = 0;
+    m_endPos   = 0xFFFFFFFF;
 }
 
 JabberFileTransfer::~JabberFileTransfer()
@@ -2112,16 +2469,42 @@ JabberFileTransfer::~JabberFileTransfer()
 
 void JabberFileTransfer::listen()
 {
+    if ((m_file == NULL) && !openFile()){
+        if (FileTransfer::m_state == FileTransfer::Done)
+            m_socket->error_state("");
+        return;
+    }
     bind(m_client->getMinPort(), m_client->getMaxPort(), m_client);
 }
 
-void JabberFileTransfer::startReceive(unsigned)
+void JabberFileTransfer::startReceive(unsigned pos)
 {
+    m_startPos = pos;
+    JabberFileMessage *msg = static_cast<JabberFileMessage*>(m_msg);
+    m_socket->connect(msg->getHost(), msg->getPort(), m_client);
+    m_state = Connect;
+    FileTransfer::m_state = FileTransfer::Connect;
+    if (m_notify)
+        m_notify->process();
 }
 
 void JabberFileTransfer::bind_ready(unsigned short port)
 {
-    m_client->sendFileRequest(m_msg, port, m_data);
+    if (m_state == None){
+        m_state = Listen;
+    }else{
+        m_state = ListenWait;
+        FileTransfer::m_state = FileTransfer::Listen;
+        if (m_notify)
+            m_notify->process();
+    }
+    QString fname = m_file->name();
+    fname = fname.replace(QRegExp("\\\\"), "/");
+    int n = fname.findRev('/');
+    if (n >= 0)
+        fname = fname.mid(n + 1);
+    m_url = fname.utf8();
+    m_client->sendFileRequest(m_msg, port, m_data, m_url.c_str());
 }
 
 bool JabberFileTransfer::error(const char *err)
@@ -2132,17 +2515,33 @@ bool JabberFileTransfer::error(const char *err)
 
 bool JabberFileTransfer::accept(Socket *s, unsigned long)
 {
+    if (m_state == Listen){
+        Event e(EventMessageAcked, m_msg);
+        e.process();
+        m_state = ListenWait;
+    }
     log(L_DEBUG, "Accept connection");
+    m_startPos = 0;
+    m_endPos   = 0xFFFFFFFF;
     m_socket->setSocket(s);
     m_socket->readBuffer.init(0);
     m_socket->readBuffer.packetStart();
     m_socket->setRaw(true);
+    m_answer = 400;
     return true;
 }
 
 bool JabberFileTransfer::error_state(const char *err, unsigned)
 {
-    m_msg->setError(err);
+    if (m_state == Wait)
+        return false;
+    if (FileTransfer::m_state != FileTransfer::Done){
+        m_state = None;
+        FileTransfer::m_state = FileTransfer::Error;
+        m_msg->setError(err);
+    }
+    m_msg->m_transfer = NULL;
+    m_msg->setFlags(m_msg->getFlags() & ~MESSAGE_TEMP);
     Event e(EventMessageSent, m_msg);
     e.process();
     return true;
@@ -2152,15 +2551,43 @@ void JabberFileTransfer::packet_ready()
 {
     if (m_socket->readBuffer.writePos() == 0)
         return;
-    JabberPlugin *plugin = static_cast<JabberPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->readBuffer, false, plugin->JabberPacket);
-    for (;;){
-        string s;
-        if (!m_socket->readBuffer.scan("\n", s))
-            break;
-        if (!s.empty() && (s[s.length() - 1] == '\r'))
-            s = s.substr(0, s.length() - 1);
-        log(L_DEBUG, "P: %s", s.c_str());
+    if (m_state != Receive){
+        JabberPlugin *plugin = static_cast<JabberPlugin*>(m_client->protocol()->plugin());
+        log_packet(m_socket->readBuffer, false, plugin->JabberPacket);
+        for (;;){
+            string s;
+            if (!m_socket->readBuffer.scan("\n", s))
+                break;
+            if (!s.empty() && (s[s.length() - 1] == '\r'))
+                s = s.substr(0, s.length() - 1);
+            if (!get_line(s.c_str()))
+                break;
+        }
+    }
+    if (m_state == Receive){
+        if (m_file == NULL){
+            m_socket->error_state("", 0);
+            return;
+        }
+        unsigned size = m_socket->readBuffer.size() - m_socket->readBuffer.readPos();
+        if (size > m_endPos - m_startPos)
+            size = m_endPos - m_startPos;
+        if (size){
+            m_file->writeBlock(m_socket->readBuffer.data(m_socket->readBuffer.readPos()), size);
+            m_bytes += size;
+            m_totalBytes += size;
+            m_startPos += size;
+            if (m_startPos == m_endPos){
+                FileTransfer::m_state = FileTransfer::Done;
+                if (m_notify){
+                    m_notify->transfer(false);
+                    m_notify->process();
+                }
+                m_socket->error_state("");
+            }
+            if (m_notify)
+                m_notify->process();
+        }
     }
     if (m_socket->readBuffer.readPos() == m_socket->readBuffer.writePos())
         m_socket->readBuffer.init(0);
@@ -2168,10 +2595,291 @@ void JabberFileTransfer::packet_ready()
 
 void JabberFileTransfer::connect_ready()
 {
+    JabberFileMessage *msg = static_cast<JabberFileMessage*>(m_msg);
+    string line;
+    line = "GET /";
+    line += msg->getDescription().utf8();
+    line += " HTTP/1.1\r\n"
+            "Host :";
+    line += msg->getHost();
+    line += "\r\n";
+    if (m_startPos){
+        line += "Range: ";
+        line += number(m_startPos);
+        line += "-\r\n";
+    }
+    m_startPos = 0;
+    m_endPos   = 0xFFFFFFFF;
+    send_line(line.c_str());
+    FileTransfer::m_state = FileTransfer::Negotiation;
+    m_socket->readBuffer.init(0);
+    m_socket->readBuffer.packetStart();
+    m_socket->setRaw(true);
 }
 
 void JabberFileTransfer::write_ready()
 {
+    if (m_state != Send){
+        ClientSocketNotify::write_ready();
+        return;
+    }
+    if (m_transfer){
+        m_transferBytes += m_transfer;
+        m_transfer = 0;
+        if (m_notify)
+            m_notify->process();
+    }
+    if (m_startPos >= m_endPos){
+        if (m_notify)
+            m_notify->transfer(false);
+        m_bytes += m_file->size() - m_endPos;
+        m_totalBytes += m_file->size() - m_endPos;
+        if (!openFile()){
+            m_state = None;
+            if (FileTransfer::m_state == FileTransfer::Done)
+                m_socket->error_state("");
+        }else{
+            m_state = Wait;
+            FileTransfer::m_state = FileTransfer::Wait;
+            if (!((Client*)m_client)->send(m_msg, m_data))
+                error_state(I18N_NOOP("File transfer failed"), 0);
+        }
+        if (m_notify)
+            m_notify->process();
+        m_socket->close();
+        return;
+    }
+    time_t now;
+    time(&now);
+    if ((unsigned)now != m_sendTime){
+        m_sendTime = now;
+        m_sendSize = 0;
+    }
+    if (m_sendSize > (m_speed << 18)){
+        m_socket->pause(1);
+        return;
+    }
+    char buf[2048];
+    unsigned tail = sizeof(buf);
+    if (tail > m_endPos - m_startPos)
+        tail = m_endPos - m_startPos;
+    int readn = m_file->readBlock(buf, tail);
+    if (readn <= 0){
+        m_socket->error_state("Read file error");
+        return;
+    }
+    m_startPos   += readn;
+    m_transfer    = readn;
+    m_bytes      += readn;
+    m_totalBytes += readn;
+    m_sendSize   += readn;
+    m_socket->writeBuffer.pack(buf, readn);
+    m_socket->write();
+}
+
+bool JabberFileTransfer::get_line(const char *str)
+{
+    string line = str;
+    if (line.empty()){
+        if (m_state == Connect){
+            m_socket->error_state(I18N_NOOP("File transfer failed"));
+            return true;
+        }
+        if (m_state == ReadHeader){
+            if (m_endPos < m_startPos)
+                m_endPos = m_startPos;
+            if (m_file)
+                m_file->at(m_startPos);
+            m_state = Receive;
+            FileTransfer::m_state = FileTransfer::Read;
+            m_bytes += m_startPos;
+            m_totalBytes += m_startPos;
+            m_fileSize = m_endPos;
+            m_totalSize = m_endPos;
+            if (m_notify){
+                m_notify->process();
+                m_notify->transfer(true);
+            }
+            return true;
+        }
+        if (m_file->size() < m_endPos)
+            m_endPos = m_file->size();
+        if (m_startPos > m_endPos)
+            m_startPos = m_endPos;
+        if ((m_answer == 200) && (m_startPos == m_endPos))
+            m_answer = 204;
+        if ((m_answer == 200) && ((m_startPos != 0) || (m_endPos < m_file->size())))
+            m_answer = 206;
+        string s;
+        s = "HTTP/1.0 ";
+        s += number(m_answer);
+        switch (m_answer){
+        case 200:
+            s += " OK";
+            break;
+        case 204:
+            s += " No content";
+            break;
+        case 206:
+            s += " Partial content";
+            break;
+        case 400:
+            s += " Bad request";
+            break;
+        case 404:
+            s += " Not found";
+            break;
+        default:
+            s += " Error";
+        }
+        send_line(s.c_str());
+        if ((m_answer == 200) || (m_answer == 206)){
+            send_line("Content-Type: application/data");
+            s = "Content-Length: ";
+            s += number(m_endPos - m_startPos);
+            send_line(s.c_str());
+        }
+        if (m_answer == 206){
+            s = "Range: ";
+            s += number(m_startPos);
+            s += "-";
+            s += number(m_endPos);
+            send_line(s.c_str());
+        }
+        send_line("");
+        if (m_answer < 300){
+            m_file->at(m_startPos);
+            FileTransfer::m_state = FileTransfer::Write;
+            m_state = Send;
+            m_bytes = m_startPos;
+            m_totalBytes += m_startPos;
+            if (m_notify){
+                m_notify->process();
+                m_notify->transfer(true);
+            }
+            write_ready();
+        }else{
+            m_socket->error_state("Bad request");
+        }
+        return false;
+    }
+    if (m_state == ListenWait){
+        string t = getToken(line, ' ');
+        if (t == "GET"){
+            m_answer = 404;
+            t = getToken(line, ' ');
+            if (t[0] == '/'){
+                if (m_url == (t.c_str() + 1))
+                    m_answer = 200;
+            }
+        }
+        m_state = Header;
+        return true;
+    }
+    if (m_state == Connect){
+        string t = getToken(line, ' ');
+        t = getToken(t, '/');
+        if (t != "HTTP"){
+            m_socket->error_state(I18N_NOOP("File transfer fail"));
+            return true;
+        }
+        unsigned code = atol(getToken(line, ' ').c_str());
+        switch (code){
+        case 200:
+        case 206:
+            m_startPos = 0;
+            m_endPos   = 0xFFFFFFFF;
+            break;
+        case 204:
+            m_startPos = 0;
+            m_endPos   = 0;
+            break;
+        }
+        m_state = ReadHeader;
+        return true;
+    }
+    if (m_state == ReadHeader){
+        string t = getToken(line, ':');
+        if (t == "Content-Length"){
+            const char *p;
+            for (p = line.c_str(); *p; p++)
+                if ((*p > '0') && (*p < '9'))
+                    break;
+            m_endPos = m_startPos + strtoul(p, NULL, 10);
+        }
+        if (t == "Range"){
+            const char *p;
+            for (p = line.c_str(); *p; p++)
+                if ((*p > '0') && (*p < '9'))
+                    break;
+            m_startPos = strtoul(p, NULL, 10);
+            for (; *p; p++)
+                if (*p == '-'){
+                    ++p;
+                    break;
+                }
+            if ((*p > '0') && (*p < '9'))
+                m_endPos = m_startPos + strtoul(p, NULL, 10);
+        }
+        return true;
+    }
+    string t = getToken(line, ':');
+    if (t == "Range"){
+        const char *p = line.c_str();
+        for (; *p; p++)
+            if (*p != ' ')
+                break;
+        m_startPos = strtoul(p, NULL, 10);
+        for (; *p; p++)
+            if (*p == '-'){
+                p++;
+                break;
+            }
+        if ((*p >= '0') && (*p <= '9'))
+            m_endPos = strtoul(p, NULL, 10);
+    }
+    return true;
+}
+
+void JabberFileTransfer::send_line(const char *line)
+{
+    m_socket->writeBuffer.packetStart();
+    m_socket->writeBuffer << line;
+    m_socket->writeBuffer << "\r\n";
+    JabberPlugin *plugin = static_cast<JabberPlugin*>(m_client->protocol()->plugin());
+    log_packet(m_socket->writeBuffer, true, plugin->JabberPacket);
+    m_socket->write();
+}
+
+void JabberFileTransfer::connect()
+{
+    m_nFiles = 1;
+    if (m_notify)
+        m_notify->createFile(m_msg->getDescription(), 0xFFFFFFFF, false);
+}
+
+#ifdef WIN32
+static char PICT_PATH[] = "pictures\\";
+#else
+static char PICT_PATH[] = "pictures/";
+#endif
+
+QString JabberClient::photoFile(JabberUserData *data)
+{
+    string f = PICT_PATH;
+    f += "photo.";
+    f += data->ID;
+    f = user_file(f.c_str());
+    return QFile::decodeName(f.c_str());
+}
+
+QString JabberClient::logoFile(JabberUserData *data)
+{
+    string f = PICT_PATH;
+    f += "logo.";
+    f += data->ID;
+    f = user_file(f.c_str());
+    return QFile::decodeName(f.c_str());
 }
 
 #ifndef WIN32

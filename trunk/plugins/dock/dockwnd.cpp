@@ -554,6 +554,10 @@ set_background_properties(QWidget *w)
 #endif
 #endif
 
+#ifdef WIN32
+BOOL (WINAPI *_Shell_NotifyIconW)(DWORD dwMessage, PNOTIFYICONDATAW lpData) = NULL;
+#endif
+
 DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
         : QWidget(NULL, "dock",  WType_TopLevel | WStyle_Customize | WStyle_NoBorder | WStyle_StaysOnTop),
         EventReceiver(LowPriority)
@@ -571,10 +575,16 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
     blinkTimer = new QTimer(this);
     connect(blinkTimer, SIGNAL(timeout()), this, SLOT(blink()));
 #ifdef WIN32
+    hShell = NULL;
     setIcon(icon);
     QWidget::hide();
     gDock = this;
     if (IsWindowUnicode(winId())){
+        (HMODULE&)hShell = LoadLibraryA("shell32.dll");
+        if (hShell)
+            (DWORD&)_Shell_NotifyIconW = (DWORD)GetProcAddress((HMODULE)hShell, "Shell_NotifyIconW");
+    }
+    if (IsWindowUnicode(winId()) && _Shell_NotifyIconW){
         oldDockProc = (WNDPROC)SetWindowLongW(winId(), GWL_WNDPROC, (LONG)DockWindowProc);
         NOTIFYICONDATAW notifyIconData;
         notifyIconData.cbSize = sizeof(notifyIconData);
@@ -584,7 +594,7 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
         notifyIconData.uCallbackMessage = WM_DOCK;
         notifyIconData.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
         notifyIconData.uID = 0;
-        Shell_NotifyIconW(NIM_ADD, &notifyIconData);
+        _Shell_NotifyIconW(NIM_ADD, &notifyIconData);
     }else{
         oldDockProc = (WNDPROC)SetWindowLongA(winId(), GWL_WNDPROC, (LONG)DockWindowProc);
         NOTIFYICONDATAA notifyIconData;
@@ -764,12 +774,16 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
 DockWnd::~DockWnd()
 {
     quit();
+#ifdef WIN32
+    if (hShell)
+        FreeLibrary((HMODULE)hShell);
+#endif
 }
 
 void DockWnd::quit()
 {
 #ifdef WIN32
-    if (IsWindowUnicode(winId())){
+    if (_Shell_NotifyIconW && IsWindowUnicode(winId())){
         NOTIFYICONDATAW notifyIconData;
         notifyIconData.cbSize = sizeof(notifyIconData);
         notifyIconData.hIcon = 0;
@@ -778,7 +792,7 @@ void DockWnd::quit()
         notifyIconData.uCallbackMessage = 0;
         notifyIconData.uFlags = 0;
         notifyIconData.uID = 0;
-        Shell_NotifyIconW(NIM_DELETE, &notifyIconData);
+        _Shell_NotifyIconW(NIM_DELETE, &notifyIconData);
     }else{
         NOTIFYICONDATAA notifyIconData;
         notifyIconData.cbSize = sizeof(notifyIconData);
@@ -903,7 +917,7 @@ void DockWnd::setIcon(const char *icon)
 #endif
 #ifdef WIN32
     QWidget::setIcon(drawIcon);
-    if (IsWindowUnicode(winId())){
+    if (_Shell_NotifyIconW && IsWindowUnicode(winId())){
         NOTIFYICONDATAW notifyIconData;
         notifyIconData.cbSize = sizeof(notifyIconData);
         notifyIconData.hIcon = topData()->winIcon;
@@ -912,7 +926,7 @@ void DockWnd::setIcon(const char *icon)
         notifyIconData.uCallbackMessage = 0;
         notifyIconData.uFlags = NIF_ICON;
         notifyIconData.uID = 0;
-        Shell_NotifyIconW(NIM_MODIFY, &notifyIconData);
+        _Shell_NotifyIconW(NIM_MODIFY, &notifyIconData);
     }else{
         NOTIFYICONDATAA notifyIconData;
         notifyIconData.cbSize = sizeof(notifyIconData);
@@ -940,7 +954,7 @@ void DockWnd::setTip(const char *text)
     if (tip.isEmpty())
         tip = i18n(text);
 #ifdef WIN32
-    if (IsWindowUnicode(winId())){
+    if (_Shell_NotifyIconW && IsWindowUnicode(winId())){
         NOTIFYICONDATAW notifyIconData;
         notifyIconData.cbSize = sizeof(notifyIconData);
         notifyIconData.hIcon = topData()->winIcon;
@@ -953,7 +967,7 @@ void DockWnd::setTip(const char *text)
         notifyIconData.uCallbackMessage = 0;
         notifyIconData.uFlags = NIF_TIP;
         notifyIconData.uID = 0;
-        Shell_NotifyIconW(NIM_MODIFY, &notifyIconData);
+        _Shell_NotifyIconW(NIM_MODIFY, &notifyIconData);
     }else{
         NOTIFYICONDATAA notifyIconData;
         notifyIconData.cbSize = sizeof(notifyIconData);

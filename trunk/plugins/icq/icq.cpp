@@ -43,7 +43,6 @@
 #include "xpm/icqphone.xpm"
 #include "xpm/icqphonebusy.xpm"
 #include "xpm/sharedfiles.xpm"
-#include "xpm/pict.xpm"
 #include "xpm/aim_offline.xpm"
 #include "xpm/aim_online.xpm"
 #include "xpm/aim_away.xpm"
@@ -474,10 +473,6 @@ ICQPlugin::ICQPlugin(unsigned base, const char *cfg)
 
     icon.name = "sharedfiles";
     icon.xpm = sharedfiles;
-    eIcon.process();
-
-    icon.name = "pict";
-    icon.xpm = pict;
     eIcon.process();
 
     icon.name = "AIM_offline";
