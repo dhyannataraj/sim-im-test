@@ -1,5 +1,6 @@
 <!DOCTYPE UI><UI>
 <class>EmailEditBase</class>
+<include location="local">defs.h</include>
 <widget>
     <class>QDialog</class>
     <property stdset="1">
@@ -11,7 +12,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>343</width>
+            <width>339</width>
             <height>148</height>
         </rect>
     </property>

@@ -1,5 +1,6 @@
 <!DOCTYPE UI><UI>
 <class>UserInfoBase</class>
+<include location="local">defs.h</include>
 <widget>
     <class>QWidget</class>
     <property stdset="1">
@@ -11,8 +12,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>335</width>
-            <height>126</height>
+            <width>390</width>
+            <height>205</height>
         </rect>
     </property>
     <property>

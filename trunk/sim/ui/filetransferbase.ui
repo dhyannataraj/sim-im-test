@@ -1,30 +1,31 @@
 <!DOCTYPE UI><UI>
 <class>FileTransferBase</class>
+<include location="local">defs.h</include>
 <widget>
     <class>QDialog</class>
     <property stdset="1">
         <name>name</name>
         <cstring>FileTransfer</cstring>
     </property>
-    <property stdset="1">
+    <property>
         <name>geometry</name>
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>313</width>
+            <width>309</width>
             <height>231</height>
         </rect>
     </property>
-    <property stdset="1">
+    <property>
         <name>caption</name>
         <string>File transfer</string>
     </property>
     <vbox>
-        <property stdset="1">
+        <property>
             <name>margin</name>
             <number>11</number>
         </property>
-        <property stdset="1">
+        <property>
             <name>spacing</name>
             <number>6</number>
         </property>
@@ -45,11 +46,11 @@
                     <string>&amp;Transfer</string>
                 </attribute>
                 <vbox>
-                    <property stdset="1">
+                    <property>
                         <name>margin</name>
                         <number>11</number>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>spacing</name>
                         <number>6</number>
                     </property>
@@ -59,7 +60,7 @@
                             <name>name</name>
                             <cstring>lblState</cstring>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>text</name>
                             <string></string>
                         </property>
@@ -85,11 +86,11 @@
                             <cstring>Layout4</cstring>
                         </property>
                         <hbox>
-                            <property stdset="1">
+                            <property>
                                 <name>margin</name>
                                 <number>0</number>
                             </property>
-                            <property stdset="1">
+                            <property>
                                 <name>spacing</name>
                                 <number>6</number>
                             </property>
@@ -99,13 +100,13 @@
                                     <name>name</name>
                                     <cstring>lblSize</cstring>
                                 </property>
-                                <property stdset="1">
+                                <property>
                                     <name>font</name>
                                     <font>
                                         <bold>1</bold>
                                     </font>
                                 </property>
-                                <property stdset="1">
+                                <property>
                                     <name>text</name>
                                     <string>1000000/100000</string>
                                 </property>
@@ -137,13 +138,13 @@
                                     <name>name</name>
                                     <cstring>lblSpeed</cstring>
                                 </property>
-                                <property stdset="1">
+                                <property>
                                     <name>font</name>
                                     <font>
                                         <bold>1</bold>
                                     </font>
                                 </property>
-                                <property stdset="1">
+                                <property>
                                     <name>text</name>
                                     <string>100000</string>
                                 </property>
@@ -157,11 +158,11 @@
                             <cstring>Layout5</cstring>
                         </property>
                         <hbox>
-                            <property stdset="1">
+                            <property>
                                 <name>margin</name>
                                 <number>0</number>
                             </property>
-                            <property stdset="1">
+                            <property>
                                 <name>spacing</name>
                                 <number>6</number>
                             </property>
@@ -171,11 +172,11 @@
                                     <name>name</name>
                                     <cstring>lblSldSpeed</cstring>
                                 </property>
-                                <property stdset="1">
+                                <property>
                                     <name>text</name>
                                     <string>Speed:</string>
                                 </property>
-                                <property stdset="1">
+                                <property>
                                     <name>alignment</name>
                                     <set>AlignVCenter|AlignRight</set>
                                 </property>
@@ -189,7 +190,7 @@
                                     <name>name</name>
                                     <cstring>sldSpeed</cstring>
                                 </property>
-                                <property stdset="1">
+                                <property>
                                     <name>orientation</name>
                                     <enum>Horizontal</enum>
                                 </property>
@@ -230,11 +231,11 @@
                     <string>&amp;Details</string>
                 </attribute>
                 <vbox>
-                    <property stdset="1">
+                    <property>
                         <name>margin</name>
                         <number>11</number>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>spacing</name>
                         <number>6</number>
                     </property>
@@ -255,11 +256,11 @@
                 <cstring>Layout6</cstring>
             </property>
             <hbox>
-                <property stdset="1">
+                <property>
                     <name>margin</name>
                     <number>0</number>
                 </property>
-                <property stdset="1">
+                <property>
                     <name>spacing</name>
                     <number>6</number>
                 </property>
@@ -269,7 +270,7 @@
                         <name>name</name>
                         <cstring>chkClose</cstring>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>text</name>
                         <string>Close after send</string>
                     </property>
@@ -301,7 +302,7 @@
                         <name>name</name>
                         <cstring>btnCancel</cstring>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>text</name>
                         <string>&amp;Cancel</string>
                     </property>

@@ -551,6 +551,7 @@ void ICQClient::addResponseRequest(unsigned long uin, bool bPriority)
         return;
     }
     p->addRequest(uin, bPriority, p->responseRequestQueue);
+	p->processResponseRequestQueue(0);
 }
 
 void ICQClientPrivate::processInfoRequestQueue()

@@ -1,5 +1,6 @@
 <!DOCTYPE UI><UI>
 <class>SecureDlgBase</class>
+<include location="local">defs.h</include>
 <widget>
     <class>QDialog</class>
     <property stdset="1">
@@ -11,8 +12,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>305</width>
-            <height>139</height>
+            <width>419</width>
+            <height>108</height>
         </rect>
     </property>
     <property>

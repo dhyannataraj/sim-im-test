@@ -828,7 +828,7 @@ bool ICQClientPrivate::requestAutoResponse(unsigned long uin, bool bAuto)
     if (user == NULL) return false;
     unsigned long status = user->uStatus & 0xFF;
     if (status == 0) return false;
-    if (!bAuto){
+    if (bAuto){
         if (client->owner->InvisibleId && (user->VisibleId == 0)) return false;
         if ((client->owner->InvisibleId == 0) && user->InvisibleId) return false;
     }

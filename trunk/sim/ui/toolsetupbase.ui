@@ -1,5 +1,6 @@
 <!DOCTYPE UI><UI>
 <class>ToolBarSetupBase</class>
+<include location="local">defs.h</include>
 <widget>
     <class>QDialog</class>
     <property stdset="1">
