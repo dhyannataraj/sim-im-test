@@ -56,7 +56,7 @@
 #endif
 #endif
 
-#define MAX_HISTORY	10
+#define MAX_HISTORY	100
 
 TextShow::TextShow(QWidget *p, const char *name)
         : QTextBrowser(p, name)
@@ -629,7 +629,7 @@ void HistoryTextView::fill()
 
     if (++it){
         if (findId){
-			unsigned long msgId = (*it)->Id;
+            unsigned long msgId = (*it)->Id;
             msgs.push_back(msgId);
             if (msgId == findId)
                 findId = 0;

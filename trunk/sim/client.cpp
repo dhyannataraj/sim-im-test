@@ -1438,7 +1438,7 @@ unsigned long ICQClientSocket::localHost()
             struct hostent *he = NULL;
             he = gethostbyname(hostName);
             if (he != NULL)
-                res = htonl(*((unsigned long*)(he->h_addr_list)));
+                res = htonl(*((unsigned long*)(he->h_addr)));
         }
     }
     return res;

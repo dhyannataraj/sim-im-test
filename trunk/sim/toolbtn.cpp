@@ -50,6 +50,8 @@ CToolButton::CToolButton( const QIconSet & p, const QString & textLabel,
         : QToolButton(p, textLabel, grouptext, receiver, slot, parent, name)
 {
     popup = NULL;
+    bCtrl = false;
+    bProcessCtrl = false;
 }
 
 CToolButton::CToolButton( const QIconSet & pOff, const QPixmap & pOn, const QString & textLabel,
@@ -58,6 +60,8 @@ CToolButton::CToolButton( const QIconSet & pOff, const QPixmap & pOn, const QStr
         : QToolButton(pOff, textLabel, grouptext, receiver, slot, parent, name)
 {
     popup = NULL;
+    bCtrl = false;
+    bProcessCtrl = false;
 #if QT_VERSION < 300
     setOnIconSet(pOn);
 #else
@@ -71,6 +75,8 @@ CToolButton::CToolButton ( QWidget * parent, const char * name  )
         : QToolButton( parent, name)
 {
     popup = NULL;
+    bCtrl = false;
+    bProcessCtrl = false;
 }
 
 void CToolButton::setPopup(QPopupMenu *_popup)
@@ -121,9 +127,24 @@ void CToolButton::mousePressEvent(QMouseEvent *e)
     QToolButton::mousePressEvent(e);
 }
 
+void CToolButton::mouseReleaseEvent(QMouseEvent *e)
+{
+    bCtrl = (e->state() & ControlButton) != 0;
+    QToolButton::mouseReleaseEvent(e);
+    bCtrl = false;
+}
+
 void CToolButton::setTextLabel(const QString &text)
 {
-    setAccel(QAccel::shortcutKey(text));
+    int key = QAccel::shortcutKey(text);
+    setAccel(key);
+    if (bProcessCtrl){
+        QAccel *a = new QAccel(this);
+        key |= CTRL;
+        string s;
+        s = QAccel::keyToString(key).local8Bit();
+        a->connectItem(a->insertItem(key), this, SLOT(ctrlClick()));
+    }
     QString t = text;
     int pos;
     while ((pos = t.find('&')) >= 0){
@@ -136,6 +157,17 @@ void CToolButton::contextMenuEvent(QContextMenuEvent *e)
 {
     e->accept();
     emit showPopup(e->globalPos());
+}
+
+void CToolButton::ctrlClick()
+{
+    if (isOn()){
+        animateClick();
+        return;
+    }
+    bCtrl = true;
+    toggled(true);
+    bCtrl = false;
 }
 
 PictButton::PictButton( QToolBar *parent)

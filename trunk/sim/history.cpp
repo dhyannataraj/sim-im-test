@@ -165,7 +165,7 @@ cfgParam ICQStatus_Params[] =
 History::History(unsigned long uin)
         : it(*this), m_nUin(uin)
 {
-	codec = NULL;
+    codec = NULL;
 }
 
 void History::remove()
@@ -377,13 +377,13 @@ void History::iterator::setCondition(const QString &_condition)
 
 QString History::iterator::quote(const QString &s)
 {
-	QString res = s;
+    QString res = s;
     res.replace(QRegExp("&"), "&amp;");
     res.replace(QRegExp("\""), "&quot;");
     res.replace(QRegExp("<"), "&lt;");
     res.replace(QRegExp(">"), "&gt;");
     res.replace(QRegExp("\\n"), "<br>");
-	return res;
+    return res;
 }
 
 void History::iterator::setOffs(unsigned long offs)
@@ -483,7 +483,7 @@ void History::iterator::loadBlock()
                 bool bMatch = false;
                 for (;;){
                     string line;
-					if (f.eof()) break;
+                    if (f.eof()) break;
                     getline(f, line);
                     if (*line.c_str() == '[') break;
                     char *p = strchr(line.c_str(), '=');
@@ -499,14 +499,14 @@ void History::iterator::loadBlock()
                 }
                 string line;
                 f.seekg(msgId);
-				if (!f.eof())
-					getline(f, line);
+                if (!f.eof())
+                    getline(f, line);
             }
             if (grepCondition){
                 bool bMatch = false;
                 for (;;){
                     string line;
-					if (f.eof()) break;
+                    if (f.eof()) break;
                     getline(f, line);
                     if (*line.c_str() == '[') break;
                     char *p = strchr(line.c_str(), '=');
@@ -522,8 +522,8 @@ void History::iterator::loadBlock()
                 }
                 string line;
                 f.seekg(msgId);
-				if (!f.eof())
-					getline(f, line);
+                if (!f.eof())
+                    getline(f, line);
             }
             msg = h.loadMessage(f, type, msgId);
             if (msg && grepFilter && !h.matchMessage(msg, filter)){
@@ -565,14 +565,14 @@ int History::iterator::progress()
 
 bool History::match(const string &s, const QString &pattern, const char *srcCharset)
 {
-	if (codec == NULL) codec = pClient->codecForUser(m_nUin);
-	QString str = pClient->from8Bit(codec, s, srcCharset);
-	return str.find(pattern) >= 0;
+    if (codec == NULL) codec = pClient->codecForUser(m_nUin);
+    QString str = pClient->from8Bit(codec, s, srcCharset);
+    return str.find(pattern) >= 0;
 }
 
 bool History::matchMessage(ICQMessage *msg, const QString &filter)
 {
-	const char *charset = msg->Charset.c_str();
+    const char *charset = msg->Charset.c_str();
     if (msg->Type() == ICQ_MSGxMSG){
         ICQMsg *m = static_cast<ICQMsg*>(msg);
         return match(m->Message, filter, charset);

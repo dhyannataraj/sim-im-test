@@ -56,9 +56,22 @@ void ICQClient::snac_message(unsigned short type, unsigned short)
     case ICQ_SNACxMSG_RIGHTSxGRANTED:
         log(L_DEBUG, "Message rights granted");
         break;
-    case ICQ_SNACxMSG_ACK:
-        log(L_DEBUG, "Ack message");
-        break;
+    case ICQ_SNACxMSG_ACK:{
+            log(L_DEBUG, "Ack message");
+            unsigned long timestamp1, timestamp2;
+            sock->readBuffer >> timestamp1 >> timestamp2;
+            for (list<ICQEvent*>::iterator it = msgQueue.begin(); it != msgQueue.end();){
+                ICQEvent *e = *it;
+                if ((e->message() == NULL) || (e->state != ICQEvent::Send)) continue;
+                ICQMessage *m = e->message();
+                if ((m->timestamp1 != timestamp1) != (m->timestamp2 != timestamp2)) continue;
+                e->state = ICQEvent::Success;
+                msgQueue.remove(e);
+                process_event(e);
+                break;
+            }
+            break;
+        }
     case ICQ_SNACxMSG_AUTOREPLY:{
             unsigned long timestamp1, timestamp2;
             sock->readBuffer >> timestamp1 >> timestamp2;
@@ -984,6 +997,7 @@ void ICQClient::processMsgQueueThruServer()
                 ICQMsg *msg = static_cast<ICQMsg*>(e->message());
                 Buffer msgBuf;
                 string message;
+                e->state = ICQEvent::Send;
                 for (list<unsigned long>::iterator itUin = msg->Uin.begin(); itUin != msg->Uin.end(); ++itUin){
                     ICQUser *u = getUser(*itUin);
                     message = makeMessageText(msg, u);
@@ -1013,6 +1027,8 @@ void ICQClient::processMsgQueueThruServer()
                         msg_id id;
                         id.h = rand();
                         id.l = rand();
+                        msg->timestamp1 = id.h;
+                        msg->timestamp2 = id.l;
                         b << (unsigned short)0;
                         b << id.l << id.h;
                         b << 0x09461349L << 0x4C7F11D1L << 0x82224445L << 0x53540000L;
@@ -1027,9 +1043,9 @@ void ICQClient::processMsgQueueThruServer()
                         b.tlv(0x0501, "\x01", 1);
                         b.tlv(0x0101, msgBuf);
                         sendThroughServer(*itUin, 1, b);
+                        e->state = ICQEvent::Success;
                     }
                 }
-                (*it)->state = ICQEvent::Success;
                 break;
             }
         case ICQ_MSGxFILE:{

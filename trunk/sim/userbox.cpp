@@ -169,13 +169,15 @@ UserBox::UserBox(unsigned long grpId)
     btnGroup->setPopupDelay(0);
     toolbar->addSeparator();
     btnInfo = new CToolButton(toolbar);
+    btnInfo->bProcessCtrl = true;
     btnInfo->setIconSet(Icon("info"));
-    btnInfo->setTextLabel(i18n("User &info"));
+    btnInfo->setTextLabel(i18n("User &info<br>with CTRL open in new window"));
     btnInfo->setToggleButton(true);
     connect(btnInfo, SIGNAL(toggled(bool)), this, SLOT(toggleInfo(bool)));
     btnHistory = new CToolButton(toolbar);
+    btnHistory->bProcessCtrl = true;
     btnHistory->setIconSet(Icon("history"));
-    btnHistory->setTextLabel(i18n("&History"));
+    btnHistory->setTextLabel(i18n("&History<br>with CTRL open in new window"));
     btnHistory->setToggleButton(true);
     connect(btnHistory, SIGNAL(toggled(bool)), this, SLOT(toggleHistory(bool)));
     menuEncoding = new QPopupMenu(this);
@@ -221,6 +223,11 @@ UserBox::UserBox(unsigned long grpId)
     accel->insertItem(Key_0 + ALT, 10);
     accel->insertItem(Key_Left + ALT, 11);
     accel->insertItem(Key_Right + ALT, 12);
+}
+
+void UserBox::hideToolbar()
+{
+    toolbar->hide();
 }
 
 void UserBox::wmChanged()
@@ -320,15 +327,19 @@ void UserBox::showEvent(QShowEvent *e)
 void UserBox::resizeEvent(QResizeEvent *e)
 {
     QMainWindow::resizeEvent(e);
-    pMain->UserBoxWidth = size().width();
-    pMain->UserBoxHeight = size().height();
+    if (!bHistory && !bUserInfo){
+        pMain->UserBoxWidth = size().width();
+        pMain->UserBoxHeight = size().height();
+    }
 }
 
 void UserBox::moveEvent(QMoveEvent *e)
 {
     QMainWindow::moveEvent(e);
-    pMain->UserBoxX = pos().x();
-    pMain->UserBoxY = pos().y();
+    if (!bHistory && !bUserInfo){
+        pMain->UserBoxX = pos().x();
+        pMain->UserBoxY = pos().y();
+    }
 }
 
 QString UserBox::containerName()
@@ -368,6 +379,11 @@ void UserBox::saveInfo(ICQUser *u)
 
 void UserBox::toggleInfo(bool bShow)
 {
+    if (bShow && (btnInfo->bCtrl || pMain->isUserInfo(curWnd->Uin))){
+        pMain->userFunction(curWnd->Uin, mnuInfoNew, 0);
+        btnInfo->setOn(false);
+        return;
+    }
     bool oldState = isUpdatesEnabled();
     if (bShow){
         if (curWnd == NULL) return;
@@ -418,6 +434,11 @@ void UserBox::hideHistory()
 
 void UserBox::toggleHistory(bool bShow)
 {
+    if (bShow && (btnHistory->bCtrl || pMain->isHistory(curWnd->Uin))){
+        pMain->userFunction(curWnd->Uin, mnuHistoryNew, 0);
+        btnHistory->setOn(false);
+        return;
+    }
     bool oldState = isUpdatesEnabled();
     if (bShow){
         if ((curWnd == NULL) || (curWnd->Uin == 0)) return;
@@ -967,6 +988,11 @@ void UserBox::showUser(unsigned long uin, int function, unsigned long param)
     case mnuHistory:
         btnHistory->setOn(true);
         break;
+    case mnuGo:
+        btnInfo->setOn(false);
+        btnHistory->setOn(false);
+        wnd->showMessage(param);
+        break;
     default:
         btnInfo->setOn(false);
         btnHistory->setOn(false);
@@ -984,6 +1010,7 @@ void UserBox::setShow()
     KWin::setOnDesktop(winId(), KWin::currentDesktop());
 #endif
     raise();
+    setActiveWindow();
 #ifdef USE_KDE
     KWin::setActiveWindow(winId());
 #endif
@@ -1022,6 +1049,10 @@ void UserBox::showUserPopup(int id, QPoint pos)
 
 void UserBox::showMessage(unsigned long uin, unsigned long id)
 {
+    if (bHistory){
+        pMain->userFunction(uin, mnuGo, id);
+        return;
+    }
     MsgEdit *wnd = getChild(uin);
     if (wnd == NULL) return;
     msgShowId = id;

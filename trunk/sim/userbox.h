@@ -100,6 +100,7 @@ public:
     ICQMessage	*currentMessage();
     bool bHistory;
     bool bUserInfo;
+    void hideToolbar();
 signals:
     void messageReceived(ICQMessage*);
 public slots:

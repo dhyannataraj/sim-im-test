@@ -52,14 +52,18 @@ public:
     void setTextLabel(const QString &label);
     QPoint popupPos(QWidget *w);
     void setAccel(int key);
+    bool bCtrl;
+    bool bProcessCtrl;
 signals:
     void showPopup(QPoint);
 protected slots:
+    void ctrlClick();
     void btnClicked();
 protected:
     int accelKey;
     QPopupMenu *popup;
     void mousePressEvent(QMouseEvent*);
+    void mouseReleaseEvent(QMouseEvent*);
     void contextMenuEvent(QContextMenuEvent*);
     void showEvent(QShowEvent*);
     void hideEvent(QHideEvent*);

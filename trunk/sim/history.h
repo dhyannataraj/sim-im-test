@@ -45,7 +45,7 @@ public:
     unsigned long addMessage(ICQMessage*);
     ICQMessage *getMessage(unsigned long);
     bool matchMessage(ICQMessage*, const QString &pattern);
-	bool match(const string &s, const QString &pattern, const char *srcCharset);
+    bool match(const string &s, const QString &pattern, const char *srcCharset);
 
     class iterator
     {
@@ -56,7 +56,7 @@ public:
         void setOffs(unsigned long);
         void setFilter(const QString &filter);
         void setCondition(const QString &condition);
-		QString quote(const QString &s);
+        QString quote(const QString &s);
         ~iterator()
         {
             if (msg) delete msg;
@@ -65,7 +65,7 @@ public:
             setCondition("");
         }
 protected:
-		QTextCodec *codec;
+        QTextCodec *codec;
         QString filter;
         QString condition;
         History &h;
@@ -86,7 +86,7 @@ private:
 
 iterator &messages() { return it; }
 protected:
-	QTextCodec *codec;
+    QTextCodec *codec;
     iterator it;
     unsigned long m_nUin;
     bool open(bool bWrite, std::fstream &f, unsigned long *size=NULL);

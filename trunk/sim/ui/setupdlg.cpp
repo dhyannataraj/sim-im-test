@@ -257,7 +257,7 @@ void SetupDialog::update()
 void SetupDialog::apply()
 {
     ICQUser u;
-	u = *(pClient->owner);
+    u = *(pClient->owner);
     emit applyChanges(&u);
     pClient->setInfo(&u);
     pMain->saveState();
