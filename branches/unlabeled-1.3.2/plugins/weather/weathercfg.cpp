@@ -26,6 +26,7 @@
 #include <qtoolbar.h>
 #include <qpushbutton.h>
 #include <qcombobox.h>
+#include <qspinbox.h>
 
 static const char *helpList[] =
     {
@@ -60,6 +61,21 @@ static const char *helpList[] =
         NULL
     };
 
+static const char *helpForecastList[] =
+    {
+        "%t",
+        I18N_NOOP("Temperature"),
+        "%n",
+        I18N_NOOP("Number"),
+        "%w",
+        I18N_NOOP("Day of week"),
+        "%d",
+        I18N_NOOP("Date"),
+        "%c",
+        I18N_NOOP("Conditions"),
+        NULL
+    };
+
 WeatherCfg::WeatherCfg(QWidget *parent, WeatherPlugin *plugin)
         : WeatherCfgBase(parent)
 {
@@ -68,8 +84,10 @@ WeatherCfg::WeatherCfg(QWidget *parent, WeatherPlugin *plugin)
     setButtonsPict(this);
     edtText->setText(unquoteText(m_plugin->getButtonText()));
     edtTip->setText(m_plugin->getTipText());
+    edtForecastTip->setText(m_plugin->getForecastText());
     edtText->helpList = helpList;
     edtTip->helpList = helpList;
+    edtForecastTip->helpList = helpForecastList;
     lblLnk->setUrl("http://www.weather.com/?prod=xoap&par=1004517364");
     lblLnk->setText(QString("Weather data provided by weather.com") + QChar((unsigned short)174));
     connect(btnHelp, SIGNAL(clicked()), this, SLOT(help()));
@@ -160,11 +178,13 @@ void WeatherCfg::fill()
 {
     cmbUnits->setCurrentItem(m_plugin->getUnits() ? 1 : 0);
     cmbLocation->lineEdit()->setText(m_plugin->getLocation());
+	edtDays->setValue(m_plugin->getForecast());
 }
 
 void WeatherCfg::apply()
 {
     m_plugin->setUnits(cmbUnits->currentItem() != 0);
+    m_plugin->setForecast(atol(edtDays->text().latin1()));
     if (edtText->text() == unquoteText(m_plugin->getButtonText())){
         m_plugin->setText("");
     }else{
@@ -174,6 +194,11 @@ void WeatherCfg::apply()
         m_plugin->setTip("");
     }else{
         m_plugin->setTip(edtTip->text());
+    }
+    if (edtForecastTip->text() == m_plugin->getForecastText()){
+        m_plugin->setForecastTip("");
+    }else{
+        m_plugin->setForecastTip(edtForecastTip->text());
     }
     if (!m_ids.empty()){
         m_plugin->setID(m_ids[cmbLocation->currentItem()].c_str());

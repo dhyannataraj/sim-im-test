@@ -28,8 +28,11 @@ typedef struct WeatherData
     Data	ID;
     Data	Location;
     Data	Time;
+	Data	ForecastTime;
+	Data	Forecast;
     Data	Text;
     Data	Tip;
+    Data	ForecastTip;
     Data	Units;
     Data	bar[7];
     Data	Updated;
@@ -50,6 +53,12 @@ typedef struct WeatherData
     Data	UT;
     Data	UP;
     Data	US;
+	Data	Day;
+	Data	WDay;
+	Data	MinT;
+	Data	MaxT;
+	Data	DayIcon;
+	Data	DayConditions;
 } WeatherData;
 
 class WeatherPlugin : public QObject, public Plugin, public EventReceiver
@@ -61,8 +70,11 @@ public:
     PROP_STR(ID);
     PROP_STR(Location);
     PROP_ULONG(Time);
+    PROP_ULONG(ForecastTime);
+    PROP_ULONG(Forecast);
     PROP_UTF8(Text);
     PROP_UTF8(Tip);
+    PROP_UTF8(ForecastTip);
     PROP_BOOL(Units);
     PROP_STR(Updated);
     PROP_LONG(Temperature);
@@ -82,8 +94,15 @@ public:
     PROP_STR(UT);
     PROP_STR(US);
     PROP_STR(UP);
+	PROP_STRLIST(Day);
+	PROP_STRLIST(WDay);
+	PROP_STRLIST(MinT);
+	PROP_STRLIST(MaxT);
+	PROP_STRLIST(DayIcon);
+	PROP_STRLIST(DayConditions);
     QString getButtonText();
     QString getTipText();
+    QString getForecastText();
     void updateButton();
     void showBar();
     void hideBar();
@@ -94,6 +113,7 @@ protected slots:
     void barDestroyed();
 protected:
     QString replace(const QString&);
+    QString forecastReplace(const QString&);
     unsigned BarWeather;
     unsigned CmdWeather;
     unsigned m_fetch_id;
@@ -102,6 +122,9 @@ protected:
     bool   m_bBar;
     bool   m_bWind;
     bool   m_bUv;
+	bool   m_bForecast;
+	bool   m_bCC;
+	unsigned m_day;
     string getConfig();
     bool isDay();
     bool parseTime(const char *str, int &h, int &m);
