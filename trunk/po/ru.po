@@ -1,22 +1,24 @@
+# translation of ru.po to
 # translation of ru.po to Russian
 # translation of ru.po to Русский
 # Copyright (C) 2002 Free Software Foundation, Inc., 2002,2003, 2004
 # Vladimir Shutoff <vovan@shutoff.ru>, 2002,2003, 2004.
 # Albert R. Valiev <darkstar@altlinux.ru>, 2003.
 # Kir Kolyshkin <kir@sacred.ru>, 2004.
+# Andrey Rahmatullin <wrar@altlinux.ru>, 2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-05 15:33+0200\n"
-"PO-Revision-Date: 2004-06-14 02:54+0400\n"
-"Last-Translator: Vladimir Shutoff <vovan@shutoff.ru>\n"
+"PO-Revision-Date: 2004-08-16 23:56+0600\n"
+"Last-Translator: Andrey Rahmatullin <wrar@altlinux.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.3\n"
+"X-Generator: KBabel 1.3.1\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 :n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
 
 #: plugins/__homedir/homedir.cpp:48
@@ -647,7 +649,7 @@ msgstr "Время установки статуса"
 
 #: plugins/_core/core.cpp:1671
 msgid "time from set status"
-msgstr "Время с усьановки статуса"
+msgstr "Время с установки статуса"
 
 #: plugins/_core/core.cpp:1676
 msgid ""
@@ -673,7 +675,7 @@ msgid ""
 "If it is wrong, you can separate them. For this purpose in contact menu choose the necessary name and choose a command \"Separate\"."
 msgstr ""
 "При загрузке списка контактов контакты с одинаковыми именами были объединены.\n"
-"Если это неправильно, то вы можете разделить их. Для этого в меню котакта выберите нужное имя и выберите комманду \"Отделить\"."
+"Если это неправильно, то вы можете разделить их. Для этого в меню контакта выберите нужное имя и выберите команду \"Отделить\"."
 
 # ui/autoreplybase.cpp:45
 #: plugins/_core/core.cpp:1720
@@ -682,7 +684,7 @@ msgstr "Больше не показывать это сообщение"
 
 #: plugins/_core/core.cpp:1747
 msgid "`<command>` - call <command> and substitute command output\n"
-msgstr "`<command>` - заускаеися <command> и подставляется ее вывод\n"
+msgstr "`<command>` - заускается <command> и подставляется ее вывод\n"
 
 #: plugins/_core/core.cpp:2299 plugins/_core/interfacecfg.cpp:101
 msgid "System"
@@ -1770,7 +1772,6 @@ msgstr "&Исходный код"
 
 # ui/maininfobase.cpp:209 ui/searchbase.cpp:216
 #: plugins/_core/maininfobase.cpp:187 plugins/_core/nonimbase.cpp:95 plugins/icq/aiminfobase.cc:256 plugins/icq/icqinfobase.cc:312 plugins/jabber/discoinfobase.cpp:283 plugins/jabber/jabberinfobase.cpp:240
-#, fuzzy
 msgid "First Name:"
 msgstr "Имя:"
 
@@ -1872,7 +1873,7 @@ msgstr "&Общедоступный"
 # msgedit.cpp:238
 #: plugins/_core/editphonebase.cpp:108
 msgid "EditPhone"
-msgstr "EdutPhone"
+msgstr "EditPhone"
 
 # ui/addphonebase.cpp:72
 #: plugins/_core/editphonebase.cpp:109
@@ -1966,7 +1967,7 @@ msgstr "Псевдоним:"
 
 #: plugins/_core/autoreplybase.cpp:87 plugins/_core/connectionsettingsbase.cpp:74
 msgid "MyDialog"
-msgstr "MyDualog"
+msgstr "MyDialog"
 
 # ui/listsecbase.cpp:90 ui/moreinfobase.cpp:65
 #: plugins/_core/connectwndbase.cpp:98 plugins/icq/moreinfobase.cc:152
@@ -1982,7 +1983,7 @@ msgstr "Выполнено"
 msgid ""
 "If you want to add connection press button \" Next\".\n"
 "You can add connection later using connection manager"
-msgstr "Если вы хотите добавить еще одно соединение нажмите кнопку \"Дальше\" Вы можетк добавить соединения позднее с помощью менеджера соединений"
+msgstr "Если вы хотите добавить еще одно соединение, нажмите кнопку \"Дальше\" Вы можете добавить соединения позднее с помощью менеджера соединений"
 
 # passwddlg.cpp:48
 #: plugins/_core/logindlgbase.cpp:124
@@ -2185,14 +2186,14 @@ msgstr "О &KDE"
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
-msgstr "Владимир Шутов,Albert R. Valiev"
+msgstr "Владимир Шутов,Альберт Валиев,Андрей Рахматуллин"
 
 # _translatorinfo.cpp:3 mainwin.cpp:2602
 #: plugins/about/about.cpp:112
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
-msgstr "vovan@shutoff.ru,rudarkstar@altlinux.ru"
+msgstr "vovan@shutoff.ru,darkstar@altlinux.ru,wrar@altlinux.ru"
 
 # ui/aboutdlg.cpp:44
 #: plugins/about/aboutdlg.cpp:44
@@ -2276,8 +2277,8 @@ msgid ""
 "Thus it is possible to organize additional messages filters.\n"
 msgstr ""
 "Для событий о приходе сообщений текст сообщения будет подан на стандартный ввод программы.\n"
-"Если программа вернет нулевой код завершения то текст сообщения будет заменен текстом полученном на стандартном выводе программы.\n"
-"Если вывод программы будет пустой, то сообщение будет уничтожено.\n"
+"Если программа вернет нулевой код завершения, то текст сообщения будет заменен текстом, полученным на стандартном выводе программы.\n"
+"Если вывод программы будет пустым, то сообщение будет уничтожено.\n"
 "Это позволяет создавать дополнительные фильтры сообщений.\n"
 
 # ui/keysetupbase.cpp:131 ui/phonebookbase.cpp:104 ui/setupdlgbase.cpp:73
@@ -2515,7 +2516,7 @@ msgstr "&Принимать сообщения только от контакт�
 # ui/generalsecbase.cpp:189
 #: plugins/filter/filtercfgbase.cpp:67
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr "Отвергать сообщения от неизвестных пользователей, которые содержат слова или фразы:"
+msgstr "Отвергать сообщения от неизвестных пользователей, содержащие слова или фразы:"
 
 # ui/generalsec.cpp:48
 #: plugins/filter/filtercfgbase.cpp:68
@@ -2594,7 +2595,7 @@ msgstr "Модуль добавляет GnuPG шифрование сообще�
 # msgedit.cpp:573
 #: plugins/gpg/gpg.cpp:505 plugins/gpg/gpg.cpp:514
 msgid "Encrypt failed"
-msgstr "Шифирование выполнено не удачно"
+msgstr "Шифрование выполнено неудачно"
 
 # client.cpp:891 msgview.cpp:200
 #: plugins/gpg/gpg.cpp:700
@@ -3156,15 +3157,15 @@ msgstr "Студенты"
 
 #: plugins/icq/icqinfo.cpp:38
 msgid "20 Something"
-msgstr "20-ти летние"
+msgstr "20-тилетние"
 
 #: plugins/icq/icqinfo.cpp:39
 msgid "30 Something"
-msgstr "30-ти летние"
+msgstr "30-тилетние"
 
 #: plugins/icq/icqinfo.cpp:40
 msgid "40 Something"
-msgstr "40-ка летние"
+msgstr "40-калетние"
 
 #: plugins/icq/icqinfo.cpp:41
 msgid "50 Plus"
@@ -3235,7 +3236,7 @@ msgstr "Сервис временно недоступен"
 # control.cpp:190
 #: plugins/icq/icqlogin.cpp:226
 msgid "Invalid SecureID"
-msgstr "Неправильное занчение идентификатора ьезопасности"
+msgstr "Неправильное значение идентификатора безопасности"
 
 #: plugins/icq/icqlogin.cpp:230
 msgid "Too young!"
@@ -3372,7 +3373,7 @@ msgstr "Предупреждение"
 
 #: plugins/icq/icqpicture.cpp:126
 msgid "Picture can not be more than 7 kbytes"
-msgstr "Картинка не может быть размером более 7 к-байт"
+msgstr "Картинка не может быть размером более 7 килобайт"
 
 #: plugins/icq/icqpicture.cpp:136 plugins/jabber/jabberpicture.cpp:138
 msgid "Picture is not available"
@@ -3385,13 +3386,11 @@ msgstr "Псевдоним"
 
 # ui/maininfobase.cpp:209 ui/searchbase.cpp:216
 #: plugins/icq/icqsearch.cpp:299 plugins/jabber/jabberadd.cpp:279 plugins/jabber/jabbersearch.cpp:104 plugins/jabber/jabbersearch.cpp:304
-#, fuzzy
 msgid "First Name"
 msgstr "Имя"
 
 # ui/maininfobase.cpp:95 ui/searchbase.cpp:210
 #: plugins/icq/icqsearch.cpp:301 plugins/jabber/jabberadd.cpp:280 plugins/jabber/jabbersearch.cpp:105 plugins/jabber/jabbersearch.cpp:305
-#, fuzzy
 msgid "Last Name"
 msgstr "Фамилия:"
 
@@ -3452,7 +3451,7 @@ msgstr "Вы получили предупреждение от %1"
 # mainwin.cpp:2371
 #: plugins/icq/icqvarious.cpp:1458
 msgid "Change password fail"
-msgstr "Пароль изменен не удачно"
+msgstr "Пароль изменен неудачно"
 
 #: plugins/icq/icqvarious.cpp:1491
 msgid "The Cellular network is currently unable to send your message to the recipient. Please try again later."
@@ -4324,7 +4323,6 @@ msgid "Disable answer on phonebook and &picture requests"
 msgstr "Запретить отвечать на запросы картинок и телефонной книги"
 
 #: plugins/icq/icqconfigbase.cc:287
-#, fuzzy
 msgid "Disable automatically &request autoreply on change status"
 msgstr "Запретить запрашивать &авто-ответ при изменении статуса"
 
@@ -4736,7 +4734,7 @@ msgstr "Предупредить &анонимно"
 msgid ""
 "Check this if you don't want your screen name revealed.\n"
 "Anonymous warinings are less severe."
-msgstr "Включите, если вы не хотите расскрывать свое имя в предупреждении. Анонимные предупреждения оказывают меньшее влияние на уровень предупреждений."
+msgstr "Включите, если вы не хотите раскрывать свое имя в предупреждении. Анонимные предупреждения оказывают меньшее влияние на уровень предупреждений."
 
 # userbox.cpp:189
 #: plugins/icq/encodingdlgbase.cc:83
@@ -4745,7 +4743,7 @@ msgstr "Выберите кодировку по умолчанию"
 
 #: plugins/icq/encodingdlgbase.cc:84
 msgid "Your current system encoding (UTF-8) may cause problems saving your personal information and reading offline messages from other users."
-msgstr "У вас установлена кодировка по уиолчанию UTF-8, использование которой вожет привести к некоторым проблемам при чтении offline-сообщений и сохранением вашнй информации."
+msgstr "У вас установлена кодировка по умолчанию UTF-8, использование которой может привести к некоторым проблемам при чтении offline-сообщений и сохранением вашей информации."
 
 #: plugins/icq/encodingdlgbase.cc:85
 msgid "You will choose the coding by default which want to use:"
@@ -4873,7 +4871,7 @@ msgstr "%1 Конфигурация"
 
 #: plugins/jabber/jabberbrowser.cpp:987
 msgid "Choose a user and password to register with the server"
-msgstr "Выберете имя пользователя и пароль для регистрации на сервере"
+msgstr "Выберите имя пользователя и пароль для регистрации на сервере"
 
 #: plugins/jabber/jabberclient.cpp:1469 plugins/jabber/jabberclient.cpp:1578
 msgid "Photo"
@@ -4979,7 +4977,7 @@ msgstr "Email"
 
 #: plugins/jabber/jabbersearch.cpp:299
 msgid "Select the speed of the search.  \"Fast\" matches your string to the beginning of the field only (ie. \"b\" would yield Bob,Bill,etc...)  \"Slower\" matches your string anywhere in the field (ie. \"b\" would yield Bob, Bill, Caleb, Robbie, etc...)"
-msgstr "Выберите скорость поиск  \"Быстрый\" ищет только по началу строки (то есть по \"b\" будет найдено Bob, Bill и т.д.)  \"Медленный\" будет  искать подстроку в любом месте поля (то есть по \"b\" будет найдено Bob, Bill, Caleb, Robby и т.д.)"
+msgstr "Выберите скорость поиска.  \"Быстрый\" ищет только по началу строки (то есть по \"b\" будет найдено Bob, Bill и т.д.).  \"Медленный\" будет искать подстроку в любом месте поля (то есть по \"b\" будет найдено Bob, Bill, Caleb, Robby и т.д.)"
 
 #: plugins/jabber/jabbersearch.cpp:300
 msgid "Search Speed"
@@ -5143,12 +5141,10 @@ msgid "Use protocol &icons for agents contacts"
 msgstr "Использовать &иконки протоколов"
 
 #: plugins/jabber/jabberconfigbase.cpp:315
-#, fuzzy
 msgid "Automatically send &subscribe request"
 msgstr "Автоматически отправлять &запросы авторизации"
 
 #: plugins/jabber/jabberconfigbase.cpp:316
-#, fuzzy
 msgid "Automatically &accept subscribe requests"
 msgstr "Автоматически принимать запросы &авторизации"
 
@@ -5949,7 +5945,7 @@ msgstr "Запретить комментарии"
 # mainwin.cpp:2362
 #: plugins/livejournal/journalsearchbase.cpp:65
 msgid "Add community"
-msgstr "Добавитьсообщество"
+msgstr "Добавить сообщество"
 
 # monitor.cpp:78
 #: plugins/logger/logconfig.cpp:94
@@ -6486,9 +6482,8 @@ msgid "Use &TCP socket"
 msgstr "Использовать &TCP-сокет"
 
 #: plugins/remote/remotecfgbase.cpp:109
-#, fuzzy
 msgid "Enable IE context menu extension"
-msgstr "Разрешить разрешения меню IE"
+msgstr "Разрешить расширения меню IE"
 
 # ui/filetransfer.cpp:250
 #: plugins/replace/replace.cpp:33
@@ -6686,7 +6681,7 @@ msgstr "Звук"
 
 #: plugins/sound/sound.cpp:44
 msgid "Plugin provides sounds on any events"
-msgstr "Модуль обеспечивает вывод звуков на разные события"
+msgstr "Модуль обеспечивает вывод звуков на различные события"
 
 # mainwin.cpp:1708 ui/setupdlg.cpp:143 ui/soundsetupbase.cpp:106
 # ui/userinfo.cpp:93
@@ -6696,7 +6691,7 @@ msgstr "&Звук"
 
 #: plugins/sound/soundconfig.cpp:50
 msgid "Qt provides sound output so you just need to set a player if you don't like Qt's sound."
-msgstr "Qt поддерживает звук, если вы хотите запретить использование звука Qt укажите плейер"
+msgstr "Qt поддерживает звук, если вы хотите запретить использование звука Qt - укажите плейер"
 
 # ui/soundsetupbase.cpp:154
 #: plugins/sound/sounduser.cpp:44
@@ -7100,7 +7095,7 @@ msgstr "Северо-западный"
 msgid ""
 "_: weather\n"
 "WNW"
-msgstr "Северо-западный "
+msgstr "Западно-северо-западный"
 
 #: plugins/weather/weather.cpp:408
 msgid ""
@@ -7112,7 +7107,7 @@ msgstr "Западный"
 msgid ""
 "_: weather\n"
 "WSW"
-msgstr "Юго-западный"
+msgstr "Западно-юго-западный"
 
 #: plugins/weather/weather.cpp:410
 msgid ""
@@ -7148,7 +7143,7 @@ msgstr "Юго-восточный"
 msgid ""
 "_: weather\n"
 "ESE"
-msgstr "Юго-восточный"
+msgstr "Восточно-юго-восточный"
 
 #: plugins/weather/weather.cpp:416
 msgid ""
@@ -7160,7 +7155,7 @@ msgstr "Восточный"
 msgid ""
 "_: weather\n"
 "ENE"
-msgstr "Северо-восточный"
+msgstr "Восточно-северо-восточный"
 
 #: plugins/weather/weather.cpp:418
 msgid ""
@@ -7425,7 +7420,7 @@ msgstr ""
 
 #: plugins/windock/windock.cpp:358
 msgid "AutoHide"
-msgstr "Само-скрывающаяся панель"
+msgstr "Самоскрывающаяся панель"
 
 #: plugins/yahoo/yahoo.cpp:81
 msgid "Yahoo!"
@@ -7441,7 +7436,7 @@ msgstr "Получить адрес в Yahoo!"
 
 #: plugins/yahoo/yahooclient.cpp:339
 msgid "Yahoo! login lock"
-msgstr "Взод в Yahoo! заблокирован"
+msgstr "Вход в Yahoo! заблокирован"
 
 #: plugins/yahoo/yahooclient.cpp:362
 msgid "Your account has been locked"
@@ -7514,9 +7509,8 @@ msgid "Zodiak"
 msgstr "Зодиак"
 
 #: plugins/zodiak/zodiak.cpp:51
-#, fuzzy
 msgid "Plugin provides show zodiak pictures for date edit"
-msgstr "Модуль обеспечивает фон списка контактов"
+msgstr "Модуль добавляет показ знака зодиака к окну ввода даты"
 
 #: plugins/zodiak/zodiak.cpp:158
 msgid "View horoscope"
@@ -7877,7 +7871,7 @@ msgstr "&Эффекты"
 
 #: sim/qt3/i18n.cpp:158
 msgid "Stri&keout"
-msgstr "Пере&черкнутый"
+msgstr "&Зачёркивание"
 
 # ui/xosdbase.cpp:141
 #: sim/qt3/i18n.cpp:162
@@ -7886,12 +7880,12 @@ msgstr "&Цвет"
 
 #: sim/qt3/i18n.cpp:164
 msgid "Sample"
-msgstr "Пример"
+msgstr "Образец"
 
 # ui/generalsecbase.cpp:111 ui/setupdlg.cpp:168
 #: sim/qt3/i18n.cpp:166
 msgid "Scr&ipt"
-msgstr "Скри&пт"
+msgstr "Рукоп&исный"
 
 # ui/setupdlgbase.cpp:99
 #: sim/qt3/i18n.cpp:168
@@ -7912,7 +7906,7 @@ msgstr "Выбор шрифта"
 
 #: sim/qt3/i18n.cpp:177
 msgid "<h3>About Qt</h3><p>This program uses Qt version %1, a multiplatform C++ GUI toolkit from Trolltech. Qt provides single-source portability across Windows 95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of Unix with X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more information.</p>"
-msgstr "<h3>О Qt</h3><p>СИМ использует Qt версии %1, многоплатформенную среду разработки C++ GUI от Trolltech.</p><p> <tt>http://www.trolltech.com/qt/</tt> Для дополнительной информации.</p>"
+msgstr "<h3>О Qt</h3><p>SIM использует Qt версии %1, многоплатформенную среду разработки C++ GUI от Trolltech.</p><p> <tt>http://www.trolltech.com/qt/</tt> Для дополнительной информации.</p>"
 
 #: sim/qt3/i18n.cpp:183
 msgid "Help"
@@ -7925,18 +7919,18 @@ msgstr "По умолчанию"
 
 # mainwin.cpp:2637
 #: sim/qt3/i18n.cpp:187
-msgid "< Back"
-msgstr "< Назад"
+msgid "< &Back"
+msgstr "< &Назад"
 
 # msgedit.cpp:225
 #: sim/qt3/i18n.cpp:189
-msgid "Next >"
-msgstr "Дальше >"
+msgid "&Next >"
+msgstr "&Далее >"
 
 # libicq/country.cpp:22
 #: sim/qt3/i18n.cpp:191
-msgid "Finish"
-msgstr "Закончить"
+msgid "&Finish"
+msgstr "&Готово"
 
 #: sim/qt3/i18n.cpp:195
 msgid "+"
@@ -8005,7 +7999,7 @@ msgstr "Узел %1 не найден"
 # mainwin.cpp:2362
 #: sim/qt3/i18n.cpp:229
 msgid "Host found"
-msgstr "Узед найден"
+msgstr "Узел найден"
 
 #: sim/qt3/i18n.cpp:231
 #, c-format
@@ -9588,7 +9582,6 @@ msgid "Usage: %1 "
 msgstr "Используйте: %1"
 
 #: sim/sim.cpp:200
-#, fuzzy
 msgid "Multiprotocol Instant Messenger"
 msgstr "Многопротокольный клиент обмена мгновенными сообщениями"
 
