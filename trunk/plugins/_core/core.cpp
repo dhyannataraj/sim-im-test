@@ -2331,6 +2331,13 @@ void *CorePlugin::processEvent(Event *e)
                     MessageDef *mdef = (MessageDef*)(def->param);
                     cmds[n].icon = def->icon;
                     QString msg = i18n(mdef->singular, mdef->plural, (*itc).second.count);
+                    if (!msg) {
+                        log(L_ERROR, "Message is missing some definitions! Text: %s, ID: %u",
+                            def->text, def->id);
+                        int cnt = (*itc).second.count;
+                        msg = QString("%1").arg(cnt);
+                    }
+                    int cnt = (*itc).second.count;
                     if (contact_id == 0){
                         Contact *contact = getContacts()->contact((*itc).first.contact);
                         if (contact == NULL)
