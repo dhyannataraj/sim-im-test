@@ -226,10 +226,12 @@ SynPacket::SynPacket(MSNClient *client)
 SynPacket::~SynPacket()
 {
     if ((m_client->getListVer() != m_ver) && bDone){
-        Contact *contact;
-        if (m_client->findContact(m_data->EMail, contact)){
-            Event e(EventContactChanged, contact);
-            e.process();
+        if (m_data){
+            Contact *contact;
+            if (m_client->findContact(m_data->EMail, contact)){
+                Event e(EventContactChanged, contact);
+                e.process();
+            }
         }
         m_client->setListVer(m_ver);
         ContactList::GroupIterator itg;
@@ -251,6 +253,7 @@ SynPacket::~SynPacket()
             if ((data->sFlags & MSN_CHECKED) == 0)
                 grpRemove.push_back(grp);
         }
+        Contact *contact;
         ContactList::ContactIterator itc;
         while ((contact = ++itc) != NULL){
             MSNUserData *data;

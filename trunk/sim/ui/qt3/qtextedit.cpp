@@ -629,9 +629,10 @@ QTextEdit::~QTextEdit()
 
 void QTextEdit::init()
 {
+#ifdef WIN32
     setWndProc(this);
     setWndProc(viewport());
-
+#endif
     undoEnabled = TRUE;
     readonly = TRUE;
     setReadOnly( FALSE );

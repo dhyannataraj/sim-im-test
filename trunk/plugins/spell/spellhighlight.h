@@ -44,6 +44,7 @@ protected slots:
     void slotMisspelling(const QString &originalWord);
     void slotConfigChanged();
     void reformat();
+    void restore();
 protected:
     QDict<bool>  m_words;
     int m_paragraph;
@@ -60,6 +61,7 @@ protected:
     bool m_bDirty;
     bool m_bCheck;
     bool m_bInError;
+    bool m_bDisable;
     stack<bool> m_fonts;
     QString     m_word;
     QStringList	m_sug;

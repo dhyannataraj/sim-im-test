@@ -1535,17 +1535,14 @@ void UserView::search(QListViewItem *item, list<QListViewItem*> &items)
 void UserView::dragScroll()
 {
     QPoint pos = QCursor::pos();
-    log(L_DEBUG, "Drag %u %u", pos.x(), pos.y());
     pos = viewport()->mapFromGlobal(pos);
     if ((pos.x() < 0) || (pos.x() > viewport()->width()))
         return;
     QListViewItem *item = NULL;
     if (pos.y() < 0){
-        log(L_DEBUG, "Scroll up");
         pos = QPoint(pos.x(), -1);
         item = itemAt(pos);
     }else if (pos.y() > viewport()->height()){
-        log(L_DEBUG, "Scroll down");
         pos = QPoint(pos.x(), viewport()->height() - 1);
         item = itemAt(pos);
         if (item){

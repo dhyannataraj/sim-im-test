@@ -98,7 +98,7 @@ if test "x$PKG_CONFIG" != "xno" ; then
     fi
   fi
 fi
-if text "x$LIB_SABLOT" = "x"; then
+if test "x$LIB_SABLOT" = "x"; then
   AC_CHECK_HEADER(sablot.h, [sablot="yes"])
   if test "x$sablot" = "xyes"; then
 	sablot="no"
