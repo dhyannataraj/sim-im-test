@@ -264,20 +264,30 @@ QString CUser::toolTip()
             r += "Licq " + LicqVersionToString(u->TimeStamp() & 0xFFFF) + "/SSL";
         }else if((u->TimeStamp() & 0xFFFF0000) == LICQ_WITHOUTSSL){
             r += "Licq " + LicqVersionToString(u->TimeStamp() & 0xFFFF);
-        }else if (u->Version() == 5){
-            r += "ICQ 99";
-        }else if (u->Version() == 7){
-            r += "ICQ 2000";
-        }else if (u->Version() == 8){
+        }else{
             switch (u->ClientType()){
-            case 2:
-                r += "ICQ 2002";
-                break;
             case 1:
                 r += "Trillian";
                 break;
+            case 2:
+                r += "ICQ 2002";
+                break;
+            case 3:
+                r += "KXicq2";
+                break;
+            case 4:
+                r += "gaim";
+                break;
+            case 5:
+                r += "vICQ";
+                break;
             default:
-                r += "ICQ 2001";
+                if (u->Version() == 5)
+                    r += "ICQ 99";
+                if (u->Version() == 7)
+                    r += "ICQ 2000";
+                if (u->Version() == 8)
+                    r += "ICQ 2001";
             }
         }
     }

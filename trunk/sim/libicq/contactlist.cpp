@@ -129,10 +129,10 @@ ICQUser *ICQClient::getUser(unsigned long id, bool create, bool bIsTemp)
     if (!create) return u;
     if (u){
         if (!bIsTemp && u->bIsTemp){
-			u->bIsTemp = false;
-			ICQEvent e(EVENT_INFO_CHANGED, id);
-			process_event(&e);
-		}
+            u->bIsTemp = false;
+            ICQEvent e(EVENT_INFO_CHANGED, id);
+            process_event(&e);
+        }
         return u;
     }
     u = contacts.getUser(id, true);

@@ -293,7 +293,7 @@ void UserTbl::contentsDropEvent(QDropEvent *e)
 void UserTbl::action(int id)
 {
     switch (id){
-	case mnuMessage:
+    case mnuMessage:
     case mnuInfo:
         if (actionItem){
             ICQUser *u = pClient->getUser(static_cast<UserTblItem*>(currentItem())->mUin, true, true);

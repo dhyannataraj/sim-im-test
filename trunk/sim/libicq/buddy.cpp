@@ -100,6 +100,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 // Direct connection info
                 Tlv *tlvDirect = tlv(0x000C);
                 if (tlvDirect){
+                    user->ClientType = 0;
                     Buffer info(*tlvDirect);
                     unsigned long  realIP;
                     unsigned short port;
@@ -129,11 +130,16 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                     user->Mode = (unsigned short)mode;
                     user->Version = (unsigned short)version;
                     changed = true;
+                    if (user->DCcookie == 0)
+                        user->ClientType = 4;
+                    if ((user->DCcookie == cookie1) && (cookie1 == cookie2))
+                        user->ClientType = 5;
+                    if (cookie1 == 0x279c6996)
+                        user->ClientType = 3;
                 }
 
                 Tlv *tlvCapability = tlv(0x000D);
                 if (tlvCapability){
-                    user->ClientType = 0;
                     user->GetRTF = false;
                     Buffer info(*tlvCapability);
                     for (; info.readPos() < info.size(); ){

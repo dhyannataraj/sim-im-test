@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"POT-Creation-Date: 2002-08-04 10:15+0400\n"
-"PO-Revision-Date: 2002-08-04 10:16GMT+3\n"
+"POT-Creation-Date: 2002-08-05 04:36+0400\n"
+"PO-Revision-Date: 2002-08-05 04:45GMT+3\n"
 "Last-Translator: Vladimir Shutoff <shutoff@mail.ru>\n"
 "Language-Team: Русский <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -219,7 +219,7 @@ msgstr "темный"
 msgid "italic"
 msgstr "курсив"
 
-#: logindlg.cpp:37 ui/searchbase.cpp:181
+#: logindlg.cpp:37 ui/searchbase.cpp:247
 msgid "UIN:"
 msgstr "UIN:"
 
@@ -232,7 +232,7 @@ msgid "Use existing UIN"
 msgstr "Использовать существующий UIN"
 
 #: logindlg.cpp:57 logindlg.cpp:122 mainwin.cpp:1374 passwddlg.cpp:44
-#: passwddlg.cpp:89 ui/searchbase.cpp:207 ui/searchdlg.cpp:96
+#: passwddlg.cpp:89 ui/searchbase.cpp:90 ui/searchdlg.cpp:106
 #: ui/setupdlgbase.cpp:95 userbox.cpp:171
 msgid "Close"
 msgstr "Закрыть"
@@ -245,7 +245,7 @@ msgstr "Регистрация"
 msgid "Registration"
 msgstr "Регистрация"
 
-#: logindlg.cpp:89 passwddlg.cpp:67 ui/searchdlg.cpp:93
+#: logindlg.cpp:89 passwddlg.cpp:67 ui/searchdlg.cpp:103
 msgid "Cancel"
 msgstr "Отменить"
 
@@ -325,12 +325,12 @@ msgstr "В списке игнорируемых"
 msgid "Groups"
 msgstr "Группы"
 
-#: mainwin.cpp:1362 usertbl.cpp:390 userview.cpp:480
+#: mainwin.cpp:1362 usertbl.cpp:391 userview.cpp:480
 msgid "Delete"
 msgstr "Удалить"
 
 #: mainwin.cpp:1366 ui/userinfo.cpp:53 userbox.cpp:163 userbox.cpp:313
-#: usertbl.cpp:403
+#: usertbl.cpp:405
 msgid "User info"
 msgstr "Информация о пользователе"
 
@@ -663,7 +663,7 @@ msgstr "Все пользователи"
 msgid "History loading"
 msgstr "Загрузка истории"
 
-#: ui/searchbase.cpp:188 usertbl.cpp:110
+#: ui/searchbase.cpp:254 usertbl.cpp:110
 msgid "UIN"
 msgstr "UIN"
 
@@ -675,19 +675,19 @@ msgstr "Псевдоним"
 msgid "Name"
 msgstr "Имя"
 
-#: usertbl.cpp:391
+#: usertbl.cpp:392
 msgid "Erase"
 msgstr "Очистить"
 
-#: usertbl.cpp:393
+#: usertbl.cpp:394
 msgid "Add group"
 msgstr "Добавить группу"
 
-#: usertbl.cpp:394
+#: usertbl.cpp:395
 msgid "Add all"
 msgstr "Добавить всех"
 
-#: usertbl.cpp:409
+#: usertbl.cpp:411
 msgid "Add to group"
 msgstr "Добавить в группу"
 
@@ -890,7 +890,7 @@ msgstr "Номер"
 msgid "Publish"
 msgstr "Общедоступный"
 
-#: ui/searchdlg.cpp:186
+#: ui/searchdlg.cpp:212
 msgid "No users was found"
 msgstr "Ни одного пользователя не найдено"
 
@@ -1022,75 +1022,6 @@ msgstr "%1 Версия: %2"
 msgid "Bug report"
 msgstr "Сообщения об ошибках"
 
-#: ui/searchbase.cpp:69 ui/searchbase.cpp:199
-msgid "Search"
-msgstr "Поиск"
-
-#: ui/moreinfobase.cpp:99 ui/searchbase.cpp:88
-msgid "Age:"
-msgstr "Возраст:"
-
-#: ui/searchbase.cpp:104
-msgid "Email:"
-msgstr "Email:"
-
-#: ui/moreinfobase.cpp:110 ui/searchbase.cpp:110
-msgid "Gender:"
-msgstr "Пол:"
-
-#: ui/homeinfobase.cpp:117 ui/phonebase.cpp:117 ui/searchbase.cpp:116
-#: ui/workinfobase.cpp:140
-msgid "Country:"
-msgstr "Страна:"
-
-#: ui/searchbase.cpp:127
-msgid "Language:"
-msgstr "Язык:"
-
-#: ui/searchbase.cpp:136
-msgid "Email/Info"
-msgstr "Email/Информация"
-
-#: ui/maininfobase.cpp:95 ui/searchbase.cpp:144
-msgid "Last Name:"
-msgstr "Фамилия:"
-
-#: ui/maininfobase.cpp:209 ui/searchbase.cpp:150
-msgid "First name:"
-msgstr "Имя:"
-
-#: ui/searchbase.cpp:160
-msgid "Nickname:"
-msgstr "Псевдоним:"
-
-#: ui/searchbase.cpp:173
-msgid "Names"
-msgstr "Имена"
-
-#: ui/searchbase.cpp:192
-msgid "Online only"
-msgstr "Только в сети"
-
-#: ui/searchbase.cpp:203
-msgid "New search"
-msgstr "Новый поиск"
-
-#: ui/finddlgbase.cpp:34
-msgid "Find"
-msgstr "Поиск"
-
-#: ui/finddlgbase.cpp:42
-msgid "Find:"
-msgstr "Поиск:"
-
-#: ui/finddlgbase.cpp:51
-msgid "Case &sensitivy"
-msgstr "С учетом &регистра"
-
-#: ui/finddlgbase.cpp:55
-msgid "Find &backwards"
-msgstr "В &обратную сторону"
-
 #: ui/acceptbase.cpp:95 ui/alertdialogbase.cpp:64 ui/fontsetupbase.cpp:95
 #: ui/generalsecbase.cpp:95 ui/homeinfobase.cpp:65 ui/miscsetupbase.cpp:90
 #: ui/msgdialogbase.cpp:63 ui/networkbase.cpp:65 ui/pastinfobase.cpp:63
@@ -1139,6 +1070,22 @@ msgstr "Тень"
 #: ui/xosdbase.cpp:202
 msgid "Background"
 msgstr "Фон"
+
+#: ui/finddlgbase.cpp:34
+msgid "Find"
+msgstr "Поиск"
+
+#: ui/finddlgbase.cpp:42
+msgid "Find:"
+msgstr "Поиск:"
+
+#: ui/finddlgbase.cpp:51
+msgid "Case &sensitivy"
+msgstr "С учетом &регистра"
+
+#: ui/finddlgbase.cpp:55
+msgid "Find &backwards"
+msgstr "В &обратную сторону"
 
 #: ui/aboutdlgbase.cpp:67
 msgid "About SIM"
@@ -1409,6 +1356,11 @@ msgstr "-"
 msgid "Number:"
 msgstr "Номер:"
 
+#: ui/homeinfobase.cpp:117 ui/phonebase.cpp:117 ui/searchbase.cpp:148
+#: ui/workinfobase.cpp:140
+msgid "Country:"
+msgstr "Страна:"
+
 #: ui/phonebase.cpp:132
 msgid "Publish in global directory"
 msgstr "Доступный для всех"
@@ -1416,14 +1368,6 @@ msgstr "Доступный для всех"
 #: ui/phonebase.cpp:138
 msgid "SMS service available"
 msgstr "SMS-сервис разрешен"
-
-#: ui/pagerbase.cpp:76
-msgid "Provider:"
-msgstr "Провайдер:"
-
-#: ui/pagerbase.cpp:82
-msgid "Email gateway:"
-msgstr "Email шлюз:"
 
 #: ui/addphonebase.cpp:68
 msgid "Add phone"
@@ -1444,6 +1388,14 @@ msgstr "Путь к программе просмотра URL:"
 #: ui/miscsetupbase.cpp:125
 msgid "Email client:"
 msgstr "Почтовый клиент:"
+
+#: ui/pagerbase.cpp:76
+msgid "Provider:"
+msgstr "Провайдер:"
+
+#: ui/pagerbase.cpp:82
+msgid "Email gateway:"
+msgstr "Email шлюз:"
 
 #: ui/soundsetupbase.cpp:117
 msgid "Message:"
@@ -1534,7 +1486,7 @@ msgstr "WWW страница:"
 msgid "Address:"
 msgstr "Адрес:"
 
-#: ui/homeinfobase.cpp:129 ui/workinfobase.cpp:178
+#: ui/homeinfobase.cpp:129 ui/searchbase.cpp:154 ui/workinfobase.cpp:178
 msgid "City:"
 msgstr "Город:"
 
@@ -1542,31 +1494,9 @@ msgstr "Город:"
 msgid "Zip code:"
 msgstr "Индекс:"
 
-#: ui/homeinfobase.cpp:96 ui/workinfobase.cpp:190
+#: ui/homeinfobase.cpp:96 ui/searchbase.cpp:164 ui/workinfobase.cpp:190
 msgid "State:"
 msgstr "Штат:"
-
-#: ui/statussetupbase.cpp:95
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
-msgstr ""
-"Запретить оповещение в состояниях "
-"\"Отошел\", \"Не активный\", \"Занят\""
-
-#: ui/statussetupbase.cpp:102
-msgid "minutes not using computer"
-msgstr "минут не использования компьютера"
-
-#: ui/statussetupbase.cpp:132
-msgid "minutes of \"Away\""
-msgstr "минут после \"Отошел\""
-
-#: ui/statussetupbase.cpp:139
-msgid "Set \"N/A\" status after"
-msgstr "Установить статус \"Не активный\" через"
-
-#: ui/statussetupbase.cpp:146
-msgid "Set \"Away\" status after"
-msgstr "Установить статус \"Отошел\" через"
 
 #: ui/themesetupbase.cpp:92
 msgid "Select style:"
@@ -1596,9 +1526,39 @@ msgstr "Показывать основное окно в панели зада�
 msgid "Show user window in task manager"
 msgstr "Показывать контейнер в панели задач"
 
+#: ui/statussetupbase.cpp:95
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgstr ""
+"Запретить оповещение в состояниях "
+"\"Отошел\", \"Не активный\", \"Занят\""
+
+#: ui/statussetupbase.cpp:102
+msgid "minutes not using computer"
+msgstr "минут не использования компьютера"
+
+#: ui/statussetupbase.cpp:132
+msgid "minutes of \"Away\""
+msgstr "минут после \"Отошел\""
+
+#: ui/statussetupbase.cpp:139
+msgid "Set \"N/A\" status after"
+msgstr "Установить статус \"Не активный\" через"
+
+#: ui/statussetupbase.cpp:146
+msgid "Set \"Away\" status after"
+msgstr "Установить статус \"Отошел\" через"
+
 #: ui/listsecbase.cpp:90 ui/moreinfobase.cpp:65
 msgid "Form3"
 msgstr "Дополнительная инофрмация"
+
+#: ui/moreinfobase.cpp:99 ui/searchbase.cpp:126
+msgid "Age:"
+msgstr "Возраст:"
+
+#: ui/moreinfobase.cpp:110 ui/searchbase.cpp:142
+msgid "Gender:"
+msgstr "Пол:"
 
 #: ui/moreinfobase.cpp:135
 msgid "Homepage:"
@@ -1628,6 +1588,10 @@ msgstr "Языки:"
 msgid "Form5"
 msgstr "Основная информация"
 
+#: ui/maininfobase.cpp:95 ui/searchbase.cpp:210
+msgid "Last Name:"
+msgstr "Фамилия:"
+
 #: ui/maininfobase.cpp:112
 msgid "Uin:"
 msgstr "Uin:"
@@ -1639,6 +1603,10 @@ msgstr "Псевдоним:"
 #: ui/maininfobase.cpp:203
 msgid "Display:"
 msgstr "Показывать:"
+
+#: ui/maininfobase.cpp:209 ui/searchbase.cpp:216
+msgid "First name:"
+msgstr "Имя:"
 
 #: ui/maininfobase.cpp:221
 msgid "Email addresses:"
@@ -1663,6 +1631,10 @@ msgstr "По умолчанию"
 #: ui/maininfobase.cpp:256
 msgid "Notes"
 msgstr "Заметки"
+
+#: ui/homeinfobase.cpp:153
+msgid "Time zone:"
+msgstr "Часовой пояс:"
 
 #: ui/generalsecbase.cpp:124
 msgid "My &authorization is required before users add me to Contact List"
@@ -1737,10 +1709,6 @@ msgstr ""
 "пользователей, которые содержут слова "
 "или фразы:"
 
-#: ui/homeinfobase.cpp:153
-msgid "Time zone:"
-msgstr "Часовой пояс:"
-
 #: ui/aboutinfobase.cpp:62
 msgid "Form4"
 msgstr "О себе"
@@ -1762,6 +1730,50 @@ msgstr "Введите новый пароль еще раз:"
 #: ui/changepasswdbase.cpp:97
 msgid "New password:"
 msgstr "Новый пароль:"
+
+#: ui/searchbase.cpp:69 ui/searchbase.cpp:82
+msgid "Search"
+msgstr "Поиск"
+
+#: ui/searchbase.cpp:75
+msgid "Online only"
+msgstr "Только в сети"
+
+#: ui/searchbase.cpp:86
+msgid "New search"
+msgstr "Новый поиск"
+
+#: ui/searchbase.cpp:108
+msgid "Email:"
+msgstr "Email:"
+
+#: ui/searchbase.cpp:136
+msgid "Language:"
+msgstr "Язык:"
+
+#: ui/searchbase.cpp:174
+msgid "Department:"
+msgstr "Отдел:"
+
+#: ui/searchbase.cpp:184
+msgid "Company:"
+msgstr "Комапания:"
+
+#: ui/searchbase.cpp:194
+msgid "Interests:"
+msgstr "Интересы:"
+
+#: ui/searchbase.cpp:202
+msgid "Email/Info"
+msgstr "Email/Информация"
+
+#: ui/searchbase.cpp:226
+msgid "Nickname:"
+msgstr "Псевдоним:"
+
+#: ui/searchbase.cpp:239
+msgid "Names"
+msgstr "Имена"
 
 #: about.cpp:279
 msgid "replace this with information about your translation team"

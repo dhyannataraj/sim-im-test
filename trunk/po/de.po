@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-08-04 10:15+0400\n"
+"POT-Creation-Date: 2002-08-05 04:36+0400\n"
 "PO-Revision-Date: 2002-08-02 02:56GMT\n"
 "Last-Translator: Crissi <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -213,7 +213,7 @@ msgstr "Schwarz"
 msgid "italic"
 msgstr "kursiv"
 
-#: logindlg.cpp:37 ui/searchbase.cpp:181
+#: logindlg.cpp:37 ui/searchbase.cpp:247
 msgid "UIN:"
 msgstr "ICQ#:"
 
@@ -226,7 +226,7 @@ msgid "Use existing UIN"
 msgstr "Existierende UIN benutzen"
 
 #: logindlg.cpp:57 logindlg.cpp:122 mainwin.cpp:1374 passwddlg.cpp:44
-#: passwddlg.cpp:89 ui/searchbase.cpp:207 ui/searchdlg.cpp:96
+#: passwddlg.cpp:89 ui/searchbase.cpp:90 ui/searchdlg.cpp:106
 #: ui/setupdlgbase.cpp:95 userbox.cpp:171
 msgid "Close"
 msgstr "Schließen"
@@ -239,7 +239,7 @@ msgstr "Registrieren"
 msgid "Registration"
 msgstr "Registrierung"
 
-#: logindlg.cpp:89 passwddlg.cpp:67 ui/searchdlg.cpp:93
+#: logindlg.cpp:89 passwddlg.cpp:67 ui/searchdlg.cpp:103
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -319,12 +319,12 @@ msgstr "In Ignorieren-Liste"
 msgid "Groups"
 msgstr "Gruppen"
 
-#: mainwin.cpp:1362 usertbl.cpp:390 userview.cpp:480
+#: mainwin.cpp:1362 usertbl.cpp:391 userview.cpp:480
 msgid "Delete"
 msgstr "Löschen"
 
 #: mainwin.cpp:1366 ui/userinfo.cpp:53 userbox.cpp:163 userbox.cpp:313
-#: usertbl.cpp:403
+#: usertbl.cpp:405
 msgid "User info"
 msgstr "Benutzerinformation"
 
@@ -655,7 +655,7 @@ msgstr "Alle Benutzer"
 msgid "History loading"
 msgstr "Lade Verlauf..."
 
-#: ui/searchbase.cpp:188 usertbl.cpp:110
+#: ui/searchbase.cpp:254 usertbl.cpp:110
 msgid "UIN"
 msgstr "UIN"
 
@@ -667,19 +667,19 @@ msgstr "Alias"
 msgid "Name"
 msgstr "Name"
 
-#: usertbl.cpp:391
+#: usertbl.cpp:392
 msgid "Erase"
 msgstr "Radieren"
 
-#: usertbl.cpp:393
+#: usertbl.cpp:394
 msgid "Add group"
 msgstr "Gruppe hinzufügen"
 
-#: usertbl.cpp:394
+#: usertbl.cpp:395
 msgid "Add all"
 msgstr "Alle hinzufügen"
 
-#: usertbl.cpp:409
+#: usertbl.cpp:411
 msgid "Add to group"
 msgstr "Zu Gruppe hinzufügen"
 
@@ -879,7 +879,7 @@ msgstr "Nummer"
 msgid "Publish"
 msgstr "Publizieren"
 
-#: ui/searchdlg.cpp:186
+#: ui/searchdlg.cpp:212
 msgid "No users was found"
 msgstr "Kein Benutzer wurde gefunden"
 
@@ -1011,75 +1011,6 @@ msgstr "%1 Version: %2"
 msgid "Bug report"
 msgstr "Berichten Sie Probleme oder Wünsche"
 
-#: ui/searchbase.cpp:69 ui/searchbase.cpp:199
-msgid "Search"
-msgstr "Suchen"
-
-#: ui/moreinfobase.cpp:99 ui/searchbase.cpp:88
-msgid "Age:"
-msgstr "Alter:"
-
-#: ui/searchbase.cpp:104
-msgid "Email:"
-msgstr "E-Mail:"
-
-#: ui/moreinfobase.cpp:110 ui/searchbase.cpp:110
-msgid "Gender:"
-msgstr "Geschlecht:"
-
-#: ui/homeinfobase.cpp:117 ui/phonebase.cpp:117 ui/searchbase.cpp:116
-#: ui/workinfobase.cpp:140
-msgid "Country:"
-msgstr "Land:"
-
-#: ui/searchbase.cpp:127
-msgid "Language:"
-msgstr "Sprache:"
-
-#: ui/searchbase.cpp:136
-msgid "Email/Info"
-msgstr "Email/Info"
-
-#: ui/maininfobase.cpp:95 ui/searchbase.cpp:144
-msgid "Last Name:"
-msgstr "Nachname:"
-
-#: ui/maininfobase.cpp:209 ui/searchbase.cpp:150
-msgid "First name:"
-msgstr "Vorname:"
-
-#: ui/searchbase.cpp:160
-msgid "Nickname:"
-msgstr "Spitzname:"
-
-#: ui/searchbase.cpp:173
-msgid "Names"
-msgstr "Namen"
-
-#: ui/searchbase.cpp:192
-msgid "Online only"
-msgstr "Nur Online"
-
-#: ui/searchbase.cpp:203
-msgid "New search"
-msgstr "Neue Suche"
-
-#: ui/finddlgbase.cpp:34
-msgid "Find"
-msgstr "Suchen"
-
-#: ui/finddlgbase.cpp:42
-msgid "Find:"
-msgstr "Suchen:"
-
-#: ui/finddlgbase.cpp:51
-msgid "Case &sensitivy"
-msgstr "Groß-/kleinschreibung &beachten"
-
-#: ui/finddlgbase.cpp:55
-msgid "Find &backwards"
-msgstr "&Rückwärts suchen"
-
 #: ui/acceptbase.cpp:95 ui/alertdialogbase.cpp:64 ui/fontsetupbase.cpp:95
 #: ui/generalsecbase.cpp:95 ui/homeinfobase.cpp:65 ui/miscsetupbase.cpp:90
 #: ui/msgdialogbase.cpp:63 ui/networkbase.cpp:65 ui/pastinfobase.cpp:63
@@ -1128,6 +1059,22 @@ msgstr "Schatten"
 #: ui/xosdbase.cpp:202
 msgid "Background"
 msgstr "Hintergrund"
+
+#: ui/finddlgbase.cpp:34
+msgid "Find"
+msgstr "Suchen"
+
+#: ui/finddlgbase.cpp:42
+msgid "Find:"
+msgstr "Suchen:"
+
+#: ui/finddlgbase.cpp:51
+msgid "Case &sensitivy"
+msgstr "Groß-/kleinschreibung &beachten"
+
+#: ui/finddlgbase.cpp:55
+msgid "Find &backwards"
+msgstr "&Rückwärts suchen"
 
 #: ui/aboutdlgbase.cpp:67
 msgid "About SIM"
@@ -1395,6 +1342,11 @@ msgstr "-"
 msgid "Number:"
 msgstr "Anzahl:"
 
+#: ui/homeinfobase.cpp:117 ui/phonebase.cpp:117 ui/searchbase.cpp:148
+#: ui/workinfobase.cpp:140
+msgid "Country:"
+msgstr "Land:"
+
 #: ui/phonebase.cpp:132
 msgid "Publish in global directory"
 msgstr "In globalem Verzeichnis publizieren"
@@ -1402,14 +1354,6 @@ msgstr "In globalem Verzeichnis publizieren"
 #: ui/phonebase.cpp:138
 msgid "SMS service available"
 msgstr "SMS Dienst verfügbar"
-
-#: ui/pagerbase.cpp:76
-msgid "Provider:"
-msgstr "Anbieter:"
-
-#: ui/pagerbase.cpp:82
-msgid "Email gateway:"
-msgstr "Email Gataway:"
 
 #: ui/addphonebase.cpp:68
 msgid "Add phone"
@@ -1430,6 +1374,14 @@ msgstr "Pfad des Browserprogramms:"
 #: ui/miscsetupbase.cpp:125
 msgid "Email client:"
 msgstr "Emailprogramm:"
+
+#: ui/pagerbase.cpp:76
+msgid "Provider:"
+msgstr "Anbieter:"
+
+#: ui/pagerbase.cpp:82
+msgid "Email gateway:"
+msgstr "Email Gataway:"
 
 #: ui/soundsetupbase.cpp:117
 msgid "Message:"
@@ -1520,7 +1472,7 @@ msgstr "Webseite:"
 msgid "Address:"
 msgstr "Adresse:"
 
-#: ui/homeinfobase.cpp:129 ui/workinfobase.cpp:178
+#: ui/homeinfobase.cpp:129 ui/searchbase.cpp:154 ui/workinfobase.cpp:178
 msgid "City:"
 msgstr "Stadt:"
 
@@ -1528,32 +1480,9 @@ msgstr "Stadt:"
 msgid "Zip code:"
 msgstr "Postleitzahl:"
 
-#: ui/homeinfobase.cpp:96 ui/workinfobase.cpp:190
+#: ui/homeinfobase.cpp:96 ui/searchbase.cpp:164 ui/workinfobase.cpp:190
 msgid "State:"
 msgstr "Staat:"
-
-#: ui/statussetupbase.cpp:95
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
-msgstr ""
-"Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
-"deaktivieren"
-
-#: ui/statussetupbase.cpp:102
-msgid "minutes not using computer"
-msgstr "Minuten keine Computerbenutzung"
-
-#: ui/statussetupbase.cpp:132
-msgid "minutes of \"Away\""
-msgstr "Minuten von \"Weg\""
-
-#: ui/statussetupbase.cpp:139
-msgid "Set \"N/A\" status after"
-msgstr "\"N/A\"-Status setzen nach"
-
-#: ui/statussetupbase.cpp:146
-msgid "Set \"Away\" status after"
-msgstr "\"Weg\"-Status setzen nach"
 
 #: ui/themesetupbase.cpp:92
 msgid "Select style:"
@@ -1584,9 +1513,40 @@ msgstr "Benutzerfenster in Prozeßliste anzeigen"
 msgid "Show user window in task manager"
 msgstr "Benutzerfenster in Prozeßliste anzeigen"
 
+#: ui/statussetupbase.cpp:95
+msgid ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgstr ""
+"Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
+"deaktivieren"
+
+#: ui/statussetupbase.cpp:102
+msgid "minutes not using computer"
+msgstr "Minuten keine Computerbenutzung"
+
+#: ui/statussetupbase.cpp:132
+msgid "minutes of \"Away\""
+msgstr "Minuten von \"Weg\""
+
+#: ui/statussetupbase.cpp:139
+msgid "Set \"N/A\" status after"
+msgstr "\"N/A\"-Status setzen nach"
+
+#: ui/statussetupbase.cpp:146
+msgid "Set \"Away\" status after"
+msgstr "\"Weg\"-Status setzen nach"
+
 #: ui/listsecbase.cpp:90 ui/moreinfobase.cpp:65
 msgid "Form3"
 msgstr "Form 3"
+
+#: ui/moreinfobase.cpp:99 ui/searchbase.cpp:126
+msgid "Age:"
+msgstr "Alter:"
+
+#: ui/moreinfobase.cpp:110 ui/searchbase.cpp:142
+msgid "Gender:"
+msgstr "Geschlecht:"
 
 #: ui/moreinfobase.cpp:135
 msgid "Homepage:"
@@ -1616,6 +1576,10 @@ msgstr "Gesprochene Sprachen:"
 msgid "Form5"
 msgstr "Form 5"
 
+#: ui/maininfobase.cpp:95 ui/searchbase.cpp:210
+msgid "Last Name:"
+msgstr "Nachname:"
+
 #: ui/maininfobase.cpp:112
 msgid "Uin:"
 msgstr "UIN:"
@@ -1627,6 +1591,10 @@ msgstr "Spitzname:"
 #: ui/maininfobase.cpp:203
 msgid "Display:"
 msgstr "Anzeige:"
+
+#: ui/maininfobase.cpp:209 ui/searchbase.cpp:216
+msgid "First name:"
+msgstr "Vorname:"
 
 #: ui/maininfobase.cpp:221
 msgid "Email addresses:"
@@ -1651,6 +1619,10 @@ msgstr "Als Standard festlegen"
 #: ui/maininfobase.cpp:256
 msgid "Notes"
 msgstr "Bemerkungen"
+
+#: ui/homeinfobase.cpp:153
+msgid "Time zone:"
+msgstr "Zeitzone:"
 
 #: ui/generalsecbase.cpp:124
 msgid "My &authorization is required before users add me to Contact List"
@@ -1711,10 +1683,6 @@ msgid "Reject messages from unknown users contains this words or phrases:"
 msgstr ""
 "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
-#: ui/homeinfobase.cpp:153
-msgid "Time zone:"
-msgstr "Zeitzone:"
-
 #: ui/aboutinfobase.cpp:62
 msgid "Form4"
 msgstr "Form 4"
@@ -1734,6 +1702,52 @@ msgstr "Neues Paßwort erneut eingeben:"
 #: ui/changepasswdbase.cpp:97
 msgid "New password:"
 msgstr "Neues Paßwort:"
+
+#: ui/searchbase.cpp:69 ui/searchbase.cpp:82
+msgid "Search"
+msgstr "Suchen"
+
+#: ui/searchbase.cpp:75
+msgid "Online only"
+msgstr "Nur Online"
+
+#: ui/searchbase.cpp:86
+msgid "New search"
+msgstr "Neue Suche"
+
+#: ui/searchbase.cpp:108
+msgid "Email:"
+msgstr "E-Mail:"
+
+#: ui/searchbase.cpp:136
+msgid "Language:"
+msgstr "Sprache:"
+
+#: ui/searchbase.cpp:174
+msgid "Department:"
+msgstr ""
+
+#: ui/searchbase.cpp:184
+#, fuzzy
+msgid "Company:"
+msgstr "Land:"
+
+#: ui/searchbase.cpp:194
+#, fuzzy
+msgid "Interests:"
+msgstr "Interessen"
+
+#: ui/searchbase.cpp:202
+msgid "Email/Info"
+msgstr "Email/Info"
+
+#: ui/searchbase.cpp:226
+msgid "Nickname:"
+msgstr "Spitzname:"
+
+#: ui/searchbase.cpp:239
+msgid "Names"
+msgstr "Namen"
 
 #: about.cpp:279
 msgid "replace this with information about your translation team"
