@@ -249,15 +249,15 @@ void FileLineEdit::dropEvent(QDropEvent *e)
 }
 
 #if COMPAT_QT_VERSION < 0x030000
-
-const unsigned IdCut			= 1;
-const unsigned IdCopy			= 2;
-const unsigned IdPaste			= 3;
-const unsigned IdClear			= 4;
+/* Is compared with ints -> unsigned produce a warning */
+const int IdCut             = 1;
+const int IdCopy            = 2;
+const int IdPaste           = 3;
+const int IdClear           = 4;
 
 #endif
 
-const unsigned IdBase			= 0x1000;
+const int IdBase            = 0x1000;
 
 LineEdit::LineEdit(QWidget *parent, const char *name)
         : QLineEdit(parent, name)
@@ -328,7 +328,7 @@ QPopupMenu *LineEdit::createPopupMenu()
 #endif
     if (helpList){
         popup->insertSeparator();
-        unsigned id = IdBase;
+        int id = IdBase;
         for (const char **p = helpList; *p;){
             QString s = *p++;
             s = s.replace(QRegExp("\\&"), "&&");
@@ -411,7 +411,7 @@ QPopupMenu *MultiLineEdit::createPopupMenu()
 #endif
     if (helpList){
         popup->insertSeparator();
-        unsigned id = IdBase;
+        int id = IdBase;
         for (const char **p = helpList; *p;){
             QString s = *p++;
             s = s.replace(QRegExp("\\&"), "&&");

@@ -183,7 +183,7 @@ static Symbol symbols[] =
 	{ "deg",  176 },
 	{ "reg",  174 },
 	{ "copy", 169 },
-	{ NULL, NULL }
+	{ NULL, 0 }
 };
 
 void HTMLParser::parse()

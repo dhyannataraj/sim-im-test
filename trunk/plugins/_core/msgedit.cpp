@@ -1330,7 +1330,7 @@ void MsgEdit::setEmptyMessage()
 {
     if (m_edit->textFormat() == QTextEdit::RichText){
         QString color;
-        color.sprintf("<p style=\"#06X\"></p>", CorePlugin::m_plugin->getEditForeground());
+        color.sprintf("<p style=\"%#06lX\"></p>", CorePlugin::m_plugin->getEditForeground());
         m_edit->setText(color);
     }else{
         m_edit->setText("");
