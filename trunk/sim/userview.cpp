@@ -92,73 +92,111 @@ void UserViewItemBase::paint(QPainter *p, const QString s, const QColorGroup &c,
     if (vBar && vBar->isVisible()) width -= vBar->width();
     UserView *userView = static_cast<UserView*>(listView());
     const QPixmap *pix = userView->transparent->background(cg.base());
-    if (isSelected() && !userView->bFloaty){
-        cg.setBrush(QColorGroup::Base, cg.brush(QColorGroup::Highlight));
-        p->setPen(cg.color(QColorGroup::HighlightedText));
-        pix = NULL;
-    }else if (bEnabled){
-        p->setPen(cg.color(QColorGroup::Text));
+    bool bSelected = isSelected() && !userView->bFloaty;
+    if (bEnabled){
+        p->setPen(pMain->UseSystemColors ?
+                  cg.color(QColorGroup::Text) :
+                  QColor(pMain->OnlineColor));
     }else{
-        p->setPen(cg.color(QColorGroup::Dark));
+        p->setPen(pMain->UseSystemColors ?
+                  cg.color(QColorGroup::Dark) :
+                  QColor(pMain->OfflineColor));
     }
 
-	const QImage &bgPict = userView->bgPict;
-	int w = 0;
-	if (!bgPict.isNull()){
-		switch (pMain->BackgroundMode){
-		case 0:
-			w = width, height();
-			break;
-		case 1:
-			w = bgPict.width();
-			break;
-		}
-	}
-	if (w){
-		if (bgPict.hasAlphaBuffer()){
-			QPixmap bPict(w, height());
-			QPainter pp(&bPict);
-			if (pix != NULL){
-				QPoint pos = listView()->itemRect(this).topLeft();
-				pos = listView()->viewport()->mapToParent(pos);
-				pos = listView()->mapToGlobal(pos);
-				pos = listView()->topLevelWidget()->mapFromGlobal(pos);
-				pp.drawTiledPixmap(0, 0, w, h, *pix, pos.x(), pos.y());
-			}else{
-				pp.fillRect(0, 0, w, h, cg.base());
-			}
-			pp.drawImage(0, 0, userView->scalePict(w, height()), 0, 0);
-			pp.end();
-			p->drawPixmap(0, 0, bPict);
-		}else{
-			p->drawImage(0, 0, userView->scalePict(w, height()), 0, 0);
-		}
-		if (w < width){
-			if (pix != NULL){
-				QPoint pos = listView()->itemRect(this).topLeft();
-				pos.setX(pos.x() + w);
-				pos = listView()->viewport()->mapToParent(pos);
-				pos = listView()->mapToGlobal(pos);
-				pos = listView()->topLevelWidget()->mapFromGlobal(pos);
-				p->drawTiledPixmap(w, 0, width - w, h, *pix, pos.x(), pos.y());
-			}else{
-				p->fillRect(w, 0, width - w, h, cg.base());
-			}
-		}
-	}else{
-		if (pix != NULL){
-			QPoint pos = listView()->itemRect(this).topLeft();
-			pos = listView()->viewport()->mapToParent(pos);
-			pos = listView()->mapToGlobal(pos);
-			pos = listView()->topLevelWidget()->mapFromGlobal(pos);
-			p->drawTiledPixmap(0, 0, width, h, *pix, pos.x(), pos.y());
-		}else{
-			p->fillRect( 0, 0, width, height(), cg.base());
-		}
-	}
-    listView()->setStaticBackground(userView->bStaticBg ||
+    const QImage &bgPict = userView->bgPict;
+    int w = 0;
+    int ch = height();
+    bool bTile = false;
+    int cx = 0;
+    int cy = 0;
+    bool bStaticBg = false;
+    QPoint pos = listView()->itemRect(this).topLeft();
+    pos = listView()->viewport()->mapToParent(pos);
+    if (!bgPict.isNull()){
+        switch (pMain->BackgroundMode){
+        case bgModeContactLeft:
+            w = bgPict.width();
+            break;
+        case bgModeContactScale:
+            w = width;
+            bStaticBg = true;
+            break;
+        case bgModeWndTop:
+            w = bgPict.width();
+            ch = bgPict.height();
+            cy = pos.y();
+            bTile = true;
+            break;
+        case bgModeWndBottom:
+            w = bgPict.width();
+            ch = bgPict.height();
+            cy = pos.y() + (bgPict.height() - userView->height());
+            bTile = true;
+            bStaticBg = true;
+            break;
+        case bgModeWndCenter:
+            w = bgPict.width();
+            ch = bgPict.height();
+            cy = pos.y() + (bgPict.height() - userView->height()) / 2;
+            bTile = true;
+            bStaticBg = true;
+            break;
+        case bgModeWndScale:
+            w = width;
+            ch = userView->height();
+            cy = pos.y();
+            bStaticBg = true;
+            break;
+        }
+    }
+    int xp = 0;
+    int yp = 0;
+    if (bSelected){
+        xp = 2;
+        yp = 2;
+    }
+    if (w){
+        int wImg = w;
+        if (bTile) w = width;
+        if (bgPict.hasAlphaBuffer()){
+            QPixmap bPict(w, height());
+            QPainter pp(&bPict);
+            if (pix != NULL){
+                QPoint gPos = listView()->mapToGlobal(pos);
+                gPos = listView()->topLevelWidget()->mapFromGlobal(gPos);
+                pp.drawTiledPixmap(0, 0, w, h, *pix, pos.x(), pos.y());
+            }else{
+                pp.fillRect(0, 0, w, h, cg.base());
+            }
+            userView->drawImage(&pp, 0, 0, w, height(), cx, cy, wImg, ch);
+            pp.end();
+            p->drawPixmap(xp, yp, bPict);
+        }else{
+            userView->drawImage(p, xp, yp, w, height(), cx, cy, wImg, ch);
+        }
+        if (w < width){
+            if (pix != NULL){
+                QPoint gPos = listView()->mapToGlobal(pos);
+                gPos = listView()->topLevelWidget()->mapFromGlobal(gPos);
+                p->drawTiledPixmap(w + xp, yp, width - w, h, *pix, gPos.x(), gPos.y());
+            }else{
+                p->fillRect(w + xp, yp, width - w, h, cg.base());
+            }
+        }
+    }else{
+        if (pix != NULL){
+            QPoint pos = listView()->itemRect(this).topLeft();
+            pos = listView()->viewport()->mapToParent(pos);
+            pos = listView()->mapToGlobal(pos);
+            pos = listView()->topLevelWidget()->mapFromGlobal(pos);
+            p->drawTiledPixmap(xp, yp, width, h, *pix, pos.x(), pos.y());
+        }else{
+            p->fillRect( 0, 0, width, height(), cg.base());
+        }
+    }
+    listView()->setStaticBackground(userView->bStaticBg || bStaticBg ||
                                     (pix && (listView()->contentsHeight() >= listView()->viewport()->height())));
-    int x = 2;
+    int x = pMain->IconMargin;
     if (userView->bList){
 #if QT_VERSION < 300
         QSize s = listView()->style().indicatorSize();
@@ -185,37 +223,48 @@ void UserViewItemBase::paint(QPainter *p, const QString s, const QColorGroup &c,
         listView()->style().drawPrimitive(QStyle::PE_Indicator, p, rc, cg, text(3).toInt());
         x += w + 5;
 #endif
-        if (isSelected() && !userView->bFloaty){
-            cg.setBrush(QColorGroup::Base, cg.brush(QColorGroup::Highlight));
-            p->setPen(cg.color(QColorGroup::HighlightedText));
-            pix = NULL;
-        }else if (bEnabled){
-            p->setPen(cg.color(QColorGroup::Text));
+        if (bEnabled){
+            p->setPen(pMain->UseSystemColors ?
+                      cg.color(QColorGroup::Text) :
+                      QColor(pMain->OnlineColor));
         }else{
-            p->setPen(cg.color(QColorGroup::Dark));
+            p->setPen(pMain->UseSystemColors ?
+                      cg.color(QColorGroup::Dark) :
+                      QColor(pMain->OfflineColor));
         }
     }else{
         QString pict = text(2);
         if (pict.length()){
             const QPixmap &icon = Pict(pict);
-            p->drawPixmap(2, (height() - icon.height()) / 2, icon);
+            p->drawPixmap(pMain->IconMargin + xp, (height() - icon.height()) + yp / 2, icon);
             x += icon.width() + 5;
         }
     }
     QRect br;
-    p->drawText(x, 0, width - x, height(), AlignLeft | AlignVCenter, s, -1, &br);
+    p->drawText(x + xp, yp, width - x, height(), AlignLeft | AlignVCenter, s, -1, &br);
     x = br.right() + 5;
 
     if (bSeparator && (x < width - 6)){
 #if QT_VERSION > 300
-        QRect rcSep(x, height()/2, width-6-x, 1);
+        QRect rcSep(x + xp, height()/2 + yp, width-6-x, 1);
         listView()->style().drawPrimitive(QStyle::PE_Separator, p, rcSep, cg);
 #else
-        listView()->style().drawSeparator(p, x, height() / 2, width - 6, h / 2, cg);
+        listView()->style().drawSeparator(p, x + xp, height() / 2 + yp, width - 6, h / 2, cg);
 #endif
     }
     if (pW) *pW = x;
     if (pWidth) *pWidth = width - 6;
+    if (bSelected){
+        p->setPen(cg.color(QColorGroup::Text));
+        p->moveTo(0, h - 1);
+        p->lineTo(0, 0);
+        p->lineTo(width - 1, 0);
+        p->setPen(cg.color(QColorGroup::Dark));
+        p->moveTo(width - 1, h - 1);
+        p->lineTo(1, h - 1);
+        p->lineTo(1, 1);
+        p->lineTo(width - 1, 1);
+    }
 }
 
 UserViewItem::UserViewItem(ICQUser *u, UserView *parent)
@@ -275,11 +324,18 @@ void UserViewItem::paintCell(QPainter *p, const QColorGroup &cg, int, int, int)
     paint(p, text(0), cg, false, bNormal, &w, &width);
     UserView *userView = static_cast<UserView*>(listView());
     if (userView->bList) return;
+    bool bSelected = isSelected() && !userView->bFloaty;
+    int dx = 0;
+    int dy = 0;
+    if (bSelected){
+        dx = 2;
+        dy = 2;
+    }
     if (m_bSecure){
         const QPixmap &pSecure = Pict("encrypted");
         if (width - pSecure.width() >= w){
             width -= pSecure.width();
-            p->drawPixmap(width, (height() - pSecure.height()) / 2, pSecure);
+            p->drawPixmap(width + dx, (height() - pSecure.height()) / 2 + dy, pSecure);
             width -= 2;
         }
     }
@@ -287,7 +343,7 @@ void UserViewItem::paintCell(QPainter *p, const QColorGroup &cg, int, int, int)
         const QPixmap &pCell = Pict("cell");
         if (width - pCell.width() >= w){
             width -= pCell.width();
-            p->drawPixmap(width, (height() - pCell.height()) / 2, pCell);
+            p->drawPixmap(width + dx, (height() - pCell.height()) / 2 + dy, pCell);
             width -= 2;
         }
     }
@@ -295,7 +351,7 @@ void UserViewItem::paintCell(QPainter *p, const QColorGroup &cg, int, int, int)
         const QPixmap &pPager = Pict("wpager");
         if (width - pPager.width() >= w){
             width -= pPager.width();
-            p->drawPixmap(width, (height() - pPager.height()) / 2, pPager);
+            p->drawPixmap(width + dx, (height() - pPager.height()) / 2 + dy, pPager);
             width -= 2;
         }
     }
@@ -303,7 +359,7 @@ void UserViewItem::paintCell(QPainter *p, const QColorGroup &cg, int, int, int)
         const QPixmap &pPhone = Pict("phone");
         if (width - pPhone.width() >= w){
             width -= pPhone.width();
-            p->drawPixmap(width, (height() - pPhone.height()) / 2, pPhone);
+            p->drawPixmap(width + dx, (height() - pPhone.height()) / 2 + dy, pPhone);
             width -= 2;
         }
     }
@@ -311,7 +367,7 @@ void UserViewItem::paintCell(QPainter *p, const QColorGroup &cg, int, int, int)
         const QPixmap &pPhoneBusy = Pict("nophone");
         if (width - pPhoneBusy.width() >= w){
             width -= pPhoneBusy.width();
-            p->drawPixmap(width, (height() - pPhoneBusy.height()) / 2, pPhoneBusy);
+            p->drawPixmap(width + dx, (height() - pPhoneBusy.height()) / 2 + dy, pPhoneBusy);
             width -= 2;
         }
     }
@@ -319,7 +375,7 @@ void UserViewItem::paintCell(QPainter *p, const QColorGroup &cg, int, int, int)
         const QPixmap &pBirthday = Pict("birthday");
         if (width - pBirthday.width() >= w){
             width -= pBirthday.width();
-            p->drawPixmap(width, (height() - pBirthday.height()) / 2, pBirthday);
+            p->drawPixmap(width + dx, (height() - pBirthday.height()) / 2 + dy, pBirthday);
             width -= 2;
         }
     }
@@ -327,7 +383,7 @@ void UserViewItem::paintCell(QPainter *p, const QColorGroup &cg, int, int, int)
         const QPixmap &pInvisible = Pict("invisible");
         if (width - pInvisible.width() >= w){
             width -= pInvisible.width();
-            p->drawPixmap(width, (height() - pInvisible.height()) / 2, pInvisible);
+            p->drawPixmap(width + dx, (height() - pInvisible.height()) / 2 + dy, pInvisible);
             width -= 2;
         }
     }
@@ -386,7 +442,12 @@ void UserViewItem::update(ICQUser *u, bool bFirst)
     }
     QString name = user.name();
     setText(0, name);
-    setText(2, msgType ? SIMClient::getMessageIcon(msgType) : SIMClient::getUserIcon(u));
+    const char *userIcon = SIMClient::getUserIcon(u);
+    if (m_bInvisible && ((u->uStatus & 0xFF) == ICQ_STATUS_OFFLINE)){
+        m_bInvisible = false;
+        userIcon = "invisible";
+    }
+    setText(2, msgType ? SIMClient::getMessageIcon(msgType) : userIcon);
     m_status = u->uStatus;
     m_uin = u->Uin;
     nBlink = 0;
@@ -571,7 +632,6 @@ UserView::UserView (QWidget *parent, bool _bList, bool bFill, WFlags f)
     setTreeStepSize(0);
     if (bFill) fill();
     connect(this, SIGNAL(returnPressed(QListViewItem*)), this, SLOT(doubleClick(QListViewItem*)));
-    connect(this, SIGNAL(doubleClicked(QListViewItem*)), this, SLOT(doubleClick(QListViewItem*)));
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     connect(pClient, SIGNAL(messageRead(ICQMessage*)), this, SLOT(messageRead(ICQMessage*)));
     connect(pClient, SIGNAL(messageReceived(ICQMessage*)), this, SLOT(messageReceived(ICQMessage*)));
@@ -619,7 +679,8 @@ UserView::UserView (QWidget *parent, bool _bList, bool bFill, WFlags f)
     accel->insertItem(QListView::CTRL + QListView::Key_Down, mnuGrpDown);
     accel->insertItem(QListView::CTRL + QListView::Key_Plus, mnuGrpExpandAll);
     accel->insertItem(QListView::CTRL + QListView::Key_Minus, mnuGrpCollapseAll);
-	bgChanged();
+    bgChanged();
+    pressedItem = NULL;
 }
 
 void UserView::accelActivated(int id)
@@ -699,23 +760,58 @@ void UserView::iconChanged()
     viewport()->repaint();
 }
 
-const QImage &UserView::scalePict(int w, int h)
+void UserView::drawImage(QPainter *p, int x, int y, int w, int h, int imgX, int imgY, int imgW, int imgH)
 {
-	if (!bgPictScale.isNull() && (bgPictScale.width() == w) && (bgPictScale.height() == h))
-		return bgPictScale;
-	bgPictScale = bgPict.smoothScale(w, h);
-	return bgPictScale;
+    if (bgPict.isNull()) return;
+    QImage &img = bgPict;
+    if ((bgPict.width() != imgW) || (bgPict.height() != imgH)){
+        if (bgPictScale.isNull() || (bgPictScale.width() != imgW) || (bgPictScale.height() != imgH)){
+            bgPictScale = bgPict;
+            bgPictScale = bgPictScale.smoothScale(imgW, imgH);
+        }
+        img = bgPictScale;
+    }
+    while (imgX >= img.width())
+        imgX -= img.width();
+    while (imgX < 0)
+        imgX += img.width();
+    while (imgY >= img.height())
+        imgY -= img.height();
+    while (imgY < 0)
+        imgY += img.height();
+
+    int right  = x + w;
+    int bottom = y + h;
+    while (y < bottom){
+        int wx = x;
+        int wImgX = imgX;
+        while (wx < right){
+            p->drawImage(wx, y, img, wImgX, imgY, right - wx, bottom - y);
+            if (wImgX){
+                wx += img.width() - wImgX;
+                wImgX = 0;
+            }else{
+                wx += img.width();
+            }
+        }
+        if (imgY){
+            y += img.height() - imgY;
+            imgY = 0;
+        }else{
+            y += img.height();
+        }
+    }
 }
 
 void UserView::bgChanged()
 {
-	bgPictScale = QImage();
-	if (*pMain->BackgroundFile.c_str()){
-		bgPict = QImage(QString::fromLocal8Bit(pMain->BackgroundFile.c_str()));
-	}else{
-		bgPict = QImage();
-	}
-	repaint();
+    bgPictScale = QImage();
+    if (*pMain->BackgroundFile.c_str()){
+        bgPict = QImage(QString::fromLocal8Bit(pMain->BackgroundFile.c_str()));
+    }else{
+        bgPict = QImage();
+    }
+    viewport()->repaint();
 }
 
 void UserView::blink()
@@ -843,56 +939,84 @@ void UserView::doubleClick(QListViewItem *item)
 void UserView::paintEmptyArea(QPainter *p, const QRect &r)
 {
     const QPixmap *pix = transparent->background(colorGroup().base());
-		int w = 0;
-	if (!bgPict.isNull()){
-		switch (pMain->BackgroundMode){
-		case 0:
-			w = width();
-			break;
-		case 1:
-			w = bgPict.width();
-			break;
-		}
-	}
-		if (w){
-			int h = r.height();
-			QListViewItem *item = firstChild();
-			if (item) h = item->height();
-			for (int y = r.top(); y < r.bottom(); y += h){
-				if (bgPict.hasAlphaBuffer()){
-					QPixmap bPict(w, h);
-					QPainter pBuf(&bPict);
-					if (pix){
-						QPoint pp(topLevelWidget()->mapFromGlobal(mapToGlobal(QPoint(0, y))));
-						pBuf.drawTiledPixmap(0, y, w, h, *pix, pp.x(), pp.y());
-					}else{
-						pBuf.fillRect(QRect(0, y, w, y+h), colorGroup().base());
-					}
-					pBuf.drawImage(0, y, scalePict(w, h), 0, 0);
-					pBuf.end();
-					p->drawPixmap(0, y, bPict);
-				}else{
-					p->drawImage(0, y, bgPict);
-				}
-				if (w >= r.right()) continue;
-				if (pix){
-					QPoint pp(topLevelWidget()->mapFromGlobal(mapToGlobal(QPoint(w, y))));
-					p->drawTiledPixmap(w, y, r.right() - w, h, *pix, pp.x(), pp.y());
-				}else{
-					p->fillRect(QRect(w, y, r.right(), y+h), colorGroup().base());
-				}
-			}
-	}else{
-		if (pix)
-		{
-			QPoint pp(topLevelWidget()->mapFromGlobal(mapToGlobal(r.topLeft())));
-			p->drawTiledPixmap(r.x(), r.y(), r.width(), r.height(), *pix, pp.x(), pp.y());
-		}
-		else
-		{
-		    p->fillRect(r, colorGroup().base());
-	    }
-	}
+    int w = 0;
+    bool bTile = false;
+    int cx = 0;
+    int cy = 0;
+    int h = r.height();
+    QListViewItem *item = firstChild();
+    if (item) h = item->height();
+    int ch = h;
+    if (!bgPict.isNull()){
+        switch (pMain->BackgroundMode){
+        case bgModeContactLeft:
+            w = bgPict.width();
+            break;
+        case bgModeContactScale:
+            w = width();
+            break;
+        case bgModeWndTop:
+            w = bgPict.width();
+            ch = bgPict.height();
+            cy = r.top();
+            bTile = true;
+            break;
+        case bgModeWndBottom:
+            w = bgPict.width();
+            ch = bgPict.height();
+            cy = r.top() + (bgPict.height() - height());
+            bTile = true;
+            break;
+        case bgModeWndCenter:
+            w = bgPict.width();
+            ch = bgPict.height();
+            cy = r.top() + (bgPict.height() - height()) / 2;
+            bTile = true;
+            break;
+        case bgModeWndScale:
+            w = width();
+            ch = height();
+            cy = r.top();
+            break;
+        }
+    }
+    if (w){
+        int wImg = w;
+        if (bTile) w = width();
+        if (bgPict.hasAlphaBuffer()){
+            QPixmap bPict(w, r.height());
+            QPainter pBuf(&bPict);
+            if (pix){
+                QPoint pp(topLevelWidget()->mapFromGlobal(mapToGlobal(QPoint(0, r.top()))));
+                pBuf.drawTiledPixmap(0, 0, w, h, *pix, pp.x(), pp.y());
+            }else{
+                pBuf.fillRect(QRect(0, 0, w, h), colorGroup().base());
+            }
+            drawImage(&pBuf, 0, 0, w, r.height(), cx, cy, wImg, ch);
+            pBuf.end();
+            p->drawPixmap(0, r.top(), bPict);
+        }else{
+            drawImage(p, 0, r.top(), w, r.height(), cx, cy, wImg, ch);
+        }
+        w += r.left();
+        if (w < r.right()){
+            if (pix){
+                QPoint pp(topLevelWidget()->mapFromGlobal(mapToGlobal(QPoint(w, r.top()))));
+                p->drawTiledPixmap(w, r.top(), r.right() - w, r.bottom(), *pix, pp.x(), pp.y());
+            }else{
+                p->fillRect(QRect(w, r.top(), r.right(), r.bottom()), colorGroup().base());
+            }
+        }
+    }else{
+        if (pix){
+            QPoint pp(topLevelWidget()->mapFromGlobal(mapToGlobal(r.topLeft())));
+            p->drawTiledPixmap(r.x(), r.y(), r.width(), r.height(), *pix, pp.x(), pp.y());
+        }
+        else
+        {
+            p->fillRect(r, colorGroup().base());
+        }
+    }
 }
 
 void UserView::clear()
@@ -1321,6 +1445,12 @@ void UserView::contentsMouseReleaseEvent(QMouseEvent *e)
     }
     mousePressPos = QPoint(0, 0);
 #endif
+    if (!bList){
+        clearSelection();
+        if (pressedItem && (pressedItem == itemAt(e->pos())))
+            doubleClick(pressedItem);
+        pressedItem = NULL;
+    }
     QListView::contentsMouseReleaseEvent(e);
 }
 
@@ -1334,6 +1464,8 @@ void UserView::contentsMousePressEvent(QMouseEvent *e)
         }
     }
 #endif
+    if (e->button() == QObject::LeftButton)
+        pressedItem = itemAt(e->pos());
     QListView::contentsMousePressEvent(e);
 }
 

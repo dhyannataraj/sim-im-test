@@ -42,9 +42,9 @@ public:
     EditFile(QWidget *p, const char *name=NULL);
     void setText(const QString&);
     QString text();
-	void setFilter(const QString &filter);
+    void setFilter(const QString &filter);
     void setDirMode(bool bMode) { bDirMode = bMode; }
-	void setStartDir(const QString &dir);
+    void setStartDir(const QString &dir);
     void setMultiplyMode(bool bMode) { bMultiplyMode = bMode; }
 signals:
     void textChanged(const QString&);
@@ -55,7 +55,7 @@ protected:
     bool bDirMode;
     bool bMultiplyMode;
     QString filter;
-	QString startDir;
+    QString startDir;
     FileLineEdit *edtFile;
     QHBoxLayout *lay;
 };

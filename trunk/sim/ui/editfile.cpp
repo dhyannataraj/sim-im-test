@@ -36,7 +36,7 @@ EditFile::EditFile(QWidget *p, const char *name)
         : QFrame(p, name)
 {
     bDirMode = false;
-	bMultiplyMode = false;
+    bMultiplyMode = false;
     lay = new QHBoxLayout(this);
     edtFile = new FileLineEdit(this);
     lay->addWidget(edtFile);
@@ -60,12 +60,12 @@ void EditFile::setText(const QString &t)
 
 void EditFile::setFilter(const QString &f)
 {
-	filter = f;
+    filter = f;
 }
 
 void EditFile::setStartDir(const QString &d)
 {
-	startDir = d;
+    startDir = d;
 }
 
 QString EditFile::text()
@@ -91,7 +91,7 @@ void EditFile::showFiles()
         }
         s = lst.join(" ");
     }else{
-		if (s.isEmpty()) s = startDir;
+        if (s.isEmpty()) s = startDir;
         s = QFileDialog::getOpenFileName(s, filter, this);
     }
 #ifdef WIN32
@@ -111,7 +111,7 @@ EditSound::EditSound(QWidget *p, const char *name)
     btnPlay->setPixmap(Pict("1rightarrow"));
     connect(btnPlay, SIGNAL(clicked()), this, SLOT(play()));
     filter = i18n("Sounds (*.wav)");
-	startDir = app_file("sound");
+    startDir = app_file("sound");
 }
 
 void EditSound::play()

@@ -112,7 +112,7 @@ public slots:
 signals:
     void checked();
 protected slots:
-	void bgChanged();
+    void bgChanged();
     void processEvent(ICQEvent*);
     void doubleClick(QListViewItem*);
     void grpFunction(int);
@@ -155,13 +155,14 @@ protected:
 
     void updateUser(unsigned long uin, bool bFull);
 
+    QListViewItem *pressedItem;
     QLineEdit *edtGroup;
     QPoint mousePressPos;
     KPopupMenu *menuGroup;
 
-	QImage  bgPict;
-	QImage	bgPictScale;
-	const QImage &scalePict(int w, int h);
+    QImage  bgPict;
+    QImage	bgPictScale;
+    void drawImage(QPainter *p, int x, int y, int w, int h, int imgX, int imgY, int imgW, int imgH);
 
     unsigned m_counts[3];
     unsigned short grp_id;

@@ -97,6 +97,13 @@ const int mnuGrpTitle    = 0x10000;
 const int mnuPopupStatus = 0x20000;
 const int mnuWindow		 = 0x30000;
 
+const int bgModeContactLeft  = 0;
+const int bgModeContactScale = 1;
+const int bgModeWndTop		 = 2;
+const int bgModeWndBottom	 = 3;
+const int bgModeWndCenter	 = 4;
+const int bgModeWndScale	 = 5;
+
 const unsigned long mnuGroupVisible = 0x10001;
 const unsigned long mnuGroupInvisible = 0x10002;
 const unsigned long mnuGroupIgnore = 0x10003;
@@ -264,8 +271,12 @@ public:
     bool			AllEncodings;
     bool			HistoryDirection;
 
-	string			BackgroundFile;
-	unsigned short	BackgroundMode;
+    string			BackgroundFile;
+    unsigned short	BackgroundMode;
+    unsigned short	IconMargin;
+    bool			UseSystemColors;
+    unsigned long	OnlineColor;
+    unsigned long	OfflineColor;
 
     list<unsigned long>	ToolBarMain;
     list<unsigned long> ToolBarMsg;
@@ -341,7 +352,7 @@ public:
     void setUserBoxOnTop();
     bool isDock();
     void saveContacts();
-	void changeBackground();
+    void changeBackground();
 signals:
     void searchChanged();
     void modeChanged(bool);
@@ -351,7 +362,7 @@ signals:
     void setupInit();
     void iconChanged();
     void wmChanged();
-	void bgChanged();
+    void bgChanged();
     void onTopChanged();
     void chatChanged();
     void ftChanged();

@@ -135,7 +135,7 @@ WharfIcon::~WharfIcon()
 
 bool WharfIcon::x11Event(XEvent *e)
 {
-//    log(L_DEBUG, "Wharf: %u", e->type);
+    //    log(L_DEBUG, "Wharf: %u", e->type);
     if ((e->type == ReparentNotify) && !bActivated){
         bActivated = true;
         if (vis) resize(vis->width(), vis->height());
@@ -295,7 +295,7 @@ DockWnd::~DockWnd()
 
 bool DockWnd::x11Event(XEvent *e)
 {
-//    log(L_DEBUG, "Dock %u", e->type);
+    //    log(L_DEBUG, "Dock %u", e->type);
     if (e->type == ClientMessage){
         if (!inTray){
             Atom xembed = XInternAtom( qt_xdisplay(), "_XEMBED", FALSE );
@@ -558,7 +558,7 @@ void DockWnd::mouseReleaseEvent( QMouseEvent *e)
     if (!inTray && (wharfIcon == NULL)){
         releaseMouse();
         move(e->globalPos().x() - mousePos.x(),  e->globalPos().y() - mousePos.y());
-	QPoint p(pMain->DockX - x(), pMain->DockY - y());
+        QPoint p(pMain->DockX - x(), pMain->DockY - y());
         pMain->DockX = x();
         pMain->DockY = y();
         if (p.manhattanLength() > 6)

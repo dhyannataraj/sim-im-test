@@ -37,6 +37,7 @@ protected slots:
     void apply(QListBoxItem*);
     void setupInit();
     void langChanged(int);
+    void sysColorsToggled(bool);
 protected:
     bool bLangChanged;
 };

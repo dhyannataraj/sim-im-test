@@ -24,6 +24,7 @@
 #include "splash.h"
 #include "editfile.h"
 #include "enable.h"
+#include "qcolorbutton.h"
 #include "log.h"
 
 #include <qlistbox.h>
@@ -36,6 +37,8 @@
 #include <qpushbutton.h>
 #include <qcombobox.h>
 #include <qtabwidget.h>
+#include <qspinbox.h>
+#include <qimage.h>
 
 #ifdef WIN32
 
@@ -79,6 +82,7 @@ ThemeSetup::ThemeSetup(QWidget *parent)
     connect(btnAddIcons, SIGNAL(clicked()), this, SLOT(addIcons()));
     connect(lstThemes, SIGNAL(doubleClicked(QListBoxItem*)), this, SLOT(apply(QListBoxItem*)));
     connect(lstIcons, SIGNAL(doubleClicked(QListBoxItem*)), this, SLOT(apply(QListBoxItem*)));
+    connect(chkSystemColors, SIGNAL(toggled(bool)), this, SLOT(sysColorsToggled(bool)));
     if (TransparentTop::bCanTransparent){
         chkTransparent->setChecked(pMain->UseTransparent);
         sldTransparent->setMinValue(0);
@@ -100,16 +104,29 @@ ThemeSetup::ThemeSetup(QWidget *parent)
         tabWnd->removePage(tabWnd->currentPage());
         tabWnd->setCurrentPage(0);
     }
-	edtBg->setFilter(i18n("Graphics (*.png;*.jpg;*.jpeg;*.bmp;*.xpm)"));
-	edtBg->setStartDir(app_file("pict"));
-	edtBg->setText(QString::fromLocal8Bit(pMain->BackgroundFile.c_str()));
-	cmbPos->clear();
-	cmbPos->insertItem("For contact (stretch)");
-	cmbPos->insertItem("For contact (left)");
-	cmbPos->insertItem("Tile");
-	cmbPos->insertItem("Stretch");
-	cmbPos->insertItem("Center");
-	cmbPos->setCurrentItem(pMain->BackgroundMode);
+    QStrList formats = QImageIO::inputFormats();
+    QString format;
+    QStrListIterator it(formats);
+    char *fmt;
+    while ((fmt = ++it) != NULL){
+        if (format.length()) format += ";";
+        QString f = fmt;
+        format += "*." + f.lower();
+    }
+
+    edtBg->setFilter(i18n("Graphics (%1)") .arg(format));
+    edtBg->setStartDir(app_file("pict"));
+    edtBg->setText(QString::fromLocal8Bit(pMain->BackgroundFile.c_str()));
+    cmbPos->clear();
+    cmbPos->insertItem("Contact - left");
+    cmbPos->insertItem("Contact - scale");
+    cmbPos->insertItem("Window - left top");
+    cmbPos->insertItem("Window - left bottom");
+    cmbPos->insertItem("Window - left center");
+    cmbPos->insertItem("Window - scale");
+    cmbPos->setCurrentItem(pMain->BackgroundMode);
+    spnMargin->setMaxValue(20);
+    spnMargin->setValue(pMain->IconMargin);
     int h = lstThemes->itemHeight();
     lstThemes->setMinimumSize(QSize(0, h * 3));
     lstIcons->setMinimumSize(QSize(0, h * 3));
@@ -143,6 +160,15 @@ ThemeSetup::ThemeSetup(QWidget *parent)
     chkSplash->setChecked(pSplash->Show);
     chkEmotional->setChecked(pMain->UseEmotional);
     chkUserWndOnTop->setChecked(pMain->UserWndOnTop);
+    chkSystemColors->setChecked(pMain->UseSystemColors);
+    sysColorsToggled(pMain->UseSystemColors);
+    if (pMain->UseSystemColors){
+        btnOnlineColor->setColor(colorGroup().text());
+        btnOfflineColor->setColor(colorGroup().dark());
+    }else{
+        btnOnlineColor->setColor(pMain->OnlineColor);
+        btnOfflineColor->setColor(pMain->OfflineColor);
+    }
     setupInit();
 }
 
@@ -210,12 +236,30 @@ void ThemeSetup::apply(ICQUser*)
         }
         pMain->changeIcons(0);
     }
-	if ((edtBg->text() != QString::fromLocal8Bit(pMain->BackgroundFile.c_str())) ||
-		(cmbPos->currentItem() != pMain->BackgroundMode)){
-		pMain->BackgroundMode = cmbPos->currentItem();
-		set(pMain->BackgroundFile, edtBg->text());
-		pMain->changeBackground();
-	}
+    bool bColorChanged = false;
+    if (chkSystemColors->isChecked()){
+        if (!pMain->UseSystemColors) bColorChanged = true;
+        pMain->UseSystemColors = true;
+    }else{
+        if (pMain->UseSystemColors) bColorChanged = true;
+        pMain->UseSystemColors = false;
+        if (pMain->OnlineColor != btnOnlineColor->color().rgb()){
+            bColorChanged = true;
+            pMain->OnlineColor = btnOnlineColor->color().rgb();
+        }
+        if (pMain->OfflineColor != btnOfflineColor->color().rgb()){
+            bColorChanged = true;
+            pMain->OfflineColor = btnOfflineColor->color().rgb();
+        }
+    }
+    if ((edtBg->text() != QString::fromLocal8Bit(pMain->BackgroundFile.c_str())) ||
+            (cmbPos->currentItem() != pMain->BackgroundMode) ||
+            (atol(spnMargin->text().latin1()) != pMain->IconMargin) || bColorChanged){
+        pMain->BackgroundMode = cmbPos->currentItem();
+        set(pMain->BackgroundFile, edtBg->text());
+        pMain->IconMargin = atol(spnMargin->text().latin1());
+        pMain->changeBackground();
+    }
     if (TransparentTop::bCanTransparent){
 #ifdef WIN32
         pMain->TransparentIfInactive = chkInactive->isChecked();
@@ -259,6 +303,13 @@ void ThemeSetup::apply(ICQUser*)
 #endif
 }
 
+void ThemeSetup::sysColorsToggled(bool bState)
+{
+    lblOnline->setEnabled(!bState);
+    lblOffline->setEnabled(!bState);
+    btnOnlineColor->setEnabled(!bState);
+    btnOfflineColor->setEnabled(!bState);
+}
 
 #ifndef _WINDOWS
 #include "themesetup.moc"
