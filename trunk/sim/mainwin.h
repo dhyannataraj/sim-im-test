@@ -262,6 +262,7 @@ public:
     unsigned short	CopyMessages;
 
     bool			AllEncodings;
+    bool			HistoryDirection;
 
     list<unsigned long>	ToolBarMain;
     list<unsigned long> ToolBarMsg;

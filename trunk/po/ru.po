@@ -4493,7 +4493,7 @@ msgstr "Добавить иконки"
 # ui/themesetupbase.cpp:105
 #: ui/themesetupbase.cpp:193
 msgid "&Icons"
-msgstr "&Иконки:"
+msgstr "&Иконки"
 
 # ui/themesetupbase.cpp:122
 #: ui/themesetupbase.cpp:194

@@ -356,6 +356,12 @@ History::iterator::iterator(History &_h)
     grepFilter = NULL;
     grepCondition = NULL;
     start_block = (unsigned long)(-1);
+    bDirection = true;
+}
+
+void History::iterator::setDirection(bool bDir)
+{
+    bDirection = bDir;
 }
 
 void History::iterator::setFilter(const QString &_filter)
@@ -404,9 +410,13 @@ bool History::iterator::operator ++()
         if (f.handle() == -1){
             if (!h.open(false, f))
                 return false;
-            unsigned long f_size = f.size();
-            if (start_block > f_size)
-                start_block = f_size;
+            if (bDirection){
+                unsigned long f_size = f.size();
+                if (start_block > f_size)
+                    start_block = f_size;
+            }else{
+                start_block = 0;
+            }
         }
         if (msgs.size()){
             unsigned long msgId = msgs.top();
@@ -417,8 +427,13 @@ bool History::iterator::operator ++()
             if (msg == NULL) continue;
             return true;
         }
-        if (start_block == 0)
-            return false;
+        if (bDirection){
+            if (start_block == 0)
+                return false;
+        }else{
+            if (start_block >= f.size())
+                return false;
+        }
         loadBlock();
     }
     return true;
@@ -426,16 +441,25 @@ bool History::iterator::operator ++()
 
 void History::iterator::loadBlock()
 {
-    if (start_block == 0) return;
+    if (bDirection){
+        if (start_block == 0) return;
+    }else{
+        if (start_block >= f.size()) return;
+    }
     unsigned long start = start_block;
     for (;;){
-        if (start > BLOCK_SIZE){
-            start -= BLOCK_SIZE;
-            if (!f.at(start) || !getLine(f, type) || (f.at() > start_block))
-                continue;
+        if (bDirection){
+            if (start > BLOCK_SIZE){
+                start -= BLOCK_SIZE;
+                if (!f.at(start) || !getLine(f, type) || (f.at() > start_block))
+                    continue;
+            }else{
+                start = 0;
+                if (!f.at(start)) return;
+            }
         }else{
-            start = 0;
             if (!f.at(start)) return;
+            start_block = start + BLOCK_SIZE;
         }
         string line;
         for (;;){
@@ -534,7 +558,11 @@ void History::iterator::loadBlock()
         }
         break;
     }
-    start_block = start;
+    if (bDirection){
+        start_block = start;
+    }else{
+        start_block = line_start;
+    }
 }
 
 int History::iterator::progress()

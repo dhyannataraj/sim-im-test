@@ -725,7 +725,7 @@ HistoryTextView::~HistoryTextView()
     if (h) delete h;
 }
 
-void HistoryTextView::fill(unsigned long offs, const QString &filter, unsigned long _findId)
+void HistoryTextView::fill(unsigned long offs, const QString &filter, unsigned long _findId, bool bDirection)
 {
     if (bFill){
         bFill = false;
@@ -742,6 +742,7 @@ void HistoryTextView::fill(unsigned long offs, const QString &filter, unsigned l
     History::iterator &it = h->messages();
     it.setOffs(offs);
     it.setFilter(filter);
+    it.setDirection(bDirection);
     showProgress(0);
     nMsg = 0;
     findId = _findId;
@@ -813,11 +814,12 @@ void HistoryTextView::ownColorsChanged()
     QTimer::singleShot(100, this, SLOT(fill()));
 }
 
-const int cmbSearch	= 1;
-const int btnSearch	= 2;
-const int btnFilter	= 3;
-const int btnPrev	= 4;
-const int btnNext	= 5;
+const int cmbSearch		= 1;
+const int btnSearch		= 2;
+const int btnFilter		= 3;
+const int btnPrev		= 4;
+const int btnNext		= 5;
+const int btnDirection	= 6;
 
 ToolBarDef historyToolBar[] =
     {
@@ -827,6 +829,8 @@ ToolBarDef historyToolBar[] =
         SEPARATOR,
         { btnPrev, "1leftarrow", NULL, I18N_NOOP("&Previous page"), 0, SLOT(prevPage()), NULL },
         { btnNext, "1rightarrow", NULL, I18N_NOOP("&Next page"), 0, SLOT(nextPage()), NULL },
+        SEPARATOR,
+        { btnDirection, "1uparrow", "1downarrow", I18N_NOOP("&Sort order"), BTN_TOGGLE, SLOT(slotDirection(bool)), NULL },
         END_DEF,
         END_DEF
     };
@@ -846,6 +850,7 @@ HistoryView::HistoryView(QWidget *p, unsigned long uin)
     connect(view, SIGNAL(findDone(unsigned long)), this, SLOT(findDone(unsigned long)));
     setCentralWidget(view);
     toolbar = new CToolBar(historyToolBar, &pMain->ToolBarHistory, this, this);
+    toolbar->setOn(btnDirection, pMain->HistoryDirection);
     searchTextChanged("");
     setDockEnabled(toolbar, Left, false);
     setDockEnabled(toolbar, Right, false);
@@ -876,7 +881,7 @@ void HistoryView::fill()
 
 void HistoryView::viewFill(unsigned long offs, unsigned long findId)
 {
-    view->fill(offs, filter, findId);
+    view->fill(offs, filter, findId, toolbar->isOn(btnDirection));
 }
 
 void HistoryView::fillDone(unsigned long offs)
@@ -963,6 +968,7 @@ void HistoryView::slotSearch()
     it.setOffs(curId-1);
     it.setFilter(filter);
     it.setCondition(searchText);
+    it.setDirection(toolbar->isOn(btnDirection));
     if (++it){
         searchParag = view->findMsg((*it)->Id, searchParag);
         searchIndex = 0;
@@ -980,6 +986,12 @@ void HistoryView::slotSearch()
         return;
     }
     QApplication::beep();
+}
+
+void HistoryView::slotDirection(bool dir)
+{
+    pMain->HistoryDirection = dir;
+    fill();
 }
 
 void HistoryView::slotFilter(bool bSet)

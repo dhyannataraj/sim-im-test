@@ -52,6 +52,7 @@ public:
 public:
         ICQMessage *operator*() { return msg; }
         bool operator++();
+        void setDirection(bool bDirection);
         int progress();
         void setOffs(unsigned long);
         void setFilter(const QString &filter);
@@ -65,6 +66,7 @@ public:
             setCondition("");
         }
 protected:
+        bool bDirection;
         QTextCodec *codec;
         QString filter;
         QString condition;

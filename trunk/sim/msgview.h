@@ -122,7 +122,7 @@ class HistoryTextView : public MsgView
 public:
     HistoryTextView(QWidget *p, unsigned long uin);
     ~HistoryTextView();
-    void fill(unsigned long offs, const QString &filter, unsigned long findId);
+    void fill(unsigned long offs, const QString &filter, unsigned long findId, bool bDirection);
     unsigned long findId;
 signals:
     void showProgress(int);
@@ -155,6 +155,7 @@ protected slots:
     void slotFilter(bool);
     void slotSearch();
     void slotSearch(int);
+    void slotDirection(bool);
     void searchTextChanged(const QString&);
     void searchChanged();
     void prevPage();

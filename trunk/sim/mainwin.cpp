@@ -286,6 +286,7 @@ cfgParam MainWindow_Params[] =
         { "MonitorLevel", OFFSET_OF(MainWindow, MonitorLevel), PARAM_USHORT, L_PACKET | L_DEBUG | L_WARN | L_ERROR },
         { "CopyMessages", OFFSET_OF(MainWindow, CopyMessages), PARAM_USHORT, 3 },
         { "AllEncodings", OFFSET_OF(MainWindow, AllEncodings), PARAM_BOOL, 0 },
+        { "HistoryDirection", OFFSET_OF(MainWindow, HistoryDirection), PARAM_BOOL, 1 },
         { "ToolBarMain", OFFSET_OF(MainWindow, ToolBarMain), PARAM_ULONGS, 0 },
         { "ToolBarMsg", OFFSET_OF(MainWindow, ToolBarMsg), PARAM_ULONGS, 0 },
         { "ToolBarHistory", OFFSET_OF(MainWindow, ToolBarHistory), PARAM_ULONGS, 0 },
@@ -1260,11 +1261,13 @@ void MainWindow::processEvent(ICQEvent *e)
             return;
         }
     case EVENT_PROXY_ERROR:{
+            ManualStatus = ICQ_STATUS_OFFLINE;
             ProxyDialog d(this, i18n("Can't connect to proxy server"));
             d.exec();
             return;
         }
     case EVENT_PROXY_BAD_AUTH:{
+            ManualStatus = ICQ_STATUS_OFFLINE;
             ProxyDialog d(this, pClient->factory()->ProxyAuth ?
                           i18n("Proxy server require authorization") :
                           i18n("Invalid password for proxy"));
@@ -1274,11 +1277,13 @@ void MainWindow::processEvent(ICQEvent *e)
     case EVENT_BAD_PASSWORD:
         if (!bInLogin){
             pClient->setStatus(ICQ_STATUS_OFFLINE);
+            ManualStatus = ICQ_STATUS_OFFLINE;
             QTimer::singleShot(50, this, SLOT(badPassword()));
         }
         return;
     case EVENT_ANOTHER_LOCATION:
         ManualStatus = ICQ_STATUS_OFFLINE;
+        pClient->setStatus(ICQ_STATUS_OFFLINE);
         setShow(true);
         BalloonMsg::message(i18n("Your UIN used from another location"), toolbar->getWidget(btnStatus));
         break;
@@ -1853,8 +1858,11 @@ void MainWindow::autoAway()
     if ((m_bAutoAway && (idle_time < AutoAwayTime)) ||
             (m_bAutoNA && (idle_time < AutoNATime))){
         m_bAutoAway = m_bAutoNA = false;
-        ManualStatus = (unsigned long)m_autoStatus;
-        realSetStatus();
+        if (((ManualStatus & 0xFF) == ICQ_STATUS_NA) ||
+                ((ManualStatus & 0xFF) == ICQ_STATUS_AWAY)){
+            ManualStatus = (unsigned long)m_autoStatus;
+            realSetStatus();
+        }
         return;
     }
     if (!m_bAutoNA && AutoNATime && (idle_time > AutoNATime)){
@@ -1863,7 +1871,7 @@ void MainWindow::autoAway()
                 ((ManualStatus & 0xFF) == ICQ_STATUS_NA)) return;
         if (!m_bAutoAway){
             m_autoStatus = ManualStatus;
-            m_bAutoAway = true;
+            m_bAutoNA = true;
         }
         ManualStatus = ICQ_STATUS_NA;
         realSetStatus();
