@@ -110,6 +110,8 @@ static DataDef msnClientData[] =
         { "Version", DATA_STRING, 1, "5.0.0540" },
         { "MinPort", DATA_ULONG, 1, DATA(1024) },
         { "MaxPort", DATA_ULONG, 1, DATA(0xFFFF) },
+		{ "UseHTTP", DATA_ULONG, 1, 0 },
+		{ "AutoHTTP", DATA_ULONG, 1, DATA(1) },
         { "", DATA_STRUCT, sizeof(MSNUserData) / sizeof(Data), DATA(msnUserData) },
         { NULL, 0, 0, 0 }
     };
@@ -129,6 +131,7 @@ MSNClient::MSNClient(Protocol *protocol, const char *cfg)
     }
     setListRequests("");
     m_bJoin = false;
+	m_bFirstTry = false;
 }
 
 MSNClient::~MSNClient()
@@ -175,6 +178,7 @@ const DataDef *MSNProtocol::userDataDef()
 
 void MSNClient::connect_ready()
 {
+    m_bFirstTry = false;
     m_socket->readBuffer.init(0);
     m_socket->readBuffer.packetStart();
     m_socket->setRaw(true);
@@ -1581,7 +1585,7 @@ SBSocket::SBSocket(MSNClient *client, Contact *contact, MSNUserData *data)
     m_client	= client;
     m_contact	= contact;
     m_data		= data;
-    m_socket	= new ClientSocket(this);
+    m_socket	= new ClientSocket(this, client->createSBSocket());
     m_packet_id = 0;
     m_messageSize = 0;
     m_invite_cookie = get_random();

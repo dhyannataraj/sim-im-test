@@ -23,6 +23,7 @@
 #include <qlineedit.h>
 #include <qspinbox.h>
 #include <qtabwidget.h>
+#include <qcheckbox.h>
 
 MSNConfig::MSNConfig(QWidget *parent, MSNClient *client, bool bConfig)
         : MSNConfigBase(parent)
@@ -44,6 +45,10 @@ MSNConfig::MSNConfig(QWidget *parent, MSNClient *client, bool bConfig)
     lnkReg->setUrl(i18n("https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"));
     edtMinPort->setValue(m_client->getMinPort());
     edtMaxPort->setValue(m_client->getMaxPort());
+	chkHTTP->setChecked(m_client->getUseHTTP());
+	chkAuto->setChecked(m_client->getAutoHTTP());
+	connect(chkAuto, SIGNAL(toggled(bool)), this, SLOT(autoToggled(bool)));
+	autoToggled(m_client->getAutoHTTP());
 }
 
 void MSNConfig::apply(Client*, void*)
@@ -60,6 +65,8 @@ void MSNConfig::apply()
     m_client->setPort((unsigned short)atol(edtPort->text()));
     m_client->setMinPort((unsigned short)atol(edtMinPort->text()));
     m_client->setMaxPort((unsigned short)atol(edtMaxPort->text()));
+	m_client->setUseHTTP(chkHTTP->isChecked());
+	m_client->setAutoHTTP(chkAuto->isChecked());
 }
 
 void MSNConfig::changed(const QString&)
@@ -73,6 +80,11 @@ void MSNConfig::changed()
                    !edtPassword->text().isEmpty() &&
                    !edtServer->text().isEmpty() &&
                    atol(edtPort->text()));
+}
+
+void MSNConfig::autoToggled(bool bState)
+{
+	chkHTTP->setEnabled(!bState);
 }
 
 #ifndef WIN32

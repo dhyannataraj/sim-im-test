@@ -66,6 +66,8 @@ typedef struct MSNClientData
     Data	Version;
     Data	MinPort;
     Data	MaxPort;
+	Data	UseHTTP;
+	Data	AutoHTTP;
     MSNUserData	owner;
 } MSNClientData;
 
@@ -171,6 +173,8 @@ public:
     PROP_STR(Version);
     PROP_USHORT(MinPort);
     PROP_USHORT(MaxPort);
+	PROP_BOOL(UseHTTP);
+	PROP_BOOL(AutoHTTP);
     QString getLogin();
     QString unquote(const QString&);
     QString quote(const QString&);
@@ -190,6 +194,8 @@ public:
     list<SBSocket*> m_SBsockets;
     virtual void setupContact(Contact*, void *data);
     bool		 m_bJoin;
+    unsigned	 m_fetchId;
+	Socket *createSBSocket();
 protected slots:
     void ping();
     void authOk();
@@ -210,6 +216,7 @@ protected:
     virtual QWidget *searchWindow();
     virtual bool isMyData(clientData*&, Contact*&);
     virtual bool createData(clientData*&, Contact*);
+	Socket *createSocket();
     void getLine(const char*);
     void clearPackets();
     void sendStatus();
@@ -225,7 +232,6 @@ protected:
     MSNServerMessage	*m_msg;
     void		 requestLoginHost(const char *url);
     void		 requestTWN(const char *url);
-    unsigned	 m_fetchId;
     enum AuthState
     {
         None,
@@ -234,6 +240,8 @@ protected:
     };
     AuthState	 m_state;
     string		 m_authChallenge;
+	bool		 m_bFirstTry;
+	bool		 m_bHTTP;
     friend class MSNPacket;
     friend class UsrPacket;
     friend class QryPacket;
