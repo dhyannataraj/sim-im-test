@@ -7,14 +7,14 @@
         email                : shutoff@mail.ru
      ***************************************************************************/
 
-    /***************************************************************************
-     *                                                                         *
-     *   This program is free software; you can redistribute it and/or modify  *
-     *   it under the terms of the GNU General Public License as published by  *
-     *   the Free Software Foundation; either version 2 of the License, or     *
-     *   (at your option) any later version.                                   *
-     *                                                                         *
-     ***************************************************************************/
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
 
 #include <stdio.h>
 #include "icqclient.h"
@@ -29,16 +29,16 @@ using namespace std;
 #endif
 
 
-#define TXT			1
+#define TXT		1
 #define SYMBOL		2
-#define BR			3
+#define BR		3
 #define WIDECHAR	4
 #define SKIP		5
 
-#define YY_STACK_USED			0
+#define YY_STACK_USED		0
 #define YY_NEVER_INTERACTIVE    1
 #define YY_ALWAYS_INTERACTIVE   0
-#define YY_MAIN					0
+#define YY_MAIN			0
 
 %}
 
@@ -100,9 +100,9 @@ string ICQClient::clearHTML(const string &text)
         case TXT:
             res += yytext;
             break;
-		case WIDECHAR:
-			res += yytext;
-			break;
+        case WIDECHAR:
+            res += yytext;
+            break;
         case BR:
             res += "\n";
             break;

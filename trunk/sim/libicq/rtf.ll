@@ -7,14 +7,14 @@
         email                : shutoff@mail.ru
      ***************************************************************************/
 
-    /***************************************************************************
-     *                                                                         *
-     *   This program is free software; you can redistribute it and/or modify  *
-     *   it under the terms of the GNU General Public License as published by  *
-     *   the Free Software Foundation; either version 2 of the License, or     *
-     *   (at your option) any later version.                                   *
-     *                                                                         *
-     ***************************************************************************/
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
 
 #include <stdio.h>
 
@@ -31,12 +31,13 @@
 
 
 #define UP					1	
-#define DOWN				2
+#define DOWN					2
 #define CMD					3
 #define TXT					4
 #define HEX					5
 #define IMG					6
 #define UNICODE_CHAR		7
+#define SKIP				8
 
 #define YY_STACK_USED			0
 #define YY_NEVER_INTERACTIVE	1
@@ -55,8 +56,8 @@
 "\\u"[0-9]{3,7}"?"		{ return UNICODE_CHAR; }
 "\\"[A-Za-z]+[0-9]*[ ]? 	{ return CMD; }
 "\\'"[0-9A-Fa-f][0-9A-Fa-f]	{ return HEX; }
-"<##"[^>]+">"			{ return IMG; }
-[^\\{}<]+			{ return TXT; }
+"<##"[^>]+">"	{ return IMG; }
+[^\\{}<]+		{ return TXT; }
 .				{ return TXT; }
 %%
 
@@ -594,6 +595,7 @@ const unsigned UL			= 12;
 const unsigned F			= 13;
 const unsigned FCHARSET		= 14;
 const unsigned FNAME		= 15;
+const unsigned ULNONE		= 16;
 
 static char cmds[] =
     "fonttbl\x00"
@@ -612,6 +614,7 @@ static char cmds[] =
     "f\x00"
     "fcharset\x00"
     "fname\x00"
+    "ulnone\x00"
     "\x00";
 
 int yywrap() { return 1; }
@@ -728,12 +731,14 @@ string RTF2HTML::Parse(const char *rtf, const char *_encoding)
                 }
                 break;
             }
+        case SKIP:
+            break;
         case TXT:
             cur_level.setText(yytext);
             break;
         case UNICODE_CHAR:{
                 cur_level.flush();
-		string s;
+                string s;
                 unsigned short c = atol(yytext + 2);
                 if (c <= 0x7F)
                 {
@@ -785,11 +790,11 @@ string RTF2HTML::Parse(const char *rtf, const char *_encoding)
                     /* Not a valid character... */
                     log(L_WARN, "Can't decode %X", c);
                 }
-		cur_level.setText(s.c_str());
+                cur_level.setText(s.c_str());
                 break;
             }
         case HEX:{
-		cur_level.flush();
+                cur_level.flush();
                 char s[2];
                 s[0] = (h2d(yytext[2]) << 4) + h2d(yytext[3]);
                 s[1] = 0;
@@ -806,7 +811,7 @@ string RTF2HTML::Parse(const char *rtf, const char *_encoding)
                 const char *p;
                 for (p = cmd; *p; p++, cmd_size++)
                     if (((*p >= '0') && (*p <= '9')) || (*p == ' ')) break;
-                if (*p) cmd_value = atol(p);
+                if (*p && (*p != ' ')) cmd_value = atol(p);
                 for (p = cmds; *p; p += strlen(p) + 1, n_cmd++){
                     if (strlen(p) >  cmd_size) continue;
                     if (!memcmp(p, cmd, cmd_size)) break;
@@ -846,10 +851,13 @@ string RTF2HTML::Parse(const char *rtf, const char *_encoding)
                     cur_level.setItalic(cmd_value != 0);
                     break;
                 case B:
-                    cur_level.setItalic(cmd_value != 0);
+                    cur_level.setBold(cmd_value != 0);
                     break;
                 case UL:
                     cur_level.setUnderline(cmd_value != 0);
+                    break;
+                case ULNONE:
+                    cur_level.setUnderline(false);
                     break;
                 case F:
                     cur_level.setFont(cmd_value);

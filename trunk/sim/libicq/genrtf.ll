@@ -7,14 +7,14 @@
         email                : shutoff@mail.ru
      ***************************************************************************/
 
-    /***************************************************************************
-     *                                                                         *
-     *   This program is free software; you can redistribute it and/or modify  *
-     *   it under the terms of the GNU General Public License as published by  *
-     *   the Free Software Foundation; either version 2 of the License, or     *
-     *   (at your option) any later version.                                   *
-     *                                                                         *
-     ***************************************************************************/
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
 
 #include <stdio.h>
 
@@ -86,6 +86,7 @@ using namespace std;
 "&amp";?			{ return SYMBOL; }
 "&quot";?			{ return SYMBOL; }
 "&nbsp";?			{ return SYMBOL; }
+\r				{ return SKIP; }
 \n				{ return SKIP; }
 .				{ return TXT; }
 %%
@@ -136,7 +137,7 @@ static bool eq(const char *s1, const char *s2)
 }
 
 static rtf_charset _rtf_charsets[] =
-{
+    {
         { "CP 1251", 204 },
         { "KOI8-R", 204 },
         { "KOI8-U", 204 },
@@ -150,71 +151,71 @@ static rtf_charset _rtf_charsets[] =
         { "jis7", 128 },
         { "CP 1250", 238 },
         { "ISO 8859-2", 238 },
-		{ "", 0 }
-};
+        { "", 0 }
+    };
 
 const rtf_charset *rtf_charsets = _rtf_charsets;
 
 typedef struct rtf_cp
 {
-	unsigned cp;
-	unsigned charset;
+    unsigned cp;
+    unsigned charset;
 } rtf_cp;
 
-rtf_cp rtf_cps[] = 
-{
-{ 737, 161 },
-{ 855, 204 },
-{ 857, 162 },
-{ 862, 177 },
-{ 864, 180 }, 
-{ 866, 204 },
-{ 869, 161 },
-{ 875, 161 },
-{ 932, 128 },
-{ 1026, 162 },
-{ 1250, 238 },
-{ 1251, 204 },
-{ 1253, 161 },
-{ 1254, 162 },
-{ 1255, 177 },
-{ 0, 0 }
-};
+rtf_cp rtf_cps[] =
+    {
+        { 737, 161 },
+        { 855, 204 },
+        { 857, 162 },
+        { 862, 177 },
+        { 864, 180 },
+        { 866, 204 },
+        { 869, 161 },
+        { 875, 161 },
+        { 932, 128 },
+        { 1026, 162 },
+        { 1250, 238 },
+        { 1251, 204 },
+        { 1253, 161 },
+        { 1254, 162 },
+        { 1255, 177 },
+        { 0, 0 }
+    };
 
 string ICQClient::createRTF(const string &text, unsigned long foreColor, const char *encoding)
 {
-	log(L_DEBUG, ">> %s", text.c_str());
-	int charset = 0;
-	for (const rtf_charset *c = rtf_charsets; c->rtf_code; c++){
-		if (!strcasecmp(c->name, encoding)){
-			charset = c->rtf_code;
-			break;
-		}
-	}
+    log(L_DEBUG, ">> %s", text.c_str());
+    int charset = 0;
+    for (const rtf_charset *c = rtf_charsets; c->rtf_code; c++){
+        if (!strcasecmp(c->name, encoding)){
+            charset = c->rtf_code;
+            break;
+        }
+    }
 #ifdef WIN32
-	if (charset == 0){
-		char buff[256];
-	    int res = GetLocaleInfoA(LOCALE_USER_DEFAULT, LOCALE_IDEFAULTANSICODEPAGE, (char*)&buff, sizeof(buff));
-		if (res){
-			unsigned codepage = atol(buff);
-			if (codepage){
-				for (const rtf_cp *c = rtf_cps; c->cp; c++){
-					if (c->cp == codepage)
-						charset = c->charset;
-				}
-			}
-		}
-	}
+    if (charset == 0){
+        char buff[256];
+        int res = GetLocaleInfoA(LOCALE_USER_DEFAULT, LOCALE_IDEFAULTANSICODEPAGE, (char*)&buff, sizeof(buff));
+        if (res){
+            unsigned codepage = atol(buff);
+            if (codepage){
+                for (const rtf_cp *c = rtf_cps; c->cp; c++){
+                    if (c->cp == codepage)
+                        charset = c->charset;
+                }
+            }
+        }
+    }
 #endif
-	const char *send_encoding = 0;
-	if (charset){
-		for (const rtf_charset *c = rtf_charsets; c->rtf_code; c++){
-			if (c->rtf_code == charset){
-				send_encoding = c->name;
-				break;
-			}
-		}
-	}
+    const char *send_encoding = 0;
+    if (charset){
+        for (const rtf_charset *c = rtf_charsets; c->rtf_code; c++){
+            if (c->rtf_code == charset){
+                send_encoding = c->name;
+                break;
+            }
+        }
+    }
     yy_current_buffer = yy_scan_string(text.c_str());
     string tag;
     stack<font> fonts;
@@ -246,100 +247,100 @@ string ICQClient::createRTF(const string &text, unsigned long foreColor, const c
                     char b[5];
                     snprintf(b, sizeof(b), "\\\'%02x", *p & 0xFF);
                     res += b;
-		    bSpace = false;
+                    bSpace = false;
                     continue;
                 }
-		if (bSpace) res += ' ';
+                if (bSpace) res += ' ';
                 res += *p;
-		bSpace = false;
+                bSpace = false;
             }
             break;
-		case WIDECHAR:
-			t = yytext;
-			log(L_DEBUG, "Wide %s %s", t.c_str(), send_encoding);
-			bConvert = false;
-			if (send_encoding){
-				string utf = t;
-				if (fromUTF(t, send_encoding) && (t.length() == 1)){ 
-					string b = t;
-					if (toUTF(b, send_encoding) && !strcmp(utf.c_str(), b.c_str())){
-						for (p = t.c_str(); *p; p++){
-							if ((*p & 0x80) || (*p == '\\') || (*p == '{') || (*p == '}')){
-								char b[5];
-								snprintf(b, sizeof(b), "\\\'%02x", *p & 0xFF);
-								res += b;
-								continue;
-							}
-							res += *p;
-							bSpace = false;	
-						}
-						bConvert = true;
-					}				
-				}
-			}
-			if (!bConvert){
-				unsigned char *p = (unsigned char*)yytext;
-				unsigned c = 0;
-				unsigned b = *p++;
-				if (b <= 0x7F){
-					c = b;
-				}else if ((b & 0xE0) == 0xC0){
-					/* 110xxxxx 10xxxxxx */
-					c = (b & 0x1F) << 6;
-					b = *p++;
-					c |= b & 0x3F;
-				}else if ((b & 0xF0) == 0xE0){
-					/* 1110xxxx + 2 */
-					c = (b & 0x0F) << 12;
-					b = *p++;
-					c |= (b & 0x3F) << 6;
-					b = *p++;
-					c |= b & 0x3F;
-				}else if ((b & 0xF1) == 0xF0){
-					/* 11110xxx + 3 */
-					c = (b & 0x0F) << 18;
-					b = *p++;
-					c |= (b & 0x3F) << 12;
-					b = *p++;
-					c |= (b & 0x3F) << 6;
-					b = *p++;
-					c |= b & 0x3F;
-				}else if ((b & 0xFD) == 0xF8){
-					/* 111110xx + 4 */
-					c = (b & 0x0F) << 24;
-					b = *p++;
-					c |= (b & 0x0F) << 18;
-					b = *p++;
-					c |= (b & 0x3F) << 12;
-					b = *p++;
-					c |= (b & 0x3F) << 6;
-					b = *p++;
-					c |= b & 0x3F;
-				}else if ((b & 0xFE) == 0xFC){	
-					/* 1111110x + 5 */
-					c = (b & 0x0F) << 30;
-					b = *p++;
-					c |= (b & 0x0F) << 24;
-					b = *p++;
-					c |= (b & 0x0F) << 18;
-					b = *p++;
-					c |= (b & 0x3F) << 12;
-					b = *p++;
-					c |= (b & 0x3F) << 6;
-					b = *p++;
-					c |= b & 0x3F;
-				}
-				if (c){
-					char b[20];
-					snprintf(b, sizeof(b), "\\u%u?", c);
-					res += b;
-					bSpace = false;
-				}
-			}
-			break;
+        case WIDECHAR:
+            t = yytext;
+            log(L_DEBUG, "Wide %s %s", t.c_str(), send_encoding);
+            bConvert = false;
+            if (send_encoding){
+                string utf = t;
+                if (fromUTF(t, send_encoding) && (t.length() == 1)){
+                    string b = t;
+                    if (toUTF(b, send_encoding) && !strcmp(utf.c_str(), b.c_str())){
+                        for (p = t.c_str(); *p; p++){
+                            if ((*p & 0x80) || (*p == '\\') || (*p == '{') || (*p == '}')){
+                                char b[5];
+                                snprintf(b, sizeof(b), "\\\'%02x", *p & 0xFF);
+                                res += b;
+                                continue;
+                            }
+                            res += *p;
+                            bSpace = false;
+                        }
+                        bConvert = true;
+                    }
+                }
+            }
+            if (!bConvert){
+                unsigned char *p = (unsigned char*)yytext;
+                unsigned c = 0;
+                unsigned b = *p++;
+                if (b <= 0x7F){
+                    c = b;
+                }else if ((b & 0xE0) == 0xC0){
+                    /* 110xxxxx 10xxxxxx */
+                    c = (b & 0x1F) << 6;
+                    b = *p++;
+                    c |= b & 0x3F;
+                }else if ((b & 0xF0) == 0xE0){
+                    /* 1110xxxx + 2 */
+                    c = (b & 0x0F) << 12;
+                    b = *p++;
+                    c |= (b & 0x3F) << 6;
+                    b = *p++;
+                    c |= b & 0x3F;
+                }else if ((b & 0xF1) == 0xF0){
+                    /* 11110xxx + 3 */
+                    c = (b & 0x0F) << 18;
+                    b = *p++;
+                    c |= (b & 0x3F) << 12;
+                    b = *p++;
+                    c |= (b & 0x3F) << 6;
+                    b = *p++;
+                    c |= b & 0x3F;
+                }else if ((b & 0xFD) == 0xF8){
+                    /* 111110xx + 4 */
+                    c = (b & 0x0F) << 24;
+                    b = *p++;
+                    c |= (b & 0x0F) << 18;
+                    b = *p++;
+                    c |= (b & 0x3F) << 12;
+                    b = *p++;
+                    c |= (b & 0x3F) << 6;
+                    b = *p++;
+                    c |= b & 0x3F;
+                }else if ((b & 0xFE) == 0xFC){
+                    /* 1111110x + 5 */
+                    c = (b & 0x0F) << 30;
+                    b = *p++;
+                    c |= (b & 0x0F) << 24;
+                    b = *p++;
+                    c |= (b & 0x0F) << 18;
+                    b = *p++;
+                    c |= (b & 0x3F) << 12;
+                    b = *p++;
+                    c |= (b & 0x3F) << 6;
+                    b = *p++;
+                    c |= b & 0x3F;
+                }
+                if (c){
+                    char b[20];
+                    snprintf(b, sizeof(b), "\\u%u?", c);
+                    res += b;
+                    bSpace = false;
+                }
+            }
+            break;
         case BR:
             res += "\n";
-	    bSpace = false;
+            bSpace = false;
             break;
         case SYMBOL:{
                 string s = yytext;
@@ -350,9 +351,9 @@ string ICQClient::createRTF(const string &text, unsigned long foreColor, const c
                 }
                 for (tagDef *t = tags; t->ch; t++){
                     if (s == t->name){
-			if (bSpace) res += ' ';
+                        if (bSpace) res += ' ';
                         res += t->ch;
-			bSpace = false;
+                        bSpace = false;
                         break;
                     }
                 }
@@ -360,16 +361,16 @@ string ICQClient::createRTF(const string &text, unsigned long foreColor, const c
         case TAG_CLOSE:{
                 if (eq(tag.c_str(), "b")){
                     res += "\\b";
-		    bSpace = true;
+                    bSpace = true;
                 }else if (eq(tag.c_str(), "i")){
                     res += "\\i";
-		    bSpace = true;
+                    bSpace = true;
                 }else if (eq(tag.c_str(), "u")){
                     res += "\\ul";
-		    bSpace = true;
+                    bSpace = true;
                 }else if (eq(tag.c_str(), "p")){
                     res += "\\pard";
-		    bSpace = true;
+                    bSpace = true;
                 }else if (eq(tag.c_str(), "font")){
                     bool bChange = false;
                     font f = fonts.top();
@@ -391,7 +392,7 @@ string ICQClient::createRTF(const string &text, unsigned long foreColor, const c
                                 }
                             }
                             unsigned n = 1;
-							list<unsigned long>::iterator it_color;
+                            list<unsigned long>::iterator it_color;
                             for (it_color = colors.begin(); it_color != colors.end(); it_color++, n++)
                                 if ((*it_color) == color) break;
                             if (it_color == colors.end()) colors.push_back(color);
@@ -400,13 +401,13 @@ string ICQClient::createRTF(const string &text, unsigned long foreColor, const c
                                 char b[16];
                                 snprintf(b, sizeof(b), "\\cf%u", n);
                                 res += b;
-				bSpace = true;
+                                bSpace = true;
                                 bChange = true;
                             }
                         }
                         if (eq((*it).name.c_str(), "face")){
                             unsigned n = 0;
-		  	    list<string>::iterator it_face;
+                            list<string>::iterator it_face;
                             for (it_face = faces.begin(); it_face != faces.end(); it_face++, n++)
                                 if ((*it_face) == (*it).value) break;
                             if (it_face == faces.end()) faces.push_back((*it).value);
@@ -415,7 +416,7 @@ string ICQClient::createRTF(const string &text, unsigned long foreColor, const c
                                 char b[16];
                                 snprintf(b, sizeof(b), "\\f%u", n);
                                 res += b;
-				bSpace = true;
+                                bSpace = true;
                                 bChange = true;
                             }
                         }
@@ -428,14 +429,14 @@ string ICQClient::createRTF(const string &text, unsigned long foreColor, const c
                         }
                         if (eq((*it).name.c_str(), "size")){
                             if (size == f.size){
-								const char *v = (*it).value.c_str();
-								if (*v == '-'){
-									size -= atol(++v);
-								}else if (*v == '+'){
-									size += atol(++v);
-								}else{
-									size = atol((*it).value.c_str());
-								}
+                                const char *v = (*it).value.c_str();
+                                if (*v == '-'){
+                                    size -= atol(++v);
+                                }else if (*v == '+'){
+                                    size += atol(++v);
+                                }else{
+                                    size = atol((*it).value.c_str());
+                                }
                                 if (size <= 0) size = f.size;
                             }
                         }
@@ -445,13 +446,13 @@ string ICQClient::createRTF(const string &text, unsigned long foreColor, const c
                         char b[16];
                         snprintf(b, sizeof(b), "\\fs%u", size);
                         res += b;
-			bSpace = true;
+                        bSpace = true;
                         f.size = size;
                     }
                     if (bChange){
-			res += "\\highlight0";
-			bSpace = true;
-		    }
+                        res += "\\highlight0";
+                        bSpace = true;
+                    }
                     fonts.push(f);
                 }
                 attrs.clear();
@@ -463,16 +464,16 @@ string ICQClient::createRTF(const string &text, unsigned long foreColor, const c
         case TAG_END:
             if (eq(yytext, "</b>")){
                 res += "\\b0";
-		bSpace = true;
+                bSpace = true;
             }else if (eq(yytext, "</i>")){
                 res += "\\i0";
-		bSpace = true;
+                bSpace = true;
             }else if (eq(yytext, "</u>")){
                 res += "\\ul0";
-		bSpace = true;
+                bSpace = true;
             }else if (eq(yytext, "</p>")){
                 res += "\\par\r\n";
-		bSpace = false;
+                bSpace = false;
             }else if (eq(yytext, "</font>")){
                 if (fonts.size() > 1){
                     font f = fonts.top();
@@ -483,19 +484,19 @@ string ICQClient::createRTF(const string &text, unsigned long foreColor, const c
                         snprintf(b, sizeof(b), "\\cf%u", fonts.top().color);
                         bChange = true;
                         res += b;
-			bSpace = true;
+                        bSpace = true;
                     }
                     if (fonts.top().size != f.size){
                         char b[16];
                         snprintf(b, sizeof(b), "\\fs%u", fonts.top().size);
                         bChange = true;
-			res += b;
-			bSpace = true;
+                        res += b;
+                        bSpace = true;
                     }
                     if (bChange){
-			res += "\\highlight0";
-			bSpace = true;
-		    }
+                        res += "\\highlight0";
+                        bSpace = true;
+                    }
                 }
             }
             break;
@@ -522,11 +523,11 @@ string ICQClient::createRTF(const string &text, unsigned long foreColor, const c
         }else{
             s += "\\fswiss";
         }
-		if (charset){
-			snprintf(b, sizeof(b), "%u", charset);
-			s += "\\fcharset";
-			s += b;
-		}
+        if (charset){
+            snprintf(b, sizeof(b), "%u", charset);
+            s += "\\fcharset";
+            s += b;
+        }
         s += " ";
         char *p = (char*)((*it_face).c_str());
         char *r = strchr(p, '[');
@@ -545,10 +546,10 @@ string ICQClient::createRTF(const string &text, unsigned long foreColor, const c
     for (list<unsigned long>::iterator it_colors = colors.begin(); it_colors != colors.end(); it_colors++){
         char b[64];
         unsigned long c = *it_colors;
-        snprintf(b, sizeof(b), "\\red%u\\green%u\\blue%u;", 
-		(unsigned)((c >> 16) & 0xFF), 
-		(unsigned)((c >> 8) & 0xFF), 
-		(unsigned)(c & 0xFF));
+        snprintf(b, sizeof(b), "\\red%u\\green%u\\blue%u;",
+                 (unsigned)((c >> 16) & 0xFF),
+                 (unsigned)((c >> 8) & 0xFF),
+                 (unsigned)(c & 0xFF));
         s += b;
     }
     s += "}\r\n";

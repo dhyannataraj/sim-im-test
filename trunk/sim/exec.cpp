@@ -18,7 +18,7 @@
 #include "exec.h"
 
 Exec::Exec(QObject *parent)
-	: QObject(parent)
+        : QObject(parent)
 {
 }
 

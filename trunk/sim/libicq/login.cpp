@@ -149,7 +149,7 @@ void ICQClient::chn_close()
             process_event(&e);
             log(L_WARN, "Unknown error %04X", err);
         }
-	if (err) return;
+        if (err) return;
     }
     tlv_error = tlv(9);
     if (tlv_error){
@@ -169,7 +169,7 @@ void ICQClient::chn_close()
         default:
             log(L_WARN, "Unknown run-time error %04X", err);
         }
-	if (err) return;
+        if (err) return;
     }
 
     Tlv *tlv_host = tlv(5);

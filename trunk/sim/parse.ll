@@ -7,14 +7,14 @@
         email                : shutoff@mail.ru
      ***************************************************************************/
 
-    /***************************************************************************
-     *                                                                         *
-     *   This program is free software; you can redistribute it and/or modify  *
-     *   it under the terms of the GNU General Public License as published by  *
-     *   the Free Software Foundation; either version 2 of the License, or     *
-     *   (at your option) any later version.                                   *
-     *                                                                         *
-     ***************************************************************************/
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
 
 #include "mainwin.h"
 #include "client.h"
@@ -113,9 +113,9 @@ static const tag_def defs[] =
 
 QString MainWindow::ParseText(const string &text, bool bIgnoreColors)
 {
-	if (text.size() == 0) return "";
+    if (text.size() == 0) return "";
     yy_current_buffer = yy_scan_string(text.c_str());
-	char *p;
+    char *p;
     string res;
     string tag;
     stack<tag_def> tags;
@@ -124,7 +124,7 @@ QString MainWindow::ParseText(const string &text, bool bIgnoreColors)
         if (!r) break;
         switch (r){
         case TXT:
-  	    res += yytext;
+            res += yytext;
             break;
         case TAG:
             tag += yytext;
@@ -149,97 +149,97 @@ QString MainWindow::ParseText(const string &text, bool bIgnoreColors)
                 for (; *d->name; d++)
                     if (!strcasecmp(d->name, name.c_str())) break;
                 if (*d->name){
-		    if ((d->pair != 2) || !bIgnoreColors){ 
-                      if (bClosed){
-                       	for (; !tags.empty(); tags.pop()){
-                            if (strcasecmp(d->name, tags.top().name)){
-                                res += "</";
-                                res += tags.top().name;
-                                res += ">";
-                                continue;
+                    if ((d->pair != 2) || !bIgnoreColors){
+                        if (bClosed){
+                            for (; !tags.empty(); tags.pop()){
+                                if (strcasecmp(d->name, tags.top().name)){
+                                    res += "</";
+                                    res += tags.top().name;
+                                    res += ">";
+                                    continue;
+                                }
+                                res += QString::fromLocal8Bit(tag.c_str());
+                                tags.pop();
+                                break;
                             }
+                        }else{
+                            tag_def td = *d;
                             res += QString::fromLocal8Bit(tag.c_str());
-                            tags.pop();
-                            break;
+                            if (d->pair) tags.push(td);
                         }
-                     }else{
-                        tag_def td = *d;
-                        res += QString::fromLocal8Bit(tag.c_str());
-                        if (d->pair) tags.push(td);
-		      }
                     }
                 }
             }
             tag = "";
             break;
-		case TAB:
-			res += " &nbsp;&nbsp;&nbsp;";
-			break;
-		case LONGSPACE:
-			res += " ";
-			for (p = yytext + 1; *p; p++)
-				res += "&nbsp;";
-			break;
+        case TAB:
+            res += " &nbsp;&nbsp;&nbsp;";
+            break;
+        case LONGSPACE:
+            res += " ";
+            for (p = yytext + 1; *p; p++)
+                res += "&nbsp;";
+            break;
         case BR:
             res += "<br/>";
             break;
         case URL:{
-			string url = ICQClient::unquoteText(yytext);
-			string text = yytext;
-            res += "<a href=\"";
-            res += url.c_str();
-            res += "\">";
-            res += text.c_str();
-            res += "</a>";
+                string url = ICQClient::unquoteText(yytext);
+                string text = yytext;
+                res += "<a href=\"";
+                res += url.c_str();
+                res += "\">";
+                res += text.c_str();
+                res += "</a>";
+                break;
+            }
+        case MAIL:{
+                string url = ICQClient::unquoteText(yytext);
+                string text = yytext;
+                if (url.substr(0, 7) != "mailto:")
+                    url = string("mailto:") + url;
+                res += "<a href=\"";
+                res += url.c_str();
+                res += "\">";
+                res += text.c_str();
+                res += "</a>";
+                break;
+            }
+        case HTTP_URL:{
+                string url = ICQClient::unquoteText(yytext);
+                string text = yytext;
+                res += "<a href=\"http://";
+                res += url.c_str();
+                res += "\">";
+                res += text.c_str();
+                res += "</a>";
+                break;
+            }
+        case FTP_URL:{
+                string url = ICQClient::unquoteText(yytext);
+                string text = yytext;
+                res += "<a href=\"ftp://";
+                res += url.c_str();
+                res += "\">";
+                res += text.c_str();
+                res += "</a>";
+                break;
+            }
+        case SKIP:
             break;
-		}
-		case MAIL:{
-			string url = ICQClient::unquoteText(yytext);
-			string text = yytext;
-			if (url.substr(0, 7) != "mailto:") 
-				url = string("mailto:") + url;
-            res += "<a href=\"";
-            res += url.c_str();
-            res += "\">";
-            res += text.c_str();
-            res += "</a>";
-            break;
-		}
-		case HTTP_URL:{
-			string url = ICQClient::unquoteText(yytext);
-			string text = yytext;
-            res += "<a href=\"http://";
-            res += url.c_str();
-            res += "\">";
-            res += text.c_str();
-            res += "</a>";
-            break;
-		}
-		case FTP_URL:{
-			string url = ICQClient::unquoteText(yytext);
-			string text = yytext;
-            res += "<a href=\"ftp://";
-            res += url.c_str();
-            res += "\">";
-            res += text.c_str();
-            res += "</a>";
-            break;
-		}
-	case SKIP:
-	    break;
         default:
-			if (pMain->UseEmotional){
-				res += "<img src=\"icon:smile";
-				r -= SMILE;
-				if (r < 10){
-					res += (char)(r + '0');
-				}else{
-					res += (char)(r - 10 + 'A');
-				}
-				res += "\">";
-			}else{
-				res += yytext;
-			}
+            if (pMain->UseEmotional){
+                res += "<img src=\"icon:smile";
+                r -= SMILE;
+                if (r < 10){
+                    res += (char)(r + '0');
+                }else{
+                    res += (char)(r - 10 + 'A');
+                }
+                res += "\">";
+            }else{
+                res += yytext;
+            }
         }
     }
     for (; !tags.empty(); tags.pop()){

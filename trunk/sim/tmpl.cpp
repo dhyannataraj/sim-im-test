@@ -49,17 +49,18 @@ void Tmpl::expand()
 void Tmpl::expand(bool bExt)
 {
     for (unsigned i = 0; i < t.length(); i++){
-	QChar c = t[i];
+        QChar c = t[(int)i];
         if (c == '\\'){
             if (i < t.length())
-                res += t[++i];
+                res += t[(int)(++i)];
             continue;
         }
         if (c == '&'){
             QString var;
             for (i++; i < t.length(); i++){
-                if (t[i] == ';') break;
-                var += t[i];
+                c = t[(int)i];
+                if (c == ';') break;
+                var += c;
             }
             if (var == "MyUin"){
                 res += QString::number(pClient->owner->Uin);
@@ -87,8 +88,9 @@ void Tmpl::expand(bool bExt)
         if (bExt && (c == '`')){
             QString prg;
             for (i++; i < t.length(); i++){
-                if (t[i] == '`') break;
-                prg += t[i];
+                c = t[(int)i];
+                if (c == '`') break;
+                prg += c;
             }
             QString save_t = t.mid(i+1);
             QString save_res = res;
