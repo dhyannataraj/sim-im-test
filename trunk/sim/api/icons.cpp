@@ -597,6 +597,7 @@ const QPixmap *WrkIconSet::getPict(const char *name, unsigned &flags)
             return add(name, res, flags);
         }
     }
+    log(L_DEBUG, "Icon %s not found", name);
     return NULL;
 }
 

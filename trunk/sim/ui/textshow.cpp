@@ -176,10 +176,12 @@ void TextEdit::setFont(const QFont &f)
 
 void TextEdit::slotTextChanged()
 {
+    log(L_DEBUG, "text changed");
     bool bEmpty = isEmpty();
     if (m_bEmpty == bEmpty)
         return;
     m_bEmpty = bEmpty;
+    log(L_DEBUG, "empty changed");
     emit emptyChanged(m_bEmpty);
 }
 

@@ -108,9 +108,14 @@ void UnquoteParser::tag_start(const QString &tag, const list<QString> &options)
             res += unquoteString(alt);
             return;
         }
-        list<string> smiles = getIcons()->getSmile(src.latin1());
-        if (!smiles.empty())
-            res += QString::fromUtf8(smiles.front().c_str());
+        if (src.left(5) == "icon:"){
+        	list<string> smiles = getIcons()->getSmile(src.mid(5).latin1());
+        	if (!smiles.empty()){
+            		res += QString::fromUtf8(smiles.front().c_str());
+			return;
+		}
+	}
+	text(alt);
     }
 }
 

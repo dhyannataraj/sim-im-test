@@ -336,7 +336,7 @@
   <icon name="nosound">
 	<object mime="image/png">nosound.png</object>
   </icon>
-  <icon name="livejournal">
+  <icon name="LiveJournal">
 	<object mime="image/png">livejournal.png</object>
   </icon>
   <icon name="simcard">
