@@ -239,6 +239,45 @@ QString ICQMessage::getText()
     return ICQClient::toUnicode(serverText, client(), contact());
 }
 
+static DataDef icqFileMessageData[] =
+    {
+		{ "ServerText", DATA_STRING, 1, 0 },
+        { "", DATA_ULONG, 1, 0 },				// IP
+        { "", DATA_ULONG, 1, 0 },				// Port
+        { NULL, 0, 0, 0 }
+    };
+
+ICQFileMessage::ICQFileMessage(const char *cfg)
+: FileMessage(MessageICQFile, cfg)
+{
+	load_data(icqFileMessageData, &data, cfg);
+}
+
+ICQFileMessage::~ICQFileMessage()
+{
+	free_data(icqFileMessageData, &data);
+}
+
+QString ICQFileMessage::getText()
+{
+    const char *serverText = getServerText();
+    if ((serverText == NULL) || (*serverText == 0))
+        return FileMessage::getText();
+    return ICQClient::toUnicode(serverText, client(), contact());
+}
+
+string ICQFileMessage::save()
+{
+    string s = FileMessage::save();
+    string s1 = save_data(icqFileMessageData, &data);
+    if (!s1.empty()){
+        if (!s.empty())
+            s += '\n';
+        s += s1;
+    }
+    return s;
+}
+
 static DataDef urlMessageData[] =
     {
         { "Url", DATA_UTF, 1, 0 },
@@ -532,6 +571,11 @@ static Message *parseContactMessage(const char *str)
     return m;
 }
 
+static Message *parseFileMessage(const char *str, Buffer &packet)
+{
+	return NULL;
+}
+
 static Message *parseAuthRequest(const char *str)
 {
     vector<string> l;
@@ -684,6 +728,9 @@ Message *ICQClient::parseMessage(unsigned short type, unsigned long uin, string 
     case ICQ_MSGxCONTACTxLIST:
         msg = parseContactMessage(p.c_str());
         break;
+	case ICQ_MSGxFILE:
+		msg = parseFileMessage(p.c_str(), packet);
+		break;
     case ICQ_MSGxEXT:
         msg = parseExtendedMessage(packet);
         break;

@@ -63,10 +63,10 @@ void QKeyButton::endGrab()
 void QKeyButton::click()
 {
     if (hasFocus()) {
-		clearFocus();
-	} else {
-		setFocus();
-	}
+        clearFocus();
+    } else {
+        setFocus();
+    }
 }
 
 void QKeyButton::mousePressEvent(QMouseEvent *e)

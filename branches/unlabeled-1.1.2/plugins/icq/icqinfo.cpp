@@ -250,7 +250,7 @@ void ICQInfo::fill()
         edtExtIP->hide();
     }
     if ((data->RealIP) && ((data->IP == NULL) || (get_ip(data->IP) != get_ip(data->RealIP)))){
-        edtIntIP->setText(formatAddr(data->IP, data->Port));
+        edtIntIP->setText(formatAddr(data->RealIP, data->Port));
     }else{
         lblIntIP->hide();
         edtIntIP->hide();

@@ -931,6 +931,21 @@ public:
     unsigned bytes()		{ return m_bytes; }
     unsigned fileSize()		{ return m_fileSize; }
     unsigned totalSize()	{ return m_totalSize; }
+    unsigned realSpeed()	{ return m_realSpeed; }
+    unsigned speed()		{ return m_speed; }
+    virtual void setSpeed(unsigned speed);
+    enum State
+    {
+        Unknown,
+        Listen,
+        Connect,
+        Negotiation,
+        Read,
+        Write,
+        Done,
+        Error
+    };
+    State state()			{ return m_state; }
 protected:
     FileMessage			*m_msg;
     FileTransferNotify	*m_notify;
@@ -939,12 +954,15 @@ protected:
     unsigned m_bytes;
     unsigned m_fileSize;
     unsigned m_totalSize;
+    unsigned m_realSpeed;
+    unsigned m_speed;
+    State	 m_state;
 };
 
 class EXPORT FileMessage : public Message
 {
 public:
-    FileMessage(const char *cfg=NULL);
+    FileMessage(unsigned type=MessageFile, const char *cfg=NULL);
     ~FileMessage();
     PROP_UTF8(File);
     unsigned getSize();
@@ -952,22 +970,22 @@ public:
     virtual string save();
     virtual QString presentation();
     QString description();
-    FileTransfer *transfer() { return m_transfer; }
-    void setTransfer(FileTransfer*);
     class EXPORT Iterator
     {
     public:
         Iterator(const FileMessage&);
         ~Iterator();
         const char *operator++();
+        const char *operator[](unsigned);
         void reset();
         unsigned count();
     protected:
         FileMessageIteratorPrivate *p;
     };
+    FileTransfer	*m_transfer;
 protected:
     MessageFileData	data;
-    FileTransfer	*m_transfer;
+    friend class FileTransfer;
 };
 
 class EXPORT AuthMessage : public Message

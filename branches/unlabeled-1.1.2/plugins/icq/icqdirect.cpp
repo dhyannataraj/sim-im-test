@@ -1312,9 +1312,7 @@ const char *DirectClient::name()
     return m_name.c_str();
 }
 
-<<<<<<< icqdirect.cpp
-=======
-    const char FT_INIT		= 0;
+const char FT_INIT		= 0;
 const char FT_INIT_ACK	= 1;
 const char FT_FILEINFO	= 2;
 const char FT_START		= 3;
@@ -1411,8 +1409,5 @@ void ICQFileTransfer::write_ready()
 {
     DirectSocket::write_ready();
 }
-
-#endif
->>>>>>> 1.1.2.9.2.1
 
 

@@ -271,14 +271,14 @@ unsigned long SIMClientSocket::localHost()
     memset(&addr, sizeof(addr), 0);
     socklen_t size = sizeof(addr);
     if (getsockname(s, (struct sockaddr*)&addr, &size) >= 0)
-        res = htonl(addr.sin_addr.s_addr);
+        res = addr.sin_addr.s_addr;
     if (res == 0x7F000001){
         char hostName[255];
         if (gethostname(hostName,sizeof(hostName)) >= 0) {
             struct hostent *he = NULL;
             he = gethostbyname(hostName);
             if (he != NULL)
-                res = htonl(*((unsigned long*)(he->h_addr)));
+                res = *((unsigned long*)(he->h_addr));
         }
     }
     return res;

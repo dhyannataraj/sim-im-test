@@ -194,6 +194,21 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
             m_socket->readBuffer.unpack(len);
             m_socket->readBuffer.incReadPos(len + 0x10);
 
+            list<SendMsg>::iterator it;
+            for (it = replyQueue.begin(); it != replyQueue.end(); ++it){
+                SendMsg &s = *it;
+                if ((s.id == id) && (s.uin == uin))
+                    break;
+            }
+            if (it == replyQueue.end())
+                break;
+
+			unsigned plugin_type = (*it).flags;
+            replyQueue.erase(it);
+
+			Contact *contact;
+            ICQUserData *data = findContact(uin, NULL, false, contact);
+
             if (memcmp(p, plugins[PLUGIN_NULL], sizeof(plugin))){
                 unsigned plugin_index;
                 for (plugin_index = 0; plugin_index < PLUGIN_NULL; plugin_index++){
@@ -211,36 +226,24 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
                     log(L_DEBUG, "Unknown plugin sign in reply %s", plugin_str.c_str());
                     break;
                 }
-                Contact *contact;
-                ICQUserData *data = findContact(uin, NULL, false, contact);
                 if ((data == NULL) && (plugin_index != PLUGIN_RANDOMxCHAT))
                     break;
 
-                list<SendMsg>::iterator it;
-                for (it = replyQueue.begin(); it != replyQueue.end(); ++it){
-                    SendMsg &s = *it;
-                    if ((s.id == id) && (s.uin == uin))
-                        break;
-                }
-                if (it == replyQueue.end()){
-                    log(L_DEBUG, "No found message for plugin answer (%u)", uin);
-                    break;
-                }
-                unsigned plugin_type = (*it).flags;
-                replyQueue.erase(it);
                 parsePluginPacket(m_socket->readBuffer, plugin_type, data, uin, false);
                 break;
             }
 
-            string answer;
-            m_socket->readBuffer >> answer;
-            log(L_DEBUG, "Autoreply from %u %s", uin, answer.c_str());
-            Contact *contact;
-            ICQUserData *data = findContact(uin, NULL, false, contact);
-            if (data && set_str(&data->AutoReply, answer.c_str())){
-                Event e(EventContactChanged, contact);
-                e.process();
-            }
+			if (plugin_type == PLUGIN_AR){
+				string answer;
+				m_socket->readBuffer >> answer;
+				log(L_DEBUG, "Autoreply from %u %s", uin, answer.c_str());
+				Contact *contact;
+				ICQUserData *data = findContact(uin, NULL, false, contact);
+				if (data && set_str(&data->AutoReply, answer.c_str())){
+					Event e(EventContactChanged, contact);
+					e.process();
+				}
+			}
             break;
         }
     case ICQ_SNACxMSG_SERVERxMESSAGE:{
@@ -555,14 +558,42 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
     capability cap;
     msg.unpack((char*)cap, sizeof(cap));
     if (!memcmp(cap, capabilities[CAP_DIRECT], sizeof(cap))){
-        unsigned long uin;
+	    TlvList tlv(msg);
+		if (!tlv(0x2711)){
+			log(L_DEBUG, "No 2711 tlv in direct message");
+			return;
+		}
+        unsigned long req_uin;
         unsigned long localIP;
         unsigned long localPort;
         unsigned long remotePort;
         unsigned long localPort1;
         char mode;
-        msg >> uin >> localIP >> localPort >> mode >> remotePort >> localPort1;
-        log(L_DEBUG, "Direct packet %u %X %X %X %X %u", uin, localIP, localPort, remotePort, localPort1, mode);
+	    Buffer adv(*tlv(0x2711));
+        adv.unpack(req_uin);
+		adv.unpack(localIP);
+		adv.unpack(localPort);
+		adv.unpack(mode);
+		adv.unpack(remotePort);
+		adv.unpack(localPort1);
+		if (req_uin != uin){
+			log(L_WARN, "Bad UIN in reverse direct request");
+			return;
+		}
+		Contact *contact;
+		ICQUserData *data = findContact(uin, NULL, false, contact);
+		if ((data == NULL) || contact->getIgnore()){
+			log(L_DEBUG, "Reverse direct request from unknown user");
+			return;
+		}
+		if (get_ip(data->RealIP) == 0)
+			set_ip(&data->RealIP, localIP);
+		in_addr addr;
+		addr.s_addr = localIP;
+		log(L_DEBUG, "Setup reverse connect to %u %s:%u", uin, inet_ntoa(addr), localPort);
+		DirectClient *direct = new DirectClient(data, this);
+		m_sockets.push_back(direct);
+		direct->reverseConnect(localIP, localPort);
         return;
     }
 
