@@ -218,10 +218,6 @@ SOURCE=.\icons.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\intedit.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\interfacecfg.cpp
 # End Source File
 # Begin Source File
@@ -400,11 +396,6 @@ SOURCE=.\moc_historywnd.cpp
 # Begin Source File
 
 SOURCE=.\moc_icons.cpp
-# ADD CPP /W3
-# End Source File
-# Begin Source File
-
-SOURCE=.\moc_intedit.cpp
 # ADD CPP /W3
 # End Source File
 # Begin Source File
@@ -1412,39 +1403,6 @@ InputName=icons
 InputDir=.
 InputPath=.\icons.h
 InputName=icons
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\intedit.h
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.
-InputPath=.\intedit.h
-InputName=intedit
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.
-InputPath=.\intedit.h
-InputName=intedit
 
 "$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp

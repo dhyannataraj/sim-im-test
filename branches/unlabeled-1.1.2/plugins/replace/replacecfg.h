@@ -21,6 +21,8 @@
 #include "replacecfgbase.h"
 
 class ReplacePlugin;
+class IntLineEdit;
+class QFrame;
 
 class ReplaceCfg : public ReplaceCfgBase
 {
@@ -30,9 +32,14 @@ public:
     virtual ~ReplaceCfg();
 public slots:
     void apply();
+	void selectionChanged();
+	void sizeChange(int,int,int);
 protected:
+	IntLineEdit   *m_edit;
+	unsigned	  m_col;
     void resizeEvent(QResizeEvent *e);
     ReplacePlugin *m_plugin;
+	void		  setEdit();
 };
 
 #endif
