@@ -152,7 +152,7 @@ install_location=
 type=DATA
 
 [sim/Makefile.am]
-files=sim/sim.desktop,sim/lo32-app-sim.png,sim/lo16-app-sim.png,sim/client.cpp,sim/client.h,sim/cuser.cpp,sim/cuser.h,sim/defs.h,sim/dock.cpp,sim/dock.h,sim/editspell.cpp,sim/editspell.h,sim/history.cpp,sim/history.h,sim/icons.cpp,sim/icons.h,sim/mainwin.cpp,sim/mainwin.h,sim/msgedit.cpp,sim/msgedit.h,sim/msgview.cpp,sim/msgview.h,sim/passwddlg.cpp,sim/passwddlg.h,sim/sim.cpp,sim/sim.h,sim/themes.cpp,sim/themes.h,sim/toolbtn.cpp,sim/toolbtn.h,sim/userbox.cpp,sim/userbox.h,sim/usertbl.cpp,sim/usertbl.h,sim/userview.cpp,sim/userview.h,sim/intedit.cpp,sim/intedit.h,sim/transparent.cpp,sim/transparent.h,sim/fontedit.cpp,sim/fontedit.h,sim/chatwnd.cpp,sim/chatwnd.h,sim/xosd.cpp,sim/xosd.h,sim/hi16-app-sim.png,sim/hi32-app-sim.png,sim/about.cpp,sim/about.h,sim/parse.ll,sim/splash.cpp,sim/splash.h,sim/keys.cpp,sim/keys.h,sim/cfg.cpp,sim/cfg.h,sim/mgrep.cpp,sim/mgrep.h,sim/exec.cpp,sim/exec.h,sim/tmpl.cpp,sim/tmpl.h
+files=sim/sim.desktop,sim/lo32-app-sim.png,sim/lo16-app-sim.png,sim/client.cpp,sim/client.h,sim/cuser.cpp,sim/cuser.h,sim/defs.h,sim/dock.cpp,sim/dock.h,sim/editspell.cpp,sim/editspell.h,sim/history.cpp,sim/history.h,sim/icons.cpp,sim/icons.h,sim/mainwin.cpp,sim/mainwin.h,sim/msgedit.cpp,sim/msgedit.h,sim/msgview.cpp,sim/msgview.h,sim/passwddlg.cpp,sim/passwddlg.h,sim/sim.cpp,sim/sim.h,sim/themes.cpp,sim/themes.h,sim/toolbtn.cpp,sim/toolbtn.h,sim/userbox.cpp,sim/userbox.h,sim/usertbl.cpp,sim/usertbl.h,sim/userview.cpp,sim/userview.h,sim/intedit.cpp,sim/intedit.h,sim/transparent.cpp,sim/transparent.h,sim/fontedit.cpp,sim/fontedit.h,sim/chatwnd.cpp,sim/chatwnd.h,sim/xosd.cpp,sim/xosd.h,sim/hi16-app-sim.png,sim/hi32-app-sim.png,sim/about.cpp,sim/about.h,sim/parse.ll,sim/splash.cpp,sim/splash.h,sim/keys.cpp,sim/keys.h,sim/cfg.cpp,sim/cfg.h,sim/mgrep.cpp,sim/mgrep.h,sim/exec.cpp,sim/exec.h,sim/tmpl.cpp,sim/tmpl.h,sim/sockets.cpp,sim/sockets.h
 sub_dirs=libicq,ui,xpm,qt3
 type=prog_main
 
@@ -344,7 +344,7 @@ type=DATA
 
 [sim/libicq/Makefile.am]
 dist=true
-files=sim/libicq/bos.cpp,sim/libicq/buddy.cpp,sim/libicq/buffer.cpp,sim/libicq/buffer.h,sim/libicq/contactlist.cpp,sim/libicq/icmb.cpp,sim/libicq/icqclient.cpp,sim/libicq/icqclient.h,sim/libicq/lists.cpp,sim/libicq/location.cpp,sim/libicq/log.cpp,sim/libicq/log.h,sim/libicq/login.cpp,sim/libicq/Makefile.am,sim/libicq/message.cpp,sim/libicq/ping.cpp,sim/libicq/service.cpp,sim/libicq/socket.cpp,sim/libicq/socket.h,sim/libicq/translator.cpp,sim/libicq/various.cpp,sim/libicq/xml.cpp,sim/libicq/xml.h,sim/libicq/rtf.ll,sim/libicq/country.cpp,sim/libicq/country.h,sim/libicq/clearhtml.ll,sim/libicq/genrtf.ll,sim/libicq/direct.cpp,sim/libicq/icqssl.cpp,sim/libicq/icqssl.h,sim/libicq/proxy.cpp,sim/libicq/proxy.h
+files=sim/libicq/bos.cpp,sim/libicq/buddy.cpp,sim/libicq/buffer.cpp,sim/libicq/buffer.h,sim/libicq/contactlist.cpp,sim/libicq/icmb.cpp,sim/libicq/icqclient.cpp,sim/libicq/icqclient.h,sim/libicq/lists.cpp,sim/libicq/location.cpp,sim/libicq/log.cpp,sim/libicq/log.h,sim/libicq/login.cpp,sim/libicq/Makefile.am,sim/libicq/message.cpp,sim/libicq/ping.cpp,sim/libicq/service.cpp,sim/libicq/socket.cpp,sim/libicq/socket.h,sim/libicq/translator.cpp,sim/libicq/various.cpp,sim/libicq/xml.cpp,sim/libicq/xml.h,sim/libicq/rtf.ll,sim/libicq/country.cpp,sim/libicq/country.h,sim/libicq/clearhtml.ll,sim/libicq/genrtf.ll,sim/libicq/direct.cpp,sim/libicq/icqssl.cpp,sim/libicq/icqssl.h,sim/libicq/proxy.cpp,sim/libicq/proxy.h,sim/libicq/icqprivate.h
 install=false
 install_location=
 sharedlib_LDFLAGS=-version-info 0:0:1
@@ -425,6 +425,12 @@ install_location=
 type=SOURCE
 
 [sim/libicq/icqclient.h]
+dist=true
+install=false
+install_location=
+type=HEADER
+
+[sim/libicq/icqprivate.h]
 dist=true
 install=false
 install_location=
@@ -746,6 +752,18 @@ install_location=$$(kde_appsdir)/Internet/sim.desktop
 type=DATA
 
 [sim/sim.h]
+dist=true
+install=false
+install_location=
+type=HEADER
+
+[sim/sockets.cpp]
+dist=true
+install=false
+install_location=
+type=SOURCE
+
+[sim/sockets.h]
 dist=true
 install=false
 install_location=

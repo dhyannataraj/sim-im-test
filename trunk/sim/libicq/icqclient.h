@@ -758,7 +758,7 @@ class ICQClient
 {
 public:
     ICQClient(SocketFactory *factory);
-    ~ICQClient();
+    virtual ~ICQClient();
 
     ICQUser *owner;
 

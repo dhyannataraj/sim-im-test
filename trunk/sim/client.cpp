@@ -34,28 +34,9 @@
 #include <qtextcodec.h>
 #include <qregexp.h>
 
-#ifdef WIN32
-#include <winsock.h>
-#else
-#include <sys/socket.h>
-#include <sys/time.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#endif
-
-#include <errno.h>
-#include <string>
-
-#undef HAVE_KEXTSOCK_H
-
 #ifdef USE_KDE
 #include <kglobal.h>
 #include <kcharsets.h>
-#endif
-
-#ifdef HAVE_KEXTSOCK_H
-#include <kextsock.h>
-#include <ksockaddr.h>
 #endif
 
 #ifndef USE_KDE
