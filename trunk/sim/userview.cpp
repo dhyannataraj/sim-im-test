@@ -364,7 +364,7 @@ void UserViewItem::update(ICQUser *u, bool bFirst)
     }
     if (pMain->AlphabetSort){
         QString s;
-        if (!users->m_bGroupMode) s = QString::number(m_itemState);
+        if (!users->m_bGroupMode) s = QString::number(m_itemState) + "1";
         s += name;
         setText(1, s);
     }else{
