@@ -8180,7 +8180,7 @@ msgstr "Styl Windows XP"
 #~ msgid "Use &TCP socket"
 #~ msgstr "Použít &TCP soket"
 
-#~ msgid "Enable IE context emnu extension"
+#~ msgid "Enable IE context menu extension"
 #~ msgstr "Povolit rozšíření kontextového menu IE"
 
 #~ msgid "Command"

@@ -8316,7 +8316,7 @@ msgstr "Стиль Windows XP"
 #~ msgid "Use &TCP socket"
 #~ msgstr "Використовувати &TCP сокет"
 
-#~ msgid "Enable IE context emnu extension"
+#~ msgid "Enable IE context menu extension"
 #~ msgstr "Дозволити розміщення в меню IE"
 
 #~ msgid "Command"

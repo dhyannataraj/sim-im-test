@@ -167,7 +167,7 @@
             </property>
             <property>
                 <name>text</name>
-                <string>Enable IE context emnu extension</string>
+                <string>Enable IE context menu extension</string>
             </property>
         </widget>
         <spacer>

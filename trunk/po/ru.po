@@ -9617,7 +9617,7 @@ msgstr "Стиль XP"
 #~ msgid "Use &TCP socket"
 #~ msgstr "Использовать &TCP-сокет"
 
-#~ msgid "Enable IE context emnu extension"
+#~ msgid "Enable IE context menu extension"
 #~ msgstr "Разрешить разрешения меню IE"
 
 # libicq/country.cpp:363

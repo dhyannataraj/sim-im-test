@@ -8030,7 +8030,7 @@ msgstr "Stile di Windows XP"
 #~ msgid "Use &TCP socket"
 #~ msgstr "Usa socket &TCP"
 
-#~ msgid "Enable IE context emnu extension"
+#~ msgid "Enable IE context menu extension"
 #~ msgstr "Abilita il menu contestuale in IE"
 
 #~ msgid "Command"

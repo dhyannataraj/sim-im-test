@@ -10044,7 +10044,7 @@ msgstr "Okno - prispôsobiť"
 #~ msgid "Use &TCP socket"
 #~ msgstr "Použiť  &TCP socket"
 
-#~ msgid "Enable IE context emnu extension"
+#~ msgid "Enable IE context menu extension"
 #~ msgstr "Povoliť rozširenie kontextového menu IE"
 
 # ui/searchbase.cpp:290
