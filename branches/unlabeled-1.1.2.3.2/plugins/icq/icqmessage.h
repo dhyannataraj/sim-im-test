@@ -34,6 +34,7 @@ const unsigned MessageEmailPager		= 0x108;
 const unsigned MessageOpenSecure		= 0x109;
 const unsigned MessageCloseSecure		= 0x110;
 const unsigned MessageCheckInvisible	= 0x111;
+const unsigned MessageICQFile			= 0x112;
 
 class ListView;
 
@@ -114,6 +115,27 @@ public:
     virtual string save();
 protected:
     ICQAuthMessageData data;
+};
+
+typedef struct ICQFileMessageData
+{
+	char			*ServerText;
+	unsigned long	IP;
+	unsigned long	Port;
+} ICQFileMessageData;
+
+class ICQFileMessage : public FileMessage
+{
+public:
+	ICQFileMessage(const char *cfg=NULL);
+	~ICQFileMessage();
+	PROP_STR(ServerText);
+	PROP_ULONG(IP);
+	PROP_ULONG(Port);
+    virtual QString getText();
+    virtual string  save();
+protected:
+	ICQFileMessageData data;
 };
 
 class QToolButton;

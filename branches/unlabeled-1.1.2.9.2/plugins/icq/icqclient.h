@@ -349,6 +349,8 @@ typedef struct ar_request
     bool			bDirect;
 } ar_request;
 
+class DirectSocket;
+
 class ICQClient : public TCPClient, public EventReceiver
 {
     Q_OBJECT
@@ -553,13 +555,14 @@ protected:
     unsigned m_nUpdates;
     unsigned m_nSendTimeout;
     SendMsg  m_send;
-    list<Message*> m_processMsg;
+    list<Message*>		m_processMsg;
+	list<DirectSocket*>	m_sockets;
     friend class FullInfoRequest;
     friend class SMSRequest;
+	friend class DirectSocket;
     friend class DirectClient;
+	friend class ICQListener;
 };
-
-class DirectSocket;
 
 class DirectListener : public ServerSocketNotify
 {
@@ -594,6 +597,7 @@ public:
     virtual void packet_ready();
     SocketState m_state;
     void connect();
+	void reverseConnect(unsigned long ip, unsigned short port);
     virtual bool error_state(const char *err, unsigned code);
     virtual void connect_ready();
 protected:
@@ -601,12 +605,14 @@ protected:
     void init();
     void sendInit();
     void sendInitAck();
+	void removeFromClient();
     bool			m_bHeader;
     bool			m_bIncoming;
     unsigned short	m_nSequence;
+	unsigned short	m_port;
     char			m_version;
     unsigned long	m_nSessionId;
-    ICQUserData		*m_data;
+	ICQUserData		*m_data;
     ClientSocket	*m_socket;
     ICQClient		*m_client;
     DirectListener	*m_listener;
@@ -624,7 +630,7 @@ class DirectClient : public DirectSocket
 {
 public:
     DirectClient(Socket *s, ICQClient *client);
-    DirectClient(ICQUserData *data, ICQClient *client, unsigned channel);
+    DirectClient(ICQUserData *data, ICQClient *client, unsigned channel = PLUGIN_NULL);
     ~DirectClient();
     bool sendMessage(Message*);
     void sendAutoResponse(unsigned short seq, unsigned short type, const char *answer);
@@ -662,6 +668,35 @@ protected:
     void secureStop(bool bShutdown);
     SSLClient *m_ssl;
 #endif
+};
+
+class ICQFileTransfer : public FileTransfer, public DirectSocket
+{
+public:
+	ICQFileTransfer(FileMessage *msg, ICQUserData *data, ICQClient *client);
+	void connect(unsigned short port);
+protected:
+    enum State
+    {
+        None,
+        WaitLogin,
+        WaitInit,
+        InitSend,
+        InitReceive,
+        Send,
+        Receive,
+        Wait
+    };
+	State m_state;
+    virtual void processPacket();
+    virtual void connect_ready();
+    virtual bool error_state(const char *err, unsigned code);
+    virtual void write_ready();
+
+    void init();
+    void startPacket(char cmd);
+    void sendPacket(bool dump=true);
+    void sendFileInfo();
 };
 
 #endif

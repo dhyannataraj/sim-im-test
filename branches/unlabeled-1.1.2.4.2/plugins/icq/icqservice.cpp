@@ -272,12 +272,16 @@ void ICQClient::fillDirectInfo(Buffer &directInfo)
         << (unsigned long)0;
     }else{
         directInfo
-        << (unsigned long)get_ip(data.owner.RealIP)
+        << (unsigned long)htonl(get_ip(data.owner.RealIP))
         << (unsigned short)0
         << (unsigned short)(m_listener ? m_listener->port() : 0);
     }
 
     char mode = DIRECT_MODE_DIRECT;
+	unsigned long ip1 = get_ip(data.owner.IP);
+	unsigned long ip2 = get_ip(data.owner.RealIP);
+	if (ip1 && ip2 && (ip1 != ip2))
+		mode = DIRECT_MODE_INDIRECT;
     switch (m_socket->socket()->mode()){
     case Socket::Indirect:
         mode = DIRECT_MODE_INDIRECT;

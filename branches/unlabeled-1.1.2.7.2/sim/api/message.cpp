@@ -225,8 +225,8 @@ static DataDef messageFileData[] =
         { NULL, 0, 0, 0 }
     };
 
-FileMessage::FileMessage(const char *cfg)
-        : Message(MessageFile, cfg)
+FileMessage::FileMessage(unsigned type, const char *cfg)
+        : Message(type, cfg)
 {
     load_data(messageFileData, &data, cfg);
     m_transfer = NULL;
@@ -237,13 +237,6 @@ FileMessage::~FileMessage()
     free_data(messageFileData, &data);
     if (m_transfer)
         delete m_transfer;
-}
-
-void FileMessage::setTransfer(FileTransfer *transfer)
-{
-    if (m_transfer)
-        delete m_transfer;
-    m_transfer = transfer;
 }
 
 unsigned FileMessage::getSize()
@@ -315,11 +308,23 @@ FileTransfer::FileTransfer(FileMessage *msg)
     m_bytes		= 0;
     m_fileSize	= 0;
     m_totalSize	= 0;
+	m_realSpeed	= 0;
+	m_speed		= 100;
+	m_state		= Unknown;
+	if (msg->m_transfer)
+		delete msg->m_transfer;
+	msg->m_transfer = this;
 }
 
 FileTransfer::~FileTransfer()
 {
     setNotify(NULL);
+	m_msg->m_transfer = NULL;
+}
+
+void FileTransfer::setSpeed(unsigned speed)
+{
+	m_speed = speed;
 }
 
 void FileTransfer::setNotify(FileTransferNotify *notify)

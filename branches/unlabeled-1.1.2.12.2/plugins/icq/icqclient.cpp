@@ -366,6 +366,8 @@ ICQClient::~ICQClient()
         e.process();
         delete msg;
     }
+	while (!m_sockets.empty())
+		delete m_sockets.front();
     m_processMsg.clear();
 }
 
@@ -1188,7 +1190,7 @@ QString ICQClient::contactTip(void *_data)
             res += "<br><font size=-1>";
             res += i18n("Last online");
             res += ": </font>";
-            res += formatTime(data->Status);
+            res += formatTime(data->StatusTime);
         }
     }else{
         if (data->OnlineTime){
