@@ -212,7 +212,6 @@ bool ICQClientPrivate::utf16to8(unsigned short c, string &s)
     {
         return false;
     }
-    unsigned char *p = (unsigned char*)(s.c_str());
     return true;
 }
 

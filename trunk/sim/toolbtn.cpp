@@ -407,7 +407,7 @@ CToolBar::CToolBar(const ToolBarDef *def, list<unsigned long> *active, QMainWind
             }
         }
         if (d->id == BTN_SEPARATOR) continue;
-        if (d->id > nButtons) nButtons = d->id;
+        if ((int)(d->id) > nButtons) nButtons = d->id;
     }
 
     for (; nButtons >= 0; nButtons--)
@@ -445,9 +445,11 @@ CToolBar::~CToolBar()
 void CToolBar::toolBarChanged(const ToolBarDef *def)
 {
     if (def != m_def) return;
+    log(L_DEBUG, "Changed");
     clear();
+    log(L_DEBUG, "Clear");
     int i;
-    for (i = 0; i < states->size(); i++){
+    for (i = 0; i < (int)(states->size()); i++){
         if ((*states)[i].button == NULL) continue;
         ToolBarState &s = (*states)[i];
         QWidget *w = s.button;
@@ -463,7 +465,7 @@ void CToolBar::toolBarChanged(const ToolBarDef *def)
     }
 
     for (list<unsigned long>::iterator it = m_active->begin(); it != m_active->end(); ++it){
-        int id = *it;
+        unsigned long id = *it;
         if (id == BTN_SEPARATOR){
             addSeparator();
             continue;
@@ -509,7 +511,7 @@ void CToolBar::toolBarChanged(const ToolBarDef *def)
             }else{
                 btn->setIconSet(Icon(def->icon));
             }
-            if ((*states)[i].isOn) btn->setOn(true);
+            if ((*states)[id].isOn) btn->setOn(true);
         }
         ToolBarState &s = (*states)[id];
         s.button = w;
@@ -536,7 +538,7 @@ void CToolBar::toolBarChanged(const ToolBarDef *def)
 bool CToolBar::isButton(int id)
 {
     for (const ToolBarDef *d = m_def; d->id != BTN_END_DEF; d++){
-        if (d->id != id) continue;
+        if (d->id != (unsigned long)id) continue;
         return !(d->flags & BTN_COMBO);
     }
     return false;
@@ -545,7 +547,7 @@ bool CToolBar::isButton(int id)
 bool CToolBar::isPictButton(int id)
 {
     for (const ToolBarDef *d = m_def; d->id != BTN_END_DEF; d++){
-        if (d->id != id) continue;
+        if (d->id != (unsigned long)id) continue;
         return (d->flags & BTN_PICT);
     }
     return false;
@@ -554,7 +556,7 @@ bool CToolBar::isPictButton(int id)
 bool CToolBar::isCombo(int id)
 {
     for (const ToolBarDef *d = m_def; d->id != BTN_END_DEF; d++){
-        if (d->id != id) continue;
+        if (d->id != (unsigned long)id) continue;
         return (d->flags & BTN_COMBO);
     }
     return false;

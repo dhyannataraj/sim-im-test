@@ -112,22 +112,24 @@ public:
     CToolCombo(QToolBar*, const QString& toolTip, const char *name);
 protected:
     virtual QSizePolicy sizePolicy() const;
+signals:
+    void showPopup(QPoint);
 };
 
-const int BTN_SEPARATOR	= -1;
-const int BTN_END_DEF	= -2;
+const unsigned long BTN_SEPARATOR	= (unsigned long)(-1);
+const unsigned long BTN_END_DEF		= (unsigned long)(-2);
 
 const int BTN_TOGGLE		= 0x0001;
 const int BTN_TOGGLE_PICT	= 0x0002;
-const int BTN_PICT			= 0x0004;
-const int BTN_HIDE			= 0x0008;
-const int BTN_COMBO			= 0x0010;
-const int BTN_CTRL			= 0x0020;
+const int BTN_PICT		= 0x0004;
+const int BTN_HIDE		= 0x0008;
+const int BTN_COMBO		= 0x0010;
+const int BTN_CTRL		= 0x0020;
 const int BTN_PICT_INVERT	= 0x0040;
 
 typedef struct ToolBarDef
 {
-    int	id;
+    unsigned long id;
     const char *icon;
     const char *text;
     int	flags;

@@ -670,7 +670,6 @@ void MsgEdit::markAsRead()
                 for (list<unsigned long>::iterator it = u->unreadMsgs.begin(); it != u->unreadMsgs.end(); it++){
                     ICQMessage *msg = h.getMessage(*it);
                     if (msg == NULL) continue;
-                    unsigned type = msg->Type();
                     bChanged = pClient->markAsRead(msg) | bChanged;
                     bExit = false;
                     break;

@@ -18,6 +18,7 @@
 #include "toolsetup.h"
 #include "mainwin.h"
 #include "icons.h"
+#include "log.h"
 
 #include <qapplication.h>
 #include <qwidgetlist.h>
@@ -55,7 +56,7 @@ ToolBarSetup::ToolBarSetup(const ToolBarDef *_def, list<unsigned long> *_active)
             active.push_back(d->id);
     }
     for (it = active.begin(); it != active.end(); ++it){
-        int id = *it;
+        unsigned long id = *it;
         if (id == BTN_SEPARATOR){
             lstActive->insertItem(Pict("separator"), i18n("Separator"));
             continue;
@@ -83,7 +84,29 @@ void ToolBarSetup::okClick()
 void ToolBarSetup::applyClick()
 {
     if (bDirty){
+	string s;
+	char b[12];
+	list<unsigned long>::iterator it;
+	for (it = m_active->begin(); it != m_active->end(); ++it){
+		snprintf(b, sizeof(b), "%li ", *it);
+		s += b;
+	}
+	log(L_DEBUG, "W: %s", s.c_str());
+	s = "";
+        for (it = active.begin(); it != active.end(); ++it){
+                snprintf(b, sizeof(b), "%li ", *it);
+                s += b;
+        }
+        log(L_DEBUG, "S: %s", s.c_str());
+
+	s = "";
         *m_active = active;
+        for (it = m_active->begin(); it != m_active->end(); ++it){
+                snprintf(b, sizeof(b), "%li ", *it);
+                s += b;
+        }
+        log(L_DEBUG, "N: %s", s.c_str());
+
         pMain->changeToolBar(def);
     }
 }
@@ -103,7 +126,7 @@ void ToolBarSetup::selectionChanged()
     btnRemove->setEnabled(lstActive->currentItem() >= 0);
     btnUp->setEnabled(lstActive->currentItem() > 0);
     btnDown->setEnabled((lstActive->currentItem() >= 0) &&
-                        (lstActive->currentItem() < lstActive->count() - 1));
+                        (lstActive->currentItem() < (int)(lstActive->count() - 1)));
 }
 
 void ToolBarSetup::setButtons()
@@ -175,7 +198,7 @@ void ToolBarSetup::removeClick()
     int n;
     for (n = 0; n < i; n++)
         active.push_back(b[n]);
-    for (n++; n < b.size(); n++)
+    for (n++; n < (int)b.size(); n++)
         active.push_back(b[n]);
     lstActive->removeItem(i);
     setButtons();
@@ -194,7 +217,7 @@ void ToolBarSetup::upClick()
     b[i] = b[i-1];
     b[i-1] = r;
     active.clear();
-    for (int n = 0; n < b.size(); n++)
+    for (int n = 0; n < (int)(b.size()); n++)
         active.push_back(b[n]);
     QString s = lstActive->text(i);
     QPixmap p;
@@ -208,7 +231,7 @@ void ToolBarSetup::upClick()
 void ToolBarSetup::downClick()
 {
     int i = lstActive->currentItem();
-    if ((i < 0) || (i >= lstActive->count() - 1)) return;
+    if ((i < 0) || (i >= (int)(lstActive->count() - 1))) return;
     vector<unsigned long> b;
     list<unsigned long>::iterator it;
     for (it = active.begin(); it != active.end(); ++it)
@@ -217,7 +240,7 @@ void ToolBarSetup::downClick()
     b[i] = b[i+1];
     b[i+1] = r;
     active.clear();
-    for (int n = 0; n < b.size(); n++)
+    for (int n = 0; n < (int)(b.size()); n++)
         active.push_back(b[n]);
     QString s = lstActive->text(i);
     QPixmap p;
