@@ -211,7 +211,7 @@ unsigned AutoAwayPlugin::getIdleTime()
     _GetLastInputInfo(&lii);
     return (GetTickCount()-lii.dwTime) / 1000;
 #else
-    QWidgetList *list = QApplication::topLevelWidgets();
+QWidgetList *list = QApplication::topLevelWidgets();
     QWidgetListIt it(*list);
     QWidget *w = it.current();
     delete list;

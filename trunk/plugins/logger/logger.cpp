@@ -41,7 +41,7 @@ static PluginInfo info =
 #ifdef WIN32
         PLUGIN_NOLOAD_DEFAULT
 #else
-        PLUGIN_DEFAULT
+PLUGIN_DEFAULT
 #endif
     };
 

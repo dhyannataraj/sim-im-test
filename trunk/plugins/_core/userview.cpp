@@ -1256,6 +1256,51 @@ void UserView::deleteItem(QListViewItem *item)
     UserListBase::deleteItem(item);
 }
 
+class UserViewContactDragObject : public ContactDragObject
+{
+public:
+    UserViewContactDragObject(UserView *view, Contact *contact);
+    ~UserViewContactDragObject();
+};
+
+#ifdef WIN32
+
+static UserView *dragView = NULL;
+
+DWORD __stdcall DragScrollThread(LPVOID)
+{
+    for (;;){
+        Sleep(200);
+        if (dragView == NULL)
+            break;
+        dragView->dragScroll();
+    }
+    return 0;
+}
+
+#endif
+
+UserViewContactDragObject::UserViewContactDragObject(UserView *view, Contact *contact)
+        : ContactDragObject(view, contact)
+{
+#ifdef WIN32
+    dragView = view;
+    DWORD threadId;
+    CreateThread(NULL, 0, DragScrollThread, NULL, 0, &threadId);
+#else
+    QTimer *dragTimer = new QTimer(this);
+    connect(dragTimer, SIGNAL(timeout()), this, SLOT(dragScroll()));
+    dragTimer->start(200);
+#endif
+}
+
+UserViewContactDragObject::~UserViewContactDragObject()
+{
+#ifdef WIN32
+    dragView = NULL;
+#endif
+}
+
 QDragObject *UserView::dragObject()
 {
     if (currentItem() == NULL)
@@ -1267,11 +1312,7 @@ QDragObject *UserView::dragObject()
     Contact *contact = getContacts()->contact(item->id());
     if (contact == NULL)
         return NULL;
-    QDragObject *drag = new ContactDragObject(this, contact);
-    QTimer *dragTimer = new QTimer(drag);
-    connect(dragTimer, SIGNAL(timeout()), this, SLOT(dragScroll()));
-    dragTimer->start(500);
-    return drag;
+    return new UserViewContactDragObject(this, contact);
 }
 
 void UserView::contentsDragEnterEvent(QDragEnterEvent *e)
@@ -1485,7 +1526,7 @@ void UserView::dragScroll()
         log(L_DEBUG, "Scroll up");
         pos = QPoint(pos.x(), -1);
         item = itemAt(pos);
-    }else if (pos.y() < 0){
+    }else if (pos.y() > viewport()->height()){
         log(L_DEBUG, "Scroll down");
         pos = QPoint(pos.x(), viewport()->height() - 1);
         item = itemAt(pos);

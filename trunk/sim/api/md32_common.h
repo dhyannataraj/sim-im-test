@@ -571,7 +571,7 @@ void HASH_FINAL (unsigned char *md, HASH_CTX *c)
 #endif
     l=p[i];
 #else
-    l = (j==0) ? 0 : p[i];
+l = (j==0) ? 0 : p[i];
 #endif
     HOST_p_c2l(cp,l,j); p[i++]=l; /* i is the next 'undefined word' */
 

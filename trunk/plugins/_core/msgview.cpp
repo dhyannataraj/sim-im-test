@@ -19,16 +19,23 @@
 #include "core.h"
 #include "history.h"
 #include "html.h"
+#include "xsl.h"
 
 #include <qstringlist.h>
 #include <qregexp.h>
+#include <qtimer.h>
+#include <qdatetime.h>
 
-MsgViewBase::MsgViewBase(QWidget *parent, unsigned id)
-        : TextShow(parent)
+static char MSG_ANCHOR[] = "<a name=\"m:";
+static char MSG_BEGIN[]  = "<a name=\"b\">";
+
+MsgViewBase::MsgViewBase(QWidget *parent, const char *name, unsigned id)
+        : TextShow(parent, name)
 {
     m_id = id;
     m_nSelection = 0;
     m_popupPos = QPoint(0, 0);
+    xsl = NULL;
 
     QStyleSheet *style = new QStyleSheet(this);
     QStyleSheetItem *style_p = style->item("p");
@@ -45,6 +52,15 @@ MsgViewBase::MsgViewBase(QWidget *parent, unsigned id)
 
 MsgViewBase::~MsgViewBase()
 {
+    if (xsl)
+        delete xsl;
+}
+
+void MsgViewBase::setXSL(XSL *n_xsl)
+{
+    if (xsl)
+        delete xsl;
+    xsl = n_xsl;
 }
 
 void MsgViewBase::setSelect(const QString &str)
@@ -53,72 +69,104 @@ void MsgViewBase::setSelect(const QString &str)
     m_selectStr = str;
 }
 
-#define COLOR_FORMAT "%06lX"
-QString MsgViewBase::messageText(Message *msg)
+QString MsgViewBase::messageText(Message *msg, bool bUnread)
 {
-    QString color;
-    unsigned long c_sender   = (CorePlugin::m_plugin->getColorSender())  & 0xFFFFFF;
-    unsigned long c_receiver = (CorePlugin::m_plugin->getColorReceiver())& 0xFFFFFF;
-    unsigned long c_send     = 0x000000;
-    unsigned long c_receive  = 0x000000;
-    if (CorePlugin::m_plugin->getOwnColors()) {
-        c_send     = (CorePlugin::m_plugin->getColorSend())    & 0xFFFFFF;
-        c_receive  = (CorePlugin::m_plugin->getColorReceive()) & 0xFFFFFF;
-    }
-    color.sprintf(COLOR_FORMAT,
-                  ((msg->getFlags() & MESSAGE_RECEIVED) ? c_receiver : c_sender));
+    QString options;
+    QString info;
+    QString status;
+
     const char *icon = "message";
     const CommandDef *def = CorePlugin::m_plugin->messageTypes.find(msg->type());
     if (def)
         icon = def->icon;
-    QString contactName;
-    Client *client = NULL;
-    Contact *contact = getContacts()->contact(msg->contact());
-    if (contact){
-        ClientDataIterator it(contact->clientData);
-        void *data;
-        while ((data = ++it) != NULL){
-            if (it.client()->dataName(data) == msg->client()){
-                client = it.client();
-                break;
-            }
-        }
-    }
+    bool bDirection = false;
     if (msg->type() == MessageStatus){
         icon = "empty";
         StatusMessage *sm = static_cast<StatusMessage*>(msg);
-        if (client == NULL)
+        Client *client = NULL;
+        string clientStr;
+        if (msg->client())
+            clientStr = msg->client();
+        int n = clientStr.find_last_of('.');
+        if (n >= 0){
+            clientStr = clientStr.substr(0, n);
+        }else{
+            clientStr = "";
+        }
+        if (!clientStr.empty()){
+            for (unsigned i = 0; i < getContacts()->nClients(); i++){
+                string n = getContacts()->getClient(i)->name();
+                if (n.length() < clientStr.length())
+                    continue;
+                n = n.substr(0, clientStr.length());
+                if (clientStr == n){
+                    client = getContacts()->getClient(i);
+                    break;
+                }
+            }
+        }
+        if ((client == NULL) && getContacts()->nClients())
             client = getContacts()->getClient(0);
         if (client){
             for (def = client->protocol()->statusList(); def->text; def++){
                 if (def->id == sm->getStatus()){
                     icon = def->icon;
+                    status = i18n(def->text);
                     break;
                 }
             }
         }
+        options += " direction=\"2\"";
+        bDirection = true;
+    }else{
+        MessageDef *m_def = (MessageDef*)(def->param);
+        if (m_def->flags & MESSAGE_INFO){
+            options += " direction=\"2\"";
+            bDirection = true;
+        }
     }
-    bool bUnread = false;
+    info = QString("<icon>%1</icon>") .arg(icon);
+
+    QString contactName;
     if (msg->getFlags() & MESSAGE_RECEIVED){
-        if (contact)
+        if (!bDirection)
+            options += " direction=\"1\"";
+        Contact *contact = getContacts()->contact(msg->contact());
+        if (contact){
             contactName = contact->getName();
-        for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
-            msg_id &m = (*it);
-            if ((m.id == msg->id()) &&
-                    (m.contact == msg->contact()) &&
-                    (m.client == msg->client())){
-                bUnread = true;
-                break;
+            if (contactName.isEmpty()){
+                Client *client = NULL;
+                ClientDataIterator it(contact->clientData);
+                void *data;
+                while ((data = ++it) != NULL){
+                    if (it.client()->dataName(data) == msg->client()){
+                        client = it.client();
+                        break;
+                    }
+                }
             }
         }
+        if (!bUnread){
+            for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
+                msg_id &m = (*it);
+                if ((m.id == msg->id()) &&
+                        (m.contact == msg->contact()) &&
+                        (m.client == msg->client())){
+                    bUnread = true;
+                    break;
+                }
+            }
+        }
+        if (bUnread)
+            options += " unread=\"1\"";
     }else{
-        if (client)
-            contactName = client->ownerName();
-        if (contactName.isEmpty())
-            contactName = getContacts()->owner()->getName();
+        if (!bDirection)
+            options += " direction=\"0\"";
+        contactName = getContacts()->owner()->getName();
     }
     if (contactName.isEmpty())
         contactName = "???";
+    info += QString("<from>%1</from>") .arg(quoteString(contactName, true));
     QString id = QString::number(msg->id());
     id += ",";
     if (msg->getBackground() != msg->getForeground())
@@ -128,58 +176,75 @@ QString MsgViewBase::messageText(Message *msg)
         client_str = msg->client();
     if (!client_str.empty()){
         id += ",";
-        id += quoteText(client_str.c_str());
+        id += quoteString(client_str.c_str(), true);
     }
+    info += "<id>";
+    info += id;
+    info += "</id>";
+
     QString icons;
     if (msg->getFlags() & MESSAGE_SECURE)
-        icons += "<img src=\"icon:encrypted\">";
+        options += " encrypted=\"1\"";
     if (msg->getFlags() & MESSAGE_URGENT)
-        icons += "<img src=\"icon:urgentmsg\">";
+        options += " urgent=\"1\"";
     if (msg->getFlags() & MESSAGE_LIST)
-        icons += "<img src=\"icon:listmsg\">";
+        options += " list=\"1\"";
 
-    QString s = QString("<p><nobr>"
-                        "<a href=\"msg://%1\"><img src=\"icon:%2\"></a>%3"
-                        "&nbsp;%4<span style=\"color:#%5\">%6</span> &nbsp;"
-                        "<font size=\"-1\">%7</font>%8"
-                        "</nobr></p>")
-                .arg(id)
-                .arg(icon)
-                .arg(icons)
-                .arg(bUnread ? "<b>" : "")
-                .arg(color)
-                .arg(quoteString(contactName))
-                .arg(formatTime(msg->getTime()))
-                .arg(bUnread ? "</b>" : "");
+    QString s;
+    QDateTime t;
+    t.setTime_t(msg->getTime());
+    info += s.sprintf("<time><date>%%1</date><hour>%02u</hour><minute>%02u</minute><second>%02u</second></time>",
+                      t.time().hour(), t.time().minute(), t.time().second()) .arg(formatDate(msg->getTime()));
+
+    s = "<?xml version=\"1.0\"?><message";
+    s += options;
+    s += ">";
+    s += info;
+
+    QString msgText;
     if (msg->type() != MessageStatus){
-        QString msgText = msg->presentation();
+        msgText = msg->presentation();
         if (msgText.isEmpty()){
             unsigned type = msg->baseType();
             CommandDef *cmd = CorePlugin::m_plugin->messageTypes.find(type);
             if (cmd){
                 MessageDef *def = (MessageDef*)(cmd->param);
-                msgText += "<p>";
-                msgText += i18n(def->singular, def->plural, 1);
-                msgText += "</p>";
+                msgText = i18n(def->singular, def->plural, 1);
+                int n = msgText.find("1 ");
+                if (n == 0){
+                    msgText = msgText.mid(2);
+                }else if (n > 0){
+                    msgText = msgText.left(n);
+                }
+                msgText = QString("<p>") + msgText + "</p>";
             }
             QString text = msg->getRichText();
             msgText += text;
         }
-        Event e(EventEncodeText, &msgText);
-        e.process();
-        msgText = parseText(msgText, CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
-        if (CorePlugin::m_plugin->getOwnColors()){
-            color.sprintf(COLOR_FORMAT,
-                          ((msg->getFlags() & MESSAGE_RECEIVED) ? c_receive : c_send));
-            s += "<span style=\"color:#";
-            s += color;
-            s += "\">";
-        }
-        s += msgText;
-        if (CorePlugin::m_plugin->getOwnColors())
-            s += "</span>";
+    }else{
+        msgText = status;
     }
-    return s;
+    Event e(EventEncodeText, &msgText);
+    e.process();
+    msgText = parseText(msgText, CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
+    msgText = QString(MSG_BEGIN) + msgText;
+    s += "<body>";
+    s += quoteString(msgText, true);
+    s += "</body>";
+    s += "</message>";
+    XSL *p = xsl;
+    if (p == NULL)
+        p = CorePlugin::m_plugin->historyXSL;
+    QString anchor = MSG_ANCHOR;
+    anchor += id;
+    anchor += "\">";
+    QString res = p->process(s);
+    if (res.left(3) == "<p>"){
+        res = QString("<p>") + anchor + res.mid(3);
+    }else{
+        res = anchor + res;
+    }
+    return res;
 }
 
 void MsgViewBase::setSource(const QString &url)
@@ -207,43 +272,45 @@ void MsgViewBase::setSource(const QString &url)
     }
 }
 
-static char MSG_HREF[] = "<a href=\"msg://";
-
 void MsgViewBase::setBackground(unsigned n)
 {
     QColor c;
     bool bSet = false;
+    bool bSetColor = false;
     for (unsigned i = n; i < (unsigned)paragraphs(); i++){
         QString s = text(i);
-        int n = s.find(MSG_HREF);
-        if (n < 0){
-            if (bSet){
-                setParagraphBackgroundColor(i, c);
+        int n = s.find(MSG_ANCHOR);
+        if (n >= 0){
+            QString t = s.mid(n + strlen(MSG_BEGIN));
+            int p = t.find('\"');
+            if (p >= 0)
+                t = t.left(p);
+            getToken(t, ',');
+            t = getToken(t, ',');
+            if (t.isEmpty()){
+                bSet = false;
             }else{
-                clearParagraphBackground(i);
+                c = QColor(atol(t.latin1()));
+                bSet = true;
             }
-            continue;
+            bSetColor = false;
         }
-        clearParagraphBackground(i);
-        s = s.mid(n + strlen(MSG_HREF));
-        int p = s.find('\"');
-        if (p >= 0)
-            s = s.left(p);
-        getToken(s, ',');
-        s = getToken(s, ',');
-        if (s.isEmpty()){
-            bSet = false;
-            continue;
+        n = s.find(MSG_BEGIN);
+        if (n >= 0)
+            bSetColor = true;
+        if (bSet && bSetColor){
+            setParagraphBackgroundColor(i, c);
+        }else{
+            clearParagraphBackground(i);
         }
-        c = QColor(atol(s.latin1()));
-        bSet = true;
+        bSetColor = false;
     }
 }
 
-void MsgViewBase::addMessage(Message *msg)
+void MsgViewBase::addMessage(Message *msg, bool bUnread)
 {
     unsigned n = paragraphs() - 1;
-    append(messageText(msg));
+    append(messageText(msg, bUnread));
     if (!CorePlugin::m_plugin->getOwnColors()) {
         // set all Backgrounds to the right colors
         setBackground(0);
@@ -252,7 +319,7 @@ void MsgViewBase::addMessage(Message *msg)
         bool bStart = false;
         for (; n < (unsigned)paragraphs(); n++){
             QString s = text(n);
-            if (s.find(MSG_HREF) >= 0){
+            if (s.find(MSG_ANCHOR) >= 0){
                 bStart = true;
                 continue;
             }
@@ -281,10 +348,10 @@ bool MsgViewBase::findMessage(Message *msg)
     bool bFound = false;
     for (unsigned i = 0; i < (unsigned)paragraphs(); i++){
         QString s = text(i);
-        int n = s.find(MSG_HREF);
+        int n = s.find(MSG_ANCHOR);
         if (n < 0)
             continue;
-        s = s.mid(n + strlen(MSG_HREF));
+        s = s.mid(n + strlen(MSG_ANCHOR));
         n = s.find("\"");
         if (n < 0)
             continue;
@@ -326,10 +393,10 @@ void *MsgViewBase::processEvent(Event *e)
             return NULL;
         for (unsigned i = 0; i < (unsigned)paragraphs(); i++){
             QString s = text(i);
-            int n = s.find(MSG_HREF);
+            int n = s.find(MSG_ANCHOR);
             if (n < 0)
                 continue;
-            s = s.mid(n + strlen(MSG_HREF));
+            s = s.mid(n + strlen(MSG_ANCHOR));
             n = s.find("\"");
             if (n < 0)
                 continue;
@@ -343,7 +410,7 @@ void *MsgViewBase::processEvent(Event *e)
             unsigned j;
             for (j = i + 1; j < (unsigned)paragraphs(); j++){
                 QString s = text(j);
-                if (s.find(MSG_HREF) >= 0)
+                if (s.find(MSG_ANCHOR) >= 0)
                     break;
             }
             int paraFrom, indexFrom;
@@ -368,10 +435,10 @@ void *MsgViewBase::processEvent(Event *e)
             return NULL;
         for (unsigned i = 0; i < (unsigned)paragraphs(); i++){
             QString s = text(i);
-            int n = s.find(MSG_HREF);
+            int n = s.find(MSG_ANCHOR);
             if (n < 0)
                 continue;
-            s = s.mid(n + strlen(MSG_HREF));
+            s = s.mid(n + strlen(MSG_ANCHOR));
             n = s.find("\"");
             if (n < 0)
                 continue;
@@ -404,10 +471,10 @@ void *MsgViewBase::processEvent(Event *e)
         QString t;
         for (unsigned i = 0; i < (unsigned)paragraphs(); i++){
             QString s = text(i);
-            int n = s.find(MSG_HREF);
+            int n = s.find(MSG_ANCHOR);
             if (n < 0)
                 continue;
-            s = s.mid(n + strlen(MSG_HREF));
+            s = s.mid(n + strlen(MSG_ANCHOR));
             n = s.find("\"");
             if (n < 0)
                 continue;
@@ -417,7 +484,7 @@ void *MsgViewBase::processEvent(Event *e)
             Message *msg = History::load(id, s.utf8(), m_id);
             if (msg == NULL)
                 continue;
-            t += messageText(msg);
+            t += messageText(msg, false);
             delete msg;
         }
         QPoint p = QPoint(0, height());
@@ -584,10 +651,10 @@ Message *MsgViewBase::currentMessage()
         return NULL;
     for (; para >= 0; para--){
         QString s = text(para);
-        int n = s.find(MSG_HREF);
+        int n = s.find(MSG_ANCHOR);
         if (n < 0)
             continue;
-        s = s.mid(n + strlen(MSG_HREF));
+        s = s.mid(n + strlen(MSG_ANCHOR));
         unsigned long id = atol(getToken(s, ',').latin1());
         getToken(s, ',');
         s = getToken(s, '\"');
@@ -610,7 +677,7 @@ QPopupMenu *MsgViewBase::createPopupMenu(const QPoint& pos)
 }
 
 MsgView::MsgView(QWidget *parent, unsigned id)
-        : MsgViewBase(parent, id)
+        : MsgViewBase(parent, NULL, id)
 {
     int nCopy = CorePlugin::m_plugin->getCopyMessages();
     unsigned nUnread = 0;
@@ -627,7 +694,7 @@ MsgView::MsgView(QWidget *parent, unsigned id)
             Message *msg = --it;
             if (msg == NULL)
                 break;
-            t = messageText(msg) + t;
+            t = messageText(msg, false) + t;
             nCopy--;
             if (nUnread == 0)
                 continue;
@@ -646,10 +713,17 @@ MsgView::MsgView(QWidget *parent, unsigned id)
             setBackground(0);
     }
     scrollToBottom();
+    QTimer::singleShot(0, this, SLOT(init()));
 }
 
 MsgView::~MsgView()
 {
+}
+
+void MsgView::init()
+{
+    sync();
+    scrollToBottom();
 }
 
 void *MsgView::processEvent(Event *e)
@@ -704,6 +778,9 @@ protected:
     bool m_bUseSmiles;
     bool m_bInLink;
     bool m_bInHead;
+    bool m_bFirst;
+    bool m_bSpan;
+    bool m_bPara;
     list<Smile> m_smiles;
     virtual void text(const QString &text);
     virtual void tag_start(const QString &tag, const list<QString> &options);
@@ -716,6 +793,9 @@ ViewParser::ViewParser(bool bIgnoreColors, bool bUseSmiles)
     m_bUseSmiles    = bUseSmiles;
     m_bInLink       = false;
     m_bInHead       = false;
+    m_bFirst		= true;
+    m_bSpan			= false;
+    m_bPara			= false;
     if (m_bUseSmiles){
         for (unsigned i = 0; ;i++){
             const smile *s = smiles(i);
@@ -772,9 +852,14 @@ void ViewParser::text(const QString &text)
         res += text;
         return;
     }
+    if (text.isEmpty())
+        return;
+    if (m_bPara){
+        m_bPara = false;
+        res += "<br>";
+    }
+    m_bFirst = false;
     QString str = text;
-    string s;
-    s = str.local8Bit();
     for (list<Smile>::iterator it = m_smiles.begin(); it != m_smiles.end(); ++it){
         Smile &s = *it;
         s.size = 0;
@@ -803,7 +888,7 @@ void ViewParser::text(const QString &text)
             res += quoteString(str.left(pos));
         res += "<img src=\"icon:smile";
         res += QString::number(curSmile->nSmile, 16).upper();
-        res += "\">";
+        res += "\"/>";
         int len = pos + curSmile->size;
         str = str.mid(len);
         for (it = m_smiles.begin(); it != m_smiles.end(); ++it){
@@ -820,7 +905,6 @@ void ViewParser::text(const QString &text)
         }
     }
     res += quoteString(str);
-    s = res.local8Bit();
 }
 
 void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
@@ -866,6 +950,26 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
         return;
     }else if (tag == "body"){ // we display as a part of a larger document
         oTag = "span";
+    }else if (tag == "p"){
+        m_bPara = false;
+        if (m_bFirst){
+            m_bFirst = false;
+        }else{
+            res += "<br>";
+        }
+        for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
+            QString name = (*it).lower();
+            ++it;
+            QString value = *it;
+            if (name == "dir"){
+                if (value == "rtl"){
+                    res += "<span dir=\"rtl\">";
+                    m_bSpan = true;
+                }
+                break;
+            }
+        }
+        return;
     }
     QString tagText;
     tagText += "<";
@@ -944,6 +1048,11 @@ void ViewParser::tag_end(const QString &tag)
     }else if (tag == "html"){
         return;
     }else if (tag == "body"){
+        oTag = "span";
+    }else if (tag == "p"){
+        m_bPara = true;
+        if (!m_bSpan)
+            return;
         oTag = "span";
     }
     if (m_bInHead)

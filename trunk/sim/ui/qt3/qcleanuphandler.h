@@ -65,7 +65,7 @@ template<class Type>
 class Q_EXPORT QCleanupHandler
 {
 public:
-    QCleanupHandler() : cleanupObjects( 0 )
+QCleanupHandler() : cleanupObjects( 0 )
     {}
     ~QCleanupHandler() { clear(); }
 

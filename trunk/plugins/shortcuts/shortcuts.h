@@ -45,7 +45,7 @@ public:
     int key() { return m_key; }
 #else
 #ifndef USE_KDE
-    unsigned key() { return m_key; }
+unsigned key() { return m_key; }
     unsigned state() { return m_state; }
 #endif
 #endif
@@ -59,7 +59,7 @@ protected:
 #ifdef USE_KDE
     KGlobalAccel *accel;
 #else
-    unsigned m_key;
+unsigned m_key;
     unsigned m_state;
 #endif
 #endif

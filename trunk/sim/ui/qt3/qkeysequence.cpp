@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qkeysequence.cpp,v 1.3 2003-10-20 08:39:29 shutoff Exp $
+** $Id: qkeysequence.cpp,v 1.4 2003-11-23 13:33:48 shutoff Exp $
 **
 ** Implementation of QKeySequence class
 **
@@ -114,7 +114,7 @@ static struct {
 class QKeySequencePrivate : public QShared
 {
 public:
-    QKeySequencePrivate( int k = 0 ): key(k) {}
+QKeySequencePrivate( int k = 0 ): key(k) {}
     int key;
 };
 

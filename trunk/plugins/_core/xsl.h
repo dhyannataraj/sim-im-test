@@ -1,5 +1,5 @@
 /***************************************************************************
-                          historycfg.h  -  description
+                          xsl.h  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,52 +15,22 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _HISTORYCFG_H
-#define _HISTORYCFG_H
+#ifndef _XSL_H
+#define _XSL_H
 
 #include "simapi.h"
-#include "stl.h"
 
-#include "qcolorbutton.h"
-#include "historycfgbase.h"
+class XSLPrivate;
 
-class CorePlugin;
-
-typedef struct StyleDef
+class XSL
 {
-    QString name;
-    QString text;
-    bool	bCustom;
-    bool	operator < (const StyleDef &s) const { return name < s.name; }
-} StyleDef;
-
-class HistoryConfig : public HistoryConfigBase
-{
-    Q_OBJECT
 public:
-    HistoryConfig(QWidget *parent);
-    ~HistoryConfig();
-public slots:
-    void apply();
-    void styleSelected(int);
-    void copy();
-    void rename();
-    void del();
-    void realDelete();
-    void realRename();
-    void cancelRename();
-    void viewChanged(QWidget*);
-    void textChanged();
-    void sync();
-    void toggled(bool);
+    XSL(const QString &name);
+    ~XSL();
+    void setXSL(const QString &xsl);
+    QString process(const QString &xml);
 protected:
-    void fillPreview();
-    bool eventFilter(QObject *o, QEvent *e);
-    void addStyles(const char *dir, bool bName);
-    void fillCombo(const char *current);
-    bool m_bDirty;
-    int  m_cur;
-    vector<StyleDef> m_styles;
+    XSLPrivate *d;
 };
 
 #endif

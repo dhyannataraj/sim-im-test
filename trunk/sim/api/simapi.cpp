@@ -459,7 +459,7 @@ QPixmap Pict(const char *name)
     return icons->pixmap(QIconSet::Automatic, QIconSet::Normal);
 }
 
-EXPORT QString formatTime(unsigned long t)
+EXPORT QString formatDateTime(unsigned long t)
 {
     if (t == 0) return "";
     QDateTime time;
@@ -468,6 +468,18 @@ EXPORT QString formatTime(unsigned long t)
     return KGlobal::locale()->formatDateTime(time);
 #else
     return time.toString();
+#endif
+}
+
+EXPORT QString formatDate(unsigned long t)
+{
+    if (t == 0) return "";
+    QDateTime time;
+    time.setTime_t(t);
+#ifdef USE_KDE
+    return KGlobal::locale()->formatDate(time.date());
+#else
+    return time.date().toString();
 #endif
 }
 

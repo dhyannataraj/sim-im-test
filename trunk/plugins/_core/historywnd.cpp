@@ -69,7 +69,7 @@ HistoryWindow::HistoryWindow(unsigned id)
     SET_WNDPROC("history")
     setIcon(Pict("history"));
     setName();
-    m_view = new MsgViewBase(this, id);
+    m_view = new MsgViewBase(this, NULL, id);
     setCentralWidget(m_view);
     BarShow b;
     b.bar_id = BarHistory;

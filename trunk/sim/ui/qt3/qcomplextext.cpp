@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qcomplextext.cpp,v 1.4 2003-10-21 18:29:41 shutoff Exp $
+** $Id: qcomplextext.cpp,v 1.5 2003-11-23 13:33:48 shutoff Exp $
 **
 ** Implementation of some internal classes
 **
@@ -553,10 +553,10 @@ static inline int getShape( const QChar * /* base */, uchar cell, int shape,
     case QComplexText::XMedial:
     ch -= 1; // try initial form
     break;
-    }
+}
     if ( !fm->inFont( ch ) )
     ch = *base;
-    }
+}
     */
     return ch;
 }

@@ -53,7 +53,7 @@ JabberPicture::JabberPicture(QWidget *parent, struct JabberUserData *data, Jabbe
 #ifdef USE_KDE
         edtPict->setFilter(i18n("%1|Graphics") .arg(format));
 #else
-        edtPict->setFilter(i18n("Graphics(%1)") .arg(format));
+edtPict->setFilter(i18n("Graphics(%1)") .arg(format));
         edtPict->setFilePreview(createPreview);
 #endif
         edtPict->setReadOnly(true);

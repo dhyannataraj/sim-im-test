@@ -176,7 +176,7 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
     QColor bg(255, 255, 255);
     QColor fg(0, 0, 0);
 #else
-    QColor bg(0, 0, 0);
+QColor bg(0, 0, 0);
     QColor fg(255, 255, 255);
 #endif
     p.fillRect(0, 0, width(), height(), bg);

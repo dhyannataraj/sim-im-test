@@ -93,7 +93,7 @@ TextEdit::TextEdit(QWidget *p, const char *name)
 
 TextEdit::~TextEdit()
 {
-	emit finished(this);
+    emit finished(this);
 }
 
 void TextEdit::setFont(const QFont &f)
@@ -120,7 +120,7 @@ void TextEdit::slotClicked(int,int)
     int paraFrom, paraTo, indexFrom, indexTo;
     getSelection(&paraFrom, &indexFrom, &paraTo, &indexTo);
     if ((paraFrom != paraTo) || (indexFrom != indexTo))
-	return;
+        return;
     m_bInClick = true;
     QContextMenuEvent e(QContextMenuEvent::Other, QPoint(0, 0), QPoint(0, 0), 0);
     contentsContextMenuEvent(&e);
@@ -131,14 +131,14 @@ void TextEdit::slotClicked(int,int)
 QPopupMenu *TextEdit::createPopupMenu(const QPoint& pos)
 {
     if (m_bInClick)
-	return NULL;
+        return NULL;
     return TextShow::createPopupMenu(pos);
 }
 
 QPopupMenu *TextEdit::createPopupMenu()
 {
     if (m_bInClick)
-	return NULL;
+        return NULL;
     return TextShow::createPopupMenu();
 }
 
@@ -560,11 +560,15 @@ unsigned TextShow::textPosition(const QString &text, unsigned pos)
             continue;
         }
         if (c == '&'){
-            for (; i < text.length(); i++){
-                c = text[(int)i];
+            unsigned n = i;
+            for (; n < text.length(); n++){
+                c = text[(int)n];
                 if (c == ';')
                     break;
             }
+            if (pos == 0)
+                return i;
+            i = n;
         }
         if (pos == 0)
             return i;

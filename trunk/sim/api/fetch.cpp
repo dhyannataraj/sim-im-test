@@ -47,7 +47,7 @@ bool HTTPSClient::initSSL()
         return false;
     X509_set_default_verify_paths(pCTX->cert);
 #else
-    SSLeay_add_ssl_algorithms();
+SSLeay_add_ssl_algorithms();
     mpCTX = SSL_CTX_new(SSLv23_client_method());
     SSL_CTX_set_options(pCTX, SSL_OP_ALL);
     SSL_CTX_set_default_verify_paths(pCTX);

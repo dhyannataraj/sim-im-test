@@ -44,7 +44,7 @@ static DataDef remoteData[] =
 #ifdef WIN32
         { "Path", DATA_STRING, 1, (unsigned)"tcp:3000" },
 #else
-        { "Path", DATA_STRING, 1, (unsigned)"/tcp/sim.%user%" },
+{ "Path", DATA_STRING, 1, (unsigned)"/tcp/sim.%user%" },
 #endif
         { NULL, 0, 0, 0 }
     };

@@ -31,7 +31,7 @@ TransparentTop::TransparentTop(QWidget *parent, unsigned transparent)
     rootpixmap->setCustomPainting(true);
     connect(rootpixmap, SIGNAL(backgroundUpdated(const QPixmap&)), this, SLOT(backgroundUpdated(const QPixmap&)));
 #else
-    parent->installEventFilter(this);
+parent->installEventFilter(this);
 #endif
     transparentChanged();
 }

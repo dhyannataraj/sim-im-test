@@ -43,7 +43,7 @@ public:
     IntLineEdit *edtContact;
     QListViewItem *mTipItem;
     bool	 m_bUnreadBlink;
-protected slots:
+public slots:
     void editGroupEnter();
     void editContactEnter();
     void editEscape();

@@ -145,7 +145,7 @@ const char *GpgPlugin::GPG()
 #ifdef WIN32
     return getGPG();
 #else
-    return GPGpath.c_str();
+return GPGpath.c_str();
 #endif
 }
 
@@ -571,7 +571,7 @@ static QObject *generateGPGKey(MsgEdit *p, Message *msg)
 static MessageDef defGPGKey =
     {
         NULL,
-        0,
+        MESSAGE_INFO,
         "%n GPG key",
         "%n GPG keys",
         createGPGKey,

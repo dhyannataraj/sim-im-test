@@ -154,7 +154,7 @@ bool SSLClient::init()
 #if OPENSSL_VERSION_NUMBER < 0x00907000L        
     SSL_CTX_set_info_callback(pCTX, (void (*)())ssl_info_callback);
 #else
-    SSL_CTX_set_info_callback(pCTX, ssl_info_callback);
+SSL_CTX_set_info_callback(pCTX, ssl_info_callback);
 #endif
 #endif
     return initBIO();

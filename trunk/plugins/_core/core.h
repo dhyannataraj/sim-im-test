@@ -81,10 +81,6 @@ typedef struct CoreData
     unsigned	EditForeground;
     char		*EditFont;
     unsigned	OwnColors;
-    unsigned	ColorSend;
-    unsigned	ColorReceive;
-    unsigned	ColorSender;
-    unsigned	ColorReceiver;
     unsigned	UseSmiles;
     unsigned	CloseSend;
     unsigned	HistoryPage;
@@ -96,6 +92,7 @@ typedef struct CoreData
     void		*NoShowAutoReply;
     unsigned	SortMode;
     unsigned	CloseTransfer;
+    char		*HistoryStyle;
 } CoreData;
 
 const unsigned CONTAINER_SIMPLE	= 0;
@@ -319,6 +316,7 @@ const unsigned	MESSAGE_DEFAULT	 = 0x0000;
 const unsigned	MESSAGE_SILENT	 = 0x0001;
 const unsigned	MESSAGE_HIDDEN	 = 0x0002;
 const unsigned	MESSAGE_SENDONLY = 0x0004;
+const unsigned	MESSAGE_INFO	 = 0x0008;
 
 const unsigned  MIN_INPUT_BAR_ID = 0x1010;
 const unsigned  MAX_INPUT_BAR_ID = 0x1100;
@@ -340,6 +338,8 @@ typedef struct clientContact
     Client		*client;
     bool		bNew;
 } clientContact;
+
+class XSL;
 
 class CorePlugin : public QObject, public Plugin, public EventReceiver
 {
@@ -381,10 +381,6 @@ public:
     PROP_ULONG(EditBackground);
     PROP_STR(EditFont);
     PROP_BOOL(OwnColors);
-    PROP_ULONG(ColorSend);
-    PROP_ULONG(ColorReceive);
-    PROP_ULONG(ColorSender);
-    PROP_ULONG(ColorReceiver);
     PROP_BOOL(UseSmiles);
     PROP_BOOL(CloseSend);
     PROP_ULONG(HistoryPage);
@@ -394,6 +390,7 @@ public:
     PROP_STRLIST(NoShowAutoReply);
     PROP_ULONG(SortMode);
     PROP_BOOL(CloseTransfer);
+    PROP_STR(HistoryStyle);
 
     unsigned user_data_id;
     unsigned sms_data_id;
@@ -411,6 +408,8 @@ public:
     static CorePlugin	*m_plugin;
     Message *createMessage(const char *type, const char *cfg);
     QString clientName(Client *client);
+
+    XSL	*historyXSL;
 
 signals:
     void modeChanged();

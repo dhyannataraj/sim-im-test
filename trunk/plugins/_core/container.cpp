@@ -177,8 +177,8 @@ Container::Container(unsigned id, const char *cfg)
                         if ((dw < 3) && (dh < 3)){
                             int nl = data.geometry[LEFT];
                             int nt = data.geometry[TOP];
-                            nl += 11;
-                            nt += 10;
+                            nl += 21;
+                            nt += 20;
                             QWidget *desktop = QApplication::desktop();
                             if (nl + data.geometry[WIDTH] > desktop->width())
                                 nl = 0;

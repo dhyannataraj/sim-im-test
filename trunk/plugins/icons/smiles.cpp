@@ -19,9 +19,7 @@
 #include "icondll.h"
 #include "buffer.h"
 
-#ifdef USE_EXPAT
 #include <expat.h>
-#endif
 
 #ifndef XML_STATUS_OK
 #define XML_STATUS_OK    1
@@ -32,8 +30,6 @@
 #include <qregexp.h>
 #include <qpainter.h>
 #include <qbitmap.h>
-
-#ifdef USE_EXPAT
 
 #include <qimage.h>
 
@@ -265,8 +261,6 @@ QPixmap XepParser::pict(unsigned n)
     return res;
 }
 
-#endif
-
 Smiles::Smiles()
 {
 }
@@ -316,7 +310,6 @@ bool Smiles::load(const QString &file)
     QFile f(fname);
     if (!f.open(IO_ReadOnly))
         return false;
-#ifdef USE_EXPAT
     int pdot = fname.findRev(".");
     if ((pdot > 0) && (fname.mid(pdot + 1).lower() == "xep")){
         XepParser p;
@@ -384,7 +377,6 @@ bool Smiles::load(const QString &file)
         }
         return true;
     }
-#endif
 #ifdef WIN32
     fname = fname.replace(QRegExp("\\"), "/");
 #endif

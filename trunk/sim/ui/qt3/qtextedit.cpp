@@ -967,7 +967,7 @@ void QTextEdit::keyPressEvent( QKeyEvent *e )
 #if defined(Q_WS_X11)
                     moveCursor( MoveLineStart, e->state() & ShiftButton );
 #else
-                    selectAll( TRUE );
+selectAll( TRUE );
 #endif
                     break;
                 case Key_B:
@@ -3672,7 +3672,7 @@ QCString QTextEdit::pickSpecial( QMimeSource* ms, bool always_ask, const QPoint&
                 return popup.text(i).latin1();
         }
 #else
-        QString fmt;
+QString fmt;
         for (int i = 0; !( fmt = ms->format( i ) ).isNull(); i++) {
             int semi = fmt.find( ";" );
             if ( semi >= 0 )
@@ -4026,7 +4026,7 @@ QPopupMenu *QTextEdit::createPopupMenu( const QPoint& )
 #if defined(Q_WS_X11)
     d->id[ IdSelectAll ] = popup->insertItem( i18n( "Select All" ) );
 #else
-    d->id[ IdSelectAll ] = popup->insertItem( i18n( "Select All" ) + ACCEL_KEY( A ) );
+d->id[ IdSelectAll ] = popup->insertItem( i18n( "Select All" ) + ACCEL_KEY( A ) );
 #endif
     popup->setItemEnabled( d->id[ IdUndo ], !isReadOnly() && doc->commands()->isUndoAvailable() );
     popup->setItemEnabled( d->id[ IdRedo ], !isReadOnly() && doc->commands()->isRedoAvailable() );

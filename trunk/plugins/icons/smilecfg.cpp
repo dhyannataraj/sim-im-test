@@ -128,17 +128,9 @@ SmileCfg::SmileCfg(QWidget *parent, IconsPlugin *plugin)
     edtSmiles->setTitle(i18n("Select smiles"));
     edtSmiles->setFilePreview(createPreview);
 #ifdef USE_KDE
-#ifdef USE_EXPAT
     edtSmiles->setFilter(i18n("*.msl *.xep|Smiles"));
 #else
-    edtSmiles->setFilter(i18n("*.msl|Smiles"));
-#endif
-#else
-#ifdef USE_EXPAT
     edtSmiles->setFilter(i18n("Smiles (*.msl *.xep)"));
-#else
-    edtSmiles->setFilter(i18n("Smiles (*.msl)"));
-#endif
 #endif
     edtSmiles->setText(m_plugin->getSmiles());
     lblMore->setText(i18n("Get more smiles"));

@@ -1,5 +1,5 @@
 #/****************************************************************************
-** $Id: qrichtext.cpp,v 1.8 2003-11-01 14:51:24 shutoff Exp $
+** $Id: qrichtext.cpp,v 1.9 2003-11-23 13:33:48 shutoff Exp $
 **
 ** Implementation of the internal Qt classes dealing with rich text
 **
@@ -106,13 +106,13 @@ static inline bool is_printer( QPainter *p )
 #if defined(Q_WS_X11)
             value = value * metrics.logicalDpiY() / QPaintDevice::x11AppDpiY();
 #elif defined (Q_WS_WIN)
-            int gdc = GetDeviceCaps( GetDC( 0 ), LOGPIXELSY );
+int gdc = GetDeviceCaps( GetDC( 0 ), LOGPIXELSY );
             if ( gdc )
                 value = value * metrics.logicalDpiY() / gdc;
 #elif defined (Q_WS_MAC)
-            value = value * metrics.logicalDpiY() / 75; // ##### FIXME
+value = value * metrics.logicalDpiY() / 75; // ##### FIXME
 #elif defined (Q_WS_QWS)
-            value = value * metrics.logicalDpiY() / 75;
+value = value * metrics.logicalDpiY() / 75;
 #endif
         }
         return value;
@@ -1796,7 +1796,7 @@ int direction : 5;
                             if ( p && p->length() > 0 ) {
                                 QTextFormat *f = p->at( p->length() - 1 )->format();
                                 if ( f && !f->isAnchor() ) {
-                                    f = fCollection->createFormat( *f );
+                                    f = fCollection->format( f );
                                     f->anchor_name = attr[ "name" ];
                                     f->update();
                                     p->setFormat( p->length() - 1, 1, f, TRUE, QTextFormat::Format );
@@ -5059,7 +5059,7 @@ formatAgain:
                     }
                     return FALSE;
 #else
-                    // if we don't have a thai line breaking lib, allow
+// if we don't have a thai line breaking lib, allow
                     // breaks everywhere except directly before punctuation.
                     return TRUE;
 #endif

@@ -18,7 +18,6 @@ AC_SUBST(LIBUIQT)
 AC_SUBST(LIBUI)
 LFLAGS="-o${LEX_OUTPUT_ROOT}.c"
 AC_SUBST(LFLAGS)
-AC_CYGWIN
 if test "$CYGWIN" = "yes"; then
  LDFLAGS="$LDFLAGS --enable-auto-import"
 fi
@@ -78,6 +77,33 @@ AC_DEFINE(USE_QT,1,[Use QT - need for libicq])
 AC_SUBST(EXTRA_LIBS)
 sim_plugindir="${kde_datadir}/sim/plugins"
 AC_SUBST(sim_plugindir)
+
+AC_CHECK_HEADER(expat.h, [expat="yes"])
+if test "x$expat" = "xyes"; then
+        expat="no"
+        AC_CHECK_LIB(expat, XML_Parse, [expat="yes"; LIB_EXPAT="-lexpat"])
+	AC_SUBST(LIB_EXPAT)
+fi
+if test "x$expat" != "xyes"; then
+   AC_MSG_ERROR([No expat library found!
+See: http://sf.net/projects/expat
+])
+fi
+AC_CHECK_HEADER(sablot.h, [sablot="yes"])
+if test "x$sablot" = "xyes"; then
+	sablot="no"
+	save_libs="$LIBS"
+	LIBS="$LIBS $LIB_EXPAT"
+	AC_CHECK_LIB(sablot, main, [sablot="yes"; LIB_SABLOT="-lsablot"])
+	AC_SUBST(LIB_SABLOT)
+	LIBS="$save_libs"
+fi
+if test "x$sablot" != "xyes"; then
+   AC_MSG_ERROR([No sablotron library found!
+See: http://www.gingerall.org/
+])
+fi
+
 
 if test "$WITH_OPENSSL" = "no"; then
   echo ""

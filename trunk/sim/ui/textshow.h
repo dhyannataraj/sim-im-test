@@ -58,7 +58,7 @@ public:
     QString selectedText();
     QString plainText(int paraFrom=0, int paraTo=0x7FFFFFFF, int indexFrom=0, int indexTo=0);
     void setText(const QString &text);
-    void setSource(const QString &url);
+    virtual void setSource(const QString &url);
     const QColor &background() const;
     const QColor &foreground() const;
     void setForeground(const QColor&);
