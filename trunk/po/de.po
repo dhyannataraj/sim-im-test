@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2003-01-19 06:48+0300\n"
-"PO-Revision-Date: 2003-01-20 17:08GMT\n"
+"PO-Revision-Date: 2003-01-21 09:11GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2535,11 +2535,11 @@ msgstr "Ablehungsgrund eingeben"
 
 #: msgedit.cpp:113
 msgid "Bac&kground color"
-msgstr "&Hintergrundfarbe"
+msgstr "Hintergrund&farbe"
 
 #: msgedit.cpp:118
 msgid "Text &font"
-msgstr "Schrif&tart"
+msgstr "Schri&ftart"
 
 #: msgedit.cpp:119
 msgid "Inser&t smile"
@@ -3178,7 +3178,7 @@ msgstr "FEHLER"
 
 #: qt3/i18n.cpp:150
 msgid "&Font"
-msgstr "&Schriftart"
+msgstr "Schri&ftart"
 
 #: qt3/i18n.cpp:152
 msgid "Font st&yle"
@@ -4786,7 +4786,7 @@ msgstr "Onlinekontaktfarbe:"
 
 #: ui/themesetupbase.cpp:305
 msgid "B&ackground"
-msgstr "Hi&ntergrund"
+msgstr "&Hintergrund"
 
 #: ui/themesetupbase.cpp:306
 msgid "Transparent main window"
@@ -5106,7 +5106,7 @@ msgstr "Meine Bemerkungen:"
 
 #: ui/aboutinfobase.cpp:109
 msgid "&Notes"
-msgstr "&Bemerkungen"
+msgstr "Bemerku&ngen"
 
 #: ui/randomchat.cpp:167
 msgid "&Stop search"
