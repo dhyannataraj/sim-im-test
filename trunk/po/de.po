@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2003-11-30 23:18+0300\n"
-"PO-Revision-Date: 2003-11-30 21:04GMT\n"
+"PO-Revision-Date: 2003-12-01 21:14GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -16,13 +16,11 @@ msgstr ""
 
 #: sim/api/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
-msgstr ""
-"Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
+msgstr "Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
 
 #: sim/api/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
 
 #: sim/api/country.cpp:25
 msgid "Afghanistan"
@@ -5205,8 +5203,7 @@ msgstr "Typ:"
 
 #: plugins/_core/searchbase.cpp:74
 msgid "Choose type of contact which you want to find or add:"
-msgstr ""
-"Art des Kontaktes auswählen, der gefunden oder hinzugefügt werden soll"
+msgstr "Art des Kontaktes auswählen, der gefunden oder hinzugefügt werden soll"
 
 #: plugins/_core/searchbase.cpp:75
 msgid "Contact type:"
@@ -5336,8 +5333,7 @@ msgstr "\"N/A\"-Status setzen wenn"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:125
 #: plugins/sound/soundconfigbase.cpp:166
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -5446,8 +5442,7 @@ msgstr "Nachrichten nur von &Benutzern der Kontaktliste empfangen"
 
 #: plugins/filter/filtercfgbase.cpp:98
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: plugins/filter/filtercfgbase.cpp:99
 msgid ""
@@ -5485,8 +5480,7 @@ msgstr "Floatings"
 
 #: plugins/floaty/floaty.cpp:44
 msgid "Plugin provides floating windows for contacts"
-msgstr ""
-"Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
+msgstr "Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
 
 #: plugins/floaty/floaty.cpp:91 plugins/floaty/floaty.cpp:165
 msgid "Floating on"
@@ -5506,8 +5500,7 @@ msgstr "Plugin stellt Nachrichtenweiterleitung an Handys bereit"
 
 #: plugins/forward/forwardcfgbase.cpp:102
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
-"Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
+msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
 
 #: plugins/forward/forwardcfgbase.cpp:103
 msgid ""
@@ -5864,8 +5857,7 @@ msgid "Navigate"
 msgstr "Navigation"
 
 #: plugins/navigate/navigate.cpp:199
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Plugin stellt Navigation von Hyperlinks bereit und ruft externe Browser- "
 "oder Mailprogramme auf"
@@ -6000,8 +5992,7 @@ msgstr "Bei Nachrichteneingang informieren (per OSD)"
 
 #: plugins/osd/osdconfigbase.cpp:93
 msgid "Enable &status notification"
-msgstr ""
-"Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
+msgstr "Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
 
 #: plugins/jabber/jabberconfigbase.cpp:312 plugins/osd/osdconfigbase.cpp:94
 msgid "Enable &typing notification"
@@ -6012,8 +6003,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:48
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Plugin stellt Bildschirmbenachrichtigungen über Nachrichten und "
 "Kontaktstatus bereit"
@@ -6076,8 +6066,7 @@ msgstr "Proxy"
 
 #: plugins/proxy/proxy.cpp:1244
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS and HTTP)"
-msgstr ""
-"Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
+msgstr "Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
 
 #: plugins/proxy/proxycfg.cpp:42
 msgid "&Proxy"
@@ -6085,8 +6074,7 @@ msgstr "&Proxy"
 
 #: plugins/proxy/proxycfg.cpp:140
 msgid "<b>Note !</b><br>HTTP-proxy support only ICQ-protocol"
-msgstr ""
-"<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
+msgstr "<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
 
 #: plugins/proxy/proxycfg.cpp:209
 msgid "Default"
@@ -6278,8 +6266,7 @@ msgstr "Aktualisieren"
 
 #: plugins/update/update.cpp:40
 msgid "Plugin provides notifications about update SIM software"
-msgstr ""
-"Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
+msgstr "Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
 
 #: plugins/update/update.cpp:153
 msgid "Show details"
@@ -6316,14 +6303,12 @@ msgid "Jabber"
 msgstr "Jabber"
 
 #: plugins/jabber/jabber.cpp:383 plugins/jabber/jabber.cpp:392
-#, fuzzy
 msgid "Jabber browser"
-msgstr "Jabber-ID"
+msgstr "Jabber-Browser"
 
 #: plugins/jabber/jabber.cpp:401
-#, fuzzy
 msgid "&Back"
-msgstr "Zurück"
+msgstr "&Zurück"
 
 #: plugins/jabber/jabber.cpp:416 plugins/jabber/jabberbrowser.cpp:44
 #: plugins/jabber/jabberbrowser.cpp:278 plugins/jabber/services.cpp:45
@@ -6331,9 +6316,8 @@ msgid "JID"
 msgstr "JID"
 
 #: plugins/jabber/jabber.cpp:423
-#, fuzzy
 msgid "Info"
-msgstr "&Information"
+msgstr "Info"
 
 #: plugins/jabber/jabber_rosters.cpp:1720
 msgid "Password does not match"
@@ -6634,104 +6618,91 @@ msgid "&Agents"
 msgstr "&Agenten"
 
 #: plugins/jabber/jabberbrowser.cpp:46
-#, fuzzy
 msgid "Node"
-msgstr "Kein Proxy"
+msgstr "Knoten"
 
 #: plugins/jabber/jabberbrowser.cpp:84
-#, fuzzy, c-format
+#, c-format
 msgid "Browser: %1"
-msgstr "Browser:"
+msgstr "Browser: %1"
 
 #: plugins/jabber/jabberbrowser.cpp:125
-#, fuzzy
 msgid "Stop"
-msgstr "Einrichten"
+msgstr "Stopp"
 
 #: plugins/jabber/jabberbrowser.cpp:132
-#, fuzzy
 msgid "Process"
-msgstr "Profi"
+msgstr "Prozess"
 
 #: plugins/jabber/jabberbrowser.cpp:134
-#, fuzzy
 msgid "Client offline"
-msgstr "Client geht offline"
+msgstr "Client offline"
 
 #: plugins/jabber/jabberbrowser.cpp:200 plugins/jabber/jabberbrowser.cpp:220
-#, fuzzy, c-format
+#, c-format
 msgid "Error %1"
-msgstr "Fehler"
+msgstr "Fehler %1"
 
 #: plugins/jabber/discoinfo.cpp:50
 msgid "Units"
-msgstr ""
+msgstr "Einheiten"
 
 #: plugins/jabber/discoinfo.cpp:51
-#, fuzzy
 msgid "Value"
-msgstr "Männlich"
+msgstr "Wert"
 
 #: plugins/jabber/discoinfo.cpp:93 plugins/jabber/discoinfobase.cpp:229
-#, fuzzy
 msgid "&Version"
-msgstr "Persisch"
+msgstr "&Version"
 
 #: plugins/jabber/discoinfo.cpp:106 plugins/jabber/discoinfobase.cpp:232
-#, fuzzy
 msgid "&Time"
-msgstr "Zeit:"
+msgstr "Zei&t:"
 
 #: plugins/jabber/discoinfo.cpp:131
-#, fuzzy
 msgid "&Stat"
 msgstr "&Status"
 
 #: plugins/jabber/discoinfo.cpp:177
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: %n day\n"
 "%n days"
 msgstr ""
-"%n GPG-Schlüssel\n"
-"%n GPG-Schlüssel"
+"%n Tag\n"
+"%n Tage"
 
 #: plugins/jabber/discoinfobase.cpp:220
 msgid "DiscoInfo"
-msgstr ""
+msgstr "DiscoInfo"
 
 #: plugins/jabber/discoinfobase.cpp:221
-#, fuzzy
 msgid "Namespaces:"
-msgstr "Name:"
+msgstr "Namesräume:"
 
 #: plugins/jabber/discoinfobase.cpp:222
 msgid "Category:"
-msgstr ""
+msgstr "Kategorie:"
 
 #: plugins/jabber/discoinfobase.cpp:227
-#, fuzzy
 msgid "Version:"
-msgstr "%1 Version: %2"
+msgstr "Version:"
 
 #: plugins/jabber/discoinfobase.cpp:228
-#, fuzzy
 msgid "System:"
-msgstr "System"
+msgstr "System:"
 
 #: plugins/jabber/discoinfobase.cpp:230
-#, fuzzy
 msgid "UTC client time:"
-msgstr "ICQ-Client für QT/KDE"
+msgstr "UTC-Clientzeit:"
 
 #: plugins/jabber/discoinfobase.cpp:231
 msgid "Last activity, idle response:"
-msgstr ""
+msgstr "Letzte Aktivität, Leerlaufantwort:"
 
 #: plugins/jabber/discoinfobase.cpp:233
-#, fuzzy
 msgid "&Statistic"
-msgstr "&Status"
+msgstr "&Statistik"
 
 #: plugins/spell/spell.cpp:61
 msgid "Spell check"
@@ -7935,3 +7906,4 @@ msgstr "Pfad:"
 
 #~ msgid "Transfer completed"
 #~ msgstr "Übertragung abgeschlossen"
+
