@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2002-11-25 10:46+0300\n"
-"PO-Revision-Date: 2002-11-25 14:28GMT\n"
+"PO-Revision-Date: 2002-11-25 14:31GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2076,7 +2076,7 @@ msgstr "&Zitieren"
 
 #: msgedit.cpp:126 ui/smssetupbase.cpp:113
 msgid "&Forward"
-msgstr "&Vorwärts"
+msgstr "&Weiterleiten"
 
 #: msgedit.cpp:128
 msgid "Spell &check"
@@ -4121,8 +4121,8 @@ msgid ""
 "_n: Request secure channel\n"
 "%n requests sequre channel"
 msgstr ""
-"Sicherer Kanal Anfrage\n"
-"%n Sicherer Kanal-Anfragen"
+"Anfrage sicherer Kanal\n"
+"%n Anfragen sicherer Kanal"
 
 #: client.cpp:997
 #, c-format
