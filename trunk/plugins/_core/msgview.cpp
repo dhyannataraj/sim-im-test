@@ -1,4 +1,4 @@
-/***************************************************************************
+›/***************************************************************************
                           msgview.cpp  -  description
                              -------------------
     begin                : Sun Mar 17 2002
@@ -48,8 +48,20 @@ protected:
     bool m_bUseSmiles;
     bool m_bInLink;
     bool m_bInHead;
+    bool m_bInParagraph;
     bool m_bFirst;
     bool m_bSpan;
+    // Marks the position in 'res' where " DIR=\"whatever\"" should be inserted,
+    // if the paragraph is DIR-less and we determine the DIR later on.
+    unsigned m_paraDirInsertionPos;
+    enum {
+        DirAuto, // Initial BiDi dir when not explicitly specified.
+                 // Real dir will be determined from the first
+                 // strong BiDi character.
+        DirLTR,
+        DirRTL,
+        DirUnknown
+    } m_paragraphDir;
     list<Smile> m_smiles;
     virtual void text(const QString &text);
     virtual void tag_start(const QString &tag, const list<QString> &options);
@@ -1275,6 +1287,28 @@ void ViewParser::text(const QString &text)
 {
     if (text.isEmpty())
         return;
+    
+    if (m_bInParagraph && (m_paragraphDir == DirAuto))
+    {
+       for(const QChar* c = text.unicode(); !c->isNull() && (m_paragraphDir == DirAuto); ++c)
+       {
+            // Note: Qt expects ltr/rtl to be lower-case.
+            switch(c->direction())
+            {
+            case QChar::DirL:
+                res.insert(m_paraDirInsertionPos, " dir=\"ltr\"");
+                m_paragraphDir = DirLTR;
+                break;
+            case QChar::DirR:
+                res.insert(m_paraDirInsertionPos, " dir=\"rtl\"");
+                m_paragraphDir = DirRTL;
+                break;
+            default: // avoid gcc warning
+                break;
+            }
+       }
+    }
+        
     if (!m_bUseSmiles || m_bInLink){
         res += quoteString(text);
         return;
@@ -1364,6 +1398,9 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
         }
     }else if (tag == "a"){
         m_bInLink = true;
+    }else if (tag == "p"){
+        m_bInParagraph = true;
+        m_paragraphDir = DirAuto;
     }else if (tag == "html"){ // we display as a part of a larger document
         return;
     }else if (tag == "head"){
@@ -1372,9 +1409,16 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
     }else if (tag == "body"){ // we display as a part of a larger document
         oTag = "span";
     }
+    
     QString tagText;
     tagText += "<";
     tagText += oTag;
+    
+    if (tag == "p")
+    {
+        m_paraDirInsertionPos = res.length() + tagText.length();
+    }
+    
     for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
         QString name = (*it).lower();
         ++it;
@@ -1385,6 +1429,16 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
             if (name == "bgcolor"){
                 style += "background-color:" + value + ";";
                 continue;
+            }
+        }else if (tag == "p"){
+            if (name == "dir"){
+                QString dir = value.lower();
+                if (dir == "ltr")
+                   m_paragraphDir = DirLTR;
+                else if (dir == "rtl")
+                   m_paragraphDir = DirRTL;
+                else
+                   m_paragraphDir = DirUnknown;
             }
         }else if (tag == "font"){
             if (name == "color" && m_bIgnoreColors)
@@ -1443,6 +1497,9 @@ void ViewParser::tag_end(const QString &tag)
     QString oTag = tag;
     if (tag == "a"){
         m_bInLink = false;
+    }else if (tag == "p"){
+        m_bInParagraph = false;
+        return;
     }else if (tag == "head"){
         m_bInHead = false;
         return;
