@@ -1155,7 +1155,7 @@ if test "$use_kde" = "yes"; then
   KDE_FIND_PATH(kde-config, KDECONFIG, [$kde_default_bindirs])
   if test "x$KDECONFIG" = "x" ; then
    use_kde="no"
-   $default_prefix=`${KDECONFIG} --prefix` 
+   ac_default_prefix=/usr/local
   fi
 fi
 
@@ -4550,6 +4550,19 @@ AC_DEFUN([KDE_SET_PREFIX_CORE],
   KDE_CONF_FILES
 ])
 
+
+AC_DEFUN([SIM_SET_PREFIX],
+[
+  AC_MSG_CHECKING([where to install])
+  if test "x$prefix" = "xNONE"; then
+    prefix=/usr/local
+    AC_MSG_RESULT([$prefix (default value)])
+  else
+    dnl --prefix was given. Compare prefixes and warn (in configure.in.bot.end) if different
+    given_prefix=$prefix
+    AC_MSG_RESULT([$prefix (as requested)])
+  fi
+])
 
 AC_DEFUN([KDE_SET_PREFIX],
 [
