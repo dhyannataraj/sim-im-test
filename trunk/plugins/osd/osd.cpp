@@ -440,7 +440,7 @@ void OSDPlugin::processQueue()
         data = (OSDUserData*)contact->getUserData(user_data_id);
         switch (m_request.type){
         case OSD_ALERTONLINE:
-            if (data->EnableAlertOnline.bValue){
+            if (data->EnableAlert.bValue && data->EnableAlertOnline.bValue){
                 unsigned style = 0;
                 const char *statusIcon = NULL;
                 if (contact->contactInfo(style, statusIcon) == STATUS_ONLINE)
@@ -448,32 +448,32 @@ void OSDPlugin::processQueue()
             }
             break;
         case OSD_ALERTAWAY:
-            if (data->EnableAlertAway.bValue){
+            if (data->EnableAlert.bValue && data->EnableAlertAway.bValue){
                 text = g_i18n("%1 is away", contact) .arg(contact->getName());
             }
             break;
         case OSD_ALERTNA:
-            if (data->EnableAlertNA.bValue){
+            if (data->EnableAlert.bValue && data->EnableAlertNA.bValue){
                 text = g_i18n("%1 is not available", contact) .arg(contact->getName());
             }
             break;
         case OSD_ALERTDND:
-            if (data->EnableAlertDND.bValue){
+            if (data->EnableAlert.bValue && data->EnableAlertDND.bValue){
                 text = g_i18n("%1 doesn't want to be disturbed", contact) .arg(contact->getName());
             }
             break;
         case OSD_ALERTOCCUPIED:
-            if (data->EnableAlertOccupied.bValue){
+            if (data->EnableAlert.bValue && data->EnableAlertOccupied.bValue){
                 text = g_i18n("%1 is occupied", contact) .arg(contact->getName());
             }
             break;
         case OSD_ALERTFFC:
-            if (data->EnableAlertFFC.bValue){
+            if (data->EnableAlert.bValue && data->EnableAlertFFC.bValue){
                 text = g_i18n("%1 is free for chat", contact) .arg(contact->getName());
             }
             break;
         case OSD_ALERTOFFLINE:
-            if (data->EnableAlertOffline.bValue && !(core->getManualStatus() == STATUS_OFFLINE)){
+            if (data->EnableAlert.bValue && data->EnableAlertOffline.bValue && !(core->getManualStatus() == STATUS_OFFLINE)){
                 text = g_i18n("%1 is offline", contact) .arg(contact->getName());
             }
             break;
