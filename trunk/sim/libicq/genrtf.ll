@@ -259,7 +259,7 @@ string ICQClient::createRTF(const string &text, unsigned long foreColor, const c
 			bConvert = false;
 			if (send_encoding){
 				string utf = t;
-				if (fromUTF(t, send_encoding)){ 
+				if (fromUTF(t, send_encoding) && (t.length() == 1)){ 
 					string b = t;
 					if (toUTF(b, send_encoding) && !strcmp(utf.c_str(), b.c_str())){
 						for (p = t.c_str(); *p; p++){
