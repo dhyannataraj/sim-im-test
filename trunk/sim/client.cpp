@@ -372,6 +372,14 @@ bool SIMClient::load(istream &s, string &nextPart)
                         ok = false;
                         break;
                     }
+		    History h(u->Uin);
+		    ICQMessage *msg = h.getMessage(*it);
+		    if (msg == NULL){
+			u->unreadMsgs.remove(*it);
+			ok = false;
+			break;
+		    }
+		    delete msg; 
                 }
                 if (ok) break;
             }
