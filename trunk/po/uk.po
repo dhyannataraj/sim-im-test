@@ -1,5 +1,6 @@
-# translation of uk2.po to 
 # translation of uk.po to 
+# translation of uk2.po to
+# translation of uk.po to
 # translation of uk.po to Ukrainian
 # translation of uk.po to Український
 # Copyright (C) 2002, 2003 Free Software Foundation, Inc.
@@ -7,9 +8,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: uk2\n"
+"Project-Id-Version: uk\n"
 "POT-Creation-Date: 2003-09-15 10:52+0400\n"
-"PO-Revision-Date: 2003-09-15 15:36+0300\n"
+"PO-Revision-Date: 2003-09-15 16:11+0300\n"
 "Last-Translator: Ivan Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team:  <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -996,7 +997,6 @@ msgid "Separator"
 msgstr "Розділювач"
 
 #: plugins/_core/usercfg.cpp:279
-#, fuzzy
 msgid "User info '%1'"
 msgstr "Інформація про користувача - '%1'"
 
@@ -1013,19 +1013,16 @@ msgid "Not in list"
 msgstr "Не в списку"
 
 #: plugins/_core/usercfg.cpp:290
-#, fuzzy
 msgid "Setting for group '%1'"
-msgstr "Налагодження - групи '%1'"
+msgstr "Налагодження - група '%1'"
 
 #: plugins/_core/usercfg.cpp:294
-#, fuzzy
 msgid "[Update info]"
-msgstr "Інформація про користувача"
+msgstr "[Поновлення інформації]"
 
 #: plugins/_core/usercfg.cpp:359
-#, fuzzy
 msgid "Settings"
-msgstr "Посилка"
+msgstr "Налаштування"
 
 #: plugins/_core/userlist.cpp:572 plugins/icq/icq.cpp:111
 #: plugins/icq/icq.cpp:276 plugins/icq/icqclient.cpp:1305
@@ -1053,28 +1050,25 @@ msgid "New group"
 msgstr "Створити групу"
 
 #: plugins/_core/userview.cpp:778
-#, fuzzy
 msgid "&Groups"
-msgstr "Групи"
+msgstr "&Групи"
 
 #: plugins/_core/userview.cpp:994
-#, fuzzy, c-format
+#, c-format
 msgid "Search: %1"
-msgstr "Пошук"
+msgstr "Пошук: %1"
 
 #: plugins/_core/userview.cpp:1410
 msgid "Join \"%1\" and \"%2\"?"
-msgstr ""
+msgstr "Об'єднати \"%1\" і \"%2\"?"
 
 #: plugins/_core/userviewcfg.cpp:108
-#, fuzzy
 msgid "Last message time"
-msgstr "Відправити &повідомлення"
+msgstr "Час останнього повідомлення"
 
 #: plugins/_core/userviewcfg.cpp:109
-#, fuzzy
 msgid "Contact name"
-msgstr "Контакт - розтягнути"
+msgstr "Ім'я контакту"
 
 #: plugins/_core/cfgdlgbase.cc:124 plugins/_core/cfgdlgbase.cpp:124
 msgid "&Update"
@@ -1146,7 +1140,6 @@ msgid "Form2"
 msgstr "Про роботу"
 
 #: plugins/_core/pagerbase.cc:119 plugins/_core/pagerbase.cpp:119
-#, fuzzy
 msgid "Provider:"
 msgstr "Провайдер:"
 
@@ -1156,18 +1149,16 @@ msgstr "Поштовий шлюз:"
 
 #: plugins/_core/arcfgbase.cc:100 plugins/_core/arcfgbase.cpp:100
 #: plugins/_core/prefcfgbase.cc:97 plugins/_core/prefcfgbase.cpp:97
-#, fuzzy
 msgid "&Override global settings"
-msgstr "Режим користувача для прийому файлів"
+msgstr "&Замістити глобальні налаштування"
 
 #: plugins/_core/arcfgbase.cc:101 plugins/_core/arcfgbase.cpp:101
-#, fuzzy
 msgid "Don't show autoreply dialog"
-msgstr "Більше не показувати це повідомлення"
+msgstr "Не показувати діалог"
 
 #: plugins/_core/plugincfgbase.cc:102 plugins/_core/plugincfgbase.cpp:102
 msgid "Plugin &enabled"
-msgstr ""
+msgstr "Плугін &дозволений"
 
 #: plugins/_core/toolsetupbase.cc:123 plugins/_core/toolsetupbase.cpp:123
 msgid "Toolbar setup"
@@ -1192,7 +1183,7 @@ msgstr "<- &Знищити"
 
 #: plugins/_core/toolsetupbase.cc:129 plugins/_core/toolsetupbase.cpp:129
 msgid "Active:"
-msgstr "Дія:"
+msgstr "Активні:"
 
 #: plugins/_core/managerbase.cc:105 plugins/_core/managerbase.cpp:105
 #: plugins/_core/toolsetupbase.cc:132 plugins/_core/toolsetupbase.cpp:132
@@ -1211,36 +1202,31 @@ msgstr "Мова:"
 
 #: plugins/_core/interfacecfgbase.cc:149
 #: plugins/_core/interfacecfgbase.cpp:149
-#, fuzzy
 msgid "Message window"
-msgstr "Повідомлення відіслано"
+msgstr "Вікно повідомлення"
 
 #: plugins/_core/interfacecfgbase.cc:150
 #: plugins/_core/interfacecfgbase.cpp:150
 msgid "&Simple mode"
-msgstr "&Простой режим"
+msgstr "&Простий режим"
 
 #: plugins/_core/interfacecfgbase.cc:151
 #: plugins/_core/interfacecfgbase.cpp:151
-#, fuzzy
 msgid "&Chat mode"
-msgstr "Статус"
+msgstr "Режим &чату"
 
 #: plugins/_core/interfacecfgbase.cc:152
 #: plugins/_core/interfacecfgbase.cpp:152
-#, fuzzy
 msgid "Container mode"
-msgstr "В контейнер"
+msgstr "Налаштування контейнера"
 
 #: plugins/_core/interfacecfgbase.cc:153
 #: plugins/_core/interfacecfgbase.cpp:153
-#, fuzzy
 msgid "Open each contact in &new container"
 msgstr "&Кожне вікно в новому контейнері"
 
 #: plugins/_core/interfacecfgbase.cc:154
 #: plugins/_core/interfacecfgbase.cpp:154
-#, fuzzy
 msgid "Open one container for &group"
 msgstr "&Новий контейнер для групи"
 
@@ -1253,15 +1239,13 @@ msgstr "&Всі в одному контейнері"
 #: plugins/_core/interfacecfgbase.cc:156
 #: plugins/_core/interfacecfgbase.cpp:156
 msgid "Use \"&Enter\" for send message"
-msgstr ""
+msgstr "Відправляти повідомлення по \"&Enter\""
 
 #: plugins/_core/userviewcfgbase.cc:179 plugins/_core/userviewcfgbase.cpp:222
-#, fuzzy
 msgid "Use &double click"
-msgstr "Використовувати &док"
+msgstr "Використовувати &двійний клік"
 
 #: plugins/_core/userviewcfgbase.cc:180 plugins/_core/userviewcfgbase.cpp:223
-#, fuzzy
 msgid "Use system &colors"
 msgstr "&Використовувати кольори системи"
 
@@ -1290,20 +1274,16 @@ msgid "N/A"
 msgstr "Неактивний"
 
 #: plugins/_core/userviewcfgbase.cc:186 plugins/_core/userviewcfgbase.cpp:233
-#, fuzzy
 msgid "Do not distrub"
 msgstr "Не турбувати"
 
 #: plugins/_core/userviewcfgbase.cc:187 plugins/_core/userviewcfgbase.cpp:234
-#, fuzzy
 msgid "Groups"
 msgstr "Групи"
 
 #: plugins/_core/historycfgbase.cc:173 plugins/_core/historycfgbase.cpp:173
 msgid "Use &own colors and fonts settings"
-msgstr ""
-"Використовувати &свої кольори і шрифти в "
-"історії"
+msgstr "Використовувати &свої кольори і шрифти"
 
 #: plugins/_core/historycfgbase.cc:174 plugins/_core/historycfgbase.cpp:174
 msgid "Sending messages color"
@@ -1314,14 +1294,12 @@ msgid "Received messages color"
 msgstr "Колір отриманих повідомлень"
 
 #: plugins/_core/historycfgbase.cc:176 plugins/_core/historycfgbase.cpp:176
-#, fuzzy
 msgid "Others color"
-msgstr "Колір тексту"
+msgstr "Інший колір"
 
 #: plugins/_core/historycfgbase.cc:177 plugins/_core/historycfgbase.cpp:177
-#, fuzzy
 msgid "Own color"
-msgstr "Колір тексту"
+msgstr "Свій колір"
 
 #: plugins/_core/historycfgbase.cc:178 plugins/_core/historycfgbase.cpp:178
 msgid "Use emotional &icons"
@@ -1344,7 +1322,7 @@ msgstr "Показувати:"
 
 #: plugins/_core/maininfobase.cc:233 plugins/_core/maininfobase.cpp:233
 msgid "&Info"
-msgstr ""
+msgstr "&Інформація"
 
 #: plugins/_core/maininfobase.cc:234 plugins/_core/maininfobase.cpp:234
 msgid "Email addresses:"
@@ -1362,31 +1340,26 @@ msgid "&Edit"
 msgstr "&Редагувати"
 
 #: plugins/_core/maininfobase.cc:238 plugins/_core/maininfobase.cpp:238
-#, fuzzy
 msgid ""
 "Note:\n"
 "You can change only those addresses which have entered.\n"
 "It is impossible to change addresses which were received from the user."
 msgstr ""
-"Примітка: Ви можете вносити зміни тільки "
-"в номери введені Вами. Неможливо змінити "
-"номери якщо вони отримані від "
-"користувача."
+"Примітка:\n"
+"Ви можете вносити зміни тільки в адреси введені Вами.\n"
+"Неможливо змінити адреси якщо вони отримані від користувача."
 
 #: plugins/_core/maininfobase.cc:241 plugins/_core/maininfobase.cpp:241
-#, fuzzy
 msgid "&Mails"
 msgstr "&Пошта"
 
 #: plugins/_core/maininfobase.cc:242 plugins/_core/maininfobase.cpp:242
-#, fuzzy
 msgid "Phones:"
-msgstr "Телефон:"
+msgstr "Телефони:"
 
 #: plugins/_core/maininfobase.cc:244 plugins/_core/maininfobase.cpp:244
-#, fuzzy
 msgid "Phone Status:"
-msgstr "Телефон:"
+msgstr "Стан:"
 
 #: plugins/_core/maininfobase.cc:248 plugins/_core/maininfobase.cpp:248
 msgid ""
@@ -1394,24 +1367,21 @@ msgid ""
 "You can change only those numbers which have entered.\n"
 "It is impossible to change numbers which were received from the user."
 msgstr ""
-"Примітка: Ви можете вносити зміни тільки "
-"в номери введені Вами. Неможливо змінити "
-"номери якщо вони отримані від "
-"користувача."
+"Примітка:\n"
+"Ви можете вносити зміни тільки в номери введені Вами.\n"
+"Неможливо змінити номери якщо вони отримані від користувача."
 
 #: plugins/_core/maininfobase.cc:251 plugins/_core/maininfobase.cpp:251
-#, fuzzy
 msgid "&Phones"
-msgstr "Телефон:"
+msgstr "&Телефони"
 
 #: plugins/_core/maininfobase.cc:252 plugins/_core/maininfobase.cpp:252
 msgid "&Notes"
 msgstr "&Нотатки"
 
 #: plugins/_core/editmailbase.cc:94 plugins/_core/editmailbase.cpp:94
-#, fuzzy
 msgid "EditMail"
-msgstr "Поштова адреса"
+msgstr "Редагувати адресу"
 
 #: plugins/_core/editmailbase.cc:95 plugins/_core/editmailbase.cpp:95
 msgid "Enter Email address:"
@@ -1419,14 +1389,12 @@ msgstr "Введіть email:"
 
 #: plugins/_core/editmailbase.cc:96 plugins/_core/editmailbase.cpp:96
 #: plugins/_core/editphonebase.cc:142 plugins/_core/editphonebase.cpp:142
-#, fuzzy
 msgid "&Publish"
-msgstr "Публічний"
+msgstr "&Публічний"
 
 #: plugins/_core/editphonebase.cc:139 plugins/_core/editphonebase.cpp:139
-#, fuzzy
 msgid "EditPhone"
-msgstr "Телефон:"
+msgstr "Редагувати телефон:"
 
 #: plugins/_core/editphonebase.cc:140 plugins/_core/editphonebase.cpp:140
 msgid "Number details:"
@@ -1438,22 +1406,21 @@ msgstr "Тип:"
 
 #: plugins/_core/searchbase.cc:74 plugins/_core/searchbase.cpp:74
 msgid "Choose type of contact which you want to find or add:"
-msgstr ""
+msgstr "Виберіть тип контакта, який Ви хочете добавити:"
 
 #: plugins/_core/searchbase.cc:75 plugins/_core/searchbase.cpp:75
-#, fuzzy
 msgid "Contact type:"
-msgstr "Список контактов"
+msgstr "Тип контакта:"
 
 #: plugins/_core/searchbase.cc:76 plugins/_core/searchbase.cpp:76
 msgid "Choose contact type"
-msgstr ""
+msgstr "Виберіть тип контакта"
 
 #: plugins/_core/autoreplybase.cc:83 plugins/_core/autoreplybase.cpp:83
 #: plugins/_core/connectionsettingsbase.cc:105
 #: plugins/_core/connectionsettingsbase.cpp:105
 msgid "MyDialog"
-msgstr ""
+msgstr "Мій діалог"
 
 #: plugins/_core/connectwndbase.cc:121 plugins/_core/connectwndbase.cpp:121
 #: plugins/icq/moreinfobase.cc:201
@@ -1461,21 +1428,18 @@ msgid "Form3"
 msgstr "Додаткова інформація"
 
 #: plugins/_core/connectwndbase.cc:124 plugins/_core/connectwndbase.cpp:124
-#, fuzzy
 msgid "Complete"
-msgstr "Комп'ютери"
+msgstr "Виконано"
 
 #: plugins/_core/logindlgbase.cc:114 plugins/_core/logindlgbase.cpp:117
 msgid "Login"
 msgstr "Авторизація"
 
 #: plugins/_core/logindlgbase.cc:115 plugins/_core/logindlgbase.cpp:120
-#, fuzzy
 msgid "Profile:"
-msgstr "Провайдер:"
+msgstr "Профіль:"
 
 #: plugins/_core/logindlgbase.cc:117 plugins/_core/logindlgbase.cpp:118
-#, fuzzy
 msgid "Passwords:"
 msgstr "Пароль:"
 
@@ -1484,9 +1448,8 @@ msgid "&Save password"
 msgstr "&Зберегти пароль"
 
 #: plugins/_core/logindlgbase.cc:120 plugins/_core/logindlgbase.cpp:123
-#, fuzzy
 msgid "&Do not show this window on startup"
-msgstr "&Не показувати це вікно"
+msgstr "&Не показувати це вікно при старті"
 
 #: plugins/_core/managerbase.cc:46 plugins/_core/managerbase.cc:106
 #: plugins/_core/managerbase.cpp:46 plugins/_core/managerbase.cpp:106
@@ -1494,33 +1457,28 @@ msgid "Connection"
 msgstr "З'єднання"
 
 #: plugins/_core/managerbase.cc:104 plugins/_core/managerbase.cpp:104
-#, fuzzy
 msgid "&Configure"
-msgstr "Клієнт ICQ"
+msgstr "&Конфігурація"
 
 #: plugins/_core/managerbase.cc:108 plugins/_core/managerbase.cpp:108
-#, fuzzy
 msgid "&Remove"
-msgstr "Знищити"
+msgstr "&Знищити"
 
 #: plugins/_core/managerbase.cc:109 plugins/_core/managerbase.cpp:109
-#, fuzzy
 msgid "&New connection"
-msgstr "Прямі з'єднання"
+msgstr "&Нове з'єднання"
 
 #: plugins/_core/newprotocolbase.cc:67 plugins/_core/newprotocolbase.cpp:67
-#, fuzzy
 msgid "New connection"
-msgstr "Прямі з'єднання"
+msgstr "Нове з'єднання"
 
 #: plugins/_core/newprotocolbase.cc:68 plugins/_core/newprotocolbase.cpp:68
 msgid "Protocol:"
-msgstr ""
+msgstr "Протокол:"
 
 #: plugins/_core/newprotocolbase.cc:69 plugins/_core/newprotocolbase.cpp:69
-#, fuzzy
 msgid "Select protocol"
-msgstr "Вибір кольору"
+msgstr "Виберіть протокол"
 
 #: plugins/_core/autoreplybase.cc:84 plugins/_core/autoreplybase.cpp:84
 msgid "Don't show this dialog"
@@ -1528,18 +1486,16 @@ msgstr "Більше не показувати це повідомлення"
 
 #: plugins/_core/msgcfgbase.cc:162 plugins/_core/msgcfgbase.cpp:162
 msgid "Save &status changes to history"
-msgstr ""
+msgstr "Зберігати зміни &статус в історії"
 
 # #
 #: plugins/_core/msgcfgbase.cc:163 plugins/_core/msgcfgbase.cpp:163
-#, fuzzy
 msgid "Automaitcaly open window on receive message"
-msgstr "Автоматично відкривати вікно повідомлень"
+msgstr "Автоматично відкривати вікно при отриманні повідомлення"
 
 #: plugins/_core/msgcfgbase.cc:164 plugins/_core/msgcfgbase.cpp:164
-#, fuzzy
 msgid "Open window if user go online"
-msgstr "Відкрити вікно користувача"
+msgstr "Відкрити вікно якщо користувач появився в мережі"
 
 #: plugins/_core/msgcfgbase.cc:165 plugins/_core/msgcfgbase.cpp:165
 msgid "Path for incoming files:"
@@ -1576,7 +1532,7 @@ msgstr "Текст після курсора:"
 #: plugins/_core/smscfgbase.cc:102 plugins/_core/smscfgbase.cpp:102
 #: plugins/forward/forwardcfgbase.cpp:106
 msgid "Send in &translit"
-msgstr ""
+msgstr "Відправити в &трансліті"
 
 #: plugins/_core/filetransferbase.cc:128
 #: plugins/_core/filetransferbase.cpp:128
@@ -1591,9 +1547,8 @@ msgstr "&Закрити після відправки"
 
 #: plugins/_core/filetransferbase.cc:132
 #: plugins/_core/filetransferbase.cpp:132
-#, fuzzy
 msgid "Time:"
-msgstr "Часовий пояс:"
+msgstr "Час:"
 
 #: plugins/_core/filetransferbase.cc:133
 #: plugins/_core/filetransferbase.cpp:133
