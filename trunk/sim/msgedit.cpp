@@ -392,6 +392,7 @@ void MsgEdit::action(int type, bool bSaveEdit)
     if (getUin() == 0)
         log(L_WARN, "Bad UIN for message create");
     if (type == mnuActionAuto) type = mnuAction;
+    ICQMessage *editMsg = NULL;
     if ((type == mnuAction) || (type == mnuActionInt)){
         if ((type == mnuAction) && canSend())
             return;
@@ -419,42 +420,50 @@ void MsgEdit::action(int type, bool bSaveEdit)
                 pMain->sendMail(u->Uin);
                 return;
             }
+            if (type == mnuAction){
+                History h(u->Uin);
+                History::iterator &it = h.messages();
+                it.setDirection(true);
+                if (++it)
+                    editMsg = h.getMessage((*it)->Id);
+            }
         }else{
             type = mnuMessage;
         }
     }
-    ICQMessage *editMsg = NULL;
-    switch (type){
-    case mnuMessage:
-        editMsg = new ICQMsg;
-        editMsg->Uin.push_back(getUin());
-        break;
-    case mnuURL:
-        editMsg = new ICQUrl;
-        editMsg->Uin.push_back(getUin());
-        break;
-    case mnuSMS:
-        editMsg = new ICQSMS;
-        editMsg->Uin.push_back(getUin());
-        break;
-    case mnuAuth:
-        editMsg = new ICQAuthRequest;
-        editMsg->Uin.push_back(getUin());
-        break;
-    case mnuContacts:
-        editMsg = new ICQContacts;
-        editMsg->Uin.push_back(getUin());
-        break;
-    case mnuFile:
-        editMsg = new ICQFile;
-        editMsg->Uin.push_back(getUin());
-        break;
-    case mnuChat:
-        editMsg = new ICQChat;
-        editMsg->Uin.push_back(getUin());
-        break;
-    default:
-        log(L_WARN, "Unknown message type: %u", type);
+    if (editMsg == NULL){
+        switch (type){
+        case mnuMessage:
+            editMsg = new ICQMsg;
+            editMsg->Uin.push_back(getUin());
+            break;
+        case mnuURL:
+            editMsg = new ICQUrl;
+            editMsg->Uin.push_back(getUin());
+            break;
+        case mnuSMS:
+            editMsg = new ICQSMS;
+            editMsg->Uin.push_back(getUin());
+            break;
+        case mnuAuth:
+            editMsg = new ICQAuthRequest;
+            editMsg->Uin.push_back(getUin());
+            break;
+        case mnuContacts:
+            editMsg = new ICQContacts;
+            editMsg->Uin.push_back(getUin());
+            break;
+        case mnuFile:
+            editMsg = new ICQFile;
+            editMsg->Uin.push_back(getUin());
+            break;
+        case mnuChat:
+            editMsg = new ICQChat;
+            editMsg->Uin.push_back(getUin());
+            break;
+        default:
+            log(L_WARN, "Unknown message type: %u", type);
+        }
     }
     setMessage(editMsg, false, false, bSaveEdit);
     setState();

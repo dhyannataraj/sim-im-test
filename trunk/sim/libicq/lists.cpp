@@ -61,7 +61,7 @@ void ICQClientPrivate::snac_lists(unsigned short type, unsigned short seq)
             list<ICQUser*>::iterator it_usr;
             if (!m_bRosters){
                 m_bRosters = true;
-				client->contacts.Invisible = 0;
+                client->contacts.Invisible = 0;
                 for (it_grp = client->contacts.groups.begin(); it_grp != client->contacts.groups.end(); it_grp++)
                     (*it_grp)->bChecked = false;
                 for (it_usr = client->contacts.users.begin(); it_usr != client->contacts.users.end(); it_usr++){
@@ -213,17 +213,17 @@ void ICQClientPrivate::snac_lists(unsigned short type, unsigned short seq)
                 m_state = Logged;
                 client->createGroup("General");
             }
-			if (client->contacts.Invisible == 0){
-				snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_EDIT);
-				sendPacket();
-				snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_CREATE, true);
-				sock->writeBuffer
-					<< 0x00000000L << 0x00000001L
-					<< 0x000400C8L << (unsigned short)0;  
-				sendPacket();
-				snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_SAVE);
-				sendPacket();
-			}
+            if (client->contacts.Invisible == 0){
+                snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_EDIT);
+                sendPacket();
+                snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_CREATE, true);
+                sock->writeBuffer
+                << 0x00000000L << 0x00000001L
+                << 0x000400C8L << (unsigned short)0;
+                sendPacket();
+                snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_SAVE);
+                sendPacket();
+            }
             break;
         }
     case ICQ_SNACxLISTS_ADDED:{

@@ -30,6 +30,7 @@
 #include <qpushbutton.h>
 #include <qlistbox.h>
 #include <qlabel.h>
+#include <qtabwidget.h>
 
 #ifndef WIN32
 #include <sys/socket.h>
@@ -91,6 +92,9 @@ void MainInfo::load(ICQUser *u)
         edtUin->show();
         lblUin->show();
         lineDiv->show();
+    }else{
+        tabWnd->setCurrentPage(2);
+        tabWnd->removePage(tabWnd->currentPage());
     }
     setCurrentEncoding(pClient->userEncoding(u->Uin));
     edtFirst->setText(QString::fromLocal8Bit(u->FirstName.c_str()));

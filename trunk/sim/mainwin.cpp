@@ -315,7 +315,7 @@ UINT appBarMessage(DWORD dwMessage, UINT uEdge = ABE_FLOAT, LPARAM lParam = 0, Q
 }
 
 static bool bInMoving = false;
-static bool bFullScreen = false;
+bool bFullScreen = false;
 static bool bOnTop = false;
 static bool bAutoHideVisible = false;
 static int  lastHeight = 0;

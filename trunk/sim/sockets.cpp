@@ -159,6 +159,8 @@ void SIMSockets::resultsReady()
         }else{
             isActive = true;
         }
+        if (r->addr() == INADDR_NONE)
+            isActive = false;
         emit resolveReady(r->addr(), r->host().c_str());
         resolvers.remove(r);
         delete r;

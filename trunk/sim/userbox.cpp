@@ -209,7 +209,7 @@ UserBox::UserBox(unsigned long grpId)
     accel->insertItem(ACCEL(ICQ_MSGxCHAT), mnuChat);
     accel->insertItem(ACCEL(ICQ_MSGxCONTACTxLIST), mnuContacts);
     accel->insertItem(ACCEL(ICQ_MSGxMAIL), mnuMail);
-	accel->insertItem(Key_Escape, mnuWindow + 13);
+    accel->insertItem(Key_Escape, mnuWindow + 13);
     setOnTop();
 }
 
@@ -534,10 +534,10 @@ void UserBox::accelActivated(int id)
 {
     if (id > mnuWindow){
         id -= mnuWindow;
-		if (id == 13){
-			if (curWnd) curWnd->close();
-			return;
-		}
+        if (id == 13){
+            if (curWnd) curWnd->close();
+            return;
+        }
         int pos = 0;
         int curId = tabs->currentTab();
         list<MsgEdit*>::iterator it;
@@ -1122,6 +1122,8 @@ void UserBox::showProgress(int n)
 
 #ifdef WIN32
 
+extern bool bFullScreen;
+
 typedef struct FLASHWINFO
 {
     unsigned long cbSize;
@@ -1142,19 +1144,21 @@ void UserBox::slotMessageReceived(ICQMessage *msg)
         if (haveUser(msg->getUin())){
             emit messageReceived(msg);
 #ifdef WIN32
-            if (!initFlash){
-                HINSTANCE hLib = GetModuleHandleA("user32");
-                if (hLib != NULL)
-                    (DWORD&)FlashWindowEx = (DWORD)GetProcAddress(hLib,"FlashWindowEx");
-                initFlash = true;
+            if (!bFullScreen){
+                if (!initFlash){
+                    HINSTANCE hLib = GetModuleHandleA("user32");
+                    if (hLib != NULL)
+                        (DWORD&)FlashWindowEx = (DWORD)GetProcAddress(hLib,"FlashWindowEx");
+                    initFlash = true;
+                }
+                if (FlashWindowEx == NULL) return;
+                FLASHWINFO fInfo;
+                fInfo.cbSize = sizeof(fInfo);
+                fInfo.dwFlags = 0x0E;
+                fInfo.hwnd = winId();
+                fInfo.uCount = 0;
+                FlashWindowEx(&fInfo);
             }
-            if (FlashWindowEx == NULL) return;
-            FLASHWINFO fInfo;
-            fInfo.cbSize = sizeof(fInfo);
-            fInfo.dwFlags = 0x0E;
-            fInfo.hwnd = winId();
-            fInfo.uCount = 0;
-            FlashWindowEx(&fInfo);
 #endif
         }
         return;

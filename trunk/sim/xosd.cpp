@@ -155,10 +155,15 @@ void XOSD::set(const QString &str, unsigned long _uin)
     QTimer::singleShot(pMain->getXOSD_timeout() * 1000, this, SLOT(timeout()));
 }
 
+#ifdef WIN32
+extern bool bFullScreen;
+#endif
+
 void XOSD::paintEvent(QPaintEvent*)
 {
 #ifdef WIN32
-    SetWindowPos(pMain->winId(), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+    if (!bFullScreen)
+        SetWindowPos(pMain->winId(), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 #endif
     QPainter p(this);
     p.drawPixmap(0, 0, bgPict);

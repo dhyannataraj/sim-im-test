@@ -671,7 +671,8 @@ bool ICQClientPrivate::parseMessageText(const string &p, string &s, ICQUser *u)
         s = parseRTF(r.c_str(), u);
         return true;
     }
-    if ((unsigned char)(p[0]) < ' '){
+    unsigned char c = p[0];
+    if ((c < ' ') && (c != '\r') && (c != '\n')){
         unsigned size = p.length();
         s = "";
         unsigned char *d = (unsigned char*)(p.c_str());

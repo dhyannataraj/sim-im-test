@@ -244,8 +244,8 @@ Proxy *SocketFactory::getProxy()
                                   ProxyAuth ? ProxyPasswd.c_str() : "");
     case PROXY_HTTPS:
         return new HTTPS_Proxy(ProxyHost.c_str(), ProxyPort,
-                                   ProxyAuth ? ProxyUser.c_str() : "",
-                                   ProxyAuth ? ProxyPasswd.c_str() : "");
+                               ProxyAuth ? ProxyUser.c_str() : "",
+                               ProxyAuth ? ProxyPasswd.c_str() : "");
     default:
         log(L_WARN, "Unknown proxy type");
     }

@@ -664,6 +664,7 @@ unsigned long ICQContactList::findByEmail(const string &name, const string &emai
     if (!*u->Nick.c_str()) u->Nick = email;
     u->EMail = email;
     u->Type = USER_TYPE_EXT;
+    u->adjustEMails(NULL, true);
     return u->Uin;
 }
 
