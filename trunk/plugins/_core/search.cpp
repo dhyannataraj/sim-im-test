@@ -741,7 +741,7 @@ void SearchDialog::newSearch()
         QWidget *parent = static_cast<QWidget*>(obj)->parentWidget();
         if (obj->inherits("QLineEdit") && parent && !parent->inherits("QComboBox"))
             static_cast<QLineEdit*>(obj)->setText("");
-        if (obj->inherits("QLineEdit") && parent && !parent->inherits("QToolBar"))
+        if (obj->inherits("QComboBox") && parent && parent->inherits("QFrame"))
             static_cast<QComboBox*>(obj)->setCurrentItem(0);
         ++it;
     }
