@@ -8,12 +8,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2004-03-07 15:26+0300\n"
-"PO-Revision-Date: 2004-03-01 18:15+0100\n"
-"Last-Translator: Tobias Franz <noragen@gmx.net>\n"
+"PO-Revision-Date: 2004-03-07 22:21+0100\n"
+"Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.3\n"
 
 #: sim/api/country.cpp:25
 msgid "Afghanistan"
@@ -1157,13 +1158,11 @@ msgstr "Grinsen"
 
 #: sim/api/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
-msgstr ""
-"Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
+msgstr "Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
 
 #: sim/api/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
 
 #: sim/api/message.cpp:465
 msgid "%1 Mbytes"
@@ -3664,8 +3663,7 @@ msgstr "Land:"
 
 #: plugins/_core/searchbase.cpp:74
 msgid "Choose type of contact which you want to find or add:"
-msgstr ""
-"Art des Kontaktes auswählen, der gefunden oder hinzugefügt werden soll"
+msgstr "Art des Kontaktes auswählen, der gefunden oder hinzugefügt werden soll"
 
 #: plugins/_core/searchbase.cpp:75
 msgid "Contact type:"
@@ -4019,8 +4017,7 @@ msgid "Set \"Offline\" status after"
 msgstr "\"Offline\"-Status setzen nach"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:109
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Abwesend\", \"Nicht erreichbar\", \"DND\" und "
 "\"Beschäftigt\"-Liste deaktivieren"
@@ -4177,8 +4174,7 @@ msgstr "Nachrichten nur von &Benutzern der Kontaktliste empfangen"
 
 #: plugins/filter/filtercfgbase.cpp:67
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: plugins/filter/filtercfgbase.cpp:68
 msgid ""
@@ -4200,8 +4196,7 @@ msgstr "Floatings"
 
 #: plugins/floaty/floaty.cpp:44
 msgid "Plugin provides floating windows for contacts"
-msgstr ""
-"Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
+msgstr "Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
 
 #: plugins/floaty/floaty.cpp:88 plugins/floaty/floaty.cpp:162
 msgid "Floating on"
@@ -5813,23 +5808,20 @@ msgid "&ICQ"
 msgstr "&ICQ"
 
 #: plugins/icq/aimconfigbase.cc:150 plugins/icq/icqconfigbase.cc:234
-#, fuzzy
 msgid "&Automaticaly use HTTP pooling if proxy required"
-msgstr "&Automatische HTTP Anfragen benutzen, wenn ein Proxy benötigt wird"
+msgstr "&Automatische HTTP-Anfragen benutzen, wenn Proxy benötigt wird"
 
 #: plugins/icq/aimconfigbase.cc:149 plugins/icq/icqconfigbase.cc:235
 msgid "Use &HTTP polling"
-msgstr "&HTTP Anfragen verwenden"
+msgstr "&HTTP-Polling benutzen"
 
 #: plugins/icq/aimconfigbase.cc:151 plugins/icq/icqconfigbase.cc:240
-#, fuzzy
 msgid "Note: For HTTP-pooling using proxy setings for HTTP"
-msgstr "Achtung: Für HTTP-Anfragen Proxy Einstellungen für HTTP benutzen"
+msgstr "Bemerkung: Für HTTP-Polling, dass Proxy-Einstellungen für HTTP benutzt"
 
 #: plugins/icq/aimconfigbase.cc:152 plugins/icq/icqconfigbase.cc:241
-#, fuzzy
 msgid "&Keep-alive connection"
-msgstr "&Neue Verbindung"
+msgstr "Verbindung aufrechter&halten"
 
 #: plugins/icq/icqconfigbase.cc:243
 msgid "Send format:"
@@ -5852,9 +5844,8 @@ msgid "Automatically &update user info"
 msgstr "Automatisch Benutzerinformation akt&ualisieren"
 
 #: plugins/icq/icqconfigbase.cc:248
-#, fuzzy
 msgid "Automaticaly &request autoreply on change status"
-msgstr "Automatische &Abfrage der Autoantwort bei einer Statusänderung"
+msgstr "Automatische &Anfrage von Autoantwort bei Statusänderung"
 
 #: plugins/icq/icqconfigbase.cc:249
 msgid "Send message:"
@@ -6341,8 +6332,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:68
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Plugin stellt Bildschirmbenachrichtigungen über Nachrichten und "
 "Kontaktstatus bereit"
@@ -6369,17 +6359,15 @@ msgstr "Bei Nachrichteneingang informieren (per OSD)"
 
 #: plugins/osd/osdconfigbase.cpp:65
 msgid "Enable &status notification"
-msgstr ""
-"Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
+msgstr "Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
 
 #: plugins/jabber/jabberconfigbase.cpp:266 plugins/osd/osdconfigbase.cpp:66
 msgid "Enable &typing notification"
 msgstr "Schreibbenachrich&tigung aktivieren"
 
 #: plugins/osd/osdconfigbase.cpp:67
-#, fuzzy
 msgid "Show message content"
-msgstr "Unbekannter Nachrichtentyp"
+msgstr "Nachrichteninhalt anzeigen"
 
 #: plugins/osd/osdifacebase.cpp:129
 msgid "Offset:"
@@ -6459,8 +6447,7 @@ msgstr "Proxy"
 
 #: plugins/proxy/proxy.cpp:1127
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS/HTTP)"
-msgstr ""
-"Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
+msgstr "Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
 
 #: plugins/proxy/proxyerrorbase.cpp:78
 msgid "Proxy error"
@@ -6626,8 +6613,7 @@ msgstr "Aktualisieren"
 
 #: plugins/update/update.cpp:40
 msgid "Plugin provides notifications about update SIM software"
-msgstr ""
-"Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
+msgstr "Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
 
 #: plugins/update/update.cpp:150
 msgid "Show details"
@@ -6996,12 +6982,10 @@ msgid "Send &rich text messages if possible"
 msgstr "Nachricht als &Rich-Text senden, wenn möglich"
 
 #: plugins/jabber/jabberconfigbase.cpp:269
-#, fuzzy
 msgid "Automaticaly send &subscribe request"
-msgstr "Automatische Abonnierenanfrage &senden"
+msgstr "Automatische &Abonnierenanfrage senden"
 
 #: plugins/jabber/jabberconfigbase.cpp:270
-#, fuzzy
 msgid "Automaticaly &accept subscribe requests"
 msgstr "Automatisch Abonnierenanfragen &akzeptieren"
 
@@ -7977,8 +7961,7 @@ msgstr "Aktion"
 
 #: plugins/action/action.cpp:34
 msgid "Plugin execute external programs on event or from contact menu"
-msgstr ""
-"Plugin führt externe Programme bei einem Ereignis oder von Kontaktmenü aus"
+msgstr "Plugin führt externe Programme bei einem Ereignis oder von Kontaktmenü aus"
 
 #: plugins/action/action.cpp:84
 msgid "&Action"
@@ -7989,8 +7972,7 @@ msgid "Navigate"
 msgstr "Navigation"
 
 #: plugins/navigate/navigate.cpp:199
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Plugin stellt Navigation von Hyperlinks bereit und ruft externe Browser- "
 "oder Mailprogramme auf"
@@ -8089,8 +8071,7 @@ msgstr "Text ersetzen"
 
 #: plugins/replace/replace.cpp:34
 msgid "Plugin provides text replacing in message edit window"
-msgstr ""
-"Dieses Plugin stellt Textersetzung im Nachrichtbearbeitung-Fenster bereit"
+msgstr "Dieses Plugin stellt Textersetzung im Nachrichtbearbeitung-Fenster bereit"
 
 #: plugins/replace/replacecfg.cpp:31
 msgid "You type"
@@ -8145,40 +8126,36 @@ msgstr ""
 "Regen"
 
 #: plugins/weather/weather.cpp:405
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Light Rain"
 msgstr ""
 "Wetter\n"
-"Regen"
+"Leichter Regen"
 
 #: plugins/weather/weather.cpp:406
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Few Snow Showers"
 msgstr ""
 "Wetter\n"
-"Schnee"
+"Einige Schneeschauer"
 
 #: plugins/weather/weather.cpp:407
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Scattered Snow Showers"
 msgstr ""
 "Wetter\n"
-"Schnee"
+"Vereinzelte Schneeschauer"
 
 #: plugins/weather/weather.cpp:408
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Snow Shower"
 msgstr ""
 "Wetter\n"
-"Schnee"
+"Schneeschauer"
 
 #: plugins/weather/weather.cpp:409
 msgid ""
@@ -8189,40 +8166,36 @@ msgstr ""
 "Klar"
 
 #: plugins/weather/weather.cpp:410
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Showers"
 msgstr ""
 "Wetter\n"
-"Schnee"
+"Schauer"
 
 #: plugins/weather/weather.cpp:411
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Mostly Clear"
 msgstr ""
 "Wetter\n"
-"Klar"
+"Meist Klar"
 
 #: plugins/weather/weather.cpp:412
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Sunny"
 msgstr ""
 "Wetter\n"
-"Schnee"
+"Sonning"
 
 #: plugins/weather/weather.cpp:413
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Fair"
 msgstr ""
 "Wetter\n"
-"Regen"
+"Mittelmässig"
 
 #: plugins/weather/weather.cpp:414
 msgid ""
@@ -8233,16 +8206,14 @@ msgstr ""
 "Bewölkt"
 
 #: plugins/weather/weather.cpp:415
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Mostly Cloudy"
 msgstr ""
 "Wetter\n"
-"Bewölkt"
+"Meist Bewölkt"
 
 #: plugins/weather/weather.cpp:416
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Partly Cloudy"
@@ -8252,10 +8223,9 @@ msgstr ""
 
 #: plugins/weather/weather.cpp:439
 msgid "%t %c"
-msgstr ""
+msgstr "%t %c"
 
 #: plugins/weather/weather.cpp:448
-#, fuzzy
 msgid ""
 "%l<br><br>\n"
 "<img src=\"icon:weather\"> %c<br>\n"
@@ -8278,12 +8248,12 @@ msgstr ""
 "Sonnenaufgang: %p<br>\n"
 "Sonnenuntergang: %q<br>\n"
 "<br>\n"
-"Aktualisiert: %u"
+"Aktualisiert: %u "
+"Wetterdaten bereitgestellt von weather.com"
 
 #: plugins/weather/weathercfg.cpp:33
-#, fuzzy
 msgid "Temperature"
-msgstr "Temperatur &deg;F"
+msgstr "Temperatur"
 
 #: plugins/weather/weathercfg.cpp:35
 msgid "Humidity"
@@ -8294,14 +8264,12 @@ msgid "Wind direction"
 msgstr "Windrichtung"
 
 #: plugins/weather/weathercfg.cpp:39
-#, fuzzy
 msgid "Wind speed"
-msgstr "Windgeschwindigkeit mph"
+msgstr "Windgeschwindigkeit"
 
 #: plugins/weather/weathercfg.cpp:41
-#, fuzzy
 msgid "Pressure"
-msgstr "Druck in"
+msgstr "Druck"
 
 #: plugins/weather/weathercfg.cpp:43
 msgid "Location"
@@ -8324,28 +8292,24 @@ msgid "Conditions"
 msgstr "Bedingungen"
 
 #: plugins/weather/weathercfg.cpp:139
-#, fuzzy
 msgid "Location %1 not found"
-msgstr "Host %1 gefunden"
+msgstr "Ort %1 nicht gefunden"
 
 #: plugins/weather/weathercfgbase.cpp:107
 msgid "Location:"
 msgstr "Ort:"
 
 #: plugins/weather/weathercfgbase.cpp:109
-#, fuzzy
 msgid "Units:"
-msgstr "Einheiten"
+msgstr "Einheiten:"
 
 #: plugins/weather/weathercfgbase.cpp:111
-#, fuzzy
 msgid "Metric"
-msgstr "Mexiko"
+msgstr "Metrisch"
 
 #: plugins/weather/weathercfgbase.cpp:112
-#, fuzzy
 msgid "Standart"
-msgstr "&Status"
+msgstr "Standard"
 
 #: plugins/weather/weathercfgbase.cpp:113
 msgid "Button text:"
@@ -8355,20 +8319,3 @@ msgstr "Knopftext:"
 msgid "Button tip:"
 msgstr "Knopf-Kurzinfo:"
 
-#~ msgid "%f &deg;F/ %s &deg;C"
-#~ msgstr "%f &deg;F/ %s &deg;C"
-
-#~ msgid "Temperature &deg;C"
-#~ msgstr "Temperatur &deg;C"
-
-#~ msgid "Wind speed km/h"
-#~ msgstr "Windgeschwindigkeit km/h"
-
-#~ msgid "Pressure hPa"
-#~ msgstr "Druck hPa"
-
-#~ msgid "Go www.wunderground.com"
-#~ msgstr "Zu www.wunderground.com gehen"
-
-#~ msgid "Find your location and input url"
-#~ msgstr "Ihren Ort finden und URL eingeben"
