@@ -116,7 +116,6 @@ SetupDialog::SetupDialog(QWidget*, int nWin)
     lstBars->clear();
     lstBars->header()->hide();
     lstBars->setSorting(1);
-	lstBars->setRootIsDecorated(true);
     connect(lstBars, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
 
     itemMain = new QListViewItem(lstBars, i18n("My details"), QString::number(SETUP_DETAILS));
@@ -244,7 +243,7 @@ void SetupDialog::selectionChanged()
         QWidget *page = p(tabBars, item->text(4).toUInt());
         tabBars->addWidget(page, id);
         connect(this, SIGNAL(applyChanges(ICQUser*)), page, SLOT(apply(ICQUser*)));
-		tabBars->setMinimumSize(tabBars->minimumSizeHint());
+        tabBars->setMinimumSize(tabBars->minimumSizeHint());
     }
     tabBars->raiseWidget(id);
 }

@@ -876,12 +876,12 @@ QPixmap IconsDLL::getIcon(int id)
     QImage img(w, h, depth, numColors, QImage::BigEndian);
     if ((bits == 2) || (bits == 4)){
         QRgb *p = img.colorTable();
-		if (p){
-			for (int i = 0; i < numColors; i++){
-				RGBQUAD rgb;
-				f.readBlock((char*)&rgb, sizeof(rgb));
-				(*p++) = (rgb.rgbRed << 16) | (rgb.rgbGreen << 8) | rgb.rgbBlue;
-			}
+        if (p){
+            for (int i = 0; i < numColors; i++){
+                RGBQUAD rgb;
+                f.readBlock((char*)&rgb, sizeof(rgb));
+                (*p++) = (rgb.rgbRed << 16) | (rgb.rgbGreen << 8) | rgb.rgbBlue;
+            }
         }
     }else if (bits == 8){
         QRgb *p = img.colorTable();

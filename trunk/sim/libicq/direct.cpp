@@ -1115,8 +1115,8 @@ void FileTransfer::sendFileInfo()
     sock->writeBuffer.pack((char)0);
     string empty;
     string s = curName;
-	const char *p = strrchr(s.c_str(), '\\');
-	if (p) s = p + 1;
+    const char *p = strrchr(s.c_str(), '\\');
+    if (p) s = p + 1;
     ICQUser *u = client->getUser(file->getUin());
     client->toServer(s, u);
     sock->writeBuffer << s << empty;

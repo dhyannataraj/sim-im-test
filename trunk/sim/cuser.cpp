@@ -53,24 +53,24 @@ CUser::CUser(unsigned long uin)
 const QString CUser::name(bool quoted)
 {
     if (u == NULL){
-		if (mUIN < UIN_SPECIAL){
-			QString s;
-			s.setNum(mUIN);
-	        return s;
-		}
-		return i18n("Unknown");
+        if (mUIN < UIN_SPECIAL){
+            QString s;
+            s.setNum(mUIN);
+            return s;
+        }
+        return i18n("Unknown");
     }
     string n;
     if (u) n = u->name();
     if (quoted)
         n = XmlNode::quote(n);
     if (*(n.c_str()) == 0){
-		if (mUIN < UIN_SPECIAL){
-			QString s;
-			s.setNum(mUIN);
-			return s;
-		}
-		return i18n("Unknown");
+        if (mUIN < UIN_SPECIAL){
+            QString s;
+            s.setNum(mUIN);
+            return s;
+        }
+        return i18n("Unknown");
     }
     return pClient->from8Bit(u ? u->Uin : mUIN, n.c_str());
 }
@@ -287,9 +287,9 @@ QString CUser::toolTip()
             case 5:
                 r += "vICQ";
                 break;
-			case 6:
-				r += "ICQ2Go!";
-				break;
+            case 6:
+                r += "ICQ2Go!";
+                break;
             default:
                 if ((unsigned char)(u->ClientType) >= (1 << 6)){
                     r += "SIM ";
