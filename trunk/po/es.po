@@ -1,20 +1,19 @@
 # translation of es.po to Spanish
 # This file is distributed under the same license as the PACKAGE package.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# Jorge Lopez <jorge@acm.asoc.fi.upm.es>, 2002
-# Jorge López <jorge@acm.asoc.fi.upm.es>, 2003
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
+# Jorge Lopez <jorge@acm.asoc.fi.upm.es>, 2002, 2003.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "POT-Creation-Date: 2003-10-01 10:08+0400\n"
-"PO-Revision-Date: 2003-09-12 21:18+0000\n"
-"Last-Translator: Jorge López <jorge@acm.asoc.fi.upm.es>\n"
+"PO-Revision-Date: 2003-10-04 16:41+0000\n"
+"Last-Translator: Jorge Lopez <jorge@acm.asoc.fi.upm.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.1\n"
+"X-Generator: KBabel 1.2\n"
 
 #: plugins/__homedir/homedir.cpp:47
 msgid "Home directory"
@@ -36,8 +35,7 @@ msgstr "Migrar"
 
 #: plugins/__migrate/migrate.cpp:36
 msgid "Plugin provides convert configuration and history from SIM 0.8"
-msgstr ""
-"Este plugin permite convertir la configuracion y el historial de SIM 0.8"
+msgstr "Este plugin permite convertir la configuracion y el historial de SIM 0.8"
 
 #: plugins/__migrate/migratedlg.cpp:77
 msgid "Cancel convert?"
@@ -161,7 +159,6 @@ msgid "Customize toolbar..."
 msgstr "Configurar barra de herramientas..."
 
 #: plugins/_core/connectionsettings.cpp:32
-#, fuzzy
 msgid "Configure %1 client"
 msgstr "Configurar cliente %1"
 
@@ -408,7 +405,6 @@ msgid "&Delete"
 msgstr "Elimi&nar"
 
 #: plugins/_core/core.cpp:912
-#, fuzzy
 msgid "Show &always"
 msgstr "Mostr&ar siempre"
 
@@ -683,9 +679,8 @@ msgid "Password:"
 msgstr "Contraseña:"
 
 #: plugins/_core/logindlg.cpp:279
-#, fuzzy
 msgid "Forgot password?"
-msgstr "Contraseña proxy:"
+msgstr "¿Ha olvidado la contraseña?"
 
 #: plugins/_core/logindlg.cpp:314
 msgid "New profile"
@@ -1044,23 +1039,21 @@ msgid "&Groups"
 msgstr "&Grupos"
 
 #: plugins/_core/userview.cpp:994
-#, fuzzy, c-format
+#, c-format
 msgid "Search: %1"
-msgstr "Buscar %1"
+msgstr "Buscar: %1"
 
 #: plugins/_core/userview.cpp:1410
 msgid "Join \"%1\" and \"%2\"?"
 msgstr "¿Unir \"%1\" y \"%2\"?"
 
 #: plugins/_core/userviewcfg.cpp:108
-#, fuzzy
 msgid "Last message time"
-msgstr "Tiempo estimado:"
+msgstr ""
 
 #: plugins/_core/userviewcfg.cpp:109
-#, fuzzy
 msgid "Contact name"
-msgstr "Contactos - escalado"
+msgstr "Nombre del contacto"
 
 #: plugins/_core/cfgdlgbase.cc:124 plugins/_core/cfgdlgbase.cpp:124
 msgid "&Update"
@@ -1554,42 +1547,36 @@ msgid "Speed:"
 msgstr "Velocidad:"
 
 #: plugins/_core/userviewcfgbase.cpp:225
-#, fuzzy
 msgid "Sorting"
-msgstr "Ordenar"
+msgstr "Ordenando"
 
 #: plugins/_core/userviewcfgbase.cpp:226
-#, fuzzy
 msgid "1st:"
-msgstr "Dirección:"
+msgstr "1º:"
 
 #: plugins/_core/userviewcfgbase.cpp:227
-#, fuzzy
 msgid "2nd:"
-msgstr "Buscar:"
+msgstr "2º:"
 
 #: plugins/_core/userviewcfgbase.cpp:228
 msgid "3rd:"
-msgstr ""
+msgstr "3º:"
 
 #: plugins/_core/userviewcfgbase.cpp:235
 msgid "Show group &separator"
 msgstr "Mostrar &separador de grupo"
 
 #: plugins/_core/fontconfigbase.cpp:129
-#, fuzzy
 msgid "Use &system fonts"
 msgstr "&Usar fuentes del sistema"
 
 #: plugins/_core/fontconfigbase.cpp:130
-#, fuzzy
 msgid "Base font:"
-msgstr "Fuente base"
+msgstr "Fuente base:"
 
 #: plugins/_core/fontconfigbase.cpp:131
-#, fuzzy
 msgid "Menu font:"
-msgstr "Fuente del menú"
+msgstr "Fuente del menú:"
 
 #: plugins/about/about.cpp:38 plugins/about/aboutdlgbase.cpp:152
 msgid "About"
@@ -1679,8 +1666,7 @@ msgstr "Establecer estado \"N/A\" despues de"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:125
 #: plugins/sound/soundconfigbase.cpp:166
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Desactivar alertas online en \"Ausente\", \"N/A\", \"No molestar\" y "
 "\"Ocupado\""
@@ -2032,9 +2018,8 @@ msgid "&All"
 msgstr ""
 
 #: plugins/icq/icq.cpp:621
-#, fuzzy
 msgid "&Only invisible"
-msgstr "Posiblemente invisible"
+msgstr "S&olo invisible"
 
 #: plugins/icq/icqdirect.cpp:187
 msgid "Connect to unknown port"
@@ -2070,7 +2055,7 @@ msgstr "Chat general"
 
 #: plugins/icq/icqinfo.cpp:33
 msgid "Romance"
-msgstr ""
+msgstr "Romances"
 
 #: plugins/icq/icqinfo.cpp:34 plugins/icq/interestsinfo.cpp:97
 msgid "Games"
@@ -2078,31 +2063,31 @@ msgstr "Juegos"
 
 #: plugins/icq/icqinfo.cpp:35
 msgid "Students"
-msgstr ""
+msgstr "Estudiantes"
 
 #: plugins/icq/icqinfo.cpp:36
 msgid "20 Something"
-msgstr ""
+msgstr "20 y algo"
 
 #: plugins/icq/icqinfo.cpp:37
 msgid "30 Something"
-msgstr ""
+msgstr "30 y algo"
 
 #: plugins/icq/icqinfo.cpp:38
 msgid "40 Something"
-msgstr ""
+msgstr "40 y algo"
 
 #: plugins/icq/icqinfo.cpp:39
 msgid "50 Plus"
-msgstr ""
+msgstr "Más de 50"
 
 #: plugins/icq/icqinfo.cpp:40
 msgid "Seeking Women"
-msgstr ""
+msgstr "Buscando mujeres"
 
 #: plugins/icq/icqinfo.cpp:41
 msgid "Seeking Men"
-msgstr ""
+msgstr "Buscando hombres"
 
 #: plugins/icq/icqclient.cpp:1373 plugins/icq/icqinfo.cpp:212
 msgid "Possibly invisible"
@@ -2197,13 +2182,13 @@ msgstr ""
 "%n comprobar invisibilidad"
 
 #: plugins/icq/icqmessage.cpp:902
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Warning\n"
 "%n warnings"
 msgstr ""
-"Email\n"
-"%n emails"
+"Alerta\n"
+"%n alertas"
 
 #: plugins/icq/icqmessage.cpp:1012
 #, c-format
@@ -2283,9 +2268,8 @@ msgid "Check invisible"
 msgstr "Comprobar Invisibilidad"
 
 #: plugins/icq/icqmessage.cpp:1454
-#, fuzzy
 msgid "Warning"
-msgstr "Ale&rtas"
+msgstr "Aviso"
 
 #: plugins/icq/icqpicture.cpp:121
 msgid "Picture can not be more than 7 kbytes"
@@ -2318,7 +2302,7 @@ msgstr "Encontrar un amig&o conectado"
 
 #: plugins/icq/icqsearch.cpp:331
 msgid "Request UIN"
-msgstr ""
+msgstr "Solicitar UIN"
 
 #: plugins/icq/icqsearch.cpp:348
 msgid "Search fail"
@@ -2383,7 +2367,7 @@ msgstr ""
 #: plugins/icq/icqservice.cpp:182
 #, c-format
 msgid "You've been warned by %1"
-msgstr ""
+msgstr "Has sido avisado por %1"
 
 #: plugins/icq/icqvarious.cpp:1412
 msgid ""
@@ -3123,9 +3107,8 @@ msgid "Port:"
 msgstr "Puerto:"
 
 #: plugins/icq/icqconfigbase.cc:224
-#, fuzzy
 msgid "Port range for direct connections:"
-msgstr "Conexiones directas"
+msgstr "Rango de puertos para conexiones directas:"
 
 #: plugins/icq/aimconfigbase.cc:154 plugins/icq/icqconfigbase.cc:226
 #: plugins/jabber/jabberconfigbase.cpp:250 plugins/msn/msnconfigbase.cpp:182
@@ -3273,9 +3256,8 @@ msgid "&Invisible list"
 msgstr "Lista &invisible"
 
 #: plugins/icq/warndlgbase.cc:83
-#, fuzzy
 msgid "Send warning"
-msgstr "Fallo al enviar"
+msgstr "Enviar alerta"
 
 #: plugins/icq/warndlgbase.cc:84
 msgid ""
@@ -3285,7 +3267,7 @@ msgstr ""
 
 #: plugins/icq/warndlgbase.cc:85
 msgid "Warn &anonymously"
-msgstr ""
+msgstr "Alertar &anonimamente"
 
 #: plugins/icq/warndlgbase.cc:86
 msgid ""
@@ -3439,9 +3421,8 @@ msgstr "Chat aleatorio"
 
 #: plugins/icq/aimconfigbase.cc:149 plugins/icq/aiminfobase.cc:297
 #: plugins/icq/aimsearchbase.cc:241 plugins/icq/icqsearchbase.cc:345
-#, fuzzy
 msgid "ScreenName:"
-msgstr "Nombre:"
+msgstr ""
 
 #: plugins/icq/aimsearchbase.cc:242 plugins/icq/aimsearchbase.cc:245
 #: plugins/icq/icqsearchbase.cc:346 plugins/jabber/jabberaddbase.cpp:124
@@ -3474,38 +3455,32 @@ msgstr ""
 "Solo funciona con otros clientes SIM y Licq"
 
 #: plugins/icq/aiminfobase.cc:289 plugins/icq/aimsearchbase.cc:251
-#, fuzzy
 msgid "Middle:"
-msgstr "Cliente de correo:"
+msgstr ""
 
 #: plugins/icq/aiminfobase.cc:290 plugins/icq/aimsearchbase.cc:252
-#, fuzzy
 msgid "Maiden:"
-msgstr "Cliente de correo:"
+msgstr ""
 
 #: plugins/icq/aiminfobase.cc:292 plugins/icq/aimsearchbase.cc:254
-#, fuzzy
 msgid "Street:"
-msgstr "Velocidad:"
+msgstr ""
 
 #: plugins/icq/aiminfobase.cc:295 plugins/icq/aimsearchbase.cc:257
-#, fuzzy
 msgid "Zip:"
 msgstr "Codigo Postal:"
 
 #: plugins/icq/aiminfobase.cc:298
-#, fuzzy
 msgid "&Profile"
-msgstr "Perfil:"
+msgstr "&Perfil"
 
 #: plugins/icq/aimsearch.cpp:104
-#, fuzzy
 msgid "AIM search results"
-msgstr "Resultados de la busqueda ICQ"
+msgstr "Resultados de la busqueda AIM"
 
 #: plugins/icq/aimconfigbase.cc:151 plugins/icq/aimsearchbase.cc:243
 msgid "&AIM"
-msgstr ""
+msgstr "&AIM"
 
 #: plugins/icq/aimconfig.cpp:45
 #, fuzzy
@@ -3513,9 +3488,8 @@ msgid "Register new ScreenName"
 msgstr "&Registrar nuevo UIN"
 
 #: plugins/icq/aimsearchbase.cc:248
-#, fuzzy
 msgid "&Email"
-msgstr "Email"
+msgstr "&Email"
 
 #: plugins/icq/aimsearchbase.cc:259
 msgid ""
@@ -3666,9 +3640,8 @@ msgid "Invisible"
 msgstr "Invisible"
 
 #: plugins/icq/icqclient.cpp:1415
-#, fuzzy
 msgid "Warning level"
-msgstr "Ale&rtas"
+msgstr "Nivel de aviso"
 
 #: plugins/icq/icqclient.cpp:1703 plugins/icq/icqclient.cpp:1891
 #: plugins/jabber/jabberclient.cpp:1001 plugins/jabber/jabberclient.cpp:1080
@@ -3732,9 +3705,8 @@ msgid "Plain text"
 msgstr "Texto plano"
 
 #: plugins/icq/encodingdlgbase.cc:83
-#, fuzzy
 msgid "Choose default encoding"
-msgstr "Mo&strar todas las codificaciones"
+msgstr "Elija codificación por defecto"
 
 #: plugins/icq/encodingdlgbase.cc:84
 msgid ""
@@ -3742,10 +3714,13 @@ msgid ""
 "At its use you can have problems with reading offline messages and "
 "installation of your personal information."
 msgstr ""
+"Tiene codificacion UTF-8 por defecto\n"
+"Con su uso puede tener problemas con la lectura de mensajes offline y "
+"la instalación de su información personal."
 
 #: plugins/icq/encodingdlgbase.cc:86
 msgid "You will choose the coding by default which want to use:"
-msgstr ""
+msgstr "Elija la codificación por defecto que desea usar:"
 
 #: plugins/jabber/addresult.cpp:31 plugins/jabber/jabbersearch.cpp:181
 msgid "First name"
@@ -3780,13 +3755,12 @@ msgid "Agents"
 msgstr "Agentes"
 
 #: plugins/jabber/jabberconfig.cpp:51
-#, fuzzy
 msgid "jabber.org"
-msgstr "Jabber"
+msgstr "jabber.org"
 
 #: plugins/jabber/jabberconfig.cpp:62
 msgid "List of public servers"
-msgstr ""
+msgstr "Lista de servidores públicos"
 
 #: plugins/jabber/jabbermessage.cpp:53
 msgid "<p>Subject: %1</p>"
@@ -3901,10 +3875,12 @@ msgid ""
 "Fill in a field to search for any matching Jabber User (POSIX regular "
 "expressions allowed)"
 msgstr ""
+"Rellene los campos para buscar algún usuario Jabber (Expresiones regulares "
+"POSIX permitidas)"
 
 #: plugins/jabber/jabbersearch.cpp:196
 msgid "Fill in a field to search for any matching Jabber users."
-msgstr ""
+msgstr "Rellene el campo para buscar algún usuario Jabber."
 
 #: plugins/jabber/jabbersearch.cpp:197
 msgid ""
@@ -3931,9 +3907,8 @@ msgid "Log O&ff"
 msgstr "Desco&nectar"
 
 #: plugins/jabber/servicesbase.cpp:171
-#, fuzzy
 msgid "&Unregister"
-msgstr "&Registrar"
+msgstr ""
 
 #: plugins/jabber/servicesbase.cpp:172
 msgid "&Registered agents"
@@ -4053,6 +4028,8 @@ msgid ""
 "http://help.microsoft.com/!data/en_us/data/messengerv47_xp.its51/$content$/xp"
 "troublesignin.htm"
 msgstr ""
+"http://help.microsoft.com/!data/en_us/data/messengerv47_xp.its51/$content$/xp"
+"troublesignin.htm"
 
 #: plugins/msn/msn.cpp:149
 msgid "Be right back"
@@ -4119,8 +4096,7 @@ msgid "Navigate"
 msgstr "Navegar"
 
 #: plugins/navigate/navigate.cpp:38
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr "Este plugin establece el navegador y el cliente de correo"
 
 #: plugins/navigate/navigate.cpp:87
@@ -4186,7 +4162,6 @@ msgid "On Top"
 msgstr "Siempre encima"
 
 #: plugins/ontop/ontop.cpp:44
-#, fuzzy
 msgid "Plugin provides main window and containers always on top"
 msgstr ""
 "Este plugin permite a la ventana principal y a los contenedores estar "
@@ -4201,7 +4176,6 @@ msgid "Show &main window in task manager"
 msgstr "&Mostrar ventana principal en la barra de tareas"
 
 #: plugins/ontop/ontopcfgbase.cpp:90
-#, fuzzy
 msgid "&Container always on top"
 msgstr "&Contenedor siempre encima"
 
@@ -4210,10 +4184,8 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:48
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
-msgstr ""
-"Este plugin notifica en pantalla los mensajes y el estado de los contactos"
+msgid "Plugin provides on screen notification about messages and contacts status"
+msgstr "Este plugin notifica en pantalla los mensajes y el estado de los contactos"
 
 #: plugins/osd/osd.cpp:116
 msgid "&OSD"
@@ -4301,7 +4273,7 @@ msgstr "Color de fondo:"
 
 #: plugins/osd/osdifacebase.cpp:196
 msgid "Shown on screen:"
-msgstr ""
+msgstr "Mostrar en pantalla:"
 
 #: plugins/proxy/proxycfg.cpp:36
 msgid "None"
@@ -4320,18 +4292,16 @@ msgid "Default"
 msgstr "Por defecto"
 
 #: plugins/proxy/proxy.cpp:41
-#, fuzzy
 msgid "Can't connect to proxy"
-msgstr "No se puede conectar al servidor proxy"
+msgstr "No se puede conectar con el proxy"
 
 #: plugins/proxy/proxy.cpp:42
 msgid "Bad proxy answer"
-msgstr ""
+msgstr "Respuesta del proxy erronea"
 
 #: plugins/proxy/proxy.cpp:43
-#, fuzzy
 msgid "Proxy authorization failed"
-msgstr "Usar autorización proxy"
+msgstr "Autorización del proxy erronea"
 
 #: plugins/proxy/proxy.cpp:1276
 msgid "Proxy"
@@ -4358,9 +4328,8 @@ msgid "Proxy type:"
 msgstr "Tipo proxy:"
 
 #: plugins/proxy/proxyerrorbase.cpp:78
-#, fuzzy
 msgid "Proxy error"
-msgstr "Direccion proxy:"
+msgstr "Error del proxy"
 
 #: plugins/shortcuts/mousecfg.cpp:39
 msgid "Left click"
@@ -4439,10 +4408,8 @@ msgid "Sound"
 msgstr "Sonido"
 
 #: plugins/sound/sound.cpp:46
-#, fuzzy
 msgid "Plugin provides sounds on any events"
-msgstr ""
-"Este plugin habilita la reproducción de sonidos tras producirse un evento."
+msgstr "Este plugin habilita la reproducción de sonidos tras producirse un evento"
 
 #: plugins/sound/sound.cpp:127
 msgid "&Sound"
@@ -4477,12 +4444,10 @@ msgid "File"
 msgstr "Fichero"
 
 #: plugins/sound/sounduser.cpp:44
-#, fuzzy
 msgid "Online alert"
-msgstr "Alerta online:"
+msgstr "Alerta online"
 
 #: plugins/sound/sounduserbase.cpp:122
-#, fuzzy
 msgid "&Disable all sounds"
 msgstr "&Desactivar todos los sonidos"
 
@@ -4531,37 +4496,36 @@ msgid ""
 "There is already an auto hidden window on this edge.\n"
 "Only one auto hidden window is allowed on each edge."
 msgstr ""
+"Ya hay una ventana ocultada automaticamente en este borde.\n"
+"Solo se permite una ventana oculta automatica en cada borde."
 
 #: plugins/windock/windock.cpp:306
 msgid "AutoHide"
-msgstr "Esconder automaticamente"
+msgstr "Ocultar automaticamente"
 
 #: plugins/update/update.cpp:39
 msgid "Update"
 msgstr "Actualizar"
 
 #: plugins/update/update.cpp:40
-#, fuzzy
 msgid "Plugin provides notifications about update SIM software"
-msgstr ""
-"Este plugin notifica en pantalla los mensajes y el estado de los contactos"
+msgstr "Este plugin avisa de nuevas actualizaciones de SIM"
 
 #: plugins/update/update.cpp:144
-#, fuzzy
 msgid "Show details"
-msgstr "Mis detalles"
+msgstr "Mostrar detalles"
 
 #: plugins/update/update.cpp:145
 msgid "Remind later"
-msgstr ""
+msgstr "Recordar más tarde"
 
 #: plugins/update/update.cpp:147
 msgid "New version SIM is released"
-msgstr ""
+msgstr "Nueva versión de SIM disponible"
 
 #: sim/api/aboutdata.cpp:274
 msgid "replace this with information about your translation team"
-msgstr "Jorge López"
+msgstr "Jorge López Trescastro"
 
 #: sim/api/aboutdata.cpp:290
 msgid "This program is distributed under the terms of the GPL v2."
@@ -5537,24 +5501,24 @@ msgstr ""
 
 #: sim/api/message.cpp:316
 msgid "%1 Mbytes"
-msgstr ""
+msgstr "%1 Mbytes"
 
 #: sim/api/message.cpp:318
 msgid "%1 kbytes"
-msgstr ""
+msgstr "%1 kbytes"
 
 #: sim/api/message.cpp:320
 msgid "%1 bytes"
-msgstr ""
+msgstr "%1 bytes"
 
 #: sim/api/plugins.cpp:630
 #, c-format
 msgid "Bad option %1"
-msgstr ""
+msgstr "Opción erronea %1"
 
 #: sim/api/plugins.cpp:631
 msgid "Usage: %1 "
-msgstr ""
+msgstr "Usar: %1"
 
 #: sim/api/simapi.cpp:94
 msgid ""
@@ -5575,11 +5539,11 @@ msgstr "&No"
 
 #: sim/api/simapi.cpp:603
 msgid "Smile"
-msgstr "Emoticon"
+msgstr "Sonriente"
 
 #: sim/api/simapi.cpp:604
 msgid "Surprised"
-msgstr ""
+msgstr "Sorprendido"
 
 #: sim/api/simapi.cpp:605
 msgid "Indifferent"
@@ -5595,23 +5559,23 @@ msgstr "Triste"
 
 #: sim/api/simapi.cpp:608
 msgid "Kiss"
-msgstr ""
+msgstr "Beso"
 
 #: sim/api/simapi.cpp:609
 msgid "Annoyed"
-msgstr ""
+msgstr "Molesto"
 
 #: sim/api/simapi.cpp:610
 msgid "Crying"
-msgstr ""
+msgstr "Llorando"
 
 #: sim/api/simapi.cpp:611
 msgid "Wink"
-msgstr ""
+msgstr "Guiño"
 
 #: sim/api/simapi.cpp:612
 msgid "Angry"
-msgstr ""
+msgstr "Enfadado"
 
 #: sim/api/simapi.cpp:613
 msgid "Embarrassed"
@@ -5631,19 +5595,19 @@ msgstr "Divertido"
 
 #: sim/api/simapi.cpp:617
 msgid "Angel"
-msgstr "Cielo"
+msgstr "Angel"
 
 #: sim/api/simapi.cpp:618
 msgid "Grin"
-msgstr ""
+msgstr "Risueño"
 
 #: sim/api/socket.cpp:143
 msgid "Read socket error"
-msgstr ""
+msgstr "Error de lectura del socket"
 
 #: sim/api/sockfactory.cpp:186
 msgid "Connect error"
-msgstr "Error de conexión"
+msgstr "Error de conexión del socket"
 
 #: sim/api/sockfactory.cpp:239
 msgid "Can't resolve host"
@@ -5797,7 +5761,7 @@ msgstr "&Tipo del fichero:"
 
 #: sim/ui/qt3/i18n.cpp:55
 msgid "Back"
-msgstr ""
+msgstr "Atras"
 
 #: sim/ui/qt3/i18n.cpp:57
 msgid "One directory up"
@@ -6283,982 +6247,3 @@ msgstr "subrayado"
 msgid "Custom"
 msgstr "Personalizar"
 
-#~ msgid "Search failed"
-#~ msgstr "Busqueda fallida"
-
-#~ msgid "On line alert:"
-#~ msgstr "Alerta online:"
-
-#~ msgid "By &Status"
-#~ msgstr "Por E&stado"
-
-#~ msgid "By &Name"
-#~ msgstr "Por &Nombre"
-
-#~ msgid "&Sort"
-#~ msgstr "&Ordenar"
-
-#, fuzzy
-#~ msgid "Not on list"
-#~ msgstr "No esta en lista"
-
-#~ msgid "New search"
-#~ msgstr "Nueva busqueda"
-
-#, fuzzy
-#~ msgid "Chat Topic/Interests:"
-#~ msgstr "Intereses:"
-
-#, fuzzy
-#~ msgid "&Request chat"
-#~ msgstr "Informacion usuario"
-
-#, fuzzy
-#~ msgid "Send &URL"
-#~ msgstr "&Enviar"
-
-#, fuzzy
-#~ msgid "&Finding"
-#~ msgstr "&Buscar"
-
-#, fuzzy
-#~ msgid "Chat topic/Interests:"
-#~ msgstr "Intereses:"
-
-#, fuzzy
-#~ msgid "&Details"
-#~ msgstr "Venta al por menor"
-
-#~ msgid ""
-#~ "You case use:\n"
-#~ "&Alias; -  receipent name\n"
-#~ "&Uin; - receipent UIN\n"
-#~ "&MyAlias; - own name\n"
-#~ "&MyUin; - own UIN"
-#~ msgstr ""
-#~ "Usa:\n"
-#~ "&Alias; - nombre receptor\n"
-#~ "&Uin; - UIN receptor\n"
-#~ "&MyAlias; - tu nombre\n"
-#~ "&MyUin; - tu UIN"
-
-#, fuzzy
-#~ msgid "&Signature"
-#~ msgstr "&Firma"
-
-#~ msgid "Proxy settings"
-#~ msgstr "Configuración proxy"
-
-#~ msgid "Use proxy"
-#~ msgstr "Usar proxy"
-
-#, fuzzy
-#~ msgid "Proxy host:"
-#~ msgstr "Puerto proxy:"
-
-#, fuzzy
-#~ msgid "User proxy authorization"
-#~ msgstr "Usar autorización proxy"
-
-#~ msgid "Proxy port:"
-#~ msgstr "Puerto proxy:"
-
-#, fuzzy
-#~ msgid "Server"
-#~ msgstr "Servidor"
-
-#, fuzzy
-#~ msgid "&Do not show this window"
-#~ msgstr "No mos&trar esta ventana"
-
-#~ msgid "&Proxy settings"
-#~ msgstr "Configuracion del &Proxy"
-
-#~ msgid "Actions:"
-#~ msgstr "Acciones:"
-
-#~ msgid "&Enable"
-#~ msgstr "&Activo"
-
-#~ msgid "Send messages on \"Enter\""
-#~ msgstr "Enviar mensajes con \"Enter\""
-
-#~ msgid "&Key"
-#~ msgstr "&Teclas"
-
-#~ msgid "ICQ server:"
-#~ msgstr "Servidor ICQ:"
-
-#~ msgid "&Server"
-#~ msgstr "&Servidor"
-
-#~ msgid "Use the following TCP listen ports:"
-#~ msgstr "Escuchar los siguiente puertos TCP:"
-
-#~ msgid "From:"
-#~ msgstr "Desde:"
-
-#~ msgid "To:"
-#~ msgstr "Hasta:"
-
-#, fuzzy
-#~ msgid "P&orts"
-#~ msgstr "Deportes"
-
-#~ msgid "1000000/100000"
-#~ msgstr "1000000/100000"
-
-#~ msgid "100000"
-#~ msgstr "100000"
-
-#, fuzzy
-#~ msgid "Close after send"
-#~ msgstr "Cer&rar despues de enviar"
-
-#, fuzzy
-#~ msgid "Override global settings"
-#~ msgstr "Anular configuración global"
-
-#, fuzzy
-#~ msgid "Automaitcaly open window"
-#~ msgstr "Abrir automaticamente ventanas"
-
-#~ msgid "Run external program"
-#~ msgstr "Ejecutar programa"
-
-#, fuzzy
-#~ msgid "Mode"
-#~ msgstr "Modo"
-
-#~ msgid "Split mode (&Chat style)"
-#~ msgstr "Modo partido (Estilo &Chat)"
-
-#~ msgid "Simple mode (&Plain style)"
-#~ msgstr "Modo simple (&Plano)"
-
-#, fuzzy
-#~ msgid "last messages from history to conversation"
-#~ msgstr "últimos mensajes del historial a la conversación"
-
-#, fuzzy
-#~ msgid "&Each user in new container"
-#~ msgstr "Cada usuario &en un contenedor"
-
-#, fuzzy
-#~ msgid "&New container for group"
-#~ msgstr "Un co&ntenedor para cada grupo"
-
-#, fuzzy
-#~ msgid "&All users in one container"
-#~ msgstr "&Todos los usuarios en un contenedor"
-
-#~ msgid "&User window"
-#~ msgstr "Ventana &Usuario"
-
-#, fuzzy
-#~ msgid "Receivers color"
-#~ msgstr "Color de los mensajes recibidos"
-
-#, fuzzy
-#~ msgid "Senders color"
-#~ msgstr "Color del texto"
-
-#, fuzzy
-#~ msgid "&Colors"
-#~ msgstr "&Colores"
-
-#, fuzzy
-#~ msgid "Edit Email"
-#~ msgstr "Editar Email"
-
-#~ msgid "Don't publish my Email address"
-#~ msgstr "No publicar mi direccion de correo"
-
-#~ msgid "Close after ...."
-#~ msgstr "Cerrar despues...."
-
-#, fuzzy
-#~ msgid "User is online"
-#~ msgstr "El usuario esta conectado"
-
-#, fuzzy
-#~ msgid "Customize message"
-#~ msgstr "Personalizar mensaje"
-
-#~ msgid "Don't show message dialog"
-#~ msgstr "No mostrar el dialogo del mensaje"
-
-#~ msgid "Tab 1"
-#~ msgstr "Tab 1"
-
-#~ msgid "Override global alert"
-#~ msgstr "Anular alertas globales"
-
-#~ msgid "Activate online alert when user returns from Away or NA"
-#~ msgstr "Activar alertas online cuando el usuario vuelva de Ausete o N/A"
-
-#~ msgid "Online alert options"
-#~ msgstr "Opciones de alertas online"
-
-#~ msgid "Blinking alert effect"
-#~ msgstr "Alerta parpadeo"
-
-#~ msgid "Play online alert sound"
-#~ msgstr "Reproducir solo alertas online"
-
-#, fuzzy
-#~ msgid "On Screen notification"
-#~ msgstr "Notificación en pantalla"
-
-#, fuzzy
-#~ msgid "Popup online alert dialog"
-#~ msgstr "Reproducir solo alertas online"
-
-#, fuzzy
-#~ msgid "Open user window when online"
-#~ msgstr "Abrir ventana de usuario"
-
-#~ msgid "Write to history"
-#~ msgstr "Escribir en historial"
-
-#~ msgid "&Alert"
-#~ msgstr "&Alerta"
-
-#~ msgid "Enable notify on screen"
-#~ msgstr "Activar notificación en pantalla"
-
-#~ msgid "On Screen"
-#~ msgstr "En pantalla"
-
-#~ msgid "Publish in global directory"
-#~ msgstr "Publicar en el directorio global"
-
-#, fuzzy
-#~ msgid "Add phone"
-#~ msgstr "Añadir telefono"
-
-#~ msgid "Browser program path:"
-#~ msgstr "Navegador:"
-
-#~ msgid "Email client:"
-#~ msgstr "Cliente de correo:"
-
-#~ msgid "&Miscellaneous"
-#~ msgstr "&Varios"
-
-#, fuzzy
-#~ msgid "A&utomatically add new user to KAddressBook"
-#~ msgstr "Añadir a&utomaticamente nuevos usuarios a KAddressBook"
-
-#~ msgid "&Synchronize now"
-#~ msgstr "&Sincronizar ahora"
-
-#~ msgid "&Addressbook synchronization"
-#~ msgstr "Sincroniz&ación con libreta de direcciones"
-
-#~ msgid "Check &all messages on send"
-#~ msgstr "Comprobar todos los mensajes &al enviar"
-
-#~ msgid "&Spell check"
-#~ msgstr "&Comprobar ortografía"
-
-#~ msgid "&Override sounds"
-#~ msgstr "S&obreescribir sonidos"
-
-#, fuzzy
-#~ msgid "Message:"
-#~ msgstr "Mensaje"
-
-#~ msgid "SMS:"
-#~ msgstr "SMS:"
-
-#~ msgid "Authorization:"
-#~ msgstr "Autorización:"
-
-#, fuzzy
-#~ msgid "Incoming file:"
-#~ msgstr "Directorio para los ficheros entrantes:"
-
-#, fuzzy
-#~ msgid "Chat Request:"
-#~ msgstr "Peticion de chat"
-
-#~ msgid "Startup sound:"
-#~ msgstr "Sonido de arranque:"
-
-#, fuzzy
-#~ msgid "&Sounds"
-#~ msgstr "&Sonido"
-
-#~ msgid "Program for play:"
-#~ msgstr "Reproductor:"
-
-#, fuzzy
-#~ msgid "UseArts"
-#~ msgstr "Usuarios"
-
-#~ msgid "&Programm"
-#~ msgstr "&Programa"
-
-#, fuzzy
-#~ msgid "User is currently available at:"
-#~ msgstr "El usuario está actualmente disponible en:"
-
-#~ msgid "&Phonebook"
-#~ msgstr "A&genda"
-
-#~ msgid "Select style:"
-#~ msgstr "Seleccionar estilo:"
-
-#~ msgid "&Style"
-#~ msgstr "E&stilo"
-
-#~ msgid "Icons:"
-#~ msgstr "Iconos:"
-
-#~ msgid "Add icons"
-#~ msgstr "Añadir iconos"
-
-#~ msgid "&Icons"
-#~ msgstr "&Iconos"
-
-#, fuzzy
-#~ msgid "Use &system colors"
-#~ msgstr "&Usar colores del sistema"
-
-#~ msgid "Online contact color:"
-#~ msgstr "Color contactos conectados:"
-
-#~ msgid "Offline contact color:"
-#~ msgstr "Color contactos desconectados:"
-
-#~ msgid "B&ackground"
-#~ msgstr "F&ondo"
-
-#, fuzzy
-#~ msgid "Transparent main window"
-#~ msgstr "Ventana principal transparente"
-
-#, fuzzy
-#~ msgid "Transparency"
-#~ msgstr "Transparencia"
-
-#~ msgid "Transparent container"
-#~ msgstr "Contenedor transparente"
-
-#~ msgid "&Transparency"
-#~ msgstr "&Transparencia"
-
-#~ msgid "Show user window in task manager"
-#~ msgstr "Mostrar ventana de usuario en la barra de tareas"
-
-#~ msgid "User window stays on &top"
-#~ msgstr "Ventana de usuario permanece en primer &plano"
-
-#~ msgid "&Show splash window"
-#~ msgstr "Mo&strar ventana de arranque"
-
-#, fuzzy
-#~ msgid "Use &dock"
-#~ msgstr "En &bandeja de sistema"
-
-#, fuzzy
-#~ msgid "Use double c&lick"
-#~ msgstr "En &bandeja de sistema"
-
-#~ msgid "Add"
-#~ msgstr "Añadir"
-
-#~ msgid "Edit"
-#~ msgstr "Editar"
-
-#, fuzzy
-#~ msgid "Remove"
-#~ msgstr "Eliminar"
-
-#~ msgid "Set as default"
-#~ msgstr "Establecer por defecto"
-
-#, fuzzy
-#~ msgid "&EMail"
-#~ msgstr "&Email"
-
-#, fuzzy
-#~ msgid "Direct connection"
-#~ msgstr "Conexion directa"
-
-#~ msgid "Reject &messages from unknown users"
-#~ msgstr "Rechazar &mensajes de usuarios desconocidos"
-
-#~ msgid "Reject &URL from unknown users"
-#~ msgstr "Rechazar mensajes &URL de usuarios desconocidos"
-
-#~ msgid "Reject &World Wide pager messages"
-#~ msgstr "Rechazar mensajes desde la &Web"
-
-#~ msgid "Reject &EmailExpress messages"
-#~ msgstr "Rechazar mensajes &EmailExpress"
-
-#~ msgid "Reject &other messages"
-#~ msgstr "Rechazar &otros mensajes"
-
-#~ msgid "&Reject"
-#~ msgstr "&Rechazar"
-
-#~ msgid "Spam &filter"
-#~ msgstr "&Filtro spam"
-
-#~ msgid "S&ave password"
-#~ msgstr "Gu&ardar contraseña"
-
-#~ msgid "&Do not show login dialog at start"
-#~ msgstr "No mos&trar este dialogo al iniciar"
-
-#~ msgid "My notes:"
-#~ msgstr "Mis notas:"
-
-#, fuzzy
-#~ msgid "User is offline"
-#~ msgstr "El usuario esta conectado"
-
-#, fuzzy
-#~ msgid "ICQ AuthRequest"
-#~ msgstr "Petición de chat:"
-
-#, fuzzy
-#~ msgid "Close after %n second"
-#~ msgstr "Cer&rar despues de enviar"
-
-#, fuzzy
-#~ msgid "Authorize request"
-#~ msgstr "Petición de autorización"
-
-#~ msgid "Authorization granted"
-#~ msgstr "Autorización concedida"
-
-#~ msgid "Authorization refused"
-#~ msgstr "Autorización rechazada"
-
-#, fuzzy
-#~ msgid "Removed from contacts"
-#~ msgstr "Añadir un contacto no IM"
-
-#, fuzzy
-#~ msgid "Status changed"
-#~ msgstr "Estado telefonico"
-
-#, fuzzy
-#~ msgid "AutoReplyDialog"
-#~ msgstr "Auto respuesta"
-
-#, fuzzy
-#~ msgid "WWW-panel message"
-#~ msgstr "&Nuevo mensaje"
-
-#, fuzzy
-#~ msgid "Email pager message"
-#~ msgstr "Direccion Email"
-
-#~ msgid "Contact request"
-#~ msgstr "Petición del contacto"
-
-#, fuzzy
-#~ msgid "URL"
-#~ msgstr "URL"
-
-#, fuzzy
-#~ msgid "Found 1 contact"
-#~ msgstr "Añadir un contacto no IM"
-
-#, fuzzy
-#~ msgid ""
-#~ "_n: %n file\n"
-#~ "%n files"
-#~ msgstr ""
-#~ "Archivo\n"
-#~ "%n archivos"
-
-#, fuzzy
-#~ msgid "Foward"
-#~ msgstr "Reen&viar"
-
-#, fuzzy
-#~ msgid "Language"
-#~ msgstr "Idioma:"
-
-#~ msgid "Number"
-#~ msgstr "Número"
-
-#~ msgid "Delete"
-#~ msgstr "Eliminar"
-
-#~ msgid "Add group"
-#~ msgstr "Añadir grupo"
-
-#~ msgid "Add all"
-#~ msgstr "Añadir todos"
-
-#~ msgid "&Packets"
-#~ msgstr "&Paquetes"
-
-#, fuzzy
-#~ msgid "Setting for '%1'"
-#~ msgstr "Informacion usuario"
-
-#~ msgid "&Error"
-#~ msgstr "&Error"
-
-#~ msgid "Enter to chat"
-#~ msgstr "Entrar al chat"
-
-#~ msgid ""
-#~ "Please do not disturb me now.\n"
-#~ "Disturb me later.\n"
-#~ "Only urgent messages, please!\n"
-#~ msgstr ""
-#~ "Por favor, no molestar ahora.\n"
-#~ "Escribeme luego.\n"
-#~ "¡Solo mensajes urgentes, por favor!\n"
-
-#~ msgid ""
-#~ "_n: Chat request\n"
-#~ "%n chat requests"
-#~ msgstr ""
-#~ "Petición de Chat\n"
-#~ "%n peticiones de chat"
-
-#~ msgid ""
-#~ "_n: External unknown message\n"
-#~ "%n unknown messages"
-#~ msgstr ""
-#~ "Mensaje externo desconocido\n"
-#~ "%n mensajes desconocidos"
-
-#, fuzzy
-#~ msgid ""
-#~ "_n: SMS receipt\n"
-#~ "%n SMS receipts"
-#~ msgstr ""
-#~ "SMS\n"
-#~ "%n SMS"
-
-#~ msgid ""
-#~ "_n: Unknown message\n"
-#~ "%n unknown messages"
-#~ msgstr ""
-#~ "Mensaje desconocido\n"
-#~ "%n mensajes desconocidos"
-
-#~ msgid "show/hide main window"
-#~ msgstr "mostrar/esconder ventana principal"
-
-#~ msgid "show/hide search window"
-#~ msgstr "mostrar/esconder ventana de busqueda"
-
-#~ msgid "show/hide dock"
-#~ msgstr "mostrar/esconder bandeja del sistema"
-
-#, fuzzy
-#~ msgid "set notify mode"
-#~ msgstr "establecer modo invisible"
-
-#~ msgid "quit SIM"
-#~ msgstr "salir de SIM"
-
-#~ msgid "close session"
-#~ msgstr "cerrar sesión"
-
-#~ msgid "command help information"
-#~ msgstr "información de la ayuda de comandos"
-
-#~ msgid "? Unknown command %1"
-#~ msgstr "? Comando desconocido %1"
-
-#~ msgid "? Bad arguments number. Try help %1"
-#~ msgstr "? Número de argumentos incorrecto, Pruebe help %1"
-
-#~ msgid "? Unknown status %1"
-#~ msgstr "? Estado desconocido %1"
-
-#~ msgid "Unknown"
-#~ msgstr "Desconocido"
-
-#~ msgid "Spell check"
-#~ msgstr "Comprobar ortografía"
-
-#~ msgid "IM Address"
-#~ msgstr "Dirección IM"
-
-#~ msgid "Find User"
-#~ msgstr "Buscar usuario"
-
-#~ msgid "Current location"
-#~ msgstr "Localización actual"
-
-#~ msgid "Phone Book"
-#~ msgstr "Agenda"
-
-#, fuzzy
-#~ msgid "Open main window"
-#~ msgstr "Ventana principal transparente"
-
-#~ msgid "%1 from %2 received"
-#~ msgstr "%1 de %2 recibido"
-
-#~ msgid "Add %1 to ignore list ?"
-#~ msgstr "¿Añadir %1 a lista ignorado?"
-
-#~ msgid "In visible list"
-#~ msgstr "En lista visible"
-
-#~ msgid "In invisible list"
-#~ msgstr "En lista invisible"
-
-#~ msgid "In ignore list"
-#~ msgstr "En lista ignorado"
-
-#~ msgid ""
-#~ "_: Del\n"
-#~ "Delete"
-#~ msgstr ""
-#~ "Eliminar\n"
-#~ "Eliminar"
-
-#~ msgid "&User info"
-#~ msgstr "Informacion &Usuario"
-
-#~ msgid "Alphabetically sort"
-#~ msgstr "Ordenar alfabeticamente"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: Ctrl+B\n"
-#~ "Alphabetically sort"
-#~ msgstr "Ordenar alfabeticamente"
-
-#~ msgid "Read %1 message"
-#~ msgstr "Leer %1 mensaje"
-
-#~ msgid "Expand all"
-#~ msgstr "Expandir todo"
-
-#~ msgid "Collapse all"
-#~ msgstr "Contraer todo"
-
-#~ msgid "Phone \"Follow Me\""
-#~ msgstr "Teléfono"
-
-#~ msgid "Change UIN"
-#~ msgstr "Cambiar UIN"
-
-#~ msgid "Decline file without reason"
-#~ msgstr "Declinar fichero sin dar una razón"
-
-#~ msgid "Sorry, I'm busy right now, and can not respond to your request"
-#~ msgstr "Lo siento, ahora mismo estoy ocupado y no puedo responderte"
-
-#~ msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
-#~ msgstr "Lo siento, ahora mismo estoy ocupado, pero te respondere mas tarde"
-
-#~ msgid "Enter a decline reason"
-#~ msgstr "Rechazar con motivo"
-
-#~ msgid "&Accept"
-#~ msgstr "&Aceptar"
-
-#~ msgid "&Decline"
-#~ msgstr "&Declinar"
-
-#~ msgid "&Reply"
-#~ msgstr "&Responder"
-
-#~ msgid "Spell &check"
-#~ msgstr "Comprobar ortogra&fía"
-
-#~ msgid "Chat started"
-#~ msgstr "Chat iniciado"
-
-#~ msgid "Next"
-#~ msgstr "Siguiente"
-
-#~ msgid "&New message"
-#~ msgstr "&Nuevo mensaje"
-
-#~ msgid "%1 (ICQ# %2) wrote:<br>\n"
-#~ msgstr "%1 (ICQ# %2) escribió:<br>\n"
-
-#~ msgid "Save to"
-#~ msgstr "Guardar como"
-
-#~ msgid "Decline reason"
-#~ msgstr "Razón de la declinación"
-
-#~ msgid "Please, input decline reason:"
-#~ msgstr "Por favor, escriba la razón de la declinación."
-
-#~ msgid "Contact list sent"
-#~ msgstr "Lista de contactos enviada"
-
-#~ msgid "&Search"
-#~ msgstr "&Busqueda"
-
-#, fuzzy
-#~ msgid "Save history"
-#~ msgstr "Guardar como"
-
-#, fuzzy
-#~ msgid ""
-#~ "File %1 exists\n"
-#~ "Overwrite?"
-#~ msgstr "El archivo %1 existe"
-
-#~ msgid "Directory for files"
-#~ msgstr "Directorio para los ficheros"
-
-#, fuzzy
-#~ msgid "No dock"
-#~ msgstr "En &bandeja de sistema"
-
-#~ msgid "Default style"
-#~ msgstr "Estilo por defecto"
-
-#~ msgid "Move to &group"
-#~ msgstr "Mover al &grupo"
-
-#~ msgid "&History<br>with CTRL open in new window"
-#~ msgstr "&Historial<br>+CTRL abre en ventana nueva"
-
-#~ msgid "Close user &window"
-#~ msgstr "Cerrar &ventana de usuario"
-
-#~ msgid "History loading"
-#~ msgstr "Cargando historial"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: Ctrl+N\n"
-#~ "Create group"
-#~ msgstr "Crear grupo"
-
-#~ msgid "User "
-#~ msgstr "Usuario"
-
-#~ msgid " is online"
-#~ msgstr "esta conectado"
-
-#~ msgid "Close [%1 sec]"
-#~ msgstr "Cerrar [%1 seg]"
-
-#~ msgid "Close in %1 sec"
-#~ msgstr "Cerrar en %1 seg"
-
-#, fuzzy
-#~ msgid ""
-#~ "_n: Receive %2 from %1\n"
-#~ "Receive %n files from %1"
-#~ msgstr ""
-#~ "Recibir archivo de %1\n"
-#~ "Recibir %n archivos de %1"
-
-#, fuzzy
-#~ msgid ""
-#~ "_n: Send %2 to %1\n"
-#~ "Send %n files to %1"
-#~ msgstr ""
-#~ "Enviar archivo a %1\n"
-#~ "Enviar %n archivos a %1"
-
-#~ msgid "[done]"
-#~ msgstr "[hecho]"
-
-#~ msgid "[fail]"
-#~ msgstr "[fracasar]"
-
-#~ msgid "Receive file %1 of %2 files from %3"
-#~ msgstr "Recibir archivo %1 de %2 archivos de %3"
-
-#~ msgid "Send file %1 of %2 files to %3"
-#~ msgstr "Enviar archivo %1 de %2 archivos a %3"
-
-#~ msgid "&Replace"
-#~ msgstr "&Reemplazar"
-
-#~ msgid "&Skip"
-#~ msgstr "&Saltar"
-
-#, fuzzy
-#~ msgid "File %1 exists"
-#~ msgstr "El archivo %1 existe"
-
-#~ msgid "Action"
-#~ msgstr "Acción"
-
-#~ msgid "Double click on dock"
-#~ msgstr "Doble click para mandar a bandeja de sistema"
-
-#~ msgid "<New UIN>"
-#~ msgstr "<Nuevo UIN>"
-
-#~ msgid "Can't initialize main window"
-#~ msgstr "No se puede inicializar la ventana principal"
-
-#~ msgid "Delete history and incoming files for %u?"
-#~ msgstr "Eliminar historial y ficheros recibidos de %u?"
-
-#~ msgid "Addressbook synchronization"
-#~ msgstr "Sincronización con libreta de direcciones"
-
-#~ msgid "Success."
-#~ msgstr "Exito."
-
-#~ msgid "No proxy"
-#~ msgstr "Sin proxy"
-
-#~ msgid "SOCKS4"
-#~ msgstr "SOCKS4"
-
-#~ msgid "SOCKS5"
-#~ msgstr "SOCKS5"
-
-#~ msgid "HTTP"
-#~ msgstr "HTTP"
-
-#~ msgid "HTTPS"
-#~ msgstr "HTTPS"
-
-#~ msgid "No users was found"
-#~ msgstr "No se encontraron usuarios"
-
-#~ msgid "[Failed]"
-#~ msgstr "[Falló]"
-
-#~ msgid "Preferences"
-#~ msgstr "Preferencias"
-
-#~ msgid "Accept"
-#~ msgstr "Aceptar"
-
-#~ msgid "Miscellaneous"
-#~ msgstr "Varios"
-
-#~ msgid "Need restart SIM for change language"
-#~ msgstr "SIM necesita reiniciarse para cambiar el idioma"
-
-#~ msgid "Default icons"
-#~ msgstr "Iconos por defecto"
-
-#~ msgid "%1 autoresponse for %2"
-#~ msgstr "%1 autorespuesta para %2"
-
-#~ msgid "&Check again"
-#~ msgstr "&Comprobar de nuevo"
-
-#, fuzzy
-#~ msgid "URL: "
-#~ msgstr "URL:"
-
-#~ msgid "Bold"
-#~ msgstr "Negrita"
-
-#, fuzzy
-#~ msgid "Contacts request"
-#~ msgstr "Petición del contacto"
-
-#, fuzzy
-#~ msgid "External unknown message"
-#~ msgstr ""
-#~ "Mensaje externo desconocido\n"
-#~ "%n mensajes desconocidos"
-
-#, fuzzy
-#~ msgid "Del"
-#~ msgstr "Eliminar"
-
-#, fuzzy
-#~ msgid "Receive %2 from %1"
-#~ msgstr ""
-#~ "Recibir archivo de %1\n"
-#~ "Recibir %n archivos de %1"
-
-#, fuzzy
-#~ msgid "Send %2 to %1"
-#~ msgstr "Falló el envio"
-
-#, fuzzy
-#~ msgid "Printer settings"
-#~ msgstr "Configuración proxy"
-
-#, fuzzy
-#~ msgid "Print to printer:"
-#~ msgstr "Escribir en historial"
-
-#, fuzzy
-#~ msgid "Printer"
-#~ msgstr "Proveedor:"
-
-#, fuzzy
-#~ msgid "Host"
-#~ msgstr "Dirección:"
-
-#, fuzzy
-#~ msgid "From page:"
-#~ msgstr "Pagina web:"
-
-#, fuzzy
-#~ msgid "To page:"
-#~ msgstr "Pagina web:"
-
-#, fuzzy
-#~ msgid "Number of copies:"
-#~ msgstr "Detalles del número"
-
-#~ msgid "Change password"
-#~ msgstr "Cambiar contraseña"
-
-#~ msgid "Case &sensitivy"
-#~ msgstr "Distinguir minú&sculas/mayúsculas"
-
-#~ msgid "Find &backwards"
-#~ msgstr "Buscar hacia atra&s"
-
-#~ msgid "Autoforward"
-#~ msgstr "Auto reenviar"
-
-#~ msgid "Notify On Screen"
-#~ msgstr "Notificar en pantalla"
-
-#, fuzzy
-#~ msgid "Check all messages on send"
-#~ msgstr "Comprobar todos los mensajes al enviar"
-
-#, fuzzy
-#~ msgid "Lnaguage:"
-#~ msgstr "Idioma:"
-
-#, fuzzy
-#~ msgid "&Miscelanious"
-#~ msgstr "Varios"
-
-#~ msgid "Use WindowMaker applet"
-#~ msgstr "Usar applet WindowMaker"
-
-#~ msgid "User &info<br>with CTRL open in new window"
-#~ msgstr "&Informacion usuario<br>+CTRL abre en ventana nueva"
-
-#~ msgid "Autoreply message for status \"%1\""
-#~ msgstr "Mensaje automático para el estado \"%1\""
-
-#~ msgid "Accept file"
-#~ msgstr "Aceptar fichero"
-
-#~ msgid "Keyboard shortcuts"
-#~ msgstr "Accesos Rápidos"
-
-#~ msgid "User window mode"
-#~ msgstr "Modo ventana de usuario"
-
-#~ msgid "Spell checking"
-#~ msgstr "Corrector ortografico"
-
-#~ msgid "Reject messages"
-#~ msgstr "Rechazar mensajes"
