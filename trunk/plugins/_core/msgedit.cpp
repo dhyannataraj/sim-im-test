@@ -1276,6 +1276,7 @@ void *MsgEdit::processEvent(Event *e)
                         m_msg = (mdef->create)(cfg.c_str());
                         m_msg->setContact(*multiply_it);
                         m_msg->setClient(NULL);
+                        m_msg->setFlags(m_msg->getFlags() | MESSAGE_MULTIPLY);
                         ++multiply_it;
                         if (multiply_it == multiply.end())
                             m_msg->setFlags(m_msg->getFlags() | MESSAGE_LAST);
