@@ -11,6 +11,8 @@ Source: "C:\qt\bin\qt-mt230nc.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\openssl\bin\libeay32.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\openssl\bin\ssleay32.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\qt\bin\libexpat.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "msvcrt.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall
-Source: "msvcp60.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall
+Source: "msvcrt.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall onlyifdoesntexist
+Source: "msvcp60.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall onlyifdoesntexist
+Source: "opengl32.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall onlyifdoesntexist
+Source: "glu32.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall onlyifdoesntexist
 
