@@ -23,6 +23,7 @@
 #include <qpopupmenu.h>
 #include <qfile.h>
 #include <qmessagebox.h>
+#include <qregexp.h>
 #ifdef USE_KDE
 #include <kfiledialog.h>
 #define QFileDialog	KFileDialog
@@ -88,13 +89,16 @@ void MonitorWindow::save()
         QMessageBox::warning(this, i18n("Error"), i18n("Can't create file %1") .arg(s));
         return;
     }
+    QCString t;
     if (edit->hasSelectedText()){
-        QCString t = edit->selectedText().local8Bit();
-        f.writeBlock(t, t.length());
+        t = edit->selectedText().local8Bit();
     }else{
-        QCString t = edit->plainText().local8Bit();
-        f.writeBlock(t, t.length());
+        t = edit->plainText().local8Bit();
     }
+#ifdef WIN32
+    t.replace(QRegExp("\n"),"\r\n");
+#endif
+    f.writeBlock(t, t.length());
 }
 
 void MonitorWindow::exit()
