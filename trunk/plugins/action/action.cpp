@@ -254,7 +254,7 @@ void *ActionPlugin::processEvent(Event *e)
             m_exec.push_back(exec);
             connect(exec, SIGNAL(msg_ready(Exec*,int,const char*)), this, SLOT(ready(Exec*,int,const char*)));
             QString text = msg->presentation();
-            exec->execute(t->tmpl.local8Bit(), text.local8Bit());
+            exec->execute(t->tmpl.local8Bit(), unquoteText(text).local8Bit());
         }else{
             Exec *exec = new Exec;
             m_exec.push_back(exec);
