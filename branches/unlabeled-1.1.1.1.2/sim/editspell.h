@@ -57,6 +57,7 @@ protected:
     TransparentBg *bgTransparent;
     QColor baseBG;
     QColor baseFG;
+    QColor curFG;
 #if USE_SPELL
     int  nSpellDelta;
     KSpell *pSpell;

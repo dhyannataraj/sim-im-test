@@ -1251,7 +1251,7 @@ void MainWindow::moveUser(int grp)
             btns.append(i18n("&No"));
             BalloonMsg *msg = new BalloonMsg(i18n("Add user %1 to ignore list ?") .arg(user.name()),
                                              m_rc, btns, this);
-            connect(msg, SIGNAL(okAction()), this, SLOT(ignoreUser()));
+            connect(msg, SIGNAL(action(int)), this, SLOT(ignoreUser(int)));
             msg->show();
             break;
         }

@@ -38,6 +38,7 @@ EditSpell::EditSpell(QWidget *parent) : QTextEdit(parent)
     setWordWrap(WidgetWidth);
     baseBG = colorGroup().color(QColorGroup::Base);
     baseFG = colorGroup().color(QColorGroup::Text);
+    curFG = baseFG;
     QAccel *a = new QAccel( this );
     a->connectItem(a->insertItem(Key_Enter + CTRL),
                    this, SIGNAL(ctrlEnterPressed()));
@@ -49,16 +50,18 @@ EditSpell::EditSpell(QWidget *parent) : QTextEdit(parent)
 
 bool EditSpell::colorChanged()
 {
-    return (palette().color(QPalette::Active, QColorGroup::Base).rgb() != baseBG.rgb()) ||
-           (palette().color(QPalette::Active, QColorGroup::Text).rgb() != baseFG.rgb());
+    return ((palette().color(QPalette::Active, QColorGroup::Base).rgb() != baseBG.rgb()) ||
+            (curFG.rgb() != baseFG.rgb()));
 }
 
 void EditSpell::resetColors(bool bCanRich)
 {
+    curFG = baseFG;
     if (bCanRich){
         if (pMain->MessageBgColor() != pMain->MessageFgColor()){
             setBackground(pMain->MessageBgColor());
-            setForeground(pMain->MessageBgColor());
+            setForeground(pMain->MessageFgColor());
+            curFG = pMain->MessageFgColor();
         }else{
             setBackground(baseBG);
             setForeground(baseFG);
@@ -85,6 +88,7 @@ void EditSpell::setBackground(const QColor& c)
 void EditSpell::setForeground(const QColor& c)
 {
     setColor(c);
+    curFG = c;
 }
 
 const QColor &EditSpell::background() const
@@ -94,7 +98,7 @@ const QColor &EditSpell::background() const
 
 const QColor &EditSpell::foreground() const
 {
-    return palette().color(QPalette::Active, QColorGroup::Text);
+    return curFG;
 }
 
 #if USE_SPELL
