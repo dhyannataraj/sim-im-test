@@ -210,6 +210,7 @@ static DataDef _icqUserData[] =
         { "PictureWidth", DATA_ULONG, 1, 0 },
         { "PictureHeight", DATA_ULONG, 1, 0 },
         { "PhoneBook", DATA_STRING, 1, 0 },
+		{ "ProfileFetch", DATA_BOOL, 1, 0 },	
         { "", DATA_BOOL, 1, 0 },				// bTyping
         { "", DATA_BOOL, 1, 0 },				// bBadClient
         { "", DATA_OBJECT, 1, 0 },				// Direct
@@ -573,6 +574,7 @@ void ICQClient::disconnected()
     m_advCounter = 0;
     m_nUpdates = 0;
     m_nSendTimeout = 1;
+	m_info_req.clear();
     while (!m_services.empty()){
         ServiceSocket *s = m_services.front();
         delete s;
@@ -2230,6 +2232,13 @@ void *ICQClient::processEvent(Event *e)
             }
         }
         addContactRequest(contact);
+		ICQUserData *data;
+		ClientDataIterator it(contact->clientData, this);
+		while ((data = (ICQUserData*)(++it)) != NULL){
+			if (data->Uin || data->ProfileFetch)
+				continue;
+			fetchProfile(data);
+		}
     }
     if (e->type() == EventContactDeleted){
         Contact *contact =(Contact*)(e->param());

@@ -22,6 +22,9 @@
 #include "socket.h"
 #include "icq.h"
 
+#include <map>
+using namespace std;
+
 const unsigned MESSAGE_DIRECT    = 0x0100;
 
 const unsigned STATUS_INVISIBLE	  = 2;
@@ -209,6 +212,7 @@ typedef struct ICQUserData
     unsigned long    PictureWidth;
     unsigned long    PictureHeight;
     char            *PhoneBook;
+	unsigned long	 ProfileFetch;
     unsigned long    bTyping;
     unsigned long    bBadClient;
     DirectClient    *Direct;
@@ -386,6 +390,8 @@ typedef struct ar_request
     string            screen;
     bool            bDirect;
 } ar_request;
+
+typedef map<unsigned short, string> INFO_REQ_MAP;
 
 class DirectSocket;
 class ServiceSocket;
@@ -627,6 +633,10 @@ protected:
     void packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned short &type, unsigned short nSequence);
     void requestReverseConnection(const char *screen, DirectSocket *socket);
     bool ackMessage(Message *msg, unsigned short ackFlags, const char *str);
+	void fetchProfile(ICQUserData *data);
+	void fetchProfiles();
+	ICQUserData *findInfoRequest(unsigned short seq, Contact *&contact);
+	INFO_REQ_MAP m_info_req;
     QString clearTags(const QString &text);
     string clearTags(const char *text);
     string screen(ICQUserData*);

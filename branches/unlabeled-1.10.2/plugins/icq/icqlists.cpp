@@ -422,6 +422,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                     e.process();
                 }
                 processListRequest();
+				fetchProfiles();
                 break;
             }
             sendMessageRequest();
@@ -436,6 +437,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_SAVE);
                 sendPacket();
             }
+			fetchProfiles();
             break;
         }
     case ICQ_SNACxLISTS_ADDED:{

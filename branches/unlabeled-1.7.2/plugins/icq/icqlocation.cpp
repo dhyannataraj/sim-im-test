@@ -25,17 +25,53 @@ const unsigned short ICQ_SNACxLOC_ERROR             = 0x0001;
 const unsigned short ICQ_SNACxLOC_REQUESTxRIGHTS    = 0x0002;
 const unsigned short ICQ_SNAXxLOC_RIGHTSxGRANTED    = 0x0003;
 const unsigned short ICQ_SNACxLOC_SETxUSERxINFO     = 0x0004;
-const unsigned short ICQ_SNACxLOC_REQUESTxUSERxINFO = 0x0005;   // not implemented
-const unsigned short ICQ_SNACxLOC_LOCATIONxINFO     = 0x0006;   // not implemented, also in userinfo-block snac(0x03/0x0b)
+const unsigned short ICQ_SNACxLOC_REQUESTxUSERxINFO = 0x0005;   
+const unsigned short ICQ_SNACxLOC_LOCATIONxINFO     = 0x0006;   
+const unsigned short ICQ_SNACxLOC_REQUESTxDIRxINFO  = 0x000B;   
+const unsigned short ICQ_SNACxLOC_DIRxINFO          = 0x000C;   
 
-void ICQClient::snac_location(unsigned short type, unsigned short)
+static bool extractInfo(TlvList &tlvs, unsigned id, char **data)
 {
+	const char *info = NULL;
+	Tlv *tlv = tlvs(id);
+	if (tlv)
+		info = *tlv;
+	return set_str(data, info);
+}
+
+void ICQClient::snac_location(unsigned short type, unsigned short seq)
+{
+	Contact *contact;
+	ICQUserData *data;
     switch (type){
     case ICQ_SNAXxLOC_RIGHTSxGRANTED:
         log(L_DEBUG, "Location rights granted");
         break;
     case ICQ_SNACxLOC_ERROR:
         break;
+	case ICQ_SNACxLOC_LOCATIONxINFO:
+		break;
+	case ICQ_SNACxLOC_DIRxINFO:
+		data = findInfoRequest(seq, contact);
+		if (data){
+			bool bChanged = false;
+			m_socket->readBuffer.incReadPos(4);
+			TlvList tlvs(m_socket->readBuffer);
+			bChanged |= extractInfo(tlvs, 0x01, &data->FirstName);
+			bChanged |= extractInfo(tlvs, 0x02, &data->LastName);
+			bChanged |= extractInfo(tlvs, 0x03, &data->MiddleName);
+			bChanged |= extractInfo(tlvs, 0x04, &data->Maiden);
+			bChanged |= extractInfo(tlvs, 0x07, &data->State);
+			bChanged |= extractInfo(tlvs, 0x08, &data->City);
+			bChanged |= extractInfo(tlvs, 0x0C, &data->Nick);
+			bChanged |= extractInfo(tlvs, 0x0D, &data->Zip);
+			bChanged |= extractInfo(tlvs, 0x21, &data->Address);
+			if (bChanged){
+				Event e(EventContactChanged, contact);
+//				e.process();
+			}
+		}
+		break;
     default:
         log(L_WARN, "Unknown location family type %04X", type);
     }
@@ -169,4 +205,44 @@ void ICQClient::sendCapability()
         m_socket->writeBuffer.tlv(0x0006, "\x00\x04\x00\x02\x00\x02", 6);
     sendPacket();
 }
+
+void ICQClient::fetchProfile(ICQUserData *data)
+{
+	snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_REQUESTxUSERxINFO, true);
+	m_socket->writeBuffer << (unsigned short)0x0001;
+	m_socket->writeBuffer.packScreen(screen(data).c_str());
+	sendPacket();
+	snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_REQUESTxDIRxINFO, true);
+	m_socket->writeBuffer.packScreen(screen(data).c_str());
+	sendPacket();
+	m_info_req.insert(INFO_REQ_MAP::value_type(m_nMsgSequence, screen(data)));
+}
+
+void ICQClient::fetchProfiles()
+{
+				Contact *contact;
+				ContactList::ContactIterator itc;
+				while ((contact = ++itc) != NULL){
+					ICQUserData *data;
+					ClientDataIterator itd(contact->clientData, this);
+					while ((data = (ICQUserData*)(++itd)) != NULL){
+						if (data->Uin || data->ProfileFetch)
+							continue;
+						fetchProfile(data);
+					}
+				}
+}
+
+ICQUserData *ICQClient::findInfoRequest(unsigned short seq, Contact *&contact)
+{
+	INFO_REQ_MAP::iterator it = m_info_req.find(seq);
+	if (it == m_info_req.end()){
+		log(L_WARN, "Info req %u not found", seq);
+		return NULL;
+	}
+	string screen = (*it).second;
+	m_info_req.erase(it);
+	return findContact(screen.c_str(), NULL, false, contact);
+}
+
 

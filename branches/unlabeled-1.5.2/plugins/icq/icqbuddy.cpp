@@ -390,3 +390,4 @@ void ICQClient::addBuddy(Contact *contact)
         }
     }
 }
+
