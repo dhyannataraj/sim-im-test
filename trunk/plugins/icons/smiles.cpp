@@ -373,13 +373,13 @@ bool Smiles::load(const QString &file)
     }else{
         fname = "";
     }
-    string s;
+    QString s;
     QRegExp start("^ *Smiley *= *");
     QRegExp num("^ *, *-[0-9]+ *, *");
     QRegExp nn("[0-9]+");
     QRegExp re("[\\[\\]\\|\\(\\)\\{\\}\\.\\?\\*\\+]");
-    while (getLine(f, s)){
-        QString line = QString::fromLocal8Bit(s.c_str());
+    while (f.readLine(s,255) != -1){
+        QString line = QString::fromLocal8Bit(s);
         if (line[0] == ';')
             continue;
         int size;
