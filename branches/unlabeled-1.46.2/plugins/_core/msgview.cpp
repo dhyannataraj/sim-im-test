@@ -663,16 +663,35 @@ void *MsgViewBase::processEvent(Event *e)
             string client;
             if ((messageId(s.left(n), client) != msg->id()) || (client != msg->client()))
                 continue;
+			string ss;
+			ss = text(i).local8Bit();
+			log(L_DEBUG, "?: %s", ss.c_str());
+
             unsigned j;
             for (j = i + 1; j < (unsigned)paragraphs(); j++){
-                QString s = text(j);
-                if (s.find(MSG_ANCHOR) >= 0)
-                    break;
+				QString s = text(j);
+				ss = text(j).local8Bit();
+				log(L_DEBUG, ">: %s", ss.c_str());
+				int n = s.find(MSG_ANCHOR);
+				if (n < 0)
+					continue;
+				s = s.mid(n + strlen(MSG_ANCHOR));
+				n = s.find("\"");
+				if (n < 0)
+				    continue;
+			    string client;
+		        if ((messageId(s.left(n), client) != msg->id()) || (client != msg->client()))
+	                break;
             }
             int paraFrom, indexFrom;
             int paraTo, indexTo;
             getSelection(&paraFrom, &indexFrom, &paraTo, &indexTo);
-            setSelection(i, 0, j - 1, 0xFFFF);
+			unsigned pos = 0xFFFF;
+			if (j == (unsigned)paragraphs()){
+				j++;
+				pos = 0;
+			}
+            setSelection(i, 0, j - 1, pos);
             setReadOnly(false);
             removeSelectedText();
             setReadOnly(true);

@@ -189,8 +189,19 @@ void ClientSocket::pause(unsigned n)
 
 void ClientSocket::setSocket(Socket *s)
 {
-    m_sock = s;
-    s->setNotify(this);
+	if (m_sock){
+		m_sock->setNotify(NULL);
+		list<ClientSocket*>::iterator it;
+		for (it = getSocketFactory()->p->errSockets.begin(); it != getSocketFactory()->p->errSockets.end(); ++it){
+			if ((*it) == this){
+				getSocketFactory()->p->errSockets.erase(it);
+				break;
+			}
+		}
+	}
+	m_sock = s;
+	if (s)
+		s->setNotify(this);
 }
 
 void ClientSocket::setNotify(ClientSocketNotify *notify)

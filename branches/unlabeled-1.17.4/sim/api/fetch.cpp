@@ -43,6 +43,9 @@ protected:
     HEADERS_MAP	m_hOut;
     unsigned	m_code;
     bool		m_bRedirect;
+    unsigned    m_sendTime;
+    unsigned    m_sendSize;
+	unsigned	m_speed;
 #ifdef WIN32
     FetchThread	*m_thread;
     string		m_err;
@@ -58,7 +61,6 @@ protected:
     unsigned	m_received;
     unsigned	m_id;
     bool		m_bDone;
-    bool		crackUrl(const char *url, string &proto, string &host, unsigned short &port, string &user, string &pass, string &uri, string &extra);
     unsigned	m_size;
     void		addHeader(const char *key, const char *value);
     bool		findHeader(const char *key);
@@ -114,6 +116,9 @@ static BOOL (WINAPI *_InternetQueryOption)(HINTERNET hInternet, DWORD dwOption,
         LPVOID lpBuffer, LPDWORD lpdwBufferLength);
 static BOOL (WINAPI *_HttpEndRequest)(HINTERNET hRequest, LPINTERNET_BUFFERS lpBuffersOut,
                                       DWORD dwFlags, DWORD dwContext);
+static BOOL (WINAPI *_InternetSetCookie)(LPCSTR lpszUrl,  LPCSTR lpszCookieName, LPCSTR lpszCookieData);
+static BOOL (WINAPI *_HttpAddRequestHeaders)(HINTERNET hConnect, LPCSTR lpszHeaders,
+		DWORD dwHeadersLength, DWORD dwModifiers);
 
 static HINTERNET hInet = NULL;
 
@@ -169,21 +174,13 @@ void FetchThread::run()
 {
 	log(L_DEBUG, "fetch");
     string headers;
-    DWORD flags = INTERNET_FLAG_KEEP_CONNECTION | INTERNET_FLAG_PRAGMA_NOCACHE | INTERNET_FLAG_NO_UI | INTERNET_FLAG_NO_AUTH;
+    DWORD flags = INTERNET_FLAG_KEEP_CONNECTION | INTERNET_FLAG_PRAGMA_NOCACHE | INTERNET_FLAG_NO_UI | INTERNET_FLAG_NO_AUTH | INTERNET_FLAG_NO_COOKIES;
     if (!m_client->m_bRedirect)
         flags |= INTERNET_FLAG_NO_AUTO_REDIRECT;
     const char *verb = "GET";
     unsigned postSize = m_client->m_client->post_size();
     if (postSize != NO_POSTSIZE)
         verb = "POST";
-    for (HEADERS_MAP::iterator it = m_client->m_hOut.begin(); it != m_client->m_hOut.end(); ++it){
-        if (!headers.empty())
-            headers += "\r\n";
-        string h = (*it).first.c_str();
-        headers += h;
-        headers += ": ";
-        headers += (*it).second.c_str();
-    }
     log(L_DEBUG, "URL: %s", m_client->m_uri.c_str());
     URL_COMPONENTSA url;
     memset(&url, 0, sizeof(url));
@@ -227,6 +224,35 @@ void FetchThread::run()
         error("HttpOpenRequest error");
         return;
     }
+    for (HEADERS_MAP::iterator it = m_client->m_hOut.begin(); it != m_client->m_hOut.end(); ++it){
+		string name = (*it).first.c_str();
+#if 0
+		if (name == "Cookie"){
+			string cookies = (*it).second.c_str();
+			while (!cookies.empty()){
+				string cookie = trim(getToken(cookies, ';').c_str());
+				string name = getToken(cookie, '=');
+				if (!_InternetSetCookie(m_client->m_uri.c_str(), name.c_str(), cookie.c_str())){
+					error("Internet set cookie");
+					return;
+				}
+			}
+			name += ": ";
+			name += (*it).second.c_str();
+			name += "\r\n";
+			if (!_HttpAddRequestHeaders(hReq, name.c_str(), name.length(), HTTP_ADDREQ_FLAG_REPLACE)){
+				error("HttpAddRequestHeaders");
+				return;
+			}
+			continue;
+		}
+#endif
+        if (!headers.empty())
+            headers += "\r\n";
+        headers += name;
+        headers += ": ";
+        headers += (*it).second.c_str();
+    }
     if (postSize != NO_POSTSIZE){
         INTERNET_BUFFERSA BufferIn;
         memset(&BufferIn, 0, sizeof(BufferIn));
@@ -256,6 +282,19 @@ void FetchThread::run()
                 error("InternetWriteFile");
                 return;
             }
+			if (m_client->m_speed){
+				m_client->m_sendSize += tail;
+				time_t now;
+				time(&now);
+				if ((unsigned)now != m_client->m_sendTime){
+					m_client->m_sendTime = now;
+					m_client->m_sendSize = 0;
+				}
+				if (m_client->m_sendSize > (m_client->m_speed << 18)){
+					Sleep(1000);
+					return;
+				}
+			}
             postSize -= tail;
         }
         if (m_bClose)
@@ -413,6 +452,7 @@ FetchManager::FetchManager()
         }else if ((osvi.dwMajorVersion == 5) && (osvi.dwMinorVersion == 0 )){
             *user_agent += "2000";
         }else{
+			*user_agent += "NT ";
             *user_agent += number(osvi.dwMajorVersion);
             *user_agent += ".";
             *user_agent += number(osvi.dwMinorVersion);
@@ -438,9 +478,9 @@ FetchManager::FetchManager()
         break;
     }
 #else
-*user_agent += UNAME;
+    *user_agent += UNAME;
 #endif
-    *user_agent += " )";
+    *user_agent += ")";
 #ifdef WIN32
     HINSTANCE hLib = LoadLibraryA("wininet.dll");
     if (hLib != NULL){
@@ -454,9 +494,11 @@ FetchManager::FetchManager()
         (DWORD&)_HttpSendRequestEx = (DWORD)GetProcAddress(hLib, "HttpSendRequestExA");
         (DWORD&)_HttpQueryInfo = (DWORD)GetProcAddress(hLib, "HttpQueryInfoA");
         (DWORD&)_HttpEndRequest = (DWORD)GetProcAddress(hLib, "HttpEndRequestA");
+        (DWORD&)_HttpAddRequestHeaders = (DWORD)GetProcAddress(hLib, "HttpAddRequestHeadersA");
         (DWORD&)_InternetReadFile = (DWORD)GetProcAddress(hLib, "InternetReadFile");
         (DWORD&)_InternetWriteFile = (DWORD)GetProcAddress(hLib, "InternetWriteFile");
         (DWORD&)_InternetQueryOption = (DWORD)GetProcAddress(hLib, "InternetQueryOptionA");
+        (DWORD&)_InternetSetCookie = (DWORD)GetProcAddress(hLib, "InternetSetCookieA");
     }
     if (_InternetOpen && _HttpSendRequestEx){
         hInet = _InternetOpen(user_agent->c_str(), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
@@ -509,6 +551,11 @@ FetchClient::~FetchClient()
     }
 }
 
+void FetchClient::set_speed(unsigned speed)
+{
+	p->m_speed = speed;
+}
+
 void FetchClient::fetch(const char *url, const char *headers, Buffer *postData, bool bRedirect)
 {
     p->fetch(url, headers, postData, bRedirect);
@@ -544,10 +591,13 @@ void FetchClientPrivate::fetch(const char *url, const char *headers, Buffer *pos
     stop();
     m_bDone = false;
     m_data.init(0);
+	m_data.packetStart();
     m_postData  = postData;
     m_bRedirect = bRedirect;
     m_uri	    = url;
     m_postSize  = 0;
+	m_sendTime	= 0;
+	m_sendSize  = 0;
 #ifdef WIN32
     m_thread	= NULL;
 #endif
@@ -584,7 +634,7 @@ void FetchClientPrivate::fetch(const char *url, const char *headers, Buffer *pos
     string uri;
     string extra;
     unsigned short port;
-    if (!crackUrl(m_uri.c_str(), proto, host, port, user, pass, uri, extra)){
+    if (!FetchClient::crackUrl(m_uri.c_str(), proto, host, port, user, pass, uri, extra)){
         m_socket->error_state("Bad URL");
         return;
     }
@@ -643,7 +693,7 @@ void FetchClientPrivate::stop()
     m_bDone = true;
 }
 
-bool FetchClientPrivate::crackUrl(const char *_url, string &protocol, string &host, unsigned short &port, string &user, string &pass, string &uri, string &extra)
+bool FetchClient::crackUrl(const char *_url, string &protocol, string &host, unsigned short &port, string &user, string &pass, string &uri, string &extra)
 {
     port = 80;
     string url(_url);
@@ -760,7 +810,7 @@ void FetchClientPrivate::connect_ready()
     string uri;
     string extra;
     unsigned short port;
-    crackUrl(m_uri.c_str(), proto, host, port, user, pass, uri, extra);
+	FetchClient::crackUrl(m_uri.c_str(), proto, host, port, user, pass, uri, extra);
     if (!extra.empty()){
         uri += "?";
         uri += extra;
@@ -822,6 +872,19 @@ void FetchClientPrivate::write_ready()
     m_postSize -= tail;
     m_socket->writeBuffer.pack(data, tail);
     m_socket->write();
+	if (m_speed){
+		m_sendSize += tail;
+		time_t now;
+		time(&now);
+		if ((unsigned)now != m_sendTime){
+			m_sendTime = now;
+			m_sendSize = 0;
+		}
+		if (m_sendSize > (m_speed << 18)){
+			Sleep(1000);
+			return;
+		}
+	}
 }
 
 void FetchClientPrivate::packet_ready()
@@ -894,8 +957,8 @@ void FetchClientPrivate::packet_ready()
                 string uri;
                 string extra;
                 unsigned short port;
-                if (!crackUrl(p, proto, host, port, user, pass, uri, extra)){
-                    crackUrl(m_uri.c_str(), proto, host, port, user, pass, uri, extra);
+                if (!FetchClient::crackUrl(p, proto, host, port, user, pass, uri, extra)){
+					FetchClient::crackUrl(m_uri.c_str(), proto, host, port, user, pass, uri, extra);
                     extra = "";
                     if (*p == '/'){
                         uri = p;
@@ -940,7 +1003,7 @@ bool FetchClientPrivate::read_line(string &s)
     return false;
 }
 
-const char *FetchClient::read_data(const char*, unsigned &size)
+const char *FetchClient::read_data(char*, unsigned &size)
 {
     if (p->m_postData == NULL)
         return 0;

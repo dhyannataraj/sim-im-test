@@ -32,12 +32,14 @@ public:
     FetchClient();
     virtual ~FetchClient();
     void fetch(const char *url, const char *headers = NULL, Buffer *postData = NULL, bool bRedirect = true);
-    virtual const char *read_data(const char *buf, unsigned &size);
+    virtual const char *read_data(char *buf, unsigned &size);
     virtual bool     write_data(const char *buf, unsigned size);
     virtual unsigned post_size();
     virtual bool	 done(unsigned code, Buffer &data, const char *headers) = 0;
     bool	isDone();
     void    stop();
+	void	set_speed(unsigned speed);
+    static bool	crackUrl(const char *url, string &proto, string &host, unsigned short &port, string &user, string &pass, string &uri, string &extra);
 private:
     FetchClientPrivate *p;
     friend class FetchClientPrivate;

@@ -280,6 +280,9 @@ Icons::Icons()
 
 Icons::~Icons()
 {
+#if COMPAT_QT_VERSION < 0x030000
+    QMimeSourceFactory::setDefaultFactory(new QMimeSourceFactory());	
+#endif
 }
 
 void *Icons::processEvent(Event *e)

@@ -21,6 +21,7 @@
 #include "simapi.h"
 #include "socket.h"
 #include "stl.h"
+#include "fetch.h"
 
 const unsigned YAHOO_SIGN = 9;
 
@@ -95,6 +96,11 @@ const unsigned short YAHOO_SERVICE_CHATLOGOUT		= 0xA0;
 const unsigned short YAHOO_SERVICE_CHATPING			= 0xA1;
 const unsigned short YAHOO_SERVICE_COMMENT			= 0xA8;
 
+const unsigned LR_CHANGE		= 0;
+const unsigned LR_DELETE		= 1;
+const unsigned LR_CHANGE_GROUP	= 2;
+const unsigned LR_DELETE_GROUP	= 3;
+
 typedef struct YahooUserData
 {
     clientData	base;
@@ -118,18 +124,29 @@ typedef struct YahooClientData
 {
     Data	Server;
     Data	Port;
-    Data	FTServer;
-    Data	FTPort;
-    Data	CookieY;
-    Data	CookieT;
+	Data	MinPort;
+	Data	MaxPort;
     Data	UseHTTP;
     Data	AutoHTTP;
+	Data	ListRequests;
     YahooUserData	owner;
 } YahooClientData;
 
 typedef pair<unsigned, string> PARAM;
 
 class QTextCodec;
+
+typedef struct Message_ID
+{
+	Message		*msg;
+	unsigned	id;
+} Message_ID;
+
+typedef struct ListRequest
+{
+	unsigned	type;
+	string		name;
+} ListRequest;
 
 class YahooClient : public TCPClient
 {
@@ -139,12 +156,11 @@ public:
     ~YahooClient();
     PROP_STR(Server);
     PROP_USHORT(Port);
-    PROP_STR(FTServer);
-    PROP_USHORT(FTPort);
-    PROP_STR(CookieY);
-    PROP_STR(CookieT);
+	PROP_USHORT(MinPort);
+	PROP_USHORT(MaxPort);
     PROP_BOOL(UseHTTP);
     PROP_BOOL(AutoHTTP);
+	PROP_STR(ListRequests);
     virtual string getConfig();
     QString getLogin();
     void setLogin(const QString&);
@@ -157,7 +173,9 @@ public:
     QTextCodec *getCodec(const char *encoding);
     static QTextCodec *_getCodec(const char *encoding);
     static QString toUnicode(const char *serverText, const char *clientName, unsigned contactId);
-    void sendFile(FileMessage *msg, FileMessage::Iterator &it, YahooUserData *data);
+    void sendFile(FileMessage *msg, QFile *file, YahooUserData *data, unsigned short port);
+    list<Message_ID>	m_waitMsg;
+    list<Message*>		m_ackMsg;
 protected slots:
     void ping();
 protected:
@@ -194,7 +212,7 @@ protected:
                        const char *_away, const char *_idle);
     void messageReceived(Message *msg, const char *id);
     void process_message(const char *id, const char *msg, const char *utf);
-    void process_file(const char *id, const char *fileName, const char *fileSize, const char *msg, const char *url);
+    void process_file(const char *id, const char *fileName, const char *fileSize, const char *msg, const char *url, const char *msgid);
     void notify(const char *id, const char *msg, const char *state);
     void sendMessage(const QString &msgText, Message *msg, YahooUserData*);
     void sendTyping(YahooUserData*, bool);
@@ -202,12 +220,14 @@ protected:
     void removeBuddy(YahooUserData*);
     void moveBuddy(YahooUserData *data, const char *grp);
     void sendStatus(unsigned long status, const char *msg = NULL);
-    list<PARAM>			m_values;
-    list<FileMessage*>	m_waitMsg;
+	ListRequest *findRequest(const char *login);
+    list<PARAM>	   m_values;
+	list<ListRequest> m_requests;
     unsigned long  m_session;
     unsigned long  m_pkt_status;
     unsigned short m_data_size;
     unsigned short m_service;
+	unsigned	   m_ft_id;
     string	m_session_id;
     bool m_bHeader;
     bool m_bHTTP;
@@ -219,6 +239,7 @@ typedef struct YahooFileData
 {
     Data	MsgText;
     Data	Url;
+	Data	MsgID;
 } YahooFileData;
 
 class YahooFileMessage : public FileMessage
@@ -228,21 +249,55 @@ public:
     ~YahooFileMessage();
     PROP_STR(MsgText);
     PROP_STR(Url);
+	PROP_ULONG(MsgID);
     virtual	string save();
     virtual QString getText() const;
+    virtual unsigned baseType() { return MessageFile; }
 protected:
     YahooFileData data;
 };
 
-class YahooFileTransfer : public FileTransfer
+class YahooFileTransfer : public FileTransfer, public ClientSocketNotify, public ServerSocketNotify
 {
 public:
     YahooFileTransfer(FileMessage *msg, YahooUserData *data, YahooClient *client);
+	~YahooFileTransfer();
+	void listen();
+    void connect();
+    virtual bool    error_state(const char *err, unsigned code);
 protected:
-    FileMessage::Iterator m_it;
-    YahooClient		*m_client;
+    YahooClient	*m_client;
     YahooUserData	*m_data;
-    virtual void startReceive(unsigned pos);
+    enum State
+    {
+        None,
+        Listen,
+        ListenWait,
+        Header,
+        Send,
+        Wait,
+        Connect,
+        ReadHeader,
+        Receive,
+		Skip
+    };
+    State m_state;
+    virtual void	packet_ready();
+    virtual void	connect_ready();
+    virtual void	write_ready();
+    virtual void	startReceive(unsigned pos);
+    virtual void	bind_ready(unsigned short port);
+    virtual bool	error(const char *err);
+    virtual bool	accept(Socket *s, unsigned long ip);
+    bool get_line(const char *str);
+    void send_line(const char *str);
+    unsigned m_startPos;
+    unsigned m_endPos;
+    unsigned m_answer;
+    string   m_url;
+	string	 m_host;
+	string	 m_method;
+    ClientSocket	*m_socket;
 };
 
 #endif

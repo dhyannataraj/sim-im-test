@@ -45,11 +45,23 @@
 #include "html.h"
 #include "core.h"
 
+#ifdef WIN32
+#include <winsock.h>
+#else
+#include <sys/socket.h>
+#include <sys/time.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <arpa/inet.h>
+#endif
+
 #include <time.h>
 
 #include <qtimer.h>
 #include <qtextcodec.h>
 #include <qregexp.h>
+
+const unsigned MessageYahooFile	= 0x700;
 
 static char YAHOO_PACKET_SIGN[] = "YMSG";
 
@@ -85,12 +97,11 @@ static DataDef yahooClientData[] =
     {
         { "Server", DATA_STRING, 1, "scs.msg.yahoo.com" },
         { "Port", DATA_ULONG, 1, DATA(5050) },
-        { "FTServer", DATA_STRING, 1, "filetransfer.msg.yahoo.com" },
-        { "FYPort", DATA_ULONG, 1, DATA(80) },
-        { "", DATA_STRING, 1, 0 },				// CookieY
-        { "", DATA_STRING, 1, 0 },				// CookieT
+        { "MinPort", DATA_ULONG, 1, DATA(1024) },
+        { "MaxPort", DATA_ULONG, 1, DATA(0xFFFE) },
         { "UseHTTP", DATA_BOOL, 1, 0 },
         { "AutoHTTP", DATA_BOOL, 1, DATA(1) },
+		{ "ListRequests", DATA_STRING, 1, 0 },
         { "", DATA_STRUCT, sizeof(YahooUserData) / sizeof(Data), DATA(yahooUserData) },
         { NULL, 0, 0, 0 }
     };
@@ -106,15 +117,20 @@ YahooClient::YahooClient(Protocol *protocol, const char *cfg)
     load_data(yahooClientData, &data, cfg);
     m_status = STATUS_OFFLINE;
     m_bFirstTry = false;
+	m_ft_id = 0;
+	string requests = getListRequests();
+	while (!requests.empty()){
+		string request = getToken(requests, ';');
+		ListRequest lr;
+		lr.type = atol(getToken(request, ',').c_str());
+		lr.name = request;
+		m_requests.push_back(lr);
+	}
+	setListRequests(NULL);
 }
 
 YahooClient::~YahooClient()
 {
-    for (list<FileMessage*>::iterator it = m_waitMsg.begin(); it != m_waitMsg.end(); ++it){
-        (*it)->setError(i18n("Cancel send"));
-        Event e(EventMessageSent, *it);
-        e.process();
-    }
     TCPClient::setStatus(STATUS_OFFLINE, false);
     free_data(yahooClientData, &data);
 }
@@ -124,6 +140,14 @@ string YahooClient::getConfig()
     string res = TCPClient::getConfig();
     if (res.length())
         res += "\n";
+	string requests;
+	for (list<ListRequest>::iterator it = m_requests.begin(); it != m_requests.end(); ++it){
+		if (!requests.empty())
+			requests += ";";
+		requests += number((*it).type);
+		requests += (*it).name;
+	}
+	setListRequests(requests.c_str());
     res += save_data(yahooClientData, &data);
     return res;
 }
@@ -133,6 +157,7 @@ bool YahooClient::send(Message *msg, void *_data)
     if ((getState() != Connected) || (_data == NULL))
         return false;
     YahooUserData *data = (YahooUserData*)_data;
+	Message_ID msg_id;
     switch (msg->type()){
     case MessageTypingStart:
         sendTyping(data, true);
@@ -153,8 +178,13 @@ bool YahooClient::send(Message *msg, void *_data)
             return true;
         }
     case MessageFile:{
-            m_waitMsg.push_back(static_cast<FileMessage*>(msg));
-            new YahooFileTransfer(static_cast<FileMessage*>(msg), data, this);
+			msg_id.id  = 0;
+			msg_id.msg = msg;
+            m_waitMsg.push_back(msg_id);
+            YahooFileTransfer *ft = static_cast<YahooFileTransfer*>(static_cast<FileMessage*>(msg)->m_transfer);
+            if (ft == NULL)
+                ft = new YahooFileTransfer(static_cast<FileMessage*>(msg), data, this);
+            ft->listen();
             return true;
         }
     }
@@ -231,7 +261,7 @@ void YahooClient::sendPacket(unsigned short service, unsigned long status)
     }
     m_values.clear();
     log_packet(m_socket->writeBuffer, true, YahooPlugin::YahooPacket);
-    m_socket->write();
+	m_socket->write();
 }
 
 void YahooClient::addParam(unsigned key, const char *value)
@@ -327,22 +357,6 @@ void YahooClient::process_packet()
     case YAHOO_SERVICE_LIST:
         authOk();
         loadList(params[87]);
-        for (it = params.begin(); it != params.end(); ++it){
-            if ((*it).first == 59){
-                string s = (*it).second;
-                string n = getToken(s, ' ');
-                const char *p = s.c_str();
-                for (; *p; ++p)
-                    if (*p != ' ')
-                        break;
-                string cookie = p;
-                s = getToken(cookie, ';');
-                if (n == "Y")
-                    setCookieY(s.c_str());
-                if (n == "T")
-                    setCookieT(s.c_str());
-            }
-        }
         break;
     case YAHOO_SERVICE_LOGOFF:
         if (m_pkt_status == (unsigned long)(-1)){
@@ -408,9 +422,28 @@ void YahooClient::process_packet()
             log(L_WARN, "Unhandled p2p type %s", params[49]);
             break;
         }
+		if ((params[28] == NULL) && params[11]){
+			unsigned id =atol(params[11]);
+			for (list<Message_ID>::iterator it = m_waitMsg.begin(); it != m_waitMsg.end(); ++it){
+				if ((*it).id == id){
+					FileMessage *msg = static_cast<FileMessage*>((*it).msg);
+					m_waitMsg.erase(it);
+					if (msg->m_transfer){
+						static_cast<YahooFileTransfer*>(msg->m_transfer)->error_state(I18N_NOOP("Message declined"), 0);
+						break;
+					}
+					msg->setError(I18N_NOOP("Message declined"));
+					Event e(EventMessageSent, msg);
+					e.process();
+					delete msg;
+					break;
+				}
+			}
+			break;
+		}
     case YAHOO_SERVICE_FILETRANSFER:
         if (params[4] && params[27] && params[28] && params[14] && params[20])
-            process_file(params[4], params[27], params[28], params[14], params[20]);
+            process_file(params[4], params[27], params[28], params[14], params[20], params[11]);
         break;
     default:
         log(L_WARN, "Unknown service %X", m_service);
@@ -920,12 +953,15 @@ void YahooClient::setStatus(unsigned status)
     eAR.process();
 }
 
-void YahooClient::process_file(const char *id, const char *fileName, const char *fileSize, const char *msg, const char *url)
+void YahooClient::process_file(const char *id, const char *fileName, const char *fileSize, const char *msg, const char *url, const char *msgid)
 {
     YahooFileMessage *m = new YahooFileMessage;
-    m->addFile(toUnicode(fileName, NULL), atol(fileSize));
+    m->setDescription(toUnicode(fileName, NULL));
+    m->setSize(atol(fileSize));
     m->setUrl(url);
     m->setMsgText(msg);
+	if (id)
+		m->setMsgID(atol(msgid));
     messageReceived(m, id);
 }
 
@@ -950,6 +986,21 @@ void YahooClient::disconnected()
                 e.process();
             }
         }
+    }
+    list<Message*>::iterator itm;
+    for (itm = m_ackMsg.begin(); itm != m_ackMsg.end(); ++itm){
+        Message *msg = *itm;
+        Event e(EventMessageDeleted, msg);
+        e.process();
+        delete msg;
+    }
+    list<Message_ID>::iterator itw;
+    for (itw = m_waitMsg.begin(); itw != m_waitMsg.end(); itw = m_waitMsg.begin()){
+        Message *msg = (*itw).msg;
+        msg->setError(I18N_NOOP("Client go offline"));
+        Event e(EventMessageSent, msg);
+        e.process();
+        delete msg;
     }
 }
 
@@ -1024,13 +1075,44 @@ void YahooClient::loadList(const char *str)
             }
             while (!line.empty()){
                 string id = getToken(line, ',');
+				ListRequest *lr = findRequest(id.c_str());
+				if (lr)
+					continue;
                 Contact *contact;
                 YahooUserData *data = findContact(id.c_str(), grp.c_str(), contact, false);
+				QString grpName;
+				if (contact->getGroup()){
+					Group *grp = getContacts()->group(contact->getGroup());
+					grpName = grp->getName();
+				}
+				if (grpName != toUnicode(grp.c_str(), NULL))
+					moveBuddy(data, toUnicode(grp.c_str(), NULL));
                 data->bChecked.bValue = true;
             }
         }
     }
     it.reset();
+	for (list<ListRequest>::iterator itl = m_requests.begin(); itl != m_requests.end(); ++itl){
+		if ((*itl).type == LR_CHANGE){
+            YahooUserData *data = findContact((*itl).name.c_str(), NULL, contact, false);
+			if (data){
+				data->bChecked.bValue = true;
+				QString grpName;
+				if (contact->getGroup()){
+					Group *grp = getContacts()->group(contact->getGroup());
+					grpName = grp->getName();
+				}
+				if (grpName != toUnicode(data->Group.ptr, NULL))
+					moveBuddy(data, grpName.utf8());
+			}
+		}
+		if ((*itl).type == LR_DELETE){
+			YahooUserData data;
+			set_str(&data.Login.ptr, (*itl).name.c_str());
+			removeBuddy(&data);
+		}
+	}
+	m_requests.clear();
     list<Contact*> forRemove;
     while ((contact = ++it) != NULL){
         YahooUserData *data;
@@ -1128,8 +1210,20 @@ void YahooClient::messageReceived(Message *msg, const char *id)
         msg->setClient(dataName(data).c_str());
         msg->setContact(contact->id());
     }
+	bool bAck = (msg->type() == MessageYahooFile);
+	if (bAck){
+		msg->setFlags(msg->getFlags() | MESSAGE_TEMP);
+        m_ackMsg.push_back(msg);
+	}
     Event e(EventMessageReceived, msg);
-    e.process();
+    if (e.process() && bAck){
+            for (list<Message*>::iterator it = m_ackMsg.begin(); it != m_ackMsg.end(); ++it){
+                if ((*it) == msg){
+                    m_ackMsg.erase(it);
+                    break;
+                }
+            }
+        }
 }
 
 static void addIcon(string *s, const char *icon, const char *statusIcon)
@@ -1674,7 +1768,7 @@ void YahooClient::addBuddy(YahooUserData *data)
 
 void YahooClient::removeBuddy(YahooUserData *data)
 {
-    if ((getState() != Connected) || (data->Group.ptr == NULL))
+    if (data->Group.ptr == NULL)
         return;
     addParam(1, getLogin().utf8());
     addParam(7, data->Login.ptr);
@@ -1685,8 +1779,6 @@ void YahooClient::removeBuddy(YahooUserData *data)
 
 void YahooClient::moveBuddy(YahooUserData *data, const char *grp)
 {
-    if (getState() != Connected)
-        return;
     if (data->Group.ptr == NULL){
         if ((grp == NULL) || (*grp == 0))
             return;
@@ -1727,7 +1819,17 @@ void *YahooClient::processEvent(Event *e)
         ClientDataIterator it(contact->clientData, this);
         YahooUserData *data;
         while ((data = (YahooUserData*)(++it)) != NULL){
-            moveBuddy(data, grpName.c_str());
+			if (getState() == Connected){
+				moveBuddy(data, grpName.c_str());
+			}else{
+				ListRequest *lr = findRequest(data->Login.ptr);
+				if (lr == NULL){
+					ListRequest r;
+					r.type = LR_CHANGE;
+					r.name = data->Login.ptr;
+					m_requests.push_back(r);
+				}
+			}
         }
     }
     if (e->type() == EventContactDeleted){
@@ -1735,12 +1837,106 @@ void *YahooClient::processEvent(Event *e)
         ClientDataIterator it(contact->clientData, this);
         YahooUserData *data;
         while ((data = (YahooUserData*)(++it)) != NULL){
-            removeBuddy(data);
+			if (getState() == Connected){
+	            removeBuddy(data);
+			}else{
+				ListRequest *lr = findRequest(data->Login.ptr);
+				if (lr == NULL){
+					ListRequest r;
+					r.type = LR_DELETE;
+					r.name = data->Login.ptr;
+					m_requests.push_back(r);
+				}
+			}
         }
     }
     if (e->type() == EventTemplateExpanded){
         TemplateExpand *t = (TemplateExpand*)(e->param());
         sendStatus(YAHOO_STATUS_CUSTOM, fromUnicode(t->tmpl, NULL).c_str());
+    }
+    if (e->type() == EventMessageCancel){
+        Message *msg = (Message*)(e->param());
+        for (list<Message_ID>::iterator it = m_waitMsg.begin(); it != m_waitMsg.end(); ++it){
+            if ((*it).msg == msg){
+                m_waitMsg.erase(it);
+                delete msg;
+                return e->param();
+            }
+        }
+        return NULL;
+    }
+    if (e->type() == EventMessageAccept){
+        messageAccept *ma = (messageAccept*)(e->param());
+        for (list<Message*>::iterator it = m_ackMsg.begin(); it != m_ackMsg.end(); ++it){
+            if ((*it)->id() == ma->msg->id()){
+                YahooFileMessage *msg = static_cast<YahooFileMessage*>(*it);
+                m_ackMsg.erase(it);
+                Contact *contact = getContacts()->contact(msg->contact());
+                YahooUserData *data;
+				ClientDataIterator it(contact->clientData, this);
+				while ((data = (YahooUserData*)(++it)) != NULL){
+					if (dataName(data) == msg->client())
+						break;
+				}
+                if (data){
+                    YahooFileTransfer *ft = new YahooFileTransfer(static_cast<FileMessage*>(msg), data, this);
+                    ft->setDir(QFile::encodeName(ma->dir));
+                    ft->setOverwrite(ma->overwrite);
+                    Event e(EventMessageAcked, msg);
+                    e.process();
+                    ft->connect();
+                }
+                Event eDel(EventMessageDeleted, msg);
+                eDel.process();
+                if (data == NULL)
+                    delete msg;
+                return msg;
+            }
+        }
+        return NULL;
+    }
+    if (e->type() == EventMessageDecline){
+        messageDecline *md = (messageDecline*)(e->param());
+        for (list<Message*>::iterator it = m_ackMsg.begin(); it != m_ackMsg.end(); ++it){
+            if ((*it)->id() == md->msg->id()){
+                YahooFileMessage *msg = static_cast<YahooFileMessage*>(*it);
+                m_ackMsg.erase(it);
+				YahooUserData *data = NULL;
+				Contact *contact = getContacts()->contact(msg->contact());
+				if (contact){
+					ClientDataIterator itc(contact->clientData, this);
+					while ((data = (YahooUserData*)(++itc)) != NULL){
+						if (dataName(data) == msg->client())
+							break;
+					}
+				}
+				if (msg->getMsgID() && data){
+					addParam(5, data->Login.ptr);
+					addParam(49, "FILEXFER");
+				    addParam(1, getLogin().utf8());
+					addParam(13, "2");
+					addParam(27, fromUnicode(msg->getDescription(), data).c_str());
+					addParam(53, fromUnicode(msg->getDescription(), data).c_str());
+					addParam(11, number(msg->getMsgID()).c_str());
+					sendPacket(YAHOO_SERVICE_P2PFILEXFER);
+				}
+                string reason = "";
+                if (md->reason)
+                    reason = md->reason;
+                Event e(EventMessageDeleted, msg);
+                e.process();
+                delete msg;
+				if (!reason.empty() && data){
+					Message *m = new Message(MessageGeneric);
+					m->setText(reason.c_str());
+					m->setFlags(MESSAGE_NOHISTORY);
+					if (!send(m, data))
+						delete m;
+				}
+                return msg;
+            }
+        }
+        return NULL;
     }
     return NULL;
 }
@@ -1785,40 +1981,52 @@ void YahooClient::sendStatus(unsigned long _status, const char *msg)
     set_str(&data.owner.AwayMessage.ptr, msg);
 }
 
-void YahooClient::sendFile(FileMessage *msg, FileMessage::Iterator &it, YahooUserData *data)
+void YahooClient::sendFile(FileMessage *msg, QFile *file, YahooUserData *data, unsigned short port)
 {
-    const QString *name = ++it;
-    if (name == NULL)
-        return;
-    QString fn = *name;
+    QString fn = file->name();
 #ifdef WIN32
     fn = fn.replace(QRegExp("\\\\"), "/");
 #endif
     int n = fn.findRev("/");
     if (n > 0)
         fn = fn.mid(n + 1);
+	string url = "http://";
+    struct in_addr addr;
+    addr.s_addr = m_socket->localHost();
+	url += inet_ntoa(addr);
+	url += ":";
+	url += number(port);
+	url += "/";
+	string nn;
+	string ff = fromUnicode(fn, data);
+	for (const char *p = ff.c_str(); *p; p++){
+		if (((*p >= 'a') && (*p <='z')) || ((*p >= 'A') && (*p < 'Z')) || ((*p >= '0') && (*p <= '9')) || (*p == '.')){
+			nn += *p;
+		}else{
+			nn += "_";
+		}
+	}
+	url += nn;
     QString m = msg->getPlainText();
-    addParam(0, getLogin().utf8());
     addParam(5, data->Login.ptr);
-    addParam(14, fromUnicode(m, data).c_str());
+	addParam(49, "FILEXFER");
+	addParam(1, getLogin().utf8());
+	addParam(13, "1");
     addParam(27, fromUnicode(fn, data).c_str());
-    addParam(28, number(it.size()).c_str());
-    sendPacket(YAHOO_SERVICE_FILETRANSFER);
-
-    string url;
-    string cookies;
-    url = "http://";
-    url += getFTServer();
-    url += ":";
-    url += number(getFTPort());
-    url += "/notifyft";
-    cookies = "Y=";
-    cookies += getCookieY();
-    cookies += "; T=";
-    cookies += getCookieT();
+    addParam(28, number(file->size()).c_str());
+	addParam(20, url.c_str());
+    addParam(14, fromUnicode(m, data).c_str());
+	addParam(53, nn.c_str());
+	addParam(11, number(++m_ft_id).c_str());
+	addParam(54, "MSG1.0");
+    sendPacket(YAHOO_SERVICE_P2PFILEXFER, YAHOO_STATUS_AVAILABLE);
+	for (list<Message_ID>::iterator it = m_waitMsg.begin(); it != m_waitMsg.end(); ++it){
+		if ((*it).msg == msg){
+			(*it).id = m_ft_id;
+			break;
+		}
+	}
 }
-
-const unsigned MessageYahooFile	= 0x700;
 
 static Message *createYahooFile(const char *cfg)
 {
@@ -1841,6 +2049,7 @@ static DataDef yahoMessageFile[] =
     {
         { "ServerText", DATA_STRING, 1, 0 },
         { "", DATA_STRING, 1, 0 },				// URL
+		{ "", DATA_ULONG, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -1966,16 +2175,437 @@ QString YahooClient::toUnicode(const char *serverText, const char *clientName, u
     return res.replace(QRegExp("\r"), "");
 }
 
-YahooFileTransfer::YahooFileTransfer(FileMessage *msg, YahooUserData *data, YahooClient *client)
-        : FileTransfer(msg), m_it(*msg)
+ListRequest *YahooClient::findRequest(const char *name)
 {
-    m_client = client;
-    m_data   = data;
-    m_client->sendFile(m_msg, m_it, m_data);
+	for (list<ListRequest>::iterator it = m_requests.begin(); it != m_requests.end(); ++it){
+		if ((*it).name == name)
+			return &(*it);
+	}
+	return NULL;
 }
 
-void YahooFileTransfer::startReceive(unsigned)
+YahooFileTransfer::YahooFileTransfer(FileMessage *msg, YahooUserData *data, YahooClient *client)
+        : FileTransfer(msg)
 {
+    m_data   = data;
+    m_client = client;
+    m_state  = None;
+    m_socket = new ClientSocket(this);
+    m_startPos = 0;
+    m_endPos   = 0xFFFFFFFF;
+}
+
+YahooFileTransfer::~YahooFileTransfer()
+{
+    for (list<Message_ID>::iterator it = m_client->m_waitMsg.begin(); it != m_client->m_waitMsg.end(); ++it){
+        if ((*it).msg == m_msg){
+            m_client->m_waitMsg.erase(it);
+            break;
+        }
+    }
+    if (m_socket)
+        delete m_socket;
+}
+
+void YahooFileTransfer::listen()
+{
+    if ((m_file == NULL) && !openFile()){
+        if (FileTransfer::m_state == FileTransfer::Done)
+            m_socket->error_state("");
+        return;
+    }
+    bind(m_client->getMinPort(), m_client->getMaxPort(), m_client);
+}
+
+void YahooFileTransfer::startReceive(unsigned pos)
+{
+    m_startPos = pos;
+    YahooFileMessage *msg = static_cast<YahooFileMessage*>(m_msg);
+    string proto;
+    string user;
+    string pass;
+    string uri;
+    string extra;
+    unsigned short port;
+    FetchClient::crackUrl(msg->getUrl(), proto, m_host, port, user, pass, uri, extra);
+	m_url = uri;
+	if (!extra.empty()){
+		m_url += "?";
+		m_url += extra;
+	}
+    m_socket->connect(m_host.c_str(), port, m_client);
+    m_state = Connect;
+    FileTransfer::m_state = FileTransfer::Connect;
+    if (m_notify)
+        m_notify->process();
+}
+
+void YahooFileTransfer::bind_ready(unsigned short port)
+{
+    if (m_state == None){
+        m_state = Listen;
+    }else{
+        m_state = ListenWait;
+        FileTransfer::m_state = FileTransfer::Listen;
+        if (m_notify)
+            m_notify->process();
+    }
+	m_client->sendFile(m_msg, m_file, m_data, port);
+}
+
+bool YahooFileTransfer::error(const char *err)
+{
+    error_state(err, 0);
+    return true;
+}
+
+bool YahooFileTransfer::accept(Socket *s, unsigned long)
+{
+    if (m_state == Listen){
+        Event e(EventMessageAcked, m_msg);
+        e.process();
+    }
+	m_state = ListenWait;
+    log(L_DEBUG, "Accept connection");
+    m_startPos = 0;
+    m_endPos   = 0xFFFFFFFF;
+	Socket *old_s = m_socket->socket();
+    m_socket->setSocket(s);
+    m_socket->readBuffer.init(0);
+    m_socket->readBuffer.packetStart();
+    m_socket->setRaw(true);
+    m_answer = 400;
+	if (old_s)
+		delete old_s;
+    return false;
+}
+
+bool YahooFileTransfer::error_state(const char *err, unsigned)
+{
+    if ((m_state == Wait) || (m_state == Skip))
+        return false;
+    if (FileTransfer::m_state != FileTransfer::Done){
+        m_state = None;
+        FileTransfer::m_state = FileTransfer::Error;
+        m_msg->setError(err);
+		if (m_notify)
+			m_notify->process();
+    }
+    m_msg->m_transfer = NULL;
+    m_msg->setFlags(m_msg->getFlags() & ~MESSAGE_TEMP);
+    Event e(EventMessageSent, m_msg);
+    e.process();
+    return true;
+}
+
+void YahooFileTransfer::packet_ready()
+{
+    if (m_socket->readBuffer.writePos() == 0)
+        return;
+	if (m_state == Skip)
+		return;
+    if (m_state != Receive){
+        log_packet(m_socket->readBuffer, false, YahooPlugin::YahooPacket);
+        for (;;){
+            string s;
+            if (!m_socket->readBuffer.scan("\n", s))
+                break;
+            if (!s.empty() && (s[s.length() - 1] == '\r'))
+                s = s.substr(0, s.length() - 1);
+            if (!get_line(s.c_str()))
+                break;
+        }
+    }
+    if (m_state == Receive){
+        if (m_file == NULL){
+            m_socket->error_state("", 0);
+            return;
+        }
+        unsigned size = m_socket->readBuffer.size() - m_socket->readBuffer.readPos();
+        if (size > m_endPos - m_startPos)
+            size = m_endPos - m_startPos;
+        if (size){
+            m_file->writeBlock(m_socket->readBuffer.data(m_socket->readBuffer.readPos()), size);
+            m_bytes += size;
+            m_totalBytes += size;
+            m_startPos += size;
+            if (m_startPos == m_endPos){
+                FileTransfer::m_state = FileTransfer::Done;
+                if (m_notify){
+                    m_notify->transfer(false);
+                    m_notify->process();
+                }
+                m_socket->error_state("");
+            }
+            if (m_notify)
+                m_notify->process();
+        }
+    }
+    if (m_socket->readBuffer.readPos() == m_socket->readBuffer.writePos())
+        m_socket->readBuffer.init(0);
+}
+
+void YahooFileTransfer::connect_ready()
+{
+    string line;
+    line = "GET /";
+    line += m_url;
+    line += " HTTP/1.1\r\n"
+            "Host :";
+    line += m_host;
+    line += "\r\n";
+    if (m_startPos){
+        line += "Range: ";
+        line += number(m_startPos);
+        line += "-\r\n";
+    }
+    m_startPos = 0;
+    m_endPos   = 0xFFFFFFFF;
+    send_line(line.c_str());
+    FileTransfer::m_state = FileTransfer::Negotiation;
+    m_socket->readBuffer.init(0);
+    m_socket->readBuffer.packetStart();
+    m_socket->setRaw(true);
+}
+
+void YahooFileTransfer::write_ready()
+{
+    if (m_state != Send){
+        ClientSocketNotify::write_ready();
+        return;
+    }
+    if (m_transfer){
+        m_transferBytes += m_transfer;
+        m_transfer = 0;
+        if (m_notify)
+            m_notify->process();
+    }
+    if (m_startPos >= m_endPos){
+        if (m_notify)
+            m_notify->transfer(false);
+        m_bytes += m_file->size() - m_endPos;
+        m_totalBytes += m_file->size() - m_endPos;
+        if (!openFile()){
+            m_state = None;
+            if (FileTransfer::m_state == FileTransfer::Done)
+                m_socket->error_state("");
+        }else{
+            m_state = Wait;
+            FileTransfer::m_state = FileTransfer::Wait;
+            if (!((Client*)m_client)->send(m_msg, m_data))
+                error_state(I18N_NOOP("File transfer failed"), 0);
+        }
+        if (m_notify)
+            m_notify->process();
+        m_socket->close();
+        return;
+    }
+    time_t now;
+    time(&now);
+    if ((unsigned)now != m_sendTime){
+        m_sendTime = now;
+        m_sendSize = 0;
+    }
+    if (m_sendSize > (m_speed << 18)){
+        m_socket->pause(1);
+        return;
+    }
+    char buf[2048];
+    unsigned tail = sizeof(buf);
+    if (tail > m_endPos - m_startPos)
+        tail = m_endPos - m_startPos;
+    int readn = m_file->readBlock(buf, tail);
+    if (readn <= 0){
+        m_socket->error_state("Read file error");
+        return;
+    }
+    m_startPos   += readn;
+    m_transfer    = readn;
+    m_bytes      += readn;
+    m_totalBytes += readn;
+    m_sendSize   += readn;
+    m_socket->writeBuffer.pack(buf, readn);
+    m_socket->write();
+}
+
+bool YahooFileTransfer::get_line(const char *str)
+{
+    string line = str;
+    if (line.empty()){
+        if (m_state == Connect){
+            m_socket->error_state(I18N_NOOP("File transfer failed"));
+            return true;
+        }
+        if (m_state == ReadHeader){
+            if (m_endPos < m_startPos)
+                m_endPos = m_startPos;
+            if (m_file)
+                m_file->at(m_startPos);
+            m_state = Receive;
+            FileTransfer::m_state = FileTransfer::Read;
+            m_bytes += m_startPos;
+            m_totalBytes += m_startPos;
+            m_fileSize = m_endPos;
+            m_totalSize = m_endPos;
+            if (m_notify){
+                m_notify->process();
+                m_notify->transfer(true);
+            }
+            return true;
+        }
+        if (m_file->size() < m_endPos)
+            m_endPos = m_file->size();
+        if (m_startPos > m_endPos)
+            m_startPos = m_endPos;
+        if ((m_answer == 200) && (m_startPos == m_endPos))
+            m_answer = 204;
+        if ((m_answer == 200) && ((m_startPos != 0) || (m_endPos < m_file->size())))
+            m_answer = 206;
+        string s;
+        s = "HTTP/1.0 ";
+        s += number(m_answer);
+        switch (m_answer){
+        case 200:
+            s += " OK";
+            break;
+        case 204:
+            s += " No content";
+            break;
+        case 206:
+            s += " Partial content";
+            break;
+        case 400:
+            s += " Bad request";
+            break;
+        case 404:
+            s += " Not found";
+            break;
+        default:
+            s += " Error";
+        }
+        send_line(s.c_str());
+        if ((m_answer == 200) || (m_answer == 206)){
+            send_line("Content-Type: application/data");
+            s = "Content-Length: ";
+            s += number(m_endPos - m_startPos);
+            send_line(s.c_str());
+        }
+        if (m_answer == 206){
+            s = "Range: ";
+            s += number(m_startPos);
+            s += "-";
+            s += number(m_endPos);
+            send_line(s.c_str());
+        }
+        send_line("");
+		if (m_method == "HEAD"){
+			m_state = Skip;
+			return false;
+		}
+        if (m_answer < 300){
+            m_file->at(m_startPos);
+            FileTransfer::m_state = FileTransfer::Write;
+            m_state = Send;
+            m_bytes = m_startPos;
+            m_totalBytes += m_startPos;
+            if (m_notify){
+                m_notify->process();
+                m_notify->transfer(true);
+            }
+            write_ready();
+        }else{
+            m_socket->error_state("Bad request");
+        }
+        return false;
+    }
+    if (m_state == ListenWait){
+        string t = getToken(line, ' ');
+        if ((t == "GET") || (t == "HEAD")){
+			m_method = t;
+            m_answer = 200;
+        }
+        m_state = Header;
+        return true;
+    }
+    if (m_state == Connect){
+        string t = getToken(line, ' ');
+        t = getToken(t, '/');
+        if (t != "HTTP"){
+            m_socket->error_state(I18N_NOOP("File transfer fail"));
+            return true;
+        }
+        unsigned code = atol(getToken(line, ' ').c_str());
+        switch (code){
+        case 200:
+        case 206:
+            m_startPos = 0;
+            m_endPos   = 0xFFFFFFFF;
+            break;
+        case 204:
+            m_startPos = 0;
+            m_endPos   = 0;
+            break;
+        }
+        m_state = ReadHeader;
+        return true;
+    }
+    if (m_state == ReadHeader){
+        string t = getToken(line, ':');
+        if ((t == "Content-Length") || (t == "Content-length")){
+            const char *p;
+            for (p = line.c_str(); *p; p++)
+                if ((*p > '0') && (*p < '9'))
+                    break;
+            m_endPos = m_startPos + strtoul(p, NULL, 10);
+        }
+        if (t == "Range"){
+            const char *p;
+            for (p = line.c_str(); *p; p++)
+                if ((*p > '0') && (*p < '9'))
+                    break;
+            m_startPos = strtoul(p, NULL, 10);
+            for (; *p; p++)
+                if (*p == '-'){
+                    ++p;
+                    break;
+                }
+            if ((*p > '0') && (*p < '9'))
+                m_endPos = m_startPos + strtoul(p, NULL, 10);
+        }
+        return true;
+    }
+    string t = getToken(line, ':');
+    if (t == "Range"){
+        const char *p = line.c_str();
+        for (; *p; p++)
+            if (*p != ' ')
+                break;
+        m_startPos = strtoul(p, NULL, 10);
+        for (; *p; p++)
+            if (*p == '-'){
+                p++;
+                break;
+            }
+        if ((*p >= '0') && (*p <= '9'))
+            m_endPos = strtoul(p, NULL, 10);
+    }
+    return true;
+}
+
+void YahooFileTransfer::send_line(const char *line)
+{
+    m_socket->writeBuffer.packetStart();
+    m_socket->writeBuffer << line;
+    m_socket->writeBuffer << "\r\n";
+    log_packet(m_socket->writeBuffer, true, YahooPlugin::YahooPacket);
+    m_socket->write();
+}
+
+void YahooFileTransfer::connect()
+{
+    m_nFiles = 1;
+    if (m_notify)
+        m_notify->createFile(m_msg->getDescription(), 0xFFFFFFFF, false);
 }
 
 #ifndef WIN32
