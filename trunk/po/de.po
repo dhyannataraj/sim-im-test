@@ -9,12 +9,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2004-08-05 15:33+0200\n"
-"PO-Revision-Date: 2004-07-24 23:08+0100\n"
-"Last-Translator: Tobias Franz <noragen@gmx.net>\n"
-"Language-Team: Deutsch\n"
+"PO-Revision-Date: 2004-08-06 15:45+0200\n"
+"Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
+"Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.9\n"
 
 #: plugins/__homedir/homedir.cpp:48
 msgid "Home directory"
@@ -6223,25 +6224,22 @@ msgid "km/h"
 msgstr "km/h"
 
 #: plugins/weather/weather.cpp:423
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Low"
-msgstr "Schnee"
+msgstr "Niedrig"
 
 #: plugins/weather/weather.cpp:424
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Moderate"
-msgstr "Spät"
+msgstr "Mittel"
 
 #: plugins/weather/weather.cpp:425
-#, fuzzy
 msgid ""
 "_: weather\n"
 "High"
-msgstr "Nebel"
+msgstr "Hoch"
 
 #: plugins/weather/weather.cpp:437
 msgid "and"
@@ -6272,7 +6270,6 @@ msgid "%t | %c"
 msgstr "%t | %c"
 
 #: plugins/weather/weather.cpp:562
-#, fuzzy
 msgid ""
 "%l<br><br>\n"
 "<img src=\"icon:weather%i\"> %c<br>\n"
@@ -6298,6 +6295,7 @@ msgstr ""
 "Taupunkt: <b>%d</b><br>\n"
 "Sonnenaufgang: %r<br>\n"
 "Sonnenuntergang: %s<br>\n"
+"UV-Intensität ist <b>%ut</b> mit Wert <b>%ui</b> (von 11)<br>\n"
 "<br>\n"
 "Aktualisiert: %u<br>\n"
 
@@ -6506,12 +6504,10 @@ msgid "&Yahoo!"
 msgstr "&Yahoo!"
 
 #: plugins/yahoo/yahooinfobase.cpp:155
-#, fuzzy
 msgid "First name:"
 msgstr "Vorname:"
 
 #: plugins/yahoo/yahooinfobase.cpp:156
-#, fuzzy
 msgid "Last name:"
 msgstr "Nachname:"
 
@@ -8266,7 +8262,6 @@ msgid "Usage: %1 "
 msgstr "Benutzung: %1 "
 
 #: sim/sim.cpp:200
-#, fuzzy
 msgid "Multiprotocol Instant Messenger"
 msgstr "Multiprotokoll Instant Messenger"
 
@@ -8403,3 +8398,4 @@ msgstr "Benutzerdefiniert"
 #: xpstyle/xpstyle.cpp:63
 msgid "Windows XP style"
 msgstr "Windows XP-Stil"
+
