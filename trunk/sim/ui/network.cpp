@@ -59,6 +59,7 @@ NetworkSetup::NetworkSetup(QWidget *p)
 
     edtProxyUser->setText(QString::fromLocal8Bit(factory->ProxyUser.c_str()));
     edtProxyPasswd->setText(QString::fromLocal8Bit(factory->ProxyPasswd.c_str()));
+    edtProxyPasswd->setEchoMode(QLineEdit::Password);
 
     chkProxyAuth->setChecked(factory->ProxyAuth);
 
