@@ -25,6 +25,7 @@
 #include <qcombobox.h>
 #include <qspinbox.h>
 #include <qtabwidget.h>
+#include <qlabel.h>
 
 OSDConfig::OSDConfig(QWidget *parent, void *d, OSDPlugin *plugin)
         : OSDConfigBase(parent)
@@ -42,6 +43,14 @@ OSDConfig::OSDConfig(QWidget *parent, void *d, OSDPlugin *plugin)
         tab->addTab(m_iface, i18n("&Interface"));
         break;
     }
+	unsigned nScreens = screens();
+	if (nScreens <= 1){
+		lblScreen->hide();
+		cmbScreen->hide();
+	}else{
+		for (unsigned i = 0; i < nScreens; i++)
+			cmbScreen->insertItem(QString::number(i));
+	}
 }
 
 void OSDConfig::apply()

@@ -44,6 +44,10 @@
 #include <qlineedit.h>
 #include <qregexp.h>
 
+#if QT_VERSION >= 300
+#include <qdesktopwidget.h>
+#endif
+
 #ifdef USE_KDE
 #include <kwin.h>
 #include <kglobal.h>
@@ -51,6 +55,7 @@
 
 #include <list>
 #include <map>
+#include <vector>
 using namespace std;
 
 // _____________________________________________________________________________________
@@ -598,6 +603,78 @@ EXPORT const char **smiles()
 }
 
 };
+
+#ifdef WIN32
+
+DECLARE_HANDLE(HMONITOR);
+typedef BOOL (CALLBACK* MONITORENUMPROC)(HMONITOR, HDC, LPRECT, LPARAM);
+
+static BOOL CALLBACK enumScreens(HMONITOR, HDC, LPRECT &rc, LPARAM data)
+{
+	vector<QRect> *p = (vector<QRect>*)data;
+	p->push_back(QRect(rc->left, rc->top, rc->right - rc->left, rc->bottom - rc->top));
+	return TRUE;
+}
+static BOOL CALLBACK enumScreens(HMONITOR, HDC, LPRECT, LPARAM data)
+{
+	unsigned *p = (unsigned*)data;
+	(*p)++;
+	return TRUE;
+}
+
+#endif
+
+EXPORT unsigned screens()
+{
+#if QT_VER >= 300
+	QDesktopWidget *desktop = QApplication::desktop();
+	return desktop->numScreens();
+#else 
+#ifdef WIN32
+	HINSTANCE hLib = LoadLibraryA("user32.dll");
+	BOOL (WINAPI *_EnumDisplayMonitors)(HDC, LPCRECT, MONITORENUMPROC, LPARAM) = NULL;
+	(DWORD&)_EnumDisplayMonitors = (DWORD)GetProcAddress(hLib, "EnumDisplayMonitors");
+	if (_EnumDisplayMonitors == NULL){
+		FreeLibrary(hLib);
+		return 1;
+	}
+	vector<QRect> rc;
+	if (_EnumDisplayMonitors(NULL, NULL, enumScreens, (LPARAM)&rc) == 0){
+		FreeLibrary(hLib);
+		return 1;
+	}
+	return rc.size();
+#else
+	return 1;
+#endif
+#endif
+}
+
+EXPORT QRect screenGeometry(unsigned nScreen)
+{
+#if QT_VER >= 300
+	QDesktopWidget *desktop = QApplication::desktop();
+	return desktop->screenGeometry(nScreen);
+#else 
+#ifdef WIN32
+	HINSTANCE hLib = LoadLibraryA("user32.dll");
+	BOOL (WINAPI *_EnumDisplayMonitors)(HDC, LPCRECT, MONITORENUMPROC, LPARAM) = NULL;
+	(DWORD&)_EnumDisplayMonitors = (DWORD)GetProcAddress(hLib, "EnumDisplayMonitors");
+	if (_EnumDisplayMonitors == NULL){
+		FreeLibrary(hLib);
+		return QApplication::desktop()->rect();
+	}
+	vector<QRect> rc;
+	if (_EnumDisplayMonitors(NULL, NULL, enumScreens, (LPARAM)&rc) == 0){
+		FreeLibrary(hLib);
+		return QApplication::desktop()->rect();
+	}
+	return rc[nScreen];
+#else
+	return QApplication::desktop()->rect();
+#endif
+#endif
+}
 
 #ifndef HAVE_STRCASECMP
 
