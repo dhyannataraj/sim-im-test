@@ -498,18 +498,13 @@ void CToolBar::toolBarChanged(const ToolBarDef *def)
             btn->setTextLabel(i18n(def->text));
             if (def->flags & BTN_TOGGLE)
                 btn->setToggleButton(true);
-            if (def->flags & BTN_TOGGLE_PICT){
-                string s;
-                s = def->icon;
-                s += (def->flags & BTN_PICT_INVERT) ? "_on" : "_off";
-                QIconSet offIcon = Icon(s.c_str());
-                s = def->icon;
-                s += (def->flags & BTN_PICT_INVERT) ? "_off" : "_on";
+            if (def->icon_on){
+                QIconSet offIcon = Icon(def->icon);
 #if QT_VERSION < 300
                 btn->setIconSet(offIcon);
-                btn->setOnIconSet(Icon(s.c_str()));
+                btn->setOnIconSet(Icon(def->icon_on));
 #else
-                offIcon.setPixmap(Pict(s.c_str()), QIconSet::Small, QIconSet::Normal, QIconSet::On);
+                offIcon.setPixmap(Pict(def->icon_on), QIconSet::Small, QIconSet::Normal, QIconSet::On);
                 btn->setIconSet(offIcon);
 #endif
             }else{

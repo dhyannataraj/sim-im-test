@@ -821,12 +821,12 @@ const int btnNext	= 5;
 
 ToolBarDef historyToolBar[] =
     {
-        { cmbSearch, "find", I18N_NOOP("Search"), BTN_COMBO, SLOT(searchTextChanged(const QString&)), NULL },
-        { btnSearch, "find", I18N_NOOP("&Search"), 0, SLOT(slotSearch()), NULL },
-        { btnFilter, "filter", I18N_NOOP("&Filter"), BTN_TOGGLE, SLOT(slotFilter(bool)), NULL },
+        { cmbSearch, "find", NULL, I18N_NOOP("Search"), BTN_COMBO, SLOT(searchTextChanged(const QString&)), NULL },
+        { btnSearch, "find", NULL, I18N_NOOP("&Search"), 0, SLOT(slotSearch()), NULL },
+        { btnFilter, "filter", NULL, I18N_NOOP("&Filter"), BTN_TOGGLE, SLOT(slotFilter(bool)), NULL },
         SEPARATOR,
-        { btnPrev, "1leftarrow", I18N_NOOP("&Previous page"), 0, SLOT(prevPage()), NULL },
-        { btnNext, "1rightarrow", I18N_NOOP("&Next page"), 0, SLOT(nextPage()), NULL },
+        { btnPrev, "1leftarrow", NULL, I18N_NOOP("&Previous page"), 0, SLOT(prevPage()), NULL },
+        { btnNext, "1rightarrow", NULL, I18N_NOOP("&Next page"), 0, SLOT(nextPage()), NULL },
         END_DEF,
         END_DEF
     };

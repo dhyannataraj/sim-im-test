@@ -120,25 +120,24 @@ const unsigned long BTN_SEPARATOR	= 0xFFFE;
 const unsigned long BTN_END_DEF		= 0xFFFF;
 
 const int BTN_TOGGLE		= 0x0001;
-const int BTN_TOGGLE_PICT	= 0x0002;
-const int BTN_PICT		= 0x0004;
-const int BTN_HIDE		= 0x0008;
-const int BTN_COMBO		= 0x0010;
-const int BTN_CTRL		= 0x0020;
-const int BTN_PICT_INVERT	= 0x0040;
+const int BTN_PICT			= 0x0002;
+const int BTN_HIDE			= 0x0004;
+const int BTN_COMBO			= 0x0008;
+const int BTN_CTRL			= 0x0010;
 
 typedef struct ToolBarDef
 {
     unsigned long id;
     const char *icon;
+    const char *icon_on;
     const char *text;
     int	flags;
     const char *slot;
     const char *popup_slot;
 } ToolBarDef;
 
-#define SEPARATOR	{ BTN_SEPARATOR, NULL, NULL, 0, NULL, NULL }
-#define END_DEF		{ BTN_END_DEF, NULL, NULL, 0, NULL, NULL }
+#define SEPARATOR	{ BTN_SEPARATOR, NULL, NULL, NULL, 0, NULL, NULL }
+#define END_DEF		{ BTN_END_DEF, NULL, NULL, NULL, 0, NULL, NULL }
 
 class CToolBar : public QToolBar
 {

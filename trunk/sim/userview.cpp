@@ -111,16 +111,27 @@ void UserViewItemBase::paint(QPainter *p, const QString s, const QColorGroup &c,
     }else{
         p->fillRect( 0, 0, width, height(), cg.base());
     }
-    listView()->setStaticBackground(pix &&
-                                    (listView()->contentsHeight() >= listView()->viewport()->height()));
+    listView()->setStaticBackground(userView->bStaticBg ||
+                                    (pix && (listView()->contentsHeight() >= listView()->viewport()->height())));
     int x = 2;
     if (userView->bList){
 #if QT_VERSION < 300
         QSize s = listView()->style().indicatorSize();
         if (!bSeparator) x += s.width() / 2;
-        listView()->style().drawIndicator(p, x, (height() - s.height()) / 2,
+        QPixmap pixInd(s.width(), s.height());
+        QPainter pInd(&pixInd);
+        listView()->style().drawIndicator(&pInd, 0, 0,
                                           s.width(), s.height(),
                                           cg, text(3).toInt());
+        pInd.end();
+        QBitmap mInd(s.width(), s.height());
+        pInd.begin(&mInd);
+        listView()->style().drawIndicatorMask(&pInd, 0, 0,
+                                              s.width(), s.height(),
+                                              text(3).toInt());
+        pInd.end();
+        pixInd.setMask(mInd);
+        p->drawPixmap(x, (height() - s.height()) / 2, pixInd);
         x += s.width() + 5;
 #else
         int w = listView()->style().pixelMetric(QStyle::PM_IndicatorWidth);
@@ -492,6 +503,7 @@ UserView::UserView (QWidget *parent, bool _bList, bool bFill, WFlags f)
         : QListView(parent, NULL, f), QToolTip(viewport())
 {
     bList = _bList;
+    bStaticBg = false;
     setBackgroundMode(QListView::NoBackground);
     viewport()->setBackgroundMode(QListView::NoBackground);
     viewport()->setAcceptDrops(true);

@@ -91,6 +91,7 @@ const int mnuHistoryNew = 42;
 const int mnuGo = 43;
 const int mnuMonitor = 44;
 const int mnuToolBar = 45;
+const int mnuAutoHide = 46;
 
 const int mnuGrpTitle    = 0x10000;
 const int mnuPopupStatus = 0x20000;
@@ -372,6 +373,7 @@ public slots:
     void sendMail(unsigned long);
     void sendMail(const char*);
     void toggleOnTop();
+    void toggleAutoHide();
     void moveUser(int);
     void changeTransparent();
     void changeIcons(int);
@@ -412,6 +414,7 @@ protected slots:
     void networkMonitor();
     void monitorFinished();
     void doSynchronize();
+    void autoHide();
 protected:
     bool eventFilter(QObject *o, QEvent *e);
 
@@ -451,7 +454,6 @@ protected:
     SetupDialog *setupDlg;
     MonitorWindow *mNetMonitor;
     bool bInLogin;
-
     unsigned hideTime;
 
     void exec(const char *prg, const char *arg);

@@ -373,7 +373,7 @@ bool DirectClient::isSecure()
 #ifdef USE_OPENSSL
     return ((ssl != NULL) && ssl->connected());
 #else
-return false;
+    return false;
 #endif
 }
 

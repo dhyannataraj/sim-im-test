@@ -94,7 +94,6 @@ void ToolBarSetup::applyClick()
 void ToolBarSetup::addButton(QListBox *lst, const ToolBarDef *d)
 {
     QString icon = d->icon;
-    if (d->flags & BTN_TOGGLE_PICT) icon += "_off";
     QString name = i18n(d->text);
     name = name.replace(QRegExp("&"), "");
     lst->insertItem(Pict(icon.latin1()), name);

@@ -103,6 +103,7 @@ public:
     void check(unsigned long uin);
     void fillChecked(ICQMessage*);
     void fill();
+    bool bStaticBg;
 public slots:
     void setShowOffline(bool);
     void setGroupMode(bool);

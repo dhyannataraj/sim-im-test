@@ -103,18 +103,18 @@ const int btnQuit		= 8;
 
 ToolBarDef userBoxToolBar[] =
     {
-        { btnType, "message", I18N_NOOP("Message"), BTN_PICT, NULL, NULL },
+        { btnType, "message", NULL, I18N_NOOP("Message"), BTN_PICT, NULL, NULL },
         SEPARATOR,
-        { btnUser, "online", I18N_NOOP("User"), BTN_PICT, NULL, NULL },
+        { btnUser, "online", NULL, I18N_NOOP("User"), BTN_PICT, NULL, NULL },
         SEPARATOR,
-        { btnIgnore, "ignorelist", I18N_NOOP("Add to ignore &list"), 0, SLOT(toIgnore()), NULL },
-        { btnGroup, "grp_on", I18N_NOOP("Move to &group"), 0, NULL, NULL },
+        { btnIgnore, "ignorelist", NULL, I18N_NOOP("Add to ignore &list"), 0, SLOT(toIgnore()), NULL },
+        { btnGroup, "grp_on", NULL, I18N_NOOP("Move to &group"), 0, NULL, NULL },
         SEPARATOR,
-        { btnInfo, "info", I18N_NOOP("User &info"), BTN_TOGGLE, SLOT(toggleInfo(bool)), NULL },
-        { btnHistory, "history", I18N_NOOP("&History<br>with CTRL open in new window"), BTN_TOGGLE | BTN_CTRL, SLOT(toggleHistory(bool)), NULL },
-        { btnEncoding, "encoding", I18N_NOOP("&Encoding"), 0, NULL, NULL },
+        { btnInfo, "info", NULL, I18N_NOOP("User &info"), BTN_TOGGLE, SLOT(toggleInfo(bool)), NULL },
+        { btnHistory, "history", NULL, I18N_NOOP("&History<br>with CTRL open in new window"), BTN_TOGGLE | BTN_CTRL, SLOT(toggleHistory(bool)), NULL },
+        { btnEncoding, "encoding", NULL, I18N_NOOP("&Encoding"), 0, NULL, NULL },
         SEPARATOR,
-        { btnQuit, "exit", I18N_NOOP("Close user &window"), 0, SLOT(quit()), NULL },
+        { btnQuit, "exit", NULL, I18N_NOOP("Close user &window"), 0, SLOT(quit()), NULL },
         END_DEF,
         END_DEF
     };
@@ -281,6 +281,7 @@ void UserBox::showUsers(bool bShow, unsigned long uin)
             QWidget *fw = qApp->focusWidget();
             if (fw) fw->releaseMouse();
             users = new UserView(vSplitter, true, false);
+            users->bStaticBg = true;
             vSplitter->setResizeMode(users, QSplitter::KeepSize);
             users->show();
             users->fill();

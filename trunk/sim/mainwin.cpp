@@ -95,6 +95,7 @@ static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
 #include <qstringlist.h>
 #include <qaccel.h>
 #include <qfile.h>
+#include <qmessagebox.h>
 
 #ifdef USE_KDE
 #include <kwin.h>
@@ -349,6 +350,7 @@ UINT appBarMessage(DWORD dwMessage, UINT uEdge = ABE_FLOAT, LPARAM lParam = 0, Q
 static bool bInMoving = false;
 static bool bFullScreen = false;
 static bool bOnTop = false;
+static bool bAutoHideVisible = false;
 
 void getBarRect(UINT state, QRect &rc, RECT *rcWnd = NULL)
 {
@@ -356,17 +358,18 @@ void getBarRect(UINT state, QRect &rc, RECT *rcWnd = NULL)
     SystemParametersInfoA(SPI_GETWORKAREA, 0, &rcWork, 0);
     rc.setCoords(0, rcWork.top, GetSystemMetrics(SM_CXSCREEN), rcWork.bottom);
     appBarMessage(ABM_QUERYPOS, state, FALSE, &rc);
-    if (rcWnd == NULL){
-        RECT rcWnd1;
-        GetWindowRect(pMain->winId(), &rcWnd1);
-        rcWnd = &rcWnd1;
+    int w;
+    if (rcWnd){
+        w = rcWnd->right - rcWnd->left;
+    }else{
+        w = pMain->mWidth + GetSystemMetrics(SM_CXBORDER) * 2;
     }
     switch (state){
     case ABE_LEFT:
-        rc.setRight(rc.left() + rcWnd->right - rcWnd->left);
+        rc.setRight(rc.left() + w);
         break;
     case ABE_RIGHT:
-        rc.setLeft(rc.right() - rcWnd->right + rcWnd->left);
+        rc.setLeft(rc.right() - w);
         break;
     }
 }
@@ -385,7 +388,7 @@ unsigned short getEdge(RECT *rcWnd = NULL)
     return ABE_FLOAT;
 }
 
-void slideWindow (const QRect &rcEnd)
+void slideWindow (const QRect &rcEnd, bool bAnimate)
 {
     BOOL fFullDragOn;
 
@@ -398,7 +401,7 @@ void slideWindow (const QRect &rcEnd)
     QRect rcStart;
     rcStart.setCoords(rcWnd.left, rcWnd.top, rcWnd.right, rcWnd.bottom);
 
-    if (fFullDragOn && (rcStart != rcEnd)) {
+    if (bAnimate && fFullDragOn && (rcStart != rcEnd)) {
 
         // Get our starting and ending time.
         DWORD dwTimeStart = GetTickCount();
@@ -434,10 +437,28 @@ void setBarState(bool bAnimate = false)
     if ((pMain->BarState == ABE_FLOAT) || !pMain->Show){
         appBarMessage(ABM_SETPOS, pMain->BarState, FALSE);
     }else{
+        if (pMain->BarAutoHide && !appBarMessage(ABM_SETAUTOHIDEBAR, pMain->BarState, TRUE, NULL)){
+            pMain->BarAutoHide = false;
+            QMessageBox::warning(NULL, i18n("Error"),
+                                 i18n("There is already an auto hidden window on this edge.\nOnly one auto hidden window is allowed on each edge."),
+                                 QMessageBox::Ok, 0);
+        }
         QRect rc;
         getBarRect(pMain->BarState, rc);
-        appBarMessage(ABM_SETPOS, pMain->BarState, FALSE, &rc);
-        if (bAnimate) slideWindow(rc);
+        if (pMain->BarAutoHide){
+            QRect rcAutoHide = rc;
+            int w = 2 * GetSystemMetrics(SM_CXBORDER);
+            if (pMain->BarState == ABE_LEFT){
+                rcAutoHide.setRight(rcAutoHide.left() + w);
+            }else{
+                rcAutoHide.setLeft(rcAutoHide.right() - w);
+            }
+            appBarMessage(ABM_SETPOS, pMain->BarState, FALSE, &rcAutoHide);
+            if (!bAutoHideVisible) rc = rcAutoHide;
+        }else{
+            appBarMessage(ABM_SETPOS, pMain->BarState, FALSE, &rc);
+        }
+        slideWindow(rc, bAnimate);
     }
     if ((bOnTop != pMain->OnTop) || bFullScreen){
         bOnTop = pMain->OnTop;
@@ -457,6 +478,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     unsigned type;
     RECT  *prc;
+    RECT rcWnd;
     QRect rc;
 
     if (msg == WM_APPBAR){
@@ -485,8 +507,16 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         break;
     case WM_EXITSIZEMOVE:
         bInMoving = false;
+        GetWindowRect(pMain->winId(), &rcWnd);
+        pMain->mWidth = rcWnd.right - rcWnd.left - GetSystemMetrics(SM_CXBORDER) * 2;
         pMain->BarState = getEdge();
         setBarState(true);
+        break;
+    case WM_NCMOUSEMOVE:
+        if ((pMain->BarState != ABE_FLOAT) && pMain->BarAutoHide && !bAutoHideVisible){
+            bAutoHideVisible = true;
+            setBarState(true);
+        }
         break;
     case WM_MOVING:
     case WM_SIZING:
@@ -525,17 +555,17 @@ const int btnMonitor		= 9;
 
 ToolBarDef mainWndToolBar[] =
     {
-        { btnShowOffline, "online", I18N_NOOP("Show &offline"), BTN_TOGGLE | BTN_TOGGLE_PICT | BTN_PICT_INVERT, SLOT(toggleShowOffline()), NULL },
-        { btnGroupMode, "grp", I18N_NOOP("&Group mode"), BTN_TOGGLE | BTN_TOGGLE_PICT, SLOT(toggleGroupMode()), SLOT(showGroupPopup(QPoint)) },
+        { btnShowOffline, "online_on", "online_off", I18N_NOOP("Show &offline"), BTN_TOGGLE, SLOT(toggleShowOffline()), NULL },
+        { btnGroupMode, "grp_off", "grp_on", I18N_NOOP("&Group mode"), BTN_TOGGLE, SLOT(toggleGroupMode()), SLOT(showGroupPopup(QPoint)) },
         SEPARATOR,
-        { btnStatus, "online", I18N_NOOP("Status"), BTN_PICT, NULL, NULL },
-        { btnSetup, "2downarrow", I18N_NOOP("&Menu"), 0, NULL, NULL },
+        { btnStatus, "online", NULL, I18N_NOOP("Status"), BTN_PICT, NULL, NULL },
+        { btnSetup, "2downarrow", NULL, I18N_NOOP("&Menu"), 0, NULL, NULL },
         END_DEF,
-        { btnFind, "find", I18N_NOOP("Find User"), 0, SLOT(search()), NULL },
-        { btnNoIM, "nonim", I18N_NOOP("Add Non-IM contact"), 0, SLOT(addNonIM()), NULL },
-        { btnSMS, "sms", I18N_NOOP("Send SMS"), 0, SLOT(sendSMS()), NULL },
-        { btnConfigure, "configure", I18N_NOOP("Setup"), 0, SLOT(setup()), NULL },
-        { btnMonitor, "network", I18N_NOOP("Network monitor"), 0, SLOT(networkMonitor()), NULL },
+        { btnFind, "find", NULL, I18N_NOOP("Find User"), 0, SLOT(search()), NULL },
+        { btnNoIM, "nonim", NULL, I18N_NOOP("Add Non-IM contact"), 0, SLOT(addNonIM()), NULL },
+        { btnSMS, "sms", NULL, I18N_NOOP("Send SMS"), 0, SLOT(sendSMS()), NULL },
+        { btnConfigure, "configure", NULL, I18N_NOOP("Setup"), 0, SLOT(setup()), NULL },
+        { btnMonitor, "network", NULL, I18N_NOOP("Network monitor"), 0, SLOT(networkMonitor()), NULL },
         END_DEF
     };
 
@@ -684,6 +714,11 @@ MainWindow::MainWindow(const char *name)
     connect(keys, SIGNAL(dblClick()), this, SLOT(dockDblClicked()));
     connect(keys, SIGNAL(showSearch()), this, SLOT(search()));
     setIcons();
+#ifdef WIN32
+    QTimer *autoHideTimer = new QTimer(this);
+    connect(autoHideTimer, SIGNAL(timeout()), this, SLOT(autoHide()));
+    autoHideTimer->start(1000);
+#endif
 }
 
 void MainWindow::changeMode(bool bSimple)
@@ -740,6 +775,16 @@ void MainWindow::toggleOnTop()
     setOnTop();
 }
 
+void MainWindow::toggleAutoHide()
+{
+#ifdef WIN32
+    BarAutoHide = !BarAutoHide;
+    setShow(true);
+    bAutoHideVisible = true;
+    setBarState();
+#endif
+}
+
 void MainWindow::adjustFucntionMenu()
 {
     int n;
@@ -758,6 +803,18 @@ void MainWindow::adjustFucntionMenu()
                                  .arg(u.name()),
                                  id, ++index);
     }
+#ifdef WIN32
+    index = menuFunction->indexOf(mnuOnTop);
+    id = menuFunction->idAt(index + 1);
+    if (BarState == ABE_FLOAT){
+        if (id == mnuAutoHide)
+            menuFunction->removeItem(mnuAutoHide);
+    }else{
+        if (id != mnuAutoHide)
+            menuFunction->insertItem(i18n("AutoHide"), this, SLOT(toggleAutoHide()), 0, mnuAutoHide, index+1);
+        menuFunction->setItemChecked(mnuAutoHide, BarAutoHide);
+    }
+#endif
 }
 
 void MainWindow::adjustGroupsMenu()
@@ -1087,24 +1144,6 @@ bool MainWindow::init()
     xosd->init();
     transparentChanged();
     setShow(Show);
-#ifdef WIN32
-    if (BarState != ABE_FLOAT){
-        QRect rc;
-        RECT rcWnd;
-        rcWnd.left = mLeft;
-        rcWnd.top = mTop;
-        rcWnd.right = mLeft + mWidth;
-        rcWnd.bottom = mTop + mHeight;
-        QRect rcClient = geometry();
-        QRect rcFrame = frameGeometry();
-        rcWnd.right += rcFrame.width() - rcClient.width();
-        getBarRect(BarState, rc, &rcWnd);
-        SetWindowPos(winId(), NULL,
-                     rc.left(), rc.top(), rc.width(), rc.height(),
-                     SWP_NOZORDER | SWP_NOACTIVATE | SWP_DRAWFRAME);
-        setBarState();
-    }
-#endif
     setOnTop();
     setUserBoxOnTop();
 
@@ -1581,6 +1620,7 @@ void MainWindow::setShow(bool bShow)
     Show = bShow;
 #ifdef WIN32
     if (BarState != ABE_FLOAT){
+        if (BarAutoHide) bShow = true;
         if (bShow){
             setBarState();
         }else{
@@ -3197,6 +3237,25 @@ void MainWindow::checkChilds()
 void MainWindow::changeToolBar(const ToolBarDef *d)
 {
     emit toolBarChanged(d);
+}
+
+void MainWindow::autoHide()
+{
+#ifdef WIN32
+    if (isActiveWindow()) return;
+    DWORD pos = GetMessagePos();
+    int x = GET_X_LPARAM(pos);
+    int y = GET_Y_LPARAM(pos);
+    RECT rc;
+    GetWindowRect(winId(), &rc);
+    rc.left -= GetSystemMetrics(SM_CXDOUBLECLK);
+    rc.right += GetSystemMetrics(SM_CXDOUBLECLK);
+    if ((x >= rc.left) && (x <= rc.right) && (y >= rc.top) && (y <= rc.bottom)) return;
+    if ((BarState != ABE_FLOAT) && BarAutoHide && bAutoHideVisible){
+        bAutoHideVisible = false;
+        setBarState(true);
+    }
+#endif
 }
 
 #ifndef _WINDOWS
