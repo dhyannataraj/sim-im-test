@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2003-08-02 23:07+0400\n"
-"PO-Revision-Date: 2003-08-04 11:37GMT\n"
-"Last-Translator: Robert Scheck <sim@robert-scheck.de>\n"
+"PO-Revision-Date: 2003-08-04 13:34GMT\n"
+"Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -5955,7 +5955,7 @@ msgstr "%1 ist online"
 
 #: plugins/osd/osdconfig.cpp:42
 msgid "&Interface"
-msgstr "&Nachrichtenfenster"
+msgstr "Schn&ittstelle"
 
 #: plugins/osd/osdiface.cpp:32
 msgid "Left-bottom"
