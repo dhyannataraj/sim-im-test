@@ -23,6 +23,7 @@
 #include <string.h>
 
 #include <qtextcodec.h>
+#include <qstringlist.h>
 
 #ifndef HAVE_STRCASECMP
 int strcasecmp(const char *a, const char *b);
