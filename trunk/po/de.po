@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2002-12-09 12:55+0300\n"
-"PO-Revision-Date: 2002-12-09 22:51GMT\n"
+"PO-Revision-Date: 2002-12-11 18:41GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3428,7 +3428,7 @@ msgstr "Hintergrundfarbe:"
 
 #: ui/alertdialogbase.cpp:249
 msgid "On Screen"
-msgstr "Auf den Bildschirm"
+msgstr "Bildschirmbenachrichtigung"
 
 #: ui/pagerbase.cpp:114
 msgid "Provider:"
