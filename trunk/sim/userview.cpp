@@ -1206,7 +1206,7 @@ UserFloat::UserFloat()
     bFloaty = true;
 #if USE_KDE
     KWin::setOnAllDesktops(winId(), true);
-    KWin::setState(winId(), NET::SkipTaskbar);
+    KWin::setState(winId(), NET::SkipTaskbar | NET::StaysOnTop);
 #endif
     transparent = new TransparentTop(this, pMain->UseTransparent, pMain->Transparent);
     m_nOnline++;
