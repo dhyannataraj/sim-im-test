@@ -25,6 +25,10 @@
 #include "qt3/qtextedit.h"
 #else
 #include <qtextedit.h>
+#ifdef USE_KDE
+#include <ktextedit.h>
+#define QTextEdit KTextEdit
+#endif
 #endif
 
 class KSpell;
@@ -59,7 +63,8 @@ protected:
     QColor baseFG;
     QColor curFG;
 #if USE_SPELL
-    int  nSpellDelta;
+    int  nPara;
+    int  nIndex;
     KSpell *pSpell;
 #endif
 };

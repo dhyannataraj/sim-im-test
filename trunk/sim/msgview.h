@@ -26,6 +26,10 @@
 #include "qt3/qtextbrowser.h"
 #else
 #include <qtextbrowser.h>
+#ifdef USE_KDE
+#include <ktextbrowser.h>
+#define QTextBrowser KTextBrowser
+#endif
 #endif
 
 class ICQMessage;
@@ -34,6 +38,7 @@ class ICQEvent;
 class QPopupMenu;
 class QPainter;
 class TransparentBg;
+class KEdFind;
 
 class TextShow : public QTextBrowser
 {
@@ -51,15 +56,24 @@ signals:
     void showPopup(QPoint);
 public slots:
     void copy();
+    void search();
+    void repeatSearch();
+protected slots:
+    void search_slot();
+    void searchdone_slot();
+    void searchAgain(int);
 protected:
+    void keyPressEvent( QKeyEvent *e );
+    virtual QPopupMenu *createPopupMenu(const QPoint&);
     TransparentBg *bg;
     virtual void resizeEvent(QResizeEvent*);
-    virtual void viewportMousePressEvent(QMouseEvent*);
-    QPopupMenu *menu;
     void setSource(const QString&);
     QColor baseBG;
     QColor baseFG;
     QString curAnchor;
+    KEdFind 	*srchdialog;
+    bool doSearch(QString s_pattern, bool case_sensitive, bool forward, int *parag, int *index);
+    void startSearch(int parag, int index);
 };
 
 class MsgView : public TextShow

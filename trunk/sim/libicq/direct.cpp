@@ -242,11 +242,13 @@ void DirectSocket::sendInit()
         m_nSessionId = DCcookie;
     }
 
+    log(L_DEBUG, "Get local addr");
     char *host;
     unsigned short port;
     getLocalAddr(host, port);
     port = 0;
 
+    log(L_DEBUG, "pack");
     unsigned pos = writeBuffer.writePos();
     writeBuffer.pack((unsigned short)((version >= 7) ? 0x0030 : 0x002c));
     writeBuffer.pack((char)0xFF);

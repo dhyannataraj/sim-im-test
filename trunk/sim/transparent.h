@@ -32,13 +32,11 @@ class TransparentBg : public QObject
     Q_OBJECT
 public:
     TransparentBg(QWidget *parent, const char *name = NULL);
-    void setTransparent(bool);
     void init(QWidget*);
-    const QPixmap *background();
+    const QPixmap *background(QColor bgColor);
 protected slots:
     void backgroundUpdated();
 protected:
-    bool m_bTransparent;
     bool eventFilter(QObject*, QEvent*);
     int bgX;
     int bgY;
@@ -52,10 +50,14 @@ public:
     static void setTransparent(QWidget*, bool isTransparent, unsigned long transparency);
     static bool bCanTransparent;
     static TransparentTop *getTransparent(QWidget*);
+    const QPixmap *background(QColor bgColor);
 #if USE_KDE
 #if HAVE_KROOTPIXMAP_H
     KRootPixmap *rootpixmap;
-    QPixmap bg;
+    QPixmap saveBG;
+    QPixmap genBG;
+    QColor  genColor;
+    unsigned genFade;
 #endif
 #endif
 signals:

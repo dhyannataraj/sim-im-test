@@ -1250,7 +1250,7 @@ void MainWindow::moveUser(int grp)
             btns.append(i18n("&No"));
             BalloonMsg *msg = new BalloonMsg(i18n("Add user %1 to ignore list ?") .arg(user.name()),
                                              m_rc, btns, this);
-            connect(msg, SIGNAL(okAction()), this, SLOT(ignoreUser()));
+            connect(msg, SIGNAL(action(int)), this, SLOT(ignoreUser(int)));
             msg->show();
             break;
         }
@@ -1637,7 +1637,7 @@ void MainWindow::exec(const char *prg, const char *arg)
     if (p.find("%s") >= 0){
         p.replace(QRegExp("%s"), arg);
     }else{
-	p += " ";
+        p += " ";
         p += QString::fromLocal8Bit(arg);
     }
     QStringList s = QStringList::split(" ", p);

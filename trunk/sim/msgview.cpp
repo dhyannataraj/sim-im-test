@@ -23,12 +23,17 @@
 #include "log.h"
 #include "icons.h"
 #include "transparent.h"
+#include "ui/ballonmsg.h"
 
 #ifdef USE_KDE
+#include <keditcl.h>
+#include <kstdaccel.h>
 #include <kglobal.h>
 #ifdef HAVE_KROOTPIXMAP_H
 #include <krootpixmap.h>
 #endif
+#else
+#include "ui/finddlg.h"
 #endif
 
 #include <qdatetime.h>
@@ -37,6 +42,7 @@
 #include <qclipboard.h>
 #include <qpainter.h>
 #include <qregexp.h>
+#include <qobjectlist.h>
 
 #ifdef WIN32
 #if _MSC_VER > 1020
@@ -49,30 +55,17 @@ QString ParseText(const char *text);
 TextShow::TextShow(QWidget *p, const char *name)
         : QTextBrowser(p, name)
 {
+    srchdialog = NULL;
     bg = new TransparentBg(this);
     baseBG = colorGroup().color(QColorGroup::Base);
     baseFG = colorGroup().color(QColorGroup::Text);
     setTextFormat(RichText);
-    menu = NULL;
 }
 
 void TextShow::resizeEvent(QResizeEvent *e)
 {
     QTextBrowser::resizeEvent(e);
     scrollToAnchor(curAnchor);
-}
-
-void TextShow::viewportMousePressEvent(QMouseEvent *e)
-{
-    if ((e->button() == RightButton) && hasSelectedText()){
-        if (menu == NULL){
-            menu = new QPopupMenu(this);
-            menu->insertItem(Icon("editcopy"), i18n("&Copy"), this, SLOT(copy()), 0, 1);
-        }
-        menu->popup(e->globalPos());
-        return;
-    }
-    QTextBrowser::viewportMousePressEvent(e);
 }
 
 void TextShow::copy()
@@ -86,7 +79,6 @@ void TextShow::resetColors()
 {
     setBackground(baseBG);
     setForeground(baseFG);
-    bg->setTransparent(true);
 }
 
 void TextShow::setBackground(const QColor& c)
@@ -96,7 +88,6 @@ void TextShow::setBackground(const QColor& c)
     pal.setColor(QPalette::Inactive, QColorGroup::Base, c);
     pal.setColor(QPalette::Disabled, QColorGroup::Base, c);
     setPalette(pal);
-    bg->setTransparent(c == baseBG);
 }
 
 void TextShow::setForeground(const QColor& c)
@@ -259,6 +250,134 @@ MsgView::MsgView(QWidget *p)
     oldReceiveColor = pMain->ColorReceive();
 }
 
+QPopupMenu *TextShow::createPopupMenu(const QPoint &p)
+{
+    QPopupMenu *popup = QTextEdit::createPopupMenu(p);
+    if (popup){
+        popup->insertSeparator();
+    }else{
+        popup = new QPopupMenu(this);
+    }
+    popup->insertItem(Icon("find"), i18n("&Find"), this, SLOT(search()), CTRL+Key_F);
+    popup->insertItem(Icon("find_next"), i18n("Find &next"), this, SLOT(repeatSearch()), Key_F3);
+    return popup;
+}
+
+void TextShow::search(){
+
+    if( srchdialog == 0 )
+    {
+        srchdialog = new KEdFind( this, "searchdialog", false);
+        connect(srchdialog,SIGNAL(search()),this,SLOT(search_slot()));
+        connect(srchdialog,SIGNAL(done()),this,SLOT(searchdone_slot()));
+    }
+    srchdialog->show();
+    srchdialog->result();
+}
+
+void TextShow::search_slot()
+{
+    if (!srchdialog) return;
+    int parag, index;
+    getCursorPosition(&parag, &index);
+    startSearch(parag, index);
+}
+
+void TextShow::startSearch(int parag, int index)
+{
+    QString to_find_string = srchdialog->getText();
+    if (doSearch(to_find_string, srchdialog->case_sensitive(), (!srchdialog->get_direction()), &parag, &index)){
+        setSelection(parag, index, parag, index + to_find_string.length());
+        setCursorPosition(parag, index + to_find_string.length());
+        ensureCursorVisible();
+        return;
+    }
+    if (!srchdialog->isVisible()){
+        QApplication::beep();
+        return;
+    }
+    QStringList btns;
+    btns.append(i18n("&Yes"));
+    btns.append(i18n("&No"));
+
+    QObjectList *l = srchdialog->queryList("QPushButton");
+    QObjectListIt it( *l );
+    if (it.current() == 0){
+        delete l;
+        QApplication::beep();
+        return;
+    }
+    QPushButton *btnOK = static_cast<QPushButton*>(it.current());
+    delete l;
+    QRect rc = btnOK->rect();
+    rc.moveTopLeft(btnOK->mapToGlobal(rc.topLeft()));
+    BalloonMsg *msg = new BalloonMsg(srchdialog->get_direction() ?
+                                     i18n("End of document reached.\nContinue from the beginning?") :
+                                     i18n("Beginning of document reached.\nContinue from the end?"),
+                                     rc, btns, this);
+    connect(msg, SIGNAL(action(int)), this, SLOT(searchAgain(int)));
+    msg->show();
+}
+
+void TextShow::searchAgain(int n)
+{
+    if (n) return;
+    if (!srchdialog) return;
+    if (srchdialog->get_direction()){
+        startSearch(0, 0);
+    }else{
+        startSearch(paragraphs(), 0);
+    }
+}
+
+void TextShow::searchdone_slot()
+{
+    if (!srchdialog)
+        return;
+    srchdialog->hide();
+    setFocus();
+}
+
+bool TextShow::doSearch(QString s_pattern, bool case_sensitive, bool forward, int *parag, int *index)
+{
+    return QTextEdit::find(s_pattern, case_sensitive, false, forward, parag, index);
+}
+
+void TextShow::repeatSearch()
+{
+    if(!srchdialog) return;
+    search_slot();
+    setFocus();
+}
+
+void TextShow::keyPressEvent( QKeyEvent *e )
+{
+#ifdef USE_KDE
+    KKey key( e );
+    if ( KStdAccel::find().contains( key ) ) {
+        search();
+        e->accept();
+        return;
+    }
+    if ( KStdAccel::findNext().contains( key ) ) {
+        repeatSearch();
+        e->accept();
+        return;
+    }
+#endif
+    if (e->key() == Key_F3){
+        repeatSearch();
+        e->accept();
+        return;
+    }
+    if ((e->key() == Key_F) && (e->state() & ControlButton)){
+        search();
+        e->accept();
+        return;
+    }
+    QTextEdit::keyPressEvent(e);
+}
+
 static char FONT_FORMAT[] = "<font color=\"#%06X\">";
 
 void MsgView::colorsChanged()
@@ -388,21 +507,37 @@ QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
         foreColor = m->ForeColor();
         backColor = m->BackColor();
     }
-    s += "<table width=100%";
+    /*
+        s += "<table width=100%";
+        if (foreColor != backColor){
+            QString bg;
+            bg.sprintf(" bgcolor=#%06lX", backColor);
+            s += bg;
+        }
+        s += "><tr><td>";
+        if (foreColor != backColor){
+            QString fg;
+            fg.sprintf("<font color=#%06lX>", foreColor);
+            s += fg;
+        }
+        s += makeMessageText(msg);
+        if (foreColor != backColor) s += "</font>";
+        s += "</td></tr></table></p>";
+    */
+    s += "<p";
     if (foreColor != backColor){
         QString bg;
         bg.sprintf(" bgcolor=#%06lX", backColor);
         s += bg;
     }
-    s += "><tr><td>";
+    s += ">";
     if (foreColor != backColor){
         QString fg;
         fg.sprintf("<font color=#%06lX>", foreColor);
         s += fg;
     }
     s += makeMessageText(msg);
-    if (foreColor != backColor) s += "</font>";
-    s += "</td></tr></table></p>";
+    if (foreColor != backColor) s += "</font></p>";
     return s;
 }
 
