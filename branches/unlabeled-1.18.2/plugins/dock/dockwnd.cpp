@@ -568,7 +568,51 @@ set_background_properties(QWidget *w)
 #endif
 
 #ifdef WIN32
+
 BOOL (WINAPI *_Shell_NotifyIconW)(DWORD dwMessage, PNOTIFYICONDATAW lpData) = NULL;
+
+typedef struct __NOTIFYICONDATAA 
+{
+    DWORD cbSize;
+    HWND hWnd;
+    UINT uID;
+    UINT uFlags;
+    UINT uCallbackMessage;
+    HICON hIcon;
+    CHAR szTip[64];
+    DWORD dwState;
+    DWORD dwStateMask;
+    CHAR szInfo[256];
+    union {
+        UINT uTimeout;
+        UINT uVersion;
+    };
+    CHAR szInfoTitle[64];
+    DWORD dwInfoFlags;
+    GUID guidItem;
+} __NOTIFYICONDATAA;
+
+typedef struct __NOTIFYICONDATAW 
+{
+    DWORD cbSize;
+    HWND hWnd;
+    UINT uID;
+    UINT uFlags;
+    UINT uCallbackMessage;
+    HICON hIcon;
+    WCHAR szTip[64];
+    DWORD dwState;
+    DWORD dwStateMask;
+    WCHAR szInfo[256];
+    union {
+        UINT uTimeout;
+        UINT uVersion;
+    };
+    WCHAR szInfoTitle[64];
+    DWORD dwInfoFlags;
+    GUID guidItem;
+} __NOTIFYICONDATAW;
+
 #endif
 
 DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
@@ -599,27 +643,26 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
             (DWORD&)_Shell_NotifyIconW = (DWORD)GetProcAddress((HMODULE)hShell, "Shell_NotifyIconW");
     }
     if (IsWindowUnicode(winId()) && _Shell_NotifyIconW){
+        __NOTIFYICONDATAW notifyIconData;
         oldDockProc = (WNDPROC)SetWindowLongW(winId(), GWL_WNDPROC, (LONG)DockWindowProc);
-        NOTIFYICONDATAW notifyIconData;
-        notifyIconData.cbSize = sizeof(notifyIconData);
+		memset(&notifyIconData, 0, sizeof(notifyIconData));
+		notifyIconData.cbSize = sizeof(notifyIconData);
         notifyIconData.hIcon = topData()->winIcon;
         notifyIconData.hWnd = winId();
-        notifyIconData.szTip[0] = 0;
         notifyIconData.uCallbackMessage = WM_DOCK;
         notifyIconData.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
-        notifyIconData.uID = 0;
-        _Shell_NotifyIconW(NIM_ADD, &notifyIconData);
+        _Shell_NotifyIconW(NIM_ADD, (NOTIFYICONDATAW*)&notifyIconData);
     }else{
         oldDockProc = (WNDPROC)SetWindowLongA(winId(), GWL_WNDPROC, (LONG)DockWindowProc);
-	    NOTIFYICONDATAA notifyIconData;
+	    __NOTIFYICONDATAA notifyIconData;
+        oldDockProc = (WNDPROC)SetWindowLongW(winId(), GWL_WNDPROC, (LONG)DockWindowProc);
+		memset(&notifyIconData, 0, sizeof(notifyIconData));
 		notifyIconData.cbSize = sizeof(notifyIconData);
-		notifyIconData.hIcon = topData()->winIcon;
-		notifyIconData.hWnd = winId();
-		notifyIconData.szTip[0] = 0;
-		notifyIconData.uCallbackMessage = WM_DOCK;
-		notifyIconData.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
-		notifyIconData.uID = 0;
-		Shell_NotifyIconA(NIM_ADD, &notifyIconData);
+        notifyIconData.hIcon = topData()->winIcon;
+        notifyIconData.hWnd = winId();
+        notifyIconData.uCallbackMessage = WM_DOCK;
+        notifyIconData.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
+        Shell_NotifyIconA(NIM_ADD, (NOTIFYICONDATAA*)&notifyIconData);
     }
 #else
     setMinimumSize(22, 22);

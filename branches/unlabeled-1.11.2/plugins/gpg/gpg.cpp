@@ -90,13 +90,13 @@ static DataDef gpgData[] =
     {
         { "GPG", DATA_STRING, 1, 0 },
         { "Home", DATA_STRING, 1, def_home },
-        { "GenKey", DATA_STRING, 1, "--no-tty --gen-key --batch" },
-        { "PublicList", DATA_STRING, 1, "--no-tty --with-colon --list-public-keys" },
-        { "SecretList", DATA_STRING, 1, "--no-tty --with-colon --list-secret-keys" },
-        { "Import", DATA_STRING, 1, "--no-tty --import \"%keyfile%\"" },
-        { "Export", DATA_STRING, 1, "--no-tty --batch --yes --armor --comment \"\" --no-version --export \"%userid%\"" },
-        { "Encrypt", DATA_STRING, 1, "--no-tty --batch --yes --armor --comment \"\" --no-version --recipient \"%userid%\" --trusted-key \"%userid%\" --output \"%cipherfile%\" --encrypt \"%plainfile%\"" },
-        { "Decrypt", DATA_STRING, 1, "--no-tty --yes --passphrase-fd 0 --output \"%plainfile%\" --decrypt \"%cipherfile%\"" },
+        { "GenKey", DATA_STRING, 1, "--gen-key --batch" },
+        { "PublicList", DATA_STRING, 1, "--with-colon --list-public-keys" },
+        { "SecretList", DATA_STRING, 1, "--with-colon --list-secret-keys" },
+        { "Import", DATA_STRING, 1, "--import \"%keyfile%\"" },
+        { "Export", DATA_STRING, 1, "--batch --yes --armor --comment \"\" --no-version --export \"%userid%\"" },
+        { "Encrypt", DATA_STRING, 1, "--batch --yes --armor --comment \"\" --no-version --recipient \"%userid%\" --trusted-key \"%userid%\" --output \"%cipherfile%\" --encrypt \"%plainfile%\"" },
+        { "Decrypt", DATA_STRING, 1, "--yes --passphrase-fd 0 --output \"%plainfile%\" --decrypt \"%cipherfile%\"" },
         { "Key", DATA_STRING, 1, 0 },
         { NULL, 0, 0, 0 }
     };
@@ -247,7 +247,7 @@ void GpgPlugin::importReady(Exec *exec, int res, const char*)
                     QString gpg;
                     gpg += "\"";
                     gpg += QFile::decodeName(GPG());
-                    gpg += "\" --homedir \"";
+                    gpg += "\" --no-tty --homedir \"";
                     gpg += home;
                     gpg += "\" ";
                     gpg += getPublicList();
@@ -386,7 +386,7 @@ void *GpgPlugin::processEvent(Event *e)
                         QString gpg;
                         gpg += "\"";
                         gpg += QFile::decodeName(GPG());
-                        gpg += "\" --homedir \"";
+                        gpg += "\" --no-tty --homedir \"";
                         gpg += home;
                         gpg += "\" ";
                         gpg += getEncrypt();
@@ -442,7 +442,7 @@ void *GpgPlugin::processEvent(Event *e)
                     QString gpg;
                     gpg += "\"";
                     gpg += QFile::decodeName(GPG());
-                    gpg += "\" --homedir \"";
+                    gpg += "\" --no-tty --homedir \"";
                     gpg += home;
                     gpg += "\" ";
                     gpg += getDecrypt();
@@ -479,7 +479,7 @@ void *GpgPlugin::processEvent(Event *e)
                     QString gpg;
                     gpg += "\"";
                     gpg += QFile::decodeName(GPG());
-                    gpg += "\" --homedir \"";
+                    gpg += "\" --no-tty --homedir \"";
                     gpg += home;
                     gpg += "\" ";
                     gpg += getImport();
@@ -666,7 +666,7 @@ MsgGPGKey::MsgGPGKey(MsgEdit *parent, Message *msg)
         home = home.left(home.length() - 1);
 
     gpg = QString("\"") + gpg + "\"";
-    gpg += " --homedir \"";
+    gpg += " --no-tty --homedir \"";
     gpg += home;
     gpg += "\" ";
     gpg += GpgPlugin::plugin->getExport();

@@ -474,10 +474,16 @@ void *JabberClient::processEvent(Event *e)
             if (getState() != Connected)
                 return NULL;
             JabberClient *jc = static_cast<JabberClient*>(client);
-            if (jc->m_browser == NULL){
+            if (jc->m_browser == NULL)
                 jc->m_browser = new JabberBrowser(jc);
-                bool bSize = (jc->data.browser_geo[WIDTH].value && jc->data.browser_geo[HEIGHT].value);
-                restoreGeometry(m_browser, jc->data.browser_geo, bSize, bSize);
+			if (!jc->m_browser->isVisible()){
+                if (jc->data.browser_geo[WIDTH].value && jc->data.browser_geo[HEIGHT].value){
+					jc->data.browser_geo[WIDTH].value  = 600;
+					jc->data.browser_geo[HEIGHT].value = 400;
+					restoreGeometry(jc->m_browser, jc->data.browser_geo, false, true);
+				}else{
+					restoreGeometry(jc->m_browser, jc->data.browser_geo, true, true);
+				}
             }
             QString url;
             if (jc->getUseVHost())

@@ -2193,7 +2193,7 @@ DiscoItemsRequest::DiscoItemsRequest(JabberClient *client, const char *jid)
 
 DiscoItemsRequest::~DiscoItemsRequest()
 {
-    JabberDiscoItem item;
+    DiscoItem item;
     item.id		= m_id;
     if (m_code){
         item.name	= m_error;
@@ -2206,7 +2206,7 @@ DiscoItemsRequest::~DiscoItemsRequest()
 void DiscoItemsRequest::element_start(const char *el, const char **attr)
 {
     if (!strcmp(el, "item")){
-        JabberDiscoItem item;
+        DiscoItem item;
         item.id		= m_id;
         item.jid	= JabberClient::get_attr("jid", attr);
         item.name	= JabberClient::get_attr("name", attr);
@@ -2260,6 +2260,10 @@ protected:
     virtual	void	char_data(const char *str, int len);
     string			*m_data;
     string			m_error;
+	string			m_features;
+	string			m_name;
+	string			m_type;
+	string			m_category;
     unsigned		m_code;
 };
 
@@ -2272,7 +2276,18 @@ DiscoInfoRequest::DiscoInfoRequest(JabberClient *client, const char *jid)
 
 DiscoInfoRequest::~DiscoInfoRequest()
 {
-    JabberDiscoItem item;
+	if (m_code == 0){
+	    DiscoItem item;
+		item.id			= m_id;
+		item.jid		= "info";
+		item.name		= m_name;
+		item.category	= m_category;
+		item.type		= m_type;
+		item.features	= m_features;
+		Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventDiscoItem, &item);
+	    e.process();
+	}
+    DiscoItem item;
     item.id		= m_id;
     if (m_code){
         item.name	= m_error;
@@ -2285,24 +2300,16 @@ DiscoInfoRequest::~DiscoInfoRequest()
 void DiscoInfoRequest::element_start(const char *el, const char **attr)
 {
     if (!strcmp(el, "identity")){
-        JabberDiscoItem item;
-        item.id		= m_id;
-        item.jid	= JabberClient::get_attr("category", attr);
-        item.name	= JabberClient::get_attr("name", attr);
-        item.node	= JabberClient::get_attr("type", attr);
-        if (!item.jid.empty()){
-            Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventDiscoItem, &item);
-            e.process();
-        }
+        m_category	= JabberClient::get_attr("category", attr);
+        m_name		= JabberClient::get_attr("name", attr);
+        m_type		= JabberClient::get_attr("type", attr);
     }
     if (!strcmp(el, "feature")){
-        JabberDiscoItem item;
-        item.id		= m_id;
-        item.jid	= "feature";
-        item.name	= JabberClient::get_attr("var", attr);
-        if (!item.jid.empty()){
-            Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventDiscoItem, &item);
-            e.process();
+        string feature = JabberClient::get_attr("var", attr);
+		if (!feature.empty()){
+			if (!m_features.empty())
+				m_features += "\n";
+			m_features += feature;
         }
     }
     if (!strcmp(el, "error")){
@@ -2337,6 +2344,133 @@ string JabberClient::discoInfo(const char *jid, const char *node)
     return req->m_id;
 }
 
+class BrowseRequest : public JabberClient::ServerRequest
+{
+public:
+    BrowseRequest(JabberClient *client, const char *jid);
+    ~BrowseRequest();
+protected:
+    virtual void	element_start(const char *el, const char **attr);
+    virtual void	element_end(const char *el);
+    virtual	void	char_data(const char *str, int len);
+    string			*m_data;
+	string			m_jid;
+    string			m_error;
+	string			m_name;
+	string			m_type;
+	string			m_category;
+	string			m_features;
+	string			m_ns;
+    unsigned		m_code;
+};
+
+BrowseRequest::BrowseRequest(JabberClient *client, const char *jid)
+        : JabberClient::ServerRequest(client, _GET, NULL, jid)
+{
+    m_data	= NULL;
+    m_code	= 0;
+	m_jid	= jid;
+}
+
+BrowseRequest::~BrowseRequest()
+{
+		if (!m_jid.empty() && !m_name.empty() && (m_code == 0)){
+			DiscoItem item;
+			item.id			= m_id;
+			item.jid		= m_jid;
+			item.name		= m_name;
+			item.type		= m_type;
+			item.category	= m_category;
+			item.features	= m_features;
+			Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventDiscoItem, &item);
+		    e.process();
+		}
+    DiscoItem item;
+    item.id		= m_id;
+    if (m_code){
+        item.name	= m_error;
+        item.node	= number(m_code);
+    }
+    Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventDiscoItem, &item);
+    e.process();
+}
+
+void BrowseRequest::element_start(const char *el, const char **attr)
+{
+    if (!strcmp(el, "error")){
+        m_code = atol(JabberClient::get_attr("code", attr).c_str());
+        m_data = &m_error;
+    }
+	if (!strcmp(el, "item")){
+		if (!m_jid.empty() && !m_name.empty()){
+			DiscoItem item;
+			item.id			= m_id;
+			item.jid		= m_jid;
+			item.name		= m_name;
+			item.type		= m_type;
+			item.category	= m_category;
+			item.features	= m_features;
+			Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventDiscoItem, &item);
+		    e.process();
+		}
+		m_jid		= JabberClient::get_attr("jid", attr).c_str();
+		m_name		= JabberClient::get_attr("name", attr).c_str();
+		m_type		= JabberClient::get_attr("type", attr).c_str();
+		m_category	= JabberClient::get_attr("category", attr).c_str();
+		m_features	= "";
+	}
+	if (!strcmp(el, "query")){
+			m_name		= JabberClient::get_attr("name", attr).c_str();
+			m_type		= JabberClient::get_attr("type", attr).c_str();
+			m_category	= JabberClient::get_attr("category", attr).c_str();
+	}
+	if (!strcmp(el, "ns"))
+		m_data  = &m_ns;
+}
+
+void BrowseRequest::element_end(const char *el)
+{
+    if (!strcmp(el, "error"))
+        m_data = NULL;
+	if (!strcmp(el, "ns") && !m_ns.empty()){
+		if (!m_features.empty())
+			m_features += "\n";
+		m_features += m_ns;
+		m_ns = "";
+		m_data = NULL;
+	}
+	if (!strcmp(el, "item") && !m_jid.empty()){
+			DiscoItem item;
+			item.id			= m_id;
+			item.jid		= m_jid;
+			item.name		= m_name;
+			item.type		= m_type;
+			item.category	= m_category;
+			item.features	= m_features;
+			Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventDiscoItem, &item);
+		    e.process();
+			m_jid = "";
+	}
+}
+
+void BrowseRequest::char_data(const char *buf, int len)
+{
+    if (m_data)
+        m_data->append(buf, len);
+}
+
+string JabberClient::browse(const char *jid)
+{
+    if (getState() != Connected)
+        return "";
+    BrowseRequest *req = new BrowseRequest(this, jid);
+    req->start_element("query");
+    req->add_attribute("xmlns", "jabber:iq:browse");
+    req->send();
+    m_requests.push_back(req);
+    return req->m_id;
+}
+
 class VersionInfoRequest : public JabberClient::ServerRequest
 {
 public:
@@ -2360,7 +2494,7 @@ VersionInfoRequest::VersionInfoRequest(JabberClient *client, const char *jid)
 
 VersionInfoRequest::~VersionInfoRequest()
 {
-    JabberDiscoItem item;
+    DiscoItem item;
     item.id		= m_id;
     item.jid	= m_version;
     item.name	= m_name;
@@ -2425,7 +2559,7 @@ TimeInfoRequest::TimeInfoRequest(JabberClient *client, const char *jid)
 
 TimeInfoRequest::~TimeInfoRequest()
 {
-    JabberDiscoItem item;
+    DiscoItem item;
     item.id		= m_id;
     item.jid	= m_time;
     Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventDiscoItem, &item);
@@ -2479,7 +2613,7 @@ LastInfoRequest::LastInfoRequest(JabberClient *client, const char *jid)
 void LastInfoRequest::element_start(const char *el, const char **attr)
 {
     if (!strcmp(el, "query")){
-        JabberDiscoItem item;
+        DiscoItem item;
         item.id		= m_id;
         item.jid	= JabberClient::get_attr("seconds", attr);
         Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventDiscoItem, &item);
@@ -2519,7 +2653,7 @@ StatRequest::StatRequest(JabberClient *client, const char *jid, const char *id)
 
 StatRequest::~StatRequest()
 {
-    JabberDiscoItem item;
+    DiscoItem item;
     item.id		= m_id;
     item.jid	= "";
     Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventDiscoItem, &item);
@@ -2529,7 +2663,7 @@ StatRequest::~StatRequest()
 void StatRequest::element_start(const char *el, const char **attr)
 {
     if (!strcmp(el, "stat")){
-        JabberDiscoItem item;
+        DiscoItem item;
         item.id		= m_id;
         item.jid	= JabberClient::get_attr("name", attr);;
         item.name	= JabberClient::get_attr("units", attr);;
@@ -2562,7 +2696,7 @@ StatItemsRequest::StatItemsRequest(JabberClient *client, const char *jid, const 
 StatItemsRequest::~StatItemsRequest()
 {
     if (m_stats.empty()){
-        JabberDiscoItem item;
+        DiscoItem item;
         item.id		= m_id;
         item.jid	= "";
         Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventDiscoItem, &item);

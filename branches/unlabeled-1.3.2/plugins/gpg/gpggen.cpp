@@ -138,7 +138,7 @@ QString gpg  = QFile::decodeName(GpgPlugin::plugin->GPG());
     f.close();
 
     gpg = QString("\"") + gpg + "\"";
-    gpg += " --homedir \"";
+    gpg += " --no-tty --homedir \"";
     gpg += home;
     gpg += "\" ";
     gpg += GpgPlugin::plugin->getGenKey();

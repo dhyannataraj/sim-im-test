@@ -154,13 +154,16 @@ typedef struct JabberListRequest
     bool			bDelete;
 } JabberListRequest;
 
-typedef struct JabberDiscoItem
+typedef struct DiscoItem
 {
     string			id;
     string			jid;
-    string			name;
     string			node;
-} JabberDiscoItem;
+    string			name;
+	string			type;
+	string			category;
+	string			features;
+} DiscoItem;
 
 class JabberClient : public TCPClient
 {
@@ -323,6 +326,7 @@ class MessageRequest : public ServerRequest
 
     string discoItems(const char *jid, const char *node);
     string discoInfo(const char *jid, const char *node);
+    string browse(const char *jid);
     string versionInfo(const char *jid, const char *node);
     string timeInfo(const char *jid, const char *node);
     string lastInfo(const char *jid, const char *node);

@@ -31,6 +31,7 @@
 const unsigned short ICQ_SNACxBDY_REQUESTxRIGHTS   = 0x0002;
 const unsigned short ICQ_SNACxBDY_RIGHTSxGRANTED   = 0x0003;
 const unsigned short ICQ_SNACxBDY_ADDxTOxLIST      = 0x0004;
+const unsigned short ICQ_SNACxBDY_REMOVExFROMxLIST = 0x0005;
 const unsigned short ICQ_SNACxBDY_USERONLINE	   = 0x000B;
 const unsigned short ICQ_SNACxBDY_USEROFFLINE	   = 0x000C;
 
@@ -412,6 +413,29 @@ void ICQClient::addBuddy(Contact *contact)
             sendPacket();
             buddies.push_back(screen(data));
         }
+    }
+}
+
+void ICQClient::removeBuddy(Contact *contact)
+{
+    if (getState() != Connected)
+        return;
+    if (contact->id() == 0)
+        return;
+    ICQUserData *data;
+    ClientDataIterator it_data(contact->clientData, this);
+    while ((data = (ICQUserData*)(++it_data)) != NULL){
+        list<string>::iterator it;
+        for (it = buddies.begin(); it != buddies.end(); ++it){
+            if (screen(data) == *it)
+                break;
+        }
+        if (it == buddies.end())
+            continue;
+        snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_REMOVExFROMxLIST);
+        m_socket->writeBuffer.packScreen(screen(data).c_str());
+        sendPacket();
+        buddies.erase(it);
     }
 }
 
