@@ -70,7 +70,6 @@
 <s_comment>"-->"			{ BEGIN(INITIAL); }
 <s_comment>[^\-]+			{ return COMMENT; }
 <s_comment>.				{ return COMMENT; }
-<s_comment>\n				{ return COMMENT; }
 "&gt";?						{ return SYMBOL; }
 "&lt";?						{ return SYMBOL; }
 "&amp";?					{ return SYMBOL; }
