@@ -42,6 +42,7 @@
 %x s_attr
 %x s_value
 %x s_string
+%x s_string1
 %x s_symbol
 %x s_comment
 %%
@@ -63,10 +64,13 @@
 <s_attr>[A-Za-z]			{ BEGIN(s_tag); unput(yytext[0]); return SKIP; }
 <s_attr>.					{ return SKIP; }
 <s_value>"\""				{ BEGIN(s_string); return SKIP; }
+<s_value>"\'"				{ BEGIN(s_string1); return SKIP; }
 <s_value>[^\ \">]+			{ BEGIN(s_tag); return VALUE; }
 <s_value>.					{ return SKIP; }
 <s_string>"\""				{ BEGIN(s_tag); return SKIP; }
 <s_string>[^\"]+			{ return VALUE; }
+<s_string1>"\'"				{ BEGIN(s_tag); return SKIP; }
+<s_string1>[^\']+			{ return VALUE; }
 <s_comment>"-->"			{ BEGIN(INITIAL); }
 <s_comment>[^\-]+			{ return COMMENT; }
 <s_comment>.				{ return COMMENT; }
