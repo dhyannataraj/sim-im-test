@@ -908,6 +908,38 @@ typedef struct MessageFileData
 } MessageFileData;
 
 class FileMessageIteratorPrivate;
+class FileMessage;
+
+class FileTransferNotify
+{
+public:
+	FileTransferNotify() {}
+	virtual ~FileTransferNotify() {}
+	virtual void process() = 0;
+};
+
+const unsigned NO_FILE	= (unsigned)(-1);
+
+class EXPORT FileTransfer
+{
+public:
+	FileTransfer(FileMessage *msg);
+	virtual ~FileTransfer();
+	void setNotify(FileTransferNotify*);
+	unsigned file()			{ return m_file; }
+	unsigned files()		{ return m_files; }
+	unsigned bytes()		{ return m_bytes; }
+	unsigned fileSize()		{ return m_fileSize; }
+	unsigned totalSize()	{ return m_totalSize; }
+protected:
+	FileMessage			*m_msg;
+	FileTransferNotify	*m_notify;
+	unsigned m_file;
+	unsigned m_files;
+	unsigned m_bytes;
+	unsigned m_fileSize;
+	unsigned m_totalSize;
+};
 
 class EXPORT FileMessage : public Message
 {
@@ -920,6 +952,8 @@ public:
     virtual string save();
     virtual QString presentation();
     QString description();
+	FileTransfer *transfer() { return m_transfer; }
+	void setTransfer(FileTransfer*);
     class EXPORT Iterator
     {
     public:
@@ -933,6 +967,7 @@ public:
     };
 protected:
     MessageFileData	data;
+	FileTransfer	*m_transfer;
 };
 
 class EXPORT AuthMessage : public Message

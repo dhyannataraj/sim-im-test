@@ -327,7 +327,7 @@ void SIMServerSocket::activated(int)
         if (notify){
             QSocket *s = new QSocket;
             s->setSocket(fd);
-            notify->accept(new SIMClientSocket(s));
+            notify->accept(new SIMClientSocket(s), htonl(s->address().ip4Addr()));
         }else{
 #ifdef WIN32
             ::closesocket(fd);

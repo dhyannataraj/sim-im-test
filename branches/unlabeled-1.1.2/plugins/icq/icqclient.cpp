@@ -359,6 +359,14 @@ ICQClient::~ICQClient()
     free_data(icqClientData, &data);
     if (m_socket)
         delete m_socket;
+	for (list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it){
+		Message *msg = *it;
+		msg->setError(I18N_NOOP("Process message failed"));
+		Event e(EventRealSendMessage, msg);
+		e.process();
+		delete msg;
+	}
+	m_processMsg.clear();
 }
 
 const DataDef *ICQProtocol::userDataDef()
