@@ -1181,7 +1181,7 @@ void UserBox::modeChanged(bool bSimple)
             continue;
         }
         (*it)->close();
-        wnds.begin();
+        it = wnds.begin();
     }
 }
 
