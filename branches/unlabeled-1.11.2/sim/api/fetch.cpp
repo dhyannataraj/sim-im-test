@@ -65,7 +65,7 @@ FetchThread::FetchThread(FetchClient *client)
 void FetchThread::run()
 {
     string headers;
-    DWORD flags = INTERNET_FLAG_KEEP_CONNECTION | INTERNET_FLAG_PRAGMA_NOCACHE | INTERNET_FLAG_NO_UI | INTERNET_FLAG_NO_AUTH | INTERNET_FLAG_SECURE;
+    DWORD flags = INTERNET_FLAG_KEEP_CONNECTION | INTERNET_FLAG_PRAGMA_NOCACHE | INTERNET_FLAG_NO_UI | INTERNET_FLAG_NO_AUTH;
     if (!m_client->m_bRedirect)
         flags |= INTERNET_FLAG_NO_AUTO_REDIRECT;
     for (HEADERS_MAP::iterator it = m_client->m_hOut.begin(); it != m_client->m_hOut.end(); ++it){
@@ -96,19 +96,24 @@ void FetchThread::run()
     url.lpszExtraInfo	  = extra;
     url.dwExtraInfoLength = sizeof(extra);
     if (!_InternetCrackUrl(m_client->m_uri.c_str(), 0, ICU_DECODE, &url)){
-        log(L_WARN, "InternetCrackUrl error %u", GetLastError());
+		m_client->m_errCode = GetLastError();
+        m_client->m_err     = "InternetCrackUrl";
         FetchManager::manager->remove(m_client);
         return;
     }
-    if ((url.nScheme != INTERNET_SCHEME_HTTP) && (url.nScheme != INTERNET_SCHEME_HTTPS)){
-        log(L_WARN, "Unsupported scheme", GetLastError());
+    if (url.nScheme == INTERNET_SCHEME_HTTPS){
+		 flags |= INTERNET_FLAG_SECURE;
+	}else if (url.nScheme != INTERNET_SCHEME_HTTPS){
+		m_client->m_errCode = GetLastError();
+        m_client->m_err     = "Unsupported scheme";
         FetchManager::manager->remove(m_client);
         return;
     }
     HINTERNET hCon = _InternetConnect(hInet, url.lpszHostName, url.nPort,
                                       url.lpszUserName, url.lpszPassword, INTERNET_SERVICE_HTTP, 0, 0);
     if (hCon == NULL){
-        log(L_WARN, "InternetConnect error %u", GetLastError());
+		m_client->m_errCode = GetLastError();
+        m_client->m_err     = "InternetConnect error";
         FetchManager::manager->remove(m_client);
         return;
     }
@@ -126,13 +131,15 @@ void FetchThread::run()
     HINTERNET hReq = _HttpOpenRequest(hCon, verb, uri.c_str(), NULL, NULL, NULL,
                                       flags, 0);
     if (hReq == NULL){
-        log(L_WARN, "HttpOpenRequest error %u", GetLastError());
+		m_client->m_errCode = GetLastError();
+        m_client->m_err     = "HttpOpenRequest error";
         _InternetCloseHandle(hCon);
         FetchManager::manager->remove(m_client);
         return;
     }
     if (!_HttpSendRequest(hReq, headers.c_str(), headers.length(), post_data, post_size)){
-        log(L_WARN, "HttpSendRequest error %u", GetLastError());
+		m_client->m_errCode = GetLastError();
+        m_client->m_err     = "HttpSendRequest";
         _InternetCloseHandle(hReq);
         _InternetCloseHandle(hCon);
         FetchManager::manager->remove(m_client);
@@ -143,7 +150,8 @@ void FetchThread::run()
     _HttpQueryInfo(hReq, HTTP_QUERY_RAW_HEADERS_CRLF, NULL, &size, 0);
     err = GetLastError();
     if (err != ERROR_INSUFFICIENT_BUFFER ){
-        log(L_WARN, "HttpQueryInfo error %u", err);
+		m_client->m_errCode = GetLastError();
+        m_client->m_err     = "HttpQueryInfo";
         _InternetCloseHandle(hReq);
         _InternetCloseHandle(hCon);
         FetchManager::manager->remove(m_client);
@@ -152,7 +160,8 @@ void FetchThread::run()
     Buffer in_headers;
     in_headers.init(size);
     if (!_HttpQueryInfo(hReq, HTTP_QUERY_RAW_HEADERS_CRLF, in_headers.data(), &size, 0)){
-        log(L_WARN, "HttpQueryInfo error %u", err);
+		m_client->m_errCode = GetLastError();
+        m_client->m_err     = "HttpQueryInfo";
         _InternetCloseHandle(hReq);
         _InternetCloseHandle(hCon);
         FetchManager::manager->remove(m_client);
@@ -167,9 +176,7 @@ void FetchThread::run()
             unsigned size = in_headers.writePos() - in_headers.readPos();
             line.append(size, '\x00');
             in_headers.unpack((char*)line.c_str(), size);
-            log(L_DEBUG, "Last: %u %s", size, line.c_str());
         }
-        log(L_DEBUG, "Header: %s", line.c_str());
         if (bFirst){
             bFirst = false;
             getToken(line, ' ');
@@ -180,7 +187,8 @@ void FetchThread::run()
         m_client->m_hIn += '\x00';
     }
     if (bFirst){
-        log(L_WARN, "Bad http answer", err);
+		m_client->m_errCode = 0;
+        m_client->m_err     = "Bas answer";
         _InternetCloseHandle(hReq);
         _InternetCloseHandle(hCon);
         FetchManager::manager->remove(m_client);
@@ -190,7 +198,8 @@ void FetchThread::run()
         DWORD readn;
         char buff[4096];
         if (!_InternetReadFile(hReq, buff, sizeof(buff), &readn)){
-            log(L_WARN, "InternetReadFile error %u", err);
+			m_client->m_errCode = GetLastError();
+		    m_client->m_err     = "InternetReadFile";
             _InternetCloseHandle(hReq);
             _InternetCloseHandle(hCon);
             FetchManager::manager->remove(m_client);
@@ -351,6 +360,7 @@ FetchClient::FetchClient(const char *url_str, Buffer *postData, const char *head
         }
     }
 #ifdef WIN32
+	m_errCode = 0;
     if (hInet){
 		m_thread = new FetchThread(this);
 		m_thread->start();
@@ -414,6 +424,8 @@ FetchClient::~FetchClient()
             FetchManager::manager->m_clients.erase(it);
     }
 #ifdef WIN32
+	if (!m_err.empty())
+		log(L_DEBUG, "Fetch error %s: %u", m_err.c_str(), m_errCode);
 	if (m_thread)
 		delete m_thread;
 #endif
