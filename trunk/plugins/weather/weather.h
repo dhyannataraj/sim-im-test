@@ -19,6 +19,7 @@
 #define _WEATHER_H
 
 #include <libxml/parser.h>
+#include <qdatetime.h>
 
 #include "simapi.h"
 #include "fetch.h"
