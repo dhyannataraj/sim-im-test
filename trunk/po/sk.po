@@ -1971,16 +1971,14 @@ msgid ""
 "_: Ctrl+B\n"
 "chat msg"
 msgstr ""
-"Ctrl+B\n"
-"chat správa"
+"Ctrl+B"
 
 #: client.cpp:1183
 msgid ""
 "_: Ctrl+F\n"
 "File"
 msgstr ""
-"Ctrl+F\n"
-"súbor"
+"Ctrl+F"
 
 #: client.cpp:1185
 msgid ""
@@ -1993,8 +1991,7 @@ msgid ""
 "_: Ctrl+R\n"
 "AuthRequest"
 msgstr ""
-"Ctrl+R\n"
-"žiadosť o autorizáciu"
+"Ctrl+R"
 
 #: client.cpp:1189
 msgid ""
@@ -4518,7 +4515,7 @@ msgstr "&Detaily"
 
 #: ui/filetransferbase.cpp:130
 msgid "Close after send"
-msgstr "Po odeslaní zavrieť"
+msgstr "Po odoslaní zavrieť"
 
 #: ui/acceptbase.cpp:173
 #: ui/acceptbase.cpp:177
