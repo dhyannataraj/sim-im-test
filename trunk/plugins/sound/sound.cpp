@@ -108,6 +108,9 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, const char *config)
 
     m_bChanged = false;
 
+    CmdSoundDisable   = registerType();
+    EventSoundChanged = registerType();
+
     IconDef icon;
     icon.name = "sound";
     icon.xpm = sound;
@@ -127,9 +130,6 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, const char *config)
     cmd->param	 = (void*)getSoundSetup;
     Event e(EventAddPreferences, cmd);
     e.process();
-
-    CmdSoundDisable   = registerType();
-    EventSoundChanged = registerType();
 
     cmd->id		  = CmdSoundDisable;
     cmd->text	  = I18N_NOOP("&Sound");
