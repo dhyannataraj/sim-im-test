@@ -983,8 +983,8 @@ const int DESKTOP	= 4;
 
 EXPORT void saveGeometry(QWidget*, Data[5]);
 EXPORT void restoreGeometry(QWidget*, Data[5], bool bPos, bool bSize);
-EXPORT void saveToolbar(QToolBar*, Data[8]);
-EXPORT void restoreToolbar(QToolBar*, Data[8]);
+EXPORT void saveToolbar(QToolBar*, Data[7]);
+EXPORT void restoreToolbar(QToolBar*, Data[7]);
 EXPORT bool cmp(char *s1, char *s2);
 
 // _____________________________________________________________________________________

@@ -607,7 +607,6 @@ protected:
     unsigned m_listRequestTime;
     bool m_bRosters;
     bool m_bBirthday;
-    bool m_bServerReady;
     list<ServerRequest*> varRequests;
     list<unsigned long>  infoRequests;
     list<string>		 buddies;

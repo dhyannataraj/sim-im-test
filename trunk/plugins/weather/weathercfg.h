@@ -1,5 +1,5 @@
 /***************************************************************************
-                          html.h  -  description
+                          weathercfg.h  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,37 +15,26 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _HTML_H
-#define _HTML_H	1
+#ifndef _WEATHERCFG_H
+#define _WEATHERCFG_H
 
 #include "simapi.h"
-#include "stl.h"
+#include "weathercfgbase.h"
 
-class Buffer;
+class WeatherPlugin;
 
-namespace SIM
+class WeatherCfg : public WeatherCfgBase, public EventReceiver
 {
-
-class HTMLParserPrivate;
-
-class EXPORT HTMLParser
-{
+    Q_OBJECT
 public:
-    HTMLParser();
-    virtual ~HTMLParser();
-    void parse(const QString &str);
-	void parse(Buffer &buf);
-    static list<QString> parseStyle(const QString &str);
-    static QString makeStyle(const list<QString> &opt);
+    WeatherCfg(QWidget *parent, WeatherPlugin*);
+public slots:
+    void apply();
 protected:
-	void parse();
-    virtual void text(const QString &text) = 0;
-    virtual void tag_start(const QString &tag, const list<QString> &options) = 0;
-    virtual void tag_end(const QString &tag) = 0;
-    HTMLParserPrivate *p;
-    friend class HTMLParserPrivate;
-};
-
+    void *processEvent(Event*);
+    void fill();
+    WeatherPlugin *m_plugin;
 };
 
 #endif
+

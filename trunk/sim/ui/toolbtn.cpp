@@ -144,6 +144,11 @@ CToolButton::~CToolButton()
     emit buttonDestroyed();
 }
 
+void CToolButton::setTextLabel(const QString &text)
+{
+	m_text = text;
+}
+
 void CToolButton::setTextLabel()
 {
     QString text = m_text;
@@ -428,7 +433,17 @@ void PictButton::paintEvent(QPaintEvent*)
                 rc = QRect(8 + pict.width(), 4, width() - 4, height() - 4);
             }
         }
-    }
+    }else{
+            QToolBar *bar = static_cast<QToolBar*>(parent());
+            if (bar->orientation() == Vertical){
+                QWMatrix m;
+                m.rotate(90);
+                p.setWorldMatrix(m);
+                rc = QRect(4, -4, height() - 4, 4 - width());
+            }else{
+                rc = QRect(4, 4, width() - 4, height() - 4);
+            }
+	}
     const QColorGroup &cg = isEnabled() ? palette().active() : palette().disabled();
     p.setPen(cg.text());
     QString text = m_text;

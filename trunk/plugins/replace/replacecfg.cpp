@@ -98,8 +98,10 @@ bool ReplaceCfg::eventFilter(QObject *o, QEvent *e)
             }
         }
         if ((ke->key() == Key_Enter) || (ke->key() == Key_Return)){
+			QString text = m_edit->text();
             flush();
-            m_col = 1;
+			if ((m_col == 0) && !text.isEmpty())
+				m_col = 1;
             setEdit();
             return true;
         }
@@ -114,18 +116,20 @@ bool ReplaceCfg::eventFilter(QObject *o, QEvent *e)
 
 void ReplaceCfg::flush()
 {
-    if (m_editItem){
-        if (m_edit->text().isEmpty()){
+    if (m_editItem == NULL)
+		return;
+    if (m_edit->text().isEmpty()){
             if ((m_editCol == 0) && !m_editItem->text(0).isEmpty()){
+				m_bDelete = true;
                 delete m_editItem;
                 m_editItem = NULL;
+				m_bDelete = false;
             }
-        }else{
+			return;
+	}
             if ((m_editCol == 0) && m_editItem->text(0).isEmpty())
                 new QListViewItem(lstKeys, "", "", number(m_count++).c_str());
             m_editItem->setText(m_editCol, m_edit->text());
-        }
-    }
 }
 
 void ReplaceCfg::setEdit()
@@ -135,8 +139,9 @@ void ReplaceCfg::setEdit()
         m_edit->hide();
     }else{
         if ((m_editItem != item) || (m_col != m_editCol)){
+			QString text = item->text(m_col);
             flush();
-            m_edit->setText(item->text(m_col));
+            m_edit->setText(text);
             m_edit->setSelection(0, m_edit->text().length());
             m_editCol = m_col;
             m_editItem = item;
@@ -156,6 +161,8 @@ void ReplaceCfg::setEdit()
 
 void ReplaceCfg::selectionChanged()
 {
+	if (m_bDelete)
+		return;
     setEdit();
 }
 

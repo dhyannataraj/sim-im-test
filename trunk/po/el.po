@@ -28,7 +28,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
-"POT-Creation-Date: 2004-02-23 13:58+0300\n"
+"POT-Creation-Date: 2004-02-26 09:04+0300\n"
 "PO-Revision-Date: 2003-11-28 17:01+0200\n"
 "Last-Translator: \n"
 "Language-Team:  <en@li.org>\n"
@@ -1056,7 +1056,7 @@ msgstr "Ε&γγραφή"
 #: plugins/_core/editphonebase.cpp:113 plugins/_core/filetransferbase.cpp:138
 #: plugins/_core/logindlgbase.cpp:133 plugins/action/additembase.cpp:95
 #: plugins/gpg/gpggenbase.cpp:115 plugins/icq/encodingdlgbase.cc:87
-#: plugins/icq/icqclient.cpp:2353 plugins/icq/securedlgbase.cc:78
+#: plugins/icq/icqclient.cpp:2351 plugins/icq/securedlgbase.cc:78
 #: plugins/icq/warndlgbase.cc:89 plugins/proxy/proxyerrorbase.cpp:81
 #: sim/api/simapi.cpp:459 sim/ui/qt3/i18n.cpp:35
 msgid "&Cancel"
@@ -1283,7 +1283,7 @@ msgstr "&Ειδικά χρώματα:"
 msgid "&Define Custom Colors >>"
 msgstr "&Ορισμός ειδικών χρωμάτων >>"
 
-#: plugins/_core/core.cpp:1579 sim/ui/qt3/i18n.cpp:21
+#: plugins/_core/core.cpp:1580 sim/ui/qt3/i18n.cpp:21
 msgid "OK"
 msgstr "Εντάξει"
 
@@ -1420,7 +1420,7 @@ msgstr "Φάκελος"
 msgid "Special"
 msgstr "Ειδικό"
 
-#: sim/ui/editfile.cpp:136 sim/ui/qt3/i18n.cpp:89
+#: sim/ui/editfile.cpp:141 sim/ui/qt3/i18n.cpp:89
 msgid "Open"
 msgstr "Άνοιγμα"
 
@@ -1436,13 +1436,13 @@ msgstr "&Ανοιγμα"
 msgid "&Save"
 msgstr "&Αποθήκευση"
 
-#: plugins/_core/core.cpp:1173 plugins/_core/historycfgbase.cpp:175
+#: plugins/_core/core.cpp:1174 plugins/_core/historycfgbase.cpp:175
 #: sim/ui/qt3/i18n.cpp:97
 msgid "&Rename"
 msgstr "&Μετονομασία"
 
-#: plugins/_core/core.cpp:1182 plugins/_core/core.cpp:1329
-#: plugins/_core/core.cpp:1342 plugins/_core/historycfgbase.cpp:176
+#: plugins/_core/core.cpp:1183 plugins/_core/core.cpp:1330
+#: plugins/_core/core.cpp:1343 plugins/_core/historycfgbase.cpp:176
 #: plugins/_core/logindlgbase.cpp:129 plugins/_core/maininfobase.cpp:178
 #: plugins/_core/maininfobase.cpp:188 plugins/action/menucfgbase.cpp:70
 #: sim/ui/listview.cpp:38 sim/ui/qt3/i18n.cpp:99
@@ -1527,7 +1527,7 @@ msgstr "Αποθήκευση"
 
 #: plugins/_core/status.cpp:137 plugins/_core/statuswnd.cpp:78
 #: plugins/jabber/jabbermessage.cpp:109 plugins/jabber/jabbermessage.cpp:228
-#: plugins/logger/logconfig.cpp:91 plugins/netmonitor/monitor.cpp:89
+#: plugins/logger/logconfig.cpp:92 plugins/netmonitor/monitor.cpp:89
 #: plugins/windock/windock.cpp:179 sim/ui/qt3/i18n.cpp:141
 msgid "Error"
 msgstr ""
@@ -1758,12 +1758,12 @@ msgstr "Αντιγραφή"
 msgid "Paste"
 msgstr "Επικόλληση"
 
-#: plugins/_core/core.cpp:985 sim/ui/qt3/i18n.cpp:255
+#: plugins/_core/core.cpp:986 sim/ui/qt3/i18n.cpp:255
 #: sim/ui/qt3/qtextedit.cpp:4232
 msgid "Clear"
 msgstr "Καθαρισμός"
 
-#: plugins/_core/core.cpp:992 sim/ui/qt3/i18n.cpp:257
+#: plugins/_core/core.cpp:993 sim/ui/qt3/i18n.cpp:257
 #: sim/ui/qt3/qtextedit.cpp:4236 sim/ui/qt3/qtextedit.cpp:4238
 msgid "Select All"
 msgstr "Επιλογή Όλων"
@@ -1854,28 +1854,28 @@ msgstr "Επαναφορά Πάνω"
 msgid "Roll down"
 msgstr "Κύληση κάτω"
 
-#: plugins/_core/core.cpp:946 sim/ui/qt3/qtextedit.cpp:4220
+#: plugins/_core/core.cpp:947 sim/ui/qt3/qtextedit.cpp:4220
 #, fuzzy
 msgid "&Undo"
 msgstr "Αναίρεση"
 
-#: plugins/_core/core.cpp:957 sim/ui/qt3/qtextedit.cpp:4221
+#: plugins/_core/core.cpp:958 sim/ui/qt3/qtextedit.cpp:4221
 #, fuzzy
 msgid "&Redo"
 msgstr "Επαναφορά"
 
-#: plugins/_core/core.cpp:964 sim/ui/qt3/qtextedit.cpp:4226
+#: plugins/_core/core.cpp:965 sim/ui/qt3/qtextedit.cpp:4226
 #, fuzzy
 msgid "Cu&t"
 msgstr "Αποκοπή"
 
-#: plugins/_core/core.cpp:882 plugins/_core/core.cpp:971
+#: plugins/_core/core.cpp:883 plugins/_core/core.cpp:972
 #: plugins/_core/historycfgbase.cpp:174 plugins/netmonitor/monitor.cpp:67
 #: sim/ui/qt3/qtextedit.cpp:4227
 msgid "&Copy"
 msgstr "&Αντιγραφή"
 
-#: plugins/_core/core.cpp:978 sim/ui/qt3/qtextedit.cpp:4229
+#: plugins/_core/core.cpp:979 sim/ui/qt3/qtextedit.cpp:4229
 #, fuzzy
 msgid "&Paste"
 msgstr "Επικόλληση"
@@ -1994,15 +1994,15 @@ msgstr "Σουδάν"
 msgid "&Ok"
 msgstr "&Εντάξει"
 
-#: sim/ui/editfile.cpp:206
+#: sim/ui/editfile.cpp:211
 msgid "*.wav|Sounds"
 msgstr "*.wav |Ήχοι"
 
-#: sim/ui/editfile.cpp:208
+#: sim/ui/editfile.cpp:213
 msgid "Sounds(*.wav)"
 msgstr "Ήχοι(*.wav)"
 
-#: sim/ui/editfile.cpp:211
+#: sim/ui/editfile.cpp:216
 #, fuzzy
 msgid "Select sound"
 msgstr "Επιλογή Γραμματοσειράς"
@@ -2050,14 +2050,14 @@ msgstr ""
 msgid "Login failed"
 msgstr "Η αποστολή απέτυχε"
 
-#: plugins/icq/icqclient.cpp:2055 plugins/icq/icqclient.cpp:2134
+#: plugins/icq/icqclient.cpp:2053 plugins/icq/icqclient.cpp:2132
 #: plugins/jabber/jabberclient.cpp:1742 plugins/msn/msnclient.cpp:712
 #: plugins/yahoo/yahooclient.cpp:1286
 #, fuzzy
 msgid "Network"
 msgstr "Monitor Δυκτίου"
 
-#: plugins/icq/aiminfo.cpp:166 plugins/icq/icqclient.cpp:1461
+#: plugins/icq/aiminfo.cpp:166 plugins/icq/icqclient.cpp:1459
 #: plugins/icq/icqinfo.cpp:229 plugins/jabber/jabberclient.cpp:1420
 #: plugins/jabber/jabberinfo.cpp:104 plugins/msn/msnclient.cpp:1553
 #: plugins/msn/msninfo.cpp:88 plugins/yahoo/yahooclient.cpp:1175
@@ -2066,8 +2066,8 @@ msgid "Last online"
 msgstr "ΤελευταίοςOnline"
 
 #: plugins/_core/userlist.cpp:595 plugins/icq/icq.cpp:99
-#: plugins/icq/icq.cpp:269 plugins/icq/icqclient.cpp:1434
-#: plugins/icq/icqclient.cpp:1468 plugins/jabber/jabber.cpp:87
+#: plugins/icq/icq.cpp:269 plugins/icq/icqclient.cpp:1432
+#: plugins/icq/icqclient.cpp:1466 plugins/jabber/jabber.cpp:87
 #: plugins/jabber/jabberclient.cpp:1427 plugins/jabber/services.cpp:235
 #: plugins/livejournal/livejournal.cpp:318 plugins/msn/msn.cpp:86
 #: plugins/msn/msnclient.cpp:1560 plugins/sms/sms.cpp:229
@@ -2234,7 +2234,8 @@ msgstr "&Νέο"
 #: plugins/spell/spellcfgbase.cpp:83 plugins/styles/fontconfigbase.cpp:99
 #: plugins/styles/stylescfgbase.cpp:52
 #: plugins/transparent/transparentcfgbase.cpp:70
-#: plugins/yahoo/yahooinfobase.cpp:147 plugins/yahoo/yahoosearchbase.cpp:78
+#: plugins/weather/weathercfgbase.cpp:88 plugins/yahoo/yahooinfobase.cpp:147
+#: plugins/yahoo/yahoosearchbase.cpp:78
 msgid "Form1"
 msgstr ""
 
@@ -2268,7 +2269,7 @@ msgstr ""
 msgid "Online:"
 msgstr ""
 
-#: plugins/_core/core.cpp:1253 plugins/icq/aiminfobase.cc:274
+#: plugins/_core/core.cpp:1254 plugins/icq/aiminfobase.cc:274
 #: plugins/icq/icqinfobase.cc:288 plugins/jabber/jabberinfobase.cpp:194
 #: plugins/msn/msninfobase.cpp:136 plugins/yahoo/yahooinfobase.cpp:156
 msgid "&Status"
@@ -2286,7 +2287,7 @@ msgid ""
 msgstr ""
 
 #: plugins/_core/userviewcfgbase.cpp:268 plugins/icq/icq.cpp:114
-#: plugins/icq/icq.cpp:284 plugins/icq/icqclient.cpp:1437
+#: plugins/icq/icq.cpp:284 plugins/icq/icqclient.cpp:1435
 #: plugins/jabber/jabber.cpp:102 plugins/msn/msn.cpp:101
 #: plugins/yahoo/yahoo.cpp:112
 msgid "Away"
@@ -2317,7 +2318,7 @@ msgstr ""
 
 #: plugins/_core/userlist.cpp:598 plugins/_core/userviewcfgbase.cpp:266
 #: plugins/icq/icq.cpp:189 plugins/icq/icq.cpp:299
-#: plugins/icq/icqclient.cpp:1431 plugins/jabber/jabber.cpp:162
+#: plugins/icq/icqclient.cpp:1429 plugins/jabber/jabber.cpp:162
 #: plugins/jabber/services.cpp:232 plugins/livejournal/livejournal.cpp:333
 #: plugins/msn/msn.cpp:191 plugins/sms/sms.cpp:244 plugins/yahoo/yahoo.cpp:157
 msgid "Offline"
@@ -2474,8 +2475,8 @@ msgid "Plugins"
 msgstr "Πολωνέζικα"
 
 #: plugins/_core/cfgdlg.cpp:491 plugins/_core/cfgdlgbase.cpp:91
-#: plugins/_core/core.cpp:532 plugins/_core/core.cpp:1131
-#: plugins/_core/core.cpp:1213
+#: plugins/_core/core.cpp:532 plugins/_core/core.cpp:1132
+#: plugins/_core/core.cpp:1214
 msgid "Setup"
 msgstr "Εγκατάσταση"
 
@@ -2670,18 +2671,18 @@ msgstr "Μήνυμα"
 msgid "Contact"
 msgstr "Επαφή - αριστερά"
 
-#: plugins/_core/core.cpp:615 plugins/_core/core.cpp:1165
+#: plugins/_core/core.cpp:615 plugins/_core/core.cpp:1166
 #, fuzzy
 msgid "Group"
 msgstr "Γκρούπ"
 
-#: plugins/_core/core.cpp:623 plugins/_core/core.cpp:1198
+#: plugins/_core/core.cpp:623 plugins/_core/core.cpp:1199
 #: plugins/icq/icq.cpp:496 plugins/jabber/jabber.cpp:264
 msgid "User &info"
 msgstr "Πληροφορίες Χρήστη"
 
-#: plugins/_core/core.cpp:630 plugins/_core/core.cpp:1031
-#: plugins/_core/core.cpp:1206
+#: plugins/_core/core.cpp:630 plugins/_core/core.cpp:1032
+#: plugins/_core/core.cpp:1207
 msgid "&History"
 msgstr "&Ιστορικό"
 
@@ -2766,157 +2767,157 @@ msgstr "&Επόμενη σελίδα"
 msgid "&Open message"
 msgstr "αποστολή μηνύματος"
 
-#: plugins/_core/core.cpp:888
+#: plugins/_core/core.cpp:889
 #, fuzzy
 msgid "&Delete message"
 msgstr "&Νέο Μήνυμα"
 
-#: plugins/_core/core.cpp:894
+#: plugins/_core/core.cpp:895
 #, fuzzy
 msgid "&Cut history"
 msgstr "&Ιστορικό"
 
-#: plugins/_core/core.cpp:899
+#: plugins/_core/core.cpp:900
 msgid "&Quote"
 msgstr ""
 
-#: plugins/_core/core.cpp:916 plugins/forward/forward.cpp:65
+#: plugins/_core/core.cpp:917 plugins/forward/forward.cpp:65
 msgid "&Forward"
 msgstr "&Προώθηση"
 
-#: plugins/_core/core.cpp:931
+#: plugins/_core/core.cpp:932
 #, fuzzy
 msgid "&Answer"
 msgstr "&Μεταφορά"
 
-#: plugins/_core/core.cpp:1000
+#: plugins/_core/core.cpp:1001
 #, fuzzy
 msgid "Enable spell check"
 msgstr "Έλεγχος Ορθογραφίας"
 
-#: plugins/_core/core.cpp:1006 plugins/spell/spell.cpp:61
+#: plugins/_core/core.cpp:1007 plugins/spell/spell.cpp:61
 msgid "Spell check"
 msgstr "Έλεγχος Ορθογραφίας"
 
-#: plugins/_core/core.cpp:1014
+#: plugins/_core/core.cpp:1015
 #, fuzzy
 msgid "&Messages"
 msgstr "&Μήνυμα"
 
-#: plugins/_core/core.cpp:1023 plugins/_core/msgedit.cpp:1661
+#: plugins/_core/core.cpp:1024 plugins/_core/msgedit.cpp:1661
 #: plugins/sms/smssetupbase.cpp:153
 #, fuzzy
 msgid "&SMS"
 msgstr "SMS"
 
-#: plugins/_core/core.cpp:1039 plugins/_core/core.cpp:1070
+#: plugins/_core/core.cpp:1040 plugins/_core/core.cpp:1071
 msgid "Show &offline"
 msgstr "Εμφάνιση &offline"
 
-#: plugins/_core/core.cpp:1051
+#: plugins/_core/core.cpp:1052
 #, fuzzy
 msgid "&No show groups"
 msgstr "Νέο Γκρούπ"
 
-#: plugins/_core/core.cpp:1061
+#: plugins/_core/core.cpp:1062
 #, fuzzy
 msgid "Group mode 1"
 msgstr "Τύπος Γκρούπ"
 
-#: plugins/_core/core.cpp:1066
+#: plugins/_core/core.cpp:1067
 #, fuzzy
 msgid "Group mode 2"
 msgstr "Τύπος Γκρούπ"
 
-#: plugins/_core/core.cpp:1077
+#: plugins/_core/core.cpp:1078
 #, fuzzy
 msgid "Show &empty groups"
 msgstr "Νέο Γκρούπ"
 
-#: plugins/_core/core.cpp:1084
+#: plugins/_core/core.cpp:1085
 #, fuzzy
 msgid "&Create group"
 msgstr "Δημιουργία Γκρουπ"
 
-#: plugins/_core/core.cpp:1095
+#: plugins/_core/core.cpp:1096
 #, fuzzy
 msgid "&Rename group"
 msgstr "Δημιουργία Γκρουπ"
 
-#: plugins/_core/core.cpp:1102
+#: plugins/_core/core.cpp:1103
 #, fuzzy
 msgid "&Delete group"
 msgstr "Δημιουργία Γκρουπ"
 
-#: plugins/_core/core.cpp:1109
+#: plugins/_core/core.cpp:1110
 msgid "Up"
 msgstr "Πάνω"
 
-#: plugins/_core/core.cpp:1116
+#: plugins/_core/core.cpp:1117
 msgid "Down"
 msgstr "Κάτω"
 
-#: plugins/_core/core.cpp:1190
+#: plugins/_core/core.cpp:1191
 msgid "Show &always"
 msgstr ""
 
-#: plugins/_core/core.cpp:1220
+#: plugins/_core/core.cpp:1221
 msgid "To container"
 msgstr ""
 
-#: plugins/_core/core.cpp:1245
+#: plugins/_core/core.cpp:1246
 #, fuzzy
 msgid "&Location"
 msgstr "Εκπαίδευση"
 
-#: plugins/_core/core.cpp:1260
+#: plugins/_core/core.cpp:1261
 #, fuzzy
 msgid "&Phone book"
 msgstr "Βιβλίο Τηλεφώνων"
 
-#: plugins/_core/core.cpp:1267
+#: plugins/_core/core.cpp:1268
 #, fuzzy
 msgid "&No show"
 msgstr "Απόκρυψη"
 
-#: plugins/_core/core.cpp:1274
+#: plugins/_core/core.cpp:1275
 #, fuzzy
 msgid "&Available"
 msgstr "Διαθέσιμος"
 
-#: plugins/_core/core.cpp:1282
+#: plugins/_core/core.cpp:1283
 #, fuzzy
 msgid "&Busy"
 msgstr "Απασχολημένος"
 
-#: plugins/_core/core.cpp:1298
+#: plugins/_core/core.cpp:1299
 msgid "Decline file without reason"
 msgstr "Απόρριψη αρχείου χωρίς λόγο"
 
-#: plugins/_core/core.cpp:1306 plugins/_core/core.cpp:2904
+#: plugins/_core/core.cpp:1307 plugins/_core/core.cpp:2904
 msgid "Sorry, I'm busy right now, and can not respond to your request"
 msgstr ""
 "Συγνώμη, είμαι απασχολημένος αυτή τη "
 "στιγμή και δεν μπορώ να απαντήσω στο "
 "αίτημά σας"
 
-#: plugins/_core/core.cpp:1311 plugins/_core/core.cpp:2913
+#: plugins/_core/core.cpp:1312 plugins/_core/core.cpp:2913
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
 msgstr ""
 "Συγνώμη, είμαι απασχολημένος αυτή τη "
 "στιγμή αλλά θα σας απαντήσω αργότερα"
 
-#: plugins/_core/core.cpp:1316
+#: plugins/_core/core.cpp:1317
 msgid "Enter a decline reason"
 msgstr "Εισάγεται ένα λόγο απόρριψης"
 
-#: plugins/_core/core.cpp:1321 plugins/_core/core.cpp:1335
+#: plugins/_core/core.cpp:1322 plugins/_core/core.cpp:1336
 #: plugins/_core/maininfobase.cpp:177 plugins/_core/maininfobase.cpp:187
 #: plugins/action/menucfgbase.cpp:69 plugins/netmonitor/monitor.cpp:69
 msgid "&Edit"
 msgstr "&Επεξεργασία"
 
-#: plugins/_core/core.cpp:1581
+#: plugins/_core/core.cpp:1582
 msgid ""
 "At loading contact list contacts with identical names were automatically "
 "joined.\n"
@@ -2924,13 +2925,13 @@ msgid ""
 "choose the necessary name and choose a command \"Separate\"."
 msgstr ""
 
-#: plugins/_core/core.cpp:1584
+#: plugins/_core/core.cpp:1585
 #, fuzzy
 msgid "Don't show this message in next time"
 msgstr ""
 "Μην εμφανίζεις αυτό το παράθυρο διαλόγου"
 
-#: plugins/_core/core.cpp:1604
+#: plugins/_core/core.cpp:1605
 msgid ""
 "&IP; - ip-address\n"
 "&Mail; - e-mail\n"
@@ -3596,7 +3597,7 @@ msgstr "Χρησιμοποίηση εξουσιοδότησης proxy"
 msgid "Visible"
 msgstr "Αόρατος"
 
-#: plugins/_core/userviewcfgbase.cpp:263 plugins/icq/icqclient.cpp:1418
+#: plugins/_core/userviewcfgbase.cpp:263 plugins/icq/icqclient.cpp:1416
 msgid "Invisible"
 msgstr "Αόρατος"
 
@@ -3984,7 +3985,7 @@ msgstr "Μήνυμα"
 msgid "SMS"
 msgstr "SMS"
 
-#: plugins/_core/interfacecfg.cpp:92 plugins/icq/icqclient.cpp:2584
+#: plugins/_core/interfacecfg.cpp:92 plugins/icq/icqclient.cpp:2582
 msgid "System"
 msgstr "Σύστημα"
 
@@ -4671,16 +4672,16 @@ msgstr "Αρχείο"
 msgid "Log level:"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:1036 plugins/logger/logconfig.cpp:92
+#: plugins/icq/icqmessage.cpp:1036 plugins/logger/logconfig.cpp:93
 #, fuzzy
 msgid "Warning"
 msgstr "Π&ροειδοποιήσεις"
 
-#: plugins/logger/logconfig.cpp:93
+#: plugins/logger/logconfig.cpp:94
 msgid "Debug"
 msgstr ""
 
-#: plugins/logger/logconfig.cpp:94
+#: plugins/logger/logconfig.cpp:95
 #, fuzzy
 msgid "Packets"
 msgstr "&Πακέτα"
@@ -4832,174 +4833,174 @@ msgstr "Στη λίστα αόρατων"
 msgid "Dear translator! type this default encdoing for your language"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:343
+#: plugins/icq/icqclient.cpp:342
 msgid "Process message failed"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:640 plugins/icq/icqicmb.cpp:86
+#: plugins/icq/icqclient.cpp:638 plugins/icq/icqicmb.cpp:86
 #: plugins/icq/icqicmb.cpp:179
 #, fuzzy
 msgid "Unknown error"
 msgstr "Άγνωστο λάθος login"
 
-#: plugins/icq/icqclient.cpp:641
+#: plugins/icq/icqclient.cpp:639
 msgid "Invalid SNAC header"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:642
+#: plugins/icq/icqclient.cpp:640
 msgid "Server rate limit exceeded"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:643
+#: plugins/icq/icqclient.cpp:641
 #, fuzzy
 msgid "Client rate limit exceeded"
 msgstr "Η λίστα επαφών ελήφθη"
 
-#: plugins/icq/icqclient.cpp:644
+#: plugins/icq/icqclient.cpp:642
 msgid "Recipient is not logged in"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:645
+#: plugins/icq/icqclient.cpp:643
 #, fuzzy
 msgid "Requested service unavailable"
 msgstr "Υπηρεσία SMS διαθέσιμη"
 
-#: plugins/icq/icqclient.cpp:646
+#: plugins/icq/icqclient.cpp:644
 msgid "Requested service not defined"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:647
+#: plugins/icq/icqclient.cpp:645
 msgid "We sent an obsolete SNAC"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:648
+#: plugins/icq/icqclient.cpp:646
 msgid "Not supported by server"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:649 plugins/icq/icqicmb.cpp:88
+#: plugins/icq/icqclient.cpp:647 plugins/icq/icqicmb.cpp:88
 msgid "Not supported by client"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:650
+#: plugins/icq/icqclient.cpp:648
 msgid "Refused by client"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:651
+#: plugins/icq/icqclient.cpp:649
 msgid "Reply too big"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:652
+#: plugins/icq/icqclient.cpp:650
 msgid "Responses lost"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:653
+#: plugins/icq/icqclient.cpp:651
 msgid "Request denied"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:654
+#: plugins/icq/icqclient.cpp:652
 msgid "Incorrect SNAC format"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:655
+#: plugins/icq/icqclient.cpp:653
 msgid "Insufficient rights"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:656
+#: plugins/icq/icqclient.cpp:654
 msgid "Recipient blocked"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:657 plugins/icq/icqicmb.cpp:173
+#: plugins/icq/icqclient.cpp:655 plugins/icq/icqicmb.cpp:173
 msgid "Sender too evil"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:658
+#: plugins/icq/icqclient.cpp:656
 msgid "Receiver too evil"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:659
+#: plugins/icq/icqclient.cpp:657
 msgid "User temporarily unavailable"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:660
+#: plugins/icq/icqclient.cpp:658
 msgid "No match"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:661
+#: plugins/icq/icqclient.cpp:659
 #, fuzzy
 msgid "List overflow"
 msgstr "Λίστα"
 
-#: plugins/icq/icqclient.cpp:662
+#: plugins/icq/icqclient.cpp:660
 msgid "Request ambiguous"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:663
+#: plugins/icq/icqclient.cpp:661
 msgid "Server queue full"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:664
+#: plugins/icq/icqclient.cpp:662
 msgid "Not while on AOL"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:681
+#: plugins/icq/icqclient.cpp:679
 msgid "Protocol error"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:1411 plugins/icq/icqinfo.cpp:214
+#: plugins/icq/icqclient.cpp:1409 plugins/icq/icqinfo.cpp:214
 #, fuzzy
 msgid "Possibly invisible"
 msgstr "επιλογή αόρατης κατάστασης"
 
-#: plugins/icq/icqclient.cpp:1453
+#: plugins/icq/icqclient.cpp:1451
 #, fuzzy
 msgid "Warning level"
 msgstr "Π&ροειδοποιήσεις"
 
-#: plugins/icq/icqclient.cpp:1762 plugins/icq/icqclient.cpp:1950
+#: plugins/icq/icqclient.cpp:1760 plugins/icq/icqclient.cpp:1948
 #: plugins/jabber/jabberclient.cpp:1543 plugins/jabber/jabberclient.cpp:1652
 #: plugins/jabber/jabberclient.cpp:1799 plugins/jabber/jabberclient.cpp:1818
 msgid "Home info"
 msgstr "Πληροφορίες Οικίας"
 
-#: plugins/icq/icqclient.cpp:1777 plugins/icq/icqclient.cpp:1965
+#: plugins/icq/icqclient.cpp:1775 plugins/icq/icqclient.cpp:1963
 #: plugins/jabber/jabberclient.cpp:1558 plugins/jabber/jabberclient.cpp:1667
 #: plugins/jabber/jabberclient.cpp:1801 plugins/jabber/jabberclient.cpp:1820
 msgid "Work info"
 msgstr "Πληροφορίες Εργασίας"
 
-#: plugins/icq/icqclient.cpp:1792 plugins/icq/icqclient.cpp:1980
+#: plugins/icq/icqclient.cpp:1790 plugins/icq/icqclient.cpp:1978
 msgid "More info"
 msgstr "Περισσότερες Πληροφορίες"
 
-#: plugins/icq/icqclient.cpp:1807 plugins/icq/icqclient.cpp:1901
-#: plugins/icq/icqclient.cpp:1995 plugins/icq/icqclient.cpp:2119
+#: plugins/icq/icqclient.cpp:1805 plugins/icq/icqclient.cpp:1899
+#: plugins/icq/icqclient.cpp:1993 plugins/icq/icqclient.cpp:2117
 #: plugins/jabber/discoinfo.cpp:189 plugins/jabber/jabberclient.cpp:1573
 #: plugins/jabber/jabberclient.cpp:1682 plugins/jabber/jabberclient.cpp:1803
 #: plugins/jabber/jabberclient.cpp:1822
 msgid "About info"
 msgstr "Πληροφορίες Περί"
 
-#: plugins/icq/icqclient.cpp:1822 plugins/icq/icqclient.cpp:2010
+#: plugins/icq/icqclient.cpp:1820 plugins/icq/icqclient.cpp:2008
 msgid "Interests"
 msgstr "Ενδιαφέροντα"
 
-#: plugins/icq/icqclient.cpp:1837 plugins/icq/icqclient.cpp:2025
+#: plugins/icq/icqclient.cpp:1835 plugins/icq/icqclient.cpp:2023
 msgid "Group/Past"
 msgstr "Γκρούπ/Past"
 
-#: plugins/icq/icqclient.cpp:1852 plugins/icq/icqclient.cpp:2040
+#: plugins/icq/icqclient.cpp:1850 plugins/icq/icqclient.cpp:2038
 msgid "Picture"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:2070
+#: plugins/icq/icqclient.cpp:2068
 msgid "Security"
 msgstr "Ασφάλεια"
 
-#: plugins/icq/icqclient.cpp:2348
+#: plugins/icq/icqclient.cpp:2346
 msgid "Send &urgent"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:2352
+#: plugins/icq/icqclient.cpp:2350
 #, fuzzy
 msgid "Send to &list"
 msgstr "Προσθήκη στη λίστα αγνοήσεων"
@@ -5062,7 +5063,7 @@ msgid "File transfer declined"
 msgstr "Ολοκληρώθηκε η μεταφορά του αρχείου"
 
 #: plugins/icq/icqicmb.cpp:789 plugins/icq/icqicmb.cpp:797
-#: plugins/icq/icqvarious.cpp:1624 plugins/jabber/jabberclient.cpp:799
+#: plugins/icq/icqvarious.cpp:1622 plugins/jabber/jabberclient.cpp:799
 msgid "Client go offline"
 msgstr ""
 
@@ -5398,21 +5399,21 @@ msgstr ""
 msgid "You've been warned by %1"
 msgstr ""
 
-#: plugins/icq/icqvarious.cpp:1424
+#: plugins/icq/icqvarious.cpp:1422
 msgid ""
 "The Cellular network is currently unable to send your message to the "
 "recipient. Please try again later."
 msgstr ""
 
-#: plugins/icq/icqvarious.cpp:1425
+#: plugins/icq/icqvarious.cpp:1423
 msgid "INVALID NUMBER"
 msgstr ""
 
-#: plugins/icq/icqvarious.cpp:1426
+#: plugins/icq/icqvarious.cpp:1424
 msgid "RATE LIMIT"
 msgstr ""
 
-#: plugins/icq/icqvarious.cpp:1459 plugins/icq/icqvarious.cpp:1518
+#: plugins/icq/icqvarious.cpp:1457 plugins/icq/icqvarious.cpp:1516
 #, fuzzy
 msgid "SMS send fail"
 msgstr "Η αποστολή απέτυχε"
@@ -8407,6 +8408,110 @@ msgstr "Proxy Κόμβος:"
 #, fuzzy
 msgid "You send"
 msgstr "Κατάσταση"
+
+#: plugins/weather/weather.cpp:57
+#, fuzzy
+msgid "Weather"
+msgstr "Άλλο"
+
+#: plugins/weather/weather.cpp:58
+msgid "Plugin provides show weather"
+msgstr ""
+
+#: plugins/weather/weather.cpp:108
+#, fuzzy
+msgid "Not connected"
+msgstr "Προσθήκη Μη-ΙΜ επαφής"
+
+#: plugins/weather/weather.cpp:455
+msgid ""
+"_: weather\n"
+"Overcast"
+msgstr ""
+
+#: plugins/weather/weather.cpp:456
+msgid ""
+"_: weather\n"
+"Fog"
+msgstr ""
+
+#: plugins/weather/weather.cpp:457
+msgid ""
+"_: weather\n"
+"Storm"
+msgstr ""
+
+#: plugins/weather/weather.cpp:458
+msgid ""
+"_: weather\n"
+"Rain"
+msgstr ""
+
+#: plugins/weather/weather.cpp:459
+msgid ""
+"_: weather\n"
+"Snow"
+msgstr ""
+
+#: plugins/weather/weather.cpp:460
+msgid ""
+"_: weather\n"
+"Clear"
+msgstr ""
+
+#: plugins/weather/weather.cpp:461
+msgid ""
+"_: weather\n"
+"Cloudy"
+msgstr ""
+
+#: plugins/weather/weather.cpp:462
+msgid ""
+"_: weather\n"
+"Partial cloudy"
+msgstr ""
+
+#: plugins/weather/weather.cpp:488
+#, c-format
+msgid "%f &deg;F/ %s &deg;C"
+msgstr ""
+
+#: plugins/weather/weather.cpp:497
+msgid ""
+"%l<br><br>\n"
+"<img src=\"icon:weather\"> %c<br>\n"
+"Temperature: <b>%f &deg;F</b> (<b>%s &deg;C</b>)<br>\n"
+"Humidity: <b>%h%</b><br>\n"
+"Pressure: <b>%i</b> in (<b>%a</a> hPa)<br>\n"
+"Wind: <b>%r</b> <b>%w</b> mph (<b>%x</b> km/h)<br>\n"
+"Sunrise: %p<br>\n"
+"Sunset: %q<br>\n"
+"<br>\n"
+"Updated: %u"
+msgstr ""
+
+#: plugins/weather/weathercfg.cpp:34
+msgid "Go www.wunderground.com"
+msgstr ""
+
+#: plugins/weather/weathercfgbase.cpp:89
+#, fuzzy
+msgid "Location:"
+msgstr "Εκπαίδευση"
+
+#: plugins/weather/weathercfgbase.cpp:91
+msgid "Find your location and input url"
+msgstr ""
+
+#: plugins/weather/weathercfgbase.cpp:92
+#, fuzzy
+msgid "Button text:"
+msgstr "&Τέλος"
+
+#: plugins/weather/weathercfgbase.cpp:93
+#, fuzzy
+msgid "Button tip:"
+msgstr "&Τέλος"
 
 #, fuzzy
 #~ msgid ""

@@ -208,7 +208,6 @@ void UserWnd::setMessage(Message **msg)
         if (container->wnd() == this)
             bSetFocus = true;
     }
-
     if (!m_edit->setMessage(*msg, bSetFocus)){
         delete *msg;
         *msg = new Message(MessageGeneric);

@@ -310,7 +310,6 @@ ICQClient::ICQClient(Protocol *protocol, const char *cfg, bool bAIM)
     m_listRequest = NULL;
     data.owner.DCcookie.value = rand();
     m_bBirthday = false;
-    m_bServerReady = false;
     m_infoTimer = new QTimer(this);
     connect(m_infoTimer, SIGNAL(timeout()), this, SLOT(infoRequestFail()));
     m_sendTimer = new QTimer(this);
@@ -616,7 +615,6 @@ void ICQClient::disconnected()
     m_acceptMsg.clear();
     m_bRosters = false;
     m_nMsgSequence = 0;
-    m_bServerReady = false;
     m_bIdleTime = false;
     m_cookie.init(0);
     m_advCounter = 0;
@@ -1645,10 +1643,6 @@ string ICQClient::clientName(ICQUserData *data)
         res += "AIM";
         return res;
     }
-    if (hasCap(data, CAP_AIM_BUDDYCON)){
-        res += "gaim";
-        return res;
-    }
     if ((data->InfoUpdateTime.value & 0xFF7F0000L) == 0x7D000000L){
         unsigned ver = data->InfoUpdateTime.value & 0xFFFF;
         if (ver % 10){
@@ -1708,6 +1702,10 @@ string ICQClient::clientName(ICQUserData *data)
             (data->InfoUpdateTime.value == data->PluginStatusTime.value) &&
             (data->PluginStatusTime.value == data->PluginInfoTime.value) && (data->Caps.value == 0)){
         res += "vICQ";
+        return res;
+    }
+    if (hasCap(data, CAP_AIM_BUDDYCON)){
+        res += "gaim";
         return res;
     }
     if (hasCap(data, CAP_SRV_RELAY) && hasCap(data, CAP_UTF)){
