@@ -602,8 +602,6 @@ EXPORT const char **smiles()
     return _smiles;
 }
 
-};
-
 #ifdef WIN32
 
 DECLARE_HANDLE(HMONITOR);
@@ -675,6 +673,8 @@ EXPORT QRect screenGeometry(unsigned nScreen)
 #endif
 #endif
 }
+
+};
 
 #ifndef HAVE_STRCASECMP
 
