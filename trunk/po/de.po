@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2002-11-25 10:46+0300\n"
-"PO-Revision-Date: 2002-11-25 14:31GMT\n"
+"PO-Revision-Date: 2002-11-25 21:54GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3635,7 +3635,7 @@ msgstr "Startbild &anzeigen"
 
 #: ui/themesetupbase.cpp:165
 msgid "Use emotional &icons"
-msgstr "Emotionelle &Icons benutzen"
+msgstr "Emot&icons benutzen"
 
 #: ui/themesetupbase.cpp:169
 msgid "&Miscellaneous"
