@@ -507,7 +507,9 @@ ICQPlugin::ICQPlugin(unsigned base, const char *cfg)
     CmdAllEncodings = registerType();
     CmdSendMessage = registerType();
     CmdGroups = registerType();
-    CmdCheckInvisible = registerType();
+    CmdCheckInvisibleAll = registerType();
+    CmdCheckInvisible  = registerType();
+	MenuCheckInvisible = registerType();
 
     m_icq = new ICQProtocol(this);
     m_aim = new AIMProtocol(this);
@@ -518,6 +520,8 @@ ICQPlugin::ICQPlugin(unsigned base, const char *cfg)
     eMenuSearch.process();
     Event eMenuGroups(EventMenuCreate, (void*)MenuGroups);
     eMenuGroups.process();
+    Event eMenuCheckInvisible(EventMenuCreate, (void*)MenuCheckInvisible);
+    eMenuCheckInvisible.process();
 
     Command cmd;
     cmd->id          = CmdVisibleList;
@@ -595,13 +599,31 @@ ICQPlugin::ICQPlugin(unsigned base, const char *cfg)
     cmd->flags		 = COMMAND_CHECK_STATE;
     eCmd.process();
 
-    cmd->id			 = CmdCheckInvisible;
+    cmd->id			 = CmdCheckInvisibleAll;
     cmd->text		 = I18N_NOOP("Check &invisible");
     cmd->icon		 = "ICQ_invisible";
     cmd->menu_id	 = MenuMain;
     cmd->menu_grp	 = 0x2090;
     cmd->popup_id	 = 0;
     cmd->flags		 = COMMAND_CHECK_STATE;
+    eCmd.process();
+
+    cmd->id			 = CmdCheckInvisibleAll;
+    cmd->text		 = I18N_NOOP("&All");
+    cmd->icon		 = NULL;
+    cmd->menu_id	 = MenuCheckInvisible;
+    cmd->menu_grp	 = 0x2000;
+    cmd->popup_id	 = 0;
+    cmd->flags		 = COMMAND_DEFAULT;
+    eCmd.process();
+
+    cmd->id			 = CmdCheckInvisible;
+    cmd->text		 = I18N_NOOP("&Only invisible");
+    cmd->icon		 = NULL;
+    cmd->menu_id	 = MenuCheckInvisible;
+    cmd->menu_grp	 = 0x2001;
+    cmd->popup_id	 = 0;
+    cmd->flags		 = COMMAND_DEFAULT;
     eCmd.process();
 
     registerMessages();
@@ -635,6 +657,9 @@ ICQPlugin::~ICQPlugin()
     Event eCheckInvisible(EventCommandRemove, (void*)CmdCheckInvisible);
     eCheckInvisible.process();
 
+    Event eCheckInvisibleAll(EventCommandRemove, (void*)CmdCheckInvisibleAll);
+    eCheckInvisibleAll.process();
+
     Event eMenuEncoding(EventMenuRemove, (void*)MenuEncoding);
     eMenuEncoding.process();
 
@@ -643,6 +668,9 @@ ICQPlugin::~ICQPlugin()
 
     Event eMenuGroups(EventMenuRemove, (void*)MenuGroups);
     eMenuGroups.process();
+
+    Event eMenuCheckInvisible(EventMenuRemove, (void*)MenuCheckInvisible);
+    eMenuCheckInvisible.process();
 }
 
 string ICQPlugin::getConfig()

@@ -70,10 +70,12 @@ public:
     unsigned CmdAllEncodings;
     unsigned CmdSendMessage;
     unsigned CmdGroups;
+    unsigned CmdCheckInvisibleAll;
     unsigned CmdCheckInvisible;
     unsigned MenuEncoding;
     unsigned MenuSearchResult;
     unsigned MenuGroups;
+	unsigned MenuCheckInvisible;
     unsigned RetrySendDND;
     unsigned RetrySendOccupied;
     static Protocol *m_icq;
