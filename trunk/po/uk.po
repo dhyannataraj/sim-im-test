@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2002-12-30 03:06+0300\n"
-"PO-Revision-Date: 2002-12-28 10:39+0200\n"
+"PO-Revision-Date: 2003-01-03 21:32+0200\n"
 "Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1639,8 +1639,7 @@ msgstr "..."
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Ця програма поширюється під ліцензією GPL v2"
+msgstr "Ця програма поширюється під ліцензією GPL v2"
 
 #: chatwnd.cpp:75 ui/userinfobase.cpp:94
 msgid "Save"
@@ -2049,22 +2048,20 @@ msgid "show/hide dock"
 msgstr "використовувати док"
 
 #: control.cpp:239
-#, fuzzy
 msgid "set notify mode"
-msgstr "встановити невидимий режим"
+msgstr "ввімкнути попередження"
 
 #: control.cpp:240
 msgid "get icon in xpm fomrat"
-msgstr ""
+msgstr "отримати іконку в xpm форматі"
 
 #: control.cpp:241
-#, fuzzy
 msgid "open upread message"
-msgstr "відправити повідомлення"
+msgstr "відкрити непрочитане повідомлення"
 
 #: control.cpp:242
 msgid "show popup"
-msgstr ""
+msgstr "показувати випадаюче меню"
 
 #: control.cpp:243
 msgid "quit SIM"
@@ -2186,8 +2183,7 @@ msgstr "%1 від %2"
 
 #: mainwin.cpp:1272 ui/logindlg.cpp:234
 msgid "Can't connect to proxy server"
-msgstr ""
-"Неможливо з'єднатися з проксі-сервером"
+msgstr "Неможливо з'єднатися з проксі-сервером"
 
 #: mainwin.cpp:1280 ui/logindlg.cpp:241
 msgid "Proxy server require authorization"
@@ -2219,8 +2215,7 @@ msgstr "&Ні"
 
 #: mainwin.cpp:1985
 msgid "Add %1 to ignore list ?"
-msgstr ""
-"Додати \"%1\" в список тих що ігноруються?"
+msgstr "Додати \"%1\" в список тих що ігноруються?"
 
 #: mainwin.cpp:2049
 msgid "In visible list"
@@ -2660,8 +2655,7 @@ msgstr "Розмір: %1 / Максимальний: %2"
 
 #: msgedit.cpp:1563
 msgid "Message will be split"
-msgstr ""
-"Повідомлення буде розділено на частини"
+msgstr "Повідомлення буде розділено на частини"
 
 #: msgedit.cpp:1738
 msgid "Decline reason"
@@ -2761,9 +2755,8 @@ msgid "Control socket"
 msgstr "Сокет керування"
 
 #: sim.cpp:543
-#, fuzzy
 msgid "No dock"
-msgstr "Використовувати &док"
+msgstr "Вимкнути док"
 
 #: themes.cpp:123 themes.cpp:132
 msgid "Default style"
@@ -3343,8 +3336,7 @@ msgstr "Вікно - розтягнути"
 
 #: ui/themesetup.cpp:205
 msgid "Need restart SIM for change language"
-msgstr ""
-"Потрібно перестартувати SIM для зміни мови"
+msgstr "Потрібно перестартувати SIM для зміни мови"
 
 #: ui/themesetup.cpp:215
 msgid "Default icons"
@@ -3716,8 +3708,7 @@ msgstr "Закрити після відправки"
 # #
 #: ui/acceptbase.cpp:114
 msgid "Automaitcaly open window"
-msgstr ""
-"Автоматично відкривати вікно повідомлень"
+msgstr "Автоматично відкривати вікно повідомлень"
 
 #: ui/acceptbase.cpp:115 ui/acceptbase.cpp:118
 msgid "Override global settings"
@@ -4240,8 +4231,7 @@ msgstr "&Прозорість"
 
 #: ui/themesetupbase.cpp:253
 msgid "Show main window in task manager"
-msgstr ""
-"Показувати основне вікно в панелі задач"
+msgstr "Показувати основне вікно в панелі задач"
 
 #: ui/themesetupbase.cpp:254
 msgid "Show user window in task manager"
@@ -4272,8 +4262,7 @@ msgid "Hide main window after"
 msgstr "Сховати головне вікно"
 
 #: ui/statussetupbase.cpp:110
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Заборонити попередження в стані "
 "\"Відійшов\", \"Не активний\", \"Зайнятий\""
@@ -4468,8 +4457,7 @@ msgstr ""
 
 #: ui/generalsecbase.cpp:191
 msgid "Reject &URL from unknown users"
-msgstr ""
-"Відкидати &URL від невідомих користувачів"
+msgstr "Відкидати &URL від невідомих користувачів"
 
 #: ui/generalsecbase.cpp:192
 msgid "Reject &World Wide pager messages"
@@ -4864,3 +4852,4 @@ msgstr "&Нотатки"
 
 #~ msgid "Spell"
 #~ msgstr "Проверка орфографии"
+
