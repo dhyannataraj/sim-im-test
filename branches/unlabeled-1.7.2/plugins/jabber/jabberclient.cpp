@@ -206,6 +206,8 @@ string JabberClient::name()
 {
     string res = "Jabber.";
     res += data.owner.ID;
+	res += '@';
+	res += data.owner.VHost;
     return res;
 }
 
