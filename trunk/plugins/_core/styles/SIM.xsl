@@ -24,7 +24,10 @@
 <xsl:when test="@direction='2'">
 <font>
 <xsl:attribute name="color">#808080</xsl:attribute>
-<xsl:value-of select="time/hour"/>:<xsl:value-of select="time/minute"/>
+<xsl:text> </xsl:text>
+<xsl:value-of select="time/date"/>
+<xsl:text> </xsl:text>
+<xsl:value-of select="time/hour"/>:<xsl:value-of select="time/minute"/>:<xsl:value-of select="time/second"/>
 <xsl:text> </xsl:text>
 <xsl:value-of disable-output-escaping="yes" select="from"/>
 </font>
@@ -48,6 +51,7 @@
 </font>
 <xsl:text> </xsl:text>
 <font size="-1">
+<xsl:text> </xsl:text>
 <xsl:value-of select="time/date"/>
 <xsl:text> </xsl:text>
 <xsl:value-of select="time/hour"/>:<xsl:value-of select="time/minute"/>:<xsl:value-of select="time/second"/>

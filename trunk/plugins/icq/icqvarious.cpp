@@ -370,7 +370,7 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
             char TimeZone;
             char authFlag;	/* ??? */
             char webAware;
-			char allowDC;
+            char allowDC;
             char hideEmail;
             b
             >> &data->Nick.ptr

@@ -243,25 +243,25 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
 
     if (msg->getForeground() != 0xFFFFFFFF)
     {
-       s += " fgcolor=\"#";
-       s += QString::number(msg->getForeground(), 16).rightJustify(6, '0');
-       s += "\"";
+        s += " fgcolor=\"#";
+        s += QString::number(msg->getForeground(), 16).rightJustify(6, '0');
+        s += "\"";
     }
 
     // Some bright day might come when one could specify background color from inside Qt's richtext.
     // Meanwhile, this is useless:
     if (msg->getBackground() != 0xFFFFFFFF)
     {
-       s += " bgcolor=\"#";
-       s += QString::number(msg->getBackground(), 16).rightJustify(6, '0');
-       s += "\"";
+        s += " bgcolor=\"#";
+        s += QString::number(msg->getBackground(), 16).rightJustify(6, '0');
+        s += "\"";
     }
     s += ">";
-    
+
     // We pass the rich text quoted, since we're not sure of its' XML validity.
     // The XSL engine should copy it as-is (using xsl:value-of with disable-output-escaping="yes").
     s += quoteString(QString(MSG_BEGIN) + msgText);
-    
+
     s += "</body>";
     s += "</message>";
     XSL *p = xsl;
@@ -307,49 +307,49 @@ void MsgViewBase::setBackground(unsigned n)
 {
     QColor bgcolor;
     bool bSet = false, bInMsg = false;
-    
+
     QString sAnchor = QString::fromLatin1(MSG_ANCHOR),
-            sBegin = QString::fromLatin1(MSG_BEGIN);
-    
+                      sBegin = QString::fromLatin1(MSG_BEGIN);
+
     for (unsigned i = n; i < (unsigned)paragraphs(); i++){
         QString s = text(i);
         int anchorPos = s.find(sAnchor);
         if (anchorPos >= 0)
         {
-           bInMsg = false;
-           
-           // This code could be a bit faster by making assumptions.
-           // However, I prefer to be correct HTML-parser-wise.
-           
-           int idStart = anchorPos + sAnchor.length();
-           int idEnd = s.find('\"', idStart);
-           if ((idStart >= 0) && (idEnd >= 0))
-           {
-              QString id = s.mid(idStart, idEnd - idStart);
-           
-              // Parse the message id (msgId,backgroundColor,...)
-              int bgcolorStart = id.find(',') + 1;
-              int bgcolorEnd = id.find(',', bgcolorStart);
-              
-              if ((bgcolorStart >= 0) && (bgcolorEnd >= 0))
-              {
-                 QString sBgcolor = id.mid(bgcolorStart, bgcolorEnd - bgcolorStart);
-                 bgcolor = QColor(sBgcolor.toULong(&bSet));
-              }
-           }
+            bInMsg = false;
+
+            // This code could be a bit faster by making assumptions.
+            // However, I prefer to be correct HTML-parser-wise.
+
+            int idStart = anchorPos + sAnchor.length();
+            int idEnd = s.find('\"', idStart);
+            if ((idStart >= 0) && (idEnd >= 0))
+            {
+                QString id = s.mid(idStart, idEnd - idStart);
+
+                // Parse the message id (msgId,backgroundColor,...)
+                int bgcolorStart = id.find(',') + 1;
+                int bgcolorEnd = id.find(',', bgcolorStart);
+
+                if ((bgcolorStart >= 0) && (bgcolorEnd >= 0))
+                {
+                    QString sBgcolor = id.mid(bgcolorStart, bgcolorEnd - bgcolorStart);
+                    bgcolor = QColor(sBgcolor.toULong(&bSet));
+                }
+            }
         }
         else
         {
-           if (s.find(sBegin) >= 0)
-           {
-              bInMsg = true;
-           }
+            if (s.find(sBegin) >= 0)
+            {
+                bInMsg = true;
+            }
         }
 
         if (bInMsg && bSet)
-           setParagraphBackgroundColor(i, bgcolor);
+            setParagraphBackgroundColor(i, bgcolor);
         else
-           clearParagraphBackground(i);
+            clearParagraphBackground(i);
     }
 
 }

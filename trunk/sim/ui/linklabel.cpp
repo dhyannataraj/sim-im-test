@@ -18,6 +18,7 @@
 #include <qsimplerichtext.h>
 
 #include "linklabel.h"
+#include "stl.h"
 
 #include <qcursor.h>
 #include <qapplication.h>
@@ -73,30 +74,90 @@ void TipLabel::setText(const QString &text)
     m_text = text;
 }
 
-void TipLabel::show(const QRect &tipRect, bool bState)
+void TipLabel::show(const QRect &tipRect, bool _bState)
 {
-    QSimpleRichText richText(m_text, font(), "", QStyleSheet::defaultSheet(), _factory, -1, Qt::blue, false);
-    richText.adjustSize();
-    QSize s(richText.widthUsed() + 8, richText.height() + 8);
-    resize(s.width(), s.height());
-    QRect rc = screenGeometry();
-    int x = tipRect.left() + tipRect.width() / 2 - width();
-    if (x < 0)
-        x = tipRect.left() + tipRect.width() / 2;
-    if (x + width() > rc.width() - 2)
-        x = rc.width() - 2 - width();
+    int prevH = 0;
+    int x = 0;
     int y = 0;
-    if (bState){
-        y = tipRect.top() - 4 - height();
+    unsigned totalH = 0;
+    QStringList l;
+    vector<unsigned> heights;
+    QRect rc = screenGeometry();
+    for (unsigned nDiv = 0;; nDiv++){
+        bool bState = _bState;
+        QString text = m_text;
+        if (nDiv){
+            text = "<table><tr><td>";
+            unsigned hPart = totalH / (nDiv + 1);
+            unsigned h = 0;
+            unsigned i = 0;
+            QString part;
+            for (QStringList::Iterator it = l.begin(); it != l.end(); ++it, i++){
+                string s;
+                s = (*it).local8Bit();
+                log(L_DEBUG, "%u %u (%u %u):\n%s", i, heights[i], h, hPart, s.c_str());
+                if (!part.isEmpty()){
+                    if (heights[i] >= hPart){
+                        log(L_DEBUG, "Div---");
+                        text += part;
+                        text += "</td><td>";
+                        part = "";
+                        h = 0;
+                    }else{
+                        part += "<hr>";
+                    }
+                }
+                part += *it;
+                h += heights[i];
+                if (h >= hPart){
+                    log(L_DEBUG, "DDD");
+                    text += part;
+                    text += "</td><td>";
+                    part = "";
+                    h = 0;
+                }
+            }
+            text += part;
+            text += "</td></tr></table>";
+        }
+        QSimpleRichText richText(text, font(), "", QStyleSheet::defaultSheet(), _factory, -1, Qt::blue, false);
+        richText.adjustSize();
+        QSize s(richText.widthUsed() + 8, richText.height() + 8);
+        resize(s.width(), s.height());
+        x = tipRect.left() + tipRect.width() / 2 - width();
+        if (x < 0)
+            x = tipRect.left() + tipRect.width() / 2;
+        if (x + width() > rc.width() - 2)
+            x = rc.width() - 2 - width();
+        y = 0;
+        if (bState){
+            y = tipRect.top() - 4 - height();
+            if (y < 0)
+                bState = false;
+        }
+        if (!bState)
+            y = tipRect.top() + tipRect.height() + 4;
+        if (y + height() > rc.height())
+            y = tipRect.top() - 4 - height();
         if (y < 0)
-            bState = false;
+            y = tipRect.top() + tipRect.height() + 4;
+        if ((y + s.height() < rc.height()) || (prevH == s.height())){
+            m_text = text;
+            break;
+        }
+        prevH = s.height();
+        if (totalH == 0){
+            totalH = prevH;
+            l = QStringList::split("<hr>", m_text);
+            unsigned i = 0;
+            for (QStringList::Iterator it = l.begin(); it != l.end(); ++it, i++){
+                QSimpleRichText richText(*it, font(), "", QStyleSheet::defaultSheet(), _factory, -1, Qt::blue, false);
+                richText.adjustSize();
+                heights.push_back(richText.height() + 8);
+                log(L_DEBUG, "H[%u]=%u", i, richText.height() + 8);
+            }
+        }
     }
-    if (!bState)
-        y = tipRect.top() + tipRect.height() + 4;
-    if (y + height() > rc.height())
-        y = tipRect.top() - 4 - height();
-    if (y < 0)
-        y = tipRect.top() + tipRect.height() + 4;
     move(x, y);
     QLabel::show();
 }

@@ -335,27 +335,54 @@ static bool match(const QString &text, const QString &pat)
     return (i == (int)(text.length())) && (i == (int)(pat.length()));
 }
 
-bool FilterPlugin::checkSpam(const QString &text, const QString &filter)
+bool FilterPlugin::checkSpam(const QString &text, const QString &_filter)
 {
+    QString filter = _filter;
     QStringList wordsText;
-    QStringList wordsFilter;
-    getWords(text, wordsText);
-    getWords(filter, wordsFilter);
-    for (QStringList::Iterator it = wordsText.begin(); it != wordsText.end(); ++it){
-        for (QStringList::Iterator itFilter = wordsFilter.begin(); itFilter != wordsFilter.end(); ++itFilter){
-            if (match(*it, *itFilter))
-                return true;
+    getWords(text, wordsText, false);
+    bool bQuota = false;
+    while (!filter.isEmpty()){
+        QString filterPart = getToken(filter, '\"');
+        QStringList wordsFilter;
+        getWords(filterPart, wordsFilter, true);
+        if (wordsFilter.count()){
+            if (bQuota){
+                for (QStringList::Iterator it = wordsText.begin(); it != wordsText.end(); ++it){
+                    if (!match(*it, wordsFilter[0]))
+                        continue;
+                    QStringList::Iterator it1 = it;
+                    QStringList::Iterator itFilter = wordsFilter.begin();
+                    for (; (it1 != wordsText.end()) && (itFilter != wordsFilter.end()); ++it1, ++itFilter){
+                        if (!match(*it1, *itFilter))
+                            break;
+                    }
+                    if (itFilter == wordsFilter.end())
+                        return true;
+                }
+            }else{
+                for (QStringList::Iterator it = wordsText.begin(); it != wordsText.end(); ++it){
+                    for (QStringList::Iterator itFilter = wordsFilter.begin(); itFilter != wordsFilter.end(); ++itFilter){
+                        if (match(*it, *itFilter))
+                            return true;
+                    }
+                }
+            }
         }
+        bQuota = !bQuota;
     }
     return false;
 }
 
-void FilterPlugin::getWords(const QString &text, QStringList &words)
+void FilterPlugin::getWords(const QString &text, QStringList &words, bool bPattern)
 {
     QString word;
     for (int i = 0; i < (int)(text.length()); i++){
         QChar c = text[i];
-        if (!c.isSpace()){
+        if (c.isLetterOrNumber()){
+            word += c;
+            continue;
+        }
+        if (bPattern && ((c == '?') || (c == '*'))){
             word += c;
             continue;
         }

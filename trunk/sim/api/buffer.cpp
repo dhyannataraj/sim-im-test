@@ -158,11 +158,11 @@ string Buffer::unpackScreen()
     string res;
 
     *this >> len;
-    /* 13 isn't right, AIM allows 16. But when we get a longer 
-	   name, we *must* unpack them if we won't lose the TLVs
-	   behind the Screenname ... */
-	if (len > 16)
-		log(L_DEBUG,"Too long Screenname! Length: %d",len);
+    /* 13 isn't right, AIM allows 16. But when we get a longer
+    name, we *must* unpack them if we won't lose the TLVs
+    behind the Screenname ... */
+    if (len > 16)
+        log(L_DEBUG,"Too long Screenname! Length: %d",len);
     res.append((unsigned)len, '\x00');
     unpack((char*)res.c_str(), len);
     return res;

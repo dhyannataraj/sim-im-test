@@ -1336,7 +1336,10 @@ void ICQClient::processSendQueue()
             m_send.screen = "";
             continue;
         }
-
+        unsigned type = 0;
+        if (m_send.msg)
+            type = m_send.msg->type(),
+                   log(L_DEBUG, "Send: %s %u %X", m_send.screen.c_str(), type, m_send.flags);
         if (m_send.msg && (m_send.socket == NULL)){
             unsigned short type;
             Buffer b;
@@ -1913,14 +1916,15 @@ void ICQClient::requestReverseConnection(const char *screen, DirectSocket *socke
 
 void ICQClient::send(bool bTimer)
 {
-    if (sendQueue.size() == 0){
-        if (m_sendTimer->isActive() && m_send.screen.empty())
-            m_sendTimer->stop();
+    if (!m_send.screen.empty()){
+        m_sendTimer->start(m_nSendTimeout * 500);
         return;
     }
-    if (!m_send.screen.empty()){
-        if (!m_sendTimer->isActive())
-            m_sendTimer->start(20000);
+    if (sendQueue.size() == 0){
+        if (m_sendTimer->isActive() && m_send.screen.empty()){
+            log(L_DEBUG, "Stop send timer");
+            m_sendTimer->stop();
+        }
         return;
     }
     if (!bTimer){

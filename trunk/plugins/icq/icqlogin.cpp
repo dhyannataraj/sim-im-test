@@ -189,8 +189,8 @@ void ICQClient::chn_close()
         unsigned short err = *tlv_error;
         string errString;
         switch (err){
-		case ICQ_LOGIN_ERRxOLDCLIENT1:
-		case ICQ_LOGIN_ERRxOLDCLIENT2:
+        case ICQ_LOGIN_ERRxOLDCLIENT1:
+        case ICQ_LOGIN_ERRxOLDCLIENT2:
             errString = I18N_NOOP("This client is outdated");
             m_reconnect = NO_RECONNECT;
             break;
@@ -217,32 +217,32 @@ void ICQClient::chn_close()
             errorCode = AuthError;
             break;
         case ICQ_LOGIN_ERRxBAD_LOGIN:
-			errString = I18N_NOOP("Bad login procedure");
+            errString = I18N_NOOP("Bad login procedure");
             m_reconnect = NO_RECONNECT;
             break;
-		case ICQ_LOGIN_ERRxUNAVAILABLE1:
-		case ICQ_LOGIN_ERRxUNAVAILABLE2:
-		case ICQ_LOGIN_ERRxUNAVAILABLE3:
-		case ICQ_LOGIN_ERRxUNAVAILABLE4:
-		case ICQ_LOGIN_ERRxUNAVAILABLE5:
-		case ICQ_LOGIN_ERRxUNAVAILABLE6:
-		case ICQ_LOGIN_ERRxUNAVAILABLE7:
-		case ICQ_LOGIN_ERRxUNAVAILABLE8:
-			errString = I18N_NOOP("Service temporarly unavailable");
+        case ICQ_LOGIN_ERRxUNAVAILABLE1:
+        case ICQ_LOGIN_ERRxUNAVAILABLE2:
+        case ICQ_LOGIN_ERRxUNAVAILABLE3:
+        case ICQ_LOGIN_ERRxUNAVAILABLE4:
+        case ICQ_LOGIN_ERRxUNAVAILABLE5:
+        case ICQ_LOGIN_ERRxUNAVAILABLE6:
+        case ICQ_LOGIN_ERRxUNAVAILABLE7:
+        case ICQ_LOGIN_ERRxUNAVAILABLE8:
+            errString = I18N_NOOP("Service temporarly unavailable");
             m_reconnect = NO_RECONNECT;
-			break;
-		case ICQ_LOGIN_ERRxINVALID_ID:
-			errString = I18N_NOOP("Invalid SecureID");
+            break;
+        case ICQ_LOGIN_ERRxINVALID_ID:
+            errString = I18N_NOOP("Invalid SecureID");
             m_reconnect = NO_RECONNECT;
-			break;
-		case ICQ_LOGIN_ERRxTOO_YOUNG:
-			errString = I18N_NOOP("Too young!");
+            break;
+        case ICQ_LOGIN_ERRxTOO_YOUNG:
+            errString = I18N_NOOP("Too young!");
             m_reconnect = NO_RECONNECT;
-			break;
-		case ICQ_LOGIN_ERRxSUSPENDED1:
-			errString = I18N_NOOP("UIN was suspended");
+            break;
+        case ICQ_LOGIN_ERRxSUSPENDED1:
+            errString = I18N_NOOP("UIN was suspended");
             m_reconnect = NO_RECONNECT;
-		case 0:
+        case 0:
             break;
         default:
             errString = "Unknown error ";

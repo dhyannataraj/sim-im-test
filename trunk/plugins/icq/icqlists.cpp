@@ -488,7 +488,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             messageReceived(new AuthMessage(MessageAdded), screen.c_str());
             break;
         }
-	case ICQ_SNACxLISTS_AUTHxREQUEST:{
+    case ICQ_SNACxLISTS_AUTHxREQUEST:{
             string screen = m_socket->readBuffer.unpackScreen();
             string message;
             string charset;
@@ -519,8 +519,8 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             break;
         }
     case ICQ_SNACxLISTS_FUTURE_GRANT:{
-			/* we treat future grant as normal grant but it isn't the same...
-			   http://iserverd1.khstu.ru/oscar/snac_13_15.html */
+            /* we treat future grant as normal grant but it isn't the same...
+               http://iserverd1.khstu.ru/oscar/snac_13_15.html */
             string screen = m_socket->readBuffer.unpackScreen();
             string message;
             Message *m = NULL;
@@ -539,7 +539,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 addPluginInfoRequest(data->Uin.value, PLUGIN_QUERYxSTATUS);
                 addPluginInfoRequest(data->Uin.value, PLUGIN_QUERYxINFO);
             }
-	}
+        }
     case ICQ_SNACxLISTS_AUTH:{
             string screen = m_socket->readBuffer.unpackScreen();
             char auth_ok;
@@ -582,37 +582,37 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
     case ICQ_SNACxLISTS_DONE:
         if (m_listRequest && m_listRequest->seq() == seq){
             unsigned short res;
-			char *msg;
+            char *msg;
             m_socket->readBuffer >> res;
-			switch (res) {
-				case 0x00:
-					msg = "No errors (success)";
-					break;
-				case 0x02:
-					msg = "Item you want to modify not found in list";
-					break;
-				case 0x03:
-					msg = "Item you want to add allready exists";
-					break;
-				case 0x0a:
-					msg = "Error adding item (invalid id, allready in list, invalid data)";
-					break;
-				case 0x0c:
-					msg = "Can't add item. Limit for this type of items exceeded";
-					break;
-				case 0x0d:
-					msg = "Trying to add ICQ contact to an AIM list";
-					break;
-				case 0x0e:
-					msg = "Can't add this contact because it requires authorization";
-					break;
-				default:
-					msg = NULL;
-			}
+            switch (res) {
+            case 0x00:
+                msg = "No errors (success)";
+                break;
+            case 0x02:
+                msg = "Item you want to modify not found in list";
+                break;
+            case 0x03:
+                msg = "Item you want to add allready exists";
+                break;
+            case 0x0a:
+                msg = "Error adding item (invalid id, allready in list, invalid data)";
+                break;
+            case 0x0c:
+                msg = "Can't add item. Limit for this type of items exceeded";
+                break;
+            case 0x0d:
+                msg = "Trying to add ICQ contact to an AIM list";
+                break;
+            case 0x0e:
+                msg = "Can't add this contact because it requires authorization";
+                break;
+            default:
+                msg = NULL;
+            }
             if (msg)
-				log(L_DEBUG, msg);
-			else
-				log(L_DEBUG, "Unknown list request answer %u", res);
+                log(L_DEBUG, msg);
+            else
+                log(L_DEBUG, "Unknown list request answer %u", res);
             m_listRequest->process(this, res);
             delete m_listRequest;
             m_listRequest = NULL;
