@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sim\n"
-"POT-Creation-Date: 2004-03-23 12:47+0300\n"
+"POT-Creation-Date: 2004-03-23 13:07+0300\n"
 "PO-Revision-Date: 2004-03-22 00:36+0100\n"
 "Last-Translator: Lapo Luchini <lapo@lapo.it>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -2449,16 +2449,18 @@ msgstr "Configura client %1"
 msgid "Container"
 msgstr "Contenitore"
 
-#: plugins/_core/container.cpp:563 plugins/osd/osd.cpp:363
+#: plugins/_core/container.cpp:563
+#, fuzzy
 msgid ""
 "_: male\n"
-"%1 typed"
+"%1 typing"
 msgstr "%1 ha scritto"
 
-#: plugins/_core/container.cpp:564 plugins/osd/osd.cpp:364
+#: plugins/_core/container.cpp:564
+#, fuzzy
 msgid ""
 "_: female\n"
-"%1 typed"
+"%1 typing"
 msgstr "%1 ha scritto"
 
 #: plugins/_core/core.cpp:77 plugins/weather/weathercfg.cpp:53
@@ -6401,6 +6403,18 @@ msgid ""
 "_: female\n"
 "%1 is online"
 msgstr "%1 è collegata"
+
+#: plugins/osd/osd.cpp:363
+msgid ""
+"_: male\n"
+"%1 typed"
+msgstr "%1 ha scritto"
+
+#: plugins/osd/osd.cpp:364
+msgid ""
+"_: female\n"
+"%1 typed"
+msgstr "%1 ha scritto"
 
 #: plugins/osd/osdconfigbase.cpp:81
 msgid "Enable &messages notification"

@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
-"POT-Creation-Date: 2004-03-23 12:47+0300\n"
+"POT-Creation-Date: 2004-03-23 13:07+0300\n"
 "PO-Revision-Date: 2004-01-03 17:27+0100\n"
 "Last-Translator: Pavel Rousar <p.rousar@sh.cvut.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -2456,18 +2456,18 @@ msgstr "Konfigurovat %1 klienta"
 msgid "Container"
 msgstr "Kontejner"
 
-#: plugins/_core/container.cpp:563 plugins/osd/osd.cpp:363
+#: plugins/_core/container.cpp:563
 #, fuzzy
 msgid ""
 "_: male\n"
-"%1 typed"
+"%1 typing"
 msgstr "%1 napsáno"
 
-#: plugins/_core/container.cpp:564 plugins/osd/osd.cpp:364
+#: plugins/_core/container.cpp:564
 #, fuzzy
 msgid ""
 "_: female\n"
-"%1 typed"
+"%1 typing"
 msgstr "%1 napsáno"
 
 #: plugins/_core/core.cpp:77 plugins/weather/weathercfg.cpp:53
@@ -6411,6 +6411,20 @@ msgid ""
 "_: female\n"
 "%1 is online"
 msgstr "%1 je online"
+
+#: plugins/osd/osd.cpp:363
+#, fuzzy
+msgid ""
+"_: male\n"
+"%1 typed"
+msgstr "%1 napsáno"
+
+#: plugins/osd/osd.cpp:364
+#, fuzzy
+msgid ""
+"_: female\n"
+"%1 typed"
+msgstr "%1 napsáno"
 
 #: plugins/osd/osdconfigbase.cpp:81
 msgid "Enable &messages notification"

@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
-"POT-Creation-Date: 2004-03-23 12:47+0300\n"
+"POT-Creation-Date: 2004-03-23 13:07+0300\n"
 "PO-Revision-Date: 2004-03-13 12:24+0200\n"
 "Last-Translator: Ivan Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team:  <ru@li.org>\n"
@@ -2469,16 +2469,18 @@ msgstr "Конфігурація %1 клієнта"
 msgid "Container"
 msgstr "Контейнер"
 
-#: plugins/_core/container.cpp:563 plugins/osd/osd.cpp:363
+#: plugins/_core/container.cpp:563
+#, fuzzy
 msgid ""
 "_: male\n"
-"%1 typed"
+"%1 typing"
 msgstr "%1 пише"
 
-#: plugins/_core/container.cpp:564 plugins/osd/osd.cpp:364
+#: plugins/_core/container.cpp:564
+#, fuzzy
 msgid ""
 "_: female\n"
-"%1 typed"
+"%1 typing"
 msgstr "%1 пише"
 
 #: plugins/_core/core.cpp:77 plugins/weather/weathercfg.cpp:53
@@ -6564,6 +6566,18 @@ msgid ""
 "_: female\n"
 "%1 is online"
 msgstr "%1 в мережі"
+
+#: plugins/osd/osd.cpp:363
+msgid ""
+"_: male\n"
+"%1 typed"
+msgstr "%1 пише"
+
+#: plugins/osd/osd.cpp:364
+msgid ""
+"_: female\n"
+"%1 typed"
+msgstr "%1 пише"
 
 #: plugins/osd/osdconfigbase.cpp:81
 msgid "Enable &messages notification"

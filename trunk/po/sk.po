@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
-"POT-Creation-Date: 2004-03-23 12:47+0300\n"
+"POT-Creation-Date: 2004-03-23 13:07+0300\n"
 "PO-Revision-Date: 2004-02-25 20:18+0100\n"
 "Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
@@ -3068,18 +3068,18 @@ msgstr "Konfigurova» %1 klienta"
 msgid "Container"
 msgstr "Kontajner"
 
-#: plugins/_core/container.cpp:563 plugins/osd/osd.cpp:363
+#: plugins/_core/container.cpp:563
 #, fuzzy
 msgid ""
 "_: male\n"
-"%1 typed"
+"%1 typing"
 msgstr "%1 pí¹e"
 
-#: plugins/_core/container.cpp:564 plugins/osd/osd.cpp:364
+#: plugins/_core/container.cpp:564
 #, fuzzy
 msgid ""
 "_: female\n"
-"%1 typed"
+"%1 typing"
 msgstr "%1 pí¹e"
 
 # ui/setupdlg.cpp:129
@@ -7971,6 +7971,20 @@ msgid ""
 "_: female\n"
 "%1 is online"
 msgstr "%1 je pripojená"
+
+#: plugins/osd/osd.cpp:363
+#, fuzzy
+msgid ""
+"_: male\n"
+"%1 typed"
+msgstr "%1 pí¹e"
+
+#: plugins/osd/osd.cpp:364
+#, fuzzy
+msgid ""
+"_: female\n"
+"%1 typed"
+msgstr "%1 pí¹e"
 
 # ui/alertdialogbase.cpp:237
 #: plugins/osd/osdconfigbase.cpp:81

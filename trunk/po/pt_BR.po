@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
-"POT-Creation-Date: 2004-03-23 12:47+0300\n"
+"POT-Creation-Date: 2004-03-23 13:07+0300\n"
 "PO-Revision-Date: 2003-11-03 14:12-0200\n"
 "Last-Translator: Carlos Tadeu Panato Jr. <ctpj@terra.com.br>\n"
 "Language-Team: Brazilian Portuguese\n"
@@ -3128,19 +3128,19 @@ msgid "Container"
 msgstr "Recipiente"
 
 # plugins/osd/osd.cpp:307
-#: plugins/_core/container.cpp:563 plugins/osd/osd.cpp:363
+#: plugins/_core/container.cpp:563
 #, fuzzy
 msgid ""
 "_: male\n"
-"%1 typed"
+"%1 typing"
 msgstr "%1 está digitando"
 
 # plugins/osd/osd.cpp:307
-#: plugins/_core/container.cpp:564 plugins/osd/osd.cpp:364
+#: plugins/_core/container.cpp:564
 #, fuzzy
 msgid ""
 "_: female\n"
-"%1 typed"
+"%1 typing"
 msgstr "%1 está digitando"
 
 # plugins/_core/core.cpp:73
@@ -8069,6 +8069,22 @@ msgid ""
 "_: female\n"
 "%1 is online"
 msgstr "%1 está online"
+
+# plugins/osd/osd.cpp:307
+#: plugins/osd/osd.cpp:363
+#, fuzzy
+msgid ""
+"_: male\n"
+"%1 typed"
+msgstr "%1 está digitando"
+
+# plugins/osd/osd.cpp:307
+#: plugins/osd/osd.cpp:364
+#, fuzzy
+msgid ""
+"_: female\n"
+"%1 typed"
+msgstr "%1 está digitando"
 
 # plugins/osd/osdconfigbase.cpp:92
 #: plugins/osd/osdconfigbase.cpp:81

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
-"POT-Creation-Date: 2004-03-23 12:47+0300\n"
+"POT-Creation-Date: 2004-03-23 13:07+0300\n"
 "PO-Revision-Date: 2002-12-04 01:05+0100\n"
 "Last-Translator: Arend van Beelen jr. <junior@vergeetalles.nl>\n"
 "Language-Team: Nederlands <i18n@kde.nl>\n"
@@ -2579,17 +2579,19 @@ msgstr "ICQ"
 msgid "Container"
 msgstr "Naar container"
 
-#: plugins/_core/container.cpp:563 plugins/osd/osd.cpp:363
+#: plugins/_core/container.cpp:563
+#, fuzzy
 msgid ""
 "_: male\n"
-"%1 typed"
-msgstr ""
+"%1 typing"
+msgstr "%1 is online"
 
-#: plugins/_core/container.cpp:564 plugins/osd/osd.cpp:364
+#: plugins/_core/container.cpp:564
+#, fuzzy
 msgid ""
 "_: female\n"
-"%1 typed"
-msgstr ""
+"%1 typing"
+msgstr "%1 is online"
 
 #: plugins/_core/core.cpp:77 plugins/weather/weathercfg.cpp:53
 msgid "Interface"
@@ -6821,6 +6823,18 @@ msgid ""
 "_: female\n"
 "%1 is online"
 msgstr "%1 is online"
+
+#: plugins/osd/osd.cpp:363
+msgid ""
+"_: male\n"
+"%1 typed"
+msgstr ""
+
+#: plugins/osd/osd.cpp:364
+msgid ""
+"_: female\n"
+"%1 typed"
+msgstr ""
 
 #: plugins/osd/osdconfigbase.cpp:81
 #, fuzzy

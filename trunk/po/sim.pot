@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2004-03-23 12:47+0300\n"
+"POT-Creation-Date: 2004-03-23 13:07+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2421,16 +2421,16 @@ msgstr ""
 msgid "Container"
 msgstr ""
 
-#: plugins/_core/container.cpp:563 plugins/osd/osd.cpp:363
+#: plugins/_core/container.cpp:563
 msgid ""
 "_: male\n"
-"%1 typed"
+"%1 typing"
 msgstr ""
 
-#: plugins/_core/container.cpp:564 plugins/osd/osd.cpp:364
+#: plugins/_core/container.cpp:564
 msgid ""
 "_: female\n"
-"%1 typed"
+"%1 typing"
 msgstr ""
 
 #: plugins/_core/core.cpp:77 plugins/weather/weathercfg.cpp:53
@@ -6262,6 +6262,18 @@ msgstr ""
 msgid ""
 "_: female\n"
 "%1 is online"
+msgstr ""
+
+#: plugins/osd/osd.cpp:363
+msgid ""
+"_: male\n"
+"%1 typed"
+msgstr ""
+
+#: plugins/osd/osd.cpp:364
+msgid ""
+"_: female\n"
+"%1 typed"
 msgstr ""
 
 #: plugins/osd/osdconfigbase.cpp:81

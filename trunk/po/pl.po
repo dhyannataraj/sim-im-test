@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
-"POT-Creation-Date: 2004-03-23 12:47+0300\n"
+"POT-Creation-Date: 2004-03-23 13:07+0300\n"
 "PO-Revision-Date: 2002-12-04 06:57+0100\n"
 "Last-Translator: Rafal Bera <rexx@dione.ids.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -2568,17 +2568,19 @@ msgstr "Klient ICQ"
 msgid "Container"
 msgstr "Do segregatora"
 
-#: plugins/_core/container.cpp:563 plugins/osd/osd.cpp:363
+#: plugins/_core/container.cpp:563
+#, fuzzy
 msgid ""
 "_: male\n"
-"%1 typed"
-msgstr ""
+"%1 typing"
+msgstr "%1 jest dostępny"
 
-#: plugins/_core/container.cpp:564 plugins/osd/osd.cpp:364
+#: plugins/_core/container.cpp:564
+#, fuzzy
 msgid ""
 "_: female\n"
-"%1 typed"
-msgstr ""
+"%1 typing"
+msgstr "%1 jest dostępny"
 
 #: plugins/_core/core.cpp:77 plugins/weather/weathercfg.cpp:53
 msgid "Interface"
@@ -6803,6 +6805,18 @@ msgid ""
 "_: female\n"
 "%1 is online"
 msgstr "%1 jest dostępny"
+
+#: plugins/osd/osd.cpp:363
+msgid ""
+"_: male\n"
+"%1 typed"
+msgstr ""
+
+#: plugins/osd/osd.cpp:364
+msgid ""
+"_: female\n"
+"%1 typed"
+msgstr ""
 
 #: plugins/osd/osdconfigbase.cpp:81
 #, fuzzy

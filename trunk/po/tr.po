@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
-"POT-Creation-Date: 2004-03-23 12:47+0300\n"
+"POT-Creation-Date: 2004-03-23 13:07+0300\n"
 "PO-Revision-Date: 2003-01-14 20:31+0200\n"
 "Last-Translator: ismail donmez <voidcartman@yahoo.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
@@ -2515,17 +2515,19 @@ msgstr "ICQ programı"
 msgid "Container"
 msgstr "Bölüme Taşı"
 
-#: plugins/_core/container.cpp:563 plugins/osd/osd.cpp:363
+#: plugins/_core/container.cpp:563
+#, fuzzy
 msgid ""
 "_: male\n"
-"%1 typed"
-msgstr ""
+"%1 typing"
+msgstr "%1 şu anda bağlı"
 
-#: plugins/_core/container.cpp:564 plugins/osd/osd.cpp:364
+#: plugins/_core/container.cpp:564
+#, fuzzy
 msgid ""
 "_: female\n"
-"%1 typed"
-msgstr ""
+"%1 typing"
+msgstr "%1 şu anda bağlı"
 
 #: plugins/_core/core.cpp:77 plugins/weather/weathercfg.cpp:53
 msgid "Interface"
@@ -6672,6 +6674,18 @@ msgid ""
 "_: female\n"
 "%1 is online"
 msgstr "%1 şu anda bağlı"
+
+#: plugins/osd/osd.cpp:363
+msgid ""
+"_: male\n"
+"%1 typed"
+msgstr ""
+
+#: plugins/osd/osd.cpp:364
+msgid ""
+"_: female\n"
+"%1 typed"
+msgstr ""
 
 #: plugins/osd/osdconfigbase.cpp:81
 #, fuzzy

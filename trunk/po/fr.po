@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.1\n"
-"POT-Creation-Date: 2004-03-23 12:47+0300\n"
+"POT-Creation-Date: 2004-03-23 13:07+0300\n"
 "PO-Revision-Date: 2003-03-01 10:24+0100\n"
 "Last-Translator: Roméo VIU-BERGES <apostledemencia@free.fr>\n"
 "Language-Team: Français <fr@li.org>\n"
@@ -3078,17 +3078,21 @@ msgstr "Client ICQ"
 msgid "Container"
 msgstr "Dans le groupe"
 
-#: plugins/_core/container.cpp:563 plugins/osd/osd.cpp:363
+# mainwin.cpp:1337
+#: plugins/_core/container.cpp:563
+#, fuzzy
 msgid ""
 "_: male\n"
-"%1 typed"
-msgstr ""
+"%1 typing"
+msgstr "%1 est connecté."
 
-#: plugins/_core/container.cpp:564 plugins/osd/osd.cpp:364
+# mainwin.cpp:1337
+#: plugins/_core/container.cpp:564
+#, fuzzy
 msgid ""
 "_: female\n"
-"%1 typed"
-msgstr ""
+"%1 typing"
+msgstr "%1 est connecté."
 
 # ui/setupdlg.cpp:126
 #: plugins/_core/core.cpp:77 plugins/weather/weathercfg.cpp:53
@@ -8190,6 +8194,18 @@ msgid ""
 "_: female\n"
 "%1 is online"
 msgstr "%1 est connecté."
+
+#: plugins/osd/osd.cpp:363
+msgid ""
+"_: male\n"
+"%1 typed"
+msgstr ""
+
+#: plugins/osd/osd.cpp:364
+msgid ""
+"_: female\n"
+"%1 typed"
+msgstr ""
 
 # ui/alertdialogbase.cpp:130
 #: plugins/osd/osdconfigbase.cpp:81

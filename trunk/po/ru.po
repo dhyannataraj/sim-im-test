@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"POT-Creation-Date: 2004-03-23 12:47+0300\n"
-"PO-Revision-Date: 2004-03-23 12:52+0300\n"
+"POT-Creation-Date: 2004-03-23 13:07+0300\n"
+"PO-Revision-Date: 2004-03-23 13:08+0300\n"
 "Last-Translator: Vladimir Shutoff <vovan@shutoff.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2544,7 +2544,9 @@ msgstr ""
 
 #: plugins/msn/msnconfigbase.cpp:179
 msgid "&Automaticaly add contacts in accept list"
-msgstr "&Автоматически добавлять контакты в список авторизованных"
+msgstr ""
+"&Автоматически добавлять контакты в "
+"список авторизованных"
 
 # ui/networkbase.cpp:80
 #: plugins/icq/aimconfigbase.cc:153 plugins/icq/icqconfigbase.cc:242
@@ -2897,16 +2899,16 @@ msgstr "Настроить клиент %1"
 msgid "Container"
 msgstr "Контейнер"
 
-#: plugins/_core/container.cpp:563 plugins/osd/osd.cpp:363
+#: plugins/_core/container.cpp:563
 msgid ""
 "_: male\n"
-"%1 typed"
+"%1 typing"
 msgstr "%1 пишет"
 
-#: plugins/_core/container.cpp:564 plugins/osd/osd.cpp:364
+#: plugins/_core/container.cpp:564
 msgid ""
 "_: female\n"
-"%1 typed"
+"%1 typing"
 msgstr "%1 пишет"
 
 # ui/fontsetupbase.cpp:112 ui/setupdlg.cpp:141
@@ -7618,6 +7620,18 @@ msgid ""
 "_: female\n"
 "%1 is online"
 msgstr "%1 в сети"
+
+#: plugins/osd/osd.cpp:363
+msgid ""
+"_: male\n"
+"%1 typed"
+msgstr "%1 пишет"
+
+#: plugins/osd/osd.cpp:364
+msgid ""
+"_: female\n"
+"%1 typed"
+msgstr "%1 пишет"
 
 # ui/alertdialogbase.cpp:118 ui/setupdlg.cpp:144
 #: plugins/osd/osdconfigbase.cpp:81

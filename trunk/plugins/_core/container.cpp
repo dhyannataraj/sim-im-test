@@ -560,8 +560,8 @@ static bool initFlash = false;
 #endif
 
 #if 0
-i18n("male", "%1 typed")
-i18n("female", "%1 typed")
+i18n("male", "%1 typing")
+i18n("female", "%1 typing")
 #endif
 
 void Container::flash()
@@ -679,7 +679,7 @@ void *Container::processEvent(Event *e)
             if (userWnd->m_bTyping != bTyping){
                 userWnd->m_bTyping = bTyping;
                 if (bTyping){
-                    userWnd->setStatus(g_i18n("%1 typed", contact) .arg(contact->getName()));
+                    userWnd->setStatus(g_i18n("%1 typing", contact) .arg(contact->getName()));
                 }else{
                     userWnd->setStatus("");
                 }
