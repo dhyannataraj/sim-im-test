@@ -143,10 +143,6 @@ QString MsgViewBase::messageText(Message *msg)
                 .arg(bUnread ? "</b>" : "");
     if (msg->type() != MessageStatus){
         QString msgText = msg->presentation();
-		string msg_text;
-		if (!msgText.isEmpty())
-			msg_text = msgText.local8Bit();
-		log(L_DEBUG, "Text: %s", msg_text.c_str());
         // replace font color if we use own colors
         // some of the incoming messages are saved as html with an extra <font> - tag
         // so we need to replace until no more <font> - tag is found
@@ -184,13 +180,9 @@ QString MsgViewBase::messageText(Message *msg)
                 msgText += "</p>";
             }
         }
-		if (!msgText.isEmpty())
-			msg_text = msgText.local8Bit();
-		log(L_DEBUG, "1> %s", msg_text.c_str());
         Event e(EventEncodeText, &msgText);
         e.process();
         msgText = parseText(msgText, false, CorePlugin::m_plugin->getUseSmiles());
-		log(L_DEBUG, "2> %s", msg_text.c_str());
 		s += msgText;
     }
     return s;
@@ -753,14 +745,16 @@ void ViewParser::text(const QString &text)
     }
     for (;;){
         unsigned pos = (unsigned)(-1);
+		unsigned size = 0;
         Smile *curSmile = NULL;
         list<Smile>::iterator it;
         for (it = m_smiles.begin(); it != m_smiles.end(); ++it){
 			Smile &s = *it;
             if (s.pos < 0)
                 continue;
-            if ((unsigned)(s.pos) < pos){
+            if (((unsigned)(s.pos) < pos) || (((unsigned)(s.pos) == pos) && ((unsigned)(s.size) > size))){
                 pos = s.pos;
+				size = s.size;
                 curSmile = &s;
             }
         }

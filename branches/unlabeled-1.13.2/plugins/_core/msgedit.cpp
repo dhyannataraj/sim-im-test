@@ -1179,7 +1179,16 @@ SmileLabel::SmileLabel(int _id, const char *tip, QWidget *parent)
     id = _id;
     char b[20];
     sprintf(b, "smile%X", id);
-    setPixmap(Pict(b));
+	const QIconSet *icon = Icon(b);
+	QPixmap pict;
+	if (icon){
+		if (!icon->isGenerated(QIconSet::Large, QIconSet::Normal)){
+			pict = icon->pixmap(QIconSet::Large, QIconSet::Normal);
+		}else{
+			pict = icon->pixmap(QIconSet::Small, QIconSet::Normal);
+		}
+	}
+    setPixmap(pict);
     if (tip && *tip)
         QToolTip::add(this, i18n(tip));
 }
@@ -1208,7 +1217,12 @@ SmilePopup::SmilePopup(QWidget *popup)
         const QIconSet *is = Icon(b);
         if (is == NULL)
             continue;
-        const QPixmap &pict  = is->pixmap(QIconSet::Small, QIconSet::Normal);
+        QPixmap pict;
+		if (!is->isGenerated(QIconSet::Large, QIconSet::Normal)){
+			pict = is->pixmap(QIconSet::Large, QIconSet::Normal);
+		}else{
+			pict = is->pixmap(QIconSet::Small, QIconSet::Normal);
+		}
         s = QSize(QMAX(s.width(), pict.width()), QMAX(s.height(), pict.height()));
         nSmiles++;
     }

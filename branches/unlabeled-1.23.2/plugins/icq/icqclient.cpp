@@ -2188,6 +2188,7 @@ void *ICQClient::processEvent(Event *e)
             }
         }
         if (cmd->id == plugin->CmdCheckInvisible){
+
 			cmd->flags &= ~COMMAND_CHECKED;
             if (getState() == Connected)
                 return e->param();

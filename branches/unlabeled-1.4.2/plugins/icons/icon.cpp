@@ -116,7 +116,13 @@ void IconsPlugin::setIcons()
 				QString url = "smile";
 				url += QString::number(i, 16).upper();
 				url = QString("icon:") + url;
-				QMimeSourceFactory::defaultFactory()->setPixmap(url, s.icon->pixmap(QIconSet::Small, QIconSet::Normal));
+				QPixmap pict;
+				if (!s.icon->isGenerated(QIconSet::Large, QIconSet::Normal)){
+					pict = s.icon->pixmap(QIconSet::Large, QIconSet::Normal);
+				}else{
+					pict = s.icon->pixmap(QIconSet::Small, QIconSet::Normal);
+				}
+				QMimeSourceFactory::defaultFactory()->setPixmap(url, pict);
 			}
 			ss += s.exp;
 			ss += '\x00';

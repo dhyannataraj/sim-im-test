@@ -95,7 +95,13 @@ void SmilePreview::setSmiles()
                     continue;
                 break;
             }
-            labels[i]->setPixmap(icon->pixmap(QIconSet::Automatic, QIconSet::Normal));
+			QPixmap pict;
+			if (!icon->isGenerated(QIconSet::Large, QIconSet::Normal)){
+				pict = icon->pixmap(QIconSet::Large, QIconSet::Normal);
+			}else{
+				pict = icon->pixmap(QIconSet::Small, QIconSet::Normal);
+			}
+            labels[i]->setPixmap(pict);
             i++;
         }
     }

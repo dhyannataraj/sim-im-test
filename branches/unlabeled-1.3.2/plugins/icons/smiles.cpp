@@ -25,6 +25,7 @@
 #include <qfile.h>
 #include <qregexp.h>
 #include <qpainter.h>
+#include <qbitmap.h>
 
 #ifdef USE_EXPAT
 
@@ -287,6 +288,7 @@ QPixmap XepParser::pict(unsigned n)
 	QPainter p(&res);
 	p.drawPixmap(0, 0, m_image, x, y);
 	p.end();
+	res.setMask(res.createHeuristicMask());
 	return res;
 }
 
@@ -376,16 +378,19 @@ bool Smiles::load(const QString &file)
 						break;
 					}
 				}
-				if (bMatch)
+				if (bMatch){
+					sd.title = s->title;
 					break;
+				}
 #else
 				QRegExp re(s->exp);
 				int len;
-				if ((re.match(sd.paste.c_str(), 0, &len) == 0) && (len == sd.paste.length()))
+				if ((re.match(sd.paste.c_str(), 0, &len) == 0) && (len == sd.paste.length())){
+					sd.title = s->title;
 					break;
+				}
 #endif
 			}
-			log(L_DEBUG, "I: %u %s [%s]", index, sd.exp.c_str(), sd.paste.c_str());
 			if (index < 16){
 				m_smiles[index] = sd;
 			}else{

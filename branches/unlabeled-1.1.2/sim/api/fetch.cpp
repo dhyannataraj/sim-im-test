@@ -79,7 +79,7 @@ bool HTTPSClient::initSSL()
 
 FetchManager *FetchManager::manager = NULL;
 
-const unsigned HTTPPacket   = 1;
+const unsigned HTTPPacket   = 0x100;
 const unsigned UNKNOWN_SIZE = (unsigned)(-1);
 
 static char _HTTP[] = "HTTP";
