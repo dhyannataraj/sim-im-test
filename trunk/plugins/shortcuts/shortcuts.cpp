@@ -250,8 +250,8 @@ GlobalKey::GlobalKey(CommandDef *cmd)
 {
     m_cmd = *cmd;
 #if QT_VERSION >= 300
-    QKeySequence keys = QAccel::stringToKey(cmd->accel);
-    if (!keys.isEmpty()){
+    QKeySequence keys(cmd->accel);
+    if (keys != QKeySequence(0)){
         string shortName = "sim_";
         shortName += number(cmd->id);
         accel = new KGlobalAccel(this);
