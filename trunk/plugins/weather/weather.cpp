@@ -488,7 +488,7 @@ QString WeatherPlugin::replace(const QString &text)
     res = res.replace(QRegExp("\\%pp"), number(getPrecipitance()));
 	res = res.replace(QRegExp("\\%ut"), i18n("weather", getUV_Description()));
 	res = res.replace(QRegExp("\\%ui"), number(getUV_Intensity()));
-    res = res.replace(QRegExp("\\%t"), number(getTemperature()) + QChar((unsigned short)176) + getUT());
+    res = res.replace(QRegExp("\\%t"), QString::number((int)getTemperature()) + QChar((unsigned short)176) + getUT());
     res = res.replace(QRegExp("\\%f"), QString::number((int)getFeelsLike()) + QChar((unsigned short)176) + getUT());
     res = res.replace(QRegExp("\\%d"), QString::number((int)getDewPoint()) + QChar((unsigned short)176) + getUT());
     res = res.replace(QRegExp("\\%h"), number(getHumidity()) + "%");
@@ -518,29 +518,11 @@ QString WeatherPlugin::forecastReplace(const QString &text)
     QString temp;
     int minT = atol(getMinT(m_day));
     int maxT = atol(getMaxT(m_day));
-    if (maxT == -255)
-        if ((minT < 0) && (maxT <= 0)){
-            int r = minT;
-            minT = maxT;
-            maxT = r;
-        }
-    if (minT < 0){
-        temp += "-";
-        minT = -minT;
-    }else if (minT > 0){
-        temp += "+";
-    }
-    temp += number((unsigned)minT).c_str();
+    temp += QString::number(minT);
     temp += QChar((unsigned short)176);
     temp += getUT();
-    if (maxT != -255) {
-        if (maxT < 0){
-            temp += "-";
-            maxT = -maxT;
-        }else if (maxT >= 0){
-            temp += "+";
-        }
-        temp += number((unsigned)maxT).c_str();
+    if ((strcmp(getMaxT(m_day), "N/A")) && (maxT != -255)) {
+        temp += QString::number(maxT);
         temp += QChar((unsigned short)176);
         temp += getUT();
     }
