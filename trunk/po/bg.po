@@ -1,4 +1,4 @@
-# translation of bg.po to 
+# translation of bg.po to Bulgarian
 # translation of bg.po to
 # translation of bg.po to
 # translation of bg.po to
@@ -11,20 +11,22 @@
 # translation of bg.po to
 # translation of bg.po to
 # translation of bg.po to
-# Copyright (C) 2003 Free Software Foundation, Inc.
+# translation of bg.po to
+# Copyright (C) 2003, 2004 Free Software Foundation, Inc.
 # Атанас Мавров <bugar@mail.bg>, 2003.
+# Атанас Мавров <bugar@developer.bg>, 2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: bg\n"
-"POT-Creation-Date: 2004-03-24 04:40+0300\n"
-"PO-Revision-Date: 2003-09-18 18:44+0300\n"
-"Last-Translator: Атанас Мавров <bugar@mail.bg>\n"
-"Language-Team:  <bg@li.org>\n"
+"POT-Creation-Date: 2004-03-19 11:12+0300\n"
+"PO-Revision-Date: 2004-03-24 21:07+0200\n"
+"Last-Translator: Атанас Мавров <bugar@developer.bg>\n"
+"Language-Team: Bulgarian <dict@linux.zonebg.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0.2\n"
+"X-Generator: KBabel 1.3\n"
 
 #: sim/api/country.cpp:25
 msgid "Afghanistan"
@@ -144,7 +146,7 @@ msgstr "Босна и Херцеговина"
 
 #: sim/api/country.cpp:54
 msgid "Botswana"
-msgstr "Боствана"
+msgstr "Ботсвана"
 
 #: sim/api/country.cpp:55
 msgid "Brazil"
@@ -946,7 +948,7 @@ msgstr "Вирджински острови"
 
 #: sim/api/country.cpp:254
 msgid "Uruguay"
-msgstr "Уругувай"
+msgstr "Уругвай"
 
 #: sim/api/country.cpp:255
 msgid "Uzbekistan"
@@ -1120,9 +1122,8 @@ msgstr "&Не"
 #: plugins/_core/arcfgbase.cpp:80 plugins/_core/autoreplybase.cpp:89
 #: plugins/action/actioncfgbase.cpp:62 plugins/action/additembase.cpp:94
 #: plugins/weather/wifacecfgbase.cpp:84 sim/api/simapi.cpp:468
-#, fuzzy
 msgid "&Help"
-msgstr "Помощ"
+msgstr "&Помощ"
 
 #: sim/api/simapi.cpp:695
 msgid "Smile"
@@ -1190,8 +1191,7 @@ msgstr "Ухилен"
 
 #: sim/api/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
-msgstr ""
-"Атанас Мавров <bugar@mail.bg>; Варна-България;"
+msgstr "Атанас Мавров <bugar@developer.bg>; Варна-България;"
 
 #: sim/api/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."
@@ -1201,28 +1201,27 @@ msgstr ""
 
 #: sim/api/socket.cpp:145 sim/api/socket.cpp:163
 msgid "Read socket error"
-msgstr "Грешка при четене на сокет"
+msgstr "Мрежова грешка"
 
 #: sim/api/sockfactory.cpp:212
 msgid "Connect error"
 msgstr "Грешка при свързване"
 
-#: sim/api/sockfactory.cpp:274
+#: sim/api/sockfactory.cpp:272
 msgid "Can't resolve host"
 msgstr "Не може да намери хост"
 
-#: sim/api/sockfactory.cpp:303 sim/ui/qt3/i18n.cpp:237
+#: sim/api/sockfactory.cpp:300 sim/ui/qt3/i18n.cpp:237
 msgid "Connection closed"
 msgstr "Връзката е прекратена"
 
-#: sim/api/sockfactory.cpp:363
+#: sim/api/sockfactory.cpp:358
 msgid "Socket error"
-msgstr "Грешка при сокет"
+msgstr "Мрежова грешка"
 
-#: sim/api/sockfactory.cpp:419
-#, fuzzy
+#: sim/api/sockfactory.cpp:414
 msgid "Can't allocate port"
-msgstr "Невъзможно е създаването на файл %1"
+msgstr "Не може да определи порт"
 
 #: sim/ui/qt3/i18n.cpp:1
 msgid "Hu&e:"
@@ -1230,11 +1229,11 @@ msgstr "Яркос&т"
 
 #: sim/ui/qt3/i18n.cpp:3
 msgid "&Sat:"
-msgstr "Дълбочина&:"
+msgstr "&Дълбочина:"
 
 #: sim/ui/qt3/i18n.cpp:5
 msgid "&Val:"
-msgstr "Стойнос&т:"
+msgstr "&Стойност:"
 
 #: sim/ui/qt3/i18n.cpp:7
 msgid "&Red:"
@@ -1287,12 +1286,12 @@ msgstr "Копиране или преместване на файл"
 #: sim/ui/qt3/i18n.cpp:31
 #, c-format
 msgid "Read: %1"
-msgstr "Четене на съобщение %1"
+msgstr "Четене: %1"
 
 #: sim/ui/qt3/i18n.cpp:33
 #, c-format
 msgid "Write: %1"
-msgstr "Пише: %1"
+msgstr "Писане: %1"
 
 #: sim/ui/qt3/i18n.cpp:37
 msgid "All files (*)"
@@ -1506,10 +1505,10 @@ msgstr "Директории"
 msgid "Save"
 msgstr "Запазване"
 
-#: plugins/_core/status.cpp:138 plugins/_core/statuswnd.cpp:95
+#: plugins/_core/status.cpp:137 plugins/_core/statuswnd.cpp:95
 #: plugins/jabber/jabbermessage.cpp:109 plugins/jabber/jabbermessage.cpp:228
 #: plugins/logger/logconfig.cpp:92 plugins/netmonitor/monitor.cpp:89
-#: plugins/windock/windock.cpp:180 sim/ui/qt3/i18n.cpp:141
+#: plugins/windock/windock.cpp:179 sim/ui/qt3/i18n.cpp:141
 msgid "Error"
 msgstr "Грешка"
 
@@ -1574,7 +1573,7 @@ msgstr "Затваряне"
 
 #: sim/ui/qt3/i18n.cpp:172
 msgid "Select Font"
-msgstr "Изберане на шрифт"
+msgstr "Избиране на шрифт"
 
 #: sim/ui/qt3/i18n.cpp:177
 msgid ""
@@ -1847,7 +1846,7 @@ msgstr "&Отрязване"
 #: plugins/_core/historycfgbase.cpp:174 plugins/netmonitor/monitor.cpp:67
 #: sim/ui/qt3/qtextedit.cpp:4227
 msgid "&Copy"
-msgstr "&Копирне"
+msgstr "&Копиране"
 
 #: plugins/_core/core.cpp:980 sim/ui/qt3/qtextedit.cpp:4229
 msgid "&Paste"
@@ -1883,11 +1882,11 @@ msgstr "подчертан"
 
 #: sim/ui/editfile.cpp:213
 msgid "*.wav|Sounds"
-msgstr "*.wav|Звук"
+msgstr "*.wav|Звуци"
 
 #: sim/ui/editfile.cpp:215
 msgid "Sounds(*.wav)"
-msgstr "Звук(*.wav)"
+msgstr "Звуци(*.wav)"
 
 #: sim/ui/editfile.cpp:218
 msgid "Select sound"
@@ -1946,37 +1945,32 @@ msgid "December"
 msgstr "Декември"
 
 #: sim/ui/datepicker.cpp:238
-#, fuzzy
 msgid "Mon"
-msgstr "Монако"
+msgstr "Понеделник"
 
 #: sim/ui/datepicker.cpp:239
-#, fuzzy
 msgid "Tue"
-msgstr "Турция"
+msgstr "Вторник"
 
 #: sim/ui/datepicker.cpp:240
 msgid "Wed"
-msgstr ""
+msgstr "Сряда"
 
 #: sim/ui/datepicker.cpp:241
 msgid "Thu"
-msgstr ""
+msgstr "Четвъртък"
 
 #: sim/ui/datepicker.cpp:242
-#, fuzzy
 msgid "Fri"
-msgstr "Фарси"
+msgstr "Петък"
 
 #: sim/ui/datepicker.cpp:243
-#, fuzzy
 msgid "Sat"
-msgstr "Дълбочина&:"
+msgstr "Събота"
 
 #: sim/ui/datepicker.cpp:244
-#, fuzzy
 msgid "Sun"
-msgstr "Судан"
+msgstr "Неделя"
 
 #: sim/ui/textshow.cpp:815
 msgid "Custom"
@@ -1988,7 +1982,7 @@ msgstr "SIM"
 
 #: sim/sim.cpp:185
 msgid "Multiprotcol instant messenger"
-msgstr ""
+msgstr "Многопротоколен клиент за обмяна на мигновени съобщения"
 
 #: sim/sim.cpp:191
 msgid "Maintainer"
@@ -1996,39 +1990,36 @@ msgstr "Автор"
 
 #: sim/sim.cpp:192
 msgid "Developer"
-msgstr ""
+msgstr "Разработчик"
 
 #: xpstyle/xpstyle.cpp:62
-#, fuzzy
 msgid "Windows XP style"
-msgstr "Прозорец - разтегнат"
+msgstr "Уиндоус XP стил"
 
-#: plugins/msn/msnclient.cpp:522 plugins/msn/msnclient.cpp:539
+#: plugins/msn/msnclient.cpp:518 plugins/msn/msnclient.cpp:535
 msgid "MSN protocol error"
 msgstr "Грешка в MSN протокол"
 
-#: plugins/msn/msnclient.cpp:707
-#, fuzzy
+#: plugins/msn/msnclient.cpp:703
 msgid "Youur account is being used from another location"
-msgstr ""
-"Твоят номер се използва от друг компютър "
+msgstr "Твоят номер се използва от друг потребител"
 
 #: plugins/_core/logindlg.cpp:462 plugins/jabber/jabberclient.cpp:1126
-#: plugins/livejournal/livejournal.cpp:921 plugins/msn/msnclient.cpp:827
-#: plugins/yahoo/yahooclient.cpp:344 plugins/yahoo/yahooclient.cpp:355
+#: plugins/livejournal/livejournal.cpp:921 plugins/msn/msnclient.cpp:823
+#: plugins/yahoo/yahooclient.cpp:313 plugins/yahoo/yahooclient.cpp:324
 msgid "Login failed"
 msgstr "Неуспешно свързване"
 
 #: plugins/icq/icqclient.cpp:2115 plugins/icq/icqclient.cpp:2194
-#: plugins/jabber/jabberclient.cpp:1765 plugins/msn/msnclient.cpp:926
-#: plugins/yahoo/yahooclient.cpp:1436
+#: plugins/jabber/jabberclient.cpp:1765 plugins/msn/msnclient.cpp:922
+#: plugins/yahoo/yahooclient.cpp:1340
 msgid "Network"
 msgstr "Мрежа"
 
 #: plugins/icq/aiminfo.cpp:170 plugins/icq/icqclient.cpp:1521
 #: plugins/icq/icqinfo.cpp:176 plugins/jabber/jabberclient.cpp:1420
-#: plugins/jabber/jabberinfo.cpp:92 plugins/msn/msnclient.cpp:1827
-#: plugins/msn/msninfo.cpp:88 plugins/yahoo/yahooclient.cpp:1325
+#: plugins/jabber/jabberinfo.cpp:92 plugins/msn/msnclient.cpp:1817
+#: plugins/msn/msninfo.cpp:88 plugins/yahoo/yahooclient.cpp:1229
 #: plugins/yahoo/yahooinfo.cpp:111
 msgid "Last online"
 msgstr "Последно включен"
@@ -2038,43 +2029,39 @@ msgstr "Последно включен"
 #: plugins/icq/icqclient.cpp:1528 plugins/jabber/jabber.cpp:87
 #: plugins/jabber/jabberclient.cpp:1447 plugins/jabber/services.cpp:235
 #: plugins/livejournal/livejournal.cpp:318 plugins/msn/msn.cpp:86
-#: plugins/msn/msnclient.cpp:1834 plugins/sms/sms.cpp:229
-#: plugins/yahoo/yahoo.cpp:104 plugins/yahoo/yahooclient.cpp:1332
+#: plugins/msn/msnclient.cpp:1824 plugins/sms/sms.cpp:229
+#: plugins/yahoo/yahoo.cpp:104 plugins/yahoo/yahooclient.cpp:1236
 msgid "Online"
 msgstr "Свързан"
 
-#: plugins/msn/msnclient.cpp:1895 plugins/msn/msnclient.cpp:1903
+#: plugins/msn/msnclient.cpp:1885 plugins/msn/msnclient.cpp:1893
 msgid "Contact go offline"
 msgstr "Потребителят излезе"
 
-#: plugins/msn/msnclient.cpp:2097
+#: plugins/msn/msnclient.cpp:2087
 msgid "Send message failed"
 msgstr "Грешка при изпращане на съобщение"
 
-#: plugins/icq/icqicmb.cpp:708 plugins/msn/msnclient.cpp:2399
-#: plugins/yahoo/yahooclient.cpp:433 plugins/yahoo/yahooclient.cpp:436
+#: plugins/icq/icqicmb.cpp:708 plugins/msn/msnclient.cpp:2389
 msgid "Message declined"
 msgstr "Съобщението е отклонено"
 
-#: plugins/icq/icqdirect.cpp:223 plugins/msn/msnclient.cpp:2714
+#: plugins/icq/icqdirect.cpp:223 plugins/msn/msnclient.cpp:2704
 msgid "Can't established direct connection"
 msgstr "Не може да установи директна връзка"
 
-#: plugins/msn/msnclient.cpp:2748
-#, fuzzy
+#: plugins/msn/msnclient.cpp:2738
 msgid "Transfer canceled"
-msgstr "Грешка при обмен"
+msgstr "Обмяната е спряна"
 
 #: plugins/jabber/jabberclient.cpp:2914 plugins/jabber/jabberclient.cpp:2954
-#: plugins/msn/msnclient.cpp:2915 plugins/yahoo/yahooclient.cpp:2398
-#: plugins/yahoo/yahooclient.cpp:2438
-#, fuzzy
+#: plugins/msn/msnclient.cpp:2905
 msgid "File transfer failed"
-msgstr "Прехвърляне на файл "
+msgstr "Грешка при прехвърляне на файл"
 
 #: plugins/msn/msnconfig.cpp:44
 msgid "Register in .NET Passport"
-msgstr "Регистрира в .NET Passport"
+msgstr "Регистриране в .NET Passport"
 
 #: plugins/msn/msnconfig.cpp:45
 msgid "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
@@ -2085,9 +2072,9 @@ msgid "Contact %1 added to list"
 msgstr "Потребител %1 е добавен към списъка"
 
 #: plugins/msn/msnresult.cpp:63
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid address: %1"
-msgstr "Неправилно съобщение"
+msgstr "Неправилен адрес: %1"
 
 #: plugins/msn/msnsearch.cpp:58
 msgid "MSN search results"
@@ -2102,11 +2089,81 @@ msgstr "Потребител %1 вече е в списъка"
 #: plugins/icq/searchresultbase.cc:56 plugins/icq/workinfobase.cc:178
 #: plugins/jabber/jabberhomeinfobase.cpp:104
 #: plugins/livejournal/journalresultbase.cpp:54
-#: plugins/msn/msnconfigbase.cpp:128 plugins/msn/msnresultbase.cpp:54
-#: plugins/osd/osdifacebase.cpp:128 plugins/yahoo/yahoocfgbase.cpp:174
+#: plugins/msn/msnconfigbase.cpp:164 plugins/msn/msnresultbase.cpp:54
+#: plugins/osd/osdifacebase.cpp:128 plugins/yahoo/yahoocfgbase.cpp:162
 #: plugins/yahoo/yahooresultbase.cpp:54
 msgid "Form2"
 msgstr "Форма2"
+
+#: plugins/msn/msnconfigbase.cpp:165 plugins/yahoo/yahoocfgbase.cpp:163
+#: plugins/yahoo/yahooinfobase.cpp:164
+msgid "Login:"
+msgstr "Удостоверяване:"
+
+#: plugins/_core/logindlg.cpp:282 plugins/icq/aimconfigbase.cc:145
+#: plugins/icq/icqconfigbase.cc:230 plugins/jabber/jabberconfigbase.cpp:278
+#: plugins/livejournal/livejournalcfgbase.cpp:150
+#: plugins/msn/msnconfigbase.cpp:166 plugins/proxy/proxycfgbase.cpp:135
+#: plugins/yahoo/yahoocfgbase.cpp:164
+msgid "Password:"
+msgstr "Парола:"
+
+#: plugins/msn/msnconfigbase.cpp:167
+msgid "&MSN"
+msgstr "&MSN"
+
+#: plugins/icq/aimconfigbase.cc:148 plugins/icq/icqconfigbase.cc:236
+#: plugins/jabber/jabberconfigbase.cpp:281
+#: plugins/jabber/jabberconfigbase.cpp:285
+#: plugins/livejournal/livejournalcfgbase.cpp:152
+#: plugins/msn/msnconfigbase.cpp:168 plugins/yahoo/yahoocfgbase.cpp:166
+msgid "Server:"
+msgstr "Сървър:"
+
+#: plugins/icq/aimconfigbase.cc:147 plugins/icq/icqconfigbase.cc:237
+#: plugins/jabber/jabberconfigbase.cpp:282
+#: plugins/jabber/jabberconfigbase.cpp:286
+#: plugins/livejournal/livejournalcfgbase.cpp:154
+#: plugins/msn/msnconfigbase.cpp:169 plugins/proxy/proxycfgbase.cpp:132
+#: plugins/remote/remotecfgbase.cpp:98 plugins/sms/smssetupbase.cpp:140
+#: plugins/yahoo/yahoocfgbase.cpp:167
+msgid "Port:"
+msgstr "Порт:"
+
+#: plugins/icq/icqconfigbase.cc:238 plugins/jabber/jabberconfigbase.cpp:288
+#: plugins/msn/msnconfigbase.cpp:170
+msgid "Port range for direct connections:"
+msgstr "Порт за директна връзка:"
+
+#: plugins/_core/phonebase.cpp:116 plugins/_core/phonebase.cpp:118
+#: plugins/_core/phonebase.cpp:120 plugins/icq/icqconfigbase.cc:239
+#: plugins/jabber/jabberconfigbase.cpp:287 plugins/msn/msnconfigbase.cpp:171
+msgid "-"
+msgstr "-"
+
+#: plugins/icq/aimconfigbase.cc:149 plugins/icq/icqconfigbase.cc:235
+#: plugins/jabber/jabberconfigbase.cpp:291 plugins/msn/msnconfigbase.cpp:172
+#: plugins/yahoo/yahoocfgbase.cpp:172
+msgid "Use &HTTP polling"
+msgstr "Използване на &HTTP обединяване"
+
+#: plugins/icq/aimconfigbase.cc:150 plugins/icq/icqconfigbase.cc:234
+#: plugins/msn/msnconfigbase.cpp:173 plugins/yahoo/yahoocfgbase.cpp:171
+msgid "&Automaticaly use HTTP pooling if proxy required"
+msgstr "&Автоматично използва обединяване на HTTP ако прокси сървъра го изисква"
+
+#: plugins/icq/aimconfigbase.cc:151 plugins/icq/icqconfigbase.cc:240
+#: plugins/jabber/jabberconfigbase.cpp:292 plugins/msn/msnconfigbase.cpp:174
+#: plugins/yahoo/yahoocfgbase.cpp:170
+msgid "Note: For HTTP-pooling using proxy setings for HTTP"
+msgstr "Забележка: за обединяване на HTTP, се използват настройките на прокси за HTTP"
+
+#: plugins/icq/aimconfigbase.cc:153 plugins/icq/icqconfigbase.cc:242
+#: plugins/jabber/jabberconfigbase.cpp:294
+#: plugins/livejournal/livejournalcfgbase.cpp:155
+#: plugins/msn/msnconfigbase.cpp:175 plugins/yahoo/yahoocfgbase.cpp:173
+msgid "&Network"
+msgstr "&Мрежа"
 
 #: plugins/__homedir/homedircfgbase.cpp:62 plugins/_core/arcfgbase.cpp:78
 #: plugins/_core/filecfgbase.cpp:86 plugins/_core/historycfgbase.cpp:165
@@ -2127,7 +2184,7 @@ msgstr "Форма2"
 #: plugins/icq/pastinfobase.cc:138 plugins/jabber/addresultbase.cpp:57
 #: plugins/jabber/infoproxybase.cpp:55 plugins/jabber/jabberaddbase.cpp:92
 #: plugins/jabber/jabberconfigbase.cpp:277
-#: plugins/jabber/jabberinfobase.cpp:194
+#: plugins/jabber/jabberinfobase.cpp:182
 #: plugins/jabber/jabberpicturebase.cpp:74
 #: plugins/jabber/jabberworkinfobase.cpp:88
 #: plugins/jabber/servicesbase.cpp:107
@@ -2135,9 +2192,9 @@ msgstr "Форма2"
 #: plugins/livejournal/livejournalcfgbase.cpp:148
 #: plugins/livejournal/msgjournalbase.cpp:81
 #: plugins/logger/logconfigbase.cpp:67 plugins/msn/msninfobase.cpp:129
-#: plugins/msn/msnsearchbase.cpp:78 plugins/navigate/navcfgbase.cc:68
+#: plugins/msn/msnsearchbase.cpp:78 plugins/navigate/navcfgbase.cc:64
 #: plugins/ontop/ontopcfgbase.cpp:57 plugins/osd/osdconfigbase.cpp:80
-#: plugins/proxy/proxycfgbase.cpp:130 plugins/remote/remotecfgbase.cpp:103
+#: plugins/proxy/proxycfgbase.cpp:130 plugins/remote/remotecfgbase.cpp:95
 #: plugins/replace/replacecfgbase.cpp:52 plugins/shortcuts/mousecfgbase.cpp:77
 #: plugins/shortcuts/shortcutcfgbase.cpp:79
 #: plugins/sound/soundconfigbase.cpp:96 plugins/sound/sounduserbase.cpp:62
@@ -2156,33 +2213,33 @@ msgid "EMail"
 msgstr "Електронна поща"
 
 #: plugins/icq/aiminfobase.cc:276 plugins/icq/icqinfobase.cc:277
-#: plugins/jabber/discoinfobase.cpp:280 plugins/jabber/jabberinfobase.cpp:197
+#: plugins/jabber/discoinfobase.cpp:280 plugins/jabber/jabberinfobase.cpp:185
 #: plugins/msn/msninfobase.cpp:131 plugins/yahoo/yahooinfobase.cpp:163
 msgid "Nick:"
 msgstr "Прякор:"
 
-#: plugins/icq/icqinfobase.cc:281 plugins/jabber/jabberinfobase.cpp:201
+#: plugins/icq/icqinfobase.cc:281 plugins/jabber/jabberinfobase.cpp:189
 #: plugins/msn/msninfobase.cpp:132 plugins/yahoo/yahooinfobase.cpp:168
 msgid "&Names"
 msgstr "Име&на:"
 
 #: plugins/icq/aiminfobase.cc:288 plugins/icq/icqinfobase.cc:282
-#: plugins/jabber/jabberinfobase.cpp:202 plugins/msn/msninfobase.cpp:133
+#: plugins/jabber/jabberinfobase.cpp:190 plugins/msn/msninfobase.cpp:133
 #: plugins/yahoo/yahooinfobase.cpp:169
 msgid "Status:"
 msgstr "Състояние:"
 
 #: plugins/_core/userviewcfgbase.cpp:267 plugins/icq/aiminfobase.cc:285
-#: plugins/icq/icqinfobase.cc:283 plugins/jabber/jabberinfobase.cpp:204
+#: plugins/icq/icqinfobase.cc:283 plugins/jabber/jabberinfobase.cpp:191
 #: plugins/msn/msninfobase.cpp:134 plugins/yahoo/yahooinfobase.cpp:170
 msgid "Online:"
-msgstr "Включен:"
+msgstr "Свързан:"
 
 #: plugins/_core/core.cpp:1255 plugins/icq/aiminfobase.cc:291
-#: plugins/icq/icqinfobase.cc:288 plugins/jabber/jabberinfobase.cpp:206
+#: plugins/icq/icqinfobase.cc:288 plugins/jabber/jabberinfobase.cpp:194
 #: plugins/msn/msninfobase.cpp:136 plugins/yahoo/yahooinfobase.cpp:172
 msgid "&Status"
-msgstr "&Обща информация"
+msgstr "&Състояние"
 
 #: plugins/msn/msn.cpp:63
 msgid "MSN"
@@ -2193,6 +2250,8 @@ msgid ""
 "http://help.microsoft.com/!data/en_us/data/messengerv47_xp.its51/$content$/xp"
 "troublesignin.htm"
 msgstr ""
+"http://help.microsoft.com/!data/en_us/data/messengerv47_xp.its51/$content$/xp"
+"troublesignin.htm"
 
 #: plugins/_core/userviewcfgbase.cpp:268 plugins/icq/icq.cpp:114
 #: plugins/icq/icq.cpp:284 plugins/icq/icqclient.cpp:1497
@@ -2212,11 +2271,11 @@ msgstr "Няма ме"
 msgid "Busy"
 msgstr "Зает"
 
-#: plugins/msn/msn.cpp:146 plugins/yahoo/yahooclient.cpp:1344
+#: plugins/msn/msn.cpp:146 plugins/yahoo/yahooclient.cpp:1248
 msgid "Be right back"
 msgstr "Ще се върна след малко"
 
-#: plugins/msn/msn.cpp:161 plugins/yahoo/yahooclient.cpp:1356
+#: plugins/msn/msn.cpp:161 plugins/yahoo/yahooclient.cpp:1260
 msgid "On the phone"
 msgstr "На телефона"
 
@@ -2249,82 +2308,6 @@ msgstr "Прибавяне към група"
 msgid "&Add contact"
 msgstr "&Добавяне на потребител"
 
-#: plugins/msn/msnconfigbase.cpp:129 plugins/yahoo/yahoocfgbase.cpp:175
-#: plugins/yahoo/yahooinfobase.cpp:164
-msgid "Login:"
-msgstr "Удостоверяване:"
-
-#: plugins/_core/logindlg.cpp:282 plugins/icq/aimconfigbase.cc:145
-#: plugins/icq/icqconfigbase.cc:230 plugins/jabber/jabberconfigbase.cpp:278
-#: plugins/livejournal/livejournalcfgbase.cpp:150
-#: plugins/msn/msnconfigbase.cpp:130 plugins/proxy/proxycfgbase.cpp:135
-#: plugins/yahoo/yahoocfgbase.cpp:176
-msgid "Password:"
-msgstr "Парола:"
-
-#: plugins/msn/msnconfigbase.cpp:131
-msgid "&MSN"
-msgstr "&MSN"
-
-#: plugins/icq/aimconfigbase.cc:148 plugins/icq/icqconfigbase.cc:236
-#: plugins/jabber/jabberconfigbase.cpp:281
-#: plugins/jabber/jabberconfigbase.cpp:285
-#: plugins/livejournal/livejournalcfgbase.cpp:152
-#: plugins/msn/msnconfigbase.cpp:132 plugins/yahoo/yahoocfgbase.cpp:178
-msgid "Server:"
-msgstr "Сървър:"
-
-#: plugins/icq/aimconfigbase.cc:147 plugins/icq/icqconfigbase.cc:237
-#: plugins/jabber/jabberconfigbase.cpp:282
-#: plugins/jabber/jabberconfigbase.cpp:286
-#: plugins/livejournal/livejournalcfgbase.cpp:154
-#: plugins/msn/msnconfigbase.cpp:133 plugins/proxy/proxycfgbase.cpp:132
-#: plugins/remote/remotecfgbase.cpp:106 plugins/sms/smssetupbase.cpp:140
-#: plugins/yahoo/yahoocfgbase.cpp:179
-msgid "Port:"
-msgstr "Порт:"
-
-#: plugins/icq/icqconfigbase.cc:238 plugins/jabber/jabberconfigbase.cpp:288
-#: plugins/msn/msnconfigbase.cpp:134 plugins/yahoo/yahoocfgbase.cpp:184
-#, fuzzy
-msgid "Port range for direct connections:"
-msgstr "Директна връзка "
-
-#: plugins/_core/phonebase.cpp:116 plugins/_core/phonebase.cpp:118
-#: plugins/_core/phonebase.cpp:120 plugins/icq/icqconfigbase.cc:239
-#: plugins/jabber/jabberconfigbase.cpp:287 plugins/msn/msnconfigbase.cpp:135
-#: plugins/yahoo/yahoocfgbase.cpp:183
-msgid "-"
-msgstr "-"
-
-#: plugins/icq/aimconfigbase.cc:149 plugins/icq/icqconfigbase.cc:235
-#: plugins/jabber/jabberconfigbase.cpp:291 plugins/msn/msnconfigbase.cpp:136
-#: plugins/yahoo/yahoocfgbase.cpp:182
-msgid "Use &HTTP polling"
-msgstr ""
-
-#: plugins/icq/aimconfigbase.cc:150 plugins/icq/icqconfigbase.cc:234
-#: plugins/msn/msnconfigbase.cpp:137 plugins/yahoo/yahoocfgbase.cpp:181
-msgid "&Automaticaly use HTTP pooling if proxy required"
-msgstr ""
-
-#: plugins/icq/aimconfigbase.cc:151 plugins/icq/icqconfigbase.cc:240
-#: plugins/jabber/jabberconfigbase.cpp:292 plugins/msn/msnconfigbase.cpp:138
-#: plugins/yahoo/yahoocfgbase.cpp:180
-msgid "Note: For HTTP-pooling using proxy setings for HTTP"
-msgstr ""
-
-#: plugins/msn/msnconfigbase.cpp:139
-msgid "&Automatically add contacts in accept list"
-msgstr ""
-
-#: plugins/icq/aimconfigbase.cc:153 plugins/icq/icqconfigbase.cc:242
-#: plugins/jabber/jabberconfigbase.cpp:294
-#: plugins/livejournal/livejournalcfgbase.cpp:155
-#: plugins/msn/msnconfigbase.cpp:140 plugins/yahoo/yahoocfgbase.cpp:185
-msgid "&Network"
-msgstr "&Мрежа"
-
 #: plugins/__homedir/homedir.cpp:48
 msgid "Home directory"
 msgstr "Домашна директория"
@@ -2332,7 +2315,7 @@ msgstr "Домашна директория"
 #: plugins/__homedir/homedir.cpp:49
 msgid "Plugin provides select directory for store config files"
 msgstr ""
-"Приставката задава каталог в който ще се "
+"Приставката задава директория в който ще се "
 "съхраняват конфигурационните файлове"
 
 #: plugins/__homedir/homedir.cpp:92
@@ -2341,67 +2324,55 @@ msgstr "Установяване на домашна директория"
 
 #: plugins/__homedir/homedircfgbase.cpp:63
 msgid "Use &default path"
-msgstr ""
+msgstr "Използване на път по &подразбиране"
 
 #: plugins/__homedir/homedircfgbase.cpp:64
-#, fuzzy
 msgid "Path for config files:"
-msgstr "Път за приемани файлове"
+msgstr "Директория за конфигурационни файлове:"
 
 #: plugins/styles/wood/wood.cpp:1269
-#, fuzzy
 msgid "Norwegian Wood"
-msgstr "Норвежки"
+msgstr "Гора"
 
 #: plugins/styles/metal/metal.cpp:514
-#, fuzzy
 msgid "Metal style"
-msgstr "Стил по подразбиране"
+msgstr "Метал"
 
 #: plugins/styles/stylescfg.cpp:57
-#, fuzzy
 msgid "Fonts and colors"
-msgstr "&Цвят на фона"
+msgstr "Шрифтове и цветове"
 
 #: plugins/styles/styles.cpp:51
-#, fuzzy
 msgid "Styles"
-msgstr "&Стил"
+msgstr "Стилове"
 
 #: plugins/styles/styles.cpp:52
-#, fuzzy
 msgid "Plugin provides styles"
-msgstr ""
-"Приставката осигурява начален изглед при "
-"стартиране"
+msgstr "Приставката осигурява изменение на стила"
 
 #: plugins/styles/fontconfigbase.cpp:100
-#, fuzzy
 msgid "Use &system fonts"
-msgstr "&Използва системни шрифтове"
+msgstr "&Използване на системни шрифтове"
 
 #: plugins/styles/fontconfigbase.cpp:101
-#, fuzzy
 msgid "Base font:"
-msgstr "Основен шрифт"
+msgstr "Основен шрифт:"
 
 #: plugins/osd/osdifacebase.cpp:135 plugins/styles/fontconfigbase.cpp:102
 msgid "Background color:"
 msgstr "Цвят на фон:"
 
 #: plugins/styles/fontconfigbase.cpp:103
-#, fuzzy
 msgid "Button color:"
-msgstr "Цвят на фон:"
+msgstr "Цвят на бутоните:"
 
 #: plugins/_core/userviewcfgbase.cpp:272 plugins/styles/fontconfigbase.cpp:104
 msgid "Use system &colors"
 msgstr "Използване на системни &цветове"
 
 #: plugins/styles/fontconfigbase.cpp:105
-#, fuzzy
 msgid "Menu font:"
-msgstr "Шрифт за меню"
+msgstr "Шрифт за меню:"
 
 #: plugins/__migrate/migrate.cpp:35
 msgid "Migrate"
@@ -2419,8 +2390,7 @@ msgstr "Спиране на промяната?"
 
 #: plugins/__migrate/migratedlgbase.cpp:89
 msgid "Convert configuration from old version"
-msgstr ""
-"Променя конфигурацията от стара версия"
+msgstr "Променя конфигурацията от стара версия"
 
 #: plugins/__migrate/migratedlgbase.cpp:90
 msgid "Directories for convert:"
@@ -2428,7 +2398,7 @@ msgstr "Директория за промяна"
 
 #: plugins/__migrate/migratedlgbase.cpp:91
 msgid "&Remove old files"
-msgstr "&Премахва всички стари файлове"
+msgstr "&Премахване на всички стари файлове"
 
 #: plugins/__migrate/migratedlgbase.cpp:92
 msgid ""
@@ -2447,7 +2417,7 @@ msgstr "Избиране на директория за промяна"
 
 #: plugins/__migrate/migratedlgbase.cpp:96
 msgid "Convert configuration"
-msgstr "Промяна на конфигурацията"
+msgstr "Промяна на настройките"
 
 #: plugins/_core/cfgdlg.cpp:273 plugins/_core/usercfg.cpp:195
 msgid "User info"
@@ -2455,7 +2425,7 @@ msgstr "Информация за потребител"
 
 #: plugins/_core/cfgdlg.cpp:362 plugins/_core/usercfg.cpp:341
 msgid "Autoreply"
-msgstr "Автоматичен отговор "
+msgstr "Автоматичен отговор"
 
 #: plugins/_core/cfgdlg.cpp:380
 msgid "Plugins"
@@ -2469,42 +2439,43 @@ msgstr "Настройки"
 
 #: plugins/_core/cfgdlg.cpp:536 plugins/jabber/jabber.cpp:341
 msgid "Configure"
-msgstr "Конфигурация"
+msgstr "Настройване"
 
 #: plugins/_core/cfgdlg.cpp:539
 msgid "Update info"
-msgstr "Обновява информация"
+msgstr "Обновяване на информацията"
 
 #: plugins/_core/cmenu.cpp:78
 msgid "More..."
-msgstr ""
+msgstr "Повече..."
 
 #: plugins/_core/commands.cpp:234 plugins/_core/toolbarcfg.cpp:40
 msgid "Customize toolbar..."
 msgstr "Настройване на панел с инструменти..."
 
 #: plugins/_core/connectionsettings.cpp:32
-#, fuzzy
 msgid "Configure %1 client"
-msgstr "Настройване на клиент %1 "
+msgstr "Настройване на клиент %1"
 
 #: plugins/_core/container.cpp:302
 msgid "Container"
 msgstr "Прозорец"
 
-#: plugins/_core/container.cpp:563
-#, fuzzy
+#: plugins/_core/container.cpp:563 plugins/osd/osd.cpp:360
 msgid ""
 "_: male\n"
-"%1 typing"
-msgstr "%1 пише"
+"%1 typed"
+msgstr ""
+"мъж\n"
+"%1 пише"
 
-#: plugins/_core/container.cpp:564
-#, fuzzy
+#: plugins/_core/container.cpp:564 plugins/osd/osd.cpp:361
 msgid ""
 "_: female\n"
-"%1 typing"
-msgstr "%1 пише"
+"%1 typed"
+msgstr ""
+"жена\n"
+"%1 пише"
 
 #: plugins/_core/core.cpp:77 plugins/weather/weathercfg.cpp:53
 msgid "Interface"
@@ -2641,7 +2612,7 @@ msgstr "Търсене / добавяне на потребител"
 
 #: plugins/_core/core.cpp:581
 msgid "&Send SMS"
-msgstr "&Изпращне на SMS"
+msgstr "&Изпращане на SMS"
 
 #: plugins/_core/core.cpp:588
 msgid "&Phone service"
@@ -2690,14 +2661,12 @@ msgid "&Multiply send"
 msgstr "Изпращане &до няколко потребителя"
 
 #: plugins/_core/core.cpp:713 plugins/_core/core.cpp:809
-#, fuzzy
 msgid "Back&ground color"
 msgstr "&Цвят на фона"
 
 #: plugins/_core/core.cpp:721 plugins/_core/core.cpp:818
-#, fuzzy
 msgid "&Foreground color"
-msgstr "&Цвят на фона"
+msgstr "&Цвят на текста"
 
 #: plugins/_core/core.cpp:727 plugins/_core/core.cpp:824
 msgid "&Bold"
@@ -2708,19 +2677,16 @@ msgid "&Italic"
 msgstr "&Курсив"
 
 #: plugins/_core/core.cpp:748 plugins/_core/core.cpp:845
-#, fuzzy
 msgid "Select &font"
-msgstr "Изберане на шрифт"
+msgstr "Избиране на &шрифт"
 
 #: plugins/_core/core.cpp:755
-#, fuzzy
 msgid "Select &file"
-msgstr "Избиране на файл"
+msgstr "Избиране на &файл"
 
 #: plugins/_core/core.cpp:763
-#, fuzzy
 msgid "&Phone number"
-msgstr "Добавяне на телефон"
+msgstr "Телефонен &номер"
 
 #: plugins/_core/core.cpp:771 plugins/_core/msgedit.cpp:1521
 #: plugins/jabber/jabber.cpp:301
@@ -2748,14 +2714,12 @@ msgid "&Open message"
 msgstr "&Отваряне на съобщение"
 
 #: plugins/_core/core.cpp:890
-#, fuzzy
 msgid "&Delete message"
-msgstr "&Отваряне на съобщение"
+msgstr "&Изтриване на съобщение"
 
 #: plugins/_core/core.cpp:896
-#, fuzzy
 msgid "&Cut history"
-msgstr "Ис&тория"
+msgstr "Изрязване на ис&тория"
 
 #: plugins/_core/core.cpp:901
 msgid "&Quote"
@@ -2770,9 +2734,8 @@ msgid "&Answer"
 msgstr "&Отговор"
 
 #: plugins/_core/core.cpp:1002
-#, fuzzy
 msgid "Enable spell check"
-msgstr "Правописна проверка"
+msgstr "Разрешаване на правописна проверка"
 
 #: plugins/_core/core.cpp:1008 plugins/spell/spell.cpp:61
 msgid "Spell check"
@@ -2780,7 +2743,7 @@ msgstr "Правописна проверка"
 
 #: plugins/_core/core.cpp:1016
 msgid "&Messages"
-msgstr "&Съобщение "
+msgstr "&Съобщения"
 
 #: plugins/_core/core.cpp:1025 plugins/_core/msgedit.cpp:1672
 #: plugins/sms/smssetupbase.cpp:153
@@ -2804,13 +2767,12 @@ msgid "Group mode 2"
 msgstr "Режим на група 2"
 
 #: plugins/_core/core.cpp:1079
-#, fuzzy
 msgid "Show &empty groups"
-msgstr "Не показва &група"
+msgstr "Показване на празни &групи"
 
 #: plugins/_core/core.cpp:1086
 msgid "&Create group"
-msgstr "&Създава  група"
+msgstr "&Създаване на група"
 
 #: plugins/_core/core.cpp:1097
 msgid "&Rename group"
@@ -2829,9 +2791,8 @@ msgid "Down"
 msgstr "Долу"
 
 #: plugins/_core/core.cpp:1192
-#, fuzzy
 msgid "Show &always"
-msgstr "Показва &винаги"
+msgstr "Показване &винаги"
 
 #: plugins/_core/core.cpp:1222
 msgid "To container"
@@ -2865,7 +2826,7 @@ msgstr "Отказ без обясними причини"
 msgid "Sorry, I'm busy right now, and can not respond to your request"
 msgstr ""
 "Съжалявам, в момента съм зает и не мога да "
-"отговоря на вашето обръщение"
+"отговоря на вашето обръщение."
 
 #: plugins/_core/core.cpp:1313 plugins/_core/core.cpp:3098
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
@@ -2884,43 +2845,36 @@ msgid "&Edit"
 msgstr "&Редактиране"
 
 #: plugins/_core/core.cpp:1571
-#, fuzzy
 msgid "ip-address"
-msgstr "Адрес:"
+msgstr "IP адрес:"
 
 #: plugins/_core/core.cpp:1573
-#, fuzzy
 msgid "e-mail"
-msgstr "Електронна поща "
+msgstr "Електронна поща"
 
 #: plugins/_core/core.cpp:1575
-#, fuzzy
 msgid "phone"
-msgstr "Телефон: "
+msgstr "Телефон"
 
 #: plugins/_core/core.cpp:1577
-#, fuzzy
 msgid "contact nick"
-msgstr "Потребителят излезе"
+msgstr "Прякор"
 
 #: plugins/_core/core.cpp:1579
 msgid "number of unread messages from this contact"
-msgstr ""
+msgstr "количество на непрочетените съобщения"
 
 #: plugins/_core/core.cpp:1581
-#, fuzzy
 msgid "contact status"
-msgstr "Списъкът с потребители"
+msgstr "Състояние на потребителя"
 
 #: plugins/_core/core.cpp:1583
-#, fuzzy
 msgid "time of set status"
-msgstr "установяване на положение"
+msgstr "Време за установяване на състояние"
 
 #: plugins/_core/core.cpp:1585
-#, fuzzy
 msgid "time from set status"
-msgstr "установяване на положение"
+msgstr "време от установяване на състояние"
 
 #: plugins/_core/core.cpp:1604
 msgid ""
@@ -2929,24 +2883,25 @@ msgid ""
 "If it is wrong, you can separate them. For this purpose in contact menu "
 "choose the necessary name and choose a command \"Separate\"."
 msgstr ""
+"При изтегляне на списъка с потребители, тези с еднакви имена са обединение автоматично. "
+"Ако това е неправилно вие може да ги разделите. За да използвате тази възможност от списъка с потребители изберете необходимото име и изберете командата \"Разделяне\""
 
 #: plugins/_core/core.cpp:1607
-#, fuzzy
 msgid "Don't show this message in next time"
-msgstr "Не показвай диалог"
+msgstr "Не показвай това съобщение следващия път"
 
 #: plugins/_core/core.cpp:1634
 msgid "`<command>` - call <command> and substitute command output\n"
-msgstr ""
+msgstr "`<command>` - обръщение  към <command> и извеждане на резултата на изхода\n"
 
 #: plugins/_core/core.cpp:2240
 msgid "&Separate"
-msgstr "&Разделител"
+msgstr "&Разделяне"
 
 #: plugins/_core/core.cpp:2278 plugins/_core/userwnd.cpp:134
-#, fuzzy, c-format
+#, c-format
 msgid "from %1"
-msgstr "%1 от %2"
+msgstr "от %1"
 
 #: plugins/_core/core.cpp:2472
 msgid "&New"
@@ -2957,7 +2912,7 @@ msgid "Not available"
 msgstr "Недостъпен"
 
 #: plugins/_core/core.cpp:2646 plugins/dock/dockwnd.cpp:1192
-#: plugins/osd/osd.cpp:463
+#: plugins/osd/osd.cpp:402
 msgid "%1 from %2"
 msgstr "%1 от %2"
 
@@ -2976,7 +2931,7 @@ msgstr "Управление на връзките"
 
 #: plugins/_core/core.cpp:3904
 msgid "Show status panel"
-msgstr "Показване на панел на състояние"
+msgstr "Показване на панел със състояние"
 
 #: plugins/_core/core.cpp:3911
 msgid "Connections"
@@ -2988,14 +2943,14 @@ msgstr "Промяна на профил"
 
 #: plugins/_core/core.cpp:3955
 msgid "Common status"
-msgstr "Общ статус"
+msgstr "Общо състояние"
 
 #: plugins/_core/core.cpp:3961
 msgid "Configure client"
-msgstr "Настройка на клиент"
+msgstr "Настройване на клиент"
 
-#: plugins/_core/core.cpp:3985 plugins/_core/status.cpp:152
-#: plugins/_core/status.cpp:222
+#: plugins/_core/core.cpp:3985 plugins/_core/status.cpp:151
+#: plugins/_core/status.cpp:219
 msgid "&Invisible"
 msgstr "&Невидим"
 
@@ -3009,22 +2964,21 @@ msgstr "Редактиране на пощенски адреси"
 
 #: plugins/_core/editphone.cpp:38
 msgid "Add phone number"
-msgstr "Добавяне на телефон"
+msgstr "Добавяне на телефонен номер"
 
 #: plugins/_core/editphone.cpp:38
 msgid "Edit phone number"
-msgstr "Редактиране на телефон"
+msgstr "Редактиране на телефонен номер"
 
 #: plugins/_core/filetransfer.cpp:111
 msgid "&Replace"
-msgstr "&Замени"
+msgstr "&Замяна"
 
 #: plugins/_core/filetransfer.cpp:112
 msgid "&Skip"
 msgstr "&Пропускане"
 
 #: plugins/_core/filetransfer.cpp:114
-#, fuzzy
 msgid "Resu&me"
 msgstr "&Възобновяване"
 
@@ -3033,19 +2987,19 @@ msgid "File %1 exists"
 msgstr "Файл %1 съществува "
 
 #: plugins/_core/filetransfer.cpp:129
-#, fuzzy, c-format
+#, c-format
 msgid "Can't create: %1"
 msgstr "Невъзможно е създаването на файл %1"
 
 #: plugins/_core/filetransfer.cpp:178
-#, fuzzy, c-format
+#, c-format
 msgid "Receive file from %1"
-msgstr "Приемане на файл"
+msgstr "Приемане на файл от %1"
 
 #: plugins/_core/filetransfer.cpp:179
-#, fuzzy, c-format
+#, c-format
 msgid "Send file to %1"
-msgstr "Изпращане на файл"
+msgstr "Изпращане на файл до %1"
 
 #: plugins/_core/filetransfer.cpp:232
 msgid "Listen"
@@ -3057,7 +3011,7 @@ msgstr "Свързване "
 
 #: plugins/_core/filetransfer.cpp:238
 msgid "Negotiation"
-msgstr "Инициализация"
+msgstr "Установяване"
 
 #: plugins/_core/filetransfer.cpp:241
 msgid "Receive"
@@ -3097,26 +3051,27 @@ msgstr "Показване на %1 съобщения на страница"
 
 #: plugins/_core/historycfg.cpp:481
 msgid "Remove style '%1'?"
-msgstr ""
+msgstr "Изтриване на стил %1?"
 
 #: plugins/_core/historycfg.cpp:656
 msgid "Hi! ;)"
-msgstr ""
+msgstr "Здравей! ;)"
 
 #: plugins/_core/historycfg.cpp:662
 msgid "Hi!"
-msgstr ""
+msgstr "Здравей!"
 
 #: plugins/_core/historycfg.cpp:668
 msgid ""
 "<b><font color=\"#FF0000\">C</font><font color=\"#FFFF00\">olored</font></b> "
 "message"
 msgstr ""
+"<b><font color=\"#FF0000\">О</font><font color=\"#FFFF00\">цветени</font></b> "
+"съобщения"
 
 #: plugins/_core/historycfg.cpp:677 plugins/_core/msgcfgbase.cpp:86
-#, fuzzy
 msgid "New message"
-msgstr "&Ново съобщение"
+msgstr "Ново съобщение"
 
 #: plugins/_core/historywnd.cpp:49
 msgid "Loading"
@@ -3131,9 +3086,8 @@ msgid "Select profile"
 msgstr "Избиране на профил"
 
 #: plugins/_core/logindlg.cpp:298
-#, fuzzy
 msgid "Forgot password?"
-msgstr "Парола за прокси сървъра:"
+msgstr "Забравена парола?"
 
 #: plugins/_core/logindlg.cpp:333
 msgid "New profile"
@@ -3161,11 +3115,11 @@ msgstr "Мобилен телефон"
 
 #: plugins/_core/maininfo.cpp:52
 msgid "Wireless Pager"
-msgstr "Уведомител"
+msgstr "Уведомител(пейджър)"
 
 #: plugins/_core/maininfo.cpp:72
 msgid "Phone"
-msgstr "Телефон: "
+msgstr "Телефон"
 
 #: plugins/_core/maininfo.cpp:76 plugins/_core/maininfo.cpp:77
 msgid "Publish"
@@ -3185,8 +3139,7 @@ msgstr "Достъпен"
 
 #: plugins/_core/maininfo.cpp:84
 msgid "User is crrently available at:"
-msgstr ""
-"Потребителят в момента е на разположение: "
+msgstr "Потребителят в момента е на разположение: "
 
 #: plugins/_core/maininfo.cpp:229 plugins/_core/maininfo.cpp:346
 #: plugins/_core/maininfo.cpp:370 plugins/_core/maininfo.cpp:469
@@ -3197,7 +3150,7 @@ msgstr "Да"
 msgid "Form3"
 msgstr "Форма 3"
 
-#: plugins/_core/connectwndbase.cpp:95 plugins/_core/status.cpp:98
+#: plugins/_core/connectwndbase.cpp:95 plugins/_core/status.cpp:97
 #: plugins/_core/statuswnd.cpp:56
 msgid "Connecting"
 msgstr "Свързване"
@@ -3211,6 +3164,8 @@ msgid ""
 "If you want to add connection press button \" Next\".\n"
 "You can add connection later using connection manager"
 msgstr ""
+"Ако желаете да добавите още един потребител натиснете бутона \"Следващ\".\n"
+"Вие може да добавите потребител по-късно като използвате управителя на връзки."
 
 #: plugins/_core/msgsms.cpp:164
 msgid "Size: %1 / Max. size: %2"
@@ -3235,7 +3190,7 @@ msgstr "Не е IM потребител"
 msgid "Search %1"
 msgstr "Търсене на %1"
 
-#: plugins/_core/status.cpp:71 plugins/_core/statuswnd.cpp:86
+#: plugins/_core/status.cpp:70 plugins/_core/statuswnd.cpp:86
 #: plugins/dock/dock.cpp:183
 msgid "Inactive"
 msgstr "Неработещ"
@@ -3272,7 +3227,7 @@ msgstr "Нов потребител"
 #: plugins/_core/userview.cpp:176 plugins/_core/userview.cpp:678
 #: plugins/_core/userview.cpp:716 plugins/icq/icqsearch.cpp:143
 #: plugins/icq/searchresult.cpp:257 plugins/jabber/addresult.cpp:144
-#: plugins/jabber/jabberadd.cpp:117 plugins/remote/remote.cpp:566
+#: plugins/jabber/jabberadd.cpp:117 plugins/remote/remote.cpp:565
 msgid "Not in list"
 msgstr "Не е в списъка"
 
@@ -3301,9 +3256,9 @@ msgid "&Groups"
 msgstr "&Групи"
 
 #: plugins/_core/userview.cpp:1028
-#, fuzzy, c-format
+#, c-format
 msgid "Search: %1"
-msgstr "Търсене на %1"
+msgstr "Търсене: %1"
 
 #: plugins/_core/userview.cpp:1481
 msgid "Join \"%1\" and \"%2\"?"
@@ -3315,14 +3270,12 @@ msgid "Status"
 msgstr "Състояние"
 
 #: plugins/_core/userviewcfg.cpp:162
-#, fuzzy
 msgid "Last message time"
-msgstr "Изминало време:"
+msgstr "Време на последното съобщение"
 
 #: plugins/_core/userviewcfg.cpp:163
-#, fuzzy
 msgid "Contact name"
-msgstr "Потребители - разтегнати"
+msgstr "Име на връзката"
 
 #: plugins/_core/interfacecfgbase.cpp:118 plugins/icq/icqsearchbase.cc:294
 #: plugins/spell/spellcfgbase.cpp:86
@@ -3343,7 +3296,7 @@ msgstr "Режим за &бърборене"
 
 #: plugins/_core/interfacecfgbase.cpp:122
 msgid "&Using last selected font"
-msgstr ""
+msgstr "&Използване на последния избран шрифт"
 
 #: plugins/_core/interfacecfgbase.cpp:123
 msgid "Container mode"
@@ -3384,7 +3337,7 @@ msgstr "Избиране на протокол"
 #: plugins/_core/maininfobase.cpp:171 plugins/icq/aiminfobase.cc:272
 #: plugins/icq/aimsearchbase.cc:256 plugins/icq/icqinfobase.cc:278
 #: plugins/icq/icqsearchbase.cc:304 plugins/jabber/discoinfobase.cpp:283
-#: plugins/jabber/jabberinfobase.cpp:196 plugins/yahoo/yahooinfobase.cpp:165
+#: plugins/jabber/jabberinfobase.cpp:184 plugins/yahoo/yahooinfobase.cpp:165
 msgid "First name:"
 msgstr "Име:"
 
@@ -3421,8 +3374,7 @@ msgstr ""
 "Забележка: \n"
 "Вие можете да променяте само тези адреси "
 "които сте въвели.\n"
-"Невъзможно е да променяте адреси, които "
-"са получени от потребителя."
+"Адресите, които са получени от потребителя е невъзможно да се променят."
 
 #: plugins/_core/maininfobase.cpp:182
 msgid "&Mails"
@@ -3430,7 +3382,7 @@ msgstr "Електронна &поща "
 
 #: plugins/_core/maininfobase.cpp:183
 msgid "Phones:"
-msgstr "Телефон: "
+msgstr "Телефони: "
 
 #: plugins/_core/maininfobase.cpp:185
 msgid "Phone Status:"
@@ -3444,9 +3396,8 @@ msgid ""
 msgstr ""
 "Забележка: \n"
 "Вие можете да променяте само тези номера "
-"които вие сте въвели.\n"
-"Невъзможно е да променяте номера, които "
-"са получени от потребителя."
+"които сте въвели.\n"
+"Номерата, които са получени от потребителя е невъзможно да се променят."
 
 #: plugins/_core/maininfobase.cpp:192
 msgid "&Phones"
@@ -3474,7 +3425,7 @@ msgstr "Скорост:"
 
 #: plugins/_core/filetransferbase.cpp:136
 msgid "&Go to dir"
-msgstr ""
+msgstr "&Отиване в директория"
 
 #: plugins/_core/filetransferbase.cpp:137
 msgid "Close after &transfer"
@@ -3483,40 +3434,35 @@ msgstr "Затваряне след изпра&щане"
 #: plugins/_core/arcfg.cpp:96 plugins/_core/autoreply.cpp:109
 #: plugins/weather/wifacecfg.cpp:113
 msgid "In text you can use:"
-msgstr ""
+msgstr "В текста може да ползвате:"
 
 #: plugins/_core/userviewcfgbase.cpp:248
-#, fuzzy
 msgid "Sorting"
 msgstr "Подреден"
 
 #: plugins/_core/userviewcfgbase.cpp:249
-#, fuzzy
 msgid "1st:"
-msgstr "Машина:"
+msgstr "Първи:"
 
 #: plugins/_core/userviewcfgbase.cpp:250
 msgid "2nd:"
-msgstr ""
+msgstr "Втори:"
 
 #: plugins/_core/userviewcfgbase.cpp:251
 msgid "3rd:"
-msgstr ""
+msgstr "Трети:"
 
 #: plugins/_core/userviewcfgbase.cpp:255
-#, fuzzy
 msgid "Awaiting authorization"
-msgstr "&Удостоверяването е дадено"
+msgstr "Очакване на удостоверяване"
 
 #: plugins/_core/userviewcfgbase.cpp:259
-#, fuzzy
 msgid "Visible"
-msgstr "&Невидим"
+msgstr "Видим"
 
 #: plugins/_core/userviewcfgbase.cpp:263 plugins/icq/icqclient.cpp:1478
-#, fuzzy
 msgid "Invisible"
-msgstr "&Невидим"
+msgstr "Невидим"
 
 #: plugins/_core/userviewcfgbase.cpp:264
 msgid "Groups"
@@ -3524,7 +3470,7 @@ msgstr "Групи"
 
 #: plugins/_core/userviewcfgbase.cpp:265
 msgid "Do not distrub"
-msgstr " Не ме безпокойте"
+msgstr "Не ме безпокойте"
 
 #: plugins/_core/userviewcfgbase.cpp:270
 msgid "Colors:"
@@ -3535,13 +3481,12 @@ msgid "Use &double click"
 msgstr "Използване на двойно щ&ракване"
 
 #: plugins/_core/userviewcfgbase.cpp:273
-#, fuzzy
 msgid "Use small &font for group"
-msgstr "&Нов контейнер за група "
+msgstr "Използва малък шрифт за &група"
 
 #: plugins/_core/userviewcfgbase.cpp:274
 msgid "Show group &separator"
-msgstr "Покзване разделителите на &групи"
+msgstr "Показване на разделител на &група"
 
 #: plugins/_core/editmailbase.cpp:94
 msgid "EditMail"
@@ -3549,7 +3494,7 @@ msgstr "Редактиране на електронна поща"
 
 #: plugins/_core/editmailbase.cpp:95
 msgid "Enter Email address:"
-msgstr "Въвеждане на адрес на електронна поща"
+msgstr "Въвеждане на адрес на електронна поща:"
 
 #: plugins/_core/editmailbase.cpp:96 plugins/_core/editphonebase.cpp:111
 msgid "&Publish"
@@ -3585,12 +3530,11 @@ msgstr "Профил:"
 
 #: plugins/_core/logindlgbase.cpp:130
 msgid "&Save password"
-msgstr "&Запазва парола"
+msgstr "&Запазване на паролата"
 
 #: plugins/_core/logindlgbase.cpp:131
 msgid "&Do not show this window on startup"
-msgstr ""
-"&Не показва този прозорец при стартиране"
+msgstr "&Не показва този прозорец при стартиране"
 
 #: plugins/_core/toolsetupbase.cpp:123
 msgid "Toolbar setup"
@@ -3670,7 +3614,7 @@ msgid ""
 "%n contact lists"
 msgstr ""
 "Списък с потребители\n"
-"%n списък с потребители"
+"%n списъка с потребители"
 
 #: plugins/_core/msgedit.cpp:580 plugins/icq/icqmessage.cpp:675
 #, c-format
@@ -3686,9 +3630,8 @@ msgid "&Accept"
 msgstr "&Приемане"
 
 #: plugins/_core/msgedit.cpp:602
-#, fuzzy
 msgid "&Decline"
-msgstr "&Направление"
+msgstr "&Отказване"
 
 #: plugins/_core/msgedit.cpp:655
 #, c-format
@@ -3701,11 +3644,11 @@ msgstr ""
 
 #: plugins/_core/msgedit.cpp:662
 msgid "&Grant"
-msgstr "&Удостоверява"
+msgstr "&Удостоверяване"
 
 #: plugins/_core/msgedit.cpp:677
 msgid "&Refuse"
-msgstr "&Отказва"
+msgstr "&Отказване"
 
 #: plugins/_core/msgedit.cpp:725
 #, c-format
@@ -3714,7 +3657,7 @@ msgid ""
 "%n authorization granted"
 msgstr ""
 "Удостоверяването е осигурено\n"
-"%n Удостоверяванията са осигурени "
+"%n удостоверяванията са осигурени "
 
 #: plugins/_core/msgedit.cpp:746
 #, c-format
@@ -3723,7 +3666,7 @@ msgid ""
 "%n authorization refused"
 msgstr ""
 "Отказано удостоверяване\n"
-"%n Отказани удостоверявания "
+"%n отказани удостоверявания "
 
 #: plugins/_core/msgedit.cpp:767
 #, c-format
@@ -3732,7 +3675,7 @@ msgid ""
 "%n add to contacts"
 msgstr ""
 "Прибавяне към списъка с потребители \n"
-"%n Прибавяне към списъка с потребители"
+"%n прибавяне към списъка с потребители"
 
 #: plugins/_core/msgedit.cpp:788
 #, c-format
@@ -3740,8 +3683,8 @@ msgid ""
 "_n: Removed from contacts\n"
 "%n removed from contacts"
 msgstr ""
-"Премахнане от списъка с потребители \n"
-"%n Премахнане от списъка с потребители"
+"Премахване от списъка с потребители \n"
+"%n премахване от списъка с потребители"
 
 #: plugins/_core/msgedit.cpp:809
 #, c-format
@@ -3790,7 +3733,7 @@ msgstr "Отхвърляне на &удостоверяването"
 #: plugins/_core/autoreplybase.cpp:87
 #: plugins/_core/connectionsettingsbase.cpp:74
 msgid "MyDialog"
-msgstr "Мои думи"
+msgstr "Мой думи"
 
 #: plugins/_core/autoreplybase.cpp:88
 msgid "Don't show this dialog"
@@ -3841,17 +3784,16 @@ msgstr ""
 "когато се включи"
 
 #: plugins/_core/msgcfgbase.cpp:87
-#, fuzzy
 msgid "&No open"
-msgstr "&Не показва"
+msgstr "&Не отваря"
 
 #: plugins/_core/msgcfgbase.cpp:88
 msgid "Open and &minimize"
-msgstr ""
+msgstr "Отваряне и &минимизиране"
 
 #: plugins/_core/msgcfgbase.cpp:89
 msgid "Open and &raise"
-msgstr ""
+msgstr "Отваряне и &показване"
 
 #: plugins/_core/interfacecfg.cpp:45 plugins/icq/moreinfo.cpp:98
 msgid "English"
@@ -3942,9 +3884,8 @@ msgid "Decline reason"
 msgstr "Причина за отказа"
 
 #: plugins/_core/declinedlgbase.cpp:81
-#, fuzzy
 msgid "Enter decline reason:"
-msgstr "Въвеждане на причина за отказ"
+msgstr "Въвеждане на причина за отказ:"
 
 #: plugins/_core/smscfgbase.cpp:65
 msgid "Text before cursor:"
@@ -3967,39 +3908,35 @@ msgstr "Използване на емоционални икон&и"
 #: plugins/_core/historycfgbase.cpp:168
 #: plugins/_core/userhistorycfgbase.cpp:94
 msgid "Max history file size"
-msgstr ""
+msgstr "Максимален размер на файла с история"
 
 #: plugins/_core/historycfgbase.cpp:170
 #: plugins/_core/userhistorycfgbase.cpp:92
-#, fuzzy
 msgid "Mb"
-msgstr "Мб/с"
+msgstr "Мб"
 
 #: plugins/_core/historycfgbase.cpp:172
 #: plugins/_core/userhistorycfgbase.cpp:96
-#, fuzzy
 msgid "Keep history "
-msgstr "Запазване като"
+msgstr "Запазване на историята"
 
 #: plugins/_core/historycfgbase.cpp:173
 #: plugins/_core/userhistorycfgbase.cpp:95
 msgid "days"
-msgstr ""
+msgstr "дни"
 
 #: plugins/_core/historycfgbase.cpp:179
-#, fuzzy
 msgid "&Preview"
-msgstr "Предишна страни&ца"
+msgstr "&Предварителен преглед"
 
 #: plugins/_core/historycfgbase.cpp:180
-#, fuzzy
 msgid "&Source"
-msgstr "&Подреден"
+msgstr "&Изходен код"
 
 #: plugins/_core/userwnd.cpp:132
-#, fuzzy, c-format
+#, c-format
 msgid "to %1"
-msgstr "Колона %1"
+msgstr "на %1"
 
 #: plugins/_core/autoreply.cpp:48
 msgid "Autoreply message"
@@ -4052,7 +3989,7 @@ msgstr "Приставката е &разрешена"
 #: plugins/_core/searchbase.cpp:74
 msgid "Choose type of contact which you want to find or add:"
 msgstr ""
-"Избиране на вида на потребителя който "
+"Избиране на вида потребител който "
 "желаете да търсите или добавите:"
 
 #: plugins/_core/searchbase.cpp:75
@@ -4073,7 +4010,7 @@ msgstr "Съобщи за грешки"
 
 #: plugins/about/aboutdlg.cpp:47
 msgid "Note: This is english mailing list"
-msgstr ""
+msgstr "Внимание: Това е пощенски списък на английски"
 
 #: plugins/about/about.cpp:38 plugins/about/aboutdlgbase.cpp:121
 msgid "About"
@@ -4107,7 +4044,7 @@ msgstr "Атанас Мавров"
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
-msgstr "bugar@mail.bg"
+msgstr "bugar@developer.bg"
 
 #: plugins/about/aboutdlgbase.cpp:118
 msgid "About SIM"
@@ -4127,8 +4064,7 @@ msgstr "Лицензия"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:103
 msgid "Set \"Away\" status after"
-msgstr ""
-"Включване на \"Не съм пред компютъра\" след"
+msgstr "Включване на \"Не съм пред компютъра\" след"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:104
 msgid "minutes not using computer"
@@ -4139,22 +4075,19 @@ msgid "minutes of \"Away\""
 msgstr "минути в \"Не съм пред компютъра\""
 
 #: plugins/autoaway/autoawaycfgbase.cpp:106
-#, fuzzy
 msgid "minutes of \"N/A\""
-msgstr "минути в \"Не съм пред компютъра\""
+msgstr "минути в \"Няма ме\""
 
 #: plugins/autoaway/autoawaycfgbase.cpp:107
 msgid "Set \"N/A\" status after"
 msgstr "Включване на \"Няма ме\" след"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:108
-#, fuzzy
 msgid "Set \"Offline\" status after"
-msgstr "Включване на \"Няма ме\" след"
+msgstr "Включване на \"Изключен\" след"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:109
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Изключва известяване при \"Не съм пред "
 "компютъра\", \"Няма ме\", \"Моля не ме "
@@ -4180,12 +4113,12 @@ msgstr "Избиране на картинка за фон"
 #: plugins/background/bkgndcfg.cpp:60 plugins/icq/icqpicture.cpp:51
 #: plugins/jabber/jabberpicture.cpp:54
 msgid "%1|Graphics"
-msgstr "%1|Графики"
+msgstr "%1|Картинки"
 
 #: plugins/background/bkgndcfg.cpp:62 plugins/icq/icqpicture.cpp:53
 #: plugins/jabber/jabberpicture.cpp:56
 msgid "Graphics(%1)"
-msgstr "Графики(%1)"
+msgstr "Картинки(%1)"
 
 #: plugins/background/bkgndcfg.cpp:65
 msgid "Contact - left"
@@ -4259,14 +4192,13 @@ msgstr ""
 
 #: plugins/dock/dock.cpp:148
 msgid "Toggle main window"
-msgstr ""
-"Скриване/показване на главния прозорец"
+msgstr "Скриване/показване на главния прозорец"
 
-#: plugins/dock/dock.cpp:269
+#: plugins/dock/dock.cpp:271
 msgid "Hide main window"
 msgstr "Скриване на главния прозорец"
 
-#: plugins/dock/dock.cpp:270
+#: plugins/dock/dock.cpp:272
 msgid "Show main window"
 msgstr "Показване на главния прозорец"
 
@@ -4279,13 +4211,12 @@ msgid "seconds inactive"
 msgstr "секунди престой"
 
 #: plugins/dock/dockcfgbase.cpp:94
-#, fuzzy
 msgid "Show Mainwin on desktop"
 msgstr "Показване на главния прозорец"
 
 #: plugins/dock/dockcfgbase.cpp:95
 msgid "current"
-msgstr ""
+msgstr "текущ"
 
 #: plugins/dock/dockcfgbase.cpp:96
 msgid "&Customize dock menu"
@@ -4306,17 +4237,14 @@ msgstr ""
 "филтриране на съобщенията"
 
 #: plugins/filter/filter.cpp:106
-#, fuzzy
 msgid "Ignore user"
-msgstr "Списък с пренебрегнати потребители"
+msgstr "Пренебрегнати потребители"
 
 #: plugins/filter/filter.cpp:116
-#, fuzzy
 msgid "Ignore this phrase"
-msgstr "Списък с пренебрегнати потребители"
+msgstr "Отхвърляне на тази фраза"
 
 #: plugins/filter/filter.cpp:226
-#, fuzzy
 msgid "Add %1 to ignore list?"
 msgstr ""
 "Прибавяне на \"%1\" в списъка с "
@@ -4335,7 +4263,6 @@ msgstr ""
 "потребител, съдържащи думи или фрази като:"
 
 #: plugins/filter/filtercfgbase.cpp:68
-#, fuzzy
 msgid ""
 "Words are divided by any separators (space, comma, i.e.)\n"
 "A phrase can be specified using quotation marks\n"
@@ -4343,30 +4270,30 @@ msgid ""
 "* - any amount of symbols (or is empty)\n"
 "? - any symbol"
 msgstr ""
-"Думи са разделени с каквито и да е "
-"разделители ( клавиша за интервал , "
-"запетаи  и др.) Фраза ( последователност от "
-"думи ) се поставя в кавички\n"
-"Думите могат да съдържат следните маски:  "
-"*- всяка последователност от символи(или "
+"Думите са разделени с каквито и да е "
+"разделители ( клавиша за интервал, "
+"запетаи и др.). "
+"Фразите се поставят в кавички.\n"
+"Думите могат да съдържат следните маски: "
+"* - всяка последователност от символи (или "
 "нищо)\n"
-"?-всякакъв символ"
+"? - всякакъв символ"
 
-#: plugins/floaty/floaty.cpp:46
+#: plugins/floaty/floaty.cpp:43
 msgid "Floaty"
 msgstr "Плуващ прозорец"
 
-#: plugins/floaty/floaty.cpp:47
+#: plugins/floaty/floaty.cpp:44
 msgid "Plugin provides floating windows for contacts"
 msgstr ""
 "Приставката осигурява поддръжка на "
 "плуващ прозорец за потребителите"
 
-#: plugins/floaty/floaty.cpp:91 plugins/floaty/floaty.cpp:165
+#: plugins/floaty/floaty.cpp:88 plugins/floaty/floaty.cpp:162
 msgid "Floating on"
-msgstr "Включвабе на плуващ прозорец"
+msgstr "Включване на плуващ прозорец"
 
-#: plugins/floaty/floaty.cpp:162
+#: plugins/floaty/floaty.cpp:159
 msgid "Floating off"
 msgstr "Изключване на плуващ прозорец"
 
@@ -4375,7 +4302,7 @@ msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
 msgstr ""
 "Изпращане на всички съобщения получени в "
 "режим \"Не съм пред компютъра\" и \"Няма ме\"  "
-"на мобилен телефон"
+"на мобилен телефон:"
 
 #: plugins/forward/forwardcfgbase.cpp:72
 msgid ""
@@ -4391,7 +4318,7 @@ msgstr ""
 
 #: plugins/forward/forwardcfgbase.cpp:74
 msgid "Send only &one message (don't split)"
-msgstr "Изпращане само на едно &съобщение"
+msgstr "Изпращане само на едно &съобщение (не обединява)"
 
 #: plugins/forward/forward.cpp:31
 msgid "Forward"
@@ -4405,26 +4332,24 @@ msgstr ""
 
 #: plugins/gpg/gpgcfg.cpp:43
 msgid "GPG(gpg.exe)"
-msgstr ""
+msgstr "GPG(gpg.exe)"
 
 #: plugins/gpg/gpgcfg.cpp:51
-#, fuzzy
 msgid "Select home directory"
-msgstr "Установяване на домашна директория"
+msgstr "Избиране на домашна директория"
 
 #: plugins/gpg/gpgcfg.cpp:53
 msgid "Download GPG"
-msgstr ""
+msgstr "Изтегляне на GPG"
 
 #: plugins/gpg/gpgcfg.cpp:62
-#, fuzzy
 msgid "&Advanced"
-msgstr "&Отказ"
+msgstr "&Напреднал"
 
 #: plugins/gpg/gpgcfg.cpp:141 plugins/gpg/gpguser.cpp:83
 #: plugins/proxy/proxycfg.cpp:38
 msgid "None"
-msgstr "Не използва прокси"
+msgstr "Не е наличен"
 
 #: plugins/gpg/gpgcfg.cpp:169
 msgid "New"
@@ -4432,46 +4357,39 @@ msgstr "Нов"
 
 #: plugins/gpg/gpggen.cpp:103
 msgid "Move mouse for generate random key"
-msgstr ""
+msgstr "Движете мишката за създаване на случаен ключ"
 
 #: plugins/gpg/gpggen.cpp:169
-#, fuzzy
 msgid "Generate key failed"
-msgstr "Основа"
+msgstr "Създаването на ключ се провали"
 
 #: plugins/gpg/gpgcfgbase.cpp:102
 msgid "Executable:"
-msgstr ""
+msgstr "Програма:"
 
 #: plugins/gpg/gpgcfgbase.cpp:103
-#, fuzzy
 msgid "Home directory:"
-msgstr "Домашна директория"
+msgstr "Домашна директория:"
 
 #: plugins/gpg/gpgcfgbase.cpp:104 plugins/spell/spellcfgbase.cpp:85
-#, fuzzy
 msgid "&Find"
-msgstr "&Намиране"
+msgstr "&Търсене"
 
 #: plugins/gpg/gpgcfgbase.cpp:105
-#, fuzzy
 msgid "Your key:"
-msgstr "Турция"
+msgstr "Вашия ключ:"
 
 #: plugins/gpg/gpgcfgbase.cpp:106 plugins/gpg/gpguserbase.cpp:69
-#, fuzzy
 msgid "&Refresh"
-msgstr "&Отказва"
+msgstr "&Обновяване"
 
 #: plugins/gpg/gpggenbase.cpp:113
-#, fuzzy
 msgid "Generate key"
-msgstr "Основа"
+msgstr "Създаване на ключ"
 
 #: plugins/gpg/gpggenbase.cpp:117
-#, fuzzy
 msgid "Comment:"
-msgstr "Клиент:"
+msgstr "Коментар:"
 
 #: plugins/gpg/gpggenbase.cpp:118 plugins/icq/workinfobase.cc:184
 #: plugins/jabber/discoinfobase.cpp:269 plugins/jabber/discoinfobase.cpp:271
@@ -4479,103 +4397,101 @@ msgid "Name:"
 msgstr "Име:"
 
 #: plugins/gpg/gpguserbase.cpp:68
-#, fuzzy
 msgid "Key:"
-msgstr "Клавиши "
+msgstr "Ключ:"
 
 #: plugins/gpg/gpg.cpp:52
 msgid "GPG"
-msgstr ""
+msgstr "GPG"
 
 #: plugins/gpg/gpg.cpp:53
 msgid "Plugin adds GnuPG encryption/decryption support for messages"
-msgstr ""
+msgstr "Приставката осигурява GnuPG шифроване/дешифроване на съобщенията"
 
 #: plugins/gpg/gpg.cpp:77
 msgid ""
 "Plugin adds GnuPG encryption/decryption support for messages\n"
 "GPG not found in PATH"
 msgstr ""
+"Приставката осигурява GnuPG шифроване/дешифроване на съобщенията\n"
+"GPG не е намерен в PATH"
 
-#: plugins/gpg/gpg.cpp:397 plugins/gpg/gpg.cpp:402
-#, fuzzy
+#: plugins/gpg/gpg.cpp:396 plugins/gpg/gpg.cpp:401
 msgid "Encrypt failed"
-msgstr "Грешка при обмен"
+msgstr "Грешка при шифроване"
 
-#: plugins/gpg/gpg.cpp:559
-#, fuzzy, c-format
+#: plugins/gpg/gpg.cpp:558
+#, c-format
 msgid ""
 "_n: %n GPG key\n"
 "%n GPG keys"
 msgstr ""
-"Файл\n"
-"%n файлове"
+"%n GPG ключ\n"
+"%n GPG ключове"
 
-#: plugins/gpg/gpg.cpp:608
+#: plugins/gpg/gpg.cpp:607
 msgid "GPG key"
-msgstr ""
+msgstr "GPG ключ"
 
-#: plugins/gpg/gpg.cpp:616
+#: plugins/gpg/gpg.cpp:615
 msgid "Use GPG encryption"
-msgstr ""
+msgstr "Използване на GPG шифроване"
 
-#: plugins/gpg/gpg.cpp:623
+#: plugins/gpg/gpg.cpp:622
 msgid "&GPG key"
-msgstr ""
+msgstr "&GPG ключ"
 
 #: plugins/gpg/gpgadvbase.cpp:125
 msgid "Command arguments"
-msgstr ""
+msgstr "Аргументи към командата"
 
 #: plugins/gpg/gpgadvbase.cpp:126
 msgid "Generate key:"
-msgstr ""
+msgstr "Създаване на ключ:"
 
 #: plugins/gpg/gpgadvbase.cpp:127
 msgid "List public keys:"
-msgstr ""
+msgstr "Списък с публични ключове:"
 
 #: plugins/gpg/gpgadvbase.cpp:128
 msgid "List secret keys:"
-msgstr ""
+msgstr "Списък със секретни ключове:"
 
 #: plugins/gpg/gpgadvbase.cpp:129
 msgid "Import public:"
-msgstr ""
+msgstr "Вмъкване на публичен ключ:"
 
 #: plugins/gpg/gpgadvbase.cpp:130
 msgid "Export public:"
-msgstr ""
+msgstr "Изнасяне на публичен ключ:"
 
 #: plugins/gpg/gpgadvbase.cpp:131
-#, fuzzy
 msgid "Encrypt:"
-msgstr "Египет"
+msgstr "Шифроване:"
 
 #: plugins/gpg/gpgadvbase.cpp:132
 msgid "Decrypt:"
-msgstr ""
+msgstr "Дешифроране:"
 
 #: plugins/icons/icon.cpp:32
 msgid "Icons"
-msgstr "Икони: "
+msgstr "Икони"
 
 #: plugins/icons/icon.cpp:33
 msgid "Plugin provides Miranda icons themes and emoticons"
 msgstr ""
 "Приставката осигурява поддръжка на икони "
-"и темиот Miranda"
+"и теми от Miranda"
 
 #: plugins/icons/iconcfg.cpp:169
 msgid "Select icons DLL"
-msgstr "Избери DDL с икони"
+msgstr "Избиране на DDL с икони"
 
 #: plugins/icons/iconcfg.cpp:172
 msgid "*.dll|Icons themes"
 msgstr "*.dll|икони"
 
 #: plugins/icons/iconcfg.cpp:174
-#, fuzzy
 msgid "Icons themes (*.dll)"
 msgstr "Икони(*.dll)"
 
@@ -4589,17 +4505,15 @@ msgstr "Усмивки"
 
 #: plugins/icons/smilecfg.cpp:128
 msgid "Select smiles"
-msgstr "Избирне на усмивки"
+msgstr "Избиране на усмивки"
 
 #: plugins/icons/smilecfg.cpp:131
-#, fuzzy
 msgid "*.msl *.xep|Smiles"
-msgstr "*.msl|Усмивки"
+msgstr "*.msl *.xep|Усмивки"
 
 #: plugins/icons/smilecfg.cpp:133
-#, fuzzy
 msgid "Smiles (*.msl *.xep)"
-msgstr "Усмивки(*.msl)"
+msgstr "Усмивки (*.msl *.xep)"
 
 #: plugins/icons/smilecfg.cpp:136
 msgid "Get more smiles"
@@ -4607,7 +4521,7 @@ msgstr "Вземане на повече усмивки"
 
 #: plugins/icons/smilecfgbase.cpp:63
 msgid "Smiles:"
-msgstr "Усмивки: "
+msgstr "Усмивки:"
 
 #: plugins/icons/iconcfgbase.cpp:77
 msgid "Icons for protocol:"
@@ -4620,7 +4534,7 @@ msgstr ""
 "главния прозорец в лявата или дясната "
 "част на екрана"
 
-#: plugins/windock/windock.cpp:181
+#: plugins/windock/windock.cpp:180
 msgid ""
 "There is already an auto hidden window on this edge.\n"
 "Only one auto hidden window is allowed on each edge."
@@ -4629,7 +4543,7 @@ msgstr ""
 "Може да има само един такъв прозорец на "
 "всяка страна."
 
-#: plugins/windock/windock.cpp:358
+#: plugins/windock/windock.cpp:329
 msgid "AutoHide"
 msgstr "Скрива автоматично"
 
@@ -4661,26 +4575,23 @@ msgstr "Избиране на ниво на проверка за грешки"
 
 #: plugins/logger/logconfigbase.cpp:68
 msgid "File:"
-msgstr "Файл: "
+msgstr "Файл:"
 
 #: plugins/logger/logconfigbase.cpp:69
 msgid "Log level:"
-msgstr "Ниво на отчета "
+msgstr "Ниво на отчета:"
 
 #: plugins/icq/icqmessage.cpp:1039 plugins/logger/logconfig.cpp:93
-#, fuzzy
 msgid "Warning"
-msgstr "&Предупреждения"
+msgstr "Предупреждения"
 
 #: plugins/logger/logconfig.cpp:94
-#, fuzzy
 msgid "Debug"
-msgstr "&Проверка за грешки"
+msgstr "Проверка за грешки"
 
 #: plugins/logger/logconfig.cpp:95
-#, fuzzy
 msgid "Packets"
-msgstr "&Пакети"
+msgstr "Пакети"
 
 #: plugins/logger/logconfig.cpp:96 plugins/sound/soundconfig.cpp:62
 msgid "Events"
@@ -4688,83 +4599,72 @@ msgstr "Събития"
 
 #: plugins/zodiak/zodiak.cpp:50
 msgid "Zodiak"
-msgstr ""
+msgstr "Зодиак"
 
 #: plugins/zodiak/zodiak.cpp:51
-#, fuzzy
 msgid "Plugin provides show zodiak puctures for date edit"
-msgstr ""
-"Приставка осигурява картинка за фон на "
-"потребителския списък"
+msgstr "Приставката осигурява картинка на зодията при въведена дата"
 
 #: plugins/zodiak/zodiak.cpp:159
 msgid "View horoscope"
-msgstr ""
+msgstr "Преглед на хороскопа"
 
 #: plugins/zodiak/zodiak.cpp:180
-#, fuzzy
 msgid "Aries"
-msgstr "Свойства"
+msgstr "Овен"
 
 #: plugins/zodiak/zodiak.cpp:181
-#, fuzzy
 msgid "Taurus"
-msgstr "Науру"
+msgstr "Телец"
 
 #: plugins/zodiak/zodiak.cpp:182
-#, fuzzy
 msgid "Gemini"
-msgstr "Немски"
+msgstr "Близнаци"
 
 #: plugins/zodiak/zodiak.cpp:183
-#, fuzzy
 msgid "Cancer"
-msgstr "Отказ"
+msgstr "Рак"
 
 #: plugins/zodiak/zodiak.cpp:184
-#, fuzzy
 msgid "Leo"
-msgstr "Лаодикейски"
+msgstr "Лъв"
 
 #: plugins/zodiak/zodiak.cpp:185
 msgid "Virgo"
-msgstr ""
+msgstr "Дева"
 
 #: plugins/zodiak/zodiak.cpp:186
-#, fuzzy
 msgid "Libra"
-msgstr "Либерия"
+msgstr "Везни"
 
 #: plugins/zodiak/zodiak.cpp:187
 msgid "Scorpio"
-msgstr ""
+msgstr "Скорпион"
 
 #: plugins/zodiak/zodiak.cpp:188
 msgid "Saqittarius"
-msgstr ""
+msgstr "Стрелец"
 
 #: plugins/zodiak/zodiak.cpp:189
 msgid "Capricorn"
-msgstr ""
+msgstr "Козирог"
 
 #: plugins/zodiak/zodiak.cpp:190
 msgid "Aquarius"
-msgstr ""
+msgstr "Водолей"
 
 #: plugins/zodiak/zodiak.cpp:191
-#, fuzzy
 msgid "Pisces"
-msgstr "Картинка"
+msgstr "Риби"
 
 #: plugins/zodiak/zodiak.cpp:233
 #, c-format
 msgid "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
-msgstr ""
+msgstr "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
 
 #: plugins/icq/aimsearch.cpp:104
-#, fuzzy
 msgid "AIM search results"
-msgstr "ICQ търси резултат"
+msgstr "AIM търси резултат"
 
 #: plugins/icq/aimsearch.cpp:202 plugins/icq/icqsearch.cpp:289
 msgid "%1 already in contact list"
@@ -4773,7 +4673,7 @@ msgstr "%1 вече е в списъка с потребители"
 #: plugins/icq/aimsearch.cpp:219 plugins/icq/icqsearch.cpp:306
 #: plugins/jabber/jabberadd.cpp:195
 msgid "%1 added to contact list"
-msgstr "%1 в добавен към списъка с потребители"
+msgstr "%1 е добавен към списъка с потребители"
 
 #: plugins/icq/icq.cpp:76
 msgid "ICQ"
@@ -4792,14 +4692,12 @@ msgid "Free for chat"
 msgstr "Свободен за приказка"
 
 #: plugins/icq/icq.cpp:246
-#, fuzzy
 msgid "AIM"
-msgstr "SIM"
+msgstr "AIM"
 
 #: plugins/icq/icq.cpp:440
 msgid "Visible list"
-msgstr ""
-"Списък на потребители, за които съм видим"
+msgstr "Списък на потребители, за които съм видим"
 
 #: plugins/icq/icq.cpp:449
 msgid "Invisible list"
@@ -4821,16 +4719,15 @@ msgstr "&Прибавя към група"
 
 #: plugins/icq/icq.cpp:515
 msgid "Check &invisible"
-msgstr "Невидима &проверка "
+msgstr "Проверка за &невидими"
 
 #: plugins/icq/icq.cpp:524
 msgid "&All"
-msgstr ""
+msgstr "&Всички"
 
 #: plugins/icq/icq.cpp:533
-#, fuzzy
 msgid "&Only invisible"
-msgstr "Възможно невидим"
+msgstr "&Само невидимите"
 
 #: plugins/icq/icqconfig.cpp:57
 msgid "RTF"
@@ -4920,12 +4817,11 @@ msgstr "Регистрацията е неправилна"
 
 #: plugins/icq/icqlogin.cpp:196
 msgid "This client is outdated"
-msgstr ""
+msgstr "Този клиент е остарял"
 
 #: plugins/icq/icqlogin.cpp:201
 msgid "Too many clients from same IP"
-msgstr ""
-"Твърде много потребители ползващи едно IP"
+msgstr "Твърде много потребители ползващи едно IP"
 
 #: plugins/icq/icqlogin.cpp:206
 msgid "Rate limit"
@@ -4941,34 +4837,31 @@ msgstr "Несъществуващ номер"
 
 #: plugins/icq/icqlogin.cpp:223
 msgid "Bad login procedure"
-msgstr ""
+msgstr "Лоша процедура при свързване"
 
 #: plugins/icq/icqlogin.cpp:234
-#, fuzzy
 msgid "Service temporarly unavailable"
-msgstr "Временно потребителят не е наличен"
+msgstr "Временно услугата не е налична"
 
 #: plugins/icq/icqlogin.cpp:238
-#, fuzzy
 msgid "Invalid SecureID"
-msgstr "Неправилно съобщение"
+msgstr "Неправилно значение на идентификатора за безопасност"
 
 #: plugins/icq/icqlogin.cpp:242
 msgid "Too young!"
-msgstr ""
+msgstr "Много млад!"
 
 #: plugins/icq/icqlogin.cpp:246
 msgid "UIN was suspended"
-msgstr ""
+msgstr "UIN е прекратен"
 
 #: plugins/icq/icqlogin.cpp:250
 msgid "Can't login to ICQ network - Please try again later"
-msgstr ""
+msgstr "Невъзможна връзката с ICQ мрежата - моля опитайте по - късно."
 
 #: plugins/icq/icqlogin.cpp:271
 msgid "Youur UIN is being used from another location"
-msgstr ""
-"Твоят номер се използва от друг компютър "
+msgstr "Твоят номер се използва от друг компютър "
 
 #: plugins/icq/icqlogin.cpp:291
 msgid "Close packet from server"
@@ -5020,17 +4913,17 @@ msgid ""
 "_n: Check invisible\n"
 "%n times check invisible"
 msgstr ""
-"Проверяване за невидимост\n"
-"%n чака за невидима проверка"
+"Проверяване за невидими потребители\n"
+"Проверка за невидими потребители %n пъти"
 
 #: plugins/icq/icqmessage.cpp:796
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Warning\n"
 "%n warnings"
 msgstr ""
-"Електронна поща\n"
-"%n електронни пощи"
+"Предупреждение\n"
+"%n предупреждения"
 
 #: plugins/icq/icqmessage.cpp:902
 #, c-format
@@ -5063,18 +4956,16 @@ msgstr "Затваряне на секретен канал"
 
 #: plugins/icq/icqmessage.cpp:1032
 msgid "Check invisible"
-msgstr "Невидима проверка "
+msgstr "Проверка за невидими потребители"
 
 #: plugins/icq/icqicmb.cpp:1473 plugins/icq/icqmessage.cpp:1221
 #: plugins/jabber/jabberclient.cpp:2403
-#, fuzzy
 msgid "No contacts for send"
-msgstr "Няма потребител"
+msgstr "Няма потребител за изпращане"
 
 #: plugins/icq/icqpicture.cpp:126
 msgid "Picture can not be more than 7 kbytes"
-msgstr ""
-"Не може картинката да е по - голяма от 7 Кб"
+msgstr "Не може картинката да е по - голяма от 7 Кб"
 
 #: plugins/icq/icqpicture.cpp:136 plugins/jabber/jabberpicture.cpp:138
 msgid "Picture is not available"
@@ -5100,7 +4991,7 @@ msgstr "Изисква номер"
 
 #: plugins/icq/icqsearch.cpp:355
 msgid "Search fail"
-msgstr "Търсенето приключи неуспещно"
+msgstr "Търсенето приключи неуспешно"
 
 #: plugins/icq/icqsearch.cpp:357
 msgid "Request user info"
@@ -5157,23 +5048,23 @@ msgstr "Номер"
 #: plugins/icq/icqsecure.cpp:125 plugins/jabber/addresult.cpp:213
 #: plugins/jabber/jabbersearch.cpp:99
 msgid "Nick"
-msgstr "Прякор: "
+msgstr "Прякор"
 
 #: plugins/icq/icqservice.cpp:196
 msgid "anonymous"
-msgstr ""
+msgstr "анонимен"
 
 #: plugins/icq/icqservice.cpp:200
 #, c-format
 msgid "You've been warned by %1"
-msgstr ""
+msgstr "Вие получихте предупреждение от %1"
 
 #: plugins/icq/icqvarious.cpp:1422
 msgid ""
 "The Cellular network is currently unable to send your message to the "
 "recipient. Please try again later."
 msgstr ""
-"Клетъчната мрежа в момента не можеда "
+"Клетъчната мрежа в момента не може да "
 "изпрати вашето съобщение. Моля опитайте "
 "по-късно."
 
@@ -5190,62 +5081,53 @@ msgid "SMS send fail"
 msgstr "Изпращането на SMS е неуспешно"
 
 #: plugins/icq/icqvarious.cpp:1541
-#, fuzzy
 msgid "Jan"
-msgstr "Япония"
+msgstr "Януари"
 
 #: plugins/icq/icqvarious.cpp:1542
 msgid "Feb"
-msgstr ""
+msgstr "Февруари"
 
 #: plugins/icq/icqvarious.cpp:1543
-#, fuzzy
 msgid "Mar"
 msgstr "Март"
 
 #: plugins/icq/icqvarious.cpp:1544
-#, fuzzy
 msgid "Apr"
 msgstr "Април"
 
 #: plugins/icq/icqvarious.cpp:1546
-#, fuzzy
 msgid "Jun"
 msgstr "Юни"
 
 #: plugins/icq/icqvarious.cpp:1547
-#, fuzzy
 msgid "Jul"
 msgstr "Юли"
 
 #: plugins/icq/icqvarious.cpp:1548
-#, fuzzy
 msgid "Aug"
 msgstr "Август"
 
 #: plugins/icq/icqvarious.cpp:1549
-#, fuzzy
 msgid "Sep"
-msgstr "Настройки"
+msgstr "Септември"
 
 #: plugins/icq/icqvarious.cpp:1550
 msgid "Oct"
-msgstr ""
+msgstr "Октомври"
 
 #: plugins/icq/icqvarious.cpp:1551
-#, fuzzy
 msgid "Nov"
-msgstr "&Не"
+msgstr "Ноември"
 
 #: plugins/icq/icqvarious.cpp:1552
 msgid "Dec"
-msgstr ""
+msgstr "Демекври"
 
 #: plugins/icq/icqicmb.cpp:787 plugins/icq/icqicmb.cpp:795
 #: plugins/icq/icqvarious.cpp:1622 plugins/jabber/jabberclient.cpp:811
-#: plugins/yahoo/yahooclient.cpp:1002
 msgid "Client go offline"
-msgstr "Клиентът излезе от мрежата"
+msgstr "Потребителят излезе от мрежата"
 
 #: plugins/icq/interestsinfo.cpp:90
 msgid "Art"
@@ -5573,7 +5455,7 @@ msgstr "Идишки"
 
 #: plugins/icq/moreinfo.cpp:140
 msgid "Yoruba"
-msgstr "Еруба"
+msgstr "Аруба"
 
 #: plugins/icq/moreinfo.cpp:141
 msgid "Taiwanese"
@@ -5629,7 +5511,7 @@ msgstr "Други"
 
 #: plugins/icq/pastinfo.cpp:88
 msgid "Alumni Org."
-msgstr "Общество на випускниците"
+msgstr "Общество на випусниците"
 
 #: plugins/icq/pastinfo.cpp:89
 msgid "Charity Org."
@@ -5697,7 +5579,7 @@ msgstr "Търговски и Бизнес общества"
 
 #: plugins/icq/pastinfo.cpp:105
 msgid "Union"
-msgstr "Обединение"
+msgstr "Дружество"
 
 #: plugins/icq/pastinfo.cpp:106
 msgid "Volunteer Org."
@@ -5728,7 +5610,7 @@ msgstr ""
 
 #: plugins/icq/securedlg.cpp:59
 msgid "Request secure channel fail"
-msgstr "Искането за кодиран канал пропадна"
+msgstr "Искането за шифрован канал пропадна"
 
 #: plugins/icq/icqicmb.cpp:1215 plugins/icq/warndlg.cpp:66
 msgid "Send fail"
@@ -5892,7 +5774,7 @@ msgstr "Лична инфор&мация"
 
 #: plugins/icq/icqconfigbase.cc:231
 msgid "&Register new UIN"
-msgstr "&Регистрира нов номер"
+msgstr "&Регистриране на нов номер"
 
 #: plugins/icq/aimsearchbase.cc:243 plugins/icq/icqconfigbase.cc:232
 #: plugins/icq/icqsearchbase.cc:307
@@ -5904,18 +5786,16 @@ msgid "&ICQ"
 msgstr "&ICQ"
 
 #: plugins/icq/aimconfigbase.cc:152 plugins/icq/icqconfigbase.cc:241
-#, fuzzy
 msgid "&Keep-alive connection"
-msgstr "&Нова връзка"
+msgstr "&Устойчива връзка"
 
 #: plugins/icq/icqconfigbase.cc:243
 msgid "Send format:"
-msgstr "Изпращане на формат:"
+msgstr "Формат на съобщението:"
 
 #: plugins/icq/icqconfigbase.cc:244
 msgid "Accept in &occupied mode"
-msgstr ""
-"Приемане на  файлове в режим \"&Зает съм\""
+msgstr "Приемане на файлове в режим \"&Зает съм\""
 
 #: plugins/icq/icqconfigbase.cc:245
 msgid "Accept in &DND mode"
@@ -5925,7 +5805,7 @@ msgstr ""
 
 #: plugins/icq/icqconfigbase.cc:246
 msgid "Support &typing notification"
-msgstr "Поддържа &известяване"
+msgstr "Поддържане на &известяване при въвеждане на съобщение"
 
 #: plugins/icq/icqconfigbase.cc:247
 msgid "Automatically &update user info"
@@ -5940,23 +5820,20 @@ msgstr ""
 "отговор при смяна на състоянието"
 
 #: plugins/icq/icqconfigbase.cc:249
-#, fuzzy
 msgid "Send message:"
-msgstr "Изпращане на &съобщение"
+msgstr "Изпращане на съобщение:"
 
 #: plugins/icq/icqconfigbase.cc:251
-#, fuzzy
 msgid "No wait ack"
-msgstr "Няма съответствие"
+msgstr "Не чака потвърждение"
 
 #: plugins/icq/icqconfigbase.cc:252
-#, fuzzy
 msgid "Wait ack from server"
-msgstr "Връзката е прекъсната от сървъра"
+msgstr "Чакане на потвърждение от сървъра"
 
 #: plugins/icq/icqconfigbase.cc:253
 msgid "Wait ack from client"
-msgstr ""
+msgstr "Чакане на потвърждение от клиента"
 
 #: plugins/icq/icqconfigbase.cc:254 plugins/jabber/jabberconfigbase.cpp:303
 #: plugins/livejournal/livejournalcfgbase.cpp:159
@@ -6017,7 +5894,6 @@ msgstr "Случаен събеседник"
 
 #: plugins/icq/aimconfigbase.cc:144 plugins/icq/aiminfobase.cc:282
 #: plugins/icq/aimsearchbase.cc:240 plugins/icq/icqsearchbase.cc:314
-#, fuzzy
 msgid "ScreenName:"
 msgstr "Име:"
 
@@ -6031,38 +5907,33 @@ msgstr "Само свързаните"
 
 #: plugins/icq/aimconfigbase.cc:146 plugins/icq/aimsearchbase.cc:242
 msgid "&AIM"
-msgstr ""
+msgstr "&AIM"
 
 #: plugins/icq/aimsearchbase.cc:247
-#, fuzzy
 msgid "&Email"
-msgstr "Електронна поща"
+msgstr "&Електронна поща"
 
 #: plugins/icq/aiminfobase.cc:275 plugins/icq/aimsearchbase.cc:249
-#, fuzzy
 msgid "Maiden:"
-msgstr "Програма за електронна поща:"
+msgstr "Моминско име:"
 
 #: plugins/icq/aiminfobase.cc:277 plugins/icq/aimsearchbase.cc:251
-#, fuzzy
 msgid "Street:"
-msgstr "Скорост:"
+msgstr "Улица:"
 
 #: plugins/icq/aiminfobase.cc:280 plugins/icq/aimsearchbase.cc:254
-#, fuzzy
 msgid "Zip:"
 msgstr "Пощенски код:"
 
 #: plugins/icq/aiminfobase.cc:274 plugins/icq/aimsearchbase.cc:257
-#, fuzzy
 msgid "Middle:"
-msgstr "Програма за електронна поща:"
+msgstr "Презиме:"
 
 #: plugins/icq/aimsearchbase.cc:258
 msgid ""
 "The first or last name nust be present. All other fields are optional, but "
 "will help narrow your search."
-msgstr ""
+msgstr "Името и фамилията е нужно да се въведат. Останалите полета не са задължителни но значително биха улеснили вашето търсене."
 
 #: plugins/icq/aboutinfobase.cc:65 plugins/jabber/jabberaboutinfobase.cpp:56
 msgid "Form4"
@@ -6070,22 +5941,21 @@ msgstr "Форма 4"
 
 #: plugins/icq/aboutinfobase.cc:66
 msgid "Additional information about user:"
-msgstr ""
-"Допълнителна информация за потребителя:"
+msgstr "Допълнителна информация за потребителя:"
 
 #: plugins/icq/aboutinfobase.cc:67
 msgid "A&bout"
 msgstr "Относн&о"
 
 #: plugins/icq/moreinfobase.cc:154 plugins/jabber/discoinfobase.cpp:281
-#: plugins/jabber/jabberinfobase.cpp:199
+#: plugins/jabber/jabberinfobase.cpp:187
 msgid "Homepage:"
 msgstr "Лична страница"
 
 #: plugins/icq/moreinfobase.cc:157 plugins/jabber/discoinfobase.cpp:282
-#: plugins/jabber/jabberinfobase.cpp:198
+#: plugins/jabber/jabberinfobase.cpp:186
 msgid "Birth date:"
-msgstr "Рожденна дата:"
+msgstr "Рождена дата:"
 
 #: plugins/icq/moreinfobase.cc:158
 msgid "&More info"
@@ -6100,9 +5970,8 @@ msgid "&Languages"
 msgstr "Ези&ци"
 
 #: plugins/icq/aimconfig.cpp:46
-#, fuzzy
 msgid "Register new ScreenName"
-msgstr "&Регистрира нов номер"
+msgstr "Регистриране на нов потребител"
 
 #: plugins/icq/workinfobase.cc:186
 msgid "Web site:"
@@ -6170,7 +6039,7 @@ msgstr ""
 msgid "Allow direct connection from user &upon authorization"
 msgstr ""
 "Позволяване на директна връзка на всички "
-"упълномощени по&требители"
+"удостоверени по&требители"
 
 #: plugins/icq/icqsecurebase.cc:163
 msgid "&Security"
@@ -6186,7 +6055,7 @@ msgstr "Нова парола:"
 
 #: plugins/icq/icqsecurebase.cc:166
 msgid "Retype new password:"
-msgstr "Въвеждане отново нова парола:"
+msgstr "Повтаряне на новата парола:"
 
 #: plugins/icq/icqsecurebase.cc:167
 msgid "&Password"
@@ -6194,8 +6063,7 @@ msgstr "Парол&а"
 
 #: plugins/icq/icqsecurebase.cc:168
 msgid "&Visible list"
-msgstr ""
-"&Списък на потребители, за които съм видим"
+msgstr "&Списък на потребители, за които съм видим"
 
 #: plugins/icq/icqsecurebase.cc:169
 msgid "&Invisible list"
@@ -6231,45 +6099,44 @@ msgstr ""
 "клиенти"
 
 #: plugins/icq/warndlgbase.cc:83
-#, fuzzy
 msgid "Send warning"
-msgstr "Неуспешно изпращане "
+msgstr "Изпращане на предупреждение"
 
 #: plugins/icq/warndlgbase.cc:84
 msgid ""
 "Click OK to send warning to %1. This will raise %1's warning and limit his "
 "or her activity. Do this only if %1 has done something to merit a warning."
-msgstr ""
+msgstr "Натиснете Да за да изпратите предупреждение на %1. Това ще увеличи нивото на предупреждение за потребителя и ще намали неговата активност.Направете това ако %1 е направил нещо което заслужава предупреждение."
 
 #: plugins/icq/warndlgbase.cc:85
 msgid "Warn &anonymously"
-msgstr ""
+msgstr "Анонимно &предупреждение"
 
 #: plugins/icq/warndlgbase.cc:86
 msgid ""
 "Check this if you don't want your screen name revealed.\n"
 "Anonymous warinings are less severe."
 msgstr ""
+"Изберете това ако не искате да разкриете името си в предупрежденията.\n"
+"Анонимните предупреждения оказват значително по - малко влияние."
 
 #: plugins/icq/aiminfobase.cc:284
-#, fuzzy
 msgid "&Profile"
-msgstr "Профил:"
+msgstr "&Профил:"
 
 #: plugins/icq/encodingdlgbase.cc:83
-#, fuzzy
 msgid "Choose default encoding"
-msgstr "&Всички кодировки"
+msgstr "Избиране на кодировка по подразбиране"
 
 #: plugins/icq/encodingdlgbase.cc:84
 msgid ""
 "Your current system encoding (UTF-8) may cause problems saving your personal "
 "information and reading offline messages from other users."
-msgstr ""
+msgstr "Вашата текуща системна кодировка (UTF-8) може да доведе до проблеми при запазване на личната ви информация и четенето на съобщения когато не сте свързани в мрежата от останалите потребители."
 
 #: plugins/icq/encodingdlgbase.cc:85
 msgid "You will choose the coding by default which want to use:"
-msgstr ""
+msgstr "Избиране на кодировка по подразбиране:"
 
 #: plugins/icq/pastinfobase.cc:139
 msgid "Organization, Affiliation, Group:"
@@ -6281,11 +6148,11 @@ msgstr "С&дружение"
 
 #: plugins/icq/pastinfobase.cc:141
 msgid "Past background:"
-msgstr "Минал произход :"
+msgstr "Образование:"
 
 #: plugins/icq/pastinfobase.cc:142
 msgid "&Background"
-msgstr "&Фон"
+msgstr "О&бразование"
 
 #: plugins/icq/icqclient.cpp:648 plugins/icq/icqicmb.cpp:87
 #: plugins/icq/icqicmb.cpp:180
@@ -6317,22 +6184,20 @@ msgid "We are to evil :("
 msgstr "Ние също сме лоши :-("
 
 #: plugins/icq/icqicmb.cpp:650 plugins/jabber/jabber_rosters.cpp:2117
-#, fuzzy
 msgid "File transfer declined"
-msgstr "Файловата обмяна приключи:"
+msgstr "Приемането на файла е отклонено"
 
 #: plugins/icq/icqicmb.cpp:933
-#, fuzzy
 msgid "Directory"
-msgstr "Директории"
+msgstr "Директория"
 
 #: plugins/icq/icqicmb.cpp:937 plugins/icq/icqicmb.cpp:943
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: %n file\n"
 "%n files"
 msgstr ""
-"Файл\n"
+"%n Файл\n"
 "%n файлове"
 
 #: plugins/icq/icqicmb.cpp:1425
@@ -6345,7 +6210,7 @@ msgstr "Няма потребител"
 
 #: plugins/icq/icqclient.cpp:300
 msgid "Dear translator! type this default encdoing for your language"
-msgstr ""
+msgstr "CP 1251"
 
 #: plugins/icq/icqclient.cpp:346
 msgid "Process message failed"
@@ -6373,7 +6238,7 @@ msgstr "Исканата услуга не е налична"
 
 #: plugins/icq/icqclient.cpp:654
 msgid "Requested service not defined"
-msgstr "Исканата услуга нее определена"
+msgstr "Исканата услуга не е определена"
 
 #: plugins/icq/icqclient.cpp:655
 msgid "We sent an obsolete SNAC"
@@ -6413,7 +6278,7 @@ msgstr "Получателят е блокиран"
 
 #: plugins/icq/icqclient.cpp:666
 msgid "Receiver too evil"
-msgstr "Изпращача е много лош"
+msgstr "Получателя е много лош"
 
 #: plugins/icq/icqclient.cpp:667
 msgid "User temporarily unavailable"
@@ -6444,9 +6309,8 @@ msgid "Protocol error"
 msgstr "Грешка в протокола"
 
 #: plugins/icq/icqclient.cpp:1513
-#, fuzzy
 msgid "Warning level"
-msgstr "&Предупреждения"
+msgstr "Ниво на предупреждение"
 
 #: plugins/icq/icqclient.cpp:1822 plugins/icq/icqclient.cpp:2010
 #: plugins/jabber/jabberclient.cpp:1566 plugins/jabber/jabberclient.cpp:1675
@@ -6499,7 +6363,7 @@ msgstr "Изпращане до &списък"
 #: plugins/netmonitor/monitor.cpp:51 plugins/netmonitor/netmonitor.cpp:35
 #: plugins/netmonitor/netmonitor.cpp:91
 msgid "Network monitor"
-msgstr "Мрежово наблюдение"
+msgstr "Наблюдение на мрежата"
 
 #: plugins/netmonitor/monitor.cpp:61 plugins/netmonitor/monitor.cpp:112
 msgid "&Pause"
@@ -6554,14 +6418,13 @@ msgstr ""
 
 #: plugins/netmonitor/netmonitor.cpp:102
 msgid "Show network monitor"
-msgstr "Показва мрежово наблюдение"
+msgstr "Показване на мрежова информация"
 
 #: plugins/ontop/ontop.cpp:45
 msgid "On Top"
 msgstr "Отгоре"
 
 #: plugins/ontop/ontop.cpp:46
-#, fuzzy
 msgid "Plugin provides main window and containers always on top"
 msgstr ""
 "Приставката осигурява главния прозорец "
@@ -6578,7 +6441,6 @@ msgstr ""
 "задачи"
 
 #: plugins/ontop/ontopcfgbase.cpp:59
-#, fuzzy
 msgid "&Container always on top"
 msgstr "&Прозореца е винаги отгоре"
 
@@ -6619,8 +6481,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:68
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Приставката поддържа известяване на "
 "състоянието на съобщенията и "
@@ -6630,61 +6491,45 @@ msgstr ""
 msgid "&OSD"
 msgstr "&OSD"
 
-#: plugins/osd/osd.cpp:361
-#, fuzzy
+#: plugins/osd/osd.cpp:358
 msgid ""
 "_: male\n"
 "%1 is online"
-msgstr "%1 е включен"
+msgstr ""
+"Мъж\n"
+"%1 е включен"
 
-#: plugins/osd/osd.cpp:362
-#, fuzzy
+#: plugins/osd/osd.cpp:359
 msgid ""
 "_: female\n"
 "%1 is online"
-msgstr "%1 е включен"
-
-#: plugins/osd/osd.cpp:363
-#, fuzzy
-msgid ""
-"_: male\n"
-"%1 typed"
-msgstr "%1 пише"
-
-#: plugins/osd/osd.cpp:364
-#, fuzzy
-msgid ""
-"_: female\n"
-"%1 typed"
-msgstr "%1 пише"
+msgstr ""
+"Жена\n"
+"%1 е включена"
 
 #: plugins/osd/osdconfigbase.cpp:81
 msgid "Enable &messages notification"
-msgstr ""
-"&Разрешаване на уведомяване за съобщения"
+msgstr "&Уведомяване за съобщения"
 
 #: plugins/osd/osdconfigbase.cpp:82
 msgid "Enable &status notification"
-msgstr "&Разрешаване на уведомяване"
+msgstr "&Уведомяване за статуса"
 
 #: plugins/jabber/jabberconfigbase.cpp:298 plugins/osd/osdconfigbase.cpp:83
 msgid "Enable &typing notification"
-msgstr "&Разрешаване на писмено уведомяване"
+msgstr "&Уведомяване за въвеждане на текст"
 
 #: plugins/osd/osdconfigbase.cpp:84
-#, fuzzy
 msgid "Show message content"
-msgstr "Неизвестен вид на съобщение"
+msgstr "Показване на текста на съобщението"
 
 #: plugins/osd/osdconfigbase.cpp:85
-#, fuzzy
 msgid "All"
-msgstr "Alt"
+msgstr "Всички"
 
 #: plugins/osd/osdconfigbase.cpp:86
-#, fuzzy
 msgid "Show lines of content:"
-msgstr "Неизвестен вид на съобщение"
+msgstr "Количество редове в съдържанието:"
 
 #: plugins/osd/osdifacebase.cpp:129
 msgid "Offset:"
@@ -6712,7 +6557,7 @@ msgstr "Рисуване на &фон"
 
 #: plugins/osd/osdifacebase.cpp:137
 msgid "Shown on screen:"
-msgstr "Показва отговор"
+msgstr "Показване върху монитора:"
 
 #: plugins/proxy/proxycfg.cpp:43
 msgid "&Proxy"
@@ -6724,7 +6569,7 @@ msgstr "По подразбиране"
 
 #: plugins/proxy/proxycfg.cpp:224
 msgid "HTTP requests"
-msgstr ""
+msgstr "HTTP заявка"
 
 #: plugins/proxy/proxycfgbase.cpp:131
 msgid "Host:"
@@ -6732,8 +6577,7 @@ msgstr "Машина:"
 
 #: plugins/proxy/proxycfgbase.cpp:133
 msgid "Proxy require &authorization"
-msgstr ""
-"&Прокси сървъра изисква удостоверяване"
+msgstr "&Прокси сървъра изисква удостоверяване"
 
 #: plugins/proxy/proxycfgbase.cpp:134
 msgid "User:"
@@ -6744,14 +6588,10 @@ msgid "Proxy type:"
 msgstr "Вид прокси:"
 
 #: plugins/proxy/proxycfgbase.cpp:138
-#, fuzzy
 msgid "Do not show error dialog (automatically reconnect)"
-msgstr ""
-"Не показва прозорец за избор пр&и "
-"включване"
+msgstr "Не показва диалог за грешки (автоматично се свързва отново)"
 
 #: plugins/proxy/proxy.cpp:42
-#, fuzzy
 msgid "Can't connect to proxy"
 msgstr ""
 "Не може а се установи връзка с прокси "
@@ -6759,53 +6599,39 @@ msgstr ""
 
 #: plugins/proxy/proxy.cpp:43
 msgid "Bad proxy answer"
-msgstr ""
+msgstr "Лош отговор от прокси сървъра"
 
 #: plugins/proxy/proxy.cpp:44
-#, fuzzy
 msgid "Proxy authorization failed"
-msgstr "Използва прокси удостоверяване"
+msgstr "Удостоверяването към прокси сървъра пропадна"
 
 #: plugins/proxy/proxy.cpp:1126
 msgid "Proxy"
 msgstr "Прокси"
 
 #: plugins/proxy/proxy.cpp:1127
-#, fuzzy
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS/HTTP)"
-msgstr ""
-"Приставката поддържа прокси (SOCKS4, SOCKS5, HTTPS "
-"and HTTP)"
+msgstr "Приставката поддържа прокси (SOCKS4, SOCKS5, HTTPS/HTTP)"
 
 #: plugins/proxy/proxyerrorbase.cpp:78
-#, fuzzy
 msgid "Proxy error"
-msgstr "Потребител за прокси сървъра:"
+msgstr "Грешка при прокси"
 
 #: plugins/remote/remote.cpp:42
 msgid "Remote control"
-msgstr ""
+msgstr "Отдалечено управление"
 
 #: plugins/remote/remote.cpp:43
-#, fuzzy
 msgid "Plugin provides remote control"
-msgstr ""
-"Приставка осигурява скриване на главния "
-"прозорец в системния поднос"
+msgstr "Приставката осигурява отдалечен контрол"
 
-#: plugins/remote/remotecfgbase.cpp:105
-#, fuzzy
+#: plugins/remote/remotecfgbase.cpp:97
 msgid "Use &UNIX socket"
-msgstr "Използва &документация"
+msgstr "Използва &UNIX сокет"
 
-#: plugins/remote/remotecfgbase.cpp:107 plugins/remote/remotecfgbase.cpp:108
-#, fuzzy
+#: plugins/remote/remotecfgbase.cpp:99 plugins/remote/remotecfgbase.cpp:100
 msgid "Use &TCP socket"
-msgstr "Използва &документация"
-
-#: plugins/remote/remotecfgbase.cpp:109
-msgid "Enable IE context emnu extension"
-msgstr ""
+msgstr "Използва &TCP сокет"
 
 #: plugins/shortcuts/shortcutcfg.cpp:52
 msgid "Mouse"
@@ -6837,7 +6663,7 @@ msgstr "Команда"
 #: plugins/shortcuts/shortcutcfgbase.cpp:38
 #: plugins/shortcuts/shortcutcfgbase.cpp:81
 msgid "Key"
-msgstr "Клавиши "
+msgstr "Клавиш"
 
 #: plugins/shortcuts/mousecfgbase.cpp:37 plugins/shortcuts/mousecfgbase.cpp:79
 msgid "Button"
@@ -6872,12 +6698,10 @@ msgid "Sound"
 msgstr "Звук"
 
 #: plugins/sound/sounduser.cpp:44
-#, fuzzy
 msgid "Online alert"
-msgstr "Сигнализира при включване:"
+msgstr "Сигнализира при включване"
 
 #: plugins/sound/sound.cpp:43
-#, fuzzy
 msgid "Plugin provides sounds on any events"
 msgstr ""
 "Приставката осигурява звуци при всякакви "
@@ -6885,21 +6709,19 @@ msgstr ""
 
 #: plugins/sound/sound.cpp:124 plugins/sound/sound.cpp:135
 msgid "&Sound"
-msgstr "&Звукове "
+msgstr "&Звуци"
 
 #: plugins/sound/sounduserbase.cpp:63
-#, fuzzy
 msgid "&Disable all sounds"
-msgstr "&Изключва всички звуци"
+msgstr "&Изключване на всички звуци"
 
 #: plugins/sound/sounduserbase.cpp:64
 msgid "No sound if windows has &focus"
-msgstr ""
-"Звукът е изключе ако прозореца е на &фокус"
+msgstr "Звукът е изключен ако прозореца е на &фокус"
 
 #: plugins/sound/soundconfigbase.cpp:97
 msgid "&Use artsd"
-msgstr "&Използва Arts"
+msgstr "&Използване на artsd"
 
 #: plugins/sound/soundconfigbase.cpp:98
 msgid "Player:"
@@ -6948,7 +6770,6 @@ msgstr ""
 "прозорците"
 
 #: plugins/transparent/transparentcfgbase.cpp:71
-#, fuzzy
 msgid "Transparency of main window:"
 msgstr "Прозрачност на главния прозорец "
 
@@ -6958,28 +6779,23 @@ msgstr "Прозрачен само при неактивен"
 
 #: plugins/update/update.cpp:39
 msgid "Update"
-msgstr "Обновява"
+msgstr "Обновяване"
 
 #: plugins/update/update.cpp:40
-#, fuzzy
 msgid "Plugin provides notifications about update SIM software"
-msgstr ""
-"Приставката поддържа известяване на "
-"състоянието на съобщенията и "
-"потребителите"
+msgstr "Приставката осигурява известяване за обновяване на SIM"
 
 #: plugins/update/update.cpp:148
-#, fuzzy
 msgid "Show details"
-msgstr "Информация за мен"
+msgstr "Показва детайли"
 
 #: plugins/update/update.cpp:149
 msgid "Remind later"
-msgstr ""
+msgstr "Напомняне по - късно"
 
 #: plugins/update/update.cpp:151
 msgid "New version SIM is released"
-msgstr ""
+msgstr "Създадена е нова версия на SIM"
 
 #: plugins/sms/sms.cpp:87
 #, c-format
@@ -6987,135 +6803,124 @@ msgid ""
 "_n: Phone call\n"
 "%n phone calls"
 msgstr ""
+"Телефонно повикване\n"
+"%n телефонни повиквания"
 
 #: plugins/sms/sms.cpp:108
-#, fuzzy
 msgid "Phone call"
-msgstr "Телефон: "
+msgstr "Телефонно повикване"
 
 #: plugins/sms/sms.cpp:552
-#, fuzzy
 msgid "Port error"
-msgstr "Потребител за прокси сървъра:"
+msgstr "Грешка при порт"
 
 #: plugins/sms/smssetup.cpp:56
-#, fuzzy
 msgid "Charging:"
-msgstr "Разплакан"
+msgstr "Зареждане:"
 
 #: plugins/sms/smssetup.cpp:58
 msgid "Battery:"
-msgstr ""
+msgstr "Батерия:"
 
 #: plugins/sms/smssetupbase.cpp:139
-#, fuzzy
 msgid "SMSSetup"
-msgstr "Настройки"
+msgstr "Настройки на SMS"
 
 #: plugins/sms/smssetupbase.cpp:141
-#, fuzzy
 msgid "Baudrate:"
-msgstr "Барбуда"
+msgstr "Скорост:"
 
 #: plugins/sms/smssetupbase.cpp:143
 msgid "115200"
-msgstr ""
+msgstr "115200"
 
 #: plugins/sms/smssetupbase.cpp:144
 msgid "38400"
-msgstr ""
+msgstr "38400"
 
 #: plugins/sms/smssetupbase.cpp:145
 msgid "19200"
-msgstr ""
+msgstr "19200"
 
 #: plugins/sms/smssetupbase.cpp:146
 msgid "9600"
-msgstr ""
+msgstr "9600"
 
 #: plugins/sms/smssetupbase.cpp:147
 msgid "4800"
-msgstr ""
+msgstr "4800"
 
 #: plugins/sms/smssetupbase.cpp:148
 msgid "2400"
-msgstr ""
+msgstr "2400"
 
 #: plugins/sms/smssetupbase.cpp:149
 msgid "1200"
-msgstr ""
+msgstr "1200"
 
 #: plugins/sms/smssetupbase.cpp:150
 msgid "600"
-msgstr ""
+msgstr "600"
 
 #: plugins/sms/smssetupbase.cpp:151
 msgid "300"
-msgstr ""
+msgstr "300"
 
 #: plugins/sms/smssetupbase.cpp:152
 msgid "Software handshake"
-msgstr ""
+msgstr "Програмно управление на потока"
 
 #: plugins/sms/smssetupbase.cpp:154
-#, fuzzy
 msgid "Model:"
-msgstr "Режим "
+msgstr "Модел:"
 
 #: plugins/sms/smssetupbase.cpp:155
 msgid "Signal quality:"
-msgstr ""
+msgstr "Качество на сигнала:"
 
 #: plugins/sms/smssetupbase.cpp:157
-#, fuzzy
 msgid "Operator:"
-msgstr "Есперанто"
+msgstr "Оператор:"
 
 #: plugins/sms/smssetupbase.cpp:158
-#, fuzzy
 msgid "&Phone"
-msgstr "&Телефони:"
+msgstr "&Телефон:"
 
 #: plugins/jabber/jabber_rosters.cpp:1986
-#, fuzzy
 msgid "Password does not match"
-msgstr "Потвърждението и паролата не съвпадат"
+msgstr "Неправилна парола"
 
 #: plugins/jabber/jabber_rosters.cpp:1987
-#, fuzzy
 msgid "Low level network error"
-msgstr "Показва мрежово наблюдение"
+msgstr "Мрежова грешка"
 
 #: plugins/jabber/jabber_rosters.cpp:2611
 msgid "Please translate this to short language name (ru, de)"
-msgstr ""
+msgstr "bg"
 
 #: plugins/jabber/jabberadd.cpp:163
 msgid "Add Jabber contact"
 msgstr "Добавяне на Jabber потребител"
 
 #: plugins/jabber/jabberadd.cpp:197
-#, fuzzy
 msgid "%1 is already in contact list"
 msgstr "%1 вече е в списъка с потребители"
 
 #: plugins/jabber/jabberconfig.cpp:53
-#, fuzzy
 msgid "jabber.org"
-msgstr "Jabber"
+msgstr "jabber.org"
 
 #: plugins/jabber/jabberconfig.cpp:73
 msgid "List of public servers"
-msgstr ""
+msgstr "Списък с публичните сървъри"
 
 #: plugins/jabber/jabbermessage.cpp:53 plugins/livejournal/livejournal.cpp:103
 msgid "<p>Subject: %1</p>"
 msgstr "<p>Тема: %1</p>"
 
 #: plugins/jabber/jabbermessage.cpp:121
-#, fuzzy
 msgid "Original message:"
-msgstr "Неправилно съобщение"
+msgstr "Оригинално съобщение:"
 
 #: plugins/jabber/jabbermessage.cpp:133
 #, c-format
@@ -7123,26 +6928,24 @@ msgid ""
 "_n: Error\n"
 "%n errors"
 msgstr ""
+"Грешка\n"
+"%n грешки"
 
 #: plugins/jabber/jabbermessage.cpp:158 plugins/jabber/jabbermessage.cpp:214
-#, fuzzy
 msgid "Log On"
-msgstr "&Влизане"
+msgstr "Включване"
 
 #: plugins/jabber/jabbermessage.cpp:175 plugins/jabber/jabbermessage.cpp:222
-#, fuzzy
 msgid "Log Off"
-msgstr "&Излизане"
+msgstr "Изключване"
 
 #: plugins/jabber/jabberpicture.cpp:47 plugins/jabber/jabberpicturebase.cpp:77
-#, fuzzy
 msgid "&Photo"
-msgstr "&Телефонна книга"
+msgstr "&Снимка"
 
 #: plugins/jabber/jabberpicture.cpp:47
-#, fuzzy
 msgid "&Logo"
-msgstr "&Отчет"
+msgstr "&Емблема"
 
 #: plugins/jabber/jabbersearch.cpp:98 plugins/jabber/jabbersearch.cpp:316
 msgid "Username"
@@ -7151,31 +6954,28 @@ msgstr "Потребителско име"
 #: plugins/jabber/addresult.cpp:214 plugins/jabber/jabbersearch.cpp:101
 #: plugins/jabber/jabbersearch.cpp:312
 msgid "First name"
-msgstr "Име: "
+msgstr "Име:"
 
 #: plugins/jabber/addresult.cpp:215 plugins/jabber/jabbersearch.cpp:102
 #: plugins/jabber/jabbersearch.cpp:313
 msgid "Last name"
-msgstr "Фамилия: "
+msgstr "Фамилия:"
 
 #: plugins/jabber/jabbersearch.cpp:103
-#, fuzzy
 msgid "Age min"
-msgstr "Аржентина"
+msgstr "Минимална възраст"
 
 #: plugins/jabber/jabbersearch.cpp:104
 msgid "Age max"
-msgstr ""
+msgstr "Максимална възраст"
 
 #: plugins/jabber/jabbersearch.cpp:105
-#, fuzzy
 msgid "City"
-msgstr "Град:"
+msgstr "Град"
 
 #: plugins/jabber/jabbersearch.cpp:200
-#, fuzzy
 msgid "Gender"
-msgstr "Пол:"
+msgstr "Пол"
 
 #: plugins/jabber/jabbersearch.cpp:303
 msgid "First (Given)"
@@ -7183,7 +6983,7 @@ msgstr "Име"
 
 #: plugins/jabber/jabbersearch.cpp:304
 msgid "Last (Family)"
-msgstr "Фамилия:"
+msgstr "Фамилия"
 
 #: plugins/jabber/jabbersearch.cpp:305
 msgid "Nick (Alias)"
@@ -7226,7 +7026,7 @@ msgstr "Пълно име"
 
 #: plugins/jabber/jabbersearch.cpp:314
 msgid "Nickname"
-msgstr "Прякор:"
+msgstr "Прякор"
 
 #: plugins/jabber/jabbersearch.cpp:315
 msgid "E-mail"
@@ -7234,7 +7034,7 @@ msgstr "Електронна поща "
 
 #: plugins/jabber/jabbersearch.cpp:317
 msgid "Password"
-msgstr "Парола: "
+msgstr "Парола"
 
 #: plugins/jabber/jabbersearch.cpp:318
 msgid ""
@@ -7249,7 +7049,7 @@ msgstr ""
 msgid "Enter your AIM screenname or ICQ UIN and the password for that account"
 msgstr ""
 "Въвеждане на AIM име или ICQ номер и парола "
-"за текущата сметка"
+"за текущия потребител"
 
 #: plugins/jabber/jabbersearch.cpp:320
 msgid "Enter your YAHOO! Messenger Username and Password."
@@ -7259,7 +7059,7 @@ msgstr ""
 
 #: plugins/jabber/jabbersearch.cpp:321
 msgid "Please enter your UIN and password"
-msgstr ""
+msgstr "Моля въведете вашия номер и парола"
 
 #: plugins/jabber/jabbersearch.cpp:322
 msgid "You need a x:data capable client to register."
@@ -7296,15 +7096,13 @@ msgstr ""
 
 #: plugins/jabber/jabbersearch.cpp:327
 msgid "Fill in a field to search for any matching Jabber users."
-msgstr ""
-"Попълнете полетата за търсене на Jabber "
-"потребител"
+msgstr "Попълнете полетата за търсене на Jabber потребител"
 
 #: plugins/jabber/jabbersearch.cpp:328
 msgid ""
 "To register, please fill out the following form.  Be as accurate as possible "
 "to make it easier for people to search for you."
-msgstr ""
+msgstr "За регистрация попълнете формата. Бъдете точни за да може другите хора да ви намират."
 
 #: plugins/jabber/jabber.cpp:307 plugins/jabber/jabberbrowser.cpp:124
 #: plugins/jabber/jabberbrowser.cpp:516 plugins/jabber/services.cpp:45
@@ -7315,24 +7113,23 @@ msgstr "JID"
 #: plugins/jabber/jabberbrowser.cpp:295 plugins/jabber/jabberbrowser.cpp:324
 #: plugins/jabber/jabberbrowser.cpp:436 plugins/jabber/jabberbrowser.cpp:456
 #: plugins/jabber/services.cpp:106
-#, fuzzy, c-format
+#, c-format
 msgid "Error %1"
-msgstr "Грешка"
+msgstr "Грешка %1"
 
 #: plugins/jabber/jabberconfigbase.cpp:279
 #: plugins/livejournal/livejournalcfgbase.cpp:149
-#, fuzzy
 msgid "Username:"
-msgstr "Потребителско име"
+msgstr "Потребителско име:"
 
 #: plugins/jabber/jabberconfigbase.cpp:280
 msgid "&Register new account"
-msgstr "&Регистрира нов потребител"
+msgstr "&Регистриране на нов потребител"
 
 #: plugins/jabber/jabberconfigbase.cpp:283
 #: plugins/jabber/jabberconfigbase.cpp:290
 msgid "Use &SSL"
-msgstr "Използва &SSL"
+msgstr "Използване на &SSL"
 
 #: plugins/jabber/jabberconfigbase.cpp:284
 msgid "&Jabber"
@@ -7340,42 +7137,40 @@ msgstr "&Jabber"
 
 #: plugins/jabber/jabberconfigbase.cpp:289
 msgid "Use &plain text login"
-msgstr "Използва нормален &текст за свързване"
+msgstr "Използване на нормален &текст за свързване"
 
 #: plugins/jabber/jabberconfigbase.cpp:293
 msgid "URL:"
 msgstr "УРЛ:"
 
 #: plugins/jabber/jabberconfigbase.cpp:295
-#: plugins/jabber/jabberinfobase.cpp:205
+#: plugins/jabber/jabberinfobase.cpp:193
 msgid "Resource:"
 msgstr "Ресурс:"
 
 #: plugins/jabber/jabberconfigbase.cpp:296
-#, fuzzy
 msgid "Priority:"
-msgstr "Порт:"
+msgstr "Приоритет:"
 
 #: plugins/jabber/jabberconfigbase.cpp:297
 msgid "Manualy specify Jabber host:"
-msgstr "Указва Jabber сървъра"
+msgstr "Указване на Jabber сървъра:"
 
 #: plugins/jabber/jabberconfigbase.cpp:299
 msgid "Use protocol &icons for agents contacts"
-msgstr ""
+msgstr "Използва &иконки за протокол"
 
 #: plugins/jabber/jabberconfigbase.cpp:300
-#, fuzzy
 msgid "Send &rich text messages if possible"
-msgstr "Грешка при изпращане на съобщение"
+msgstr "Изпраща съобщение с форматиран &текст ако е възможно"
 
 #: plugins/jabber/jabberconfigbase.cpp:301
 msgid "Automaticaly send &subscribe request"
-msgstr ""
+msgstr "Автоматично изпраща заявка за &удостоверяване"
 
 #: plugins/jabber/jabberconfigbase.cpp:302
 msgid "Automaticaly &accept subscribe requests"
-msgstr ""
+msgstr "Автоматично приема заявка за &удостоверяване"
 
 #: plugins/jabber/jabberworkinfobase.cpp:91
 msgid "Role:"
@@ -7391,7 +7186,7 @@ msgstr "Jabber ID"
 
 #: plugins/jabber/jabberaddbase.cpp:96
 msgid "Service:"
-msgstr "Услуга"
+msgstr "Услуга:"
 
 #: plugins/jabber/addresult.cpp:32
 msgid "ID"
@@ -7399,113 +7194,97 @@ msgstr "ID"
 
 #: plugins/jabber/jabberclient.cpp:1611 plugins/jabber/jabberclient.cpp:1720
 msgid "Photo"
-msgstr ""
+msgstr "Снимка"
 
 #: plugins/jabber/jabberclient.cpp:1626 plugins/jabber/jabberclient.cpp:1735
-#, fuzzy
 msgid "Logo"
-msgstr "&Отчет"
+msgstr "Емблема"
 
 #: plugins/jabber/jabberclient.cpp:1750
 msgid "Agents"
-msgstr "Деятел"
+msgstr "Деятели"
 
-#: plugins/jabber/jabberclient.cpp:3052 plugins/yahoo/yahooclient.cpp:2536
-#, fuzzy
+#: plugins/jabber/jabberclient.cpp:3052
 msgid "File transfer fail"
-msgstr "Прехвърляне на файл "
-
-#: plugins/jabber/jabberinfobase.cpp:195
-msgid "ID:"
-msgstr "ID"
+msgstr "Грешка при прехвърляне на файл"
 
 #: plugins/jabber/jabberbrowser.cpp:45 plugins/jabber/jabberbrowser.cpp:244
-#, fuzzy
 msgid "Process"
-msgstr "Професионален"
+msgstr "Процес"
 
 #: plugins/jabber/jabberbrowser.cpp:91
-#, fuzzy
 msgid "Done"
-msgstr "Долу"
+msgstr "Изпълнено"
 
 #: plugins/jabber/jabber.cpp:314 plugins/jabber/jabberbrowser.cpp:126
-#, fuzzy
 msgid "Node"
-msgstr "Не използва прокси"
+msgstr "Възел"
 
 #: plugins/jabber/jabberbrowser.cpp:173
-#, fuzzy, c-format
+#, c-format
 msgid "Browser: %1"
-msgstr "Интернет четец:"
+msgstr "Интернет четец: %1"
 
 #: plugins/jabber/jabberbrowser.cpp:227
-#, fuzzy
 msgid "Stop"
-msgstr "Настройки"
+msgstr "Стоп"
 
 #: plugins/jabber/jabberbrowser.cpp:246
-#, fuzzy
 msgid "Client offline"
 msgstr "Клиентът излезе от мрежата"
 
 #: plugins/jabber/jabberbrowser.cpp:354
-#, fuzzy
 msgid "%1 Search"
-msgstr "Търсене"
+msgstr "%1 търсене"
 
 #: plugins/jabber/jabberbrowser.cpp:361
-#, fuzzy
 msgid "%1 Register"
-msgstr "&Регистрация"
+msgstr "%1 регистрация"
 
 #: plugins/jabber/jabberbrowser.cpp:368
-#, fuzzy
 msgid "%1 Configure"
-msgstr "Конфигурация"
+msgstr "%1 конфигурация"
 
 #: plugins/jabber/jabberbrowser.cpp:633
 msgid "Choose a user and password to register with the server"
-msgstr ""
+msgstr "Изберете име и парола за регистрация на сървъра"
 
 #: plugins/jabber/discoinfo.cpp:59
 msgid "Units"
-msgstr ""
+msgstr "Единици"
 
 #: plugins/jabber/discoinfo.cpp:60
-#, fuzzy
 msgid "Value"
-msgstr "Мъж"
+msgstr "Стойност"
 
 #: plugins/jabber/discoinfo.cpp:121 plugins/jabber/discoinfobase.cpp:274
-#, fuzzy
 msgid "&Version"
-msgstr "Персийски"
+msgstr "&Версия"
 
 #: plugins/jabber/discoinfo.cpp:136 plugins/jabber/discoinfobase.cpp:277
-#, fuzzy
 msgid "&Time"
-msgstr "Време:"
+msgstr "&Време"
 
 #: plugins/jabber/discoinfo.cpp:163
-#, fuzzy
 msgid "&Stat"
-msgstr "&Обща информация"
+msgstr "&Статистика"
 
 #: plugins/jabber/discoinfo.cpp:246
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: %n day\n"
 "%n days"
 msgstr ""
-"Файл\n"
-"%n файлове"
+"%n ден\n"
+"%n дни"
 
 #: plugins/jabber/jabberaboutinfobase.cpp:57
-#, fuzzy
 msgid "Additional information:"
-msgstr ""
-"Допълнителна информация за потребителя:"
+msgstr "Допълнителна информация за потребителя:"
+
+#: plugins/jabber/jabberinfobase.cpp:183
+msgid "ID:"
+msgstr "ID:"
 
 #: plugins/jabber/servicesbase.cpp:108 plugins/jabber/servicesbase.cpp:114
 msgid "Jabber agents are available online after login"
@@ -7519,11 +7298,11 @@ msgstr "Регистрира потребител:"
 
 #: plugins/jabber/servicesbase.cpp:110
 msgid "Log &On"
-msgstr "&Влизане"
+msgstr "&Свързване"
 
 #: plugins/jabber/servicesbase.cpp:111
 msgid "Log O&ff"
-msgstr "&Излизане"
+msgstr "&Изключване"
 
 #: plugins/jabber/servicesbase.cpp:112
 msgid "&Unregister"
@@ -7542,14 +7321,12 @@ msgid "Jabber"
 msgstr "Jabber"
 
 #: plugins/jabber/jabber.cpp:283
-#, fuzzy
 msgid "Jabber browser"
-msgstr "Jabber ID"
+msgstr "Jabber четец"
 
 #: plugins/jabber/jabber.cpp:292
-#, fuzzy
 msgid "&Back"
-msgstr "Назад"
+msgstr "&Назад"
 
 #: plugins/jabber/jabber.cpp:320 plugins/weather/weathercfg.cpp:74
 #: plugins/weather/weathercfg.cpp:96 plugins/weather/weathercfgbase.cpp:111
@@ -7557,122 +7334,104 @@ msgid "&Search"
 msgstr "Тър&сене"
 
 #: plugins/jabber/jabber.cpp:334
-#, fuzzy
 msgid "Info"
-msgstr "&Информация"
+msgstr "Информация"
 
 #: plugins/jabber/discoinfobase.cpp:265
 msgid "DiscoInfo"
-msgstr ""
+msgstr "Информация"
 
 #: plugins/jabber/discoinfobase.cpp:266
-#, fuzzy
 msgid "Namespaces:"
-msgstr "Име:"
+msgstr "Област с имена:"
 
 #: plugins/jabber/discoinfobase.cpp:267
 msgid "Category:"
-msgstr ""
+msgstr "Категория:"
 
 #: plugins/jabber/discoinfobase.cpp:272
-#, fuzzy
 msgid "Version:"
-msgstr "%1 Версия: %2"
+msgstr "Версия:"
 
 #: plugins/jabber/discoinfobase.cpp:273
-#, fuzzy
 msgid "System:"
-msgstr "Система"
+msgstr "Система:"
 
 #: plugins/jabber/discoinfobase.cpp:275
-#, fuzzy
 msgid "UTC client time:"
-msgstr "ICQ клиент"
+msgstr "UTC потребителско време:"
 
 #: plugins/jabber/discoinfobase.cpp:276
 msgid "Last activity, idle response:"
-msgstr ""
+msgstr "Последно активен"
 
 #: plugins/jabber/discoinfobase.cpp:279
-#, fuzzy
 msgid "&Statistic"
-msgstr "&Обща информация"
+msgstr "&Статистика"
 
 #: plugins/jabber/discoinfobase.cpp:286
 msgid "Phone:"
 msgstr "Телефон:"
 
 #: plugins/livejournal/livejournalcfg.cpp:36
-#, fuzzy
 msgid "Register new user"
-msgstr "&Регистрира нов номер"
+msgstr "&Регистриране на нов номер"
 
 #: plugins/livejournal/msgjournal.cpp:153
-#, fuzzy
 msgid "Remove record from journal?"
-msgstr "Добавяне на външен потребител"
+msgstr "Премахване на запис от журнала?"
 
 #: plugins/livejournal/msgjournalbase.cpp:82
-#, fuzzy
 msgid "Subject:"
-msgstr "<p>Тема: %1</p>"
+msgstr "Тема:"
 
 #: plugins/livejournal/msgjournalbase.cpp:83
-#, fuzzy
 msgid "Security:"
-msgstr "Безопасност"
+msgstr "Сигурност:"
 
 #: plugins/livejournal/msgjournalbase.cpp:85
-#, fuzzy
 msgid "Public"
 msgstr "Общодостъпен"
 
 #: plugins/livejournal/msgjournalbase.cpp:86
-#, fuzzy
 msgid "Private"
-msgstr "Вмъкване"
+msgstr "Личен"
 
 #: plugins/livejournal/msgjournalbase.cpp:87
-#, fuzzy
 msgid "Mood:"
-msgstr "Режим "
+msgstr "Настроение:"
 
 #: plugins/livejournal/msgjournalbase.cpp:91
 msgid "Enable comments"
-msgstr ""
+msgstr "Разрешаване на коментари"
 
 #: plugins/livejournal/msgjournalbase.cpp:92
 msgid "No email comments"
-msgstr ""
+msgstr "Не се изпращат коментари по е-поща"
 
 #: plugins/livejournal/msgjournalbase.cpp:93
-#, fuzzy
 msgid "Disable comments"
-msgstr "&Изключва всички звуци"
+msgstr "Изключване на коментари"
 
 #: plugins/livejournal/journalsearchbase.cpp:70
-#, fuzzy
 msgid "Community:"
-msgstr "Страна:"
+msgstr "Съобщност:"
 
 #: plugins/livejournal/journalsearchbase.cpp:71
-#, fuzzy
 msgid "&Add community"
-msgstr "&Добавяне на потребител"
+msgstr "&Добавяне на съобщество"
 
 #: plugins/livejournal/journalsearch.cpp:54
 msgid "Add community results"
-msgstr ""
+msgstr "Резултат от добавянето на съобщество"
 
 #: plugins/livejournal/journalsearch.cpp:80
-#, fuzzy
 msgid "Community %1 added to list"
-msgstr "Потребител %1 е добавен към списъка"
+msgstr "Съобщество %1 е добавено към списъка"
 
 #: plugins/livejournal/journalsearch.cpp:82
-#, fuzzy
 msgid "Community %1 already in list"
-msgstr "Потребител %1 вече е в списъка"
+msgstr "Съобщество %1 вече е в списъка"
 
 #: plugins/livejournal/livejournal.cpp:109
 #, c-format
@@ -7680,6 +7439,8 @@ msgid ""
 "_n: LiveJournal post\n"
 "%n LiveJournal posts"
 msgstr ""
+"Запис в журнала\n"
+"%n записа в журнала"
 
 #: plugins/livejournal/livejournal.cpp:110
 #, c-format
@@ -7687,347 +7448,316 @@ msgid ""
 "_n: Friends updated\n"
 "Friends updated %n"
 msgstr ""
+"Журнала е обновен\n"
+"Журналите са обновени %n пъти"
 
 #: plugins/livejournal/livejournal.cpp:127
-#, fuzzy
 msgid "&Remove from journal"
-msgstr "Добавяне на външен потребител"
+msgstr "&Премахване от журнала"
 
 #: plugins/livejournal/livejournal.cpp:231
 msgid "LiveJournal &post"
-msgstr ""
+msgstr "Запис в &журнала"
 
 #: plugins/livejournal/livejournal.cpp:241
 msgid "LiveJournal &WWW"
-msgstr ""
+msgstr "Журнал на &WWW"
 
 #: plugins/livejournal/livejournal.cpp:251
-#, fuzzy
 msgid "Friends updated"
-msgstr "Списък"
+msgstr "Обновяване на журнала"
 
 #: plugins/livejournal/livejournal.cpp:295
 msgid "LiveJournal"
-msgstr ""
+msgstr "Журнал"
 
 #: plugins/livejournal/livejournal.cpp:608
-#, fuzzy
 msgid "Posting failed"
-msgstr "Неуспешно свързване"
+msgstr "Неуспешен запис"
 
 #: plugins/livejournal/livejournal.cpp:1356
-#, fuzzy
 msgid "Invalid username"
-msgstr "Неправилно съобщение"
+msgstr "Неправилно потребителско име"
 
 #: plugins/livejournal/livejournal.cpp:1358
 msgid "aggravated"
-msgstr ""
+msgstr "влошен"
 
 #: plugins/livejournal/livejournal.cpp:1359
-#, fuzzy
 msgid "angry"
-msgstr "Ядосан"
+msgstr "сърдит"
 
 #: plugins/livejournal/livejournal.cpp:1360
-#, fuzzy
 msgid "annoyed"
-msgstr "Раздразнен"
+msgstr "раздразнен"
 
 #: plugins/livejournal/livejournal.cpp:1361
-#, fuzzy
 msgid "anxious"
-msgstr "Датски"
+msgstr "загрижен"
 
 #: plugins/livejournal/livejournal.cpp:1362
-#, fuzzy
 msgid "bored"
-msgstr "тъмен"
+msgstr "отегчен"
 
 #: plugins/livejournal/livejournal.cpp:1363
-#, fuzzy
 msgid "confused"
-msgstr "Икони: "
+msgstr "объркан"
 
 #: plugins/livejournal/livejournal.cpp:1364
 msgid "crappy"
-msgstr ""
+msgstr "отвратен"
 
 #: plugins/livejournal/livejournal.cpp:1365
-#, fuzzy
 msgid "cranky"
-msgstr "Германия"
+msgstr "несигурен"
 
 #: plugins/livejournal/livejournal.cpp:1366
 msgid "depressed"
-msgstr ""
+msgstr "унил"
 
 #: plugins/livejournal/livejournal.cpp:1367
-#, fuzzy
 msgid "discontent"
-msgstr "Чакане на връзка"
+msgstr "недоволен"
 
 #: plugins/livejournal/livejournal.cpp:1368
 msgid "energetic"
-msgstr ""
+msgstr "енергичен"
 
 #: plugins/livejournal/livejournal.cpp:1369
 msgid "enraged"
-msgstr ""
+msgstr "очарован"
 
 #: plugins/livejournal/livejournal.cpp:1370
-#, fuzzy
 msgid "enthralled"
-msgstr "Преустановено"
+msgstr "завладян"
 
 #: plugins/livejournal/livejournal.cpp:1371
 msgid "exhausted"
-msgstr ""
+msgstr "изморен"
 
 #: plugins/livejournal/livejournal.cpp:1372
 msgid "happy"
-msgstr ""
+msgstr "щастлив"
 
 #: plugins/livejournal/livejournal.cpp:1373
-#, fuzzy
 msgid "high"
-msgstr "светъл"
+msgstr "висок"
 
 #: plugins/livejournal/livejournal.cpp:1374
 msgid "horny"
-msgstr ""
+msgstr "рогат"
 
 #: plugins/livejournal/livejournal.cpp:1375
-#, fuzzy
 msgid "hungry"
-msgstr "Унгария"
+msgstr "гладен"
 
 #: plugins/livejournal/livejournal.cpp:1376
 msgid "infuriated"
-msgstr ""
+msgstr "разгневен"
 
 #: plugins/livejournal/livejournal.cpp:1377
-#, fuzzy
 msgid "irate"
-msgstr "Обновяване на верисята"
+msgstr "гневен"
 
 #: plugins/livejournal/livejournal.cpp:1378
 msgid "jubilant"
-msgstr ""
+msgstr "ликуващ"
 
 #: plugins/livejournal/livejournal.cpp:1379
 msgid "lonely"
-msgstr ""
+msgstr "самотен"
 
 #: plugins/livejournal/livejournal.cpp:1380
 msgid "moody"
-msgstr ""
+msgstr "капризен"
 
 #: plugins/livejournal/livejournal.cpp:1381
 msgid "pissed off"
-msgstr ""
+msgstr "пиян-залян"
 
 #: plugins/livejournal/livejournal.cpp:1382
-#, fuzzy
 msgid "sad"
-msgstr "Тъжен"
+msgstr "тъжен"
 
 #: plugins/livejournal/livejournal.cpp:1383
 msgid "satisfied"
-msgstr ""
+msgstr "удовлетворен"
 
 #: plugins/livejournal/livejournal.cpp:1384
-#, fuzzy
 msgid "sore"
-msgstr "Възстано&вяване"
+msgstr "наранен"
 
 #: plugins/livejournal/livejournal.cpp:1385
 msgid "stressed"
-msgstr ""
+msgstr "в стрес"
 
 #: plugins/livejournal/livejournal.cpp:1386
 msgid "thirsty"
-msgstr ""
+msgstr "жаден"
 
 #: plugins/livejournal/livejournal.cpp:1387
 msgid "thoughtful"
-msgstr ""
+msgstr "замислен"
 
 #: plugins/livejournal/livejournal.cpp:1388
-#, fuzzy
 msgid "tired"
-msgstr "Пенсионер"
+msgstr "уморен"
 
 #: plugins/livejournal/livejournal.cpp:1389
 msgid "touched"
-msgstr ""
+msgstr "трогнат"
 
 #: plugins/livejournal/livejournal.cpp:1390
-#, fuzzy
 msgid "lazy"
-msgstr "Малайски"
+msgstr "мързелив"
 
 #: plugins/livejournal/livejournal.cpp:1391
 msgid "drunk"
-msgstr ""
+msgstr "пиян"
 
 #: plugins/livejournal/livejournal.cpp:1392
-#, fuzzy
 msgid "ditzy"
-msgstr "Град:"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1393
 msgid "mischievous"
-msgstr ""
+msgstr "злонамерен"
 
 #: plugins/livejournal/livejournal.cpp:1394
-#, fuzzy
 msgid "morose"
-msgstr "Коморски острови"
+msgstr "навъсен"
 
 #: plugins/livejournal/livejournal.cpp:1395
 msgid "gloomy"
-msgstr ""
+msgstr "мрачен"
 
 #: plugins/livejournal/livejournal.cpp:1396
 msgid "melancholy"
-msgstr ""
+msgstr "меланхоличен"
 
 #: plugins/livejournal/livejournal.cpp:1397
-#, fuzzy
 msgid "drained"
-msgstr "Украйна"
+msgstr "изчерпан"
 
 #: plugins/livejournal/livejournal.cpp:1398
 msgid "excited"
-msgstr ""
+msgstr "възбуден"
 
 #: plugins/livejournal/livejournal.cpp:1399
 msgid "relieved"
-msgstr ""
+msgstr "освободен"
 
 #: plugins/livejournal/livejournal.cpp:1400
 msgid "hopeful"
-msgstr ""
+msgstr "обнадежден"
 
 #: plugins/livejournal/livejournal.cpp:1401
-#, fuzzy
 msgid "amused"
-msgstr "&Пауза"
+msgstr "удивен"
 
 #: plugins/livejournal/livejournal.cpp:1402
-#, fuzzy
 msgid "determined"
-msgstr "подчертан"
+msgstr "определен"
 
 #: plugins/livejournal/livejournal.cpp:1403
 msgid "scared"
-msgstr ""
+msgstr "засегнат"
 
 #: plugins/livejournal/livejournal.cpp:1404
 msgid "frustrated"
-msgstr ""
+msgstr "разочарован"
 
 #: plugins/livejournal/livejournal.cpp:1405
 msgid "indescribable"
-msgstr ""
+msgstr "неописуем"
 
 #: plugins/livejournal/livejournal.cpp:1406
 msgid "sleepy"
-msgstr ""
+msgstr "сънен"
 
 #: plugins/livejournal/livejournal.cpp:1407
 msgid "groggy"
-msgstr ""
+msgstr "без сили"
 
 #: plugins/livejournal/livejournal.cpp:1408
-#, fuzzy
 msgid "hyper"
-msgstr "Вид"
+msgstr "хипер"
 
 #: plugins/livejournal/livejournal.cpp:1409
-#, fuzzy
 msgid "relaxed"
-msgstr "Ирландия"
+msgstr "отдъхващ"
 
 #: plugins/livejournal/livejournal.cpp:1410
 msgid "restless"
-msgstr ""
+msgstr "неспокоен"
 
 #: plugins/livejournal/livejournal.cpp:1411
 msgid "disappointed"
-msgstr ""
+msgstr "разочарован"
 
 #: plugins/livejournal/livejournal.cpp:1412
-#, fuzzy
 msgid "curious"
-msgstr "Мавриций"
+msgstr "любопитен"
 
 #: plugins/livejournal/livejournal.cpp:1413
 msgid "mellow"
-msgstr ""
+msgstr "поумнял"
 
 #: plugins/livejournal/livejournal.cpp:1414
-#, fuzzy
 msgid "peaceful"
-msgstr "Пространство"
+msgstr "спокоен"
 
 #: plugins/livejournal/livejournal.cpp:1415
 msgid "bouncy"
-msgstr ""
+msgstr "бодър"
 
 #: plugins/livejournal/livejournal.cpp:1416
-#, fuzzy
 msgid "nostalgic"
-msgstr "курсив"
+msgstr "в носталгия"
 
 #: plugins/livejournal/livejournal.cpp:1417
 msgid "okay"
-msgstr ""
+msgstr "съгласен"
 
 #: plugins/livejournal/livejournal.cpp:1418
 msgid "rejuvenated"
-msgstr ""
+msgstr "подмладен"
 
 #: plugins/livejournal/livejournal.cpp:1419
-#, fuzzy
 msgid "complacent"
-msgstr "Завършено"
+msgstr "самодоволен"
 
 #: plugins/livejournal/livejournal.cpp:1420
-#, fuzzy
 msgid "content"
-msgstr "Интернет"
+msgstr "доволен"
 
 #: plugins/livejournal/livejournal.cpp:1421
-#, fuzzy
 msgid "indifferent"
-msgstr "Безразличен"
+msgstr "безразличен"
 
 #: plugins/livejournal/livejournal.cpp:1422
 msgid "silly"
-msgstr ""
+msgstr "глупав"
 
 #: plugins/livejournal/livejournal.cpp:1423
 msgid "flirty"
-msgstr ""
+msgstr "флиртуващ"
 
 #: plugins/livejournal/livejournal.cpp:1424
 msgid "calm"
-msgstr ""
+msgstr "спокоен"
 
 #: plugins/livejournal/livejournal.cpp:1425
-#, fuzzy
 msgid "refreshed"
-msgstr "&Отказва"
+msgstr "ободрен"
 
 #: plugins/livejournal/livejournal.cpp:1426
 msgid "optimistic"
-msgstr ""
+msgstr "оптимистичен"
 
 #: plugins/livejournal/livejournal.cpp:1427
 msgid "pessimistic"
-msgstr ""
+msgstr "песимистичен"
 
 #: plugins/livejournal/livejournal.cpp:1428
 msgid "giggly"
@@ -8035,119 +7765,107 @@ msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1429
 msgid "pensive"
-msgstr ""
+msgstr "замислен"
 
 #: plugins/livejournal/livejournal.cpp:1430
 msgid "uncomfortable"
-msgstr ""
+msgstr "неудобен"
 
 #: plugins/livejournal/livejournal.cpp:1431
 msgid "lethargic"
-msgstr ""
+msgstr "сънлив"
 
 #: plugins/livejournal/livejournal.cpp:1432
-#, fuzzy
 msgid "listless"
-msgstr "Здраве"
+msgstr "равнодушен"
 
 #: plugins/livejournal/livejournal.cpp:1433
 msgid "recumbent"
-msgstr ""
+msgstr "лежащ"
 
 #: plugins/livejournal/livejournal.cpp:1434
 msgid "exanimate"
-msgstr ""
+msgstr "полужив"
 
 #: plugins/livejournal/livejournal.cpp:1435
-#, fuzzy
 msgid "embarrassed"
-msgstr "Обезпокоен"
+msgstr "затруднен"
 
 #: plugins/livejournal/livejournal.cpp:1436
-#, fuzzy
 msgid "envious"
-msgstr "Невис"
+msgstr "завистлив"
 
 #: plugins/livejournal/livejournal.cpp:1437
 msgid "sympathetic"
-msgstr ""
+msgstr "симпатизиращ"
 
 #: plugins/livejournal/livejournal.cpp:1438
-#, fuzzy
 msgid "sick"
-msgstr "Прякор: "
+msgstr "болен"
 
 #: plugins/livejournal/livejournal.cpp:1439
-#, fuzzy
 msgid "hot"
-msgstr "&Телефонна книга"
+msgstr "горещ"
 
 #: plugins/livejournal/livejournal.cpp:1440
-#, fuzzy
 msgid "cold"
-msgstr "тъмен"
+msgstr "студен"
 
 #: plugins/livejournal/livejournal.cpp:1441
-#, fuzzy
 msgid "worried"
-msgstr "Изненадан"
+msgstr "разтревожен"
 
 #: plugins/livejournal/livejournal.cpp:1442
-#, fuzzy
 msgid "loved"
-msgstr "Словения"
+msgstr "обичащ"
 
 #: plugins/livejournal/livejournal.cpp:1443
 msgid "awake"
-msgstr ""
+msgstr "активен"
 
 #: plugins/livejournal/livejournal.cpp:1444
-#, fuzzy
 msgid "working"
-msgstr "Подреден"
+msgstr "работещ"
 
 #: plugins/livejournal/livejournal.cpp:1445
 msgid "productive"
-msgstr ""
+msgstr "продуктивен"
 
 #: plugins/livejournal/livejournal.cpp:1446
 msgid "accomplished"
-msgstr ""
+msgstr "осъществен"
 
 #: plugins/livejournal/livejournal.cpp:1447
-#, fuzzy
 msgid "busy"
-msgstr "Зает"
+msgstr "зает"
 
 #: plugins/livejournal/livejournal.cpp:1448
-#, fuzzy
 msgid "blah"
-msgstr "черен"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1449
 msgid "full"
-msgstr ""
+msgstr "пълен"
 
 #: plugins/livejournal/livejournal.cpp:1450
 msgid "grumpy"
-msgstr ""
+msgstr "нацупен"
 
 #: plugins/livejournal/livejournal.cpp:1451
-#, fuzzy
 msgid "weird"
-msgstr "Пенсионер"
+msgstr "свръхестествен"
 
 #: plugins/livejournal/livejournal.cpp:1452
 msgid "nauseated"
-msgstr ""
+msgstr "отвратителен"
 
 #: plugins/livejournal/livejournal.cpp:1453
 msgid "ecstatic"
-msgstr ""
+msgstr "възторжен"
 
 #: plugins/livejournal/livejournal.cpp:1454
 msgid "chipper"
-msgstr ""
+msgstr "закачлив"
 
 #: plugins/livejournal/livejournal.cpp:1455
 msgid "rushed"
@@ -8155,65 +7873,59 @@ msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1456
 msgid "contemplative"
-msgstr ""
+msgstr "замислен"
 
 #: plugins/livejournal/livejournal.cpp:1457
 msgid "nerdy"
-msgstr ""
+msgstr "нереида"
 
 #: plugins/livejournal/livejournal.cpp:1458
 msgid "geeky"
-msgstr ""
+msgstr "странен"
 
 #: plugins/livejournal/livejournal.cpp:1459
-#, fuzzy
 msgid "cynical"
-msgstr "Техника"
+msgstr "циничен"
 
 #: plugins/livejournal/livejournal.cpp:1460
 msgid "quixotic"
-msgstr ""
+msgstr "донкихотовски"
 
 #: plugins/livejournal/livejournal.cpp:1461
 msgid "crazy"
-msgstr ""
+msgstr "луд"
 
 #: plugins/livejournal/livejournal.cpp:1462
-#, fuzzy
 msgid "creative"
-msgstr "Получено съобщение"
+msgstr "съзидателен"
 
 #: plugins/livejournal/livejournal.cpp:1463
-#, fuzzy
 msgid "artistic"
-msgstr "&Обща информация"
+msgstr "артистичен"
 
 #: plugins/livejournal/livejournal.cpp:1464
-#, fuzzy
 msgid "pleased"
-msgstr "Закачлив"
+msgstr "привлекателен"
 
 #: plugins/livejournal/livejournal.cpp:1465
 msgid "bitchy"
-msgstr ""
+msgstr "развратен"
 
 #: plugins/livejournal/livejournal.cpp:1466
 msgid "guilty"
-msgstr ""
+msgstr "виновен"
 
 #: plugins/livejournal/livejournal.cpp:1467
-#, fuzzy
 msgid "irritated"
-msgstr "Обновяване на верисята"
+msgstr "дразнещ"
 
 #: plugins/livejournal/livejournal.cpp:1468
-#, fuzzy
 msgid "blank"
-msgstr "черен"
+msgstr "празен"
 
 #: plugins/livejournal/livejournal.cpp:1469
 msgid "apathetic"
-msgstr ""
+msgstr "безразличен"
 
 #: plugins/livejournal/livejournal.cpp:1470
 msgid "dorky"
@@ -8221,209 +7933,184 @@ msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1471
 msgid "impressed"
-msgstr ""
+msgstr "впечатлен"
 
 #: plugins/livejournal/livejournal.cpp:1472
 msgid "naughty"
-msgstr ""
+msgstr "непослушен"
 
 #: plugins/livejournal/livejournal.cpp:1473
-#, fuzzy
 msgid "predatory"
-msgstr "Директории"
+msgstr "хищен"
 
 #: plugins/livejournal/livejournal.cpp:1474
-#, fuzzy
 msgid "dirty"
-msgstr "Град:"
+msgstr "мръсен"
 
 #: plugins/livejournal/livejournal.cpp:1475
 msgid "giddy"
-msgstr ""
+msgstr "замаян"
 
 #: plugins/livejournal/livejournal.cpp:1476
-#, fuzzy
 msgid "surprised"
-msgstr "Изненадан"
+msgstr "изненадан"
 
 #: plugins/livejournal/livejournal.cpp:1477
 msgid "shocked"
-msgstr ""
+msgstr "шокиран"
 
 #: plugins/livejournal/livejournal.cpp:1478
-#, fuzzy
 msgid "rejected"
-msgstr "Гърция"
+msgstr "отхвърлен"
 
 #: plugins/livejournal/livejournal.cpp:1479
 msgid "numb"
-msgstr ""
+msgstr "вцепенен"
 
 #: plugins/livejournal/livejournal.cpp:1480
 msgid "cheerful"
-msgstr ""
+msgstr "весел"
 
 #: plugins/livejournal/livejournal.cpp:1481
 msgid "good"
-msgstr ""
+msgstr "добър"
 
 #: plugins/livejournal/livejournal.cpp:1482
 msgid "distressed"
-msgstr ""
+msgstr "тъжен"
 
 #: plugins/livejournal/livejournal.cpp:1483
-#, fuzzy
 msgid "intimidated"
-msgstr "Минимизиране"
+msgstr "уплашен"
 
 #: plugins/livejournal/livejournal.cpp:1484
 msgid "crushed"
-msgstr ""
+msgstr "съкрушен"
 
 #: plugins/livejournal/livejournal.cpp:1485
-#, fuzzy
 msgid "devious"
-msgstr "Невис"
+msgstr "отклонен"
 
 #: plugins/livejournal/livejournal.cpp:1486
 msgid "thankful"
-msgstr ""
+msgstr "благороден"
 
 #: plugins/livejournal/livejournal.cpp:1487
-#, fuzzy
 msgid "grateful"
-msgstr "Обновяване на верисята"
+msgstr "благороден"
 
 #: plugins/livejournal/livejournal.cpp:1488
 msgid "jealous"
-msgstr ""
+msgstr "ревнив"
 
 #: plugins/livejournal/livejournal.cpp:1489
-#, fuzzy
 msgid "nervous"
-msgstr "Групи"
+msgstr "нервен"
 
 #: plugins/livejournal/livejournal.cpp:1491
 msgid "Recent Entries"
-msgstr ""
+msgstr "Последно въведени"
 
 #: plugins/livejournal/livejournal.cpp:1492
 msgid "Calendar View"
-msgstr ""
+msgstr "Преглед на календара"
 
 #: plugins/livejournal/livejournal.cpp:1493
-#, fuzzy
 msgid "Friends View"
-msgstr "Списък"
+msgstr "Преглед на приятелите"
 
 #: plugins/livejournal/livejournal.cpp:1494
-#, fuzzy
 msgid "Your Profile"
-msgstr "Профил:"
+msgstr "Вашият профил"
 
 #: plugins/livejournal/livejournal.cpp:1495
 msgid "Your To-Do List"
-msgstr ""
+msgstr "Вашият \"какво имам да правя\" списък"
 
 #: plugins/livejournal/livejournal.cpp:1496
-#, fuzzy
 msgid "Change Settings"
-msgstr "&Променяне на кодировката"
+msgstr "Промяна на настройките"
 
 #: plugins/livejournal/livejournal.cpp:1497
-#, fuzzy
 msgid "Support"
-msgstr "Спорт"
+msgstr "Поддръжка"
 
 #: plugins/livejournal/livejournal.cpp:1498
 msgid "Personal Info"
-msgstr ""
+msgstr "Лична информация"
 
 #: plugins/livejournal/livejournal.cpp:1499
-#, fuzzy
 msgid "Journal Settings"
-msgstr "Настройки"
+msgstr "Настройки на журнала"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:151
 msgid "&LiveJournal"
-msgstr ""
+msgstr "&Журнал"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:153
 #: plugins/spell/spellcfgbase.cpp:84
 msgid "Path:"
-msgstr ""
+msgstr "Път:"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:156
-#, fuzzy
 msgid "Check interval:"
-msgstr "Невидима проверка "
+msgstr "Интервал на проверка:"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:157
-#, fuzzy
 msgid "minutes"
-msgstr "Компютри"
+msgstr "минути"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:158
 msgid "Use &fast server - only for paying customers"
-msgstr ""
+msgstr "Използване на &бърз сървър - само за платени потребители"
 
 #: plugins/spell/spellcfg.cpp:46
 msgid "ASpell(aspell.exe)"
-msgstr ""
+msgstr "ASpell(aspell.exe)"
 
 #: plugins/spell/spellcfg.cpp:48
 msgid "Download ASpell"
-msgstr ""
+msgstr "Изтегляне на ASpell"
 
 #: plugins/spell/spellhighlight.cpp:238
 msgid "Add '%1'"
-msgstr ""
+msgstr "Добавяне на %1"
 
 #: plugins/spell/spellhighlight.cpp:242
-#, fuzzy
 msgid "Ignore '%1'"
-msgstr "Списък с пренебрегнати потребители"
+msgstr "Пренебрегване на %1"
 
 #: plugins/spell/spell.cpp:62
-#, fuzzy
 msgid "Plugin provides check spelling"
-msgstr ""
-"Приставка осигурява скриване на главния "
-"прозорец в системния поднос"
+msgstr "Приставка осигурява правописна проверка"
 
 #: plugins/action/menucfg.cpp:31
-#, fuzzy
 msgid "Item"
-msgstr "Нов елемент"
+msgstr "Елемент от меню"
 
 #: plugins/action/actioncfg.cpp:42 plugins/action/menucfg.cpp:32
-#, fuzzy
 msgid "Program"
-msgstr "&Програма"
+msgstr "Програма"
 
 #: plugins/action/actioncfg.cpp:41
-#, fuzzy
 msgid "Event"
-msgstr "Събития"
+msgstr "Събитие"
 
 #: plugins/action/actioncfg.cpp:47
-#, fuzzy
 msgid "Contact online"
-msgstr "Потребителят излезе"
+msgstr "Потребителят е свързан"
 
 #: plugins/action/actioncfg.cpp:53
-#, fuzzy
 msgid "Status changed"
-msgstr "Телефон"
+msgstr "Състоянието е променено"
 
 #: plugins/action/actioncfg.cpp:91
-#, fuzzy
 msgid "Menu"
-msgstr "&Меню"
+msgstr "Меню"
 
 #: plugins/action/actioncfg.cpp:179 plugins/action/additem.cpp:54
 msgid "In command line you can use:"
-msgstr ""
+msgstr "В командния ред вие може да използвате:"
 
 #: plugins/action/actioncfg.cpp:184
 msgid ""
@@ -8434,6 +8121,10 @@ msgid ""
 "If program output is empty,  message will be destroyed.\n"
 "Thus it is possible to organize additional messages filters.\n"
 msgstr ""
+"За събития свързани с получаване на съобщения, текста трябва да бъде подаден на стандартния вход на програмата.\n"
+"Ако програмата върне нулев код то текста на съобщението ще бъде заменен с изхода на програмата.\n"
+"Ако програмата не върне нищо то съобщението ще бъде унищожено.\n"
+"Това позволява да бъдат създадени допълнителни филтри за съобщенията.\n"
 
 #: plugins/action/action.cpp:33
 msgid "Action"
@@ -8441,504 +8132,467 @@ msgstr "Действие"
 
 #: plugins/action/action.cpp:34
 msgid "Plugin execute external programs on event or from contact menu"
-msgstr ""
+msgstr "Приставката изпълнява външна програма при събитие или от потребителския лист"
 
 #: plugins/action/action.cpp:84
-#, fuzzy
 msgid "&Action"
-msgstr "Действие"
+msgstr "&Действие"
 
 #: plugins/action/additembase.cpp:91
-#, fuzzy
 msgid "Add Item"
-msgstr "Нов елемент"
+msgstr "Добавяне на елемент на меню"
 
 #: plugins/action/additembase.cpp:92
-#, fuzzy
 msgid "Item:"
-msgstr "Нов елемент"
+msgstr "Елемент на меню:"
 
 #: plugins/action/additembase.cpp:93
-#, fuzzy
 msgid "Program:"
-msgstr "&Програма"
+msgstr "Програма:"
 
-#: plugins/navigate/navigate.cpp:219
+#: plugins/navigate/navigate.cpp:198
 msgid "Navigate"
 msgstr "Препратки към външни програми"
 
-#: plugins/navigate/navigate.cpp:220
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+#: plugins/navigate/navigate.cpp:199
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Приставката осигурява управление на "
 "препратките - свързва се с външен "
 "интернет четец или програма за "
 "електронна поща"
 
-#: plugins/navigate/navigate.cpp:268
+#: plugins/navigate/navigate.cpp:252
 msgid "Send mail"
 msgstr "Изпращане на електронна поща"
 
-#: plugins/navigate/navcfgbase.cc:69
+#: plugins/navigate/navcfgbase.cc:65
 msgid "Browser:"
 msgstr "Интернет четец:"
 
-#: plugins/navigate/navcfgbase.cc:70
+#: plugins/navigate/navcfgbase.cc:66
 msgid "Mailer:"
 msgstr "Програма за електронна поща:"
 
-#: plugins/navigate/navcfgbase.cc:71
-#, fuzzy
-msgid "Open links in &new window"
-msgstr "Показване на главения прозорец"
-
 #: plugins/yahoo/yahoo.cpp:81
 msgid "Yahoo!"
-msgstr ""
+msgstr "Yahoo!"
 
 #: plugins/yahoo/yahoo.cpp:84
 msgid ""
 "http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.ya"
 "hoo.com/&.redir_from=MESSENGER"
 msgstr ""
+"http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.ya"
+"hoo.com/&.redir_from=MESSENGER"
 
 #: plugins/yahoo/yahoocfg.cpp:46
 msgid "Get a Yahoo! ID"
-msgstr ""
+msgstr "Получаване на Yahoo! потребител"
 
-#: plugins/yahoo/yahooclient.cpp:325
+#: plugins/yahoo/yahooclient.cpp:114
+msgid "Cancel send"
+msgstr "Прекратяване на изпращането"
+
+#: plugins/yahoo/yahooclient.cpp:294
 msgid "Yahoo! login lock"
-msgstr ""
+msgstr "Влизането в Yahoo! е блокирано"
 
-#: plugins/yahoo/yahooclient.cpp:348
+#: plugins/yahoo/yahooclient.cpp:317
 msgid "Your account has been locked"
-msgstr ""
+msgstr "Вашия потребител е блокиран"
 
-#: plugins/yahoo/yahooclient.cpp:352 plugins/yahoo/yahooclient.cpp:365
-#, fuzzy
+#: plugins/yahoo/yahooclient.cpp:321 plugins/yahoo/yahooclient.cpp:350
 msgid "Your account is being used from another location"
-msgstr ""
-"Твоят номер се използва от друг компютър "
+msgstr "Твоят потребител се използва от друг компютър "
 
-#: plugins/yahoo/yahooclient.cpp:1347
-#, fuzzy
+#: plugins/yahoo/yahooclient.cpp:1251
 msgid "Not at home"
-msgstr "Няма съответствие"
+msgstr "Не е в къщи"
 
-#: plugins/yahoo/yahooclient.cpp:1350
+#: plugins/yahoo/yahooclient.cpp:1254
 msgid "Not at my desk"
-msgstr ""
+msgstr "Не е на работното място"
 
-#: plugins/yahoo/yahooclient.cpp:1353
+#: plugins/yahoo/yahooclient.cpp:1257
 msgid "Not in the office"
-msgstr ""
+msgstr "Не е в офиса"
 
-#: plugins/yahoo/yahooclient.cpp:1359
-#, fuzzy
+#: plugins/yahoo/yahooclient.cpp:1263
 msgid "On vacation"
-msgstr "Професия:"
+msgstr "В отпуска"
 
-#: plugins/yahoo/yahooclient.cpp:1362
-#, fuzzy
+#: plugins/yahoo/yahooclient.cpp:1266
 msgid "Out to lunch"
 msgstr "На обяд"
 
-#: plugins/yahoo/yahooclient.cpp:1365
-#, fuzzy
+#: plugins/yahoo/yahooclient.cpp:1269
 msgid "Stepped out"
-msgstr "Изтекло време при изпращане"
+msgstr "Излезна"
 
-#: plugins/yahoo/yahoocfgbase.cpp:177
-#, fuzzy
+#: plugins/yahoo/yahoocfgbase.cpp:165
 msgid "&Yahoo!"
-msgstr "&Телефонна книга"
+msgstr "&Yahoo!"
+
+#: plugins/yahoo/yahoocfgbase.cpp:168
+msgid "File transfer server:"
+msgstr "Сървър за обмяна на файлове:"
+
+#: plugins/yahoo/yahoocfgbase.cpp:169
+msgid "File transfer port:"
+msgstr "Порт за обмяна на файлове:"
 
 #: plugins/yahoo/yahoosearch.cpp:56
-#, fuzzy
 msgid "Yahoo! search results"
-msgstr "ICQ търси резултат"
+msgstr "резултат от търсене на Yahoo!"
 
 #: plugins/yahoo/yahoosearch.cpp:129
-#, fuzzy
 msgid "Contact %1 added in group %2"
-msgstr "Потребител %1 е добавен към списъка"
+msgstr "Потребител %1 е добавен към група %2"
 
 #: plugins/yahoo/yahoosearchbase.cpp:79
 msgid "Yahoo ID:"
-msgstr ""
+msgstr "Yahoo! потребител"
 
 #: plugins/replace/replace.cpp:33
-#, fuzzy
 msgid "Replace text"
-msgstr "&Замени"
+msgstr "Заменяне на текст"
 
 #: plugins/replace/replace.cpp:34
-#, fuzzy
 msgid "Plugin provides text replacing in message edit window"
-msgstr ""
-"Приставка осигурява поддръжка на "
-"филтриране на съобщенията"
+msgstr "Приставка осигурява редактиране на текста"
 
 #: plugins/replace/replacecfg.cpp:31
-#, fuzzy
 msgid "You type"
-msgstr "Вид прокси:"
+msgstr "Вие пишете"
 
 #: plugins/replace/replacecfg.cpp:32
-#, fuzzy
 msgid "You send"
-msgstr "Икони: "
+msgstr "Вие изпратихте"
 
 #: plugins/weather/weather.cpp:96
-#, fuzzy
 msgid "Weather"
-msgstr "Други"
+msgstr "Време"
 
 #: plugins/weather/weather.cpp:97
-#, fuzzy
 msgid "Plugin provides show weather"
-msgstr ""
-"Приставката осигурява начален изглед при "
-"стартиране"
+msgstr "Приставката осигурява преглед на времето"
 
 #: plugins/weather/weather.cpp:168
-#, fuzzy
 msgid "Not connected"
-msgstr "Няма потребител"
+msgstr "Не е свързан"
+
+#: plugins/weather/weather.cpp:451
+msgid "Monday"
+msgstr "Понеделник"
+
+#: plugins/weather/weather.cpp:452
+msgid "Tuesday"
+msgstr "Вторник"
 
 #: plugins/weather/weather.cpp:453
-#, fuzzy
-msgid "Monday"
-msgstr "Монако"
+msgid "Wednesday"
+msgstr "Сряда"
 
 #: plugins/weather/weather.cpp:454
-#, fuzzy
-msgid "Tuesday"
-msgstr "Турция"
+msgid "Thursday"
+msgstr "Четвъртък"
 
 #: plugins/weather/weather.cpp:455
-msgid "Wednesday"
-msgstr ""
+msgid "Friday"
+msgstr "Петък"
 
 #: plugins/weather/weather.cpp:456
-msgid "Thursday"
-msgstr ""
+msgid "Saturday"
+msgstr "Събота"
 
 #: plugins/weather/weather.cpp:457
-#, fuzzy
-msgid "Friday"
-msgstr "Фарси"
-
-#: plugins/weather/weather.cpp:458
-#, fuzzy
-msgid "Saturday"
-msgstr "Судан"
+msgid "Sunday"
+msgstr "Неделя"
 
 #: plugins/weather/weather.cpp:459
-#, fuzzy
-msgid "Sunday"
-msgstr "Судан"
+msgid ""
+"_: weather\n"
+"Overcast"
+msgstr "Облачно"
+
+#: plugins/weather/weather.cpp:460
+msgid ""
+"_: weather\n"
+"Fog"
+msgstr "Мъгла"
 
 #: plugins/weather/weather.cpp:461
 msgid ""
 "_: weather\n"
-"Overcast"
-msgstr ""
+"Haze"
+msgstr "Лека мъгла"
 
 #: plugins/weather/weather.cpp:462
 msgid ""
 "_: weather\n"
-"Fog"
-msgstr ""
+"Storm"
+msgstr "Буря"
 
 #: plugins/weather/weather.cpp:463
 msgid ""
 "_: weather\n"
-"Haze"
-msgstr ""
+"Rain"
+msgstr "Дъжд"
 
 #: plugins/weather/weather.cpp:464
 msgid ""
 "_: weather\n"
-"Storm"
-msgstr ""
+"Snow"
+msgstr "Сняг"
 
 #: plugins/weather/weather.cpp:465
 msgid ""
 "_: weather\n"
-"Rain"
-msgstr ""
+"Light Rain"
+msgstr "Слаб дъжд"
 
 #: plugins/weather/weather.cpp:466
-#, fuzzy
 msgid ""
 "_: weather\n"
-"Snow"
-msgstr "Други"
+"Light Snow"
+msgstr "Лек сняг"
 
 #: plugins/weather/weather.cpp:467
 msgid ""
 "_: weather\n"
-"Light Rain"
-msgstr ""
+"Few Snow"
+msgstr "Слаб снеговалеж"
 
 #: plugins/weather/weather.cpp:468
 msgid ""
 "_: weather\n"
-"Light Snow"
-msgstr ""
+"Scattered Snow"
+msgstr "Слаб сняг"
 
 #: plugins/weather/weather.cpp:469
-#, fuzzy
 msgid ""
 "_: weather\n"
-"Few Snow"
-msgstr "Други"
+"Clear"
+msgstr "Ясно"
 
 #: plugins/weather/weather.cpp:470
-#, fuzzy
 msgid ""
 "_: weather\n"
-"Scattered Snow"
-msgstr "Други"
+"Showers"
+msgstr "Сняг"
 
 #: plugins/weather/weather.cpp:471
 msgid ""
 "_: weather\n"
-"Clear"
-msgstr ""
+"Mostly Clear"
+msgstr "Предимно ясно"
 
 #: plugins/weather/weather.cpp:472
 msgid ""
 "_: weather\n"
-"Showers"
-msgstr ""
+"Sunny"
+msgstr "Слънчево"
 
 #: plugins/weather/weather.cpp:473
 msgid ""
 "_: weather\n"
-"Mostly Clear"
-msgstr ""
+"Fair"
+msgstr "Ясно"
 
 #: plugins/weather/weather.cpp:474
 msgid ""
 "_: weather\n"
-"Sunny"
-msgstr ""
+"Cloudy"
+msgstr "Облачно"
 
 #: plugins/weather/weather.cpp:475
 msgid ""
 "_: weather\n"
-"Fair"
-msgstr ""
+"Mostly Cloudy"
+msgstr "Предимно облачно"
 
 #: plugins/weather/weather.cpp:476
 msgid ""
 "_: weather\n"
-"Cloudy"
-msgstr ""
+"Partly Cloudy"
+msgstr "Променлива облачност"
 
 #: plugins/weather/weather.cpp:477
 msgid ""
 "_: weather\n"
-"Mostly Cloudy"
-msgstr ""
+"Wind"
+msgstr "Ветровито"
 
 #: plugins/weather/weather.cpp:478
 msgid ""
 "_: weather\n"
-"Partly Cloudy"
-msgstr ""
+"Drizzle"
+msgstr "Ръмене"
 
 #: plugins/weather/weather.cpp:479
 msgid ""
 "_: weather\n"
-"Wind"
-msgstr ""
+"Light Drizzle"
+msgstr "Слабо ръмене"
 
 #: plugins/weather/weather.cpp:480
-#, fuzzy
 msgid ""
 "_: weather\n"
-"Drizzle"
-msgstr "Други"
+"steady"
+msgstr "без изменение"
 
 #: plugins/weather/weather.cpp:481
-#, fuzzy
 msgid ""
 "_: weather\n"
-"Light Drizzle"
-msgstr "Други"
+"rising"
+msgstr "нараства"
 
 #: plugins/weather/weather.cpp:482
 msgid ""
 "_: weather\n"
-"steady"
-msgstr ""
+"falling"
+msgstr "намалява"
 
 #: plugins/weather/weather.cpp:483
 msgid ""
 "_: weather\n"
-"rising"
-msgstr ""
+"Unlimited"
+msgstr "Неограничен"
 
 #: plugins/weather/weather.cpp:484
 msgid ""
 "_: weather\n"
-"falling"
-msgstr ""
+"N"
+msgstr "Северен"
 
 #: plugins/weather/weather.cpp:485
 msgid ""
 "_: weather\n"
-"Unlimited"
-msgstr ""
+"NNW"
+msgstr "Северен северозападен"
 
 #: plugins/weather/weather.cpp:486
-#, fuzzy
 msgid ""
 "_: weather\n"
-"N"
-msgstr "Други"
+"NW"
+msgstr "Северозападен"
 
 #: plugins/weather/weather.cpp:487
 msgid ""
 "_: weather\n"
-"NNW"
-msgstr ""
+"NWW"
+msgstr "Северозападен западен"
 
 #: plugins/weather/weather.cpp:488
 msgid ""
 "_: weather\n"
-"NW"
-msgstr ""
+"W"
+msgstr "Западен"
 
 #: plugins/weather/weather.cpp:489
-#, fuzzy
 msgid ""
 "_: weather\n"
-"WNW"
-msgstr "Други"
+"SWW"
+msgstr "Югозападен западен"
 
 #: plugins/weather/weather.cpp:490
-#, fuzzy
 msgid ""
 "_: weather\n"
-"W"
-msgstr "Други"
+"SW"
+msgstr "Югозападен"
 
 #: plugins/weather/weather.cpp:491
-#, fuzzy
 msgid ""
 "_: weather\n"
-"WSW"
-msgstr "Други"
+"SSW"
+msgstr "Южен югозападен"
 
 #: plugins/weather/weather.cpp:492
 msgid ""
 "_: weather\n"
-"SW"
-msgstr ""
+"S"
+msgstr "Южен"
 
 #: plugins/weather/weather.cpp:493
 msgid ""
 "_: weather\n"
-"SSW"
-msgstr ""
+"SSE"
+msgstr "Южен югоизточен"
 
 #: plugins/weather/weather.cpp:494
-#, fuzzy
 msgid ""
 "_: weather\n"
-"S"
-msgstr "Други"
+"SE"
+msgstr "Югоизточен"
 
 #: plugins/weather/weather.cpp:495
 msgid ""
 "_: weather\n"
-"SSE"
-msgstr ""
+"SEE"
+msgstr "Югоизточен сточен"
 
 #: plugins/weather/weather.cpp:496
 msgid ""
 "_: weather\n"
-"SE"
-msgstr ""
+"E"
+msgstr "Източен"
 
 #: plugins/weather/weather.cpp:497
-#, fuzzy
 msgid ""
 "_: weather\n"
-"ESE"
-msgstr "Други"
+"NEE"
+msgstr "Североизточен източен"
 
 #: plugins/weather/weather.cpp:498
-#, fuzzy
-msgid ""
-"_: weather\n"
-"E"
-msgstr "Други"
-
-#: plugins/weather/weather.cpp:499
-#, fuzzy
-msgid ""
-"_: weather\n"
-"ENE"
-msgstr "Други"
-
-#: plugins/weather/weather.cpp:500
 msgid ""
 "_: weather\n"
 "NE"
-msgstr ""
+msgstr "Североизточен"
 
-#: plugins/weather/weather.cpp:501
+#: plugins/weather/weather.cpp:499
 msgid ""
 "_: weather\n"
 "NNE"
-msgstr ""
+msgstr "Северен североизточен"
 
-#: plugins/weather/weather.cpp:502
+#: plugins/weather/weather.cpp:500
 msgid "km"
-msgstr ""
+msgstr "км"
 
-#: plugins/weather/weather.cpp:503
+#: plugins/weather/weather.cpp:501
 msgid "km/h"
-msgstr ""
+msgstr "км/ч"
 
-#: plugins/weather/weather.cpp:515
-#, fuzzy
+#: plugins/weather/weather.cpp:513
 msgid "and"
-msgstr "Канада"
+msgstr "и"
 
-#: plugins/weather/weather.cpp:518
+#: plugins/weather/weather.cpp:516
 msgid ""
 "_: weather\n"
 "Early"
-msgstr ""
+msgstr "Сутрин"
 
-#: plugins/weather/weather.cpp:521
+#: plugins/weather/weather.cpp:519
 msgid ""
 "_: weather\n"
 "Late"
-msgstr ""
+msgstr "Вечер"
 
-#: plugins/weather/weather.cpp:536 plugins/weather/weather.cpp:538
-#, fuzzy
+#: plugins/weather/weather.cpp:534 plugins/weather/weather.cpp:536
 msgid "m/s"
-msgstr "Б/с"
+msgstr "м/с"
 
-#: plugins/weather/weather.cpp:537 plugins/weather/weather.cpp:538
-#, fuzzy
+#: plugins/weather/weather.cpp:535 plugins/weather/weather.cpp:536
 msgid "gust "
-msgstr "Август"
+msgstr "порив"
 
-#: plugins/weather/weather.cpp:600
+#: plugins/weather/weather.cpp:598
 msgid "%t | %c"
-msgstr ""
+msgstr "%t | %c"
 
-#: plugins/weather/weather.cpp:609
+#: plugins/weather/weather.cpp:607
 msgid ""
 "%l<br><br>\n"
 "<img src=\"icon:weather\"> %c<br>\n"
@@ -8953,129 +8607,126 @@ msgid ""
 "<br>\n"
 "Updated: %u<br>\n"
 msgstr ""
+"%l<br><br>\n"
+"<img src=\"icon:weather\"> %c<br>\n"
+"Температура: <b>%t</b> (очаквана: <b>%f</b>)<br>\n"
+"Влажност: <b>%h</b><br>\n"
+"Налягане: <b>%p</b> (%q)<br>\n"
+"Вятър: <b>%b</b> <b>%w %g</b><br>\n"
+"Видимост: <b>%v</b><br>\n"
+"Точка на оросяване: <b>%d</b><br>\n"
+"Изгрев: %r<br>\n"
+"Залез: %s<br>\n"
+"<br>\n"
+"Обновено: %u<br>\n"
 
-#: plugins/weather/weather.cpp:628
+#: plugins/weather/weather.cpp:626
 msgid ""
 "<br>\n"
 "<nobr><b>%d %w</b></nobr><br>\n"
 "<img src=\"icon:weather%n\"> %c<br>\n"
 " Temperature: <b>%t</b><br>\n"
 msgstr ""
+"<br>\n"
+"<nobr><b>%d %w</b></nobr><br>\n"
+"<img src=\"icon:weather%n\"> %c<br>\n"
+" Температура: <b>%t</b><br>\n"
 
 #: plugins/weather/weathercfg.cpp:101
-#, fuzzy
 msgid "Location %1 not found"
-msgstr "%1 не е открит"
+msgstr "%1 не е намерен"
 
 #: plugins/weather/weathercfgbase.cpp:110
-#, fuzzy
 msgid "Location ID:"
-msgstr "&Местоположение"
+msgstr "ID на местоположение:"
 
 #: plugins/weather/weathercfgbase.cpp:112
 msgid "You can enter ID as part URL for your location on weather.com"
-msgstr ""
+msgstr "Вие може да въведете ID като част от УРЛ за вашето метонахождеие на weather.com"
 
 #: plugins/weather/weathercfgbase.cpp:114
-#, fuzzy
 msgid "Metric"
-msgstr "Мексико"
+msgstr "Метрична"
 
 #: plugins/weather/weathercfgbase.cpp:115
-#, fuzzy
 msgid "Standart"
-msgstr "&Обща информация"
+msgstr "Стандартен"
 
 #: plugins/weather/weathercfgbase.cpp:116
 msgid "Forecast days:"
-msgstr ""
+msgstr "Прогнозирани дни:"
 
 #: plugins/weather/weathercfgbase.cpp:117
 msgid "Units:"
-msgstr ""
+msgstr "Система:"
 
 #: plugins/weather/wifacecfg.cpp:27 plugins/weather/wifacecfg.cpp:66
 msgid "Temperature"
-msgstr ""
+msgstr "Темппература"
 
 #: plugins/weather/wifacecfg.cpp:29
 msgid "Feels like"
-msgstr ""
+msgstr "Прогноза"
 
 #: plugins/weather/wifacecfg.cpp:31
-#, fuzzy
 msgid "Humidity"
-msgstr "Хинди"
+msgstr "Влажност"
 
 #: plugins/weather/wifacecfg.cpp:33
-#, fuzzy
 msgid "Wind direction"
-msgstr "Намиране на директория"
+msgstr "Посока на вятъра"
 
 #: plugins/weather/wifacecfg.cpp:35
-#, fuzzy
 msgid "Wind speed"
-msgstr "Намиране на потребител"
+msgstr "Скорост на вятъра"
 
 #: plugins/weather/wifacecfg.cpp:37
-#, fuzzy
 msgid "Wind gust"
-msgstr "Намиране на потребител"
+msgstr "Порив на вятъра"
 
 #: plugins/weather/wifacecfg.cpp:39
-#, fuzzy
 msgid "Wind speed (m/s)"
-msgstr "Намиране на потребител"
+msgstr "Скорост на вятъра (м/с)"
 
 #: plugins/weather/wifacecfg.cpp:41
-#, fuzzy
 msgid "Wind gust (m/s)"
-msgstr "Намиране на потребител"
+msgstr "Порив на вятъра (м/с)"
 
 #: plugins/weather/wifacecfg.cpp:43
-#, fuzzy
 msgid "Pressure"
-msgstr "Професионален"
+msgstr "Налягане"
 
 #: plugins/weather/wifacecfg.cpp:45
-#, fuzzy
 msgid "Pressure state"
-msgstr "Професионален"
+msgstr "Изменение на налягането"
 
 #: plugins/weather/wifacecfg.cpp:47
-#, fuzzy
 msgid "Visibility"
-msgstr ""
-"Списък на потребители, за които съм видим"
+msgstr "Видимост"
 
 #: plugins/weather/wifacecfg.cpp:49
 msgid "Dew Point"
-msgstr ""
+msgstr "Точка на оросяване"
 
 #: plugins/weather/wifacecfg.cpp:51
-#, fuzzy
 msgid "Location"
-msgstr "&Местоположение"
+msgstr "Местоположение"
 
 #: plugins/weather/wifacecfg.cpp:53
-#, fuzzy
 msgid "Updated"
-msgstr "Обновява"
+msgstr "Обновен"
 
 #: plugins/weather/wifacecfg.cpp:55
-#, fuzzy
 msgid "Sunraise"
-msgstr "Изненадан"
+msgstr "Изгрев"
 
 #: plugins/weather/wifacecfg.cpp:57
-#, fuzzy
 msgid "Sunset"
-msgstr "Судан"
+msgstr "Залез"
 
 #: plugins/weather/wifacecfg.cpp:59 plugins/weather/wifacecfg.cpp:74
-#, fuzzy
 msgid "Conditions"
-msgstr "Връзки"
+msgstr "Състояние"
 
 #: plugins/weather/wifacecfg.cpp:68
 msgid "Number"
@@ -9083,1065 +8734,17 @@ msgstr "Номер"
 
 #: plugins/weather/wifacecfg.cpp:70
 msgid "Day of week"
-msgstr ""
+msgstr "Ден от седмицата"
 
 #: plugins/weather/wifacecfgbase.cpp:81
-#, fuzzy
 msgid "Button text:"
-msgstr "Бутон"
+msgstr "Текст върху бутона"
 
 #: plugins/weather/wifacecfgbase.cpp:82
-#, fuzzy
 msgid "Button tip:"
-msgstr "Бутон"
+msgstr "Подсказка:"
 
 #: plugins/weather/wifacecfgbase.cpp:83
 msgid "Forecast tip:"
-msgstr ""
+msgstr "Прогноза:"
 
-#, fuzzy
-#~ msgid "Cancel send"
-#~ msgstr "Отказ"
-
-#, fuzzy
-#~ msgid "File transfer server:"
-#~ msgstr "Файловата обмяна приключи:"
-
-#, fuzzy
-#~ msgid "File transfer port:"
-#~ msgstr "Файловата обмяна приключи:"
-
-#, fuzzy
-#~ msgid ""
-#~ "_n: File message\n"
-#~ "%n File messages"
-#~ msgstr ""
-#~ "Съобщение\n"
-#~ "%n съобщения"
-
-#~ msgid "<b>Note !</b><br>HTTP-proxy support only ICQ-protocol"
-#~ msgstr ""
-#~ "<b>Внимание !</b><br>HTTP-прокси поддръжката е "
-#~ "само за ICQпротокол"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: %1 typed\n"
-#~ "female"
-#~ msgstr "%1 пише"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: %1 is online\n"
-#~ "female"
-#~ msgstr "%1 е включен"
-
-#~ msgid "Contact typed message"
-#~ msgstr "Потребителят въвежда съобщение"
-
-#, fuzzy
-#~ msgid "Plugin provides posting to LiveJournal"
-#~ msgstr ""
-#~ "Приставката осигурява информация за "
-#~ "програмата"
-
-#~ msgid "Month:"
-#~ msgstr "Месец:"
-
-#~ msgid "Day:"
-#~ msgstr "Ден:"
-
-#~ msgid "Year:"
-#~ msgstr "Година:"
-
-#~ msgid "Automaitcaly open window on receive message"
-#~ msgstr ""
-#~ "Автоматично отваряне на нов прозорец при "
-#~ "получаване на съобщение"
-
-#~ msgid "&Work info"
-#~ msgstr "&Информация за работа"
-
-#, fuzzy
-#~ msgid "Registration failed"
-#~ msgstr "Неуспешно свързване"
-
-#, fuzzy
-#~ msgid "Register success"
-#~ msgstr "Регистрира потребител:"
-
-#, fuzzy
-#~ msgid "Register failed"
-#~ msgstr "Неуспешно свързване"
-
-#~ msgid "Sending messages color"
-#~ msgstr "Цвят на изпращаните съобщения"
-
-#~ msgid "Received messages color"
-#~ msgstr "Цвят на получените съобщения"
-
-#~ msgid "Others color"
-#~ msgstr "Друг цвят"
-
-#~ msgid "Own color"
-#~ msgstr "Собствен цвят"
-
-#~ msgid "*.msl|Smiles"
-#~ msgstr "*.msl|Усмивки"
-
-#, fuzzy
-#~ msgid "Smiles (*.msl)"
-#~ msgstr "Усмивки(*.msl)"
-
-#~ msgid "Fonts"
-#~ msgstr "Шрифтове"
-
-#~ msgid "Input"
-#~ msgstr "Вход"
-
-#~ msgid "Search:"
-#~ msgstr "Търсене:"
-
-#~ msgid " "
-#~ msgstr "."
-
-#~ msgid "Send in translit"
-#~ msgstr "Изпращане за превод"
-
-#~ msgid "&Text color"
-#~ msgstr "Цвят на текс&та"
-
-#~ msgid "Text &font"
-#~ msgstr "&Шрифт"
-
-#~ msgid "Drag users here"
-#~ msgstr "Преместване на потребител тук"
-
-#~ msgid "Can't open file"
-#~ msgstr "Не може да отвори файл"
-
-#~ msgid "By &Status"
-#~ msgstr "По &състояние"
-
-#~ msgid "By &Name"
-#~ msgstr "По &имена"
-
-#~ msgid "Bad ack sequence"
-#~ msgstr "Лоша последователност на ACK"
-
-#~ msgid "Search failed"
-#~ msgstr "Неуспешно търсене"
-
-#~ msgid "Error proxy write"
-#~ msgstr "Грешка при записа на прокси"
-
-#~ msgid "Error proxy read"
-#~ msgstr "Грешка при четене на прокси"
-
-#~ msgid "Error proxy connect"
-#~ msgstr "Грешка при свързване с прокси"
-
-#~ msgid "Error proxy authorization"
-#~ msgstr ""
-#~ "Грешка при удостоверяване в прокси "
-#~ "сървъра"
-
-#~ msgid "On line alert:"
-#~ msgstr "Сигнализира при включване "
-
-#, fuzzy
-#~ msgid "Not on list"
-#~ msgstr "Не е в списъка"
-
-#~ msgid "New search"
-#~ msgstr "Ново търсене"
-
-#~ msgid "Chat Topic/Interests:"
-#~ msgstr "Тема за бърборене/Интереси:"
-
-#~ msgid "&Request chat"
-#~ msgstr "&Искане за разговор"
-
-#~ msgid "Send &URL"
-#~ msgstr "Изпраща &УРЛ"
-
-#~ msgid "I want to be available to chat with a friend"
-#~ msgstr ""
-#~ "Аз искам да бъда видим за бърборене с "
-#~ "приятел "
-
-#~ msgid "Chat topic/Interests:"
-#~ msgstr "Тема за разговор/интереси:"
-
-#~ msgid "&Details"
-#~ msgstr "&Детайли"
-
-#~ msgid ""
-#~ "You case use:\n"
-#~ "&Alias; -  receipent name\n"
-#~ "&Uin; - receipent UIN\n"
-#~ "&MyAlias; - own name\n"
-#~ "&MyUin; - own UIN"
-#~ msgstr ""
-#~ "Вие може да използвате:\n"
-#~ "&Alisa; - име на получателя\n"
-#~ "&UIN; - номер на получателя\n"
-#~ "&MyAlias; - моето име\n"
-#~ "&MyUIN; - моят номер"
-
-#~ msgid "&Signature"
-#~ msgstr "&Подпис "
-
-#~ msgid "Proxy settings"
-#~ msgstr "Настройки на прокси"
-
-#~ msgid "Use proxy"
-#~ msgstr "Използва прокси сървър"
-
-#~ msgid "Proxy host:"
-#~ msgstr "Прокси машина:"
-
-#~ msgid "User proxy authorization"
-#~ msgstr ""
-#~ "Прокси сървъра изисква удостоверяване "
-
-#~ msgid "Proxy port:"
-#~ msgstr "Прокси порт:"
-
-#~ msgid "Server"
-#~ msgstr "Сървър "
-
-#~ msgid "&Do not show this window"
-#~ msgstr "&Не показвай този прозорец отново "
-
-#~ msgid "&Proxy settings"
-#~ msgstr "&Настройки на прокси"
-
-#~ msgid "Column 1"
-#~ msgstr "Колона 1"
-
-#~ msgid "Actions:"
-#~ msgstr "Действие:"
-
-#~ msgid "&Enable"
-#~ msgstr "&Разрешава"
-
-#~ msgid "Send messages on \"Enter\""
-#~ msgstr "Изпраща на съобщения с \"Enter\""
-
-#~ msgid "&Key"
-#~ msgstr "&Клавиш"
-
-#~ msgid "ICQ server:"
-#~ msgstr "ICQ сървър:"
-
-#~ msgid "&Server"
-#~ msgstr "&Сървър"
-
-#~ msgid "Use the following TCP listen ports:"
-#~ msgstr "Използва следните TCP портове:"
-
-#~ msgid "From:"
-#~ msgstr "От:"
-
-#~ msgid "To:"
-#~ msgstr "За:"
-
-#~ msgid "P&orts"
-#~ msgstr "П&ортове"
-
-#~ msgid "1000000/100000"
-#~ msgstr "1000000/1000000"
-
-#~ msgid "100000"
-#~ msgstr "100000"
-
-#~ msgid "Close after send"
-#~ msgstr "Затваря след изпращане"
-
-#~ msgid "Override global settings"
-#~ msgstr "Отменя всеобщите настройки"
-
-#~ msgid "Automaitcaly open window"
-#~ msgstr "Автоматично отваря прозорец"
-
-#~ msgid "Run external program"
-#~ msgstr "Изпълнява външна програма"
-
-#~ msgid "Split mode (&Chat style)"
-#~ msgstr "&Стил на бърборенето"
-
-#~ msgid "Simple mode (&Plain style)"
-#~ msgstr "&Нормален стил"
-
-#~ msgid "last messages from history to conversation"
-#~ msgstr "последни съобщения от историята "
-
-#~ msgid "&Each user in new container"
-#~ msgstr "&Всеки прозорец в нов контейнер "
-
-#~ msgid "&All users in one container"
-#~ msgstr ""
-#~ "&Всички потребители в един контейнер "
-
-#~ msgid "&User window"
-#~ msgstr "&Потребителски прозорец"
-
-#~ msgid "Receivers color"
-#~ msgstr "Цвят на получените съобщения "
-
-#~ msgid "Senders color"
-#~ msgstr "Цвят на изпращаните съобщения"
-
-#~ msgid "&Colors"
-#~ msgstr "&Цветове"
-
-#~ msgid "Edit Email"
-#~ msgstr "Редактира електронна поща"
-
-#~ msgid "Don't publish my Email address"
-#~ msgstr "Не показва моята електронна поща"
-
-#~ msgid "Close after ...."
-#~ msgstr "Затваря след..."
-
-#~ msgid "User is online"
-#~ msgstr "Потребителят е включен "
-
-#~ msgid "Customize message"
-#~ msgstr "Потребителско съобщение"
-
-#~ msgid "Tab 1"
-#~ msgstr "Таблица 1"
-
-#~ msgid "Override global alert"
-#~ msgstr "Спира глобалното уведомяване"
-
-#~ msgid "Activate online alert when user returns from Away or NA"
-#~ msgstr ""
-#~ "Уведомява ако потребител излезе от режим "
-#~ "\"Нямаме\" или \"Липсвам в момента\""
-
-#~ msgid "Online alert options"
-#~ msgstr "Възможности за уведомяване"
-
-#~ msgid "Blinking alert effect"
-#~ msgstr "Мигащ ефект на уведомяване"
-
-#~ msgid "Play online alert sound"
-#~ msgstr "Музика за уведомяване"
-
-#~ msgid "On Screen notification"
-#~ msgstr "Уведомява на работното място"
-
-#~ msgid "Popup online alert dialog"
-#~ msgstr "Падащ диалог за уведомяване"
-
-#~ msgid "Open user window when online"
-#~ msgstr ""
-#~ "Отваря прозорец на потребител когато се "
-#~ "включи"
-
-#~ msgid "Write to history"
-#~ msgstr "Записва история"
-
-#~ msgid "&Alert"
-#~ msgstr "&Сигнал"
-
-#~ msgid "Enable notify on screen"
-#~ msgstr ""
-#~ "Разрешава уведомяване върху работното "
-#~ "място"
-
-#~ msgid "On Screen"
-#~ msgstr "На работното място"
-
-#~ msgid "Publish in global directory"
-#~ msgstr "Публикува в общодостъпна директория"
-
-#~ msgid "Add phone"
-#~ msgstr "Добавя телефон"
-
-#~ msgid "Browser program path:"
-#~ msgstr "Определяне пътя на програмата:"
-
-#~ msgid "Email client:"
-#~ msgstr "Пощенски клиент:"
-
-#~ msgid "&Miscellaneous"
-#~ msgstr "&Разнообразни"
-
-#~ msgid "A&utomatically add new user to KAddressBook"
-#~ msgstr ""
-#~ "Ав&томатично добавяне на нов потребител "
-#~ "към адресната книга на KDE "
-
-#~ msgid "&Synchronize now"
-#~ msgstr "&Синхронизира сега"
-
-#~ msgid "&Addressbook synchronization"
-#~ msgstr "Адреснат&а книга е синхронизирана"
-
-#~ msgid "Check &all messages on send"
-#~ msgstr ""
-#~ "Проверяване на всички изпратени "
-#~ "с&ъобщения"
-
-#~ msgid "&Spell check"
-#~ msgstr "&Правописна проверка"
-
-#~ msgid "&Override sounds"
-#~ msgstr "&Изключва звука"
-
-#~ msgid "Message:"
-#~ msgstr "Съобщение:"
-
-#~ msgid "SMS:"
-#~ msgstr "SMS:"
-
-#~ msgid "Authorization:"
-#~ msgstr "Удостоверяване:"
-
-#~ msgid "Incoming file:"
-#~ msgstr "Пристигащ файл:"
-
-#~ msgid "Chat Request:"
-#~ msgstr "Заявка за разговор:"
-
-#~ msgid "Startup sound:"
-#~ msgstr "Звук при стартиране:"
-
-#~ msgid "&Sounds"
-#~ msgstr "&Звукове "
-
-#~ msgid "Program for play:"
-#~ msgstr "Програма за възпроизвеждане на звук:"
-
-#~ msgid "UseArts"
-#~ msgstr "Потребители "
-
-#~ msgid "User is currently available at:"
-#~ msgstr ""
-#~ "Потребителят в момента е на разположение :"
-
-#~ msgid "Select style:"
-#~ msgstr "Избира стил:"
-
-#~ msgid "Icons:"
-#~ msgstr "Икони: "
-
-#~ msgid "Add icons"
-#~ msgstr "Добавя икони:"
-
-#~ msgid "&Icons"
-#~ msgstr "&Икони:"
-
-#~ msgid "Use &system colors"
-#~ msgstr "Използва системни &цветове"
-
-#~ msgid "Online contact color:"
-#~ msgstr "Цвят за \"включен\":"
-
-#~ msgid "Offline contact color:"
-#~ msgstr "Цвят за \"изключен\":"
-
-#~ msgid "B&ackground"
-#~ msgstr "Фо&н"
-
-#~ msgid "Transparent main window"
-#~ msgstr "Прозрачен главен прозорец "
-
-#~ msgid "Transparency"
-#~ msgstr "Прозрачност"
-
-#~ msgid "Transparent container"
-#~ msgstr "Прозрачен контейнер"
-
-#~ msgid "&Transparency"
-#~ msgstr "Проз&рачност"
-
-#~ msgid "Show user window in task manager"
-#~ msgstr ""
-#~ "Показва потребителски прозорец в панела "
-#~ "със задачи"
-
-#~ msgid "User window stays on &top"
-#~ msgstr ""
-#~ "Потребителски прозорец винаги &отгоре"
-
-#~ msgid "&Show splash window"
-#~ msgstr "Показва лого при &стартиране"
-
-#~ msgid "Use double c&lick"
-#~ msgstr "Използва двойно щ&ракване"
-
-#~ msgid "Add"
-#~ msgstr "Добавя"
-
-#~ msgid "Edit"
-#~ msgstr "Редактира"
-
-#~ msgid "Remove"
-#~ msgstr "Премахва"
-
-#~ msgid "Set as default"
-#~ msgstr "Поставя по подразбиране"
-
-#~ msgid "&EMail"
-#~ msgstr "Електронна &поща "
-
-#~ msgid "Direct connection"
-#~ msgstr "Директна връзка "
-
-#~ msgid "Reject &messages from unknown users"
-#~ msgstr ""
-#~ "Забранява съобщенията от неиз&вестни "
-#~ "потребители"
-
-#~ msgid "Reject &URL from unknown users"
-#~ msgstr ""
-#~ "Забранява &УРЛ от неизвестни потребители"
-
-#~ msgid "Reject &World Wide pager messages"
-#~ msgstr ""
-#~ "Забранява съобщения от интернет "
-#~ "&страница "
-
-#~ msgid "Reject &EmailExpress messages"
-#~ msgstr "Забранява &EmailExpress съобщения"
-
-#~ msgid "Reject &other messages"
-#~ msgstr "Забранява друг&и съобщения"
-
-#~ msgid "&Reject"
-#~ msgstr "&Забранява"
-
-#~ msgid "Spam &filter"
-#~ msgstr "Спам филтъ&р"
-
-#~ msgid "S&ave password"
-#~ msgstr "Запаз&ва парола:"
-
-#~ msgid "My notes:"
-#~ msgstr "Мой бележки:"
-
-#~ msgid "User is offline"
-#~ msgstr "Потребителят е изключен"
-
-#~ msgid "Packet was malformed"
-#~ msgstr "Изопачен пакет"
-
-#, fuzzy
-#~ msgid "ICQ AuthRequest"
-#~ msgstr ""
-#~ "Ctrl+R\n"
-#~ "Искане за удостоверяване"
-
-#, fuzzy
-#~ msgid "Close after %n second"
-#~ msgstr "Затваряне след изпра&щане"
-
-#, fuzzy
-#~ msgid "Authorize request"
-#~ msgstr "Искане за удотоверяване"
-
-#~ msgid "Authorization granted"
-#~ msgstr "Удостоверяването е прието"
-
-#~ msgid "Authorization refused"
-#~ msgstr "Удостоверяването е отказано"
-
-#, fuzzy
-#~ msgid "AutoReplyDialog"
-#~ msgstr "Автоматичен отговор"
-
-#, fuzzy
-#~ msgid "WWW-panel message"
-#~ msgstr "изпращане на съобщение"
-
-#, fuzzy
-#~ msgid "Email pager message"
-#~ msgstr "Електронни адреси:"
-
-#~ msgid "Contact request"
-#~ msgstr "Искане на списък с потребители"
-
-#, fuzzy
-#~ msgid "URL"
-#~ msgstr "URL:"
-
-#, fuzzy
-#~ msgid "Found 1 contact"
-#~ msgstr "Добавяне на външен потребител"
-
-#~ msgid "Enter to chat"
-#~ msgstr "Влез в бърборенето"
-
-#~ msgid ""
-#~ "Please do not disturb me now.\n"
-#~ "Disturb me later.\n"
-#~ "Only urgent messages, please!\n"
-#~ msgstr ""
-#~ "Не ме безпокойте в момента. \n"
-#~ "Обадете се по-късно.\n"
-#~ "Моля изпращайте само спешни съобщения.\n"
-
-#~ msgid ""
-#~ "_n: Chat request\n"
-#~ "%n chat requests"
-#~ msgstr ""
-#~ "Искане за разговор\n"
-#~ "%n искане за разговор"
-
-#~ msgid ""
-#~ "_n: External unknown message\n"
-#~ "%n unknown messages"
-#~ msgstr ""
-#~ "Неизвестно съобщение\n"
-#~ "%n Неизвестни съобщения"
-
-#~ msgid ""
-#~ "_n: SMS receipt\n"
-#~ "%n SMS receipts"
-#~ msgstr ""
-#~ "SMS получател\n"
-#~ "%n SMS получатели"
-
-#~ msgid ""
-#~ "_n: Unknown message\n"
-#~ "%n unknown messages"
-#~ msgstr ""
-#~ "Неизвестно съобщение\n"
-#~ "%n Неизвестни съобщения"
-
-#~ msgid ""
-#~ "_: Ctrl+N\n"
-#~ "new"
-#~ msgstr ""
-#~ "Ctrl+N\n"
-#~ "ново"
-
-#~ msgid ""
-#~ "_: Ctrl+B\n"
-#~ "chat msg"
-#~ msgstr ""
-#~ "Ctrl+B\n"
-#~ "бър-бър-бър"
-
-#~ msgid ""
-#~ "_: Ctrl+F\n"
-#~ "File"
-#~ msgstr ""
-#~ "Ctrl+F\n"
-#~ "Файл"
-
-#~ msgid ""
-#~ "_: Ctrl+L\n"
-#~ "URL"
-#~ msgstr ""
-#~ "Ctrl+L\n"
-#~ "URL"
-
-#~ msgid ""
-#~ "_: Ctrl+T\n"
-#~ "Contacts"
-#~ msgstr ""
-#~ "Ctrl+T\n"
-#~ "Контакти"
-
-#~ msgid ""
-#~ "_: Ctrl+S\n"
-#~ "SMS"
-#~ msgstr ""
-#~ "Ctrl+S\n"
-#~ "SMS"
-
-#~ msgid ""
-#~ "_: Ctrl+E\n"
-#~ "EMail"
-#~ msgstr ""
-#~ "Ctrl+E\n"
-#~ "Електронна поща"
-
-#~ msgid "show/hide main window"
-#~ msgstr ""
-#~ "показване/скриване на главният прозорец"
-
-#~ msgid "show/hide search window"
-#~ msgstr ""
-#~ "показване/скриване на прозорецът за "
-#~ "търсене"
-
-#~ msgid "show/hide dock"
-#~ msgstr ""
-#~ "показване/скриване на помощна информация"
-
-#~ msgid "set notify mode"
-#~ msgstr ""
-#~ "установяване на режим на уведомяване"
-
-#~ msgid "get icon in xpm fomrat"
-#~ msgstr "вземане на икона в xpm формат"
-
-#~ msgid "show popup"
-#~ msgstr "показване на падащо меню"
-
-#~ msgid "quit SIM"
-#~ msgstr "изход от SIM"
-
-#~ msgid "close session"
-#~ msgstr "затваряне на сесия"
-
-#~ msgid "command help information"
-#~ msgstr "информация за команди"
-
-#~ msgid "? Unknown command %1"
-#~ msgstr "? Неизвестна команда %1"
-
-#~ msgid "? Bad arguments number. Try help %1"
-#~ msgstr ""
-#~ "? Неправилен номер на аргумента. Потърси "
-#~ "помощ %1"
-
-#~ msgid "? Unknown status %1"
-#~ msgstr "? Неизвестен статус %1"
-
-#~ msgid "Unknown"
-#~ msgstr "Неизвестен"
-
-#~ msgid "IM Address"
-#~ msgstr "IM Адрес:"
-
-#~ msgid "Current location"
-#~ msgstr "Настоящо положение"
-
-#~ msgid "Phone Book"
-#~ msgstr "Телефонен указател"
-
-#~ msgid "%1 from %2 received"
-#~ msgstr "%1 от %2 получени"
-
-#~ msgid "Invalid password for proxy"
-#~ msgstr "Неправилна парола за прокси сървъра"
-
-#~ msgid "In visible list"
-#~ msgstr ""
-#~ "В списъка на потребители, за които съм "
-#~ "видим"
-
-#~ msgid "In invisible list"
-#~ msgstr ""
-#~ "В списъка с потребители, за които съм "
-#~ "невидим"
-
-#~ msgid "In ignore list"
-#~ msgstr ""
-#~ "В списъка с пренебрегнати потребители"
-
-#~ msgid "Delete"
-#~ msgstr "Изтриване"
-
-#~ msgid ""
-#~ "_: Del\n"
-#~ "Delete"
-#~ msgstr ""
-#~ "Изтриване\n"
-#~ "Изтриване"
-
-#~ msgid "&User info"
-#~ msgstr "&Информация за потребител"
-
-#~ msgid ""
-#~ "_: Ctrl+U\n"
-#~ "UserInfo"
-#~ msgstr ""
-#~ "Ctrl+U\n"
-#~ "Информация за потребител"
-
-#~ msgid ""
-#~ "_: Ctrl+H\n"
-#~ "History"
-#~ msgstr ""
-#~ "Ctrl+H\n"
-#~ "История"
-
-#~ msgid "Alert"
-#~ msgstr "Сигнал"
-
-#~ msgid ""
-#~ "_: Ctrl+L\n"
-#~ "Alert"
-#~ msgstr ""
-#~ "Ctrl+L\n"
-#~ "Сигнал"
-
-#~ msgid ""
-#~ "_: Ctrl+A\n"
-#~ "Accept"
-#~ msgstr ""
-#~ "Ctrl+A\n"
-#~ "Приемане"
-
-#~ msgid ""
-#~ "_: Ctrl+S\n"
-#~ "Sound"
-#~ msgstr ""
-#~ "Ctrl+S\n"
-#~ "Звук"
-
-#~ msgid ""
-#~ "_: Ctrl+T\n"
-#~ "Floating"
-#~ msgstr ""
-#~ "Ctrl+T\n"
-#~ "Плуващ прозорец"
-
-#~ msgid ""
-#~ "_: Ctrl+C\n"
-#~ "Close"
-#~ msgstr ""
-#~ "Ctrl+C\n"
-#~ "Затваряне"
-
-#~ msgid "Alphabetically sort"
-#~ msgstr "Сортиране по азбучен ред"
-
-#~ msgid ""
-#~ "_: Ctrl+B\n"
-#~ "Alphabetically sort"
-#~ msgstr ""
-#~ "Ctrl+B\n"
-#~ "Сортиране по азбучен ред"
-
-#~ msgid "Read %1 message"
-#~ msgstr "Четене на %1 съобщение"
-
-#~ msgid "Expand all"
-#~ msgstr "Разширяване на всички групи"
-
-#~ msgid "Collapse all"
-#~ msgstr "Свиване на всички групи"
-
-#~ msgid "Phone \"Follow Me\""
-#~ msgstr "Телефонен център"
-
-#~ msgid "Shared files"
-#~ msgstr "Предоставени файлове"
-
-#~ msgid "Change UIN"
-#~ msgstr "Промяна на номер"
-
-#~ msgid "&Reply"
-#~ msgstr "&Отговаряне"
-
-#~ msgid "Spell &check"
-#~ msgstr "Правописна п&роверка"
-
-#~ msgid "Chat started"
-#~ msgstr "Разговорът започна"
-
-#~ msgid "Next"
-#~ msgstr "Следващ"
-
-#~ msgid "%1 (ICQ# %2) wrote:<br>\n"
-#~ msgstr "%1 (ICQ# %2) пиша:<br>\n"
-
-#~ msgid "Save to"
-#~ msgstr "Запазване като"
-
-#~ msgid "Please, input decline reason:"
-#~ msgstr "Моля, въвдете съобщение за отказ:"
-
-#~ msgid "Contact list received"
-#~ msgstr "Списъкът с потребителите е получен"
-
-#~ msgid "&Sort order"
-#~ msgstr "Правил&о за сортиране"
-
-#~ msgid ""
-#~ "text/plain|Text file\n"
-#~ "text/html|HTML file"
-#~ msgstr ""
-#~ "text/plain|Текстов файл\n"
-#~ "text/html|HTML файл"
-
-#~ msgid "Text file(*.txt);;HTML file(*.htm *.html)"
-#~ msgstr "Текстов файл(*.txt);;HTML файл(*.htm *.html)"
-
-#~ msgid ""
-#~ "File %1 exists\n"
-#~ "Overwrite?"
-#~ msgstr ""
-#~ "Файл %1 съществува\n"
-#~ "Презаписване?"
-
-#~ msgid "Directory for files"
-#~ msgstr "Директория на файловете"
-
-#~ msgid "Control socket"
-#~ msgstr "Управляващ порт"
-
-#~ msgid "No dock"
-#~ msgstr "Изключи документация"
-
-#~ msgid "Add to ignore &list"
-#~ msgstr ""
-#~ "Прибавяне към списъка с пренебрегнати "
-#~ "потребител&и"
-
-#~ msgid "Move to &group"
-#~ msgstr "Преместване в груп&а"
-
-#~ msgid "&History<br>with CTRL open in new window"
-#~ msgstr ""
-#~ "&История<br>с CTRL отваряне в нов прозорец"
-
-#~ msgid "Close user &window"
-#~ msgstr ""
-#~ "Затваряне на потребителски &прозорец"
-
-#~ msgid "History loading"
-#~ msgstr "Зареждане на история"
-
-#~ msgid "Add group"
-#~ msgstr "Прибавяне на група"
-
-#~ msgid "Add all"
-#~ msgstr "Добавяне на всички"
-
-#~ msgid ""
-#~ "_: Ctrl+N\n"
-#~ "Create group"
-#~ msgstr "Създаване на група"
-
-#~ msgid "User "
-#~ msgstr "Потребител"
-
-#~ msgid " is online"
-#~ msgstr "Включен"
-
-#~ msgid "Close [%1 sec]"
-#~ msgstr "Затваряне [%1 сек]"
-
-#~ msgid "Close in %1 sec"
-#~ msgstr "Затваряне след %1 сек"
-
-#~ msgid ""
-#~ "_n: Receive %2 from %1\n"
-#~ "Receive %n files from %1"
-#~ msgstr ""
-#~ "Приемане %2 от %1\n"
-#~ "Приемане %n файлове от %1\n"
-#~ "Приемане %n файлове от %1"
-
-#~ msgid ""
-#~ "_n: Send %2 to %1\n"
-#~ "Send %n files to %1"
-#~ msgstr ""
-#~ "Предаване %2 на %1\n"
-#~ "Предаване на %n файлове %1\n"
-#~ "Предаване на%n файлове %1"
-
-#~ msgid "Connect to %1 [%2]"
-#~ msgstr "Свързване към %1 [%2]"
-
-#~ msgid "Wait connect to %1 [%2]"
-#~ msgstr "Изчакване за свързване към %1 [%2]"
-
-#~ msgid "Send thru server to %1"
-#~ msgstr "Изпращане през сървър за %1"
-
-#~ msgid "[done]"
-#~ msgstr "[изпълнено]"
-
-#~ msgid "[fail]"
-#~ msgstr "[грешка]"
-
-#~ msgid "File transfer declined with reason %1"
-#~ msgstr ""
-#~ "Файловото прехвърляне е прекъснато "
-#~ "поради %1"
-
-#~ msgid "Receive file %1 of %2 files from %3"
-#~ msgstr "Получавам файл %1/%2 от %3"
-
-#~ msgid "Send file %1 of %2 files to %3"
-#~ msgstr "Изпращам файл %1/%2 от %3"
-
-#~ msgid "Double click on dock"
-#~ msgstr "Двойно щракване "
-
-#~ msgid "<New UIN>"
-#~ msgstr "<Нов номер>"
-
-#~ msgid "Can't initialize main window"
-#~ msgstr ""
-#~ "Невъзможна инициализация на главния "
-#~ "прозорец"
-
-#~ msgid "Delete history and incoming files for %u?"
-#~ msgstr ""
-#~ "Изтриване на историята и получените "
-#~ "файлове от %u?"
-
-#~ msgid "Addressbook synchronization"
-#~ msgstr "Синхронизация с адресна книга "
-
-#~ msgid "Success."
-#~ msgstr "Успешно"
-
-#~ msgid "No proxy"
-#~ msgstr "Няма прокси"
-
-#~ msgid "SOCKS4"
-#~ msgstr "SOCKS4"
-
-#~ msgid "SOCKS5"
-#~ msgstr "SOCKS5"
-
-#~ msgid "HTTP"
-#~ msgstr "HTTP"
-
-#~ msgid "HTTPS"
-#~ msgstr "HTTPS"
-
-#~ msgid "No users was found"
-#~ msgstr "Няма намерени потребители"
-
-#~ msgid "[Failed]"
-#~ msgstr "[ГРЕШКА]"
-
-#~ msgid "Main info"
-#~ msgstr "Основна информация"
-
-#~ msgid "Preferences"
-#~ msgstr "Предпочитания"
-
-#~ msgid "Accept"
-#~ msgstr "Приемам"
-
-#~ msgid "Miscellaneous"
-#~ msgstr "Разни"
-
-#~ msgid "Need restart SIM for change language"
-#~ msgstr ""
-#~ "Необходимо е да презаредите SIM за промяна "
-#~ "на езика"
-
-#~ msgid "Default icons"
-#~ msgstr "Икони по подразбиране"
-
-#~ msgid "%1 autoresponse for %2"
-#~ msgstr "%1 автоматично отговаря на %2"
-
-#~ msgid "&Check again"
-#~ msgstr "&Опитай пак"
-
-#~ msgid "Ready"
-#~ msgstr "Готов"
-
-#~ msgid "Bold"
-#~ msgstr "Tъмен"
-
-#~ msgid "Italic"
-#~ msgstr "Курсив"
