@@ -59,12 +59,17 @@ using namespace std;
 
 QString i18n(const char *text)
 {
-    return QObject::tr(text);
+    return i18n(text, NULL);
 }
 
 QString i18n(const char *text, const char *comment)
 {
-    return QObject::tr(text, comment);
+    if (text == NULL)
+		return QString::null;
+	QString res = QObject::tr(text, comment);
+	if (res != QString::fromLatin1(text))
+		return res;
+	return QString::fromUtf8(text);
 }
 
 #endif

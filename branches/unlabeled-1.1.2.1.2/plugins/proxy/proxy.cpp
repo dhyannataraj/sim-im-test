@@ -47,6 +47,7 @@ public:
     virtual void close();
     virtual unsigned long localHost();
     virtual void pause(unsigned);
+	virtual Mode mode() { return Indirect; }
 protected:
     virtual void write();
     virtual void write_ready();
@@ -616,6 +617,7 @@ public:
     virtual int read(char *buf, unsigned int size);
     virtual void write(const char *buf, unsigned int size);
     virtual void close();
+	virtual Mode mode() { return Web; }
 protected:
     enum State
     {

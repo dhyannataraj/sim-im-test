@@ -555,7 +555,14 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
     capability cap;
     msg.unpack((char*)cap, sizeof(cap));
     if (!memcmp(cap, capabilities[CAP_DIRECT], sizeof(cap))){
-        log(L_DEBUG, "Direct packet");
+		unsigned long uin;
+		unsigned long localIP;
+		unsigned long localPort;
+		unsigned long remotePort;
+		unsigned long localPort1;
+		char mode;
+		msg >> uin >> localIP >> localPort >> mode >> remotePort >> localPort1;
+        log(L_DEBUG, "Direct packet %u %X %X %X %X %u", uin, localIP, localPort, remotePort, localPort1, mode);
         return;
     }
 
@@ -986,7 +993,7 @@ string ICQClient::packMessage(Message *msg, ICQUserData *data, unsigned short &t
             break;
         }
     case MessageFile:
-        res = static_cast<FileMessage*>(msg)->description().utf8();
+        res = fromUnicode(msg->getPlainText(), data);
         type = ICQ_MSGxFILE;
         break;
     case MessageOpenSecure:

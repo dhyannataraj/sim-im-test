@@ -64,9 +64,11 @@ ICQListener::~ICQListener()
         delete m_socket;
 }
 
-void ICQListener::accept(Socket *s)
+void ICQListener::accept(Socket *s, unsigned long ip)
 {
-    log(L_DEBUG, "Accept direct connection");
+    struct in_addr addr;
+    addr.s_addr = ip;
+    log(L_DEBUG, "Accept direct connection %s", inet_ntoa(addr));
     new DirectClient(s, m_client);
 }
 
@@ -405,19 +407,25 @@ void DirectClient::processPacket()
             }
             switch (m_channel){
             case PLUGIN_INFOxMANAGER:
-                if (m_data->DirectPluginInfo)
+                if (m_data->DirectPluginInfo){
                     m_socket->error_state("Plugin info connection already established");
-                m_data->DirectPluginInfo = this;
+				}else{
+					m_data->DirectPluginInfo = this;
+				}
                 break;
             case PLUGIN_STATUSxMANAGER:
-                if (m_data->DirectPluginStatus)
+                if (m_data->DirectPluginStatus){
                     m_socket->error_state("Plugin status connection already established");
-                m_data->DirectPluginStatus = this;
+				}else{
+					m_data->DirectPluginStatus = this;
+				}
                 break;
             case PLUGIN_NULL:
-                if (m_data->Direct)
+                if (m_data->Direct){
                     m_socket->error_state("Direct connection already established");
-                m_data->Direct = this;
+				}else{
+					m_data->Direct = this;
+				}
                 break;
             default:
                 m_socket->error_state("Unknown direct channel");
@@ -647,8 +655,8 @@ void DirectClient::processPacket()
                     Event e(EventMessageCancel, msg);
                     e.process();
                 }else{
-#ifdef USE_OPENSSL
                     switch (msg->type()){
+#ifdef USE_OPENSSL
                     case MessageCloseSecure:
                         secureStop(true);
                         break;
@@ -659,8 +667,27 @@ void DirectClient::processPacket()
                             secureConnect();
                         }
                         return;
-                    }
 #endif
+					case MessageFile:
+						if (ackFlags){
+							if (msg_str.empty()){
+								msg->setError(I18N_NOOP("Send message fail"));
+							}else{
+								QString err = m_client->toUnicode(msg_str.c_str(), m_data);
+								msg->setError(err.utf8());
+							}
+				            Event e(EventMessageSent, msg);
+					        e.process();
+						    m_queue.erase(it);
+							delete msg;
+						}else{
+							Event e(EventMessageAcked, msg);
+							e.process();
+							m_queue.erase(it);
+							m_client->m_processMsg.push_back(msg);
+						}
+						break;
+					}
                     if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
                         if ((msg->type() == MessageGeneric) && ((*it).type != CAP_RTF)){
                             Message m;
@@ -689,6 +716,7 @@ void DirectClient::processPacket()
                     Event e(EventMessageSent, msg);
                     e.process();
                     m_queue.erase(it);
+					delete msg;
                 }
                 delete msg;
                 break;
@@ -981,6 +1009,16 @@ void DirectClient::processMsgQueue()
                 mb.pack((unsigned short)(m_client->fullStatus(m_client->getStatus()) & 0xFF));
                 mb.pack((unsigned short)1);
                 mb << message;
+		        switch (sm.msg->type()){
+				case MessageFile:
+	                mb << m_nSequence 
+						<< (unsigned short)0
+						<< m_client->fromUnicode(static_cast<FileMessage*>(sm.msg)->description(), m_data)
+						<< (unsigned long)htonl(static_cast<FileMessage*>(sm.msg)->getSize())
+						<< (unsigned short)htons(m_nSequence)
+						<< (unsigned short)0;
+					break;
+				}
                 sendPacket();
                 sm.seq = m_nSequence;
                 break;
@@ -1079,8 +1117,8 @@ void DirectClient::addPluginInfoRequest(unsigned plugin_index)
         SendDirectMsg &sm = *it;
         if (sm.msg)
             continue;
-        if (sm.type == plugin_index)
-            return;
+//        if (sm.type == plugin_index)
+//            return;
     }
     SendDirectMsg sm;
     sm.msg = NULL;
@@ -1195,15 +1233,26 @@ void DirectClient::secureStop(bool bShutdown)
 
 const char *DirectClient::name()
 {
+	if (m_data == NULL)
+		return NULL;
+	m_name = "";
     switch (m_channel){
     case PLUGIN_NULL:
-        return NULL;
+        break;
     case PLUGIN_INFOxMANAGER:
-        return "Info";
+        m_name = "Info.";
+		break;
     case PLUGIN_STATUSxMANAGER:
-        return "Status";
-    }
-    return "Unknown";
+        m_name = "Status.";
+		break;
+    default:
+		m_name = "Unknown.";
+	}
+	m_name += number(m_data->Uin);
+	char b[12];
+	sprintf(b, ".%X", this);
+	m_name += b;
+	return m_name.c_str();
 }
 
 #endif

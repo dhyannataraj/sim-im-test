@@ -160,9 +160,9 @@ FileMessageIteratorPrivate::FileMessageIteratorPrivate(const FileMessage &msg)
 {
     QString files = ((FileMessage&)msg).getFile();
     while (!files.isEmpty()){
-        getToken(files, '\"');
-        add(getToken(files, '\"'));
+        add(getToken(files, ';'));
     }
+	it = begin();
 }
 
 void FileMessageIteratorPrivate::add(const QString &str)
@@ -228,11 +228,21 @@ FileMessage::FileMessage(const char *cfg)
         : Message(MessageFile, cfg)
 {
     load_data(messageFileData, &data, cfg);
+	m_transfer = NULL;
 }
 
 FileMessage::~FileMessage()
 {
     free_data(messageFileData, &data);
+	if (m_transfer)
+		delete m_transfer;
+}
+
+void FileMessage::setTransfer(FileTransfer *transfer)
+{
+	if (m_transfer)
+		delete m_transfer;
+	m_transfer = transfer;
 }
 
 unsigned FileMessage::getSize()
@@ -258,7 +268,7 @@ void FileMessage::setSize(unsigned size)
 QString FileMessage::description()
 {
     Iterator it(*this);
-    if (it.count() < 1){
+    if (it.count() <= 1){
         const char *name = ++it;
         if (name == NULL)
             return NULL;
@@ -275,7 +285,7 @@ QString FileMessage::description()
         }
         return QString::fromLocal8Bit(short_name);
     }
-    return i18n("%n file", "%n files", it.count());
+    return QString("%1 files") .arg(it.count());
 }
 
 string FileMessage::save()
@@ -293,6 +303,29 @@ string FileMessage::save()
 QString FileMessage::presentation()
 {
     return "";
+}
+
+FileTransfer::FileTransfer(FileMessage *msg)
+{
+	m_msg		= msg;
+	m_notify	= NULL;
+	m_file		= NO_FILE;
+	m_files		= 0;
+	m_bytes		= 0;
+	m_fileSize	= 0;
+	m_totalSize	= 0;
+}
+
+FileTransfer::~FileTransfer()
+{
+	setNotify(NULL);
+}
+
+void FileTransfer::setNotify(FileTransferNotify *notify)
+{
+	if (m_notify)
+		delete m_notify;
+	m_notify = NULL;
 }
 
 QString AuthMessage::presentation()

@@ -87,9 +87,19 @@ void MsgFile::selectFile()
     QStringList lst = QFileDialog::getOpenFileNames(QString::null, QString::null, topLevelWidget());
     if ((lst.count() > 1) || ((lst.count() > 0) && (lst[0].find(' ') >= 0))){
         for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
+#ifdef WIN32
+			(*it).replace(QRegExp("/"), "\\");
+#endif
             *it = QString("\"") + *it + QString("\"");
         }
-    }
+#ifdef WIN32
+    }else{
+        for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
+			QString &s = *it;
+			s.replace(QRegExp("/"), "\\");
+		}
+#endif
+	}
     setText(lst.join(" "));
 }
 
@@ -100,6 +110,36 @@ void *MsgFile::processEvent(Event *e)
         if ((cmd->id == CmdSend) && (cmd->param == m_edit)){
             QString msgText = m_edit->m_edit->text();
             QString file = text();
+			QStringList files;
+			QString f;
+			for (int i = 0; i < (int)file.length(); i++){
+				if (file[i] == '\"'){
+					f = trim(f);
+					if (!f.isEmpty())
+						files.append(f);
+					f = "";
+					for (i++; i < (int)file.length(); i++){
+						if (file[i] == '\"')
+							break;
+						f += file[i];
+					}
+					f = trim(f);
+					if (!f.isEmpty())
+						files.append(f);
+					f = "";
+					continue;
+				}
+				f += file[i];
+			}
+			f = trim(f);
+			if (!f.isEmpty())
+				files.append(f);
+			file = "";
+			for (QStringList::Iterator it = files.begin(); it != files.end(); ++it){
+				if (!file.isEmpty())
+					file += ";";
+				file += quoteChars(*it, ";");
+			}
             if (!file.isEmpty()){
                 FileMessage *msg = new FileMessage;
                 msg->setText(msgText);

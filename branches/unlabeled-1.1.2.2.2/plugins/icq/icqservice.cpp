@@ -266,12 +266,28 @@ void ICQClient::sendUpdate()
 void ICQClient::fillDirectInfo(Buffer &directInfo)
 {
     set_ip(&data.owner.RealIP, m_socket->localHost());
-    directInfo
-    << (unsigned long)get_ip(data.owner.RealIP)
-    << (unsigned short)0
-    << (unsigned short)(m_listener ? m_listener->port() : 0)
+	if (getHideIP()){
+		directInfo
+		<< (unsigned long)0
+		<< (unsigned long)0;
+	}else{
+		directInfo
+		<< (unsigned long)get_ip(data.owner.RealIP)
+		<< (unsigned short)0
+		<< (unsigned short)(m_listener ? m_listener->port() : 0);
+	}
 
-    << (char)0x01	// Mode
+	char mode = DIRECT_MODE_DIRECT;
+	switch (m_socket->socket()->mode()){
+	case Socket::Indirect:
+		mode = DIRECT_MODE_INDIRECT;
+		break;
+	case Socket::Web:
+		mode = DIRECT_MODE_DENIED;
+		break;
+	}
+	directInfo
+    << mode
     << (char)0x00
     << (char)ICQ_TCP_VERSION;
 

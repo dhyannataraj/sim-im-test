@@ -1358,8 +1358,8 @@ void ICQClient::setClientInfo(void *_data)
         sendServerRequest();
         varRequests.push_back(new SetSecurityInfoRequest(this, m_nMsgSequence, d));
     }
-
     setChatGroup();
+	sendStatus();
 }
 
 class SetPasswordRequest : public ServerRequest

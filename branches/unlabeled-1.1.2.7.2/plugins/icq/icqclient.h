@@ -99,6 +99,10 @@ const unsigned short ICQ_MTN_FINISH	= 0x0000;
 const unsigned short ICQ_MTN_TYPED	= 0x0001;
 const unsigned short ICQ_MTN_START	= 0x0002;
 
+const char DIRECT_MODE_DENIED	= 0x01;
+const char DIRECT_MODE_INDIRECT	= 0x02;
+const char DIRECT_MODE_DIRECT	= 0x04; 
+
 const unsigned MAX_MESSAGE_SIZE = 450;
 
 const unsigned PING_TIMEOUT = 60;
@@ -291,7 +295,7 @@ public:
     bool created() { return (m_socket != NULL); }
     unsigned short port();
 protected:
-    virtual void accept(Socket *s);
+    virtual void accept(Socket *s, unsigned long ip);
     ServerSocket *m_socket;
     ICQClient  *m_client;
 };
@@ -549,6 +553,7 @@ protected:
     unsigned m_nUpdates;
     unsigned m_nSendTimeout;
     SendMsg  m_send;
+	list<Message*> m_processMsg;
     friend class FullInfoRequest;
     friend class SMSRequest;
     friend class DirectClient;
@@ -650,6 +655,7 @@ protected:
     void processMsgQueue();
     list<SendDirectMsg> m_queue;
     const char *name();
+	string m_name;
 #ifdef USE_OPENSSL
     void secureConnect();
     void secureListen();

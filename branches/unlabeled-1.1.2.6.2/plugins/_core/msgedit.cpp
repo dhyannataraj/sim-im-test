@@ -167,8 +167,8 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd, bool bReceived)
     m_layout = new QVBoxLayout(m_frame);
 
     m_edit = new MsgTextEdit(this, m_frame);
-    m_edit->setBackground(QColor(CorePlugin::m_plugin->getEditBackground()));
-    m_edit->setForeground(QColor(CorePlugin::m_plugin->getEditForeground()));
+    m_edit->setBackground(QColor(CorePlugin::m_plugin->getEditBackground() & 0xFFFFFF));
+    m_edit->setForeground(QColor(CorePlugin::m_plugin->getEditForeground() & 0xFFFFFF));
     m_edit->setFont(CorePlugin::m_plugin->editFont);
     m_edit->setCtrlMode(!CorePlugin::m_plugin->getSendOnEnter());
 
@@ -838,7 +838,8 @@ void *MsgEdit::processEvent(Event *e)
             }
         }
     }
-    if (e->type() == EventRealSendMessage){
+    if ((e->type() == EventRealSendMessage) ||
+		(e->type() == EventMessageAcked)){
         MsgSend *s = (MsgSend*)(e->param());
         if (s->edit == this){
             sendMessage(s->msg);

@@ -50,6 +50,13 @@ public:
     virtual void pause(unsigned) = 0;
     void error(const char *err_text, unsigned code=0);
     void setNotify(SocketNotify *n) { notify = n; }
+	enum Mode
+	{
+		Direct,
+		Indirect,
+		Web
+	};
+	virtual Mode mode() { return Direct; }
     SocketNotify *notify;
 };
 
@@ -58,7 +65,7 @@ class EXPORT ServerSocketNotify
 public:
     ServerSocketNotify() {}
     virtual ~ServerSocketNotify() {}
-    virtual void accept(Socket*) = 0;
+    virtual void accept(Socket*, unsigned long ip) = 0;
 };
 
 class EXPORT ServerSocket
