@@ -128,18 +128,10 @@ void MsgViewBase::update()
     m_updated.clear();
     if (i >= (unsigned)paragraphs())
         return;
-    QPoint p = QPoint(0, 0);
-    p = mapToGlobal(p);
-    p = viewport()->mapFromGlobal(p);
-    int x, y;
-    viewportToContents(p.x(), p.y(), x, y);
-    int para;
-    int pos = charAt(QPoint(x, y), &para);
-    p = QPoint(0, viewport()->height());
-    p = viewport()->mapToGlobal(p);
-    p = mapFromGlobal(p);
-    if (p.y() + 2 == height())
-        pos = -1;
+    int x = contentsX();
+	int y = contentsY();
+	viewport()->setUpdatesEnabled(false);
+
     unsigned start = i;
     list<Msg_Id> msgs;
     for (; i < (unsigned)paragraphs(); i++){
@@ -189,17 +181,15 @@ void MsgViewBase::update()
         }
         text += messageText(msg, bUnread);
     }
+	viewport()->setUpdatesEnabled(true);
     append(text);
     if (!CorePlugin::m_plugin->getOwnColors())
         setBackground(0);
     if ((paraFrom != paraTo) || (indexFrom != indexTo))
         setSelection(paraFrom, indexFrom, paraTo, indexTo);
-    if (pos == -1){
-        scrollToBottom();
-    }else{
-        setCursorPosition(para, pos);
-        ensureCursorVisible();
-    }
+	sync();
+	setContentsPos(x, y);
+	viewport()->repaint();
 }
 
 QString MsgViewBase::messageText(Message *msg, bool bUnread)

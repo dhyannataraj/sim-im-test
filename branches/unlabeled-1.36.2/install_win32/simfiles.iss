@@ -3,7 +3,7 @@
 
 [Setup]
 AppName=Simple Instant Messenger
-AppVerName=SIM 0.9.3
+AppVerName=SIM 0.9.4
 AppPublisher=vovan@shutoff.ru
 AppPublisherURL=http://sim-icq.sourceforge.net/
 AppSupportURL=http://sim-icq.sourceforge.net/
@@ -18,7 +18,7 @@ AppMutex=SIM_Mutex
 AppCopyright=Copyright © 2002-2004, Vladimir Shutoff
 ShowLanguageDialog=no
 ChangesAssociations=yes
-VersionInfoVersion=0.9.3.0
+VersionInfoVersion=0.9.4.0
 
 [Tasks]
 Name: startup; Description: "Launch SIM on &startup"; GroupDescription: "Startup:"

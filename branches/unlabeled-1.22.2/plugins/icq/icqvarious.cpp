@@ -1404,6 +1404,9 @@ void SetPasswordRequest::fail(unsigned short error_code)
     d.code    = 0;
     d.err_str = I18N_NOOP("Change password fail");
     d.args    = NULL;
+	d.flags   = ERR_ERROR;
+	d.options = NULL;
+	d.id	  = CmdPasswordFail;
     Event e(EventClientError, &d);
     e.process();
 }

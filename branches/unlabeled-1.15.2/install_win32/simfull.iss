@@ -4,7 +4,7 @@
 #include "simfiles.iss"
 
 [Setup]
-OutputBaseFilename=sim-0.9.3-full
+OutputBaseFilename=sim-0.9.4-full
 
 [Files]
 Source: "C:\qt\bin\qt-mt230nc.dll"; DestDir: "{app}"; Flags: ignoreversion

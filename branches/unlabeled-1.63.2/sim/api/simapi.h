@@ -808,13 +808,20 @@ const unsigned EventMessageSend		= 0x110A;
 const unsigned EventSend			= 0x110B;
 
 const unsigned EventClientError		= 0x1301;
+const unsigned EventShowError		= 0x1302;
+
+const unsigned ERR_ERROR	= 0x0000;
+const unsigned ERR_INFO		= 0x0001;
 
 typedef struct clientErrorData
 {
     Client		*client;
     const char	*err_str;
+	const char  *options;
     char		*args;
     unsigned	code;
+	unsigned	flags;
+	unsigned	id;
 } clientErrorData;
 
 const unsigned EventUser			= 0x10000;
@@ -1549,6 +1556,7 @@ public:
     virtual void setClientInfo(void *data);
     virtual QWidget *searchWindow();
     virtual string resources(void *data);
+	void	removeGroup(Group *grp);
     void    setState(State, const char *text = NULL, unsigned code = 0);
     State   getState() { return m_state; }
     virtual unsigned getStatus();

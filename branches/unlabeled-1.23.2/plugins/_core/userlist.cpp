@@ -51,10 +51,6 @@ void UserViewItemBase::paintCell(QPainter *p, const QColorGroup &cg, int, int wi
     QPixmap bg(width, height());
     QPainter pp(&bg);
     int margin = 0;
-    if (isSelected() && view->hasFocus() && CorePlugin::m_plugin->getUseDblClick()){
-        pp.fillRect(QRect(0, 0, width, height()), cg.highlight());
-        pp.setPen(cg.highlightedText());
-    }else{
         pp.fillRect(QRect(0, 0, width, height()), cg.base());
         PaintView pv;
         pv.p        = &pp;
@@ -74,6 +70,9 @@ void UserViewItemBase::paintCell(QPainter *p, const QColorGroup &cg, int, int wi
         e.process();
         view->setStaticBackground(pv.isStatic);
         margin = pv.margin;
+    if (isSelected() && view->hasFocus() && CorePlugin::m_plugin->getUseDblClick()){
+        pp.fillRect(QRect(0, 0, width, height()), cg.highlight());
+        pp.setPen(cg.highlightedText());
     }
     view->drawItem(this, &pp, cg, width, margin);
     pp.end();

@@ -5,7 +5,7 @@
 #include "isxdl.iss"
 
 [Setup]
-OutputBaseFilename=sim-0.9.3
+OutputBaseFilename=sim-0.9.4
 MinVersion=4.1,4
 
 [Files]

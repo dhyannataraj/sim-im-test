@@ -1173,6 +1173,15 @@ void Client::setState(State state, const char *text, unsigned code)
         d.err_str = text;
         d.code	  = code;
         d.args    = NULL;
+		d.flags	  = ERR_ERROR;
+		d.options = NULL;
+		d.id	  = 0;
+		for (unsigned i = 0; i < getContacts()->nClients(); i++){
+			if (getContacts()->getClient(i) == this){
+				d.id = i + 1;
+				break;
+			}
+		}
         Event e(EventClientError, &d);
         e.process();
     }

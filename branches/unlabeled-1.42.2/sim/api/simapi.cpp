@@ -450,12 +450,6 @@ bool raiseWindow(QWidget *w, unsigned)
     w->show();
     w->showNormal();
     w->raise();
-#ifdef WIN32
-    AttachThreadInput(GetWindowThreadProcessId(GetForegroundWindow(),NULL), GetCurrentThreadId(), TRUE);
-    SetForegroundWindow(w->winId());
-    SetFocus(w->winId());
-    AttachThreadInput(GetWindowThreadProcessId(GetForegroundWindow(),NULL), GetCurrentThreadId(), FALSE);
-#endif
     return true;
 }
 

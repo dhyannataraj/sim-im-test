@@ -54,6 +54,7 @@ protected:
     virtual void tag_end(const QString &tag);
     void *processEvent(Event*);
     void flush();
+	void flushText();
     int m_pos;
     int m_index;
     int m_parag;
@@ -65,6 +66,7 @@ protected:
     bool m_bInError;
     bool m_bDisable;
     stack<bool> m_fonts;
+	QString		m_curText;
     QString		m_curWord;
     QString     m_word;
     QStringList	m_sug;
