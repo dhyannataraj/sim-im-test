@@ -454,7 +454,7 @@ protected:
     SetupDialog *setupDlg;
     MonitorWindow *mNetMonitor;
     bool bInLogin;
-    unsigned hideTime;
+    unsigned inactiveTime;
 
     void exec(const char *prg, const char *arg);
     void loadMenu();

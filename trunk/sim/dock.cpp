@@ -204,6 +204,7 @@ DockWnd::DockWnd(QWidget *main)
 {
     connect(this, SIGNAL(toggleWin()), main, SLOT(toggleShow()));
     connect(this, SIGNAL(showPopup(QPoint)), main, SLOT(showPopup(QPoint)));
+    connect(this, SIGNAL(doubleClicked()), main, SLOT(dockDblClicked()));
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     connect(pMain, SIGNAL(iconChanged()), this, SLOT(reset()));
     m_state = 0;
@@ -549,9 +550,9 @@ void DockWnd::mouseReleaseEvent( QMouseEvent *e)
 {
     QWidget::mouseReleaseEvent(e);
 #ifndef WIN32
-    if (!inTray || wharfIcon){
+    if (!inTray && (wharfIcon == NULL)){
         releaseMouse();
-        move(x() + e->pos().x() - mousePos.x(), y() + e->pos().y() - mousePos.y());
+        move(e->globalPos().x() - mousePos.x(), y() + e->globalPos().y() - mousePos.y());
         mousePos = QPoint(0, 0);
         QPoint p(pMain->DockX - x(), pMain->DockY - y());
         pMain->DockX = x();
@@ -569,7 +570,7 @@ void DockWnd::mouseMoveEvent( QMouseEvent *e)
 #ifndef WIN32
     if (inTray || wharfIcon) return;
     if (mousePos.isNull()) return;
-    move(x() + e->pos().x() - mousePos.x(), y() + e->pos().y() - mousePos.y());
+    move(e->globalPos().x() - mousePos.x(), e->globalPos().y() - mousePos.y());
 #endif
 }
 

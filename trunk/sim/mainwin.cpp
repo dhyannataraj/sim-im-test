@@ -584,7 +584,9 @@ MainWindow::MainWindow(const char *name)
     lockFile = -1;
     translator = NULL;
     mAboutApp = NULL;
-    hideTime = 0;
+    time_t now;
+    time(&now);
+    inactiveTime = now;
     mNetMonitor = NULL;
 
 #ifdef HAVE_UMASK
@@ -601,8 +603,6 @@ MainWindow::MainWindow(const char *name)
 #ifndef HAVE_TM_GMTOFF
     tz = - _timezone;
 #else
-    time_t now;
-    time(&now);
     struct tm *tm = localtime(&now);
     tz = tm->tm_gmtoff;
     if (tm->tm_isdst) tz -= (60 * 60);
@@ -1472,9 +1472,6 @@ void MainWindow::setDock()
     if (UseDock){
         if (dock) return;
         dock = new DockWnd(this);
-        connect(dock, SIGNAL(showPopup(QPoint)), this, SLOT(showPopup(QPoint)));
-        connect(dock, SIGNAL(toggleWin()), this, SLOT(toggleShow()));
-        connect(dock, SIGNAL(doubleClicked()), this, SLOT(dockDblClicked()));
         return;
     }
     if (dock){
@@ -1680,17 +1677,23 @@ void MainWindow::toggleShow()
     if (menuFunction && menuFunction->isVisible()) return;
     if (noToggle) return;
 #ifdef WIN32
-	if ((BarState != ABE_FLOAT) && BarAutoHide){
-		bAutoHideVisible = !bAutoHideVisible;
-		setBarState();
-		if (!bAutoHideVisible) setShow(true);
-		noToggle = true;
-	    QTimer::singleShot(1000, this, SLOT(setToggle()));
-		return;
-	}
+    if ((BarState != ABE_FLOAT) && BarAutoHide){
+        bAutoHideVisible = !bAutoHideVisible;
+        setBarState();
+        if (!bAutoHideVisible) setShow(true);
+        noToggle = true;
+        QTimer::singleShot(1000, this, SLOT(setToggle()));
+        return;
+    }
 #endif
     bool bIsActive = isActiveWindow();
     if (!bIsActive && dock) bIsActive = dock->topLevelWidget()->isActiveWindow();
+    if (isShow() && !bIsActive){
+        time_t now;
+        time(&now);
+        if ((unsigned)now <= inactiveTime + 2)
+            bIsActive = true;
+    }
     if (!isShow() || !bIsActive){
         setShow(true);
     }else{
@@ -1781,15 +1784,9 @@ bool MainWindow::isSearch()
 bool MainWindow::event(QEvent *e)
 {
     if (e->type() == QEvent::WindowDeactivate){
-        hideTime = 0;
-        if (AutoHideTime){
-            time_t now;
-            time(&now);
-            hideTime = now + AutoHideTime;
-        }
-    }
-    if (e->type() == QEvent::WindowActivate){
-        hideTime = 0;
+        time_t now;
+        time(&now);
+        inactiveTime = now;
     }
     return QMainWindow::event(e);
 }
@@ -1815,13 +1812,11 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
 void MainWindow::autoAway()
 {
-    if (hideTime && isDock()){
+    if (isDock() && !isActiveWindow() && AutoHideTime){
         time_t now;
         time(&now);
-        if (now >= (time_t)hideTime){
+        if (now >= (time_t)(inactiveTime + AutoHideTime))
             setShow(false);
-            hideTime = 0;
-        }
     }
 #ifdef WIN32
     unsigned long idle_time = 0;

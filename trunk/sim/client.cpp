@@ -729,14 +729,6 @@ void SIMClient::process_event(ICQEvent *e)
                                 string name = uFile->AcceptFilePath.c_str();
                                 if (*name.c_str() == 0)
                                     pMain->buildFileName(name, "IncomingFiles/");
-#ifdef WIN32
-                                if ((name.length() == 0) || (name[(int)(name.length() - 1)] != '\\'))
-                                    name += "\\";
-#else
-                                if ((name.length() == 0) || (name[(int)(name.length() - 1)] != '/'))
-                                    name += "/";
-#endif
-                                name += f->shortName();
                                 f->localName = name;
                                 f->autoAccept = true;
                                 pClient->acceptMessage(f);
