@@ -526,7 +526,7 @@ void ICQUser::adjustEMails(EMailList *addMails, bool bOwn)
         EMailInfo *info = static_cast<EMailInfo*>(*EMails.begin());
         if (info->MyInfo) myInfoFirst = true;
     }
-    if (myInfoFirst && (addMails == NULL)) addMyEMails(mails, EMails, bOwn);
+    if (myInfoFirst) addMyEMails(mails, EMails, bOwn);
     if (*EMail.c_str()){
         EMailInfo info;
         info.Email = EMail.c_str();
@@ -539,7 +539,7 @@ void ICQUser::adjustEMails(EMailList *addMails, bool bOwn)
             addEMail(mails, info);
         }
     }
-    if (!myInfoFirst && (addMails == NULL)) addMyEMails(mails, EMails, bOwn);
+    if (!myInfoFirst) addMyEMails(mails, EMails, bOwn);
     EMails = mails;
 }
 
