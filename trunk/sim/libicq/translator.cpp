@@ -205,23 +205,22 @@ static bool match(const QString &str, const QString &pat, int strPos=0, int patP
 	for (; (strPos < str.length()) && (patPos < pat.length()); strPos++, patPos++){
 		if (pat[patPos] == '?') continue;
 		if (pat[patPos] == '*'){
+			for (patPos++; (patPos < pat.length()) && (pat[patPos] == '*'); patPos++);
 			for (int sp = strPos; sp < str.length(); sp++){
-				if (match(str, pat, sp, patPos+1)) return true;
+				if (match(str, pat, sp, patPos)) return true;
 			}
 			return false;
 		}
 		if (str[strPos] != pat[patPos]) return false;
 	}
+	for (; (patPos < pat.length()) && (pat[patPos] == '*'); patPos++);
 	return (strPos == str.length()) && (patPos == pat.length());
 }
 
 typedef QValueList<QStringList> PatList;
 
-bool ICQClient::match(const char *sStr, const char *sPat)
+static void splitPat(PatList &pats, const QString &pat)
 {
-	QString str = QString::fromLocal8Bit(sStr);
-	QString pat = QString::fromLocal8Bit(sPat);
-	PatList pats;
 	bool inQuote = false;
 	QStringList l;
 	for (int n = 0; n < pat.length(); n++){
@@ -252,6 +251,14 @@ bool ICQClient::match(const char *sStr, const char *sPat)
 	}
 	if (l.count())
 		pats.append(l);
+}
+
+bool ICQClient::match(const char *sStr, const char *sPat)
+{
+	QString str = QString::fromLocal8Bit(sStr);
+	QString pat = QString::fromLocal8Bit(sPat);
+	PatList pats;
+	splitPat(pats, pat);
 	for (WordIterator it(str); !(*it).isEmpty(); ++it){
 		for (PatList::Iterator itPat = pats.begin(); itPat != pats.end(); ++itPat){
 			QStringList::Iterator itStr;
@@ -264,7 +271,31 @@ bool ICQClient::match(const char *sStr, const char *sPat)
 	return false;
 }
 
-void ICQClient::setRejectFilter(const char*)
+void ICQClient::setRejectFilter(const char *fltr)
 {
+	RejectFilter = "";
+	if (fltr == NULL){
+		return;
+	}
+	PatList pats;
+	splitPat(pats, QString::fromLocal8Bit(fltr));
+	bool bFirstPat = true;
+	for (PatList::Iterator itPat = pats.begin(); itPat != pats.end(); ++itPat){
+		if (!bFirstPat){
+			RejectFilter += ' ';
+		}else{
+			bFirstPat = false;
+		}
+		if ((*itPat).count() > 1) RejectFilter += '\"';
+		bool bFirstWord = true;
+		for (QStringList::Iterator itStr = (*itPat).begin(); itStr != (*itPat).end(); ++itStr){
+			if (!bFirstWord){
+				RejectFilter += ' ';
+			}else{
+				bFirstWord = false;
+			}
+			RejectFilter += (*itStr).local8Bit();
+		}
+	}
 }
 

@@ -3,12 +3,12 @@ Type=FILELIST
 Version=1.10.000
 
 [TopDir]
-file0=D:\cygwin\home\Vova\sim\sounds\chat.wav
-file1=D:\cygwin\home\Vova\sim\sounds\file.wav
-file2=D:\cygwin\home\Vova\sim\sounds\filedone.wav
-file3=D:\cygwin\home\Vova\sim\sounds\alert.wav
-file4=D:\cygwin\home\Vova\sim\sounds\auth.wav
-file5=D:\cygwin\home\Vova\sim\sounds\message.wav
-file6=D:\cygwin\home\Vova\sim\sounds\sms.wav
-file7=D:\cygwin\home\Vova\sim\sounds\url.wav
+file0=C:\sim\sounds\url.wav
+file1=C:\sim\sounds\alert.wav
+file2=C:\sim\sounds\auth.wav
+file3=C:\sim\sounds\chat.wav
+file4=C:\sim\sounds\file.wav
+file5=C:\sim\sounds\filedone.wav
+file6=C:\sim\sounds\message.wav
+file7=C:\sim\sounds\sms.wav
 

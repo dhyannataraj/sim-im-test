@@ -174,6 +174,11 @@ public:
     ConfigString UserBoxToolbarDock;
     ConfigShort	 UserBoxToolbarOffset;
     ConfigShort  UserBoxToolbarY;
+ 
+	ConfigString UserBoxFontFamily;
+    ConfigUShort UserBoxFontSize;
+    ConfigUShort UserBoxFontWeight;
+    ConfigBool   UserBoxFontItalic;
 
     ConfigBool	 CloseAfterSend;
     ConfigBool	 UserWindowInTaskManager;

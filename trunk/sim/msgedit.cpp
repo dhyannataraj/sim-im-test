@@ -1400,6 +1400,13 @@ void MsgEdit::makeMessage()
                 pMain->MessageBgColor = m->BackColor();
                 pMain->MessageFgColor = m->ForeColor();
             }
+			if (edit->fontChanged()){
+				QFont f = edit->currentFont();
+				pMain->UserBoxFontFamily = f.family();
+				pMain->UserBoxFontSize   = f.pointSize();
+				pMain->UserBoxFontWeight = f.weight();
+		        pMain->UserBoxFontItalic = f.italic();
+			}
             break;
         }
     case ICQ_MSGxURL:{

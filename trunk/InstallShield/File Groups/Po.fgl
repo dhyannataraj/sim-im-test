@@ -3,6 +3,7 @@ Type=FILELIST
 Version=1.10.000
 
 [TopDir]
-file0=D:\cygwin\home\Vova\sim\Debug\po\ru.qm
-file1=D:\cygwin\home\Vova\sim\Debug\po\de.qm
+file0=C:\sim\Debug\po\zh_TW.qm
+file1=C:\sim\Debug\po\de.qm
+file2=C:\sim\Debug\po\ru.qm
 

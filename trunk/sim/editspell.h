@@ -46,7 +46,10 @@ public:
     void setForeground(const QColor&);
     void setBackground(const QColor&);
     bool colorChanged();
+	bool fontChanged();
     void resetColors(bool bCanRich);
+	void setCurrentFont(const QFont &f);
+	QFont currentFont() { return fCurrent; }
 public slots:
     void spell();
     void spell_check(KSpell *spell);
@@ -64,6 +67,8 @@ protected:
     QColor baseBG;
     QColor baseFG;
     QColor curFG;
+	QFont fCurrent;
+	bool bFontChanged;
 #ifdef USE_SPELL
     int  nPara;
     int  nIndex;
