@@ -619,6 +619,7 @@ protected:
     unsigned short m_sendSmsId;
     unsigned short m_offlineMessagesRequestId;
     ListServerRequest *m_listRequest;
+    unsigned m_listRequestTime;
     bool m_bRosters;
     bool m_bBirthday;
     bool m_bServerReady;
@@ -633,6 +634,7 @@ protected:
     void addGroupRequest(Group *group);
     void addContactRequest(Contact *contact);
     void addBuddy(Contact *contact);
+    void checkListRequest();
     ServerRequest *findServerRequest(unsigned short id);
     void clearServerRequests();
     void clearListServerRequest();

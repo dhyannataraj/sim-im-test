@@ -1265,6 +1265,7 @@ void ICQClient::ping()
         m_nSendTimeout = m_nSendTimeout / 2;
         if (m_nSendTimeout < 1)
             m_nSendTimeout = 1;
+        checkListRequest();
         QTimer::singleShot(PING_TIMEOUT * 1000, this, SLOT(ping()));
     }
 }
