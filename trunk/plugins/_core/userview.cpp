@@ -1308,7 +1308,7 @@ UserViewContactDragObject::UserViewContactDragObject(UserView *view, Contact *co
     DWORD threadId;
     CreateThread(NULL, 0, DragScrollThread, NULL, 0, &threadId);
 #else
-QTimer *dragTimer = new QTimer(this);
+    QTimer *dragTimer = new QTimer(this);
     connect(dragTimer, SIGNAL(timeout()), view, SLOT(dragScroll()));
     dragTimer->start(200);
 #endif
