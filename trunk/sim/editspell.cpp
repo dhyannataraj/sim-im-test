@@ -44,9 +44,9 @@ EditSpell::EditSpell(QWidget *parent) : QTextEdit(parent)
     curFG = baseFG;
     QAccel *a = new QAccel(this);
     if (!pMain->SendEnter){
-        a->connectItem(a->insertItem(Key_Enter + CTRL),
+        a->connectItem(a->insertItem(QAccel::stringToKey("Ctrl+Enter")),
                        this, SIGNAL(ctrlEnterPressed()));
-        a->connectItem(a->insertItem(Key_Return + CTRL),
+        a->connectItem(a->insertItem(QAccel::stringToKey("Ctrl+Return")),
                        this, SIGNAL(ctrlEnterPressed()));
     }
 }
