@@ -2486,7 +2486,7 @@ void *ICQClient::processEvent(Event *e)
         }
         if (cmd->id == plugin->CmdCheckInvisibleAll){
             cmd->flags &= ~COMMAND_CHECKED;
-            if (getState() != Connected)
+            if ((getState() != Connected) || m_bAIM)
                 return NULL;
             Contact *contact;
             ContactList::ContactIterator it;

@@ -562,8 +562,13 @@ void *Container::processEvent(Event *e)
     case EventContactChanged:
         contact = (Contact*)(e->param());
         userWnd = wnd(contact->id());
-        if (userWnd)
+        if (userWnd){
+			if (contact->getIgnore()){
+				removeUserWnd(userWnd);
+				break;
+			}
             m_tabBar->changeTab(contact->id());
+		}
     case EventClientsChanged:
         setupAccel();
         break;

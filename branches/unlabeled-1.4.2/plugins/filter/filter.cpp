@@ -18,6 +18,9 @@
 #include "filter.h"
 #include "filtercfg.h"
 #include "simapi.h"
+#include "ballonmsg.h"
+
+#include "xpm/ignorelist.xpm"
 
 Plugin *createFilterPlugin(unsigned base, bool, const char *cfg)
 {
@@ -73,6 +76,15 @@ FilterPlugin::FilterPlugin(unsigned base, const char *cfg)
     user_data_id = getContacts()->registerUserData(info.title, filterUserData);
 
     CmdIgnoreList	= registerType();
+	CmdIgnore		= registerType();
+
+    IconDef icon;
+    icon.name = "ignorelist";
+    icon.xpm  = ignorelist;
+    icon.isSystem = false;
+
+    Event eIcon(EventAddIcon, &icon);
+    eIcon.process();
 
     Command cmd;
     cmd->id          = CmdIgnoreList;
@@ -84,10 +96,22 @@ FilterPlugin::FilterPlugin(unsigned base, const char *cfg)
     Event eCmd(EventCommandCreate, cmd);
     eCmd.process();
 
+    cmd->id          = CmdIgnore;
+    cmd->text        = I18N_NOOP("Ignore user");
+	cmd->icon		 = "ignorelist";
+    cmd->menu_id     = 0;
+    cmd->menu_grp    = 0;
+	cmd->bar_id		 = ToolBarContainer;
+	cmd->bar_grp	 = 0x7001;
+    cmd->flags		 = COMMAND_CHECK_STATE;
+    eCmd.process();
+
     cmd->id			 = user_data_id + 1;
     cmd->text		 = I18N_NOOP("&Filter");
     cmd->icon		 = "filter";
     cmd->icon_on	 = NULL;
+	cmd->bar_id		 = 0;
+	cmd->bar_grp	 = 0;
     cmd->menu_id	 = 0;
     cmd->menu_grp	 = 0;
     cmd->param		 = (void*)getFilterConfig;
@@ -148,6 +172,13 @@ void *FilterPlugin::processEvent(Event *e)
     }
     if (e->type() == EventCheckState){
         CommandDef *cmd = (CommandDef*)(e->param());
+		if (cmd->id == CmdIgnore){
+			cmd->flags &= ~BTN_HIDE;
+			Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+			if (contact && contact->getGroup())
+				cmd->flags |= BTN_HIDE;
+			return e->param();
+		}
         if (cmd->menu_id == MenuContactGroup){
             if (cmd->id == CmdIgnoreList){
                 Contact *contact = getContacts()->contact((unsigned)(cmd->param));
@@ -162,6 +193,19 @@ void *FilterPlugin::processEvent(Event *e)
     }
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
+		if (cmd->id == CmdIgnore){
+			Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+			if (contact){
+				QString text = i18n("Add %1 to ignore list?") .arg(contact->getName());
+		        Command cmd;
+				cmd->id		= CmdIgnore;
+				cmd->param	= (void*)(contact->id());
+				Event e(EventCommandWidget, cmd);
+				QWidget *w = (QWidget*)(e.process());
+				BalloonMsg::ask((void*)(contact->id()), text, w, SLOT(addToIgnore(void*)), NULL, NULL, this);
+			}
+			return e->param();
+		}
         if (cmd->menu_id == MenuContactGroup){
             if (cmd->id == CmdIgnoreList){
                 Contact *contact = getContacts()->contact((unsigned)(cmd->param));
@@ -242,6 +286,16 @@ void FilterPlugin::getWords(const QString &text, QStringList &words)
     }
     if (!word.isEmpty())
         words.append(word);
+}
+
+void FilterPlugin::addToIgnore(void *p)
+{
+	Contact *contact = getContacts()->contact((unsigned)p);
+	if (contact && !contact->getIgnore()){
+		contact->setIgnore(true);
+		Event e(EventContactChanged, contact);
+		e.process();
+	}
 }
 
 #ifdef WIN32
