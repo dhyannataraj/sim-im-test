@@ -204,7 +204,7 @@ static const char **xpms[] =
         xpm_9,
         xpm_10,
         xpm_11,
-        xpm_11
+        xpm_12
     };
 
 void ZodiakWnd::changed()
@@ -238,7 +238,7 @@ void ZodiakWnd::view()
 
 static int bound[] =
     {
-        21, 20, 21, 22, 23, 23, 23, 24, 22, 22, 20, 19
+        20, 21, 21, 22, 23, 24, 23, 23, 23, 22, 20, 19
     };
 
 int ZodiakWnd::getSign(int day, int month)

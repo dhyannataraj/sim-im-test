@@ -705,6 +705,26 @@ void QTextEdit::init()
     installEventFilter( this );
 }
 
+class QRichTextDrag : public QTextDrag
+{
+public:
+    QRichTextDrag( QWidget *dragSource = 0, const char *name = 0 );
+
+    void setPlainText( const QString &txt ) { setText( txt ); }
+    void setRichText( const QString &txt ) { richTxt = txt; }
+
+    virtual QByteArray encodedData( const char *mime ) const;
+    virtual const char* format( int i ) const;
+
+    static bool decode( QMimeSource *e, QString &str, const QCString &mimetype,
+                        const QCString &subtype );
+    static bool canDecode( QMimeSource* e );
+
+private:
+    QString richTxt;
+
+};
+
 void QTextEdit::paintDocument( bool drawAll, QPainter *p, int cx, int cy, int cw, int ch )
 {
     bool drawCur = hasFocus() || viewport()->hasFocus();
@@ -968,7 +988,7 @@ void QTextEdit::keyPressEvent( QKeyEvent *e )
 #if defined(Q_WS_X11)
                     moveCursor( MoveLineStart, e->state() & ShiftButton );
 #else
-selectAll( TRUE );
+                    selectAll( TRUE );
 #endif
                     break;
                 case Key_B:
@@ -1819,14 +1839,47 @@ void QTextEdit::contentsDropEvent( QDropEvent *e )
         return;
     inDnD = FALSE;
     e->acceptAction();
-    QString text;
     bool intern = FALSE;
-    if ( QTextDrag::decode( e, text ) ) {
-        if ( ( e->source() == this ||
-                e->source() == viewport() ) &&
-                e->action() == QDropEvent::Move ) {
+    if ( QRichTextDrag::canDecode( e ) ) {
+        bool hasSel = doc->hasSelection( QTextDocument::Standard );
+        bool internalDrag = e->source() == this || e->source() == viewport();
+        int dropId, dropIndex;
+        QTextCursor insertCursor = *cursor;
+        dropId = cursor->parag()->paragId();
+        dropIndex = cursor->index();
+        if ( hasSel && internalDrag ) {
+            QTextCursor c1, c2;
+            int selStartId, selStartIndex;
+            int selEndId, selEndIndex;
+            c1 = doc->selectionStartCursor( QTextDocument::Standard );
+            c1.restoreState();
+            c2 = doc->selectionEndCursor( QTextDocument::Standard );
+            c2.restoreState();
+            selStartId = c1.parag()->paragId();
+            selStartIndex = c1.index();
+            selEndId = c2.parag()->paragId();
+            selEndIndex = c2.index();
+            if ( ( ( dropId > selStartId ) ||
+                    ( dropId == selStartId && dropIndex > selStartIndex ) ) &&
+                    ( ( dropId < selEndId ) ||
+                      ( dropId == selEndId && dropIndex <= selEndIndex ) ) )
+                insertCursor = c1;
+            if ( dropId == selEndId && dropIndex > selEndIndex ) {
+                insertCursor = c1;
+                if ( selStartId == selEndId ) {
+                    insertCursor.setIndex( dropIndex -
+                                           ( selEndIndex - selStartIndex ) );
+                } else {
+                    insertCursor.setIndex( dropIndex - selEndIndex +
+                                           selStartIndex );
+                }
+            }
+        }
+
+        if ( internalDrag && e->action() == QDropEvent::Move ) {
             removeSelectedText();
             intern = TRUE;
+            doc->removeSelection( QTextDocument::Standard );
         } else {
             doc->removeSelection( QTextDocument::Standard );
 #ifndef QT_NO_CURSOR
@@ -1834,10 +1887,22 @@ void QTextEdit::contentsDropEvent( QDropEvent *e )
 #endif
         }
         drawCursor( FALSE );
-        placeCursor( e->pos(), cursor );
+        cursor->setParag( insertCursor.parag() );
+        cursor->setIndex( insertCursor.index() );
         drawCursor( TRUE );
         if ( !cursor->nestedDepth() ) {
-            insert( text, FALSE, TRUE, FALSE );
+            QString subType = "plain";
+            if ( textFormat() != PlainText ) {
+                if ( e->provides( "application/x-qrichtext" ) )
+                    subType = "x-qrichtext";
+            }
+#ifndef QT_NO_CLIPBOARD
+            pasteSubType( subType.latin1(), e );
+#endif
+            // emit appropriate signals.
+            emit selectionChanged();
+            emit cursorPositionChanged( cursor );
+            emit cursorPositionChanged( cursor->parag()->paragId(), cursor->index() );
         } else {
             if ( intern )
                 undo();
@@ -2258,7 +2323,16 @@ void QTextEdit::paste()
 #ifndef QT_NO_CLIPBOARD
     if ( isReadOnly() )
         return;
-    pasteSubType( "plain" );
+    QString subType = "plain";
+    if ( textFormat() != PlainText ) {
+        QMimeSource *m = QApplication::clipboard()->data();
+        if ( !m )
+            return;
+        if ( m->provides( "application/x-qrichtext" ) )
+            subType = "x-qrichtext";
+    }
+
+    pasteSubType( subType.latin1() );
     if ( hasFocus() || viewport()->hasFocus() ) {
         int h = cursor->parag()->lineHeightOfChar( cursor->index() );
         QFont f = cursor->parag()->at( cursor->index() )->format()->font();
@@ -2306,7 +2380,7 @@ void QTextEdit::cut()
         return;
 
     if ( doc->hasSelection( QTextDocument::Standard ) ) {
-        doc->copySelectedText( QTextDocument::Standard );
+        normalCopy();
         removeSelectedText();
     }
     if ( hasFocus() || viewport()->hasFocus() ) {
@@ -2324,8 +2398,19 @@ void QTextEdit::cut()
 
 void QTextEdit::copy()
 {
-    if ( !doc->selectedText( QTextDocument::Standard ).isEmpty() )
-        doc->copySelectedText( QTextDocument::Standard );
+    normalCopy();
+}
+
+void QTextEdit::normalCopy()
+{
+#ifndef QT_NO_MIME
+    QTextDrag *drag = dragObject();
+    if ( !drag )
+        return;
+#ifndef QT_NO_MIMECLIPBOARD
+    QApplication::clipboard()->setData( drag );
+#endif // QT_NO_MIMECLIPBOARD
+#endif // QT_NO_MIME
 }
 
 /*!
@@ -3178,7 +3263,9 @@ void QTextEdit::startDrag()
 #ifndef QT_NO_DRAGANDDROP
     mousePressed = FALSE;
     inDoubleClick = FALSE;
-    QDragObject *drag = new QTextDrag( doc->selectedText( QTextDocument::Standard ), viewport() );
+    QDragObject *drag = dragObject( viewport() );
+    if ( !drag )
+        return;
     if ( isReadOnly() ) {
         drag->dragCopy();
     } else {
@@ -3186,6 +3273,69 @@ void QTextEdit::startDrag()
             removeSelectedText();
     }
 #endif
+}
+
+QRichTextDrag::QRichTextDrag( QWidget *dragSource, const char *name )
+        : QTextDrag( dragSource, name )
+{
+}
+
+QByteArray QRichTextDrag::encodedData( const char *mime ) const
+{
+    if ( qstrcmp( "application/x-qrichtext", mime ) == 0 ) {
+        return richTxt.utf8(); // #### perhaps we should use USC2 instead?
+    } else
+        return QTextDrag::encodedData( mime );
+}
+
+bool QRichTextDrag::decode( QMimeSource *e, QString &str, const QCString &mimetype,
+                            const QCString &subtype )
+{
+    if ( mimetype == "application/x-qrichtext" ) {
+        // do richtext decode
+        const char *mime;
+        int i;
+        for ( i = 0; ( mime = e->format( i ) ); ++i ) {
+            if ( qstrcmp( "application/x-qrichtext", mime ) != 0 )
+                continue;
+            str = QString::fromUtf8( e->encodedData( mime ) );
+            return TRUE;
+        }
+        return FALSE;
+    }
+
+    // do a regular text decode
+    QCString subt = subtype;
+    return QTextDrag::decode( e, str, subt );
+}
+
+bool QRichTextDrag::canDecode( QMimeSource* e )
+{
+    if ( e->provides( "application/x-qrichtext" ) )
+        return TRUE;
+    return QTextDrag::canDecode( e );
+}
+
+const char* QRichTextDrag::format( int i ) const
+{
+    if ( QTextDrag::format( i ) )
+        return QTextDrag::format( i );
+    if ( QTextDrag::format( i-1 ) )
+        return "application/x-qrichtext";
+    return 0;
+}
+
+QTextDrag *QTextEdit::dragObject( QWidget *parent ) const
+{
+    if ( !doc->hasSelection( QTextDocument::Standard ) ||
+            doc->selectedText( QTextDocument::Standard ).isEmpty() )
+        return 0;
+    if ( textFormat() != RichText )
+        return new QTextDrag( doc->selectedText( QTextDocument::Standard ), parent );
+    QRichTextDrag *drag = new QRichTextDrag( parent );
+    drag->setPlainText( doc->selectedText( QTextDocument::Standard ) );
+    drag->setRichText( doc->selectedText( QTextDocument::Standard, TRUE ) );
+    return drag;
 }
 
 /*!
@@ -3442,7 +3592,7 @@ bool QTextEdit::hasSelectedText() const
 
 QString QTextEdit::selectedText() const
 {
-    return doc->selectedText( QTextDocument::Standard );
+    return doc->selectedText(0, textFormat() == RichText);
 }
 
 bool QTextEdit::handleReadOnlyKeyEvent( QKeyEvent *e )
@@ -3610,24 +3760,118 @@ void QTextEdit::setDocument( QTextDocument *dc )
 */
 void QTextEdit::pasteSubType( const QCString& subtype )
 {
+    QMimeSource *m = QApplication::clipboard()->data();
+    pasteSubType( subtype, m );
+}
+
+void QTextEdit::pasteSubType( const QCString& subtype, QMimeSource *m )
+{
+#ifndef QT_NO_MIME
     QCString st = subtype;
-    QString t = QApplication::clipboard()->text(st);
-    if ( !t.isEmpty() ) {
-#if defined(Q_OS_WIN32)
-        // Need to convert CRLF to NL
-        int index = t.find( QString::fromLatin1("\r\n"), 0 );
-        while ( index != -1 ) {
-            t.replace( index, 2, QChar('\n') );
-            index = t.find( "\r\n", index );
+    if ( subtype != "x-qrichtext" )
+        st.prepend( "text/" );
+    else
+        st.prepend( "application/" );
+    if ( !m )
+        return;
+    if ( doc->hasSelection( QTextDocument::Standard ) )
+        removeSelectedText();
+    if ( !QRichTextDrag::canDecode( m ) )
+        return;
+    QString t;
+    if ( !QRichTextDrag::decode( m, t, st.data(), subtype ) )
+        return;
+    if ( st == "application/x-qrichtext" ) {
+        int start;
+        if ( (start = t.find( "<!--StartFragment-->" )) != -1 ) {
+            start += 20;
+            int end = t.find( "<!--EndFragment-->" );
+            QTextCursor oldC = *cursor;
+
+            // during the setRichTextInternal() call the cursors
+            // paragraph might get joined with the provious one, so
+            // the cursors one would get deleted and oldC.paragraph()
+            // would be a dnagling pointer. To avoid that try to go
+            // one letter back and later go one forward again.
+            oldC.gotoPreviousLetter();
+            bool couldGoBack = oldC != *cursor;
+            // first para might get deleted, so remember to reset it
+            bool wasAtFirst = oldC.parag() == doc->firstParag();
+
+            if ( start < end )
+                t = t.mid( start, end - start );
+            else
+                t = t.mid( start );
+            lastFormatted = cursor->parag();
+            if ( lastFormatted->prev() )
+                lastFormatted = lastFormatted->prev();
+            doc->setRichTextInternal( t, cursor );
+
+            // the first para might have been deleted in
+            // setRichTextInternal(). To be sure, reset it if
+            // necessary.
+            if ( wasAtFirst ) {
+                int index = oldC.index();
+                oldC.setParag( doc->firstParag() );
+                oldC.setIndex( index );
+            }
+
+            // if we went back one letter before (see last comment),
+            // go one forward to point to the right position
+            if ( couldGoBack )
+                oldC.gotoNextLetter();
+
+            if ( undoEnabled && !isReadOnly() ) {
+                doc->setSelectionStart( QTextDocument::Temp, &oldC );
+                doc->setSelectionEnd( QTextDocument::Temp, cursor );
+
+                checkUndoRedoInfo( UndoRedoInfo::Insert );
+                if ( !undoRedoInfo.valid() ) {
+                    undoRedoInfo.id = oldC.parag()->paragId();
+                    undoRedoInfo.index = oldC.index();
+                    undoRedoInfo.d->text = QString::null;
+                }
+                int oldLen = undoRedoInfo.d->text.length();
+                if ( !doc->preProcessor() ) {
+                    QString txt = doc->selectedText( QTextDocument::Temp );
+                    undoRedoInfo.d->text += txt;
+                    for ( int i = 0; i < (int)txt.length(); ++i ) {
+                        if ( txt[ i ] != '\n' && oldC.parag()->at( oldC.index() )->format() ) {
+                            oldC.parag()->at( oldC.index() )->format()->addRef();
+                            undoRedoInfo.d->text.
+                            setFormat( oldLen + i, oldC.parag()->at( oldC.index() )->format(), TRUE );
+                        }
+                        oldC.gotoNextLetter();
+                    }
+                }
+                undoRedoInfo.clear();
+                removeSelection( QTextDocument::Temp );
+            }
+
+            formatMore();
+            setModified();
+            emit textChanged();
+            repaintChanged();
+            ensureCursorVisible();
+            return;
         }
+    } else {
+#if defined(Q_OS_WIN32)
+        // Need to convert CRLF to LF
+        t.replace( "\r\n", "\n" );
+#elif defined(Q_OS_MAC)
+        //need to convert CR to LF
+        t.replace( '\r', '\n' );
 #endif
+        QChar *uc = (QChar *)t.unicode();
         for ( int i=0; (uint) i<t.length(); i++ ) {
-            if ( t[ i ] < ' ' && t[ i ] != '\n' && t[ i ] != '\t' )
-                t[ i ] = ' ';
+            if ( uc[ i ] < ' ' && uc[ i ] != '\n' && uc[ i ] != '\t' )
+                uc[ i ] = ' ';
         }
         if ( !t.isEmpty() )
             insert( t, FALSE, TRUE );
     }
+#endif //QT_NO_MIME
 }
 
 #ifndef QT_NO_MIMECLIPBOARD
@@ -3672,7 +3916,7 @@ QCString QTextEdit::pickSpecial( QMimeSource* ms, bool always_ask, const QPoint&
                 return popup.text(i).latin1();
         }
 #else
-QString fmt;
+        QString fmt;
         for (int i = 0; !( fmt = ms->format( i ) ).isNull(); i++) {
             int semi = fmt.find( ";" );
             if ( semi >= 0 )
@@ -4026,7 +4270,7 @@ QPopupMenu *QTextEdit::createPopupMenu( const QPoint& )
 #if defined(Q_WS_X11)
     d->id[ IdSelectAll ] = popup->insertItem( i18n( "Select All" ) );
 #else
-d->id[ IdSelectAll ] = popup->insertItem( i18n( "Select All" ) + ACCEL_KEY( A ) );
+    d->id[ IdSelectAll ] = popup->insertItem( i18n( "Select All" ) + ACCEL_KEY( A ) );
 #endif
     popup->setItemEnabled( d->id[ IdUndo ], !isReadOnly() && doc->commands()->isUndoAvailable() );
     popup->setItemEnabled( d->id[ IdRedo ], !isReadOnly() && doc->commands()->isRedoAvailable() );

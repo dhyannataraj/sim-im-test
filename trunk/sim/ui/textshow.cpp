@@ -63,6 +63,74 @@
 
 #define MAX_HISTORY	100
 
+class RichTextDrag : public QTextDrag
+{
+public:
+    RichTextDrag(QWidget *dragSource = 0, const char *name = 0);
+
+    void setRichText(const QString &txt);
+
+    virtual QByteArray encodedData(const char *mime) const;
+    virtual const char* format(int i) const;
+
+    static bool decode(QMimeSource *e, QString &str, const QCString &mimetype, const QCString &subtype);
+    static bool canDecode( QMimeSource* e );
+private:
+    QString richTxt;
+};
+
+RichTextDrag::RichTextDrag( QWidget *dragSource, const char *name )
+        : QTextDrag( dragSource, name )
+{
+}
+
+QByteArray RichTextDrag::encodedData( const char *mime ) const
+{
+    if ( qstrcmp( "application/x-qrichtext", mime ) == 0 ) {
+        return richTxt.utf8(); // #### perhaps we should use USC2 instead?
+    } else
+        return QTextDrag::encodedData( mime );
+}
+
+bool RichTextDrag::decode(QMimeSource *e, QString &str, const QCString &mimetype, const QCString &subtype)
+{
+    if (mimetype == "application/x-qrichtext"){
+        const char *mime;
+        int i;
+        for ( i = 0; (mime = e->format(i)) != NULL; ++i ) {
+            if (qstrcmp("application/x-qrichtext", mime) != 0)
+                continue;
+            str = QString::fromUtf8(e->encodedData(mime));
+            return TRUE;
+        }
+        return FALSE;
+    }
+    QCString subt = subtype;
+    return QTextDrag::decode( e, str, subt );
+}
+
+bool RichTextDrag::canDecode(QMimeSource* e)
+{
+    if ( e->provides("application/x-qrichtext"))
+        return TRUE;
+    return QTextDrag::canDecode(e);
+}
+
+const char* RichTextDrag::format(int i) const
+{
+    if ( QTextDrag::format(i))
+        return QTextDrag::format(i);
+    if ( QTextDrag::format(i-1))
+        return "application/x-qrichtext";
+    return 0;
+}
+
+void RichTextDrag::setRichText(const QString &txt)
+{
+    richTxt = txt;
+    setText(unquoteText(txt));
+}
+
 TextEdit::TextEdit(QWidget *p, const char *name)
         : TextShow(p, name)
 {
@@ -405,7 +473,7 @@ void TextEdit::setTextFormat(QTextEdit::TextFormat format)
         QTextEdit::setTextFormat(format);
         return;
     }
-    QString t = plainText(0, paragraphs(), 0, 0);
+    QString t = unquoteText(text());
     QTextEdit::setTextFormat(format);
     setText(t);
 }
@@ -415,6 +483,10 @@ TextShow::TextShow(QWidget *p, const char *name)
 {
     setTextFormat(RichText);
     setReadOnly(true);
+#if QT_VERSION >= 0x030100
+    if (QApplication::clipboard()->supportsSelection())
+        connect(this, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()));
+#endif
 }
 
 TextShow::~TextShow()
@@ -491,95 +563,51 @@ void TextShow::keyPressEvent(QKeyEvent *e)
 
 void TextShow::copy()
 {
+    QTextDrag *drag = dragObject(NULL);
+    if ( !drag )
+        return;
 #if QT_VERSION <= 0x030100
-    QApplication::clipboard()->setText(selectedText());
+    QApplication::clipboard()->setData(drag);
 #else
-    QApplication::clipboard()->setText(selectedText(), QClipboard::Clipboard);
+    QApplication::clipboard()->setData(drag, QClipboard::Clipboard);
 #endif
+}
+
+void TextShow::cut()
+{
+    if (isReadOnly())
+        return;
+    if (hasSelectedText()) {
+        copy();
+        removeSelectedText();
+    }
+}
+
+QTextDrag *TextShow::dragObject(QWidget *parent) const
+{
+    if (!hasSelectedText())
+        return NULL;
+#if (QT_VERSION < 0x300) || (QT_VERSION >= 0x030100)
+    if (textFormat() == RichText){
+        RichTextDrag *drag = new RichTextDrag(parent);
+        drag->setRichText(selectedText());
+        return drag;
+    }
+#endif
+    return new QTextDrag(selectedText(), parent );
 }
 
 void TextShow::startDrag()
 {
-    QDragObject *drag = new QTextDrag(selectedText(), viewport());
-    if ( isReadOnly() ) {
+    QDragObject *drag = dragObject(viewport());
+    if (drag == NULL)
+        return;
+    if (isReadOnly()) {
         drag->dragCopy();
     } else {
-        if ( drag->drag() && QDragObject::target() != this && QDragObject::target() != viewport() )
+        if (drag->drag() && QDragObject::target() != this && QDragObject::target() != viewport() )
             removeSelectedText();
     }
-}
-
-QString TextShow::selectedText()
-{
-    QString res;
-    int paraFrom, paraTo, indexFrom, indexTo;
-    getSelection(&paraFrom, &indexFrom, &paraTo, &indexTo);
-    return plainText(paraFrom, paraTo, indexFrom, indexTo);
-}
-
-QString TextShow::plainText(int paraFrom, int paraTo, int indexFrom, int indexTo)
-{
-    QString res;
-    if ((paraFrom > paraTo) || ((paraFrom == paraTo) && (indexFrom >= indexTo)))
-        return res;
-    for (int i = paraFrom; i <= paraTo; i++){
-        if (i >= paragraphs())
-            break;
-        res += unquoteString(text(i), (i == paraFrom) ? indexFrom : 0, (i == paraTo) ? indexTo : -1);
-        if ((i < paraTo) && (i < paragraphs()))
-            res += "\n";
-    }
-    return res;
-}
-
-QString TextShow::unquoteString(const QString &s, int from, int to)
-{
-    unsigned startPos = textPosition(s, from);
-    unsigned endPos = textPosition(s, to);
-    return SIM::unquoteText(s.mid(startPos, endPos - startPos));
-}
-
-unsigned TextShow::textPosition(const QString &text, unsigned pos)
-{
-    if (pos >= text.length())
-        return text.length();
-    unsigned i;
-    for (i = 0; i < text.length(); i++){
-        QChar c = text[(int)i];
-        if (c == '<'){
-            QString tag = text.mid(i + 1, 3).lower();
-            int n = tag.find(" ");
-            if (n > 0)
-                tag = tag.left(n);
-            n = tag.find("/");
-            if (n > 0)
-                tag = tag.left(n);
-            if ((tag == "img") || (tag == "br")){
-                if (pos == 0)
-                    return i;
-                pos--;
-            }
-            for (; i < text.length(); i++){
-                c = text[(int)i];
-                if (c == '>')
-                    break;
-            }
-            continue;
-        }
-        if (c == '&'){
-            if (pos == 0)
-                return i;
-            for (; i < text.length(); i++){
-                c = text[(int)i];
-                if (c == ';')
-                    break;
-            }
-        }
-        if (pos == 0)
-            return i;
-        pos--;
-    }
-    return i;
 }
 
 QString TextShow::quoteText(const char *t, const char *charset)
@@ -601,6 +629,20 @@ QString TextShow::quoteText(const char *t, const char *charset)
 void TextShow::setText(const QString &text)
 {
     QTextEdit::setText(text, "");
+}
+
+void TextShow::slotSelectionChanged()
+{
+#if QT_VERSION >= 0x030100
+    disconnect(QApplication::clipboard(), SIGNAL(selectionChanged()), this, 0);
+    if (QApplication::clipboard()->supportsSelection()){
+        QTextDrag *drag = dragObject(NULL);
+        if ( !drag )
+            return;
+        QApplication::clipboard()->setData(drag, QClipboard::Selection);
+        connect( QApplication::clipboard(), SIGNAL(selectionChanged()), this, SLOT(clipboardChanged()));
+    }
+#endif
 }
 
 class BgColorParser : public HTMLParser

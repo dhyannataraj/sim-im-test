@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qtextedit.h,v 1.4 2003-12-08 06:05:07 chehrlic Exp $
+** $Id: qtextedit.h,v 1.5 2004-01-15 11:30:26 shutoff Exp $
 **
 ** Definition of the QTextEdit class
 **
@@ -65,6 +65,7 @@ class QPainter;
 
 class QTextEdit;
 class QTextBrowser;
+class QTextDrag;
 
 namespace Qt3 {
 
@@ -261,6 +262,7 @@ public slots:
     virtual void paste();
 #ifndef QT_NO_CLIPBOARD
     virtual void pasteSubType( const QCString &subtype );
+    void pasteSubType( const QCString& subtype, QMimeSource *m);
 #endif
     virtual void clear();
     virtual void del();
@@ -388,6 +390,8 @@ private:
     };
 
 private:
+    void normalCopy();
+    QTextDrag *dragObject( QWidget *parent = NULL ) const;
     void drawContents( QPainter * );
     virtual bool linksEnabled() const { return FALSE; }
     void init();

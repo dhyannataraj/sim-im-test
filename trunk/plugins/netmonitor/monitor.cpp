@@ -91,9 +91,9 @@ void MonitorWindow::save()
     }
     QCString t;
     if (edit->hasSelectedText()){
-        t = edit->selectedText().local8Bit();
+        t = unquoteText(edit->selectedText()).local8Bit();
     }else{
-        t = edit->plainText().local8Bit();
+        t = unquoteText(edit->text()).local8Bit();
     }
 #ifdef WIN32
     t.replace(QRegExp("\n"),"\r\n");

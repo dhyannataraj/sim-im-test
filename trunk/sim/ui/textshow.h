@@ -38,6 +38,7 @@
 #endif
 
 class CToolBar;
+class QTextDrag;
 
 const unsigned TextCmdBase	= 0x00030000;
 const unsigned CmdBgColor	= TextCmdBase;
@@ -55,19 +56,19 @@ public:
     ~TextShow();
     QString quoteText(const char *text, const char *charset=NULL);
     void copy();
-    QString selectedText();
-    QString plainText(int paraFrom=0, int paraTo=0x7FFFFFFF, int indexFrom=0, int indexTo=0);
+    void cut();
     void setText(const QString &text);
     virtual void setSource(const QString &url);
     const QColor &background() const;
     const QColor &foreground() const;
     void setForeground(const QColor&);
     void setBackground(const QColor&);
-    static unsigned textPosition(const QString &text, unsigned pos);
-    static QString unquoteString(const QString &s, int from, int to);
 signals:
     void finished();
+protected slots:
+    void slotSelectionChanged();
 protected:
+    QTextDrag *dragObject(QWidget *parent) const;
     void startDrag();
     void keyPressEvent(QKeyEvent *e);
     void resizeEvent(QResizeEvent *e);

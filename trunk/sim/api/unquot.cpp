@@ -30,6 +30,8 @@ protected:
     virtual void tag_end(const QString &tag);
     QString res;
     bool m_bPar;
+    bool m_bTD;
+    bool m_bTR;
 };
 
 UnquoteParser::UnquoteParser()
@@ -40,6 +42,8 @@ QString UnquoteParser::parse(const QString &str)
 {
     res = "";
     m_bPar = false;
+    m_bTD  = false;
+    m_bTR  = false;
     HTMLParser::parse(str);
     return res;
 }
@@ -61,6 +65,20 @@ void UnquoteParser::tag_start(const QString &tag, const list<QString> &options)
 {
     if (tag == "br"){
         res += "\n";
+    }else if (tag == "hr"){
+        if (!res.isEmpty() && (res[(int)(res.length() - 1)] != '\n'))
+            res += "\n";
+        res += "---------------------------------------------------\n";
+    }else if (tag == "td"){
+        if (m_bTD){
+            res += "\t";
+            m_bTD = false;
+        }
+    }else if (tag == "tr"){
+        if (m_bTR){
+            res += "\n";
+            m_bTR = false;
+        }
     }else if (tag == "p"){
         if (m_bPar){
             res += "\n";
@@ -96,6 +114,20 @@ void UnquoteParser::tag_end(const QString &tag)
 {
     if (tag == "p")
         m_bPar = true;
+    if (tag == "td"){
+        m_bPar = false;
+        m_bTD  = true;
+    }
+    if (tag == "tr"){
+        m_bPar = false;
+        m_bTD  = false;
+        m_bTR  = true;
+    }
+    if (tag == "table"){
+        m_bPar = true;
+        m_bTD  = false;
+        m_bTR  = false;
+    }
 }
 
 QString SIM::unquoteText(const QString &text)

@@ -31,6 +31,7 @@
 #define SYMBOL		7
 #define SKIP		8
 #define SPACE		9
+#define COMMENT		10
 
 %}
 
@@ -42,6 +43,7 @@
 %x s_value
 %x s_string
 %x s_symbol
+%x s_comment
 %%
 
 [\xC0-\xDF][\x80-\xBF]		{ return TXT; }
@@ -50,6 +52,7 @@
 [\xF8-\xFB][\x00-\xFF]{4}	{ return TXT; }
 [\xFC-\xFD][\x00-\xFF]{5}	{ return TXT; }
 [ ]+						{ return SPACE; }
+"<!--"						{ BEGIN(s_comment); }
 "</"[A-Za-z]+">"			{ return TAG_END; }
 "<"[A-Za-z]+				{ BEGIN(s_tag); return TAG_START; }
 <s_tag>">"					{ BEGIN(INITIAL); return TAG_CLOSE; }
@@ -64,12 +67,16 @@
 <s_value>.					{ return SKIP; }
 <s_string>"\""				{ BEGIN(s_tag); return SKIP; }
 <s_string>[^\"]+			{ return VALUE; }
+<s_comment>"-->"			{ BEGIN(INITIAL); }
+<s_comment>[^\-]+			{ return COMMENT; }
+<s_comment>.				{ return COMMENT; }
+<s_comment>\n				{ return COMMENT; }
 "&gt";?						{ return SYMBOL; }
 "&lt";?						{ return SYMBOL; }
 "&amp";?					{ return SYMBOL; }
 "&quot";?					{ return SYMBOL; }
 "&nbsp";?					{ return SYMBOL; }
-"&"[\#A-Za-z0-9]+";"			{ return SYMBOL; }
+"&"[\#A-Za-z0-9]+";"		{ return SYMBOL; }
 \r							{ return SKIP; }
 \n							{ return SKIP; }
 .							{ return TXT; }
