@@ -4456,26 +4456,27 @@ msgstr "%1 Nachrichten pro Seite anzeigen"
 
 #: plugins/_core/historycfg.cpp:387
 msgid "Remove style '%1'?"
-msgstr ""
+msgstr "Stil '%1' entfernen?"
 
 #: plugins/_core/historycfg.cpp:559
 msgid "Hi! ;)"
-msgstr ""
+msgstr "Hi! ;-)"
 
 #: plugins/_core/historycfg.cpp:565
 msgid "Hi!"
-msgstr ""
+msgstr "Hi!"
 
 #: plugins/_core/historycfg.cpp:571
 msgid ""
 "<b><font color=\"#FF0000\">C</font><font color=\"#FFFF00\">olored</font></b> "
 "message"
 msgstr ""
+"<b><font color=\"#FF0000\">F</font><font color=\"#FFFF00\">arbige</font></b> "
+"Nachricht"
 
 #: plugins/_core/historycfg.cpp:580
-#, fuzzy
 msgid "New message"
-msgstr "&Neue Nachricht"
+msgstr "Neue Nachricht"
 
 #: plugins/_core/historywnd.cpp:49
 msgid "Loading"
@@ -5709,9 +5710,8 @@ msgid "Debug"
 msgstr "Debug"
 
 #: plugins/logger/logconfig.cpp:81
-#, fuzzy
 msgid "Packets"
-msgstr "&Pakete"
+msgstr "Pakete"
 
 #: plugins/logger/logger.cpp:34
 msgid "Logger"
@@ -6081,7 +6081,7 @@ msgstr "Proxy-Host:"
 
 #: plugins/proxy/proxycfgbase.cpp:176
 msgid "Do not show error dialog (automatically reconnect)"
-msgstr "Logindialog beim Start nicht anzeigen (automatisch neuverbinden)"
+msgstr "Logindialog beim Start nicht anzeigen (automatisch neu verbinden)"
 
 #: plugins/remote/remote.cpp:30
 msgid "Remote control"

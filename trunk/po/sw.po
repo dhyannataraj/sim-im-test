@@ -1874,9 +1874,8 @@ msgid "Developer"
 msgstr "Endwigglr"
 
 #: xpstyle/xpstyle.cpp:53
-#, fuzzy
 msgid "Windows XP style"
-msgstr "Fenschdr - skalierd"
+msgstr "Wendows XB-Schdil"
 
 #: plugins/icq/aimconfig.cpp:45
 msgid "Register new ScreenName"
@@ -3910,19 +3909,16 @@ msgid "Set home directory"
 msgstr "Bersenlichs Vrzeichnis sedza"
 
 #: plugins/styles/metal/metal.cpp:514
-#, fuzzy
 msgid "Metal style"
-msgstr "Oizelhandelläda"
+msgstr "Medallschdil"
 
 #: plugins/styles/wood/wood.cpp:1269
-#, fuzzy
 msgid "Norwegian Wood"
-msgstr "Norwegisch"
+msgstr "Norwegischer Wald"
 
 #: plugins/styles/stylescfg.cpp:57
-#, fuzzy
 msgid "Fonts and colors"
-msgstr "Hendergrond&farbe:"
+msgstr "Schrifdarda ond Farba"
 
 #: plugins/_core/fontconfigbase.cpp:129 plugins/styles/fontconfigbase.cpp:159
 msgid "Use &system fonts"
@@ -3941,23 +3937,20 @@ msgid "Use system &colors"
 msgstr "Syschdem&farba benudza"
 
 #: plugins/styles/fontconfigbase.cpp:163
-#, fuzzy
 msgid "Button color:"
-msgstr "Hendergrondfarbe:"
+msgstr "Knobffarbe:"
 
 #: plugins/osd/osdifacebase.cpp:194 plugins/styles/fontconfigbase.cpp:164
 msgid "Background color:"
 msgstr "Hendergrondfarbe:"
 
 #: plugins/styles/styles.cpp:51
-#, fuzzy
 msgid "Styles"
-msgstr "jo"
+msgstr "Schdile"
 
 #: plugins/styles/styles.cpp:52
-#, fuzzy
 msgid "Plugin provides styles"
-msgstr "Blugin schdelld Schdardbild von SIM bereid"
+msgstr "Blugin schdelld Schdile bereid"
 
 #: plugins/__migrate/migrate.cpp:35
 msgid "Migrate"
@@ -4459,26 +4452,27 @@ msgstr "%1 Nachrichda bro Seide anzeiga"
 
 #: plugins/_core/historycfg.cpp:387
 msgid "Remove style '%1'?"
-msgstr ""
+msgstr "Schdil '%1' endferna, ha?"
 
 #: plugins/_core/historycfg.cpp:559
 msgid "Hi! ;)"
-msgstr ""
+msgstr "Hi! ;-)"
 
 #: plugins/_core/historycfg.cpp:565
 msgid "Hi!"
-msgstr ""
+msgstr "Hi!"
 
 #: plugins/_core/historycfg.cpp:571
 msgid ""
 "<b><font color=\"#FF0000\">C</font><font color=\"#FFFF00\">olored</font></b> "
 "message"
 msgstr ""
+"<b><font color=\"#FF0000\">F</font><font color=\"#FFFF00\">arbige</font></b> "
+"Nachrichd"
 
 #: plugins/_core/historycfg.cpp:580
-#, fuzzy
 msgid "New message"
-msgstr "Nachrichd &senda"
+msgstr "Neie Nachrichd"
 
 #: plugins/_core/historywnd.cpp:49
 msgid "Loading"
@@ -5559,12 +5553,11 @@ msgstr "Nei"
 
 #: plugins/gpg/gpggen.cpp:103
 msgid "Move mouse for generate random key"
-msgstr ""
+msgstr "Zom Gneriera ois Zufallsschlissels Maus bewega"
 
 #: plugins/gpg/gpggen.cpp:169
-#, fuzzy
 msgid "Generate key failed"
-msgstr "Schlissl gneriera"
+msgstr "Schlissl gneriera fehlgschlaga"
 
 #: plugins/gpg/gpggenbase.cpp:113
 msgid "Generate key"
@@ -5631,9 +5624,8 @@ msgid "&Refresh"
 msgstr "&Akdualisiera"
 
 #: plugins/gpg/gpguserbase.cpp:99
-#, fuzzy
 msgid "Key:"
-msgstr "Daschde"
+msgstr "Schlissl:"
 
 #: plugins/icons/icon.cpp:37
 msgid "Icons"
@@ -5710,9 +5702,8 @@ msgid "Debug"
 msgstr "Debug"
 
 #: plugins/logger/logconfig.cpp:81
-#, fuzzy
 msgid "Packets"
-msgstr "Bladz:"
+msgstr "Bakede"
 
 #: plugins/logger/logger.cpp:34
 msgid "Logger"
@@ -6082,24 +6073,23 @@ msgstr "Broxy-Hoschd:"
 
 #: plugins/proxy/proxycfgbase.cpp:176
 msgid "Do not show error dialog (automatically reconnect)"
-msgstr "Logendialog beim Schdard ned anzeiga (audomadisch neivrbenda)"
+msgstr "Logindialog beim Schdard ned anzeiga (audomadisch nei vrbenda)"
 
 #: plugins/remote/remote.cpp:30
 msgid "Remote control"
-msgstr ""
+msgstr "Fernbedienong"
 
 #: plugins/remote/remote.cpp:31
-#, fuzzy
 msgid "Plugin provides remote control"
-msgstr "Blugin schdelld Anzeiga ois Symbols en dr Kondrollleischde bereid"
+msgstr "Blugin schdelld Fernbedienong bereid"
 
 #: plugins/remote/remotecfgbase.cpp:125
 msgid "Use &UNIX socket"
-msgstr ""
+msgstr "&UNIX-Sogged benudza"
 
 #: plugins/remote/remotecfgbase.cpp:126
 msgid "Use &TCP socket"
-msgstr ""
+msgstr "&TCP-Sogged benudza"
 
 #: plugins/shortcuts/mousecfg.cpp:39
 msgid "Left click"
