@@ -6042,6 +6042,27 @@ InputPath=.\po\tr.po
 # End Source File
 # Begin Source File
 
+SOURCE=.\po\uk.po
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# Begin Custom Build - msg2qm on $(InputPath)
+OutDir=.\Debug
+InputPath=.\po\uk.po
+
+"$(OutDir)\po\uk.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	$(QTDIR)\bin\msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\uk.qm 
+	
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
 SOURCE=.\po\zh_TW.po
 
 !IF  "$(CFG)" == "sim - Win32 Release"
