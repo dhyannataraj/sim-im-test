@@ -91,19 +91,13 @@ WIfaceCfg::WIfaceCfg(QWidget *parent, WeatherPlugin *plugin)
 
 void WIfaceCfg::apply()
 {
-    if (edtText->text() == unquoteText(m_plugin->getButtonText())){
-        m_plugin->setText("");
-    }else{
+    if (edtText->text() != unquoteText(m_plugin->getButtonText())){
         m_plugin->setText(edtText->text());
     }
-    if (edtTip->text() == m_plugin->getTipText()){
-        m_plugin->setTip("");
-    }else{
+    if (edtTip->text() != m_plugin->getTipText()){
         m_plugin->setTip(edtTip->text());
     }
-    if (edtForecastTip->text() == m_plugin->getForecastText()){
-        m_plugin->setForecastTip("");
-    }else{
+    if (edtForecastTip->text() != m_plugin->getForecastText()){
         m_plugin->setForecastTip(edtForecastTip->text());
     }
 }
