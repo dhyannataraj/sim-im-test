@@ -334,6 +334,10 @@ QString JabberSearch::i18(const char *text)
     if ((text == NULL) || (*text == 0))
         return "";
     QString res = QString::fromUtf8(text);
+	for (int i = 0; i < (int)res.length(); i++){
+		if (res[i].unicode() >= 0x80)
+			return res;
+	}
     QCString str = res.latin1();
     QString  tstr = i18n(str);
     if (tstr == QString(str))
