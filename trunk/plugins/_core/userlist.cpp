@@ -921,7 +921,7 @@ void UserListBase::deleteItem(QListViewItem *item)
                 if (nextItem->nextSibling() == item)
                     break;
         }
-        if (nextItem == NULL){
+        if ((nextItem == NULL) && item->parent()){
             nextItem = item->parent();
             if (nextItem->firstChild() && (nextItem->firstChild() != item)){
                 for (nextItem = nextItem->firstChild(); nextItem; nextItem = nextItem->nextSibling())
