@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2004-08-05 15:33+0200\n"
-"PO-Revision-Date: 2004-10-12 12:26+0100\n"
-"Last-Translator: Noragen <noragen@gmx.net>\n"
+"PO-Revision-Date: 2004-10-15 21:19+0100\n"
+"Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -7641,11 +7641,11 @@ msgstr "< Zurück"
 
 #: sim/qt3/i18n.cpp:189
 msgid "&Next >"
-msgstr "Nächster >"
+msgstr "Weiter >"
 
 #: sim/qt3/i18n.cpp:191
 msgid "&Finish"
-msgstr "Abschliessen"
+msgstr "&Fertig"
 
 #: sim/qt3/i18n.cpp:195
 msgid "+"
