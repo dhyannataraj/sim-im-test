@@ -32,7 +32,11 @@ MessageConfig::MessageConfig(QWidget *parent, void *_data)
     chkOnline->setChecked(data->OpenOnOnline);
     chkStatus->setChecked(data->LogStatus);
     edtPath->setDirMode(true);
-    edtPath->setText(QString::fromUtf8(data->IncomingPath));
+    QString incoming = QString::fromUtf8(data->IncomingPath);
+    if (incoming == "Incoming Files") {
+        incoming = QString::fromUtf8(user_file("Incoming Files").c_str());
+    }
+    edtPath->setText(incoming);
     connect(grpAccept, SIGNAL(clicked(int)), this, SLOT(acceptClicked(int)));
     grpAccept->setButton(data->AcceptMode);
     chkOverwrite->setChecked(data->OverwriteFiles);
@@ -55,6 +59,7 @@ void MessageConfig::apply(void *_data)
         def = edtPath->text();
     }
     set_str(&data->IncomingPath, def.utf8());
+    edtPath->setText(QString::fromUtf8(data->IncomingPath));
     data->AcceptMode = grpAccept->id(grpAccept->selected());
     if (data->AcceptMode == 1)
         data->OverwriteFiles = chkOverwrite->isChecked();
