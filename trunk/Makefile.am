@@ -2,7 +2,7 @@
 
 SUBDIRS = sim po sounds pict 
 
-EXTRA_DIST = sim.kdevprj admin AUTHORS COPYING ChangeLog INSTALL README TODO icq.ico resource.h configure.in.in 
+EXTRA_DIST = admin AUTHORS COPYING ChangeLog INSTALL README TODO icq.ico resource.h configure.in.in 
 
 ####### kdevelop will overwrite this part!!! (end)############
 # not a GNU package. You can remove this line, if 
