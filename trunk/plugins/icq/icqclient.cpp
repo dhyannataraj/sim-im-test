@@ -51,7 +51,11 @@
 #include <qwidgetlist.h>
 #include <qfile.h>
 
+#ifdef TM_IN_SYS_TIME
+#include <sys/time.h>
+#else
 #include <time.h>
+#endif
 
 #ifdef WIN32
 #include <winsock.h>

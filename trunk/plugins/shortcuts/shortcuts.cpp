@@ -31,10 +31,10 @@
 #include <kglobalaccel.h>
 #else
 #define XK_MISCELLANY 1
-#include <X11/X.h>
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#include <X11/keysymdef.h>
+#include <X.h>
+#include <Xlib.h>
+#include <Xutil.h>
+#include <keysymdef.h>
 #endif
 #endif
 
