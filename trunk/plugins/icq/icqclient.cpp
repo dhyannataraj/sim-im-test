@@ -408,7 +408,7 @@ bool ICQClient::compareData(void *d1, void *d2)
         return data1->Uin == data2->Uin;
     if (data2->Uin)
         return false;
-    return strcmp(data1->Screen, data2->Screen);
+    return strcmp(data1->Screen, data2->Screen) == 0;
 }
 
 string ICQClient::getConfig()
@@ -1411,13 +1411,10 @@ QString ICQClient::contactTip(void *_data)
         res += "</b>";
     }
     if (data->WarningLevel){
-        unsigned level = data->WarningLevel * 10 / 3;
-        if (level > 100)
-            level = 100;
         res += "<br>";
         res += i18n("Warning level");
         res += ": <b>";
-        res += QString::number(level);
+        res += QString::number(warnLevel(data->WarningLevel));
         res += "% </b></br>";
     }
     if (data->Status == ICQ_STATUS_OFFLINE){
@@ -1485,6 +1482,14 @@ QString ICQClient::contactTip(void *_data)
         res += quoteString(toUnicode(data->AutoReply, data));
     }
     return res;
+}
+
+unsigned ICQClient::warnLevel(unsigned short level)
+{
+    level = (level + 5) / 10;
+    if (level > 100)
+        level = 100;
+    return level;
 }
 
 bool ICQClient::hasCap(ICQUserData *data, int n)
@@ -2231,7 +2236,7 @@ void *ICQClient::processEvent(Event *e)
         QWidget *msgWidget = (QWidget*)(eWidget.process());
         if (msgWidget == NULL)
             msgWidget = m->edit;
-        BalloonMsg *msg = new BalloonMsg(NULL, err, btns, msgWidget, NULL, false);
+        BalloonMsg *msg = new BalloonMsg(m, err, btns, msgWidget, NULL, false);
         connect(msg, SIGNAL(action(int, void*)), this, SLOT(retry(int, void*)));
         msg->show();
         return e->param();
@@ -2766,7 +2771,8 @@ void *ICQClient::processEvent(Event *e)
         Message *msg = (Message*)(e->param());
         if ((msg->type() != MessageOpenSecure) &&
                 (msg->type() != MessageCloseSecure) &&
-                (msg->type() != MessageCheckInvisible))
+                (msg->type() != MessageCheckInvisible) &&
+                (msg->type() != MessageWarning))
             return NULL;
         const char *client = msg->client();
         if (client && (*client == 0))
@@ -2897,6 +2903,8 @@ bool ICQClient::send(Message *msg, void *_data)
             return data->Direct->sendMessage(msg);
         return false;
 #endif
+    case MessageWarning:
+        return sendThruServer(msg, data);
     }
     if (data == NULL)
         return false;
@@ -2922,9 +2930,7 @@ bool ICQClient::send(Message *msg, void *_data)
     if (data->Direct)
         return data->Direct->sendMessage(msg);
 
-    if (sendThruServer(msg, data))
-        return true;
-    return false;
+    return sendThruServer(msg, data);
 }
 
 bool ICQClient::canSend(unsigned type, void *_data)
@@ -3182,6 +3188,8 @@ void ICQClient::retry(int n, void *p)
         default:
             return;
         }
+    }else{
+        return;
     }
     Command cmd;
     cmd->id    = CmdSend;

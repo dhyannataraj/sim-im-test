@@ -165,6 +165,7 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd, bool bReceived)
     m_bTyping	= false;
     m_type		= NO_TYPE;
     m_flags		= 0;
+    m_retry.msg = NULL;
 
     connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
 
@@ -210,6 +211,8 @@ MsgEdit::~MsgEdit()
     CToolCustom *w = (CToolCustom*)(e.process());
     if (w)
         w->removeWidgets();
+    if (m_retry.msg)
+        delete m_retry.msg;
 }
 
 void MsgEdit::showCloseSend(bool bState)
@@ -679,6 +682,11 @@ static bool cmp_status(ClientStatus s1, ClientStatus s2)
 
 bool MsgEdit::sendMessage(Message *msg)
 {
+    if (m_retry.msg){
+        delete m_retry.msg;
+        m_retry.msg = NULL;
+    }
+
     if (m_msg){
         delete msg;
         Event e(EventMessageCancel, m_msg);
@@ -975,7 +983,11 @@ void *MsgEdit::processEvent(Event *e)
                     msgWidget = this;
                 if (msg->getRetryCode()){
                     m_retry.edit = this;
-                    m_retry.msg = msg;
+                    if (m_retry.msg)
+                        delete m_retry.msg;
+                    m_retry.msg  = new Message(msg->type());
+                    m_retry.msg->setRetryCode(msg->getRetryCode());
+                    m_retry.msg->setError(msg->getError());
                     Event e(EventMessageRetry, &m_retry);
                     if (e.process())
                         return NULL;

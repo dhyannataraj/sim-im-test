@@ -844,7 +844,7 @@ static Message *createOpenSecure(const char *cfg)
 static MessageDef defOpenSecure =
     {
         NULL,
-        MESSAGE_SILENT | MESSAGE_SENDONLY,
+        MESSAGE_SENDONLY,
         0,
         "Request secure channel",
         "%n requests secure channel",
@@ -902,15 +902,44 @@ static MessageDef defCheckInvisible =
 i18n("Warning", "%n warnings", 1);
 #endif
 
+static DataDef warningMessageData[] =
+    {
+        { "Anonymous", DATA_BOOL, 1, 0 },
+        { "OldLevel", DATA_ULONG, 1, 0 },
+        { "NewLevel", DATA_ULONG, 1, 0 },
+        { NULL, 0, 0, 0 }
+    };
+
+WarningMessage::WarningMessage(const char *cfg)
+        : AuthMessage(MessageWarning, cfg)
+{
+    load_data(warningMessageData, &data, cfg);
+}
+
+string WarningMessage::save()
+{
+    string res = AuthMessage::save();
+    if (!res.empty())
+        res += "\n";
+    return res + save_data(warningMessageData, &data);
+}
+
+QString WarningMessage::presentation()
+{
+    return QString("Increase warning level from %1% to %2%")
+           .arg(ICQClient::warnLevel(getOldLevel()))
+           .arg(ICQClient::warnLevel(getNewLevel()));
+}
+
 static Message *createWarning(const char *cfg)
 {
-    return new Message(MessageWarning, cfg);
+    return new WarningMessage(cfg);
 }
 
 static MessageDef defWarning =
     {
         NULL,
-        MESSAGE_SILENT | MESSAGE_SENDONLY,
+        MESSAGE_SENDONLY,
         0,
         "Warning",
         "%n warnings",

@@ -188,6 +188,9 @@ bool DockPlugin::eventFilter(QObject *o, QEvent *e)
 {
     if (o == m_popup){
         if (e->type() == QEvent::Hide){
+#if QT_VERSION < 300
+            m_popup->releaseMouse();
+#endif
             m_popup->removeEventFilter(this);
             m_popup = NULL;
         }
@@ -307,10 +310,10 @@ void DockPlugin::showPopup(QPoint p)
         m_popup->installEventFilter(this);
         if (qApp->activeWindow() == NULL)
             dock->setFocus();
+#if QT_VERSION < 300
+        m_popup->grabMouse(0);
+#endif
         m_popup->popup(p);
-        // #if QT_VERSION < 300
-        //         getMainWindow()->grabMouse(0);
-        // #endif
     }
 }
 

@@ -139,6 +139,26 @@ protected:
     ICQFileMessageData data;
 };
 
+typedef struct MessageWarningData
+{
+    unsigned	Anonymous;
+    unsigned	OldLevel;
+    unsigned	NewLevel;
+} MessageWarningData;
+
+class WarningMessage : public AuthMessage
+{
+public:
+    WarningMessage(const char *cfg=NULL);
+    PROP_BOOL(Anonymous);
+    PROP_ULONG(OldLevel);
+    PROP_ULONG(NewLevel);
+    virtual string  save();
+    QString presentation();
+protected:
+    MessageWarningData data;
+};
+
 class QToolButton;
 class CToolCustom;
 class MsgEdit;

@@ -22,16 +22,22 @@
 #include "warndlgbase.h"
 #include "icqclient.h"
 
-class WarnDlg : public WarnDlgBase
+class WarningMessage;
+
+class WarnDlg : public WarnDlgBase, public EventReceiver
 {
     Q_OBJECT
 public:
     WarnDlg(QWidget *parent, ICQUserData *data, ICQClient *client);
-public slots:
-    void apply();
+    ~WarnDlg();
 protected:
-    ICQUserData	*m_data;
-    ICQClient	*m_client;
+    void accept();
+    void *processEvent(Event*);
+    void showError(const char*);
+    ICQClient		*m_client;
+    ICQUserData		*m_data;
+    unsigned		m_contact;
+    WarningMessage	*m_msg;
 };
 
 #endif

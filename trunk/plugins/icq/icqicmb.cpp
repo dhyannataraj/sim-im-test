@@ -45,14 +45,14 @@ const unsigned short ICQ_SNACxMSG_REQUESTxRIGHTS   = 0x0004;
 const unsigned short ICQ_SNACxMSG_RIGHTSxGRANTED   = 0x0005;
 const unsigned short ICQ_SNACxMSG_SENDxSERVER      = 0x0006;
 const unsigned short ICQ_SNACxMSG_SERVERxMESSAGE   = 0x0007;
-const unsigned short ICQ_SNACxMSG_BLAMExUSER       = 0x0008;    // not implemented
-const unsigned short ICQ_SNACxMSG_BLAMExSRVxACK    = 0x0009;    // not implemented
+const unsigned short ICQ_SNACxMSG_BLAMExUSER       = 0x0008;
+const unsigned short ICQ_SNACxMSG_BLAMExSRVxACK    = 0x0009;
 const unsigned short ICQ_SNACxMSG_SRV_MISSED_MSG   = 0x000A;
 const unsigned short ICQ_SNACxMSG_AUTOREPLY        = 0x000B;
 const unsigned short ICQ_SNACxMSG_ACK              = 0x000C;
 const unsigned short ICQ_SNACxMSG_MTN			   = 0x0014;
 
-void ICQClient::snac_icmb(unsigned short type, unsigned short)
+void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
 {
     switch (type){
     case ICQ_SNACxMSG_RIGHTSxGRANTED:
@@ -174,8 +174,18 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
                 err_str = I18N_NOOP("Unknown error");
             }
             log(L_DEBUG, "ICMB error %u (%s) - screen(%s)", error, err_str, screen.c_str());
-            // need to do more ...
+            break;
         }
+    case ICQ_SNACxMSG_BLAMExSRVxACK:
+        if ((m_send.id.id_l == seq) && m_send.msg){
+            unsigned short oldLevel, newLevel;
+            m_socket->readBuffer >> oldLevel >> newLevel;
+            WarningMessage *msg = static_cast<WarningMessage*>(m_send.msg);
+            msg->setOldLevel(newLevel - oldLevel);
+            msg->setNewLevel(newLevel);
+            ackMessage(m_send);
+        }
+        break;
     case ICQ_SNACxMSG_ACK:
         {
             log(L_DEBUG, "Ack message");
@@ -489,6 +499,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
     case MessageContact:
     case MessageFile:
     case MessageCheckInvisible:
+    case MessageWarning:
         s.flags  = SEND_RAW;
         s.msg    = msg;
         s.screen = screen(data);
@@ -579,10 +590,12 @@ void ICQClient::ackMessage(SendMsg &s)
         }
     }
     string text;
-    if (s.text.length() == 0){
+    if ((s.text.length() == 0) || (s.msg->type() == MessageWarning)){
         Event e(EventMessageSent, s.msg);
         e.process();
         delete s.msg;
+        s.msg = NULL;
+        s.screen = "";
     }else{
         sendQueue.push_front(s);
     }
@@ -1081,6 +1094,18 @@ void ICQClient::processSendQueue()
                 b << 0x0100 << 0x0100 << (char)0;
                 sendAdvMessage(screen(data).c_str(), b, PLUGIN_NULL, m_send.id, false, true, false);
                 return;
+            case MessageWarning:{
+                    WarningMessage *msg = static_cast<WarningMessage*>(m_send.msg);
+                    snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_BLAMExUSER, true);
+                    m_send.id.id_l = m_nMsgSequence;
+                    unsigned short flag = 0;
+                    if (msg->getAnonymous())
+                        flag = 1;
+                    m_socket->writeBuffer << flag;
+                    m_socket->writeBuffer.packScreen(screen(data).c_str());
+                    sendPacket();
+                    return;
+                }
             }
             string text;
             string encoding;
