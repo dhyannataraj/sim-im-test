@@ -360,13 +360,13 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             break;
         }
     case ICQ_SNACxLISTS_ADDED:{
-            m_socket->readBuffer.incReadPos(8);
+//            m_socket->readBuffer.incReadPos(8);
             unsigned long uin = m_socket->readBuffer.unpackUin();
             messageReceived(new AuthMessage(MessageAdded), uin);
             break;
         }
     case ICQ_SNACxLISTS_AUTHxREQUEST:{
-            m_socket->readBuffer.incReadPos(8);
+//            m_socket->readBuffer.incReadPos(8);
             unsigned long uin = m_socket->readBuffer.unpackUin();
             string message;
             string charset;
@@ -389,7 +389,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             break;
         }
     case ICQ_SNACxLISTS_AUTH:{
-            m_socket->readBuffer.incReadPos(8);
+//            m_socket->readBuffer.incReadPos(8);
             unsigned long uin = m_socket->readBuffer.unpackUin();
             char auth_ok;
             m_socket->readBuffer >> auth_ok;
@@ -422,7 +422,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
         }
     case ICQ_SNACxLISTS_DONE:
         if (m_listRequest && m_listRequest->seq() == seq){
-            m_socket->readBuffer.incReadPos(8);
+//            m_socket->readBuffer.incReadPos(8);
             unsigned short res;
             m_socket->readBuffer >> res;
             log(L_DEBUG, "List request answer %u", res);

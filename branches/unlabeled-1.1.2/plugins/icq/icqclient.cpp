@@ -294,7 +294,34 @@ ENCODING encodingTbl[] =
         { NULL, NULL, 0, false }
     };
 
-
+const char icq_error_codes[][40] = {
+	"Unknown error code"
+	"Invalid SNAC header",
+	"Server rate limit exceeded",	
+	"Client rate limit exceeded",
+	"Recipient is not logged in",
+	"Requested service unavailable",
+	"Requested service not defined",
+	"You sent obsolete SNAC",
+	"Not supported by server",
+	"Not supported by client",
+	"Refused by client",
+	"Reply too big",
+	"Responses lost",
+	"Request denied",
+	"Incorrect SNAC format",
+	"Insufficient rights",
+	"Recipient blocked",
+	"Sender too evil",
+	"Receiver too evil",
+	"User temporarily unavailable",
+	"No match",
+	"List overflow",
+	"Request ambiguous",
+	"Server queue full",
+	"Not while on AOL",
+};
+	
 ICQClient::ICQClient(ICQProtocol *protocol, const char *cfg)
         : TCPClient(protocol, cfg), EventReceiver(HighPriority - 1)
 {
@@ -505,6 +532,23 @@ void ICQClient::packet_ready()
             unsigned short fam, type;
             unsigned short flags, seq, cmd;
             m_socket->readBuffer >> fam >> type >> flags >> seq >> cmd;
+			if ((flags & 0x8000)) {	// some unknown data before real snac data
+				// just read the length and forget it ;-)
+				unsigned short unknown_length = 0;
+				m_socket->readBuffer >> unknown_length;
+				m_socket->readBuffer.incReadPos(unknown_length);
+			}
+			// now just take a look at the type because 0x0001 == error
+			// in all families
+			if (type == 0x0001) {
+				unsigned short err_code;
+				m_socket->readBuffer >> err_code;
+				if ((err_code < 1) || (err_code > 18)) {
+					err_code = 0;
+				}
+				log(L_DEBUG,icq_error_codes[err_code]);
+//				break; not until fixed in icqicmb.cpp ...
+			}
             switch (fam){
             case ICQ_SNACxFAM_SERVICE:
                 snac_service(type, seq);

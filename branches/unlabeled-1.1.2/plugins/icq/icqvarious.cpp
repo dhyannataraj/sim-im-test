@@ -37,7 +37,7 @@ const unsigned short ICQ_SRVxREQ_ACK_OFFLINE_MSG   = 0x3E00;
 const unsigned short ICQ_SRVxOFFLINE_MSG       	   = 0x4100;
 const unsigned short ICQ_SRVxEND_OFFLINE_MSG	   = 0x4200;
 const unsigned short ICQ_SRVxREQ_MORE              = 0xD007;
-const unsigned short ICQ_SRVxANSWER_MORE	   = 0xDA07;
+const unsigned short ICQ_SRVxANSWER_MORE           = 0xDA07;
 
 const unsigned short ICQ_SRVxREQ_FULL_INFO         = 0xB204;
 const unsigned short ICQ_SRVxREQ_SHORT_INFO        = 0xBA04;

@@ -52,7 +52,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
         log(L_DEBUG, "Message rights granted");
         break;
     case ICQ_SNACxMSG_MTN:{
-            m_socket->readBuffer.incReadPos(10);
+//            m_socket->readBuffer.incReadPos(10);
             unsigned long uin = m_socket->readBuffer.unpackUin();
             unsigned short type;
             m_socket->readBuffer >> type;
