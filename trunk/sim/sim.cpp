@@ -21,7 +21,7 @@
 #include "about.h"
 #include "log.h"
 
-#if USE_KDE
+#ifdef USE_KDE
 #include "sim.h"
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
@@ -127,7 +127,7 @@ int main(int argc, char *argv[])
     aboutData.addAuthor("Vladimir Shutoff",I18N_NOOP("Maintainer"),"shutoff@mail.ru");
     appAboutData = &aboutData;
 
-#if USE_KDE
+#ifdef USE_KDE
     KCmdLineArgs::init( argc, argv, &aboutData );
     KCmdLineOptions options[] =
         {
@@ -147,7 +147,7 @@ int main(int argc, char *argv[])
 #endif
     initIcons("");
     pMain = new MainWindow;
-#if USE_KDE
+#ifdef USE_KDE
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
     if (args->isSet("b"))
         pMain->homeDir = strdup(args->getOption("b"));
@@ -170,7 +170,7 @@ int main(int argc, char *argv[])
     return app.exec();
 }
 
-#if USE_KDE
+#ifdef USE_KDE
 #include "sim.moc"
 #endif
 

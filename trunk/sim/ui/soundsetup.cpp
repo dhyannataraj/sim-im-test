@@ -36,7 +36,7 @@ SoundSetup::SoundSetup(QWidget *p)
     edtChat->setText(QString::fromLocal8Bit(pMain->IncomingChat.c_str()));
     edtFileDone->setText(QString::fromLocal8Bit(pMain->FileDone.c_str()));
     edtProgram->setText(QString::fromLocal8Bit(pMain->SoundPlayer.c_str()));
-#if WIN32 || USE_KDE
+#if defined(WIN32) || defined(USE_KDE)
     edtProgram->hide();
     lblProgram->hide();
 #endif

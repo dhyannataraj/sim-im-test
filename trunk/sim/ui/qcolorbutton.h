@@ -51,7 +51,7 @@ private:
     QPoint mPos;
 };
 
-#if USE_KDE
+#ifdef USE_KDE
 #define QColorButton KColorButton
 #endif
 

@@ -1,5 +1,4 @@
 /****************************************************************************
-** $Id: qtextedit.cpp,v 1.5 2002-07-26 01:54:26 shutoff Exp $
 **
 ** Implementation of the QTextEdit class
 **

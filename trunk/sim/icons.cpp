@@ -28,7 +28,7 @@
 #include <string>
 using namespace std;
 
-#if USE_KDE
+#ifdef USE_KDE
 #include <kiconloader.h>
 #endif
 
@@ -514,7 +514,7 @@ void Icons::addIcon(const char *name, const char **xpm, const char **bigXpm, boo
     if (!dllIcon.isNull()){
         pict = QIconSet(dllIcon);
     }else{
-#if USE_KDE
+#ifdef USE_KDE
 #if QT_VERSION < 300
         if (bgIcon) isSystem = false;
 #endif

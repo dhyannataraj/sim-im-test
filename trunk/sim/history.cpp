@@ -38,12 +38,6 @@ using namespace std;
 #endif
 #endif
 
-#ifdef WIN32
-#define OPEN(a, b)	 open(a, b);
-#else
-#define OPEN(a, b)	 open(a, b, 0600);
-#endif
-
 History::History(unsigned long uin)
         : it(*this), m_nUin(uin)
 {
@@ -81,7 +75,7 @@ bool History::open(bool bWrite, std::fstream &f, unsigned long *f_size)
         QFileInfo f(fname.c_str());
         if (f.exists()) *f_size = f.size();
     }
-    f.OPEN(fname.c_str(), bWrite ? ios::out | ios::app : ios::in);
+    f.open(fname.c_str(), bWrite ? ios::out | ios::app : ios::in);
     if (!f.is_open()){
         log(L_WARN, "File %s not open", fname.c_str());
         return false;

@@ -26,14 +26,14 @@
 #include <qaccel.h>
 #include <qapplication.h>
 
-#if USE_SPELL
+#ifdef USE_SPELL
 #include <kspell.h>
 #include <kspelldlg.h>
 #endif
 
 EditSpell::EditSpell(QWidget *parent) : QTextEdit(parent)
 {
-#if USE_SPELL
+#ifdef USE_SPELL
     pSpell = NULL;
 #endif
     bgTransparent = new TransparentBg(this);
@@ -104,7 +104,7 @@ const QColor &EditSpell::foreground() const
     return curFG;
 }
 
-#if USE_SPELL
+#ifdef USE_SPELL
 void EditSpell::spell_check(KSpell *spell)
 {
 #if QT_VERSION < 300
@@ -130,7 +130,7 @@ void EditSpell::misspelling(QString original, QStringList *suggestion, unsigned 
     misspelling(original, *suggestion, pos);
 }
 
-#if USE_SPELL
+#ifdef USE_SPELL
 
 void EditSpell::misspelling (const QString& original, const QStringList&, unsigned int)
 {
@@ -176,7 +176,7 @@ void EditSpell::corrected_old(QString original, QString newword, unsigned pos)
     corrected((const QString&)original, (const QString&)newword, (unsigned int)pos);
 }
 
-#if USE_SPELL
+#ifdef USE_SPELL
 void EditSpell::corrected(const QString & original, const QString & newword, unsigned int)
 {
     if (!find(original, true, true, true, &nPara, &nIndex)){
@@ -199,7 +199,7 @@ void EditSpell::corrected(const QString&, const QString&, unsigned int)
 
 void EditSpell::spell_done(const QString&)
 {
-#if USE_SPELL
+#ifdef USE_SPELL
     bool res = false;
     if (pSpell){
         if (pSpell->dlgResult() != KS_STOP) res = true;
@@ -212,7 +212,7 @@ void EditSpell::spell_done(const QString&)
 
 void EditSpell::spell()
 {
-#if USE_SPELL
+#ifdef USE_SPELL
     nPara  = 0;
     nIndex = 0;
     if (pSpell == NULL)

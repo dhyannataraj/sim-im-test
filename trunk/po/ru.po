@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"POT-Creation-Date: 2002-07-26 05:27+0400\n"
+"POT-Creation-Date: 2002-07-27 20:27+0400\n"
 "PO-Revision-Date: 2002-07-26 05:30GMT+3\n"
 "Last-Translator: Vladimir Shutoff <shutoff@mail.ru>\n"
 "Language-Team: Русский <ru@li.org>\n"
@@ -53,19 +53,19 @@ msgstr ""
 msgid "We'd love to hear what you have to say. Join our chat.\n"
 msgstr "Делать нечего, присоединюсь к чату\n"
 
-#: libicq/translator.cpp:131
+#: libicq/translator.cpp:97
 msgid "UTF-8"
 msgstr "UTF-8"
 
-#: chatwnd.cpp:80 msgedit.cpp:136
+#: chatwnd.cpp:80 msgedit.cpp:139
 msgid "Bold"
 msgstr "Жирный"
 
-#: chatwnd.cpp:92 msgedit.cpp:156
+#: chatwnd.cpp:92 msgedit.cpp:159
 msgid "Underline"
 msgstr "Подчеркнутый"
 
-#: chatwnd.cpp:97 msgedit.cpp:111
+#: chatwnd.cpp:97 msgedit.cpp:114
 msgid "Text color"
 msgstr "Цвет текста"
 
@@ -138,11 +138,11 @@ msgstr "Доставка SMS"
 msgid "Email"
 msgstr "Email"
 
-#: client.cpp:459 userview.cpp:871
+#: client.cpp:459 userview.cpp:868
 msgid "Offline"
 msgstr "Отключен"
 
-#: client.cpp:462 client.cpp:474 cuser.cpp:203 userview.cpp:871
+#: client.cpp:462 client.cpp:474 cuser.cpp:203 userview.cpp:868
 msgid "Online"
 msgstr "В сети"
 
@@ -183,7 +183,7 @@ msgstr "%n непрочитанное сообщение"
 msgid "Connecting"
 msgstr "Соединение"
 
-#: editspell.cpp:219 msgedit.cpp:172 ui/setupdlg.cpp:104
+#: editspell.cpp:219 msgedit.cpp:175 ui/setupdlg.cpp:104
 msgid "Spell check"
 msgstr "Проверка орфографии"
 
@@ -269,7 +269,8 @@ msgstr "%1 от %2"
 
 #: mainwin.cpp:804
 msgid "Your UIN used from another location"
-msgstr "Ваш UIN используется с другого компьютера"
+msgstr ""
+"Ваш UIN используется с другого компьютера"
 
 #: mainwin.cpp:849
 msgid "User %1 is online"
@@ -327,7 +328,7 @@ msgstr "Пользователи"
 msgid "Delete user %1?"
 msgstr "Удалить пользователя \"%1\"?"
 
-#: mainwin.cpp:1566 msgedit.cpp:745
+#: mainwin.cpp:1566 msgedit.cpp:762
 msgid "New"
 msgstr "Новое"
 
@@ -347,15 +348,15 @@ msgstr "Доступен"
 msgid "Busy"
 msgstr "Занят"
 
-#: mainwin.cpp:1789 userview.cpp:476
+#: mainwin.cpp:1789 userview.cpp:473
 msgid "Create group"
 msgstr "Создать группу"
 
-#: mainwin.cpp:1791 userview.cpp:481
+#: mainwin.cpp:1791 userview.cpp:478
 msgid "Expand all"
 msgstr "Развернуть все группы"
 
-#: mainwin.cpp:1792 userview.cpp:482
+#: mainwin.cpp:1792 userview.cpp:479
 msgid "Collapse all"
 msgstr "Свернуть все группы"
 
@@ -411,123 +412,132 @@ msgid ""
 "Your emails"
 msgstr "shutoff@mail.ru"
 
-#: msgedit.cpp:64
+#: msgedit.cpp:67
 msgid "Decline file without reason"
 msgstr "Отказать без объяснения причин"
 
-#: msgedit.cpp:66
+#: msgedit.cpp:69
 msgid "Sorry, I'm busy right now, and can not respond to your request"
 msgstr ""
 "Извините, но я сейчас занят и не могу "
 "принять Ваше сообщение"
 
-#: msgedit.cpp:68
+#: msgedit.cpp:71
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
 msgstr ""
 "Извините, я сейчас занят, но смогу "
 "ответить Вам позже"
 
-#: msgedit.cpp:70
+#: msgedit.cpp:73
 msgid "Enter a decline reason"
 msgstr "Ввести причину отказа"
 
-#: msgedit.cpp:93
+#: msgedit.cpp:96
 msgid "Background color"
 msgstr "Цвет фона"
 
-#: msgedit.cpp:98
+#: msgedit.cpp:101
 msgid "&Reply"
 msgstr "&Ответить"
 
-#: msgedit.cpp:102
+#: msgedit.cpp:105
 msgid "&Grant"
 msgstr "&Авторизовать"
 
-#: msgedit.cpp:106
+#: msgedit.cpp:109
 msgid "&Accept"
 msgstr "&Принять"
 
-#: msgedit.cpp:117
+#: msgedit.cpp:120
 msgid "&Quote"
 msgstr "&Цитировать"
 
-#: msgedit.cpp:121
+#: msgedit.cpp:124
 msgid "&Refuse"
 msgstr "&Отказать"
 
-#: msgedit.cpp:131
+#: msgedit.cpp:134
 msgid "&Decline"
 msgstr "&Отказать"
 
-#: msgedit.cpp:143
+#: msgedit.cpp:146
 msgid "&Forward"
 msgstr "&Переслать"
 
-#: msgedit.cpp:164
+#: msgedit.cpp:167
 msgid "Text font"
 msgstr "Цвет текста"
 
-#: msgedit.cpp:181
+#: msgedit.cpp:184
 msgid "C&lose after send"
 msgstr "&Закрыть после отправки"
 
-#: msgedit.cpp:195
+#: msgedit.cpp:198
 msgid "Phone:"
 msgstr "Телефон:"
 
-#: msgedit.cpp:205
+#: msgedit.cpp:208
 msgid "URL:"
 msgstr "URL:"
 
-#: msgedit.cpp:213
+#: msgedit.cpp:216
 msgid "File:"
 msgstr "Файл:"
 
-#: msgedit.cpp:219
+#: msgedit.cpp:222
 msgid "Multiply send"
 msgstr "Отправить нескольким адресатам"
 
-#: msgedit.cpp:224
+#: msgedit.cpp:227
 msgid "Drag users here"
 msgstr "Перенесите пользователей сюда"
 
-#: msgedit.cpp:280
+#: msgedit.cpp:283
 msgid "Sending"
 msgstr "Отправка"
 
-#: msgedit.cpp:287
+#: msgedit.cpp:290
 msgid "&Send"
 msgstr "&Отправить"
 
-#: msgedit.cpp:424
+#: msgedit.cpp:427
 msgid "Transfer started"
 msgstr "Передача файла начата"
 
-#: msgedit.cpp:427
+#: msgedit.cpp:430
 msgid "Chat started"
 msgstr "Чат начат"
 
-#: msgedit.cpp:455
+#: msgedit.cpp:472
 msgid "Message sent"
 msgstr "Сообщение отправлено"
 
-#: msgedit.cpp:459
+#: msgedit.cpp:476
 msgid "Send failed"
 msgstr "Отправлено неудачно"
 
-#: msgedit.cpp:742
+#: msgedit.cpp:759
 msgid "Next"
 msgstr "Следующее"
 
-#: msgedit.cpp:783
+#: msgedit.cpp:800
 msgid "%1 (ICQ# %2) wrote:<br>\n"
 msgstr "%1 (ICQ# %2) пишет:<br>\n"
 
-#: msgedit.cpp:1482
+#: msgedit.cpp:1357
+msgid "Size: %1 / Max. size: %2"
+msgstr ""
+
+#: msgedit.cpp:1361
+#, fuzzy
+msgid "Message will be split"
+msgstr "Сообщение отправлено"
+
+#: msgedit.cpp:1526
 msgid "Decline reason"
 msgstr "Причина отказа"
 
-#: msgedit.cpp:1482
+#: msgedit.cpp:1526
 msgid "Please, input decline reason:"
 msgstr "Введите причину отказа:"
 
@@ -643,27 +653,27 @@ msgstr "Добавить группу"
 msgid "Add all"
 msgstr "Добавить всех"
 
-#: userview.cpp:365
+#: userview.cpp:362
 msgid "Not in list"
 msgstr "Не в списке"
 
-#: userview.cpp:472
+#: userview.cpp:469
 msgid "Group"
 msgstr "Группа"
 
-#: userview.cpp:474
+#: userview.cpp:471
 msgid "Rename"
 msgstr "Переименовать"
 
-#: userview.cpp:478
+#: userview.cpp:475
 msgid "Up"
 msgstr "Вверх"
 
-#: userview.cpp:479
+#: userview.cpp:476
 msgid "Down"
 msgstr "Вниз"
 
-#: userview.cpp:570 userview.cpp:583
+#: userview.cpp:567 userview.cpp:580
 msgid "New group"
 msgstr "Создать группу"
 
@@ -937,6 +947,14 @@ msgstr "Посередине внизу"
 msgid "Center-top"
 msgstr "Посередине вверху"
 
+#: ui/aboutdlg.cpp:34
+msgid "%1 Version: %2"
+msgstr "%1 Версия: %2"
+
+#: ui/aboutdlg.cpp:37
+msgid "Bug report"
+msgstr "Сообщения об ошибках"
+
 #: ui/searchbase.cpp:69 ui/searchbase.cpp:199
 msgid "Search"
 msgstr "Поиск"
@@ -990,6 +1008,22 @@ msgstr "Только в сети"
 msgid "New search"
 msgstr "Новый поиск"
 
+#: ui/finddlgbase.cpp:34
+msgid "Find"
+msgstr "Поиск"
+
+#: ui/finddlgbase.cpp:42
+msgid "Find:"
+msgstr "Поиск:"
+
+#: ui/finddlgbase.cpp:51
+msgid "Case &sensitivy"
+msgstr "С учетом &регистра"
+
+#: ui/finddlgbase.cpp:55
+msgid "Find &backwards"
+msgstr "В &обратную сторону"
+
 #: ui/acceptbase.cpp:95 ui/alertdialogbase.cpp:64 ui/fontsetupbase.cpp:95
 #: ui/generalsecbase.cpp:63 ui/homeinfobase.cpp:65 ui/miscsetupbase.cpp:90
 #: ui/msgdialogbase.cpp:63 ui/networkbase.cpp:65 ui/pastinfobase.cpp:63
@@ -1038,6 +1072,22 @@ msgstr "Тень"
 #: ui/xosdbase.cpp:202
 msgid "Background"
 msgstr "Фон"
+
+#: ui/aboutdlgbase.cpp:67
+msgid "About SIM"
+msgstr "О приложении SIM"
+
+#: ui/aboutdlgbase.cpp:102
+msgid "Authors"
+msgstr "Авторы"
+
+#: ui/aboutdlgbase.cpp:109
+msgid "Translation"
+msgstr "Перевод"
+
+#: ui/aboutdlgbase.cpp:116
+msgid "License"
+msgstr "Лицензия"
 
 #: ui/networkbase.cpp:80
 msgid "Network"
@@ -1092,26 +1142,6 @@ msgstr "C:"
 #: ui/networkbase.cpp:221
 msgid "To:"
 msgstr "По:"
-
-#: ui/filetransferbase.cpp:37
-msgid "File transfer"
-msgstr "Передача файла"
-
-#: ui/filetransferbase.cpp:70
-msgid "1000000/100000"
-msgstr "1000000/1000000"
-
-#: ui/filetransferbase.cpp:79
-msgid "100000"
-msgstr "100000"
-
-#: ui/filetransferbase.cpp:86
-msgid "Speed:"
-msgstr "Скорость:"
-
-#: ui/filetransferbase.cpp:107
-msgid "Close after send"
-msgstr "Закрыть после отправки"
 
 #: ui/acceptbase.cpp:122
 msgid "Override global settings"
@@ -1175,7 +1205,8 @@ msgstr "Шрифт меню"
 
 #: ui/fontsetupbase.cpp:166
 msgid "Use &own colors in history"
-msgstr "Использовать &собственные цвета в истории"
+msgstr ""
+"Использовать &собственные цвета в истории"
 
 #: ui/fontsetupbase.cpp:180
 msgid "Received messages color"
@@ -1184,6 +1215,26 @@ msgstr "Цвет полученных сообщений"
 #: ui/fontsetupbase.cpp:191
 msgid "Sending messages color"
 msgstr "Цвет отправленных сообщений"
+
+#: ui/filetransferbase.cpp:37
+msgid "File transfer"
+msgstr "Передача файла"
+
+#: ui/filetransferbase.cpp:70
+msgid "1000000/100000"
+msgstr "1000000/1000000"
+
+#: ui/filetransferbase.cpp:79
+msgid "100000"
+msgstr "100000"
+
+#: ui/filetransferbase.cpp:86
+msgid "Speed:"
+msgstr "Скорость:"
+
+#: ui/filetransferbase.cpp:107
+msgid "Close after send"
+msgstr "Закрыть после отправки"
 
 #: ui/emaileditbase.cpp:36
 msgid "Edit Email"
@@ -1199,7 +1250,8 @@ msgstr "Не показывать мой email"
 
 #: ui/pastinfobase.cpp:89
 msgid "Organization, Affiliation, Group:"
-msgstr "Объединения, общественные организации:"
+msgstr ""
+"Объединения, общественные организации:"
 
 #: ui/pastinfobase.cpp:131
 msgid "Past background:"
@@ -1405,6 +1457,29 @@ msgstr "Индекс:"
 msgid "State:"
 msgstr "Штат:"
 
+#: ui/statussetupbase.cpp:95
+msgid ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgstr ""
+"Запретить оповещение в состояниях "
+"\"Отошел\", \"Не активный\", \"Занят\""
+
+#: ui/statussetupbase.cpp:102
+msgid "minutes not using computer"
+msgstr "минут не использования компьютера"
+
+#: ui/statussetupbase.cpp:132
+msgid "minutes of \"Away\""
+msgstr "минут после \"Отошел\""
+
+#: ui/statussetupbase.cpp:139
+msgid "Set \"N/A\" status after"
+msgstr "Установить статус \"Не активный\" через"
+
+#: ui/statussetupbase.cpp:146
+msgid "Set \"Away\" status after"
+msgstr "Установить статус \"Отошел\" через"
+
 #: ui/themesetupbase.cpp:92
 msgid "Select style:"
 msgstr "Выберите стиль:"
@@ -1428,28 +1503,6 @@ msgstr "Прозрачный контейнер"
 #: ui/themesetupbase.cpp:140
 msgid "Show user window in task manager"
 msgstr "Показывать контейнер в панели задач"
-
-#: ui/statussetupbase.cpp:95
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
-msgstr ""
-"Запретить оповещение в состояниях "
-"\"Отошел\", \"Не активный\", \"Занят\""
-
-#: ui/statussetupbase.cpp:102
-msgid "minutes not using computer"
-msgstr "минут не использования компьютера"
-
-#: ui/statussetupbase.cpp:132
-msgid "minutes of \"Away\""
-msgstr "минут после \"Отошел\""
-
-#: ui/statussetupbase.cpp:139
-msgid "Set \"N/A\" status after"
-msgstr "Установить статус \"Не активный\" через"
-
-#: ui/statussetupbase.cpp:146
-msgid "Set \"Away\" status after"
-msgstr "Установить статус \"Отошел\" через"
 
 #: ui/listsecbase.cpp:90 ui/moreinfobase.cpp:65
 msgid "Form3"
@@ -1507,10 +1560,6 @@ msgstr "По умолчанию"
 msgid "Notes"
 msgstr "Заметки"
 
-#: ui/homeinfobase.cpp:153
-msgid "Time zone:"
-msgstr "Часовой пояс:"
-
 #: ui/generalsecbase.cpp:96
 msgid "My authorization is required before users add me to Contact List"
 msgstr ""
@@ -1527,17 +1576,9 @@ msgstr ""
 msgid "Don't show my IP-address"
 msgstr "Не показывать свой IP-адрес"
 
-#: ui/changepasswdbase.cpp:77
-msgid "Change password"
-msgstr "Изменить пароль"
-
-#: ui/changepasswdbase.cpp:90
-msgid "Retype new password:"
-msgstr "Введите новый пароль еще раз:"
-
-#: ui/changepasswdbase.cpp:97
-msgid "New password:"
-msgstr "Новый пароль:"
+#: ui/homeinfobase.cpp:153
+msgid "Time zone:"
+msgstr "Часовой пояс:"
 
 #: ui/aboutinfobase.cpp:62
 msgid "Form4"
@@ -1549,45 +1590,17 @@ msgstr ""
 "Дополнительная информация о "
 "пользователе:"
 
-#: ui/aboutdlg.cpp:34
-msgid "%1 Version: %2"
-msgstr "%1 Версия: %2"
+#: ui/changepasswdbase.cpp:77
+msgid "Change password"
+msgstr "Изменить пароль"
 
-#: ui/aboutdlg.cpp:37
-msgid "Bug report"
-msgstr "Сообщения об ошибках"
+#: ui/changepasswdbase.cpp:90
+msgid "Retype new password:"
+msgstr "Введите новый пароль еще раз:"
 
-#: ui/aboutdlgbase.cpp:67
-msgid "About SIM"
-msgstr "О приложении SIM"
-
-#: ui/aboutdlgbase.cpp:102
-msgid "Authors"
-msgstr "Авторы"
-
-#: ui/aboutdlgbase.cpp:109
-msgid "Translation"
-msgstr "Перевод"
-
-#: ui/aboutdlgbase.cpp:116
-msgid "License"
-msgstr "Лицензия"
-
-#: ui/finddlgbase.cpp:34
-msgid "Find"
-msgstr "Поиск"
-
-#: ui/finddlgbase.cpp:42
-msgid "Find:"
-msgstr "Поиск:"
-
-#: ui/finddlgbase.cpp:51
-msgid "Case &sensitivy"
-msgstr "С учетом &регистра"
-
-#: ui/finddlgbase.cpp:55
-msgid "Find &backwards"
-msgstr "В &обратную сторону"
+#: ui/changepasswdbase.cpp:97
+msgid "New password:"
+msgstr "Новый пароль:"
 
 #: about.cpp:279
 msgid "replace this with information about your translation team"
@@ -1689,4 +1702,3 @@ msgstr ""
 
 #~ msgid "State"
 #~ msgstr "Штат"
-

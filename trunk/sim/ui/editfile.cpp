@@ -23,7 +23,7 @@
 #include <qpushbutton.h>
 #include <qiconset.h>
 #include <qlayout.h>
-#if USE_KDE
+#ifdef USE_KDE
 #include <kfiledialog.h>
 #define QFileDialog	KFileDialog
 #else
@@ -63,7 +63,7 @@ QString EditFile::text()
 void EditFile::showFiles()
 {
     QString s = edtFile->text();
-#if WIN32
+#ifdef WIN32
     s.replace(QRegExp("\\\\"), "/");
 #endif
     if (bDirMode){
@@ -74,7 +74,7 @@ void EditFile::showFiles()
     }else{
         s = QFileDialog::getOpenFileName(s, filter, this);
     }
-#if WIN32
+#ifdef WIN32
     s.replace(QRegExp("/"), "\\");
 #endif
     if (s.length()) edtFile->setText(s);

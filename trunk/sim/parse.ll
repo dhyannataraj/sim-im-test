@@ -41,7 +41,7 @@ using namespace std;
 %x x_tag
 %%
 
-(http|https|ftp)"://"[A-Za-z0-9/\.\?\&\-_\+\%=]+	{ return URL; }
+(http|https|ftp)"://"[A-Za-z0-9/\.\?\&\-_\+\%=~]+	{ return URL; }
 "<br>"							{ return BR; }
 "<p>"							{ }
 "</p>"							{ return BR; }

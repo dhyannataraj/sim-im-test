@@ -46,7 +46,7 @@
 #include "ui/miscsetup.h"
 #endif
 
-#if USE_SPELL
+#ifdef USE_SPELL
 #include "spellsetup.h"
 #endif
 
@@ -100,7 +100,7 @@ SetupDialog::SetupDialog(QWidget *parent, int nWin)
     addPage(new MiscSetup(tabBars), 209, i18n("Miscellaneous"), "misc");
 #endif
 
-#if USE_SPELL
+#ifdef USE_SPELL
     addPage(new SpellSetup(tabBars), 210, i18n("Spell check"), "spellcheck");
 #endif
 

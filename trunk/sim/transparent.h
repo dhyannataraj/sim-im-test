@@ -51,14 +51,12 @@ public:
     static bool bCanTransparent;
     static TransparentTop *getTransparent(QWidget*);
     const QPixmap *background(QColor bgColor);
-#if USE_KDE
-#if HAVE_KROOTPIXMAP_H
+#if defined(USE_KDE) && defined(HAVE_KROOTPIXMAP_H)
     KRootPixmap *rootpixmap;
     QPixmap saveBG;
     QPixmap genBG;
     QColor  genColor;
     unsigned genFade;
-#endif
 #endif
     void updateBackground(const QPixmap &pm);
 signals:

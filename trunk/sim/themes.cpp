@@ -22,7 +22,7 @@
 #include "log.h"
 #include "cfg.h"
 
-#if USE_KDE
+#ifdef USE_KDE
 #include <kapp.h>
 extern KApplication *kApp;
 #endif
@@ -84,7 +84,7 @@ Themes::Themes(QWidget *parent)
 
 void Themes::fillList(QListBox *box)
 {
-#if USE_KDE
+#ifdef USE_KDE
     box->insertItem(i18n("Default style"));
 #endif
     box->insertStringList(QStyleFactory::keys());

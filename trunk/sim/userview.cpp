@@ -39,12 +39,9 @@
 
 #include <stdio.h>
 
-#if USE_KDE
+#ifdef USE_KDE
 #include <kwin.h>
 #include <kpopupmenu.h>
-#if HAVE_KROOTPIXMAP_H
-#include <krootpixmap.h>
-#endif
 #endif
 
 #if QT_VERSION < 300
@@ -468,7 +465,7 @@ UserView::UserView (QWidget *parent, bool _bList, bool bFill, WFlags f)
     m_nOffline = 0;
     grp_id = 0;
     menuGroup = new KPopupMenu(this);
-#if USE_KDE
+#ifdef USE_KDE
     menuGroup->insertTitle(i18n("Group"), mnuGrpTitle);
 #endif
     menuGroup->insertItem(Pict("grp_rename"), i18n("Rename"), mnuGrpRename);
