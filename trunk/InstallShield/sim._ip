@@ -3,7 +3,7 @@ Version=3
 SubVersion=1
 
 [Project:Properties:General]
-CurrentMedia=Default
+CurrentMedia=SIM
 CurrentLanguage=9
 
 [Project:Properties:DepManager]

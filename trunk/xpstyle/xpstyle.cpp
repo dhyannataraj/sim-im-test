@@ -499,6 +499,8 @@ class QMyTabBar : public QTabBar
 public:
     virtual QTab* selectTab ( const QPoint & p ) const;
     int indexOf(QTab *t);
+    int currentIndex();
+    void setCurrentIndex(int i);
 private:
     QMyTabBar();
 };
@@ -507,11 +509,26 @@ int QMyTabBar::indexOf(QTab *t)
 {
     QList<QTab> *l = tabList();
     if (l == NULL) return -1;
-    int res = 0;
-    for (QTab *lt = l->first(); lt; lt = l->next(), res++){
-        if (lt == t) return res;
+    return l->findRef(t);
+}
+
+int QMyTabBar::currentIndex()
+{
+    QList<QTab> *l = tabList();
+    if (l == NULL) return -1;
+    return l->at();
+}
+
+void QMyTabBar::setCurrentIndex(int n)
+{
+    QList<QTab> *l = tabList();
+    if (l == NULL) return;
+    if (n == -1){
+        l->last();
+        l->next();
+        return;
     }
-    return -1;
+    l->at(n);
 }
 
 QTab *QMyTabBar::selectTab(const QPoint &p) const
@@ -531,6 +548,7 @@ QRect QMyHeader::sectionRect(int index)
 {
     return QHeader::sRect(index);
 }
+
 
 // HotSpot magic
 /*! \reimp */
@@ -1192,8 +1210,10 @@ void QWindowsXPStyle::drawTab( QPainter *p, const QTabBar *tbar, QTab *t, bool s
     QMyTabBar *bar = (QMyTabBar*)tbar;
     int partId = 0;
     int stateId = 0;
+    int c = bar->currentIndex();
     int idx = bar->indexOf( t );
     int aidx = bar->indexOf( bar->tab(bar->currentTab()) );
+    bar->setCurrentIndex(c);
     if ( idx == 0 )
         partId = TABP_TABITEMLEFTEDGE;
     else if ( idx == bar->count()-1 )

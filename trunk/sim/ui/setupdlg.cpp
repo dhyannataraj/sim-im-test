@@ -43,6 +43,7 @@
 #include "ui/xosdsetup.h"
 #include "ui/keysetup.h"
 #include "ui/wndcancel.h"
+
 #include "ui/enable.h"
 
 #ifndef WIN32
@@ -61,8 +62,10 @@
 SetupDialog::SetupDialog(QWidget*, int nWin)
         : SetupDialogBase(NULL, "setup", false, WStyle_Minimize)
 {
-	SET_WNDPROC
-	setCaption(caption());
+    SET_WNDPROC
+
+    setCaption(caption());
+
     new TransparentTop(this, pMain->UseTransparentContainer, pMain->TransparentContainer);
 
     setIcon(Pict("configure"));

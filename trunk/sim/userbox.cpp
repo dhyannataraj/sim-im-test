@@ -27,7 +27,9 @@
 #include "icons.h"
 #include "userview.h"
 
+
 #include "ui/userinfo.h"
+
 #include "ui/enable.h"
 
 #include <qlayout.h>
@@ -98,7 +100,9 @@ UserBox::UserBox(unsigned long grpId)
 #endif
                      )
 {
-	SET_WNDPROC
+
+    SET_WNDPROC
+
     ::init(this, UserBox_Params);
     ToolbarDock = pMain->UserBoxToolbarDock;
     ToolbarOffset = pMain->UserBoxToolbarOffset;

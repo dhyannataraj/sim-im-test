@@ -41,6 +41,7 @@
 #include "ui/alertmsg.h"
 #include "ui/ballonmsg.h"
 #include "ui/filetransfer.h"
+
 #include "ui/enable.h"
 #include "chatwnd.h"
 #include "about.h"
@@ -260,7 +261,8 @@ cfgParam MainWindow_Params[] =
 MainWindow::MainWindow(const char *name)
         : QMainWindow(NULL, name, WType_TopLevel | WStyle_Customize | WStyle_Title | WStyle_NormalBorder| WStyle_SysMenu)
 {
-	SET_WNDPROC
+
+    SET_WNDPROC
     ::init(this, MainWindow_Params);
 
     pMain = this;

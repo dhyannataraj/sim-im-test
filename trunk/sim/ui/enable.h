@@ -19,11 +19,18 @@ char getTZComboValue(QComboBox *cmb);
 
 void set(string &s, const QString &str);
 
+
 #ifdef WIN32
+
 void setWndProc(QWidget*);
+
 #define SET_WNDPROC	setWndProc(this);
+
 #else
+
 #define SET_WNDPROC
+
 #endif
+
 
 #endif

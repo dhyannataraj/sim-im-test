@@ -53,4 +53,5 @@ StartInFolder=D:\cygwin\home\Vova\sim\Debug
 [Project:Media]
 mediadata0=Default/Media\Default
 mediadata1=HTTP/Media\HTTP
+mediadata2=SIM/Media\SIM
 
