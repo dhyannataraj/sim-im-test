@@ -32,6 +32,11 @@
 #include <windows.h>
 #endif
 
+#ifdef USE_KDE
+#include <kwinmodule.h>
+#include <kwin.h>
+#endif
+
 Plugin *createDockPlugin(unsigned base, bool, const char *config)
 {
     Plugin *plugin = new DockPlugin(base, config);
@@ -77,6 +82,7 @@ static DataDef dockData[] =
 #ifndef WIN32
         { "DockPos", DATA_ULONG, 2, 0 },
 #endif
+		{ "Desktop", DATA_ULONG, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -197,7 +203,7 @@ bool DockPlugin::eventFilter(QObject *o, QEvent *e)
             if (!bQuit){
                 QWidget *main = (QWidget*)o;
                 setShowMain(false);
-                main->hide();
+				main->hide();
                 return true;
             }
             break;
@@ -269,13 +275,14 @@ void *DockPlugin::processEvent(Event *e)
         CommandDef *def = (CommandDef*)(e->param());
         if (def->id == CmdToggle){
             QWidget *main = getMainWindow();
+			if(!main) return NULL; 
             if (isMainShow()){
                 setShowMain(false);
                 main->hide();
             }else{
-                setShowMain(true);
-                raiseWindow(main);
 				inactiveTime = 0;
+                setShowMain(true);
+                raiseWindow(main,getDesktop());
             }
             return e->param();
         }
@@ -384,7 +391,7 @@ void DockPlugin::timer()
     if (now > inactiveTime + getAutoHideInterval()){
         if (m_main){
             setShowMain(false);
-            m_main->hide();
+			m_main->hide();
         }
     }
 }

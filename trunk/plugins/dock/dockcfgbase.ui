@@ -2,7 +2,7 @@
 <class>DockCfgBase</class>
 <widget>
     <class>QWidget</class>
-    <property stdset="1">
+    <property>
         <name>name</name>
         <cstring>Form1</cstring>
     </property>
@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>329</width>
-            <height>105</height>
+            <width>313</width>
+            <height>138</height>
         </rect>
     </property>
     <property>
@@ -33,9 +33,9 @@
         </property>
         <widget>
             <class>QLayoutWidget</class>
-            <property stdset="1">
+            <property>
                 <name>name</name>
-                <cstring>Layout2</cstring>
+                <cstring>Layout1</cstring>
             </property>
             <hbox>
                 <property>
@@ -48,7 +48,7 @@
                 </property>
                 <widget>
                     <class>QCheckBox</class>
-                    <property stdset="1">
+                    <property>
                         <name>name</name>
                         <cstring>chkAutoHide</cstring>
                     </property>
@@ -59,7 +59,7 @@
                 </widget>
                 <widget>
                     <class>QSpinBox</class>
-                    <property stdset="1">
+                    <property>
                         <name>name</name>
                         <cstring>spnAutoHide</cstring>
                     </property>
@@ -70,7 +70,7 @@
                 </widget>
                 <widget>
                     <class>QLabel</class>
-                    <property stdset="1">
+                    <property>
                         <name>name</name>
                         <cstring>TextLabel1</cstring>
                     </property>
@@ -104,9 +104,81 @@
         </widget>
         <widget>
             <class>QLayoutWidget</class>
-            <property stdset="1">
+            <property>
                 <name>name</name>
                 <cstring>Layout2</cstring>
+            </property>
+            <hbox>
+                <property>
+                    <name>margin</name>
+                    <number>0</number>
+                </property>
+                <property>
+                    <name>spacing</name>
+                    <number>6</number>
+                </property>
+                <widget>
+                    <class>QLabel</class>
+                    <property>
+                        <name>name</name>
+                        <cstring>TextLabel1_2</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Show Mainwin on desktop</string>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QSpinBox</class>
+                    <property>
+                        <name>name</name>
+                        <cstring>spn_desk</cstring>
+                    </property>
+                    <property>
+                        <name>specialValueText</name>
+                        <string>current</string>
+                    </property>
+                    <property>
+                        <name>maxValue</name>
+                        <number>999</number>
+                    </property>
+                    <property>
+                        <name>minValue</name>
+                        <number>0</number>
+                    </property>
+                    <property>
+                        <name>value</name>
+                        <number>0</number>
+                    </property>
+                </widget>
+                <spacer>
+                    <property>
+                        <name>name</name>
+                        <cstring>Spacer3_2</cstring>
+                    </property>
+                    <property>
+                        <name>orientation</name>
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property>
+                        <name>sizeType</name>
+                        <enum>Expanding</enum>
+                    </property>
+                    <property>
+                        <name>sizeHint</name>
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
+        </widget>
+        <widget>
+            <class>QLayoutWidget</class>
+            <property>
+                <name>name</name>
+                <cstring>Layout3</cstring>
             </property>
             <hbox>
                 <property>
@@ -140,7 +212,7 @@
                 </spacer>
                 <widget>
                     <class>QPushButton</class>
-                    <property stdset="1">
+                    <property>
                         <name>name</name>
                         <cstring>btnCustomize</cstring>
                     </property>
