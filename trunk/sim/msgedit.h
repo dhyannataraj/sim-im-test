@@ -118,7 +118,7 @@ protected:
     virtual bool eventFilter(QObject*, QEvent*);
     virtual void closeEvent(QCloseEvent *e);
     string smsChunk();
-	QString subst(const char*);
+    QString subst(const char*);
     QString trim(const QString&);
     QString chunk(const QString &s, int len);
     bool isLatin1(const QString &s);

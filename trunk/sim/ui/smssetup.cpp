@@ -30,17 +30,17 @@ SMSSetup::SMSSetup(QWidget *p)
         : SMSSetupBase(p)
 {
     lblPict->setPixmap(Pict("info"));
-	QString s;
-	set(s, pMain->SMSSignTop.c_str()); 
-	edtBefore->setText(s);
-	set(s, pMain->SMSSignBottom.c_str()); 
-	edtAfter->setText(s);
+    QString s;
+    set(s, pMain->SMSSignTop.c_str());
+    edtBefore->setText(s);
+    set(s, pMain->SMSSignBottom.c_str());
+    edtAfter->setText(s);
 }
 
 void SMSSetup::apply(ICQUser *u)
 {
-	set(pMain->SMSSignTop, edtBefore->text());
-	set(pMain->SMSSignBottom, edtAfter->text());
+    set(pMain->SMSSignTop, edtBefore->text());
+    set(pMain->SMSSignBottom, edtAfter->text());
 }
 
 #ifndef _WINDOWS

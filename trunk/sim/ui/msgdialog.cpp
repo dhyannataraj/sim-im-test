@@ -73,11 +73,11 @@ void MsgDialog::setup(ICQUser *u, const string &str1, const string &str2)
     if (*(str1.c_str()) == 0){
         chkOverride->setChecked(false);
         str = str2;
-	user = pClient->owner;
+        user = pClient->owner;
     }else{
         chkOverride->setChecked(true);
         str = str1;
-	user = u;
+        user = u;
     }
     set(edtMessage, str, user);
 }

@@ -255,8 +255,8 @@ cfgParam MainWindow_Params[] =
         { "KeySearch", offsetof(MainWindow, KeySearch), PARAM_STRING, (unsigned)"CTRL-SHIFT-S" },
         { "UseEmotional", offsetof(MainWindow, UseEmotional), PARAM_BOOL, (unsigned)true },
         { "AutoHideTime", offsetof(MainWindow, AutoHideTime), PARAM_ULONG, 60 },
-		{ "SMSSignTop", offsetof(MainWindow, SMSSignTop), PARAM_STRING, 0 },
-		{ "SNSSignBottom", offsetof(MainWindow, SMSSignBottom), PARAM_STRING, (unsigned)"\n&MyAlias; (ICQ# &MyUin;)" },
+        { "SMSSignTop", offsetof(MainWindow, SMSSignTop), PARAM_STRING, 0 },
+        { "SNSSignBottom", offsetof(MainWindow, SMSSignBottom), PARAM_STRING, (unsigned)"\n&MyAlias; (ICQ# &MyUin;)" },
         { "", 0, 0, 0 }
     };
 

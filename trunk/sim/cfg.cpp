@@ -49,11 +49,11 @@ void init(void *_obj, const cfgParam *params)
             case PARAM_I18N:
                 if (p->defValue){
                     string *s = (string*)(obj + p->offs);
-					if (*((const char*)(p->defValue))){
-						*s = i18n((const char*)(p->defValue)).local8Bit();
-					}else{
-						*s = "";
-					}
+                    if (*((const char*)(p->defValue))){
+                        *s = i18n((const char*)(p->defValue)).local8Bit();
+                    }else{
+                        *s = "";
+                    }
                 }
                 break;
             case PARAM_CHAR:

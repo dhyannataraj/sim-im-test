@@ -283,8 +283,8 @@ cfgParam ClientOwner_Params[] =
 
 cfgParam Client_Params[] =
     {
-	{ "MinTCPPort", offsetof(ICQClient, MinTCPPort), PARAM_USHORT, 1024 },
-	{ "MaxTCPPort", offsetof(ICQClient, MaxTCPPort), PARAM_USHORT, 0xFFFF },
+        { "MinTCPPort", offsetof(ICQClient, MinTCPPort), PARAM_USHORT, 1024 },
+        { "MaxTCPPort", offsetof(ICQClient, MaxTCPPort), PARAM_USHORT, 0xFFFF },
         { "ServerHost", offsetof(ICQClient, ServerHost), PARAM_STRING, (unsigned)"login.icq.com" },
         { "ServerPort", offsetof(ICQClient, ServerPort), PARAM_USHORT, 5190 },
         { "Password", offsetof(ICQClient, DecryptedPassword), PARAM_STRING, 0 },
