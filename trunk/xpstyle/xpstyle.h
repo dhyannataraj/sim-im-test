@@ -28,14 +28,52 @@ class QWindowsXPStyle: public QWindowsStyle
 public:
     QWindowsXPStyle();
     virtual ~QWindowsXPStyle();
-	void polish( QApplication *app );
-	void unPolish( QApplication *app );
-	void polish( QWidget *widget );
-	void unPolish( QWidget *widget );
-	void updateRegion( QWidget *widget );
+    void polish( QApplication *app );
+    void unPolish( QApplication *app );
+    void polish( QWidget *widget );
+    void unPolish( QWidget *widget );
+    void updateRegion( QWidget *widget );
+    virtual void drawButton( QPainter *p, int x, int y, int w, int h,
+                             const QColorGroup &g, bool sunken = FALSE,
+                             const QBrush *fill = 0 );
+    virtual void drawBevelButton( QPainter *p, int x, int y, int w, int h,
+                                  const QColorGroup &g, bool sunken = FALSE,
+                                  const QBrush *fill = 0 );
+    virtual void drawButtonMask( QPainter *p, int x, int y, int w, int h);
+    virtual void drawPushButton( QPushButton* btn, QPainter *p);
+    virtual void drawToolButton( QPainter *p, int x, int y, int w, int h,
+                                 const QColorGroup &g, bool sunken = FALSE,
+                                 const QBrush *fill = 0 );
+    virtual QSize exclusiveIndicatorSize() const;
+    virtual void drawExclusiveIndicator( QPainter* p, int x, int y, int w, int h,
+                                         const QColorGroup &g, bool on, bool down = FALSE, bool enabled = TRUE );
+    virtual void drawExclusiveIndicatorMask( QPainter *p, int x, int y, int w, int h, bool on);
+    virtual QSize indicatorSize() const ;
+    virtual void drawIndicator( QPainter* p, int x, int y, int w, int h, const QColorGroup &g,
+                                int state, bool down = FALSE, bool enabled = TRUE );
+    virtual void drawIndicatorMask( QPainter *p, int x, int y, int w, int h, int state);
+    virtual void drawScrollBarControls( QPainter*,  const QScrollBar*,
+                                        int sliderStart, uint controls,
+                                        uint activeControl );
+    virtual void drawComboButton( QPainter *p, int x, int y, int w, int h,
+                                  const QColorGroup &g, bool sunken = FALSE,
+                                  bool editable = FALSE,
+                                  bool enabled = TRUE,
+                                  const QBrush *fill = 0 );
+    virtual void drawPanel( QPainter *p, int x, int y, int w, int h,
+                            const QColorGroup &, bool sunken=FALSE,
+                            int lineWidth = 1, const QBrush *fill = 0 );
+    virtual void drawPopupPanel( QPainter *p, int x, int y, int w, int h,
+                                 const QColorGroup &,  int lineWidth = 2,
+                                 const QBrush *fill = 0 );
+    //    virtual void tabbarMetrics( const QTabBar*, int&, int&, int& );
+    virtual void drawTab( QPainter*, const QTabBar*, QTab*, bool selected );
+    virtual void drawTabMask( QPainter*, const QTabBar*, QTab*, bool selected );
+protected slots:
+    void activeTabChanged();
 protected:
-	bool eventFilter( QObject *o, QEvent *e );
-	QWindowsXPStylePrivate *d;
+    bool eventFilter( QObject *o, QEvent *e );
+    QWindowsXPStylePrivate *d;
 };
 
 #endif
