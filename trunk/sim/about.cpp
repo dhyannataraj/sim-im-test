@@ -90,8 +90,8 @@ class KAboutDataPrivate
 {
 public:
     KAboutDataPrivate()
-            : translatorName("_: NAME OF TRANSLATORS\nYour names")
-            , translatorEmail("_: EMAIL OF TRANSLATORS\nYour emails")
+: translatorName("_: NAME OF TRANSLATORS\nYour names")
+    , translatorEmail("_: EMAIL OF TRANSLATORS\nYour emails")
     {};
     const char *translatorName;
     const char *translatorEmail;

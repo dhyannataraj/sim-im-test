@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qtooltip.cpp,v 1.2 2002-12-09 08:27:36 shutoff Exp $
+** $Id: qtooltip.cpp,v 1.3 2002-12-15 01:59:04 shutoff Exp $
 **
 ** Tool Tips (or Balloon Help) for any widget or rectangle
 **
@@ -424,7 +424,7 @@ void QTipManager::showTip()
         else
             qScrollEffect( label );
 #else
-        label->show();
+label->show();
 #endif
 
         label->raise();

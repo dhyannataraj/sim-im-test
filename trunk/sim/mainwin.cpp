@@ -629,6 +629,7 @@ MainWindow::MainWindow(const char *name)
     SET_WNDPROC
     ::init(this, MainWindow_Params);
 
+    bLocked = false;
     pMain = this;
     bQuit = false;
     dock = NULL;
@@ -937,6 +938,7 @@ void MainWindow::deleteChilds()
         lockFile = -1;
     }
 #endif
+    bLocked = false;
 }
 
 MainWindow::~MainWindow()
@@ -1020,43 +1022,56 @@ extern const ToolBarDef *pHistoryToolBar;
 extern char ICQ_CONF[];
 extern char SIM_CONF[];
 
-bool MainWindow::init()
+bool MainWindow::init(bool bNoApply)
 {
     string file;
+    if (!bLocked){
 #ifndef WIN32
-    file = getFullPath("lock");
-    if ((lockFile = ::open(file.c_str(), O_RDWR | O_CREAT, 0600)) == -1){
-        log(L_ERROR, "Can't open %s: %s", file.c_str(), strerror(errno));
-        return false;
-    }
-    struct flock fl;
-    fl.l_type   = F_WRLCK;
-    fl.l_whence = SEEK_SET;
-    fl.l_len    = 1;
-    fl.l_start  = 0;
-    fl.l_pid    = getpid();
-    if ((fcntl(lockFile, F_SETLK, &fl) == -1) && (errno != ENOLCK)){
-        log(L_ERROR, "Can't lock %s: %s", file.c_str(), strerror(errno));
-        return false;
-    }
+        file = getFullPath("lock");
+        if ((lockFile = ::open(file.c_str(), O_RDWR | O_CREAT, 0600)) == -1){
+            log(L_ERROR, "Can't open %s: %s", file.c_str(), strerror(errno));
+            return false;
+        }
+        struct flock fl;
+        fl.l_type   = F_WRLCK;
+        fl.l_whence = SEEK_SET;
+        fl.l_len    = 1;
+        fl.l_start  = 0;
+        fl.l_pid    = getpid();
+        if ((fcntl(lockFile, F_SETLK, &fl) == -1) && (errno != ENOLCK)){
+            log(L_ERROR, "Can't lock %s: %s", file.c_str(), strerror(errno));
+            return false;
+        }
 #else
-    char mutex_name[32];
-    snprintf(mutex_name, sizeof(mutex_name), "sim_%lu", pClient->owner->Uin);
-    HANDLE mutex = CreateMutexA(NULL, TRUE, mutex_name);
-    if (mutex == NULL) return false;
-    lockFile = (int)mutex;
+        char mutex_name[32];
+        snprintf(mutex_name, sizeof(mutex_name), "sim_%lu", pClient->owner->Uin);
+        HANDLE mutex = CreateMutexA(NULL, TRUE, mutex_name);
+        if (mutex == NULL) return false;
+        lockFile = (int)mutex;
 #endif
+        bLocked = true;
+    }
     string part;
     file = getFullPath(SIM_CONF);
     QFile fs(QString::fromLocal8Bit(file.c_str()));
     if (fs.open(IO_ReadOnly))
         ::load(this, MainWindow_Params, fs, part);
 
+    if (bNoApply) return true;
+
     if (ToolBarMain.size()) emit toolBarChanged(mainWndToolBar);
     if (ToolBarMsg.size()) emit toolBarChanged(pMsgEditToolBar);
     if (ToolBarHistory.size()) emit toolBarChanged(pHistoryToolBar);
     if (ToolBarUserBox.size()) emit toolBarChanged(pUserBoxToolBar);
 
+    if ((mWidth == 0) || (mHeight == 0)){
+        mHeight = QApplication::desktop()->height() * 3 / 2;
+        mWidth = mHeight / 3;
+        if ((mLeft == 0) && (mTop == 0)){
+            mLeft = QApplication::desktop()->width() - 5 - mWidth;
+            mTop = 5;
+        }
+    }
     if (mLeft < 5) mLeft = 5;
     if (mTop < 5) mTop = 5;
     if (mLeft > QApplication::desktop()->width() - 5) mLeft = QApplication::desktop()->width() - 5;

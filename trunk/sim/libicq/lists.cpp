@@ -320,7 +320,7 @@ void ICQClientPrivate::listsRequest()
 class ICQListEvent : public ICQEvent
 {
 public:
-    ICQListEvent(int type, unsigned long uin) : ICQEvent(type, uin) {}
+ICQListEvent(int type, unsigned long uin) : ICQEvent(type, uin) {}
     virtual bool process(ICQClientPrivate*, unsigned short result) = 0;
 protected:
     virtual bool processAnswer(ICQClientPrivate*, Buffer&, unsigned short nSubtype);
@@ -337,7 +337,7 @@ class ICQSetListEvent : public ICQListEvent
 {
 public:
     ICQSetListEvent(unsigned long uin, unsigned type, bool bSet, unsigned short id)
-            : ICQListEvent(EVENT_INFO_CHANGED, uin),
+: ICQListEvent(EVENT_INFO_CHANGED, uin),
     m_type(type), m_id(id), m_bSet(bSet) {}
     bool process(ICQClientPrivate*, unsigned short result);
 protected:
@@ -414,7 +414,7 @@ void ICQClient::setInIgnore(ICQUser *u, bool bSet)
 class MoveUserEvent : public ICQListEvent
 {
 public:
-    MoveUserEvent(unsigned long uin, unsigned short _grp_id) : ICQListEvent(EVENT_USERGROUP_CHANGED, uin), grp_id(_grp_id) {}
+MoveUserEvent(unsigned long uin, unsigned short _grp_id) : ICQListEvent(EVENT_USERGROUP_CHANGED, uin), grp_id(_grp_id) {}
     bool process(ICQClientPrivate *icq, unsigned short result);
 protected:
     unsigned short grp_id;
@@ -423,7 +423,7 @@ protected:
 class MoveUserDummyEvent : public ICQListEvent
 {
 public:
-    MoveUserDummyEvent() : ICQListEvent(EVENT_INFO_CHANGED, 0) {}
+MoveUserDummyEvent() : ICQListEvent(EVENT_INFO_CHANGED, 0) {}
     bool process(ICQClientPrivate *icq, unsigned short result);
 };
 
@@ -539,7 +539,7 @@ void ICQClientPrivate::moveUser(ICQUser *u, ICQGroup *g)
 class RenameUserEvent : public ICQListEvent
 {
 public:
-    RenameUserEvent(unsigned long uin, const char *_name) : ICQListEvent(EVENT_INFO_CHANGED, uin)
+RenameUserEvent(unsigned long uin, const char *_name) : ICQListEvent(EVENT_INFO_CHANGED, uin)
     { name = strdup(_name); }
     ~RenameUserEvent() { free(name); }
 protected:
@@ -580,7 +580,7 @@ void ICQClientPrivate::renameUser(ICQUser *u, const char *alias)
 class DeleteUserEvent : public ICQListEvent
 {
 public:
-    DeleteUserEvent(unsigned long uin) : ICQListEvent(EVENT_USER_DELETED, uin) {}
+DeleteUserEvent(unsigned long uin) : ICQListEvent(EVENT_USER_DELETED, uin) {}
 protected:
     bool process(ICQClientPrivate*, unsigned short);
 };
@@ -621,7 +621,7 @@ void ICQClientPrivate::deleteUser(ICQUser *u)
 class CreateGroupEvent : public ICQListEvent
 {
 public:
-    CreateGroupEvent(ICQGroup *_grp) : ICQListEvent(EVENT_GROUP_CREATED, _grp->Id), grp(_grp) {}
+CreateGroupEvent(ICQGroup *_grp) : ICQListEvent(EVENT_GROUP_CREATED, _grp->Id), grp(_grp) {}
     ~CreateGroupEvent() { if (grp) delete grp; }
 protected:
     ICQGroup *grp;
@@ -662,7 +662,7 @@ void ICQClientPrivate::createGroup(const char *name)
 class DeleteGroupEvent : public ICQListEvent
 {
 public:
-    DeleteGroupEvent(unsigned short grpId) : ICQListEvent(EVENT_GROUP_CHANGED, grpId) {}
+DeleteGroupEvent(unsigned short grpId) : ICQListEvent(EVENT_GROUP_CHANGED, grpId) {}
 protected:
     bool process(ICQClientPrivate*, unsigned short result);
 };
@@ -714,7 +714,7 @@ void ICQClientPrivate::deleteGroup(ICQGroup *g)
 class RenameGroupEvent : public ICQListEvent
 {
 public:
-    RenameGroupEvent(unsigned short grpId, const char *_name) :
+RenameGroupEvent(unsigned short grpId, const char *_name) :
     ICQListEvent(EVENT_GROUP_CHANGED, grpId) { name = strdup(_name); }
     ~RenameGroupEvent() { free(name); }
 protected:

@@ -289,7 +289,7 @@ public:
     bool			BarAutoHide;
 #endif
 
-    bool 	     init();
+    bool 	     init(bool bNoApply = false);
 
     QPopupMenu   *menuStatus;
     QPopupMenu	 *menuPhone;
@@ -473,6 +473,7 @@ protected:
     MonitorWindow *mNetMonitor;
     unsigned inactiveTime;
 
+    bool bLocked;
     void deleteChilds();
     void exec(const char *prg, const char *arg);
     void loadMenu();

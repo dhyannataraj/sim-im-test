@@ -183,7 +183,7 @@ class FullInfoEvent : public ICQEvent
 {
 public:
     FullInfoEvent(unsigned short id, unsigned long uin)
-            : ICQEvent(EVENT_INFO_CHANGED, uin, EVENT_SUBTYPE_FULLINFO), m_nParts(0) { m_nId = id; }
+: ICQEvent(EVENT_INFO_CHANGED, uin, EVENT_SUBTYPE_FULLINFO), m_nParts(0) { m_nId = id; }
 protected:
     bool processAnswer(ICQClientPrivate *client, Buffer &b, unsigned short nSubtype);
     unsigned m_nParts;
@@ -680,7 +680,7 @@ ICQEvent *ICQClient::searchByUin(unsigned long uin)
 class SetPasswordEvent : public ICQEvent
 {
 public:
-    SetPasswordEvent(unsigned short id, const char *_passwd) : ICQEvent(EVENT_INFO_CHANGED)
+SetPasswordEvent(unsigned short id, const char *_passwd) : ICQEvent(EVENT_INFO_CHANGED)
     {
         m_nId = id;
         passwd = strdup(_passwd);
@@ -715,7 +715,7 @@ class SetSecurityInfo : public ICQEvent
 {
 public:
     SetSecurityInfo(unsigned short id, bool _bAuthorize, bool _bWebAware)
-            : ICQEvent(EVENT_INFO_CHANGED), bAuthorize(_bAuthorize), bWebAware(_bWebAware)
+: ICQEvent(EVENT_INFO_CHANGED), bAuthorize(_bAuthorize), bWebAware(_bWebAware)
     {
         m_nId = id;
     }
@@ -760,7 +760,7 @@ class SetMainInfo : public ICQEvent
 {
 public:
     SetMainInfo(unsigned short id, ICQUser *u)
-            : ICQEvent(EVENT_INFO_CHANGED)
+: ICQEvent(EVENT_INFO_CHANGED)
     {
         m_nId = id;
         INIT(Nick);
@@ -866,7 +866,7 @@ class SetWorkInfo : public ICQEvent
 {
 public:
     SetWorkInfo(unsigned short id, ICQUser *u)
-            : ICQEvent(EVENT_INFO_CHANGED)
+: ICQEvent(EVENT_INFO_CHANGED)
     {
         m_nId = id;
         INIT(WorkCity);
@@ -960,7 +960,7 @@ class SetMoreInfo : public ICQEvent
 {
 public:
     SetMoreInfo(unsigned short id, ICQUser *u)
-            : ICQEvent(EVENT_INFO_CHANGED)
+: ICQEvent(EVENT_INFO_CHANGED)
     {
         m_nId = id;
         INIT(Age);
@@ -1041,7 +1041,7 @@ class SetAboutInfo : public ICQEvent
 {
 public:
     SetAboutInfo(unsigned short id, ICQUser *u)
-            : ICQEvent(EVENT_INFO_CHANGED)
+: ICQEvent(EVENT_INFO_CHANGED)
     {
         m_nId = id;
         INIT(About);
@@ -1080,7 +1080,7 @@ class SetInterestsInfo : public ICQEvent
 {
 public:
     SetInterestsInfo(unsigned short id, ICQUser *u)
-            : ICQEvent(EVENT_INFO_CHANGED)
+: ICQEvent(EVENT_INFO_CHANGED)
     {
         m_nId = id;
         INIT(Interests);
@@ -1129,7 +1129,7 @@ class SetBackgroundInfo : public ICQEvent
 {
 public:
     SetBackgroundInfo(unsigned short id, ICQUser *u)
-            : ICQEvent(EVENT_INFO_CHANGED)
+: ICQEvent(EVENT_INFO_CHANGED)
     {
         m_nId = id;
         INIT(Backgrounds);
@@ -1173,7 +1173,7 @@ class SetMailInfo : public ICQEvent
 {
 public:
     SetMailInfo(unsigned short id, ICQUser *u)
-            : ICQEvent(EVENT_INFO_CHANGED)
+: ICQEvent(EVENT_INFO_CHANGED)
     {
         m_nId = id;
         INIT(EMails);

@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qtextbrowser.cpp,v 1.4 2002-07-11 01:26:48 shutoff Exp $
+** $Id: qtextbrowser.cpp,v 1.5 2002-12-15 01:59:03 shutoff Exp $
 **
 ** Implementation of the QTextBrowser class
 **
@@ -371,7 +371,7 @@ class QTextDetailPopup : public QWidget
 {
 public:
     QTextDetailPopup()
-            : QWidget ( 0, "automatic QText detail widget", WType_Popup | WDestructiveClose )
+: QWidget ( 0, "automatic QText detail widget", WType_Popup | WDestructiveClose )
     {
     }
 

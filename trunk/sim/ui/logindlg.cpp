@@ -137,7 +137,10 @@ void LoginDialog::login()
             pSplash->SavePassword = chkSave->isChecked();
             pSplash->NoShowLogin = chkNoShow->isChecked();
             pSplash->save();
-            pMain->init();
+            if (!pMain->init()){
+                BalloonMsg::message(i18n("Can't initialize main window"), btnLogin);
+                return;
+            }
             bCloseMain = false;
             close();
             return;
@@ -156,7 +159,8 @@ void LoginDialog::login()
     pClient->storePassword(edtPasswd->text().local8Bit());
     pClient->DecryptedPassword = edtPasswd->text().local8Bit();
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
-    pClient->setStatus(ICQ_STATUS_ONLINE);
+    pMain->init(true);
+    pClient->setStatus((pMain->ManualStatus == ICQ_STATUS_OFFLINE) ? ICQ_STATUS_ONLINE : pMain->ManualStatus);
 }
 
 void LoginDialog::closeEvent(QCloseEvent *e)
@@ -200,7 +204,13 @@ void LoginDialog::processEvent(ICQEvent *e)
             pSplash->SavePassword = chkSave->isChecked();
             pSplash->NoShowLogin = chkNoShow->isChecked();
             pSplash->save();
-            pMain->init();
+            if (!pMain->init()){
+                BalloonMsg::message(i18n("Can't initialize main window"), btnLogin);
+                stopLogin();
+                return;
+            }
+            if (pMain->ManualStatus == ICQ_STATUS_OFFLINE)
+                pMain->ManualStatus = ICQ_STATUS_ONLINE;
             bCloseMain = false;
             close();
         }

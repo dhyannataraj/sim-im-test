@@ -513,7 +513,7 @@ SIMClient::~SIMClient()
 class Encoding
 {
 public:
-    Encoding(const QString &_name, int _mib) : name(_name), mib(_mib) {}
+Encoding(const QString &_name, int _mib) : name(_name), mib(_mib) {}
     QString name;
     int		mib;
 };

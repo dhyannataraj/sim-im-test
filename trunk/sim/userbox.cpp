@@ -56,7 +56,7 @@
 class Splitter : public QSplitter
 {
 public:
-    Splitter(QWidget *p) : QSplitter(p) {}
+Splitter(QWidget *p) : QSplitter(p) {}
 protected:
     virtual QSizePolicy sizePolicy() const;
 };
@@ -565,7 +565,7 @@ void UserBox::accelActivated(int id)
     if (curWnd == NULL) return;
     switch (id){
     case mnuMessage:
-    case mnuURL:
+        case mnuURL:
     case mnuFile:
     case mnuChat:
     case mnuContacts:

@@ -49,7 +49,7 @@ public:
 
     class iterator
     {
-public:
+    public:
         ICQMessage *operator*() { return msg; }
         bool operator++();
         void setDirection(bool bDirection);
@@ -65,7 +65,7 @@ public:
             setFilter("");
             setCondition("");
         }
-protected:
+    protected:
         bool bDirection;
         QTextCodec *codec;
         QString filter;
@@ -81,7 +81,7 @@ protected:
         Grep *grepFilter;
         Grep *grepCondition;
         friend class History;
-private:
+    private:
         iterator(iterator&);
     };
 

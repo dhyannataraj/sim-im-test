@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qtooltip.h,v 1.1 2002-12-08 03:43:02 shutoff Exp $
+** $Id: qtooltip.h,v 1.2 2002-12-15 01:59:04 shutoff Exp $
 **
 ** Definition of Tool Tips (or Balloon Help) for any widget or rectangle
 **
@@ -138,9 +138,9 @@ class QTipLabel : public QLabel
 {
     Q_OBJECT
 public:
-    QTipLabel(const QString& text) : QLabel( 0, "toolTipTip",
-                    WStyle_StaysOnTop +
-                    WStyle_Customize + WStyle_NoBorder + WStyle_Tool )
+QTipLabel(const QString& text) : QLabel( 0, "toolTipTip",
+            WStyle_StaysOnTop +
+            WStyle_Customize + WStyle_NoBorder + WStyle_Tool )
     {
         setMargin(1);
         setIndent(0);

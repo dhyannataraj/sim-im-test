@@ -174,7 +174,7 @@ bool bEnlightenment = false;
 class str
 {
 public:
-    str(const char *str) : data(str) {}
+str(const char *str) : data(str) {}
     bool operator < (const str&) const;
 private:
     const char *data;
@@ -299,7 +299,7 @@ typedef struct _DATA_DIRECTORY
 class PEOptHdr
 {
 public:
-    PEOptHdr() : DataDirectory(NULL) {}
+PEOptHdr() : DataDirectory(NULL) {}
     ~PEOptHdr() { if (DataDirectory) delete[] DataDirectory; }
     /*
         Standard fields.
@@ -515,7 +515,7 @@ static QPixmap addPict(const QPixmap &pict, const QPixmap &add)
 #ifdef WIN32
                    QColor(255, 255, 255)
 #else
-                   QColor(0, 0, 0)
+QColor(0, 0, 0)
 #endif
                   );
         QRegion r(*add.mask());

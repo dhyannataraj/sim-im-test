@@ -97,7 +97,7 @@ class SimApp : public QApplication
 {
 public:
     SimApp(int &argc, char **argv)
-            : QApplication(argc, argv) {}
+: QApplication(argc, argv) {}
 protected:
     void saveState(QSessionManager&);
 };
@@ -590,7 +590,8 @@ int main(int argc, char *argv[])
         if (pClient->EncryptedPassword.length() == 0) startUIN = 0;
     }
     if (startUIN && pSplash->NoShowLogin){
-        pMain->init();
+        if (!pMain->init())
+            exit(1);
     }else{
         pLoginDlg = new LoginDialog;
         pSplash->hide();

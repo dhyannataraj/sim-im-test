@@ -3999,7 +3999,7 @@ QPopupMenu *QTextEdit::createPopupMenu( const QPoint& )
 #if defined(Q_WS_X11)
     d->id[ IdSelectAll ] = popup->insertItem( tr( "Select All" ) );
 #else
-    d->id[ IdSelectAll ] = popup->insertItem( tr( "Select All" ) + ACCEL_KEY( A ) );
+d->id[ IdSelectAll ] = popup->insertItem( tr( "Select All" ) + ACCEL_KEY( A ) );
 #endif
     popup->setItemEnabled( d->id[ IdUndo ], !isReadOnly() && doc->commands()->isUndoAvailable() );
     popup->setItemEnabled( d->id[ IdRedo ], !isReadOnly() && doc->commands()->isRedoAvailable() );
