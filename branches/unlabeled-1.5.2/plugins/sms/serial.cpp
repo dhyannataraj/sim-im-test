@@ -397,6 +397,7 @@ QStringList SerialPort::devices()
 #include <sys/fcntl.h>
 #include <sys/ioctl.h>
 #include <termios.h>
+#include <errno.h>
 
 enum PortState
 {

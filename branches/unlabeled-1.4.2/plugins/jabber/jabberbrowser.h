@@ -19,8 +19,8 @@
 #define _JABBERBROWSER_H
 
 #include "simapi.h"
-#include "stl.h"
 #include "jabberclient.h"
+#include "stl.h"
 
 #include <qmainwindow.h>
 #include <qwizard.h>

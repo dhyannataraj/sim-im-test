@@ -20,72 +20,38 @@
 #include <qfile.h>
 #include <qregexp.h>
 
-#include <sablot.h>
-#include <shandler.h>
+#include <libxslt/xslt.h>
+#include <libxslt/transform.h>
+#include <libxslt/xsltutils.h>
+#include <libxslt/xsltInternals.h>
 
 class XSLPrivate
 {
 public:
     XSLPrivate(const char *my_xsl);
     ~XSLPrivate();
-    SablotSituation S;
-    SDOM_Document xsl;
+    xsltStylesheetPtr styleSheet;
+	xmlDocPtr doc;
 };
 
 XSLPrivate::XSLPrivate(const char *my_xsl)
 {
-    SablotCreateSituation(&S);
-    SablotParseStylesheetBuffer(S, my_xsl, &xsl);
+	styleSheet = NULL;
+	xmlSubstituteEntitiesDefault(1);
+	xmlLoadExtDtdDefaultValue = 1;
+	doc = xmlParseMemory(my_xsl, strlen(my_xsl));
+    if (doc == NULL){
+		log(L_WARN, "Can't parse XSLT");
+		return;
+    }
+    styleSheet = xsltParseStylesheetDoc(doc);
 }
 
 XSLPrivate::~XSLPrivate()
 {
-    SablotDestroyDocument(S, xsl);
-    SablotDestroySituation(S);
+	if (styleSheet)
+		xsltFreeStylesheet(styleSheet);
 }
-
-MH_ERROR xsl_makeCode(void*, SablotHandle, int, unsigned short, unsigned short code)
-{
-    return code;
-}
-
-MH_ERROR xsl_log(void*, SablotHandle, MH_ERROR, MH_LEVEL, char**)
-{
-    return 0;
-}
-
-MH_ERROR xsl_error(void*, SablotHandle, MH_ERROR code, MH_LEVEL level, char **fields)
-{
-    int log_level = L_DEBUG;
-    switch (level){
-    case MH_LEVEL_WARN:
-        log_level = L_WARN;
-        break;
-    case MH_LEVEL_ERROR:
-    case MH_LEVEL_CRITICAL:
-        log_level = L_ERROR;
-        break;
-    case MH_LEVEL_DEBUG:
-    case MH_LEVEL_INFO:
-        log_level = L_DEBUG;
-        break;
-    }
-    string flds;
-    for (; *fields; fields++){
-        if (!flds.empty())
-            flds += ", ";
-        flds += *fields;
-    }
-    log(level, "XSL: %u %s", code, flds.c_str());
-    return 0;
-}
-
-static MessageHandler mh =
-    {
-        xsl_makeCode,
-        xsl_log,
-        xsl_error
-    };
 
 #ifdef WIN32
 static char STYLES[] = "styles\\";
@@ -130,11 +96,6 @@ void XSL::setXSL(const QString &my_xsl)
 
 QString XSL::process(const QString &my_xml)
 {
-    SablotSituation S;
-    SablotHandle proc;
-
-    SDOM_Document xml;
-
     QString my_xsl;
     /* Petr Cimprich, Sablot developer:
        &nbsp; is predefined in HTML but not in XML
@@ -142,27 +103,28 @@ QString XSL::process(const QString &my_xml)
     my_xsl = my_xml;
     my_xsl.replace( QRegExp("&nbsp;"), QString("&#160;") );
 
-    SablotCreateSituation(&S);
-    SablotParseBuffer(S, my_xsl.utf8(), &xml);
-    SablotCreateProcessorForSituation(S, &proc);
+	xmlDocPtr doc = xmlParseMemory(my_xsl.utf8(), my_xsl.utf8().length());
+	if (doc == NULL){
+		log(L_WARN, "Parse XML error");
+		return QString::null;
+	}
+	const char *params[1];
+	params[0] = NULL;
+	xmlDocPtr res = xsltApplyStylesheet(d->styleSheet, doc, params);
+	if (res == NULL){
+		log(L_WARN, "Apply stylesheet errror");
+		xmlFreeDoc(doc);
+		return QString::null;
+	}
+	xmlFreeDoc(doc);
+ 
+	xmlOutputBufferPtr buf = xmlAllocOutputBuffer(NULL);
+	xsltSaveResultTo(buf, res, d->styleSheet);
+	xmlFreeDoc(res);
 
-    SablotRegHandler(proc, HLR_MESSAGE, &mh, NULL);
+	QString result = QString::fromUtf8((char*)(buf->buffer->content));
+	xmlOutputBufferClose(buf);;
 
-    SablotAddArgTree(S, proc, "sheet", d->xsl);
-    SablotAddArgTree(S, proc, "data", xml);
-
-    SablotRunProcessorGen(S, proc, "arg:/sheet", "arg:/data", "arg:/out");
-
-    char *result;
-    SablotGetResultArg(proc, "arg:/out", &result);
-    QString res = QString::fromUtf8(result);
-
-    SablotFree(result);
-    SablotDestroyProcessor(proc);
-    SablotDestroyDocument(S, xml);
-
-    SablotDestroySituation(S);
-
-    return res;
+    return result;
 }
 

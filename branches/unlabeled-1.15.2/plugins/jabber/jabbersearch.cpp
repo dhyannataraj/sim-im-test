@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "jabbersearch.h"
 #include "jabberclient.h"
+#include "jabbersearch.h"
 #include "jabber.h"
 
 #include <qlayout.h>

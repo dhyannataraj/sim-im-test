@@ -15,11 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <libxml/parser.h>
+
 #include "smiles.h"
 #include "icondll.h"
 #include "buffer.h"
-
-#include <expat.h>
 
 #ifndef XML_STATUS_OK
 #define XML_STATUS_OK    1
@@ -53,106 +53,78 @@ protected:
     string				*m_data;
     string				m_str;
     Buffer				m_pict;
-    Buffer				*m_cdata;
     bool				m_bRec;
     unsigned			m_width;
     unsigned			m_height;
     unsigned			parseNumber(const char*);
-    XML_Parser	m_parser;
+    xmlSAXHandler		m_parser;
     void		element_start(const char *el, const char **attr);
     void		element_end(const char *el);
     void		char_data(const char *str, int len);
-    void		start_cdata();
-    void		end_cdata();
-    static void p_element_start(void *data, const char *el, const char **attr);
-    static void p_element_end(void *data, const char *el);
-    static void p_char_data(void *data, const char *str, int len);
-    static void p_start_cdata(void *userData);
-    static void p_end_cdata(void *userData);
+    void		cdata(const char *data, int len);
+    static void p_element_start(void *data, const xmlChar *el, const xmlChar **attr);
+    static void p_element_end(void *data, const xmlChar *el);
+    static void p_char_data(void *data, const xmlChar *str, int len);
+    static void p_cdata(void *data, const xmlChar *value, int len);
 };
 
 XepParser::XepParser()
 {
-    m_parser = XML_ParserCreate("UTF-8");
-    XML_SetUserData(m_parser, this);
-    XML_SetElementHandler(m_parser, p_element_start, p_element_end);
-    XML_SetCharacterDataHandler(m_parser, p_char_data);
-    XML_SetStartCdataSectionHandler(m_parser, p_start_cdata);
-    XML_SetEndCdataSectionHandler(m_parser, p_end_cdata);
     m_data  = NULL;
-    m_cdata = NULL;
     m_bRec = false;
     m_width  = 0;
     m_height = 0;
+	memset(&m_parser, 0, sizeof(m_parser));
+	m_parser.startElement = p_element_start;
+	m_parser.endElement   = p_element_end;
+	m_parser.characters   = p_char_data;
+	m_parser.cdataBlock   = p_cdata;
 }
 
 XepParser::~XepParser()
 {
-    XML_ParserFree(m_parser);
 }
 
-void XepParser::p_element_start(void *data, const char *el, const char **attr)
+void XepParser::p_element_start(void *data, const xmlChar *el, const xmlChar **attr)
 {
-    ((XepParser*)data)->element_start(el, attr);
+    ((XepParser*)data)->element_start((char*)el, (const char**)attr);
 }
 
-void XepParser::p_element_end(void *data, const char *el)
+void XepParser::p_element_end(void *data, const xmlChar *el)
 {
-    ((XepParser*)data)->element_end(el);
+    ((XepParser*)data)->element_end((char*)el);
 }
 
-void XepParser::p_char_data(void *data, const char *str, int len)
+void XepParser::p_char_data(void *data, const xmlChar *str, int len)
 {
-    ((XepParser*)data)->char_data(str, len);
+    ((XepParser*)data)->char_data((char*)str, len);
 }
 
-void XepParser::p_start_cdata(void *data)
+void XepParser::p_cdata(void *data, const xmlChar *str, int len)
 {
-    ((XepParser*)data)->start_cdata();
-}
-
-void XepParser::p_end_cdata(void *data)
-{
-    ((XepParser*)data)->end_cdata();
-}
-
-static void replace(char *b, unsigned size, const char *str1, const char *str2)
-{
-    unsigned str_size = strlen(str1);
-    for (unsigned i = 0; i < size - str_size; i++, b++){
-        if (*b != *str1)
-            continue;
-        if (memcmp(b, str1, str_size))
-            continue;
-        memcpy(b, str2, strlen(str2));
-    }
+    ((XepParser*)data)->cdata((char*)str, len);
 }
 
 bool XepParser::parse(QFile &f)
 {
-    char buf[4096];
-    char XML_START[] = "<smiles>";
-    XML_Parse(m_parser, XML_START, strlen(XML_START), false);
-    unsigned start = 0;
-    for (;;){
-        char s32[] = "<32bit_Icons>";
-        char e32[] = "</32bit_Icons>";
-        int size = f.readBlock(&buf[start], sizeof(buf) - start);
-        if (size <= 0)
-            break;
-        size += start;
-        replace(buf, size, s32, "<AA");
-        replace(buf, size, e32, "</AA");
-        if (size == sizeof(buf)){
-            start = strlen(e32);
-            size -= start;
-        }
-        int res = XML_Parse(m_parser, buf, size, false);
-        if (res != XML_STATUS_OK)
-            return false;
-        if (start)
-            memmove(buf, &buf[sizeof(buf) - start], start);
-    }
+	char SMILES_START[] = "<smiles>";
+	char SMILES_END[]   = "</smiles>";
+
+	char *data = new char[f.size() + 20];
+	strcpy(data, SMILES_START);
+	char *p = data + strlen(SMILES_START);
+    int size = f.readBlock(p, f.size());
+    if (size <= 0){
+		delete[] data;
+		return false;
+	}
+	p += size;
+	strcpy(p, SMILES_END);
+	p += strlen(SMILES_END);
+	*p = 0;
+
+	xmlSAXUserParseMemory(&m_parser, this, data, strlen(data));
+	delete[] data;
     if ((m_pict.size() == 0) || (m_width == 0) || (m_height == 0))
         return false;
     Buffer pict;
@@ -216,22 +188,13 @@ void XepParser::element_end(const char *el)
 
 void XepParser::char_data(const char *str, int len)
 {
-    if (m_cdata){
-        m_cdata->pack(str, len);
-        return;
-    }
     if (m_data)
         m_data->append(str, len);
 }
 
-void XepParser::start_cdata()
+void XepParser::cdata(const char *data, int len)
 {
-    m_cdata = &m_pict;
-}
-
-void XepParser::end_cdata()
-{
-    m_cdata = NULL;
+    m_pict.pack(data, len);
 }
 
 unsigned XepParser::parseNumber(const char *p)
