@@ -356,17 +356,18 @@ typedef struct SendMsg
     SendMsg() : msg(NULL), socket(NULL) {}
 } SendMsg;
 
-const unsigned SEND_PLAIN    = 0x0001;
-const unsigned SEND_UTF        = 0x0002;
-const unsigned SEND_RTF        = 0x0003;
-const unsigned SEND_RAW        = 0x0004;
-const unsigned SEND_2GO        = 0x0005;
-const unsigned SEND_MASK    = 0x000F;
-const unsigned SEND_1STPART    = 0x0010;
+const unsigned SEND_PLAIN		= 0x0001;
+const unsigned SEND_UTF			= 0x0002;
+const unsigned SEND_RTF			= 0x0003;
+const unsigned SEND_RAW			= 0x0004;
+const unsigned SEND_2GO			= 0x0005;
+const unsigned SEND_HTML		= 0x0006;
+const unsigned SEND_MASK		= 0x000F;
+const unsigned SEND_1STPART		= 0x0010;
 
 typedef struct rtf_charset
 {
-    const char *name;
+    const char	   *name;
     int            rtf_code;
 } charset;
 
@@ -446,6 +447,7 @@ public:
     Message *parseMessage(unsigned short type, const char *screen,
                           string &p, Buffer &packet);
     bool messageReceived(Message*, const char *screen);
+    QTextCodec *getCodec(const char *encoding);
     static QTextCodec *_getCodec(const char *encoding);
     static QString toUnicode(const char *serverText, const char *clientName, unsigned contactId);
     static QString parseRTF(const char *str, const char *encoding);
@@ -557,7 +559,6 @@ protected:
     bool m_bIdleTime;
     bool hasCap(ICQUserData *data, int cap);
     string trimPhone(const char *phone);
-    QTextCodec *getCodec(const char *encoding);
     unsigned short getListId();
     TlvList *createListTlv(ICQUserData *data, Contact *contact);
     unsigned short sendRoster(unsigned short cmd, const char *name,
@@ -569,7 +570,8 @@ protected:
     string getUserCellular(Contact *contact);
     void setMainInfo(ICQUserData *d);
     void packInfoList(char *str);
-    string createRTF(const char *text, unsigned long foreColor, const char *encoding);
+    string createRTF(const QString &text, unsigned long foreColor, const char *encoding);
+	QString removeImages(const QString &text, unsigned maxSmile);
     void ackMessage(SendMsg &s);
     void sendThroughServer(const char *screen, unsigned short type, Buffer &b, const MessageId &id, bool bOffline);
     bool sendAuthRequest(Message *msg, void *data);
@@ -577,6 +579,7 @@ protected:
     bool sendAuthRefused(Message *msg, void *data);
     void sendAdvMessage(const char *screen, Buffer &msgText, unsigned plugin_index, const MessageId &id, bool bOffline, bool bPeek, bool bDirect);
     void sendType2(const char *screen, Buffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, bool bPeek, bool bDirect);
+	void sendType1(const QString &text, bool bWide, ICQUserData *data);
     void parseAdvancedMessage(const char *screen, Buffer &msg, bool needAck, MessageId id);
     void sendAutoReply(const char *screen, MessageId id,
                        const plugin p, unsigned short cookie1, unsigned short cookie2,
@@ -591,6 +594,8 @@ protected:
     void packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned short &type, unsigned short nSequence);
     void requestReverseConnection(const char *screen, DirectSocket *socket);
     bool ackMessage(Message *msg, unsigned short ackFlags, const char *str);
+	QString clearTags(const QString &text);
+	string clearTags(const char *text);
     string screen(ICQUserData*);
     unsigned short msgStatus();
     unsigned short m_advCounter;

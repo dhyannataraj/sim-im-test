@@ -30,6 +30,7 @@ typedef struct IconsData
 } IconsData;
 
 class IconDLL;
+class Smiles;
 
 class my_string : public string
 {
@@ -47,6 +48,7 @@ public:
     virtual ~IconsPlugin();
     PROP_STRLIST(IconDLLs);
 	PROP_UTF8(Smiles);
+	Smiles *smiles;
 protected:
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual string getConfig();

@@ -336,16 +336,11 @@ IconLoader::IconLoader(IconsMap *icon_map, const char *name)
             log(L_WARN, "No resources");
             return;
         }
-
         if((nh.ne_rsrctab - nh.ne_segtab)%8!=0)
             log(L_WARN, "Extra 4 bytes in segment table.");
-
-
         f.at(nh.ne_rsrctab+dh.e_lfanew);
         //		getResourceTable();
-    }
-    else
-    {
+    }else{
         f.at(dh.e_lfanew);
         getPEHeader();
         if (ph.signaturebytes != 0x00004550)
@@ -430,9 +425,7 @@ QPixmap IconLoader::getIcon(int id)
     f.readBlock((char*)&bh, sizeof(bh));
     int w = bh.biWidth;
     int h = bh.biHeight / 2;
-
     if ((w > 64) || (h > 64)) return QPixmap();
-
     int bits = bh.biBitCount;
     int depth = bits;
     int numColors = bh.biClrUsed;
@@ -496,7 +489,6 @@ QPixmap IconLoader::getIcon(int id)
     }
     QPixmap res;
     res.convertFromImage(img);
-
     if (!img.hasAlphaBuffer()){
         QBitmap mask(w, h);
         QPainter pMask(&mask);
@@ -807,7 +799,7 @@ U32 IconLoader::imageDirectoryOffset ()
 
 // ______________________________________________________________________________________
 
-bool IconDLL::load(const char *file)
+bool IconDLL::load(const QString &file)
 {
     name = file;
     IconLoader loader(icon_map, file);

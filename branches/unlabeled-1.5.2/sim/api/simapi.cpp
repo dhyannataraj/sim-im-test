@@ -418,7 +418,10 @@ void setButtonsPict(QWidget *w)
 const QIconSet *Icon(const char *name)
 {
     Event e(EventGetIcon, (void*)name);
-    return (const QIconSet*)e.process();
+    const QIconSet *res = (const QIconSet*)e.process();
+	if ((unsigned)res == (unsigned)(-1))
+		res = NULL;
+	return res;
 }
 
 const QIconSet *BigIcon(const char *name)
@@ -577,23 +580,23 @@ EXPORT QString getRichTextPart(QString &str, unsigned)
 
 static const char *_smiles =
     {
-        ":-)" DIV ":)" DIV DIV
-        ":-O" DIV ":-0" DIV DIV
-        ":-|" DIV ":-!" DIV DIV
-        ":-/" DIV DIV
-        ":-(" DIV ":(" DIV DIV
-        ":-{}" DIV ":{}" DIV DIV
-        ":*)" DIV DIV
-        ":'-(" DIV ":'(" DIV DIV
-        ";-)" DIV ";)" DIV DIV
-        ":-@" DIV DIV
-        ":-\")" DIV DIV
-        ":-X" DIV DIV
-        ":-P" DIV DIV
-        "8-)" DIV DIV
-        "O-)" DIV "0-)" DIV DIV
-        ":-D" DIV DIV
-        DIV DIV
+        ":-)" DIV ":)" DIV DIV I18N_NOOP("Smile") DIV
+        ":-O" DIV ":-0" DIV "=-0" DIV "=-0" DIV DIV I18N_NOOP("Surprised") DIV
+        ":-|" DIV ":-!" DIV DIV I18N_NOOP("Indifferent") DIV
+        ":-/" DIV ":-\\" DIV DIV I18N_NOOP("Skeptical") DIV
+        ":-(" DIV ":(" DIV DIV I18N_NOOP("Sad") DIV
+        ":-{}" DIV ":{}" DIV ":-*" DIV DIV I18N_NOOP("Kiss") DIV
+        ":*)" DIV DIV I18N_NOOP("Annoyed") DIV
+        ":'-(" DIV ":'(" DIV DIV I18N_NOOP("Crying") DIV
+        ";-)" DIV ";)" DIV DIV I18N_NOOP("Wink") DIV
+        ":-@" DIV ">:0" DIV ">:O" DIV ">:o" DIV DIV I18N_NOOP("Angry") DIV
+        ":-\")" DIV ":-[" DIV DIV I18N_NOOP("Embarrassed") DIV
+        ":-X" DIV DIV I18N_NOOP("Uptight") DIV
+        ":-P" DIV DIV I18N_NOOP("Teaser") DIV
+        "8-)" DIV DIV I18N_NOOP("Cool") DIV
+        "O-)" DIV "0-)" DIV "O:-)" DIV "0:-)" DIV DIV I18N_NOOP("Angel") DIV
+        ":-D" DIV DIV I18N_NOOP("Grin") DIV
+        DIV DIV DIV
     };
 
 static vector<string> *pSmiles = NULL;
@@ -613,21 +616,30 @@ EXPORT const char *smiles(unsigned n)
     return getSmiles(n, pSmiles);
 }
 
-EXPORT const char *defaultSmiles(unsigned n)
+static void setSmiles(const char *p, vector<string> *pSmiles)
 {
-    if (pDefaultSmiles == NULL){
-        pDefaultSmiles = new vector<string>;
-        for (const char *p = _smiles; *p; ){
+	log(L_DEBUG, "SetSmiles");
+    for (;*p;){
             string s;
             for (; *p; ){
-                s += p;
+				if (strcmp(p, "-"))
+					s += p;
                 s += '\x00';
                 p += strlen(p) + 1;
             }
             s += '\x00';
-            pDefaultSmiles->push_back(s);
             p++;
-        }
+			s += p;
+			p += strlen(p) + 1;
+            pSmiles->push_back(s);
+    }
+}
+
+EXPORT const char *defaultSmiles(unsigned n)
+{
+    if (pDefaultSmiles == NULL){
+        pDefaultSmiles = new vector<string>;
+		setSmiles(_smiles, pDefaultSmiles);
     }
     return getSmiles(n, pDefaultSmiles);
 }
@@ -641,32 +653,7 @@ EXPORT void setSmiles(const char *p)
     }else{
         pSmiles = new vector<string>;
     }
-    for (unsigned i = 0; i < 16; i++)
-        pSmiles->push_back("");
-    for (; *p; ){
-        string s;
-        unsigned index;
-        for (index = 0; index < 16; index++){
-            const char *dp = defaultSmiles(index);
-            for (; *dp; dp += strlen(dp) + 1)
-                if (strcmp(p, dp) == 0)
-                    break;
-            if (*dp)
-                break;
-        }
-        for (; *p; ){
-            s += p;
-            s += '\x00';
-            p += strlen(p) + 1;
-        }
-        s += '\x00';
-        if (index < 16){
-            (*pSmiles)[index] = s;
-        }else{
-            pSmiles->push_back(s);
-        }
-        p++;
-    }
+	setSmiles(p, pSmiles);
 }
 
 void destroySmiles()

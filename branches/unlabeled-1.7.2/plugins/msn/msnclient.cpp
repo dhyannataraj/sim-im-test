@@ -231,6 +231,7 @@ void MSNClient::disconnected()
 				m.setStatus(STATUS_OFFLINE);
 				Event e(EventMessageReceived, &m);
 				e.process();
+
 			}
         }
     }
@@ -871,7 +872,7 @@ MSNUserData *MSNClient::findContact(const char *mail, const char *name, Contact 
         set_str(&data->ScreenName, name);
         return data;
     }
-    QString name_str = QString::fromUtf8(name);
+    QString name_str = unquote(QString::fromUtf8(name));
     ContactList::ContactIterator it;
     while ((contact = ++it) != NULL){
         if (contact->getName() == name_str){
@@ -884,7 +885,6 @@ MSNUserData *MSNClient::findContact(const char *mail, const char *name, Contact 
             return data;
         }
     }
-    name_str = QString::fromUtf8(name);
     it.reset();
     while ((contact = ++it) != NULL){
         if (contact->getName() == name_str){

@@ -39,6 +39,7 @@
 #include <qapplication.h>
 #include <qclipboard.h>
 #include <qregexp.h>
+#include <qtooltip.h>
 
 #include <time.h>
 
@@ -901,6 +902,8 @@ void *MsgEdit::processEvent(Event *e)
             QToolButton *btnSmile = (QToolButton*)(eBtn.process());
             if (btnSmile){
                 SmilePopup *popup = new SmilePopup(this);
+				QSize s = popup->minimumSizeHint();
+				popup->resize(s);
                 connect(popup, SIGNAL(insert(int)), this, SLOT(insertSmile(int)));
                 QPoint p = CToolButton::popupPos(btnSmile, popup);
                 popup->move(p);
@@ -1059,7 +1062,7 @@ void MsgEdit::insertSmile(int id)
         m_edit->insert(smiles(id), false, true, true);
         return;
     }
-    QString id_str  = QString("%1").arg(id,0,16);
+    QString id_str  = QString("%1").arg(id);
     id_str = id_str.upper();
     QString img_src = QString("<img src=icon:smile%1>").arg(id_str);
     int para;
@@ -1170,13 +1173,15 @@ void MsgEdit::editEnterPressed()
     e.process();
 }
 
-SmileLabel::SmileLabel(int _id, QWidget *parent)
+SmileLabel::SmileLabel(int _id, const char *tip, QWidget *parent)
         : QLabel(parent)
 {
     id = _id;
-    char b[20];
-    snprintf(b, sizeof(b), "smile%X", id);
-    setPixmap(Pict(b));
+    string b = "smile";
+	b += number(id);
+    setPixmap(Pict(b.c_str()));
+	if (tip && *tip)
+		QToolTip::add(this, i18n(tip));
 }
 
 void SmileLabel::mouseReleaseEvent(QMouseEvent*)
@@ -1189,16 +1194,46 @@ SmilePopup::SmilePopup(QWidget *popup)
 {
     setFrameShape(PopupPanel);
     setFrameShadow(Sunken);
-    QGridLayout *lay = new QGridLayout(this, 4, 4);
+	QSize s;
+	unsigned nSmiles = 0;
+	unsigned i;
+	for (i = 0; ; i++){
+		const char *p = smiles(i);
+		if (p == NULL)
+			break;
+		if (*p == 0)
+			continue;
+		string b = "smile";
+		b += number(i);
+		const QIconSet *is = Icon(b.c_str());
+		if (is == NULL)
+			continue;
+		const QPixmap &pict  = is->pixmap(QIconSet::Small, QIconSet::Normal);
+		s = QSize(QMAX(s.width(), pict.width()), QMAX(s.height(), pict.height()));
+		nSmiles++;
+	}
+	unsigned size = (nSmiles + 3) / 4;
+    QGridLayout *lay = new QGridLayout(this, 4, size);
     lay->setMargin(4);
     lay->setSpacing(2);
-    for (unsigned i = 0; i < 4; i++){
-        for (unsigned j = 0; j < 4; j++){
-            unsigned n = i * 4 + j;
-            QWidget *w = new SmileLabel(n, this);
-            connect(w, SIGNAL(clicked(int)), this, SLOT(labelClicked(int)));
-            lay->addWidget(w, i, j);
-        }
+	i = 0;
+	unsigned j = 0;
+	for (unsigned id = 0; ; id++){
+		const char *p = smiles(id);
+		if (p == NULL)
+			break;
+		if (*p == 0)
+			continue;
+		for (; *p; p += strlen(p) + 1);
+		p++;
+        QWidget *w = new SmileLabel(id, p, this);
+		w->setMinimumSize(s);
+        connect(w, SIGNAL(clicked(int)), this, SLOT(labelClicked(int)));
+        lay->addWidget(w, i, j);
+		if (++j >= size){
+			i++;
+			j = 0;
+		}
     }
     resize(minimumSizeHint());
 }

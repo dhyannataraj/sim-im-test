@@ -76,7 +76,7 @@ void IconPreview::showPreview(const char *file)
         return;
     }
     icons = new IconDLL;
-    if (!icons->load(file)){
+    if (!icons->load(QFile::decodeName(file))){
         delete icons;
         icons = NULL;
     }
@@ -187,7 +187,7 @@ void IconCfg::protocolChanged(int n)
     QString text = "";
     for (list<IconsDef>::iterator it = defs.begin(); it != defs.end(); ++it){
         if ((*it).index == n){
-            text = QString::fromLocal8Bit((*it).icon.c_str());
+            text = QString::fromUtf8((*it).icon.c_str());
             break;
         }
     }
@@ -198,7 +198,7 @@ void IconCfg::textChanged(const QString &t)
 {
     string text;
     if (!t.isEmpty())
-        text = QFile::encodeName(t);
+        text = t.utf8();
     for (list<IconsDef>::iterator it = defs.begin(); it != defs.end(); ++it){
         if ((*it).index == cmbProtocol->currentItem()){
             (*it).icon = text;
@@ -210,6 +210,7 @@ void IconCfg::textChanged(const QString &t)
 void IconCfg::apply()
 {
     unsigned n = 1;
+	m_smiles->apply();
     for (list<IconsDef>::iterator it = defs.begin(); it != defs.end(); ++it, n++){
         string res = (*it).protocol;
         res += ",";

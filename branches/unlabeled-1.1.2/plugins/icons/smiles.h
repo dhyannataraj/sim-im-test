@@ -37,9 +37,11 @@ class Smiles
 public:
     Smiles();
     ~Smiles();
-    bool load(const char *file);
+    bool load(const QString &file);
 	unsigned count();
 	const QIconSet *get(unsigned id);
+	QString pattern(unsigned id);
+	QString tip(unsigned id);
 	void clear();
     string name;
 	ICONS_MAP icons;

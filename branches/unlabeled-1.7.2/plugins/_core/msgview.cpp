@@ -727,7 +727,7 @@ void ViewParser::text(const QString &text)
         if (pos)
             res += quoteString(str.left(pos));
         res += "<img src=\"icon:smile";
-        res += QString::number(curSmile->nSmile, 16).upper();
+        res += QString::number(curSmile->nSmile).upper();
         res += "\">";
         int len = pos + curSmile->smile.size();
         str = str.mid(len);

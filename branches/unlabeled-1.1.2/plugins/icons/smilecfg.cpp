@@ -76,7 +76,7 @@ void SmilePreview::showPreview(const char *file)
         return;
     }
     smiles = new Smiles;
-    if (!smiles->load(file)){
+    if (!smiles->load(QFile::decodeName(file))){
         delete smiles;
         smiles = NULL;
     }
@@ -87,10 +87,14 @@ void SmilePreview::setSmiles()
 {
     unsigned i = 0;
     if (smiles){
+		unsigned nSmile = 0;
         for (i = 0; (i < smiles->count()) && (i < 20); ){
-            const QIconSet *icon = smiles->get(i);
-			if (icon == NULL)
+            const QIconSet *icon = smiles->get(nSmile++);
+			if (icon == NULL){
+				if (nSmile < 16)
+					continue;
 				break;
+			}
 			labels[i]->setPixmap(icon->pixmap(QIconSet::Automatic, QIconSet::Normal));
 			i++;
         }
@@ -118,11 +122,23 @@ SmileCfg::SmileCfg(QWidget *parent, IconsPlugin *plugin)
 #else
     edtSmiles->setFilter(i18n("Smiles(*.msl)"));
 #endif
+	edtSmiles->setText(m_plugin->getSmiles());
     lblMore->setText(i18n("Get more smiles"));
 }
 
 void SmileCfg::apply()
 {
+	Smiles *smiles = new Smiles;
+	QString file = edtSmiles->text();
+	if (!smiles->load(file)){
+		delete smiles;
+		smiles = NULL;
+		file = "";
+	}
+	if (m_plugin->smiles)
+		delete m_plugin->smiles;
+	m_plugin->smiles = smiles;
+	m_plugin->setSmiles(file);
 }
 
 void SmileCfg::goSmiles()

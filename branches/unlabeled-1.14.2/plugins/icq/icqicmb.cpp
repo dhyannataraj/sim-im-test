@@ -347,12 +347,22 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
                             text += QChar(c);
                         }
                         Message *msg = new Message(MessageGeneric);
-                        msg->setText(text);
+                        if (atol(screen.c_str())){
+                            msg->setText(text);
+                        }else{
+                            msg->setText(clearTags(text));
+                            msg->setFlags(MESSAGE_RICHTEXT);
+                        }
                         messageReceived(msg, screen.c_str());
                         break;
                     }
                     ICQMessage *msg = new ICQMessage;
-                    msg->setServerText(m_data);
+                    if (atol(screen.c_str())){
+                        msg->setServerText(m_data);
+                    }else{
+                        msg->setServerText(clearTags(m_data).c_str());
+                        msg->setFlags(MESSAGE_RICHTEXT);
+                    }
                     messageReceived(msg, screen.c_str());
                     break;
                 }
@@ -464,6 +474,15 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
             send(false);
             return true;
         }
+        if (data->Uin == 0){
+            s.flags  = SEND_HTML;
+            s.msg	 = msg;
+            s.text	 = removeImages(msg->getRichText(), 0);
+            s.screen = screen(data);
+            sendQueue.push_front(s);
+            send(false);
+            return true;
+        }
         s.flags	 = SEND_PLAIN;
         s.msg	 = msg;
         s.text	 = msg->getPlainText();
@@ -546,12 +565,18 @@ void ICQClient::ackMessage(SendMsg &s)
         }else if (!s.part.isEmpty()){
             Message m(MessageGeneric);
             m.setContact(s.msg->contact());
-            m.setText(s.part);
             m.setBackground(s.msg->getBackground());
             m.setForeground(s.msg->getForeground());
             unsigned flags = s.msg->getFlags() & (~MESSAGE_RICHTEXT);
-            if ((s.flags & SEND_MASK) == SEND_RTF)
+            if ((s.flags & SEND_MASK) == SEND_RTF){
                 flags |= MESSAGE_RICHTEXT;
+                m.setText(removeImages(s.part, 16));
+            }else if ((s.flags & SEND_MASK) == SEND_HTML){
+                flags |= MESSAGE_RICHTEXT;
+                m.setText(removeImages(s.part, 0));
+            }else{
+                m.setText(s.part);
+            }
             m.setFlags(flags);
             m.setClient(dataName(s.screen.c_str()).c_str());
             Event e(EventSent, &m);
@@ -1069,39 +1094,31 @@ void ICQClient::processSendQueue()
             switch (m_send.flags & SEND_MASK){
             case SEND_RTF:
                 m_send.part = getRichTextPart(m_send.text, MAX_MESSAGE_SIZE);
-                text = createRTF(m_send.part.utf8(), m_send.msg->getForeground(), encoding.c_str());
+                text = createRTF(m_send.part, m_send.msg->getForeground(), encoding.c_str());
                 break;
             case SEND_UTF:
                 m_send.part = getPart(m_send.text, MAX_MESSAGE_SIZE);
                 text = m_send.part.utf8();
                 break;
+            case SEND_HTML:{
+				QString t;
+                    m_send.part = getRichTextPart(m_send.text, MAX_MESSAGE_SIZE);
+                    t += "<html><body>";
+                    t += m_send.part;
+                    t += "</body></html>";
+                    bool bWide = false;
+                    for (int i = 0; i < t.length(); i++){
+                        if (t[i].unicode() > 0x7F){
+                            bWide = true;
+                            break;
+                        }
+                    }
+                    sendType1(t, bWide, data);
+                    return;
+                }
             default:
                 m_send.part = getPart(m_send.text, MAX_MESSAGE_SIZE);
-                Buffer msgBuf;
-                if ((m_send.flags & SEND_MASK) == SEND_2GO){
-                    string msg_text;
-                    for (int i = 0; i < (int)m_send.part.length(); i++){
-                        unsigned short c = m_send.part[i].unicode();
-                        char c1 = (c >> 8) & 0xFF;
-                        char c2 = c & 0xFF;
-                        msg_text += c1;
-                        msg_text += c2;
-                    }
-                    msgBuf << 0x00020000L;
-                    msgBuf.pack(msg_text.c_str(), msg_text.length());
-                }else{
-                    QTextCodec *codec = getCodec(encoding.c_str());
-                    string msg_text;
-                    msg_text = codec->fromUnicode(m_send.part);
-                    msgBuf << 0x0000L;
-                    msgBuf << msg_text.c_str();
-                }
-                Buffer b;
-                b.tlv(0x0501, "\x01", 1);
-                b.tlv(0x0101, msgBuf);
-                sendThroughServer(m_send.screen.c_str(), 1, b, m_send.id, true);
-                if (data->Status != ICQ_STATUS_OFFLINE)
-                    ackMessage(m_send);
+                sendType1(m_send.part, (m_send.flags & SEND_MASK) == SEND_2GO, data);
                 return;
             }
 
@@ -1204,6 +1221,41 @@ void ICQClient::processSendQueue()
             return;
         }
     }
+}
+
+void ICQClient::sendType1(const QString &text, bool bWide, ICQUserData *data)
+{
+    Buffer msgBuf;
+    if (bWide){
+        string msg_text;
+        for (int i = 0; i < (int)text.length(); i++){
+            unsigned short c = text[i].unicode();
+            char c1 = (c >> 8) & 0xFF;
+            char c2 = c & 0xFF;
+            msg_text += c1;
+            msg_text += c2;
+        }
+        msgBuf << 0x00020000L;
+        msgBuf.pack(msg_text.c_str(), msg_text.length());
+    }else{
+		string encoding;
+		if (data->Encoding){
+			encoding = data->Encoding;
+		}else if (this->data.owner.Encoding){
+			encoding = this->data.owner.Encoding;
+		}
+        QTextCodec *codec = getCodec(encoding.c_str());
+        string msg_text;
+        msg_text = codec->fromUnicode(text);
+        msgBuf << 0x0000L;
+        msgBuf << msg_text.c_str();
+    }
+    Buffer b;
+    b.tlv(0x0501, "\x01", 1);
+    b.tlv(0x0101, msgBuf);
+    sendThroughServer(m_send.screen.c_str(), 1, b, m_send.id, true);
+    if (data->Status != ICQ_STATUS_OFFLINE)
+        ackMessage(m_send);
 }
 
 void ICQClient::requestReverseConnection(const char *screen, DirectSocket *socket)

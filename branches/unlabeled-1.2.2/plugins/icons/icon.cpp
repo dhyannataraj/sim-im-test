@@ -18,7 +18,8 @@
 #include "icon.h"
 #include "icondll.h"
 #include "iconcfg.h"
-#include "simapi.h"
+#include "smiles.h"
+#include "core.h"
 
 bool my_string::operator < (const my_string &a) const
 {
@@ -62,6 +63,15 @@ IconsPlugin::IconsPlugin(unsigned base, const char *config)
         : Plugin(base)
 {
     load_data(iconsData, &data, config);
+	smiles = NULL;
+	if (!getSmiles().isEmpty()){
+		smiles = new Smiles;
+		if (!smiles->load(getSmiles())){
+			delete smiles;
+			smiles = NULL;
+			setSmiles(NULL);
+		}
+	}
     setIcons();
 }
 
@@ -70,6 +80,11 @@ IconsPlugin::~IconsPlugin()
     for (ICONS_MAP::iterator it = dlls.begin(); it != dlls.end(); ++it)
         delete (*it).second;
     dlls.clear();
+	if (smiles){
+		delete smiles;
+		smiles = NULL;
+	}
+	setSmiles(NULL);
     Event e(EventIconChanged);
     e.process();
     free_data(iconsData, &data);
@@ -89,12 +104,62 @@ void IconsPlugin::setIcons()
         if (v.length() == 0)
             continue;
         IconDLL *dll = new IconDLL;
-        if (!dll->load(v.c_str()))
+        if (!dll->load(QString::fromUtf8(v.c_str())))
             continue;
         dlls.insert(ICONS_MAP::value_type(name.c_str(), dll));
     }
-    Event e(EventIconChanged);
-    e.process();
+	if (smiles){
+		string s;
+		for (unsigned i = 0; i < smiles->count(); i++){
+			const QIconSet *is = smiles->get(i);
+			if (is == NULL){
+				log(L_DEBUG, "Skip %u", i);
+				s += '-';
+				s += '\x00';
+				s += '\x00';
+				s += '\x00';
+				continue;
+			}
+			QString pat = smiles->pattern(i);
+			while (!pat.isEmpty()){
+				QString p = getToken(pat, ' ', false);
+				if (p.isEmpty())
+					continue;
+				s += p.latin1();
+				s += '\x00';
+				log(L_DEBUG, "%u > %s", i, (const char*)(p.latin1()));
+			}
+			s += '\x00';
+			QString tip = smiles->tip(i);
+			if (!tip.isEmpty()){
+				s += tip.local8Bit();
+				log(L_DEBUG, "%u Tip %s", i, (const char*)(tip.local8Bit()));
+			}
+			s += '\x00';
+			QString url = "smile";
+			url += QString::number(i).upper();
+			url = QString("icon:") + url;
+		    QMimeSourceFactory::defaultFactory()->setPixmap(url, is->pixmap(QIconSet::Small, QIconSet::Normal));
+		}
+		s += '\x00';
+		s += '\x00';
+		s += '\x00';
+		SIM::setSmiles(s.c_str());
+	}else{
+		for (unsigned i = 0; i < 16; i++){
+			QString url = "icon:smile";
+			url += QString::number(i).upper();
+			const QIconSet *is = Icon((const char*)(url.latin1()));
+			if (is == NULL)
+				continue;
+		    QMimeSourceFactory::defaultFactory()->setPixmap(url, is->pixmap(QIconSet::Small, QIconSet::Normal));
+		}
+		SIM::setSmiles(NULL);
+	}
+    Event eIcon(EventIconChanged);
+    eIcon.process();
+	Event eHistory(EventHistoryConfig);
+	eHistory.process();
 }
 
 string IconsPlugin::getConfig()
@@ -141,18 +206,37 @@ void *IconsPlugin::processEvent(Event *e)
     if (e->type() == EventGetIcon){
         const char *name = (const char*)(e->param());
 		const char *p = strchr(name, '_');
-		if (p == NULL)
-			return NULL;
-		string s;
-		s.append(name, (unsigned)(p - name));
-		ICONS_MAP::iterator it = dlls.find(s.c_str());
-		if (it == dlls.end())
-			return NULL;
-		s = p + 1;
-        for (const IconID *d = icons_def; d->name; d++){
-             if (s == d->name)
+		if (p){
+			string s;
+			s.append(name, (unsigned)(p - name));
+			ICONS_MAP::iterator it = dlls.find(s.c_str());
+			if (it == dlls.end())
+				return NULL;
+			s = p + 1;
+			for (const IconID *d = icons_def; d->name; d++){
+				 if (s == d->name)
                     return (void*)((*it).second->get(d->id));
-        }
+			}
+			return NULL;
+		}
+		char _SMILE[] = "smile";
+		if (smiles && (strlen(name) > strlen(_SMILE)) && (memcmp(name, _SMILE, strlen(_SMILE)) == 0)){
+			unsigned nIcon = 0;
+			p = name + strlen(_SMILE);
+			for (; *p; p++){
+				if ((*p >= '0') && (*p <= '9')){
+					nIcon = (nIcon * 10) + (*p - '0');
+					continue;
+				}
+				return NULL;
+			}
+			const QIconSet *is = smiles->get(nIcon);
+			if (is)
+				return (void*)is;
+			if (nIcon < 16)
+				return (void*)(-1);
+			return NULL;
+		}
     }
     return NULL;
 }

@@ -30,10 +30,15 @@ Smiles::~Smiles()
 	clear();
 }
 
-bool Smiles::load(const char *file)
+bool Smiles::load(const QString &file)
 {
 	clear();
-	QString fname = QFile::decodeName(file);
+	for (unsigned i = 0; i < 16; i++){
+		SmileDef sd;
+		sd.icon = NULL;
+		defs.push_back(sd);
+	}
+	QString fname = file;
     QFile f(fname);
     if (!f.open(IO_ReadOnly))
         return false;
@@ -78,7 +83,7 @@ bool Smiles::load(const char *file)
 		QString tip = getToken(line, '\"', false);
 		QString dllName = fname + dll;
 		dllName = dllName.replace(QRegExp("/./"), "/");
-		string fn = QFile::encodeName(dllName);
+		string fn = dllName.utf8();
 		ICONS_MAP::iterator it = icons.find(fn.c_str());
 		IconDLL *icon_dll = NULL;
 		if (it == icons.end()){
@@ -98,8 +103,27 @@ bool Smiles::load(const char *file)
 		if (sd.icon == NULL)
 			continue;
 		sd.pattern = pattern;
-		sd.tip     = tip;
-		defs.push_back(sd);
+		sd.tip = tip;
+		unsigned index = (unsigned)(-1);
+		while (!pattern.isEmpty()){
+			QString pat = getToken(pattern, ' ', false);
+			for (index = 0; index < 16; index++){
+				const char *pp = defaultSmiles(index);
+				for (; *pp; pp++)
+					if (pat == pp)
+						break;
+				if (*pp)
+					break;
+			}
+			if (index < 16)
+				break;
+		}
+
+		if (index < 16){
+			defs[index] = sd;
+		}else{
+			defs.push_back(sd);
+		}
 	}
 	return true;
 }
@@ -119,6 +143,20 @@ const QIconSet *Smiles::get(unsigned id)
 	if (id < defs.size())
 		return defs[id].icon;
 	return NULL;
+}
+
+QString Smiles::pattern(unsigned id)
+{
+	if (id < defs.size())
+		return defs[id].pattern;
+	return "";
+}
+
+QString Smiles::tip(unsigned id)
+{
+	if (id < defs.size())
+		return defs[id].tip;
+	return "";
 }
 
 unsigned Smiles::count()

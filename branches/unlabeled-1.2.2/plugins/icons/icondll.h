@@ -35,9 +35,9 @@ class IconDLL
 public:
     IconDLL();
     ~IconDLL();
-    bool load(const char *file);
+    bool load(const QString &file);
 	const QIconSet *get(unsigned id);
-    string name;
+    QString name;
     IconsMap  *icon_map;
 };
 

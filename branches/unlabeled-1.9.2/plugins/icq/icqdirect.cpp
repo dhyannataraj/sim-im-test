@@ -926,11 +926,16 @@ void DirectClient::processPacket()
                 flags |= MESSAGE_SECURE;
             if (m_client->ackMessage(msg, ackFlags, msg_str.c_str())){
                 if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
-                    if ((msg->type() == MessageGeneric) && ((*it).type != CAP_RTF)){
+                    if (msg->type() == MessageGeneric){
                         Message m;
                         m.setContact(msg->contact());
                         m.setClient(msg->client());
-                        m.setText(msg->getPlainText());
+						if ((*it).type == CAP_RTF){
+							m.setText(m_client->removeImages(msg->getRichText(), 16));
+							flags |= MESSAGE_RICHTEXT;
+						}else{
+							m.setText(msg->getPlainText());
+						}
                         m.setFlags(flags);
                         if (msg->getBackground() != msg->getForeground()){
                             m.setForeground(msg->getForeground());
@@ -1286,7 +1291,7 @@ void DirectClient::processMsgQueue()
                 if ((sm.msg->getFlags() & MESSAGE_RICHTEXT) &&
                         (m_client->getSendFormat() == 0) &&
                         (m_client->hasCap(m_data, CAP_RTF))){
-                    message = m_client->createRTF(sm.msg->getRichText().utf8(), sm.msg->getForeground(), m_data->Encoding);
+                    message = m_client->createRTF(sm.msg->getRichText(), sm.msg->getForeground(), m_data->Encoding);
                     sm.type = CAP_RTF;
                 }else if (m_client->hasCap(m_data, CAP_UTF) &&
                           (m_client->getSendFormat() <= 1)){
