@@ -1256,7 +1256,7 @@ void *CorePlugin::processEvent(Event *e)
             return e->param();
         }
     case EventClientsChanged:
-        if (!m_bInit)
+        if (m_bInit)
             loadMenu();
     case EventClientChanged:		// FALLTHROW
         if (getContacts()->nClients()){

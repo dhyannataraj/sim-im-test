@@ -149,9 +149,9 @@ void ICQClient::chn_login()
         m_socket->writeBuffer.tlv(0x0003, "ICQBasic");
         m_socket->writeBuffer.tlv(0x0016, 0x010A);
         m_socket->writeBuffer.tlv(0x0017, 0x0014);
-        m_socket->writeBuffer.tlv(0x0018, 0x0007);
+        m_socket->writeBuffer.tlv(0x0018, 0x0009);
         m_socket->writeBuffer.tlv(0x0019, 0x0000);
-        m_socket->writeBuffer.tlv(0x001A, 0x0407);
+        m_socket->writeBuffer.tlv(0x001A, 0x04E5);
         m_socket->writeBuffer.tlv(0x0014, 0x0000043DL);
         m_socket->writeBuffer.tlv(0x000f, "en");
         m_socket->writeBuffer.tlv(0x000e, "us");

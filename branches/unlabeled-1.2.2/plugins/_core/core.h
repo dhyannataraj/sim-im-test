@@ -249,6 +249,7 @@ const unsigned	EventClientStatus		= (CmdBase + 8);
 const unsigned	EventLoadMessage		= (CmdBase + 9);
 const unsigned	EventDefaultAction		= (CmdBase + 10);
 const unsigned	EventContactClient      = (CmdBase + 11);
+const unsigned	EventGetIcons			= (CmdBase + 12);
 
 const unsigned	BarHistory				= (CmdBase + 1);
 const unsigned	BarReceived				= (CmdBase + 2);

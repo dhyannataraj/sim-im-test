@@ -21,6 +21,7 @@
 #include "editfile.h"
 #include "preview.h"
 #include "linklabel.h"
+#include "core.h"
 
 #include <qframe.h>
 #include <qlayout.h>
@@ -114,25 +115,44 @@ IconCfg::IconCfg(QWidget *parent, IconsPlugin *plugin)
         d.index = -1;
         defs.push_back(d);
     }
-    for (i = 0; i < getContacts()->nClients(); i++){
-        Client *client = getContacts()->getClient(i);
-        Protocol *protocol = client->protocol();
-        const CommandDef *cmd = protocol->description();
-        cmbProtocol->insertItem(i18n(cmd->text));
-        list<IconsDef>::iterator it;
-        for (it = defs.begin(); it != defs.end(); ++it){
-            if (!strcmp((*it).protocol.c_str(), cmd->text)){
-                (*it).index = i;
-                break;
-            }
-        }
-        if (it == defs.end()){
-            IconsDef d;
-            d.protocol = cmd->text;
-            d.index = i;
-            defs.push_back(d);
-        }
-    }
+
+	list<string> icons;
+	Event e(EventGetIcons, &icons);
+	e.process();
+
+	list<string> protocols;
+		for (list<string>::iterator it = icons.begin(); it != icons.end(); ++it){
+			string name = (*it);
+			int n = name.find('_');
+			char c = name[0];
+			if ((c < 'A') || (c > 'Z'))
+				continue;
+			if (n <= 0)
+				continue;
+			name = name.substr(0, n);
+			for (list<string>::iterator its = protocols.begin(); its != protocols.end(); ++its)
+				if ((*its) == name)
+					break;
+			if (its != protocols.end())
+				continue;
+			protocols.push_back(name);
+		}
+		for (list<string>::iterator its = protocols.begin(); its != protocols.end(); ++its){
+			cmbProtocol->insertItem(i18n((*its).c_str()));
+			list<IconsDef>::iterator it;
+			for (it = defs.begin(); it != defs.end(); ++it){
+				if ((*it).protocol == (*its)){
+					(*it).index = i;
+					break;
+				}
+			}
+			if (it == defs.end()){
+				IconsDef d;
+				d.protocol = (*its);
+				d.index = i;
+				defs.push_back(d);
+			}
+		}
     connect(cmbProtocol, SIGNAL(activated(int)), this, SLOT(protocolChanged(int)));
     cmbProtocol->setCurrentItem(0);
     protocolChanged(0);

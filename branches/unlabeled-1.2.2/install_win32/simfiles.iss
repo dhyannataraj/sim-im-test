@@ -63,6 +63,7 @@ Source: "..\Release\plugins\windock.dll"; DestDir: "{app}\plugins"; Flags: ignor
 Source: "..\Release\po\zh_TW.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\bg.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\he.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\ca.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\cs.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\de.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\es.qm"; DestDir: "{app}\po"; Flags: ignoreversion

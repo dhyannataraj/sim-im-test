@@ -134,6 +134,7 @@ static DataDef _icqUserData[] =
         { "Caps", DATA_ULONG, 1, 0 },
         { "", DATA_STRING, 1, 0 },				// AutoReply
         { "Uin", DATA_ULONG, 1, 0 },
+		{ "Screen", DATA_STRING, 1, 0 },
         { "ID", DATA_ULONG, 1, 0 },
         { "", DATA_BOOL, 1, 1 },				// bChecked
         { "GroupID", DATA_ULONG, 1, 0 },

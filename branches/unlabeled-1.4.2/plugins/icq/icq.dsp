@@ -1348,6 +1348,18 @@ InputName=workinfobase
 # PROP Default_Filter "xpm"
 # Begin Source File
 
+SOURCE=.\xpm\aim_away.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\aim_offline.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\aim_online.xpm
+# End Source File
+# Begin Source File
+
 SOURCE=.\xpm\away.xpm
 # End Source File
 # Begin Source File
