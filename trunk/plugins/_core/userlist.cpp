@@ -50,6 +50,7 @@ void UserViewItemBase::paintCell(QPainter *p, const QColorGroup &cg, int, int wi
         width = 1;
     QPixmap bg(width, height());
     QPainter pp(&bg);
+    int margin = 0;
     if (isSelected() && view->hasFocus() && CorePlugin::m_plugin->getUseDblClick()){
         pp.fillRect(QRect(0, 0, width, height()), cg.highlight());
         pp.setPen(cg.highlightedText());
@@ -70,8 +71,9 @@ void UserViewItemBase::paintCell(QPainter *p, const QColorGroup &cg, int, int wi
         Event e(EventPaintView, &pv);
         e.process();
         view->setStaticBackground(pv.isStatic);
+        margin = pv.margin;
     }
-    view->drawItem(this, &pp, cg, width);
+    view->drawItem(this, &pp, cg, width, margin);
     pp.end();
     if (view->m_pressedItem == this){
         p->drawPixmap(QPoint(1, 1), bg);
@@ -536,7 +538,7 @@ void UserListBase::addContactForUpdate(unsigned long id)
     }
 }
 
-void UserListBase::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width)
+void UserListBase::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin)
 {
     if (base->type() == DIV_ITEM){
         DivItem *divItem = static_cast<DivItem*>(base);
@@ -558,8 +560,7 @@ void UserListBase::drawItem(UserViewItemBase *base, QPainter *p, const QColorGro
             f.setPixelSize(size * 3 / 4);
         }
         p->setFont(f);
-
-        int x = base->drawText(p, 24, width, text);
+        int x = base->drawText(p, 24 + margin, width, text);
         base->drawSeparator(p, x, width, cg);
     }
 }
@@ -895,7 +896,7 @@ UserList::~UserList()
 {
 }
 
-void UserList::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width)
+void UserList::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin)
 {
     if (base->type() == GRP_ITEM){
         GroupItem *item = static_cast<GroupItem*>(base);
@@ -911,14 +912,16 @@ void UserList::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         }else{
             text = i18n("Not in list");
         }
-        int x = drawIndicator(p, 2, item, isGroupSelected(item->id()), cg);
+        int x = drawIndicator(p, 2 + margin, item, isGroupSelected(item->id()), cg);
+        if (!CorePlugin::m_plugin->getUseSysColors())
+            p->setPen(CorePlugin::m_plugin->getColorGroup());
         x = item->drawText(p, x, width, text);
         item->drawSeparator(p, x, width, cg);
         return;
     }
     if (base->type() == USR_ITEM){
         ContactItem *item = static_cast<ContactItem*>(base);
-        int x = drawIndicator(p, 2, item, isSelected(item->id()), cg);
+        int x = drawIndicator(p, 2 + margin, item, isSelected(item->id()), cg);
         if (!item->isSelected() || !hasFocus() || !CorePlugin::m_plugin->getUseDblClick()){
             if (CorePlugin::m_plugin->getUseSysColors()){
                 if (item->status() != STATUS_ONLINE)
@@ -945,7 +948,7 @@ void UserList::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         x = item->drawText(p, x, width, item->text(CONTACT_TEXT));
         return;
     }
-    UserListBase::drawItem(base, p, cg, width);
+    UserListBase::drawItem(base, p, cg, width, margin);
 }
 
 bool UserList::isSelected(unsigned id)

@@ -111,7 +111,7 @@ protected:
     unsigned m_groupMode;
     unsigned m_bShowOnline;
     void *processEvent(Event*);
-    virtual void drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width);
+    virtual void drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin);
     unsigned getUserStatus(Contact *contact, unsigned &style, string &icons);
     virtual unsigned getUnread(unsigned contact_id);
     GroupItem *findGroupItem(unsigned id, QListViewItem *p = NULL);
@@ -140,7 +140,7 @@ signals:
     void selectChanged();
 protected:
     virtual void contentsMouseReleaseEvent(QMouseEvent *e);
-    virtual void drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width);
+    virtual void drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin);
     bool isSelected(unsigned id);
     bool isGroupSelected(unsigned id);
     int drawIndicator(QPainter *p, int x, QListViewItem *item, bool bState, const QColorGroup &cg);

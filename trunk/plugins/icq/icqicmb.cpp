@@ -107,11 +107,11 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
                 err_str = error_message(error);
             }
             if (m_send.msg){
-                if ((m_send.msg->type() == MessageCheckInvisible) && (error == 0x0004)) {
+                if ((m_send.msg->type() == MessageCheckInvisible) && (error == 14)) {
                     Contact *contact;
                     ICQUserData *data = findContact(m_send.screen.c_str(), NULL, false, contact);
-                    if (data && (bool)(data->bInvisible)) {
-                        data->bInvisible = false;
+                    if (data && (data->bInvisible == 0)) {
+                        data->bInvisible = true;
                         Event e(EventContactStatus, contact);
                         e.process();
                     }
@@ -180,24 +180,24 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
             m_socket->readBuffer >> id.id_l >> id.id_h;
             m_socket->readBuffer.incReadPos(2);
             string screen = m_socket->readBuffer.unpackScreen();
-	    bool bAck = false;
+            bool bAck = false;
             if (m_send.id == id){
-		const char *p1 = screen.c_str();
-		const char *p2 = m_send.screen.c_str();
-		for (; *p1 && *p2; p1++, p2++)
-			if (tolower(*p1) != tolower(*p2))
-				break;
-		if ((*p1 == 0) && (*p2 == 0))
-			bAck = true;
-	    }
-	    if (!bAck){
+                const char *p1 = screen.c_str();
+                const char *p2 = m_send.screen.c_str();
+                for (; *p1 && *p2; p1++, p2++)
+                    if (tolower(*p1) != tolower(*p2))
+                        break;
+                if ((*p1 == 0) && (*p2 == 0))
+                    bAck = true;
+            }
+            if (!bAck){
                 log(L_WARN, "Bad ack sequence");
-		if (m_send.msg){
-			m_send.msg->setError(I18N_NOOP("Bad ack sequence"));
-			Event e(EventMessageSent, m_send.msg);
-			e.process();
-			delete m_send.msg;
-		}
+                if (m_send.msg){
+                    m_send.msg->setError(I18N_NOOP("Bad ack sequence"));
+                    Event e(EventMessageSent, m_send.msg);
+                    e.process();
+                    delete m_send.msg;
+                }
             }else{
                 if (m_send.msg){
                     if (m_send.msg->type() == MessageCheckInvisible){
@@ -1041,8 +1041,8 @@ void ICQClient::processSendQueue()
         if (m_send.msg){
             unsigned short type;
             Buffer b;
-	    m_send.id.id_l = rand();
-	    m_send.id.id_h = rand();
+            m_send.id.id_l = rand();
+            m_send.id.id_h = rand();
             switch (m_send.msg->type()){
             case MessageURL:
             case MessageContact:

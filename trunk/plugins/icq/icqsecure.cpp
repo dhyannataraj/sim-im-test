@@ -93,7 +93,7 @@ void ICQSecure::apply(Client *client, void *_data)
         return;
     ICQUserData *data = (ICQUserData*)_data;
     data->WaitAuth = chkAuth->isChecked();
-    data->WebAware = chkAuth->isChecked();
+    data->WebAware = chkWeb->isChecked();
 }
 
 void ICQSecure::fill()

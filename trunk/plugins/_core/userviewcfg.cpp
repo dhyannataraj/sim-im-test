@@ -32,6 +32,7 @@ UserViewConfig::UserViewConfig(QWidget *parent)
     btnAway->setColor(CorePlugin::m_plugin->getColorAway());
     btnNA->setColor(CorePlugin::m_plugin->getColorNA());
     btnDND->setColor(CorePlugin::m_plugin->getColorDND());
+    btnGroup->setColor(CorePlugin::m_plugin->getColorGroup());
     connect(chkSysColors, SIGNAL(toggled(bool)), this, SLOT(colorsToggled(bool)));
     colorsToggled(chkSysColors->isChecked());
 }
@@ -50,12 +51,14 @@ void UserViewConfig::apply()
         CorePlugin::m_plugin->setColorAway(0);
         CorePlugin::m_plugin->setColorNA(0);
         CorePlugin::m_plugin->setColorDND(0);
+        CorePlugin::m_plugin->setColorGroup(0);
     }else{
         CorePlugin::m_plugin->setColorOnline(btnOnline->color().rgb());
         CorePlugin::m_plugin->setColorOffline(btnOffline->color().rgb());
         CorePlugin::m_plugin->setColorAway(btnAway->color().rgb());
         CorePlugin::m_plugin->setColorNA(btnNA->color().rgb());
         CorePlugin::m_plugin->setColorDND(btnDND->color().rgb());
+        CorePlugin::m_plugin->setColorGroup(btnGroup->color().rgb());
     }
     Event e(EventRepaintView);
     e.process();

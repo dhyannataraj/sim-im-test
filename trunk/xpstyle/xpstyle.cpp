@@ -676,13 +676,6 @@ bool QWindowsXPStyle::eventFilter( QObject *o, QEvent *e )
         updateRegion( widget );
         break;
 
-        /*
-            case QEvent::Move:
-                if ( widget->backgroundPixmap() &&
-                        widget->backgroundOrigin() != QWidget::WidgetOrigin )
-                    widget->update();
-                break;
-        */
     case QEvent::Paint:
         if (o->inherits("QSizeGrip")){
             QPainter p(widget);
@@ -1344,10 +1337,12 @@ void QWindowsXPStyle::drawSlider ( QPainter * p, int x, int y, int w, int h, con
         if (tickBelow)
             partId = TKP_THUMBBOTTOM;
         stateId = TUS_NORMAL;
-        if (!d->currentWidget->isEnabled()) stateId = TUS_DISABLED;
-        if (d->currentWidget->hasFocus()) stateId = TUS_FOCUSED;
-        if ((d->currentWidget == d->hotWidget) && rc.contains(d->hotSpot))
-            stateId = TUS_HOT;
+        if (d->currentWidget){
+            if (!d->currentWidget->isEnabled()) stateId = TUS_DISABLED;
+            if (d->currentWidget->hasFocus()) stateId = TUS_FOCUSED;
+            if ((d->currentWidget == d->hotWidget) && rc.contains(d->hotSpot))
+                stateId = TUS_HOT;
+        }
     } else {
         partId = TKP_THUMBVERT;
         if (tickAbove)
@@ -1355,10 +1350,12 @@ void QWindowsXPStyle::drawSlider ( QPainter * p, int x, int y, int w, int h, con
         if (tickBelow)
             partId = TKP_THUMBRIGHT;
         stateId = TUVS_NORMAL;
-        if (!d->currentWidget->isEnabled()) stateId = TUVS_DISABLED;
-        if (d->currentWidget->hasFocus()) stateId = TUVS_FOCUSED;
-        if ((d->currentWidget == d->hotWidget) && rc.contains(d->hotSpot))
-            stateId = TUVS_HOT;
+        if (d->currentWidget){
+            if (!d->currentWidget->isEnabled()) stateId = TUVS_DISABLED;
+            if (d->currentWidget->hasFocus()) stateId = TUVS_FOCUSED;
+            if ((d->currentWidget == d->hotWidget) && rc.contains(d->hotSpot))
+                stateId = TUVS_HOT;
+        }
     }
     XPThemeData theme( NULL, p, "TRACKBAR", partId, stateId,  rc);
     if (!theme.isValid()){
