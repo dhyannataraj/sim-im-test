@@ -571,7 +571,7 @@ void MsgEdit::processEvent(ICQEvent *e)
         }
         break;
     case EVENT_INFO_CHANGED:
-	if (e->Uin() != Uin) break;
+        if (e->Uin() != Uin) break;
         fillPhones();
         u = pClient->getUser(Uin);
         if (!bInIgnore && u && u->inIgnore)
