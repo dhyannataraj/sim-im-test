@@ -197,7 +197,7 @@
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>TextLabel1</cstring>
+                <cstring>lblGroup</cstring>
             </property>
             <property>
                 <name>text</name>
