@@ -24,6 +24,9 @@
 class SMSProtocol;
 class GsmTA;
 
+const unsigned SMSCmdBase			= 0x00080000;
+const unsigned MessagePhoneCall		= SMSCmdBase;
+
 class SMSPlugin : public Plugin
 {
 public:
@@ -51,6 +54,9 @@ typedef struct SMSClientData
     char		*InitString;
     unsigned	BaudRate;
     unsigned	XonXoff;
+	unsigned	Charge;
+	unsigned	Charging;
+	unsigned	Quality;
 } SMSClientData;
 
 const unsigned SMS_SIGN	= 6;
@@ -61,6 +67,7 @@ typedef struct smsUserData
     char		*Name;
     char		*Phone;
     unsigned	Index;
+	unsigned	Type;
 } smsUserData;
 
 class SMSClient : public TCPClient
@@ -73,11 +80,20 @@ public:
     PROP_STR(InitString);
     PROP_ULONG(BaudRate);
     PROP_BOOL(XonXoff);
+	PROP_ULONG(Charge);
+	PROP_BOOL(Charging);
+	PROP_ULONG(Quality);
+	string model();
+	string oper();
 protected slots:
     void error();
     void init();
     void ta_error();
-    void phonebookEntry(int, const QString&, const QString&);
+	void charge(bool, unsigned);
+	void quality(unsigned);
+	void phoneCall(const QString&);
+    void phonebookEntry(int, int, const QString&, const QString&);
+	void callTimeout();
 protected:
     virtual const char		*getServer();
     virtual unsigned short	getPort();
@@ -96,6 +112,10 @@ protected:
     virtual CommandDef *configWindows();
     virtual QWidget *configWindow(QWidget *parent, unsigned id);
     virtual QWidget	*setupWnd();
+	QString			m_callNumber;
+	QTimer			*m_callTimer;
+	Message			*m_call;
+	bool			m_bCall;
     GsmTA			*m_ta;
     SMSClientData	data;
 };

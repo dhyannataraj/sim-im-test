@@ -39,6 +39,7 @@ class SpellerBase;
 class Speller;
 
 typedef map<TextEdit*, QSyntaxHighlighter*>	MAP_EDITS;
+typedef map<my_string, bool> MAP_BOOL;
 
 class SpellPlugin : public QObject, public Plugin, public EventReceiver
 {
@@ -55,7 +56,7 @@ public:
     unsigned CmdSpell;
     QStringList suggestions(const QString &word);
     void add(const QString &word);
-    QDict<bool>  m_ignore;
+    MAP_BOOL m_ignore;
 signals:
     void misspelling(const QString &word);
     void configChanged();

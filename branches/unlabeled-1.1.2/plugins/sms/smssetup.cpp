@@ -23,6 +23,9 @@
 #include <qlineedit.h>
 #include <qcheckbox.h>
 #include <qtimer.h>
+#include <qlabel.h>
+#include <qprogressbar.h>
+#include <qtabwidget.h>
 
 SMSSetup::SMSSetup(QWidget *parent, SMSClient *client)
         : SMSSetupBase(parent)
@@ -44,6 +47,21 @@ SMSSetup::SMSSetup(QWidget *parent, SMSClient *client)
     }
     edtInit->setText(m_client->getInitString());
     chkXonXoff->setChecked(m_client->getXonXoff());
+	if (client->getState() == Client::Connected){
+		if (client->getCharging()){
+			lblCharge->setText(i18n("Charging:"));
+		}else{
+			lblCharge->setText(i18n("Battery:"));
+		}
+		barCharge->setProgress(client->getCharge());
+		barQuality->setProgress(client->getQuality());
+		edtModel->setReadOnly(true);
+		QString model;
+		edtModel->setText(client->model().c_str());
+		edtOper->setText(client->oper().c_str());
+	}else{
+		tabSMS->removePage(tabPhone);
+	}
     QTimer::singleShot(0, this, SLOT(init()));
 }
 

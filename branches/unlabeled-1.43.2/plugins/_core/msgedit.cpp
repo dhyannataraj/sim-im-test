@@ -157,6 +157,7 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd)
     m_edit->setForeground(QColor(CorePlugin::m_plugin->getEditForeground() & 0xFFFFFF), true);
     m_edit->setFont(CorePlugin::m_plugin->editFont);
     m_edit->setCtrlMode(!CorePlugin::m_plugin->getSendOnEnter());
+	setFocusProxy(m_edit);
 
     QStyleSheet *style = new QStyleSheet(m_edit);
     QStyleSheetItem *style_p = style->item("p");

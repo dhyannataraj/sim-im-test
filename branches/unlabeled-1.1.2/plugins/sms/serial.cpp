@@ -18,6 +18,8 @@
 #include "serial.h"
 #include "buffer.h"
 
+#include <qapplication.h>
+#include <qevent.h>
 #include <qstringlist.h>
 #include <qtimer.h>
 #include <qdir.h>
@@ -27,6 +29,25 @@
 #include <windows.h>
 
 const unsigned SERIAL_TIMEOUT	= 1000;
+
+class SerialEvent : public QEvent
+{
+public:
+    SerialEvent(unsigned reason);
+    unsigned reason() { return m_reason; }
+protected:
+    unsigned m_reason;
+};
+
+SerialEvent::SerialEvent(unsigned reason)
+        : QEvent(User)
+{
+    m_reason = reason;
+}
+
+const unsigned EventComplete	= 0;
+const unsigned EventError		= 1;
+const unsigned EventTimeout		= 2;
 
 enum PortState
 {
@@ -63,6 +84,7 @@ public:
 
 static DWORD __stdcall SerialThread(LPVOID lpParameter)
 {
+    log(L_DEBUG, "SerialThread: %X", GetCurrentThreadId());
     SerialPortPrivate *p = (SerialPortPrivate*)lpParameter;
     DWORD timeout = INFINITE;
     for (;;){
@@ -80,9 +102,8 @@ static DWORD __stdcall SerialThread(LPVOID lpParameter)
                     break;
                 DWORD err = GetLastError();
                 if (err != ERROR_IO_PENDING){
-                    log(L_WARN, "Wait com error %X", err);
                     p->m_state = None;
-                    QTimer::singleShot(0, p->m_port, SLOT(io_error()));
+                    QApplication::postEvent(p->m_port, new SerialEvent(EventError));
                 }else{
                     timeout = p->m_read_time;
                 }
@@ -97,9 +118,8 @@ static DWORD __stdcall SerialThread(LPVOID lpParameter)
                     break;
                 DWORD err = GetLastError();
                 if (err != ERROR_IO_PENDING){
-                    log(L_WARN, "Write com error %X", err);
                     p->m_state = None;
-                    QTimer::singleShot(0, p->m_port, SLOT(io_error()));
+                    QApplication::postEvent(p->m_port, new SerialEvent(EventError));
                 }else{
                     timeout = SERIAL_TIMEOUT;
                 }
@@ -108,9 +128,9 @@ static DWORD __stdcall SerialThread(LPVOID lpParameter)
         case Read:
         case Write:
             if (res == WAIT_TIMEOUT){
-                QTimer::singleShot(0, p->m_port, SLOT(io_timeout()));
+                QApplication::postEvent(p->m_port, new SerialEvent(EventTimeout));
             }else{
-                QTimer::singleShot(0, p->m_port, SLOT(io_complete()));
+                QApplication::postEvent(p->m_port, new SerialEvent(EventComplete));
             }
             break;
         default:
@@ -131,9 +151,9 @@ SerialPortPrivate::SerialPortPrivate(SerialPort *port)
 {
     hPort = INVALID_HANDLE_VALUE;
     hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-    m_timer   = new QTimer(NULL);
-    m_port    = port;
-    m_state	  = None;
+    m_timer    = new QTimer(NULL);
+    m_port     = port;
+    m_state	   = None;
     DWORD threadId;
     hThread = CreateThread(NULL, 0, SerialThread, this, 0, &threadId);
 }
@@ -302,42 +322,47 @@ string SerialPort::readLine()
     return res;
 }
 
-void SerialPort::io_complete()
+bool SerialPort::event(QEvent *e)
 {
-    DWORD bytes;
-    if (GetOverlappedResult(d->hPort, &d->over, &bytes, true)){
-        if (d->m_state == Read){
-            d->m_buff.pack(&d->m_char, 1);
-            if (d->m_char == '\n')
-                emit read_ready();
+    if (e->type() != QEvent::User)
+        return QObject::event(e);
+    switch (static_cast<SerialEvent*>(e)->reason()){
+    case EventComplete:{
+            DWORD bytes;
+            if (GetOverlappedResult(d->hPort, &d->over, &bytes, true)){
+                if (d->m_state == Read){
+                    d->m_buff.pack(&d->m_char, 1);
+                    if (d->m_char == '\n')
+                        emit read_ready();
+                }
+                if (d->m_state == Write){
+                    emit write_ready();
+                    d->m_state = Read;
+                }
+                if (d->m_state == Read){
+                    d->m_state = StartRead;
+                    SetEvent(d->hEvent);
+                }
+                break;
+            }
+            close();
+            emit error();
+            break;
         }
-        if (d->m_state == Write){
-            emit write_ready();
-            d->m_state = Read;
+    case EventTimeout:{
+            log(L_WARN, "IO timeout");
+            CancelIo(d->hPort);
+            close();
+            emit error();
+            break;
         }
-        if (d->m_state == Read){
-            d->m_state = StartRead;
-            SetEvent(d->hEvent);
+    case EventError:{
+            log(L_WARN, "IO error");
+            close();
+            emit error();
         }
-        return;
     }
-    close();
-    emit error();
-}
-
-void SerialPort::io_timeout()
-{
-    log(L_WARN, "IO timeout");
-    CancelIo(d->hPort);
-    close();
-    emit error();
-}
-
-void SerialPort::io_error()
-{
-    log(L_WARN, "IO error");
-    close();
-    emit error();
+    return true;
 }
 
 QStringList SerialPort::devices()

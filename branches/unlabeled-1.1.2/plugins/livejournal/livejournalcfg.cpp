@@ -19,6 +19,7 @@
 #include "livejournal.h"
 #include "linklabel.h"
 
+#include <qcheckbox.h>
 #include <qlineedit.h>
 #include <qspinbox.h>
 #include <qtimer.h>
@@ -43,6 +44,7 @@ LiveJournalCfg::LiveJournalCfg(QWidget *parent, LiveJournalClient *client, bool 
     edtPath->setText(client->getURL());
     edtPort->setValue(client->getPort());
     edtInterval->setValue(client->getInterval());
+	chkFastServer->setChecked(client->getFastServer());
     connect(edtName, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(edtPassword, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     changed("");
@@ -69,6 +71,7 @@ void LiveJournalCfg::apply()
     m_client->setURL(edtPath->text().latin1());
     m_client->setPort(atol(edtPort->text()));
     m_client->setInterval(atol(edtInterval->text()));
+	m_client->setFastServer(chkFastServer->isChecked());
 }
 
 void LiveJournalCfg::apply(Client*, void*)

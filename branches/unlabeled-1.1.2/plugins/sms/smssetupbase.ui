@@ -11,13 +11,13 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>346</width>
+            <width>338</width>
             <height>207</height>
         </rect>
     </property>
     <property>
         <name>caption</name>
-        <string></string>
+        <string>SMSSetup</string>
     </property>
     <vbox>
         <property>
@@ -32,7 +32,7 @@
             <class>QTabWidget</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>TabWidget3</cstring>
+                <cstring>tabSMS</cstring>
             </property>
             <widget>
                 <class>QWidget</class>
@@ -42,7 +42,7 @@
                 </property>
                 <attribute>
                     <name>title</name>
-                    <string>SMS</string>
+                    <string>&amp;SMS</string>
                 </attribute>
                 <grid>
                     <property>
@@ -151,6 +151,12 @@
                             </property>
                             <widget>
                                 <class>QComboBox</class>
+                                <item>
+                                    <property>
+                                        <name>text</name>
+                                        <string>115200</string>
+                                    </property>
+                                </item>
                                 <item>
                                     <property>
                                         <name>text</name>
@@ -282,6 +288,152 @@
                         <property stdset="1">
                             <name>name</name>
                             <cstring>edtInit</cstring>
+                        </property>
+                    </widget>
+                </grid>
+            </widget>
+            <widget>
+                <class>QWidget</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>tabPhone</cstring>
+                </property>
+                <attribute>
+                    <name>title</name>
+                    <string>&amp;Phone</string>
+                </attribute>
+                <grid>
+                    <property>
+                        <name>margin</name>
+                        <number>11</number>
+                    </property>
+                    <property>
+                        <name>spacing</name>
+                        <number>6</number>
+                    </property>
+                    <widget row="0"  column="0" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>TextLabel1_2</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Model:</string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>AlignVCenter|AlignRight</set>
+                        </property>
+                        <property>
+                            <name>hAlign</name>
+                        </property>
+                    </widget>
+                    <widget row="0"  column="1" >
+                        <class>QLineEdit</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>edtModel</cstring>
+                        </property>
+                    </widget>
+                    <spacer row="4"  column="0" >
+                        <property>
+                            <name>name</name>
+                            <cstring>Spacer5_2</cstring>
+                        </property>
+                        <property>
+                            <name>orientation</name>
+                            <enum>Vertical</enum>
+                        </property>
+                        <property>
+                            <name>sizeType</name>
+                            <enum>Expanding</enum>
+                        </property>
+                        <property>
+                            <name>sizeHint</name>
+                            <size>
+                                <width>20</width>
+                                <height>20</height>
+                            </size>
+                        </property>
+                    </spacer>
+                    <widget row="3"  column="0" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>TextLabel3_2</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Signal quality:</string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>AlignVCenter|AlignRight</set>
+                        </property>
+                        <property>
+                            <name>hAlign</name>
+                        </property>
+                    </widget>
+                    <widget row="3"  column="1" >
+                        <class>QProgressBar</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>barQuality</cstring>
+                        </property>
+                        <property>
+                            <name>totalSteps</name>
+                            <number>31</number>
+                        </property>
+                    </widget>
+                    <widget row="2"  column="0" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>lblCharge</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string></string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>AlignVCenter|AlignRight</set>
+                        </property>
+                        <property>
+                            <name>hAlign</name>
+                        </property>
+                    </widget>
+                    <widget row="2"  column="1" >
+                        <class>QProgressBar</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>barCharge</cstring>
+                        </property>
+                    </widget>
+                    <widget row="1"  column="0" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>TextLabel4</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Operator:</string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>AlignVCenter|AlignRight</set>
+                        </property>
+                        <property>
+                            <name>hAlign</name>
+                        </property>
+                    </widget>
+                    <widget row="1"  column="1" >
+                        <class>QLineEdit</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>edtOper</cstring>
                         </property>
                     </widget>
                 </grid>

@@ -39,6 +39,7 @@
 
 #include "xpm/livejournal.xpm"
 #include "xpm/livejournal_off.xpm"
+#include "xpm/livejournal_upd.xpm"
 
 Plugin *createLiveJournalPlugin(unsigned base, bool, const char*)
 {
@@ -48,8 +49,8 @@ Plugin *createLiveJournalPlugin(unsigned base, bool, const char*)
 
 static PluginInfo info =
     {
-        I18N_NOOP("LiveJournal"),
-        I18N_NOOP("Plugin provides posting to LiveJournal"),
+        NULL,
+        NULL,
         VERSION,
         createLiveJournalPlugin,
         PLUGIN_PROTOCOL
@@ -67,7 +68,7 @@ static DataDef journalMessageData[] =
         { "Time", DATA_ULONG, 1, 0 },
         { "ItemID", DATA_ULONG, 1, 0 },
         { "", DATA_ULONG, 1, 0 },		// oldID
-        { "Mood", DATA_STRING, 1, 0 },
+        { "Mood", DATA_ULONG, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -123,7 +124,7 @@ static CommandDef journalMessageCommands[] =
         {
             CmdDeleteJournalMessage,
             I18N_NOOP("&Remove from journal"),
-            NULL,
+            "remove",
             NULL,
             NULL,
             ToolBarMsgEdit,
@@ -156,12 +157,41 @@ static MessageDef defJournalMessage =
     {
         NULL,
         journalMessageCommands,
-        MESSAGE_DEFAULT,
+        MESSAGE_SENDONLY,
         "LiveJournal post",
         "%n LiveJournal posts",
         createJournalMessage,
         generateJournalMessage,
         NULL
+    };
+
+static MessageDef defWWWJournalMessage =
+    {
+        NULL,
+        NULL,
+        MESSAGE_SENDONLY | MESSAGE_SILENT,
+        NULL,
+        NULL,
+        createJournalMessage,
+        NULL,
+        NULL
+    };
+
+static Message *createUpdatedMessage(const char *cfg)
+{
+    return new Message(MessageUpdated, cfg);
+}
+
+static MessageDef defUpdatedMessage =
+    {
+        NULL,
+        NULL,
+        MESSAGE_SYSTEM,
+        "Friends updated",
+        "Friends updated %n",
+        createUpdatedMessage,
+        NULL,
+		NULL
     };
 
 CorePlugin *LiveJournalPlugin::core = NULL;
@@ -180,6 +210,10 @@ LiveJournalPlugin::LiveJournalPlugin(unsigned base)
 
     icon.name = "livejournal_off";
     icon.xpm  = livejournal_off;
+    eIcon.process();
+
+    icon.name = "livejournal_upd";
+    icon.xpm  = livejournal_upd;
     eIcon.process();
 
     m_protocol = new LiveJournalProtocol(this);
@@ -213,7 +247,17 @@ LiveJournalPlugin::LiveJournalPlugin(unsigned base)
     cmd->menu_grp	 = 0x3090;
     cmd->popup_id	 = MenuWeb;
     cmd->flags		 = COMMAND_DEFAULT;
-    cmd->param		 = &defJournalMessage;
+    cmd->param		 = &defWWWJournalMessage;
+    eMsg.process();
+
+    cmd->id			 = MessageUpdated;
+    cmd->text		 = I18N_NOOP("Friends updated");
+    cmd->icon		 = "livejournal_upd";
+    cmd->accel		 = NULL;
+    cmd->menu_grp	 = 0;
+    cmd->popup_id	 = 0;
+    cmd->flags		 = COMMAND_DEFAULT;
+    cmd->param		 = &defUpdatedMessage;
     eMsg.process();
 
     Event ePlugin(EventGetPluginInfo, (void*)"_core");
@@ -229,6 +273,8 @@ LiveJournalPlugin::~LiveJournalPlugin()
     eMsg.process();
     Event eMsgWWW(EventRemoveMessageType, (void*)CmdMenuWeb);
     eMsgWWW.process();
+    Event eMsgUpd(EventRemoveMessageType, (void*)MessageUpdated);
+    eMsgUpd.process();
     delete m_protocol;
 }
 
@@ -258,7 +304,7 @@ static CommandDef livejournal_descr =
         0,
         0,
         0,
-        0,
+        PROTOCOL_NOSMS,
         NULL,
         NULL
     };
@@ -348,6 +394,8 @@ static DataDef liveJournalClientData[] =
         { "Moods", DATA_ULONG, 1, 0 },
         { "Menu", DATA_STRLIST, 1, 0 },
         { "MenuURL", DATA_STRLIST, 1, 0 },
+		{ "FastServer", DATA_BOOL, 1, 0 },
+		{ "", DATA_STRING, 1, 0 },			// LastUpdate
         { "", DATA_STRUCT, sizeof(LiveJournalUserData) / sizeof(unsigned), (unsigned)liveJournalUserData },
         { NULL, 0, 0, 0 }
     };
@@ -388,7 +436,7 @@ string LiveJournalClient::getConfig()
 class MessageRequest : public LiveJournalRequest
 {
 public:
-    MessageRequest(LiveJournalClient *client, JournalMessage *msg);
+    MessageRequest(LiveJournalClient *client, JournalMessage *msg, const char *journal);
     ~MessageRequest();
 protected:
     void result(const char *key, const char *value);
@@ -496,7 +544,7 @@ void BRParser::add_color()
     m_str += s;
 }
 
-MessageRequest::MessageRequest(LiveJournalClient *client, JournalMessage *msg)
+MessageRequest::MessageRequest(LiveJournalClient *client, JournalMessage *msg, const char *journal)
         : LiveJournalRequest(client, msg->getID() ? "editevent" : "postevent")
 {
     m_msg = msg;
@@ -526,10 +574,18 @@ MessageRequest::MessageRequest(LiveJournalClient *client, JournalMessage *msg)
     addParam("day", number(tm->tm_mday).c_str());
     addParam("hour", number(tm->tm_hour).c_str());
     addParam("min", number(tm->tm_min).c_str());
+	if (msg->getMood()){
+		string value = "current_mood_id=";
+		value += number(msg->getMood());
+		addParam("prop_name", value.c_str());
+	}
+	if (journal)
+		addParam("usejournal", journal);
 }
 
 MessageRequest::~MessageRequest()
 {
+	m_bResult = true;
     if (m_bResult){
         if ((m_msg->getFlags() & MESSAGE_NOHISTORY) == 0){
             if (m_bEdit){
@@ -571,7 +627,11 @@ bool LiveJournalClient::send(Message *msg, void *_data)
 {
     if (!canSend(msg->type(), _data))
         return false;
-    m_requests.push_back(new MessageRequest(this, static_cast<JournalMessage*>(msg)));
+	LiveJournalUserData *data = (LiveJournalUserData*)_data;
+	const char *journal = NULL;
+	if (data->User && strcmp(data->User, this->data.owner.User))
+		journal = data->User;
+    m_requests.push_back(new MessageRequest(this, static_cast<JournalMessage*>(msg), journal));
     msg->setClient(dataName(_data).c_str());
     send();
     return true;
@@ -579,13 +639,20 @@ bool LiveJournalClient::send(Message *msg, void *_data)
 
 bool LiveJournalClient::canSend(unsigned type, void *_data)
 {
-    if ((type != MessageJournal) && (type != CmdMenuWeb))
-        return false;
-    if ((getState() != Connected) && (type != CmdMenuWeb))
-        return false;
     if ((_data == NULL) || (((clientData*)_data)->Sign != LIVEJOURNAL_SIGN))
         return false;
-    return true;
+    if (type == MessageJournal){ 
+		if (getState() != Connected)
+			return false;
+		return true;
+	}
+	if (type == CmdMenuWeb){
+		LiveJournalUserData *data = (LiveJournalUserData*)_data;
+		if ((data->User == NULL) || strcmp(data->User, this->data.owner.User))
+			return false;
+		return true;
+	}
+    return false;
 }
 
 void LiveJournalClient::setupContact(Contact*, void*)
@@ -717,7 +784,24 @@ void LiveJournalClient::auth_ok()
     setState(Connected);
     setPreviousPassword(NULL);
     statusChanged();
-    QTimer::singleShot(0, this, SLOT(send()));
+	list<Contact*> forDelete;
+	Contact *contact;
+	ContactList::ContactIterator it;
+	while ((contact = ++it) != NULL){
+		LiveJournalUserData *data;
+		ClientDataIterator itc(contact->clientData, this);
+		while ((data = (LiveJournalUserData*)(++itc)) != NULL){
+			if (data->bChecked)
+				continue;
+			contact->clientData.freeData(data);
+			if (contact->clientData.size() == 0)
+				forDelete.push_back(contact);
+			break;
+		}
+	}
+	for (list<Contact*>::iterator itc = forDelete.begin(); itc != forDelete.end(); ++itc)
+		delete (*itc);
+    QTimer::singleShot(0, this, SLOT(timeout()));
 }
 
 void LiveJournalClient::statusChanged()
@@ -870,21 +954,40 @@ void LoginRequest::result(const char *key, const char *value)
             m_client->setMenuUrl(id, v.c_str());
         }
     }
+	if (prefix == "access"){
+		if (atol(k.c_str()) == 0)
+			return;
+		Contact *contact;
+		LiveJournalUserData *data = m_client->findContact(value, contact);
+		if (data)
+			data->bChecked = true;
+	}
 }
 
 void LiveJournalClient::setStatus(unsigned status)
 {
     if (status == STATUS_OFFLINE)
         return;
+	Contact *contact;
+	ContactList::ContactIterator it;
+	while ((contact = ++it) != NULL){
+		LiveJournalUserData *data;
+		ClientDataIterator itc(contact->clientData, this);
+		while ((data = (LiveJournalUserData*)(++itc)) != NULL){
+			data->bChecked = false;
+			if (data->User && this->data.owner.User && !strcmp(data->User, this->data.owner.User))
+				data->bChecked = true;
+		}
+	}
     LiveJournalRequest *req = new LoginRequest(this);
     string version;
 #ifdef WIN32
     version = "Win32";
 #else
 #ifdef QT_MACOSX_VERSION
-version = "MacOS";
+	version = "MacOS";
 #else
-version = "Qt";
+	version = "Qt";
 #endif
 #endif
     version += "-" PACKAGE "/" VERSION;
@@ -913,6 +1016,27 @@ void LiveJournalClient::auth_fail(const char *err)
 
 void *LiveJournalClient::processEvent(Event *e)
 {
+    if (e->type() == EventOpenMessage){
+        Message *msg = (Message*)(e->param());
+		if (msg->type() != MessageUpdated)
+			return NULL;
+		if (dataName(&data.owner) != msg->client())
+			return NULL;
+        Event eDel(EventMessageDeleted, msg);
+        eDel.process();
+		string url = "http://";
+		url += getServer();
+		if (getPort() != 80){
+			url += ":";
+			url += number(getPort());
+		}
+		url += "/";
+		Event eGo(EventGoURL, (void*)url.c_str());
+		eGo.process();
+		if (getState() == Connected)
+			m_timer->start(getInterval() * 60 * 1000, true);
+		return e->param();
+	}
     if (e->type() == EventFetchDone){
         fetchData *data = (fetchData*)e->param();
         if (data->req_id != m_fetchId)
@@ -933,11 +1057,24 @@ void *LiveJournalClient::processEvent(Event *e)
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
         if (cmd->id == CmdDeleteJournalMessage){
-            Message *from = (Message*)(cmd->param);
-            if (dataName(&data.owner) == from->client()){
-                log(L_DEBUG, "Delete");
-                return e->param();
+            Message *msg = (Message*)(cmd->param);
+			Contact *contact = getContacts()->contact(msg->contact());
+			if (contact == NULL)
+				return NULL;
+			LiveJournalUserData *data;
+			ClientDataIterator it(contact->clientData, this);
+			while ((data = (LiveJournalUserData*)(++it)) != NULL){
+				if (dataName(data) == msg->client()){
+					JournalMessage *m = new JournalMessage(msg->save().c_str());
+					m->setContact(msg->contact());
+					m->setOldID(msg->id());
+					m->setText("");
+					if (!send(m, data))
+						delete m;
+					return e->param();
+				}
             }
+			return NULL;
         }
         unsigned menu_id = cmd->menu_id - MenuWeb;
         if (menu_id > LiveJournalPlugin::MenuCount)
@@ -1030,11 +1167,97 @@ void LiveJournalClient::send()
     string headers = "Content-Type: application/x-www-form-urlencoded\r\n"
                      "Content-Length: ";
     headers += number(m_request->m_buffer.size());
+	if (getFastServer())
+		headers += "\r\nCookie: ljfastserver=1";
     m_fetchId = fetch(this, url.c_str(), &m_request->m_buffer);
+}
+
+bool LiveJournalClient::error_state(const char *err, unsigned code)
+{
+	return TCPClient::error_state(err, code);
+}
+
+class CheckFriendsRequest : public LiveJournalRequest
+{
+public:
+    CheckFriendsRequest(LiveJournalClient *client);
+    ~CheckFriendsRequest();
+protected:
+    void result(const char *key, const char *value);
+	bool		m_bOK;
+	bool		m_bChanged;
+	unsigned	m_interval;
+	string		m_err;
+};
+
+CheckFriendsRequest::CheckFriendsRequest(LiveJournalClient *client)
+: LiveJournalRequest(client, "checkfriends")
+{
+	m_bOK		= false;
+	m_bChanged	= false;
+	m_interval	= 0;
+	addParam("lastupdate", client->getLastUpdate());
+}
+
+void LiveJournalClient::messageUpdated()
+{
+	Contact *contact;
+	LiveJournalUserData *data = findContact(this->data.owner.User, contact);
+	if (data == NULL)
+		return;
+	Message *msg = new Message(MessageUpdated);
+	msg->setContact(contact->id());
+	msg->setClient(dataName(data).c_str());
+	msg->setFlags(MESSAGE_TEMP | MESSAGE_NOVIEW);
+	Event e(EventMessageReceived, msg);
+	if (!e.process())
+		delete msg;
+}
+
+CheckFriendsRequest::~CheckFriendsRequest()
+{
+	if (m_bChanged){
+		m_client->messageUpdated();
+		return;
+	}
+	if (m_bOK){
+		m_client->m_timer->start(m_interval, true);
+		return;
+	}
+	m_client->error_state(m_err.c_str(), 0);
+}
+
+void CheckFriendsRequest::result(const char *key, const char *value)
+{
+	if (!strcmp(key, "success") && !strcmp(value, "OK")){
+		m_bOK = true;
+		return;
+	}
+	if (!strcmp(key, "lastupdate")){
+		m_client->setLastUpdate(value);
+		return;
+	}
+	if (!strcmp(key, "new")){
+		m_bChanged = true;
+		return;
+	}
+	if (!strcmp(key, "interval")){
+		m_interval = atol(value);
+		return;
+	}
+	if (!strcmp(key, "errmsg")){
+		m_err = value;
+		return;
+	}
 }
 
 void LiveJournalClient::timeout()
 {
+	if (getState() != Connected)
+		return;
+	m_timer->stop();
+	m_requests.push_back(new CheckFriendsRequest(this));
+	send();
 }
 
 LiveJournalRequest::LiveJournalRequest(LiveJournalClient *client, const char *mode)

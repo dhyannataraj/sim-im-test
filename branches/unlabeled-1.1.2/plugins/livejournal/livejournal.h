@@ -25,8 +25,9 @@
 
 const unsigned JournalCmdBase			= 0x00070000;
 const unsigned MessageJournal			= JournalCmdBase;
-const unsigned CmdDeleteJournalMessage	= JournalCmdBase + 1;
-const unsigned CmdMenuWeb				= JournalCmdBase + 2;
+const unsigned MessageUpdated			= JournalCmdBase + 1;
+const unsigned CmdDeleteJournalMessage	= JournalCmdBase + 2;
+const unsigned CmdMenuWeb				= JournalCmdBase + 3;
 const unsigned MenuWeb					= JournalCmdBase + 0x10;
 
 const unsigned LIVEJOURNAL_SIGN	= 5;
@@ -45,7 +46,7 @@ typedef struct JournalMessageData
     unsigned		Time;
     unsigned		ID;
     unsigned		OldID;
-    char			*Mood;
+    unsigned		Mood;
 } JournalMessageData;
 
 class JournalMessage : public Message
@@ -59,7 +60,7 @@ public:
     PROP_ULONG(Time);
     PROP_ULONG(ID);
     PROP_ULONG(OldID);
-    PROP_STR(Mood);
+    PROP_ULONG(Mood);
 protected:
     QString presentation();
     JournalMessageData data;
@@ -99,6 +100,8 @@ typedef struct LiveJournalClientData
     unsigned	Moods;
     void		*Menu;
     void		*MenuUrl;
+	unsigned	FastServer;
+	char		*LastUpdate;
     LiveJournalUserData	owner;
 } LiveJournalClientData;
 
@@ -135,12 +138,17 @@ public:
     PROP_ULONG(Moods);
     PROP_STRLIST(Menu);
     PROP_STRLIST(MenuUrl);
+	PROP_BOOL(FastServer);
+	PROP_STR(LastUpdate);
     void auth_fail(const char *err);
     void auth_ok();
     LiveJournalUserData	*findContact(const char *user, Contact *&contact);
-protected slots:
+    QTimer  *m_timer;
+    virtual bool error_state(const char *err, unsigned code);
+public slots:
     void timeout();
     void send();
+	void messageUpdated();
 protected:
     virtual string getConfig();
     virtual string name();
@@ -160,7 +168,6 @@ protected:
     CommandDef *configWindows();
     QWidget *configWindow(QWidget *parent, unsigned id);
     void statusChanged();
-    QTimer  *m_timer;
     list<LiveJournalRequest*> m_requests;
     LiveJournalRequest		  *m_request;
     LiveJournalClientData	data;

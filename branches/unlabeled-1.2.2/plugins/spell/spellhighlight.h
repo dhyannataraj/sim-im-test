@@ -30,7 +30,7 @@
 #include <qdict.h>
 #include <qstringlist.h>
 
-class SpellPlugin;
+#include "spell.h"
 
 class SpellHighlighter : public QObject, public QSyntaxHighlighter, public HTMLParser, public EventReceiver
 {
@@ -46,7 +46,7 @@ protected slots:
     void reformat();
     void restore();
 protected:
-    QDict<bool>  m_words;
+	MAP_BOOL m_words;
     int m_paragraph;
     int highlightParagraph( const QString &text, int endStateOfLastPara );
     virtual void text(const QString &text);

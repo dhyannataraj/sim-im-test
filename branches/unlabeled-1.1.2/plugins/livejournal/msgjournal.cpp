@@ -19,6 +19,8 @@
 #include "livejournal.h"
 #include "msgedit.h"
 #include "userwnd.h"
+#include "ballonmsg.h"
+#include "toolbtn.h"
 
 #include <qlayout.h>
 #include <qlineedit.h>
@@ -45,18 +47,21 @@ MsgJournal::MsgJournal(MsgEdit *parent, Message *msg)
         ClientDataIterator it(contact->clientData);
         while ((data = ++it) != NULL){
             if ((m_client.empty() && (data->Sign == LIVEJOURNAL_SIGN)) || (m_client == it.client()->dataName(data))){
-                int cur = 0;
-                string msg_mood = static_cast<JournalMessage*>(msg)->getMood();
                 LiveJournalClient *client = static_cast<LiveJournalClient*>(it.client());
                 for (unsigned i = 1; i < client->getMoods(); i++){
                     const char *mood = client->getMood(i);
                     if ((mood == NULL) || (*mood == 0))
                         continue;
-                    if (msg_mood == mood)
-                        cur = m_wnd->cmbMood->count();
-                    m_wnd->cmbMood->insertItem(i18n(mood));
+					QString s = mood;
+					QString ts = i18n(mood);
+					if (s != ts){
+						s += "(";
+						s += ts;
+						s += ")";
+					}
+                    m_wnd->cmbMood->insertItem(s);
                 }
-                m_wnd->cmbMood->setCurrentItem(cur);
+                m_wnd->cmbMood->setCurrentItem(static_cast<JournalMessage*>(msg)->getMood());
                 m_wnd->cmbMood->setMinimumSize(m_wnd->cmbMood->sizeHint());
                 break;
             }
@@ -106,7 +111,7 @@ void *MsgJournal::processEvent(Event *e)
             unsigned id = cmd->bar_grp;
             if ((id >= MIN_INPUT_BAR_ID) && (id < MAX_INPUT_BAR_ID)){
                 cmd->flags |= BTN_HIDE;
-                if (cmd->id == CmdDeleteJournalMessage + CmdReceived)
+                if ((cmd->id == CmdDeleteJournalMessage + CmdReceived) && m_ID)
                     cmd->flags &= ~BTN_HIDE;
                 return e->param();
             }
@@ -128,36 +133,54 @@ void *MsgJournal::processEvent(Event *e)
     }
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
-        if ((cmd->param == m_edit) &&
-                ((cmd->id == CmdSend) || (cmd->id == CmdDeleteJournalMessage + CmdReceived))){
-            QString msgText = m_edit->m_edit->text();
-            if (!msgText.isEmpty()){
-                string s;
-                s = msgText.local8Bit();
-                JournalMessage *msg = new JournalMessage;
-                if (cmd->id == CmdSend)
-                    msg->setText(msgText);
-                msg->setContact(m_edit->m_userWnd->id());
-                msg->setClient(m_client.c_str());
-                msg->setFlags(MESSAGE_RICHTEXT);
-                msg->setID(m_ID);
-                msg->setOldID(m_oldID);
-                msg->setTime(m_time);
-                msg->setForeground(m_edit->m_edit->foreground().rgb() & 0xFFFFFF);
-                msg->setBackground(m_edit->m_edit->background().rgb() & 0xFFFFFF);
-                msg->setFont(LiveJournalPlugin::core->getEditFont());
-                msg->setSubject(m_wnd->edtSubj->text());
-                msg->setPrivate(m_wnd->cmbSecurity->currentItem());
-                MsgSend ms;
-                ms.edit = m_edit;
-                ms.msg  = msg;
-                Event e(EventRealSendMessage, &ms);
-                e.process();
-            }
+        if (cmd->param == m_edit){
+            if (cmd->id == CmdSend){
+				QString msgText = m_edit->m_edit->text();
+				if (!msgText.isEmpty())
+					send(msgText);
+            }else if (cmd->id == CmdDeleteJournalMessage + CmdReceived){
+				QWidget *w = m_edit->m_bar;
+				Command cmd;
+				cmd->id		= CmdDeleteJournalMessage + CmdReceived;
+                cmd->param	= m_edit;
+                Event eWidget(EventCommandWidget, cmd);
+                QWidget *btnRemove = (QWidget*)(eWidget.process());
+                if (btnRemove)
+					w = btnRemove;
+				BalloonMsg::ask(NULL, i18n("Remove record from journal?"), w, SLOT(removeRecord(void*)), NULL, NULL, this);
+			}
             return e->param();
         }
     }
     return NULL;
+}
+
+void MsgJournal::removeRecord(void*)
+{
+	send("");
+}
+
+void MsgJournal::send(const QString& msgText)
+{
+					JournalMessage *msg = new JournalMessage;
+					msg->setText(msgText);
+					msg->setContact(m_edit->m_userWnd->id());
+					msg->setClient(m_client.c_str());
+					msg->setFlags(MESSAGE_RICHTEXT);
+					msg->setID(m_ID);
+					msg->setOldID(m_oldID);
+					msg->setTime(m_time);
+					msg->setForeground(m_edit->m_edit->foreground().rgb() & 0xFFFFFF);
+					msg->setBackground(m_edit->m_edit->background().rgb() & 0xFFFFFF);
+					msg->setFont(LiveJournalPlugin::core->getEditFont());
+					msg->setSubject(m_wnd->edtSubj->text());
+					msg->setPrivate(m_wnd->cmbSecurity->currentItem());
+					msg->setMood(m_wnd->cmbMood->currentItem());
+					MsgSend ms;
+					ms.edit = m_edit;
+					ms.msg  = msg;
+					Event e(EventRealSendMessage, &ms);
+					e.process();
 }
 
 void MsgJournal::frameDestroyed()

@@ -43,8 +43,10 @@ protected slots:
     void init();
     void frameDestroyed();
     void emptyChanged(bool bEmpty);
+	void removeRecord(void*);
 protected:
     virtual void *processEvent(Event*);
+	void		send(const QString&);
     string		m_client;
     unsigned	m_ID;
     unsigned	m_oldID;

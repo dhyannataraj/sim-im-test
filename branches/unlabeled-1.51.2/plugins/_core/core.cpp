@@ -1700,8 +1700,7 @@ void *CorePlugin::processEvent(Event *e)
     case EventMessageReceived:{
             Message *msg = (Message*)(e->param());
             Contact *contact = getContacts()->contact(msg->contact());
-            if (contact == NULL)
-                return NULL;
+            if (contact){
             unsigned type = msg->baseType();
             if (type == MessageStatus){
                 CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
@@ -1749,6 +1748,7 @@ void *CorePlugin::processEvent(Event *e)
                 Event e(EventContactStatus, contact);
                 e.process();
             }
+			}
         }
     case EventSent:{
             Message *msg = (Message*)(e->param());

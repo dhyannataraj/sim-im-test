@@ -76,6 +76,8 @@ void GsmTA::read_ready()
         b.pack(line.c_str(), line.length());
         log_packet(b, false, SMSPlugin::SerialPacket);
     }
+	unsigned value1;
+	unsigned value2;
     switch (m_state){
     case Init:
         if (!isOK(line.c_str()))
@@ -98,6 +100,31 @@ void GsmTA::read_ready()
     case Init4:
         if (!isChatOK(line.c_str()))
             return;
+        m_state = Init5;
+        at("+CLIP=1");
+        break;
+    case Init5:
+        if (!isChatOK(line.c_str()))
+            return;
+        m_state = Init6;
+		at("+CBC");
+        break;
+    case Init6:
+        if (!isChatResponse(line.c_str(), "+CBC:", false))
+            return;
+		value1 = atol(normalize(getToken(m_response, ',').c_str()).c_str());
+		value2 = atol(normalize(m_response.c_str()).c_str());
+		emit charge(value1 != 0, value2);
+        m_state = Init7;
+        at("+CSQ");
+        break;
+    case Init7:
+        if (!isChatResponse(line.c_str(), "+CSQ:", false))
+            return;
+		value1 = atol(normalize(m_response.c_str()).c_str());
+		if (value1 == 99)
+			value1 = 0;
+		emit quality(value1);
         m_state = Info1;
         at("+CGMI");
         break;
@@ -177,23 +204,32 @@ void GsmTA::read_ready()
         m_state = Connected;
         processQueue();
         break;
+	case PhoneBook:
+        if (!isChatOK(line.c_str(), "", true, true))
+			return;
+	    m_state	= PhoneBook1;
+		at("+CPBS?");
+		break;
     case PhoneBook1:
         if (!isChatResponse(line.c_str(), "+CPBS:"))
             return;
         m_state = PhoneBook2;
         getToken(m_response, ',');
-        m_bookSize = atol(normalize(getToken(m_response, ',').c_str()).c_str());
+        m_book->m_used = atol(normalize(getToken(m_response, ',').c_str()).c_str());
+        m_book->m_size = atol(normalize(getToken(m_response, ',').c_str()).c_str());
         at("+CPBR=?");
         break;
     case PhoneBook2:
         if (!isChatResponse(line.c_str(), "+CPBR:"))
             return;
-        parseEntriesList(m_response.c_str());
-        if (m_bookEntries.empty() && m_bookSize){
-            for (unsigned i = 0; i < m_bookSize; i++)
-                m_bookEntries.push_back(true);
+        parseEntriesList(getToken(m_response, ',').c_str());
+        if (m_book->m_entries.empty() && m_book->m_size){
+            for (unsigned i = 0; i < m_book->m_size; i++)
+                m_book->m_entries.push_back(true);
         }
-        m_bookSize = 0;
+        m_book->m_size = 0;
+		m_book->m_numberSize = atol(getToken(m_response, ',').c_str());
+		m_book->m_nameSize   = atol(m_response.c_str());
         m_state = PhoneBook3;
         getNextEntry();
         break;
@@ -214,7 +250,7 @@ void GsmTA::ping()
         return;
     m_timer->stop();
     m_state = Ping;
-    at("");
+	at("+CBC");
 }
 
 void GsmTA::port_error()
@@ -240,6 +276,8 @@ void GsmTA::at(const char *str, unsigned timeout)
 
 bool GsmTA::isOK(const char *answer)
 {
+	if (isIncoming(answer))
+		return false;
     if (strstr(answer, "OK") || strstr(answer, "CABLE: GSM"))
         return true;
     if (--m_tries == 0)
@@ -268,6 +306,8 @@ string GsmTA::normalize(const char *ans)
 
 bool GsmTA::isError(const char *ans)
 {
+	if (isIncoming(ans))
+		return false;
     string answer = normalize(ans);
     if (answer.empty())
         return false;
@@ -282,6 +322,8 @@ bool GsmTA::isError(const char *ans)
 
 bool GsmTA::isChatOK(const char *ans, const char *response,  bool bIgnoreErrors, bool bAcceptEmptyResponse)
 {
+	if (isIncoming(ans))
+		return false;
     string answer = normalize(ans);
     if (answer.empty() || (answer == m_cmd))
         return false;
@@ -311,6 +353,8 @@ bool GsmTA::isChatOK(const char *ans, const char *response,  bool bIgnoreErrors,
 
 bool GsmTA::isChatResponse(const char *ans, const char *response, bool bIgnoreErrors)
 {
+	if (isIncoming(ans))
+		return false;
     string answer = normalize(ans);
     if (answer.empty() || (answer == m_cmd))
         return false;
@@ -333,6 +377,23 @@ bool GsmTA::isChatResponse(const char *ans, const char *response, bool bIgnoreEr
     return false;
 }
 
+bool GsmTA::isIncoming(const char *ans)
+{
+	string answer = normalize(ans);
+	if (matchResponse(answer, "+CLIP:")){
+		string number = getToken(answer, ',');
+		if (!number.empty() && (number[0] == '\"')){
+			getToken(number, '\"');
+			number = getToken(number, '\"');
+		}
+		unsigned type = atol(answer.c_str());
+		if (type)
+			emit phoneCall(number.c_str());
+		return true;
+	}
+	return false;
+}
+
 bool GsmTA::matchResponse(string &answer, const char *responseToMatch)
 {
     if (answer.substr(0, strlen(responseToMatch)) == responseToMatch){
@@ -342,7 +403,7 @@ bool GsmTA::matchResponse(string &answer, const char *responseToMatch)
     return false;
 }
 
-string GsmTA::info()
+string GsmTA::model()
 {
     string res = m_manufacturer;
     if (!m_model.empty()){
@@ -350,12 +411,12 @@ string GsmTA::info()
             res += " ";
         res += m_model;
     }
-    if (!m_operator.empty()){
-        if (!res.empty())
-            res += " ";
-        res += m_operator;
-    }
-    return res;
+	return res;
+}
+
+string GsmTA::oper()
+{
+	return m_operator;
 }
 
 void GsmTA::processQueue()
@@ -380,15 +441,22 @@ void GsmTA::processQueue()
 
 void GsmTA::getNextEntry()
 {
-    for (; m_bookSize < m_bookEntries.size(); m_bookSize++){
-        if (!m_bookEntries[m_bookSize])
+    for (; m_book->m_size < m_book->m_entries.size(); m_book->m_size++){
+        if (!m_book->m_entries[m_book->m_size])
             continue;
         string cmd = "+CPBR=";
-        cmd += number(m_bookSize);
+        cmd += number(m_book->m_size);
         at(cmd.c_str(), 20000);
-        m_bookSize++;
+        m_book->m_size++;
         return;
     }
+	if (m_bookType == 0){
+		m_bookType = 1;
+		m_state = PhoneBook;
+		m_book  = m_books + 1;
+		at("+CPBS=ME");
+		return;
+	}
     m_port->setTimeout((unsigned)(-1));
     m_state = Connected;
     processQueue();
@@ -438,7 +506,7 @@ void GsmTA::parseEntry(const char *answ)
     }
     if (nameString.isEmpty())
         return;
-    emit phonebookEntry(index, phone.c_str(), nameString);
+    emit phonebookEntry(index, m_bookType, phone.c_str(), nameString);
 }
 
 void GsmTA::getPhoneBook()
@@ -449,11 +517,11 @@ void GsmTA::getPhoneBook()
         m_queue.push_back(info);
         return;
     }
-    m_bookSize = 0;
-    m_bookEntries.clear();
+	m_bookType = 0;
     m_timer->stop();
-    m_state			= PhoneBook1;
-    at("+CPBS?");
+	m_state = PhoneBook;
+	m_book = m_books;
+    at("+CPBS=SM");
 }
 
 void GsmTA::parseEntriesList(const char *str)
@@ -481,15 +549,22 @@ void GsmTA::parseEntriesList(const char *str)
             }
             if (n1 >= n){
                 for (; n <= n1; n++){
-                    while (m_bookEntries.size() <= n)
-                        m_bookEntries.push_back(false);
-                    m_bookEntries[n] = true;
+                    while (m_book->m_entries.size() <= n)
+                        m_book->m_entries.push_back(false);
+                    m_book->m_entries[n] = true;
                 }
             }
         }
     }
 }
 
+Phonebook::Phonebook()
+{
+	m_size			= 0;
+	m_used			= 0;
+	m_numberSize	= 0;
+	m_nameSize		= 0;
+}
 
 // Latin-1 undefined character (code 172 (Latin-1 boolean not, "¬"))
 const unsigned char NOP = 172;

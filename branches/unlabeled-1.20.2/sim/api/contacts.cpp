@@ -1840,10 +1840,12 @@ static string stripPhone(const char *phone)
         return res;
     for (; *phone; phone++){
         char c = *phone;
-        if ((c < '0') || (c >= '9'))
+        if ((c < '0') || (c > '9'))
             continue;
         res += c;
     }
+	if (res.length() > 7)
+		res = res.substr(res.length() - 7);
     return res;
 }
 

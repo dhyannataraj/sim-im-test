@@ -297,13 +297,16 @@ void OSDPlugin::processQueue()
         OSDUserData *data = NULL;
         if (contact){
             data = (OSDUserData*)contact->getUserData(user_data_id);
+		}else{
+			data = (OSDUserData*)getContacts()->getUserData(user_data_id);
+		}
             switch (m_request.type){
             case OSD_ALERT:
-                if (data->EnableAlert)
+                if (data->EnableAlert && contact)
                     text = i18n("%1 is online") .arg(contact->getName());
                 break;
             case OSD_TYPING:
-                if (data->EnableTyping)
+                if (data->EnableTyping && contact)
                     text = i18n("%1 typed") .arg(contact->getName());
                 break;
             default:
@@ -320,13 +323,13 @@ void OSDPlugin::processQueue()
                             text = text.mid(2);
                         }
                         text = text.left(1).upper() + text.mid(1);
-                        text = i18n("%1 from %2")
+						if (contact)
+							text = i18n("%1 from %2")
                                .arg(text)
                                .arg(contact->getName());
                     }
                 }
             }
-        }
         if (!text.isEmpty()){
             if (m_osd == NULL){
                 m_osd = new OSDWidget;
