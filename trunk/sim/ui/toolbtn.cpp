@@ -593,6 +593,8 @@ void* CToolBar::processEvent(Event *e)
         return NULL;
     case EventCommandCreate:
         cmd = (CommandDef*)(e->param());
+        if (cmd->id == 460289)
+            cmd->id = 460289;
         if (cmd->bar_id == m_def->id())
             toolBarChanged();
         break;

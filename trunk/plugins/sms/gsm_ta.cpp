@@ -602,7 +602,7 @@ public:
 GsmLatin1::GsmLatin1()
 {
     memset(latin1ToGsmTable, GSM_NOP, 256);
-    for (unsigned char i = 0; i < 256; i++){
+    for (unsigned char i = 0; i < 128; i++){
         if (gsmToLatin1Table[i] == NOP)
             continue;
         latin1ToGsmTable[gsmToLatin1Table[i]] = i;
@@ -615,6 +615,8 @@ string GsmTA::gsmToLatin1(const char *str)
 {
     string res;
     for (unsigned char *p = (unsigned char*)str; *p; p++){
+        if (*p >= 0x80)
+            continue;
         unsigned char c = gsmToLatin1Table[*p];
         if (c == NOP)
             continue;

@@ -1012,6 +1012,8 @@ void MsgEdit::modeChanged()
 void *MsgEdit::processEvent(Event *e)
 {
     if ((e->type() == EventContactChanged) && !m_bReceived){
+        if (((Contact*)(e->param()))->id() != (m_userWnd->m_id))
+            return NULL;
         Command cmd;
         cmd->id = m_type;
         cmd->menu_id = MenuMessage;

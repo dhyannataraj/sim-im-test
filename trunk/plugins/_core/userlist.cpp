@@ -111,7 +111,7 @@ void UserViewItemBase::drawSeparator(QPainter *p, int x, int width, const QColor
         QRect rcSep(x, height()/2, width - 6 - x, 1);
         listView()->style().drawPrimitive(QStyle::PE_Separator, p, rcSep, cg);
 #else
-listView()->style().drawSeparator(p, x, height() / 2, width - 6, height() / 2, cg);
+        listView()->style().drawSeparator(p, x, height() / 2, width - 6, height() / 2, cg);
 #endif
     }
 }
@@ -440,8 +440,8 @@ void UserListBase::drawUpdates()
                         Group *grp = getContacts()->group(0);
                         if (grp)
                             grpItem = new GroupItem(this, grp, true);
+                        grpItem = findGroupItem(0);
                     }
-                    grpItem = findGroupItem(0);
                 }
                 if (grpItem){
                     if (contactItem){
