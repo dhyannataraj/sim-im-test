@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>592</width>
+            <width>588</width>
             <height>619</height>
         </rect>
     </property>
@@ -50,8 +50,22 @@
                         <cstring>lblPict</cstring>
                     </property>
                     <property>
+                        <name>sizePolicy</name>
+                        <sizepolicy>
+                            <hsizetype>1</hsizetype>
+                            <vsizetype>1</vsizetype>
+                        </sizepolicy>
+                    </property>
+                    <property>
                         <name>text</name>
                         <string></string>
+                    </property>
+                    <property>
+                        <name>alignment</name>
+                        <set>AlignVCenter|AlignLeft</set>
+                    </property>
+                    <property>
+                        <name>wordwrap</name>
                     </property>
                 </widget>
                 <widget>
@@ -133,6 +147,10 @@
                 <cstring>GroupBox1</cstring>
             </property>
             <property>
+                <name>frameShape</name>
+                <enum>Box</enum>
+            </property>
+            <property>
                 <name>title</name>
                 <string>Online alert options</string>
             </property>
@@ -198,6 +216,17 @@
                     <property>
                         <name>text</name>
                         <string>Open user window when online</string>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QCheckBox</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>chkLog</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Write to history</string>
                     </property>
                 </widget>
             </vbox>

@@ -117,6 +117,7 @@ const unsigned short ICQ_MSGxMAIL			   = 0x00E0;
 const unsigned short ICQ_MSGxSMS               = 0x00E1;
 const unsigned short ICQ_MSGxSMSxRECEIPT       = 0x00E2;
 const unsigned short ICQ_MSGxCONTACTxREQUEST   = 0x00E3;
+const unsigned short ICQ_MSGxSTATUS			   = 0x00E4;
 
 const unsigned short ICQ_MSGxSECURExCLOSE	= 0x00EE;
 const unsigned short ICQ_MSGxSECURExOPEN	= 0x00EF;
@@ -679,6 +680,7 @@ public:
     bool			AlertOnScreen;
     bool			AlertPopup;
     bool			AlertWindow;
+    bool			LogStatus;
 
     // Accept mode
     bool			AcceptMsgWindow;
@@ -862,6 +864,13 @@ class ICQAutoResponse : public ICQMessage
 {
 public:
     ICQAutoResponse();
+};
+
+class ICQStatus : public ICQMessage
+{
+public:
+    ICQStatus();
+    unsigned long status;
 };
 
 const unsigned long ICQ_ACCEPTED = 0;

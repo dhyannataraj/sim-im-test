@@ -45,6 +45,7 @@ void AlertDialog::load(ICQUser *u)
     chkOnScreen->setChecked(u->AlertOnScreen);
     chkDialog->setChecked(u->AlertPopup);
     chkFloat->setChecked(u->AlertWindow);
+    chkLog->setChecked(u->LogStatus);
     overrideChanged(u->AlertOverride);
 }
 
@@ -57,6 +58,7 @@ void AlertDialog::overrideChanged(bool bSet)
     chkOnScreen->setEnabled(bSet);
     chkDialog->setEnabled(bSet);
     chkFloat->setEnabled(bSet);
+    chkLog->setEnabled(bSet);
 }
 
 void AlertDialog::save(ICQUser *u)
@@ -70,6 +72,7 @@ void AlertDialog::save(ICQUser *u)
     u->AlertOnScreen = chkOnScreen->isChecked();
     u->AlertPopup = chkDialog->isChecked();
     u->AlertWindow = chkFloat->isChecked();
+    u->LogStatus = chkLog->isChecked();
 }
 
 void AlertDialog::apply(ICQUser*)

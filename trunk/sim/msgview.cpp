@@ -524,10 +524,17 @@ void MsgView::setMessage(unsigned long uin, unsigned long msgId)
 
 QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
 {
+    const char *icon;
+    if (msg->Type() == ICQ_MSGxSTATUS){
+        ICQStatus *m = static_cast<ICQStatus*>(msg);
+        icon = Client::getStatusIcon(m->status);
+    }else{
+        icon = Client::getMessageIcon(msg->Type());
+    }
     QString s;
     s.sprintf("<p><nobr><a name=\"%lu.%lu\"></a>"
               "<a href=\"msg://%lu.%lu\"><img src=\"icon:%s\"></a>&nbsp;",
-              msg->getUin(), msg->Id, msg->getUin(), msg->Id, Client::getMessageIcon(msg->Type()));
+              msg->getUin(), msg->Id, msg->getUin(), msg->Id, icon);
     if (bUnread) s += "<b>";
     QString color;
     color.sprintf(FONT_FORMAT, msg->Received ? pMain->ColorReceive : pMain->ColorSend);
@@ -540,6 +547,11 @@ QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
         s += u.name(true);
     }
     s += "</font>&nbsp;&nbsp;";
+    if (msg->Type() == ICQ_MSGxSTATUS){
+        ICQStatus *m = static_cast<ICQStatus*>(msg);
+        s += Client::getStatusText(m->status);
+        s += "&nbsp;&nbsp;";
+    }
     QDateTime time;
     time.setTime_t(msg->Time);
     s += "<font size=-1>";
@@ -558,15 +570,17 @@ QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
         foreColor = m->ForeColor;
         backColor = m->BackColor;
     }
-    s += "<p>";
-    if (foreColor != backColor){
-        QString fg;
-        fg.sprintf("<font color=#%06lX>", foreColor);
-        s += fg;
+    if (msg->Type() != ICQ_MSGxSTATUS){
+        s += "<p>";
+        if (foreColor != backColor){
+            QString fg;
+            fg.sprintf("<font color=#%06lX>", foreColor);
+            s += fg;
+        }
+        s += makeMessageText(msg, pMain->UseOwnColors);
+        if (foreColor != backColor) s += "</font>";
+        s += "</p>";
     }
-    s += makeMessageText(msg, pMain->UseOwnColors);
-    if (foreColor != backColor) s += "</font>";
-    s += "</p>";
     return s;
 }
 
@@ -682,7 +696,12 @@ void HistoryView::messageReceived(ICQMessage *msg)
         }
     }
     if (bBack){
-        QString saveText = text();
+        QString saveText;
+        for (int i = 0; i < paragraphs(); i++){
+            saveText += "<p>";
+            saveText += text(i);
+            saveText += "</p>";
+        }
         setText("");
         addMessage(msg, bUnread, false);
         y += contentsHeight();

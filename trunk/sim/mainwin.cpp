@@ -825,6 +825,7 @@ void MainWindow::setKeys(const char *kWindow, const char *kDblClick, const char 
 
 void MainWindow::messageReceived(ICQMessage *msg)
 {
+    if (msg->Type() == ICQ_MSGxSTATUS) return;
     unread_msg m(msg);
     ICQUser *u = pClient->getUser(msg->getUin());
 

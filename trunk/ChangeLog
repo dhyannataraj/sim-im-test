@@ -1,4 +1,7 @@
 Version 0.8
+Add loging change status
+Add smiles popup
+Add autoforward to cellular
 Fix work protocol on bigendian   
 Change message window button to tolbar
 Change configure for FreeBSD

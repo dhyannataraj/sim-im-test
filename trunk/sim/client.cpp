@@ -240,6 +240,7 @@ cfgParam ICQUser_Params[] =
         { "AlertOnScreen", offsetof(ICQUser, AlertOnScreen), PARAM_BOOL, 1 },
         { "AlertPopup", offsetof(ICQUser, AlertPopup), PARAM_BOOL, 0 },
         { "AlertWindow", offsetof(ICQUser, AlertWindow), PARAM_BOOL, 0 },
+        { "LogStatus", offsetof(ICQUser, LogStatus), PARAM_BOOL, 0 },
         { "AcceptMsgWindow", offsetof(ICQUser, AcceptMsgWindow), PARAM_BOOL, 0 },
         { "AcceptFileMode", offsetof(ICQUser, AcceptFileMode), PARAM_USHORT, 0 },
         { "AcceptFileOverride", offsetof(ICQUser, AcceptFileOverride), PARAM_BOOL, 0 },
@@ -656,6 +657,16 @@ void Client::process_event(ICQEvent *e)
                     resolveQueue.push_back(a);
                 }
                 start_resolve();
+                ICQUser *_u = u;
+                if (!u->AlertOverride) _u = owner;
+                if ((_u->LogStatus) && (u->uStatus != u->prevStatus)){
+                    ICQStatus m;
+                    m.Uin.push_back(e->Uin());
+                    m.status = u->uStatus;
+                    History h(e->Uin());
+                    h.addMessage(&m);
+                    emit messageReceived(&m);
+                }
             }
             break;
         }

@@ -190,6 +190,12 @@ ICQAutoResponse::ICQAutoResponse()
 {
 }
 
+ICQStatus::ICQStatus()
+        : ICQMessage(ICQ_MSGxSTATUS)
+{
+    status = ICQ_STATUS_OFFLINE;
+}
+
 ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, string &p, Buffer &packet,
                                     unsigned short cookie1, unsigned short cookie2,
                                     unsigned long timestamp1, unsigned long timestamp2)

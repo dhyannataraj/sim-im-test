@@ -129,7 +129,11 @@ void ThemeSetup::apply(ICQUser*)
     pMain->themes->setTheme(lstThemes->currentText());
     QString iconsName = lstIcons->currentItem() ? lstIcons->currentText() : QString("");
     if (QString::fromLocal8Bit(pMain->Icons.c_str()) != iconsName){
-        pMain->Icons = iconsName.local8Bit();
+        if (iconsName.isEmpty()){
+            pMain->Icons = "";
+        }else{
+            pMain->Icons = iconsName.local8Bit();
+        }
         pMain->changeIcons(0);
     }
     if (!TransparentTop::bCanTransparent) return;

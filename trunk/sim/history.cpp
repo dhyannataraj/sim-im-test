@@ -154,6 +154,11 @@ cfgParam ICQContactRequest_Params[] =
         { "", 0, 0, (unsigned)ICQMessage_Params }
     };
 
+cfgParam ICQStatus_Params[] =
+    {
+        { "Status", offsetof(ICQStatus, status), PARAM_ULONG, ICQ_STATUS_OFFLINE },
+        { "", 0, 0, (unsigned)ICQMessage_Params }
+    };
 
 History::History(unsigned long uin)
         : it(*this), m_nUin(uin)
@@ -225,6 +230,7 @@ static message_type types[] =
         {"SMS", ICQ_MSGxSMS, ICQSMS_Params, },
         {"SMS_Receipt", ICQ_MSGxSMSxRECEIPT, ICQSMSReceipt_Params },
         {"Contact_Request", ICQ_MSGxCONTACTxREQUEST, ICQContactRequest_Params },
+        {"Status", ICQ_MSGxSTATUS, ICQStatus_Params },
         {"Unknown message", 0, 0}
     };
 
@@ -326,6 +332,9 @@ ICQMessage *History::loadMessage(std::fstream &f, string &type, unsigned long id
         break;
     case ICQ_MSGxCONTACTxREQUEST:
         msg = new ICQContactRequest;
+        break;
+    case ICQ_MSGxSTATUS:
+        msg = new ICQStatus;
         break;
     }
     if (!msg) return NULL;

@@ -570,9 +570,6 @@ void Icons::addIcon(const char *name, const char **xpm, const char **bigXpm, boo
         }
     }
     setIcon(name, pict);
-    QString url("icon:");
-    url += name;
-    QMimeSourceFactory::defaultFactory()->setPixmap(url, pict.pixmap(QIconSet::Small, QIconSet::Normal));
 }
 
 #define ICON(A, id)	addIcon(#A, A, NULL, false, NULL, dll.getIcon(id));
@@ -746,6 +743,9 @@ void Icons::setIcon(const char *name, const QIconSet &icon)
     }else{
         (*it).second = icon;
     }
+    QString url("icon:");
+    url += name;
+    QMimeSourceFactory::defaultFactory()->setPixmap(url, icon.pixmap(QIconSet::Small, QIconSet::Normal));
 }
 
 const char *app_file(const char *f);
