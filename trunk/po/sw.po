@@ -4401,6 +4401,8 @@ msgid ""
 "There is already an auto hidden window on this edge.\n"
 "Only one auto hidden window is allowed on each edge."
 msgstr ""
+"Dord ischd oi audomadisch augeblendedes Fenschdr an sell Kande.\n"
+"S ischd nur 1 audomadisch ausgeblendedes Fenschdr an jedr Kande erlaubd."
 
 #: plugins/windock/windock.cpp:304
 msgid "AutoHide"
