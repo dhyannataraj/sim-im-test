@@ -15,18 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifdef USE_QT
+#include <qtextcodec.h>
+#include <qstringlist.h>
+#endif
+
 #include "icqclient.h"
 #include "log.h"
 
 #include <errno.h>
 #include <string.h>
-
-#ifdef USE_QT
-
-#include <qtextcodec.h>
-#include <qstringlist.h>
-
-#endif
 
 #ifndef HAVE_STRCASECMP
 int strcasecmp(const char *a, const char *b);
