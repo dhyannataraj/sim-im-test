@@ -285,7 +285,7 @@ DockWnd::DockWnd(QWidget *main, int _useWM)
     }
 #endif
 #ifdef USE_KDE
-    if (useWM)
+    if (useWM == 0)
         KWin::setSystemTrayWindowFor( winId(), main->topLevelWidget()->winId());
 #endif
     needToggle = false;
