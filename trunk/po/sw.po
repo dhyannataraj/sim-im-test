@@ -2264,9 +2264,8 @@ msgid "Use &HTTP polling"
 msgstr "&HTTP-Bolling benudza"
 
 #: plugins/msn/msnconfigbase.cpp:177
-#, fuzzy
 msgid "&Automatically use HTTP pooling if proxy required"
-msgstr "&Audomadische HTTP-Anfroga benudza, wenn Broxy baedigd wird"
+msgstr "&Audomadisch HTTP-Bolling benudza, wenn Broxy baedigd wird"
 
 #: plugins/icq/aimconfigbase.cc:151 plugins/icq/icqconfigbase.cc:240
 #: plugins/jabber/jabberconfigbase.cpp:292 plugins/msn/msnconfigbase.cpp:178
@@ -2437,14 +2436,12 @@ msgid "Container"
 msgstr "Condainr"
 
 #: plugins/_core/container.cpp:545
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is typing"
 msgstr "%1 schreibd grade"
 
 #: plugins/_core/container.cpp:546
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is typing"
@@ -2940,9 +2937,9 @@ msgid "Edit phone number"
 msgstr "Telefonnummer hinzufiga"
 
 #: plugins/_core/filetransfer.cpp:91
-#, fuzzy, c-format
+#, c-format
 msgid "Bad path: %1"
-msgstr "Koine megliche Obzion %1"
+msgstr "Falscher Bfad: %1"
 
 #: plugins/_core/filetransfer.cpp:101 plugins/_core/filetransfer.cpp:161
 #, c-format
@@ -2950,9 +2947,8 @@ msgid "Can't create: %1"
 msgstr "Ka ned erschdelld werda: %1"
 
 #: plugins/_core/filetransfer.cpp:142
-#, fuzzy
 msgid "For all files"
-msgstr "Alle Dadeia (*)"
+msgstr "Fir alle Dadeia"
 
 #: plugins/_core/filetransfer.cpp:143
 msgid "&Replace"
@@ -2993,14 +2989,12 @@ msgid "Negotiation"
 msgstr "Omkehrong"
 
 #: plugins/_core/filetransfer.cpp:274
-#, fuzzy
 msgid "Receive file"
-msgstr "Dadei wird von %1 embfanga"
+msgstr "Dadei embfanga"
 
 #: plugins/_core/filetransfer.cpp:282
-#, fuzzy
 msgid "Send file"
-msgstr "Senda fehlgschlaga"
+msgstr "Dadei senda"
 
 #: plugins/_core/filetransfer.cpp:286
 msgid "Transfer done"
@@ -4114,14 +4108,12 @@ msgid "Get more skins"
 msgstr "Mehr Fenschderdhema ralada"
 
 #: plugins/background/bkgndcfgbase.cpp:114
-#, fuzzy
 msgid "Group margin:"
-msgstr "Symbolrand"
+msgstr "Grubbenrand:"
 
 #: plugins/background/bkgndcfgbase.cpp:115
-#, fuzzy
 msgid "Contact margin:"
-msgstr "Symbolrand"
+msgstr "Kondakdrand:"
 
 #: plugins/background/bkgndcfgbase.cpp:116
 msgid "Main window background:"
@@ -5002,9 +4994,8 @@ msgid "You've been warned by %1"
 msgstr "Se wurda von %1 gewarnd"
 
 #: plugins/icq/icqvarious.cpp:1405
-#, fuzzy
 msgid "Change password fail"
-msgstr "Brofil wechseln"
+msgstr "Ändern des Basswords fehlgschlaga"
 
 #: plugins/icq/icqvarious.cpp:1435
 msgid ""

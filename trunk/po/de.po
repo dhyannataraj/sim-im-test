@@ -2268,7 +2268,7 @@ msgstr "&HTTP-Polling benutzen"
 
 #: plugins/msn/msnconfigbase.cpp:177
 msgid "&Automatically use HTTP pooling if proxy required"
-msgstr "&Automatische HTTP-Polling benutzen, wenn Proxy benötigt wird"
+msgstr "&Automatisch HTTP-Polling benutzen, wenn Proxy benötigt wird"
 
 #: plugins/icq/aimconfigbase.cc:151 plugins/icq/icqconfigbase.cc:240
 #: plugins/jabber/jabberconfigbase.cpp:292 plugins/msn/msnconfigbase.cpp:178
@@ -5005,7 +5005,7 @@ msgstr "Sie wurden von %1 gewarnt"
 
 #: plugins/icq/icqvarious.cpp:1405
 msgid "Change password fail"
-msgstr "Ändern des Passwortes fehlgeschlagen"
+msgstr "Ändern des Passworts fehlgeschlagen"
 
 #: plugins/icq/icqvarious.cpp:1435
 msgid ""
