@@ -569,6 +569,7 @@ QString WeatherPlugin::getTipText()
                    "Dew Point: <b>%d</b><br>\n"
                    "Sunrise: %r<br>\n"
                    "Sunset: %s<br>\n"
+				   "UV-Intensity is %ut with value %ui of 9<br>\n"
                    "<br>\n"
                    "Updated: %u<br>\n");
     return str;
