@@ -26,7 +26,7 @@
 #include <qpixmap.h>
 #include <qmultilineedit.h>
 
-static set(QMultiLineEdit *edit, const string &s)
+static void set(QMultiLineEdit *edit, const string &s)
 {
     QString str;
     set(str, s);
