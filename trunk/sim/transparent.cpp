@@ -58,7 +58,11 @@ void TransparentBg::init(QWidget *p)
     connect(obj, SIGNAL(backgroundUpdated()), this, SLOT(backgroundUpdated()));
 }
 
+#if defined(USE_KDE) && defined(HAVE_KROOTPIXMAP_H)
 const QPixmap *TransparentBg::background(QColor bgColor)
+#else
+const QPixmap *TransparentBg::background(QColor)
+#endif
 {
     QWidget *p = static_cast<QWidget*>(parent());
 #if defined(USE_KDE) && defined(HAVE_KROOTPIXMAP_H)
@@ -155,7 +159,11 @@ bool TransparentTop::eventFilter(QObject*, QEvent *e)
     return false;
 }
 
+#if defined(USE_KDE) && defined(HAVE_KROOTPIXMAP_H)
 void TransparentTop::updateBackground(const QPixmap &pm)
+#else
+void TransparentTop::updateBackground(const QPixmap&)
+#endif
 {
 #if defined(USE_KDE) && defined(HAVE_KROOTPIXMAP_H)
     if (pm.isNull()) return;
@@ -254,7 +262,11 @@ void TransparentTop::setTransparent(
 #endif
 }
 
+#if defined(USE_KDE) && defined(HAVE_KROOTPIXMAP_H)
 const QPixmap *TransparentTop::background(QColor c)
+#else
+const QPixmap *TransparentTop::background(QColor)
+#endif
 {
 #if defined(USE_KDE) && defined(HAVE_KROOTPIXMAP_H)
     if (useTransparent && !saveBG.isNull()){

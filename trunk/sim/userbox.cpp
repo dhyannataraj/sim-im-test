@@ -154,27 +154,27 @@ UserBox::UserBox(unsigned long grpId)
     btnUser->setPopup(menuUser);
     btnUser->setPopupDelay(0);
     toolbar->addSeparator();
-    btnIgnore = new QToolButton(toolbar);
+    btnIgnore = new CToolButton(toolbar);
     btnIgnore->setIconSet(Icon("ignorelist"));
-    btnIgnore->setTextLabel(i18n("Add to ignore list"));
+    btnIgnore->setTextLabel(i18n("Add to ignore &list"));
     connect(btnIgnore, SIGNAL(clicked()), this, SLOT(toIgnore()));
     menuGroup = new QPopupMenu(this);
     connect(menuGroup, SIGNAL(aboutToShow()), this, SLOT(showGrpMenu()));
     connect(menuGroup, SIGNAL(activated(int)), this, SLOT(moveUser(int)));
     btnGroup = new CToolButton(toolbar);
     btnGroup->setIconSet(Icon("grp_on"));
-    btnGroup->setTextLabel(i18n("Move to group"));
+    btnGroup->setTextLabel(i18n("Move to &group"));
     btnGroup->setPopup(menuGroup);
     btnGroup->setPopupDelay(0);
     toolbar->addSeparator();
-    btnInfo = new QToolButton(toolbar);
+    btnInfo = new CToolButton(toolbar);
     btnInfo->setIconSet(Icon("info"));
-    btnInfo->setTextLabel(i18n("User info"));
+    btnInfo->setTextLabel(i18n("User &info"));
     btnInfo->setToggleButton(true);
     connect(btnInfo, SIGNAL(toggled(bool)), this, SLOT(toggleInfo(bool)));
-    btnHistory = new QToolButton(toolbar);
+    btnHistory = new CToolButton(toolbar);
     btnHistory->setIconSet(Icon("history"));
-    btnHistory->setTextLabel(i18n("History"));
+    btnHistory->setTextLabel(i18n("&History"));
     btnHistory->setToggleButton(true);
     connect(btnHistory, SIGNAL(toggled(bool)), this, SLOT(toggleHistory(bool)));
     menuEncoding = new QPopupMenu(this);
@@ -187,11 +187,14 @@ UserBox::UserBox(unsigned long grpId)
     connect(menuEncoding, SIGNAL(aboutToShow()), this, SLOT(showEncodingPopup()));
     btnEncoding = new CToolButton(toolbar);
     btnEncoding->setIconSet(Icon("encoding"));
-    btnEncoding->setTextLabel(i18n("Encoding"));
+    btnEncoding->setTextLabel(i18n("&Encoding"));
     btnEncoding->setPopup(menuEncoding);
     btnEncoding->setPopupDelay(0);
     toolbar->addSeparator();
-    btnQuit = new QToolButton(Icon("exit"), i18n("Close"), "", this, SLOT(quit()), toolbar);
+    btnQuit = new CToolButton(toolbar);
+    btnQuit->setIconSet(Icon("exit"));
+    btnQuit->setTextLabel(i18n("Close user &window"));
+    connect(btnQuit, SIGNAL(clicked()), this, SLOT(quit()));
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     connect(pClient, SIGNAL(messageRead(ICQMessage*)), this, SLOT(messageRead(ICQMessage*)));
     connect(pMain, SIGNAL(iconChanged()), this, SLOT(iconChanged()));
@@ -911,8 +914,25 @@ void UserBox::adjustUserMenu(bool bRescan)
 {
     if (bRescan) menuUser->clear();
     list<MsgEdit*>::iterator it;
-    for (it = wnds.begin(); it != wnds.end(); it++){
-        if (bRescan) menuUser->insertItem((*it)->userName(), (*it)->tabId);
+    unsigned i = 1;
+    for (it = wnds.begin(); it != wnds.end(); it++, i++){
+        if (bRescan){
+            QString str = (*it)->userName();
+            int key = 0;
+            if (i <= 10){
+                str += "\t";
+                str += "Alt-";
+                if (i < 10){
+                    str += QString::number(i);
+                    key = ALT + Key_0 + i;
+                }else{
+                    str += "0";
+                    key = ALT + Key_0;
+                }
+            }
+            menuUser->insertItem(str + "\t", (*it)->tabId);
+            if (key) menuUser->setAccel(key, (*it)->tabId);
+        }
         menuUser->setItemChecked((*it)->tabId, (*it)->tabId == tabs->currentTab());
     }
     btnUser->setPopup(menuUser);

@@ -291,23 +291,25 @@ int main(int argc, char *argv[])
 #else
     SimApp app(argc, argv);
 #endif
-    pSplash = new Splash;
-    initIcons("");
-    pMain = new MainWindow;
+    string homeDir;
 #ifdef USE_KDE
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
     if (args->isSet("b"))
-        pMain->homeDir = strdup(args->getOption("b"));
+        homeDir = strdup(args->getOption("b"));
     if (args->isSet("d"))
         log_level = atoi(args->getOption("d"));
 #else
     for (int i = 0; i < argc; i++){
         if (!strcmp(argv[i], "-b") && argv[i+1])
-            pMain->homeDir = argv[++i];
+            homeDir = argv[++i];
         if (!strcmp(argv[i], "-d") && argv[i+1])
             log_level = atoi(argv[++i]);
     }
 #endif
+    pSplash = new Splash;
+    initIcons("");
+    pMain = new MainWindow;
+    pMain->homeDir = homeDir;
     if (!pMain->init())
         return 0;
     app.setMainWidget(pMain);

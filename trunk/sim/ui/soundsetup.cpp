@@ -111,7 +111,13 @@ void SoundSetup::disableToggled(bool bOn)
     edtChat->setEnabled(!bOn);
     edtStartup->setEnabled(!bOn);
     edtFileDone->setEnabled(!bOn);
-    chkArts->setEnabled(chkArts->isChecked());
+#ifdef USE_KDE
+    chkArts->setEnabled(bOn);
+    artsToggled(chkArts->isChecked());
+#else
+    edtProgram->setEnabled(bOn);
+    lblProgram->setEnabled(bOn);
+#endif
 }
 
 string SoundSetup::sound(EditSound *edt)

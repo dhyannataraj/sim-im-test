@@ -294,7 +294,6 @@ public:
     void fillUnread(list<msgInfo> &msgs);
     list<unread_msg> messages;
     void setDock();
-    bool canWM;
     bool isDock();
 signals:
     void modeChanged(bool);

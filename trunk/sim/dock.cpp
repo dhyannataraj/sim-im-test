@@ -281,6 +281,7 @@ DockWnd::DockWnd(QWidget *main, bool _bWM)
         show();
 #endif
     }
+    log(L_DEBUG, "Create WHarf %u", bWharf);
     if (bWharf){
         wharfIcon = new WharfIcon(this);
         if (bWM){
@@ -303,9 +304,8 @@ DockWnd::DockWnd(QWidget *main, bool _bWM)
             XSetCommand(dsp, winId(), _argv, _argc);
             resize(64, 64);
             show();
-        }else{
-            wharfIcon->show();
         }
+        wharfIcon->show();
     }
 #endif
     reset();

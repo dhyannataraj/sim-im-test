@@ -63,6 +63,7 @@ using namespace std;
 "&amp";?					{ return SYMBOL; }
 "&quot";?					{ return SYMBOL; }
 "&nbsp";?					{ return SYMBOL; }
+\n						{ return TXT; }
 .						{ return TXT; }
 %%
 

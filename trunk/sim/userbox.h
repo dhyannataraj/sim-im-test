@@ -138,13 +138,13 @@ protected:
     unsigned long msgShowId;
     list<MsgEdit*> wnds;
     QToolBar	*toolbar;
-    QToolButton *btnQuit;
-    QToolButton *btnHistory;
-    QToolButton *btnInfo;
+    CToolButton *btnQuit;
+    CToolButton *btnHistory;
+    CToolButton *btnInfo;
     CToolButton *btnEncoding;
     PictButton  *btnType;
     PictButton  *btnUser;
-    QToolButton	*btnIgnore;
+    CToolButton	*btnIgnore;
     CToolButton	*btnGroup;
     QSplitter	*vSplitter;
     QSplitter  *tabSplitter;

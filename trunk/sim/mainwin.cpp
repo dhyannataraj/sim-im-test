@@ -118,7 +118,7 @@ static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/Xatom.h>
-#define XA_WIN_SUPPORTING_WM_CHECK      "_WIN_SUPPORTING_WM_CHECK"
+#define XA_WINDOWMAKER_WM_PROTOCOLS      "_WINDOWMAKER_WM_PROTOCOLS"
 #endif
 
 static char ICQ_CONF[] = "icq.conf";
@@ -276,7 +276,7 @@ cfgParam MainWindow_Params[] =
 MainWindow::MainWindow(const char *name)
         : QMainWindow(NULL, name, WType_TopLevel | WStyle_Customize | WStyle_Title | WStyle_NormalBorder| WStyle_SysMenu)
 {
-
+    log(L_DEBUG, "Main window");
     SET_WNDPROC
     ::init(this, MainWindow_Params);
 
@@ -289,37 +289,6 @@ MainWindow::MainWindow(const char *name)
     translator = NULL;
     mAboutApp = NULL;
     hideTime = 0;
-
-    canWM = false;
-#ifndef WIN32
-    Atom r_type;
-    int r_format;
-    unsigned long count, bytes_remain;
-    unsigned char *prop = NULL, *prop2 = NULL;
-    Atom _XA_WIN_SUPPORTING_WM_CHECK = XInternAtom(qt_xdisplay(), XA_WIN_SUPPORTING_WM_CHECK, False);
-    int p = XGetWindowProperty(qt_xdisplay(), qt_xrootwin(), _XA_WIN_SUPPORTING_WM_CHECK,
-                               0, 1, False, XA_CARDINAL, &r_type, &r_format,
-                               &count, &bytes_remain, &prop);
-
-    if (p == Success && prop && r_type == XA_CARDINAL &&
-            r_format == 32 && count == 1)
-    {
-        Window n = *(long *) prop;
-
-        p = XGetWindowProperty(qt_xdisplay(), n, _XA_WIN_SUPPORTING_WM_CHECK, 0, 1,
-                               False, XA_CARDINAL, &r_type, &r_format,
-                               &count, &bytes_remain, &prop2);
-
-        if (p == Success && prop2 && r_type == XA_CARDINAL &&
-                r_format == 32 && count == 1)
-            canWM = true;
-    }
-
-    if (prop)
-        XFree(prop);
-    if (prop2)
-        XFree(prop2);
-#endif
 
 #ifdef HAVE_UMASK
     umask(0077);

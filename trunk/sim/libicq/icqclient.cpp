@@ -380,8 +380,7 @@ void ICQClient::getAutoResponse(unsigned long uin, string &res)
 {
     res = "";
     ICQUser *u = getUser(uin);
-    unsigned long status = 0;
-    if (u) status = u->uStatus;
+    unsigned long status = owner->uStatus;
     if (status & ICQ_STATUS_DND){
         if (u)
             res = u->AutoResponseDND;
