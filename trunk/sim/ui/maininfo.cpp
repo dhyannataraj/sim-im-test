@@ -289,15 +289,10 @@ void MainInfo::defaultEmail()
 
 #undef QLineEdit
 
-void MainInfo::save(ICQUser *u)
+QString MainInfo::getAlias()
 {
-    pClient->setUserEncoding(u->Uin, getCurrentEncoding());
-    u->EMails = mails;
-    set(u->FirstName, edtFirst->text());
-    set(u->LastName, edtLast->text());
-    set(u->Nick, edtNick->text());
     QLineEdit *edit = cmbDisplay->lineEdit();
-    if (edit == NULL) return;
+    if (edit == NULL) return "";
     QString alias = edit->text();
     if (alias.isEmpty())
         alias = edtNick->text();
@@ -312,6 +307,17 @@ void MainInfo::save(ICQUser *u)
             if (!alias[n].isSpace()) break;
         if (n < (int)alias.length() - 1) alias = alias.left(n + 1);
     }
+    return alias;
+}
+
+void MainInfo::save(ICQUser *u)
+{
+    pClient->setUserEncoding(u->Uin, getCurrentEncoding());
+    u->EMails = mails;
+    set(u->FirstName, edtFirst->text());
+    set(u->LastName, edtLast->text());
+    set(u->Nick, edtNick->text());
+    QString alias = getAlias();
     if (!alias.isEmpty())
         pClient->renameUser(u, alias.local8Bit());
 }
@@ -333,6 +339,9 @@ void MainInfo::apply(ICQUser *u)
     u->EMail = (mailInfo ? mailInfo->Email.c_str() : "");
     u->HiddenEMail = (mailInfo ? mailInfo->Hide : 0);
     u->EMails = mails;
+    QString alias = getAlias();
+    if (!alias.isEmpty())
+        pClient->owner->Alias = alias.local8Bit();
 }
 
 EMailInfo *MainInfo::currentMail()

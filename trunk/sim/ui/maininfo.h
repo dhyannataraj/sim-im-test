@@ -47,6 +47,7 @@ protected:
     void setCurrentEncoding(int mib);
     int  getCurrentEncoding();
     void reloadList();
+    QString getAlias();
     EMailList mails;
     bool bReadOnly;
 };

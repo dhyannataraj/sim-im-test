@@ -579,7 +579,7 @@ int main(int argc, char *argv[])
     unsigned startUIN = pSplash->LastUIN;
     if (!pSplash->SavePassword) startUIN = 0;
     if (startUIN){
-	list<unsigned long>::iterator it;
+        list<unsigned long>::iterator it;
         for (it = uins.begin(); it != uins.end(); ++it)
             if ((*it) == startUIN) break;
         if (it == uins.end()) startUIN = 0;

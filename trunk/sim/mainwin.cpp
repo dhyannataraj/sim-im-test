@@ -901,16 +901,16 @@ void MainWindow::showGroupPopup(QPoint p)
 void MainWindow::deleteChilds()
 {
     if (setupDlg){
-	delete setupDlg;
-	setupDlg = NULL;
+        delete setupDlg;
+        setupDlg = NULL;
     }
     if (searchDlg){
-	delete searchDlg;
-	searchDlg = NULL;
+        delete searchDlg;
+        searchDlg = NULL;
     }
     if (mNetMonitor){
-	delete mNetMonitor;
-	mNetMonitor = NULL;
+        delete mNetMonitor;
+        mNetMonitor = NULL;
     }
     if (transparent){
         delete transparent;

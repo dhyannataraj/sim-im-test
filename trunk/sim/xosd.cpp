@@ -25,6 +25,10 @@
 #include <qbitmap.h>
 #include <qstyle.h>
 
+#ifdef WIN32
+#include <windows.h>
+#endif
+
 XOSD::XOSD(QWidget *p)
         : QWidget(p, "xosd",
                   WType_TopLevel | WStyle_Customize | WStyle_NoBorderEx | WStyle_StaysOnTop | WRepaintNoErase | WStyle_Tool | WX11BypassWM)
@@ -149,6 +153,9 @@ void XOSD::set(const QString &str, unsigned long _uin)
 
 void XOSD::paintEvent(QPaintEvent*)
 {
+#ifdef WIN32
+    SetWindowPos(pMain->winId(), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+#endif
     QPainter p(this);
     p.drawPixmap(0, 0, bgPict);
     p.end();
