@@ -51,7 +51,6 @@ protected:
 SimApp::SimApp() : KUniqueApplication()
 {
     firstInstance = true;
-    connect(this, SIGNAL(lastWindowClosed()), this, SLOT(quit()));
 }
 
 SimApp::~SimApp()
