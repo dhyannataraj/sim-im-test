@@ -272,6 +272,8 @@ public:
     bool			BarAutoHide;
 #endif
 
+    string			Language;
+
     bool 	     init();
 
     QPopupMenu   *menuStatus;

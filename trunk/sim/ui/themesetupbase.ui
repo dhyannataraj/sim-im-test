@@ -6,25 +6,25 @@
         <name>name</name>
         <cstring>themes</cstring>
     </property>
-    <property stdset="1">
+    <property>
         <name>geometry</name>
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>331</width>
-            <height>260</height>
+            <width>315</width>
+            <height>275</height>
         </rect>
     </property>
-    <property stdset="1">
+    <property>
         <name>caption</name>
         <string>Form1</string>
     </property>
     <vbox>
-        <property stdset="1">
+        <property>
             <name>margin</name>
             <number>11</number>
         </property>
-        <property stdset="1">
+        <property>
             <name>spacing</name>
             <number>6</number>
         </property>
@@ -45,11 +45,11 @@
                     <string>&amp;Style</string>
                 </attribute>
                 <vbox>
-                    <property stdset="1">
+                    <property>
                         <name>margin</name>
                         <number>11</number>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>spacing</name>
                         <number>6</number>
                     </property>
@@ -59,7 +59,7 @@
                             <name>name</name>
                             <cstring>TextLabel1</cstring>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>text</name>
                             <string>Select style:</string>
                         </property>
@@ -90,11 +90,11 @@
                     <string>&amp;Icons</string>
                 </attribute>
                 <vbox>
-                    <property stdset="1">
+                    <property>
                         <name>margin</name>
                         <number>11</number>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>spacing</name>
                         <number>6</number>
                     </property>
@@ -104,7 +104,7 @@
                             <name>name</name>
                             <cstring>TextLabel1_2</cstring>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>text</name>
                             <string>Icons:</string>
                         </property>
@@ -129,11 +129,11 @@
                             <cstring>Layout2</cstring>
                         </property>
                         <hbox>
-                            <property stdset="1">
+                            <property>
                                 <name>margin</name>
                                 <number>0</number>
                             </property>
-                            <property stdset="1">
+                            <property>
                                 <name>spacing</name>
                                 <number>6</number>
                             </property>
@@ -164,7 +164,7 @@
                                     <name>name</name>
                                     <cstring>btnAddIcons</cstring>
                                 </property>
-                                <property stdset="1">
+                                <property>
                                     <name>text</name>
                                     <string>Add icons</string>
                                 </property>
@@ -184,11 +184,11 @@
                     <string>&amp;Transparency</string>
                 </attribute>
                 <vbox>
-                    <property stdset="1">
+                    <property>
                         <name>margin</name>
                         <number>11</number>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>spacing</name>
                         <number>6</number>
                     </property>
@@ -198,7 +198,7 @@
                             <name>name</name>
                             <cstring>chkTransparent</cstring>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>text</name>
                             <string>Transparent main window</string>
                         </property>
@@ -209,7 +209,7 @@
                             <name>name</name>
                             <cstring>lblTransparent</cstring>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>text</name>
                             <string>Transparency</string>
                         </property>
@@ -220,7 +220,7 @@
                             <name>name</name>
                             <cstring>sldTransparent</cstring>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>orientation</name>
                             <enum>Horizontal</enum>
                         </property>
@@ -231,7 +231,7 @@
                             <name>name</name>
                             <cstring>chkTransparentContainer</cstring>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>text</name>
                             <string>Transparent container</string>
                         </property>
@@ -242,7 +242,7 @@
                             <name>name</name>
                             <cstring>lblTransparentContainer</cstring>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>text</name>
                             <string>Transparency</string>
                         </property>
@@ -253,7 +253,7 @@
                             <name>name</name>
                             <cstring>sldTransparentContainer</cstring>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>orientation</name>
                             <enum>Horizontal</enum>
                         </property>
@@ -264,7 +264,7 @@
                             <name>name</name>
                             <cstring>chkInactive</cstring>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>text</name>
                             <string>Transparent only if inactive</string>
                         </property>
@@ -302,93 +302,93 @@
                     <name>title</name>
                     <string>&amp;Miscellaneous</string>
                 </attribute>
-                <vbox>
-                    <property stdset="1">
+                <grid>
+                    <property>
                         <name>margin</name>
                         <number>11</number>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>spacing</name>
                         <number>6</number>
                     </property>
-                    <widget>
+                    <widget row="0"  column="0"  rowspan="1"  colspan="2" >
                         <class>QCheckBox</class>
                         <property stdset="1">
                             <name>name</name>
                             <cstring>chkMainWnd</cstring>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>text</name>
                             <string>Show main window in task manager</string>
                         </property>
                     </widget>
-                    <widget>
+                    <widget row="1"  column="0"  rowspan="1"  colspan="2" >
                         <class>QCheckBox</class>
                         <property stdset="1">
                             <name>name</name>
                             <cstring>chkUserWnd</cstring>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>text</name>
                             <string>Show user window in task manager</string>
                         </property>
                     </widget>
-                    <widget>
+                    <widget row="2"  column="0"  rowspan="1"  colspan="2" >
                         <class>QCheckBox</class>
                         <property stdset="1">
                             <name>name</name>
                             <cstring>chkDock</cstring>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>text</name>
                             <string>Use dock</string>
                         </property>
                     </widget>
-                    <widget>
+                    <widget row="3"  column="0"  rowspan="1"  colspan="2" >
                         <class>QCheckBox</class>
                         <property stdset="1">
                             <name>name</name>
                             <cstring>chkWM</cstring>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>text</name>
                             <string>Use WindowMaker applet</string>
                         </property>
                     </widget>
-                    <widget>
+                    <widget row="4"  column="0"  rowspan="1"  colspan="2" >
                         <class>QCheckBox</class>
                         <property stdset="1">
                             <name>name</name>
                             <cstring>chkUserWnd</cstring>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>text</name>
                             <string>User window stays on &amp;top</string>
                         </property>
                     </widget>
-                    <widget>
+                    <widget row="5"  column="0"  rowspan="1"  colspan="2" >
                         <class>QCheckBox</class>
                         <property stdset="1">
                             <name>name</name>
                             <cstring>chkSplash</cstring>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>text</name>
                             <string>&amp;Show splash window</string>
                         </property>
                     </widget>
-                    <widget>
+                    <widget row="6"  column="0"  rowspan="1"  colspan="2" >
                         <class>QCheckBox</class>
                         <property stdset="1">
                             <name>name</name>
                             <cstring>chkEmotional</cstring>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>text</name>
                             <string>Use emotional &amp;icons</string>
                         </property>
                     </widget>
-                    <spacer>
+                    <spacer row="8"  column="1" >
                         <property>
                             <name>name</name>
                             <cstring>Spacer3</cstring>
@@ -409,7 +409,32 @@
                             </size>
                         </property>
                     </spacer>
-                </vbox>
+                    <widget row="7"  column="0" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>lblLang</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Lnaguage:</string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>AlignVCenter|AlignRight</set>
+                        </property>
+                        <property>
+                            <name>hAlign</name>
+                        </property>
+                    </widget>
+                    <widget row="7"  column="1" >
+                        <class>QComboBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>cmbLang</cstring>
+                        </property>
+                    </widget>
+                </grid>
             </widget>
         </widget>
     </vbox>

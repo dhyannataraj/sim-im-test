@@ -26,6 +26,7 @@
 #include <qlabel.h>
 #include <qpixmap.h>
 #include <qcheckbox.h>
+#include <qtabwidget.h>
 
 SoundSetup::SoundSetup(QWidget *p, bool bUser)
         : SoundSetupBase(p)
@@ -45,8 +46,8 @@ SoundSetup::SoundSetup(QWidget *p, bool bUser)
         connect(chkDisable, SIGNAL(toggled(bool)), this, SLOT(disableToggled(bool)));
         chkOverride->hide();
 #ifdef WIN32
-        edtProgram->hide();
-        lblProgram->hide();
+        tabWnd->setCurrentPage(1);
+        tabWnd->removePage(tabWnd->currentPage());
 #endif
 #ifdef USE_KDE
         chkArts->setChecked(pSplash->UseArts);

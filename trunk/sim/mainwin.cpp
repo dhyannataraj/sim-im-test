@@ -298,6 +298,7 @@ cfgParam MainWindow_Params[] =
         { "BarState", OFFSET_OF(MainWindow, BarState), PARAM_USHORT, ABE_FLOAT },
         { "BarAutoHide", OFFSET_OF(MainWindow, BarAutoHide), PARAM_BOOL, 0 },
 #endif
+        { "Langauge", OFFSET_OF(MainWindow, Language), PARAM_STRING, 0 },
         { "", 0, 0, 0 }
     };
 
@@ -1239,6 +1240,7 @@ void MainWindow::processEvent(ICQEvent *e)
         }
         return;
     case EVENT_ANOTHER_LOCATION:
+        ManualStatus = ICQ_STATUS_OFFLINE;
         setShow(true);
         BalloonMsg::message(i18n("Your UIN used from another location"), toolbar->getWidget(btnStatus));
         break;
@@ -1311,6 +1313,8 @@ void MainWindow::processEvent(ICQEvent *e)
 
 void MainWindow::badPassword()
 {
+    unsigned long saveStatus = ManualStatus;
+    ManualStatus = ICQ_STATUS_OFFLINE;
     PasswdDialog dlg;
     bInLogin = true;
     if (!dlg.exec()){
@@ -1318,6 +1322,7 @@ void MainWindow::badPassword()
         return;
     }
     bInLogin = false;
+    ManualStatus = saveStatus;
 }
 
 void MainWindow::saveState()
@@ -1753,20 +1758,14 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
 void MainWindow::autoAway()
 {
-#ifdef WIN32
-    if (BarState == ABE_FLOAT){
-#endif
-        if (hideTime && isDock()){
-            time_t now;
-            time(&now);
-            if (now >= (time_t)hideTime){
-                setShow(false);
-                hideTime = 0;
-            }
+    if (hideTime && isDock()){
+        time_t now;
+        time(&now);
+        if (now >= (time_t)hideTime){
+            setShow(false);
+            hideTime = 0;
         }
-#ifdef WIN32
     }
-#endif
 #ifdef WIN32
     unsigned long idle_time = 0;
     if (_GetLastInputInfo == NULL){
@@ -3019,23 +3018,25 @@ void MainWindow::initTranslator()
     if (translator)
         qApp->removeTranslator(translator);
     translator = NULL;
-    string lang;
+    string lang = Language;
+    if (lang.size() == 0){
 #ifdef WIN32
-    char buff[256];
-    int res = GetLocaleInfoA(LOCALE_USER_DEFAULT, LOCALE_SABBREVLANGNAME, buff, sizeof(buff));
-    if (res){
-        lang += tolower(buff[0]);
-        lang += tolower(buff[1]);
-    }
-#else
-    char *p = getenv("LANG");
-    if (p){
-        for (; *p; p++){
-            if (*p == '.') break;
-            lang += *p;
+        char buff[256];
+        int res = GetLocaleInfoA(LOCALE_USER_DEFAULT, LOCALE_SABBREVLANGNAME, buff, sizeof(buff));
+        if (res){
+            lang += tolower(buff[0]);
+            lang += tolower(buff[1]);
         }
-    }
+#else
+        char *p = getenv("LANG");
+        if (p){
+            for (; *p; p++){
+                if (*p == '.') break;
+                lang += *p;
+            }
+        }
 #endif
+    }
     if (lang.size() == 0) return;
     string s = "po";
 #ifdef WIN32

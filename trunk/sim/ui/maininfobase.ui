@@ -6,25 +6,25 @@
         <name>name</name>
         <cstring>mainInfo</cstring>
     </property>
-    <property stdset="1">
+    <property>
         <name>geometry</name>
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>427</width>
+            <width>423</width>
             <height>260</height>
         </rect>
     </property>
-    <property stdset="1">
+    <property>
         <name>caption</name>
         <string>Form5</string>
     </property>
     <vbox>
-        <property stdset="1">
+        <property>
             <name>margin</name>
             <number>11</number>
         </property>
-        <property stdset="1">
+        <property>
             <name>spacing</name>
             <number>6</number>
         </property>
@@ -45,11 +45,11 @@
                     <string>&amp;Names</string>
                 </attribute>
                 <vbox>
-                    <property stdset="1">
+                    <property>
                         <name>margin</name>
                         <number>11</number>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>spacing</name>
                         <number>6</number>
                     </property>
@@ -60,11 +60,11 @@
                             <cstring>Layout16</cstring>
                         </property>
                         <grid>
-                            <property stdset="1">
+                            <property>
                                 <name>margin</name>
                                 <number>0</number>
                             </property>
-                            <property stdset="1">
+                            <property>
                                 <name>spacing</name>
                                 <number>6</number>
                             </property>
@@ -74,11 +74,11 @@
                                     <name>name</name>
                                     <cstring>lblLast</cstring>
                                 </property>
-                                <property stdset="1">
+                                <property>
                                     <name>text</name>
                                     <string>Last Name:</string>
                                 </property>
-                                <property stdset="1">
+                                <property>
                                     <name>alignment</name>
                                     <set>AlignVCenter|AlignRight</set>
                                 </property>
@@ -106,17 +106,17 @@
                                     <name>name</name>
                                     <cstring>lblUin</cstring>
                                 </property>
-                                <property stdset="1">
+                                <property>
                                     <name>font</name>
                                     <font>
                                         <bold>1</bold>
                                     </font>
                                 </property>
-                                <property stdset="1">
+                                <property>
                                     <name>text</name>
                                     <string>Uin:</string>
                                 </property>
-                                <property stdset="1">
+                                <property>
                                     <name>alignment</name>
                                     <set>AlignVCenter|AlignRight</set>
                                 </property>
@@ -130,11 +130,11 @@
                                     <name>name</name>
                                     <cstring>TextLabel30</cstring>
                                 </property>
-                                <property stdset="1">
+                                <property>
                                     <name>text</name>
                                     <string>Nick:</string>
                                 </property>
-                                <property stdset="1">
+                                <property>
                                     <name>alignment</name>
                                     <set>AlignVCenter|AlignRight</set>
                                 </property>
@@ -155,14 +155,14 @@
                                     <name>name</name>
                                     <cstring>lineDiv</cstring>
                                 </property>
-                                <property stdset="1">
+                                <property>
                                     <name>sizePolicy</name>
                                     <sizepolicy>
                                         <hsizetype>1</hsizetype>
                                         <vsizetype>0</vsizetype>
                                     </sizepolicy>
                                 </property>
-                                <property stdset="1">
+                                <property>
                                     <name>palette</name>
                                     <palette>
                                         <active>
@@ -387,7 +387,7 @@
                                     <name>frameShape</name>
                                     <enum>HLine</enum>
                                 </property>
-                                <property stdset="1">
+                                <property>
                                     <name>frameShadow</name>
                                     <enum>Sunken</enum>
                                 </property>
@@ -407,11 +407,11 @@
                                     <cstring>Layout14</cstring>
                                 </property>
                                 <hbox>
-                                    <property stdset="1">
+                                    <property>
                                         <name>margin</name>
                                         <number>0</number>
                                     </property>
-                                    <property stdset="1">
+                                    <property>
                                         <name>spacing</name>
                                         <number>6</number>
                                     </property>
@@ -421,7 +421,7 @@
                                             <name>name</name>
                                             <cstring>edtUin</cstring>
                                         </property>
-                                        <property stdset="1">
+                                        <property>
                                             <name>font</name>
                                             <font>
                                                 <bold>1</bold>
@@ -458,11 +458,11 @@
                                     <cstring>Layout15</cstring>
                                 </property>
                                 <hbox>
-                                    <property stdset="1">
+                                    <property>
                                         <name>margin</name>
                                         <number>0</number>
                                     </property>
-                                    <property stdset="1">
+                                    <property>
                                         <name>spacing</name>
                                         <number>6</number>
                                     </property>
@@ -502,11 +502,11 @@
                                     <name>name</name>
                                     <cstring>TextLabel31</cstring>
                                 </property>
-                                <property stdset="1">
+                                <property>
                                     <name>text</name>
                                     <string>Display:</string>
                                 </property>
-                                <property stdset="1">
+                                <property>
                                     <name>alignment</name>
                                     <set>AlignVCenter|AlignRight</set>
                                 </property>
@@ -520,11 +520,11 @@
                                     <name>name</name>
                                     <cstring>lblFirst</cstring>
                                 </property>
-                                <property stdset="1">
+                                <property>
                                     <name>text</name>
                                     <string>First name:</string>
                                 </property>
-                                <property stdset="1">
+                                <property>
                                     <name>alignment</name>
                                     <set>AlignVCenter|AlignRight</set>
                                 </property>
@@ -541,11 +541,11 @@
                             <cstring>Layout8</cstring>
                         </property>
                         <hbox>
-                            <property stdset="1">
+                            <property>
                                 <name>margin</name>
                                 <number>0</number>
                             </property>
-                            <property stdset="1">
+                            <property>
                                 <name>spacing</name>
                                 <number>6</number>
                             </property>
@@ -555,7 +555,7 @@
                                     <name>name</name>
                                     <cstring>TextLabel1_2</cstring>
                                 </property>
-                                <property stdset="1">
+                                <property>
                                     <name>text</name>
                                     <string>Encoding:</string>
                                 </property>
@@ -566,7 +566,7 @@
                                     <name>name</name>
                                     <cstring>cmbEncoding</cstring>
                                 </property>
-                                <property stdset="1">
+                                <property>
                                     <name>sizePolicy</name>
                                     <sizepolicy>
                                         <hsizetype>7</hsizetype>
@@ -610,11 +610,11 @@
                     <string>&amp;EMail</string>
                 </attribute>
                 <vbox>
-                    <property stdset="1">
+                    <property>
                         <name>margin</name>
                         <number>11</number>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>spacing</name>
                         <number>6</number>
                     </property>
@@ -624,7 +624,7 @@
                             <name>name</name>
                             <cstring>TextLabel1</cstring>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>text</name>
                             <string>Email addresses:</string>
                         </property>
@@ -643,11 +643,11 @@
                             <cstring>Layout8</cstring>
                         </property>
                         <hbox>
-                            <property stdset="1">
+                            <property>
                                 <name>margin</name>
                                 <number>0</number>
                             </property>
-                            <property stdset="1">
+                            <property>
                                 <name>spacing</name>
                                 <number>6</number>
                             </property>
@@ -678,7 +678,7 @@
                                     <name>name</name>
                                     <cstring>btnAdd</cstring>
                                 </property>
-                                <property stdset="1">
+                                <property>
                                     <name>text</name>
                                     <string>Add</string>
                                 </property>
@@ -689,7 +689,7 @@
                                     <name>name</name>
                                     <cstring>btnEdit</cstring>
                                 </property>
-                                <property stdset="1">
+                                <property>
                                     <name>text</name>
                                     <string>Edit</string>
                                 </property>
@@ -700,7 +700,7 @@
                                     <name>name</name>
                                     <cstring>btnRemove</cstring>
                                 </property>
-                                <property stdset="1">
+                                <property>
                                     <name>text</name>
                                     <string>Remove</string>
                                 </property>
@@ -711,7 +711,7 @@
                                     <name>name</name>
                                     <cstring>btnDefault</cstring>
                                 </property>
-                                <property stdset="1">
+                                <property>
                                     <name>text</name>
                                     <string>Set as default</string>
                                 </property>
@@ -752,11 +752,11 @@
                     <string>&amp;Status</string>
                 </attribute>
                 <grid>
-                    <property stdset="1">
+                    <property>
                         <name>margin</name>
                         <number>11</number>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>spacing</name>
                         <number>6</number>
                     </property>
@@ -766,11 +766,11 @@
                             <name>name</name>
                             <cstring>TextLabel1_3</cstring>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>text</name>
                             <string>Status:</string>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>alignment</name>
                             <set>AlignVCenter|AlignRight</set>
                         </property>
@@ -791,11 +791,11 @@
                             <name>name</name>
                             <cstring>lblOnline</cstring>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>text</name>
                             <string>Online:</string>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>alignment</name>
                             <set>AlignVCenter|AlignRight</set>
                         </property>
@@ -816,11 +816,11 @@
                             <name>name</name>
                             <cstring>lblNA</cstring>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>text</name>
                             <string></string>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>alignment</name>
                             <set>AlignVCenter|AlignRight</set>
                         </property>
@@ -841,11 +841,11 @@
                             <name>name</name>
                             <cstring>lblExtIP</cstring>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>text</name>
                             <string>External IP:</string>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>alignment</name>
                             <set>AlignVCenter|AlignRight</set>
                         </property>
@@ -866,7 +866,7 @@
                             <name>name</name>
                             <cstring>lblIntIP</cstring>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>text</name>
                             <string>Internal IP:</string>
                         </property>
@@ -905,11 +905,11 @@
                             <name>name</name>
                             <cstring>lblClient</cstring>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>text</name>
                             <string>Client:</string>
                         </property>
-                        <property stdset="1">
+                        <property>
                             <name>alignment</name>
                             <set>AlignVCenter|AlignRight</set>
                         </property>

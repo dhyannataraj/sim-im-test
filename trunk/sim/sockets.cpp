@@ -62,13 +62,13 @@ ICQClientSocket::ICQClientSocket(QSocket *s)
 #endif
 {
     sock = s;
-    resolver = NULL;
     if (sock == NULL)
 #ifdef HAVE_KEXTSOCK_H
         sock = new KExtendedSocket;
     sock->setSocketFlags(KExtendedSocket::outputBufferedSocket );
 #else
-        sock = new QSocket(this);
+        bConnected = false;
+    sock = new QSocket(this);
 #endif
 #ifdef HAVE_KEXTSOCK_H
     QObject::connect(sock, SIGNAL(connectionSuccess()), this, SLOT(slotConnected()));
@@ -90,7 +90,6 @@ ICQClientSocket::ICQClientSocket(QSocket *s)
 
 ICQClientSocket::~ICQClientSocket()
 {
-    if (resolver) delete resolver;
     close();
     delete sock;
 }
@@ -152,35 +151,15 @@ void ICQClientSocket::connect(const char *host, int _port)
         if (notify) notify->error_state(ErrorConnect);
     }
 #else
-    if (resolver == NULL){
-        resolver = new QDns;
-        QObject::connect(resolver, SIGNAL(resultsReady()), this, SLOT(resolveReady()));
-        QTimer::singleShot(10000, this, SLOT(resolveTimeout()));
-        resolver->setRecordType(QDns::A);
-    }
-    resolver->setLabel(host);
-#endif
-}
-
-void ICQClientSocket::resolveReady()
-{
-    if (resolver == NULL){
-        log(L_WARN, "Unexpected resolve ready");
-        slotError(1);
-        return;
-    }
-    if (resolver->addresses().count() == 0){
-        log(L_WARN, "Can't resolve %s", (const char*)(resolver->label().latin1()));
-        slotError(1);
-        return;
-    }
-    QString host = resolver->addresses()[0].toString();
+    bConnected = false;
+    QTimer::singleShot(10000, this, SLOT(resolveTimeout()));
     sock->connectToHost(host, port);
+#endif
 }
 
 void ICQClientSocket::resolveTimeout()
 {
-    if (resolver->isWorking())
+    if (!bConnected)
         slotError(1);
 }
 
@@ -191,6 +170,8 @@ void ICQClientSocket::slotConnected()
 #ifdef HAVE_KEXTSOCK_H
     sock->setBlockingMode(false);
     sock->enableRead(true);
+#else
+    bConnected = true;
 #endif
 }
 
