@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "defs.h"
 #include "icqclient.h"
 #include "log.h"
 
@@ -51,11 +52,11 @@ ICQClient::ICQClient()
 {
     listener = NULL;
     m_nProcessId = MSG_PROCESS_ID;
-    AutoResponseAway.setDefault("I am currently away from ICQ.\nPlease leave your message and I will get back to you as soon as I return!\n");
-    AutoResponseNA.setDefault("I am out'a here.\nSee you tomorrow!\n");
-    AutoResponseDND.setDefault("Please do not disturb me now. Disturb me later.\n");
-    AutoResponseOccupied.setDefault("Please do not disturb me now.\nDisturb me later.\nOnly urgent messages, please!\n");
-    AutoResponseFFC.setDefault("We'd love to hear what you have to say. Join our chat.\n");
+    AutoResponseAway.setDefault(i18n("I am currently away from ICQ.\nPlease leave your message and I will get back to you as soon as I return!\n"));
+    AutoResponseNA.setDefault(i18n("I am out'a here.\nSee you tomorrow!\n"));
+    AutoResponseDND.setDefault(i18n("Please do not disturb me now. Disturb me later.\n"));
+    AutoResponseOccupied.setDefault(i18n("Please do not disturb me now.\nDisturb me later.\nOnly urgent messages, please!\n"));
+    AutoResponseFFC.setDefault(i18n("We'd love to hear what you have to say. Join our chat.\n"));
     advCounter = 0;
     time(&m_lastTime);
     m_reconnectTime = 0;

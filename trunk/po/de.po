@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-07-14 19:30+0400\n"
+"POT-Creation-Date: 2002-07-15 02:13+0400\n"
 "PO-Revision-Date: 2002-07-11 20:39GMT\n"
 "Last-Translator: Crissi <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -13,6 +13,33 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 0.9.6\n"
+
+#: libicq/icqclient.cpp:55
+msgid ""
+"I am currently away from ICQ.\n"
+"Please leave your message and I will get back to you as soon as I return!\n"
+msgstr ""
+
+#: libicq/icqclient.cpp:56
+msgid ""
+"I am out'a here.\n"
+"See you tomorrow!\n"
+msgstr ""
+
+#: libicq/icqclient.cpp:57
+msgid "Please do not disturb me now. Disturb me later.\n"
+msgstr ""
+
+#: libicq/icqclient.cpp:58
+msgid ""
+"Please do not disturb me now.\n"
+"Disturb me later.\n"
+"Only urgent messages, please!\n"
+msgstr ""
+
+#: libicq/icqclient.cpp:59
+msgid "We'd love to hear what you have to say. Join our chat.\n"
+msgstr ""
 
 #: libicq/translator.cpp:121
 msgid "UTF-8"
