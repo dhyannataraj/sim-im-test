@@ -39,7 +39,8 @@
 %x x_link
 %%
 
-((http|https|ftp)"://"|"file:///")[A-Za-z0-9/\,\.\?\@\&:\;\(\)\-_\+\'\%=~\#]+	{ return URL; }
+(http|https|ftp)"://"[A-Za-z0-9/\,\.\?\@\&:\;\(\)\-_\+\'\%=~\#]+ { return URL; }
+"file:///"[A-Za-z0-9/\,\.\?\@\&:\;\(\)\-_\+\'\%=\\~\#]+ { return URL; }
 (mailto:)?[A-Za-z0-9\-_][A-Za-z0-9\-_\.]*\@([A-Za-z0-9\-]+\.)+[A-Za-z]+		{ return MAIL_URL; }
 "www."[A-Za-z0-9/\,\.\?\&:\;\(\)\-_\+\%=~\#\']+			{ return HTTP_URL; }
 "ftp."[A-Za-z0-9/\,\.:\;\-_\+~\']+				{ return FTP_URL; }
