@@ -69,8 +69,8 @@ static DataDef autoAwayData[] =
         { "EnableAway", DATA_BOOL, 1, 1 },
         { "NATime", DATA_ULONG, 1, 10 },
         { "EnableNA", DATA_BOOL, 1, 1 },
-        { "OffTime", DATA_ULONG, 1, 10 },
-        { "EnableOff", DATA_BOOL, 1, 1 },
+        { "OffTime", DATA_ULONG, 1, 60 },
+        { "EnableOff", DATA_BOOL, 1, 0 },
         { "DisableAlert", DATA_BOOL, 1, 1 },
         { NULL, 0, 0, 0 }
     };
@@ -112,7 +112,7 @@ QWidget *AutoAwayPlugin::createConfigWindow(QWidget *parent)
 void AutoAwayPlugin::timeout()
 {
     unsigned long newStatus;
-    unsigned idle_time = getIdleTime() * 60;
+    unsigned idle_time = getIdleTime() / 60;
     if ((bAway && getEnableAway() && (idle_time < getAwayTime())) ||
         (bNA && getEnableNA() && (idle_time < getNATime())) ||
         (bOff && getEnableOff() && (idle_time < getOffTime()))){
@@ -121,7 +121,7 @@ void AutoAwayPlugin::timeout()
         bOff  = false;
         newStatus = oldStatus;
     } else
-    if (!bAway && !bNA && getEnableAway() && (idle_time > getAwayTime())){
+    if (!bAway && !bNA && !bOff && getEnableAway() && (idle_time > getAwayTime())){
         unsigned long status = core->getManualStatus();
         if ((status == STATUS_AWAY) || (status == STATUS_NA) || (status == STATUS_OFFLINE))
             return;
@@ -129,7 +129,7 @@ void AutoAwayPlugin::timeout()
         newStatus = STATUS_AWAY;
         bAway = true;
     } else
-    if (!bNA && getEnableNA() && (idle_time > getNATime())){
+    if (!bNA && !bOff && getEnableNA() && (idle_time > getNATime())){
         unsigned long status = core->getManualStatus();
         if ((status == STATUS_NA) || (status == STATUS_OFFLINE))
             return;
@@ -146,16 +146,17 @@ void AutoAwayPlugin::timeout()
             oldStatus = status;
         bOff = true;
         newStatus = STATUS_OFFLINE;
+    } else
+       return;
+    for (unsigned i = 0; i < getContacts()->nClients(); i++){
+        Client *client = getContacts()->getClient(i);
+        if (!client->getCommonStatus())
+            continue;
+        client->setStatus(newStatus, true);
     }
-	for (unsigned i = 0; i < getContacts()->nClients(); i++){
-		Client *client = getContacts()->getClient(i);
-		if (!client->getCommonStatus())
-			continue;
-		client->setStatus(STATUS_AWAY, true);
-	}
-	core->setManualStatus(STATUS_AWAY);
-	Event e(EventClientStatus);
-	e.process();
+    core->setManualStatus(newStatus);
+    Event e(EventClientStatus);
+    e.process();
 }
 
 void *AutoAwayPlugin::processEvent(Event *e)
