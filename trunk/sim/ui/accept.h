@@ -22,6 +22,8 @@
 #include "acceptbase.h"
 
 class ICQUser;
+class ICQGroup;
+struct UserSettings;
 
 class AcceptDialog : public AcceptBase
 {
@@ -31,12 +33,16 @@ public:
 public slots:
     void load(ICQUser *u);
     void save(ICQUser *u);
+    void load(ICQGroup *g);
+    void save(ICQGroup *g);
     void apply(ICQUser *u);
 protected slots:
     void overrideChanged(bool);
     void overrideMsgChanged(bool);
     void modeChanged(int);
 protected:
+    void load(UserSettings *fileSettings, UserSettings *msgSettings);
+    void save(UserSettings *fileSettings, UserSettings *msgSettings);
     bool bReadOnly;
 };
 

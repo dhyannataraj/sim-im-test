@@ -22,6 +22,8 @@
 #include "alertdialogbase.h"
 
 class ICQUser;
+class ICQGroup;
+struct UserSettings;
 
 class AlertDialog : public AlertDialogBase
 {
@@ -32,9 +34,13 @@ public slots:
     void apply(ICQUser *u);
     void load(ICQUser *u);
     void save(ICQUser *u);
+    void load(ICQGroup *g);
+    void save(ICQGroup *g);
 protected slots:
     void overrideChanged(bool bSet);
     void toggledOn(bool);
+    void load(UserSettings *settings);
+    void save(UserSettings *settings);
 };
 
 #endif

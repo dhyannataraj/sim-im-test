@@ -141,9 +141,9 @@ i18n("Save")
 i18n("Error")
 
 i18n(
-"%1\n"
-"File not found.\n"
-"Check path and filename.")
+    "%1\n"
+    "File not found.\n"
+    "Check path and filename.")
 
 i18n("ERROR")
 
@@ -174,11 +174,11 @@ i18n("Select Font")
 i18n("&OK")
 
 i18n(
-"<h3>About Qt</h3><p>This program uses Qt version %1, a multiplatform C++ GUI "
-"toolkit from Trolltech. Qt provides single-source portability across Windows "
-"95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of Unix with "
-"X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more "
-"information.</p>")
+    "<h3>About Qt</h3><p>This program uses Qt version %1, a multiplatform C++ GUI "
+    "toolkit from Trolltech. Qt provides single-source portability across Windows "
+    "95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of Unix with "
+    "X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more "
+    "information.</p>")
 
 i18n("Help")
 
@@ -207,18 +207,18 @@ i18n("shift")
 i18n("alt")
 
 i18n(
-"Could not rename\n"
-"%1\n"
-"to\n"
-"%2")
+    "Could not rename\n"
+    "%1\n"
+    "to\n"
+    "%2")
 
 i18n(
-"Could not open\n"
-"%1")
+    "Could not open\n"
+    "%1")
 
 i18n(
-"Could not write\n"
-"%1")
+    "Could not write\n"
+    "%1")
 
 i18n("Operation stopped by the user")
 

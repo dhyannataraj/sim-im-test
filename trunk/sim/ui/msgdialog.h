@@ -25,6 +25,8 @@
 using namespace std;
 
 class ICQUser;
+class ICQGroup;
+struct UserSettings;
 
 class MsgDialog : public MsgDialogBase
 {
@@ -35,10 +37,14 @@ public slots:
     void apply(ICQUser *u);
     void load(ICQUser *u);
     void save(ICQUser *u);
+    void load(ICQGroup *g);
+    void save(ICQGroup *g);
 protected slots:
     void overrideChanged(bool);
 protected:
-    void setup(ICQUser *u, const string &str1, const string &str2);
+    void setup(ICQUser *u, unsigned offs);
+    void setup(ICQGroup *g, unsigned offs);
+    void save(UserSettings *settings);
     unsigned long status;
 };
 

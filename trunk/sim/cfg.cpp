@@ -53,7 +53,10 @@ void init(void *_obj, const cfgParam *params)
     const cfgParam *p;
     paramProc *proc;
     char *obj = (char*)_obj;
-    for (p = params; p->type; p++){
+    const cfgParam *pLast;
+    for (pLast = params; pLast->type; pLast++);
+    pLast--;
+    for (p = pLast;; p--){
         switch (p->type){
         case PARAM_PROC:
             proc = (paramProc*)(p->offs);
@@ -63,9 +66,10 @@ void init(void *_obj, const cfgParam *params)
             init(obj + p->offs, (cfgParam*)(p->defValue));
             break;
         }
+        if (p == params) break;
     }
 
-    for (p = params; p->type; p++){
+    for (p = pLast;; p--){
         switch (p->type){
         case PARAM_ULONG:
             *((unsigned long*)(obj + p->offs)) = p->defValue;
@@ -93,19 +97,15 @@ void init(void *_obj, const cfgParam *params)
             *((bool*)(obj + p->offs)) = (bool)p->defValue;
             break;
         case PARAM_I18N:
-            if (p->defValue){
-                string *s = (string*)(obj + p->offs);
-                if (*((const char*)(p->defValue))){
-                    *s = i18n((const char*)(p->defValue)).local8Bit();
-                }else{
-                    *s = "";
-                }
-            }
+            *((char**)(obj + p->offs)) = NULL;
+            if (p->defValue)
+                set_str((char**)(obj + p->offs), i18n((const char*)(p->defValue)).local8Bit());
             break;
         case PARAM_CHAR:
             obj[p->offs] = p->defValue;
             break;
         }
+        if (p == params) break;
     }
 }
 
@@ -238,16 +238,21 @@ void save(void *_obj, const cfgParam *params, QFile &out, DICT &dict)
                     value = *((bool*)(obj + p->offs)) ? "true" : "false";
                 break;
             case PARAM_I18N:{
-                    s = (string*)(obj + p->offs);
-                    v = "";
-                    QString vStr;
-                    if (p->defValue){
-                        vStr = i18n((const char*)(p->defValue));
-                        if (!vStr.isEmpty()) v = (const char*)(vStr.local8Bit());
-                    }
-                    if (strcmp(s->c_str(), v.c_str())){
-                        value = *s;
-                        writeEmpty = true;
+                    p_str = (char**)(obj + p->offs);
+                    if (*p_str){
+                        QString vStr;
+                        if (p->defValue){
+                            vStr = i18n((const char*)(p->defValue));
+                            if (strcmp(*p_str, vStr.local8Bit()))
+                                value = *p_str;
+                        }else{
+                            value = *p_str;
+                        }
+                    }else{
+                        if (p->defValue){
+                            value = "";
+                            writeEmpty = true;
+                        }
                     }
                     break;
                 }

@@ -88,7 +88,7 @@ SIMResolver::SIMResolver(QObject *parent, const char *host)
 #else
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(resolveTimeout()));
-    timer->start(40000);
+    timer->start(20000);
     dns = new QDns(host, QDns::A);
     connect(dns, SIGNAL(resultsReady()), this, SLOT(resolveReady()));
 #endif
@@ -131,11 +131,7 @@ string SIMResolver::host()
 #ifdef HAVE_GETHOSTBYNAME_R
     return m_host.c_str();
 #else
-    QString r = dns->label();
-    r = r.left(r.length() - 1);
-    string res;
-    res = r;
-    return res;
+    return dns->label();
 #endif
 }
 

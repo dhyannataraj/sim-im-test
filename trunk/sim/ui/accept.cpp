@@ -50,25 +50,63 @@ extern char INCOMING_FILES[];
 void AcceptDialog::load(ICQUser *_u)
 {
     SIMUser *u = static_cast<SIMUser*>(_u);
+    UserSettings *fileSettings = &u->settings;
+    UserSettings *msgSettings = &u->settings;
     if (bReadOnly){
-        if (u->AcceptFileOverride){
+        if (fileSettings->AcceptFileOverride){
             chkOverride->setChecked(true);
         }else{
             chkOverride->setChecked(false);
-            u = static_cast<SIMUser*>(pClient->owner);
+            fileSettings = pClient->getSettings(_u, offsetof(UserSettings, AcceptFileOverride));
         }
         overrideChanged(chkOverride->isChecked());
+        if (fileSettings->ProgOverride){
+            chkOverrideMsg->setChecked(true);
+        }else{
+            chkOverrideMsg->setChecked(false);
+            msgSettings = pClient->getSettings(_u, offsetof(UserSettings, ProgOverride));
+        }
         overrideMsgChanged(chkOverrideMsg->isChecked());
     }
-    chkWindow->setChecked(u->AcceptMsgWindow);
-    string path = u->AcceptFilePath.c_str();
+    load(fileSettings, msgSettings);
+}
+
+void AcceptDialog::load(ICQGroup *_g)
+{
+    SIMGroup *g = static_cast<SIMGroup*>(_g);
+    UserSettings *fileSettings = &g->settings;
+    UserSettings *msgSettings = &g->settings;
+    if (!bReadOnly) return;
+    if (fileSettings->AcceptFileOverride){
+        chkOverride->setChecked(true);
+    }else{
+        chkOverride->setChecked(false);
+        fileSettings = pClient->getSettings(_g, offsetof(UserSettings, AcceptFileOverride));
+    }
+    overrideChanged(chkOverride->isChecked());
+    if (fileSettings->ProgOverride){
+        chkOverrideMsg->setChecked(true);
+    }else{
+        chkOverrideMsg->setChecked(false);
+        msgSettings = pClient->getSettings(_g, offsetof(UserSettings, ProgOverride));
+    }
+    overrideMsgChanged(chkOverrideMsg->isChecked());
+    load(fileSettings, msgSettings);
+}
+
+void AcceptDialog::load(UserSettings *fileSettings, UserSettings *msgSettings)
+{
+    string path;
+    if (fileSettings->AcceptFilePath)
+        path = fileSettings->AcceptFilePath;
     if (*(path.c_str()) == 0){
         path = pMain->getFullPath(INCOMING_FILES, true);
         path = path.substr(0, path.size() - 1);
     }
     edtPath->setText(QString::fromLocal8Bit(path.c_str()));
-    edtDecline->setText(QString::fromLocal8Bit(u->DeclineFileMessage.c_str()));
-    switch (u->AcceptFileMode){
+    if (fileSettings->DeclineFileMessage)
+        edtDecline->setText(QString::fromLocal8Bit(fileSettings->DeclineFileMessage));
+    switch (fileSettings->AcceptFileMode){
     case 1:
         btnAccept->setChecked(true);
         break;
@@ -79,48 +117,76 @@ void AcceptDialog::load(ICQUser *_u)
         btnDialog->setChecked(true);
         break;
     }
-    chkOverwrite->setChecked(u->AcceptFileOverwrite);
-    chkProgram->setChecked(u->ProgMessageOn);
-    edtProgram->setText(QString::fromLocal8Bit(u->ProgMessage.c_str()));
+    chkOverwrite->setChecked(fileSettings->AcceptFileOverwrite);
+    chkWindow->setChecked(msgSettings->AcceptMsgWindow);
+    chkProgram->setChecked(msgSettings->ProgMessageOn);
+    if (msgSettings->ProgMessage)
+        edtProgram->setText(QString::fromLocal8Bit(msgSettings->ProgMessage));
     modeChanged(0);
 }
 
 void AcceptDialog::save(ICQUser *_u)
 {
     SIMUser *u = static_cast<SIMUser*>(_u);
-    bool bSave = true;
+    UserSettings *fileSettings = &u->settings;
+    UserSettings *msgSettings = &u->settings;
+
     if (bReadOnly){
         if (!chkOverride->isChecked()){
-            u->AcceptFileOverride = false;
-            bSave = false;
+            fileSettings->AcceptFileOverride = false;
+            fileSettings = NULL;
         }else{
-            u->AcceptFileOverride = true;
+            fileSettings->AcceptFileOverride = true;
+        }
+        if (!chkOverrideMsg->isChecked()){
+            msgSettings->ProgOverride = false;
+            msgSettings = NULL;
+        }else{
+            msgSettings->AcceptFileOverride = true;
         }
     }
-    if (bSave){
-        u->AcceptFileOverwrite = chkOverwrite->isChecked();
-        set(u->AcceptFilePath, edtPath->text());
+    save(fileSettings, msgSettings);
+}
+
+void AcceptDialog::save(ICQGroup *_g)
+{
+    SIMGroup *g = static_cast<SIMGroup*>(_g);
+    UserSettings *fileSettings = &g->settings;
+    UserSettings *msgSettings = &g->settings;
+
+    if (!bReadOnly) return;
+    if (!chkOverride->isChecked()){
+        fileSettings->AcceptFileOverride = false;
+        fileSettings = NULL;
+    }else{
+        fileSettings->AcceptFileOverride = true;
+    }
+    if (!chkOverrideMsg->isChecked()){
+        msgSettings->ProgOverride = false;
+        msgSettings = NULL;
+    }else{
+        msgSettings->AcceptFileOverride = true;
+    }
+    save(fileSettings, msgSettings);
+}
+
+void AcceptDialog::save(UserSettings *fileSettings, UserSettings *msgSettings)
+{
+    if (fileSettings){
+        fileSettings->AcceptFileOverwrite = chkOverwrite->isChecked();
+        set(&fileSettings->AcceptFilePath, edtPath->text());
         unsigned short id = 0;
         QButton *w = grpAccept->selected();
         if (w == btnAccept) id = 1;
         if (w == btnDecline) id = 2;
-        u->AcceptFileMode = id;
-        set(u->DeclineFileMessage, edtDecline->text());
+        fileSettings->AcceptFileMode = id;
+        set(&fileSettings->DeclineFileMessage, edtDecline->text());
     }
-    bSave = true;
-    if (bReadOnly){
-        if (!chkOverride->isChecked()){
-            u->ProgOverride = false;
-            bSave = false;
-        }else{
-            u->ProgOverride = true;
-        }
+    if (msgSettings){
+        msgSettings->ProgMessageOn = chkProgram->isChecked();
+        set(&msgSettings->ProgMessage, edtProgram->text());
+        msgSettings->AcceptMsgWindow = chkWindow->isChecked();
     }
-    if (bSave){
-        u->ProgMessageOn = chkProgram->isChecked();
-        set(u->ProgMessage, edtProgram->text());
-    }
-    u->AcceptMsgWindow = chkWindow->isChecked();
 }
 
 void AcceptDialog::apply(ICQUser*)

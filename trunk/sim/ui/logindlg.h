@@ -44,6 +44,7 @@ protected:
     bool bLogin;
     bool bCloseMain;
     bool bPswdChanged;
+    bool bMyInit;
 };
 
 #endif

@@ -179,13 +179,6 @@ cfgParam ICQGroup_Params[] =
         { "", 0, 0, 0 }
     };
 
-cfgParam SIMGroup_Params[] =
-    {
-        { "Expand", OFFSET_OF(SIMGroup, Expand), PARAM_BOOL, 1 },
-        { "", 0, PARAM_OFFS, (unsigned)ICQGroup_Params },
-        { "", 0, 0, 0 }
-    };
-
 cfgParam ICQUser_Params[] =
     {
         { "Type", OFFSET_OF(ICQUser, Type), PARAM_USHORT, 0 },
@@ -197,11 +190,6 @@ cfgParam ICQUser_Params[] =
         { "VisibleId", OFFSET_OF(ICQUser, VisibleId), PARAM_USHORT, 0 },
         { "InvisibleId", OFFSET_OF(ICQUser, InvisibleId), PARAM_USHORT, 0 },
         { "WaitAuth", OFFSET_OF(ICQUser, WaitAuth), PARAM_BOOL, 0 },
-        { "AutoResponseAway", OFFSET_OF(ICQUser, AutoResponseAway), PARAM_STRING, 0 },
-        { "AutoResponseNA", OFFSET_OF(ICQUser, AutoResponseNA), PARAM_STRING, 0 },
-        { "AutoResponseDND", OFFSET_OF(ICQUser, AutoResponseDND), PARAM_STRING, 0 },
-        { "AutoResponseOccupied", OFFSET_OF(ICQUser, AutoResponseOccupied), PARAM_STRING, 0 },
-        { "AutoResponseFFC", OFFSET_OF(ICQUser, AutoResponseFFC), PARAM_STRING, 0 },
         { "UnreadMessages", OFFSET_OF(ICQUser, unreadMsgs), PARAM_ULONGS, 0 },
         { "LastActive", OFFSET_OF(ICQUser, LastActive), PARAM_ULONG, 0 },
         { "OnlineTime", OFFSET_OF(ICQUser, OnlineTime), PARAM_ULONG, 0 },
@@ -264,59 +252,100 @@ cfgParam ICQUser_Params[] =
         { "", 0, 0, 0 }
     };
 
+cfgParam UserSettings_Params[] =
+    {
+        { "AlertOverride", OFFSET_OF(UserSettings, AlertOverride), PARAM_BOOL, 0 },
+        { "AlertAway", OFFSET_OF(UserSettings, AlertAway), PARAM_BOOL, 1 },
+        { "AlertBlink", OFFSET_OF(UserSettings, AlertBlink), PARAM_BOOL, 1 },
+        { "AlertSound", OFFSET_OF(UserSettings, AlertSound), PARAM_BOOL, 1 },
+        { "AlertOnScreen", OFFSET_OF(UserSettings, AlertOnScreen), PARAM_BOOL, 1 },
+        { "AlertPopup", OFFSET_OF(UserSettings, AlertPopup), PARAM_BOOL, 0 },
+        { "AlertWindow", OFFSET_OF(UserSettings, AlertWindow), PARAM_BOOL, 0 },
+        { "LogStatus", OFFSET_OF(UserSettings, LogStatus), PARAM_BOOL, 0 },
+        { "AcceptMsgWindow", OFFSET_OF(UserSettings, AcceptMsgWindow), PARAM_BOOL, 0 },
+        { "AcceptFileMode", OFFSET_OF(UserSettings, AcceptFileMode), PARAM_USHORT, 0 },
+        { "AcceptFileOverride", OFFSET_OF(UserSettings, AcceptFileOverride), PARAM_BOOL, 0 },
+        { "AcceptFileOverwrite", OFFSET_OF(UserSettings, AcceptFileOverwrite), PARAM_BOOL, 0 },
+        { "AcceptFilePath", OFFSET_OF(UserSettings, AcceptFilePath), PARAM_CHARS, 0 },
+        { "DeclineFileMessage", OFFSET_OF(UserSettings, DeclineFileMessage), PARAM_CHARS, 0 },
+        { "SoundOverride", OFFSET_OF(UserSettings, SoundOverride), PARAM_BOOL, 0 },
+        { "IncomingMessage", OFFSET_OF(UserSettings, IncomingMessage), PARAM_CHARS, (unsigned)"message.wav" },
+        { "IncomingURL", OFFSET_OF(UserSettings, IncomingURL), PARAM_CHARS, (unsigned)"url.wav" },
+        { "IncomingSMS", OFFSET_OF(UserSettings, IncomingSMS), PARAM_CHARS, (unsigned)"sms.wav" },
+        { "IncomingAuth", OFFSET_OF(UserSettings, IncomingAuth), PARAM_CHARS, (unsigned)"auth.wav" },
+        { "IncomingFile", OFFSET_OF(UserSettings, IncomingFile), PARAM_CHARS, (unsigned)"file.wav" },
+        { "IncomingChat", OFFSET_OF(UserSettings, IncomingChat), PARAM_CHARS, (unsigned)"chat.wav" },
+        { "OnlineAlert", OFFSET_OF(UserSettings, OnlineAlert), PARAM_CHARS, (unsigned)"alert.wav" },
+        { "ProgOverride", OFFSET_OF(UserSettings, ProgOverride), PARAM_BOOL, 0 },
+        { "ProgMessageOn", OFFSET_OF(UserSettings, ProgMessageOn), PARAM_BOOL, 0 },
+        { "ProgMessage", OFFSET_OF(UserSettings, ProgMessage), PARAM_CHARS, 0 },
+        { "AutoResponseAway", OFFSET_OF(UserSettings, AutoResponseAway), PARAM_CHARS, 0 },
+        { "AutoResponseNA", OFFSET_OF(UserSettings, AutoResponseNA), PARAM_CHARS, 0 },
+        { "AutoResponseDND", OFFSET_OF(UserSettings, AutoResponseDND), PARAM_CHARS, 0 },
+        { "AutoResponseOccupied", OFFSET_OF(UserSettings, AutoResponseOccupied), PARAM_CHARS, 0 },
+        { "AutoResponseFFC", OFFSET_OF(UserSettings, AutoResponseFFC), PARAM_CHARS, 0 },
+        { "", 0, 0, 0 }
+    };
+
+static void *userSettings(void *p)
+{
+    return &((SIMUser*)p)->settings;
+}
+
 cfgParam SIMUser_Params[] =
     {
-        { "AlertOverride", OFFSET_OF(SIMUser, AlertOverride), PARAM_BOOL, 0 },
-        { "AlertAway", OFFSET_OF(SIMUser, AlertAway), PARAM_BOOL, 1 },
-        { "AlertBlink", OFFSET_OF(SIMUser, AlertBlink), PARAM_BOOL, 1 },
-        { "AlertSound", OFFSET_OF(SIMUser, AlertSound), PARAM_BOOL, 1 },
-        { "AlertOnScreen", OFFSET_OF(SIMUser, AlertOnScreen), PARAM_BOOL, 1 },
-        { "AlertPopup", OFFSET_OF(SIMUser, AlertPopup), PARAM_BOOL, 0 },
-        { "AlertWindow", OFFSET_OF(SIMUser, AlertWindow), PARAM_BOOL, 0 },
-        { "LogStatus", OFFSET_OF(SIMUser, LogStatus), PARAM_BOOL, 0 },
-        { "AcceptMsgWindow", OFFSET_OF(SIMUser, AcceptMsgWindow), PARAM_BOOL, 0 },
-        { "AcceptFileMode", OFFSET_OF(SIMUser, AcceptFileMode), PARAM_USHORT, 0 },
-        { "AcceptFileOverride", OFFSET_OF(SIMUser, AcceptFileOverride), PARAM_BOOL, 0 },
-        { "AcceptFileOverwrite", OFFSET_OF(SIMUser, AcceptFileOverwrite), PARAM_BOOL, 0 },
-        { "AcceptFilePath", OFFSET_OF(SIMUser, AcceptFilePath), PARAM_STRING, 0 },
-        { "DeclineFileMessage", OFFSET_OF(SIMUser, DeclineFileMessage), PARAM_STRING, 0 },
-        { "SoundOverride", OFFSET_OF(SIMUser, SoundOverride), PARAM_BOOL, 0 },
-        { "IncomingMessage", OFFSET_OF(SIMUser, IncomingMessage), PARAM_STRING, (unsigned)"message.wav" },
-        { "IncomingURL", OFFSET_OF(SIMUser, IncomingURL), PARAM_STRING, (unsigned)"url.wav" },
-        { "IncomingSMS", OFFSET_OF(SIMUser, IncomingSMS), PARAM_STRING, (unsigned)"sms.wav" },
-        { "IncomingAuth", OFFSET_OF(SIMUser, IncomingAuth), PARAM_STRING, (unsigned)"auth.wav" },
-        { "IncomingFile", OFFSET_OF(SIMUser, IncomingFile), PARAM_STRING, (unsigned)"file.wav" },
-        { "IncomingChat", OFFSET_OF(SIMUser, IncomingChat), PARAM_STRING, (unsigned)"chat.wav" },
-        { "OnlineAlert", OFFSET_OF(SIMUser, OnlineAlert), PARAM_STRING, (unsigned)"alert.wav" },
-        { "ProgOverride", OFFSET_OF(SIMUser, ProgOverride), PARAM_BOOL, 0 },
-        { "ProgMessageOn", OFFSET_OF(SIMUser, ProgMessageOn), PARAM_BOOL, 0 },
-        { "ProgMessage", OFFSET_OF(SIMUser, ProgMessage), PARAM_STRING, 0 },
         { "KabUid", OFFSET_OF(SIMUser, strKabUid), PARAM_STRING, 0 },
         { "Notes", OFFSET_OF(SIMUser, Notes), PARAM_STRING, 0 },
+        { "settings", (int)userSettings, PARAM_PROC, (unsigned)UserSettings_Params },
         { "", 0, PARAM_OFFS, (unsigned)ICQUser_Params },
         { "", 0, 0, 0 }
     };
 
-cfgParam ClientOwner_Params[] =
+static void *grpSettings(void *p)
+{
+    return &((SIMGroup*)p)->settings;
+}
+
+cfgParam SIMGroup_Params[] =
     {
-        { "AutoResponseAway" ,OFFSET_OF(ICQUser, AutoResponseAway), PARAM_I18N, (unsigned)I18N_NOOP(
+        { "Expand", OFFSET_OF(SIMGroup, Expand), PARAM_BOOL, 1 },
+        { "settings", (int)grpSettings, PARAM_PROC, (unsigned)UserSettings_Params },
+        { "", 0, PARAM_OFFS, (unsigned)ICQGroup_Params },
+        { "", 0, 0, 0 }
+    };
+
+cfgParam ClientUserSettings_Params[] =
+    {
+        { "AutoResponseAway" ,OFFSET_OF(UserSettings, AutoResponseAway), PARAM_I18N, (unsigned)I18N_NOOP(
               "I am currently away from ICQ.\n"
               "Please leave your message and I will get back to you as soon as I return!\n"
           ) },
-        { "AutoResponseNA" ,OFFSET_OF(ICQUser, AutoResponseNA), PARAM_I18N, (unsigned)I18N_NOOP(
+        { "AutoResponseNA" ,OFFSET_OF(UserSettings, AutoResponseNA), PARAM_I18N, (unsigned)I18N_NOOP(
               "I am out'a here.\n"
               "See you tomorrow!\n"
           ) },
-        { "AutoResponseDND" ,OFFSET_OF(ICQUser, AutoResponseDND), PARAM_I18N, (unsigned)I18N_NOOP(
+        { "AutoResponseDND" ,OFFSET_OF(UserSettings, AutoResponseDND), PARAM_I18N, (unsigned)I18N_NOOP(
               "Please do not disturb me now. Disturb me later.\n"
           ) },
-        { "AutoResponseOccupied" ,OFFSET_OF(ICQUser, AutoResponseOccupied), PARAM_I18N, (unsigned)I18N_NOOP(
+        { "AutoResponseOccupied" ,OFFSET_OF(UserSettings, AutoResponseOccupied), PARAM_I18N, (unsigned)I18N_NOOP(
               "Please do not disturb me now.\n"
               "Disturb me later.\n"
               "Only urgent messages, please!\n") },
-        { "AutoResponseFFC" ,OFFSET_OF(ICQUser, AutoResponseFFC), PARAM_I18N, (unsigned)I18N_NOOP(
+        { "AutoResponseFFC" ,OFFSET_OF(UserSettings, AutoResponseFFC), PARAM_I18N, (unsigned)I18N_NOOP(
               "We'd love to hear what you have to say. Join our chat.\n"
           ) },
+        { "", 0, 0, }
+    };
+
+void *clientSettings(void *p)
+{
+    SIMUser *u = static_cast<SIMUser*>((ICQUser*)p);
+    return &u->settings;
+}
+
+cfgParam ClientOwner_Params[] =
+    {
+        { "owner", (int)clientSettings, PARAM_PROC, (unsigned)ClientUserSettings_Params },
         { "", 0, PARAM_OFFS, (unsigned)SIMUser_Params },
         { "", 0, 0, 0 }
     };
@@ -381,17 +410,35 @@ cfgParam Client_Params[] =
         { "", 0, 0, 0 }
     };
 
+SIMUser::SIMUser()
+{
+    ::init(this, SIMUser_Params);
+}
+
+SIMUser::~SIMUser()
+{
+    ::free(this, SIMUser_Params);
+}
+
+SIMGroup::SIMGroup()
+{
+    ::init(this, SIMGroup_Params);
+}
+
+SIMGroup::~SIMGroup()
+{
+    ::free(this, SIMGroup_Params);
+}
+
 ICQUser *SIMClient::createUser()
 {
     ICQUser *u = new SIMUser;
-    ::init(u, SIMUser_Params);
     return u;
 }
 
 ICQGroup *SIMClient::createGroup()
 {
     ICQGroup *g = new SIMGroup;
-    ::init(g, SIMGroup_Params);
     return g;
 }
 
@@ -405,6 +452,8 @@ void SIMClient::save()
         return;
     }
     ::save(this, Client_Params, s);
+    writeStr(s, "[NotInList]\n");
+    ::save(&notInListSettings, UserSettings_Params, s);
     writeStr(s, "[ContactList]\n");
     ::save(&contacts, ICQContactList_Params, s);
     for (vector<ICQGroup*>::iterator it_grp = contacts.groups.begin(); it_grp != contacts.groups.end(); it_grp++){
@@ -430,6 +479,10 @@ bool SIMClient::load(unsigned long ownerUIN)
     if (!::load(this, Client_Params, s, nextPart))
         return false;
     for (;;){
+        if (!strcmp(nextPart.c_str(), "[NotInList]")){
+            if (!::load(&notInListSettings, UserSettings_Params, s, nextPart)) break;
+            continue;
+        }
         if (!strcmp(nextPart.c_str(), "[ContactList]")){
             if (!::load(&contacts, ICQContactList_Params, s, nextPart)) break;
             continue;
@@ -513,6 +566,7 @@ void SIMClient::init()
 {
     ICQClient::init();
     ::init(this, Client_Params);
+    ::init(&notInListSettings, UserSettings_Params);
 }
 
 SIMClient::~SIMClient()
@@ -524,6 +578,8 @@ SIMClient::~SIMClient()
 #ifndef HAVE_GETHOSTBYADDR_R
     delete resolver;
 #endif
+    ::free(&notInListSettings, UserSettings_Params);
+    ::free(this, Client_Params);
 }
 
 class Encoding
@@ -759,10 +815,9 @@ void SIMClient::process_event(ICQEvent *e)
                                 sendSMS(sms);
                             }
                         }
-                        SIMUser *msgUser = static_cast<SIMUser*>(u);
-                        if (!msgUser->ProgOverride) msgUser = static_cast<SIMUser*>(owner);
-                        if (msgUser->ProgMessageOn && *msgUser->ProgMessage.c_str()){
-                            new MsgFilter(this, m, msgUser->ProgMessage.c_str());
+                        UserSettings *settings = getSettings(u, offsetof(UserSettings, ProgOverride));
+                        if (settings->ProgMessageOn && settings->ProgMessage && *settings->ProgMessage){
+                            new MsgFilter(this, m, settings->ProgMessage);
                             return;
                         }
                     }
@@ -772,11 +827,11 @@ void SIMClient::process_event(ICQEvent *e)
                     switch (msg->Type()){
                     case ICQ_MSGxFILE:{
                             ICQFile *f = static_cast<ICQFile*>(msg);
-                            SIMUser *uFile = static_cast<SIMUser*>(u);
-                            if (!uFile->AcceptFileOverride)
-                                uFile = static_cast<SIMUser*>(pClient->owner);
-                            if (uFile->AcceptFileMode== 1){
-                                string name = uFile->AcceptFilePath.c_str();
+                            UserSettings *settings = getSettings(u, offsetof(UserSettings, AcceptFileOverride));
+                            if (settings->AcceptFileMode== 1){
+                                string name;
+                                if (settings->AcceptFilePath)
+                                    name = settings->AcceptFilePath;
                                 if (*name.c_str() == 0)
                                     name = pMain->getFullPath(INCOMING_FILES, true);
                                 f->localName = name;
@@ -784,8 +839,8 @@ void SIMClient::process_event(ICQEvent *e)
                                 pClient->acceptMessage(f);
                                 return;
                             }
-                            if (uFile->AcceptFileMode == 2){
-                                pClient->declineMessage(f, uFile->DeclineFileMessage.c_str());
+                            if (settings->AcceptFileMode == 2){
+                                pClient->declineMessage(f, settings->DeclineFileMessage);
                                 return;
                             }
                             switch (owner->uStatus & 0xFF){
@@ -833,9 +888,8 @@ void SIMClient::process_event(ICQEvent *e)
                     resolveQueue.push_back(a);
                 }
                 start_resolve();
-                SIMUser *_u = static_cast<SIMUser*>(u);
-                if (!_u->AlertOverride) _u = static_cast<SIMUser*>(owner);
-                if ((_u->LogStatus) && (u->uStatus != u->prevStatus)){
+                UserSettings *settings = getSettings(u, offsetof(UserSettings, AlertOverride));
+                if ((settings->LogStatus) && (u->uStatus != u->prevStatus)){
                     ICQStatus m;
                     m.Uin.push_back(e->Uin());
                     m.status = u->uStatus;
@@ -1323,10 +1377,8 @@ bool SIMClient::createFile(ICQFile *f, int mode)
         }else if (f->autoAccept){
             ICQUser *u = getUser(f->getUin());
             if (u == NULL) u = owner;
-            SIMUser *_u = static_cast<SIMUser*>(u);
-            if (!_u->AcceptFileOverride)
-                _u = static_cast<SIMUser*>(owner);
-            if (_u->AcceptFileOverwrite || (info.size() > f->Size)){
+            UserSettings *settings = getSettings(u, offsetof(UserSettings, AcceptFileOverride));
+            if (settings->AcceptFileOverwrite || (info.size() > f->Size)){
                 bTruncate = true;
                 size = 0;
             }
@@ -1522,30 +1574,15 @@ void SIMClient::getAutoResponse(unsigned long uin, ICQMessage *msg)
     ICQUser *u = getUser(uin);
     unsigned long status = owner->uStatus;
     if (status & ICQ_STATUS_DND){
-        if (u)
-            res = u->AutoResponseDND;
-        if (*res.c_str() == 0)
-            res = owner->AutoResponseDND;
+        res = getAutoResponse(u, offsetof(UserSettings, AutoResponseDND));
     }else if (status & ICQ_STATUS_OCCUPIED){
-        if (u)
-            res = u->AutoResponseOccupied;
-        if (*res.c_str() == 0)
-            res = owner->AutoResponseOccupied;
+        res = getAutoResponse(u, offsetof(UserSettings, AutoResponseOccupied));
     }else if (status & ICQ_STATUS_NA){
-        if (u)
-            res = u->AutoResponseNA;
-        if (*res.c_str() == 0)
-            res = owner->AutoResponseNA;
+        res = getAutoResponse(u, offsetof(UserSettings, AutoResponseNA));
     }else if (status & ICQ_STATUS_FREEFORCHAT){
-        if (u)
-            res = u->AutoResponseFFC;
-        if (*res.c_str() == 0)
-            res = owner->AutoResponseFFC;
+        res = getAutoResponse(u, offsetof(UserSettings, AutoResponseFFC));
     }else{
-        if (u)
-            res = u->AutoResponseAway;
-        if (*res.c_str() == 0)
-            res = owner->AutoResponseAway;
+        res = getAutoResponse(u, offsetof(UserSettings, AutoResponseAway));
     }
     autoResponse ar;
     ar.msg = msg;
@@ -1655,6 +1692,56 @@ MsgFilter::MsgFilter(SIMClient *p, ICQMsg *_msg, const char *prog)
 bool SIMUser::notEnoughInfo(void)
 {
     return (Nick.empty()&&FirstName.empty()&&LastName.empty());
+}
+
+UserSettings *SIMClient::getSettings(ICQUser *_u, unsigned offs, bool isString)
+{
+    if (_u == NULL) _u = pClient->owner;
+    SIMUser *u = static_cast<SIMUser*>(_u);
+    UserSettings *settings = &u->settings;
+    if (isString){
+        char **str = (char**)((char*)settings + offs);
+        if (*str && **str)
+            return settings;
+    }else{
+        bool *override = (bool*)((char*)settings + offs);
+        if (*override)
+            return settings;
+    }
+    if (u->Uin == pClient->owner->Uin)
+        return settings;
+    ICQGroup *grp = NULL;
+    if (u->GrpId)
+        grp = getGroup(u->GrpId);
+    return getSettings(grp, offs, isString);
+}
+
+UserSettings *SIMClient::getSettings(ICQGroup *_g, unsigned offs, bool isString)
+{
+    UserSettings *settings = &pClient->notInListSettings;
+    if (_g){
+        SIMGroup *g = static_cast<SIMGroup*>(_g);
+        settings = &g->settings;
+        if (isString){
+            char **str = (char**)((char*)settings + offs);
+            if (*str && **str)
+                return settings;
+        }else{
+            bool *override = (bool*)((char*)settings + offs);
+            if (*override)
+                return settings;
+        }
+    }
+    SIMUser *u = static_cast<SIMUser*>(owner);
+    return &u->settings;
+}
+
+const char *SIMClient::getAutoResponse(ICQUser *u, unsigned offs)
+{
+    UserSettings *settings = getSettings(u, offs, true);
+    char **str = (char**)((char*)settings + offs);
+    if (*str == NULL) return "";
+    return *str;
 }
 
 #ifndef _WINDOWS

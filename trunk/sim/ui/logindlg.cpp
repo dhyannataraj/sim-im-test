@@ -40,9 +40,12 @@
 LoginDialog::LoginDialog()
         : LoginDlgBase(NULL, "logindlg")
 {
+    SET_WNDPROC("login")
+    setCaption(caption());
     setButtonsPict(this);
     setIcon(Pict("licq"));
     bLogin = false;
+    bMyInit = false;
     cmbUIN->setEditable(true);
     cmbUIN->lineEdit()->setValidator(new QIntValidator(100000, 0x7FFFFFFF, this));
     loadUins();
@@ -156,18 +159,20 @@ void LoginDialog::login()
     chkSave->setEnabled(false);
     chkNoShow->setEnabled(false);
     btnLogin->setEnabled(false);
+    btnDelete->setEnabled(false);
     bLogin = true;
     pClient->storePassword(edtPasswd->text().local8Bit());
     pClient->DecryptedPassword = edtPasswd->text().local8Bit();
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     pMain->init(true);
+    bMyInit = true;
     pClient->setStatus((pMain->getManualStatus() == ICQ_STATUS_OFFLINE) ? ICQ_STATUS_ONLINE : pMain->getManualStatus());
 }
 
 void LoginDialog::closeEvent(QCloseEvent *e)
 {
     if (!bLogin){
-        if (!pMain->isLoad()){
+        if (bMyInit || !pMain->isLoad()){
             if (bCloseMain)
                 pMain->quit();
         }else{

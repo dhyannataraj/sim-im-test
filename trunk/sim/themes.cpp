@@ -115,6 +115,15 @@ QStyle *QStyleFactory::create(const QString &name)
 Themes::Themes(QWidget *parent)
         : QObject(parent)
 {
+#ifdef WIN32
+    QStyle *xpStyle = NULL;
+    if (createXpStyle) xpStyle = createXpStyle();
+    if (xpStyle){
+        current = "xp";
+        qApp->setStyle(xpStyle);
+        pMain->setFonts();
+    }
+#endif
 }
 
 void Themes::fillList(QListBox *box)

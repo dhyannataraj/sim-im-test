@@ -18,6 +18,7 @@
 #include "userinfo.h"
 #include "icons.h"
 #include "client.h"
+#include "cuser.h"
 #include "setupdlg.h"
 
 #include "ui/maininfo.h"
@@ -55,15 +56,27 @@ PAGE(SoundSetup)
 
 static QWidget *p_MsgDialog(QWidget *p, unsigned param) { return new MsgDialog(p, param, true); }
 
-UserInfo::UserInfo(QWidget *parent, unsigned long uin, int page)
-        : UserInfoBase(parent)
+UserInfo::UserInfo(unsigned long uin, unsigned short grpId, int page)
+        : UserInfoBase(NULL, "userinfo", WType_TopLevel | WStyle_Dialog| WDestructiveClose)
 {
+    SET_WNDPROC("userinfo")
+
     inSave = false;
     setButtonsPict(this);
 
-    m_nUin = uin;
-    ICQUser *u = pClient->getUser(m_nUin);
-    if (uin && (u == NULL)) return;
+    m_nUin   = uin;
+    m_nGrpId = grpId;
+
+    ICQUser *u = NULL;
+    if (uin){
+        u = pClient->getUser(uin);
+        if (u == NULL) return;
+    }
+    ICQGroup *g = NULL;
+    if (grpId){
+        g = pClient->getGroup(grpId);
+        if (g == NULL) return;
+    }
 
     lstBars->clear();
     lstBars->header()->hide();
@@ -73,23 +86,27 @@ UserInfo::UserInfo(QWidget *parent, unsigned long uin, int page)
     itemMain = new QListViewItem(lstBars, i18n("User info"), QString::number(SETUP_DETAILS));
     itemMain->setOpen(true);
 
-    addWidget(p_MainInfo, SETUP_MAININFO, i18n("Main info"), "main");
-    if (u && (u->Type == USER_TYPE_ICQ)){
-        addWidget(p_HomeInfo, SETUP_HOMEINFO, i18n("Home info"), "home");
-        addWidget(p_WorkInfo, SETUP_WORKINFO, i18n("Work info"), "work");
-        addWidget(p_MoreInfo, SETUP_MOREINFO, i18n("More info"), "more");
-        addWidget(p_AboutInfo, SETUP_ABOUT, i18n("About info"), "info");
-        addWidget(p_InterestsInfo, SETUP_INTERESTS, i18n("Interests"), "interest");
-        addWidget(p_PastInfo, SETUP_PAST, i18n("Group/Past"), "past");
+    if (u){
+        addWidget(p_MainInfo, SETUP_MAININFO, i18n("Main info"), "main");
+        if (u->Type == USER_TYPE_ICQ){
+            addWidget(p_HomeInfo, SETUP_HOMEINFO, i18n("Home info"), "home");
+            addWidget(p_WorkInfo, SETUP_WORKINFO, i18n("Work info"), "work");
+            addWidget(p_MoreInfo, SETUP_MOREINFO, i18n("More info"), "more");
+            addWidget(p_AboutInfo, SETUP_ABOUT, i18n("About info"), "info");
+            addWidget(p_InterestsInfo, SETUP_INTERESTS, i18n("Interests"), "interest");
+            addWidget(p_PastInfo, SETUP_PAST, i18n("Group/Past"), "past");
+        }
+        addWidget(p_PhoneBookDlg, SETUP_PHONE, i18n("Phone book"), "phone");
     }
-    addWidget(p_PhoneBookDlg, SETUP_PHONE, i18n("Phone book"), "phone");
 
-    if (u && (u->Type == USER_TYPE_ICQ)){
+    if ((uin == 0) || (u->Type == USER_TYPE_ICQ)){
         itemMain = new QListViewItem(lstBars, i18n("Preferences"), QString::number(SETUP_PREFERENCES));
         itemMain->setOpen(true);
         addWidget(p_AlertDialog, SETUP_ALERT, i18n("Alert"), "alert");
         addWidget(p_AcceptDialog, SETUP_ACCEPT, i18n("Accept"), "message");
         addWidget(p_SoundSetup, SETUP_SOUND, i18n("Sound"), "sound");
+        itemMain = new QListViewItem(lstBars, i18n("Auto reply"), QString::number(SETUP_AUTOREPLY));
+        itemMain->setOpen(true);
         addWidget(p_MsgDialog, SETUP_AR_AWAY,
                   SIMClient::getStatusText(ICQ_STATUS_AWAY), SIMClient::getStatusIcon(ICQ_STATUS_AWAY),
                   ICQ_STATUS_AWAY);
@@ -106,13 +123,43 @@ UserInfo::UserInfo(QWidget *parent, unsigned long uin, int page)
                   SIMClient::getStatusText(ICQ_STATUS_FREEFORCHAT), SIMClient::getStatusIcon(ICQ_STATUS_FREEFORCHAT),
                   ICQ_STATUS_FREEFORCHAT);
     }
-    raiseWidget(page ? page : SETUP_MAININFO);
+    raiseWidget(page ? page : (u ? SETUP_MAININFO : SETUP_ALERT));
 
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     connect(btnSave, SIGNAL(clicked()), this, SLOT(saveInfo()));
-    connect(btnUpdate, SIGNAL(clicked()), this, SLOT(update()));
-
+    connect(btnClose, SIGNAL(clicked()), this, SLOT(close()));
+    if (u && (u->Type == USER_TYPE_ICQ)){
+        connect(btnUpdate, SIGNAL(clicked()), this, SLOT(update()));
+    }else{
+        btnUpdate->hide();
+    }
     loadInfo();
+    setTitle();
+    setIcon();
+}
+
+void UserInfo::setTitle()
+{
+    if (m_nUin){
+        CUser u(m_nUin);
+        setCaption(i18n("User info - '%1'")
+                   .arg(u.name()));
+        return;
+    }
+    ICQGroup *g = NULL;
+    if (m_nGrpId)
+        g = pClient->getGroup(m_nGrpId);
+    setCaption(i18n("Settings - group '%1'")
+               .arg(g ? QString::fromLocal8Bit(g->Name.c_str()) : i18n("Not in list")));
+}
+
+void UserInfo::setIcon()
+{
+    if (m_nUin){
+        QWidget::setIcon(Pict(pClient->getStatusIcon(m_nUin)));
+    }else{
+        QWidget::setIcon(Pict("grp_create"));
+    }
 }
 
 void UserInfo::addWidget(PAGEPROC *proc, int index, const QString &name, const char *icon, int param)
@@ -130,14 +177,24 @@ void UserInfo::update()
 
 void UserInfo::saveInfo()
 {
-    ICQUser *u = pClient->getUser(m_nUin, m_nUin == 0);
-    if (u == NULL) return;
-    if (m_nUin == 0) m_nUin = u->Uin;
-    inSave = true;
-    emit saveInfo(u);
-    inSave = false;
-    ICQEvent e(EVENT_INFO_CHANGED, m_nUin);
-    processEvent(&e);
+    if (m_nUin){
+        ICQUser *u = pClient->getUser(m_nUin);
+        if (u){
+            inSave = true;
+            emit saveInfo(u);
+            inSave = false;
+            ICQEvent e(EVENT_INFO_CHANGED, m_nUin);
+            processEvent(&e);
+        }
+    }else{
+        ICQGroup *g = NULL;
+        if (m_nGrpId)
+            g = pClient->getGroup(m_nGrpId);
+        inSave = true;
+        emit saveInfo(g);
+        inSave = false;
+    }
+    close();
 }
 
 void UserInfo::processEvent(ICQEvent *e)
@@ -150,9 +207,16 @@ void UserInfo::processEvent(ICQEvent *e)
 
 void UserInfo::loadInfo()
 {
-    ICQUser *u = pClient->getUser(m_nUin);
-    if (u == NULL) return;
-    emit loadInfo(u);
+    if (m_nUin){
+        ICQUser *u = pClient->getUser(m_nUin);
+        if (u == NULL) return;
+        emit loadInfo(u);
+        return;
+    }
+    ICQGroup *grp = NULL;
+    if (m_nGrpId)
+        grp = pClient->getGroup(m_nGrpId);
+    emit loadInfo(grp);
 }
 
 void UserInfo::selectionChanged()
@@ -168,6 +232,8 @@ void UserInfo::selectionChanged()
         QWidget *page = p(tabBars, item->text(4).toUInt());
         connect(this, SIGNAL(loadInfo(ICQUser*)), page, SLOT(load(ICQUser*)));
         connect(this, SIGNAL(saveInfo(ICQUser*)), page, SLOT(save(ICQUser*)));
+        connect(this, SIGNAL(loadInfo(ICQGroup*)), page, SLOT(load(ICQGroup*)));
+        connect(this, SIGNAL(saveInfo(ICQGroup*)), page, SLOT(save(ICQGroup*)));
         tabBars->addWidget(page, id);
         loadInfo();
         tabBars->setMinimumSize(tabBars->minimumSizeHint());

@@ -681,8 +681,8 @@ void MsgEdit::markAsRead()
                     bChanged = true;
                     it = u->unreadMsgs.begin();
                 }else{
-					log(L_WARN, "Mark as read failed for %u", msg->Id);
-				}
+                    log(L_WARN, "Mark as read failed for %u", msg->Id);
+                }
                 ++it;
             }
             if (msg == NULL) return;
@@ -1161,11 +1161,10 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                         toolbar->show(btnDecline);
                         file->show();
                         ICQUser *u = pClient->getUser(f->getUin());
-                        if (u == NULL) u = pClient->owner;
-                        SIMUser *_u = static_cast<SIMUser*>(u);
-                        if (!_u->AcceptFileOverride)
-                            _u = static_cast<SIMUser*>(pClient->owner);
-                        string path = _u->AcceptFilePath.c_str();
+                        UserSettings *settings = pClient->getSettings(u, offsetof(UserSettings, AcceptFileOverride));
+                        string path;
+                        if (settings->AcceptFilePath)
+                            path = settings->AcceptFilePath;
                         if (*path.c_str() == 0)
                             path = pMain->getFullPath(INCOMING_FILES, true);
                         QString name = QString::fromLocal8Bit(path.c_str());

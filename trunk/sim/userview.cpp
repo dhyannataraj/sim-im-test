@@ -26,6 +26,8 @@
 #include "log.h"
 #include "ui/ballonmsg.h"
 #include "ui/toolsetup.h"
+#include "ui/userinfo.h"
+#include "ui/enable.h"
 
 #include <qheader.h>
 #include <qpopupmenu.h>
@@ -40,11 +42,11 @@
 #include <qobjectlist.h>
 #include <qstringlist.h>
 #include <qaccel.h>
+#include <qwidgetlist.h>
 
 #include <stdio.h>
 
 #ifdef USE_KDE
-#include <kwin.h>
 #include <kpopupmenu.h>
 #else
 #include "ui/kpopup.h"
@@ -462,8 +464,7 @@ void UserViewItem::update(ICQUser *u, bool bFirst)
     nBlink = 0;
     unsigned st = 9;
     if (u->uStatus != ICQ_STATUS_OFFLINE){
-        SIMUser *_u = static_cast<SIMUser*>(u);
-        SIMUser *_o = static_cast<SIMUser*>(pClient->owner);
+        UserSettings *settings = pClient->getSettings(u, offsetof(UserSettings, AlertOverride));
         switch (u->uStatus & 0xFF){
         case ICQ_STATUS_ONLINE:
         case ICQ_STATUS_FREEFORCHAT:
@@ -471,12 +472,10 @@ void UserViewItem::update(ICQUser *u, bool bFirst)
                     ((u->prevStatus & 0xFF) != ICQ_STATUS_FREEFORCHAT) &&
                     (((pClient->owner->uStatus & 0xFF) == ICQ_STATUS_ONLINE) ||
                      ((pClient->owner->uStatus & 0xFF) == ICQ_STATUS_FREEFORCHAT)) &&
-                    ((u->prevStatus == ICQ_STATUS_OFFLINE) || _o->AlertAway) &&
-                    ((u->OnlineTime > _o->OnlineTime) || ((u->prevStatus & 0xFFFF) != ICQ_STATUS_OFFLINE))){
-                if (!_u->AlertOverride) _u = _o;
-                if (_u->AlertBlink)
-                    nBlink = 18;
-            }
+                    ((u->prevStatus == ICQ_STATUS_OFFLINE) || settings->AlertAway) &&
+                    ((u->OnlineTime > pClient->owner->OnlineTime) || ((u->prevStatus & 0xFFFF) != ICQ_STATUS_OFFLINE)) &&
+                    settings->AlertBlink)
+                nBlink = 18;
             st = 1;
             break;
         case ICQ_STATUS_DND:
@@ -741,6 +740,10 @@ void UserView::accelActivated(int id)
             case mnuGrpCreate:
             case mnuGrpUp:
             case mnuGrpDown:
+            case mnuGrpAccept:
+            case mnuGrpAlert:
+            case mnuGrpSound:
+            case mnuGrpAR:
                 grpFunction(id);
                 break;
             }
@@ -881,6 +884,7 @@ extern const ToolBarDef *pToolBarMain;
 
 void UserView::grpFunction(int id)
 {
+    int p = 0;
     switch (id){
     case mnuGrpExpandAll:
         setOpen(true);
@@ -955,7 +959,42 @@ void UserView::grpFunction(int id)
             if (item) setCurrentItem(item);
             return;
         }
+    case mnuGrpAccept:
+        p = SETUP_ACCEPT;
+        break;
+    case mnuGrpAlert:
+        p = SETUP_ALERT;
+        break;
+    case mnuGrpSound:
+        p = SETUP_SOUND;
+        break;
+    case mnuGrpAR:
+        p = SETUP_AR_AWAY;
+        break;
     }
+    if (p == 0) return;
+    UserInfo *info = NULL;
+    QWidgetList *list = QApplication::topLevelWidgets();
+    QWidgetListIt it(*list);
+    QWidget *w;
+    while ( (w=it.current()) != NULL) {
+        ++it;
+        if (!w->inherits("UserInfo"))
+            continue;
+        info = static_cast<UserInfo*>(w);
+        if ((info->Uin() == 0) && (info->GrpId() == grp_id))
+            break;
+        info = NULL;
+    }
+    delete list;
+    if (info){
+        raiseWindow(info);
+        info->raiseWidget(p);
+    }else{
+        info = new UserInfo(0, grp_id, p);
+        raiseWindow(info);
+    }
+
 }
 
 void UserView::doubleClick(QListViewItem *item)
@@ -1702,6 +1741,14 @@ void UserView::viewportContextMenuEvent( QContextMenuEvent *e)
         menuGroup->setAccel(QListView::CTRL + QListView::Key_Up, mnuGrpUp);
         menuGroup->insertItem(Pict("1downarrow"), i18n("Down"), mnuGrpDown);
         menuGroup->setAccel(QListView::CTRL + QListView::Key_Down, mnuGrpDown);
+        menuGroup->insertSeparator();
+        menuGroup->insertItem(Icon("alert"), i18n("Alert"), mnuGrpAlert);
+        menuGroup->setAccel(QAccel::stringToKey(i18n("Ctrl+L", "Alert")), mnuGrpAlert);
+        menuGroup->insertItem(Icon("file"), i18n("Accept mode"), mnuGrpAccept);
+        menuGroup->setAccel(QAccel::stringToKey(i18n("Ctrl+A", "Accept")), mnuGrpAccept);
+        menuGroup->insertItem(Icon("sound"), i18n("Sound"), mnuGrpSound);
+        menuGroup->setAccel(QAccel::stringToKey(i18n("Ctrl+S", "Sound")), mnuGrpSound);
+        menuGroup->insertItem(i18n("Auto reply"), mnuGrpAR);
         menuGroup->insertSeparator();
         menuGroup->insertItem(Pict("grp_expand"), i18n("Expand all"), mnuGrpExpandAll);
         menuGroup->setAccel(QListView::CTRL + QListView::Key_Plus, mnuGrpExpandAll);

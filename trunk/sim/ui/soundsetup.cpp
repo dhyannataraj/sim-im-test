@@ -61,21 +61,31 @@ SoundSetup::SoundSetup(QWidget *p, bool bUser)
     }
 }
 
-void SoundSetup::load(ICQUser *_u)
+void SoundSetup::load(ICQUser *u)
 {
-    SIMUser *u = static_cast<SIMUser*>(_u);
-    chkOverride->setChecked(u->SoundOverride);
-    edtMessage->setText(QString::fromLocal8Bit(pMain->sound(u->IncomingMessage.c_str())));
-    edtURL->setText(QString::fromLocal8Bit(pMain->sound(u->IncomingURL.c_str())));
-    edtSMS->setText(QString::fromLocal8Bit(pMain->sound(u->IncomingSMS.c_str())));
-    edtAuth->setText(QString::fromLocal8Bit(pMain->sound(u->IncomingAuth.c_str())));
-    edtAlert->setText(QString::fromLocal8Bit(pMain->sound(u->OnlineAlert.c_str())));
-    edtFile->setText(QString::fromLocal8Bit(pMain->sound(u->IncomingFile.c_str())));
-    edtChat->setText(QString::fromLocal8Bit(pMain->sound(u->IncomingChat.c_str())));
+    load(pClient->getSettings(u, offsetof(UserSettings, SoundOverride)));
+    overrideToggled((u == pClient->owner) ? true : chkOverride->isChecked());
+}
+
+void SoundSetup::load(ICQGroup *g)
+{
+    load(pClient->getSettings(g, offsetof(UserSettings, SoundOverride)));
+    overrideToggled(chkOverride->isChecked());
+}
+
+void SoundSetup::load(UserSettings *settings)
+{
+    chkOverride->setChecked(settings->SoundOverride);
+    edtMessage->setText(QString::fromLocal8Bit(pMain->sound(settings->IncomingMessage)));
+    edtURL->setText(QString::fromLocal8Bit(pMain->sound(settings->IncomingURL)));
+    edtSMS->setText(QString::fromLocal8Bit(pMain->sound(settings->IncomingSMS)));
+    edtAuth->setText(QString::fromLocal8Bit(pMain->sound(settings->IncomingAuth)));
+    edtAlert->setText(QString::fromLocal8Bit(pMain->sound(settings->OnlineAlert)));
+    edtFile->setText(QString::fromLocal8Bit(pMain->sound(settings->IncomingFile)));
+    edtChat->setText(QString::fromLocal8Bit(pMain->sound(settings->IncomingChat)));
     edtFileDone->setText(QString::fromLocal8Bit(pMain->sound(pClient->FileDone.c_str())));
     edtStartup->setText(QString::fromLocal8Bit(pMain->sound(pSplash->getStartupSound())));
     edtProgram->setText(QString::fromLocal8Bit(pSplash->getSoundPlayer()));
-    overrideToggled((u == pClient->owner) ? true : chkOverride->isChecked());
 }
 
 void SoundSetup::overrideToggled(bool bOn)
@@ -133,24 +143,42 @@ string SoundSetup::sound(EditSound *edt)
     return string(res.c_str() + strlen(prefix) - 1);
 }
 
-void SoundSetup::save(ICQUser *_u)
+void SoundSetup::save(ICQUser *u)
 {
-    SIMUser *u = static_cast<SIMUser*>(_u);
-    u->SoundOverride = chkOverride->isChecked();
-    u->IncomingMessage = sound(edtMessage);
-    u->IncomingURL = sound(edtURL);
-    u->IncomingSMS = sound(edtSMS);
-    u->IncomingAuth = sound(edtAuth);
-    u->IncomingFile = sound(edtFile);
-    u->IncomingChat = sound(edtChat);
+    UserSettings *settings = &static_cast<SIMUser*>(u)->settings;
+    settings->SoundOverride = chkOverride->isChecked();
+    if ((u->Uin != pClient->owner->Uin) && !settings->SoundOverride)
+        return;
+    save(settings);
+    if (u->Uin != pClient->owner->Uin)
+        return;
     pClient->FileDone = sound(edtFileDone);
     pSplash->setStartupSound(sound(edtStartup).c_str());
     pSplash->setSoundDisable(chkDisable->isChecked());
-    u->OnlineAlert = sound(edtAlert);
     set(pSplash->_SoundPlayer(), edtProgram->text());
 #ifdef USE_KDE
     pSplash->setUseArts(chkArts->isChecked());
 #endif
+}
+
+void SoundSetup::save(ICQGroup *g)
+{
+    UserSettings *settings = &static_cast<SIMGroup*>(g)->settings;
+    settings->SoundOverride = chkOverride->isChecked();
+    if (!settings->SoundOverride)
+        return;
+    save(settings);
+}
+
+void SoundSetup::save(UserSettings *settings)
+{
+    set_str(&settings->IncomingMessage, sound(edtMessage).c_str());
+    set_str(&settings->IncomingURL, sound(edtURL).c_str());
+    set_str(&settings->IncomingSMS, sound(edtSMS).c_str());
+    set_str(&settings->IncomingAuth, sound(edtAuth).c_str());
+    set_str(&settings->IncomingFile, sound(edtFile).c_str());
+    set_str(&settings->IncomingChat, sound(edtChat).c_str());
+    set_str(&settings->OnlineAlert, sound(edtAlert).c_str());
 }
 
 void SoundSetup::apply(ICQUser*)

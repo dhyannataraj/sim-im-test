@@ -181,8 +181,7 @@ void FileTransferDlg::processEvent(ICQEvent *e)
         if (file && file->DeclineReason.length()){
             bClose = false;
             tabFT->setCurrentPage(0);
-            showNormal();
-            raise();
+            raiseWindow(this);
             QString reason;
             const char **trMsg;
             for (trMsg = translatedMsg; *trMsg; trMsg++){

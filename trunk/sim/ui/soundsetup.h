@@ -25,6 +25,8 @@
 using namespace std;
 
 class ICQUser;
+class ICQGroup;
+struct UserSettings;
 class EditSound;
 
 class SoundSetup : public SoundSetupBase
@@ -35,12 +37,16 @@ public:
 public slots:
     void load(ICQUser*);
     void save(ICQUser*);
+    void load(ICQGroup *g);
+    void save(ICQGroup *g);
     void apply(ICQUser*);
 protected slots:
     void overrideToggled(bool);
     void artsToggled(bool);
     void disableToggled(bool);
 protected:
+    void load(UserSettings*);
+    void save(UserSettings*);
     string sound(EditSound *edt);
 };
 

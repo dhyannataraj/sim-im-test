@@ -24,6 +24,7 @@ void set(string &s, const QString &str);
 void set(QString &s, const string &str);
 
 void setButtonsPict(QWidget *w);
+void raiseWindow(QWidget *w);
 
 #ifdef WIN32
 

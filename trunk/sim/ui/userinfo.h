@@ -24,28 +24,35 @@
 
 class ICQEvent;
 class ICQUser;
+class ICQGroup;
 class QListViewItem;
 
 class UserInfo : public UserInfoBase
 {
     Q_OBJECT
 public:
-    UserInfo(QWidget *parent, unsigned long uin, int page);
+    UserInfo(unsigned long uin, unsigned short grpId, int page);
     unsigned long Uin() { return m_nUin; }
+    unsigned short GrpId() { return m_nGrpId; }
+    void raiseWidget(int id);
 signals:
     void saveInfo(ICQUser*);
+    void saveInfo(ICQGroup*);
     void loadInfo(ICQUser*);
+    void loadInfo(ICQGroup*);
 protected slots:
     void selectionChanged();
     void update();
     void saveInfo();
     void processEvent(ICQEvent *e);
 protected:
+    void setTitle();
+    void setIcon();
     bool inSave;
     void addWidget(PAGEPROC *pageProc, int, const QString&, const char*, int param=0);
     unsigned long m_nUin;
+    unsigned short m_nGrpId;
     void loadInfo();
-    void raiseWidget(int id);
     bool raiseWidget(QListViewItem *i, unsigned id);
     QListViewItem *itemMain;
 };

@@ -8,6 +8,10 @@
 #include <windows.h>
 #endif
 
+#ifdef USE_KDE
+#include <kwin.h>
+#endif
+
 #include <qcombobox.h>
 #include <qpalette.h>
 #include <qstringlist.h>
@@ -188,4 +192,24 @@ void setWndClass(QWidget *w, const char *name)
 }
 
 #endif
+
+void raiseWindow(QWidget *w)
+{
+#ifdef USE_KDE
+    KWin::setOnDesktop(w->winId(), KWin::currentDesktop());
+#endif
+    w->show();
+    w->showNormal();
+    w->setActiveWindow();
+    w->raise();
+#ifdef USE_KDE
+    KWin::setActiveWindow(w->winId());
+#endif
+#ifdef WIN32
+    AttachThreadInput(GetWindowThreadProcessId(GetForegroundWindow(),NULL), GetCurrentThreadId(), TRUE);
+    SetForegroundWindow(w->winId());
+    SetFocus(w->winId());
+    AttachThreadInput(GetWindowThreadProcessId(GetForegroundWindow(),NULL), GetCurrentThreadId(), FALSE);
+#endif
+}
 

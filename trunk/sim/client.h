@@ -75,15 +75,8 @@ inline bool operator == (const autoResponse &a, const autoResponse &b)
     return (a.tmpl == b.tmpl) && (a.msg == b.msg);
 }
 
-class SIMGroup : public ICQGroup
+typedef struct UserSettings
 {
-public:
-    bool				Expand;
-};
-
-class SIMUser : public ICQUser
-{
-public:
     // Alert mode
     bool				AlertOverride;
     bool				AlertAway;
@@ -99,27 +92,49 @@ public:
     unsigned short		AcceptFileMode;
     bool				AcceptFileOverride;
     bool				AcceptFileOverwrite;
-    string				AcceptFilePath;
-    string				DeclineFileMessage;
+    char*				AcceptFilePath;
+    char*				DeclineFileMessage;
 
     // Sounds
     bool				SoundOverride;
-    string				IncomingMessage;
-    string				IncomingURL;
-    string				IncomingSMS;
-    string				IncomingAuth;
-    string				IncomingFile;
-    string				IncomingChat;
-    string				OnlineAlert;
+    char*				IncomingMessage;
+    char*				IncomingURL;
+    char*				IncomingSMS;
+    char*				IncomingAuth;
+    char*				IncomingFile;
+    char*				IncomingChat;
+    char*				OnlineAlert;
 
     // Programms
     bool				ProgOverride;
     bool				ProgMessageOn;
-    string				ProgMessage;
+    char*				ProgMessage;
 
+    // Auto response
+    char*				AutoResponseAway;
+    char*				AutoResponseNA;
+    char*				AutoResponseDND;
+    char*				AutoResponseOccupied;
+    char*				AutoResponseFFC;
+} UserSettings;
+
+class SIMGroup : public ICQGroup
+{
+public:
+    SIMGroup();
+    ~SIMGroup();
+    UserSettings		settings;
+    bool				Expand;
+};
+
+class SIMUser : public ICQUser
+{
+public:
+    SIMUser();
+    ~SIMUser();
+    UserSettings		settings;
     // corresponding KAddressBook identifier
     string				strKabUid;
-
     // User notes
     string				Notes;
 public:
@@ -138,11 +153,15 @@ public:
     ~SIMClient();
     string			BirthdayReminder;
     string			FileDone;
+    UserSettings	notInListSettings;
     ICQUser			*createUser();
     ICQGroup		*createGroup();
     void init();
     void save();
     bool load(unsigned long ownerUin);
+    UserSettings *getSettings(ICQUser *u, unsigned offs, bool isString=false);
+    UserSettings *getSettings(ICQGroup *g, unsigned offs, bool isString=false);
+    const char *getAutoResponse(ICQUser *u, unsigned offs);
     QString getName(bool bUserUIN=true);
     const char *getStatusIcon();
     QString getStatusText();

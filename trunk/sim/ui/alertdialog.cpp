@@ -67,19 +67,27 @@ AlertDialog::AlertDialog(QWidget *p, bool bReadOnly)
     toggledOn(chkOn->isChecked());
 }
 
-void AlertDialog::load(ICQUser *_u)
+void AlertDialog::load(ICQUser *u)
 {
-    SIMUser *u = static_cast<SIMUser*>(_u);
-    chkOverride->setChecked(u->AlertOverride);
-    if (!u->AlertOverride) u = static_cast<SIMUser*>(pClient->owner);
-    chkOnline->setChecked(u->AlertAway);
-    chkBlink->setChecked(u->AlertBlink);
-    chkSound->setChecked(u->AlertSound);
-    chkOnScreen->setChecked(u->AlertOnScreen);
-    chkDialog->setChecked(u->AlertPopup);
-    chkFloat->setChecked(u->AlertWindow);
-    chkLog->setChecked(u->LogStatus);
-    overrideChanged(u->AlertOverride);
+    load(pClient->getSettings(u, offsetof(UserSettings, AlertOverride)));
+}
+
+void AlertDialog::load(ICQGroup *g)
+{
+    load(pClient->getSettings(g, offsetof(UserSettings, AlertOverride)));
+}
+
+void AlertDialog::load(UserSettings *settings)
+{
+    chkOverride->setChecked(settings->AlertOverride);
+    chkOnline->setChecked(settings->AlertAway);
+    chkBlink->setChecked(settings->AlertBlink);
+    chkSound->setChecked(settings->AlertSound);
+    chkOnScreen->setChecked(settings->AlertOnScreen);
+    chkDialog->setChecked(settings->AlertPopup);
+    chkFloat->setChecked(settings->AlertWindow);
+    chkLog->setChecked(settings->LogStatus);
+    overrideChanged(settings->AlertOverride);
 }
 
 void AlertDialog::overrideChanged(bool bSet)
@@ -96,18 +104,31 @@ void AlertDialog::overrideChanged(bool bSet)
 
 void AlertDialog::save(ICQUser *_u)
 {
-    SIMUser *u = static_cast<SIMUser*>(_u);
-    if (u->Uin != pClient->owner->Uin){
-        u->AlertOverride = chkOverride->isChecked();
-        if (!u->AlertOverride) return;
+    if (_u->Uin != pClient->owner->Uin){
+        SIMUser *u = static_cast<SIMUser*>(_u);
+        u->settings.AlertOverride = chkOverride->isChecked();
+        if (!u->settings.AlertOverride) return;
     }
-    u->AlertAway = chkOnline->isChecked();
-    u->AlertBlink = chkBlink->isChecked();
-    u->AlertSound = chkSound->isChecked();
-    u->AlertOnScreen = chkOnScreen->isChecked();
-    u->AlertPopup = chkDialog->isChecked();
-    u->AlertWindow = chkFloat->isChecked();
-    u->LogStatus = chkLog->isChecked();
+    save(pClient->getSettings(_u, offsetof(UserSettings, AlertOverride)));
+}
+
+void AlertDialog::save(ICQGroup *_g)
+{
+    SIMGroup *g = static_cast<SIMGroup*>(_g);
+    g->settings.AlertOverride = chkOverride->isChecked();
+    if (!g->settings.AlertOverride) return;
+    save(&g->settings);
+}
+
+void AlertDialog::save(UserSettings *settings)
+{
+    settings->AlertAway = chkOnline->isChecked();
+    settings->AlertBlink = chkBlink->isChecked();
+    settings->AlertSound = chkSound->isChecked();
+    settings->AlertOnScreen = chkOnScreen->isChecked();
+    settings->AlertPopup = chkDialog->isChecked();
+    settings->AlertWindow = chkFloat->isChecked();
+    settings->LogStatus = chkLog->isChecked();
 }
 
 void AlertDialog::apply(ICQUser*)

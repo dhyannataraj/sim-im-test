@@ -41,6 +41,7 @@
 #include "ui/alertmsg.h"
 #include "ui/ballonmsg.h"
 #include "ui/filetransfer.h"
+#include "ui/userinfo.h"
 #include "ui/securedlg.h"
 
 #include "ui/enable.h"
@@ -98,7 +99,6 @@ static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
 
 #ifdef USE_KDE
 #include <kwin.h>
-#include <kwinmodule.h>
 #include <kpopupmenu.h>
 #include <kaudioplayer.h>
 #include <kglobal.h>
@@ -124,6 +124,7 @@ const unsigned short ABE_FLOAT   = (unsigned short)(-1);
 
 const char *MainWindow::sound(const char *wav)
 {
+    if (wav == NULL) return "";
     if (*wav == 0) return wav;
 #ifdef WIN32
     if ((strlen(wav) > 3) &&
@@ -1026,6 +1027,8 @@ extern char SIM_CONF[];
 
 bool MainWindow::init(bool bNoApply)
 {
+    if (pClient->owner->Uin == 0)
+        return false;
     string file;
     if (!bLocked){
 #ifndef WIN32
@@ -1189,44 +1192,41 @@ void MainWindow::setKeys(const char *kWindow, const char *kDblClick, const char 
 void MainWindow::messageReceived(ICQMessage *msg)
 {
     if (msg->Type() == ICQ_MSGxSTATUS) return;
-
     ICQUser *u = pClient->getUser(msg->getUin());
-    if (u == NULL) u = pClient->owner;
-    SIMUser *_u = static_cast<SIMUser*>(u);
-    if (!_u->SoundOverride)
-        _u = static_cast<SIMUser*>(pClient->owner);
-
+    UserSettings *settings = pClient->getSettings(u, offsetof(UserSettings, SoundOverride));
     const char *wav;
     switch (msg->Type()){
     case ICQ_MSGxURL:
-        wav = _u->IncomingURL.c_str();
+        wav = settings->IncomingURL;
         break;
     case ICQ_MSGxSMS:
-        wav = _u->IncomingSMS.c_str();
+        wav = settings->IncomingSMS;
         break;
     case ICQ_MSGxFILE:
-        wav = _u->IncomingFile.c_str();
+        wav = settings->IncomingFile;
         break;
     case ICQ_MSGxCHAT:
-        wav = _u->IncomingChat.c_str();
+        wav = settings->IncomingChat;
         break;
     case ICQ_MSGxAUTHxREQUEST:
     case ICQ_MSGxAUTHxREFUSED:
     case ICQ_MSGxAUTHxGRANTED:
     case ICQ_MSGxADDEDxTOxLIST:
-        wav = _u->IncomingAuth.c_str();
+        wav = settings->IncomingAuth;
         break;
     default:
-        wav = _u->IncomingMessage.c_str();
+        wav = settings->IncomingMessage;
     }
-    if (((pClient->owner->uStatus & 0xFF) != ICQ_STATUS_AWAY) && ((pClient->owner->uStatus & 0xFF) != ICQ_STATUS_NA))
+    if (wav && ((pClient->owner->uStatus & 0xFF) != ICQ_STATUS_AWAY) && ((pClient->owner->uStatus & 0xFF) != ICQ_STATUS_NA))
         playSound(wav);
-
     unread_msg m(msg);
-    u = pClient->getUser(msg->getUin());
+
+    CUser user(u);
+    xosd->setMessage(i18n("%1 from %2 received")
+                     .arg(pClient->getMessageText(msg->Type(), 1))
+                     .arg(user.name()), u->Uin);
 
     if (u == NULL) return;
-
     list<unsigned long>::iterator it;
     for (it = u->unreadMsgs.begin(); it != u->unreadMsgs.end(); it++)
         if ((*it) == msg->Id) break;
@@ -1234,15 +1234,8 @@ void MainWindow::messageReceived(ICQMessage *msg)
     messages.push_back(m);
     emit msgChanged();
 
-    CUser user(u);
-    xosd->setMessage(i18n("%1 from %2 received")
-                     .arg(pClient->getMessageText(msg->Type(), 1))
-                     .arg(user.name()), u->Uin);
-
-    _u = static_cast<SIMUser*>(u);
-    if (!_u->AcceptFileOverride)
-        _u = static_cast<SIMUser*>(pClient->owner);
-    if (_u->AcceptMsgWindow)
+    settings = pClient->getSettings(u, offsetof(UserSettings, ProgOverride));
+    if (settings->AcceptMsgWindow)
         userFunction(msg->getUin(), mnuActionAuto);
 }
 
@@ -1331,10 +1324,9 @@ void MainWindow::processEvent(ICQEvent *e)
             if (realTZ != pClient->owner->TimeZone)
                 pClient->addInfoRequest(pClient->owner->Uin, true);
         }else{
-            ICQUser *_u = pClient->getUser(e->Uin());
-            if (_u == NULL) return;
-            SIMUser *u = static_cast<SIMUser*>(_u);
-            SIMUser *o = static_cast<SIMUser*>(pClient->owner);
+            ICQUser *u = pClient->getUser(e->Uin());
+            if (u == NULL) return;
+            UserSettings *settings = pClient->getSettings(u, offsetof(UserSettings, AlertOverride));
             if ((u->IgnoreId == 0) &&
                     (!isNoAlertAway() ||
                      ((u->uStatus & 0xFF) == ICQ_STATUS_ONLINE) ||
@@ -1343,24 +1335,21 @@ void MainWindow::processEvent(ICQEvent *e)
                     ((u->prevStatus & 0xFF) != ICQ_STATUS_FREEFORCHAT) &&
                     (((pClient->owner->uStatus & 0xFF) == ICQ_STATUS_ONLINE) ||
                      ((pClient->owner->uStatus & 0xFF) == ICQ_STATUS_FREEFORCHAT)) &&
-                    ((u->prevStatus == ICQ_STATUS_OFFLINE) || o->AlertAway) &&
+                    ((u->prevStatus == ICQ_STATUS_OFFLINE) || settings->AlertAway) &&
                     ((u->OnlineTime > pClient->owner->OnlineTime) || (u->prevStatus  != ICQ_STATUS_OFFLINE))){
-                SIMUser *__u = u;
-                if (!u->AlertOverride) u = o;
-                if (u->AlertSound){
-                    if (!__u->SoundOverride) __u= o;
-                    playSound(__u->OnlineAlert.c_str());
+                if (settings->AlertSound){
+                    UserSettings *soundSettings = pClient->getSettings(u, offsetof(UserSettings, SoundOverride));
+                    playSound(soundSettings->OnlineAlert);
                 }
-                if (u->AlertOnScreen){
+                if (settings->AlertOnScreen){
                     CUser user(e->Uin());
                     xosd->setMessage(i18n("%1 is online") .arg(user.name()), e->Uin());
                 }
-                if (u->AlertPopup){
+                if (settings->AlertPopup){
                     AlertMsgDlg *dlg = new AlertMsgDlg(this, e->Uin());
-                    dlg->show();
-                    dlg->raise();
+                    raiseWindow(dlg);
                 }
-                if (u->AlertWindow)
+                if (settings->AlertWindow)
                     userFunction(e->Uin(), mnuAction);
             }
         }
@@ -1510,7 +1499,7 @@ void MainWindow::dockDblClicked()
 {
     if (menuFunction && menuFunction->isVisible()) return;
     for (list<UserBox*>::iterator itBox = containers.begin(); itBox != containers.end(); ++itBox){
-        if ((*itBox)->isHistory() || (*itBox)->isUserInfo()) continue;
+        if ((*itBox)->isHistory()) continue;
         if (!(*itBox)->isActiveWindow()) continue;
         ICQUser *u = pClient->getUser((*itBox)->currentUser());
         if (u && u->unreadMsgs.size()){
@@ -1546,7 +1535,7 @@ void MainWindow::showUser(unsigned long uin, int function, unsigned long param)
     list<UserBox*>::iterator it;
     if (isSimpleMode()){
         for (it = containers.begin(); it != containers.end(); ++it){
-            if ((*it)->isHistory() || (*it)->isUserInfo()) continue;
+            if ((*it)->isHistory()) continue;
             if (!(*it)->haveUser(uin)) continue;
             ICQMessage *msg = (*it)->currentMessage();
             bool bOK = false;
@@ -1610,12 +1599,12 @@ void MainWindow::showUser(unsigned long uin, int function, unsigned long param)
     switch (getContainerMode()){
     case ContainerModeAll:
         for (it = containers.begin(); it != containers.end(); ++it){
-            if ((*it)->isHistory() || (*it)->isUserInfo()) continue;
+            if ((*it)->isHistory()) continue;
             if ((*it)->getGrpId() == ContainerAllUsers) break;
         }
         if (it == containers.end()){
             for (it = containers.begin(); it != containers.end(); ++it)
-                if (!(*it)->isHistory() && !(*it)->isUserInfo()) break;
+                if (!(*it)->isHistory()) break;
         }
         if (it != containers.end()){
             (*it)->setGrpId(ContainerAllUsers);
@@ -1626,7 +1615,7 @@ void MainWindow::showUser(unsigned long uin, int function, unsigned long param)
         break;
     case ContainerModeGroup:
         for (it = containers.begin(); it != containers.end(); ++it){
-            if ((*it)->isHistory() || (*it)->isUserInfo()) continue;
+            if ((*it)->isHistory()) continue;
             if ((*it)->getGrpId() != (unsigned long)grpId) continue;
             (*it)->showUser(uin, function, param);
             return;
@@ -1636,7 +1625,7 @@ void MainWindow::showUser(unsigned long uin, int function, unsigned long param)
     default:
         grpId = 0x7FFFFFFF;
         for (it = containers.begin(); it != containers.end(); ++it){
-            if ((*it)->isHistory() || (*it)->isUserInfo()) continue;
+            if ((*it)->isHistory()) continue;
             if ((*it)->getGrpId() < 0x10000L) continue;
             if ((*it)->getGrpId() < grpId) grpId = (*it)->getGrpId() - 1;
         }
@@ -1663,22 +1652,7 @@ void MainWindow::setShow(bool bShow)
         hide();
         return;
     }
-    show();
-    showNormal();
-#ifdef USE_KDE
-    KWin::setOnDesktop(winId(), KWin::currentDesktop());
-#endif
-    setActiveWindow();
-    raise();
-#ifdef USE_KDE
-    KWin::setActiveWindow(winId());
-#endif
-#ifdef WIN32
-    AttachThreadInput(GetWindowThreadProcessId(GetForegroundWindow(),NULL), GetCurrentThreadId(), TRUE);
-    SetForegroundWindow(winId());
-    SetFocus(winId());
-    AttachThreadInput(GetWindowThreadProcessId(GetForegroundWindow(),NULL), GetCurrentThreadId(), FALSE);
-#endif
+    raiseWindow(this);
 }
 
 bool MainWindow::isShow()
@@ -1737,14 +1711,7 @@ void MainWindow::setup()
         setupDlg = new SetupDialog(this, 0);
     }
     emit setupInit();
-    setupDlg->show();
-#ifdef USE_KDE
-    KWin::setOnDesktop(setupDlg->winId(), KWin::currentDesktop());
-#endif
-    setupDlg->raise();
-#ifdef USE_KDE
-    KWin::setActiveWindow(setupDlg->winId());
-#endif
+    raiseWindow(setupDlg);
 }
 
 void MainWindow::setupClosed()
@@ -1761,15 +1728,7 @@ void MainWindow::phonebook()
     }else{
         setupDlg->showPage(SETUP_PHONE);
     }
-    setupDlg->show();
-#ifdef USE_KDE
-    KWin::setOnDesktop(setupDlg->winId(), KWin::currentDesktop());
-#endif
-    setupDlg->raise();
-#ifdef USE_KDE
-    KWin::setActiveWindow(setupDlg->winId());
-#endif
-
+    raiseWindow(setupDlg);
 }
 
 void MainWindow::quit()
@@ -1782,15 +1741,7 @@ void MainWindow::quit()
 void MainWindow::search()
 {
     if (searchDlg == NULL) searchDlg = new SearchDialog(NULL);
-    searchDlg->show();
-#ifdef USE_KDE
-    KWin::setOnDesktop(searchDlg->winId(), KWin::currentDesktop());
-#endif
-    searchDlg->setActiveWindow();
-    searchDlg->raise();
-#ifdef USE_KDE
-    KWin::setActiveWindow(searchDlg->winId());
-#endif
+    raiseWindow(searchDlg);
 }
 
 void MainWindow::showSearch(bool bSearch)
@@ -1954,10 +1905,8 @@ void MainWindow::setStatus(int status)
         autoDlg = new AutoReplyDlg(this, ICQ_STATUS_FREEFORCHAT);
         break;
     }
-    if (autoDlg){
-        autoDlg->show();
-        autoDlg->raise();
-    }
+    if (autoDlg)
+        raiseWindow(autoDlg);
     if (status == (ICQ_STATUS_OFFLINE & 0xFF)) status = ICQ_STATUS_OFFLINE;
     setManualStatus((unsigned long)status);
     QTimer::singleShot(800, this, SLOT(realSetStatus()));
@@ -2285,16 +2234,7 @@ void MainWindow::userFunction(unsigned long uin, int function, unsigned long par
     case mnuChat:{
             QWidget *chat = chatWindow(uin);
             if (chat){
-                chat->show();
-                chat->showNormal();
-#ifdef USE_KDE
-                KWin::setOnDesktop(chat->winId(), KWin::currentDesktop());
-#endif
-                chat->setActiveWindow();
-                chat->raise();
-#ifdef USE_KDE
-                KWin::setActiveWindow(chat->winId());
-#endif
+                raiseWindow(chat);
                 return;
             }
             showUser(uin, function, param);
@@ -2338,15 +2278,7 @@ void MainWindow::userFunction(unsigned long uin, int function, unsigned long par
             }
             if (w == NULL)
                 w = new UserAutoReplyDlg(uin);
-            w->show();
-#ifdef USE_KDE
-            KWin::setOnDesktop(w->winId(), KWin::currentDesktop());
-#endif
-            w->setActiveWindow();
-            w->raise();
-#ifdef USE_KDE
-            KWin::setActiveWindow(w->winId());
-#endif
+            raiseWindow(w);
             delete list;
             return;
         }
@@ -2357,15 +2289,7 @@ void MainWindow::userFunction(unsigned long uin, int function, unsigned long par
             QWidget *w = secureWindow(uin);
             if (w == NULL)
                 w = new SecureDlg(this, uin);
-            w->show();
-#ifdef USE_KDE
-            KWin::setOnDesktop(w->winId(), KWin::currentDesktop());
-#endif
-            w->setActiveWindow();
-            w->raise();
-#ifdef USE_KDE
-            KWin::setActiveWindow(w->winId());
-#endif
+            raiseWindow(w);
             return;
         }
     case mnuSecureOff:{
@@ -2380,31 +2304,43 @@ void MainWindow::userFunction(unsigned long uin, int function, unsigned long par
     case mnuAlert:
     case mnuAccept:
     case mnuSound:
-    case mnuInfo:
-        param = 0;
-        switch (function){
-        case mnuAlert:
-            param = SETUP_ALERT;
-            break;
-        case mnuAccept:
-            param = SETUP_ACCEPT;
-            break;
-        case mnuSound:
-            param = SETUP_SOUND;
-            break;
-        }
-        for (it = containers.begin(); it != containers.end(); ++it){
-            if (!(*it)->isUserInfo()) continue;
-            if (!(*it)->haveUser(uin)) continue;
-            (*it)->showUser(uin, mnuInfo, param);
+    case mnuInfo:{
+            param = 0;
+            switch (function){
+            case mnuAlert:
+                param = SETUP_ALERT;
+                break;
+            case mnuAccept:
+                param = SETUP_ACCEPT;
+                break;
+            case mnuSound:
+                param = SETUP_SOUND;
+                break;
+            }
+            UserInfo *info = NULL;
+            QWidgetList *list = QApplication::topLevelWidgets();
+            QWidgetListIt it(*list);
+            QWidget *w;
+            while ( (w=it.current()) != NULL) {
+                ++it;
+                if (!w->inherits("UserInfo"))
+                    continue;
+                info = static_cast<UserInfo*>(w);
+                if (info->Uin() == uin)
+                    break;
+                info = NULL;
+            }
+            delete list;
+            if (info){
+                raiseWindow(info);
+                if (param)
+                    info->raiseWidget(param);
+            }else{
+                info = new UserInfo(uin, 0, param);
+                raiseWindow(info);
+            }
             return;
         }
-        box = new UserBox(uin);
-        containers.push_back(box);
-        box->setUserInfo(true);
-        box->hideToolbar();
-        box->showUser(uin, mnuInfo, param);
-        return;
     case mnuHistoryNew:
         for (it = containers.begin(); it != containers.end(); ++it){
             if (!(*it)->isHistory()) continue;
@@ -2433,16 +2369,6 @@ bool MainWindow::isHistory(unsigned long uin)
     return false;
 }
 
-bool MainWindow::isUserInfo(unsigned long uin)
-{
-    list<UserBox*>::iterator it;
-    for (it = containers.begin(); it != containers.end(); ++it){
-        if (!(*it)->isUserInfo()) continue;
-        if ((*it)->haveUser(uin)) return true;
-    }
-    return false;
-}
-
 UserFloat *MainWindow::findFloating(unsigned long uin, bool bDelete)
 {
     list<UserFloat*>::iterator it;
@@ -2460,7 +2386,7 @@ void MainWindow::toContainer(int containerId)
 {
     list<UserBox*>::iterator it;
     for (it = containers.begin(); it != containers.end(); ++it){
-        if ((*it)->isHistory() || (*it)->isUserInfo()) continue;
+        if ((*it)->isHistory()) continue;
         if (!(*it)->haveUser(uinMenu)) continue;
         if ((*it)->getGrpId() == (unsigned long)containerId) return;
         (*it)->closeUser(uinMenu);
@@ -2484,7 +2410,7 @@ void MainWindow::adjustUserMenu(QPopupMenu *menu, ICQUser *u, bool haveTitle, bo
         bool canNew = true;
         list<UserBox*>::iterator it;
         for (it = containers.begin(); it != containers.end(); ++it){
-            if ((*it)->isHistory() || (*it)->isUserInfo()) continue;
+            if ((*it)->isHistory()) continue;
             menuContainers->insertItem((*it)->containerName(), (*it)->getGrpId());
             if (!(*it)->haveUser(uinMenu)) continue;
             menuContainers->setItemChecked((*it)->getGrpId(), true);
@@ -2494,7 +2420,7 @@ void MainWindow::adjustUserMenu(QPopupMenu *menu, ICQUser *u, bool haveTitle, bo
         if (canNew){
             unsigned long newId = 0x7FFFFFFF;
             for (it = containers.begin(); it != containers.end(); ++it){
-                if ((*it)->isHistory() || (*it)->isUserInfo()) continue;
+                if ((*it)->isHistory()) continue;
                 if ((*it)->getGrpId() < 0x10000L) continue;
                 if ((*it)->getGrpId() <= newId) newId = (*it)->getGrpId() - 1;
             }
@@ -2657,15 +2583,7 @@ void MainWindow::networkMonitor()
         mNetMonitor = new MonitorWindow();
         connect(mNetMonitor, SIGNAL(finished()), this, SLOT(monitorFinished()));
     }
-#ifdef USE_KDE
-    KWin::setOnDesktop(mNetMonitor->winId(), KWin::currentDesktop());
-#endif
-    mNetMonitor->show();
-    mNetMonitor->setActiveWindow();
-    mNetMonitor->raise();
-#ifdef USE_KDE
-    KWin::setActiveWindow(mNetMonitor->winId());
-#endif
+    raiseWindow(mNetMonitor);
 }
 
 void MainWindow::monitorFinished()

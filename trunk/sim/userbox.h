@@ -84,7 +84,6 @@ typedef struct UserBox_Data
     short			ToolbarOffset;
     short			ToolbarY;
     bool			History;
-    bool			UserInfo;
 } UserBox_Data;
 
 class UserBox : public QMainWindow
@@ -103,7 +102,6 @@ public:
     PROP_SHORT(ToolbarOffset)
     PROP_SHORT(ToolbarY)
     PROP_BOOL(History)
-    PROP_BOOL(UserInfo)
     void setShow();
     bool isShow();
     void save(QFile &s);
@@ -135,7 +133,7 @@ protected slots:
     void showMessage(unsigned long uin, unsigned long id);
     void processEvent(ICQEvent*);
     void toggleHistory(bool);
-    void toggleInfo(bool);
+    void showInfo();
     void toIgnore();
     void hideHistory();
     void showGrpMenu();
@@ -180,7 +178,6 @@ protected:
     void adjustToolbar();
     UserTabBar  *tabs;
     MsgEdit     *curWnd;
-    UserInfo	*infoWnd;
     HistoryView *historyWnd;
     friend class UserTabBar;
     TransparentTop *transparent;

@@ -47,10 +47,6 @@
 #include <qstringlist.h>
 #include <qaccel.h>
 
-#ifdef USE_KDE
-#include <kwin.h>
-#endif
-
 #define ALL_ENCODINGS	0x10000
 
 class Splitter : public QSplitter
@@ -88,7 +84,6 @@ static cfgParam UserBox_Params[] =
         { "ToolbarOffset", offsetof(UserBox_Data, ToolbarOffset), PARAM_SHORT, 0 },
         { "ToolbarY", offsetof(UserBox_Data, ToolbarY), PARAM_SHORT, 0 },
         { "History", offsetof(UserBox_Data, History), PARAM_BOOL, 0 },
-        { "UserInfo", offsetof(UserBox_Data, UserInfo), PARAM_BOOL, 0 },
         { "", 0, 0, 0 }
     };
 
@@ -110,7 +105,7 @@ ToolBarDef userBoxToolBar[] =
         { btnIgnore, "ignorelist", NULL, I18N_NOOP("Add to ignore &list"), 0, SLOT(toIgnore()), NULL },
         { btnGroup, "grp_on", NULL, I18N_NOOP("Move to &group"), 0, NULL, NULL },
         SEPARATOR,
-        { btnInfo, "info", NULL, I18N_NOOP("User &info"), BTN_TOGGLE, SLOT(toggleInfo(bool)), NULL },
+        { btnInfo, "info", NULL, I18N_NOOP("User &info"), 0, SLOT(showInfo()), NULL },
         { btnHistory, "history", NULL, I18N_NOOP("&History<br>with CTRL open in new window"), BTN_TOGGLE | BTN_CTRL, SLOT(toggleHistory(bool)), NULL },
         { btnEncoding, "encoding", NULL, I18N_NOOP("&Encoding"), 0, NULL, NULL },
         SEPARATOR,
@@ -140,7 +135,6 @@ UserBox::UserBox(unsigned long grpId)
     progress = NULL;
     infoPage = 0;
     setWFlags(WDestructiveClose);
-    infoWnd = NULL;
     historyWnd = NULL;
     transparent = new TransparentTop(this, pMain->_UseTransparentContainer(), pMain->_TransparentContainer());
     menuUser = new QPopupMenu(this);
@@ -329,7 +323,7 @@ void UserBox::showEvent(QShowEvent *e)
 void UserBox::resizeEvent(QResizeEvent *e)
 {
     QMainWindow::resizeEvent(e);
-    if (!isHistory() && !isUserInfo()){
+    if (!isHistory()){
         pMain->setUserBoxWidth(size().width());
         pMain->setUserBoxHeight(size().height());
     }
@@ -338,7 +332,7 @@ void UserBox::resizeEvent(QResizeEvent *e)
 void UserBox::moveEvent(QMoveEvent *e)
 {
     QMainWindow::moveEvent(e);
-    if (!isHistory() && !isUserInfo()){
+    if (!isHistory()){
         pMain->setUserBoxX(pos().x());
         pMain->setUserBoxY(pos().y());
     }
@@ -380,53 +374,9 @@ void UserBox::saveInfo(ICQUser *u)
     setGroupButtons();
 }
 
-void UserBox::toggleInfo(bool bShow)
+void UserBox::showInfo()
 {
-    if (bShow && !isUserInfo()){
-        pMain->userFunction(curWnd->getUin(), mnuInfo, 0);
-        toolbar->setOn(btnInfo, false);
-        return;
-    }
-    bool oldState = isUpdatesEnabled();
-    if (bShow){
-        if (curWnd == NULL) return;
-        setUpdatesEnabled(false);
-        if (users){
-            delete users;
-            users = NULL;
-        }
-        toolbar->setOn(btnHistory, false);
-        disconnect(curWnd, SIGNAL(setMessageType(const QString&, const QString&)), toolbar->getWidget(btnType), SLOT(setState(const QString&, const QString&)));
-        toolbar->setState(btnType, "info", i18n("User info"));
-        if (infoWnd == NULL){
-            infoWnd = new UserInfo(frm, curWnd->getUin(), infoPage);
-            infoPage = 0;
-            connect(infoWnd, SIGNAL(saveInfo(ICQUser*)), this, SLOT(saveInfo(ICQUser*)));
-            vSplitter->hide();
-            lay->insertWidget(0, infoWnd);
-            infoWnd->show();
-            pClient->addInfoRequest(curWnd->getUin(), true);
-        }
-    }else if (infoWnd){
-        if (curWnd && (curWnd->getUin() == 0)){
-            curWnd->close();
-            return;
-        }
-        setUpdatesEnabled(false);
-        delete infoWnd;
-        infoWnd = NULL;
-        vSplitter->show();
-        if (curWnd){
-            connect(curWnd, SIGNAL(setMessageType(const QString&, const QString&)), toolbar->getWidget(btnType), SLOT(setState(const QString&, const QString&)));
-            curWnd->action(mnuAction);
-        }
-    }else{
-        oldState = false;
-    }
-    if (oldState){
-        setUpdatesEnabled(true);
-        repaint();
-    }
+    pMain->userFunction(curWnd->getUin(), mnuInfo, 0);
 }
 
 void UserBox::hideHistory()
@@ -679,7 +629,6 @@ bool UserBox::load(QFile &s, string &part)
     adjustToolbar();
     setShow();
     if (isHistory()) toolbar->setOn(btnHistory, true);
-    if (isUserInfo()) toolbar->setOn(btnInfo, true);
     return true;
 }
 
@@ -1033,22 +982,7 @@ void UserBox::showUser(unsigned long uin, int function, unsigned long param)
 
 void UserBox::setShow()
 {
-    show();
-    showNormal();
-#ifdef USE_KDE
-    KWin::setOnDesktop(winId(), KWin::currentDesktop());
-#endif
-    raise();
-    setActiveWindow();
-#ifdef USE_KDE
-    KWin::setActiveWindow(winId());
-#endif
-#ifdef WIN32
-    AttachThreadInput(GetWindowThreadProcessId(GetForegroundWindow(),NULL), GetCurrentThreadId(), TRUE);
-    SetForegroundWindow(winId());
-    SetFocus(winId());
-    AttachThreadInput(GetWindowThreadProcessId(GetForegroundWindow(),NULL), GetCurrentThreadId(), FALSE);
-#endif
+    raiseWindow(this);
 }
 
 bool UserBox::isShow()

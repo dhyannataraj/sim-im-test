@@ -93,6 +93,10 @@ const int mnuGo = 43;
 const int mnuMonitor = 44;
 const int mnuToolBar = 45;
 const int mnuAutoHide = 46;
+const int mnuGrpAlert = 50;
+const int mnuGrpAccept = 51;
+const int mnuGrpSound = 52;
+const int mnuGrpAR = 53;
 
 const int mnuGrpTitle    = 0x10000;
 const int mnuPopupStatus = 0x20000;
@@ -487,7 +491,6 @@ public:
     QStringList	searches;
 
     bool isHistory(unsigned long uin);
-    bool isUserInfo(unsigned long uin);
 
     void setUserBoxOnTop();
     bool isDock();

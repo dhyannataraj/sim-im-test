@@ -319,13 +319,7 @@ public:
     unsigned long	Uin;
     bool			WaitAuth;
 
-    string			AutoResponseAway;
-    string			AutoResponseNA;
-    string			AutoResponseDND;
-    string			AutoResponseOccupied;
-    string			AutoResponseFFC;
-
-    string AutoReply;
+    string			AutoReply;
 
     unsigned long uStatus;
     unsigned long prevStatus;

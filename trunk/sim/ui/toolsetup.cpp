@@ -26,10 +26,6 @@
 #include <qlistbox.h>
 #include <qregexp.h>
 
-#ifdef USE_KDE
-#include <kwin.h>
-#endif
-
 #include <vector>
 using namespace std;
 
@@ -286,16 +282,7 @@ void ToolBarSetup::show(const ToolBarDef *def, unsigned long **active)
         break;
     }
     if (wnd == NULL) wnd= new ToolBarSetup(def, active);
-    ((QWidget*)wnd)->show();
-    wnd->showNormal();
-#ifdef USE_KDE
-    KWin::setOnDesktop(wnd->winId(), KWin::currentDesktop());
-#endif
-    wnd->setActiveWindow();
-    wnd->raise();
-#ifdef USE_KDE
-    KWin::setActiveWindow(wnd->winId());
-#endif
+    raiseWindow(wnd);
     delete list;
 }
 
