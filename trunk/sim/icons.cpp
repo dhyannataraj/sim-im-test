@@ -658,8 +658,8 @@ void Icons::init(const char *name)
     Display *dsp = tmp.x11Display();
     Atom enlightenment_desktop = XInternAtom(dsp, "ENLIGHTENMENT_DESKTOP", false);
     WId w = tmp.winId();
-    WId p, r;
-    WId *c;
+    Window p, r;
+    Window *c;
     unsigned int nc;
     while (XQueryTree(dsp, w, &r, &p, &c, &nc)){
         if (c && nc > 0)
