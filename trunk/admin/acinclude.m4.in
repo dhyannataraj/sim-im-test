@@ -362,7 +362,15 @@ if test "$1" = "default"; then
     kde_htmldir='\${prefix}/share/doc/HTML'
   fi
   if test -z "$kde_appsdir"; then
-    kde_appsdir='\${prefix}/share/applnk'
+    if [ test -d ${prefix}/share/applnk-redhat/ ] ; then
+      kde_appsdir='\${prefix}/share/applnk-redhat'
+    else
+      if [ test -d ${prefix}/share/applnk-mdk/ ] ; then
+        kde_appsdir='\${prefix}/share/applnk-mdk'
+      else
+        kde_appsdir='\${prefix}/share/applnk'
+      fi
+    fi
   fi
   if test -z "$kde_icondir"; then
     kde_icondir='\${prefix}/share/icons'
