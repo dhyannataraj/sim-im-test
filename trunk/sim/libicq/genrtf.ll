@@ -248,6 +248,7 @@ string ICQClientPrivate::createRTF(const string &text, unsigned long foreColor, 
                     char b[5];
                     snprintf(b, sizeof(b), "\\\'%02x", *p & 0xFF);
                     res += b;
+					res += *p;
                     bSpace = false;
                     continue;
                 }

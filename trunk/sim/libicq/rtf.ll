@@ -39,6 +39,7 @@
 #define IMG					6
 #define UNICODE_CHAR		7
 #define SKIP				8
+#define SLASH				9
 
 #define YY_NEVER_INTERACTIVE	1
 #define YY_ALWAYS_INTERACTIVE	0
@@ -54,6 +55,7 @@
 
 "{"				{ return UP; }
 "}"				{ return DOWN; }
+"\\"[\\\{\}]	{ return SLASH; }
 "\\u"[0-9]{3,7}"?"		{ return UNICODE_CHAR; }
 "\\"[A-Za-z]+[0-9]*[ ]? 	{ return CMD; }
 "\\'"[0-9A-Fa-f][0-9A-Fa-f]	{ return HEX; }
@@ -734,6 +736,9 @@ string RTF2HTML::Parse(const char *rtf, const char *_encoding)
             }
         case SKIP:
             break;
+		case SLASH:
+			cur_level.setText(yytext+1);
+			break;
         case TXT:
             cur_level.setText(yytext);
             break;
