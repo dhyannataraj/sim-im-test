@@ -114,11 +114,11 @@ void SoundSetup::disableToggled(bool bOn)
     edtStartup->setEnabled(!bOn);
     edtFileDone->setEnabled(!bOn);
 #ifdef USE_KDE
-    chkArts->setEnabled(bOn);
+    chkArts->setEnabled(!bOn);
     artsToggled(chkArts->isChecked());
 #else
-    edtProgram->setEnabled(bOn);
-    lblProgram->setEnabled(bOn);
+    edtProgram->setEnabled(!bOn);
+    lblProgram->setEnabled(!bOn);
 #endif
 }
 

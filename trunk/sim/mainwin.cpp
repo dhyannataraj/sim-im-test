@@ -95,7 +95,6 @@ static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
 #include <qaccel.h>
 #include <qfile.h>
 #include <qmessagebox.h>
-#include <qdns.h>
 
 #ifdef USE_KDE
 #include <kwin.h>
@@ -673,10 +672,6 @@ MainWindow::MainWindow(const char *name)
     autoAwayTimer = new QTimer(this);
     connect(autoAwayTimer, SIGNAL(timeout()), this, SLOT(autoAway()));
     autoAwayTimer->start(10000);
-
-    QDns resolver;
-    resolver.setRecordType(QDns::A);
-    resolver.setLabel("localhost");
 
     pClient = new SIMClient(this);
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));

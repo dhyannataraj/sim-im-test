@@ -83,9 +83,15 @@ void SIMSockets::resultsReady()
 void SIMSockets::resolve(const char *host)
 {
     log(L_DEBUG, "Resolve set label %s", host);
-    resolver->setLabel(host);
+#ifndef WIN32
+    delete resolver;
+    resolver = new QDns(QString(host) + ".", QDns::A);
+    connect(resolver, SIGNAL(resultsReady()), this, SLOT(resultsReady()));
+#else
+    resolver->setLabel(QString(host) + ".");
     resolver->setRecordType(QDns::A);
-    timer->start(15000);
+#endif
+    timer->start(45000);
 }
 
 Socket *SIMSockets::createSocket()
@@ -197,7 +203,6 @@ void ICQClientSocket::connect(const char *host, int _port)
 {
     port = _port;
     log(L_DEBUG, "Connect to %s:%u", host, port);
-#ifdef WIN32
     if (inet_addr(host) == INADDR_NONE){
         log(L_DEBUG, "Start resolve %s", host);
         SIMSockets *s = static_cast<SIMSockets*>(getFactory());
@@ -205,7 +210,6 @@ void ICQClientSocket::connect(const char *host, int _port)
         s->resolve(host);
         return;
     }
-#endif
     resolveReady(host);
 }
 
