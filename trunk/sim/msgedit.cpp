@@ -1580,16 +1580,17 @@ QString MsgEdit::trim(const QString &s)
 
 QString MsgEdit::chunk(const QString &s, int len)
 {
-    int n;
+	if (s.length() < len) return s;
     QString res = s.left(len+1);
-    for (n = res.length() - 1; n >= 0; n--)
-        if (res[n].isSpace()) break;
-    for (; n >= 0; n--)
-        if (!res[n].isSpace()) break;
-    if (n < 0){
-        res = s.left(len);
-        return res;
-    }
+	int n = res.length() - 1;
+	for (n = res.length() - 1; n >= 0; n--)
+		if (res[n].isSpace()) break;
+	for (; n >= 0; n--)
+		if (!res[n].isSpace()) break;
+	if (n < 0){
+		res = s.left(len);
+		return res;
+	}
     res = s.left(n + 1);
     return res;
 }
