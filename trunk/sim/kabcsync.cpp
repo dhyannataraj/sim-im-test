@@ -44,7 +44,7 @@ bool KabcSync::open(void)
 		return false;
 		
 	m_pAB=StdAddressBook::self();
-	
+	m_pAB->addCustomField(i18n("IM Address"),KABC::Field::Personal,"X-IMAddress","KADDRESSBOOK");
 	m_bOpen=true;
 	return true;
 }
@@ -69,7 +69,7 @@ Addressee KabcSync::addresseeFromUser(SIMUser& u, Addressee* oldPers)
     if (pers.nickName().isEmpty())
         pers.setNickName(QString::fromLocal8Bit(u.Nick.c_str()));
 
-    pers.insertCustom("KADDRESSBOOK-X-CUSTOM","UIN",str.setNum(u.Uin));
+    pers.insertCustom("KADDRESSBOOK","X-IMAddress",str.setNum(u.Uin));
 
     if (pers.note().isEmpty())
         pers.setNote(QString::fromLocal8Bit(u.Notes.c_str()));
