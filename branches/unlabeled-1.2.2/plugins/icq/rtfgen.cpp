@@ -213,16 +213,15 @@ void RTFGenParser::text(const QString &text)
         s += c;
 
 		if (m_codec){
-        string plain;
-        plain = m_codec->fromUnicode(s.utf8());
-        if ((plain.length() == 1) && (m_codec->toUnicode(plain.c_str()) == s)){
-            char b[5];
-            snprintf(b, sizeof(b), "\\\'%02x", plain[0] & 0xFF);
-            res += b;
-            m_bSpace = false;
-            continue;
-        }
-
+			string plain;
+			plain = m_codec->fromUnicode(s);
+			if ((plain.length() == 1) && (m_codec->toUnicode(plain.c_str()) == s)){
+				char b[5];
+				snprintf(b, sizeof(b), "\\\'%02x", plain[0] & 0xFF);
+				res += b;
+				m_bSpace = false;
+				continue;
+			}
 		}
 
 		res += "\\u";

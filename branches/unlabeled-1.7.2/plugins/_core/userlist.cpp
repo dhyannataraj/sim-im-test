@@ -878,7 +878,7 @@ void UserListBase::deleteItem(QListViewItem *item)
 {
     if (item == NULL)
         return;
-    if (item == currentItem()){
+    if (item == currentItem()) {
         QListViewItem *nextItem = item->nextSibling();
         if (nextItem == NULL){
             if (item->parent()){
@@ -890,10 +890,15 @@ void UserListBase::deleteItem(QListViewItem *item)
                 if (nextItem->nextSibling() == item)
                     break;
         }
-        if (nextItem == NULL)
+        if (nextItem == NULL){
             nextItem = item->parent();
+			if (nextItem->firstChild() && (nextItem->firstChild() != item)){
+				for (nextItem = nextItem->firstChild(); nextItem; nextItem = nextItem->nextSibling())
+					if (nextItem->nextSibling() == item)
+						break;
+			}
+		}
         if (nextItem){
-            QString s = nextItem->text(0);
             setCurrentItem(nextItem);
             ensureItemVisible(nextItem);
         }

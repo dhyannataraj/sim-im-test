@@ -1180,6 +1180,7 @@ QTextCodec *ICQClient::_getCodec(const char *encoding)
         if (codec == NULL)
             codec= QTextCodec::codecForLocale();
     }
+	log(L_DEBUG, "Codec: %s", codec->name());
     return codec;
 }
 
@@ -2188,6 +2189,7 @@ void *ICQClient::processEvent(Event *e)
             }
         }
         if (cmd->id == plugin->CmdCheckInvisible){
+			cmd->flags &= ~COMMAND_CHECKED;
             if (getState() == Connected)
                 return e->param();
         }
