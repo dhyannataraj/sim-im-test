@@ -38,6 +38,7 @@ typedef struct msg_id
 
 class QWidget;
 class QTranslator;
+class QMimeSource;
 class Commands;
 class MainWindow;
 class UserView;
@@ -297,6 +298,7 @@ typedef struct MessageDef
     Message*			(*create)(const char *cfg);
     QObject*			(*show)(QWidget *custom, Message *msg);
     QObject*			(*generate)(QWidget *custom, Message *msg);
+    Message*			(*drag)(QMimeSource*);
 } MessageDef;
 
 class CorePlugin : public QObject, public Plugin, public EventReceiver

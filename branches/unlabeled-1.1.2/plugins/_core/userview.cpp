@@ -1074,43 +1074,78 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
             return;
         }
         break;
-    case USR_ITEM:
-        if (ContactDragObject::canDecode(e)){
-            Contact *contact = ContactDragObject::decode(e);
-            if (static_cast<ContactItem*>(item)->id() == contact->id()){
-                e->ignore();
-                return;
-            }
-            if (isDrop){
-                m_dropItem = item;
-                m_dropContactId = contact->id();
-                contact->setTemporary(contact->getTemporary() & ~CONTACT_DRAG);
-                QTimer::singleShot(0, this, SLOT(doDrop()));
-            }
-            e->accept();
-            return;
-        }
-        if (QUriDrag::canDecode(e)){
-            QStringList files;
-            if (QUriDrag::decodeLocalFiles(e, files) && files.count()){
+    case USR_ITEM:{
+            if (ContactDragObject::canDecode(e)){
+                Contact *contact = ContactDragObject::decode(e);
+                if (static_cast<ContactItem*>(item)->id() == contact->id()){
+                    e->ignore();
+                    return;
+                }
                 if (isDrop){
-                    QString fileName;
-                    for (QStringList::Iterator it = files.begin(); it != files.end(); ++it){
-                        if (!fileName.isEmpty())
-                            fileName += ",";
-                        fileName += "\"";
-                        fileName += *it;
-                        fileName += "\"";
-                    }
-                    FileMessage m;
-                    m.setContact(static_cast<ContactItem*>(item)->id());
-                    m.setFile(fileName);
-                    Event eMsg(EventOpenMessage, &m);
-                    eMsg.process();
+                    m_dropItem = item;
+                    m_dropContactId = contact->id();
+                    contact->setTemporary(contact->getTemporary() & ~CONTACT_DRAG);
+                    QTimer::singleShot(0, this, SLOT(doDrop()));
                 }
                 e->accept();
                 return;
             }
+            Message *msg = NULL;
+            CommandDef *cmd;
+            CommandsMapIterator it(CorePlugin::m_plugin->messageTypes);
+            while ((cmd = ++it) != NULL){
+                MessageDef *def = (MessageDef*)(cmd->param);
+                if (def && def->drag){
+                    msg = def->drag(e);
+                    if (msg){
+                        unsigned type = cmd->id;
+                        if (def->base_type){
+                            type = def->base_type;
+                            for (;;){
+                                const CommandDef *c = CorePlugin::m_plugin->messageTypes.find(type);
+                                if (c == NULL)
+                                    break;
+                                MessageDef *def = (MessageDef*)(cmd->param);
+                                if (def->base_type == 0)
+                                    break;
+                                type = def->base_type;
+                            }
+                        }
+                        Command cmd;
+                        cmd->id      = type;
+                        cmd->menu_id = MenuMessage;
+                        cmd->param	 = (void*)(static_cast<ContactItem*>(item)->id());
+                        Event e(EventCheckState, cmd);
+                        if (e.process())
+                            break;
+                    }
+                }
+            }
+            if (msg){
+                if (isDrop){
+                    msg->setContact(static_cast<ContactItem*>(item)->id());
+                    Event e(EventOpenMessage, msg);
+                    e.process();
+                }
+                delete msg;
+                return;
+            }
+            if (QTextDrag::canDecode(e)){
+                QString str;
+                if (QTextDrag::decode(e, str)){
+                    e->accept();
+                    if (isDrop){
+                        Message *msg = new Message(MessageGeneric);
+                        msg->setText(str);
+                        msg->setContact(static_cast<ContactItem*>(item)->id());
+                        Event e(EventOpenMessage, msg);
+                        e.process();
+                        delete msg;
+                    }
+                    return;
+                }
+            }
+            break;
         }
     }
     e->ignore();

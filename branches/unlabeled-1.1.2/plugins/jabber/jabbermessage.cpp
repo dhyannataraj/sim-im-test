@@ -70,6 +70,7 @@ static MessageDef defJabber =
         NULL,
         createJabberMessage,
         NULL,
+        NULL,
         NULL
     };
 
