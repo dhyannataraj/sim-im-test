@@ -305,8 +305,6 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
     m_listRequest = NULL;
     data.owner.DCcookie.value = rand();
     m_bBirthday = false;
-    m_infoTimer = new QTimer(this);
-    connect(m_infoTimer, SIGNAL(timeout()), this, SLOT(infoRequestFail()));
     m_sendTimer = new QTimer(this);
     connect(m_sendTimer, SIGNAL(timeout()), this, SLOT(sendTimeout()));
     m_processTimer = new QTimer(this);
@@ -323,7 +321,6 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
         }
     }
     disconnected();
-    m_infoRequestId = 0;
     m_bFirstTry = false;
     ContactList::ContactIterator it;
     Contact *contact;
@@ -637,7 +634,6 @@ void ICQClient::disconnected()
 {
     m_rates.clear();
     m_rate_grp.clear();
-    m_infoTimer->stop();
     m_sendTimer->stop();
     m_processTimer->stop();
     clearServerRequests();
@@ -1040,6 +1036,7 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
                     if (bChanged){
                         Event e(EventContactChanged, contact);
                         e.process();
+						updateInfo(contact, data);
                     }
                     return data;
                 }
@@ -1058,6 +1055,7 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
                     Event e(EventContactChanged, contact);
                     e.process();
                     m_bJoin = true;
+					updateInfo(contact, data);
                     return data;
                 }
             }
@@ -1082,6 +1080,7 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
         contact->setGroup(grp->id());
     Event e(EventContactChanged, contact);
     e.process();
+	updateInfo(contact, data);
     return data;
 }
 
@@ -1315,6 +1314,7 @@ void ICQClient::ping()
         }
         processSendQueue();
         checkListRequest();
+		checkInfoRequest();
         QTimer::singleShot(PING_TIMEOUT * 1000, this, SLOT(ping()));
     }
 }
@@ -2304,7 +2304,7 @@ void ICQClient::updateInfo(Contact *contact, void *_data)
     if (data == NULL)
         data = &this->data.owner;
     if (data->Uin.value){
-        addFullInfoRequest(data->Uin.value, false);
+        addFullInfoRequest(data->Uin.value);
         addPluginInfoRequest(data->Uin.value, PLUGIN_QUERYxINFO);
         addPluginInfoRequest(data->Uin.value, PLUGIN_QUERYxSTATUS);
         addPluginInfoRequest(data->Uin.value, PLUGIN_AR);

@@ -85,6 +85,8 @@ public:
     ~RadioGroup();
     bool isChecked();
     virtual void setTitle(const QString &);
+	void show();
+	void hide();
 signals:
     void toggled(bool);
 public slots:

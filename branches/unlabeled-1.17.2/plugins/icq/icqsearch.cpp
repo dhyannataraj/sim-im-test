@@ -43,12 +43,9 @@ ICQSearch::ICQSearch(ICQClient *client, QWidget *parent)
         edtScreen->setValidator(new RegExpValidator("[0-9A-Za-z]+", this));
         connect(grpScreen,	SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
         connect(grpAOL_UIN,	SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
-        delete grpUin;
-        grpUin = NULL;
-        delete grpAOL;
-        grpAOL = NULL;
-        delete grpName;
-        grpName = NULL;
+        grpUin->hide();
+        grpAOL->hide();
+        grpName->hide();
     }else{
         m_adv    = new AdvSearch;
         emit addResult(m_adv);
@@ -57,10 +54,8 @@ ICQSearch::ICQSearch(ICQClient *client, QWidget *parent)
         connect(grpUin,	SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
         connect(grpAOL,	SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
         connect(grpName, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
-        delete grpScreen;
-        grpScreen = NULL;
-        delete grpAOL_UIN;
-        grpAOL_UIN = NULL;
+        grpScreen->hide();
+        grpAOL_UIN->hide();
     }
     edtMail->setValidator(new EMailValidator(edtMail));
     connect(grpMail, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
@@ -84,10 +79,7 @@ void ICQSearch::advDestroyed()
 void ICQSearch::showEvent(QShowEvent *e)
 {
     ICQSearchBase::showEvent(e);
-    if (grpAOL)
-        emit setAdd(grpAOL->isChecked());
-    if (grpScreen)
-        emit setAdd(grpScreen->isChecked());
+    emit setAdd(grpAOL->isChecked() || grpScreen->isChecked());
     if (m_adv && m_bAdv)
         emit showResult(m_adv);
 }
@@ -95,10 +87,7 @@ void ICQSearch::showEvent(QShowEvent *e)
 void ICQSearch::radioToggled(bool)
 {
     setAdv(false);
-    if (grpAOL)
-        emit setAdd(grpAOL->isChecked());
-    if (grpScreen)
-        emit setAdd(grpScreen->isChecked());
+    emit setAdd(grpAOL->isChecked() || grpScreen->isChecked());
 }
 
 void ICQSearch::advClick()
@@ -120,7 +109,11 @@ void ICQSearch::setAdv(bool bAdv)
     if (is)
         btnAdvanced->setIconSet(*is);
     if (m_bAdv){
-        if (grpUin){
+        if (m_client->m_bAIM){
+            edtMail->setEnabled(false);
+            edtAOL_UIN->setEnabled(false);
+            edtScreen->setEnabled(false);
+		}else{
             edtMail->setEnabled(true);
             edtFirst->setEnabled(true);
             edtLast->setEnabled(true);
@@ -130,20 +123,16 @@ void ICQSearch::setAdv(bool bAdv)
             lblNick->setEnabled(true);
             edtUIN->setEnabled(false);
             edtAOL->setEnabled(false);
-        }else{
-            edtMail->setEnabled(false);
-            edtAOL_UIN->setEnabled(false);
-            edtScreen->setEnabled(false);
         }
         emit setAdd(false);
     }else{
-        if (grpUin){
+        if (m_client->m_bAIM){
+            grpScreen->slotToggled();
+            grpAOL_UIN->slotToggled();
+		}else{
             grpUin->slotToggled();
             grpAOL->slotToggled();
             grpName->slotToggled();
-        }else{
-            grpScreen->slotToggled();
-            grpAOL_UIN->slotToggled();
         }
         grpMail->slotToggled();
         radioToggled(false);
@@ -153,9 +142,9 @@ void ICQSearch::setAdv(bool bAdv)
 
 void ICQSearch::createContact(unsigned tmpFlags, Contact *&contact)
 {
-    if (grpScreen && grpScreen->isChecked() && !edtScreen->text().isEmpty())
+    if (!m_client->m_bAIM && grpScreen->isChecked() && !edtScreen->text().isEmpty())
         add(edtScreen->text(), tmpFlags, contact);
-    if (grpAOL && grpAOL->isChecked() && !edtAOL->text().isEmpty())
+    if (m_client->m_bAIM && grpAOL->isChecked() && !edtAOL->text().isEmpty())
         add(edtAOL->text(), tmpFlags, contact);
 }
 
@@ -261,26 +250,24 @@ void ICQSearch::search()
                        adv->edtNick->text().utf8(),
                        adv->edtZip->text().utf8(),
                        adv->edtState->text().utf8());
-    }else if (grpUin && grpUin->isChecked() && !edtUIN->text().isEmpty()){
+    }else if (!m_client->m_bAIM && grpUin->isChecked() && !edtUIN->text().isEmpty()){
         m_type = UIN;
         m_uin  = atol(edtUIN->text().latin1());
         icq_search();
-    }else if (grpMail && grpMail->isChecked() && !edtMail->text().isEmpty()){
+    }else if (grpMail->isChecked() && !edtMail->text().isEmpty()){
         if (!m_client->m_bAIM){
             m_type = Mail;
             m_mail = getContacts()->fromUnicode(0, edtMail->text());
             icq_search();
         }
         m_id_aim = m_client->aimEMailSearch(edtMail->text().utf8());
-    }else if (grpName && grpName->isChecked() &&
+    }else if (!m_client->m_bAIM && grpName->isChecked() &&
               (!edtFirst->text().isEmpty() || !edtLast->text().isEmpty() || !edtNick->text().isEmpty())){
-        if (!m_client->m_bAIM){
             m_type = Name;
             m_first		= getContacts()->fromUnicode(0, edtFirst->text());
             m_last		= getContacts()->fromUnicode(0, edtLast->text());
             m_nick		= getContacts()->fromUnicode(0, edtNick->text());
             icq_search();
-        }
         m_id_aim = m_client->aimInfoSearch(edtFirst->text().utf8(), edtLast->text().utf8(), NULL,
                                            NULL, NULL, NULL, NULL, edtNick->text().utf8(), NULL, NULL);
     }

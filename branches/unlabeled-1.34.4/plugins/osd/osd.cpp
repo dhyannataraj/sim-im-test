@@ -277,9 +277,15 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
 #endif
     QRect rcScreen = screenGeometry(nScreen);
     rcScreen = QRect(0, 0,
-                     rcScreen.width() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.value,
+                     rcScreen.width() / 2 - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.value,
                      rcScreen.height() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.value);
     QRect rc = p.boundingRect(rcScreen, AlignLeft | AlignTop | WordBreak, str);
+	if (rc.height() >= rcScreen.height() / 2){
+		rcScreen = QRect(0, 0,
+                     rcScreen.width() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.value,
+                     rcScreen.height() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.value);
+		rc = p.boundingRect(rcScreen, AlignLeft | AlignTop | WordBreak, str);
+	}
     p.end();
     if (data->EnableMessageShowContent.bValue && data->ContentLines.value){
         QFontMetrics fm(font());
