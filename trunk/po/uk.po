@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2003-01-12 01:58+0300\n"
-"PO-Revision-Date: 2003-01-03 21:32+0200\n"
+"PO-Revision-Date: 2003-01-12 18:45+0200\n"
 "Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1639,8 +1639,7 @@ msgstr "..."
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Ця програма поширюється під ліцензією GPL v2"
+msgstr "Ця програма поширюється під ліцензією GPL v2"
 
 #: chatwnd.cpp:75 qt3/i18n.cpp:139
 msgid "Save"
@@ -2184,8 +2183,7 @@ msgstr "%1 від %2"
 
 #: mainwin.cpp:1271 ui/logindlg.cpp:239
 msgid "Can't connect to proxy server"
-msgstr ""
-"Неможливо з'єднатися з проксі-сервером"
+msgstr "Неможливо з'єднатися з проксі-сервером"
 
 #: mainwin.cpp:1279 ui/logindlg.cpp:246
 msgid "Proxy server require authorization"
@@ -2219,8 +2217,7 @@ msgstr "&Ні"
 
 #: mainwin.cpp:1940
 msgid "Add %1 to ignore list ?"
-msgstr ""
-"Додати \"%1\" в список тих що ігноруються?"
+msgstr "Додати \"%1\" в список тих що ігноруються?"
 
 #: mainwin.cpp:2004
 msgid "In visible list"
@@ -2660,8 +2657,7 @@ msgstr "Розмір: %1 / Максимальний: %2"
 
 #: msgedit.cpp:1569
 msgid "Message will be split"
-msgstr ""
-"Повідомлення буде розділено на частини"
+msgstr "Повідомлення буде розділено на частини"
 
 #: msgedit.cpp:1744
 msgid "Decline reason"
@@ -2884,46 +2880,43 @@ msgstr "Автовідповідь"
 
 #: qt3/i18n.cpp:1
 msgid "Hu&e:"
-msgstr ""
+msgstr "Від&тінок:"
 
 #: qt3/i18n.cpp:3
-#, fuzzy
 msgid "&Sat:"
-msgstr "Штат:"
+msgstr "&Насиченість:"
 
 #: qt3/i18n.cpp:5
 msgid "&Val:"
-msgstr ""
+msgstr "&Значення:"
 
 #: qt3/i18n.cpp:7
 msgid "&Red:"
-msgstr ""
+msgstr "&Червоний:"
 
 #: qt3/i18n.cpp:9
-#, fuzzy
 msgid "&Green:"
-msgstr "Грецька"
+msgstr "&Зелений:"
 
 #: qt3/i18n.cpp:11
 msgid "Bl&ue:"
-msgstr ""
+msgstr "&Синій:"
 
 #: qt3/i18n.cpp:13
 msgid "A&lpha channel:"
-msgstr ""
+msgstr "Про&зорість:"
 
 #: qt3/i18n.cpp:15
 msgid "&Basic colors"
-msgstr ""
+msgstr "&Основні кольори"
 
 #: qt3/i18n.cpp:17
-#, fuzzy
 msgid "&Custom colors"
-msgstr "&Використовувати кольори системи"
+msgstr "&Власні кольори"
 
 #: qt3/i18n.cpp:19
 msgid "&Define Custom Colors >>"
-msgstr ""
+msgstr "&Визначити власні кольори >>"
 
 #: qt3/i18n.cpp:21
 msgid "OK"
@@ -2935,34 +2928,33 @@ msgstr "Відмінити"
 
 #: qt3/i18n.cpp:25
 msgid "&Add To Custom Colors"
-msgstr ""
+msgstr "&Добавити до власних кольорів"
 
 #: qt3/i18n.cpp:27
-#, fuzzy
 msgid "Select color"
-msgstr "Колір тексту"
+msgstr "Вибір кольору"
 
 #: qt3/i18n.cpp:29
 msgid "Copy or Move a File"
-msgstr ""
+msgstr "Копіювати або перемістити файл"
 
 #: qt3/i18n.cpp:31
-#, fuzzy, c-format
+#, c-format
 msgid "Read: %1"
-msgstr "%1 автовідповідь"
+msgstr "Читати: %1"
 
 #: qt3/i18n.cpp:33
 #, c-format
 msgid "Write: %1"
-msgstr ""
+msgstr "Записати: %1"
 
 #: qt3/i18n.cpp:37
 msgid "All files (*)"
-msgstr ""
+msgstr "Всі файли (*)"
 
 #: qt3/i18n.cpp:41
 msgid "Size"
-msgstr ""
+msgstr "Розмір"
 
 #: qt3/i18n.cpp:43 ui/phonebook.cpp:78
 msgid "Type"
@@ -2970,112 +2962,103 @@ msgstr "Тип"
 
 #: qt3/i18n.cpp:45
 msgid "Date"
-msgstr ""
+msgstr "Дата"
 
 #: qt3/i18n.cpp:47
 msgid "Attributes"
-msgstr ""
+msgstr "Атрибути"
 
 #: qt3/i18n.cpp:49
 msgid "Look &in:"
-msgstr ""
+msgstr "Знайти &в:"
 
 #: qt3/i18n.cpp:51
-#, fuzzy
 msgid "File &name:"
-msgstr "Ім'я:"
+msgstr "&Ім'я файлу:"
 
 #: qt3/i18n.cpp:53
-#, fuzzy
 msgid "File &type:"
-msgstr "Файл:"
+msgstr "&Тип файлу:"
 
 #: qt3/i18n.cpp:55
-#, fuzzy
 msgid "Back"
-msgstr "темний"
+msgstr "Назад"
 
 #: qt3/i18n.cpp:57
 msgid "One directory up"
-msgstr ""
+msgstr "Вверх"
 
 #: qt3/i18n.cpp:59
 msgid "Create New Folder"
-msgstr ""
+msgstr "Створити нову папку"
 
 #: qt3/i18n.cpp:61
 msgid "List View"
-msgstr ""
+msgstr "Список"
 
 #: qt3/i18n.cpp:63
-#, fuzzy
 msgid "Detail View"
-msgstr "&Деталі"
+msgstr "Деталі"
 
 #: qt3/i18n.cpp:65
 msgid "Preview File Info"
-msgstr ""
+msgstr "Попередній перегляд інформації"
 
 #: qt3/i18n.cpp:67
 msgid "Preview File Contents"
-msgstr ""
+msgstr "Попередній перегляд змісту"
 
 #: qt3/i18n.cpp:69
 msgid "Read-write"
-msgstr ""
+msgstr "Читати-писати"
 
 #: qt3/i18n.cpp:71
 msgid "Read-only"
-msgstr ""
+msgstr "Тільки для читання"
 
 #: qt3/i18n.cpp:73
 msgid "Write-only"
-msgstr ""
+msgstr "Тільки для запису"
 
 #: qt3/i18n.cpp:75
-#, fuzzy
 msgid "Inaccessible"
-msgstr "Невидимий"
+msgstr "Недоступний"
 
 #: qt3/i18n.cpp:77
 msgid "Symlink to File"
-msgstr ""
+msgstr "Посилання на файл"
 
 #: qt3/i18n.cpp:79
 msgid "Symlink to Directory"
-msgstr ""
+msgstr "Посилання на каталог"
 
 #: qt3/i18n.cpp:81
 msgid "Symlink to Special"
-msgstr ""
+msgstr "Спеціальне посилання"
 
 #: qt3/i18n.cpp:85
 msgid "Dir"
-msgstr ""
+msgstr "Каталог"
 
 #: qt3/i18n.cpp:87
-#, fuzzy
 msgid "Special"
-msgstr "Проверка орфографии"
+msgstr "Спеціальний"
 
 #: qt3/i18n.cpp:89 ui/fontsetupbase.cpp:168
 msgid "Open"
 msgstr "Відкрити"
 
 #: qt3/i18n.cpp:91
-#, fuzzy
 msgid "Save as"
-msgstr "Зберегти"
+msgstr "Зберегти як"
 
 #: qt3/i18n.cpp:93
-#, fuzzy
 msgid "&Open"
-msgstr "Відкрити"
+msgstr "&Відкрити"
 
 #: qt3/i18n.cpp:97
-#, fuzzy
 msgid "&Rename"
-msgstr "Перейменувати"
+msgstr "&Перейменувати"
 
 #: qt3/i18n.cpp:99 ui/logindlgbase.cpp:125 ui/phonebookbase.cpp:101
 msgid "&Delete"
@@ -3083,77 +3066,73 @@ msgstr "&Знищити"
 
 #: qt3/i18n.cpp:101
 msgid "R&eload"
-msgstr ""
+msgstr "Пере&читати"
 
 #: qt3/i18n.cpp:103
 msgid "Sort by &Name"
-msgstr ""
+msgstr "Сорутвати за &іменем"
 
 #: qt3/i18n.cpp:105
 msgid "Sort by &Size"
-msgstr ""
+msgstr "Сортувати за &розміром"
 
 #: qt3/i18n.cpp:107
 msgid "Sort by &Date"
-msgstr ""
+msgstr "Сортувати за &датою"
 
 #: qt3/i18n.cpp:109
 msgid "&Unsorted"
-msgstr ""
+msgstr "&Несортувати"
 
 #: qt3/i18n.cpp:111
-#, fuzzy
 msgid "Sort"
-msgstr "Спорт"
+msgstr "Сортування"
 
 #: qt3/i18n.cpp:113
 msgid "Show &hidden files"
-msgstr ""
+msgstr "Показати &сховані файли"
 
 #: qt3/i18n.cpp:115
-#, fuzzy
 msgid "the file"
-msgstr "Спільні файли"
+msgstr "файл"
 
 #: qt3/i18n.cpp:117
 msgid "the directory"
-msgstr ""
+msgstr "каталог"
 
 #: qt3/i18n.cpp:119
 msgid "the symlink"
-msgstr ""
+msgstr "посилання"
 
 #: qt3/i18n.cpp:121
-#, fuzzy, c-format
+#, c-format
 msgid "Delete %1"
-msgstr "Знищити \"%1\"?"
+msgstr "Знищити %1"
 
 #: qt3/i18n.cpp:123
 msgid "<qt>Do you really want to delete %1 \"%2\"?</qt>"
-msgstr ""
+msgstr "<qt>Ви дійсно хочите знищити %1 \"%2\"?</qt>"
 
 #: qt3/i18n.cpp:129
 msgid "New Folder 1"
-msgstr ""
+msgstr "Нова папка 1"
 
 #: qt3/i18n.cpp:131
 msgid "New Folder"
-msgstr ""
+msgstr "Нова папка"
 
 #: qt3/i18n.cpp:133
 #, c-format
 msgid "New Folder %1"
-msgstr ""
+msgstr "Нова папка %1"
 
 #: qt3/i18n.cpp:135
-#, fuzzy
 msgid "Find Directory"
-msgstr "Пошук користувача"
+msgstr "Знайти каталог"
 
 #: qt3/i18n.cpp:137
-#, fuzzy
 msgid "Directories"
-msgstr "Каталог для файлів"
+msgstr "Каталоги"
 
 #: qt3/i18n.cpp:144
 msgid ""
@@ -3161,46 +3140,45 @@ msgid ""
 "File not found.\n"
 "Check path and filename."
 msgstr ""
+"%1\n"
+"Файл не знайдено.\n"
+"Перевірте шлях і ім'я файлу."
 
 #: qt3/i18n.cpp:148
 msgid "ERROR"
-msgstr ""
+msgstr "ПОМИЛКА"
 
 #: qt3/i18n.cpp:150
-#, fuzzy
 msgid "&Font"
-msgstr "Шрифти"
+msgstr "&Шрифт"
 
 #: qt3/i18n.cpp:152
-#, fuzzy
 msgid "Font st&yle"
-msgstr "Шрифти"
+msgstr "&Стиль шрифта"
 
 #: qt3/i18n.cpp:154
 msgid "&Size"
-msgstr ""
+msgstr "&Розмір"
 
 #: qt3/i18n.cpp:156
 msgid "Effects"
-msgstr ""
+msgstr "Ефекти"
 
 #: qt3/i18n.cpp:158
 msgid "Stri&keout"
-msgstr ""
+msgstr "Пере&креслений"
 
 #: qt3/i18n.cpp:162
-#, fuzzy
 msgid "&Color"
-msgstr "&Кольори"
+msgstr "&Колір"
 
 #: qt3/i18n.cpp:164
 msgid "Sample"
-msgstr ""
+msgstr "Зразок"
 
 #: qt3/i18n.cpp:166
-#, fuzzy
 msgid "Scr&ipt"
-msgstr "Безпека"
+msgstr "На&черк"
 
 #: qt3/i18n.cpp:168
 msgid "Apply"
@@ -3212,9 +3190,8 @@ msgid "Close"
 msgstr "Закрити"
 
 #: qt3/i18n.cpp:172
-#, fuzzy
 msgid "Select Font"
-msgstr "Виберіть стиль:"
+msgstr "Вибір шрифта"
 
 #: qt3/i18n.cpp:174
 msgid "&OK"
@@ -3228,65 +3205,64 @@ msgid ""
 "X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more "
 "information.</p>"
 msgstr ""
+"<h3>Про Qt</h3><p>Ця програма Qt версії %1, a multiplatform C++ GUI "
+"toolkit from Trolltech. Qt provides single-source portability across Windows "
+"95/98/NT/2000, Linux, Solaris, HP-UX і інших версій Unix з "
+"X11.</p><p>Дивіться <tt>http://www.trolltech.com/qt/</tt> для "
+"детальнішої інформації.</p>"
 
 #: qt3/i18n.cpp:183
 msgid "Help"
-msgstr ""
+msgstr "Допомога"
 
 #: qt3/i18n.cpp:185
-#, fuzzy
 msgid "Defaults"
-msgstr "По-замовчуванню"
+msgstr "По змовчуванню"
 
 #: qt3/i18n.cpp:187
 msgid "< Back"
-msgstr ""
+msgstr "< Назад"
 
 #: qt3/i18n.cpp:189
-#, fuzzy
 msgid "Next >"
-msgstr "Наступний"
+msgstr "Вперед >"
 
 #: qt3/i18n.cpp:191
-#, fuzzy
 msgid "Finish"
-msgstr "Фінська"
+msgstr "Закінчення"
 
 #: qt3/i18n.cpp:193
-#, fuzzy
 msgid "Ctrl"
-msgstr "Ctrl+S"
+msgstr "Ctrl"
 
 #: qt3/i18n.cpp:195
 msgid "+"
-msgstr ""
+msgstr "+"
 
 #: qt3/i18n.cpp:197
-#, fuzzy
 msgid "Alt"
-msgstr "Попередження"
+msgstr "Alt"
 
 #: qt3/i18n.cpp:199
 msgid "Shift"
-msgstr ""
+msgstr "Shift"
 
 #: qt3/i18n.cpp:201
 #, c-format
 msgid "F%1"
-msgstr ""
+msgstr "F%1"
 
 #: qt3/i18n.cpp:203
 msgid "ctrl"
-msgstr ""
+msgstr "ctrl"
 
 #: qt3/i18n.cpp:205
 msgid "shift"
-msgstr ""
+msgstr "shift"
 
 #: qt3/i18n.cpp:207
-#, fuzzy
 msgid "alt"
-msgstr "Мальта"
+msgstr "alt"
 
 #: qt3/i18n.cpp:210
 msgid ""
@@ -3295,6 +3271,10 @@ msgid ""
 "to\n"
 "%2"
 msgstr ""
+"Неможливо перейменувати\n"
+"%1\n"
+"в\n"
+"%2"
 
 #: qt3/i18n.cpp:216
 #, c-format
@@ -3302,6 +3282,8 @@ msgid ""
 "Could not open\n"
 "%1"
 msgstr ""
+"Неможливо відкрити\n"
+"%1"
 
 #: qt3/i18n.cpp:220
 #, c-format
@@ -3309,182 +3291,167 @@ msgid ""
 "Could not write\n"
 "%1"
 msgstr ""
+"Неможливо записати\n"
+"%1"
 
 #: qt3/i18n.cpp:223
 msgid "Operation stopped by the user"
-msgstr ""
+msgstr "Операція зупинена користувачем"
 
 #: qt3/i18n.cpp:225
-#, fuzzy
 msgid "(unknown)"
-msgstr "Невідомий"
+msgstr "(невідомо)"
 
 #: qt3/i18n.cpp:227
 msgid "Host %1 found"
-msgstr ""
+msgstr "Вузол %1 знайдено"
 
 #: qt3/i18n.cpp:229
 msgid "Host found"
-msgstr ""
+msgstr "Вузол знайдено"
 
 #: qt3/i18n.cpp:231
-#, fuzzy, c-format
+#, c-format
 msgid "Connected to host %1"
-msgstr "З'єднання з %1 [%2]"
+msgstr "З'єднання з вузлом %1"
 
 #: qt3/i18n.cpp:233
-#, fuzzy
 msgid "Connected to host"
-msgstr "З'єднання з %1 [%2]"
+msgstr "З'єднання з сервером"
 
 #: qt3/i18n.cpp:235
-#, fuzzy
 msgid "Connection to %1 closed"
-msgstr "З'єднання з %1 [%2]"
+msgstr "З'єднання з вузлом %1 розірвано"
 
 #: qt3/i18n.cpp:237
-#, fuzzy
 msgid "Connection closed"
-msgstr "З'єднання"
+msgstr "З'єднання розірвано"
 
 #: qt3/i18n.cpp:239
-#, fuzzy
 msgid "Login Incorrect"
-msgstr "Ошибка регистрации"
+msgstr "Помилка реєстрації"
 
 #: qt3/i18n.cpp:241
-#, fuzzy, c-format
+#, c-format
 msgid "Col %1"
-msgstr "1"
+msgstr "Стовпчик %1"
 
 #: qt3/i18n.cpp:243
 #, c-format
 msgid "Row %1"
-msgstr ""
+msgstr "Стрічка %1"
 
 #: qt3/i18n.cpp:245
-#, fuzzy
 msgid "Undo"
-msgstr "Об'єднання"
+msgstr "Відмінити"
 
 #: qt3/i18n.cpp:247
 msgid "Redo"
-msgstr ""
+msgstr "Повторити"
 
 #: qt3/i18n.cpp:249
 msgid "Cut"
-msgstr ""
+msgstr "Вирізати"
 
 #: qt3/i18n.cpp:251 ui/fontsetupbase.cpp:166
 msgid "Copy"
 msgstr "Копіювати"
 
 #: qt3/i18n.cpp:253
-#, fuzzy
 msgid "Paste"
-msgstr "Вечірки"
+msgstr "Вставити"
 
 #: qt3/i18n.cpp:255
-#, fuzzy
 msgid "Clear"
-msgstr "Автомобілі"
+msgstr "Очистити"
 
 #: qt3/i18n.cpp:257
-#, fuzzy
 msgid "Select All"
-msgstr "Виберіть стиль:"
+msgstr "Виділити все"
 
 #: qt3/i18n.cpp:259
-#, fuzzy
 msgid "&Left"
-msgstr "Лівий верхній кут"
+msgstr "&Вліво"
 
 #: qt3/i18n.cpp:261
-#, fuzzy
 msgid "&Right"
-msgstr "легкий"
+msgstr "В&право"
 
 #: qt3/i18n.cpp:263
-#, fuzzy
 msgid "&Top"
-msgstr "&Копіювати"
+msgstr "В&верх"
 
 #: qt3/i18n.cpp:265
 msgid "&Bottom"
-msgstr ""
+msgstr "В&низ"
 
 #: qt3/i18n.cpp:267
-#, fuzzy
 msgid "R&estore"
-msgstr "Анекдоти"
+msgstr "В&ідновити"
 
 #: qt3/i18n.cpp:269
-#, fuzzy
 msgid "&Hide"
-msgstr "Панель, що сама ховається"
+msgstr "&Сховати"
 
 #: qt3/i18n.cpp:271
 msgid "Line Up Toolbars (compact)"
-msgstr ""
+msgstr "Вирівняти панелі інструментів (компактно)"
 
 #: qt3/i18n.cpp:273
 msgid "Line Up Toolbars (normal)"
-msgstr ""
+msgstr "Вирівняти панелі інструментів (звичайно)"
 
 #: qt3/i18n.cpp:275
 msgid "Paste special..."
-msgstr ""
+msgstr "Спеціальна вставка..."
 
 #: qt3/i18n.cpp:277
 msgid "What's this?"
-msgstr ""
+msgstr "Що це?"
 
 #: qt3/i18n.cpp:279
-#, fuzzy
 msgid "&Restore"
-msgstr "&Реєстрація"
+msgstr "&Відновити"
 
 #: qt3/i18n.cpp:281
-#, fuzzy
 msgid "&Move"
-msgstr "Режим"
+msgstr "&Перенести"
 
 #: qt3/i18n.cpp:283
 msgid "Mi&nimize"
-msgstr ""
+msgstr "З&горнути"
 
 #: qt3/i18n.cpp:285
 msgid "Ma&ximize"
-msgstr ""
+msgstr "Ро&згорнути"
 
 #: qt3/i18n.cpp:289
 msgid "&Roll up"
-msgstr ""
+msgstr "&Скрутити"
 
 #: qt3/i18n.cpp:291
 msgid "Minimize"
-msgstr ""
+msgstr "Згорнути"
 
 #: qt3/i18n.cpp:293
 msgid "Restore Down"
-msgstr ""
+msgstr "Відновити"
 
 #: qt3/i18n.cpp:295
 msgid "Maximize"
-msgstr ""
+msgstr "Розгорнути"
 
 #: qt3/i18n.cpp:297
 msgid "Roll up"
-msgstr ""
+msgstr "Скрутити"
 
 #: qt3/i18n.cpp:299
-#, fuzzy
 msgid "Restore Up"
-msgstr "Анекдоти"
+msgstr "Відновити"
 
 #: qt3/i18n.cpp:301
 msgid "Roll down"
-msgstr ""
+msgstr "Розкрутити"
 
 #: ui/aboutdlg.cpp:41
 msgid "%1 Version: %2"
@@ -3934,8 +3901,7 @@ msgstr "Вікно - розтягнути"
 
 #: ui/themesetup.cpp:205
 msgid "Need restart SIM for change language"
-msgstr ""
-"Потрібно перестартувати SIM для зміни мови"
+msgstr "Потрібно перестартувати SIM для зміни мови"
 
 #: ui/themesetup.cpp:215
 msgid "Default icons"
@@ -3954,13 +3920,12 @@ msgid "&Check again"
 msgstr "&Перевірити ще раз"
 
 #: ui/userinfo.cpp:145
-#, fuzzy
 msgid "User info - '%1'"
-msgstr "Інформація про користувача"
+msgstr "Інформація про користувача - '%1'"
 
 #: ui/userinfo.cpp:152
 msgid "Settings - group '%1'"
-msgstr ""
+msgstr "Налагодження - групи '%1'"
 
 #: ui/searchbase.cpp:246
 msgid "Online only"
@@ -4317,8 +4282,7 @@ msgstr "Режим користувача для прийому файлів"
 # #
 #: ui/acceptbase.cpp:174
 msgid "Automaitcaly open window"
-msgstr ""
-"Автоматично відкривати вікно повідомлень"
+msgstr "Автоматично відкривати вікно повідомлень"
 
 #: ui/acceptbase.cpp:175
 msgid "Run external program"
@@ -4829,8 +4793,7 @@ msgstr "&Прозорість"
 
 #: ui/themesetupbase.cpp:253
 msgid "Show main window in task manager"
-msgstr ""
-"Показувати основне вікно в панелі задач"
+msgstr "Показувати основне вікно в панелі задач"
 
 #: ui/themesetupbase.cpp:254
 msgid "Show user window in task manager"
@@ -4861,8 +4824,7 @@ msgid "Hide main window after"
 msgstr "Сховати головне вікно"
 
 #: ui/statussetupbase.cpp:110
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Заборонити попередження в стані "
 "\"Відійшов\", \"Не активний\", \"Зайнятий\""
@@ -5057,8 +5019,7 @@ msgstr ""
 
 #: ui/generalsecbase.cpp:191
 msgid "Reject &URL from unknown users"
-msgstr ""
-"Відкидати &URL від невідомих користувачів"
+msgstr "Відкидати &URL від невідомих користувачів"
 
 #: ui/generalsecbase.cpp:192
 msgid "Reject &World Wide pager messages"
@@ -5477,3 +5438,4 @@ msgstr "&Нотатки"
 
 #~ msgid "exist"
 #~ msgstr "существует"
+
