@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2002-07-26 05:27+0400\n"
-"PO-Revision-Date: 2002-07-25 20:13GMT\n"
+"PO-Revision-Date: 2002-07-26 04:02GMT\n"
 "Last-Translator: Crissi <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -608,9 +608,8 @@ msgid "All users"
 msgstr "Alle Benutzer"
 
 #: userbox.cpp:990
-#, fuzzy
 msgid "History loading"
-msgstr "Verlauf"
+msgstr "Verlauf laden"
 
 #: ui/searchbase.cpp:188 usertbl.cpp:109
 msgid "UIN"
@@ -1166,7 +1165,7 @@ msgstr "Menüschriftart"
 
 #: ui/fontsetupbase.cpp:166
 msgid "Use &own colors in history"
-msgstr ""
+msgstr "&Eigene Farben im Verlauf benutzen"
 
 #: ui/fontsetupbase.cpp:180
 msgid "Received messages color"
@@ -1231,8 +1230,7 @@ msgstr "Globalen Online-Alarm überschreiben"
 
 #: ui/alertdialogbase.cpp:95
 msgid "Activate online alert when user returns from Away or NA"
-msgstr ""
-"Online-Alarm aktivieren, wenn der Benutzer von NA oder Weg zurückkehrt"
+msgstr "Online-Alarm aktivieren, wenn der Benutzer von NA oder Weg zurückkehrt"
 
 #: ui/alertdialogbase.cpp:99
 msgid "Online alert options"
@@ -1420,8 +1418,7 @@ msgid "Show user window in task manager"
 msgstr "Benutzerfenster in Prozeßliste anzeigen"
 
 #: ui/statussetupbase.cpp:95
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -1582,8 +1579,7 @@ msgstr ";-)"
 
 #: about.cpp:295
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
 
 #~ msgid "Miscellanious"
 #~ msgstr "Verschiedenes"
@@ -1593,3 +1589,4 @@ msgstr ""
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
