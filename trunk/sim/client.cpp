@@ -42,6 +42,7 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <arpa/inet.h>
+#include <sys/socket.h>
 #endif
 
 #ifdef USE_KDE
