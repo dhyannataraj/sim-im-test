@@ -334,6 +334,7 @@ void ICQClient::setStatus(unsigned short status)
 
 void ICQClientPrivate::setStatus(unsigned short status)
 {
+	log(L_DEBUG, "Set sttaus: %X", status);
     if (status == ICQ_STATUS_OFFLINE){
         switch (m_state){
         case Reconnect:{

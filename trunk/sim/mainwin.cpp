@@ -1257,12 +1257,14 @@ void MainWindow::processEvent(ICQEvent *e)
             return;
         }
     case EVENT_PROXY_ERROR:{
+			log(L_DEBUG, "Set manual to offline (proxy error)");
             ManualStatus = ICQ_STATUS_OFFLINE;
             ProxyDialog d(this, i18n("Can't connect to proxy server"));
             d.exec();
             return;
         }
     case EVENT_PROXY_BAD_AUTH:{
+			log(L_DEBUG, "Set manual to offline (proxy bad auth)");
             ManualStatus = ICQ_STATUS_OFFLINE;
             ProxyDialog d(this, pClient->factory()->ProxyAuth ?
                           i18n("Proxy server require authorization") :
@@ -1277,6 +1279,7 @@ void MainWindow::processEvent(ICQEvent *e)
         return;
     case EVENT_ANOTHER_LOCATION:
         ManualStatus = ICQ_STATUS_OFFLINE;
+	    log(L_DEBUG, "Set manual to offline (another location)");
         pClient->setStatus(ICQ_STATUS_OFFLINE);
         setShow(true);
         BalloonMsg::message(i18n("Your UIN used from another location"), toolbar->getWidget(btnStatus));
@@ -1366,7 +1369,10 @@ void MainWindow::changeUIN()
 void MainWindow::saveState()
 {
     if ((pClient->owner->Uin == 0) || !bLocked) return;
-    if (m_bAutoAway || m_bAutoNA) ManualStatus = (unsigned long)m_autoStatus;
+    if (m_bAutoAway || m_bAutoNA){
+		log(L_DEBUG, "Set manual to %X (saveState)", m_autoStatus);
+		ManualStatus = (unsigned long)m_autoStatus;
+	}
     ShowOffline = toolbar->isOn(btnShowOffline);
     GroupMode = toolbar->isOn(btnGroupMode);
     Show = isShow();
@@ -1857,6 +1863,7 @@ void MainWindow::autoAway()
         if (((ManualStatus & 0xFF) == ICQ_STATUS_NA) ||
                 ((ManualStatus & 0xFF) == ICQ_STATUS_AWAY)){
             ManualStatus = (unsigned long)m_autoStatus;
+			log(L_DEBUG, "Set manual to %X (from auto away)", ManualStatus);
             realSetStatus();
         }
         return;
@@ -1869,6 +1876,7 @@ void MainWindow::autoAway()
             m_autoStatus = ManualStatus;
             m_bAutoNA = true;
         }
+		log(L_DEBUG, "Set manual to %X (auto na)", ManualStatus);
         ManualStatus = ICQ_STATUS_NA;
         realSetStatus();
         return;
@@ -1879,6 +1887,7 @@ void MainWindow::autoAway()
                 ((ManualStatus & 0xFF) == ICQ_STATUS_NA) ||
                 ((ManualStatus & 0xFF) == ICQ_STATUS_AWAY)) return;
         m_autoStatus = ManualStatus;
+		log(L_DEBUG, "Set manual to %X (auto away)", ManualStatus);
         ManualStatus = ICQ_STATUS_AWAY;
         realSetStatus();
         return;
@@ -1927,6 +1936,7 @@ void MainWindow::setStatus(int status)
 
 void MainWindow::realSetStatus()
 {
+	log(L_DEBUG, "Real set status %X", ManualStatus);
     pClient->setStatus(ManualStatus);
 }
 
