@@ -666,11 +666,11 @@ void PluginManagerPrivate::usage(const char *err)
         }
         text += "[";
         text += p.c_str();
-        if (bParam) text += " arg";
+        if (bParam) text += "<arg>";
         text += "] ";
         comment += "\t";
         comment += p.c_str();
-        if (bParam) comment += " arg";
+        if (bParam) comment += "<arg>";
         comment += "\t - ";
         comment += i18n((*itd).c_str());
         comment += "\n";
