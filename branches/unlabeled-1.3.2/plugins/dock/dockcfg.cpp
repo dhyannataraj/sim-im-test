@@ -21,9 +21,9 @@
 #include <qcheckbox.h>
 #include <qspinbox.h>
 #include <qpushbutton.h>
+#include <qlabel.h>
 #ifdef USE_KDE
-	#include <qlabel.h>
-	#include <kwin.h>
+#include <kwin.h>
 #endif
 
 DockCfg::DockCfg(QWidget *parent, DockPlugin *plugin)
