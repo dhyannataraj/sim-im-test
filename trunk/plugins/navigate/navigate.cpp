@@ -238,7 +238,7 @@ static DataDef navigateData[] =
         { "Browser", DATA_STRING, 1, "konqueror" },
         { "Mailer", DATA_STRING, 1, "kmail" },
 #else
-{ "Browser", DATA_STRING, 1, "netscape" },
+        { "Browser", DATA_STRING, 1, "netscape" },
         { "Mailer", DATA_STRING, 1, "netscape mailto:%s" },
 #endif
 #endif
@@ -301,8 +301,11 @@ void *NavigatePlugin::processEvent(Event *e)
         if (url.length() == 0)
             return NULL;
         int n = url.find(':');
+        /* in textshow.cpp file:// is deleted because it seems on some
+           Qt-version it is appended and on some not - so if no : is found,
+           append file:// */
         if (n < 0){
-            proto = "http";
+            proto = "file";
             url = proto + "://" + url;
         }else{
             proto = url.substr(0, n);

@@ -39,7 +39,7 @@
 %x x_link
 %%
 
-(http|https|ftp)"://"[A-Za-z0-9/\,\.\?\@\&:\;\(\)\-_\+\'\%=~\#]+	{ return URL; }
+((http|https|ftp)"://"|"file:///")[A-Za-z0-9/\,\.\?\@\&:\;\(\)\-_\+\'\%=~\#]+	{ return URL; }
 (mailto:)?[A-Za-z0-9\-_][A-Za-z0-9\-_\.]*\@([A-Za-z0-9\-]+\.)+[A-Za-z]+		{ return MAIL_URL; }
 "www."[A-Za-z0-9/\,\.\?\&:\;\(\)\-_\+\%=~\#\']+			{ return HTTP_URL; }
 "ftp."[A-Za-z0-9/\,\.:\;\-_\+~\']+				{ return FTP_URL; }
@@ -69,7 +69,7 @@ int yywrap() { return 1; }
 
 QString NavigatePlugin::parseUrl(const QString &text)
 {
-	QString str(text.utf8());
+    QCString str = text.utf8();
     YY_BUFFER_STATE yy_current_buffer = yy_scan_string(str);
     QString res;
     for (;;){
@@ -90,7 +90,7 @@ QString NavigatePlugin::parseUrl(const QString &text)
 			link = QString("http://") + link;
 			break;
         case FTP_URL:
-			link = QString("http://") + link;
+			link = QString("ftp://") + link;
 			break;
 		}
 		res += "<a href=\"";
