@@ -34,6 +34,8 @@
 #define SPACE		9
 #define COMMENT		10
 
+static string current_tag;
+
 %}
 
 %option nostack
@@ -46,6 +48,8 @@
 %x s_string1
 %x s_symbol
 %x s_comment
+%x s_script
+%x s_style
 %%
 
 [\xC0-\xDF][\x80-\xBF]		{ return TXT; }
@@ -53,7 +57,11 @@
 [\xF0-\xF7][\x00-\xFF]{3}	{ return TXT; }
 [\xF8-\xFB][\x00-\xFF]{4}	{ return TXT; }
 [\xFC-\xFD][\x00-\xFF]{5}	{ return TXT; }
-[ ]+						{ return SPACE; }
+<s_script>"</"[Ss][Cc][Rr][Ii][Pp][Tt]">"	{ BEGIN(INITIAL); return TAG_END; }
+<s_script>[^<]+				{ return TXT; }
+<s_style>"</"[Ss][Tt][Yy][Ll][Ee]">"		{ BEGIN(INITIAL); return TAG_END; }
+<s_style>[^<]+				{ return TXT; }
+<INITIAL>[ ]+				{ return SPACE; }
 "<!--"						{ BEGIN(s_comment); }
 "</"[A-Za-z]+">"			{ return TAG_END; }
 "<"[A-Za-z]+				{ BEGIN(s_tag); return TAG_START; }
@@ -61,7 +69,15 @@
 <s_tag>[A-Za-z]+			{ BEGIN(s_attr); return ATTR; }
 <s_tag>.					{ return SKIP; }
 <s_attr>"="					{ BEGIN(s_value); return SKIP; }
-<s_attr>">"					{ BEGIN(INITIAL); return TAG_CLOSE; }
+<s_attr>">"					{ if (current_tag == "script"){
+							    BEGIN(s_script);
+							  }else if (current_tag == "style"){
+							    BEGIN(s_style);
+							  }else{
+								BEGIN(INITIAL); 
+							  }
+							  return TAG_CLOSE; 
+							}
 <s_attr>[A-Za-z]			{ BEGIN(s_tag); unput(yytext[0]); return SKIP; }
 <s_attr>.					{ return SKIP; }
 <s_value>"\""				{ BEGIN(s_string); return SKIP; }
@@ -141,13 +157,32 @@ void HTMLParser::parse(const QString &str)
 	parse();
 }
 
-void HTMLParser::parse(Buffer &b)
+void HTMLParser::parse(Buffer &buf)
 {
 	p->init();
-	b << (char)0 << (char)0;
-    YY_BUFFER_STATE yy_current_buffer = yy_scan_buffer((char*)b.data(), b.size());
+	buf << (char)YY_END_OF_BUFFER_CHAR << (char)YY_END_OF_BUFFER_CHAR;
+    YY_BUFFER_STATE yy_current_buffer = yy_scan_buffer(buf.data(), buf.writePos());
 	parse();
 }
+
+typedef struct Symbol
+{
+	const char		*name;
+	unsigned short	value;
+} Symbol;
+
+static Symbol symbols[] = 
+{
+	{ "lt", (unsigned short)'<' },
+	{ "gt", (unsigned short)'>' },
+	{ "amp", (unsigned short)'&' },
+	{ "quot", (unsigned short)'\"' },
+	{ "nbsp", (unsigned short)' ' },
+	{ "deg",  176 },
+	{ "reg",  174 },
+	{ "copy", 169 },
+	{ NULL, NULL }
+};
 
 void HTMLParser::parse()
 {
@@ -169,6 +204,7 @@ void HTMLParser::parse()
 			s = yytext + 1;
 			p->tag = s.lower();
 			p->value = "";
+			current_tag = p->tag.latin1();
 			break;
 		case ATTR:
 			if (!p->attrs.empty())
@@ -197,27 +233,26 @@ void HTMLParser::parse()
 			if (s[(int)(s.length() - 1)] == ';')
 				s = s.left(s.length() - 1);
 			s = s.lower();
-			if (s == "lt"){
-				p->text += "<";
-			}else if (s == "gt"){
-				p->text += ">";
-			}else if (s == "amp"){
-				p->text += "&";
-			}else if (s == "quot"){
-				p->text += "\"";
-			}else if (s == "nbsp"){
-				p->text += " ";
-			}else if (s[0] == '#'){
-				bool bOk;				
-				unsigned short code;
-				if (s[1] == 'x')
-				   code = s.mid(2).toUShort(&bOk, 16); // hex
-				else
-				   code = s.mid(1).toUShort(&bOk, 10); // decimal
-				if (bOk)
-					p->text += QChar(code);
-			}else{
-				log(L_WARN, "HTML: Unknown symbol &%s;", s.latin1());
+			Symbol *ss;
+			for (ss = symbols; ss->name; ss++){
+				if (s == ss->name){
+					p->text += QChar(ss->value);
+					break;
+				}
+			}
+			if (ss->name == NULL){
+				if (s[0] == '#'){
+					bool bOk;				
+					unsigned short code;
+					if (s[1] == 'x')
+						code = s.mid(2).toUShort(&bOk, 16); // hex
+					else
+						code = s.mid(1).toUShort(&bOk, 10); // decimal
+					if (bOk)
+						p->text += QChar(code);
+				}else{
+					log(L_WARN, "HTML: Unknown symbol &%s;", s.latin1());
+				}
 			}
 			break;
 		}

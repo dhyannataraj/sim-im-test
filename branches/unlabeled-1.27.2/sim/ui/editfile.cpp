@@ -107,6 +107,11 @@ void EditFile::setReadOnly(bool state)
     edtFile->setReadOnly(state);
 }
 
+void EditFile::setCreate(bool create)
+{
+	bCreate = create;
+}
+
 void EditFile::showFiles()
 {
     QString s = edtFile->text();
