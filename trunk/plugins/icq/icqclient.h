@@ -532,7 +532,7 @@ public:
     static unsigned warnLevel(unsigned short);
     static unsigned clearTags(QString &text);
     bool m_bAIM;
-    static QString ICQClient::addCRLF(const QString &str);
+    static QString addCRLF(const QString &str);
 protected slots:
     void ping();
     void infoRequest();
