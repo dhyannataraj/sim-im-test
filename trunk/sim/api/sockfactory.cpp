@@ -405,16 +405,16 @@ void SIMServerSocket::bind(const char *path)
     }
     sock->setSocket(s, QSocketDevice::Stream);
 
-    struct sockaddr_un sun;
-    sun.sun_family = AF_UNIX;
-    strcpy(sun.sun_path, QFile::encodeName(m_name));
-    if (::bind(s, (struct sockaddr*)&sun, sizeof(sun)) < 0){
-        log(L_WARN, "Can't bind %s: %s", sun.sun_path, strerror(errno));
+    struct sockaddr_un sunx;
+    sunx.sun_family = AF_UNIX;
+    strcpy(sunx.sun_path, QFile::encodeName(m_name));
+    if (::bind(s, (struct sockaddr*)&sunx, sizeof(sunx)) < 0){
+        log(L_WARN, "Can't bind %s: %s", sunx.sun_path, strerror(errno));
         error("Can't bind");
         return;
     }
     if (::listen(s, 156) < 0){
-        log(L_WARN, "Can't listen %s: %s", sun.sun_path, strerror(errno));
+        log(L_WARN, "Can't listen %s: %s", sunx.sun_path, strerror(errno));
         error("Can't listen");
         return;
     }
