@@ -153,6 +153,7 @@ protected:
     EditSpell *edit;
     ICQEvent *sendEvent;
     bool bCloseSend;
+    bool bInIgnore;
     QString msgTail;
 };
 

@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "generalsec.h"
+#include "helpedit.h"
 #include "icons.h"
 #include "client.h"
 
@@ -38,14 +39,32 @@ GeneralSecurity::GeneralSecurity(QWidget *p)
     chkRejectWeb->setChecked(pClient->RejectWeb());
     chkRejectEmail->setChecked(pClient->RejectEmail());
     chkRejectOther->setChecked(pClient->RejectOther());
-	edtFilter->setText(QString::fromLocal8Bit(pClient->RejectFilter.c_str()));
+    edtFilter->setText(QString::fromLocal8Bit(pClient->RejectFilter.c_str()));
     grpDirect->setButton(pClient->DirectMode());
-	rejectToggled(chkRejectMsg->isEnabled());
-	connect(chkRejectMsg, SIGNAL(toggled(bool)), this, SLOT(rejectToggled(bool)));
+    rejectToggled(chkRejectMsg->isChecked());
+    connect(chkRejectMsg, SIGNAL(toggled(bool)), this, SLOT(rejectToggled(bool)));
+    edtFilter->helpText = i18n(
+                              "Words are divided by any separators (space, comma, i.e.)\n"
+                              "Phrase (sequence of words) consists in quotas\n"
+                              "Words can contain wildcards:\n"
+                              "* - any amount of symbols (or is empty)\n"
+                              "? - any symbol\n");
+    connect(chkAuth, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
+    connect(chkWebAware, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
+    connect(chkHiddenIP, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
+    connect(chkRejectMsg, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
+    connect(chkRejectURL, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
+    connect(chkRejectWeb, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
+    connect(chkRejectEmail, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
+    connect(chkRejectOther, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
+    connect(btnDAll, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
+    connect(btnDContact, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
+    connect(btnDAuth, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
 }
 
 void GeneralSecurity::apply(ICQUser*)
 {
+    hideHelp(false);
     pClient->setSecurityInfo(chkAuth->isChecked(), chkWebAware->isChecked());
     pClient->HideIp = chkHiddenIP->isChecked();
     pClient->RejectMessage = chkRejectMsg->isChecked();
@@ -53,7 +72,8 @@ void GeneralSecurity::apply(ICQUser*)
     pClient->RejectWeb = chkRejectWeb->isChecked();
     pClient->RejectEmail = chkRejectEmail->isChecked();
     pClient->RejectOther = chkRejectOther->isChecked();
-	pClient->setRejectFilter(edtFilter->text().local8Bit());
+    pClient->setRejectFilter(edtFilter->text().local8Bit());
+    edtFilter->setText(QString::fromLocal8Bit(pClient->RejectFilter.c_str()));
     if (grpDirect->selected())
         pClient->DirectMode = grpDirect->id(grpDirect->selected());
     if (pClient->m_state == ICQClient::Logged)
@@ -62,8 +82,13 @@ void GeneralSecurity::apply(ICQUser*)
 
 void GeneralSecurity::rejectToggled(bool bOn)
 {
-	lblFilter->setEnabled(!bOn);
-	edtFilter->setEnabled(!bOn);
+    lblFilter->setEnabled(!bOn);
+    edtFilter->setEnabled(!bOn);
+}
+
+void GeneralSecurity::hideHelp(bool)
+{
+    edtFilter->closeHelp();
 }
 
 #ifndef _WINDOWS

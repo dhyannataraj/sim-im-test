@@ -128,174 +128,176 @@ const char *ICQClient::serverCharset()
 class WordIterator
 {
 public:
-	WordIterator(const QString &s);
-	QString operator *();
-	bool operator++();
-	bool getNext();
-	void back();
+    WordIterator(const QString &s);
+    QString operator *();
+    bool operator++();
+    bool getNext();
+    void back();
 protected:
-	QString getNextWord();
-	QString str;
-	int pos;
-	QStringList words;
-	unsigned nWord;
+    QString getNextWord();
+    QString str;
+    int pos;
+    QStringList words;
+    unsigned nWord;
 };
 
 WordIterator::WordIterator(const QString &s)
 {
-	str = s;
-	pos = 0;
-	nWord = 0;
-	++(*this);
+    str = s;
+    pos = 0;
+    nWord = 0;
+    ++(*this);
 }
 
 QString WordIterator::operator *()
 {
-	if (nWord) return words[nWord-1];
-	return str;
+    if (nWord) return words[nWord-1];
+    return str;
 }
 
 void WordIterator::back()
 {
-	nWord = 0;
+    nWord = 0;
 }
 
 bool WordIterator::operator ++()
 {
-	if (words.count()){
-		QStringList::Iterator it = words.begin();
-		str = *it;
-		words.remove(it);
-		nWord = 0;
-		return true;
-	}
-	str = getNextWord();
-	return !str.isEmpty();
+    if (words.count()){
+        QStringList::Iterator it = words.begin();
+        str = *it;
+        words.remove(it);
+        nWord = 0;
+        return true;
+    }
+    str = getNextWord();
+    return !str.isEmpty();
 }
 
 QString WordIterator::getNextWord()
 {
-	QString res;
-	for (; pos < str.length(); pos++){
-		QChar c = str[pos];
-		if (c.isLetterOrNumber()) break;
-	}
-	for (; pos < str.length(); pos++){
-		if (!str[pos].isLetterOrNumber()) break;
-		res += str[pos];
-	}
-	return res;
+    QString res;
+    for (; pos < str.length(); pos++){
+        QChar c = str[pos];
+        if (c.isLetterOrNumber()) break;
+    }
+    for (; pos < str.length(); pos++){
+        if (!str[pos].isLetterOrNumber()) break;
+        res += str[pos];
+    }
+    return res;
 }
 
 bool WordIterator::getNext()
 {
-	if (nWord < words.count()){
-		nWord++;
-		return true;
-	}
-	QString w = getNextWord();
-	if (w.isEmpty()) return false;
-	words.append(w);
-	nWord++;
-	return true;
+    if (nWord < words.count()){
+        nWord++;
+        return true;
+    }
+    QString w = getNextWord();
+    if (w.isEmpty()) return false;
+    words.append(w);
+    nWord++;
+    return true;
 }
 
 static bool match(const QString &str, const QString &pat, int strPos=0, int patPos=0)
 {
-	for (; (strPos < str.length()) && (patPos < pat.length()); strPos++, patPos++){
-		if (pat[patPos] == '?') continue;
-		if (pat[patPos] == '*'){
-			for (patPos++; (patPos < pat.length()) && (pat[patPos] == '*'); patPos++);
-			for (int sp = strPos; sp < str.length(); sp++){
-				if (match(str, pat, sp, patPos)) return true;
-			}
-			return false;
-		}
-		if (str[strPos] != pat[patPos]) return false;
-	}
-	for (; (patPos < pat.length()) && (pat[patPos] == '*'); patPos++);
-	return (strPos == str.length()) && (patPos == pat.length());
+    for (; (strPos < str.length()) && (patPos < pat.length()); strPos++, patPos++){
+        if (pat[patPos] == '?') continue;
+        if (pat[patPos] == '*'){
+            for (patPos++; (patPos < pat.length()) && (pat[patPos] == '*'); patPos++);
+            for (int sp = strPos; sp < str.length(); sp++){
+                if (match(str, pat, sp, patPos)) return true;
+            }
+            return false;
+        }
+        if (str[strPos].lower() != pat[patPos].lower()) return false;
+    }
+    for (; (patPos < pat.length()) && (pat[patPos] == '*'); patPos++);
+    return (strPos == str.length()) && (patPos == pat.length());
 }
 
 typedef QValueList<QStringList> PatList;
 
 static void splitPat(PatList &pats, const QString &pat)
 {
-	bool inQuote = false;
-	QStringList l;
-	for (int n = 0; n < pat.length(); n++){
-		QChar c = pat[n];
-		if (c == '\"'){
-			inQuote = !inQuote;
-			if (l.count()){
-				pats.append(l);
-				l.clear();
-			}
-			continue;
-		}
-		if ((c != '?') && (c != '*') && !c.isLetterOrNumber())
-			continue;
-		QString s;
-		for (; n < pat.length(); n++){
-			QChar c = pat[n];
-			if ((c != '?') && (c != '*') && !c.isLetterOrNumber()) break;
-		}
-		if (!s.isEmpty()){
-			if (!inQuote && l.count()){
-				pats.append(l);
-				l.clear();
-			}
-			l.append(s);
-		}
-		n--;
-	}
-	if (l.count())
-		pats.append(l);
+    bool inQuote = false;
+    QStringList l;
+    for (int n = 0; n < pat.length(); n++){
+        QChar c = pat[n];
+        if (c == '\"'){
+            inQuote = !inQuote;
+            if (l.count()){
+                pats.append(l);
+                l.clear();
+            }
+            continue;
+        }
+        if ((c != '?') && (c != '*') && !c.isLetterOrNumber())
+            continue;
+        QString s;
+        for (; n < pat.length(); n++){
+            QChar c = pat[n];
+            if ((c != '?') && (c != '*') && !c.isLetterOrNumber()) break;
+            s += c;
+        }
+        if (!s.isEmpty()){
+            if (!inQuote && l.count()){
+                pats.append(l);
+                l.clear();
+            }
+            l.append(s);
+        }
+        n--;
+    }
+    if (l.count())
+        pats.append(l);
 }
 
 bool ICQClient::match(const char *sStr, const char *sPat)
 {
-	QString str = QString::fromLocal8Bit(sStr);
-	QString pat = QString::fromLocal8Bit(sPat);
-	PatList pats;
-	splitPat(pats, pat);
-	for (WordIterator it(str); !(*it).isEmpty(); ++it){
-		for (PatList::Iterator itPat = pats.begin(); itPat != pats.end(); ++itPat){
-			QStringList::Iterator itStr;
-			for (itStr = (*itPat).begin(); itStr != (*itPat).end(); ++itStr, it.getNext())
-				if (!match(*it, *itStr)) break;
-			if (itStr == (*itPat).end()) return true;
-			it.back();
-		}
-	}
-	return false;
+    QString str = QString::fromLocal8Bit(sStr);
+    QString pat = QString::fromLocal8Bit(sPat);
+    PatList pats;
+    splitPat(pats, pat);
+    for (WordIterator it(str); !(*it).isEmpty(); ++it){
+        for (PatList::Iterator itPat = pats.begin(); itPat != pats.end(); ++itPat){
+            QStringList::Iterator itStr;
+            for (itStr = (*itPat).begin(); itStr != (*itPat).end(); ++itStr, it.getNext())
+                if (!match(*it, *itStr)) break;
+            if (itStr == (*itPat).end()) return true;
+            it.back();
+        }
+    }
+    return false;
 }
 
 void ICQClient::setRejectFilter(const char *fltr)
 {
-	RejectFilter = "";
-	if (fltr == NULL){
-		return;
-	}
-	PatList pats;
-	splitPat(pats, QString::fromLocal8Bit(fltr));
-	bool bFirstPat = true;
-	for (PatList::Iterator itPat = pats.begin(); itPat != pats.end(); ++itPat){
-		if (!bFirstPat){
-			RejectFilter += ' ';
-		}else{
-			bFirstPat = false;
-		}
-		if ((*itPat).count() > 1) RejectFilter += '\"';
-		bool bFirstWord = true;
-		for (QStringList::Iterator itStr = (*itPat).begin(); itStr != (*itPat).end(); ++itStr){
-			if (!bFirstWord){
-				RejectFilter += ' ';
-			}else{
-				bFirstWord = false;
-			}
-			RejectFilter += (*itStr).local8Bit();
-		}
-	}
+    RejectFilter = "";
+    if (fltr == NULL){
+        return;
+    }
+    PatList pats;
+    splitPat(pats, QString::fromLocal8Bit(fltr));
+    bool bFirstPat = true;
+    for (PatList::Iterator itPat = pats.begin(); itPat != pats.end(); ++itPat){
+        if (!bFirstPat){
+            RejectFilter += ' ';
+        }else{
+            bFirstPat = false;
+        }
+        if ((*itPat).count() > 1) RejectFilter += '\"';
+        bool bFirstWord = true;
+        for (QStringList::Iterator itStr = (*itPat).begin(); itStr != (*itPat).end(); ++itStr){
+            if (!bFirstWord){
+                RejectFilter += ' ';
+            }else{
+                bFirstWord = false;
+            }
+            RejectFilter += (*itStr).local8Bit();
+        }
+        if ((*itPat).count() > 1) RejectFilter += '\"';
+    }
 }
 

@@ -6,25 +6,25 @@
         <name>name</name>
         <cstring>generalSecurity</cstring>
     </property>
-    <property stdset="1">
+    <property>
         <name>geometry</name>
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>552</width>
+            <width>540</width>
             <height>594</height>
         </rect>
     </property>
-    <property stdset="1">
+    <property>
         <name>caption</name>
         <string>Form1</string>
     </property>
     <vbox>
-        <property stdset="1">
+        <property>
             <name>margin</name>
             <number>11</number>
         </property>
-        <property stdset="1">
+        <property>
             <name>spacing</name>
             <number>6</number>
         </property>
@@ -35,11 +35,11 @@
                 <cstring>Layout2</cstring>
             </property>
             <hbox>
-                <property stdset="1">
+                <property>
                     <name>margin</name>
                     <number>0</number>
                 </property>
-                <property stdset="1">
+                <property>
                     <name>spacing</name>
                     <number>6</number>
                 </property>
@@ -49,11 +49,11 @@
                         <name>name</name>
                         <cstring>lblPict</cstring>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>frameShape</name>
                         <enum>NoFrame</enum>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>text</name>
                         <string></string>
                     </property>
@@ -64,21 +64,21 @@
                         <name>name</name>
                         <cstring>lblHead</cstring>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>sizePolicy</name>
                         <sizepolicy>
                             <hsizetype>7</hsizetype>
                             <vsizetype>1</vsizetype>
                         </sizepolicy>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>font</name>
                         <font>
                             <pointsize>9</pointsize>
                             <bold>1</bold>
                         </font>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>text</name>
                         <string>Security</string>
                     </property>
@@ -91,7 +91,7 @@
                 <name>name</name>
                 <cstring>Line3</cstring>
             </property>
-            <property stdset="1">
+            <property>
                 <name>minimumSize</name>
                 <size>
                     <width>0</width>
@@ -102,7 +102,7 @@
                 <name>frameShape</name>
                 <enum>HLine</enum>
             </property>
-            <property stdset="1">
+            <property>
                 <name>frameShadow</name>
                 <enum>Sunken</enum>
             </property>
@@ -121,7 +121,7 @@
                 <name>name</name>
                 <cstring>chkAuth</cstring>
             </property>
-            <property stdset="1">
+            <property>
                 <name>text</name>
                 <string>My &amp;authorization is required before users add me to Contact List</string>
             </property>
@@ -132,7 +132,7 @@
                 <name>name</name>
                 <cstring>chkWebAware</cstring>
             </property>
-            <property stdset="1">
+            <property>
                 <name>text</name>
                 <string>Allow others to view my &amp;status from the Web</string>
             </property>
@@ -143,7 +143,7 @@
                 <name>name</name>
                 <cstring>chkHiddenIP</cstring>
             </property>
-            <property stdset="1">
+            <property>
                 <name>text</name>
                 <string>Don't show my &amp;IP-address</string>
             </property>
@@ -154,16 +154,16 @@
                 <name>name</name>
                 <cstring>grpDirect</cstring>
             </property>
-            <property stdset="1">
+            <property>
                 <name>title</name>
                 <string>Direct connection</string>
             </property>
             <vbox>
-                <property stdset="1">
+                <property>
                     <name>margin</name>
                     <number>11</number>
                 </property>
-                <property stdset="1">
+                <property>
                     <name>spacing</name>
                     <number>6</number>
                 </property>
@@ -173,7 +173,7 @@
                         <name>name</name>
                         <cstring>btnDAll</cstring>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>text</name>
                         <string>Allow &amp;direct connection from any user</string>
                     </property>
@@ -184,7 +184,7 @@
                         <name>name</name>
                         <cstring>btnDContact</cstring>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>text</name>
                         <string>Allow direct connection from user listed in &amp;contact list</string>
                     </property>
@@ -195,7 +195,7 @@
                         <name>name</name>
                         <cstring>btnDAuth</cstring>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>text</name>
                         <string>Allow direct connection from user &amp;upon authorization</string>
                     </property>
@@ -208,16 +208,16 @@
                 <name>name</name>
                 <cstring>GroupBox1</cstring>
             </property>
-            <property stdset="1">
+            <property>
                 <name>title</name>
                 <string>Reject messages</string>
             </property>
             <vbox>
-                <property stdset="1">
+                <property>
                     <name>margin</name>
                     <number>11</number>
                 </property>
-                <property stdset="1">
+                <property>
                     <name>spacing</name>
                     <number>6</number>
                 </property>
@@ -227,7 +227,7 @@
                         <name>name</name>
                         <cstring>chkRejectMsg</cstring>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>text</name>
                         <string>Reject &amp;messages from unknown users</string>
                     </property>
@@ -238,7 +238,7 @@
                         <name>name</name>
                         <cstring>chkRejectURL</cstring>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>text</name>
                         <string>Reject &amp;URL from unknown users</string>
                     </property>
@@ -249,7 +249,7 @@
                         <name>name</name>
                         <cstring>chkRejectWeb</cstring>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>text</name>
                         <string>Reject &amp;World Wide pager messages</string>
                     </property>
@@ -260,7 +260,7 @@
                         <name>name</name>
                         <cstring>chkRejectEmail</cstring>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>text</name>
                         <string>Reject &amp;EmailExpress messages</string>
                     </property>
@@ -271,7 +271,7 @@
                         <name>name</name>
                         <cstring>chkRejectOther</cstring>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>text</name>
                         <string>Reject &amp;other messages</string>
                     </property>
@@ -282,13 +282,13 @@
                         <name>name</name>
                         <cstring>lblFilter</cstring>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>text</name>
-                        <string>Reject messages from unknown users contains this words:</string>
+                        <string>Reject messages from unknown users contains this words or phrases:</string>
                     </property>
                 </widget>
                 <widget>
-                    <class>QLineEdit</class>
+                    <class>HelpEdit</class>
                     <property stdset="1">
                         <name>name</name>
                         <cstring>edtFilter</cstring>
@@ -334,11 +334,29 @@
         </sizepolicy>
         <pixmap>image0</pixmap>
     </customwidget>
+    <customwidget>
+        <class>HelpEdit</class>
+        <header location="local">helpedit.h</header>
+        <sizehint>
+            <width>-1</width>
+            <height>-1</height>
+        </sizehint>
+        <container>0</container>
+        <sizepolicy>
+            <hordata>7</hordata>
+            <verdata>7</verdata>
+        </sizepolicy>
+        <pixmap>image1</pixmap>
+    </customwidget>
 </customwidgets>
 <images>
     <image>
         <name>image0</name>
         <data format="XPM.GZ" length="646">789c6dd2c10ac2300c00d07bbf2234b7229d1be245fc04c5a3201e4615f430059d0711ff5ddb2e6bb236ec90eed134cb5a19d8ef36602af5ecdbfeeac05dda0798d3abebde87e3faa374d3807fa0d633a52d38d8de6f679fe33fc776e196f53cd010188256a3600a292882096246517815ca99884606e18044a3a40d91824820924265a7923a2e8bcd05f33db1173e002913175f2a6be6d3294871a2d95fa00e8a94ee017b69d339d90df1e77c57ea072ede6758</data>
+    </image>
+    <image>
+        <name>image1</name>
+        <data format="XPM.GZ" length="646">789c6dd2c10ac2300c00d07bbf2234b7229d1ddec44f503c0ae2a154410f53d0ed20e2bf6bdb656dd6861dd23d9a66591b0587fd1654235ebded6f0edcd53e419d87ae7b1f4f9b8f906d0bfe012317426a70b07bdc2f3ec77f8ed6b89559061a0343d06a124cc105596482585094bc0ae599b04646c9018926491b2205e140c485cace25755c175d0a967b622ff900b8cc9c7d29af594ea722d589167f813aa852ba07d94b9dce296e883fe7bb163f23896753</data>
     </image>
 </images>
 </UI>

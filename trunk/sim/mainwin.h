@@ -174,8 +174,8 @@ public:
     ConfigString UserBoxToolbarDock;
     ConfigShort	 UserBoxToolbarOffset;
     ConfigShort  UserBoxToolbarY;
- 
-	ConfigString UserBoxFontFamily;
+
+    ConfigString UserBoxFontFamily;
     ConfigUShort UserBoxFontSize;
     ConfigUShort UserBoxFontWeight;
     ConfigBool   UserBoxFontItalic;

@@ -56,7 +56,7 @@
 #include <qheader.h>
 
 SetupDialog::SetupDialog(QWidget *parent, int nWin)
-        : SetupDialogBase(parent, "setup", false, WStyle_Minimize)
+        : SetupDialogBase(NULL, "setup", false, WStyle_Minimize)
 {
     new TransparentTop(this, pMain->UseTransparentContainer, pMain->TransparentContainer);
 

@@ -840,7 +840,7 @@ void UserView::processEvent(ICQEvent *e)
     case EVENT_GROUP_CREATED:
         refresh();
         if (!bList){
-			pMain->setShow(true);
+            pMain->setShow(true);
             grp_id = e->Uin();
             grpFunction(mnuGrpRename);
         }

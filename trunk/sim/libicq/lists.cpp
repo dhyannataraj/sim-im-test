@@ -57,10 +57,10 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             char c;
             unsigned short list_len;
             log(L_DEBUG,"Rosters");
-			if (m_bRosters){
-				log(L_DEBUG, "Rosters part 2");
-				break;
-			}
+            if (m_bRosters){
+                log(L_DEBUG, "Rosters part 2");
+                break;
+            }
             readBuffer >> c;
             if (c){
                 log(L_WARN, "Bad first roster byte %02X", c);
@@ -123,15 +123,24 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                         grp->bChecked = true;
                         break;
                     }
-                case ICQ_VISIBLE_LIST:
-                    getUser(atol(str.c_str()), true)->inVisible = true;
-                    break;
-                case ICQ_INVISIBLE_LIST:
-                    getUser(atol(str.c_str()), true)->inInvisible = true;
-                    break;
-                case ICQ_IGNORE_LIST:
-                    getUser(atol(str.c_str()), true)->inIgnore = true;
-                    break;
+                case ICQ_VISIBLE_LIST:{
+                        unsigned long uin = atol(str.c_str());
+                        if (uin)
+                            getUser(atol(str.c_str()), true)->inVisible = true;
+                        break;
+                    }
+                case ICQ_INVISIBLE_LIST:{
+                        unsigned long uin = atol(str.c_str());
+                        if (uin)
+                            getUser(atol(str.c_str()), true)->inInvisible = true;
+                        break;
+                    }
+                case ICQ_IGNORE_LIST:{
+                        unsigned long uin = atol(str.c_str());
+                        if (uin)
+                            getUser(atol(str.c_str()), true)->inIgnore = true;
+                        break;
+                    }
                 case ICQ_INVISIBLE_STATE:
                     contacts.Invisible = id;
                     break;
@@ -174,7 +183,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
         }
     case ICQ_SNACxLISTS_ROSTERxOK:	// FALLTHROUGH
         {
-			m_bRosters = true;
+            m_bRosters = true;
             log(L_DEBUG, "Rosters OK");
             snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_UNKNOWN);
             sendPacket();

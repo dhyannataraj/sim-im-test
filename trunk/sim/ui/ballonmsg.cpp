@@ -36,10 +36,12 @@
 #define BALLOON_SHADOW	2
 #define BALLOON_MARGIN	8
 
-BalloonMsg::BalloonMsg(const QString &_text, const QRect &rc, QStringList &btn, QWidget *parent, bool bModal)
+BalloonMsg::BalloonMsg(const QString &_text, const QRect &rc, QStringList &btn, QWidget *parent, bool bModal, bool bAutoHide)
         : QDialog(parent, "ballon", bModal,
-                  WType_Popup | WStyle_Customize | WStyle_NoBorderEx | WStyle_Tool | WDestructiveClose | WX11BypassWM)
+                  (bAutoHide ? WType_Popup : WType_TopLevel | WStyle_StaysOnTop)
+                  | WStyle_Customize | WStyle_NoBorderEx | WStyle_Tool | WDestructiveClose | WX11BypassWM)
 {
+    m_bAutoHide = bAutoHide;
     bool bTailDown = true;
     setPalette(QToolTip::palette());
     text = _text;
@@ -59,8 +61,11 @@ BalloonMsg::BalloonMsg(const QString &_text, const QRect &rc, QStringList &btn, 
     lay->addStretch();
     int wndWidth = frm->minimumSizeHint().width();
 
+    int txtWidth = BALLOON_WIDTH;
+    if (rc.width() > txtWidth) txtWidth = rc.width();
+
     QPainter p(this);
-    QRect rcText = p.boundingRect(0, 0, QMAX(wndWidth, BALLOON_WIDTH), 1000, AlignLeft | AlignTop | WordBreak, _text);
+    QRect rcText = p.boundingRect(0, 0, QMAX(wndWidth, txtWidth), 1000, AlignLeft | AlignTop | WordBreak, _text);
     if (rcText.width() < wndWidth) rcText.setWidth(wndWidth);
     resize(rcText.width() + BALLOON_R * 2 + BALLOON_SHADOW,
            rcText.height() + BALLOON_R * 2 + BALLOON_TAIL + BALLOON_SHADOW + hButton + BALLOON_MARGIN);
@@ -152,18 +157,20 @@ BalloonMsg::BalloonMsg(const QString &_text, const QRect &rc, QStringList &btn, 
     p.end();
     setBackgroundPixmap(pict);
     setAutoMask(true);
+    if (!bAutoHide)
+        setFocusPolicy(NoFocus);
 }
 
 void BalloonMsg::paintEvent(QPaintEvent*)
 {
     QPainter p(this);
-    p.drawText(textRect, AlignHCenter | AlignTop | WordBreak, text);
+    p.drawText(textRect, (m_bAutoHide ? AlignHCenter : AlignLeft) | AlignTop | WordBreak, text);
     p.end();
 }
 
 void BalloonMsg::mousePressEvent(QMouseEvent *e)
 {
-    if (rect().contains(e->pos())){
+    if (m_bAutoHide && rect().contains(e->pos())){
         QImage img = mask.convertToImage();
         QRgb rgb = img.pixel(e->pos().x(), e->pos().y());
         if (rgb & 0xFFFFFF)

@@ -281,10 +281,8 @@ QString UserBox::containerName()
 
 UserBox::~UserBox()
 {
-    log(L_DEBUG, "~UserBox");
     removeChilds();
     if (pMain) pMain->destroyBox(this);
-    log(L_DEBUG, "~UserBox OK");
 }
 
 void UserBox::saveInfo(ICQUser *u)

@@ -58,21 +58,21 @@ bool EditSpell::colorChanged()
 
 bool EditSpell::fontChanged()
 {
-	return bFontChanged;
+    return bFontChanged;
 }
 
 void EditSpell::setCurrentFont(const QFont &f)
 {
-	QTextEdit::setCurrentFont(f);
-	bFontChanged = true;
-	fCurrent = f;
+    QTextEdit::setCurrentFont(f);
+    bFontChanged = true;
+    fCurrent = f;
 }
 
 void EditSpell::resetColors(bool bCanRich)
 {
     curFG = baseFG;
     if (bCanRich){
-		bFontChanged = false;
+        bFontChanged = false;
         if (pMain->MessageBgColor() != pMain->MessageFgColor()){
             setBackground(pMain->MessageBgColor());
             setForeground(pMain->MessageFgColor());
@@ -81,14 +81,14 @@ void EditSpell::resetColors(bool bCanRich)
             setBackground(baseBG);
             setForeground(baseFG);
         }
-	    if (pMain->UserBoxFontSize() > 128) pMain->UserBoxFontSize = 0;
-		if (pMain->UserBoxFontSize()){
-			QFont f(pMain->UserBoxFontFamily.c_str(), 
-				pMain->UserBoxFontSize(), 
-				pMain->UserBoxFontWeight(), 
-				pMain->UserBoxFontItalic());
-			setCurrentFont(f);
-		}
+        if (pMain->UserBoxFontSize() > 128) pMain->UserBoxFontSize = 0;
+        if (pMain->UserBoxFontSize()){
+            QFont f(pMain->UserBoxFontFamily.c_str(),
+                    pMain->UserBoxFontSize(),
+                    pMain->UserBoxFontWeight(),
+                    pMain->UserBoxFontItalic());
+            setCurrentFont(f);
+        }
     }else{
         setBackground(baseBG);
         setForeground(baseFG);

@@ -440,7 +440,7 @@ void MsgEdit::processEvent(ICQEvent *e)
     case EVENT_INFO_CHANGED:
         fillPhones();
         u = pClient->getUser(Uin);
-        if (u && u->inIgnore())
+        if (!bInIgnore && u && u->inIgnore())
             QTimer::singleShot(10, this, SLOT(close()));
         break;
     case EVENT_USER_DELETED:
@@ -513,9 +513,11 @@ void MsgEdit::realSend()
 
 void MsgEdit::setUin(unsigned long uin)
 {
+    bInIgnore = false;
     Uin = uin;
     ICQUser *u = pClient->getUser(uin);
     if (u == NULL) return;
+    bInIgnore = u->inIgnore();
     fillPhones();
 }
 
@@ -1400,13 +1402,13 @@ void MsgEdit::makeMessage()
                 pMain->MessageBgColor = m->BackColor();
                 pMain->MessageFgColor = m->ForeColor();
             }
-			if (edit->fontChanged()){
-				QFont f = edit->currentFont();
-				pMain->UserBoxFontFamily = f.family();
-				pMain->UserBoxFontSize   = f.pointSize();
-				pMain->UserBoxFontWeight = f.weight();
-		        pMain->UserBoxFontItalic = f.italic();
-			}
+            if (edit->fontChanged()){
+                QFont f = edit->currentFont();
+                pMain->UserBoxFontFamily = f.family();
+                pMain->UserBoxFontSize   = f.pointSize();
+                pMain->UserBoxFontWeight = f.weight();
+                pMain->UserBoxFontItalic = f.italic();
+            }
             break;
         }
     case ICQ_MSGxURL:{

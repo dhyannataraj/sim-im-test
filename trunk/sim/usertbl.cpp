@@ -397,10 +397,17 @@ void UserTbl::viewportContextMenuEvent(QContextMenuEvent *e)
         menuTable->setItemEnabled(mnuTblAddGrp, actionGroup() != 0);
     }else{
         if (actionItem == NULL) return;
+    }
+    if (actionItem){
+        if (sender) menuTable->insertSeparator();
         menuTable->insertItem(Icon("info"), i18n("User info"), mnuInfo);
-        pMain->m_uin = static_cast<UserTblItem*>(currentItem())->mUin;
-        pMain->adjustGroupMenu(pMain->menuGroup, pMain->m_uin);
-        menuTable->insertItem(i18n("Add to group"), pMain->menuGroup, mnuGroups);
+        unsigned long uin = static_cast<UserTblItem*>(currentItem())->mUin;
+        ICQUser *u = pClient->getUser(uin);
+        if ((u == NULL) || (u->GrpId() == 0)){
+            pMain->m_uin = uin;
+            pMain->adjustGroupMenu(pMain->menuGroup, pMain->m_uin);
+            menuTable->insertItem(i18n("Add to group"), pMain->menuGroup, mnuGroups);
+        }
     }
     menuTable->popup(e->globalPos());
     return;

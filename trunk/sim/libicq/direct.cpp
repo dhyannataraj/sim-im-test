@@ -457,13 +457,13 @@ void DirectClient::connected()
             error(ErrorProtocol);
             return;
         }
-/*
-        if (m_nSessionId != u->DCcookie){
-            log(L_WARN, "Bad session for user");
-            error(ErrorProtocol);
-            return;
-        }
-*/
+        /*
+                if (m_nSessionId != u->DCcookie){
+                    log(L_WARN, "Bad session for user");
+                    error(ErrorProtocol);
+                    return;
+                }
+        */
         if (u->direct) u->direct->remove();
         u->direct = this;
         if (version >= 7){

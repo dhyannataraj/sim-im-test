@@ -1,5 +1,5 @@
 /***************************************************************************
-                          ballonmsg.h  -  description
+                          helpedit.h  -  description
                              -------------------
     begin                : Sun Mar 24 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,47 +15,30 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _BALLONMSG_H
-#define _BALLONMSG_H
+#ifndef _HELPEDIT_H
+#define _HELPEDIT_H
 
 #include "defs.h"
-#include <qstring.h>
-#include <qdialog.h>
-#include <qbitmap.h>
-#include <qpushbutton.h>
+#include <qmultilineedit.h>
 
-class QStringList;
+class BalloonMsg;
 
-class BalloonMsg : public QDialog
+class HelpEdit : public QMultiLineEdit
 {
     Q_OBJECT
 public:
-    BalloonMsg(const QString &text, const QRect&, QStringList&, QWidget *p, bool bModal=false, bool bAutoHide=true);
-    static void message(const QString &text, QWidget *parent, bool bModal=false);
-signals:
-    void action(int);
+    HelpEdit(QWidget *p, const char *name=NULL);
+    QString helpText;
+    virtual void setEnabled(bool);
+public slots:
+    void showHelp();
+    void closeHelp();
 protected:
-    void paintEvent(QPaintEvent*);
-    void mousePressEvent(QMouseEvent*);
-    QString text;
-    QRect textRect;
-    QBitmap mask;
-    bool m_bAutoHide;
+    BalloonMsg *help;
+    virtual void mousePressEvent(QMouseEvent*);
+    virtual void focusInEvent(QFocusEvent*);
+    virtual void focusOutEvent(QFocusEvent*);
 };
-
-class BalloonButton : public QPushButton
-{
-    Q_OBJECT
-public:
-    BalloonButton(QString, QWidget*, int);
-signals:
-    void action(int);
-protected slots:
-    void click();
-protected:
-    int id;
-};
-
 
 #endif
 

@@ -736,26 +736,26 @@ void ICQClient::messageReceived(ICQMessage *msg)
         delete msg;
         return;
     }
-	if (bAddUser){
-		string text;
-		switch (msg->Type()){
-		case ICQ_MSGxMSG:{
-			ICQMsg *m = static_cast<ICQMsg*>(msg);
-			text = m->Message;
-			break;
-		}
-		case ICQ_MSGxURL:{
-			ICQUrl *m = static_cast<ICQUrl*>(msg);
-			text = m->Message;
-			break;
-		}
-		}
-		if (match(text.c_str(), RejectFilter.c_str())){
-			delete msg;
-			return;
-		}
-		u = getUser(msg->getUin(), true);
-	}
+    if (bAddUser){
+        string text;
+        switch (msg->Type()){
+        case ICQ_MSGxMSG:{
+                ICQMsg *m = static_cast<ICQMsg*>(msg);
+                text = m->Message;
+                break;
+            }
+        case ICQ_MSGxURL:{
+                ICQUrl *m = static_cast<ICQUrl*>(msg);
+                text = m->Message;
+                break;
+            }
+        }
+        if (match(text.c_str(), RejectFilter.c_str())){
+            delete msg;
+            return;
+        }
+        u = getUser(msg->getUin(), true);
+    }
     time_t now;
     time(&now);
     u->LastActive = (unsigned long)now;
