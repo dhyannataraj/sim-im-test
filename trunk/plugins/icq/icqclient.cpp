@@ -513,7 +513,7 @@ void ICQClient::connect_ready()
         m_listener->bind(getMinPort(), getMaxPort(), NULL);
     }
     m_bNoSend	= false;
-    m_bReady	= false;
+    m_bReady	= true;
     OscarSocket::connect_ready();
     TCPClient::connect_ready();
 }
@@ -678,6 +678,8 @@ void ICQClient::disconnected()
     m_bRosters = false;
     m_nMsgSequence = 0;
     m_bIdleTime = false;
+    m_bNoSend	= true;
+    m_bReady	= false;
     m_cookie.init(0);
     m_advCounter = 0;
     m_nUpdates = 0;
