@@ -39,7 +39,7 @@ void KabcSync::close(void)
 	m_bOpen=false;
 }
 
-Addressee KabcSync::addresseeFromUser(SIMUser& u, Addressee* oldPers=NULL)
+Addressee KabcSync::addresseeFromUser(SIMUser& u, Addressee* oldPers)
 {
 
 }
