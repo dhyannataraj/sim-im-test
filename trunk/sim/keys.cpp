@@ -357,17 +357,17 @@ int str2key(const char *key_str)
     p = (char*)k.c_str();
     for (;;){
         if (!memcmp(p, CTRL, strlen(CTRL))){
-            res |= KKey::CTRL;
+            res |= Qt::CTRL;
             p += strlen(CTRL);
             continue;
         }
         if (!memcmp(p, ALT, strlen(ALT))){
-            res |= KKey::ALT;
+            res |= Qt::ALT;
             p += strlen(ALT);
             continue;
         }
         if (!memcmp(p, SHIFT, strlen(SHIFT))){
-            res |= KKey::SHIFT;
+            res |= Qt::SHIFT;
             p += strlen(SHIFT);
             continue;
         }
