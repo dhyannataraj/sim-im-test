@@ -22,8 +22,6 @@ INCLUDES= -I../api $(all_includes)
 
 METASOURCES = AUTO
 
-SUBDIRS=qt3
-
 # the library search path. 
 libsimui_la_LDFLAGS = -no-undefined $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 

@@ -1744,7 +1744,7 @@ const unsigned short L_PACKET_OUT	= 0x20;
 
 #if defined __GNUC__
 EXPORT void log(unsigned short level, const char *fmt, ...)
-       __attribute__ ((__format__ (printf, 2, 3)));
+__attribute__ ((__format__ (printf, 2, 3)));
 #else
 EXPORT void log(unsigned short level, const char *fmt, ...);
 #endif      

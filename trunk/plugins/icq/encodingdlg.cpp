@@ -53,7 +53,7 @@ void EncodingDlg::apply()
 {
     // Subtract 1 to account for the first menu item which is empty
     int n = cmbEncoding->currentItem();
-    
+
     if (n == 0)
         return; // User selected the empty menu item
 
@@ -67,7 +67,7 @@ void EncodingDlg::apply()
             return;
         }
     }
-    
+
     for (e = getContacts()->getEncodings(); e->language; e++){
         if (!e->bMain)
             continue;

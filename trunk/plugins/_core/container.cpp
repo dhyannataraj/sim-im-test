@@ -610,7 +610,7 @@ void Container::flash()
 #else
 #if defined(USE_KDE)
 #if KDE_IS_VERSION(3,2,0)
-    KWin::demandAttention(winId(), true);
+KWin::demandAttention(winId(), true);
 #endif	/* KDE_IS_VERSION(3,2,0) */
 #endif	/* USE_KDE */
 #endif	/* ndef WIN32 */
@@ -805,15 +805,15 @@ bool Container::event(QEvent *e)
         init();
 #endif
     if ((e->type() == QEvent::WindowActivate) ||
-      (((e->type() == QEvent::ShowNormal) ||
-        (e->type() == QEvent::ShowMaximized)) && isActiveWindow())){
+            (((e->type() == QEvent::ShowNormal) ||
+              (e->type() == QEvent::ShowMaximized)) && isActiveWindow())){
         UserWnd *userWnd = m_tabBar->currentWnd();
-	    if (m_bNoRead){
-	        m_bNoRead = false;
+        if (m_bNoRead){
+            m_bNoRead = false;
         }
         if (userWnd){
             userWnd->markAsRead();
-	    }
+        }
         if (m_bNoSwitch){
             m_bNoSwitch = false;
         }else{

@@ -235,6 +235,7 @@ PluginManagerPrivate::~PluginManagerPrivate()
         free((*itp).name);
     }
     delete m_exec;
+    setLogEnable(false);
 }
 
 void *PluginManagerPrivate::processEvent(Event *e)
@@ -587,12 +588,12 @@ void PluginManagerPrivate::reloadState()
 void PluginManagerPrivate::loadState()
 {
     if (m_bLoaded) return;
-    
-	m_bLoaded = true;
+
+    m_bLoaded = true;
     string cfgName = user_file(PLUGINS_CONF);
     QFile f(QFile::decodeName(cfgName.c_str()));
-    
-	if (!f.exists()) {
+
+    if (!f.exists()) {
         /* Maybe first start ? */
         QDir dir(user_file(NULL).c_str());
         if (!dir.exists()) {
@@ -602,34 +603,34 @@ void PluginManagerPrivate::loadState()
                 return;
             }
         }
-        if (f.open(IO_WriteOnly)) 
+        if (f.open(IO_WriteOnly))
             f.close();
         else {
-			log(L_ERROR, "Can't create %s",f.name().ascii());
+            log(L_ERROR, "Can't create %s",f.name().ascii());
             return;
         }
     }
-    
-	if (!f.open(IO_ReadOnly)){
+
+    if (!f.open(IO_ReadOnly)){
         log(L_ERROR, "Can't open %s", f.name().ascii());
         return;
     }
-    
-	Buffer cfg;
+
+    Buffer cfg;
     cfg.init(f.size());
     int n = f.readBlock(cfg.data(), f.size());
-    
-	if (n < 0){
+
+    if (n < 0){
         log(L_ERROR, "Can't read %s", f.name().ascii());
         return;
     }
-    
-	bool continous=TRUE;
-	while(continous) {
-		
-		string section = cfg.getSection();
-        
-		if (section.empty())
+
+    bool continous=TRUE;
+    while(continous) {
+
+        string section = cfg.getSection();
+
+        if (section.empty())
             return;
         unsigned i = NO_PLUGIN;
         for (unsigned n = 0; n < plugins.size(); n++)
@@ -637,26 +638,26 @@ void PluginManagerPrivate::loadState()
                 i = n;
                 break;
             }
-       
+
         if (i == NO_PLUGIN)
             continue;
 
         pluginInfo &info = plugins[i];
         const char *line = cfg.getLine();
-        
-		if (line == NULL)
-        	continue;
+
+        if (line == NULL)
+            continue;
         string token = getToken(line, ',');
         if (token == ENABLE){
             info.bDisabled = false;
             info.bFromCfg  = true;
         }
-		else if (token == DISABLE){
+        else if (token == DISABLE){
             info.bDisabled = true;
             info.bFromCfg  = true;
         }
-		else {continue;}
-        
+        else {continue;}
+
         info.base = atol(line);
 
         if (info.base > m_base)

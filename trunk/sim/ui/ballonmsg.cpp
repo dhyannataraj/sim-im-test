@@ -178,9 +178,9 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
         s.setWidth(sMin.width());
     int BALLOON_SHADOW = BALLOON_SHADOW_DEF;
 #ifdef WIN32
-	/* FIXME */
-/*    if ((GetClassLong(winId(), GCL_STYLE) & CS_DROPSHADOW) && style().inherits("QWindowsXPStyle"))
-        BALLOON_SHADOW = 0; */
+    /* FIXME */
+    /*    if ((GetClassLong(winId(), GCL_STYLE) & CS_DROPSHADOW) && style().inherits("QWindowsXPStyle"))
+            BALLOON_SHADOW = 0; */
 #endif
     resize(s.width() + BALLOON_R * 2 + BALLOON_SHADOW,
            s.height() + BALLOON_R * 2 + BALLOON_TAIL + BALLOON_SHADOW + hButton + BALLOON_MARGIN);

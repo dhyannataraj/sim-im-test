@@ -177,116 +177,116 @@ typedef list<STR_ITEM> STR_LIST;
 /* adds a value / client pair to str_list, *avoids* doubled entries */
 static void add_str (STR_LIST & m, const QString & value, const char *client)
 {
-  STR_LIST::iterator it;
+    STR_LIST::iterator it;
 
-  if (!client)
-    client = "-";
+    if (!client)
+        client = "-";
 
-  /* check if value is already in str_list */
-  for (it = m.begin (); it != m.end (); ++it) {
-    QString     v = (*it).value;
-    if (v == value)
-      break;
-  }
-  /* already there */
-  if (it != m.end ()) {
-    PROTO_LIST & proto = (*it).proto;
-    PROTO_LIST::iterator itp;
-    /* client == '-' --> ignore */
-    if (!proto.empty () && !strcmp (client, "-"))
-      return;
-    /* search if  already in list */
-    for (itp = proto.begin (); itp != proto.end (); ++itp) {
-      if (!strcmp ((*itp).c_str (), client))
-        return;
+    /* check if value is already in str_list */
+    for (it = m.begin (); it != m.end (); ++it) {
+        QString     v = (*it).value;
+        if (v == value)
+            break;
     }
-    /* search if "-" somewhere in list --> delete it */
-    for (itp = proto.begin (); itp != proto.end (); ++itp) {
-      if (!strcmp ((*itp).c_str (), "-"))
-        break;
+    /* already there */
+    if (it != m.end ()) {
+        PROTO_LIST & proto = (*it).proto;
+        PROTO_LIST::iterator itp;
+        /* client == '-' --> ignore */
+        if (!proto.empty () && !strcmp (client, "-"))
+            return;
+        /* search if  already in list */
+        for (itp = proto.begin (); itp != proto.end (); ++itp) {
+            if (!strcmp ((*itp).c_str (), client))
+                return;
+        }
+        /* search if "-" somewhere in list --> delete it */
+        for (itp = proto.begin (); itp != proto.end (); ++itp) {
+            if (!strcmp ((*itp).c_str (), "-"))
+                break;
+        }
+        if (itp != proto.end ())
+            proto.erase (itp);
+        /* add new client */
+        proto.push_back (string (client));
     }
-    if (itp != proto.end ())
-      proto.erase (itp);
-    /* add new client */
-    proto.push_back (string (client));
-  }
-  else {
-    /* new entry */
-    STR_ITEM    item;
-    item.value = value;
-    item.proto.push_back (client);
-    m.push_back (item);
-  }
+    else {
+        /* new entry */
+        STR_ITEM    item;
+        item.value = value;
+        item.proto.push_back (client);
+        m.push_back (item);
+    }
 }
 
 static QString addStrings (const QString & old_value, const QString & values,
                            const char *client)
 {
-  STR_LIST    str_list;
+    STR_LIST    str_list;
 
-  /* split old_value */
-  QString     m = old_value;
-  while (m.length ()) {
-    /* str_item  == one telephone entry */
-    QString     str_item = getToken (m, ';', false);
-    /* str == telephone entry without clients
-     * str_item == clients 
-     */
-    QString     str = getToken (str_item, '/');
-    /* now split clients */
-    while (str_item.length ()) {
-      /* split by '/' - this was inserted as this function
-       * doesn't worked correct
-       */
-      QString     proto = getToken (str_item, '/');
-      /* now split by ',' since this seems to be the correct separator */
-      while (proto.length ()) {
-        QString     proto2 = getToken (proto, ',');
-        /* and add */
-        add_str (str_list, str, proto2.latin1 ());
-      }
+    /* split old_value */
+    QString     m = old_value;
+    while (m.length ()) {
+        /* str_item  == one telephone entry */
+        QString     str_item = getToken (m, ';', false);
+        /* str == telephone entry without clients
+         * str_item == clients 
+         */
+        QString     str = getToken (str_item, '/');
+        /* now split clients */
+        while (str_item.length ()) {
+            /* split by '/' - this was inserted as this function
+             * doesn't worked correct
+             */
+            QString     proto = getToken (str_item, '/');
+            /* now split by ',' since this seems to be the correct separator */
+            while (proto.length ()) {
+                QString     proto2 = getToken (proto, ',');
+                /* and add */
+                add_str (str_list, str, proto2.latin1 ());
+            }
+        }
     }
-  }
 
-  /* split values */
-  m = values;
-  while (m.length ()) {
-    QString     str_item = getToken (m, ';', false);
-    QString     str = getToken (str_item, '/');
-    while (str_item.length ()) {
-      QString     proto = getToken (str_item, '/');
-      while (proto.length ()) {
-        QString     proto2 = getToken (proto, ',');
-        add_str (str_list, str, proto2.latin1 ());
-      }
+    /* split values */
+    m = values;
+    while (m.length ()) {
+        QString     str_item = getToken (m, ';', false);
+        QString     str = getToken (str_item, '/');
+        while (str_item.length ()) {
+            QString     proto = getToken (str_item, '/');
+            while (proto.length ()) {
+                QString     proto2 = getToken (proto, ',');
+                add_str (str_list, str, proto2.latin1 ());
+            }
+        }
     }
-  }
-  /* add new client if new client was given */
-  if (client) {
+    /* add new client if new client was given */
+    if (client) {
+        for (STR_LIST::iterator it = str_list.begin (); it != str_list.end (); ++it) {
+            add_str (str_list, (*it).value, client);
+        }
+    }
+
+    /* now build new string */
+    QString     res;
     for (STR_LIST::iterator it = str_list.begin (); it != str_list.end (); ++it) {
-      add_str (str_list, (*it).value, client);
+        PROTO_LIST & proto = (*it).proto;
+        if (proto.size () == 0)
+            continue;
+        if (res.length ())
+            res += ";";
+        res += quoteChars ((*it).value, ";/");
+        res += "/";
+        QString     proto_str;
+        for (PROTO_LIST::iterator itp = proto.begin (); itp != proto.end (); ++itp) {
+            if (proto_str.length ())
+                proto_str += ",";
+            proto_str += QString(quoteChars ((*itp).c_str (), ",;/").c_str());
+        }
+        res += proto_str;
     }
-  }
-
-  /* now build new string */
-  QString     res;
-  for (STR_LIST::iterator it = str_list.begin (); it != str_list.end (); ++it) {
-    PROTO_LIST & proto = (*it).proto;
-    if (proto.size () == 0)
-      continue;
-    if (res.length ())
-      res += ";";
-    res += quoteChars ((*it).value, ";/");
-    res += "/";
-    QString     proto_str;
-    for (PROTO_LIST::iterator itp = proto.begin (); itp != proto.end (); ++itp) {
-      if (proto_str.length ())
-        proto_str += ",";
-      proto_str += QString(quoteChars ((*itp).c_str (), ",;/").c_str());
-    }
-    res += proto_str;
-  }
-  return res;
+    return res;
 }
 
 bool Contact::setEMails(const QString &mail, const char *client)

@@ -15,9 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "jabberclient.h"
 #include "simapi.h"
 #include "jabberpicture.h"
-#include "jabberclient.h"
 #include "editfile.h"
 #include "preview.h"
 #include "ballonmsg.h"

@@ -1,5 +1,5 @@
 Microsoft Developer Studio Workspace File, Format Version 6.00
-# WARNUNG: DIESE ARBEITSBEREICHSDATEI DARF NICHT BEARBEITET ODER GELÖSCHT WERDEN!
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
 
 ###############################################################################
 
@@ -47,9 +47,6 @@ Package=<5>
 
 Package=<4>
 {{{
-    Begin Project Dependency
-    Project_Dep_Name qjpegio
-    End Project Dependency
     Begin Project Dependency
     Project_Dep_Name simapi
     End Project Dependency
@@ -122,9 +119,6 @@ Package=<5>
 
 Package=<4>
 {{{
-    Begin Project Dependency
-    Project_Dep_Name qjpegio
-    End Project Dependency
     Begin Project Dependency
     Project_Dep_Name simapi
     End Project Dependency
@@ -239,9 +233,6 @@ Package=<5>
 
 Package=<4>
 {{{
-    Begin Project Dependency
-    Project_Dep_Name qjpegio
-    End Project Dependency
     Begin Project Dependency
     Project_Dep_Name simapi
     End Project Dependency
@@ -429,18 +420,6 @@ Package=<4>
 
 ###############################################################################
 
-Project: "qjpegio"=.\sim\qjpegio\qjpegio.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
 Project: "remote"=.\plugins\remote\remote.dsp - Package Owner=<4>
 
 Package=<5>
@@ -532,9 +511,6 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name windock
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name qjpegio
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name simui
@@ -646,6 +622,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name zodiak
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name styles
     End Project Dependency
 }}}
 
@@ -815,9 +794,6 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name wood
     End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name xpstyle
-    End Project Dependency
 }}}
 
 ###############################################################################
@@ -886,18 +862,6 @@ Package=<4>
 ###############################################################################
 
 Project: "wood"=.\plugins\styles\wood\wood.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "xpstyle"=.\xpstyle\xpstyle.dsp - Package Owner=<4>
 
 Package=<5>
 {{{

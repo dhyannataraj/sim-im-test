@@ -18,9 +18,9 @@
 #ifndef _JABBERADD_H
 #define _JABBERADD_H
 
+#include "jabberclient.h"
 #include "simapi.h"
 #include "jabberaddbase.h"
-#include "jabberclient.h"
 #include "stl.h"
 
 class JabberClient;

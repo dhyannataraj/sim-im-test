@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "jidsearch.h"
 #include "jabberclient.h"
+#include "jidsearch.h"
 #include "jabbersearch.h"
 #include "jidadvsearch.h"
 #include "jabber.h"

@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "jabber.h"
 #include "jabberclient.h"
+#include "jabber.h"
 #include "core.h"
 
 #include "xpm/jabber.xpm"

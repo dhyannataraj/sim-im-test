@@ -276,16 +276,16 @@ static string getValue(const char *p)
 bool Smiles::load(const QString &file)
 {
     clear();
-    
-    QRegExp btn_smile[7]={  QString(":-\\)"), 
-                            QString(":\\)"), 
-                            QString("=\\)"), 
-                            QString(":-\\]"), 
-                            QString(":\\]"), 
-                            QString(";-\\)"), 
+
+    QRegExp btn_smile[7]={  QString(":-\\)"),
+                            QString(":\\)"),
+                            QString("=\\)"),
+                            QString(":-\\]"),
+                            QString(":\\]"),
+                            QString(";-\\)"),
                             QString(";\\)") };
     bool btn_found=false;
-    
+
     QString fname = file;
     QFile f(fname);
     if (!f.open(IO_ReadOnly))
@@ -427,7 +427,7 @@ bool Smiles::load(const QString &file)
             continue;
         }
         QString p;
-        QString paste;    
+        QString paste;
         while (!pattern.isEmpty()){
             QString pat = getToken(pattern, ' ', false);
             if(pat.isEmpty())
@@ -456,7 +456,7 @@ bool Smiles::load(const QString &file)
         sd.paste   = paste.latin1();
         sd.title   = tip.latin1();
         sd.icon    = icon;
-    
+
         if(btn_found)
             m_smiles.push_back(sd);
         else{

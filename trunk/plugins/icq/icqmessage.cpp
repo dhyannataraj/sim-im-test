@@ -1516,7 +1516,7 @@ void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &in
 #ifdef WIN32
                     int n = pictFile.findRev("\\");
 #else
-int n = pictFile.findRev("/");
+                    int n = pictFile.findRev("/");
 #endif
                     if (n >= 0)
                         pictFile = pictFile.mid(n + 1);

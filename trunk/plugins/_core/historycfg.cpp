@@ -17,11 +17,7 @@
 
 #include "simapi.h"
 
-#if (COMPAT_QT_VERSION < 0x030000) || ((COMPAT_QT_VERSION >= 0x030000) && !(defined(HAVE_QSYNTAXHIGHLIGHTER_H)))
-#include "qt3/qsyntaxhighlighter.h"
-#else
 #include <qsyntaxhighlighter.h>
-#endif
 
 #include "historycfg.h"
 #include "core.h"

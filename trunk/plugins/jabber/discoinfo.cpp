@@ -15,9 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "jabberclient.h"
 #include "discoinfo.h"
 #include "jabberbrowser.h"
-#include "jabberclient.h"
 #include "jabber.h"
 #include "jabberaboutinfo.h"
 #include "listview.h"

@@ -47,7 +47,7 @@ static PluginInfo info =
 #ifdef WIN32
         PLUGIN_NOLOAD_DEFAULT
 #else
-        PLUGIN_DEFAULT
+PLUGIN_DEFAULT
 #endif
     };
 
@@ -131,9 +131,9 @@ void LoggerPlugin::openFile()
     const char *fname = getFile();
     if ((fname == NULL) || (*fname == 0))
         return;
-	 // This si because sim crashes when a logfile is larger than 100MB ...
+    // This si because sim crashes when a logfile is larger than 100MB ...
     QFileInfo fileInfo(QFile::decodeName(fname));
-	 if (fileInfo.size() > 1024 * 1024 * 50) {	// 50MB ...
+    if (fileInfo.size() > 1024 * 1024 * 50) {	// 50MB ...
         QString desiredFileName = fileInfo.fileName() + ".old";
 #ifdef WIN32
         fileInfo.dir().remove(desiredFileName);
@@ -142,8 +142,8 @@ void LoggerPlugin::openFile()
             // won't work --> simply delete...
             fileInfo.dir().remove(fileInfo.fileName());
         }
-	 }
-	 // now open file
+    }
+    // now open file
     m_file = new QFile(QFile::decodeName(fname));
     if (!m_file->open(IO_Append | IO_ReadWrite)){
         delete m_file;

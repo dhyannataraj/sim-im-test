@@ -239,7 +239,7 @@ static DataDef navigateData[] =
         { "Browser", DATA_STRING, 1, "konqueror" },
         { "Mailer", DATA_STRING, 1, "kmail" },
 #else
-        { "Browser", DATA_STRING, 1, "netscape" },
+{ "Browser", DATA_STRING, 1, "netscape" },
         { "Mailer", DATA_STRING, 1, "netscape mailto:%s" },
 #endif
 #endif

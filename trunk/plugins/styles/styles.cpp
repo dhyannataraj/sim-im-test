@@ -88,12 +88,12 @@ StylesPlugin::StylesPlugin(unsigned base, Buffer *config)
         setColors();
     }
 #ifdef WIN32
-	QApplication::addLibraryPath(app_file("plugins"));
+    QApplication::addLibraryPath(app_file("plugins"));
 #else
-    QString path;
+QString path;
     path = PLUGIN_PATH;
     path += "/";
-	QApplication::addLibraryPath(path);
+    QApplication::addLibraryPath(path);
     log(L_DEBUG,"Path: %s",path.ascii());
 #endif
     setStyles();
@@ -161,22 +161,22 @@ void StylesPlugin::setStyles()
     if (*getStyle())
         style = QStyleFactory::create(getStyle());
 #else
-if (*getStyle()){
-    string s = getStyle();
-    if (s == "windows"){
-        style = new QWindowsStyle;
-    }else if (s == "motif"){
-        style = new QMotifStyle;
-    }else if (s == "cde"){
-        style = new QCDEStyle;
-    }else if (s == "motifplus"){
-        style = new QMotifPlusStyle;
-    }else if (s == "platinum"){
-        style = new QPlatinumStyle;
-    }else if (s == "sgi"){
-        style = new QSGIStyle;
+    if (*getStyle()){
+        string s = getStyle();
+        if (s == "windows"){
+            style = new QWindowsStyle;
+        }else if (s == "motif"){
+            style = new QMotifStyle;
+        }else if (s == "cde"){
+            style = new QCDEStyle;
+        }else if (s == "motifplus"){
+            style = new QMotifPlusStyle;
+        }else if (s == "platinum"){
+            style = new QPlatinumStyle;
+        }else if (s == "sgi"){
+            style = new QSGIStyle;
+        }
     }
-}
 #endif
     if (style){
         QApplication::setStyle(style);

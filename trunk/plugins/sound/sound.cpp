@@ -324,9 +324,9 @@ string SoundPlugin::fullName(const char *name)
     char c = name[0];
     if (((((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z'))) && (name[1] == ':')) || ((c == '\\') && (name[1] == '\\'))){
 #else
-    if (name[0] == '/'){
+if (name[0] == '/'){
 #endif
-	sound = name;
+        sound = name;
     }else{
         sound = "sounds/";
         sound += name;
@@ -358,7 +358,7 @@ void SoundPlugin::processQueue()
     string sound = fullName(m_current.c_str());
     // check whether file is available
     if (!QFile::exists(QString(sound.c_str()))) {
-	m_current="";
+        m_current="";
         return;
     }
 #ifdef USE_KDE
@@ -370,7 +370,7 @@ void SoundPlugin::processQueue()
     }
     bool bSound = false;
 #elif WIN32
-    bool bSound = true;
+bool bSound = true;
 #else
     /* If there is an external player selected, don't use Qt
     Check first for getPlayer() since QSound::available()
@@ -397,7 +397,7 @@ void SoundPlugin::processQueue()
     ExecParam p;
     p.cmd = getPlayer();
     if (*p.cmd == 0) {
-	m_current="";
+        m_current="";
         return;
     }
     p.arg = sound.c_str();

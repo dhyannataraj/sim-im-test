@@ -333,7 +333,7 @@ void Buffer::packStr32(const char *s)
         pack(s, strlen(s));
     } else {
         pack((unsigned long)0);
-        pack("", 0);	
+        pack("", 0);
     }
 }
 
@@ -787,7 +787,7 @@ char *Buffer::getLine()
     /* handle cases when the buffer is not \n-terminated (avoid returning non-null-terminated string) */
     int maxLength = m_size-m_posRead, length = 0;
     while ((length < maxLength) && (res[length] != '\0'))
-       ++length;
+        ++length;
     if (length == maxLength)
     {
         allocate(m_size + 1, 0);

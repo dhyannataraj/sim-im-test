@@ -56,8 +56,8 @@ protected:
     unsigned m_paraDirInsertionPos;
     enum {
         DirAuto, // Initial BiDi dir when not explicitly specified.
-                 // Real dir will be determined from the first
-                 // strong BiDi character.
+        // Real dir will be determined from the first
+        // strong BiDi character.
         DirLTR,
         DirRTL,
         DirUnknown
@@ -98,7 +98,7 @@ protected:
 };
 
 XslOutputParser::XslOutputParser()
-: m_bInPrepend(false)
+        : m_bInPrepend(false)
 {
 }
 
@@ -107,16 +107,16 @@ QString XslOutputParser::parse(const QString &str)
     res = "";
     HTMLParser::parse(str);
     if (!m_sPrepend.isEmpty())
-       res = m_sPrepend + res;
+        res = m_sPrepend + res;
     return res;
 }
 
 void XslOutputParser::text(const QString& text)
 {
     if (m_bInPrepend)
-       m_sPrepend += quoteString(text);
+        m_sPrepend += quoteString(text);
     else
-       res += quoteString(text);
+        res += quoteString(text);
 }
 
 void XslOutputParser::tag_start(const QString &tag, const list<QString> &attrs)
@@ -125,8 +125,8 @@ void XslOutputParser::tag_start(const QString &tag, const list<QString> &attrs)
 
     if (ltag == "prepend")
     {
-       m_bInPrepend = true;
-       return;
+        m_bInPrepend = true;
+        return;
     }
 
     QString tagText;
@@ -145,22 +145,22 @@ void XslOutputParser::tag_start(const QString &tag, const list<QString> &attrs)
         }
     }
     tagText += ">";
-    
+
     if (m_bInPrepend)
     {
-       m_sPrepend += tagText;
+        m_sPrepend += tagText;
     }
     else
     {
-       res += tagText;
+        res += tagText;
 
-       // It's time to prepend whatever we've got in m_sPrepend
-       // to the start of a paragraph.   
-       if ((ltag == "p") && !m_sPrepend.isEmpty())
-       {
-          res += m_sPrepend;
-          m_sPrepend = "";
-       }
+        // It's time to prepend whatever we've got in m_sPrepend
+        // to the start of a paragraph.
+        if ((ltag == "p") && !m_sPrepend.isEmpty())
+        {
+            res += m_sPrepend;
+            m_sPrepend = "";
+        }
     }
 }
 
@@ -170,19 +170,19 @@ void XslOutputParser::tag_end(const QString &tag)
 
     if (ltag == "prepend")
     {
-       m_bInPrepend = false;
-       return;
+        m_bInPrepend = false;
+        return;
     }
-    
+
     QString tagText;
     tagText += "</";
     tagText += tag;
     tagText += ">";
-    
+
     if (m_bInPrepend)
-       m_sPrepend += tagText;
+        m_sPrepend += tagText;
     else
-       res += tagText;
+        res += tagText;
 }
 
 MsgViewBase::MsgViewBase(QWidget *parent, const char *name, unsigned id)
@@ -516,10 +516,10 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     if (p == NULL)
         p = CorePlugin::m_plugin->historyXSL;
     QString res = p->process(s);
-    
+
     XslOutputParser outParser;
     res = outParser.parse(res);
-    
+
     QString anchor = MSG_ANCHOR;
     anchor += id;
     anchor += "\">";
@@ -1288,11 +1288,11 @@ void ViewParser::text(const QString &text)
 {
     if (text.isEmpty())
         return;
-    
+
     if (m_bInParagraph && (m_paragraphDir == DirAuto))
     {
-       for(const QChar* c = text.unicode(); !c->isNull() && (m_paragraphDir == DirAuto); ++c)
-       {
+        for(const QChar* c = text.unicode(); !c->isNull() && (m_paragraphDir == DirAuto); ++c)
+        {
             // Note: Qt expects ltr/rtl to be lower-case.
             switch(c->direction())
             {
@@ -1307,9 +1307,9 @@ void ViewParser::text(const QString &text)
             default: // avoid gcc warning
                 break;
             }
-       }
+        }
     }
-        
+
     if (!m_bUseSmiles || m_bInLink){
         res += quoteString(text);
         return;
@@ -1410,16 +1410,16 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
     }else if (tag == "body"){ // we display as a part of a larger document
         oTag = "span";
     }
-    
+
     QString tagText;
     tagText += "<";
     tagText += oTag;
-    
+
     if (tag == "p")
     {
         m_paraDirInsertionPos = res.length() + tagText.length();
     }
-    
+
     for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
         QString name = (*it).lower();
         ++it;
@@ -1435,11 +1435,11 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
             if (name == "dir"){
                 QString dir = value.lower();
                 if (dir == "ltr")
-                   m_paragraphDir = DirLTR;
+                    m_paragraphDir = DirLTR;
                 else if (dir == "rtl")
-                   m_paragraphDir = DirRTL;
+                    m_paragraphDir = DirRTL;
                 else
-                   m_paragraphDir = DirUnknown;
+                    m_paragraphDir = DirUnknown;
             }
         }else if (tag == "font"){
             if (name == "color" && m_bIgnoreColors)

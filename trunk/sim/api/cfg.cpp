@@ -332,21 +332,21 @@ EXPORT string getToken(string &from, char c, bool bUnEscape)
 
 EXPORT QString quoteChars(const QString &from, const char *chars, bool bQuoteSlash)
 {
-  QString     res;
-  QString     quote_chars;
+    QString     res;
+    QString     quote_chars;
 
-  quote_chars = chars;
-  if (bQuoteSlash) {
-    quote_chars += '\\';
-  }
-  for (int i = 0; i < (int) (from.length ()); i++) {
-    QChar       c = from[i];
-    if (quote_chars.contains (c)) {
-      res += '\\';
+    quote_chars = chars;
+    if (bQuoteSlash) {
+        quote_chars += '\\';
     }
-    res += c;
-  }
-  return res;
+    for (int i = 0; i < (int) (from.length ()); i++) {
+        QChar       c = from[i];
+        if (quote_chars.contains (c)) {
+            res += '\\';
+        }
+        res += c;
+    }
+    return res;
 }
 
 EXPORT QString getToken(QString &from, char c, bool bUnEscape)
@@ -752,35 +752,37 @@ static char toHex(char c)
 
 static string quoteString(const char *str)
 {
-    string quoted;
-    quoted = "\"";
+    Buffer quoted;
+    if (str)
+        quoted.init(strlen(str) + 5);
+    quoted << "\"";
     if (str){
         for (unsigned char *p = (unsigned char*)str; *p; p++){
             switch (*p){
             case '\\':
-                quoted += "\\\\";
+                quoted << "\\\\";
                 break;
             case '\r':
                 break;
             case '\n':
-                quoted += "\\n";
+                quoted << "\\n";
                 break;
             case '\"':
-                quoted += "\\\"";
+                quoted << "\\\"";
                 break;
             default:
                 if (*p >= ' '){
-                    quoted += *p;
+                    quoted << *p;
                 }else if (*p){
-                    quoted += "\\x";
-                    quoted += toHex((char)(*p >> 4));
-                    quoted += toHex(*p);
+                    quoted << "\\x";
+                    quoted << toHex((char)(*p >> 4));
+                    quoted << toHex(*p);
                 }
             }
         }
     }
-    quoted += "\"";
-    return quoted;
+    quoted << "\"" << (char)0;
+    return quoted.data();
 }
 
 EXPORT string save_data(const DataDef *def, void *_data)

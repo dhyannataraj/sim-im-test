@@ -253,6 +253,7 @@ WharfIcon::~WharfIcon()
 
 bool WharfIcon::x11Event(XEvent *e)
 {
+    fprintf(stderr, "Wharf: %u %u\n", e->type, bActivated);
     if ((e->type == ReparentNotify) && !bActivated){
         XWindowAttributes a;
         XGetWindowAttributes(qt_xdisplay(), e->xreparent.parent, &a);
@@ -1037,6 +1038,7 @@ bool DockWnd::showBalloon()
 
 bool DockWnd::x11Event(XEvent *e)
 {
+    fprintf(stderr, "Dock: %u\n", e->type);
     if (e->type == ClientMessage){
         if (!inTray){
             Atom xembed_atom = XInternAtom( qt_xdisplay(), "_XEMBED", FALSE );

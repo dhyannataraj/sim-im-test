@@ -91,7 +91,7 @@ void SmilePreview::setSmiles()
         for (i = 0; (nSmile < smiles->m_smiles.size()) && (i < 20); ){
             const QIconSet *icon = smiles->m_smiles[nSmile++].icon;
             if (icon == NULL)
-                    continue;
+                continue;
             QPixmap pict;
             if (!icon->isGenerated(QIconSet::Large, QIconSet::Normal)){
                 pict = icon->pixmap(QIconSet::Large, QIconSet::Normal);

@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "jabberconfig.h"
 #include "jabberclient.h"
+#include "jabberconfig.h"
 #include "jabber.h"
 #include "linklabel.h"
 

@@ -78,8 +78,8 @@ static bool parseDate(const QString &str, int &day, int &month, int &year)
         year = year * 10 + (c - '0');
     }
     if (year < 1000) {	/* Year must have 4 digits ! */
-      year = 0;
-      return true;
+        year = 0;
+        return true;
     }
     if (day && month && year){
         QDate d(year, month, day);

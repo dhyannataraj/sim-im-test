@@ -457,7 +457,7 @@ void YahooClient::process_packet(Params &params)
         }
     case YAHOO_SERVICE_FILETRANSFER:
         /*
-        
+
         	params[14] - can be empty when no message is send with the file...
             params[20] - url - just for filetransfer through website
         */
@@ -480,7 +480,7 @@ void YahooClient::process_packet(Params &params)
             log(L_DEBUG,"Please send paket to developer!");
         break;
     case YAHOO_SERVICE_CONFINVITE:
-    	log(L_WARN, "Conferencing currently not implemented!");
+        log(L_WARN, "Conferencing currently not implemented!");
     default:
         log(L_WARN, "Unknown service %02X", m_service);
     }
@@ -1009,7 +1009,7 @@ void YahooClient::process_file(const char *id, const char *fileName, const char 
 void YahooClient::process_fileurl(const char *id, const char *msg, const char *url)
 {
     UrlMessage *m = new UrlMessage(MessageUrl);
-    
+
     if (msg)
         m->setServerText(msg);
     m->setUrl(url);

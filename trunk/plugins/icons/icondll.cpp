@@ -276,38 +276,38 @@ typedef struct _ResourceDataEntry
 } ResourceDataEntry;
 
 typedef struct _ResourceNameInfo {
-     U16 rnOffset;
-     U16 rnLength;
-     U16 rnFlags;
-     U16 rnID;
-     U16 rnHandle;
-     U16 rnUsage;
+    U16 rnOffset;
+    U16 rnLength;
+    U16 rnFlags;
+    U16 rnID;
+    U16 rnHandle;
+    U16 rnUsage;
 } ResourceNameInfo;
 
 typedef struct _ResourceTypeInfo {
     U16                    rtTypeID;
     U16                    rtResourceCount;
-    U32                    rtReserved;    
+    U32                    rtReserved;
 } ResourceTypeInfo;
 
 typedef struct _ResourceIconDir
 {
-   U16 idReserved;   // Reserved (must be 0)
-   U16 idType;       // Resource type (1 for icons)
-   U16 idCount;      // How many images?
-   //GRPICONDIRENTRY        idEntries[1]; // The entries for each image
+    U16 idReserved;   // Reserved (must be 0)
+    U16 idType;       // Resource type (1 for icons)
+    U16 idCount;      // How many images?
+    //GRPICONDIRENTRY        idEntries[1]; // The entries for each image
 } ResourceIconDir;
 
 typedef struct _ResourceIconDirEntry
 {
-   U8   bWidth;               // Width, in pixels, of the image
-   U8   bHeight;              // Height, in pixels, of the image
-   U8   bColorCount;          // Number of colors in image (0 if >=8bpp)
-   U8   bReserved;            // Reserved
-   U16  wPlanes;              // Color Planes
-   U16  wBitCount;            // Bits per pixel
-   U32  dwBytesInRes;         // how many bytes in this resource?
-   U16  nID;                  // the ID
+    U8   bWidth;               // Width, in pixels, of the image
+    U8   bHeight;              // Height, in pixels, of the image
+    U8   bColorCount;          // Number of colors in image (0 if >=8bpp)
+    U8   bReserved;            // Reserved
+    U16  wPlanes;              // Color Planes
+    U16  wBitCount;            // Bits per pixel
+    U32  dwBytesInRes;         // how many bytes in this resource?
+    U16  nID;                  // the ID
 } ResourceIconDirEntry;
 
 typedef map<int, int> INT_MAP;
@@ -362,7 +362,7 @@ void IconLoader::getResourceTypeInfo(ResourceTypeInfo* ti)
 }
 
 void IconLoader::getResourceNameInfo(ResourceNameInfo* ni)
-{    
+{
     ni->rnOffset = read_16ubit();
     ni->rnLength = read_16ubit();
     ni->rnFlags = read_16ubit();
@@ -393,13 +393,13 @@ void IconLoader::getResourceIconDirEntry(ResourceIconDirEntry* ide)
 void IconLoader::getResourceTable()
 {
     unsigned            pos;
-    U16                 rscAlignShift;    
+    U16                 rscAlignShift;
     U16                 rscType;
-    ResourceTypeInfo    ti;    
-    ResourceNameInfo    ni;        
+    ResourceTypeInfo    ti;
+    ResourceNameInfo    ni;
 
     rscAlignShift = read_16ubit();
-    
+
     getResourceTypeInfo( &ti );
 
     while( ti.rtTypeID ) {
@@ -411,8 +411,8 @@ void IconLoader::getResourceTable()
         for( int i = 0; i < ti.rtResourceCount; ++i ) {
             getResourceNameInfo( &ni );
             if( rscType == RT_GROUP_ICON ) {
-                ResourceIconDir            id;    
-                ResourceIconDirEntry    ide;    
+                ResourceIconDir            id;
+                ResourceIconDirEntry    ide;
 
                 pos = f.at();
 
@@ -430,7 +430,7 @@ void IconLoader::getResourceTable()
 
         }
         getResourceTypeInfo( &ti );
-    }    
+    }
 }
 
 IconLoader::IconLoader(IconsMap *icon_map, const char *name)
@@ -451,7 +451,7 @@ IconLoader::IconLoader(IconsMap *icon_map, const char *name)
             return;
         }
         if((nh.ne_rsrctab - nh.ne_segtab)%8!=0)
-            log(L_WARN, "Extra 4 bytes in segment table.");     
+            log(L_WARN, "Extra 4 bytes in segment table.");
         f.at(nh.ne_rsrctab+dh.e_lfanew);
         getResourceTable();
     }else{
@@ -472,7 +472,7 @@ IconLoader::IconLoader(IconsMap *icon_map, const char *name)
     }
     for (INT_MAP::iterator it = groups.begin(); it != groups.end(); ++it){
         unsigned id = (*it).first;
-        QPixmap pict = getIcon(id);        
+        QPixmap pict = getIcon(id);
         if (pict.isNull()) continue;
         icon_map->insert(IconsMap::value_type(id, QIconSet(pict)));
     }
@@ -555,7 +555,7 @@ QPixmap IconLoader::getIcon(int id)
     }else if (bits == 24){
         depth = 32;
     }
-    QImage img(w, h, depth, numColors, QImage::BigEndian);    
+    QImage img(w, h, depth, numColors, QImage::BigEndian);
     if (depth == 8){
         QRgb *p = img.colorTable();
         for (int i = 0; i < numColors; i++){
@@ -600,7 +600,7 @@ QPixmap IconLoader::getIcon(int id)
             delete[] line;
         }else if (bits == 24){
             for (int j = (lineBytes / 3) - 1; j >= 0; j--)
-                ((QRgb*)data)[j] = qRgba( data[j*3+2], data[j*3+1], data[j*3], 0 );                
+                ((QRgb*)data)[j] = qRgba( data[j*3+2], data[j*3+1], data[j*3], 0 );
         }
     }
     QPixmap res;

@@ -292,7 +292,7 @@ void ICQClient::parseRosterItem(unsigned short type,
         break;
     case 0x0009:
     case 0x000f:    /* I saw this roster type in junction to
-                               TLV(0x0145) - DateTime() */
+                                   TLV(0x0145) - DateTime() */
         break;
     case 0x0010:{   /* This should maybe go into "Non-IM contact" */
             Tlv *tlv_name = NULL;
@@ -485,8 +485,8 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                             addContactRequest(contact);
                     }else{
                         contact->setGroup(newGroup);
-		                Event e(EventContactChanged, contact);
-	                    e.process();
+                        Event e(EventContactChanged, contact);
+                        e.process();
                     }
                 }
             }
