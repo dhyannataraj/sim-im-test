@@ -90,6 +90,7 @@ const int mnuActionAuto = 41;
 const int mnuInfoNew = 42;
 const int mnuHistoryNew = 43;
 const int mnuGo = 44;
+const int mnuMonitor = 45;
 
 const int mnuGrpTitle    = 0x10000;
 const int mnuPopupStatus = 0x20000;
@@ -111,6 +112,7 @@ class ICQEvent;
 class QDialog;
 class KAboutKDE;
 class HotKeys;
+class MonitorWindow;
 
 class unread_msg
 {
@@ -248,6 +250,12 @@ public:
     bool	UseDock;
     bool	WMDock;
 
+    short	MonitorX;
+    short	MonitorY;
+    unsigned short MonitorWidth;
+    unsigned short MonitorHeight;
+    unsigned short MonitorLevel;
+
     bool 	     init();
 
     QPopupMenu   *menuStatus;
@@ -380,6 +388,8 @@ protected slots:
     void badPassword();
     void setupClosed();
     void clearUserMenu();
+    void networkMonitor();
+    void monitorFinished();
 protected:
     bool eventFilter(QObject *o, QEvent *e);
 
@@ -417,6 +427,7 @@ protected:
     list<UserBox*> containers;
     SearchDialog *searchDlg;
     SetupDialog *setupDlg;
+    MonitorWindow *mNetMonitor;
     bool bInLogin;
 
     unsigned hideTime;

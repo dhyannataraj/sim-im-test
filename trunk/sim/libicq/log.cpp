@@ -19,6 +19,15 @@
 #include <stdarg.h>
 #include <time.h>
 
+#ifdef WIN32
+#if _MSC_VER > 1020
+#pragma warning(disable:4530)
+#endif
+#endif
+
+#include <string>
+using namespace std;
+
 #ifndef WIN32
 #include <syslog.h>
 #endif
@@ -27,16 +36,17 @@
 #include <qapplication.h>
 #endif
 
-#ifdef WIN32
-#if _MSC_VER > 1020
-#pragma warning(disable:4530)
-#endif
-#endif
-
 #include "buffer.h"
 #include "log.h"
 
+logProc *LogProc = NULL;
+
 unsigned short log_level = L_ERROR;
+
+void setLogProc(logProc *p)
+{
+    LogProc = p;
+}
 
 static const char *level_name(unsigned short n)
 {
@@ -47,35 +57,60 @@ static const char *level_name(unsigned short n)
     return "???";
 }
 
-void log(unsigned short l, const char *fmt, ...)
+void vformat(string &s, const char *fmt, va_list ap)
 {
-    if ((l & log_level) == 0) return;
+    char msg[1024];
+    _vsnprintf(msg, sizeof(msg), fmt, ap);
+    s += msg;
+}
+
+void format(string &s, const char *fmt, ...)
+{
+    va_list ap;
+    va_start(ap, fmt);
+    vformat(s, fmt, ap);
+    va_end(ap);
+}
+
+void log_string(unsigned short l, const char *s)
+{
+    bool bLog = (l & log_level) != 0;
+    if (!bLog && (LogProc == NULL)) return;
     time_t now;
     time(&now);
     struct tm *tm = localtime(&now);
+    string m;
+    format(m, "%02u:%02u:%02u [%s] ", tm->tm_hour, tm->tm_min, tm->tm_sec, level_name(l));
+    m += s;
+    if (bLog){
+#ifdef QT_DLL
+        qWarning("%s", m.c_str());
+#else
+        fprintf(stderr, "%s", m.c_str());
+        fprintf(stderr, "\n");
+#endif
+    }
+    if (LogProc) LogProc(l, m.c_str());
+}
+
+void log(unsigned short l, const char *fmt, ...)
+{
+    bool bLog = (l & log_level) != 0;
+    if (!bLog && (LogProc == NULL)) return;
     va_list ap;
     va_start(ap, fmt);
-#ifdef QT_DLL
-    char time[128] = "";
-    char msg[1024];
-    if (!(l & L_SILENT))
-        _snprintf(time, sizeof(time), "%02u:%02u:%02u [%s] ", tm->tm_hour, tm->tm_min, tm->tm_sec, level_name(l));
-    _vsnprintf(msg, sizeof(msg), fmt, ap);
-    qWarning("%s%s", time, msg);
-#else
-    if (!(l & L_SILENT))
-        fprintf(stderr, "%02u:%02u:%02u [%s] ", tm->tm_hour, tm->tm_min, tm->tm_sec, level_name(l));
-    vfprintf(stderr, fmt, ap);
-    fprintf(stderr, "\n");
-#endif
+    string m;
+    vformat(m, fmt, ap);
+    log_string(l, m.c_str());
     va_end(ap);
 }
 
 void dumpPacket(Buffer &b, unsigned long start, const char *operation)
 {
-    if ((log_level & L_PACKET) == 0) return;
-    string res;
-    log(L_PACKET, "%s %u bytes", operation, b.size() - start);
+    bool bLog = log_level & L_PACKET;
+    if (!bLog && (LogProc == NULL)) return;
+    string m;
+    format(m, "%s %u bytes\n", operation, b.size() - start);
     char line[81];
     char *p1 = line;
     char *p2 = line;
@@ -83,8 +118,10 @@ void dumpPacket(Buffer &b, unsigned long start, const char *operation)
     unsigned offs = 0;
     for (unsigned i = start; i < b.size(); i++, n++){
         char buf[32];
-        if (n == 16)
-            log(L_PACKET | L_SILENT, "%s", line);
+        if (n == 16){
+            m += line;
+            m += "\n";
+        }
         if (n >= 16){
             memset(line, ' ', 80);
             line[80] = 0;
@@ -102,6 +139,7 @@ void dumpPacket(Buffer &b, unsigned long start, const char *operation)
         memcpy(p1, buf, 3);
         p1 += 3;
     }
-    if (n <= 16) log(L_PACKET | L_SILENT, "%s", line);
+    if (n <= 16) m += line;
+    log_string(L_PACKET, m.c_str());
 }
 

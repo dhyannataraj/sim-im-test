@@ -30,6 +30,7 @@
 #include "userbox.h"
 #include "themes.h"
 #include "xosd.h"
+#include "monitor.h"
 #include "ui/logindlg.h"
 #include "ui/proxydlg.h"
 #include "passwddlg.h"
@@ -273,6 +274,11 @@ cfgParam MainWindow_Params[] =
         { "DockY", OFFSET_OF(MainWindow, DockY), PARAM_SHORT, 0 },
         { "UseDock", OFFSET_OF(MainWindow, UseDock), PARAM_BOOL, 0 },
         { "WMDock", OFFSET_OF(MainWindow, WMDock), PARAM_BOOL, 0 },
+        { "MonitorX", OFFSET_OF(MainWindow, MonitorX), PARAM_SHORT, 0 },
+        { "MonitorY", OFFSET_OF(MainWindow, MonitorY), PARAM_SHORT, 0 },
+        { "MonitorWidth", OFFSET_OF(MainWindow, MonitorWidth), PARAM_USHORT, 0 },
+        { "MonitorHeight", OFFSET_OF(MainWindow, MonitorHeight), PARAM_USHORT, 0 },
+        { "MonitorLevel", OFFSET_OF(MainWindow, MonitorLevel), PARAM_USHORT, L_PACKET | L_DEBUG | L_WARN | L_ERROR },
         { "", 0, 0, 0 }
     };
 
@@ -292,6 +298,7 @@ MainWindow::MainWindow(const char *name)
     translator = NULL;
     mAboutApp = NULL;
     hideTime = 0;
+    mNetMonitor = NULL;
 
 #ifdef HAVE_UMASK
     umask(0077);
@@ -2190,6 +2197,29 @@ void MainWindow::bug_report()
     goURL("http://sourceforge.net/tracker/?group_id=56866");
 }
 
+void MainWindow::networkMonitor()
+{
+    if (mNetMonitor == NULL)
+    {
+        mNetMonitor = new MonitorWindow();
+        connect(mNetMonitor, SIGNAL(finished()), this, SLOT(monitorFinished()));
+    }
+#ifdef USE_KDE
+    KWin::setOnDesktop(mNetMonitor->winId(), KWin::currentDesktop());
+#endif
+    mNetMonitor->show();
+    mNetMonitor->setActiveWindow();
+    mNetMonitor->raise();
+#ifdef USE_KDE
+    KWin::setActiveWindow(mNetMonitor->winId());
+#endif
+}
+
+void MainWindow::monitorFinished()
+{
+    mNetMonitor = NULL;
+}
+
 void MainWindow::about()
 {
     if( mAboutApp == 0 )
@@ -2284,6 +2314,7 @@ void MainWindow::loadMenu()
     menuFunction->insertItem(i18n("Always on top"), this, SLOT(toggleOnTop()), 0, mnuOnTop);
 #endif
     menuFunction->insertSeparator();
+    menuFunction->insertItem(i18n("Network monitor"), this, SLOT(networkMonitor()));
     menuFunction->insertItem(i18n("&Bug report"), this, SLOT(bug_report()));
     menuFunction->insertItem(Icon("licq"), i18n("&About SIM"), this, SLOT(about()));
 #ifdef USE_KDE

@@ -1,7 +1,7 @@
 /***************************************************************************
-                          log.h  -  description
+                          monitor.h  -  description
                              -------------------
-    begin                : Sun Mar 10 2002
+    begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
     email                : shutoff@mail.ru
  ***************************************************************************/
@@ -15,42 +15,43 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _LOG_H
-#define _LOG_H
+#ifndef _MONITOR_H
+#define _MONITOR_H
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
+#include "defs.h"
+#include <qmainwindow.h>
+
+class QMultiLineEdit;
+class QPopupMenu;
+
+class MonitorWindow : public QMainWindow
+{
+    Q_OBJECT
+public:
+    MonitorWindow();
+    ~MonitorWindow();
+    QMultiLineEdit *edit;
+    void add(const char *s);
+    int logLevel;
+signals:
+    void finished();
+protected slots:
+    void save();
+    void exit();
+    void copy();
+    void erase();
+    void packets();
+    void debug();
+    void warning();
+    void error();
+    void adjustFile();
+    void adjustEdit();
+    void adjustLog();
+protected:
+    QPopupMenu *menuFile;
+    QPopupMenu *menuEdit;
+    QPopupMenu *menuLog;
+};
+
 #endif
 
-#ifdef STDC_HEADERS
-#include <stdlib.h>
-#include <stddef.h>
-#endif
-#ifdef HAVE_INTTYPES_H
-#include <inttypes.h>
-#else
-#ifdef HAVE_STDINT_H
-#include <stdint.h>
-#endif
-#endif
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-
-extern unsigned short log_level;
-
-const unsigned short L_ERROR 	= 0x01;
-const unsigned short L_WARN  	= 0x02;
-const unsigned short L_DEBUG 	= 0x04;
-const unsigned short L_PACKET  	= 0x08;
-
-class Buffer;
-
-typedef void logProc(unsigned short level, const char *str);
-
-void setLogProc(logProc *proc);
-
-void log(unsigned short level, const char *fmt, ...);
-void dumpPacket(Buffer &b, unsigned long start, const char *info);
-
-#endif
