@@ -56,6 +56,8 @@ bool EditSpell::colorChanged()
 
 void EditSpell::resetColors(bool bCanRich)
 {
+    log(L_DEBUG, "Reset colors %u %06X %06X %06X %06X", bCanRich,
+	pMain->MessageBgColor(), pMain->MessageFgColor(), baseBG, baseFG); 
     if (bCanRich){
         if (pMain->MessageBgColor() != pMain->MessageFgColor()){
             setBackground(pMain->MessageBgColor());
