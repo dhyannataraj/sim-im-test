@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2002-07-15 02:13+0400\n"
-"PO-Revision-Date: 2002-07-11 20:39GMT\n"
+"PO-Revision-Date: 2002-07-15 12:15GMT\n"
 "Last-Translator: Crissi <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -19,16 +19,20 @@ msgid ""
 "I am currently away from ICQ.\n"
 "Please leave your message and I will get back to you as soon as I return!\n"
 msgstr ""
+"Ich bin gerade nicht am Rechner.\n"
+"Bitte hinterlassen Sie eine Nachricht und ich werde mich bei Ihnen melden!\n"
 
 #: libicq/icqclient.cpp:56
 msgid ""
 "I am out'a here.\n"
 "See you tomorrow!\n"
 msgstr ""
+"Ich bin nicht da.\n"
+"wir sehen uns morgen!\n"
 
 #: libicq/icqclient.cpp:57
 msgid "Please do not disturb me now. Disturb me later.\n"
-msgstr ""
+msgstr "Bitte nicht stören. Versuchen Sie es bitte später.\n"
 
 #: libicq/icqclient.cpp:58
 msgid ""
@@ -36,10 +40,12 @@ msgid ""
 "Disturb me later.\n"
 "Only urgent messages, please!\n"
 msgstr ""
+"Bitte nicht stören. Versuchen Sie es bitte später.\n"
+"Bitte nur dringende Nachrichten!\n"
 
 #: libicq/icqclient.cpp:59
 msgid "We'd love to hear what you have to say. Join our chat.\n"
-msgstr ""
+msgstr "Wir möchten gern chatten. Bitte komm doch in unseren Chat.\n"
 
 #: libicq/translator.cpp:121
 msgid "UTF-8"
@@ -634,9 +640,9 @@ msgid "Directory for incoming files"
 msgstr "Verzeichnis für ankommende Dateien"
 
 #: ui/filetransfer.cpp:50
-#, fuzzy, c-format
+#, c-format
 msgid "Receive file from %1"
-msgstr "Datei empfangen"
+msgstr "Datei von %1 empfangen"
 
 #: ui/filetransfer.cpp:51 ui/filetransfer.cpp:58 ui/filetransferbase.cpp:43
 msgid "Remote file:"
@@ -647,17 +653,17 @@ msgid "Local file:"
 msgstr "Lokale Datei:"
 
 #: ui/filetransfer.cpp:56
-#, fuzzy, c-format
+#, c-format
 msgid "Send file to %1"
-msgstr "Datei senden"
+msgstr "Datei an %1 senden"
 
 #: ui/filetransfer.cpp:115
 msgid "[done]"
-msgstr ""
+msgstr "[abgeschlossen]"
 
 #: ui/filetransfer.cpp:118
 msgid "[fail]"
-msgstr ""
+msgstr "[fehlgeschlagen]"
 
 #: ui/filetransfer.cpp:182
 msgid "File %1 exist"
@@ -1156,8 +1162,7 @@ msgstr "Globalen Online-Alarm überschreiben"
 
 #: ui/alertdialogbase.cpp:95
 msgid "Activate online alert when user returns from Away or NA"
-msgstr ""
-"Online-Alarm aktivieren, wenn der Benutzer von NA oder Weg zurückkehrt"
+msgstr "Online-Alarm aktivieren, wenn der Benutzer von NA oder Weg zurückkehrt"
 
 #: ui/alertdialogbase.cpp:99
 msgid "Online alert options"
@@ -1345,8 +1350,7 @@ msgid "Show user window in task manager"
 msgstr "Benutzerfenster in Prozeßliste anzeigen"
 
 #: ui/statussetupbase.cpp:95
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -1461,17 +1465,15 @@ msgstr "Form 4"
 msgid "Additional information about user:"
 msgstr "Zusätzliche Information über den Benutzer:"
 
-#: _translatorinfo.cpp:1
-#, fuzzy
+#:  translatorinfo.cpp:1
 msgid ""
-"_: NAME OF TRANSLATORS\n"
+" : NAME OF TRANSLATORS\n"
 "Your names"
 msgstr "Crissi"
 
-#: _translatorinfo.cpp:3
-#, fuzzy
+#:  translatorinfo.cpp:3
 msgid ""
-"_: EMAIL OF TRANSLATORS\n"
+" : EMAIL OF TRANSLATORS\n"
 "Your emails"
 msgstr "crissi99@gmx.de"
 
@@ -1480,3 +1482,5 @@ msgstr "crissi99@gmx.de"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
+
