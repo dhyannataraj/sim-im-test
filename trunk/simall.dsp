@@ -93,5 +93,65 @@ CFG=simall - Win32 Debug
 
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 # End Group
+# Begin Source File
+
+SOURCE=.\plugins\_core\styles\Separated.2.xsl
+# End Source File
+# Begin Source File
+
+SOURCE=.\plugins\_core\styles\Separated.3.xsl
+# End Source File
+# Begin Source File
+
+SOURCE=.\plugins\_core\styles\Separated.4.xsl
+# End Source File
+# Begin Source File
+
+SOURCE=".\plugins\_core\styles\Separated.5.(2+3).xsl"
+# End Source File
+# Begin Source File
+
+SOURCE=".\plugins\_core\styles\Separated.6.(2+4).xsl"
+# End Source File
+# Begin Source File
+
+SOURCE=".\plugins\_core\styles\Separated.7.(3+4).xsl"
+# End Source File
+# Begin Source File
+
+SOURCE=".\plugins\_core\styles\Separated.8.(2+3+4).xsl"
+# End Source File
+# Begin Source File
+
+SOURCE=.\plugins\_core\styles\Separated.xsl
+# End Source File
+# Begin Source File
+
+SOURCE=.\plugins\_core\styles\SIM.2.xsl
+# End Source File
+# Begin Source File
+
+SOURCE=.\plugins\_core\styles\SIM.3.xsl
+# End Source File
+# Begin Source File
+
+SOURCE=".\plugins\_core\styles\SIM.4.(2+3).xsl"
+# End Source File
+# Begin Source File
+
+SOURCE=.\plugins\_core\styles\SIM.xsl
+# End Source File
+# Begin Source File
+
+SOURCE=.\plugins\_core\styles\XChat.xsl
+# End Source File
+# Begin Source File
+
+SOURCE=.\plugins\_core\styles\XChat2seconds.xsl
+# End Source File
+# Begin Source File
+
+SOURCE=.\plugins\_core\styles\XChat3fullDate.xsl
+# End Source File
 # End Target
 # End Project
