@@ -19,18 +19,20 @@
 #include "spell.h"
 #include "textshow.h"
 #include "msgedit.h"
+#include "core.h"
 
 #include <qtimer.h>
 
 const unsigned ErrorColor = 0xFF0101;
 
 SpellHighlighter::SpellHighlighter(QTextEdit *edit, SpellPlugin *plugin)
-        : QSyntaxHighlighter(edit)
+        : QSyntaxHighlighter(edit), EventReceiver(HighPriority)
 {
     m_paragraph = -1;
     m_bDirty = false;
     m_plugin = plugin;
     m_bCheck = false;
+	m_bDisable = false;
     m_words.setAutoDelete(false);
 }
 
@@ -81,21 +83,33 @@ void SpellHighlighter::text(const QString &text)
                 m_word       = word;
                 m_bInError   = m_bError;
                 m_start_word = start;
-            }else if (m_bError && (m_parag == m_paragraph)){
-                bool *state = m_words.find(word);
-                if ((state == NULL) || *state)
-                    setFormat(start, m_pos - start, static_cast<TextEdit*>(textEdit())->defForeground());
+            }else if (m_bError){
+				if (m_bDisable) {
+					setFormat(start, m_pos - start, static_cast<TextEdit*>(textEdit())->defForeground());
+				}else if (m_parag == m_paragraph){
+					bool *state = m_words.find(word);
+					if ((state == NULL) || *state)
+						setFormat(start, m_pos - start, static_cast<TextEdit*>(textEdit())->defForeground());
+				}
             }
         }else if (!m_bCheck){
-            bool *state = m_words.find(word);
-            if (state){
-                if (!*state)
-                    setFormat(start, m_pos - start, QColor(ErrorColor));
-            }else{
-                m_words.insert(word, &WORD_OK);
-                if (m_plugin->m_ignore.find(m_word) == NULL)
-                    emit check(word);
-            }
+			if (m_bDisable){
+				if (m_bError)
+					setFormat(start, m_pos - start, static_cast<TextEdit*>(textEdit())->defForeground());
+			}else{
+				bool *state = m_words.find(word);
+				if (state){
+					if (!*state){
+						setFormat(start, m_pos - start, QColor(ErrorColor));
+					}else if (m_bError){
+						setFormat(start, m_pos - start, static_cast<TextEdit*>(textEdit())->defForeground());
+					}
+				}else{
+					m_words.insert(word, &WORD_OK);
+					if (m_plugin->m_ignore.find(m_word) == NULL)
+						emit check(word);
+				}
+			}
         }
     }
 }
@@ -205,6 +219,13 @@ void *SpellHighlighter::processEvent(Event *e)
     }
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
+		if (cmd->id == CmdSend){
+			if (((MsgEdit*)(cmd->param))->m_edit == textEdit()){
+				m_bDisable = true;
+				rehighlight();
+				QTimer::singleShot(50, this, SLOT(restore()));
+			}
+		}
         if ((cmd->id >= m_plugin->CmdSpell) && (cmd->id < m_plugin->CmdSpell + m_sug.count() + 1)){
             MsgEdit *m_edit = (MsgEdit*)(cmd->param);
             if (m_edit->m_edit != textEdit())
@@ -217,15 +238,14 @@ void *SpellHighlighter::processEvent(Event *e)
                 m_words.insert(m_word, &WORD_OK);
                 m_bDirty = true;
                 QTimer::singleShot(300, this, SLOT(reformat()));
-            }else if (cmd->id == m_plugin->CmdSpell + 1){
+			}else  if (cmd->id == m_plugin->CmdSpell + 1){
                 bool *state = m_plugin->m_ignore.find(m_word);
                 if (state == NULL)
                     m_plugin->m_ignore.insert(m_word, &WORD_OK);
                 state = m_words.find(m_word);
                 if (state)
                     m_words.remove(m_word);
-                m_words.insert(m_word, &WORD_OK);
-                m_bDirty = true;
+                 m_bDirty = true;
                 QTimer::singleShot(300, this, SLOT(reformat()));
             }else{
                 unsigned n = cmd->id - m_plugin->CmdSpell - 2;
@@ -236,6 +256,12 @@ void *SpellHighlighter::processEvent(Event *e)
         }
     }
     return NULL;
+}
+
+void SpellHighlighter::restore()
+{
+	m_bDisable = false;
+	rehighlight();
 }
 
 #ifndef WIN32

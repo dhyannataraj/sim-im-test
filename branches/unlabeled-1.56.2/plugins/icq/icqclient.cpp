@@ -1402,11 +1402,13 @@ QString ICQClient::toUnicode(const char *serverText, const char *clientName, uns
         while ((data = ++it) != NULL){
             if (it.client()->dataName(data) != clientName)
                 continue;
-            return static_cast<ICQClient*>(it.client())->toUnicode(serverText, (ICQUserData*)data);
+            QString res = static_cast<ICQClient*>(it.client())->toUnicode(serverText, (ICQUserData*)data);
+			return res.replace(QRegExp("\r"), "");
         }
     }
     QTextCodec *codec = _getCodec(NULL);
-    return codec->toUnicode(serverText, strlen(serverText));
+    QString res = codec->toUnicode(serverText, strlen(serverText));
+	return res.replace(QRegExp("\r"), "");
 }
 
 QString ICQClient::toUnicode(const char *str, ICQUserData *client_data)
