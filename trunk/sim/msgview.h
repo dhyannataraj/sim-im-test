@@ -60,12 +60,14 @@ public:
     QString quoteText(const char *text, const char *charset);
     void setUin(unsigned long);
     unsigned long Uin() { return m_nUin; }
+    void copy();
 signals:
     void goMessage(unsigned long Uin, unsigned long msgId);
     void showPopup(QPoint);
 protected slots:
     void encodingChanged(unsigned long);
 protected:
+    QString unquoteString(const QString &s, int from, int to);
     QTextCodec *codec;
     unsigned long m_nUin;
     TransparentBg *bg;

@@ -89,13 +89,13 @@ void log_string(unsigned short l, const char *s)
     m += s;
     if (bLog){
 #ifdef QT_DLL
-		for (char *p = (char*)m.c_str(); *p; ){
-			char *r = strchr(p, '\n');
-			if (r) *r = 0;
-	        qWarning("%s", p);
-			if (r == NULL) break;
-			p = r + 1;
-		}
+        for (char *p = (char*)m.c_str(); *p; ){
+            char *r = strchr(p, '\n');
+            if (r) *r = 0;
+            qWarning("%s", p);
+            if (r == NULL) break;
+            p = r + 1;
+        }
 #else
         fprintf(stderr, "%s", m.c_str());
         fprintf(stderr, "\n");

@@ -133,7 +133,7 @@ public:
     bool				ProxyAuth;
     string				ProxyUser;
     string				ProxyPasswd;
-	bool isHttpProxy();
+    bool isHttpProxy();
 protected:
     list<ClientSocket*> errSockets;
     list<Socket*> removedSockets;

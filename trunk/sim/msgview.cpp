@@ -275,6 +275,102 @@ QString TextShow::quoteText(const char *text, const char *charset)
     QString s = SIMClient::from8Bit(codec, msg, charset);
     return s;
 }
+static const char *smiles[] =
+    {
+        ":-)",
+        ":-O",
+        ":-|",
+        ":-/",
+        ":-(",
+        ":-{}",
+        ":*)",
+        ":'-(",
+        ";-)",
+        ":-@",
+        ":-\")",
+        ":-X",
+        ":-P",
+        "8-)",
+        "O-)",
+        ":-D"
+    };
+
+QString TextShow::unquoteString(const QString &s, int from, int to)
+{
+    if (from < 0) from = 0;
+    if (to < 0) to = s.length();
+    QString res;
+    int n = 0;
+    for (int i = 0; i < s.length(); i++){
+        if (s[i] == '&'){
+            int m = i;
+            for (; i < s.length(); i++)
+                if (s[i] == ';') break;
+            QString ch = s.mid(m, i - m + 1);
+            QString r;
+            if (ch == "&amp;"){
+                r = "&";
+            }else if (ch == "&gt;"){
+                r = ">";
+            }else if (ch == "&lt;"){
+                r = "<";
+            }else if (ch == "&quot;"){
+                r = "\"";
+            }
+            if (!r.isEmpty()){
+                if (n >= to) break;
+                if (n >= from) res += r;
+                n++;
+                continue;
+            }
+            i = m;
+        }
+        if (s[i] == '<'){
+            int m = i;
+            for (; i < s.length(); i++)
+                if (s[i] == '>') break;
+            QString t = s.mid(m, i - m + 1);
+            for (m = 1; m < t.length(); m++)
+                if ((t[m] == ' ') || (t[m] == '>')) break;
+            QString tag = t.mid(1, m - 1);
+            if (tag == "img"){
+                int p = t.find("icon:smile");
+                if (p >= 0){
+                    unsigned nSmile = atol(t.mid(p + 10).latin1());
+                    if (nSmile < sizeof(smiles)){
+                        if (n >= to) break;
+                        if (n >= from) res += smiles[nSmile];
+                    }
+                }
+                n++;
+            }else if (tag == "br"){
+                if (n >= to) break;
+                if (n >= from) res += "\n";
+                n++;
+            }
+            continue;
+        }
+        if (n >= to) break;
+        if (n >= from) res += s[i];
+        n++;
+    }
+    return res;
+}
+
+void TextShow::copy()
+{
+    int paraFrom, paraTo, indexFrom, indexTo;
+    getSelection(&paraFrom, &indexFrom, &paraTo, &indexTo);
+    if ((paraFrom > paraTo) || ((paraFrom == paraTo) && (indexFrom >= indexTo)))
+        return;
+    QString res;
+    for (int i = paraFrom; i <= paraTo; i++){
+        res += unquoteString(text(i), (i == paraFrom) ? indexFrom : 0, (i == paraTo) ? indexTo : -1);
+        if ((i < paraTo) && (i < paragraphs()))
+            res += "\n";
+    }
+    QApplication::clipboard()->setText(res);
+}
 
 void TextShow::encodingChanged(unsigned long _uin)
 {

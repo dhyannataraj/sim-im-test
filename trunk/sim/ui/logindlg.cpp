@@ -66,6 +66,7 @@ void LoginDialog::textChanged(const QString&)
 
 void LoginDialog::login()
 {
+    btnProxy->setEnabled(false);
     btnClose->setText(i18n("Cancel"));
     lblUIN->setEnabled(false);
     edtUIN->setEnabled(false);
@@ -103,6 +104,7 @@ void LoginDialog::stopLogin()
     lblPasswd->setEnabled(true);
     edtPasswd->setEnabled(true);
     chkOldUser->setEnabled(true);
+    btnProxy->setEnabled(true);
     setOldUser(chkOldUser->isOn());
     textChanged("");
     bLogin = false;

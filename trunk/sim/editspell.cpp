@@ -87,11 +87,6 @@ void EditSpell::keyReleaseEvent(QKeyEvent *e)
     QTextEdit::keyReleaseEvent(e);
 }
 
-void EditSpell::focusOutEvent(QFocusEvent *e)
-{
-    QTextEdit::focusOutEvent(e);
-}
-
 bool EditSpell::colorChanged()
 {
     return ((palette().color(QPalette::Active, QColorGroup::Base).rgb() != baseBG.rgb()) ||

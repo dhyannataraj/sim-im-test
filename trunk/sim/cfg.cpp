@@ -167,19 +167,19 @@ void save(void *_obj, const cfgParam *params, ostream &out, DICT &dict)
                     value = *((bool*)(obj + p->offs)) ? "true" : "false";
                 break;
             case PARAM_I18N:{
-                s = (string*)(obj + p->offs);
-                v = "";
-				QString vStr;
-                if (p->defValue){
-                    vStr = i18n((const char*)(p->defValue));
-					if (!vStr.isEmpty()) v = (const char*)(vStr.local8Bit());
-				}
-                if (strcmp(s->c_str(), v.c_str())){
-					value = *s;
-					writeEmpty = true;
-				}
-                break;
-			}
+                    s = (string*)(obj + p->offs);
+                    v = "";
+                    QString vStr;
+                    if (p->defValue){
+                        vStr = i18n((const char*)(p->defValue));
+                        if (!vStr.isEmpty()) v = (const char*)(vStr.local8Bit());
+                    }
+                    if (strcmp(s->c_str(), v.c_str())){
+                        value = *s;
+                        writeEmpty = true;
+                    }
+                    break;
+                }
             case PARAM_ULONGS:{
                     l = (list<unsigned long>*)(obj + p->offs);
                     if (l->size()){
