@@ -422,6 +422,12 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name simctrl
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simremote
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simext
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -551,6 +557,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name action
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name zodiak
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -568,6 +577,48 @@ Package=<4>
 ###############################################################################
 
 Project: "simctrl"=.\plugins\remote\simctrl.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "simext"=.\plugins\remote\simext.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simremote
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "simipc"=.\plugins\remote\simipc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simremote
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "simremote"=.\plugins\remote\simremote.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -731,6 +782,24 @@ Package=<5>
 
 Package=<4>
 {{{
+}}}
+
+###############################################################################
+
+Project: "zodiak"=.\plugins\zodiak\zodiak.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simui
+    End Project Dependency
 }}}
 
 ###############################################################################

@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>347</width>
-            <height>248</height>
+            <width>343</width>
+            <height>300</height>
         </rect>
     </property>
     <property>
@@ -591,7 +591,7 @@
                             <string>Send &amp;rich text messages if possible</string>
                         </property>
                     </widget>
-                    <spacer row="7"  column="0" >
+                    <spacer row="9"  column="0" >
                         <property>
                             <name>name</name>
                             <cstring>Spacer8</cstring>
@@ -612,6 +612,28 @@
                             </size>
                         </property>
                     </spacer>
+                    <widget row="7"  column="0"  rowspan="1"  colspan="3" >
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkSubscribe</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Automaticaly send &amp;subscribe request</string>
+                        </property>
+                    </widget>
+                    <widget row="8"  column="0"  rowspan="1"  colspan="3" >
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkAccept</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Automaticaly &amp;accept subscribe requests</string>
+                        </property>
+                    </widget>
                 </grid>
             </widget>
         </widget>

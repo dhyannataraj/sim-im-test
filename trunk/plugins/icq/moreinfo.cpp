@@ -18,6 +18,7 @@
 #include "simapi.h"
 #include "moreinfo.h"
 #include "icqclient.h"
+#include "datepicker.h"
 
 #include <qpushbutton.h>
 #include <qdatetime.h>
@@ -35,23 +36,15 @@ MoreInfo::MoreInfo(QWidget *parent, struct ICQUserData *data, ICQClient *client)
     QDate now = QDate::currentDate();
     spnAge->setSpecialValueText(" ");
     spnAge->setRange(0, 100);
-    spnDay->setSpecialValueText(" ");
-    spnDay->setRange(0, 31);
-    spnYear->setSpecialValueText(" ");
-    spnYear->setRange(now.year() - 100, now.year());
     connect(cmbLang1, SIGNAL(activated(int)), this, SLOT(setLang(int)));
     connect(cmbLang2, SIGNAL(activated(int)), this, SLOT(setLang(int)));
     connect(cmbLang3, SIGNAL(activated(int)), this, SLOT(setLang(int)));
-    connect(cmbMonth, SIGNAL(activated(int)), this, SLOT(birthDayChanged(int)));
-    connect(spnDay, SIGNAL(valueChanged(int)), this, SLOT(birthDayChanged(int)));
-    connect(spnYear, SIGNAL(valueChanged(int)), this, SLOT(birthDayChanged(int)));
+    connect(edtDate, SIGNAL(changed()), this, SLOT(birthDayChanged()));
     if (m_data){
         disableWidget(spnAge);
         edtHomePage->setReadOnly(true);
         disableWidget(cmbGender);
-        disableWidget(cmbMonth);
-        disableWidget(spnDay);
-        disableWidget(spnYear);
+        disableWidget(edtDate);
         disableWidget(cmbLang1);
         disableWidget(cmbLang2);
         disableWidget(cmbLang3);
@@ -162,23 +155,8 @@ void MoreInfo::fill()
     edtHomePage->setText(m_client->toUnicode(data->Homepage, data));
     initCombo(cmbGender, (unsigned short)(data->Gender), genders);
     if (spnAge->text() == "0") spnAge->setSpecialValueText("");
-    cmbMonth->insertItem("");
-    cmbMonth->insertItem(i18n("January"));
-    cmbMonth->insertItem(i18n("February"));
-    cmbMonth->insertItem(i18n("March"));
-    cmbMonth->insertItem(i18n("April"));
-    cmbMonth->insertItem(i18n("May"));
-    cmbMonth->insertItem(i18n("June"));
-    cmbMonth->insertItem(i18n("July"));
-    cmbMonth->insertItem(i18n("August"));
-    cmbMonth->insertItem(i18n("September"));
-    cmbMonth->insertItem(i18n("October"));
-    cmbMonth->insertItem(i18n("November"));
-    cmbMonth->insertItem(i18n("December"));
-    cmbMonth->setCurrentItem(data->BirthMonth);
-    spnDay->setValue(data->BirthDay);
-    spnYear->setValue(data->BirthYear);
-    birthDayChanged(0);
+    edtDate->setDate(data->BirthDay, data->BirthMonth, data->BirthYear);
+    birthDayChanged();
     unsigned l = data->Language;
     char l1 = (char)(l & 0xFF);
     l = l >> 8;
@@ -192,19 +170,11 @@ void MoreInfo::fill()
     urlChanged(edtHomePage->text());
 }
 
-void MoreInfo::birthDayChanged(int)
+void MoreInfo::birthDayChanged()
 {
-    int maxDay = 31;
-    int days[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-    int year = atol(spnYear->text().latin1());
-    int month = cmbMonth->currentItem();
-    int day = atol(spnDay->text().latin1());
-    if (month){
-        maxDay = days[month - 1];
-        if ((month == 3) && ((year & 3) == 0)) maxDay = 29;
-    }
-    spnDay->setRange(0, maxDay);
-    if (year && month && day){
+    int day, month, year;
+    edtDate->getDate(day, month, year);
+    if (year){
         QDate now = QDate::currentDate();
         int age = now.year() - year;
         if ((now.month() < month) || ((now.month() == month) && (now.day() < day))) age--;
@@ -254,9 +224,11 @@ void MoreInfo::apply(Client *client, void *_data)
     ICQUserData *data = (ICQUserData*)_data;
     set_str(&data->Homepage, m_client->fromUnicode(edtHomePage->text(), NULL).c_str());
     data->Gender = getComboValue(cmbGender, genders);
-    data->BirthMonth = cmbMonth->currentItem();
-    data->BirthDay = atol(spnDay->text().latin1());
-    data->BirthYear = atol(spnYear->text().latin1());
+    int day, month, year;
+    edtDate->getDate(day, month, year);
+    data->BirthMonth = month;
+    data->BirthDay   = day;
+    data->BirthYear  = year;
     unsigned l1 = getComboValue(cmbLang1, languages);
     unsigned l2 = getComboValue(cmbLang2, languages);
     unsigned l3 = getComboValue(cmbLang3, languages);

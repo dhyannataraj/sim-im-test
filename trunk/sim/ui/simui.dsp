@@ -96,6 +96,10 @@ SOURCE=.\ballonmsg.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\datepicker.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\editfile.cpp
 # End Source File
 # Begin Source File
@@ -113,6 +117,11 @@ SOURCE=.\listview.cpp
 # Begin Source File
 
 SOURCE=.\moc_ballonmsg.cpp
+# ADD CPP /W3
+# End Source File
+# Begin Source File
+
+SOURCE=.\moc_datepicker.cpp
 # ADD CPP /W3
 # End Source File
 # Begin Source File
@@ -261,6 +270,39 @@ InputName=ballonmsg
 InputDir=.
 InputPath=.\ballonmsg.h
 InputName=ballonmsg
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\datepicker.h
+
+!IF  "$(CFG)" == "simui - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\datepicker.h
+InputName=datepicker
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "simui - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\datepicker.h
+InputName=datepicker
 
 "$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp

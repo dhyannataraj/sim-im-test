@@ -154,6 +154,8 @@ static DataDef jabberClientData[] =
         { "Browser", DATA_ULONG, 5, 0 },
         { "BrowserBar", DATA_ULONG, 7, 0 },
         { "BrowserHistory", DATA_UTF, 1, 0 },
+        { "AutoSubscribe", DATA_BOOL, 1, 1 },
+        { "AutoAccept", DATA_BOOL, 1, 1 },
         { "", DATA_STRUCT, sizeof(JabberUserData) / sizeof(unsigned), (unsigned)jabberUserData },
         { NULL, 0, 0, 0 }
     };
@@ -1082,7 +1084,7 @@ void JabberClient::handshake(const char *id)
             auth_digest();
         }
 #else
-auth_plain();
+        auth_plain();
 #endif
     }
 }
@@ -2580,7 +2582,7 @@ void JabberClient::auth_request(const char *jid, unsigned type, const char *text
 {
     Contact *contact;
     JabberUserData *data = findContact(jid, NULL, false, contact);
-    if (isAgent(jid)){
+    if (isAgent(jid) || ((type == MessageAuthRequest) && getAutoAccept())){
         switch (type){
         case MessageAuthRequest:{
                 if (data == NULL)

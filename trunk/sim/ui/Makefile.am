@@ -11,7 +11,8 @@ libsimui_la_SOURCES = \
  qchildwidget.cpp \
  fontedit.cpp \
  listview.cpp \
- toolbtn.cpp
+ toolbtn.cpp \
+ datepicker.cpp 
 
 libsimui_la_LIBADD = $(LIBUIQT) ../api/libsimapi.la $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(EXTRA_LIBS) $(LIBLD)
 

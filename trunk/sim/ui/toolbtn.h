@@ -58,7 +58,7 @@ public:
     ~CToolButton();
     virtual void setState();
     virtual QWidget *widget() { return this; }
-    static QPoint popupPos(QToolButton*, QWidget*);
+    static QPoint popupPos(QWidget*, QWidget*);
 signals:
     void showPopup(QPoint);
     void buttonDestroyed();

@@ -494,7 +494,7 @@ void TextShow::copy()
 #if QT_VERSION <= 0x030100
     QApplication::clipboard()->setText(selectedText());
 #else
-    QApplication::clipboard()->setText(selectedText(),QClipboard::Selection);
+    QApplication::clipboard()->setText(selectedText(), QClipboard::Clipboard);
 #endif
 }
 
@@ -522,7 +522,6 @@ QString TextShow::plainText(int paraFrom, int paraTo, int indexFrom, int indexTo
     QString res;
     if ((paraFrom > paraTo) || ((paraFrom == paraTo) && (indexFrom >= indexTo)))
         return res;
-    log(L_DEBUG, "PLain text %u %u %u %u", paraFrom, paraTo, indexFrom, indexTo);
     for (int i = paraFrom; i <= paraTo; i++){
         if (i >= paragraphs())
             break;
@@ -536,10 +535,10 @@ QString TextShow::plainText(int paraFrom, int paraTo, int indexFrom, int indexTo
 QString TextShow::unquoteString(const QString &s, int from, int to)
 {
     string ss;
-    ss = s.local8Bit();
+    if (!s.isEmpty())
+        ss = s.local8Bit();
     unsigned startPos = textPosition(s, from);
     unsigned endPos = textPosition(s, to);
-    log(L_DEBUG, "%s: %u %u %u %u", ss.c_str(), from, to, startPos, endPos);
     return SIM::unquoteText(s.mid(startPos, endPos - startPos));
 }
 
@@ -552,7 +551,13 @@ unsigned TextShow::textPosition(const QString &text, unsigned pos)
         QChar c = text[(int)i];
         if (c == '<'){
             QString tag = text.mid(i + 1, 3).lower();
-            if (tag == "img"){
+	    int n = tag.find(" ");
+	    if (n > 0)
+		tag = tag.left(n);
+	    n = tag.find("/");
+	    if (n > 0)
+		tag = tag.left(n);
+            if ((tag == "img") || (tag == "br")){
                 if (pos == 0)
                     return i;
                 pos--;
@@ -571,9 +576,7 @@ unsigned TextShow::textPosition(const QString &text, unsigned pos)
                 if (c == ';')
                     break;
             }
-            if (pos == 0)
-                return i;
-            i = n;
+	    i = n;
         }
         if (pos == 0)
             return i;

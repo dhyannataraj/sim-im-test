@@ -225,6 +225,8 @@ HistoryConfig::~HistoryConfig()
 {
 }
 
+static char BACKUP_SUFFIX[] = "~";
+
 void HistoryConfig::apply()
 {
     bool bChanged = false;
@@ -237,11 +239,29 @@ void HistoryConfig::apply()
         name += QFile::encodeName(m_styles[i].name);
         name += EXT;
         name = user_file(name.c_str());
-        QFile f(QFile::decodeName(name.c_str()));
+        QFile f(QFile::decodeName((name + BACKUP_SUFFIX).c_str())); // use backup file for this ...
         if (f.open(IO_WriteOnly | IO_Truncate)){
             string s;
             s = m_styles[i].text.utf8();
             f.writeBlock(s.c_str(), s.length());
+
+            const int status = f.status();
+#if QT_VERSION >= 0x030200
+            const QString errorMessage = f.errorString();
+#else
+	    const QString errorMessage = "write file fail";
+#endif
+            f.close();
+            if (status != IO_Ok) {
+                log(L_ERROR, "IO error during writting to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());
+            } else {
+                // rename to normal file
+                QFileInfo fileInfo(f.name());
+                QString desiredFileName = QFile::decodeName(name.c_str());
+                if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
+                    log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
+                }
+            }
         }else{
             log(L_WARN, "Can't create %s", name.c_str());
         }
@@ -361,7 +381,7 @@ void HistoryConfig::copy()
     n += QFile::encodeName(newName);
     n += EXT;
     n = user_file(n.c_str());
-    QFile to(QFile::decodeName(n.c_str()));
+    QFile to(QFile::decodeName((n + BACKUP_SUFFIX).c_str()));
     if (!to.open(IO_WriteOnly | IO_Truncate)){
         log(L_WARN, "Cam't create %s", n.c_str());
         return;
@@ -371,7 +391,27 @@ void HistoryConfig::copy()
     from.readBlock((char*)(s.c_str()), from.size());
     to.writeBlock(s.c_str(), s.length());
     from.close();
+
+    const int status = to.status();
+#if QT_VERSION >= 0x030200
+    const QString errorMessage = to.errorString();
+#else
+    const QString errorMessage = "write file fail";
+#endif
     to.close();
+    if (status != IO_Ok) {
+        log(L_ERROR, "IO error during writting to file %s : %s", (const char*)to.name().local8Bit(), (const char*)errorMessage.local8Bit());
+        return;
+    }
+
+    // rename to normal file
+    QFileInfo fileInfo(to.name());
+    QString desiredFileName = QFile::decodeName(n.c_str());
+    if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
+        log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
+        return;
+    }
+
     s = "";
     StyleDef d;
     d.name    = newName;

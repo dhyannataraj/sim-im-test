@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>356</width>
+            <width>352</width>
             <height>246</height>
         </rect>
     </property>
@@ -53,89 +53,34 @@
                         <name>spacing</name>
                         <number>6</number>
                     </property>
-                    <widget row="0"  column="0" >
-                        <class>QLabel</class>
+                    <widget row="2"  column="0"  rowspan="1"  colspan="2" >
+                        <class>Line</class>
                         <property stdset="1">
                             <name>name</name>
-                            <cstring>TextLabel17</cstring>
+                            <cstring>Line4</cstring>
                         </property>
                         <property>
-                            <name>text</name>
-                            <string>Homepage:</string>
+                            <name>minimumSize</name>
+                            <size>
+                                <width>0</width>
+                                <height>5</height>
+                            </size>
                         </property>
                         <property>
-                            <name>alignment</name>
-                            <set>AlignVCenter|AlignRight</set>
+                            <name>frameShape</name>
+                            <enum>HLine</enum>
                         </property>
                         <property>
-                            <name>hAlign</name>
-                        </property>
-                    </widget>
-                    <widget row="0"  column="1" >
-                        <class>QLayoutWidget</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>Layout5</cstring>
-                        </property>
-                        <hbox>
-                            <property>
-                                <name>margin</name>
-                                <number>0</number>
-                            </property>
-                            <property>
-                                <name>spacing</name>
-                                <number>6</number>
-                            </property>
-                            <widget>
-                                <class>QLineEdit</class>
-                                <property stdset="1">
-                                    <name>name</name>
-                                    <cstring>edtHomePage</cstring>
-                                </property>
-                            </widget>
-                            <widget>
-                                <class>QPushButton</class>
-                                <property stdset="1">
-                                    <name>name</name>
-                                    <cstring>btnHomePage</cstring>
-                                </property>
-                                <property>
-                                    <name>sizePolicy</name>
-                                    <sizepolicy>
-                                        <hsizetype>0</hsizetype>
-                                        <vsizetype>0</vsizetype>
-                                    </sizepolicy>
-                                </property>
-                                <property>
-                                    <name>maximumSize</name>
-                                    <size>
-                                        <width>22</width>
-                                        <height>22</height>
-                                    </size>
-                                </property>
-                                <property>
-                                    <name>text</name>
-                                    <string></string>
-                                </property>
-                            </widget>
-                        </hbox>
-                    </widget>
-                    <widget row="1"  column="0" >
-                        <class>QLabel</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>TextLabel18</cstring>
+                            <name>frameShadow</name>
+                            <enum>Sunken</enum>
                         </property>
                         <property>
-                            <name>text</name>
-                            <string>Gender:</string>
+                            <name>orientation</name>
+                            <enum>Horizontal</enum>
                         </property>
                         <property>
-                            <name>alignment</name>
-                            <set>AlignVCenter|AlignRight</set>
-                        </property>
-                        <property>
-                            <name>hAlign</name>
+                            <name>frameShape</name>
+                            <enum>HLine</enum>
                         </property>
                     </widget>
                     <widget row="1"  column="1" >
@@ -222,41 +167,29 @@
                             </spacer>
                         </hbox>
                     </widget>
-                    <widget row="2"  column="0"  rowspan="1"  colspan="2" >
-                        <class>Line</class>
+                    <widget row="0"  column="0" >
+                        <class>QLabel</class>
                         <property stdset="1">
                             <name>name</name>
-                            <cstring>Line4</cstring>
+                            <cstring>TextLabel17</cstring>
                         </property>
                         <property>
-                            <name>minimumSize</name>
-                            <size>
-                                <width>0</width>
-                                <height>5</height>
-                            </size>
+                            <name>text</name>
+                            <string>Homepage:</string>
                         </property>
                         <property>
-                            <name>frameShape</name>
-                            <enum>HLine</enum>
+                            <name>alignment</name>
+                            <set>AlignVCenter|AlignRight</set>
                         </property>
                         <property>
-                            <name>frameShadow</name>
-                            <enum>Sunken</enum>
-                        </property>
-                        <property>
-                            <name>orientation</name>
-                            <enum>Horizontal</enum>
-                        </property>
-                        <property>
-                            <name>frameShape</name>
-                            <enum>HLine</enum>
+                            <name>hAlign</name>
                         </property>
                     </widget>
-                    <widget row="4"  column="0"  rowspan="1"  colspan="2" >
+                    <widget row="0"  column="1" >
                         <class>QLayoutWidget</class>
                         <property stdset="1">
                             <name>name</name>
-                            <cstring>Layout9</cstring>
+                            <cstring>Layout5</cstring>
                         </property>
                         <hbox>
                             <property>
@@ -268,94 +201,58 @@
                                 <number>6</number>
                             </property>
                             <widget>
-                                <class>QLabel</class>
+                                <class>QLineEdit</class>
                                 <property stdset="1">
                                     <name>name</name>
-                                    <cstring>TextLabel22</cstring>
-                                </property>
-                                <property>
-                                    <name>text</name>
-                                    <string>Month:</string>
+                                    <cstring>edtHomePage</cstring>
                                 </property>
                             </widget>
                             <widget>
-                                <class>QComboBox</class>
+                                <class>QPushButton</class>
                                 <property stdset="1">
                                     <name>name</name>
-                                    <cstring>cmbMonth</cstring>
-                                </property>
-                            </widget>
-                            <widget>
-                                <class>QLabel</class>
-                                <property stdset="1">
-                                    <name>name</name>
-                                    <cstring>TextLabel23</cstring>
+                                    <cstring>btnHomePage</cstring>
                                 </property>
                                 <property>
-                                    <name>text</name>
-                                    <string>Day:</string>
-                                </property>
-                            </widget>
-                            <widget>
-                                <class>QSpinBox</class>
-                                <property stdset="1">
-                                    <name>name</name>
-                                    <cstring>spnDay</cstring>
-                                </property>
-                            </widget>
-                            <widget>
-                                <class>QLabel</class>
-                                <property stdset="1">
-                                    <name>name</name>
-                                    <cstring>TextLabel24</cstring>
+                                    <name>sizePolicy</name>
+                                    <sizepolicy>
+                                        <hsizetype>0</hsizetype>
+                                        <vsizetype>0</vsizetype>
+                                    </sizepolicy>
                                 </property>
                                 <property>
-                                    <name>text</name>
-                                    <string>Year:</string>
-                                </property>
-                            </widget>
-                            <widget>
-                                <class>QSpinBox</class>
-                                <property stdset="1">
-                                    <name>name</name>
-                                    <cstring>spnYear</cstring>
-                                </property>
-                            </widget>
-                            <spacer>
-                                <property>
-                                    <name>name</name>
-                                    <cstring>Spacer15</cstring>
-                                </property>
-                                <property>
-                                    <name>orientation</name>
-                                    <enum>Horizontal</enum>
-                                </property>
-                                <property>
-                                    <name>sizeType</name>
-                                    <enum>Expanding</enum>
-                                </property>
-                                <property>
-                                    <name>sizeHint</name>
+                                    <name>maximumSize</name>
                                     <size>
-                                        <width>20</width>
-                                        <height>20</height>
+                                        <width>22</width>
+                                        <height>22</height>
                                     </size>
                                 </property>
-                            </spacer>
+                                <property>
+                                    <name>text</name>
+                                    <string></string>
+                                </property>
+                            </widget>
                         </hbox>
                     </widget>
-                    <widget row="3"  column="0"  rowspan="1"  colspan="2" >
+                    <widget row="1"  column="0" >
                         <class>QLabel</class>
                         <property stdset="1">
                             <name>name</name>
-                            <cstring>TextLabel21</cstring>
+                            <cstring>TextLabel18</cstring>
                         </property>
                         <property>
                             <name>text</name>
-                            <string>Birth date:</string>
+                            <string>Gender:</string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>AlignVCenter|AlignRight</set>
+                        </property>
+                        <property>
+                            <name>hAlign</name>
                         </property>
                     </widget>
-                    <spacer row="5"  column="1" >
+                    <spacer row="4"  column="1" >
                         <property>
                             <name>name</name>
                             <cstring>Spacer9</cstring>
@@ -376,6 +273,62 @@
                             </size>
                         </property>
                     </spacer>
+                    <widget row="3"  column="0"  rowspan="1"  colspan="2" >
+                        <class>QLayoutWidget</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>Layout5</cstring>
+                        </property>
+                        <hbox>
+                            <property>
+                                <name>margin</name>
+                                <number>0</number>
+                            </property>
+                            <property>
+                                <name>spacing</name>
+                                <number>6</number>
+                            </property>
+                            <widget>
+                                <class>QLabel</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>TextLabel21</cstring>
+                                </property>
+                                <property>
+                                    <name>text</name>
+                                    <string>Birth date:</string>
+                                </property>
+                            </widget>
+                            <widget>
+                                <class>DatePicker</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>edtDate</cstring>
+                                </property>
+                            </widget>
+                            <spacer>
+                                <property>
+                                    <name>name</name>
+                                    <cstring>Spacer10</cstring>
+                                </property>
+                                <property>
+                                    <name>orientation</name>
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property>
+                                    <name>sizeType</name>
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property>
+                                    <name>sizeHint</name>
+                                    <size>
+                                        <width>20</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                        </hbox>
+                    </widget>
                 </grid>
             </widget>
             <widget>
@@ -471,11 +424,29 @@
         <pixmap>image0</pixmap>
         <property type="String">text</property>
     </customwidget>
+    <customwidget>
+        <class>DatePicker</class>
+        <header location="local">datepicker.h</header>
+        <sizehint>
+            <width>-1</width>
+            <height>-1</height>
+        </sizehint>
+        <container>0</container>
+        <sizepolicy>
+            <hordata>0</hordata>
+            <verdata>1</verdata>
+        </sizepolicy>
+        <pixmap>image1</pixmap>
+    </customwidget>
 </customwidgets>
 <images>
     <image>
         <name>image0</name>
         <data format="XPM.GZ" length="646">789c6dd2c10ac2300c00d07bbf2234b7229d1be245fc04c5a3201e4615f430059d0711ff5ddb2e6bb236ec90eed134cb5a19d8ef36602af5ecdbfeeac05dda0798d3abebde87e3faa374d3807fa0d633a52d38d8de6f679fe33fc776e196f53cd010188256a3600a292882096246517815ca99884606e18044a3a40d91824820924265a7923a2e8bcd05f33db1173e002913175f2a6be6d3294871a2d95fa00e8a94ee017b69d339d90df1e77c57ea072ede6758</data>
+    </image>
+    <image>
+        <name>image1</name>
+        <data format="XPM.GZ" length="646">789c6dd2c10ac2300c00d07bbf2234b7229d1ddec44f503c0ae2a154410f53d0ed20e2bf6bdb656dd6861dd23d9a66591b0587fd1654235ebded6f0edcd53e419d87ae7b1f4f9b8f906d0bfe012317426a70b07bdc2f3ec77f8ed6b89559061a0343d06a124cc105596482585094bc0ae599b04646c9018926491b2205e140c485cace25755c175d0a967b622ff900b8cc9c7d29af594ea722d589167f813aa852ba07d94b9dce296e883fe7bb163f23896753</data>
     </image>
 </images>
 <tabstops>
@@ -483,9 +454,6 @@
     <tabstop>btnHomePage</tabstop>
     <tabstop>cmbGender</tabstop>
     <tabstop>spnAge</tabstop>
-    <tabstop>cmbMonth</tabstop>
-    <tabstop>spnDay</tabstop>
-    <tabstop>spnYear</tabstop>
     <tabstop>TabWidget2</tabstop>
     <tabstop>cmbLang1</tabstop>
     <tabstop>cmbLang2</tabstop>

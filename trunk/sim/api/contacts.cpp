@@ -19,6 +19,7 @@
 #include "stl.h"
 
 #include <qfile.h>
+#include <qdir.h>
 
 namespace SIM
 {
@@ -1589,13 +1590,14 @@ static char CONTACTS_CONF[] = "contacts.conf";
 static char _CONTACT[] = "[Contact=";
 static char _GROUP[] = "[Group=";
 static char _OWNER[] = "[Owner]";
+static char BACKUP_SUFFIX[] = "~";
 
 void ContactList::save()
 {
     string cfgName = user_file(CONTACTS_CONF);
-    QFile f(QFile::decodeName(cfgName.c_str()));
+    QFile f(QFile::decodeName((cfgName + BACKUP_SUFFIX).c_str())); // use backup file for this ...
     if (!f.open(IO_WriteOnly | IO_Truncate)){
-        log(L_ERROR, "Can't create %s", cfgName.c_str());
+        log(L_ERROR, "Can't create %s", (const char*)f.name().local8Bit());
         return;
     }
     string line = p->userData.save();
@@ -1656,6 +1658,26 @@ void ContactList::save()
             f.writeBlock(line.c_str(), line.length());
             f.writeBlock("\n", 1);
         }
+    }
+
+    const int status = f.status();
+#if QT_VERSION >= 0x030200
+    const QString errorMessage = f.errorString();
+#else
+    const QString errorMessage = "Write file fail";
+#endif
+    f.close();
+    if (status != IO_Ok) {
+        log(L_ERROR, "IO error during writting to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());
+        return;
+    }
+
+    // rename to normal file
+    QFileInfo fileInfo(f.name());
+    QString desiredFileName = QFile::decodeName(cfgName.c_str());
+    if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
+        log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
+        return;
     }
 }
 

@@ -4183,6 +4183,10 @@ SOURCE=.\xpm\message.xpm
 # End Source File
 # Begin Source File
 
+SOURCE=.\xpm\more.xpm
+# End Source File
+# Begin Source File
+
 SOURCE=.\xpm\nonim.xpm
 # End Source File
 # Begin Source File

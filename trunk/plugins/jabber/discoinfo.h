@@ -55,8 +55,6 @@ protected:
     string m_timeId;
     string m_lastId;
     string m_statId;
-    JabberHomeInfo	*m_home;
-    JabberWorkInfo	*m_work;
     JabberAboutInfo *m_about;
     JabberUserData	m_data;
 };

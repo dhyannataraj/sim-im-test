@@ -1323,7 +1323,7 @@ void CorePlugin::installTranslator()
 #ifdef USE_KDE
         return;
 #else
-char *p = getenv("LANG");
+        char *p = getenv("LANG");
         if (p){
             for (; *p; p++){
                 if (*p == '.') break;
@@ -1434,17 +1434,17 @@ void CorePlugin::getWays(vector<clientContact> &ways, Contact *contact)
 void *CorePlugin::processEvent(Event *e)
 {
     switch (e->type()){
-	case EventTmplHelp:{
-		QString *str = (QString*)(e->param());
-		*str += i18n("&IP; - ip-address\n"
-			"&Mail; - e-mail\n"
-			"&Phone; - phone\n"
-			"&Nick; - contact nick\n"
-			"&Unread; - number of unread messages from this contact\n"
-			"&Status; - contact status\n\n"
-			"`<command>` - call <command> and substitute command output\n");
-		return e->param();
-	}
+    case EventTmplHelp:{
+            QString *str = (QString*)(e->param());
+            *str += i18n("&IP; - ip-address\n"
+                         "&Mail; - e-mail\n"
+                         "&Phone; - phone\n"
+                         "&Nick; - contact nick\n"
+                         "&Unread; - number of unread messages from this contact\n"
+                         "&Status; - contact status\n\n"
+                         "`<command>` - call <command> and substitute command output\n");
+            return e->param();
+        }
     case EventARRequest:{
             ARRequest *r = (ARRequest*)(e->param());
             ARUserData *ar;
@@ -3071,6 +3071,7 @@ void CorePlugin::loadDir()
         setProfile(saveProfile.c_str());
 }
 
+static char BACKUP_SUFFIX[] = "~";
 string CorePlugin::getConfig()
 {
     string unread_str;
@@ -3135,7 +3136,7 @@ string CorePlugin::getConfig()
     string saveProfile = getProfile();
     setProfile(NULL);
     string cfgName = user_file("plugins.conf");
-    QFile fCFG(QFile::decodeName(cfgName.c_str()));
+    QFile fCFG(QFile::decodeName((cfgName + BACKUP_SUFFIX).c_str())); // use backup file for this ...
     if (!fCFG.open(IO_WriteOnly | IO_Truncate)){
         log(L_ERROR, "Can't create %s", cfgName.c_str());
     }else{
@@ -3145,11 +3146,29 @@ string CorePlugin::getConfig()
         write += "\n";
         write += cfg;
         fCFG.writeBlock(write.c_str(), write.length());
+
+        const int status = fCFG.status();
+#if QT_VERSION >= 0x030200
+        const QString errorMessage = fCFG.errorString();
+#else
+	const QString errorMessage = "write file fail";
+#endif
+        fCFG.close();
+        if (status != IO_Ok) {
+            log(L_ERROR, "IO error during writting to file %s : %s", (const char*)fCFG.name().local8Bit(), (const char*)errorMessage.local8Bit());
+        } else {
+            // rename to normal file
+            QFileInfo fileInfo(fCFG.name());
+            QString desiredFileName = QFile::decodeName(cfgName.c_str());
+            if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
+                log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
+            }
+        }
     }
-    fCFG.close();
+
     setProfile(saveProfile.c_str());
     cfgName = user_file(CLIENTS_CONF);
-    QFile f(QFile::decodeName(cfgName.c_str()));
+    QFile f(QFile::decodeName((cfgName + BACKUP_SUFFIX).c_str())); // use backup file for this ...
     if (!f.open(IO_WriteOnly | IO_Truncate)){
         log(L_ERROR, "Can't create %s", cfgName.c_str());
     }else{
@@ -3181,7 +3200,26 @@ string CorePlugin::getConfig()
                 f.writeBlock("\n", 1);
             }
         }
+
+        const int status = f.status();
+#if QT_VERSION >= 0x030200
+        const QString errorMessage = f.errorString();
+#else
+	const QString errorMessage = "write file fail";
+#endif
+        f.close();
+        if (status != IO_Ok) {
+            log(L_ERROR, "IO error during writting to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());
+        } else {
+            // rename to normal file
+            QFileInfo fileInfo(f.name());
+            QString desiredFileName = QFile::decodeName(cfgName.c_str());
+            if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
+                log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
+            }
+        }
     }
+
 #ifndef WIN32
     string dir = user_file("");
     chmod(dir.c_str(),S_IRUSR | S_IWUSR | S_IXUSR);

@@ -19,8 +19,6 @@
 #include "jabberbrowser.h"
 #include "jabberclient.h"
 #include "jabber.h"
-#include "jabberhomeinfo.h"
-#include "jabberworkinfo.h"
 #include "jabberaboutinfo.h"
 #include "listview.h"
 
@@ -46,8 +44,6 @@ DiscoInfo::DiscoInfo(JabberBrowser *browser)
     m_bLast	   = true;
     m_bStat	   = true;
     m_bVCard   = true;
-    m_home     = NULL;
-    m_work	   = NULL;
     m_about    = NULL;
     load_data(jabberUserData, &m_data, NULL);
     disableWidget(edtJName);
@@ -81,16 +77,6 @@ void DiscoInfo::setTitle()
 
 void DiscoInfo::reset()
 {
-    if (m_home){
-        tabInfo->removePage(m_home);
-        delete m_home;
-        m_home = NULL;
-    }
-    if (m_work){
-        tabInfo->removePage(m_work);
-        delete m_work;
-        m_work = NULL;
-    }
     if (m_about){
         tabInfo->removePage(m_about);
         delete m_about;
@@ -199,10 +185,6 @@ void DiscoInfo::reset()
     edtEMail->setText("");
     edtPhone->setText("");
     if (bVCard){
-        m_home = new JabberHomeInfo(tabInfo, &m_data, m_browser->m_client);
-        tabInfo->insertTab(m_home, i18n("Home info"), pos++);
-        m_work = new JabberWorkInfo(tabInfo, &m_data, m_browser->m_client);
-        tabInfo->insertTab(m_work, i18n("Work info"), pos++);
         m_about = new JabberAboutInfo(tabInfo, &m_data, m_browser->m_client);
         tabInfo->insertTab(m_about, i18n("About info"), pos++);
         m_browser->m_client->info_request(&m_data, true);
@@ -288,9 +270,7 @@ void DiscoInfo::accept()
 
 void DiscoInfo::apply()
 {
-    if (m_bVCard && m_home && m_work && m_about){
-        m_home->apply(m_browser->m_client, &m_data);
-        m_work->apply(m_browser->m_client, &m_data);
+    if (m_bVCard && m_about){
         m_about->apply(m_browser->m_client, &m_data);
         set_str(&m_data.FirstName, edtFirstName->text().utf8());
         set_str(&m_data.Nick, edtNick->text().utf8());
