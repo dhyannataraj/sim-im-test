@@ -19,7 +19,9 @@
 #include "icqmessage.h"
 #include "core.h"
 
+#ifndef WIN32
 #include <netinet/in.h>
+#endif
 #include <stdio.h>
 #include <time.h>
 #include <vector>
@@ -123,23 +125,23 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
         break;
     case ICQ_SNACxLISTS_EDIT: {
         log(L_DEBUG, "Server begins SSI transaction");
-        break
+        break;
     }
     case ICQ_SNACxLISTS_SAVE: {
         log(L_DEBUG, "Server ends SSI transaction");
-        break
+        break;
     }
     case ICQ_SNACxLISTS_CREATE: {
         log(L_DEBUG, "Server adds new item - currently not implemented");
-        break
+        break;
     }
     case ICQ_SNACxLISTS_RENAME: {
         log(L_DEBUG, "Server modifies item - currently not implemented");
-        break
+        break;
     }
     case ICQ_SNACxLISTS_DELETE: {
         log(L_DEBUG, "Server deletes item - currently not implemented");
-        break
+        break;
     }
     case ICQ_SNACxLISTS_ROSTER:{
             char c;
