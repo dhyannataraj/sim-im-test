@@ -325,7 +325,6 @@ ICQClient::ICQClient(ICQProtocol *protocol, const char *cfg)
             string req = getToken(requests, ';');
             string n = getToken(req, ',');
             ListRequest lr;
-            memset(&lr, 0, sizeof(lr));
             lr.type   = atol(n.c_str());
             lr.screen = req;
             listRequests.push_back(lr);
@@ -2018,7 +2017,6 @@ void *ICQClient::processEvent(Event *e)
             if (it != listRequests.end())
                 listRequests.erase(it);
             ListRequest lr;
-            memset(&lr, 0, sizeof(lr));
             lr.type = LIST_USER_DELETED;
             lr.screen = screen(data);
             lr.icq_id = data->IcqID;
@@ -2041,7 +2039,6 @@ void *ICQClient::processEvent(Event *e)
             ICQUserData *data = (ICQUserData*)(group->clientData.getData(this));
             if (data){
                 ListRequest lr;
-                memset(&lr, 0, sizeof(lr));
                 lr.type = LIST_GROUP_DELETED;
                 lr.icq_id = data->IcqID;
                 listRequests.push_back(lr);
