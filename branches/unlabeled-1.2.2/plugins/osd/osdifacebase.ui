@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>336</width>
+            <width>332</width>
             <height>236</height>
         </rect>
     </property>
@@ -28,25 +28,7 @@
             <name>spacing</name>
             <number>6</number>
         </property>
-        <widget row="0"  column="0" >
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>TextLabel1</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>Place:</string>
-            </property>
-            <property>
-                <name>alignment</name>
-                <set>AlignVCenter|AlignRight</set>
-            </property>
-            <property>
-                <name>hAlign</name>
-            </property>
-        </widget>
-        <widget row="1"  column="0" >
+        <widget row="2"  column="0" >
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
@@ -64,14 +46,14 @@
                 <name>hAlign</name>
             </property>
         </widget>
-        <widget row="1"  column="1" >
+        <widget row="2"  column="1" >
             <class>QSpinBox</class>
             <property stdset="1">
                 <name>name</name>
                 <cstring>spnOffs</cstring>
             </property>
         </widget>
-        <widget row="2"  column="0" >
+        <widget row="3"  column="0" >
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
@@ -89,14 +71,14 @@
                 <name>hAlign</name>
             </property>
         </widget>
-        <widget row="2"  column="1" >
+        <widget row="3"  column="1" >
             <class>QSpinBox</class>
             <property stdset="1">
                 <name>name</name>
                 <cstring>spnTimeout</cstring>
             </property>
         </widget>
-        <widget row="3"  column="0" >
+        <widget row="4"  column="0" >
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
@@ -114,7 +96,7 @@
                 <name>hAlign</name>
             </property>
         </widget>
-        <widget row="4"  column="0" >
+        <widget row="5"  column="0" >
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
@@ -132,28 +114,21 @@
                 <name>hAlign</name>
             </property>
         </widget>
-        <widget row="0"  column="1"  rowspan="1"  colspan="2" >
-            <class>QComboBox</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>cmbPos</cstring>
-            </property>
-        </widget>
-        <widget row="4"  column="1"  rowspan="1"  colspan="2" >
+        <widget row="5"  column="1"  rowspan="1"  colspan="2" >
             <class>FontEdit</class>
             <property stdset="1">
                 <name>name</name>
                 <cstring>edtFont</cstring>
             </property>
         </widget>
-        <widget row="3"  column="1" >
+        <widget row="4"  column="1" >
             <class>QColorButton</class>
             <property stdset="1">
                 <name>name</name>
                 <cstring>btnColor</cstring>
             </property>
         </widget>
-        <spacer row="1"  column="2" >
+        <spacer row="2"  column="2" >
             <property>
                 <name>name</name>
                 <cstring>Spacer5</cstring>
@@ -174,7 +149,7 @@
                 </size>
             </property>
         </spacer>
-        <widget row="5"  column="0"  rowspan="1"  colspan="3" >
+        <widget row="6"  column="0"  rowspan="1"  colspan="3" >
             <class>QCheckBox</class>
             <property stdset="1">
                 <name>name</name>
@@ -185,7 +160,7 @@
                 <string>Show sha&amp;dow</string>
             </property>
         </widget>
-        <widget row="6"  column="0"  rowspan="1"  colspan="3" >
+        <widget row="7"  column="0"  rowspan="1"  colspan="3" >
             <class>QCheckBox</class>
             <property stdset="1">
                 <name>name</name>
@@ -196,7 +171,7 @@
                 <string>Show &amp;background</string>
             </property>
         </widget>
-        <widget row="7"  column="0" >
+        <widget row="8"  column="0" >
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
@@ -214,14 +189,14 @@
                 <name>hAlign</name>
             </property>
         </widget>
-        <widget row="7"  column="1" >
+        <widget row="8"  column="1" >
             <class>QColorButton</class>
             <property stdset="1">
                 <name>name</name>
                 <cstring>btnBgColor</cstring>
             </property>
         </widget>
-        <spacer row="8"  column="0" >
+        <spacer row="9"  column="0" >
             <property>
                 <name>name</name>
                 <cstring>Spacer6</cstring>
@@ -242,9 +217,67 @@
                 </size>
             </property>
         </spacer>
+        <widget row="0"  column="0" >
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>TextLabel1</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Place:</string>
+            </property>
+            <property>
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+        <widget row="0"  column="1"  rowspan="1"  colspan="2" >
+            <class>QComboBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>cmbPos</cstring>
+            </property>
+        </widget>
+        <widget row="1"  column="0" >
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>lblScreen</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Shown on screen:</string>
+            </property>
+        </widget>
+        <widget row="1"  column="1"  rowspan="1"  colspan="2" >
+            <class>QComboBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>cmbScreen</cstring>
+            </property>
+        </widget>
     </grid>
 </widget>
 <customwidgets>
+    <customwidget>
+        <class>QWidget</class>
+        <header location="global">qwidget.h</header>
+        <sizehint>
+            <width>-1</width>
+            <height>-1</height>
+        </sizehint>
+        <container>0</container>
+        <sizepolicy>
+            <hordata>5</hordata>
+            <verdata>5</verdata>
+        </sizepolicy>
+        <pixmap>image0</pixmap>
+        <property type="String">text</property>
+    </customwidget>
     <customwidget>
         <class>FontEdit</class>
         <header location="local">fontedit.h</header>
@@ -257,7 +290,7 @@
             <hordata>7</hordata>
             <verdata>5</verdata>
         </sizepolicy>
-        <pixmap>image0</pixmap>
+        <pixmap>image1</pixmap>
     </customwidget>
     <customwidget>
         <class>QColorButton</class>
@@ -271,32 +304,17 @@
             <hordata>5</hordata>
             <verdata>5</verdata>
         </sizepolicy>
-        <pixmap>image0</pixmap>
-    </customwidget>
-    <customwidget>
-        <class>QWidget</class>
-        <header location="global">qwidget.h</header>
-        <sizehint>
-            <width>-1</width>
-            <height>-1</height>
-        </sizehint>
-        <container>0</container>
-        <sizepolicy>
-            <hordata>5</hordata>
-            <verdata>5</verdata>
-        </sizepolicy>
         <pixmap>image1</pixmap>
-        <property type="String">text</property>
     </customwidget>
 </customwidgets>
 <images>
     <image>
         <name>image0</name>
-        <data format="XPM.GZ" length="646">789c6dd2c10ac2300c00d07bbf2234b7229d1ddec44f503c0ae2a154410f53d0ed20e2bf6bdb656dd6861dd23d9a66591b0587fd1654235ebded6f0edcd53e419d87ae7b1f4f9b8f906d0bfe012317426a70b07bdc2f3ec77f8ed6b89559061a0343d06a124cc105596482585094bc0ae599b04646c9018926491b2205e140c485cace25755c175d0a967b622ff900b8cc9c7d29af594ea722d589167f813aa852ba07d94b9dce296e883fe7bb163f23896753</data>
+        <data format="XPM.GZ" length="646">789c6dd2c10ac2300c00d07bbf2234b7229d1be245fc04c5a3201e4615f430059d0711ff5ddb2e6bb236ec90eed134cb5a19d8ef36602af5ecdbfeeac05dda0798d3abebde87e3faa374d3807fa0d633a52d38d8de6f679fe33fc776e196f53cd010188256a3600a292882096246517815ca99884606e18044a3a40d91824820924265a7923a2e8bcd05f33db1173e002913175f2a6be6d3294871a2d95fa00e8a94ee017b69d339d90df1e77c57ea072ede6758</data>
     </image>
     <image>
         <name>image1</name>
-        <data format="XPM.GZ" length="646">789c6dd2c10ac2300c00d07bbf2234b7229d1be245fc04c5a3201e4615f430059d0711ff5ddb2e6bb236ec90eed134cb5a19d8ef36602af5ecdbfeeac05dda0798d3abebde87e3faa374d3807fa0d633a52d38d8de6f679fe33fc776e196f53cd010188256a3600a292882096246517815ca99884606e18044a3a40d91824820924265a7923a2e8bcd05f33db1173e002913175f2a6be6d3294871a2d95fa00e8a94ee017b69d339d90df1e77c57ea072ede6758</data>
+        <data format="XPM.GZ" length="646">789c6dd2c10ac2300c00d07bbf2234b7229d1ddec44f503c0ae2a154410f53d0ed20e2bf6bdb656dd6861dd23d9a66591b0587fd1654235ebded6f0edcd53e419d87ae7b1f4f9b8f906d0bfe012317426a70b07bdc2f3ec77f8ed6b89559061a0343d06a124cc105596482585094bc0ae599b04646c9018926491b2205e140c485cace25755c175d0a967b622ff900b8cc9c7d29af594ea722d589167f813aa852ba07d94b9dce296e883fe7bb163f23896753</data>
     </image>
 </images>
 </UI>

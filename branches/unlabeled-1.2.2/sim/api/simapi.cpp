@@ -607,16 +607,10 @@ EXPORT const char **smiles()
 DECLARE_HANDLE(HMONITOR);
 typedef BOOL (CALLBACK* MONITORENUMPROC)(HMONITOR, HDC, LPRECT, LPARAM);
 
-static BOOL CALLBACK enumScreens(HMONITOR, HDC, LPRECT &rc, LPARAM data)
+static BOOL CALLBACK enumScreens(HMONITOR, HDC, LPRECT rc, LPARAM data)
 {
 	vector<QRect> *p = (vector<QRect>*)data;
 	p->push_back(QRect(rc->left, rc->top, rc->right - rc->left, rc->bottom - rc->top));
-	return TRUE;
-}
-static BOOL CALLBACK enumScreens(HMONITOR, HDC, LPRECT, LPARAM data)
-{
-	unsigned *p = (unsigned*)data;
-	(*p)++;
 	return TRUE;
 }
 
