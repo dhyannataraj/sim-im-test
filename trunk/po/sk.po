@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
 "POT-Creation-Date: 2004-01-12 01:41+0300\n"
-"PO-Revision-Date: 2004-01-20 08:48+0100\n"
+"PO-Revision-Date: 2004-01-20 17:03+0100\n"
 "Last-Translator: Tomáš Oláh <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -83,7 +83,7 @@ msgstr "Aruba"
 # libicq/country.cpp:82
 #: sim/api/country.cpp:36
 msgid "Ascension Island"
-msgstr "Ostrov Nanebevstoupení"
+msgstr "Ostrov Nanebovstoupenia"
 
 # libicq/country.cpp:83
 #: sim/api/country.cpp:37
@@ -5667,15 +5667,13 @@ msgstr "&Otvoriť správu"
 
 # control.cpp:234
 #: plugins/_core/core.cpp:822
-#, fuzzy
 msgid "&Delete message"
-msgstr "&Otvoriť správu"
+msgstr "&Zmazať správu"
 
 # mainwin.cpp:2067
 #: plugins/_core/core.cpp:828
-#, fuzzy
 msgid "&Cut history"
-msgstr "&Historie"
+msgstr "&Vystrihnúť históriu"
 
 # msgedit.cpp:125
 #: plugins/_core/core.cpp:833
@@ -8314,17 +8312,15 @@ msgid "Charging:"
 msgstr "Plačúci"
 
 #: plugins/sms/smssetup.cpp:59
-#, fuzzy
 msgid "Battery:"
-msgstr "Kategória:"
+msgstr "Batéria:"
 
 # mainwin.cpp:630
 # mainwin.cpp:2733
 # ui/setupdlg.cpp:100
 #: plugins/sms/smssetupbase.cpp:179
-#, fuzzy
 msgid "SMSSetup"
-msgstr "Nastavenie"
+msgstr "Nastavenie SMS"
 
 # libicq/country.cpp:91
 #: plugins/sms/smssetupbase.cpp:181
@@ -8373,30 +8369,27 @@ msgstr ""
 
 #: plugins/sms/smssetupbase.cpp:193
 msgid "Init string:"
-msgstr ""
+msgstr "Inicializačný reťazec:"
 
 # libicq/country.cpp:459
 #: plugins/sms/smssetupbase.cpp:195
-#, fuzzy
 msgid "Model:"
-msgstr "Prostredné meno:"
+msgstr "Model:"
 
 #: plugins/sms/smssetupbase.cpp:196
 msgid "Signal quality:"
-msgstr ""
+msgstr "Kvalita signálu:"
 
 # client.cpp:83
 # libicq/country.cpp:19
 #: plugins/sms/smssetupbase.cpp:198
-#, fuzzy
 msgid "Operator:"
-msgstr "Esperanto"
+msgstr "Operátor:"
 
 # msgedit.cpp:184
 #: plugins/sms/smssetupbase.cpp:199
-#, fuzzy
 msgid "&Phone"
-msgstr "Tele&fóny:"
+msgstr "Tele&fón"
 
 #: plugins/jabber/addresult.cpp:32
 msgid "ID"
@@ -8487,7 +8480,6 @@ msgstr "Pridať abber kontakt"
 # msgview.cpp:188
 # msgview.cpp:1228
 #: plugins/jabber/jabberadd.cpp:197
-#, fuzzy
 msgid "%1 is already in contact list"
 msgstr "%1 je už v  zozname kontaktov"
 
@@ -8905,9 +8897,8 @@ msgstr ""
 # userview.cpp:1827
 #: plugins/jabber/jabberconfigbase.cpp:309
 #: plugins/livejournal/livejournalcfgbase.cpp:208
-#, fuzzy
 msgid "Username:"
-msgstr "Užívateľské meno"
+msgstr "Užívateľské meno:"
 
 # ui/enable.cpp:134
 #: plugins/jabber/jabberconfigbase.cpp:310
@@ -9005,9 +8996,8 @@ msgstr "&Akcia"
 # ui/toolsetupbase.cpp:131
 # ui/userinfobase.cpp:148
 #: plugins/action/menucfg.cpp:31
-#, fuzzy
 msgid "Item"
-msgstr "Nová položka"
+msgstr "PPoložka"
 
 #: plugins/action/actioncfg.cpp:42
 #: plugins/action/menucfg.cpp:32
@@ -9022,21 +9012,18 @@ msgstr "Udalosti"
 
 # ui/themesetup.cpp:139
 #: plugins/action/actioncfg.cpp:47
-#, fuzzy
 msgid "Contact online"
-msgstr "Kontakt sa odpojil"
+msgstr "Kontakt sa pripojil"
 
 # mainwin.cpp:718
 #: plugins/action/actioncfg.cpp:53
-#, fuzzy
 msgid "Status changed"
-msgstr "Zobraziť status panel"
+msgstr "Status sa zmenil"
 
 # mainwin.cpp:625
 #: plugins/action/actioncfg.cpp:91
-#, fuzzy
 msgid "Menu"
-msgstr "&Menu"
+msgstr "Menu"
 
 #: plugins/action/actioncfg.cpp:177
 #: plugins/action/additem.cpp:52
@@ -9060,9 +9047,8 @@ msgstr ""
 # ui/toolsetupbase.cpp:131
 # ui/userinfobase.cpp:148
 #: plugins/action/additembase.cpp:90
-#, fuzzy
 msgid "Add Item"
-msgstr "Nová položka"
+msgstr "Pridať položku"
 
 # ui/keysetupbase.cpp:148
 # ui/phonebookbase.cpp:133
@@ -9080,13 +9066,12 @@ msgstr "Nová položka"
 # ui/networkbase.cpp:227
 # ui/proxydlgbase.cpp:183
 #: plugins/action/additembase.cpp:92
-#, fuzzy
 msgid "Program:"
-msgstr "Port:"
+msgstr "Program:"
 
 #: plugins/zodiak/zodiak.cpp:50
 msgid "Zodiak"
-msgstr ""
+msgstr "Znamenie zverokruhu"
 
 #: plugins/zodiak/zodiak.cpp:51
 #, fuzzy
@@ -9095,71 +9080,64 @@ msgstr "Zásuvny modul umožňuje nastaviť obrázky pozadia pre zoznam užívat
 
 #: plugins/zodiak/zodiak.cpp:159
 msgid "View horoscope"
-msgstr ""
+msgstr "Pozrieť horoskop"
 
 # qt3/i18n.cpp:47
 #: plugins/zodiak/zodiak.cpp:180
-#, fuzzy
 msgid "Aries"
-msgstr "Atribúty"
+msgstr "Baran"
 
 # libicq/country.cpp:223
 #: plugins/zodiak/zodiak.cpp:181
-#, fuzzy
 msgid "Taurus"
-msgstr "Nauru"
+msgstr "Býk"
 
 # libicq/country.cpp:25
 # ui/themesetup.cpp:57
 #: plugins/zodiak/zodiak.cpp:182
-#, fuzzy
 msgid "Gemini"
-msgstr "Nemecky"
+msgstr "Blíženci"
 
 # qt3/i18n.cpp:23
 # ui/logindlg.cpp:154
 # ui/searchdlg.cpp:107
 #: plugins/zodiak/zodiak.cpp:183
-#, fuzzy
 msgid "Cancer"
-msgstr "Zrušiť"
+msgstr "Rak"
 
 # libicq/country.cpp:36
 #: plugins/zodiak/zodiak.cpp:184
-#, fuzzy
 msgid "Leo"
-msgstr "Lao"
+msgstr "Lev"
 
 #: plugins/zodiak/zodiak.cpp:185
 msgid "Virgo"
-msgstr ""
+msgstr "Panna"
 
 # libicq/country.cpp:196
 #: plugins/zodiak/zodiak.cpp:186
-#, fuzzy
 msgid "Libra"
-msgstr "Liberia"
+msgstr "Váhy"
 
 #: plugins/zodiak/zodiak.cpp:187
 msgid "Scorpio"
-msgstr ""
+msgstr "Škorpión"
 
 #: plugins/zodiak/zodiak.cpp:188
 msgid "Saqittarius"
-msgstr ""
+msgstr "Strelec"
 
 #: plugins/zodiak/zodiak.cpp:189
 msgid "Capricorn"
-msgstr ""
+msgstr "Kozorožec"
 
 #: plugins/zodiak/zodiak.cpp:190
 msgid "Aquarius"
-msgstr ""
+msgstr "Vodnár"
 
 #: plugins/zodiak/zodiak.cpp:191
-#, fuzzy
 msgid "Pisces"
-msgstr "Obrázok"
+msgstr "Ryby"
 
 #: plugins/zodiak/zodiak.cpp:233
 #, c-format
@@ -9210,9 +9188,8 @@ msgstr "Chybné prihlásenie"
 
 # control.cpp:241
 #: plugins/livejournal/livejournal.cpp:1357
-#, fuzzy
 msgid "Invalid username"
-msgstr "Neplatná správa"
+msgstr "Neplatné užívateľské meno"
 
 #: plugins/livejournal/livejournal.cpp:1359
 msgid "aggravated"
@@ -9938,7 +9915,7 @@ msgstr ""
 
 #: plugins/livejournal/livejournalcfgbase.cpp:212
 msgid "Path:"
-msgstr ""
+msgstr "Cesta:"
 
 # client.cpp:1252
 # mainwin.cpp:2708
