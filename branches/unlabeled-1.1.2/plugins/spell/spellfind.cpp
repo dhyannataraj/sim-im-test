@@ -23,6 +23,7 @@
 #include <qdir.h>
 #include <qlabel.h>
 #include <qtimer.h>
+#include <qregexp.h>
 
 #include <windows.h>
 

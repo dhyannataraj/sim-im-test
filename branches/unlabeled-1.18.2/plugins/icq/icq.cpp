@@ -358,7 +358,7 @@ static DataDef icqData[] =
 Protocol *ICQPlugin::m_icq = NULL;
 Protocol *ICQPlugin::m_aim = NULL;
 
-#ifdef WIN32
+#if defined(WIN32) && (QT_VERSION < 300)
 void qInitJpeg();
 #endif
 
@@ -367,7 +367,7 @@ ICQPlugin *ICQPlugin::icq_plugin = NULL;
 ICQPlugin::ICQPlugin(unsigned base, const char *cfg)
         : Plugin(base)
 {
-#ifdef WIN32
+#if defined(WIN32) && (QT_VERSION < 300)
     qInitJpeg();
 #endif
     icq_plugin = this;

@@ -84,7 +84,7 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-#if !defined(WIN32) && !defined(USE_KDE)
+#if !defined(WIN32) && !defined(USE_KDE) && (QT_VERSION >= 300)
 
 struct loaded_domain;
 
@@ -1347,14 +1347,14 @@ char *p = getenv("LANG");
     QString po = poFile(lang.c_str());
     if (po.isEmpty())
         return;
-#if !defined(USE_KDE) && (QT_VERSION >= 300)
+#if !defined(WIN32) && !defined(USE_KDE) && (QT_VERSION >= 300)
     m_translator = new SIMTranslator(NULL, po);
 #else
     m_translator = new QTranslator(NULL);
     m_translator->load(po);
 #endif
     qApp->installTranslator(m_translator);
-#if !defined(USE_KDE) || (QT_VERSION < 300)
+#if !defined(WIN32) && !defined(USE_KDE) && (QT_VERSION >= 300)
     resetPlural();
 #endif
     Event e(EventLanguageChanged, m_translator);
@@ -1367,7 +1367,7 @@ void CorePlugin::removeTranslator()
         qApp->removeTranslator(m_translator);
         delete m_translator;
         m_translator = NULL;
-#if !defined(USE_KDE) || (QT_VERSION < 300)
+#if !defined(WIN32) && !defined(USE_KDE) && (QT_VERSION >= 300)
         resetPlural();
 #endif
         Event e(EventLanguageChanged, NULL);

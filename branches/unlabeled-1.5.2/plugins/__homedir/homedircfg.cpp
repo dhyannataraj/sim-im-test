@@ -20,6 +20,7 @@
 
 #include "editfile.h"
 
+#include <qregexp.h>
 #include <qcheckbox.h>
 #include <qdir.h>
 

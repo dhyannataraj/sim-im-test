@@ -28,6 +28,7 @@
 #include <qtextcodec.h>
 #include <qfile.h>
 #include <qimage.h>
+#include <qregexp.h>
 
 static DataDef icqMessageData[] =
     {
