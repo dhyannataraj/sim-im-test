@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
-"POT-Creation-Date: 2002-10-17 05:19+0400\n"
+"POT-Creation-Date: 2002-10-18 06:37+0400\n"
 "PO-Revision-Date: 2002-10-17 14:17+0300\n"
 "Last-Translator: ismail donmez <voidcartman@yahoo.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
@@ -1678,7 +1678,7 @@ msgstr "Bağlı"
 msgid "%1 from %2"
 msgstr "%2 den %1 alındı"
 
-#: dock.cpp:489 mainwin.cpp:1544
+#: dock.cpp:489 mainwin.cpp:1558
 msgid "Connecting"
 msgstr "Bağlanıyor"
 
@@ -1734,206 +1734,206 @@ msgstr "UIN'niz başka bi yerden kullanıldı"
 msgid "%1 is online"
 msgstr "%1 şu anda bağlı"
 
-#: mainwin.cpp:1517 mainwin.cpp:1779
+#: mainwin.cpp:1531 mainwin.cpp:1796
 msgid "&Yes"
 msgstr "&Evet"
 
-#: mainwin.cpp:1518 mainwin.cpp:1780
+#: mainwin.cpp:1532 mainwin.cpp:1797
 msgid "&No"
 msgstr "&Hayır"
 
-#: mainwin.cpp:1519
+#: mainwin.cpp:1533
 msgid "Add %1 to ignore list ?"
 msgstr "%1 i umursama listesine ekle?"
 
-#: mainwin.cpp:1586
+#: mainwin.cpp:1600
 msgid "In visible list"
 msgstr "Görünürler listesinde"
 
-#: mainwin.cpp:1588
+#: mainwin.cpp:1602
 msgid "In invisible list"
 msgstr "Görünmezler listesinde"
 
-#: mainwin.cpp:1591
+#: mainwin.cpp:1605
 msgid "In ignore list"
 msgstr "Umursama listesinde"
 
-#: mainwin.cpp:1607 mainwin.cpp:2150
+#: mainwin.cpp:1621 mainwin.cpp:2214
 msgid "Groups"
 msgstr "Gruplar"
 
-#: mainwin.cpp:1608 usertbl.cpp:391 userview.cpp:510
+#: mainwin.cpp:1622 usertbl.cpp:391 userview.cpp:510
 msgid "Delete"
 msgstr "Sil"
 
-#: mainwin.cpp:1612 ui/userinfo.cpp:71 userbox.cpp:381 usertbl.cpp:405
+#: mainwin.cpp:1626 ui/userinfo.cpp:71 userbox.cpp:397 usertbl.cpp:405
 msgid "User info"
 msgstr "Kullanıcı Bilgisi"
 
-#: mainwin.cpp:1613 userbox.cpp:427
+#: mainwin.cpp:1627 userbox.cpp:448
 msgid "History"
 msgstr "Geçmiş"
 
-#: mainwin.cpp:1615 ui/alertdialogbase.cpp:81 ui/setupdlg.cpp:143
+#: mainwin.cpp:1629 ui/alertdialogbase.cpp:81 ui/setupdlg.cpp:143
 #: ui/userinfo.cpp:88
 msgid "Alert"
 msgstr "Alarm"
 
-#: mainwin.cpp:1616 ui/acceptbase.cpp:137
+#: mainwin.cpp:1630 ui/acceptbase.cpp:137
 msgid "Accept mode"
 msgstr "Kabul Modu"
 
-#: mainwin.cpp:1617 ui/setupdlg.cpp:141 ui/soundsetupbase.cpp:106
+#: mainwin.cpp:1631 ui/setupdlg.cpp:141 ui/soundsetupbase.cpp:106
 #: ui/userinfo.cpp:90
 msgid "Sound"
 msgstr "Ses"
 
-#: mainwin.cpp:1620
+#: mainwin.cpp:1634
 msgid "Floating off"
 msgstr "Floating kapalı"
 
-#: mainwin.cpp:1620
+#: mainwin.cpp:1634
 msgid "Floating on"
 msgstr "Floating açık"
 
-#: mainwin.cpp:1623
+#: mainwin.cpp:1637
 msgid "Users"
 msgstr "Kullanıcılar"
 
-#: mainwin.cpp:1624 passwddlg.cpp:44 passwddlg.cpp:93 ui/logindlg.cpp:102
+#: mainwin.cpp:1638 passwddlg.cpp:44 passwddlg.cpp:93 ui/logindlg.cpp:102
 #: ui/searchbase.cpp:90 ui/searchdlg.cpp:110 ui/setupdlgbase.cpp:95
 msgid "Close"
 msgstr "Kapat"
 
-#: mainwin.cpp:1626
+#: mainwin.cpp:1640
 msgid "Alphabetically sort"
 msgstr "Alfabetik Sırala"
 
-#: mainwin.cpp:1781
+#: mainwin.cpp:1798
 msgid "Delete %1?"
 msgstr " %1 i sil?"
 
-#: mainwin.cpp:1896
+#: mainwin.cpp:1960
 msgid "New"
 msgstr "Yeni"
 
-#: mainwin.cpp:1899
+#: mainwin.cpp:1963
 msgid "To container"
 msgstr "Bölüme Taşı"
 
-#: mainwin.cpp:1915
+#: mainwin.cpp:1979
 msgid "Read %1 message"
 msgstr "%1 mesajı oku"
 
-#: client.cpp:958 mainwin.cpp:2127
+#: client.cpp:958 mainwin.cpp:2191
 msgid "Invisible"
 msgstr "Görünmez"
 
-#: mainwin.cpp:2130
+#: mainwin.cpp:2194
 msgid "Don't show"
 msgstr "Gösterme"
 
-#: mainwin.cpp:2131
+#: mainwin.cpp:2195
 msgid "Available"
 msgstr "Ulaşılabilir"
 
-#: mainwin.cpp:2132
+#: mainwin.cpp:2196
 msgid "Busy"
 msgstr "Meşgul"
 
-#: mainwin.cpp:2135 userview.cpp:511
+#: mainwin.cpp:2199 userview.cpp:511
 msgid "Create group"
 msgstr "Grup yarat"
 
-#: mainwin.cpp:2137 userview.cpp:516
+#: mainwin.cpp:2201 userview.cpp:516
 msgid "Expand all"
 msgstr "Hepsini Aç"
 
-#: mainwin.cpp:2138 userview.cpp:517
+#: mainwin.cpp:2202 userview.cpp:517
 msgid "Collapse all"
 msgstr "Hepsini Kapat"
 
-#: mainwin.cpp:2141
+#: mainwin.cpp:2205
 msgid "ICQ"
 msgstr "ICQ"
 
-#: mainwin.cpp:2143
+#: mainwin.cpp:2207
 msgid "Find User"
 msgstr "Kullanıcı Bul"
 
-#: mainwin.cpp:2144
+#: mainwin.cpp:2208
 msgid "Add Non-IM contact"
 msgstr "Icq dışından kontak ekle"
 
-#: mainwin.cpp:2145
+#: mainwin.cpp:2209
 msgid "Send SMS"
 msgstr "SMS gönder"
 
-#: mainwin.cpp:2147 ui/statussetupbase.cpp:79 usertbl.cpp:113
+#: mainwin.cpp:2211 ui/statussetupbase.cpp:79 usertbl.cpp:113
 msgid "Status"
 msgstr "Bağlantı"
 
-#: mainwin.cpp:2149 ui/setupdlg.cpp:110
+#: mainwin.cpp:2213 ui/setupdlg.cpp:110
 msgid "Setup"
 msgstr "Ayarlar"
 
-#: mainwin.cpp:2151
+#: mainwin.cpp:2215
 msgid "Phone \"Follow Me\""
 msgstr "Telefon"
 
-#: mainwin.cpp:2153
+#: mainwin.cpp:2217
 msgid "Shared files"
 msgstr "Dosyaları Paylaş"
 
-#: mainwin.cpp:2157
+#: mainwin.cpp:2221
 msgid "Always on top"
 msgstr "Daima en üstte"
 
-#: mainwin.cpp:2160
+#: mainwin.cpp:2224
 msgid "&Bug report"
 msgstr "&Hata Raporu"
 
-#: mainwin.cpp:2161
+#: mainwin.cpp:2225
 msgid "&About SIM"
 msgstr "&SIM Hakkında"
 
-#: mainwin.cpp:2163
+#: mainwin.cpp:2227
 msgid "About &KDE"
 msgstr "&KDE Hakkında"
 
-#: mainwin.cpp:2166
+#: mainwin.cpp:2230
 msgid "Quit"
 msgstr "Çık"
 
-#: _translatorinfo.cpp:1 mainwin.cpp:2382
+#: _translatorinfo.cpp:1 mainwin.cpp:2446
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
 msgstr "Ismail Donmez"
 
-#: _translatorinfo.cpp:3 mainwin.cpp:2383
+#: _translatorinfo.cpp:3 mainwin.cpp:2447
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
 msgstr "voidcartman@yahoo.com"
 
-#: mainwin.cpp:2406
+#: mainwin.cpp:2470
 msgid "light"
 msgstr "hafif"
 
-#: mainwin.cpp:2410
+#: mainwin.cpp:2474
 msgid "demibold"
 msgstr "hafif kalın"
 
-#: mainwin.cpp:2414
+#: mainwin.cpp:2478
 msgid "bold"
 msgstr "kalın"
 
-#: mainwin.cpp:2418
+#: mainwin.cpp:2482
 msgid "black"
 msgstr "siyah"
 
-#: mainwin.cpp:2425
+#: mainwin.cpp:2489
 msgid "italic"
 msgstr "eğik"
 
@@ -2125,23 +2125,23 @@ msgstr "Kontak listesi alındı"
 msgid "Contact list sent"
 msgstr "Kontak listesi gönderildi"
 
-#: msgview.cpp:684 ui/searchbase.cpp:69 ui/searchbase.cpp:82
+#: msgview.cpp:685 ui/searchbase.cpp:69 ui/searchbase.cpp:82
 msgid "Search"
 msgstr "Arama"
 
-#: msgview.cpp:686
+#: msgview.cpp:687
 msgid "&Search"
 msgstr "&Arama"
 
-#: msgview.cpp:690
+#: msgview.cpp:691
 msgid "&Filter"
 msgstr "&Filtre"
 
-#: msgview.cpp:697
+#: msgview.cpp:698
 msgid "&Previous page"
 msgstr "&Önceki Mesaj"
 
-#: msgview.cpp:701
+#: msgview.cpp:702
 msgid "&Next page"
 msgstr "&Sonraki sayfa"
 
@@ -2202,27 +2202,27 @@ msgstr "&Umursama listesine ekle"
 msgid "Move to &group"
 msgstr "&Gruba taşı"
 
-#: userbox.cpp:173
-msgid "User &info"
-msgstr "Kullanıcı &Bilgisi"
+#: userbox.cpp:174
+msgid "User &info<br>with CTRL open in new window"
+msgstr ""
 
-#: userbox.cpp:178
-msgid "&History"
-msgstr "&Geçmiş"
+#: userbox.cpp:180
+msgid "&History<br>with CTRL open in new window"
+msgstr ""
 
-#: userbox.cpp:191
+#: userbox.cpp:193
 msgid "&Encoding"
 msgstr "&Kodlama"
 
-#: userbox.cpp:197
+#: userbox.cpp:199
 msgid "Close user &window"
 msgstr "Kullanıcı &penceresini kapat"
 
-#: userbox.cpp:337
+#: userbox.cpp:348
 msgid "All users"
 msgstr "Tüm Kullanıcılar"
 
-#: userbox.cpp:1052
+#: userbox.cpp:1083
 msgid "History loading"
 msgstr "Geçmiş yükleniyor..."
 
@@ -3148,7 +3148,8 @@ msgstr "Global alarm ayarlarının üzerine yaz"
 
 #: ui/alertdialogbase.cpp:97
 msgid "Activate online alert when user returns from Away or NA"
-msgstr "Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
+msgstr ""
+"Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
 
 #: ui/alertdialogbase.cpp:102
 msgid "Online alert options"
@@ -3428,7 +3429,8 @@ msgid "Hide main window after"
 msgstr "Ana menüyü sakla"
 
 #: ui/statussetupbase.cpp:107
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "\"Uzakta\", \"N/A\", \"DND\" ve \"Meşgul\"-Listelerinde bağlı alamını "
 "iptal et "
@@ -3527,7 +3529,8 @@ msgstr "Zaman Dilimi:"
 
 #: ui/generalsecbase.cpp:124
 msgid "My &authorization is required before users add me to Contact List"
-msgstr "Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
+msgstr ""
+"Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
 
 #: ui/generalsecbase.cpp:128
 msgid "Don't show my &IP-address"
@@ -3854,6 +3857,12 @@ msgstr "Chat için Boş"
 msgid "Away"
 msgstr "Uzakta"
 
+#~ msgid "User &info"
+#~ msgstr "Kullanıcı &Bilgisi"
+
+#~ msgid "&History"
+#~ msgstr "&Geçmiş"
+
 #~ msgid "Find &next"
 #~ msgstr "&Sonrakini bul"
 
@@ -3926,4 +3935,3 @@ msgstr "Uzakta"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
-
