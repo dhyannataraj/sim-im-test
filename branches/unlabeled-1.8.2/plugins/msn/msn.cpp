@@ -23,7 +23,7 @@
 #include "xpm/onback.xpm"
 #include "xpm/onphone.xpm"
 
-Plugin *createMSNPlugin(unsigned base, bool, const char*)
+Plugin *createMSNPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new MSNPlugin(base);
     return plugin;
@@ -52,7 +52,7 @@ MSNProtocol::~MSNProtocol()
 {
 }
 
-Client *MSNProtocol::createClient(const char *cfg)
+Client *MSNProtocol::createClient(Buffer *cfg)
 {
     return new MSNClient(this, cfg);
 }

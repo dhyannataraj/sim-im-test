@@ -279,7 +279,7 @@ static DataDef icqClientData[] =
         { NULL, 0, 0, 0 }
     };
 
-ICQClient::ICQClient(Protocol *protocol, const char *cfg, bool bAIM)
+ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
         : TCPClient(protocol, cfg, HighPriority - 1)
 {
     m_bAIM = bAIM;

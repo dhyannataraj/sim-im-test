@@ -50,7 +50,7 @@ PSpellHighlighter::~PSpellHighlighter()
         m_plugin->m_edits.erase(it);
 }
 
-Plugin *createSpellPlugin(unsigned base, bool, const char *config)
+Plugin *createSpellPlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new SpellPlugin(base, config);
     return plugin;
@@ -79,7 +79,7 @@ static DataDef spellData[] =
         { NULL, 0, 0, 0 }
     };
 
-SpellPlugin::SpellPlugin(unsigned base, const char *config)
+SpellPlugin::SpellPlugin(unsigned base, Buffer *config)
         : Plugin(base)
 {
     load_data(spellData, &data, config);

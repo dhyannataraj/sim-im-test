@@ -24,7 +24,7 @@
 #include <qtimer.h>
 #include <qwidget.h>
 
-Plugin *createNetmonitorPlugin(unsigned base, bool, const char *config)
+Plugin *createNetmonitorPlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new NetmonitorPlugin(base, config);
     return plugin;
@@ -63,7 +63,7 @@ static DataDef monitorData[] =
         { NULL, 0, 0, 0 }
     };
 
-NetmonitorPlugin::NetmonitorPlugin(unsigned base, const char *config)
+NetmonitorPlugin::NetmonitorPlugin(unsigned base, Buffer *config)
         : Plugin(base)
 {
     load_data(monitorData, &data, config);

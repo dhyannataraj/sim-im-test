@@ -17,6 +17,7 @@
 
 #include "simapi.h"
 #include "stl.h"
+#include "buffer.h"
 
 #include <qfile.h>
 #include <qdir.h>
@@ -34,7 +35,7 @@ public:
     void clear(bool bClearAll);
     unsigned registerUserData(const char *name, const DataDef *def);
     void unregisterUserData(unsigned id);
-    void flush(Contact *c, Group *g, const char *section, const char *cfg);
+    void flush(Contact *c, Group *g, const char *section, Buffer *cfg);
     void flush(Contact *c, Group *g);
     UserData userData;
     list<UserDataDef> userDataDef;
@@ -79,7 +80,7 @@ static DataDef contactData[] =
         { NULL, 0, 0, 0 }
     };
 
-Contact::Contact(unsigned long id, const char *cfg)
+Contact::Contact(unsigned long id, Buffer *cfg)
 {
     m_id = id;
     load_data(contactData, &data, cfg);
@@ -556,7 +557,7 @@ static DataDef groupData[] =
         { NULL, 0, 0, 0 }
     };
 
-Group::Group(unsigned long id, const char *cfg)
+Group::Group(unsigned long id, Buffer *cfg)
 {
     m_id = id;
     load_data(groupData, &data, cfg);
@@ -1036,7 +1037,7 @@ static DataDef _clientData[] =
         { NULL, 0, 0, 0 }
     };
 
-Client::Client(Protocol *protocol, const char *cfg)
+Client::Client(Protocol *protocol, Buffer *cfg)
 {
     load_data(_clientData, &data, cfg);
 
@@ -1333,7 +1334,7 @@ string ClientUserData::save()
     return res;
 }
 
-void ClientUserData::load(Client *client, const char *cfg)
+void ClientUserData::load(Client *client, Buffer *cfg)
 {
     _ClientUserData data;
     data.client = client;
@@ -1615,7 +1616,7 @@ string UserData::save()
     return res;
 }
 
-void UserData::load(unsigned long id, const DataDef *def, const char *cfg)
+void UserData::load(unsigned long id, const DataDef *def, Buffer *cfg)
 {
     void *d = getUserData(id, true);
     if (d == NULL)
@@ -1632,9 +1633,9 @@ void ContactList::addClient(Client *client)
 }
 
 static char CONTACTS_CONF[] = "contacts.conf";
-static char _CONTACT[] = "[Contact=";
-static char _GROUP[] = "[Group=";
-static char _OWNER[] = "[Owner]";
+static char CONTACT[] = "Contact=";
+static char GROUP[] = "Group=";
+static char OWNER[] = "Owner";
 static char BACKUP_SUFFIX[] = "~";
 
 void ContactList::save()
@@ -1652,15 +1653,17 @@ void ContactList::save()
     }
     line = save_data(contactData, &owner()->data);
     if (line.length()){
-        string cfg  = _OWNER;
-        cfg += "\n";
+        string cfg  = "[";
+		cfg += OWNER;
+        cfg += "]\n";
         f.writeBlock(cfg.c_str(), cfg.length());
         f.writeBlock(line.c_str(), line.length());
         f.writeBlock("\n", 1);
     }
     for (vector<Group*>::iterator it_g = p->groups.begin(); it_g != p->groups.end(); ++it_g){
         Group *grp = *it_g;
-        line = _GROUP;
+        line = "[";
+		line += GROUP;
         line += number(grp->id());
         line += "]\n";
         f.writeBlock(line.c_str(), line.length());
@@ -1684,7 +1687,8 @@ void ContactList::save()
         Contact *contact = *it_c;
         if (contact->getFlags() & CONTACT_TEMPORARY)
             continue;
-        line = _CONTACT;
+        line = "[";
+		line += CONTACT;
         line += number(contact->id());
         line += "]\n";
         f.writeBlock(line.c_str(), line.length());
@@ -1744,52 +1748,39 @@ void ContactList::load()
         log(L_ERROR, "Can't open %s", cfgName.c_str());
         return;
     }
-    string cfg;
-    string s;
-    string section;
-    Contact *c = NULL;
-    Group *g = NULL;
-    while (getLine(f, s)){
-        if (s[0] == '['){
-            if (s == _OWNER){
-                p->flush(c, g, section.c_str(), cfg.c_str());
+	Buffer cfg;
+	cfg.init(f.size());
+	int n = f.readBlock(cfg.data(), f.size());
+	if (n < 0){
+        log(L_ERROR, "Can't read %s", cfgName.c_str());
+        return;
+    }
+	Contact *c = NULL;
+	Group   *g = NULL;
+	for (;;){
+		string s = cfg.getSection();
+		if (s.empty())
+			break;
+        if (s == OWNER){
                 p->flush(c, g);
-                cfg = "";
                 c = owner();
                 g = NULL;
-                section = "";
-                continue;
-            }
-            if ((s.length() > strlen(_GROUP)) && !memcmp(s.c_str(), _GROUP, strlen(_GROUP))){
-                p->flush(c, g, section.c_str(), cfg.c_str());
+                s = "";
+        }else if ((s.length() > strlen(GROUP)) && !memcmp(s.c_str(), GROUP, strlen(GROUP))){
                 p->flush(c, g);
-                cfg = "";
                 c = NULL;
-                unsigned long id = atol(s.c_str() + strlen(_GROUP));
+                unsigned long id = atol(s.c_str() + strlen(GROUP));
                 g = group(id, id != 0);
-                section = "";
-                continue;
-            }
-            if ((s.length() > strlen(_CONTACT)) && !memcmp(s.c_str(), _CONTACT, strlen(_CONTACT))){
-                p->flush(c, g, section.c_str(), cfg.c_str());
+                s = "";
+        }else if ((s.length() > strlen(CONTACT)) && !memcmp(s.c_str(), CONTACT, strlen(CONTACT))){
                 p->flush(c, g);
-                cfg = "";
                 g = NULL;
-                unsigned long id = atol(s.c_str() + strlen(_GROUP));
+                unsigned long id = atol(s.c_str() + strlen(GROUP));
                 c = contact(id, true);
-                section = "";
-                continue;
-            }
-            p->flush(c, g, section.c_str(), cfg.c_str());
-            cfg = "";
-            s = s.substr(1);
-            section = getToken(s, ']');
-            continue;
+				s = "";
         }
-        cfg += s;
-        cfg += "\n";
-    }
-    p->flush(c, g, section.c_str(), cfg.c_str());
+        p->flush(c, g, s.c_str(), &cfg);
+	}
     p->flush(c, g);
 }
 
@@ -1804,9 +1795,9 @@ void ContactListPrivate::flush(Contact *c, Group *g)
         data->sort();
 }
 
-void ContactListPrivate::flush(Contact *c, Group *g, const char *section, const char *cfg)
+void ContactListPrivate::flush(Contact *c, Group *g, const char *section, Buffer *cfg)
 {
-    if ((cfg == NULL) || (*cfg == 0))
+    if (cfg == NULL)
         return;
     if (*section == 0){
         if (c){

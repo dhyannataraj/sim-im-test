@@ -19,6 +19,7 @@
 #include "userwnd.h"
 #include "core.h"
 #include "toolbtn.h"
+#include "buffer.h"
 
 #include <qmainwindow.h>
 #include <qframe.h>
@@ -136,7 +137,14 @@ Container::Container(unsigned id, const char *cfg)
     m_status = new ContainerStatus(m_tabSplitter);
     lay->addWidget(m_tabSplitter);
 
-    load_data(containerData, &data, cfg);
+	if (cfg && *cfg){
+		Buffer config;
+		config << "[Title]\n" << cfg;
+		config.getSection();
+		load_data(containerData, &data, &config);
+	}else{
+		load_data(containerData, &data, NULL);
+	}
 
     bool bPos = true;
     if (cfg == NULL){
@@ -374,7 +382,13 @@ void Container::init()
         Contact *contact = getContacts()->contact(id);
         if (contact == NULL)
             continue;
-        addUserWnd(new UserWnd(id, getWndConfig(id), false, true), true);
+		Buffer config;
+		const char *cfg = getWndConfig(id);
+		if (cfg && *cfg){
+			config << "[Title]\n" << cfg;
+			config.getSection();
+		}
+        addUserWnd(new UserWnd(id, &config, false, true), true);
     }
     if (m_tabBar->count() == 0)
         QTimer::singleShot(0, this, SLOT(close()));

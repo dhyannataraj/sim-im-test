@@ -389,7 +389,7 @@ typedef struct MessageDef
     unsigned			flags;
     const char			*singular;
     const char			*plural;
-    Message*			(*create)(const char *cfg);
+    Message*			(*create)(Buffer *cfg);
     QObject*			(*generate)(MsgEdit *edit, Message *msg);
     Message*			(*drag)(QMimeSource*);
 } MessageDef;
@@ -408,7 +408,7 @@ class CorePlugin : public QObject, public Plugin, public EventReceiver
 {
     Q_OBJECT
 public:
-    CorePlugin(unsigned, const char*);
+    CorePlugin(unsigned, Buffer*);
     virtual ~CorePlugin();
     PROP_STR(Profile)
     PROP_BOOL(SavePasswd)
@@ -482,7 +482,7 @@ public:
 
     QFont editFont;
     static CorePlugin	*m_plugin;
-    Message *createMessage(const char *type, const char *cfg);
+    Message *createMessage(const char *type, Buffer *cfg);
     QString clientName(Client *client);
 
     XSL	*historyXSL;
@@ -514,7 +514,7 @@ protected:
     void loadClients(ClientList&);
     void loadMenu();
     QString poFile(const char *lang);
-    Client *loadClient(const char *name, const char *cfg);
+    Client *loadClient(const char *name, Buffer *cfg);
     void setCurrentProfile(const char *profile);
     bool adjustClientItem(unsigned id, CommandDef *cmd);
     void showPanel();

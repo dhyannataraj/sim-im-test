@@ -35,7 +35,7 @@ typedef struct StylesData
 class StylesPlugin : public Plugin
 {
 public:
-    StylesPlugin(unsigned, const char*);
+    StylesPlugin(unsigned, Buffer*);
     ~StylesPlugin();
     PROP_STR(Style);
     PROP_BOOL(SystemFonts);

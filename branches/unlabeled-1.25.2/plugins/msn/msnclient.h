@@ -168,7 +168,7 @@ class MSNClient : public TCPClient, public FetchClient
 {
     Q_OBJECT
 public:
-    MSNClient(Protocol*, const char *cfg);
+    MSNClient(Protocol*, Buffer *cfg);
     ~MSNClient();
     virtual string name();
     virtual QWidget	*setupWnd();

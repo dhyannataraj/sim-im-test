@@ -37,7 +37,7 @@ class LoggerPlugin : public QObject, public Plugin, public EventReceiver
 {
     Q_OBJECT
 public:
-    LoggerPlugin(unsigned, const char*);
+    LoggerPlugin(unsigned, Buffer*);
     virtual ~LoggerPlugin();
     PROP_ULONG(LogLevel);
     PROP_STR(LogPackets);

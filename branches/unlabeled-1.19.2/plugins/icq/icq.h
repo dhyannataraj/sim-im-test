@@ -54,7 +54,7 @@ class ICQProtocol : public Protocol
 public:
     ICQProtocol(Plugin *plugin);
     ~ICQProtocol();
-    Client	*createClient(const char *cfg);
+    Client	*createClient(Buffer *cfg);
     const CommandDef *description();
     const CommandDef *statusList();
     static const CommandDef *_statusList();
@@ -67,7 +67,7 @@ class AIMProtocol : public Protocol
 public:
     AIMProtocol(Plugin *plugin);
     ~AIMProtocol();
-    Client	*createClient(const char *cfg);
+    Client	*createClient(Buffer *cfg);
     const CommandDef *description();
     const CommandDef *statusList();
     virtual const DataDef *userDataDef();

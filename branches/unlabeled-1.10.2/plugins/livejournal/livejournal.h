@@ -59,7 +59,7 @@ typedef struct JournalMessageData
 class JournalMessage : public Message
 {
 public:
-    JournalMessage(const char *cfg = NULL);
+    JournalMessage(Buffer *cfg = NULL);
     ~JournalMessage();
     string save();
     PROP_UTF8(Subject);
@@ -92,7 +92,7 @@ class LiveJournalProtocol : public Protocol
 public:
     LiveJournalProtocol(Plugin *plugin);
     ~LiveJournalProtocol();
-    Client	*createClient(const char *cfg);
+    Client	*createClient(Buffer *cfg);
     const CommandDef *description();
     const CommandDef *statusList();
     const DataDef *userDataDef();
@@ -136,7 +136,7 @@ class LiveJournalClient : public TCPClient, public FetchClient
 {
     Q_OBJECT
 public:
-    LiveJournalClient(Protocol*, const char *cfg);
+    LiveJournalClient(Protocol*, Buffer *cfg);
     ~LiveJournalClient();
     PROP_STR(Server);
     PROP_STR(URL);

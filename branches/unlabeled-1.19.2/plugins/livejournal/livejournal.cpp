@@ -40,7 +40,7 @@
 #include <qtimer.h>
 #include <qregexp.h>
 
-Plugin *createLiveJournalPlugin(unsigned base, bool, const char*)
+Plugin *createLiveJournalPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new LiveJournalPlugin(base);
     return plugin;
@@ -72,7 +72,7 @@ static DataDef journalMessageData[] =
         { NULL, 0, 0, 0 }
     };
 
-JournalMessage::JournalMessage(const char *cfg)
+JournalMessage::JournalMessage(Buffer *cfg)
         : Message(MessageJournal, cfg)
 {
     load_data(journalMessageData, &data, cfg);
@@ -110,7 +110,7 @@ i18n("LiveJournal post", "%n LiveJournal posts", 1);
 i18n("Friends updated", "Friends updated %n", 1);
 #endif
 
-static Message *createJournalMessage(const char *cfg)
+static Message *createJournalMessage(Buffer *cfg)
 {
     return new JournalMessage(cfg);
 }
@@ -178,7 +178,7 @@ static MessageDef defWWWJournalMessage =
         NULL
     };
 
-static Message *createUpdatedMessage(const char *cfg)
+static Message *createUpdatedMessage(Buffer *cfg)
 {
     return new Message(MessageUpdated, cfg);
 }
@@ -284,7 +284,7 @@ LiveJournalProtocol::~LiveJournalProtocol()
 {
 }
 
-Client *LiveJournalProtocol::createClient(const char *cfg)
+Client *LiveJournalProtocol::createClient(Buffer *cfg)
 {
     return new LiveJournalClient(this, cfg);
 }
@@ -403,7 +403,7 @@ const DataDef *LiveJournalProtocol::userDataDef()
     return liveJournalUserData;
 }
 
-LiveJournalClient::LiveJournalClient(Protocol *proto, const char *cfg)
+LiveJournalClient::LiveJournalClient(Protocol *proto, Buffer *cfg)
         : TCPClient(proto, cfg)
 {
     load_data(liveJournalClientData, &data, cfg);
@@ -1088,7 +1088,9 @@ void *LiveJournalClient::processEvent(Event *e)
             ClientDataIterator it(contact->clientData, this);
             while ((data = (LiveJournalUserData*)(++it)) != NULL){
                 if (dataName(data) == msg->client()){
-                    JournalMessage *m = new JournalMessage(msg->save().c_str());
+					Buffer cfg;
+					cfg << "[Title]\n" << msg->save().c_str();
+                    JournalMessage *m = new JournalMessage(&cfg);
                     m->setContact(msg->contact());
                     m->setOldID(msg->id());
                     m->setText("");

@@ -28,7 +28,7 @@
 
 #include <qregexp.h>
 
-Plugin *createFilterPlugin(unsigned base, bool, const char *cfg)
+Plugin *createFilterPlugin(unsigned base, bool, Buffer *cfg)
 {
     Plugin *plugin = new FilterPlugin(base, cfg);
     return plugin;
@@ -73,7 +73,7 @@ static QWidget *getFilterConfig(QWidget *parent, void *data)
     return new FilterConfig(parent, (FilterUserData*)data, filterPlugin, false);
 }
 
-FilterPlugin::FilterPlugin(unsigned base, const char *cfg)
+FilterPlugin::FilterPlugin(unsigned base, Buffer *cfg)
         : Plugin(base), EventReceiver(HighPriority - 1)
 {
     filterPlugin = this;

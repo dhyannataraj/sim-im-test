@@ -18,6 +18,7 @@
 #include "history.h"
 #include "core.h"
 #include "msgview.h"
+#include "buffer.h"
 
 #include <qfile.h>
 #include <qfileinfo.h>
@@ -32,9 +33,10 @@ static char HISTORY_PATH[] = "history/";
 
 static char REMOVED[] = ".removed";
 
-const unsigned CUT_BLOCK	= 0x4000;
-const unsigned BLOCK_SIZE	= 2048;
-const unsigned TEMP_BASE	= 0x80000000;
+const unsigned CUT_BLOCK		= 0x4000;
+const unsigned LOAD_BLOCK_SIZE	= 0x1000;
+const unsigned BLOCK_SIZE		= 0x4000;
+const unsigned TEMP_BASE		= 0x80000000;
 
 unsigned History::s_tempId		= TEMP_BASE;
 MAP_MSG  *History::s_tempMsg	= NULL;
@@ -57,7 +59,7 @@ class HistoryFileIterator
 public:
     HistoryFileIterator(HistoryFile&);
     ~HistoryFileIterator();
-    void createMessage(unsigned id, const char *type, const char *cfg);
+    void createMessage(unsigned id, const char *type, Buffer *cfg);
     void begin();
     void end();
     void clear();
@@ -75,7 +77,7 @@ private:
     void operator = (const HistoryFileIterator&);
 };
 
-static Message *createMessage(unsigned id, const char *type, const char *cfg)
+static Message *createMessage(unsigned id, const char *type, Buffer *cfg)
 {
     if ((type == NULL) || (*type == 0))
         return NULL;
@@ -115,25 +117,24 @@ Message *HistoryFile::load(unsigned id)
 {
     if (!at(id))
         return NULL;
-    string line;
-    if (!getLine(*this, line))
-        return NULL;
-    if (line[0] != '[')
-        return NULL;
-    string type = line.substr(1);
-    int n = type.find(']');
-    if (n > 0)
-        type = type.substr(0, n);
-    string cfg;
-    while (getLine(*this, line)){
-        if (line[0] == '[')
-            break;
-        if (!cfg.empty())
-            cfg += '\n';
-        cfg += line;
-    }
-
-    Message *msg = CorePlugin::m_plugin->createMessage(type.c_str(), cfg.c_str());
+	Buffer cfg;
+	for (;;){
+		if ((unsigned)at() >= size())
+			break;
+		unsigned size = cfg.size();
+		cfg.allocate(LOAD_BLOCK_SIZE, LOAD_BLOCK_SIZE);
+		int readn = readBlock(cfg.data(size), LOAD_BLOCK_SIZE);
+		if (readn < 0){
+			log(L_WARN, "Can't read %s", name().latin1());
+			return NULL;
+		}
+		size += readn;
+		cfg.setSize(size);
+		if (readn == 0)
+			break;
+	}
+    string type = cfg.getSection();
+    Message *msg = CorePlugin::m_plugin->createMessage(type.c_str(), &cfg);
     if (msg == NULL)
         return NULL;
     msg->setId(id);
@@ -154,7 +155,7 @@ HistoryFileIterator::~HistoryFileIterator()
     clear();
 }
 
-void HistoryFileIterator::createMessage(unsigned id, const char *type, const char *cfg)
+void HistoryFileIterator::createMessage(unsigned id, const char *type, Buffer *cfg)
 {
     Message *msg = ::createMessage(id, type, cfg);
     if (msg){
@@ -235,67 +236,61 @@ void HistoryFileIterator::loadBlock(bool bUp)
         clear();
         return;
     }
+	Buffer config;
     for (;;){
         if (bUp){
             if (blockEnd >= file.size())
                 return;
             blockEnd += BLOCK_SIZE;
+			unsigned size = config.size();
+			config.allocate(BLOCK_SIZE, BLOCK_SIZE);
+			int readn = file.readBlock(config.data(size), BLOCK_SIZE);
+			if (readn < 0){
+				log(L_WARN, "Can't read %s", file.name().latin1());
+				clear();
+				return;
+			}
+			config.setSize(size + readn);
         }else{
             if (m_block == 0)
                 return;
-            m_block -= BLOCK_SIZE;
-            if (m_block < 0)
-                m_block = 0;
-            if (!file.at(m_block)){
+			int block = m_block;
+            block -= BLOCK_SIZE;
+            if (block < 0)
+                block = 0;
+            if (!file.at(block)){
+				m_block = 0;
                 clear();
                 return;
             }
+			unsigned size = m_block - block;
+			m_block = block;
+			config.insert(size);
+			if ((unsigned)file.readBlock(config.data(), size) != size){
+				log(L_WARN, "Can't read %s", file.name().latin1());
+				clear();
+				return;
+			}
         }
-        string line;
-        if (m_block){
-            if (!getLine(file, line)){
-                clear();
-                return;
-            }
-        }
-        string type;
-        string cfg;
-        unsigned id = file.at();
-        unsigned msg_id = id;
-        while (getLine(file, line)){
-            if (line[0] != '['){
-                if (type.empty()){
-                    if ((unsigned)(file.at()) > blockEnd)
-                        break;
-                }else{
-                    if (!cfg.empty())
-                        cfg += '\n';
-                    cfg += line;
-                }
-                id = file.at();
-                continue;
-            }
-            createMessage(msg_id, type.c_str(), cfg.c_str());
-            type = "";
-            cfg  = "";
-            if (id > blockEnd)
-                break;
-            msg_id = id;
-            char *str = (char*)line.c_str();
-            str++;
-            char *end = strchr(str, ']');
-            if (end)
-                *end = 0;
-            type = str;
-            id = file.at();
-        }
-        createMessage(msg_id, type.c_str(), cfg.c_str());
-        if (!msgs.empty()){
-            if (bUp)
-                m_block = blockEnd;
-            break;
-        }
-    }
+		string type = config.getSection();
+		if (type.empty())
+			continue;
+		if ((config.writePos() == config.size()) && ((unsigned)file.at() < file.size()))
+			continue;
+		unsigned id = m_block;
+		if (!bUp)
+			m_block += config.startSection();
+		createMessage(id + config.startSection(), type.c_str(), &config);
+		for (;;){
+			type = config.getSection();
+			if (type.empty())
+				break;
+			createMessage(id + config.startSection(), type.c_str(), &config);
+		}
+		if (bUp)
+			m_block += config.readPos();
+		break;
+	}
 }
 
 Message *HistoryFileIterator::message()
@@ -523,10 +518,10 @@ Message *History::load(unsigned id, const char *client, unsigned contact)
         if (it == s_tempMsg->end())
             return NULL;
         msg_save &ms = (*it).second;
-        string cfg = ms.msg;
-        string type = getToken(cfg, '\n');
-        type = type.substr(1, type.length() - 2);
-        Message *msg = createMessage(id, type.c_str(), cfg.c_str());
+		Buffer config;
+		config << ms.msg.c_str();
+        string type = config.getSection();
+        Message *msg = createMessage(id, type.c_str(), &config);
         if (msg){
             msg->setClient(ms.client.c_str());
             msg->setContact(ms.contact);
@@ -659,7 +654,7 @@ void History::del(const char *name, unsigned contact, unsigned id, bool bCopy, M
     }
     unsigned tail = id;
     for (; tail > 0; ){
-        char b[2048];
+        char b[LOAD_BLOCK_SIZE];
         int size = sizeof(b);
         if (tail < (unsigned)size)
             size = tail;
@@ -668,50 +663,58 @@ void History::del(const char *name, unsigned contact, unsigned id, bool bCopy, M
             log(L_ERROR, "Read history error");
             return;
         }
-        if (bCopy){
-            int writen = t.writeBlock(b, size);
-            if (writen != size){
-                log(L_DEBUG, "Write history error");
-                return;
-            }
-        }
+		if (bCopy && (t.writeBlock(b, size) != size)){
+			log(L_ERROR, "Write history error");
+			return;
+		}
         tail -= size;
     }
-    string line;
-    if (bCopy){
-        if (!getLine(f, line)){
-            log(L_DEBUG, "Can't get line");
-            return;
-        }
-        if (line[0] != '['){
-            log(L_DEBUG, "Bad message start");
-            return;
-        }
-    }
-    unsigned skip_size;
-    for (;;){
-        string line;
-        skip_size = f.at();
-        if (!getLine(f, line))
-            break;
-        if (line[0] == '[')
-            break;
-    }
-    f.at(skip_size);
-    skip_size = skip_size - id;
-    if (bCopy && msg){
-        line += "\n";
+	Buffer config;
+	unsigned skip_start = id;
+	for (;;){
+		unsigned size = config.size();
+		config.allocate(LOAD_BLOCK_SIZE, LOAD_BLOCK_SIZE);
+		int readn = f.readBlock(config.data(size), LOAD_BLOCK_SIZE);
+		if (readn < 0){
+			log(L_ERROR, "Read history error");
+			return;
+		}
+		config.setSize(size + readn);
+		string section = config.getSection();
+		if (section.empty())
+			continue;
+		if ((config.writePos() != config.size()) || (readn == 0))
+			break;
+	}
+	if (config.startSection()){
+		skip_start += config.startSection();
+		if ((unsigned)t.writeBlock(config.data(), config.startSection()) != config.startSection()){
+			log(L_ERROR, "Write history error");
+			return;
+		}	
+	}
+	unsigned skip_size = config.writePos() - config.startSection();
+	string line = "\n";
+	if (msg){
         line += msg->save();
         line += "\n";
+		skip_start++;
+	}
         int size = line.length();
         int writen = t.writeBlock(line.c_str(), size);
         if (writen != size){
             log(L_DEBUG, "Write history error");
             return;
         }
-        id++;
         skip_size -= line.length();
-    }
+	if (config.writePos() < config.size()){
+		int size = config.size() - config.writePos();
+        int writen = t.writeBlock(config.data(config.writePos()), size);
+        if (writen != size){
+            log(L_DEBUG, "Write history error");
+            return;
+        }
+	}
     tail = f.size() - f.at();
     for (; tail > 0; ){
         char b[2048];
@@ -742,11 +745,11 @@ void History::del(const char *name, unsigned contact, unsigned id, bool bCopy, M
     ch.contact = contact;
     ch.client  = name;
     if (bCopy){
-        ch.from    = id;
+        ch.from    = skip_start;
         ch.size    = skip_size;
     }else{
-        ch.from    = 0;
-        ch.size	   = id + skip_size;
+        ch.from    = skip_start;
+        ch.size	   = skip_start + skip_size;
     }
     Event e(EventCutHistory, &ch);
     e.process();

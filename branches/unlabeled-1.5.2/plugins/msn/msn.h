@@ -25,7 +25,7 @@ class MSNProtocol : public Protocol
 public:
     MSNProtocol(Plugin *plugin);
     ~MSNProtocol();
-    Client	*createClient(const char *cfg);
+    Client	*createClient(Buffer *cfg);
     const CommandDef *description();
     const CommandDef *statusList();
     virtual const DataDef *userDataDef();

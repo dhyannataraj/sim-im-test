@@ -36,7 +36,7 @@ static BOOL (WINAPI *_SHGetSpecialFolderPathW)(HWND hwndOwner, LPSTR lpszPath, i
 
 #include <qdir.h>
 
-Plugin *createHomeDirPlugin(unsigned base, bool, const char*)
+Plugin *createHomeDirPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new HomeDirPlugin(base);
     return plugin;

@@ -33,7 +33,7 @@ Data Browser;
 class NavigatePlugin : public Plugin, public EventReceiver
 {
 public:
-    NavigatePlugin(unsigned, const char *name);
+    NavigatePlugin(unsigned, Buffer *name);
     virtual ~NavigatePlugin();
 protected:
     virtual void *processEvent(Event*);

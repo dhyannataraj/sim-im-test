@@ -113,6 +113,16 @@ void Buffer::allocate(unsigned size, unsigned add_size)
     }
 }
 
+void Buffer::insert(unsigned size)
+{
+	if (size == 0)
+		return;
+	allocate(size, size);
+	if (m_size)
+		memmove(data(size), data(), m_size);
+	m_size += size;
+}
+
 void Buffer::incReadPos(int n)
 {
     m_posRead += n;
@@ -639,6 +649,91 @@ void Buffer::toBase64(Buffer &from)
         pack(res, 4);
         break;
     }
+}
+
+string Buffer::getSection(bool bSkip)
+{
+	m_posRead = m_posWrite;
+	unsigned posRead = m_posRead;
+	char *p = data(m_posRead);
+	if (bSkip){
+		for (;;){
+			for (; m_posRead < m_size; p++)
+				if ((*p == '\n') || (*p == 0))
+					break;
+			if (m_posRead >= m_size){
+				m_posRead = posRead;
+				return "";
+			}
+			m_posRead++;
+			p++;
+			if (*p == '[')
+				break;
+		}
+	}
+	for (;;){
+		if (m_posRead >= m_size){
+			m_posRead = posRead;
+			return "";
+		}
+		if (*p == '[')
+			break;
+		for (; m_posRead < m_size; p++)
+			if ((*p == '\n') || (*p == 0))
+				break;
+		if (m_posRead >= m_size){
+			m_posRead = posRead;
+			return "";
+		}
+		m_posRead++;
+		p++;
+	}
+	m_startSection = m_posRead;
+	m_posRead++;
+	p++;
+	string section;
+	char *s = p;
+	for (; m_posRead < m_size; p++, m_posRead++){
+		if (*p == ']'){
+			*p = 0;
+			section = s;
+			*p = ']';
+		}
+		if ((*p == '\n') || (*p == 0))
+			break;
+	}
+	if (m_posRead >= m_size){
+		m_posRead = posRead;
+		return "";
+	}
+	for (;m_posRead < m_size; p++, m_posRead++){
+		if ((*p != '\n') || (*p == 0))
+			break;
+	}
+	m_posWrite = m_posRead;
+	for (; m_posWrite < m_size; p++, m_posWrite++){
+		if ((*p == '\r') || (*p == '\n') || (*p == 0)){
+			*p = 0;
+			if ((m_posWrite + 1 < m_size) && (p[1] == '[')){
+				m_posWrite++;
+				return section;
+			}
+		}
+	}
+	return section;
+}
+
+char *Buffer::getLine()
+{
+	if (readPos() >= writePos())
+		return NULL;
+	char *res = data(m_posRead);
+	char *p;
+	for (p = res; *p && (m_posRead < m_posWrite); p++)
+		m_posRead++;
+	for (; (*p == 0) && (m_posRead < m_posWrite); p++)
+		m_posRead++;
+	return res;
 }
 
 

@@ -36,7 +36,7 @@
 #include "xpm/icqphonebusy.xpm"
 #include "xpm/sharedfiles.xpm"
 
-Plugin *createICQPlugin(unsigned base, bool, const char*)
+Plugin *createICQPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new ICQPlugin(base);
     return plugin;
@@ -65,7 +65,7 @@ ICQProtocol::~ICQProtocol()
 {
 }
 
-Client *ICQProtocol::createClient(const char *cfg)
+Client *ICQProtocol::createClient(Buffer *cfg)
 {
     return new ICQClient(this, cfg, false);
 }
@@ -235,7 +235,7 @@ AIMProtocol::~AIMProtocol()
 {
 }
 
-Client *AIMProtocol::createClient(const char *cfg)
+Client *AIMProtocol::createClient(Buffer *cfg)
 {
     return new ICQClient(this, cfg, true);
 }

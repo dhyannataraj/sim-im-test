@@ -46,7 +46,7 @@ static DataDef	messageData[] =
         { NULL, 0, 0, 0 }
     };
 
-Message::Message(unsigned type, const char *cfg)
+Message::Message(unsigned type, Buffer *cfg)
 {
     m_type = type;
     m_id = 0;
@@ -116,7 +116,7 @@ static DataDef messageSMSData[] =
         { NULL, 0, 0, 0 }
     };
 
-SMSMessage::SMSMessage(const char *cfg)
+SMSMessage::SMSMessage(Buffer *cfg)
         : Message(MessageSMS, cfg)
 {
     load_data(messageSMSData, &data, cfg);
@@ -159,7 +159,7 @@ static DataDef messageUrlData[] =
         { NULL, 0, 0, 0 }
     };
 
-UrlMessage::UrlMessage(unsigned type, const char *cfg)
+UrlMessage::UrlMessage(unsigned type, Buffer *cfg)
         : Message(type, cfg)
 {
     load_data(messageUrlData, &data, cfg);
@@ -201,7 +201,7 @@ static DataDef messageContactsData[] =
         { NULL, 0, 0, 0 }
     };
 
-ContactsMessage::ContactsMessage(unsigned type, const char *cfg)
+ContactsMessage::ContactsMessage(unsigned type, Buffer *cfg)
         : Message(type, cfg)
 {
     load_data(messageContactsData, &data, cfg);
@@ -382,7 +382,7 @@ static DataDef messageFileData[] =
         { NULL, 0, 0, 0 }
     };
 
-FileMessage::FileMessage(unsigned type, const char *cfg)
+FileMessage::FileMessage(unsigned type, Buffer *cfg)
         : Message(type, cfg)
 {
     load_data(messageFileData, &data, cfg);
@@ -622,7 +622,7 @@ static DataDef messageStatusData[] =
         { NULL, 0, 0, 0 }
     };
 
-StatusMessage::StatusMessage(const char *cfg)
+StatusMessage::StatusMessage(Buffer *cfg)
         : Message(MessageStatus, cfg)
 {
     load_data(messageStatusData, &data, cfg);

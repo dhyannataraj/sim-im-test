@@ -44,7 +44,7 @@ class CorePlugin;
 class SoundPlugin : public Plugin, public EventReceiver
 {
 public:
-    SoundPlugin(unsigned, bool, const char*);
+    SoundPlugin(unsigned, bool, Buffer*);
     virtual ~SoundPlugin();
 #ifdef USE_KDE
     PROP_BOOL(UseArts);

@@ -230,7 +230,7 @@ protected:
     unsigned m_base;
 };
 
-typedef Plugin *createPlugin(unsigned base, bool bStart, const char *add_info);
+typedef Plugin *createPlugin(unsigned base, bool bStart, Buffer *cfg);
 typedef QStyle *createStyle();
 
 const unsigned PLUGIN_KDE_COMPILE    = 0x0001;
@@ -261,7 +261,7 @@ typedef struct pluginInfo
 {
     Plugin			*plugin;
     char			*name;
-    char			*config;		// config string
+    Buffer			*cfg;			// configuration data
     bool			bDisabled;		// no load this plugin
     bool			bNoCreate;		// can't create plugin
     bool			bFromCfg;		// init state from config
@@ -917,7 +917,7 @@ const unsigned DATA_UTFLIST		= 8;
 const unsigned DATA_OBJECT		= 9;
 
 EXPORT void free_data(const DataDef *def, void *data);
-EXPORT void load_data(const DataDef *def, void *data, const char *config);
+EXPORT void load_data(const DataDef *def, void *data, Buffer *config);
 EXPORT string save_data(const DataDef *def, void *data);
 
 EXPORT bool set_str(char **str, const char *value);
@@ -1008,8 +1008,8 @@ EXPORT QString trim(const QString &str);
 EXPORT QString formatDateTime(unsigned long t);
 EXPORT QString formatDate(unsigned long t);
 EXPORT QString formatAddr(Data &addr, unsigned port);
-EXPORT bool getLine(QFile &f, string &s);
 EXPORT string getToken(string &from, char c, bool bUnEscape=true);
+EXPORT string getToken(const char *&from, char c, bool bUnEscape=true);
 EXPORT QString getToken(QString &from, char c, bool bUnEsacpe=true);
 EXPORT string quoteChars(const char *from, const char *chars);
 EXPORT QString quoteChars(const QString &from, const char *chars, bool bQuoteSlash=true);
@@ -1072,7 +1072,7 @@ typedef struct MessageData
 class EXPORT Message
 {
 public:
-    Message(unsigned type = MessageGeneric, const char *cfg = NULL);
+    Message(unsigned type = MessageGeneric, Buffer *cfg = NULL);
     virtual ~Message();
     unsigned type() const { return m_type; }
     unsigned id() const { return m_id; }
@@ -1113,7 +1113,7 @@ typedef struct MessageSMSData
 class EXPORT SMSMessage : public Message
 {
 public:
-    SMSMessage(const char *cfg=NULL);
+    SMSMessage(Buffer *cfg=NULL);
     ~SMSMessage();
     PROP_UTF8(Phone);
     PROP_UTF8(Network);
@@ -1213,7 +1213,7 @@ protected:
 class EXPORT FileMessage : public Message
 {
 public:
-    FileMessage(unsigned type=MessageFile, const char *cfg=NULL);
+    FileMessage(unsigned type=MessageFile, Buffer *cfg=NULL);
     ~FileMessage();
     PROP_UTF8(File);
     unsigned getSize();
@@ -1249,7 +1249,7 @@ protected:
 class EXPORT AuthMessage : public Message
 {
 public:
-    AuthMessage(unsigned type, const char *cfg=NULL)
+    AuthMessage(unsigned type, Buffer *cfg=NULL)
 : Message(type, cfg) {}
     virtual QString presentation();
 };
@@ -1262,7 +1262,7 @@ typedef struct MessageUrlData
 class EXPORT UrlMessage : public Message
 {
 public:
-    UrlMessage(unsigned type=MessageUrl, const char *cfg=NULL);
+    UrlMessage(unsigned type=MessageUrl, Buffer *cfg=NULL);
     ~UrlMessage();
     virtual string  save();
     virtual QString presentation();
@@ -1279,7 +1279,7 @@ typedef struct MessageContactsData
 class EXPORT ContactsMessage : public Message
 {
 public:
-    ContactsMessage(unsigned type=MessageContacts, const char *cfg=NULL);
+    ContactsMessage(unsigned type=MessageContacts, Buffer *cfg=NULL);
     ~ContactsMessage();
     virtual string  save();
     virtual QString presentation();
@@ -1296,7 +1296,7 @@ typedef struct MessageStatusData
 class EXPORT StatusMessage : public Message
 {
 public:
-    StatusMessage(const char *cfg=NULL);
+    StatusMessage(Buffer *cfg=NULL);
     PROP_ULONG(Status);
     virtual string save();
     virtual QString presentation();
@@ -1313,7 +1313,7 @@ public:
     UserData();
     ~UserData();
     string save();
-    void load(unsigned long id, const DataDef *def, const char *cfg);
+    void load(unsigned long id, const DataDef *def, Buffer *cfg);
     void *getUserData(unsigned id, bool bCreate);
     void freeUserData(unsigned id);
 protected:
@@ -1338,7 +1338,7 @@ public:
     ClientUserData();
     ~ClientUserData();
     string save();
-    void load(Client *client, const char *cfg);
+    void load(Client *client, Buffer *cfg);
     void *getData(Client *client);
     bool have(void*);
     void *createData(Client *client);
@@ -1410,7 +1410,7 @@ const unsigned CONTACT_TEMPORARY	= CONTACT_TEMP | CONTACT_DRAG;
 class EXPORT Contact
 {
 public:
-    Contact(unsigned long id = 0, const char *cfg = NULL);
+    Contact(unsigned long id = 0, Buffer *cfg = NULL);
     virtual ~Contact();
     unsigned long id() { return m_id; }
     PROP_ULONG(Group)
@@ -1450,7 +1450,7 @@ typedef struct GroupData
 class EXPORT Group
 {
 public:
-    Group(unsigned long id = 0, const char *cfg = NULL);
+    Group(unsigned long id = 0, Buffer *cfg = NULL);
     virtual ~Group();
     unsigned long id() { return m_id; }
     PROP_UTF8(Name)
@@ -1499,7 +1499,7 @@ public:
     Protocol(Plugin *plugin);
     virtual ~Protocol();
     Plugin  *plugin() { return m_plugin; }
-    virtual Client	*createClient(const char *cfg) = 0;
+    virtual Client	*createClient(Buffer *cfg) = 0;
     virtual const CommandDef *description() = 0;
     virtual const CommandDef *statusList() = 0;
     virtual const DataDef *userDataDef() = 0;
@@ -1523,7 +1523,7 @@ const unsigned AuthError = 1;
 class EXPORT Client
 {
 public:
-    Client(Protocol*, const char *cfg);
+    Client(Protocol*, Buffer *cfg);
     virtual ~Client();
     enum State
     {

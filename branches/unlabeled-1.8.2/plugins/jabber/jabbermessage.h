@@ -33,7 +33,7 @@ typedef struct JabberMessageData
 class JabberMessage : public Message
 {
 public:
-    JabberMessage(const char *cfg = NULL);
+    JabberMessage(Buffer *cfg = NULL);
     ~JabberMessage();
     PROP_UTF8(Subject);
     virtual string save();
@@ -52,7 +52,7 @@ typedef struct JabberMessageErrorData
 class JabberMessageError : public Message
 {
 public:
-    JabberMessageError(const char *cfg = NULL);
+    JabberMessageError(Buffer *cfg = NULL);
     ~JabberMessageError();
     PROP_UTF8(Error);
     PROP_ULONG(Code);
@@ -73,7 +73,7 @@ typedef struct JabberMessageFileData
 class JabberFileMessage : public FileMessage
 {
 public:
-    JabberFileMessage(const char *cfg = NULL);
+    JabberFileMessage(Buffer *cfg = NULL);
     ~JabberFileMessage();
     PROP_STR(ID);
     PROP_STR(From);

@@ -45,7 +45,7 @@ typedef struct ProxyData
     ~ProxyData();
     bool operator == (const ProxyData&) const;
     ProxyData& operator = (const ProxyData&);
-    ProxyData& operator = (const char *cfg);
+    ProxyData& operator = (Buffer *cfg);
 } ProxyData;
 
 class Proxy;
@@ -54,7 +54,7 @@ class Listener;
 class ProxyPlugin : public Plugin, public EventReceiver
 {
 public:
-    ProxyPlugin(unsigned, const char*);
+    ProxyPlugin(unsigned, Buffer*);
     virtual ~ProxyPlugin();
     PROP_STRLIST(Clients);
     PROP_ULONG(Type);

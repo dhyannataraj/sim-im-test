@@ -23,7 +23,7 @@
 #include <qpainter.h>
 #include <qfile.h>
 
-Plugin *createBackgroundPlugin(unsigned base, bool, const char *config)
+Plugin *createBackgroundPlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new BackgroundPlugin(base, config);
     return plugin;
@@ -64,7 +64,7 @@ static DataDef backgroundData[] =
 void qInitJpeg();
 #endif
 
-BackgroundPlugin::BackgroundPlugin(unsigned base, const char *config)
+BackgroundPlugin::BackgroundPlugin(unsigned base, Buffer *config)
         : Plugin(base)
 {
 #if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)

@@ -20,7 +20,7 @@
 
 #include <qdir.h>
 
-Plugin *createMigratePlugin(unsigned base, bool, const char*)
+Plugin *createMigratePlugin(unsigned base, bool, Buffer*)
 {
     MigratePlugin *plugin = new MigratePlugin(base);
     if (!plugin->init()){

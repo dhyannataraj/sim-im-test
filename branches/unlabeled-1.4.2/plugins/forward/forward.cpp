@@ -20,7 +20,7 @@
 #include "simapi.h"
 #include "core.h"
 
-Plugin *createForwardPlugin(unsigned base, bool, const char*)
+Plugin *createForwardPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new ForwardPlugin(base);
     return plugin;

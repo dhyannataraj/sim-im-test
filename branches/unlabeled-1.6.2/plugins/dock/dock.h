@@ -40,7 +40,7 @@ class DockPlugin : public QObject, public Plugin, public EventReceiver
 {
     Q_OBJECT
 public:
-    DockPlugin(unsigned, const char*);
+    DockPlugin(unsigned, Buffer*);
     virtual ~DockPlugin();
 protected slots:
     void showPopup(QPoint);

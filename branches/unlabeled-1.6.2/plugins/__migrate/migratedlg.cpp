@@ -17,6 +17,7 @@
 
 #include "migratedlg.h"
 #include "ballonmsg.h"
+#include "buffer.h"
 
 #include <qlayout.h>
 #include <qcheckbox.h>
@@ -168,39 +169,44 @@ void MigrateDialog::process()
             error(i18n("Can't open %1") .arg(path + "contacts.conf"));
             return;
         }
-        string line;
         m_uin    = 0;
         m_passwd = "";
         m_state  = 0;
         m_grpId		= 0;
         m_contactId = 0;
-        while (getLine(icqConf, line)){
-            if (line[0] == '['){
-                flush();
-                line = line.substr(1);
-                line = getToken(line, ']');
-                m_state = 3;
-                if (line == "Group")
-                    m_state = 1;
-                if (line == "User")
-                    m_state = 2;
-                if (!m_bProcess)
-                    return;
-                barCnv->setProgress(size + icqConf.at());
-                qApp->processEvents();
-                continue;
-            }
-            string name = getToken(line, '=');
-            if (name == "UIN")
-                m_uin = atol(line.c_str());
-            if (name == "EncryptPassword")
-                m_passwd = line;
-            if (name == "Name")
-                m_name = line;
-            if (name == "Alias")
-                m_name = line;
-        }
-        flush();
+		Buffer cfg;
+		cfg.init(icqConf.size());
+		icqConf.readBlock(cfg.data(), icqConf.size());
+		for (;;){
+			string section = cfg.getSection();
+			if (section.empty())
+				break;
+            m_state = 3;
+            if (section == "Group")
+				m_state = 1;
+			if (section == "User")
+				m_state = 2;
+			if (!m_bProcess)
+				return;
+			for (;;){
+				char *l = cfg.getLine();
+				if (l == NULL)
+					break;
+				string line = l;
+				string name = getToken(line, '=');
+				if (name == "UIN")
+					m_uin = atol(line.c_str());
+				if (name == "EncryptPassword")
+					m_passwd = line;
+				if (name == "Name")
+					m_name = line;
+				if (name == "Alias")
+					m_name = line;
+			}
+			flush();
+            barCnv->setProgress(cfg.readPos());
+            qApp->processEvents();
+		}
         icqConf.close();
         clientsConf.close();
         contactsConf.close();
@@ -232,31 +238,36 @@ void MigrateDialog::process()
                 error(i18n("Can't open %1") .arg(hTo.name()));
                 return;
             }
-            while (getLine(hFrom, line)){
-                if (line[0] == '['){
-                    flush();
-                    line = line.substr(1);
-                    line = getToken(line, ']');
-                    m_state = 3;
-                    if (line == "Message")
-                        m_state = 4;
-                    if (!m_bProcess)
-                        return;
-                    barCnv->setProgress(size + hFrom.at());
-                    qApp->processEvents();
-                    continue;
-                }
-                string name = getToken(line, '=');
-                if (name == "Message")
-                    m_message = line;
-                if (name == "Time")
-                    m_time = line;
-                if (name == "Direction")
-                    m_direction = line;
-                if (name == "Charset")
-                    m_charset = line;
+			cfg.init(hFrom.size());
+            hFrom.readBlock(cfg.data(), hFrom.size());
+			for (;;){
+				string section = cfg.getSection();
+				if (section.empty())
+					break;
+                m_state = 3;
+                if (section == "Message")
+                    m_state = 4;
+                if (!m_bProcess)
+                    return;
+				for (;;){
+					char *l = cfg.getLine();
+					if (l == NULL)
+						break;
+					string line = l;
+					string name = getToken(line, '=');
+					if (name == "Message")
+						m_message = line;
+					if (name == "Time")
+						m_time = line;
+					if (name == "Direction")
+						m_direction = line;
+					if (name == "Charset")
+						m_charset = line;
+				}
+				flush();
+				barCnv->setProgress(cfg.readPos());
+                qApp->processEvents();
             }
-            flush();
             hFrom.close();
             hTo.close();
             m_state = 3;

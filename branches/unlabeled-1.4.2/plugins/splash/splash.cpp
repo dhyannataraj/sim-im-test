@@ -23,7 +23,7 @@
 #include <qapplication.h>
 #include <qfile.h>
 
-Plugin *createSplashPlugin(unsigned base, bool bStart, const char*)
+Plugin *createSplashPlugin(unsigned base, bool bStart, Buffer*)
 {
     Plugin *plugin = new SplashPlugin(base, bStart);
     return plugin;

@@ -152,7 +152,7 @@ class YahooClient : public TCPClient
 {
     Q_OBJECT
 public:
-    YahooClient(Protocol*, const char *cfg);
+    YahooClient(Protocol*, Buffer *cfg);
     ~YahooClient();
     PROP_STR(Server);
     PROP_USHORT(Port);
@@ -245,7 +245,7 @@ typedef struct YahooFileData
 class YahooFileMessage : public FileMessage
 {
 public:
-    YahooFileMessage(const char *cfg=NULL);
+    YahooFileMessage(Buffer *cfg=NULL);
     ~YahooFileMessage();
     PROP_STR(MsgText);
     PROP_STR(Url);

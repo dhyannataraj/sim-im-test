@@ -35,7 +35,7 @@ static DataDef userWndData[] =
         { NULL, 0, 0, 0 }
     };
 
-UserWnd::UserWnd(unsigned id, const char *cfg, bool bReceived, bool bAdjust)
+UserWnd::UserWnd(unsigned id, Buffer *cfg, bool bReceived, bool bAdjust)
         : QSplitter(Horizontal, NULL)
 {
     load_data(userWndData, &data, cfg);

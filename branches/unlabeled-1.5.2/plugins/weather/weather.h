@@ -68,7 +68,7 @@ class WeatherPlugin : public QObject, public Plugin, public EventReceiver, publi
 {
     Q_OBJECT
 public:
-    WeatherPlugin(unsigned, bool, const char*);
+    WeatherPlugin(unsigned, bool, Buffer*);
     virtual ~WeatherPlugin();
     PROP_STR(ID);
     PROP_STR(Location);

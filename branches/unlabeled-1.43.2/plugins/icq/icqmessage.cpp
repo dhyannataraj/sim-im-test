@@ -36,7 +36,7 @@ static DataDef icqMessageData[] =
         { NULL, 0, 0, 0 }
     };
 
-ICQMessage::ICQMessage(unsigned type, const char *cfg)
+ICQMessage::ICQMessage(unsigned type, Buffer *cfg)
         : Message(type, cfg)
 {
     load_data(icqMessageData, &data, cfg);
@@ -83,7 +83,7 @@ static DataDef aimFileMessageData[] =
         { NULL, 0, 0, 0 }
     };
 
-AIMFileMessage::AIMFileMessage(const char *cfg)
+AIMFileMessage::AIMFileMessage(Buffer *cfg)
         : FileMessage(MessageFile, cfg)
 {
     load_data(aimFileMessageData, &data, cfg);
@@ -107,7 +107,7 @@ static DataDef icqFileMessageData[] =
         { NULL, 0, 0, 0 }
     };
 
-ICQFileMessage::ICQFileMessage(const char *cfg)
+ICQFileMessage::ICQFileMessage(Buffer *cfg)
         : FileMessage(MessageICQFile, cfg)
 {
     load_data(icqFileMessageData, &data, cfg);
@@ -153,7 +153,7 @@ static DataDef icqUrlMessageData[] =
         { NULL, 0, 0, 0 }
     };
 
-IcqUrlMessage::IcqUrlMessage(const char *cfg)
+IcqUrlMessage::IcqUrlMessage(Buffer *cfg)
         : UrlMessage(MessageICQUrl, cfg)
 {
     load_data(icqUrlMessageData, &data, cfg);
@@ -198,7 +198,7 @@ static DataDef icqContactsMessageData[] =
         { NULL, 0, 0, 0 }
     };
 
-IcqContactsMessage::IcqContactsMessage(const char *cfg)
+IcqContactsMessage::IcqContactsMessage(Buffer *cfg)
         : ContactsMessage(MessageICQContacts, cfg)
 {
     load_data(icqContactsMessageData, &data, cfg);
@@ -236,7 +236,7 @@ static DataDef icqAuthMessageData[] =
         { NULL, 0, 0, 0 }
     };
 
-ICQAuthMessage::ICQAuthMessage(unsigned type, unsigned baseType, const char *cfg)
+ICQAuthMessage::ICQAuthMessage(unsigned type, unsigned baseType, Buffer *cfg)
         : AuthMessage(type, cfg)
 {
     load_data(icqAuthMessageData, &data, cfg);
@@ -649,7 +649,7 @@ Message *ICQClient::parseMessage(unsigned short type, const char *screen, string
     return msg;
 }
 
-static Message *createIcq(const char *cfg)
+static Message *createIcq(Buffer *cfg)
 {
     return new ICQMessage(MessageICQ, cfg);
 }
@@ -666,7 +666,7 @@ static MessageDef defIcq =
         NULL
     };
 
-static Message *createIcqFile(const char *cfg)
+static Message *createIcqFile(Buffer *cfg)
 {
     return new ICQFileMessage(cfg);
 }
@@ -691,7 +691,7 @@ static MessageDef defIcqFile =
 i18n("WWW-panel message", "%n WWW-panel messages", 1);
 #endif
 
-static Message *createWebPanel(const char *cfg)
+static Message *createWebPanel(Buffer *cfg)
 {
     return new ICQMessage(MessageWebPanel, cfg);
 }
@@ -712,7 +712,7 @@ static MessageDef defWebPanel =
 i18n("Email pager message", "%n Email pager messages", 1);
 #endif
 
-static Message *createEmailPager(const char *cfg)
+static Message *createEmailPager(Buffer *cfg)
 {
     return new ICQMessage(MessageEmailPager, cfg);
 }
@@ -733,7 +733,7 @@ static MessageDef defEmailPager =
 i18n("Request secure channel", "%n requests secure channel", 1);
 #endif
 
-static Message *createOpenSecure(const char *cfg)
+static Message *createOpenSecure(Buffer *cfg)
 {
     return new Message(MessageOpenSecure, cfg);
 }
@@ -754,7 +754,7 @@ static MessageDef defOpenSecure =
 i18n("Close secure channel", "%n times close secure channel", 1);
 #endif
 
-static Message *createCloseSecure(const char *cfg)
+static Message *createCloseSecure(Buffer *cfg)
 {
     return new Message(MessageCloseSecure, cfg);
 }
@@ -775,7 +775,7 @@ static MessageDef defCloseSecure =
 i18n("Check invisible", "%n times check invisible", 1);
 #endif
 
-static Message *createCheckInvisible(const char *cfg)
+static Message *createCheckInvisible(Buffer *cfg)
 {
     return new Message(MessageCheckInvisible, cfg);
 }
@@ -804,7 +804,7 @@ static DataDef warningMessageData[] =
         { NULL, 0, 0, 0 }
     };
 
-WarningMessage::WarningMessage(const char *cfg)
+WarningMessage::WarningMessage(Buffer *cfg)
         : AuthMessage(MessageWarning, cfg)
 {
     load_data(warningMessageData, &data, cfg);
@@ -825,7 +825,7 @@ QString WarningMessage::presentation()
            .arg(ICQClient::warnLevel(getNewLevel()));
 }
 
-static Message *createWarning(const char *cfg)
+static Message *createWarning(Buffer *cfg)
 {
     return new WarningMessage(cfg);
 }
@@ -842,7 +842,7 @@ static MessageDef defWarning =
         NULL
     };
 
-static Message *createIcqAuthRequest(const char *cfg)
+static Message *createIcqAuthRequest(Buffer *cfg)
 {
     return new ICQAuthMessage(MessageICQAuthRequest, MessageAuthRequest, cfg);
 }
@@ -859,7 +859,7 @@ static MessageDef defIcqAuthRequest =
         NULL
     };
 
-static Message *createIcqAuthGranted(const char *cfg)
+static Message *createIcqAuthGranted(Buffer *cfg)
 {
     return new ICQAuthMessage(MessageICQAuthGranted, MessageAuthGranted, cfg);
 }
@@ -876,7 +876,7 @@ static MessageDef defIcqAuthGranted =
         NULL
     };
 
-static Message *createIcqAuthRefused(const char *cfg)
+static Message *createIcqAuthRefused(Buffer *cfg)
 {
     return new ICQAuthMessage(MessageICQAuthRefused, MessageAuthRefused, cfg);
 }
@@ -893,7 +893,7 @@ static MessageDef defIcqAuthRefused =
         NULL
     };
 
-static Message *createContactRequest(const char *cfg)
+static Message *createContactRequest(Buffer *cfg)
 {
     return new ICQAuthMessage(MessageContactRequest, MessageContactRequest, cfg);
 }
@@ -914,7 +914,7 @@ static MessageDef defContactRequest =
         NULL
     };
 
-static Message *createIcqUrl(const char *cfg)
+static Message *createIcqUrl(Buffer *cfg)
 {
     return new IcqUrlMessage(cfg);
 }
@@ -931,7 +931,7 @@ static MessageDef defIcqUrl =
         NULL
     };
 
-static Message *createIcqContacts(const char *cfg)
+static Message *createIcqContacts(Buffer *cfg)
 {
     return new IcqContactsMessage(cfg);
 }

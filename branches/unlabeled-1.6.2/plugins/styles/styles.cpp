@@ -40,7 +40,7 @@
 #include <qsgistyle.h>
 #endif
 
-Plugin *createStylesPlugin(unsigned base, bool, const char *config)
+Plugin *createStylesPlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new StylesPlugin(base, config);
     return plugin;
@@ -73,7 +73,7 @@ static DataDef stylesData[] =
         { NULL, 0, 0, 0 }
     };
 
-StylesPlugin::StylesPlugin(unsigned base, const char *config)
+StylesPlugin::StylesPlugin(unsigned base, Buffer *config)
         : Plugin(base)
 {
     m_saveBaseFont = NULL;

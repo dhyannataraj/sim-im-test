@@ -22,7 +22,7 @@
 #include "xpm/jabber.xpm"
 #include "xpm/register.xpm"
 
-Plugin *createJabberPlugin(unsigned base, bool, const char *cfg)
+Plugin *createJabberPlugin(unsigned base, bool, Buffer *cfg)
 {
     Plugin *plugin = new JabberPlugin(base, cfg);
     return plugin;
@@ -51,7 +51,7 @@ JabberProtocol::~JabberProtocol()
 {
 }
 
-Client *JabberProtocol::createClient(const char *cfg)
+Client *JabberProtocol::createClient(Buffer *cfg)
 {
     return new JabberClient(this, cfg);
 }
@@ -207,7 +207,7 @@ DataDef jabberData[] =
 
 JabberPlugin *JabberPlugin::plugin = NULL;
 
-JabberPlugin::JabberPlugin(unsigned base, const char *cfg)
+JabberPlugin::JabberPlugin(unsigned base, Buffer *cfg)
         : Plugin(base)
 {
 #if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)

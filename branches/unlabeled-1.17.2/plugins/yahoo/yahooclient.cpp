@@ -112,7 +112,7 @@ const DataDef *YahooProtocol::userDataDef()
     return yahooUserData;
 }
 
-YahooClient::YahooClient(Protocol *protocol, const char *cfg)
+YahooClient::YahooClient(Protocol *protocol, Buffer *cfg)
         : TCPClient(protocol, cfg)
 {
     load_data(yahooClientData, &data, cfg);
@@ -2042,7 +2042,7 @@ void YahooClient::sendFile(FileMessage *msg, QFile *file, YahooUserData *data, u
     }
 }
 
-static Message *createYahooFile(const char *cfg)
+static Message *createYahooFile(Buffer *cfg)
 {
     return new YahooFileMessage(cfg);
 }
@@ -2067,7 +2067,7 @@ static DataDef yahoMessageFile[] =
         { NULL, 0, 0, 0 }
     };
 
-YahooFileMessage::YahooFileMessage(const char *cfg)
+YahooFileMessage::YahooFileMessage(Buffer *cfg)
         : FileMessage(MessageYahooFile, cfg)
 {
     load_data(yahoMessageFile, &data, cfg);

@@ -35,7 +35,7 @@ class TransparentPlugin : public QObject, public Plugin, public EventReceiver
 {
     Q_OBJECT
 public:
-    TransparentPlugin(unsigned, const char*);
+    TransparentPlugin(unsigned, Buffer*);
     virtual ~TransparentPlugin();
     PROP_ULONG(Transparency);
 #ifdef WIN32

@@ -449,7 +449,7 @@ class ICQClient : public TCPClient, public OscarSocket
 {
     Q_OBJECT
 public:
-    ICQClient(Protocol*, const char *cfg, bool bAIM);
+    ICQClient(Protocol*, Buffer *cfg, bool bAIM);
     ~ICQClient();
     virtual string name();
     virtual QWidget    *setupWnd();

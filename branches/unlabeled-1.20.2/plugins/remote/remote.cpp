@@ -31,7 +31,7 @@
 #include <qpixmap.h>
 #include <time.h>
 
-Plugin *createRemotePlugin(unsigned base, bool, const char *config)
+Plugin *createRemotePlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new RemotePlugin(base, config);
     return plugin;
@@ -212,7 +212,7 @@ IPCLock::~IPCLock()
 
 #endif
 
-RemotePlugin::RemotePlugin(unsigned base, const char *config)
+RemotePlugin::RemotePlugin(unsigned base, Buffer *config)
         : Plugin(base)
 {
     load_data(remoteData, &data, config);
@@ -672,7 +672,15 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             string line;
             bool bOpen = false;
             unsigned uin = 0;
-            while (getLine(f, line)){
+			Buffer sf;
+			sf.init(f.size());
+			f.readBlock(sf.data(), f.size());
+			sf.setSize(f.size());
+			while (sf.readPos() < sf.size()){
+				string line;
+				sf.scan("\n", line);
+				if (!line.empty() && (line[line.length() - 1] == '\r'))
+					line = line.substr(0, line.length() - 1);
                 if (line == "[ICQ Message User]")
                     bOpen = true;
                 if (line.substr(0, 4) == "UIN=")

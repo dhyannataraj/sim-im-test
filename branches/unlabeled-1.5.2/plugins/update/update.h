@@ -30,7 +30,7 @@ class UpdatePlugin : public QObject, public Plugin, public FetchClient, public E
 {
     Q_OBJECT
 public:
-    UpdatePlugin(unsigned, const char*);
+    UpdatePlugin(unsigned, Buffer*);
     virtual ~UpdatePlugin();
 protected slots:
     void timeout();

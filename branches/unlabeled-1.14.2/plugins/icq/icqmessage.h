@@ -48,7 +48,7 @@ typedef struct ICQMessageData
 class ICQMessage : public Message
 {
 public:
-    ICQMessage(unsigned type=MessageICQ, const char *cfg=NULL);
+    ICQMessage(unsigned type=MessageICQ, Buffer *cfg=NULL);
     ~ICQMessage();
     PROP_STR(ServerText);
     virtual QString getText() const;
@@ -68,7 +68,7 @@ typedef struct IcqUrlMessageData
 class IcqUrlMessage : public UrlMessage
 {
 public:
-    IcqUrlMessage(const char *cfg=NULL);
+    IcqUrlMessage(Buffer *cfg=NULL);
     ~IcqUrlMessage();
     PROP_STR(ServerUrl);
     PROP_STR(ServerText);
@@ -88,7 +88,7 @@ typedef struct IcqContactsMessageData
 class IcqContactsMessage : public ContactsMessage
 {
 public:
-    IcqContactsMessage(const char *cfg=NULL);
+    IcqContactsMessage(Buffer *cfg=NULL);
     ~IcqContactsMessage();
     QString getContacts() const;
     PROP_STR(ServerText);
@@ -107,7 +107,7 @@ typedef struct ICQAuthMessageData
 class ICQAuthMessage : public AuthMessage
 {
 public:
-    ICQAuthMessage(unsigned type, unsigned base_type, const char *cfg=NULL);
+    ICQAuthMessage(unsigned type, unsigned base_type, Buffer *cfg=NULL);
     ~ICQAuthMessage();
     PROP_STR(ServerText);
     PROP_STR(Charset);
@@ -134,7 +134,7 @@ typedef struct ICQFileMessageData
 class ICQFileMessage : public FileMessage
 {
 public:
-    ICQFileMessage(const char *cfg=NULL);
+    ICQFileMessage(Buffer *cfg=NULL);
     ~ICQFileMessage();
     PROP_STR(ServerText);
     PROP_STR(ServerDescr);
@@ -162,7 +162,7 @@ typedef struct AIMFileMessageData
 class AIMFileMessage : public FileMessage
 {
 public:
-    AIMFileMessage(const char *cfg=NULL);
+    AIMFileMessage(Buffer *cfg=NULL);
     ~AIMFileMessage();
     PROP_USHORT(Port);
     PROP_ULONG(ID_L);
@@ -182,7 +182,7 @@ typedef struct MessageWarningData
 class WarningMessage : public AuthMessage
 {
 public:
-    WarningMessage(const char *cfg=NULL);
+    WarningMessage(Buffer *cfg=NULL);
     PROP_BOOL(Anonymous);
     PROP_USHORT(OldLevel);
     PROP_USHORT(NewLevel);

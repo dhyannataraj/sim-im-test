@@ -38,7 +38,7 @@
 static string GPGpath;
 #endif
 
-Plugin *createGpgPlugin(unsigned base, bool, const char *cfg)
+Plugin *createGpgPlugin(unsigned base, bool, Buffer *cfg)
 {
 #ifndef WIN32
     if (GPGpath.empty())
@@ -115,7 +115,7 @@ static DataDef gpgUserData[] =
 
 GpgPlugin *GpgPlugin::plugin = NULL;
 
-GpgPlugin::GpgPlugin(unsigned base, const char *cfg)
+GpgPlugin::GpgPlugin(unsigned base, Buffer *cfg)
         : Plugin(base), EventReceiver(HighestPriority - 0x100)
 {
     load_data(gpgData, &data, cfg);
@@ -700,7 +700,7 @@ void GpgPlugin::reset()
 i18n("%n GPG key", "%n GPG keys", 1);
 #endif
 
-static Message *createGPGKey(const char *cfg)
+static Message *createGPGKey(Buffer *cfg)
 {
     return new Message(MessageGPGKey, cfg);
 }

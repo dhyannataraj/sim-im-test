@@ -96,7 +96,7 @@ protected:
 #endif
 };
 
-Plugin *createCorePlugin(unsigned base, bool, const char *config)
+Plugin *createCorePlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new CorePlugin(base, config);
     return plugin;
@@ -491,7 +491,7 @@ static autoReply autoReplies[] =
         { 0, NULL }
     };
 
-CorePlugin::CorePlugin(unsigned base, const char *config)
+CorePlugin::CorePlugin(unsigned base, Buffer *config)
         : Plugin(base), EventReceiver(HighPriority)
 {
     m_plugin = this;
@@ -1722,13 +1722,13 @@ void *CorePlugin::processEvent(Event *e)
             if (info->plugin == this){
                 string profile = getProfile();
                 free_data(coreData, &data);
-                load_data(coreData, &data, info->config);
+                load_data(coreData, &data, info->cfg);
                 time_t now;
                 time(&now);
                 setStatusTime(now);
-                if (info->config){
-                    free(info->config);
-                    info->config = NULL;
+                if (info->cfg){
+                    delete info->cfg;
+                    info->cfg = NULL;
                 }
                 setProfile(profile.c_str());
                 removeTranslator();
@@ -3393,13 +3393,13 @@ void CorePlugin::changeProfile()
     Event eInfo(EventGetPluginInfo, (void*)"_core");
     pluginInfo *info = (pluginInfo*)(eInfo.process());
     free_data(coreData, &data);
-    load_data(coreData, &data, info->config);
+    load_data(coreData, &data, info->cfg);
     time_t now;
     time(&now);
     setStatusTime(now);
-    if (info->config){
-        free(info->config);
-        info->config = NULL;
+    if (info->cfg){
+        delete info->cfg;
+        info->cfg = NULL;
     }
     setProfile(saveProfile.c_str());
     removeTranslator();
@@ -3805,7 +3805,7 @@ void CorePlugin::clearUnread(unsigned contact_id)
     }
 }
 
-Message *CorePlugin::createMessage(const char *type, const char *cfg)
+Message *CorePlugin::createMessage(const char *type, Buffer *cfg)
 {
     MAP_TYPES::iterator itt = types.find(type);
     if (itt != types.end()){
@@ -3830,29 +3830,23 @@ void CorePlugin::loadClients(ClientList &clients)
         log(L_ERROR, "Can't open %s", cfgName.c_str());
         return;
     }
-    string client_name;
-    string cfg;
-    string s;
-    while (getLine(f, s)){
-        if (s[0] == '['){
-            Client *client = loadClient(client_name.c_str(), cfg.c_str());
-            if (client)
-                clients.push_back(client);
-            cfg = "";
-            s = s.substr(1);
-            client_name = getToken(s, ']');
-            continue;
-        }
-        if (cfg.length())
-            cfg += "\n";
-        cfg += s;
-    }
-    Client *client = loadClient(client_name.c_str(), cfg.c_str());
-    if (client)
-        clients.push_back(client);
+	Buffer cfg;
+	cfg.init(f.size());
+	if (f.readBlock(cfg.data(), f.size()) < 0){
+        log(L_ERROR, "Can't read %s", cfgName.c_str());
+        return;
+	}
+	for (;;){
+		string section = cfg.getSection();
+		if (section.empty())
+			break;
+        Client *client = loadClient(section.c_str(), &cfg);
+        if (client)
+            clients.push_back(client);
+	}
 }
 
-Client *CorePlugin::loadClient(const char *name, const char *cfg)
+Client *CorePlugin::loadClient(const char *name, Buffer *cfg)
 {
     if ((name == NULL) || (*name == 0))
         return NULL;
