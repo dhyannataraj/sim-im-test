@@ -501,6 +501,11 @@ ICQEvent *ICQClient::searchWP(const char *szFirst, const char *szLast, const cha
                               char nLanguage, const char *szCity, const char *szState,
                               unsigned short nCountryCode,
                               const char *szCoName, const char *szCoDept, const char *szCoPos,
+							  char nOccupation, 
+							  unsigned short nPast, const char *szPast,
+							  unsigned short nInterests, const char *szInterests,
+							  unsigned short nAffiliation, const char *szAffiliation,
+							  unsigned short nHomePage, const char *szHomePage,
                               bool bOnlineOnly)
 {
     if (m_state != Logged) return 0;
@@ -515,6 +520,10 @@ ICQEvent *ICQClient::searchWP(const char *szFirst, const char *szLast, const cha
     string sCoName = szCoName ? szCoName : "";
     string sCoDept = szCoDept ? szCoDept : "";
     string sCoPos = szCoPos ? szCoPos : "";
+	string sPast = szPast ? szPast : "";
+	string sInterests = szInterests ? szInterests : "";
+	string sAffiliation = szAffiliation ? szAffiliation : "";
+	string sHomePage = szHomePage ? szHomePage : "";
 
     toServer(sFirst);
     toServer(sLast);
@@ -525,6 +534,10 @@ ICQEvent *ICQClient::searchWP(const char *szFirst, const char *szLast, const cha
     toServer(sCoName);
     toServer(sCoDept);
     toServer(sCoPos);
+	toServer(sPast);
+	toServer(sInterests);
+	toServer(sAffiliation);
+	toServer(sHomePage);
 
     unsigned short nMinAge = 0;
     unsigned short nMaxAge = 0;
@@ -571,19 +584,15 @@ ICQEvent *ICQClient::searchWP(const char *szFirst, const char *szLast, const cha
     << sCoDept
     << sCoPos
 
-    << (char)0x00
-    << (unsigned short)0x0000;
-
-    for (unsigned short i = 0; i < 3; i++)
-    {
-        writeBuffer
-        << (char)0x01
-        << 0x00000000L;
-    }
-
-    writeBuffer
-    << (char)0x01
-    << (unsigned short)0x0000;
+    << nOccupation
+    << nPast
+	<< sPast
+	<< nInterests
+	<< sInterests
+	<< nAffiliation
+	<< sAffiliation
+	<< nHomePage
+	<< sHomePage;
 
     char c = bOnlineOnly ? 1 : 0;
     writeBuffer << c;

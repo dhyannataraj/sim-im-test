@@ -965,6 +965,11 @@ public:
                        char nLanguage, const char *city, const char *szState,
                        unsigned short nCountryCode,
                        const char *cCoName, const char *szCoDept, const char *szCoPos,
+							  char nOccupation, 
+							  unsigned short nPast, const char *szPast,
+							  unsigned short nInterests, const char *szInterests,
+							  unsigned short nAffiliation, const char *szAffiliation,
+						unsigned short nHomePoge, const char *szHomePage,
                        bool bOnlineOnly);
 
     void setInVisible(ICQUser*, bool);

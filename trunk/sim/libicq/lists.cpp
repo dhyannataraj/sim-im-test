@@ -237,6 +237,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 fromServer(message);
             }
             log(L_DEBUG, "Auth request %lu", uin);
+
             ICQAuthRequest *m = new ICQAuthRequest;
             m->Uin.push_back(uin);
             m->Message = message;
@@ -853,7 +854,7 @@ void ICQClient::processMsgQueueAuth()
                 ICQAuthRequest *msg = static_cast<ICQAuthRequest*>(e->message());
                 snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_REQUEST_AUTH);
                 writeBuffer.packUin(msg->getUin());
-                string message = msg->Message;
+                string message = clearHTML(msg->Message.c_str());
                 toServer(message);
                 writeBuffer << (unsigned short)(message.length());
                 writeBuffer << message.c_str();
@@ -877,7 +878,7 @@ void ICQClient::processMsgQueueAuth()
                 ICQAuthRequest *msg = static_cast<ICQAuthRequest*>(e->message());
                 snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_REQUEST_AUTH);
                 writeBuffer.packUin(msg->getUin());
-                string message = msg->Message;
+                string message = clearHTML(msg->Message.c_str());
                 string original = message;
                 toServer(message);
                 writeBuffer

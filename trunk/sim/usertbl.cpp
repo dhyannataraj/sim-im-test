@@ -29,10 +29,10 @@
 #include <qtimer.h>
 #include <qpainter.h>
 
-const unsigned mnuTblDelete = 1;
-const unsigned mnuTblErase  = 2;
-const unsigned mnuTblAddGrp = 3;
-const unsigned mnuTblAddAll = 4;
+const unsigned mnuTblDelete = 1001;
+const unsigned mnuTblErase  = 1002;
+const unsigned mnuTblAddGrp = 1003;
+const unsigned mnuTblAddAll = 1004;
 
 class UserTblItem : public QListViewItem
 {
@@ -293,10 +293,11 @@ void UserTbl::contentsDropEvent(QDropEvent *e)
 void UserTbl::action(int id)
 {
     switch (id){
+	case mnuMessage:
     case mnuInfo:
         if (actionItem){
             ICQUser *u = pClient->getUser(static_cast<UserTblItem*>(currentItem())->mUin, true, true);
-            if (u) pMain->userFunction(u->Uin(), mnuInfo, 0);
+            if (u) pMain->userFunction(u->Uin(), id, 0);
         }
         break;
     case mnuTblDelete:
@@ -400,6 +401,7 @@ void UserTbl::viewportContextMenuEvent(QContextMenuEvent *e)
     }
     if (actionItem){
         if (sender) menuTable->insertSeparator();
+        menuTable->insertItem(Icon(Client::getMessageIcon(ICQ_MSGxMSG)), Client::getMessageText(ICQ_MSGxMSG), mnuMessage);
         menuTable->insertItem(Icon("info"), i18n("User info"), mnuInfo);
         unsigned long uin = static_cast<UserTblItem*>(currentItem())->mUin;
         ICQUser *u = pClient->getUser(uin);
