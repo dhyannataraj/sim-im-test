@@ -23,6 +23,7 @@
 #include "cuser.h"
 #include "cfg.h"
 #include "log.h"
+#include "tmpl.h"
 #include "ui/filetransfer.h"
 
 #include <qdns.h>
@@ -220,31 +221,40 @@ cfgParam ICQUser_Params[] =
         { "PhoneBookTime", OFFSET_OF(ICQUser, PhoneBookTime), PARAM_ULONG, 0 },
         { "PhoneStatusTime", OFFSET_OF(ICQUser, PhoneStatusTime), PARAM_ULONG, 0 },
         { "InfoUpdateTime", OFFSET_OF(ICQUser, InfoUpdateTime), PARAM_ULONG, 0 },
-        { "AlertOverride", OFFSET_OF(ICQUser, AlertOverride), PARAM_BOOL, 0 },
-        { "AlertAway", OFFSET_OF(ICQUser, AlertAway), PARAM_BOOL, 1 },
-        { "AlertBlink", OFFSET_OF(ICQUser, AlertBlink), PARAM_BOOL, 1 },
-        { "AlertSound", OFFSET_OF(ICQUser, AlertSound), PARAM_BOOL, 1 },
-        { "AlertOnScreen", OFFSET_OF(ICQUser, AlertOnScreen), PARAM_BOOL, 1 },
-        { "AlertPopup", OFFSET_OF(ICQUser, AlertPopup), PARAM_BOOL, 0 },
-        { "AlertWindow", OFFSET_OF(ICQUser, AlertWindow), PARAM_BOOL, 0 },
-        { "LogStatus", OFFSET_OF(ICQUser, LogStatus), PARAM_BOOL, 0 },
-        { "AcceptMsgWindow", OFFSET_OF(ICQUser, AcceptMsgWindow), PARAM_BOOL, 0 },
-        { "AcceptFileMode", OFFSET_OF(ICQUser, AcceptFileMode), PARAM_USHORT, 0 },
-        { "AcceptFileOverride", OFFSET_OF(ICQUser, AcceptFileOverride), PARAM_BOOL, 0 },
-        { "AcceptFileOverwrite", OFFSET_OF(ICQUser, AcceptFileOverwrite), PARAM_BOOL, 0 },
-        { "AcceptFilePath", OFFSET_OF(ICQUser, AcceptFilePath), PARAM_STRING, 0 },
-        { "DeclineFileMessage", OFFSET_OF(ICQUser, DeclineFileMessage), PARAM_STRING, 0 },
         { "Caps", OFFSET_OF(ICQUser, Caps), PARAM_ULONG, 0 },
         { "Build", OFFSET_OF(ICQUser, Build), PARAM_ULONG, 0 },
-        { "SoundOverride", OFFSET_OF(ICQUser, SoundOverride), PARAM_BOOL, 0 },
-        { "IncomingMessage", OFFSET_OF(ICQUser, IncomingMessage), PARAM_STRING, (unsigned)"message.wav" },
-        { "IncomingURL", OFFSET_OF(ICQUser, IncomingURL), PARAM_STRING, (unsigned)"url.wav" },
-        { "IncomingSMS", OFFSET_OF(ICQUser, IncomingSMS), PARAM_STRING, (unsigned)"sms.wav" },
-        { "IncomingAuth", OFFSET_OF(ICQUser, IncomingAuth), PARAM_STRING, (unsigned)"auth.wav" },
-        { "IncomingFile", OFFSET_OF(ICQUser, IncomingFile), PARAM_STRING, (unsigned)"file.wav" },
-        { "IncomingChat", OFFSET_OF(ICQUser, IncomingChat), PARAM_STRING, (unsigned)"chat.wav" },
-        { "OnlineAlert", OFFSET_OF(ICQUser, OnlineAlert), PARAM_STRING, (unsigned)"alert.wav" },
         { "Encoding", OFFSET_OF(ICQUser, Encoding), PARAM_STRING, 0 },
+        { "", 0, 0, 0 }
+    };
+
+cfgParam SIMUser_Params[] =
+    {
+        { "AlertOverride", OFFSET_OF(SIMUser, AlertOverride), PARAM_BOOL, 0 },
+        { "AlertAway", OFFSET_OF(SIMUser, AlertAway), PARAM_BOOL, 1 },
+        { "AlertBlink", OFFSET_OF(SIMUser, AlertBlink), PARAM_BOOL, 1 },
+        { "AlertSound", OFFSET_OF(SIMUser, AlertSound), PARAM_BOOL, 1 },
+        { "AlertOnScreen", OFFSET_OF(SIMUser, AlertOnScreen), PARAM_BOOL, 1 },
+        { "AlertPopup", OFFSET_OF(SIMUser, AlertPopup), PARAM_BOOL, 0 },
+        { "AlertWindow", OFFSET_OF(SIMUser, AlertWindow), PARAM_BOOL, 0 },
+        { "LogStatus", OFFSET_OF(SIMUser, LogStatus), PARAM_BOOL, 0 },
+        { "AcceptMsgWindow", OFFSET_OF(SIMUser, AcceptMsgWindow), PARAM_BOOL, 0 },
+        { "AcceptFileMode", OFFSET_OF(SIMUser, AcceptFileMode), PARAM_USHORT, 0 },
+        { "AcceptFileOverride", OFFSET_OF(SIMUser, AcceptFileOverride), PARAM_BOOL, 0 },
+        { "AcceptFileOverwrite", OFFSET_OF(SIMUser, AcceptFileOverwrite), PARAM_BOOL, 0 },
+        { "AcceptFilePath", OFFSET_OF(SIMUser, AcceptFilePath), PARAM_STRING, 0 },
+        { "DeclineFileMessage", OFFSET_OF(SIMUser, DeclineFileMessage), PARAM_STRING, 0 },
+        { "SoundOverride", OFFSET_OF(SIMUser, SoundOverride), PARAM_BOOL, 0 },
+        { "IncomingMessage", OFFSET_OF(SIMUser, IncomingMessage), PARAM_STRING, (unsigned)"message.wav" },
+        { "IncomingURL", OFFSET_OF(SIMUser, IncomingURL), PARAM_STRING, (unsigned)"url.wav" },
+        { "IncomingSMS", OFFSET_OF(SIMUser, IncomingSMS), PARAM_STRING, (unsigned)"sms.wav" },
+        { "IncomingAuth", OFFSET_OF(SIMUser, IncomingAuth), PARAM_STRING, (unsigned)"auth.wav" },
+        { "IncomingFile", OFFSET_OF(SIMUser, IncomingFile), PARAM_STRING, (unsigned)"file.wav" },
+        { "IncomingChat", OFFSET_OF(SIMUser, IncomingChat), PARAM_STRING, (unsigned)"chat.wav" },
+        { "OnlineAlert", OFFSET_OF(SIMUser, OnlineAlert), PARAM_STRING, (unsigned)"alert.wav" },
+        { "ProgOverride", OFFSET_OF(SIMUser, ProgOverride), PARAM_BOOL, 0 },
+        { "ProgMessageOn", OFFSET_OF(SIMUser, ProgMessageOn), PARAM_BOOL, 0 },
+        { "ProgMessage", OFFSET_OF(SIMUser, ProgMessage), PARAM_STRING, 0 },
+        { "", 0, PARAM_OFFS, (unsigned)ICQUser_Params },
         { "", 0, 0, 0 }
     };
 
@@ -268,7 +278,7 @@ cfgParam ClientOwner_Params[] =
         { "AutoResponseFFC" ,OFFSET_OF(ICQUser, AutoResponseFFC), PARAM_I18N, (unsigned)I18N_NOOP(
               "We'd love to hear what you have to say. Join our chat.\n"
           ) },
-        { "", 0, PARAM_OFFS, (unsigned)ICQUser_Params },
+        { "", 0, PARAM_OFFS, (unsigned)SIMUser_Params },
         { "", 0, 0, 0 }
     };
 
@@ -284,6 +294,11 @@ cfgParam Sockets_Params[] =
         { "ProxyPasswd", OFFSET_OF(SocketFactory, ProxyPasswd), PARAM_STRING, 0 },
         { "", 0, 0, 0 }
     };
+
+static void *owner(void *p)
+{
+    return ((ICQClient*)p)->owner;
+}
 
 cfgParam ICQClient_Params[] =
     {
@@ -304,7 +319,7 @@ cfgParam ICQClient_Params[] =
         { "BypassAuth", OFFSET_OF(ICQClient, BypassAuth), PARAM_BOOL, 0 },
         { "ShareDir", OFFSET_OF(ICQClient, ShareDir), PARAM_STRING, (unsigned)"Shared" },
         { "ShareOn", OFFSET_OF(ICQClient, ShareOn), PARAM_BOOL, 0 },
-        { "owner", OFFSET_OF(ICQClient, owner), PARAM_OFFS, (unsigned)ClientOwner_Params },
+        { "owner", (int)owner, PARAM_PROC, (unsigned)ClientOwner_Params },
         { "", 0, 0, 0 },
     };
 
@@ -326,6 +341,13 @@ cfgParam Client_Params[] =
         { "FileDone", OFFSET_OF(SIMClient, FileDone), PARAM_STRING, (unsigned)"filedone.wav" },
         { "", 0, 0, 0 }
     };
+
+ICQUser *SIMClient::createUser()
+{
+    ICQUser *u = new SIMUser;
+    ::init(u, SIMUser_Params);
+    return u;
+}
 
 void SIMClient::save(ostream &s)
 {
@@ -353,7 +375,7 @@ bool SIMClient::load(istream &s, string &nextPart)
             continue;
         }
         if (!strcmp(nextPart.c_str(), "[Group]")){
-            ICQGroup *grp = new ICQGroup;
+            ICQGroup *grp = createGroup();
             if (!::load(grp, ICQGroup_Params, s, nextPart)){
                 delete grp;
                 break;
@@ -362,8 +384,8 @@ bool SIMClient::load(istream &s, string &nextPart)
             continue;
         }
         if (!strcmp(nextPart.c_str(), "[User]")){
-            ICQUser *u = new ICQUser;
-            if (!::load(u, ICQUser_Params, s, nextPart)){
+            ICQUser *u = createUser();
+            if (!::load(u, SIMUser_Params, s, nextPart)){
                 delete u;
                 break;
             }
@@ -397,17 +419,17 @@ bool SIMClient::load(istream &s, string &nextPart)
     for (;;){
         bool ok = true;
         list<unsigned long>::iterator it;
-        for (it = owner.unreadMsgs.begin(); it != owner.unreadMsgs.end(); ++it){
+        for (it = owner->unreadMsgs.begin(); it != owner->unreadMsgs.end(); ++it){
             if (*it >= MSG_PROCESS_ID){
-                owner.unreadMsgs.remove(*it);
+                owner->unreadMsgs.remove(*it);
                 ok = false;
                 break;
             }
         }
         if (ok) break;
     }
-    owner.adjustPhones();
-    owner.adjustEMails(NULL, true);
+    owner->adjustPhones();
+    owner->adjustEMails(NULL, true);
     return true;
 }
 
@@ -428,6 +450,7 @@ SIMClient::SIMClient(QObject *parent, const char *name)
         (*encodings).append(i18n(encodingTbl[i].language) + " ( " + encodingTbl[i].codec + " )");
     }
 #endif
+    init();
     ::init(this, Client_Params);
 }
 
@@ -538,12 +561,10 @@ void SIMClient::process_event(ICQEvent *e)
             case ICQ_READxNAxMSG:
             case ICQ_READxDNDxMSG:
             case ICQ_READxFFCxMSG:
-                string response;
-                getAutoResponse(msg->getUin(), response);
-                sendAutoResponse(msg, response);
+                getAutoResponse(msg->getUin(), msg);
                 return;
             }
-            if (uin == owner.Uin) uin = 0;
+            if (uin == owner->Uin) uin = 0;
             if (e->state == ICQEvent::Fail){
                 ICQUser *u = getUser(e->Uin());
                 if (u){
@@ -563,7 +584,7 @@ void SIMClient::process_event(ICQEvent *e)
                         if (*pMain->ForwardPhone.c_str() && PhoneInfo::isEqual(sms->Phone.c_str(), pMain->ForwardPhone.c_str())){
                             unsigned long uin = atol(sms->Message.c_str());
                             if (uin > 10000){
-                                QString msgText = pClient->from8Bit(owner.Uin, sms->Message, msg->Charset.c_str());
+                                QString msgText = pClient->from8Bit(owner->Uin, sms->Message, msg->Charset.c_str());
                                 int pos = msgText.find(':');
                                 if (pos >= 0){
                                     msgText = msgText.mid(pos+1);
@@ -580,7 +601,7 @@ void SIMClient::process_event(ICQEvent *e)
                     History h(uin);
                     msg->Id = h.addMessage(msg);
                     if ((msg->Type() == ICQ_MSGxMSG) &&
-                            ((owner.uStatus & ICQ_STATUS_NA) || (owner.uStatus & ICQ_STATUS_AWAY)) &&
+                            ((owner->uStatus & ICQ_STATUS_NA) || (owner->uStatus & ICQ_STATUS_AWAY)) &&
                             *pMain->ForwardPhone.c_str()){
                         ICQMsg *m = static_cast<ICQMsg*>(msg);
                         QString str = pClient->from8Bit(msg->getUin(), m->Message, msg->Charset.c_str());
@@ -607,8 +628,9 @@ void SIMClient::process_event(ICQEvent *e)
                     switch (msg->Type()){
                     case ICQ_MSGxFILE:{
                             ICQFile *f = static_cast<ICQFile*>(msg);
-                            ICQUser *uFile = u;
-                            if (!uFile->AcceptFileOverride) uFile = &pClient->owner;
+                            SIMUser *uFile = static_cast<SIMUser*>(u);
+                            if (!uFile->AcceptFileOverride)
+                                uFile = static_cast<SIMUser*>(pClient->owner);
                             if (uFile->AcceptFileMode== 1){
                                 string name = uFile->AcceptFilePath.c_str();
                                 if (*name.c_str() == 0)
@@ -630,27 +652,23 @@ void SIMClient::process_event(ICQEvent *e)
                                 pClient->declineMessage(f, uFile->DeclineFileMessage.c_str());
                                 return;
                             }
-                            switch (owner.uStatus & 0xFF){
+                            switch (owner->uStatus & 0xFF){
                             case ICQ_STATUS_ONLINE:
                             case ICQ_STATUS_FREEFORCHAT:
                                 break;
                             default:
-                                string response;
-                                getAutoResponse(uin, response);
-                                pClient->declineMessage(msg, response.c_str());
+                                getAutoResponse(uin, msg);
                                 return;
                             }
                             break;
                         }
                     case ICQ_MSGxCHAT:
-                        switch (owner.uStatus & 0xFF){
+                        switch (owner->uStatus & 0xFF){
                         case ICQ_STATUS_ONLINE:
                         case ICQ_STATUS_FREEFORCHAT:
                             break;
                         default:
-                            string response;
-                            getAutoResponse(uin, response);
-                            pClient->declineMessage(msg, response.c_str());
+                            getAutoResponse(uin, msg);
                             return;
                         }
                         break;
@@ -679,8 +697,8 @@ void SIMClient::process_event(ICQEvent *e)
                     resolveQueue.push_back(a);
                 }
                 start_resolve();
-                ICQUser *_u = u;
-                if (!u->AlertOverride) _u = &owner;
+                SIMUser *_u = static_cast<SIMUser*>(u);
+                if (!_u->AlertOverride) _u = static_cast<SIMUser*>(owner);
                 if ((_u->LogStatus) && (u->uStatus != u->prevStatus)){
                     ICQStatus m;
                     m.Uin.push_back(e->Uin());
@@ -703,11 +721,11 @@ void SIMClient::sendSMS(SMSmessage *sms)
         sms->msg = NULL;
     }
     ICQSMS *m = new ICQSMS;
-    m->Uin.push_back(owner.Uin);
+    m->Uin.push_back(owner->Uin);
     m->Message = sms->smsChunk();
     if (m->Message.length()){
-        m->Phone = pClient->to8Bit(owner.Uin, QString::fromLocal8Bit(pMain->ForwardPhone.c_str()));
-        m->Charset = pClient->userEncoding(owner.Uin);
+        m->Phone = pClient->to8Bit(owner->Uin, QString::fromLocal8Bit(pMain->ForwardPhone.c_str()));
+        m->Charset = pClient->userEncoding(owner->Uin);
         sms->msg = m;
         pClient->sendMessage(sms->msg);
     }else{
@@ -756,7 +774,7 @@ string SMSmessage::smsChunk()
     part = part.replace(QRegExp("\""), "&quot;");
     part = part.replace(QRegExp("<"), "&lt;");
     part = part.replace(QRegExp(">"), "&gt;");
-    res = pClient->to8Bit(pClient->owner.Uin, part);
+    res = pClient->to8Bit(pClient->owner->Uin, part);
     return res;
 }
 
@@ -819,7 +837,7 @@ void SIMClient::start_resolve()
 
 QString SIMClient::getName(bool bUseUin)
 {
-    return QString::fromLocal8Bit(owner.name(bUseUin).c_str());
+    return QString::fromLocal8Bit(owner->name(bUseUin).c_str());
 }
 
 const char *SIMClient::getMessageIcon(int type)
@@ -965,16 +983,16 @@ QString SIMClient::getStatusText(unsigned long status)
 
 const char *SIMClient::getStatusIcon()
 {
-    if (((owner.uStatus && 0xFF) == ICQ_STATUS_ONLINE) && owner.inInvisible)
+    if (((owner->uStatus && 0xFF) == ICQ_STATUS_ONLINE) && owner->inInvisible)
         return "invisible";
-    return getStatusIcon(owner.uStatus);
+    return getStatusIcon(owner->uStatus);
 }
 
 QString SIMClient::getStatusText()
 {
-    if (((owner.uStatus && 0xFF) == ICQ_STATUS_ONLINE) && owner.inInvisible)
+    if (((owner->uStatus && 0xFF) == ICQ_STATUS_ONLINE) && owner->inInvisible)
         return i18n("Invisible");
-    return getStatusText(owner.uStatus);
+    return getStatusText(owner->uStatus);
 }
 
 unsigned long SIMClient::getFileSize(QString name, QString base, vector<fileName> &files)
@@ -1122,8 +1140,11 @@ bool SIMClient::createFile(ICQFile *f, int mode)
             }
         }else if (f->autoAccept){
             ICQUser *u = getUser(f->getUin());
-            if ((u == NULL) || !u->AcceptFileOverride) u = &owner;
-            if (u->AcceptFileOverwrite || (info.size() > f->Size)){
+            if (u == NULL) u = owner;
+            SIMUser *_u = static_cast<SIMUser*>(u);
+            if (!_u->AcceptFileOverride)
+                _u = static_cast<SIMUser*>(owner);
+            if (_u->AcceptFileOverwrite || (info.size() > f->Size)){
                 bTruncate = true;
                 size = 0;
             }
@@ -1213,8 +1234,8 @@ QTextCodec *SIMClient::codecForUser(unsigned long uin)
             }
         }
     }
-    if (owner.Encoding.c_str()){
-        QTextCodec *res = QTextCodec::codecForName(owner.Encoding.c_str());
+    if (owner->Encoding.c_str()){
+        QTextCodec *res = QTextCodec::codecForName(owner->Encoding.c_str());
         if (res){
             return res;
         }
@@ -1257,8 +1278,8 @@ void SIMClient::setUserEncoding(unsigned long uin, int i)
 {
     if (userEncoding(uin) == i) return;
     ICQUser *u = NULL;
-    if ((uin == 0) || (uin == pClient->owner.Uin)){
-        u = &pClient->owner;
+    if ((uin == 0) || (uin == pClient->owner->Uin)){
+        u = pClient->owner;
     }else{
         u = getUser(uin);
     }
@@ -1275,7 +1296,7 @@ void SIMClient::setUserEncoding(unsigned long uin, int i)
     emit encodingChanged(uin);
     ICQEvent e(EVENT_INFO_CHANGED, uin);
     process_event(&e);
-    if (uin == pClient->owner.Uin)
+    if (uin == pClient->owner->Uin)
         emit encodingChanged(0);
 }
 
@@ -1297,36 +1318,69 @@ int SIMClient::userEncoding(unsigned long uin)
 
 SIMClient *pClient = NULL;
 
-void SIMClient::getAutoResponse(unsigned long uin, string &res)
+void SIMClient::getAutoResponse(unsigned long uin, ICQMessage *msg)
 {
-    res = "";
+    string res;
     ICQUser *u = getUser(uin);
-    unsigned long status = owner.uStatus;
+    unsigned long status = owner->uStatus;
     if (status & ICQ_STATUS_DND){
         if (u)
             res = u->AutoResponseDND;
         if (*res.c_str() == 0)
-            res = owner.AutoResponseDND;
+            res = owner->AutoResponseDND;
     }else if (status & ICQ_STATUS_OCCUPIED){
         if (u)
             res = u->AutoResponseOccupied;
         if (*res.c_str() == 0)
-            res = owner.AutoResponseOccupied;
+            res = owner->AutoResponseOccupied;
     }else if (status & ICQ_STATUS_NA){
         if (u)
             res = u->AutoResponseNA;
         if (*res.c_str() == 0)
-            res = owner.AutoResponseNA;
+            res = owner->AutoResponseNA;
     }else if (status & ICQ_STATUS_FREEFORCHAT){
         if (u)
             res = u->AutoResponseFFC;
         if (*res.c_str() == 0)
-            res = owner.AutoResponseFFC;
+            res = owner->AutoResponseFFC;
     }else{
         if (u)
             res = u->AutoResponseAway;
         if (*res.c_str() == 0)
-            res = owner.AutoResponseAway;
+            res = owner->AutoResponseAway;
+    }
+    autoResponse ar;
+    ar.msg = msg;
+    ar.bDelete = false;
+    ar.tmpl = new Tmpl(this);
+    connect(ar.tmpl, SIGNAL(ready(Tmpl*, const QString&)), this, SLOT(tmpl_ready(Tmpl*, const QString&)));
+    responses.push_back(ar);
+    ar.tmpl->expand(res.c_str(), uin);
+}
+
+void SIMClient::tmpl_ready(Tmpl *t, const QString &res)
+{
+    for (list<autoResponse>::iterator it = responses.begin(); it != responses.end(); ++it){
+        if ((*it).tmpl == t){
+            if ((*it).msg)
+                pClient->declineMessage((*it).msg, res.local8Bit());
+            (*it).bDelete = true;
+            QTimer::singleShot(0, this, SLOT(tmpl_clear()));
+            break;
+        }
+    }
+}
+
+void SIMClient::tmpl_clear()
+{
+    for (list<autoResponse>::iterator it = responses.begin(); it != responses.end();){
+        if (!(*it).bDelete){
+            ++it;
+            continue;
+        }
+        delete (*it).tmpl;
+        responses.remove(*it);
+        it = responses.begin();
     }
 }
 

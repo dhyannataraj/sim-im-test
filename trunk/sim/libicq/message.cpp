@@ -977,10 +977,11 @@ void ICQClientPrivate::messageReceived(ICQMessage *msg)
     case ICQ_READxNAxMSG:
     case ICQ_READxDNDxMSG:
     case ICQ_READxFFCxMSG:{
-            ICQEvent e(EVENT_MESSAGE_RECEIVED, msg->getUin());
-            e.msg = msg;
-            client->process_event(&e);
-            delete msg;
+            ICQEvent *e = new ICQEvent(EVENT_MESSAGE_RECEIVED, msg->getUin());
+            msg->Id = m_nProcessId++;
+            e->msg = msg;
+            processQueue.push_back(e);
+            client->process_event(e);
             return;
         }
     case ICQ_MSGxMSG:

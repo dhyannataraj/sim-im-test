@@ -48,7 +48,7 @@ MainInfo::MainInfo(QWidget *p, bool readOnly)
     if (!readOnly){
         lblNotes->hide();
         edtNotes->hide();
-        load(&pClient->owner);
+        load(pClient->owner);
     }else{
         edtUin->hide();
         lblUin->hide();

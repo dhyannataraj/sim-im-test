@@ -74,7 +74,7 @@ void PhoneItem::update()
 PhoneBookDlg::PhoneBookDlg(QWidget *p, bool bReadOnly)
         : PhoneBookBase(p)
 {
-    country = pClient->owner.Country;
+    country = pClient->owner->Country;
     lblPict->setPixmap(Pict("phone"));
     tblPhone->setColumnText(0, i18n("Type"));
     tblPhone->setColumnWidth(0, -1);
@@ -93,7 +93,7 @@ PhoneBookDlg::PhoneBookDlg(QWidget *p, bool bReadOnly)
     if (bReadOnly){
         disableWidget(cmbPhone);
     }else{
-        load(&pClient->owner);
+        load(pClient->owner);
     }
 }
 

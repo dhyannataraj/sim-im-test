@@ -399,44 +399,17 @@ public:
 
     // PhoneBook
     PhoneBook			Phones;
-    char			PhoneState;
-    unsigned long   		InfoUpdateTime;
+    char				PhoneState;
+    unsigned long   	InfoUpdateTime;
     unsigned long		PhoneStatusTime;
     unsigned long		PhoneBookTime;
-    bool			bMyInfo;
-
-    // Alert mode
-    bool			AlertOverride;
-    bool			AlertAway;
-    bool			AlertBlink;
-    bool			AlertSound;
-    bool			AlertOnScreen;
-    bool			AlertPopup;
-    bool			AlertWindow;
-    bool			LogStatus;
-
-    // Accept mode
-    bool			AcceptMsgWindow;
-    unsigned short		AcceptFileMode;
-    bool			AcceptFileOverride;
-    bool			AcceptFileOverwrite;
-    string			AcceptFilePath;
-    string			DeclineFileMessage;
+    bool				bMyInfo;
 
     unsigned long		Caps;
     unsigned long		Build;
-    bool			hasCap(unsigned nCap);
+    bool				hasCap(unsigned nCap);
 
-    bool			SoundOverride;
-    string			IncomingMessage;
-    string			IncomingURL;
-    string			IncomingSMS;
-    string			IncomingAuth;
-    string			IncomingFile;
-    string			IncomingChat;
-    string			OnlineAlert;
-
-    string			Encoding;
+    string				Encoding;
 
     string	client();
     bool canRTF();
@@ -760,7 +733,7 @@ public:
     ICQClient(SocketFactory *factory);
     virtual ~ICQClient();
 
-    ICQUser owner;
+    ICQUser *owner;
 
     void setStatus(unsigned short status);
     void setInvisible(bool bInvisible);
@@ -785,6 +758,9 @@ public:
 
     string			ShareDir;
     bool		    ShareOn;
+
+    virtual ICQUser		*createUser();
+    virtual ICQGroup	*createGroup();
 
     void fromServer(string &s, ICQUser*);
     void toServer(string &s, ICQUser*);
@@ -835,7 +811,6 @@ public:
 
     void declineMessage(ICQMessage *f, const char *reason);
     void acceptMessage(ICQMessage *f);
-    void sendAutoResponse(ICQMessage *m, string response);
 
     virtual void process_event(ICQEvent*);
 
@@ -882,6 +857,7 @@ public:
     SocketFactory *factory();
 
 protected:
+    void init();
     ICQClientPrivate *p;
 };
 

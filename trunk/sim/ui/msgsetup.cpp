@@ -1,5 +1,5 @@
 /***************************************************************************
-                          forwardsetup.cpp  -  description
+                          msgsetup.cpp  -  description
                              -------------------
     begin                : Sun Mar 24 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,37 +15,37 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "forwardsetup.h"
+#include "msgsetup.h"
 #include "icqclient.h"
-#include "mainwin.h"
 #include "client.h"
 #include "icons.h"
 #include "enable.h"
 
-#include <qcombobox.h>
-#include <qlineedit.h>
 #include <qlabel.h>
 #include <qpixmap.h>
 
-ForwardSetup::ForwardSetup(QWidget *p)
-        : ForwardSetupBase(p)
+MsgSetup::MsgSetup(QWidget *p, bool readOnly)
+        : MsgBase(p)
 {
-    lblPict->setPixmap(Pict("mail_forward"));
-    cmbPhone->setEditable(true);
-    for (PhoneBook::iterator it = pClient->owner->Phones.begin(); it != pClient->owner->Phones.end(); ++it){
-        if (((*it)->Type != SMS) && ((*it)->Type != MOBILE)) continue;
-        string number = (*it)->getNumber();
-        cmbPhone->insertItem(QString::fromLocal8Bit(number.c_str()));
+    lblPict->setPixmap(Pict("message"));
+    if (!readOnly){
+        load(pClient->owner);
     }
-    cmbPhone->lineEdit()->setText(pMain->ForwardPhone.c_str());
 }
 
-void ForwardSetup::apply(ICQUser*)
+void MsgSetup::load(ICQUser*)
 {
-    set(pMain->ForwardPhone, cmbPhone->lineEdit()->text());
+}
+
+void MsgSetup::save(ICQUser*)
+{
+}
+
+void MsgSetup::apply(ICQUser*)
+{
 }
 
 #ifndef _WINDOWS
-#include "forwardsetup.moc"
+#include "msgsetup.moc"
 #endif
 

@@ -217,6 +217,10 @@ SOURCE=.\sim\libicq\contactlist.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\sim\control.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\sim\libicq\country.cpp
 # End Source File
 # Begin Source File
@@ -513,6 +517,10 @@ SOURCE=.\sim\moc_client.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\sim\moc_control.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\sim\moc_dock.cpp
 # End Source File
 # Begin Source File
@@ -653,6 +661,10 @@ SOURCE=.\sim\ui\moc_moreinfobase.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\sim\ui\moc_msgbase.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\sim\ui\moc_msgdialog.cpp
 # End Source File
 # Begin Source File
@@ -662,6 +674,10 @@ SOURCE=.\sim\ui\moc_msgdialogbase.cpp
 # Begin Source File
 
 SOURCE=.\sim\moc_msgedit.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\moc_msgsetup.cpp
 # End Source File
 # Begin Source File
 
@@ -881,6 +897,10 @@ SOURCE=.\sim\ui\moreinfobase.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\sim\ui\msgbase.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\sim\ui\msgdialog.cpp
 # End Source File
 # Begin Source File
@@ -890,6 +910,10 @@ SOURCE=.\sim\ui\msgdialogbase.cpp
 # Begin Source File
 
 SOURCE=.\sim\msgedit.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\msgsetup.cpp
 # End Source File
 # Begin Source File
 
@@ -1587,6 +1611,39 @@ InputName=client
 InputDir=.\sim
 InputPath=.\sim\client.h
 InputName=client
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\control.h
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim
+InputPath=.\sim\control.h
+InputName=control
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim
+InputPath=.\sim\control.h
+InputName=control
 
 "$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
@@ -2421,6 +2478,10 @@ SOURCE=.\sim\ui\moreinfobase.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\sim\ui\msgbase.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\sim\ui\msgdialog.h
 
 !IF  "$(CFG)" == "sim - Win32 Release"
@@ -2480,6 +2541,39 @@ InputName=msgedit
 InputDir=.\sim
 InputPath=.\sim\msgedit.h
 InputName=msgedit
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\msgsetup.h
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\msgsetup.h
+InputName=msgsetup
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\msgsetup.h
+InputName=msgsetup
 
 "$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
@@ -4808,6 +4902,61 @@ BuildCmds= \
 InputDir=.\sim\ui
 InputPath=.\sim\ui\moreinfobase.ui
 InputName=moreinfobase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\msgbase.ui
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Uic'ing $(InputName).ui ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\msgbase.ui
+InputName=msgbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Uic'ing $(InputName).ui ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\msgbase.ui
+InputName=msgbase
 
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \

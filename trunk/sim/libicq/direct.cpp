@@ -120,7 +120,7 @@ void DirectSocket::connect()
     }
     if (state == NotConnected){
         m_bUseInternalIP = true;
-        if ((ip != 0) && ((ip & 0xFFFFFF) != (client->client->owner.IP & 0xFFFFFF)))
+        if ((ip != 0) && ((ip & 0xFFFFFF) != (client->client->owner->IP & 0xFFFFFF)))
             m_bUseInternalIP = false;
         log(L_DEBUG, "Use internal... %u", m_bUseInternalIP);
         state = ConnectIP1;
@@ -197,7 +197,7 @@ void DirectSocket::packet_ready()
             sock->readBuffer.incReadPos(3);
             unsigned long my_uin;
             sock->readBuffer.unpack(my_uin);
-            if (my_uin != client->client->owner.Uin){
+            if (my_uin != client->client->owner->Uin){
                 log(L_WARN, "Bad UIN");
                 sock->error_state(ErrorProtocol);
                 return;
@@ -268,9 +268,9 @@ void DirectSocket::sendInit()
     sock->writeBuffer.pack(uin);
     sock->writeBuffer.pack((unsigned short)0x0000);
     sock->writeBuffer.pack((unsigned long)port);
-    sock->writeBuffer.pack(client->client->owner.Uin);
-    sock->writeBuffer.pack(client->client->owner.IP);
-    sock->writeBuffer.pack(client->client->owner.RealIP);
+    sock->writeBuffer.pack(client->client->owner->Uin);
+    sock->writeBuffer.pack(client->client->owner->IP);
+    sock->writeBuffer.pack(client->client->owner->RealIP);
     sock->writeBuffer.pack((char)0x01);
     sock->writeBuffer.pack(0x00000000L);
     sock->writeBuffer.pack(m_nSessionId);
@@ -687,32 +687,6 @@ void DirectClient::processPacket()
     }
 }
 
-void DirectClient::sendAutoResponse(ICQMessage *msg, string response)
-{
-    startPacket(TCP_ACK, msg->id1);
-    sock->writeBuffer.pack(msg->Type());
-    unsigned short status = 0;
-    switch (client->client->owner.uStatus & 0xFF){
-    case ICQ_STATUS_AWAY:
-        status = ICQ_TCPxACK_AWAY;
-        break;
-    case ICQ_STATUS_OCCUPIED:
-        status = ICQ_TCPxACK_OCCUPIEDxCAR;
-        break;
-    case ICQ_STATUS_DND:
-        status = ICQ_TCPxACK_DNDxCAR;
-        break;
-    default:
-        status = ICQ_TCPxACK_NA;
-    }
-    sock->writeBuffer.pack(status);
-    sock->writeBuffer.pack((unsigned short)0);
-    client->client->toServer(response, u);
-    sock->writeBuffer << response;
-    sock->writeBuffer << 0x00000000L << 0x00000000L;
-    sendPacket();
-}
-
 void DirectClient::connect_ready()
 {
     if (state == None){
@@ -880,9 +854,42 @@ void DirectClient::acceptMessage(ICQMessage *m)
 
 void DirectClient::declineMessage(ICQMessage *m, const char *reason)
 {
-    startPacket(TCP_ACK, m->timestamp1);
-    client->packMessage(sock->writeBuffer, m, reason, 1, 0, 0, true, true);
-    sendPacket();
+    switch (m->Type()){
+    case ICQ_READxAWAYxMSG:
+    case ICQ_READxOCCUPIEDxMSG:
+    case ICQ_READxNAxMSG:
+    case ICQ_READxDNDxMSG:
+    case ICQ_READxFFCxMSG:{
+            startPacket(TCP_ACK, m->id1);
+            sock->writeBuffer.pack(m->Type());
+            unsigned short status = 0;
+            switch (client->client->owner->uStatus & 0xFF){
+            case ICQ_STATUS_AWAY:
+                status = ICQ_TCPxACK_AWAY;
+                break;
+            case ICQ_STATUS_OCCUPIED:
+                status = ICQ_TCPxACK_OCCUPIEDxCAR;
+                break;
+            case ICQ_STATUS_DND:
+                status = ICQ_TCPxACK_DNDxCAR;
+                break;
+            default:
+                status = ICQ_TCPxACK_NA;
+            }
+            string response = reason;
+            sock->writeBuffer.pack(status);
+            sock->writeBuffer.pack((unsigned short)0);
+            client->client->toServer(response, u);
+            sock->writeBuffer << response;
+            sock->writeBuffer << 0x00000000L << 0x00000000L;
+            sendPacket();
+        }
+    default:
+        startPacket(TCP_ACK, m->timestamp1);
+        client->packMessage(sock->writeBuffer, m, reason, 1, 0, 0, true, true);
+        sendPacket();
+
+    }
 }
 
 unsigned short DirectClient::sendMessage(ICQMessage *msg)
@@ -898,7 +905,7 @@ unsigned short DirectClient::sendMessage(ICQMessage *msg)
     case ICQ_MSGxCHAT:{
             ICQChat *chat = static_cast<ICQChat*>(msg);
             message = chat->Reason;
-            chat->id1 = client->client->owner.Port;
+            chat->id1 = client->client->owner->Port;
             break;
         }
     case ICQ_MSGxMSG:{
@@ -1140,7 +1147,7 @@ void FileTransfer::processPacket()
             startPacket(FT_INIT_ACK);
             sock->writeBuffer.pack(m_nSpeed);
             char b[12];
-            snprintf(b, sizeof(b), "%lu", client->client->owner.Uin);
+            snprintf(b, sizeof(b), "%lu", client->client->owner->Uin);
             string uin = b;
             sock->writeBuffer << uin;
             sendPacket();
@@ -1281,7 +1288,7 @@ void FileTransfer::connect_ready()
         sock->writeBuffer.pack(file->Size);						// Total size
         sock->writeBuffer.pack(m_nSpeed);							// speed
         char b[12];
-        snprintf(b, sizeof(b), "%lu", client->client->owner.Uin);
+        snprintf(b, sizeof(b), "%lu", client->client->owner->Uin);
         string uin = b;
         sock->writeBuffer << uin;
         sendPacket();
@@ -1559,15 +1566,15 @@ void ChatSocket::processPacket()
             sock->readBuffer.unpack(uin);
             startPacket();
             sock->writeBuffer.pack((unsigned long)0x65);
-            sock->writeBuffer.pack(client->client->owner.Uin);
-            string alias = client->client->owner.name();
+            sock->writeBuffer.pack(client->client->owner->Uin);
+            string alias = client->client->owner->name();
             sock->writeBuffer << alias;
             sock->writeBuffer.pack(fgColor);
             sock->writeBuffer.pack(bgColor);
             sock->writeBuffer.pack((unsigned long)version);
-            sock->writeBuffer.pack((unsigned long)(client->client->owner.Port));
-            sock->writeBuffer.pack(client->client->owner.RealIP);
-            sock->writeBuffer.pack(client->client->owner.IP);
+            sock->writeBuffer.pack((unsigned long)(client->client->owner->Port));
+            sock->writeBuffer.pack(client->client->owner->RealIP);
+            sock->writeBuffer.pack(client->client->owner->IP);
             sock->writeBuffer.pack((char)0x01);
             unsigned short session = rand();
             sock->writeBuffer.pack(session);
@@ -1654,9 +1661,9 @@ void ChatSocket::processPacket()
 
             startPacket();
             sock->writeBuffer.pack((unsigned long)version);
-            sock->writeBuffer.pack((unsigned long)(client->client->owner.Port));
-            sock->writeBuffer.pack(client->client->owner.RealIP);
-            sock->writeBuffer.pack(client->client->owner.IP);
+            sock->writeBuffer.pack((unsigned long)(client->client->owner->Port));
+            sock->writeBuffer.pack(client->client->owner->RealIP);
+            sock->writeBuffer.pack(client->client->owner->IP);
             sock->writeBuffer.pack((char)0x01);
             sock->writeBuffer.pack(session);
             sock->writeBuffer.pack(fontSize);
@@ -1690,9 +1697,9 @@ void ChatSocket::connect_ready()
         startPacket();
         sock->writeBuffer.pack((unsigned long)0x64);
         sock->writeBuffer.pack((unsigned long)(-7));
-        sock->writeBuffer.pack(client->client->owner.Uin);
+        sock->writeBuffer.pack(client->client->owner->Uin);
         char b[12];
-        snprintf(b, sizeof(b), "%lu", client->client->owner.Uin);
+        snprintf(b, sizeof(b), "%lu", client->client->owner->Uin);
         string uin = b;
         sock->writeBuffer << uin;
         sock->writeBuffer.pack(client->listener->port());

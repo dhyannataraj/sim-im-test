@@ -20,6 +20,7 @@
 #include "mainwin.h"
 #include "splash.h"
 #include "about.h"
+#include "control.h"
 #include "log.h"
 
 #ifndef WIN32
@@ -284,6 +285,7 @@ int main(int argc, char *argv[])
         {
             { "b <dir>", i18n("Directory for files"), 0 },
             { "d <loglevel>", i18n("Loglevel"), 0 },
+            { "s <socket>", i18n("Control socket"), 0 },
             { 0, 0, 0 }
         };
     KCmdLineArgs::addCmdLineOptions( options );
@@ -296,6 +298,7 @@ int main(int argc, char *argv[])
 #else
     SimApp app(argc, argv);
 #endif
+    string ctrlSock;
     string homeDir;
 #ifdef USE_KDE
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
@@ -303,18 +306,28 @@ int main(int argc, char *argv[])
         homeDir = strdup(args->getOption("b"));
     if (args->isSet("d"))
         log_level = atoi(args->getOption("d"));
+    if (args->isSet("s"))
+        ctrlSock = strdup(args->getOption("s"));
 #else
     for (int i = 0; i < argc; i++){
         if (!strcmp(argv[i], "-b") && argv[i+1])
             homeDir = argv[++i];
         if (!strcmp(argv[i], "-d") && argv[i+1])
             log_level = atoi(argv[++i]);
+        if (!strcmp(argv[i], "-s") && argv[i+1])
+            ctrlSock = argv[++i];
     }
 #endif
     pSplash = new Splash;
     initIcons("");
     pMain = new MainWindow;
     pMain->homeDir = homeDir;
+    ControlListener *cl = new ControlListener(pMain);
+    if (!cl->bind(ctrlSock.c_str())){
+        delete cl;
+        if (ctrlSock.length())
+            return 1;
+    }
     if (!pMain->init())
         return 0;
     app.setMainWidget(pMain);

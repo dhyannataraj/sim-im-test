@@ -145,7 +145,7 @@ ICQGroup *ICQContactList::getGroup(unsigned short id, bool create)
     for (it_group = groups.begin(); it_group != groups.end(); it_group++)
         if ((*it_group)->Id == id) return *it_group;
     if (!create) return NULL;
-    ICQGroup *grp = new ICQGroup();
+    ICQGroup *grp = client->createGroup();
     groups.push_back(grp);
     grp->Id = id;
     return grp;
@@ -169,9 +169,9 @@ ICQUser *ICQContactList::getUser(unsigned long uin, bool create)
             if ((*it_usr)->Uin == uin) return *it_usr;
         }
     }
-    if (uin == client->owner.Uin) return &client->owner;
+    if (uin == client->owner->Uin) return client->owner;
     if (!create) return NULL;
-    ICQUser *usr = new ICQUser();
+    ICQUser *usr = client->createUser();
     if (uin == 0){
         uin = UIN_SPECIAL;
         for (list<ICQUser*>::iterator it = users.begin(); it != users.end(); ++it){
@@ -240,27 +240,8 @@ ICQUser::ICQUser()
     PhoneBookTime = 0;
     PhoneStatusTime = 0;
     InfoUpdateTime = 0;
-    AlertOverride = false;
-    AlertAway = true;
-    AlertBlink = true;
-    AlertSound = true;
-    AlertOnScreen = true;
-    AlertPopup = false;
-    AlertWindow = false;
-    AcceptMsgWindow = false;
-    AcceptFileMode = false;
-    AcceptFileOverride = false;
-    AcceptFileOverwrite = false;
     Caps = 0;
     Build = 0;
-    SoundOverride = false;
-    IncomingMessage = "message.wav";
-    IncomingURL = "url.wav";
-    IncomingSMS ="sms.wav";
-    IncomingAuth = "auth.wav";
-    IncomingFile = "file.wav";
-    IncomingChat = "chat.wav";
-    OnlineAlert = "alert.wav";
     direct = 0;
     CanPlugin = false;
     NewMessages = 0;
@@ -786,11 +767,11 @@ string ICQUser::client()
     }
     else if (hasCap(CAP_MICQ))
     {
-	res = "mICQ";
-	v1 = (Build >> 24) & 0xFF;
-	v2 = (Build >> 16) & 0xFF;
-	v3 = (Build >> 8) & 0xFF;
-	v4 = Build & 0xFF;
+        res = "mICQ";
+        v1 = (Build >> 24) & 0xFF;
+        v2 = (Build >> 16) & 0xFF;
+        v3 = (Build >> 8) & 0xFF;
+        v4 = Build & 0xFF;
     }
     else if (hasCap(CAP_STR_2002) && hasCap(CAP_IS_2002))
         res = "ICQ 2002";

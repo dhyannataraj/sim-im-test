@@ -235,18 +235,18 @@ void Exec::execute(const char *prg, const char *input)
     int inPipe[2] = { -1, - 1};
     int outPipe[2] = { -1, -1 };
     int errPipe[3] = { -1, -1 };
-    if (socketpair(AF_UNIX, SOCK_STREAM, 0, inPipe) || 
-	socketpair(AF_UNIX, SOCK_STREAM, 0, outPipe) ||
-	socketpair(AF_UNIX, SOCK_STREAM, 0, errPipe)){
-	log(L_WARN, "Can't create pipe: %s", strerror(errno));
-	if (inPipe[READ] != -1) close(inPipe[READ]);
-	if (inPipe[WRITE] != -1) close(inPipe[WRITE]);
+    if (socketpair(AF_UNIX, SOCK_STREAM, 0, inPipe) ||
+            socketpair(AF_UNIX, SOCK_STREAM, 0, outPipe) ||
+            socketpair(AF_UNIX, SOCK_STREAM, 0, errPipe)){
+        log(L_WARN, "Can't create pipe: %s", strerror(errno));
+        if (inPipe[READ] != -1) close(inPipe[READ]);
+        if (inPipe[WRITE] != -1) close(inPipe[WRITE]);
         if (outPipe[READ] != -1) close(outPipe[READ]);
         if (outPipe[WRITE] != -1) close(outPipe[WRITE]);
         if (errPipe[READ] != -1) close(errPipe[READ]);
         if (errPipe[WRITE] != -1) close(errPipe[WRITE]);
-	finished();
-	return;
+        finished();
+        return;
     }
     child_pid = fork();
     if (child_pid == -1){
@@ -261,23 +261,23 @@ void Exec::execute(const char *prg, const char *input)
         return;
     }
     if (child_pid != 0){
-	connect(pMain, SIGNAL(childExited(int, int)), this, SLOT(childExited(int, int)));
-	close(inPipe[READ]);
-	close(outPipe[WRITE]);
-	close(errPipe[WRITE]);
-	hIn = inPipe[WRITE];
-	hOut = outPipe[READ];
-	hErr = errPipe[READ];
-	fcntl(hIn, F_SETFL, fcntl(hIn, F_GETFL, 0) | O_NONBLOCK);
-	fcntl(hOut, F_SETFL, fcntl(hOut, F_GETFL, 0) | O_NONBLOCK);
-	fcntl(hErr, F_SETFL, fcntl(hErr, F_GETFL, 0) | O_NONBLOCK);
-	QSocketNotifier *n_in = new QSocketNotifier(hIn, QSocketNotifier::Write, this);
-	connect(n_in, SIGNAL(activated(int)), this, SLOT(inReady(int)));
+        connect(pMain, SIGNAL(childExited(int, int)), this, SLOT(childExited(int, int)));
+        close(inPipe[READ]);
+        close(outPipe[WRITE]);
+        close(errPipe[WRITE]);
+        hIn = inPipe[WRITE];
+        hOut = outPipe[READ];
+        hErr = errPipe[READ];
+        fcntl(hIn, F_SETFL, fcntl(hIn, F_GETFL, 0) | O_NONBLOCK);
+        fcntl(hOut, F_SETFL, fcntl(hOut, F_GETFL, 0) | O_NONBLOCK);
+        fcntl(hErr, F_SETFL, fcntl(hErr, F_GETFL, 0) | O_NONBLOCK);
+        QSocketNotifier *n_in = new QSocketNotifier(hIn, QSocketNotifier::Write, this);
+        connect(n_in, SIGNAL(activated(int)), this, SLOT(inReady(int)));
         QSocketNotifier *n_out = new QSocketNotifier(hOut, QSocketNotifier::Read, this);
         connect(n_out, SIGNAL(activated(int)), this, SLOT(outReady(int)));
         QSocketNotifier *n_err = new QSocketNotifier(hErr, QSocketNotifier::Read, this);
         connect(n_err, SIGNAL(activated(int)), this, SLOT(errReady(int)));
-	return;
+        return;
     }
     close(inPipe[WRITE]);
     dup2(inPipe[READ], 0);
@@ -286,102 +286,109 @@ void Exec::execute(const char *prg, const char *input)
     close(errPipe[READ]);
     dup2(errPipe[WRITE], 2);
     for (int nf = 3; nf < 256; nf++)
-	close(nf);
+        close(nf);
     list<string> args;
     string arg;
     for (const char *p = prg; *p; p++){
-	if (*p == ' ') continue;
-	arg = "";
-	if (*p == '\"'){
-		for (p++; *p; p++){
-			if (*p == '\"') break;
-			if (*p == '\\'){
-				p++;
-				if (*p == 0) break;
-			}
-			arg += *p;
-		}
-		args.push_back(arg);
-		if (*p == 0) break;
-		continue;
-	}
-	for (; *p; p++){
-		if (*p == ' ') break;
-		if (*p == '\\'){
-			p++;
-			if (*p == 0) break;
-		}
-		arg += *p;
-	}
-	args.push_back(arg);
+        if (*p == ' ') continue;
+        arg = "";
+        if (*p == '\"'){
+            for (p++; *p; p++){
+                if (*p == '\"') break;
+                if (*p == '\\'){
+                    p++;
+                    if (*p == 0) break;
+                }
+                arg += *p;
+            }
+            args.push_back(arg);
+            if (*p == 0) break;
+            continue;
+        }
+        for (; *p; p++){
+            if (*p == ' ') break;
+            if (*p == '\\'){
+                p++;
+                if (*p == 0) break;
+            }
+            arg += *p;
+        }
+        args.push_back(arg);
     }
     char **argv = new char*[args.size() + 1];
     unsigned i = 0;
     for (list<string>::iterator it = args.begin(); it != args.end(); ++it){
-	argv[i++] = strdup((*it).c_str());
+        argv[i++] = strdup((*it).c_str());
     }
     argv[i] = NULL;
     if (execvp(argv[0], argv)){
-	log(L_WARN, "Can't run %s:%s", prg, strerror(errno));
-	exit(1);
+        log(L_WARN, "Can't run %s:%s", prg, strerror(errno));
+        exit(1);
     }
 #endif
 }
 
 void Exec::childExited(int pid, int status)
 {
+#ifndef WIN32
     if (pid != child_pid) return;
     result = status;
     if (hIn != -1) close(hIn);
     if (hOut != -1){
-	outReady(hOut);
-	if (hOut != -1) close(hOut);
+        outReady(hOut);
+        if (hOut != -1) close(hOut);
     }
     if (hErr != -1){
-	errReady(hErr);
-	if (hErr != -1) close(hErr);
+        errReady(hErr);
+        if (hErr != -1) close(hErr);
     }
     finished();
+#endif
 }
 
 void Exec::inReady(int)
 {
+#ifndef WIN32
     if (hIn == -1) return;
     unsigned tail = bIn.size() - bIn.readPos();
     log(L_WARN, "In ready %u", tail);
     if (tail){
-	if (tail > 2048) tail = 2048;
-	int writen = write(hIn, bIn.Data(bIn.readPos()), tail);
-	if (writen == -1){
-	  if (errno == EAGAIN) return;
-          tail = 0;
+        if (tail > 2048) tail = 2048;
+        int writen = write(hIn, bIn.Data(bIn.readPos()), tail);
+        if (writen == -1){
+            if (errno == EAGAIN) return;
+            tail = 0;
         }else{
-	  bIn.incReadPos(writen);
-	  tail = bIn.size() - bIn.readPos();
-        }	
+            bIn.incReadPos(writen);
+            tail = bIn.size() - bIn.readPos();
+        }
     }
     if (tail) return;
     close(hIn);
     hIn = -1;
+#endif
 }
 
 void Exec::outReady(int)
 {
+#ifndef WIN32
     if (hOut == -1) return;
     log(L_WARN, "Out ready");
     char buf[2048];
     int readn = read(hOut, buf, sizeof(buf));
     if (readn == -1){
-	if (errno == EAGAIN) return;
-	close(hOut);
-	hOut = -1;
-	return;
+        if (errno == EAGAIN) return;
+        close(hOut);
+        hOut = -1;
+        return;
     }
     bOut.pack(buf, readn);
+#endif
 }
 
 void Exec::errReady(int)
 {
+#ifndef WIN32
     if (hErr == -1) return;
     log(L_WARN, "Err ready");
     char buf[2048];
@@ -393,6 +400,7 @@ void Exec::errReady(int)
         return;
     }
     bErr.pack(buf, readn);
+#endif
 }
 
 #ifndef _WINDOWS

@@ -46,7 +46,29 @@ ICQClient::ICQClient(SocketFactory *factory)
     RejectOther = false;
     DirectMode = 0;
     BypassAuth = false;
+    owner = NULL;
     p = new ICQClientPrivate(this, factory);
+}
+
+void ICQClient::init()
+{
+    unsigned long now;
+    time((time_t*)&now);
+    owner = createUser();
+    owner->PhoneBookTime = now;
+    owner->PhoneStatusTime = now;
+    owner->DCcookie = rand();
+    owner->bMyInfo = true;
+}
+
+ICQUser *ICQClient::createUser()
+{
+    return new ICQUser;
+}
+
+ICQGroup *ICQClient::createGroup()
+{
+    return new ICQGroup;
 }
 
 ICQClientPrivate::ICQClientPrivate(ICQClient *_client, SocketFactory *_factory)
@@ -69,10 +91,6 @@ ICQClientPrivate::ICQClientPrivate(ICQClient *_client, SocketFactory *_factory)
     needPhonebookUpdate = false;
     needPhoneStatusUpdate = false;
     needShareUpdate = false;
-    client->owner.PhoneBookTime = now;
-    client->owner.PhoneStatusTime = now;
-    client->owner.DCcookie = rand();
-    client->owner.bMyInfo = true;
     m_bRosters = false;
 }
 
@@ -80,6 +98,7 @@ ICQClient::~ICQClient()
 {
     close();
     delete p;
+    if (owner) delete owner;
 }
 
 ICQClientPrivate::~ICQClientPrivate()
@@ -120,7 +139,7 @@ void ICQClientPrivate::create_socket()
         close();
         return;
     }
-    client->owner.Port = listener->port();
+    client->owner->Port = listener->port();
 }
 
 void ICQClient::requestSecureChannel(ICQUser *u)
@@ -291,7 +310,7 @@ void ICQClientPrivate::setStatus(unsigned short status)
         case Reconnect:{
                 m_reconnectTime = 0;
                 m_state = Logoff;
-                ICQEvent e(EVENT_STATUS_CHANGED, client->owner.Uin);
+                ICQEvent e(EVENT_STATUS_CHANGED, client->owner->Uin);
                 client->process_event(&e);
                 break;
             }
@@ -299,7 +318,7 @@ void ICQClientPrivate::setStatus(unsigned short status)
             break;
         default:
             close();
-            client->owner.uStatus = ICQ_STATUS_OFFLINE;
+            client->owner->uStatus = ICQ_STATUS_OFFLINE;
             if (m_state == ForceReconnect){
                 m_state = Reconnect;
                 time_t reconnect;
@@ -309,7 +328,7 @@ void ICQClientPrivate::setStatus(unsigned short status)
             }else{
                 m_state = Logoff;
             }
-            ICQEvent e(EVENT_STATUS_CHANGED, client->owner.Uin);
+            ICQEvent e(EVENT_STATUS_CHANGED, client->owner->Uin);
             client->process_event(&e);
             time_t now;
             time(&now);
@@ -331,8 +350,8 @@ void ICQClientPrivate::setStatus(unsigned short status)
         m_nSequence = rand() & 0x7FFFF;
         m_nMsgSequence = 1;
         m_reconnectTime = 0;
-        m_state = client->owner.Uin ? Connect : Register;
-        ICQEvent e(EVENT_STATUS_CHANGED, client->owner.Uin);
+        m_state = client->owner->Uin ? Connect : Register;
+        ICQEvent e(EVENT_STATUS_CHANGED, client->owner->Uin);
         client->process_event(&e);
         sock->connect(client->ServerHost.c_str(), client->ServerPort);
     }
@@ -412,7 +431,7 @@ unsigned long ICQClientPrivate::fullStatus(unsigned long s)
         s |= ICQ_STATUS_FxHIDExIP;
     if (m_bBirthday)
         s |= ICQ_STATUS_FxBIRTHDAY;
-    if (client->owner.inInvisible)
+    if (client->owner->inInvisible)
         s |= ICQ_STATUS_FxPRIVATE;
     switch (client->DirectMode){
     case 1:
@@ -471,8 +490,8 @@ void ICQClient::addResponseRequest(unsigned long uin, bool bPriority)
     if (u->uStatus == ICQ_STATUS_OFFLINE) return;
     if ((u->Version <= 6) || u->hasCap(CAP_TRILLIAN) || (u->direct && u->direct->isLogged())){
         if (!bPriority){
-            if (owner.inInvisible && !u->inVisible) return;
-            if (!owner.inInvisible && u->inInvisible) return;
+            if (owner->inInvisible && !u->inVisible) return;
+            if (!owner->inInvisible && u->inInvisible) return;
         }
         ICQMessage *msg = new ICQAutoResponse;
         msg->setType(ICQ_READxAWAYxMSG);

@@ -32,13 +32,14 @@ AlertDialog::AlertDialog(QWidget *p, bool bReadOnly)
         return;
     }
     chkOverride->hide();
-    load(&pClient->owner);
+    load(pClient->owner);
 }
 
-void AlertDialog::load(ICQUser *u)
+void AlertDialog::load(ICQUser *_u)
 {
+    SIMUser *u = static_cast<SIMUser*>(_u);
     chkOverride->setChecked(u->AlertOverride);
-    if (!u->AlertOverride) u = &pClient->owner;
+    if (!u->AlertOverride) u = static_cast<SIMUser*>(pClient->owner);
     chkOnline->setChecked(u->AlertAway);
     chkBlink->setChecked(u->AlertBlink);
     chkSound->setChecked(u->AlertSound);
@@ -61,8 +62,10 @@ void AlertDialog::overrideChanged(bool bSet)
     chkLog->setEnabled(bSet);
 }
 
-void AlertDialog::save(ICQUser *u)
-{    if (u->Uin != pClient->owner.Uin){
+void AlertDialog::save(ICQUser *_u)
+{
+    SIMUser *u = static_cast<SIMUser*>(_u);
+    if (u->Uin != pClient->owner->Uin){
         u->AlertOverride = chkOverride->isChecked();
         if (!u->AlertOverride) return;
     }
@@ -77,7 +80,7 @@ void AlertDialog::save(ICQUser *u)
 
 void AlertDialog::apply(ICQUser*)
 {
-    save(&pClient->owner);
+    save(pClient->owner);
 }
 
 #ifndef _WINDOWS

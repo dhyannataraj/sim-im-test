@@ -115,8 +115,8 @@ char const *ICQClient::localCharset(ICQUser *u)
 {
     if (u && *u->Encoding.c_str())
         return u->Encoding.c_str();
-    if (*owner.Encoding.c_str())
-        return owner.Encoding.c_str();
+    if (*owner->Encoding.c_str())
+        return owner->Encoding.c_str();
     return localCharset();
 }
 

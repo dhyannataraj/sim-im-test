@@ -45,6 +45,7 @@
 #include "ui/wndcancel.h"
 #include "ui/smssetup.h"
 #include "ui/forwardsetup.h"
+#include "ui/msgsetup.h"
 
 #include "ui/enable.h"
 
@@ -80,6 +81,7 @@ PAGE(KeySetup)
 PAGE(SoundSetup)
 PAGE(XOSDSetup)
 PAGE(AlertDialog)
+PAGE(MsgSetup)
 PAGE(AcceptDialog)
 PAGE(SMSSetup)
 PAGE(ForwardSetup)
@@ -141,6 +143,7 @@ SetupDialog::SetupDialog(QWidget*, int nWin)
     addPage(p_SoundSetup, SETUP_SOUND, i18n("Sound"), "sound");
     addPage(p_XOSDSetup, SETUP_XOSD, i18n("On Screen notification"), "screen");
     addPage(p_AlertDialog, SETUP_ALERT, i18n("Alert"), "alert");
+    addPage(p_MsgSetup, SETUP_MESSAGE, i18n("Message"), "message");
     addPage(p_AcceptDialog, SETUP_ACCEPT, i18n("Accept file"), "file");
     addPage(p_SMSSetup, SETUP_SMS, i18n("SMS"), "sms");
     addPage(p_ForwardSetup, SETUP_FORWARD, i18n("Forward"), "mail_forward");
@@ -251,13 +254,13 @@ void SetupDialog::selectionChanged()
 
 void SetupDialog::update()
 {
-    pClient->addInfoRequest(pClient->owner.Uin, true);
+    pClient->addInfoRequest(pClient->owner->Uin, true);
 }
 
 void SetupDialog::apply()
 {
     ICQUser u;
-    u = pClient->owner;
+    u = *pClient->owner;
     emit applyChanges(&u);
     pClient->setInfo(&u);
     pMain->saveState();

@@ -41,7 +41,7 @@ MoreInfo::MoreInfo(QWidget *p, bool readOnly)
     connect(cmbLang2, SIGNAL(activated(int)), this, SLOT(setLang(int)));
     connect(cmbLang3, SIGNAL(activated(int)), this, SLOT(setLang(int)));
     if (!readOnly) {
-        load(&pClient->owner);
+        load(pClient->owner);
         return;
     }
     edtHomePage->setReadOnly(true);

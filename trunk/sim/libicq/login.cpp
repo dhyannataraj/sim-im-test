@@ -46,7 +46,7 @@ void ICQClientPrivate::snac_login(unsigned short type, unsigned short)
             unsigned long newUin;
             sock->readBuffer.unpack(newUin);
             log(L_DEBUG, "Register %u %08lX", newUin, newUin);
-            client->owner.Uin = newUin;
+            client->owner->Uin = newUin;
             ICQEvent e(EVENT_INFO_CHANGED);
             client->process_event(&e);
             m_state = Connect;
@@ -63,9 +63,9 @@ void ICQClientPrivate::chn_login()
 {
     switch (m_state){
     case Connect:{
-            log(L_DEBUG, "Login %lu [%s]", client->owner.Uin, client->EncryptedPassword.c_str());
+            log(L_DEBUG, "Login %lu [%s]", client->owner->Uin, client->EncryptedPassword.c_str());
             char uin[20];
-            sprintf(uin, "%lu", client->owner.Uin);
+            sprintf(uin, "%lu", client->owner->Uin);
 
             flap(ICQ_CHNxNEW);
             int n = 0;

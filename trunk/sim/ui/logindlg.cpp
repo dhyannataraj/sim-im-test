@@ -78,7 +78,7 @@ void LoginDialog::login()
     pClient->storePassword(edtPasswd->text().local8Bit());
     pClient->DecryptedPassword = edtPasswd->text().local8Bit();
     if (chkOldUser->isOn())
-        pClient->owner.Uin = edtUIN->text().toULong();
+        pClient->owner->Uin = edtUIN->text().toULong();
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     pClient->setStatus(ICQ_STATUS_ONLINE);
 }
@@ -97,7 +97,7 @@ void LoginDialog::stopLogin()
 {
     disconnect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     pClient->setStatus(ICQ_STATUS_OFFLINE);
-    pClient->owner.Uin = 0;
+    pClient->owner->Uin = 0;
     pClient->EncryptedPassword = "";
     pClient->DecryptedPassword = "";
     btnClose->setText(i18n("Close"));

@@ -302,10 +302,10 @@ QString TextShow::unquoteString(const QString &s, int from, int to)
     QString res;
     int n = 0;
     for (unsigned i = 0; i < s.length(); i++){
-        if (s[i] == '&'){
+        if (s[(int)i] == '&'){
             int m = i;
             for (; i < s.length(); i++)
-                if (s[i] == ';') break;
+                if (s[(int)i] == ';') break;
             QString ch = s.mid(m, i - m + 1);
             QString r;
             if (ch == "&amp;"){
@@ -325,13 +325,13 @@ QString TextShow::unquoteString(const QString &s, int from, int to)
             }
             i = m;
         }
-        if (s[i] == '<'){
+        if (s[(int)i] == '<'){
             unsigned m = i;
             for (; i < s.length(); i++)
-                if (s[i] == '>') break;
+                if (s[(int)i] == '>') break;
             QString t = s.mid(m, i - m + 1);
             for (m = 1; m < t.length(); m++)
-                if ((t[m] == ' ') || (t[m] == '>')) break;
+                if ((t[(int)m] == ' ') || (t[(int)m] == '>')) break;
             QString tag = t.mid(1, m - 1);
             if (tag == "img"){
                 int p = t.find("icon:smile");
@@ -351,7 +351,7 @@ QString TextShow::unquoteString(const QString &s, int from, int to)
             continue;
         }
         if (n >= to) break;
-        if (n >= from) res += s[i];
+        if (n >= from) res += s[(int)i];
         n++;
     }
     return res;
@@ -500,7 +500,7 @@ QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
         CUser u(msg->getUin());
         s += u.name(true);
     }else{
-        CUser u(&pClient->owner);
+        CUser u(pClient->owner);
         s += u.name(true);
     }
     s += "</font>&nbsp;&nbsp;";

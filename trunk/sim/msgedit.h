@@ -151,8 +151,8 @@ protected slots:
     void ftChanged();
     void modeChanged(bool);
     void insertSmile();
-    void topReady(const QString &res);
-    void bottomReady(const QString &res);
+    void topReady(Tmpl*, const QString &res);
+    void bottomReady(Tmpl*, const QString &res);
     void heightChanged(int);
 protected:
     Tmpl *tmpl;

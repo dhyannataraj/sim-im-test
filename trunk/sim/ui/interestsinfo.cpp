@@ -33,7 +33,7 @@ InterestsInfo::InterestsInfo(QWidget *p, bool readOnly)
         connect(cmbBg1, SIGNAL(activated(int)), this, SLOT(adjustEnabled(int)));
         connect(cmbBg2, SIGNAL(activated(int)), this, SLOT(adjustEnabled(int)));
         connect(cmbBg3, SIGNAL(activated(int)), this, SLOT(adjustEnabled(int)));
-        load(&pClient->owner);
+        load(pClient->owner);
         return;
     }
     edtBg1->setReadOnly(true);

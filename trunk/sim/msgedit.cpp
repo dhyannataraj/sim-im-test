@@ -1087,22 +1087,22 @@ static QString escape(const QString &r)
     return s;
 }
 
-void MsgEdit::topReady(const QString &res)
+void MsgEdit::topReady(Tmpl*, const QString &res)
 {
     edit->setText(escape(res));
     edit->moveCursor(QTextEdit::MoveEnd, false);
-    disconnect(tmpl, SIGNAL(ready(const QString&)), this, SLOT(topReady(const QString&)));
-    connect(tmpl, SIGNAL(ready(const QString&)), this, SLOT(bottomReady(const QString&)));
+    disconnect(tmpl, SIGNAL(ready(Tmpl*, const QString&)), this, SLOT(topReady(Tmpl*, const QString&)));
+    connect(tmpl, SIGNAL(ready(Tmpl*, const QString&)), this, SLOT(bottomReady(Tmpl*, const QString&)));
     tmpl->expand(QString::fromLocal8Bit(pMain->SMSSignBottom.c_str()), Uin);
 }
 
-void MsgEdit::bottomReady(const QString &res)
+void MsgEdit::bottomReady(Tmpl*, const QString &res)
 {
     int parag, index;
     edit->getCursorPosition(&parag, &index);
     edit->append(escape(res));
     edit->setCursorPosition(parag, index);
-    disconnect(tmpl, SIGNAL(ready(const QString&)), this, SLOT(bottomReady(const QString&)));
+    disconnect(tmpl, SIGNAL(ready(Tmpl*, const QString&)), this, SLOT(bottomReady(Tmpl*, const QString&)));
 }
 
 void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEdit)
@@ -1204,8 +1204,11 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                         btnDecline->show();
                         file->show();
                         ICQUser *u = pClient->getUser(f->getUin());
-                        if ((u == NULL) || !u->AcceptFileOverride) u = &pClient->owner;
-                        string path = u->AcceptFilePath.c_str();
+                        if (u == NULL) u = pClient->owner;
+                        SIMUser *_u = static_cast<SIMUser*>(u);
+                        if (!_u->AcceptFileOverride)
+                            _u = static_cast<SIMUser*>(pClient->owner);
+                        string path = _u->AcceptFilePath.c_str();
                         if (*path.c_str() == 0)
                             pMain->buildFileName(path, "IncomingFiles/");
                         QString name = QString::fromLocal8Bit(path.c_str());
@@ -1469,7 +1472,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                     if (*m->Message.c_str()){
                         edit->setText(pClient->from8Bit(Uin, pClient->clearHTML(m->Message.c_str())), m->Charset.c_str());
                     }else{
-                        connect(tmpl, SIGNAL(ready(const QString&)), this, SLOT(topReady(const QString&)));
+                        connect(tmpl, SIGNAL(ready(Tmpl*, const QString&)), this, SLOT(topReady(Tmpl*, const QString&)));
                         tmpl->expand(QString::fromLocal8Bit(pMain->SMSSignTop.c_str()), Uin);
                     }
                     if (*m->Phone.c_str())

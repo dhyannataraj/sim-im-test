@@ -44,11 +44,12 @@ const unsigned SETUP_KEYS			= 205;
 const unsigned SETUP_SOUND			= 206;
 const unsigned SETUP_XOSD			= 207;
 const unsigned SETUP_ALERT			= 208;
-const unsigned SETUP_ACCEPT			= 209;
-const unsigned SETUP_SMS		    = 210;
-const unsigned SETUP_FORWARD		= 211;
-const unsigned SETUP_MISC			= 212;
-const unsigned SETUP_SPELL			= 213;
+const unsigned SETUP_MESSAGE		= 209;
+const unsigned SETUP_ACCEPT			= 210;
+const unsigned SETUP_SMS		    = 211;
+const unsigned SETUP_FORWARD		= 212;
+const unsigned SETUP_MISC			= 213;
+const unsigned SETUP_SPELL			= 214;
 
 const unsigned SETUP_AUTOREPLY		= 300;
 const unsigned SETUP_AR_AWAY		= 301;

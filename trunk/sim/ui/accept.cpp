@@ -41,17 +41,18 @@ AcceptDialog::AcceptDialog(QWidget *p, bool _bReadOnly)
     }
     chkOverride->hide();
     edtPath->setDirMode(true);
-    load(&pClient->owner);
+    load(pClient->owner);
 }
 
-void AcceptDialog::load(ICQUser *u)
+void AcceptDialog::load(ICQUser *_u)
 {
+    SIMUser *u = static_cast<SIMUser*>(_u);
     if (bReadOnly){
         if (u->AcceptFileOverride){
             chkOverride->setChecked(true);
         }else{
             chkOverride->setChecked(false);
-            u = &pClient->owner;
+            u = static_cast<SIMUser*>(pClient->owner);
         }
         overrideChanged(chkOverride->isChecked());
     }
@@ -77,13 +78,13 @@ void AcceptDialog::load(ICQUser *u)
         btnDialog->setChecked(true);
         break;
     }
-    chkWindow->setChecked(u->AcceptMsgWindow);
     chkOverwrite->setChecked(u->AcceptFileOverwrite);
     modeChanged(0);
 }
 
-void AcceptDialog::save(ICQUser *u)
+void AcceptDialog::save(ICQUser *_u)
 {
+    SIMUser *u = static_cast<SIMUser*>(_u);
     if (bReadOnly){
         if (!chkOverride->isChecked()){
             u->AcceptFileOverride = false;
@@ -91,7 +92,6 @@ void AcceptDialog::save(ICQUser *u)
         }
         u->AcceptFileOverride = true;
     }
-    u->AcceptMsgWindow = chkWindow->isChecked();
     u->AcceptFileOverwrite = chkOverwrite->isChecked();
     set(u->AcceptFilePath, edtPath->text());
     unsigned short id = 0;
@@ -104,7 +104,7 @@ void AcceptDialog::save(ICQUser *u)
 
 void AcceptDialog::apply(ICQUser*)
 {
-    save(&pClient->owner);
+    save(pClient->owner);
 }
 
 void AcceptDialog::overrideChanged(bool)
@@ -113,7 +113,6 @@ void AcceptDialog::overrideChanged(bool)
     grpAccept->setEnabled(isEnable);
     edtPath->setEnabled(isEnable);
     lblPath->setEnabled(isEnable);
-    chkWindow->setEnabled(isEnable);
 }
 
 void AcceptDialog::modeChanged(int)

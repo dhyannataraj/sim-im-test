@@ -60,6 +60,57 @@ public:
     QString trim(const QString &s);
 };
 
+class Tmpl;
+
+typedef struct autoResponse
+{
+    Tmpl		*tmpl;
+    ICQMessage	*msg;
+    bool		bDelete;
+} autoResponse;
+
+inline bool operator == (const autoResponse &a, const autoResponse &b)
+{
+    return (a.tmpl == b.tmpl) && (a.msg == b.msg);
+}
+
+class SIMUser : public ICQUser
+{
+public:
+    // Alert mode
+    bool				AlertOverride;
+    bool				AlertAway;
+    bool				AlertBlink;
+    bool				AlertSound;
+    bool				AlertOnScreen;
+    bool				AlertPopup;
+    bool				AlertWindow;
+    bool				LogStatus;
+
+    // Accept mode
+    bool				AcceptMsgWindow;
+    unsigned short		AcceptFileMode;
+    bool				AcceptFileOverride;
+    bool				AcceptFileOverwrite;
+    string				AcceptFilePath;
+    string				DeclineFileMessage;
+
+    // Sounds
+    bool				SoundOverride;
+    string				IncomingMessage;
+    string				IncomingURL;
+    string				IncomingSMS;
+    string				IncomingAuth;
+    string				IncomingFile;
+    string				IncomingChat;
+    string				OnlineAlert;
+
+    // Programms
+    bool				ProgOverride;
+    bool				ProgMessageOn;
+    string				ProgMessage;
+};
+
 class SIMClient : public QObject, public ICQClient
 {
     Q_OBJECT
@@ -68,6 +119,7 @@ public:
     ~SIMClient();
     string			BirthdayReminder;
     string			FileDone;
+    ICQUser *createUser();
     void save(ostream &s);
     bool load(istream &s, string &nextPart);
     QString getName(bool bUserUIN=true);
@@ -104,11 +156,14 @@ signals:
     void fileNoCreate(ICQFile*, const QString&);
     void encodingChanged(unsigned long uin);
 protected slots:
+    void tmpl_ready(Tmpl *tmpl, const QString &res);
+    void tmpl_clear();
     void resolve_ready();
     void timer();
 protected:
+    void getAutoResponse(unsigned long uin, ICQMessage *msg);
+    list<autoResponse> responses;
     void start_resolve();
-
     virtual bool createFile(ICQFile *f, int mode);
     virtual bool openFile(ICQFile *f);
     virtual bool seekFile(ICQFile *f, unsigned long pos);
@@ -119,8 +174,6 @@ protected:
     virtual unsigned long getFileSize(const char *name, int *nSrcFiles, vector<fileName> &files);
     unsigned long getFileSize(QString name, QString base, vector<fileName> &file);
     unsigned long getFileSize(QString name, vector<fileName> &file);
-
-    void getAutoResponse(unsigned long uin, string &response);
 };
 
 extern SIMClient *pClient;

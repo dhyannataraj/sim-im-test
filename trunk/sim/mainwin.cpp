@@ -288,8 +288,8 @@ cfgParam MainWindow_Params[] =
 
 static void child_proc(int)
 {
-	if (pMain)
-		QTimer::singleShot(0, pMain, SLOT(checkChilds()));
+    if (pMain)
+        QTimer::singleShot(0, pMain, SLOT(checkChilds()));
 }
 
 #endif
@@ -583,7 +583,7 @@ void MainWindow::setPhoneLocation(int location)
         if (menuPhoneLocation->idAt(n) == location)
             break;
     }
-    for (PhoneBook::iterator it = pClient->owner.Phones.begin(); it != pClient->owner.Phones.end(); it++){
+    for (PhoneBook::iterator it = pClient->owner->Phones.begin(); it != pClient->owner->Phones.end(); it++){
         PhoneInfo *phone = static_cast<PhoneInfo*>(*it);
         phone->Active = false;
         if ((phone->Type == PHONE) || (phone->Type == MOBILE) || (phone->Type == SMS)){
@@ -596,7 +596,7 @@ void MainWindow::setPhoneLocation(int location)
 
 void MainWindow::setPhoneStatus(int status)
 {
-    pClient->owner.PhoneState = (unsigned short)status;
+    pClient->owner->PhoneState = (unsigned short)status;
     pClient->updatePhoneStatus();
 }
 
@@ -613,7 +613,7 @@ void MainWindow::addStatusItem(int status)
 
 void MainWindow::setStatusItem(int status)
 {
-    menuStatus->setItemChecked(status & 0xFF, (unsigned)(pClient->owner.uStatus & 0xFF) == (unsigned)(status & 0xFF));
+    menuStatus->setItemChecked(status & 0xFF, (unsigned)(pClient->owner->uStatus & 0xFF) == (unsigned)(status & 0xFF));
 }
 
 #ifdef WIN32
@@ -809,11 +809,11 @@ bool MainWindow::init()
         }
         break;
     }
-    menuStatus->setItemChecked(ICQ_STATUS_FxPRIVATE, pClient->owner.inInvisible);
+    menuStatus->setItemChecked(ICQ_STATUS_FxPRIVATE, pClient->owner->inInvisible);
     changeWm();
 
     bool bNeedSetup = false;
-    if ((pClient->owner.Uin == 0) || (*pClient->EncryptedPassword.c_str() == 0)){
+    if ((pClient->owner->Uin == 0) || (*pClient->EncryptedPassword.c_str() == 0)){
         pSplash->hide();
         bInLogin = true;
         LoginDialog dlg;
@@ -824,7 +824,7 @@ bool MainWindow::init()
         ShowOffline = true;
         GroupMode = true;
     }
-    if (pClient->owner.Uin == 0)
+    if (pClient->owner->Uin == 0)
         return false;
 
     ToolBarDock tDock = Top;
@@ -894,9 +894,10 @@ void MainWindow::messageReceived(ICQMessage *msg)
                      .arg(pClient->getMessageText(msg->Type(), 1))
                      .arg(user.name()), u->Uin);
 
-    if (!u->AcceptFileOverride)
-        u = &pClient->owner;
-    if (u->AcceptMsgWindow)
+    SIMUser *_u = static_cast<SIMUser*>(u);
+    if (!_u->AcceptFileOverride)
+        _u = static_cast<SIMUser*>(pClient->owner);
+    if (_u->AcceptMsgWindow)
         userFunction(msg->getUin(), mnuActionAuto);
 }
 
@@ -928,32 +929,34 @@ void MainWindow::processEvent(ICQEvent *e)
             ICQMessage *msg = e->message();
             if (msg == NULL) return;
             ICQUser *u = pClient->getUser(msg->getUin());
-            if ((u == NULL) || !u->SoundOverride)
-                u = &pClient->owner;
+            if (u == NULL) u = pClient->owner;
+            SIMUser *_u = static_cast<SIMUser*>(u);
+            if (!_u->SoundOverride)
+                _u = static_cast<SIMUser*>(pClient->owner);
             const char *wav;
             switch (msg->Type()){
             case ICQ_MSGxURL:
-                wav = u->IncomingURL.c_str();
+                wav = _u->IncomingURL.c_str();
                 break;
             case ICQ_MSGxSMS:
-                wav = u->IncomingSMS.c_str();
+                wav = _u->IncomingSMS.c_str();
                 break;
             case ICQ_MSGxFILE:
-                wav = u->IncomingFile.c_str();
+                wav = _u->IncomingFile.c_str();
                 break;
             case ICQ_MSGxCHAT:
-                wav = u->IncomingChat.c_str();
+                wav = _u->IncomingChat.c_str();
                 break;
             case ICQ_MSGxAUTHxREQUEST:
             case ICQ_MSGxAUTHxREFUSED:
             case ICQ_MSGxAUTHxGRANTED:
             case ICQ_MSGxADDEDxTOxLIST:
-                wav = u->IncomingAuth.c_str();
+                wav = _u->IncomingAuth.c_str();
                 break;
             default:
-                wav = u->IncomingMessage.c_str();
+                wav = _u->IncomingMessage.c_str();
             }
-            if (((pClient->owner.uStatus & 0xFF) != ICQ_STATUS_AWAY) && ((pClient->owner.uStatus & 0xFF) != ICQ_STATUS_NA))
+            if (((pClient->owner->uStatus & 0xFF) != ICQ_STATUS_AWAY) && ((pClient->owner->uStatus & 0xFF) != ICQ_STATUS_NA))
                 playSound(wav);
             return;
         }
@@ -981,16 +984,16 @@ void MainWindow::processEvent(ICQEvent *e)
         break;
     case EVENT_INFO_CHANGED:
         saveContacts();
-        if ((e->Uin() == pClient->owner.Uin) || (e->Uin() == 0)){
-            if ((realTZ != pClient->owner.TimeZone) && (e->subType() == EVENT_SUBTYPE_FULLINFO)){
+        if ((e->Uin() == pClient->owner->Uin) || (e->Uin() == 0)){
+            if ((realTZ != pClient->owner->TimeZone) && (e->subType() == EVENT_SUBTYPE_FULLINFO)){
                 ICQUser u;
-                u = pClient->owner;
+                u = (*pClient->owner);
                 u.TimeZone = realTZ;
                 pClient->setInfo(&u);
             }
             menuPhoneLocation->clear();
             unsigned long n = 0;
-            for (PhoneBook::iterator it = pClient->owner.Phones.begin(); it != pClient->owner.Phones.end(); it++){
+            for (PhoneBook::iterator it = pClient->owner->Phones.begin(); it != pClient->owner->Phones.end(); it++){
                 PhoneInfo *phone = static_cast<PhoneInfo*>(*it);
                 if ((phone->Type == PHONE) || (phone->Type == MOBILE) || (phone->Type == SMS)){
                     menuPhoneLocation->insertItem(phone->getNumber().c_str());
@@ -1000,31 +1003,34 @@ void MainWindow::processEvent(ICQEvent *e)
                 }
             }
             menuPhone->setItemEnabled(menuPhone->idAt(0), n != 0);
-            menuPhoneStatus->setItemChecked(0, pClient->owner.PhoneState == 0);
-            menuPhoneStatus->setItemChecked(1, pClient->owner.PhoneState == 1);
-            menuPhoneStatus->setItemChecked(2, pClient->owner.PhoneState == 2);
+            menuPhoneStatus->setItemChecked(0, pClient->owner->PhoneState == 0);
+            menuPhoneStatus->setItemChecked(1, pClient->owner->PhoneState == 1);
+            menuPhoneStatus->setItemChecked(2, pClient->owner->PhoneState == 2);
         }
     case EVENT_STATUS_CHANGED:
-        if ((e->Uin() == pClient->owner.Uin) || (e->Uin() == 0)){
+        if ((e->Uin() == pClient->owner->Uin) || (e->Uin() == 0)){
             ownerChanged();
-            if (realTZ != pClient->owner.TimeZone)
-                pClient->addInfoRequest(pClient->owner.Uin, true);
+            if (realTZ != pClient->owner->TimeZone)
+                pClient->addInfoRequest(pClient->owner->Uin, true);
         }else{
-            ICQUser *u = pClient->getUser(e->Uin());
-            if (u && !u->inIgnore && ((NoAlertAway == 0) ||
-                                      ((u->uStatus & 0xFF) == ICQ_STATUS_ONLINE) ||
-                                      ((u->uStatus & 0xFF) == ICQ_STATUS_FREEFORCHAT)) &&
+            ICQUser *_u = pClient->getUser(e->Uin());
+            if (_u == NULL) return;
+            SIMUser *u = static_cast<SIMUser*>(_u);
+            SIMUser *o = static_cast<SIMUser*>(pClient->owner);
+            if (!u->inIgnore && ((NoAlertAway == 0) ||
+                                 ((u->uStatus & 0xFF) == ICQ_STATUS_ONLINE) ||
+                                 ((u->uStatus & 0xFF) == ICQ_STATUS_FREEFORCHAT)) &&
                     ((u->prevStatus & 0xFF) != ICQ_STATUS_ONLINE) &&
                     ((u->prevStatus & 0xFF) != ICQ_STATUS_FREEFORCHAT) &&
-                    (((pClient->owner.uStatus & 0xFF) == ICQ_STATUS_ONLINE) ||
-                     ((pClient->owner.uStatus & 0xFF) == ICQ_STATUS_FREEFORCHAT)) &&
-                    ((u->prevStatus == ICQ_STATUS_OFFLINE) || pClient->owner.AlertAway) &&
-                    ((u->OnlineTime > pClient->owner.OnlineTime) || (u->prevStatus  != ICQ_STATUS_OFFLINE))){
-                if (!u->AlertOverride) u = &pClient->owner;
+                    (((pClient->owner->uStatus & 0xFF) == ICQ_STATUS_ONLINE) ||
+                     ((pClient->owner->uStatus & 0xFF) == ICQ_STATUS_FREEFORCHAT)) &&
+                    ((u->prevStatus == ICQ_STATUS_OFFLINE) || o->AlertAway) &&
+                    ((u->OnlineTime > pClient->owner->OnlineTime) || (u->prevStatus  != ICQ_STATUS_OFFLINE))){
+                SIMUser *__u = u;
+                if (!u->AlertOverride) u = o;
                 if (u->AlertSound){
-                    ICQUser *u = pClient->getUser(e->Uin());
-                    if ((u == NULL) || !u->SoundOverride) u= &pClient->owner;
-                    playSound(u->OnlineAlert.c_str());
+                    if (!__u->SoundOverride) __u= o;
+                    playSound(__u->OnlineAlert.c_str());
                 }
                 if (u->AlertOnScreen){
                     CUser user(e->Uin());
@@ -1120,7 +1126,7 @@ void MainWindow::saveState()
 
 void MainWindow::saveContacts()
 {
-    if (pClient->owner.Uin == 0) return;
+    if (pClient->owner->Uin == 0) return;
     string file;
     buildFileName(file, ICQ_CONF);
 #ifndef WIN32
@@ -1402,7 +1408,28 @@ void MainWindow::search()
 {
     if (searchDlg == NULL) searchDlg = new SearchDialog(NULL);
     searchDlg->show();
+#ifdef USE_KDE
+    KWin::setOnDesktop(searchDlg->winId(), KWin::currentDesktop());
+#endif
+    searchDlg->setActiveWindow();
     searchDlg->raise();
+#ifdef USE_KDE
+    KWin::setActiveWindow(searchDlg->winId());
+#endif
+}
+
+void MainWindow::showSearch(bool bSearch)
+{
+    if (bSearch){
+        search();
+        return;
+    }
+    if (searchDlg) searchDlg->close();
+}
+
+bool MainWindow::isSearch()
+{
+    return (searchDlg != NULL) && searchDlg->isVisible();
 }
 
 bool MainWindow::event(QEvent *e)
@@ -1513,8 +1540,8 @@ void MainWindow::autoAway()
 void MainWindow::setStatus(int status)
 {
     if ((unsigned long)status == ICQ_STATUS_FxPRIVATE){
-        pClient->setInvisible(!pClient->owner.inInvisible);
-        menuStatus->setItemChecked(ICQ_STATUS_FxPRIVATE, pClient->owner.inInvisible);
+        pClient->setInvisible(!pClient->owner->inInvisible);
+        menuStatus->setItemChecked(ICQ_STATUS_FxPRIVATE, pClient->owner->inInvisible);
         return;
     }
     AutoReplyDlg *autoDlg = NULL;
@@ -1618,7 +1645,7 @@ void MainWindow::ownerChanged()
     setStatusItem(ICQ_STATUS_OCCUPIED);
     setStatusItem(ICQ_STATUS_FREEFORCHAT);
     setStatusItem(ICQ_STATUS_OFFLINE);
-    CUser owner(&pClient->owner);
+    CUser owner(pClient->owner);
     setCaption(owner.name());
 
     menuFunction->changeTitle(1, owner.name());
@@ -2693,11 +2720,11 @@ void MainWindow::checkChilds()
 {
 #ifndef WIN32
     for (;;){
-	int status;
-    	pid_t child = waitpid(0, &status, WNOHANG);
-	if ((child == 0) || (child == -1)) break;
-	if (!WIFEXITED(status)) continue;
-	emit childExited(child, WEXITSTATUS(status));
+        int status;
+        pid_t child = waitpid(0, &status, WNOHANG);
+        if ((child == 0) || (child == -1)) break;
+        if (!WIFEXITED(status)) continue;
+        emit childExited(child, WEXITSTATUS(status));
     }
 #endif
 }

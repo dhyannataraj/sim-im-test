@@ -335,17 +335,19 @@ void UserViewItem::update(ICQUser *u, bool bFirst)
     nBlink = 0;
     unsigned st = 9;
     if (u->uStatus != ICQ_STATUS_OFFLINE){
+        SIMUser *_u = static_cast<SIMUser*>(u);
+        SIMUser *_o = static_cast<SIMUser*>(pClient->owner);
         switch (u->uStatus & 0xFF){
         case ICQ_STATUS_ONLINE:
         case ICQ_STATUS_FREEFORCHAT:
             if (((u->prevStatus & 0xFF) != ICQ_STATUS_ONLINE) &&
                     ((u->prevStatus & 0xFF) != ICQ_STATUS_FREEFORCHAT) &&
-                    (((pClient->owner.uStatus & 0xFF) == ICQ_STATUS_ONLINE) ||
-                     ((pClient->owner.uStatus & 0xFF) == ICQ_STATUS_FREEFORCHAT)) &&
-                    ((u->prevStatus == ICQ_STATUS_OFFLINE) || pClient->owner.AlertAway) &&
-                    ((u->OnlineTime > pClient->owner.OnlineTime) || ((u->prevStatus & 0xFFFF) != ICQ_STATUS_OFFLINE))){
-                if (!u->AlertOverride) u = &pClient->owner;
-                if (u->AlertBlink)
+                    (((pClient->owner->uStatus & 0xFF) == ICQ_STATUS_ONLINE) ||
+                     ((pClient->owner->uStatus & 0xFF) == ICQ_STATUS_FREEFORCHAT)) &&
+                    ((u->prevStatus == ICQ_STATUS_OFFLINE) || _o->AlertAway) &&
+                    ((u->OnlineTime > _o->OnlineTime) || ((u->prevStatus & 0xFFFF) != ICQ_STATUS_OFFLINE))){
+                if (!_u->AlertOverride) _u = _o;
+                if (_u->AlertBlink)
                     nBlink = 18;
             }
             st = 1;
@@ -856,7 +858,7 @@ void UserView::setOpen(bool bOpen)
 void UserView::addUserItem(ICQUser *u)
 {
     if (u->inIgnore || u->bIsTemp) return;
-    if (u->Uin == pClient->owner.Uin) return;
+    if (u->Uin == pClient->owner->Uin) return;
     if (!m_bShowOffline && (u->uStatus == ICQ_STATUS_OFFLINE) && (u->unreadMsgs.size() == 0)) return;
     if (!m_bGroupMode){
         new UserViewItem(u, this);

@@ -56,12 +56,13 @@ SoundSetup::SoundSetup(QWidget *p, bool bUser)
 #else
         chkArts->hide();
 #endif
-        load(&pClient->owner);
+        load(pClient->owner);
     }
 }
 
-void SoundSetup::load(ICQUser *u)
+void SoundSetup::load(ICQUser *_u)
 {
+    SIMUser *u = static_cast<SIMUser*>(_u);
     chkOverride->setChecked(u->SoundOverride);
     edtMessage->setText(QString::fromLocal8Bit(pMain->sound(u->IncomingMessage.c_str())));
     edtURL->setText(QString::fromLocal8Bit(pMain->sound(u->IncomingURL.c_str())));
@@ -73,7 +74,7 @@ void SoundSetup::load(ICQUser *u)
     edtFileDone->setText(QString::fromLocal8Bit(pMain->sound(pClient->FileDone.c_str())));
     edtStartup->setText(QString::fromLocal8Bit(pMain->sound(pSplash->StartupSound.c_str())));
     edtProgram->setText(QString::fromLocal8Bit(pSplash->SoundPlayer.c_str()));
-    overrideToggled((u == &pClient->owner) ? true : chkOverride->isChecked());
+    overrideToggled((u == pClient->owner) ? true : chkOverride->isChecked());
 }
 
 void SoundSetup::overrideToggled(bool bOn)
@@ -131,8 +132,9 @@ string SoundSetup::sound(EditSound *edt)
     return string(res.c_str() + strlen(prefix) - 1);
 }
 
-void SoundSetup::save(ICQUser *u)
+void SoundSetup::save(ICQUser *_u)
 {
+    SIMUser *u = static_cast<SIMUser*>(_u);
     u->SoundOverride = chkOverride->isChecked();
     u->IncomingMessage = sound(edtMessage);
     u->IncomingURL = sound(edtURL);
@@ -152,7 +154,7 @@ void SoundSetup::save(ICQUser *u)
 
 void SoundSetup::apply(ICQUser*)
 {
-    save(&pClient->owner);
+    save(pClient->owner);
 }
 
 #ifndef _WINDOWS

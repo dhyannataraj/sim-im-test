@@ -35,7 +35,7 @@ PastInfo::PastInfo(QWidget *p, bool readOnly)
         connect(cmbBg2, SIGNAL(activated(int)), this, SLOT(adjustEnabled(int)));
         connect(cmbAf1, SIGNAL(activated(int)), this, SLOT(adjustEnabled(int)));
         connect(cmbAf2, SIGNAL(activated(int)), this, SLOT(adjustEnabled(int)));
-        load(&pClient->owner);
+        load(pClient->owner);
         return;
     }
     edtBg1->setReadOnly(true);

@@ -32,7 +32,7 @@ AboutInfo::AboutInfo(QWidget *p, bool readOnly)
     if (readOnly){
         edtAbout->setReadOnly(true);
     }else{
-        load(&pClient->owner);
+        load(pClient->owner);
     }
 }
 

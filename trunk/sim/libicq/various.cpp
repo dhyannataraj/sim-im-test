@@ -160,7 +160,7 @@ void ICQClientPrivate::serverRequest(unsigned short cmd, unsigned short seq)
 {
     snac(ICQ_SNACxFAM_VARIOUS, ICQ_SNACxVAR_REQxSRV, true);
     sock->writeBuffer.tlv(0x0001, 0);
-    sock->writeBuffer.pack((char*)&client->owner.Uin, 4);
+    sock->writeBuffer.pack((char*)&client->owner->Uin, 4);
     sock->writeBuffer << cmd;
     sock->writeBuffer.pack((unsigned short)(seq ? seq : m_nMsgSequence));
 }
@@ -193,8 +193,8 @@ bool FullInfoEvent::processAnswer(ICQClientPrivate *client, Buffer &b, unsigned 
 {
     ICQUser *u;
     log(L_DEBUG, "Info about %lu %04X", Uin(), nSubtype);
-    if (Uin() == client->client->owner.Uin){
-        u = &client->client->owner;
+    if (Uin() == client->client->owner->Uin){
+        u = client->client->owner;
     }else{
         u = client->client->getUser(Uin(), false);
         if (u == NULL){
@@ -234,7 +234,7 @@ bool FullInfoEvent::processAnswer(ICQClientPrivate *client, Buffer &b, unsigned 
             client->client->fromServer(u->HomePhone, u);
             client->client->fromServer(u->HomeFax, u);
             client->client->fromServer(u->PrivateCellular, u);
-            u->adjustEMails(NULL, Uin() == client->client->owner.Uin);
+            u->adjustEMails(NULL, Uin() == client->client->owner->Uin);
             if (*u->Alias.c_str() == 0)
                 client->renameUser(u, u->Nick.c_str());
             break;
@@ -272,7 +272,7 @@ bool FullInfoEvent::processAnswer(ICQClientPrivate *client, Buffer &b, unsigned 
                 email->Hide = (d != 0);
                 mails.push_back(email);
             }
-            u->adjustEMails(&mails, Uin() == client->client->owner.Uin);
+            u->adjustEMails(&mails, Uin() == client->client->owner->Uin);
             break;
         }
     case ICQ_SRVxWORK_INFO:{
@@ -430,9 +430,9 @@ void ICQClientPrivate::processMsgQueueSMS()
         string text = msg->Message.c_str();
         client->translate("utf8", msg->Charset.c_str(), text);
         text = client->clearHTML(text);
-        string sender = client->owner.name(true);
+        string sender = client->owner->name(true);
         char uin[13];
-        snprintf(uin, sizeof(uin), "%lu", client->owner.Uin);
+        snprintf(uin, sizeof(uin), "%lu", client->owner->Uin);
         xmltree.pushnode(new XmlLeaf("destination",destination));
         xmltree.pushnode(new XmlLeaf("text",text));
         xmltree.pushnode(new XmlLeaf("codepage","1252"));
@@ -487,10 +487,10 @@ bool SearchEvent::processAnswer(ICQClientPrivate *client, Buffer &b, unsigned sh
     >> email
     >> auth
     >> state;
-    client->client->fromServer(nick, &client->client->owner);
-    client->client->fromServer(firstName, &client->client->owner);
-    client->client->fromServer(lastName, &client->client->owner);
-    client->client->fromServer(email, &client->client->owner);
+    client->client->fromServer(nick, client->client->owner);
+    client->client->fromServer(firstName, client->client->owner);
+    client->client->fromServer(lastName, client->client->owner);
+    client->client->fromServer(email, client->client->owner);
     lastResult = (nSubtype == 0xAE01);
     client->client->process_event(this);
     return (nSubtype == 0xAE01);
@@ -525,19 +525,19 @@ ICQEvent *ICQClient::searchWP(const char *szFirst, const char *szLast, const cha
     string sAffiliation = szAffiliation ? szAffiliation : "";
     string sHomePage = szHomePage ? szHomePage : "";
 
-    toServer(sFirst, &owner);
-    toServer(sLast, &owner);
-    toServer(sNick, &owner);
-    toServer(sEmail, &owner);
-    toServer(sCity, &owner);
-    toServer(sState, &owner);
-    toServer(sCoName, &owner);
-    toServer(sCoDept, &owner);
-    toServer(sCoPos, &owner);
-    toServer(sPast, &owner);
-    toServer(sInterests, &owner);
-    toServer(sAffiliation, &owner);
-    toServer(sHomePage, &owner);
+    toServer(sFirst, owner);
+    toServer(sLast, owner);
+    toServer(sNick, owner);
+    toServer(sEmail, owner);
+    toServer(sCity, owner);
+    toServer(sState, owner);
+    toServer(sCoName, owner);
+    toServer(sCoDept, owner);
+    toServer(sCoPos, owner);
+    toServer(sPast, owner);
+    toServer(sInterests, owner);
+    toServer(sAffiliation, owner);
+    toServer(sHomePage, owner);
 
     unsigned short nMinAge = 0;
     unsigned short nMaxAge = 0;
@@ -615,9 +615,9 @@ ICQEvent *ICQClient::searchByName(const char *first, const char *last, const cha
     string sLast = last ? last : "";
     string sNick = nick ? nick : "";
     log(L_DEBUG, "-- [%s] [%s] [%s]", first, last, nick);
-    toServer(sFirst, &owner);
-    toServer(sLast, &owner);
-    toServer(sNick, &owner);
+    toServer(sFirst, owner);
+    toServer(sLast, owner);
+    toServer(sNick, owner);
     p->sock->writeBuffer
     << sNick
     << sFirst
@@ -663,7 +663,7 @@ protected:
 
 bool SetPasswordEvent::processAnswer(ICQClientPrivate *client, Buffer&, unsigned short)
 {
-    m_nUin = client->client->owner.Uin;
+    m_nUin = client->client->owner->Uin;
     client->client->storePassword(passwd);
     return true;
 }
@@ -674,7 +674,7 @@ void ICQClient::setPassword(const char *passwd)
     p->serverRequest(ICQ_SRVxREQ_MORE);
     p->sock->writeBuffer << ICQ_SRVxREQ_CHANGE_PASSWD;
     string pass = passwd;
-    toServer(pass, &owner);
+    toServer(pass, owner);
     p->sock->writeBuffer << pass;
     p->sendServerRequest();
     SetPasswordEvent *e = new SetPasswordEvent(p->m_nMsgSequence, passwd);
@@ -697,7 +697,7 @@ protected:
 
 bool SetSecurityInfo::processAnswer(ICQClientPrivate *client, Buffer&, unsigned short)
 {
-    m_nUin = client->client->owner.Uin;
+    m_nUin = client->client->owner->Uin;
     client->client->Authorize = bAuthorize;
     client->client->WebAware = bWebAware;
     return true;
@@ -719,12 +719,12 @@ void ICQClient::setSecurityInfo(bool bAuthorize, bool bWebAware)
 }
 
 #define INIT(A)			A = u->A;
-#define SET(A)			client->client->owner.A = A;
+#define SET(A)			client->client->owner->A = A;
 
 #define SPARAM(A)		string s_##A = u->A;			\
 						client->toServer(s_##A, u);				\
-						if (client->owner.A != u->A) bChange = true;
-#define	NPARAM(A)		if (client->owner.A != u->A) bChange = true;
+						if (client->owner->A != u->A) bChange = true;
+#define	NPARAM(A)		if (client->owner->A != u->A) bChange = true;
 
 class SetMainInfo : public ICQEvent
 {
@@ -1064,7 +1064,7 @@ void ICQClientPrivate::packInfoList(const ExtInfoList &infoList)
     for (ExtInfoList::const_iterator it = infoList.begin(); it != infoList.end(); ++it){
         ExtInfo *info = static_cast<ExtInfo*>(*it);
         string spec = info->Specific;
-        client->toServer(spec, &client->owner);
+        client->toServer(spec, client->owner);
         sock->writeBuffer.pack(info->Category);
         sock->writeBuffer << spec;
     }
@@ -1180,7 +1180,7 @@ bool ICQClientPrivate::setMailInfo(ICQUser *u)
         }
         string s;
         if (info->Email.size()) s = info->Email;
-        client->toServer(s, &client->owner);
+        client->toServer(s, client->owner);
         char hide = info->Hide ? 1 : 0;
         sock->writeBuffer << hide << s;
     }
@@ -1201,8 +1201,8 @@ void ICQClient::setInfo(ICQUser *u)
     if (p->setMailInfo(u)) bChange = true;
     if (p->setInterestsInfo(u)) bChange = true;
     if (p->setBackgroundInfo(u)) bChange = true;
-    if (owner.Phones != u->Phones){
-        owner.Phones = u->Phones;
+    if (owner->Phones != u->Phones){
+        owner->Phones = u->Phones;
         if (updatePhoneBook()) bChange = true;
     }
     if (bChange) p->sendInfoUpdate();
@@ -1215,7 +1215,7 @@ void ICQClientPrivate::sendPhoneStatus()
     sock->writeBuffer.pack((char*)PHONEBOOK_SIGN, 0x10);
     sock->writeBuffer
     << (unsigned short)0x0200
-    << client->owner.PhoneState
+    << client->owner->PhoneState
     << (char)0
     << (unsigned short)0;
     sendServerRequest();

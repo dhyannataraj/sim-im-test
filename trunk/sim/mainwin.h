@@ -314,6 +314,8 @@ public:
     list<unread_msg> messages;
     void setDock();
     bool isDock();
+    void showSearch(bool bSearch);
+    bool isSearch();
 
     void addSearch(const QString&);
     QStringList	searches;

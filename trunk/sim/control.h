@@ -1,7 +1,7 @@
 /***************************************************************************
-                          tmpl.h  -  description
+                          control.h  -  description
                              -------------------
-    begin                : Sun Mar 10 2002
+    begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
     email                : shutoff@mail.ru
  ***************************************************************************/
@@ -15,33 +15,49 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _TMPL_H
-#define _TMPL_H
+#ifndef _CONTROL_H
+#define _CONTROL_H
 
 #include "defs.h"
-#include <qobject.h>
+#include <qsocket.h>
 
-class Exec;
+#include <list>
+using namespace std;
 
-class Tmpl : public QObject
+class QSocketNotifier;
+class ControlSocket;
+
+class ControlListener : public QObject
 {
     Q_OBJECT
 public:
-    Tmpl(QObject *parent);
-    ~Tmpl();
-public slots:
-    void expand(const QString &tmpl, unsigned long uin);
-signals:
-    void ready(Tmpl *tmpl, const QString &res);
+    ControlListener(QObject *parent);
+    ~ControlListener();
+    bool bind(const char *addr);
 protected slots:
-    void expand();
-    void execReady(int, const char*);
+    void activated(int);
+    void finished(ControlSocket*);
+    void finished();
 protected:
-    Exec *exec;
-    unsigned long m_uin;
-    QString res;
-    QString t;
-    void expand(bool bExt);
+    list<ControlSocket*> deleted;
+    bool setOptions(int nPort);
+    QSocketNotifier *n;
+    int s;
+};
+
+class ControlSocket : public QSocket
+{
+    Q_OBJECT
+public:
+    ControlSocket(int s, QObject *parent);
+signals:
+    void finished(ControlSocket*);
+protected slots:
+    void error_state();
+    void error_state(int);
+    void read_ready();
+protected:
+    void write(const char*);
 };
 
 #endif
