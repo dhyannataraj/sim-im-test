@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2004-06-03 03:53+0400\n"
-"PO-Revision-Date: 2004-06-03 20:16+0100\n"
+"PO-Revision-Date: 2004-06-03 20:19+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1619,7 +1619,6 @@ msgid "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 msgstr "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 
 #: plugins/msn/msnpacket.cpp:472
-#, c-format
 msgid ""
 "_n: You have %n unread message\n"
 "You have %n unread messages"
@@ -2858,7 +2857,6 @@ msgstr "Nach &oben"
 
 #: plugins/_core/managerbase.cpp:107
 #: plugins/_core/toolsetupbase.cpp:133
-#, fuzzy
 msgid "&Down"
 msgstr "Nach &unten"
 
@@ -2944,7 +2942,6 @@ msgid "Not in list"
 msgstr "Nicht in Liste"
 
 #: plugins/_core/search.cpp:631
-#, c-format
 msgid ""
 "_n: %n contact found\n"
 "%n contacts found"
@@ -3080,7 +3077,6 @@ msgid "Profile:"
 msgstr "Profile:"
 
 #: plugins/_core/logindlgbase.cpp:130
-#, fuzzy
 msgid "&Save password"
 msgstr "Passwort &speichern"
 
