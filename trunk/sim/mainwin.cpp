@@ -734,7 +734,7 @@ bool MainWindow::init()
     }
     for (;;){
         if (part.size() == 0) break;
-        if (part == string("[Floaty]")){
+        if (part == string("Floaty")){
             UserFloat *uFloat = new UserFloat;
             if (!uFloat->load(fs, part)){
                 delete uFloat;
@@ -748,7 +748,7 @@ bool MainWindow::init()
 #endif
             continue;
         }
-        if (part == string("[UserBox]")){
+        if (part == string("UserBox")){
             UserBox *box = new UserBox;
             if (!box->load(fs, part)){
                 delete box;

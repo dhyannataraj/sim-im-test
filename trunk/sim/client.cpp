@@ -311,7 +311,7 @@ cfgParam Client_Params[] =
 
 void Client::save(ostream &s)
 {
-    ::save(this, Client_Params, s);
+    ::save(static_cast<ICQClient*>(this), Client_Params, s);
     s << "[ContactList]\n";
     ::save(&contacts, ICQContactList_Params, s);
     for (vector<ICQGroup*>::iterator it_grp = contacts.groups.begin(); it_grp != contacts.groups.end(); it_grp++){
@@ -327,7 +327,7 @@ void Client::save(ostream &s)
 
 bool Client::load(istream &s, string &nextPart)
 {
-    if (!::load(this, Client_Params, s, nextPart))
+    if (!::load(static_cast<ICQClient*>(this), Client_Params, s, nextPart))
         return false;
     for (;;){
         if (!strcmp(nextPart.c_str(), "ContactList")){
@@ -402,7 +402,7 @@ Client::Client(QObject *parent, const char *name)
         (*encodings).append(i18n(encodingTbl[i].language) + " ( " + encodingTbl[i].codec + " )");
     }
 #endif
-    ::init(this, Client_Params);
+    ::init(static_cast<ICQClient*>(this), Client_Params);
 }
 
 Client::~Client()
@@ -1212,7 +1212,7 @@ void QClientSocket::slotReadReady()
     if (notify) notify->read_ready();
 }
 
-void QClientSocket::slotBytesWritten(int n)
+void QClientSocket::slotBytesWritten(int)
 {
     slotBytesWritten();
 }
