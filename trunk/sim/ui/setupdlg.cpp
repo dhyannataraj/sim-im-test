@@ -97,7 +97,7 @@ SetupDialog::SetupDialog(QWidget *parent, int nWin)
     addPage(new AcceptDialog(tabBars), 208, i18n("Accept file"), "file");
 
 #ifndef WIN32
-    addPage(new MiscSetup(tabBars), 209, i18n("Miscellanious"), "misc");
+    addPage(new MiscSetup(tabBars), 209, i18n("Miscellaneous"), "misc");
 #endif
 
 #if USE_SPELL

@@ -80,7 +80,7 @@
                     </property>
                     <property>
                         <name>text</name>
-                        <string>Miscellanious</string>
+                        <string>Miscellaneous</string>
                     </property>
                 </widget>
             </hbox>

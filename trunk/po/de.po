@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-07-19 23:55+0400\n"
+"POT-Creation-Date: 2002-07-20 00:26+0400\n"
 "PO-Revision-Date: 2002-07-16 00:31GMT\n"
 "Last-Translator: Crissi <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -858,10 +858,6 @@ msgstr "Warnung"
 msgid "Accept file"
 msgstr "Akzeptiere Datei"
 
-#: ui/miscsetupbase.cpp:106 ui/setupdlg.cpp:100
-msgid "Miscellanious"
-msgstr "Verschiedenes"
-
 #: ui/setupdlg.cpp:107
 msgid "Auto reply"
 msgstr "Automatische Antwort"
@@ -1536,7 +1532,7 @@ msgid "Translation"
 msgstr "Folie"
 
 #: ui/aboutdlgbase.cpp:116
-msgid "Licence"
+msgid "License"
 msgstr ""
 
 #: about.cpp:279
@@ -1546,6 +1542,9 @@ msgstr ""
 #: about.cpp:295
 msgid "This program is distributed under the terms of the GPL v2."
 msgstr ""
+
+#~ msgid "Miscellanious"
+#~ msgstr "Verschiedenes"
 
 #~ msgid "Transfer completed"
 #~ msgstr "Übertragung abgeschlossen"

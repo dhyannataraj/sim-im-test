@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"POT-Creation-Date: 2002-07-19 23:55+0400\n"
-"PO-Revision-Date: 2002-07-20 00:07GMT+3\n"
+"POT-Creation-Date: 2002-07-20 00:26+0400\n"
+"PO-Revision-Date: 2002-07-20 00:27GMT+3\n"
 "Last-Translator: Vladimir Shutoff <shutoff@mail.ru>\n"
 "Language-Team: Русский <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -46,7 +46,7 @@ msgid ""
 "Disturb me later.\n"
 "Only urgent messages, please!\n"
 msgstr ""
-"Проьсба не беспокоить меня\n"
+"Просьба не беспокоить меня\n"
 "Только срочные сообщения, пожалуйста\n"
 
 #: libicq/icqclient.cpp:59
@@ -865,10 +865,6 @@ msgstr "Уведомления"
 msgid "Accept file"
 msgstr "Прием файлов"
 
-#: ui/miscsetupbase.cpp:106 ui/setupdlg.cpp:100
-msgid "Miscellanious"
-msgstr "Различные настройки"
-
 #: ui/setupdlg.cpp:107
 msgid "Auto reply"
 msgstr "Автоответ"
@@ -1542,7 +1538,7 @@ msgid "Translation"
 msgstr "Перевод"
 
 #: ui/aboutdlgbase.cpp:116
-msgid "Licence"
+msgid "License"
 msgstr "Лицензия"
 
 #: about.cpp:279
@@ -1554,6 +1550,9 @@ msgid "This program is distributed under the terms of the GPL v2."
 msgstr ""
 "Эта программа распространяется под "
 "лицензией GPL v2"
+
+#~ msgid "Miscellanious"
+#~ msgstr "Различные настройки"
 
 #~ msgid "Transfer completed"
 #~ msgstr "Передача завершена"

@@ -199,7 +199,7 @@
                 </property>
                 <attribute>
                     <name>title</name>
-                    <string>Licence</string>
+                    <string>License</string>
                 </attribute>
                 <vbox>
                     <property>
