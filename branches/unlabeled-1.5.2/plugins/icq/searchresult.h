@@ -28,7 +28,7 @@ class ICQClient;
 class UserTblItem : public QListViewItem
 {
 public:
-    UserTblItem(QListView *parent, ICQClient *client, struct ICQUserData *data);
+    UserTblItem(QListView *parent, struct ICQUserData *data);
     UserTblItem(QListView *parent, unsigned long uin, const QString &alias);
 protected:
     void init(ICQUserData *data);

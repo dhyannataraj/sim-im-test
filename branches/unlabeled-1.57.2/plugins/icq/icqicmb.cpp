@@ -527,9 +527,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
                 (data->Version.value >= 8) && !data->bBadClient.bValue){
             s.flags  = SEND_UTF;
             s.msg    = msg;
-            s.text   = msg->getPlainText();
-			s.text   = s.text.replace(QRegExp("\r"), "");
-			s.text	 = s.text.replace(QRegExp("\n"), "\r\n");
+            s.text   = addCRLF(msg->getPlainText());
             s.screen = screen(data);
             sendQueue.push_front(s);
             send(false);
@@ -865,7 +863,7 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
             }
         }
         log(L_DEBUG, "Setup reverse connect to %s %s:%u", screen, inet_ntoa(addr), localPort);
-        DirectClient *direct = new DirectClient(data, contact->id(), this);
+        DirectClient *direct = new DirectClient(data, this);
         m_sockets.push_back(direct);
         direct->reverseConnect(localIP, (unsigned short)localPort);
         return;
@@ -1282,8 +1280,8 @@ void ICQClient::sendAutoReply(const char *screen, MessageId id,
     m_socket->writeBuffer.pack(msgType);
     m_socket->writeBuffer << msgFlags << msgState << (char)0;
     if (response){
-        Contact *contact;
-        ICQUserData *data = findContact(screen, NULL, false, contact);
+        Contact *contact = NULL;
+        findContact(screen, NULL, false, contact);
         string r;
         r = getContacts()->fromUnicode(contact, QString::fromUtf8(response));
         unsigned short size = (unsigned short)(r.length() + 1);
@@ -1856,7 +1854,7 @@ void ICQClient::sendType1(const QString &text, bool bWide, ICQUserData *data)
         msgBuf.pack(msg_text.c_str(), msg_text.length());
     }else{
         string msg_text;
-        msg_text = getContacts()->fromUnicode(getContact(m_data), text);
+        msg_text = getContacts()->fromUnicode(getContact(data), text);
         messageSend ms;
         ms.msg  = m_send.msg;
         ms.text = &msg_text;

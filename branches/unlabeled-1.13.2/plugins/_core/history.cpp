@@ -24,6 +24,7 @@
 #include <qfileinfo.h>
 #include <qdir.h>
 #include <qregexp.h>
+#include <qtextcodec.h>
 
 #ifdef WIN32
 static char HISTORY_PATH[] = "history\\";
@@ -57,7 +58,7 @@ private:
 class HistoryFileIterator
 {
 public:
-    HistoryFileIterator(HistoryFile&);
+    HistoryFileIterator(HistoryFile&, unsigned contact);
     ~HistoryFileIterator();
     void createMessage(unsigned id, const char *type, Buffer *cfg);
     void begin();
@@ -70,9 +71,11 @@ public:
     list<Message*>	msgs;
     int				m_block;
     Message			*m_msg;
-    void			loadBlock(bool bUp);
+    bool			loadBlock(bool bUp);
     QString			m_filter;
 private:
+	unsigned		m_contact;
+	QTextCodec		*m_codec;
     HistoryFileIterator(const HistoryFileIterator&);
     void operator = (const HistoryFileIterator&);
 };
@@ -143,11 +146,13 @@ Message *HistoryFile::load(unsigned id)
     return msg;
 }
 
-HistoryFileIterator::HistoryFileIterator(HistoryFile &f)
+HistoryFileIterator::HistoryFileIterator(HistoryFile &f, unsigned contact)
         : file(f)
 {
     m_block = 0;
+	m_codec = NULL;
     m_msg   = NULL;
+	m_contact = contact;
 }
 
 HistoryFileIterator::~HistoryFileIterator()
@@ -157,17 +162,30 @@ HistoryFileIterator::~HistoryFileIterator()
 
 void HistoryFileIterator::createMessage(unsigned id, const char *type, Buffer *cfg)
 {
+    if (!m_filter.isEmpty()){
+		Message m(MessageGeneric, cfg);
+		QString text;
+		if (m.data.Text.ptr && *m.data.Text.ptr)
+			text = QString::fromUtf8(m.data.Text.ptr);
+		if (text.isEmpty()){
+			const char *serverText = m.getServerText();
+			if (*serverText == 0)
+				return;
+			if (m_codec == NULL)
+				m_codec = getContacts()->getCodec(getContacts()->contact(m_contact));
+			text = m_codec->toUnicode(serverText, strlen(serverText));
+		}
+		if (text.isEmpty())
+			return;
+        text = text.lower();
+        if (m.getFlags() & MESSAGE_RICHTEXT)
+			text = text.replace(QRegExp("<[^>]+>"), " ");
+		text = text.replace(QRegExp("  +"), " ");
+        if (text.find(m_filter) < 0)
+            return;
+    }
     Message *msg = ::createMessage(id, type, cfg);
     if (msg){
-        if (!m_filter.isEmpty()){
-            QString p = msg->getText().lower();
-            if (msg->getFlags() & MESSAGE_RICHTEXT)
-                p = p.replace(QRegExp("<[^.]+>"), " ");
-            if (p.find(m_filter) < 0){
-                delete msg;
-                return;
-            }
-        }
         msg->setClient(file.m_name.c_str());
         msg->setContact(file.m_contact);
         msgs.push_back(msg);
@@ -203,8 +221,10 @@ Message *HistoryFileIterator::operator ++()
         delete m_msg;
         m_msg = NULL;
     }
-    if (msgs.empty())
-        loadBlock(true);
+    while (msgs.empty()){
+        if (loadBlock(true))
+			break;
+	}
     if (!msgs.empty()){
         m_msg = msgs.front();
         msgs.pop_front();
@@ -219,8 +239,10 @@ Message *HistoryFileIterator::operator --()
         delete m_msg;
         m_msg = NULL;
     }
-    if (msgs.empty())
-        loadBlock(false);
+    while (msgs.empty()){
+        if (loadBlock(false))
+			break;
+	}
     if (!msgs.empty()){
         m_msg = msgs.back();
         msgs.pop_back();
@@ -229,18 +251,18 @@ Message *HistoryFileIterator::operator --()
     return NULL;
 }
 
-void HistoryFileIterator::loadBlock(bool bUp)
+bool HistoryFileIterator::loadBlock(bool bUp)
 {
     unsigned blockEnd = m_block;
     if (bUp && !file.at(m_block)){
         clear();
-        return;
+        return true;
     }
 	Buffer config;
     for (;;){
         if (bUp){
             if (blockEnd >= file.size())
-                return;
+                return true;
             blockEnd += BLOCK_SIZE;
 			unsigned size = config.size();
 			config.allocate(BLOCK_SIZE, BLOCK_SIZE);
@@ -248,12 +270,12 @@ void HistoryFileIterator::loadBlock(bool bUp)
 			if (readn < 0){
 				log(L_WARN, "Can't read %s", file.name().latin1());
 				clear();
-				return;
+				return true;
 			}
 			config.setSize(size + readn);
         }else{
             if (m_block == 0)
-                return;
+                return true;
 			int block = m_block;
             block -= BLOCK_SIZE;
             if (block < 0)
@@ -261,7 +283,7 @@ void HistoryFileIterator::loadBlock(bool bUp)
             if (!file.at(block)){
 				m_block = 0;
                 clear();
-                return;
+                return true;
             }
 			unsigned size = m_block - block;
 			m_block = block;
@@ -269,10 +291,11 @@ void HistoryFileIterator::loadBlock(bool bUp)
 			if ((unsigned)file.readBlock(config.data(), size) != size){
 				log(L_WARN, "Can't read %s", file.name().latin1());
 				clear();
-				return;
+				return true;
 			}
+			config.setWritePos(0);
         }
-		string type = config.getSection();
+		string type = config.getSection(!bUp && (m_block != 0));
 		if (type.empty())
 			continue;
 		if ((config.writePos() == config.size()) && ((unsigned)file.at() < file.size()))
@@ -281,16 +304,23 @@ void HistoryFileIterator::loadBlock(bool bUp)
 		if (!bUp)
 			m_block += config.startSection();
 		createMessage(id + config.startSection(), type.c_str(), &config);
+		unsigned pos = config.writePos();
 		for (;;){
+			if (!bUp && (id + config.writePos() > blockEnd))
+				break;
 			type = config.getSection();
 			if (type.empty())
 				break;
+			if ((config.writePos() == config.size()) && ((unsigned)file.at() < file.size()))
+				break;
 			createMessage(id + config.startSection(), type.c_str(), &config);
+			pos = config.writePos();
 		}
 		if (bUp)
-			m_block += config.readPos();
+			m_block += pos;
 		break;
 	}
+	return false;
 }
 
 Message *HistoryFileIterator::message()
@@ -338,7 +368,7 @@ HistoryIterator::HistoryIterator(unsigned contact_id)
     m_temp_id = 0;
     m_it = NULL;
     for (list<HistoryFile*>::iterator it = m_history.files.begin(); it != m_history.files.end(); ++it)
-        iters.push_back(new HistoryFileIterator(**it));
+        iters.push_back(new HistoryFileIterator(**it, contact_id));
 }
 
 HistoryIterator::~HistoryIterator()
@@ -505,8 +535,10 @@ Message *HistoryIterator::operator --()
 
 void HistoryIterator::setFilter(const QString &filter)
 {
+	QString f = filter.lower();
+	f = f.replace(QRegExp("  +"), " ");
     for (list<HistoryFileIterator*>::iterator it = iters.begin(); it != iters.end(); ++it)
-        (*it)->m_filter = filter.lower();
+        (*it)->m_filter = f;
 }
 
 Message *History::load(unsigned id, const char *client, unsigned contact)

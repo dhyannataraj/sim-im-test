@@ -22,11 +22,12 @@
 #include <qlineedit.h>
 #include <qcombobox.h>
 
-PastInfo::PastInfo(QWidget *parent, struct ICQUserData *data, ICQClient *client)
+PastInfo::PastInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
         : PastInfoBase(parent)
 {
     m_data   = data;
     m_client = client;
+	m_contact = contact;
     if (m_data){
         edtBg1->setReadOnly(true);
         edtBg2->setReadOnly(true);
@@ -113,7 +114,8 @@ void PastInfo::fill()
     ICQUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
     unsigned i = 0;
-    QString str = m_client->toUnicode(data->Backgrounds.ptr, data);
+	Contact *contact = getContacts()->contact(m_contact);
+    QString str = getContacts()->toUnicode(contact, data->Backgrounds.ptr);
     while (str.length()){
         QString info = getToken(str, ';', false);
         QString n = getToken(info, ',');
@@ -148,7 +150,7 @@ void PastInfo::fill()
         }
     }
     i = 0;
-    str = m_client->toUnicode(data->Affilations.ptr, data);
+    str = getContacts()->toUnicode(contact, data->Affilations.ptr);
     while (str.length()){
         QString info = getToken(str, ';', false);
         QString n = getToken(info, ',');
@@ -274,7 +276,7 @@ void PastInfo::apply(Client *client, void *_data)
             res += ";";
         res += bg[i];
     }
-    set_str(&data->Backgrounds.ptr, m_client->fromUnicode(res, NULL).c_str());
+    set_str(&data->Backgrounds.ptr, getContacts()->fromUnicode(NULL, res).c_str());
     res = "";
     QString af[3];
     af[0] = getInfo(cmbAf1, edtAf1, affilations);
@@ -287,7 +289,7 @@ void PastInfo::apply(Client *client, void *_data)
             res += ";";
         res += af[i];
     }
-    set_str(&data->Affilations.ptr, m_client->fromUnicode(res, NULL).c_str());
+    set_str(&data->Affilations.ptr, getContacts()->fromUnicode(NULL, res).c_str());
 }
 
 QString PastInfo::getInfo(QComboBox *cmb, QLineEdit *edt, const ext_info *info)

@@ -131,7 +131,7 @@ void Buffer::incReadPos(int n)
 
 void Buffer::setSize(unsigned size)
 {
-    if (size >= m_size)
+    if (size >= m_alloc_size)
         return;
     m_size = size;
     if (m_posWrite > m_size)
@@ -658,7 +658,7 @@ string Buffer::getSection(bool bSkip)
 	char *p = data(m_posRead);
 	if (bSkip){
 		for (;;){
-			for (; m_posRead < m_size; p++)
+			for (; m_posRead < m_size; p++, m_posRead++)
 				if ((*p == '\n') || (*p == 0))
 					break;
 			if (m_posRead >= m_size){
@@ -678,7 +678,7 @@ string Buffer::getSection(bool bSkip)
 		}
 		if (*p == '[')
 			break;
-		for (; m_posRead < m_size; p++)
+		for (; m_posRead < m_size; p++, m_posRead++)
 			if ((*p == '\n') || (*p == 0))
 				break;
 		if (m_posRead >= m_size){

@@ -465,7 +465,7 @@ void YahooClient::process_packet()
 class TextParser
 {
 public:
-    TextParser(YahooClient *client, YahooUserData *data);
+    TextParser(YahooClient *client, Contact *contact);
     QString parse(const char *msg);
 
     class Tag
@@ -494,6 +494,7 @@ class FaceSizeParser : public HTMLParser
 protected:
     void addText(const char *str, unsigned size);
     unsigned m_state;
+	Contact *m_contact;
     QString color;
     QString face;
     QString size;
@@ -505,7 +506,6 @@ protected:
     void put_style();
     void push_tag(const QString &tag);
     void pop_tag(const QString &tag);
-    YahooUserData *m_data;
     YahooClient   *m_client;
     QString m_text;
 };
@@ -570,9 +570,9 @@ QString TextParser::Tag::close_tag() const
     return res;
 }
 
-TextParser::TextParser(YahooClient *client, YahooUserData *data)
+TextParser::TextParser(YahooClient *client, Contact *contact)
 {
-    m_data     = data;
+    m_contact  = contact;
     m_client   = client;
     m_bChanged = false;
     m_state    = 0;
@@ -743,8 +743,8 @@ void TextParser::addText(const char *str, unsigned s)
     if (s == 0)
         return;
     QString text;
-    if (m_data){
-        text = m_client->toUnicode(str, m_data);
+    if (m_contact){
+        text = getContacts()->toUnicode(m_contact, str);
     }else{
         text = QString::fromUtf8(str, s);
     }
@@ -790,12 +790,14 @@ void YahooClient::process_message(const char *id, const char *msg, const char *u
     bool bUtf = false;
     if (utf && atol(utf))
         bUtf = true;
-    YahooUserData *data = NULL;
-    if (utf == NULL)
-        data = &this->data.owner;
+    Contact *contact = NULL;
+    if (utf == NULL){
+	    if (findContact(id, NULL, contact) == NULL)
+			contact = getContacts()->owner();
+	}
     Message *m = new Message(MessageGeneric);
     m->setFlags(MESSAGE_RICHTEXT);
-    TextParser parser(this, data);
+    TextParser parser(this, contact);
     m->setText(parser.parse(msg));
     messageReceived(m, id);
 }
@@ -969,10 +971,10 @@ void YahooClient::setStatus(unsigned status)
 void YahooClient::process_file(const char *id, const char *fileName, const char *fileSize, const char *msg, const char *url, const char *msgid)
 {
     YahooFileMessage *m = new YahooFileMessage;
-    m->setDescription(toUnicode(fileName, NULL));
+    m->setDescription(getContacts()->toUnicode(NULL, fileName));
     m->setSize(atol(fileSize));
     m->setUrl(url);
-    m->setMsgText(msg);
+    m->setServerText(msg);
     if (id)
         m->setMsgID(atol(msgid));
     messageReceived(m, id);
@@ -1098,8 +1100,8 @@ void YahooClient::loadList(const char *str)
                     Group *grp = getContacts()->group(contact->getGroup());
                     grpName = grp->getName();
                 }
-                if (grpName != toUnicode(grp.c_str(), NULL))
-                    moveBuddy(data, toUnicode(grp.c_str(), NULL));
+                if (grpName != getContacts()->toUnicode(NULL, grp.c_str()))
+                    moveBuddy(data, getContacts()->toUnicode(NULL, grp.c_str()));
                 data->bChecked.bValue = true;
             }
         }
@@ -1115,7 +1117,7 @@ void YahooClient::loadList(const char *str)
                     Group *grp = getContacts()->group(contact->getGroup());
                     grpName = grp->getName();
                 }
-                if (grpName != toUnicode(data->Group.ptr, NULL))
+                if (grpName != getContacts()->toUnicode(NULL, data->Group.ptr))
                     moveBuddy(data, grpName.utf8());
             }
         }
@@ -1181,11 +1183,11 @@ YahooUserData *YahooClient::findContact(const char *id, const char *grpname, Con
     if (*grpname){
         ContactList::GroupIterator it;
         while ((grp = ++it) != NULL)
-            if (grp->getName() == toUnicode(grpname, NULL))
+            if (grp->getName() == getContacts()->toUnicode(NULL, grpname))
                 break;
         if (grp == NULL){
             grp = getContacts()->group(0, true);
-            grp->setName(toUnicode(grpname, NULL));
+            grp->setName(getContacts()->toUnicode(NULL, grpname));
             Event e(EventGroupChanged, grp);
             e.process();
         }
@@ -1865,7 +1867,7 @@ void *YahooClient::processEvent(Event *e)
     }
     if (e->type() == EventTemplateExpanded){
         TemplateExpand *t = (TemplateExpand*)(e->param());
-        sendStatus(YAHOO_STATUS_CUSTOM, fromUnicode(t->tmpl, NULL).c_str());
+        sendStatus(YAHOO_STATUS_CUSTOM, getContacts()->fromUnicode(NULL, t->tmpl).c_str());
     }
     if (e->type() == EventMessageCancel){
         Message *msg = (Message*)(e->param());
@@ -1928,8 +1930,8 @@ void *YahooClient::processEvent(Event *e)
                     addParam(49, "FILEXFER");
                     addParam(1, getLogin().utf8());
                     addParam(13, "2");
-                    addParam(27, fromUnicode(msg->getDescription(), data).c_str());
-                    addParam(53, fromUnicode(msg->getDescription(), data).c_str());
+                    addParam(27, getContacts()->fromUnicode(contact, msg->getDescription()).c_str());
+                    addParam(53, getContacts()->fromUnicode(contact, msg->getDescription()).c_str());
                     addParam(11, number(msg->getMsgID()).c_str());
                     sendPacket(YAHOO_SERVICE_P2PFILEXFER);
                 }
@@ -2011,7 +2013,9 @@ void YahooClient::sendFile(FileMessage *msg, QFile *file, YahooUserData *data, u
     url += number(port);
     url += "/";
     string nn;
-    string ff = fromUnicode(fn, data);
+	Contact *contact;
+	findContact(data->Login.ptr, NULL, contact);
+    string ff = getContacts()->fromUnicode(contact, fn);
     for (const char *p = ff.c_str(); *p; p++){
         if (((*p >= 'a') && (*p <='z')) || ((*p >= 'A') && (*p < 'Z')) || ((*p >= '0') && (*p <= '9')) || (*p == '.')){
             nn += *p;
@@ -2025,10 +2029,10 @@ void YahooClient::sendFile(FileMessage *msg, QFile *file, YahooUserData *data, u
     addParam(49, "FILEXFER");
     addParam(1, getLogin().utf8());
     addParam(13, "1");
-    addParam(27, fromUnicode(fn, data).c_str());
+    addParam(27, getContacts()->fromUnicode(contact, fn).c_str());
     addParam(28, number(file->size()).c_str());
     addParam(20, url.c_str());
-    addParam(14, fromUnicode(m, data).c_str());
+    addParam(14, getContacts()->fromUnicode(contact, m).c_str());
     addParam(53, nn.c_str());
     addParam(11, number(++m_ft_id).c_str());
     addParam(54, "MSG1.0");
@@ -2081,14 +2085,6 @@ string YahooFileMessage::save()
     return save_data(yahoMessageFile, &data);
 }
 
-QString YahooFileMessage::getText() const
-{
-    const char *serverText = getMsgText();
-    if ((serverText == NULL) || (*serverText == 0))
-        return Message::getText();
-    return YahooClient::toUnicode(serverText, client(), contact());
-}
-
 void YahooPlugin::registerMessages()
 {
     Command cmd;
@@ -2104,87 +2100,6 @@ void YahooPlugin::unregisterMessages()
 {
     Event eFile(EventRemoveMessageType, (void*)MessageYahooFile);
     eFile.process();
-}
-
-QTextCodec *YahooClient::getCodec(const char *encoding)
-{
-    if ((encoding == NULL) || (*encoding == 0))
-        encoding = data.owner.Encoding.ptr;
-    return _getCodec(encoding);
-}
-
-QTextCodec *YahooClient::_getCodec(const char *encoding)
-{
-    QTextCodec *codec = NULL;
-    if (encoding)
-        codec = QTextCodec::codecForName(encoding);
-    if (codec == NULL){
-        codec = QTextCodec::codecForLocale();
-        const ENCODING *e;
-        for (e = YahooPlugin::core->encodings; e->language; e++){
-            if (!strcmp(codec->name(), e->codec))
-                break;
-        }
-        if (e->language && !e->bMain){
-            for (e++; e->language; e++){
-                if (e->bMain){
-                    codec = QTextCodec::codecForName(e->codec);
-                    break;
-                }
-            }
-        }
-        if (codec == NULL)
-            codec= QTextCodec::codecForLocale();
-    }
-    return codec;
-}
-
-QString YahooClient::toUnicode(const char *str, YahooUserData *client_data)
-{
-    if ((str == NULL) || (*str == 0))
-        return QString();
-    if (client_data != NULL)
-    {
-        QTextCodec *codec = getCodec(client_data->Encoding.ptr);
-        return codec->toUnicode(str, strlen(str));
-    }
-    else
-    {
-        QTextCodec *codec = getCodec(NULL);
-        return codec->toUnicode(str, strlen(str));
-    }
-}
-
-string YahooClient::fromUnicode(const QString &str, YahooUserData *client_data)
-{
-    string res;
-    if (str.isEmpty())
-        return res;
-    QString s = str;
-    s.replace(QRegExp("\r"), "");
-    s.replace(QRegExp("\n"), "\r\n");
-    QTextCodec *codec = getCodec(client_data ? client_data->Encoding.ptr : NULL);
-    QCString cstr = codec->fromUnicode(s);
-    res = (const char*)cstr;
-    return res;
-}
-
-QString YahooClient::toUnicode(const char *serverText, const char *clientName, unsigned contactId)
-{
-    Contact *c = getContacts()->contact(contactId);
-    if (c){
-        void *data;
-        ClientDataIterator it(c->clientData);
-        while ((data = ++it) != NULL){
-            if (it.client()->dataName(data) != clientName)
-                continue;
-            QString res = static_cast<YahooClient*>(it.client())->toUnicode(serverText, (YahooUserData*)data);
-            return res.replace(QRegExp("\r"), "");
-        }
-    }
-    QTextCodec *codec = _getCodec(NULL);
-    QString res = codec->toUnicode(serverText, strlen(serverText));
-    return res.replace(QRegExp("\r"), "");
 }
 
 ListRequest *YahooClient::findRequest(const char *name)

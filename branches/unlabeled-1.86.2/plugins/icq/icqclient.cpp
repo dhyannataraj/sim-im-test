@@ -2225,20 +2225,20 @@ QWidget *ICQClient::configWindow(QWidget *parent, unsigned id)
     switch (id){
     case MAIN_INFO:
         if (m_bAIM)
-            return new AIMInfo(parent, NULL, this);
-        return new ICQInfo(parent, NULL, this);
+            return new AIMInfo(parent, NULL, 0, this);
+        return new ICQInfo(parent, NULL, 0, this);
     case HOME_INFO:
-        return new HomeInfo(parent, NULL, this);
+        return new HomeInfo(parent, NULL, 0, this);
     case WORK_INFO:
-        return new WorkInfo(parent, NULL, this);
+        return new WorkInfo(parent, NULL, 0, this);
     case MORE_INFO:
-        return new MoreInfo(parent, NULL, this);
+        return new MoreInfo(parent, NULL, 0, this);
     case ABOUT_INFO:
-        return new AboutInfo(parent, NULL, this);
+        return new AboutInfo(parent, NULL, 0, this);
     case INTERESTS_INFO:
-        return new InterestsInfo(parent, NULL, this);
+        return new InterestsInfo(parent, NULL, 0, this);
     case PAST_INFO:
-        return new PastInfo(parent, NULL, this);
+        return new PastInfo(parent, NULL, 0, this);
     case PICTURE_INFO:
         return new ICQPicture(parent, NULL, this);
     case NETWORK:
@@ -2555,81 +2555,6 @@ void *ICQClient::processEvent(Event *e)
     }
     if (e->type() == EventCheckState){
         CommandDef *cmd = (CommandDef*)(e->param());
-        if (cmd->menu_id == MenuEncoding){
-            if (cmd->id == CmdChangeEncoding){
-                Contact *contact = getContacts()->contact((unsigned)(cmd->param));
-                if (contact == NULL)
-                    return NULL;
-                ClientDataIterator itClient(contact->clientData, this);
-                ICQUserData *data = (ICQUserData*)(++itClient);
-                if (data == NULL)
-                    return NULL;
-                unsigned nEncoding = 3;
-                QStringList main;
-                QStringList nomain;
-                QStringList::Iterator it;
-                const ENCODING *enc;
-                for (enc = ICQPlugin::core->encodings; enc->language; enc++){
-                    if (enc->bMain){
-                        main.append(i18n(enc->language) + " (" + enc->codec + ")");
-                        nEncoding++;
-                        continue;
-                    }
-                    if (!ICQPlugin::core->getShowAllEncodings())
-                        continue;
-                    nomain.append(i18n(enc->language) + " (" + enc->codec + ")");
-                    nEncoding++;
-                }
-                CommandDef *cmds = new CommandDef[nEncoding];
-                memset(cmds, 0, sizeof(CommandDef) * nEncoding);
-                cmd->param = cmds;
-                cmd->flags |= COMMAND_RECURSIVE;
-                nEncoding = 0;
-                cmds[nEncoding].id = 1;
-                cmds[nEncoding].text = I18N_NOOP("System");
-                if (data->Encoding.ptr == NULL)
-                    cmds[nEncoding].flags = COMMAND_CHECKED;
-                nEncoding++;
-                main.sort();
-                for (it = main.begin(); it != main.end(); ++it){
-                    QString str = *it;
-                    int n = str.find('(');
-                    str = str.mid(n + 1);
-                    n = str.find(')');
-                    str = str.left(n);
-                    if (data->Encoding.ptr && !strcmp(data->Encoding.ptr, str.latin1()))
-                        cmds[nEncoding].flags = COMMAND_CHECKED;
-                    cmds[nEncoding].id = nEncoding + 1;
-                    cmds[nEncoding].text = "_";
-                    cmds[nEncoding].text_wrk = strdup((*it).utf8());
-                    nEncoding++;
-                }
-                if (!ICQPlugin::core->getShowAllEncodings())
-                    return e->param();
-                cmds[nEncoding++].text = "_";
-                nomain.sort();
-                for (it = nomain.begin(); it != nomain.end(); ++it){
-                    QString str = *it;
-                    int n = str.find('(');
-                    str = str.mid(n + 1);
-                    n = str.find(')');
-                    str = str.left(n);
-                    if (data->Encoding.ptr && !strcmp(data->Encoding.ptr, str.latin1()))
-                        cmds[nEncoding].flags = COMMAND_CHECKED;
-                    cmds[nEncoding].id = nEncoding;
-                    cmds[nEncoding].text = "_";
-                    cmds[nEncoding].text_wrk = strdup((*it).utf8());
-                    nEncoding++;
-                }
-                return e->param();
-            }
-            if (cmd->id == CmdAllEncodings){
-                cmd->flags &= ~COMMAND_CHECKED;
-                if (ICQPlugin::core->getShowAllEncodings())
-                    cmd->flags |= COMMAND_CHECKED;
-                return e->param();
-            }
-        }
         if (cmd->id == CmdCheckInvisibleAll){
             cmd->flags &= ~COMMAND_CHECKED;
             if ((getState() != Connected) || m_bAIM)
@@ -2732,75 +2657,6 @@ void *ICQClient::processEvent(Event *e)
     }
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
-        if (cmd->menu_id == MenuEncoding){
-            if (cmd->id == CmdAllEncodings){
-                ICQPlugin::core->setShowAllEncodings(!ICQPlugin::core->getShowAllEncodings());
-                return e->param();
-            }
-            Contact *contact = getContacts()->contact((unsigned)(cmd->param));
-            if (contact == NULL)
-                return NULL;
-            QCString codecStr;
-            const char *codec = NULL;
-            if (cmd->id == 1){
-                codec = "";
-            }else{
-                QStringList main;
-                QStringList nomain;
-                QStringList::Iterator it;
-                const ENCODING *enc;
-                for (enc = ICQPlugin::core->encodings; enc->language; enc++){
-                    if (enc->bMain){
-                        main.append(i18n(enc->language) + " (" + enc->codec + ")");
-                        continue;
-                    }
-                    if (!ICQPlugin::core->getShowAllEncodings())
-                        continue;
-                    nomain.append(i18n(enc->language) + " (" + enc->codec + ")");
-                }
-                QString str;
-                main.sort();
-                int n = cmd->id - 1;
-                for (it = main.begin(); it != main.end(); ++it){
-                    if (--n == 0){
-                        str = *it;
-                        break;
-                    }
-                }
-                if (n >= 0){
-                    nomain.sort();
-                    for (it = nomain.begin(); it != nomain.end(); ++it){
-                        if (--n == 0){
-                            str = *it;
-                            break;
-                        }
-                    }
-                }
-                if (!str.isEmpty()){
-                    int n = str.find('(');
-                    str = str.mid(n + 1);
-                    n = str.find(')');
-                    codecStr = str.left(n).latin1();
-                    codec = codecStr;
-                }
-            }
-            if (codec == NULL)
-                return NULL;
-            ICQUserData *data;
-            ClientDataIterator it(contact->clientData, this);
-            bool bChanged = false;
-            while ((data = (ICQUserData*)(++it)) != NULL){
-                if (set_str(&data->Encoding.ptr, codec))
-                    bChanged = true;
-            }
-            if (bChanged){
-                Event eContact(EventContactChanged, contact);
-                eContact.process();
-                Event eh(EventHistoryConfig, (void*)(contact->id()));
-                eh.process();
-            }
-            return NULL;
-        }
         if ((cmd->id == CmdCheckInvisible) ||
                 (cmd->id == CmdCheckInvisibleAll)){
             if (getState() == Connected){
@@ -3214,7 +3070,7 @@ QString ICQClient::contactName(void *clientData)
     ICQUserData *data = (ICQUserData*)clientData;
     res = data->Uin.value ? "ICQ: " : "AIM: ";
     if (data->Nick.ptr && *data->Nick.ptr){
-        res += toUnicode(data->Nick.ptr, data);
+        res += getContacts()->toUnicode(getContact(data), data->Nick.ptr);
         res += " (";
     }
     res += data->Uin.value ? QString::number(data->Uin.value) : QString(data->Screen.ptr);
@@ -3382,6 +3238,13 @@ QString ICQClient::addCRLF(const QString &str)
 {
     QString res = str;
     return res.replace(QRegExp("\r?\n"), "\r\n");
+}
+
+Contact *ICQClient::getContact(ICQUserData *data)
+{
+	Contact *contact = NULL;
+	findContact(screen(data).c_str(), NULL, false, contact);
+	return contact;
 }
 
 #ifndef WIN32

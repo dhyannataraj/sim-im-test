@@ -30,7 +30,6 @@
 AIMInfo::AIMInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
         : AIMInfoBase(parent)
 {
-    m_bInit = false;
     m_client  = client;
     m_data    = data;
 	m_contact = contact;
@@ -63,7 +62,6 @@ void AIMInfo::apply()
     ICQUserData *data = m_data;
     if (data == NULL)
         data = &m_client->data.owner;
-    m_client->getEncoding(cmbEncoding, data, m_data == NULL);
 }
 
 void AIMInfo::apply(Client *client, void *_data)
@@ -216,10 +214,6 @@ void AIMInfo::fill()
 #endif
         edtClient->setText(name.c_str());
     }
-    if (m_bInit)
-        return;
-    m_bInit = true;
-    m_client->fillEncoding(cmbEncoding, data);
 }
 
 #ifndef WIN32

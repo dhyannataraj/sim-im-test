@@ -1099,12 +1099,12 @@ public:
     const char *client() const { return m_client.c_str(); }
     void setClient(const char *client);
     virtual QString presentation();
+    MessageData	data;
 protected:
     unsigned	m_id;
     unsigned	m_contact;
     unsigned	m_type;
     string		m_client;
-    MessageData	data;
 };
 
 typedef struct MessageSMSData

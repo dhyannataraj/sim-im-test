@@ -47,7 +47,6 @@ const ext_info *p_chat_groups = chat_groups;
 ICQInfo::ICQInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
         : ICQInfoBase(parent)
 {
-    m_bInit		= false;
     m_client	= client;
     m_data		= data;
 	m_contact	= contact;
@@ -77,7 +76,6 @@ void ICQInfo::apply()
         data = &m_client->data.owner;
         m_client->setRandomChatGroup(getComboValue(cmbRandom, chat_groups));
     }
-    m_client->getEncoding(cmbEncoding, data, m_data == NULL);
 }
 
 void ICQInfo::apply(Client *client, void *_data)
@@ -118,9 +116,10 @@ void ICQInfo::fill()
     if (data == NULL) data = &m_client->data.owner;
 
     edtUin->setText(QString::number(data->Uin.value));
-    edtFirst->setText(m_client->toUnicode(data->FirstName.ptr, data));
-    edtLast->setText(m_client->toUnicode(data->LastName.ptr, data));
-    edtNick->setText(m_client->toUnicode(data->Nick.ptr, data));
+	Contact *contact = getContacts()->contact(m_contact);
+    edtFirst->setText(getContacts()->toUnicode(contact, data->FirstName.ptr));
+    edtLast->setText(getContacts()->toUnicode(contact, data->LastName.ptr));
+    edtNick->setText(getContacts()->toUnicode(contact, data->Nick.ptr));
 
     if (m_data == NULL){
         if (edtFirst->text().isEmpty())
@@ -151,7 +150,7 @@ void ICQInfo::fill()
         initCombo(cmbRandom, m_client->getRandomChatGroup(), chat_groups);
     }
     if ((status != STATUS_ONLINE) && (status != STATUS_OFFLINE) && m_data){
-        edtAutoReply->setText(m_client->toUnicode(m_data->AutoReply.ptr, m_data));
+        edtAutoReply->setText(getContacts()->toUnicode(getContacts()->contact(m_contact), m_data->AutoReply.ptr));
     }else{
         edtAutoReply->hide();
     }
@@ -221,114 +220,6 @@ void ICQInfo::fill()
         name += "/win32";
 #endif
         edtClient->setText(name.c_str());
-    }
-
-    if (m_bInit)
-        return;
-    m_bInit = true;
-    m_client->fillEncoding(cmbEncoding, data);
-}
-
-void ICQClient::fillEncoding(QComboBox *cmbEncoding, ICQUserData *data)
-{
-    int current = 0;
-    int n_item = 1;
-    cmbEncoding->clear();
-    cmbEncoding->insertItem("Default");
-    QStringList l;
-    const ENCODING *e;
-    QStringList main;
-    QStringList::Iterator it;
-    for (e = ICQPlugin::core->encodings; e->language; e++){
-        if (!e->bMain)
-            continue;
-        main.append(i18n(e->language) + " (" + e->codec + ")");
-    }
-    main.sort();
-    for (it = main.begin(); it != main.end(); ++it, n_item++){
-        QString str = *it;
-        int n = str.find('(');
-        str = str.mid(n + 1);
-        n = str.find(')');
-        str = str.left(n);
-        if (data->Encoding.ptr && !strcmp(data->Encoding.ptr, str.latin1()))
-            current = n_item;
-        cmbEncoding->insertItem(*it);
-    }
-    QStringList noMain;
-    for (e = ICQPlugin::core->encodings; e->language; e++){
-        if (e->bMain)
-            continue;
-        noMain.append(i18n(e->language) + " (" + e->codec + ")");
-    }
-    noMain.sort();
-    for (it = noMain.begin(); it != noMain.end(); ++it, n_item++){
-        QString str = *it;
-        int n = str.find('(');
-        str = str.mid(n + 1);
-        n = str.find(')');
-        str = str.left(n);
-        if (data->Encoding.ptr && !strcmp(data->Encoding.ptr, str.latin1()))
-            current = n_item;
-        cmbEncoding->insertItem(*it);
-    }
-    cmbEncoding->setCurrentItem(current);
-}
-
-void ICQClient::getEncoding(QComboBox *cmbEncoding, ICQUserData *data, bool bDefault)
-{
-    string encoding;
-    int n = cmbEncoding->currentItem();
-    QString t = cmbEncoding->currentText();
-    if (n){
-        n--;
-        QStringList l;
-        const ENCODING *e;
-        QStringList main;
-        for (e = ICQPlugin::core->encodings; e->language; e++){
-            if (!e->bMain)
-                continue;
-            main.append(i18n(e->language) + " (" + e->codec + ")");
-        }
-        main.sort();
-        QStringList::Iterator it;
-        for (it = main.begin(); it != main.end(); ++it){
-            l.append(*it);
-        }
-        QStringList noMain;
-        for (e = ICQPlugin::core->encodings; e->language; e++){
-            if (e->bMain)
-                continue;
-            noMain.append(i18n(e->language) + " (" + e->codec + ")");
-        }
-        noMain.sort();
-        for (it = noMain.begin(); it != noMain.end(); ++it){
-            l.append(*it);
-        }
-        for (it = l.begin(); it != l.end(); ++it){
-            if (n-- == 0){
-                QString str = *it;
-                int n = str.find('(');
-                str = str.mid(n + 1);
-                n = str.find(')');
-                str = str.left(n);
-                encoding = str.latin1();
-                break;
-            }
-        }
-    }
-    if (bDefault)
-        ICQPlugin::core->setDefaultEncoding(encoding.c_str());
-    if (!set_str(&data->Encoding.ptr, encoding.c_str()))
-        return;
-    Contact *contact;
-    if (data->Uin.value ?
-            findContact(number(data->Uin.value).c_str(), NULL, false, contact) :
-            findContact(data->Screen.ptr, NULL, false, contact)){
-        Event e(EventContactChanged, contact);
-        e.process();
-        Event eh(EventHistoryConfig, (void*)(contact->id()));
-        eh.process();
     }
 }
 

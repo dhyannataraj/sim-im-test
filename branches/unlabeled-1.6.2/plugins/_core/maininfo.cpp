@@ -66,6 +66,7 @@ MainInfo::MainInfo(QWidget *parent, Contact *contact)
         : MainInfoBase(parent)
 {
     m_contact = contact;
+	m_bInit   = false;
     cmbDisplay->setEditable(true);
     lstMails->addColumn(i18n("EMail"));
     lstPhones->addColumn(i18n("Type"));
@@ -257,10 +258,13 @@ void MainInfo::fill()
     }
     connect(lstPhones, SIGNAL(selectionChanged()), this, SLOT(phoneSelectionChanged()));
     phoneSelectionChanged();
+	if (!m_bInit)
+		fillEncoding();
 }
 
 void MainInfo::apply()
 {
+	getEncoding();
     Contact *contact = m_contact;
     if (contact == NULL){
         contact = getContacts()->owner();
@@ -486,6 +490,109 @@ void MainInfo::fillCurrentCombo()
         cmbCurrent->insertItem(phone);
     }
     cmbCurrent->setCurrentItem(cur);
+}
+
+void MainInfo::fillEncoding()
+{
+	m_bInit = true;
+    int current = 0;
+    int n_item = 1;
+    cmbEncoding->clear();
+    cmbEncoding->insertItem("Default");
+    QStringList l;
+    const ENCODING *e;
+    QStringList main;
+    QStringList::Iterator it;
+    for (e = getContacts()->getEncodings(); e->language; e++){
+        if (!e->bMain)
+            continue;
+        main.append(i18n(e->language) + " (" + e->codec + ")");
+    }
+    main.sort();
+	Contact *contact = m_contact;
+	if (contact == NULL)
+		contact = getContacts()->owner();
+    for (it = main.begin(); it != main.end(); ++it, n_item++){
+        QString str = *it;
+        int n = str.find('(');
+        str = str.mid(n + 1);
+        n = str.find(')');
+        str = str.left(n);
+        if (str == contact->getEncoding())
+            current = n_item;
+        cmbEncoding->insertItem(*it);
+    }
+    QStringList noMain;
+    for (e = getContacts()->getEncodings(); e->language; e++){
+        if (e->bMain)
+            continue;
+        noMain.append(i18n(e->language) + " (" + e->codec + ")");
+    }
+    noMain.sort();
+    for (it = noMain.begin(); it != noMain.end(); ++it, n_item++){
+        QString str = *it;
+        int n = str.find('(');
+        str = str.mid(n + 1);
+        n = str.find(')');
+        str = str.left(n);
+        if (str.latin1() == contact->getEncoding())
+            current = n_item;
+        cmbEncoding->insertItem(*it);
+    }
+    cmbEncoding->setCurrentItem(current);
+}
+
+void MainInfo::getEncoding()
+{
+    string encoding;
+    int n = cmbEncoding->currentItem();
+    QString t = cmbEncoding->currentText();
+	Contact *contact = m_contact;
+	if (contact == NULL)
+		contact = getContacts()->owner();
+    if (n){
+        n--;
+        QStringList l;
+        const ENCODING *e;
+        QStringList main;
+        for (e = getContacts()->getEncodings(); e->language; e++){
+            if (!e->bMain)
+                continue;
+            main.append(i18n(e->language) + " (" + e->codec + ")");
+        }
+        main.sort();
+        QStringList::Iterator it;
+        for (it = main.begin(); it != main.end(); ++it){
+            l.append(*it);
+        }
+        QStringList noMain;
+        for (e = getContacts()->getEncodings(); e->language; e++){
+            if (e->bMain)
+                continue;
+            noMain.append(i18n(e->language) + " (" + e->codec + ")");
+        }
+        noMain.sort();
+        for (it = noMain.begin(); it != noMain.end(); ++it){
+            l.append(*it);
+        }
+        for (it = l.begin(); it != l.end(); ++it){
+            if (n-- == 0){
+                QString str = *it;
+                int n = str.find('(');
+                str = str.mid(n + 1);
+                n = str.find(')');
+                str = str.left(n);
+                encoding = str.latin1();
+                break;
+            }
+        }
+    }
+    if (!contact->setEncoding(encoding.c_str()))
+        return;
+     Event e(EventContactChanged, contact);
+        e.process();
+        Event eh(EventHistoryConfig, (void*)(contact->id()));
+        eh.process();
 }
 
 #ifndef WIN32

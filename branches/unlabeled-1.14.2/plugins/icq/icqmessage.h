@@ -91,7 +91,6 @@ public:
     PROP_ULONG(ID_H);
     PROP_ULONG(Cookie);
     PROP_ULONG(Extended);
-    virtual QString getText() const;
     virtual QString getDescription();
     virtual string  save();
     virtual unsigned baseType() { return MessageFile; }

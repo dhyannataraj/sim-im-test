@@ -32,11 +32,8 @@ public slots:
     void apply();
     void apply(Client*, void*);
 protected:
-    void fillEncoding(struct YahooUserData *data);
-    void getEncoding(struct YahooUserData *data, bool bDefault);
     void *processEvent(Event *e);
     void fill();
-    bool m_bInit;
     struct YahooUserData *m_data;
     YahooClient *m_client;
 };

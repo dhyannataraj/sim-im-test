@@ -32,7 +32,7 @@ const unsigned COL_NAME		= 2;
 const unsigned COL_FIRST	= 3;
 const unsigned COL_LAST		= 4;
 
-UserTblItem::UserTblItem(QListView *parent, ICQClient *client, ICQUserData *data)
+UserTblItem::UserTblItem(QListView *parent, ICQUserData *data)
         : QListViewItem(parent)
 {
     mUin = data->Uin.value;
@@ -44,7 +44,7 @@ UserTblItem::UserTblItem(QListView *parent, ICQClient *client, ICQUserData *data
     }else{
         setText(COL_SCREEN, data->Screen.ptr);
     }
-    init(client, data);
+    init(data);
 }
 
 UserTblItem::UserTblItem(QListView *parent, unsigned long uin, const QString &alias)
@@ -60,10 +60,9 @@ UserTblItem::UserTblItem(QListView *parent, unsigned long uin, const QString &al
         Client *c = getContacts()->getClient(n);
         if (c->protocol() != ICQPlugin::m_icq)
             continue;
-        ICQClient *client = static_cast<ICQClient*>(c);
         ICQUserData *data = static_cast<ICQClient*>(c)->findContact(number(uin).c_str(), NULL, false, contact);
         if (data){
-            init(client, data);
+            init(data);
             break;
         }
     }
@@ -199,7 +198,7 @@ void *ICQSearchResult::processEvent(Event *e)
             SearchResult *result = (SearchResult*)(e->param());
             if ((result->client == m_client) && (
                         (result->id == m_id1) || (result->id == m_id2))){
-                new UserTblItem(tblUser, m_client, &result->data);
+                new UserTblItem(tblUser, &result->data);
                 m_nFound++;
                 setStatus();
             }

@@ -957,15 +957,15 @@ QString RTF2HTML::Parse(const char *rtf, const char *_encoding)
     return s;
 }
 
-bool ICQClient::parseRTF(const char *rtf, const char *encoding, QString &res)
+bool ICQClient::parseRTF(const char *rtf, Contact *contact, QString &res)
 {
 	char _RTF[] = "{\\rtf";
+	QTextCodec *codec = getContacts()->getCodec(contact);
 	if ((strlen(rtf) > strlen(_RTF)) && !memcmp(rtf, _RTF, strlen(_RTF))){
 		RTF2HTML p;
-		res = p.Parse(rtf, encoding);
+		res = p.Parse(rtf, codec->name());
 		return true;
 	}
-	QTextCodec *codec = getContacts()->getCodecByName(encoding);
 	res = codec->toUnicode(rtf, strlen(rtf));
 	return false;
 }

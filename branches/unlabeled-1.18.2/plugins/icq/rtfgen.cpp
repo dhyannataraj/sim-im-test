@@ -314,17 +314,16 @@ int RTFGenParser::getFontFaceIdx(const QString& fontFace)
 string RTFGenParser::parse(const QString &text)
 {
     res = "";
-    m_codec = m_client->getCodec(m_encoding);
-    m_encoding = m_codec->name();
+    m_codec = getContacts()->getCodec(m_contact);
     int charset = 0;
-    for (const ENCODING *c = ICQPlugin::core->encodings; c->language; c++){
-        if (!strcasecmp(c->codec, m_encoding)){
+    for (const ENCODING *c = getContacts()->getEncodings(); c->language; c++){
+        if (!strcasecmp(c->codec, m_codec->name())){
             charset = c->rtf_code;
             break;
         }
     }
 #ifdef WIN32
-    if ((charset == 0) && !strcasecmp(m_encoding, "system")){
+    if ((charset == 0) && !strcasecmp(m_codec->name(), "system")){
         char buff[256];
         int res = GetLocaleInfoA(LOCALE_USER_DEFAULT, LOCALE_IDEFAULTANSICODEPAGE, (char*)&buff, sizeof(buff));
         if (res){
@@ -342,10 +341,10 @@ string RTFGenParser::parse(const QString &text)
     const char *send_encoding = 0;
     m_codec = NULL;
     if (charset){
-        for (const ENCODING *c = ICQPlugin::core->encodings; c->language; c++){
+        for (const ENCODING *c = getContacts()->getEncodings(); c->language; c++){
             if ((c->rtf_code == charset) && c->bMain){
                 send_encoding = c->codec;
-                m_codec = m_client->getCodec(send_encoding);
+                m_codec = getContacts()->getCodecByName(send_encoding);
                 ansicpg = c->cp_code;
                 break;
             }

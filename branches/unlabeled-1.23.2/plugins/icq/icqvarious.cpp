@@ -1217,7 +1217,7 @@ void ICQClient::setClientInfo(void *_data)
         if (mailItem.length())
             s += '-';
         if (d->EMail.ptr == NULL){
-            set_str(&d->EMail.ptr, fromUnicode(mail, NULL).c_str());
+            set_str(&d->EMail.ptr, getContacts()->fromUnicode(NULL, mail).c_str());
             d->HiddenEMail.bValue = !mailItem.isEmpty();
         }
     }
@@ -1417,7 +1417,7 @@ void ICQClient::changePassword(const char *new_pswd)
     serverRequest(ICQ_SRVxREQ_MORE);
     m_socket->writeBuffer
     << ICQ_SRVxREQ_CHANGE_PASSWD
-    << fromUnicode(pwd, NULL);
+    << getContacts()->fromUnicode(NULL, pwd);
     sendServerRequest();
     varRequests.push_back(new SetPasswordRequest(this, m_nMsgSequence, new_pswd));
 }

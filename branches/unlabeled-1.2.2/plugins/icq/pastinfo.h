@@ -27,7 +27,7 @@ class PastInfo : public PastInfoBase, public EventReceiver
 {
     Q_OBJECT
 public:
-    PastInfo(QWidget *parent, struct ICQUserData *data, ICQClient *client);
+    PastInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client);
 public slots:
     void apply();
     void apply(Client*, void*);
@@ -38,6 +38,7 @@ protected:
     QString getInfo(QComboBox *cmb, QLineEdit *edt, const ext_info*);
     void fill();
     struct ICQUserData *m_data;
+	unsigned  m_contact;
     ICQClient *m_client;
 };
 

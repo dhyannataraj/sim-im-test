@@ -35,7 +35,6 @@ protected:
     void *processEvent(Event *e);
     void fill();
     struct ICQUserData *m_data;
-    bool m_bInit;
 	unsigned  m_contact;
     ICQClient *m_client;
 };

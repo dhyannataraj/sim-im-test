@@ -57,6 +57,7 @@
 #include <qdir.h>
 #include <qpopupmenu.h>
 #include <qthread.h>
+#include <qtextcodec.h>
 
 #include <time.h>
 
@@ -509,6 +510,8 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     eMenuPhoneList.process();
     Event eMenuStatusWnd(EventMenuCreate, (void*)MenuStatusWnd);
     eMenuStatusWnd.process();
+    Event eMenuEncoding(EventMenuCreate, (void*)MenuEncoding);
+    eMenuEncoding.process();
 
     Command cmd;
     cmd->id          = CmdConfigure;
@@ -1333,6 +1336,38 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->icon		= NULL;
     cmd->menu_id	= MenuStatusWnd;
     eCmd.process();
+
+    cmd->id			 = CmdChangeEncoding;
+    cmd->text		 = "_";
+    cmd->menu_id	 = MenuEncoding;
+    cmd->menu_grp	 = 0x1000;
+    eCmd.process();
+
+    cmd->id			 = CmdAllEncodings;
+    cmd->text		 = I18N_NOOP("&Show all encodings");
+    cmd->menu_id	 = MenuEncoding;
+    cmd->menu_grp	 = 0x8000;
+    eCmd.process();
+
+    cmd->id			 = CmdChangeEncoding;
+    cmd->text		 = I18N_NOOP("Change &encoding");
+    cmd->icon		 = "encoding";
+    cmd->menu_id	 = 0;
+    cmd->menu_grp	 = 0;
+    cmd->bar_id		 = ToolBarContainer;
+    cmd->bar_grp	 = 0x8080;
+    cmd->popup_id	 = MenuEncoding;
+    eCmd.process();
+
+    cmd->id			 = CmdChangeEncoding;
+    cmd->text		 = I18N_NOOP("Change &encoding");
+    cmd->icon		 = "encoding";
+    cmd->menu_id	 = 0;
+    cmd->menu_grp	 = 0;
+    cmd->bar_id		 = BarHistory;
+    cmd->bar_grp	 = 0x8080;
+    cmd->popup_id	 = MenuEncoding;
+    eCmd.process();
 }
 
 void CorePlugin::initData()
@@ -1568,6 +1603,11 @@ static const char *helpList[] =
         I18N_NOOP("time from set status"),
         NULL,
     };
+
+#if 0
+I18N_NOOP("%1 wrote:", "male")
+I18N_NOOP("%1 wrote:", "female")
+#endif
 
 void *CorePlugin::processEvent(Event *e)
 {
@@ -2133,6 +2173,78 @@ void *CorePlugin::processEvent(Event *e)
         }
     case EventCheckState:{
             CommandDef *cmd = (CommandDef*)(e->param());
+        if (cmd->menu_id == MenuEncoding){
+            if (cmd->id == CmdChangeEncoding){
+                Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                if (contact == NULL)
+                    return NULL;
+				QTextCodec *codec = getContacts()->getCodec(contact);
+                unsigned nEncoding = 3;
+                QStringList main;
+                QStringList nomain;
+                QStringList::Iterator it;
+                const ENCODING *enc;
+                for (enc = getContacts()->getEncodings(); enc->language; enc++){
+                    if (enc->bMain){
+                        main.append(i18n(enc->language) + " (" + enc->codec + ")");
+                        nEncoding++;
+                        continue;
+                    }
+                    if (!getShowAllEncodings())
+                        continue;
+                    nomain.append(i18n(enc->language) + " (" + enc->codec + ")");
+                    nEncoding++;
+                }
+                CommandDef *cmds = new CommandDef[nEncoding];
+                memset(cmds, 0, sizeof(CommandDef) * nEncoding);
+                cmd->param = cmds;
+                cmd->flags |= COMMAND_RECURSIVE;
+                nEncoding = 0;
+                cmds[nEncoding].id = 1;
+                cmds[nEncoding].text = I18N_NOOP("System");
+                if (!strcmp(codec->name(), "System"))
+                    cmds[nEncoding].flags = COMMAND_CHECKED;
+                nEncoding++;
+                main.sort();
+                for (it = main.begin(); it != main.end(); ++it){
+                    QString str = *it;
+                    int n = str.find('(');
+                    str = str.mid(n + 1);
+                    n = str.find(')');
+                    str = str.left(n);
+                    if (str == codec->name())
+                        cmds[nEncoding].flags = COMMAND_CHECKED;
+                    cmds[nEncoding].id = nEncoding + 1;
+                    cmds[nEncoding].text = "_";
+                    cmds[nEncoding].text_wrk = strdup((*it).utf8());
+                    nEncoding++;
+                }
+                if (!getShowAllEncodings())
+                    return e->param();
+                cmds[nEncoding++].text = "_";
+                nomain.sort();
+                for (it = nomain.begin(); it != nomain.end(); ++it){
+                    QString str = *it;
+                    int n = str.find('(');
+                    str = str.mid(n + 1);
+                    n = str.find(')');
+                    str = str.left(n);
+                    if (str == codec->name())
+                        cmds[nEncoding].flags = COMMAND_CHECKED;
+                    cmds[nEncoding].id = nEncoding;
+                    cmds[nEncoding].text = "_";
+                    cmds[nEncoding].text_wrk = strdup((*it).utf8());
+                    nEncoding++;
+                }
+                return e->param();
+            }
+            if (cmd->id == CmdAllEncodings){
+                cmd->flags &= ~COMMAND_CHECKED;
+                if (getShowAllEncodings())
+                    cmd->flags |= COMMAND_CHECKED;
+                return e->param();
+            }
+        }
             if (cmd->id == CmdEnableSpell){
                 cmd->flags &= ~COMMAND_CHECKED;
                 if (getEnableSpell())
@@ -2713,6 +2825,75 @@ void *CorePlugin::processEvent(Event *e)
         }
     case EventCommandExec:{
             CommandDef *cmd = (CommandDef*)(e->param());
+        if (cmd->menu_id == MenuEncoding){
+            if (cmd->id == CmdAllEncodings){
+				Command c;
+				c->id     = CmdChangeEncoding;
+				c->param  = cmd->param;
+				Event eWidget(EventCommandWidget, c);
+				QToolButton *btn = (QToolButton*)(eWidget.process());
+				if (btn)
+					QTimer::singleShot(0, btn, SLOT(animateClick()));
+                setShowAllEncodings(!getShowAllEncodings());
+                return e->param();
+            }
+            Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+            if (contact == NULL)
+                return NULL;
+            QCString codecStr;
+            const char *codec = NULL;
+            if (cmd->id == 1){
+                codec = "-";
+            }else{
+                QStringList main;
+                QStringList nomain;
+                QStringList::Iterator it;
+                const ENCODING *enc;
+                for (enc = getContacts()->getEncodings(); enc->language; enc++){
+                    if (enc->bMain){
+                        main.append(i18n(enc->language) + " (" + enc->codec + ")");
+                        continue;
+                    }
+                    if (!getShowAllEncodings())
+                        continue;
+                    nomain.append(i18n(enc->language) + " (" + enc->codec + ")");
+                }
+                QString str;
+                main.sort();
+                int n = cmd->id - 1;
+                for (it = main.begin(); it != main.end(); ++it){
+                    if (--n == 0){
+                        str = *it;
+                        break;
+                    }
+                }
+                if (n >= 0){
+                    nomain.sort();
+                    for (it = nomain.begin(); it != nomain.end(); ++it){
+                        if (--n == 0){
+                            str = *it;
+                            break;
+                        }
+                    }
+                }
+                if (!str.isEmpty()){
+                    int n = str.find('(');
+                    str = str.mid(n + 1);
+                    n = str.find(')');
+                    codecStr = str.left(n).latin1();
+                    codec = codecStr;
+                }
+            }
+            if (codec == NULL)
+                return NULL;
+            if (contact->setEncoding(codec)){
+                Event eContact(EventContactChanged, contact);
+                eContact.process();
+                Event eh(EventHistoryConfig, (void*)(contact->id()));
+                eh.process();
+            }
+            return NULL;
+        }
             if (cmd->id == CmdEnableSpell){
                 setEnableSpell(cmd->flags & COMMAND_CHECKED);
                 return NULL;
@@ -2773,7 +2954,7 @@ void *CorePlugin::processEvent(Event *e)
                         Contact *contact = getContacts()->contact(msg->contact());
                         if (contact)
                             name = contact->getName();
-                        p = i18n("%1 wrote:") .arg(name) + "\n" + p;
+                        p = g_i18n("%1 wrote:", contact) .arg(name) + "\n" + p;
                         m->setFlags(MESSAGE_FORWARD);
                     }else{
                         m->setFlags(MESSAGE_INSERT);

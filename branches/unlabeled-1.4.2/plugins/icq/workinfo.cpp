@@ -109,7 +109,7 @@ void WorkInfo::fill()
     edtAddress->setText(getContacts()->toUnicode(contact, data->WorkAddress.ptr));
     edtCity->setText(getContacts()->toUnicode(contact, data->WorkCity.ptr));
     edtState->setText(getContacts()->toUnicode(contact, data->WorkState.ptr));
-    edtZip->setText(getContacts()->toUnicode(contact, data->WorkZip.ptr))
+    edtZip->setText(getContacts()->toUnicode(contact, data->WorkZip.ptr));
     initCombo(cmbCountry, (unsigned short)(data->WorkCountry.value), getCountries());
     initCombo(cmbOccupation, (unsigned short)(data->Occupation.value), occupations);
     edtName->setText(getContacts()->toUnicode(contact, data->WorkName.ptr));
@@ -138,16 +138,16 @@ void WorkInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = (ICQUserData*)_data;
-    set_str(&data->WorkAddress.ptr, m_client->fromUnicode(edtAddress->text(), NULL).c_str());
-    set_str(&data->WorkCity.ptr, m_client->fromUnicode(edtCity->text(), NULL).c_str());
-    set_str(&data->WorkState.ptr, m_client->fromUnicode(edtState->text(), NULL).c_str());
-    set_str(&data->WorkZip.ptr, m_client->fromUnicode(edtZip->text(), NULL).c_str());
+    set_str(&data->WorkAddress.ptr, getContacts()->fromUnicode(NULL, edtAddress->text()).c_str());
+    set_str(&data->WorkCity.ptr, getContacts()->fromUnicode(NULL, edtCity->text()).c_str());
+    set_str(&data->WorkState.ptr, getContacts()->fromUnicode(NULL, edtState->text()).c_str());
+    set_str(&data->WorkZip.ptr, getContacts()->fromUnicode(NULL, edtZip->text()).c_str());
     data->WorkCountry.value = getComboValue(cmbCountry, getCountries());
     data->Occupation.value = getComboValue(cmbOccupation, occupations);
-    set_str(&data->WorkName.ptr, m_client->fromUnicode(edtName->text(), NULL).c_str());
-    set_str(&data->WorkDepartment.ptr, m_client->fromUnicode(edtDept->text(), NULL).c_str());
-    set_str(&data->WorkPosition.ptr, m_client->fromUnicode(edtPosition->text(), NULL).c_str());
-    set_str(&data->WorkHomepage.ptr, m_client->fromUnicode(edtSite->text(), NULL).c_str());
+    set_str(&data->WorkName.ptr, getContacts()->fromUnicode(NULL, edtName->text()).c_str());
+    set_str(&data->WorkDepartment.ptr, getContacts()->fromUnicode(NULL, edtDept->text()).c_str());
+    set_str(&data->WorkPosition.ptr, getContacts()->fromUnicode(NULL, edtPosition->text()).c_str());
+    set_str(&data->WorkHomepage.ptr, getContacts()->fromUnicode(NULL, edtSite->text()).c_str());
 }
 
 #ifndef WIN32

@@ -522,7 +522,7 @@ public:
     Message *parseMessage(unsigned short type, const char *screen,
                           string &p, Buffer &packet, MessageId &id, unsigned cookie);
     bool messageReceived(Message*, const char *screen);
-    static bool parseRTF(const char *str, const char *encoding, QString &result);
+    static bool parseRTF(const char *str, Contact *contact, QString &result);
     static QString pictureFile(ICQUserData *data);
     static const capability *capabilities;
     static const plugin *plugins;
@@ -532,8 +532,7 @@ public:
     static unsigned warnLevel(unsigned short);
     static unsigned clearTags(QString &text);
     bool m_bAIM;
-    void fillEncoding(QComboBox *cmb, ICQUserData *data);
-    void getEncoding(QComboBox *cmb, ICQUserData *data, bool bDefault);
+	static QString ICQClient::addCRLF(const QString &str);
 protected slots:
     void ping();
     void infoRequest();
@@ -800,7 +799,7 @@ class DirectClient : public DirectSocket
 {
 public:
     DirectClient(Socket *s, ICQClient *client, unsigned long ip);
-    DirectClient(ICQUserData *data, unsigned contact, ICQClient *client, unsigned channel = PLUGIN_NULL);
+    DirectClient(ICQUserData *data, ICQClient *client, unsigned channel = PLUGIN_NULL);
     ~DirectClient();
     bool sendMessage(Message*);
     void acceptMessage(Message*);
@@ -821,7 +820,6 @@ protected:
     };
     State       m_state;
     unsigned    m_channel;
-	unsigned	m_contact;
     void processPacket();
     void connect_ready();
     bool error_state(const char *err, unsigned code);

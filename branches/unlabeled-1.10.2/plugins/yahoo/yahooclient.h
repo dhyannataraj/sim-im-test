@@ -167,8 +167,6 @@ public:
     YahooClientData	data;
     virtual void contactInfo(void *_data, unsigned long &status, unsigned &style, const char *&statusIcon, string *icons = NULL);
     YahooUserData *findContact(const char *id, const char *grp, Contact *&contact, bool bSend=true);
-    QString toUnicode(const char *str, YahooUserData *client_data);
-    string  fromUnicode(const QString &str, YahooUserData *client_data);
     void sendFile(FileMessage *msg, QFile *file, YahooUserData *data, unsigned short port);
     list<Message_ID>	m_waitMsg;
     list<Message*>		m_ackMsg;

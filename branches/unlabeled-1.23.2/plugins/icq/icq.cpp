@@ -17,7 +17,6 @@
 
 #include "icq.h"
 #include "icqconfig.h"
-#include "simapi.h"
 #include "core.h"
 
 #include "xpm/birthday.xpm"
@@ -426,8 +425,6 @@ ICQPlugin::ICQPlugin(unsigned base)
     m_icq = new ICQProtocol(this);
     m_aim = new AIMProtocol(this);
 
-    Event eMenuEncoding(EventMenuCreate, (void*)MenuEncoding);
-    eMenuEncoding.process();
     Event eMenuSearch(EventMenuCreate, (void*)MenuSearchResult);
     eMenuSearch.process();
     Event eMenuGroups(EventMenuCreate, (void*)MenuIcqGroups);
@@ -448,38 +445,6 @@ ICQPlugin::ICQPlugin(unsigned base)
     cmd->id			 = CmdInvisibleList;
     cmd->text		 = I18N_NOOP("Invisible list");
     cmd->menu_grp	 = 0x8011;
-    eCmd.process();
-
-    cmd->id			 = CmdChangeEncoding;
-    cmd->text		 = "_";
-    cmd->menu_id	 = MenuEncoding;
-    cmd->menu_grp	 = 0x1000;
-    eCmd.process();
-
-    cmd->id			 = CmdAllEncodings;
-    cmd->text		 = I18N_NOOP("&Show all encodings");
-    cmd->menu_id	 = MenuEncoding;
-    cmd->menu_grp	 = 0x8000;
-    eCmd.process();
-
-    cmd->id			 = CmdChangeEncoding;
-    cmd->text		 = I18N_NOOP("Change &encoding");
-    cmd->icon		 = "encoding";
-    cmd->menu_id	 = 0;
-    cmd->menu_grp	 = 0;
-    cmd->bar_id		 = ToolBarContainer;
-    cmd->bar_grp	 = 0x8080;
-    cmd->popup_id	 = MenuEncoding;
-    eCmd.process();
-
-    cmd->id			 = CmdChangeEncoding;
-    cmd->text		 = I18N_NOOP("Change &encoding");
-    cmd->icon		 = "encoding";
-    cmd->menu_id	 = 0;
-    cmd->menu_grp	 = 0;
-    cmd->bar_id		 = BarHistory;
-    cmd->bar_grp	 = 0x8080;
-    cmd->popup_id	 = MenuEncoding;
     eCmd.process();
 
     cmd->id			 = CmdIcqSendMessage;
@@ -561,20 +526,11 @@ ICQPlugin::~ICQPlugin()
     Event eInvisible(EventCommandRemove, (void*)CmdInvisibleList);
     eInvisible.process();
 
-    Event eEncoding(EventCommandRemove, (void*)CmdChangeEncoding);
-    eEncoding.process();
-
-    Event eAllEncodings(EventCommandRemove, (void*)CmdAllEncodings);
-    eAllEncodings.process();
-
     Event eCheckInvisible(EventCommandRemove, (void*)CmdCheckInvisible);
     eCheckInvisible.process();
 
     Event eCheckInvisibleAll(EventCommandRemove, (void*)CmdCheckInvisibleAll);
     eCheckInvisibleAll.process();
-
-    Event eMenuEncoding(EventMenuRemove, (void*)MenuEncoding);
-    eMenuEncoding.process();
 
     Event eMenuSearch(EventMenuRemove, (void*)MenuSearchResult);
     eMenuSearch.process();

@@ -35,18 +35,15 @@ const unsigned EventServiceReady	= IcqCmdBase + 5;
 
 const unsigned CmdVisibleList		= IcqCmdBase;
 const unsigned CmdInvisibleList		= IcqCmdBase + 1;
-const unsigned CmdChangeEncoding	= IcqCmdBase + 2;
-const unsigned CmdAllEncodings		= IcqCmdBase + 3;
-const unsigned CmdGroups			= IcqCmdBase + 4;
-const unsigned CmdCheckInvisibleAll	= IcqCmdBase + 5;
-const unsigned CmdCheckInvisible	= IcqCmdBase + 6;
-const unsigned CmdIcqSendMessage	= IcqCmdBase + 7;
-const unsigned CmdShowWarning		= IcqCmdBase + 8;
-const unsigned CmdPasswordFail		= IcqCmdBase + 9;
+const unsigned CmdGroups			= IcqCmdBase + 2;
+const unsigned CmdCheckInvisibleAll	= IcqCmdBase + 3;
+const unsigned CmdCheckInvisible	= IcqCmdBase + 4;
+const unsigned CmdIcqSendMessage	= IcqCmdBase + 5;
+const unsigned CmdShowWarning		= IcqCmdBase + 6;
+const unsigned CmdPasswordFail		= IcqCmdBase + 7;
 
-const unsigned MenuEncoding			= IcqCmdBase;
-const unsigned MenuSearchResult		= IcqCmdBase + 1;
-const unsigned MenuCheckInvisible	= IcqCmdBase + 2;
+const unsigned MenuSearchResult		= IcqCmdBase;
+const unsigned MenuCheckInvisible	= IcqCmdBase + 1;
 const unsigned MenuIcqGroups		= IcqCmdBase + 2;
 
 class ICQProtocol : public Protocol

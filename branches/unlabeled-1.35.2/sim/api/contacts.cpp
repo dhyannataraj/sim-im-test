@@ -2002,6 +2002,11 @@ namespace SIM
 		
         { NULL, NULL, 0, 0, 0, false }
     };
+
+	const ENCODING *ContactList::getEncodings()
+	{
+		return encodings;
+	}
 	
 	QTextCodec *ContactList::getCodecByName(const char *encoding)
 	{
@@ -2016,6 +2021,7 @@ namespace SIM
 		for (e = encodings; e->language; e++){
 			if (!strcmp(codec->name(), e->codec))
                 break;
+		}
 			if (e->language && !e->bMain){
 				for (e++; e->language; e++){
 					if (e->bMain){
@@ -2024,7 +2030,6 @@ namespace SIM
 					}
 				}
 			}
-		}
 		if (codec == NULL)
 			codec= QTextCodec::codecForLocale();
 		return codec;

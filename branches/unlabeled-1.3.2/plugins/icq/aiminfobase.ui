@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>481</width>
+            <width>477</width>
             <height>344</height>
         </rect>
     </property>
@@ -408,49 +408,6 @@
                             </size>
                         </property>
                     </spacer>
-                    <widget row="8"  column="0"  rowspan="1"  colspan="5" >
-                        <class>Line</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>Line3</cstring>
-                        </property>
-                        <property>
-                            <name>orientation</name>
-                            <enum>Horizontal</enum>
-                        </property>
-                    </widget>
-                    <widget row="9"  column="0" >
-                        <class>QLabel</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>TextLabel1_2_2</cstring>
-                        </property>
-                        <property>
-                            <name>text</name>
-                            <string>Encoding:</string>
-                        </property>
-                        <property>
-                            <name>alignment</name>
-                            <set>AlignVCenter|AlignRight</set>
-                        </property>
-                        <property>
-                            <name>hAlign</name>
-                        </property>
-                    </widget>
-                    <widget row="9"  column="1"  rowspan="1"  colspan="4" >
-                        <class>QComboBox</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>cmbEncoding</cstring>
-                        </property>
-                        <property>
-                            <name>sizePolicy</name>
-                            <sizepolicy>
-                                <hsizetype>7</hsizetype>
-                                <vsizetype>0</vsizetype>
-                            </sizepolicy>
-                        </property>
-                    </widget>
                 </grid>
             </widget>
             <widget>
