@@ -78,7 +78,6 @@ protected:
     HANDLE	hMutex;
     HANDLE	hEventIn;
     HANDLE	hEventOut;
-    HANDLE	hThread;
     bool    bExit;
     static  DWORD __stdcall IPCThread(LPVOID lpParameter);
     friend class IPCLock;
@@ -109,15 +108,12 @@ IPC::IPC()
     name = prefix() + "out";
     hEventOut = CreateEventA(NULL, TRUE, FALSE, name.c_str());
     bExit = false;
-    DWORD threadId;
-    hThread = CreateThread(NULL, 0, IPCThread, this, 0, &threadId);
 }
 
 IPC::~IPC()
 {
     bExit = true;
     SetEvent(hEventIn);
-    WaitForSingleObject(hThread, INFINITE);
     if (s)
         UnmapViewOfFile(s);
     if (hMem)

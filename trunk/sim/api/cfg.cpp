@@ -708,8 +708,8 @@ EXPORT void load_data(const DataDef *d, void *_data, const char *config)
                 if (line.length() == 0)
                     break;
                 v = getToken(line, ',');
-				if (v.length())
-					ld->value = atol(v.c_str());
+                if (v.length())
+                    ld->value = atol(v.c_str());
             }
             break;
         case DATA_ULONG:
@@ -1059,15 +1059,15 @@ EXPORT void restoreToolbar(QToolBar *bar, Data state[7])
 {
     if (bar == NULL)
         return;
-	if (state[0].value != SAVE_STATE){
-		if (state[1].value == 0)
-			state[1].value = (unsigned)(QMainWindow::Top);
-		state[2].value = 0;
-		state[3].value = 0;
-		state[4].value = SAVE_STATE;
-		state[5].value = 0;
-		state[6].value = 0;
-	}
+    if (state[0].value != SAVE_STATE){
+        if (state[1].value == 0)
+            state[1].value = (unsigned)(QMainWindow::Top);
+        state[2].value = 0;
+        state[3].value = 0;
+        state[4].value = SAVE_STATE;
+        state[5].value = 0;
+        state[6].value = 0;
+    }
     QMainWindow *main = NULL;
     for (QWidget *w = bar->parentWidget(); w; w = w->parentWidget()){
         if (w->inherits("QMainWindow")){

@@ -25,6 +25,7 @@
 class ExecManager;
 class QSocketNotifier;
 class QTimer;
+class QThread;
 
 class EXPORT Exec : public QObject
 {
@@ -38,9 +39,9 @@ public:
     Buffer bErr;
     string prog;
 #ifdef WIN32
-    void	*hThread;
-    void	*hOutThread;
-    void	*hErrThread;
+    QThread *thread;
+    QThread *outThread;
+    QThread *errThread;
 #endif
 public slots:
     void execute(const char *prog, const char *input, bool bSync = false);

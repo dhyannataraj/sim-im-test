@@ -25,6 +25,8 @@
 
 typedef map<my_string, string> HEADERS_MAP;
 
+class FetchThread;
+
 class FetchClient : public ClientSocketNotify
 {
 public:
@@ -40,6 +42,11 @@ public:
     Buffer		m_res;
     Buffer		*m_post;
     bool		m_bRedirect;
+#ifdef WIN32
+    FetchThread	*m_thread;
+    string		m_err;
+    unsigned	m_errCode;
+#endif
 protected:
     virtual bool error_state(const char *err, unsigned code);
     virtual void connect_ready();

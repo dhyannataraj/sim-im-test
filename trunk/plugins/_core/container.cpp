@@ -585,7 +585,7 @@ void Container::flash()
 #else
 #if defined(USE_KDE)
 #if KDE_IS_VERSION(3,2,0)
-    KWin::demandAttention(winId(), true);
+KWin::demandAttention(winId(), true);
 #endif	/* KDE_IS_VERSION(3,2,0) */
 #endif	/* USE_KDE */
 #endif	/* ndef WIN32 */
@@ -620,7 +620,6 @@ void *Container::processEvent(Event *e)
                     QTimer::singleShot(0, this, SLOT(flash()));
             }
         }
-        break;
     case EventMessageRead:
         msg = (Message*)(e->param());
         userWnd = wnd(msg->contact());

@@ -169,6 +169,20 @@ void *StatusFrame::processEvent(Event *e)
 {
     CommandDef *cmd;
     switch (e->type()){
+    case EventSocketActive:{
+            {
+                QObjectList *l = queryList("StatusLabel");
+                QObjectListIt itObject(*l);
+                QObject *obj;
+                while ((obj=itObject.current()) != NULL) {
+                    ++itObject;
+                    StatusLabel *lbl = static_cast<StatusLabel*>(obj);
+                    lbl->setPict();
+                }
+                delete l;
+            }
+            break;
+        }
     case EventCheckState:
         cmd = (CommandDef*)(e->param());
         if ((cmd->menu_id == MenuStatusWnd) && (cmd->id == CmdStatusWnd)){

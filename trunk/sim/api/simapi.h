@@ -82,6 +82,7 @@ typedef unsigned char _Bool;
 #pragma warning(disable: 4530)  
 #pragma warning(disable: 4663)  
 #endif
+#define QT_THREAD_SUPPORT 1
 #endif
 
 #if defined(_MSC_VER) && defined(_DEBUG) && !defined(NO_CHECK_NEW)
@@ -1802,6 +1803,9 @@ public:
     const char *c_str() const { return m_str->c_str(); }
     string *m_str;
 };
+
+EXPORT bool logEnabled();
+EXPORT void setLogEnable(bool);
 
 };
 

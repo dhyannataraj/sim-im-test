@@ -32,7 +32,7 @@ FilePreview::FilePreview(QWidget *parent)
 #ifdef USE_KDE
         : KPreviewWidgetBase(parent)
 #else
-        : QWidget(parent)
+: QWidget(parent)
 #endif
 {
 }

@@ -97,6 +97,7 @@ typedef struct OSDUserData
 static DataDef osdUserData[] =
     {
         { "EnableMessage", DATA_BOOL, 1, DATA(1) },
+        { "EnableMessageShowContent", DATA_BOOL, 1, DATA(0) },
         { "EnableAlert", DATA_BOOL, 1, DATA(1) },
         { "EnableTyping", DATA_BOOL, 1, 0 },
         { "Position", DATA_ULONG, 1, 0 },
@@ -394,6 +395,10 @@ void OSDPlugin::processQueue()
                         text = i18n("%1 from %2")
                                .arg(text)
                                .arg(contact->getName());
+                    if ( data->EnableMessageShowContent.bValue &&
+                            !(m_request.plaintext.isNull() || m_request.plaintext.isEmpty()) ){
+                        text += QString(": ") + m_request.plaintext.stripWhiteSpace();
+                    }
                 }
             }
         }
@@ -459,6 +464,7 @@ void *OSDPlugin::processEvent(Event *e)
         osd.type    = msg->baseType();
         osd.msg_id	= msg->id();
         osd.client	= msg->client();
+        osd.plaintext   = msg->getPlainText();
         queue.push_back(osd);
         processQueue();
         break;

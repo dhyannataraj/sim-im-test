@@ -47,7 +47,7 @@ protected:
     unsigned	  m_editCol;
     unsigned	  m_count;
     void		  setEdit();
-	bool		  m_bDelete;
+    bool		  m_bDelete;
 };
 
 #endif

@@ -40,7 +40,7 @@ LogConfig::LogConfig(QWidget *parent, LoggerPlugin *plugin)
 {
     m_plugin = plugin;
     edtFile->setText(m_plugin->getFile());
-	edtFile->setCreate(true);
+    edtFile->setCreate(true);
     lstLevel->addColumn("");
     lstLevel->addColumn("");
     lstLevel->setExpandingColumn(0);

@@ -32,6 +32,7 @@ public:
 public slots:
     void apply(void *data);
     void apply();
+    void showMessageToggled();
 protected:
     OSDIface  *m_iface;
     OSDPlugin *m_plugin;

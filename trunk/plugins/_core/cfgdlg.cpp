@@ -579,7 +579,7 @@ void ConfigureDialog::raisePage(Client *client)
             continue;
         if (static_cast<ClientItem*>(item)->client() == client){
             lstBox->setCurrentItem(item);
-			lstBox->ensureItemVisible(item);
+            lstBox->ensureItemVisible(item);
             return;
         }
     }

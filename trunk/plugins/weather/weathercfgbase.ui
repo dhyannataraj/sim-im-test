@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>422</width>
-            <height>314</height>
+            <width>444</width>
+            <height>301</height>
         </rect>
     </property>
     <property>
@@ -32,7 +32,7 @@
             <class>QLayoutWidget</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>Layout3</cstring>
+                <cstring>Layout7</cstring>
             </property>
             <hbox>
                 <property>
@@ -53,72 +53,126 @@
                         <name>text</name>
                         <string>Location:</string>
                     </property>
+                    <property>
+                        <name>alignment</name>
+                        <set>AlignVCenter|AlignRight</set>
+                    </property>
+                    <property>
+                        <name>hAlign</name>
+                    </property>
                 </widget>
                 <widget>
-                    <class>QLineEdit</class>
+                    <class>QComboBox</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>edtUrl</cstring>
+                        <cstring>cmbLocation</cstring>
+                    </property>
+                    <property>
+                        <name>sizePolicy</name>
+                        <sizepolicy>
+                            <hsizetype>7</hsizetype>
+                            <vsizetype>0</vsizetype>
+                        </sizepolicy>
+                    </property>
+                    <property>
+                        <name>editable</name>
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QPushButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>btnSearch</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>&amp;Search</string>
                     </property>
                 </widget>
             </hbox>
         </widget>
         <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>lblName</cstring>
-            </property>
-            <property>
-                <name>sizePolicy</name>
-                <sizepolicy>
-                    <hsizetype>7</hsizetype>
-                    <vsizetype>1</vsizetype>
-                </sizepolicy>
-            </property>
-            <property>
-                <name>text</name>
-                <string></string>
-            </property>
-            <property>
-                <name>alignment</name>
-                <set>AlignVCenter|AlignLeft</set>
-            </property>
-            <property>
-                <name>wordwrap</name>
-            </property>
-        </widget>
-        <widget>
             <class>LinkLabel</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>lnkWeather</cstring>
+                <cstring>lblLnk</cstring>
             </property>
         </widget>
         <widget>
-            <class>QLabel</class>
+            <class>QLayoutWidget</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>TextLabel1_2</cstring>
+                <cstring>Layout6</cstring>
             </property>
-            <property>
-                <name>sizePolicy</name>
-                <sizepolicy>
-                    <hsizetype>5</hsizetype>
-                    <vsizetype>5</vsizetype>
-                </sizepolicy>
-            </property>
-            <property>
-                <name>text</name>
-                <string>Find your location and input url</string>
-            </property>
-            <property>
-                <name>alignment</name>
-                <set>WordBreak|AlignVCenter|AlignLeft</set>
-            </property>
-            <property>
-                <name>wordwrap</name>
-            </property>
+            <hbox>
+                <property>
+                    <name>margin</name>
+                    <number>0</number>
+                </property>
+                <property>
+                    <name>spacing</name>
+                    <number>6</number>
+                </property>
+                <widget>
+                    <class>QLabel</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>TextLabel1_2</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Units:</string>
+                    </property>
+                    <property>
+                        <name>alignment</name>
+                        <set>AlignVCenter|AlignRight</set>
+                    </property>
+                    <property>
+                        <name>hAlign</name>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QComboBox</class>
+                    <item>
+                        <property>
+                            <name>text</name>
+                            <string>Metric</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property>
+                            <name>text</name>
+                            <string>Standart</string>
+                        </property>
+                    </item>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>cmbUnits</cstring>
+                    </property>
+                </widget>
+                <spacer>
+                    <property>
+                        <name>name</name>
+                        <cstring>Spacer2</cstring>
+                    </property>
+                    <property>
+                        <name>orientation</name>
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property>
+                        <name>sizeType</name>
+                        <enum>Expanding</enum>
+                    </property>
+                    <property>
+                        <name>sizeHint</name>
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
         </widget>
         <widget>
             <class>QLayoutWidget</class>

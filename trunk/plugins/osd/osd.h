@@ -26,6 +26,7 @@
 typedef struct OSDUserData
 {
     Data	EnableMessage;
+    Data        EnableMessageShowContent;
     Data	EnableAlert;
     Data	EnableTyping;
     Data	Position;
@@ -48,6 +49,7 @@ typedef struct OSDRequest
     unsigned long	msg_id;
     string			client;
     unsigned		type;
+    QString             plaintext;
 } OSDRequest;
 
 class QTimer;

@@ -60,8 +60,8 @@ AutoReplyDialog::AutoReplyDialog(unsigned status)
     connect(edtAutoResponse, SIGNAL(textChanged()), this, SLOT(textChanged()));
     connect(chkNoShow, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
     connect(btnHelp, SIGNAL(clicked()), this, SLOT(help()));
-	Event e(EventTmplHelpList);
-	edtAutoResponse->helpList = (const char**)e.process();
+    Event e(EventTmplHelpList);
+    edtAutoResponse->helpList = (const char**)e.process();
 }
 
 AutoReplyDialog::~AutoReplyDialog()
