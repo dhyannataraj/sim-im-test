@@ -532,7 +532,7 @@ string ICQClientPrivate::createRTF(const string &text, unsigned long foreColor, 
         }
     }
     string s;
-    s = "{\\rtf1\\ansi\\def0\r\n";
+    s = "{\\rtf1\\ansi\\deff0\r\n";
     s += "{\\fonttbl";
     unsigned n = 0;
     for (list<string>::iterator it_face = faces.begin(); it_face != faces.end(); it_face++, n++){
