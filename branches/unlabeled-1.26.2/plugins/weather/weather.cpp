@@ -828,21 +828,6 @@ void WeatherPlugin::char_data(const char *str, int len)
         m_data.append(str, len);
 }
 
-void WeatherPlugin::p_element_start(void *data, const xmlChar *el, const xmlChar **attr)
-{
-    ((WeatherPlugin*)data)->element_start((char*)el, (const char**)attr);
-}
-
-void WeatherPlugin::p_element_end(void *data, const xmlChar *el)
-{
-    ((WeatherPlugin*)data)->element_end((char*)el);
-}
-
-void WeatherPlugin::p_char_data(void *data, const xmlChar *str, int len)
-{
-    ((WeatherPlugin*)data)->char_data((char*)str, len);
-}
-
 #ifdef WIN32
 #include <windows.h>
 

@@ -292,9 +292,9 @@ ConfigureDialog::ConfigureDialog()
     setButtonsPict(this);
     setTitle();
     lstBox->header()->hide();
-    const QIconSet *iconSet = Icon("webpress");
-    if (iconSet)
-        btnUpdate->setIconSet(*iconSet);
+    QIconSet iconSet = Icon("webpress");
+    if (!iconSet.isNull())
+        btnUpdate->setIconSet(iconSet);
     btnUpdate->hide();
     lstBox->setHScrollBarMode(QScrollView::AlwaysOff);
     fill(0);

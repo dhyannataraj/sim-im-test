@@ -18,11 +18,10 @@
 #ifndef _WEATHER_H
 #define _WEATHER_H
 
-#include <libxml/parser.h>
-#include <qdatetime.h>
-
-#include "simapi.h"
+#include "sax.h"
 #include "fetch.h"
+
+#include <qdatetime.h>
 
 class QToolBar;
 
@@ -65,7 +64,7 @@ typedef struct WeatherData
     Data	DayConditions;
 } WeatherData;
 
-class WeatherPlugin : public QObject, public Plugin, public EventReceiver, public FetchClient
+class WeatherPlugin : public QObject, public Plugin, public EventReceiver, public FetchClient, public SAXParser
 {
     Q_OBJECT
 public:
@@ -137,14 +136,9 @@ protected:
     virtual bool done(unsigned code, Buffer &data, const char *headers);
     void *processEvent(Event*);
     WeatherData data;
-    xmlSAXHandler		m_handler;
-    xmlParserCtxtPtr	m_context;
     void		element_start(const char *el, const char **attr);
     void		element_end(const char *el);
     void		char_data(const char *str, int len);
-    static void p_element_start(void *data, const xmlChar *el, const xmlChar **attr);
-    static void p_element_end(void *data, const xmlChar *el);
-    static void p_char_data(void *data, const xmlChar *str, int len);
 };
 
 #endif

@@ -1,5 +1,5 @@
 /***************************************************************************
-                          weathercfg.h  -  description
+                          sax.h  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,42 +15,28 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _WEATHERCFG_H
-#define _WEATHERCFG_H
+#ifndef _SAX_H
+#define _SAX_H
 
-#include "sax.h"
-#include "weathercfgbase.h"
-#include "fetch.h"
+#include <libxml/parser.h>
 
-#include "stl.h"
+#include "simapi.h"
 
-class WeatherPlugin;
-class WIfaceCfg;
-
-class WeatherCfg : public WeatherCfgBase, public EventReceiver, public FetchClient, public SAXParser
+class EXPORT SAXParser
 {
-    Q_OBJECT
 public:
-    WeatherCfg(QWidget *parent, WeatherPlugin*);
-    ~WeatherCfg();
-public slots:
-    void apply();
-    void search();
-    void activated(int index);
-    void textChanged(const QString&);
+    SAXParser();
+    ~SAXParser();
+	bool parse(const char *data, unsigned size);
 protected:
-    bool done(unsigned code, Buffer &data, const char *headers);
-    void *processEvent(Event*);
-    void fill();
-    WeatherPlugin *m_plugin;
-    WIfaceCfg	  *m_iface;
-    string   m_id;
-    string	 m_data;
-    vector<string>		m_ids;
-    vector<string>		m_names;
-    void		element_start(const char *el, const char **attr);
-    void		element_end(const char *el);
-    void		char_data(const char *str, int len);
+    xmlSAXHandler		m_handler;
+    xmlParserCtxtPtr	m_context;
+    virtual	void		element_start(const char *el, const char **attr) = 0;
+    virtual	void		element_end(const char *el) = 0;
+    virtual	void		char_data(const char *str, int len) = 0;
+    static void p_element_start(void *data, const xmlChar *el, const xmlChar **attr);
+    static void p_element_end(void *data, const xmlChar *el);
+    static void p_char_data(void *data, const xmlChar *str, int len);
 };
 
 #endif

@@ -58,9 +58,9 @@ SearchDialog::SearchDialog()
     m_status = statusBar();
     m_result = NULL;
     setAdd(false);
-    m_search->btnOptions->setIconSet(*Icon("1downarrow"));
-    m_search->btnAdd->setIconSet(*Icon("add"));
-    m_search->btnNew->setIconSet(*Icon("new"));
+    m_search->btnOptions->setIconSet(Icon("1downarrow"));
+    m_search->btnAdd->setIconSet(Icon("add"));
+    m_search->btnNew->setIconSet(Icon("new"));
     connect(m_search->wndCondition, SIGNAL(aboutToShow(QWidget*)), this, SLOT(aboutToShow(QWidget*)));
     connect(m_search->wndResult, SIGNAL(aboutToShow(QWidget*)), this, SLOT(resultShow(QWidget*)));
     fillClients();
@@ -125,7 +125,7 @@ void SearchDialog::setAdd(bool bAdd)
 void SearchDialog::setAddButton()
 {
     QString text;
-    const QIconSet *icon = NULL;
+    QIconSet icon;
     if (m_active){
         icon = Icon("cancel");
         text = i18n("&Cancel");
@@ -137,8 +137,8 @@ void SearchDialog::setAddButton()
         text = i18n("&Search");
     }
     m_search->btnSearch->setText(text);
-    if (icon)
-        m_search->btnSearch->setIconSet(*icon);
+    if (!icon.isNull())
+        m_search->btnSearch->setIconSet(icon);
 }
 
 void SearchDialog::fillClients()

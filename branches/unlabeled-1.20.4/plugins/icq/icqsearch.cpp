@@ -60,9 +60,9 @@ ICQSearch::ICQSearch(ICQClient *client, QWidget *parent)
     edtMail->setValidator(new EMailValidator(edtMail));
     connect(grpMail, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
     connect(btnAdvanced, SIGNAL(clicked()),	this, SLOT(advClick()));
-    const QIconSet *is = Icon("1rightarrow");
-    if (is)
-        btnAdvanced->setIconSet(*is);
+    QIconSet is = Icon("1rightarrow");
+    if (!is.isNull())
+        btnAdvanced->setIconSet(is);
 }
 
 ICQSearch::~ICQSearch()
@@ -105,9 +105,9 @@ void ICQSearch::setAdv(bool bAdv)
     if (m_bAdv == bAdv)
         return;
     m_bAdv = bAdv;
-    const QIconSet *is = Icon(m_bAdv ? "1leftarrow" : "1rightarrow");
-    if (is)
-        btnAdvanced->setIconSet(*is);
+    QIconSet is = Icon(m_bAdv ? "1leftarrow" : "1rightarrow");
+    if (!is.isNull())
+        btnAdvanced->setIconSet(is);
     if (m_bAdv){
         if (m_client->m_bAIM){
             edtMail->setEnabled(false);
@@ -143,13 +143,20 @@ void ICQSearch::setAdv(bool bAdv)
 void ICQSearch::createContact(unsigned tmpFlags, Contact *&contact)
 {
     if (m_client->m_bAIM){
+
 		if (grpScreen->isChecked() && !edtScreen->text().isEmpty())
+
 			add(edtScreen->text(), tmpFlags, contact);
+
 		if (grpAOL_UIN->isChecked() && !edtAOL_UIN->text().isEmpty())
+
 			add(edtAOL_UIN->text(), tmpFlags, contact);
+
 	}else{
+
 		if (grpAOL->isChecked() && !edtAOL->text().isEmpty())
 			add(edtAOL->text(), tmpFlags, contact);
+
 	}
 }
 

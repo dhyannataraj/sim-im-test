@@ -35,10 +35,10 @@ JIDSearch::JIDSearch(QWidget *parent, JabberClient *client, const QString &jid,
         m_type	 = type;
     connect(btnBrowser, SIGNAL(clicked()), this, SLOT(browserClicked()));
     connect(btnAdvanced, SIGNAL(clicked()), this, SLOT(advancedClicked()));
-    const QIconSet *is = Icon("1rightarrow");
-    if (is){
-        btnBrowser->setIconSet(*is);
-        btnAdvanced->setIconSet(*is);
+    QIconSet is = Icon("1rightarrow");
+    if (!is.isNull()){
+        btnBrowser->setIconSet(is);
+        btnAdvanced->setIconSet(is);
     }
     m_bInit = false;
     m_adv = new JIDAdvSearch(this);
@@ -79,15 +79,15 @@ void JIDSearch::advancedClicked()
 {
     if (m_bAdv){
         m_bAdv = false;
-        const QIconSet *is = Icon("1rightarrow");
-        if (is)
-            btnAdvanced->setIconSet(*is);
+        QIconSet is = Icon("1rightarrow");
+        if (!is.isNull())
+            btnAdvanced->setIconSet(is);
         emit showResult(NULL);
     }else{
         m_bAdv = true;
-        const QIconSet *is = Icon("1leftarrow");
-        if (is)
-            btnAdvanced->setIconSet(*is);
+        QIconSet is = Icon("1leftarrow");
+        if (!is.isNull())
+            btnAdvanced->setIconSet(is);
         emit showResult(m_adv);
     }
 }

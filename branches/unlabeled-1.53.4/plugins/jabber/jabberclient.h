@@ -18,9 +18,7 @@
 #ifndef _JABBERCLIENT_H
 #define _JABBERCLIENT_H
 
-#include <libxml/parser.h>
-
-#include "simapi.h"
+#include "sax.h"
 #include "stl.h"
 #include "socket.h"
 
@@ -165,7 +163,7 @@ typedef struct DiscoItem
     string			features;
 } DiscoItem;
 
-class JabberClient : public TCPClient
+class JabberClient : public TCPClient, public SAXParser
 {
     Q_OBJECT
 public:
@@ -378,8 +376,6 @@ protected:
     void setOffline(JabberUserData *data);
 
     static	QCString encodeXML(const QString &str);
-    xmlSAXHandler		m_handler;
-    xmlParserCtxtPtr	m_context;
     string		m_id;
     unsigned	m_depth;
 
@@ -392,9 +388,6 @@ protected:
     void		element_start(const char *el, const char **attr);
     void		element_end(const char *el);
     void		char_data(const char *str, int len);
-    static void p_element_start(void *data, const xmlChar *el, const xmlChar **attr);
-    static void p_element_end(void *data, const xmlChar *el);
-    static void p_char_data(void *data, const xmlChar *str, int len);
 
     list<JabberListRequest>	m_listRequests;
     ServerRequest			*m_curRequest;

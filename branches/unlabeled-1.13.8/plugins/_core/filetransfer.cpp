@@ -215,7 +215,7 @@ FileTransferDlg::FileTransferDlg(FileMessage *msg)
     disableWidget(edtEstimated);
     disableWidget(edtSpeed);
     btnGo->hide();
-    btnGo->setIconSet(*Icon("file"));
+    btnGo->setIconSet(Icon("file"));
     msg->m_transfer->setNotify(new FileTransferDlgNotify(this));
     sldSpeed->setValue(m_msg->m_transfer->speed());
     connect(sldSpeed, SIGNAL(valueChanged(int)), this, SLOT(speedChanged(int)));

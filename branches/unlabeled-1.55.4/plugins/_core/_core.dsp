@@ -5179,947 +5179,182 @@ InputPath=.\styles\XChat3fullDate.xsl
 # Begin Source File
 
 SOURCE=.\jisp\1downarrow.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\1downarrow.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\1leftarrow.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\1leftarrow.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\1rightarrow.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\1rightarrow.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\1uparrow.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\1uparrow.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\add.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\add.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\aim.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\aim.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\auth.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\auth.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\away.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\away.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\bgcolor.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\bgcolor.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\button_cancel.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\button_cancel.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\button_ok.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\button_ok.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\cancel.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\cancel.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\cell.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\cell.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\chat.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\chat.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\collapsed.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\collapsed.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\configure.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\configure.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\contacts.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\contacts.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\dnd.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\dnd.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\editcopy.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\editcopy.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\editcut.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\editcut.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\editpaste.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\editpaste.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\empty.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\empty.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\encoding.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\encoding.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\encrypted.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\encrypted.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\error.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\error.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\exit.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\exit.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\expanded.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\expanded.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\fax.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\fax.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\ffc.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\ffc.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\fgcolor.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\fgcolor.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\file.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\file.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\fileclose.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\fileclose.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\fileopen.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\fileopen.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\filesave.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\filesave.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\filter.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\filter.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\find.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\find.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\grp_collapse.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\grp_collapse.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\grp_create.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\grp_create.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\grp_expand.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\grp_expand.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\grp_off.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\grp_off.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\grp_on.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\grp_on.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\grp_rename.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\grp_rename.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\help.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\help.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\history.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\history.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\home.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\home.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -6155,821 +5390,158 @@ InputPath=.\jisp\icondef.xml
 # Begin Source File
 
 SOURCE=.\jisp\icq.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\icq.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\info.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\info.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\listmsg.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\listmsg.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\mail_generic.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\mail_generic.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\message.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\message.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\more.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\more.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\msn.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\msn.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\na.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\na.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\network.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\network.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\new.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\new.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\nonim.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\nonim.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\nophone.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\nophone.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\occupied.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\occupied.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\online_off.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\online_off.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\online_on.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\online_on.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\pager.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\pager.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\phone.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\phone.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\pict.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\pict.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\redo.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\redo.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\remove.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\remove.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\run.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\run.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\security.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\security.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\sms.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\sms.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\text.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\text.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\text_bold.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\text_bold.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\text_italic.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\text_italic.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\text_strike.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\text_strike.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\text_under.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\text_under.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\translit.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\translit.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\typing.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\typing.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\undo.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\undo.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\urgentmsg.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\urgentmsg.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\url.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\url.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\webpress.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\webpress.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\work.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\work.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\yahoo.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\yahoo.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\yahoo_away.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\yahoo_away.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\yahoo_dnd.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\yahoo_dnd.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=.\jisp\yahoo_offline.png
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Make sim.jisp
-InputDir=.\jisp
-OutDir=.\..\..\Release
-InputPath=.\jisp\yahoo_offline.png
-
-"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # End Group
 # Begin Group "smiles"

@@ -179,21 +179,6 @@ void WeatherCfg::char_data(const char *str, int len)
         m_data.append(str, len);
 }
 
-void WeatherCfg::p_element_start(void *data, const xmlChar *el, const xmlChar **attr)
-{
-    ((WeatherCfg*)data)->element_start((char*)el, (const char**)attr);
-}
-
-void WeatherCfg::p_element_end(void *data, const xmlChar *el)
-{
-    ((WeatherCfg*)data)->element_end((char*)el);
-}
-
-void WeatherCfg::p_char_data(void *data, const xmlChar *str, int len)
-{
-    ((WeatherCfg*)data)->char_data((char*)str, len);
-}
-
 #ifndef WIN32
 #include "weathercfg.moc"
 #endif

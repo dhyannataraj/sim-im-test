@@ -1,5 +1,5 @@
 /***************************************************************************
-                          weathercfg.h  -  description
+                          sax.cpp  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,43 +15,40 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _WEATHERCFG_H
-#define _WEATHERCFG_H
-
 #include "sax.h"
-#include "weathercfgbase.h"
-#include "fetch.h"
 
-#include "stl.h"
-
-class WeatherPlugin;
-class WIfaceCfg;
-
-class WeatherCfg : public WeatherCfgBase, public EventReceiver, public FetchClient, public SAXParser
+SAXParser::SAXParser()
 {
-    Q_OBJECT
-public:
-    WeatherCfg(QWidget *parent, WeatherPlugin*);
-    ~WeatherCfg();
-public slots:
-    void apply();
-    void search();
-    void activated(int index);
-    void textChanged(const QString&);
-protected:
-    bool done(unsigned code, Buffer &data, const char *headers);
-    void *processEvent(Event*);
-    void fill();
-    WeatherPlugin *m_plugin;
-    WIfaceCfg	  *m_iface;
-    string   m_id;
-    string	 m_data;
-    vector<string>		m_ids;
-    vector<string>		m_names;
-    void		element_start(const char *el, const char **attr);
-    void		element_end(const char *el);
-    void		char_data(const char *str, int len);
-};
+    memset(&m_handler, 0, sizeof(m_handler));
+    m_handler.startElement = p_element_start;
+    m_handler.endElement   = p_element_end;
+    m_handler.characters   = p_char_data;
+    m_context = xmlCreatePushParserCtxt(&m_handler, this, "", 0, "");
+}
 
-#endif
+SAXParser::~SAXParser()
+{
+    xmlFreeParserCtxt(m_context);
+}
+
+bool SAXParser::parse(const char *data, unsigned size)
+{
+    return xmlParseChunk(m_context, data, size, 0) == 0;
+}
+
+void SAXParser::p_element_start(void *data, const xmlChar *el, const xmlChar **attr)
+{
+    ((SAXParser*)data)->element_start((char*)el, (const char**)attr);
+}
+
+void SAXParser::p_element_end(void *data, const xmlChar *el)
+{
+    ((SAXParser*)data)->element_end((char*)el);
+}
+
+void SAXParser::p_char_data(void *data, const xmlChar *str, int len)
+{
+    ((SAXParser*)data)->char_data((char*)str, len);
+}
+
 

@@ -1558,13 +1558,13 @@ SmileLabel::SmileLabel(int _id, const char *tip, QWidget *parent)
     id = _id;
     char b[20];
     sprintf(b, "smile%X", id);
-    const QIconSet *icon = Icon(b);
+    QIconSet icon = Icon(b);
     QPixmap pict;
-    if (icon){
-        if (!icon->isGenerated(QIconSet::Large, QIconSet::Normal)){
-            pict = icon->pixmap(QIconSet::Large, QIconSet::Normal);
+    if (!icon.isNull()){
+        if (!icon.isGenerated(QIconSet::Large, QIconSet::Normal)){
+            pict = icon.pixmap(QIconSet::Large, QIconSet::Normal);
         }else{
-            pict = icon->pixmap(QIconSet::Small, QIconSet::Normal);
+            pict = icon.pixmap(QIconSet::Small, QIconSet::Normal);
         }
     }
     setPixmap(pict);
@@ -1593,14 +1593,14 @@ SmilePopup::SmilePopup(QWidget *popup)
             continue;
         char b[20];
         sprintf(b, "smile%X", i);
-        const QIconSet *is = Icon(b);
-        if (is == NULL)
+        QIconSet is = Icon(b);
+        if (is.isNull())
             continue;
         QPixmap pict;
-        if (!is->isGenerated(QIconSet::Large, QIconSet::Normal)){
-            pict = is->pixmap(QIconSet::Large, QIconSet::Normal);
+        if (!is.isGenerated(QIconSet::Large, QIconSet::Normal)){
+            pict = is.pixmap(QIconSet::Large, QIconSet::Normal);
         }else{
-            pict = is->pixmap(QIconSet::Small, QIconSet::Normal);
+            pict = is.pixmap(QIconSet::Small, QIconSet::Normal);
         }
         s = QSize(QMAX(s.width(), pict.width()), QMAX(s.height(), pict.height()));
         nSmiles++;

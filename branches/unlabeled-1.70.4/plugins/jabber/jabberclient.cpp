@@ -686,21 +686,6 @@ void JabberClient::sendPacket()
     m_socket->write();
 }
 
-void JabberClient::p_element_start(void *data, const xmlChar *el, const xmlChar **attr)
-{
-    ((JabberClient*)data)->element_start((char*)el, (const char**)attr);
-}
-
-void JabberClient::p_element_end(void *data, const xmlChar *el)
-{
-    ((JabberClient*)data)->element_end((char*)el);
-}
-
-void JabberClient::p_char_data(void *data, const xmlChar *str, int len)
-{
-    ((JabberClient*)data)->char_data((char*)str, len);
-}
-
 string JabberClient::get_attr(const char *name, const char **attr)
 {
     if (attr == NULL)
