@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
 "POT-Creation-Date: 2002-10-19 18:41+0400\n"
-"PO-Revision-Date: 2002-10-18 21:08+0300\n"
+"PO-Revision-Date: 2002-10-19 19:37+0300\n"
 "Last-Translator: ismail donmez <voidcartman@yahoo.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1699,19 +1699,16 @@ msgid "Phone Book"
 msgstr "Telefon Defteri"
 
 #: mainwin.cpp:374
-#, fuzzy
 msgid "Show &offline"
-msgstr "Bağlı değil göster"
+msgstr "Bağlı &değil göster"
 
 #: mainwin.cpp:378
-#, fuzzy
 msgid "&Group mode"
-msgstr "Grup Modu"
+msgstr "&Grup Modu"
 
 #: mainwin.cpp:390
-#, fuzzy
 msgid "&Menu"
-msgstr "Menü"
+msgstr "&Menü"
 
 #: mainwin.cpp:857
 msgid "%1 from %2 received"
@@ -1770,22 +1767,22 @@ msgid "Delete"
 msgstr "Sil"
 
 #: mainwin.cpp:1630 userview.cpp:553 userview.cpp:1338
-#, fuzzy
 msgid ""
 "_: Del\n"
 "Delete"
 msgstr "Sil"
 
 #: mainwin.cpp:1634
-#, fuzzy
 msgid "&User info"
-msgstr "Kullanıcı Bilgisi"
+msgstr "&Kullanıcı Bilgisi"
 
 #: mainwin.cpp:1635
 msgid ""
 "_: Ctrl+U\n"
 "UserInfo"
 msgstr ""
+"Ctrl+U\n"
+"Kullanıcı Bilgisi"
 
 #: mainwin.cpp:1636
 msgid "&History"
@@ -1796,6 +1793,8 @@ msgid ""
 "_: Ctrl+H\n"
 "History"
 msgstr ""
+"Ctrl+H\n"
+"Geçmiş"
 
 #: mainwin.cpp:1639 ui/alertdialogbase.cpp:81 ui/setupdlg.cpp:143
 #: ui/userinfo.cpp:88
@@ -1807,6 +1806,8 @@ msgid ""
 "_: Ctrl+L\n"
 "Alert"
 msgstr ""
+"Ctrl+L\n"
+"Alarm"
 
 #: mainwin.cpp:1641 ui/acceptbase.cpp:137
 msgid "Accept mode"
@@ -1817,6 +1818,8 @@ msgid ""
 "_: Ctrl+A\n"
 "Accept"
 msgstr ""
+"Ctrl+A\n"
+"Kabul Et"
 
 #: mainwin.cpp:1643 ui/setupdlg.cpp:141 ui/soundsetupbase.cpp:106
 #: ui/userinfo.cpp:90
@@ -1828,6 +1831,8 @@ msgid ""
 "_: Ctrl+S\n"
 "Sound"
 msgstr ""
+"Ctrl+S\n"
+"Ses"
 
 #: mainwin.cpp:1647
 msgid "Floating off"
@@ -1842,6 +1847,8 @@ msgid ""
 "_: Ctrl+T\n"
 "Floating"
 msgstr ""
+"Ctrl+T\n"
+"Yüzer Şekilde"
 
 #: mainwin.cpp:1651
 msgid "Users"
@@ -1858,17 +1865,20 @@ msgid ""
 "_: Ctrl+C\n"
 "Close"
 msgstr ""
+"Ctrl+C\n"
+"Kapat"
 
 #: mainwin.cpp:1655
 msgid "Alphabetically sort"
 msgstr "Alfabetik Sırala"
 
 #: mainwin.cpp:1656
-#, fuzzy
 msgid ""
 "_: Ctrl+B\n"
 "Alphabetically sort"
-msgstr "Alfabetik Sırala"
+msgstr ""
+"Ctrl+B\n"
+"Alfabetik Sırala"
 
 #: mainwin.cpp:1885
 msgid "Delete %1?"
@@ -2015,39 +2025,32 @@ msgid "Enter a decline reason"
 msgstr "Red sebebi girin"
 
 #: msgedit.cpp:120
-#, fuzzy
 msgid "Bac&kground color"
-msgstr "Arkaplan rengi"
+msgstr "Ar&kaplan rengi"
 
 #: msgedit.cpp:126
-#, fuzzy
 msgid "&Text color"
-msgstr "Yazı Rengi"
+msgstr "&Yazı Rengi"
 
 #: msgedit.cpp:132
-#, fuzzy
 msgid "&Bold"
-msgstr "Kalın"
+msgstr "&Kalın"
 
 #: msgedit.cpp:139
-#, fuzzy
 msgid "&Italic"
-msgstr "Eğik"
+msgstr "&Eğik"
 
 #: msgedit.cpp:146
-#, fuzzy
 msgid "&Underline"
-msgstr "Altını Çiz"
+msgstr "&Altını Çiz"
 
 #: msgedit.cpp:153
-#, fuzzy
 msgid "Text &font"
-msgstr "Yazı fontu"
+msgstr "Yazı &fontu"
 
 #: msgedit.cpp:159
-#, fuzzy
 msgid "Inser&t smile"
-msgstr "Gülümseme girin"
+msgstr "Gülümseme &girin"
 
 #: msgedit.cpp:166
 msgid "&Grant"
@@ -2078,9 +2081,8 @@ msgid "&Forward"
 msgstr "&Transfer"
 
 #: msgedit.cpp:201
-#, fuzzy
 msgid "Spell &check"
-msgstr "Yazım Kontrolü"
+msgstr "Yazım &Kontrolü"
 
 #: msgedit.cpp:208
 msgid "C&lose after send"
@@ -2095,9 +2097,8 @@ msgid "&Next"
 msgstr "&Sonraki"
 
 #: msgedit.cpp:228
-#, fuzzy
 msgid "&Multiply send"
-msgstr "Çoklu gönder"
+msgstr "&Çoklu gönder"
 
 #: msgedit.cpp:235
 msgid "Phone:"
@@ -2366,11 +2367,12 @@ msgid "Not in list"
 msgstr "Listede kayıtlı değil"
 
 #: userview.cpp:555 userview.cpp:1340
-#, fuzzy
 msgid ""
 "_: Ctrl+N\n"
 "Create group"
-msgstr "Grup yarat"
+msgstr ""
+"Ctrl+N\n"
+"Grup yarat"
 
 #: userview.cpp:682 userview.cpp:695
 msgid "New group"
@@ -3248,8 +3250,7 @@ msgstr "Global alarm ayarlarının üzerine yaz"
 
 #: ui/alertdialogbase.cpp:97
 msgid "Activate online alert when user returns from Away or NA"
-msgstr ""
-"Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
+msgstr "Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
 
 #: ui/alertdialogbase.cpp:102
 msgid "Online alert options"
@@ -3529,8 +3530,7 @@ msgid "Hide main window after"
 msgstr "Ana menüyü sakla"
 
 #: ui/statussetupbase.cpp:107
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "\"Uzakta\", \"N/A\", \"DND\" ve \"Meşgul\"-Listelerinde bağlı alamını "
 "iptal et "
@@ -3629,8 +3629,7 @@ msgstr "Zaman Dilimi:"
 
 #: ui/generalsecbase.cpp:124
 msgid "My &authorization is required before users add me to Contact List"
-msgstr ""
-"Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
+msgstr "Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
 
 #: ui/generalsecbase.cpp:128
 msgid "Don't show my &IP-address"
@@ -3942,48 +3941,64 @@ msgid ""
 "_: Ctrl+M\n"
 "Message"
 msgstr ""
+"Ctrl+M\n"
+"Mesaj"
 
 #: client.cpp:923
 msgid ""
 "_: Ctrl+H\n"
 "Chat"
 msgstr ""
+"Ctrl+H\n"
+"Chat"
 
 #: client.cpp:925
 msgid ""
 "_: Ctrl+F\n"
 "File"
 msgstr ""
+"Ctrl+F\n"
+"Dosya"
 
 #: client.cpp:927
 msgid ""
 "_: Ctrl+U\n"
 "URL"
 msgstr ""
+"Ctrl+U\n"
+"URL"
 
 #: client.cpp:929
 msgid ""
 "_: Ctrl+A\n"
 "AuthRequest"
 msgstr ""
+"Ctrl+A\n"
+"İzin İsteği"
 
 #: client.cpp:931
 msgid ""
 "_: Ctrl+C\n"
 "Contacts"
 msgstr ""
+"Ctrl+C\n"
+"Kontaklar"
 
 #: client.cpp:933
 msgid ""
 "_: Ctrl+S\n"
 "SMS"
 msgstr ""
+"Ctrl+S\n"
+"SMS"
 
 #: client.cpp:935
 msgid ""
 "_: Ctrl+E\n"
 "EMail"
 msgstr ""
+"Ctrl+E\n"
+"Email"
 
 #: client.cpp:965
 msgid "Do not disturb"
@@ -4083,3 +4098,4 @@ msgstr "Uzakta"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
