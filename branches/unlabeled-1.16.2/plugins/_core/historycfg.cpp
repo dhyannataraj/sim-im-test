@@ -372,6 +372,8 @@ void HistoryConfig::styleSelected(int n)
     btnDelete->setEnabled(bCustom);
     edtStyle->setReadOnly(!bCustom);
     fillPreview();
+	if (tabStyle->currentPage() == source)
+		viewChanged(source);
 }
 
 void HistoryConfig::copy()
