@@ -536,7 +536,8 @@ QString TextShow::plainText(int paraFrom, int paraTo, int indexFrom, int indexTo
 QString TextShow::unquoteString(const QString &s, int from, int to)
 {
     string ss;
-    ss = s.local8Bit();
+	if (!s.isEmpty())
+		ss = s.local8Bit();
     unsigned startPos = textPosition(s, from);
     unsigned endPos = textPosition(s, to);
     log(L_DEBUG, "%s: %u %u %u %u", ss.c_str(), from, to, startPos, endPos);

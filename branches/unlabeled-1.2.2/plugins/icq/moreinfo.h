@@ -34,7 +34,7 @@ public slots:
     void goUrl();
     void urlChanged(const QString&);
     void setLang(int);
-    void birthDayChanged(int);
+    void birthDayChanged();
 protected:
     void *processEvent(Event*);
     void fill();

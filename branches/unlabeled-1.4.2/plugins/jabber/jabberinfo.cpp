@@ -18,6 +18,7 @@
 #include "simapi.h"
 #include "jabberinfo.h"
 #include "jabberclient.h"
+#include "datepicker.h"
 
 #include <qmultilineedit.h>
 #include <qlineedit.h>
@@ -41,7 +42,7 @@ JabberInfo::JabberInfo(QWidget *parent, struct JabberUserData *data, JabberClien
     if (m_data){
         edtFirstName->setReadOnly(true);
         edtNick->setReadOnly(true);
-        edtBirthday->setReadOnly(true);
+        disableWidget(edtDate);
         edtUrl->setReadOnly(true);
         edtAutoReply->setReadOnly(true);
     }else{
@@ -82,7 +83,7 @@ void JabberInfo::fill()
     edtID->setText(QString::fromUtf8(data->ID));
     edtFirstName->setText(data->FirstName ? QString::fromUtf8(data->FirstName) : QString(""));
     edtNick->setText(data->Nick ? QString::fromUtf8(data->Nick) : QString(""));
-    edtBirthday->setText(data->Bday ? QString::fromUtf8(data->Bday) : QString(""));
+    edtDate->setText(data->Bday ? QString::fromUtf8(data->Bday) : QString(""));
     edtUrl->setText(data->Url ? QString::fromUtf8(data->Url) : QString(""));
     urlChanged(edtUrl->text());
     int current = 0;
@@ -137,7 +138,7 @@ void JabberInfo::apply(Client *client, void *_data)
     JabberUserData *data = (JabberUserData*)_data;
     set_str(&data->FirstName, edtFirstName->text().utf8());
     set_str(&data->Nick, edtNick->text().utf8());
-    set_str(&data->Bday, edtBirthday->text().utf8());
+    set_str(&data->Bday, edtDate->text().utf8());
     set_str(&data->Url, edtUrl->text().utf8());
 }
 

@@ -3071,6 +3071,7 @@ void CorePlugin::loadDir()
         setProfile(saveProfile.c_str());
 }
 
+static char BACKUP_SUFFIX[] = "~";
 string CorePlugin::getConfig()
 {
     string unread_str;
@@ -3135,7 +3136,7 @@ string CorePlugin::getConfig()
     string saveProfile = getProfile();
     setProfile(NULL);
     string cfgName = user_file("plugins.conf");
-    QFile fCFG(QFile::decodeName(cfgName.c_str()));
+    QFile fCFG(QFile::decodeName((cfgName + BACKUP_SUFFIX).c_str())); // use backup file for this ...
     if (!fCFG.open(IO_WriteOnly | IO_Truncate)){
         log(L_ERROR, "Can't create %s", cfgName.c_str());
     }else{
@@ -3145,11 +3146,27 @@ string CorePlugin::getConfig()
         write += "\n";
         write += cfg;
         fCFG.writeBlock(write.c_str(), write.length());
-    }
+
+        const int status = fCFG.status();
+        const QString errorMessage = fCFG.errorString();
     fCFG.close();
+        if (status != IO_Ok) {
+            log(L_ERROR, "IO error during writting to file %s : %s", (const char*)fCFG.name().local8Bit(), (const char*)errorMessage.local8Bit());
+        } else if (fCFG.status() != IO_Ok) {
+            log(L_ERROR, "IO error during closing file %s : %s", (const char*)fCFG.name().local8Bit(), (const char*)fCFG.errorString().local8Bit());
+        } else {
+            // rename to normal file
+            QFileInfo fileInfo(fCFG.name());
+            QString desiredFileName = QFile::decodeName(cfgName.c_str());
+            if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
+                log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
+            }
+        }
+    }
+
     setProfile(saveProfile.c_str());
     cfgName = user_file(CLIENTS_CONF);
-    QFile f(QFile::decodeName(cfgName.c_str()));
+    QFile f(QFile::decodeName((cfgName + BACKUP_SUFFIX).c_str())); // use backup file for this ...
     if (!f.open(IO_WriteOnly | IO_Truncate)){
         log(L_ERROR, "Can't create %s", cfgName.c_str());
     }else{
@@ -3181,7 +3198,24 @@ string CorePlugin::getConfig()
                 f.writeBlock("\n", 1);
             }
         }
+
+        const int status = f.status();
+        const QString errorMessage = f.errorString();
+        f.close();
+        if (status != IO_Ok) {
+            log(L_ERROR, "IO error during writting to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());
+        } else if (f.status() != IO_Ok) {
+            log(L_ERROR, "IO error during closing file %s : %s", (const char*)f.name().local8Bit(), (const char*)f.errorString().local8Bit());
+        } else {
+            // rename to normal file
+            QFileInfo fileInfo(f.name());
+            QString desiredFileName = QFile::decodeName(cfgName.c_str());
+            if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
+                log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
+            }
+        }
     }
+    
 #ifndef WIN32
     string dir = user_file("");
     chmod(dir.c_str(),S_IRUSR | S_IWUSR | S_IXUSR);

@@ -487,6 +487,7 @@ bool PluginManagerPrivate::setInfo(const char *name)
 static char PLUGINS_CONF[] = "plugins.conf";
 static char ENABLE[] = "enable";
 static char DISABLE[] = "disable";
+static char BACKUP_SUFFIX[] = "~";
 
 void PluginManagerPrivate::saveState()
 {
@@ -494,9 +495,9 @@ void PluginManagerPrivate::saveState()
         return;
     getContacts()->save();
     string cfgName = user_file(PLUGINS_CONF);
-    QFile f(QFile::decodeName(cfgName.c_str()));
+    QFile f(QFile::decodeName((cfgName + BACKUP_SUFFIX).c_str())); // use backup file for this ...
     if (!f.open(IO_WriteOnly | IO_Truncate)){
-        log(L_ERROR, "Can't create %s", cfgName.c_str());
+        log(L_ERROR, "Can't create %s", (const char*)f.name().local8Bit());
         return;
     }
     for (unsigned i = 0; i < plugins.size(); i++){
@@ -516,6 +517,25 @@ void PluginManagerPrivate::saveState()
                 f.writeBlock("\n", 1);
             }
         }
+    }
+
+    const int status = f.status();
+    const QString errorMessage = f.errorString();
+    f.close();
+    if (status != IO_Ok) {
+        log(L_ERROR, "IO error during writting to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());
+        return;                
+    } else if (f.status() != IO_Ok) {
+        log(L_ERROR, "IO error during closing file %s : %s", (const char*)f.name().local8Bit(), (const char*)f.errorString().local8Bit());
+        return;
+    }
+
+    // rename to normal file
+    QFileInfo fileInfo(f.name());
+    QString desiredFileName = QFile::decodeName(cfgName.c_str());
+    if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
+        log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
+        return;
     }
 }
 

@@ -68,6 +68,8 @@ JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig)
     chkTyping->setChecked(m_client->getTyping());
     chkRichText->setChecked(m_client->getRichText());
     chkIcons->setChecked(m_client->getProtocolIcons());
+	chkSubscribe->setChecked(m_client->getAutoSubscribe());
+	chkAccept->setChecked(m_client->getAutoAccept());
     lnkPublic->setText(i18n("List of public servers"));
     lnkPublic->setUrl("http://www.jabber.org/user/publicservers.php");
     connect(edtID, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
@@ -123,6 +125,8 @@ void JabberConfig::apply()
     m_client->setUseVHost(chkVHost->isChecked());
     m_client->setTyping(chkTyping->isChecked());
     m_client->setRichText(chkRichText->isChecked());
+	m_client->setAutoSubscribe(chkSubscribe->isChecked());
+	m_client->setAutoAccept(chkAccept->isChecked());
     if (m_client->getProtocolIcons() != chkIcons->isChecked()){
         m_client->setProtocolIcons(chkIcons->isChecked());
         Event e(EventRepaintView);

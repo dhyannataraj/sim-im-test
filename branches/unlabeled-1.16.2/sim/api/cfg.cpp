@@ -1014,7 +1014,7 @@ EXPORT void saveGeometry(QWidget *w, long geo[5])
         int dc = GetSystemMetrics(SM_CYCAPTION);
         int ds = GetSystemMetrics(SM_CYSMCAPTION);
         geo[1] += dc - ds;
-        geo[3] -= (dc - ds);
+        geo[3] -= (dc - ds) * 2;
     }
 #endif
 #ifdef USE_KDE

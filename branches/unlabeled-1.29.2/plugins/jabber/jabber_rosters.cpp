@@ -1016,6 +1016,12 @@ void JabberClient::IqRequest::element_start(const char *el, const char **attr)
                         data->Subscribe = subscribe;
                         Event e(EventContactChanged, contact);
                         e.process();
+						if (m_client->getAutoSubscribe() && ((subscribe & SUBSCRIBE_FROM) == 0)){
+							AuthMessage *msg = new AuthMessage(MessageAuthRequest);
+							msg->setContact(contact->id());
+							msg->setFlags(MESSAGE_NOHISTORY);
+							m_client->send(msg, data);
+						}
                     }
                 }
             }

@@ -97,6 +97,8 @@ typedef struct JabberClientData
     long			browser_geo[5];
     long			browser_bar[7];
     char			*BrowserHistory;
+	unsigned		AutoSubscribe;
+	unsigned		AutoAccept;
     JabberUserData	owner;
 } JabberClientData;
 
@@ -272,6 +274,8 @@ class MessageRequest : public ServerRequest
     PROP_UTF8(Photo);
     PROP_UTF8(Logo);
     PROP_UTF8(BrowserHistory);
+	PROP_BOOL(AutoSubscribe);
+	PROP_BOOL(AutoAccept);
 
     string		buildId(JabberUserData *data);
     JabberUserData	*findContact(const char *jid, const char *name, bool bCreate, Contact *&contact);

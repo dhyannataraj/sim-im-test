@@ -237,7 +237,7 @@ QPoint CToolButton::popupPos(QWidget *p)
     return popupPos(this, p);
 }
 
-QPoint CToolButton::popupPos(QToolButton *btn, QWidget *p)
+QPoint CToolButton::popupPos(QWidget *btn, QWidget *p)
 {
     QPoint pos;
     QToolBar *bar = NULL;
@@ -247,16 +247,18 @@ QPoint CToolButton::popupPos(QToolButton *btn, QWidget *p)
             break;
         }
     }
-    if (bar == NULL)
-        return pos;
-    if (bar->orientation() == Vertical){
-        pos = QPoint(btn->width(), 0);
-    }else{
-        pos = QPoint(0, btn->height());
-    }
+    QSize s = p->sizeHint();
+    if (bar){
+		if  (bar->orientation() == Vertical){
+			pos = QPoint(btn->width(), 0);
+		}else{
+			pos = QPoint(0, btn->height());
+		}
+	}else{
+		pos = QPoint(btn->width() - s.width(), btn->height());
+	}
     pos = btn->mapToGlobal(pos);
     QWidget *desktop = qApp->desktop();
-    QSize s = p->sizeHint();
     if (pos.x() + s.width() > desktop->width())
         pos.setX(desktop->width() - s.width());
     if (pos.y() + s.height() > desktop->height())
