@@ -201,8 +201,10 @@ void ListView::showPopup(QListViewItem *item, QPoint p)
     mp->key	 = 0;
     Event eMenu(EventProcessMenu, mp);
     QPopupMenu *menu = (QPopupMenu*)eMenu.process();
-    if (menu)
+    if (menu){
+		setCurrentItem(item);
         menu->popup(p);
+	}
 }
 
 bool ListView::eventFilter(QObject *o, QEvent *e)

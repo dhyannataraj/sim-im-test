@@ -39,25 +39,20 @@ void MSNSearch::showEvent(QShowEvent *e)
     emit setAdd(true);
 }
 
-void MSNSearch::add(unsigned grp)
+void MSNSearch::createContact(unsigned tmpFlags, Contact *&contact)
 {
     QString mail = edtMail->text();
     int pos = 0;
     if ((edtMail->validator()->validate(mail, pos) != QValidator::Acceptable))
         return;
-    Contact *contact;
-    if (m_client->findContact(mail.utf8(), contact)){
-        emit showError(i18n("%1 already in contact list") .arg(mail));
+    if (m_client->findContact(mail.utf8(), contact))
         return;
-    }
     QString name = mail;
     int n = name.find('@');
     if (n > 0)
         name = name.left(n);
     m_client->findContact(mail.utf8(), name.utf8(), contact, false);
-    contact->setGroup(grp);
-    Event e(EventContactChanged, contact);
-    e.process();
+	contact->setFlags(contact->getFlags() | tmpFlags);
 }
 
 #ifndef WIN32

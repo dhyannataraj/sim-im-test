@@ -114,24 +114,19 @@ void JabberAdd::setBrowser(bool bBrowser)
     }
 }
 
-void JabberAdd::add(unsigned grp)
+void JabberAdd::createContact(unsigned tmpFlags, Contact *&contact)
 {
     if (!grpJID->isChecked() || edtJID->text().isEmpty())
         return;
-    Contact *contact;
     string resource;
-    if (m_client->findContact(edtJID->text().utf8(), NULL, false, contact, resource)){
-        emit showError(i18n("%1 already in contact list") .arg(edtJID->text()));
+    if (m_client->findContact(edtJID->text().utf8(), NULL, false, contact, resource))
         return;
-    }
     QString name = edtJID->text();
     int n = name.find('@');
     if (n > 0)
         name = name.left(n);
     m_client->findContact(edtJID->text().utf8(), name.utf8(), true, contact, resource, false);
-    contact->setGroup(grp);
-    Event e(EventContactChanged, contact);
-    e.process();
+	contact->setFlags(contact->getFlags() | tmpFlags);
 }
 
 void JabberAdd::search()
@@ -217,7 +212,7 @@ void *JabberAdd::processEvent(Event *e)
         DiscoItem *item = (DiscoItem*)(e->param());
         if (m_id_browse == item->id){
             if (item->jid.empty()){
-				if (!item->name.empty()){
+				if (!item->node.empty()){
 					QString url;
 					if (m_client->getUseVHost())
 						url = QString::fromUtf8(m_client->getVHost());
@@ -450,6 +445,16 @@ void JabberAdd::checkDone()
     if (m_id_browse.empty() && m_id_disco.empty() &&
             m_disco_items.empty() && m_agents.empty())
         emit searchDone(this);
+}
+
+void JabberAdd::createContact(const QString &name, unsigned tmpFlags, Contact *&contact)
+{
+    string resource;
+    if (m_client->findContact(name.utf8(), NULL, false, contact, resource))
+        return;
+	if (m_client->findContact(name.utf8(), NULL, true, contact, resource, false) == NULL)
+		return;
+	contact->setFlags(contact->getFlags() | tmpFlags);
 }
 
 #ifndef WIN32

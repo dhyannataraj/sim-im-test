@@ -37,7 +37,6 @@ signals:
     void setAdd(bool);
     void addResult(QWidget*);
     void showResult(QWidget*);
-    void showError(const QString&);
     void setColumns(const QStringList&, int, QWidget*);
     void addItem(const QStringList&, QWidget*);
     void searchDone(QWidget*);
@@ -45,11 +44,12 @@ protected slots:
     void advDestroyed();
     void radioToggled(bool);
     void advClick();
-    void add(unsigned grp_id);
     void search();
 	void searchStop();
 	void searchMail(const QString&);
 	void searchName(const QString&, const QString&, const QString&);
+	void createContact(const QString&, unsigned tmpFlags, Contact *&contact);
+	void createContact(unsigned tmpFlags, Contact *&contact);
 protected:
     enum SearchType
     {
@@ -64,7 +64,7 @@ protected:
     void setAdv(bool);
     void icq_search();
 	void addColumns();
-    void add(const QString &screen, unsigned grp_id);
+    void add(const QString &screen, unsigned tmpFlags, Contact *&contact);
     list<unsigned>		m_uins;
     ICQClient			*m_client;
     QWidget				*m_adv;

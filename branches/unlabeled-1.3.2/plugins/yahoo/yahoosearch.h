@@ -31,10 +31,9 @@ public:
     YahooSearch(YahooClient *client, QWidget *parent);
 signals:
     void setAdd(bool);
-    void showError(const QString&);
 protected slots:
     void radioToggled(bool);
-    void add(unsigned);
+	void createContact(unsigned tmpFlags, Contact *&contact);
 protected:
     YahooClient *m_client;
     void showEvent(QShowEvent*);

@@ -134,6 +134,7 @@ using namespace std;
 #include "xpm/chat.xpm"
 #include "xpm/encoding.xpm"
 #include "xpm/add.xpm"
+#include "xpm/new.xpm"
 
 #define KICON(A)    addIcon(#A, p_##A, #A, 0);
 #define ICON(A)		addIcon(#A, A, NULL, 0);
@@ -287,6 +288,7 @@ Icons::Icons()
     ICON(chat);
     addIcon("encoding", encoding, "charset", 0);
     addIcon("add", add, "bookmark_add", 0);
+    addIcon("new", p_new, "filenew", 0);
 }
 
 Icons::~Icons()

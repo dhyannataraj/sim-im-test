@@ -4393,6 +4393,10 @@ SOURCE=.\xpm\na.xpm
 # End Source File
 # Begin Source File
 
+SOURCE=.\xpm\new.xpm
+# End Source File
+# Begin Source File
+
 SOURCE=.\xpm\nonim.xpm
 # End Source File
 # Begin Source File

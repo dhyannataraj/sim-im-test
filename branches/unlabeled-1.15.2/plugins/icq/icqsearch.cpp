@@ -151,23 +151,20 @@ void ICQSearch::setAdv(bool bAdv)
     emit showResult(m_bAdv ? m_adv : NULL);
 }
 
-void ICQSearch::add(unsigned grp_id)
+void ICQSearch::createContact(unsigned tmpFlags, Contact *&contact)
 {
     if (grpScreen && grpScreen->isChecked() && !edtScreen->text().isEmpty())
-        add(edtScreen->text(), grp_id);
+        add(edtScreen->text(), tmpFlags, contact);
     if (grpAOL && grpAOL->isChecked() && !edtAOL->text().isEmpty())
-        add(edtAOL->text(), grp_id);
+        add(edtAOL->text(), tmpFlags, contact);
 }
 
-void ICQSearch::add(const QString &screen, unsigned grp_id)
+void ICQSearch::add(const QString &screen, unsigned tmpFlags, Contact *&contact)
 {
-    Contact *contact;
-    ICQUserData *data = m_client->findContact(screen.utf8(), NULL, false, contact);
-    if (data){
-        emit showError(i18n("%1 already in contact list") .arg(screen));
+    if (m_client->findContact(screen.utf8(), NULL, false, contact))
         return;
-    }
-    m_client->findContact(screen.utf8(), screen.utf8(), true, contact, getContacts()->group(grp_id), false);
+    m_client->findContact(screen.utf8(), screen.utf8(), true, contact, NULL, false);
+	contact->setFlags(contact->getFlags() | tmpFlags);
 }
 
 extern const ext_info *p_ages;
@@ -453,6 +450,15 @@ void *ICQSearch::processEvent(Event *e)
         emit addItem(l, this);
     }
     return NULL;
+}
+
+void ICQSearch::createContact(const QString &name, unsigned tmpFlags, Contact *&contact)
+{
+    if (m_client->findContact(name.utf8(), NULL, false, contact))
+		return;
+	if (m_client->findContact(name.utf8(), name.utf8(), true, contact, NULL, false) == NULL)
+		return;
+	contact->setFlags(contact->getFlags() | tmpFlags);
 }
 
 #ifndef WIN32

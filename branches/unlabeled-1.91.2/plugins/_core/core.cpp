@@ -513,6 +513,12 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     eMenuStatusWnd.process();
     Event eMenuEncoding(EventMenuCreate, (void*)MenuEncoding);
     eMenuEncoding.process();
+    Event eMenuSearch(EventMenuCreate, (void*)MenuSearch);
+    eMenuSearch.process();
+    Event eMenuSearchGroups(EventMenuCreate, (void*)MenuSearchGroups);
+    eMenuSearchGroups.process();
+    Event eMenuSearchOptions(EventMenuCreate, (void*)MenuSearchOptions);
+    eMenuSearchOptions.process();
 
     Command cmd;
     cmd->id          = CmdConfigure;
@@ -1369,6 +1375,44 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->bar_grp	 = 0x8080;
     cmd->popup_id	 = MenuEncoding;
     eCmd.process();
+
+    cmd->id			 = CmdContactGroup;
+    cmd->text		 = I18N_NOOP("Add to &group");
+    cmd->icon		 = NULL;
+    cmd->menu_id	 = MenuSearch;
+    cmd->menu_grp	 = 0x1000;
+    cmd->bar_id		 = 0;
+    cmd->bar_grp	 = 0;
+    cmd->popup_id	 = MenuSearchGroups;
+    cmd->flags		 = COMMAND_DEFAULT;
+    eCmd.process();
+
+	cmd->id			 = CmdSearchInfo;
+    cmd->text		 = I18N_NOOP("&Info");
+    cmd->icon		 = "info";
+    cmd->menu_grp	 = 0x1001;
+    cmd->popup_id	 = 0;
+    eCmd.process();
+
+    cmd->menu_id	 = MenuSearchOptions;
+	eCmd.process();
+
+	cmd->id			 = CmdSearchMsg;
+    cmd->text		 = I18N_NOOP("Send &message");
+    cmd->icon		 = "message";
+	cmd->menu_id	 = MenuSearch;
+    cmd->menu_grp	 = 0x1002;
+    eCmd.process();
+
+    cmd->menu_id	 = MenuSearchOptions;
+	eCmd.process();
+
+	cmd->id			 = CmdContactGroup;
+	cmd->text		 = "_";
+	cmd->flags		 = COMMAND_CHECK_STATE;
+	cmd->menu_id	 = MenuSearchGroups;
+	cmd->menu_grp	 = 0x1000;
+	eCmd.process();
 }
 
 void CorePlugin::initData()

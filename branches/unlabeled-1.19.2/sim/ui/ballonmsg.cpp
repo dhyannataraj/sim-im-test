@@ -337,11 +337,11 @@ void BalloonMsg::action(int id)
     }
 }
 
-void BalloonMsg::message(const QString &text, QWidget *parent, bool bModal, unsigned width)
+void BalloonMsg::message(const QString &text, QWidget *parent, bool bModal, unsigned width, const QRect *rc)
 {
     QStringList btns;
     btns.append(i18n("&Ok"));
-    BalloonMsg *msg = new BalloonMsg(NULL, QString("<center>") + quoteString(text) + "</center>", btns, parent, NULL, bModal, true, width);
+    BalloonMsg *msg = new BalloonMsg(NULL, QString("<center>") + quoteString(text) + "</center>", btns, parent, rc, bModal, true, width);
     if (bModal){
         msg->exec();
     }else{

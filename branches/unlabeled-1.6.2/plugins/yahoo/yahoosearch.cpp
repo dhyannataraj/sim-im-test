@@ -71,17 +71,14 @@ void YahooSearch::showEvent(QShowEvent *e)
     emit setAdd(grpID->isChecked());
 }
 
-void YahooSearch::add(unsigned grp)
+void YahooSearch::createContact(unsigned tmpFlags, Contact *&contact)
 {
     if (!grpID->isChecked() || edtID->text().isEmpty())
         return;
-    Contact *contact;
-    if (m_client->findContact(edtID->text().utf8(), NULL, contact)){
-        emit showError(i18n("%1 already in contact list") .arg(edtID->text()));
+    if (m_client->findContact(edtID->text().utf8(), NULL, contact))
         return;
-    }
-    Group *group = getContacts()->group(grp);
-    m_client->findContact(edtID->text().utf8(), group->getName().utf8(), contact, true, false);
+    m_client->findContact(edtID->text().utf8(), NULL, contact, true, false);
+	contact->setFlags(contact->getFlags() | tmpFlags);
 }
 
 #ifndef WIN32

@@ -31,9 +31,8 @@ public:
     MSNSearch(MSNClient *client, QWidget *parent);
 signals:
     void setAdd(bool);
-    void showError(const QString&);
 protected slots:
-    void add(unsigned grp);
+	void createContact(unsigned tmpFlags, Contact *&contact);
 protected:
     MSNClient *m_client;
     void showEvent(QShowEvent*);
