@@ -574,7 +574,7 @@ clean-moc-classes:
 	-rm -f  libqt3_a_meta_unload.cpp
 
 #>+ 11
-libqt3_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/qtextbrowser.cpp $(srcdir)/qsimplerichtext.cpp $(srcdir)/qkeysequence.cpp $(srcdir)/qtextedit.cpp $(srcdir)/qstylesheet.cpp $(srcdir)/qrichtext_p.cpp $(srcdir)/qrichtext.cpp $(srcdir)/qcomplextext.cpp libqt3_a_meta_unload.cpp
+libqt3_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/qtextbrowser.cpp $(srcdir)/qsimplerichtext.cpp $(srcdir)/qkeysequence.cpp $(srcdir)/qtextedit.cpp $(srcdir)/qstylesheet.cpp $(srcdir)/qrichtext_p.cpp $(srcdir)/qrichtext.cpp $(srcdir)/qcomplextext.cpp $(srcdir)/libqt3_a_meta_unload.cpp
 	@echo 'creating libqt3_a.all_cpp.cpp ...'; \
 	rm -f libqt3_a.all_cpp.files libqt3_a.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> libqt3_a.all_cpp.final; \

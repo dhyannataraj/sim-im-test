@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-07-12 20:26+0400\n"
+"POT-Creation-Date: 2002-07-14 16:24+0400\n"
 "PO-Revision-Date: 2002-07-11 20:39GMT\n"
 "Last-Translator: Crissi <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -127,12 +127,12 @@ msgstr "N/A"
 msgid "Last online"
 msgstr "Zuletzt online"
 
-#: dock.cpp:492
+#: dock.cpp:493
 #, c-format
 msgid "%n unread message"
 msgstr "%n ungelesene Nachricht"
 
-#: dock.cpp:497 mainwin.cpp:1180
+#: dock.cpp:498 mainwin.cpp:1238
 msgid "Connecting"
 msgstr "Verbindungsaufbau"
 
@@ -180,175 +180,175 @@ msgstr "Registrieren"
 msgid "Registration"
 msgstr "Registrierung"
 
-#: logindlg.cpp:137
+#: logindlg.cpp:140
 msgid "Unknown login error"
 msgstr "Unbekannter Loginfehler"
 
-#: logindlg.cpp:141
+#: logindlg.cpp:144
 msgid "Rate limit"
 msgstr "Rate begrenzen"
 
-#: logindlg.cpp:145 passwddlg.cpp:53
+#: logindlg.cpp:148 passwddlg.cpp:53
 msgid "Invalid password"
 msgstr "Ungültiges Paßwort"
 
-#: mainwin.cpp:273
+#: mainwin.cpp:284
 msgid "Current location"
 msgstr "Aktueller Ort"
 
-#: mainwin.cpp:274
+#: mainwin.cpp:285
 msgid "Phone status"
 msgstr "Telefonstatus"
 
-#: mainwin.cpp:276
+#: mainwin.cpp:287
 msgid "Phone Book"
 msgstr "Adreßbuch"
 
-#: mainwin.cpp:290
+#: mainwin.cpp:301
 msgid "Show offline"
 msgstr "Offline anzeigen"
 
-#: mainwin.cpp:294
+#: mainwin.cpp:305
 msgid "Group mode"
 msgstr "Gruppenmodus"
 
-#: mainwin.cpp:306
+#: mainwin.cpp:317
 msgid "Menu"
 msgstr "Menü"
 
-#: mainwin.cpp:653
+#: mainwin.cpp:702
 msgid "%1 from %2 received"
 msgstr "%1 von %2 empfangen"
 
-#: mainwin.cpp:715
+#: mainwin.cpp:764
 msgid "Your UIN used from another location"
 msgstr "Ihre UIN wird von einem anderem Ort benutzt"
 
-#: mainwin.cpp:760
+#: mainwin.cpp:809
 msgid "User %1 is online"
 msgstr "Benutzer %1 ist online"
 
-#: mainwin.cpp:1155 mainwin.cpp:1381
+#: mainwin.cpp:1213 mainwin.cpp:1456
 msgid "&Yes"
 msgstr "&Ja"
 
-#: mainwin.cpp:1156 mainwin.cpp:1382
+#: mainwin.cpp:1214 mainwin.cpp:1457
 msgid "&No"
 msgstr "&Nein"
 
-#: mainwin.cpp:1157
+#: mainwin.cpp:1215
 msgid "Add user %1 to ignore list ?"
 msgstr "Benutzer %1 zur Ignorierenliste hinzufügen?"
 
-#: mainwin.cpp:1223
+#: mainwin.cpp:1281
 msgid "In visible list"
 msgstr "In Sichtbar-Liste"
 
-#: mainwin.cpp:1225
+#: mainwin.cpp:1283
 msgid "In invisible list"
 msgstr "In Unsichtbar-Liste"
 
-#: mainwin.cpp:1228
+#: mainwin.cpp:1286
 msgid "In ignore list"
 msgstr "In Ignorieren-Liste"
 
-#: mainwin.cpp:1245 mainwin.cpp:1669
+#: mainwin.cpp:1303 mainwin.cpp:1744
 msgid "Groups"
 msgstr "Gruppen"
 
-#: mainwin.cpp:1250 ui/userinfo.cpp:53 userbox.cpp:149 userbox.cpp:272
+#: mainwin.cpp:1308 ui/userinfo.cpp:53 userbox.cpp:149 userbox.cpp:281
 msgid "User info"
 msgstr "Benutzerinformation"
 
-#: mainwin.cpp:1251 userbox.cpp:154 userbox.cpp:316
+#: mainwin.cpp:1309 userbox.cpp:154 userbox.cpp:325
 msgid "History"
 msgstr "Verlauf"
 
-#: mainwin.cpp:1254
+#: mainwin.cpp:1312
 msgid "Floating off"
 msgstr "Floating aus"
 
-#: mainwin.cpp:1254
+#: mainwin.cpp:1312
 msgid "Floating on"
 msgstr "Floating an"
 
-#: mainwin.cpp:1257
+#: mainwin.cpp:1315
 msgid "Users"
 msgstr "Benutzer"
 
-#: mainwin.cpp:1383
+#: mainwin.cpp:1458
 msgid "Delete user %1?"
 msgstr "Benutzer %1 löschen?"
 
-#: mainwin.cpp:1450 msgedit.cpp:724
+#: mainwin.cpp:1525 msgedit.cpp:724
 msgid "New"
 msgstr "Neu"
 
-#: mainwin.cpp:1453
+#: mainwin.cpp:1528
 msgid "To container"
 msgstr "In Container"
 
-#: mainwin.cpp:1645
+#: mainwin.cpp:1720
 msgid "Invisible"
 msgstr "Unsichtbar"
 
-#: mainwin.cpp:1648
+#: mainwin.cpp:1723
 msgid "Don't show"
 msgstr "Nicht anzeigen"
 
-#: mainwin.cpp:1649
+#: mainwin.cpp:1724
 msgid "Available"
 msgstr "Verfügbar"
 
-#: mainwin.cpp:1650
+#: mainwin.cpp:1725
 msgid "Busy"
 msgstr "Beschäftigt"
 
-#: mainwin.cpp:1653 userview.cpp:475
+#: mainwin.cpp:1728 userview.cpp:475
 msgid "Create group"
 msgstr "Gruppe erstellen"
 
-#: mainwin.cpp:1655 userview.cpp:480
+#: mainwin.cpp:1730 userview.cpp:480
 msgid "Expand all"
 msgstr "Alle aufklappen"
 
-#: mainwin.cpp:1656 userview.cpp:481
+#: mainwin.cpp:1731 userview.cpp:481
 msgid "Collapse all"
 msgstr "Alle zusammenklappen"
 
-#: mainwin.cpp:1660
+#: mainwin.cpp:1735
 msgid "ICQ"
 msgstr "ICQ"
 
-#: mainwin.cpp:1663
+#: mainwin.cpp:1738
 msgid "Find User"
 msgstr "Benutzer suchen"
 
-#: mainwin.cpp:1664
+#: mainwin.cpp:1739
 msgid "Add Non-IM contact"
 msgstr "Nicht-IM-Kontakt hinzufügen"
 
-#: mainwin.cpp:1666 ui/statussetupbase.cpp:79 usertbl.cpp:112
+#: mainwin.cpp:1741 ui/statussetupbase.cpp:79 usertbl.cpp:112
 msgid "Status"
 msgstr "Status"
 
-#: mainwin.cpp:1668 ui/setupdlg.cpp:64
+#: mainwin.cpp:1743 ui/setupdlg.cpp:64
 msgid "Setup"
 msgstr "Einrichten"
 
-#: mainwin.cpp:1670
+#: mainwin.cpp:1745
 msgid "Phone \"Follow Me\""
 msgstr "\"Folge mir\" anrufen"
 
-#: mainwin.cpp:1673
+#: mainwin.cpp:1748
 msgid "Always on top"
 msgstr "Immer oben"
 
-#: mainwin.cpp:1677
+#: mainwin.cpp:1752
 msgid "&About SIM"
 msgstr "&Über SIM"
 
-#: mainwin.cpp:1678
+#: mainwin.cpp:1753
 msgid "About &KDE"
 msgstr "Über &KDE"
 
@@ -526,7 +526,7 @@ msgstr "Zur Ignorieren-Liste hinzufügen"
 msgid "Move to group"
 msgstr "Zu Gruppe verschieben"
 
-#: userbox.cpp:232
+#: userbox.cpp:241
 msgid "All users"
 msgstr "Alle Benutzer"
 

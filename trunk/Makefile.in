@@ -278,7 +278,7 @@ $(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 #>+ 3
 	cd $(top_srcdir) && \
 	$(AUTOMAKE) --foreign  ./Makefile
-	cd $(top_srcdir) && perl admin/am_edit sim-0.7/Makefile.in
+	cd $(top_srcdir) && perl admin/am_edit Makefile.in
 Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && \
 	CONFIG_HEADERS= CONFIG_LINKS= \
@@ -628,7 +628,7 @@ apidox: apidox-am
 force-reedit:
 		cd $(top_srcdir) && \
 	$(AUTOMAKE) --foreign  ./Makefile
-	cd $(top_srcdir) && perl admin/am_edit sim-0.7/Makefile.in
+	cd $(top_srcdir) && perl admin/am_edit Makefile.in
 
 
 #>+ 2

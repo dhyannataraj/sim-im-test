@@ -929,7 +929,7 @@ void ICQClient::processMsgQueueThruServer()
                 unsigned nContacts = msg->Contacts.size();
                 char u[13];
                 snprintf(u, sizeof(u), "%u", nContacts);
-                for (ConfigULongs::iterator itUin = msg->Uin.begin(); itUin != msg->Uin.end(); ++it){
+                for (ConfigULongs::iterator itUin = msg->Uin.begin(); itUin != msg->Uin.end(); ++itUin){
                     msgBuffer << u;
                     for (ContactList::iterator it_msg = msg->Contacts.begin(); it_msg != msg->Contacts.end(); it_msg++){
                         Contact *contact = static_cast<Contact*>(*it_msg);

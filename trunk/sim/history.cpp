@@ -33,6 +33,12 @@ using namespace std;
 #define ios	ios_base
 #endif
 
+#ifdef WIN32
+#define OPEN(a, b)	 open(a, b);
+#else
+#define OPEN(a, b)	 open(a, b, 0600);
+#endif
+
 History::History(unsigned long uin)
         : it(*this), m_nUin(uin)
 {
@@ -65,7 +71,7 @@ bool History::open(bool bWrite, std::fstream &f)
              m_nUin);
     string fname;
     pMain->buildFileName(fname, buffer);
-    f.open(fname.c_str(), bWrite ? ios::out | ios::app : ios::in, 0600);
+    f.OPEN(fname.c_str(), bWrite ? ios::out | ios::app : ios::in);
     if (!f.is_open()){
         log(L_WARN, "File %s not open", fname.c_str());
         return false;
