@@ -1406,6 +1406,7 @@ bool JabberClient::canSend(unsigned type, void *_data)
     switch (type){
     case MessageGeneric:
 	case MessageFile:
+	case MessageUrl:
         return true;
     case MessageAuthRequest:
         return ((data->Subscribe & SUBSCRIBE_TO) == 0) && !isAgent(data->ID);
@@ -1511,7 +1512,7 @@ static const char *_styles[] =
 void JabberImageParser::startBody(const list<QString> &attrs)
 {
     m_bBody = true;
-    res = "<body>";
+    res = "";
     list<QString> newStyles;
     list<QString>::const_iterator it;
     for (it = attrs.begin(); it != attrs.end(); ++it){
@@ -1554,7 +1555,7 @@ void JabberImageParser::startBody(const list<QString> &attrs)
 void JabberImageParser::endBody()
 {
     if (m_bBody){
-        res += "</span></body>";
+        res += "</span>";
         m_bBody = false;
     }
 }
@@ -1765,9 +1766,66 @@ bool JabberClient::send(Message *msg, void *_data)
             << "</body>";
             if (data->richText && getRichText()){
                 m_socket->writeBuffer
-                << "<html xmlns='http://jabber.org/protocol/xhtml-im'>"
+                << "<html xmlns='http://jabber.org/protocol/xhtml-im'><body>"
                 << removeImages(msg->getRichText(), msg->getBackground()).utf8()
-                << "</html>";
+                << "</body></html>";
+            }
+            m_socket->writeBuffer
+            << "</message>";
+            sendPacket();
+            if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
+                if (data->richText){
+                    msg->setClient(dataName(data).c_str());
+                    Event e(EventSent, msg);
+                    e.process();
+                }else{
+                    Message m(MessageGeneric);
+                    m.setContact(msg->contact());
+                    m.setClient(dataName(data).c_str());
+                    m.setText(msg->getPlainText());
+                    Event e(EventSent, msg);
+                    e.process();
+                }
+            }
+            Event e(EventMessageSent, msg);
+            e.process();
+            delete msg;
+            return true;
+        }
+    case MessageUrl:{
+            Contact *contact = getContacts()->contact(msg->contact());
+            if ((contact == NULL) || (data == NULL))
+                return false;
+			UrlMessage *m = static_cast<UrlMessage*>(msg);
+            m_socket->writeBuffer.packetStart();
+            m_socket->writeBuffer
+            << "<message type=\'chat\' to=\'"
+            << data->ID;
+            m_socket->writeBuffer
+            << "\'><body>"
+			<< (const char*)(quoteString(m->getUrl(), false).utf8());
+			QString text = m->getPlainText();
+			if (!t.isEmpty()){
+	            m_socket->writeBuffer
+				<< "\n";
+				<< (const char*)(quoteString(m->getPlainText(), false).utf8())
+			}
+            << "</body>";
+            if (data->richText && getRichText()){
+                m_socket->writeBuffer
+                << "<html xmlns='http://jabber.org/protocol/xhtml-im'><body>"
+				<< "<a href=\'"
+				<< (const char*)(quoteString(m->getUrl(), false).utf8())
+				<< "\'>"
+				<< (const char*)(quoteString(m->getUrl(), false).utf8())
+				<< "</a>";
+				if (!t.isEmpty()){
+	                m_socket->writeBuffer
+					<< <br/>
+					<< removeImages(msg->getRichText(), msg->getBackground()).utf8();
+				}
+                m_socket->writeBuffer
+                << "</body></html>";
             }
             m_socket->writeBuffer
             << "</message>";

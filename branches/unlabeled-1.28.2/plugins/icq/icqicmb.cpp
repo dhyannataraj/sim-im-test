@@ -528,6 +528,23 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
         send(false);
         return true;
     case MessageUrl:
+        if ((data->Uin == 0) || m_bAIM ||
+                (hasCap(data, CAP_AIM_BUDDYCON) && !hasCap(data, CAP_AIM_CHAT))){
+			UrlMessage *m = static_cast<UrlMessage*>(msg);
+			QString text = "<a href=\"";
+			text += m->getUrl();
+			text += "\">";
+			text += m->getUrl();
+			text += "</a><br>";
+			text += removeImages(msg->getRichText(), 0); 
+            s.flags  = SEND_HTML;
+            s.msg	 = msg;
+            s.text	 = text;
+            s.screen = screen(data);
+            sendQueue.push_front(s);
+            send(false);
+            return true;
+        }
     case MessageContacts:
     case MessageFile:
     case MessageCheckInvisible:
