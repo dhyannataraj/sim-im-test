@@ -586,12 +586,13 @@ void PluginManagerPrivate::reloadState()
 
 void PluginManagerPrivate::loadState()
 {
-    if (m_bLoaded)
-        return;
-    m_bLoaded = true;
+    if (m_bLoaded) return;
+    
+	m_bLoaded = true;
     string cfgName = user_file(PLUGINS_CONF);
     QFile f(QFile::decodeName(cfgName.c_str()));
-    if (!f.exists()) {
+    
+	if (!f.exists()) {
         /* Maybe first start ? */
         QDir dir(user_file(NULL).c_str());
         if (!dir.exists()) {
@@ -608,20 +609,27 @@ void PluginManagerPrivate::loadState()
             return;
         }
     }
-    if (!f.open(IO_ReadOnly)){
+    
+	if (!f.open(IO_ReadOnly)){
         log(L_ERROR, "Can't open %s", f.name().ascii());
         return;
     }
-    Buffer cfg;
+    
+	Buffer cfg;
     cfg.init(f.size());
     int n = f.readBlock(cfg.data(), f.size());
-    if (n < 0){
+    
+	if (n < 0){
         log(L_ERROR, "Can't read %s", f.name().ascii());
         return;
     }
-    for (;;){
-        string section = cfg.getSection();
-        if (section.empty())
+    
+	bool continous=TRUE;
+	while(continous) {
+		
+		string section = cfg.getSection();
+        
+		if (section.empty())
             return;
         unsigned i = NO_PLUGIN;
         for (unsigned n = 0; n < plugins.size(); n++)
@@ -632,10 +640,12 @@ void PluginManagerPrivate::loadState()
        
         if (i == NO_PLUGIN)
             continue;
+
         pluginInfo &info = plugins[i];
         const char *line = cfg.getLine();
-        if (line == NULL)
-            continue;
+        
+		if (line == NULL)
+        	continue;
         string token = getToken(line, ',');
         if (token == ENABLE){
             info.bDisabled = false;
@@ -645,12 +655,13 @@ void PluginManagerPrivate::loadState()
             info.bDisabled = true;
             info.bFromCfg  = true;
         }
-		else
-            continue;
+		else {continue;}
         
         info.base = atol(line);
+
         if (info.base > m_base)
             m_base = info.base;
+
         if (cfg.readPos() < cfg.writePos()){
             plugins[i].cfg = new Buffer;
             plugins[i].cfg->pack(cfg.data(cfg.readPos()), cfg.writePos() - cfg.readPos());
