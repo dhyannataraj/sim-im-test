@@ -1043,7 +1043,7 @@ void UserView::contentsDropEvent(QDropEvent *e)
     dragEvent(e, true);
 }
 
-void UserView::callUserFunction(unsigned long uin, const QString &url)
+void UserView::callUserFunction(unsigned long uin, const QString &url, bool bUrl)
 {
     QString protocol;
     int p = url.find(QRegExp("^\"?[A-Za-z]+:/"));
@@ -1055,7 +1055,7 @@ void UserView::callUserFunction(unsigned long uin, const QString &url)
         protocol = protocol.mid(1);
     if ((protocol == "http") || (protocol == "https") || (protocol == "ftp")){
         pMain->userFunction(uin, mnuURL, (unsigned long)&url);
-    }else if (protocol.length()){
+    }else if (protocol.length() || bUrl){
         pMain->userFunction(uin, mnuFile, (unsigned long)&url);
     }else if ((url.left(2) == "\\\\") || (url.left(3) == "\"\\\\")){
         pMain->userFunction(uin, mnuFile, (unsigned long)&url);
@@ -1090,7 +1090,7 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
                     *it = QString("\"") + *it + "\"";
                 }
             }
-            callUserFunction(ui->m_uin, urls.join(" "));
+            callUserFunction(ui->m_uin, urls.join(" "), true);
         }
         e->accept();
         return;
@@ -1107,7 +1107,7 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
                 }
                 if (isDrop) pMain->userFunction(ui->m_uin, mnuContacts, uin);
             }else if (isDrop){
-                callUserFunction(uin, text);
+                callUserFunction(uin, text, false);
             }
             e->accept();
             return;

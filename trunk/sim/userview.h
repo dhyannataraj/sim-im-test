@@ -146,7 +146,7 @@ protected:
     virtual void startDrag();
 
     void dragEvent(QDropEvent *e, bool isDrop);
-    void callUserFunction(unsigned long uin, const QString &url);
+    void callUserFunction(unsigned long uin, const QString &url, bool bUrl);
 
     void updateUser(unsigned long uin, bool bFull);
 
