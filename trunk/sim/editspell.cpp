@@ -103,14 +103,7 @@ void EditSpell::resetColors(bool bCanRich)
             setBackground(baseBG);
             setForeground(baseFG);
         }
-        if (pMain->UserBoxFontSize > 128) pMain->UserBoxFontSize = 0;
-        if (pMain->UserBoxFontSize){
-            QFont f(pMain->UserBoxFontFamily.c_str(),
-                    pMain->UserBoxFontSize,
-                    pMain->UserBoxFontWeight,
-                    pMain->UserBoxFontItalic);
-            setCurrentFont(f);
-        }
+        setCurrentFont(pMain->str2font(pMain->UserBoxFont.c_str(), font()));
     }else{
         setBackground(baseBG);
         setForeground(baseFG);

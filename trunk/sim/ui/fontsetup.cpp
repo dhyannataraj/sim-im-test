@@ -83,16 +83,8 @@ void FontSetup::apply(ICQUser*)
     pMain->UseSystemFonts = chkSystem->isChecked();
     if (!pMain->UseSystemFonts){
 #endif
-        const QFont &fontWin = edtFont->winFont();
-        const QFont &fontMenu = edtFontMenu->winFont();
-        pMain->FontFamily = fontWin.family();
-        pMain->FontSize = fontWin.pointSize();
-        pMain->FontWeight = fontWin.weight();
-        pMain->FontItalic = fontWin.italic();
-        pMain->FontMenuFamily = fontMenu.family();
-        pMain->FontMenuSize = fontMenu.pointSize();
-        pMain->FontMenuWeight = fontMenu.weight();
-        pMain->FontMenuItalic = fontMenu.italic();
+        pMain->Font = pMain->font2str(edtFont->winFont(), false).local8Bit();
+        pMain->FontMenu = pMain->font2str(edtFontMenu->winFont(), false).local8Bit();
 #ifdef USE_KDE
     }
 #endif

@@ -66,11 +66,7 @@ void XOSDSetup::apply(ICQUser*)
     pMain->XOSD_Shadow = chkShadow->isChecked();
     pMain->XOSD_Background = chkBackground->isChecked();
     pMain->XOSD_BgColor = btnBgColor->color().rgb() & 0xFFFFFF;
-    const QFont &f = edtFont->winFont();
-    pMain->XOSD_FontFamily = f.family();
-    pMain->XOSD_FontSize = f.pointSize();
-    pMain->XOSD_FontWeight = f.weight();
-    pMain->XOSD_FontItalic = f.italic();
+    pMain->XOSD_Font = pMain->font2str(edtFont->winFont(), false).local8Bit();
     pMain->xosd->init();
 }
 

@@ -176,15 +176,8 @@ public:
 
     bool			UseSystemFonts;
 
-    string			FontFamily;
-    unsigned short	FontSize;
-    unsigned short	FontWeight;
-    bool			FontItalic;
-
-    string			FontMenuFamily;
-    unsigned short	FontMenuSize;
-    unsigned short	FontMenuWeight;
-    bool			FontMenuItalic;
+    string			Font;
+    string			FontMenu;
 
     unsigned long	ColorSend;
     unsigned long	ColorReceive;
@@ -200,10 +193,7 @@ public:
     short			UserBoxToolbarOffset;
     short			UserBoxToolbarY;
 
-    string			UserBoxFontFamily;
-    unsigned short	UserBoxFontSize;
-    unsigned short	UserBoxFontWeight;
-    bool			UserBoxFontItalic;
+    string			UserBoxFont;
 
     bool			CloseAfterSend;
     bool			CloseAfterFileTransfer;
@@ -216,10 +206,7 @@ public:
     short			XOSD_pos;
     short			XOSD_offset;
     unsigned long	XOSD_color;
-    string			XOSD_FontFamily;
-    unsigned short	XOSD_FontSize;
-    unsigned short	XOSD_FontWeight;
-    bool			XOSD_FontItalic;
+    string			XOSD_Font;
     unsigned short	XOSD_timeout;
     bool			XOSD_Shadow;
     bool			XOSD_Background;
@@ -271,6 +258,9 @@ public:
     void destroyBox(UserBox*);
     unsigned long m_uin;
     QRect m_rc;
+
+    QFont str2font(const char *font, const QFont &defFont);
+    QString font2str(const QFont &font, bool use_tr);
 
     void setFonts();
     void changeColors();

@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "fontedit.h"
+#include "mainwin.h"
 #include "icons.h"
 
 #include <qlayout.h>
@@ -47,34 +48,7 @@ FontEdit::FontEdit(QWidget *parent, const char *name) : QFrame(parent, name)
 void FontEdit::setWinFont(const QFont &_f)
 {
     f = _f;
-    QString fontName = f.family();
-    fontName += ", ";
-    fontName += QString::number(f.pointSize());
-    fontName += " pt.";
-    switch (f.weight()){
-    case QFont::Light:
-        fontName += ", ";
-        fontName += i18n("light");
-        break;
-    case QFont::DemiBold:
-        fontName += ", ";
-        fontName += i18n("demibold");
-        break;
-    case QFont::Bold:
-        fontName += ", ";
-        fontName += i18n("bold");
-        break;
-    case QFont::Black:
-        fontName += ", ";
-        fontName += i18n("black");
-        break;
-    default:
-        break;
-    }
-    if (f.italic()){
-        fontName += ", ";
-        fontName += i18n("italic");
-    }
+    QString fontName = pMain->font2str(f, true);
     lblFont->setText(fontName);
 }
 

@@ -34,22 +34,16 @@ XOSD::XOSD(QWidget *p)
 
 void XOSD::init()
 {
-    if (pMain->XOSD_FontSize){
-        QFont f(pMain->XOSD_FontFamily.c_str(), pMain->XOSD_FontSize,
-                pMain->XOSD_FontWeight, pMain->XOSD_FontItalic);
-        setFont(f);
+    QFont f = pMain->font();
+    int size = f.pixelSize();
+    if (size <= 0){
+        size = f.pointSize();
+        f.setPointSize(size * 2);
     }else{
-        QFont f = pMain->font();
-        int size = f.pixelSize();
-        if (size <= 0){
-            size = f.pointSize();
-            f.setPointSize(size * 2);
-        }else{
-            f.setPixelSize(size * 2);
-        }
-        f.setBold(true);
-        setFont(f);
+        f.setPixelSize(size * 2);
     }
+    f.setBold(true);
+    setFont(pMain->str2font(pMain->XOSD_Font.c_str(), f));
 }
 
 #define SHADOW_OFFS	2

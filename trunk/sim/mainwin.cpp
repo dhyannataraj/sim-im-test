@@ -214,14 +214,8 @@ cfgParam MainWindow_Params[] =
         { "NoShowDND", offsetof(MainWindow, NoShowDND), PARAM_BOOL, 0 },
         { "NoShowFFC", offsetof(MainWindow, NoShowFFC), PARAM_BOOL, 0 },
         { "UseSystemFonts", offsetof(MainWindow, UseSystemFonts), PARAM_BOOL, 0 },
-        { "FontFamily", offsetof(MainWindow, FontFamily), PARAM_STRING, 0 },
-        { "FontSize", offsetof(MainWindow, FontSize), PARAM_USHORT, 0 },
-        { "FontWeight", offsetof(MainWindow, FontWeight), PARAM_USHORT, 0 },
-        { "FontItalic", offsetof(MainWindow, FontItalic), PARAM_USHORT, 0 },
-        { "FontMenuFamily", offsetof(MainWindow, FontMenuFamily), PARAM_STRING, 0 },
-        { "FontMenuSize", offsetof(MainWindow, FontMenuSize), PARAM_USHORT, 0 },
-        { "FontMenuWeight", offsetof(MainWindow, FontMenuWeight), PARAM_USHORT, 0 },
-        { "FontMenuItalic", offsetof(MainWindow, FontMenuItalic), PARAM_USHORT, 0 },
+        { "Font", offsetof(MainWindow, Font), PARAM_STRING, 0 },
+        { "FontMenu", offsetof(MainWindow, FontMenu), PARAM_STRING, 0 },
         { "ColorSend", offsetof(MainWindow, ColorSend), PARAM_ULONG, 0x0000B0 },
         { "ColorReceive", offsetof(MainWindow, ColorReceive), PARAM_ULONG, 0xB00000 },
         { "ChatWidth", offsetof(MainWindow, ChatWidth), PARAM_USHORT, 0 },
@@ -233,10 +227,7 @@ cfgParam MainWindow_Params[] =
         { "UserBoxToolbarDock", offsetof(MainWindow, UserBoxToolbarDock), PARAM_STRING, (unsigned)"Top" },
         { "UserBoxToolbarOffset", offsetof(MainWindow, UserBoxToolbarOffset), PARAM_SHORT, 0 },
         { "UserBoxToolbarY", offsetof(MainWindow, UserBoxToolbarY), PARAM_SHORT, 0 },
-        { "UserBoxFontFamily", offsetof(MainWindow, UserBoxFontFamily), PARAM_STRING, 0 },
-        { "UserBoxFontSize", offsetof(MainWindow, UserBoxFontSize), PARAM_USHORT, 0 },
-        { "UserBoxFontWeight", offsetof(MainWindow, UserBoxFontWeight), PARAM_USHORT, 0 },
-        { "UserBoxFontItalic", offsetof(MainWindow, UserBoxFontItalic), PARAM_USHORT, 0 },
+        { "UserBoxFont", offsetof(MainWindow, UserBoxFont), PARAM_STRING, 0 },
         { "CloaseAfterSend", offsetof(MainWindow, CloseAfterSend), PARAM_BOOL, 0 },
         { "CloaseAfterFileTransfer", offsetof(MainWindow, CloseAfterFileTransfer), PARAM_BOOL, 0 },
         { "MainWindowInTaskManager", offsetof(MainWindow, MainWindowInTaskManager), PARAM_BOOL, 0 },
@@ -246,10 +237,7 @@ cfgParam MainWindow_Params[] =
         { "XOSD_pos", offsetof(MainWindow, XOSD_pos), PARAM_SHORT, 0 },
         { "XOSD_offset", offsetof(MainWindow, XOSD_offset), PARAM_SHORT, 30 },
         { "XOSD_color", offsetof(MainWindow, XOSD_color), PARAM_ULONG, 0x00E000 },
-        { "XOSD_FontFamily", offsetof(MainWindow, XOSD_FontFamily), PARAM_STRING, 0 },
-        { "XOSD_FontSize", offsetof(MainWindow, XOSD_FontSize), PARAM_USHORT, 0 },
-        { "XOSD_FontWeight", offsetof(MainWindow, XOSD_FontWeight), PARAM_USHORT, 0 },
-        { "XOSD_FontItalic", offsetof(MainWindow, XOSD_FontItalic), PARAM_USHORT, 0 },
+        { "XOSD_Font", offsetof(MainWindow, XOSD_Font), PARAM_STRING, 0 },
         { "XOSD_timeout", offsetof(MainWindow, XOSD_timeout), PARAM_USHORT, 7 },
         { "XOSD_Shadow", offsetof(MainWindow, XOSD_Shadow), PARAM_BOOL, (unsigned)true },
         { "XOSD_Background", offsetof(MainWindow, XOSD_Background), PARAM_BOOL, 0 },
@@ -1995,16 +1983,9 @@ void MainWindow::setFonts()
 #ifdef USE_KDE
     if (UseSystemFonts) return;
 #endif
-    if (FontSize > 128) FontSize = 0;
-    if (FontSize){
-        QFont fontWnd(FontFamily.c_str(), FontSize, FontWeight, FontItalic);
-        qApp->setFont(fontWnd, true);
-    }
-    if (FontMenuSize > 128) FontMenuSize = 0;
-    if (FontMenuSize){
-        QFont fontMenu(FontMenuFamily.c_str(), FontMenuSize, FontMenuWeight, FontMenuItalic);
-        qApp->setFont(fontMenu, true, "QPopupMenu");
-    }
+    QPopupMenu p;
+    qApp->setFont(str2font(Font.c_str(), font()), true);
+    qApp->setFont(str2font(FontMenu.c_str(), p.font()), true, "QPopupMenu");
 }
 
 extern KAboutData *appAboutData;
@@ -2295,6 +2276,102 @@ void MainWindow::initTranslator()
     qApp->installTranslator(translator);
     appAboutData->setTranslator(I18N_NOOP("_: NAME OF TRANSLATORS\nYour names"),
                                 I18N_NOOP("_: EMAIL OF TRANSLATORS\nYour emails"));
+}
+
+static QString s_tr(const char *s, bool use_tr)
+{
+    if (use_tr) return i18n(s);
+    return s;
+}
+
+QString MainWindow::font2str(const QFont &f, bool use_tr)
+{
+    QString fontName = f.family();
+    fontName += ", ";
+    if (f.pointSize() > 0){
+        fontName += QString::number(f.pointSize());
+        fontName += " pt.";
+    }else{
+        fontName += QString::number(f.pixelSize());
+        fontName += " pix.";
+    }
+    switch (f.weight()){
+    case QFont::Light:
+        fontName += ", ";
+        fontName += s_tr(I18N_NOOP("light"), use_tr);
+        break;
+    case QFont::DemiBold:
+        fontName += ", ";
+        fontName += s_tr(I18N_NOOP("demibold"), use_tr);
+        break;
+    case QFont::Bold:
+        fontName += ", ";
+        fontName += s_tr(I18N_NOOP("bold"), use_tr);
+        break;
+    case QFont::Black:
+        fontName += ", ";
+        fontName += s_tr(I18N_NOOP("black"), use_tr);
+        break;
+    default:
+        break;
+    }
+    if (f.italic()){
+        fontName += ", ";
+        fontName += s_tr(I18N_NOOP("italic"), use_tr);
+    }
+    return fontName;
+}
+
+QFont MainWindow::str2font(const char *str, const QFont &def)
+{
+    QFont f(def);
+    QStringList l = QStringList::split(QRegExp(" *, *"), QString::fromLocal8Bit(str));
+    if (l.count() == 0) return f;
+    int weight = QFont::Normal;
+    bool italic = false;
+    f.setFamily(l[0]);
+    for (unsigned i = 1; i < l.count(); i++){
+        QString s = l[i];
+        if (s == "italic"){
+            italic = true;
+            continue;
+        }
+        if (s == "light"){
+            weight = QFont::Light;
+            continue;
+        }
+        if (s == "demibold"){
+            weight = QFont::DemiBold;
+            continue;
+        }
+        if (s == "bold"){
+            weight = QFont::Bold;
+            continue;
+        }
+        if (s == "black"){
+            weight = QFont::Black;
+            continue;
+        }
+        int p = s.find(QRegExp("[0-9]+ *pt"));
+        if (p >= 0){
+            s = s.mid(p);
+            int size = atol(s.latin1());
+            if (size > 0)
+                f.setPointSize(size);
+            continue;
+        }
+        p = s.find(QRegExp("[0-9]+ *pix"));
+        if (p >= 0){
+            s = s.mid(p);
+            int size = atol(s.latin1());
+            if (size > 0)
+                f.setPixelSize(size);
+            continue;
+        }
+    }
+    f.setItalic(italic);
+    f.setWeight(weight);
+    return f;
 }
 
 #ifndef _WINDOWS

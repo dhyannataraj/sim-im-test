@@ -511,7 +511,14 @@ void MsgEdit::processEvent(ICQEvent *e)
                         m->Charset = codec->name();
                     }
                 }
-                history()->addMessage(message());
+                for (list<unsigned long>::iterator it = message()->Uin.begin(); it != message()->Uin.end(); ++it){
+                    if (*it == Uin){
+                        history()->addMessage(message());
+                        continue;
+                    }
+                    History h(*it);
+                    h.addMessage(message());
+                }
                 if (!msgTail.isEmpty()){
                     if (msgView){
                         msgView->addMessage(message(), false, true);
@@ -1523,13 +1530,8 @@ void MsgEdit::makeMessage()
 
             pMain->MessageBgColor = m->BackColor;
             pMain->MessageFgColor = m->ForeColor;
-            if (edit->fontChanged()){
-                QFont f = edit->currentFont();
-                pMain->UserBoxFontFamily = f.family();
-                pMain->UserBoxFontSize   = f.pointSize();
-                pMain->UserBoxFontWeight = f.weight();
-                pMain->UserBoxFontItalic = f.italic();
-            }
+            if (edit->fontChanged())
+                pMain->UserBoxFont = pMain->font2str(edit->currentFont(), false).local8Bit();
             break;
         }
     case ICQ_MSGxURL:{
