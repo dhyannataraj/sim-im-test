@@ -1,13 +1,13 @@
 # translation of de.po to deutsch
-# Copyright (C) 2002,2003 Free Software Foundation, Inc.
-# Christoph Thielecke <crissi99@gmx.de>, 2002,2003.
+# Copyright (C) 2002,2003, 2004 Free Software Foundation, Inc.
+# Christoph Thielecke <crissi99@gmx.de>, 2002,2003, 2004.
 # Crissi <crissi99@gmx.de>, 2003.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2004-01-06 04:52+0300\n"
-"PO-Revision-Date: 2003-12-28 19:08GMT\n"
+"PO-Revision-Date: 2004-01-06 19:40GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,13 +17,11 @@ msgstr ""
 
 #: sim/api/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
-msgstr ""
-"Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
+msgstr "Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
 
 #: sim/api/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
 
 #: sim/api/country.cpp:25
 msgid "Afghanistan"
@@ -5182,8 +5180,7 @@ msgstr "Typ:"
 
 #: plugins/_core/searchbase.cpp:74
 msgid "Choose type of contact which you want to find or add:"
-msgstr ""
-"Art des Kontaktes auswählen, der gefunden oder hinzugefügt werden soll"
+msgstr "Art des Kontaktes auswählen, der gefunden oder hinzugefügt werden soll"
 
 #: plugins/_core/searchbase.cpp:75
 msgid "Contact type:"
@@ -5444,8 +5441,7 @@ msgstr "\"N/A\"-Status setzen wenn"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:125
 #: plugins/sound/soundconfigbase.cpp:166
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -5582,8 +5578,7 @@ msgstr "Nachrichten nur von &Benutzern der Kontaktliste empfangen"
 
 #: plugins/filter/filtercfgbase.cpp:98
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: plugins/filter/filtercfgbase.cpp:99
 msgid ""
@@ -5605,8 +5600,7 @@ msgstr "Floatings"
 
 #: plugins/floaty/floaty.cpp:44
 msgid "Plugin provides floating windows for contacts"
-msgstr ""
-"Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
+msgstr "Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
 
 #: plugins/floaty/floaty.cpp:91 plugins/floaty/floaty.cpp:165
 msgid "Floating on"
@@ -5626,8 +5620,7 @@ msgstr "Plugin stellt Nachrichtenweiterleitung an Handys bereit"
 
 #: plugins/forward/forwardcfgbase.cpp:102
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
-"Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
+msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
 
 #: plugins/forward/forwardcfgbase.cpp:103
 msgid ""
@@ -5985,8 +5978,7 @@ msgid "Navigate"
 msgstr "Navigation"
 
 #: plugins/navigate/navigate.cpp:199
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Plugin stellt Navigation von Hyperlinks bereit und ruft externe Browser- "
 "oder Mailprogramme auf"
@@ -6120,8 +6112,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:48
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Plugin stellt Bildschirmbenachrichtigungen über Nachrichten und "
 "Kontaktstatus bereit"
@@ -6172,8 +6163,7 @@ msgstr "Bei Nachrichteneingang informieren (per OSD)"
 
 #: plugins/osd/osdconfigbase.cpp:93
 msgid "Enable &status notification"
-msgstr ""
-"Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
+msgstr "Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
 
 #: plugins/jabber/jabberconfigbase.cpp:325 plugins/osd/osdconfigbase.cpp:94
 msgid "Enable &typing notification"
@@ -6197,8 +6187,7 @@ msgstr "Proxy"
 
 #: plugins/proxy/proxy.cpp:1244
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS and HTTP)"
-msgstr ""
-"Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
+msgstr "Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
 
 #: plugins/proxy/proxycfg.cpp:42
 msgid "&Proxy"
@@ -6206,8 +6195,7 @@ msgstr "&Proxy"
 
 #: plugins/proxy/proxycfg.cpp:140
 msgid "<b>Note !</b><br>HTTP-proxy support only ICQ-protocol"
-msgstr ""
-"<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
+msgstr "<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
 
 #: plugins/proxy/proxycfg.cpp:209
 msgid "Default"
@@ -6399,8 +6387,7 @@ msgstr "Aktualisieren"
 
 #: plugins/update/update.cpp:40
 msgid "Plugin provides notifications about update SIM software"
-msgstr ""
-"Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
+msgstr "Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
 
 #: plugins/update/update.cpp:153
 msgid "Show details"
@@ -6415,54 +6402,52 @@ msgid "New version SIM is released"
 msgstr "Neue Version von SIM wurde veröffentlicht"
 
 #: plugins/sms/sms.cpp:429
-#, fuzzy
 msgid "Port error"
-msgstr "Proxyfehler"
+msgstr "Portfehler"
 
 #: plugins/sms/smssetupbase.cpp:137
-#, fuzzy
 msgid "Baudrate:"
-msgstr "Barbuda"
+msgstr "Baudrate:"
 
 #: plugins/sms/smssetupbase.cpp:139
 msgid "38400"
-msgstr ""
+msgstr "38400"
 
 #: plugins/sms/smssetupbase.cpp:140
 msgid "19200"
-msgstr ""
+msgstr "19200"
 
 #: plugins/sms/smssetupbase.cpp:141
 msgid "9600"
-msgstr ""
+msgstr "9600"
 
 #: plugins/sms/smssetupbase.cpp:142
 msgid "4800"
-msgstr ""
+msgstr "4800"
 
 #: plugins/sms/smssetupbase.cpp:143
 msgid "2400"
-msgstr ""
+msgstr "2400"
 
 #: plugins/sms/smssetupbase.cpp:144
 msgid "1200"
-msgstr ""
+msgstr "1200"
 
 #: plugins/sms/smssetupbase.cpp:145
 msgid "600"
-msgstr ""
+msgstr "600"
 
 #: plugins/sms/smssetupbase.cpp:146
 msgid "300"
-msgstr ""
+msgstr "300"
 
 #: plugins/sms/smssetupbase.cpp:147
 msgid "Software handshake"
-msgstr ""
+msgstr "Software-Handshake"
 
 #: plugins/sms/smssetupbase.cpp:148
 msgid "Init string:"
-msgstr ""
+msgstr "Initalisierungszeichenkette:"
 
 #: plugins/jabber/addresult.cpp:32
 msgid "ID"
@@ -6966,8 +6951,7 @@ msgstr "Aktion"
 
 #: plugins/action/action.cpp:34
 msgid "Plugin execute external programs on event or from contact menu"
-msgstr ""
-"Plugin führt externe Programme bei einem Ereignis oder von Kontaktmenü aus"
+msgstr "Plugin führt externe Programme bei einem Ereignis oder von Kontaktmenü aus"
 
 #: plugins/action/action.cpp:84
 msgid "&Action"
@@ -7703,48 +7687,40 @@ msgid "Register new user"
 msgstr "Neuen Benutzer registrieren"
 
 #: plugins/livejournal/msgjournalbase.cpp:110
-#, fuzzy
 msgid "Subject:"
-msgstr "<p>Betreff: %1</p>"
+msgstr "Betreff:"
 
 #: plugins/livejournal/msgjournalbase.cpp:111
-#, fuzzy
 msgid "Security:"
-msgstr "Sicherheit"
+msgstr "Sicherheit:"
 
 #: plugins/livejournal/msgjournalbase.cpp:113
-#, fuzzy
 msgid "Public"
-msgstr "Publizieren"
+msgstr "Öffentlich"
 
 #: plugins/livejournal/msgjournalbase.cpp:114
-#, fuzzy
 msgid "Private"
-msgstr "Drucker"
+msgstr "Privat"
 
 #: plugins/livejournal/msgjournalbase.cpp:115
-#, fuzzy
 msgid "Mood:"
-msgstr "artig"
+msgstr "Stimmung:"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:205
-#, fuzzy
 msgid "&LiveJournal"
-msgstr "LiveJournal"
+msgstr "&LiveJournal"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:207
 msgid "Path:"
 msgstr "Pfad:"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:210
-#, fuzzy
 msgid "Check interval:"
-msgstr "Unsichtbar überprüfen"
+msgstr "Prüfintervall:"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:211
-#, fuzzy
 msgid "minutes"
-msgstr "Computer"
+msgstr "Minuten"
 
 #~ msgid "Month:"
 #~ msgstr "Monat:"
@@ -8919,3 +8895,4 @@ msgstr "Computer"
 
 #~ msgid "Transfer completed"
 #~ msgstr "Übertragung abgeschlossen"
+
