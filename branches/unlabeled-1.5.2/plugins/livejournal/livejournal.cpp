@@ -559,7 +559,7 @@ MessageRequest::MessageRequest(LiveJournalClient *client, JournalMessage *msg, c
         BRParser parser(msg->getBackground());
         parser.parse(msg->getRichText());
         addParam("event", parser.m_str.utf8());
-        addParam("subject", msg->getSubject());
+        addParam("subject", msg->getSubject().utf8());
     }
     addParam("lineendings", "unix");
     if (msg->getID())
@@ -577,18 +577,16 @@ MessageRequest::MessageRequest(LiveJournalClient *client, JournalMessage *msg, c
     addParam("day", number(tm->tm_mday).c_str());
     addParam("hour", number(tm->tm_hour).c_str());
     addParam("min", number(tm->tm_min).c_str());
-    if (msg->getMood()){
-        string value = "current_mood_id=";
-        value += number(msg->getMood());
-        addParam("prop_name", value.c_str());
-    }
+	if (msg->getPrivate())
+		addParam("security", "private");
+    if (msg->getMood())
+        addParam("prop_current_moodid", number(msg->getMood()).c_str());
     if (journal)
         addParam("usejournal", journal);
 }
 
 MessageRequest::~MessageRequest()
 {
-    m_bResult = true;
     if (m_bResult){
         if ((m_msg->getFlags() & MESSAGE_NOHISTORY) == 0){
             if (m_bEdit){
