@@ -3,7 +3,9 @@ sim_plugin_LTLIBRARIES = weather.la
 weather_la_SOURCES = \
  weather.cpp \
  weathercfg.cpp \
- weathercfgbase.ui 
+ weathercfgbase.ui \
+ wifacecfg.cpp \
+ wifacecfgbase.ui
 
 INCLUDES=-I../../sim/api -I../../sim/ui -I../_core $(all_includes)
 

@@ -53,6 +53,7 @@ typedef struct WeatherData
     Data	UT;
     Data	UP;
     Data	US;
+    Data	UD;
     Data	Day;
     Data	WDay;
     Data	MinT;
@@ -94,6 +95,7 @@ public:
     PROP_STR(UT);
     PROP_STR(US);
     PROP_STR(UP);
+    PROP_STR(UD);
     PROP_STRLIST(Day);
     PROP_STRLIST(WDay);
     PROP_STRLIST(MinT);

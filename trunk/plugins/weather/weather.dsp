@@ -105,6 +105,14 @@ SOURCE=.\moc_weathercfgbase.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\moc_wifacecfg.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\moc_wifacecfgbase.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\weather.cpp
 # End Source File
 # Begin Source File
@@ -114,6 +122,14 @@ SOURCE=.\weathercfg.cpp
 # Begin Source File
 
 SOURCE=.\weathercfgbase.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\wifacecfg.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\wifacecfgbase.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -188,6 +204,43 @@ InputName=weathercfg
 # Begin Source File
 
 SOURCE=.\weathercfgbase.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\wifacecfg.h
+
+!IF  "$(CFG)" == "weather - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\wifacecfg.h
+InputName=wifacecfg
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "weather - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\wifacecfg.h
+InputName=wifacecfg
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\wifacecfgbase.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"
@@ -436,6 +489,61 @@ BuildCmds= \
 InputDir=.
 InputPath=.\weathercfgbase.ui
 InputName=weathercfgbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\wifacecfgbase.ui
+
+!IF  "$(CFG)" == "weather - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Uic'ing $(InputName).ui ...
+InputDir=.
+InputPath=.\wifacecfgbase.ui
+InputName=wifacecfgbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "weather - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Uic'ing $(InputName).ui ...
+InputDir=.
+InputPath=.\wifacecfgbase.ui
+InputName=wifacecfgbase
 
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \

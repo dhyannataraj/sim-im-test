@@ -12,8 +12,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"POT-Creation-Date: 2004-03-08 03:40+0300\n"
-"PO-Revision-Date: 2004-03-08 00:58+0300\n"
+"POT-Creation-Date: 2004-03-08 05:23+0300\n"
+"PO-Revision-Date: 2004-03-08 05:27+0300\n"
 "Last-Translator: Vladimir Shutoff <vovan@shutoff.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -91,8 +91,7 @@ msgstr "Австралия"
 # libicq/country.cpp:84
 #: sim/api/country.cpp:38
 msgid "Australian Antarctic Territory"
-msgstr ""
-"Австралийская антарктическая территория"
+msgstr "Австралийская антарктическая территория"
 
 # libicq/country.cpp:85
 #: sim/api/country.cpp:39
@@ -1331,7 +1330,7 @@ msgstr "За&регистрировать"
 #: plugins/gpg/gpggenbase.cpp:115 plugins/icq/encodingdlgbase.cc:87
 #: plugins/icq/icqclient.cpp:2354 plugins/icq/securedlgbase.cc:78
 #: plugins/icq/warndlgbase.cc:89 plugins/proxy/proxyerrorbase.cpp:81
-#: plugins/weather/weathercfg.cpp:136 sim/api/simapi.cpp:459
+#: plugins/weather/weathercfg.cpp:81 sim/api/simapi.cpp:459
 #: sim/ui/qt3/i18n.cpp:35
 msgid "&Cancel"
 msgstr "&Отменить"
@@ -1354,7 +1353,7 @@ msgstr "&Нет"
 
 #: plugins/_core/arcfgbase.cpp:80 plugins/_core/autoreplybase.cpp:89
 #: plugins/action/actioncfgbase.cpp:62 plugins/action/additembase.cpp:94
-#: plugins/weather/weathercfgbase.cpp:131 sim/api/simapi.cpp:462
+#: plugins/weather/wifacecfgbase.cpp:84 sim/api/simapi.cpp:462
 msgid "&Help"
 msgstr "&Справка"
 
@@ -1586,7 +1585,7 @@ msgstr "Размер"
 msgid "Type"
 msgstr "Тип"
 
-#: plugins/weather/weathercfg.cpp:73 sim/ui/qt3/i18n.cpp:45
+#: plugins/weather/wifacecfg.cpp:68 sim/ui/qt3/i18n.cpp:45
 msgid "Date"
 msgstr "Дата"
 
@@ -2570,8 +2569,8 @@ msgstr "&Сеть"
 #: plugins/spell/spellcfgbase.cpp:83 plugins/styles/fontconfigbase.cpp:99
 #: plugins/styles/stylescfgbase.cpp:52
 #: plugins/transparent/transparentcfgbase.cpp:70
-#: plugins/weather/weathercfgbase.cpp:120 plugins/yahoo/yahooinfobase.cpp:147
-#: plugins/yahoo/yahoosearchbase.cpp:78
+#: plugins/weather/weathercfgbase.cpp:109 plugins/weather/wifacecfgbase.cpp:80
+#: plugins/yahoo/yahooinfobase.cpp:147 plugins/yahoo/yahoosearchbase.cpp:78
 msgid "Form1"
 msgstr "Домашняя"
 
@@ -2881,7 +2880,7 @@ msgid ""
 msgstr "%1 пишет"
 
 # ui/fontsetupbase.cpp:112 ui/setupdlg.cpp:141
-#: plugins/_core/core.cpp:77
+#: plugins/_core/core.cpp:77 plugins/weather/weathercfg.cpp:54
 msgid "Interface"
 msgstr "Интерфейс"
 
@@ -4033,8 +4032,7 @@ msgstr "Режим &чата"
 
 #: plugins/_core/interfacecfgbase.cpp:122
 msgid "&Using last selected font"
-msgstr ""
-"Использовать .последний выбранный шоифт"
+msgstr "Использовать .последний выбранный шоифт"
 
 # mainwin.cpp:2115
 #: plugins/_core/interfacecfgbase.cpp:123
@@ -4224,8 +4222,7 @@ msgstr "Использовать &двойной клик"
 
 #: plugins/_core/userviewcfgbase.cpp:273
 msgid "Use small &font for group"
-msgstr ""
-"Использовать маленький &шрифт для групп"
+msgstr "Использовать маленький &шрифт для групп"
 
 #: plugins/_core/userviewcfgbase.cpp:274
 msgid "Show group &separator"
@@ -4374,8 +4371,7 @@ msgstr "Выберите тип контакта"
 
 #: plugins/_core/msgcfgbase.cpp:84
 msgid "Save &status changes to history"
-msgstr ""
-"Сохранять изменения &статуса в историю"
+msgstr "Сохранять изменения &статуса в историю"
 
 # ui/alertdialogbase.cpp:126
 #: plugins/_core/msgcfgbase.cpp:85
@@ -4426,7 +4422,7 @@ msgid "Close after &transfer"
 msgstr "Закрыть после &передачи"
 
 #: plugins/_core/arcfg.cpp:96 plugins/_core/autoreply.cpp:109
-#: plugins/weather/weathercfg.cpp:115
+#: plugins/weather/wifacecfg.cpp:109
 msgid "In text you can use:"
 msgstr "В тексте вы можете использовать:"
 
@@ -4606,8 +4602,7 @@ msgstr "Не показывать диалог"
 # ui/fontsetupbase.cpp:214
 #: plugins/_core/historycfgbase.cpp:166
 msgid "Use &own colors and fonts settings"
-msgstr ""
-"Использовать &собственные цвета и шрифты"
+msgstr "Использовать &собственные цвета и шрифты"
 
 # ui/fontsetupbase.cpp:251
 #: plugins/_core/historycfgbase.cpp:167
@@ -4800,8 +4795,7 @@ msgstr "Установить статус \"Не в сети\" через"
 
 # ui/statussetupbase.cpp:107
 #: plugins/autoaway/autoawaycfgbase.cpp:109
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Запретить оповещение в состояниях "
 "\"Отошел\", \"Не активный\", \"Занят\""
@@ -4883,8 +4877,7 @@ msgstr "Фон"
 
 #: plugins/background/background.cpp:35
 msgid "Plugin provides background pictures for user list"
-msgstr ""
-"Модуль обеспечивает фон списка контактов"
+msgstr "Модуль обеспечивает фон списка контактов"
 
 #: plugins/dock/dock.cpp:49
 msgid "System tray"
@@ -4957,8 +4950,7 @@ msgstr "Фильтр"
 
 #: plugins/filter/filter.cpp:40
 msgid "Plugin provides message filter"
-msgstr ""
-"Модуль обеспечивает фильтрацию сообщений"
+msgstr "Модуль обеспечивает фильтрацию сообщений"
 
 # ui/listsec.cpp:129 ui/setupdlg.cpp:173
 #: plugins/filter/filter.cpp:106
@@ -5150,8 +5142,7 @@ msgstr "GPG"
 
 #: plugins/gpg/gpg.cpp:53
 msgid "Plugin adds GnuPG encryption/decryption support for messages"
-msgstr ""
-"Модуль добавляет GnuPG шифрование сообщений"
+msgstr "Модуль добавляет GnuPG шифрование сообщений"
 
 #: plugins/gpg/gpg.cpp:77
 msgid ""
@@ -5781,8 +5772,7 @@ msgstr "Клиент устарел"
 
 #: plugins/icq/icqlogin.cpp:201
 msgid "Too many clients from same IP"
-msgstr ""
-"Слишком много пользователей с одного IP"
+msgstr "Слишком много пользователей с одного IP"
 
 # ui/logindlg.cpp:129
 #: plugins/icq/icqlogin.cpp:206
@@ -5824,14 +5814,12 @@ msgstr "UIN приостановлен"
 
 #: plugins/icq/icqlogin.cpp:250
 msgid "Can't login to ICQ network - Please try again later"
-msgstr ""
-"Не могу залогиниться - попробуйте попохже"
+msgstr "Не могу залогиниться - попробуйте попохже"
 
 # mainwin.cpp:988
 #: plugins/icq/icqlogin.cpp:271
 msgid "Youur UIN is being used from another location"
-msgstr ""
-"Ваш UIN используется с другого компьютера"
+msgstr "Ваш UIN используется с другого компьютера"
 
 #: plugins/icq/icqlogin.cpp:291
 msgid "Close packet from server"
@@ -6077,8 +6065,7 @@ msgstr "Неверный номер"
 
 #: plugins/icq/icqvarious.cpp:1424
 msgid "RATE LIMIT"
-msgstr ""
-"Превышено ограничение на количество SMS"
+msgstr "Превышено ограничение на количество SMS"
 
 # msgedit.cpp:648
 #: plugins/icq/icqvarious.cpp:1457 plugins/icq/icqvarious.cpp:1516
@@ -6741,8 +6728,7 @@ msgstr ""
 
 #: plugins/icq/securedlg.cpp:59
 msgid "Request secure channel fail"
-msgstr ""
-"Ошибка установки защищенного соединения"
+msgstr "Ошибка установки защищенного соединения"
 
 # msgedit.cpp:648
 #: plugins/icq/icqicmb.cpp:1215 plugins/icq/warndlg.cpp:66
@@ -6991,8 +6977,7 @@ msgstr "Принимать в режиме \"Не &беспокоить\""
 
 #: plugins/icq/icqconfigbase.cc:246
 msgid "Support &typing notification"
-msgstr ""
-"&Поддержка уведомления о печати сообщения"
+msgstr "&Поддержка уведомления о печати сообщения"
 
 #: plugins/icq/icqconfigbase.cc:247
 msgid "Automatically &update user info"
@@ -7397,8 +7382,7 @@ msgstr "&Профиль"
 # ui/pastinfobase.cpp:89
 #: plugins/icq/pastinfobase.cc:139
 msgid "Organization, Affiliation, Group:"
-msgstr ""
-"Объединения, общественные организации:"
+msgstr "Объединения, общественные организации:"
 
 #: plugins/icq/pastinfobase.cc:140
 msgid "A&ffilation"
@@ -7549,8 +7533,7 @@ msgstr "Всегда наверху"
 # ui/themesetupbase.cpp:154
 #: plugins/ontop/ontopcfgbase.cpp:58
 msgid "Show &main window in task manager"
-msgstr ""
-"Показывать &основное окно в панели задач"
+msgstr "Показывать &основное окно в панели задач"
 
 # mainwin.cpp:2375
 #: plugins/ontop/ontopcfgbase.cpp:59
@@ -7602,8 +7585,7 @@ msgid "OSD"
 msgstr "Экран"
 
 #: plugins/osd/osd.cpp:68
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Модуль обеспечивает вывод уведомлений о "
 "приходе сообщений или изменении статуса "
@@ -7725,8 +7707,7 @@ msgstr ""
 # mainwin.cpp:969 ui/logindlg.cpp:138
 #: plugins/proxy/proxy.cpp:42
 msgid "Can't connect to proxy"
-msgstr ""
-"Невозможно соединиться с прокси-сервером"
+msgstr "Невозможно соединиться с прокси-сервером"
 
 #: plugins/proxy/proxy.cpp:43
 msgid "Bad proxy answer"
@@ -7926,8 +7907,7 @@ msgstr ""
 
 #: plugins/transparent/transparent.cpp:70
 msgid "Plugin provides windows transparency"
-msgstr ""
-"Модуль обеспечивает прозрачные окошки"
+msgstr "Модуль обеспечивает прозрачные окошки"
 
 # ui/themesetupbase.cpp:122
 #: plugins/transparent/transparentcfgbase.cpp:71
@@ -7937,8 +7917,7 @@ msgstr "Прозрачность главного окна:"
 # ui/themesetupbase.cpp:146
 #: plugins/transparent/transparentcfgbase.cpp:72
 msgid "Transparent only if inactive"
-msgstr ""
-"Прозрачные окна только если неактивные"
+msgstr "Прозрачные окна только если неактивные"
 
 # ui/setupdlgbase.cpp:85 ui/userinfobase.cpp:115
 #: plugins/update/update.cpp:39
@@ -8239,8 +8218,7 @@ msgstr ""
 
 #: plugins/jabber/jabbersearch.cpp:319
 msgid "Enter your AIM screenname or ICQ UIN and the password for that account"
-msgstr ""
-"Введите ваш AIM логин или номер ICQ и пароль."
+msgstr "Введите ваш AIM логин или номер ICQ и пароль."
 
 #: plugins/jabber/jabbersearch.cpp:320
 msgid "Enter your YAHOO! Messenger Username and Password."
@@ -8355,8 +8333,7 @@ msgstr "Использовать &иконки протоколов"
 # control.cpp:190
 #: plugins/jabber/jabberconfigbase.cpp:268
 msgid "Send &rich text messages if possible"
-msgstr ""
-"Отправлять сообщения с &форматированием"
+msgstr "Отправлять сообщения с &форматированием"
 
 #: plugins/jabber/jabberconfigbase.cpp:269
 msgid "Automaticaly send &subscribe request"
@@ -8590,8 +8567,8 @@ msgid "&Back"
 msgstr "&Назад"
 
 # msgview.cpp:814 ui/searchbase.cpp:69 ui/searchbase.cpp:82
-#: plugins/jabber/jabber.cpp:329 plugins/weather/weathercfg.cpp:130
-#: plugins/weather/weathercfg.cpp:160 plugins/weather/weathercfgbase.cpp:122
+#: plugins/jabber/jabber.cpp:329 plugins/weather/weathercfg.cpp:75
+#: plugins/weather/weathercfg.cpp:105 plugins/weather/weathercfgbase.cpp:111
 msgid "&Search"
 msgstr "&Поиск"
 
@@ -8660,8 +8637,7 @@ msgstr "Результат добавления сообщества"
 # msgview.cpp:226
 #: plugins/livejournal/journalsearch.cpp:80
 msgid "Community %1 added to list"
-msgstr ""
-"Сообщество %1 добавлено в список контактов"
+msgstr "Сообщество %1 добавлено в список контактов"
 
 #: plugins/livejournal/journalsearch.cpp:82
 msgid "Community %1 already in list"
@@ -9374,8 +9350,7 @@ msgstr "Игнорировать '%1'"
 
 #: plugins/spell/spell.cpp:62
 msgid "Plugin provides check spelling"
-msgstr ""
-"Модуль обеспечивает проверку орфографии"
+msgstr "Модуль обеспечивает проверку орфографии"
 
 # ui/keysetupbase.cpp:131 ui/phonebookbase.cpp:104 ui/setupdlgbase.cpp:73
 # ui/themesetupbase.cpp:97 ui/themesetupbase.cpp:109 ui/userinfobase.cpp:98
@@ -9470,8 +9445,7 @@ msgid "Navigate"
 msgstr "Навигация"
 
 #: plugins/navigate/navigate.cpp:199
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Модуль обеспечивает навигацию по "
 "гиперссылкам"
@@ -9581,8 +9555,7 @@ msgstr "Подстановки"
 
 #: plugins/replace/replace.cpp:34
 msgid "Plugin provides text replacing in message edit window"
-msgstr ""
-"Модуль обеспечивает подстановки текста"
+msgstr "Модуль обеспечивает подстановки текста"
 
 # ui/networkbase.cpp:151 ui/proxydlgbase.cpp:82
 #: plugins/replace/replacecfg.cpp:31
@@ -9604,197 +9577,203 @@ msgid "Plugin provides show weather"
 msgstr "Модуль обеспечивает показ погоды"
 
 # mainwin.cpp:2362
-#: plugins/weather/weather.cpp:167
+#: plugins/weather/weather.cpp:168
 msgid "Not connected"
 msgstr "Нет соединения"
 
 # libicq/country.cpp:216
-#: plugins/weather/weather.cpp:452
+#: plugins/weather/weather.cpp:453
 msgid "Monday"
 msgstr "Понедельник"
 
 # libicq/country.cpp:290
-#: plugins/weather/weather.cpp:453
+#: plugins/weather/weather.cpp:454
 msgid "Tuesday"
 msgstr "Вторник"
 
-#: plugins/weather/weather.cpp:454
+#: plugins/weather/weather.cpp:455
 msgid "Wednesday"
 msgstr "Среда"
 
-#: plugins/weather/weather.cpp:455
+#: plugins/weather/weather.cpp:456
 msgid "Thursday"
 msgstr "Четверг"
 
 # libicq/country.cpp:21
-#: plugins/weather/weather.cpp:456
+#: plugins/weather/weather.cpp:457
 msgid "Friday"
 msgstr "Пятница"
 
 # libicq/country.cpp:274
-#: plugins/weather/weather.cpp:457
+#: plugins/weather/weather.cpp:458
 msgid "Saturday"
 msgstr "Суббота"
 
 # libicq/country.cpp:274
-#: plugins/weather/weather.cpp:458
+#: plugins/weather/weather.cpp:459
 msgid "Sunday"
 msgstr "Воскресенье"
 
-#: plugins/weather/weather.cpp:460
+#: plugins/weather/weather.cpp:461
 msgid ""
 "_: weather\n"
 "Overcast"
 msgstr "Пасмурно"
 
-#: plugins/weather/weather.cpp:461
+#: plugins/weather/weather.cpp:462
 msgid ""
 "_: weather\n"
 "Fog"
 msgstr "Туман"
 
-#: plugins/weather/weather.cpp:462
+#: plugins/weather/weather.cpp:463
+msgid ""
+"_: weather\n"
+"Haze"
+msgstr "Туман"
+
+#: plugins/weather/weather.cpp:464
 msgid ""
 "_: weather\n"
 "Storm"
 msgstr "Гроза"
 
-#: plugins/weather/weather.cpp:463
+#: plugins/weather/weather.cpp:465
 msgid ""
 "_: weather\n"
 "Rain"
 msgstr "Дождь"
 
-#: plugins/weather/weather.cpp:464
+#: plugins/weather/weather.cpp:466
 msgid ""
 "_: weather\n"
 "Snow Showers"
 msgstr "Снег"
 
-#: plugins/weather/weather.cpp:465
+#: plugins/weather/weather.cpp:467
 msgid ""
 "_: weather\n"
 "Light Rain"
 msgstr "Слабый дождь"
 
-#: plugins/weather/weather.cpp:466
+#: plugins/weather/weather.cpp:468
 msgid ""
 "_: weather\n"
 "Few Snow Showers"
 msgstr "Небольшой снег"
 
-#: plugins/weather/weather.cpp:467
+#: plugins/weather/weather.cpp:469
 msgid ""
 "_: weather\n"
 "Scattered Snow Showers"
 msgstr "Слабый снег"
 
-#: plugins/weather/weather.cpp:468
+#: plugins/weather/weather.cpp:470
 msgid ""
 "_: weather\n"
 "Snow Shower"
 msgstr "Снег"
 
-#: plugins/weather/weather.cpp:469
+#: plugins/weather/weather.cpp:471
 msgid ""
 "_: weather\n"
 "Clear"
 msgstr "Ясно"
 
-#: plugins/weather/weather.cpp:470
+#: plugins/weather/weather.cpp:472
 msgid ""
 "_: weather\n"
 "Showers"
 msgstr "Снег"
 
-#: plugins/weather/weather.cpp:471
+#: plugins/weather/weather.cpp:473
 msgid ""
 "_: weather\n"
 "Mostly Clear"
 msgstr "В основном ясно"
 
-#: plugins/weather/weather.cpp:472
+#: plugins/weather/weather.cpp:474
 msgid ""
 "_: weather\n"
 "Sunny"
 msgstr "Солнечно"
 
-#: plugins/weather/weather.cpp:473
+#: plugins/weather/weather.cpp:475
 msgid ""
 "_: weather\n"
 "Fair"
 msgstr "Ясно"
 
-#: plugins/weather/weather.cpp:474
+#: plugins/weather/weather.cpp:476
 msgid ""
 "_: weather\n"
 "Cloudy"
 msgstr "Облачно"
 
-#: plugins/weather/weather.cpp:475
+#: plugins/weather/weather.cpp:477
 msgid ""
 "_: weather\n"
 "Mostly Cloudy"
 msgstr "В основном облачно"
 
-#: plugins/weather/weather.cpp:476
+#: plugins/weather/weather.cpp:478
 msgid ""
 "_: weather\n"
 "Partly Cloudy"
 msgstr "Переменная облачность"
 
-#: plugins/weather/weather.cpp:477
+#: plugins/weather/weather.cpp:479
 msgid ""
 "_: weather\n"
 "Wind"
 msgstr "Ветер"
 
-#: plugins/weather/weather.cpp:478
+#: plugins/weather/weather.cpp:480
 msgid ""
 "_: weather\n"
 "steady"
 msgstr "не меняется"
 
-#: plugins/weather/weather.cpp:479
+#: plugins/weather/weather.cpp:481
 msgid ""
 "_: weather\n"
 "falling"
 msgstr "падает"
 
-#: plugins/weather/weather.cpp:480
+#: plugins/weather/weather.cpp:482
 msgid ""
 "_: weather\n"
 "Unlimited"
 msgstr "Неограниченная"
 
-#: plugins/weather/weather.cpp:492
+#: plugins/weather/weather.cpp:494
 msgid ""
 "_: weather\n"
 "Early"
 msgstr "С утра"
 
-#: plugins/weather/weather.cpp:495
+#: plugins/weather/weather.cpp:497
 msgid ""
 "_: weather\n"
-"Later"
+"Late"
 msgstr "Вечером"
 
 # ui/moreinfo.cpp:73
-#: plugins/weather/weather.cpp:507
+#: plugins/weather/weather.cpp:509
 msgid "gust "
 msgstr "порывы"
 
-#: plugins/weather/weather.cpp:568
+#: plugins/weather/weather.cpp:571
 msgid "%t %c"
 msgstr "%t %c"
 
-#: plugins/weather/weather.cpp:577
+#: plugins/weather/weather.cpp:580
 msgid ""
 "%l<br><br>\n"
 "<img src=\"icon:weather\"> %c<br>\n"
 "Temperature: <b>%t</b> (feels like: <b>%f</b>)<br>\n"
 "Humidity: <b>%h</b><br>\n"
-"Pressure: <b>%p</b><br>\n"
+"Pressure: <b>%p</b> (%q)<br>\n"
 "Wind: <b>%b</b> <b>%w %g</b><br>\n"
 "Visibility: <b>%v</b><br>\n"
 "Dew Point: <b>%d</b><br>\n"
@@ -9807,136 +9786,146 @@ msgstr ""
 "<img src=\"icon:weather\"> %c<br>\n"
 "Температура: <b>%t</b><br>\n"
 "Влажность: <b>%h</b><br>\n"
-"Давление: <b>%a<.b><br>\n"
+"Давление: <b>%a мм.рт.ст.<.b> (%q)<br>\n"
 "Ветер: <b>%r</b> <b>%w %g</b><br>\n"
 "Видимость: <b>%v</b><br>\n"
-"Восход: %p<br>\n"
-"Закат: %q<br>\n"
+"Восход: %r<br>\n"
+"Закат: %s<br>\n"
 "<br>\n"
 "Обновлено: %u<br>\n"
 
-#: plugins/weather/weather.cpp:596
+#: plugins/weather/weather.cpp:599
 msgid ""
 "<br>\n"
-"<b>%d %w</b><br>\n"
+"<nobr><b>%d %w</b></nobr><br>\n"
 "<img src=\"icon:weather%n\"> %c<br>\n"
-"Temperature: <b>%t</b><br>\n"
+" Temperature: <b>%t</b><br>\n"
 msgstr ""
 "<br>\n"
-"<b>%d %w</b><br>\n"
+"<nobr><b>%d %w</b></nobr><br>\n"
 "<img src=\"icon:weather%n\"> %c<br>\n"
 "Температура: <b>%t</b><br>\n"
 
-#: plugins/weather/weathercfg.cpp:34 plugins/weather/weathercfg.cpp:67
-msgid "Temperature"
-msgstr "Температура"
-
-#: plugins/weather/weathercfg.cpp:36
-msgid "Feels like"
-msgstr "Ощущается"
-
-# libicq/country.cpp:28
-#: plugins/weather/weathercfg.cpp:38
-msgid "Humidity"
-msgstr "Влажность"
-
-# mainwin.cpp:2361
-#: plugins/weather/weathercfg.cpp:40
-msgid "Wind direction"
-msgstr "Направление ветра"
-
-#: plugins/weather/weathercfg.cpp:42
-msgid "Wind speed"
-msgstr "Скорость ветра"
-
-#: plugins/weather/weathercfg.cpp:44
-msgid "Wind gust"
-msgstr "Порывы ветра"
-
-# libicq/country.cpp:432
-#: plugins/weather/weathercfg.cpp:46
-msgid "Pressure"
-msgstr "Давление"
-
-# ui/listsec.cpp:93 ui/setupdlg.cpp:175
-#: plugins/weather/weathercfg.cpp:48
-msgid "Visibility"
-msgstr "Видимость"
-
-#: plugins/weather/weathercfg.cpp:50
-msgid "Dew Point"
-msgstr "Точка росы"
-
-# ui/workinfobase.cpp:97
-#: plugins/weather/weathercfg.cpp:52
-msgid "Location"
-msgstr "Положение"
-
-# ui/setupdlgbase.cpp:85 ui/userinfobase.cpp:115
-#: plugins/weather/weathercfg.cpp:54
-msgid "Updated"
-msgstr "Обновление"
-
-#: plugins/weather/weathercfg.cpp:56
-msgid "Sunraise"
-msgstr "Восход"
-
-# libicq/country.cpp:274
-#: plugins/weather/weathercfg.cpp:58
-msgid "Sunset"
-msgstr "Закат"
-
-# ui/setupdlg.cpp:139
-#: plugins/weather/weathercfg.cpp:60 plugins/weather/weathercfg.cpp:75
-msgid "Conditions"
-msgstr "Состояние"
-
-# ui/pagerbase.cpp:92 ui/phonebase.cpp:106
-#: plugins/weather/weathercfg.cpp:69
-msgid "Number"
-msgstr "Номер"
-
-#: plugins/weather/weathercfg.cpp:71
-msgid "Day of week"
-msgstr "День недели"
-
-#: plugins/weather/weathercfg.cpp:165
+#: plugins/weather/weathercfg.cpp:110
 msgid "Location %1 not found"
 msgstr "Город %1 не найден"
 
 # ui/workinfobase.cpp:97
-#: plugins/weather/weathercfgbase.cpp:121
-msgid "Location:"
-msgstr "Положение:"
+#: plugins/weather/weathercfgbase.cpp:110
+msgid "Location ID:"
+msgstr "ID:"
 
-#: plugins/weather/weathercfgbase.cpp:123
-msgid "Units:"
-msgstr "Система единиц:"
+#: plugins/weather/weathercfgbase.cpp:112
+msgid "You can enter ID as part URL for your location on weather.com"
+msgstr "Вы можете узнать ID как часть URL для вашего города на weather.com"
 
 # libicq/country.cpp:213
-#: plugins/weather/weathercfgbase.cpp:125
+#: plugins/weather/weathercfgbase.cpp:114
 msgid "Metric"
 msgstr "Метрическая"
 
 # mainwin.cpp:2365 ui/statussetupbase.cpp:79 usertbl.cpp:113
-#: plugins/weather/weathercfgbase.cpp:126
+#: plugins/weather/weathercfgbase.cpp:115
 msgid "Standart"
 msgstr "Стандартная"
 
-#: plugins/weather/weathercfgbase.cpp:127
+#: plugins/weather/weathercfgbase.cpp:116
 msgid "Forecast days:"
 msgstr "Дней в прогнозе:"
 
+#: plugins/weather/weathercfgbase.cpp:117
+msgid "Units:"
+msgstr "Система единиц:"
+
+#: plugins/weather/wifacecfg.cpp:27 plugins/weather/wifacecfg.cpp:62
+msgid "Temperature"
+msgstr "Температура"
+
+#: plugins/weather/wifacecfg.cpp:29
+msgid "Feels like"
+msgstr "Ощущается"
+
+# libicq/country.cpp:28
+#: plugins/weather/wifacecfg.cpp:31
+msgid "Humidity"
+msgstr "Влажность"
+
+# mainwin.cpp:2361
+#: plugins/weather/wifacecfg.cpp:33
+msgid "Wind direction"
+msgstr "Направление ветра"
+
+#: plugins/weather/wifacecfg.cpp:35
+msgid "Wind speed"
+msgstr "Скорость ветра"
+
+#: plugins/weather/wifacecfg.cpp:37
+msgid "Wind gust"
+msgstr "Порывы ветра"
+
+# libicq/country.cpp:432
+#: plugins/weather/wifacecfg.cpp:39
+msgid "Pressure"
+msgstr "Давление"
+
+# libicq/country.cpp:432
+#: plugins/weather/wifacecfg.cpp:41
+msgid "Pressure state"
+msgstr "Изменение давления"
+
+# ui/listsec.cpp:93 ui/setupdlg.cpp:175
+#: plugins/weather/wifacecfg.cpp:43
+msgid "Visibility"
+msgstr "Видимость"
+
+#: plugins/weather/wifacecfg.cpp:45
+msgid "Dew Point"
+msgstr "Точка росы"
+
+# ui/workinfobase.cpp:97
+#: plugins/weather/wifacecfg.cpp:47
+msgid "Location"
+msgstr "Положение"
+
+# ui/setupdlgbase.cpp:85 ui/userinfobase.cpp:115
+#: plugins/weather/wifacecfg.cpp:49
+msgid "Updated"
+msgstr "Обновление"
+
+#: plugins/weather/wifacecfg.cpp:51
+msgid "Sunraise"
+msgstr "Восход"
+
+# libicq/country.cpp:274
+#: plugins/weather/wifacecfg.cpp:53
+msgid "Sunset"
+msgstr "Закат"
+
+# ui/setupdlg.cpp:139
+#: plugins/weather/wifacecfg.cpp:55 plugins/weather/wifacecfg.cpp:70
+msgid "Conditions"
+msgstr "Состояние"
+
+# ui/pagerbase.cpp:92 ui/phonebase.cpp:106
+#: plugins/weather/wifacecfg.cpp:64
+msgid "Number"
+msgstr "Номер"
+
+#: plugins/weather/wifacecfg.cpp:66
+msgid "Day of week"
+msgstr "День недели"
+
 # libicq/country.cpp:97
-#: plugins/weather/weathercfgbase.cpp:128
+#: plugins/weather/wifacecfgbase.cpp:81
 msgid "Button text:"
 msgstr "Текст на кнопке:"
 
 # libicq/country.cpp:97
-#: plugins/weather/weathercfgbase.cpp:129
+#: plugins/weather/wifacecfgbase.cpp:82
 msgid "Button tip:"
 msgstr "Подсказка:"
 
-#: plugins/weather/weathercfgbase.cpp:130
+#: plugins/weather/wifacecfgbase.cpp:83
 msgid "Forecast tip:"
 msgstr "Прогноз:"
+

@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
-"POT-Creation-Date: 2004-03-08 03:40+0300\n"
+"POT-Creation-Date: 2004-03-08 05:23+0300\n"
 "PO-Revision-Date: 2004-02-29 17:52+0200\n"
 "Last-Translator: Ivan Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team:  <ru@li.org>\n"
@@ -1073,7 +1073,7 @@ msgstr "З&ареєструватися"
 #: plugins/gpg/gpggenbase.cpp:115 plugins/icq/encodingdlgbase.cc:87
 #: plugins/icq/icqclient.cpp:2354 plugins/icq/securedlgbase.cc:78
 #: plugins/icq/warndlgbase.cc:89 plugins/proxy/proxyerrorbase.cpp:81
-#: plugins/weather/weathercfg.cpp:136 sim/api/simapi.cpp:459
+#: plugins/weather/weathercfg.cpp:81 sim/api/simapi.cpp:459
 #: sim/ui/qt3/i18n.cpp:35
 msgid "&Cancel"
 msgstr "&Відмінити"
@@ -1092,7 +1092,7 @@ msgstr "&Ні"
 
 #: plugins/_core/arcfgbase.cpp:80 plugins/_core/autoreplybase.cpp:89
 #: plugins/action/actioncfgbase.cpp:62 plugins/action/additembase.cpp:94
-#: plugins/weather/weathercfgbase.cpp:131 sim/api/simapi.cpp:462
+#: plugins/weather/wifacecfgbase.cpp:84 sim/api/simapi.cpp:462
 msgid "&Help"
 msgstr "&Допомога"
 
@@ -1300,7 +1300,7 @@ msgstr "Розмір"
 msgid "Type"
 msgstr "Тип"
 
-#: plugins/weather/weathercfg.cpp:73 sim/ui/qt3/i18n.cpp:45
+#: plugins/weather/wifacecfg.cpp:68 sim/ui/qt3/i18n.cpp:45
 msgid "Date"
 msgstr "Дата"
 
@@ -2178,8 +2178,8 @@ msgstr "&Мережа"
 #: plugins/spell/spellcfgbase.cpp:83 plugins/styles/fontconfigbase.cpp:99
 #: plugins/styles/stylescfgbase.cpp:52
 #: plugins/transparent/transparentcfgbase.cpp:70
-#: plugins/weather/weathercfgbase.cpp:120 plugins/yahoo/yahooinfobase.cpp:147
-#: plugins/yahoo/yahoosearchbase.cpp:78
+#: plugins/weather/weathercfgbase.cpp:109 plugins/weather/wifacecfgbase.cpp:80
+#: plugins/yahoo/yahooinfobase.cpp:147 plugins/yahoo/yahoosearchbase.cpp:78
 msgid "Form1"
 msgstr "Домашня"
 
@@ -2451,7 +2451,7 @@ msgid ""
 "%1 typed"
 msgstr "%1 пише"
 
-#: plugins/_core/core.cpp:77
+#: plugins/_core/core.cpp:77 plugins/weather/weathercfg.cpp:54
 msgid "Interface"
 msgstr "Інтерфейс"
 
@@ -3776,7 +3776,7 @@ msgid "Close after &transfer"
 msgstr "Закрити після &відсилання"
 
 #: plugins/_core/arcfg.cpp:96 plugins/_core/autoreply.cpp:109
-#: plugins/weather/weathercfg.cpp:115
+#: plugins/weather/wifacecfg.cpp:109
 msgid "In text you can use:"
 msgstr "В тексті Ви можете використовувати:"
 
@@ -7425,8 +7425,8 @@ msgstr "Jabber броузер"
 msgid "&Back"
 msgstr "&Назад"
 
-#: plugins/jabber/jabber.cpp:329 plugins/weather/weathercfg.cpp:130
-#: plugins/weather/weathercfg.cpp:160 plugins/weather/weathercfgbase.cpp:122
+#: plugins/jabber/jabber.cpp:329 plugins/weather/weathercfg.cpp:75
+#: plugins/weather/weathercfg.cpp:105 plugins/weather/weathercfgbase.cpp:111
 msgid "&Search"
 msgstr "&Пошук"
 
@@ -8355,215 +8355,222 @@ msgstr "Погода"
 msgid "Plugin provides show weather"
 msgstr "Плагін забезпечує показ погоди"
 
-#: plugins/weather/weather.cpp:167
+#: plugins/weather/weather.cpp:168
 msgid "Not connected"
 msgstr "Нема під'єднання"
 
-#: plugins/weather/weather.cpp:452
+#: plugins/weather/weather.cpp:453
 #, fuzzy
 msgid "Monday"
 msgstr "Монако"
 
-#: plugins/weather/weather.cpp:453
+#: plugins/weather/weather.cpp:454
 #, fuzzy
 msgid "Tuesday"
 msgstr "Турція"
 
-#: plugins/weather/weather.cpp:454
+#: plugins/weather/weather.cpp:455
 msgid "Wednesday"
 msgstr ""
 
-#: plugins/weather/weather.cpp:455
+#: plugins/weather/weather.cpp:456
 msgid "Thursday"
 msgstr ""
 
-#: plugins/weather/weather.cpp:456
+#: plugins/weather/weather.cpp:457
 #, fuzzy
 msgid "Friday"
 msgstr "Пт"
 
-#: plugins/weather/weather.cpp:457
+#: plugins/weather/weather.cpp:458
 #, fuzzy
 msgid "Saturday"
 msgstr "Судан"
 
-#: plugins/weather/weather.cpp:458
+#: plugins/weather/weather.cpp:459
 #, fuzzy
 msgid "Sunday"
 msgstr "Судан"
 
-#: plugins/weather/weather.cpp:460
+#: plugins/weather/weather.cpp:461
 msgid ""
 "_: weather\n"
 "Overcast"
 msgstr "Хмарно"
 
-#: plugins/weather/weather.cpp:461
+#: plugins/weather/weather.cpp:462
 msgid ""
 "_: weather\n"
 "Fog"
 msgstr "Туман"
 
-#: plugins/weather/weather.cpp:462
+#: plugins/weather/weather.cpp:463
+#, fuzzy
+msgid ""
+"_: weather\n"
+"Haze"
+msgstr "Дощ"
+
+#: plugins/weather/weather.cpp:464
 msgid ""
 "_: weather\n"
 "Storm"
 msgstr "Шторм/Гроза"
 
-#: plugins/weather/weather.cpp:463
+#: plugins/weather/weather.cpp:465
 msgid ""
 "_: weather\n"
 "Rain"
-msgstr "Дощ"
-
-#: plugins/weather/weather.cpp:464
-#, fuzzy
-msgid ""
-"_: weather\n"
-"Snow Showers"
-msgstr "Сніг"
-
-#: plugins/weather/weather.cpp:465
-#, fuzzy
-msgid ""
-"_: weather\n"
-"Light Rain"
 msgstr "Дощ"
 
 #: plugins/weather/weather.cpp:466
 #, fuzzy
 msgid ""
 "_: weather\n"
-"Few Snow Showers"
+"Snow Showers"
 msgstr "Сніг"
 
 #: plugins/weather/weather.cpp:467
 #, fuzzy
 msgid ""
 "_: weather\n"
+"Light Rain"
+msgstr "Дощ"
+
+#: plugins/weather/weather.cpp:468
+#, fuzzy
+msgid ""
+"_: weather\n"
+"Few Snow Showers"
+msgstr "Сніг"
+
+#: plugins/weather/weather.cpp:469
+#, fuzzy
+msgid ""
+"_: weather\n"
 "Scattered Snow Showers"
 msgstr "Сніг"
 
-#: plugins/weather/weather.cpp:468
+#: plugins/weather/weather.cpp:470
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Snow Shower"
 msgstr "Сніг"
 
-#: plugins/weather/weather.cpp:469
+#: plugins/weather/weather.cpp:471
 msgid ""
 "_: weather\n"
 "Clear"
-msgstr "Ясно"
-
-#: plugins/weather/weather.cpp:470
-#, fuzzy
-msgid ""
-"_: weather\n"
-"Showers"
-msgstr "Сніг"
-
-#: plugins/weather/weather.cpp:471
-#, fuzzy
-msgid ""
-"_: weather\n"
-"Mostly Clear"
 msgstr "Ясно"
 
 #: plugins/weather/weather.cpp:472
 #, fuzzy
 msgid ""
 "_: weather\n"
-"Sunny"
+"Showers"
 msgstr "Сніг"
 
 #: plugins/weather/weather.cpp:473
 #, fuzzy
 msgid ""
 "_: weather\n"
+"Mostly Clear"
+msgstr "Ясно"
+
+#: plugins/weather/weather.cpp:474
+#, fuzzy
+msgid ""
+"_: weather\n"
+"Sunny"
+msgstr "Сніг"
+
+#: plugins/weather/weather.cpp:475
+#, fuzzy
+msgid ""
+"_: weather\n"
 "Fair"
 msgstr "Дощ"
 
-#: plugins/weather/weather.cpp:474
+#: plugins/weather/weather.cpp:476
 msgid ""
 "_: weather\n"
 "Cloudy"
 msgstr "Хмарно"
 
-#: plugins/weather/weather.cpp:475
+#: plugins/weather/weather.cpp:477
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Mostly Cloudy"
 msgstr "Хмарно"
 
-#: plugins/weather/weather.cpp:476
+#: plugins/weather/weather.cpp:478
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Partly Cloudy"
 msgstr "Часткова хмарність"
 
-#: plugins/weather/weather.cpp:477
+#: plugins/weather/weather.cpp:479
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Wind"
 msgstr "Дощ"
 
-#: plugins/weather/weather.cpp:478
+#: plugins/weather/weather.cpp:480
 #, fuzzy
 msgid ""
 "_: weather\n"
 "steady"
 msgstr "Ясно"
 
-#: plugins/weather/weather.cpp:479
+#: plugins/weather/weather.cpp:481
 #, fuzzy
 msgid ""
 "_: weather\n"
 "falling"
 msgstr "Дощ"
 
-#: plugins/weather/weather.cpp:480
+#: plugins/weather/weather.cpp:482
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Unlimited"
 msgstr "Ясно"
 
-#: plugins/weather/weather.cpp:492
+#: plugins/weather/weather.cpp:494
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Early"
 msgstr "Дощ"
 
-#: plugins/weather/weather.cpp:495
+#: plugins/weather/weather.cpp:497
 #, fuzzy
 msgid ""
 "_: weather\n"
-"Later"
+"Late"
 msgstr "Дощ"
 
-#: plugins/weather/weather.cpp:507
+#: plugins/weather/weather.cpp:509
 #, fuzzy
 msgid "gust "
 msgstr "Серпень"
 
-#: plugins/weather/weather.cpp:568
+#: plugins/weather/weather.cpp:571
 msgid "%t %c"
 msgstr ""
 
-#: plugins/weather/weather.cpp:577
+#: plugins/weather/weather.cpp:580
 #, fuzzy
 msgid ""
 "%l<br><br>\n"
 "<img src=\"icon:weather\"> %c<br>\n"
 "Temperature: <b>%t</b> (feels like: <b>%f</b>)<br>\n"
 "Humidity: <b>%h</b><br>\n"
-"Pressure: <b>%p</b><br>\n"
+"Pressure: <b>%p</b> (%q)<br>\n"
 "Wind: <b>%b</b> <b>%w %g</b><br>\n"
 "Visibility: <b>%v</b><br>\n"
 "Dew Point: <b>%d</b><br>\n"
@@ -8583,120 +8590,130 @@ msgstr ""
 "<br>\n"
 "Поновлено: %u"
 
-#: plugins/weather/weather.cpp:596
+#: plugins/weather/weather.cpp:599
 msgid ""
 "<br>\n"
-"<b>%d %w</b><br>\n"
+"<nobr><b>%d %w</b></nobr><br>\n"
 "<img src=\"icon:weather%n\"> %c<br>\n"
-"Temperature: <b>%t</b><br>\n"
+" Temperature: <b>%t</b><br>\n"
 msgstr ""
 
-#: plugins/weather/weathercfg.cpp:34 plugins/weather/weathercfg.cpp:67
-#, fuzzy
-msgid "Temperature"
-msgstr "Температура &deg;F"
-
-#: plugins/weather/weathercfg.cpp:36
-msgid "Feels like"
-msgstr ""
-
-#: plugins/weather/weathercfg.cpp:38
-msgid "Humidity"
-msgstr "Вологість"
-
-#: plugins/weather/weathercfg.cpp:40
-msgid "Wind direction"
-msgstr "Напрям вітру"
-
-#: plugins/weather/weathercfg.cpp:42
-#, fuzzy
-msgid "Wind speed"
-msgstr "Швидкість вітру миль/год"
-
-#: plugins/weather/weathercfg.cpp:44
-#, fuzzy
-msgid "Wind gust"
-msgstr "Швидкість вітру миль/год"
-
-#: plugins/weather/weathercfg.cpp:46
-#, fuzzy
-msgid "Pressure"
-msgstr "Тиск дюйм"
-
-#: plugins/weather/weathercfg.cpp:48
-#, fuzzy
-msgid "Visibility"
-msgstr "Список видимості"
-
-#: plugins/weather/weathercfg.cpp:50
-msgid "Dew Point"
-msgstr ""
-
-#: plugins/weather/weathercfg.cpp:52
-msgid "Location"
-msgstr "Місцезнаходження"
-
-#: plugins/weather/weathercfg.cpp:54
-msgid "Updated"
-msgstr "Поновлення"
-
-#: plugins/weather/weathercfg.cpp:56
-msgid "Sunraise"
-msgstr "Схід"
-
-#: plugins/weather/weathercfg.cpp:58
-msgid "Sunset"
-msgstr "Захід"
-
-#: plugins/weather/weathercfg.cpp:60 plugins/weather/weathercfg.cpp:75
-msgid "Conditions"
-msgstr "Умови"
-
-#: plugins/weather/weathercfg.cpp:69
-msgid "Number"
-msgstr "Номер"
-
-#: plugins/weather/weathercfg.cpp:71
-msgid "Day of week"
-msgstr ""
-
-#: plugins/weather/weathercfg.cpp:165
+#: plugins/weather/weathercfg.cpp:110
 #, fuzzy
 msgid "Location %1 not found"
 msgstr "Вузол %1 знайдено"
 
-#: plugins/weather/weathercfgbase.cpp:121
-msgid "Location:"
+#: plugins/weather/weathercfgbase.cpp:110
+#, fuzzy
+msgid "Location ID:"
 msgstr "Місцезнаходження:"
 
-#: plugins/weather/weathercfgbase.cpp:123
-#, fuzzy
-msgid "Units:"
-msgstr "Одиниці"
+#: plugins/weather/weathercfgbase.cpp:112
+msgid "You can enter ID as part URL for your location on weather.com"
+msgstr ""
 
-#: plugins/weather/weathercfgbase.cpp:125
+#: plugins/weather/weathercfgbase.cpp:114
 #, fuzzy
 msgid "Metric"
 msgstr "Мексика"
 
-#: plugins/weather/weathercfgbase.cpp:126
+#: plugins/weather/weathercfgbase.cpp:115
 #, fuzzy
 msgid "Standart"
 msgstr "&Статус"
 
-#: plugins/weather/weathercfgbase.cpp:127
+#: plugins/weather/weathercfgbase.cpp:116
 msgid "Forecast days:"
 msgstr ""
 
-#: plugins/weather/weathercfgbase.cpp:128
+#: plugins/weather/weathercfgbase.cpp:117
+#, fuzzy
+msgid "Units:"
+msgstr "Одиниці"
+
+#: plugins/weather/wifacecfg.cpp:27 plugins/weather/wifacecfg.cpp:62
+#, fuzzy
+msgid "Temperature"
+msgstr "Температура &deg;F"
+
+#: plugins/weather/wifacecfg.cpp:29
+msgid "Feels like"
+msgstr ""
+
+#: plugins/weather/wifacecfg.cpp:31
+msgid "Humidity"
+msgstr "Вологість"
+
+#: plugins/weather/wifacecfg.cpp:33
+msgid "Wind direction"
+msgstr "Напрям вітру"
+
+#: plugins/weather/wifacecfg.cpp:35
+#, fuzzy
+msgid "Wind speed"
+msgstr "Швидкість вітру миль/год"
+
+#: plugins/weather/wifacecfg.cpp:37
+#, fuzzy
+msgid "Wind gust"
+msgstr "Швидкість вітру миль/год"
+
+#: plugins/weather/wifacecfg.cpp:39
+#, fuzzy
+msgid "Pressure"
+msgstr "Тиск дюйм"
+
+#: plugins/weather/wifacecfg.cpp:41
+#, fuzzy
+msgid "Pressure state"
+msgstr "Тиск кПа"
+
+#: plugins/weather/wifacecfg.cpp:43
+#, fuzzy
+msgid "Visibility"
+msgstr "Список видимості"
+
+#: plugins/weather/wifacecfg.cpp:45
+msgid "Dew Point"
+msgstr ""
+
+#: plugins/weather/wifacecfg.cpp:47
+msgid "Location"
+msgstr "Місцезнаходження"
+
+#: plugins/weather/wifacecfg.cpp:49
+msgid "Updated"
+msgstr "Поновлення"
+
+#: plugins/weather/wifacecfg.cpp:51
+msgid "Sunraise"
+msgstr "Схід"
+
+#: plugins/weather/wifacecfg.cpp:53
+msgid "Sunset"
+msgstr "Захід"
+
+#: plugins/weather/wifacecfg.cpp:55 plugins/weather/wifacecfg.cpp:70
+msgid "Conditions"
+msgstr "Умови"
+
+#: plugins/weather/wifacecfg.cpp:64
+msgid "Number"
+msgstr "Номер"
+
+#: plugins/weather/wifacecfg.cpp:66
+msgid "Day of week"
+msgstr ""
+
+#: plugins/weather/wifacecfgbase.cpp:81
 msgid "Button text:"
 msgstr "Текст на кнопці:"
 
-#: plugins/weather/weathercfgbase.cpp:129
+#: plugins/weather/wifacecfgbase.cpp:82
 msgid "Button tip:"
 msgstr "Підказка:"
 
-#: plugins/weather/weathercfgbase.cpp:130
+#: plugins/weather/wifacecfgbase.cpp:83
 msgid "Forecast tip:"
 msgstr ""
 
@@ -8708,9 +8725,6 @@ msgstr ""
 
 #~ msgid "Wind speed km/h"
 #~ msgstr "Швидкість вітру км/год"
-
-#~ msgid "Pressure hPa"
-#~ msgstr "Тиск кПа"
 
 #~ msgid "Go www.wunderground.com"
 #~ msgstr "Відвідайте www.wunderground.com"
