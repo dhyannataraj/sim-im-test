@@ -521,7 +521,7 @@ void ICQUser::adjustPhones()
 
 bool ICQUser::canRTF()
 {
-    return (Version >= 8) && (uStatus != ICQ_STATUS_OFFLINE) && hasCap(CAP_RTF);
+	return (Version >= 8) && (uStatus != ICQ_STATUS_OFFLINE) && hasCap(CAP_RTF);
 }
 
 bool ICQUser::canUTF()
@@ -736,7 +736,7 @@ static string verString(unsigned ver)
     if ((v[0] & 0x80) || (v[1] & 0x80) || (v[2] & 0x80) || (v[3] & 0x80))
         return res;
     char b[32];
-    snprintf(b, sizeof(b), "%u.%u", v[0], v[1]);
+    snprintf(b, sizeof(b), " %u.%u", v[0], v[1]);
     res = b;
     if (v[2] || v[3]){
         snprintf(b, sizeof(b), ".%u", v[2]);
@@ -810,28 +810,28 @@ string ICQUser::client()
             return res;
         }
         res += "MIRANDA";
-        res += verString(PhoneStatusTime & 0xFFFF);
+        res += verString(PhoneStatusTime & 0xFFFFFF);
         if (PhoneStatusTime & 0x80000000)
             res += " alpha";
         return res;
     case 0xFFFFFF8FL:
         res += "StrICQ";
-        res += verString(PhoneStatusTime & 0xFFFF);
+        res += verString(PhoneStatusTime & 0xFFFFFF);
         return res;
     case 0xFFFFFF42L:
         res += "mICQ";
         return res;
     case 0xFFFFFFBEL:
         res += "alicq";
-        res += verString(PhoneStatusTime & 0xFFFF);
+        res += verString(PhoneStatusTime & 0xFFFFFF);
         return res;
     case 0xFFFFFF7FL:
         res += "&RQ";
-        res += verString(PhoneStatusTime & 0xFFFF);
+        res += verString(PhoneStatusTime & 0xFFFFFF);
         return res;
     case 0xFFFFFFABL:
         res += "YSM";
-        res += verString(PhoneStatusTime & 0xFFFF);
+        res += verString(PhoneStatusTime & 0xFFFFFF);
         return res;
     case 0x04031980L:
         snprintf(b, sizeof(b), "vICQ 0.43.%lu.%lu", PhoneStatusTime & 0xffff, PhoneStatusTime & (0x7fff0000) >> 16);

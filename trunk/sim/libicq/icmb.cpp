@@ -874,7 +874,7 @@ void ICQClientPrivate::sendICMB()
 {
     snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_SETxICQxMODE);
     sock->writeBuffer
-    << 0x00000000L << 0x000B1F40L
+    << 0x00000000L << 0x00031F40L
     << 0x03E703E7L << 0x00000000L;
     sendPacket();
 }
@@ -947,6 +947,40 @@ static void packColor(Buffer &mb, unsigned long color)
     mb << b << g << r << (char)0;
 }
 
+static char c2h(char c)
+{
+    c = c & 0xF;
+    if (c < 10)
+        return '0' + c;
+    return 'A' + c - 10;
+}
+
+static void b2h(char *&p, char c)
+{
+    *(p++) = c2h(c >> 4);
+    *(p++) = c2h(c);
+}
+
+static void packCap(Buffer &b, const capability &c)
+{
+    char pack_cap[0x27];
+    char *p = pack_cap;
+    *(p++) = '{';
+    b2h(p, c[0]); b2h(p, c[1]); b2h(p, c[2]); b2h(p, c[3]);
+    *(p++) = '-';
+    b2h(p, c[4]); b2h(p, c[5]);
+    *(p++) = '-';
+    b2h(p, c[6]); b2h(p, c[7]);
+    *(p++) = '-';
+    b2h(p, c[8]); b2h(p, c[9]);
+    *(p++) = '-';
+    b2h(p, c[10]); b2h(p, c[11]);
+    b2h(p, c[12]); b2h(p, c[13]); b2h(p, c[14]); b2h(p, c[15]);
+    *(p++) = '}';
+    *p = 0;
+    b << pack_cap;
+}
+
 void ICQClientPrivate::packMessage(Buffer &mb, ICQMessage *m, const char *msg,
                                    unsigned short msgType, unsigned short msgFlags,
                                    char oper, bool bShort, bool bConvert)
@@ -983,8 +1017,10 @@ void ICQClientPrivate::packMessage(Buffer &mb, ICQMessage *m, const char *msg,
                     packColor(mb, 0x00FFFFFFL);
                 }
                 ICQUser *u = client->getUser(msg->getUin());
-                if (u && u->canRTF())
-                    mb.packStr32("{97B12751-243C-4334-AD22-D6ABF73F1492}");
+				if (u && (u->canRTF() || u->canUTF())){
+                        mb << 0x26000000L;
+                        packCap(mb, capabilities[u->canRTF() ? CAP_RTF : CAP_UTF]);
+				}
                 break;
             }
         case ICQ_MSGxURL:
@@ -1080,40 +1116,6 @@ void ICQClientPrivate::packMessage(Buffer &mb, ICQMessage *m, const char *msg,
 
 }
 
-static char c2h(char c)
-{
-    c = c & 0xF;
-    if (c < 10)
-        return '0' + c;
-    return 'A' + c - 10;
-}
-
-static void b2h(char *&p, char c)
-{
-    *(p++) = c2h(c >> 4);
-    *(p++) = c2h(c);
-}
-
-static void packCap(Buffer &b, const capability &c)
-{
-    char pack_cap[0x27];
-    char *p = pack_cap;
-    *(p++) = '{';
-    b2h(p, c[0]); b2h(p, c[1]); b2h(p, c[2]); b2h(p, c[3]);
-    *(p++) = '-';
-    b2h(p, c[4]); b2h(p, c[5]);
-    *(p++) = '-';
-    b2h(p, c[6]); b2h(p, c[7]);
-    *(p++) = '-';
-    b2h(p, c[8]); b2h(p, c[9]);
-    *(p++) = '-';
-    b2h(p, c[10]); b2h(p, c[11]);
-    b2h(p, c[12]); b2h(p, c[13]); b2h(p, c[14]); b2h(p, c[15]);
-    *(p++) = '}';
-    *p = 0;
-    b << pack_cap;
-}
-
 void ICQClientPrivate::processMsgQueueThruServer()
 {
     list<ICQEvent*>::iterator it;
@@ -1146,17 +1148,19 @@ void ICQClientPrivate::processMsgQueueThruServer()
                         msgBuf
                         << (unsigned short)0x1B00
                         << (char)0x08
-                        << 0x00000000L << 0x00000000L << 0x00000000L << 0x00000000L << 0x00000003L << 0x00000000L
-                        << advCounter
-                        << (unsigned short)0x0E00
-                        << advCounter
+                        << 0x00000000L << 0x00000000L << 0x00000000L << 0x00000000L << 0x00000003L << 0x00000000L;
+                        msgBuf.pack(advCounter);
+                        msgBuf.pack((unsigned short)0x0E);
+                        msgBuf.pack(advCounter);
+						msgBuf
                         << 0x00000000L << 0x00000000L << 0x00000000L
                         << (char)0x01
                         << (char)0
                         << (unsigned short)0
-                        << (unsigned short)0x0100;
-                        msgBuf.pack((unsigned short)(message.size() + 1));
-                        msgBuf.pack(message.c_str(), message.size() + 1);
+                        << (unsigned short)0x2100;
+						unsigned short size = strlen(message.c_str()) + 1;
+                        msgBuf.pack(size);
+                        msgBuf.pack(message.c_str(), size);
                         if (msg->BackColor == msg->ForeColor){
                             msgBuf << 0x00000000L << 0xFFFFFF00L;
                         }else{
