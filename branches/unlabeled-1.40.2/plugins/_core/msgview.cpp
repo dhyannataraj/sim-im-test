@@ -272,11 +272,6 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     anchor += id;
     anchor += "\">";
     res = anchor + res;
-
-    string ss;
-    ss = res.local8Bit();
-    log(L_DEBUG, "Set: %s", ss.c_str());
-
     return res;
 }
 
@@ -318,11 +313,6 @@ void MsgViewBase::setBackground(unsigned n)
 
     for (unsigned i = n; i < (unsigned)paragraphs(); i++){
         QString s = text(i);
-
-        string ss;
-        ss = s.local8Bit();
-        log(L_DEBUG, "%u> %s", i, ss.c_str());
-
         int anchorPos = s.find(sAnchor);
         if (anchorPos == 0)
         {
@@ -345,7 +335,6 @@ void MsgViewBase::setBackground(unsigned n)
                 {
                     QString sBgcolor = id.mid(bgcolorStart, bgcolorEnd - bgcolorStart);
                     bgcolor = QColor(sBgcolor.toULong(&bSet));
-                    log(L_DEBUG, "%u: Set BG %X", i, bgcolor.rgb());
                 }
             }
         }
@@ -359,10 +348,8 @@ void MsgViewBase::setBackground(unsigned n)
 
         if (bInMsg && bSet){
             setParagraphBackgroundColor(i, bgcolor);
-            log(L_DEBUG, "%u: set", i);
         }else{
             clearParagraphBackground(i);
-            log(L_DEBUG, "%u: clear", i);
         }
     }
 
@@ -556,9 +543,7 @@ void *MsgViewBase::processEvent(Event *e)
                 continue;
             string client;
             unsigned id = messageId(s.left(n), client);
-            log(L_DEBUG, "> %u %u %s  - %u %u %u", i, id, client.c_str(), ch->from, ch->size, ch->from + ch->size);
             if ((client == ch->client) && (id >= ch->from) && (id < ch->from + ch->size)){
-                log(L_DEBUG, "Delete!");
                 if (!bDelete){
                     bDelete = true;
                     start_pos.push_back(i);
