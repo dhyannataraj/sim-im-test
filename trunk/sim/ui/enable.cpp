@@ -1,13 +1,10 @@
 #include "enable.h"
 #include "country.h"
-
+#include "client.h"
 
 #ifdef WIN32
-
 #include <windows.h>
-
 #endif
-
 
 #include <qwidget.h>
 #include <qcombobox.h>
@@ -100,55 +97,37 @@ char getTZComboValue(QComboBox *cmb)
 
 void set(string &s, const QString &str)
 {
-    s = "";
-    if (str.length()) s = str.local8Bit();
+    s = pClient->to8Bit(pClient->owner->Uin, str);
+}
+
+void set(QString &s, const string &str)
+{
+    s = pClient->from8Bit(pClient->owner->Uin, str);
 }
 
 #ifdef WIN32
 
 #include <windows.h>
 
-
-
 static WNDPROC oldWndProc = 0;
 
-
-
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
-
 {
-
     if (msg == WM_SETTEXT)
-
         return DefWindowProc(hWnd, msg, wParam, lParam);
-
     return oldWndProc(hWnd, msg, wParam, lParam);
-
 }
-
-
 
 void setWndProc(QWidget *w)
-
 {
-
 #ifdef WIN32
-
     WNDPROC p;
-
     p = (WNDPROC)SetWindowLongW(w->winId(), GWL_WNDPROC, (LONG)WndProc);
-
     if (p == 0)
-
         p = (WNDPROC)SetWindowLongA(w->winId(), GWL_WNDPROC, (LONG)WndProc);
-
     if (oldWndProc == NULL) oldWndProc = p;
-
 #endif
-
 }
-
-
 
 #endif
 

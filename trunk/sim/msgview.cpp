@@ -610,6 +610,7 @@ void MsgView::addMessage(ICQMessage *msg, bool bUnread, bool bSet)
     }else{
         setContentsPos(x, y);
     }
+    updateScrollBars();
 }
 
 int MsgView::setMsgBgColor(unsigned long uin, unsigned long id, unsigned long rgb, int start)

@@ -413,9 +413,9 @@ string PhoneInfo::getNumber()
         }
     }
     if (*AreaCode.c_str()){
-    	res += " (";
-    	res += AreaCode.c_str();
-    	res += ") ";
+        res += " (";
+        res += AreaCode.c_str();
+        res += ") ";
     }
     res += Number.c_str();
     if (*Extension.c_str()){
@@ -429,7 +429,7 @@ static string strip_number(const char *s)
 {
     string res;
     for (; *s; s++)
-	if ((*s >= '0') && (*s <= '9')) res += *s;
+        if ((*s >= '0') && (*s <= '9')) res += *s;
     return res;
 }
 
@@ -444,7 +444,7 @@ bool PhoneInfo::isEqual(const char *number)
     if (s2 < s1) s = s2;
     int nMatch;
     for (nMatch = 0; nMatch < s; nMatch++)
-	if (n1[s1-1-nMatch] != n2[s2-1-nMatch]) break;
+        if (n1[s1-1-nMatch] != n2[s2-1-nMatch]) break;
     return (nMatch >= 7);
 }
 

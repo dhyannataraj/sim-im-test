@@ -306,7 +306,7 @@ cfgParam Client_Params[] =
         { "ProxyAuth", offsetof(ICQClient, ProxyAuth), PARAM_BOOL, 0 },
         { "ProxyUser", offsetof(ICQClient, ProxyUser), PARAM_STRING, 0 },
         { "ProxyPasswd", offsetof(ICQClient, ProxyPasswd), PARAM_STRING, 0 },
-        { "", offsetof(ICQClient, owner), 0, (unsigned)ICQUser_Params }
+        { "", offsetof(ICQClient, owner), 0, (unsigned)ClientOwner_Params }
     };
 
 void Client::save(ostream &s)

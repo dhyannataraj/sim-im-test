@@ -2273,10 +2273,6 @@ msgstr "&Отказать"
 msgid "&Forward"
 msgstr "&Переслать"
 
-#: msgedit.cpp:172
-msgid "Text font"
-msgstr "Цвет текста"
-
 #: msgedit.cpp:189
 msgid "C&lose after send"
 msgstr "&Закрыть после отправки"

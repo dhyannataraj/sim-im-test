@@ -18,7 +18,7 @@ unsigned short getComboValue(QComboBox *cmb, const ext_info *tbl);
 char getTZComboValue(QComboBox *cmb);
 
 void set(string &s, const QString &str);
-
+void set(QString &s, const string &str);
 
 #ifdef WIN32
 

@@ -26,6 +26,13 @@
 #include <qpixmap.h>
 #include <qmultilineedit.h>
 
+static set(QMultiLineEdit *edit, const string &s)
+{
+    QString str;
+    set(str, s);
+    edit->setText(str);
+}
+
 MsgDialog::MsgDialog(QWidget *p, unsigned long _status, bool bReadOnly)
         : MsgDialogBase(p), status(_status)
 {
@@ -38,56 +45,59 @@ MsgDialog::MsgDialog(QWidget *p, unsigned long _status, bool bReadOnly)
     }
     switch (status){
     case ICQ_STATUS_AWAY:
-        edtMessage->setText(QString::fromLocal8Bit(pClient->owner->AutoResponseAway.c_str()));
+        set(edtMessage, pClient->owner->AutoResponseAway);
         chkNoShow->setChecked(pMain->NoShowAway);
         break;
     case ICQ_STATUS_NA:
-        edtMessage->setText(QString::fromLocal8Bit(pClient->owner->AutoResponseNA.c_str()));
+        set(edtMessage, pClient->owner->AutoResponseNA);
         chkNoShow->setChecked(pMain->NoShowNA);
         break;
     case ICQ_STATUS_DND:
-        edtMessage->setText(QString::fromLocal8Bit(pClient->owner->AutoResponseDND.c_str()));
+        set(edtMessage, pClient->owner->AutoResponseDND);
         chkNoShow->setChecked(pMain->NoShowDND);
         break;
     case ICQ_STATUS_OCCUPIED:
-        edtMessage->setText(QString::fromLocal8Bit(pClient->owner->AutoResponseOccupied.c_str()));
+        set(edtMessage, pClient->owner->AutoResponseOccupied);
         chkNoShow->setChecked(pMain->NoShowOccupied);
         break;
     case ICQ_STATUS_FREEFORCHAT:
-        edtMessage->setText(QString::fromLocal8Bit(pClient->owner->AutoResponseFFC.c_str()));
+        set(edtMessage, pClient->owner->AutoResponseFFC);
         chkNoShow->setChecked(pMain->NoShowFFC);
         break;
     }
     connect(chkOverride, SIGNAL(toggled(bool)), this, SLOT(overrideChanged(bool)));
 }
 
+void MsgDialog::setup(ICQUser *u, const string &str1, const string &str2)
+{
+    string str;
+    if (*(str1.c_str()) == 0){
+        chkOverride->setChecked(false);
+        str = str2;
+    }else{
+        chkOverride->setChecked(true);
+        str = str1;
+    }
+    set(edtMessage, str);
+}
+
 void MsgDialog::load(ICQUser *u)
 {
     switch (status){
     case ICQ_STATUS_AWAY:
-        if (!*u->AutoResponseAway.c_str()) break;
-        edtMessage->setText(QString::fromLocal8Bit(u->AutoResponseAway.c_str()));
-        chkOverride->setChecked(true);
+        setup(u, u->AutoResponseAway, pClient->owner->AutoResponseAway);
         break;
     case ICQ_STATUS_NA:
-        if (!*u->AutoResponseNA.c_str()) break;
-        edtMessage->setText(QString::fromLocal8Bit(u->AutoResponseNA.c_str()));
-        chkOverride->setChecked(true);
+        setup(u, u->AutoResponseNA, pClient->owner->AutoResponseNA);
         break;
     case ICQ_STATUS_DND:
-        if (!*u->AutoResponseDND.c_str()) break;
-        edtMessage->setText(QString::fromLocal8Bit(u->AutoResponseDND.c_str()));
-        chkOverride->setChecked(true);
+        setup(u, u->AutoResponseDND, pClient->owner->AutoResponseDND);
         break;
     case ICQ_STATUS_OCCUPIED:
-        if (!*u->AutoResponseOccupied.c_str()) break;
-        edtMessage->setText(QString::fromLocal8Bit(u->AutoResponseOccupied.c_str()));
-        chkOverride->setChecked(true);
+        setup(u, u->AutoResponseOccupied, pClient->owner->AutoResponseOccupied);
         break;
     case ICQ_STATUS_FREEFORCHAT:
-        if (!*u->AutoResponseFFC.c_str()) break;
-        edtMessage->setText(QString::fromLocal8Bit(u->AutoResponseFFC.c_str()));
-        chkOverride->setChecked(true);
+        setup(u, u->AutoResponseFFC, pClient->owner->AutoResponseFFC);
         break;
     }
     overrideChanged(chkOverride->isChecked());
@@ -95,7 +105,8 @@ void MsgDialog::load(ICQUser *u)
 
 void MsgDialog::save(ICQUser *u)
 {
-    const char *res = edtMessage->text().local8Bit();
+    string res;
+    set(res, edtMessage->text());
     if (!chkOverride->isChecked()) res = "";
     switch (status){
     case ICQ_STATUS_AWAY:

@@ -20,6 +20,9 @@
 
 #include "defs.h"
 #include "msgdialogbase.h"
+#include <string>
+
+using namespace std;
 
 class ICQUser;
 
@@ -35,6 +38,7 @@ public slots:
 protected slots:
     void overrideChanged(bool);
 protected:
+    void setup(ICQUser *u, const string &str1, const string &str2);
     unsigned long status;
 };
 

@@ -189,7 +189,8 @@ void PictButton::setState(const QString& _icon, const QString& _text)
     icon = _icon;
     text = _text;
     setAccel(QAccel::shortcutKey(text));
-	text = text.replace(QRegExp("\\&"), QString(""));
+
+    text = text.replace(QRegExp("\\&"), QString(""));
     setTextLabel(_text);
     repaint();
 }

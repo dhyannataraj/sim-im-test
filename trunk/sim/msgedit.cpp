@@ -1138,7 +1138,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 break;
             case ICQ_MSGxMSG:
             case ICQ_MSGxURL:
-                if (bInTop && !pMain->SimpleMode){
+                if ((bInTop || !bChanged) && !pMain->SimpleMode){
                     btnReply->hide();
                     btnQuote->show();
                     btnForward->show();
