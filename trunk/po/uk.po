@@ -1,3 +1,4 @@
+# translation of uk.po to 
 # translation of uk.po to Ukrainian
 # translation of uk.po to Український
 # Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
@@ -8,7 +9,7 @@ msgstr ""
 "Project-Id-Version: uk\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-02 19:20+0200\n"
-"PO-Revision-Date: 2004-06-17 21:24+0300\n"
+"PO-Revision-Date: 2004-07-03 18:29+0300\n"
 "Last-Translator: Ivan Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team:  <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1969,8 +1970,7 @@ msgstr "Дія"
 
 #: plugins/action/action.cpp:34
 msgid "Plugin execute external programs on event or from contact menu"
-msgstr ""
-"Модуль забезпечує запуск зовнішніх програм з подій або з меню контактів"
+msgstr "Модуль забезпечує запуск зовнішніх програм з подій або з меню контактів"
 
 #: plugins/action/action.cpp:84
 msgid "&Action"
@@ -2063,8 +2063,7 @@ msgid "Set \"Offline\" status after"
 msgstr "Встановити статус \"Вимкнений\" через"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:109
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Заборонити попередження в стані \"Відійшов\", \"Неактивний\", \"Не турбувати"
 "\", \"Зайнятий\""
@@ -2141,8 +2140,7 @@ msgstr "Системний лоток"
 
 #: plugins/dock/dock.cpp:50
 msgid "Plugin provides dock main window in system tray"
-msgstr ""
-"Модуль забезпечує згортання головного вікна в іконку в системному лотку"
+msgstr "Модуль забезпечує згортання головного вікна в іконку в системному лотку"
 
 #: plugins/dock/dock.cpp:52 plugins/windock/windock.cpp:43
 msgid "Dock"
@@ -3766,9 +3764,8 @@ msgid "Disable answer on phonebook and &picture requests"
 msgstr "Вимкнути відповіді на запити &картинок і телефонної книги"
 
 #: plugins/icq/icqconfigbase.cc:287
-#, fuzzy
 msgid "Disable automatically &request autoreply on change status"
-msgstr "Заборонити запитувати &автовідповідь при зміні статусу"
+msgstr "Вимкнути запитувати &автовідповідь про зміну статусу"
 
 #: plugins/icq/icqconfigbase.cc:288
 msgid "Disable automatically &update user info"
@@ -4522,12 +4519,10 @@ msgid "Use protocol &icons for agents contacts"
 msgstr "Використовувати &іконки контактних агентів"
 
 #: plugins/jabber/jabberconfigbase.cpp:315
-#, fuzzy
 msgid "Automatically send &subscribe request"
 msgstr "Автоматично відправляти &запити авторизації"
 
 #: plugins/jabber/jabberconfigbase.cpp:316
-#, fuzzy
 msgid "Automatically &accept subscribe requests"
 msgstr "Автоматично &приймати запити авторизації"
 
@@ -5375,8 +5370,7 @@ msgid "Navigate"
 msgstr "Навігація"
 
 #: plugins/navigate/navigate.cpp:215
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr "Модуль забезпечує навігацію по гіперпосиланнях"
 
 #: plugins/navigate/navigate.cpp:264
@@ -5487,8 +5481,7 @@ msgid "OSD"
 msgstr "Екран"
 
 #: plugins/osd/osd.cpp:69
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Модуль забезпечує вивід попереджень на екран про прихід повідомлень або "
 "зміну статусу"
@@ -5969,8 +5962,7 @@ msgstr "Поновлення"
 
 #: plugins/update/update.cpp:41
 msgid "Plugin provides notifications about update SIM software"
-msgstr ""
-"Модуль забезпечує вивід попередження про наявність поновлення SIM-програми"
+msgstr "Модуль забезпечує вивід попередження про наявність поновлення SIM-програми"
 
 #: plugins/update/update.cpp:127
 msgid "Show details"
@@ -6237,8 +6229,7 @@ msgstr "Прогноз:"
 
 #: plugins/windock/windock.cpp:44
 msgid "Plugin provides dock main window to left or right side of screen"
-msgstr ""
-"Модуль забезпечує прив'язку головного вікна до лівої чи правої сторони екрана"
+msgstr "Модуль забезпечує прив'язку головного вікна до лівої чи правої сторони екрана"
 
 #: plugins/windock/windock.cpp:181
 msgid ""
@@ -8821,3 +8812,4 @@ msgstr "Стиль Windows XP"
 
 #~ msgid "%1 wrote:"
 #~ msgstr "%1 написав:"
+
