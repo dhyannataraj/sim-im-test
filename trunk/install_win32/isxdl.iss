@@ -1,5 +1,5 @@
 [Files]
-Source: isxdl.dll; DestDir: {tmp}; CopyMode: dontcopy
+Source: isxdl.dll; DestDir: {tmp}; Flags: dontcopy
 
 [Code]
 function isxdl_Download(hWnd: Integer; URL, Filename: PChar): Integer;
@@ -23,16 +23,6 @@ external 'isxdl_IsConnected@files:isxdl.dll stdcall';
 function isxdl_SetOption(Option, Value: PChar): Integer;
 external 'isxdl_SetOption@files:isxdl.dll stdcall';
 
-function isxdl_GetFileNameX(URL: PChar): Integer;
+function isxdl_GetFileName(URL: PChar): PChar;
 external 'isxdl_GetFileName@files:isxdl.dll stdcall';
 
-function isxdl_GetFileName(url: PChar): String;
-begin
-  Result := CastIntegerToString(isxdl_GetFileNameX(url));
-end;
-
-function ShowWindow(hWnd, nCmdShow: Integer): Integer;
-external 'ShowWindow@user32.dll stdcall';
-
-const
-  SW_HIDE = 0;

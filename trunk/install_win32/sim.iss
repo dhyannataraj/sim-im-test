@@ -30,32 +30,32 @@ Name: "{app}\pict"
 Name: "{app}\icons"
 
 [Files]
-Source: "D:\sim\Release\sim.exe"; DestDir: "{app}"; CopyMode: alwaysoverwrite
-Source: "D:\sim\Release\xpstyle.dll"; DestDir: "{app}"; CopyMode: alwaysoverwrite
-Source: "D:\sim\Release\po\zh_TW.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
-Source: "D:\sim\Release\po\bg.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
-Source: "D:\sim\Release\po\he.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
-Source: "D:\sim\Release\po\cs.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
-Source: "D:\sim\Release\po\de.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
-Source: "D:\sim\Release\po\es.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
-Source: "D:\sim\Release\po\fr.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
-Source: "D:\sim\Release\po\it.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
-Source: "D:\sim\Release\po\nl.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
-Source: "D:\sim\Release\po\pl.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
-Source: "D:\sim\Release\po\ru.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
-Source: "D:\sim\Release\po\sk.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
-Source: "D:\sim\Release\po\tr.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
-Source: "D:\sim\Release\po\uk.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
-Source: "D:\sim\sounds\url.wav"; DestDir: "{app}\sounds"; CopyMode: alwaysoverwrite
-Source: "D:\sim\sounds\alert.wav"; DestDir: "{app}\sounds"; CopyMode: alwaysoverwrite
-Source: "D:\sim\sounds\auth.wav"; DestDir: "{app}\sounds"; CopyMode: alwaysoverwrite
-Source: "D:\sim\sounds\chat.wav"; DestDir: "{app}\sounds"; CopyMode: alwaysoverwrite
-Source: "D:\sim\sounds\file.wav"; DestDir: "{app}\sounds"; CopyMode: alwaysoverwrite
-Source: "D:\sim\sounds\filedone.wav"; DestDir: "{app}\sounds"; CopyMode: alwaysoverwrite
-Source: "D:\sim\sounds\message.wav"; DestDir: "{app}\sounds"; CopyMode: alwaysoverwrite
-Source: "D:\sim\sounds\sms.wav"; DestDir: "{app}\sounds"; CopyMode: alwaysoverwrite
-Source: "D:\sim\sounds\startup.wav"; DestDir: "{app}\sounds"; CopyMode: alwaysoverwrite
-Source: "D:\sim\pict\splash.png"; DestDir: "{app}\pict"; CopyMode: alwaysoverwrite
+Source: "D:\sim\Release\sim.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\sim\Release\xpstyle.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\sim\Release\po\zh_TW.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "D:\sim\Release\po\bg.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "D:\sim\Release\po\he.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "D:\sim\Release\po\cs.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "D:\sim\Release\po\de.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "D:\sim\Release\po\es.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "D:\sim\Release\po\fr.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "D:\sim\Release\po\it.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "D:\sim\Release\po\nl.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "D:\sim\Release\po\pl.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "D:\sim\Release\po\ru.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "D:\sim\Release\po\sk.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "D:\sim\Release\po\tr.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "D:\sim\Release\po\uk.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "D:\sim\sounds\url.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
+Source: "D:\sim\sounds\alert.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
+Source: "D:\sim\sounds\auth.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
+Source: "D:\sim\sounds\chat.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
+Source: "D:\sim\sounds\file.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
+Source: "D:\sim\sounds\filedone.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
+Source: "D:\sim\sounds\message.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
+Source: "D:\sim\sounds\sms.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
+Source: "D:\sim\sounds\startup.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
+Source: "D:\sim\pict\splash.png"; DestDir: "{app}\pict"; Flags: ignoreversion
 
 [Icons]
 Name: "{commonprograms}\SIM"; Filename: "{app}\sim.exe"
@@ -112,10 +112,7 @@ begin
     end;
 
     if bDownload then begin
-      ShowWindow(hWnd,SW_HIDE);
-
       if isxdl_DownloadFiles(hWnd) <> 0 then begin
-        ShowWindow(hWnd,SW_SHOWNORMAL);
         sParam := ExpandConstant('/VERYSILENT /DIR="{app}"');
         sFileName := ExpandConstant('{tmp}\qt.exe');
         if FileExists(sFileName) then InstExec(sFileName, sParam, '', true, false, 0, nCode)
@@ -123,7 +120,6 @@ begin
         if FileExists(sFileName) then InstExec(sFileName, sParam, '', true, false, 0, nCode)
       end else begin
         Result := false;
-        ShowWindow(hWnd,SW_SHOWNORMAL);
       end;
     end;
   end;
