@@ -327,9 +327,14 @@ void Buffer::pack(unsigned long s)
 
 void Buffer::packStr32(const char *s)
 {
-    unsigned long size = strlen(s);
-    pack(size);
-    pack(s, strlen(s));
+    if (s) {
+        unsigned long size = strlen(s);
+        pack(size);
+        pack(s, strlen(s));
+    } else {
+        pack((unsigned long)0);
+        pack("", 0);	
+    }
 }
 
 Buffer &Buffer::operator << (const Buffer &b)
