@@ -30,12 +30,10 @@
 #endif
 
 XOSD::XOSD(QWidget *p)
-        : QWidget(p, "xosd",
-				WType_Popup | 
+        : QWidget(NULL, "xosd",
 				WStyle_StaysOnTop |  WStyle_Customize | WStyle_NoBorder | 
 				WStyle_Tool |WRepaintNoErase | WX11BypassWM)
 {
-	setFocusPolicy(NoFocus);
     init();
 }
 
@@ -58,9 +56,8 @@ void XOSD::init()
 
 void XOSD::set(const QString &str, unsigned long _uin)
 {
-	QWidget *active = qApp->activeWindow();
     uin = _uin;
-    hide();
+	setFocusPolicy(NoFocus);
     QPainter p(this);
     p.setFont(font());
     QWidget *d = qApp->desktop();
@@ -151,15 +148,16 @@ void XOSD::set(const QString &str, unsigned long _uin)
     p.drawText(rc, AlignLeft | AlignTop | WordBreak, str);
     p.end();
     bgPict = pict;
+	setFocusPolicy(NoFocus);
     show();
-	if (active) active->setFocus();
+	raise();
     QTimer::singleShot(pMain->XOSD_timeout * 1000, this, SLOT(timeout()));
 }
 
 void XOSD::paintEvent(QPaintEvent*)
 {
 #ifdef WIN32
-    SetWindowPos(pMain->winId(), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+    SetWindowPos(pMain->winId(), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 #endif
     QPainter p(this);
     p.drawPixmap(0, 0, bgPict);

@@ -20,8 +20,8 @@ A simple ICQ client with v8 protocol support (2001) for X win system
 %prep
 
 %setup
-
 make -f admin/Makefile.common
+CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" ./configure $LOCALFLAGS
 
 %build
 %configure
