@@ -1783,6 +1783,8 @@ QString MsgEdit::subst(const char *s)
     CUser u(Uin);
     str = str.replace(QRegExp("&MyUin;"), QString::number(pClient->owner->Uin));
     str = str.replace(QRegExp("&MyAlias;"), owner.name(true));
+    str = str.replace(QRegExp("&Uin;"), (Uin >= UIN_SPECIAL) ? QString("") : QString::number(Uin));
+    str = str.replace(QRegExp("&Alias;"), u.name(true));
     str = escape(str);
     return str;
 }

@@ -44,6 +44,6 @@ void SMSSetup::apply(ICQUser *u)
 }
 
 #ifndef _WINDOWS
-#include "smsinfo.moc"
+#include "smssetup.moc"
 #endif
 
