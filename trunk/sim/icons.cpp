@@ -142,6 +142,8 @@ using namespace std;
 #include "xpm/save_all.xpm"
 #include "xpm/about_kde.xpm"
 #include "xpm/screen.xpm"
+#include "xpm/encrypted.xpm"
+#include "xpm/key_bindings.xpm"
 
 class str
 {
@@ -610,7 +612,7 @@ void Icons::init(const char *name)
     ICON(wpager, 10020)
     ICON(birthday, 10021)
     ICON(info, 160)
-    ICON(history, 174)
+    KICON(history, 174)
     ICON(useronline, 10022)
     ICON(useroffline, 10023)
     ICON(userunknown, 10024)
@@ -674,6 +676,8 @@ void Icons::init(const char *name)
     KICON(save_all, 10075)
     KICON(about_kde, 10076)
     ICON(screen, 10078)
+    KICON(encrypted, 10079)
+    KICON(key_bindings, 10080)
 
     QIconSet pict = getIcon("licq");
     QPixmap dllPict = dll.getIcon(104);

@@ -709,9 +709,6 @@ install-data-local:
 #>- 	$(INSTALL_DATA) $(srcdir)/sim.desktop $(kde_appsdir)/Internet/sim.desktop
 #>+ 1
 	$(INSTALL_DATA) $(srcdir)/sim.desktop $(DESTDIR)$(kde_appsdir)/Internet/sim.desktop
-#>- 	rm -f $(kde_appsdir)/Aplications/sim.desktop
-#>+ 1
-	rm -f $(DESTDIR)$(kde_appsdir)/Aplications/sim.desktop
 #>- 	$(mkinstalldirs) $(kde_icondir)/locolor/32x32/apps/
 #>+ 1
 	$(mkinstalldirs) $(DESTDIR)$(kde_icondir)/locolor/32x32/apps/
