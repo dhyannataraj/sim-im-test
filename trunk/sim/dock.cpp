@@ -247,6 +247,10 @@ bool send_message(
     return untrap_errors();
 }
 
+#define SYSTEM_TRAY_REQUEST_DOCK    0
+#define SYSTEM_TRAY_BEGIN_MESSAGE   1
+#define SYSTEM_TRAY_CANCEL_MESSAGE  2
+
 #endif
 
 DockWnd::DockWnd(QWidget *main)
@@ -287,10 +291,33 @@ DockWnd::DockWnd(QWidget *main)
     Display *dsp = x11Display();
     WId win = winId();
 
+    setBackgroundMode(X11ParentRelative);
+    const QPixmap &pict = Pict(pClient->getStatusIcon());
+    setIcon(pict);
+
     XClassHint classhint;
     classhint.res_name  = (char*)"sim";
     classhint.res_class = (char*)"Wharf";
     XSetClassHint(dsp, win, &classhint);
+
+    Screen *screen = XDefaultScreenOfDisplay(dsp);
+    int screen_id = XScreenNumberOfScreen(screen);
+    char buf[32];
+    snprintf(buf, sizeof(buf), "_NET_SYSTEM_TRAY_S%d", screen_id);
+    log(L_DEBUG, "Tray: %s", buf);
+    Atom selection_atom = XInternAtom(dsp, buf, false);
+    XGrabServer(dsp);
+    Window manager_window = XGetSelectionOwner(dsp, selection_atom);
+    log(L_DEBUG, "Manager %u", manager_window);
+    if (manager_window != None)
+        XSelectInput(dsp, manager_window, StructureNotifyMask);
+    XUngrabServer(dsp);
+    XFlush(dsp);
+    if (manager_window != None){
+	log(L_DEBUG, "Send tray request dock");
+        if (!send_message(dsp, winId(), SYSTEM_TRAY_REQUEST_DOCK, manager_window, 0, 0))
+            log(L_DEBUG, "Fail send message");
+    }
 
     Atom kde_net_system_tray_window_for_atom = XInternAtom(dsp, "_KDE_NET_WM_SYSTEM_TRAY_WINDOW_FOR", false);
 
@@ -312,9 +339,6 @@ DockWnd::DockWnd(QWidget *main)
     XFree( hints );
     XSetCommand(dsp, win, _argv, _argc);
 
-    setBackgroundMode(X11ParentRelative);
-    const QPixmap &pict = Pict(pClient->getStatusIcon());
-    setIcon(pict);
     inTray = false;
     move(-21, -21);
     resize(22, 22);
