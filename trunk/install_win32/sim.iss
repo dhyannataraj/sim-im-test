@@ -16,6 +16,7 @@ Compression=bzip/9
 AppId=SIM
 AppMutex=SIM_Mutex
 AppCopyright=Copyright © 2002, Vladimir Shutoff
+UseSetupLdr=no
 
 [Tasks]
 Name: "desktopicon"; Description: "Create a &desktop icon"; GroupDescription: "Additional icons:"
@@ -33,6 +34,8 @@ Source: "C:\sim\Release\po\zh_TW.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverw
 Source: "C:\sim\Release\po\de.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
 Source: "C:\sim\Release\po\es.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
 Source: "C:\sim\Release\po\it.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
+Source: "C:\sim\Release\po\nl.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
+Source: "C:\sim\Release\po\pl.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
 Source: "C:\sim\Release\po\ru.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
 Source: "C:\sim\Release\po\tr.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
 Source: "C:\sim\Release\po\uk.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite

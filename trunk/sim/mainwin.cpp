@@ -446,7 +446,7 @@ void setBarState(bool bAnimate = false)
         getBarRect(pMain->BarState, rc);
         if (pMain->BarAutoHide){
             QRect rcAutoHide = rc;
-            int w = 2 * GetSystemMetrics(SM_CXBORDER);
+            int w = 4 * GetSystemMetrics(SM_CXBORDER);
             if (pMain->BarState == ABE_LEFT){
                 rcAutoHide.setRight(rcAutoHide.left() + w);
             }else{
@@ -1679,6 +1679,16 @@ void MainWindow::toggleShow()
 {
     if (menuFunction && menuFunction->isVisible()) return;
     if (noToggle) return;
+#ifdef WIN32
+	if ((BarState != ABE_FLOAT) && BarAutoHide){
+		bAutoHideVisible = !bAutoHideVisible;
+		setBarState();
+		if (!bAutoHideVisible) setShow(true);
+		noToggle = true;
+	    QTimer::singleShot(1000, this, SLOT(setToggle()));
+		return;
+	}
+#endif
     bool bIsActive = isActiveWindow();
     if (!bIsActive && dock) bIsActive = dock->topLevelWidget()->isActiveWindow();
     if (!isShow() || !bIsActive){
@@ -1686,8 +1696,6 @@ void MainWindow::toggleShow()
     }else{
         setShow(false);
     }
-    noToggle = true;
-    QTimer::singleShot(1000, this, SLOT(setToggle()));
 }
 
 void MainWindow::setToggle()
@@ -3121,10 +3129,10 @@ void MainWindow::autoHide()
     int y = GET_Y_LPARAM(pos);
     RECT rc;
     GetWindowRect(winId(), &rc);
-    rc.left -= GetSystemMetrics(SM_CXDOUBLECLK);
-    rc.right += GetSystemMetrics(SM_CXDOUBLECLK);
+    rc.left -= GetSystemMetrics(SM_CXDOUBLECLK) * 2;
+    rc.right += GetSystemMetrics(SM_CXDOUBLECLK) * 2;
     if ((x >= rc.left) && (x <= rc.right) && (y >= rc.top) && (y <= rc.bottom)) return;
-    if ((BarState != ABE_FLOAT) && BarAutoHide && bAutoHideVisible){
+    if ((BarState != ABE_FLOAT) && BarAutoHide && bAutoHideVisible && !noToggle){
         bAutoHideVisible = false;
         setBarState(true);
     }
