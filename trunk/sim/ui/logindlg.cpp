@@ -34,6 +34,8 @@
 #include <qpushbutton.h>
 #include <qapplication.h>
 #include <qvalidator.h>
+#include <qfile.h>
+#include <qdir.h>
 
 LoginDialog::LoginDialog()
         : LoginDlgBase(NULL, "logindlg")
@@ -42,6 +44,42 @@ LoginDialog::LoginDialog()
     setIcon(Pict("licq"));
     bLogin = false;
     cmbUIN->setEditable(true);
+    cmbUIN->lineEdit()->setValidator(new QIntValidator(100000, 0x7FFFFFFF, this));
+    loadUins();
+    edtPasswd->setEchoMode(QLineEdit::Password);
+    connect(cmbUIN->lineEdit(), SIGNAL(textChanged(const QString&)), this, SLOT(uinChanged(const QString&)));
+    connect(edtPasswd, SIGNAL(textChanged(const QString&)), this, SLOT(pswdChanged(const QString&)));
+    connect(btnClose, SIGNAL(clicked()), this, SLOT(close()));
+    connect(btnLogin, SIGNAL(clicked()), this, SLOT(login()));
+    connect(btnDelete, SIGNAL(clicked()), this, SLOT(deleteUin()));
+    connect(btnProxy, SIGNAL(clicked()), this, SLOT(proxySetup()));
+    connect(chkSave, SIGNAL(toggled(bool)), this, SLOT(saveChanged(bool)));
+    QSize s = sizeHint();
+    QWidget *desktop = QApplication::desktop();
+    move((desktop->width() - s.width()) / 2, (desktop->height() - s.height()) / 2);
+    chkSave->setChecked(pSplash->SavePassword);
+    chkNoShow->setChecked(pSplash->NoShowLogin);
+    uinChanged("");
+    bPswdChanged = true;
+    if (pSplash->SavePassword){
+        unsigned long uin = cmbUIN->lineEdit()->text().toULong();
+        if (uin){
+            pClient->load(uin);
+            QString pswd;
+            for (const char *p = pClient->EncryptedPassword.c_str(); *p; p++){
+                if (*p == '\\') continue;
+                pswd += '*';
+            }
+            edtPasswd->setText(pswd);
+            pswdChanged("");
+            if (!pswd.isEmpty()) bPswdChanged = false;
+        }
+    }
+    bCloseMain = true;
+};
+
+void LoginDialog::loadUins()
+{
     cmbUIN->insertItem("");
     cmbUIN->insertItem(i18n("<New UIN>"));
     int id = 2;
@@ -49,22 +87,15 @@ LoginDialog::LoginDialog()
         cmbUIN->insertItem(QString::number(*it));
         if ((*it) == pSplash->LastUIN) cmbUIN->setCurrentItem(id);
     }
-    cmbUIN->lineEdit()->setValidator(new QIntValidator(100000, 0x7FFFFFFF, this));
-    edtPasswd->setEchoMode(QLineEdit::Password);
-    connect(cmbUIN->lineEdit(), SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
-    connect(edtPasswd, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
-    connect(btnClose, SIGNAL(clicked()), this, SLOT(close()));
-    connect(btnLogin, SIGNAL(clicked()), this, SLOT(login()));
-    connect(btnDelete, SIGNAL(clicked()), this, SLOT(deleteUin()));
-    connect(btnProxy, SIGNAL(clicked()), this, SLOT(proxySetup()));
-    textChanged("");
-    QSize s = sizeHint();
-    QWidget *desktop = QApplication::desktop();
-    move((desktop->width() - s.width()) / 2, (desktop->height() - s.height()) / 2);
-    bCloseMain = true;
-};
+}
 
-void LoginDialog::textChanged(const QString&)
+void LoginDialog::uinChanged(const QString&)
+{
+    edtPasswd->setText("");
+    pswdChanged("");
+}
+
+void LoginDialog::pswdChanged(const QString&)
 {
     unsigned long uin = cmbUIN->lineEdit()->text().toULong();
     bool isUin = !cmbUIN->lineEdit()->text().isEmpty();
@@ -73,17 +104,38 @@ void LoginDialog::textChanged(const QString&)
     btnLogin->setEnabled(isUin && isPswd);
     chkSave->setEnabled(isUin && isPswd);
     btnDelete->setEnabled(uin && isUin && isPswd);
+    bPswdChanged = false;
+    saveChanged(false);
+}
+
+void LoginDialog::saveChanged(bool)
+{
+    bool isPswd = !edtPasswd->text().isEmpty();
+    if (isPswd){
+        chkSave->setEnabled(true);
+        chkNoShow->setEnabled(chkSave->isChecked());
+        return;
+    }
+    chkSave->setEnabled(false);
+    chkNoShow->setEnabled(false);
 }
 
 void LoginDialog::login()
 {
     unsigned long uin = cmbUIN->lineEdit()->text().toULong();
     pClient->load(uin);
-    if (uin && pClient->EncryptedPassword.length()){
-        string s = ICQClient::cryptPassword(edtPasswd->text().local8Bit());
-        if (!strcmp(s.c_str(), pClient->EncryptedPassword.c_str())){
+    if (uin){
+        bool bOk = !bPswdChanged;
+        if (pClient->EncryptedPassword.length() == 0) bOk = false;
+        if (!bOk){
+            string s = ICQClient::cryptPassword(edtPasswd->text().local8Bit());
+            if (!strcmp(s.c_str(), pClient->EncryptedPassword.c_str()))
+                bOk = true;
+        }
+        if (bOk){
             pSplash->LastUIN = pClient->owner->Uin;
             pSplash->SavePassword = chkSave->isChecked();
+            pSplash->NoShowLogin = chkNoShow->isChecked();
             pSplash->save();
             pMain->init();
             bCloseMain = false;
@@ -98,6 +150,7 @@ void LoginDialog::login()
     lblPasswd->setEnabled(false);
     edtPasswd->setEnabled(false);
     chkSave->setEnabled(false);
+    chkNoShow->setEnabled(false);
     btnLogin->setEnabled(false);
     bLogin = true;
     pClient->storePassword(edtPasswd->text().local8Bit());
@@ -132,7 +185,7 @@ void LoginDialog::stopLogin()
     lblPasswd->setEnabled(true);
     edtPasswd->setEnabled(true);
     btnProxy->setEnabled(true);
-    textChanged("");
+    uinChanged("");
     bLogin = false;
 }
 
@@ -145,6 +198,7 @@ void LoginDialog::processEvent(ICQEvent *e)
             pClient->DecryptedPassword = "";
             pSplash->LastUIN = pClient->owner->Uin;
             pSplash->SavePassword = chkSave->isChecked();
+            pSplash->NoShowLogin = chkNoShow->isChecked();
             pSplash->save();
             pMain->init();
             bCloseMain = false;
@@ -187,6 +241,37 @@ void LoginDialog::proxySetup()
     d.exec();
 }
 
+static rmDir(const QString &path)
+{
+    QDir d(path);
+    QStringList l = d.entryList(QDir::Dirs);
+    QStringList::Iterator it;
+    for (it = l.begin(); it != l.end(); ++it){
+        if (((*it) == ".") || ((*it) == "..")) continue;
+        QString p = path;
+#ifdef WIN32
+        p += "\\";
+#else
+        p += "/";
+#endif
+        p += *it;
+        rmDir(p);
+    }
+    l = d.entryList();
+    for (it = l.begin(); it != l.end(); ++it){
+        if (((*it) == ".") || ((*it) == "..")) continue;
+        QString p = path;
+#ifdef WIN32
+        p += "\\";
+#else
+        p += "/";
+#endif
+        p += *it;
+        d.remove(p);
+    }
+    d.rmdir(path);
+}
+
 void LoginDialog::deleteUin()
 {
     unsigned long uin = cmbUIN->lineEdit()->text().toULong();
@@ -197,6 +282,25 @@ void LoginDialog::deleteUin()
         BalloonMsg::message(i18n("Invalid password"), btnDelete);
         return;
     }
+    QPoint p = btnDelete->mapToGlobal(btnDelete->rect().topLeft());
+    QRect rc(p.x(), p.y(), btnDelete->width(), btnDelete->height());
+    QStringList btns;
+    btns.append(i18n("&Yes"));
+    btns.append(i18n("&No"));
+    BalloonMsg *msg = new BalloonMsg(i18n("Delete history and incoming files for %u") .arg(uin),
+                                     rc, btns, this);
+    connect(msg, SIGNAL(action(int)), this, SLOT(realDeleteUin(int)));
+    msg->show();
+}
+
+void LoginDialog::realDeleteUin(int n)
+{
+    if (n) return;
+    rmDir(QString::fromLocal8Bit(pMain->getFullPath("").c_str()));
+    pClient->load(0);
+    scanUIN();
+    cmbUIN->clear();
+    loadUins();
 }
 
 #ifndef _WINDOWS

@@ -589,7 +589,7 @@ int main(int argc, char *argv[])
         pClient->load(startUIN);
         if (pClient->EncryptedPassword.length() == 0) startUIN = 0;
     }
-    if (startUIN){
+    if (startUIN && pSplash->NoShowLogin){
         pMain->init();
     }else{
         pLoginDlg = new LoginDialog;

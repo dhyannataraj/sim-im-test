@@ -39,6 +39,7 @@ public:
     string			Language;
     unsigned long	LastUIN;
     bool			SavePassword;
+    bool			NoShowLogin;
 protected:
     QWidget	*wnd;
 };

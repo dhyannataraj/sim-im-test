@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>395</width>
-            <height>288</height>
+            <width>375</width>
+            <height>280</height>
         </rect>
     </property>
     <property>
@@ -439,7 +439,48 @@ Words can contain wildcards:
                             <name>hAlign</name>
                         </property>
                     </widget>
-                    <spacer row="5"  column="0" >
+                    <widget row="1"  column="0"  rowspan="1"  colspan="2" >
+                        <class>Line</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>Line1</cstring>
+                        </property>
+                        <property>
+                            <name>frameShape</name>
+                            <enum>HLine</enum>
+                        </property>
+                        <property>
+                            <name>frameShadow</name>
+                            <enum>Sunken</enum>
+                        </property>
+                        <property>
+                            <name>orientation</name>
+                            <enum>Horizontal</enum>
+                        </property>
+                        <property>
+                            <name>frameShape</name>
+                            <enum>HLine</enum>
+                        </property>
+                    </widget>
+                    <widget row="4"  column="0"  rowspan="1"  colspan="2" >
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkSave</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>S&amp;ave password</string>
+                        </property>
+                    </widget>
+                    <widget row="0"  column="1" >
+                        <class>QLineEdit</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>edtCurrent</cstring>
+                        </property>
+                    </widget>
+                    <spacer row="6"  column="0" >
                         <property>
                             <name>name</name>
                             <cstring>Spacer5</cstring>
@@ -460,33 +501,15 @@ Words can contain wildcards:
                             </size>
                         </property>
                     </spacer>
-                    <widget row="1"  column="0"  rowspan="1"  colspan="2" >
-                        <class>Line</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>Line1</cstring>
-                        </property>
-                        <property>
-                            <name>orientation</name>
-                            <enum>Horizontal</enum>
-                        </property>
-                    </widget>
-                    <widget row="4"  column="0"  rowspan="1"  colspan="2" >
+                    <widget row="5"  column="0"  rowspan="1"  colspan="2" >
                         <class>QCheckBox</class>
                         <property stdset="1">
                             <name>name</name>
-                            <cstring>chkSave</cstring>
+                            <cstring>chkNoShow</cstring>
                         </property>
                         <property>
                             <name>text</name>
-                            <string>S&amp;ave password</string>
-                        </property>
-                    </widget>
-                    <widget row="0"  column="1" >
-                        <class>QLineEdit</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>edtCurrent</cstring>
+                            <string>&amp;No show login dialog at start</string>
                         </property>
                     </widget>
                 </grid>

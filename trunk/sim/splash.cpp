@@ -56,7 +56,8 @@ cfgParam Splash_Params[] =
         { "SoundDisable", OFFSET_OF(Splash, SoundDisable), PARAM_BOOL, 0 },
         { "Langauge", OFFSET_OF(Splash, Language), PARAM_STRING, 0 },
         { "LastUIN", OFFSET_OF(Splash, LastUIN), PARAM_ULONG, 0 },
-        { "SavePassword", OFFSET_OF(Splash, SavePassword), PARAM_BOOL, 0 },
+        { "SavePassword", OFFSET_OF(Splash, SavePassword), PARAM_BOOL, 1 },
+        { "NoShowLogin", OFFSET_OF(Splash, NoShowLogin), PARAM_BOOL, 0 },
         { "", 0, 0, 0 }
     };
 

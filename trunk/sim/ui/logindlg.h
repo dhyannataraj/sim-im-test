@@ -29,16 +29,21 @@ class LoginDialog : public LoginDlgBase
 public:
     LoginDialog();
 protected slots:
-    void textChanged(const QString&);
+    void uinChanged(const QString&);
+    void pswdChanged(const QString&);
+    void saveChanged(bool);
     void login();
     void deleteUin();
     void processEvent(ICQEvent*);
     void proxySetup();
+    void loadUins();
+    void realDeleteUin(int);
 protected:
     void stopLogin();
     virtual void closeEvent(QCloseEvent*);
     bool bLogin;
     bool bCloseMain;
+    bool bPswdChanged;
 };
 
 #endif
