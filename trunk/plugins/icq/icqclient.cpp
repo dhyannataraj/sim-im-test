@@ -2881,13 +2881,9 @@ void *ICQClient::processEvent(Event *e)
                 if (contact == NULL)
                     return NULL;
                 ICQUserData *data;
-                ClientDataIterator it(contact->clientData, this);
-                bool bChanged = false;
+                ClientDataIterator it(contact->clientData);
                 while ((data = (ICQUserData*)(++it)) != NULL){
                     data->VisibleId.value = (cmd->flags & COMMAND_CHECKED) ? getListId() : 0;
-                    bChanged = true;
-                }
-                if (bChanged){
                     Event eContact(EventContactChanged, contact);
                     eContact.process();
                 }
@@ -2898,13 +2894,9 @@ void *ICQClient::processEvent(Event *e)
                 if (contact == NULL)
                     return NULL;
                 ICQUserData *data;
-                ClientDataIterator it(contact->clientData, this);
-                bool bChanged = false;
+                ClientDataIterator it(contact->clientData);
                 while ((data = (ICQUserData*)(++it)) != NULL){
                     data->InvisibleId.value = (cmd->flags & COMMAND_CHECKED) ? getListId() : 0;
-                    bChanged = true;
-                }
-                if (bChanged){
                     Event eContact(EventContactChanged, contact);
                     eContact.process();
                 }
