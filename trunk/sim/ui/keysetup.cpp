@@ -41,10 +41,11 @@ KeySetup::KeySetup(QWidget *parent)
     new QListViewItem(lstActions,
                       i18n("Show search window"),
                       pMain->KeySearch.c_str(), QString::number(2));
-    lstActions->setCurrentItem(first);
     connect(lstActions, SIGNAL(selectionChanged(QListViewItem*)), this, SLOT(selectionChanged(QListViewItem*)));
     connect(chkEnable, SIGNAL(toggled(bool)), this, SLOT(enableToggled(bool)));
     connect(btnKey, SIGNAL(changed()), this, SLOT(keyChanged()));
+    lstActions->setCurrentItem(first);
+    lstActions->setSelected(first, true);
 }
 
 void KeySetup::apply(ICQUser*)
@@ -55,13 +56,16 @@ void KeySetup::apply(ICQUser*)
     for (QListViewItem *item = lstActions->firstChild(); item != NULL; item = item->nextSibling()){
         switch (item->text(2).toInt()){
         case 0:
-            kWindow = item->text(1).latin1();
+            if (!item->text(1).isEmpty())
+                kWindow = item->text(1).latin1();
             break;
         case 1:
-            kDblClick = item->text(1).latin1();
+            if (!item->text(1).isEmpty())
+                kDblClick = item->text(1).latin1();
             break;
         case 2:
-            kSearch = item->text(1).latin1();
+            if (!item->text(1).isEmpty())
+                kSearch = item->text(1).latin1();
             break;
         }
     }
