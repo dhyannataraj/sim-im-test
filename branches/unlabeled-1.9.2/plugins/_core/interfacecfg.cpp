@@ -98,7 +98,7 @@ InterfaceConfig::InterfaceConfig(QWidget *parent)
         if (l->code){
             QString name = i18n(l->name);
             nCurrent = 1;
-	    QStringList::Iterator it;
+			QStringList::Iterator it;
             for (it = items.begin(); it != items.end(); ++it, nCurrent++)
                 if ((*it) == name)
                     break;
@@ -181,7 +181,7 @@ void InterfaceConfig::apply()
     sms_cfg->apply(data);
 #ifndef USE_KDE
     int res = cmbLang->currentItem();
-    const char *lang = NULL;
+    const char *lang = "";
     if (res > 0){
         QStringList items = getLangItems();
         QString name = items[res - 1];
