@@ -55,7 +55,7 @@
 #include <qpushbutton.h>
 #include <qheader.h>
 
-SetupDialog::SetupDialog(QWidget *parent, int nWin)
+SetupDialog::SetupDialog(QWidget*, int nWin)
         : SetupDialogBase(NULL, "setup", false, WStyle_Minimize)
 {
     new TransparentTop(this, pMain->UseTransparentContainer, pMain->TransparentContainer);

@@ -176,11 +176,11 @@ bool WordIterator::operator ++()
 QString WordIterator::getNextWord()
 {
     QString res;
-    for (; pos < str.length(); pos++){
+    for (; pos < (int)str.length(); pos++){
         QChar c = str[pos];
         if (c.isLetterOrNumber()) break;
     }
-    for (; pos < str.length(); pos++){
+    for (; pos < (int)str.length(); pos++){
         if (!str[pos].isLetterOrNumber()) break;
         res += str[pos];
     }
@@ -202,19 +202,19 @@ bool WordIterator::getNext()
 
 static bool match(const QString &str, const QString &pat, int strPos=0, int patPos=0)
 {
-    for (; (strPos < str.length()) && (patPos < pat.length()); strPos++, patPos++){
+    for (; (strPos < (int)str.length()) && (patPos < (int)pat.length()); strPos++, patPos++){
         if (pat[patPos] == '?') continue;
         if (pat[patPos] == '*'){
-            for (patPos++; (patPos < pat.length()) && (pat[patPos] == '*'); patPos++);
-            for (int sp = strPos; sp < str.length(); sp++){
+            for (patPos++; (patPos < (int)pat.length()) && (pat[patPos] == '*'); patPos++);
+            for (int sp = strPos; sp < (int)str.length(); sp++){
                 if (match(str, pat, sp, patPos)) return true;
             }
             return false;
         }
         if (str[strPos].lower() != pat[patPos].lower()) return false;
     }
-    for (; (patPos < pat.length()) && (pat[patPos] == '*'); patPos++);
-    return (strPos == str.length()) && (patPos == pat.length());
+    for (; (patPos < (int)pat.length()) && (pat[patPos] == '*'); patPos++);
+    return (strPos == (int)str.length()) && (patPos == (int)pat.length());
 }
 
 typedef QValueList<QStringList> PatList;
@@ -223,7 +223,7 @@ static void splitPat(PatList &pats, const QString &pat)
 {
     bool inQuote = false;
     QStringList l;
-    for (int n = 0; n < pat.length(); n++){
+    for (int n = 0; n < (int)pat.length(); n++){
         QChar c = pat[n];
         if (c == '\"'){
             inQuote = !inQuote;
@@ -236,7 +236,7 @@ static void splitPat(PatList &pats, const QString &pat)
         if ((c != '?') && (c != '*') && !c.isLetterOrNumber())
             continue;
         QString s;
-        for (; n < pat.length(); n++){
+        for (; n < (int)pat.length(); n++){
             QChar c = pat[n];
             if ((c != '?') && (c != '*') && !c.isLetterOrNumber()) break;
             s += c;
