@@ -6,13 +6,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
 "POT-Creation-Date: 2004-06-03 03:53+0400\n"
-"PO-Revision-Date: 2004-04-22 11:04+0200\n"
+"PO-Revision-Date: 2004-06-03 21:12+0200\n"
 "Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.3.1\n"
+"X-Generator: KBabel 1.3\n"
 "Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 # libicq/country.cpp:71
@@ -2007,9 +2007,8 @@ msgid "Note: For HTTP-pooling using proxy setings for HTTP"
 msgstr "Poznámka: Pre HTTP pooling použite nastavenie proxy pre HTTP"
 
 #: plugins/msn/msnconfigbase.cpp:179
-#, fuzzy
 msgid "&Automatically add contacts in accept list"
-msgstr "&Automaticky pridať kontakty do zoznamu akceptovaných"
+msgstr "&Automaticky pridať kontakty v zozname akceptovaných"
 
 # ui/filetransfer.cpp:301
 # ui/filetransfer.cpp:317
@@ -2102,7 +2101,7 @@ msgstr "Cesta pre konfiguračné súbory:"
 #: plugins/styles/wood/wood.cpp:1424
 #, fuzzy
 msgid "Wood"
-msgstr "dobrý"
+msgstr "Drevo"
 
 # libicq/country.cpp:372
 #: plugins/styles/metal/metal.cpp:496
@@ -2310,13 +2309,12 @@ msgstr "Skús náš chat.\n"
 
 #: plugins/_core/core.cpp:444
 msgid "I'm here.\n"
-msgstr ""
+msgstr "Som tu.\n"
 
 # mainwin.cpp:621
 #: plugins/_core/core.cpp:447
-#, fuzzy
 msgid "I'm offline.\n"
-msgstr "Ukázať neprip&ojených"
+msgstr "Nie som nepripojený.\n"
 
 # control.cpp:241
 #: plugins/_core/core.cpp:541
@@ -4018,15 +4016,13 @@ msgstr "Odmietnuť autorizáciu"
 
 # ui/phonebookbase.cpp:140
 #: plugins/_core/msgedit.cpp:1722
-#, fuzzy
 msgid "Added"
-msgstr "Pridať"
+msgstr "Pridaný"
 
 # ui/maininfobase.cpp:325
 #: plugins/_core/msgedit.cpp:1730
-#, fuzzy
 msgid "Removed"
-msgstr "Odst&rániť"
+msgstr "Odstráný"
 
 # ui/maininfobase.cpp:318
 #: plugins/_core/maininfobase.cpp:189
@@ -6848,9 +6844,8 @@ msgstr "Držať spojenie živé"
 # client.cpp:1252
 # mainwin.cpp:2708
 #: plugins/icq/icqconfigbase.cc:276
-#, fuzzy
 msgid "Automatically check &invisible"
-msgstr "Skontrolovať nev&iditeľnosť"
+msgstr "Automaticky kontrolovať nev&iditeľnosť"
 
 # msgedit.cpp:588
 #: plugins/icq/icqconfigbase.cc:277
@@ -6890,35 +6885,31 @@ msgstr "Akceptovať v móde \"Nevyrušovať (&DND)\""
 
 #: plugins/icq/icqconfigbase.cc:285
 msgid "For decrease traffic you can:"
-msgstr ""
+msgstr "Pre zníženie trafiku môžete:"
 
 #: plugins/icq/icqconfigbase.cc:286
 msgid "Disable answer on phonebook and &picture requests"
-msgstr ""
+msgstr "Zakázať od&poveď na žiadosti o telefónny zoznam a obrázok"
 
 #: plugins/icq/icqconfigbase.cc:287
-#, fuzzy
 msgid "Disable automaticaly &request autoreply on change status"
-msgstr "Automaticky žiadať o automatickú &odpoveď pri zmene statusu"
+msgstr "Zakázať automaticky žiadať o automatickú odpoveď p&ri zmene statusu"
 
 # ui/miscsetupbase.cpp:107
 #: plugins/icq/icqconfigbase.cc:288
-#, fuzzy
 msgid "Disable automatically &update user info"
-msgstr "Automaticky akt&ualizovať informácie o užívateľovi"
+msgstr "Zakázať automatickú akt&ualizáciu informácií o užívateľovi"
 
 # ui/alertdialogbase.cpp:237
 #: plugins/icq/icqconfigbase.cc:289
-#, fuzzy
 msgid "Disable &typing notification"
-msgstr "Povoliť notifikáciu &písania"
+msgstr "Zakázať no&tifikáciu písania"
 
 # client.cpp:1252
 # mainwin.cpp:2708
 #: plugins/icq/icqconfigbase.cc:290
-#, fuzzy
 msgid "Check invisible every"
-msgstr "Skontrolovať neviditeľnosť"
+msgstr "Kontrolovať neviditeľnosť každých"
 
 # libicq/country.cpp:335
 # libicq/country.cpp:416
@@ -7172,92 +7163,82 @@ msgid ""
 msgstr "%1 je pripojená"
 
 #: plugins/osd/osd.cpp:417
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is away"
-msgstr "%1 píše"
+msgstr "%1 je mimo"
 
 #: plugins/osd/osd.cpp:418
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is away"
-msgstr "%1 píše"
+msgstr "%1 je mimo"
 
 # mainwin.cpp:1380
 #: plugins/osd/osd.cpp:419
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is not available"
-msgstr "%1 je pripojený"
+msgstr "%1 je nedostupný"
 
 # mainwin.cpp:1380
 #: plugins/osd/osd.cpp:420
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is not available"
-msgstr "%1 je pripojená"
+msgstr "%1 je nedostupná"
 
 #: plugins/osd/osd.cpp:421
 msgid ""
 "_: male\n"
 "%1 doesn't want to be disturbed"
-msgstr ""
+msgstr "%1 nechce byť vyrušovaný"
 
 #: plugins/osd/osd.cpp:422
 msgid ""
 "_: female\n"
 "%1 doesn't want to be disturbed"
-msgstr ""
+msgstr "%1 nechce byť vyrušovaná"
 
 # mainwin.cpp:1380
 #: plugins/osd/osd.cpp:423
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is occupied"
-msgstr "%1 je pripojený"
+msgstr "%1 je obsadený"
 
 # mainwin.cpp:1380
 #: plugins/osd/osd.cpp:424
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is occupied"
-msgstr "%1 je pripojená"
+msgstr "%1 je obsadená"
 
 #: plugins/osd/osd.cpp:425
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is free for chat"
-msgstr "%1 píše"
+msgstr "%1 je voľný pre rozhovor"
 
 #: plugins/osd/osd.cpp:426
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is free for chat"
-msgstr "%1 píše"
+msgstr "%1 je voľná pre rozhovor"
 
 # mainwin.cpp:1380
 #: plugins/osd/osd.cpp:427
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is offline"
-msgstr "%1 je pripojený"
+msgstr "%1 nie je pripojený"
 
 # mainwin.cpp:1380
 #: plugins/osd/osd.cpp:428
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is offline"
-msgstr "%1 je pripojená"
+msgstr "%1 nie je pripojená"
 
 # ui/alertdialogbase.cpp:237
 #: plugins/osd/osdconfigbase.cpp:109
@@ -7275,7 +7256,6 @@ msgid "Enable &typing notification"
 msgstr "Povoliť notifikáciu &písania"
 
 #: plugins/osd/osdconfigbase.cpp:119
-#, fuzzy
 msgid "Show message &content"
 msgstr "Ukázať obsah správy"
 
@@ -8025,51 +8005,43 @@ msgstr "&Agenti"
 
 # userbox.cpp:107
 #: plugins/jabber/jidsearch.cpp:175
-#, fuzzy
 msgid "User"
-msgstr "Užívateľ:"
+msgstr "Užívateľ"
 
 # qt3/i18n.cpp:51
 #: plugins/jabber/jidsearch.cpp:176
-#, fuzzy
 msgid "Full Name"
 msgstr "Celé meno"
 
 # libicq/country.cpp:459
 #: plugins/jabber/jidsearch.cpp:177
-#, fuzzy
 msgid "Middle Name"
-msgstr "Prostredné meno:"
+msgstr "Prostredné meno"
 
 # qt3/i18n.cpp:51
 #: plugins/jabber/jidsearch.cpp:178
-#, fuzzy
 msgid "Family Name"
-msgstr "Me&no súboru:"
+msgstr "Priezvisko"
 
 # usertbl.cpp:116
 #: plugins/jabber/jidsearch.cpp:179
-#, fuzzy
 msgid "email"
 msgstr "email"
 
 # ui/moreinfobase.cpp:196
 #: plugins/jabber/jidsearch.cpp:180
-#, fuzzy
 msgid "Birthday"
-msgstr "Dátum narodenia:"
+msgstr "Dátum narodenia"
 
 # libicq/country.cpp:451
 #: plugins/jabber/jidsearch.cpp:181
-#, fuzzy
 msgid "Organization Name"
-msgstr "Predošlá organizácia"
+msgstr "Názov organizácie"
 
 # libicq/country.cpp:451
 #: plugins/jabber/jidsearch.cpp:182
-#, fuzzy
 msgid "Organization Unit"
-msgstr "Predošlá organizácia"
+msgstr "Organizáčná jednotka"
 
 # ui/aboutinfobase.cpp:106
 #: plugins/jabber/jabberaboutinfobase.cpp:57
@@ -9183,20 +9155,17 @@ msgstr "Podmienky"
 
 # libicq/country.cpp:458
 #: plugins/yahoo/yahoosearch.cpp:44
-#, fuzzy
 msgid "male"
-msgstr "Žena"
+msgstr "žena"
 
 # libicq/country.cpp:458
 #: plugins/yahoo/yahoosearch.cpp:45
-#, fuzzy
 msgid "female"
-msgstr "Žena"
+msgstr "žena"
 
 #: plugins/yahoo/yahoosearch.cpp:128
-#, fuzzy
 msgid "Yahoo! ID"
-msgstr "Yahoo! &ID"
+msgstr "Yahoo! ID"
 
 # qt3/i18n.cpp:97
 #: plugins/replace/replace.cpp:33
@@ -9783,517 +9752,3 @@ msgstr "Predpoveď na dni:"
 msgid "Units:"
 msgstr "Jednotky:"
 
-# qt3/i18n.cpp:1
-#~ msgid "Hu&e:"
-#~ msgstr "Zafarb&enie:"
-
-# qt3/i18n.cpp:3
-#~ msgid "&Sat:"
-#~ msgstr "&Sat:"
-
-# qt3/i18n.cpp:5
-#~ msgid "&Val:"
-#~ msgstr "&Val:"
-
-# qt3/i18n.cpp:7
-#~ msgid "&Red:"
-#~ msgstr "&Červená:"
-
-# qt3/i18n.cpp:9
-#~ msgid "&Green:"
-#~ msgstr "&Zelená:"
-
-# qt3/i18n.cpp:11
-#~ msgid "Bl&ue:"
-#~ msgstr "&Modrá:"
-
-# qt3/i18n.cpp:13
-#~ msgid "A&lpha channel:"
-#~ msgstr "A&lfa kanál:"
-
-# qt3/i18n.cpp:15
-#~ msgid "&Basic colors"
-#~ msgstr "Základné &farby"
-
-# qt3/i18n.cpp:17
-#~ msgid "&Custom colors"
-#~ msgstr "&Vlastné farby"
-
-# qt3/i18n.cpp:19
-#~ msgid "&Define Custom Colors >>"
-#~ msgstr "&Definovať vlastné farby >>"
-
-# qt3/i18n.cpp:25
-#~ msgid "&Add To Custom Colors"
-#~ msgstr "&Pridať do vlastných farieb"
-
-# qt3/i18n.cpp:27
-#~ msgid "Select color"
-#~ msgstr "Vybrať farbu"
-
-# qt3/i18n.cpp:29
-#~ msgid "Copy or Move a File"
-#~ msgstr "Kopírovať alebo presunúť súbor"
-
-# qt3/i18n.cpp:31
-#~ msgid "Read: %1"
-#~ msgstr "Čítať: %1"
-
-# qt3/i18n.cpp:33
-#~ msgid "Write: %1"
-#~ msgstr "Zapísať: %1"
-
-# qt3/i18n.cpp:37
-#~ msgid "All files (*)"
-#~ msgstr "Všetky súbory (*)"
-
-# qt3/i18n.cpp:41
-#~ msgid "Size"
-#~ msgstr "Veľkosť"
-
-# qt3/i18n.cpp:47
-#~ msgid "Attributes"
-#~ msgstr "Atribty"
-
-# qt3/i18n.cpp:49
-#~ msgid "Look &in:"
-#~ msgstr "Náhľ&ad:"
-
-# qt3/i18n.cpp:51
-#~ msgid "File &name:"
-#~ msgstr "Me&no súboru:"
-
-# qt3/i18n.cpp:53
-#~ msgid "File &type:"
-#~ msgstr "&Typ súboru:"
-
-# qt3/i18n.cpp:55
-#~ msgid "Back"
-#~ msgstr "Späť"
-
-# qt3/i18n.cpp:57
-#~ msgid "One directory up"
-#~ msgstr "O adresár vyššie"
-
-# qt3/i18n.cpp:59
-#~ msgid "Create New Folder"
-#~ msgstr "Vytvoriť nový adresár"
-
-# qt3/i18n.cpp:61
-#~ msgid "List View"
-#~ msgstr "Pohad (zoznam)"
-
-# qt3/i18n.cpp:63
-#~ msgid "Detail View"
-#~ msgstr "Pohad (detail)"
-
-# qt3/i18n.cpp:65
-#~ msgid "Preview File Info"
-#~ msgstr "Informácie o súbore"
-
-# qt3/i18n.cpp:67
-#~ msgid "Preview File Contents"
-#~ msgstr "Ukázať obsah súboru"
-
-# qt3/i18n.cpp:69
-#~ msgid "Read-write"
-#~ msgstr "Čítanie-Zápis"
-
-# qt3/i18n.cpp:71
-#~ msgid "Read-only"
-#~ msgstr "Len čítanie"
-
-# qt3/i18n.cpp:73
-#~ msgid "Write-only"
-#~ msgstr "Len zápis"
-
-# qt3/i18n.cpp:75
-#~ msgid "Inaccessible"
-#~ msgstr "Neprístupný"
-
-# qt3/i18n.cpp:77
-#~ msgid "Symlink to File"
-#~ msgstr "Linka na súbor"
-
-# qt3/i18n.cpp:79
-#~ msgid "Symlink to Directory"
-#~ msgstr "Linka na adresár"
-
-# qt3/i18n.cpp:81
-#~ msgid "Symlink to Special"
-#~ msgstr "Linka na zvláštny súbor"
-
-# qt3/i18n.cpp:85
-#~ msgid "Dir"
-#~ msgstr "Adresár"
-
-# qt3/i18n.cpp:87
-#~ msgid "Special"
-#~ msgstr "Špeciálny"
-
-# qt3/i18n.cpp:91
-#~ msgid "Save as"
-#~ msgstr "Uložiť ako"
-
-# qt3/i18n.cpp:93
-#~ msgid "&Open"
-#~ msgstr "&Otvori"
-
-# qt3/i18n.cpp:101
-#~ msgid "R&eload"
-#~ msgstr "&Obnovi"
-
-# qt3/i18n.cpp:103
-#~ msgid "Sort by &Name"
-#~ msgstr "Zoradiť podľa me&na"
-
-# qt3/i18n.cpp:105
-#~ msgid "Sort by &Size"
-#~ msgstr "Zoradiť podľa veko&sti"
-
-# qt3/i18n.cpp:107
-#~ msgid "Sort by &Date"
-#~ msgstr "Zoradiť podľa &dátumu"
-
-# qt3/i18n.cpp:109
-#~ msgid "&Unsorted"
-#~ msgstr "&Nezoradený"
-
-# qt3/i18n.cpp:111
-#~ msgid "Sort"
-#~ msgstr "Zoradenie"
-
-# qt3/i18n.cpp:113
-#~ msgid "Show &hidden files"
-#~ msgstr "Zobraziť &skryté súbory"
-
-# qt3/i18n.cpp:115
-#~ msgid "the file"
-#~ msgstr "súbor"
-
-# qt3/i18n.cpp:117
-#~ msgid "the directory"
-#~ msgstr "adresár"
-
-# qt3/i18n.cpp:119
-#~ msgid "the symlink"
-#~ msgstr "linka"
-
-# qt3/i18n.cpp:121
-#~ msgid "Delete %1"
-#~ msgstr "Zmaza %1"
-
-# qt3/i18n.cpp:123
-#~ msgid "<qt>Do you really want to delete %1 \"%2\"?</qt>"
-#~ msgstr "<qt>Naozaj si prajete zmaza %1 \"%2\"?</qt>"
-
-# qt3/i18n.cpp:129
-#~ msgid "New Folder 1"
-#~ msgstr "Nový adresár 1"
-
-# qt3/i18n.cpp:131
-#~ msgid "New Folder"
-#~ msgstr "Nový adresár"
-
-# qt3/i18n.cpp:133
-#~ msgid "New Folder %1"
-#~ msgstr "Nový adresár %1"
-
-# qt3/i18n.cpp:135
-#~ msgid "Find Directory"
-#~ msgstr "Nájsť adresár"
-
-# qt3/i18n.cpp:137
-#~ msgid "Directories"
-#~ msgstr "Adresáre"
-
-# msgview.cpp:851
-# qt3/i18n.cpp:139
-#~ msgid "Save"
-#~ msgstr "Uložiť"
-
-# qt3/i18n.cpp:144
-#~ msgid ""
-#~ "%1\n"
-#~ "File not found.\n"
-#~ "Check path and filename."
-#~ msgstr ""
-#~ "%1\n"
-#~ "súbor nenájdený.\n"
-#~ "Overte si cestu a názov súboru."
-
-# qt3/i18n.cpp:148
-#~ msgid "ERROR"
-#~ msgstr "CHYBA"
-
-# qt3/i18n.cpp:150
-#~ msgid "&Font"
-#~ msgstr "&Font"
-
-# qt3/i18n.cpp:152
-#~ msgid "Font st&yle"
-#~ msgstr "Štýl&y fontov"
-
-# qt3/i18n.cpp:154
-#~ msgid "&Size"
-#~ msgstr "Veko&s"
-
-# qt3/i18n.cpp:156
-#~ msgid "Effects"
-#~ msgstr "Efekty"
-
-# qt3/i18n.cpp:158
-#~ msgid "Stri&keout"
-#~ msgstr "Prečiar&knuté"
-
-# qt3/i18n.cpp:162
-#~ msgid "&Color"
-#~ msgstr "&Farba"
-
-# qt3/i18n.cpp:164
-#~ msgid "Sample"
-#~ msgstr "Príklad"
-
-# qt3/i18n.cpp:166
-#~ msgid "Scr&ipt"
-#~ msgstr "Skr&ipt"
-
-# qt3/i18n.cpp:168
-#~ msgid "Apply"
-#~ msgstr "Použiť"
-
-# qt3/i18n.cpp:170
-# ui/logindlg.cpp:195
-# ui/searchbase.cpp:281
-# ui/searchdlg.cpp:110
-#~ msgid "Close"
-#~ msgstr "Zavrie"
-
-# qt3/i18n.cpp:172
-#~ msgid "Select Font"
-#~ msgstr "Vybrať písmo"
-
-# qt3/i18n.cpp:177
-#~ msgid "<h3>About Qt</h3><p>This program uses Qt version %1, a multiplatform C++ GUI toolkit from Trolltech. Qt provides single-source portability across Windows 95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of Unix with X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more information.</p>"
-#~ msgstr "<h3>O Qt</h3><p>Tento program používa Qt vo verzii %1, multiplatformové C++ GUI toolkit od Trolltech. Qt poskytuje \"single-source\" portabilitu od Windows 95/98/NT/2000 cez Linux, Solaris, HP-UX a mnoho iných verzií Unixov s X11.</p><p>Viac se dozviete na adrese<tt>http://www.trolltech.com/qt/</tt>.</p>"
-
-# qt3/i18n.cpp:183
-#~ msgid "Help"
-#~ msgstr "Pomoc"
-
-# qt3/i18n.cpp:185
-#~ msgid "Defaults"
-#~ msgstr "Predvolené"
-
-# qt3/i18n.cpp:187
-#~ msgid "< Back"
-#~ msgstr "< Späť"
-
-# qt3/i18n.cpp:189
-#~ msgid "Next >"
-#~ msgstr "Ďalej >"
-
-# qt3/i18n.cpp:191
-#~ msgid "Finish"
-#~ msgstr "Koniec"
-
-# qt3/i18n.cpp:195
-#~ msgid "+"
-#~ msgstr "+"
-
-# qt3/i18n.cpp:201
-#~ msgid "F%1"
-#~ msgstr "F%1"
-
-# qt3/i18n.cpp:203
-#~ msgid "ctrl"
-#~ msgstr "ctrl"
-
-# qt3/i18n.cpp:205
-#~ msgid "shift"
-#~ msgstr "shift"
-
-# qt3/i18n.cpp:207
-#~ msgid "alt"
-#~ msgstr "alt"
-
-# qt3/i18n.cpp:210
-#~ msgid ""
-#~ "Could not rename\n"
-#~ "%1\n"
-#~ "to\n"
-#~ "%2"
-#~ msgstr ""
-#~ "Nie je monže premenovať\n"
-#~ "%1\n"
-#~ "na\n"
-#~ "%2"
-
-# qt3/i18n.cpp:216
-#~ msgid ""
-#~ "Could not open\n"
-#~ "%1"
-#~ msgstr ""
-#~ "Nie je možné otvoriť\n"
-#~ "%1"
-
-# qt3/i18n.cpp:220
-#~ msgid ""
-#~ "Could not write\n"
-#~ "%1"
-#~ msgstr ""
-#~ "Nie je možné zapísať\n"
-#~ "%1"
-
-# qt3/i18n.cpp:223
-#~ msgid "Operation stopped by the user"
-#~ msgstr "Operácia bola prerušená užívateľom"
-
-# qt3/i18n.cpp:225
-#~ msgid "(unknown)"
-#~ msgstr "(neznáme)"
-
-# qt3/i18n.cpp:227
-#~ msgid "Host %1 found"
-#~ msgstr "Server %1 nájdený"
-
-# qt3/i18n.cpp:229
-#~ msgid "Host found"
-#~ msgstr "Server nájdený"
-
-# qt3/i18n.cpp:231
-#~ msgid "Connected to host %1"
-#~ msgstr "Pripojený k serveru %1"
-
-# qt3/i18n.cpp:233
-#~ msgid "Connected to host"
-#~ msgstr "Pripojený k serveru"
-
-# qt3/i18n.cpp:235
-#~ msgid "Connection to %1 closed"
-#~ msgstr "Spojenie s %1 bolo ukončené"
-
-# qt3/i18n.cpp:239
-#~ msgid "Login Incorrect"
-#~ msgstr "Chyba pri prihlasovaní"
-
-# qt3/i18n.cpp:241
-#~ msgid "Col %1"
-#~ msgstr "Stĺpec %1"
-
-# qt3/i18n.cpp:243
-#~ msgid "Row %1"
-#~ msgstr "Riadok %1"
-
-# qt3/i18n.cpp:245
-#~ msgid "Undo"
-#~ msgstr "Vráť späť"
-
-# qt3/i18n.cpp:247
-#~ msgid "Redo"
-#~ msgstr "Urobi znovu"
-
-# qt3/i18n.cpp:259
-#~ msgid "&Left"
-#~ msgstr "V&ľavo"
-
-# qt3/i18n.cpp:261
-#~ msgid "&Right"
-#~ msgstr "Vp&ravo"
-
-# qt3/i18n.cpp:263
-#~ msgid "&Top"
-#~ msgstr "&Hore"
-
-# qt3/i18n.cpp:265
-#~ msgid "&Bottom"
-#~ msgstr "&Dole"
-
-# qt3/i18n.cpp:267
-#~ msgid "R&estore"
-#~ msgstr "O&bnovi"
-
-# qt3/i18n.cpp:269
-#~ msgid "&Hide"
-#~ msgstr "S&kry"
-
-# qt3/i18n.cpp:271
-#~ msgid "Line Up Toolbars (compact)"
-#~ msgstr "Zarovnať nástrojové lišty (kompaktne)"
-
-# qt3/i18n.cpp:273
-#~ msgid "Line Up Toolbars (normal)"
-#~ msgstr "Zarovnať nástrojové lišty (normálne)"
-
-# qt3/i18n.cpp:275
-#~ msgid "Paste special..."
-#~ msgstr "Vložiť špeciálne..."
-
-# qt3/i18n.cpp:277
-#~ msgid "What's this?"
-#~ msgstr "Čo je to?"
-
-# qt3/i18n.cpp:279
-#~ msgid "&Restore"
-#~ msgstr "O&bnoviť"
-
-# qt3/i18n.cpp:281
-#~ msgid "&Move"
-#~ msgstr "Pres&unúť"
-
-# qt3/i18n.cpp:283
-#~ msgid "Mi&nimize"
-#~ msgstr "Mi&nimalizovať"
-
-# qt3/i18n.cpp:285
-#~ msgid "Ma&ximize"
-#~ msgstr "Ma&ximalizovať"
-
-# qt3/i18n.cpp:289
-#~ msgid "&Roll up"
-#~ msgstr "Z&rolovať"
-
-# qt3/i18n.cpp:291
-#~ msgid "Minimize"
-#~ msgstr "Minimalizovať"
-
-# qt3/i18n.cpp:293
-#~ msgid "Restore Down"
-#~ msgstr "Vyrolovať"
-
-# qt3/i18n.cpp:295
-#~ msgid "Maximize"
-#~ msgstr "Maximalizovať"
-
-# qt3/i18n.cpp:297
-#~ msgid "Roll up"
-#~ msgstr "Zrolovať"
-
-# qt3/i18n.cpp:299
-#~ msgid "Restore Up"
-#~ msgstr "Restore Up"
-
-# qt3/i18n.cpp:301
-#~ msgid "Roll down"
-#~ msgstr "Zrolovať"
-
-# ui/themesetup.cpp:144
-#~ msgid "Windows XP style"
-#~ msgstr "štýl \"Windows XP\""
-
-# libicq/country.cpp:40
-#~ msgid "Norwegian Wood"
-#~ msgstr "Nórske drevo"
-
-#~ msgid "Support &typing notification"
-#~ msgstr "Podpora no&tifikácie písania"
-
-# msgview.cpp:853
-# ui/searchbase.cpp:277
-# ui/searchbase.cpp:279
-#~ msgid "%1 Search"
-#~ msgstr "%1 vyhľadávanie"
-
-# mainwin.cpp:1328
-#~ msgid "Youur account is being used from another location"
-#~ msgstr "Vaše konto je používané z iného miesta"
