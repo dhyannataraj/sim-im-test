@@ -268,8 +268,8 @@ public:
     list<unsigned long> ToolBarUserBox;
 
 #ifdef WIN32
-	unsigned short	BarState;
-	bool			BarAutoHide;
+    unsigned short	BarState;
+    bool			BarAutoHide;
 #endif
 
     bool 	     init();

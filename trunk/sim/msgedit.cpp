@@ -401,12 +401,16 @@ void MsgEdit::action(int type, bool bSaveEdit)
         if ((type == mnuAction) && canSend())
             return;
         ICQUser *u = pClient->getUser(Uin);
-        if (u && u->unreadMsgs.size()){
-            ICQMessage *msg = history()->getMessage(u->unreadMsgs.front());
-            if (msg){
-                setMessage(msg, true, true);
-                setState();
-                return;
+        if (u){
+            while (u->unreadMsgs.size()){
+                ICQMessage *msg = history()->getMessage(u->unreadMsgs.front());
+                if (msg == NULL) break;
+                if (msg->Id < MSG_PROCESS_ID){
+                    setMessage(msg, true, true);
+                    setState();
+                    return;
+                }
+                u->unreadMsgs.remove(msg->Id);
             }
         }
         if (u && (u->Type == USER_TYPE_EXT)){
@@ -667,11 +671,9 @@ void MsgEdit::markAsRead()
                     ICQMessage *msg = h.getMessage(*it);
                     if (msg == NULL) continue;
                     unsigned type = msg->Type();
-                    if ((type == ICQ_MSGxMSG) || (type == ICQ_MSGxURL) || (type == ICQ_MSGxSMS)){
-                        bChanged = pClient->markAsRead(msg) | bChanged;
-                        bExit = false;
-                        break;
-                    }
+                    bChanged = pClient->markAsRead(msg) | bChanged;
+                    bExit = false;
+                    break;
                 }
                 if (bExit) break;
             }

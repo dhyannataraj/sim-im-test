@@ -42,9 +42,9 @@ typedef struct ToolBarState
 {
     QWidget		*button;
     QPopupMenu	*popup;
-	bool		isOn;
-	bool		disabled;
-	bool		hidden;
+    bool		isOn;
+    bool		disabled;
+    bool		hidden;
 } ToolBarState;
 
 class ToolBarStates : public vector<ToolBarState>
@@ -397,7 +397,7 @@ CToolBar::CToolBar(const ToolBarDef *def, list<unsigned long> *active, QMainWind
     states = new ToolBarStates;
     bool bFirst = true;
     int nButtons = 0;
-	const ToolBarDef *d;
+    const ToolBarDef *d;
     for (d = m_def; ; d++){
         if (d->id == BTN_END_DEF){
             if (bFirst){
@@ -415,9 +415,9 @@ CToolBar::CToolBar(const ToolBarDef *def, list<unsigned long> *active, QMainWind
         ToolBarState state;
         state.button = NULL;
         state.popup  = NULL;
-		state.isOn = false;
-		state.disabled = false;
-		state.hidden = false;
+        state.isOn = false;
+        state.disabled = false;
+        state.hidden = false;
         states->push_back(state);
     }
     for (d = m_def; ; d++){
@@ -430,7 +430,7 @@ CToolBar::CToolBar(const ToolBarDef *def, list<unsigned long> *active, QMainWind
         }
         if (d->id == BTN_SEPARATOR) continue;
         if (def->flags & BTN_HIDE)
-			(*states)[d->id].hidden = true;
+            (*states)[d->id].hidden = true;
     }
 
     connect(pMain, SIGNAL(toolBarChanged(const ToolBarDef*)), this, SLOT(toolBarChanged(const ToolBarDef*)));
@@ -446,17 +446,17 @@ void CToolBar::toolBarChanged(const ToolBarDef *def)
 {
     if (def != m_def) return;
     clear();
-	int i;
+    int i;
     for (i = 0; i < states->size(); i++){
-		if ((*states)[i].button == NULL) continue;
-		ToolBarState &s = (*states)[i];
-		QWidget *w = s.button;
-		if (isButton(i)){
-			CToolButton *btn = static_cast<CToolButton*>(w);
-			s.isOn = btn->isOn();
-		}
+        if ((*states)[i].button == NULL) continue;
+        ToolBarState &s = (*states)[i];
+        QWidget *w = s.button;
+        if (isButton(i)){
+            CToolButton *btn = static_cast<CToolButton*>(w);
+            s.isOn = btn->isOn();
+        }
         s.button = NULL;
-	}
+    }
     if (m_active->size() == 0){
         for (; def->id != BTN_END_DEF; def++)
             m_active->push_back(def->id);
@@ -487,7 +487,7 @@ void CToolBar::toolBarChanged(const ToolBarDef *def)
             w = cmb;
         }else{
             CToolButton *btn = new CToolButton(this, QString::number(def->id));
-			w = btn;
+            w = btn;
             if (def->flags & BTN_CTRL) btn->bProcessCtrl = true;
             btn->setTextLabel(i18n(def->text));
             if (def->flags & BTN_TOGGLE)
@@ -509,9 +509,9 @@ void CToolBar::toolBarChanged(const ToolBarDef *def)
             }else{
                 btn->setIconSet(Icon(def->icon));
             }
-			if ((*states)[i].isOn) btn->setOn(true);
+            if ((*states)[i].isOn) btn->setOn(true);
         }
-		ToolBarState &s = (*states)[id];
+        ToolBarState &s = (*states)[id];
         s.button = w;
         if (s.popup) setPopup(id, s.popup);
         if (s.hidden) w->hide();
@@ -590,7 +590,7 @@ void CToolBar::setState(int id, const char *icon, const QString &text)
 void CToolBar::setEnabled(int id, bool bEnable)
 {
     QWidget *b = getWidget(id);
-	(*states)[id].disabled = !bEnable;
+    (*states)[id].disabled = !bEnable;
     if (b == NULL) return;
     b->setEnabled(bEnable);
 }
@@ -607,7 +607,7 @@ void CToolBar::setIcon(int id, const char *icon)
 void CToolBar::show(int id)
 {
     QWidget *b = getWidget(id);
-	(*states)[id].hidden = false;
+    (*states)[id].hidden = false;
     if (b == NULL) return;
     b->show();
 }
@@ -615,7 +615,7 @@ void CToolBar::show(int id)
 void CToolBar::hide(int id)
 {
     QWidget *b = getWidget(id);
-	(*states)[id].hidden = true;
+    (*states)[id].hidden = true;
     if (b == NULL) return;
     b->hide();
 }
@@ -655,7 +655,7 @@ bool CToolBar::isCtrl(int id)
 void CToolBar::setOn(int id, bool bOn)
 {
     if (!isButton(id)) return;
-	(*states)[id].isOn = bOn;
+    (*states)[id].isOn = bOn;
     QWidget *b = getWidget(id);
     if (b == NULL) return;
     CToolButton *btn = static_cast<CToolButton*>(b);

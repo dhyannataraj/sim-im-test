@@ -328,23 +328,23 @@ UINT appBarMessage(DWORD dwMessage, UINT uEdge = ABE_FLOAT, LPARAM lParam = 0, Q
     abd.hWnd             = pMain->winId();
     abd.uCallbackMessage = WM_APPBAR;
     abd.uEdge            = uEdge;
-	if (rc){
-		abd.rc.left = rc->left();
-		abd.rc.top = rc->top();
-		abd.rc.right = rc->right();
-		abd.rc.bottom = rc->bottom();
-	}else{
-		abd.rc.left = 0;
-		abd.rc.top = 0;
-		abd.rc.right = 0;
-		abd.rc.bottom = 0;
-	}
+    if (rc){
+        abd.rc.left = rc->left();
+        abd.rc.top = rc->top();
+        abd.rc.right = rc->right();
+        abd.rc.bottom = rc->bottom();
+    }else{
+        abd.rc.left = 0;
+        abd.rc.top = 0;
+        abd.rc.right = 0;
+        abd.rc.bottom = 0;
+    }
     abd.lParam           = lParam;
     UINT uRetVal         = SHAppBarMessage(dwMessage, &abd);
 
     // If the caller passed a rectangle, return the updated rectangle.
     if (rc != NULL)
-		rc->setCoords(abd.rc.left, abd.rc.top, abd.rc.right, abd.rc.top);
+        rc->setCoords(abd.rc.left, abd.rc.top, abd.rc.right, abd.rc.top);
     return uRetVal;
 }
 
@@ -354,7 +354,7 @@ static bool bOnTop = false;
 
 void getBarRect(UINT state, QRect &rc)
 {
-	rc.setRect(0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
+    rc.setRect(0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
     appBarMessage(ABM_QUERYPOS, state, FALSE, &rc);
 }
 
@@ -362,57 +362,57 @@ const int SLIDE_INTERVAL = 400;
 
 void slideWindow (const QRect &rcEnd)
 {
-   BOOL fFullDragOn;
+    BOOL fFullDragOn;
 
-   // Only slide the window if the user has FullDrag turned on
-   SystemParametersInfoA(SPI_GETDRAGFULLWINDOWS, 0, &fFullDragOn, 0);
+    // Only slide the window if the user has FullDrag turned on
+    SystemParametersInfoA(SPI_GETDRAGFULLWINDOWS, 0, &fFullDragOn, 0);
 
-   // Get the current window position
-   QRect rcStart = pMain->rect();
+    // Get the current window position
+    QRect rcStart = pMain->rect();
 
-   if (fFullDragOn && (rcStart != rcEnd)) {
+    if (fFullDragOn && (rcStart != rcEnd)) {
 
-   // Get our starting and ending time.
-   DWORD dwTimeStart = GetTickCount();
-   DWORD dwTimeEnd = dwTimeStart + SLIDE_INTERVAL;
-   DWORD dwTime;
+        // Get our starting and ending time.
+        DWORD dwTimeStart = GetTickCount();
+        DWORD dwTimeEnd = dwTimeStart + SLIDE_INTERVAL;
+        DWORD dwTime;
 
-   while ((dwTime = ::GetTickCount()) < dwTimeEnd) {
-	   int delta = (int)(dwTime - dwTimeStart);
-		 QRect rc = rcStart;
-		 rc.setLeft(rcStart.left() + 
-			 (rcEnd.left() - rcEnd.left()) * delta / SLIDE_INTERVAL);
-		 rc.setTop(rcStart.top() + 
-			 (rcEnd.top() - rcEnd.top()) * delta / SLIDE_INTERVAL);
-		 rc.setWidth(rcStart.width() + 
-			 (rcEnd.width() - rcEnd.width()) * delta / SLIDE_INTERVAL);
-		 rc.setHeight(rcStart.height() + 
-			 (rcEnd.height() - rcEnd.height()) * delta / SLIDE_INTERVAL);
-		 pMain->setGeometry(rc);
-      }
-   }
-   pMain->setGeometry(rcEnd);
+        while ((dwTime = ::GetTickCount()) < dwTimeEnd) {
+            int delta = (int)(dwTime - dwTimeStart);
+            QRect rc = rcStart;
+            rc.setLeft(rcStart.left() +
+                       (rcEnd.left() - rcEnd.left()) * delta / SLIDE_INTERVAL);
+            rc.setTop(rcStart.top() +
+                      (rcEnd.top() - rcEnd.top()) * delta / SLIDE_INTERVAL);
+            rc.setWidth(rcStart.width() +
+                        (rcEnd.width() - rcEnd.width()) * delta / SLIDE_INTERVAL);
+            rc.setHeight(rcStart.height() +
+                         (rcEnd.height() - rcEnd.height()) * delta / SLIDE_INTERVAL);
+            pMain->setGeometry(rc);
+        }
+    }
+    pMain->setGeometry(rcEnd);
 }
 
 
 void setBarState()
 {
-	if (pMain->BarState == ABE_FLOAT){
+    if (pMain->BarState == ABE_FLOAT){
         appBarMessage(ABM_SETPOS, pMain->BarState, FALSE);
-	}else{
-		QRect rc;
+    }else{
+        QRect rc;
         getBarRect(pMain->BarState, rc);
         appBarMessage(ABM_SETPOS, pMain->BarState, FALSE, &rc);
         slideWindow(rc);
-	}
-	if ((bOnTop != pMain->OnTop) || bFullScreen){
-		bOnTop = pMain->OnTop;
-		HWND hState = HWND_NOTOPMOST;
-		if (pMain->OnTop) hState = HWND_TOPMOST;
-		if (bFullScreen) hState = HWND_BOTTOM;
-		SetWindowPos(pMain->winId(), hState, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-	}
-	appBarMessage(ABM_ACTIVATE);
+    }
+    if ((bOnTop != pMain->OnTop) || bFullScreen){
+        bOnTop = pMain->OnTop;
+        HWND hState = HWND_NOTOPMOST;
+        if (pMain->OnTop) hState = HWND_TOPMOST;
+        if (bFullScreen) hState = HWND_BOTTOM;
+        SetWindowPos(pMain->winId(), hState, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+    }
+    appBarMessage(ABM_ACTIVATE);
 }
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -420,23 +420,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     if (msg == WM_APPBAR){
-		switch (wParam){
+        switch (wParam){
         case ABN_FULLSCREENAPP:
             bFullScreen = (lParam != 0);
-			setBarState();
+            setBarState();
             break;
-		}
-		return 0;
-	}
-	switch (msg){
-	case WM_ENTERSIZEMOVE:
-		bInMoving = true;
-		break;
-	case WM_EXITSIZEMOVE:
-		bInMoving = false;
-		break;
-	}
-	return WndProc(hWnd, msg, wParam, lParam);
+        }
+        return 0;
+    }
+    switch (msg){
+    case WM_ENTERSIZEMOVE:
+        bInMoving = true;
+        break;
+    case WM_EXITSIZEMOVE:
+        bInMoving = false;
+        break;
+    }
+    return WndProc(hWnd, msg, wParam, lParam);
 }
 
 #endif
@@ -632,7 +632,7 @@ void MainWindow::setOnTop()
     }
 #ifdef WIN32
     menuFunction->setItemChecked(mnuOnTop, OnTop);
-	setBarState();
+    setBarState();
 #else
 #ifdef USE_KDE
     if (OnTop){
@@ -903,7 +903,7 @@ bool MainWindow::init()
     p = (WNDPROC)SetWindowLongW(winId(), GWL_WNDPROC, (LONG)MainWndProc);
     if (p == 0)
         p = (WNDPROC)SetWindowLongA(winId(), GWL_WNDPROC, (LONG)MainWndProc);
-	appBarMessage(ABM_NEW);
+    appBarMessage(ABM_NEW);
 #endif
 
     string file;
@@ -1239,14 +1239,14 @@ void MainWindow::saveState()
     GroupMode = toolbar->isOn(btnGroupMode);
     Show = isShow();
 #ifdef WIN32
-	if (BarState == ABE_FLOAT){
+    if (BarState == ABE_FLOAT){
 #endif
-    mLeft = pos().x();
-    mTop = pos().y();
-    mWidth = size().width();
-    mHeight = size().height();
+        mLeft = pos().x();
+        mTop = pos().y();
+        mWidth = size().width();
+        mHeight = size().height();
 #ifdef WIN32
-	}
+    }
 #endif
     ToolBarDock tDock;
     int index;
@@ -1651,18 +1651,18 @@ void MainWindow::closeEvent(QCloseEvent *e)
 void MainWindow::autoAway()
 {
 #ifdef WIN32
-	if (BarState == ABE_FLOAT){
+    if (BarState == ABE_FLOAT){
 #endif
-    if (hideTime && isDock()){
-        time_t now;
-        time(&now);
-        if (now >= (time_t)hideTime){
-            setShow(false);
-            hideTime = 0;
+        if (hideTime && isDock()){
+            time_t now;
+            time(&now);
+            if (now >= (time_t)hideTime){
+                setShow(false);
+                hideTime = 0;
+            }
         }
-    }
 #ifdef WIN32
-	}
+    }
 #endif
 #ifdef WIN32
     unsigned long idle_time = 0;

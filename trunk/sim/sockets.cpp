@@ -284,7 +284,7 @@ void ICQServerSocket::activated(int)
     if (sock == NULL) return;
     int fd = sock->accept();
     if (fd >= 0){
-	    log(L_DEBUG, "accept ready");
+        log(L_DEBUG, "accept ready");
         if (notify){
             QSocket *s = new QSocket;
             s->setSocket(fd);

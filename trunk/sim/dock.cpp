@@ -130,6 +130,14 @@ WharfIcon::WharfIcon(DockWnd *parent)
     setBackgroundMode(X11ParentRelative);
     vis = NULL;
     vish = NULL;
+#ifndef WIN32
+    Display *dsp = x11Display();
+    WId win = winId();
+    XClassHint classhint;
+    classhint.res_name  = (char*)"WharfIcon";
+    classhint.res_class = (char*)"sim";
+    XSetClassHint(dsp, win, &classhint);
+#endif    
     if (!dock->bWM)
         move(pMain->DockX, pMain->DockY);
     show();
@@ -302,10 +310,6 @@ void DockWnd::showWharf()
         Display *dsp = x11Display();
         WId win = winId();
         XWMHints *hints;
-        XClassHint classhint;
-        classhint.res_name  = (char*)"sim";
-        classhint.res_class = (char*)"sim";
-        XSetClassHint(dsp, win, &classhint);
         hints = XGetWMHints(dsp, win);
         hints->initial_state = WithdrawnState;
         hints->icon_x = 0;
