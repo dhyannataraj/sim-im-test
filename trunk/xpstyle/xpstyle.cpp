@@ -18,6 +18,7 @@
 #include "simapi.h"
 #include "xpstyle.h"
 #include "kpopup.h"
+#include "icons.h"
 
 #include <windows.h>
 #include <stdio.h>
@@ -824,23 +825,56 @@ bool QWindowsXPStyle::eventFilter( QObject *o, QEvent *e )
                          darkXp(colorBitmap(w->colorGroup())),
                          colorMenu(w->colorGroup()),
                          HorizontalGradient);
-            QPixmap pict(widget->width(), w->height());
-            QPainter p(&pict);
-            p.drawImage(0, 0, img);
             int x = 2;
             if (!w->icon().isNull()){
                 int picty = (w->height() - w->icon().height()) / 2;
-                const QBitmap *mask = w->icon().mask();
-                if (mask){
-                    QPixmap maskPict = *mask;
-                    maskPict.setMask(*mask);
-                    p.setBrush(darkXp(colorSel(w->colorGroup())));
-                    p.drawPixmap(x+1, picty+1, maskPict);
+                QImage *image = NULL;
+                QImage ii;
+                PictDef *def = getIcons()->getPict(w->icon());
+                if (def)
+                    image = def->image;
+                if (image == NULL){
+                    ii = w->icon().convertToImage();
+                    image = &ii;
                 }
-                p.setPen(w->colorGroup().highlightedText());
-                p.drawPixmap(x, picty, w->icon());
+                unsigned int *f = (unsigned int*)image->bits();
+                unsigned int *t = (unsigned int*)img.bits();
+                t += (picty + 1) * widget->width() + x + 1;
+                unsigned i;
+                QColor c = darkXp(colorSel(w->colorGroup()));
+                unsigned char cr = c.red();
+                unsigned char cg = c.green();
+                unsigned char cb = c.blue();
+                for (i = 0; i < image->height(); i++){
+                    for (unsigned j = 0; j < image->width(); j++){
+                        unsigned char a = qAlpha(*f);
+                        *t = qRgba((cr * a + qRed(*t) * (0xFF - a)) >> 8,
+                                   (cg * a + qGreen(*t) * (0xFF - a)) >> 8,
+                                   (cb * a + qBlue(*t) * (0xFF - a)) >> 8, 0xFF);
+                        f++;
+                        t++;
+                    }
+                    t += (widget->width() - image->width());
+                }
+                f = (unsigned int*)image->bits();
+                t = (unsigned int*)img.bits();
+                t += picty * widget->width() + x;
+                for (i = 0; i < image->height(); i++){
+                    for (unsigned j = 0; j < image->width(); j++){
+                        unsigned char a = qAlpha(*f);
+                        *t = qRgba((qRed(*f) * a + qRed(*t) * (0xFF - a)) >> 8,
+                                   (qGreen(*f) * a + qGreen(*t) * (0xFF - a)) >> 8,
+                                   (qBlue(*f) * a + qBlue(*t) * (0xFF - a)) >> 8, 0xFF);
+                        f++;
+                        t++;
+                    }
+                    t += (widget->width() - image->width());
+                }
                 x += w->icon().width() + 2;
             }
+            QPixmap pict(widget->width(), w->height());
+            QPainter p(&pict);
+            p.drawImage(0, 0, img);
             QFont f(w->font());
             f.setBold(true);
             p.setFont(f);
@@ -1509,8 +1543,19 @@ void QWindowsXPStyle::drawPopupMenuItem( QPainter* p, bool checkable,
         QIconSet::Mode mode =
             enabled ? QIconSet::Normal : QIconSet::Disabled;
         QPixmap pixmap = mi->iconSet()->pixmap(QIconSet::Small, mode);
-        int pixw = pixmap.width();
-        int pixh = pixmap.height();
+
+        QImage img;
+        QImage *image = NULL;
+        PictDef *def = getIcons()->getPict(pixmap);
+        if (def)
+            image = def->image;
+        if (image == NULL){
+            img = pixmap.convertToImage();
+            image = &img;
+        }
+
+        int pixw = image->width();
+        int pixh = image->height();
 
         QRect cr(xpos, y, 22, h);
         QRect pmr(0, 0, pixw, pixh);
@@ -1526,18 +1571,65 @@ void QWindowsXPStyle::drawPopupMenuItem( QPainter* p, bool checkable,
         pmr.moveCenter(cr.center());
         QPoint picPoint = pmr.topLeft();
         if (act && enabled){
-            const QBitmap *mask = pixmap.mask();
-            if (mask){
-                QPixmap maskPict = *mask;
-                maskPict.setMask(*mask);
-                p->setBrush(darkXp(colorSel(cg)));
-                picPoint += QPoint(1, 1);
-                p->drawPixmap(picPoint, maskPict);
-                picPoint -= QPoint(2, 2);
+            QImage img(image->width() + 2, image->height() + 2, 32);
+            unsigned int *data = (unsigned int*)(img.bits());
+            unsigned int *from = (unsigned int*)(image->bits());
+            QColor c1 = colorSel(cg);
+            unsigned char cr1 = c1.red();
+            unsigned char cg1 = c1.green();
+            unsigned char cb1 = c1.blue();
+            QColor c2 = darkXp(colorSel(cg));
+            unsigned char cr2 = c2.red();
+            unsigned char cg2 = c2.green();
+            unsigned char cb2 = c2.blue();
+            unsigned i;
+            for (i = 0; i < (image->width() + 2) * (image->height() + 2); i++)
+                data[i] = qRgba(cr1, cg1, cb1, 0xFF);
+            unsigned int *f = from;
+            unsigned int *t = data + (image->width() + 2) * 2 + 2;
+            for (i = 0; i < image->height(); i++){
+                for (unsigned j = 0; j < image->height(); j++){
+                    unsigned char a = qAlpha(*f);
+                    *t = qRgba((cr2 * a + cr1 * (0xFF - a)) >> 8,
+                               (cg2 * a + cg1 * (0xFF - a)) >> 8,
+                               (cb2 * a + cb1 * (0xFF - a)) >> 8, 0xFF);
+                    t++;
+                    f++;
+                }
+                t += 2;
             }
+            f = from;
+            t = data;
+            for (i = 0; i < image->height(); i++){
+                for (unsigned j = 0; j < image->height(); j++){
+                    unsigned char a = qAlpha(*f);
+                    *t = qRgba((qRed(*f) * a + qRed(*t) * (0xFF - a)) >> 8,
+                               (qGreen(*f) * a + qGreen(*t) * (0xFF - a)) >> 8,
+                               (qBlue(*f) * a + qBlue(*t) * (0xFF - a)) >> 8, 0xFF);
+                    f++;
+                    t++;
+                }
+                t += 2;
+            }
+            picPoint -= QPoint(1, 1);
+            p->drawImage(picPoint, img);
+        }else{
+            QImage img(image->width(), image->height(), 32);
+            QColor c = colorBitmap(cg);
+            unsigned char cr = c.red();
+            unsigned char cg = c.green();
+            unsigned char cb = c.blue();
+            unsigned int *data = (unsigned int*)(img.bits());
+            unsigned int *from = (unsigned int*)(image->bits());
+            for (unsigned i = 0; i < image->width() * image->height(); i++){
+                unsigned char a = qAlpha(from[i]);
+                data[i] = qRgba((qRed(from[i]) * a + cr * (0xFF - a)) >> 8,
+                                (qGreen(from[i]) * a + cg * (0xFF - a)) >> 8,
+                                (qBlue(from[i]) * a + cb * (0xFF - a)) >> 8, 0xFF);
+            }
+            p->drawImage(picPoint, img);
         }
         p->setPen(cg.highlightedText());
-        p->drawPixmap(picPoint, pixmap);
         p->restore();
 
     }else if (checkable && mi->isChecked()){

@@ -443,14 +443,11 @@ Package=<5>
 
 Package=<4>
 {{{
-    Begin Project Dependency
-    Project_Dep_Name xpstyle
-    End Project Dependency
 }}}
 
 ###############################################################################
 
-Project: "simall"=.\simall\simall.dsp - Package Owner=<4>
+Project: "simall"=.\simall.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -571,6 +568,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name zodiak
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name xpstyle
     End Project Dependency
 }}}
 
@@ -779,6 +779,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name sim
+    End Project Dependency
 }}}
 
 ###############################################################################

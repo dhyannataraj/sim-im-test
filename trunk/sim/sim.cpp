@@ -171,6 +171,21 @@ extern "C" {
 #define _VERSION	VERSION
 #endif
 
+#ifdef WIN32
+#ifdef _DEBUG
+
+class Debug
+{
+public:
+    Debug()		{}
+    ~Debug()	{ _CrtDumpMemoryLeaks(); }
+};
+
+Debug d;
+
+#endif
+#endif
+
 int main(int argc, char *argv[])
 {
     int res = 1;

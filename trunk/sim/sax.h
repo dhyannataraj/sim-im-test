@@ -29,6 +29,7 @@ public:
     virtual ~SAXParser();
     void reset();
     bool parse(const char *data, unsigned size, bool bChunk);
+    static void cleanup();
 protected:
     virtual	void		element_start(const char *el, const char **attr) = 0;
     virtual	void		element_end(const char *el) = 0;

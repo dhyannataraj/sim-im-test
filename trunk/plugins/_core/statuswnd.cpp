@@ -29,6 +29,8 @@
 #include <qtimer.h>
 #include <qframe.h>
 #include <qtoolbutton.h>
+#include <qpainter.h>
+#include <qimage.h>
 
 StatusLabel::StatusLabel(QWidget *parent, Client *client, unsigned id)
         : QLabel(parent)
@@ -107,14 +109,14 @@ void StatusLabel::setPict()
             }
         }
     }
-    QPixmap pict = Pict(icon.c_str());
+    QPixmap p = Pict(icon.c_str());
+    setPixmap(p);
     QString tip = CorePlugin::m_plugin->clientName(m_client);
     tip += "\n";
     tip += i18n(text);
-    setPixmap(pict);
     QToolTip::add(this, tip);
-    resize(pict.width(), pict.height());
-    setFixedSize(pict.width(), pict.height());
+    resize(p.width(), p.height());
+    setFixedSize(p.width(), p.height());
 }
 
 void StatusLabel::timeout()

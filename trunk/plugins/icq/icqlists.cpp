@@ -298,7 +298,7 @@ void ICQClient::parseRosterItem(unsigned short type,
     case ICQ_BUDDY_CHKSUM:
     case 0x0009:
     case 0x000f:    /* I saw this roster type in junction to
-                                           TLV(0x0145) - DateTime() */
+                                               TLV(0x0145) - DateTime() */
         break;
     case ICQ_NON_IM:{
             Tlv *tlv_name = NULL;

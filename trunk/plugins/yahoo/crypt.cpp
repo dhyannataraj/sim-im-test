@@ -37,8 +37,25 @@ const char b64t[] =
 #define MIN(A, B)	((A < B) ? A : B)
 #define MAX(A, B)	((A > B) ? A : B)
 
+#include <windows.h>
+
+void dump(const char *name, const char *data, unsigned len)
+{
+    OutputDebugStringA(name);
+    OutputDebugStringA(": ");
+    for (unsigned i = 0; i < len; i++){
+        char b[5];
+        sprintf(b, "%02X ", data[i] & 0xFF);
+        OutputDebugStringA(b);
+    }
+    OutputDebugStringA("\n");
+}
+
 char *yahoo_crypt(const char *key, const char *salt)
 {
+    dump("Key", key, strlen(key));
+    dump("Salt", salt, strlen(salt));
+
     static char *buffer = NULL;
     static int buflen = 0;
     int needed = 3 + strlen (salt) + 1 + 26 + 1;
@@ -71,6 +88,8 @@ char *yahoo_crypt(const char *key, const char *salt)
     ct_alt += salt;
     ct_alt += key;
     ct_alt = md5(ct_alt.c_str());
+
+    dump("alt", ct_alt.c_str(), ct_alt.length());
 
     /* Add for any character in the key one byte of the alternate sum.  */
     for (cnt = key_len; cnt > 16; cnt -= 16)

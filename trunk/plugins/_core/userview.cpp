@@ -152,6 +152,37 @@ void UserView::paintEmptyArea(QPainter *p, const QRect &r)
     setStaticBackground(pv.isStatic);
 }
 
+static void drawImage(QPainter *p, int x, int y, const QImage &img)
+{
+#ifdef WIN32
+    if (p->device()->devType() != QInternal::Pixmap){
+        p->drawImage(x, y, img);
+        return;
+    }
+    QPixmap *pict = static_cast<QPixmap*>(p->device());
+    p->end();
+    QImage image = pict->convertToImage();
+    unsigned int *f = (unsigned int*)(img.bits());
+    unsigned int *t = (unsigned int*)(image.bits());
+    t += (image.width() * y) + x;
+    for (int i = 0; i < img.height(); i++){
+        for (int j = 0; j < img.width(); j++){
+            unsigned char a = qAlpha(*f);
+            *t = qRgba((a * qRed(*f) + (0xFF - a) * qRed(*t)) >> 8,
+                       (a * qGreen(*f) + (0xFF - a) * qGreen(*t)) >> 8,
+                       (a * qBlue(*f) + (0xFF - a) * qBlue(*t)) >> 8, 0xFF);
+            f++;
+            t++;
+        }
+        t += (image.width() - img.width());
+    }
+    pict->convertFromImage(image);
+    p->begin(pict);
+#else
+    p->drawImage(x, y, img);
+#endif
+}
+
 void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin)
 {
     if (base->type() == GRP_ITEM){
@@ -188,16 +219,19 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
             text += QString::number(item->m_nContacts);
             text += ")";
         }
-        const QPixmap &pict = Pict(item->isOpen() ? "expanded" : "collapsed");
-        p->drawPixmap(2 + margin, (item->height() - pict.height()) / 2, pict);
+        const QImage *img = Image(item->isOpen() ? "expanded" : "collapsed");
+        if (img)
+            drawImage(p, 2 + margin, (item->height() - img->height()) / 2, *img);
         int x = 24 + margin;
         if (!item->isOpen() && item->m_unread){
             CommandDef *def = CorePlugin::m_plugin->messageTypes.find(item->m_unread);
             if (def){
-                const QPixmap &pict = Pict(def->icon);
-                if (m_bUnreadBlink)
-                    p->drawPixmap(x, (item->height() - pict.height()) / 2, pict);
-                x += pict.width() + 2;
+                const QImage *img = Image(def->icon);
+                if (img){
+                    if (m_bUnreadBlink)
+                        drawImage(p, x, (item->height() - img->height()) / 2, *img);
+                    x += img->width() + 2;
+                }
             }
         }
         if (!CorePlugin::m_plugin->getUseSysColors())
@@ -249,10 +283,12 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         }
         int x = margin;
         if (icon.length()){
-            const QPixmap &pict = Pict(icon.c_str());
-            x += 2;
-            p->drawPixmap(x, (item->height() - pict.height()) / 2, pict);
-            x += pict.width() + 2;
+            const QImage *img = Image(icon.c_str());
+            if (img){
+                x += 2;
+                drawImage(p, x, (item->height() - img->height()) / 2, *img);
+                x += img->width() + 2;
+            }
         }
         if (x < 24)
             x = 24;
@@ -312,11 +348,13 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         unsigned xIcon = width;
         while (icons.length()){
             icon = getToken(icons, ',');
-            const QPixmap &pict = Pict(icon.c_str());
-            xIcon -= pict.width() + 2;
-            if (xIcon < (unsigned)x)
-                break;
-            p->drawPixmap(xIcon, (item->height() - pict.height()) / 2, pict);
+            const QImage *img = Image(icon.c_str());
+            if (img){
+                xIcon -= img->width() + 2;
+                if (xIcon < (unsigned)x)
+                    break;
+                drawImage(p, xIcon, (item->height() - img->height()) / 2, *img);
+            }
         }
         return;
     }
