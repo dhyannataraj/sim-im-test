@@ -8,14 +8,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2004-02-18 09:48+0300\n"
-"PO-Revision-Date: 2004-02-19 00:54+0100\n"
-"Last-Translator: Tobias Franz <noragen@gmx.net>\n"
-"PO-Revision-Date: 2004-02-19 00:40+0100\n"
+"PO-Revision-Date: 2004-02-19 01:03+0100\n"
+"Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
+"PO-Revision-Date: 2004-02-19 01:03+0100\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.3\n"
 
 #: sim/api/country.cpp:25
 msgid "Afghanistan"
@@ -6121,11 +6122,11 @@ msgstr "Sendeformat:"
 
 #: plugins/icq/icqconfigbase.cc:211
 msgid "Accept in &occupied mode"
-msgstr "Im &beschäftigt-Modus akzeptieren"
+msgstr "Im \"&Beschäftigt\"-Modus akzeptieren"
 
 #: plugins/icq/icqconfigbase.cc:212
 msgid "Accept in &DND mode"
-msgstr "Im &DND-Modus akzeptieren"
+msgstr "Im \"&DND\"-Modus akzeptieren"
 
 #: plugins/icq/icqconfigbase.cc:213
 msgid "Support &typing notification"
