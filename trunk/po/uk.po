@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2002-11-29 13:10+0300\n"
-"PO-Revision-Date: 2002-11-26 23:16+0200\n"
+"PO-Revision-Date: 2002-11-29 13:51+0200\n"
 "Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1740,8 +1740,7 @@ msgstr "%1 від %2"
 
 #: mainwin.cpp:1225 ui/logindlg.cpp:140
 msgid "Can't connect to proxy server"
-msgstr ""
-"Неможливо з'єднатися з проксі-сервером"
+msgstr "Неможливо з'єднатися з проксі-сервером"
 
 #: mainwin.cpp:1231 ui/logindlg.cpp:147
 msgid "Proxy server require authorization"
@@ -1773,8 +1772,7 @@ msgstr "&Ні"
 
 #: mainwin.cpp:1906
 msgid "Add %1 to ignore list ?"
-msgstr ""
-"Додати \"%1\" в список тих що ігноруються?"
+msgstr "Додати \"%1\" в список тих що ігноруються?"
 
 #: mainwin.cpp:1970
 msgid "In visible list"
@@ -2173,8 +2171,7 @@ msgstr "Розмір: %1 / Максимальний: %2"
 
 #: msgedit.cpp:1554
 msgid "Message will be split"
-msgstr ""
-"Повідомлення буде розділено на частини"
+msgstr "Повідомлення буде розділено на частини"
 
 #: msgedit.cpp:1729
 msgid "Decline reason"
@@ -2727,9 +2724,8 @@ msgid "Key shortcuts"
 msgstr "Гарячі кнопки"
 
 #: ui/setupdlg.cpp:137 ui/userinfo.cpp:91
-#, fuzzy
 msgid "Accept"
-msgstr "&Прийняти"
+msgstr "Прийняти"
 
 #: ui/setupdlg.cpp:138
 msgid "SMS"
@@ -2950,8 +2946,7 @@ msgstr "П&орт:"
 # #
 #: ui/acceptbase.cpp:173 ui/msgbase.cpp:94
 msgid "Automaitcaly open window"
-msgstr ""
-"Автоматично відкривати вікно повідомлень"
+msgstr "Автоматично відкривати вікно повідомлень"
 
 #: ui/acceptbase.cpp:174 ui/acceptbase.cpp:177 ui/msgbase.cpp:90
 msgid "Override global settings"
@@ -3471,15 +3466,15 @@ msgstr "&Різні налагодження"
 
 #: ui/miscsetupbase.cpp:153
 msgid "A&utomatically add new user to KAddressBook"
-msgstr ""
+msgstr "А&втоматично додати нових користувачів до KAddressBook"
 
 #: ui/miscsetupbase.cpp:154
 msgid "&Synchronize now"
-msgstr ""
+msgstr "&Cинхронізувати зараз"
 
 #: ui/miscsetupbase.cpp:155
 msgid "&Addressbook synchronization"
-msgstr ""
+msgstr "С&инхронізація з адресною книжкою"
 
 #: ui/soundsetupbase.cpp:228
 msgid "&Override sounds"
@@ -3535,7 +3530,7 @@ msgstr "Використовувати звуковий сервер"
 
 #: ui/soundsetupbase.cpp:242
 msgid "&Program"
-msgstr ""
+msgstr "&Програма"
 
 #: ui/phonebookbase.cpp:120
 msgid "User is currently available at:"
@@ -3661,8 +3656,7 @@ msgstr "&Прозорість"
 
 #: ui/themesetupbase.cpp:204
 msgid "Show main window in task manager"
-msgstr ""
-"Показувати основне вікно в панелі задач"
+msgstr "Показувати основне вікно в панелі задач"
 
 #: ui/themesetupbase.cpp:205
 msgid "Show user window in task manager"
@@ -3689,7 +3683,6 @@ msgid "Use emotional &icons"
 msgstr "Використовувати &смайлики"
 
 #: ui/themesetupbase.cpp:211
-#, fuzzy
 msgid "Lnaguage:"
 msgstr "Мова:"
 
@@ -3720,8 +3713,7 @@ msgid "Hide main window after"
 msgstr "Сховати головне вікно"
 
 #: ui/statussetupbase.cpp:141
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Заборонити попередження в стані "
 "\"Відійшов\", \"Не активний\", \"Зайнятий\""
@@ -3831,27 +3823,24 @@ msgid "&EMail"
 msgstr "&Пошта"
 
 #: ui/maininfobase.cpp:327
-#, fuzzy
 msgid "Status:"
-msgstr "Статус"
+msgstr "Статус:"
 
 #: ui/maininfobase.cpp:328
-#, fuzzy
 msgid "Online:"
-msgstr "В мережі"
+msgstr "В мережі:"
 
 #: ui/maininfobase.cpp:330
 msgid "External IP:"
-msgstr ""
+msgstr "Зовнішній IP:"
 
 #: ui/maininfobase.cpp:331
 msgid "Internal IP:"
-msgstr ""
+msgstr "Внутрішній IP:"
 
 #: ui/maininfobase.cpp:332
-#, fuzzy
 msgid "Client:"
-msgstr "Клієнт ICQ"
+msgstr "Клієнт:"
 
 #: ui/homeinfobase.cpp:166
 msgid "Time zone:"
@@ -3915,8 +3904,7 @@ msgstr ""
 
 #: ui/generalsecbase.cpp:196
 msgid "Reject &URL from unknown users"
-msgstr ""
-"Відкидати &URL від невідомих користувачів"
+msgstr "Відкидати &URL від невідомих користувачів"
 
 #: ui/generalsecbase.cpp:197
 msgid "Reject &World Wide pager messages"
@@ -4005,8 +3993,7 @@ msgstr "..."
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Ця програма поширюється під ліцензією GPL v2"
+msgstr "Ця програма поширюється під ліцензією GPL v2"
 
 #: client.cpp:55
 msgid "Unicode"
@@ -4659,3 +4646,4 @@ msgstr "? Невідомий статус %1"
 
 #~ msgid "Spell"
 #~ msgstr "Проверка орфографии"
+
