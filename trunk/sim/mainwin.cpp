@@ -119,13 +119,6 @@ static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
 #include <X11/extensions/scrnsaver.h>
 #endif
 
-#ifndef WIN32
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#include <X11/Xatom.h>
-#define XA_WINDOWMAKER_WM_PROTOCOLS      "_WINDOWMAKER_WM_PROTOCOLS"
-#endif
-
 #ifdef WIN32
 const unsigned short ABE_FLOAT   = (unsigned short)(-1);
 #endif
@@ -3106,7 +3099,7 @@ string MainWindow::getFullPath(const char *path, bool bIsDir)
     if (pClient->owner->Uin == 0)
         return "";
     char b[32];
-    snprintf(b, sizeof(b), "%u", pClient->owner->Uin);
+    snprintf(b, sizeof(b), "%lu", pClient->owner->Uin);
     string p;
     p = b;
 #ifdef WIN32

@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
-"POT-Creation-Date: 2002-12-12 15:08+0300\n"
+"POT-Creation-Date: 2002-12-13 08:04+0300\n"
 "PO-Revision-Date: 2002-12-11 13:04+0200\n"
 "Last-Translator: ismail donmez <voidcartman@yahoo.com>\n"
 "Language-Team: Türkçe <tr@li.org>\n"
@@ -1658,7 +1658,7 @@ msgstr "Yazı Rengi"
 msgid "Enter to chat"
 msgstr "Chate Gir"
 
-#: chatwnd.cpp:351 ui/filetransfer.cpp:250
+#: chatwnd.cpp:350 ui/filetransfer.cpp:250
 #, c-format
 msgid "Can't create %1"
 msgstr "%1 yaratılamadı"
@@ -1671,23 +1671,23 @@ msgstr "Bilinmeyen"
 msgid "Last online"
 msgstr "En son bağlantı"
 
-#: client.cpp:1080 cuser.cpp:216 userview.cpp:1294
+#: client.cpp:1100 cuser.cpp:216 userview.cpp:1294
 msgid "Online"
 msgstr "Bağlı"
 
-#: dock.cpp:942 mainwin.cpp:829
+#: dock.cpp:942 mainwin.cpp:870
 msgid "%1 from %2"
 msgstr "%2 den %1 alındı"
 
-#: dock.cpp:955 mainwin.cpp:2008
+#: dock.cpp:955 mainwin.cpp:1946
 msgid "Connecting"
 msgstr "Bağlanıyor"
 
-#: mainwin.cpp:453 monitor.cpp:133
+#: mainwin.cpp:442 monitor.cpp:133
 msgid "Error"
 msgstr "Hata"
 
-#: mainwin.cpp:454
+#: mainwin.cpp:443
 msgid ""
 "There is already an auto hidden window on this edge.\n"
 "Only one auto hidden window is allowed on each edge."
@@ -1695,320 +1695,324 @@ msgstr ""
 "Şu anda bu köşede otomatik-gizlenen bir pencere zaten var.\n"
 "Her köşede sadece bir otomatik-gizlenen pencere olabilir"
 
-#: mainwin.cpp:575
+#: mainwin.cpp:610
 msgid "Show &offline"
 msgstr "Bağlı &değil göster"
 
-#: mainwin.cpp:576
+#: mainwin.cpp:611
 msgid "&Group mode"
 msgstr "&Grup Modu"
 
-#: mainwin.cpp:578 mainwin.cpp:2756 usertbl.cpp:113
+#: mainwin.cpp:613 mainwin.cpp:2692 usertbl.cpp:113
 msgid "Status"
 msgstr "Bağlantı"
 
-#: mainwin.cpp:579
+#: mainwin.cpp:614
 msgid "&Menu"
 msgstr "&Menü"
 
-#: mainwin.cpp:581 mainwin.cpp:2752
+#: mainwin.cpp:616 mainwin.cpp:2688
 msgid "Find User"
 msgstr "Kullanıcı Bul"
 
-#: mainwin.cpp:582 mainwin.cpp:2753
+#: mainwin.cpp:617 mainwin.cpp:2689
 msgid "Add Non-IM contact"
 msgstr "Icq dışından kontak ekle"
 
-#: mainwin.cpp:583 mainwin.cpp:2754
+#: mainwin.cpp:618 mainwin.cpp:2690
 msgid "Send SMS"
 msgstr "SMS gönder"
 
-#: mainwin.cpp:584 mainwin.cpp:2758 ui/setupdlg.cpp:97
+#: mainwin.cpp:619 mainwin.cpp:2694 ui/setupdlg.cpp:97
 msgid "Setup"
 msgstr "Ayarlar"
 
-#: mainwin.cpp:585 mainwin.cpp:2769 monitor.cpp:59
+#: mainwin.cpp:620 mainwin.cpp:2705 monitor.cpp:59
 msgid "Network monitor"
 msgstr "Network monitörü"
 
-#: mainwin.cpp:673
+#: mainwin.cpp:707
 msgid "Current location"
 msgstr "Şu andaki adres"
 
-#: mainwin.cpp:674
+#: mainwin.cpp:708
 msgid "Phone status"
 msgstr "Telefon statüsü"
 
-#: mainwin.cpp:676
+#: mainwin.cpp:710
 msgid "Phone Book"
 msgstr "Telefon Defteri"
 
-#: mainwin.cpp:842
+#: mainwin.cpp:883
 msgid "AutoHide"
 msgstr "OtomatikGizle"
 
-#: mainwin.cpp:1254
+#: mainwin.cpp:1194
 msgid "%1 from %2 received"
 msgstr "%2 den %1 alındı!"
 
-#: mainwin.cpp:1291 ui/logindlg.cpp:140
+#: mainwin.cpp:1233 ui/logindlg.cpp:170
 msgid "Can't connect to proxy server"
 msgstr "Vekil sunucuya bağlanılamadı"
 
-#: mainwin.cpp:1298 ui/logindlg.cpp:147
+#: mainwin.cpp:1240 ui/logindlg.cpp:177
 msgid "Proxy server require authorization"
 msgstr "Vekil sunucu şifre istiyor"
 
-#: mainwin.cpp:1299 ui/logindlg.cpp:148
+#: mainwin.cpp:1241 ui/logindlg.cpp:178
 msgid "Invalid password for proxy"
 msgstr "Vekil sunucu için geçersiz şifre"
 
-#: mainwin.cpp:1314
+#: mainwin.cpp:1254
 msgid "Your UIN used from another location"
 msgstr "UIN'niz başka bi yerden kullanıldı"
 
-#: mainwin.cpp:1368
+#: mainwin.cpp:1309
 msgid "%1 is online"
 msgstr "%1 şu anda bağlı"
 
-#: mainwin.cpp:1984 mainwin.cpp:2315 ui/enable.cpp:122
+#: mainwin.cpp:1922 mainwin.cpp:2253 ui/enable.cpp:122
 msgid "&Yes"
 msgstr "&Evet"
 
-#: mainwin.cpp:1985 mainwin.cpp:2316 ui/enable.cpp:126
+#: mainwin.cpp:1923 mainwin.cpp:2254 ui/enable.cpp:126
 msgid "&No"
 msgstr "&Hayır"
 
-#: mainwin.cpp:1986
+#: mainwin.cpp:1924
 msgid "Add %1 to ignore list ?"
 msgstr "%1 i umursama listesine ekle?"
 
-#: mainwin.cpp:2050
+#: mainwin.cpp:1988
 msgid "In visible list"
 msgstr "Görünürler listesinde"
 
-#: mainwin.cpp:2052
+#: mainwin.cpp:1990
 msgid "In invisible list"
 msgstr "Görünmezler listesinde"
 
-#: mainwin.cpp:2055
+#: mainwin.cpp:1993
 msgid "In ignore list"
 msgstr "Umursama listesinde"
 
-#: mainwin.cpp:2071 mainwin.cpp:2759
+#: mainwin.cpp:2009 mainwin.cpp:2695
 msgid "Groups"
 msgstr "Gruplar"
 
-#: mainwin.cpp:2072 usertbl.cpp:391 userview.cpp:1683
+#: mainwin.cpp:2010 usertbl.cpp:391 userview.cpp:1683
 msgid "Delete"
 msgstr "Sil"
 
-#: mainwin.cpp:2073 userview.cpp:681 userview.cpp:1684
+#: mainwin.cpp:2011 userview.cpp:681 userview.cpp:1684
 msgid ""
 "_: Del\n"
 "Delete"
 msgstr "Sil"
 
-#: mainwin.cpp:2077
+#: mainwin.cpp:2015
 msgid "&User info"
 msgstr "&Kullanıcı Bilgisi"
 
-#: mainwin.cpp:2078
+#: mainwin.cpp:2016
 msgid ""
 "_: Ctrl+U\n"
 "UserInfo"
 msgstr "Ctrl+U"
 
-#: mainwin.cpp:2079
+#: mainwin.cpp:2017
 msgid "&History"
 msgstr "&Geçmiş"
 
-#: mainwin.cpp:2080
+#: mainwin.cpp:2018
 msgid ""
 "_: Ctrl+H\n"
 "History"
 msgstr "Ctrl+H"
 
-#: mainwin.cpp:2082 ui/setupdlg.cpp:129 ui/userinfo.cpp:90
+#: mainwin.cpp:2020 ui/setupdlg.cpp:129 ui/userinfo.cpp:90
 msgid "Alert"
 msgstr "Alarm"
 
-#: mainwin.cpp:2083
+#: mainwin.cpp:2021
 msgid ""
 "_: Ctrl+L\n"
 "Alert"
 msgstr "Ctrl+L"
 
-#: mainwin.cpp:2084 ui/acceptbase.cpp:179
+#: mainwin.cpp:2022 ui/acceptbase.cpp:179
 msgid "Accept mode"
 msgstr "Kabul Modu"
 
-#: mainwin.cpp:2085
+#: mainwin.cpp:2023
 msgid ""
 "_: Ctrl+A\n"
 "Accept"
 msgstr "Ctrl+A"
 
-#: mainwin.cpp:2086 ui/setupdlg.cpp:128 ui/userinfo.cpp:92
+#: mainwin.cpp:2024 ui/setupdlg.cpp:128 ui/userinfo.cpp:92
 msgid "Sound"
 msgstr "Ses"
 
-#: mainwin.cpp:2087
+#: mainwin.cpp:2025
 msgid ""
 "_: Ctrl+S\n"
 "Sound"
 msgstr "Ctrl+S"
 
-#: mainwin.cpp:2090
+#: mainwin.cpp:2028
 msgid "Floating off"
 msgstr "Floating kapalı"
 
-#: mainwin.cpp:2090
+#: mainwin.cpp:2028
 msgid "Floating on"
 msgstr "Floating açık"
 
-#: mainwin.cpp:2091
+#: mainwin.cpp:2029
 msgid ""
 "_: Ctrl+T\n"
 "Floating"
 msgstr "Ctrl+T"
 
-#: mainwin.cpp:2094
+#: mainwin.cpp:2032
 msgid "Users"
 msgstr "Kullanıcılar"
 
-#: mainwin.cpp:2095 ui/aboutdlgbase.cpp:156 ui/enable.cpp:125
-#: ui/filetransfer.cpp:156 ui/finddlgbase.cpp:66 ui/logindlgbase.cpp:115
+#: mainwin.cpp:2033 ui/aboutdlgbase.cpp:156 ui/enable.cpp:125
+#: ui/filetransfer.cpp:156 ui/finddlgbase.cpp:66 ui/logindlgbase.cpp:124
 #: ui/proxydlgbase.cpp:172 ui/securedlg.cpp:62 ui/setupdlgbase.cpp:94
 #: ui/toolsetupbase.cpp:136 ui/userautoreply.cpp:76
 msgid "&Close"
 msgstr "&Kapat"
 
-#: mainwin.cpp:2096
+#: mainwin.cpp:2034
 msgid ""
 "_: Ctrl+C\n"
 "Close"
 msgstr "Ctrl+C"
 
-#: mainwin.cpp:2098
+#: mainwin.cpp:2036
 msgid "Alphabetically sort"
 msgstr "Alfabetik Sırala"
 
-#: mainwin.cpp:2099
+#: mainwin.cpp:2037
 msgid ""
 "_: Ctrl+B\n"
 "Alphabetically sort"
 msgstr "Ctrl+B"
 
-#: mainwin.cpp:2317
+#: mainwin.cpp:2255
 msgid "Delete %1?"
 msgstr " %1 i sil?"
 
-#: mainwin.cpp:2496
+#: mainwin.cpp:2434
 msgid "New"
 msgstr "Yeni"
 
-#: mainwin.cpp:2499
+#: mainwin.cpp:2437
 msgid "To container"
 msgstr "Bölüme Taşı"
 
-#: mainwin.cpp:2504
+#: mainwin.cpp:2442
 msgid "Read %1 message"
 msgstr "%1 mesajı oku"
 
-#: client.cpp:1093 mainwin.cpp:2734
+#: client.cpp:1113 mainwin.cpp:2670
 msgid "Invisible"
 msgstr "Görünmez"
 
-#: mainwin.cpp:2737
+#: mainwin.cpp:2673
 msgid "Don't show"
 msgstr "Gösterme"
 
-#: mainwin.cpp:2738
+#: mainwin.cpp:2674
 msgid "Available"
 msgstr "Ulaşılabilir"
 
-#: mainwin.cpp:2739
+#: mainwin.cpp:2675
 msgid "Busy"
 msgstr "Meşgul"
 
-#: mainwin.cpp:2742 userview.cpp:1685
+#: mainwin.cpp:2678 userview.cpp:1685
 msgid "Create group"
 msgstr "Grup yarat"
 
-#: mainwin.cpp:2744 userview.cpp:1694
+#: mainwin.cpp:2680 userview.cpp:1694
 msgid "Expand all"
 msgstr "Hepsini Aç"
 
-#: mainwin.cpp:2745 userview.cpp:1696
+#: mainwin.cpp:2681 userview.cpp:1696
 msgid "Collapse all"
 msgstr "Hepsini Kapat"
 
-#: mainwin.cpp:2747 toolbtn.cpp:688
+#: mainwin.cpp:2683 toolbtn.cpp:688
 msgid "Customize toolbar..."
 msgstr "Araç çubuğunu özelleştir..."
 
-#: mainwin.cpp:2750
+#: mainwin.cpp:2686
 msgid "ICQ"
 msgstr "ICQ"
 
-#: mainwin.cpp:2760
+#: mainwin.cpp:2696
 msgid "Phone \"Follow Me\""
 msgstr "Telefon"
 
-#: mainwin.cpp:2762
+#: mainwin.cpp:2698
 msgid "Shared files"
 msgstr "Dosyaları Paylaş"
 
-#: mainwin.cpp:2766
+#: mainwin.cpp:2702
 msgid "Always on top"
 msgstr "Daima en üstte"
 
-#: mainwin.cpp:2770
+#: mainwin.cpp:2706
 msgid "&Bug report"
 msgstr "&Hata Raporu"
 
-#: mainwin.cpp:2771
+#: mainwin.cpp:2707
 msgid "&About SIM"
 msgstr "&SIM Hakkında"
 
-#: mainwin.cpp:2773
+#: mainwin.cpp:2709
 msgid "About &KDE"
 msgstr "&KDE Hakkında"
 
-#: mainwin.cpp:2776
+#: mainwin.cpp:2712
+msgid "Change UIN"
+msgstr ""
+
+#: mainwin.cpp:2713
 msgid "Quit"
 msgstr "Çık"
 
-#: _translatorinfo.cpp:1 mainwin.cpp:2999
+#: _translatorinfo.cpp:1 mainwin.cpp:2929
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
 msgstr "Ismail Donmez"
 
-#: _translatorinfo.cpp:3 mainwin.cpp:3000
+#: _translatorinfo.cpp:3 mainwin.cpp:2930
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
 msgstr "voidcartman@yahoo.com"
 
-#: mainwin.cpp:3026
+#: mainwin.cpp:2956
 msgid "light"
 msgstr "hafif"
 
-#: mainwin.cpp:3030
+#: mainwin.cpp:2960
 msgid "demibold"
 msgstr "hafif kalın"
 
-#: mainwin.cpp:3034
+#: mainwin.cpp:2964
 msgid "bold"
 msgstr "kalın"
 
-#: mainwin.cpp:3038
+#: mainwin.cpp:2968
 msgid "black"
 msgstr "siyah"
 
-#: mainwin.cpp:3045
+#: mainwin.cpp:2975
 msgid "italic"
 msgstr "eğik"
 
@@ -2092,7 +2096,7 @@ msgstr "Yazım &Kontrolü"
 msgid "C&lose after send"
 msgstr "&Gönderdikten sonra kapat"
 
-#: msgedit.cpp:132 msgedit.cpp:358
+#: msgedit.cpp:132 msgedit.cpp:359
 msgid "&Send"
 msgstr "&Gönder"
 
@@ -2112,7 +2116,7 @@ msgstr "Telefon:"
 msgid "URL:"
 msgstr "URL:"
 
-#: msgedit.cpp:193 msgedit.cpp:1360 msgview.cpp:202
+#: msgedit.cpp:193 msgedit.cpp:1363 msgview.cpp:202
 msgid "File"
 msgstr "Dosya"
 
@@ -2120,65 +2124,65 @@ msgstr "Dosya"
 msgid "Drag users here"
 msgstr "Kullanıcıları mousela buraya sürükleyin"
 
-#: msgedit.cpp:348
+#: msgedit.cpp:349
 msgid "Sending"
 msgstr "Gönderiyor"
 
-#: msgedit.cpp:356 ui/addphonebase.cpp:138 ui/emaileditbase.cpp:92
+#: msgedit.cpp:357 ui/addphonebase.cpp:138 ui/emaileditbase.cpp:92
 #: ui/enable.cpp:125 ui/filetransfer.cpp:246 ui/filetransferbase.cpp:138
 #: ui/securedlgbase.cpp:70
 msgid "&Cancel"
 msgstr "&İptal"
 
-#: msgedit.cpp:492
+#: msgedit.cpp:493
 msgid "No files for transfer"
 msgstr "Transfer edicek dosya yok"
 
-#: msgedit.cpp:510
+#: msgedit.cpp:511
 msgid "Transfer started"
 msgstr "Transfer Başladı"
 
-#: msgedit.cpp:513
+#: msgedit.cpp:514
 msgid "Chat started"
 msgstr "Chat başladı"
 
-#: msgedit.cpp:582
+#: msgedit.cpp:583
 msgid "Message sent"
 msgstr "Mesaj Gönderildi"
 
-#: msgedit.cpp:585
+#: msgedit.cpp:586
 msgid "Send failed"
 msgstr "Gönderme başarısız"
 
-#: msgedit.cpp:867
+#: msgedit.cpp:868
 msgid "Next"
 msgstr "Sonraki"
 
-#: msgedit.cpp:878
+#: msgedit.cpp:879
 msgid "&New message"
 msgstr "&Yeni Mesaj"
 
-#: msgedit.cpp:920
+#: msgedit.cpp:921
 msgid "%1 (ICQ# %2) wrote:<br>\n"
 msgstr "%1 (ICQ# %2) yazdı:<br>\n"
 
-#: msgedit.cpp:1170
+#: msgedit.cpp:1173
 msgid "Save to"
 msgstr "Adrese kaydet"
 
-#: msgedit.cpp:1556
+#: msgedit.cpp:1559
 msgid "Size: %1 / Max. size: %2"
 msgstr "Büyüklük: %1 / Max. büyüklük: %2"
 
-#: msgedit.cpp:1560
+#: msgedit.cpp:1563
 msgid "Message will be split"
 msgstr "Mesaj parçalara bölünecek"
 
-#: msgedit.cpp:1735
+#: msgedit.cpp:1738
 msgid "Decline reason"
 msgstr "Reddetme nedeni"
 
-#: msgedit.cpp:1735
+#: msgedit.cpp:1738
 msgid "Please, input decline reason:"
 msgstr "Lütfen , reddetme sebebini girin:"
 
@@ -2202,7 +2206,7 @@ msgstr "Kontak listesine eklendi"
 msgid "Contact request"
 msgstr "Kontak İsteği"
 
-#: client.cpp:990 msgview.cpp:200
+#: client.cpp:1010 msgview.cpp:200
 #, c-format
 msgid ""
 "_n: File\n"
@@ -2245,28 +2249,7 @@ msgstr "&Sonraki sayfa"
 msgid "&Sort order"
 msgstr "&Sıralama biçimi"
 
-#: passwddlg.cpp:34 ui/logindlgbase.cpp:112
-msgid "Password:"
-msgstr "Şifre:"
-
-#: passwddlg.cpp:44 passwddlg.cpp:93 ui/logindlg.cpp:105 ui/searchbase.cpp:249
-#: ui/searchdlg.cpp:110
-msgid "Close"
-msgstr "Kapat"
-
-#: passwddlg.cpp:48
-msgid "Login"
-msgstr "Giriş"
-
-#: passwddlg.cpp:53 ui/logindlg.cpp:135
-msgid "Invalid password"
-msgstr "Geçersiz Şifre"
-
-#: passwddlg.cpp:68 ui/logindlg.cpp:72 ui/searchdlg.cpp:107
-msgid "Cancel"
-msgstr "İptal"
-
-#: sim.cpp:102
+#: sim.cpp:116
 msgid ""
 "_: Dear translator, please do not translate this string in any form, but "
 "pick the _right_ value out of NoPlural/TwoForms/French... If not sure what "
@@ -2275,27 +2258,27 @@ msgid ""
 "Definition of PluralForm - to be set by the translator of kdelibs.po"
 msgstr "NoPlural"
 
-#: sim.cpp:294
+#: sim.cpp:519
 msgid "SIM"
 msgstr "SIM"
 
-#: sim.cpp:296
+#: sim.cpp:521
 msgid "ICQ client"
 msgstr "ICQ programı"
 
-#: sim.cpp:303
+#: sim.cpp:528
 msgid "Maintainer"
 msgstr "Düzenleyici"
 
-#: sim.cpp:310
+#: sim.cpp:535
 msgid "Directory for files"
 msgstr "Dosyaların tutulacağı yer"
 
-#: sim.cpp:311
+#: sim.cpp:536
 msgid "Loglevel"
 msgstr "Log Düzeyi"
 
-#: sim.cpp:312
+#: sim.cpp:537
 msgid "Control socket"
 msgstr "Kontrol soketi"
 
@@ -2401,7 +2384,7 @@ msgstr "Ctrl+N"
 msgid "New group"
 msgstr "Yeni grup"
 
-#: client.cpp:1074 userview.cpp:1297
+#: client.cpp:1094 userview.cpp:1297
 msgid "Offline"
 msgstr "Bağlı değil"
 
@@ -2483,7 +2466,8 @@ msgstr " %1 Saniye içinde kapat"
 
 #: ui/addphonebase.cpp:139 ui/alertmsgbase.cpp:75 ui/autoreplybase.cpp:76
 #: ui/ballonmsg.cpp:194 ui/emaileditbase.cpp:93 ui/enable.cpp:122
-#: ui/proxydlgbase.cpp:171 ui/setupdlgbase.cpp:92 ui/toolsetupbase.cpp:134
+#: ui/logindlgbase.cpp:125 ui/proxydlgbase.cpp:171 ui/setupdlgbase.cpp:92
+#: ui/toolsetupbase.cpp:134
 msgid "&Ok"
 msgstr "&Tamam"
 
@@ -2503,7 +2487,7 @@ msgstr "Sesler(*.wav)"
 msgid "&Apply"
 msgstr "&Uygula"
 
-#: ui/enable.cpp:123 ui/logindlgbase.cpp:116
+#: ui/enable.cpp:123
 msgid "&Register"
 msgstr "&Kaydet"
 
@@ -2555,9 +2539,18 @@ msgstr "&Geç"
 msgid "File %1 exist"
 msgstr " %1 dosyası önceden mevcut"
 
-#: ui/generalsec.cpp:72
+#: ui/generalsec.cpp:73
 msgid "Confirm password does not match"
 msgstr "Onayla:Şifreler uyuşmuyor"
+
+#: ui/generalsec.cpp:76
+msgid "Input current password"
+msgstr ""
+
+#: ui/generalsec.cpp:81 ui/logindlg.cpp:85 ui/logindlg.cpp:165
+#: ui/logindlg.cpp:199
+msgid "Invalid password"
+msgstr "Geçersiz Şifre"
 
 #: ui/listsec.cpp:95 ui/setupdlg.cpp:152
 msgid "Visible list"
@@ -2666,6 +2659,14 @@ msgstr "Sayı"
 #: ui/phonebook.cpp:81
 msgid "Publish"
 msgstr "Yayınla"
+
+#: ui/logindlg.cpp:97 ui/searchdlg.cpp:107
+msgid "Cancel"
+msgstr "İptal"
+
+#: ui/logindlg.cpp:133 ui/searchbase.cpp:249 ui/searchdlg.cpp:110
+msgid "Close"
+msgstr "Kapat"
 
 #: ui/searchdlg.cpp:218
 msgid "No users was found"
@@ -2876,7 +2877,7 @@ msgstr "Nick:"
 msgid "Names"
 msgstr "Adlar"
 
-#: ui/logindlgbase.cpp:111 ui/searchbase.cpp:265
+#: ui/logindlgbase.cpp:120 ui/searchbase.cpp:265
 msgid "UIN:"
 msgstr "ICQ#:"
 
@@ -2931,7 +2932,7 @@ msgstr ""
 "Bu sadece karşı tarafta SIM ya da Licq varsa çalışır"
 
 #: ui/acceptbase.cpp:172 ui/alertdialogbase.cpp:229 ui/fontsetupbase.cpp:221
-#: ui/forwardsetupbase.cpp:62 ui/generalsecbase.cpp:185
+#: ui/forwardsetupbase.cpp:62 ui/generalsecbase.cpp:204
 #: ui/homeinfobase.cpp:160 ui/keysetupbase.cpp:143 ui/miscsetupbase.cpp:103
 #: ui/msgbase.cpp:63 ui/msgdialogbase.cpp:98 ui/networkbase.cpp:225
 #: ui/pastinfobase.cpp:154 ui/phonebase.cpp:152 ui/phonebookbase.cpp:123
@@ -2980,17 +2981,26 @@ msgstr ""
 "SMS'leri cevaplamak için şu şekilde mesaja başlayarak cevap "
 "atabilirsiniz: <UIN>:"
 
-#: ui/logindlgbase.cpp:110
-msgid "Registration"
-msgstr "Kayıt"
+#: ui/logindlgbase.cpp:119
+msgid "Login"
+msgstr "Giriş"
 
-#: ui/logindlgbase.cpp:113
-msgid "Use existing UIN"
-msgstr "Varolan UIN'i Kullan"
+#: ui/logindlgbase.cpp:121
+msgid "Password:"
+msgstr "Şifre:"
 
-#: ui/logindlgbase.cpp:114
+#: ui/logindlgbase.cpp:122 ui/phonebookbase.cpp:132
+msgid "&Delete"
+msgstr "&Sil"
+
+#: ui/logindlgbase.cpp:123
 msgid "&Proxy settings"
 msgstr "&Vekil sunucu ayarları"
+
+#: ui/logindlgbase.cpp:126
+#, fuzzy
+msgid "&Save password"
+msgstr "Şifreyi değiştir"
 
 #: ui/proxydlgbase.cpp:170
 msgid "Proxy settings"
@@ -3484,10 +3494,6 @@ msgstr "&Ekle"
 msgid "&Edit"
 msgstr "&Değiştir"
 
-#: ui/phonebookbase.cpp:132
-msgid "&Delete"
-msgstr "&Sil"
-
 #: ui/phonebookbase.cpp:133
 msgid ""
 "Note:\n"
@@ -3842,74 +3848,74 @@ msgstr "Zaman Dilimi:"
 msgid "&Home info"
 msgstr "&Ev bilgisi"
 
-#: ui/generalsecbase.cpp:186
+#: ui/generalsecbase.cpp:205
 msgid "My &authorization is required before users add me to Contact List"
 msgstr ""
 "Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
 
-#: ui/generalsecbase.cpp:187
+#: ui/generalsecbase.cpp:206
 msgid "Don't show my &IP-address"
 msgstr "&IP adresimi gizle"
 
-#: ui/generalsecbase.cpp:188
+#: ui/generalsecbase.cpp:207
 msgid "Allow other to view my &status from the Web"
 msgstr "&Bağlantı durumumun web'den kontrol edilebilmesine izin ver"
 
-#: ui/generalsecbase.cpp:189
+#: ui/generalsecbase.cpp:208
 msgid "I&gnore user authorization"
 msgstr "Kullanıcıdan &izin isteme"
 
-#: ui/generalsecbase.cpp:190
+#: ui/generalsecbase.cpp:209
 msgid "Direct connection"
 msgstr "Direk bağlantı"
 
-#: ui/generalsecbase.cpp:191
+#: ui/generalsecbase.cpp:210
 msgid "Allow &direct connection from any user"
 msgstr "Herhangi bir kullanıcıdan &direk bağlantıya izin ver"
 
-#: ui/generalsecbase.cpp:192
+#: ui/generalsecbase.cpp:211
 msgid "Allow direct connection from user listed in &contact list"
 msgstr "&Kontak listemdeki kullanıcılara direk bağlantı izni ver"
 
-#: ui/generalsecbase.cpp:193
+#: ui/generalsecbase.cpp:212
 msgid "Allow direct connection from user &upon authorization"
 msgstr "Direk bağlantıya benim &onayımla birlikte izin ver"
 
-#: ui/generalsecbase.cpp:194
+#: ui/generalsecbase.cpp:213
 msgid "&Security"
 msgstr "&Güvenlik"
 
-#: ui/generalsecbase.cpp:195
+#: ui/generalsecbase.cpp:214
 msgid "Reject &messages from unknown users"
 msgstr "Listemde olmayan kullanıcılardan gelen &mesajları reddet"
 
-#: ui/generalsecbase.cpp:196
+#: ui/generalsecbase.cpp:215
 msgid "Reject &URL from unknown users"
 msgstr "Listemde olmayan kullanıcılardan gelen &URL'leri reddet"
 
-#: ui/generalsecbase.cpp:197
+#: ui/generalsecbase.cpp:216
 msgid "Reject &World Wide pager messages"
 msgstr "&WWW-pager mesajlarını reddet"
 
-#: ui/generalsecbase.cpp:198
+#: ui/generalsecbase.cpp:217
 msgid "Reject &EmailExpress messages"
 msgstr "&Email-express mesajlarını reddet"
 
-#: ui/generalsecbase.cpp:199
+#: ui/generalsecbase.cpp:218
 msgid "Reject &other messages"
 msgstr "&Diğer mesajları reddet"
 
-#: ui/generalsecbase.cpp:200
+#: ui/generalsecbase.cpp:219
 msgid "&Reject"
 msgstr "&Reddet"
 
-#: ui/generalsecbase.cpp:201
+#: ui/generalsecbase.cpp:220
 msgid "Reject messages from unknown users contains this words or phrases:"
 msgstr ""
 "Bilinmeyen kullanıcılardan gelen mesajlar şu kelimeleri ya da cümleleri "
 "taşıyosa reddet : "
 
-#: ui/generalsecbase.cpp:202
+#: ui/generalsecbase.cpp:221
 msgid ""
 "Words are divided by any separators (space, comma, i.e.)\n"
 "Phrase (sequence of words) consists in quotas\n"
@@ -3923,19 +3929,29 @@ msgstr ""
 " * - örnek* örnek ile başlayan tüm msgları bloklamak için\n"
 "? - örn?k  şeklinde ise ? yerine herhangi bi kelime gelebilir örnek gibi"
 
-#: ui/generalsecbase.cpp:207
+#: ui/generalsecbase.cpp:226
 msgid "Spam &filter"
 msgstr "Spam &filtresi"
 
-#: ui/changepasswdbase.cpp:97 ui/generalsecbase.cpp:208
-msgid "New password:"
-msgstr "Yeni Şifre:"
-
-#: ui/changepasswdbase.cpp:90 ui/generalsecbase.cpp:209
+#: ui/changepasswdbase.cpp:90 ui/generalsecbase.cpp:227
 msgid "Retype new password:"
 msgstr "Yeni şifreyi tekrar girin:"
 
-#: ui/generalsecbase.cpp:210
+#: ui/changepasswdbase.cpp:97 ui/generalsecbase.cpp:228
+msgid "New password:"
+msgstr "Yeni Şifre:"
+
+#: ui/generalsecbase.cpp:229
+#, fuzzy
+msgid "Current password:"
+msgstr "Yeni Şifre:"
+
+#: ui/generalsecbase.cpp:230
+#, fuzzy
+msgid "S&ave password"
+msgstr "Şifreyi değiştir"
+
+#: ui/generalsecbase.cpp:231
 msgid "&Password"
 msgstr "&Şifre"
 
@@ -4007,11 +4023,15 @@ msgstr "Dock ikonuna çift tıkla"
 msgid "Show search window"
 msgstr "Arama penceresini göster"
 
-#: ui/logindlg.cpp:127
+#: ui/logindlg.cpp:46
+msgid "<New UIN>"
+msgstr ""
+
+#: ui/logindlg.cpp:157
 msgid "Unknown login error"
 msgstr "Bilinmeyen Giriş Hatası"
 
-#: ui/logindlg.cpp:131
+#: ui/logindlg.cpp:161
 msgid "Rate limit"
 msgstr "Deneme limiti"
 
@@ -4120,197 +4140,197 @@ msgstr ""
 msgid "We'd love to hear what you have to say. Join our chat.\n"
 msgstr "Seninde chatimize katılmanı çok istiyoruz.\n"
 
-#: client.cpp:986
+#: client.cpp:1006
 #, c-format
 msgid ""
 "_n: Message\n"
 "%n messages"
 msgstr "Mesaj "
 
-#: client.cpp:988
+#: client.cpp:1008
 #, c-format
 msgid ""
 "_n: Chat request\n"
 "%n chat requests"
 msgstr "Chat isteği"
 
-#: client.cpp:992
+#: client.cpp:1012
 #, c-format
 msgid ""
 "_n: URL\n"
 "%n URL"
 msgstr "URL"
 
-#: client.cpp:994
+#: client.cpp:1014
 #, c-format
 msgid ""
 "_n: Authorization request\n"
 "%n authorization requests"
 msgstr "İzin isteği"
 
-#: client.cpp:996
+#: client.cpp:1016
 #, c-format
 msgid ""
 "_n: Authorization refused\n"
 "%n authorizations refused"
 msgstr "İzin isteği reddedildi"
 
-#: client.cpp:998
+#: client.cpp:1018
 #, c-format
 msgid ""
 "_n: Authorization granted\n"
 "%n authorizations granted"
 msgstr "İzin kabul edildi"
 
-#: client.cpp:1000
+#: client.cpp:1020
 #, c-format
 msgid ""
 "_n: Added to contact list\n"
 "%n times added to contact list"
 msgstr "Kontak listesine ekledi"
 
-#: client.cpp:1002
+#: client.cpp:1022
 #, c-format
 msgid ""
 "_n: WWW-panel message\n"
 "%n WWW-panel messages"
 msgstr "WWW-panel mesajı"
 
-#: client.cpp:1004
+#: client.cpp:1024
 #, c-format
 msgid ""
 "_n: Email pager message\n"
 "%n Email pager messages"
 msgstr "Email pager mesajı"
 
-#: client.cpp:1006
+#: client.cpp:1026
 #, c-format
 msgid ""
 "_n: Contact list\n"
 "%n contact lists"
 msgstr "Kontak listesi"
 
-#: client.cpp:1008
+#: client.cpp:1028
 #, c-format
 msgid ""
 "_n: Contacts request\n"
 "%n contacts requests"
 msgstr "Kontak isteği"
 
-#: client.cpp:1010
+#: client.cpp:1030
 #, c-format
 msgid ""
 "_n: External unknown message\n"
 "%n unknown messages"
 msgstr "%n Bilinmeyen mesaj"
 
-#: client.cpp:1012
+#: client.cpp:1032
 #, c-format
 msgid ""
 "_n: SMS\n"
 "%n SMS"
 msgstr "SMS"
 
-#: client.cpp:1014
+#: client.cpp:1034
 #, c-format
 msgid ""
 "_n: SMS receipt\n"
 "%n SMS receipts"
 msgstr "SMS alıcısı"
 
-#: client.cpp:1016
+#: client.cpp:1036
 #, c-format
 msgid ""
 "_n: Email\n"
 "%n emails"
 msgstr "Email"
 
-#: client.cpp:1018
+#: client.cpp:1038
 #, c-format
 msgid ""
 "_n: Request secure channel\n"
 "%n requests secure channel"
 msgstr "%n Güvenli kanal iste"
 
-#: client.cpp:1020
+#: client.cpp:1040
 #, c-format
 msgid ""
 "_n: Close secure channel\n"
 "%n times close secure channel"
 msgstr "%n kere güvenli kanalı kapat"
 
-#: client.cpp:1024
+#: client.cpp:1044
 #, c-format
 msgid ""
 "_n: Unknown message\n"
 "%n unknown messages"
 msgstr "Bilinmeyen mesaj"
 
-#: client.cpp:1031
+#: client.cpp:1051
 msgid ""
 "_: Ctrl+N\n"
 "new"
 msgstr "Ctrl+N"
 
-#: client.cpp:1033
+#: client.cpp:1053
 msgid ""
 "_: Ctrl+B\n"
 "chat msg"
 msgstr "Ctrl+B"
 
-#: client.cpp:1035
+#: client.cpp:1055
 msgid ""
 "_: Ctrl+F\n"
 "File"
 msgstr "Ctrl+F"
 
-#: client.cpp:1037
+#: client.cpp:1057
 msgid ""
 "_: Ctrl+L\n"
 "URL"
 msgstr "Ctrl+L"
 
-#: client.cpp:1039
+#: client.cpp:1059
 msgid ""
 "_: Ctrl+R\n"
 "AuthRequest"
 msgstr "Ctrl+R"
 
-#: client.cpp:1041
+#: client.cpp:1061
 msgid ""
 "_: Ctrl+T\n"
 "Contacts"
 msgstr "Ctrl+T"
 
-#: client.cpp:1043
+#: client.cpp:1063
 msgid ""
 "_: Ctrl+S\n"
 "SMS"
 msgstr "Ctrl+S"
 
-#: client.cpp:1045
+#: client.cpp:1065
 msgid ""
 "_: Ctrl+E\n"
 "EMail"
 msgstr "Ctrl+E"
 
-#: client.cpp:1075
+#: client.cpp:1095
 msgid "Do not disturb"
 msgstr "Rahatsız Etmeyin"
 
-#: client.cpp:1076
+#: client.cpp:1096
 msgid "Occupied"
 msgstr "Meşgul"
 
-#: client.cpp:1077
+#: client.cpp:1097
 msgid "N/A"
 msgstr "N/A"
 
-#: client.cpp:1078
+#: client.cpp:1098
 msgid "Free for chat"
 msgstr "Chat için Boş"
 
-#: client.cpp:1079
+#: client.cpp:1099
 msgid "Away"
 msgstr "Uzakta"
 
@@ -4405,6 +4425,12 @@ msgstr "&Kayıt"
 #, c-format
 msgid "Can't create file %1"
 msgstr "%1 dosyası yaratılamadı"
+
+#~ msgid "Registration"
+#~ msgstr "Kayıt"
+
+#~ msgid "Use existing UIN"
+#~ msgstr "Varolan UIN'i Kullan"
 
 #, fuzzy
 #~ msgid "UTF-8"

@@ -28,6 +28,9 @@
 
 #ifndef WIN32
 #include <stdio.h>
+#include <pwd.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #else
 #include <windows.h>
 #include <shellapi.h>
@@ -38,10 +41,13 @@
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <kglobal.h>
+#include <kstddirs.h>
 #else
 #include <qapplication.h>
 #define I18N_NOOP(A)	(A)
 #endif
+
+#include <errno.h>
 
 #include <qfile.h>
 #include <qdir.h>
@@ -344,7 +350,7 @@ string buildFileName(const char *name)
             log(L_ERROR, "Can't get pwd");
         }
         if (s[s.size() - 1] != '/') s += '/';
-#ifndef USE_KDE
+#ifdef USE_KDE
         char *kdehome = getenv("KDEHOME");
         if (kdehome){
             s = kdehome;
@@ -573,7 +579,8 @@ int main(int argc, char *argv[])
     unsigned startUIN = pSplash->LastUIN;
     if (!pSplash->SavePassword) startUIN = 0;
     if (startUIN){
-        for (list<unsigned long>::iterator it = uins.begin(); it != uins.end(); ++it)
+	list<unsigned long>::iterator it;
+        for (it = uins.begin(); it != uins.end(); ++it)
             if ((*it) == startUIN) break;
         if (it == uins.end()) startUIN = 0;
     }

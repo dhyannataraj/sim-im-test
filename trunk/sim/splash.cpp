@@ -65,22 +65,6 @@ Splash::Splash()
     ::init(this, Splash_Params);
     pSplash = this;
     wnd = NULL;
-#ifdef USE_KDE
-    string kdeDir;
-    MainWindow::buildFileName(kdeDir, "", true, false);
-    if (kdeDir.length()) kdeDir = kdeDir.substr(0, kdeDir.length()-1);
-    struct stat st;
-    if (stat(kdeDir.c_str(), &st) < 0){
-        string mainDir;
-        MainWindow::buildFileName(mainDir, "", false, false);
-        if (mainDir.length()) mainDir = mainDir.substr(0, mainDir.length()-1);
-        if (stat(mainDir.c_str(), &st) >= 0){
-            if (rename(mainDir.c_str(), kdeDir.c_str()) < 0)
-                log(L_WARN, "Rename error %s %s [%s]", mainDir.c_str(),
-                    kdeDir.c_str(), strerror(errno));
-        }
-    }
-#endif
     string part;
     string file = buildFileName(SPLASH_CONF);
     QFile fs(QString::fromLocal8Bit(file.c_str()));
