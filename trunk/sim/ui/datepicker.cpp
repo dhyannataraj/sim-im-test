@@ -219,29 +219,29 @@ void DatePicker::showPopup()
 
 static char *month_name[] =
     {
-        I18N_NOOP("January"),
-        I18N_NOOP("February"),
-        I18N_NOOP("March"),
-        I18N_NOOP("April"),
-        I18N_NOOP("May"),
-        I18N_NOOP("June"),
-        I18N_NOOP("July"),
-        I18N_NOOP("August"),
-        I18N_NOOP("September"),
-        I18N_NOOP("October"),
-        I18N_NOOP("November"),
-        I18N_NOOP("December")
+        (char*)I18N_NOOP("January"),
+        (char*)I18N_NOOP("February"),
+        (char*)I18N_NOOP("March"),
+        (char*)I18N_NOOP("April"),
+        (char*)I18N_NOOP("May"),
+        (char*)I18N_NOOP("June"),
+        (char*)I18N_NOOP("July"),
+        (char*)I18N_NOOP("August"),
+        (char*)I18N_NOOP("September"),
+        (char*)I18N_NOOP("October"),
+        (char*)I18N_NOOP("November"),
+        (char*)I18N_NOOP("December")
     };
 
 static char *day_name[] =
     {
-        I18N_NOOP("Mon"),
-        I18N_NOOP("Tue"),
-        I18N_NOOP("Wed"),
-        I18N_NOOP("Thu"),
-        I18N_NOOP("Fri"),
-        I18N_NOOP("Sat"),
-        I18N_NOOP("Sun"),
+        (char*)I18N_NOOP("Mon"),
+        (char*)I18N_NOOP("Tue"),
+        (char*)I18N_NOOP("Wed"),
+        (char*)I18N_NOOP("Thu"),
+        (char*)I18N_NOOP("Fri"),
+        (char*)I18N_NOOP("Sat"),
+        (char*)I18N_NOOP("Sun"),
     };
 
 class MonthSpinBox : public QSpinBox
