@@ -290,7 +290,7 @@ QryPacket::QryPacket(MSNClient *client, const char *qry)
     md = md5(md.c_str());
     for (unsigned i = 0; i < md.length(); i++){
         char b[3];
-        sprintf(b, "%02x",md[i]);
+        sprintf(b, "%02x", md[i] & 0xFF);
         m_line += b;
     }
 }

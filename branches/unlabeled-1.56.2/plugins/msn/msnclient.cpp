@@ -846,8 +846,10 @@ void MSNClient::ping()
         return;
     time_t now;
     time(&now);
-    if ((unsigned)now >= m_pingTime + PING_TIMEOUT)
+    if ((unsigned)now >= m_pingTime + PING_TIMEOUT){
+        sendLine("PNG");
         m_pingTime = now;
+	}
     for (list<SBSocket*>::iterator it = m_SBsockets.begin(); it != m_SBsockets.end(); ++it)
         (*it)->timer(now);
     QTimer::singleShot(TYPING_TIME * 1000, this, SLOT(ping()));
