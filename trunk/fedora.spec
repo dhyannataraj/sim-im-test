@@ -1,9 +1,16 @@
-%define fdr_release %(fdr_release="`rpm -q --queryformat='%{VERSION}' fedora-release 2>/dev/null`" ; if test $? != 0 ; then fdr_release="" ; fi ; echo "$fdr_release")
-%define release %(release="`echo "%{fdr_release} * 10" | bc 2>/dev/null`" ; if test $? != 0 ; then release="" ; fi ; echo "$release")
+%define rh_release %(rh_release="`rpm -q --queryformat='%{VERSION}' redhat-release | grep -v install 2>/dev/null`" ; if test $? != 0 ; then rh_release="0" ; fi ; echo "$rh_release")
+%define fdr_release %(fdr_release="`rpm -q --queryformat='%{VERSION}' fedora-release | grep -v install 2>/dev/null`" ; if test $? != 0 ; then fdr_release="0" ; fi ; echo "$fdr_release")
+%define release 1
 
 Name: 		sim
-Version: 	0.9.2
-Release: 	1.fdr%{release}
+Version: 	0.9.3
+%if %{rh_release}
+Release: 	%{release}.rh%(dist_release="`echo "%{rh_release} * 10" | bc 2>/dev/null`" ; echo "$dist_release")
+Distribution:	Red Hat Linux %{rh_release}
+%else
+Release:	%{release}.fdr%(dist_release="`echo "%{rh_release} * 10" | bc 2>/dev/null`" ; echo "$dist_release")
+Distribution:	Fedora Core %{fdr_release}
+%endif
 Vendor: 	Vladimir Shutoff <shutoff@mail.ru>
 Packager:	Robert Scheck <sim@robert-scheck.de>
 Summary:  	SIM - Multiprotocol Instant Messenger
@@ -16,8 +23,7 @@ BuildRequires:	autoconf >= 2.52, automake >= 1.5
 BuildRequires:  gcc, gcc-c++, XFree86-devel, zlib-devel, libjpeg-devel, expat-devel, flex, libart_lgpl-devel, libpng-devel, gettext
 BuildRequires:  kdelibs-devel >= 3.0.0, qt-devel >= 3.0.0, openssl-devel, pcre-devel >= 3.9, arts-devel >= 1.0, sablotron-devel >= 1.0.1
 Requires:       kdebase >= 3.0.0, kdelibs >= 3.0.0, qt >= 3.0.0, openssl, arts >= 1.0, sablotron >= 1.0.1
-BuildRoot: 	/tmp/%{name}-%{version}-root
-Distribution: 	Fedora Core %{fdr_release}
+BuildRoot: 	%{_tmppath}/%{name}-%{version}-root
 Prefix:         /usr
 
 %description -l de
@@ -47,7 +53,6 @@ at: http://sim-icq.sourceforge.net/
 export QTDIR=/usr/lib/qt-3.1
 
 %setup
-
 make -f admin/Makefile.common
 CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" ./configure $LOCALFLAGS
 
@@ -89,6 +94,10 @@ rm -rf $RPM_BUILD_DIR/%{name}-%{version}
 %{_datadir}/icons/*/*/*/*
 
 %changelog
+* Fri Jan 02 2004 - Robert Scheck <sim@robert-scheck.de> - 0.9.3-1
+- Upgrade to 0.9.3
+- Merged Red Hat spec file into Fedora spec file
+
 * Fri Dec 26 2003 - Robert Scheck <sim@robert-scheck.de> - 0.9.2-1
 - Upgrade to 0.9.2
 - Added sablotron to requirements

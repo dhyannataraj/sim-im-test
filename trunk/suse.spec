@@ -3,12 +3,13 @@
 %define release %(release="`echo "%{suse_release} * 10" | bc 2>/dev/null`" ; if test $? != 0 ; then release="" ; fi ; echo "$release")
 
 Name:           sim
-Version:        0.9.2
+Version:        0.9.3
 Release:	1.suse%{release}
 Vendor:		Vladimir Shutoff <shutoff@mail.ru>
 Packager:	Christoph Thielecke <crissi99@gmx.de>
-Summary:	SIM - Simple Instant Messenger
-Copyright:	GPL
+Summary:        SIM - Multiprotocol Instant Messenger
+Summary(de):    SIM - Multiprotokoll Instant Messenger
+License:	GPL
 Group:		X11/KDE/Network
 URL: 		http://sim-icq.sourceforge.net/
 Source0: 	http://osdn.dl.sourceforge.net/sourceforge/sim-icq/%{name}-%{version}.tar.gz
@@ -19,6 +20,18 @@ Distribution:	SuSE Linux %{suse_release}
 
 # neededforbuild  kde3-devel-packages
 # usedforbuild    aaa_base aaa_dir aaa_version arts arts-devel autoconf automake base bash bindutil binutils bison bzip compat cpio cpp cracklib cyrus-sasl db devs diffutils docbook-dsssl-stylesheets docbook_3 e2fsprogs fam file fileutils findutils flex freetype2 freetype2-devel gawk gcc gcc-c++ gdbm gdbm-devel gettext glibc glibc-devel glibc-locale gpm grep groff gzip iso_ent jade_dsl kbd kdelibs3 kdelibs3-devel less libgcc libjpeg liblcms libmng libmng-devel libpng libpng-devel libstdc++ libstdc++-devel libtiff libtool libxcrypt libxml2 libxml2-devel libxslt libxslt-devel libz m4 make man mesa mesa-devel mesaglu mesaglu-devel mesaglut mesaglut-devel mesasoft mktemp modutils ncurses ncurses-devel net-tools netcfg openssl openssl-devel pam pam-devel pam-modules patch perl ps qt3 qt3-devel rcs readline rpm sed sendmail sh-utils shadow sp sp-devel strace syslogd sysvinit tar texinfo textutils timezone unzip util-linux vim xdevel xf86 xshared
+
+%description -l de
+SIM - Multiprotokoll Instant Messenger
+
+SIM (Simple Instant Messenger) ist ein Plugin-basierender
+open-source Instant Messenger, der verschiedene Protokolle
+(ICQ, Jabber, AIM, MSN) unterstuetzt. Dafuer wird die QT-
+Bibliothek und X11 (mit optionaler KDE-Unterstuetzung)
+verwendet.
+
+SIM hat sehr viele Features, viele von diesen sind
+aufgelistet unter: http://sim-icq.sourceforge.net/de/
 
 %description
 SIM - Multiprotocol Instant Messenger

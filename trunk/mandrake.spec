@@ -1,5 +1,5 @@
 %define name	sim
-%define version	0.9.2
+%define version	0.9.3
 %define release	1mdk
 
 %define major 0
@@ -15,10 +15,11 @@ License:	GPL
 Group:		Networking/Instant messaging
 Url:		http://sim-icq.sourceforge.net/
 BuildRoot:	%{_tmppath}/%{name}-buildroot
-Requires:	libqt3 > 3.0.4, kdelibs > 3.0
+Requires:	libqt3 > 3.0.4, kdelibs > 3.0, sablotron
 BuildRequires:	kdelibs-devel > 3.0
 BuildRequires:  autoconf2.5, automake1.7
 BuildRequires:	libfam-devel
+BuildRequires:  flex, sablotron-devel
 
 %description
 SIM - Multiprotocol Instant Messenger
@@ -63,6 +64,8 @@ rm -rf $RPM_BUILD_ROOT
 %setup -q
 
 %build
+WANT_AUTOCONF_2_5=1 gmake -f admin/Makefile.common
+
 # mdk libtool doesn't know the --tag option :-(
 for i in `find sim/ -name Makefile.in`; do perl -pi -e 's/^(LTCXXCOMPILE.*?)\s*--tag=CXX/$1/' "$i"; done
 for i in `find sim/ -name Makefile.in`; do perl -pi -e 's/^(CXXLINK.*?)\s*--tag=CXX/$1/' "$i"; done
@@ -118,6 +121,10 @@ EOF
 rm -r $RPM_BUILD_ROOT
 
 %changelog
+* Fri Jan 02 2004 Robert Scheck <sim@robert-scheck.de> 0.9.3-1mdk
+- Upgrade to 0.9.3
+- Added sablotron and flex to requirements
+
 * Sun Nov 23 2003 Robert Scheck <sim@robert-scheck.de> 0.9.2-1mdk
 - Upgrade to 0.9.2
 

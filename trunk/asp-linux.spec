@@ -1,16 +1,16 @@
 %define subversion 1
-%define date 20030917
-%define is_release 0
+%define date 20031105
+%define is_release 1
 %define desktop_file 1
 %define gkrellm 0
 
 Summary:   SIM - Simple Instant Messenger
 Name:      sim
-Version:   0.9
+Version:   0.9.1
 %if %{is_release}
 Release:   1asp
 %else
-Release:   0.%{date}.1asp
+Release:   1.%{date}.1asp
 %endif
 License:   GPL
 Url:       http://sim-icq.sourceforge.net/
@@ -25,11 +25,6 @@ BuildRequires:  qt-devel kdelibs-devel arts-devel /usr/bin/dos2unix /usr/bin/per
 %if %{desktop_file}
 BuildRequires: desktop-file-utils
 %endif
-#%if %{gkrellm}
-#BuildRequires: gkrellm-devel >= 2.1.0
-#%else
-#BuildConflicts: gkrellm-devel
-#%endif
 
 %description
 A simple ICQ client with v8 protocol support (2001) for X win system 
@@ -54,9 +49,9 @@ sim GKrellM2 plugin
 %setup -q -n sim
 %endif
 
-make -f admin/Makefile.common
-
 %build
+
+make -f admin/Makefile.common
 
 %if %{gkrellm}
 %configure
@@ -121,6 +116,18 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+
+* Tue Nov 11 2005 Leonid Kanter <leon@asplinux.ru> 0.9.1-1asp
+- 0.9.1
+
+* Wed Nov 05 2005 Leonid Kanter <leon@asplinux.ru>
+- Post-release 20031105 (should fix login problem after icq servers update)
+
+* Wed Oct 21 2003 Leonid Kanter <leon@asplinux.ru>
+- 20031021
+
+* Wed Sep 24 2003 Leonid Kanter <leon@asplinux.ru>
+- 20030924
 
 * Wed Sep 17 2003 Leonid Kanter <leon@asplinux.ru>
 - 20030917
