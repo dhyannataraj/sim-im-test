@@ -288,7 +288,7 @@
                         </property>
                         <property>
                             <name>text</name>
-                            <string>Note: For HTTP-pooling using proxy setings for HTTP</string>
+                            <string>Note: For HTTP-polling using proxy setings for HTTP</string>
                         </property>
                         <property>
                             <name>alignment</name>
