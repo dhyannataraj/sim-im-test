@@ -278,6 +278,7 @@ void MsgEdit::editFontChanged(const QFont &f)
 bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
 {
     m_type = msg->type();
+	m_userWnd->setMessageType(msg->type());
     m_bReceived = msg->getFlags() & MESSAGE_RECEIVED;
     QObject *processor = NULL;
     MsgReceived *rcv = NULL;
@@ -1018,43 +1019,70 @@ void MsgEdit::modeChanged()
     m_edit->setCtrlMode(CorePlugin::m_plugin->getSendOnEnter());
 }
 
-void *MsgEdit::processEvent(Event *e)
+bool MsgEdit::setType(unsigned type)
 {
-    if ((e->type() == EventContactChanged) && !m_bReceived){
-        if (((Contact*)(e->param()))->id() != (m_userWnd->m_id))
-            return NULL;
+            CommandDef *def;
+            def = CorePlugin::m_plugin->messageTypes.find(type);
+            if (def == NULL)
+                return false;
+            MessageDef *mdef = (MessageDef*)(def->param);
+            if (mdef->flags & MESSAGE_SILENT)
+                return false;
+            if (mdef->create == NULL)
+                return false;
+            Message *msg = mdef->create(NULL);
+            if (msg == NULL)
+                return false;
+            m_userWnd->setMessage(msg);
+            delete msg;
+			return true;
+}
+
+bool MsgEdit::adjustType()
+{
+	if (m_bReceived)
+		return true;
         Command cmd;
-        cmd->id = m_type;
         cmd->menu_id = MenuMessage;
         cmd->param = (void*)(m_userWnd->m_id);
+		cmd->id = m_userWnd->getMessageType();
+        Event e1(EventCheckState, cmd);
+        if ((m_userWnd->getMessageType() != m_type) && e1.process()){
+			if (setType(m_userWnd->getMessageType()))
+				return true;
+		}
+        cmd->id = m_type;
         Event e(EventCheckState, cmd);
         if (e.process())
-            return NULL;
+            return true;
         Event eMenu(EventGetMenuDef, (void*)MenuMessage);
         CommandsDef *cmdsMsg = (CommandsDef*)(eMenu.process());
         CommandsList itc(*cmdsMsg, true);
         CommandDef *c;
+		unsigned desired = m_userWnd->getMessageType();
+		bool bSet = false;
         while ((c = ++itc) != NULL){
             c->param = (void*)(m_userWnd->m_id);
             Event eCheck(EventCheckState, c);
             if (!eCheck.process())
                 continue;
-            CommandDef *def;
-            def = CorePlugin::m_plugin->messageTypes.find(c->id);
-            if (def == NULL)
-                continue;
-            MessageDef *mdef = (MessageDef*)(def->param);
-            if (mdef->flags & MESSAGE_SILENT)
-                continue;
-            if (mdef->create == NULL)
-                continue;
-            Message *msg = mdef->create(NULL);
-            if (msg == NULL)
-                continue;
-            setMessage(msg, false);
-            delete msg;
-            break;
+			if (setType(c->id)){
+				bSet = true;
+				break;
+			}
         }
+		m_userWnd->setMessageType(desired);
+		return bSet;
+}
+
+void *MsgEdit::processEvent(Event *e)
+{
+    if ((e->type() == EventContactChanged) && (((Contact*)(e->param()))->id() != m_userWnd->m_id)){
+		adjustType();
+        return NULL;
+    }
+    if (e->type() == EventClientChanged){
+		adjustType();
         return NULL;
     }
     if (e->type() == EventMessageReceived){

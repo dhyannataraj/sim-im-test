@@ -422,6 +422,7 @@ void Container::contactSelected(int)
     cmd->flags = BTN_PICT;
     Event e(EventCommandChange, cmd);
     m_bar->processEvent(&e);
+	setMessageType(userWnd->type());
     setIcon(Pict(cmd->icon));
     setCaption(userWnd->getLongName());
     m_bar->checkState();
