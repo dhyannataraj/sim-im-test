@@ -325,9 +325,9 @@ FileTransfer::FileTransfer(FileMessage *msg)
     m_totalBytes = 0;
     m_fileSize	 = 0;
     m_totalSize	 = 0;
-    m_realSpeed	 = 0;
     m_speed		 = 100;
     m_state		 = Unknown;
+	m_transferBytes = 0;
     if (msg->m_transfer)
         delete msg->m_transfer;
     msg->m_transfer = this;

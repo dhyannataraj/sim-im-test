@@ -838,8 +838,7 @@ void *MsgEdit::processEvent(Event *e)
             }
         }
     }
-    if ((e->type() == EventRealSendMessage) ||
-            (e->type() == EventMessageAcked)){
+    if (e->type() == EventRealSendMessage){
         MsgSend *s = (MsgSend*)(e->param());
         if (s->edit == this){
             sendMessage(s->msg);
@@ -946,7 +945,7 @@ void *MsgEdit::processEvent(Event *e)
         }
         return NULL;
     }
-    if (e->type() == EventMessageSent){
+    if ((e->type() == EventMessageSent) || (e->type() == EventMessageAcked)){
         Message *msg = (Message*)(e->param());
         if (msg == m_msg){
             QString err;

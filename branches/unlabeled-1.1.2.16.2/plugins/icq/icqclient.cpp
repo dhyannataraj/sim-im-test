@@ -1945,6 +1945,15 @@ void *ICQClient::processEvent(Event *e)
     }
     if (e->type() == EventMessageCancel){
         Message *msg = (Message*)(e->param());
+		list<Message*>::iterator it;
+		for (it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
+			if (*it == msg)
+				break;
+		if (it != m_processMsg.end()){
+			m_processMsg.erase(it);
+			delete msg;
+			return msg;
+		}
         if (msg->type() == MessageSMS){
             for (list<SendMsg>::iterator it = smsQueue.begin(); it != smsQueue.end(); ++it){
                 if ((*it).msg == msg){

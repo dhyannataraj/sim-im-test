@@ -695,11 +695,13 @@ protected:
 
     unsigned m_sendTime;
     unsigned m_sendSize;
+	unsigned m_transfer;
 
     virtual void processPacket();
     virtual void connect_ready();
     virtual bool error_state(const char *err, unsigned code);
     virtual void write_ready();
+    virtual void setSpeed(unsigned speed);
 
     void init();
     void startPacket(char cmd);

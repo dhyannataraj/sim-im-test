@@ -168,15 +168,21 @@ void *SoundPlugin::processEvent(Event *e)
     }
     if (e->type() == EventMessageSent){
         Message *msg = (Message*)(e->param());
-        if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
+		const char *err = msg->getError();
+		if (err && *err)
+			return NULL;
+        const char *sound = NULL;
+		if (msg->type() == MessageFile){
+			sound = getFileDone();
+		}else if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
             if ((msg->getFlags() & MESSAGE_MULTIPLY) && ((msg->getFlags() & MESSAGE_LAST) == 0))
                 return NULL;
-            const char *sound = getMessageSent();
-            if (sound && *sound &&
+	        sound = getMessageSent();
+		}
+           if (sound && *sound &&
                     (!getDisableAlert() || (core && (core->getManualStatus() == STATUS_ONLINE)))){
                 Event eSound(EventPlaySound, (void*)sound);
                 eSound.process();
-            }
         }
         return NULL;
     }

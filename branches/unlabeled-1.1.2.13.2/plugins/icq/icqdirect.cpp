@@ -734,11 +734,11 @@ void DirectClient::processPacket()
                         return;
                     }
                     ICQFileTransfer *ft = new ICQFileTransfer(static_cast<FileMessage*>(msg), m_data, m_client);
-                    ft->connect(static_cast<ICQFileMessage*>(m)->getPort());
                     Event e(EventMessageAcked, msg);
                     e.process();
                     m_queue.erase(it);
                     m_client->m_processMsg.push_back(msg);
+                    ft->connect(static_cast<ICQFileMessage*>(m)->getPort());
                 }
                 return;
             }
@@ -1327,6 +1327,7 @@ ICQFileTransfer::ICQFileTransfer(FileMessage *msg, ICQUserData *data, ICQClient 
     m_totalSize = msg->getSize();
     m_sendTime  = 0;
     m_sendSize  = 0;
+	m_transfer  = 0;
     m_f = new QFile;
 }
 
@@ -1387,11 +1388,15 @@ void ICQFileTransfer::processPacket()
                     }
                     m_file     = curFile;
                 }
-                m_bytes    = pos;
-                m_fileSize = m_f->size();
-                m_state    = Send;
-                if (m_notify)
+				m_totalBytes += pos;
+                m_bytes		  = pos;
+                m_fileSize    = m_f->size();
+                m_state       = Send;
+				FileTransfer::m_state = FileTransfer::Write;
+                if (m_notify){
                     m_notify->process();
+					m_notify->transfer(true);
+				}
                 write_ready();
                 break;
             }
@@ -1472,24 +1477,54 @@ void ICQFileTransfer::sendPacket(bool dump)
     m_socket->write();
 }
 
+void ICQFileTransfer::setSpeed(unsigned speed)
+{
+	FileTransfer::setSpeed(speed);
+	switch (m_state){
+	case InitSend:
+    case InitReceive:
+    case Send:
+    case Receive:
+    case Wait:
+		startPacket(FT_SPEED);
+		m_socket->writeBuffer.pack((unsigned long)m_speed);
+		sendPacket(true);
+		break;
+	default:
+		break;
+	}
+}
+
 void ICQFileTransfer::write_ready()
 {
     if (m_state != Send){
         DirectSocket::write_ready();
         return;
     }
+	if (m_transfer){
+		m_transferBytes += m_transfer;
+		m_transfer = 0;
+		if (m_notify)
+			m_notify->process();
+	}
     if (m_bytes >= m_fileSize){
         m_state = None;
         m_f->close();
         m_file++;
+		if (m_notify)
+			m_notify->transfer(false);
         if (m_file >= m_files){
             FileTransfer::m_state = FileTransfer::Done;
+			if (m_notify)
+				m_notify->process();
             m_socket->error_state("Done");
             return;
         }
         m_state = InitSend;
         sendFileInfo();
-        return;
+		if (m_notify)
+			m_notify->process();
+		return;
     }
     time_t now;
     time(&now);
@@ -1510,6 +1545,7 @@ void ICQFileTransfer::write_ready()
         m_socket->error_state("Read file error");
         return;
     }
+	m_transfer   = readn;
     m_bytes      += readn;
     m_totalBytes += readn;
     m_sendSize   += readn;
@@ -1533,14 +1569,14 @@ void ICQFileTransfer::sendFileInfo()
     if (m_notify)
         m_notify->process();
     string empty;
-    string s = it[m_file];
 #ifdef WIN32
-    const char *p = strrchr(s.c_str(), '\\');
+	int n = curFile.findRev('\\');
 #else
-    const char *p = strrchr(s.c_str(), '/');
+	int n = curFile.findRev('/');
 #endif
-    if (p) s = p + 1;
-    m_client->fromUnicode(QString::fromLocal8Bit(s.c_str()), m_data);
+	if (n >= 0)
+		curFile = curFile.mid(n + 1);
+    string s = m_client->fromUnicode(curFile, m_data);
     m_socket->writeBuffer << s << empty;
     m_socket->writeBuffer.pack((unsigned long)m_fileSize);
     m_socket->writeBuffer.pack((unsigned long)0);

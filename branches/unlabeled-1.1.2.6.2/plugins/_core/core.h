@@ -99,6 +99,7 @@ typedef struct CoreData
     char		*Unread;
     void		*NoShowAutoReply;
     unsigned	SortLexic;
+	unsigned	CloseTransfer;
 } CoreData;
 
 const unsigned CONTAINER_SIMPLE	= 0;
@@ -351,6 +352,7 @@ public:
     PROP_STR(Unread);
     PROP_STRLIST(NoShowAutoReply);
     PROP_BOOL(SortLexic);
+	PROP_BOOL(CloseTransfer);
 
     unsigned user_data_id;
     unsigned sms_data_id;
