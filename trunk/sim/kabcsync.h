@@ -20,7 +20,9 @@
 #define _KABCSYNC_H
 
 #include <qobject.h>
+#include <qstring.h>
 #include <kabc/addressee.h>
+#include <kabc/addressbook.h>
 
 #include "client.h"
 
@@ -34,11 +36,18 @@ public:
 	~KabcSync();
 protected:
 	bool m_bOpen;
+	AddressBook* m_pAB;
 public:
 	bool open(void);
 	void close(void);
+	void processUser(SIMUser& u);
 protected:
 	Addressee addresseeFromUser(SIMUser& u, Addressee* oldPers=NULL);
+	QString& getCountry(unsigned short code);
+public slots:
+	void processEvent(ICQEvent* e);
 };
+
+extern KabcSync* pSyncher;
 
 #endif

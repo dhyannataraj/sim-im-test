@@ -108,6 +108,7 @@ static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
 #include <kipc.h>
 #include <kaboutapplication.h>
 #include <kaboutkde.h>
+#include <kabcsync.h>
 #else
 #include "ui/kpopup.h"
 #endif
@@ -627,6 +628,11 @@ MainWindow::MainWindow(const char *name)
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     connect(pClient, SIGNAL(messageReceived(ICQMessage*)), this, SLOT(messageReceived(ICQMessage*)));
     connect(pClient, SIGNAL(messageRead(ICQMessage*)), this, SLOT(messageRead(ICQMessage*)));
+
+#ifdef USE_KDE
+	pSyncher=new KabcSync;
+	connect(pSyncher,SIGNAL(event(ICQEvent*)),pSyncher,SLOT(processEvent(ICQEvent*)));
+#endif
 
     menuStatus = new QPopupMenu(this);
     menuStatus->setCheckable(true);

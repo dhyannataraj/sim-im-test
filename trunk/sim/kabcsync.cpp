@@ -15,8 +15,13 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
+#include <kabc/stdaddressbook.h>
+
 #include "kabcsync.h"
+#include "country.h"
+
+KabcSync* pSyncher;
  
 KabcSync::KabcSync(void):QObject(),m_bOpen(false)
 {
@@ -31,15 +36,160 @@ KabcSync::~KabcSync()
 
 bool KabcSync::open(void)
 {
-
+	if (m_bOpen)
+		return false;
+		
+	m_pAB=StdAddressBook::self();
+	return true;
 }
 
 void KabcSync::close(void)
 {
 	m_bOpen=false;
+	StdAddressBook::save();
 }
 
 Addressee KabcSync::addresseeFromUser(SIMUser& u, Addressee* oldPers)
+{
+   Addressee pers;
+    QString str;
+
+    if (oldPers!=NULL)
+        pers=*oldPers;
+
+    if (pers.formattedName().isEmpty())
+        (u.FirstName.empty()&&u.LastName.empty())?pers.setFormattedName(QString::fromLocal8Bit(u.Nick.c_str())):pers.setNameFromString(QString::fromLocal8Bit((u.FirstName+" "+u.LastName).c_str()));
+
+    if (pers.nickName().isEmpty())
+        pers.setNickName(QString::fromLocal8Bit(u.Nick.c_str()));
+
+    pers.insertCustom("KADDRESSBOOK-X-CUSTOM","UIN",str.setNum(u.Uin));
+
+    if (pers.note().isEmpty())
+        pers.setNote(QString::fromLocal8Bit(u.Notes.c_str()));
+
+    list<EMailInfo*>::iterator it=u.EMails.begin();
+
+    if (it!=u.EMails.end())
+    {
+        pers.insertEmail((*it)->Email.c_str(),true);
+        it++;
+
+        while (it!=u.EMails.end())
+        {
+            pers.insertEmail((*it)->Email.c_str());
+            it++;
+        }
+    }
+
+    if (pers.url().isEmpty())
+        pers.setUrl(KURL(QString::fromLocal8Bit(u.Homepage.c_str())));
+
+    if (pers.organization().isEmpty())
+        pers.setOrganization(QString::fromLocal8Bit(u.WorkName.c_str()));
+
+    pers.insertPhoneNumber(PhoneNumber(QString::fromLocal8Bit(u.HomePhone.c_str()),PhoneNumber::Home));
+    pers.insertPhoneNumber(PhoneNumber(QString::fromLocal8Bit(u.HomeFax.c_str()),PhoneNumber::Home|PhoneNumber::Fax));
+    pers.insertPhoneNumber(PhoneNumber(QString::fromLocal8Bit(u.PrivateCellular.c_str()),PhoneNumber::Cell));
+    pers.insertPhoneNumber(PhoneNumber(QString::fromLocal8Bit(u.WorkPhone.c_str()),PhoneNumber::Work));
+    pers.insertPhoneNumber(PhoneNumber(QString::fromLocal8Bit(u.WorkFax.c_str()),PhoneNumber::Work|PhoneNumber::Fax));
+
+    Address home,work;
+    home.setType(Address::Home);
+    work.setType(Address::Work);
+
+    home.setLocality(QString::fromLocal8Bit(u.City.c_str()));
+    home.setRegion(QString::fromLocal8Bit(u.State.c_str()));
+    home.setStreet(QString::fromLocal8Bit(u.Address.c_str()));
+    home.setCountry(QString::fromLocal8Bit(getCountry(u.Country)));
+
+    work.setLocality(QString::fromLocal8Bit(u.WorkCity.c_str()));
+    work.setRegion(QString::fromLocal8Bit(u.WorkState.c_str()));
+    work.setStreet(QString::fromLocal8Bit(u.WorkAddress.c_str()));
+    work.setCountry(QString::fromLocal8Bit(getCountry(u.WorkCountry)));
+
+    if (oldPers==NULL) // because i'm too laaaaaazy to handle this properly right now
+    {
+        pers.insertAddress(home);
+        pers.insertAddress(work);
+    }
+
+    // TODO: handle all other fields (maybe)
+
+    return pers;
+}
+
+QString& KabcSync::getCountry(unsigned short code)
+{
+    int nC=0;
+    static QString str;
+    str.truncate(0);
+
+    while (languages[nC].nCode)
+    {
+        if (languages[nC].nCode==code)
+            return str=languages[nC].szName;
+        nC++;
+    }
+
+    return str;
+}
+
+//
+// add user to addressbook or update if already exists
+//
+
+void KabcSync::processUser(SIMUser& u)
+{
+	if (!m_bOpen)
+		return;
+
+	bool bFound=false;
+
+	if ((!u.inIgnore)&&(!u.notEnoughInfo()))
+	{
+		Addressee newPers;
+		if (!u.strKabUid.empty())
+		{
+			Addressee pers=m_pAB->findByUid(QString::fromLocal8Bit(u.strKabUid.c_str()));
+			if (!pers.isEmpty())
+			{
+				bFound=true;
+				newPers=pers;
+			}
+		}
+		else
+		{
+			list<EMailInfo*>::iterator it=u.EMails.begin();
+			while (it!=u.EMails.end())
+			{
+				Addressee::List li=m_pAB->findByEmail((*it)->Email.c_str());
+				Addressee::List::iterator lit=li.begin();
+				if (lit!=li.end())
+				{
+					bFound=true;
+					newPers=(*lit);
+					break;
+				}
+				it++;
+			}
+		}
+
+		Addressee pers;
+		if (bFound)
+			pers=addresseeFromUser(u,&newPers);
+		else
+			pers=addresseeFromUser(u);
+		
+		pers.dump();
+		
+		u.strKabUid=(const char*)pers.uid();
+		m_pAB->insertAddressee(pers);
+		pers.dump();
+	}
+}
+
+void KabcSync::processEvent(ICQEvent* e)
 {
 
 }
