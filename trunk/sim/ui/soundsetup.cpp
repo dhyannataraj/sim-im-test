@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "soundsetup.h"
+#include "soundsetup.h" 
 #include "icons.h"
 #include "mainwin.h"
 #include "splash.h"
@@ -110,7 +110,8 @@ void SoundSetup::disableToggled(bool bOn)
     edtFile->setEnabled(!bOn);
     edtChat->setEnabled(!bOn);
     edtStartup->setEnabled(!bOn);
-    chkArts->setEnabled(!bOn);
+    edtFileDone->setEnabled(!bOn);
+    chkArts->setEnabled(chkArts->isChecked());
 }
 
 string SoundSetup::sound(EditSound *edt)

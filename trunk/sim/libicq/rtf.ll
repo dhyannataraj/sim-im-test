@@ -158,8 +158,8 @@ void RTF2HTML::FlushOut()
         OutTag &t = *iter;
         switch (t.tag){
         case 1:
-	    if (t.param && ((unsigned)t.param <= (unsigned)colors.size())){	
-                color &c = colors[t.param-1];
+	    if ((unsigned)t.param < (unsigned)colors.size()){	
+                color &c = colors[t.param];
                 PrintUnquoted("<font color=\"#%02X%02X%02X\">", c.red, c.green, c.blue);
             }else{
 		t.tag = 100;
@@ -703,7 +703,7 @@ string RTF2HTML::Parse(const char *rtf, const char *_encoding)
                 int cmd_value = -1;
                 const char *p;
                 for (p = cmd; *p; p++, cmd_size++)
-                    if ((*p >= '0') && (*p <= '9')) break;
+                    if (((*p >= '0') && (*p <= '9')) || (*p == ' ')) break;
                 if (*p) cmd_value = atol(p);
                 for (p = cmds; *p; p += strlen(p) + 1, n_cmd++){
                     if (strlen(p) >  cmd_size) continue;
