@@ -75,7 +75,7 @@ QString Message::getPlainText()
 
 QString Message::getRichText()
 {
-    QString res = ((getFlags() & MESSAGE_RICHTEXT) != 0) ? getText() : quoteString(getText());
+    QString res = ((getFlags() & MESSAGE_RICHTEXT) != 0) ? getText() : QString("<p>") + quoteString(getText()) + "</p>";
     if ((getFlags() & MESSAGE_TRANSLIT) == 0)
         return res;
     return toTranslit(res);
