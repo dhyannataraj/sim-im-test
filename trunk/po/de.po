@@ -3543,7 +3543,7 @@ msgstr "Jung:"
 
 #: plugins/icq/aiminfobase.cc:292 plugins/icq/aimsearchbase.cc:282
 msgid "Street:"
-msgstr "Strasse:"
+msgstr "Straße:"
 
 #: plugins/icq/aiminfobase.cc:295 plugins/icq/aimsearchbase.cc:285
 msgid "Zip:"
@@ -5818,7 +5818,7 @@ msgstr "SSL-Fehler bei der SSL- Initialisierung"
 
 #: sim/sim.cpp:187
 msgid "Multiprotcol instant messenger"
-msgstr "Multiprotcol instant messenger"
+msgstr "Multiprotokol Instant Messenger"
 
 #: sim/sim.cpp:193
 msgid "Maintainer"
