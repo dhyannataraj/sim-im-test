@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sim\n"
-"POT-Creation-Date: 2002-10-05 05:20+0400\n"
+"POT-Creation-Date: 2002-10-10 11:17+0400\n"
 "PO-Revision-Date: 2002-08-10 21:23GMT\n"
 "Last-Translator: Salvatore Caligiore <caligiore@bigfoot.com>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "X-Generator: KBabel 0.9.5\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: client.cpp:82 libicq/country.cpp:7
+#: client.cpp:89 libicq/country.cpp:7
 msgid "Arabic"
 msgstr "Arabo"
 
@@ -64,7 +64,7 @@ msgstr "Olandese"
 msgid "English"
 msgstr "Inglese"
 
-#: client.cpp:71 libicq/country.cpp:19
+#: client.cpp:78 libicq/country.cpp:19
 #, fuzzy
 msgid "Esperanto"
 msgstr "Esperanto"
@@ -94,11 +94,11 @@ msgstr "Gaelico"
 msgid "German"
 msgstr "Tedesco"
 
-#: client.cpp:83 libicq/country.cpp:26
+#: client.cpp:90 libicq/country.cpp:26
 msgid "Greek"
 msgstr "Greco"
 
-#: client.cpp:84 libicq/country.cpp:27
+#: client.cpp:91 libicq/country.cpp:27
 msgid "Hebrew"
 msgstr "Ebraico"
 
@@ -123,7 +123,7 @@ msgstr "Indonesiano"
 msgid "Italian"
 msgstr "Italiano"
 
-#: client.cpp:91 client.cpp:92 client.cpp:93 libicq/country.cpp:33
+#: client.cpp:98 client.cpp:99 client.cpp:100 libicq/country.cpp:33
 msgid "Japanese"
 msgstr "Giapponese"
 
@@ -132,7 +132,7 @@ msgstr "Giapponese"
 msgid "Khmer"
 msgstr "Khmer"
 
-#: client.cpp:90 libicq/country.cpp:35
+#: client.cpp:97 libicq/country.cpp:35
 msgid "Korean"
 msgstr "Coreano"
 
@@ -218,7 +218,7 @@ msgstr "Tataro"
 msgid "Thai"
 msgstr "Tailandese"
 
-#: client.cpp:88 client.cpp:89 libicq/country.cpp:55
+#: client.cpp:95 client.cpp:96 libicq/country.cpp:55
 msgid "Turkish"
 msgstr "Turco"
 
@@ -1843,19 +1843,19 @@ msgstr "Maschio"
 msgid "Save"
 msgstr "Salva"
 
-#: chatwnd.cpp:82 msgedit.cpp:129
+#: chatwnd.cpp:82 msgedit.cpp:130
 msgid "Bold"
 msgstr "Grassetto"
 
-#: chatwnd.cpp:88 msgedit.cpp:136
+#: chatwnd.cpp:88 msgedit.cpp:137
 msgid "Italic"
 msgstr "Corsivo"
 
-#: chatwnd.cpp:94 msgedit.cpp:143
+#: chatwnd.cpp:94 msgedit.cpp:144
 msgid "Underline"
 msgstr "Sottolineato"
 
-#: chatwnd.cpp:99 msgedit.cpp:123
+#: chatwnd.cpp:99 msgedit.cpp:124
 msgid "Text color"
 msgstr "Colore del testo"
 
@@ -1872,436 +1872,439 @@ msgstr "Non puoi creare %1"
 msgid "Unknown"
 msgstr ""
 
-#: cuser.cpp:214
+#: cuser.cpp:323
 msgid "Last online"
 msgstr "Ultima volta in linea"
 
-#: client.cpp:905 cuser.cpp:222 userview.cpp:983
+#: client.cpp:924 cuser.cpp:331 userview.cpp:983
 msgid "Online"
 msgstr "In linea"
 
-#: dock.cpp:462 mainwin.cpp:485
+#: dock.cpp:461 mainwin.cpp:528
 #, fuzzy
 msgid "%1 from %2"
 msgstr "%1 da %2 ricevuto"
 
-#: dock.cpp:475 mainwin.cpp:1518
+#: dock.cpp:474 mainwin.cpp:1568
 msgid "Connecting"
 msgstr "Sto connettendo"
 
-#: editspell.cpp:267 msgedit.cpp:198 ui/setupdlg.cpp:153
+#: editspell.cpp:267 msgedit.cpp:199 ui/setupdlg.cpp:153
 msgid "Spell check"
 msgstr "Controllo ortografico"
 
-#: mainwin.cpp:340
+#: mainwin.cpp:382
 msgid "Current location"
 msgstr "Locazione Corrente"
 
-#: mainwin.cpp:341
+#: mainwin.cpp:383
 msgid "Phone status"
 msgstr ""
 
-#: mainwin.cpp:343
+#: mainwin.cpp:385
 msgid "Phone Book"
 msgstr ""
 
-#: mainwin.cpp:360
+#: mainwin.cpp:402
 msgid "Show offline"
 msgstr "Mostra offline"
 
-#: mainwin.cpp:364
+#: mainwin.cpp:406
 msgid "Group mode"
 msgstr "Modalità a gruppi"
 
-#: mainwin.cpp:376
+#: mainwin.cpp:418
 msgid "Menu"
 msgstr ""
 
-#: mainwin.cpp:841
+#: mainwin.cpp:885
 msgid "%1 from %2 received"
 msgstr "%1 da %2 ricevuto"
 
-#: mainwin.cpp:909 ui/logindlg.cpp:136
+#: mainwin.cpp:953 ui/logindlg.cpp:136
 msgid "Can't connect to proxy server"
 msgstr ""
 
-#: mainwin.cpp:915 ui/logindlg.cpp:143
+#: mainwin.cpp:959 ui/logindlg.cpp:143
 #, fuzzy
 msgid "Proxy server require authorization"
 msgstr "Richiesta Autorizzazione"
 
-#: mainwin.cpp:916 ui/logindlg.cpp:144
+#: mainwin.cpp:960 ui/logindlg.cpp:144
 #, fuzzy
 msgid "Invalid password for proxy"
 msgstr "Password invalida"
 
-#: mainwin.cpp:928
+#: mainwin.cpp:972
 msgid "Your UIN used from another location"
 msgstr "Il tuo UIN è usato in un altro posto"
 
-#: mainwin.cpp:979
-msgid "User %1 is online"
-msgstr "L'utente %1 è in linea"
+#: mainwin.cpp:1023
+#, fuzzy
+msgid "%1 is online"
+msgstr "è in linea"
 
-#: mainwin.cpp:1491 mainwin.cpp:1749 msgview.cpp:352
+#: mainwin.cpp:1541 mainwin.cpp:1799 msgview.cpp:352
 #, fuzzy
 msgid "&Yes"
 msgstr "Si"
 
-#: mainwin.cpp:1492 mainwin.cpp:1750 msgview.cpp:353
+#: mainwin.cpp:1542 mainwin.cpp:1800 msgview.cpp:353
 msgid "&No"
 msgstr ""
 
-#: mainwin.cpp:1493
-msgid "Add user %1 to ignore list ?"
+#: mainwin.cpp:1543
+#, fuzzy
+msgid "Add %1 to ignore list ?"
 msgstr "Aggiungi l'utente %1 alla lista degli ignorati?"
 
-#: mainwin.cpp:1560
+#: mainwin.cpp:1610
 msgid "In visible list"
 msgstr "Nella lista visibili"
 
-#: mainwin.cpp:1562
+#: mainwin.cpp:1612
 msgid "In invisible list"
 msgstr "Nella lista degli invisibili"
 
-#: mainwin.cpp:1565
+#: mainwin.cpp:1615
 msgid "In ignore list"
 msgstr "Nella lista degli ignorati"
 
-#: mainwin.cpp:1581 mainwin.cpp:2106
+#: mainwin.cpp:1631 mainwin.cpp:2156
 msgid "Groups"
 msgstr "Gruppi"
 
-#: mainwin.cpp:1582 usertbl.cpp:391 userview.cpp:503
+#: mainwin.cpp:1632 usertbl.cpp:391 userview.cpp:503
 msgid "Delete"
 msgstr "Cancella"
 
-#: mainwin.cpp:1586 ui/userinfo.cpp:55 userbox.cpp:171 userbox.cpp:362
+#: mainwin.cpp:1636 ui/userinfo.cpp:71 userbox.cpp:172 userbox.cpp:377
 #: usertbl.cpp:405
 #, fuzzy
 msgid "User info"
 msgstr "Utente"
 
-#: mainwin.cpp:1587 userbox.cpp:176 userbox.cpp:408
+#: mainwin.cpp:1637 userbox.cpp:177 userbox.cpp:423
 #, fuzzy
 msgid "History"
 msgstr "Carico History"
 
-#: mainwin.cpp:1589 ui/alertdialogbase.cpp:79 ui/setupdlg.cpp:143
-#: ui/userinfo.cpp:72
+#: mainwin.cpp:1639 ui/alertdialogbase.cpp:81 ui/setupdlg.cpp:143
+#: ui/userinfo.cpp:88
 msgid "Alert"
 msgstr "Avvisa"
 
-#: mainwin.cpp:1590 ui/acceptbase.cpp:137
+#: mainwin.cpp:1640 ui/acceptbase.cpp:137
 #, fuzzy
 msgid "Accept mode"
 msgstr "Accetta file"
 
-#: mainwin.cpp:1591 ui/setupdlg.cpp:141 ui/soundsetupbase.cpp:106
-#: ui/userinfo.cpp:74
+#: mainwin.cpp:1641 ui/setupdlg.cpp:141 ui/soundsetupbase.cpp:106
+#: ui/userinfo.cpp:90
 msgid "Sound"
 msgstr "Suono"
 
-#: mainwin.cpp:1594
+#: mainwin.cpp:1644
 msgid "Floating off"
 msgstr ""
 
-#: mainwin.cpp:1594
+#: mainwin.cpp:1644
 msgid "Floating on"
 msgstr ""
 
-#: mainwin.cpp:1597
+#: mainwin.cpp:1647
 msgid "Users"
 msgstr "Utenti"
 
-#: mainwin.cpp:1598 passwddlg.cpp:44 passwddlg.cpp:93 ui/logindlg.cpp:102
+#: mainwin.cpp:1648 passwddlg.cpp:44 passwddlg.cpp:93 ui/logindlg.cpp:102
 #: ui/searchbase.cpp:90 ui/searchdlg.cpp:110 ui/setupdlgbase.cpp:95
-#: userbox.cpp:193
+#: userbox.cpp:194
 msgid "Close"
 msgstr "Chiudi"
 
-#: mainwin.cpp:1751
-msgid "Delete user %1?"
+#: mainwin.cpp:1801
+#, fuzzy
+msgid "Delete %1?"
 msgstr "Cancella utente %1?"
 
-#: mainwin.cpp:1852 msgedit.cpp:954
+#: mainwin.cpp:1902 msgedit.cpp:950
 msgid "New"
 msgstr "Nuovo"
 
-#: mainwin.cpp:1855
+#: mainwin.cpp:1905
 msgid "To container"
 msgstr ""
 
-#: mainwin.cpp:1871
+#: mainwin.cpp:1921
 #, fuzzy
 msgid "Read %1 message"
 msgstr "%n messaggi non letti"
 
-#: client.cpp:918 mainwin.cpp:2083
+#: client.cpp:937 mainwin.cpp:2133
 msgid "Invisible"
 msgstr "Invisibile"
 
-#: mainwin.cpp:2086
+#: mainwin.cpp:2136
 msgid "Don't show"
 msgstr "Non mostrare"
 
-#: mainwin.cpp:2087
+#: mainwin.cpp:2137
 msgid "Available"
 msgstr "Disponibile"
 
-#: mainwin.cpp:2088
+#: mainwin.cpp:2138
 msgid "Busy"
 msgstr "Occupato"
 
-#: mainwin.cpp:2091 userview.cpp:504
+#: mainwin.cpp:2141 userview.cpp:504
 msgid "Create group"
 msgstr "Crea gruppo"
 
-#: mainwin.cpp:2093 userview.cpp:509
+#: mainwin.cpp:2143 userview.cpp:509
 msgid "Expand all"
 msgstr "Espandi tutto"
 
-#: mainwin.cpp:2094 userview.cpp:510
+#: mainwin.cpp:2144 userview.cpp:510
 msgid "Collapse all"
 msgstr ""
 
-#: mainwin.cpp:2097
+#: mainwin.cpp:2147
 msgid "ICQ"
 msgstr ""
 
-#: mainwin.cpp:2099
+#: mainwin.cpp:2149
 msgid "Find User"
 msgstr "Trova Utente"
 
-#: mainwin.cpp:2100
+#: mainwin.cpp:2150
 msgid "Add Non-IM contact"
 msgstr "Aggiungi contatto Non IM"
 
-#: mainwin.cpp:2101
+#: mainwin.cpp:2151
 #, fuzzy
 msgid "Send SMS"
 msgstr "Invia &S"
 
-#: mainwin.cpp:2103 ui/statussetupbase.cpp:79 usertbl.cpp:113
+#: mainwin.cpp:2153 ui/statussetupbase.cpp:79 usertbl.cpp:113
 #, fuzzy
 msgid "Status"
 msgstr "Stato:"
 
-#: mainwin.cpp:2105 ui/setupdlg.cpp:110
+#: mainwin.cpp:2155 ui/setupdlg.cpp:110
 msgid "Setup"
 msgstr ""
 
-#: mainwin.cpp:2107
+#: mainwin.cpp:2157
 msgid "Phone \"Follow Me\""
 msgstr ""
 
-#: mainwin.cpp:2109
+#: mainwin.cpp:2159
 #, fuzzy
 msgid "Shared files"
 msgstr "Invio fallito"
 
-#: mainwin.cpp:2113
+#: mainwin.cpp:2163
 msgid "Always on top"
 msgstr "Sempre in primo piano"
 
-#: mainwin.cpp:2116
+#: mainwin.cpp:2166
 msgid "&Bug report"
 msgstr ""
 
-#: mainwin.cpp:2117
+#: mainwin.cpp:2167
 #, fuzzy
 msgid "&About SIM"
 msgstr "Gibuti"
 
-#: mainwin.cpp:2119
+#: mainwin.cpp:2169
 #, fuzzy
 msgid "About &KDE"
 msgstr "Gibuti"
 
-#: mainwin.cpp:2122
+#: mainwin.cpp:2172
 msgid "Quit"
 msgstr "Chiudi"
 
-#: _translatorinfo.cpp:1 mainwin.cpp:2309
+#: _translatorinfo.cpp:1 mainwin.cpp:2359
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
 msgstr "Salvatore Caligiore"
 
-#: _translatorinfo.cpp:3 mainwin.cpp:2310
+#: _translatorinfo.cpp:3 mainwin.cpp:2360
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
 msgstr "caligiore@bigfoot.com"
 
-#: mainwin.cpp:2333
+#: mainwin.cpp:2383
 msgid "light"
 msgstr "luce"
 
-#: mainwin.cpp:2337
+#: mainwin.cpp:2387
 msgid "demibold"
 msgstr "grassetto"
 
-#: mainwin.cpp:2341
+#: mainwin.cpp:2391
 msgid "bold"
 msgstr "grassetto"
 
-#: mainwin.cpp:2345
+#: mainwin.cpp:2395
 msgid "black"
 msgstr "nero"
 
-#: mainwin.cpp:2352
+#: mainwin.cpp:2402
 msgid "italic"
 msgstr "corsivo"
 
-#: msgedit.cpp:76
+#: msgedit.cpp:77
 msgid "Decline file without reason"
 msgstr "Declina il file senza ragione"
 
-#: msgedit.cpp:78
+#: msgedit.cpp:79
 msgid "Sorry, I'm busy right now, and can not respond to your request"
 msgstr ""
 "Mi spiace, sono occupato ora, e non posso rispondere alla tua richiesta"
 
-#: msgedit.cpp:80
+#: msgedit.cpp:81
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
 msgstr "Mi spiace, sono occupato ora, ma ti riisponderò più tardi"
 
-#: msgedit.cpp:82
+#: msgedit.cpp:83
 msgid "Enter a decline reason"
 msgstr "Metti una ragione di declino"
 
-#: msgedit.cpp:117
+#: msgedit.cpp:118
 msgid "Background color"
 msgstr "Colore di sfondo"
 
-#: msgedit.cpp:150
+#: msgedit.cpp:151
 #, fuzzy
 msgid "Text font"
 msgstr "Colore del testo"
 
-#: msgedit.cpp:156
+#: msgedit.cpp:157
 msgid "Insert smile"
 msgstr ""
 
-#: msgedit.cpp:163
+#: msgedit.cpp:164
 msgid "&Grant"
 msgstr "Concedi &G"
 
-#: msgedit.cpp:168
+#: msgedit.cpp:169
 msgid "&Refuse"
 msgstr "&Rifiuta"
 
-#: msgedit.cpp:173
+#: msgedit.cpp:174
 msgid "&Accept"
 msgstr "&Accetta"
 
-#: msgedit.cpp:179
+#: msgedit.cpp:180
 msgid "&Decline"
 msgstr "&Declina"
 
-#: msgedit.cpp:183
+#: msgedit.cpp:184
 msgid "&Reply"
 msgstr "&Rispondi"
 
-#: msgedit.cpp:188
+#: msgedit.cpp:189
 msgid "&Quote"
 msgstr "&Quota"
 
-#: msgedit.cpp:193
+#: msgedit.cpp:194
 msgid "&Forward"
 msgstr "Inoltra &F"
 
-#: msgedit.cpp:205
+#: msgedit.cpp:206
 msgid "C&lose after send"
 msgstr "Chiudi dopo &l'invio"
 
-#: msgedit.cpp:214 msgedit.cpp:419
+#: msgedit.cpp:215 msgedit.cpp:415
 msgid "&Send"
 msgstr "Invia &S"
 
-#: msgedit.cpp:219
+#: msgedit.cpp:220
 #, fuzzy
 msgid "&Next"
 msgstr "Prossimo"
 
-#: msgedit.cpp:225
+#: msgedit.cpp:226
 msgid "Multiply send"
 msgstr "Invio multiplo"
 
-#: msgedit.cpp:232
+#: msgedit.cpp:233
 msgid "Phone:"
 msgstr ""
 
-#: msgedit.cpp:241
+#: msgedit.cpp:242
 msgid "URL:"
 msgstr ""
 
-#: msgedit.cpp:248 msgedit.cpp:1407 msgview.cpp:200
+#: msgedit.cpp:249 msgedit.cpp:1403 msgview.cpp:200
 #, fuzzy
 msgid "File"
 msgstr "Cile"
 
-#: msgedit.cpp:255
+#: msgedit.cpp:256
 msgid "Drag users here"
 msgstr "Trascina gli utenti qui"
 
-#: msgedit.cpp:409
+#: msgedit.cpp:405
 msgid "Sending"
 msgstr "Inviando"
 
-#: msgedit.cpp:417 ui/addphonebase.cpp:103 ui/emaileditbase.cpp:61
+#: msgedit.cpp:413 ui/addphonebase.cpp:103 ui/emaileditbase.cpp:61
 #: ui/filetransfer.cpp:235 ui/filetransferbase.cpp:117
 #, fuzzy
 msgid "&Cancel"
 msgstr "Annulla"
 
-#: msgedit.cpp:551
+#: msgedit.cpp:546
 msgid "No files for transfer"
 msgstr ""
 
-#: msgedit.cpp:569
+#: msgedit.cpp:564
 msgid "Transfer started"
 msgstr "Trasferimento iniziato"
 
-#: msgedit.cpp:572
+#: msgedit.cpp:567
 msgid "Chat started"
 msgstr "Chat iniziata"
 
-#: msgedit.cpp:639
+#: msgedit.cpp:635
 msgid "Message sent"
 msgstr "Messaggio inviato"
 
-#: msgedit.cpp:642
+#: msgedit.cpp:638
 msgid "Send failed"
 msgstr "Invio fallito"
 
-#: msgedit.cpp:951
+#: msgedit.cpp:947
 msgid "Next"
 msgstr "Prossimo"
 
-#: msgedit.cpp:994
+#: msgedit.cpp:990
 msgid "%1 (ICQ# %2) wrote:<br>\n"
 msgstr "%1 (ICQ# %2) scritto:<br>\n"
 
-#: msgedit.cpp:1216
+#: msgedit.cpp:1212
 #, fuzzy
 msgid "Save to"
 msgstr "Salva"
 
-#: msgedit.cpp:1608
+#: msgedit.cpp:1604
 msgid "Size: %1 / Max. size: %2"
 msgstr ""
 
-#: msgedit.cpp:1612
+#: msgedit.cpp:1608
 msgid "Message will be split"
 msgstr "Il messaggio sarà diviso"
 
-#: msgedit.cpp:1782
+#: msgedit.cpp:1778
 msgid "Decline reason"
 msgstr "Ragione di declino"
 
-#: msgedit.cpp:1782
+#: msgedit.cpp:1778
 msgid "Please, input decline reason:"
 msgstr "Per favore, introduci la ragione di declino"
 
@@ -2325,7 +2328,7 @@ msgstr "Aggiunto alla lista contatti"
 msgid "Contact request"
 msgstr "Richiesta contatti"
 
-#: client.cpp:840 msgview.cpp:198
+#: client.cpp:859 msgview.cpp:198
 #, c-format
 msgid ""
 "_n: File\n"
@@ -2418,24 +2421,24 @@ msgstr ""
 msgid "Default style"
 msgstr ""
 
-#: userbox.cpp:158
+#: userbox.cpp:159
 msgid "Add to ignore list"
 msgstr "Aggiungi alla lista ignorati"
 
-#: userbox.cpp:165
+#: userbox.cpp:166
 msgid "Move to group"
 msgstr "Sposta al gruppo"
 
-#: userbox.cpp:189
+#: userbox.cpp:190
 #, fuzzy
 msgid "Encoding"
 msgstr "Inviando"
 
-#: userbox.cpp:318
+#: userbox.cpp:333
 msgid "All users"
 msgstr "Tutti gli utenti"
 
-#: userbox.cpp:988
+#: userbox.cpp:1029
 msgid "History loading"
 msgstr "Carico History"
 
@@ -2505,7 +2508,7 @@ msgstr ""
 msgid "Secure channel request failed"
 msgstr ""
 
-#: client.cpp:899 userview.cpp:986
+#: client.cpp:918 userview.cpp:986
 #, fuzzy
 msgid "Offline"
 msgstr "In linea"
@@ -2560,11 +2563,11 @@ msgstr ""
 msgid "Confirm password does not match"
 msgstr "Conferma password non identica"
 
-#: ui/editfile.cpp:72
+#: ui/editfile.cpp:77
 msgid "Directory for incoming files"
 msgstr "Cartella per file ricevuti"
 
-#: ui/editfile.cpp:98
+#: ui/editfile.cpp:103
 msgid "*.wav(Sounds)"
 msgstr ""
 
@@ -2738,41 +2741,41 @@ msgstr "Nessun utente trovato"
 msgid "My details"
 msgstr "Mie informazioni"
 
-#: ui/maininfobase.cpp:81 ui/setupdlg.cpp:124 ui/userinfo.cpp:58
+#: ui/maininfobase.cpp:81 ui/setupdlg.cpp:124 ui/userinfo.cpp:74
 msgid "Main info"
 msgstr "Info principali"
 
-#: ui/homeinfobase.cpp:80 ui/setupdlg.cpp:125 ui/userinfo.cpp:60
+#: ui/homeinfobase.cpp:80 ui/setupdlg.cpp:125 ui/userinfo.cpp:76
 msgid "Home info"
 msgstr "Info casa"
 
-#: ui/setupdlg.cpp:126 ui/userinfo.cpp:61 ui/workinfobase.cpp:80
+#: ui/setupdlg.cpp:126 ui/userinfo.cpp:77 ui/workinfobase.cpp:80
 msgid "Work info"
 msgstr "Info lavoro"
 
-#: ui/moreinfobase.cpp:80 ui/setupdlg.cpp:127 ui/userinfo.cpp:62
+#: ui/moreinfobase.cpp:80 ui/setupdlg.cpp:127 ui/userinfo.cpp:78
 msgid "More info"
 msgstr "Maggiori info"
 
-#: ui/aboutinfobase.cpp:77 ui/setupdlg.cpp:128 ui/userinfo.cpp:63
+#: ui/aboutinfobase.cpp:77 ui/setupdlg.cpp:128 ui/userinfo.cpp:79
 #, fuzzy
 msgid "About info"
 msgstr "Gibuti"
 
-#: ui/interestsinfobase.cpp:78 ui/setupdlg.cpp:129 ui/userinfo.cpp:64
+#: ui/interestsinfobase.cpp:78 ui/setupdlg.cpp:129 ui/userinfo.cpp:80
 msgid "Interests"
 msgstr "Interessi"
 
-#: ui/pastinfobase.cpp:78 ui/setupdlg.cpp:130 ui/userinfo.cpp:65
+#: ui/pastinfobase.cpp:78 ui/setupdlg.cpp:130 ui/userinfo.cpp:81
 #, fuzzy
 msgid "Group/Past"
 msgstr "Gruppi"
 
-#: ui/phonebookbase.cpp:80 ui/setupdlg.cpp:131 ui/userinfo.cpp:67
+#: ui/phonebookbase.cpp:80 ui/setupdlg.cpp:131 ui/userinfo.cpp:83
 msgid "Phone book"
 msgstr ""
 
-#: ui/setupdlg.cpp:133 ui/userinfo.cpp:70
+#: ui/setupdlg.cpp:133 ui/userinfo.cpp:86
 msgid "Preferences"
 msgstr "Preferenze"
 
@@ -2796,11 +2799,11 @@ msgstr "Interfaccia"
 msgid "Key shortcuts"
 msgstr ""
 
-#: ui/alertdialogbase.cpp:115 ui/setupdlg.cpp:142
+#: ui/alertdialogbase.cpp:118 ui/setupdlg.cpp:142
 msgid "On Screen notification"
 msgstr "Notifica sullo schermo"
 
-#: ui/acceptbase.cpp:110 ui/setupdlg.cpp:144 ui/userinfo.cpp:73
+#: ui/acceptbase.cpp:110 ui/setupdlg.cpp:144 ui/userinfo.cpp:89
 msgid "Accept file"
 msgstr "Accetta file"
 
@@ -2834,7 +2837,7 @@ msgstr "Generale"
 msgid "Password"
 msgstr "Password invalida"
 
-#: ui/themesetup.cpp:98
+#: ui/themesetup.cpp:109
 msgid "Default icons"
 msgstr ""
 
@@ -2950,6 +2953,37 @@ msgstr "Nomi"
 msgid "UIN:"
 msgstr ""
 
+#: ui/acceptbase.cpp:95 ui/alertdialogbase.cpp:64 ui/fontsetupbase.cpp:96
+#: ui/forwardsetupbase.cpp:62 ui/generalsecbase.cpp:95 ui/homeinfobase.cpp:65
+#: ui/keysetupbase.cpp:94 ui/miscsetupbase.cpp:90 ui/msgdialogbase.cpp:63
+#: ui/networkbase.cpp:65 ui/pastinfobase.cpp:63 ui/phonebase.cpp:65
+#: ui/phonebookbase.cpp:65 ui/setupdlgbase.cpp:65 ui/smssetupbase.cpp:30
+#: ui/soundsetupbase.cpp:91 ui/spellsetupbase.cpp:63 ui/statussetupbase.cpp:63
+#: ui/themesetupbase.cpp:65 ui/userinfobase.cpp:92 ui/xosdbase.cpp:94
+msgid "Form1"
+msgstr ""
+
+#: ui/smssetupbase.cpp:45
+msgid "SMS signature"
+msgstr ""
+
+#: ui/smssetupbase.cpp:57
+msgid "Text before cursor:"
+msgstr ""
+
+#: ui/smssetupbase.cpp:64
+msgid "Text after cursor:"
+msgstr ""
+
+#: ui/smssetupbase.cpp:75
+msgid ""
+"You case use:\n"
+"&Alias; -  receipent name\n"
+"&Uin; - receipent UIN\n"
+"&MyAlias; - own name\n"
+"&MyUin; - own UIN"
+msgstr ""
+
 #: ui/proxydlgbase.cpp:37
 msgid "Proxy settings"
 msgstr ""
@@ -3003,6 +3037,24 @@ msgstr ""
 msgid "Port:"
 msgstr "Portogallo"
 
+#: ui/finddlgbase.cpp:34
+#, fuzzy
+msgid "Find"
+msgstr "Trova &F"
+
+#: ui/finddlgbase.cpp:42
+#, fuzzy
+msgid "Find:"
+msgstr "Trova &F"
+
+#: ui/finddlgbase.cpp:51
+msgid "Case &sensitivy"
+msgstr ""
+
+#: ui/finddlgbase.cpp:55
+msgid "Find &backwards"
+msgstr ""
+
 #: ui/logindlgbase.cpp:35
 msgid "Registration"
 msgstr "Registrazione"
@@ -3020,14 +3072,20 @@ msgstr ""
 msgid "&Register"
 msgstr "Registra"
 
-#: ui/acceptbase.cpp:95 ui/alertdialogbase.cpp:64 ui/fontsetupbase.cpp:96
-#: ui/forwardsetupbase.cpp:62 ui/generalsecbase.cpp:95 ui/homeinfobase.cpp:65
-#: ui/keysetupbase.cpp:94 ui/miscsetupbase.cpp:90 ui/msgdialogbase.cpp:63
-#: ui/networkbase.cpp:65 ui/pastinfobase.cpp:63 ui/phonebase.cpp:65
-#: ui/phonebookbase.cpp:65 ui/setupdlgbase.cpp:65 ui/smssetupbase.cpp:30
-#: ui/soundsetupbase.cpp:91 ui/spellsetupbase.cpp:63 ui/statussetupbase.cpp:63
-#: ui/themesetupbase.cpp:65 ui/userinfobase.cpp:92 ui/xosdbase.cpp:94
-msgid "Form1"
+#: ui/forwardsetupbase.cpp:77
+#, fuzzy
+msgid "Autoforward"
+msgstr "Inoltra &F"
+
+#: ui/forwardsetupbase.cpp:89
+msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
+msgstr ""
+
+#: ui/forwardsetupbase.cpp:97
+msgid ""
+"For the answer or sending of the new message you can answer on SMS having "
+"specified in the beginning of the message a line:\n"
+"<UIN>:"
 msgstr ""
 
 #: ui/keysetupbase.cpp:109
@@ -3055,47 +3113,6 @@ msgstr ""
 
 #: ui/keysetupbase.cpp:138
 msgid "&Enable"
-msgstr ""
-
-#: ui/aboutdlgbase.cpp:67
-#, fuzzy
-msgid "About SIM"
-msgstr "Gibuti"
-
-#: ui/aboutdlgbase.cpp:94
-#, fuzzy
-msgid "About"
-msgstr "Gibuti"
-
-#: ui/aboutdlgbase.cpp:102
-msgid "Authors"
-msgstr ""
-
-#: ui/aboutdlgbase.cpp:109
-msgid "Translation"
-msgstr ""
-
-#: ui/aboutdlgbase.cpp:116
-#, fuzzy
-msgid "License"
-msgstr "Liechtenstein"
-
-#: ui/finddlgbase.cpp:34
-#, fuzzy
-msgid "Find"
-msgstr "Trova &F"
-
-#: ui/finddlgbase.cpp:42
-#, fuzzy
-msgid "Find:"
-msgstr "Trova &F"
-
-#: ui/finddlgbase.cpp:51
-msgid "Case &sensitivy"
-msgstr ""
-
-#: ui/finddlgbase.cpp:55
-msgid "Find &backwards"
 msgstr ""
 
 #: ui/xosdbase.cpp:109
@@ -3143,6 +3160,29 @@ msgstr ""
 msgid "Background"
 msgstr "Colore di sfondo"
 
+#: ui/aboutdlgbase.cpp:67
+#, fuzzy
+msgid "About SIM"
+msgstr "Gibuti"
+
+#: ui/aboutdlgbase.cpp:94
+#, fuzzy
+msgid "About"
+msgstr "Gibuti"
+
+#: ui/aboutdlgbase.cpp:102
+msgid "Authors"
+msgstr ""
+
+#: ui/aboutdlgbase.cpp:109
+msgid "Translation"
+msgstr ""
+
+#: ui/aboutdlgbase.cpp:116
+#, fuzzy
+msgid "License"
+msgstr "Liechtenstein"
+
 #: ui/networkbase.cpp:80
 msgid "Network"
 msgstr ""
@@ -3162,6 +3202,68 @@ msgstr ""
 #: ui/networkbase.cpp:221
 msgid "To:"
 msgstr ""
+
+#: ui/filetransferbase.cpp:37
+msgid "File transfer"
+msgstr ""
+
+#: ui/filetransferbase.cpp:43
+msgid "File:"
+msgstr ""
+
+#: ui/filetransferbase.cpp:57
+#, fuzzy
+msgid "Batch"
+msgstr "Gaelico"
+
+#: ui/filetransferbase.cpp:74
+msgid "1000000/100000"
+msgstr ""
+
+#: ui/filetransferbase.cpp:83
+msgid "100000"
+msgstr ""
+
+#: ui/filetransferbase.cpp:90
+msgid "Speed:"
+msgstr ""
+
+#: ui/filetransferbase.cpp:111
+#, fuzzy
+msgid "Close after send"
+msgstr "Chiudi dopo &l'invio"
+
+#: ui/acceptbase.cpp:122
+msgid "Override global settings"
+msgstr ""
+
+#: ui/acceptbase.cpp:126
+msgid "Automatically open all messages"
+msgstr ""
+
+#: ui/acceptbase.cpp:130
+#, fuzzy
+msgid "Path for incoming files:"
+msgstr "Cartella per file ricevuti"
+
+#: ui/acceptbase.cpp:145
+#, fuzzy
+msgid "Show response"
+msgstr "Mostra offline"
+
+#: ui/acceptbase.cpp:149
+#, fuzzy
+msgid "Auto accept"
+msgstr "&Accetta"
+
+#: ui/acceptbase.cpp:153
+msgid "Overwrite files"
+msgstr ""
+
+#: ui/acceptbase.cpp:157
+#, fuzzy
+msgid "Auto decline"
+msgstr "Auto risposta"
 
 #: ui/fontsetupbase.cpp:123
 msgid "User window mode"
@@ -3237,93 +3339,6 @@ msgstr ""
 msgid "Use emotional &icons"
 msgstr ""
 
-#: ui/acceptbase.cpp:122
-msgid "Override global settings"
-msgstr ""
-
-#: ui/acceptbase.cpp:126
-msgid "Automatically open all messages"
-msgstr ""
-
-#: ui/acceptbase.cpp:130
-#, fuzzy
-msgid "Path for incoming files:"
-msgstr "Cartella per file ricevuti"
-
-#: ui/acceptbase.cpp:145
-#, fuzzy
-msgid "Show response"
-msgstr "Mostra offline"
-
-#: ui/acceptbase.cpp:149
-#, fuzzy
-msgid "Auto accept"
-msgstr "&Accetta"
-
-#: ui/acceptbase.cpp:153
-msgid "Overwrite files"
-msgstr ""
-
-#: ui/acceptbase.cpp:157
-#, fuzzy
-msgid "Auto decline"
-msgstr "Auto risposta"
-
-#: ui/filetransferbase.cpp:37
-msgid "File transfer"
-msgstr ""
-
-#: ui/filetransferbase.cpp:43
-msgid "File:"
-msgstr ""
-
-#: ui/filetransferbase.cpp:57
-#, fuzzy
-msgid "Batch"
-msgstr "Gaelico"
-
-#: ui/filetransferbase.cpp:74
-msgid "1000000/100000"
-msgstr ""
-
-#: ui/filetransferbase.cpp:83
-msgid "100000"
-msgstr ""
-
-#: ui/filetransferbase.cpp:90
-msgid "Speed:"
-msgstr ""
-
-#: ui/filetransferbase.cpp:111
-#, fuzzy
-msgid "Close after send"
-msgstr "Chiudi dopo &l'invio"
-
-#: ui/phonebase.cpp:71
-msgid "Area code:"
-msgstr ""
-
-#: ui/phonebase.cpp:81
-msgid "Extension:"
-msgstr ""
-
-#: ui/phonebase.cpp:101 ui/phonebase.cpp:112 ui/phonebase.cpp:123
-msgid "-"
-msgstr ""
-
-#: ui/pagerbase.cpp:92 ui/phonebase.cpp:106
-#, fuzzy
-msgid "Number:"
-msgstr "Numero"
-
-#: ui/phonebase.cpp:132
-msgid "Publish in global directory"
-msgstr ""
-
-#: ui/phonebase.cpp:138
-msgid "SMS service available"
-msgstr ""
-
 #: ui/emaileditbase.cpp:36
 msgid "Edit Email"
 msgstr ""
@@ -3365,11 +3380,6 @@ msgstr "Non mostrare"
 msgid "User is online"
 msgstr "L'utente %1 è in linea"
 
-#: ui/changepasswdbase.cpp:62 ui/interestsinfobase.cpp:63 ui/pagerbase.cpp:62
-#: ui/workinfobase.cpp:65
-msgid "Form2"
-msgstr ""
-
 #: ui/msgdialogbase.cpp:78
 msgid "Message"
 msgstr "Massaggio"
@@ -3384,46 +3394,106 @@ msgstr "Messaggio di autorisposta per stato\"%1\""
 msgid "Don't show message dialog"
 msgstr "Non mostrare"
 
+#: ui/alertdialogbase.cpp:93
+msgid "Override global alert"
+msgstr ""
+
+#: ui/alertdialogbase.cpp:97
+msgid "Activate online alert when user returns from Away or NA"
+msgstr ""
+
+#: ui/alertdialogbase.cpp:102
+#, fuzzy
+msgid "Online alert options"
+msgstr "Solo in linea"
+
+#: ui/alertdialogbase.cpp:110
+msgid "Blinking alert effect"
+msgstr ""
+
+#: ui/alertdialogbase.cpp:114
+#, fuzzy
+msgid "Play online alert sound"
+msgstr "Solo in linea"
+
+#: ui/alertdialogbase.cpp:122
+msgid "Popup online alert dialog"
+msgstr ""
+
+#: ui/alertdialogbase.cpp:126
+msgid "Open user window when online"
+msgstr ""
+
+#: ui/alertdialogbase.cpp:130
+msgid "Write to history"
+msgstr ""
+
+#: ui/keysetup.cpp:34
+#, fuzzy
+msgid "Action"
+msgstr "Connessione"
+
+#: ui/keysetup.cpp:35
+#, fuzzy
+msgid "Keys"
+msgstr "Kenya"
+
+#: ui/keysetup.cpp:37
+msgid "Show/Hide main window"
+msgstr ""
+
+#: ui/keysetup.cpp:40
+msgid "Double click on dock"
+msgstr ""
+
+#: ui/keysetup.cpp:43
+msgid "Show search window"
+msgstr ""
+
+#: ui/changepasswdbase.cpp:62 ui/interestsinfobase.cpp:63 ui/pagerbase.cpp:62
+#: ui/workinfobase.cpp:65
+msgid "Form2"
+msgstr ""
+
+#: ui/logindlg.cpp:123
+msgid "Unknown login error"
+msgstr "Errore sconosciuto di login"
+
+#: ui/logindlg.cpp:127
+msgid "Rate limit"
+msgstr ""
+
+#: ui/phonebase.cpp:71
+msgid "Area code:"
+msgstr ""
+
+#: ui/phonebase.cpp:81
+msgid "Extension:"
+msgstr ""
+
+#: ui/phonebase.cpp:101 ui/phonebase.cpp:112 ui/phonebase.cpp:123
+msgid "-"
+msgstr ""
+
+#: ui/pagerbase.cpp:92 ui/phonebase.cpp:106
+#, fuzzy
+msgid "Number:"
+msgstr "Numero"
+
+#: ui/phonebase.cpp:132
+msgid "Publish in global directory"
+msgstr ""
+
+#: ui/phonebase.cpp:138
+msgid "SMS service available"
+msgstr ""
+
 #: ui/pagerbase.cpp:76
 msgid "Provider:"
 msgstr ""
 
 #: ui/pagerbase.cpp:82
 msgid "Email gateway:"
-msgstr ""
-
-#: ui/listsecbase.cpp:90 ui/moreinfobase.cpp:65
-msgid "Form3"
-msgstr ""
-
-#: ui/alertdialogbase.cpp:91
-msgid "Override global alert"
-msgstr ""
-
-#: ui/alertdialogbase.cpp:95
-msgid "Activate online alert when user returns from Away or NA"
-msgstr ""
-
-#: ui/alertdialogbase.cpp:99
-#, fuzzy
-msgid "Online alert options"
-msgstr "Solo in linea"
-
-#: ui/alertdialogbase.cpp:107
-msgid "Blinking alert effect"
-msgstr ""
-
-#: ui/alertdialogbase.cpp:111
-#, fuzzy
-msgid "Play online alert sound"
-msgstr "Solo in linea"
-
-#: ui/alertdialogbase.cpp:119
-msgid "Popup online alert dialog"
-msgstr ""
-
-#: ui/alertdialogbase.cpp:123
-msgid "Open user window when online"
 msgstr ""
 
 #: ui/addphonebase.cpp:68
@@ -3528,29 +3598,20 @@ msgstr "Controllo ortografico"
 msgid "Check all messages on send"
 msgstr ""
 
+#: ui/userautoreply.cpp:51
+msgid "%1 autoresponse for %2"
+msgstr ""
+
+#: ui/userautoreply.cpp:90
+msgid "&Check again"
+msgstr ""
+
 #: ui/setupdlgbase.cpp:85 ui/userinfobase.cpp:115
 msgid "Update"
 msgstr ""
 
-#: ui/smssetupbase.cpp:45
-msgid "SMS signature"
-msgstr ""
-
-#: ui/smssetupbase.cpp:57
-msgid "Text before cursor:"
-msgstr ""
-
-#: ui/smssetupbase.cpp:64
-msgid "Text after cursor:"
-msgstr ""
-
-#: ui/smssetupbase.cpp:75
-msgid ""
-"You case use:\n"
-"&Alias; -  receipent name\n"
-"&Uin; - receipent UIN\n"
-"&MyAlias; - own name\n"
-"&MyUin; - own UIN"
+#: ui/listsecbase.cpp:90 ui/moreinfobase.cpp:65
+msgid "Form3"
 msgstr ""
 
 #: ui/setupdlgbase.cpp:99
@@ -3621,6 +3682,15 @@ msgstr ""
 
 #: ui/themesetupbase.cpp:158
 msgid "Show user window in task manager"
+msgstr ""
+
+#: ui/themesetupbase.cpp:162
+#, fuzzy
+msgid "Use dock"
+msgstr "Utente"
+
+#: ui/themesetupbase.cpp:166
+msgid "Use WindowMaker applet"
 msgstr ""
 
 #: ui/statussetupbase.cpp:94
@@ -3792,14 +3862,6 @@ msgstr ""
 msgid "Reject messages from unknown users contains this words or phrases:"
 msgstr ""
 
-#: ui/aboutinfobase.cpp:62
-msgid "Form4"
-msgstr ""
-
-#: ui/aboutinfobase.cpp:87
-msgid "Additional information about user:"
-msgstr ""
-
 #: ui/changepasswdbase.cpp:77
 #, fuzzy
 msgid "Change password"
@@ -3815,58 +3877,12 @@ msgstr "Password invalida"
 msgid "New password:"
 msgstr "Password invalida"
 
-#: ui/keysetup.cpp:34
-#, fuzzy
-msgid "Action"
-msgstr "Connessione"
-
-#: ui/keysetup.cpp:35
-#, fuzzy
-msgid "Keys"
-msgstr "Kenya"
-
-#: ui/keysetup.cpp:37
-msgid "Show/Hide main window"
+#: ui/aboutinfobase.cpp:62
+msgid "Form4"
 msgstr ""
 
-#: ui/keysetup.cpp:40
-msgid "Double click on dock"
-msgstr ""
-
-#: ui/keysetup.cpp:43
-msgid "Show search window"
-msgstr ""
-
-#: ui/logindlg.cpp:123
-msgid "Unknown login error"
-msgstr "Errore sconosciuto di login"
-
-#: ui/logindlg.cpp:127
-msgid "Rate limit"
-msgstr ""
-
-#: ui/userautoreply.cpp:51
-msgid "%1 autoresponse for %2"
-msgstr ""
-
-#: ui/userautoreply.cpp:90
-msgid "&Check again"
-msgstr ""
-
-#: ui/forwardsetupbase.cpp:77
-#, fuzzy
-msgid "Autoforward"
-msgstr "Inoltra &F"
-
-#: ui/forwardsetupbase.cpp:89
-msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
-
-#: ui/forwardsetupbase.cpp:97
-msgid ""
-"For the answer or sending of the new message you can answer on SMS having "
-"specified in the beginning of the message a line:\n"
-"<UIN>:"
+#: ui/aboutinfobase.cpp:87
+msgid "Additional information about user:"
 msgstr ""
 
 #: about.cpp:280
@@ -3879,55 +3895,55 @@ msgstr ""
 msgid "This program is distributed under the terms of the GPL v2."
 msgstr "Questo programma è distribuito sotto i termini dell GPL v2."
 
-#: client.cpp:65
+#: client.cpp:72
 msgid "Unicode"
 msgstr ""
 
-#: client.cpp:66 client.cpp:67 client.cpp:68
+#: client.cpp:73 client.cpp:74 client.cpp:75
 #, fuzzy
 msgid "Western European"
 msgstr "Samoa occidentali"
 
-#: client.cpp:69 client.cpp:70
+#: client.cpp:76 client.cpp:77
 msgid "Central European"
 msgstr ""
 
-#: client.cpp:72 client.cpp:73
+#: client.cpp:79 client.cpp:80
 #, fuzzy
 msgid "Baltic"
 msgstr "Gaelico"
 
-#: client.cpp:75 client.cpp:77
+#: client.cpp:82 client.cpp:84
 msgid "Cyrillic"
 msgstr ""
 
-#: client.cpp:79 client.cpp:81
+#: client.cpp:86 client.cpp:88
 #, fuzzy
 msgid "Ukrainan"
 msgstr "Ucraino"
 
-#: client.cpp:85
+#: client.cpp:92
 msgid "Chinese Traditional"
 msgstr ""
 
-#: client.cpp:86 client.cpp:87
+#: client.cpp:93 client.cpp:94
 msgid "Chinese Simplified"
 msgstr ""
 
-#: client.cpp:94
+#: client.cpp:101
 #, fuzzy
 msgid "Tamil"
 msgstr "Tailandese"
 
-#: client.cpp:95
+#: client.cpp:102
 msgid "UTF8"
 msgstr ""
 
-#: client.cpp:96
+#: client.cpp:103
 msgid "UTF16"
 msgstr ""
 
-#: client.cpp:265
+#: client.cpp:274
 msgid ""
 "I am currently away from ICQ.\n"
 "Please leave your message and I will get back to you as soon as I return!\n"
@@ -3935,7 +3951,7 @@ msgstr ""
 "I sono correntemente assente da ICQ.\n"
 "Per favore lascia il tuo messaggio e potrò richiamarti al mio ritorno!\n"
 
-#: client.cpp:269
+#: client.cpp:278
 msgid ""
 "I am out'a here.\n"
 "See you tomorrow!\n"
@@ -3943,11 +3959,11 @@ msgstr ""
 "Sono fuori.\n"
 "Ci vediamo domani!\n"
 
-#: client.cpp:273
+#: client.cpp:282
 msgid "Please do not disturb me now. Disturb me later.\n"
 msgstr "Per favore non disturbarmi ora. Disturbami più tardi.\n"
 
-#: client.cpp:276
+#: client.cpp:285
 msgid ""
 "Please do not disturb me now.\n"
 "Disturb me later.\n"
@@ -3957,156 +3973,159 @@ msgstr ""
 "Disturbami più tardi\n"
 "Solo messaggi urgenti, per favore!\n"
 
-#: client.cpp:280
+#: client.cpp:289
 msgid "We'd love to hear what you have to say. Join our chat.\n"
 msgstr ""
 "Ci piacerebbe sentire cosa hai da dire. Inserisciti nella nostra chat.\n"
 
-#: client.cpp:836
+#: client.cpp:855
 #, c-format
 msgid ""
 "_n: Message\n"
 "%n messages"
 msgstr ""
 
-#: client.cpp:838
+#: client.cpp:857
 #, c-format
 msgid ""
 "_n: Chat request\n"
 "%n chat requests"
 msgstr ""
 
-#: client.cpp:842
+#: client.cpp:861
 #, c-format
 msgid ""
 "_n: URL\n"
 "%n URL"
 msgstr ""
 
-#: client.cpp:844
+#: client.cpp:863
 #, c-format
 msgid ""
 "_n: Authorization request\n"
 "%n authorization requests"
 msgstr ""
 
-#: client.cpp:846
+#: client.cpp:865
 #, c-format
 msgid ""
 "_n: Authorization refused\n"
 "%n authorizations refused"
 msgstr ""
 
-#: client.cpp:848
+#: client.cpp:867
 #, c-format
 msgid ""
 "_n: Authorization granted\n"
 "%n authorizations granted"
 msgstr ""
 
-#: client.cpp:850
+#: client.cpp:869
 #, c-format
 msgid ""
 "_n: Added to contact list\n"
 "%n times added to contact list"
 msgstr ""
 
-#: client.cpp:852
+#: client.cpp:871
 #, c-format
 msgid ""
 "_n: WWW-panel message\n"
 "%n WWW-panel messages"
 msgstr ""
 
-#: client.cpp:854
+#: client.cpp:873
 #, c-format
 msgid ""
 "_n: Email pager message\n"
 "%n Email pager messages"
 msgstr ""
 
-#: client.cpp:856
+#: client.cpp:875
 #, c-format
 msgid ""
 "_n: Contact list\n"
 "%n contact lists"
 msgstr ""
 
-#: client.cpp:858
+#: client.cpp:877
 #, c-format
 msgid ""
 "_n: Contacts request\n"
 "%n contacts requests"
 msgstr ""
 
-#: client.cpp:860
+#: client.cpp:879
 #, fuzzy, c-format
 msgid ""
 "_n: External unknown message\n"
 "%n unknown messages"
 msgstr "Messaggio esterno sconosciuto"
 
-#: client.cpp:862
+#: client.cpp:881
 #, c-format
 msgid ""
 "_n: SMS\n"
 "%n SMS"
 msgstr ""
 
-#: client.cpp:864
+#: client.cpp:883
 #, c-format
 msgid ""
 "_n: SMS receipt\n"
 "%n SMS receipts"
 msgstr ""
 
-#: client.cpp:866
+#: client.cpp:885
 #, c-format
 msgid ""
 "_n: Email\n"
 "%n emails"
 msgstr ""
 
-#: client.cpp:868
+#: client.cpp:887
 #, c-format
 msgid ""
 "_n: Request secure channel\n"
 "%n requests sequre channel"
 msgstr ""
 
-#: client.cpp:870
+#: client.cpp:889
 #, c-format
 msgid ""
 "_n: Close secure channel\n"
 "%n times close sequre channel"
 msgstr ""
 
-#: client.cpp:874
+#: client.cpp:893
 #, c-format
 msgid ""
 "_n: Unknown message\n"
 "%n unknown messages"
 msgstr ""
 
-#: client.cpp:900
+#: client.cpp:919
 msgid "Do not disturb"
 msgstr "Non disturbare"
 
-#: client.cpp:901
+#: client.cpp:920
 msgid "Occupied"
 msgstr "Occupato"
 
-#: client.cpp:902
+#: client.cpp:921
 msgid "N/A"
 msgstr ""
 
-#: client.cpp:903
+#: client.cpp:922
 msgid "Free for chat"
 msgstr "Libero per chat"
 
-#: client.cpp:904
+#: client.cpp:923
 msgid "Away"
 msgstr "Assente"
+
+#~ msgid "User %1 is online"
+#~ msgstr "L'utente %1 è in linea"
 
 #, fuzzy
 #~ msgid "Receive file from %1"
