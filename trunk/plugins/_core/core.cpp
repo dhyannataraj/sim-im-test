@@ -2379,6 +2379,7 @@ bool CorePlugin::init(bool bInit)
     m_bInit = bInit;
     bool bLoaded = false;
     bool bRes = true;
+    bool bNew = false;
     if (!bInit || (*getProfile() == 0) || !getNoShow() || !getSavePasswd()){
         if (!bInit || m_profiles.size()){
             if (bInit)
@@ -2409,6 +2410,8 @@ bool CorePlugin::init(bool bInit)
         setProfile(client->name().c_str());
         bLoaded = true;
         getContacts()->save();
+        bRes = false;
+        bNew = true;
     }
     if (!bLoaded){
         ClientList clients;
@@ -2437,9 +2440,10 @@ bool CorePlugin::init(bool bInit)
     }
     restoreGeometry(m_main, data.geometry);
 
-    string containers = getContainers();
-    while (!containers.empty()){
-        new Container(0, getContainer(atol(getToken(containers, ',').c_str())));
+    if (!bNew){
+        string containers = getContainers();
+        while (!containers.empty())
+            new Container(0, getContainer(atol(getToken(containers, ',').c_str())));
     }
     clearContainer();
     setContainers(NULL);
@@ -2464,53 +2468,37 @@ void CorePlugin::destroy()
         if (w->inherits("Container"))
             forRemove.push_back(w);
     }
-    log(L_DEBUG, "> Delete list");
     delete l;
-    log(L_DEBUG, "> Delete list");
     for (list<QWidget*>::iterator itr = forRemove.begin(); itr != forRemove.end(); ++itr)
         delete *itr;
 
     if (m_statusWnd){
-        log(L_DEBUG, "> Destroy m_statusWnd");
         delete m_statusWnd;
         m_statusWnd = NULL;
-        log(L_DEBUG, "< Destroy m_statusWnd");
     }
     if (m_view){
-        log(L_DEBUG, "> Destroy m_view");
         delete m_view;
         m_view = NULL;
-        log(L_DEBUG, "< Destroy m_view");
     }
     if (m_cfg){
-        log(L_DEBUG, "> Destroy m_cfg");
         delete m_cfg;
         m_cfg = NULL;
-        log(L_DEBUG, "< Destroy m_cfg");
     }
     if (m_main){
-        log(L_DEBUG, "> Destroy m_main");
         delete m_main;
         m_main = NULL;
-        log(L_DEBUG, "< Destroy m_main");
     }
     if (m_view){
-        log(L_DEBUG, "> Destroy m_view");
         delete m_view;
         m_view = NULL;
-        log(L_DEBUG, "< Destroy m_view");
     }
     if (m_search){
-        log(L_DEBUG, "> Destroy m_search");
         delete m_search;
         m_search = NULL;
-        log(L_DEBUG, "< Destroy m_search");
     }
     if (m_manager){
-        log(L_DEBUG, "> Destroy m_manager");
         delete m_manager;
         m_manager = NULL;
-        log(L_DEBUG, "< Destroy m_manager");
     }
 }
 

@@ -24,9 +24,9 @@
 #include <list>
 using namespace std;
 
-const unsigned STATUS_BRB		= 0x10;
-const unsigned STATUS_PHONE		= 0x11;
-const unsigned STATUS_LUNCH		= 0x12;
+const unsigned STATUS_BRB		= 101;
+const unsigned STATUS_PHONE		= 102;
+const unsigned STATUS_LUNCH		= 103;
 
 const unsigned MSN_ACCEPT	= 0x0001;
 const unsigned MSN_BLOCKED	= 0x0002;
