@@ -1083,12 +1083,6 @@ protected:
     virtual void char_data(const char *el, int len);
 };
 
-class RegisterRequest : public JabberClient::ServerRequest
-{
-public:
-    RegisterRequest(JabberClient *client, const char *jid);
-};
-
 /*
 
 typedef struct JabberSearchData
@@ -1174,9 +1168,65 @@ string JabberClient::search(const char *jid, const char *condition)
     return req->m_id;
 }
 
+#if 0
+I18N_NOOP("Password does not match");
+I18N_NOOP("Low level network error");
+#endif
+
+class RegisterRequest : public JabberClient::ServerRequest
+{
+public:
+    RegisterRequest(JabberClient *client, const char *jid);
+	~RegisterRequest();
+protected:
+	bool   m_bOK;
+    string m_error;
+	string *m_data;
+    virtual void element_start(const char *el, const char **attr);
+    virtual void element_end(const char *el);
+    virtual void char_data(const char *el, int len);
+};
+
 RegisterRequest::RegisterRequest(JabberClient *client, const char *jid)
         : ServerRequest(client, _SET, NULL, jid)
 {
+	m_data = NULL;
+	m_bOK  = false;
+}
+
+RegisterRequest::~RegisterRequest()
+{
+	agentRegisterInfo ai;
+	ai.id = m_id.c_str();
+	ai.bOK = m_bOK;
+	ai.error = m_error.c_str();
+    Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentRegister, &ai);
+    e.process();
+}
+
+void RegisterRequest::element_start(const char *el, const char **attr)
+{
+	if (!strcmp(el, "error")){
+		m_data = &m_error;
+		return;
+	}
+	if (!strcmp(el, "iq")){
+		string type = JabberClient::get_attr("type", attr);
+		if (type == "result")
+			m_bOK = true;
+	}
+}
+
+void RegisterRequest::element_end(const char *el)
+{
+	m_data = NULL;
+}
+
+void RegisterRequest::char_data(const char *el, int len)
+{
+	if (m_data == NULL)
+		return;
+	m_data->append(el, len);
 }
 
 string JabberClient::register_agent(const char *jid, const char *condition)

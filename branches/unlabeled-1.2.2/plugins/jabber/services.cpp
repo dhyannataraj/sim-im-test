@@ -19,6 +19,7 @@
 #include "jabber.h"
 #include "jabbersearch.h"
 #include "listview.h"
+#include "ballonmsg.h"
 
 #include <qwidgetstack.h>
 #include <qlabel.h>
@@ -85,6 +86,22 @@ void *Services::processEvent(Event *e)
         }
         return NULL;
     }
+    if (e->type() == static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentRegister){
+		agentRegisterInfo *info = (agentRegisterInfo*)(e->param());
+		if (m_reg_id != info->id)
+			return NULL;
+		if (!info->bOK){
+			QString err;
+			if (info->error && *info->error){
+				err = i18n(info->error);
+			}else{
+				err = i18n("Registration failed");
+			}
+			BalloonMsg::message(err, btnRegister);
+		}
+		btnRegister->setEnabled(true);
+		return NULL;
+	}
     switch (e->type()){
     case EventClientChanged:
         if ((Client*)(e->param()) == m_client)
@@ -158,8 +175,9 @@ void Services::regAgent()
     QWidget *w = wndInfo->visibleWidget();
     if (w == NULL)
         return;
+	btnRegister->setEnabled(false);
 	JabberSearch *s = static_cast<JabberSearch*>(w);
-	m_client->register_agent(s->id(), s->condition().utf8());
+	m_reg_id = m_client->register_agent(s->id(), s->condition().utf8());
 }
 
 void Services::unregAgent()

@@ -818,7 +818,7 @@ const int WIDTH		= 2;
 const int HEIGHT	= 3;
 
 EXPORT void saveGeometry(QWidget*, long[4]);
-EXPORT void restoreGeometry(QWidget*, long[4]);
+EXPORT void restoreGeometry(QWidget*, long[4], bool bPos, bool bSize);
 EXPORT void saveToolbar(QToolBar*, long[7]);
 EXPORT void restoreToolbar(QToolBar*, long[7]);
 EXPORT bool cmp(char *s1, char *s2);

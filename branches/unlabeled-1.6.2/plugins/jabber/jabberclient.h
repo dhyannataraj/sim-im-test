@@ -263,6 +263,7 @@ protected:
     void rosters_request();
     void info_request(JabberUserData *user_data);
     void setOffline(JabberUserData *data);
+	bool isAgent(const char *jid);
 
     static	QCString encodeXML(const QString &str);
     XML_Parser	m_parser;
@@ -306,6 +307,13 @@ typedef struct agentInfo
     JabberSearch	*search;
     string			name;
 } agentInfo;
+
+typedef struct agentRegisterInfo
+{
+	const char		*id;
+	bool			bOK;
+	const char		*error;
+} agentRegisterInfo;
 
 class my_string : public string
 {

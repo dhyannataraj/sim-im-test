@@ -190,7 +190,7 @@ static DataDef coreData[] =
         { "ShowPanel", DATA_BOOL, 1, 1 },
         { "ManualStatus", DATA_ULONG, 1, STATUS_OFFLINE },
         { "Invisible", DATA_BOOL, 1, 0 },
-        { "Geometry", DATA_LONG, 4, 0 },
+        { "Geometry", DATA_LONG, 4, (unsigned)(-1) },
         { "ToolBar", DATA_LONG, 7, 0 },
         { "Buttons", DATA_STRLIST, 1, 0 },
         { "Menues", DATA_STRLIST, 1, 0 },
@@ -2482,15 +2482,15 @@ bool CorePlugin::init(bool bInit)
 
     m_main = new MainWindow;
     m_view = new UserView;
-    if ((data.geometry[WIDTH] == 0) || (data.geometry[HEIGHT] == 0)){
+    if ((data.geometry[WIDTH] == (unsigned)(-1)) && (data.geometry[HEIGHT] == (unsigned)(-1))){
         data.geometry[HEIGHT] = QApplication::desktop()->height() * 2 / 3;
         data.geometry[WIDTH]  = data.geometry[HEIGHT] / 3;
-        if ((data.geometry[LEFT] == 0) && (data.geometry[TOP] == 0)){
-            data.geometry[LEFT] = QApplication::desktop()->width() - 25 - data.geometry[WIDTH];
-            data.geometry[TOP] = 5;
-        }
+	}
+    if ((data.geometry[LEFT] == (unsigned)(-1)) && (data.geometry[TOP] == (unsigned)(-1))){
+        data.geometry[LEFT] = QApplication::desktop()->width() - 25 - data.geometry[WIDTH];
+        data.geometry[TOP] = 5;
     }
-    restoreGeometry(m_main, data.geometry);
+    restoreGeometry(m_main, data.geometry, true, true);
 
     if (!bNew){
         string containers = getContainers();

@@ -1388,13 +1388,21 @@ JabberListRequest *JabberClient::findRequest(const char *jid, bool bRemove)
     return NULL;
 }
 
+bool JabberClient::isAgent(const char *jid)
+{
+	const char *p = strrchr(jid, '/');
+	if (p && !strcmp(p + 1, "registered"))
+		return true;
+	return false;
+}
+
 void JabberClient::auth_request(const char *jid, unsigned type, const char *text, bool bCreate)
 {
     Contact *contact;
     JabberUserData *data = findContact(jid, NULL, false, contact);
-	if (type == MessageAuthRequest){
-		const char *p = strrchr(jid, '/');
-		if (p && !strcmp(p + 1, "registered")){
+	if (isAgent(jid)){
+		switch (type){
+		case MessageAuthRequest:{
 			if (data == NULL)
 				data = findContact(jid, NULL, true, contact);
             m_socket->writeBuffer.packetStart();
@@ -1414,15 +1422,13 @@ void JabberClient::auth_request(const char *jid, unsigned type, const char *text
 			e.process();
 			return;
 		}
-	}
-	if (type == MessageAuthGranted){
-		const char *p = strrchr(jid, '/');
-		if (p && !strcmp(p + 1, "registered")){
+		case MessageAuthGranted:{
 			if (data == NULL)
 				data = findContact(jid, NULL, true, contact);
 			Event e(EventContactChanged, contact);
 			e.process();
 			return;
+		}
 		}
 	}
     if ((data == NULL) && bCreate){
