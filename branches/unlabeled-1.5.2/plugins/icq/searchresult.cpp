@@ -23,17 +23,26 @@
 
 #include <qlabel.h>
 #include <qwizard.h>
+#include <qheader.h>
 
-const unsigned short SEARCH_DONE = (unsigned short)(-1);
+const unsigned COL_SCREEN	= 0;
+const unsigned COL_NICK		= 1;
+const unsigned COL_NAME		= 2;
+const unsigned COL_FIRST	= 3;
+const unsigned COL_LAST		= 4;
 
 UserTblItem::UserTblItem(QListView *parent, ICQClient *client, ICQUserData *data)
         : QListViewItem(parent)
 {
     mUin = data->Uin;
     mState = 0;
-    QString s;
-    s.setNum(mUin);
-    setText(0, s);
+	if (mUin){
+		QString s;
+		s.setNum(mUin);
+		setText(COL_SCREEN, s);
+	}else{
+		setText(COL_SCREEN, data->Screen);
+	}
     init(client, data);
 }
 
@@ -44,7 +53,7 @@ UserTblItem::UserTblItem(QListView *parent, unsigned long uin, const QString &al
     mState = 0;
     QString s;
     s.setNum(mUin);
-    setText(0, s);
+    setText(COL_SCREEN, s);
     Contact *contact;
     for (unsigned n = 0; n < getContacts()->nClients(); n++){
         Client *c = getContacts()->getClient(n);
@@ -57,66 +66,70 @@ UserTblItem::UserTblItem(QListView *parent, unsigned long uin, const QString &al
             break;
         }
     }
-    setText(1, alias);
+    setText(COL_NICK, alias);
 }
 
 QString UserTblItem::key(int column, bool bDirect) const
 {
-    if (column == 0){
-        QString s;
-        s.sprintf("%012lu", mUin);
-        return s;
-    }
-    if (column == 2){
-        QString s;
-        s.sprintf("%u", mState);
-        return s;
+    if (column == COL_SCREEN){
+		if (mUin){
+			QString s;
+			s.sprintf("%012lu", mUin);
+			return s;
+		}
+		return text(COL_SCREEN);
     }
     return QListViewItem::key(column, bDirect);
 }
 
 void UserTblItem::init(ICQClient *client, ICQUserData *data)
 {
-    setText(1, client->toUnicode(data->Nick, data));
-    QString first = client->toUnicode(data->FirstName, data);
-    QString last = client->toUnicode(data->LastName, data);
-    setText(5, first);
-    setText(6, last);
+	QString nick  = client->toUnicode(data->Nick, data);
+	QString first = client->toUnicode(data->FirstName, data);
+	QString last  = client->toUnicode(data->LastName, data);
+	QString mail  = client->toUnicode(data->EMail, data);
+	setText(COL_NICK, nick);
+    setText(COL_FIRST, first);
+    setText(COL_LAST, last);
     if (!last.isEmpty()){
         if (!first.isEmpty())
             first += " ";
         first += last;
     }
-    setText(3, first);
-    setText(4, client->toUnicode(data->EMail, data));
-    if (data->Status == STATUS_OFFLINE){
-        setPixmap(2, Pict("useroffline"));
-        mState = 1;
-    }else if (data->Status == STATUS_ONLINE){
-        setPixmap(2, Pict("useronline"));
-        mState = 2;
-    }else{
-        setPixmap(2, Pict("userunknown"));
-        mState = 3;
-    }
+    setText(COL_NAME, first);
+	if (mUin){
+		if (data->Status == STATUS_OFFLINE){
+			setPixmap(COL_SCREEN, Pict("useroffline"));
+			mState = 1;
+		}else if (data->Status == STATUS_ONLINE){
+			setPixmap(COL_SCREEN, Pict("useronline"));
+			mState = 2;
+		}else{
+			setPixmap(COL_SCREEN, Pict("userunknown"));
+			mState = 3;
+		}
+	}else{
+		setPixmap(COL_SCREEN, Pict("AIM_online"));
+		mState = 1;
+	}
 }
 
 ICQSearchResult::ICQSearchResult(QWidget *parent, ICQClient *client)
         : ICQSearchResultBase(parent)
 {
-    m_id = SEARCH_DONE;
+    m_id1 = SEARCH_DONE;
+    m_id2 = SEARCH_DONE;
     m_nFound = 0;
     m_client = client;
     int wChar = QFontMetrics(font()).width('0');
-    tblUser->addColumn(i18n("UIN"), -10*wChar);
+    tblUser->addColumn("", -10*wChar);
     tblUser->setColumnAlignment(0, AlignRight);
     tblUser->addColumn(i18n("Alias"), 20*wChar);
-    tblUser->addColumn("");
     tblUser->addColumn(i18n("Name"));
-    tblUser->addColumn(i18n("Email"));
-    tblUser->setExpandingColumn(3);
-    tblUser->setSorting(0);
+    tblUser->setExpandingColumn(COL_NAME);
+    tblUser->setSorting(COL_SCREEN);
     tblUser->setMenu(static_cast<ICQPlugin*>(m_client->protocol()->plugin())->MenuSearchResult);
+	tblUser->header()->hide();
     connect(tblUser, SIGNAL(dragStart()), this, SLOT(dragStart()));
     connect(tblUser, SIGNAL(doubleClicked(QListViewItem*)), this, SLOT(doubleClicked(QListViewItem*)));
 }
@@ -128,18 +141,19 @@ ICQSearchResult::~ICQSearchResult()
 
 void ICQSearchResult::clear()
 {
-    setRequestId(SEARCH_DONE);
+    setRequestId(SEARCH_DONE, SEARCH_DONE);
     m_nFound = 0;
     tblUser->clear();
 }
 
-void ICQSearchResult::setRequestId(unsigned short id)
+void ICQSearchResult::setRequestId(unsigned short id1, unsigned short id2)
 {
-    m_id = id;
+    m_id1 = id1;
+    m_id2 = id2;
     setStatus();
     tblUser->show();
     QWizard *wizard = static_cast<QWizard*>(topLevelWidget());
-    wizard->setFinishEnabled(this, (m_id == SEARCH_DONE));
+    wizard->setFinishEnabled(this, (m_id1 == SEARCH_DONE) && (m_id2 == SEARCH_DONE));
 }
 
 void ICQSearchResult::setText(const QString &text)
@@ -153,7 +167,7 @@ void ICQSearchResult::setText(const QString &text)
 void ICQSearchResult::setStatus()
 {
     QString text;
-    if (m_id == SEARCH_DONE){
+    if ((m_id1 == SEARCH_DONE) && (m_id2 == SEARCH_DONE)){
         text = i18n("Search done");
     }else{
         text = i18n("Search");
@@ -167,11 +181,12 @@ void ICQSearchResult::setStatus()
 
 void *ICQSearchResult::processEvent(Event *e)
 {
-    if ((e->type() > EventUser) && (m_id != SEARCH_DONE)){
+    if ((e->type() > EventUser) && ((m_id1 != SEARCH_DONE) || (m_id2 != SEARCH_DONE))){
         ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
         if (e->type() == plugin->EventSearch){
             SearchResult *result = (SearchResult*)(e->param());
-            if ((result->client == m_client) && (result->id == m_id)){
+            if ((result->client == m_client) && (
+				(result->id == m_id1) || (result->id == m_id2))){
                 new UserTblItem(tblUser, m_client, &result->data);
                 m_nFound++;
                 setStatus();
@@ -180,8 +195,10 @@ void *ICQSearchResult::processEvent(Event *e)
         if (e->type() == plugin->EventSearchDone){
             SearchResult *result = (SearchResult*)(e->param());
             if (result->client == m_client){
-                if (result->id == m_id)
-                    setRequestId(SEARCH_DONE);
+                if (result->id == m_id1)
+                    setRequestId(SEARCH_DONE, m_id2);
+                if (result->id == m_id2)
+                    setRequestId(m_id1, SEARCH_DONE);
             }
         }
     }
@@ -260,13 +277,15 @@ Contact *ICQSearchResult::createContact(unsigned tmpFlags)
     QListViewItem *item = tblUser->currentItem();
     if (item == NULL)
         return NULL;
-    unsigned uin = atol(item->text(0).latin1());
-    if ((uin == 0) || (uin == m_client->getUin()))
-        return NULL;
+	if (!m_client->m_bAIM){
+		unsigned uin = atol(item->text(0).latin1());
+		if (uin == m_client->getUin())
+			return NULL;
+	}
     Contact *contact;
-    ICQUserData *data = m_client->findContact(number(uin).c_str(), item->text(1).utf8(), false, contact);
+    ICQUserData *data = m_client->findContact(item->text(COL_SCREEN).latin1(), item->text(COL_NICK).utf8(), false, contact);
     if (data == NULL){
-        data = m_client->findContact(number(uin).c_str(), item->text(1).utf8(), true, contact);
+        data = m_client->findContact(item->text(COL_SCREEN).latin1(), item->text(COL_NICK).utf8(), true, contact);
         contact->setTemporary(tmpFlags);
         Event e(EventContactChanged, contact);
         e.process();
@@ -284,11 +303,7 @@ void ICQSearchResult::dragStart()
 
 void ICQSearchResult::doubleClicked(QListViewItem *item)
 {
-    unsigned uin = atol(item->text(0).latin1());
-    if (uin == 0)
-        return;
-    Contact *contact;
-    m_client->findContact(number(uin).c_str(), item->text(1).utf8(), true, contact);
+	Contact *contact = createContact(false);
 }
 
 #ifndef WIN32

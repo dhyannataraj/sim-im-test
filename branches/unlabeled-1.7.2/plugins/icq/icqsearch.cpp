@@ -228,7 +228,8 @@ void ICQSearch::search()
 void ICQSearch::startSearch()
 {
     m_result->clear();
-    unsigned short id = (unsigned short)(-1);
+    unsigned short id1 = SEARCH_DONE;
+    unsigned short id2 = SEARCH_DONE;
     unsigned long uin;
     switch (tabSearch->currentPageIndex()){
     case 0:{
@@ -246,13 +247,16 @@ void ICQSearch::startSearch()
                     city.c_str() || state.c_str() || country ||
                     company.c_str() || department.c_str() ||
                     interests.c_str())
-                id = m_client->findWP("", "", "", mail.c_str(),
+                id1 = m_client->findWP("", "", "", mail.c_str(),
                                       age, gender, language,
                                       city.c_str(), state.c_str(), country,
                                       company.c_str(), department.c_str(),
                                       "", 0, 0, "", 0, interests.c_str(),
                                       0, "", 0, "", chkOnline->isChecked());
-            m_client->aimEMailSearch(mail.c_str());
+			if (!mail.empty() && (age == 0) && (gender == 0) && (language == 0) &&
+				city.empty() && state.empty() && (country == 0) && 
+				company.empty() && department.empty() && interests.empty())
+				id2 = m_client->aimEMailSearch(mail.c_str());
             break;
         }
     case 1:{
@@ -260,15 +264,18 @@ void ICQSearch::startSearch()
             string last = getString(edtLast);
             string nick = getString(edtNick);
             if (first.length() || last.length() || nick.length())
-                id = m_client->findWP(first.c_str(), last.c_str(), nick.c_str(), "", 0, 0,
+                id1 = m_client->findWP(first.c_str(), last.c_str(), nick.c_str(), "", 0, 0,
                                       0, "", "", 0, "", "", "", 0,
                                       0, "", 0, "", 0, "", 0, "", chkOnline->isChecked());
+			if (first.length() || last.length())
+				id2 = m_client->aimInfoSearch(first.c_str(), last.c_str(), NULL, NULL, NULL,
+					NULL, NULL, nick.c_str(), NULL, NULL);
             break;
         }
     case 2:
         uin = atol(edtUin->text().latin1());
         if (uin)
-            id = m_client->findByUin(uin);
+            id2 = m_client->findByUin(uin);
         break;
     case 3:
         return;
@@ -300,7 +307,7 @@ void ICQSearch::startSearch()
             return;
         }
     }
-    m_result->setRequestId(id);
+    m_result->setRequestId(id1, id2);
 }
 
 string ICQSearch::getString(QLineEdit *edit)

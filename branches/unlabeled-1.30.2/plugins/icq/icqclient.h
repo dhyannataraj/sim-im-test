@@ -137,6 +137,8 @@ const unsigned MAX_MESSAGE_SIZE = 450;
 
 const unsigned PING_TIMEOUT = 60;
 
+const unsigned short SEARCH_DONE = (unsigned short)(-1);
+
 class DirectClient;
 
 typedef struct ICQUserData
@@ -510,6 +512,7 @@ public:
     static const capability *capabilities;
     static const plugin *plugins;
     static const ENCODING *encodings;
+	static QString convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n);
     string screen(ICQUserData*);
     static unsigned warnLevel(unsigned short);
     bool m_bAIM;

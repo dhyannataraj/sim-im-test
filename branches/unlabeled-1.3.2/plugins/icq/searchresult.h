@@ -45,7 +45,7 @@ public:
     ICQSearchResult(QWidget *parent, ICQClient *client);
     ~ICQSearchResult();
     void clear();
-    void setRequestId(unsigned short id);
+    void setRequestId(unsigned short id1, unsigned short id2);
     void setText(const QString &text);
 signals:
     void finished();
@@ -58,7 +58,8 @@ protected:
     virtual void *processEvent(Event*);
     void setStatus();
     Contact *createContact(unsigned tmpFlags);
-    unsigned short m_id;
+    unsigned short m_id1;
+    unsigned short m_id2;
     unsigned m_nFound;
     ICQClient *m_client;
 };

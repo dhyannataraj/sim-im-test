@@ -49,7 +49,7 @@ static bool extractInfo(TlvList &tlvs, unsigned id, char **data)
     return set_str(data, info);
 }
 
-static QString convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n)
+QString ICQClient::convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n)
 {
     string charset = "us-ascii";
     Tlv *tlvCharset = NULL;
