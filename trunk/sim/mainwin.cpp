@@ -900,6 +900,18 @@ void MainWindow::showGroupPopup(QPoint p)
 
 void MainWindow::deleteChilds()
 {
+    if (setupDlg){
+	delete setupDlg;
+	setupDlg = NULL;
+    }
+    if (searchDlg){
+	delete searchDlg;
+	searchDlg = NULL;
+    }
+    if (mNetMonitor){
+	delete mNetMonitor;
+	mNetMonitor = NULL;
+    }
     if (transparent){
         delete transparent;
         transparent = NULL;
@@ -1125,7 +1137,7 @@ bool MainWindow::init()
 
     changeBackground();
 
-    realSetStatus();
+    QTimer::singleShot(0, this, realSetStatus());
     if (bNeedSetup) setup();
     return true;
 }
