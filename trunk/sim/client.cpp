@@ -30,6 +30,7 @@
 #include <qdir.h>
 #include <qstringlist.h>
 #include <qtextcodec.h>
+#include <qregexp.h>
 
 #include <string>
 

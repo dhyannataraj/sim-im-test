@@ -37,6 +37,7 @@
 #include <qslider.h>
 #include <qtimer.h>
 #include <qstringlist.h>
+#include <qregexp.h>
 
 FileTransferDlg::FileTransferDlg(QWidget *p, ICQFile *_file)
         : FileTransferBase(p, "filetransfer", false, WDestructiveClose | WStyle_Minimize)
