@@ -4215,7 +4215,7 @@ msgstr "Passwort &speichern"
 
 #: ui/logindlgbase.cpp:129
 msgid "Password:"
-msgstr "Paßwort:"
+msgstr "Passwort:"
 
 #: ui/keysetupbase.cpp:105 ui/keysetupbase.cpp:145 ui/phonebookbase.cpp:83
 #: ui/phonebookbase.cpp:130 ui/setupdlgbase.cpp:71 ui/setupdlgbase.cpp:114
@@ -5113,7 +5113,7 @@ msgstr "Logindialog beim Start nicht &anzeigen"
 
 #: ui/generalsecbase.cpp:239
 msgid "&Password"
-msgstr "&Paßwort"
+msgstr "&Passwort"
 
 #: ui/aboutinfobase.cpp:105
 msgid "Form4"
