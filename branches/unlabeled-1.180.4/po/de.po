@@ -218,7 +218,7 @@ msgstr "Französisch"
 #: plugins/_core/interfacecfg.cpp:48 plugins/icq/icqclient.cpp:274
 #: plugins/icq/icqclient.cpp:275 plugins/icq/moreinfo.cpp:114
 msgid "Hebrew"
-msgstr "Häbräisch"
+msgstr "Hebräisch"
 
 #: plugins/_core/interfacecfg.cpp:49 plugins/icq/moreinfo.cpp:119
 msgid "Italian"
@@ -303,11 +303,11 @@ msgstr "Fax zu Hause"
 
 #: plugins/_core/maininfo.cpp:48
 msgid "Work Phone"
-msgstr "Telefon auf Arbeit"
+msgstr "Telefon auf der Arbeit"
 
 #: plugins/_core/maininfo.cpp:49
 msgid "Work Fax"
-msgstr "Fax auf Arbeit"
+msgstr "Fax auf der Arbeit"
 
 #: plugins/_core/maininfo.cpp:50
 msgid "Private Cellular"
@@ -2931,7 +2931,7 @@ msgstr "Interne IP:"
 
 #: plugins/icq/icqinfobase.cc:316
 msgid "Client:"
-msgstr "Klient:"
+msgstr "Client:"
 
 #: plugins/icq/moreinfobase.cc:202 plugins/jabber/jabberinfobase.cpp:212
 msgid "Homepage:"
@@ -3147,7 +3147,7 @@ msgstr "Zufälliger Chat"
 
 #: plugins/icq/icqsearchbase.cc:321
 msgid "Online only"
-msgstr "Nur Online"
+msgstr "Nur online"
 
 #: plugins/icq/securedlgbase.cc:73
 msgid "Secure chanel request"
@@ -3163,7 +3163,7 @@ msgstr ""
 "Der sichere Kanal benutzt SSL mit dem Diffie-Hellman-Schlüsselaustausch und "
 "dem TLS-Protokoll Version 1.\n"
 "\n"
-"Dies funktioniert nur mit anderen SIM- oder Licq-Klienten."
+"Dies funktioniert nur mit anderen SIM- oder Licq-Clienten."
 
 #: plugins/icq/securedlg.cpp:59
 msgid "Request secure channel fail"
@@ -3213,9 +3213,9 @@ msgid ""
 "Bob, Bill, Caleb, Robbie, etc...)"
 msgstr ""
 "Wahl der Geschwindigkeit von der Suche.  \"Schnell\", dann gleicht die "
-"Zeichenkette nur dem Anfang der Textzeile an(z.Bsp.: \"b\" würde "
+"Zeichenkette nur dem Anfang der Textzeile an (z.B.: \"b\" würde "
 "Bob,Bill,usw... ergeben.)\"Langsamer\" gleicht die Zeichenkette irgendwo in "
-"der Textzeile an (z.Bsp.: \"b\" würde  Bob, Bill, Caleb, Robbie, usw... "
+"der Textzeile an (z.B.: \"b\" würde  Bob, Bill, Caleb, Robbie, usw... "
 "ergeben.)"
 
 #: plugins/jabber/jabbersearch.cpp:161
@@ -3472,7 +3472,7 @@ msgid "Plugin provides on screen notification about messages and contacts status
 msgstr ""
 "Das ist ein Plugin, das Bildschirmbenachrichtigungen betreffend Kontakte "
 "und\n"
-"eingegangene Nachrichten durchführt. (z.Bsp.: Online Benachrichtigung)"
+"eingegangene Nachrichten durchführt. (z.B.: Online Benachrichtigung)"
 
 #: plugins/osd/osd.cpp:113
 msgid "&OSD"
@@ -3559,7 +3559,7 @@ msgstr "Fehler beim Schreiben auf Proxy-Server"
 #: plugins/proxy/proxy.cpp:803 plugins/proxy/proxy.cpp:954
 #: plugins/proxy/proxy.cpp:959 plugins/proxy/proxy.cpp:978
 msgid "Error proxy read"
-msgstr "Fehler beim Lesen von Proxy-Server"
+msgstr "Fehler beim Lesen vom Proxy-Server"
 
 #: plugins/proxy/proxy.cpp:199 plugins/proxy/proxy.cpp:213
 #: plugins/proxy/proxy.cpp:237 plugins/proxy/proxy.cpp:277
@@ -3583,7 +3583,7 @@ msgstr "Proxy"
 
 #: plugins/proxy/proxy.cpp:1143
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS and HTTP)"
-msgstr "Das Plugin bietet Proxy Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP)"
+msgstr "Das Plugin bietet Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP)"
 
 #: plugins/proxy/proxy.cpp:1233
 msgid "&Proxy"
@@ -3595,7 +3595,7 @@ msgstr "Kein Proxy"
 
 #: plugins/proxy/proxycfg.cpp:84
 msgid "<b>Note !</b><br>HTTP-proxy support only ICQ-protocol"
-msgstr "<b>Achtung!</b><br>Die HTTP-Proxy Unterstützung bietet nur das ICQ-Protokoll"
+msgstr "<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
 
 #: plugins/proxy/proxycfgbase.cpp:147
 msgid "Proxy type:"
@@ -4827,7 +4827,7 @@ msgstr "SSL Fehler bei der SSL- Initialisierung"
 
 #: sim/sim.cpp:174
 msgid "ICQ client"
-msgstr "ICQ Client für QT/KDE"
+msgstr "ICQ-Client für QT/KDE"
 
 #: sim/sim.cpp:180
 msgid "Maintainer"
@@ -5225,7 +5225,7 @@ msgstr ""
 
 #: sim/ui/qt3/i18n.cpp:223
 msgid "Operation stopped by the user"
-msgstr "Operation von Benutzer abgebrochen"
+msgstr "Operation vom Benutzer abgebrochen"
 
 #: sim/ui/qt3/i18n.cpp:225
 msgid "(unknown)"
