@@ -178,6 +178,22 @@ SOURCE=.\moc_gpguser.cpp
 
 SOURCE=.\moc_gpguserbase.cpp
 # End Source File
+# Begin Source File
+
+SOURCE=.\moc_passphrase.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\moc_passphrasebase.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\passphrase.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\passphrasebase.cpp
+# End Source File
 # End Group
 # Begin Group "Header Files"
 
@@ -399,6 +415,43 @@ InputName=gpguser
 # Begin Source File
 
 SOURCE=.\gpguserbase.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\passphrase.h
+
+!IF  "$(CFG)" == "gpg - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\passphrase.h
+InputName=passphrase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "gpg - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\passphrase.h
+InputName=passphrase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\passphrasebase.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"
@@ -667,6 +720,61 @@ BuildCmds= \
 InputDir=.
 InputPath=.\gpguserbase.ui
 InputName=gpguserbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\passphrasebase.ui
+
+!IF  "$(CFG)" == "gpg - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Uic'ing $(InputName).ui ...
+InputDir=.
+InputPath=.\passphrasebase.ui
+InputName=passphrasebase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "gpg - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Uic'ing $(InputName).ui ...
+InputDir=.
+InputPath=.\passphrasebase.ui
+InputName=passphrasebase
 
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
