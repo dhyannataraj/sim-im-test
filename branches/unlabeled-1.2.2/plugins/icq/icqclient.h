@@ -95,6 +95,22 @@ const unsigned short ICQ_MSGxAR_NA			   = 0x03EA;
 const unsigned short ICQ_MSGxAR_DND			   = 0x03EB;
 const unsigned short ICQ_MSGxAR_FFC			   = 0x03EC;
 
+const unsigned short ICQ_TCPxACK_ONLINE         = 0x0000;
+const unsigned short ICQ_TCPxACK_AWAY           = 0x0004;
+const unsigned short ICQ_TCPxACK_OCCUPIED       = 0x0009;
+const unsigned short ICQ_TCPxACK_DND            = 0x000A;
+const unsigned short ICQ_TCPxACK_OCCUPIEDxCAR   = 0x000B;
+const unsigned short ICQ_TCPxACK_OCCUPIEDx2		= 0x000C;
+const unsigned short ICQ_TCPxACK_NA             = 0x000E;
+const unsigned short ICQ_TCPxACK_DNDxCAR        = 0x000F;
+const unsigned short ICQ_TCPxACK_ACCEPT         = 0x0000;
+const unsigned short ICQ_TCPxACK_REFUSE         = 0x0001;
+
+const unsigned short ICQ_TCPxMSG_AUTOxREPLY     = 0x0000;
+const unsigned short ICQ_TCPxMSG_NORMAL	        = 0x0001;
+const unsigned short ICQ_TCPxMSG_URGENT         = 0x0002;
+const unsigned short ICQ_TCPxMSG_LIST           = 0x0004;
+
 const unsigned short ICQ_MTN_FINISH	= 0x0000;
 const unsigned short ICQ_MTN_TYPED	= 0x0001;
 const unsigned short ICQ_MTN_START	= 0x0002;
@@ -216,6 +232,8 @@ typedef struct ICQClientData
     unsigned	SendFormat;
     unsigned	AutoUpdate;
     unsigned	TypingNotification;
+	unsigned	AcceptInDND;
+	unsigned	AcceptInOccupied;
     ICQUserData	owner;
 } ICQClientData;
 
@@ -349,6 +367,7 @@ typedef struct rtf_charset
 typedef struct ar_request
 {
     unsigned short	type;
+	unsigned short	flags;
     MessageId		id;
     unsigned short	id1;
     unsigned short	id2;
@@ -386,6 +405,8 @@ public:
     PROP_ULONG(SendFormat);
     PROP_BOOL(AutoUpdate);
     PROP_BOOL(TypingNotification);
+	PROP_BOOL(AcceptInDND);
+	PROP_BOOL(AcceptInOccupied);
     ICQClientData	data;
     QString toUnicode(const char *str, ICQUserData *client_data);
     string fromUnicode(const QString &str, ICQUserData *client_data);
@@ -545,7 +566,7 @@ protected:
     void setMainInfo(ICQUserData *d);
     void packInfoList(char *str);
     string createRTF(const char *text, unsigned long foreColor, const char *encoding);
-    void ackMessage();
+    void ackMessage(SendMsg &s);
     void sendThroughServer(unsigned long uin, unsigned short type, Buffer &b, unsigned long id_l, unsigned long id_h, bool bOffline);
     bool sendAuthRequest(Message *msg, void *data);
     bool sendAuthGranted(Message *msg, void *data);
@@ -565,6 +586,8 @@ protected:
     void pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &b);
     void packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned short &type, unsigned short nSequence);
     void requestReverseConnection(unsigned long uin, DirectSocket *socket);
+	bool ackMessage(Message *msg, unsigned short ackFlags, const char *str);
+	unsigned short msgStatus();
     unsigned short m_advCounter;
     unsigned m_nUpdates;
     unsigned m_nSendTimeout;
@@ -653,10 +676,10 @@ public:
     DirectClient(ICQUserData *data, ICQClient *client, unsigned channel = PLUGIN_NULL);
     ~DirectClient();
     bool sendMessage(Message*);
-    void sendAutoResponse(unsigned short seq, unsigned short type, const char *answer);
     void acceptMessage(Message*);
     void declineMessage(Message*, const char *reason);
     bool cancelMessage(Message*);
+    void sendAck(unsigned short, unsigned short msgType, unsigned short msgFlags, const char *message=NULL);
     bool isLogged() { return (m_state != None) && (m_state != WaitInit2); }
     bool isSecure();
     void addPluginInfoRequest(unsigned plugin_index);
@@ -677,7 +700,6 @@ protected:
     void startPacket(unsigned short cms, unsigned short seq);
     void startMsgPacket(unsigned short msgType, const string &s);
     void sendPacket();
-    void sendAck(unsigned short, unsigned short msgType, const char *message=NULL);
     void processMsgQueue();
     bool copyQueue(DirectClient *to);
     list<SendDirectMsg> m_queue;

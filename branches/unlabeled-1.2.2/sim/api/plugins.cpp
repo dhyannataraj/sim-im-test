@@ -414,7 +414,6 @@ bool PluginManagerPrivate::createPlugin(pluginInfo &info)
     if (info.plugin == NULL){
         info.bNoCreate = true;
         info.bDisabled = true;
-        release(info);
         return false;
     }
     if (info.config){

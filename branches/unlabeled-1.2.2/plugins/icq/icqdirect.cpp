@@ -45,14 +45,6 @@ const unsigned short TCP_START  = 0x07EE;
 const unsigned short TCP_ACK    = 0x07DA;
 const unsigned short TCP_CANCEL	= 0x07D0;
 
-const unsigned short ICQ_TCPxACK_ONLINE            = 0x0000;
-const unsigned short ICQ_TCPxACK_AWAY              = 0x0004;
-const unsigned short ICQ_TCPxACK_OCCUPIED          = 0x0009;
-const unsigned short ICQ_TCPxACK_DND               = 0x000A;
-const unsigned short ICQ_TCPxACK_OCCUPIEDxCAR      = 0x000B;
-const unsigned short ICQ_TCPxACK_NA                = 0x000E;
-const unsigned short ICQ_TCPxACK_DNDxCAR           = 0x000F;
-
 const char FT_INIT		= 0;
 const char FT_INIT_ACK	= 1;
 const char FT_FILEINFO	= 2;
@@ -735,8 +727,9 @@ void DirectClient::processPacket()
                     break;
                 }
                 ar_request req;
-                req.uin  = m_data->Uin;
-                req.type = type;
+                req.uin     = m_data->Uin;
+                req.type    = type;
+                req.flags   = msgFlags;
                 req.id.id_l = seq;
                 req.id1     = 0;
                 req.id2     = 0;
@@ -760,7 +753,7 @@ void DirectClient::processPacket()
 #ifdef USE_OPENSSL
             msg_str = "1";
 #endif
-            sendAck(seq, type, msg_str.c_str());
+            sendAck(seq, type, msgFlags, msg_str.c_str());
 #ifdef USE_OPENSSL
             if (type == ICQ_MSGxSECURExOPEN){
                 secureListen();
@@ -782,8 +775,30 @@ void DirectClient::processPacket()
             if (isSecure())
                 flags |= MESSAGE_SECURE;
             m->setFlags(flags);
-            sendAck(seq, type);
-            m_client->messageReceived(m, m_data->Uin);
+            bool bAccept = true;
+            switch (m_client->getStatus()){
+            case STATUS_DND:
+                if (!m_client->getAcceptInDND())
+                    bAccept = false;
+                break;
+            case STATUS_OCCUPIED:
+                if (!m_client->getAcceptInOccupied())
+                    bAccept = false;
+                break;
+            }
+            if (msgFlags & (ICQ_TCPxMSG_URGENT | ICQ_TCPxMSG_LIST))
+                bAccept = true;
+            if (bAccept){
+                sendAck(seq, type, msgFlags);
+                if (msgFlags & ICQ_TCPxMSG_URGENT)
+                    m->setFlags(m->getFlags() | MESSAGE_URGENT);
+                if (msgFlags & ICQ_TCPxMSG_LIST)
+                    m->setFlags(m->getFlags() | MESSAGE_LIST);
+                m_client->messageReceived(m, m_data->Uin);
+            }else{
+                sendAck(seq, type, ICQ_TCPxMSG_AUTOxREPLY);
+                delete m;
+            }
         }else{
             plugin p;
             m_socket->readBuffer.unpack((char*)p, sizeof(p));
@@ -820,6 +835,7 @@ void DirectClient::processPacket()
         break;
     case TCP_CANCEL:
     case TCP_ACK:
+        log(L_DEBUG, "Ack %X %X", ackFlags, msgFlags);
         for (it = m_queue.begin(); it != m_queue.end(); ++it){
             if ((*it).seq != seq)
                 continue;
@@ -895,31 +911,30 @@ void DirectClient::processPacket()
                 }
                 return;
             }
-            if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
-                if ((msg->type() == MessageGeneric) && ((*it).type != CAP_RTF)){
-                    Message m;
-                    m.setContact(msg->contact());
-                    m.setClient(msg->client());
-                    m.setText(msg->getPlainText());
-                    unsigned flags = MESSAGE_DIRECT;
-                    if (isSecure())
-                        flags |= MESSAGE_SECURE;
-                    m.setFlags(flags);
-                    if (msg->getBackground() != msg->getForeground()){
-                        m.setForeground(msg->getForeground());
-                        m.setBackground(msg->getBackground());
-                    }
-                    Event e(EventSent, &m);
-                    e.process();
-                }else{
-                    unsigned flags = msg->getFlags() | MESSAGE_DIRECT;
-                    if (isSecure())
-                        flags |= MESSAGE_SECURE;
-                    msg->setFlags(flags);
-                    Event e(EventSent, msg);
-                    e.process();
-                }
-            }
+            unsigned flags = msg->getFlags() | MESSAGE_DIRECT;
+            if (isSecure())
+                    flags |= MESSAGE_SECURE;
+			if (m_client->ackMessage(msg, ackFlags, msg_str.c_str())){
+				if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
+					if ((msg->type() == MessageGeneric) && ((*it).type != CAP_RTF)){
+						Message m;
+						m.setContact(msg->contact());
+						m.setClient(msg->client());
+						m.setText(msg->getPlainText());
+						m.setFlags(flags);
+						if (msg->getBackground() != msg->getForeground()){
+							m.setForeground(msg->getForeground());
+							m.setBackground(msg->getBackground());
+						}
+						Event e(EventSent, &m);
+						e.process();
+					}else{
+						msg->setFlags(flags);
+						Event e(EventSent, msg);
+						e.process();
+					}
+				}
+			}
             Event e(EventMessageSent, msg);
             e.process();
             m_queue.erase(it);
@@ -1063,15 +1078,82 @@ bool DirectClient::error_state(const char *err, unsigned code)
     return true;
 }
 
-void DirectClient::sendAck(unsigned short seq, unsigned short type, const char *msg)
+void DirectClient::sendAck(unsigned short seq, unsigned short type, unsigned short flags, const char *msg)
 {
+    bool bAccept = true;
+    unsigned short status = ICQ_TCPxACK_ACCEPT;
+    switch (m_client->getStatus()){
+    case STATUS_AWAY:
+        status = ICQ_TCPxACK_AWAY;
+        break;
+    case STATUS_OCCUPIED:
+        bAccept = false;
+        status = ICQ_TCPxACK_OCCUPIED;
+        if (type == ICQ_MSGxAR_OCCUPIED){
+            status = ICQ_TCPxACK_OCCUPIEDxCAR;
+            bAccept = true;
+        }
+        break;
+    case STATUS_NA:
+        status = ICQ_TCPxACK_NA;
+        break;
+    case STATUS_DND:
+        status = ICQ_TCPxACK_DND;
+        bAccept = false;
+        if (type == ICQ_MSGxAR_DND){
+            status = ICQ_TCPxACK_DNDxCAR;
+            bAccept = true;
+        }
+        break;
+    default:
+        break;
+    }
+    if (!bAccept && (msg == NULL)){
+        ar_request req;
+        req.uin     = m_data->Uin;
+        req.type    = type;
+        req.flags   = flags;
+        req.id.id_l = seq;
+        req.id1     = 0;
+        req.id2     = 0;
+        req.bDirect = true;
+        m_client->arRequests.push_back(req);
+
+        unsigned short req_status = STATUS_ONLINE;
+        if (m_data->Status & ICQ_STATUS_DND){
+            req_status = STATUS_DND;
+        }else if (m_data->Status & ICQ_STATUS_OCCUPIED){
+            req_status = STATUS_OCCUPIED;
+        }else if (m_data->Status & ICQ_STATUS_NA){
+            req_status = STATUS_NA;
+        }else if (m_data->Status & ICQ_STATUS_AWAY){
+            req_status = STATUS_AWAY;
+        }else if (m_data->Status & ICQ_STATUS_FFC){
+            req_status = STATUS_FFC;
+        }
+
+
+        Contact *contact = NULL;
+        m_client->findContact(m_data->Uin, NULL, false, contact);
+        ARRequest ar;
+        ar.contact  = contact;
+        ar.param    = &m_client->arRequests.back();
+        ar.receiver = m_client;
+        ar.status   = req_status;
+        Event e(EventARRequest, &ar);
+        e.process();
+        return;
+    }
+
     string message;
     if (msg)
         message = msg;
+
     startPacket(TCP_ACK, seq);
     m_socket->writeBuffer.pack(type);
+    m_socket->writeBuffer.pack(status);
+    m_socket->writeBuffer.pack(flags);
     m_socket->writeBuffer
-    << 0x00000000L
     << message
     << 0x00000000L
     << 0xFFFFFFFFL;
@@ -1180,12 +1262,17 @@ void DirectClient::processMsgQueue()
         if (sm.msg){
             string message;
             Buffer &mb = m_socket->writeBuffer;
+            unsigned short flags = ICQ_TCPxMSG_NORMAL;
+            if (sm.msg->getFlags() & MESSAGE_URGENT)
+                flags = ICQ_TCPxMSG_URGENT;
+            if (sm.msg->getFlags() & MESSAGE_LIST)
+                flags = ICQ_TCPxMSG_LIST;
             switch (sm.msg->type()){
             case MessageGeneric:
                 startPacket(TCP_START, 0);
                 mb.pack((unsigned short)ICQ_MSGxMSG);
-                mb.pack((unsigned short)(m_client->fullStatus(m_client->getStatus()) & 0xFF));
-                mb.pack((unsigned short)1);
+                mb.pack(m_client->msgStatus());
+                mb.pack(flags);
                 if ((sm.msg->getFlags() & MESSAGE_RICHTEXT) &&
                         (m_client->getSendFormat() == 0) &&
                         (m_client->hasCap(m_data, CAP_RTF))){
@@ -1256,8 +1343,8 @@ void DirectClient::processMsgQueue()
                 Buffer &mb = m_socket->writeBuffer;
                 startPacket(TCP_START, 0);
                 mb.pack(sm.icq_type);
-                mb.pack((unsigned short)(m_client->fullStatus(m_client->getStatus()) & 0xFF));
-                mb.pack((unsigned short)1);
+                mb.pack(m_client->msgStatus());
+                mb.pack(ICQ_TCPxMSG_AUTOxREPLY);
                 mb << (char)1 << (unsigned short)0;
                 sendPacket();
                 sm.seq = m_nSequence;
@@ -1265,8 +1352,8 @@ void DirectClient::processMsgQueue()
                 Buffer &mb = m_socket->writeBuffer;
                 startPacket(TCP_START, 0);
                 mb.pack((unsigned short)ICQ_MSGxMSG);
-                mb.pack((unsigned short)(m_client->fullStatus(m_client->getStatus()) & 0xFF));
-                mb.pack((unsigned short)0);
+                mb.pack(m_client->msgStatus());
+                mb.pack(ICQ_TCPxMSG_AUTOxREPLY);
                 mb.pack((unsigned short)1);
                 mb.pack((char)0);
                 mb.pack((char*)m_client->plugins[sm.type], sizeof(plugin));
@@ -1298,17 +1385,6 @@ bool DirectClient::cancelMessage(Message *msg)
         }
     }
     return false;
-}
-
-void DirectClient::sendAutoResponse(unsigned short seq, unsigned short type, const char *answer)
-{
-    startPacket(TCP_ACK, seq);
-    m_socket->writeBuffer.pack(type);
-    m_socket->writeBuffer.pack((unsigned short)0);
-    m_socket->writeBuffer.pack((unsigned short)0);
-    string response = answer;
-    m_socket->writeBuffer << response;
-    sendPacket();
 }
 
 void DirectClient::addPluginInfoRequest(unsigned plugin_index)

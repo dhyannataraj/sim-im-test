@@ -244,6 +244,8 @@ static DataDef icqClientData[] =
         { "SendFormat", DATA_ULONG, 1, 0 },
         { "AutoUpdate", DATA_BOOL, 1, 1 },
         { "TypingNotification", DATA_BOOL, 1, 1 },
+		{ "AcceptInDND", DATA_BOOL, 1, 0 },
+		{ "AcceptInOccupied", DATA_BOOL, 1, 0 },
         { "", DATA_STRUCT, sizeof(ICQUserData) / sizeof(unsigned), (unsigned)_icqUserData },
         { NULL, 0, 0, 0 }
     };
@@ -1861,7 +1863,7 @@ void *ICQClient::processEvent(Event *e)
             Contact *contact;
             ICQUserData *data = findContact(ar.uin, NULL, false, contact);
             if (data && data->Direct)
-                data->Direct->sendAutoResponse(ar.id.id_l, ar.type, fromUnicode(t->tmpl, data).c_str());
+                data->Direct->sendAck(ar.id.id_l, ar.type, ar.flags, fromUnicode(t->tmpl, data).c_str());
         }else{
             Buffer copy;
             string response;
@@ -2667,6 +2669,11 @@ void ICQClient::addPluginInfoRequest(unsigned long uin, unsigned plugin_index)
 void ICQClient::randomChatInfo(unsigned long uin)
 {
     addPluginInfoRequest(uin, PLUGIN_RANDOMxCHAT);
+}
+
+unsigned short ICQClient::msgStatus()
+{
+	return fullStatus(getStatus()) & 0xFF;
 }
 
 #ifdef WIN32

@@ -428,7 +428,7 @@ void IPResolver::resolve_ready()
     if (resolver->hostNames().count())
         m_host = resolver->hostNames().first().latin1();
     struct in_addr inaddr;
-    inaddr.s_addr = htonl(m_addr);
+    inaddr.s_addr = m_addr;
     log(L_DEBUG, "Resolver ready %s %s", inet_ntoa(inaddr), m_host.c_str());
     for (list<IP*>::iterator it = queue.begin(); it != queue.end(); ){
         if (htonl((*it)->ip()) != m_addr){

@@ -159,6 +159,7 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd, bool bReceived)
     m_msg		= NULL;
     m_bTyping	= false;
     m_type		= NO_TYPE;
+	m_flags		= 0;
 
     connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
 
@@ -682,6 +683,9 @@ bool MsgEdit::sendMessage(Message *msg)
         return false;
     }
 
+	msg->setFlags(msg->getFlags() | m_flags);
+	m_flags = 0;
+
     if (m_userWnd->m_list){
         multiply = m_userWnd->m_list->selected;
         if (multiply.empty())
@@ -962,7 +966,17 @@ void *MsgEdit::processEvent(Event *e)
                 QWidget *msgWidget = (QWidget*)(e.process());
                 if (msgWidget == NULL)
                     msgWidget = this;
-                BalloonMsg::message(err, msgWidget);
+				if (msg->getRetry()){
+					QStringList btns;
+					btns.append(i18n("Send &urgent"));
+					btns.append(i18n("Send to &list"));
+					btns.append(i18n("&Cancel"));
+					BalloonMsg *msg = new BalloonMsg(NULL, err, btns, msgWidget, NULL, false);
+			        connect(msg, SIGNAL(action(int, void*)), this, SLOT(retry(int, void*)));
+				    msg->show();
+				}else{
+					BalloonMsg::message(err, msgWidget);
+				}
             }else{
                 if (contact){
                     time_t now;
@@ -1128,6 +1142,25 @@ void MsgEdit::setupNext()
         c.flags |= COMMAND_DISABLED;
     }
     btnNext->setCommand(&c);
+}
+
+void MsgEdit::retry(int n, void*)
+{
+	switch (n){
+	case 0:
+		m_flags = MESSAGE_URGENT;
+		break;
+	case 1:
+		m_flags = MESSAGE_LIST;
+		break;
+	default:
+		return;
+	}
+	Command cmd;
+	cmd->id   = CmdSend;
+	cmd->param = this;
+	Event e(EventCommandExec, cmd);
+	e.process();
 }
 
 void MsgEdit::editEnterPressed()

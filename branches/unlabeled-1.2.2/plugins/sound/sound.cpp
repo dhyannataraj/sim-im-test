@@ -192,6 +192,8 @@ void *SoundPlugin::processEvent(Event *e)
             return NULL;
         if (getDisableAlert() && core && (core->getManualStatus() != STATUS_ONLINE))
             return NULL;
+		if (msg->getFlags() & MESSAGE_LIST)
+			return NULL;
         Contact *contact = getContacts()->contact(msg->contact());
         if (contact == NULL)
             return NULL;

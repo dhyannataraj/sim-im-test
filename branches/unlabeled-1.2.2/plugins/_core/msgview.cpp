@@ -120,6 +120,13 @@ QString MsgViewBase::messageText(Message *msg)
         id += ",";
         id += quoteText(client_str.c_str());
     }
+	QString icons;
+    if (msg->getFlags() & MESSAGE_SECURE)
+		icons += "<img src=\"icon:encrypted\">";
+    if (msg->getFlags() & MESSAGE_URGENT)
+		icons += "<img src=\"icon:urgent\">";
+    if (msg->getFlags() & MESSAGE_LIST) 
+		icons += "<img src=\"icon:list\">";
 
     QString s = QString("<p><nobr>"
                         "<a href=\"msg://%1\"><img src=\"icon:%2\"></a>%3"
@@ -128,7 +135,7 @@ QString MsgViewBase::messageText(Message *msg)
                         "</nobr></p>")
                 .arg(id)
                 .arg(icon)
-                .arg((msg->getFlags() & MESSAGE_SECURE) ? "<img src=\"icon:encrypted\">" : "")
+				.arg(icons)
                 .arg(bUnread ? "<b>" : "")
                 .arg(color)
                 .arg(quoteString(contactName))

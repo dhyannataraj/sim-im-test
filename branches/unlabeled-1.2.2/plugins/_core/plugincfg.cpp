@@ -44,18 +44,18 @@ PluginCfg::PluginCfg(QWidget *parent, pluginInfo *info)
         }
     }
     tabWnd->setCurrentPage(0);
-    tabWnd->changeTab(tabWnd->currentPage(), i18n(m_info->info->title));
-    // adjust Tabbar widget
-    tabWnd->setMinimumSize(tabWnd->sizeHint());
-    tabWnd->adjustSize();
-    // adjust complete widget
-    setMinimumSize(sizeHint());
-    adjustSize();
-    if (m_info->info->description){
-        lblDescription->setText(i18n(m_info->info->description));
-    }else{
-        lblDescription->setText("");
-    }
+	tabWnd->changeTab(tabWnd->currentPage(), i18n(m_info->info->title));
+	// adjust Tabbar widget
+	tabWnd->setMinimumSize(tabWnd->sizeHint());
+	tabWnd->adjustSize();
+	// adjust complete widget
+	setMinimumSize(sizeHint());
+	adjustSize();
+	if (m_info->info && m_info->info->description){
+		lblDescription->setText(i18n(m_info->info->description));
+	}else{
+		lblDescription->setText("");
+	}
     if (m_info->info && (m_info->info->flags & PLUGIN_NODISABLE)){
         chkEnable->hide();
     }else{

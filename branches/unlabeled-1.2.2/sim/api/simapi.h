@@ -829,6 +829,8 @@ const unsigned MessageStatus		= 9;
 const unsigned	MESSAGE_RECEIVED	= 0x00000001;
 const unsigned	MESSAGE_RICHTEXT	= 0x00000002;
 const unsigned	MESSAGE_SECURE		= 0x00000004;
+const unsigned	MESSAGE_URGENT		= 0x00000008;
+const unsigned	MESSAGE_LIST		= 0x00000010;
 
 const unsigned	MESSAGE_SAVEMASK	= 0x0000FFFF;
 
@@ -848,6 +850,7 @@ typedef struct MessageData
     unsigned	Time;
     char		*Font;
     char		*Error;
+	unsigned	Retry;
 } MessageData;
 
 class EXPORT Message
@@ -871,6 +874,7 @@ public:
     PROP_ULONG(Time)
     PROP_STR(Error);
     PROP_STR(Font);
+	PROP_BOOL(Retry);
     const char *client() { return m_client.c_str(); }
     void setClient(const char *client);
     virtual QString presentation();

@@ -40,6 +40,7 @@ static DataDef	messageData[] =
         { "Time", DATA_ULONG, 1, 0 },
         { "Font", DATA_STRING, 1, 0 },
         { "", DATA_STRING, 1, 0 },			// Error
+		{ "", DATA_BOOL, 1, 0 },			// Retry
         { NULL, 0, 0, 0 }
     };
 
