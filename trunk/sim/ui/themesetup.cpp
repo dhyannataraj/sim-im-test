@@ -109,12 +109,14 @@ ThemeSetup::ThemeSetup(QWidget *parent)
     QStrListIterator it(formats);
     char *fmt;
     while ((fmt = ++it) != NULL){
-        if (format.length()) format += ";";
+        if (format.length()) format += " ";
         QString f = fmt;
-        format += "*." + f.lower();
+	f = f.lower();
+        format += "*." + f;
+	if (f == "jpeg") format += " *.jpg";
     }
-
-    edtBg->setFilter(i18n("Graphics (%1)") .arg(format));
+    edtBg->setImage(true);
+    edtBg->setFilter(i18n("%1|Graphics") .arg(format));
     edtBg->setStartDir(app_file("pict"));
     edtBg->setText(QString::fromLocal8Bit(pMain->BackgroundFile.c_str()));
     cmbPos->clear();

@@ -309,10 +309,14 @@ cfgParam MainWindow_Params[] =
 
 #ifndef WIN32
 
-static void child_proc(int)
+struct sigaction oldChildAct;
+
+static void child_proc(int sig)
 {
     if (pMain)
         QTimer::singleShot(0, pMain, SLOT(checkChilds()));
+    if (oldChildAct.sa_handler)
+	oldChildAct.sa_handler(sig);
 }
 
 #endif
@@ -689,7 +693,6 @@ MainWindow::MainWindow(const char *name)
 
 #ifndef WIN32
     struct sigaction act;
-    struct sigaction oldAct;
     act.sa_handler = child_proc;
     sigemptyset( &(act.sa_mask) );
     sigaddset( &(act.sa_mask), SIGCHLD );
@@ -697,7 +700,7 @@ MainWindow::MainWindow(const char *name)
 #if defined(SA_RESTART)
     act.sa_flags |= SA_RESTART;
 #endif
-    if (sigaction( SIGCHLD, &act, &oldAct ))
+    if (sigaction( SIGCHLD, &act, &oldChildAct ))
         log(L_WARN,  "Error installing SIGCHLD handler: %s", strerror(errno));
 
     QTimer *childTimer = new QTimer(this);

@@ -1622,6 +1622,7 @@ void UserView::viewportContextMenuEvent( QContextMenuEvent *e)
         menuGroup->popup(p);
         break;
     }
+    clearSelection();
 }
 
 void UserView::maybeTip ( const QPoint &p )

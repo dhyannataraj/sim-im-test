@@ -201,6 +201,53 @@ void WharfIcon::paintEvent( QPaintEvent * )
     painter.end();
 }
 
+static XErrorHandler old_handler = 0;
+static int dock_xerror = 0;
+static int dock_xerrhandler(Display* dpy, XErrorEvent* err)
+{
+    dock_xerror = err->error_code;
+    return old_handler(dpy, err);
+}
+
+void trap_errors()
+{
+    dock_xerror = 0;
+    old_handler = XSetErrorHandler(dock_xerrhandler);
+}
+
+bool untrap_errors()
+{
+    XSetErrorHandler(old_handler);
+    return (dock_xerror == 0);
+}
+
+bool send_message(
+    Display* dpy, /* display */
+    Window w,     /* sender (tray icon window) */
+    long message, /* message opcode */
+    long data1,   /* message data 1 */
+    long data2,   /* message data 2 */
+    long data3    /* message data 3 */
+){
+    XEvent ev;
+
+    memset(&ev, 0, sizeof(ev));
+    ev.xclient.type = ClientMessage;
+    ev.xclient.window = w;
+    ev.xclient.message_type = XInternAtom (dpy, "_NET_SYSTEM_TRAY_OPCODE", False );
+    ev.xclient.format = 32;
+    ev.xclient.data.l[0] = CurrentTime;
+    ev.xclient.data.l[1] = message;
+    ev.xclient.data.l[2] = data1;
+    ev.xclient.data.l[3] = data2;
+    ev.xclient.data.l[4] = data3;
+
+    trap_errors();
+    XSendEvent(dpy, w, False, NoEventMask, &ev);
+    XSync(dpy, False);
+    return untrap_errors();
+}
+
 #endif
 
 DockWnd::DockWnd(QWidget *main)
@@ -216,7 +263,7 @@ DockWnd::DockWnd(QWidget *main)
     QTimer *t = new QTimer(this);
     connect(t, SIGNAL(timeout()), this, SLOT(timer()));
     t->start(800);
-    needToggle = false;
+    bNoToggle = false;
 #ifdef WIN32
     QWidget::hide();
     QWidget::setIcon(Pict(pClient->getStatusIcon()));
@@ -521,17 +568,21 @@ void DockWnd::reset()
 
 void DockWnd::toggle()
 {
-    if (!needToggle) return;
+    log(L_DEBUG, "Toggle %u", bNoToggle);
+    if (bNoToggle){
+	bNoToggle = false;
+	return;
+    }
     emit toggleWin();
-    needToggle = false;
 }
 
 void DockWnd::mouseEvent( QMouseEvent *e)
 {
     switch(e->button()){
     case QWidget::LeftButton:
-        needToggle = true;
-        QTimer::singleShot(700, this, SLOT(toggle()));
+        log(L_DEBUG, "Shot toggle");
+	if (!bNoToggle)
+        	QTimer::singleShot(700, this, SLOT(toggle()));
         break;
     case QWidget::RightButton:
         emit showPopup(e->globalPos());
@@ -580,7 +631,8 @@ void DockWnd::mouseMoveEvent( QMouseEvent *e)
 
 void DockWnd::mouseDoubleClickEvent( QMouseEvent*)
 {
-    needToggle = false;
+    bNoToggle = true;
+    log(L_DEBUG, "Double click");
     emit doubleClicked();
 }
 
