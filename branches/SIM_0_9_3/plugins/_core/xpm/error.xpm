@@ -1,0 +1,23 @@
+/* XPM */
+static const char *error[]={
+"16 16 4 1",
+"# c #800000",
+"a c #ff0000",
+"b c #ffff00",
+". c None",
+".....######.....",
+"....#aaaaaa#....",
+"..##aabbbbaa##..",
+"..#aaabbbbaaa#..",
+".#aaaabbbbaaaa#.",
+"#aaaaaabbaaaaaa#",
+"#aaaaaabbaaaaaa#",
+"#aaaaaabbaaaaaa#",
+"#aaaaaabbaaaaaa#",
+"#aaaaaabbaaaaaa#",
+"#aaaaaaaaaaaaaa#",
+".#aaaaabbaaaaa#.",
+"..#aaabbbbaaa#..",
+"..##aabbbbaa##..",
+"....#aabbaa#....",
+".....######....."};
