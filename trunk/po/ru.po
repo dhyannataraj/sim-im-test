@@ -311,7 +311,8 @@ msgstr "Австралия"
 
 #: libicq/country.cpp:83
 msgid "Australian Antarctic Territory"
-msgstr "Австралийская антарктическая территория"
+msgstr ""
+"Австралийская антарктическая территория"
 
 #: libicq/country.cpp:84
 msgid "Austria"
@@ -1907,7 +1908,8 @@ msgstr "%1 от %2"
 
 #: mainwin.cpp:830
 msgid "Your UIN used from another location"
-msgstr "Ваш UIN используется с другого компьютера"
+msgstr ""
+"Ваш UIN используется с другого компьютера"
 
 #: mainwin.cpp:879
 msgid "User %1 is online"
@@ -2890,7 +2892,8 @@ msgstr "&Ok"
 
 #: ui/pastinfobase.cpp:89
 msgid "Organization, Affiliation, Group:"
-msgstr "Объединения, общественные организации:"
+msgstr ""
+"Объединения, общественные организации:"
 
 #: ui/pastinfobase.cpp:131
 msgid "Past background:"
@@ -3066,7 +3069,8 @@ msgstr "Цвета"
 
 #: ui/fontsetupbase.cpp:197
 msgid "Use &own colors in history"
-msgstr "Использовать &собственные цвета в истории"
+msgstr ""
+"Использовать &собственные цвета в истории"
 
 #: ui/fontsetupbase.cpp:207
 msgid "Received messages color"
@@ -3180,11 +3184,13 @@ msgstr "Прозрачный контейнер"
 
 #: ui/themesetupbase.cpp:136
 msgid "Transparent only if inactive"
-msgstr "Прозрачные окна только если неактивные"
+msgstr ""
+"Прозрачные окна только если неактивные"
 
 #: ui/themesetupbase.cpp:144
 msgid "Show main window in task manager"
-msgstr "Показывать основное окно в панели задач"
+msgstr ""
+"Показывать основное окно в панели задач"
 
 #: ui/themesetupbase.cpp:148
 msgid "Show user window in task manager"
@@ -3227,7 +3233,8 @@ msgid "Spoken languages:"
 msgstr "Языки:"
 
 #: ui/statussetupbase.cpp:95
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Запретить оповещение в состояниях "
 "\"Отошел\", \"Не активный\", \"Занят\""
@@ -3547,4 +3554,3 @@ msgstr ""
 
 #~ msgid "Spell"
 #~ msgstr "Проверка орфографии"
-
