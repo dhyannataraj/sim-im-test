@@ -322,7 +322,7 @@ void ICQSearch::searchMail(const QString &mail)
 {
     if (!m_client->m_bAIM){
         m_type = Mail;
-        m_mail = mail.local8Bit();
+        m_mail = mail.utf8();
         icq_search();
     }
     m_id_aim = m_client->aimEMailSearch(mail);
@@ -333,9 +333,9 @@ void ICQSearch::searchName(const QString &first, const QString &last, const QStr
 {
     if (!m_client->m_bAIM){
         m_type = Name;
-        m_first		= first.local8Bit();
-        m_last		= last.local8Bit();
-        m_nick		= nick.local8Bit();
+        m_first		= first.utf8();
+        m_last		= last.utf8();
+        m_nick		= nick.utf8();
         icq_search();
     }
     m_id_aim = m_client->aimInfoSearch(first, last, NULL, NULL, NULL, NULL, NULL, nick, NULL, NULL);
