@@ -1753,8 +1753,7 @@ msgstr "%1 від %2"
 
 #: mainwin.cpp:1267 ui/logindlg.cpp:140
 msgid "Can't connect to proxy server"
-msgstr ""
-"Неможливо з'єднатися з проксі-сервером"
+msgstr "Неможливо з'єднатися з проксі-сервером"
 
 #: mainwin.cpp:1274 ui/logindlg.cpp:147
 msgid "Proxy server require authorization"
@@ -1786,8 +1785,7 @@ msgstr "&Ні"
 
 #: mainwin.cpp:1958
 msgid "Add %1 to ignore list ?"
-msgstr ""
-"Додати \"%1\" в список тих що ігноруються?"
+msgstr "Додати \"%1\" в список тих що ігноруються?"
 
 #: mainwin.cpp:2022
 msgid "In visible list"
@@ -2182,8 +2180,7 @@ msgstr "Розмір: %1 / Максимальний: %2"
 
 #: msgedit.cpp:1538
 msgid "Message will be split"
-msgstr ""
-"Повідомлення буде розділено на частини"
+msgstr "Повідомлення буде розділено на частини"
 
 #: msgedit.cpp:1713
 msgid "Decline reason"
@@ -2592,13 +2589,12 @@ msgid "Default"
 msgstr "По-замовчуванню"
 
 #: ui/miscsetup.cpp:93
-#, fuzzy
 msgid "Addressbook synchronization"
-msgstr "С&инхронізація з адресною книжкою"
+msgstr "Синхронізація з адресною книжкою"
 
 #: ui/miscsetup.cpp:93
 msgid "Success."
-msgstr ""
+msgstr "Виконано."
 
 #: ui/moreinfo.cpp:65
 msgid "January"
@@ -2778,8 +2774,7 @@ msgstr "Система"
 
 #: ui/themesetup.cpp:149
 msgid "Need restart SIM for change language"
-msgstr ""
-"Потрібно перестартувати SIM для зміни мови"
+msgstr "Потрібно перестартувати SIM для зміни мови"
 
 #: ui/themesetup.cpp:159
 msgid "Default icons"
@@ -3137,8 +3132,7 @@ msgstr "Закрити після відправки"
 # #
 #: ui/acceptbase.cpp:173 ui/msgbase.cpp:94
 msgid "Automaitcaly open window"
-msgstr ""
-"Автоматично відкривати вікно повідомлень"
+msgstr "Автоматично відкривати вікно повідомлень"
 
 #: ui/acceptbase.cpp:174 ui/acceptbase.cpp:177 ui/msgbase.cpp:90
 msgid "Override global settings"
@@ -3468,10 +3462,9 @@ msgid "&Addressbook synchronization"
 msgstr "С&инхронізація з адресною книжкою"
 
 #: ui/miscsetupbase.cpp:169
-#, fuzzy
 msgid "Check &all messages on send"
 msgstr ""
-"Перевіряти всі повідомлення при "
+"Перевіряти &всі повідомлення при "
 "відправці"
 
 #: ui/miscsetupbase.cpp:170
@@ -3500,6 +3493,9 @@ msgid ""
 "You can change only those numbers which have entered.\n"
 "It is impossible to change numbers which were received from the user."
 msgstr ""
+"Примітка: "
+"Ви можете вносити зміни тільки в номери введені Вами. "
+"Неможливо змінити номери якщо вони отримані від користувача."
 
 #: ui/phonebookbase.cpp:136
 msgid "&Phonebook"
@@ -3647,8 +3643,7 @@ msgstr "&Прозорість"
 
 #: ui/themesetupbase.cpp:200
 msgid "Show main window in task manager"
-msgstr ""
-"Показувати основне вікно в панелі задач"
+msgstr "Показувати основне вікно в панелі задач"
 
 #: ui/themesetupbase.cpp:201
 msgid "Show user window in task manager"
@@ -3667,9 +3662,8 @@ msgid "Use emotional &icons"
 msgstr "Використовувати &смайлики"
 
 #: ui/themesetupbase.cpp:206
-#, fuzzy
 msgid "Use &dock"
-msgstr "Використовувати док"
+msgstr "Використовувати &док"
 
 #: ui/listsecbase.cpp:120 ui/moreinfobase.cpp:185
 msgid "Form3"
@@ -3680,8 +3674,7 @@ msgid "Hide main window after"
 msgstr "Сховати головне вікно"
 
 #: ui/statussetupbase.cpp:141
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Заборонити попередження в стані "
 "\"Відійшов\", \"Не активний\", \"Зайнятий\""
@@ -3872,8 +3865,7 @@ msgstr ""
 
 #: ui/generalsecbase.cpp:196
 msgid "Reject &URL from unknown users"
-msgstr ""
-"Відкидати &URL від невідомих користувачів"
+msgstr "Відкидати &URL від невідомих користувачів"
 
 #: ui/generalsecbase.cpp:197
 msgid "Reject &World Wide pager messages"
@@ -4030,8 +4022,7 @@ msgstr "..."
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Ця програма поширюється під ліцензією GPL v2"
+msgstr "Ця програма поширюється під ліцензією GPL v2"
 
 #: editspell.cpp:307
 msgid "Spell check"
@@ -4700,3 +4691,4 @@ msgstr "? Невідомий статус %1"
 
 #~ msgid "Spell"
 #~ msgstr "Проверка орфографии"
+
