@@ -1,0 +1,5198 @@
+# translation of he.po to Hebrew
+# translation of sim.po to Hebrew
+# Copyright (C) 2003 Free Software Foundation, Inc.
+# Amir Tal <tal@whatsup.org.il>, 2003
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: he\n"
+"POT-Creation-Date: 2003-02-05 13:49+0300\n"
+"PO-Revision-Date: 2003-02-04 03:03+0200\n"
+"Last-Translator: Amir Tal <tal@whatsup.org.il>\n"
+"Language-Team: Hebrew <kde-il@yahoogroups.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.0\n"
+
+#: client.cpp:66 client.cpp:67 libicq/country.cpp:7
+msgid "Arabic"
+msgstr "ערבית"
+
+#: libicq/country.cpp:8
+msgid "Bhojpuri"
+msgstr "בהוג'פורי"
+
+#: libicq/country.cpp:9 ui/themesetup.cpp:55
+msgid "Bulgarian"
+msgstr "בולגרית"
+
+#: libicq/country.cpp:10
+msgid "Burmese"
+msgstr "בורמזית"
+
+#: libicq/country.cpp:11
+msgid "Cantonese"
+msgstr "קנטונית"
+
+#: libicq/country.cpp:12
+msgid "Catalan"
+msgstr "קטלאן"
+
+#: libicq/country.cpp:13 ui/themesetup.cpp:67
+msgid "Chinese"
+msgstr "סינית"
+
+#: libicq/country.cpp:14
+msgid "Croatian"
+msgstr "קרואטית"
+
+#: libicq/country.cpp:15 ui/themesetup.cpp:56
+msgid "Czech"
+msgstr "צ'כית"
+
+#: libicq/country.cpp:16
+msgid "Danish"
+msgstr "דנית"
+
+#: libicq/country.cpp:17 ui/themesetup.cpp:62
+msgid "Dutch"
+msgstr "הולנדית"
+
+#: libicq/country.cpp:18 ui/themesetup.cpp:54
+msgid "English"
+msgstr "אנגלית"
+
+#: client.cpp:83 libicq/country.cpp:19
+msgid "Esperanto"
+msgstr "אספרנטו"
+
+#: libicq/country.cpp:20
+msgid "Estonian"
+msgstr "אסטונית"
+
+#: libicq/country.cpp:21
+msgid "Farsi"
+msgstr "Farsi"
+
+#: libicq/country.cpp:22
+msgid "Finnish"
+msgstr "פינית"
+
+#: libicq/country.cpp:23 ui/themesetup.cpp:59
+msgid "French"
+msgstr "צרפתית"
+
+#: libicq/country.cpp:24
+msgid "Gaelic"
+msgstr "גאלית"
+
+#: libicq/country.cpp:25 ui/themesetup.cpp:57
+msgid "German"
+msgstr "גרמנית"
+
+#: client.cpp:85 client.cpp:86 libicq/country.cpp:26
+msgid "Greek"
+msgstr "יוונית"
+
+#: client.cpp:88 client.cpp:89 libicq/country.cpp:27 ui/themesetup.cpp:60
+msgid "Hebrew"
+msgstr "עברית"
+
+#: libicq/country.cpp:28
+msgid "Hindi"
+msgstr "הינדית"
+
+#: libicq/country.cpp:29
+msgid "Hungarian"
+msgstr "הונגרית"
+
+#: libicq/country.cpp:30
+msgid "Icelandic"
+msgstr "איסלנדית"
+
+#: libicq/country.cpp:31
+msgid "Indonesian"
+msgstr "אינדונזית"
+
+#: libicq/country.cpp:32 ui/themesetup.cpp:61
+msgid "Italian"
+msgstr "איטלקית"
+
+#: client.cpp:91 client.cpp:92 client.cpp:93 libicq/country.cpp:33
+msgid "Japanese"
+msgstr "יפנית"
+
+#: libicq/country.cpp:34
+msgid "Khmer"
+msgstr "קמר"
+
+#: client.cpp:95 libicq/country.cpp:35
+msgid "Korean"
+msgstr "קוריאנית"
+
+#: libicq/country.cpp:36
+msgid "Lao"
+msgstr "לאו"
+
+#: libicq/country.cpp:37
+msgid "Latvian"
+msgstr "לטבית"
+
+#: libicq/country.cpp:38
+msgid "Lithuanian"
+msgstr "ליטאית"
+
+#: libicq/country.cpp:39
+msgid "Malay"
+msgstr "מלאזיה"
+
+#: libicq/country.cpp:40
+msgid "Norwegian"
+msgstr "נורבגית"
+
+#: libicq/country.cpp:41 ui/themesetup.cpp:63
+msgid "Polish"
+msgstr "פולנית"
+
+#: libicq/country.cpp:42
+msgid "Portuguese"
+msgstr "פורטוגזית"
+
+#: libicq/country.cpp:43
+msgid "Romanian"
+msgstr "רומנית"
+
+#: libicq/country.cpp:44 ui/themesetup.cpp:64
+msgid "Russian"
+msgstr "רוסית"
+
+#: libicq/country.cpp:45
+msgid "Serbian"
+msgstr "סרבית"
+
+#: libicq/country.cpp:46
+msgid "Slovak"
+msgstr "סלובקית"
+
+#: libicq/country.cpp:47
+msgid "Slovenian"
+msgstr "סלובנית"
+
+#: libicq/country.cpp:48
+msgid "Somali"
+msgstr "סומאלית"
+
+#: libicq/country.cpp:49 ui/themesetup.cpp:58
+msgid "Spanish"
+msgstr "ספרדית"
+
+#: libicq/country.cpp:50
+msgid "Swahili"
+msgstr "סווהילית"
+
+#: libicq/country.cpp:51
+msgid "Swedish"
+msgstr "שבדית"
+
+#: libicq/country.cpp:52
+msgid "Tagalog"
+msgstr "טגאלוג"
+
+#: libicq/country.cpp:53
+msgid "Tatar"
+msgstr "טאטאר"
+
+#: client.cpp:103 libicq/country.cpp:54
+msgid "Thai"
+msgstr "תאילנדית"
+
+#: client.cpp:105 client.cpp:106 libicq/country.cpp:55 ui/themesetup.cpp:65
+msgid "Turkish"
+msgstr "טורקית"
+
+#: client.cpp:108 libicq/country.cpp:56 ui/themesetup.cpp:66
+msgid "Ukrainian"
+msgstr "אוקראינית"
+
+#: libicq/country.cpp:57
+msgid "Urdu"
+msgstr "אורדו"
+
+#: libicq/country.cpp:58
+msgid "Vietnamese"
+msgstr "וייטנמית"
+
+#: libicq/country.cpp:59
+msgid "Yiddish"
+msgstr "יידיש"
+
+#: libicq/country.cpp:60
+msgid "Yoruba"
+msgstr "ארובה"
+
+#: libicq/country.cpp:61
+msgid "Taiwanese"
+msgstr "טאייואנית"
+
+#: libicq/country.cpp:62
+msgid "Afrikaans"
+msgstr "אפקיראית"
+
+#: libicq/country.cpp:63
+msgid "Persian"
+msgstr "פרסית"
+
+#: libicq/country.cpp:64
+msgid "Albanian"
+msgstr "אלבנית"
+
+#: libicq/country.cpp:65
+msgid "Armenian"
+msgstr "ארמנית"
+
+#: libicq/country.cpp:71
+msgid "Afghanistan"
+msgstr "אפגניסטן"
+
+#: libicq/country.cpp:72
+msgid "Albania"
+msgstr "אלבניה"
+
+#: libicq/country.cpp:73
+msgid "Algeria"
+msgstr "אלג'יריה"
+
+#: libicq/country.cpp:74
+msgid "American Samoa"
+msgstr "סמואה האמריקאית"
+
+#: libicq/country.cpp:75
+msgid "Andorra"
+msgstr "אנדורה"
+
+#: libicq/country.cpp:76
+msgid "Angola"
+msgstr "אנגולה"
+
+#: libicq/country.cpp:77
+msgid "Anguilla"
+msgstr "אנגווילה"
+
+#: libicq/country.cpp:78
+msgid "Antigua"
+msgstr "אנטיגואה"
+
+#: libicq/country.cpp:79
+msgid "Argentina"
+msgstr "ארגנטינה"
+
+#: libicq/country.cpp:80
+msgid "Armenia"
+msgstr "ארמניה"
+
+#: libicq/country.cpp:81
+msgid "Aruba"
+msgstr "ארובה"
+
+#: libicq/country.cpp:82
+msgid "Ascension Island"
+msgstr "Ascension Island"
+
+#: libicq/country.cpp:83
+msgid "Australia"
+msgstr "אוסטרליה"
+
+#: libicq/country.cpp:84
+msgid "Australian Antarctic Territory"
+msgstr "הטריטוריה האוסטרלית-אטרקטית"
+
+#: libicq/country.cpp:85
+msgid "Austria"
+msgstr "אוסטריה"
+
+#: libicq/country.cpp:86
+msgid "Azerbaijan"
+msgstr "אזרביג'ן"
+
+#: libicq/country.cpp:87
+msgid "Bahamas"
+msgstr "באהמאס"
+
+#: libicq/country.cpp:88
+msgid "Bahrain"
+msgstr "בחריין"
+
+#: libicq/country.cpp:89
+msgid "Bangladesh"
+msgstr "בנגלדש"
+
+#: libicq/country.cpp:90
+msgid "Barbados"
+msgstr "ברבדוס"
+
+#: libicq/country.cpp:91
+msgid "Barbuda"
+msgstr "ברבודה"
+
+#: libicq/country.cpp:92
+msgid "Belarus"
+msgstr "בלרוס"
+
+#: libicq/country.cpp:93
+msgid "Belgium"
+msgstr "בלגיה"
+
+#: libicq/country.cpp:94
+msgid "Belize"
+msgstr "בליז"
+
+#: libicq/country.cpp:95
+msgid "Benin"
+msgstr "בנין"
+
+#: libicq/country.cpp:96
+msgid "Bermuda"
+msgstr "ברמודה"
+
+#: libicq/country.cpp:97
+msgid "Bhutan"
+msgstr "בהוטן"
+
+#: libicq/country.cpp:98
+msgid "Bolivia"
+msgstr "בוליביה"
+
+#: libicq/country.cpp:99
+msgid "Bosnia and Herzegovina"
+msgstr "בוסניה הרצגובינה"
+
+#: libicq/country.cpp:100
+msgid "Botswana"
+msgstr "בוצוונה"
+
+#: libicq/country.cpp:101
+msgid "Brazil"
+msgstr "ברזיל"
+
+#: libicq/country.cpp:102
+msgid "British Virgin Islands"
+msgstr "איי הבתולה הבריטיים"
+
+#: libicq/country.cpp:103
+msgid "Brunei"
+msgstr "ברוניי"
+
+#: libicq/country.cpp:104
+msgid "Bulgaria"
+msgstr "בולגריה"
+
+#: libicq/country.cpp:105
+msgid "Burkina Faso"
+msgstr "בורקינה פסו"
+
+#: libicq/country.cpp:106
+msgid "Burundi"
+msgstr "בורונדי"
+
+#: libicq/country.cpp:107
+msgid "Cambodia"
+msgstr "קמבודיה"
+
+#: libicq/country.cpp:108
+msgid "Cameroon"
+msgstr "קמרון"
+
+#: libicq/country.cpp:109
+msgid "Canada"
+msgstr "קנדה"
+
+#: libicq/country.cpp:110
+msgid "Cape Verde Islands"
+msgstr "איי קפה-ורדה"
+
+#: libicq/country.cpp:111
+msgid "Cayman Islands"
+msgstr "איי קיימן"
+
+#: libicq/country.cpp:112
+msgid "Central African Republic"
+msgstr "רפובליקת מרכז אפריקה"
+
+#: libicq/country.cpp:113
+msgid "Chad"
+msgstr "צ'ד"
+
+#: libicq/country.cpp:114
+msgid "Chile"
+msgstr "צ'ילה"
+
+#: libicq/country.cpp:115
+msgid "China"
+msgstr "סין"
+
+#: libicq/country.cpp:116
+msgid "Christmas Island"
+msgstr "איי חג המולד"
+
+#: libicq/country.cpp:117
+msgid "Cocos-Keeling Islands"
+msgstr "Cocos-Keeling Islands"
+
+#: libicq/country.cpp:118
+msgid "Colombia"
+msgstr "קולומביה"
+
+#: libicq/country.cpp:119
+msgid "Comoros"
+msgstr "קומורו"
+
+#: libicq/country.cpp:120
+msgid "Congo"
+msgstr "קונגו"
+
+#: libicq/country.cpp:121
+msgid "Cook Islands"
+msgstr "איי קוק"
+
+#: libicq/country.cpp:122
+msgid "Costa Rica"
+msgstr "קוסטה ריקה"
+
+#: libicq/country.cpp:123
+msgid "Croatia"
+msgstr "קרואטיה"
+
+#: libicq/country.cpp:124
+msgid "Cuba"
+msgstr "קובה"
+
+#: libicq/country.cpp:125
+msgid "Cyprus"
+msgstr "קפריסין"
+
+#: libicq/country.cpp:126
+msgid "Czech Republic"
+msgstr "הרפובליקה הצ'כית"
+
+#: libicq/country.cpp:127
+msgid "Denmark"
+msgstr "דנמרק"
+
+#: libicq/country.cpp:128
+msgid "Diego Garcia"
+msgstr "דיאגו גרסיה"
+
+#: libicq/country.cpp:129
+msgid "Djibouti"
+msgstr "ג'יבוטי"
+
+#: libicq/country.cpp:130
+msgid "Dominica"
+msgstr "דומיניקה"
+
+#: libicq/country.cpp:131
+msgid "Dominican Republic"
+msgstr "הרפובליקה הדומיניקנית"
+
+#: libicq/country.cpp:132
+msgid "Ecuador"
+msgstr "אקוודור"
+
+#: libicq/country.cpp:133
+msgid "Egypt"
+msgstr "מצרים"
+
+#: libicq/country.cpp:134
+msgid "El Salvador"
+msgstr "אל סלבדור"
+
+#: libicq/country.cpp:135
+msgid "Equatorial Guinea"
+msgstr "גינאה המשוונית"
+
+#: libicq/country.cpp:136
+msgid "Eritrea"
+msgstr "אריתריאה"
+
+#: libicq/country.cpp:137
+msgid "Estonia"
+msgstr "אסטוניה"
+
+#: libicq/country.cpp:138
+msgid "Ethiopia"
+msgstr "אתיופיה"
+
+#: libicq/country.cpp:139
+msgid "Faeroe Islands"
+msgstr "איי פרעה"
+
+#: libicq/country.cpp:140
+msgid "Falkland Islands"
+msgstr "איי פולקלנד"
+
+#: libicq/country.cpp:141
+msgid "Fiji Islands"
+msgstr "איי פיג'י"
+
+#: libicq/country.cpp:142
+msgid "Finland"
+msgstr "פינלנד"
+
+#: libicq/country.cpp:143
+msgid "France"
+msgstr "צרפת"
+
+#: libicq/country.cpp:144
+msgid "French Antilles"
+msgstr "האנטיליים הצרפתיים"
+
+#: libicq/country.cpp:145
+msgid "French Guiana"
+msgstr "צרפתית"
+
+#: libicq/country.cpp:146
+msgid "French Polynesia"
+msgstr "פולינזיה הצרפתית"
+
+#: libicq/country.cpp:147
+msgid "Gabon"
+msgstr "גבון"
+
+#: libicq/country.cpp:148
+msgid "Gambia"
+msgstr "גמביה"
+
+#: libicq/country.cpp:149
+msgid "Georgia"
+msgstr "גרוזיה"
+
+#: libicq/country.cpp:150
+msgid "Germany"
+msgstr "גרמניה"
+
+#: libicq/country.cpp:151
+msgid "Ghana"
+msgstr "גאנה"
+
+#: libicq/country.cpp:152
+msgid "Gibraltar"
+msgstr "גיברלטר"
+
+#: libicq/country.cpp:153
+msgid "Greece"
+msgstr "יוון"
+
+#: libicq/country.cpp:154
+msgid "Greenland"
+msgstr "גרינלנד"
+
+#: libicq/country.cpp:155
+msgid "Grenada"
+msgstr "גרנדה"
+
+#: libicq/country.cpp:156
+msgid "Guadeloupe"
+msgstr "גואדלופ"
+
+#: libicq/country.cpp:157
+msgid "Guam"
+msgstr "גואם"
+
+#: libicq/country.cpp:158
+msgid "Guantanamo Bay"
+msgstr "מפרץ גואנטנאמו"
+
+#: libicq/country.cpp:159
+msgid "Guatemala"
+msgstr "גואטמלה"
+
+#: libicq/country.cpp:160
+msgid "Guinea"
+msgstr "גינאה"
+
+#: libicq/country.cpp:161
+msgid "Guinea-Bissau"
+msgstr "גינאה-ביסו"
+
+#: libicq/country.cpp:162
+msgid "Guyana"
+msgstr "גויאנה"
+
+#: libicq/country.cpp:163
+msgid "Haiti"
+msgstr "האיטי"
+
+#: libicq/country.cpp:164
+msgid "Honduras"
+msgstr "הונדורס"
+
+#: libicq/country.cpp:165
+msgid "Hong Kong"
+msgstr "הונג קונג"
+
+#: libicq/country.cpp:166
+msgid "Hungary"
+msgstr "הונגריה"
+
+#: libicq/country.cpp:167
+msgid "INMARSAT (Atlantic-East)"
+msgstr "INMARSAT (Atlantic-East)"
+
+#: libicq/country.cpp:168
+msgid "INMARSAT (Atlantic-West)"
+msgstr "\t"
+
+#: libicq/country.cpp:169
+msgid "INMARSAT (Indian)"
+msgstr "INMARSAT (Indian)"
+
+#: libicq/country.cpp:170
+msgid "INMARSAT (Pacific)"
+msgstr "INMARSAT (Pacific)"
+
+#: libicq/country.cpp:171
+msgid "INMARSAT"
+msgstr "INMARSAT"
+
+#: libicq/country.cpp:172
+msgid "Iceland"
+msgstr "איסלנד"
+
+#: libicq/country.cpp:173
+msgid "India"
+msgstr "הודו"
+
+#: libicq/country.cpp:174
+msgid "Indonesia"
+msgstr "אינדונזיה"
+
+#: libicq/country.cpp:175
+msgid "International Freephone Service"
+msgstr "שירות שיחות חינם בינלאומי"
+
+#: libicq/country.cpp:176
+msgid "Iran"
+msgstr "אירן"
+
+#: libicq/country.cpp:177
+msgid "Iraq"
+msgstr "עיראק"
+
+#: libicq/country.cpp:178
+msgid "Ireland"
+msgstr "אירלנד"
+
+#: libicq/country.cpp:179
+msgid "Israel"
+msgstr "ישראל"
+
+#: libicq/country.cpp:180
+msgid "Italy"
+msgstr "איטליה"
+
+#: libicq/country.cpp:181
+msgid "Ivory Coast"
+msgstr "חוף השנהב"
+
+#: libicq/country.cpp:182
+msgid "Jamaica"
+msgstr "ג'מייקה"
+
+#: libicq/country.cpp:183
+msgid "Japan"
+msgstr "יפן"
+
+#: libicq/country.cpp:184
+msgid "Jordan"
+msgstr "ירדן"
+
+#: libicq/country.cpp:185
+msgid "Kazakhstan"
+msgstr "קזחסטן"
+
+#: libicq/country.cpp:186
+msgid "Kenya"
+msgstr "קניה"
+
+#: libicq/country.cpp:187
+msgid "Kiribati Republic"
+msgstr "הרפובליקה הקיריבטית"
+
+#: libicq/country.cpp:188
+msgid "Korea (North)"
+msgstr "קוריאה (צפון)"
+
+#: libicq/country.cpp:189
+msgid "Korea (Republic of)"
+msgstr "קוריאה (הרפובליקה של)"
+
+#: libicq/country.cpp:190
+msgid "Kuwait"
+msgstr "כווית"
+
+#: libicq/country.cpp:191
+msgid "Kyrgyz Republic"
+msgstr "Kyrgyz Republic"
+
+#: libicq/country.cpp:192
+msgid "Laos"
+msgstr "לאוס"
+
+#: libicq/country.cpp:193
+msgid "Latvia"
+msgstr "לטביה"
+
+#: libicq/country.cpp:194
+msgid "Lebanon"
+msgstr "לבנון"
+
+#: libicq/country.cpp:195
+msgid "Lesotho"
+msgstr "לסותו"
+
+#: libicq/country.cpp:196
+msgid "Liberia"
+msgstr "ליבריה"
+
+#: libicq/country.cpp:197
+msgid "Libya"
+msgstr "לוב"
+
+#: libicq/country.cpp:198
+msgid "Liechtenstein"
+msgstr "ליכטנשטיין"
+
+#: libicq/country.cpp:199
+msgid "Lithuania"
+msgstr "ליטא"
+
+#: libicq/country.cpp:200
+msgid "Luxembourg"
+msgstr "לוקסמבורג"
+
+#: libicq/country.cpp:201
+msgid "Macau"
+msgstr "מקאו"
+
+#: libicq/country.cpp:202
+msgid "Madagascar"
+msgstr "מדגסקר"
+
+#: libicq/country.cpp:203
+msgid "Malawi"
+msgstr "מלווי"
+
+#: libicq/country.cpp:204
+msgid "Malaysia"
+msgstr "מלזיה"
+
+#: libicq/country.cpp:205
+msgid "Maldives"
+msgstr "איי מלדיב"
+
+#: libicq/country.cpp:206
+msgid "Mali"
+msgstr "מלי"
+
+#: libicq/country.cpp:207
+msgid "Malta"
+msgstr "מלטה"
+
+#: libicq/country.cpp:208
+msgid "Marshall Islands"
+msgstr "איי מרשל"
+
+#: libicq/country.cpp:209
+msgid "Martinique"
+msgstr "מרטיניק"
+
+#: libicq/country.cpp:210
+msgid "Mauritania"
+msgstr "מאוריטניה"
+
+#: libicq/country.cpp:211
+msgid "Mauritius"
+msgstr "מאוריצ'יוס"
+
+#: libicq/country.cpp:212
+msgid "Mayotte Island"
+msgstr "איי מאיוטה"
+
+#: libicq/country.cpp:213
+msgid "Mexico"
+msgstr "מקסיקו"
+
+#: libicq/country.cpp:214
+msgid "Micronesia, Federated States of"
+msgstr "מיקרונזיה"
+
+#: libicq/country.cpp:215
+msgid "Moldova"
+msgstr "מולדובה"
+
+#: libicq/country.cpp:216
+msgid "Monaco"
+msgstr "מונקו"
+
+#: libicq/country.cpp:217
+msgid "Mongolia"
+msgstr "מונגוליה"
+
+#: libicq/country.cpp:218
+msgid "Montserrat"
+msgstr "מונטסראט"
+
+#: libicq/country.cpp:219
+msgid "Morocco"
+msgstr "מרוקו"
+
+#: libicq/country.cpp:220
+msgid "Mozambique"
+msgstr "מוזמביק"
+
+#: libicq/country.cpp:221
+msgid "Myanmar"
+msgstr "מיאנמר"
+
+#: libicq/country.cpp:222
+msgid "Namibia"
+msgstr "נמיביה"
+
+#: libicq/country.cpp:223
+msgid "Nauru"
+msgstr "נאורו"
+
+#: libicq/country.cpp:224
+msgid "Nepal"
+msgstr "נפל"
+
+#: libicq/country.cpp:225
+msgid "Netherlands Antilles"
+msgstr "האנטילים ההולנדיים"
+
+#: libicq/country.cpp:226
+msgid "Netherlands"
+msgstr "הולנד"
+
+#: libicq/country.cpp:227
+msgid "Nevis"
+msgstr "נוויס"
+
+#: libicq/country.cpp:228
+msgid "New Caledonia"
+msgstr "קלדוניה החדשה"
+
+#: libicq/country.cpp:229
+msgid "New Zealand"
+msgstr "ניו זילנד"
+
+#: libicq/country.cpp:230
+msgid "Nicaragua"
+msgstr "ניקרגווה"
+
+#: libicq/country.cpp:231
+msgid "Niger"
+msgstr "ניג'ר"
+
+#: libicq/country.cpp:232
+msgid "Nigeria"
+msgstr "ניגריה"
+
+#: libicq/country.cpp:233
+msgid "Niue"
+msgstr "ניואה"
+
+#: libicq/country.cpp:234
+msgid "Norfolk Island"
+msgstr "איי נורפולק"
+
+#: libicq/country.cpp:235
+msgid "Norway"
+msgstr "נורבגיה"
+
+#: libicq/country.cpp:236
+msgid "Oman"
+msgstr "עומן"
+
+#: libicq/country.cpp:237
+msgid "Pakistan"
+msgstr "פקיסטן"
+
+#: libicq/country.cpp:238
+msgid "Palau"
+msgstr "פלאו"
+
+#: libicq/country.cpp:239
+msgid "Panama"
+msgstr "פנמה"
+
+#: libicq/country.cpp:240
+msgid "Papua New Guinea"
+msgstr "פפואה גינאה החדשה"
+
+#: libicq/country.cpp:241
+msgid "Paraguay"
+msgstr "פרגואי"
+
+#: libicq/country.cpp:242
+msgid "Peru"
+msgstr "פרו"
+
+#: libicq/country.cpp:243
+msgid "Philippines"
+msgstr "הפיליפינים"
+
+#: libicq/country.cpp:244
+msgid "Poland"
+msgstr "פולין"
+
+#: libicq/country.cpp:245
+msgid "Portugal"
+msgstr "פורטוגל"
+
+#: libicq/country.cpp:246
+msgid "Puerto Rico"
+msgstr "פורטו ריקו"
+
+#: libicq/country.cpp:247
+msgid "Qatar"
+msgstr "קטר"
+
+#: libicq/country.cpp:248
+msgid "Republic of Macedonia"
+msgstr "הרפובליקה של מקדוניה"
+
+#: libicq/country.cpp:249
+msgid "Reunion Island"
+msgstr "איי ריוניון"
+
+#: libicq/country.cpp:250
+msgid "Romania"
+msgstr "רומניה"
+
+#: libicq/country.cpp:251
+msgid "Rota Island"
+msgstr "איי רוטה"
+
+#: libicq/country.cpp:252
+msgid "Russia"
+msgstr "רוסיה"
+
+#: libicq/country.cpp:253
+msgid "Rwanda"
+msgstr "רואנדה"
+
+#: libicq/country.cpp:254
+msgid "Saint Lucia"
+msgstr "סיינט לוציה"
+
+#: libicq/country.cpp:255
+msgid "Saipan Island"
+msgstr "איסלנד הספרדית"
+
+#: libicq/country.cpp:256
+msgid "San Marino"
+msgstr "סן מרינו"
+
+#: libicq/country.cpp:257
+msgid "Sao Tome and Principe"
+msgstr "סאו טומה ופרינסיפה"
+
+#: libicq/country.cpp:258
+msgid "Saudi Arabia"
+msgstr "ערב הסעודית"
+
+#: libicq/country.cpp:259
+msgid "Senegal Republic"
+msgstr "סנגל"
+
+#: libicq/country.cpp:260
+msgid "Seychelle Islands"
+msgstr "Seychelle Islands"
+
+#: libicq/country.cpp:261
+msgid "Sierra Leone"
+msgstr "סיירה לאון"
+
+#: libicq/country.cpp:262
+msgid "Singapore"
+msgstr "סינגפור"
+
+#: libicq/country.cpp:263
+msgid "Slovak Republic"
+msgstr "הרפובליקה הסלובקית"
+
+#: libicq/country.cpp:264
+msgid "Slovenia"
+msgstr "סלובניה"
+
+#: libicq/country.cpp:265
+msgid "Solomon Islands"
+msgstr "איי סולומון"
+
+#: libicq/country.cpp:266
+msgid "Somalia"
+msgstr "סומליה"
+
+#: libicq/country.cpp:267
+msgid "South Africa"
+msgstr "דרום אפריקה"
+
+#: libicq/country.cpp:268
+msgid "Spain"
+msgstr "ספרד"
+
+#: libicq/country.cpp:269
+msgid "Sri Lanka"
+msgstr "סרי לנקה"
+
+#: libicq/country.cpp:270
+msgid "St. Helena"
+msgstr "סיינט הלנה"
+
+#: libicq/country.cpp:271
+msgid "St. Kitts"
+msgstr "סיינט קיטס"
+
+#: libicq/country.cpp:272
+msgid "St. Pierre and Miquelon"
+msgstr "St. Pierre and Miquelon"
+
+#: libicq/country.cpp:273
+msgid "St. Vincent and the Grenadines"
+msgstr "סנט וינסנט והגרנדים"
+
+#: libicq/country.cpp:274
+msgid "Sudan"
+msgstr "סודן"
+
+#: libicq/country.cpp:275
+msgid "Suriname"
+msgstr "סורינם"
+
+#: libicq/country.cpp:276
+msgid "Swaziland"
+msgstr "סווזילנד"
+
+#: libicq/country.cpp:277
+msgid "Sweden"
+msgstr "שבדיה"
+
+#: libicq/country.cpp:278
+msgid "Switzerland"
+msgstr "שוויץ"
+
+#: libicq/country.cpp:279
+msgid "Syria"
+msgstr "סוריה"
+
+#: libicq/country.cpp:280
+msgid "Taiwan, Republic of China"
+msgstr "טאיוון"
+
+#: libicq/country.cpp:281
+msgid "Tajikistan"
+msgstr "טג'יקיסטן"
+
+#: libicq/country.cpp:282
+msgid "Tanzania"
+msgstr "טנזניה"
+
+#: libicq/country.cpp:283
+msgid "Thailand"
+msgstr "תאילנד"
+
+#: libicq/country.cpp:284
+msgid "Tinian Island"
+msgstr "איסלנד Tinian"
+
+#: libicq/country.cpp:285
+msgid "Togo"
+msgstr "טוגו"
+
+#: libicq/country.cpp:286
+msgid "Tokelau"
+msgstr "טוקלאו"
+
+#: libicq/country.cpp:287
+msgid "Tonga"
+msgstr "טונגה"
+
+#: libicq/country.cpp:288
+msgid "Trinidad and Tobago"
+msgstr "טרינידד וטובגו"
+
+#: libicq/country.cpp:289
+msgid "Tunisia"
+msgstr "תוניסיה"
+
+#: libicq/country.cpp:290
+msgid "Turkey"
+msgstr "טורקיה"
+
+#: libicq/country.cpp:291
+msgid "Turkmenistan"
+msgstr "טורקמניסטן"
+
+#: libicq/country.cpp:292
+msgid "Turks and Caicos Islands"
+msgstr "איי טרקס וקייקוס"
+
+#: libicq/country.cpp:293
+msgid "Tuvalu"
+msgstr "טובלו"
+
+#: libicq/country.cpp:294
+msgid "USA"
+msgstr "ארצות הברית"
+
+#: libicq/country.cpp:295
+msgid "Uganda"
+msgstr "אוגנדה"
+
+#: libicq/country.cpp:296
+msgid "Ukraine"
+msgstr "אוקראינה"
+
+#: libicq/country.cpp:297
+msgid "United Arab Emirates"
+msgstr "איחוד האמירויות הערביות"
+
+#: libicq/country.cpp:298
+msgid "United Kingdom"
+msgstr "בריטניה"
+
+#: libicq/country.cpp:299
+msgid "United States Virgin Islands"
+msgstr "איי הבתולה"
+
+#: libicq/country.cpp:300
+msgid "Uruguay"
+msgstr "אורוגואי"
+
+#: libicq/country.cpp:301
+msgid "Uzbekistan"
+msgstr "אוזבקיסטן"
+
+#: libicq/country.cpp:302
+msgid "Vanuatu"
+msgstr "ונואטו"
+
+#: libicq/country.cpp:303
+msgid "Vatican City"
+msgstr "הותיקן"
+
+#: libicq/country.cpp:304
+msgid "Venezuela"
+msgstr "ונצואלה"
+
+#: libicq/country.cpp:305
+msgid "Vietnam"
+msgstr "וייטנאם"
+
+#: libicq/country.cpp:306
+msgid "Wallis and Futuna Islands"
+msgstr "איי ויילס ופונטונה"
+
+#: libicq/country.cpp:307
+msgid "Western Samoa"
+msgstr "סמואה המערבית"
+
+#: libicq/country.cpp:308
+msgid "Yemen"
+msgstr "תימן"
+
+#: libicq/country.cpp:309
+msgid "Yugoslavia"
+msgstr "יוגוסלביה"
+
+#: libicq/country.cpp:310
+msgid "Zaire"
+msgstr "זאיר"
+
+#: libicq/country.cpp:311
+msgid "Zambia"
+msgstr "זמביה"
+
+#: libicq/country.cpp:312
+msgid "Zimbabwe"
+msgstr "זימבבווה"
+
+#: libicq/country.cpp:331
+msgid "Art"
+msgstr "אמנות"
+
+#: libicq/country.cpp:332
+msgid "Cars"
+msgstr "מכוניות"
+
+#: libicq/country.cpp:333
+msgid "Celebrity Fans"
+msgstr "מעריצים"
+
+#: libicq/country.cpp:334
+msgid "Collections"
+msgstr "אוספים"
+
+#: libicq/country.cpp:335 libicq/country.cpp:416
+msgid "Computers"
+msgstr "מחשבים"
+
+#: libicq/country.cpp:336
+msgid "Culture & Literature"
+msgstr "תרבות וספרות"
+
+#: libicq/country.cpp:337
+msgid "Fitness"
+msgstr "כושר גופני"
+
+#: libicq/country.cpp:338 libicq/country.cpp:478
+msgid "Games"
+msgstr "משחקים"
+
+#: libicq/country.cpp:339
+msgid "Hobbies"
+msgstr "תחביבים"
+
+#: libicq/country.cpp:340 libicq/country.cpp:424
+msgid "ICQ - Providing Help"
+msgstr "הגשת עזרה ICQ"
+
+#: libicq/country.cpp:341
+msgid "Internet"
+msgstr "אינטרנט"
+
+#: libicq/country.cpp:342
+msgid "Lifestyle"
+msgstr "סגנון חיים"
+
+#: libicq/country.cpp:343
+msgid "Movies/TV"
+msgstr "סרטים/טלוויזיה"
+
+#: libicq/country.cpp:344
+msgid "Music"
+msgstr "מוסיקה"
+
+#: libicq/country.cpp:345
+msgid "Outdoor Activities"
+msgstr "פעילויות חוץ"
+
+#: libicq/country.cpp:346
+msgid "Parenting"
+msgstr "הורות"
+
+#: libicq/country.cpp:347
+msgid "Pets/Animals"
+msgstr "חיות/חיות מחמד"
+
+#: libicq/country.cpp:348
+msgid "Religion"
+msgstr "דת"
+
+#: libicq/country.cpp:349
+msgid "Science/Technology"
+msgstr "מדע וטכנולוגיה"
+
+#: libicq/country.cpp:350
+msgid "Skills"
+msgstr "כישורים"
+
+#: libicq/country.cpp:351 libicq/country.cpp:436
+msgid "Sports"
+msgstr "ספורט"
+
+#: libicq/country.cpp:352
+msgid "Web Design"
+msgstr "עצוב באינטרנט"
+
+#: libicq/country.cpp:353
+msgid "Nature and Environment"
+msgstr "טבע וסביבה"
+
+#: libicq/country.cpp:354
+msgid "News & Media"
+msgstr "חדשות ומדיה"
+
+#: libicq/country.cpp:355 libicq/country.cpp:421
+msgid "Government"
+msgstr "ממשלה"
+
+#: libicq/country.cpp:356
+msgid "Business & Economy"
+msgstr "עסקים וכלכלה"
+
+#: libicq/country.cpp:357
+msgid "Mystics"
+msgstr "מיסטיקה"
+
+#: libicq/country.cpp:358
+msgid "Travel"
+msgstr "נסיעות"
+
+#: libicq/country.cpp:359
+msgid "Astronomy"
+msgstr "אסטרונומיה"
+
+#: libicq/country.cpp:360
+msgid "Space"
+msgstr "חלל"
+
+#: libicq/country.cpp:361
+msgid "Clothing"
+msgstr "הלבשה"
+
+#: libicq/country.cpp:362
+msgid "Parties"
+msgstr "מסיבות"
+
+#: libicq/country.cpp:363
+msgid "Women"
+msgstr "נשים"
+
+#: libicq/country.cpp:364
+msgid "Social science"
+msgstr "מדעי החברה"
+
+#: libicq/country.cpp:365
+msgid "60's"
+msgstr "שנות השישים"
+
+#: libicq/country.cpp:366
+msgid "70's"
+msgstr "שנות השבעים"
+
+#: libicq/country.cpp:367
+msgid "80's"
+msgstr "שנות השמונים"
+
+#: libicq/country.cpp:368
+msgid "50's"
+msgstr "שנות החמישים"
+
+#: libicq/country.cpp:369
+msgid "Finance and corporate"
+msgstr "כספים ומוסדות"
+
+#: libicq/country.cpp:370
+msgid "Entertainment"
+msgstr "בידור"
+
+#: libicq/country.cpp:371
+msgid "Consumer electronics"
+msgstr "מוצרי צריכה אלקטרוניים"
+
+#: libicq/country.cpp:372
+msgid "Retail stores"
+msgstr "חנויות Retail"
+
+#: libicq/country.cpp:373
+msgid "Health and beauty"
+msgstr "בריאות ויופי"
+
+#: libicq/country.cpp:374
+msgid "Media"
+msgstr "מדיה"
+
+#: libicq/country.cpp:375
+msgid "Household products"
+msgstr "מוצרי משק בית"
+
+#: libicq/country.cpp:376
+msgid "Mail order catalog"
+msgstr "קטלוג הזמנת דואר"
+
+#: libicq/country.cpp:377
+msgid "Business services"
+msgstr "שרותים לעסקים"
+
+#: libicq/country.cpp:378
+msgid "Audio and visual"
+msgstr "קול ותמונה"
+
+#: libicq/country.cpp:379
+msgid "Sporting and athletic"
+msgstr "ספורט ואתלטיקה"
+
+#: libicq/country.cpp:380
+msgid "Publishing"
+msgstr "הוצאה לאור"
+
+#: libicq/country.cpp:381
+msgid "Home automation"
+msgstr "אוטומציה ביתית"
+
+#: libicq/country.cpp:387
+msgid "Alumni Org."
+msgstr "ארגון אלומני"
+
+#: libicq/country.cpp:388
+msgid "Charity Org."
+msgstr "ארגון צדקה"
+
+#: libicq/country.cpp:389
+msgid "Club/Social Org."
+msgstr "מועדון חברתי"
+
+#: libicq/country.cpp:390
+msgid "Community Org."
+msgstr "ארגונים קהילתיים"
+
+#: libicq/country.cpp:391
+msgid "Cultural Org."
+msgstr "ארגונים תרבותיים"
+
+#: libicq/country.cpp:392
+msgid "Fan Clubs"
+msgstr "מועדוני מעריצים"
+
+#: libicq/country.cpp:393
+msgid "Fraternity/Sorority"
+msgstr "אחוות סטודנטים"
+
+#: libicq/country.cpp:394
+msgid "Hobbyists Org."
+msgstr "מועדוני תחביבים"
+
+#: libicq/country.cpp:395
+msgid "International Org."
+msgstr "ארגונים בינלאומיים"
+
+#: libicq/country.cpp:396
+msgid "Nature and Environment Org."
+msgstr "מועדוני טבע וסביבה"
+
+#: libicq/country.cpp:397
+msgid "Professional Org."
+msgstr "מועדונים מקצועיים."
+
+#: libicq/country.cpp:398
+msgid "Scientific/Technical Org."
+msgstr "מועדונים מדעיים טכניים"
+
+#: libicq/country.cpp:399
+msgid "Self Improvement Group"
+msgstr "קבוצות שיפור עצמי"
+
+#: libicq/country.cpp:400
+msgid "Spiritual/Religious Org."
+msgstr "ארגונים רוחניים ודתיים"
+
+#: libicq/country.cpp:401
+msgid "Sports Org."
+msgstr "ארגוני ספורט"
+
+#: libicq/country.cpp:402
+msgid "Support Org."
+msgstr "ארגוני תמיכה"
+
+#: libicq/country.cpp:403
+msgid "Trade and Business Org."
+msgstr "ארגוני מסחר ועסקים"
+
+#: libicq/country.cpp:404
+msgid "Union"
+msgstr "איחוד"
+
+#: libicq/country.cpp:405
+msgid "Volunteer Org."
+msgstr "ארגונים התנדבותיים"
+
+#: libicq/country.cpp:406 libicq/country.cpp:452
+msgid "Other"
+msgstr "אחר"
+
+#: libicq/country.cpp:412
+msgid "Academic"
+msgstr "אקדמי"
+
+#: libicq/country.cpp:413
+msgid "Administrative"
+msgstr "אדמניסטרטיבי"
+
+#: libicq/country.cpp:414
+msgid "Art/Entertainment"
+msgstr "אמנות / בידור"
+
+#: libicq/country.cpp:415
+msgid "College Student"
+msgstr "סטודנט קול'ג"
+
+#: libicq/country.cpp:417
+msgid "Community & Social"
+msgstr "קהילה וחברה"
+
+#: libicq/country.cpp:418
+msgid "Education"
+msgstr "חינוך"
+
+#: libicq/country.cpp:419
+msgid "Engineering"
+msgstr "הנדסה"
+
+#: libicq/country.cpp:420
+msgid "Financial Services"
+msgstr "שירותים פיננסים"
+
+#: libicq/country.cpp:422
+msgid "High School Student"
+msgstr "סטודנט ללימודים גבוהים"
+
+#: libicq/country.cpp:423
+msgid "Home"
+msgstr "בית"
+
+#: libicq/country.cpp:425
+msgid "Law"
+msgstr "חוק"
+
+#: libicq/country.cpp:426
+msgid "Managerial"
+msgstr "ניהול"
+
+#: libicq/country.cpp:427
+msgid "Manufacturing"
+msgstr "ייצור"
+
+#: libicq/country.cpp:428
+msgid "Medical/Health"
+msgstr "תרופות /בריאות"
+
+#: libicq/country.cpp:429 libicq/country.cpp:449
+msgid "Military"
+msgstr "צבאי"
+
+#: libicq/country.cpp:430
+msgid "Non-Goverment Organisation"
+msgstr "ארגון לא ממשלתי"
+
+#: libicq/country.cpp:431
+msgid "Other services"
+msgstr "שירותים אחרים"
+
+#: libicq/country.cpp:432
+msgid "Professional"
+msgstr "מקצועי"
+
+#: libicq/country.cpp:433
+msgid "Retail"
+msgstr "מכירה"
+
+#: libicq/country.cpp:434
+msgid "Retired"
+msgstr "פנסיונר"
+
+#: libicq/country.cpp:435
+msgid "Science & Research"
+msgstr "מדע ומחקר"
+
+#: libicq/country.cpp:437
+msgid "Technical"
+msgstr "טכני"
+
+#: libicq/country.cpp:438
+msgid "University student"
+msgstr "סטודנט באוניברסיטה"
+
+#: libicq/country.cpp:439
+msgid "Web building"
+msgstr "בניית אתרים באינטרנט"
+
+#: libicq/country.cpp:445
+msgid "Elementary School"
+msgstr "בי'ס יסודי"
+
+#: libicq/country.cpp:446
+msgid "High School"
+msgstr "תיכון"
+
+#: libicq/country.cpp:447
+msgid "College"
+msgstr "קול'ג או מכללה"
+
+#: libicq/country.cpp:448
+msgid "University"
+msgstr "אוניברסיטה"
+
+#: libicq/country.cpp:450
+msgid "Past Work Place"
+msgstr "מקום עבודה קודם"
+
+#: libicq/country.cpp:451
+msgid "Past Organization"
+msgstr "ארגון קודם"
+
+#: libicq/country.cpp:458
+msgid "Female"
+msgstr "נקבה"
+
+#: libicq/country.cpp:459
+msgid "Male"
+msgstr "זכר"
+
+#: libicq/country.cpp:476
+msgid "General chat"
+msgstr "צ'אט כללי"
+
+#: libicq/country.cpp:477
+msgid "Romance"
+msgstr "רומנטיקה"
+
+#: libicq/country.cpp:479
+msgid "Students"
+msgstr "סטודנטים"
+
+#: libicq/country.cpp:480
+msgid "20 Something"
+msgstr "20 פלוס"
+
+#: libicq/country.cpp:481
+msgid "30 Something"
+msgstr "30 פלוס"
+
+#: libicq/country.cpp:482
+msgid "40 Something"
+msgstr "40 פלוס"
+
+#: libicq/country.cpp:483
+msgid "50 Plus"
+msgstr "50 פלוס"
+
+#: libicq/country.cpp:484
+msgid "Seeking Women"
+msgstr "מחפש אישה"
+
+#: libicq/country.cpp:485
+msgid "Seeking Men"
+msgstr "מחפשת גבר"
+
+#: about.cpp:280
+msgid "replace this with information about your translation team"
+msgstr "Amir Tal - tal@whatsup.org.il - http://www.whatsup.org.il"
+
+#: about.cpp:296
+msgid "This program is distributed under the terms of the GPL v2."
+msgstr "תכנית זו מופצת תחת רשיון ה GPL גרסא 2"
+
+#: chatwnd.cpp:56 monitor.cpp:67 qt3/i18n.cpp:95
+msgid "&Save"
+msgstr "&שמור"
+
+#: chatwnd.cpp:58 msgedit.cpp:115
+msgid "&Bold"
+msgstr "מו&דגש"
+
+#: chatwnd.cpp:59 msgedit.cpp:116
+msgid "&Italic"
+msgstr "נ&טוי"
+
+#: chatwnd.cpp:60 msgedit.cpp:117 qt3/i18n.cpp:160
+msgid "&Underline"
+msgstr "קו &תחתון"
+
+#: chatwnd.cpp:62 msgedit.cpp:114
+msgid "&Text color"
+msgstr "צבע &טקסט"
+
+#: chatwnd.cpp:232
+msgid "Enter to chat"
+msgstr "היכנס לצ'אט"
+
+#: chatwnd.cpp:342 msgview.cpp:1139 ui/filetransfer.cpp:303
+#, c-format
+msgid "Can't create %1"
+msgstr "לא הייתה אפשרות ליצור %1"
+
+#: client.cpp:64
+msgid "Unicode"
+msgstr "יוניקוד"
+
+#: client.cpp:69 client.cpp:70
+msgid "Baltic"
+msgstr "בלטי"
+
+#: client.cpp:72 client.cpp:73
+msgid "Central European"
+msgstr "מרכז אירופי"
+
+#: client.cpp:75
+msgid "Chinese "
+msgstr "סינית"
+
+#: client.cpp:76
+msgid "Chinese Simplified"
+msgstr "סיני מופשט"
+
+#: client.cpp:77
+msgid "Chinese Traditional"
+msgstr "סיני מסורתי"
+
+#: client.cpp:79 client.cpp:80 client.cpp:81
+msgid "Cyrillic"
+msgstr "קירילי"
+
+#: client.cpp:97 client.cpp:98 client.cpp:99
+msgid "Western European"
+msgstr "מערב אירופי"
+
+#: client.cpp:101
+msgid "Tamil"
+msgstr "טמילי"
+
+#: client.cpp:320
+msgid ""
+"I am currently away from ICQ.\n"
+"Please leave your message and I will get back to you as soon as I return!\n"
+msgstr ""
+"אני כרגע לא ליד ה ICQ שלי\n"
+"אנא השאר לי את הודעתך ואני אחזור אליך מיד "
+"כשאוכל!\n"
+
+#: client.cpp:324
+msgid ""
+"I am out'a here.\n"
+"See you tomorrow!\n"
+msgstr ""
+"אני כבר לא כאן - יצאתי !\n"
+"להתראות מחר!\n"
+
+#: client.cpp:328
+msgid "Please do not disturb me now. Disturb me later.\n"
+msgstr "אנא אל תפריע לי עכשיו, תפריע לי אחר כך.\n"
+
+#: client.cpp:331
+msgid ""
+"Please do not disturb me now.\n"
+"Disturb me later.\n"
+"Only urgent messages, please!\n"
+msgstr ""
+"אנא אל תפריע לי עכשיו\n"
+"תפריע לי אחר כך.\n"
+"רק הודעות דחופות בבקשה!\n"
+
+#: client.cpp:335
+msgid "We'd love to hear what you have to say. Join our chat.\n"
+msgstr ""
+"אנחנו מתים לשמוע מה יש לך לומר. הצטרף לצ'אט "
+"שלנו !.\n"
+
+#: client.cpp:1134
+#, c-format
+msgid ""
+"_n: Message\n"
+"%n messages"
+msgstr ""
+"Message\n"
+"%n messages"
+
+#: client.cpp:1136
+#, c-format
+msgid ""
+"_n: Chat request\n"
+"%n chat requests"
+msgstr ""
+"Chat request\n"
+"%n chat requests"
+
+#: client.cpp:1138 msgview.cpp:205 msgview.cpp:1245
+#, c-format
+msgid ""
+"_n: File\n"
+"%n files"
+msgstr ""
+"File\n"
+"%n files"
+
+#: client.cpp:1140
+#, c-format
+msgid ""
+"_n: URL\n"
+"%n URL"
+msgstr ""
+"URL\n"
+"%n URL"
+
+#: client.cpp:1142
+#, c-format
+msgid ""
+"_n: Authorization request\n"
+"%n authorization requests"
+msgstr ""
+"Authorization request\n"
+"%n authorization requests"
+
+#: client.cpp:1144
+#, c-format
+msgid ""
+"_n: Authorization refused\n"
+"%n authorizations refused"
+msgstr ""
+"Authorization refused\n"
+"%n authorizations refused"
+
+#: client.cpp:1146
+#, c-format
+msgid ""
+"_n: Authorization granted\n"
+"%n authorizations granted"
+msgstr ""
+"Authorization granted\n"
+"%n authorizations granted"
+
+#: client.cpp:1148
+#, c-format
+msgid ""
+"_n: Added to contact list\n"
+"%n times added to contact list"
+msgstr ""
+"Added to contact list\n"
+"%n times added to contact list"
+
+#: client.cpp:1150
+#, c-format
+msgid ""
+"_n: WWW-panel message\n"
+"%n WWW-panel messages"
+msgstr ""
+"WWW-panel message\n"
+"%n WWW-panel messages"
+
+#: client.cpp:1152
+#, c-format
+msgid ""
+"_n: Email pager message\n"
+"%n Email pager messages"
+msgstr ""
+"Email pager message\n"
+"%n Email pager messages"
+
+#: client.cpp:1154
+#, c-format
+msgid ""
+"_n: Contact list\n"
+"%n contact lists"
+msgstr ""
+"Contact list\n"
+"%n contact lists"
+
+#: client.cpp:1156
+#, c-format
+msgid ""
+"_n: Contacts request\n"
+"%n contacts requests"
+msgstr ""
+"Contacts request\n"
+"%n contacts requests"
+
+#: client.cpp:1158
+#, c-format
+msgid ""
+"_n: External unknown message\n"
+"%n unknown messages"
+msgstr ""
+"External unknown message\n"
+"%n unknown messages"
+
+#: client.cpp:1160
+#, c-format
+msgid ""
+"_n: SMS\n"
+"%n SMS"
+msgstr ""
+"SMS\n"
+"%n SMS"
+
+#: client.cpp:1162
+#, c-format
+msgid ""
+"_n: SMS receipt\n"
+"%n SMS receipts"
+msgstr ""
+"SMS receipt\n"
+"%n SMS receipts"
+
+#: client.cpp:1164
+#, c-format
+msgid ""
+"_n: Email\n"
+"%n emails"
+msgstr ""
+"Email\n"
+"%n emails"
+
+#: client.cpp:1166
+#, c-format
+msgid ""
+"_n: Request secure channel\n"
+"%n requests secure channel"
+msgstr ""
+"Request secure channel\n"
+"%n requests secure channel"
+
+#: client.cpp:1168
+#, c-format
+msgid ""
+"_n: Close secure channel\n"
+"%n times close secure channel"
+msgstr ""
+"Close secure channel\n"
+"%n times close secure channel"
+
+#: client.cpp:1172
+#, c-format
+msgid ""
+"_n: Unknown message\n"
+"%n unknown messages"
+msgstr ""
+"Unknown message\n"
+"%n unknown messages"
+
+#: client.cpp:1179
+msgid ""
+"_: Ctrl+N\n"
+"new"
+msgstr "חדש:"
+
+#: client.cpp:1181
+msgid ""
+"_: Ctrl+B\n"
+"chat msg"
+msgstr "הודעת צ'אט:"
+
+#: client.cpp:1183
+msgid ""
+"_: Ctrl+F\n"
+"File"
+msgstr "קובץ"
+
+#: client.cpp:1185
+msgid ""
+"_: Ctrl+L\n"
+"URL"
+msgstr "כתובת"
+
+#: client.cpp:1187
+msgid ""
+"_: Ctrl+R\n"
+"AuthRequest"
+msgstr "בקשת אישור"
+
+#: client.cpp:1189
+msgid ""
+"_: Ctrl+T\n"
+"Contacts"
+msgstr "אנשי קשר"
+
+#: client.cpp:1191
+msgid ""
+"_: Ctrl+S\n"
+"SMS"
+msgstr "SMS"
+
+#: client.cpp:1193
+msgid ""
+"_: Ctrl+E\n"
+"EMail"
+msgstr "דוא\"ל"
+
+#: client.cpp:1230 userview.cpp:1333
+msgid "Offline"
+msgstr "לא מקוון"
+
+#: client.cpp:1231
+msgid "Do not disturb"
+msgstr "אל תפריע"
+
+#: client.cpp:1232
+msgid "Occupied"
+msgstr "עסוק"
+
+#: client.cpp:1233
+msgid "N/A"
+msgstr "לא זמין"
+
+#: client.cpp:1234
+msgid "Free for chat"
+msgstr "פנוי לצ'אט"
+
+#: client.cpp:1235
+msgid "Away"
+msgstr "מרוחק"
+
+#: client.cpp:1236 cuser.cpp:231 userview.cpp:1330
+msgid "Online"
+msgstr "מקוון"
+
+#: client.cpp:1249
+msgid "Inactive"
+msgstr "לא פעיל"
+
+#: client.cpp:1250 dock.cpp:957
+msgid "Connecting"
+msgstr "מתחבר"
+
+#: client.cpp:1252 mainwin.cpp:2708
+msgid "Invisible"
+msgstr "לא נראה"
+
+#: control.cpp:232
+msgid "set status"
+msgstr "קבע מצב"
+
+#: control.cpp:233
+msgid "set invisible mode"
+msgstr "קבע מצב לא נראה"
+
+#: control.cpp:234
+msgid "send message"
+msgstr "שלח הודעה"
+
+#: control.cpp:235
+msgid "send SMS"
+msgstr "שלח SMS"
+
+#: control.cpp:236
+msgid "show/hide main window"
+msgstr "הראה/הסתר חלון ראשי"
+
+#: control.cpp:237
+msgid "show/hide search window"
+msgstr "הראה/הסתר חלון חיפוש"
+
+#: control.cpp:238
+msgid "show/hide dock"
+msgstr "הראה/הסתר עגינה"
+
+#: control.cpp:239
+msgid "set notify mode"
+msgstr "קבע מצב התראה"
+
+#: control.cpp:240
+msgid "get icon in xpm fomrat"
+msgstr "קבל צלמית בפורמט xpm"
+
+#: control.cpp:241
+msgid "open upread message"
+msgstr "open upread message"
+
+#: control.cpp:242
+msgid "show popup"
+msgstr "הראה חלון קופץ"
+
+#: control.cpp:243
+msgid "quit SIM"
+msgstr "צא מ SIM"
+
+#: control.cpp:244
+msgid "close session"
+msgstr "סגור משימה"
+
+#: control.cpp:245
+msgid "command help information"
+msgstr "מידע עזרת פקודה"
+
+#: control.cpp:326
+#, c-format
+msgid "? Unknown command %1"
+msgstr "? פקודה לא ידועה %1"
+
+#: control.cpp:334
+#, c-format
+msgid "? Bad arguments number. Try help %1"
+msgstr "? מספר ארגומנטים לא תקף. נסה עזרה %1"
+
+#: control.cpp:375
+#, c-format
+msgid "? Unknown status %1"
+msgstr "? מצב לא ידוע %1"
+
+#: control.cpp:577 dock.cpp:944 mainwin.cpp:911
+msgid "%1 from %2"
+msgstr "%1 מ %2"
+
+#: cuser.cpp:62 cuser.cpp:74
+msgid "Unknown"
+msgstr "לא ידוע"
+
+#: cuser.cpp:223 ui/maininfo.cpp:144
+msgid "Last online"
+msgstr "מקוון בפעם האחרונה"
+
+#: editspell.cpp:316
+msgid "Spell check"
+msgstr "בדוק איות"
+
+#: kabcsync.cpp:54
+msgid "IM Address"
+msgstr "כתובת מסרים מיידיים"
+
+#: mainwin.cpp:446 monitor.cpp:133 qt3/i18n.cpp:141
+msgid "Error"
+msgstr "שגיאה"
+
+#: mainwin.cpp:447
+msgid ""
+"There is already an auto hidden window on this edge.\n"
+"Only one auto hidden window is allowed on each edge."
+msgstr ""
+"ישנו כבר חלון מוחבא אוטומטית על קצה זה של "
+"המסך.\n"
+"רק חלון מוחבא אוטומטית אחד יכול להיות בכל "
+"קצה."
+
+#: mainwin.cpp:621
+msgid "Show &offline"
+msgstr "הצג &לא מקוון"
+
+#: mainwin.cpp:622
+msgid "&Group mode"
+msgstr "מצב &קבוצה"
+
+#: mainwin.cpp:624 mainwin.cpp:2731 mainwin.cpp:2757 usertbl.cpp:113
+msgid "Status"
+msgstr "מצב"
+
+#: mainwin.cpp:625
+msgid "&Menu"
+msgstr "&תפריט"
+
+#: mainwin.cpp:627 mainwin.cpp:2726
+msgid "Find User"
+msgstr "חפש משתמש"
+
+#: mainwin.cpp:628 mainwin.cpp:2727
+msgid "Add Non-IM contact"
+msgstr "הוסף משתמש שאינו לקוח מסרים מידיים"
+
+#: mainwin.cpp:629 mainwin.cpp:2728
+msgid "Send SMS"
+msgstr "שלח SMS"
+
+#: mainwin.cpp:630 mainwin.cpp:2733 ui/setupdlg.cpp:100
+msgid "Setup"
+msgstr "הגדרות"
+
+#: mainwin.cpp:631 mainwin.cpp:2729 ui/randomchatbase.cpp:278
+msgid "Random chat"
+msgstr "צ'אט אקראי"
+
+#: mainwin.cpp:632 mainwin.cpp:2744 monitor.cpp:59
+msgid "Network monitor"
+msgstr "צג רשת"
+
+#: mainwin.cpp:717
+msgid "Current location"
+msgstr "מיקום נוכחי"
+
+#: mainwin.cpp:718
+msgid "Phone status"
+msgstr "מצב טלפון"
+
+#: mainwin.cpp:720
+msgid "Phone Book"
+msgstr "ספר טלפונים"
+
+#: mainwin.cpp:883
+msgid "AutoHide"
+msgstr "הסתר אוטומטית"
+
+#: mainwin.cpp:893
+msgid "Close main window"
+msgstr "סגור חלון ראשי"
+
+#: mainwin.cpp:894
+msgid "Open main window"
+msgstr "פתח חלון ראשי"
+
+#: mainwin.cpp:1259
+msgid "%1 from %2 received"
+msgstr "%1 מ %2 התקבלה"
+
+#: mainwin.cpp:1305 ui/logindlg.cpp:239
+msgid "Can't connect to proxy server"
+msgstr "הייתה שגיאה בהתחברות לשרת פרוקסי"
+
+#: mainwin.cpp:1313 ui/logindlg.cpp:246
+msgid "Proxy server require authorization"
+msgstr "שרת פרוקסי דורש אימות (שם משתמש וסיסמא)"
+
+#: mainwin.cpp:1314 ui/logindlg.cpp:247
+msgid "Invalid password for proxy"
+msgstr "סיסמא לא תקפה עבור שרת הפרוקסי"
+
+#: mainwin.cpp:1328
+msgid "Your UIN used from another location"
+msgstr "מספר ה UIN שלך נמצא בשימוש במקום אחר"
+
+#: mainwin.cpp:1380
+msgid "%1 is online"
+msgstr "%1 מחובר כעת"
+
+#: mainwin.cpp:1972 mainwin.cpp:2294 msgview.cpp:1118 qt3/i18n.cpp:125
+#: ui/enable.cpp:133 ui/logindlg.cpp:304
+msgid "&Yes"
+msgstr "&כן"
+
+#: mainwin.cpp:1973 mainwin.cpp:2295 msgview.cpp:1119 qt3/i18n.cpp:127
+#: ui/enable.cpp:137 ui/logindlg.cpp:305
+msgid "&No"
+msgstr "&לא"
+
+#: mainwin.cpp:1974
+msgid "Add %1 to ignore list ?"
+msgstr "הוסף %1 לרשימת ההתעלמות?"
+
+#: mainwin.cpp:2038
+msgid "In visible list"
+msgstr "ברשימת הנראים"
+
+#: mainwin.cpp:2040
+msgid "In invisible list"
+msgstr "ברשימת האינם נראים"
+
+#: mainwin.cpp:2043
+msgid "In ignore list"
+msgstr "ברשימת ההתעלמות"
+
+#: mainwin.cpp:2059 mainwin.cpp:2734
+msgid "Groups"
+msgstr "קבוצות"
+
+#: mainwin.cpp:2060 usertbl.cpp:391 userview.cpp:1829
+msgid "Delete"
+msgstr "מחק"
+
+#: mainwin.cpp:2061 userview.cpp:690 userview.cpp:1830
+msgid ""
+"_: Del\n"
+"Delete"
+msgstr "מחק"
+
+#: mainwin.cpp:2065
+msgid "&User info"
+msgstr "&מידע משתמש"
+
+#: mainwin.cpp:2066
+msgid ""
+"_: Ctrl+U\n"
+"UserInfo"
+msgstr "מידע משתמש"
+
+#: mainwin.cpp:2067
+msgid "&History"
+msgstr "&היסטוריה"
+
+#: mainwin.cpp:2068
+msgid ""
+"_: Ctrl+H\n"
+"History"
+msgstr "היסטוריה"
+
+#: mainwin.cpp:2070 ui/setupdlg.cpp:132 ui/userinfo.cpp:105 userview.cpp:1840
+msgid "Alert"
+msgstr "&התרע"
+
+#: mainwin.cpp:2071 userview.cpp:1841
+msgid ""
+"_: Ctrl+L\n"
+"Alert"
+msgstr "&התרע"
+
+#: mainwin.cpp:2072 ui/acceptbase.cpp:179 userview.cpp:1842
+msgid "Accept mode"
+msgstr "מצב קבלה"
+
+#: mainwin.cpp:2073 userview.cpp:1843
+msgid ""
+"_: Ctrl+A\n"
+"Accept"
+msgstr "קבל"
+
+#: mainwin.cpp:2074 ui/setupdlg.cpp:131 ui/userinfo.cpp:107 userview.cpp:1844
+msgid "Sound"
+msgstr "צליל"
+
+#: mainwin.cpp:2075 userview.cpp:1845
+msgid ""
+"_: Ctrl+S\n"
+"Sound"
+msgstr "צליל"
+
+#: mainwin.cpp:2078
+msgid "Floating off"
+msgstr "מצב ציפה כבוי"
+
+#: mainwin.cpp:2078
+msgid "Floating on"
+msgstr "מצב ציפה מופעל"
+
+#: mainwin.cpp:2079
+msgid ""
+"_: Ctrl+T\n"
+"Floating"
+msgstr "צף"
+
+#: mainwin.cpp:2082
+msgid "Users"
+msgstr "משתמשים"
+
+#: mainwin.cpp:2083 qt3/i18n.cpp:287 ui/aboutdlgbase.cpp:156 ui/enable.cpp:136
+#: ui/filetransfer.cpp:217 ui/logindlgbase.cpp:130 ui/proxydlgbase.cpp:173
+#: ui/randomchat.cpp:171 ui/randomchatbase.cpp:305 ui/securedlg.cpp:62
+#: ui/setupdlgbase.cpp:122 ui/toolsetupbase.cpp:136 ui/userautoreply.cpp:76
+#: ui/userinfobase.cpp:153
+msgid "&Close"
+msgstr "&סגור"
+
+#: mainwin.cpp:2084
+msgid ""
+"_: Ctrl+C\n"
+"Close"
+msgstr "סגור"
+
+#: mainwin.cpp:2086
+msgid "Alphabetically sort"
+msgstr "לפי סדר הא\"ב "
+
+#: mainwin.cpp:2087
+msgid ""
+"_: Ctrl+B\n"
+"Alphabetically sort"
+msgstr "לפי סדר הא\"ב "
+
+#: mainwin.cpp:2296
+msgid "Delete %1?"
+msgstr "מחק %1?"
+
+#: mainwin.cpp:2461
+msgid "New"
+msgstr "חדש"
+
+#: mainwin.cpp:2464
+msgid "To container"
+msgstr "אל קונטיינר"
+
+#: mainwin.cpp:2469
+msgid "Read %1 message"
+msgstr "קרא %1 הודעה"
+
+#: mainwin.cpp:2711
+msgid "Don't show"
+msgstr "אל תראה"
+
+#: mainwin.cpp:2712
+msgid "Available"
+msgstr "זמין"
+
+#: mainwin.cpp:2713
+msgid "Busy"
+msgstr "תפוס"
+
+#: mainwin.cpp:2716 userview.cpp:1831
+msgid "Create group"
+msgstr "צור קבוצה"
+
+#: mainwin.cpp:2718 userview.cpp:1848
+msgid "Expand all"
+msgstr "הרחב הכל"
+
+#: mainwin.cpp:2719 userview.cpp:1850
+msgid "Collapse all"
+msgstr "כווץ הכל"
+
+#: mainwin.cpp:2721 toolbtn.cpp:705
+msgid "Customize toolbar..."
+msgstr "סרגל התאמה אישית"
+
+#: mainwin.cpp:2724
+msgid "ICQ"
+msgstr "ICQ"
+
+#: mainwin.cpp:2735
+msgid "Phone \"Follow Me\""
+msgstr "טלפון \"עקוב אחרי\""
+
+#: mainwin.cpp:2737
+msgid "Shared files"
+msgstr "קבצים משותפים"
+
+#: mainwin.cpp:2741
+msgid "Always on top"
+msgstr "תמיד עליון"
+
+#: mainwin.cpp:2745
+msgid "&Bug report"
+msgstr "&דיווח על באג"
+
+#: mainwin.cpp:2746
+msgid "&About SIM"
+msgstr "&אודות SIM"
+
+#: mainwin.cpp:2748
+msgid "About &KDE"
+msgstr "אודות &KDE"
+
+#: mainwin.cpp:2751
+msgid "Change UIN"
+msgstr "שנה מנוי (UIN)"
+
+#: mainwin.cpp:2752 mainwin.cpp:2759
+msgid "Quit"
+msgstr "יציאה"
+
+#: _translatorinfo.cpp:1 mainwin.cpp:3078
+msgid ""
+"_: NAME OF TRANSLATORS\n"
+"Your names"
+msgstr "Amir Tal"
+
+#: _translatorinfo.cpp:3 mainwin.cpp:3079
+#, fuzzy
+msgid ""
+"_: EMAIL OF TRANSLATORS\n"
+"Your emails"
+msgstr "tal@whatsup.org.il"
+
+#: mainwin.cpp:3105
+msgid "light"
+msgstr "בהיר"
+
+#: mainwin.cpp:3109
+msgid "demibold"
+msgstr "demibold"
+
+#: mainwin.cpp:3113
+msgid "bold"
+msgstr "מודגש"
+
+#: mainwin.cpp:3117
+msgid "black"
+msgstr "שחור"
+
+#: mainwin.cpp:3124
+msgid "italic"
+msgstr "נטוי"
+
+#: monitor.cpp:69
+msgid "E&xit"
+msgstr "י&ציאה"
+
+#: monitor.cpp:70 ui/acceptbase.cpp:184
+msgid "&File"
+msgstr "&קובץ"
+
+#: monitor.cpp:73
+msgid "&Copy"
+msgstr "הע&תק"
+
+#: monitor.cpp:74
+msgid "&Erase"
+msgstr "מחיקה"
+
+#: monitor.cpp:75 ui/phonebookbase.cpp:138
+msgid "&Edit"
+msgstr "&עריכה"
+
+#: monitor.cpp:79
+msgid "&Packets"
+msgstr "&חפיסות"
+
+#: monitor.cpp:80
+msgid "&Debug"
+msgstr "&ניפוי באגים"
+
+#: monitor.cpp:81
+msgid "&Warnings"
+msgstr "&אזהרות"
+
+#: monitor.cpp:82
+msgid "&Error"
+msgstr "&שגיאה."
+
+#: monitor.cpp:83
+msgid "&Log"
+msgstr "&רישום"
+
+#: monitor.cpp:133
+#, c-format
+msgid "Can't create file %1"
+msgstr "אירעה שגיאה ביצירת הקובץ %1"
+
+#: msgedit.cpp:78
+msgid "Decline file without reason"
+msgstr "דחה קובץ ללא סיבה"
+
+#: msgedit.cpp:80
+msgid "Sorry, I'm busy right now, and can not respond to your request"
+msgstr ""
+"צר לי, אך אני עסוק כרגע, ולא יכול להגיב "
+"לבקשתך..."
+
+#: msgedit.cpp:82
+msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
+msgstr ""
+"צר לי, אני עסוק עכשיו, אבל אוכל להגיב "
+"לבקשתך מאוחר יותר"
+
+#: msgedit.cpp:84
+msgid "Enter a decline reason"
+msgstr "הכנס סיבת דחייה"
+
+#: msgedit.cpp:113
+msgid "Bac&kground color"
+msgstr "צבע ר&קע:"
+
+#: msgedit.cpp:118
+msgid "Text &font"
+msgstr "צבע &גופן"
+
+#: msgedit.cpp:119
+msgid "Inser&t smile"
+msgstr "הו&ספת חיוך"
+
+#: msgedit.cpp:120
+msgid "&Grant"
+msgstr "&אשר"
+
+#: msgedit.cpp:121
+msgid "&Refuse"
+msgstr "&סרב"
+
+#: msgedit.cpp:122
+msgid "&Accept"
+msgstr "&קבל"
+
+#: msgedit.cpp:123
+msgid "&Decline"
+msgstr "&דחה"
+
+#: msgedit.cpp:124
+msgid "&Reply"
+msgstr "&השב"
+
+#: msgedit.cpp:125
+msgid "&Quote"
+msgstr "&ציטוט"
+
+#: msgedit.cpp:126 ui/smssetupbase.cpp:134
+msgid "&Forward"
+msgstr "קד&ימה"
+
+#: msgedit.cpp:128
+msgid "Spell &check"
+msgstr "בדיקת &איות"
+
+#: msgedit.cpp:130
+msgid "C&lose after send"
+msgstr "סגור לאחר שליחה"
+
+#: msgedit.cpp:132 msgedit.cpp:358
+msgid "&Send"
+msgstr "של&ח"
+
+#: msgedit.cpp:133
+msgid "&Next"
+msgstr "&הבא"
+
+#: msgedit.cpp:135
+msgid "&Multiply send"
+msgstr "&שליחה מרובת משתמשים"
+
+#: msgedit.cpp:184
+msgid "Phone:"
+msgstr "טלפון"
+
+#: msgedit.cpp:193 msgview.cpp:1191 ui/soundsetupbase.cpp:231
+msgid "URL:"
+msgstr "כתובת:"
+
+#: msgedit.cpp:200 msgedit.cpp:1369 msgview.cpp:207 msgview.cpp:1247
+#: qt3/i18n.cpp:83
+msgid "File"
+msgstr "קובץ"
+
+#: msgedit.cpp:207
+msgid "Drag users here"
+msgstr "גרור משתמשים לכאן"
+
+#: msgedit.cpp:348
+msgid "Sending"
+msgstr "שולח"
+
+#: msgedit.cpp:356 qt3/i18n.cpp:35 ui/addphonebase.cpp:138
+#: ui/emaileditbase.cpp:92 ui/enable.cpp:136 ui/filetransfer.cpp:302
+#: ui/filetransferbase.cpp:131 ui/randomchat.cpp:170 ui/securedlgbase.cpp:70
+msgid "&Cancel"
+msgstr "&ביטול"
+
+#: msgedit.cpp:513
+msgid "Transfer started"
+msgstr "העברה החלה"
+
+#: msgedit.cpp:516
+msgid "Chat started"
+msgstr "הצ'אט התחיל"
+
+#: msgedit.cpp:585
+msgid "Message sent"
+msgstr "ההודעה נשלחה"
+
+#: msgedit.cpp:588
+msgid "Send failed"
+msgstr "השליחה נכשלה"
+
+#: msgedit.cpp:875
+msgid "Next"
+msgstr "הבא"
+
+#: msgedit.cpp:886
+msgid "&New message"
+msgstr "&הודעה חדשה"
+
+#: msgedit.cpp:928
+msgid "%1 (ICQ# %2) wrote:<br>\n"
+msgstr "%1 (ICQ# %2) כתב:<br>\n"
+
+#: msgedit.cpp:1179
+msgid "Save to"
+msgstr "שמור אל"
+
+#: msgedit.cpp:1565
+msgid "Size: %1 / Max. size: %2"
+msgstr "גודל: %1 / מקס'. גודל: %2"
+
+#: msgedit.cpp:1569
+msgid "Message will be split"
+msgstr "ההודעה תפוצל"
+
+#: msgedit.cpp:1744
+msgid "Decline reason"
+msgstr "סיבת דחייה"
+
+#: msgedit.cpp:1744
+msgid "Please, input decline reason:"
+msgstr "אנא כתוב סיבת דחייה"
+
+#: msgview.cpp:164 msgview.cpp:1204
+msgid "Authorization request"
+msgstr "בקשת אימות זהות"
+
+#: msgview.cpp:175 msgview.cpp:1215
+msgid "Authorization refused"
+msgstr "בקשת אימות נדחתה"
+
+#: msgview.cpp:185 msgview.cpp:1225
+msgid "Authorization granted"
+msgstr "בקשת אימות אושרה"
+
+#: msgview.cpp:188 msgview.cpp:1228
+msgid "Added to contact list"
+msgstr "התווסף לרשימת אנשי קשר"
+
+#: msgview.cpp:192 msgview.cpp:1232
+msgid "Contact request"
+msgstr "בקשת איש קשר"
+
+#: msgview.cpp:214 msgview.cpp:1254
+msgid "bytes"
+msgstr "בתים"
+
+#: msgview.cpp:231 msgview.cpp:1273
+msgid "Contact list received"
+msgstr "רשימת קשר בתקבלה"
+
+#: msgview.cpp:231 msgview.cpp:1273
+msgid "Contact list sent"
+msgstr "רשימת קשר נשלחה"
+
+#: msgview.cpp:851 qt3/i18n.cpp:139
+msgid "Save"
+msgstr "שמור"
+
+#: msgview.cpp:853 ui/searchbase.cpp:277 ui/searchbase.cpp:279
+msgid "Search"
+msgstr "חפש"
+
+#: msgview.cpp:854
+msgid "&Search"
+msgstr "&חפש"
+
+#: msgview.cpp:855
+msgid "&Filter"
+msgstr "&סינון"
+
+#: msgview.cpp:857
+msgid "&Previous page"
+msgstr "&העמוד הקודם"
+
+#: msgview.cpp:858
+msgid "&Next page"
+msgstr "&העמוד הבא"
+
+#: msgview.cpp:860
+msgid "&Sort order"
+msgstr "&סידור"
+
+#: msgview.cpp:1101
+msgid ""
+"text/plain|Text file\n"
+"text/html|HTML file"
+msgstr ""
+"text/plain|Text קובץ\n"
+"text/html|HTML קובץ"
+
+#: msgview.cpp:1103
+msgid "Text file(*.txt);;HTML file(*.htm *.html)"
+msgstr "Text קובץ(*.txt);;HTML קובץ(*.htm *.html)"
+
+#: msgview.cpp:1105
+msgid "Save history"
+msgstr "שמור היסטוריה"
+
+#: msgview.cpp:1120
+msgid ""
+"File %1 exists\n"
+"Overwrite?"
+msgstr ""
+"קובץ %1 קיים\n"
+"לשכתב?"
+
+#: sim.cpp:117
+msgid ""
+"_: Dear translator, please do not translate this string in any form, but "
+"pick the _right_ value out of NoPlural/TwoForms/French... If not sure what "
+"to do mail thd@kde.org and coolo@kde.org, they will tell you. Better leave "
+"that out if unsure, the programs will crash!!\n"
+"Definition of PluralForm - to be set by the translator of kdelibs.po"
+msgstr ""
+
+#: sim.cpp:525
+msgid "SIM"
+msgstr "SIM"
+
+#: sim.cpp:527
+msgid "ICQ client"
+msgstr "לקוח ICQ"
+
+#: sim.cpp:534
+msgid "Maintainer"
+msgstr "מתחזק"
+
+#: sim.cpp:541
+msgid "Directory for files"
+msgstr "ספריה עבור הקבצים"
+
+#: sim.cpp:542
+msgid "Loglevel"
+msgstr "רמת LOG"
+
+#: sim.cpp:543
+msgid "Control socket"
+msgstr "בקרת שקע"
+
+#: sim.cpp:544
+msgid "No dock"
+msgstr "ללא עגינה "
+
+#: themes.cpp:132 themes.cpp:141
+msgid "Default style"
+msgstr "סגנון ברירת מחדל"
+
+#: userbox.cpp:105
+msgid "Message"
+msgstr "הודעה"
+
+#: userbox.cpp:107
+msgid "User"
+msgstr "משתמש"
+
+#: userbox.cpp:109
+msgid "Add to ignore &list"
+msgstr "הוסף &לרשימת התעלמות"
+
+#: userbox.cpp:110
+msgid "Move to &group"
+msgstr "העבר &לקבוצה"
+
+#: userbox.cpp:112
+msgid "User &info"
+msgstr "מידע &משתמש"
+
+#: userbox.cpp:113
+msgid "&History<br>with CTRL open in new window"
+msgstr "&היסטוריה<br>עם CTRL פתיחה בחלון חדש"
+
+#: userbox.cpp:114
+msgid "&Encoding"
+msgstr "&קידוד"
+
+#: userbox.cpp:116
+msgid "Close user &window"
+msgstr "סגור &חלון משתמש"
+
+#: userbox.cpp:256
+msgid "All encodings"
+msgstr "כל הקידודים"
+
+#: userbox.cpp:350
+msgid "All users"
+msgstr "כל המשתמשים"
+
+#: userbox.cpp:406
+msgid "History"
+msgstr "היסטוריה"
+
+#: userbox.cpp:1052
+msgid "History loading"
+msgstr "טוען היסטוריה"
+
+#: ui/searchbase.cpp:298 usertbl.cpp:110
+msgid "UIN"
+msgstr "UIN"
+
+#: usertbl.cpp:112
+msgid "Alias"
+msgstr "כינוי "
+
+#: qt3/i18n.cpp:39 usertbl.cpp:115
+msgid "Name"
+msgstr "שם"
+
+#: usertbl.cpp:116
+msgid "Email"
+msgstr "דוא\"ל"
+
+#: usertbl.cpp:392
+msgid "Erase"
+msgstr "מחיקה"
+
+#: usertbl.cpp:394
+msgid "Add group"
+msgstr "הוספת קבוצה"
+
+#: usertbl.cpp:395
+msgid "Add all"
+msgstr "הוסף הכל"
+
+#: ui/userinfo.cpp:86 usertbl.cpp:405
+msgid "User info"
+msgstr "מידע משתמש"
+
+#: usertbl.cpp:411
+msgid "Add to group"
+msgstr "הוסף לקבוצה "
+
+#: ui/userinfo.cpp:155 userview.cpp:537 userview.cpp:1336
+msgid "Not in list"
+msgstr "לא ברשימה"
+
+#: userview.cpp:692 userview.cpp:1832
+msgid ""
+"_: Ctrl+N\n"
+"Create group"
+msgstr "צור קבוצה"
+
+#: userview.cpp:889 userview.cpp:905
+msgid "New group"
+msgstr "קבוצה חדשה"
+
+#: userview.cpp:1827
+msgid "Rename"
+msgstr "שינוי שם"
+
+#: userview.cpp:1835
+msgid "Up"
+msgstr "למעלה "
+
+#: userview.cpp:1837
+msgid "Down"
+msgstr "למטה"
+
+#: ui/setupdlg.cpp:140 ui/userinfo.cpp:110 userview.cpp:1846
+msgid "Auto reply"
+msgstr "מענה אוטומטי"
+
+#: qt3/i18n.cpp:1
+msgid "Hu&e:"
+msgstr "גוון:"
+
+#: qt3/i18n.cpp:3
+msgid "&Sat:"
+msgstr "שבת:"
+
+#: qt3/i18n.cpp:5
+msgid "&Val:"
+msgstr "בתקבלה"
+
+#: qt3/i18n.cpp:7
+msgid "&Red:"
+msgstr "&אדום:"
+
+#: qt3/i18n.cpp:9
+msgid "&Green:"
+msgstr "&ירוק:"
+
+#: qt3/i18n.cpp:11
+msgid "Bl&ue:"
+msgstr "&כחול:"
+
+#: qt3/i18n.cpp:13
+msgid "A&lpha channel:"
+msgstr "ערוץ &אלפא:"
+
+#: qt3/i18n.cpp:15
+msgid "&Basic colors"
+msgstr "צבעים &בסיסיים"
+
+#: qt3/i18n.cpp:17
+msgid "&Custom colors"
+msgstr "צבעים &מותאמים אישית"
+
+#: qt3/i18n.cpp:19
+msgid "&Define Custom Colors >>"
+msgstr "&הגדר צבעים מותאמים אישית >>"
+
+#: qt3/i18n.cpp:21
+msgid "OK"
+msgstr "אישור"
+
+#: qt3/i18n.cpp:23 ui/logindlg.cpp:154 ui/searchdlg.cpp:107
+msgid "Cancel"
+msgstr "ביטול"
+
+#: qt3/i18n.cpp:25
+msgid "&Add To Custom Colors"
+msgstr "&הוסף לצבעים מותאמים אישית"
+
+#: qt3/i18n.cpp:27
+msgid "Select color"
+msgstr "בחירת צבע"
+
+#: qt3/i18n.cpp:29
+msgid "Copy or Move a File"
+msgstr "העתק או הזז קובץ"
+
+#: qt3/i18n.cpp:31
+#, c-format
+msgid "Read: %1"
+msgstr "קרא: %1"
+
+#: qt3/i18n.cpp:33
+#, c-format
+msgid "Write: %1"
+msgstr "כתוב: %1"
+
+#: qt3/i18n.cpp:37
+msgid "All files (*)"
+msgstr "כל הקבצים (*)"
+
+#: qt3/i18n.cpp:41
+msgid "Size"
+msgstr "גודל"
+
+#: qt3/i18n.cpp:43 ui/phonebook.cpp:78
+msgid "Type"
+msgstr "סוג"
+
+#: qt3/i18n.cpp:45
+msgid "Date"
+msgstr "תאריך"
+
+#: qt3/i18n.cpp:47
+msgid "Attributes"
+msgstr "מאפיינים"
+
+#: qt3/i18n.cpp:49
+msgid "Look &in:"
+msgstr "חפש &ב:"
+
+#: qt3/i18n.cpp:51
+msgid "File &name:"
+msgstr "שם &הקובץ:"
+
+#: qt3/i18n.cpp:53
+msgid "File &type:"
+msgstr "סוג הקו&בץ:"
+
+#: qt3/i18n.cpp:55
+msgid "Back"
+msgstr "אחורה"
+
+#: qt3/i18n.cpp:57
+msgid "One directory up"
+msgstr "ספריה אחת למעלה"
+
+#: qt3/i18n.cpp:59
+msgid "Create New Folder"
+msgstr "צור ספריה חדשה"
+
+#: qt3/i18n.cpp:61
+msgid "List View"
+msgstr "תצוגת רשימה"
+
+#: qt3/i18n.cpp:63
+msgid "Detail View"
+msgstr "תצוגה מפורטת"
+
+#: qt3/i18n.cpp:65
+msgid "Preview File Info"
+msgstr "תצוגה מקדימה על מידע קובץ"
+
+#: qt3/i18n.cpp:67
+msgid "Preview File Contents"
+msgstr "תצוגה מקדימה על תוכן קובץ"
+
+#: qt3/i18n.cpp:69
+msgid "Read-write"
+msgstr "קריאה-כתיבה"
+
+#: qt3/i18n.cpp:71
+msgid "Read-only"
+msgstr "קריאה בלבד"
+
+#: qt3/i18n.cpp:73
+msgid "Write-only"
+msgstr "כתיבה בלבד"
+
+#: qt3/i18n.cpp:75
+msgid "Inaccessible"
+msgstr "לא נגיש"
+
+#: qt3/i18n.cpp:77
+msgid "Symlink to File"
+msgstr "קישור סימבולי לקובץ"
+
+#: qt3/i18n.cpp:79
+msgid "Symlink to Directory"
+msgstr "קישור סימבולי לספריה"
+
+#: qt3/i18n.cpp:81
+msgid "Symlink to Special"
+msgstr "קישור סימבולי לקובץ מיוחד"
+
+#: qt3/i18n.cpp:85
+msgid "Dir"
+msgstr "ספריה"
+
+#: qt3/i18n.cpp:87
+msgid "Special"
+msgstr "מיוחד"
+
+#: qt3/i18n.cpp:89 ui/fontsetupbase.cpp:227
+msgid "Open"
+msgstr "פתח"
+
+#: qt3/i18n.cpp:91
+msgid "Save as"
+msgstr "שמור בשם:"
+
+#: qt3/i18n.cpp:93
+msgid "&Open"
+msgstr "&פתח"
+
+#: qt3/i18n.cpp:97
+msgid "&Rename"
+msgstr "&שנה שם"
+
+#: qt3/i18n.cpp:99 ui/logindlgbase.cpp:125 ui/phonebookbase.cpp:139
+msgid "&Delete"
+msgstr "&מחק"
+
+#: qt3/i18n.cpp:101
+msgid "R&eload"
+msgstr "טען מ&חדש"
+
+#: qt3/i18n.cpp:103
+msgid "Sort by &Name"
+msgstr "סדר לפי &שם"
+
+#: qt3/i18n.cpp:105
+msgid "Sort by &Size"
+msgstr "סדר לפי &גודל"
+
+#: qt3/i18n.cpp:107
+msgid "Sort by &Date"
+msgstr "סדר לפי &תאריך"
+
+#: qt3/i18n.cpp:109
+msgid "&Unsorted"
+msgstr "&לא מסודר"
+
+#: qt3/i18n.cpp:111
+msgid "Sort"
+msgstr "מיין"
+
+#: qt3/i18n.cpp:113
+msgid "Show &hidden files"
+msgstr "הצג קבצים מוסתרים"
+
+#: qt3/i18n.cpp:115
+msgid "the file"
+msgstr "הקובץ"
+
+#: qt3/i18n.cpp:117
+msgid "the directory"
+msgstr "הספריה"
+
+#: qt3/i18n.cpp:119
+msgid "the symlink"
+msgstr "הקישור הסמלי"
+
+#: qt3/i18n.cpp:121
+#, c-format
+msgid "Delete %1"
+msgstr "מחק %1"
+
+#: qt3/i18n.cpp:123
+msgid "<qt>Do you really want to delete %1 \"%2\"?</qt>"
+msgstr "<qt>האם באמת ברצונך למחוק את %1 \"%2\"?</qt>"
+
+#: qt3/i18n.cpp:129
+msgid "New Folder 1"
+msgstr "תיקיה חדשה 1"
+
+#: qt3/i18n.cpp:131
+msgid "New Folder"
+msgstr "תיקיה חדשה"
+
+#: qt3/i18n.cpp:133
+#, c-format
+msgid "New Folder %1"
+msgstr "תיקיה חדשה %1"
+
+#: qt3/i18n.cpp:135
+msgid "Find Directory"
+msgstr "חפש ספריה"
+
+#: qt3/i18n.cpp:137
+msgid "Directories"
+msgstr "ספריות"
+
+#: qt3/i18n.cpp:144
+msgid ""
+"%1\n"
+"File not found.\n"
+"Check path and filename."
+msgstr ""
+"%1\n"
+"הקובץ לא נמצא.\n"
+"אנא בדוק את הנתיב ובם הקובץ."
+
+#: qt3/i18n.cpp:148
+msgid "ERROR"
+msgstr "שגיאה"
+
+#: qt3/i18n.cpp:150
+msgid "&Font"
+msgstr "&גופנים"
+
+#: qt3/i18n.cpp:152
+msgid "Font st&yle"
+msgstr "&סגנון גופן"
+
+#: qt3/i18n.cpp:154
+msgid "&Size"
+msgstr "גו&דל"
+
+#: qt3/i18n.cpp:156
+msgid "Effects"
+msgstr "אפקטים"
+
+#: qt3/i18n.cpp:158
+msgid "Stri&keout"
+msgstr "קו &חוצה"
+
+#: qt3/i18n.cpp:162
+msgid "&Color"
+msgstr "&צבע"
+
+#: qt3/i18n.cpp:164
+msgid "Sample"
+msgstr "דוגמה"
+
+#: qt3/i18n.cpp:166
+msgid "Scr&ipt"
+msgstr "סק&ריפט"
+
+#: qt3/i18n.cpp:168
+msgid "Apply"
+msgstr "החל"
+
+#: qt3/i18n.cpp:170 ui/logindlg.cpp:195 ui/searchbase.cpp:281
+#: ui/searchdlg.cpp:110
+msgid "Close"
+msgstr "סגור"
+
+#: qt3/i18n.cpp:172
+msgid "Select Font"
+msgstr "בחירת גופן"
+
+#: qt3/i18n.cpp:174
+msgid "&OK"
+msgstr "&אישור"
+
+#: qt3/i18n.cpp:177
+msgid ""
+"<h3>About Qt</h3><p>This program uses Qt version %1, a multiplatform C++ GUI "
+"toolkit from Trolltech. Qt provides single-source portability across Windows "
+"95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of Unix with "
+"X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more "
+"information.</p>"
+msgstr ""
+"<h3>אודות Qt</h3><p>This program uses Qt version %1, a multiplatform "
+"C++ GUI toolkit from Trolltech. Qt provides single-source portability across "
+"Windows 95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of Unix "
+"with X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more "
+"information.</p>"
+
+#: qt3/i18n.cpp:183
+msgid "Help"
+msgstr "עזרה"
+
+#: qt3/i18n.cpp:185
+msgid "Defaults"
+msgstr "ברירות מחדל"
+
+#: qt3/i18n.cpp:187
+msgid "< Back"
+msgstr "< הקודם"
+
+#: qt3/i18n.cpp:189
+msgid "Next >"
+msgstr "הבא >"
+
+#: qt3/i18n.cpp:191
+msgid "Finish"
+msgstr "סיום"
+
+#: qt3/i18n.cpp:193
+msgid "Ctrl"
+msgstr "Ctrl"
+
+#: qt3/i18n.cpp:195
+msgid "+"
+msgstr "+"
+
+#: qt3/i18n.cpp:197
+msgid "Alt"
+msgstr "Alt"
+
+#: qt3/i18n.cpp:199
+msgid "Shift"
+msgstr "Shift"
+
+#: qt3/i18n.cpp:201
+#, c-format
+msgid "F%1"
+msgstr "F%1"
+
+#: qt3/i18n.cpp:203
+msgid "ctrl"
+msgstr "Ctrl"
+
+#: qt3/i18n.cpp:205
+msgid "shift"
+msgstr "Shift"
+
+#: qt3/i18n.cpp:207
+msgid "alt"
+msgstr "alt"
+
+#: qt3/i18n.cpp:210
+msgid ""
+"Could not rename\n"
+"%1\n"
+"to\n"
+"%2"
+msgstr ""
+"אין אפשרות לשנות את שמו של\n"
+"%1\n"
+"ל\n"
+"%2"
+
+#: qt3/i18n.cpp:216
+#, fuzzy, c-format
+msgid ""
+"Could not open\n"
+"%1"
+msgstr ""
+"אין אפשרות לפתוח את\n"
+"%1"
+
+#: qt3/i18n.cpp:220
+#, c-format
+msgid ""
+"Could not write\n"
+"%1"
+msgstr ""
+"הייתה תקלה בכתיבה\n"
+"%1"
+
+#: qt3/i18n.cpp:223
+msgid "Operation stopped by the user"
+msgstr "הפעולה הופסקה על ידי המשתמש"
+
+#: qt3/i18n.cpp:225
+msgid "(unknown)"
+msgstr "(לא ידוע)"
+
+#: qt3/i18n.cpp:227
+msgid "Host %1 found"
+msgstr "מארח %1 נמצא"
+
+#: qt3/i18n.cpp:229
+msgid "Host found"
+msgstr "מארח נמצא"
+
+#: qt3/i18n.cpp:231
+#, c-format
+msgid "Connected to host %1"
+msgstr "מחובר למארח %1"
+
+#: qt3/i18n.cpp:233
+msgid "Connected to host"
+msgstr "מחובר למארח"
+
+#: qt3/i18n.cpp:235
+msgid "Connection to %1 closed"
+msgstr "ההתחברות ל %1 נסגרה"
+
+#: qt3/i18n.cpp:237
+msgid "Connection closed"
+msgstr "החיבור נסגר."
+
+#: qt3/i18n.cpp:239
+msgid "Login Incorrect"
+msgstr "שם משתמש או סיסמא אינם נכונים"
+
+#: qt3/i18n.cpp:241
+#, c-format
+msgid "Col %1"
+msgstr "עמודה %1"
+
+#: qt3/i18n.cpp:243
+#, c-format
+msgid "Row %1"
+msgstr "שורה %1"
+
+#: qt3/i18n.cpp:245
+msgid "Undo"
+msgstr "בטל"
+
+#: qt3/i18n.cpp:247
+msgid "Redo"
+msgstr "בצע שוב"
+
+#: qt3/i18n.cpp:249
+msgid "Cut"
+msgstr "גזור"
+
+#: qt3/i18n.cpp:251 ui/fontsetupbase.cpp:225
+msgid "Copy"
+msgstr "העתק"
+
+#: qt3/i18n.cpp:253
+msgid "Paste"
+msgstr "הדבק"
+
+#: qt3/i18n.cpp:255
+msgid "Clear"
+msgstr "נקה"
+
+#: qt3/i18n.cpp:257
+msgid "Select All"
+msgstr "בחר הכל"
+
+#: qt3/i18n.cpp:259
+msgid "&Left"
+msgstr "מ&שמאל"
+
+#: qt3/i18n.cpp:261
+msgid "&Right"
+msgstr "מ&ימין"
+
+#: qt3/i18n.cpp:263
+msgid "&Top"
+msgstr "למ&עלה"
+
+#: qt3/i18n.cpp:265
+msgid "&Bottom"
+msgstr "למ&טה"
+
+#: qt3/i18n.cpp:267
+msgid "R&estore"
+msgstr "ש&חזר"
+
+#: qt3/i18n.cpp:269
+msgid "&Hide"
+msgstr "ה&סתר"
+
+#: qt3/i18n.cpp:271
+msgid "Line Up Toolbars (compact)"
+msgstr "סדר סרגלי כלים בשורה (קומפקטי)"
+
+#: qt3/i18n.cpp:273
+msgid "Line Up Toolbars (normal)"
+msgstr "סדר סרגלי כלים בשורה (רגיל)"
+
+#: qt3/i18n.cpp:275
+msgid "Paste special..."
+msgstr "הדבקה מיוחדת..."
+
+#: qt3/i18n.cpp:277
+msgid "What's this?"
+msgstr "מה זה?"
+
+#: qt3/i18n.cpp:279
+msgid "&Restore"
+msgstr "ש&חזר"
+
+#: qt3/i18n.cpp:281
+msgid "&Move"
+msgstr "ה&זז"
+
+#: qt3/i18n.cpp:283
+msgid "Mi&nimize"
+msgstr "&מזער"
+
+#: qt3/i18n.cpp:285
+msgid "Ma&ximize"
+msgstr "&הגדל"
+
+#: qt3/i18n.cpp:289
+msgid "&Roll up"
+msgstr "&גלול למעלה"
+
+#: qt3/i18n.cpp:291
+msgid "Minimize"
+msgstr "מזער"
+
+#: qt3/i18n.cpp:293
+msgid "Restore Down"
+msgstr "שחזר למטה"
+
+#: qt3/i18n.cpp:295
+msgid "Maximize"
+msgstr "הגדל"
+
+#: qt3/i18n.cpp:297
+msgid "Roll up"
+msgstr "גלול למטה"
+
+#: qt3/i18n.cpp:299
+msgid "Restore Up"
+msgstr "שחזר למעלה"
+
+#: qt3/i18n.cpp:301
+msgid "Roll down"
+msgstr "גלול למטה"
+
+#: ui/aboutdlg.cpp:41
+msgid "%1 Version: %2"
+msgstr "%1 גרסא: %2"
+
+#: ui/aboutdlg.cpp:44
+msgid "Bug report"
+msgstr "דיווח על באג"
+
+#: ui/addphone.cpp:34
+msgid "Home Phone"
+msgstr "טלפון בבית"
+
+#: ui/addphone.cpp:35
+msgid "Home Fax"
+msgstr "פקס בבית"
+
+#: ui/addphone.cpp:36
+msgid "Private Cellular"
+msgstr "סלולרי פרטי"
+
+#: ui/addphone.cpp:37
+msgid "Work Phone"
+msgstr "טלפון בעבודה"
+
+#: ui/addphone.cpp:38
+msgid "Work Fax"
+msgstr "פקס בעבודה"
+
+#: ui/addphone.cpp:39
+msgid "Wireless Pager"
+msgstr "זימונית אלחוטית"
+
+#: ui/alertdialog.cpp:55
+msgid "Left-bottom"
+msgstr "משמאל-למטה"
+
+#: ui/alertdialog.cpp:56
+msgid "Left-top"
+msgstr "משמאל-למעלה"
+
+#: ui/alertdialog.cpp:57
+msgid "Right-bottom"
+msgstr "מימין-למטה"
+
+#: ui/alertdialog.cpp:58
+msgid "Right-top"
+msgstr "מימין-למעלה"
+
+#: ui/alertdialog.cpp:59
+msgid "Center-bottom"
+msgstr "מרכז-למטה"
+
+#: ui/alertdialog.cpp:60
+msgid "Center-top"
+msgstr "מרכז-למעלה"
+
+#: ui/alertdialog.cpp:61
+msgid "Center"
+msgstr "מרכז"
+
+#: ui/alertmsg.cpp:41
+msgid "User "
+msgstr "המשתמש"
+
+#: ui/alertmsg.cpp:41
+msgid " is online"
+msgstr "מחובר"
+
+#: ui/alertmsg.cpp:51
+msgid "Close [%1 sec]"
+msgstr "סגור [%1 שניות]"
+
+#: ui/autoreply.cpp:92
+msgid "Close in %1 sec"
+msgstr "סגור תוך %1 שניות"
+
+#: ui/addphonebase.cpp:139 ui/alertmsgbase.cpp:75 ui/autoreplybase.cpp:76
+#: ui/ballonmsg.cpp:199 ui/emaileditbase.cpp:93 ui/enable.cpp:133
+#: ui/logindlgbase.cpp:131 ui/proxydlgbase.cpp:172 ui/setupdlgbase.cpp:120
+#: ui/toolsetupbase.cpp:134 ui/userinfobase.cpp:152
+msgid "&Ok"
+msgstr "&Ok"
+
+#: ui/editfile.cpp:86
+msgid "Directory for incoming files"
+msgstr "ספריה עבור קבצים נכנסים"
+
+#: ui/editfile.cpp:123
+msgid "*.wav|Sounds"
+msgstr "*.wav|צלילים"
+
+#: ui/editfile.cpp:125
+msgid "Sounds(*.wav)"
+msgstr "צלילים (*.wav)"
+
+#: ui/enable.cpp:134 ui/randomchatbase.cpp:306 ui/setupdlgbase.cpp:121
+#: ui/toolsetupbase.cpp:135
+msgid "&Apply"
+msgstr "&החל"
+
+#: ui/enable.cpp:134
+msgid "&Register"
+msgstr "&הירשם"
+
+#: ui/filetransfer.cpp:74
+msgid ""
+"_n: Receive %2 from %1\n"
+"Receive %n files from %1"
+msgstr ""
+"Receive %2 from %1\n"
+"Receive %n files from %1"
+
+#: ui/filetransfer.cpp:78
+msgid ""
+"_n: Send %2 to %1\n"
+"Send %n files to %1"
+msgstr ""
+"Send %2 to %1\n"
+"Send %n files to %1"
+
+#: ui/filetransfer.cpp:137
+msgid "No files for transfer"
+msgstr "אין קבצים להעברה"
+
+#: ui/filetransfer.cpp:155
+msgid "Connect to %1 [%2]"
+msgstr "התחבר אל%1 [%2]"
+
+#: ui/filetransfer.cpp:160
+msgid "Wait connect to %1 [%2]"
+msgstr "המתן לחיבור ל %1 [%2]"
+
+#: ui/filetransfer.cpp:165
+#, c-format
+msgid "Send thru server to %1"
+msgstr "שלח דרך שרת אל%1"
+
+#: ui/filetransfer.cpp:177
+msgid "File transfer done"
+msgstr "העברת קבצים הסתיימה:"
+
+#: ui/filetransfer.cpp:179
+msgid "[done]"
+msgstr "[הסתיים]"
+
+#: ui/filetransfer.cpp:183
+msgid "[fail]"
+msgstr "[נכשל]"
+
+#: ui/filetransfer.cpp:185
+#, c-format
+msgid "File transfer declined with reason %1"
+msgstr "העברת קבצים נדחתה עם סיבה %1"
+
+#: ui/filetransfer.cpp:202
+msgid "File transfer acked"
+msgstr "File transfer acked"
+
+#: ui/filetransfer.cpp:257
+msgid "Receive file %1 of %2 files from %3"
+msgstr "קבל קובץ %1 מ %2 קבצים מ%3"
+
+#: ui/filetransfer.cpp:259
+msgid "Send file %1 of %2 files to %3"
+msgstr "שלח קובץ %1 מ %2 קבצים אל %3"
+
+#: ui/filetransfer.cpp:301 ui/filetransfer.cpp:317
+msgid "&New"
+msgstr "ח&דש"
+
+#: ui/filetransfer.cpp:315
+msgid "&Replace"
+msgstr "החל&ף"
+
+#: ui/filetransfer.cpp:316
+msgid "R&esume"
+msgstr "המ&שך"
+
+#: ui/filetransfer.cpp:318
+msgid "&Skip"
+msgstr "&דלג"
+
+#: ui/filetransfer.cpp:319
+msgid "File %1 exists"
+msgstr "קובץ %1 קיים"
+
+#: ui/generalsec.cpp:79
+msgid "Input current password"
+msgstr "הקלד סיסמא נוכחית"
+
+#: ui/generalsec.cpp:83
+msgid "Confirm password does not match"
+msgstr "הסיסמא לאישור אינה תואמת"
+
+#: ui/generalsec.cpp:88 ui/logindlg.cpp:234 ui/logindlg.cpp:300
+msgid "Invalid password"
+msgstr "סיסמא לא תקפה"
+
+#: ui/keysetup.cpp:33
+msgid "Action"
+msgstr "פעולה"
+
+#: ui/keysetup.cpp:34
+msgid "Keys"
+msgstr "מקשים"
+
+#: ui/keysetup.cpp:36
+msgid "Show/Hide main window"
+msgstr "הצג או הסתר חלון ראשי"
+
+#: ui/keysetup.cpp:39
+msgid "Double click on dock"
+msgstr "לחץ לחיצה כפולה על סמל העגינה"
+
+#: ui/keysetup.cpp:42
+msgid "Show search window"
+msgstr "הצג חלון חיפוש"
+
+#: ui/listsec.cpp:95 ui/setupdlg.cpp:155
+msgid "Visible list"
+msgstr "רשימת גלויים"
+
+#: ui/listsec.cpp:113 ui/setupdlg.cpp:154
+msgid "Invisible list"
+msgstr "רשימת בלתי נראים"
+
+#: ui/listsec.cpp:131 ui/setupdlg.cpp:153
+msgid "Ignore list"
+msgstr "רשימת התעלמות"
+
+#: ui/logindlg.cpp:87
+msgid "<New UIN>"
+msgstr "<מנוי חדש>"
+
+#: ui/logindlg.cpp:145 ui/logindlg.cpp:215
+msgid "Can't initialize main window"
+msgstr "אין אפשרות להעלות את החלון הראשי"
+
+#: ui/logindlg.cpp:226
+msgid "Unknown login error"
+msgstr "שגיאת כניסה לא ידועה"
+
+#: ui/logindlg.cpp:230
+msgid "Rate limit"
+msgstr "הגבלת Rate"
+
+#: ui/logindlg.cpp:306
+#, c-format
+msgid "Delete history and incoming files for %u?"
+msgstr "מחק היסטוריה וקבצים נכנסים מאת%u?"
+
+#: ui/maininfo.cpp:47
+msgid "Default"
+msgstr "ברירת מחדל"
+
+#: ui/miscsetup.cpp:93
+msgid "Addressbook synchronization"
+msgstr "סנכרון פנקס כתובות"
+
+#: ui/miscsetup.cpp:93
+msgid "Success."
+msgstr "הצלחה."
+
+#: ui/moreinfo.cpp:73
+msgid "January"
+msgstr "ינואר"
+
+#: ui/moreinfo.cpp:74
+msgid "February"
+msgstr "פברואר"
+
+#: ui/moreinfo.cpp:75
+msgid "March"
+msgstr "מרץ"
+
+#: ui/moreinfo.cpp:76
+msgid "April"
+msgstr "אפריל"
+
+#: ui/moreinfo.cpp:77
+msgid "May"
+msgstr "מאי"
+
+#: ui/moreinfo.cpp:78
+msgid "June"
+msgstr "יוני"
+
+#: ui/moreinfo.cpp:79
+msgid "July"
+msgstr "יולי"
+
+#: ui/moreinfo.cpp:80
+msgid "August"
+msgstr "אוגוסט"
+
+#: ui/moreinfo.cpp:81
+msgid "September"
+msgstr "ספטמבר"
+
+#: ui/moreinfo.cpp:82
+msgid "October"
+msgstr "אוקטובר"
+
+#: ui/moreinfo.cpp:83
+msgid "November"
+msgstr "נובמבר"
+
+#: ui/moreinfo.cpp:84
+msgid "December"
+msgstr "דצמבר"
+
+#: ui/network.cpp:48 ui/proxydlg.cpp:41
+msgid "No proxy"
+msgstr "אין שרת פרוקסי"
+
+#: ui/network.cpp:49 ui/proxydlg.cpp:42
+msgid "SOCKS4"
+msgstr "SOCKS4"
+
+#: ui/network.cpp:50 ui/proxydlg.cpp:43
+msgid "SOCKS5"
+msgstr "SOCKS5"
+
+#: ui/network.cpp:51 ui/proxydlg.cpp:44
+msgid "HTTP"
+msgstr "HTTP"
+
+#: ui/network.cpp:52 ui/proxydlg.cpp:45
+msgid "HTTPS"
+msgstr "HTTPS"
+
+#: ui/phonebook.cpp:55
+msgid "Yes"
+msgstr "כן"
+
+#: ui/phonebook.cpp:80
+msgid "Number"
+msgstr "מספר"
+
+#: ui/phonebook.cpp:81
+msgid "Publish"
+msgstr "פרסם"
+
+#: ui/searchdlg.cpp:218
+msgid "No users was found"
+msgstr "לא נמצאו משתמשים"
+
+#: ui/securedlg.cpp:61
+msgid "[Failed]"
+msgstr "[נכשל]"
+
+#: ui/setupdlg.cpp:111
+msgid "My details"
+msgstr "הפרטים שלי"
+
+#: ui/setupdlg.cpp:114 ui/userinfo.cpp:90
+msgid "Main info"
+msgstr "מידע ראשי"
+
+#: ui/setupdlg.cpp:115 ui/userinfo.cpp:92
+msgid "Home info"
+msgstr "מידע בית"
+
+#: ui/setupdlg.cpp:116 ui/userinfo.cpp:93
+msgid "Work info"
+msgstr "מידע עבודה"
+
+#: ui/setupdlg.cpp:117 ui/userinfo.cpp:94
+msgid "More info"
+msgstr "עוד מידע "
+
+#: ui/setupdlg.cpp:118 ui/userinfo.cpp:95
+msgid "About info"
+msgstr "מידע אודות"
+
+#: ui/setupdlg.cpp:119 ui/userinfo.cpp:96
+msgid "Interests"
+msgstr "תחומי עניין"
+
+#: ui/setupdlg.cpp:120 ui/userinfo.cpp:97
+msgid "Group/Past"
+msgstr "קבוצה / עבר"
+
+#: ui/setupdlg.cpp:121 ui/userinfo.cpp:99
+msgid "Phone book"
+msgstr "ספר טלפונים"
+
+#: ui/setupdlg.cpp:123 ui/userinfo.cpp:103
+msgid "Preferences"
+msgstr "העדפות"
+
+#: ui/setupdlg.cpp:126
+msgid "Status mode"
+msgstr "מצב"
+
+#: ui/setupdlg.cpp:127
+msgid "Connection"
+msgstr "חיבור"
+
+#: ui/setupdlg.cpp:128
+msgid "Style"
+msgstr "סגנון"
+
+#: ui/setupdlg.cpp:129
+msgid "Interface"
+msgstr "ממשק"
+
+#: ui/setupdlg.cpp:130
+msgid "Key shortcuts"
+msgstr "קיצורי לוח מקשים"
+
+#: ui/setupdlg.cpp:133 ui/userinfo.cpp:106
+msgid "Accept"
+msgstr "אישור"
+
+#: ui/setupdlg.cpp:134
+msgid "SMS"
+msgstr "SMS"
+
+#: ui/setupdlg.cpp:137
+msgid "Miscellaneous"
+msgstr "שונות"
+
+#: ui/setupdlg.cpp:149
+msgid "Security"
+msgstr "אבטחה"
+
+#: ui/setupdlg.cpp:152
+msgid "General"
+msgstr "כללי"
+
+#: ui/themesetup.cpp:53
+msgid "System"
+msgstr "מערכת"
+
+#: ui/themesetup.cpp:132
+msgid "%1|Graphics"
+msgstr "%1|גרפיקה"
+
+#: ui/themesetup.cpp:134
+msgid "Graphics(%1)"
+msgstr "גרפיקה(%1)"
+
+#: ui/themesetup.cpp:139
+msgid "Contact - left"
+msgstr "Contact - left"
+
+#: ui/themesetup.cpp:140
+msgid "Contact - scale"
+msgstr "Contact - scale"
+
+#: ui/themesetup.cpp:141
+msgid "Window - left top"
+msgstr "חלון- שמאל עליון"
+
+#: ui/themesetup.cpp:142
+msgid "Window - left bottom"
+msgstr "חלון - שמאל תחתון"
+
+#: ui/themesetup.cpp:143
+msgid "Window - left center"
+msgstr "חלון - שמאל מרכז"
+
+#: ui/themesetup.cpp:144
+msgid "Window - scale"
+msgstr "חלון - סובב"
+
+#: ui/themesetup.cpp:207
+msgid "Need restart SIM for change language"
+msgstr "יש לאתחל את SIM לשינוי השפה"
+
+#: ui/themesetup.cpp:217
+msgid "Default icons"
+msgstr "צלמיות ברירת מחדל"
+
+#: ui/toolsetup.cpp:76 ui/toolsetup.cpp:172 ui/toolsetup.cpp:209
+msgid "Separator"
+msgstr "מפריד"
+
+#: ui/userautoreply.cpp:51
+msgid "%1 autoresponse for %2"
+msgstr "%1 מענה אוטומטי עבור %2"
+
+#: ui/userautoreply.cpp:90
+msgid "&Check again"
+msgstr "&בדוק שנית"
+
+#: ui/userinfo.cpp:147
+msgid "User info - '%1'"
+msgstr "מידע משתמש - '%1'"
+
+#: ui/userinfo.cpp:154
+msgid "Settings - group '%1'"
+msgstr "הגדרות - קבוצה '%1'"
+
+#: ui/searchbase.cpp:278
+msgid "Online only"
+msgstr "רק מקוון"
+
+#: ui/searchbase.cpp:280
+msgid "New search"
+msgstr "חיפוש חדש"
+
+#: ui/searchbase.cpp:282
+msgid "Email:"
+msgstr "דוא\"ל:"
+
+#: ui/moreinfobase.cpp:192 ui/randomchatbase.cpp:279 ui/randomchatbase.cpp:298
+#: ui/searchbase.cpp:283
+msgid "Age:"
+msgstr "גיל"
+
+#: ui/randomchatbase.cpp:281 ui/randomchatbase.cpp:300 ui/searchbase.cpp:284
+#: ui/themesetupbase.cpp:318
+msgid "Language:"
+msgstr "שפה:"
+
+#: ui/moreinfobase.cpp:191 ui/randomchatbase.cpp:280 ui/randomchatbase.cpp:299
+#: ui/searchbase.cpp:285
+msgid "Gender:"
+msgstr "מין:"
+
+#: ui/homeinfobase.cpp:166 ui/phonebase.cpp:159 ui/randomchatbase.cpp:282
+#: ui/randomchatbase.cpp:301 ui/searchbase.cpp:286 ui/workinfobase.cpp:212
+msgid "Country:"
+msgstr "מדינה:"
+
+#: ui/homeinfobase.cpp:167 ui/searchbase.cpp:287 ui/workinfobase.cpp:209
+msgid "City:"
+msgstr "יישוב:"
+
+#: ui/homeinfobase.cpp:164 ui/searchbase.cpp:288 ui/workinfobase.cpp:210
+msgid "State:"
+msgstr "מדינה:"
+
+#: ui/searchbase.cpp:289
+msgid "Department:"
+msgstr "מחלקה:"
+
+#: ui/searchbase.cpp:290
+msgid "Company:"
+msgstr "חברה:"
+
+#: ui/searchbase.cpp:291
+msgid "Interests:"
+msgstr "תחומי עניין"
+
+#: ui/searchbase.cpp:292
+msgid "Email/Info"
+msgstr "דוא\"ל ומידע"
+
+#: ui/maininfobase.cpp:315 ui/searchbase.cpp:293
+msgid "Last Name:"
+msgstr "שם משפחה:"
+
+#: ui/maininfobase.cpp:319 ui/searchbase.cpp:294
+msgid "First name:"
+msgstr "שם פרטי:"
+
+#: ui/searchbase.cpp:295
+msgid "Nickname:"
+msgstr "כינוי:"
+
+#: ui/searchbase.cpp:296
+msgid "Names"
+msgstr "שמות"
+
+#: ui/logindlgbase.cpp:127 ui/randomchatbase.cpp:291 ui/searchbase.cpp:297
+msgid "UIN:"
+msgstr "UIN:"
+
+#: ui/toolsetupbase.cpp:123
+msgid "Toolbar setup"
+msgstr "הגדרות סרגל כלים"
+
+#: ui/toolsetupbase.cpp:124
+msgid "All buttons:"
+msgstr "כל הכפתורים:"
+
+#: ui/keysetupbase.cpp:148 ui/phonebookbase.cpp:133 ui/setupdlgbase.cpp:117
+#: ui/themesetupbase.cpp:292 ui/themesetupbase.cpp:296
+#: ui/toolsetupbase.cpp:126 ui/toolsetupbase.cpp:131 ui/userinfobase.cpp:148
+msgid "New Item"
+msgstr "פריט חדש"
+
+#: ui/toolsetupbase.cpp:127
+msgid "&Add ->"
+msgstr "&הוסף ->"
+
+#: ui/toolsetupbase.cpp:128
+msgid "<- &Remove"
+msgstr "<- &הסר"
+
+#: ui/toolsetupbase.cpp:129
+msgid "Active:"
+msgstr "פעיל"
+
+#: ui/toolsetupbase.cpp:132
+msgid "&Up"
+msgstr "למ&עלה"
+
+#: ui/toolsetupbase.cpp:133
+msgid "&Down"
+msgstr "למ&טה"
+
+#: ui/securedlgbase.cpp:66
+msgid "Secure chanel request"
+msgstr "ברשת ערוץ מאובטח"
+
+#: ui/securedlgbase.cpp:67
+msgid ""
+"Secure channel is established using SSL with Diffie-Hellman key exchange and "
+" the TLS version 1 protocol.\n"
+"\n"
+"This only works with other SIM and Licq clients"
+msgstr ""
+"Secure channel is established using SSL with Diffie-Hellman key exchange and "
+" the TLS version 1 protocol.\n"
+"\n"
+"זה עובד רק עם לקוחות SIM ן LICQ אחרים"
+
+#: ui/proxydlgbase.cpp:171
+msgid "Proxy settings"
+msgstr "הגדרות פרוקסי"
+
+#: ui/proxydlgbase.cpp:174
+msgid "Proxy"
+msgstr "פרוקסי"
+
+#: ui/networkbase.cpp:230 ui/proxydlgbase.cpp:175
+msgid "Use proxy"
+msgstr "השתמש בפרוקסי"
+
+#: ui/networkbase.cpp:231 ui/proxydlgbase.cpp:176
+msgid "Proxy host:"
+msgstr "כתובת פרוקסי:"
+
+#: ui/networkbase.cpp:235 ui/proxydlgbase.cpp:177
+msgid "Proxy password:"
+msgstr "סיסמת פרוקסי:"
+
+#: ui/networkbase.cpp:234 ui/proxydlgbase.cpp:178
+msgid "Proxy user:"
+msgstr "משתמש פרוקסי:"
+
+#: ui/proxydlgbase.cpp:179
+msgid "User proxy authorization"
+msgstr "הרשאת משתמש פרוקסי"
+
+#: ui/networkbase.cpp:232 ui/proxydlgbase.cpp:180
+msgid "Proxy port:"
+msgstr "יציאת פרוקסי:"
+
+#: ui/proxydlgbase.cpp:181
+msgid "Server"
+msgstr "שרת"
+
+#: ui/networkbase.cpp:228 ui/proxydlgbase.cpp:182
+msgid "Host:"
+msgstr "מארח:"
+
+#: ui/networkbase.cpp:227 ui/proxydlgbase.cpp:183
+msgid "Port:"
+msgstr "יציאה:"
+
+#: ui/acceptbase.cpp:172 ui/alertdialogbase.cpp:231 ui/fontsetupbase.cpp:221
+#: ui/generalsecbase.cpp:211 ui/homeinfobase.cpp:163 ui/keysetupbase.cpp:143
+#: ui/miscsetupbase.cpp:103 ui/msgdialogbase.cpp:98 ui/networkbase.cpp:225
+#: ui/pastinfobase.cpp:154 ui/phonebase.cpp:153 ui/phonebookbase.cpp:128
+#: ui/setupdlgbase.cpp:113 ui/smssetupbase.cpp:122 ui/soundsetupbase.cpp:227
+#: ui/statussetupbase.cpp:139 ui/themesetupbase.cpp:289
+#: ui/userinfobase.cpp:144
+msgid "Form1"
+msgstr "טופס1"
+
+#: ui/smssetupbase.cpp:123
+msgid "Text before cursor:"
+msgstr "טקסט לפני סמן:"
+
+#: ui/smssetupbase.cpp:124
+msgid "Text after cursor:"
+msgstr "טקסט אחרי סמן:"
+
+#: ui/smssetupbase.cpp:125
+#, fuzzy
+msgid ""
+"You case use:\n"
+"&Alias; -  receipent name\n"
+"&Uin; - receipent UIN\n"
+"&MyAlias; - own name\n"
+"&MyUin; - own UIN"
+msgstr ""
+"אתה\n"
+"&Alias; שם\n"
+"&Uin;\n"
+"&MyAlias; שם\n"
+"&MyUin;"
+
+#: ui/smssetupbase.cpp:130
+msgid "&Signature"
+msgstr "&חתימה"
+
+#: ui/smssetupbase.cpp:131
+msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
+msgstr ""
+"שלח את כל ההודעות במצב  \"Away\" and \"N/A\" לסלולרי"
+
+#: ui/smssetupbase.cpp:132
+msgid ""
+"For the answer or sending of the new message you can answer on SMS having "
+"specified in the beginning of the message a line:\n"
+"<UIN>:"
+msgstr ""
+"For the answer or sending of the new message you can answer on SMS having "
+"specified in the beginning of the message a line:\n"
+"<UIN>:"
+
+#: ui/logindlgbase.cpp:123
+msgid "Login"
+msgstr "כניסה למערכת"
+
+#: ui/logindlgbase.cpp:124
+msgid "&Do not show this window"
+msgstr "&אל תראה את החלון הזה"
+
+#: ui/logindlgbase.cpp:126
+msgid "&Proxy settings"
+msgstr "הגדרות &פרוקסי"
+
+#: ui/logindlgbase.cpp:128
+msgid "&Save password"
+msgstr "&שמור סיסמא"
+
+#: ui/logindlgbase.cpp:129
+msgid "Password:"
+msgstr "סיסמה:"
+
+#: ui/keysetupbase.cpp:105 ui/keysetupbase.cpp:145 ui/phonebookbase.cpp:83
+#: ui/phonebookbase.cpp:130 ui/setupdlgbase.cpp:71 ui/setupdlgbase.cpp:114
+#: ui/userinfobase.cpp:95 ui/userinfobase.cpp:145
+msgid "Column 1"
+msgstr "טור1"
+
+#: ui/keysetupbase.cpp:144
+msgid "Actions:"
+msgstr "פעולות"
+
+#: ui/keysetupbase.cpp:150
+msgid "&Enable"
+msgstr "א&פשר"
+
+#: ui/keysetupbase.cpp:151
+msgid "Send messages on \"Enter\""
+msgstr "שלח הודעה בלחיצה על \"Enter\""
+
+#: ui/keysetupbase.cpp:152
+msgid "&Key"
+msgstr "&מקש"
+
+#: ui/aboutdlgbase.cpp:149
+msgid "About SIM"
+msgstr "אודות SIM"
+
+#: ui/aboutdlgbase.cpp:152
+msgid "About"
+msgstr "אודות"
+
+#: ui/aboutdlgbase.cpp:153
+msgid "Authors"
+msgstr "כותבים"
+
+#: ui/aboutdlgbase.cpp:154
+msgid "Translation"
+msgstr "תרגום"
+
+#: ui/aboutdlgbase.cpp:155
+msgid "License"
+msgstr "רישיון"
+
+#: ui/networkbase.cpp:226
+msgid "ICQ server:"
+msgstr "שרת ICQ"
+
+#: ui/networkbase.cpp:229
+msgid "&Server"
+msgstr "&שרת"
+
+#: ui/networkbase.cpp:233
+msgid "Use proxy authorization"
+msgstr "השתמש בהרשאות פרוקסי"
+
+#: ui/networkbase.cpp:236
+msgid "&Proxy"
+msgstr "&מתווך"
+
+#: ui/networkbase.cpp:237
+msgid "Use the following TCP listen ports:"
+msgstr "השתמש ביציאות TCP ההאזנה הבאות:"
+
+#: ui/networkbase.cpp:238
+msgid "From:"
+msgstr "מאת:"
+
+#: ui/networkbase.cpp:239
+msgid "To:"
+msgstr "אל:"
+
+#: ui/networkbase.cpp:240
+msgid "P&orts"
+msgstr "יצ&יאות"
+
+#: ui/filetransferbase.cpp:123
+msgid "File transfer"
+msgstr "העברת קבצים"
+
+#: ui/filetransferbase.cpp:125
+msgid "1000000/100000"
+msgstr "1000000/100000"
+
+#: ui/filetransferbase.cpp:126
+msgid "100000"
+msgstr "100000"
+
+#: ui/filetransferbase.cpp:127
+msgid "Speed:"
+msgstr "מהירות:"
+
+#: ui/filetransferbase.cpp:128
+msgid "&Transfer"
+msgstr "הע&ברה"
+
+#: ui/filetransferbase.cpp:129 ui/randomchatbase.cpp:304
+msgid "&Details"
+msgstr "&פרטים"
+
+#: ui/filetransferbase.cpp:130
+msgid "Close after send"
+msgstr "סגור לאחר שליחה"
+
+#: ui/acceptbase.cpp:173 ui/acceptbase.cpp:177
+msgid "Override global settings"
+msgstr "עקוף הגדרות כלליות"
+
+#: ui/acceptbase.cpp:174
+msgid "Automaitcaly open window"
+msgstr "פתח חלון אוטומטית"
+
+#: ui/acceptbase.cpp:175
+msgid "Run external program"
+msgstr "הרץ תכנית חיצונית"
+
+#: ui/acceptbase.cpp:176
+msgid "&Message"
+msgstr "&הודעה"
+
+#: ui/acceptbase.cpp:178
+msgid "Path for incoming files:"
+msgstr "נתיב עבור קבצים נכנסים"
+
+#: ui/acceptbase.cpp:180
+msgid "Show response"
+msgstr "הצג תגובה"
+
+#: ui/acceptbase.cpp:181
+msgid "Auto accept"
+msgstr "קבל אוטומטית"
+
+#: ui/acceptbase.cpp:182
+msgid "Overwrite files"
+msgstr "שכתב קבצים"
+
+#: ui/acceptbase.cpp:183
+msgid "Auto decline"
+msgstr "דחה אוטומטית"
+
+#: ui/fontsetupbase.cpp:222
+msgid "Mode"
+msgstr "מצב"
+
+#: ui/fontsetupbase.cpp:223
+msgid "Split mode (&Chat style)"
+msgstr "מצב מפוצל (&סגנון צ'אט)"
+
+#: ui/fontsetupbase.cpp:224
+msgid "Simple mode (&Plain style)"
+msgstr "מצב פשוט (&סגנון פשוט)"
+
+#: ui/fontsetupbase.cpp:226
+msgid "last messages from history to conversation"
+msgstr "הודעות חדשות מהיסטוריה לשיחה"
+
+#: ui/fontsetupbase.cpp:228
+msgid "&Each user in new container"
+msgstr "&כל משתמש בקונטיינר חדש"
+
+#: ui/fontsetupbase.cpp:229
+msgid "&New container for group"
+msgstr "&קונטיינר חדש עבור קבוצה"
+
+#: ui/fontsetupbase.cpp:230
+msgid "&All users in one container"
+msgstr "&כל המשתמשים בקונטיינר אחד"
+
+#: ui/fontsetupbase.cpp:231
+msgid "&User window"
+msgstr "חלון &משתמש"
+
+#: ui/fontsetupbase.cpp:232
+msgid "&Use systems fonts"
+msgstr "&השתמש בגופני מערכת"
+
+#: ui/fontsetupbase.cpp:233
+msgid "Base font"
+msgstr "גופן בסיס"
+
+#: ui/fontsetupbase.cpp:234
+msgid "Menu font"
+msgstr "תפריט גופן"
+
+#: ui/fontsetupbase.cpp:235
+msgid "Fonts"
+msgstr "גופנים"
+
+#: ui/fontsetupbase.cpp:236
+msgid "Use &own colors and fonts settings"
+msgstr "השתמש בהגדרות &עצמיות של גופנים וצבעים"
+
+#: ui/fontsetupbase.cpp:237
+msgid "Received messages color"
+msgstr "צבע קבלת הודעה"
+
+#: ui/fontsetupbase.cpp:238
+msgid "Sending messages color"
+msgstr "צבע שליחת הודעה"
+
+#: ui/fontsetupbase.cpp:239
+msgid "&Colors"
+msgstr "&צבעים"
+
+#: ui/emaileditbase.cpp:89
+msgid "Edit Email"
+msgstr "ערוך כתובת דואר אלקטרוני"
+
+#: ui/emaileditbase.cpp:90
+msgid "Enter Email address:"
+msgstr "הקלד כתובת דואר אלקטרוני"
+
+#: ui/emaileditbase.cpp:91
+msgid "Don't publish my Email address"
+msgstr "אל תפרסם את כתובת הדואר האלקטרוני שלי"
+
+#: ui/pastinfobase.cpp:155
+msgid "Organization, Affiliation, Group:"
+msgstr "אירגון, תנועה, קבוצה:"
+
+#: ui/pastinfobase.cpp:156
+msgid "A&ffilation"
+msgstr "ת&נועה"
+
+#: ui/pastinfobase.cpp:157
+msgid "Past background:"
+msgstr "רקע קודם:"
+
+#: ui/pastinfobase.cpp:158
+msgid "&Background"
+msgstr "&רקע"
+
+#: ui/autoreplybase.cpp:73
+msgid "Autoreply message"
+msgstr "השב אוטומטית להודעה"
+
+#: ui/autoreplybase.cpp:74
+msgid "Close after ...."
+msgstr "סגור לאחר..."
+
+#: ui/autoreplybase.cpp:75
+msgid "Don't show this dialog"
+msgstr "אל תראה את הדיאלוג הזה"
+
+#: ui/alertmsgbase.cpp:73 ui/alertmsgbase.cpp:74
+msgid "User is online"
+msgstr "המשתמש מקוון"
+
+#: ui/interestsinfobase.cpp:138 ui/pagerbase.cpp:113 ui/workinfobase.cpp:207
+msgid "Form2"
+msgstr "טופס2"
+
+#: ui/interestsinfobase.cpp:139
+msgid "&Interests"
+msgstr "&תחומי עניין"
+
+#: ui/msgdialogbase.cpp:99
+msgid "Customize message"
+msgstr "התאם אישית הודעה"
+
+#: ui/msgdialogbase.cpp:100
+msgid "Don't show message dialog"
+msgstr "אל תראה דיאלוג הודעה"
+
+#: ui/listsecbase.cpp:121 ui/msgdialogbase.cpp:101
+msgid "Tab 1"
+msgstr "כרטיסיה 1"
+
+#: ui/alertdialogbase.cpp:232
+msgid "Override global alert"
+msgstr "עקוף התראות כלליות"
+
+#: ui/alertdialogbase.cpp:233
+msgid "Activate online alert when user returns from Away or NA"
+msgstr ""
+"הפעל התראת מקוון כאשר משתמש חוזר ממצב Away "
+"או NA"
+
+#: ui/alertdialogbase.cpp:234
+msgid "Online alert options"
+msgstr "אפשרויות התראת מקוון"
+
+#: ui/alertdialogbase.cpp:235
+msgid "Blinking alert effect"
+msgstr "אפקט התראת הבהוב"
+
+#: ui/alertdialogbase.cpp:236
+msgid "Play online alert sound"
+msgstr "השמע צליל התראת מקוון"
+
+#: ui/alertdialogbase.cpp:237
+msgid "On Screen notification"
+msgstr "התראת מסך"
+
+#: ui/alertdialogbase.cpp:238
+msgid "Popup online alert dialog"
+msgstr "הקפץ הודעת \"התראת מקוון\" "
+
+#: ui/alertdialogbase.cpp:239
+msgid "Open user window when online"
+msgstr "פתח חלון ראשי כאשר מקוון"
+
+#: ui/alertdialogbase.cpp:240
+msgid "Write to history"
+msgstr "כתוב לקובץ היסטוריה"
+
+#: ui/alertdialogbase.cpp:241
+msgid "&Alert"
+msgstr "&התרע"
+
+#: ui/alertdialogbase.cpp:242
+msgid "Enable notify on screen"
+msgstr "אפשר התראה על המסך (OSD)"
+
+#: ui/alertdialogbase.cpp:243 ui/themesetupbase.cpp:301
+msgid "Place:"
+msgstr "מקום:"
+
+#: ui/alertdialogbase.cpp:244
+msgid "Offset:"
+msgstr "מיקום:"
+
+#: ui/alertdialogbase.cpp:245
+msgid "Show time:"
+msgstr "הצג שעה"
+
+#: ui/alertdialogbase.cpp:246
+msgid "Color:"
+msgstr "צבע:"
+
+#: ui/alertdialogbase.cpp:247
+msgid "Font:"
+msgstr "גופן:"
+
+#: ui/alertdialogbase.cpp:248
+msgid "Shadow"
+msgstr "צלליות"
+
+#: ui/alertdialogbase.cpp:249
+msgid "Background"
+msgstr "רקע"
+
+#: ui/alertdialogbase.cpp:250
+msgid "Background color:"
+msgstr "צבע רקע:"
+
+#: ui/alertdialogbase.cpp:251
+msgid "On Screen"
+msgstr "תצוגת על מסך"
+
+#: ui/phonebase.cpp:154
+msgid "Area code:"
+msgstr "איזור חיוג:"
+
+#: ui/phonebase.cpp:155
+msgid "Extension:"
+msgstr "שלוחה:"
+
+#: ui/phonebase.cpp:156 ui/phonebase.cpp:158 ui/phonebase.cpp:160
+msgid "-"
+msgstr "-"
+
+#: ui/pagerbase.cpp:116 ui/phonebase.cpp:157
+msgid "Number:"
+msgstr "מספר:"
+
+#: ui/phonebase.cpp:161
+msgid "Publish in global directory"
+msgstr "פרסם ב global directory"
+
+#: ui/phonebase.cpp:162
+msgid "SMS service available"
+msgstr "שירות SMS זמין"
+
+#: ui/pagerbase.cpp:114
+msgid "Provider:"
+msgstr "ספק:"
+
+#: ui/pagerbase.cpp:115
+msgid "Email gateway:"
+msgstr "שער דוא\"ל:"
+
+#: ui/addphonebase.cpp:135
+msgid "Add phone"
+msgstr "הוסף מספר טלפון"
+
+#: ui/addphonebase.cpp:136
+msgid "Number details:"
+msgstr "מספר פרטים:"
+
+#: ui/addphonebase.cpp:137
+msgid "Type:"
+msgstr "סוג:"
+
+#: ui/miscsetupbase.cpp:104
+msgid "Browser program path:"
+msgstr "נתיב לדפדפן:"
+
+#: ui/miscsetupbase.cpp:105
+msgid "Email client:"
+msgstr "תוכנית דוא\"ל:"
+
+#: ui/miscsetupbase.cpp:106 ui/themesetupbase.cpp:320
+msgid "&Miscellaneous"
+msgstr "&שונות"
+
+#: ui/miscsetupbase.cpp:107
+msgid "A&utomatically add new user to KAddressBook"
+msgstr "הוסף או&טומטית משתמש חדש ל KAdressBook."
+
+#: ui/miscsetupbase.cpp:108
+msgid "&Synchronize now"
+msgstr "&סנכרן עכשיו"
+
+#: ui/miscsetupbase.cpp:109
+msgid "&Addressbook synchronization"
+msgstr "סנכרון &פנקס כתובות"
+
+#: ui/miscsetupbase.cpp:110
+msgid "Check &all messages on send"
+msgstr "בדוק את &כל ההודעות לפני שליחה"
+
+#: ui/miscsetupbase.cpp:111
+msgid "&Spell check"
+msgstr "בדוק &איות"
+
+#: ui/soundsetupbase.cpp:228
+msgid "&Override sounds"
+msgstr "&עקוף צלילים"
+
+#: ui/soundsetupbase.cpp:229
+msgid "&Disable all sounds"
+msgstr "&השתק את כל הצלילים"
+
+#: ui/soundsetupbase.cpp:230
+msgid "Message:"
+msgstr "הודעה:"
+
+#: ui/soundsetupbase.cpp:232
+msgid "SMS:"
+msgstr "SMS:"
+
+#: ui/soundsetupbase.cpp:233
+msgid "Authorization:"
+msgstr "אישור:"
+
+#: ui/soundsetupbase.cpp:234
+msgid "Online alert:"
+msgstr "התראת מקוון:"
+
+#: ui/soundsetupbase.cpp:235
+msgid "Incoming file:"
+msgstr "קובץ נכנס:"
+
+#: ui/soundsetupbase.cpp:236
+msgid "File transfer done:"
+msgstr "העברת קבצים הסתיימה:"
+
+#: ui/soundsetupbase.cpp:237
+msgid "Chat Request:"
+msgstr "בקשת שיחה:"
+
+#: ui/soundsetupbase.cpp:238
+msgid "Startup sound:"
+msgstr "צליל אתחול"
+
+#: ui/soundsetupbase.cpp:239
+msgid "&Sounds"
+msgstr "&צלילים"
+
+#: ui/soundsetupbase.cpp:240
+msgid "Program for play:"
+msgstr "תוכנית לניגון:"
+
+#: ui/soundsetupbase.cpp:241
+msgid "UseArts"
+msgstr "UseArts"
+
+#: ui/soundsetupbase.cpp:242
+msgid "&Programm"
+msgstr "&תכנית"
+
+#: ui/phonebookbase.cpp:129
+msgid "User is currently available at:"
+msgstr "המשתמש זמין כרגע ב:"
+
+#: ui/phonebookbase.cpp:135
+msgid ""
+"Note:\n"
+"You can change only those numbers which have entered.\n"
+"It is impossible to change numbers which were received from the user."
+msgstr ""
+"הערה:\n"
+"אתה יכול לשנות רק את המספרים שהכנסת בעצמך\n"
+"אין אפשרות לשנות מספרים אשר התקבלו "
+"ממשתמשים אחרים.."
+
+#: ui/phonebookbase.cpp:140
+msgid "&Add"
+msgstr "&הוסף"
+
+#: ui/phonebookbase.cpp:141
+msgid "&Phonebook"
+msgstr "&ספר טלפונים"
+
+#: ui/userinfobase.cpp:151
+msgid "Update"
+msgstr "עדכן"
+
+#: ui/setupdlgbase.cpp:119
+msgid "&Update"
+msgstr "&עדכן"
+
+#: ui/homeinfobase.cpp:165 ui/workinfobase.cpp:208
+msgid "Address:"
+msgstr "כתובת:"
+
+#: ui/homeinfobase.cpp:168 ui/workinfobase.cpp:211
+msgid "Zip code:"
+msgstr "מיקוד:"
+
+#: ui/randomchatbase.cpp:292 ui/randomchatbase.cpp:297 ui/workinfobase.cpp:213
+msgid "Name:"
+msgstr "שם:"
+
+#: ui/workinfobase.cpp:215
+msgid "Web site:"
+msgstr "אתר אינטרנט:"
+
+#: ui/workinfobase.cpp:216
+msgid "&Company"
+msgstr "&חברה"
+
+#: ui/workinfobase.cpp:217
+msgid "Occupation:"
+msgstr "עיסוק:"
+
+#: ui/workinfobase.cpp:218
+msgid "Div / dept:"
+msgstr "מחלקה או דיוויזיה:"
+
+#: ui/workinfobase.cpp:219
+msgid "Position:"
+msgstr "תפקיד:"
+
+#: ui/workinfobase.cpp:220
+msgid "&Occupation"
+msgstr "&עיסוק"
+
+#: ui/themesetupbase.cpp:290
+msgid "Select style:"
+msgstr "בחר סגנון:"
+
+#: ui/themesetupbase.cpp:293
+msgid "&Style"
+msgstr "&סגנון"
+
+#: ui/themesetupbase.cpp:294
+msgid "Icons:"
+msgstr "אייקונים:"
+
+#: ui/themesetupbase.cpp:297
+msgid "Add icons"
+msgstr "הוסף אייקונים"
+
+#: ui/themesetupbase.cpp:298
+msgid "&Icons"
+msgstr "&אייקונים"
+
+#: ui/themesetupbase.cpp:299
+msgid "Main window background:"
+msgstr "רקע של חלון ראשי:"
+
+#: ui/themesetupbase.cpp:300
+msgid "Icon margin:"
+msgstr "שולי סמל:"
+
+#: ui/themesetupbase.cpp:302
+msgid "Use &system colors"
+msgstr "השתמש בצבעי &מערכת"
+
+#: ui/themesetupbase.cpp:303
+msgid "Online contact color:"
+msgstr "צבע איש קשר מקוון:"
+
+#: ui/themesetupbase.cpp:304
+msgid "Offline contact color:"
+msgstr "צבע איש קשר לא מקוון:"
+
+#: ui/themesetupbase.cpp:305
+msgid "B&ackground"
+msgstr "ר&קע"
+
+#: ui/themesetupbase.cpp:306
+msgid "Transparent main window"
+msgstr "חלון ראשי שקוף"
+
+#: ui/themesetupbase.cpp:307 ui/themesetupbase.cpp:309
+msgid "Transparency"
+msgstr "שקיפות"
+
+#: ui/themesetupbase.cpp:308
+msgid "Transparent container"
+msgstr "קונטנר שקוף"
+
+#: ui/themesetupbase.cpp:310
+msgid "Transparent only if inactive"
+msgstr "שקוף רק אם לא פעיל"
+
+#: ui/themesetupbase.cpp:311
+msgid "&Transparency"
+msgstr "&שקיפות"
+
+#: ui/themesetupbase.cpp:312
+msgid "Show main window in task manager"
+msgstr "הצג חלון ראשי בשורת המשימות"
+
+#: ui/themesetupbase.cpp:313
+msgid "Show user window in task manager"
+msgstr "הצג חלון משתמש בשורת המשימות"
+
+#: ui/themesetupbase.cpp:314
+msgid "User window stays on &top"
+msgstr "חלון משתמש נשאר תמיד &למעלה"
+
+#: ui/themesetupbase.cpp:315
+msgid "&Show splash window"
+msgstr "&הצג מסך פתיחה (Splash)"
+
+#: ui/themesetupbase.cpp:316
+msgid "Use emotional &icons"
+msgstr "השתמש ב&אייקונים של רגשות"
+
+#: ui/themesetupbase.cpp:317
+msgid "Use &dock"
+msgstr "השתמש ב&עגינה"
+
+#: ui/themesetupbase.cpp:319
+msgid "Use double c&lick"
+msgstr "השתמש ב&לחיצה כפולה"
+
+#: ui/statussetupbase.cpp:140
+msgid "Hide main window after"
+msgstr "הסתר חלון ראשי לאחר"
+
+#: ui/statussetupbase.cpp:142
+msgid ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgstr ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+
+#: ui/statussetupbase.cpp:143
+msgid "Set \"Away\" status after"
+msgstr "קבע \"Away\" מצב לאחרr"
+
+#: ui/statussetupbase.cpp:144
+msgid "minutes not using computer"
+msgstr "דקות ללא שימוש במחשב"
+
+#: ui/statussetupbase.cpp:145
+msgid "minutes of \"Away\""
+msgstr "דקות של \"Away\""
+
+#: ui/statussetupbase.cpp:146
+msgid "seconds inactive"
+msgstr "שניות לא פעילות"
+
+#: ui/statussetupbase.cpp:147
+msgid "Set \"N/A\" status after"
+msgstr "קבע \"N/A\" מצב לאחר"
+
+#: ui/maininfobase.cpp:334 ui/statussetupbase.cpp:148
+msgid "&Status"
+msgstr "&מצב"
+
+#: ui/listsecbase.cpp:120 ui/moreinfobase.cpp:188
+msgid "Form3"
+msgstr "טופס3"
+
+#: ui/moreinfobase.cpp:189 ui/randomchatbase.cpp:283 ui/randomchatbase.cpp:302
+msgid "Homepage:"
+msgstr "כתובת אתר בית"
+
+#: ui/moreinfobase.cpp:193
+msgid "Month:"
+msgstr "חודש"
+
+#: ui/moreinfobase.cpp:194
+msgid "Day:"
+msgstr "יום:"
+
+#: ui/moreinfobase.cpp:195
+msgid "Year:"
+msgstr "שנה"
+
+#: ui/moreinfobase.cpp:196
+msgid "Birth date:"
+msgstr "תאריך לידה:"
+
+#: ui/moreinfobase.cpp:197
+msgid "&More info"
+msgstr "&מידע נוסף"
+
+#: ui/moreinfobase.cpp:198
+msgid "Spoken languages:"
+msgstr "שפות מדוברות:"
+
+#: ui/moreinfobase.cpp:199
+msgid "&Languages"
+msgstr "&שפות:"
+
+#: ui/maininfobase.cpp:314
+msgid "Form5"
+msgstr "טופס5"
+
+#: ui/maininfobase.cpp:316
+msgid "Uin:"
+msgstr "Uin:"
+
+#: ui/maininfobase.cpp:317
+msgid "Nick:"
+msgstr "כינוי:"
+
+#: ui/maininfobase.cpp:318
+msgid "Display:"
+msgstr "תצוגה"
+
+#: ui/maininfobase.cpp:320
+msgid "Encoding:"
+msgstr "קידוד:"
+
+#: ui/maininfobase.cpp:321
+msgid "&Names"
+msgstr "&שמות"
+
+#: ui/maininfobase.cpp:322
+msgid "Email addresses:"
+msgstr "כתובות דוא\"ל:"
+
+#: ui/maininfobase.cpp:323
+msgid "Add"
+msgstr "הוסף"
+
+#: ui/maininfobase.cpp:324
+msgid "Edit"
+msgstr "עריכה"
+
+#: ui/maininfobase.cpp:325
+msgid "Remove"
+msgstr "הסר"
+
+#: ui/maininfobase.cpp:326
+msgid "Set as default"
+msgstr "קבע כברירת מחדל"
+
+#: ui/maininfobase.cpp:327
+msgid "&EMail"
+msgstr "&דואר אלקטרוני"
+
+#: ui/maininfobase.cpp:328
+msgid "Status:"
+msgstr "מצב:"
+
+#: ui/maininfobase.cpp:329
+msgid "Online:"
+msgstr "מקוון"
+
+#: ui/maininfobase.cpp:331
+msgid "External IP:"
+msgstr "כתובת IP חיצונית:"
+
+#: ui/maininfobase.cpp:332
+msgid "Internal IP:"
+msgstr "גתובת IP פנימית:"
+
+#: ui/maininfobase.cpp:333
+msgid "Client:"
+msgstr "תוכנית:"
+
+#: ui/homeinfobase.cpp:169
+msgid "Time zone:"
+msgstr "איזור זמן:"
+
+#: ui/homeinfobase.cpp:170
+msgid "&Home info"
+msgstr "&מידע ביתי"
+
+#: ui/generalsecbase.cpp:212
+msgid "My &authorization is required before users add me to Contact List"
+msgstr ""
+"דרוש &אישור ממני על מנת שאחרים יוכלו "
+"להוסיף אותי לרשימת הקשר שלהם"
+
+#: ui/generalsecbase.cpp:213
+msgid "Don't show my &IP-address"
+msgstr "אל תראה את כתובת ה &IP שלי "
+
+#: ui/generalsecbase.cpp:214
+msgid "Allow other to view my &status from the Web"
+msgstr ""
+"אפשר לאחרים לראות את &מצב החיבור שלי "
+"מהאינטרנט"
+
+#: ui/generalsecbase.cpp:215
+msgid "I&gnore user authorization"
+msgstr "ה&תעלם מאישור משתמש"
+
+#: ui/generalsecbase.cpp:216
+msgid "Direct connection"
+msgstr "קישור ישיר"
+
+#: ui/generalsecbase.cpp:217
+msgid "Allow &direct connection from any user"
+msgstr "אפשר קישור &ישיר מכל משתמש"
+
+#: ui/generalsecbase.cpp:218
+msgid "Allow direct connection from user listed in &contact list"
+msgstr ""
+"אפשר קישור ישיר ממשתמש הרשום &ברשימת "
+"החברים"
+
+#: ui/generalsecbase.cpp:219
+msgid "Allow direct connection from user &upon authorization"
+msgstr "אפשר קישור ישיר ממשתמש &על סמך אישור"
+
+#: ui/generalsecbase.cpp:220
+msgid "&Security"
+msgstr "&אבטחה"
+
+#: ui/generalsecbase.cpp:221
+msgid "Reject &messages from unknown users"
+msgstr "דחה &הודעות ממשתמשים לא מוכרים"
+
+#: ui/generalsecbase.cpp:222
+msgid "Reject &URL from unknown users"
+msgstr "דחה &קישורים ממשתמשים לא מוכרים"
+
+#: ui/generalsecbase.cpp:223
+msgid "Reject &World Wide pager messages"
+msgstr "דחה הודעות של &זימונית בינלאומית (WWP)"
+
+#: ui/generalsecbase.cpp:224
+msgid "Reject &EmailExpress messages"
+msgstr "דחה הודעות של &דואר אלקטרוני אקספרס"
+
+#: ui/generalsecbase.cpp:225
+msgid "Reject &other messages"
+msgstr "דחה הודעות &אחרות"
+
+#: ui/generalsecbase.cpp:226
+msgid "&Reject"
+msgstr "&דחה"
+
+#: ui/generalsecbase.cpp:227
+msgid "Reject messages from unknown users contains this words or phrases:"
+msgstr ""
+"דחה הודעות ממשתמשים לא מוכרים המכילים את "
+"המילים או המשפטים הבאים:"
+
+#: ui/generalsecbase.cpp:228
+msgid ""
+"Words are divided by any separators (space, comma, i.e.)\n"
+"Phrase (sequence of words) consists in quotas\n"
+"Words can contain wildcards:\n"
+"* - any amount of symbols (or is empty)\n"
+"? - any symbol"
+msgstr ""
+"Words are divided by any separators (space, comma, i.e.)\n"
+"Phrase (sequence of words) consists in quotas\n"
+"Words can contain wildcards:\n"
+"* - any amount of symbols (or is empty)\n"
+"? - any symbol"
+
+#: ui/generalsecbase.cpp:233
+msgid "Spam &filter"
+msgstr "סינון דואר &זבל"
+
+#: ui/generalsecbase.cpp:234
+msgid "Retype new password:"
+msgstr "הקלד מחדש סיסמא חדשה:"
+
+#: ui/generalsecbase.cpp:235
+msgid "New password:"
+msgstr "סיסמא חדשה:"
+
+#: ui/generalsecbase.cpp:236
+msgid "Current password:"
+msgstr "סיסמא נוכחית:"
+
+#: ui/generalsecbase.cpp:237
+msgid "S&ave password"
+msgstr "ש&מור סיסמא"
+
+#: ui/generalsecbase.cpp:238
+msgid "&Do not show login dialog at start"
+msgstr ""
+"&אל תראה דיאלוג כניסה למערכת בתחילת התכנית"
+
+#: ui/generalsecbase.cpp:239
+msgid "&Password"
+msgstr "&סיסמה:"
+
+#: ui/aboutinfobase.cpp:105
+msgid "Form4"
+msgstr "טופס4"
+
+#: ui/aboutinfobase.cpp:106
+msgid "Additional information about user:"
+msgstr "מידע נוסף אודות משתמש:"
+
+#: ui/aboutinfobase.cpp:107
+msgid "A&bout"
+msgstr "&אודות"
+
+#: ui/aboutinfobase.cpp:108
+msgid "My notes:"
+msgstr "ההערות שלי :"
+
+#: ui/aboutinfobase.cpp:109
+msgid "&Notes"
+msgstr "&הערות"
+
+#: ui/randomchat.cpp:167
+msgid "&Stop search"
+msgstr "&עצור חיפוש"
+
+#: ui/randomchat.cpp:168
+msgid "Find an &Online Chat Friend"
+msgstr "חפש חבר לשיחה &מקוונת"
+
+#: ui/randomchat.cpp:196
+msgid "Request UIN"
+msgstr "בקש מספר UIN"
+
+#: ui/randomchat.cpp:217
+msgid "Request user info"
+msgstr "בקש פרטי משתמש"
+
+#: ui/randomchat.cpp:230
+msgid "Ready"
+msgstr "מוכן"
+
+#: ui/randomchatbase.cpp:285
+msgid "Chat Topic/Interests:"
+msgstr "נושאי שיחה ועניין"
+
+#: ui/randomchatbase.cpp:286
+msgid "&Request chat"
+msgstr "בקשה &לצ'אט"
+
+#: ui/randomchatbase.cpp:287
+msgid "Send &message"
+msgstr "שלח &הודעה"
+
+#: ui/randomchatbase.cpp:288
+msgid "Send &URL"
+msgstr "שלח &קישור"
+
+#: ui/randomchatbase.cpp:289 ui/randomchatbase.cpp:295
+msgid "Group:"
+msgstr "קבוצה:"
+
+#: ui/randomchatbase.cpp:293
+msgid "&Finding"
+msgstr "&מוצא"
+
+#: ui/randomchatbase.cpp:294
+msgid "I want to be available to chat with a friend"
+msgstr "אני רוצה להיות זמין לדבר עם חבר"
+
+#: ui/randomchatbase.cpp:296
+msgid "Chat topic/Interests:"
+msgstr "נושאי שיחה ועניין"
