@@ -171,7 +171,6 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd)
 
     QStyleSheet *style = new QStyleSheet(m_edit);
     QStyleSheetItem *style_p = style->item("p");
-    style_p->setWhiteSpaceMode(QStyleSheetItem::WhiteSpacePre);
     // Disable top and bottom margins for P tags. This will make sure
     // paragraphs have no more spacing than regular lines, thus matching
     // RTFs defaut look for paragraphs.
