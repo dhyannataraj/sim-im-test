@@ -43,9 +43,10 @@ if test "$RELEASE_BUILD" != "yes"; then
  AC_DEFINE(CVS_BUILD, 1, [CVS build])
 fi
 
-AC_TYPE_SIZE_T
-AC_TYPE_PID_T
 AC_TYPE_OFF_T
+AC_TYPE_PID_T
+AC_TYPE_SIZE_T
+AC_TYPE_UID_T
 AC_STRUCT_TM
 AC_PROG_RANLIB
 AC_PATH_X
@@ -54,19 +55,24 @@ AC_TM_GMTOFF
 AC_FUNC_FORK
 AC_C_INLINE
 AC_C_CONST
-AC_CHECK_OPENSSL
-AC_FUNC_STAT
+KDE_CHECK_SSL
+AC_HEADER_STDBOOL
+AC_FUNC_ERROR_AT_LINE
 AC_FUNC_MMAP
 AC_FUNC_MKTIME
 AC_FUNC_MEMCMP
 AC_FUNC_MALLOC
-AC_FUNC_ERROR_AT_LINE
-AC_CHECK_HEADERS([arpa/inet.h netinet/in.h sys/socket.h sys/types.h sys/time.h])
-AC_CHECK_HEADERS([ctype.h fcntl.h inttypes.h limits.h netdb.h stdint.h unistd.h stddef.h])
+AC_FUNC_REALLOC
+AC_FUNC_STAT
 
-AC_CHECK_FUNCS([dup2 gethostname gethostbyname inet_ntoa])
-AC_CHECK_FUNCS([memmove memset mkdir munmap rmdir socket])
-AC_CHECK_FUNCS([strchr strdup strerror strrchr strstr strtol strtoul])
+AC_LIB_LTDL
+
+AC_CHECK_HEADERS([arpa/inet.h netinet/in.h sys/ioctl.h sys/socket.h])
+AC_CHECK_HEADERS([fcntl.h limits.h netdb.h stddef.h termios.h])
+
+AC_CHECK_FUNCS([dup2 gethostbyname gethostname inet_ntoa])
+AC_CHECK_FUNCS([memset mkdir munmap rmdir socket strcasecmp])
+AC_CHECK_FUNCS([strcspn strdup strerror strstr strtol strtoul])
 
 AC_CHECK_FUNC(strcasecmp,[AC_DEFINE(HAVE_STRCASECMP,1,[Have strcasecmp])])
 AC_CHECK_FUNC(umask,[AC_DEFINE(HAVE_UMASK,1,[Have umask])])
@@ -74,10 +80,12 @@ AC_CHECK_FUNC(chmod,[AC_DEFINE(HAVE_CHMOD,1,[Have chmod])])
 AC_CHECK_FUNC(gethostbyname_r,[AC_DEFINE(HAVE_GETHOSTBYNAME_R,1,[Have gethostbyname_r])]) 
 AC_CHECK_FUNC(gethostbyaddr_r,[AC_DEFINE(HAVE_GETHOSTBYADDR_R,1,[Have gethostbyaddr_r])])
 
+AC_EGREP_HEADER(in_addr_t, netinet/in.h,, AC_DEFINE(in_addr_t,int,[defaults in_addr_t to int]))
+AC_EGREP_HEADER(socklen_t, sys/socket.h,, AC_DEFINE(socklen_t,int,[defaults socklen_t to int]))
+
 AC_CHECK_LIB(xnet,inet_addr)
 AC_CHECK_LIB(socket, socket)
 AC_CHECK_LIB(art_lgpl_2,libart_version)
-KDE_LIB_LTDL
 
 EXTRA_LIBS=""
 if test "$use_kde" = "yes" ; then
@@ -125,7 +133,7 @@ uname=`uname`
 unamem=`uname -m`
 AC_DEFINE_UNQUOTED(UNAME,"${uname} ${unamem}",[System type])
 
-if test "$WITH_OPENSSL" = "no"; then
+if test "$have_ssl" != yes; then
   echo ""
   echo "OpenSSL support is not available.  SIM will not be able to"
   echo "establish secure communication channels. This is not required"
