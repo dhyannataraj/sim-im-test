@@ -1,4 +1,7 @@
 Version 0.8.1
+Add copy messages from history to conversation
+Fix works with accel
+Fix receiving unicode messages from ICQ2Go!
 Add external programms in template
 Add network monitor
 Fix rtf parser and generator for fix font size problem
