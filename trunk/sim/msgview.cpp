@@ -557,7 +557,7 @@ int MsgView::findMsg(unsigned long id, int parag)
             unsigned i;
             for (i = 0; i < s.length(); i++)
                 if (s[(int)i] == '.') break;
-            if (atol((const char*)s + i + 1) == id)
+            if ((unsigned long)(atol((const char*)s + i + 1)) == id)
                 return parag;
         }
     }

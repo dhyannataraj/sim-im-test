@@ -152,7 +152,7 @@ install_location=
 type=DATA
 
 [sim/Makefile.am]
-files=sim/sim.desktop,sim/lo32-app-sim.png,sim/lo16-app-sim.png,sim/client.cpp,sim/client.h,sim/cuser.cpp,sim/cuser.h,sim/defs.h,sim/dock.cpp,sim/dock.h,sim/editspell.cpp,sim/editspell.h,sim/history.cpp,sim/history.h,sim/icons.cpp,sim/icons.h,sim/mainwin.cpp,sim/mainwin.h,sim/msgedit.cpp,sim/msgedit.h,sim/msgview.cpp,sim/msgview.h,sim/passwddlg.cpp,sim/passwddlg.h,sim/sim.cpp,sim/sim.h,sim/themes.cpp,sim/themes.h,sim/toolbtn.cpp,sim/toolbtn.h,sim/userbox.cpp,sim/userbox.h,sim/usertbl.cpp,sim/usertbl.h,sim/userview.cpp,sim/userview.h,sim/intedit.cpp,sim/intedit.h,sim/transparent.cpp,sim/transparent.h,sim/fontedit.cpp,sim/fontedit.h,sim/chatwnd.cpp,sim/chatwnd.h,sim/xosd.cpp,sim/xosd.h,sim/hi16-app-sim.png,sim/hi32-app-sim.png,sim/about.cpp,sim/about.h,sim/parse.ll,sim/splash.cpp,sim/splash.h,sim/keys.cpp,sim/keys.h,sim/cfg.cpp,sim/cfg.h,sim/mgrep.cpp,sim/mgrep.h,sim/exec.cpp,sim/exec.h
+files=sim/sim.desktop,sim/lo32-app-sim.png,sim/lo16-app-sim.png,sim/client.cpp,sim/client.h,sim/cuser.cpp,sim/cuser.h,sim/defs.h,sim/dock.cpp,sim/dock.h,sim/editspell.cpp,sim/editspell.h,sim/history.cpp,sim/history.h,sim/icons.cpp,sim/icons.h,sim/mainwin.cpp,sim/mainwin.h,sim/msgedit.cpp,sim/msgedit.h,sim/msgview.cpp,sim/msgview.h,sim/passwddlg.cpp,sim/passwddlg.h,sim/sim.cpp,sim/sim.h,sim/themes.cpp,sim/themes.h,sim/toolbtn.cpp,sim/toolbtn.h,sim/userbox.cpp,sim/userbox.h,sim/usertbl.cpp,sim/usertbl.h,sim/userview.cpp,sim/userview.h,sim/intedit.cpp,sim/intedit.h,sim/transparent.cpp,sim/transparent.h,sim/fontedit.cpp,sim/fontedit.h,sim/chatwnd.cpp,sim/chatwnd.h,sim/xosd.cpp,sim/xosd.h,sim/hi16-app-sim.png,sim/hi32-app-sim.png,sim/about.cpp,sim/about.h,sim/parse.ll,sim/splash.cpp,sim/splash.h,sim/keys.cpp,sim/keys.h,sim/cfg.cpp,sim/cfg.h,sim/mgrep.cpp,sim/mgrep.h,sim/exec.cpp,sim/exec.h,sim/tmpl.cpp,sim/tmpl.h
 sub_dirs=libicq,ui,xpm,qt3
 type=prog_main
 
@@ -770,6 +770,18 @@ install_location=
 type=SOURCE
 
 [sim/themes.h]
+dist=true
+install=false
+install_location=
+type=HEADER
+
+[sim/tmpl.cpp]
+dist=true
+install=false
+install_location=
+type=SOURCE
+
+[sim/tmpl.h]
 dist=true
 install=false
 install_location=

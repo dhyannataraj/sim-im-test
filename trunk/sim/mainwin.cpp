@@ -1645,7 +1645,7 @@ void MainWindow::showUserPopup(unsigned long uin, QPoint p, QPopupMenu *popup, c
     menuUser->insertSeparator();
     menuUser->insertItem(Icon("floating"),
                          findFloating(uin) ? i18n("Floating off") : i18n("Floating on"), mnuFloating);
-    menuUser->setAccel(QAccel::stringToKey(i18n("Ctrl+F", "Floating")), mnuFloating);
+    menuUser->setAccel(QAccel::stringToKey(i18n("Ctrl+T", "Floating")), mnuFloating);
     if (popup){
         menuUser->insertSeparator();
         menuUser->insertItem(i18n("Users"), popup);

@@ -48,13 +48,14 @@ void Tmpl::expand()
 
 void Tmpl::expand(bool bExt)
 {
-    for (int i = 0; i < t.length(); i++){
-        if (t[i] == '\\'){
+    for (unsigned i = 0; i < t.length(); i++){
+	QChar c = t[i];
+        if (c == '\\'){
             if (i < t.length())
                 res += t[++i];
             continue;
         }
-        if (t[i] == '&'){
+        if (c == '&'){
             QString var;
             for (i++; i < t.length(); i++){
                 if (t[i] == ';') break;
@@ -83,7 +84,7 @@ void Tmpl::expand(bool bExt)
             log(L_WARN, "Unknown substitute <%s>", s.c_str());
             continue;
         }
-        if (bExt && (t[i] == '`')){
+        if (bExt && (c == '`')){
             QString prg;
             for (i++; i < t.length(); i++){
                 if (t[i] == '`') break;
@@ -104,7 +105,7 @@ void Tmpl::expand(bool bExt)
             exec->execute(prg.local8Bit(), NULL);
             return;
         }
-        res += t[i];
+        res += c;
     }
     if (bExt) emit ready(res);
 }
