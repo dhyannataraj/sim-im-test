@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2002-12-13 08:04+0300\n"
-"PO-Revision-Date: 2002-12-12 19:05+0200\n"
+"PO-Revision-Date: 2002-12-13 08:02+0200\n"
 "Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1753,8 +1753,7 @@ msgstr "%1 від %2"
 
 #: mainwin.cpp:1233 ui/logindlg.cpp:170
 msgid "Can't connect to proxy server"
-msgstr ""
-"Неможливо з'єднатися з проксі-сервером"
+msgstr "Неможливо з'єднатися з проксі-сервером"
 
 #: mainwin.cpp:1240 ui/logindlg.cpp:177
 msgid "Proxy server require authorization"
@@ -1786,8 +1785,7 @@ msgstr "&Ні"
 
 #: mainwin.cpp:1924
 msgid "Add %1 to ignore list ?"
-msgstr ""
-"Додати \"%1\" в список тих що ігноруються?"
+msgstr "Додати \"%1\" в список тих що ігноруються?"
 
 #: mainwin.cpp:1988
 msgid "In visible list"
@@ -1984,7 +1982,7 @@ msgstr "Про &KDE"
 
 #: mainwin.cpp:2712
 msgid "Change UIN"
-msgstr ""
+msgstr "Змінити UIN"
 
 #: mainwin.cpp:2713
 msgid "Quit"
@@ -2186,8 +2184,7 @@ msgstr "Розмір: %1 / Максимальний: %2"
 
 #: msgedit.cpp:1563
 msgid "Message will be split"
-msgstr ""
-"Повідомлення буде розділено на частини"
+msgstr "Повідомлення буде розділено на частини"
 
 #: msgedit.cpp:1738
 msgid "Decline reason"
@@ -2565,7 +2562,7 @@ msgstr "Підтвердження і пароль не співпадають"
 
 #: ui/generalsec.cpp:76
 msgid "Input current password"
-msgstr ""
+msgstr "Даний пароль помилковий"
 
 #: ui/generalsec.cpp:81 ui/logindlg.cpp:85 ui/logindlg.cpp:165
 #: ui/logindlg.cpp:199
@@ -2814,8 +2811,7 @@ msgstr "Вікно - розтягнути"
 
 #: ui/themesetup.cpp:204
 msgid "Need restart SIM for change language"
-msgstr ""
-"Потрібно перестартувати SIM для зміни мови"
+msgstr "Потрібно перестартувати SIM для зміни мови"
 
 #: ui/themesetup.cpp:214
 msgid "Default icons"
@@ -3027,9 +3023,8 @@ msgid "&Proxy settings"
 msgstr "Установки &проксі"
 
 #: ui/logindlgbase.cpp:126
-#, fuzzy
 msgid "&Save password"
-msgstr "Змінити пароль"
+msgstr "&Зберегти пароль"
 
 #: ui/proxydlgbase.cpp:170
 msgid "Proxy settings"
@@ -3182,8 +3177,7 @@ msgstr "Закрити після відправки"
 # #
 #: ui/acceptbase.cpp:173 ui/msgbase.cpp:94
 msgid "Automaitcaly open window"
-msgstr ""
-"Автоматично відкривати вікно повідомлень"
+msgstr "Автоматично відкривати вікно повідомлень"
 
 #: ui/acceptbase.cpp:174 ui/acceptbase.cpp:177 ui/msgbase.cpp:90
 msgid "Override global settings"
@@ -3715,8 +3709,7 @@ msgstr "&Прозорість"
 
 #: ui/themesetupbase.cpp:316
 msgid "Show main window in task manager"
-msgstr ""
-"Показувати основне вікно в панелі задач"
+msgstr "Показувати основне вікно в панелі задач"
 
 #: ui/themesetupbase.cpp:317
 msgid "Show user window in task manager"
@@ -3751,8 +3744,7 @@ msgid "Hide main window after"
 msgstr "Сховати головне вікно"
 
 #: ui/statussetupbase.cpp:110
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Заборонити попередження в стані "
 "\"Відійшов\", \"Не активний\", \"Зайнятий\""
@@ -3943,8 +3935,7 @@ msgstr ""
 
 #: ui/generalsecbase.cpp:215
 msgid "Reject &URL from unknown users"
-msgstr ""
-"Відкидати &URL від невідомих користувачів"
+msgstr "Відкидати &URL від невідомих користувачів"
 
 #: ui/generalsecbase.cpp:216
 msgid "Reject &World Wide pager messages"
@@ -3996,14 +3987,12 @@ msgid "New password:"
 msgstr "Новий пароль:"
 
 #: ui/generalsecbase.cpp:229
-#, fuzzy
 msgid "Current password:"
-msgstr "Новий пароль:"
+msgstr "Діючий пароль:"
 
 #: ui/generalsecbase.cpp:230
-#, fuzzy
 msgid "S&ave password"
-msgstr "Змінити пароль"
+msgstr "З&берегти пароль"
 
 #: ui/generalsecbase.cpp:231
 msgid "&Password"
@@ -4079,7 +4068,7 @@ msgstr "Показати вікно пошуку"
 
 #: ui/logindlg.cpp:46
 msgid "<New UIN>"
-msgstr ""
+msgstr "<Новий UIN>"
 
 #: ui/logindlg.cpp:157
 msgid "Unknown login error"
@@ -4115,8 +4104,7 @@ msgstr "..."
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Ця програма поширюється під ліцензією GPL v2"
+msgstr "Ця програма поширюється під ліцензією GPL v2"
 
 #: editspell.cpp:316
 msgid "Spell check"
@@ -4818,3 +4806,4 @@ msgstr "Не можу створити файл %1"
 
 #~ msgid "Spell"
 #~ msgstr "Проверка орфографии"
+
