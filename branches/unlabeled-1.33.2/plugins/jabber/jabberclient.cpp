@@ -439,7 +439,7 @@ void *JabberClient::processEvent(Event *e)
     }
     if (e->type() == EventTemplateExpanded){
         TemplateExpand *t = (TemplateExpand*)(e->param());
-        setStatus((unsigned)(t->param), quoteString(t->tmpl, false).utf8());
+        setStatus((unsigned)(t->param), quoteString(t->tmpl).utf8());
     }
     if (e->type() == EventContactChanged){
         Contact *contact = (Contact*)(e->param());
@@ -1019,7 +1019,7 @@ string JabberClient::to_lower(const char *s)
 
 QCString JabberClient::encodeXML(const QString &str)
 {
-    return quoteString(str, false).utf8();
+    return quoteString(str, quoteNOBR).utf8();
 }
 
 JabberUserData *JabberClient::findContact(const char *_jid, const char *name, bool bCreate, Contact *&contact)
@@ -2077,7 +2077,7 @@ bool JabberClient::send(Message *msg, void *_data)
                 << data->ID;
                 m_socket->writeBuffer
                 << "\' type=\'unsubscribed\'><status>"
-                << (const char*)(quoteString(msg->getPlainText(), false).utf8())
+                << (const char*)(quoteString(msg->getPlainText(), quoteNOBR).utf8())
                 << "</status></presence>";
                 sendPacket();
                 if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
@@ -2108,7 +2108,7 @@ bool JabberClient::send(Message *msg, void *_data)
             << data->ID;
             m_socket->writeBuffer
             << "\'><body>"
-            << (const char*)(quoteString(QString::fromUtf8(text.c_str()), false).utf8())
+            << (const char*)(quoteString(QString::fromUtf8(text.c_str()), quoteNOBR).utf8())
             << "</body>";
             if (data->richText && getRichText() && (msg->getFlags() & MESSAGE_RICHTEXT)){
                 m_socket->writeBuffer
@@ -2149,12 +2149,12 @@ bool JabberClient::send(Message *msg, void *_data)
             << data->ID;
             m_socket->writeBuffer
             << "\'><body>"
-            << (const char*)(quoteString(m->getUrl(), false).utf8());
+            << (const char*)(quoteString(m->getUrl(), quoteNOBR).utf8());
             QString t = m->getPlainText();
             if (!t.isEmpty()){
                 m_socket->writeBuffer
                 << "\n"
-                << (const char*)(quoteString(m->getPlainText(), false).utf8());
+                << (const char*)(quoteString(m->getPlainText(), quoteNOBR).utf8());
             }
             m_socket->writeBuffer
             << "</body>";
@@ -2162,9 +2162,9 @@ bool JabberClient::send(Message *msg, void *_data)
                 m_socket->writeBuffer
                 << "<html xmlns='http://jabber.org/protocol/xhtml-im'><body>"
                 << "<a href=\'"
-                << (const char*)(quoteString(m->getUrl(), false).utf8())
+                << (const char*)(quoteString(m->getUrl(), quoteNOBR).utf8())
                 << "\'>"
-                << (const char*)(quoteString(m->getUrl(), false).utf8())
+                << (const char*)(quoteString(m->getUrl(), quoteNOBR).utf8())
                 << "</a>";
                 if (!t.isEmpty()){
                     m_socket->writeBuffer
@@ -2259,9 +2259,9 @@ bool JabberClient::send(Message *msg, void *_data)
             for (; iti != jids.end(); ++iti, ++itn){
                 m_socket->writeBuffer
                 << "<item name=\'"
-                << (const char*)(quoteString(QString::fromUtf8((*itn).c_str()), false).utf8())
+                << (const char*)(quoteString(QString::fromUtf8((*itn).c_str()), quoteNOBR).utf8())
                 << "\' jid=\'"
-                << (const char*)(quoteString(QString::fromUtf8((*iti).c_str()), false).utf8())
+                << (const char*)(quoteString(QString::fromUtf8((*iti).c_str()), quoteNOBR).utf8())
                 << "\'><group/></item>";
             }
             m_socket->writeBuffer
@@ -2269,7 +2269,7 @@ bool JabberClient::send(Message *msg, void *_data)
             iti = jids.begin();
             for (; iti != jids.end(); ++iti, ++itn){
                 m_socket->writeBuffer
-                << (const char*)(quoteString(QString::fromUtf8((*iti).c_str()), false).utf8())
+                << (const char*)(quoteString(QString::fromUtf8((*iti).c_str()), quoteNOBR).utf8())
                 << "\n";
             }
             m_socket->writeBuffer
@@ -2280,7 +2280,7 @@ bool JabberClient::send(Message *msg, void *_data)
                 iti = jids.begin();
                 for (; iti != jids.end(); ++iti, ++itn){
                     m_socket->writeBuffer
-                    << (const char*)(quoteString(QString::fromUtf8((*iti).c_str()), false).utf8())
+                    << (const char*)(quoteString(QString::fromUtf8((*iti).c_str()), quoteNOBR).utf8())
                     << "<br/>\n";
                 }
                 m_socket->writeBuffer
@@ -2323,7 +2323,7 @@ bool JabberClient::send(Message *msg, void *_data)
             << data->ID;
             m_socket->writeBuffer
             << "\' type=\'subscribe\'><status>"
-            << (const char*)(quoteString(msg->getPlainText(), false).utf8())
+            << (const char*)(quoteString(msg->getPlainText(), quoteNOBR).utf8())
             << "</status></presence>";
             sendPacket();
             if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
