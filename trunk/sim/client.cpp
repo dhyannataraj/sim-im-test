@@ -255,7 +255,7 @@ cfgParam ICQUser_Params[] =
         { "AcceptFilePath", offsetof(ICQUser, AcceptFilePath), PARAM_STRING, 0 },
         { "DeclineFileMessage", offsetof(ICQUser, DeclineFileMessage), PARAM_STRING, 0 },
         { "Caps", offsetof(ICQUser, Caps), PARAM_ULONG, 0 },
-	{ "Build", offsetof(ICQUser, Build), PARAM_ULONG, 0 },
+        { "Build", offsetof(ICQUser, Build), PARAM_ULONG, 0 },
         { "SoundOverride", offsetof(ICQUser, SoundOverride), PARAM_BOOL, 0 },
         { "IncomingMessage", offsetof(ICQUser, IncomingMessage), PARAM_STRING, (unsigned)"message.wav" },
         { "IncomingURL", offsetof(ICQUser, IncomingURL), PARAM_STRING, (unsigned)"url.wav" },
@@ -1388,6 +1388,10 @@ void ICQClientSocket::slotBytesWritten()
     if (sock->bytesToWrite() == 0) notify->write_ready();
 }
 
+#ifdef WIN32
+#define socklen_t int
+#endif
+
 unsigned long ICQClientSocket::localHost()
 {
 #ifdef HAVE_KEXTSOCK_H
@@ -1406,7 +1410,7 @@ unsigned long ICQClientSocket::localHost()
     memset(&addr, sizeof(addr), 0);
     socklen_t size = sizeof(addr);
     if (getsockname(s, (struct sockaddr*)&addr, &size) >= 0)
-	res = htonl(addr.sin_addr.s_addr);
+        res = htonl(addr.sin_addr.s_addr);
     return res;
 #endif
 }

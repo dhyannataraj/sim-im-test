@@ -278,7 +278,7 @@ ICQUser::~ICQUser()
 
 bool ICQUser::hasCap(unsigned n)
 {
-    return Caps & (1 << n);
+    return (Caps & (1 << n)) != 0;
 }
 
 void ICQUser::setOffline()

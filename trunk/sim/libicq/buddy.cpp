@@ -143,16 +143,16 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                         capability cap;
                         info.unpack((char*)cap, sizeof(capability));
                         for (unsigned i = 0;; i++){
-			    if (*capabilities[i] == 0) break;
+                            if (*capabilities[i] == 0) break;
                             unsigned size = sizeof(capability);
                             if (i == CAP_SIM) size--;
                             if (!memcmp(cap, capabilities[i], size)){
                                 if (i == CAP_SIM){
-				    unsigned char build = cap[sizeof(capability)-1];
-				    log(L_DEBUG, "Build: %X %u", build, build);
-				    if ((build == 0x92) || (build < (1 << 6))) continue;
+                                    unsigned char build = cap[sizeof(capability)-1];
+                                    log(L_DEBUG, "Build: %X %u", build, build);
+                                    if ((build == 0x92) || (build < (1 << 6))) continue;
                                     user->Build = build;
-				}
+                                }
                                 user->Caps |= (1 << i);
                             }
                         }

@@ -43,7 +43,7 @@ SoundSetup::SoundSetup(QWidget *p, bool bUser)
         chkDisable->hide();
         connect(chkOverride, SIGNAL(toggled(bool)), this, SLOT(overrideToggled(bool)));
     }else{
-	connect(chkDisable, SIGNAL(toggled(bool)), this, SLOT(disableToggled(bool)));
+        connect(chkDisable, SIGNAL(toggled(bool)), this, SLOT(disableToggled(bool)));
         chkOverride->hide();
 #ifdef WIN32
         edtProgram->hide();

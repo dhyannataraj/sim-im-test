@@ -740,11 +740,11 @@ void UserBox::processEvent(ICQEvent *e)
             setGroupButtons();
         break;
     case EVENT_INFO_CHANGED:{
-			if (curWnd && (e->Uin() == curWnd->Uin)){
+            if (curWnd && (e->Uin() == curWnd->Uin)){
                 setGroupButtons();
-		        CUser u(e->Uin());
-	            setCaption(u.name());
-			}
+                CUser u(e->Uin());
+                setCaption(u.name());
+            }
             statusChanged(e->Uin());
             MsgEdit *wnd = getChild(e->Uin(), false);
             if (wnd == NULL) break;
@@ -1015,21 +1015,21 @@ void UserBox::slotMessageReceived(ICQMessage *msg)
         if (haveUser(msg->getUin())){
             emit messageReceived(msg);
 #ifdef WIN32
-        if (!initFlash){
-            HINSTANCE hLib = GetModuleHandleA("user32");
-            if (hLib != NULL)
-                (DWORD&)FlashWindowEx = (DWORD)GetProcAddress(hLib,"FlashWindowEx");
-            initFlash = true;
-        }
-        if (FlashWindowEx == NULL) return;
-        FLASHWINFO fInfo;
-        fInfo.cbSize = sizeof(fInfo);
-        fInfo.dwFlags = 0x0E;
-        fInfo.hwnd = winId();
-        fInfo.uCount = 0;
-        FlashWindowEx(&fInfo);
+            if (!initFlash){
+                HINSTANCE hLib = GetModuleHandleA("user32");
+                if (hLib != NULL)
+                    (DWORD&)FlashWindowEx = (DWORD)GetProcAddress(hLib,"FlashWindowEx");
+                initFlash = true;
+            }
+            if (FlashWindowEx == NULL) return;
+            FLASHWINFO fInfo;
+            fInfo.cbSize = sizeof(fInfo);
+            fInfo.dwFlags = 0x0E;
+            fInfo.hwnd = winId();
+            fInfo.uCount = 0;
+            FlashWindowEx(&fInfo);
 #endif
-		}
+        }
         return;
     }
     if (curWnd && (msg->getUin() == curWnd->Uin) &&
@@ -1037,7 +1037,7 @@ void UserBox::slotMessageReceived(ICQMessage *msg)
             ((msg->Type() == ICQ_MSGxMSG) || (msg->Type() == ICQ_MSGxURL) ||
              (msg->Type() == ICQ_MSGxSMS))){
         pClient->markAsRead(msg);
-	    emit messageReceived(msg);
+        emit messageReceived(msg);
         return;
     }
     if (!haveUser(msg->getUin())) return;
