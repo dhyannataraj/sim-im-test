@@ -65,7 +65,7 @@ bool History::open(bool bWrite, std::fstream &f)
              m_nUin);
     string fname;
     pMain->buildFileName(fname, buffer);
-    f.open(fname.c_str(), bWrite ? ios::out | ios::app : ios::in);
+    f.open(fname.c_str(), bWrite ? ios::out | ios::app : ios::in, 0600);
     if (!f.is_open()){
         log(L_WARN, "File %s not open", fname.c_str());
         return false;

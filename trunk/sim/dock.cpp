@@ -162,6 +162,7 @@ void WharfIcon::set(const char *icon, const char *msg)
         }
     }else{
         const QBitmap *mask = nvis->mask();
+	if (mask) setMask(*mask);
     }
     if (vis) delete vis;
     vis = nvis;
