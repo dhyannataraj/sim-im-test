@@ -785,7 +785,10 @@ char *Buffer::getLine()
         return NULL;
     char *res = data(m_posRead);
     /* handle cases when the buffer is not \n-terminated (avoid returning non-null-terminated string) */
-    if (strnlen(res, m_size-m_posRead) == m_size-m_posRead)
+    int maxLength = m_size-m_posRead, length = 0;
+    while ((length < maxLength) && (res[length] != '\0'))
+       ++length;
+    if (length == maxLength)
     {
         allocate(m_size + 1, 0);
         m_data[m_size] = 0;
