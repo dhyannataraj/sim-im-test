@@ -2607,7 +2607,7 @@ Addressee addresseeFromUser(SIMUser& u, Addressee* oldPers=NULL)
     pers.insertCustom("KADDRESSBOOK-X-CUSTOM","UIN",str.setNum(u.Uin));
 
     if (pers.note().isEmpty())
-        pers.setNote(u.Notes);
+        pers.setNote(QString::fromLocal8Bit(u.Notes.c_str()));
 
     list<EMailInfo*>::iterator it=u.EMails.begin();
 
@@ -2629,11 +2629,11 @@ Addressee addresseeFromUser(SIMUser& u, Addressee* oldPers=NULL)
     if (pers.organization().isEmpty())
         pers.setOrganization(QString::fromLocal8Bit(u.WorkName.c_str()));
 
-    pers.insertPhoneNumber(PhoneNumber(u.HomePhone,PhoneNumber::Home));
-    pers.insertPhoneNumber(PhoneNumber(u.HomeFax,PhoneNumber::Home|PhoneNumber::Fax));
-    pers.insertPhoneNumber(PhoneNumber(u.PrivateCellular,PhoneNumber::Cell));
-    pers.insertPhoneNumber(PhoneNumber(u.WorkPhone,PhoneNumber::Work));
-    pers.insertPhoneNumber(PhoneNumber(u.WorkFax,PhoneNumber::Work|PhoneNumber::Fax));
+    pers.insertPhoneNumber(PhoneNumber(QString::fromLocal8Bit(u.HomePhone.c_str()),PhoneNumber::Home));
+    pers.insertPhoneNumber(PhoneNumber(QString::fromLocal8Bit(u.HomeFax.c_str()),PhoneNumber::Home|PhoneNumber::Fax));
+    pers.insertPhoneNumber(PhoneNumber(QString::fromLocal8Bit(u.PrivateCellular.c_str()),PhoneNumber::Cell));
+    pers.insertPhoneNumber(PhoneNumber(QString::fromLocal8Bit(u.WorkPhone.c_str()),PhoneNumber::Work));
+    pers.insertPhoneNumber(PhoneNumber(QString::fromLocal8Bit(u.WorkFax.c_str()),PhoneNumber::Work|PhoneNumber::Fax));
 
     Address home,work;
     home.setType(Address::Home);
@@ -2668,19 +2668,15 @@ void MainWindow::doSynchronize()
     {
         AddressBook& ab=*StdAddressBook::self();
         bool bFound=false;
-
         list<ICQUser*>::iterator it=pClient->contacts.users.begin();
         while (it!=pClient->contacts.users.end())
         {
             SIMUser& user=*(static_cast<SIMUser*>(*it));
-
             Addressee newPers;
-
             if (!user.strKabUid.empty())
             {
                 qDebug("not empty %s",user.strKabUid.c_str());
-                Addressee pers=ab.findByUid(user.strKabUid);
-
+                Addressee pers=ab.findByUid(QString::fromLocal8Bit(user.strKabUid.c_str()));
                 if (!pers.isEmpty())
                 {
                     qDebug("but not found in addressbook");
@@ -2691,14 +2687,11 @@ void MainWindow::doSynchronize()
             else
             {
                 qDebug("empty, adding %lu",user.Uin);
-
                 list<EMailInfo*>::iterator it=user.EMails.begin();
-
                 while (it!=user.EMails.end())
                 {
                     Addressee::List li=ab.findByEmail((*it)->Email.c_str());
                     Addressee::List::iterator lit=li.begin();
-
                     if (lit!=li.end())
                     {
                         qDebug("email found, actualy updating");
@@ -2706,20 +2699,17 @@ void MainWindow::doSynchronize()
                         newPers=(*lit);
                         break;
                     }
-
                     it++;
                 }
             }
 
             Addressee pers;
-
             if (bFound)
                 pers=addresseeFromUser(user,&newPers);
             else
                 pers=addresseeFromUser(user);
 
             ab.insertAddressee(pers);
-
             it++;
         }
 

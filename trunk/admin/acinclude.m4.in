@@ -723,12 +723,12 @@ esac
 # when the user already gave --x-includes, we ignore
 # what the standard autoconf macros told us.
 if test "$kde_x_includes" = NO; then
-  kde_x_includes=$ac_x_includes
+  kde_x_includes="/usr/X11R6/include"
 fi
 
 # for --x-libraries too
 if test "$kde_x_libraries" = NO; then
-  kde_x_libraries=$ac_x_libraries
+  kde_x_libraries="/usr/X11R6/lib"
 fi
 
 if test "$kde_x_includes" = NO; then
@@ -1823,7 +1823,7 @@ if test $kde_qtver = 3; then
    AC_SUBST(LIB_KIO)
    LIB_SMB='-lsmb'
    AC_SUBST(LIB_SMB)
-   LIB_KAB='-lkab'
+   LIB_KAB='-lkabc'
    AC_SUBST(LIB_KAB)
    LIB_KHTML='-lkhtml'
    AC_SUBST(LIB_KHTML)
@@ -1851,7 +1851,7 @@ elif test $kde_qtver = 2; then
    AC_SUBST(LIB_SMB)
    LIB_KFILE='-lkfile'
    AC_SUBST(LIB_KFILE)
-   LIB_KAB='-lkab'
+   LIB_KAB='-lkabc'
    AC_SUBST(LIB_KAB)
    LIB_KHTML='-lkhtml'
    AC_SUBST(LIB_KHTML)
@@ -1869,7 +1869,7 @@ else   LIB_KDECORE='-lkdecore -lXext $(LIB_QT)'
    AC_SUBST(LIB_KFM)
    LIB_KFILE='-lkfile $(LIB_KFM) $(LIB_KDEUI)'
    AC_SUBST(LIB_KFILE)
-   LIB_KAB='-lkab $(LIB_KIMGIO) $(LIB_KDECORE)'
+   LIB_KAB='-lkabc $(LIB_KIMGIO) $(LIB_KDECORE)'
    AC_SUBST(LIB_KAB)
 fi
 fi
