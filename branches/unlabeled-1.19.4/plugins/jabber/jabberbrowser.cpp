@@ -35,7 +35,7 @@
 const unsigned BROWSE_INFO	= 8;
 
 JabberWizard::JabberWizard(QWidget *parent, const QString &title, const char *icon, JabberClient *client, const char *jid, const char *node, const char *type)
-        : QWizard(parent, NULL, true)
+        : QWizard(parent, NULL, FALSE, WType_TopLevel | WDestructiveClose)
 {
     m_type = type;
     m_search = new JabberSearch;
@@ -332,14 +332,15 @@ void *JabberBrowser::processEvent(Event *e)
                     if (parent == NULL)
                         parent = this;
                     BalloonMsg::message(err, parent);
-                }else{
+                }else if (m_reg){
                     m_reg->m_search->addWidget(data);
                     QTimer::singleShot(0, this, SLOT(showReg()));
                 }
                 m_reg_id = "";
                 return e->param();
             }
-            m_reg->m_search->addWidget(data);
+			if (m_reg)
+				m_reg->m_search->addWidget(data);
             return e->param();
         }
         if (m_config_id == data->ReqID.ptr){
@@ -361,14 +362,15 @@ void *JabberBrowser::processEvent(Event *e)
                     if (parent == NULL)
                         parent = this;
                     BalloonMsg::message(err, parent);
-                }else{
+                }else if (m_config){
                     m_config->m_search->addWidget(data);
                     QTimer::singleShot(0, this, SLOT(showConfig()));
                 }
                 m_config_id = "";
                 return e->param();
             }
-            m_config->m_search->addWidget(data);
+			if (m_config)
+				m_config->m_search->addWidget(data);
             return e->param();
         }
     }
@@ -477,6 +479,7 @@ void *JabberBrowser::processEvent(Event *e)
                 if (m_reg)
                     delete m_reg;
                 m_reg = new JabberWizard(this, i18n("%1 Register") .arg(item->text(COL_NAME)), "reg", m_client, item->text(COL_JID).utf8(), item->text(COL_NODE).utf8(), "register");
+				connect(m_reg, SIGNAL(destroyed()), this, SLOT(regFinished()));
                 m_reg_id = m_client->get_agent_info(item->text(COL_JID).utf8(), item->text(COL_NODE).utf8(), "register");
                 return e->param();
             }
@@ -484,6 +487,7 @@ void *JabberBrowser::processEvent(Event *e)
                 if (m_config)
                     delete m_config;
                 m_config = new JabberWizard(this, i18n("%1 Configure") .arg(item->text(COL_NAME)), "configure", m_client, item->text(COL_JID).utf8(), item->text(COL_NODE).utf8(), "data");
+				connect(m_config, SIGNAL(destroyed()), this, SLOT(configFinished()));
                 m_config_id = m_client->get_agent_info(item->text(COL_JID).utf8(), item->text(COL_NODE).utf8(), "data");
                 return e->param();
             }
@@ -674,6 +678,16 @@ void *JabberBrowser::processEvent(Event *e)
         }
     }
     return NULL;
+}
+
+void JabberBrowser::configFinished()
+{
+	m_config = NULL;
+}
+
+void JabberBrowser::regFinished()
+{
+	m_reg = NULL;
 }
 
 void JabberBrowser::setNavigation()
@@ -868,9 +882,7 @@ void JabberBrowser::showReg()
     if (m_reg){
         m_reg->initTitle();
         QTimer::singleShot(0, m_reg, SLOT(setNext()));
-        m_reg->exec();
-        delete m_reg;
-        m_reg = NULL;
+        m_reg->show();
     }
 }
 
@@ -879,9 +891,7 @@ void JabberBrowser::showConfig()
     if (m_config){
         m_config->initTitle();
         QTimer::singleShot(0, m_config, SLOT(setNext()));
-        m_config->exec();
-        delete m_config;
-        m_config = NULL;
+        m_config->show();
     }
 }
 

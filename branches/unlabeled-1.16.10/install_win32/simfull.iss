@@ -8,10 +8,6 @@ OutputBaseFilename=sim-0.9.4-full
 
 [Files]
 Source: "C:\qt\bin\qt-mt230nc.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\openssl\bin\libeay32.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\openssl\bin\ssleay32.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\qt\bin\libxml2.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\qt\bin\libxslt.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "msvcrt.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall restartreplace
 Source: "msvcp60.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall restartreplace
 Source: "opengl32.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall onlyifdoesntexist

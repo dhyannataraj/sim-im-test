@@ -44,9 +44,6 @@ Source: "..\Release\simctrl.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Release\simipc.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Release\simremote.dll"; DestDir: "{app}"; Flags: regserver restartreplace uninsrestartdelete
 Source: "..\Release\simext.dll"; DestDir: "{app}"; Flags: regserver restartreplace uninsrestartdelete
-Source: "..\Release\simapi.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\Release\simui.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\Release\qjpegio.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Release\idleui.dll"; DestDir: "{app}"
 Source: "..\Release\COPYING"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Release\plugins\__homedir.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
@@ -120,6 +117,7 @@ Source: "..\Release\styles\Separated.8.(2+3+4).xsl"; DestDir: "{app}\styles"; Fl
 Source: "..\Release\styles\XChat.xsl"; DestDir: "{app}\styles"; Flags: ignoreversion
 Source: "..\Release\styles\XChat2seconds.xsl"; DestDir: "{app}\styles"; Flags: ignoreversion
 Source: "..\Release\styles\XChat3fullDate.xsl"; DestDir: "{app}\styles"; Flags: ignoreversion
+Source: "..\Release\icons\icqlite.jisp"; DestDir: "{app}\icons"; Flags: ignoreversion
 Source: "..\Release\icons\sim.jisp"; DestDir: "{app}\icons"; Flags: ignoreversion
 Source: "..\Release\icons\smiles.jisp"; DestDir: "{app}\icons"; Flags: ignoreversion
 Source: "..\Release\icons\weather.jisp"; DestDir: "{app}\icons"; Flags: ignoreversion
@@ -152,6 +150,11 @@ Name: "{commondesktop}\Simple Instant Messenger"; Filename: "{app}\sim.exe"; Tas
 [Run]
 Filename: "{app}\sim.exe"; Description: "Launch Simple Instant Messenger"; Flags: nowait postinstall skipifsilent
 Filename: {cmd}; Parameters: "/c del {app}\plugins\sms.dll"; WorkingDir: "{app}"; Flags: runhidden
+Filename: {cmd}; Parameters: "/c del {app}\libxml2.dll"; WorkingDir: "{app}"; Flags: runhidden
+Filename: {cmd}; Parameters: "/c del {app}\libxslt.dll"; WorkingDir: "{app}"; Flags: runhidden
+Filename: {cmd}; Parameters: "/c del {app}\qjpegio.dll"; WorkingDir: "{app}"; Flags: runhidden
+Filename: {cmd}; Parameters: "/c del {app}\simui.dll"; WorkingDir: "{app}"; Flags: runhidden
+Filename: {cmd}; Parameters: "/c del {app}\simapi.dll"; WorkingDir: "{app}"; Flags: runhidden
 
 [Registry]
 Root: HKCR; Subkey: ".uin"; ValueType: string; ValueName: ""; ValueData: "sim"; Flags: uninsdeletevalue

@@ -12,10 +12,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name simui
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -30,10 +27,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name simui
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -48,10 +42,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name simui
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -66,10 +57,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name simui
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -84,10 +72,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name simui
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -102,10 +87,10 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
+    Project_Dep_Name idleui
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name idleui
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -120,13 +105,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name simui
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name qjpegio
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -141,7 +120,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -156,7 +135,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -171,7 +150,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -186,7 +165,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -201,10 +180,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name simui
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -219,7 +195,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -234,13 +210,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name simui
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name qjpegio
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -267,13 +237,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name simui
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name qjpegio
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -288,7 +252,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -303,7 +267,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -330,10 +294,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name simui
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -348,10 +309,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name simui
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -366,10 +324,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name simui
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -384,10 +339,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name simui
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -402,7 +354,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -417,23 +369,11 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name _core
     End Project Dependency
-}}}
-
-###############################################################################
-
-Project: "qjpegio"=.\sim\qjpegio\qjpegio.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
+    Begin Project Dependency
+    Project_Dep_Name sim
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -447,9 +387,6 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name simctrl
     End Project Dependency
     Begin Project Dependency
@@ -462,7 +399,7 @@ Package=<4>
     Project_Dep_Name simremote
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name simui
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -477,10 +414,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name simui
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -495,16 +429,28 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name simui
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
 ###############################################################################
 
 Project: "sim"=.\sim.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name xpstyle
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "simall"=.\simall\simall.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -525,6 +471,9 @@ Package=<4>
     Project_Dep_Name about
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name action
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name autoaway
     End Project Dependency
     Begin Project Dependency
@@ -543,10 +492,19 @@ Package=<4>
     Project_Dep_Name forward
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name gpg
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name icons
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name icq
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name jabber
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name livejournal
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name loger
@@ -570,77 +528,50 @@ Package=<4>
     Project_Dep_Name proxy
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name shortcuts
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name simapi
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name sound
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name splash
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name transparent
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name windock
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name update
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name gpg
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name styles
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name spell
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name action
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name zodiak
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name livejournal
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name yahoo
+    Project_Dep_Name remote
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name replace
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name shortcuts
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name sim
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name sms
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name sound
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name spell
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name splash
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name styles
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name transparent
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name update
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name weather
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name remote
+    Project_Dep_Name windock
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name xpstyle
+    Project_Dep_Name yahoo
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name icons
+    Project_Dep_Name zodiak
     End Project Dependency
-}}}
-
-###############################################################################
-
-Project: "simapi"=.\simapi.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
 }}}
 
 ###############################################################################
@@ -699,21 +630,6 @@ Package=<4>
 
 ###############################################################################
 
-Project: "simui"=.\sim\ui\simui.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-    Begin Project Dependency
-    Project_Dep_Name simapi
-    End Project Dependency
-}}}
-
-###############################################################################
-
 Project: "sms"=.\plugins\sms\sms.dsp - Package Owner=<4>
 
 Package=<5>
@@ -723,10 +639,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name simui
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -741,10 +654,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name simui
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -759,10 +669,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name simui
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -777,7 +684,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -792,13 +699,13 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name wood
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name metal
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -813,7 +720,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -828,7 +735,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -843,10 +750,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name simui
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -861,7 +765,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -900,10 +804,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name simui
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 
@@ -918,10 +819,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name simui
+    Project_Dep_Name sim
     End Project Dependency
 }}}
 

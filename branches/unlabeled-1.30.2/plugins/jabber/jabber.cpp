@@ -189,10 +189,6 @@ const CommandDef *JabberProtocol::statusList()
     return jabber_status_list;
 }
 
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-void qInitJpeg();
-#endif
-
 DataDef jabberData[] =
     {
         { "BrowserBar", DATA_LONG, 7, 0 },
@@ -207,9 +203,6 @@ JabberPlugin *JabberPlugin::plugin = NULL;
 JabberPlugin::JabberPlugin(unsigned base, Buffer *cfg)
         : Plugin(base)
 {
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-    qInitJpeg();
-#endif
     plugin = this;
     load_data(jabberData, &data, cfg);
     JabberPacket = registerType();

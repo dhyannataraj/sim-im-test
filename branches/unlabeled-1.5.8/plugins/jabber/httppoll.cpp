@@ -18,10 +18,6 @@
 #include "jabberclient.h"
 #include "fetch.h"
 
-#ifdef USE_OPENSSL
-#include <openssl/sha.h>
-#endif
-
 class JabberHttpPool : public Socket, public FetchClient
 {
 public:
@@ -77,13 +73,9 @@ string JabberHttpPool::getKey()
         m_key = m_seed;
         return m_key;
     }
-    unsigned char digest[20];
-    SHA_CTX ctx;
-    SHA1_Init(&ctx);
-    SHA1_Update(&ctx, m_key.c_str(), m_key.length());
-    SHA1_Final(digest, &ctx);
+	string digest = sha1(m_key.c_str());
     Buffer b;
-    b.pack((char*)digest, sizeof(digest));
+    b.pack(digest.c_str(), digest.length());
     Buffer r;
     r.toBase64(b);
     m_key = "";

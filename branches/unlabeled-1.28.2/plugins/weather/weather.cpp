@@ -192,7 +192,7 @@ bool WeatherPlugin::done(unsigned code, Buffer &data, const char*)
     m_bUv	= false;
     m_bCC	= false;
     reset();
-    if (!parse(data.data(), data.size())){
+    if (!parse(data.data(), data.size(), false)){
         log(L_WARN, "XML parse error");
         return false;
     }

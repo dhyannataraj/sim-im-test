@@ -17,10 +17,6 @@
 
 #include "jabberclient.h"
 
-#ifdef USE_OPENSSL
-#include <openssl/sha.h>
-#endif
-
 #include <qtimer.h>
 
 class AuthRequest : public JabberClient::ServerRequest
@@ -99,18 +95,13 @@ void JabberClient::auth_digest()
 
     string digest = m_id;
     digest += getPassword().utf8();
-    SHA_CTX c;
-    unsigned char md[SHA_DIGEST_LENGTH];
-    SHA1_Init(&c);
-    SHA1_Update(&c, digest.c_str(),(unsigned long)digest.length());
-    SHA1_Final(md, &c);
-    digest = "";
-    for (unsigned i = 0; i < SHA_DIGEST_LENGTH; i++){
+	string md = sha1(digest.c_str());
+	digest = "";
+    for (unsigned i = 0; i < md.length(); i++){
         char b[3];
-        sprintf(b, "%02x",md[i]);
+        sprintf(b, "%02x",md[i] & 0xFF);
         digest += b;
     }
-
     req->text_tag("digest", digest.c_str());
     req->text_tag("resource", data.owner.Resource.ptr);
     req->send();

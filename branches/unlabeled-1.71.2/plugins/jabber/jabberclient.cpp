@@ -330,12 +330,7 @@ void JabberClient::packet_ready()
         return;
     JabberPlugin *plugin = static_cast<JabberPlugin*>(protocol()->plugin());
     log_packet(m_socket->readBuffer, false, plugin->JabberPacket);
-#if LIBXML_VERSION > 20604
-    // libxml2 parser sux since 2.6.5
-    if (m_socket->readBuffer.data()[m_socket->readBuffer.size() - 1] == '>')
-        m_socket->readBuffer << "<a/>";
-#endif
-    if (!parse(m_socket->readBuffer.data(), m_socket->readBuffer.size()))
+    if (!parse(m_socket->readBuffer.data(), m_socket->readBuffer.size(), true))
         m_socket->error_state("XML parse error");
     m_socket->readBuffer.init(0);
     m_socket->readBuffer.packetStart();
