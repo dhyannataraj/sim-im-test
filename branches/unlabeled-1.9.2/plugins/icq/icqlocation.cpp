@@ -304,6 +304,10 @@ static bool isWide(const char *text)
 
 void ICQClient::encodeString(const char *str, unsigned nTlv, bool bWide)
 {
+	if ((str == NULL) || (*str == 0)){
+		m_socket->writeBuffer.tlv(nTlv, "");
+		return;
+	}
     QString m;
     if (str)
         m = QString::fromUtf8(str);
