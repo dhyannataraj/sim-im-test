@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: th\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-06 21:37+0200\n"
-"PO-Revision-Date: 2004-07-10 08:21+0700\n"
+"PO-Revision-Date: 2004-07-12 11:00+0700\n"
 "Last-Translator: Narachai Sakorn <narachai@opentle.org>\n"
 "Language-Team: Thai <th@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -261,7 +261,7 @@ msgstr "ใส่&รอยยิ้ม"
 
 #: plugins/_core/core.cpp:699
 msgid "Send in &translit"
-msgstr ""
+msgstr "ส่งแบบ&ถอดถ่ายตัวอักษร"
 
 #: plugins/_core/core.cpp:707
 #: plugins/_core/msgedit.cpp:252
@@ -271,7 +271,7 @@ msgstr "ปิดหลังจากการส่งเ&สร็จสิ�
 #: plugins/_core/core.cpp:715
 #: plugins/_core/msgedit.cpp:1007
 msgid "&Multiply send"
-msgstr ""
+msgstr "ส่ง&หลายครั้ง"
 
 #: plugins/_core/core.cpp:723
 #: plugins/_core/core.cpp:819
@@ -281,7 +281,7 @@ msgstr "สีพื้น&หลัง"
 #: plugins/_core/core.cpp:731
 #: plugins/_core/core.cpp:828
 msgid "&Foreground color"
-msgstr "สีพื้ึ&นหน้า"
+msgstr "สีพื้&นหน้า"
 
 #: plugins/_core/core.cpp:737
 #: plugins/_core/core.cpp:834
@@ -1270,7 +1270,7 @@ msgstr "ไม่ได้อยู่ในรายชื่อ"
 msgid ""
 "_n: %n contact found\n"
 "%n contacts found"
-msgstr ""
+msgstr "เจอ %n คู่สนทนา"
 
 #: plugins/_core/status.cpp:72
 #: plugins/_core/statuswnd.cpp:88
@@ -1427,7 +1427,7 @@ msgstr "เกี่ยวกับ &KDE"
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
-msgstr "นราชัย สาคร"
+msgstr "Narachai Sakorn"
 
 #: plugins/about/about.cpp:112
 msgid ""
@@ -1445,7 +1445,7 @@ msgstr "รายงานจุดบกพร่อง"
 
 #: plugins/about/aboutdlg.cpp:52
 msgid "Note: This is english mailing list"
-msgstr "หมายเหตุ: เมลลิงลิสต์นี้เป็นภาษาอัง��ฤษ"
+msgstr "หมายเหตุ: เมลลิงลิสต์นี้เป็นภาษาอังกฤษ"
 
 #: plugins/action/action.cpp:33
 msgid "Action"
@@ -1673,7 +1673,7 @@ msgstr "การเข้ารหัสผิดพลาด"
 msgid ""
 "_n: %n GPG key\n"
 "%n GPG keys"
-msgstr ""
+msgstr "รหัส GPG %n"
 
 #: plugins/gpg/gpg.cpp:749
 msgid "GPG key"
@@ -1740,11 +1740,11 @@ msgstr "ปลั๊กอินนี้จะรวบรวบไอคอน
 
 #: plugins/icons/iconcfg.cpp:91
 msgid "*.jisp|Icon set"
-msgstr ""
+msgstr "*.jisp|ชุดไอคอน"
 
 #: plugins/icons/iconcfg.cpp:93
 msgid "Icon set(*.jisp)"
-msgstr ""
+msgstr "ชุดไอคอน(*.jisp)"
 
 #: plugins/icons/iconcfg.cpp:95
 msgid "Select icon set"
@@ -3089,7 +3089,7 @@ msgstr "&สถิติ"
 msgid ""
 "_n: %n day\n"
 "%n days"
-msgstr ""
+msgstr "%n วัน"
 
 #: plugins/jabber/jabber.cpp:59
 msgid "Jabber"
@@ -3397,14 +3397,14 @@ msgstr ""
 msgid ""
 "_n: LiveJournal post\n"
 "%n LiveJournal posts"
-msgstr ""
+msgstr "โพสต์ LiveJournal ไปแล้ว %n"
 
 #: plugins/livejournal/livejournal.cpp:103
 #, c-format
 msgid ""
 "_n: Friends updated\n"
 "Friends updated %n"
-msgstr ""
+msgstr "ปรับปรุงเพื่อน %n"
 
 #: plugins/livejournal/livejournal.cpp:120
 msgid "&Remove from journal"
@@ -4021,7 +4021,7 @@ msgstr "เหตุการณ์"
 
 #: plugins/logger/logger.cpp:40
 msgid "Logger"
-msgstr ""
+msgstr "บันทึกการใช้งาน"
 
 #: plugins/logger/logger.cpp:41
 msgid ""
@@ -4030,6 +4030,10 @@ msgid ""
 "To log errors, set loglevel to 1, for warnings to 2 and for debug-messages to 4\n"
 "If you want to log more than one you may add the levels"
 msgstr ""
+"ปลั๊กอินนี้จะแสดงผลบันทึกการใช้งาน\n"
+"คุณสามารถตั้งระดับการดีบักโดยการพิมพ์คำสั่ง -d<ระดับการดีบัก> ที่บรรทัดคำสั่ง\n"
+"ในการบันทึกข้อผิดพลาด ตั้งระดับการดีบักที่ 1, ในการแสดงคำเตือน ตั้งที่ 2 และในการแสดงข้อความดีบักตั้งที่ 4\n"
+"คุณสามารถเพิ่มระดับการดีบัก ถ้าหากคุณต้องการบันทึกการใช้งานที่มีรายละเอียดมากขึ้น"
 
 #: plugins/logger/logger.cpp:80
 msgid "Set debug level"
@@ -4102,7 +4106,7 @@ msgstr "คุณมีเมลใหม่"
 
 #: plugins/navigate/navigate.cpp:214
 msgid "Navigate"
-msgstr ""
+msgstr "ตัวนำทาง"
 
 #: plugins/navigate/navigate.cpp:215
 msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
@@ -4173,7 +4177,8 @@ msgstr "แพ็&กเก็ต"
 msgid ""
 "Plugin provides monitoring of net and messages\n"
 "For show monitor on start run sim -m"
-msgstr ""
+msgstr "ปลั๊กอินนี้จะติดตามการใช้งานอินเทอร์เน็ตและข้อความต่างๆ\n"
+"สำหรับการแสดงการติดตามในขณะเริ่มต้นโปรแกรมให้ตั้ง sim -m"
 
 #: plugins/netmonitor/netmonitor.cpp:93
 msgid "Show network monitor"
@@ -4349,11 +4354,11 @@ msgstr "ปริยาย"
 
 #: plugins/proxy/proxycfg.cpp:224
 msgid "HTTP requests"
-msgstr ""
+msgstr "ร้องขอ HTTP"
 
 #: plugins/remote/remote.cpp:42
 msgid "Remote control"
-msgstr ""
+msgstr "รีโมทคอนโทรล"
 
 #: plugins/remote/remote.cpp:43
 msgid "Plugin provides remote control"
@@ -4410,7 +4415,7 @@ msgstr ""
 
 #: plugins/shortcuts/shortcuts.cpp:50
 msgid "Shortcuts"
-msgstr ""
+msgstr "ทางลัด"
 
 #: plugins/shortcuts/shortcuts.cpp:51
 msgid "Plugin provides keyboards shortcuts and global mouse functions"
@@ -4425,7 +4430,7 @@ msgstr "%n สายที่โทรเข้า"
 
 #: plugins/sms/sms.cpp:95
 msgid "Phone call"
-msgstr ""
+msgstr "โทรศัพท์"
 
 #: plugins/sms/sms.cpp:539
 msgid "Port error"
@@ -4889,7 +4894,7 @@ msgstr ""
 #: plugins/weather/weather.cpp:479
 #: plugins/weather/weather.cpp:481
 msgid "m/s"
-msgstr "เมตร/วินาที"
+msgstr "ไมล์/วินาที"
 
 #: plugins/weather/weather.cpp:480
 #: plugins/weather/weather.cpp:481
@@ -4951,7 +4956,7 @@ msgstr ""
 
 #: plugins/weather/wifacecfg.cpp:35
 msgid "Wind speed"
-msgstr ""
+msgstr "ความเร็วลม"
 
 #: plugins/weather/wifacecfg.cpp:37
 msgid "Wind gust"
@@ -4959,7 +4964,7 @@ msgstr ""
 
 #: plugins/weather/wifacecfg.cpp:39
 msgid "Wind speed (m/s)"
-msgstr ""
+msgstr "ความเร็วลม (ไมล์/วินาที)"
 
 #: plugins/weather/wifacecfg.cpp:41
 msgid "Wind gust (m/s)"
@@ -4975,11 +4980,11 @@ msgstr ""
 
 #: plugins/weather/wifacecfg.cpp:47
 msgid "Visibility"
-msgstr ""
+msgstr "ทัศนวิสัย"
 
 #: plugins/weather/wifacecfg.cpp:49
 msgid "Dew Point"
-msgstr ""
+msgstr "หยดน้ำค้าง"
 
 #: plugins/weather/wifacecfg.cpp:51
 #: plugins/yahoo/yahoosearch.cpp:134
@@ -5100,15 +5105,15 @@ msgstr "ดูโชคชะตา"
 
 #: plugins/zodiak/zodiak.cpp:179
 msgid "Aries"
-msgstr ""
+msgstr "ราศีเมษ"
 
 #: plugins/zodiak/zodiak.cpp:180
 msgid "Taurus"
-msgstr ""
+msgstr "ราศีพฤษภ"
 
 #: plugins/zodiak/zodiak.cpp:181
 msgid "Gemini"
-msgstr ""
+msgstr "ราศีเมถุน"
 
 #: plugins/zodiak/zodiak.cpp:182
 msgid "Cancer"
@@ -5116,19 +5121,19 @@ msgstr ""
 
 #: plugins/zodiak/zodiak.cpp:183
 msgid "Leo"
-msgstr ""
+msgstr "ราศีสิงห์"
 
 #: plugins/zodiak/zodiak.cpp:184
 msgid "Virgo"
-msgstr ""
+msgstr "ราศีกันย์"
 
 #: plugins/zodiak/zodiak.cpp:185
 msgid "Libra"
-msgstr ""
+msgstr "ราศีตุล"
 
 #: plugins/zodiak/zodiak.cpp:186
 msgid "Scorpio"
-msgstr ""
+msgstr "ราศีพฤศจิก"
 
 #: plugins/zodiak/zodiak.cpp:187
 msgid "Saqittarius"
@@ -5140,7 +5145,7 @@ msgstr ""
 
 #: plugins/zodiak/zodiak.cpp:189
 msgid "Aquarius"
-msgstr ""
+msgstr "ราศีกุมภ์"
 
 #: plugins/zodiak/zodiak.cpp:190
 msgid "Pisces"
@@ -5165,7 +5170,7 @@ msgstr "ผู้พัฒนา"
 
 #: sim/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
-msgstr ""
+msgstr "SIM-ICQ - โปรแกรมสื่อสารหลากหลายโพรโตคอล"
 
 #: sim/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."
@@ -6787,7 +6792,7 @@ msgstr "เลือกแบบอักษร"
 
 #: sim/qt3/i18n.cpp:177
 msgid "<h3>About Qt</h3><p>This program uses Qt version %1, a multiplatform C++ GUI toolkit from Trolltech. Qt provides single-source portability across Windows 95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of Unix with X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more information.</p>"
-msgstr ""
+msgstr "<h3>เกี่ยวกับ Qt</h3><p>โปรแกรมนี้ใช้ Qt รุ่น %1, C++ หลากหลายแพตฟอร์ม ทูลกิต (toolkit) GUI จาก Trolltech. Qt ได้เตรียมการพอร์ตซอร์สเดี่ยว (single source) บน Windows 95/98/NT/2000, Linux, Solaris, HP-UX และรุ่นอื่นๆของยูนิกซ์ที่ทำงานบน X11.</p><p>เชิญเยี่ยมชม <tt>http://www.trolltech.com/qt/</tt> สำหรับข้อมูลเพิ่มเติม</p>"
 
 #: sim/qt3/i18n.cpp:183
 msgid "Help"
