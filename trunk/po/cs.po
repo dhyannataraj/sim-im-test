@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "POT-Creation-Date: 2002-11-29 13:10+0300\n"
-"PO-Revision-Date: 2002-11-26 12:42+0100\n"
+"PO-Revision-Date: 2002-11-29 20:26+0100\n"
 "Last-Translator: Pavel Rousar <rousarp@fel.cvut.cz>\n"
 "Language-Team: Čeština <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1735,7 +1735,7 @@ msgstr "Telefonní seznam"
 
 #: mainwin.cpp:1153
 msgid "%1 from %2 received"
-msgstr "%1 od %2"
+msgstr "%1 (%2)"
 
 #: mainwin.cpp:1225 ui/logindlg.cpp:140
 msgid "Can't connect to proxy server"
@@ -1787,7 +1787,7 @@ msgstr "Skupiny"
 
 #: mainwin.cpp:1992 usertbl.cpp:391 userview.cpp:1348
 msgid "Delete"
-msgstr "Smaž"
+msgstr "Odebrat"
 
 #: mainwin.cpp:1993 userview.cpp:556 userview.cpp:1349
 msgid ""
@@ -2052,7 +2052,7 @@ msgstr "Te&xt a písmo"
 
 #: msgedit.cpp:119
 msgid "Inser&t smile"
-msgstr "Vložit Sma&jlíka"
+msgstr "Vložit sma&jlíka"
 
 #: msgedit.cpp:120
 msgid "&Grant"
@@ -2478,7 +2478,7 @@ msgstr "Zavírání [%1 Sek]"
 
 #: ui/autoreply.cpp:83
 msgid "Close in %1 sec"
-msgstr "Zavřít do %1 Sek"
+msgstr "Zavřít po %1 sek."
 
 #: ui/addphonebase.cpp:139 ui/alertmsgbase.cpp:75 ui/autoreplybase.cpp:76
 #: ui/ballonmsg.cpp:194 ui/emaileditbase.cpp:93 ui/enable.cpp:122
@@ -2529,20 +2529,12 @@ msgid "[fail]"
 msgstr "[chyba]"
 
 #: ui/filetransfer.cpp:201
-#, fuzzy
 msgid "Receive file %1 of %2 files from %3"
-msgstr ""
-"Přijímání souboru z %1\n"
-"%n Přijímání souborů z %1\n"
-"."
+msgstr "Přijímání souboru %1/%2 od %3"
 
 #: ui/filetransfer.cpp:203
-#, fuzzy
 msgid "Send file %1 of %2 files to %3"
-msgstr ""
-"Poslat soubor pro %1\n"
-"%n Poslat soubory pro %1\n"
-"."
+msgstr "Zasílání souboru %1/%2 pro %3"
 
 #: ui/filetransfer.cpp:245 ui/filetransfer.cpp:264
 msgid "&New"
@@ -2733,9 +2725,8 @@ msgid "Key shortcuts"
 msgstr "Klávesové zkratky"
 
 #: ui/setupdlg.cpp:137 ui/userinfo.cpp:91
-#, fuzzy
 msgid "Accept"
-msgstr "&Akceptovat"
+msgstr "Akceptovat"
 
 #: ui/setupdlg.cpp:138
 msgid "SMS"
@@ -3464,15 +3455,15 @@ msgstr "&Různé"
 
 #: ui/miscsetupbase.cpp:153
 msgid "A&utomatically add new user to KAddressBook"
-msgstr ""
+msgstr "A&utomaticky přidat nového uživatele do KAdresáře"
 
 #: ui/miscsetupbase.cpp:154
 msgid "&Synchronize now"
-msgstr ""
+msgstr "&Synchronizovat teď"
 
 #: ui/miscsetupbase.cpp:155
 msgid "&Addressbook synchronization"
-msgstr ""
+msgstr "Synchronizace &adresáře"
 
 #: ui/soundsetupbase.cpp:228
 msgid "&Override sounds"
@@ -3528,7 +3519,7 @@ msgstr "Použít Arts"
 
 #: ui/soundsetupbase.cpp:242
 msgid "&Program"
-msgstr ""
+msgstr "&Program"
 
 #: ui/phonebookbase.cpp:120
 msgid "User is currently available at:"
@@ -3708,8 +3699,7 @@ msgid "Hide main window after"
 msgstr "Schovat hlavní okno po"
 
 #: ui/statussetupbase.cpp:141
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Zakázat online výstrahu pro \"Away\", \"N/A\", \"DND\" a \"Occupied\" "
 "seznam"
@@ -3819,27 +3809,24 @@ msgid "&EMail"
 msgstr "&Email"
 
 #: ui/maininfobase.cpp:327
-#, fuzzy
 msgid "Status:"
-msgstr "Stav"
+msgstr "Stav:"
 
 #: ui/maininfobase.cpp:328
-#, fuzzy
 msgid "Online:"
-msgstr "Online"
+msgstr "Online:"
 
 #: ui/maininfobase.cpp:330
 msgid "External IP:"
-msgstr ""
+msgstr "Externí IP:"
 
 #: ui/maininfobase.cpp:331
 msgid "Internal IP:"
-msgstr ""
+msgstr "Interní IP:"
 
 #: ui/maininfobase.cpp:332
-#, fuzzy
 msgid "Client:"
-msgstr "ICQ klient"
+msgstr "Klient:"
 
 #: ui/homeinfobase.cpp:166
 msgid "Time zone:"
@@ -3851,8 +3838,7 @@ msgstr "&Domov"
 
 #: ui/generalsecbase.cpp:186
 msgid "My &authorization is required before users add me to Contact List"
-msgstr ""
-"Má &autorizace je vyžadována před přidáním uživatele do kontaktlistu"
+msgstr "Má &autorizace je vyžadována před přidáním uživatele do kontaktlistu"
 
 #: ui/generalsecbase.cpp:187
 msgid "Don't show my &IP-address"
@@ -4526,3 +4512,4 @@ msgstr "? Neznámý stav %1"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
