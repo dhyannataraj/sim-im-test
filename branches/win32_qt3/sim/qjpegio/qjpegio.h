@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qjpegio.h,v 1.2 2003-08-02 19:21:58 shutoff Exp $
+** $Id: qjpegio.h,v 1.2.16.1 2004-05-08 18:28:58 noragen Exp $
 **
 ** Definition of JPEG QImage IOHandler
 **
