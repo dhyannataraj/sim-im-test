@@ -82,7 +82,7 @@ int SimApp::newInstance()
 class SimApp : public QApplication
 {
 public:
-SimApp(int argc, char **argv) : QApplication(argc, argv) {}
+    SimApp(int argc, char **argv) : QApplication(argc, argv) {}
     ~SimApp();
 protected:
     void saveState(QSessionManager&);
@@ -263,15 +263,16 @@ int main(int argc, char *argv[])
 #endif
 #else
     SimApp app(argc, argv);
-    QStyle* (WINAPI *createXpStyle)() = NULL;
+    StyleInfo*  (*getStyleInfo)() = NULL;
     HINSTANCE hLib = LoadLibraryA("UxTheme.dll");
     if (hLib != NULL)
         hLib = LoadLibraryA(app_file("plugins\\styles\\xpstyle.dll").c_str());
     if (hLib != NULL)
-        (DWORD&)createXpStyle = (DWORD)GetProcAddress(hLib,"_createXpStyle@0");
-    if (createXpStyle){
-        QStyle *xpStyle = createXpStyle();
-        qApp->setStyle(xpStyle);
+        (DWORD&)getStyleInfo = (DWORD)GetProcAddress(hLib,"GetStyleInfo");
+    if (getStyleInfo){
+        StyleInfo *info = getStyleInfo();
+        if (info)
+            qApp->setStyle(info->create());
     }
 #endif
     PluginManager p(argc, argv);

@@ -3,13 +3,14 @@ if QT2
 lib_LTLIBRARIES = libsimuiqt.la
 
 libsimuiqt_la_SOURCES = \
- qcomplextext.cpp \
- qkeysequence.cpp \
- qrichtext.cpp \
- qrichtext_p.cpp \
- qsimplerichtext.cpp \
- qstylesheet.cpp \
- qtextedit.cpp
+	qcomplextext.cpp \
+	qkeysequence.cpp \
+	qrichtext.cpp \
+	qrichtext_p.cpp \
+	qsimplerichtext.cpp \
+	qstylesheet.cpp \
+	qtextedit.cpp \
+	qsyntaxhighlighter.cpp 
 
 libsimuiqt_la_LIBADD = $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(EXTRA_LIBS) $(LIBLD)
 

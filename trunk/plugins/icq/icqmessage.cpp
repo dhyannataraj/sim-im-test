@@ -488,69 +488,69 @@ Message *ICQClient::parseExtendedMessage(const char *screen, Buffer &packet, Mes
         return msg;
     }
     n = msgType.find("File");
-if (n >= 0){
-    string fileDescr;
-    b.unpackStr32(fileDescr);
-    unsigned short port;
-    b >> port;
-    b.incReadPos(2);
-    string fileName;
-    b >> fileName;
-    unsigned long fileSize;
-    b.unpack(fileSize);
-    ICQFileMessage *m = new ICQFileMessage;
-    m->setServerDescr(fileName.c_str());
-    m->setServerText(fileDescr.c_str());
-    m->setSize(fileSize);
-    m->setPort(port);
-    m->setFlags(MESSAGE_TEMP);
-    m->setID_L(id.id_l);
-    m->setID_H(id.id_h);
-    m->setCookie(cookie);
-    m->setExtended(true);
-    return m;
-}
-if (msgType == "ICQSMS"){
-    string p;
-    b.unpackStr32(p);
-    string::iterator s = p.begin();
-    auto_ptr<XmlNode> top(XmlNode::parse(s, p.end()));
-    if (top.get() == NULL){
-        log(L_WARN, "Parse SMS XML error");
-        return NULL;
-    }
-    if (msg_type == 0){
-        if (top->getTag() != "sms_message"){
-            log(L_WARN, "No sms_message tag in SMS message");
-            return NULL;
-        }
-        XmlNode *n = top.get();
-        if ((n == NULL) || !n->isBranch()){
-            log(L_WARN, "Parse no branch");
-            return NULL;
-        }
-        XmlBranch *sms_message = static_cast<XmlBranch*>(n);
-        XmlLeaf *text = sms_message->getLeaf("text");
-        if (text == NULL){
-            log(L_WARN, "No <text> in SMS message");
-            return NULL;
-        }
-        SMSMessage *m = new SMSMessage;
-        XmlLeaf *sender = sms_message->getLeaf("sender");
-        if (sender != NULL){
-            m->setPhone(QString::fromUtf8(sender->getValue().c_str()));
-            Contact *contact = getContacts()->contactByPhone(sender->getValue().c_str());
-            m->setContact(contact->id());
-        }
-        XmlLeaf *senders_network = sms_message->getLeaf("senders_network");
-        if (senders_network != NULL)
-            m->setNetwork(QString::fromUtf8(senders_network->getValue().c_str()));
-        m->setText(QString::fromUtf8(text->getValue().c_str()));
+    if (n >= 0){
+        string fileDescr;
+        b.unpackStr32(fileDescr);
+        unsigned short port;
+        b >> port;
+        b.incReadPos(2);
+        string fileName;
+        b >> fileName;
+        unsigned long fileSize;
+        b.unpack(fileSize);
+        ICQFileMessage *m = new ICQFileMessage;
+        m->setServerDescr(fileName.c_str());
+        m->setServerText(fileDescr.c_str());
+        m->setSize(fileSize);
+        m->setPort(port);
+        m->setFlags(MESSAGE_TEMP);
+        m->setID_L(id.id_l);
+        m->setID_H(id.id_h);
+        m->setCookie(cookie);
+        m->setExtended(true);
         return m;
     }
-}
-log(L_WARN, "Unknown extended message type %s", msgType.c_str());
-return NULL;
+    if (msgType == "ICQSMS"){
+        string p;
+        b.unpackStr32(p);
+        string::iterator s = p.begin();
+        auto_ptr<XmlNode> top(XmlNode::parse(s, p.end()));
+        if (top.get() == NULL){
+            log(L_WARN, "Parse SMS XML error");
+            return NULL;
+        }
+        if (msg_type == 0){
+            if (top->getTag() != "sms_message"){
+                log(L_WARN, "No sms_message tag in SMS message");
+                return NULL;
+            }
+            XmlNode *n = top.get();
+            if ((n == NULL) || !n->isBranch()){
+                log(L_WARN, "Parse no branch");
+                return NULL;
+            }
+            XmlBranch *sms_message = static_cast<XmlBranch*>(n);
+            XmlLeaf *text = sms_message->getLeaf("text");
+            if (text == NULL){
+                log(L_WARN, "No <text> in SMS message");
+                return NULL;
+            }
+            SMSMessage *m = new SMSMessage;
+            XmlLeaf *sender = sms_message->getLeaf("sender");
+            if (sender != NULL){
+                m->setPhone(QString::fromUtf8(sender->getValue().c_str()));
+                Contact *contact = getContacts()->contactByPhone(sender->getValue().c_str());
+                m->setContact(contact->id());
+            }
+            XmlLeaf *senders_network = sms_message->getLeaf("senders_network");
+            if (senders_network != NULL)
+                m->setNetwork(QString::fromUtf8(senders_network->getValue().c_str()));
+            m->setText(QString::fromUtf8(text->getValue().c_str()));
+            return m;
+        }
+    }
+    log(L_WARN, "Unknown extended message type %s", msgType.c_str());
+    return NULL;
 }
 
 Message *ICQClient::parseMessage(unsigned short type, const char *screen, string &p, Buffer &packet, MessageId &id, unsigned cookie)
@@ -655,1109 +655,1109 @@ static MessageDef defIcq =
         NULL
     };
 
-    static Message *createIcqFile(const char *cfg)
+static Message *createIcqFile(const char *cfg)
+{
+    return new ICQFileMessage(cfg);
+}
+
+static MessageDef defIcqFile =
     {
-        return new ICQFileMessage(cfg);
+        NULL,
+        MESSAGE_DEFAULT,
+        NULL,
+        NULL,
+        createIcqFile,
+        NULL,
+        NULL
+    };
+
+#if 0
+i18n("WWW-panel message", "%n WWW-panel messages", 1);
+#endif
+
+static Message *createWebPanel(const char *cfg)
+{
+    return new ICQMessage(MessageWebPanel, cfg);
+}
+
+static MessageDef defWebPanel =
+    {
+        NULL,
+        MESSAGE_DEFAULT,
+        "WWW-panel message",
+        "%n WWW-panel messages",
+        createWebPanel,
+        NULL,
+        NULL
+    };
+
+#if 0
+i18n("Email pager message", "%n Email pager messages", 1);
+#endif
+
+static Message *createEmailPager(const char *cfg)
+{
+    return new ICQMessage(MessageEmailPager, cfg);
+}
+
+static MessageDef defEmailPager =
+    {
+        NULL,
+        MESSAGE_DEFAULT,
+        "Email pager message",
+        "%n Email pager messages",
+        createEmailPager,
+        NULL,
+        NULL
+    };
+
+#if 0
+i18n("Request secure channel", "%n requests secure channel", 1);
+#endif
+
+static Message *createOpenSecure(const char *cfg)
+{
+    return new Message(MessageOpenSecure, cfg);
+}
+
+static MessageDef defOpenSecure =
+    {
+        NULL,
+        MESSAGE_SENDONLY,
+        "Request secure channel",
+        "%n requests secure channel",
+        createOpenSecure,
+        NULL,
+        NULL
+    };
+
+#if 0
+i18n("Close secure channel", "%n times close secure channel", 1);
+#endif
+
+static Message *createCloseSecure(const char *cfg)
+{
+    return new Message(MessageCloseSecure, cfg);
+}
+
+static MessageDef defCloseSecure =
+    {
+        NULL,
+        MESSAGE_SILENT | MESSAGE_SENDONLY,
+        "Close secure channel",
+        "%n times close secure channel",
+        createCloseSecure,
+        NULL,
+        NULL
+    };
+
+#if 0
+i18n("Check invisible", "%n times check invisible", 1);
+#endif
+
+static Message *createCheckInvisible(const char *cfg)
+{
+    return new Message(MessageCheckInvisible, cfg);
+}
+
+static MessageDef defCheckInvisible =
+    {
+        NULL,
+        MESSAGE_SILENT | MESSAGE_SENDONLY,
+        "Check invisible",
+        "%n times checkInvisible",
+        createCheckInvisible,
+        NULL,
+        NULL
+    };
+
+#if 0
+i18n("Warning", "%n warnings", 1);
+#endif
+
+static DataDef warningMessageData[] =
+    {
+        { "Anonymous", DATA_BOOL, 1, 0 },
+        { "OldLevel", DATA_ULONG, 1, 0 },
+        { "NewLevel", DATA_ULONG, 1, 0 },
+        { NULL, 0, 0, 0 }
+    };
+
+WarningMessage::WarningMessage(const char *cfg)
+        : AuthMessage(MessageWarning, cfg)
+{
+    load_data(warningMessageData, &data, cfg);
+}
+
+string WarningMessage::save()
+{
+    string res = AuthMessage::save();
+    if (!res.empty())
+        res += "\n";
+    return res + save_data(warningMessageData, &data);
+}
+
+QString WarningMessage::presentation()
+{
+    return QString("Increase warning level from %1% to %2%")
+           .arg(ICQClient::warnLevel(getOldLevel()))
+           .arg(ICQClient::warnLevel(getNewLevel()));
+}
+
+static Message *createWarning(const char *cfg)
+{
+    return new WarningMessage(cfg);
+}
+
+static MessageDef defWarning =
+    {
+        NULL,
+        MESSAGE_SENDONLY,
+        "Warning",
+        "%n warnings",
+        createWarning,
+        NULL,
+        NULL
+    };
+
+static Message *createIcqAuthRequest(const char *cfg)
+{
+    return new ICQAuthMessage(MessageICQAuthRequest, MessageAuthRequest, cfg);
+}
+
+static MessageDef defIcqAuthRequest =
+    {
+        NULL,
+        MESSAGE_DEFAULT,
+        NULL,
+        NULL,
+        createIcqAuthRequest,
+        NULL,
+        NULL
+    };
+
+static Message *createIcqAuthGranted(const char *cfg)
+{
+    return new ICQAuthMessage(MessageICQAuthGranted, MessageAuthGranted, cfg);
+}
+
+static MessageDef defIcqAuthGranted =
+    {
+        NULL,
+        MESSAGE_DEFAULT,
+        NULL,
+        NULL,
+        createIcqAuthGranted,
+        NULL,
+        NULL
+    };
+
+static Message *createIcqAuthRefused(const char *cfg)
+{
+    return new ICQAuthMessage(MessageICQAuthRefused, MessageAuthRefused, cfg);
+}
+
+static MessageDef defIcqAuthRefused =
+    {
+        NULL,
+        MESSAGE_DEFAULT,
+        NULL,
+        NULL,
+        createIcqAuthRefused,
+        NULL,
+        NULL
+    };
+
+static Message *createContactRequest(const char *cfg)
+{
+    return new ICQAuthMessage(MessageContactRequest, MessageContactRequest, cfg);
+}
+
+#if 0
+i18n("Contact request", "%n contact requests", 1);
+#endif
+
+static MessageDef defContactRequest =
+    {
+        NULL,
+        MESSAGE_DEFAULT,
+        "Contact request",
+        "%n contact requests",
+        createContactRequest,
+        NULL,
+        NULL
+    };
+
+static Message *createIcqUrl(const char *cfg)
+{
+    return new IcqUrlMessage(cfg);
+}
+
+static MessageDef defIcqUrl =
+    {
+        NULL,
+        MESSAGE_DEFAULT,
+        NULL,
+        NULL,
+        createIcqUrl,
+        NULL,
+        NULL
+    };
+
+static Message *createIcqContacts(const char *cfg)
+{
+    return new IcqContactsMessage(cfg);
+}
+
+static MessageDef defIcqContacts =
+    {
+        NULL,
+        MESSAGE_DEFAULT,
+        NULL,
+        NULL,
+        createIcqContacts,
+        NULL,
+        NULL
+    };
+
+void ICQPlugin::registerMessages()
+{
+    Command cmd;
+
+    cmd->id			 = MessageICQUrl;
+    cmd->text		 = "ICQUrl";
+    cmd->icon		 = "url";
+    cmd->param		 = &defIcqUrl;
+    Event eMsg(EventCreateMessageType, cmd);
+    eMsg.process();
+
+    cmd->id			 = MessageICQContacts;
+    cmd->text		 = "ICQContacts";
+    cmd->icon		 = "contacts";
+    cmd->param		 = &defIcqContacts;
+    eMsg.process();
+
+    cmd->id			= MessageICQ;
+    cmd->text		= "ICQMessage";
+    cmd->icon		= "message";
+    cmd->param		= &defIcq;
+    eMsg.process();
+
+    cmd->id			= MessageICQFile;
+    cmd->text		= "ICQFile";
+    cmd->icon		= "file";
+    cmd->param		= &defIcqFile;
+    eMsg.process();
+
+    cmd->id			= MessageContactRequest;
+    cmd->text		= I18N_NOOP("Contact Request");
+    cmd->icon		= "contacts";
+    cmd->param		= &defContactRequest;
+    eMsg.process();
+
+    cmd->id         = MessageICQAuthRequest;
+    cmd->text       = "ICQAuthRequest";
+    cmd->icon       = "auth";
+    cmd->param      = &defIcqAuthRequest;
+    eMsg.process();
+
+
+    cmd->id			= MessageICQAuthGranted;
+    cmd->text		= "ICQAuthGranted";
+    cmd->icon		= "auth";
+    cmd->param		= &defIcqAuthGranted;
+    eMsg.process();
+
+    cmd->id			= MessageICQAuthRefused;
+    cmd->text		= "ICQAuthRefused";
+    cmd->icon		= "auth";
+    cmd->param		= &defIcqAuthRefused;
+    eMsg.process();
+
+    cmd->id			= MessageWebPanel;
+    cmd->text		= I18N_NOOP("Web panel");
+    cmd->icon		= "web";
+    cmd->param		= &defWebPanel;
+    eMsg.process();
+
+    cmd->id			= MessageEmailPager;
+    cmd->text		= I18N_NOOP("Email pager");
+    cmd->icon		= "mailpager";
+    cmd->param		= &defEmailPager;
+    eMsg.process();
+
+    cmd->id			= MessageOpenSecure;
+    cmd->text		= I18N_NOOP("Request secure channel");
+    cmd->icon		= "encrypted";
+    cmd->menu_grp	= 0x30F0;
+    cmd->param		= &defOpenSecure;
+    eMsg.process();
+
+    cmd->id			= MessageCloseSecure;
+    cmd->text		= I18N_NOOP("Close secure channel");
+    cmd->icon		= "encrypted";
+    cmd->menu_grp	= 0x30F0;
+    cmd->param		= &defCloseSecure;
+    eMsg.process();
+
+    cmd->id			= MessageCheckInvisible;
+    cmd->text		= I18N_NOOP("Check invisible");
+    cmd->icon		= "ICQ_invisible";
+    cmd->menu_grp	= 0x30F1;
+    cmd->param		= &defCheckInvisible;
+    eMsg.process();
+
+    cmd->id			= MessageWarning;
+    cmd->text		= I18N_NOOP("Warning");
+    cmd->icon		= "error";
+    cmd->menu_grp	= 0x30F2;
+    cmd->param		= &defWarning;
+    eMsg.process();
+
+    cmd->id			= CmdUrlInput;
+    cmd->text		= I18N_NOOP("&URL");
+    cmd->icon		= "empty";
+    cmd->icon_on	= NULL;
+    cmd->bar_id		= ToolBarMsgEdit;
+    cmd->bar_grp	= 0x1030;
+    cmd->menu_id	= 0;
+    cmd->menu_grp	= 0;
+    cmd->flags		= BTN_EDIT | BTN_NO_BUTTON | COMMAND_CHECK_STATE;
+
+    Event eCmd(EventCommandCreate, cmd);
+    eCmd.process();
+
+}
+
+void ICQPlugin::unregisterMessages()
+{
+    Event eUrl(EventRemoveMessageType, (void*)MessageICQUrl);
+    eUrl.process();
+
+    Event eContact(EventRemoveMessageType, (void*)MessageICQContacts);
+    eContact.process();
+
+    Event eIcq(EventRemoveMessageType, (void*)MessageICQ);
+    eIcq.process();
+
+    Event eIcqFile(EventRemoveMessageType, (void*)MessageICQFile);
+    eIcqFile.process();
+
+    Event eAuthRequest(EventRemoveMessageType, (void*)MessageICQAuthRequest);
+    eAuthRequest.process();
+
+    Event eAuthGranted(EventRemoveMessageType, (void*)MessageICQAuthGranted);
+    eAuthGranted.process();
+
+    Event eAuthRefused(EventRemoveMessageType, (void*)MessageICQAuthRefused);
+    eAuthRefused.process();
+
+    Event eRequest(EventRemoveMessageType, (void*)MessageContactRequest);
+    eRequest.process();
+
+    Event eWeb(EventRemoveMessageType, (void*)MessageWebPanel);
+    eWeb.process();
+
+    Event ePager(EventRemoveMessageType, (void*)MessageEmailPager);
+    ePager.process();
+
+    Event eOpenSecure(EventRemoveMessageType, (void*)MessageOpenSecure);
+    eOpenSecure.process();
+
+    Event eCloseSecure(EventRemoveMessageType, (void*)MessageCloseSecure);
+    eCloseSecure.process();
+
+    Event eWarning(EventRemoveMessageType, (void*)MessageWarning);
+    eWarning.process();
+
+    Event eCheckInvisible(EventRemoveMessageType, (void*)MessageCheckInvisible);
+    eCheckInvisible.process();
+
+    Event eURL(EventCommandRemove, (void*)CmdUrlInput);
+    eURL.process();
+}
+
+void ICQClient::packExtendedMessage(Message *msg, Buffer &buf, Buffer &msgBuf, ICQUserData *data)
+{
+    unsigned short port = 0;
+    switch (msg->type()){
+    case MessageICQFile:
+        port = static_cast<ICQFileMessage*>(msg)->getPort();
+    case MessageFile:
+        buf.pack((char*)plugins[PLUGIN_FILE], sizeof(plugin));
+        buf.packStr32("File");
+        buf << 0x00000100L << 0x00010000L << 0x00000000L << (unsigned short)0 << (char)0;
+        msgBuf.packStr32(fromUnicode(msg->getPlainText(), data).c_str());
+        msgBuf << port << (unsigned short)0;
+        msgBuf << fromUnicode(static_cast<FileMessage*>(msg)->getDescription(), data);
+        msgBuf.pack((unsigned long)(static_cast<FileMessage*>(msg)->getSize()));
+        msgBuf << 0x00000000L;
+        break;
     }
+}
 
-    static MessageDef defIcqFile =
-        {
-            NULL,
-            MESSAGE_DEFAULT,
-            NULL,
-            NULL,
-            createIcqFile,
-            NULL,
-            NULL
-        };
+bool my_string::operator < (const my_string &a) const
+{
+    return strcmp(c_str(), a.c_str()) < 0;
+}
 
-#if 0
-        i18n("WWW-panel message", "%n WWW-panel messages", 1);
-#endif
-
-        static Message *createWebPanel(const char *cfg)
-        {
-            return new ICQMessage(MessageWebPanel, cfg);
-        }
-
-        static MessageDef defWebPanel =
-            {
-                NULL,
-                MESSAGE_DEFAULT,
-                "WWW-panel message",
-                "%n WWW-panel messages",
-                createWebPanel,
-                NULL,
-                NULL
-            };
-
-#if 0
-            i18n("Email pager message", "%n Email pager messages", 1);
-#endif
-
-            static Message *createEmailPager(const char *cfg)
-            {
-                return new ICQMessage(MessageEmailPager, cfg);
-            }
-
-            static MessageDef defEmailPager =
-                {
-                    NULL,
-                    MESSAGE_DEFAULT,
-                    "Email pager message",
-                    "%n Email pager messages",
-                    createEmailPager,
-                    NULL,
-                    NULL
-                };
-
-#if 0
-                i18n("Request secure channel", "%n requests secure channel", 1);
-#endif
-
-                static Message *createOpenSecure(const char *cfg)
-                {
-                    return new Message(MessageOpenSecure, cfg);
-                }
-
-                static MessageDef defOpenSecure =
-                    {
-                        NULL,
-                        MESSAGE_SENDONLY,
-                        "Request secure channel",
-                        "%n requests secure channel",
-                        createOpenSecure,
-                        NULL,
-                        NULL
-                    };
-
-#if 0
-                    i18n("Close secure channel", "%n times close secure channel", 1);
-#endif
-
-                    static Message *createCloseSecure(const char *cfg)
-                    {
-                        return new Message(MessageCloseSecure, cfg);
-                    }
-
-                    static MessageDef defCloseSecure =
-                        {
-                            NULL,
-                            MESSAGE_SILENT | MESSAGE_SENDONLY,
-                            "Close secure channel",
-                            "%n times close secure channel",
-                            createCloseSecure,
-                            NULL,
-                            NULL
-                        };
-
-#if 0
-                        i18n("Check invisible", "%n times check invisible", 1);
-#endif
-
-                        static Message *createCheckInvisible(const char *cfg)
-                        {
-                            return new Message(MessageCheckInvisible, cfg);
+QString ICQClient::packContacts(ContactsMessage *msg, ICQUserData *data, CONTACTS_MAP &c)
+{
+    QString contacts = msg->getContacts();
+    QString newContacts;
+    while (!contacts.isEmpty()){
+        QString contact = getToken(contacts, ';');
+        QString url = getToken(contact, ',');
+        QString proto = getToken(url, ':');
+        if (proto == "sim"){
+            Contact *contact = getContacts()->contact(atol(url.latin1()));
+            if (contact){
+                ClientDataIterator it(contact->clientData);
+                clientData *cdata;
+                while ((cdata = ++it) != NULL){
+                    Contact *cc = contact;
+                    if (!isMyData(cdata, cc))
+                        continue;
+                    ICQUserData *d = (ICQUserData*)cdata;
+                    string screen = this->screen(d);
+                    CONTACTS_MAP::iterator it = c.find(screen.c_str());
+                    if (it == c.end()){
+                        alias_group ci;
+                        ci.alias = fromUnicode(contact->getName(), data);
+                        ci.grp   = cc ? cc->getGroup() : 0;
+                        c.insert(CONTACTS_MAP::value_type(screen.c_str(), ci));
+                        if (!newContacts.isEmpty())
+                            newContacts += ";";
+                        if (atol(screen.c_str())){
+                            newContacts += "icq:";
+                            newContacts += screen.c_str();
+                            newContacts += "/";
+                            newContacts += contact->getName();
+                            newContacts += ",";
+                            if (contact->getName() == screen.c_str()){
+                                newContacts += "ICQ ";
+                                newContacts += screen.c_str();
+                            }else{
+                                newContacts += contact->getName();
+                                newContacts += " (ICQ ";
+                                newContacts += screen.c_str();
+                                newContacts += ")";
+                            }
+                        }else{
+                            newContacts += "aim:";
+                            newContacts += screen.c_str();
+                            newContacts += "/";
+                            newContacts += contact->getName();
+                            newContacts += ",";
+                            if (contact->getName() == screen.c_str()){
+                                newContacts += "AIM ";
+                                newContacts += screen.c_str();
+                            }else{
+                                newContacts += contact->getName();
+                                newContacts += " (AIM ";
+                                newContacts += screen.c_str();
+                                newContacts += ")";
+                            }
                         }
+                    }
+                }
+            }
+        }
+        if ((proto == "icq") || (proto == "aim")){
+            QString screen = getToken(url, '/');
+            if (url.isEmpty())
+                url = screen;
+            CONTACTS_MAP::iterator it = c.find(screen.latin1());
+            if (it == c.end()){
+                alias_group ci;
+                ci.alias = fromUnicode(url, data);
+                ci.grp   = 0;
+                c.insert(CONTACTS_MAP::value_type(screen.latin1(), ci));
+            }
+        }
+    }
+    return newContacts;
+}
 
-                        static MessageDef defCheckInvisible =
-                            {
-                                NULL,
-                                MESSAGE_SILENT | MESSAGE_SENDONLY,
-                                "Check invisible",
-                                "%n times checkInvisible",
-                                createCheckInvisible,
-                                NULL,
-                                NULL
-                            };
+void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned short &type, unsigned short flags)
+{
+    Buffer msgBuf;
+    Buffer buf;
+    string res;
+    switch (msg->type()){
+    case MessageUrl:
+        res = fromUnicode(msg->getPlainText(), data);
+        res += '\xFE';
+        res += fromUnicode(static_cast<UrlMessage*>(msg)->getUrl(), data);
+        type = ICQ_MSGxURL;
+        break;
+    case MessageContacts:{
+            CONTACTS_MAP c;
+            QString nc = packContacts(static_cast<ContactsMessage*>(msg), data, c);
+            if (c.empty()){
+                msg->setError(I18N_NOOP("No contacts for send"));
+                return;
+            }
+            static_cast<ContactsMessage*>(msg)->setContacts(nc);
+            res = number(c.size());
+            for (CONTACTS_MAP::iterator it = c.begin(); it != c.end(); ++it){
+                res += '\xFE';
+                res += (*it).first.c_str();
+                res += '\xFE';
+                res += (*it).second.alias.c_str();
+            }
+            res += '\xFE';
+            type = ICQ_MSGxCONTACTxLIST;
+            break;
+        }
+    case MessageICQFile:
+        if (!static_cast<ICQFileMessage*>(msg)->getExtended()){
+            res = fromUnicode(msg->getPlainText(), data);
+            type = ICQ_MSGxFILE;
+            break;
+        }
+    case MessageFile:	// FALLTHROW
+        type = ICQ_MSGxEXT;
+        packExtendedMessage(msg, buf, msgBuf, data);
+        break;
+    case MessageOpenSecure:
+        type = ICQ_MSGxSECURExOPEN;
+        break;
+    case MessageCloseSecure:
+        type = ICQ_MSGxSECURExCLOSE;
+        break;
+    }
+    if (flags == ICQ_TCPxMSG_NORMAL){
+        if (msg->getFlags() & MESSAGE_URGENT)
+            flags = ICQ_TCPxMSG_URGENT;
+        if (msg->getFlags() & MESSAGE_LIST)
+            flags = ICQ_TCPxMSG_LIST;
+    }
+    if (type == ICQ_MSGxEXT){
+        b.pack(type);
+        b.pack(msgStatus());
+        b.pack(flags);
+    }else{
+        b.pack(this->data.owner.Uin);
+        b << (char)type << (char)0;
+    }
+    b << res;
+    if (buf.size()){
+        b.pack((unsigned short)buf.size());
+        b.pack(buf.data(0), buf.size());
+        b.pack32(msgBuf);
+    }
+}
 
-#if 0
-                            i18n("Warning", "%n warnings", 1);
-#endif
-
-                            static DataDef warningMessageData[] =
-                                {
-                                    { "Anonymous", DATA_BOOL, 1, 0 },
-                                    { "OldLevel", DATA_ULONG, 1, 0 },
-                                    { "NewLevel", DATA_ULONG, 1, 0 },
-                                    { NULL, 0, 0, 0 }
-                                };
-
-                                WarningMessage::WarningMessage(const char *cfg)
-                                        : AuthMessage(MessageWarning, cfg)
-                                {
-                                    load_data(warningMessageData, &data, cfg);
+void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *data, unsigned uin, bool bDirect)
+{
+    b.incReadPos(1);
+    unsigned short type;
+    b >> type;
+    b.incReadPos(bDirect ? 1 : 4);
+    vector<string> phonebook;
+    vector<string> numbers;
+    vector<string> phonedescr;
+    string phones;
+    Contact *contact = NULL;
+    unsigned long state, time, size, nEntries;
+    unsigned i;
+    unsigned nActive;
+    switch (type){
+    case 0:
+    case 1:
+        b.unpack(time);
+        b.unpack(size);
+        b.incReadPos(4);
+        b.unpack(nEntries);
+        if (data)
+            log(L_DEBUG, "Plugin info reply %u %u (%u %u) %u %u (%u)", data->Uin, time, data->PluginInfoTime, data->PluginStatusTime, size, nEntries, plugin_type);
+        switch (plugin_type){
+        case PLUGIN_RANDOMxCHAT:{
+                b.incReadPos(-12);
+                string name;
+                b.unpack(name);
+                string topic;
+                b.unpack(topic);
+                unsigned short age;
+                char gender;
+                unsigned short country;
+                unsigned short language;
+                b.unpack(age);
+                b.unpack(gender);
+                b.unpack(country);
+                b.unpack(language);
+                string homepage;
+                b.unpack(homepage);
+                ICQUserData data;
+                load_data(static_cast<ICQProtocol*>(protocol())->icqUserData, &data, NULL);
+                data.Uin = uin;
+                set_str(&data.Alias, name.c_str());
+                set_str(&data.About, topic.c_str());
+                data.Age = age;
+                data.Gender = gender;
+                data.Country = country;
+                data.Language = language;
+                set_str(&data.Homepage, homepage.c_str());
+                Event e(EventRandomChatInfo, &data);
+                e.process();
+                free_data(static_cast<ICQProtocol*>(protocol())->icqUserData, &data);
+                break;
+            }
+        case PLUGIN_QUERYxSTATUS:
+            if (data == NULL)
+                break;
+            if (!bDirect){
+                b.incReadPos(5);
+                b.unpack(nEntries);
+            }
+            log(L_DEBUG, "Status info answer %u", nEntries);
+        case PLUGIN_QUERYxINFO:
+            if (data == NULL)
+                break;
+            if (nEntries > 0x80){
+                log(L_DEBUG, "Bad entries value %X", nEntries);
+                break;
+            }
+            for (i = 0; i < nEntries; i++){
+                plugin p;
+                b.unpack((char*)p, sizeof(p));
+                b.incReadPos(4);
+                string name, descr;
+                b.unpackStr32(name);
+                b.unpackStr32(descr);
+                b.incReadPos(4);
+                unsigned plugin_index;
+                for (plugin_index = 0; plugin_index < PLUGIN_NULL; plugin_index++)
+                    if (memcmp(p, plugins[plugin_index], sizeof(p)) == 0)
+                        break;
+                if (plugin_index >= PLUGIN_NULL){
+                    log(L_DEBUG, "Unknown plugin sign %s %s", name.c_str(), descr.c_str());
+                    continue;
+                }
+                log(L_DEBUG, "Plugin %u %s %s", plugin_index, name.c_str(), descr.c_str());
+                switch (plugin_index){
+                case PLUGIN_PHONEBOOK:
+                case PLUGIN_FOLLOWME:
+                    if (plugin_type == PLUGIN_QUERYxINFO){
+                        addPluginInfoRequest(uin, PLUGIN_PHONEBOOK);
+                    }else{
+                        addPluginInfoRequest(uin, PLUGIN_FOLLOWME);
+                    }
+                    break;
+                case PLUGIN_PICTURE:
+                    if (plugin_type == PLUGIN_QUERYxINFO)
+                        addPluginInfoRequest(uin, plugin_index);
+                    break;
+                case PLUGIN_FILESERVER:
+                case PLUGIN_ICQPHONE:
+                    if (plugin_type == PLUGIN_QUERYxSTATUS)
+                        addPluginInfoRequest(uin, plugin_index);
+                    break;
+                }
+            }
+            if (plugin_type == PLUGIN_QUERYxINFO){
+                data->PluginInfoFetchTime = data->PluginInfoTime;
+            }else{
+                data->PluginStatusFetchTime = data->PluginStatusTime;
+            }
+            break;
+        case PLUGIN_PICTURE:
+            if (data){
+                b.incReadPos(-4);
+                string pict;
+                b.unpackStr32(pict);
+                b.unpackStr32(pict);
+                QImage img;
+                QString fName = pictureFile(data);
+                QFile f(fName);
+                if (f.open(IO_WriteOnly | IO_Truncate)){
+                    f.writeBlock(pict.c_str(), pict.size());
+                    f.close();
+                    img.load(fName);
+                }else{
+                    log(L_ERROR, "Can't create %s", (const char*)fName.local8Bit());
+                }
+                data->PictureWidth  = img.width();
+                data->PictureHeight = img.height();
+            }
+            break;
+        case PLUGIN_PHONEBOOK:
+            if (data){
+                nActive = (unsigned)(-1);
+                if (nEntries > 0x80){
+                    log(L_DEBUG, "Bad entries value %X", nEntries);
+                    break;
+                }
+                for (i = 0; i < nEntries; i++){
+                    string descr, area, phone, ext, country;
+                    unsigned long active;
+                    b.unpackStr32(descr);
+                    b.unpackStr32(area);
+                    b.unpackStr32(phone);
+                    b.unpackStr32(ext);
+                    b.unpackStr32(country);
+                    numbers.push_back(phone);
+                    string value;
+                    for (const ext_info *e = getCountries(); e->szName; e++){
+                        if (country == e->szName){
+                            value = "+";
+                            value += number(e->nCode);
+                            break;
+                        }
+                    }
+                    if (!area.empty()){
+                        if (!value.empty())
+                            value += " ";
+                        value += "(";
+                        value += area;
+                        value += ")";
+                    }
+                    if (!value.empty())
+                        value += " ";
+                    value += phone;
+                    if (!ext.empty()){
+                        value += " - ";
+                        value += ext;
+                    }
+                    b.unpack(active);
+                    if (active)
+                        nActive = i;
+                    phonebook.push_back(value);
+                    phonedescr.push_back(descr);
+                }
+                for (i = 0; i < nEntries; i++){
+                    unsigned long type;
+                    string phone = phonebook[i];
+                    string gateway;
+                    b.incReadPos(4);
+                    b.unpack(type);
+                    b.unpackStr32(gateway);
+                    b.incReadPos(16);
+                    switch (type){
+                    case 1:
+                    case 2:
+                        type = CELLULAR;
+                        break;
+                    case 3:
+                        type = FAX;
+                        break;
+                    case 4:{
+                            type = PAGER;
+                            phone = numbers[i];
+                            const pager_provider *p;
+                            for (p = getProviders(); *p->szName; p++){
+                                if (gateway == p->szName){
+                                    phone += "@";
+                                    phone += p->szGate;
+                                    phone += "[";
+                                    phone += p->szName;
+                                    phone += "]";
+                                    break;
                                 }
+                            }
+                            if (*p->szName == 0){
+                                phone += "@";
+                                phone += gateway;
+                            }
+                            break;
+                        }
+                    default:
+                        type = PHONE;
+                    }
+                    phone += ",";
+                    phone += phonedescr[i];
+                    phone += ",";
+                    phone += number(type);
+                    if (i == nActive)
+                        phone += ",1";
+                    if (!phones.empty())
+                        phones += ";";
+                    phones += phone;
+                }
+                set_str(&data->PhoneBook, phones.c_str());
+                Contact *contact = NULL;
+                findContact(number(data->Uin).c_str(), NULL, false, contact);
+                if (contact){
+                    setupContact(contact, data);
+                    Event e(EventContactChanged, contact);
+                    e.process();
+                }
+            }
+        }
+        break;
+    case 2:
+        if (data){
+            if (bDirect)
+                b.incReadPos(3);
+            b.unpack(state);
+            b.unpack(time);
+            log(L_DEBUG, "Plugin status reply %u %u %u (%u)", uin, state, time, plugin_type);
+            findContact(number(uin).c_str(), NULL, false, contact);
+            if (contact == NULL)
+                break;
+            switch (plugin_type){
+            case PLUGIN_FILESERVER:
+                if ((state != 0) != (data->SharedFiles != 0)){
+                    data->SharedFiles = state;
+                    Event e(EventContactChanged, contact);
+                    e.process();
+                }
+                break;
+            case PLUGIN_FOLLOWME:
+                if (state != data->FollowMe){
+                    data->FollowMe = state;
+                    Event e(EventContactChanged, contact);
+                    e.process();
+                }
+                break;
+            case PLUGIN_ICQPHONE:
+                if (state != data->ICQPhone){
+                    data->ICQPhone = state;
+                    Event e(EventContactChanged, contact);
+                    e.process();
+                }
+                break;
+            }
+        }
+        break;
+    default:
+        log(L_DEBUG, "Unknown plugin type answer %u %u (%u)", uin, type, plugin_type);
+    }
+}
 
-                                string WarningMessage::save()
-                                {
-                                    string res = AuthMessage::save();
-                                    if (!res.empty())
-                                        res += "\n";
-                                    return res + save_data(warningMessageData, &data);
+static const char* plugin_name[] =
+    {
+        "Phone Book",				// PLUGIN_PHONEBOOK
+        "Picture",					// PLUGIN_PICTURE
+        "Shared Files Directory",	// PLUGIN_FILESERVER
+        "Phone \"Follow Me\"",		// PLUGIN_FOLLOWME
+        "ICQphone Status"			// PLUGIN_ICQPHONE
+    };
+
+static const char* plugin_descr[] =
+    {
+        "Phone Book / Phone \"Follow Me\"",		// PLUGIN_PHONEBOOK
+        "Picture",								// PLUGIN_PICTURE
+        "Shared Files Directory",				// PLUGIN_FILESERVER
+        "Phone Book / Phone \"Follow Me\"",		// PLUGIN_FOLLOWME
+        "ICQphone Status"						// PLUGIN_ICQPHONE
+    };
+
+void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &info)
+{
+    Contact *contact;
+    ICQUserData *data = findContact(number(uin).c_str(), NULL, false, contact);
+    log(L_DEBUG, "Request about %u", plugin_type);
+    Buffer answer;
+    unsigned long typeAnswer = 0;
+    unsigned long nEntries = 0;
+    unsigned long time = 0;
+    switch (plugin_type){
+    case PLUGIN_PHONEBOOK:{
+            if (data && data->GrpId && !contact->getIgnore()){
+                Buffer answer1;
+                time = this->data.owner.PluginInfoTime;
+                QString phones = getContacts()->owner()->getPhones();
+                while (!phones.isEmpty()){
+                    QString item = getToken(phones, ';', false);
+                    unsigned long publish = 0;
+                    QString phoneItem = getToken(item, '/', false);
+                    if (item != "-")
+                        publish = 1;
+                    QString number = getToken(phoneItem, ',');
+                    QString descr = getToken(phoneItem, ',');
+                    unsigned long type = getToken(phoneItem, ',').toUInt();
+                    unsigned long active = 0;
+                    if (!phoneItem.isEmpty())
+                        active = 1;
+                    QString area;
+                    QString phone;
+                    QString ext;
+                    QString country;
+                    QString gateway;
+                    if (type == PAGER){
+                        phone = getToken(number, '@');
+                        int n = number.find('[');
+                        if (n >= 0){
+                            getToken(number, '[');
+                            gateway = getToken(number, ']');
+                        }else{
+                            gateway = number;
+                        }
+                    }else{
+                        int n = number.find('(');
+                        if (n >= 0){
+                            country = getToken(number, '(');
+                            area    = getToken(number, ')');
+                            if (country[0] == '+')
+                                country = country.mid(1);
+                            unsigned code = atol(country.latin1());
+                            country = "";
+                            for (const ext_info *e = getCountries(); e->nCode; e++){
+                                if (e->nCode == code){
+                                    country = e->szName;
+                                    break;
                                 }
+                            }
+                        }
+                        n = number.find(" - ");
+                        if (n >= 0){
+                            ext = number.mid(n + 3);
+                            number = number.left(n);
+                        }
+                        phone = number;
+                    }
+                    answer.packStr32(descr.local8Bit());
+                    answer.packStr32(area.local8Bit());
+                    answer.packStr32(phone.local8Bit());
+                    answer.packStr32(ext.local8Bit());
+                    answer.packStr32(country.local8Bit());
+                    answer.pack(active);
 
-                                QString WarningMessage::presentation()
-                                {
-                                    return QString("Increase warning level from %1% to %2%")
-                                           .arg(ICQClient::warnLevel(getOldLevel()))
-                                           .arg(ICQClient::warnLevel(getNewLevel()));
-                                }
-
-                                static Message *createWarning(const char *cfg)
-                                {
-                                    return new WarningMessage(cfg);
-                                }
-
-                                static MessageDef defWarning =
-                                    {
-                                        NULL,
-                                        MESSAGE_SENDONLY,
-                                        "Warning",
-                                        "%n warnings",
-                                        createWarning,
-                                        NULL,
-                                        NULL
-                                    };
-
-                                    static Message *createIcqAuthRequest(const char *cfg)
-                                    {
-                                        return new ICQAuthMessage(MessageICQAuthRequest, MessageAuthRequest, cfg);
-                                    }
-
-                                    static MessageDef defIcqAuthRequest =
-                                        {
-                                            NULL,
-                                            MESSAGE_DEFAULT,
-                                            NULL,
-                                            NULL,
-                                            createIcqAuthRequest,
-                                            NULL,
-                                            NULL
-                                        };
-
-                                        static Message *createIcqAuthGranted(const char *cfg)
-                                        {
-                                            return new ICQAuthMessage(MessageICQAuthGranted, MessageAuthGranted, cfg);
-                                        }
-
-                                        static MessageDef defIcqAuthGranted =
-                                            {
-                                                NULL,
-                                                MESSAGE_DEFAULT,
-                                                NULL,
-                                                NULL,
-                                                createIcqAuthGranted,
-                                                NULL,
-                                                NULL
-                                            };
-
-                                            static Message *createIcqAuthRefused(const char *cfg)
-                                            {
-                                                return new ICQAuthMessage(MessageICQAuthRefused, MessageAuthRefused, cfg);
-                                            }
-
-                                            static MessageDef defIcqAuthRefused =
-                                                {
-                                                    NULL,
-                                                    MESSAGE_DEFAULT,
-                                                    NULL,
-                                                    NULL,
-                                                    createIcqAuthRefused,
-                                                    NULL,
-                                                    NULL
-                                                };
-
-                                                static Message *createContactRequest(const char *cfg)
-                                                {
-                                                    return new ICQAuthMessage(MessageContactRequest, MessageContactRequest, cfg);
-                                                }
-
-#if 0
-                                                i18n("Contact request", "%n contact requests", 1);
-#endif
-
-                                                static MessageDef defContactRequest =
-                                                    {
-                                                        NULL,
-                                                        MESSAGE_DEFAULT,
-                                                        "Contact request",
-                                                        "%n contact requests",
-                                                        createContactRequest,
-                                                        NULL,
-                                                        NULL
-                                                    };
-
-                                                    static Message *createIcqUrl(const char *cfg)
-                                                    {
-                                                        return new IcqUrlMessage(cfg);
-                                                    }
-
-                                                    static MessageDef defIcqUrl =
-                                                        {
-                                                            NULL,
-                                                            MESSAGE_DEFAULT,
-                                                            NULL,
-                                                            NULL,
-                                                            createIcqUrl,
-                                                            NULL,
-                                                            NULL
-                                                        };
-
-                                                        static Message *createIcqContacts(const char *cfg)
-                                                        {
-                                                            return new IcqContactsMessage(cfg);
-                                                        }
-
-                                                        static MessageDef defIcqContacts =
-                                                            {
-                                                                NULL,
-                                                                MESSAGE_DEFAULT,
-                                                                NULL,
-                                                                NULL,
-                                                                createIcqContacts,
-                                                                NULL,
-                                                                NULL
-                                                            };
-
-                                                            void ICQPlugin::registerMessages()
-                                                            {
-                                                                Command cmd;
-
-                                                                cmd->id			 = MessageICQUrl;
-                                                                cmd->text		 = "ICQUrl";
-                                                                cmd->icon		 = "url";
-                                                                cmd->param		 = &defIcqUrl;
-                                                                Event eMsg(EventCreateMessageType, cmd);
-                                                                eMsg.process();
-
-                                                                cmd->id			 = MessageICQContacts;
-                                                                cmd->text		 = "ICQContacts";
-                                                                cmd->icon		 = "contacts";
-                                                                cmd->param		 = &defIcqContacts;
-                                                                eMsg.process();
-
-                                                                cmd->id			= MessageICQ;
-                                                                cmd->text		= "ICQMessage";
-                                                                cmd->icon		= "message";
-                                                                cmd->param		= &defIcq;
-                                                                eMsg.process();
-
-                                                                cmd->id			= MessageICQFile;
-                                                                cmd->text		= "ICQFile";
-                                                                cmd->icon		= "file";
-                                                                cmd->param		= &defIcqFile;
-                                                                eMsg.process();
-
-                                                                cmd->id			= MessageContactRequest;
-                                                                cmd->text		= I18N_NOOP("Contact Request");
-                                                                cmd->icon		= "contacts";
-                                                                cmd->param		= &defContactRequest;
-                                                                eMsg.process();
-
-                                                                cmd->id         = MessageICQAuthRequest;
-                                                                cmd->text       = "ICQAuthRequest";
-                                                                cmd->icon       = "auth";
-                                                                cmd->param      = &defIcqAuthRequest;
-                                                                eMsg.process();
-
-
-                                                                cmd->id			= MessageICQAuthGranted;
-                                                                cmd->text		= "ICQAuthGranted";
-                                                                cmd->icon		= "auth";
-                                                                cmd->param		= &defIcqAuthGranted;
-                                                                eMsg.process();
-
-                                                                cmd->id			= MessageICQAuthRefused;
-                                                                cmd->text		= "ICQAuthRefused";
-                                                                cmd->icon		= "auth";
-                                                                cmd->param		= &defIcqAuthRefused;
-                                                                eMsg.process();
-
-                                                                cmd->id			= MessageWebPanel;
-                                                                cmd->text		= I18N_NOOP("Web panel");
-                                                                cmd->icon		= "web";
-                                                                cmd->param		= &defWebPanel;
-                                                                eMsg.process();
-
-                                                                cmd->id			= MessageEmailPager;
-                                                                cmd->text		= I18N_NOOP("Email pager");
-                                                                cmd->icon		= "mailpager";
-                                                                cmd->param		= &defEmailPager;
-                                                                eMsg.process();
-
-                                                                cmd->id			= MessageOpenSecure;
-                                                                cmd->text		= I18N_NOOP("Request secure channel");
-                                                                cmd->icon		= "encrypted";
-                                                                cmd->menu_grp	= 0x30F0;
-                                                                cmd->param		= &defOpenSecure;
-                                                                eMsg.process();
-
-                                                                cmd->id			= MessageCloseSecure;
-                                                                cmd->text		= I18N_NOOP("Close secure channel");
-                                                                cmd->icon		= "encrypted";
-                                                                cmd->menu_grp	= 0x30F0;
-                                                                cmd->param		= &defCloseSecure;
-                                                                eMsg.process();
-
-                                                                cmd->id			= MessageCheckInvisible;
-                                                                cmd->text		= I18N_NOOP("Check invisible");
-                                                                cmd->icon		= "ICQ_invisible";
-                                                                cmd->menu_grp	= 0x30F1;
-                                                                cmd->param		= &defCheckInvisible;
-                                                                eMsg.process();
-
-                                                                cmd->id			= MessageWarning;
-                                                                cmd->text		= I18N_NOOP("Warning");
-                                                                cmd->icon		= "error";
-                                                                cmd->menu_grp	= 0x30F2;
-                                                                cmd->param		= &defWarning;
-                                                                eMsg.process();
-
-                                                                cmd->id			= CmdUrlInput;
-                                                                cmd->text		= I18N_NOOP("&URL");
-                                                                cmd->icon		= "empty";
-                                                                cmd->icon_on	= NULL;
-                                                                cmd->bar_id		= ToolBarMsgEdit;
-                                                                cmd->bar_grp	= 0x1030;
-                                                                cmd->menu_id	= 0;
-                                                                cmd->menu_grp	= 0;
-                                                                cmd->flags		= BTN_EDIT | BTN_NO_BUTTON | COMMAND_CHECK_STATE;
-
-                                                                Event eCmd(EventCommandCreate, cmd);
-                                                                eCmd.process();
-
-                                                            }
-
-                                                            void ICQPlugin::unregisterMessages()
-                                                            {
-                                                                Event eUrl(EventRemoveMessageType, (void*)MessageICQUrl);
-                                                                eUrl.process();
-
-                                                                Event eContact(EventRemoveMessageType, (void*)MessageICQContacts);
-                                                                eContact.process();
-
-                                                                Event eIcq(EventRemoveMessageType, (void*)MessageICQ);
-                                                                eIcq.process();
-
-                                                                Event eIcqFile(EventRemoveMessageType, (void*)MessageICQFile);
-                                                                eIcqFile.process();
-
-                                                                Event eAuthRequest(EventRemoveMessageType, (void*)MessageICQAuthRequest);
-                                                                eAuthRequest.process();
-
-                                                                Event eAuthGranted(EventRemoveMessageType, (void*)MessageICQAuthGranted);
-                                                                eAuthGranted.process();
-
-                                                                Event eAuthRefused(EventRemoveMessageType, (void*)MessageICQAuthRefused);
-                                                                eAuthRefused.process();
-
-                                                                Event eRequest(EventRemoveMessageType, (void*)MessageContactRequest);
-                                                                eRequest.process();
-
-                                                                Event eWeb(EventRemoveMessageType, (void*)MessageWebPanel);
-                                                                eWeb.process();
-
-                                                                Event ePager(EventRemoveMessageType, (void*)MessageEmailPager);
-                                                                ePager.process();
-
-                                                                Event eOpenSecure(EventRemoveMessageType, (void*)MessageOpenSecure);
-                                                                eOpenSecure.process();
-
-                                                                Event eCloseSecure(EventRemoveMessageType, (void*)MessageCloseSecure);
-                                                                eCloseSecure.process();
-
-                                                                Event eWarning(EventRemoveMessageType, (void*)MessageWarning);
-                                                                eWarning.process();
-
-                                                                Event eCheckInvisible(EventRemoveMessageType, (void*)MessageCheckInvisible);
-                                                                eCheckInvisible.process();
-
-                                                                Event eURL(EventCommandRemove, (void*)CmdUrlInput);
-                                                                eURL.process();
-                                                            }
-
-                                                            void ICQClient::packExtendedMessage(Message *msg, Buffer &buf, Buffer &msgBuf, ICQUserData *data)
-                                                            {
-                                                                unsigned short port = 0;
-                                                                switch (msg->type()){
-                                                                case MessageICQFile:
-                                                                    port = static_cast<ICQFileMessage*>(msg)->getPort();
-                                                                case MessageFile:
-                                                                    buf.pack((char*)plugins[PLUGIN_FILE], sizeof(plugin));
-                                                                    buf.packStr32("File");
-                                                                    buf << 0x00000100L << 0x00010000L << 0x00000000L << (unsigned short)0 << (char)0;
-                                                                    msgBuf.packStr32(fromUnicode(msg->getPlainText(), data).c_str());
-                                                                    msgBuf << port << (unsigned short)0;
-                                                                    msgBuf << fromUnicode(static_cast<FileMessage*>(msg)->getDescription(), data);
-                                                                    msgBuf.pack((unsigned long)(static_cast<FileMessage*>(msg)->getSize()));
-                                                                    msgBuf << 0x00000000L;
-                                                                    break;
-                                                                }
-                                                            }
-
-                                                            bool my_string::operator < (const my_string &a) const
-                                                            {
-                                                                return strcmp(c_str(), a.c_str()) < 0;
-                                                            }
-
-                                                            QString ICQClient::packContacts(ContactsMessage *msg, ICQUserData *data, CONTACTS_MAP &c)
-                                                            {
-                                                                QString contacts = msg->getContacts();
-                                                                QString newContacts;
-                                                                while (!contacts.isEmpty()){
-                                                                    QString contact = getToken(contacts, ';');
-                                                                    QString url = getToken(contact, ',');
-                                                                    QString proto = getToken(url, ':');
-                                                                    if (proto == "sim"){
-                                                                        Contact *contact = getContacts()->contact(atol(url.latin1()));
-                                                                        if (contact){
-                                                                            ClientDataIterator it(contact->clientData);
-                                                                            clientData *cdata;
-                                                                            while ((cdata = ++it) != NULL){
-                                                                                Contact *cc = contact;
-                                                                                if (!isMyData(cdata, cc))
-                                                                                    continue;
-                                                                                ICQUserData *d = (ICQUserData*)cdata;
-                                                                                string screen = this->screen(d);
-                                                                                CONTACTS_MAP::iterator it = c.find(screen.c_str());
-                                                                                if (it == c.end()){
-                                                                                    alias_group ci;
-                                                                                    ci.alias = fromUnicode(contact->getName(), data);
-                                                                                    ci.grp   = cc ? cc->getGroup() : 0;
-                                                                                    c.insert(CONTACTS_MAP::value_type(screen.c_str(), ci));
-                                                                                    if (!newContacts.isEmpty())
-                                                                                        newContacts += ";";
-                                                                                    if (atol(screen.c_str())){
-                                                                                        newContacts += "icq:";
-                                                                                        newContacts += screen.c_str();
-                                                                                        newContacts += "/";
-                                                                                        newContacts += contact->getName();
-                                                                                        newContacts += ",";
-                                                                                        if (contact->getName() == screen.c_str()){
-                                                                                            newContacts += "ICQ ";
-                                                                                            newContacts += screen.c_str();
-                                                                                        }else{
-                                                                                            newContacts += contact->getName();
-                                                                                            newContacts += " (ICQ ";
-                                                                                            newContacts += screen.c_str();
-                                                                                            newContacts += ")";
-                                                                                        }
-                                                                                    }else{
-                                                                                        newContacts += "aim:";
-                                                                                        newContacts += screen.c_str();
-                                                                                        newContacts += "/";
-                                                                                        newContacts += contact->getName();
-                                                                                        newContacts += ",";
-                                                                                        if (contact->getName() == screen.c_str()){
-                                                                                            newContacts += "AIM ";
-                                                                                            newContacts += screen.c_str();
-                                                                                        }else{
-                                                                                            newContacts += contact->getName();
-                                                                                            newContacts += " (AIM ";
-                                                                                            newContacts += screen.c_str();
-                                                                                            newContacts += ")";
-                                                                                        }
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                    if ((proto == "icq") || (proto == "aim")){
-                                                                        QString screen = getToken(url, '/');
-                                                                        if (url.isEmpty())
-                                                                            url = screen;
-                                                                        CONTACTS_MAP::iterator it = c.find(screen.latin1());
-                                                                        if (it == c.end()){
-                                                                            alias_group ci;
-                                                                            ci.alias = fromUnicode(url, data);
-                                                                            ci.grp   = 0;
-                                                                            c.insert(CONTACTS_MAP::value_type(screen.latin1(), ci));
-                                                                        }
-                                                                    }
-                                                                }
-                                                                return newContacts;
-                                                            }
-
-                                                            void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned short &type, unsigned short flags)
-                                                            {
-                                                                Buffer msgBuf;
-                                                                Buffer buf;
-                                                                string res;
-                                                                switch (msg->type()){
-                                                                case MessageUrl:
-                                                                    res = fromUnicode(msg->getPlainText(), data);
-                                                                    res += '\xFE';
-                                                                    res += fromUnicode(static_cast<UrlMessage*>(msg)->getUrl(), data);
-                                                                    type = ICQ_MSGxURL;
-                                                                    break;
-                                                                case MessageContacts:{
-                                                                        CONTACTS_MAP c;
-                                                                        QString nc = packContacts(static_cast<ContactsMessage*>(msg), data, c);
-                                                                        if (c.empty()){
-                                                                            msg->setError(I18N_NOOP("No contacts for send"));
-                                                                            return;
-                                                                        }
-                                                                        static_cast<ContactsMessage*>(msg)->setContacts(nc);
-                                                                        res = number(c.size());
-                                                                        for (CONTACTS_MAP::iterator it = c.begin(); it != c.end(); ++it){
-                                                                            res += '\xFE';
-                                                                            res += (*it).first.c_str();
-                                                                            res += '\xFE';
-                                                                            res += (*it).second.alias.c_str();
-                                                                        }
-                                                                        res += '\xFE';
-                                                                        type = ICQ_MSGxCONTACTxLIST;
-                                                                        break;
-                                                                    }
-                                                                case MessageICQFile:
-                                                                    if (!static_cast<ICQFileMessage*>(msg)->getExtended()){
-                                                                        res = fromUnicode(msg->getPlainText(), data);
-                                                                        type = ICQ_MSGxFILE;
-                                                                        break;
-                                                                    }
-                                                                case MessageFile:	// FALLTHROW
-                                                                    type = ICQ_MSGxEXT;
-                                                                    packExtendedMessage(msg, buf, msgBuf, data);
-                                                                    break;
-                                                                case MessageOpenSecure:
-                                                                    type = ICQ_MSGxSECURExOPEN;
-                                                                    break;
-                                                                case MessageCloseSecure:
-                                                                    type = ICQ_MSGxSECURExCLOSE;
-                                                                    break;
-                                                                }
-                                                                if (flags == ICQ_TCPxMSG_NORMAL){
-                                                                    if (msg->getFlags() & MESSAGE_URGENT)
-                                                                        flags = ICQ_TCPxMSG_URGENT;
-                                                                    if (msg->getFlags() & MESSAGE_LIST)
-                                                                        flags = ICQ_TCPxMSG_LIST;
-                                                                }
-                                                                if (type == ICQ_MSGxEXT){
-                                                                    b.pack(type);
-                                                                    b.pack(msgStatus());
-                                                                    b.pack(flags);
-                                                                }else{
-                                                                    b.pack(this->data.owner.Uin);
-                                                                    b << (char)type << (char)0;
-                                                                }
-                                                                b << res;
-                                                                if (buf.size()){
-                                                                    b.pack((unsigned short)buf.size());
-                                                                    b.pack(buf.data(0), buf.size());
-                                                                    b.pack32(msgBuf);
-                                                                }
-                                                            }
-
-                                                            void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *data, unsigned uin, bool bDirect)
-                                                            {
-                                                                b.incReadPos(1);
-                                                                unsigned short type;
-                                                                b >> type;
-                                                                b.incReadPos(bDirect ? 1 : 4);
-                                                                vector<string> phonebook;
-                                                                vector<string> numbers;
-                                                                vector<string> phonedescr;
-                                                                string phones;
-                                                                Contact *contact = NULL;
-                                                                unsigned long state, time, size, nEntries;
-                                                                unsigned i;
-                                                                unsigned nActive;
-                                                                switch (type){
-                                                                case 0:
-                                                                case 1:
-                                                                    b.unpack(time);
-                                                                    b.unpack(size);
-                                                                    b.incReadPos(4);
-                                                                    b.unpack(nEntries);
-                                                                    if (data)
-                                                                        log(L_DEBUG, "Plugin info reply %u %u (%u %u) %u %u (%u)", data->Uin, time, data->PluginInfoTime, data->PluginStatusTime, size, nEntries, plugin_type);
-                                                                    switch (plugin_type){
-                                                                    case PLUGIN_RANDOMxCHAT:{
-                                                                            b.incReadPos(-12);
-                                                                            string name;
-                                                                            b.unpack(name);
-                                                                            string topic;
-                                                                            b.unpack(topic);
-                                                                            unsigned short age;
-                                                                            char gender;
-                                                                            unsigned short country;
-                                                                            unsigned short language;
-                                                                            b.unpack(age);
-                                                                            b.unpack(gender);
-                                                                            b.unpack(country);
-                                                                            b.unpack(language);
-                                                                            string homepage;
-                                                                            b.unpack(homepage);
-                                                                            ICQUserData data;
-                                                                            load_data(static_cast<ICQProtocol*>(protocol())->icqUserData, &data, NULL);
-                                                                            data.Uin = uin;
-                                                                            set_str(&data.Alias, name.c_str());
-                                                                            set_str(&data.About, topic.c_str());
-                                                                            data.Age = age;
-                                                                            data.Gender = gender;
-                                                                            data.Country = country;
-                                                                            data.Language = language;
-                                                                            set_str(&data.Homepage, homepage.c_str());
-                                                                            Event e(EventRandomChatInfo, &data);
-                                                                            e.process();
-                                                                            free_data(static_cast<ICQProtocol*>(protocol())->icqUserData, &data);
-                                                                            break;
-                                                                        }
-                                                                    case PLUGIN_QUERYxSTATUS:
-                                                                        if (data == NULL)
-                                                                            break;
-                                                                        if (!bDirect){
-                                                                            b.incReadPos(5);
-                                                                            b.unpack(nEntries);
-                                                                        }
-                                                                        log(L_DEBUG, "Status info answer %u", nEntries);
-                                                                    case PLUGIN_QUERYxINFO:
-                                                                        if (data == NULL)
-                                                                            break;
-                                                                        if (nEntries > 0x80){
-                                                                            log(L_DEBUG, "Bad entries value %X", nEntries);
-                                                                            break;
-                                                                        }
-                                                                        for (i = 0; i < nEntries; i++){
-                                                                            plugin p;
-                                                                            b.unpack((char*)p, sizeof(p));
-                                                                            b.incReadPos(4);
-                                                                            string name, descr;
-                                                                            b.unpackStr32(name);
-                                                                            b.unpackStr32(descr);
-                                                                            b.incReadPos(4);
-                                                                            unsigned plugin_index;
-                                                                            for (plugin_index = 0; plugin_index < PLUGIN_NULL; plugin_index++)
-                                                                                if (memcmp(p, plugins[plugin_index], sizeof(p)) == 0)
-                                                                                    break;
-                                                                            if (plugin_index >= PLUGIN_NULL){
-                                                                                log(L_DEBUG, "Unknown plugin sign %s %s", name.c_str(), descr.c_str());
-                                                                                continue;
-                                                                            }
-                                                                            log(L_DEBUG, "Plugin %u %s %s", plugin_index, name.c_str(), descr.c_str());
-                                                                            switch (plugin_index){
-                                                                            case PLUGIN_PHONEBOOK:
-                                                                            case PLUGIN_FOLLOWME:
-                                                                                if (plugin_type == PLUGIN_QUERYxINFO){
-                                                                                    addPluginInfoRequest(uin, PLUGIN_PHONEBOOK);
-                                                                                }else{
-                                                                                    addPluginInfoRequest(uin, PLUGIN_FOLLOWME);
-                                                                                }
-                                                                                break;
-                                                                            case PLUGIN_PICTURE:
-                                                                                if (plugin_type == PLUGIN_QUERYxINFO)
-                                                                                    addPluginInfoRequest(uin, plugin_index);
-                                                                                break;
-                                                                            case PLUGIN_FILESERVER:
-                                                                            case PLUGIN_ICQPHONE:
-                                                                                if (plugin_type == PLUGIN_QUERYxSTATUS)
-                                                                                    addPluginInfoRequest(uin, plugin_index);
-                                                                                break;
-                                                                            }
-                                                                        }
-                                                                        if (plugin_type == PLUGIN_QUERYxINFO){
-                                                                            data->PluginInfoFetchTime = data->PluginInfoTime;
-                                                                        }else{
-                                                                            data->PluginStatusFetchTime = data->PluginStatusTime;
-                                                                        }
-                                                                        break;
-                                                                    case PLUGIN_PICTURE:
-                                                                        if (data){
-                                                                            b.incReadPos(-4);
-                                                                            string pict;
-                                                                            b.unpackStr32(pict);
-                                                                            b.unpackStr32(pict);
-                                                                            QImage img;
-                                                                            QString fName = pictureFile(data);
-                                                                            QFile f(fName);
-                                                                            if (f.open(IO_WriteOnly | IO_Truncate)){
-                                                                                f.writeBlock(pict.c_str(), pict.size());
-                                                                                f.close();
-                                                                                img.load(fName);
-                                                                            }else{
-                                                                                log(L_ERROR, "Can't create %s", (const char*)fName.local8Bit());
-                                                                            }
-                                                                            data->PictureWidth  = img.width();
-                                                                            data->PictureHeight = img.height();
-                                                                        }
-                                                                        break;
-                                                                    case PLUGIN_PHONEBOOK:
-                                                                        if (data){
-                                                                            nActive = (unsigned)(-1);
-                                                                            if (nEntries > 0x80){
-                                                                                log(L_DEBUG, "Bad entries value %X", nEntries);
-                                                                                break;
-                                                                            }
-                                                                            for (i = 0; i < nEntries; i++){
-                                                                                string descr, area, phone, ext, country;
-                                                                                unsigned long active;
-                                                                                b.unpackStr32(descr);
-                                                                                b.unpackStr32(area);
-                                                                                b.unpackStr32(phone);
-                                                                                b.unpackStr32(ext);
-                                                                                b.unpackStr32(country);
-                                                                                numbers.push_back(phone);
-                                                                                string value;
-                                                                                for (const ext_info *e = getCountries(); e->szName; e++){
-                                                                                    if (country == e->szName){
-                                                                                        value = "+";
-                                                                                        value += number(e->nCode);
-                                                                                        break;
-                                                                                    }
-                                                                                }
-                                                                                if (!area.empty()){
-                                                                                    if (!value.empty())
-                                                                                        value += " ";
-                                                                                    value += "(";
-                                                                                    value += area;
-                                                                                    value += ")";
-                                                                                }
-                                                                                if (!value.empty())
-                                                                                    value += " ";
-                                                                                value += phone;
-                                                                                if (!ext.empty()){
-                                                                                    value += " - ";
-                                                                                    value += ext;
-                                                                                }
-                                                                                b.unpack(active);
-                                                                                if (active)
-                                                                                    nActive = i;
-                                                                                phonebook.push_back(value);
-                                                                                phonedescr.push_back(descr);
-                                                                            }
-                                                                            for (i = 0; i < nEntries; i++){
-                                                                                unsigned long type;
-                                                                                string phone = phonebook[i];
-                                                                                string gateway;
-                                                                                b.incReadPos(4);
-                                                                                b.unpack(type);
-                                                                                b.unpackStr32(gateway);
-                                                                                b.incReadPos(16);
-                                                                                switch (type){
-                                                                                case 1:
-                                                                                case 2:
-                                                                                    type = CELLULAR;
-                                                                                    break;
-                                                                                case 3:
-                                                                                    type = FAX;
-                                                                                    break;
-                                                                                case 4:{
-                                                                                        type = PAGER;
-                                                                                        phone = numbers[i];
-                                                                                        const pager_provider *p;
-                                                                                        for (p = getProviders(); *p->szName; p++){
-                                                                                            if (gateway == p->szName){
-                                                                                                phone += "@";
-                                                                                                phone += p->szGate;
-                                                                                                phone += "[";
-                                                                                                phone += p->szName;
-                                                                                                phone += "]";
-                                                                                                break;
-                                                                                            }
-                                                                                        }
-                                                                                        if (*p->szName == 0){
-                                                                                            phone += "@";
-                                                                                            phone += gateway;
-                                                                                        }
-                                                                                        break;
-                                                                                    }
-                                                                                default:
-                                                                                    type = PHONE;
-                                                                                }
-                                                                                phone += ",";
-                                                                                phone += phonedescr[i];
-                                                                                phone += ",";
-                                                                                phone += number(type);
-                                                                                if (i == nActive)
-                                                                                    phone += ",1";
-                                                                                if (!phones.empty())
-                                                                                    phones += ";";
-                                                                                phones += phone;
-                                                                            }
-                                                                            set_str(&data->PhoneBook, phones.c_str());
-                                                                            Contact *contact = NULL;
-                                                                            findContact(number(data->Uin).c_str(), NULL, false, contact);
-                                                                            if (contact){
-                                                                                setupContact(contact, data);
-                                                                                Event e(EventContactChanged, contact);
-                                                                                e.process();
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                    break;
-                                                                case 2:
-                                                                    if (data){
-                                                                        if (bDirect)
-                                                                            b.incReadPos(3);
-                                                                        b.unpack(state);
-                                                                        b.unpack(time);
-                                                                        log(L_DEBUG, "Plugin status reply %u %u %u (%u)", uin, state, time, plugin_type);
-                                                                        findContact(number(uin).c_str(), NULL, false, contact);
-                                                                        if (contact == NULL)
-                                                                            break;
-                                                                        switch (plugin_type){
-                                                                        case PLUGIN_FILESERVER:
-                                                                            if ((state != 0) != (data->SharedFiles != 0)){
-                                                                                data->SharedFiles = state;
-                                                                                Event e(EventContactChanged, contact);
-                                                                                e.process();
-                                                                            }
-                                                                            break;
-                                                                        case PLUGIN_FOLLOWME:
-                                                                            if (state != data->FollowMe){
-                                                                                data->FollowMe = state;
-                                                                                Event e(EventContactChanged, contact);
-                                                                                e.process();
-                                                                            }
-                                                                            break;
-                                                                        case PLUGIN_ICQPHONE:
-                                                                            if (state != data->ICQPhone){
-                                                                                data->ICQPhone = state;
-                                                                                Event e(EventContactChanged, contact);
-                                                                                e.process();
-                                                                            }
-                                                                            break;
-                                                                        }
-                                                                    }
-                                                                    break;
-                                                                default:
-                                                                    log(L_DEBUG, "Unknown plugin type answer %u %u (%u)", uin, type, plugin_type);
-                                                                }
-                                                            }
-
-                                                            static const char* plugin_name[] =
-                                                                {
-                                                                    "Phone Book",				// PLUGIN_PHONEBOOK
-                                                                    "Picture",					// PLUGIN_PICTURE
-                                                                    "Shared Files Directory",	// PLUGIN_FILESERVER
-                                                                    "Phone \"Follow Me\"",		// PLUGIN_FOLLOWME
-                                                                    "ICQphone Status"			// PLUGIN_ICQPHONE
-                                                                };
-
-                                                                static const char* plugin_descr[] =
-                                                                    {
-                                                                        "Phone Book / Phone \"Follow Me\"",		// PLUGIN_PHONEBOOK
-                                                                        "Picture",								// PLUGIN_PICTURE
-                                                                        "Shared Files Directory",				// PLUGIN_FILESERVER
-                                                                        "Phone Book / Phone \"Follow Me\"",		// PLUGIN_FOLLOWME
-                                                                        "ICQphone Status"						// PLUGIN_ICQPHONE
-                                                                    };
-
-                                                                    void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &info)
-                                                                    {
-                                                                        Contact *contact;
-                                                                        ICQUserData *data = findContact(number(uin).c_str(), NULL, false, contact);
-                                                                        log(L_DEBUG, "Request about %u", plugin_type);
-                                                                        Buffer answer;
-                                                                        unsigned long typeAnswer = 0;
-                                                                        unsigned long nEntries = 0;
-                                                                        unsigned long time = 0;
-                                                                        switch (plugin_type){
-                                                                        case PLUGIN_PHONEBOOK:{
-                                                                                if (data && data->GrpId && !contact->getIgnore()){
-                                                                                    Buffer answer1;
-                                                                                    time = this->data.owner.PluginInfoTime;
-                                                                                    QString phones = getContacts()->owner()->getPhones();
-                                                                                    while (!phones.isEmpty()){
-                                                                                        QString item = getToken(phones, ';', false);
-                                                                                        unsigned long publish = 0;
-                                                                                        QString phoneItem = getToken(item, '/', false);
-                                                                                        if (item != "-")
-                                                                                            publish = 1;
-                                                                                        QString number = getToken(phoneItem, ',');
-                                                                                        QString descr = getToken(phoneItem, ',');
-                                                                                        unsigned long type = getToken(phoneItem, ',').toUInt();
-                                                                                        unsigned long active = 0;
-                                                                                        if (!phoneItem.isEmpty())
-                                                                                            active = 1;
-                                                                                        QString area;
-                                                                                        QString phone;
-                                                                                        QString ext;
-                                                                                        QString country;
-                                                                                        QString gateway;
-                                                                                        if (type == PAGER){
-                                                                                            phone = getToken(number, '@');
-                                                                                            int n = number.find('[');
-                                                                                            if (n >= 0){
-                                                                                                getToken(number, '[');
-                                                                                                gateway = getToken(number, ']');
-                                                                                            }else{
-                                                                                                gateway = number;
-                                                                                            }
-                                                                                        }else{
-                                                                                            int n = number.find('(');
-                                                                                            if (n >= 0){
-                                                                                                country = getToken(number, '(');
-                                                                                                area    = getToken(number, ')');
-                                                                                                if (country[0] == '+')
-                                                                                                    country = country.mid(1);
-                                                                                                unsigned code = atol(country.latin1());
-                                                                                                country = "";
-                                                                                                for (const ext_info *e = getCountries(); e->nCode; e++){
-                                                                                                    if (e->nCode == code){
-                                                                                                        country = e->szName;
-                                                                                                        break;
-                                                                                                    }
-                                                                                                }
-                                                                                            }
-                                                                                            n = number.find(" - ");
-                                                                                            if (n >= 0){
-                                                                                                ext = number.mid(n + 3);
-                                                                                                number = number.left(n);
-                                                                                            }
-                                                                                            phone = number;
-                                                                                        }
-                                                                                        answer.packStr32(descr.local8Bit());
-                                                                                        answer.packStr32(area.local8Bit());
-                                                                                        answer.packStr32(phone.local8Bit());
-                                                                                        answer.packStr32(ext.local8Bit());
-                                                                                        answer.packStr32(country.local8Bit());
-                                                                                        answer.pack(active);
-
-                                                                                        unsigned long len = gateway.length() + 24;
-                                                                                        unsigned long sms_available = 0;
-                                                                                        switch (type){
-                                                                                        case PHONE:
-                                                                                            type = 0;
-                                                                                            break;
-                                                                                        case FAX:
-                                                                                            type = 3;
-                                                                                            break;
-                                                                                        case CELLULAR:
-                                                                                            type = 2;
-                                                                                            sms_available = 1;
-                                                                                            break;
-                                                                                        case PAGER:
-                                                                                            type = 4;
-                                                                                            break;
-                                                                                        }
-                                                                                        answer1.pack(len);
-                                                                                        answer1.pack(type);
-                                                                                        answer1.packStr32(gateway.local8Bit());
-                                                                                        answer1.pack((unsigned long)0);
-                                                                                        answer1.pack(sms_available);
-                                                                                        answer1.pack((unsigned long)0);
-                                                                                        answer1.pack(publish);
-                                                                                        nEntries++;
-                                                                                    }
-                                                                                    answer.pack(answer1.data(0), answer1.size());
-                                                                                    typeAnswer = 0x00000003;
-                                                                                    break;
-                                                                                }
-                                                                            }
-                                                                        case PLUGIN_PICTURE:{
-                                                                                time = this->data.owner.PluginInfoTime;
-                                                                                typeAnswer = 0x00000001;
-                                                                                QString pictFile = getPicture();
-                                                                                if (!pictFile.isEmpty()){
+                    unsigned long len = gateway.length() + 24;
+                    unsigned long sms_available = 0;
+                    switch (type){
+                    case PHONE:
+                        type = 0;
+                        break;
+                    case FAX:
+                        type = 3;
+                        break;
+                    case CELLULAR:
+                        type = 2;
+                        sms_available = 1;
+                        break;
+                    case PAGER:
+                        type = 4;
+                        break;
+                    }
+                    answer1.pack(len);
+                    answer1.pack(type);
+                    answer1.packStr32(gateway.local8Bit());
+                    answer1.pack((unsigned long)0);
+                    answer1.pack(sms_available);
+                    answer1.pack((unsigned long)0);
+                    answer1.pack(publish);
+                    nEntries++;
+                }
+                answer.pack(answer1.data(0), answer1.size());
+                typeAnswer = 0x00000003;
+                break;
+            }
+        }
+    case PLUGIN_PICTURE:{
+            time = this->data.owner.PluginInfoTime;
+            typeAnswer = 0x00000001;
+            QString pictFile = getPicture();
+            if (!pictFile.isEmpty()){
 #ifdef WIN32
-                                                                                    pictFile = pictFile.replace(QRegExp("/"), "\\");
+                pictFile = pictFile.replace(QRegExp("/"), "\\");
 #endif
-                                                                                    QFile f(pictFile);
-                                                                                    if (f.open(IO_ReadOnly)){
+                QFile f(pictFile);
+                if (f.open(IO_ReadOnly)){
 #ifdef WIN32
-                                                                                        int n = pictFile.findRev("\\");
+                    int n = pictFile.findRev("\\");
 #else
 int n = pictFile.findRev("/");
 #endif
-                                                                                        if (n >= 0)
-                                                                                            pictFile = pictFile.mid(n + 1);
-                                                                                        nEntries = pictFile.length();
-                                                                                        answer.pack(pictFile.local8Bit(), pictFile.length());
-                                                                                        unsigned long size = f.size();
-                                                                                        answer.pack(size);
-                                                                                        while (size > 0){
-                                                                                            char buf[2048];
-                                                                                            unsigned tail = sizeof(buf);
-                                                                                            if (tail > size)
-                                                                                                tail = size;
-                                                                                            f.readBlock(buf, tail);
-                                                                                            answer.pack(buf, tail);
-                                                                                            size -= tail;
-                                                                                        }
-                                                                                    }
-                                                                                }
-                                                                                break;
-                                                                            }
-                                                                        case PLUGIN_FOLLOWME:
-                                                                            time = this->data.owner.PluginStatusTime;
-                                                                            break;
-                                                                        case PLUGIN_QUERYxINFO:
-                                                                            time = this->data.owner.PluginInfoTime;
-                                                                            typeAnswer = 0x00010002;
-                                                                            if (!getPicture().isEmpty()){
-                                                                                nEntries++;
-                                                                                answer.pack((char*)plugins[PLUGIN_PICTURE], sizeof(plugin));
-                                                                                answer.pack((unsigned short)0);
-                                                                                answer.pack((unsigned short)1);
-                                                                                answer.packStr32(plugin_name[PLUGIN_PICTURE]);
-                                                                                answer.packStr32(plugin_descr[PLUGIN_PICTURE]);
-                                                                                answer.pack((unsigned long)0);
-                                                                            }
-                                                                            if (!getContacts()->owner()->getPhones().isEmpty()){
-                                                                                nEntries++;
-                                                                                answer.pack((char*)plugins[PLUGIN_PHONEBOOK], sizeof(plugin));
-                                                                                answer.pack((unsigned short)0);
-                                                                                answer.pack((unsigned short)1);
-                                                                                answer.packStr32(plugin_name[PLUGIN_PHONEBOOK]);
-                                                                                answer.packStr32(plugin_descr[PLUGIN_PHONEBOOK]);
-                                                                                answer.pack((unsigned long)0);
-                                                                            }
-                                                                            break;
-                                                                        case PLUGIN_QUERYxSTATUS:
-                                                                            time = this->data.owner.PluginStatusTime;
-                                                                            typeAnswer = 0x00010000;
-                                                                            nEntries++;
-                                                                            answer.pack((char*)plugins[PLUGIN_FOLLOWME], sizeof(plugin));
-                                                                            answer.pack((unsigned short)0);
-                                                                            answer.pack((unsigned short)1);
-                                                                            answer.packStr32(plugin_name[PLUGIN_FOLLOWME]);
-                                                                            answer.packStr32(plugin_descr[PLUGIN_FOLLOWME]);
-                                                                            answer.pack((unsigned long)0);
-                                                                            if (this->data.owner.SharedFiles){
-                                                                                nEntries++;
-                                                                                answer.pack((char*)plugins[PLUGIN_FILESERVER], sizeof(plugin));
-                                                                                answer.pack((unsigned short)0);
-                                                                                answer.pack((unsigned short)1);
-                                                                                answer.packStr32(plugin_name[PLUGIN_FILESERVER]);
-                                                                                answer.packStr32(plugin_descr[PLUGIN_FILESERVER]);
-                                                                                answer.pack((unsigned long)0);
-                                                                            }
-                                                                            if (this->data.owner.ICQPhone){
-                                                                                nEntries++;
-                                                                                answer.pack((char*)plugins[PLUGIN_ICQPHONE], sizeof(plugin));
-                                                                                answer.pack((unsigned short)0);
-                                                                                answer.pack((unsigned short)1);
-                                                                                answer.packStr32(plugin_name[PLUGIN_ICQPHONE]);
-                                                                                answer.packStr32(plugin_descr[PLUGIN_ICQPHONE]);
-                                                                                answer.pack((unsigned long)0);
-                                                                            }
-                                                                            break;
-                                                                        default:
-                                                                            log(L_DEBUG, "Bad plugin type request %u", plugin_type);
-                                                                        }
-                                                                        unsigned long size = answer.size() + 8;
-                                                                        info.pack((unsigned short)0);
-                                                                        info.pack((unsigned short)1);
-                                                                        switch (plugin_type){
-                                                                        case PLUGIN_FOLLOWME:
-                                                                            info.pack(this->data.owner.FollowMe);
-                                                                            info.pack(time);
-                                                                            info.pack((char)1);
-                                                                            break;
-                                                                        case PLUGIN_QUERYxSTATUS:
-                                                                            info.pack((unsigned long)0);
-                                                                            info.pack((unsigned long)0);
-                                                                            info.pack((char)1);
-                                                                        default:
-                                                                            info.pack(time);
-                                                                            info.pack(size);
-                                                                            info.pack(typeAnswer);
-                                                                            info.pack(nEntries);
-                                                                            info.pack(answer.data(0), answer.size());
-                                                                        }
-                                                                    }
+                    if (n >= 0)
+                        pictFile = pictFile.mid(n + 1);
+                    nEntries = pictFile.length();
+                    answer.pack(pictFile.local8Bit(), pictFile.length());
+                    unsigned long size = f.size();
+                    answer.pack(size);
+                    while (size > 0){
+                        char buf[2048];
+                        unsigned tail = sizeof(buf);
+                        if (tail > size)
+                            tail = size;
+                        f.readBlock(buf, tail);
+                        answer.pack(buf, tail);
+                        size -= tail;
+                    }
+                }
+            }
+            break;
+        }
+    case PLUGIN_FOLLOWME:
+        time = this->data.owner.PluginStatusTime;
+        break;
+    case PLUGIN_QUERYxINFO:
+        time = this->data.owner.PluginInfoTime;
+        typeAnswer = 0x00010002;
+        if (!getPicture().isEmpty()){
+            nEntries++;
+            answer.pack((char*)plugins[PLUGIN_PICTURE], sizeof(plugin));
+            answer.pack((unsigned short)0);
+            answer.pack((unsigned short)1);
+            answer.packStr32(plugin_name[PLUGIN_PICTURE]);
+            answer.packStr32(plugin_descr[PLUGIN_PICTURE]);
+            answer.pack((unsigned long)0);
+        }
+        if (!getContacts()->owner()->getPhones().isEmpty()){
+            nEntries++;
+            answer.pack((char*)plugins[PLUGIN_PHONEBOOK], sizeof(plugin));
+            answer.pack((unsigned short)0);
+            answer.pack((unsigned short)1);
+            answer.packStr32(plugin_name[PLUGIN_PHONEBOOK]);
+            answer.packStr32(plugin_descr[PLUGIN_PHONEBOOK]);
+            answer.pack((unsigned long)0);
+        }
+        break;
+    case PLUGIN_QUERYxSTATUS:
+        time = this->data.owner.PluginStatusTime;
+        typeAnswer = 0x00010000;
+        nEntries++;
+        answer.pack((char*)plugins[PLUGIN_FOLLOWME], sizeof(plugin));
+        answer.pack((unsigned short)0);
+        answer.pack((unsigned short)1);
+        answer.packStr32(plugin_name[PLUGIN_FOLLOWME]);
+        answer.packStr32(plugin_descr[PLUGIN_FOLLOWME]);
+        answer.pack((unsigned long)0);
+        if (this->data.owner.SharedFiles){
+            nEntries++;
+            answer.pack((char*)plugins[PLUGIN_FILESERVER], sizeof(plugin));
+            answer.pack((unsigned short)0);
+            answer.pack((unsigned short)1);
+            answer.packStr32(plugin_name[PLUGIN_FILESERVER]);
+            answer.packStr32(plugin_descr[PLUGIN_FILESERVER]);
+            answer.pack((unsigned long)0);
+        }
+        if (this->data.owner.ICQPhone){
+            nEntries++;
+            answer.pack((char*)plugins[PLUGIN_ICQPHONE], sizeof(plugin));
+            answer.pack((unsigned short)0);
+            answer.pack((unsigned short)1);
+            answer.packStr32(plugin_name[PLUGIN_ICQPHONE]);
+            answer.packStr32(plugin_descr[PLUGIN_ICQPHONE]);
+            answer.pack((unsigned long)0);
+        }
+        break;
+    default:
+        log(L_DEBUG, "Bad plugin type request %u", plugin_type);
+    }
+    unsigned long size = answer.size() + 8;
+    info.pack((unsigned short)0);
+    info.pack((unsigned short)1);
+    switch (plugin_type){
+    case PLUGIN_FOLLOWME:
+        info.pack(this->data.owner.FollowMe);
+        info.pack(time);
+        info.pack((char)1);
+        break;
+    case PLUGIN_QUERYxSTATUS:
+        info.pack((unsigned long)0);
+        info.pack((unsigned long)0);
+        info.pack((char)1);
+    default:
+        info.pack(time);
+        info.pack(size);
+        info.pack(typeAnswer);
+        info.pack(nEntries);
+        info.pack(answer.data(0), answer.size());
+    }
+}
 
 
 

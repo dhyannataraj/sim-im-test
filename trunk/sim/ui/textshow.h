@@ -66,7 +66,6 @@ public:
     static unsigned textPosition(const QString &text, unsigned pos);
     static QString unquoteString(const QString &s, int from, int to);
 signals:
-    void showPopup(QPoint);
     void finished();
 protected:
     void startDrag();
@@ -97,6 +96,7 @@ signals:
     void colorsChanged();
     void fontSelected(const QFont &font);
 protected slots:
+    void slotClicked(int parag, int index);
     void slotTextChanged();
     void slotColorChanged(const QColor &c);
     void bgColorChanged(QColor c);
@@ -106,6 +106,8 @@ protected:
     void *processEvent(Event*);
     bool eventFilter(QObject *o, QEvent *e);
     void keyPressEvent(QKeyEvent *e);
+    QPopupMenu *createPopupMenu(const QPoint& pos);
+    QPopupMenu *createPopupMenu();
     void *m_param;
     bool m_bBold;
     bool m_bItalic;
@@ -115,6 +117,7 @@ protected:
     bool m_bEmpty;
     bool m_bSelected;
     bool m_bNoSelected;
+    bool m_bInClick;
 };
 
 class QToolBar;

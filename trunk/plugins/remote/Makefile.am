@@ -1,11 +1,15 @@
 sim_plugin_LTLIBRARIES = remote.la
+bin_PROGRAMS = simctrl 
 
 remote_la_SOURCES = \
  remotecfgbase.ui \
  remotecfg.cpp \
  remote.cpp
 
-INCLUDES=-I../../sim/api $(all_includes)
+simctrl_SOURCES = \
+ simctrl.c
+
+INCLUDES=-I../../sim/api -I../_core $(all_includes)
 
 remote_la_METASOURCES = AUTO
 remote_la_LIBADD = ../../sim/api/libsimapi.la $(LIB_QT) $(EXTRA_LIBS) $(XSS_LIBS)

@@ -1,8 +1,8 @@
 sim_plugin_LTLIBRARIES = icons.la
 
 icons_la_SOURCES = \
- iconcfgbase.ui \
  iconcfg.cpp \
+ iconcfgbase.ui \
  icon.cpp \
  icondll.cpp \
  smilecfgbase.ui \

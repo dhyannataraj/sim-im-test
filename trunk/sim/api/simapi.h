@@ -46,9 +46,9 @@
 	#else
 	  #ifndef HAVE__BOOL
 	    #ifdef __cplusplus
-		  typedef bool _Bool;
+typedef bool _Bool;
 		#else
-		  typedef unsigned char _Bool;
+typedef unsigned char _Bool;
 		#endif
 	  #endif
 	  #define bool _Bool
@@ -216,6 +216,7 @@ protected:
 };
 
 typedef Plugin *createPlugin(unsigned base, bool bStart, const char *add_info);
+typedef QStyle *createStyle();
 
 const unsigned PLUGIN_KDE_COMPILE    = 0x0001;
 #ifdef USE_KDE
@@ -254,6 +255,12 @@ typedef struct pluginInfo
     unsigned		base;			// base for plugin types
 } pluginInfo;
 
+typedef struct StyleInfo
+{
+    const char		*title;
+    createStyle		*create;
+} StyleInfo;
+
 #ifdef WIN32
 #define EXPORT_PROC extern "C" __declspec(dllexport)
 #else
@@ -261,6 +268,7 @@ typedef struct pluginInfo
 #endif
 
 EXPORT_PROC PluginInfo *GetPluginInfo();
+EXPORT_PROC StyleInfo  *GetStyleInfo();
 
 // _____________________________________________________________________________________
 // Event

@@ -73,6 +73,7 @@ TextEdit::TextEdit(QWidget *p, const char *name)
     m_bUnderline = false;
     m_bSelected  = false;
     m_bNoSelected = false;
+    m_bInClick = false;
     setReadOnly(false);
     curFG = colorGroup().color(QColorGroup::Text);
     m_bCtrlMode = true;
@@ -83,6 +84,7 @@ TextEdit::TextEdit(QWidget *p, const char *name)
     connect(this, SIGNAL(currentFontChanged(const QFont&)), this, SLOT(fontChanged(const QFont&)));
     connect(this, SIGNAL(currentColorChanged(const QColor&)), this, SLOT(slotColorChanged(const QColor&)));
     connect(this, SIGNAL(textChanged()), this, SLOT(slotTextChanged()));
+    connect(this, SIGNAL(clicked(int,int)), this, SLOT(slotClicked(int,int)));
     viewport()->installEventFilter(this);
     fontChanged(font());
 }
@@ -107,6 +109,32 @@ void TextEdit::slotTextChanged()
         return;
     m_bEmpty = bEmpty;
     emit emptyChanged(m_bEmpty);
+}
+
+void TextEdit::slotClicked(int,int)
+{
+    int paraFrom, paraTo, indexFrom, indexTo;
+    getSelection(&paraFrom, &indexFrom, &paraTo, &indexTo);
+    if ((paraFrom != paraTo) || (indexFrom != indexTo))
+	return;
+    m_bInClick = true;
+    QContextMenuEvent e(QContextMenuEvent::Other, QPoint(0, 0), QPoint(0, 0), 0);
+    contentsContextMenuEvent(&e);
+    m_bInClick = false;
+}
+
+QPopupMenu *TextEdit::createPopupMenu(const QPoint& pos)
+{
+    if (m_bInClick)
+	return NULL;
+    return TextShow::createPopupMenu(pos);
+}
+
+QPopupMenu *TextEdit::createPopupMenu()
+{
+    if (m_bInClick)
+	return NULL;
+    return TextShow::createPopupMenu();
 }
 
 bool TextEdit::isEmpty()

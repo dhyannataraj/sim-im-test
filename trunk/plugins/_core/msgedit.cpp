@@ -71,6 +71,8 @@ MsgTextEdit::MsgTextEdit(MsgEdit *edit, QWidget *parent)
 
 QPopupMenu *MsgTextEdit::createPopupMenu(const QPoint&)
 {
+    if (m_bInClick)
+	return NULL;
     Command cmd;
     cmd->popup_id	= MenuTextEdit;
     cmd->param		= parentWidget()->parentWidget();
@@ -89,14 +91,15 @@ Message *MsgTextEdit::createMessage(QMimeSource *src)
         if (def && def->drag){
             msg = def->drag(src);
             if (msg){
-                Command cmd;
-                cmd->id      = cmd->id;
-                cmd->menu_id = MenuMessage;
-                cmd->param	 = (void*)(m_edit->m_userWnd->id());
-                Event e(EventCheckState, cmd);
+                Command c;
+                c->id      = cmd->id;
+                c->menu_id = MenuMessage;
+                c->param	 = (void*)(m_edit->m_userWnd->id());
+                Event e(EventCheckState, c);
                 if (e.process())
                     break;
                 delete msg;
+                msg = NULL;
             }
         }
     }

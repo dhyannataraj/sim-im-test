@@ -1,5 +1,5 @@
 /***************************************************************************
-                          fontconfig.h  -  description
+                          stylescfg.h  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,23 +15,27 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _FONTCONFIG_H
-#define _FONTCONFIG_H
+#ifndef _STYLESCFG_H
+#define _STYLESCFG_H
 
 #include "simapi.h"
-#include "fontconfigbase.h"
+#include "stylescfgbase.h"
 
-class CorePlugin;
+class StylesPlugin;
 
-class FontConfig : public FontConfigBase
+class FontConfig;
+
+class StylesConfig : public StylesConfigBase
 {
     Q_OBJECT
 public:
-    FontConfig(QWidget *parent);
-    ~FontConfig();
+    StylesConfig(QWidget *parent, StylesPlugin*);
+    ~StylesConfig();
 public slots:
     void apply();
-    void systemToggled(bool);
+protected:
+    FontConfig   *font_cfg;
+    StylesPlugin *m_plugin;
 };
 
 #endif
