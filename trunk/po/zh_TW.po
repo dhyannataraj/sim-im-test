@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: zh_TV\n"
-"POT-Creation-Date: 2002-08-19 06:38+0400\n"
+"POT-Creation-Date: 2002-08-20 04:03+0400\n"
 "PO-Revision-Date: 2002-07-24 12:05+0800\n"
 "Last-Translator: 劉盛光 <stacker_liew_200@yahoo.com.tw>\n"
 "Language-Team: zh_TW.Big5 <zh@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "X-Generator: KBabel 0.9.6\n"
 "Plural-Forms: nplurals=0\n"
 
-#: client.cpp:124 libicq/country.cpp:6
+#: client.cpp:125 libicq/country.cpp:6
 msgid "Arabic"
 msgstr ""
 
@@ -66,7 +66,7 @@ msgstr ""
 msgid "English"
 msgstr ""
 
-#: client.cpp:113 libicq/country.cpp:18
+#: client.cpp:114 libicq/country.cpp:18
 msgid "Esperanto"
 msgstr ""
 
@@ -97,11 +97,11 @@ msgstr "斜體"
 msgid "German"
 msgstr "接受(&G)"
 
-#: client.cpp:125 libicq/country.cpp:25
+#: client.cpp:126 libicq/country.cpp:25
 msgid "Greek"
 msgstr ""
 
-#: client.cpp:126 libicq/country.cpp:26
+#: client.cpp:127 libicq/country.cpp:26
 msgid "Hebrew"
 msgstr ""
 
@@ -127,7 +127,7 @@ msgstr ""
 msgid "Italian"
 msgstr "斜體"
 
-#: client.cpp:133 client.cpp:134 client.cpp:135 libicq/country.cpp:32
+#: client.cpp:134 client.cpp:135 client.cpp:136 libicq/country.cpp:32
 msgid "Japanese"
 msgstr ""
 
@@ -135,7 +135,7 @@ msgstr ""
 msgid "Khmer"
 msgstr ""
 
-#: client.cpp:132 libicq/country.cpp:34
+#: client.cpp:133 libicq/country.cpp:34
 msgid "Korean"
 msgstr ""
 
@@ -219,7 +219,7 @@ msgstr ""
 msgid "Thai"
 msgstr ""
 
-#: client.cpp:130 client.cpp:131 libicq/country.cpp:54
+#: client.cpp:131 client.cpp:132 libicq/country.cpp:54
 msgid "Turkish"
 msgstr ""
 
@@ -1739,55 +1739,55 @@ msgstr "進入聊天"
 msgid "Can't create %1"
 msgstr "無法建立%1"
 
-#: client.cpp:107
+#: client.cpp:108
 #, fuzzy
 msgid "Unicode"
 msgstr "Uin:"
 
-#: client.cpp:108 client.cpp:109 client.cpp:110
+#: client.cpp:109 client.cpp:110 client.cpp:111
 msgid "Western European"
 msgstr ""
 
-#: client.cpp:111 client.cpp:112
+#: client.cpp:112 client.cpp:113
 msgid "Central European"
 msgstr ""
 
-#: client.cpp:114 client.cpp:115
+#: client.cpp:115 client.cpp:116
 #, fuzzy
 msgid "Baltic"
 msgstr "斜體"
 
-#: client.cpp:117 client.cpp:119
+#: client.cpp:118 client.cpp:120
 msgid "Cyrillic"
 msgstr ""
 
-#: client.cpp:121 client.cpp:123
+#: client.cpp:122 client.cpp:124
 #, fuzzy
 msgid "Ukrainan"
 msgstr "劃線"
 
-#: client.cpp:127
+#: client.cpp:128
 msgid "Chinese Traditional"
 msgstr ""
 
-#: client.cpp:128 client.cpp:129
+#: client.cpp:129 client.cpp:130
 msgid "Chinese Simplified"
 msgstr ""
 
-#: client.cpp:136
+#: client.cpp:137
 msgid "Tamil"
 msgstr ""
 
-#: client.cpp:137
+#: client.cpp:138
 #, fuzzy
 msgid "UTF8"
 msgstr "UTF-8"
 
-#: client.cpp:138
+#: client.cpp:139
 msgid "UTF16"
 msgstr ""
 
-#: client.cpp:457
+#: client.cpp:458
 #, fuzzy, c-format
 msgid ""
 "_n: Message\n"
@@ -1796,56 +1796,56 @@ msgstr ""
 "_n:%n 未讀訊息\n"
 "%n 未讀訊息"
 
-#: client.cpp:459
+#: client.cpp:460
 #, c-format
 msgid ""
 "_n: Chat request\n"
 "%n chat requests"
 msgstr ""
 
-#: client.cpp:461 msgview.cpp:187
+#: client.cpp:462 msgview.cpp:187
 #, c-format
 msgid ""
 "_n: File\n"
 "%n files"
 msgstr ""
 
-#: client.cpp:463
+#: client.cpp:464
 #, c-format
 msgid ""
 "_n: URL\n"
 "%n URL"
 msgstr ""
 
-#: client.cpp:465
+#: client.cpp:466
 #, c-format
 msgid ""
 "_n: Authorization request\n"
 "%n authorization requests"
 msgstr ""
 
-#: client.cpp:467
+#: client.cpp:468
 #, c-format
 msgid ""
 "_n: Authorization refused\n"
 "%n authorizations refused"
 msgstr ""
 
-#: client.cpp:469
+#: client.cpp:470
 #, c-format
 msgid ""
 "_n: Authorization granted\n"
 "%n authorizations granted"
 msgstr ""
 
-#: client.cpp:471
+#: client.cpp:472
 #, c-format
 msgid ""
 "_n: Added to contact list\n"
 "%n times added to contact list"
 msgstr ""
 
-#: client.cpp:473
+#: client.cpp:474
 #, fuzzy, c-format
 msgid ""
 "_n: WWW-panel message\n"
@@ -1854,7 +1854,7 @@ msgstr ""
 "_n:%n 未讀訊息\n"
 "%n 未讀訊息"
 
-#: client.cpp:475
+#: client.cpp:476
 #, fuzzy, c-format
 msgid ""
 "_n: Email pager message\n"
@@ -1863,21 +1863,21 @@ msgstr ""
 "_n:%n 未讀訊息\n"
 "%n 未讀訊息"
 
-#: client.cpp:477
+#: client.cpp:478
 #, c-format
 msgid ""
 "_n: Contact list\n"
 "%n contact lists"
 msgstr ""
 
-#: client.cpp:479
+#: client.cpp:480
 #, c-format
 msgid ""
 "_n: Contacts request\n"
 "%n contacts requests"
 msgstr ""
 
-#: client.cpp:481
+#: client.cpp:482
 #, fuzzy, c-format
 msgid ""
 "_n: External unknown message\n"
@@ -1886,42 +1886,42 @@ msgstr ""
 "_n:%n 未讀訊息\n"
 "%n 未讀訊息"
 
-#: client.cpp:483
+#: client.cpp:484
 #, c-format
 msgid ""
 "_n: SMS\n"
 "%n SMS"
 msgstr ""
 
-#: client.cpp:485
+#: client.cpp:486
 #, c-format
 msgid ""
 "_n: SMS receipt\n"
 "%n SMS receipts"
 msgstr ""
 
-#: client.cpp:487
+#: client.cpp:488
 #, c-format
 msgid ""
 "_n: Email\n"
 "%n emails"
 msgstr ""
 
-#: client.cpp:489
+#: client.cpp:490
 #, c-format
 msgid ""
 "_n: Request secure channel\n"
 "%n requests sequre channel"
 msgstr ""
 
-#: client.cpp:491
+#: client.cpp:492
 #, c-format
 msgid ""
 "_n: Close secure channel\n"
 "%n times close sequre channel"
 msgstr ""
 
-#: client.cpp:495
+#: client.cpp:496
 #, fuzzy, c-format
 msgid ""
 "_n: Unknown message\n"
@@ -1930,35 +1930,35 @@ msgstr ""
 "_n:%n 未讀訊息\n"
 "%n 未讀訊息"
 
-#: client.cpp:529 userview.cpp:932
+#: client.cpp:530 userview.cpp:932
 msgid "Offline"
 msgstr "離線"
 
-#: client.cpp:532 client.cpp:544 cuser.cpp:216 userview.cpp:929
+#: client.cpp:533 client.cpp:545 cuser.cpp:216 userview.cpp:929
 msgid "Online"
 msgstr "上線"
 
-#: client.cpp:534
+#: client.cpp:535
 msgid "Away"
 msgstr "離開"
 
-#: client.cpp:536
+#: client.cpp:537
 msgid "Do not disturb"
 msgstr "請勿干擾"
 
-#: client.cpp:538
+#: client.cpp:539
 msgid "Occupied"
 msgstr "佔用"
 
-#: client.cpp:540
+#: client.cpp:541
 msgid "Free for chat"
 msgstr "自由聊天"
 
-#: client.cpp:542
+#: client.cpp:543
 msgid "N/A"
 msgstr "N/A"
 
-#: client.cpp:557 mainwin.cpp:1976
+#: client.cpp:558 mainwin.cpp:1982
 msgid "Invisible"
 msgstr "隱形"
 
@@ -1970,7 +1970,7 @@ msgstr "最後上線"
 msgid "%1 from %2"
 msgstr ""
 
-#: dock.cpp:475 mainwin.cpp:1436
+#: dock.cpp:475 mainwin.cpp:1442
 msgid "Connecting"
 msgstr "正在連線"
 
@@ -2010,7 +2010,7 @@ msgstr "密碼："
 msgid "Use existing UIN"
 msgstr "使用已有的UIN"
 
-#: logindlg.cpp:57 logindlg.cpp:122 mainwin.cpp:1519 passwddlg.cpp:44
+#: logindlg.cpp:57 logindlg.cpp:122 mainwin.cpp:1525 passwddlg.cpp:44
 #: passwddlg.cpp:89 ui/searchbase.cpp:90 ui/searchdlg.cpp:106
 #: ui/setupdlgbase.cpp:95 userbox.cpp:184
 #, fuzzy
@@ -2065,176 +2065,176 @@ msgstr "群組模式"
 msgid "Menu"
 msgstr "選單"
 
-#: mainwin.cpp:801
+#: mainwin.cpp:802
 msgid "%1 from %2 received"
 msgstr ""
 
-#: mainwin.cpp:875
+#: mainwin.cpp:881
 msgid "Your UIN used from another location"
 msgstr "您的UIN使用自別的所在"
 
-#: mainwin.cpp:924
+#: mainwin.cpp:930
 #, fuzzy
 msgid "User %1 is online"
 msgstr "使用者已上線"
 
-#: mainwin.cpp:1409 mainwin.cpp:1668 msgview.cpp:331
+#: mainwin.cpp:1415 mainwin.cpp:1674 msgview.cpp:331
 msgid "&Yes"
 msgstr "確定(&Y)"
 
-#: mainwin.cpp:1410 mainwin.cpp:1669 msgview.cpp:332
+#: mainwin.cpp:1416 mainwin.cpp:1675 msgview.cpp:332
 msgid "&No"
 msgstr "否定(&N)"
 
-#: mainwin.cpp:1411
+#: mainwin.cpp:1417
 msgid "Add user %1 to ignore list ?"
 msgstr "新增使用者 %1 至忽略名單嗎﹖"
 
-#: mainwin.cpp:1479
+#: mainwin.cpp:1485
 msgid "In visible list"
 msgstr "在可視名單"
 
-#: mainwin.cpp:1481
+#: mainwin.cpp:1487
 msgid "In invisible list"
 msgstr "在不可視名單"
 
-#: mainwin.cpp:1484
+#: mainwin.cpp:1490
 msgid "In ignore list"
 msgstr "在忽略名單"
 
-#: mainwin.cpp:1502 mainwin.cpp:2000
+#: mainwin.cpp:1508 mainwin.cpp:2006
 msgid "Groups"
 msgstr "群組"
 
-#: mainwin.cpp:1503 usertbl.cpp:391 userview.cpp:503
+#: mainwin.cpp:1509 usertbl.cpp:391 userview.cpp:503
 #, fuzzy
 msgid "Delete"
 msgstr "拒絕(&D)"
 
-#: mainwin.cpp:1507 ui/userinfo.cpp:55 userbox.cpp:162 userbox.cpp:353
+#: mainwin.cpp:1513 ui/userinfo.cpp:55 userbox.cpp:162 userbox.cpp:353
 #: usertbl.cpp:405
 msgid "User info"
 msgstr "使用者資訊"
 
-#: mainwin.cpp:1508 userbox.cpp:167 userbox.cpp:399
+#: mainwin.cpp:1514 userbox.cpp:167 userbox.cpp:399
 msgid "History"
 msgstr "歷程"
 
-#: mainwin.cpp:1510 ui/alertdialogbase.cpp:79 ui/setupdlg.cpp:97
+#: mainwin.cpp:1516 ui/alertdialogbase.cpp:79 ui/setupdlg.cpp:97
 #: ui/userinfo.cpp:72
 msgid "Alert"
 msgstr "警示"
 
-#: mainwin.cpp:1511 ui/acceptbase.cpp:133
+#: mainwin.cpp:1517 ui/acceptbase.cpp:137
 msgid "Accept mode"
 msgstr "接受模式"
 
-#: mainwin.cpp:1512 ui/setupdlg.cpp:95 ui/soundsetupbase.cpp:106
+#: mainwin.cpp:1518 ui/setupdlg.cpp:95 ui/soundsetupbase.cpp:106
 #: ui/userinfo.cpp:74
 msgid "Sound"
 msgstr "音效"
 
-#: mainwin.cpp:1515
+#: mainwin.cpp:1521
 msgid "Floating off"
 msgstr "關閉浮動模式"
 
-#: mainwin.cpp:1515
+#: mainwin.cpp:1521
 msgid "Floating on"
 msgstr "打開浮動模式"
 
-#: mainwin.cpp:1518
+#: mainwin.cpp:1524
 msgid "Users"
 msgstr "使用者"
 
-#: mainwin.cpp:1670
+#: mainwin.cpp:1676
 msgid "Delete user %1?"
 msgstr "刪除使用者 %1嗎﹖"
 
-#: mainwin.cpp:1747 msgedit.cpp:811
+#: mainwin.cpp:1753 msgedit.cpp:811
 msgid "New"
 msgstr "新增"
 
-#: mainwin.cpp:1750
+#: mainwin.cpp:1756
 msgid "To container"
 msgstr "至容器"
 
-#: mainwin.cpp:1979
+#: mainwin.cpp:1985
 msgid "Don't show"
 msgstr "不顯示"
 
-#: mainwin.cpp:1980
+#: mainwin.cpp:1986
 msgid "Available"
 msgstr "存在"
 
-#: mainwin.cpp:1981
+#: mainwin.cpp:1987
 msgid "Busy"
 msgstr "忙碌中"
 
-#: mainwin.cpp:1984 userview.cpp:504
+#: mainwin.cpp:1990 userview.cpp:504
 msgid "Create group"
 msgstr "建立群組"
 
-#: mainwin.cpp:1986 userview.cpp:509
+#: mainwin.cpp:1992 userview.cpp:509
 msgid "Expand all"
 msgstr "展開所有"
 
-#: mainwin.cpp:1987 userview.cpp:510
+#: mainwin.cpp:1993 userview.cpp:510
 msgid "Collapse all"
 msgstr "收起所有"
 
-#: mainwin.cpp:1991
+#: mainwin.cpp:1997
 msgid "ICQ"
 msgstr "ICQ"
 
-#: mainwin.cpp:1994
+#: mainwin.cpp:2000
 msgid "Find User"
 msgstr "尋找使用者"
 
-#: mainwin.cpp:1995
+#: mainwin.cpp:2001
 msgid "Add Non-IM contact"
 msgstr "新增非IM連絡人"
 
-#: mainwin.cpp:1997 ui/statussetupbase.cpp:79 usertbl.cpp:113
+#: mainwin.cpp:2003 ui/statussetupbase.cpp:79 usertbl.cpp:113
 msgid "Status"
 msgstr "狀態"
 
-#: mainwin.cpp:1999 ui/setupdlg.cpp:65
+#: mainwin.cpp:2005 ui/setupdlg.cpp:65
 msgid "Setup"
 msgstr "設定"
 
-#: mainwin.cpp:2001
+#: mainwin.cpp:2007
 msgid "Phone \"Follow Me\""
 msgstr "電話\"跟隨我\""
 
-#: mainwin.cpp:2004
+#: mainwin.cpp:2010
 msgid "Always on top"
 msgstr "總是在最上面"
 
-#: mainwin.cpp:2007
+#: mainwin.cpp:2013
 msgid "&Bug report"
 msgstr ""
 
-#: mainwin.cpp:2008
+#: mainwin.cpp:2014
 #, fuzzy
 msgid "&About SIM"
 msgstr "關於資訊"
 
-#: mainwin.cpp:2010
+#: mainwin.cpp:2016
 #, fuzzy
 msgid "About &KDE"
 msgstr "關於資訊"
 
-#: mainwin.cpp:2013
+#: mainwin.cpp:2019
 msgid "Quit"
 msgstr ""
 
-#: _translatorinfo.cpp:1 mainwin.cpp:2195
+#: _translatorinfo.cpp:1 mainwin.cpp:2201
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
 msgstr "劉盛光"
 
-#: _translatorinfo.cpp:3 mainwin.cpp:2196
+#: _translatorinfo.cpp:3 mainwin.cpp:2202
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
@@ -2659,7 +2659,7 @@ msgstr ""
 msgid "File %1 exist"
 msgstr "檔案%1已存在"
 
-#: ui/generalsec.cpp:47
+#: ui/generalsec.cpp:46
 msgid ""
 "Words are divided by any separators (space, comma, i.e.)\n"
 "Phrase (sequence of words) consists in quotas\n"
@@ -3062,22 +3062,26 @@ msgid "Override global settings"
 msgstr "覆蓋整體設定"
 
 #: ui/acceptbase.cpp:126
+msgid "Automatically open all messages"
+msgstr ""
+
+#: ui/acceptbase.cpp:130
 msgid "Path for incoming files:"
 msgstr "接收檔案的路徑："
 
-#: ui/acceptbase.cpp:141
+#: ui/acceptbase.cpp:145
 msgid "Show response"
 msgstr "顯示反應"
 
-#: ui/acceptbase.cpp:145
+#: ui/acceptbase.cpp:149
 msgid "Auto accept"
 msgstr "自動接受"
 
-#: ui/acceptbase.cpp:149
+#: ui/acceptbase.cpp:153
 msgid "Overwrite files"
 msgstr "覆蓋檔案"
 
-#: ui/acceptbase.cpp:153
+#: ui/acceptbase.cpp:157
 msgid "Auto decline"
 msgstr "自動拒絕"
 
@@ -3624,60 +3628,55 @@ msgstr "在使用者把我新增入連絡簿前必須先徵求我的授權"
 
 #: ui/generalsecbase.cpp:128
 #, fuzzy
-msgid "Allow others to view my &status from the Web"
-msgstr "允許其他人從網站上檢視我的狀態"
-
-#: ui/generalsecbase.cpp:132
-#, fuzzy
 msgid "Don't show my &IP-address"
 msgstr "不顯示我的IP位址"
 
-#: ui/generalsecbase.cpp:136
+#: ui/generalsecbase.cpp:132
 #, fuzzy
 msgid "Direct connection"
 msgstr "連線"
 
-#: ui/generalsecbase.cpp:144
+#: ui/generalsecbase.cpp:140
 msgid "Allow &direct connection from any user"
 msgstr ""
 
-#: ui/generalsecbase.cpp:148
+#: ui/generalsecbase.cpp:144
 msgid "Allow direct connection from user listed in &contact list"
 msgstr ""
 
-#: ui/generalsecbase.cpp:152
+#: ui/generalsecbase.cpp:148
 msgid "Allow direct connection from user &upon authorization"
 msgstr ""
 
-#: ui/generalsecbase.cpp:157
+#: ui/generalsecbase.cpp:153
 #, fuzzy
 msgid "Reject messages"
 msgstr "接收訊息色彩"
 
-#: ui/generalsecbase.cpp:165
+#: ui/generalsecbase.cpp:161
 msgid "Reject &messages from unknown users"
 msgstr ""
 
-#: ui/generalsecbase.cpp:169
+#: ui/generalsecbase.cpp:165
 msgid "Reject &URL from unknown users"
 msgstr ""
 
-#: ui/generalsecbase.cpp:173
+#: ui/generalsecbase.cpp:169
 #, fuzzy
 msgid "Reject &World Wide pager messages"
 msgstr "電郵傳呼訊息"
 
-#: ui/generalsecbase.cpp:177
+#: ui/generalsecbase.cpp:173
 #, fuzzy
 msgid "Reject &EmailExpress messages"
 msgstr "電郵傳呼訊息"
 
-#: ui/generalsecbase.cpp:181
+#: ui/generalsecbase.cpp:177
 #, fuzzy
 msgid "Reject &other messages"
 msgstr "接收訊息色彩"
 
-#: ui/generalsecbase.cpp:185
+#: ui/generalsecbase.cpp:181
 msgid "Reject messages from unknown users contains this words or phrases:"
 msgstr ""
 
@@ -3791,6 +3790,10 @@ msgstr ""
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
 msgstr ""
+
+#, fuzzy
+#~ msgid "Allow others to view my &status from the Web"
+#~ msgstr "允許其他人從網站上檢視我的狀態"
 
 #~ msgid "File: "
 #~ msgstr "檔案："
