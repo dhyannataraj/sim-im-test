@@ -22,18 +22,20 @@
 #include "proxycfgbase.h"
 
 class ProxyPlugin;
+class QTabWidget;
 
 class ProxyConfig : public ProxyConfigBase
 {
     Q_OBJECT
 public:
-    ProxyConfig(QWidget *parent, ProxyPlugin *plugin);
+    ProxyConfig(QWidget *parent, ProxyPlugin *plugin, QTabWidget *tab);
 public slots:
     void apply();
 protected slots:
     void typeChanged(int type);
     void authToggled(bool auth);
 protected:
+	void paintEvent(QPaintEvent*);
     ProxyPlugin *m_plugin;
 };
 

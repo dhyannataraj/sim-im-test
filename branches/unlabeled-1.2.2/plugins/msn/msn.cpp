@@ -65,14 +65,14 @@ static CommandDef msn_descr =
         0,
         I18N_NOOP("MSN"),
         "MSN_online",
+        "MSN_invisible",
         NULL,
-        NULL,
         0,
         0,
         0,
         0,
         0,
-        PROTOCOL_SEARCH_ONLINE,
+        PROTOCOL_SEARCH_ONLINE | PROTOCOL_INVISIBLE,
         NULL,
         NULL
     };

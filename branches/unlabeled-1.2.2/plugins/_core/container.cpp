@@ -757,7 +757,7 @@ list<UserWnd*> UserTabBar::windows()
 void UserTabBar::setCurrent(unsigned n)
 {
     n++;
-    for (unsigned i = 0; n > 0; i++){
+    for (unsigned i = 0; (i < count()) && (n > 0); i++){
         QTab *t = tab(i);
         if (t == NULL)
             continue;
