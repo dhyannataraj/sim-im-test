@@ -596,6 +596,18 @@ IPResolver::~IPResolver()
         delete resolver;
 }
 
+#define iptoul(a,b,c,d) (unsigned long)(((a) << 24) | ((b) << 16) | ((c) << 8) | (d))
+
+static inline bool isPrivate(unsigned long ip)
+{
+    ip = ntohl(ip);
+    if (ip >= iptoul(10,0,0,0) && ip <= iptoul(10,255,255,255) ||
+        ip >= iptoul(172,16,0,0) && ip <= iptoul(172,31,255,255) ||
+        ip >= iptoul(192,168,0,0) && ip <= iptoul(192,168,255,255))
+        return true;
+    return false;
+}
+
 void IPResolver::resolve_ready()
 {
     if (queue.empty()) return;
@@ -624,12 +636,18 @@ void IPResolver::resolve_ready()
 void IPResolver::start_resolve()
 {
     if (resolver && resolver->isWorking()) return;
-    if (queue.empty())
-        return;
-    IP *ip = *queue.begin();
-    m_addr = ip->ip();
     struct in_addr inaddr;
-    inaddr.s_addr = m_addr;
+    while (true){
+        if (queue.empty())
+            return;
+        IP *ip = *queue.begin();
+        m_addr = ip->ip();
+        inaddr.s_addr = m_addr;
+        if (!isPrivate(m_addr))
+            break;
+        log(L_DEBUG, "Private IP: %s", inet_ntoa(inaddr));
+        queue.erase(queue.begin());
+    }
     log(L_DEBUG, "start resolve %s", inet_ntoa(inaddr));
 #if COMPAT_QT_VERSION >= 0x030000
     if (resolver)
