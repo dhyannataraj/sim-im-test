@@ -25,6 +25,8 @@
 #include <qdir.h>
 #include <qregexp.h>
 #include <qtextcodec.h>
+#include <qtextstream.h>
+#include <time.h>
 
 #ifdef WIN32
 static char HISTORY_PATH[] = "history\\";
@@ -856,19 +858,20 @@ bool History::save(unsigned id, const char *file_name, bool bAppend)
                 << "\n\n";
         }
         const int status = f.status();
-#if COMPAT_QT_VERSION >= 0x030200
-        const QString errorMessage = f.errorString();
-#else
-        const QString errorMessage = "write failed";
-#endif
+		#if COMPAT_QT_VERSION >= 0x030200
+			const QString errorMessage = f.errorString();
+		#else
+			const QString errorMessage = "write failed";
+		#endif
         f.close();
         if (status != IO_Ok) {
             log(L_ERROR, "I/O error during write to file %s : %s", file_name, (const char*)errorMessage.local8Bit());
             return false;
         }
         return true;
-    }else{
-        log(L_ERROR, "Can't open %s for writing", file_name);
-        return false;
-    }    
+    }
+	//else deleted: unreachable Code
+    log(L_ERROR, "Can't open %s for writing", file_name);
+    return false;
+    
 }
