@@ -1749,6 +1749,19 @@ EXPORT QRect screenGeometry(unsigned nScreen);
 EXPORT QRect screenGeometry();
 
 EXPORT unsigned get_random();
+
+class EXPORT my_string
+{
+public:
+    my_string(const char *str);
+    my_string(const my_string &str);
+    ~my_string();
+    bool operator < (const my_string &str) const;
+    void operator = (const my_string &str);
+    const char *c_str() const { return m_str->c_str(); }
+    string *m_str;
+};
+
 };
 
 using namespace SIM;

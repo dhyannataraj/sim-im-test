@@ -31,7 +31,7 @@ protected slots:
     void timeout();
     void textChanged();
     void toggled(bool);
-	void help();
+    void help();
 protected:
     void accept();
     void stopTimer();

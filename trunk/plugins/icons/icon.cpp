@@ -21,11 +21,6 @@
 #include "smiles.h"
 #include "core.h"
 
-bool my_string::operator < (const my_string &a) const
-{
-    return strcmp(c_str(), a.c_str()) < 0;
-}
-
 Plugin *createIconsPlugin(unsigned base, bool, const char *config)
 {
     Plugin *plugin = new IconsPlugin(base, config);

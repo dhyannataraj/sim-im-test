@@ -182,6 +182,7 @@ protected:
 
     virtual void	connect_ready();
     virtual bool	error_state(const char *err, unsigned code);
+    virtual void	socketConnect();
     void			setClientStatus(unsigned status);
     ClientSocket	*m_socket;
     unsigned		m_logonStatus;

@@ -30,13 +30,6 @@ typedef struct IconsData
 class IconDLL;
 class Smiles;
 
-class my_string : public string
-{
-public:
-my_string(const char *str) : string(str) {}
-    bool operator < (const my_string &str) const;
-};
-
 typedef map<my_string, IconDLL*> ICONS_MAP;
 
 class IconsPlugin : public Plugin, public EventReceiver

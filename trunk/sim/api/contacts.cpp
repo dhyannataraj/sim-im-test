@@ -1674,7 +1674,11 @@ void ContactList::save()
 
     // rename to normal file
     QFileInfo fileInfo(f.name());
-    QString desiredFileName = QFile::decodeName(cfgName.c_str());
+    QString desiredFileName = fileInfo.fileName();
+    desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
+#ifdef WIN32
+    fileInfo.dir().remove(desiredFileName);
+#endif
     if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
         log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
         return;

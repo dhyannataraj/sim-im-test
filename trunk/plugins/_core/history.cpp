@@ -17,8 +17,11 @@
 
 #include "history.h"
 #include "core.h"
+#include "msgview.h"
 
 #include <qfile.h>
+#include <qfileinfo.h>
+#include <qdir.h>
 
 #ifdef WIN32
 static char HISTORY_PATH[] = "history\\";
@@ -26,6 +29,7 @@ static char HISTORY_PATH[] = "history\\";
 static char HISTORY_PATH[] = "history/";
 #endif
 
+const unsigned CUT_BLOCK	= 0x4000;
 const unsigned BLOCK_SIZE	= 2048;
 const unsigned TEMP_BASE	= 0x80000000;
 
@@ -554,16 +558,164 @@ void History::add(Message *msg, const char *type)
     string f_name = HISTORY_PATH;
     f_name += name;
 
-    name = user_file(f_name.c_str());
-    QFile f(QFile::decodeName(name.c_str()));
+    f_name = user_file(f_name.c_str());
+
+    HistoryUserData *data = NULL;
+    Contact *contact = getContacts()->contact(msg->contact());
+    if (contact)
+        data = (HistoryUserData*)(contact->getUserData(CorePlugin::m_plugin->history_data_id));
+    if (data && data->CutSize){
+        QFileInfo fInfo(QFile::decodeName(f_name.c_str()));
+        if (fInfo.exists() && (fInfo.size() >= data->MaxSize * 0x100000 + CUT_BLOCK)){
+            int pos = fInfo.size() - data->MaxSize * 0x100000 + line.size();
+            if (pos < 0)
+                pos = 0;
+            del(f_name.c_str(), msg->contact(), pos, false);
+        }
+    }
+
+    QFile f(QFile::decodeName(f_name.c_str()));
     if (!f.open(IO_ReadWrite | IO_Append)){
-        log(L_ERROR, "Can't open %s", name.c_str());
+        log(L_ERROR, "Can't open %s", f_name.c_str());
         return;
     }
     unsigned id = f.at();
     f.writeBlock(line.c_str(), line.size());
 
     msg->setId(id);
+}
+
+void History::del(Message *msg)
+{
+    string name = msg->client();
+    if (name.empty())
+        name = number(msg->contact());
+    del(name.c_str(), msg->contact(), msg->id(), true);
+}
+
+typedef map<my_string, unsigned> CLIENTS_MAP;
+
+void History::cut(Message *msg, unsigned contact_id, unsigned date)
+{
+    string client;
+    if (msg)
+        client = msg->client();
+    CLIENTS_MAP clients;
+    {
+        HistoryIterator it(msg ? msg->contact() : contact_id);
+        Message *m;
+        while ((m = ++it) != NULL){
+            if (date && (m->getTime() > date))
+                break;
+            CLIENTS_MAP::iterator itm = clients.find(m->client());
+            if (itm == clients.end()){
+                clients.insert(CLIENTS_MAP::value_type(m->client(), m->id()));
+            }else{
+                (*itm).second = m->id();
+            }
+            if (msg && (client == m->client()) && (m->id() >= msg->id()))
+                break;
+        }
+    }
+    for (CLIENTS_MAP::iterator it = clients.begin(); it != clients.end(); ++it)
+        del((*it).first.c_str(), msg ? msg->contact() : contact_id, (*it).second + 1, false);
+}
+
+void History::del(const char *name, unsigned contact, unsigned id, bool bCopy)
+{
+    string f_name = HISTORY_PATH;
+    f_name += name;
+
+    f_name = user_file(f_name.c_str());
+    QFile f(QFile::decodeName(f_name.c_str()));
+    if (!f.open(IO_ReadOnly)){
+        log(L_ERROR, "Can't open %s", (const char*)f.name().local8Bit());
+        return;
+    }
+    QFile t(f.name() + "~");
+    if (!t.open(IO_ReadWrite | IO_Truncate)){
+        log(L_ERROR, "Can't open %s", (const char*)t.name().local8Bit());
+        return;
+    }
+    unsigned tail = id;
+    for (; tail > 0; ){
+        char b[2048];
+        int size = sizeof(b);
+        if (tail < (unsigned)size)
+            size = tail;
+        size = f.readBlock(b, size);
+        if (size == -1){
+            log(L_ERROR, "Read history error");
+            return;
+        }
+        if (bCopy){
+            int writen = t.writeBlock(b, size);
+            if (writen != size){
+                log(L_DEBUG, "Write history error");
+                return;
+            }
+        }
+        tail -= size;
+    }
+    string line;
+    if (bCopy){
+        if (!getLine(f, line)){
+            log(L_DEBUG, "Can't get line");
+            return;
+        }
+        if (line[0] != '['){
+            log(L_DEBUG, "Bad message start");
+            return;
+        }
+    }
+    unsigned skip_size;
+    for (;;){
+        skip_size = f.at();
+        if (!getLine(f, line))
+            break;
+        if (line[0] == '[')
+            break;
+    }
+    f.at(skip_size);
+    skip_size = skip_size - id;
+    tail = f.size() - f.at();
+    for (; tail > 0; ){
+        char b[2048];
+        int size = f.readBlock(b, sizeof(b));
+        if (size == -1){
+            log(L_ERROR, "Read history error");
+            return;
+        }
+        int writen = t.writeBlock(b, size);
+        if (writen != size){
+            log(L_DEBUG, "Write history error");
+            return;
+        }
+        tail -= size;
+    }
+    f.close();
+    t.close();
+    QFileInfo fInfo(f.name());
+    QFileInfo tInfo(t.name());
+#ifdef WIN32
+    fInfo.dir().remove(fInfo.fileName());
+#endif
+    if (!tInfo.dir().rename(tInfo.fileName(), fInfo.fileName())) {
+        log(L_ERROR, "Can't rename file %s to %s", (const char*)fInfo.fileName().local8Bit(), (const char*)tInfo.fileName().local8Bit());
+        return;
+    }
+    CutHistory ch;
+    ch.contact = contact;
+    ch.client  = name;
+    if (bCopy){
+        ch.from    = id;
+        ch.size    = skip_size;
+    }else{
+        ch.from    = 0;
+        ch.size	   = id + skip_size;
+    }
+    Event e(EventCutHistory, &ch);
+    e.process();
 }
 
 void History::del(unsigned msg_id)

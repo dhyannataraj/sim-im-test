@@ -1973,6 +1973,7 @@ void QTextEdit::doResize()
     lastFormatted = doc->firstParag();
     interval = 0;
     formatMore();
+    repaint();
 }
 
 /*! \internal */

@@ -813,6 +813,17 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     cmd->menu_grp	= 0x2000;
     eCmd.process();
 
+    cmd->id			= CmdDeleteMessage;
+    cmd->text		= I18N_NOOP("&Delete message");
+    cmd->icon		= "remove";
+    cmd->menu_grp	= 0x3000;
+    eCmd.process();
+
+    cmd->id			= CmdCutHistory;
+    cmd->text		= I18N_NOOP("&Cut history");
+    cmd->menu_grp	= 0x3001;
+    eCmd.process();
+
     cmd->id			= CmdMsgQuote;
     cmd->text		= I18N_NOOP("&Quote");
     cmd->icon		= "empty";
@@ -1323,7 +1334,7 @@ void CorePlugin::installTranslator()
 #ifdef USE_KDE
         return;
 #else
-        char *p = getenv("LANG");
+char *p = getenv("LANG");
         if (p){
             for (; *p; p++){
                 if (*p == '.') break;
@@ -1511,6 +1522,7 @@ void *CorePlugin::processEvent(Event *e)
     case EventInit:
         if (!m_bInit && !init(true))
             return (void*)ABORT_LOADING;
+        QTimer::singleShot(0, this, SLOT(checkHistory()));
         return NULL;
     case EventQuit:
         destroy();
@@ -1589,8 +1601,22 @@ void *CorePlugin::processEvent(Event *e)
             }
             if (cmd->param){
                 MessageDef *mdef = (MessageDef*)(cmd->param);
-                if (mdef->cmd){
-                    for (const CommandDef *c = mdef->cmd; c->text; c++){
+                if (mdef->cmdReceived){
+                    for (const CommandDef *c = mdef->cmdReceived; c->text; c++){
+                        CommandDef cmd = *c;
+                        if (cmd.icon == NULL)
+                            cmd.icon = "empty";
+
+                        cmd.id += CmdReceived;
+                        cmd.menu_id  = 0;
+                        cmd.menu_grp = 0;
+                        cmd.flags	 = BTN_PICT | COMMAND_CHECK_STATE;
+                        Event eCmd(EventCommandCreate, &cmd);
+                        eCmd.process();
+                    }
+                }
+                if (mdef->cmdSent){
+                    for (const CommandDef *c = mdef->cmdSent; c->text; c++){
                         CommandDef cmd = *c;
                         if (cmd.icon == NULL)
                             cmd.icon = "empty";
@@ -3151,7 +3177,7 @@ string CorePlugin::getConfig()
 #if QT_VERSION >= 0x030200
         const QString errorMessage = fCFG.errorString();
 #else
-	const QString errorMessage = "write file fail";
+        const QString errorMessage = "write file fail";
 #endif
         fCFG.close();
         if (status != IO_Ok) {
@@ -3159,7 +3185,11 @@ string CorePlugin::getConfig()
         } else {
             // rename to normal file
             QFileInfo fileInfo(fCFG.name());
-            QString desiredFileName = QFile::decodeName(cfgName.c_str());
+            QString desiredFileName = fileInfo.fileName();
+            desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
+#ifdef WIN32
+            fileInfo.dir().remove(desiredFileName);
+#endif
             if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
                 log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
             }
@@ -3205,7 +3235,7 @@ string CorePlugin::getConfig()
 #if QT_VERSION >= 0x030200
         const QString errorMessage = f.errorString();
 #else
-	const QString errorMessage = "write file fail";
+const QString errorMessage = "write file fail";
 #endif
         f.close();
         if (status != IO_Ok) {
@@ -3213,7 +3243,11 @@ string CorePlugin::getConfig()
         } else {
             // rename to normal file
             QFileInfo fileInfo(f.name());
-            QString desiredFileName = QFile::decodeName(cfgName.c_str());
+            QString desiredFileName = fileInfo.fileName();
+            desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
+#ifdef WIN32
+            fileInfo.dir().remove(desiredFileName);
+#endif
             if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
                 log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
             }
@@ -3562,6 +3596,22 @@ QString CorePlugin::clientName(Client *client)
     if (n > 0)
         res = res.left(n) + " " + res.mid(n + 1);
     return res;
+}
+
+void CorePlugin::checkHistory()
+{
+    Contact *contact;
+    ContactList::ContactIterator it;
+    while ((contact = ++it) != NULL){
+        HistoryUserData *data = (HistoryUserData*)(contact->getUserData(history_data_id));
+        if ((data == NULL) || (data->CutDays == 0))
+            continue;
+        time_t now;
+        time(&now);
+        now -= data->Days * 24 * 60 * 60;
+        History::cut(NULL, contact->id(), now);
+    }
+    QTimer::singleShot(24 * 60 * 60 * 1000, this, SLOT(checkHistory()));
 }
 
 #ifdef WIN32

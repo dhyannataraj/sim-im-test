@@ -1359,7 +1359,7 @@ void ICQClient::processSendQueue()
                     vector<alias_group> cc;
                     for (CONTACTS_MAP::iterator it = c.begin(); it != c.end(); ++it){
                         alias_group c;
-                        c.alias = (*it).first;
+                        c.alias = (*it).first.c_str();
                         c.grp   = (*it).second.grp;
                         cc.push_back(c);
                     }

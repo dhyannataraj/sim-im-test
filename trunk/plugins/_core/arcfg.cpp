@@ -28,7 +28,7 @@ ARConfig::ARConfig(QWidget *p, unsigned status, const QString &name, Contact *co
 {
     m_status  = status;
     m_contact = contact;
-	setButtonsPict(this);
+    setButtonsPict(this);
     tabAR->changeTab(tab, name);
     ARUserData *ar;
     const char *text = NULL;
@@ -63,7 +63,7 @@ ARConfig::ARConfig(QWidget *p, unsigned status, const QString &name, Contact *co
     }
     if (text)
         edtAutoReply->setText(QString::fromUtf8(text));
-	connect(btnHelp, SIGNAL(clicked()), this, SLOT(help()));
+    connect(btnHelp, SIGNAL(clicked()), this, SLOT(help()));
 }
 
 void ARConfig::apply()
@@ -91,11 +91,11 @@ void ARConfig::toggled(bool bState)
 
 void ARConfig::help()
 {
-	QString helpString = i18n("In text you can use:");
-	helpString += "\n";
-	Event e(EventTmplHelp, &helpString);
-	e.process();
-	BalloonMsg::message(helpString, btnHelp, false, 400);
+    QString helpString = i18n("In text you can use:");
+    helpString += "\n";
+    Event e(EventTmplHelp, &helpString);
+    e.process();
+    BalloonMsg::message(helpString, btnHelp, false, 400);
 }
 
 #ifndef WIN32

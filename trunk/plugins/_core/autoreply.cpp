@@ -59,7 +59,7 @@ AutoReplyDialog::AutoReplyDialog(unsigned status)
         edtAutoResponse->setText(QString::fromUtf8(text));
     connect(edtAutoResponse, SIGNAL(textChanged()), this, SLOT(textChanged()));
     connect(chkNoShow, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
-	connect(btnHelp, SIGNAL(clicked()), this, SLOT(help()));
+    connect(btnHelp, SIGNAL(clicked()), this, SLOT(help()));
 }
 
 AutoReplyDialog::~AutoReplyDialog()
@@ -104,11 +104,11 @@ void AutoReplyDialog::accept()
 
 void AutoReplyDialog::help()
 {
-	QString helpString = i18n("In text you can use:");
-	helpString += "\n";
-	Event e(EventTmplHelp, &helpString);
-	e.process();
-	BalloonMsg::message(helpString, btnHelp, false, 400);
+    QString helpString = i18n("In text you can use:");
+    helpString += "\n";
+    Event e(EventTmplHelp, &helpString);
+    e.process();
+    BalloonMsg::message(helpString, btnHelp, false, 400);
 }
 
 #ifndef WIN32

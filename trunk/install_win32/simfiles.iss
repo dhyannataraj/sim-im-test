@@ -3,7 +3,7 @@
 
 [Setup]
 AppName=Simple Instant Messenger
-AppVerName=SIM 0.9.2
+AppVerName=SIM 0.9.3
 AppPublisher=shutoff@mail.ru
 AppPublisherURL=http://sim-icq.sourceforge.net/
 AppSupportURL=http://sim-icq.sourceforge.net/
@@ -68,6 +68,7 @@ Source: "..\Release\plugins\gpg.dll"; DestDir: "{app}\plugins"; Flags: ignorever
 Source: "..\Release\plugins\icons.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\icq.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\jabber.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
+Source: "..\Release\plugins\livejournal.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\loger.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\msn.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\navigate.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
@@ -84,6 +85,7 @@ Source: "..\Release\plugins\styles.dll"; DestDir: "{app}\plugins"; Flags: ignore
 Source: "..\Release\plugins\transparent.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\update.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\windock.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
+Source: "..\Release\plugins\zodiak.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\styles\metal.dll"; DestDir: "{app}\plugins\styles"; Flags: ignoreversion
 Source: "..\Release\plugins\styles\wood.dll"; DestDir: "{app}\plugins\styles"; Flags: ignoreversion
 Source: "..\Release\plugins\styles\xpstyle.dll"; DestDir: "{app}\plugins\styles"; Flags: ignoreversion

@@ -84,11 +84,6 @@ const unsigned UNKNOWN_SIZE = (unsigned)(-1);
 
 static char _HTTP[] = "HTTP";
 
-bool my_string::operator < (const my_string &a) const
-{
-    return strcmp(c_str(), a.c_str()) < 0;
-}
-
 FetchManager::FetchManager()
 {
     getContacts()->addPacketType(HTTPPacket, _HTTP, true);
@@ -192,7 +187,7 @@ FetchClient::~FetchClient()
         fetchData data;
         data.req_id  = m_id;
         data.result  = m_code;
-        data.data    = NULL;
+        data.data    = &m_res;
         data.headers = m_hIn.c_str();
         Event e(EventFetchDone, &data);
         e.process();

@@ -249,7 +249,7 @@ void HistoryConfig::apply()
 #if QT_VERSION >= 0x030200
             const QString errorMessage = f.errorString();
 #else
-	    const QString errorMessage = "write file fail";
+            const QString errorMessage = "write file fail";
 #endif
             f.close();
             if (status != IO_Ok) {
@@ -257,7 +257,11 @@ void HistoryConfig::apply()
             } else {
                 // rename to normal file
                 QFileInfo fileInfo(f.name());
-                QString desiredFileName = QFile::decodeName(name.c_str());
+                QString desiredFileName = fileInfo.fileName();
+                desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
+#ifdef WIN32
+                fileInfo.dir().remove(desiredFileName);
+#endif
                 if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
                     log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
                 }
@@ -396,7 +400,7 @@ void HistoryConfig::copy()
 #if QT_VERSION >= 0x030200
     const QString errorMessage = to.errorString();
 #else
-    const QString errorMessage = "write file fail";
+const QString errorMessage = "write file fail";
 #endif
     to.close();
     if (status != IO_Ok) {
@@ -406,7 +410,11 @@ void HistoryConfig::copy()
 
     // rename to normal file
     QFileInfo fileInfo(to.name());
-    QString desiredFileName = QFile::decodeName(n.c_str());
+    QString desiredFileName = fileInfo.fileName();
+    desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
+#ifdef WIN32
+    fileInfo.dir().remove(desiredFileName);
+#endif
     if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
         log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
         return;

@@ -125,38 +125,38 @@ QString Tmpl::process(TmplExpand *t, const QString &str)
         string tagName;
         tagName = tag.latin1();
 
-		if (tagName == "IP"){
-			Event e(EventGetContactIP, contact);
-		    struct in_addr addr;
-			addr.s_addr = (unsigned)(e.process());
-			res += inet_ntoa(addr);
-			continue;
-		}
+        if (tagName == "IP"){
+            Event e(EventGetContactIP, contact);
+            struct in_addr addr;
+            addr.s_addr = (unsigned)(e.process());
+            res += inet_ntoa(addr);
+            continue;
+        }
 
-		if (tagName == "Mail"){
-			QString mails = contact->getEMails();
+        if (tagName == "Mail"){
+            QString mails = contact->getEMails();
             QString mail = getToken(mails, ';', false);
             res += getToken(mail, '/');
-			continue;
-		}
+            continue;
+        }
 
-		if (tagName == "Phone"){
-			QString phones = contact->getPhones();
-		    QString phone_item = getToken(phones, ';', false);
-			phone_item = getToken(phone_item, '/', false);
-			res += getToken(phone_item, ',');
-			continue;
-		}
+        if (tagName == "Phone"){
+            QString phones = contact->getPhones();
+            QString phone_item = getToken(phones, ';', false);
+            phone_item = getToken(phone_item, '/', false);
+            res += getToken(phone_item, ',');
+            continue;
+        }
 
-		if (tagName == "Unread"){
-			unsigned nUnread = 0;
-			for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
-				if ((*it).contact == contact->id())
-					nUnread++;
-			}
-			res += QString::number(nUnread);
-			continue;
-		}
+        if (tagName == "Unread"){
+            unsigned nUnread = 0;
+            for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
+                if ((*it).contact == contact->id())
+                    nUnread++;
+            }
+            res += QString::number(nUnread);
+            continue;
+        }
 
         if (getTag(tagName, &contact->data, contact->dataDef(), res))
             continue;

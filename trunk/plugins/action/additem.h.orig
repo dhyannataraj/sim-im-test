@@ -27,9 +27,9 @@ class AddItem : public AddItemBase
 public:
     AddItem(QWidget *parent);
 public slots:
-	void changed();
-	void changed(const QString&);
-	void help();
+    void changed();
+    void changed(const QString&);
+    void help();
 };
 
 #endif

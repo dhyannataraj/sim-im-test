@@ -551,12 +551,12 @@ unsigned TextShow::textPosition(const QString &text, unsigned pos)
         QChar c = text[(int)i];
         if (c == '<'){
             QString tag = text.mid(i + 1, 3).lower();
-	    int n = tag.find(" ");
-	    if (n > 0)
-		tag = tag.left(n);
-	    n = tag.find("/");
-	    if (n > 0)
-		tag = tag.left(n);
+            int n = tag.find(" ");
+            if (n > 0)
+                tag = tag.left(n);
+            n = tag.find("/");
+            if (n > 0)
+                tag = tag.left(n);
             if ((tag == "img") || (tag == "br")){
                 if (pos == 0)
                     return i;
@@ -576,7 +576,7 @@ unsigned TextShow::textPosition(const QString &text, unsigned pos)
                 if (c == ';')
                     break;
             }
-	    i = n;
+            i = n;
         }
         if (pos == 0)
             return i;

@@ -421,6 +421,7 @@ i18n("Message", "%n messages", 1);
 static MessageDef defGeneric =
     {
         NULL,
+        NULL,
         MESSAGE_DEFAULT,
         "Message",
         "%n messages",
@@ -445,6 +446,7 @@ i18n("SMS", "%n SMSs", 1);
 
 static MessageDef defSMS =
     {
+        NULL,
         NULL,
         MESSAGE_DEFAULT,
         "SMS",
@@ -486,6 +488,7 @@ static Message *dropUrl(QMimeSource *src)
 static MessageDef defUrl =
     {
         NULL,
+        NULL,
         MESSAGE_DEFAULT,
         "URL",
         "%n URLs",
@@ -522,6 +525,7 @@ i18n("Contact list", "%n contact lists", 1);
 
 static MessageDef defContacts =
     {
+        NULL,
         NULL,
         MESSAGE_DEFAULT,
         "Contact list",
@@ -618,6 +622,7 @@ static CommandDef fileCommands[] =
 static MessageDef defFile =
     {
         fileCommands,
+        NULL,
         MESSAGE_DEFAULT,
         "File",
         "%n files",
@@ -692,6 +697,7 @@ static CommandDef authRequestCommands[] =
 static MessageDef defAuthRequest =
     {
         authRequestCommands,
+        NULL,
         MESSAGE_DEFAULT | MESSAGE_SYSTEM,
         "Authorize request",
         "%n authorize requests",
@@ -711,6 +717,7 @@ i18n("Authorization granted", "%n authorization granted", 1);
 
 static MessageDef defAuthGranted =
     {
+        NULL,
         NULL,
         MESSAGE_SILENT,
         "Authorization granted",
@@ -732,6 +739,7 @@ i18n("Authorization refused", "%n authorization refused", 1);
 static MessageDef defAuthRefused =
     {
         NULL,
+        NULL,
         MESSAGE_SILENT | MESSAGE_ERROR,
         "Authorization refused",
         "%n authorization refused",
@@ -751,6 +759,7 @@ i18n("Add to contacts", "%n add to contacts", 1);
 
 static MessageDef defAdded =
     {
+        NULL,
         NULL,
         MESSAGE_INFO | MESSAGE_SYSTEM,
         "Add to contacts",
@@ -772,6 +781,7 @@ i18n("Removed from contacts", "%n removed from contacts", 1);
 static MessageDef defRemoved =
     {
         NULL,
+        NULL,
         MESSAGE_INFO | MESSAGE_SYSTEM,
         "Removed from contacts",
         "%n removed from contacts",
@@ -791,6 +801,7 @@ i18n("Status changed", "%n times status changed", 1);
 
 static MessageDef defStatus =
     {
+        NULL,
         NULL,
         MESSAGE_HIDDEN,
         "Status changed",
@@ -999,6 +1010,30 @@ void MsgEdit::modeChanged()
 
 void *MsgEdit::processEvent(Event *e)
 {
+    if (e->type() == EventContactChanged){
+        Command cmd;
+        cmd->id = m_type;
+        cmd->menu_id = MenuMessage;
+        cmd->param = (void*)(m_userWnd->m_id);
+        Event e(EventCheckState, cmd);
+        if (e.process())
+            return NULL;
+
+        Event eMenu(EventGetMenuDef, (void*)MenuMessage);
+        CommandsDef *cmdsMsg = (CommandsDef*)(eMenu.process());
+        CommandsList itc(*cmdsMsg, true);
+        CommandDef *c;
+        while ((c = ++itc) != NULL){
+            c->param = (void*)(m_userWnd->m_id);
+            Event eCheck(EventCheckState, c);
+            if (eCheck.process()){
+                Event eCmd(EventCommandExec, c);
+                eCmd.process();
+                return NULL;
+            }
+        }
+        return NULL;
+    }
     if (e->type() == EventMessageReceived){
         Message *msg = (Message*)(e->param());
         if ((msg->contact() == m_userWnd->id()) && (msg->type() != MessageStatus)){
@@ -1229,40 +1264,20 @@ void *MsgEdit::processEvent(Event *e)
 
 void MsgEdit::setEmptyMessage()
 {
-    bool bGeneric = true;
-    Contact *contact = getContacts()->contact(m_userWnd->id());
-    if (contact){
-        Command cmd;
-        cmd->id      = MessageGeneric;
-        cmd->menu_id = MenuMessage;
-        cmd->param   = (void*)(m_userWnd->id());
-        Event e(EventCheckState, cmd);
-        if (e.process() == NULL){
-            QString phones = contact->getPhones();
-            while (phones.length()){
-                QString phoneItem = getToken(phones, ';', false);
-                phoneItem = getToken(phoneItem, '/', false);
-                QString phone = getToken(phoneItem, ',');
-                getToken(phoneItem, ',');
-                if (phoneItem.toUInt() == CELLULAR){
-                    cmd->id      = MessageSMS;
-                    Event e(EventCheckState, cmd);
-                    if (e.process())
-                        bGeneric = false;
-                    break;
-                }
-            }
+    m_edit->setText("");
+    Event eMenu(EventGetMenuDef, (void*)MenuMessage);
+    CommandsDef *cmdsMsg = (CommandsDef*)(eMenu.process());
+    CommandsList itc(*cmdsMsg, true);
+    CommandDef *c;
+    while ((c = ++itc) != NULL){
+        c->param = (void*)(m_userWnd->m_id);
+        Event eCheck(EventCheckState, c);
+        if (eCheck.process()){
+            Event eCmd(EventCommandExec, c);
+            eCmd.process();
+            return;
         }
     }
-    Message *msg;
-    if (bGeneric){
-        msg = new Message(MessageGeneric);
-    }else{
-        msg = new SMSMessage;
-    }
-    msg->setContact(m_userWnd->id());
-    m_userWnd->setMessage(msg);
-    delete msg;
 }
 
 void MsgEdit::changeTyping(Client *client, void *data)

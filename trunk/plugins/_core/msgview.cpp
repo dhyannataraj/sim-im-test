@@ -178,6 +178,11 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
         id += ",";
         id += quoteString(client_str.c_str());
     }
+    if (m_cut.size()){
+        id += ",";
+        id += QString::number(m_cut.size());
+    }
+    log(L_DEBUG, "Add %s", id.latin1());
     info += "<id>";
     info += id;
     info += "</id>";
@@ -362,12 +367,8 @@ bool MsgViewBase::findMessage(Message *msg)
             ensureCursorVisible();
             return true;
         }
-        s = s.left(n);
-        unsigned id = atol(getToken(s, ',').latin1());
-        if (id != msg->id())
-            continue;
-        getToken(s, ',');
-        if (s != msg->client())
+        string client;
+        if ((messageId(s.left(n), client) != msg->id()) || (client != msg->client()))
             continue;
         setCursorPosition(i, 0);
         ensureCursorVisible();
@@ -386,8 +387,101 @@ void MsgViewBase::setColors()
     TextShow::setForeground(CorePlugin::m_plugin->getEditForeground());
 }
 
+unsigned MsgViewBase::messageId(const QString &_s, string &client)
+{
+    QString s(_s);
+    unsigned id = atol(getToken(s, ',').latin1());
+    getToken(s, ',');
+    client = getToken(s, ',').utf8();
+    if (id >= 0x80000000)
+        return id;
+    for (unsigned cut_id = atol(s.latin1()); cut_id < m_cut.size(); cut_id++){
+        if (m_cut[cut_id].client != client)
+            continue;
+        if (id < m_cut[cut_id].from)
+            continue;
+        id -= m_cut[cut_id].size;
+    }
+    return id;
+}
+
+typedef struct Msg_Id
+{
+    unsigned	id;
+    string		client;
+} Msg_Id;
+
 void *MsgViewBase::processEvent(Event *e)
 {
+    if (e->type() == EventCutHistory){
+        CutHistory *ch = (CutHistory*)(e->param());
+        if (ch->contact != m_id)
+            return NULL;
+
+        bool bDelete = false;
+        vector<unsigned> start_pos;
+        vector<unsigned> end_pos;
+        for (unsigned i = 0; i < (unsigned)paragraphs(); i++){
+            QString s = text(i);
+            int n = s.find(MSG_ANCHOR);
+            if (n < 0)
+                continue;
+            s = s.mid(n + strlen(MSG_ANCHOR));
+            n = s.find("\"");
+            if (n < 0)
+                continue;
+            string client;
+            unsigned id = messageId(s.left(n), client);
+            log(L_DEBUG, "> %u %u %s  - %u %u %u", i, id, client.c_str(), ch->from, ch->size, ch->from + ch->size);
+            if ((client == ch->client) && (id >= ch->from) && (id < ch->from + ch->size)){
+                log(L_DEBUG, "Delete!");
+                if (!bDelete){
+                    bDelete = true;
+                    start_pos.push_back(i);
+                }
+            }else{
+                if (bDelete){
+                    bDelete = false;
+                    end_pos.push_back(i);
+                }
+            }
+        }
+        if (bDelete)
+            end_pos.push_back(paragraphs());
+        if (start_pos.size()){
+            int paraFrom, indexFrom;
+            int paraTo, indexTo;
+            getSelection(&paraFrom, &indexFrom, &paraTo, &indexTo);
+            QPoint p = QPoint(0, 0);
+            p = mapToGlobal(p);
+            p = viewport()->mapFromGlobal(p);
+            int x, y;
+            viewportToContents(p.x(), p.y(), x, y);
+            int para;
+            int pos = charAt(QPoint(x, y), &para);
+            setReadOnly(false);
+            for (unsigned i = 0; i < start_pos.size(); i++){
+                setSelection(start_pos[i], 0, end_pos[i], 0);
+                removeSelectedText();
+                if ((unsigned)pos >= start_pos[i])
+                    pos = end_pos[i] - start_pos[i];
+            }
+            if ((paraFrom == -1) && (paraTo == -1)){
+                if (pos == -1){
+                    scrollToBottom();
+                }else{
+                    setCursorPosition(para, pos);
+                    ensureCursorVisible();
+                }
+            }else{
+                setSelection(paraFrom, indexFrom, paraTo, indexTo);
+            }
+            setReadOnly(true);
+            repaint();
+        }
+        m_cut.push_back(*ch);
+        return NULL;
+    }
     if (e->type() == EventMessageDeleted){
         Message *msg = (Message*)(e->param());
         if (msg->contact() != m_id)
@@ -401,12 +495,8 @@ void *MsgViewBase::processEvent(Event *e)
             n = s.find("\"");
             if (n < 0)
                 continue;
-            s = s.left(n);
-            unsigned id = atol(getToken(s, ',').latin1());
-            if (id != msg->id())
-                continue;
-            getToken(s, ',');
-            if (s != msg->client())
+            string client;
+            if ((messageId(s.left(n), client) != msg->id()) || (client != msg->client()))
                 continue;
             unsigned j;
             for (j = i + 1; j < (unsigned)paragraphs(); j++){
@@ -443,12 +533,8 @@ void *MsgViewBase::processEvent(Event *e)
             n = s.find("\"");
             if (n < 0)
                 continue;
-            s = s.left(n);
-            unsigned id = atol(getToken(s, ',').latin1());
-            if (id != msg->id())
-                continue;
-            getToken(s, ',');
-            if (s != msg->client())
+            string client;
+            if ((messageId(s.left(n), client) != msg->id()) || (client != msg->client()))
                 continue;
             int paraFrom, indexFrom;
             int paraTo, indexTo;
@@ -470,7 +556,9 @@ void *MsgViewBase::processEvent(Event *e)
         if (id && (id != m_id))
             return NULL;
         QString t;
-        for (unsigned i = 0; i < (unsigned)paragraphs(); i++){
+        vector<Msg_Id> msgs;
+        unsigned i;
+        for (i = 0; i < (unsigned)paragraphs(); i++){
             QString s = text(i);
             int n = s.find(MSG_ANCHOR);
             if (n < 0)
@@ -479,10 +567,14 @@ void *MsgViewBase::processEvent(Event *e)
             n = s.find("\"");
             if (n < 0)
                 continue;
-            s = s.left(n);
-            unsigned id = atol(getToken(s, ',').latin1());
-            getToken(s, ',');
-            Message *msg = History::load(id, s.utf8(), m_id);
+            string client;
+            Msg_Id id;
+            id.id = messageId(s.left(n), client);
+            id.client = client;
+            msgs.push_back(id);
+        }
+        for (i = 0; i < msgs.size(); i++){
+            Message *msg = History::load(msgs[i].id, msgs[i].client.c_str(), m_id);
             if (msg == NULL)
                 continue;
             t += messageText(msg, false);
@@ -539,15 +631,21 @@ void *MsgViewBase::processEvent(Event *e)
 
                 unsigned n = 0;
                 MessageDef *mdef = NULL;
-                if (msg->getFlags() & MESSAGE_RECEIVED){
-                    unsigned type = msg->baseType();
-                    CommandDef *msgCmd = CorePlugin::m_plugin->messageTypes.find(type);
-                    if (msgCmd )
-                        mdef = (MessageDef*)(msgCmd->param);
-                }
-                if (mdef && mdef->cmd){
-                    for (const CommandDef *d = mdef->cmd; d->text; d++)
-                        n++;
+                unsigned type = msg->baseType();
+                const CommandDef *cmdsSpecial = NULL;
+                CommandDef *msgCmd = CorePlugin::m_plugin->messageTypes.find(type);
+                if (msgCmd)
+                    mdef = (MessageDef*)(msgCmd->param);
+
+                if (mdef){
+                    if (msg->getFlags() & MESSAGE_RECEIVED){
+                        cmdsSpecial = mdef->cmdReceived;
+                    }else{
+                        cmdsSpecial = mdef->cmdSent;
+                    }
+                    if (cmdsSpecial)
+                        for (const CommandDef *d = cmdsSpecial; d->text; d++)
+                            n++;
                 }
 
                 {
@@ -562,8 +660,8 @@ void *MsgViewBase::processEvent(Event *e)
                 CommandDef *cmds = new CommandDef[n];
                 memset(cmds, 0, sizeof(CommandDef) * n);
                 n = 0;
-                if (mdef && mdef->cmd){
-                    for (const CommandDef *d = mdef->cmd; d->text; d++){
+                if (cmdsSpecial){
+                    for (const CommandDef *d = cmdsSpecial; d->text; d++){
                         cmds[n] = *d;
                         cmds[n].id = CmdMsgSpecial + n;
                         n++;
@@ -595,6 +693,22 @@ void *MsgViewBase::processEvent(Event *e)
             return NULL;
         Message *msg;
         switch (cmd->id){
+        case CmdCutHistory:
+            msg = currentMessage();
+            if (msg){
+                History::cut(msg, 0, 0);
+                delete msg;
+                return e->param();
+            }
+            return NULL;
+        case CmdDeleteMessage:
+            msg = currentMessage();
+            if (msg){
+                History::del(msg);
+                delete msg;
+                return e->param();
+            }
+            return NULL;
         case CmdCopy:
             copy();
             return e->param();
@@ -617,9 +731,18 @@ void *MsgViewBase::processEvent(Event *e)
                     CommandDef *msgCmd = CorePlugin::m_plugin->messageTypes.find(type);
                     if (msgCmd)
                         mdef = (MessageDef*)(msgCmd->param);
-                    if (mdef && mdef->cmd){
+                    const CommandDef *cmds = NULL;
+                    if (mdef){
+                        if (msg->getFlags() & MESSAGE_RECEIVED){
+                            cmds = mdef->cmdReceived;
+                        }else{
+                            cmds = mdef->cmdSent;
+                        }
+                    }
+
+                    if (cmds){
                         unsigned n = cmd->id - CmdMsgSpecial;
-                        for (const CommandDef *d = mdef->cmd; d->text; d++){
+                        for (const CommandDef *d = cmds; d->text; d++){
                             if (n-- == 0){
                                 CommandDef cmd = *d;
                                 cmd.param = msg;
@@ -656,10 +779,12 @@ Message *MsgViewBase::currentMessage()
         if (n < 0)
             continue;
         s = s.mid(n + strlen(MSG_ANCHOR));
-        unsigned long id = atol(getToken(s, ',').latin1());
-        getToken(s, ',');
-        s = getToken(s, '\"');
-        Message *msg = History::load(id, s.utf8(), m_id);
+        n = s.find("\"");
+        if (n < 0)
+            continue;
+        string client;
+        unsigned id = messageId(s.left(n), client);
+        Message *msg = History::load(id, client.c_str(), m_id);
         if (msg)
             return msg;
     }

@@ -249,6 +249,7 @@ const unsigned	CmdPhoneNumber			= (CmdBase + 87);
 const unsigned	CmdTranslit				= (CmdBase + 88);
 const unsigned  CmdUrlInput				= (CmdBase + 89);
 const unsigned	CmdCutHistory			= (CmdBase + 90);
+const unsigned	CmdDeleteMessage		= (CmdBase + 91);
 
 const unsigned	CmdContactGroup			= (CmdBase + 0x100);
 const unsigned	CmdUnread				= (CmdBase + 0x200);
@@ -289,6 +290,8 @@ const unsigned	EventHistoryFont		= (CmdBase + 17);
 const unsigned  EventCheckSend			= (CmdBase + 18);
 const unsigned	EventCutHistory			= (CmdBase + 19);
 const unsigned  EventTmplHelp			= (CmdBase + 20);
+const unsigned	EventDeleteMessage		= (CmdBase + 21);
+const unsigned	EventRewriteMessage		= (CmdBase + 22);
 
 const unsigned	BarHistory				= (CmdBase + 1);
 
@@ -348,7 +351,8 @@ const unsigned  STYLE_STRIKE	= 4;
 
 typedef struct MessageDef
 {
-    const CommandDef	*cmd;
+    const CommandDef	*cmdReceived;
+    const CommandDef	*cmdSent;
     unsigned			flags;
     const char			*singular;
     const char			*plural;
@@ -448,6 +452,7 @@ protected slots:
     void managerFinished();
     void destroyManager();
     void selectProfile();
+    void checkHistory();
 protected:
     virtual void *processEvent(Event*);
     virtual string getConfig();
