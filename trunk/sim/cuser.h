@@ -30,19 +30,20 @@ class CUser
 public:
     CUser(unsigned long uin);
     CUser(ICQUser *u);
-    const QString name(bool quoted=false);
-    const QString firstName(bool quoted=false);
-    const QString lastName(bool quoted=false);
-    const QString email(bool quoted=false);
-    const QString autoReply(bool quoted=false);
-    const QString addr();
-    const QString statusTime();
-    const QString onlineTime();
+    QString name(bool quoted=false);
+    QString firstName(bool quoted=false);
+    QString lastName(bool quoted=false);
+    QString email(bool quoted=false);
+    QString autoReply(bool quoted=false);
+    QString addr();
+	QString realAddr();
+    QString statusTime();
+    QString onlineTime();
     QString client();
     QString toolTip();
     ICQUser *operator -> () { return u; }
 protected:
-    const QString formatTime(unsigned long time);
+    QString formatTime(unsigned long time);
     ICQUser *u;
     unsigned long mUIN;
 };

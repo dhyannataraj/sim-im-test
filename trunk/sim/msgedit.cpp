@@ -34,6 +34,7 @@
 #include "ui/editfile.h"
 #include "ui/ballonmsg.h"
 #include "ui/wndcancel.h"
+#include "ui/filetransfer.h"
 
 #include <stdio.h>
 #include <qlayout.h>
@@ -488,12 +489,6 @@ void MsgEdit::fillPhones()
     phoneEdit->lineEdit()->setText(phoneNumber);
 }
 
-static const char* translatedMsg[] =
-    {
-        I18N_NOOP("No files for transfer"),
-        NULL
-    };
-
 void MsgEdit::processEvent(ICQEvent *e)
 {
     ICQUser *u;
@@ -585,15 +580,7 @@ void MsgEdit::processEvent(ICQEvent *e)
                 e->message()->bDelete = false;
                 emit setStatus(i18n("Send failed"), 2000);
                 if (e->message() && *(e->message()->DeclineReason.c_str())){
-                    QString declineReason;
-                    const char **trMsg;
-                    for (trMsg = translatedMsg; *trMsg; trMsg++){
-                        if (msg->DeclineReason == *trMsg){
-                            declineReason = i18n(*trMsg);
-                        }
-                    }
-                    if (*trMsg == NULL)
-                        declineReason = pClient->from8Bit(getUin(), msg->DeclineReason.c_str(), msg->Charset.c_str());
+                    QString declineReason = pClient->from8Bit(getUin(), msg->DeclineReason.c_str(), msg->Charset.c_str());
                     BalloonMsg::message(declineReason, toolbar->getWidget(btnSend));
                 }
             }
@@ -621,6 +608,20 @@ void MsgEdit::closeEvent(QCloseEvent *e)
 
 void MsgEdit::realSend()
 {
+	if (message()->Type() == ICQ_MSGxFILE){
+		ICQFile *f = static_cast<ICQFile*>(message());
+		msg = NULL;
+		FileTransferDlg *dlg = new FileTransferDlg(NULL, f);
+        dlg->show();
+		if (bCloseSend){
+			close();
+            return;
+        }
+        setMessage();
+        sendEvent = NULL;
+        action(mnuAction);
+		return;
+	}
     sendEvent = pClient->sendMessage(message());
     if (sendEvent) setState();
 }

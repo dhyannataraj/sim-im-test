@@ -6,284 +6,247 @@
         <name>name</name>
         <cstring>FileTransfer</cstring>
     </property>
-    <property>
+    <property stdset="1">
         <name>geometry</name>
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>321</width>
-            <height>330</height>
+            <width>313</width>
+            <height>231</height>
         </rect>
     </property>
-    <property>
+    <property stdset="1">
         <name>caption</name>
         <string>File transfer</string>
     </property>
     <vbox>
-        <property>
+        <property stdset="1">
             <name>margin</name>
             <number>11</number>
         </property>
-        <property>
+        <property stdset="1">
             <name>spacing</name>
             <number>6</number>
         </property>
         <widget>
-            <class>QLayoutWidget</class>
+            <class>QTabWidget</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>Layout5</cstring>
+                <cstring>tabFT</cstring>
             </property>
-            <hbox>
-                <property>
-                    <name>margin</name>
-                    <number>0</number>
+            <widget>
+                <class>QWidget</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>tab</cstring>
                 </property>
-                <property>
-                    <name>spacing</name>
-                    <number>6</number>
+                <attribute>
+                    <name>title</name>
+                    <string>&amp;Transfer</string>
+                </attribute>
+                <vbox>
+                    <property stdset="1">
+                        <name>margin</name>
+                        <number>11</number>
+                    </property>
+                    <property stdset="1">
+                        <name>spacing</name>
+                        <number>6</number>
+                    </property>
+                    <widget>
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>lblState</cstring>
+                        </property>
+                        <property stdset="1">
+                            <name>text</name>
+                            <string></string>
+                        </property>
+                    </widget>
+                    <widget>
+                        <class>QProgressBar</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>barSend</cstring>
+                        </property>
+                    </widget>
+                    <widget>
+                        <class>QProgressBar</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>barBatch</cstring>
+                        </property>
+                    </widget>
+                    <widget>
+                        <class>QLayoutWidget</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>Layout4</cstring>
+                        </property>
+                        <hbox>
+                            <property stdset="1">
+                                <name>margin</name>
+                                <number>0</number>
+                            </property>
+                            <property stdset="1">
+                                <name>spacing</name>
+                                <number>6</number>
+                            </property>
+                            <widget>
+                                <class>QLabel</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>lblSize</cstring>
+                                </property>
+                                <property stdset="1">
+                                    <name>font</name>
+                                    <font>
+                                        <bold>1</bold>
+                                    </font>
+                                </property>
+                                <property stdset="1">
+                                    <name>text</name>
+                                    <string>1000000/100000</string>
+                                </property>
+                            </widget>
+                            <spacer>
+                                <property>
+                                    <name>name</name>
+                                    <cstring>Spacer4_2</cstring>
+                                </property>
+                                <property>
+                                    <name>orientation</name>
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property>
+                                    <name>sizeType</name>
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property>
+                                    <name>sizeHint</name>
+                                    <size>
+                                        <width>20</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                            <widget>
+                                <class>QLabel</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>lblSpeed</cstring>
+                                </property>
+                                <property stdset="1">
+                                    <name>font</name>
+                                    <font>
+                                        <bold>1</bold>
+                                    </font>
+                                </property>
+                                <property stdset="1">
+                                    <name>text</name>
+                                    <string>100000</string>
+                                </property>
+                            </widget>
+                        </hbox>
+                    </widget>
+                    <widget>
+                        <class>QLayoutWidget</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>Layout5</cstring>
+                        </property>
+                        <hbox>
+                            <property stdset="1">
+                                <name>margin</name>
+                                <number>0</number>
+                            </property>
+                            <property stdset="1">
+                                <name>spacing</name>
+                                <number>6</number>
+                            </property>
+                            <widget>
+                                <class>QLabel</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>lblSldSpeed</cstring>
+                                </property>
+                                <property stdset="1">
+                                    <name>text</name>
+                                    <string>Speed:</string>
+                                </property>
+                                <property stdset="1">
+                                    <name>alignment</name>
+                                    <set>AlignVCenter|AlignRight</set>
+                                </property>
+                                <property>
+                                    <name>hAlign</name>
+                                </property>
+                            </widget>
+                            <widget>
+                                <class>QSlider</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>sldSpeed</cstring>
+                                </property>
+                                <property stdset="1">
+                                    <name>orientation</name>
+                                    <enum>Horizontal</enum>
+                                </property>
+                            </widget>
+                        </hbox>
+                    </widget>
+                    <spacer>
+                        <property>
+                            <name>name</name>
+                            <cstring>Spacer7</cstring>
+                        </property>
+                        <property>
+                            <name>orientation</name>
+                            <enum>Vertical</enum>
+                        </property>
+                        <property>
+                            <name>sizeType</name>
+                            <enum>Expanding</enum>
+                        </property>
+                        <property>
+                            <name>sizeHint</name>
+                            <size>
+                                <width>20</width>
+                                <height>20</height>
+                            </size>
+                        </property>
+                    </spacer>
+                </vbox>
+            </widget>
+            <widget>
+                <class>QWidget</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>tab2</cstring>
                 </property>
-                <widget>
-                    <class>QLabel</class>
+                <attribute>
+                    <name>title</name>
+                    <string>&amp;Details</string>
+                </attribute>
+                <vbox>
                     <property stdset="1">
-                        <name>name</name>
-                        <cstring>lblFile1</cstring>
+                        <name>margin</name>
+                        <number>11</number>
                     </property>
-                    <property>
-                        <name>text</name>
-                        <string>File:</string>
-                    </property>
-                </widget>
-                <widget>
-                    <class>QLineEdit</class>
                     <property stdset="1">
-                        <name>name</name>
-                        <cstring>edtFile1</cstring>
+                        <name>spacing</name>
+                        <number>6</number>
                     </property>
-                </widget>
-            </hbox>
-        </widget>
-        <widget>
-            <class>QProgressBar</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>barSend</cstring>
-            </property>
-        </widget>
-        <widget>
-            <class>QLayoutWidget</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>Layout5</cstring>
-            </property>
-            <hbox>
-                <property>
-                    <name>margin</name>
-                    <number>0</number>
-                </property>
-                <property>
-                    <name>spacing</name>
-                    <number>6</number>
-                </property>
-                <widget>
-                    <class>QLabel</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>lblBatch</cstring>
-                    </property>
-                    <property>
-                        <name>sizePolicy</name>
-                        <sizepolicy>
-                            <hsizetype>7</hsizetype>
-                            <vsizetype>1</vsizetype>
-                        </sizepolicy>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>Batch</string>
-                    </property>
-                </widget>
-                <widget>
-                    <class>QLabel</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>lblBatchState</cstring>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string></string>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
-        <widget>
-            <class>QProgressBar</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>barBatch</cstring>
-            </property>
-        </widget>
-        <widget>
-            <class>QLayoutWidget</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>Layout4</cstring>
-            </property>
-            <hbox>
-                <property>
-                    <name>margin</name>
-                    <number>0</number>
-                </property>
-                <property>
-                    <name>spacing</name>
-                    <number>6</number>
-                </property>
-                <widget>
-                    <class>QLabel</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>lblSize</cstring>
-                    </property>
-                    <property>
-                        <name>font</name>
-                        <font>
-                            <bold>1</bold>
-                        </font>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>1000000/100000</string>
-                    </property>
-                </widget>
-                <spacer>
-                    <property>
-                        <name>name</name>
-                        <cstring>Spacer4_2</cstring>
-                    </property>
-                    <property>
-                        <name>orientation</name>
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property>
-                        <name>sizeType</name>
-                        <enum>Expanding</enum>
-                    </property>
-                    <property>
-                        <name>sizeHint</name>
-                        <size>
-                            <width>20</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget>
-                    <class>QLabel</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>lblSpeed</cstring>
-                    </property>
-                    <property>
-                        <name>font</name>
-                        <font>
-                            <bold>1</bold>
-                        </font>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>100000</string>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
-        <widget>
-            <class>QLayoutWidget</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>Layout5</cstring>
-            </property>
-            <hbox>
-                <property>
-                    <name>margin</name>
-                    <number>0</number>
-                </property>
-                <property>
-                    <name>spacing</name>
-                    <number>6</number>
-                </property>
-                <widget>
-                    <class>QLabel</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>lblSldSpeed</cstring>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>Speed:</string>
-                    </property>
-                    <property>
-                        <name>alignment</name>
-                        <set>AlignVCenter|AlignRight</set>
-                    </property>
-                    <property>
-                        <name>hAlign</name>
-                    </property>
-                </widget>
-                <widget>
-                    <class>QSlider</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>sldSpeed</cstring>
-                    </property>
-                    <property>
-                        <name>orientation</name>
-                        <enum>Horizontal</enum>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
-        <spacer>
-            <property>
-                <name>name</name>
-                <cstring>Spacer7</cstring>
-            </property>
-            <property>
-                <name>orientation</name>
-                <enum>Vertical</enum>
-            </property>
-            <property>
-                <name>sizeType</name>
-                <enum>Expanding</enum>
-            </property>
-            <property>
-                <name>sizeHint</name>
-                <size>
-                    <width>20</width>
-                    <height>20</height>
-                </size>
-            </property>
-        </spacer>
-        <widget>
-            <class>Line</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>Line1</cstring>
-            </property>
-            <property>
-                <name>frameShape</name>
-                <enum>HLine</enum>
-            </property>
-            <property>
-                <name>frameShadow</name>
-                <enum>Sunken</enum>
-            </property>
-            <property>
-                <name>orientation</name>
-                <enum>Horizontal</enum>
-            </property>
-            <property>
-                <name>frameShape</name>
-                <enum>HLine</enum>
-            </property>
+                    <widget>
+                        <class>QMultiLineEdit</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>edtLog</cstring>
+                        </property>
+                    </widget>
+                </vbox>
+            </widget>
         </widget>
         <widget>
             <class>QLayoutWidget</class>
@@ -292,11 +255,11 @@
                 <cstring>Layout6</cstring>
             </property>
             <hbox>
-                <property>
+                <property stdset="1">
                     <name>margin</name>
                     <number>0</number>
                 </property>
-                <property>
+                <property stdset="1">
                     <name>spacing</name>
                     <number>6</number>
                 </property>
@@ -306,7 +269,7 @@
                         <name>name</name>
                         <cstring>chkClose</cstring>
                     </property>
-                    <property>
+                    <property stdset="1">
                         <name>text</name>
                         <string>Close after send</string>
                     </property>
@@ -338,30 +301,12 @@
                         <name>name</name>
                         <cstring>btnCancel</cstring>
                     </property>
-                    <property>
+                    <property stdset="1">
                         <name>text</name>
                         <string>&amp;Cancel</string>
                     </property>
                 </widget>
-                <widget>
-                    <class>QPushButton</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>btnDetails</cstring>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>&amp;Details</string>
-                    </property>
-                </widget>
             </hbox>
-        </widget>
-        <widget>
-            <class>QMultiLineEdit</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>edtLog</cstring>
-            </property>
         </widget>
     </vbox>
 </widget>

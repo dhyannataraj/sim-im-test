@@ -200,7 +200,7 @@ protected:
     virtual bool writeFile(ICQFile *f, Buffer &b);
     virtual void closeFile(ICQFile *f);
 
-    virtual unsigned long getFileSize(const char *name, int *nSrcFiles, vector<fileName> &files);
+    virtual unsigned long getFileSize(const char *name, vector<fileName> &files);
     unsigned long getFileSize(QString name, QString base, vector<fileName> &file);
     unsigned long getFileSize(QString name, vector<fileName> &file);
 

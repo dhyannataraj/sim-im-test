@@ -267,7 +267,6 @@ typedef struct MainWindow_Data
 
     bool			AllEncodings;
     bool			HistoryDirection;
-    bool			FileTransferDetails;
 
     char*			BackgroundFile;
     unsigned short	BackgroundMode;
@@ -412,7 +411,6 @@ public:
 
     PROP_BOOL(AllEncodings)
     PROP_BOOL(HistoryDirection)
-    PROP_BOOL(FileTransferDetails)
 
     PROP_STR(BackgroundFile)
     PROP_USHORT(BackgroundMode)

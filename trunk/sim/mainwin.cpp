@@ -246,7 +246,6 @@ cfgParam MainWindow_Params[] =
         { "CopyMessages", offsetof(MainWindow_Data, CopyMessages), PARAM_USHORT, 3 },
         { "AllEncodings", offsetof(MainWindow_Data, AllEncodings), PARAM_BOOL, 0 },
         { "HistoryDirection", offsetof(MainWindow_Data, HistoryDirection), PARAM_BOOL, 1 },
-        { "FileTransferDetails", offsetof(MainWindow_Data, FileTransferDetails), PARAM_BOOL, 0 },
         { "ToolBarMain", offsetof(MainWindow_Data, ToolBarMain), PARAM_LIST, 0 },
         { "ToolBarMsg", offsetof(MainWindow_Data, ToolBarMsg), PARAM_LIST, 0 },
         { "ToolBarHistory", offsetof(MainWindow_Data, ToolBarHistory), PARAM_LIST, 0 },
@@ -1047,7 +1046,13 @@ bool MainWindow::init(bool bNoApply)
 #else
         char mutex_name[32];
         snprintf(mutex_name, sizeof(mutex_name), "sim_%lu", pClient->owner->Uin);
-        HANDLE mutex = CreateMutexA(NULL, TRUE, mutex_name);
+        HANDLE mutex;
+		mutex = OpenMutexA(NULL, FALSE, mutex_name);
+		if (mutex){
+			CloseHandle(mutex);
+			return false;
+		}
+		mutex = CreateMutexA(NULL, TRUE, mutex_name);
         if (mutex == NULL) return false;
         lockFile = (int)mutex;
 #endif

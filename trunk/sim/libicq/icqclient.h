@@ -610,13 +610,6 @@ typedef struct fileName
 class FileTransferListener;
 class FileTransfer;
 
-const unsigned FT_UNKNOWN			= 0;
-const unsigned FT_LISTEN			= 1;
-const unsigned FT_DIRECT_CONNECT	= 2;
-const unsigned FT_SEND_SRV			= 3;
-const unsigned FT_SEND_DIRECT		= 4;
-const unsigned FT_NEGOTIATE			= 5;
-
 class ICQFile : public ICQMessage
 {
 public:
@@ -638,8 +631,6 @@ public:
     void resume(int mode);
     vector<fileName> files;
 
-    unsigned ftState;
-
     bool wait;
     bool autoAccept;
     unsigned long p;
@@ -656,6 +647,19 @@ public:
     void setCurName(const char*);
     void setPos(unsigned long);
     void setSpeed(unsigned short);
+
+	enum State{
+		Unknown,
+		ThruServerSend,
+		DirectConnect,
+		DirectWait,
+		Negotiate,
+		DirectSend,
+		DataConnect,
+		Listen,
+		Process
+	};
+	State			ftState;
 };
 
 class ChatListener;
@@ -869,7 +873,7 @@ public:
     virtual bool writeFile(ICQFile *f, Buffer &b);
     virtual void closeFile(ICQFile *f);
 
-    virtual unsigned long getFileSize(const char *name, int *nSrcFile, vector<fileName> &files);
+    virtual unsigned long getFileSize(const char *name, vector<fileName> &files);
 
     void idle();
     SocketFactory *factory();

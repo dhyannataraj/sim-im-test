@@ -160,9 +160,11 @@ QString put_n_in(const QString &orig, unsigned long n)
     return ret;
 }
 
-#define EXPECT_LENGTH(x) \
-   if (forms.count() != x) \
-	return QString( "BROKEN TRANSLATION %1" ).arg( singular ); 
+#define EXPECT_LENGTH(x)														\
+	if (forms.count() != x){													\
+		log(L_WARN, "Broken translation %s", singular);							\
+		goto NoTranslate;														\
+	}
 
 QString i18n(const char *singular, const char *plural, unsigned long n)
 {
@@ -174,6 +176,7 @@ QString i18n(const char *singular, const char *plural, unsigned long n)
     delete [] newstring;
     initPlural();
     if ( r.isEmpty() || plural_form == -1) {
+NoTranslate:
         if ( n == 1 )
             return put_n_in( QString::fromUtf8( singular ),  n );
         else

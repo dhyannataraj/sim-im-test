@@ -117,6 +117,7 @@ ICQFile::ICQFile()
     client = NULL;
     autoAccept = false;
     wait = false;
+	ftState = Unknown;
 }
 
 ICQFile::~ICQFile()
@@ -835,9 +836,8 @@ ICQEvent *ICQClient::sendMessage(ICQMessage *msg)
         ICQFile *f = static_cast<ICQFile*>(msg);
         if (f->Size == 0){
             f->localName = f->Name;
-            int nSrcFiles = 0;
-            f->Size = getFileSize(f->Name.c_str(), &nSrcFiles, f->files);
-            if (nSrcFiles == 0){
+            f->Size = getFileSize(f->Name.c_str(), f->files);
+            if (f->files.size() == 0){
                 f->DeclineReason = "No files for transfer";
                 ICQEvent e(f->getUin(), EVENT_MESSAGE_SEND);
                 e.setMessage(f);
@@ -845,9 +845,9 @@ ICQEvent *ICQClient::sendMessage(ICQMessage *msg)
                 process_event(&e);
                 return NULL;
             }
-            if (nSrcFiles > 1){
+            if (f->files.size() > 1){
                 char b[32];
-                snprintf(b, sizeof(b), "%u Files", nSrcFiles);
+                snprintf(b, sizeof(b), "%u Files", f->files.size());
                 f->Name = b;
             }else{
                 f->Name = f->shortName();
@@ -870,6 +870,20 @@ ICQEvent *ICQClient::sendMessage(ICQMessage *msg)
         if ((msg->Type() == ICQ_MSGxCHAT) || (msg->Type() == ICQ_MSGxFILE)){
             if (u && (u->uStatus != ICQ_STATUS_OFFLINE) &&
                     (u->direct || (u->Port && (u->IP || u->RealIP)))){
+				if (msg->Type() == ICQ_MSGxFILE){
+					ICQFile *f = static_cast<ICQFile*>(msg);
+					if (u->direct){
+						if (!u->direct->isLogged())
+							f->ftState = ICQFile::DirectWait;
+					}else{
+						f->ftState = ICQFile::DirectConnect;
+					}
+					if (f->ftState != ICQFile::Unknown){
+						ICQEvent e(EVENT_FILETRANSFER);
+						e.setMessage(f);
+						process_event(&e);
+					}
+				}
                 ICQEvent *e = u->addMessage(msg, p);
                 if (e){
                     for (list<ICQEvent*>::iterator it = u->msgQueue.begin(); it != u->msgQueue.end(); it++)

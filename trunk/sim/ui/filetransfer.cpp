@@ -40,6 +40,8 @@
 #include <qtimer.h>
 #include <qstringlist.h>
 #include <qregexp.h>
+#include <qtabwidget.h>
+#include <qmultilineedit.h>
 
 FileTransferDlg::FileTransferDlg(QWidget *p, ICQFile *_file)
         : FileTransferBase(p, "filetransfer", false, WDestructiveClose | WStyle_Minimize)
@@ -50,7 +52,6 @@ FileTransferDlg::FileTransferDlg(QWidget *p, ICQFile *_file)
     bStarted = false;
     file = _file;
     setIcon(Pict("file"));
-    edtFile1->setReadOnly(true);
     chkClose->setChecked(file->autoAccept || pMain->isCloseAfterFileTransfer());
     connect(btnCancel, SIGNAL(clicked()), this, SLOT(close()));
     connect(pClient, SIGNAL(fileExist(ICQFile*, const QString&,bool)), this, SLOT(fileExist(ICQFile*, const QString&, bool)));
@@ -69,17 +70,19 @@ FileTransferDlg::FileTransferDlg(QWidget *p, ICQFile *_file)
         QString name = file->Name.c_str();
         if (name.find(QRegExp("^[0-9]+ Files$")) >= 0)
             nFiles = name.toUInt();
-        title = i18n("Receive file from %1", "Receive %n files from %1", nFiles) .arg(u.name());
+        title = i18n("Receive %2 from %1", "Receive %n files from %1", nFiles)
+			.arg(u.name())
+			.arg(QString::fromLocal8Bit(file->Name.c_str()));
     }else{
-        title = i18n("Send file to %1", "Send %n files to %1", nFiles) .arg(u.name());
+        title = i18n("Send %2 to %1", "Send %n files to %1", nFiles)
+			.arg(u.name())
+			.arg(QString::fromLocal8Bit(file->Name.c_str()));
     }
     setCaption(title);
+	lblState->setText(title);
 
-    if (nFiles <= 1){
+    if (nFiles <= 1)
         barBatch->hide();
-        lblBatch->hide();
-        lblBatchState->hide();
-    }
     sldSpeed->setMinValue(1);
     sldSpeed->setMaxValue(100);
     sldSpeed->setValue(file->speed());
@@ -92,6 +95,8 @@ FileTransferDlg::FileTransferDlg(QWidget *p, ICQFile *_file)
     connect(timer, SIGNAL(timeout()), this, SLOT(timeout()));
     timer->start(1000);
     curFile = (unsigned long)(-1);
+	if (!file->Received)
+		QTimer::singleShot(100, this, SLOT(send()));
 }
 
 FileTransferDlg::~FileTransferDlg()
@@ -126,10 +131,44 @@ void FileTransferDlg::timeout()
     bDirty = false;
 }
 
+static const char* translatedMsg[] =
+    {
+        I18N_NOOP("No files for transfer"),
+        NULL
+    };
+
+void FileTransferDlg::setLog(const QString &str)
+{
+	lblState->setText(str);
+	if (!edtLog->text().isEmpty())
+		edtLog->append("\n");
+	edtLog->append(str);
+}
+
 void FileTransferDlg::processEvent(ICQEvent *e)
 {
     if (e->message() != file) return;
+	if (file == NULL) return;
+	if (e->type() == EVENT_FILETRANSFER){
+		CUser u(file->getUin());
+		switch (file->ftState){
+		case ICQFile::DirectConnect:
+			setLog(i18n("Connect to %1 [%2]")
+				.arg(u.name())
+				.arg(u.realAddr()));
+			break;
+		case ICQFile::DirectWait:
+			setLog(i18n("Wait connect to %1 [%2]")
+				.arg(u.name())
+				.arg(u.realAddr()));
+			break;
+		default:
+			break;
+		}
+	}
+
     QString c;
+	bool bClose = true;
     if (e->state == ICQEvent::Success){
         if (e->type() != EVENT_DONE) return;
         file->state = file->Size;
@@ -138,11 +177,26 @@ void FileTransferDlg::processEvent(ICQEvent *e)
         setProgress(false);
     }else if (e->state == ICQEvent::Fail){
         c = title + " " + i18n("[fail]");
+		if (file && file->DeclineReason.length()){
+			bClose = false;
+			tabFT->setCurrentPage(0);
+			showNormal();
+			raise();
+			QString reason;
+            const char **trMsg;
+            for (trMsg = translatedMsg; *trMsg; trMsg++){
+				if (file->DeclineReason == *trMsg){
+					reason = i18n(*trMsg);
+				}
+            }
+			if (reason.isEmpty()) reason = QString::fromLocal8Bit(file->DeclineReason.c_str());
+			BalloonMsg::message(reason, lblState);
+		}
     }else{
         return;
     }
     setCaption(c);
-    if (chkClose->isChecked()){
+    if (chkClose->isChecked() && bClose){
         file = NULL;
         pMain->ftClose();
         close();
@@ -169,18 +223,13 @@ void FileTransferDlg::setProgress(bool bChangeTitle)
         return;
     }
     bStarted = true;
-    if ((file->nFiles() > 1) && !barBatch->isVisible()){
-        lblBatch->show();
-        lblBatchState->show();
+    if ((file->nFiles() > 1) && !barBatch->isVisible())
         barBatch->show();
-    }
     if (file->curFile() != curFile){
         curFile = file->curFile();
-        edtFile1->setText(QString::fromLocal8Bit(file->curName().c_str()));
         barSend->setTotalSteps(file->curSize());
         unsigned long nFile = file->curFile() + 1;
         if (nFile > file->nFiles()) nFile = file->nFiles();
-        lblBatchState->setText(QString::number(nFile) + "/" + QString::number(file->nFiles()));
     }
     lblSpeed->setText("");
     lblSize->setText(formatSize(file->totalSize()) + "/" + formatSize(file->Size));
@@ -244,9 +293,8 @@ void FileTransferDlg::fileNoCreate(ICQFile *f, const QString &name)
     QStringList btns;
     btns.append(i18n("&New"));
     btns.append(i18n("&Cancel"));
-    edtFile1->setText(QString::fromLocal8Bit(f->curName().c_str()));
-    QPoint p = edtFile1->mapToGlobal(edtFile1->rect().topLeft());
-    QRect rc(p.x(), p.y(), edtFile1->width(), edtFile1->height());
+    QPoint p = lblState->mapToGlobal(lblState->rect().topLeft());
+    QRect rc(p.x(), p.y(), lblState->width(), lblState->height());
     BalloonMsg *msg = new BalloonMsg(i18n("Can't create %1") .arg(name),
                                      rc, btns, this);
     connect(msg, SIGNAL(action(int)), this, SLOT(action(int)));
@@ -263,9 +311,8 @@ void FileTransferDlg::fileExist(ICQFile *f, const QString &name, bool _bCanResum
     if (bCanResume) btns.append(i18n("R&esume"));
     btns.append(i18n("&New"));
     btns.append(i18n("&Skip"));
-    edtFile1->setText(QString::fromLocal8Bit(f->curName().c_str()));
-    QPoint p = edtFile1->mapToGlobal(edtFile1->rect().topLeft());
-    QRect rc(p.x(), p.y(), edtFile1->width(), edtFile1->height());
+    QPoint p = lblState->mapToGlobal(lblState->rect().topLeft());
+    QRect rc(p.x(), p.y(), lblState->width(), lblState->height());
     BalloonMsg *msg = new BalloonMsg(i18n("File %1 exist") .arg(name), rc, btns, this);
     connect(msg, SIGNAL(action(int)), this, SLOT(action(int)));
     msg->show();
@@ -279,6 +326,11 @@ void FileTransferDlg::closeToggled(bool bState)
 void FileTransferDlg::action()
 {
     if (file) file->resume(curAction);
+}
+
+void FileTransferDlg::send()
+{
+	pClient->sendMessage(file);
 }
 
 void FileTransferDlg::action(int n)
@@ -323,7 +375,6 @@ void FileTransferDlg::action(int n)
                 }
                 file->localName = path.local8Bit();
                 file->setCurName(s.local8Bit());
-                edtFile1->setText(s);
             }
             file->resume(FT_DEFAULT);
             break;

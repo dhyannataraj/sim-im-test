@@ -628,6 +628,7 @@ void SIMClient::process_event(ICQEvent *e)
         }
         switch (e->message()->Type()){
         case ICQ_MSGxFILE:{
+				if (!e->message()->Received) break;
                 FileTransferDlg *dlg = new FileTransferDlg(NULL, static_cast<ICQFile*>(e->message()));
                 dlg->show();
                 break;
@@ -1176,9 +1177,8 @@ unsigned long SIMClient::getFileSize(QString fName, vector<fileName> &files)
     return 0;
 }
 
-unsigned long SIMClient::getFileSize(const char *name, int *nSrcFiles, vector<fileName> &files)
+unsigned long SIMClient::getFileSize(const char *name, vector<fileName> &files)
 {
-    *nSrcFiles = 0;
     unsigned long res = 0;
     bool bInQuote = false;
     int start = 0;
@@ -1187,7 +1187,6 @@ unsigned long SIMClient::getFileSize(const char *name, int *nSrcFiles, vector<fi
         if (file[i] == '\"'){
             QString fname = file.mid(start, i - start);
             if (!fname.isEmpty()){
-                (*nSrcFiles)++;
                 res += getFileSize(fname, files);
             }
             bInQuote = !bInQuote;
@@ -1197,7 +1196,6 @@ unsigned long SIMClient::getFileSize(const char *name, int *nSrcFiles, vector<fi
         if ((file[i].isSpace() || (file[i] == ',')) && !bInQuote){
             QString fname = file.mid(start, i - start);
             if (!fname.isEmpty()){
-                (*nSrcFiles)++;
                 res += getFileSize(fname, files);
             }
             start = i + 1;
@@ -1206,7 +1204,6 @@ unsigned long SIMClient::getFileSize(const char *name, int *nSrcFiles, vector<fi
     }
     QString fname = file.mid(start);
     if (!fname.isEmpty()){
-        (*nSrcFiles)++;
         res += getFileSize(fname, files);
     }
     return res;

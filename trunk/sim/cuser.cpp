@@ -51,7 +51,7 @@ CUser::CUser(unsigned long uin)
     mUIN = uin;
 }
 
-const QString CUser::name(bool quoted)
+QString CUser::name(bool quoted)
 {
     if (u == NULL){
         if (mUIN < UIN_SPECIAL){
@@ -76,7 +76,7 @@ const QString CUser::name(bool quoted)
     return pClient->from8Bit(u ? u->Uin : mUIN, n.c_str());
 }
 
-const QString CUser::firstName(bool quoted)
+QString CUser::firstName(bool quoted)
 {
     if (u == NULL) return "";
     string n = u->FirstName;
@@ -84,7 +84,7 @@ const QString CUser::firstName(bool quoted)
     return pClient->from8Bit(u->Uin, n.c_str());
 }
 
-const QString CUser::lastName(bool quoted)
+QString CUser::lastName(bool quoted)
 {
     if (u == NULL) return "";
     string n = u->LastName;
@@ -92,7 +92,7 @@ const QString CUser::lastName(bool quoted)
     return pClient->from8Bit(u->Uin, n.c_str());
 }
 
-const QString CUser::email(bool quoted)
+QString CUser::email(bool quoted)
 {
     if (u == NULL) return "";
     string res;
@@ -106,7 +106,7 @@ const QString CUser::email(bool quoted)
     return pClient->from8Bit(u->Uin, res.c_str());
 }
 
-const QString CUser::autoReply(bool quoted)
+QString CUser::autoReply(bool quoted)
 {
     if (u == NULL) return "";
     string n = u->AutoReply;
@@ -116,19 +116,19 @@ const QString CUser::autoReply(bool quoted)
     return res;
 }
 
-const QString CUser::statusTime()
+QString CUser::statusTime()
 {
     if (u == NULL) return "";
     return formatTime(u->StatusTime);
 }
 
-const QString CUser::onlineTime()
+QString CUser::onlineTime()
 {
     if (u == NULL) return "";
     return formatTime(u->OnlineTime);
 }
 
-const QString CUser::formatTime(unsigned long t)
+QString CUser::formatTime(unsigned long t)
 {
     if (t == 0) return "";
     QDateTime time;
@@ -140,7 +140,7 @@ const QString CUser::formatTime(unsigned long t)
 #endif
 }
 
-const QString CUser::addr()
+QString CUser::addr()
 {
     if (u == NULL) return "";
     QString res;
@@ -170,6 +170,21 @@ const QString CUser::addr()
         }
     }
     return res;
+}
+
+QString CUser::realAddr()
+{
+    QString res;
+    if (u->RealIP){
+        struct in_addr a;
+        a.s_addr = u->RealIP;
+        res += inet_ntoa(a);
+        if (u->Port){
+            QString s;
+            res += s.sprintf(":%u", u->Port);
+        }
+    }
+	return res;
 }
 
 QString CUser::client()

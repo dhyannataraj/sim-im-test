@@ -594,9 +594,8 @@ void ICQClientPrivate::processResponseRequestQueue(unsigned short seq)
     }
 }
 
-unsigned long ICQClient::getFileSize(const char*, int *nSrcFiles, vector<fileName>&)
+unsigned long ICQClient::getFileSize(const char*, vector<fileName>&)
 {
-    *nSrcFiles = 0;
     return 0;
 }
 
