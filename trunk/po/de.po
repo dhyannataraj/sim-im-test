@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2004-11-17 18:12+0000\n"
-"PO-Revision-Date: 2004-11-17 19:00+0100\n"
+"PO-Revision-Date: 2004-11-23 01:33+0100\n"
 "Last-Translator: Noragen <noragen@gmx.net>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -5272,7 +5272,7 @@ msgstr "zufrieden"
 
 #: plugins/livejournal/livejournal.cpp:1417
 msgid "indifferent"
-msgstr "gleichgültig"
+msgstr "gleichmütig"
 
 #: plugins/livejournal/livejournal.cpp:1418
 msgid "silly"
