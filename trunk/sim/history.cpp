@@ -460,7 +460,7 @@ void History::iterator::loadBlock()
                 break;
             if (*line.c_str() != '[') continue;
             type = line.substr(1, line.length()-1);
-            int pos = type.find(']');
+            pos = type.find(']');
             if (pos < 1) continue;
             type = type.substr(0, pos);
             message_type *t;
