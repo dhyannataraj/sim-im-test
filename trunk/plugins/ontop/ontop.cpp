@@ -126,14 +126,17 @@ void *OnTopPlugin::processEvent(Event *e)
     if (e->type() == EventOnTop){
         QWidget *main = getMainWindow();
         if (main == NULL) return NULL;
+#ifdef WIN32
         HWND hState = HWND_NOTOPMOST;
         if (getOnTop()) hState = HWND_TOPMOST;
         if (e->param()) hState = HWND_BOTTOM;
         SetWindowPos(main->winId(), hState, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+#endif
     }
     if (e->type() == EventInTaskManager){
         QWidget *main = getMainWindow();
         if (main == NULL) return NULL;
+#ifdef WIN32
         if (IsWindowUnicode(main->winId())){
             if (e->param() && getInTask()){
                 SetWindowLongW(main->winId(), GWL_EXSTYLE,
@@ -163,6 +166,7 @@ void *OnTopPlugin::processEvent(Event *e)
                 }
             }
         }
+#endif
     }
     return NULL;
 }
