@@ -98,7 +98,7 @@ void SoundUserConfig::apply(void *data)
         unsigned id = item->text(2).toUInt();
         QString text = item->text(1);
         if (text.isEmpty())
-            text = "-";
+            text = "(nosound)";
         if (id == ONLINE_ALERT){
             set_str(&user_data->Alert.ptr, QFile::encodeName(text));
         }else{

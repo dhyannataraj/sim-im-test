@@ -294,7 +294,7 @@ string SoundPlugin::messageSound(unsigned type, SoundUserData *data)
     string sound;
     if (data)
         sound = get_str(data->Receive, type);
-    if (sound == "-")
+    if (sound == "(nosound)")
         return "";
     if (sound.empty()){
         def = core->messageTypes.find(type);
@@ -316,8 +316,9 @@ string SoundPlugin::messageSound(unsigned type, SoundUserData *data)
 
 string SoundPlugin::fullName(const char *name)
 {
-    string sound;
-    if ((name == NULL) || (*name == 0))
+    string sound="";
+    string str_name = name;
+    if ((name == NULL) || (*name == 0) || (str_name == "(nosound)"))
         return sound;
 #ifdef WIN32
     char c = name[0];
