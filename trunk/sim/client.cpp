@@ -1134,8 +1134,10 @@ unsigned long SIMClient::getFileSize(QString name, QString base, vector<fileName
 			log(L_DEBUG, "Set: %s %s", f.name.c_str(), f.localName.c_str());
             f.size = fInfo.size();
             files.push_back(f);
-        }
-        return fInfo.size();
+	        return fInfo.size();
+		}
+		log(L_WARN, "File %s is not readable", (const char*)(name.local8Bit()));
+		return 0;
     }
     QDir d(fName);
     const QFileInfoList *f = d.entryInfoList();
