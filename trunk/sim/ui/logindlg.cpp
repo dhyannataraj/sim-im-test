@@ -20,6 +20,7 @@
 #include "proxydlg.h"
 #include "client.h"
 #include "icons.h"
+#include "log.h"
 
 #include <qlayout.h>
 #include <qlineedit.h>
@@ -47,6 +48,7 @@ LoginDialog::LoginDialog()
     QSize s = sizeHint();
     QWidget *desktop = QApplication::desktop();
     move((desktop->width() - s.width()) / 2, (desktop->height() - s.height()) / 2);
+    setResult(0);
 };
 
 void LoginDialog::setOldUser(bool bSet)
@@ -113,6 +115,7 @@ void LoginDialog::processEvent(ICQEvent *e)
         if (pClient->m_state == ICQClient::Logged){
             bLogin = false;
             pClient->DecryptedPassword = "";
+	    setResult(chkOldUser->isChecked() ? 0 : 1);
             close();
         }
         return;
