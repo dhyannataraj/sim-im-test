@@ -447,7 +447,7 @@ void UserViewItem::update(ICQUser *u, bool bFirst)
     QString name = user.name();
     setText(0, name);
     const char *userIcon = SIMClient::getUserIcon(u);
-    if (m_bInvisible && ((u->uStatus & 0xFF) == ICQ_STATUS_OFFLINE)){
+    if (m_bInvisible && ((u->uStatus & 0xFF) == ICQ_STATUS_ONLINE)){
         m_bInvisible = false;
         userIcon = "invisible";
     }

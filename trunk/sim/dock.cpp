@@ -660,6 +660,7 @@ void DockWnd::mouseReleaseEvent( QMouseEvent *e)
 #ifndef WIN32
     if (!inTray && (wharfIcon == NULL)){
         releaseMouse();
+		if (!mousePos.isNull()){
         move(e->globalPos().x() - mousePos.x(),  e->globalPos().y() - mousePos.y());
         mousePos = QPoint();
         QPoint p(pMain->DockX - x(), pMain->DockY - y());
@@ -667,6 +668,7 @@ void DockWnd::mouseReleaseEvent( QMouseEvent *e)
         pMain->DockY = y();
         if (p.manhattanLength() > 6)
             return;
+		}
     }
 #endif
     mouseEvent(e);
