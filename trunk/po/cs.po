@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
-"POT-Creation-Date: 2003-01-24 13:48+0300\n"
+"POT-Creation-Date: 2003-02-05 13:49+0300\n"
 "PO-Revision-Date: 2002-12-20 01:15+0100\n"
 "Last-Translator: Pavel Rousar <rousarp@fel.cvut.cz>\n"
 "Language-Team: Čeština <cs@li.org>\n"
@@ -24,7 +24,7 @@ msgstr "Arabsky"
 msgid "Bhojpuri"
 msgstr "Bhojpuri"
 
-#: libicq/country.cpp:9
+#: libicq/country.cpp:9 ui/themesetup.cpp:55
 msgid "Bulgarian"
 msgstr "Bulharsky"
 
@@ -40,7 +40,7 @@ msgstr "Kantonsky"
 msgid "Catalan"
 msgstr "Katalánsky"
 
-#: libicq/country.cpp:13 ui/themesetup.cpp:65
+#: libicq/country.cpp:13 ui/themesetup.cpp:67
 msgid "Chinese"
 msgstr "Čínsky"
 
@@ -48,7 +48,7 @@ msgstr "Čínsky"
 msgid "Croatian"
 msgstr "Chorvatsky"
 
-#: libicq/country.cpp:15 ui/themesetup.cpp:55
+#: libicq/country.cpp:15 ui/themesetup.cpp:56
 msgid "Czech"
 msgstr "Česky"
 
@@ -56,7 +56,7 @@ msgstr "Česky"
 msgid "Danish"
 msgstr "Dánsky"
 
-#: libicq/country.cpp:17 ui/themesetup.cpp:60
+#: libicq/country.cpp:17 ui/themesetup.cpp:62
 msgid "Dutch"
 msgstr "Holandsky"
 
@@ -80,7 +80,7 @@ msgstr "Farsi"
 msgid "Finnish"
 msgstr "Finsky"
 
-#: libicq/country.cpp:23 ui/themesetup.cpp:58
+#: libicq/country.cpp:23 ui/themesetup.cpp:59
 msgid "French"
 msgstr "Francouzsky"
 
@@ -88,7 +88,7 @@ msgstr "Francouzsky"
 msgid "Gaelic"
 msgstr "Gaelic"
 
-#: libicq/country.cpp:25 ui/themesetup.cpp:56
+#: libicq/country.cpp:25 ui/themesetup.cpp:57
 msgid "German"
 msgstr "Německy"
 
@@ -96,7 +96,7 @@ msgstr "Německy"
 msgid "Greek"
 msgstr "Řecky"
 
-#: client.cpp:88 client.cpp:89 libicq/country.cpp:27
+#: client.cpp:88 client.cpp:89 libicq/country.cpp:27 ui/themesetup.cpp:60
 msgid "Hebrew"
 msgstr "Hebrejsky"
 
@@ -116,7 +116,7 @@ msgstr "Islandsky"
 msgid "Indonesian"
 msgstr "Indonésky"
 
-#: libicq/country.cpp:32 ui/themesetup.cpp:59
+#: libicq/country.cpp:32 ui/themesetup.cpp:61
 msgid "Italian"
 msgstr "Italsky"
 
@@ -152,7 +152,7 @@ msgstr "Malaysky"
 msgid "Norwegian"
 msgstr "Norsky"
 
-#: libicq/country.cpp:41 ui/themesetup.cpp:61
+#: libicq/country.cpp:41 ui/themesetup.cpp:63
 msgid "Polish"
 msgstr "Polsky"
 
@@ -164,7 +164,7 @@ msgstr "Portugalsky"
 msgid "Romanian"
 msgstr "Rumunsky"
 
-#: libicq/country.cpp:44 ui/themesetup.cpp:62
+#: libicq/country.cpp:44 ui/themesetup.cpp:64
 msgid "Russian"
 msgstr "Rusky"
 
@@ -184,7 +184,7 @@ msgstr "Slovinsky"
 msgid "Somali"
 msgstr "Somálsky"
 
-#: libicq/country.cpp:49 ui/themesetup.cpp:57
+#: libicq/country.cpp:49 ui/themesetup.cpp:58
 msgid "Spanish"
 msgstr "Španělsky"
 
@@ -208,11 +208,11 @@ msgstr "Tatarsky"
 msgid "Thai"
 msgstr "Thaisky"
 
-#: client.cpp:105 client.cpp:106 libicq/country.cpp:55 ui/themesetup.cpp:63
+#: client.cpp:105 client.cpp:106 libicq/country.cpp:55 ui/themesetup.cpp:65
 msgid "Turkish"
 msgstr "Turecky"
 
-#: client.cpp:108 libicq/country.cpp:56 ui/themesetup.cpp:64
+#: client.cpp:108 libicq/country.cpp:56 ui/themesetup.cpp:66
 msgid "Ukrainian"
 msgstr "Ukrajinsky"
 
@@ -3986,43 +3986,43 @@ msgstr "Obecné"
 msgid "System"
 msgstr "Systém"
 
-#: ui/themesetup.cpp:130
+#: ui/themesetup.cpp:132
 msgid "%1|Graphics"
 msgstr "%1|Grafika"
 
-#: ui/themesetup.cpp:132
+#: ui/themesetup.cpp:134
 msgid "Graphics(%1)"
 msgstr "Grafika(%1)"
 
-#: ui/themesetup.cpp:137
+#: ui/themesetup.cpp:139
 msgid "Contact - left"
 msgstr "Kontakt - vlevo"
 
-#: ui/themesetup.cpp:138
+#: ui/themesetup.cpp:140
 msgid "Contact - scale"
 msgstr "Kontakt - přizpůsobit"
 
-#: ui/themesetup.cpp:139
+#: ui/themesetup.cpp:141
 msgid "Window - left top"
 msgstr "Okno - vlevo nahoře"
 
-#: ui/themesetup.cpp:140
+#: ui/themesetup.cpp:142
 msgid "Window - left bottom"
 msgstr "Okno - vlevo dole"
 
-#: ui/themesetup.cpp:141
+#: ui/themesetup.cpp:143
 msgid "Window - left center"
 msgstr "Okno - levý střed"
 
-#: ui/themesetup.cpp:142
+#: ui/themesetup.cpp:144
 msgid "Window - scale"
 msgstr "Okno - přizpůsobit"
 
-#: ui/themesetup.cpp:205
+#: ui/themesetup.cpp:207
 msgid "Need restart SIM for change language"
 msgstr "Pro změnu jazyka je třeba restartovat SIM"
 
-#: ui/themesetup.cpp:215
+#: ui/themesetup.cpp:217
 msgid "Default icons"
 msgstr "Standardní ikony"
 

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
-"POT-Creation-Date: 2003-01-24 13:48+0300\n"
+"POT-Creation-Date: 2003-02-05 13:49+0300\n"
 "PO-Revision-Date: 2002-12-04 01:05+0100\n"
 "Last-Translator: Arend van Beelen jr. <junior@vergeetalles.nl>\n"
 "Language-Team: Nederlands <i18n@kde.nl>\n"
@@ -22,7 +22,7 @@ msgstr "Arabisch"
 msgid "Bhojpuri"
 msgstr "Bhojpuri"
 
-#: libicq/country.cpp:9
+#: libicq/country.cpp:9 ui/themesetup.cpp:55
 msgid "Bulgarian"
 msgstr "Bulgaars"
 
@@ -38,7 +38,7 @@ msgstr "Kantonees"
 msgid "Catalan"
 msgstr "Catalaans"
 
-#: libicq/country.cpp:13 ui/themesetup.cpp:65
+#: libicq/country.cpp:13 ui/themesetup.cpp:67
 msgid "Chinese"
 msgstr "Chinees"
 
@@ -46,7 +46,7 @@ msgstr "Chinees"
 msgid "Croatian"
 msgstr "Kroaats"
 
-#: libicq/country.cpp:15 ui/themesetup.cpp:55
+#: libicq/country.cpp:15 ui/themesetup.cpp:56
 msgid "Czech"
 msgstr "Tsjechisch"
 
@@ -54,7 +54,7 @@ msgstr "Tsjechisch"
 msgid "Danish"
 msgstr "Deens"
 
-#: libicq/country.cpp:17 ui/themesetup.cpp:60
+#: libicq/country.cpp:17 ui/themesetup.cpp:62
 msgid "Dutch"
 msgstr "Nederlands"
 
@@ -78,7 +78,7 @@ msgstr "Farsi"
 msgid "Finnish"
 msgstr "Fins"
 
-#: libicq/country.cpp:23 ui/themesetup.cpp:58
+#: libicq/country.cpp:23 ui/themesetup.cpp:59
 msgid "French"
 msgstr "Frans"
 
@@ -86,7 +86,7 @@ msgstr "Frans"
 msgid "Gaelic"
 msgstr "Gaelic"
 
-#: libicq/country.cpp:25 ui/themesetup.cpp:56
+#: libicq/country.cpp:25 ui/themesetup.cpp:57
 msgid "German"
 msgstr "Duits"
 
@@ -94,7 +94,7 @@ msgstr "Duits"
 msgid "Greek"
 msgstr "Grieks"
 
-#: client.cpp:88 client.cpp:89 libicq/country.cpp:27
+#: client.cpp:88 client.cpp:89 libicq/country.cpp:27 ui/themesetup.cpp:60
 msgid "Hebrew"
 msgstr "Hebreeuws"
 
@@ -114,7 +114,7 @@ msgstr "IJslands"
 msgid "Indonesian"
 msgstr "Indonesisch"
 
-#: libicq/country.cpp:32 ui/themesetup.cpp:59
+#: libicq/country.cpp:32 ui/themesetup.cpp:61
 msgid "Italian"
 msgstr "Italiaans"
 
@@ -150,7 +150,7 @@ msgstr "Maleis"
 msgid "Norwegian"
 msgstr "Noors"
 
-#: libicq/country.cpp:41 ui/themesetup.cpp:61
+#: libicq/country.cpp:41 ui/themesetup.cpp:63
 msgid "Polish"
 msgstr "Pools"
 
@@ -162,7 +162,7 @@ msgstr "Portugees"
 msgid "Romanian"
 msgstr "Roemeens"
 
-#: libicq/country.cpp:44 ui/themesetup.cpp:62
+#: libicq/country.cpp:44 ui/themesetup.cpp:64
 msgid "Russian"
 msgstr "Russisch"
 
@@ -182,7 +182,7 @@ msgstr "Sloweens"
 msgid "Somali"
 msgstr "Somalisch"
 
-#: libicq/country.cpp:49 ui/themesetup.cpp:57
+#: libicq/country.cpp:49 ui/themesetup.cpp:58
 msgid "Spanish"
 msgstr "Spaans"
 
@@ -206,11 +206,11 @@ msgstr "Tartaars"
 msgid "Thai"
 msgstr "Thaïs"
 
-#: client.cpp:105 client.cpp:106 libicq/country.cpp:55 ui/themesetup.cpp:63
+#: client.cpp:105 client.cpp:106 libicq/country.cpp:55 ui/themesetup.cpp:65
 msgid "Turkish"
 msgstr "Turks"
 
-#: client.cpp:108 libicq/country.cpp:56 ui/themesetup.cpp:64
+#: client.cpp:108 libicq/country.cpp:56 ui/themesetup.cpp:66
 msgid "Ukrainian"
 msgstr "Oekraïns"
 
@@ -4040,45 +4040,45 @@ msgstr "Algemeen"
 msgid "System"
 msgstr ""
 
-#: ui/themesetup.cpp:130
+#: ui/themesetup.cpp:132
 msgid "%1|Graphics"
 msgstr ""
 
-#: ui/themesetup.cpp:132
+#: ui/themesetup.cpp:134
 msgid "Graphics(%1)"
 msgstr ""
 
-#: ui/themesetup.cpp:137
+#: ui/themesetup.cpp:139
 #, fuzzy
 msgid "Contact - left"
 msgstr "Kontaktliste"
 
-#: ui/themesetup.cpp:138
+#: ui/themesetup.cpp:140
 #, fuzzy
 msgid "Contact - scale"
 msgstr "Contactlijst verzonden"
 
-#: ui/themesetup.cpp:139
+#: ui/themesetup.cpp:141
 msgid "Window - left top"
 msgstr ""
 
-#: ui/themesetup.cpp:140
+#: ui/themesetup.cpp:142
 msgid "Window - left bottom"
 msgstr ""
 
-#: ui/themesetup.cpp:141
+#: ui/themesetup.cpp:143
 msgid "Window - left center"
 msgstr ""
 
-#: ui/themesetup.cpp:142
+#: ui/themesetup.cpp:144
 msgid "Window - scale"
 msgstr ""
 
-#: ui/themesetup.cpp:205
+#: ui/themesetup.cpp:207
 msgid "Need restart SIM for change language"
 msgstr ""
 
-#: ui/themesetup.cpp:215
+#: ui/themesetup.cpp:217
 msgid "Default icons"
 msgstr "Standaard pictogrammen"
 

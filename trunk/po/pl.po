@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
-"POT-Creation-Date: 2003-01-24 13:48+0300\n"
+"POT-Creation-Date: 2003-02-05 13:49+0300\n"
 "PO-Revision-Date: 2002-12-04 06:57+0100\n"
 "Last-Translator: Rafal Bera <rexx@dione.ids.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -21,7 +21,7 @@ msgstr "Arabski"
 msgid "Bhojpuri"
 msgstr "Bhojpuri"
 
-#: libicq/country.cpp:9
+#: libicq/country.cpp:9 ui/themesetup.cpp:55
 msgid "Bulgarian"
 msgstr "Bułgarski"
 
@@ -37,7 +37,7 @@ msgstr "Kantoński"
 msgid "Catalan"
 msgstr "Kataloński"
 
-#: libicq/country.cpp:13 ui/themesetup.cpp:65
+#: libicq/country.cpp:13 ui/themesetup.cpp:67
 msgid "Chinese"
 msgstr "Chiński"
 
@@ -45,7 +45,7 @@ msgstr "Chiński"
 msgid "Croatian"
 msgstr "Chorwacki"
 
-#: libicq/country.cpp:15 ui/themesetup.cpp:55
+#: libicq/country.cpp:15 ui/themesetup.cpp:56
 msgid "Czech"
 msgstr "Czeski"
 
@@ -53,7 +53,7 @@ msgstr "Czeski"
 msgid "Danish"
 msgstr "Duński"
 
-#: libicq/country.cpp:17 ui/themesetup.cpp:60
+#: libicq/country.cpp:17 ui/themesetup.cpp:62
 msgid "Dutch"
 msgstr "Holenderski"
 
@@ -77,7 +77,7 @@ msgstr "Farsi"
 msgid "Finnish"
 msgstr "Fiński"
 
-#: libicq/country.cpp:23 ui/themesetup.cpp:58
+#: libicq/country.cpp:23 ui/themesetup.cpp:59
 msgid "French"
 msgstr "Francuski"
 
@@ -85,7 +85,7 @@ msgstr "Francuski"
 msgid "Gaelic"
 msgstr "Celtycki"
 
-#: libicq/country.cpp:25 ui/themesetup.cpp:56
+#: libicq/country.cpp:25 ui/themesetup.cpp:57
 msgid "German"
 msgstr "Niemiecki"
 
@@ -93,7 +93,7 @@ msgstr "Niemiecki"
 msgid "Greek"
 msgstr "Grecki"
 
-#: client.cpp:88 client.cpp:89 libicq/country.cpp:27
+#: client.cpp:88 client.cpp:89 libicq/country.cpp:27 ui/themesetup.cpp:60
 msgid "Hebrew"
 msgstr "Hebrajski"
 
@@ -113,7 +113,7 @@ msgstr "Islandzki"
 msgid "Indonesian"
 msgstr "Indonezyjski"
 
-#: libicq/country.cpp:32 ui/themesetup.cpp:59
+#: libicq/country.cpp:32 ui/themesetup.cpp:61
 msgid "Italian"
 msgstr "Włoski"
 
@@ -149,7 +149,7 @@ msgstr "Malajski"
 msgid "Norwegian"
 msgstr "Norweski"
 
-#: libicq/country.cpp:41 ui/themesetup.cpp:61
+#: libicq/country.cpp:41 ui/themesetup.cpp:63
 msgid "Polish"
 msgstr "Polski"
 
@@ -161,7 +161,7 @@ msgstr "Portugalski"
 msgid "Romanian"
 msgstr "Rumuński"
 
-#: libicq/country.cpp:44 ui/themesetup.cpp:62
+#: libicq/country.cpp:44 ui/themesetup.cpp:64
 msgid "Russian"
 msgstr "Rosyjski"
 
@@ -181,7 +181,7 @@ msgstr "Słoweński"
 msgid "Somali"
 msgstr "Somalijski"
 
-#: libicq/country.cpp:49 ui/themesetup.cpp:57
+#: libicq/country.cpp:49 ui/themesetup.cpp:58
 msgid "Spanish"
 msgstr "Hiszpański"
 
@@ -205,11 +205,11 @@ msgstr "Tatarski"
 msgid "Thai"
 msgstr "Tajski"
 
-#: client.cpp:105 client.cpp:106 libicq/country.cpp:55 ui/themesetup.cpp:63
+#: client.cpp:105 client.cpp:106 libicq/country.cpp:55 ui/themesetup.cpp:65
 msgid "Turkish"
 msgstr "Turecki"
 
-#: client.cpp:108 libicq/country.cpp:56 ui/themesetup.cpp:64
+#: client.cpp:108 libicq/country.cpp:56 ui/themesetup.cpp:66
 msgid "Ukrainian"
 msgstr "Ukraiński"
 
@@ -3998,45 +3998,45 @@ msgstr "Ogólne"
 msgid "System"
 msgstr "System"
 
-#: ui/themesetup.cpp:130
+#: ui/themesetup.cpp:132
 msgid "%1|Graphics"
 msgstr ""
 
-#: ui/themesetup.cpp:132
+#: ui/themesetup.cpp:134
 msgid "Graphics(%1)"
 msgstr ""
 
-#: ui/themesetup.cpp:137
+#: ui/themesetup.cpp:139
 #, fuzzy
 msgid "Contact - left"
 msgstr "Lista kontaktów wysłana"
 
-#: ui/themesetup.cpp:138
+#: ui/themesetup.cpp:140
 #, fuzzy
 msgid "Contact - scale"
 msgstr "Lista kontaktów wysłana"
 
-#: ui/themesetup.cpp:139
+#: ui/themesetup.cpp:141
 msgid "Window - left top"
 msgstr ""
 
-#: ui/themesetup.cpp:140
+#: ui/themesetup.cpp:142
 msgid "Window - left bottom"
 msgstr ""
 
-#: ui/themesetup.cpp:141
+#: ui/themesetup.cpp:143
 msgid "Window - left center"
 msgstr ""
 
-#: ui/themesetup.cpp:142
+#: ui/themesetup.cpp:144
 msgid "Window - scale"
 msgstr ""
 
-#: ui/themesetup.cpp:205
+#: ui/themesetup.cpp:207
 msgid "Need restart SIM for change language"
 msgstr "Zrestartuj SIM w celu zmiany języka"
 
-#: ui/themesetup.cpp:215
+#: ui/themesetup.cpp:217
 msgid "Default icons"
 msgstr "Domyślne ikony"
 

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.1\n"
-"POT-Creation-Date: 2003-01-24 13:48+0300\n"
+"POT-Creation-Date: 2003-02-05 13:49+0300\n"
 "PO-Revision-Date: 2003-01-22 11:23+0100\n"
 "Last-Translator: Roméo VIU-BERGES <apostledemencia@free.fr>\n"
 "Language-Team: fr-FR <apostledemencia@free.fr>\n"
@@ -27,7 +27,7 @@ msgid "Bhojpuri"
 msgstr "Bhojpuri"
 
 # libicq/country.cpp:9
-#: libicq/country.cpp:9
+#: libicq/country.cpp:9 ui/themesetup.cpp:55
 msgid "Bulgarian"
 msgstr "Bulgare"
 
@@ -49,7 +49,7 @@ msgstr "Catalan"
 
 # libicq/country.cpp:13
 # ui/themesetup.cpp:64
-#: libicq/country.cpp:13 ui/themesetup.cpp:65
+#: libicq/country.cpp:13 ui/themesetup.cpp:67
 msgid "Chinese"
 msgstr "Chinois"
 
@@ -60,7 +60,7 @@ msgstr "Croate"
 
 # libicq/country.cpp:15
 # ui/themesetup.cpp:55
-#: libicq/country.cpp:15 ui/themesetup.cpp:55
+#: libicq/country.cpp:15 ui/themesetup.cpp:56
 msgid "Czech"
 msgstr "Tchèque"
 
@@ -71,7 +71,7 @@ msgstr "Danois"
 
 # libicq/country.cpp:17
 # ui/themesetup.cpp:59
-#: libicq/country.cpp:17 ui/themesetup.cpp:60
+#: libicq/country.cpp:17 ui/themesetup.cpp:62
 msgid "Dutch"
 msgstr "Allemand"
 
@@ -104,7 +104,7 @@ msgid "Finnish"
 msgstr "Finnois"
 
 # libicq/country.cpp:23
-#: libicq/country.cpp:23 ui/themesetup.cpp:58
+#: libicq/country.cpp:23 ui/themesetup.cpp:59
 msgid "French"
 msgstr "Français"
 
@@ -115,7 +115,7 @@ msgstr "Gaellique"
 
 # libicq/country.cpp:25
 # ui/themesetup.cpp:56
-#: libicq/country.cpp:25 ui/themesetup.cpp:56
+#: libicq/country.cpp:25 ui/themesetup.cpp:57
 msgid "German"
 msgstr "Allemand"
 
@@ -129,7 +129,7 @@ msgstr "Grec"
 # client.cpp:79
 # client.cpp:80
 # libicq/country.cpp:27
-#: client.cpp:88 client.cpp:89 libicq/country.cpp:27
+#: client.cpp:88 client.cpp:89 libicq/country.cpp:27 ui/themesetup.cpp:60
 msgid "Hebrew"
 msgstr "Hébreu"
 
@@ -156,7 +156,7 @@ msgstr "Indonésien"
 
 # libicq/country.cpp:32
 # ui/themesetup.cpp:58
-#: libicq/country.cpp:32 ui/themesetup.cpp:59
+#: libicq/country.cpp:32 ui/themesetup.cpp:61
 msgid "Italian"
 msgstr "Italien"
 
@@ -208,7 +208,7 @@ msgstr "Norvégien"
 
 # libicq/country.cpp:41
 # ui/themesetup.cpp:60
-#: libicq/country.cpp:41 ui/themesetup.cpp:61
+#: libicq/country.cpp:41 ui/themesetup.cpp:63
 msgid "Polish"
 msgstr "Polonais"
 
@@ -224,7 +224,7 @@ msgstr "Roumain"
 
 # libicq/country.cpp:44
 # ui/themesetup.cpp:61
-#: libicq/country.cpp:44 ui/themesetup.cpp:62
+#: libicq/country.cpp:44 ui/themesetup.cpp:64
 msgid "Russian"
 msgstr "Russe"
 
@@ -250,7 +250,7 @@ msgstr "Somalien"
 
 # libicq/country.cpp:49
 # ui/themesetup.cpp:57
-#: libicq/country.cpp:49 ui/themesetup.cpp:57
+#: libicq/country.cpp:49 ui/themesetup.cpp:58
 msgid "Spanish"
 msgstr "Espagnol"
 
@@ -285,14 +285,14 @@ msgstr "Thailandais"
 # client.cpp:97
 # libicq/country.cpp:55
 # ui/themesetup.cpp:62
-#: client.cpp:105 client.cpp:106 libicq/country.cpp:55 ui/themesetup.cpp:63
+#: client.cpp:105 client.cpp:106 libicq/country.cpp:55 ui/themesetup.cpp:65
 msgid "Turkish"
 msgstr "Turc"
 
 # client.cpp:99
 # libicq/country.cpp:56
 # ui/themesetup.cpp:63
-#: client.cpp:108 libicq/country.cpp:56 ui/themesetup.cpp:64
+#: client.cpp:108 libicq/country.cpp:56 ui/themesetup.cpp:66
 msgid "Ukrainian"
 msgstr "Ukrainien"
 
@@ -5063,54 +5063,54 @@ msgid "System"
 msgstr "Système"
 
 # ui/themesetup.cpp:129
-#: ui/themesetup.cpp:130
+#: ui/themesetup.cpp:132
 msgid "%1|Graphics"
 msgstr "%1|Graphismes"
 
 # ui/themesetup.cpp:131
-#: ui/themesetup.cpp:132
+#: ui/themesetup.cpp:134
 msgid "Graphics(%1)"
 msgstr "Graphismes(%1)"
 
 # ui/themesetup.cpp:136
-#: ui/themesetup.cpp:137
+#: ui/themesetup.cpp:139
 msgid "Contact - left"
 msgstr "Contact - Gauche"
 
 # ui/themesetup.cpp:137
-#: ui/themesetup.cpp:138
+#: ui/themesetup.cpp:140
 #, fuzzy
 msgid "Contact - scale"
 msgstr "Contact - Scale"
 
 # ui/themesetup.cpp:138
-#: ui/themesetup.cpp:139
+#: ui/themesetup.cpp:141
 msgid "Window - left top"
 msgstr "Fenêtre - en haut à gauche"
 
 # ui/themesetup.cpp:139
-#: ui/themesetup.cpp:140
+#: ui/themesetup.cpp:142
 msgid "Window - left bottom"
 msgstr "Fenêtre - en bas à gauche"
 
 # ui/themesetup.cpp:140
-#: ui/themesetup.cpp:141
+#: ui/themesetup.cpp:143
 msgid "Window - left center"
 msgstr "Fenêtre - centrée à gauche"
 
 # ui/themesetup.cpp:141
-#: ui/themesetup.cpp:142
+#: ui/themesetup.cpp:144
 #, fuzzy
 msgid "Window - scale"
 msgstr "Fenêtre - scale"
 
 # ui/themesetup.cpp:204
-#: ui/themesetup.cpp:205
+#: ui/themesetup.cpp:207
 msgid "Need restart SIM for change language"
 msgstr "Redémarrage de SIM obligatoire pour changer la langue !"
 
 # ui/themesetup.cpp:214
-#: ui/themesetup.cpp:215
+#: ui/themesetup.cpp:217
 msgid "Default icons"
 msgstr "Icônes par défaut"
 

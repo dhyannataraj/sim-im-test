@@ -11,7 +11,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"POT-Creation-Date: 2003-01-24 13:48+0300\n"
+"POT-Creation-Date: 2003-02-05 13:49+0300\n"
 "PO-Revision-Date: 2003-01-19 06:51+0300\n"
 "Last-Translator: Vladimir Shutoff <vovan@shutoff.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -33,7 +33,7 @@ msgid "Bhojpuri"
 msgstr "Бходжпури"
 
 # libicq/country.cpp:9
-#: libicq/country.cpp:9
+#: libicq/country.cpp:9 ui/themesetup.cpp:55
 msgid "Bulgarian"
 msgstr "Болгарский"
 
@@ -53,7 +53,7 @@ msgid "Catalan"
 msgstr "Каталанский"
 
 # libicq/country.cpp:13
-#: libicq/country.cpp:13 ui/themesetup.cpp:65
+#: libicq/country.cpp:13 ui/themesetup.cpp:67
 msgid "Chinese"
 msgstr "Китайский"
 
@@ -63,7 +63,7 @@ msgid "Croatian"
 msgstr "Хорватский"
 
 # libicq/country.cpp:15
-#: libicq/country.cpp:15 ui/themesetup.cpp:55
+#: libicq/country.cpp:15 ui/themesetup.cpp:56
 msgid "Czech"
 msgstr "Чешский"
 
@@ -73,7 +73,7 @@ msgid "Danish"
 msgstr "Датский"
 
 # libicq/country.cpp:17
-#: libicq/country.cpp:17 ui/themesetup.cpp:60
+#: libicq/country.cpp:17 ui/themesetup.cpp:62
 msgid "Dutch"
 msgstr "Голландский"
 
@@ -103,7 +103,7 @@ msgid "Finnish"
 msgstr "Финский"
 
 # libicq/country.cpp:23
-#: libicq/country.cpp:23 ui/themesetup.cpp:58
+#: libicq/country.cpp:23 ui/themesetup.cpp:59
 msgid "French"
 msgstr "Французский"
 
@@ -113,7 +113,7 @@ msgid "Gaelic"
 msgstr "Гаэльский"
 
 # libicq/country.cpp:25
-#: libicq/country.cpp:25 ui/themesetup.cpp:56
+#: libicq/country.cpp:25 ui/themesetup.cpp:57
 msgid "German"
 msgstr "Немецкий"
 
@@ -123,7 +123,7 @@ msgid "Greek"
 msgstr "Греческий"
 
 # client.cpp:72 libicq/country.cpp:27
-#: client.cpp:88 client.cpp:89 libicq/country.cpp:27
+#: client.cpp:88 client.cpp:89 libicq/country.cpp:27 ui/themesetup.cpp:60
 msgid "Hebrew"
 msgstr "Иврит"
 
@@ -148,7 +148,7 @@ msgid "Indonesian"
 msgstr "Индонезийский"
 
 # libicq/country.cpp:32
-#: libicq/country.cpp:32 ui/themesetup.cpp:59
+#: libicq/country.cpp:32 ui/themesetup.cpp:61
 msgid "Italian"
 msgstr "Итальянский"
 
@@ -193,7 +193,7 @@ msgid "Norwegian"
 msgstr "Норвежский"
 
 # libicq/country.cpp:41
-#: libicq/country.cpp:41 ui/themesetup.cpp:61
+#: libicq/country.cpp:41 ui/themesetup.cpp:63
 msgid "Polish"
 msgstr "Польский"
 
@@ -208,7 +208,7 @@ msgid "Romanian"
 msgstr "Румынский"
 
 # libicq/country.cpp:44
-#: libicq/country.cpp:44 ui/themesetup.cpp:62
+#: libicq/country.cpp:44 ui/themesetup.cpp:64
 msgid "Russian"
 msgstr "Русский"
 
@@ -233,7 +233,7 @@ msgid "Somali"
 msgstr "Сомали"
 
 # libicq/country.cpp:49
-#: libicq/country.cpp:49 ui/themesetup.cpp:57
+#: libicq/country.cpp:49 ui/themesetup.cpp:58
 msgid "Spanish"
 msgstr "Испанский"
 
@@ -263,12 +263,12 @@ msgid "Thai"
 msgstr "Тайский"
 
 # client.cpp:76 client.cpp:77 libicq/country.cpp:55
-#: client.cpp:105 client.cpp:106 libicq/country.cpp:55 ui/themesetup.cpp:63
+#: client.cpp:105 client.cpp:106 libicq/country.cpp:55 ui/themesetup.cpp:65
 msgid "Turkish"
 msgstr "Турецкий"
 
 # libicq/country.cpp:56
-#: client.cpp:108 libicq/country.cpp:56 ui/themesetup.cpp:64
+#: client.cpp:108 libicq/country.cpp:56 ui/themesetup.cpp:66
 msgid "Ukrainian"
 msgstr "Украинский"
 
@@ -4764,47 +4764,47 @@ msgstr "Основная"
 msgid "System"
 msgstr "Системный"
 
-#: ui/themesetup.cpp:130
+#: ui/themesetup.cpp:132
 msgid "%1|Graphics"
 msgstr "%1|Графика"
 
-#: ui/themesetup.cpp:132
+#: ui/themesetup.cpp:134
 msgid "Graphics(%1)"
 msgstr "Графика(%1)"
 
-#: ui/themesetup.cpp:137
+#: ui/themesetup.cpp:139
 msgid "Contact - left"
 msgstr "Контакт - слева"
 
 # msgview.cpp:226
-#: ui/themesetup.cpp:138
+#: ui/themesetup.cpp:140
 msgid "Contact - scale"
 msgstr "Контакт - растянуть"
 
-#: ui/themesetup.cpp:139
+#: ui/themesetup.cpp:141
 msgid "Window - left top"
 msgstr "Окно - слева вверху"
 
-#: ui/themesetup.cpp:140
+#: ui/themesetup.cpp:142
 msgid "Window - left bottom"
 msgstr "Окно - слева внизу"
 
-#: ui/themesetup.cpp:141
+#: ui/themesetup.cpp:143
 msgid "Window - left center"
 msgstr "Окно - слева по центру"
 
-#: ui/themesetup.cpp:142
+#: ui/themesetup.cpp:144
 msgid "Window - scale"
 msgstr "Окно - растянуть"
 
-#: ui/themesetup.cpp:205
+#: ui/themesetup.cpp:207
 msgid "Need restart SIM for change language"
 msgstr ""
 "Необходимо перезапустить SIM для "
 "изменения языка"
 
 # ui/themesetup.cpp:105
-#: ui/themesetup.cpp:215
+#: ui/themesetup.cpp:217
 msgid "Default icons"
 msgstr "Иконки по умолчанию"
 
