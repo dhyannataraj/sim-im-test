@@ -24,6 +24,7 @@
 #include "jabberhomeinfo.h"
 #include "jabberworkinfo.h"
 #include "jabberaboutinfo.h"
+#include "services.h"
 
 #include "core.h"
 
@@ -382,13 +383,15 @@ void JabberClient::setStatus(unsigned status, const char *ar)
         m_socket->writeBuffer << ">\n";
         if (show)
             m_socket->writeBuffer << "<show>" << show << "</show>\n";
-        if (ar && *ar)
+        if (ar && *ar){
             m_socket->writeBuffer << "<status>" << ar << "</status>\n";
+		}else{
+            m_socket->writeBuffer << "<status></status>\n";
+		}
         if (priority)
             m_socket->writeBuffer << "<priority>" << priority << "</priority>\n";
         m_socket->writeBuffer << "</presence>";
         sendPacket();
-
         Event e(EventClientChanged, static_cast<Client*>(this));
         e.process();
     }
@@ -943,7 +946,8 @@ const unsigned MAIN_INFO = 1;
 const unsigned HOME_INFO = 2;
 const unsigned WORK_INFO = 3;
 const unsigned ABOUT_INFO = 4;
-const unsigned NETWORK	 = 5;
+const unsigned SERVICES	 = 5;
+const unsigned NETWORK	 = 6;
 
 static CommandDef jabberWnd[] =
     {
@@ -1087,6 +1091,21 @@ static CommandDef cfgJabberWnd[] =
             NULL
         },
         {
+            SERVICES,
+            I18N_NOOP("Agents"),
+            "configure",
+            NULL,
+            NULL,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            NULL,
+            NULL
+        },
+        {
             NETWORK,
             I18N_NOOP("Network"),
             "network",
@@ -1170,6 +1189,8 @@ QWidget *JabberClient::configWindow(QWidget *parent, unsigned id)
         return new JabberAboutInfo(parent, NULL, this);
     case NETWORK:
         return new JabberConfig(parent, this, true);
+    case SERVICES:
+        return new Services(parent, this);
     }
     return NULL;
 }

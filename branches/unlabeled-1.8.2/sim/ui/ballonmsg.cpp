@@ -150,8 +150,9 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
     int tailX = w / 2;
     int posX = rc.left() + rc.width() / 2 + BALLOON_TAIL_WIDTH - tailX;
     if (posX <= 0) posX = 1;
-    if (posX + width() >= QApplication::desktop()->width())
-        posX = QApplication::desktop()->width() - 1 - width();
+	QRect rcScreen = screenGeometry();
+    if (posX + width() >= rc.width())
+        posX = rc.width() - 1 - width();
     int tx = posX + tailX - BALLOON_TAIL_WIDTH;
     if (tx < rc.left()) tx = rc.left();
     if (tx > rc.left() + rc.width()) tx = rc.left() + rc.width();

@@ -442,7 +442,7 @@ public:
     virtual string dataName(void*);
     Message *parseMessage(unsigned short type, const char *screen,
                           string &p, Buffer &packet);
-    void messageReceived(Message*, const char *screen);
+    bool messageReceived(Message*, const char *screen);
     static QTextCodec *_getCodec(const char *encoding);
     static QString toUnicode(const char *serverText, const char *clientName, unsigned contactId);
     static QString parseRTF(const char *str, const char *encoding);
@@ -595,6 +595,7 @@ protected:
     unsigned m_nSendTimeout;
     SendMsg  m_send;
     list<Message*>		m_processMsg;
+	list<Message*>		m_acceptMsg;
     list<DirectSocket*>	m_sockets;
     friend class FullInfoRequest;
     friend class SMSRequest;
@@ -618,8 +619,9 @@ protected:
 };
 */
 
-class DirectSocket : public ClientSocketNotify
+class DirectSocket : public QObject, public ClientSocketNotify
 {
+Q_OBJECT
 public:
     enum SocketState{
         NotConnected,
@@ -645,6 +647,8 @@ public:
     unsigned short localPort();
     unsigned short remotePort();
     unsigned long Uin();
+protected slots:
+	void timeout();
 protected:
     virtual void processPacket() = 0;
     void init();

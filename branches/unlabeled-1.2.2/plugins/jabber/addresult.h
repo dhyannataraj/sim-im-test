@@ -31,8 +31,8 @@ public:
     AddResult(JabberClient *client);
     ~AddResult();
     void showSearch(bool);
-    void addContact(JabberClient *client, const QString &name);
     void setSearch(JabberClient *client, const char *search_id);
+	void setText(const QString &text);
 signals:
     void finished();
     void search();

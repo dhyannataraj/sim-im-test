@@ -66,8 +66,9 @@ typedef struct MSNClientData
 class MSNClient;
 class XfrPacket;
 
-class SBSocket : public ClientSocketNotify
+class SBSocket : public QObject, public ClientSocketNotify
 {
+Q_OBJECT
 public:
     SBSocket(MSNClient *client, Contact *contact, MSNUserData *data);
     ~SBSocket();

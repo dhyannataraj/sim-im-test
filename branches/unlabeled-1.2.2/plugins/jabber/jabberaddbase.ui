@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>491</width>
+            <width>487</width>
             <height>358</height>
         </rect>
     </property>
@@ -60,24 +60,6 @@
                         <name>spacing</name>
                         <number>6</number>
                     </property>
-                    <widget row="0"  column="0" >
-                        <class>QLabel</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>TextLabel2</cstring>
-                        </property>
-                        <property>
-                            <name>text</name>
-                            <string>Jabber ID:</string>
-                        </property>
-                        <property>
-                            <name>alignment</name>
-                            <set>AlignVCenter|AlignRight</set>
-                        </property>
-                        <property>
-                            <name>hAlign</name>
-                        </property>
-                    </widget>
                     <widget row="0"  column="1" >
                         <class>QLineEdit</class>
                         <property stdset="1">
@@ -85,7 +67,7 @@
                             <cstring>edtID</cstring>
                         </property>
                     </widget>
-                    <spacer row="1"  column="0" >
+                    <spacer row="2"  column="0" >
                         <property>
                             <name>name</name>
                             <cstring>Spacer6</cstring>
@@ -106,6 +88,49 @@
                             </size>
                         </property>
                     </spacer>
+                    <widget row="1"  column="0" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>TextLabel1_2</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Add to group:</string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>AlignVCenter|AlignRight</set>
+                        </property>
+                        <property>
+                            <name>hAlign</name>
+                        </property>
+                    </widget>
+                    <widget row="0"  column="0" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>TextLabel2</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Jabber ID:</string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>AlignVCenter|AlignRight</set>
+                        </property>
+                        <property>
+                            <name>hAlign</name>
+                        </property>
+                    </widget>
+                    <widget row="1"  column="1" >
+                        <class>QComboBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>cmbGroup</cstring>
+                        </property>
+                    </widget>
                 </grid>
             </widget>
         </widget>

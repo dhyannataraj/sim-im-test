@@ -19,13 +19,13 @@
 #define _JABBERSEARCH_H
 
 #include "simapi.h"
-#include <qwidget.h>
+#include "qchildwidget.h"
 
 class JabberClient;
 
 class QGridLayout;
 
-class JabberSearch : public QWidget, public EventReceiver
+class JabberSearch : public QChildWidget
 {
     Q_OBJECT
 public:
@@ -33,15 +33,16 @@ public:
     bool canSearch();
     QString condition();
     const char *id() { return m_jid.c_str(); }
+	void addWidget(struct JabberAgentInfo *data);
 protected slots:
     void setSize();
 protected:
-    virtual void	*processEvent(Event*);
     QString			i18(const char *text);
     QGridLayout		*lay;
-    string			m_jid;
     QString			m_name;
     QWidget			*m_receiver;
+	string			m_jid;
+	string			m_key;
     unsigned		m_nPos;
     bool			m_bDirty;
     JabberClient	*m_client;

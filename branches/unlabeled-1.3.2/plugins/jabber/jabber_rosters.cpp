@@ -158,6 +158,7 @@ void RostersRequest::element_end(const char *el)
             bChanged = true;
             data->Subscribe = m_subscribe;
         }
+		set_str(&data->Group, m_grp.c_str());
         data->bChecked = true;
         if (lr == NULL){
             unsigned grp = 0;
@@ -421,6 +422,7 @@ void JabberClient::info_request(JabberUserData *user_data)
         return;
     if (user_data == NULL)
         user_data = &data.owner;
+/*
     InfoRequest *req = new InfoRequest(this, user_data);
     req->start_element("vCard");
     req->add_attribute("prodid", "-//HandGen//NONSGML vGen v1.0//EN");
@@ -428,6 +430,7 @@ void JabberClient::info_request(JabberUserData *user_data)
     req->add_attribute("version", "2.0");
     req->send();
     m_requests.push_back(req);
+*/
 }
 
 class SetInfoRequest : public JabberClient::ServerRequest
@@ -583,18 +586,16 @@ void JabberClient::setClientInfo(void *_data)
 class AddRequest : public JabberClient::ServerRequest
 {
 public:
-    AddRequest(JabberClient *client, const char *id, const char *host);
+    AddRequest(JabberClient *client, const char *jid);
 protected:
     virtual void element_start(const char *el, const char **attr);
-    string m_id;
-    string m_host;
+    string m_jid;
 };
 
-AddRequest::AddRequest(JabberClient *client, const char *id, const char *host)
+AddRequest::AddRequest(JabberClient *client, const char *jid)
         : JabberClient::ServerRequest(client, _SET, NULL, NULL)
 {
-    m_id   = id;
-    m_host = host;
+    m_jid  = jid;
 }
 
 void AddRequest::element_start(const char *el, const char **attr)
@@ -603,29 +604,27 @@ void AddRequest::element_start(const char *el, const char **attr)
         string type = JabberClient::get_attr("type", attr);
         if (type == "result"){
             Contact *contact;
-            m_client->findContact(m_id.c_str(), m_host.c_str(), NULL, true, contact);
+            m_client->findContact(m_jid.c_str(), NULL, NULL, true, contact);
         }
     }
 }
 
-void JabberClient::add_contact(const char *id, const char *host)
+bool JabberClient::add_contact(const char *jid)
 {
     Contact *contact;
-    if (findContact(id, host, NULL, false, contact)){
+    if (findContact(jid, NULL, NULL, false, contact)){
         Event e(EventContactChanged, contact);
         e.process();
-        return;
+        return false;
     }
-    string name = id;
-    name += '@';
-    name += host;
-    AddRequest *req = new AddRequest(this, id, host);
+    AddRequest *req = new AddRequest(this, jid);
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:roster");
     req->start_element("item");
-    req->add_attribute("jid", name.c_str());
+    req->add_attribute("jid", jid);
     req->send();
     m_requests.push_back(req);
+	return true;
 }
 
 JabberClient::PresenceRequest::PresenceRequest(JabberClient *client)
@@ -832,7 +831,7 @@ public:
     AgentRequest(JabberClient *client);
     ~AgentRequest();
 protected:
-    JabberAgentInfo		data;
+    JabberAgentsInfo	data;
     string m_data;
     virtual void element_start(const char *el, const char **attr);
     virtual void element_end(const char *el);
@@ -841,22 +840,25 @@ protected:
 
 /*
 
-typedef struct JabberAgentInfo
+typedef struct JabberAgentsInfo
 {
 	char			*VHost;
 	char			*ID;
 	char			*Name;
 	unsigned		Search;
-} JabberAgentInfo;
+	unsigned		Register;
+} JabberAgentsInfo;
 
 */
 
-static DataDef jabberAgentInfo[] =
+static DataDef jabberAgentsInfo[] =
     {
         { "", DATA_STRING, 1, 0 },
         { "", DATA_STRING, 1, 0 },
         { "", DATA_STRING, 1, 0 },
         { "", DATA_BOOL, 1, 0 },
+		{ "", DATA_BOOL, 1, 0 },
+		{ "", DATA_ULONG, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -864,24 +866,26 @@ static DataDef jabberAgentInfo[] =
 AgentRequest::AgentRequest(JabberClient *client)
         : ServerRequest(client, _GET, NULL, client->data.owner.VHost)
 {
-    load_data(jabberAgentInfo, &data, NULL);
+    load_data(jabberAgentsInfo, &data, NULL);
 }
 
 AgentRequest::~AgentRequest()
 {
-    free_data(jabberAgentInfo, &data);
+    free_data(jabberAgentsInfo, &data);
 }
 
 void AgentRequest::element_start(const char *el, const char **attr)
 {
     if (!strcmp(el, "agent")){
-        free_data(jabberAgentInfo, &data);
-        load_data(jabberAgentInfo, &data, NULL);
+        free_data(jabberAgentsInfo, &data);
+        load_data(jabberAgentsInfo, &data, NULL);
         m_data = JabberClient::get_attr("jid", attr);
         set_str(&data.ID, m_data.c_str());
     }else if (!strcmp(el, "search")){
         data.Search = (unsigned)(-1);
-    }
+    }else if (!strcmp(el, "register")){
+		data.Register = (unsigned)(-1);
+	}
     m_data = "";
 }
 
@@ -890,6 +894,7 @@ void AgentRequest::element_end(const char *el)
     if (!strcmp(el, "agent")){
         if (data.ID && *data.ID){
             set_str(&data.VHost, m_client->data.owner.VHost);
+			data.Client = m_client;
             Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentFound, &data);
             e.process();
         }
@@ -912,13 +917,13 @@ void JabberClient::get_agents()
     m_requests.push_back(req);
 }
 
-class SearchInfoRequest : public JabberClient::ServerRequest
+class AgentInfoRequest : public JabberClient::ServerRequest
 {
 public:
-    SearchInfoRequest(JabberClient *client, const char *jid);
-    ~SearchInfoRequest();
+    AgentInfoRequest(JabberClient *client, const char *jid);
+    ~AgentInfoRequest();
 protected:
-    JabberSearchInfo		data;
+    JabberAgentInfo		data;
     bool   m_bOption;
     string m_data;
     string m_jid;
@@ -930,7 +935,7 @@ protected:
 
 /*
 
-typedef struct JabberSearchInfo
+typedef struct JabberAgentInfo
 {
 	char			*VHost;
 	char			*ID;
@@ -941,11 +946,11 @@ typedef struct JabberSearchInfo
 	void			*Options;
 	void			*OptionLabels;
 	unsigned		nOptions;
-} JabberSearchInfo;
+} JabberAgentInfo;
 
 */
 
-static DataDef jabberSearchInfo[] =
+static DataDef jabberAgentInfo[] =
     {
         { "", DATA_STRING, 1, 0 },
         { "", DATA_STRING, 1, 0 },
@@ -960,24 +965,24 @@ static DataDef jabberSearchInfo[] =
     };
 
 
-SearchInfoRequest::SearchInfoRequest(JabberClient *client, const char *jid)
+AgentInfoRequest::AgentInfoRequest(JabberClient *client, const char *jid)
         : ServerRequest(client, _GET, NULL, jid)
 {
     m_jid = jid;
     m_bOption = false;
-    load_data(jabberSearchInfo, &data, NULL);
+    load_data(jabberAgentInfo, &data, NULL);
 }
 
-SearchInfoRequest::~SearchInfoRequest()
+AgentInfoRequest::~AgentInfoRequest()
 {
-    free_data(jabberSearchInfo, &data);
+    free_data(jabberAgentInfo, &data);
 }
 
-void SearchInfoRequest::element_start(const char *el, const char **attr)
+void AgentInfoRequest::element_start(const char *el, const char **attr)
 {
     if (!strcmp(el, "field")){
-        free_data(jabberSearchInfo, &data);
-        load_data(jabberSearchInfo, &data, NULL);
+        free_data(jabberAgentInfo, &data);
+        load_data(jabberAgentInfo, &data, NULL);
         set_str(&data.ID, m_jid.c_str());
         m_data = JabberClient::get_attr("var", attr);
         set_str(&data.Field, m_data.c_str());
@@ -994,12 +999,12 @@ void SearchInfoRequest::element_start(const char *el, const char **attr)
     m_data = "";
 }
 
-void SearchInfoRequest::element_end(const char *el)
+void AgentInfoRequest::element_end(const char *el)
 {
     if (!strcmp(el, "field")){
         if (data.Field && *data.Field){
             set_str(&data.VHost, m_client->data.owner.VHost);
-            Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventSearchInfo, &data);
+            Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentInfo, &data);
             e.process();
         }
     }else if (!strcmp(el, "option")){
@@ -1013,19 +1018,33 @@ void SearchInfoRequest::element_end(const char *el)
         }else{
             set_str(&data.Value, m_data.c_str());
         }
-    }
+    }else if (!strcmp(el, "key") || !strcmp(el, "instructions")){
+		set_str(&data.Value, m_data.c_str());
+        set_str(&data.ID, m_jid.c_str());
+        set_str(&data.Type, el);
+        Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentInfo, &data);
+        e.process();
+    }else if (!strcmp(el, "username") || !strcmp(el, "password") || !strcmp(el, "nick")){
+		set_str(&data.Value, m_data.c_str());
+        set_str(&data.ID, m_jid.c_str());
+        set_str(&data.Type, el);
+        Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentInfo, &data);
+        e.process();
+	}
 }
 
-void SearchInfoRequest::char_data(const char *el, int len)
+void AgentInfoRequest::char_data(const char *el, int len)
 {
     m_data.append(el, len);
 }
 
-void JabberClient::get_search(const char *jid)
+void JabberClient::get_agent_info(const char *jid, const char *type)
 {
-    SearchInfoRequest *req = new SearchInfoRequest(this, jid);
+    AgentInfoRequest *req = new AgentInfoRequest(this, jid);
     req->start_element("query");
-    req->add_attribute("xmlns", "jabber:iq:search");
+	string xmlns = "jabber:iq:";
+	xmlns += type;
+    req->add_attribute("xmlns", xmlns.c_str());
     req->send();
     m_requests.push_back(req);
 }

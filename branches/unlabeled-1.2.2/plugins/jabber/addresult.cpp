@@ -166,21 +166,10 @@ void *AddResult::processEvent(Event *e)
     return NULL;
 }
 
-void AddResult::addContact(JabberClient *client, const QString &name)
+void AddResult::setText(const QString &text)
 {
-    m_client = client;
-    lblStatus->setText(i18n("Search"));
-    m_id = name;
-    m_host = "";
-    m_searchId = "";
-    int pos = name.find('@');
-    if (pos >= 0){
-        m_id = name.left(pos);
-        m_host = name.mid(pos + 1);
-    }else{
-        m_host = QString::fromUtf8(m_client->data.owner.VHost);
-    }
-    m_client->add_contact(m_id.utf8(), m_host.utf8());
+	lblStatus->setText(text);
+	tblUser->hide();
 }
 
 void AddResult::setSearch(JabberClient *client, const char *search_id)
@@ -190,9 +179,8 @@ void AddResult::setSearch(JabberClient *client, const char *search_id)
     EventSearch = plugin->EventSearch;
     EventSearchDone = plugin->EventSearchDone;
     tblUser->setMenu(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->MenuSearchResult);
-
     tblUser->clear();
-
+	tblUser->show();
     m_nFound = 0;
     m_searchId = search_id;
     m_id = "";

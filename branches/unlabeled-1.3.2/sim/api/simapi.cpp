@@ -668,6 +668,39 @@ EXPORT QRect screenGeometry(unsigned nScreen)
 #endif
 }
 
+EXPORT QRect screenGeometry()
+{
+#if QT_VER >= 300
+    QDesktopWidget *desktop = QApplication::desktop();
+	QRect rc;
+	for (unsigned i = 0; i < desktop->numScreens(); i++){
+		rc |= desktop->screenGeometry(nScreen);
+	}
+	return rc;
+#else 
+#ifdef WIN32
+    HINSTANCE hLib = LoadLibraryA("user32.dll");
+    BOOL (WINAPI *_EnumDisplayMonitors)(HDC, LPCRECT, MONITORENUMPROC, LPARAM) = NULL;
+    (DWORD&)_EnumDisplayMonitors = (DWORD)GetProcAddress(hLib, "EnumDisplayMonitors");
+    if (_EnumDisplayMonitors == NULL){
+        FreeLibrary(hLib);
+        return QApplication::desktop()->rect();
+    }
+    vector<QRect> rc;
+    if (_EnumDisplayMonitors(NULL, NULL, enumScreens, (LPARAM)&rc) == 0){
+        FreeLibrary(hLib);
+        return QApplication::desktop()->rect();
+    }
+	QRect res;
+	for (vector<QRect>::iterator it = rc.begin(); it != rc.end(); ++it)
+		res |= (*it);
+	return res;
+#else
+    return QApplication::desktop()->rect();
+#endif
+#endif
+}
+
 };
 
 #ifndef HAVE_STRCASECMP

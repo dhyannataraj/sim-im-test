@@ -67,7 +67,7 @@ static DataDef msnUserData[] =
         { "Flags", DATA_ULONG, 1, 0 },
         { "", DATA_ULONG, 1, 0 },				// sFlags
         { "", DATA_ULONG, 1, 0 },
-        { "", DATA_SOCKET, 1, 0 },				// sb
+        { "", DATA_OBJECT, 1, 0 },				// sb
         { NULL, 0, 0, 0 }
     };
 

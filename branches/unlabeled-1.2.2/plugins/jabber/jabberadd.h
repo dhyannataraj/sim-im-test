@@ -20,11 +20,8 @@
 
 #include "simapi.h"
 #include "jabberaddbase.h"
+#include "jabberclient.h"
 
-#include <list>
-using namespace std;
-
-class JabberClient;
 class JabberSearch;
 class QWizard;
 class QValidator;
@@ -48,7 +45,8 @@ protected slots:
 protected:
     virtual void *processEvent(Event*);
     void showEvent(QShowEvent *e);
-    list<JabberSearch*> m_search;
+	void fillGroup();
+    AGENTS_MAP	 m_agents;
     JabberClient *findClient(const char *host);
     AddResult	 *m_result;
     QWizard		 *m_wizard;

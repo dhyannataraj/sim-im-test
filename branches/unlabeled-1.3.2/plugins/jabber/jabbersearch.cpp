@@ -25,6 +25,7 @@
 #include <qcombobox.h>
 #include <qtimer.h>
 #include <qtabwidget.h>
+#include <qwidgetstack.h>
 #include <qobjectlist.h>
 #include <qregexp.h>
 
@@ -62,6 +63,7 @@ QString CComboBox::value()
 }
 
 JabberSearch::JabberSearch(QWidget *receiver, JabberClient *client, const char *jid, const QString &name)
+: QChildWidget(NULL)
 {
     m_client = client;
     m_jid    = jid;
@@ -73,15 +75,11 @@ JabberSearch::JabberSearch(QWidget *receiver, JabberClient *client, const char *
     lay = new QGridLayout(vlay);
     lay->setSpacing(4);
     vlay->addStretch();
-    client->get_search(jid);
     m_bDirty = false;
 }
 
-void *JabberSearch::processEvent(Event *e)
+void JabberSearch::addWidget(JabberAgentInfo *data)
 {
-    if (e->type() == static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventSearchInfo){
-        JabberSearchInfo *data = (JabberSearchInfo*)(e->param());
-        if (m_jid == data->ID){
             QWidget *widget = NULL;
             bool bJoin = false;
             if (data->Type){
@@ -89,7 +87,7 @@ void *JabberSearch::processEvent(Event *e)
                     widget = new QLineEdit(this, data->Field);
                     connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
                     connect(widget, SIGNAL(textChanged(const QString&)), m_receiver, SLOT(textChanged(const QString&)));
-                }else if (!strcmp(data->Type, "fixed")){
+                }else if (!strcmp(data->Type, "fixed") || !strcmp(data->Type, "instructions")){
                     if (data->Value){
                         QString text = i18(data->Value);
                         text = text.replace(QRegExp("  +"), "\n");
@@ -107,7 +105,26 @@ void *JabberSearch::processEvent(Event *e)
                             box->addItem(i18(label), val);
                     }
                     widget = box;
-                }
+                }else if (!strcmp(data->Type, "key")){
+					if (data->Value)
+						m_key = data->Value;
+				}else if (!strcmp(data->Type, "username")){
+                    widget = new QLineEdit(this, "username");
+                    connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
+                    connect(widget, SIGNAL(textChanged(const QString&)), m_receiver, SLOT(textChanged(const QString&)));
+					set_str(&data->Label, "Username");
+				}else if (!strcmp(data->Type, "nick")){
+                    widget = new QLineEdit(this, "nick");
+                    connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
+                    connect(widget, SIGNAL(textChanged(const QString&)), m_receiver, SLOT(textChanged(const QString&)));
+					set_str(&data->Label, "Nick");
+				}else if (!strcmp(data->Type, "password")){
+                    widget = new QLineEdit(this, "password");
+					static_cast<QLineEdit*>(widget)->setEchoMode(QLineEdit::Password);
+                    connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
+                    connect(widget, SIGNAL(textChanged(const QString&)), m_receiver, SLOT(textChanged(const QString&)));
+					set_str(&data->Label, "Password");
+				}
             }
             if (widget){
                 if (bJoin){
@@ -118,15 +135,14 @@ void *JabberSearch::processEvent(Event *e)
                         QLabel *label = new QLabel(i18(data->Label), this);
                         label->setAlignment(AlignRight);
                         lay->addWidget(label, m_nPos, 0);
+						label->show();
                     }
                 }
+				widget->show();
                 m_nPos++;
                 m_bDirty = true;
                 QTimer::singleShot(0, this, SLOT(setSize()));
             }
-        }
-    }
-    return NULL;
 }
 
 void JabberSearch::setSize()
@@ -134,19 +150,21 @@ void JabberSearch::setSize()
     if (!m_bDirty || (parent() == NULL))
         return;
     m_bDirty = false;
-    for (QObject *p = parent(); p; p = p->parent()){
-        if (p->inherits("QTabWidget")){
-            QTabWidget *w = static_cast<QTabWidget*>(p);
-            w->setMinimumSize(w->sizeHint());
-            w->adjustSize();
-            w->changeTab(this, m_name);
-            break;
-        }
-        if (p->parent() == NULL)
-            break;
+    for (QWidget *p = this; p; p = p->parentWidget()){
+		QSize s  = p->sizeHint();
+		QSize s1 = QSize(p->width(), p->height());
+        p->setMinimumSize(s);
+		p->resize(QMAX(s.width(), s1.width()), QMAX(s.height(), s1.height()));
+		log(L_DEBUG, "%s: %u %u %u %u", p->className(), s.width(), s.height(), s1.width(), s1.height());
+		if (p->layout())
+			p->layout()->invalidate();
+		if (p == topLevelWidget())
+			break;
     }
-    setMinimumSize(sizeHint());
-    adjustSize();
+	QWidget *t = topLevelWidget();
+	QSize s = t->sizeHint();
+	t->resize(QMAX(t->width(), s.width()), QMAX(t->height(), s.height()));
+	t->adjustSize();
 }
 
 #if 0
@@ -160,6 +178,22 @@ static const char *any_data[] =
         I18N_NOOP("Search Speed"),
         I18N_NOOP("Fast / Less accurate"),
         I18N_NOOP("Slower / More extensive")
+		I18N_NOOP("Full name")
+		I18N_NOOP("First name")
+		I18N_NOOP("Last name")
+		I18N_NOOP("Nickname")
+		I18N_NOOP("E-mail")
+		I18N_NOOP("Username")
+		I18N_NOOP("Password")
+		I18N_NOOP("Enter your MSN Messenger account and password. Example: user@hotmail.com.  Nickname is optional.")
+		I18N_NOOP("Enter your AIM screenname or ICQ UIN and the password for that account")
+		I18N_NOOP("Enter your YAHOO! Messenger Username and Password.")
+		I18N_NOOP("You need a x:data capable client to register.")
+		I18N_NOOP("Enter nick you want to register.")
+		I18N_NOOP("Complete the form to submit your searchable attributes in the Jabber User Directory")
+		I18N_NOOP("Fill in all of the fields to add yourself to the JUD.")
+		I18N_NOOP("Fill in a field to search for any matching Jabber User (POSIX regular expressions allowed)")
+		I18N_NOOP("Fill in a field to search for any matching Jabber users.")
     };
 #endif
 

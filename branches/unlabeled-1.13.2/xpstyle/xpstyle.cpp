@@ -433,15 +433,12 @@ void QWindowsXPStyle::polish( QWidget *widget )
         widget->setMouseTracking( TRUE );
     } else if ( widget->inherits("KPopupTitle")) {
         widget->installEventFilter( this );
-    } else if ( widget->inherits( "QWidgetStack" ) &&
-                widget->parentWidget() &&
-                widget->parentWidget()->inherits( "QTabWidget" ) ) {
-        widget->setBackgroundPixmap( *d->tabBody( widget ) );
-    } else if ( widget->parentWidget() &&
-                widget->parentWidget()->inherits( "QWidgetStack" ) &&
-                widget->parentWidget()->parentWidget() &&
-                widget->parentWidget()->parentWidget()->inherits( "QTabWidget" ) ) {
-        widget->setBackgroundPixmap( *d->tabBody( widget ) );
+    } else if ( widget->inherits( "QWidgetStack" ) {
+		for (QWidget *p = widget->parentWidget(); *p; p = p->parentWidget())
+			if (p->inherits("QTabWidget"))
+				break;
+		if (p)
+	        widget->setBackgroundPixmap( *d->tabBody( widget ) );
     } else if ( widget->inherits( "QMenuBar" ) ) {
         QPalette pal = widget->palette();
         XPThemeData theme( widget, 0, "MENUBAR", 0, 0 );

@@ -38,7 +38,7 @@ public:
     virtual ~JabberPlugin();
     unsigned JabberPacket;
     unsigned EventAgentFound;
-    unsigned EventSearchInfo;
+    unsigned EventAgentInfo;
     unsigned EventSearch;
     unsigned EventSearchDone;
     unsigned CmdSendMessage;

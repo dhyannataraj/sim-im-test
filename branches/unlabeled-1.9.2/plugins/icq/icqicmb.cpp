@@ -902,7 +902,7 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &msg, bool needA
                             m->setFlags(m->getFlags() | MESSAGE_URGENT);
                         if (msgFlags & ICQ_TCPxMSG_LIST)
                             m->setFlags(m->getFlags() | MESSAGE_LIST);
-                        messageReceived(m, screen);
+                        needAck = messageReceived(m, screen);
                     }else{
                         Message *msg = (*it).msg;
                         replyQueue.erase(it);

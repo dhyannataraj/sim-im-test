@@ -95,12 +95,26 @@ JabberAdd::JabberAdd(JabberClient *client)
     cmbServices->insertStringList(services);
     connect(cmbServices, SIGNAL(activated(const QString&)), this, SLOT(serviceChanged(const QString&)));
     serviceChanged(cmbServices->currentText());
+	fillGroup();
 }
 
 JabberAdd::~JabberAdd()
 {
     if (m_result)
         delete m_result;
+}
+
+void JabberAdd::fillGroup()
+{
+	cmbGroup->clear();
+	ContactList::GroupIterator it;
+	Group *grp;
+	while ((grp = ++it) != NULL){
+		if (grp->id() == 0)
+			continue;
+		cmbGroup->insertItem(grp->getName());
+	}
+	cmbGroup->insertItem(i18n("Not in list"));
 }
 
 void JabberAdd::currentChanged(QWidget*)
@@ -164,7 +178,30 @@ void JabberAdd::startSearch()
     if (client == NULL)
         return;
     if (tabAdd->currentPageIndex() == 0){
-        m_result->addContact(client, edtID->text());
+		QString jid = edtID->text();
+        if (client->add_contact(jid.utf8())){
+			unsigned grp_id = 0;
+			ContactList::GroupIterator it;
+			Group *grp;
+			unsigned nGrp = cmbGroup->currentItem();
+			while ((grp = ++it) != NULL){
+				if (grp->id() == 0)
+					continue;
+				if (nGrp-- == 0){
+					grp_id = grp->id();
+					break;
+				}
+			}
+			Contact *contact;
+			JabberUserData *data = client->findContact(jid.utf8(), NULL, NULL, false, contact);
+			if (data && (contact->getGroup() != grp_id)){
+				contact->setGroup(grp_id);
+				Event e(EventContactChanged, contact);
+				e.process();
+			}
+		}else{
+			m_result->setText(i18n("%1 already in contact list") .arg(jid));
+		}
     }else if (tabAdd->currentPage()->inherits("JabberSearch")){
         JabberSearch *search = static_cast<JabberSearch*>(tabAdd->currentPage());
         QString condition = search->condition();
@@ -189,11 +226,14 @@ JabberClient *JabberAdd::findClient(const char *host)
 void JabberAdd::serviceChanged(const QString &host)
 {
     JabberClient *client = findClient(host.latin1());
-    for (list<JabberSearch*>::iterator it = m_search.begin(); it != m_search.end(); ++it){
-        tabAdd->removePage(*it);
-        delete *it;
+    for (AGENTS_MAP::iterator it = m_agents.begin(); it != m_agents.end(); ++it){
+		agentInfo &info = (*it).second;
+		if (info.search){
+			tabAdd->removePage(info.search);
+			delete info.search;
+		}
     }
-    m_search.clear();
+    m_agents.clear();
     if (client)
         client->get_agents();
 }
@@ -201,17 +241,44 @@ void JabberAdd::serviceChanged(const QString &host)
 void *JabberAdd::processEvent(Event *e)
 {
     if (e->type() == static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentFound){
-        JabberAgentInfo *data = (JabberAgentInfo*)(e->param());
-        if ((cmbServices->currentText() == data->VHost) && data->Search){
-            JabberClient *client = findClient(cmbServices->currentText().latin1());
-            if (client){
-                JabberSearch *search = new JabberSearch(this, client, data->ID, QString::fromUtf8(data->Name));
-                m_search.push_back(search);
-                tabAdd->addTab(search, QString::fromUtf8(data->Name));
-            }
+        JabberAgentsInfo *data = (JabberAgentsInfo*)(e->param());
+        if ((data->Client == m_client) && data->Search){
+				AGENTS_MAP::iterator it = m_agents.find(data->ID);
+				if (it == m_agents.end()){
+					agentInfo info;
+					info.search = NULL;
+					info.name   = data->Name;
+					m_agents.insert(AGENTS_MAP::value_type(data->ID, info));
+				    m_client->get_agent_info(data->ID, "search");
+				}
         }
+		return NULL;
     }
+    if (e->type() == static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentInfo){
+        JabberAgentInfo *data = (JabberAgentInfo*)(e->param());
+		AGENTS_MAP::iterator it = m_agents.find(data->ID);
+		if (it != m_agents.end()){
+			agentInfo &info = (*it).second;
+			if (info.search == NULL){
+                info.search = new JabberSearch(this, m_client, data->ID, QString::fromUtf8(info.name.c_str()));
+                tabAdd->addTab(info.search, QString::fromUtf8(info.name.c_str()));
+			}
+			info.search->addWidget(data);
+		}
+		return NULL;
+	}
+	switch (e->type()){
+	case EventGroupChanged:
+	case EventGroupDeleted:
+		fillGroup();
+		break;
+	}
     return NULL;
+}
+
+bool my_string::operator < (const my_string &a) const
+{
+    return strcmp(c_str(), a.c_str()) < 0;
 }
 
 #ifndef WIN32
