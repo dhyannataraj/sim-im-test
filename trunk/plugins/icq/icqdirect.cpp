@@ -368,7 +368,7 @@ void DirectSocket::packet_ready()
 
 void DirectSocket::sendInit()
 {
-    if (!m_bIncoming){
+    if (!m_bIncoming && (m_state != ReverseConnect)){
         if (m_data->DCcookie == 0){
             m_socket->error_state("No direct info");
             return;
@@ -424,10 +424,10 @@ void DirectSocket::connect_ready()
     }else{
         sendInit();
         m_state = WaitAck;
-        m_socket->readBuffer.init(2);
-        m_socket->readBuffer.packetStart();
-        m_bHeader = true;
     }
+    m_socket->readBuffer.init(2);
+    m_socket->readBuffer.packetStart();
+    m_bHeader = true;
 }
 
 // ___________________________________________________________________________________________
@@ -1746,8 +1746,8 @@ bool ICQFileTransfer::accept(Socket *s, unsigned long)
 
 void ICQFileTransfer::bind_ready(unsigned short port)
 {
+    m_localPort = port;
     if (m_state == WaitReverse){
-        m_localPort = port;
         m_client->requestReverseConnection(m_client->screen(m_data).c_str(), this);
         return;
     }
@@ -1787,8 +1787,16 @@ void ICQFileTransfer::connect_ready()
         DirectSocket::connect_ready();
         return;
     }
+    if (m_state == Listen){
+        m_bIncoming = false;
+        m_state = WaitReverseLogin;
+        DirectSocket::connect_ready();
+        return;
+    }
     if (m_state == WaitReverse)
         m_bIncoming = false;
+    if (m_state == WaitReverseLogin)
+        m_bIncoming = true;
     m_file = 0;
     FileTransfer::m_state = FileTransfer::Negotiation;
     if (m_notify)

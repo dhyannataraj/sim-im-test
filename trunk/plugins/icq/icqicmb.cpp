@@ -789,6 +789,19 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &msg, bool needA
             set_ip(&data->RealIP, localIP);
         in_addr addr;
         addr.s_addr = localIP;
+        for (list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it){
+            if ((*it)->type() != MessageICQFile)
+                continue;
+            ICQFileMessage *msg = static_cast<ICQFileMessage*>(*it);
+            if (msg->m_transfer == NULL)
+                continue;
+            ICQFileTransfer *ft = static_cast<ICQFileTransfer*>(msg->m_transfer);
+            if (ft->m_localPort == remotePort){
+                log(L_DEBUG, "Setup file transfer reverse connect to %s %s:%u", screen, inet_ntoa(addr), localPort);
+                ft->reverseConnect(localIP, (unsigned short)localPort);
+                return;
+            }
+        }
         log(L_DEBUG, "Setup reverse connect to %s %s:%u", screen, inet_ntoa(addr), localPort);
         DirectClient *direct = new DirectClient(data, this);
         m_sockets.push_back(direct);
