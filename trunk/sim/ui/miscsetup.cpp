@@ -19,6 +19,7 @@
 #include "icons.h"
 #include "mainwin.h"
 #include "editfile.h"
+#include "enable.h"
 
 #include <qlabel.h>
 #include <qpixmap.h>

@@ -204,7 +204,7 @@ UserBox::UserBox(unsigned long grpId)
 void UserBox::wmChanged()
 {
 #ifdef USE_KDE
-    if (pMain->UserWindowInTaskManager()){
+    if (pMain->UserWindowInTaskManager){
         KWin::clearState(winId(), NET::SkipTaskbar);
     }else{
         KWin::setState(winId(), NET::SkipTaskbar);

@@ -435,7 +435,7 @@ void MainWindow::setOnTop()
                  0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 #else
 #ifdef USE_KDE
-    if (OnTop()){
+    if (OnTop){
         KWin::setState(winId(), NET::StaysOnTop);
     }else{
         KWin::clearState(winId(), NET::StaysOnTop);
@@ -1961,7 +1961,7 @@ void MainWindow::playSound(const char *wav)
     sndPlaySoundA(wav, SND_ASYNC | SND_NODEFAULT);
 #else
 #ifdef USE_KDE
-    if (pSplash->UseArts()){
+    if (pSplash->UseArts){
         KAudioPlayer::play(wav);
         return;
     }
@@ -1993,7 +1993,7 @@ void MainWindow::sendSMS()
 void MainWindow::setFonts()
 {
 #ifdef USE_KDE
-    if (UseSystemFonts()) return;
+    if (UseSystemFonts) return;
 #endif
     if (FontSize > 128) FontSize = 0;
     if (FontSize){
@@ -2117,7 +2117,7 @@ void MainWindow::loadMenu()
 void MainWindow::changeWm()
 {
 #ifdef USE_KDE
-    if (MainWindowInTaskManager()){
+    if (MainWindowInTaskManager){
         KWin::clearState(winId(), NET::SkipTaskbar);
     }else{
         KWin::setState(winId(), NET::SkipTaskbar);

@@ -175,7 +175,7 @@ void TransparentTop::transparentChanged()
     setTransparent(p, useTransparent && bTransparent, transparent);
 #endif
 #if defined(USE_KDE) && defined(HAVE_KROOTPIXMAP_H)
-    if (useTransparent()){
+    if (useTransparent){
         rootpixmap->start();
     }else{
         rootpixmap->stop();
@@ -257,13 +257,13 @@ void TransparentTop::setTransparent(
 const QPixmap *TransparentTop::background(QColor c)
 {
 #if defined(USE_KDE) && defined(HAVE_KROOTPIXMAP_H)
-    if (useTransparent() && !saveBG.isNull()){
-        if ((c.rgb() == genColor.rgb()) && (transparent() == genFade))
+    if (useTransparent && !saveBG.isNull()){
+        if ((c.rgb() == genColor.rgb()) && (transparent == genFade))
             return &genBG;
         QImage img = saveBG.convertToImage();
-        fade(img, transparent() / 100., c);
+        fade(img, transparent / 100., c);
         genBG.convertFromImage(img);
-        genFade = transparent();
+        genFade = transparent;
         genColor = c;
         return &genBG;
     }

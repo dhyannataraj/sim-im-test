@@ -23,7 +23,8 @@ void init(void *_obj, const cfgParam *params)
 {
     char *obj = (char*)_obj;
     for (;;){
-        for (const cfgParam *p = params; *p->name; p++){
+	const cfgParam *p;
+        for (p = params; *p->name; p++){
             switch (p->type){
             case PARAM_ULONG:
                 *((unsigned long*)(obj + p->offs)) = p->defValue;
@@ -76,7 +77,8 @@ void save(void *_obj, const cfgParam *params, ostream &out)
     list<unsigned long> *l;
     list<unsigned long>::iterator it;
     for (;;){
-        for (const cfgParam *p = params; *p->name; p++){
+	const cfgParam *p;
+        for (p = params; *p->name; p++){
             const cfgParam *pp = saveParam;
             for (;;){
                 for (; *pp->name; pp++)

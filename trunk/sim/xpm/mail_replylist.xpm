@@ -119,7 +119,7 @@ static const char *p_mail_replylist[]={
 "#i c #fff6e6",
 ".o c #fffaf6",
 ".t c #fffaff",
-".g c #ffffff",
+".g c None",
 "QtQtQtQtQtQt.#.a.b.c.d.e.f.g.g.g.g.g",
 "Qt.g.g.g.gQt.g.#.h.i.j.k.l.f.g.g.g.g",
 "Qt.gQt.m.#QtQtQt.n.o.p.q.r.s.g.g.g.g",

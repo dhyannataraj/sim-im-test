@@ -93,7 +93,7 @@ static const char *p_cancel[]={
 ".T c #fff2f6",
 ".J c #fff6f6",
 ".U c #fff6ff",
-"Qt c #ffffff",
+"Qt c None",
 "QtQtQtQt.#.a.#.b.c.d.d.eQtQtQtQtQt",
 "QtQtQt.f.g.h.i.j.k.l.m.n.oQtQtQtQt",
 "QtQt.#Qt.p.q.r.s.t.u.v.w.n.oQtQtQt",

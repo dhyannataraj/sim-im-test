@@ -153,7 +153,7 @@ static const char *p_mail_forward[]={
 ".J c #fffaff",
 ".R c #ffffee",
 ".z c #fffff6",
-".j c #ffffff",
+".j c None",
 "Qt.#.#.a.b.c.c.d.e.f.g.h.i.j.j.j.j",
 ".a.k.l.m.n.o.p.q.r.s.t.h.u.i.j.j.j",
 ".v.w.x.y.z.p.j.A.B.C.D.h.E.F.j.j.j",
