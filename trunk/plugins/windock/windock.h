@@ -25,6 +25,7 @@ typedef struct WinDockData
     Data	AutoHide;
     Data	State;
     Data	Height;
+    Data	Width;
 } WinDocData;
 
 class QTimer;
@@ -38,6 +39,7 @@ public:
     PROP_BOOL(AutoHide);
     PROP_USHORT(State);
     PROP_ULONG(Height);
+    PROP_ULONG(Width);
     void enableAutoHide(bool);
 protected slots:
     void slotSetState();

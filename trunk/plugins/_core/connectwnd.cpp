@@ -26,16 +26,16 @@ ConnectWnd::ConnectWnd(bool bStart)
 {
     m_bStart = bStart;
     setConnecting(true);
-#if COMPAT_QT_VERSION < 0x030000
     QMovie movie(QFile::decodeName(app_file("pict/connect.gif").c_str()));
-#else
-QMovie movie(QFile::decodeName(app_file("pict/connect.mng").c_str()));
-#endif
-    lblMovie->setMovie(movie);
-    movie.connectUpdate(this, SLOT(updateMovie()));
+    if (movie.isNull())
+        movie = QMovie(QFile::decodeName(app_file("pict/connect.mng").c_str()));
+    if (!movie.isNull()){
+        lblMovie->setMovie(movie);
+        movie.connectUpdate(this, SLOT(updateMovie()));
+        movie.restart();
+        updateMovie();
+    }
     setConnecting(true);
-    movie.restart();
-    updateMovie();
 }
 
 void ConnectWnd::updateMovie()

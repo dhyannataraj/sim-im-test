@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
-"POT-Creation-Date: 2004-03-23 13:07+0300\n"
+"POT-Creation-Date: 2004-03-24 04:40+0300\n"
 "PO-Revision-Date: 2004-02-25 20:18+0100\n"
 "Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
@@ -1887,7 +1887,7 @@ msgstr "Ulo¾i»"
 #: plugins/_core/status.cpp:138 plugins/_core/statuswnd.cpp:95
 #: plugins/jabber/jabbermessage.cpp:109 plugins/jabber/jabbermessage.cpp:228
 #: plugins/logger/logconfig.cpp:92 plugins/netmonitor/monitor.cpp:89
-#: plugins/windock/windock.cpp:179 sim/ui/qt3/i18n.cpp:141
+#: plugins/windock/windock.cpp:180 sim/ui/qt3/i18n.cpp:141
 msgid "Error"
 msgstr "Chyba"
 
@@ -2616,98 +2616,11 @@ msgstr "Kontakt %1 je u¾ v zozname"
 #: plugins/icq/searchresultbase.cc:56 plugins/icq/workinfobase.cc:178
 #: plugins/jabber/jabberhomeinfobase.cpp:104
 #: plugins/livejournal/journalresultbase.cpp:54
-#: plugins/msn/msnconfigbase.cpp:168 plugins/msn/msnresultbase.cpp:54
+#: plugins/msn/msnconfigbase.cpp:128 plugins/msn/msnresultbase.cpp:54
 #: plugins/osd/osdifacebase.cpp:128 plugins/yahoo/yahoocfgbase.cpp:174
 #: plugins/yahoo/yahooresultbase.cpp:54
 msgid "Form2"
 msgstr "Form 2"
-
-# ui/logindlgbase.cpp:123
-#: plugins/msn/msnconfigbase.cpp:169 plugins/yahoo/yahoocfgbase.cpp:175
-#: plugins/yahoo/yahooinfobase.cpp:164
-msgid "Login:"
-msgstr "Prihlasovacie meno:"
-
-# ui/logindlgbase.cpp:129
-#: plugins/_core/logindlg.cpp:282 plugins/icq/aimconfigbase.cc:145
-#: plugins/icq/icqconfigbase.cc:230 plugins/jabber/jabberconfigbase.cpp:278
-#: plugins/livejournal/livejournalcfgbase.cpp:150
-#: plugins/msn/msnconfigbase.cpp:170 plugins/proxy/proxycfgbase.cpp:135
-#: plugins/yahoo/yahoocfgbase.cpp:176
-msgid "Password:"
-msgstr "Heslo:"
-
-# ui/setupdlg.cpp:134
-#: plugins/msn/msnconfigbase.cpp:171
-msgid "&MSN"
-msgstr "&MSN"
-
-# ui/proxydlgbase.cpp:181
-#: plugins/icq/aimconfigbase.cc:148 plugins/icq/icqconfigbase.cc:236
-#: plugins/jabber/jabberconfigbase.cpp:281
-#: plugins/jabber/jabberconfigbase.cpp:285
-#: plugins/livejournal/livejournalcfgbase.cpp:152
-#: plugins/msn/msnconfigbase.cpp:172 plugins/yahoo/yahoocfgbase.cpp:178
-msgid "Server:"
-msgstr "Server:"
-
-# ui/networkbase.cpp:227
-# ui/proxydlgbase.cpp:183
-#: plugins/icq/aimconfigbase.cc:147 plugins/icq/icqconfigbase.cc:237
-#: plugins/jabber/jabberconfigbase.cpp:282
-#: plugins/jabber/jabberconfigbase.cpp:286
-#: plugins/livejournal/livejournalcfgbase.cpp:154
-#: plugins/msn/msnconfigbase.cpp:173 plugins/proxy/proxycfgbase.cpp:132
-#: plugins/remote/remotecfgbase.cpp:106 plugins/sms/smssetupbase.cpp:140
-#: plugins/yahoo/yahoocfgbase.cpp:179
-msgid "Port:"
-msgstr "Port:"
-
-# ui/generalsecbase.cpp:216
-#: plugins/icq/icqconfigbase.cc:238 plugins/jabber/jabberconfigbase.cpp:288
-#: plugins/msn/msnconfigbase.cpp:174 plugins/yahoo/yahoocfgbase.cpp:184
-msgid "Port range for direct connections:"
-msgstr "Rozsah portov pre priame pripojenie:"
-
-# ui/phonebase.cpp:156
-# ui/phonebase.cpp:158
-# ui/phonebase.cpp:160
-#: plugins/_core/phonebase.cpp:116 plugins/_core/phonebase.cpp:118
-#: plugins/_core/phonebase.cpp:120 plugins/icq/icqconfigbase.cc:239
-#: plugins/jabber/jabberconfigbase.cpp:287 plugins/msn/msnconfigbase.cpp:175
-#: plugins/yahoo/yahoocfgbase.cpp:183
-msgid "-"
-msgstr "-"
-
-#: plugins/icq/aimconfigbase.cc:149 plugins/icq/icqconfigbase.cc:235
-#: plugins/jabber/jabberconfigbase.cpp:291 plugins/msn/msnconfigbase.cpp:176
-#: plugins/yahoo/yahoocfgbase.cpp:182
-msgid "Use &HTTP polling"
-msgstr ""
-
-#: plugins/icq/aimconfigbase.cc:150 plugins/icq/icqconfigbase.cc:234
-#: plugins/msn/msnconfigbase.cpp:177 plugins/yahoo/yahoocfgbase.cpp:181
-msgid "&Automaticaly use HTTP pooling if proxy required"
-msgstr ""
-
-#: plugins/icq/aimconfigbase.cc:151 plugins/icq/icqconfigbase.cc:240
-#: plugins/jabber/jabberconfigbase.cpp:292 plugins/msn/msnconfigbase.cpp:178
-#: plugins/yahoo/yahoocfgbase.cpp:180
-msgid "Note: For HTTP-pooling using proxy setings for HTTP"
-msgstr ""
-
-#: plugins/msn/msnconfigbase.cpp:179
-msgid "&Automaticaly add contacts in accept list"
-msgstr ""
-
-# ui/filetransfer.cpp:301
-# ui/filetransfer.cpp:317
-#: plugins/icq/aimconfigbase.cc:153 plugins/icq/icqconfigbase.cc:242
-#: plugins/jabber/jabberconfigbase.cpp:294
-#: plugins/livejournal/livejournalcfgbase.cpp:155
-#: plugins/msn/msnconfigbase.cpp:180 plugins/yahoo/yahoocfgbase.cpp:185
-msgid "&Network"
-msgstr "&Sie»"
 
 # ui/acceptbase.cpp:172
 # ui/alertdialogbase.cpp:231
@@ -2886,6 +2799,93 @@ msgstr "Prida» do skupiny:"
 #: plugins/yahoo/yahoosearchbase.cpp:81
 msgid "&Add contact"
 msgstr "Prid&a» kontakt"
+
+# ui/logindlgbase.cpp:123
+#: plugins/msn/msnconfigbase.cpp:129 plugins/yahoo/yahoocfgbase.cpp:175
+#: plugins/yahoo/yahooinfobase.cpp:164
+msgid "Login:"
+msgstr "Prihlasovacie meno:"
+
+# ui/logindlgbase.cpp:129
+#: plugins/_core/logindlg.cpp:282 plugins/icq/aimconfigbase.cc:145
+#: plugins/icq/icqconfigbase.cc:230 plugins/jabber/jabberconfigbase.cpp:278
+#: plugins/livejournal/livejournalcfgbase.cpp:150
+#: plugins/msn/msnconfigbase.cpp:130 plugins/proxy/proxycfgbase.cpp:135
+#: plugins/yahoo/yahoocfgbase.cpp:176
+msgid "Password:"
+msgstr "Heslo:"
+
+# ui/setupdlg.cpp:134
+#: plugins/msn/msnconfigbase.cpp:131
+msgid "&MSN"
+msgstr "&MSN"
+
+# ui/proxydlgbase.cpp:181
+#: plugins/icq/aimconfigbase.cc:148 plugins/icq/icqconfigbase.cc:236
+#: plugins/jabber/jabberconfigbase.cpp:281
+#: plugins/jabber/jabberconfigbase.cpp:285
+#: plugins/livejournal/livejournalcfgbase.cpp:152
+#: plugins/msn/msnconfigbase.cpp:132 plugins/yahoo/yahoocfgbase.cpp:178
+msgid "Server:"
+msgstr "Server:"
+
+# ui/networkbase.cpp:227
+# ui/proxydlgbase.cpp:183
+#: plugins/icq/aimconfigbase.cc:147 plugins/icq/icqconfigbase.cc:237
+#: plugins/jabber/jabberconfigbase.cpp:282
+#: plugins/jabber/jabberconfigbase.cpp:286
+#: plugins/livejournal/livejournalcfgbase.cpp:154
+#: plugins/msn/msnconfigbase.cpp:133 plugins/proxy/proxycfgbase.cpp:132
+#: plugins/remote/remotecfgbase.cpp:106 plugins/sms/smssetupbase.cpp:140
+#: plugins/yahoo/yahoocfgbase.cpp:179
+msgid "Port:"
+msgstr "Port:"
+
+# ui/generalsecbase.cpp:216
+#: plugins/icq/icqconfigbase.cc:238 plugins/jabber/jabberconfigbase.cpp:288
+#: plugins/msn/msnconfigbase.cpp:134 plugins/yahoo/yahoocfgbase.cpp:184
+msgid "Port range for direct connections:"
+msgstr "Rozsah portov pre priame pripojenie:"
+
+# ui/phonebase.cpp:156
+# ui/phonebase.cpp:158
+# ui/phonebase.cpp:160
+#: plugins/_core/phonebase.cpp:116 plugins/_core/phonebase.cpp:118
+#: plugins/_core/phonebase.cpp:120 plugins/icq/icqconfigbase.cc:239
+#: plugins/jabber/jabberconfigbase.cpp:287 plugins/msn/msnconfigbase.cpp:135
+#: plugins/yahoo/yahoocfgbase.cpp:183
+msgid "-"
+msgstr "-"
+
+#: plugins/icq/aimconfigbase.cc:149 plugins/icq/icqconfigbase.cc:235
+#: plugins/jabber/jabberconfigbase.cpp:291 plugins/msn/msnconfigbase.cpp:136
+#: plugins/yahoo/yahoocfgbase.cpp:182
+msgid "Use &HTTP polling"
+msgstr ""
+
+#: plugins/icq/aimconfigbase.cc:150 plugins/icq/icqconfigbase.cc:234
+#: plugins/msn/msnconfigbase.cpp:137 plugins/yahoo/yahoocfgbase.cpp:181
+msgid "&Automaticaly use HTTP pooling if proxy required"
+msgstr ""
+
+#: plugins/icq/aimconfigbase.cc:151 plugins/icq/icqconfigbase.cc:240
+#: plugins/jabber/jabberconfigbase.cpp:292 plugins/msn/msnconfigbase.cpp:138
+#: plugins/yahoo/yahoocfgbase.cpp:180
+msgid "Note: For HTTP-pooling using proxy setings for HTTP"
+msgstr ""
+
+#: plugins/msn/msnconfigbase.cpp:139
+msgid "&Automatically add contacts in accept list"
+msgstr ""
+
+# ui/filetransfer.cpp:301
+# ui/filetransfer.cpp:317
+#: plugins/icq/aimconfigbase.cc:153 plugins/icq/icqconfigbase.cc:242
+#: plugins/jabber/jabberconfigbase.cpp:294
+#: plugins/livejournal/livejournalcfgbase.cpp:155
+#: plugins/msn/msnconfigbase.cpp:140 plugins/yahoo/yahoocfgbase.cpp:185
+msgid "&Network"
+msgstr "&Sie»"
 
 # qt3/i18n.cpp:117
 #: plugins/__homedir/homedir.cpp:48
@@ -5581,7 +5581,7 @@ msgstr ""
 "Zásuvný modul umo¾òuje umiestni» hlavné okno na µavú alebo pravú stranu "
 "obrazovky"
 
-#: plugins/windock/windock.cpp:180
+#: plugins/windock/windock.cpp:181
 msgid ""
 "There is already an auto hidden window on this edge.\n"
 "Only one auto hidden window is allowed on each edge."
@@ -5590,7 +5590,7 @@ msgstr ""
 "V ka¾dom rohu mô¾e by» len jedno takého okno."
 
 # mainwin.cpp:883
-#: plugins/windock/windock.cpp:329
+#: plugins/windock/windock.cpp:358
 msgid "AutoHide"
 msgstr "Automaticky skry»"
 

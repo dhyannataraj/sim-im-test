@@ -55,6 +55,7 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 static QWidget *pMain   = NULL;
 static UINT WM_APPBAR   = 0;
 static WNDPROC oldProc	= NULL;
+static bool bOldVisible      = true;
 static bool bAutoHideVisible = true;
 static bool bFullScreen = false;
 static bool bMoving = false;
@@ -121,7 +122,7 @@ static void getBarRect(UINT state, QRect &rc, RECT *rcWnd = NULL)
     }
 }
 
-const int SLIDE_INTERVAL = 400;
+const int SLIDE_INTERVAL = 800;
 
 void slideWindow (const QRect &rcEnd, bool bAnimate)
 {
@@ -191,8 +192,25 @@ void setBarState(bool bAnimate = false)
                 rcAutoHide.setLeft(rcAutoHide.right() - w);
             }
             appBarMessage(ABM_SETPOS, dock->getState(), FALSE, &rcAutoHide);
-            if (!bAutoHideVisible)
+            if (!bAutoHideVisible){
+                if (bOldVisible)
+                    dock->setWidth(rc.width() - GetSystemMetrics(SM_CXBORDER) * 2);
+                MINMAXINFO mmInfo;
                 rc = rcAutoHide;
+                SendMessageA(pMain->winId(), WM_GETMINMAXINFO, 0, (LPARAM)&mmInfo);
+                if (dock->getState() == ABE_LEFT){
+                    rc.setLeft(rc.right() - mmInfo.ptMinTrackSize.x);
+                }else{
+                    rc.setRight(rc.left() + mmInfo.ptMinTrackSize.x);
+                }
+            }else{
+                if (dock->getState() == ABE_LEFT){
+                    rc.setRight(rc.left() + dock->getWidth());
+                }else{
+                    rc.setLeft(rc.right() - dock->getWidth());
+                }
+            }
+            bOldVisible = bAutoHideVisible;
         }else{
             appBarMessage(ABM_SETPOS, dock->getState(), FALSE, &rc);
         }
@@ -227,6 +245,7 @@ LRESULT CALLBACK dockWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     RECT  *prc;
     RECT  rcWnd;
     QRect rc;
+    unsigned oldState;
     switch (msg){
     case WM_DESTROY:
         res = oldProc(hWnd, msg, wParam, lParam);
@@ -270,7 +289,16 @@ LRESULT CALLBACK dockWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         return DefWindowProc(hWnd, msg, wParam, lParam);
     case WM_EXITSIZEMOVE:
         bMoving = false;
+        oldState = dock->getState();
         dock->setState(getEdge());
+        GetWindowRect(hWnd, &rcWnd);
+        if ((dock->getState() == ABE_FLOAT) && (oldState != ABE_FLOAT)){
+            rcWnd.bottom = rcWnd.top + dock->getHeight();
+            SetWindowPos(pMain->winId(), NULL,
+                         rcWnd.left, rcWnd.top, rcWnd.right - rcWnd.left, rcWnd.bottom - rcWnd.top,
+                         SWP_NOZORDER | SWP_NOACTIVATE | SWP_DRAWFRAME);
+        }
+        dock->setWidth(rcWnd.right - rcWnd.left);
         setBarState(true);
         return DefWindowProc(hWnd, msg, wParam, lParam);
     case WM_MOVING:
@@ -312,6 +340,7 @@ static DataDef winDockData[] =
         { "AutoHide", DATA_BOOL, 1, 0 },
         { "State", DATA_ULONG, 1, DATA(-1) },
         { "Height", DATA_ULONG, 1, 0 },
+        { "Width", DATA_ULONG, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -355,10 +384,11 @@ void WinDockPlugin::uninit()
     QWidget *main = getMainWindow();
     if (main && oldProc){
         appBarMessage(ABM_REMOVE);
-        WNDPROC p;
-        p = (WNDPROC)SetWindowLongW(main->winId(), GWL_WNDPROC, (LONG)oldProc);
-        if (p == 0)
-            p = (WNDPROC)SetWindowLongA(main->winId(), GWL_WNDPROC, (LONG)oldProc);
+        if (IsWindowUnicode(pMain->winId())){
+            SetWindowLongW(main->winId(), GWL_WNDPROC, (LONG)oldProc);
+        }else{
+            SetWindowLongA(main->winId(), GWL_WNDPROC, (LONG)oldProc);
+        }
         oldProc = NULL;
     }
 }
@@ -405,8 +435,8 @@ void WinDockPlugin::init()
     if (pMain){
         if (IsWindowUnicode(pMain->winId())){
             oldProc = (WNDPROC)SetWindowLongW(pMain->winId(), GWL_WNDPROC, (LONG)dockWndProc);
-            if (oldProc == 0)
-                oldProc = (WNDPROC)SetWindowLongA(pMain->winId(), GWL_WNDPROC, (LONG)dockWndProc);
+        }else{
+            oldProc = (WNDPROC)SetWindowLongA(pMain->winId(), GWL_WNDPROC, (LONG)dockWndProc);
         }
         appBarMessage(ABM_NEW);
         m_bInit = true;
