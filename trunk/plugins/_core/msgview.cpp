@@ -42,8 +42,6 @@ class ViewParser : public HTMLParser
 public:
     ViewParser(bool bIgnoreColors, bool bUseSmiles);
     QString parse(const QString &str);
-    bool RTL;
-    bool m_bParaStart;
 protected:
     QString res;
     bool m_bIgnoreColors;
@@ -52,14 +50,128 @@ protected:
     bool m_bInHead;
     bool m_bFirst;
     bool m_bSpan;
-    bool m_bPara;
-    bool m_bRTL;
-    bool m_bParaEnd;
     list<Smile> m_smiles;
     virtual void text(const QString &text);
     virtual void tag_start(const QString &tag, const list<QString> &options);
     virtual void tag_end(const QString &tag);
 };
+
+/*
+   This parser is run on the output of the 'history XSL'.
+   The text which the XSL process output should generally be HTML,
+   but may contain the following special tags:
+ 
+    <prepend>...</prepend>
+    Strips the PREPEND tags and prepends their contents to the beginning
+    of the next paragraph. Useful to make sure chat prefixes are prepended
+    to the first paragraph of a multi-paragraph message (instead of residing
+    on a new paragraph).
+*/
+
+class XslOutputParser : public HTMLParser
+{
+public:
+    XslOutputParser();
+    QString parse(const QString &str);
+
+protected:
+    virtual void text(const QString &text);
+    virtual void tag_start(const QString &tag, const list<QString> &options);
+    virtual void tag_end(const QString &tag);
+
+protected:
+    QString res;
+    bool m_bInPrepend;
+    QString m_sPrepend;
+};
+
+XslOutputParser::XslOutputParser()
+: m_bInPrepend(false)
+{
+}
+
+QString XslOutputParser::parse(const QString &str)
+{
+    res = "";
+    HTMLParser::parse(str);
+    if (!m_sPrepend.isEmpty())
+       res = m_sPrepend + res;
+    return res;
+}
+
+void XslOutputParser::text(const QString& text)
+{
+    if (m_bInPrepend)
+       m_sPrepend += quoteString(text);
+    else
+       res += quoteString(text);
+}
+
+void XslOutputParser::tag_start(const QString &tag, const list<QString> &attrs)
+{
+    QString ltag = tag.lower();
+
+    if (ltag == "prepend")
+    {
+       m_bInPrepend = true;
+       return;
+    }
+
+    QString tagText;
+    tagText += "<";
+    tagText += tag;
+    for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
+        QString name = *it;
+        ++it;
+        QString value = *it;
+        tagText += " ";
+        tagText += name;
+        if (!value.isEmpty()){
+            tagText += "=\"";
+            tagText += value;
+            tagText += "\"";
+        }
+    }
+    tagText += ">";
+    
+    if (m_bInPrepend)
+    {
+       m_sPrepend += tagText;
+    }
+    else
+    {
+       res += tagText;
+
+       // It's time to prepend whatever we've got in m_sPrepend
+       // to the start of a paragraph.   
+       if ((ltag == "p") && !m_sPrepend.isEmpty())
+       {
+          res += m_sPrepend;
+          m_sPrepend = "";
+       }
+    }
+}
+
+void XslOutputParser::tag_end(const QString &tag)
+{
+    QString ltag = tag.lower();
+
+    if (ltag == "prepend")
+    {
+       m_bInPrepend = false;
+       return;
+    }
+    
+    QString tagText;
+    tagText += "</";
+    tagText += tag;
+    tagText += ">";
+    
+    if (m_bInPrepend)
+       m_sPrepend += tagText;
+    else
+       res += tagText;
+}
 
 MsgViewBase::MsgViewBase(QWidget *parent, const char *name, unsigned id)
         : TextShow(parent, name)
@@ -392,26 +504,14 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     if (p == NULL)
         p = CorePlugin::m_plugin->historyXSL;
     QString res = p->process(s);
+    
+    XslOutputParser outParser;
+    res = outParser.parse(res);
+    
     QString anchor = MSG_ANCHOR;
     anchor += id;
     anchor += "\">";
     res = anchor + res;
-    int startPos = res.find(MSG_BEGIN);
-    int paraPos;
-    if (parser.m_bParaStart){
-        paraPos = res.find("<p");
-        if (paraPos >= 0)
-            res = res.left(paraPos) + "</p>" + res.mid(paraPos);
-    }
-    paraPos = res.findRev("<p", startPos);
-    QString dir = " dir=\"";
-    dir += parser.RTL ? "rtl" : "ltr";
-    dir += "\"";
-    if (paraPos >= 0){
-        res = res.left(paraPos + 2) + dir + res.mid(paraPos + 2);
-    }else{
-        res = QString("<p") + dir + ">" + res;
-    }
     return res;
 }
 
@@ -1121,11 +1221,6 @@ ViewParser::ViewParser(bool bIgnoreColors, bool bUseSmiles)
     m_bInHead       = false;
     m_bFirst     	= true;
     m_bSpan			= false;
-    m_bPara			= false;
-    m_bParaStart	= false;
-    m_bRTL			= false;
-    m_bParaEnd		= false;
-    RTL				= false;
     if (m_bUseSmiles){
         for (unsigned i = 0; ;i++){
             const smile *s = smiles(i);
@@ -1173,8 +1268,6 @@ QString ViewParser::parse(const QString &str)
 {
     res = "";
     HTMLParser::parse(str);
-    if (m_bParaStart)
-        res += "</p>";
     return res;
 }
 
@@ -1182,10 +1275,6 @@ void ViewParser::text(const QString &text)
 {
     if (text.isEmpty())
         return;
-    if (m_bParaEnd){
-        m_bParaEnd = false;
-        res += "<br/>";
-    }
     if (!m_bUseSmiles || m_bInLink){
         res += quoteString(text);
         return;
@@ -1282,37 +1371,6 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
         return;
     }else if (tag == "body"){ // we display as a part of a larger document
         oTag = "span";
-    }else if (tag == "p"){
-        bool bRTL = false;
-        m_bParaEnd = false;
-        for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
-            QString name = (*it).lower();
-            ++it;
-            QString value = *it;
-            if ((name == "dir") && (value.lower() == "rtl"))
-                bRTL = true;
-        }
-        if (m_bPara){
-            if (bRTL == m_bRTL){
-                res += "<br/>";
-            }else{
-                if (m_bParaStart)
-                    res += "</p>";
-                res += "<p dir=\"";
-                res += bRTL ? "rtl" : "ltr";
-                res += "\">";
-                m_bParaStart = true;
-            }
-        }else{
-            RTL     = bRTL;
-            m_bRTL  = bRTL;
-            m_bPara = true;
-        }
-        return;
-    }
-    if (m_bParaEnd){
-        res += "<br/>";
-        m_bParaEnd = false;
     }
     QString tagText;
     tagText += "<";
@@ -1392,9 +1450,6 @@ void ViewParser::tag_end(const QString &tag)
         return;
     }else if (tag == "body"){
         oTag = "span";
-    }else if (tag == "p"){
-        m_bParaEnd = true;
-        return;
     }
     if (m_bInHead)
         return;

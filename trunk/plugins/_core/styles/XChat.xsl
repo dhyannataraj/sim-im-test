@@ -6,14 +6,17 @@
 <xsl:when test="@direction='2'">
 <font>
 <xsl:attribute name="color">#808080</xsl:attribute>
+<prepend>
 [<xsl:value-of select="time/hour"/>:<xsl:value-of select="time/minute"/>]
 <xsl:text> &lt;</xsl:text>
 <xsl:value-of disable-output-escaping="yes" select="from"/>
 <xsl:text>&gt; </xsl:text>
+</prepend>
 <xsl:value-of disable-output-escaping="yes" select="body"/>
 </font>
 </xsl:when>
 <xsl:otherwise>
+<prepend>
 <span>
 <xsl:if test="@unread='1'">
 <xsl:attribute name="style">font-weight:600</xsl:attribute>
@@ -33,6 +36,7 @@
 </font>
 <xsl:text>&gt; </xsl:text>
 </span>
+</prepend>
 <span>
 <xsl:attribute name="style"><xsl:if test="body/@bgcolor">background-color:<xsl:value-of select="body/@bgcolor"/>;</xsl:if><xsl:if test="body/@fgcolor">color:<xsl:value-of select="body/@fgcolor"/>;</xsl:if></xsl:attribute>
 <xsl:value-of disable-output-escaping="yes" select="body"/>
