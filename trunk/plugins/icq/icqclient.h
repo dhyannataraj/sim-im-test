@@ -22,6 +22,11 @@
 #include "socket.h"
 #include "icq.h"
 
+#include <map>
+using namespace std;
+
+const unsigned ICQ_SIGN			= 0x0001;
+
 const unsigned MESSAGE_DIRECT    = 0x0100;
 
 const unsigned STATUS_INVISIBLE	  = 2;
@@ -72,6 +77,15 @@ const unsigned long ICQ_STATUS_FxDIRECTxDISABLED   = 0x00100000;
 const unsigned long ICQ_STATUS_FxICQxHOMEPAGE      = 0x00200000;  // not implemented
 const unsigned long ICQ_STATUS_FxDIRECTxLISTED     = 0x20000000;  // will accept connectio only when listed
 const unsigned long ICQ_STATUS_FxDIRECTxAUTH       = 0x10000000;  // will accept connectio only when authorized
+
+const unsigned CLASS_UNCONFIRMED	= 0x0001;	// AOL unconfirmed user flsg
+const unsigned CLASS_ADMINISTRATOR	= 0x0002;   // AOL administrator flag
+const unsigned CLASS_AOL			= 0x0004;	// AOL staff user flag
+const unsigned CLASS_COMMERCIAL     = 0x0008;	// AOL commercial account flag
+const unsigned CLASS_FREE			= 0x0010;	// ICQ non-commercial account flag
+const unsigned CLASS_AWAY			= 0x0020;	// Away status flag
+const unsigned CLASS_ICQ			= 0x0040;	// ICQ user sign
+const unsigned CLASS_WIRELESS		= 0x0100;	// AOL wireless user
 
 const unsigned short ICQ_MSGxMSG               = 0x0001;
 const unsigned short ICQ_MSGxCHAT              = 0x0002;
@@ -127,9 +141,11 @@ class DirectClient;
 
 typedef struct ICQUserData
 {
+    clientData		base;
     char            *Alias;
     char            *Cellular;
     unsigned long    Status;
+    unsigned long	 Class;
     unsigned long    StatusTime;
     unsigned long    OnlineTime;
     unsigned long	 WarningLevel;
@@ -209,6 +225,7 @@ typedef struct ICQUserData
     unsigned long    PictureWidth;
     unsigned long    PictureHeight;
     char            *PhoneBook;
+    unsigned long	 ProfileFetch;
     unsigned long    bTyping;
     unsigned long    bBadClient;
     DirectClient    *Direct;
@@ -387,6 +404,8 @@ typedef struct ar_request
     bool            bDirect;
 } ar_request;
 
+typedef map<unsigned short, string> INFO_REQ_MAP;
+
 class DirectSocket;
 class ServiceSocket;
 
@@ -536,7 +555,7 @@ protected:
     void buddyRequest();
     void icmbRequest();
     void bosRequest();
-    void sendCapability();
+    void sendCapability(const char *msg=NULL);
     void sendICMB(unsigned short channel, unsigned long flags);
     void sendLogonStatus();
     void sendClientReady();
@@ -627,6 +646,13 @@ protected:
     void packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned short &type, unsigned short nSequence);
     void requestReverseConnection(const char *screen, DirectSocket *socket);
     bool ackMessage(Message *msg, unsigned short ackFlags, const char *str);
+    void fetchProfile(ICQUserData *data);
+    void fetchAwayMessage(ICQUserData *data);
+    void fetchProfiles();
+    void setAwayMessage(const char *msg);
+    void encodeString(const QString &text, const char *type, unsigned charsetTlv, unsigned infoTlv);
+    ICQUserData *findInfoRequest(unsigned short seq, Contact *&contact);
+    INFO_REQ_MAP m_info_req;
     QString clearTags(const QString &text);
     string clearTags(const char *text);
     string screen(ICQUserData*);

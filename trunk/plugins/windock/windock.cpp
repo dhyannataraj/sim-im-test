@@ -18,6 +18,7 @@
 #include "windock.h"
 #include "simapi.h"
 #include "ontop.h"
+#include "mainwin.h"
 
 #include <qapplication.h>
 #include <qwidgetlist.h>
@@ -134,7 +135,7 @@ void slideWindow (const QRect &rcEnd, bool bAnimate)
     rcStart.setCoords(rcWnd.left, rcWnd.top, rcWnd.right, rcWnd.bottom);
 
     if (bAnimate && fFullDragOn && (rcStart != rcEnd)) {
-
+        static_cast<MainWindow*>(pMain)->m_bNoResize = true;
         // Get our starting and ending time.
         DWORD dwTimeStart = GetTickCount();
         DWORD dwTimeEnd = dwTimeStart + SLIDE_INTERVAL;
@@ -156,6 +157,7 @@ void slideWindow (const QRect &rcEnd, bool bAnimate)
                          SWP_NOZORDER | SWP_NOACTIVATE | SWP_DRAWFRAME);
             UpdateWindow(pMain->winId());
         }
+        static_cast<MainWindow*>(pMain)->m_bNoResize = false;
     }
     Event e(EventInTaskManager, (void*)(dock->getState() == ABE_FLOAT));
     e.process();

@@ -35,18 +35,7 @@ AIMSearch::AIMSearch(ICQClient *client)
     fillGroups();
     edtScreen->setValidator(new AIMValidator(edtScreen));
     edtUin->setValidator(new QIntValidator(10000, 0x7FFFFFFF, edtUin));
-    QStringList l;
-    for (const ext_info *c = getCountryCodes(); c->nCode; c++){
-        for (const ext_info *cc = getCountries(); cc->nCode; cc++){
-            if (cc->nCode == c->nCode){
-                l.append(i18n(cc->szName));
-                break;
-            }
-        }
-    }
-    l.sort();
-    cmbCountry->insertItem("");
-    cmbCountry->insertStringList(l);
+    initCombo(cmbCountry, 0, getCountries(), true, getCountryCodes());
     connect(tabSearch, SIGNAL(currentChanged(QWidget*)), this, SLOT(currentChanged(QWidget*)));
     connect(edtScreen, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     connect(edtUin, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
@@ -184,26 +173,17 @@ void AIMSearch::startSearch()
         id = m_client->aimEMailSearch(edtMail->text().utf8());
         return;
     case 3:{
-            QString country = cmbCountry->text(cmbCountry->currentItem());
-            if (!country.isEmpty()){
-                const ext_info *c;
-                for (c = getCountries(); c->nCode; c++)
-                    if (i18n(c->szName) == country)
-                        break;
-                const ext_info *cc;
-                for (cc = getCountryCodes(); cc->nCode; cc++)
-                    if (cc->nCode == c->nCode)
-                        break;
-                if (cc->nCode){
-                    country = cc->szName;
-                    country = country.upper();
-                }else{
-                    country = "";
+            unsigned short code = getComboValue(cmbCountry, getCountries(), getCountryCodes());
+            const char *country = NULL;
+            for (const ext_info *e = getCountryCodes(); e->nCode; e++){
+                if (e->nCode == code){
+                    country = e->szName;
+                    break;
                 }
             }
             id = m_client->aimInfoSearch(edtFirst->text().utf8(), edtLast->text().utf8(),
                                          edtMidle->text().utf8(), edtMaiden->text().utf8(),
-                                         country.utf8(), edtStreet->text().utf8(),
+                                         country, edtStreet->text().utf8(),
                                          edtCity->text().utf8(), edtNick->text().utf8(),
                                          edtZip->text().utf8(), edtState->text().utf8());
             return;

@@ -128,9 +128,12 @@ typedef struct ICQUserData
 */
 static DataDef _icqUserData[] =
     {
+        { "", DATA_ULONG, 1, ICQ_SIGN },		// Sign
+        { "LastSend", DATA_ULONG, 1, 0 },
         { "", DATA_UTF, 1, 0 },					// Alias
         { "", DATA_UTF, 1, 0 },					// Cellular
         { "", DATA_ULONG, 1, ICQ_STATUS_OFFLINE },		// Status
+        { "", DATA_ULONG, 1, 0 },				// Class
         { "StatusTime", DATA_ULONG, 1, 0 },
         { "", DATA_ULONG, 1, 0 },				// OnlineTime
         { "WarningLevel", DATA_ULONG, 1, 0 },
@@ -210,6 +213,7 @@ static DataDef _icqUserData[] =
         { "PictureWidth", DATA_ULONG, 1, 0 },
         { "PictureHeight", DATA_ULONG, 1, 0 },
         { "PhoneBook", DATA_STRING, 1, 0 },
+        { "ProfileFetch", DATA_BOOL, 1, 0 },
         { "", DATA_BOOL, 1, 0 },				// bTyping
         { "", DATA_BOOL, 1, 0 },				// bBadClient
         { "", DATA_OBJECT, 1, 0 },				// Direct
@@ -510,6 +514,33 @@ void ICQClient::setStatus(unsigned status)
         flap(ICQ_CHNxCLOSE);
         return;
     }
+    if (m_bAIM){
+        if (status == STATUS_ONLINE){
+            if (m_status != STATUS_ONLINE){
+                m_status = STATUS_ONLINE;
+                setAwayMessage(NULL);
+                Event e(EventClientChanged, this);
+                e.process();
+            }
+        }else{
+            m_status = STATUS_AWAY;
+
+            ar_request req;
+            req.bDirect = true;
+            arRequests.push_back(req);
+
+            ARRequest ar;
+            ar.contact  = NULL;
+            ar.param    = &arRequests.back();
+            ar.receiver = this;
+            ar.status   = status;
+            Event eAR(EventARRequest, &ar);
+            eAR.process();
+            Event e(EventClientChanged, this);
+            e.process();
+        }
+        return;
+    }
     if (status != m_status){
         m_status = status;
         sendStatus();
@@ -573,6 +604,7 @@ void ICQClient::disconnected()
     m_advCounter = 0;
     m_nUpdates = 0;
     m_nSendTimeout = 1;
+    m_info_req.clear();
     while (!m_services.empty()){
         ServiceSocket *s = m_services.front();
         delete s;
@@ -987,6 +1019,7 @@ void ICQClient::setOffline(ICQUserData *data)
     }
     data->bNoDirect = false;
     data->Status = ICQ_STATUS_OFFLINE;
+    data->Class  = 0;
     data->bTyping = false;
     data->bBadClient = false;
     data->bInvisible = false;
@@ -1044,15 +1077,15 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
             }
         }
     }else{
-        switch (status){
-        case STATUS_OFFLINE:
+        if (status == STATUS_OFFLINE){
             dicon = "AIM_offline";
-            break;
-        case STATUS_ONLINE:
+        }else{
+            status = STATUS_ONLINE;
             dicon = "AIM_online";
-            break;
-        default:
-            dicon = "AIM_away";
+            if (data->Class & CLASS_AWAY){
+                status = STATUS_AWAY;
+                dicon = "AIM_away";
+            }
         }
     }
     if (dicon == NULL)
@@ -1118,17 +1151,19 @@ void ICQClient::ping()
 {
     if (getState() == Connected){
         bool bBirthday = false;
-        int year  = data.owner.BirthYear;
-        int month = data.owner.BirthMonth;
-        int day   = data.owner.BirthDay;
-        if (day && month && year){
-            time_t now;
-            time(&now);
-            struct tm *tm = localtime(&now);
-            // removed +1 on tm_day because the notification was one
-            // day before the real birthday
-            if (((tm->tm_mon + 1) == month) && ((tm->tm_mday) == day))
-                bBirthday = true;
+        if (!m_bAIM){
+            int year  = data.owner.BirthYear;
+            int month = data.owner.BirthMonth;
+            int day   = data.owner.BirthDay;
+            if (day && month && year){
+                time_t now;
+                time(&now);
+                struct tm *tm = localtime(&now);
+                // removed +1 on tm_day because the notification was one
+                // day before the real birthday
+                if (((tm->tm_mon + 1) == month) && ((tm->tm_mday) == day))
+                    bBirthday = true;
+            }
         }
         if (bBirthday != m_bBirthday){
             setStatus(m_status);
@@ -1288,6 +1323,8 @@ QString ICQClient::toUnicode(const char *str, ICQUserData *client_data)
 {
     if ((str == NULL) || (*str == 0))
         return QString();
+    if (client_data->Uin == 0)
+        return QString::fromUtf8(str);
     QTextCodec *codec = getCodec(client_data ? client_data->Encoding : NULL);
     return codec->toUnicode(str, strlen(str));
 }
@@ -2145,10 +2182,14 @@ void ICQClient::updateInfo(Contact *contact, void *_data)
         Client::updateInfo(contact, _data);
         return;
     }
-    addFullInfoRequest(data->Uin, false);
-    addPluginInfoRequest(data->Uin, PLUGIN_QUERYxINFO);
-    addPluginInfoRequest(data->Uin, PLUGIN_QUERYxSTATUS);
-    addPluginInfoRequest(data->Uin, PLUGIN_AR);
+    if (data->Uin){
+        addFullInfoRequest(data->Uin, false);
+        addPluginInfoRequest(data->Uin, PLUGIN_QUERYxINFO);
+        addPluginInfoRequest(data->Uin, PLUGIN_QUERYxSTATUS);
+        addPluginInfoRequest(data->Uin, PLUGIN_AR);
+    }else{
+        fetchProfile(data);
+    }
 }
 
 void *ICQClient::processEvent(Event *e)
@@ -2187,6 +2228,20 @@ void *ICQClient::processEvent(Event *e)
                 break;
         if (it == arRequests.end())
             return NULL;
+        if (m_bAIM){
+            if ((getState() == Connected) && (m_status == STATUS_AWAY)){
+                if ((*it).bDirect){
+                    setAwayMessage(t->tmpl.utf8());
+                }else{
+                    sendCapability(t->tmpl.utf8());
+                    sendICMB(1, 11);
+                    sendICMB(0, 11);
+                    processListRequest();
+                    fetchProfiles();
+                }
+            }
+            return e->param();
+        }
         ar_request ar = (*it);
         if (ar.bDirect){
             Contact *contact;
@@ -2227,6 +2282,13 @@ void *ICQClient::processEvent(Event *e)
                     sendPluginStatusUpdate(PLUGIN_FOLLOWME, data.owner.FollowMe);
                 }
                 return NULL;
+            }
+            ICQUserData *data;
+            ClientDataIterator it(contact->clientData, this);
+            while ((data = (ICQUserData*)(++it)) != NULL){
+                if (data->Uin || data->ProfileFetch)
+                    continue;
+                fetchProfile(data);
             }
         }
         addContactRequest(contact);

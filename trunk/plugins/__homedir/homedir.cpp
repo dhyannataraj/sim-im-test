@@ -24,7 +24,8 @@
 
 #include "homedircfg.h"
 
-static BOOL (WINAPI *_SHGetSpecialFolderPath)(HWND hwndOwner, LPSTR lpszPath, int nFolder, BOOL fCreate) = NULL;
+static BOOL (WINAPI *_SHGetSpecialFolderPathA)(HWND hwndOwner, LPSTR lpszPath, int nFolder, BOOL fCreate) = NULL;
+static BOOL (WINAPI *_SHGetSpecialFolderPathW)(HWND hwndOwner, LPSTR lpszPath, int nFolder, BOOL fCreate) = NULL;
 
 #else
 #include <sys/stat.h>
@@ -144,15 +145,35 @@ string HomeDirPlugin::defaultPath()
     s += ".sim";
 #endif
 #else
-    char szPath[512];
+    char szPath[1024];
+    szPath[0] = 0;
     HINSTANCE hLib = LoadLibraryA("Shell32.dll");
-    if (hLib != NULL)
-        (DWORD&)_SHGetSpecialFolderPath = (DWORD)GetProcAddress(hLib,"SHGetSpecialFolderPathA");
-    if (_SHGetSpecialFolderPath && _SHGetSpecialFolderPath(NULL, szPath, CSIDL_APPDATA, true)){
-        s = szPath;
-        if (s.length()  == 0) s = "c:\\";
-        if (s[s.length() - 1] != '\\') s += '\\';
-        s += "sim";
+    int res = false;
+    QString defPath;
+    if (hLib != NULL){
+        (DWORD&)_SHGetSpecialFolderPathW = (DWORD)GetProcAddress(hLib,"SHGetSpecialFolderPathW");
+        (DWORD&)_SHGetSpecialFolderPathA = (DWORD)GetProcAddress(hLib,"SHGetSpecialFolderPathA");
+    }
+    if (_SHGetSpecialFolderPathW && _SHGetSpecialFolderPathW(NULL, szPath, CSIDL_APPDATA, true)){
+        for (unsigned short *str = (unsigned short*)szPath; *str; str++)
+            defPath += QChar(*str);
+    }else if (_SHGetSpecialFolderPathA && _SHGetSpecialFolderPathA(NULL, szPath, CSIDL_APPDATA, true)){
+        defPath = QFile::decodeName(szPath);
+    }
+    if (!defPath.isEmpty()){
+        if (defPath[(int)(defPath.length() - 1)] != '\\')
+            defPath += "\\";
+        defPath += "sim";
+        string ss;
+        ss = QFile::encodeName(defPath);
+        makedir((char*)(ss.c_str()));
+        QString lockTest = defPath + "\\.lock";
+        QFile f(lockTest);
+        if (!f.open(IO_ReadWrite | IO_Truncate))
+            defPath = "";
+    }
+    if (!defPath.isEmpty()){
+        s = QFile::encodeName(defPath);
     }else{
         s = app_file("");
     }

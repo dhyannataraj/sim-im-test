@@ -45,6 +45,7 @@ AIMInfo::AIMInfo(QWidget *parent, struct ICQUserData *data, ICQClient *client)
         edtState->setReadOnly(true);
         edtZip->setReadOnly(true);
         edtAutoReply->setReadOnly(true);
+        disableWidget(cmbCountry);
     }else{
         edtAutoReply->hide();
     }
@@ -120,6 +121,7 @@ void AIMInfo::fill()
     setText(edtCity, data->City);
     setText(edtState, data->State);
     setText(edtZip, data->Zip);
+    initCombo(cmbCountry, data->Country, getCountries(), true, getCountryCodes());
 
     if (m_data == NULL){
         if (edtFirst->text().isEmpty())

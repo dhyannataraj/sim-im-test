@@ -24,6 +24,8 @@
 #include <list>
 using namespace std;
 
+const unsigned MSN_SIGN			= 0x0003;
+
 const unsigned STATUS_BRB		= 101;
 const unsigned STATUS_PHONE		= 102;
 const unsigned STATUS_LUNCH		= 103;
@@ -38,6 +40,7 @@ class SBSocket;
 
 typedef struct MSNUserData
 {
+    clientData	base;
     char		*EMail;
     char		*ScreenName;
     unsigned	Status;

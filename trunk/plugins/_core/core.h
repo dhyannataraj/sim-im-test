@@ -102,6 +102,9 @@ typedef struct CoreData
     void		*NoShowAutoReply;
     unsigned	SortMode;
     unsigned	CloseTransfer;
+    unsigned	SystemFonts;
+    char		*BaseFont;
+    char		*MenuFont;
 } CoreData;
 
 const unsigned CONTAINER_SIMPLE	= 0;
@@ -369,6 +372,9 @@ public:
     PROP_STRLIST(NoShowAutoReply);
     PROP_ULONG(SortMode);
     PROP_BOOL(CloseTransfer);
+    PROP_BOOL(SystemFonts);
+    PROP_STR(BaseFont);
+    PROP_STR(MenuFont);
 
     unsigned user_data_id;
     unsigned sms_data_id;
@@ -385,6 +391,11 @@ public:
     static CorePlugin	*m_plugin;
     Message *createMessage(const char *type, const char *cfg);
     QString clientName(Client *client);
+    void setFonts();
+    void setupDefaultFonts();
+    QFont	*m_saveBaseFont;
+    QFont	*m_saveMenuFont;
+
 signals:
     void modeChanged();
 protected slots:

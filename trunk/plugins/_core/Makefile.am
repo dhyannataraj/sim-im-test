@@ -68,6 +68,8 @@ _core_la_SOURCES = \
  msgcfgbase.ui \
  smscfg.cpp \
  smscfgbase.ui \
+ fontconfig.cpp \
+ fontconfigbase.ui \
  arcfg.cpp \
  arcfgbase.ui \
  tmpl.cpp \

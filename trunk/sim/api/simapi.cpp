@@ -470,7 +470,7 @@ EXPORT QString formatAddr(void *ip, unsigned port)
     return res;
 }
 
-void initCombo(QComboBox *cmb, unsigned short code, const ext_info *tbl, bool bAddEmpty)
+void initCombo(QComboBox *cmb, unsigned short code, const ext_info *tbl, bool bAddEmpty, const ext_info *tbl1)
 {
     if (cmb->isEnabled()){
         cmb->clear();
@@ -479,8 +479,17 @@ void initCombo(QComboBox *cmb, unsigned short code, const ext_info *tbl, bool bA
         QStringList items;
         QString current;
         for (const ext_info *i = tbl; i->nCode; i++){
+            if (tbl1){
+                const ext_info *ii;
+                for (ii = tbl1; ii->nCode; ii++)
+                    if (ii->nCode == i->nCode)
+                        break;
+                if (ii->nCode == 0)
+                    continue;
+            }
             items.append(i18n(i->szName));
-            if (i->nCode == code) current = i18n(i->szName);
+            if (i->nCode == code)
+                current = i18n(i->szName);
         }
         items.sort();
         cmb->insertStringList(items);
@@ -503,14 +512,23 @@ void initCombo(QComboBox *cmb, unsigned short code, const ext_info *tbl, bool bA
     }
 }
 
-unsigned short getComboValue(QComboBox *cmb, const ext_info *tbl)
+unsigned short getComboValue(QComboBox *cmb, const ext_info *tbl, const ext_info *tbl1)
 {
     int res = cmb->currentItem();
     if (res <= 0) return 0;
     QStringList items;
     const ext_info *i;
-    for (i = tbl; i->nCode; i++)
+    for (i = tbl; i->nCode; i++){
+        if (tbl1){
+            const ext_info *ii;
+            for (ii = tbl1; ii->nCode; ii++)
+                if (ii->nCode == i->nCode)
+                    break;
+            if (ii->nCode == 0)
+                continue;
+        }
         items.append(i18n(i->szName));
+    }
     items.sort();
     if (cmb->text(0).isEmpty()) res--;
     QString current = items[res];

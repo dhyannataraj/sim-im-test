@@ -251,7 +251,6 @@ void ICQClient::sendLogonStatus()
         sendInvisibleList();
     sendIdleTime();
     m_status = m_logonStatus;
-    QTimer::singleShot(PING_TIMEOUT * 1000, this, SLOT(ping()));
 }
 
 void ICQClient::setInvisible()

@@ -69,6 +69,8 @@ typedef struct JabberUserData
 
 static DataDef jabberUserData[] =
     {
+        { "", DATA_ULONG, 1, JABBER_SIGN },		// Sign
+        { "LastSend", DATA_ULONG, 1, 0 },
         { "ID", DATA_UTF, 1, 0 },
         { "Resource", DATA_UTF, 1, 0 },
         { "Name", DATA_UTF, 1, 0 },

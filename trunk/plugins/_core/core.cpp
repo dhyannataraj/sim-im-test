@@ -50,6 +50,7 @@
 #include <qwidgetlist.h>
 #include <qfile.h>
 #include <qdir.h>
+#include <qpopupmenu.h>
 
 #include <time.h>
 
@@ -235,6 +236,9 @@ static DataDef coreData[] =
         { "NoShowAutoReply", DATA_STRLIST, 1, 0 },
         { "SortMode", DATA_ULONG, 1, 0x00030201 },
         { "CloseTransfer", DATA_BOOL, 1, 0 },
+        { "SystemFonts", DATA_BOOL, 1, 1 },
+        { "BaseFont", DATA_STRING, 1, 0 },
+        { "MenuFont", DATA_STRING, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -340,6 +344,8 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
         : Plugin(base), EventReceiver(HighPriority)
 {
     m_plugin = this;
+    m_saveBaseFont = NULL;
+    m_saveMenuFont = NULL;
 
     load_data(coreData, &data, config);
 
@@ -1021,6 +1027,7 @@ void CorePlugin::initData()
     }
     editFont = FontEdit::str2font(getEditFont(), QApplication::font());
     setAutoReplies();
+    setFonts();
 }
 
 void CorePlugin::setAutoReplies()
@@ -1043,6 +1050,10 @@ CorePlugin::~CorePlugin()
     delete m_tmpl;
     if (m_status)
         delete m_status;
+    if (m_saveBaseFont)
+        delete m_saveBaseFont;
+    if (m_saveMenuFont)
+        delete m_saveMenuFont;
 
     getContacts()->unregisterUserData(list_data_id);
     getContacts()->unregisterUserData(ar_data_id);
@@ -2845,6 +2856,31 @@ void CorePlugin::destroyManager()
     if (m_manager){
         delete m_manager;
         m_manager = NULL;
+    }
+}
+
+void CorePlugin::setFonts()
+{
+    if (getSystemFonts()){
+        if (m_saveBaseFont)
+            QApplication::setFont(*m_saveBaseFont, true);
+        if (m_saveMenuFont)
+            QApplication::setFont(*m_saveMenuFont, true, "QPopupMenu");
+    }else{
+        setupDefaultFonts();
+        QPopupMenu m;
+        QApplication::setFont(FontEdit::str2font(getBaseFont(), *m_saveBaseFont), true);
+        QApplication::setFont(FontEdit::str2font(getMenuFont(), *m_saveMenuFont), true, "QPopupMenu");
+    }
+}
+
+void CorePlugin::setupDefaultFonts()
+{
+    if (m_saveBaseFont == NULL)
+        m_saveBaseFont = new QFont(QApplication::font());
+    if (m_saveMenuFont == NULL){
+        QPopupMenu menu;
+        m_saveMenuFont = new QFont(QApplication::font(&menu));
     }
 }
 

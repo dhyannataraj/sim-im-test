@@ -31,6 +31,8 @@ using namespace std;
 class JabberProtocol;
 class JabberClient;
 
+const unsigned JABBER_SIGN		= 0x0002;
+
 const unsigned SUBSCRIBE_NONE	= 0;
 const unsigned SUBSCRIBE_FROM	= 1;
 const unsigned SUBSCRIBE_TO		= 2;
@@ -38,6 +40,7 @@ const unsigned SUBSCRIBE_BOTH	= (SUBSCRIBE_FROM | SUBSCRIBE_TO);
 
 typedef struct JabberUserData
 {
+    clientData	base;
     char		*ID;
     char		*Resource;
     char		*Name;

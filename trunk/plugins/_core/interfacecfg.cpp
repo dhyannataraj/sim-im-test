@@ -21,6 +21,7 @@
 #include "historycfg.h"
 #include "msgcfg.h"
 #include "smscfg.h"
+#include "fontconfig.h"
 #include "core.h"
 
 #include <qtabwidget.h>
@@ -80,6 +81,8 @@ InterfaceConfig::InterfaceConfig(QWidget *parent)
         data = getContacts()->getUserData(CorePlugin::m_plugin->sms_data_id);
         sms_cfg = new SMSConfig(tab, data);
         tab->addTab(sms_cfg, i18n("SMS"));
+        font_cfg = new FontConfig(tab);
+        tab->addTab(font_cfg, i18n("Fonts"));
         break;
     }
     const char *cur = CorePlugin::m_plugin->getLang();
@@ -175,6 +178,7 @@ void InterfaceConfig::apply()
 {
     userview_cfg->apply();
     history_cfg->apply();
+    font_cfg->apply();
     void *data = getContacts()->getUserData(CorePlugin::m_plugin->user_data_id);
     msg_cfg->apply(data);
     data = getContacts()->getUserData(CorePlugin::m_plugin->sms_data_id);

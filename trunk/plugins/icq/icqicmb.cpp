@@ -193,15 +193,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
                 if ((*p1 == 0) && (*p2 == 0))
                     bAck = true;
             }
-            if (!bAck){
-                log(L_WARN, "Bad ack sequence");
-                if (m_send.msg){
-                    m_send.msg->setError(I18N_NOOP("Bad ack sequence"));
-                    Event e(EventMessageSent, m_send.msg);
-                    e.process();
-                    delete m_send.msg;
-                }
-            }else{
+            if (bAck){
                 if (m_send.msg){
                     if (m_send.msg->type() == MessageCheckInvisible){
                         Contact *contact;

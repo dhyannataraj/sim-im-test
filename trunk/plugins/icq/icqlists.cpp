@@ -17,12 +17,15 @@
 
 #include "icqclient.h"
 #include "icqmessage.h"
+#include "core.h"
 
 #include <stdio.h>
 #include <time.h>
 #include <vector>
 
 using namespace std;
+
+#include <qtimer.h>
 
 const unsigned short ICQ_SNACxLISTS_ERROR          = 0x0001;
 const unsigned short ICQ_SNACxLISTS_REQxRIGHTS     = 0x0002;
@@ -169,7 +172,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                         if (str.length()){
                             log(L_DEBUG, "User %s", str.c_str());
                             // check for own uin in contact lsit
-                            if ((unsigned)atol(str.c_str()) == getUin()) {
+                            if (!m_bAIM && ((unsigned)atol(str.c_str()) == getUin())) {
                                 log(L_DEBUG, "Own Uin in contact list - removing!");
                                 seq = sendRoster(ICQ_SNACxLISTS_DELETE, "", grp_id, id);
                                 m_listRequest = new ContactServerRequest(seq, number(id).c_str(), 0, 0);
@@ -395,18 +398,8 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             log(L_DEBUG, "Rosters OK");
             snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_UNKNOWN);
             sendPacket();
-            sendCapability();
-            sendICMB(1, 11);
-            sendICMB(0, m_bAIM ? 11 : 3);
-            if (m_bAIM){
-                m_status = m_logonStatus;
-            }else{
-                sendLogonStatus();
-            }
-            setState(Connected);
+            QTimer::singleShot(PING_TIMEOUT * 1000, this, SLOT(ping()));
             setPreviousPassword(NULL);
-            Event e(EventClientChanged, this);
-            e.process();
             sendClientReady();
             if (m_bAIM){
                 Group *grp;
@@ -421,9 +414,46 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                     Event e(EventGroupChanged, grp);
                     e.process();
                 }
-                processListRequest();
+                time_t now;
+                time(&now);
+                data.owner.OnlineTime = now;
+                if (m_status == STATUS_ONLINE){
+                    m_status = STATUS_ONLINE;
+                    sendCapability();
+                    sendICMB(1, 11);
+                    sendICMB(0, 11);
+                    processListRequest();
+                    fetchProfiles();
+                    setState(Connected);
+                    Event e(EventClientChanged, this);
+                    e.process();
+                }else{
+                    m_status = STATUS_AWAY;
+                    setState(Connected);
+                    Event e(EventClientChanged, this);
+                    e.process();
+
+                    ar_request req;
+                    req.bDirect = false;
+                    arRequests.push_back(req);
+
+                    ARRequest ar;
+                    ar.contact  = NULL;
+                    ar.param    = &arRequests.back();
+                    ar.receiver = this;
+                    ar.status   = m_logonStatus;
+                    Event eAR(EventARRequest, &ar);
+                    eAR.process();
+                }
                 break;
             }
+            setState(Connected);
+            Event e(EventClientChanged, this);
+            e.process();
+            sendCapability();
+            sendICMB(1, 11);
+            sendICMB(0, 3);
+            sendLogonStatus();
             sendMessageRequest();
             if (getContactsInvisible() == 0){
                 snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_EDIT);
@@ -436,6 +466,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_SAVE);
                 sendPacket();
             }
+            fetchProfiles();
             break;
         }
     case ICQ_SNACxLISTS_ADDED:{
