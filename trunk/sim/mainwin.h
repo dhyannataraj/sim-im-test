@@ -557,7 +557,6 @@ public slots:
     void changeToolBar(const ToolBarDef *def);
     void setDock();
     void setupClosed();
-    void deleteLogin();
     void realSetStatus();
     void dockDblClicked();
     void saveContacts();

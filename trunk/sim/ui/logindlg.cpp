@@ -175,8 +175,6 @@ void LoginDialog::closeEvent(QCloseEvent *e)
         if (bMyInit || !pMain->isLoad()){
             if (bCloseMain)
                 pMain->quit();
-        }else{
-            QTimer::singleShot(0, pMain, SLOT(deleteLogin()));
         }
         QDialog::closeEvent(e);
         return;

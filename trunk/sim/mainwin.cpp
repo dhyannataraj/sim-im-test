@@ -3272,13 +3272,6 @@ string MainWindow::getFullPath(const char *path, bool bIsDir)
     return buildFileName(p.c_str());
 }
 
-void MainWindow::deleteLogin()
-{
-    if (pLoginDlg == NULL) return;
-    delete pLoginDlg;
-    pLoginDlg = NULL;
-}
-
 #ifndef _WINDOWS
 #include "mainwin.moc"
 #endif
