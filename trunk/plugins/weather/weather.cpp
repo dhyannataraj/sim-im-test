@@ -693,6 +693,10 @@ void WeatherPlugin::element_start(const char *el, const char **attr)
         for (const char **p = attr; *p;){
             string key = *(p++);
             string value = *(p++);
+            if (key == "d"){
+                m_day = strtol(value.c_str(),NULL,10);
+                continue;
+            }
             if (key == "dt"){
                 day = value;
                 continue;
