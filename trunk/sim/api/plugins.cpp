@@ -272,16 +272,6 @@ void *PluginManagerPrivate::processEvent(Event *e)
         return (void*)(m_argc);
     case EventArgv:
         return (void*)(m_argv);
-    case EventLog:
-        if (m_bInInit) {
-            LogInfo *li = (LogInfo*)e->param();
-            if (li->log_level == L_ERROR) {
-                fprintf(stderr,"%s\n",li->log_info);
-            } else {
-                fprintf(stdout,"%s\n",li->log_info);
-            }
-        }
-        break;
 #ifndef WIN32
     case EventExec:
         exec = (ExecParam*)(e->param());
@@ -739,7 +729,7 @@ void PluginManagerPrivate::usage(const char *err)
 unsigned PluginManagerPrivate::execute(const char *prg, const char *arg)
 {
     if (*prg == 0)
-	return 0;
+        return 0;
     QString p = QString::fromLocal8Bit(prg);
     if (p.find("%s") >= 0){
         p.replace(QRegExp("%s"), arg);
@@ -757,7 +747,15 @@ unsigned PluginManagerPrivate::execute(const char *prg, const char *arg)
         arglist[i] = strdup(arg.c_str());
     }
     arglist[i] = NULL;
-    if(!fork()) {
+    pid_t child = fork();
+    if (child == -1){
+        log(L_WARN, "Can't fork: %s", strerror(errno));
+        for (char **p = arglist; *p != NULL; p++)
+            free(*p);
+        delete[] arglist;
+        return 0;
+    }
+    if(!child) {
         execvp(arglist[0], arglist);
         // when we're here an error occured ...
         // a write to the logoutput isn't possible because we haven't
@@ -768,6 +766,7 @@ unsigned PluginManagerPrivate::execute(const char *prg, const char *arg)
     for (char **p = arglist; *p != NULL; p++)
         free(*p);
     delete[] arglist;
+    return child;
 }
 #endif
 

@@ -716,9 +716,13 @@ string Buffer::getSection(bool bSkip)
             *p = 0;
             if ((m_posWrite + 1 < m_size) && (p[1] == '[')){
                 m_posWrite++;
-                return section;
+		break;
             }
         }
+    }
+    if (m_posWrite >= m_size){
+	allocate(m_size + 1, 0);
+	m_data[m_size] = 0;
     }
     return section;
 }

@@ -60,6 +60,8 @@ const unsigned short ICQ_SNACxFAM_LISTS            = 0x0013;
 const unsigned short ICQ_SNACxFAM_VARIOUS          = 0x0015;
 const unsigned short ICQ_SNACxFAM_LOGIN            = 0x0017;
 
+#define SNAC(A, B)	((A << 16) + B)
+
 // Status
 const unsigned short ICQ_STATUS_OFFLINE            = 0xFFFF;
 const unsigned short ICQ_STATUS_ONLINE             = 0x0000;
@@ -433,7 +435,7 @@ protected:
     void packet_ready();
     bool m_bHeader;
     char m_nChannel;
-    unsigned short m_nSequence;
+    unsigned short m_nFlapSequence;
     unsigned short m_nMsgSequence;
 };
 
@@ -443,7 +445,18 @@ typedef struct alias_group
     unsigned	grp;
 } alias_group;
 
+typedef struct RateInfo
+{
+    Buffer				delayed;
+    QDateTime			m_lastSend;
+    unsigned			m_curLevel;
+    unsigned			m_maxLevel;
+    unsigned			m_minLevel;
+    unsigned			m_winSize;
+} RateInfo;
+
 typedef map<my_string, alias_group> CONTACTS_MAP;
+typedef map<unsigned, unsigned>	    RATE_MAP;
 
 class ICQClient : public TCPClient, public OscarSocket
 {
@@ -536,7 +549,7 @@ public:
     static QString addCRLF(const QString &str);
 protected slots:
     void ping();
-    bool infoRequest();
+    void infoRequest();
     void infoRequestFail();
     void processSendQueue();
     void sendTimeout();
@@ -605,7 +618,7 @@ protected:
     virtual void connect_ready();
     virtual void packet_ready();
     const char* error_message(unsigned short error);
-    ICQListener		*m_listener;
+    ICQListener			*m_listener;
     list<ServiceSocket*> m_services;
     QTimer *m_processTimer;
     QTimer *m_sendTimer;
@@ -637,8 +650,9 @@ protected:
     void clearListServerRequest();
     void clearSMSQueue();
     void clearMsgQueue();
-    bool processListRequest();
-    bool processSMSQueue();
+    unsigned processListRequest();
+    unsigned processSMSQueue();
+    unsigned processInfoRequest();
     void infoRequestPause();
     void sendIdleTime();
     void sendPluginInfoUpdate(unsigned plugin_id);
@@ -695,7 +709,6 @@ protected:
     void encodeString(const QString &text, const char *type, unsigned short charsetTlv, unsigned short infoTlv);
     void encodeString(const char *_str, unsigned short nTlv, bool bWide);
     bool processMsg();
-    Buffer   delayed;
     ICQUserData *findInfoRequest(unsigned short seq, Contact *&contact);
     INFO_REQ_MAP m_info_req;
     unsigned short msgStatus();
@@ -706,13 +719,12 @@ protected:
     bool	 m_bHTTP;
     bool	 m_bReady;
     SendMsg  m_send;
-    QDateTime m_lastSend;
-    unsigned			m_curLevel;
-    unsigned			m_maxLevel;
-    unsigned			m_minLevel;
-    unsigned			m_winSize;
-    unsigned			newLevel();
-    unsigned			delayTime();
+    vector<RateInfo>	m_rates;
+    RATE_MAP			m_rate_grp;
+    void				setNewLevel(RateInfo &r);
+    unsigned			delayTime(unsigned snac);
+    unsigned			delayTime(RateInfo &r);
+    RateInfo			*rateInfo(unsigned snac);
     list<Message*>     	m_processMsg;
     list<DirectSocket*>	m_sockets;
     list<Message*>		m_acceptMsg;

@@ -26,9 +26,6 @@
 #include "xpm/useronline.xpm"
 #include "xpm/useroffline.xpm"
 #include "xpm/userunknown.xpm"
-#include "xpm/encoding.xpm"
-#include "xpm/url.xpm"
-#include "xpm/contacts.xpm"
 #include "xpm/web.xpm"
 #include "xpm/mailpager.xpm"
 #include "xpm/icqphone.xpm"
@@ -388,18 +385,6 @@ ICQPlugin::ICQPlugin(unsigned base)
 
     icon.name = "userunknown";
     icon.xpm = userunknown;
-    eIcon.process();
-
-    icon.name = "encoding";
-    icon.xpm = encoding;
-    eIcon.process();
-
-    icon.name = "url";
-    icon.xpm = url;
-    eIcon.process();
-
-    icon.name = "contacts";
-    icon.xpm = contacts;
     eIcon.process();
 
     icon.name = "web";

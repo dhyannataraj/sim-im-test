@@ -509,15 +509,21 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
     return false;
 }
 
-bool ICQClient::infoRequest()
+void ICQClient::infoRequest()
+{
+    processInfoRequest();
+}
+
+unsigned ICQClient::processInfoRequest()
 {
     m_infoTimer->stop();
     if ((getState() != Connected) || infoRequests.empty())
-        return false;
-    if (m_infoRequestId == PAUSE_ID)
-        return false;
-    if (delayTime())
-        return true;
+        return 0;
+    if (m_infoRequestId)
+        return 0;
+    unsigned delay = delayTime(SNAC(ICQ_SNACxFAM_VARIOUS, ICQ_SNACxVAR_REQxSRV));
+    if (delay)
+        return delay;
     unsigned long uin = infoRequests.front();
     serverRequest(ICQ_SRVxREQ_MORE);
     m_socket->writeBuffer << ((uin == data.owner.Uin.value) ? ICQ_SRVxREQ_OWN_INFO : ICQ_SRVxREQ_FULL_INFO);
@@ -526,7 +532,7 @@ bool ICQClient::infoRequest()
     m_infoTimer->start(INFO_REQUEST_TIMEOUT * 1000);
     m_infoRequestId = m_nMsgSequence;
     varRequests.push_back(new FullInfoRequest(this, m_infoRequestId, uin));
-    return true;
+    return 0;
 }
 
 void ICQClient::infoRequestFail()
@@ -1569,15 +1575,16 @@ static const char *months[] =
         I18N_NOOP("Dec")
     };
 
-bool ICQClient::processSMSQueue()
+unsigned ICQClient::processSMSQueue()
 {
     if (m_sendSmsId)
-        return false;
+        return 0;
     for (;;){
         if (smsQueue.empty())
             break;
-        if (delayTime())
-            break;
+        unsigned delay = delayTime(SNAC(ICQ_SNACxFAM_VARIOUS, ICQ_SNACxVAR_REQxSRV));
+        if (delay)
+            return delay;
         SendMsg &s = smsQueue.front();
         if (s.text.isEmpty() || (!(s.flags & SEND_1STPART) && (s.msg->getFlags() & MESSAGE_1ST_PART))){
             Event e(EventMessageSent, s.msg);
@@ -1631,9 +1638,9 @@ bool ICQClient::processSMSQueue()
         sendServerRequest();
         varRequests.push_back(new SMSRequest(this, m_nMsgSequence));
         m_sendSmsId = m_nMsgSequence;
-        return true;
+        break;
     }
-    return false;
+    return 0;
 }
 
 void ICQClient::clearSMSQueue()

@@ -334,7 +334,6 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
         while ((data = (ICQUserData*)(++itd)) != NULL)
             set_str(&data->Alias.ptr, contact->getName().utf8());
     }
-    m_winSize	= 0;
 }
 
 ICQClient::~ICQClient()
@@ -486,8 +485,8 @@ bool ICQClient::createData(clientData *&_data, Contact *contact)
 
 OscarSocket::OscarSocket()
 {
-    m_nSequence    = (unsigned short)(rand() & 0x7FFF);
-    m_nMsgSequence = 0;
+    m_nFlapSequence = (unsigned short)(rand() & 0x7FFF);
+    m_nMsgSequence  = 0;
 }
 
 OscarSocket::~OscarSocket()
@@ -509,42 +508,52 @@ void ICQClient::connect_ready()
         m_listener->bind(getMinPort(), getMaxPort(), NULL);
     }
     m_bNoSend	= false;
-    m_curLevel	= 0;
-    m_maxLevel	= 0;
-    m_minLevel	= 0;
-    m_winSize	= 0;
     m_bReady	= false;
-    m_lastSend	= QDateTime::currentDateTime();
-    delayed.init(0);
     OscarSocket::connect_ready();
     TCPClient::connect_ready();
 }
 
-unsigned ICQClient::newLevel()
+void ICQClient::setNewLevel(RateInfo &r)
 {
-    if (m_winSize == 0)
-        return 0;
     QDateTime now = QDateTime::currentDateTime();
     unsigned delta = 0;
-    if (now.date() == m_lastSend.date())
-        delta = m_lastSend.time().msecsTo(now.time());
-    unsigned res = (((m_winSize - 1) * m_curLevel) + delta) / m_winSize;
-    if (res > m_maxLevel)
-        res = m_maxLevel;
-    return res;
+    if (now.date() == r.m_lastSend.date())
+        delta = r.m_lastSend.time().msecsTo(now.time());
+    unsigned res = (((r.m_winSize - 1) * r.m_curLevel) + delta) / r.m_winSize;
+    if (res > r.m_maxLevel)
+        res = r.m_maxLevel;
+    r.m_curLevel = res;
+    r.m_lastSend = now;
+    log(L_DEBUG, "Level: %04X [%04X %04X]", res, r.m_minLevel, r.m_winSize);
 }
 
-unsigned ICQClient::delayTime()
+RateInfo *ICQClient::rateInfo(unsigned snac)
 {
-    if (m_winSize == 0)
+    RATE_MAP::iterator it = m_rate_grp.find(snac);
+    if (it == m_rate_grp.end())
+        return NULL;
+    return &m_rates[(*it).second];
+}
+
+unsigned ICQClient::delayTime(unsigned snac)
+{
+    RateInfo *r = rateInfo(snac);
+    if (r == NULL)
+        return NULL;
+    return delayTime(*r);
+}
+
+unsigned ICQClient::delayTime(RateInfo &r)
+{
+    if (r.m_winSize == 0)
         return 0;
-    int res = m_minLevel * m_winSize - m_curLevel * (m_winSize - 1);
+    int res = r.m_minLevel * r.m_winSize - r.m_curLevel * (r.m_winSize - 1);
     if (res < 0)
         return 0;
     QDateTime now = QDateTime::currentDateTime();
     unsigned delta = 0;
-    if (now.date() == m_lastSend.date())
-        delta = m_lastSend.time().msecsTo(now.time());
+    if (now.date() == r.m_lastSend.date())
+        delta = r.m_lastSend.time().msecsTo(now.time());
     res -= delta;
     return (res > 0) ? res : 0;
 }
@@ -627,6 +636,8 @@ void ICQClient::setInvisible(bool bState)
 
 void ICQClient::disconnected()
 {
+    m_rates.clear();
+    m_rate_grp.clear();
     m_infoTimer->stop();
     m_sendTimer->stop();
     m_processTimer->stop();
@@ -811,13 +822,11 @@ void ICQClient::packet()
 
 void OscarSocket::flap(char channel)
 {
-    m_nSequence++;
     socket()->writeBuffer.packetStart();
     socket()->writeBuffer
     << (char)0x2A
     << channel
-    << m_nSequence
-    << 0;
+    << 0x00000000L;
 }
 
 void OscarSocket::snac(unsigned short fam, unsigned short type, bool msgId, bool bType)
@@ -846,24 +855,36 @@ void OscarSocket::sendPacket(bool bSend)
 
 void ICQClient::sendPacket(bool bSend)
 {
-    unsigned delay = delayTime();
+    Buffer &writeBuffer = socket()->writeBuffer;
+    unsigned char *packet = (unsigned char*)(writeBuffer.data(writeBuffer.readPos()));
+    unsigned long snac = 0;
+    if (writeBuffer.writePos() >= writeBuffer.readPos() + 10)
+        snac = (packet[6] << 24) + (packet[7] << 16) + (packet[8] << 8) + packet[9];
+    unsigned delay = delayTime(snac);
     if (m_bNoSend){
         bSend = false;
     }else if (!bSend && (delay == 0)){
         bSend = true;
     }
-    log(L_DEBUG, "Send packet: %u %u", bSend, delay);
-    OscarSocket::sendPacket(bSend);
+    RateInfo *r = rateInfo(snac);
+    if (r){
+        if (m_bNoSend || r->delayed.size())
+            bSend = false;
+    }else{
+        bSend = true;
+    }
     if (bSend){
-        m_curLevel = newLevel();
-        m_lastSend = QDateTime::currentDateTime();
-        log(L_DEBUG, "New level: %X", m_curLevel);
+        ++m_nFlapSequence;
+        packet[2] = (m_nFlapSequence >> 8);
+        packet[3] = m_nFlapSequence;
+        if (r)
+            setNewLevel(*r);
+        OscarSocket::sendPacket(true);
         return;
     }
-    Buffer &writeBuffer = socket()->writeBuffer;
-    delayed.pack(writeBuffer.data(writeBuffer.packetStartPos()), writeBuffer.size() - writeBuffer.packetStartPos());
+    OscarSocket::sendPacket(false);
+    r->delayed.pack(writeBuffer.data(writeBuffer.packetStartPos()), writeBuffer.size() - writeBuffer.packetStartPos());
     writeBuffer.setSize(writeBuffer.packetStartPos());
-    log(L_DEBUG, "> delay %u %i", delayed.readPos(), delayed.writePos());
     m_processTimer->stop();
     m_processTimer->start(delay);
 }
@@ -940,6 +961,9 @@ unsigned long ICQClient::fullStatus(unsigned s)
 
 ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool bCreate, Contact *&contact, Group *grp, bool bJoin)
 {
+    if ((screen == NULL) || (*screen == 0))
+        return NULL;
+
     string s;
     for (const char *p = screen; *p; p++)
         s += (char)tolower(*p);
@@ -1278,11 +1302,19 @@ void ICQClient::ping()
             m_bBirthday = bBirthday;
             setStatus(m_status);
         }else if (getKeepAlive() || m_bHTTP){
-            if (delayed.size() == 0){
+            bool bSend = true;
+            for (unsigned i = 0; i < m_rates.size(); i++){
+                if (m_rates[i].delayed.size()){
+                    bSend = false;
+                    break;
+                }
+            }
+            if (bSend){
                 flap(ICQ_CHNxPING);
                 sendPacket(false);
             }
         }
+        processSendQueue();
         checkListRequest();
         QTimer::singleShot(PING_TIMEOUT * 1000, this, SLOT(ping()));
     }
