@@ -417,16 +417,21 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
     return false;
 }
 
-void ICQClient::sendThroughServer(unsigned long uin, unsigned short type, Buffer &b, unsigned long id_l, unsigned long id_h, bool addTlv)
+void ICQClient::sendThroughServer(unsigned long uin, unsigned short channel, Buffer &b, unsigned long id_l, unsigned long id_h)
 {
-    snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_SENDxSERVER);
+	// we need informations about channel 2 tlvs !
+	int tlv_type = 5;
+	snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_SENDxSERVER);
     m_socket->writeBuffer << id_l << id_h;
-    m_socket->writeBuffer << type;
+    m_socket->writeBuffer << channel;
     m_socket->writeBuffer.packUin(uin);
-    m_socket->writeBuffer.tlv((type == 1) ? 2 : 5, b);
-    if (addTlv && (((id_l == 0) && (id_h == 0)) || (type == 2)))
-        m_socket->writeBuffer.tlv((type == 2) ? 3 : 6);
-    sendPacket();
+	if (channel == 1)
+		tlv_type = 2;
+	m_socket->writeBuffer.tlv(tlv_type,b);
+
+	m_socket->writeBuffer.tlv(3);	// req. ack from server
+	m_socket->writeBuffer.tlv(6);	// store if user is offline
+	sendPacket();
 }
 
 static char c2h(char c)

@@ -528,7 +528,7 @@ protected:
     void packInfoList(char *str);
     string createRTF(const char *text, unsigned long foreColor, const char *encoding);
     void ackMessage();
-    void sendThroughServer(unsigned long uin, unsigned short type, Buffer &b, unsigned long id_l=0, unsigned long id_h=0, bool addTlv=true);
+    void sendThroughServer(unsigned long uin, unsigned short type, Buffer &b, unsigned long id_l=0, unsigned long id_h=0);
     bool sendAuthRequest(Message *msg, void *data);
     bool sendAuthGranted(Message *msg, void *data);
     bool sendAuthRefused(Message *msg, void *data);
