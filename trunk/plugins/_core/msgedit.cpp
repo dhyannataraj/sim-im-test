@@ -1719,7 +1719,7 @@ void MsgEdit::setupMessages()
     eMsg.process();
 
     cmd->id			= MessageAdded;
-    cmd->text		= "Added";
+    cmd->text		= I18N_NOOP("Added");
     cmd->icon		= "auth";
     cmd->menu_grp	= 0;
     cmd->flags		= COMMAND_DEFAULT;
@@ -1727,7 +1727,7 @@ void MsgEdit::setupMessages()
     eMsg.process();
 
     cmd->id			= MessageRemoved;
-    cmd->text		= "Removed";
+    cmd->text		= I18N_NOOP("Removed");
     cmd->icon		= "auth";
     cmd->menu_grp	= 0;
     cmd->flags		= COMMAND_DEFAULT;
@@ -1735,7 +1735,7 @@ void MsgEdit::setupMessages()
     eMsg.process();
 
     cmd->id			= MessageStatus;
-    cmd->text		= "Status";
+    cmd->text		= I18N_NOOP("Status");
     cmd->icon		= NULL;
     cmd->menu_grp	= 0;
     cmd->flags		= COMMAND_DEFAULT;
