@@ -127,6 +127,7 @@ protected:
     void blink(QListViewItem*);
     virtual void userChanged() {}
 
+    virtual void keyReleaseEvent(QKeyEvent*);
     virtual bool eventFilter(QObject*, QEvent*);
     virtual void styleChange(QStyle &old);
     virtual void paintEmptyArea(QPainter *p, const QRect &rc);

@@ -591,6 +591,11 @@ void UserView::editEnter()
     pClient->renameGroup(grp, edtGroup->text().local8Bit());
 }
 
+void UserView::keyReleaseEvent(QKeyEvent *e)
+{
+     QListView::keyReleaseEvent(e);
+}
+
 void UserView::grpFunction(int id)
 {
     switch (id){
