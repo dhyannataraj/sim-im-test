@@ -424,6 +424,7 @@ i18n("km/h")
 i18n("weather", "Low")
 i18n("weather", "Moderate")
 i18n("weather", "High")
+i18n("weather", "Showers in the Vicinity")
 #endif
 
 static QString i18n_conditions(const QString &str)
@@ -477,7 +478,7 @@ QString WeatherPlugin::replace(const QString &text)
 #endif
     /* double Expressions *before* single or better RegExp ! */
 	res = res.replace(QRegExp("\\%ut"), i18n("weather", getUV_Description()));
-	res = res.replace(QRegExp("\\%ui"), number(getUV_Intensity())); 
+	res = res.replace(QRegExp("\\%ui"), number(getUV_Intensity()));
     res = res.replace(QRegExp("\\%t"), number(getTemperature()) + QChar((unsigned short)176) + getUT());
     res = res.replace(QRegExp("\\%f"), number(getFeelsLike()) + QChar((unsigned short)176) + getUT());
     res = res.replace(QRegExp("\\%d"), number(getDewPoint()) + QChar((unsigned short)176) + getUT());
@@ -752,14 +753,14 @@ void WeatherPlugin::element_end(const char *el)
         if (m_bWind && m_bCC)
             setWind(m_data.c_str());
         if (m_bUv && m_bCC)
-            setUV_Description(m_data.c_str());	
+            setUV_Description(m_data.c_str());
 
         m_data = "";
         return;
     }
     if (!strcmp(el, "i")) {
         if (m_bUv && m_bCC)
-            setUV_Intensity(strtol(m_data.c_str(),NULL,10));	
+            setUV_Intensity(strtol(m_data.c_str(),NULL,10));
         m_data = "";
         return;
     }
