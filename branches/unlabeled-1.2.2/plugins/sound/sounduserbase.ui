@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>370</width>
+            <width>366</width>
             <height>187</height>
         </rect>
     </property>
@@ -28,14 +28,7 @@
             <name>spacing</name>
             <number>6</number>
         </property>
-        <widget row="0"  column="1" >
-            <class>EditSound</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>edtAlert</cstring>
-            </property>
-        </widget>
-        <widget row="0"  column="0" >
+        <widget row="1"  column="0" >
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
@@ -51,6 +44,24 @@
             </property>
             <property>
                 <name>hAlign</name>
+            </property>
+        </widget>
+        <widget row="1"  column="1" >
+            <class>EditSound</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>edtAlert</cstring>
+            </property>
+        </widget>
+        <widget row="0"  column="0"  rowspan="1"  colspan="2" >
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkActive</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>No sound if windows has &amp;focus</string>
             </property>
         </widget>
     </grid>

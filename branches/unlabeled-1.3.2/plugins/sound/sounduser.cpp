@@ -54,7 +54,7 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
         n++;
     }
     lay->addItem(new QSpacerItem(n, 1, QSizePolicy::Minimum, QSizePolicy::Expanding));
-
+	chkActive->setChecked(user_data->NoSoundIfActive);
 }
 
 void SoundUserConfig::apply(void *data)
@@ -76,6 +76,7 @@ void SoundUserConfig::apply(void *data)
             text = "-";
         set_str(&user_data->Receive, cmd->id, QFile::encodeName(text));
     }
+	user_data->NoSoundIfActive = chkActive->isChecked();
 }
 
 #ifndef WIN32
