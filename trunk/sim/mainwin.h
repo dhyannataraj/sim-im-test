@@ -585,7 +585,7 @@ protected slots:
     void adjustGroupsMenu();
     void adjustFucntionMenu();
     void adjustDockMenu();
-    void addUnread2Menu(QPopupMenu*);
+    void addUnread2Menu(QPopupMenu*, int oldItems);
     void sharedFiles();
     void clearUserMenu();
     void networkMonitor();

@@ -637,7 +637,7 @@ static char h2d(char c)
 string RTF2HTML::Parse(const char *rtf, const char *_encoding)
 {
     encoding = _encoding;
-    yy_current_buffer = yy_scan_string(rtf);
+    YY_BUFFER_STATE yy_current_buffer = yy_scan_string(rtf);
     s.erase();
     rtf_ptr = rtf;
     for (;;){

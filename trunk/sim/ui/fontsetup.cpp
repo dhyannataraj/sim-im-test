@@ -75,6 +75,10 @@ void FontSetup::apply(ICQUser*)
 {
     unsigned long colorSend = btnSend->color().rgb() & 0xFFFFFF;
     unsigned long colorReceive = btnReceive->color().rgb() & 0xFFFFFF;
+    if (!chkOwnColors->isChecked()) {
+    	colorSend = 0x0000B0;
+    	colorReceive = 0xB00000;
+    }
     if ((pMain->getColorSend() != colorSend) || (pMain->getColorReceive() != colorReceive)){
         pMain->setColorSend(colorSend);
         pMain->setColorReceive(colorReceive);

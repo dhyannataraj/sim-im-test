@@ -3538,11 +3538,7 @@ msgid ""
 "to do mail thd@kde.org and coolo@kde.org, they will tell you. Better leave "
 "that out if unsure, the programs will crash!!\n"
 "Definition of PluralForm - to be set by the translator of kdelibs.po"
-msgstr ""
-"_: Cher traducteur, veuillez ne traduire ce mot sous aucun prétexte, mettez "
-"la bonne valeur sans pluriel/composés/français... Si vous n'êtes pas sûr, "
-"mailez thd@kde.org et coolo@kde.org, ils vous aideront. Mieux vaut ne pas y "
-"toucher, ou le programme crashera fatalement !!!\nDefinition de PluralForm - à faire par le traducteur de kdelibs.po"
+msgstr "French"
 
 # sim.cpp:519
 #: sim.cpp:525

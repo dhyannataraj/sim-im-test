@@ -584,7 +584,9 @@ void MsgEdit::processEvent(ICQEvent *e)
                 setMessage();
                 sendEvent = NULL;
                 action(mnuAction);
+                QWidget *focus = focusWidget();
                 emit setStatus(i18n("Message sent"), 2000);
+                if (focus) focus->setFocus();
             }else{
                 e->message()->bDelete = false;
                 emit setStatus(i18n("Send failed"), 2000);

@@ -872,7 +872,9 @@ void MainWindow::toggleAutoHide()
 
 void MainWindow::adjustFucntionMenu()
 {
-    addUnread2Menu(menuFunction);
+    int oldItems = menuMsgs.size();
+    addUnread2Menu(menuFunction, oldItems);
+    addUnread2Menu(menuFunctionDock, oldItems);
 #ifdef WIN32
     int index = menuFunction->indexOf(mnuOnTop);
     int id = menuFunction->idAt(index + 1);
@@ -893,13 +895,14 @@ void MainWindow::adjustDockMenu()
                                  isShowState() ?
                                  i18n("Close main window") :
                                  i18n("Open main window"));
-    addUnread2Menu(menuFunctionDock);
+    int oldItems = menuMsgs.size();
+    addUnread2Menu(menuFunction, oldItems);
+    addUnread2Menu(menuFunctionDock, oldItems);
 }
 
-void MainWindow::addUnread2Menu(QPopupMenu *mnu)
+void MainWindow::addUnread2Menu(QPopupMenu *mnu, int oldItems)
 {
     int n;
-    int oldItems = menuMsgs.size();
     fillUnread(menuMsgs);
     int index = mnu->indexOf(mnuPopupStatus);
     for (n = 0; n < oldItems; n++)
@@ -1252,7 +1255,7 @@ void MainWindow::messageReceived(ICQMessage *msg)
     default:
         wav = settings->IncomingMessage;
     }
-    if (wav && ((pClient->owner->uStatus & 0xFF) != ICQ_STATUS_AWAY) && ((pClient->owner->uStatus & 0xFF) != ICQ_STATUS_NA))
+    if (wav && ((pClient->owner->uStatus & 0xFF) != ICQ_STATUS_OCCUPIED) && ((pClient->owner->uStatus & 0xFF) != ICQ_STATUS_DND))
         playSound(wav);
     unread_msg m(msg);
 
@@ -1319,7 +1322,7 @@ void MainWindow::processEvent(ICQEvent *e)
     case EVENT_BAD_PASSWORD:
         if (pLoginDlg) return;
         pClient->EncryptedPassword = "";
-        QTimer::singleShot(50, this, SLOT(shangeUIN()));
+        QTimer::singleShot(50, this, SLOT(changeUIN()));
         return;
     case EVENT_ANOTHER_LOCATION:
         setManualStatus(ICQ_STATUS_OFFLINE);
@@ -1536,6 +1539,7 @@ void MainWindow::setDock()
 
 void MainWindow::dockDblClicked()
 {
+    if (menuFunctionDock && menuFunctionDock->isVisible()) return;
     if (menuFunction && menuFunction->isVisible()) return;
     for (list<UserBox*>::iterator itBox = containers.begin(); itBox != containers.end(); ++itBox){
         if ((*itBox)->isHistory()) continue;
@@ -1712,6 +1716,7 @@ void MainWindow::toggleWindow()
 
 void MainWindow::toggleShow()
 {
+    if (menuFunctionDock && menuFunctionDock->isVisible()) return;
     if (menuFunction && menuFunction->isVisible()) return;
     if (noToggle) return;
 #ifdef WIN32

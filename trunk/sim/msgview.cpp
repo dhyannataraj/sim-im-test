@@ -389,7 +389,11 @@ QString TextShow::selectedText() const
 
 void TextShow::copy()
 {
+#if QT_VERSION < 310
     QApplication::clipboard()->setText(selectedText());
+#else
+    QApplication::clipboard()->setText(selectedText(),QClipboard::Selection);
+#endif
 }
 
 void TextShow::startDrag()

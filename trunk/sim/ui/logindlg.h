@@ -28,6 +28,7 @@ class LoginDialog : public LoginDlgBase
     Q_OBJECT
 public:
     LoginDialog();
+    ~LoginDialog();
 protected slots:
     void uinChanged(const QString&);
     void pswdChanged(const QString&);

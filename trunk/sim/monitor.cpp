@@ -48,7 +48,7 @@ MonitorWindow *monitor = NULL;
 
 static void logMonitor(unsigned short l, const char *s)
 {
-    if ((monitor == NULL) || ((l && monitor->logLevel) == 0)) return;
+    if ((monitor == NULL) || ((l & monitor->logLevel) == 0)) return;
     monitor->add(s);
 }
 

@@ -37,6 +37,8 @@
 #include <qfile.h>
 #include <qdir.h>
 
+extern LoginDialog* pLoginDlg;
+
 LoginDialog::LoginDialog()
         : LoginDlgBase(NULL, "logindlg", false, WDestructiveClose)
 {
@@ -81,6 +83,10 @@ LoginDialog::LoginDialog()
     bCloseMain = true;
 };
 
+LoginDialog::~LoginDialog() {
+	pLoginDlg = NULL;	
+}
+
 void LoginDialog::loadUins()
 {
     cmbUIN->insertItem("");
@@ -107,7 +113,7 @@ void LoginDialog::pswdChanged(const QString&)
     btnLogin->setEnabled(isUin && isPswd);
     chkSave->setEnabled(isUin && isPswd);
     btnDelete->setEnabled(uin && isUin && isPswd);
-    bPswdChanged = false;
+    bPswdChanged = true;
     saveChanged(false);
 }
 

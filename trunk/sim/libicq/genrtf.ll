@@ -217,7 +217,7 @@ string ICQClientPrivate::createRTF(const string &text, unsigned long foreColor, 
             }
         }
     }
-    yy_current_buffer = yy_scan_string(text.c_str());
+    YY_BUFFER_STATE yy_current_buffer = yy_scan_string(text.c_str());
     string tag;
     stack<font> fonts;
     list<attr> attrs;

@@ -167,7 +167,7 @@ UserBox::UserBox(unsigned long grpId)
     tabSplitter->setResizeMode(status, QSplitter::KeepSize);
     lay->addWidget(tabSplitter);
     setIcon(Pict(pClient->getStatusIcon()));
-    connect(fs, SIGNAL(selected(int)), this, SLOT(selectedUser(int)));
+    connect(tabs, SIGNAL(selected(int)), this, SLOT(selectedUser(int)));
     connect(tabs, SIGNAL(showUserPopup(int, QPoint)), this, SLOT(showUserPopup(int, QPoint)));
     toolbar = new CToolBar(userBoxToolBar, pMain->_ToolBarUserBox(), this, this);
     menuType = new QPopupMenu(this);

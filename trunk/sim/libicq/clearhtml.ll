@@ -96,7 +96,7 @@ extern const char *smiles[];
 
 string ICQClient::clearHTML(const string &text)
 {
-    yy_current_buffer = yy_scan_string(text.c_str());
+    YY_BUFFER_STATE yy_current_buffer = yy_scan_string(text.c_str());
     string res;
     const char *p;
     unsigned char c;

@@ -1654,7 +1654,7 @@ void UserView::showTip()
 #else
             tipLabel = new TipLabel( 0, tip);
 #endif
-            connect(tipLabel, SIGNAL(destoyed()), this, SLOT(tipDestroyed()));
+            connect(tipLabel, SIGNAL(destroyed()), this, SLOT(tipDestroyed()));
         }
         QPoint p;
         int dw = QApplication::desktop()->width();
