@@ -60,7 +60,7 @@ static const char *level_name(unsigned short n)
 void vformat(string &s, const char *fmt, va_list ap)
 {
     char msg[1024];
-    _vsnprintf(msg, sizeof(msg), fmt, ap);
+    vsnprintf(msg, sizeof(msg), fmt, ap);
     s += msg;
 }
 

@@ -1,4 +1,5 @@
 Version 0.8.1
+Add network monitor
 Fix rtf parser and generator for fix font size problem
 Switch support HTTP and HTTPS proxy from call CONNECT method to using AIM-HTTP gate
 Add saving split position in chat mode message window
