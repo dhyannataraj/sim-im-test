@@ -692,7 +692,7 @@
                         </property>
                         <property>
                             <name>text</name>
-                            <string>Automaticaly send &amp;subscribe request</string>
+                            <string>Automatically send &amp;subscribe request</string>
                         </property>
                     </widget>
                     <widget row="8"  column="0"  rowspan="1"  colspan="3" >
@@ -703,7 +703,7 @@
                         </property>
                         <property>
                             <name>text</name>
-                            <string>Automaticaly &amp;accept subscribe requests</string>
+                            <string>Automatically &amp;accept subscribe requests</string>
                         </property>
                     </widget>
                     <widget row="5"  column="0"  rowspan="1"  colspan="3" >

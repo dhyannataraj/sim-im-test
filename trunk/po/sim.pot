@@ -3135,7 +3135,7 @@ msgstr ""
 
 #: plugins/icq/aimconfigbase.cc:150 plugins/icq/icqconfigbase.cc:267
 #: plugins/yahoo/yahoocfgbase.cpp:181
-msgid "&Automaticaly use HTTP polling if proxy required"
+msgid "&Automatically use HTTP polling if proxy required"
 msgstr ""
 
 #: plugins/icq/aimconfigbase.cc:149 plugins/icq/icqconfigbase.cc:268
@@ -7455,11 +7455,11 @@ msgid "Use protocol &icons for agents contacts"
 msgstr ""
 
 #: plugins/jabber/jabberconfigbase.cpp:315
-msgid "Automaticaly send &subscribe request"
+msgid "Automatically send &subscribe request"
 msgstr ""
 
 #: plugins/jabber/jabberconfigbase.cpp:316
-msgid "Automaticaly &accept subscribe requests"
+msgid "Automatically &accept subscribe requests"
 msgstr ""
 
 #: plugins/jabber/jabberconfigbase.cpp:317
