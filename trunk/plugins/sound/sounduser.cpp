@@ -52,8 +52,16 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
         if ((def == NULL) || (cmd->icon == NULL) ||
                 (def->flags & (MESSAGE_HIDDEN | MESSAGE_SENDONLY)))
             continue;
+        if ((def->singular == NULL) || (def->plural == NULL) ||
+                (*def->singular == 0) || (*def->plural == 0))
+            continue;
         QString type = i18n(def->singular, def->plural, 1);
-        type = type.replace(QRegExp("1 "), "");
+        int pos = type.find("1 ");
+        if (pos == 0){
+            type = type.mid(2);
+        }else if (pos > 0){
+            type = type.left(pos);
+        }
         type = type.left(1).upper() + type.mid(1);
         item = new QListViewItem(lstSound, type,
                                  QFile::decodeName(m_plugin->messageSound(cmd->id, user_data).c_str()));
@@ -99,6 +107,8 @@ void SoundUserConfig::apply(void *data)
     }
     user_data->NoSoundIfActive = chkActive->isChecked();
     user_data->Disable = chkDisable->isChecked();
+    Event e(m_plugin->EventSoundChanged);
+    e.process();
 }
 
 void SoundUserConfig::resizeEvent(QResizeEvent *e)

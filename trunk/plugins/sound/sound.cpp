@@ -21,7 +21,6 @@
 #include "simapi.h"
 #include "core.h"
 
-
 #include <qfile.h>
 #ifdef WIN32
 #include <windows.h>
@@ -33,6 +32,7 @@
 #endif
 
 #include "xpm/sound.xpm"
+#include "xpm/nosound.xpm"
 
 Plugin *createSoundPlugin(unsigned base, bool bFirst, const char *config)
 {
@@ -114,12 +114,18 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, const char *config)
         playSound(getStartUp());
     user_data_id = getContacts()->registerUserData(info.title, soundUserData);
 
+    m_bChanged = false;
+
     IconDef icon;
     icon.name = "sound";
     icon.xpm = sound;
     icon.isSystem = false;
 
     Event eIcon(EventAddIcon, &icon);
+    eIcon.process();
+
+    icon.name = "nosound";
+    icon.xpm = nosound;
     eIcon.process();
 
     Command cmd;
@@ -131,6 +137,28 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, const char *config)
     Event e(EventAddPreferences, cmd);
     e.process();
 
+    CmdSoundDisable   = registerType();
+    EventSoundChanged = registerType();
+
+    cmd->id		  = CmdSoundDisable;
+    cmd->text	  = I18N_NOOP("&Sound");
+    cmd->icon	  = "nosound";
+    cmd->icon_on  = "sound";
+    cmd->bar_id   = ToolBarMain;
+    cmd->bar_grp  = 0;
+    cmd->menu_id  = 0;
+    cmd->menu_grp = 0;
+    cmd->flags	  = COMMAND_CHECK_STATE;
+    Event eCmd(EventCommandCreate, cmd);
+    eCmd.process();
+
+    cmd->icon	  = NULL;
+    cmd->icon_on  = NULL;
+    cmd->bar_id   = 0;
+    cmd->menu_id  = MenuMain;
+    cmd->flags	  = COMMAND_CHECK_STATE;
+    eCmd.process();
+
     Event ePlugin(EventGetPluginInfo, (void*)"_core");
     pluginInfo *info = (pluginInfo*)(ePlugin.process());
     core = static_cast<CorePlugin*>(info->plugin);
@@ -139,6 +167,8 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, const char *config)
 SoundPlugin::~SoundPlugin()
 {
     soundPlugin = NULL;
+    Event eCmd(EventCommandRemove, (void*)CmdSoundDisable);
+    eCmd.process();
     Event e(EventRemovePreferences, (void*)user_data_id);
     e.process();
     free_data(soundData, &data);
@@ -157,6 +187,40 @@ QWidget *SoundPlugin::createConfigWindow(QWidget *parent)
 
 void *SoundPlugin::processEvent(Event *e)
 {
+    if (e->type() == EventSoundChanged){
+        Command cmd;
+        cmd->id    = CmdSoundDisable;
+        SoundUserData *data = (SoundUserData*)(getContacts()->getUserData(user_data_id));
+        if (data->Disable == 0)
+            cmd->flags |= COMMAND_CHECKED;
+        m_bChanged = true;
+        Event e(EventCommandChecked, cmd);
+        e.process();
+        m_bChanged = false;
+        return NULL;
+    }
+    if (e->type() == EventCheckState){
+        CommandDef *cmd = (CommandDef*)(e->param());
+        if (cmd->id == CmdSoundDisable){
+            cmd->flags &= ~COMMAND_CHECKED;
+            SoundUserData *data = (SoundUserData*)(getContacts()->getUserData(user_data_id));
+            if (data->Disable == 0)
+                cmd->flags |= COMMAND_CHECKED;
+            return e->param();
+        }
+        return NULL;
+    }
+    if (e->type() == EventCommandExec){
+        CommandDef *cmd = (CommandDef*)(e->param());
+        if (!m_bChanged && (cmd->id == CmdSoundDisable)){
+            SoundUserData *data = (SoundUserData*)(getContacts()->getUserData(user_data_id));
+            data->Disable = (data->Disable == 0);
+            Event eChanged(EventSoundChanged);
+            eChanged.process();
+            return e->param();
+        }
+        return NULL;
+    }
     if (e->type() == EventContactOnline){
         Contact *contact = (Contact*)(e->param());
         SoundUserData *data = (SoundUserData*)(contact->getUserData(user_data_id));
@@ -235,7 +299,14 @@ string SoundPlugin::messageSound(unsigned type, SoundUserData *data)
         def = core->messageTypes.find(type);
         if ((def == NULL) || (def->icon == NULL))
             return "";
-        sound = def->icon;
+        MessageDef *mdef = (MessageDef*)(def->param);
+        if (mdef->flags & MESSAGE_SYSTEM){
+            sound = "system";
+        }else if (mdef->flags & MESSAGE_ERROR){
+            sound = "error";
+        }else{
+            sound = def->icon;
+        }
         sound += ".wav";
         sound = fullName(sound.c_str());
     }

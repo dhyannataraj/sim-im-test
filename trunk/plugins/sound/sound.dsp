@@ -641,6 +641,35 @@ InputPath=.\sounds\startup.wav
 # End Source File
 # Begin Source File
 
+SOURCE=.\sounds\system.wav
+
+!IF  "$(CFG)" == "sound - Win32 Release"
+
+# Begin Custom Build - Copy $(InputPath)
+OutDir=.\..\..\Release
+InputPath=.\sounds\system.wav
+
+"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy /Y $(InputPath) $(OutDir)\$(InputPath)
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sound - Win32 Debug"
+
+# Begin Custom Build - Copy $(InputPath)
+OutDir=.\..\..\Debug
+InputPath=.\sounds\system.wav
+
+"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy /Y $(InputPath) $(OutDir)\$(InputPath)
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
 SOURCE=.\sounds\url.wav
 
 !IF  "$(CFG)" == "sound - Win32 Release"
@@ -672,6 +701,10 @@ InputPath=.\sounds\url.wav
 # Begin Group "xpm"
 
 # PROP Default_Filter "xpm"
+# Begin Source File
+
+SOURCE=.\xpm\nosound.xpm
+# End Source File
 # Begin Source File
 
 SOURCE=.\xpm\sound.xpm

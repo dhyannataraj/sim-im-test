@@ -133,6 +133,8 @@ typedef struct JabberSearchData
     char			*Last;
     char			*Nick;
     char			*EMail;
+    void			*Fields;
+    unsigned		nFields;
 } JabberSearchData;
 
 typedef struct JabberListRequest

@@ -29,7 +29,7 @@ ConnectWnd::ConnectWnd(bool bStart)
 #if QT_VERSION < 300
     QMovie movie(QFile::decodeName(app_file("pict/connect.gif").c_str()));
 #else
-    QMovie movie(QFile::decodeName(app_file("pict/connect.mng").c_str()));
+QMovie movie(QFile::decodeName(app_file("pict/connect.mng").c_str()));
 #endif
     lblMovie->setMovie(movie);
     movie.connectUpdate(this, SLOT(updateMovie()));

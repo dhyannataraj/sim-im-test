@@ -370,6 +370,8 @@ void MainInfo::fillPhoneItem(QListViewItem *item, const QString &number, const Q
     item->setText(PHONE_PROTO, proto);
     item->setText(PHONE_NUMBER, number);
     item->setText(PHONE_TYPE_ASIS, type);
+    if (type.isEmpty())
+        return;
     QCString t = type.latin1();
     const char **p;
     for (p = phoneTypeNames; *p; p++){

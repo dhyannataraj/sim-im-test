@@ -1282,7 +1282,7 @@ QString CorePlugin::poFile(const char *lang)
     QFile f(QFile::decodeName(s.c_str()));
     if (!f.exists()) return "";
 #else
-    string s = PREFIX "/share/locale/";
+string s = PREFIX "/share/locale/";
     string l;
     if (lang)
         l = lang;
@@ -1323,7 +1323,7 @@ void CorePlugin::installTranslator()
 #ifdef USE_KDE
         return;
 #else
-        char *p = getenv("LANG");
+char *p = getenv("LANG");
         if (p){
             for (; *p; p++){
                 if (*p == '.') break;
@@ -1768,6 +1768,7 @@ void *CorePlugin::processEvent(Event *e)
     case EventOpenMessage:{
             Message *msg = (Message*)(e->param());
             Contact *contact = getContacts()->contact(msg->contact());
+            QWidget *focusWidget = qApp->focusWidget();
             if (contact == NULL)
                 return NULL;
             UserWnd		*userWnd	= NULL;
@@ -1862,6 +1863,8 @@ void *CorePlugin::processEvent(Event *e)
             if (msg->getFlags() & MESSAGE_NORAISE){
                 if (bNew)
                     container->showMinimized();
+                if (focusWidget)
+                    focusWidget->setFocus();
             }else{
                 container->show();
                 raiseWindow(container);

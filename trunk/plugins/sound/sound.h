@@ -59,6 +59,8 @@ public:
     PROP_STR(FileDone);
     PROP_STR(MessageSent);
     PROP_BOOL(DisableAlert);
+    unsigned CmdSoundDisable;
+    unsigned EventSoundChanged;
 protected:
     unsigned user_data_id;
     virtual void *processEvent(Event*);
@@ -69,6 +71,7 @@ protected:
     void playSound(const char*);
     SoundData	data;
     CorePlugin	*core;
+    bool	    m_bChanged;
     friend class SoundConfig;
     friend class SoundUserConfig;
 };

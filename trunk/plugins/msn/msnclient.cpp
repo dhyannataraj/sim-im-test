@@ -1065,6 +1065,49 @@ void MSNClient::auth_message(Contact *contact, unsigned type, MSNUserData *data)
 
 void *MSNClient::processEvent(Event *e)
 {
+    if (e->type() == EventAddContact){
+        addContact *ac = (addContact*)(e->param());
+        if (ac->proto && !strcmp(protocol()->description()->text, ac->proto)){
+            Contact *contact = NULL;
+            findContact(ac->addr, ac->nick, contact);
+            if (contact && (contact->getGroup() != ac->group)){
+                contact->setGroup(ac->group);
+                Event e(EventContactChanged, contact);
+                e.process();
+            }
+            return contact;
+        }
+        return NULL;
+    }
+    if (e->type() == EventDeleteContact){
+        char *addr = (char*)(e->param());
+        ContactList::ContactIterator it;
+        Contact *contact;
+        while ((contact = ++it) != NULL){
+            MSNUserData *data;
+            ClientDataIterator itc(contact->clientData, this);
+            while ((data = (MSNUserData*)(++itc)) != NULL){
+                if (!strcmp(data->EMail, addr)){
+                    contact->clientData.freeData(data);
+                    ClientDataIterator itc(contact->clientData);
+                    if (++itc == NULL)
+                        delete contact;
+                    return e->param();
+                }
+            }
+        }
+        return NULL;
+    }
+    if (e->type() == EventGetContactIP){
+        Contact *contact = (Contact*)(e->param());
+        MSNUserData *data;
+        ClientDataIterator it(contact->clientData, this);
+        while ((data = (MSNUserData*)(++it)) != NULL){
+            if (data->IP)
+                return (void*)(data->IP);
+        }
+        return NULL;
+    }
     if (e->type() == EventMessageAccept){
         messageAccept *ma = (messageAccept*)(e->param());
         Contact *contact = getContacts()->contact(ma->msg->contact());

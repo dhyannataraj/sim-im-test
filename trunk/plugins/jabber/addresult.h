@@ -31,7 +31,7 @@ public:
     AddResult(JabberClient *client);
     ~AddResult();
     void showSearch(bool);
-    void setSearch(JabberClient *client, const char *search_id);
+    void setSearch(JabberClient *client, const char *search_id, bool bXSearch);
     void setText(const QString &text);
 signals:
     void finished();
@@ -39,6 +39,8 @@ signals:
 protected slots:
     void dragStart();
     void doubleClicked(QListViewItem*);
+    void finish();
+    void currentChanged(QListViewItem*);
 protected:
     unsigned m_nFound;
     QString m_id;
@@ -50,6 +52,10 @@ protected:
     virtual void *processEvent(Event *e);
     virtual void showEvent(QShowEvent*);
     virtual void hideEvent(QHideEvent*);
+    virtual void resizeEvent(QResizeEvent*);
+    bool m_bConnect;
+    bool m_bXSearch;
+    void finishEnable(bool);
     Contact *createContact(unsigned tmpFlags, struct JabberUserData **data = NULL);
     JabberClient *m_client;
 };

@@ -69,6 +69,8 @@ _core_la_SOURCES = \
  autoreplybase.ui \
  msgcfg.cpp \
  msgcfgbase.ui \
+ filecfg.cpp \
+ filecfgbase.ui \
  smscfg.cpp \
  smscfgbase.ui \
  arcfg.cpp \

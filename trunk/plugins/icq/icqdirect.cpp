@@ -491,7 +491,7 @@ bool DirectClient::isSecure()
 #ifdef USE_OPENSSL
     return m_ssl && m_ssl->connected();
 #else
-return false;
+    return false;
 #endif
 }
 

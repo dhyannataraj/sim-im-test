@@ -59,7 +59,7 @@ protected:
 #ifdef USE_KDE
     KGlobalAccel *accel;
 #else
-unsigned m_key;
+    unsigned m_key;
     unsigned m_state;
 #endif
 #endif

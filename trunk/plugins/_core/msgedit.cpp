@@ -692,7 +692,7 @@ static CommandDef authRequestCommands[] =
 static MessageDef defAuthRequest =
     {
         authRequestCommands,
-        MESSAGE_DEFAULT,
+        MESSAGE_DEFAULT | MESSAGE_SYSTEM,
         "Authorize request",
         "%n authorize requests",
         createAuthRequest,
@@ -732,7 +732,7 @@ i18n("Authorization refused", "%n authorization refused", 1);
 static MessageDef defAuthRefused =
     {
         NULL,
-        MESSAGE_SILENT,
+        MESSAGE_SILENT | MESSAGE_ERROR,
         "Authorization refused",
         "%n authorization refused",
         createAuthRefused,
@@ -752,7 +752,7 @@ i18n("Add to contacts", "%n add to contacts", 1);
 static MessageDef defAdded =
     {
         NULL,
-        MESSAGE_INFO,
+        MESSAGE_INFO | MESSAGE_SYSTEM,
         "Add to contacts",
         "%n add to contacts",
         createAdded,
@@ -772,7 +772,7 @@ i18n("Removed from contacts", "%n removed from contacts", 1);
 static MessageDef defRemoved =
     {
         NULL,
-        MESSAGE_INFO,
+        MESSAGE_INFO | MESSAGE_SYSTEM,
         "Removed from contacts",
         "%n removed from contacts",
         createRemoved,

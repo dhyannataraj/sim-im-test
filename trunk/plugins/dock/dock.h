@@ -29,7 +29,7 @@ typedef struct DockData
     unsigned		DockX;
     unsigned		DockY;
 #endif
-	unsigned		Desktop;
+    unsigned		Desktop;
 } DockData;
 
 class DockWnd;
@@ -68,7 +68,7 @@ protected:
     PROP_ULONG(DockX);
     PROP_ULONG(DockY);
 #endif
-	PROP_ULONG(Desktop);
+    PROP_ULONG(Desktop);
     CorePlugin *core;
     unsigned inactiveTime;
     void init();

@@ -82,7 +82,7 @@ static DataDef dockData[] =
 #ifndef WIN32
         { "DockPos", DATA_ULONG, 2, 0 },
 #endif
-		{ "Desktop", DATA_ULONG, 1, 0 },
+        { "Desktop", DATA_ULONG, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -203,7 +203,7 @@ bool DockPlugin::eventFilter(QObject *o, QEvent *e)
             if (!bQuit){
                 QWidget *main = (QWidget*)o;
                 setShowMain(false);
-				main->hide();
+                main->hide();
                 return true;
             }
             break;
@@ -275,12 +275,12 @@ void *DockPlugin::processEvent(Event *e)
         CommandDef *def = (CommandDef*)(e->param());
         if (def->id == CmdToggle){
             QWidget *main = getMainWindow();
-			if(!main) return NULL; 
+            if(!main) return NULL;
             if (isMainShow()){
                 setShowMain(false);
                 main->hide();
             }else{
-				inactiveTime = 0;
+                inactiveTime = 0;
                 setShowMain(true);
                 raiseWindow(main,getDesktop());
             }
@@ -391,7 +391,7 @@ void DockPlugin::timer()
     if (now > inactiveTime + getAutoHideInterval()){
         if (m_main){
             setShowMain(false);
-			m_main->hide();
+            m_main->hide();
         }
     }
 }

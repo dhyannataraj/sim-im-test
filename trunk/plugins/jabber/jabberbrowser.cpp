@@ -36,8 +36,9 @@ const unsigned COL_NODE = 2;
 JabberWizard::JabberWizard(QWidget *parent, const char *_title, const char *icon, JabberClient *client, const char *jid, const char *node, const char *type)
         : QWizard(parent, NULL, true)
 {
+    m_type = type;
     QString title = i18n(_title) .arg(QString::fromUtf8(jid));
-    m_search = new JabberSearch(this, client, jid, node, title);
+    m_search = new JabberSearch(this, client, jid, node, title, m_type == "register");
     addPage(m_search, title);
     m_result = new AddResult(client);
     addPage(m_result, title);
@@ -47,7 +48,6 @@ JabberWizard::JabberWizard(QWidget *parent, const char *_title, const char *icon
     setIcon(Pict(icon));
     setCaption(title);
     connect(this, SIGNAL(selected(const QString&)), this, SLOT(slotSelected(const QString&)));
-    m_type = type;
 }
 
 void JabberWizard::search()
@@ -65,11 +65,13 @@ void JabberWizard::slotSelected(const QString&)
     if (currentPage() != m_result)
         return;
     setFinishEnabled(m_result, false);
+    bool bXSearch;
+    QString condition = m_search->condition(bXSearch);
     if (m_type == "search"){
-        m_id = m_search->m_client->search(m_search->m_jid.c_str(), m_search->m_node.c_str(), m_search->condition());
-        m_result->setSearch(m_search->m_client, m_id.c_str());
+        m_id = m_search->m_client->search(m_search->m_jid.c_str(), m_search->m_node.c_str(), condition);
+        m_result->setSearch(m_search->m_client, m_id.c_str(), bXSearch);
     }else{
-        m_id = m_search->m_client->process(m_search->m_jid.c_str(), m_search->m_node.c_str(), m_search->condition(), m_type.c_str());
+        m_id = m_search->m_client->process(m_search->m_jid.c_str(), m_search->m_node.c_str(), condition, m_type.c_str());
     }
 }
 
@@ -141,9 +143,13 @@ JabberBrowser::JabberBrowser(JabberClient *client)
     cmd->id		= static_cast<JabberPlugin*>(m_client->protocol()->plugin())->CmdUrl;
     cmd->param	= this;
     Event eWidget(EventCommandWidget, cmd);
-    CToolCombo *cmbFind = (CToolCombo*)(eWidget.process());
-    if (cmbFind)
-        cmbFind->setText(QString::null);
+    CToolCombo *cmbUrl = (CToolCombo*)(eWidget.process());
+    if (cmbUrl){
+        QString h = m_client->getBrowserHistory();
+        while (h.length())
+            cmbUrl->insertItem(getToken(h, ';'));
+        cmbUrl->setText(QString::null);
+    }
 
     m_search = NULL;
     m_reg    = NULL;
@@ -399,7 +405,7 @@ void *JabberBrowser::processEvent(Event *e)
             cmd->id		= static_cast<JabberPlugin*>(m_client->protocol()->plugin())->CmdNode;
             CToolCombo *cmbNode = (CToolCombo*)(eWidget.process());
             if (cmbNode)
-                node = cmbUrl->lineEdit()->text();
+                node = cmbNode->lineEdit()->text();
             if (!jid.isEmpty()){
                 addHistory(jid);
                 goUrl(jid, node);
@@ -556,12 +562,20 @@ void JabberBrowser::addHistory(const QString &str)
     }
     l.prepend(str);
     QString res;
+    Command cmd;
+    cmd->id		= static_cast<JabberPlugin*>(m_client->protocol()->plugin())->CmdUrl;
+    cmd->param	= this;
+    Event eWidget(EventCommandWidget, cmd);
+    CToolCombo *cmbUrl = (CToolCombo*)(eWidget.process());
+    if (cmbUrl)
+        cmbUrl->clear();
     unsigned i = 0;
     for (it = l.begin(); it != l.end(); ++it){
         if (i++ > MAX_HISTORY)
             break;
         if (!res.isEmpty())
             res += ";";
+        cmbUrl->insertItem(*it);
         res += quoteChars(*it, ";");
     }
     m_client->setBrowserHistory(res);

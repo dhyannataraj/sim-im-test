@@ -22,6 +22,7 @@
 #include "msgcfgbase.h"
 
 class QCheckBox;
+class FileConfig;
 
 class MessageConfig : public MessageConfigBase
 {
@@ -30,8 +31,9 @@ public:
     MessageConfig(QWidget *parent, void *data);
 public slots:
     void apply(void*);
-protected slots:
-    void acceptClicked(int);
+protected:
+    FileConfig *m_file;
+    void setEnabled(bool);
 };
 
 #endif

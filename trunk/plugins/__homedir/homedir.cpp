@@ -47,7 +47,7 @@ static PluginInfo info =
         I18N_NOOP("Home directory"),
         I18N_NOOP("Plugin provides select directory for store config files"),
 #else
-        NULL,
+NULL,
         NULL,
 #endif
         VERSION,

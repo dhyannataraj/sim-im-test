@@ -397,14 +397,14 @@ bool raiseWindow(QWidget *w, unsigned)
         return false;
 #ifdef USE_KDE
     /* info.currentDesktop is 0 when iconified :(
-		also onAllDesktops is 0 when Objekt isn't
-		shown already */
+    also onAllDesktops is 0 when Objekt isn't
+    shown already */
     KWin::Info info = KWin::info(w->winId());
     if ((!info.onAllDesktops) || (desk == 0)) {
         if (desk == 0) desk = KWin::currentDesktop();
         KWin::setOnDesktop(w->winId(), desk);
     }
-	log(L_DEBUG,"desk: %u all %u",desk,info.onAllDesktops);
+    log(L_DEBUG,"desk: %u all %u",desk,info.onAllDesktops);
 #endif
     w->show();
     w->showNormal();
