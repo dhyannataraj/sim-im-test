@@ -637,8 +637,8 @@ void MsgEdit::sendClick()
 
 void MsgEdit::markAsRead()
 {
-    if (msg == NULL) return;
     if (pMain->SimpleMode){
+	    if (msg == NULL) return;
         if (!msg->Received) return;
         if (pClient->markAsRead(msg))
             setupNext();

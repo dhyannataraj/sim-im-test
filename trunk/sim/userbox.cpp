@@ -1020,6 +1020,7 @@ void UserBox::showUser(unsigned long uin, int function, unsigned long param)
     default:
         toolbar->setOn(btnInfo, false);
         toolbar->setOn(btnHistory, false);
+        curWnd->markAsRead();
         wnd->action(function);
         if (param) wnd->setParam(param);
     }

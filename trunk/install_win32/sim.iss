@@ -18,7 +18,6 @@ Compression=bzip/9
 AppId=SIM
 AppMutex=SIM_Mutex
 AppCopyright=Copyright © 2002, Vladimir Shutoff
-UseSetupLdr=no
 
 [Tasks]
 Name: "desktopicon"; Description: "Create a &desktop icon"; GroupDescription: "Additional icons:"
