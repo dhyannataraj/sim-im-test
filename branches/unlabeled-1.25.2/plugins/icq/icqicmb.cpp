@@ -764,12 +764,42 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &msg, bool needA
         return;
     }
 
+    TlvList tlv(msg);
+	if (!memcmp(cap, capabilities[CAP_AIM_IMIMAGE], sizeof(cap))){
+		log(L_DEBUG, "AIM set direct connection");
+        unsigned long real_ip = 0;
+        unsigned long ip = 0;
+        unsigned short port = 0;
+        if (tlv(3)) real_ip = htonl((unsigned long)(*tlv(3)));
+        if (tlv(4)) ip = htonl((unsigned long)(*tlv(4)));
+        if (tlv(5)) port = *tlv(5);
+        log(L_DEBUG, "IP: %X %X %u", ip, real_ip, port);
+        if (real_ip || ip){
+            Contact *contact;
+            ICQUserData *data = findContact(screen, NULL, false, contact);
+            if (data){
+                if (real_ip && (get_ip(data->RealIP) == 0))
+                    set_ip(&data->RealIP, real_ip);
+                if (ip && (get_ip(data->IP) == 0))
+                    set_ip(&data->IP, ip);
+                if (port && (data->Port == 0))
+                    data->Port = port;
+            }
+        }
+		return;
+	}
+
     if (memcmp(cap, capabilities[CAP_SRV_RELAY], sizeof(cap))){
-        log(L_DEBUG, "Unknown capability in adavansed message");
+		string s;
+		for (unsigned i = 0; i < sizeof(cap); i++){
+			char b[5];
+			sprintf(b, "0x%02X ", cap[i] & 0xFF);
+			s += b;
+		}
+        log(L_DEBUG, "Unknown capability in adavansed message\n%s", s.c_str());
         return;
     }
 
-    TlvList tlv(msg);
     if (!tlv(0x2711)){
         log(L_WARN, "No found body in ICMB message");
         return;
@@ -910,7 +940,7 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &msg, bool needA
         if (tlv(3)) real_ip = htonl((unsigned long)(*tlv(3)));
         if (tlv(4)) ip = htonl((unsigned long)(*tlv(4)));
         if (tlv(5)) port = *tlv(5);
-        log(L_DEBUG, "IP: %X %X", ip, real_ip);
+        log(L_DEBUG, "IP: %X %X %u", ip, real_ip, port);
         if (real_ip || ip){
             Contact *contact;
             ICQUserData *data = findContact(screen, NULL, false, contact);

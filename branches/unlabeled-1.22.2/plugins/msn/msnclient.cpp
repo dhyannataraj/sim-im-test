@@ -461,7 +461,7 @@ void MSNClient::getLine(const char *line)
         if (getToken(l, ' ') == "RL"){
             setListVer(getToken(l, ' ').toUInt());
             Contact *contact;
-            MSNUserData *data = findContact(getToken(l, ' ').utf8(), contact);
+            MSNUserData *data = findContact(getToken(l, ' ').utf8(), getToken(l, ' ').utf8(), contact);
             if (data){
                 data->Flags |= MSN_REVERSE;
                 auth_message(contact, MessageAdded, data);
@@ -1531,6 +1531,8 @@ SBSocket::SBSocket(MSNClient *client, Contact *contact, MSNUserData *data)
     m_socket	= new ClientSocket(this);
     m_packet_id = 0;
     m_messageSize = 0;
+    m_invite_cookie    = 0;
+	m_bTyping	= false;
     m_client->m_SBsockets.push_back(this);
 }
 
@@ -1551,10 +1553,25 @@ SBSocket::~SBSocket()
             e.process();
         }
     }
-    for (list<Message*>::iterator itm = m_queue.begin(); itm != m_queue.end(); ++itm){
+    list<Message*>::iterator itm;
+    for (itm = m_queue.begin(); itm != m_queue.end(); ++itm){
         Message *msg = (*itm);
         msg->setError(I18N_NOOP("Contact go offline"));
         Event e(EventMessageSent, msg);
+        e.process();
+        delete msg;
+    }
+    list<msgInvite>::iterator itw;
+    for (itw = m_waitMsg.begin(); itw != m_waitMsg.end(); ++itw){
+        Message *msg = (*itw).msg;
+        msg->setError(I18N_NOOP("Contact go offline"));
+        Event e(EventMessageSent, msg);
+        e.process();
+        delete msg;
+    }
+    for (itw = m_acceptMsg.begin(); itw != m_acceptMsg.end(); ++itw){
+        Message *msg = (*itw).msg;
+        Event e(EventMessageDeleted, msg);
         e.process();
         delete msg;
     }
@@ -1759,10 +1776,14 @@ void SBSocket::getLine(const char *_line)
             e.process();
         }
         if (m_msgText.isEmpty()){
-            Event e(EventMessageSent, msg);
-            e.process();
-            delete msg;
-            m_queue.erase(m_queue.begin());
+            if (msg->type() == MessageFile){
+                sendFile();
+            }else{
+                Event e(EventMessageSent, msg);
+                e.process();
+                delete msg;
+                m_queue.erase(m_queue.begin());
+            }
         }
         process();
     }
@@ -1805,6 +1826,8 @@ static unsigned fromHex(const char *p)
     }
     return res;
 }
+
+static char FT_GUID[] = "{5D3E02AB-6190-11d3-BBBB-00C04F795683}";
 
 void SBSocket::messageReady()
 {
@@ -1874,22 +1897,23 @@ void SBSocket::messageReady()
         }
         QString msg_text = QString::fromUtf8(m_message.c_str());
         msg_text = msg_text.replace(QRegExp("\\r"), "");
-        Message msg(MessageGeneric);
-        msg.setFlags(MESSAGE_RECEIVED);
+        Message *msg = new Message(MessageGeneric);
+        msg->setFlags(MESSAGE_RECEIVED);
         if (bColor){
-            msg.setBackground(0xFFFFFF);
-            msg.setForeground(color);
+            msg->setBackground(0xFFFFFF);
+            msg->setForeground(color);
         }
-        msg.setFont(font.c_str());
-        msg.setText(msg_text);
-        msg.setContact(m_contact->id());
-        msg.setClient(m_client->dataName(m_data).c_str());
-        Event e(EventMessageReceived, &msg);
-        e.process();
+        msg->setFont(font.c_str());
+        msg->setText(msg_text);
+        msg->setContact(m_contact->id());
+        msg->setClient(m_client->dataName(m_data).c_str());
+        Event e(EventMessageReceived, msg);
+        if (!e.process())
+            delete msg;
         return;
     }
     if (content_type == "text/x-msmsgscontrol"){
-        if (typing == m_data->EMail){
+        if (QString(typing.c_str()).lower() == QString(m_data->EMail).lower()){
             time_t now;
             time(&now);
             bool bEvent = (m_data->typing_time == 0);
@@ -1898,6 +1922,94 @@ void SBSocket::messageReady()
                 Event e(EventContactStatus, m_contact);
                 e.process();
             }
+        }
+    }
+    if (content_type == "text/x-msmsgsinvite"){
+        string file;
+        string command;
+        string guid;
+        unsigned cookie = 0;
+        unsigned fileSize = 0;
+        while (!m_message.empty()){
+            string line;
+            int n = m_message.find("\r\n");
+            if (n < 0){
+                line = m_message;
+                m_message = "";
+            }else{
+                line = m_message.substr(0, n);
+                m_message = m_message.substr(n + 2);
+            }
+            string key = getToken(line, ':', false);
+            if (key == "Application-GUID"){
+                guid = trim(line.c_str());
+                continue;
+            }
+            if (key == "Invitation-Command"){
+                command = trim(line.c_str());
+                continue;
+            }
+            if (key == "Invitation-Cookie"){
+                cookie = atol(trim(line.c_str()).c_str());
+                continue;
+            }
+            if (key == "Application-File"){
+                file = trim(line.c_str());
+                continue;
+            }
+            if (key == "Application-FileSize"){
+                fileSize = atol(trim(line.c_str()).c_str());
+                continue;
+            }
+        }
+        if (cookie == 0){
+            log(L_WARN, "No cookie in message");
+            return;
+        }
+        if (command == "INVITE"){
+            if (guid != FT_GUID){
+                log(L_WARN, "Unknown GUID %s", guid.c_str());
+                return;
+            }
+            if (file.empty()){
+                log(L_WARN, "No file in message");
+                return;
+            }
+            FileMessage *msg = new FileMessage;
+            msg->setFile(m_client->unquote(QString::fromUtf8(file.c_str())));
+            msg->setSize(fileSize);
+            msg->setFlags(MESSAGE_RECEIVED | MESSAGE_TEMP);
+            msg->setContact(m_contact->id());
+            msg->setClient(m_client->dataName(m_data).c_str());
+            msgInvite m;
+            m.msg    = msg;
+            m.cookie = cookie;
+            m_acceptMsg.push_back(m);
+            Event e(EventMessageReceived, msg);
+            if (e.process()){
+                for (list<msgInvite>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
+                    if ((*it).msg == msg){
+                        m_acceptMsg.erase(it);
+                        break;
+                    }
+                }
+            }
+        }else if (command == "CANCEL"){
+            for (list<msgInvite>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
+                if ((*it).cookie == cookie){
+                    Message *msg = (*it).msg;
+                    Event e(EventMessageDeleted, msg);
+                    e.process();
+                    delete msg;
+                    m_acceptMsg.erase(it);
+                    break;
+                }
+            }
+            if (it == m_acceptMsg.end())
+                log(L_WARN, "No message for cancel");
+        }else{
+            log(L_WARN, "Unknown command %s", command.c_str());
+            return;
         }
     }
 }
@@ -1973,6 +2085,21 @@ bool SBSocket::cancelMessage(Message *msg)
     return true;
 }
 
+void SBSocket::sendFile()
+{
+    if (m_queue.empty())
+        return;
+    Message *msg = m_queue.front();
+    if (msg->type() != MessageFile)
+        return;
+    m_queue.erase(m_queue.begin());
+    FileMessage *m = static_cast<FileMessage*>(msg);
+    msgInvite mi;
+    mi.msg    = msg;
+    mi.cookie = ++m_invite_cookie;
+    m_waitMsg.push_back(mi);
+}
+
 void SBSocket::process(bool bTyping)
 {
     if (bTyping)
@@ -1981,6 +2108,10 @@ void SBSocket::process(bool bTyping)
         Message *msg = m_queue.front();
         m_msgText = msg->getPlainText();
         if (m_msgText.isEmpty()){
+            if (msg->type() == MessageFile){
+                sendFile();
+                return;
+            }
             Event e(EventMessageSent, msg);
             e.process();
             delete msg;
@@ -2016,6 +2147,8 @@ void SBSocket::process(bool bTyping)
                 if (n > 0){
                     type = font_type.substr(n);
                     font_type = font_type.substr(n + 2);
+                }else{
+                    font_type = "";
                 }
                 if (type == "bold")
                     effect += "B";

@@ -69,6 +69,12 @@ typedef struct MSNClientData
 class MSNClient;
 class XfrPacket;
 
+typedef struct msgInvite
+{
+	Message		*msg;
+	unsigned	cookie;
+} msgInvite;
+
 class SBSocket : public QObject, public ClientSocketNotify
 {
     Q_OBJECT
@@ -101,6 +107,9 @@ protected:
     void process(bool bTyping=true);
     void sendMessage(const char*, const char *type);
     void sendTyping();
+	void sendFile();
+	list<msgInvite>	m_acceptMsg;
+	list<msgInvite>	m_waitMsg;
     State			m_state;
     Contact			*m_contact;
     MSNClient		*m_client;
@@ -117,6 +126,7 @@ protected:
     QString			m_msgText;
     QString			m_msgPart;
     unsigned		m_msg_id;
+	unsigned		m_invite_cookie;
 };
 
 const unsigned LR_CONTACTxCHANGED		= 0;
