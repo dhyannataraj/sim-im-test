@@ -200,7 +200,7 @@ void ICQClient::sendClientReady()
 void ICQClient::fillDirectInfo(Buffer &directInfo, unsigned long t1, unsigned long t2, unsigned long t3)
 {
     directInfo
-    << (unsigned long)RealIP()
+    << (unsigned long)htonl(RealIP())
     << (unsigned short)0
     << (unsigned short)listener->port()
 

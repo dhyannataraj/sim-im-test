@@ -510,7 +510,7 @@ void ICQClient::processInfoRequestQueue()
     if (infoRequestQueue.size() == 0) return;
     time_t now;
     time(&now);
-    if (((unsigned long)now < lastInfoRequestTime + 3) || writeBuffer.size()) return;
+    if (((unsigned long)now < lastInfoRequestTime + 10) || writeBuffer.size()) return;
     unsigned long uin = infoRequestQueue.front();
     requestInfo(uin);
     infoRequestQueue.remove(uin);

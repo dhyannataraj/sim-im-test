@@ -158,7 +158,7 @@ Buffer &Buffer::operator >> (string &s)
     *this >> size;
     size = htons(size);
     s.erase();
-    if (size == 0){
+    if (size){
         s.append(size, '\x00');
         unpack((char*)s.c_str(), size);
     }
