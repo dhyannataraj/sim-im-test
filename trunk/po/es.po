@@ -1,25 +1,23 @@
-# translation of es.po to Spain
 # translation of es.po to Español
 # Translation to Spanish
 # This file is distributed under the same license as the SIM package.
 # Copyright (C) 2004
 #
-# $Id: es.po,v 1.164 2004-07-30 23:12:44 noragen Exp $
+# $Id: es.po,v 1.165 2004-08-03 02:37:15 jorgelt Exp $
 # Jorge Lopez Trescastro <jorge@acm.asoc.fi.upm.es>, 2002, 2003, 2004.
-# Jorge López Trescastro <jorge@acm.asoc.fi.upm.es>, 2004.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: es\n"
+"Project-Id-Version: sim-es\n"
 "POT-Creation-Date: 2004-07-25 11:36+0200\n"
-"PO-Revision-Date: 2004-07-25 20:12+0200\n"
-"Last-Translator: Jorge López Trescastro <jorge@acm.asoc.fi.upm.es>\n"
-"Language-Team: Spain <es@li.org>\n"
+"PO-Revision-Date: 2004-08-03 04:27+0200\n"
+"Last-Translator: Jorge Lopez Trescastro <jorge@acm.asoc.fi.upm.es>\n"
+"Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Report-Msgid-Bugs-To: \n"
-"X-Generator: KBabel 1.9\n"
+"X-Generator: KBabel 1.3.1\n"
 
 #: plugins/__homedir/homedir.cpp:48
 msgid "Home directory"
@@ -27,7 +25,7 @@ msgstr "Carpeta personal"
 
 #: plugins/__homedir/homedir.cpp:49
 msgid "Plugin provides select directory for store config files"
-msgstr "Este plugin permite seleccionar una carpeta para almacenar los archivos de configuración"
+msgstr "Esta extensión le permite seleccionar la carpeta donde almacenar los archivos de configuración"
 
 #: plugins/__homedir/homedir.cpp:92
 msgid "Set home directory"
@@ -113,7 +111,7 @@ msgstr "Migrar"
 
 #: plugins/__migrate/migrate.cpp:36
 msgid "Plugin provides convert configuration and history from SIM 0.8"
-msgstr "Este plugin permite convertir la configuración y el historial de SIM 0.8"
+msgstr "Esta extensión le permite convertir la configuración y el historial de SIM 0.8"
 
 #: plugins/__migrate/migratedlg.cpp:78
 msgid "Cancel convert?"
@@ -179,7 +177,7 @@ msgstr "Auto-respuesta"
 
 #: plugins/_core/cfgdlg.cpp:384
 msgid "Plugins"
-msgstr "Plugins"
+msgstr "Extensiones"
 
 #: plugins/_core/cfgdlg.cpp:501 plugins/_core/cfgdlgbase.cpp:125 plugins/_core/toolsetupbase.cpp:134 plugins/jabber/discoinfobase.cpp:319 sim/simapi.cpp:480
 msgid "&Apply"
@@ -1350,7 +1348,7 @@ msgstr "Act&ualizar"
 
 #: plugins/_core/plugincfgbase.cpp:102
 msgid "Plugin &enabled"
-msgstr "Plugin &activado"
+msgstr "Extensión &activada"
 
 #: plugins/_core/arcfgbase.cpp:138 plugins/_core/prefcfgbase.cpp:97
 msgid "&Override global settings"
@@ -1550,7 +1548,7 @@ msgstr "Vista &previa"
 
 #: plugins/_core/historycfgbase.cpp:244
 msgid "&Source"
-msgstr "&Fuente"
+msgstr "Có&digo"
 
 #: plugins/_core/maininfobase.cpp:246 plugins/_core/nonimbase.cpp:126 plugins/icq/aiminfobase.cc:287 plugins/icq/icqinfobase.cc:343 plugins/jabber/discoinfobase.cpp:314 plugins/jabber/jabberinfobase.cpp:299 plugins/yahoo/yahooinfobase.cpp:186
 msgid "First Name:"
@@ -1882,7 +1880,7 @@ msgstr "Acerca de"
 
 #: plugins/about/about.cpp:39
 msgid "Plugin provides about information"
-msgstr "Este plugin habilita información acerca de SIM"
+msgstr "Esta extensión le permite mostrar información acerca de SIM"
 
 #: plugins/about/about.cpp:61
 msgid "&Bug report"
@@ -1942,7 +1940,7 @@ msgstr "Acción"
 
 #: plugins/action/action.cpp:34
 msgid "Plugin execute external programs on event or from contact menu"
-msgstr "Este plugin ejecuta un programa externo cuando se produzca un evento o desde el menú de los contactos"
+msgstr "Esta extensión ejecuta un programa externo cuando se produzca un evento o desde el menú de contactos"
 
 #: plugins/action/action.cpp:84
 msgid "&Action"
@@ -2006,7 +2004,7 @@ msgstr "Auto-Ausente"
 
 #: plugins/autoaway/autoaway.cpp:67
 msgid "Plugin provides set away and N/A status after some idle time"
-msgstr "Este plugin permite cambiar el estado a Ausente y N/D después de un tiempo de inactividad"
+msgstr "Esta extensión le permite cambiar el estado a Ausente y N/D después de un tiempo de inactividad"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:134
 msgid "Set \"Away\" status after"
@@ -2042,7 +2040,7 @@ msgstr "Fondo"
 
 #: plugins/background/background.cpp:35
 msgid "Plugin provides background pictures for user list"
-msgstr "Este plugin permite tener imagenes de fondo en la lista de usuarios"
+msgstr "Esta extensión le permite tener imagenes de fondo en la lista de usuarios"
 
 #: plugins/background/bkgndcfg.cpp:45
 msgid "Select background picture"
@@ -2106,7 +2104,7 @@ msgstr "Bandeja del sistema"
 
 #: plugins/dock/dock.cpp:50
 msgid "Plugin provides dock main window in system tray"
-msgstr "Este plugin habilita SIM en la bandeja del sistema"
+msgstr "Esta extensión le permite anclar la ventana principal en la bandeja del sistema"
 
 #: plugins/dock/dock.cpp:52 plugins/windock/windock.cpp:43
 msgid "Dock"
@@ -2114,7 +2112,7 @@ msgstr "Anclar"
 
 #: plugins/dock/dock.cpp:53
 msgid "Plugin provides dock icon"
-msgstr "Este plugin habilita un icono en la bandeja de sistema"
+msgstr "Esta extensión le permite anclar un icono en la bandeja de sistema"
 
 #: plugins/dock/dock.cpp:111 sim/sim.cpp:198
 msgid "SIM"
@@ -2150,7 +2148,7 @@ msgstr "actual"
 
 #: plugins/dock/dockcfgbase.cpp:127
 msgid "&Customize dock menu"
-msgstr "&Personalizar menú en bandeja del sistema"
+msgstr "&Personalizar el menú en la bandeja del sistema"
 
 #: plugins/filter/filter.cpp:37
 msgid "Filter"
@@ -2158,7 +2156,7 @@ msgstr "Filtro"
 
 #: plugins/filter/filter.cpp:38
 msgid "Plugin provides message filter"
-msgstr "Este plugin habilita el filtro de mensajes"
+msgstr "Esta extensión le permite filtrar mensajes"
 
 #: plugins/filter/filter.cpp:88 plugins/filter/filtercfg.cpp:40
 msgid "Ignore list"
@@ -2208,7 +2206,7 @@ msgstr "Etiquetas flotantes"
 
 #: plugins/floaty/floaty.cpp:45
 msgid "Plugin provides floating windows for contacts"
-msgstr "Este plugin habilita etiquetas flotantes para los contactos"
+msgstr "Esta extensión le permite tener etiquetas flotantes para los contactos"
 
 #: plugins/floaty/floaty.cpp:82 plugins/floaty/floaty.cpp:156
 msgid "Floating on"
@@ -2224,7 +2222,7 @@ msgstr "Reenviar"
 
 #: plugins/forward/forward.cpp:32
 msgid "Plugin provides messages forwarding on cellular"
-msgstr "Este plugin permite reenviar mensajes a un teléfono movil"
+msgstr "Esta extensión le permite reenviar los mensajes a un teléfono movil"
 
 #: plugins/forward/forwardcfgbase.cpp:102
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
@@ -2248,14 +2246,14 @@ msgstr "GPG"
 
 #: plugins/gpg/gpg.cpp:54
 msgid "Plugin adds GnuPG encryption/decryption support for messages"
-msgstr "Este plugin añade soporte GnuPG para encriptar/desencriptar los mensajes"
+msgstr "Esta extensión añade soporte GnuPG para encriptar/desencriptar los mensajes"
 
 #: plugins/gpg/gpg.cpp:78
 msgid ""
 "Plugin adds GnuPG encryption/decryption support for messages\n"
 "GPG not found in PATH"
 msgstr ""
-"Este plugin añade soporte GnuPG para encriptar/desencriptar los mensajes\n"
+"Esta extensión añade soporte GnuPG para encriptar/desencriptar los mensajes\n"
 "GPG no encontrado en el PATH"
 
 #: plugins/gpg/gpg.cpp:505 plugins/gpg/gpg.cpp:514
@@ -2418,7 +2416,7 @@ msgstr "Iconos"
 
 #: plugins/icons/icon.cpp:31
 msgid "Plugin provides JISP icons themes and emoticons"
-msgstr "Este plugin le permite usar temas de iconos JISP y emoticones"
+msgstr "Esta extensión le permite usar temas de iconos JISP y emoticones"
 
 #: plugins/icons/iconcfg.cpp:91
 msgid "*.jisp|Icon set"
@@ -3655,11 +3653,11 @@ msgstr "&ICQ"
 
 #: plugins/icq/aimconfigbase.cc:181 plugins/icq/icqconfigbase.cc:298 plugins/msn/msnconfigbase.cpp:236 plugins/yahoo/yahoocfgbase.cpp:240
 msgid "&Automatically use HTTP polling if proxy required"
-msgstr ""
+msgstr "Usar &automáticamente polling HTTP si se requiere proxy"
 
 #: plugins/icq/aimconfigbase.cc:180 plugins/icq/icqconfigbase.cc:299 plugins/jabber/jabberconfigbase.cpp:366 plugins/msn/msnconfigbase.cpp:235 plugins/yahoo/yahoocfgbase.cpp:241
 msgid "Use &HTTP polling"
-msgstr ""
+msgstr "Usar polling &HTTP"
 
 #: plugins/icq/aimconfigbase.cc:179 plugins/icq/icqconfigbase.cc:300 plugins/jabber/jabberconfigbase.cpp:356 plugins/jabber/jabberconfigbase.cpp:360 plugins/livejournal/livejournalcfgbase.cpp:211 plugins/msn/msnconfigbase.cpp:231 plugins/yahoo/yahoocfgbase.cpp:237
 msgid "Server:"
@@ -3675,7 +3673,7 @@ msgstr "Rango de puertos para conexiones directas:"
 
 #: plugins/icq/aimconfigbase.cc:182 plugins/icq/icqconfigbase.cc:304 plugins/jabber/jabberconfigbase.cpp:367 plugins/msn/msnconfigbase.cpp:237 plugins/yahoo/yahoocfgbase.cpp:239
 msgid "Note: For HTTP-polling using proxy settings for HTTP"
-msgstr ""
+msgstr "Nota: Para polling HTTP se usará la configuración del proxy HTTP"
 
 #: plugins/icq/aimconfigbase.cc:183 plugins/icq/icqconfigbase.cc:305
 msgid "&Keep-alive connection"
@@ -4105,7 +4103,7 @@ msgstr "&Tiempo"
 
 #: plugins/jabber/discoinfo.cpp:168
 msgid "&Stat"
-msgstr ""
+msgstr "E&stado"
 
 #: plugins/jabber/discoinfo.cpp:251
 #, c-format
@@ -4332,7 +4330,7 @@ msgstr "Por favor introduzca su UIN y la contraseña"
 
 #: plugins/jabber/jabbersearch.cpp:314
 msgid "You need a x:data capable client to register."
-msgstr ""
+msgstr "Necesita un cliente compatible x:data para registrarse."
 
 #: plugins/jabber/jabbersearch.cpp:315
 msgid "Enter nick you want to register."
@@ -4384,11 +4382,11 @@ msgstr "Fecha de nacimiento"
 
 #: plugins/jabber/jidsearch.cpp:181
 msgid "Organization Name"
-msgstr ""
+msgstr "Nombre organización"
 
 #: plugins/jabber/jidsearch.cpp:182
 msgid "Organization Unit"
-msgstr ""
+msgstr "Nombre unidad"
 
 #: plugins/jabber/jabberconfigbase.cpp:354 plugins/livejournal/livejournalcfgbase.cpp:208
 msgid "Username:"
@@ -4472,7 +4470,7 @@ msgstr "DiscoInfo"
 
 #: plugins/jabber/discoinfobase.cpp:297
 msgid "Namespaces:"
-msgstr ""
+msgstr "Espacio de Nombre:"
 
 #: plugins/jabber/discoinfobase.cpp:298
 msgid "Category:"
@@ -4680,7 +4678,7 @@ msgstr "ebrio"
 
 #: plugins/livejournal/livejournal.cpp:1388
 msgid "ditzy"
-msgstr ""
+msgstr "frívolo"
 
 #: plugins/livejournal/livejournal.cpp:1389
 msgid "mischievous"
@@ -4848,7 +4846,7 @@ msgstr "reclinado"
 
 #: plugins/livejournal/livejournal.cpp:1430
 msgid "exanimate"
-msgstr ""
+msgstr "exánime"
 
 #: plugins/livejournal/livejournal.cpp:1431
 msgid "embarrassed"
@@ -4928,7 +4926,7 @@ msgstr "eufórico"
 
 #: plugins/livejournal/livejournal.cpp:1450
 msgid "chipper"
-msgstr ""
+msgstr "alegre"
 
 #: plugins/livejournal/livejournal.cpp:1451
 msgid "rushed"
@@ -4944,7 +4942,7 @@ msgstr "escandalizado"
 
 #: plugins/livejournal/livejournal.cpp:1454
 msgid "geeky"
-msgstr ""
+msgstr "friky"
 
 #: plugins/livejournal/livejournal.cpp:1455
 msgid "cynical"
@@ -5193,10 +5191,10 @@ msgid ""
 "To log errors, set loglevel to 1, for warnings to 2 and for debug-messages to 4\n"
 "If you want to log more than one you may add the levels"
 msgstr ""
-"Este plugin proporciona el registro de sucesos\n"
+"Esta extensión le proporciona un registro de sucesos\n"
 "Puede establecer el nivel de depuración desde la linea de comandos con -d<nivel>\n"
 "Para errores, establezca nivel a 1, para avisos a 2 y para mensajes de depuración a 4\n"
-"Pueden añadirse más niveles si se desea un log mayor."
+"Pueden añadirse más niveles si se desea un registro mayor."
 
 #: plugins/logger/logger.cpp:80
 msgid "Set debug level"
@@ -5289,7 +5287,7 @@ msgstr "Navegar"
 
 #: plugins/navigate/navigate.cpp:215
 msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
-msgstr "Este plugin le permite establecer el navegador y el cliente de correo a usar"
+msgstr "Esta extensión le permite establecer el navegador y el cliente de correo a usar"
 
 #: plugins/navigate/navigate.cpp:264
 msgid "Send mail"
@@ -5365,8 +5363,8 @@ msgid ""
 "Plugin provides monitoring of net and messages\n"
 "For show monitor on start run sim -m"
 msgstr ""
-"Este plugin habilita la monitorización de la red y los mensajes\n"
-"Para mostrar el monitor al iniciar ejecute sim -m"
+"Esta extensión le permite monitorizar la red y los mensajes\n"
+"Para mostrar el monitor al iniciar ejecute: sim -m"
 
 #: plugins/netmonitor/netmonitor.cpp:93
 msgid "Show network monitor"
@@ -5378,7 +5376,7 @@ msgstr "Siempre visible"
 
 #: plugins/ontop/ontop.cpp:46
 msgid "Plugin provides main window and containers always on top"
-msgstr "Este plugin permite a la ventana principal y a los contenedores estar siempre encima"
+msgstr "Esta extensión permite a la ventana principal y a los contenedores estar siempre encima"
 
 #: plugins/ontop/ontop.cpp:81
 msgid "Always on top"
@@ -5398,7 +5396,7 @@ msgstr "OSD"
 
 #: plugins/osd/osd.cpp:69
 msgid "Plugin provides on screen notification about messages and contacts status"
-msgstr "Este plugin notifica por pantalla los mensajes y el estado de los contactos"
+msgstr "Esta extensión notifica por pantalla los mensajes y el estado de los contactos"
 
 #: plugins/osd/osd.cpp:147
 msgid "&OSD"
@@ -5590,7 +5588,7 @@ msgstr "Proxy"
 
 #: plugins/proxy/proxy.cpp:1153
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS/HTTP)"
-msgstr "Este plugin proporciona soporte proxy(SOCSK4, SOCKS5, HTTPS y HTTP)"
+msgstr "Esta extensión le proporciona soporte para proxy(SOCSK4, SOCKS5, HTTPS y HTTP)"
 
 #: plugins/proxy/proxycfg.cpp:43
 msgid "&Proxy"
@@ -5634,7 +5632,7 @@ msgstr "Control remoto"
 
 #: plugins/remote/remote.cpp:43
 msgid "Plugin provides remote control"
-msgstr "Este plugin proporciona control remoto"
+msgstr "Esta extensión le proporciona control remoto"
 
 #: plugins/remote/remotecfgbase.cpp:136
 msgid "Use &UNIX socket"
@@ -5646,7 +5644,7 @@ msgstr "Usar puerto &TCP"
 
 #: plugins/remote/remotecfgbase.cpp:140
 msgid "Enable IE context menu extension"
-msgstr ""
+msgstr "Habilitar el menú contextual en IE"
 
 #: plugins/replace/replace.cpp:33
 msgid "Replace text"
@@ -5654,7 +5652,7 @@ msgstr "Reemplazar texto"
 
 #: plugins/replace/replace.cpp:34
 msgid "Plugin provides text replacing in message edit window"
-msgstr "Este plugin le permite reemplazar el texto a enviar en la ventana de mensajes"
+msgstr "Esta extensión le permite reemplazar el texto a enviar en la ventana de mensajes"
 
 #: plugins/replace/replacecfg.cpp:31
 msgid "You type"
@@ -5702,7 +5700,7 @@ msgstr "Accesos rápidos"
 
 #: plugins/shortcuts/shortcuts.cpp:51
 msgid "Plugin provides keyboards shortcuts and global mouse functions"
-msgstr "Este plugin habilita el uso de accesos rapidos de teclado y ratón"
+msgstr "Esta extensión le permite usar accesos rapidos de teclado y ratón"
 
 #: plugins/shortcuts/mousecfgbase.cpp:67 plugins/shortcuts/mousecfgbase.cpp:109 plugins/shortcuts/shortcutcfgbase.cpp:96 plugins/shortcuts/shortcutcfgbase.cpp:139
 msgid "Command"
@@ -5823,7 +5821,7 @@ msgstr "Sonido"
 
 #: plugins/sound/sound.cpp:44
 msgid "Plugin provides sounds on any events"
-msgstr "Este plugin habilita la reproducción de sonidos tras producirse un evento"
+msgstr "Esta extensión habilita la reproducción de sonidos tras producirse un evento"
 
 #: plugins/sound/sound.cpp:115 plugins/sound/sound.cpp:123
 msgid "&Sound"
@@ -5867,7 +5865,7 @@ msgstr "No reproducir ningún sonido si la ventana tiene el &foco"
 
 #: plugins/spell/spell.cpp:62
 msgid "Plugin provides check spelling"
-msgstr "Este plugin proporciona corrección ortográfica"
+msgstr "Esta extensión proporciona corrección ortográfica"
 
 #: plugins/spell/spellcfg.cpp:46
 msgid "ASpell(aspell.exe)"
@@ -5891,7 +5889,7 @@ msgstr "Splash"
 
 #: plugins/splash/splash.cpp:37
 msgid "Plugin provides splash screen"
-msgstr "Este plugin activa una pantalla de bienvenida al arrancar la aplicación"
+msgstr "Esta extensión muestra una pantalla de bienvenida al arrancar la aplicación"
 
 #: plugins/styles/metal/metal.cpp:514
 msgid "Metal style"
@@ -5903,7 +5901,7 @@ msgstr "Estilos"
 
 #: plugins/styles/styles.cpp:52
 msgid "Plugin provides styles"
-msgstr "Este plugin permite cambiar el aspecto de sim"
+msgstr "Esta extensión le permite cambiar el aspecto de sim"
 
 #: plugins/styles/stylescfg.cpp:57
 msgid "Fonts and colors"
@@ -5938,12 +5936,12 @@ msgid ""
 "Plugin provides windows transparency\n"
 "This plugin works only on Windows 2000 or Windows XP"
 msgstr ""
-"Este plugin habilita el uso de transparencia en las ventanas\n"
-"Este plugin funciona solo bajo Windows 2000 o Windows XP"
+"Esta extensión le permite usar transparencias en las ventanas\n"
+"Este extensión sólo funciona en Windows 2000 o Windows XP"
 
 #: plugins/transparent/transparent.cpp:70
 msgid "Plugin provides windows transparency"
-msgstr "Este plugin habilita el uso de transparencia en las ventanas"
+msgstr "Esta extensión le permite usar transparencias en las ventanas"
 
 #: plugins/transparent/transparentcfgbase.cpp:102
 msgid "Transparency of main window:"
@@ -5959,7 +5957,7 @@ msgstr "Actualizar"
 
 #: plugins/update/update.cpp:41
 msgid "Plugin provides notifications about update SIM software"
-msgstr "Este plugin avisa de nuevas actualizaciones de SIM"
+msgstr "Esta extensión le avisa de futuras actualizaciones de SIM"
 
 #: plugins/update/update.cpp:127
 msgid "Show details"
@@ -5979,7 +5977,7 @@ msgstr "Tiempo"
 
 #: plugins/weather/weather.cpp:48
 msgid "Plugin provides show weather"
-msgstr "Este plugin muestra el estado atmosférico"
+msgstr "Esta extensión le permite mostrar la previsión meteorológica"
 
 #: plugins/weather/weather.cpp:111 plugins/weather/weather.cpp:318
 msgid "Not connected"
@@ -6483,7 +6481,7 @@ msgstr ""
 
 #: plugins/windock/windock.cpp:44
 msgid "Plugin provides dock main window to left or right side of screen"
-msgstr "Este plugin permite anclar la ventana principal al lado izquierdo o derecho de la pantalla"
+msgstr "Esta extensión le permite anclar la ventana principal al lado izquierdo o derecho de la pantalla"
 
 #: plugins/windock/windock.cpp:181
 msgid ""
@@ -6567,11 +6565,11 @@ msgstr "Palabra &clave"
 
 #: plugins/zodiak/zodiak.cpp:50
 msgid "Zodiak"
-msgstr "Horóscopo"
+msgstr "Zodiaco"
 
 #: plugins/zodiak/zodiak.cpp:51
 msgid "Plugin provides show zodiak pictures for date edit"
-msgstr ""
+msgstr "Esta extensión muestra el signo del zodiaco en la edición de fechas"
 
 #: plugins/zodiak/zodiak.cpp:158
 msgid "View horoscope"
