@@ -35,8 +35,9 @@ static DataDef	messageData[] =
     {
         { "Text", DATA_UTF, 1, 0 },
         { "Flags", DATA_ULONG, 1, 0 },
-        { "Background", DATA_ULONG, 1, 0 },
-        { "Foreground", DATA_ULONG, 1, 0 },
+// Use impossible RGB values as defaults, to signify there's no color set.        
+        { "Background", DATA_ULONG, 1, (const char*)0xFFFFFFFF },
+        { "Foreground", DATA_ULONG, 1, (const char*)0xFFFFFFFF },
         { "Time", DATA_ULONG, 1, 0 },
         { "Font", DATA_STRING, 1, 0 },
         { "", DATA_STRING, 1, 0 },			// Error
@@ -81,11 +82,8 @@ QString Message::getRichText()
 QString Message::presentation()
 {
     QString res = getRichText();
-    if (getBackground() != getForeground()){
-        QString font;
-        font.sprintf("<span style=\"color:#%06lX\">", getForeground() & 0xFFFFFF);
-        res = font + res + "</span>";
-    }
+    // Historically we added some formatting here.
+    // Nowadays, formatting is done by XSL.
     return res;
 }
 
