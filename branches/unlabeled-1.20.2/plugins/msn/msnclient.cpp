@@ -760,6 +760,7 @@ bool MSNClient::canSend(unsigned type, void *_data)
         return false;
     switch (type){
     case MessageGeneric:
+	case MessageFile:
         return true;
     }
     return false;
@@ -773,6 +774,7 @@ bool MSNClient::send(Message *msg, void *_data)
     MSNPacket *packet = NULL;
     switch (msg->type()){
     case MessageGeneric:
+	case MessageFile:
         if (data->sb == NULL){
             Contact *contact;
             findContact(data->EMail, contact);
