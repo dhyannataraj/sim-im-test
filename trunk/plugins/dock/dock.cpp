@@ -172,10 +172,10 @@ void DockPlugin::init()
 {
     if (dock)
         return;
-    QWidget *main = getMainWindow();
-    if (main == NULL)
+    m_main = getMainWindow();
+    if (m_main == NULL)
         return;
-    main->installEventFilter(this);
+    m_main->installEventFilter(this);
     dock = new DockWnd(this, "inactive", I18N_NOOP("Inactive"));
     connect(dock, SIGNAL(showPopup(QPoint)), this, SLOT(showPopup(QPoint)));
     connect(dock, SIGNAL(toggleWin()), this, SLOT(toggleWin()));
@@ -190,6 +190,7 @@ bool DockPlugin::eventFilter(QObject *o, QEvent *e)
 #if QT_VERSION < 300
             m_popup->releaseMouse();
 #endif
+            m_popup->removeEventFilter(this);
             m_popup = NULL;
         }
     }else{
@@ -365,6 +366,10 @@ void DockPlugin::timer()
         return;
     unsigned now;
     time((time_t*)&now);
+    if (m_main != getMainWindow()) {
+        m_main = getMainWindow();
+        m_main->installEventFilter(this);
+    }
     if (now > inactiveTime + getAutoHideInterval()){
         QWidget *main = getMainWindow();
         if (main){

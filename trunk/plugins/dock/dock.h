@@ -73,6 +73,7 @@ protected:
     DockData data;
     friend class DockCfg;
     friend class DockWnd;
+    QWidget* m_main;
 };
 
 #endif
