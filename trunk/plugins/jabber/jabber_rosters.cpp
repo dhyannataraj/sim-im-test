@@ -1351,7 +1351,7 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
             m_data = &m_richText;
         }
     }
-    }
+}
 
     void JabberClient::MessageRequest::element_end(const char *el)
     {
@@ -1368,10 +1368,12 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
             *m_data += ">";
             return;
         }
+
         if (!strcmp(el, "x"))
             //<<<<<<< jabber_rosters.cpp
             m_bRosters = false;
-        if (!strcmp(el, "url-data")){
+        
+		if (!strcmp(el, "url-data")){
             if (!m_target.empty()){
                 if (m_desc.empty())
                     m_desc = m_target;
@@ -1391,7 +1393,7 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
                     m_desc = "";
                     //>>>>>>> 1.29
                     //=======
-                        *m_data += "</";
+                    *m_data += "</";
                     *m_data += el;
                     *m_data += ">";
                     return;
@@ -1431,6 +1433,7 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
                 =======*/
                     m_data = NULL;
         }
+	}
 
         void JabberClient::MessageRequest::char_data(const char *str, int len)
         {
