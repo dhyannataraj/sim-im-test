@@ -1483,6 +1483,8 @@ const unsigned CONTACT_ITALIC		= 0x0002;
 const unsigned CONTACT_STRIKEOUT	= 0x0004;
 
 const unsigned PROTOCOL_INFO			= 0x00010000;
+const unsigned PROTOCOL_SEARCH			= 0x00020000;
+const unsigned PROTOCOL_AR_OFFLINE		= 0x00040000;
 const unsigned PROTOCOL_INVISIBLE		= 0x00080000;
 const unsigned PROTOCOL_AR				= 0x00100000;
 const unsigned PROTOCOL_AR_USER			= 0x00200000;

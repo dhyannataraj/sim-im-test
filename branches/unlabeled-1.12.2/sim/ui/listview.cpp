@@ -254,8 +254,11 @@ void ListView::adjustColumn()
         for (QListViewItem *item = firstChild(); item; item = item->nextSibling()){
             QFontMetrics fm(font());
             int ww = fm.width(item->text(m_expandingColumn));
+			const QPixmap *pict = item->pixmap(m_expandingColumn);
+			if (pict)
+				ww += pict->width() + 2;
             if (ww > minW)
-                minW = ww;
+                minW = ww + 8;
         }
         if (w < minW)
             w = minW;
