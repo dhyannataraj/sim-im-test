@@ -277,7 +277,7 @@ ICQMessage *History::getMessage(unsigned long offs)
         return NULL;
     f.seekg(offs, ios::beg);
     string type;
-    getline(f, type);
+    if (!getline(f, type)) return NULL;
     ICQMessage *res = loadMessage(f, type, offs);
     f.close();
     return res;
@@ -418,7 +418,7 @@ bool History::iterator::operator ++()
             msgs.pop();
             f.clear();
             f.seekg(msgId, ios::beg);
-            getline(f, type);
+            if (!getline(f, type)) return false;
             msg = h.loadMessage(f, type, msgId);
             if (msg == NULL) continue;
             return true;
@@ -434,17 +434,12 @@ void History::iterator::loadBlock()
 {
     if (start_block == 0) return;
     unsigned long start = start_block;
-    log(L_DEBUG, "Load block: %u", start_block);
     for (;;){
         f.clear();
         if (start > BLOCK_SIZE){
             start -= BLOCK_SIZE;
             f.seekg(start, ios::beg);
-            int pos = f.tellg();
-            log(L_DEBUG, ">> getline %u", pos);
-            getline(f, type);
-            log(L_DEBUG, "<< %s", type.c_str());
-            if ((f.tellg() > start_block) || f.eof())
+            if (!getline(f, type) || (f.tellg() > start_block) || f.eof())
                 continue;
         }else{
             start = 0;
@@ -453,10 +448,7 @@ void History::iterator::loadBlock()
         string line;
         for (;;){
             int pos = f.tellg();
-            log(L_DEBUG, "> getline %u", pos);
-            getline(f, line);
-            log(L_DEBUG, "< %s", line.c_str());
-            if ((f.tellg() > start_block) || f.eof())
+            if (!getline(f, line) || (f.tellg() > start_block) || f.eof())
                 break;
             if (*line.c_str() != '[') continue;
             type = line.substr(1, line.length()-1);
@@ -484,7 +476,7 @@ void History::iterator::loadBlock()
 #endif
         f.clear();
         f.seekg(msgId);
-        getline(f, type);
+        if (!getline(f, type)) return;
         for (;;){
             msgId = (unsigned long)f.tellg() - type.length();
 #ifdef WIN32
@@ -498,10 +490,7 @@ void History::iterator::loadBlock()
                 for (;;){
                     string line;
                     if (f.eof()) break;
-                    int pos = f.tellg();
-                    log(L_DEBUG, ">>> %u", pos);
-                    getline(f, line);
-                    log(L_DEBUG, "<<< %s");
+                    if (!getline(f, line)) break;
                     if (*line.c_str() == '[') break;
                     char *p = strchr(line.c_str(), '=');
                     if (p == NULL) continue;
@@ -517,14 +506,13 @@ void History::iterator::loadBlock()
                 string line;
                 f.seekg(msgId);
                 if (!f.eof())
-                    getline(f, line);
+                    if (!getline(f, line)) break;
             }
             if (grepCondition){
                 bool bMatch = false;
                 for (;;){
                     string line;
-                    if (f.eof()) break;
-                    getline(f, line);
+                    if (f.eof() || !getline(f, line)) break;
                     if (*line.c_str() == '[') break;
                     char *p = strchr(line.c_str(), '=');
                     if (p == NULL) continue;
@@ -540,7 +528,7 @@ void History::iterator::loadBlock()
                 string line;
                 f.seekg(msgId);
                 if (!f.eof())
-                    getline(f, line);
+                    if (!getline(f, line)) break;
             }
             msg = h.loadMessage(f, type, msgId);
             if (msg && grepFilter && !h.matchMessage(msg, filter)){
@@ -557,11 +545,10 @@ void History::iterator::loadBlock()
                 msg = NULL;
             }else{
                 f.clear();
-                getline(f, type);
+                if (!getline(f, type)) break;
             }
         }
         start_block = start;
-        log(L_DEBUG, "Load OK");
         return;
     }
 }

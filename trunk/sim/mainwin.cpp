@@ -352,33 +352,38 @@ static bool bInMoving = false;
 static bool bFullScreen = false;
 static bool bOnTop = false;
 
-void getBarRect(UINT state, QRect &rc)
+void getBarRect(UINT state, QRect &rc, RECT *rcWnd = NULL)
 {
     RECT rcWork;
     SystemParametersInfoA(SPI_GETWORKAREA, 0, &rcWork, 0);
     rc.setCoords(0, rcWork.top, GetSystemMetrics(SM_CXSCREEN), rcWork.bottom);
     appBarMessage(ABM_QUERYPOS, state, FALSE, &rc);
-    RECT rcWnd;
-    GetWindowRect(pMain->winId(), &rcWnd);
+	if (rcWnd == NULL){
+		RECT rcWnd1;
+		GetWindowRect(pMain->winId(), &rcWnd1);
+		rcWnd = &rcWnd1;
+	}
     switch (state){
     case ABE_LEFT:
-        rc.setRight(rc.left() + rcWnd.right - rcWnd.left);
+        rc.setRight(rc.left() + rcWnd->right - rcWnd->left);
         break;
     case ABE_RIGHT:
-        rc.setLeft(rc.right() - rcWnd.right + rcWnd.left);
+        rc.setLeft(rc.right() - rcWnd->right + rcWnd->left);
         break;
     }
 }
 
 const int SLIDE_INTERVAL = 400;
 
-unsigned short getEdge()
+unsigned short getEdge(RECT *rcWnd = NULL)
 {
-    RECT rc, rcWnd;
-    GetWindowRect(pMain->winId(), &rcWnd);
-    SystemParametersInfoA(SPI_GETWORKAREA, 0, &rc, 0);
-    if (rcWnd.left <= rc.left) return ABE_LEFT;
-    if (rcWnd.right >= rc.right) return ABE_RIGHT;
+    RECT rc;
+	if (rcWnd == NULL){
+		GetWindowRect(pMain->winId(), &rc);
+		rcWnd = &rc;
+	}
+    if (rcWnd->left <= 0) return ABE_LEFT;
+    if (rcWnd->right >= GetSystemMetrics(SM_CXSCREEN)) return ABE_RIGHT;
     return ABE_FLOAT;
 }
 
@@ -390,7 +395,10 @@ void slideWindow (const QRect &rcEnd)
     SystemParametersInfoA(SPI_GETDRAGFULLWINDOWS, 0, &fFullDragOn, 0);
 
     // Get the current window position
-    QRect rcStart = pMain->rect();
+	RECT rcWnd;
+	GetWindowRect(pMain->winId(), &rcWnd);
+    QRect rcStart;
+	rcStart.setCoords(rcWnd.left, rcWnd.top, rcWnd.right, rcWnd.bottom);
 
     if (fFullDragOn && (rcStart != rcEnd)) {
 
@@ -410,16 +418,20 @@ void slideWindow (const QRect &rcEnd)
                         (rcEnd.width() - rcEnd.width()) * delta / SLIDE_INTERVAL);
             rc.setHeight(rcStart.height() +
                          (rcEnd.height() - rcEnd.height()) * delta / SLIDE_INTERVAL);
-            pMain->move(rc.left(), rc.top());
-            pMain->resize(rc.width(), rc.bottom());
+            SetWindowPos(pMain->winId(), NULL, 
+				rc.left(), rc.top(), rc.width(), rc.height(), 
+				SWP_NOZORDER | SWP_NOACTIVATE | SWP_DRAWFRAME);
+			UpdateWindow(pMain->winId());
         }
     }
-    pMain->move(rcEnd.left(), rcEnd.top());
-    pMain->resize(rcEnd.width(), rcEnd.bottom());
+    SetWindowPos(pMain->winId(), NULL, 
+		rcEnd.left(), rcEnd.top(), rcEnd.width(), rcEnd.height(), 
+		SWP_NOZORDER | SWP_NOACTIVATE | SWP_DRAWFRAME);
+	UpdateWindow(pMain->winId());
 }
 
 
-void setBarState()
+void setBarState(bool bAnimate = false)
 {
     if (pMain->BarState == ABE_FLOAT){
         appBarMessage(ABM_SETPOS, pMain->BarState, FALSE);
@@ -427,7 +439,7 @@ void setBarState()
         QRect rc;
         getBarRect(pMain->BarState, rc);
         appBarMessage(ABM_SETPOS, pMain->BarState, FALSE, &rc);
-        slideWindow(rc);
+        if (bAnimate) slideWindow(rc);
     }
     if ((bOnTop != pMain->OnTop) || bFullScreen){
         bOnTop = pMain->OnTop;
@@ -443,24 +455,53 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	unsigned type;
+	RECT  *prc;
+	QRect rc;
+
     if (msg == WM_APPBAR){
         switch (wParam){
         case ABN_FULLSCREENAPP:
             bFullScreen = (lParam != 0);
             setBarState();
             break;
+		case ABN_POSCHANGED:
+			if (pMain->BarState != ABE_FLOAT)
+				setBarState();
+			break;
         }
         return 0;
     }
     switch (msg){
     case WM_ENTERSIZEMOVE:
         bInMoving = true;
+        pMain->mWidth = pMain->size().width();
+		if (pMain->BarState != ABE_FLOAT) break;
+        pMain->mLeft = pMain->pos().x();
+        pMain->mTop = pMain->pos().y();
+        pMain->mHeight = pMain->size().height();
         break;
     case WM_EXITSIZEMOVE:
         bInMoving = false;
         pMain->BarState = getEdge();
-        setBarState();
+        setBarState(true);
         break;
+	case WM_MOVING:
+	case WM_SIZING:
+		if (!bInMoving) break;
+		prc = (RECT*)lParam;
+		type = getEdge(prc);
+		if (type == ABE_FLOAT){
+			if (pMain->BarState != ABE_FLOAT)
+				prc->bottom = prc->top + pMain->mHeight;
+		}else{
+			getBarRect(type, rc, prc);
+			prc->left = rc.left();
+			prc->top = rc.top();
+			prc->right = rc.right();
+			prc->bottom = rc.bottom();
+		}
+		return 1;
     }
     return WndProc(hWnd, msg, wParam, lParam);
 }
@@ -1047,6 +1088,24 @@ bool MainWindow::init()
     xosd->init();
     transparentChanged();
     setShow(Show);
+#ifdef WIN32
+	if (BarState != ABE_FLOAT){
+		QRect rc;
+		RECT rcWnd;
+		rcWnd.left = mLeft;
+		rcWnd.top = mTop;
+		rcWnd.right = mLeft + mWidth;
+		rcWnd.bottom = mTop + mHeight;
+		QRect rcClient = geometry();
+		QRect rcFrame = frameGeometry();
+		rcWnd.right += rcFrame.width() - rcClient.width();
+		getBarRect(BarState, rc, &rcWnd);
+		SetWindowPos(winId(), NULL,
+			rc.left(), rc.top(), rc.width(), rc.height(),
+			SWP_NOZORDER | SWP_NOACTIVATE | SWP_DRAWFRAME);
+		setBarState();
+	}
+#endif
     setOnTop();
 
     setShowOffline(ShowOffline);
