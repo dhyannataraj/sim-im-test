@@ -2346,10 +2346,9 @@ void CorePlugin::changeProfile()
 {
     string saveProfile = getProfile();
     destroy();
-	log(L_DEBUG, "Destroy OK");
+    getContacts()->clearClients();
     Event eUnload(EventPluginsUnload, static_cast<Plugin*>(this));
     eUnload.process();
-    getContacts()->clearClients();
     getContacts()->clear();
     Event eLoad(EventPluginsLoad, static_cast<Plugin*>(this));
     eLoad.process();
