@@ -104,7 +104,7 @@ HomeDirPlugin::HomeDirPlugin(unsigned base)
     directory.replace(QRegExp("/"),"\\");
     m_homeDir = directory.latin1();
 #else
-    m_homeDir = dir.path()+"/";
+    m_homeDir = QString(dir.path()+"/").latin1();
 #endif
     } else {
         m_homeDir = defaultPath();
