@@ -16,7 +16,7 @@ Distribution:	Red Hat Linux %{rh_release}
 Release:	%{release}.fdr%(dist_release="`echo "%{fdr_release} * 10" | bc 2>/dev/null`" ; echo "$dist_release")
 Distribution:	Fedora Core %{fdr_release}
 %endif
-Vendor: 	Vladimir Shutoff <shutoff@mail.ru>
+Vendor: 	Vladimir Shutoff <vovan@shutoff.ru>
 Packager:	Robert Scheck <sim@robert-scheck.de>
 Summary:  	SIM - Multiprotocol Instant Messenger
 Summary(de):	SIM - Multiprotokoll Instant Messenger
@@ -102,7 +102,7 @@ rm -rf $RPM_BUILD_DIR/%{name}-%{version}
 %{_datadir}/services/
 
 %changelog
-* Sat Mar 27 2004 - Robert Scheck <sim@robert-scheck.de> - 0.9.3-1
+* Wed Mar 31 2004 - Robert Scheck <sim@robert-scheck.de> - 0.9.3-1
 - Upgrade to 0.9.3
 - Made the KDE support conditional
 - Merged Red Hat Linux spec file into Fedora Core spec file
