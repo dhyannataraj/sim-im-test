@@ -119,6 +119,14 @@ void JabberBrowser::go(const QString &url)
     cmd->param	= this;
     Event eNext(EventCommandDisabled, cmd);
     eNext.process();
+    cmd->id		= static_cast<JabberPlugin*>(m_client->protocol()->plugin())->CmdSearch;
+    cmd->flags	= COMMAND_DISABLED;
+    cmd->param	= this;
+    eNext.process();
+    cmd->id		= static_cast<JabberPlugin*>(m_client->protocol()->plugin())->CmdRegister;
+    cmd->flags	= COMMAND_DISABLED;
+    cmd->param	= this;
+    eNext.process();
     m_id1 = m_client->discoItems(url.utf8());
     m_id2 = m_client->discoInfo(url.utf8());
     cmd->id			 = static_cast<JabberPlugin*>(m_client->protocol()->plugin())->CmdUrl;
@@ -287,6 +295,12 @@ void JabberBrowser::stop(const QString &err)
     cmd->param	= this;
     Event eNext(EventCommandDisabled, cmd);
     eNext.process();
+    cmd->id		= static_cast<JabberPlugin*>(m_client->protocol()->plugin())->CmdSearch;
+    cmd->flags	= haveFeature("jabber:iq:search") ? 0 : COMMAND_DISABLED;
+    eNext.process();
+    cmd->id		= static_cast<JabberPlugin*>(m_client->protocol()->plugin())->CmdRegister;
+    cmd->flags	= haveFeature("jabber:iq:register") ? 0 : COMMAND_DISABLED;
+    eNext.process();
     if (!err.isEmpty()){
         Command cmd;
         cmd->id		= static_cast<JabberPlugin*>(m_client->protocol()->plugin())->CmdUrl;
@@ -327,6 +341,17 @@ void JabberBrowser::addHistory(const QString &str)
         res += quoteChars(*it, ";");
     }
     m_client->setBrowserHistory(res);
+}
+
+bool JabberBrowser::haveFeature(const char *feature)
+{
+	QString features = m_features;
+	while (!features.isEmpty()){
+		QString f = getToken(features, '\n');
+		if (f == feature)
+			return true;
+	}
+	return false;
 }
 
 #ifndef WIN32

@@ -1,5 +1,5 @@
 /* XPM */
-static char *yahoo[]={
+static const char *yahoo_dnd[]={
 "16 16 30 1",
 "g c #000000",
 "n c #000080",

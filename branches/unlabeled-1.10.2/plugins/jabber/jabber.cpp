@@ -43,6 +43,13 @@
 #include "xpm/aim_online.xpm"
 #include "xpm/aim_offline.xpm"
 #include "xpm/aim_away.xpm"
+#include "xpm/yahoo_online.xpm"
+#include "xpm/yahoo_offline.xpm"
+#include "xpm/yahoo_away.xpm"
+#include "xpm/yahoo_na.xpm"
+#include "xpm/yahoo_dnd.xpm"
+#include "xpm/yahoo_ffc.xpm"
+#include "xpm/register.xpm"
 
 Plugin *createJabberPlugin(unsigned base, bool, const char*)
 {
@@ -246,6 +253,8 @@ JabberPlugin::JabberPlugin(unsigned base)
     CmdUrl			 = registerType();
     EventDiscoItem	 = registerType();
     CmdInfo			 = registerType();
+    CmdRegister		 = registerType();
+    CmdSearch		 = registerType();
 
     IconDef icon;
     icon.name = "Jabber_online";
@@ -343,6 +352,30 @@ JabberPlugin::JabberPlugin(unsigned base)
     icon.xpm = aim_away;
     eIcon.process();
 
+    icon.name = "Yahoo_offline";
+    icon.xpm = yahoo_offline;
+    eIcon.process();
+
+    icon.name = "Yahoo_away";
+    icon.xpm = yahoo_away;
+    eIcon.process();
+
+    icon.name = "Yahoo_na";
+    icon.xpm = yahoo_na;
+    eIcon.process();
+
+    icon.name = "Yahoo_dnd";
+    icon.xpm = yahoo_dnd;
+    eIcon.process();
+
+    icon.name = "Yahoo_ffc";
+    icon.xpm = yahoo_ffc;
+    eIcon.process();
+
+    icon.name = "reg";
+    icon.xpm = reg;
+    eIcon.process();
+
     Event eMenuSearch(EventMenuCreate, (void*)MenuSearchResult);
     eMenuSearch.process();
     Event eMenuGroups(EventMenuCreate, (void*)MenuGroups);
@@ -407,7 +440,7 @@ JabberPlugin::JabberPlugin(unsigned base)
     eCmd.process();
 
     cmd->id			 = CmdForward;
-    cmd->text		 = I18N_NOOP("&Forward");
+    cmd->text		 = I18N_NOOP("&Next");
     cmd->icon		 = "1rightarrow";
     cmd->bar_grp	 = 0x1001;
     eCmd.process();
@@ -419,10 +452,24 @@ JabberPlugin::JabberPlugin(unsigned base)
     cmd->flags		 = BTN_COMBO_CHECK;
     eCmd.process();
 
+    cmd->id			 = CmdSearch;
+    cmd->text		 = I18N_NOOP("&Search");
+    cmd->icon		 = "find";
+    cmd->bar_grp	 = 0x3000;
+    cmd->flags		 = COMMAND_CHECK_STATE;
+    eCmd.process();
+
+    cmd->id			 = CmdRegister;
+    cmd->text		 = I18N_NOOP("&Register");
+    cmd->icon		 = "reg";
+    cmd->bar_grp	 = 0x3001;
+    cmd->flags		 = COMMAND_CHECK_STATE;
+    eCmd.process();
+
     cmd->id			 = CmdInfo;
     cmd->text		 = I18N_NOOP("Info");
     cmd->icon		 = "info";
-    cmd->bar_grp	 = 0x3000;
+    cmd->bar_grp	 = 0x3010;
     cmd->flags		 = COMMAND_CHECK_STATE;
     eCmd.process();
 

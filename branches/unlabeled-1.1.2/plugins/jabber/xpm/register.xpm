@@ -1,5 +1,5 @@
 /* XPM */
-static const char *register[]={
+static const char *reg[]={
 "16 16 4 1",
 "b c #000000",
 "# c #808080",

@@ -50,6 +50,8 @@ public:
     unsigned CmdForward;
     unsigned CmdUrl;
     unsigned CmdInfo;
+    unsigned CmdSearch;
+    unsigned CmdRegister;
     unsigned MenuSearchResult;
     unsigned MenuGroups;
     unsigned BarBrowser;

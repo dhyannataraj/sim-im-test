@@ -49,6 +49,7 @@ protected:
     void stop(const QString &err);
     void go(const QString &url);
     void addHistory(const QString &str);
+	bool haveFeature(const char*);
     string		  m_id1;
     string		  m_id2;
     JabberClient *m_client;
