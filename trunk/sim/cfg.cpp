@@ -19,6 +19,8 @@
 #include "cfg.h"
 #include "log.h"
 
+#include <stdio.h>
+
 void init(void *_obj, const cfgParam *params)
 {
     char *obj = (char*)_obj;

@@ -571,12 +571,7 @@ GTAGS:
 distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH
 
-#>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-#>+ 4
-KDE_DIST=sim 
-
-DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
-
+DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
 top_distdir = ..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
@@ -897,7 +892,7 @@ sim.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/cfg.cpp $(srcdir)/keys.cpp $(sr
 	rm -f sim.all_cpp.final sim.all_cpp.files
 
 #>+ 11
-sim.all_cc.cc: $(srcdir)/Makefile.in $(srcdir)/sim_meta_unload.cc
+sim.all_cc.cc: $(srcdir)/Makefile.in sim_meta_unload.cc
 	@echo 'creating sim.all_cc.cc ...'; \
 	rm -f sim.all_cc.files sim.all_cc.final; \
 	echo "#define KDE_USE_FINAL 1" >> sim.all_cc.final; \

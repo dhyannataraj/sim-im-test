@@ -252,9 +252,11 @@ AC_DEFUN(AC_PATH_QT_MOC_UIC,
       qt_bindirs="$ac_qt_bindir $qt_bindirs"
    fi
 
-   KDE_FIND_PATH(moc, MOC, [$qt_bindirs], [KDE_MOC_ERROR_MESSAGE])
+   KDE_FIND_PATH(moc, MOC, [$qt_bindirs],[
+    KDE_FIND_PATH(moc2, MOC, [$qt_bindirs],[KDE_MOC_ERROR_MESSAGE])])
    if test -z "$UIC_NOT_NEEDED"; then
-     KDE_FIND_PATH(uic, UIC, [$qt_bindirs], [UIC=""])
+     KDE_FIND_PATH(uic, UIC, [$qt_bindirs],[ 
+      KDE_FIND_PATH(uic2,UIC, [$qt_bindirs], [UIC=""])])
      if test -z "$UIC" ; then
        KDE_UIC_ERROR_MESSAGE
        exit 1
@@ -1289,6 +1291,7 @@ for dir in $kde_qt_dirs; do
    qt_libdirs="$qt_libdirs $dir/lib $dir"
 done
 qt_libdirs="$QTLIB $qt_libdirs /usr/X11R6/lib /usr/lib /usr/local/qt/lib $x_libraries"
+echo "??? $ac_qt_libraries"
 if test ! "$ac_qt_libraries" = "NO"; then
   qt_libdir=$ac_qt_libraries
 else
@@ -1298,15 +1301,20 @@ else
   for dir in $qt_libdirs; do
     try="ls -1 $dir/${LIBQT_GLOB}"
     if test -n "`$try 2> /dev/null`"; then 
+	echo "Try OK"
 	qt_libdir=$dir; break; 
     else 
+      lqt="-lqt${kde_qtver}"
       try="ls -1 $dir/libqt${kde_qtver}.*"
       if test "x$kde_use_qt_mt" = "xyes"; then 
 	try="ls -1 $dir/libqt${kde_qtver}-mt.*"
+	lqt="-lqt${kde_qrver}-mt"
       fi
       if test -n "`$try 2> /dev/null`"; then
 	qtlib="qt${kde_qtver}"
-	qt_libdir=$dir; break;
+        LIBQT="${lqt}"
+	qt_libdir=$dir; 
+        break;
       else echo "tried $dir" >&AC_FD_CC ;
       fi
     fi

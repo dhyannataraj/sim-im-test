@@ -1,4 +1,7 @@
 Version 0.8
+Change message window button to tolbar
+Change configure for FreeBSD
+Change font saving
 Use KExtendedSocket on KDE
 Add HTTPS proxy support
 Make abstract interface for socket
