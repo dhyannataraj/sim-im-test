@@ -10,13 +10,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
 "POT-Creation-Date: 2002-12-09 12:55+0300\n"
-"PO-Revision-Date: 2002-11-20 17:26+0200\n"
+"PO-Revision-Date: 2002-12-11 13:04+0200\n"
 "Last-Translator: ismail donmez <voidcartman@yahoo.com>\n"
 "Language-Team: Türkçe <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0\n"
+"X-Generator: KBabel 1.1\n"
 
 #: client.cpp:57 client.cpp:58 libicq/country.cpp:7
 msgid "Arabic"
@@ -1692,6 +1692,8 @@ msgid ""
 "There is already an auto hidden window on this edge.\n"
 "Only one auto hidden window is allowed on each edge."
 msgstr ""
+"Şu anda bu köşede otomatik-gizlenen bir pencere zaten var.\n"
+"Her köşede sadece bir otomatik-gizlenen pencere olabilir"
 
 #: mainwin.cpp:568
 msgid "Show &offline"
@@ -1743,7 +1745,7 @@ msgstr "Telefon Defteri"
 
 #: mainwin.cpp:830
 msgid "AutoHide"
-msgstr ""
+msgstr "OtomatikGizle"
 
 #: mainwin.cpp:1242
 msgid "%1 from %2 received"
@@ -1751,15 +1753,15 @@ msgstr "%2 den %1 alındı!"
 
 #: mainwin.cpp:1279 ui/logindlg.cpp:140
 msgid "Can't connect to proxy server"
-msgstr "Proxy serverına bağlanılamadı"
+msgstr "Vekil sunucuya bağlanılamadı"
 
 #: mainwin.cpp:1286 ui/logindlg.cpp:147
 msgid "Proxy server require authorization"
-msgstr "Proxy serverı şifre istiyor"
+msgstr "Vekil sunucu şifre istiyor"
 
 #: mainwin.cpp:1287 ui/logindlg.cpp:148
 msgid "Invalid password for proxy"
-msgstr "Proxy için geçersiz şifre"
+msgstr "Vekil sunucu için geçersiz şifre"
 
 #: mainwin.cpp:1302
 msgid "Your UIN used from another location"
@@ -2205,7 +2207,7 @@ msgstr "Kontak İsteği"
 msgid ""
 "_n: File\n"
 "%n files"
-msgstr "Dosya"
+msgstr "%n Dosya"
 
 #: msgview.cpp:209
 msgid "bytes"
@@ -2241,7 +2243,7 @@ msgstr "&Sonraki sayfa"
 
 #: msgview.cpp:833
 msgid "&Sort order"
-msgstr ""
+msgstr "&Sıralama biçimi"
 
 #: passwddlg.cpp:34 ui/logindlgbase.cpp:112
 msgid "Password:"
@@ -2490,13 +2492,12 @@ msgid "Directory for incoming files"
 msgstr "Gelen dosyaların kaydedileceği yer"
 
 #: ui/editfile.cpp:123
-#, fuzzy
 msgid "*.wav|Sounds"
-msgstr "*.wav(Sesler)"
+msgstr "*.wav|Sesler"
 
 #: ui/editfile.cpp:125
 msgid "Sounds(*.wav)"
-msgstr ""
+msgstr "Sesler(*.wav)"
 
 #: ui/enable.cpp:123 ui/setupdlgbase.cpp:93 ui/toolsetupbase.cpp:135
 msgid "&Apply"
@@ -2527,14 +2528,12 @@ msgid "[fail]"
 msgstr "[işlem başarısız]"
 
 #: ui/filetransfer.cpp:201
-#, fuzzy
 msgid "Receive file %1 of %2 files from %3"
-msgstr "%1 den dosya"
+msgstr "%3'den %2 dosyanın %1'i alınıyor"
 
 #: ui/filetransfer.cpp:203
-#, fuzzy
 msgid "Send file %1 of %2 files to %3"
-msgstr "%1 e  dosya gönder"
+msgstr "%3'e %2 dosyanın %1 i gönderiliyor"
 
 #: ui/filetransfer.cpp:245 ui/filetransfer.cpp:264
 msgid "&New"
@@ -2578,11 +2577,11 @@ msgstr "Varsayılan"
 
 #: ui/miscsetup.cpp:93
 msgid "Addressbook synchronization"
-msgstr ""
+msgstr "Adres defteri senkronizasyonu"
 
 #: ui/miscsetup.cpp:93
 msgid "Success."
-msgstr ""
+msgstr "Başarılı"
 
 #: ui/moreinfo.cpp:73
 msgid "January"
@@ -2634,7 +2633,7 @@ msgstr "Aralık"
 
 #: ui/network.cpp:47 ui/proxydlg.cpp:41
 msgid "No proxy"
-msgstr "Proxy yok"
+msgstr "Vekil sunucu yok"
 
 #: ui/network.cpp:48 ui/proxydlg.cpp:42
 msgid "SOCKS4"
@@ -2733,9 +2732,8 @@ msgid "Key shortcuts"
 msgstr "Kısa yollar"
 
 #: ui/setupdlg.cpp:130 ui/userinfo.cpp:91
-#, fuzzy
 msgid "Accept"
-msgstr "&Kabul"
+msgstr "Kabul"
 
 #: ui/setupdlg.cpp:131
 msgid "SMS"
@@ -2759,45 +2757,43 @@ msgstr "Genel"
 
 #: ui/themesetup.cpp:53
 msgid "System"
-msgstr ""
+msgstr "Sistem"
 
 #: ui/themesetup.cpp:129
 msgid "%1|Graphics"
-msgstr ""
+msgstr "%1|Grafikler"
 
 #: ui/themesetup.cpp:131
 msgid "Graphics(%1)"
-msgstr ""
+msgstr "Grafikler(%1)"
 
 #: ui/themesetup.cpp:136
-#, fuzzy
 msgid "Contact - left"
-msgstr "Kontak Listesi"
+msgstr "Kontaklar solda"
 
 #: ui/themesetup.cpp:137
-#, fuzzy
 msgid "Contact - scale"
-msgstr "Kontak listesi gönderildi"
+msgstr "Kontaklar ortala"
 
 #: ui/themesetup.cpp:138
 msgid "Window - left top"
-msgstr ""
+msgstr "Pencere sol üstte"
 
 #: ui/themesetup.cpp:139
 msgid "Window - left bottom"
-msgstr ""
+msgstr "Pencere sol altta"
 
 #: ui/themesetup.cpp:140
 msgid "Window - left center"
-msgstr ""
+msgstr "Pencere sol merkezde"
 
 #: ui/themesetup.cpp:141
 msgid "Window - scale"
-msgstr ""
+msgstr "Pencere ortala"
 
 #: ui/themesetup.cpp:203
 msgid "Need restart SIM for change language"
-msgstr ""
+msgstr "Dil değişikliği nedeniyle SIM tekrar başlatılmalı"
 
 #: ui/themesetup.cpp:213
 msgid "Default icons"
@@ -2968,9 +2964,8 @@ msgstr ""
 "&MyUin; - kendi uin'iniz"
 
 #: ui/smssetupbase.cpp:99
-#, fuzzy
 msgid "&Signature"
-msgstr "SMS imzası"
+msgstr "İ&mza"
 
 #: ui/forwardsetupbase.cpp:89 ui/smssetupbase.cpp:100
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
@@ -2995,39 +2990,39 @@ msgstr "Varolan UIN'i Kullan"
 
 #: ui/logindlgbase.cpp:114
 msgid "&Proxy settings"
-msgstr "&Proxy ayarları"
+msgstr "&Vekil sunucu ayarları"
 
 #: ui/proxydlgbase.cpp:170
 msgid "Proxy settings"
-msgstr "Proxy ayarları"
+msgstr "Vekil sunucu ayarları"
 
 #: ui/proxydlgbase.cpp:173
 msgid "Proxy"
-msgstr "Proxy-Hostu"
+msgstr "Vekil sunucu adresi"
 
 #: ui/networkbase.cpp:230 ui/proxydlgbase.cpp:174
 msgid "Use proxy"
-msgstr "Proxy kullan"
+msgstr "Vekil sunucu kullan"
 
 #: ui/networkbase.cpp:231 ui/proxydlgbase.cpp:175
 msgid "Proxy host:"
-msgstr "Proxy-Hostu:"
+msgstr "Vekil sunucu adresi:"
 
 #: ui/networkbase.cpp:235 ui/proxydlgbase.cpp:176
 msgid "Proxy password:"
-msgstr "Proxy-Şifresi:"
+msgstr "Vekil sunucu şifresi:"
 
 #: ui/networkbase.cpp:234 ui/proxydlgbase.cpp:177
 msgid "Proxy user:"
-msgstr "Proxy-Kullanıcı adı:"
+msgstr "Vekil sunucu-kullanıcı adı:"
 
 #: ui/proxydlgbase.cpp:178
 msgid "User proxy authorization"
-msgstr "Proxy kullanıcı şifresi"
+msgstr "Vekil sunucu kullanıcı şifresi"
 
 #: ui/networkbase.cpp:232 ui/proxydlgbase.cpp:179
 msgid "Proxy port:"
-msgstr "Proxy-Portu:"
+msgstr "Vekil sunucu-portu:"
 
 #: ui/proxydlgbase.cpp:180
 msgid "Server"
@@ -3035,7 +3030,7 @@ msgstr "Server"
 
 #: ui/networkbase.cpp:228 ui/proxydlgbase.cpp:181
 msgid "Host:"
-msgstr "Host:"
+msgstr "Sunucu:"
 
 #: ui/networkbase.cpp:227 ui/proxydlgbase.cpp:182
 msgid "Port:"
@@ -3060,9 +3055,8 @@ msgid "Send messages on \"Enter\""
 msgstr "\"Enter\" a basınca mesajı yolla"
 
 #: ui/keysetupbase.cpp:152
-#, fuzzy
 msgid "&Key"
-msgstr "Düğmeler"
+msgstr "&Düğme"
 
 #: ui/aboutdlgbase.cpp:149
 msgid "About SIM"
@@ -3089,19 +3083,16 @@ msgid "ICQ server:"
 msgstr "ICQ-Serverı:"
 
 #: ui/networkbase.cpp:229
-#, fuzzy
 msgid "&Server"
-msgstr "Server"
+msgstr "&Sunucu"
 
 #: ui/networkbase.cpp:233
-#, fuzzy
 msgid "Use proxy authorization"
-msgstr "Proxy kullanıcı şifresi"
+msgstr "Vekil sunucu şifresi kullan"
 
 #: ui/networkbase.cpp:236
-#, fuzzy
 msgid "&Proxy"
-msgstr "Proxy-Hostu"
+msgstr "&Vekil Sunucu"
 
 #: ui/networkbase.cpp:237
 msgid "Use the following TCP listen ports:"
@@ -3116,9 +3107,8 @@ msgid "To:"
 msgstr "Alıcı:"
 
 #: ui/networkbase.cpp:240
-#, fuzzy
 msgid "P&orts"
-msgstr "Port:"
+msgstr "P&ortlar:"
 
 #: ui/filetransferbase.cpp:130
 msgid "File transfer"
@@ -3161,9 +3151,8 @@ msgid "Run external program"
 msgstr "Dış program çalıştır"
 
 #: ui/acceptbase.cpp:176
-#, fuzzy
 msgid "&Message"
-msgstr "Mesaj"
+msgstr "&Mesaj"
 
 #: ui/acceptbase.cpp:178
 msgid "Path for incoming files:"
@@ -3191,7 +3180,7 @@ msgstr "&Dosya"
 
 #: ui/fontsetupbase.cpp:222
 msgid "Mode"
-msgstr ""
+msgstr "Durum"
 
 #: ui/fontsetupbase.cpp:223
 msgid "Split mode (&Chat style)"
@@ -3211,7 +3200,7 @@ msgstr "Geçmişten konuşmaya son mesajlar"
 
 #: ui/fontsetupbase.cpp:227
 msgid "Open"
-msgstr ""
+msgstr "Aç"
 
 #: ui/fontsetupbase.cpp:228
 msgid "&Each user in new container"
@@ -3226,9 +3215,8 @@ msgid "&All users in one container"
 msgstr "&Tüm kullanıcılar bir taşıyıcıda"
 
 #: ui/fontsetupbase.cpp:231
-#, fuzzy
 msgid "&User window"
-msgstr "&Kullanıcı Bilgisi"
+msgstr "&Kullanıcı penceresi"
 
 #: ui/fontsetupbase.cpp:232
 msgid "&Use systems fonts"
@@ -3259,9 +3247,8 @@ msgid "Sending messages color"
 msgstr "Gönderilen mesaj rengi"
 
 #: ui/fontsetupbase.cpp:239
-#, fuzzy
 msgid "&Colors"
-msgstr "Renkler"
+msgstr "&Renkler"
 
 #: ui/emaileditbase.cpp:89
 msgid "Edit Email"
@@ -3305,16 +3292,15 @@ msgstr "Organizasyon,Grup :"
 
 #: ui/pastinfobase.cpp:156
 msgid "A&ffilation"
-msgstr ""
+msgstr "&Bağlantılar"
 
 #: ui/pastinfobase.cpp:157
 msgid "Past background:"
 msgstr "Geçmiş Background:"
 
 #: ui/pastinfobase.cpp:158
-#, fuzzy
 msgid "&Background"
-msgstr "Arkaplan"
+msgstr "&Arkaplan"
 
 #: ui/autoreplybase.cpp:73
 msgid "Autoreply message"
@@ -3338,9 +3324,8 @@ msgid "Form2"
 msgstr "Form 2"
 
 #: ui/interestsinfobase.cpp:139
-#, fuzzy
 msgid "&Interests"
-msgstr "İlgi alanları"
+msgstr "İl&gi alanları"
 
 #: ui/msgdialogbase.cpp:99
 msgid "Customize message"
@@ -3352,7 +3337,7 @@ msgstr "Bu mesaj dialoğunu gösterme"
 
 #: ui/listsecbase.cpp:121 ui/msgdialogbase.cpp:101
 msgid "Tab 1"
-msgstr ""
+msgstr "Sekme 1"
 
 #: ui/alertdialogbase.cpp:230
 msgid "Override global alert"
@@ -3360,8 +3345,7 @@ msgstr "Global alarm ayarlarının üzerine yaz"
 
 #: ui/alertdialogbase.cpp:231
 msgid "Activate online alert when user returns from Away or NA"
-msgstr ""
-"Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
+msgstr "Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
 
 #: ui/alertdialogbase.cpp:232
 msgid "Online alert options"
@@ -3392,9 +3376,8 @@ msgid "Write to history"
 msgstr "Geçmişe yaz"
 
 #: ui/alertdialogbase.cpp:239
-#, fuzzy
 msgid "&Alert"
-msgstr "Alarm"
+msgstr "&Alarm"
 
 #: ui/alertdialogbase.cpp:240 ui/xosdbase.cpp:120
 msgid "Enable notify on screen"
@@ -3433,7 +3416,6 @@ msgid "Background color:"
 msgstr "Arkaplan rengi:"
 
 #: ui/alertdialogbase.cpp:249
-#, fuzzy
 msgid "On Screen"
 msgstr "Ekranda uyarı"
 
@@ -3466,31 +3448,28 @@ msgid "Email client:"
 msgstr "Email programı:"
 
 #: ui/miscsetupbase.cpp:106 ui/themesetupbase.cpp:259
-#, fuzzy
 msgid "&Miscellaneous"
-msgstr "Diğerleri"
+msgstr "&Diğerleri"
 
 #: ui/miscsetupbase.cpp:107
 msgid "A&utomatically add new user to KAddressBook"
-msgstr ""
+msgstr "Yeni kullanıcıları &otomatik olarak KAdressBook a ekle"
 
 #: ui/miscsetupbase.cpp:108
 msgid "&Synchronize now"
-msgstr ""
+msgstr "&Şimdi senkronize ol"
 
 #: ui/miscsetupbase.cpp:109
 msgid "&Addressbook synchronization"
-msgstr ""
+msgstr "&Adres defteri senkronizasyonu"
 
 #: ui/miscsetupbase.cpp:110
-#, fuzzy
 msgid "Check &all messages on send"
-msgstr "Tüm mesajları gönderirken kontrol et"
+msgstr "&Tüm mesajları gönderirken kontrol et"
 
 #: ui/miscsetupbase.cpp:111
-#, fuzzy
 msgid "&Spell check"
-msgstr "Yazım Kontrolü"
+msgstr "&Yazım kontrolü"
 
 #: ui/phonebookbase.cpp:124
 msgid "User is currently available at:"
@@ -3514,11 +3493,13 @@ msgid ""
 "You can change only those numbers which have entered.\n"
 "It is impossible to change numbers which were received from the user."
 msgstr ""
+"Not:\n"
+"Sadece girdiğiniz sayıları değiştirebilirsiniz\n"
+"Diğer kullanıcıdan gelen sayılar değiştirilemez"
 
 #: ui/phonebookbase.cpp:136
-#, fuzzy
 msgid "&Phonebook"
-msgstr "Telefon defteri"
+msgstr "&Telefon defteri"
 
 #: ui/soundsetupbase.cpp:169
 msgid "&Override sounds"
@@ -3533,49 +3514,40 @@ msgid "Message:"
 msgstr "Mesaj:"
 
 #: ui/soundsetupbase.cpp:173
-#, fuzzy
 msgid "SMS:"
-msgstr "SMS"
+msgstr "SMS:"
 
 #: ui/soundsetupbase.cpp:174
-#, fuzzy
 msgid "Authorization:"
-msgstr "Onay "
+msgstr "Onay:"
 
 #: ui/soundsetupbase.cpp:175
-#, fuzzy
 msgid "Online alert:"
-msgstr "Bağlı alarmı"
+msgstr "Bağlı alarmı:"
 
 #: ui/soundsetupbase.cpp:176
-#, fuzzy
 msgid "Incoming file:"
-msgstr "Gelen dosya transferi"
+msgstr "Gelen dosya transferi:"
 
 #: ui/soundsetupbase.cpp:177
-#, fuzzy
 msgid "File transfer done:"
-msgstr "Dosya transferi tamamlandı"
+msgstr "Dosya transferi tamamlandı:"
 
 #: ui/soundsetupbase.cpp:178
-#, fuzzy
 msgid "Chat Request:"
-msgstr "Chat İsteği"
+msgstr "Chat İsteği:"
 
 #: ui/soundsetupbase.cpp:179
-#, fuzzy
 msgid "Startup sound:"
-msgstr "Başlangıç Sesi"
+msgstr "Başlangıç Sesi:"
 
 #: ui/soundsetupbase.cpp:180
-#, fuzzy
 msgid "&Sounds"
-msgstr "Ses"
+msgstr "&Sesler"
 
 #: ui/soundsetupbase.cpp:181
-#, fuzzy
 msgid "Program for play:"
-msgstr "Sesleri çalmak için geçerli program"
+msgstr "Sesleri çalmak için geçerli program:"
 
 #: ui/soundsetupbase.cpp:182
 msgid "UseArts"
@@ -3583,16 +3555,15 @@ msgstr "KDE Arts ses sunucusunu kullan"
 
 #: ui/soundsetupbase.cpp:183
 msgid "&Programm"
-msgstr ""
+msgstr "&Program"
 
 #: ui/userinfobase.cpp:98
 msgid "Update"
 msgstr "Yenile"
 
 #: ui/setupdlgbase.cpp:91
-#, fuzzy
 msgid "&Update"
-msgstr "Yenile"
+msgstr "&Yenile"
 
 #: ui/homeinfobase.cpp:162 ui/workinfobase.cpp:177
 msgid "Address:"
@@ -3611,9 +3582,8 @@ msgid "Web site:"
 msgstr "Web Sitesi:"
 
 #: ui/workinfobase.cpp:185
-#, fuzzy
 msgid "&Company"
-msgstr "Firma:"
+msgstr "&Firma"
 
 #: ui/workinfobase.cpp:186
 msgid "Occupation:"
@@ -3628,18 +3598,16 @@ msgid "Position:"
 msgstr "Pozisyon:"
 
 #: ui/workinfobase.cpp:189
-#, fuzzy
 msgid "&Occupation"
-msgstr "İş:"
+msgstr "İ&ş"
 
 #: ui/themesetupbase.cpp:230
 msgid "Select style:"
 msgstr "Stil seç:"
 
 #: ui/themesetupbase.cpp:233
-#, fuzzy
 msgid "&Style"
-msgstr "Stil"
+msgstr "&Stil"
 
 #: ui/themesetupbase.cpp:234
 msgid "Icons:"
@@ -3650,37 +3618,32 @@ msgid "Add icons"
 msgstr "İkonları ekle"
 
 #: ui/themesetupbase.cpp:238
-#, fuzzy
 msgid "&Icons"
-msgstr "İkonlar:"
+msgstr "&Simgeler"
 
 #: ui/themesetupbase.cpp:239
-#, fuzzy
 msgid "Main window background:"
-msgstr "Geçmiş Background:"
+msgstr "Ana pencere arkaplanı:"
 
 #: ui/themesetupbase.cpp:240
 msgid "Icon margin:"
-msgstr ""
+msgstr "Simge boşluğu:"
 
 #: ui/themesetupbase.cpp:242
-#, fuzzy
 msgid "Use &system colors"
-msgstr "Sistem fontlarını &kullan"
+msgstr "&Sistem renklerini kullan"
 
 #: ui/themesetupbase.cpp:243
-#, fuzzy
 msgid "Online contact color:"
-msgstr "Bağlı alarmı"
+msgstr "Bağlı kullanıcı rengi:"
 
 #: ui/themesetupbase.cpp:244
 msgid "Offline contact color:"
-msgstr ""
+msgstr "Bağlı-olmayan kontak rengi:"
 
 #: ui/themesetupbase.cpp:245
-#, fuzzy
 msgid "B&ackground"
-msgstr "Arkaplan"
+msgstr "&Arkaplan"
 
 #: ui/themesetupbase.cpp:246
 msgid "Transparent main window"
@@ -3699,9 +3662,8 @@ msgid "Transparent only if inactive"
 msgstr "Sadece inaktifse transparan"
 
 #: ui/themesetupbase.cpp:251
-#, fuzzy
 msgid "&Transparency"
-msgstr "Transparanlık"
+msgstr "&Transparanlık"
 
 #: ui/themesetupbase.cpp:252
 msgid "Show main window in task manager"
@@ -3724,9 +3686,8 @@ msgid "Use emotional &icons"
 msgstr "&Duygu ikonları kullan"
 
 #: ui/themesetupbase.cpp:258
-#, fuzzy
 msgid "Use &dock"
-msgstr "Dock kullan"
+msgstr "&Dock kullan"
 
 #: ui/listsecbase.cpp:120 ui/moreinfobase.cpp:185
 msgid "Form3"
@@ -3737,8 +3698,7 @@ msgid "Hide main window after"
 msgstr "Ana menüyü sakla"
 
 #: ui/statussetupbase.cpp:110
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "\"Uzakta\", \"N/A\", \"DND\" ve \"Meşgul\"-Listelerinde bağlı alamını "
 "iptal et "
@@ -3764,9 +3724,8 @@ msgid "Set \"N/A\" status after"
 msgstr "\"N/A\"-Statusüne geç"
 
 #: ui/maininfobase.cpp:334 ui/statussetupbase.cpp:116
-#, fuzzy
 msgid "&Status"
-msgstr "Bağlantı"
+msgstr "&Bağlantı"
 
 #: ui/moreinfobase.cpp:186
 msgid "Homepage:"
@@ -3789,18 +3748,16 @@ msgid "Birth date:"
 msgstr "Doğum tarihi:"
 
 #: ui/moreinfobase.cpp:194
-#, fuzzy
 msgid "&More info"
-msgstr "Daha fazla ayrıntı"
+msgstr "&Daha fazla ayrıntı"
 
 #: ui/moreinfobase.cpp:195
 msgid "Spoken languages:"
 msgstr "Bildiği Diller:"
 
 #: ui/moreinfobase.cpp:196
-#, fuzzy
 msgid "&Languages"
-msgstr "Dil:"
+msgstr "&Diller"
 
 #: ui/maininfobase.cpp:314
 msgid "Form5"
@@ -3823,9 +3780,8 @@ msgid "Encoding:"
 msgstr "Kodlama:"
 
 #: ui/maininfobase.cpp:321
-#, fuzzy
 msgid "&Names"
-msgstr "Adlar"
+msgstr "&Adlar"
 
 #: ui/maininfobase.cpp:322
 msgid "Email addresses:"
@@ -3848,46 +3804,40 @@ msgid "Set as default"
 msgstr "Öntanımlı olarak ayarla"
 
 #: ui/maininfobase.cpp:327
-#, fuzzy
 msgid "&EMail"
-msgstr "E-Mail"
+msgstr "&EMail"
 
 #: ui/maininfobase.cpp:328
-#, fuzzy
 msgid "Status:"
-msgstr "Bağlantı"
+msgstr "Bağlantı:"
 
 #: ui/maininfobase.cpp:329
-#, fuzzy
 msgid "Online:"
-msgstr "Bağlı"
+msgstr "Bağlı:"
 
 #: ui/maininfobase.cpp:331
 msgid "External IP:"
-msgstr ""
+msgstr "Dış IP:"
 
 #: ui/maininfobase.cpp:332
 msgid "Internal IP:"
-msgstr ""
+msgstr "İç IP:"
 
 #: ui/maininfobase.cpp:333
-#, fuzzy
 msgid "Client:"
-msgstr "ICQ programı"
+msgstr "ICQ Programı:"
 
 #: ui/homeinfobase.cpp:166
 msgid "Time zone:"
 msgstr "Zaman Dilimi:"
 
 #: ui/homeinfobase.cpp:167
-#, fuzzy
 msgid "&Home info"
-msgstr "Adres"
+msgstr "&Ev bilgisi"
 
 #: ui/generalsecbase.cpp:186
 msgid "My &authorization is required before users add me to Contact List"
-msgstr ""
-"Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
+msgstr "Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
 
 #: ui/generalsecbase.cpp:187
 msgid "Don't show my &IP-address"
@@ -3918,9 +3868,8 @@ msgid "Allow direct connection from user &upon authorization"
 msgstr "Direk bağlantıya benim &onayımla birlikte izin ver"
 
 #: ui/generalsecbase.cpp:194
-#, fuzzy
 msgid "&Security"
-msgstr "Güvenlik"
+msgstr "&Güvenlik"
 
 #: ui/generalsecbase.cpp:195
 msgid "Reject &messages from unknown users"
@@ -3944,7 +3893,7 @@ msgstr "&Diğer mesajları reddet"
 
 #: ui/generalsecbase.cpp:200
 msgid "&Reject"
-msgstr ""
+msgstr "&Reddet"
 
 #: ui/generalsecbase.cpp:201
 msgid "Reject messages from unknown users contains this words or phrases:"
@@ -3953,7 +3902,6 @@ msgstr ""
 "taşıyosa reddet : "
 
 #: ui/generalsecbase.cpp:202
-#, fuzzy
 msgid ""
 "Words are divided by any separators (space, comma, i.e.)\n"
 "Phrase (sequence of words) consists in quotas\n"
@@ -3965,12 +3913,11 @@ msgstr ""
 "Cümle ( kelimeler topluluğu ) tırnak içinde yazılmalıdır\n"
 "Kelimeler şu işaretleri taşıyabilir : \n"
 " * - örnek* örnek ile başlayan tüm msgları bloklamak için\n"
-"? - örn?k  şeklinde ise ? yerine herhangi bi kelime gelebilir örnek gibi\n"
+"? - örn?k  şeklinde ise ? yerine herhangi bi kelime gelebilir örnek gibi"
 
 #: ui/generalsecbase.cpp:207
-#, fuzzy
 msgid "Spam &filter"
-msgstr "&Filtre"
+msgstr "Spam &filtresi"
 
 #: ui/changepasswdbase.cpp:97 ui/generalsecbase.cpp:208
 msgid "New password:"
@@ -3981,9 +3928,8 @@ msgid "Retype new password:"
 msgstr "Yeni şifreyi tekrar girin:"
 
 #: ui/generalsecbase.cpp:210
-#, fuzzy
 msgid "&Password"
-msgstr "Şifre"
+msgstr "&Şifre"
 
 #: ui/aboutinfobase.cpp:105
 msgid "Form4"
@@ -3994,18 +3940,16 @@ msgid "Additional information about user:"
 msgstr "Kullanıcı hakkında ek bilgiler:"
 
 #: ui/aboutinfobase.cpp:107
-#, fuzzy
 msgid "A&bout"
-msgstr "Hakkında"
+msgstr "&Hakkında"
 
 #: ui/aboutinfobase.cpp:108
 msgid "My notes:"
-msgstr ""
+msgstr "Notlarım:"
 
 #: ui/aboutinfobase.cpp:109
-#, fuzzy
 msgid "&Notes"
-msgstr "Notlar"
+msgstr "&Notlar"
 
 #: ui/securedlg.cpp:55
 msgid "[Failed]"
@@ -4096,9 +4040,8 @@ msgid "Spell check"
 msgstr "Yazım Kontrolü"
 
 #: kabcsync.cpp:54
-#, fuzzy
 msgid "IM Address"
-msgstr "Adres:"
+msgstr "IM Adresi"
 
 #: client.cpp:55
 msgid "Unicode"
@@ -4275,18 +4218,18 @@ msgid ""
 msgstr "Email"
 
 #: client.cpp:1005
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Request secure channel\n"
 "%n requests secure channel"
-msgstr "Güvenli kanal iste"
+msgstr "%n Güvenli kanal iste"
 
 #: client.cpp:1007
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Close secure channel\n"
 "%n times close secure channel"
-msgstr "Güvenli kanalı kapat"
+msgstr "%n kere güvenli kanalı kapat"
 
 #: client.cpp:1011
 #, c-format
@@ -4296,18 +4239,16 @@ msgid ""
 msgstr "Bilinmeyen mesaj"
 
 #: client.cpp:1018
-#, fuzzy
 msgid ""
 "_: Ctrl+N\n"
 "new"
-msgstr "Ctrl+M"
+msgstr "Ctrl+N"
 
 #: client.cpp:1020
-#, fuzzy
 msgid ""
 "_: Ctrl+B\n"
 "chat msg"
-msgstr "Ctrl+M"
+msgstr "Ctrl+B"
 
 #: client.cpp:1022
 msgid ""
@@ -4671,3 +4612,4 @@ msgstr "? Bilinmeyen statü %1"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
