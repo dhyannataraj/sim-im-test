@@ -346,7 +346,7 @@ bool load(void *_obj, const cfgParam *params, istream &sin, string &nextPart)
             return true;
         string line;
         if (!getline(sin, line))
-			return true;
+            return true;
         if (line[0] == '['){
             nextPart = line;
             for (;;){
