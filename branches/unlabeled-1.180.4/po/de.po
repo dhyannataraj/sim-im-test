@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2003-07-29 03:00+0400\n"
-"PO-Revision-Date: 2003-07-29 18:01GMT\n"
+"PO-Revision-Date: 2003-07-29 18:07GMT\n"
 "Last-Translator: Crissi <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1172,11 +1172,11 @@ msgstr "Farbe für emfangene Nachrichten"
 
 #: plugins/_core/historycfgbase.cc:176
 msgid "Others color"
-msgstr "Andere Farben"
+msgstr "Farbe des anderen Chatpartners"
 
 #: plugins/_core/historycfgbase.cc:177
 msgid "Own color"
-msgstr "Eigene Farbe"
+msgstr "Farbe der eigenen Nachrichten"
 
 #: plugins/_core/historycfgbase.cc:178
 msgid "Use emotional &icons"
@@ -1620,7 +1620,7 @@ msgstr "Docking"
 
 #: plugins/dock/dock.cpp:50
 msgid "Plugin provides dock icon"
-msgstr "Das Plugin sorgt für das Anzeigen eines in der Kontrollleiste"
+msgstr "Das Plugin sorgt für das Anzeigen eines Symbols in der Kontrollleiste"
 
 #: plugins/dock/dock.cpp:107 sim/sim.cpp:172
 msgid "SIM"
