@@ -37,7 +37,7 @@ SMSSetup::SMSSetup(QWidget *p)
     edtAfter->setText(s);
 }
 
-void SMSSetup::apply(ICQUser *u)
+void SMSSetup::apply(ICQUser*)
 {
     set(pMain->SMSSignTop, edtBefore->text());
     set(pMain->SMSSignBottom, edtAfter->text());

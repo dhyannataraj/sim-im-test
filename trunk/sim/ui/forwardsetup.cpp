@@ -40,7 +40,7 @@ ForwardSetup::ForwardSetup(QWidget *p)
     cmbPhone->lineEdit()->setText(pMain->ForwardPhone.c_str());
 }
 
-void ForwardSetup::apply(ICQUser *u)
+void ForwardSetup::apply(ICQUser*)
 {
     set(pMain->ForwardPhone, cmbPhone->lineEdit()->text());
 }
