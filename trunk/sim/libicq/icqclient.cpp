@@ -394,6 +394,7 @@ void ICQClient::save(ostream &s)
         (*it_grp)->save(s);
     }
     for (list<ICQUser*>::iterator it = contacts.users.begin(); it != contacts.users.end(); it++){
+		if ((*it)->bIsTemp) continue;
         s << "[User]\n";
         (*it)->save(s);
     }

@@ -4838,48 +4838,6 @@ BuildCmds= \
 # Begin Group "po"
 
 # PROP Default_Filter "po"
-# Begin Source File
-
-SOURCE=.\po\de.po
-
-!IF  "$(CFG)" == "sim - Win32 Release"
-
-!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
-
-# Begin Custom Build - msg2qm on $(InputPath)
-TargetDir=.\Debug
-InputPath=.\po\de.po
-
-"$(TargetDir)\po\de.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	msg2qm $(InputPath) 
-	move tr.qm $(TargetDir)\po\de.qm 
-	
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\po\ru.po
-
-!IF  "$(CFG)" == "sim - Win32 Release"
-
-!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
-
-# Begin Custom Build - msg2qm on $(InputPath)
-TargetDir=.\Debug
-InputPath=.\po\ru.po
-
-"$(TargetDir)\po\ru.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	msg2qm $(InputPath) 
-	move tr.qm $(TargetDir)\po\ru.qm 
-	
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
 # End Group
 # End Target
 # End Project

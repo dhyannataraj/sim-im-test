@@ -252,6 +252,10 @@ MsgEdit::~MsgEdit()
     if (msg && (msg->Id < MSG_PROCESS_ID))
         delete msg;
     if (mHistory) delete mHistory;
+	Uin = 0;
+	ICQUser *u = pClient->getUser(Uin());
+	if (u && u->bIsTemp)
+		pClient->deleteUser(u);
     emit destroyChild(tabId);
 }
 
@@ -463,14 +467,15 @@ void MsgEdit::processEvent(ICQEvent *e)
                     log(L_WARN, "Bad type for chunked message");
                 }
                 if (bCloseSend){
+					sendEvent = NULL;
                     close();
-                }else{
-                    emit addMessage(message(), false, true);
-                    emit showMessage(Uin(), message()->Id);
-                    setMessage();
-                    action(mnuAction);
-                    emit setStatus(i18n("Message sent"), 2000);
+					return;
                 }
+                emit addMessage(message(), false, true);
+                emit showMessage(Uin(), message()->Id);
+                setMessage();
+                action(mnuAction);
+                emit setStatus(i18n("Message sent"), 2000);
             }else{
                 e->message()->bDelete = false;
                 emit setStatus(i18n("Send failed"), 2000);
@@ -503,7 +508,7 @@ void MsgEdit::closeEvent(QCloseEvent *e)
 void MsgEdit::realSend()
 {
     sendEvent = pClient->sendMessage(message());
-    setState();
+    if (sendEvent) setState();
 }
 
 void MsgEdit::setUin(unsigned long uin)
@@ -964,6 +969,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
             btnGrant->hide();
             btnRefuse->hide();
             users->show();
+			users->sender = false;
             view->hide();
             btnForward->show();
             ICQContacts *m = static_cast<ICQContacts*>(msg);
@@ -971,7 +977,6 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 Contact *contact = static_cast<Contact*>(*it);
                 users->addUser(contact->Uin, contact->Alias);
             }
-            users->sender = false;
         }else{
             switch (msg->Type()){
             case ICQ_MSGxFILE:{
@@ -1251,12 +1256,12 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
 #ifdef USE_SPELL
                 btnSpell->hide();
 #endif
+				users->sender = true;
                 ICQContacts *m = static_cast<ICQContacts*>(msg);
                 for (ContactList::iterator it = m->Contacts.begin(); it != m->Contacts.end(); it++){
                     Contact *contact = static_cast<Contact*>(*it);
                     users->addUser(contact->Uin, contact->Alias);
                 }
-                users->sender = true;
                 break;
             }
         case ICQ_MSGxAUTHxREQUEST:{

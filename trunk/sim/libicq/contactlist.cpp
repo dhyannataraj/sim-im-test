@@ -123,11 +123,16 @@ ICQUser *ICQContactList::getUser(unsigned long uin, bool create)
     return usr;
 }
 
-ICQUser *ICQClient::getUser(unsigned long id, bool create)
+ICQUser *ICQClient::getUser(unsigned long id, bool create, bool bIsTemp)
 {
     ICQUser *u = contacts.getUser(id, false);
-    if (u || !create) return u;
+	if (!create) return u;
+    if (u){
+		if (!bIsTemp) bIsTemp = false;
+		return u;
+	}
     u = contacts.getUser(id, true);
+	u->bIsTemp = bIsTemp;
     ICQEvent e(EVENT_INFO_CHANGED, id);
     process_event(&e);
     if (!u->inIgnore())
@@ -230,6 +235,7 @@ ICQUser::ICQUser()
     bMyInfo = false;
     bPhoneChanged = false;
     DCcookie = 0;
+	bIsTemp = false;
 }
 
 ICQUser::~ICQUser()

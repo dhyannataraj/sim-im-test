@@ -659,6 +659,7 @@ public:
 
     DirectClient *direct;
 
+	bool bIsTemp;
     bool isOnline();
     bool bPhoneChanged;
 };
@@ -936,7 +937,7 @@ public:
 
     ICQContactList contacts;
     ICQGroup *getGroup(unsigned short id, bool create = false);
-    ICQUser  *getUser(unsigned long uin, bool create = false);
+    ICQUser  *getUser(unsigned long uin, bool create = false, bool bIsTemp = false);
 
     bool cancelMessage(ICQMessage*, bool bSendCancel=true);
 

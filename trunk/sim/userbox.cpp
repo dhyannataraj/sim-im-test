@@ -319,6 +319,7 @@ void UserBox::toggleInfo(bool bShow)
             vSplitter->hide();
             lay->insertWidget(0, infoWnd);
             infoWnd->show();
+			pClient->addInfoRequest(curWnd->Uin, true);
         }
     }else if (infoWnd){
         if (curWnd && (curWnd->Uin() == 0)){

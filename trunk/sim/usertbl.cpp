@@ -17,6 +17,7 @@
 
 #include "usertbl.h"
 #include "client.h"
+#include "mainwin.h"
 #include "log.h"
 #include "transparent.h"
 #include "icons.h"
@@ -114,11 +115,6 @@ UserTbl::UserTbl(QWidget *p, const char *name) : QListView(p, name)
     addColumn(i18n("Name"), 25*wChar);
     addColumn(i18n("Email"));
     menuTable = new QPopupMenu(viewport());
-    menuTable->insertItem(Pict("remove"), i18n("Delete"), mnuTblDelete);
-    menuTable->insertItem(Pict("editclear"), i18n("Erase"), mnuTblErase);
-    menuTable->insertSeparator();
-    menuTable->insertItem(i18n("Add group"), mnuTblAddGrp);
-    menuTable->insertItem(i18n("Add all"), mnuTblAddAll);
     connect(menuTable, SIGNAL(activated(int)), this, SLOT(action(int)));
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     transparent = new TransparentBg(this);
@@ -297,6 +293,12 @@ void UserTbl::contentsDropEvent(QDropEvent *e)
 void UserTbl::action(int id)
 {
     switch (id){
+	case mnuInfo:
+		if (actionItem){
+			ICQUser *u = pClient->getUser(static_cast<UserTblItem*>(currentItem())->mUin, true, true);
+			if (u) pMain->userFunction(u->Uin(), mnuInfo, 0);
+		}
+		break;
     case mnuTblDelete:
         if (actionItem){
             delete actionItem;
@@ -368,7 +370,7 @@ QDragObject *UserTbl::dragObject()
 void UserTbl::contentsMouseReleaseEvent(QMouseEvent *e)
 {
 #if QT_VERSION < 300
-    if ((e->button() == QObject::RightButton) && sender){
+    if ((e->button() == QObject::RightButton)){
         QContextMenuEvent contextEvent(e->globalPos());
         viewportContextMenuEvent(&contextEvent);
     }
@@ -383,9 +385,23 @@ void UserTbl::viewportContextMenuEvent(QContextMenuEvent *e)
     p = viewport()->mapFromGlobal(p);
     QListViewItem *item = itemAt(p);
     actionItem = item;
-    menuTable->setItemEnabled(mnuTblDelete, actionItem != NULL);
-    menuTable->setItemEnabled(mnuTblErase, !isEmpty());
-    menuTable->setItemEnabled(mnuTblAddGrp, actionGroup() != 0);
+	menuTable->clear();
+	if (sender){
+		menuTable->insertItem(Pict("remove"), i18n("Delete"), mnuTblDelete);
+		menuTable->insertItem(Pict("editclear"), i18n("Erase"), mnuTblErase);
+		menuTable->insertSeparator();
+		menuTable->insertItem(i18n("Add group"), mnuTblAddGrp);
+		menuTable->insertItem(i18n("Add all"), mnuTblAddAll);
+		menuTable->setItemEnabled(mnuTblDelete, actionItem != NULL);
+		menuTable->setItemEnabled(mnuTblErase, !isEmpty());
+		menuTable->setItemEnabled(mnuTblAddGrp, actionGroup() != 0);
+	}else{
+		if (actionItem == NULL) return;
+		menuTable->insertItem(Icon("info"), i18n("User info"), mnuInfo);
+		pMain->m_uin = static_cast<UserTblItem*>(currentItem())->mUin;
+		pMain->adjustGroupMenu(pMain->menuGroup, pMain->m_uin);
+	    menuTable->insertItem(i18n("Add to group"), pMain->menuGroup, mnuGroups);
+	}
     menuTable->popup(e->globalPos());
     return;
 }

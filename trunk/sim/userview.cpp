@@ -750,7 +750,7 @@ void UserView::setOpen(bool bOpen)
 
 void UserView::addUserItem(ICQUser *u)
 {
-    if (u->inIgnore()) return;
+    if (u->inIgnore() || u->bIsTemp) return;
     if (u->Uin() == pClient->Uin()) return;
     if (!m_bShowOffline && (u->uStatus == ICQ_STATUS_OFFLINE) && (u->unreadMsgs.size() == 0)) return;
     if (!m_bGroupMode){
@@ -798,6 +798,7 @@ void UserView::setShowOffline(bool bShowOffline)
 void UserView::updateUser(unsigned long uin, bool bFull)
 {
     ICQUser *u = pClient->getUser(uin);
+	if (u && u->bIsTemp) return;
     UserViewItem *item = findUserItem(uin);
     if (bFloaty){
         if (item == NULL) return;
@@ -850,13 +851,14 @@ void UserView::processEvent(ICQEvent *e)
     case EVENT_USER_DELETED:
     case EVENT_USERGROUP_CHANGED:
     case EVENT_STATUS_CHANGED:
-    case EVENT_INFO_CHANGED:
+    case EVENT_INFO_CHANGED:{
         if (bList){
-            ICQUser *u = pClient->getUser(e->Uin());
+			ICQUser *u = pClient->getUser(e->Uin());
             if ((u == NULL) || (u->Type() != USER_TYPE_ICQ)) break;
         }
         updateUser(e->Uin(), e->type() == EVENT_USERGROUP_CHANGED);
         break;
+	}
     }
 }
 
