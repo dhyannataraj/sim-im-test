@@ -4,20 +4,20 @@
 # translation of ru.po to
 # translation of ru.po to
 # translation of ru.po to
-# Copyright (C) YEAR Free Software Foundation, Inc., 2002
+# Copyright (C) 2002 Free Software Foundation, Inc., 2002
 # Vladimir Shutoff <shutoff@mail.ru>, 2002
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "POT-Creation-Date: 2002-11-29 04:16+0300\n"
-"PO-Revision-Date: 2002-11-26 11:49+0300\n"
+"PO-Revision-Date: 2002-11-29 04:26+0300\n"
 "Last-Translator: Vladimir Shutoff <shutoff@mail.ru>\n"
 "Language-Team: Русский <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 0.9.6\n"
+"X-Generator: KBabel 1.0\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 :n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
 
@@ -384,8 +384,7 @@ msgstr "Австралия"
 # libicq/country.cpp:84
 #: libicq/country.cpp:84
 msgid "Australian Antarctic Territory"
-msgstr ""
-"Австралийская антарктическая территория"
+msgstr "Австралийская антарктическая территория"
 
 # libicq/country.cpp:85
 #: libicq/country.cpp:85
@@ -2176,8 +2175,7 @@ msgstr "%1 от %2"
 # mainwin.cpp:969 ui/logindlg.cpp:138
 #: mainwin.cpp:1224 ui/logindlg.cpp:140
 msgid "Can't connect to proxy server"
-msgstr ""
-"Невозможно соединиться с прокси-сервером"
+msgstr "Невозможно соединиться с прокси-сервером"
 
 # mainwin.cpp:975 ui/logindlg.cpp:145
 #: mainwin.cpp:1230 ui/logindlg.cpp:147
@@ -2194,8 +2192,7 @@ msgstr ""
 # mainwin.cpp:988
 #: mainwin.cpp:1243
 msgid "Your UIN used from another location"
-msgstr ""
-"Ваш UIN используется с другого компьютера"
+msgstr "Ваш UIN используется с другого компьютера"
 
 # mainwin.cpp:1042
 #: mainwin.cpp:1297
@@ -3396,9 +3393,8 @@ msgstr "Горячие клавиши"
 
 # msgedit.cpp:179
 #: ui/setupdlg.cpp:137 ui/userinfo.cpp:91
-#, fuzzy
 msgid "Accept"
-msgstr "&Принять"
+msgstr "Принять"
 
 # ui/setupdlg.cpp:148 ui/soundsetupbase.cpp:140
 #: ui/setupdlg.cpp:138
@@ -3677,8 +3673,7 @@ msgstr "П&орт:"
 # ui/msgbase.cpp:94
 #: ui/acceptbase.cpp:173 ui/msgbase.cpp:94
 msgid "Automaitcaly open window"
-msgstr ""
-"Автоматически открывать окно сообщений"
+msgstr "Автоматически открывать окно сообщений"
 
 # ui/acceptbase.cpp:122 ui/msgbase.cpp:90
 #: ui/acceptbase.cpp:174 ui/acceptbase.cpp:177 ui/msgbase.cpp:90
@@ -4097,8 +4092,7 @@ msgstr "Шрифты"
 # ui/fontsetupbase.cpp:214
 #: ui/fontsetupbase.cpp:236
 msgid "Use &own colors and fonts settings"
-msgstr ""
-"Использовать &собственные цвета и шрифты"
+msgstr "Использовать &собственные цвета и шрифты"
 
 # ui/fontsetupbase.cpp:224
 #: ui/fontsetupbase.cpp:237
@@ -4133,8 +4127,7 @@ msgstr "Не показывать мой email"
 # ui/pastinfobase.cpp:89
 #: ui/pastinfobase.cpp:155
 msgid "Organization, Affiliation, Group:"
-msgstr ""
-"Объединения, общественные организации:"
+msgstr "Объединения, общественные организации:"
 
 #: ui/pastinfobase.cpp:156
 msgid "A&ffilation"
@@ -4319,15 +4312,15 @@ msgstr "&Различные настройки"
 
 #: ui/miscsetupbase.cpp:153
 msgid "A&utomatically add new user to KAddressBook"
-msgstr ""
+msgstr "&Автоматически добавлять нового пользователя в адресную книгу"
 
 #: ui/miscsetupbase.cpp:154
 msgid "&Synchronize now"
-msgstr ""
+msgstr "&Синхронизовать сейчас"
 
 #: ui/miscsetupbase.cpp:155
 msgid "&Addressbook synchronization"
-msgstr ""
+msgstr "С&инхронизация с адресной книгой"
 
 # ui/soundsetupbase.cpp:193
 #: ui/soundsetupbase.cpp:227
@@ -4538,8 +4531,7 @@ msgstr "Прозрачный контейнер"
 # ui/themesetupbase.cpp:146
 #: ui/themesetupbase.cpp:185
 msgid "Transparent only if inactive"
-msgstr ""
-"Прозрачные окна только если неактивные"
+msgstr "Прозрачные окна только если неактивные"
 
 # ui/themesetupbase.cpp:126 ui/themesetupbase.cpp:138
 #: ui/themesetupbase.cpp:186
@@ -4549,8 +4541,7 @@ msgstr "&Прозрачность"
 # ui/themesetupbase.cpp:154
 #: ui/themesetupbase.cpp:187
 msgid "Show main window in task manager"
-msgstr ""
-"Показывать основное окно в панели задач"
+msgstr "Показывать основное окно в панели задач"
 
 # ui/themesetupbase.cpp:158
 #: ui/themesetupbase.cpp:188
@@ -4614,8 +4605,7 @@ msgstr "Скрыть главное окно"
 
 # ui/statussetupbase.cpp:107
 #: ui/statussetupbase.cpp:141
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Запретить оповещение в состояниях "
 "\"Отошел\", \"Не активный\", \"Занят\""
@@ -4752,29 +4742,26 @@ msgstr "&Email"
 
 # mainwin.cpp:2365 ui/statussetupbase.cpp:79 usertbl.cpp:113
 #: ui/maininfobase.cpp:327
-#, fuzzy
 msgid "Status:"
-msgstr "Статус"
+msgstr "Статус:"
 
 # client.cpp:981 cuser.cpp:215 userview.cpp:994
 #: ui/maininfobase.cpp:328
-#, fuzzy
 msgid "Online:"
-msgstr "В сети"
+msgstr "В сети:"
 
 #: ui/maininfobase.cpp:330
 msgid "External IP:"
-msgstr ""
+msgstr "Внещний IP:"
 
 #: ui/maininfobase.cpp:331
 msgid "Internal IP:"
-msgstr ""
+msgstr "Внутренний IP:"
 
 # sim.cpp:272
 #: ui/maininfobase.cpp:332
-#, fuzzy
 msgid "Client:"
-msgstr "Клиент ICQ"
+msgstr "Клиент:"
 
 # ui/homeinfobase.cpp:153
 #: ui/homeinfobase.cpp:166
@@ -4891,12 +4878,11 @@ msgid ""
 "* - any amount of symbols (or is empty)\n"
 "? - any symbol"
 msgstr ""
-"Слова разделяются любым разделителем\n"
-"(пробел, запятая и т.д.)Фраза\n"
-"(последовательность слов) заключается в\n"
-"кавычкиСлова могут содержать следующие\n"
-"маски:* - любая последовательность\n"
-"символов (возможно пустая) ? - любой символ"
+"Слова разделяются любым разделителем (пробел, запятая и т.д.)\n"
+"Фраза (последовательность слов) заключается в кавычки\n"
+"Слова могут содержать следующие маски:\n"
+"* - любая последовательность символов (возможно пустая)\n"
+"? - любой символ"
 
 # msgview.cpp:820
 #: ui/generalsecbase.cpp:207
@@ -5698,3 +5684,4 @@ msgstr "? Неищвестный статус %1"
 
 #~ msgid "Spell"
 #~ msgstr "Проверка орфографии"
+
