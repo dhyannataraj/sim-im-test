@@ -103,9 +103,9 @@ public:
     unsigned unpack(char *d, unsigned size);
 
     void pack(char c) { pack(&c, 1); }
-    void pack(unsigned short c) { pack((char*)&c, 2); }
-    void pack(unsigned long c) { pack((char*)&c, 4); }
-    void pack(long c) { pack((char*)&c, 4); }
+    void pack(unsigned short c);
+    void pack(unsigned long c);
+    void pack(long c) { pack((unsigned long)c); }
 
     Buffer &operator >> (char &c);
     Buffer &operator >> (unsigned char &c) { return operator >> ((char&)c); }
@@ -120,8 +120,6 @@ public:
     void unpack(string &s);
     void unpackStr(string &s);
     void unpackStr32(string &s);
-    void unpackBE(unsigned short &c);
-    void unpackBE(unsigned long &c);
 
     void pack(const string &s);
 

@@ -57,61 +57,59 @@ void SocketBase::process(unsigned timeout)
     tv.tv_sec = timeout;
     tv.tv_usec = 0;
 
+    int max_fd = 0;
+    fd_set rf;
+    fd_set wf;
+    fd_set ef;
+    FD_ZERO(&rf);
+    FD_ZERO(&wf);
+    FD_ZERO(&ef);
+    list<SocketBase*>::iterator it;
     for (;;){
-        int max_fd = 0;
-        fd_set rf;
-        fd_set wf;
-        fd_set ef;
-        FD_ZERO(&rf);
-        FD_ZERO(&wf);
-        FD_ZERO(&ef);
-        list<SocketBase*>::iterator it;
-        for (;;){
-            bool ok = true;
-            for (it = sockets.begin(); it != sockets.end(); it++){
-                if ((*it) == NULL){
-                    sockets.remove(*it);
-                    ok = false;
-                    break;
-                }
+        bool ok = true;
+        for (it = sockets.begin(); it != sockets.end(); it++){
+            if ((*it) == NULL){
+                sockets.remove(*it);
+                ok = false;
+                break;
             }
-            if (ok) break;
         }
+        if (ok) break;
+    }
+    for (it = sockets.begin(); it != sockets.end(); it++){
+        if ((*it) == NULL) continue;
+        int fd = (*it)->fd;
+        if (fd == -1) continue;
+        if (fd > max_fd) max_fd = fd;
+        FD_SET(fd, &rf);
+        FD_SET(fd, &ef);
+        if ((*it)->have_data()) FD_SET(fd, &wf);
+    }
+    int res = select(max_fd + 1, &rf, &wf, &ef, &tv);
+    if (res <= 0){
         for (it = sockets.begin(); it != sockets.end(); it++){
             if ((*it) == NULL) continue;
-            int fd = (*it)->fd;
-            if (fd == -1) continue;
-            if (fd > max_fd) max_fd = fd;
-            FD_SET(fd, &rf);
-            FD_SET(fd, &ef);
-            if ((*it)->have_data()) FD_SET(fd, &wf);
+            (*it)->idle();
         }
-        int res = select(max_fd + 1, &rf, &wf, &ef, &tv);
-        if (res <= 0){
-            for (it = sockets.begin(); it != sockets.end(); it++){
-                if ((*it) == NULL) continue;
-                (*it)->idle();
-            }
-            return;
+        return;
+    }
+    for (it = sockets.begin(); it != sockets.end(); it++){
+        if ((*it) == NULL) continue;
+        int fd = (*it)->fd;
+        if (fd == -1){
+            (*it)->idle();
+            continue;
         }
-        for (it = sockets.begin(); it != sockets.end(); it++){
-            if ((*it) == NULL) continue;
-            int fd = (*it)->fd;
-            if (fd == -1){
-                (*it)->idle();
-                continue;
-            }
-            if (FD_ISSET(fd, &ef)){
-                (*it)->error_state();
-                continue;
-            }
-            if (FD_ISSET(fd, &rf)){
-                (*it)->read_ready();
-                continue;
-            }
-            if (FD_ISSET(fd, &wf)){
-                (*it)->write_ready();
-            }
+        if (FD_ISSET(fd, &ef)){
+            (*it)->error_state();
+            continue;
+        }
+        if (FD_ISSET(fd, &rf)){
+            (*it)->read_ready();
+            continue;
+        }
+        if (FD_ISSET(fd, &wf)){
+            (*it)->write_ready();
         }
     }
 }
@@ -362,9 +360,9 @@ MyServerSocket::MyServerSocket()
     }
 
 #ifndef WIN32
-    int fl = fcntl(m_fd, F_GETFL, 0);
+    int fl = fcntl(fd, F_GETFL, 0);
     if (fl != -1)
-        fcntl(m_fd, F_SETFL, fl | O_NONBLOCK);
+        fcntl(fd, F_SETFL, fl | O_NONBLOCK);
 #endif
 
     struct timeval tv;
@@ -468,7 +466,19 @@ ServerSocket *Client::createServerSocket()
 
 int main(int argc, char *argv[])
 {
+    if (argc < 2){
+        fprintf(stderr, "Usage %s uin passwd\n", argv[0]);
+        return 1;
+    }
+    unsigned long uin = atol(argv[1]);
+    if (uin == 0){
+        fprintf(stderr, "Bad uin\n");
+        return 1;
+    }
+    log_level = 15;
     Client c;
+    c.owner->Uin = uin;
+    c.storePassword(argv[2]);
     c.setStatus(ICQ_STATUS_ONLINE);
     for (;;){
         SocketBase::process(1);

@@ -26,6 +26,18 @@
 
 #include <stdio.h>
 
+#ifdef WORDS_BIGENDIAN
+
+#define SWAP_S(s)	s = ((s&0xFF)<<8) + ((s&0xFF00)>>8);  
+#define SWAP_L(s)	s = ((s&0xFF)<<24) + ((s&0xFF00)<<8) + ((s&0xFF0000)>>8) + ((s&0xFF000000)>>24); 
+
+#else
+
+#define SWAP_S(s)
+#define SWAP_L(s)
+
+#endif
+
 Buffer::Buffer(unsigned size)
         : m_alloc_size(0), m_data(NULL)
 {
@@ -194,23 +206,13 @@ void Buffer::unpack(char &c)
 void Buffer::unpack(unsigned short &c)
 {
     if (unpack((char*)&c, 2) != 2) c = 0;
+    SWAP_S(c)
 }
 
 void Buffer::unpack(unsigned long &c)
 {
     if (unpack((char*)&c, 4) != 4) c = 0;
-}
-
-void Buffer::unpackBE(unsigned short &c)
-{
-    unpack(c);
-    c = htons(c);
-}
-
-void Buffer::unpackBE(unsigned long &c)
-{
-    unpack(c);
-    c = htonl(c);
+    SWAP_L(c);
 }
 
 void Buffer::pack(const string &s)
@@ -220,10 +222,22 @@ void Buffer::pack(const string &s)
     pack(s.c_str(), size);
 }
 
+void Buffer::pack(unsigned short s)
+{
+    SWAP_S(s)
+    pack((char*)&s, 2);
+}
+
+void Buffer::pack(unsigned long s)
+{
+    SWAP_L(s)
+    pack((char*)&s, 4);
+}
+
 void Buffer::packStr32(const char *s)
 {
     unsigned long size = strlen(s);
-    pack((char*)&size, sizeof(size));
+    pack(size);
     pack(s, strlen(s));
 }
 
