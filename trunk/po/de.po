@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2002-08-13 06:12+0400\n"
-"PO-Revision-Date: 2002-08-13 04:32GMT\n"
+"PO-Revision-Date: 2002-08-13 05:49GMT\n"
 "Last-Translator: Crissi <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1698,7 +1698,7 @@ msgid ""
 "_n: Message\n"
 "%n messages"
 msgstr ""
-" _n: Nachricht\n"
+"Nachricht\n"
 "%n Nachrichten"
 
 #: client.cpp:396
@@ -1707,7 +1707,7 @@ msgid ""
 "_n: Chat request\n"
 "%n chat requests"
 msgstr ""
-" _n: Chatanfrage\n"
+"Chatanfrage\n"
 "%n Chatanfragen"
 
 #: client.cpp:398
@@ -1716,7 +1716,7 @@ msgid ""
 "_n: File\n"
 "%n files"
 msgstr ""
-" _n: Datei\n"
+"Datei\n"
 "%n Dateien"
 
 #: client.cpp:400
@@ -1725,7 +1725,7 @@ msgid ""
 "_n: URL\n"
 "%n URL"
 msgstr ""
-" _n: URL\n"
+"URL\n"
 "%n URL"
 
 #: client.cpp:402
@@ -1734,7 +1734,7 @@ msgid ""
 "_n: Authorization request\n"
 "%n authorization requests"
 msgstr ""
-" _n: Authorisierungsanfrage\n"
+"Authorisierungsanfrage\n"
 "%n Authorisierungsanfragen"
 
 #: client.cpp:404
@@ -1743,7 +1743,7 @@ msgid ""
 "_n: Authorization refused\n"
 "%n authorizations refused"
 msgstr ""
-" _n: Authorisierung abgelehnt\n"
+"Authorisierung abgelehnt\n"
 "%n Authorisierungen abgelehnt"
 
 #: client.cpp:406
@@ -1752,7 +1752,7 @@ msgid ""
 "_n: Authorization granted\n"
 "%n authorizations granted"
 msgstr ""
-" _n: Authorisierung genehmigt\n"
+"Authorisierung genehmigt\n"
 "%n Authorisierungen genehmigt"
 
 #: client.cpp:408
@@ -1761,7 +1761,7 @@ msgid ""
 "_n: Added to contact list\n"
 "%n times added to contact list"
 msgstr ""
-" _n: Hinzugefügt zur Kontaktliste\n"
+"Hinzugefügt zur Kontaktliste\n"
 "%n Mal hinzugefügt zur Kontaktliste"
 
 #: client.cpp:410
@@ -1770,7 +1770,7 @@ msgid ""
 "_n: WWW-panel message\n"
 "%n WWW-panel messages"
 msgstr ""
-" _n: WWW-Nachricht\n"
+"WWW-Nachricht\n"
 "%n WWW-Nachrichten"
 
 #: client.cpp:412
@@ -1779,7 +1779,7 @@ msgid ""
 "_n: Email pager message\n"
 "%n Email pager messages"
 msgstr ""
-" _n: Email-Pager-Nachricht\n"
+"Email-Pager-Nachricht\n"
 "%n Email-Pager-Nachrichten"
 
 #: client.cpp:414
@@ -1788,7 +1788,7 @@ msgid ""
 "_n: Contact list\n"
 "%n contact lists"
 msgstr ""
-" _n: Kontaktliste\n"
+"Kontaktliste\n"
 "%n Kontaktlisten"
 
 #: client.cpp:416
@@ -1797,7 +1797,7 @@ msgid ""
 "_n: Contacts request\n"
 "%n contacts requests"
 msgstr ""
-" _n: Kontaktanfrage\n"
+"Kontaktanfrage\n"
 "%n Kontaktanfragen"
 
 #: client.cpp:418
@@ -1806,7 +1806,7 @@ msgid ""
 "_n: External unknown message\n"
 "%n unknown messages"
 msgstr ""
-" _n: Externe unbekannte Nachricht\n"
+"Externe unbekannte Nachricht\n"
 "%n unbekannte Nachrichten"
 
 #: client.cpp:420
@@ -1815,7 +1815,7 @@ msgid ""
 "_n: SMS\n"
 "%n SMS"
 msgstr ""
-" _n: SMS\n"
+"SMS\n"
 "%n SMS"
 
 #: client.cpp:422
@@ -1824,7 +1824,7 @@ msgid ""
 "_n: SMS receipt\n"
 "%n SMS receipts"
 msgstr ""
-" _n: SMS empfangen\n"
+"SMS empfangen\n"
 "%n SMS empfangen"
 
 #: client.cpp:424
@@ -1833,7 +1833,7 @@ msgid ""
 "_n: Email\n"
 "%n emails"
 msgstr ""
-" _n: Email\n"
+"Email\n"
 "%n Emails"
 
 #: client.cpp:426
@@ -1842,7 +1842,7 @@ msgid ""
 "_n: Request secure channel\n"
 "%n requests sequre channel"
 msgstr ""
-" _n: Sicherer Kananal-Anfrage\n"
+"Sicherer Kananal-Anfrage\n"
 "%n Sicherer Kananal-Anfragen"
 
 #: client.cpp:428
@@ -1851,7 +1851,7 @@ msgid ""
 "_n: Close secure channel\n"
 "%n times close sequre channel"
 msgstr ""
-" _n: Sicherer Kanal geschlossen\n"
+"Sicherer Kanal geschlossen\n"
 "%n Mal sichereren Kanal geschlossen"
 
 #: client.cpp:432
@@ -1860,7 +1860,7 @@ msgid ""
 "_n: Unknown message\n"
 "%n unknown messages"
 msgstr ""
-" _n: Unbekannte Nachricht\n"
+"Unbekannte Nachricht\n"
 "%n unbekannte Nachrichten"
 
 #: client.cpp:466 userview.cpp:932
