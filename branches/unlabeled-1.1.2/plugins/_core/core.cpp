@@ -52,6 +52,9 @@
 
 #ifdef WIN32
 #include <windows.h>
+#else
+#include <sys/types.h>
+#include <sys/stat.h>
 #endif
 
 Plugin *createCorePlugin(unsigned base, bool, const char *config)
@@ -2613,6 +2616,10 @@ string CorePlugin::getConfig()
             }
         }
     }
+#ifndef WIN32
+	string dir = user_file("");
+	chmod(dir.c_str(),S_IRUSR | S_IWUSR | S_IXUSR);
+#endif
     string res = save_data(coreData, &data);
     setEditBackground(editBgColor);
     setEditForeground(editFgColor);

@@ -36,7 +36,8 @@
 #endif
 
 #ifndef XML_STATUS_OK
-#define XML_STATUS_OK 1
+#define XML_STATUS_OK    1
+#define XML_STATUS_ERROR 0
 #endif
 
 unsigned PING_TIMEOUT = 50;
