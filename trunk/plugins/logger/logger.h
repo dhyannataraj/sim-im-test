@@ -21,6 +21,8 @@
 #include "simapi.h"
 #include "stl.h"
 
+const unsigned short L_PACKETS = 0x08;
+
 typedef struct LoggerData
 {
     unsigned LogLevel;

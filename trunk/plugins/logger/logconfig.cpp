@@ -78,6 +78,7 @@ void LogConfig::fill()
     addItem(I18N_NOOP("Error"), (m_plugin->getLogLevel() & L_ERROR) != 0, L_ERROR, 0);
     addItem(I18N_NOOP("Warning"), (m_plugin->getLogLevel() & L_WARN) != 0, L_WARN, 0);
     addItem(I18N_NOOP("Debug"), (m_plugin->getLogLevel() & L_DEBUG) != 0, L_DEBUG, 0);
+    addItem(I18N_NOOP("Packets"), (m_plugin->getLogLevel() & L_DEBUG) != 0, L_PACKETS, 0);
     PacketType *type;
     ContactList::PacketIterator it;
     while ((type = ++it) != NULL){

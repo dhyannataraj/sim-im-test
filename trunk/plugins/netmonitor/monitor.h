@@ -25,6 +25,8 @@ class TextShow;
 class QPopupMenu;
 class NetmonitorPlugin;
 
+const unsigned short L_PACKETS = 0x08;
+
 class MonitorWindow : public QMainWindow, public EventReceiver
 {
     Q_OBJECT

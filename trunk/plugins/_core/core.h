@@ -69,7 +69,7 @@ typedef struct CoreData
     char		*Lang;
     unsigned	ContainerMode;
     unsigned	SendOnEnter;
-    unsigned	containerSize[2];
+    unsigned	containerGeo[4];
     unsigned	containerBar[7];
     unsigned	ContainerStatusSize;
     char		*Containers;

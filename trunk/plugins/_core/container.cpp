@@ -33,6 +33,8 @@
 #include <qpopupmenu.h>
 #include <qaccel.h>
 #include <qpainter.h>
+#include <qapplication.h>
+#include <qwidgetlist.h>
 
 #ifdef WIN32
 #include <windows.h>
@@ -148,17 +150,61 @@ Container::Container(unsigned id, const char *cfg)
 
     load_data(containerData, &data, cfg);
 
+    bool bPos = true;
     if (cfg == NULL){
         setId(id);
         memcpy(data.barState, CorePlugin::m_plugin->data.containerBar, sizeof(data.barState));
-        data.geometry[2] = CorePlugin::m_plugin->data.containerSize[0];
-        data.geometry[3] = CorePlugin::m_plugin->data.containerSize[1];
+        memcpy(data.geometry, CorePlugin::m_plugin->data.containerGeo, sizeof(data.geometry));
+        if ((data.geometry[WIDTH] == -1) || (data.geometry[HEIGHT] == -1)){
+            QWidget *desktop = QApplication::desktop();
+            data.geometry[WIDTH] = desktop->width() / 3;
+            data.geometry[HEIGHT] = desktop->height() / 3;
+        }
+        bPos = false;
+        if ((data.geometry[TOP] != -1) || (data.geometry[LEFT] != -1)){
+            bPos = true;
+            QWidgetList  *list = QApplication::topLevelWidgets();
+            for (;;) {
+                bool bOK = true;
+                QWidgetListIt it(*list);
+                QWidget * w;
+                while ((w = it.current()) != NULL){
+                    if (w->inherits("Container")){
+                        int dw = w->width()  - data.geometry[WIDTH];
+                        int dh = w->height() - data.geometry[HEIGHT];
+                        if (dw < 0) dw = -dw;
+                        if (dh < 0) dh = -dh;
+                        if ((dw < 3) && (dh < 3)){
+                            int nl = data.geometry[LEFT];
+                            int nt = data.geometry[TOP];
+                            nl += 11;
+                            nt += 10;
+                            QWidget *desktop = QApplication::desktop();
+                            if (nl + data.geometry[WIDTH] > desktop->width())
+                                nl = 0;
+                            if (nt + data.geometry[WIDTH] > desktop->width())
+                                nt = 0;
+                            if ((nl != data.geometry[LEFT]) && (nt != data.geometry[TOP])){
+                                data.geometry[LEFT] = nl;
+                                data.geometry[TOP]  = nt;
+                                bOK = false;
+                                break;
+                            }
+                        }
+                    }
+                    ++it;
+                }
+                if (bOK)
+                    break;
+            }
+            delete list;
+        }
         setStatusSize(CorePlugin::m_plugin->getContainerStatusSize());
         showBar();
         m_bInit = true;
     }
     m_bInSize = true;
-    restoreGeometry(this, data.geometry, cfg != NULL, (cfg != NULL) || m_bInit);
+    restoreGeometry(this, data.geometry, bPos, true);
     m_bInSize = false;
     connect(m_tabBar, SIGNAL(selected(int)), this, SLOT(contactSelected(int)));
     connect(this, SIGNAL(toolBarPositionChanged(QToolBar*)), this, SLOT(toolbarChanged(QToolBar*)));
@@ -397,8 +443,18 @@ void Container::resizeEvent(QResizeEvent *e)
     if (m_bInSize)
         return;
     saveGeometry(this, data.geometry);
-    CorePlugin::m_plugin->data.containerSize[0] = data.geometry[2];
-    CorePlugin::m_plugin->data.containerSize[1] = data.geometry[3];
+    CorePlugin::m_plugin->data.containerGeo[WIDTH]  = data.geometry[WIDTH];
+    CorePlugin::m_plugin->data.containerGeo[HEIGHT] = data.geometry[HEIGHT];
+}
+
+void Container::moveEvent(QMoveEvent *e)
+{
+    QMainWindow::moveEvent(e);
+    if (m_bInSize)
+        return;
+    saveGeometry(this, data.geometry);
+    CorePlugin::m_plugin->data.containerGeo[LEFT] = data.geometry[LEFT];
+    CorePlugin::m_plugin->data.containerGeo[TOP]  = data.geometry[TOP];
 }
 
 void Container::toolbarChanged(QToolBar*)

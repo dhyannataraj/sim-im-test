@@ -134,6 +134,7 @@ void MonitorWindow::toggleType(int id)
     case L_DEBUG:
     case L_WARN:
     case L_ERROR:
+    case L_PACKETS:
         m_plugin->setLogLevel(m_plugin->getLogLevel() ^ id);
         return;
     }
@@ -156,6 +157,7 @@ static level_def levels[] =
         { L_DEBUG, I18N_NOOP("&Debug") },
         { L_WARN, I18N_NOOP("&Warnings") },
         { L_ERROR, I18N_NOOP("&Errors") },
+        { L_PACKETS, I18N_NOOP("&Packets") },
         { 0, NULL }
     };
 
@@ -183,24 +185,12 @@ typedef struct LevelColorDef
 
 static LevelColorDef levelColors[] =
     {
-        {
-            L_DEBUG, "008000"
-        },
-        {
-            L_WARN,	 "808000"
-        },
-        {
-            L_ERROR, "800000"
-        },
-        {
-            L_PACKET_IN, "000080"
-        },
-        {
-            L_PACKET_OUT, "000000"
-        },
-        {
-            0,		 NULL
-        }
+        { L_DEBUG,		"008000" },
+        { L_WARN,		"808000" },
+        { L_ERROR,		"800000" },
+        { L_PACKET_IN,	"000080" },
+        { L_PACKET_OUT, "000000" },
+        { 0,			NULL }
     };
 
 void *MonitorWindow::processEvent(Event *e)
@@ -208,7 +198,7 @@ void *MonitorWindow::processEvent(Event *e)
     if ((e->type() == EventLog) && !bPause){
         LogInfo *li = (LogInfo*)e->param();
         if (((li->packet_id == 0) && (li->log_level & m_plugin->getLogLevel())) ||
-                (li->packet_id && m_plugin->isLogType(li->packet_id))){
+                (li->packet_id && ((m_plugin->getLogLevel() & L_PACKETS) || m_plugin->isLogType(li->packet_id)))){
             const char *font = NULL;
             for (const LevelColorDef *d = levelColors; d->color; d++){
                 if (li->log_level == d->level){
