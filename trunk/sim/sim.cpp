@@ -197,7 +197,7 @@ int main(int argc, char *argv[])
     KAboutData aboutData(PACKAGE,
                          I18N_NOOP("SIM"),
                          _VERSION,
-                         I18N_NOOP("Multiprotcol instant messenger"),
+                         I18N_NOOP("Multiprotocol Instant Messenger"),
                          KAboutData::License_GPL,
                          "Copyright (C) 2002-2004, Vladimir Shutoff",
                          0,
