@@ -59,7 +59,7 @@
 "{"				{ return UP; }
 "}"				{ return DOWN; }
 "\\"[\\\{\}]			{ return SLASH; }
-"\\u"[0-9]{3,7}"?"		{ return UNICODE_CHAR; }
+"\\u"[0-9]{3,7}[ ]?"?"		{ return UNICODE_CHAR; }
 "\\"[A-Za-z]+[0-9]*[ ]? 	{ return CMD; }
 "\\'"[0-9A-Fa-f][0-9A-Fa-f]	{ return HEX; }
 "<##"[^>]+">"			{ return IMG; }
