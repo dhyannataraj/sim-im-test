@@ -2064,6 +2064,7 @@ if test "$kde_qtver" = "3"; then
    AC_SUBST(LIB_KDEPRINT, "-lkdeprint")
    AC_SUBST(LIB_KUTILS, "-lkutils")
    AC_SUBST(LIB_KDEPIM, "-lkdepim")
+   AC_SUBST(LIB_KDEFX, "-lkdefx")
 # these are for backward compatibility
    AC_SUBST(LIB_KSYCOCA, "-lkio")
    AC_SUBST(LIB_KFILE, "-lkio")
