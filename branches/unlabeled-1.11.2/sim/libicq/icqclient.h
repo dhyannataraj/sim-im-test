@@ -22,18 +22,18 @@
 #include "config.h"
 #endif
 
-#if STDC_HEADERS
+#ifdef STDC_HEADERS
 #include <stdlib.h>
 #include <stddef.h>
 #endif
-#if HAVE_INTTYPES_H
+#ifdef HAVE_INTTYPES_H
 #include <inttypes.h>
 #else
-#if HAVE_STDINT_H
+#ifdef HAVE_STDINT_H
 #include <stdint.h>
 #endif
 #endif
-#if HAVE_UNISTD_H
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
 
@@ -916,6 +916,11 @@ public:
     ConfigBool   WebAware;
     ConfigBool   Authorize;
     ConfigBool   HideIp;
+    ConfigBool	 RejectMessage;
+    ConfigBool	 RejectURL;
+    ConfigBool	 RejectWeb;
+    ConfigBool	 RejectEmail;
+    ConfigBool	 RejectOther;
 
     ConfigShort		ProxyType;
     ConfigString	ProxyHost;

@@ -24,38 +24,6 @@
 
 #include <qtextcodec.h>
 
-#ifdef HAVE_ICONV
-
-#include <iconv.h>
-
-bool ICQClient::translate(const char *to, const char *from, string &str)
-{
-    if (strcasecmp(to, from) == 0) return true;
-    string res(str.size() * 4, '\x00');
-    iconv_t cnv = iconv_open(to, from);
-    if (cnv == (iconv_t)(-1)){
-        log(L_WARN, "Can't convert %s -> %s", from, to);
-        return false;
-    }
-    ICONV_CONST char *in_ptr = (ICONV_CONST char*)str.c_str();
-    char *out_ptr = (char*)res.c_str();
-    size_t in_bytes = str.size();
-    size_t out_bytes = str.size() * 4;
-    size_t out_bytes_init = out_bytes;
-    size_t cnv_res = iconv(cnv, &in_ptr, &in_bytes, &out_ptr, &out_bytes);
-    if (cnv_res == (size_t)(-1)){
-        log(L_WARN, "Can't convert %s->%s [%s] %s", from, to, str.c_str(), strerror(errno));
-        iconv_close(cnv);
-        return false;
-    }
-    str.erase();
-    str.append(res.c_str(), out_bytes_init - out_bytes);
-    iconv_close(cnv);
-    return true;
-}
-
-#else
-
 #ifndef HAVE_STRCASECMP
 int strcasecmp(const char *a, const char *b);
 #endif
@@ -119,8 +87,6 @@ bool ICQClient::translate(const char *to, const char *from, string &str)
     return true;
 }
 
-#endif
-
 void ICQClient::fromUTF(string &str)
 {
     translate(localCharset(), "UTF-8", str);
@@ -143,21 +109,7 @@ void ICQClient::toServer(string &str)
 
 const char *ICQClient::localCharset()
 {
-    QTextCodec *codec = QTextCodec::codecForLocale();
-    if (codec) return codec->name();
-    char *p = getenv("LANGUAGE");
-    if (p == NULL) p = getenv("LANG");
-    if (p) {
-        p = strchr(p, '.');
-        if (p) p++;
-    }
-    if (p){
-        if (strcasecmp(p, "koi8r")) return "KOI8-R";
-        if (strcasecmp(p, "koi8u")) return "KOI8-U";
-        if (strcasecmp(p, "iso88595")) return "ISO8859-5";
-        return p;
-    }
-    return "ascii";
+    return QTextCodec::codecForLocale()->name();
 }
 
 const char *ICQClient::serverCharset()

@@ -115,7 +115,6 @@ LIBCOMPAT = @LIBCOMPAT@
 LIBCRYPT = @LIBCRYPT@
 LIBDL = @LIBDL@
 LIBGEN = @LIBGEN@
-LIBICONV = @LIBICONV@
 LIBJPEG = @LIBJPEG@
 LIBMICO = @LIBMICO@
 LIBOBJS = @LIBOBJS@
@@ -400,12 +399,7 @@ GTAGS:
 distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH
 
-#>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-#>+ 4
-KDE_DIST=libqt3.a 
-
-DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
-
+DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
 top_distdir = ../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
@@ -571,7 +565,7 @@ clean-moc-classes:
 	-rm -f  libqt3_a_meta_unload.cpp
 
 #>+ 11
-libqt3_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/qtextbrowser.cpp $(srcdir)/qsimplerichtext.cpp $(srcdir)/qkeysequence.cpp $(srcdir)/qtextedit.cpp $(srcdir)/qstylesheet.cpp $(srcdir)/qrichtext_p.cpp $(srcdir)/qrichtext.cpp $(srcdir)/qcomplextext.cpp $(srcdir)/libqt3_a_meta_unload.cpp
+libqt3_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/qtextbrowser.cpp $(srcdir)/qsimplerichtext.cpp $(srcdir)/qkeysequence.cpp $(srcdir)/qtextedit.cpp $(srcdir)/qstylesheet.cpp $(srcdir)/qrichtext_p.cpp $(srcdir)/qrichtext.cpp $(srcdir)/qcomplextext.cpp libqt3_a_meta_unload.cpp
 	@echo 'creating libqt3_a.all_cpp.cpp ...'; \
 	rm -f libqt3_a.all_cpp.files libqt3_a.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> libqt3_a.all_cpp.final; \

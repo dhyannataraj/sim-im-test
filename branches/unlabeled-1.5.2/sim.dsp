@@ -4880,6 +4880,27 @@ InputPath=.\po\ru.po
 !ENDIF 
 
 # End Source File
+# Begin Source File
+
+SOURCE=.\po\zh_TW.po
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# Begin Custom Build - msg2qm on $(InputPath)
+TargetDir=.\Debug
+InputPath=.\po\zh_TW.po
+
+"$(TargetDir)\po\zh_TW.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	msg2qm $(InputPath) 
+	move tr.qm $(TargetDir)\po\zh_TW.qm 
+	
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
 # End Group
 # End Target
 # End Project

@@ -22,7 +22,7 @@
 #include <qlabel.h>
 #include <qcheckbox.h>
 #include <qpixmap.h>
-#if USE_SPELL
+#ifdef USE_SPELL
 #include <ksconfig.h>
 #include <qlayout.h>
 #endif
@@ -31,7 +31,7 @@ SpellSetup::SpellSetup(QWidget *p)
         : SpellSetupBase(p)
 {
     lblPict->setPixmap(Pict("spellcheck"));
-#if USE_SPELL
+#ifdef USE_SPELL
     QVBoxLayout *lay = new QVBoxLayout(widget);
     KSpellConfig *spell = new KSpellConfig(widget);
     lay->addWidget(spell);

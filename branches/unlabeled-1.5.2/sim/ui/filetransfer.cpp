@@ -22,7 +22,7 @@
 #include "mainwin.h"
 #include "cuser.h"
 
-#if USE_KDE
+#ifdef USE_KDE
 #include <kfiledialog.h>
 #define QFileDialog	KFileDialog
 #else

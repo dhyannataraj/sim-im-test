@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-07-26 05:27+0400\n"
-"PO-Revision-Date: 2002-07-26 04:02GMT\n"
+"POT-Creation-Date: 2002-07-27 20:27+0400\n"
+"PO-Revision-Date: 2002-07-26 16:17GMT\n"
 "Last-Translator: Crissi <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -47,19 +47,19 @@ msgstr ""
 msgid "We'd love to hear what you have to say. Join our chat.\n"
 msgstr "Wir möchten gern chatten. Bitte komm doch in unseren Chat.\n"
 
-#: libicq/translator.cpp:131
+#: libicq/translator.cpp:97
 msgid "UTF-8"
 msgstr "UTF-8"
 
-#: chatwnd.cpp:80 msgedit.cpp:136
+#: chatwnd.cpp:80 msgedit.cpp:139
 msgid "Bold"
 msgstr "Fett"
 
-#: chatwnd.cpp:92 msgedit.cpp:156
+#: chatwnd.cpp:92 msgedit.cpp:159
 msgid "Underline"
 msgstr "Unterstrichen"
 
-#: chatwnd.cpp:97 msgedit.cpp:111
+#: chatwnd.cpp:97 msgedit.cpp:114
 msgid "Text color"
 msgstr "Textfarbe"
 
@@ -132,11 +132,11 @@ msgstr "SMS Empfänger"
 msgid "Email"
 msgstr "E-Mail"
 
-#: client.cpp:459 userview.cpp:871
+#: client.cpp:459 userview.cpp:868
 msgid "Offline"
 msgstr "Offline"
 
-#: client.cpp:462 client.cpp:474 cuser.cpp:203 userview.cpp:871
+#: client.cpp:462 client.cpp:474 cuser.cpp:203 userview.cpp:868
 msgid "Online"
 msgstr "Online"
 
@@ -177,7 +177,7 @@ msgstr "%n ungelesene Nachricht"
 msgid "Connecting"
 msgstr "Verbindungsaufbau"
 
-#: editspell.cpp:219 msgedit.cpp:172 ui/setupdlg.cpp:104
+#: editspell.cpp:219 msgedit.cpp:175 ui/setupdlg.cpp:104
 msgid "Spell check"
 msgstr "Rechtschreibprüfung"
 
@@ -321,7 +321,7 @@ msgstr "Benutzer"
 msgid "Delete user %1?"
 msgstr "Benutzer %1 löschen?"
 
-#: mainwin.cpp:1566 msgedit.cpp:745
+#: mainwin.cpp:1566 msgedit.cpp:762
 msgid "New"
 msgstr "Neu"
 
@@ -341,15 +341,15 @@ msgstr "Verfügbar"
 msgid "Busy"
 msgstr "Beschäftigt"
 
-#: mainwin.cpp:1789 userview.cpp:476
+#: mainwin.cpp:1789 userview.cpp:473
 msgid "Create group"
 msgstr "Gruppe erstellen"
 
-#: mainwin.cpp:1791 userview.cpp:481
+#: mainwin.cpp:1791 userview.cpp:478
 msgid "Expand all"
 msgstr "Alle aufklappen"
 
-#: mainwin.cpp:1792 userview.cpp:482
+#: mainwin.cpp:1792 userview.cpp:479
 msgid "Collapse all"
 msgstr "Alle zusammenklappen"
 
@@ -405,121 +405,130 @@ msgid ""
 "Your emails"
 msgstr "crissi99@gmx.de"
 
-#: msgedit.cpp:64
+#: msgedit.cpp:67
 msgid "Decline file without reason"
 msgstr "Ohne Grund abgelehnt"
 
-#: msgedit.cpp:66
+#: msgedit.cpp:69
 msgid "Sorry, I'm busy right now, and can not respond to your request"
 msgstr ""
 "Entschuldigung, bin gerade beschäftigt und kann nicht auf die Anfrage "
 "antworten."
 
-#: msgedit.cpp:68
+#: msgedit.cpp:71
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
 msgstr "Entschuldigung, bin gerade beschäftigt, werde aber später antworten."
 
-#: msgedit.cpp:70
+#: msgedit.cpp:73
 msgid "Enter a decline reason"
 msgstr "Ablehungsgrund eingeben"
 
-#: msgedit.cpp:93
+#: msgedit.cpp:96
 msgid "Background color"
 msgstr "Hintergrundfarbe"
 
-#: msgedit.cpp:98
+#: msgedit.cpp:101
 msgid "&Reply"
 msgstr "&Antwort"
 
-#: msgedit.cpp:102
+#: msgedit.cpp:105
 msgid "&Grant"
 msgstr "&Bewilligung"
 
-#: msgedit.cpp:106
+#: msgedit.cpp:109
 msgid "&Accept"
 msgstr "&Annehmen"
 
-#: msgedit.cpp:117
+#: msgedit.cpp:120
 msgid "&Quote"
 msgstr "&Zitieren"
 
-#: msgedit.cpp:121
+#: msgedit.cpp:124
 msgid "&Refuse"
 msgstr "&Ablehnen"
 
-#: msgedit.cpp:131
+#: msgedit.cpp:134
 msgid "&Decline"
 msgstr "&Ablehnen"
 
-#: msgedit.cpp:143
+#: msgedit.cpp:146
 msgid "&Forward"
 msgstr "&Vorwärts"
 
-#: msgedit.cpp:164
+#: msgedit.cpp:167
 msgid "Text font"
 msgstr "Schriftart"
 
-#: msgedit.cpp:181
+#: msgedit.cpp:184
 msgid "C&lose after send"
 msgstr "Nach dem Senden &schließen"
 
-#: msgedit.cpp:195
+#: msgedit.cpp:198
 msgid "Phone:"
 msgstr "Telefon:"
 
-#: msgedit.cpp:205
+#: msgedit.cpp:208
 msgid "URL:"
 msgstr "URL:"
 
-#: msgedit.cpp:213
+#: msgedit.cpp:216
 msgid "File:"
 msgstr "Datei:"
 
-#: msgedit.cpp:219
+#: msgedit.cpp:222
 msgid "Multiply send"
 msgstr "An mehrere senden"
 
-#: msgedit.cpp:224
+#: msgedit.cpp:227
 msgid "Drag users here"
 msgstr "Benutzer hierher ziehen"
 
-#: msgedit.cpp:280
+#: msgedit.cpp:283
 msgid "Sending"
 msgstr "Sende"
 
-#: msgedit.cpp:287
+#: msgedit.cpp:290
 msgid "&Send"
 msgstr "&Senden"
 
-#: msgedit.cpp:424
+#: msgedit.cpp:427
 msgid "Transfer started"
 msgstr "Übertragung gestartet"
 
-#: msgedit.cpp:427
+#: msgedit.cpp:430
 msgid "Chat started"
 msgstr "Chat gestartet"
 
-#: msgedit.cpp:455
+#: msgedit.cpp:472
 msgid "Message sent"
 msgstr "Nachricht gesendet"
 
-#: msgedit.cpp:459
+#: msgedit.cpp:476
 msgid "Send failed"
 msgstr "Senden fehlgeschlagen"
 
-#: msgedit.cpp:742
+#: msgedit.cpp:759
 msgid "Next"
 msgstr "Weiter"
 
-#: msgedit.cpp:783
+#: msgedit.cpp:800
 msgid "%1 (ICQ# %2) wrote:<br>\n"
 msgstr "%1 (ICQ# %2) schrieb:<br>\n"
 
-#: msgedit.cpp:1482
+#: msgedit.cpp:1357
+msgid "Size: %1 / Max. size: %2"
+msgstr ""
+
+#: msgedit.cpp:1361
+#, fuzzy
+msgid "Message will be split"
+msgstr "Nachricht gesendet"
+
+#: msgedit.cpp:1526
 msgid "Decline reason"
 msgstr "Ablehnungsgrund"
 
-#: msgedit.cpp:1482
+#: msgedit.cpp:1526
 msgid "Please, input decline reason:"
 msgstr "Bitte geben Sie einen Ablehnungsgrund ein:"
 
@@ -541,7 +550,7 @@ msgstr "Kontakliste empfangen"
 
 #: msgview.cpp:188
 msgid "Contact list sent"
-msgstr "Kontaktliste gesendet"
+msgstr ""
 
 #: msgview.cpp:258 ui/finddlgbase.cpp:62
 msgid "&Find"
@@ -609,7 +618,7 @@ msgstr "Alle Benutzer"
 
 #: userbox.cpp:990
 msgid "History loading"
-msgstr "Verlauf laden"
+msgstr "Lade Verlauf..."
 
 #: ui/searchbase.cpp:188 usertbl.cpp:109
 msgid "UIN"
@@ -635,27 +644,27 @@ msgstr "Gruppe hinzufügen"
 msgid "Add all"
 msgstr "Alle hinzufügen"
 
-#: userview.cpp:365
+#: userview.cpp:362
 msgid "Not in list"
 msgstr "Nicht in Liste"
 
-#: userview.cpp:472
+#: userview.cpp:469
 msgid "Group"
 msgstr "Gruppe"
 
-#: userview.cpp:474
+#: userview.cpp:471
 msgid "Rename"
 msgstr "Umbenennen"
 
-#: userview.cpp:478
+#: userview.cpp:475
 msgid "Up"
 msgstr "Nach oben"
 
-#: userview.cpp:479
+#: userview.cpp:476
 msgid "Down"
 msgstr "Abwärts"
 
-#: userview.cpp:570 userview.cpp:583
+#: userview.cpp:567 userview.cpp:580
 msgid "New group"
 msgstr "Neue Gruppe"
 
@@ -929,6 +938,14 @@ msgstr "Mitte-unten"
 msgid "Center-top"
 msgstr "Gruppe erstellen"
 
+#: ui/aboutdlg.cpp:34
+msgid "%1 Version: %2"
+msgstr "%1 Version: %2"
+
+#: ui/aboutdlg.cpp:37
+msgid "Bug report"
+msgstr "Berichten Sie Probleme oder Wünsche"
+
 #: ui/searchbase.cpp:69 ui/searchbase.cpp:199
 msgid "Search"
 msgstr "Suchen"
@@ -982,6 +999,22 @@ msgstr "Nur Online"
 msgid "New search"
 msgstr "Neue Suche"
 
+#: ui/finddlgbase.cpp:34
+msgid "Find"
+msgstr "Suchen"
+
+#: ui/finddlgbase.cpp:42
+msgid "Find:"
+msgstr "Suchen:"
+
+#: ui/finddlgbase.cpp:51
+msgid "Case &sensitivy"
+msgstr "Groß-/kleinschreibung &beachten"
+
+#: ui/finddlgbase.cpp:55
+msgid "Find &backwards"
+msgstr "&Rückwärts suchen"
+
 #: ui/acceptbase.cpp:95 ui/alertdialogbase.cpp:64 ui/fontsetupbase.cpp:95
 #: ui/generalsecbase.cpp:63 ui/homeinfobase.cpp:65 ui/miscsetupbase.cpp:90
 #: ui/msgdialogbase.cpp:63 ui/networkbase.cpp:65 ui/pastinfobase.cpp:63
@@ -1030,6 +1063,22 @@ msgstr "Schatten"
 #: ui/xosdbase.cpp:202
 msgid "Background"
 msgstr "Hintergrund"
+
+#: ui/aboutdlgbase.cpp:67
+msgid "About SIM"
+msgstr "Über SIM"
+
+#: ui/aboutdlgbase.cpp:102
+msgid "Authors"
+msgstr "Autoren"
+
+#: ui/aboutdlgbase.cpp:109
+msgid "Translation"
+msgstr "Übersetzung"
+
+#: ui/aboutdlgbase.cpp:116
+msgid "License"
+msgstr "Lizenz"
 
 #: ui/networkbase.cpp:80
 msgid "Network"
@@ -1082,26 +1131,6 @@ msgstr "Von:"
 #: ui/networkbase.cpp:221
 msgid "To:"
 msgstr "An:"
-
-#: ui/filetransferbase.cpp:37
-msgid "File transfer"
-msgstr "Dateiübertragung"
-
-#: ui/filetransferbase.cpp:70
-msgid "1000000/100000"
-msgstr "1000000/100000"
-
-#: ui/filetransferbase.cpp:79
-msgid "100000"
-msgstr "100000"
-
-#: ui/filetransferbase.cpp:86
-msgid "Speed:"
-msgstr "Geschwindigkeit:"
-
-#: ui/filetransferbase.cpp:107
-msgid "Close after send"
-msgstr "Nach dem Senden schließen"
 
 #: ui/acceptbase.cpp:122
 msgid "Override global settings"
@@ -1175,6 +1204,26 @@ msgstr "Farbe der emfangenen Nachrichten"
 msgid "Sending messages color"
 msgstr "Nachrichtenfarben senden"
 
+#: ui/filetransferbase.cpp:37
+msgid "File transfer"
+msgstr "Dateiübertragung"
+
+#: ui/filetransferbase.cpp:70
+msgid "1000000/100000"
+msgstr "1000000/100000"
+
+#: ui/filetransferbase.cpp:79
+msgid "100000"
+msgstr "100000"
+
+#: ui/filetransferbase.cpp:86
+msgid "Speed:"
+msgstr "Geschwindigkeit:"
+
+#: ui/filetransferbase.cpp:107
+msgid "Close after send"
+msgstr "Nach dem Senden schließen"
+
 #: ui/emaileditbase.cpp:36
 msgid "Edit Email"
 msgstr "Email bearbeiten"
@@ -1230,7 +1279,8 @@ msgstr "Globalen Online-Alarm überschreiben"
 
 #: ui/alertdialogbase.cpp:95
 msgid "Activate online alert when user returns from Away or NA"
-msgstr "Online-Alarm aktivieren, wenn der Benutzer von NA oder Weg zurückkehrt"
+msgstr ""
+"Online-Alarm aktivieren, wenn der Benutzer von NA oder Weg zurückkehrt"
 
 #: ui/alertdialogbase.cpp:99
 msgid "Online alert options"
@@ -1393,6 +1443,29 @@ msgstr "Postleitzahl:"
 msgid "State:"
 msgstr "Staat:"
 
+#: ui/statussetupbase.cpp:95
+msgid ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgstr ""
+"Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
+"deaktivieren"
+
+#: ui/statussetupbase.cpp:102
+msgid "minutes not using computer"
+msgstr "Minuten keine Computerbenutzung"
+
+#: ui/statussetupbase.cpp:132
+msgid "minutes of \"Away\""
+msgstr "Minuten von \"Weg\""
+
+#: ui/statussetupbase.cpp:139
+msgid "Set \"N/A\" status after"
+msgstr "\"N/A\"-Status setzen nach"
+
+#: ui/statussetupbase.cpp:146
+msgid "Set \"Away\" status after"
+msgstr "\"Weg\"-Status setzen nach"
+
 #: ui/themesetupbase.cpp:92
 msgid "Select style:"
 msgstr "Stil auswählen:"
@@ -1416,28 +1489,6 @@ msgstr "Transparenter Container"
 #: ui/themesetupbase.cpp:140
 msgid "Show user window in task manager"
 msgstr "Benutzerfenster in Prozeßliste anzeigen"
-
-#: ui/statussetupbase.cpp:95
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
-msgstr ""
-"Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
-"deaktivieren"
-
-#: ui/statussetupbase.cpp:102
-msgid "minutes not using computer"
-msgstr "Minuten keine Computerbenutzung"
-
-#: ui/statussetupbase.cpp:132
-msgid "minutes of \"Away\""
-msgstr "Minuten von \"Weg\""
-
-#: ui/statussetupbase.cpp:139
-msgid "Set \"N/A\" status after"
-msgstr "\"N/A\"-Status setzen nach"
-
-#: ui/statussetupbase.cpp:146
-msgid "Set \"Away\" status after"
-msgstr "\"Weg\"-Status setzen nach"
 
 #: ui/listsecbase.cpp:90 ui/moreinfobase.cpp:65
 msgid "Form3"
@@ -1495,10 +1546,6 @@ msgstr "Als Standard festlegen"
 msgid "Notes"
 msgstr "Bemerkungen"
 
-#: ui/homeinfobase.cpp:153
-msgid "Time zone:"
-msgstr "Zeitzone:"
-
 #: ui/generalsecbase.cpp:96
 msgid "My authorization is required before users add me to Contact List"
 msgstr ""
@@ -1513,6 +1560,18 @@ msgstr "Erlaubt anderen meinem Status im Web anzusehen"
 msgid "Don't show my IP-address"
 msgstr "IP-Adresse nicht anzeigen"
 
+#: ui/homeinfobase.cpp:153
+msgid "Time zone:"
+msgstr "Zeitzone:"
+
+#: ui/aboutinfobase.cpp:62
+msgid "Form4"
+msgstr "Form 4"
+
+#: ui/aboutinfobase.cpp:87
+msgid "Additional information about user:"
+msgstr "Zusätzliche Information über den Benutzer:"
+
 #: ui/changepasswdbase.cpp:77
 msgid "Change password"
 msgstr "Passwort ändern"
@@ -1525,61 +1584,14 @@ msgstr "Neues Paßwort erneut eingeben:"
 msgid "New password:"
 msgstr "Neues Paßwort:"
 
-#: ui/aboutinfobase.cpp:62
-msgid "Form4"
-msgstr "Form 4"
-
-#: ui/aboutinfobase.cpp:87
-msgid "Additional information about user:"
-msgstr "Zusätzliche Information über den Benutzer:"
-
-#: ui/aboutdlg.cpp:34
-msgid "%1 Version: %2"
-msgstr "%1 Version: %2"
-
-#: ui/aboutdlg.cpp:37
-msgid "Bug report"
-msgstr "Berichten Sie Probleme oder Wünsche"
-
-#: ui/aboutdlgbase.cpp:67
-msgid "About SIM"
-msgstr "Über SIM"
-
-#: ui/aboutdlgbase.cpp:102
-msgid "Authors"
-msgstr "Autoren"
-
-#: ui/aboutdlgbase.cpp:109
-msgid "Translation"
-msgstr "Übersetzung"
-
-#: ui/aboutdlgbase.cpp:116
-msgid "License"
-msgstr "Lizenz"
-
-#: ui/finddlgbase.cpp:34
-msgid "Find"
-msgstr "Suchen"
-
-#: ui/finddlgbase.cpp:42
-msgid "Find:"
-msgstr "Suchen:"
-
-#: ui/finddlgbase.cpp:51
-msgid "Case &sensitivy"
-msgstr "Groß-/kleinschreibung &beachten"
-
-#: ui/finddlgbase.cpp:55
-msgid "Find &backwards"
-msgstr "&Rückwärts suchen"
-
 #: about.cpp:279
 msgid "replace this with information about your translation team"
 msgstr ";-)"
 
 #: about.cpp:295
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
+msgstr ""
+"Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
 
 #~ msgid "Miscellanious"
 #~ msgstr "Verschiedenes"
@@ -1589,4 +1601,3 @@ msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet.
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
-

@@ -33,7 +33,7 @@
 #include <shellapi.h>
 #endif
 
-#if USE_KDE
+#ifdef USE_KDE
 #include <kwin.h>
 #include <kpopupmenu.h>
 #else
@@ -281,7 +281,7 @@ DockWnd::DockWnd(QWidget *main)
     if (!bWMDock){
         setBackgroundMode(X11ParentRelative);
         setIcon(Pict(pClient->getStatusIcon()));
-#if USE_KDE
+#ifdef USE_KDE
         show();
 #else
     hide();

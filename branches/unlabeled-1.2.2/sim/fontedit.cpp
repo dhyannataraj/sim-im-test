@@ -22,7 +22,7 @@
 #include <qpushbutton.h>
 #include <qlabel.h>
 
-#if USE_KDE
+#ifdef USE_KDE
 #include <kfontdialog.h>
 #else
 #include <qfontdialog.h>
@@ -80,7 +80,7 @@ void FontEdit::setWinFont(const QFont &_f)
 
 void FontEdit::chooseFont()
 {
-#if USE_KDE
+#ifdef USE_KDE
     QFont _f = f;
     if (KFontDialog::getFont(_f, false, topLevelWidget()) == KFontDialog::Accepted)
         setWinFont(_f);

@@ -44,7 +44,7 @@
 #include <qregexp.h>
 #include <qinputdialog.h>
 #include <qpopupmenu.h>
-#if USE_KDE
+#ifdef USE_KDE
 #include <kcolordialog.h>
 #include <kfontdialog.h>
 #else
@@ -650,7 +650,7 @@ void MsgEdit::setUnder(bool bState)
 void MsgEdit::setFont()
 {
     if ((msg == NULL) || (msg->Type() != ICQ_MSGxMSG)) return;
-#if USE_KDE
+#ifdef USE_KDE
     QFont f = edit->font();
     if (KFontDialog::getFont(f, false, topLevelWidget()) == KFontDialog::Accepted)
         edit->setCurrentFont(f);
@@ -1374,7 +1374,7 @@ void MsgEdit::textChanged(const QString&)
 
 void MsgEdit::textChanged()
 {
-#if USE_SPELL
+#ifdef USE_SPELL
     btnSpell->setEnabled(canSpell());
 #endif
     btnSend->setEnabled(canSend());
@@ -1419,7 +1419,8 @@ void MsgEdit::makeMessage()
         }
     case ICQ_MSGxSMS:{
             ICQSMS *m = static_cast<ICQSMS*>(msg);
-            string s = edit->text().local8Bit();
+            string s;
+            s = edit->text().local8Bit();
             s = pClient->clearHTML(s.c_str());
             msgTail = trim(QString::fromLocal8Bit(s.c_str()));
             m->Message = smsChunk();
@@ -1555,13 +1556,13 @@ void MsgEdit::ftChanged()
 QString MsgEdit::trim(const QString &s)
 {
     QString res = s;
-    int n;
+    unsigned n;
     for (n = 0; n < res.length(); n++)
-        if (!res[n].isSpace()) break;
+        if (!res[(int)n].isSpace()) break;
     if (n) res = res.mid(n);
     if (res.isEmpty()) return res;
     for (n = res.length() - 1; n >= 0; n--)
-        if (!res[n].isSpace()) break;
+        if (!res[(int)n].isSpace()) break;
     if (n < res.length() - 1) res = res.left(n + 1);
     return res;
 }
@@ -1597,7 +1598,8 @@ string MsgEdit::smsChunk()
     if (!isLatin1(part))
         part = chunk(msgTail, MAX_SMS_LEN_UNICODE);
     msgTail = trim(msgTail.mid(part.length()));
-    string s = part.local8Bit();
+    string s;
+    s = part.local8Bit();
     for (unsigned i = 0; i < s.length(); i++){
         char c = s[i];
         switch (c){

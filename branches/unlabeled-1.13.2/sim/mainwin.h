@@ -342,7 +342,7 @@ protected:
 
     TransparentTop *transparent;
     QDialog      *mAboutApp;
-#if USE_KDE
+#ifdef USE_KDE
     KAboutKDE    *mAboutKDE;
 #endif
     QTranslator	 *translator;

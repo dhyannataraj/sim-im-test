@@ -32,7 +32,7 @@
 #include <qdatetime.h>
 #include <qregexp.h>
 
-#if USE_KDE
+#ifdef USE_KDE
 #include <kglobal.h>
 #endif
 
@@ -126,7 +126,7 @@ const QString CUser::formatTime(unsigned long t)
     if (t == 0) return "";
     QDateTime time;
     time.setTime_t(t);
-#if USE_KDE
+#ifdef USE_KDE
     return KGlobal::locale()->formatDateTime(time);
 #else
     return time.toString();

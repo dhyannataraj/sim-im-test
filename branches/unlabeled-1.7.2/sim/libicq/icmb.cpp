@@ -368,8 +368,8 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
         unsigned long real_ip = 0;
         unsigned long ip = 0;
         unsigned short port = 0;
-        if (tlv(3)) ip = htonl((unsigned long)(*tlv(3)));
-        if (tlv(4)) real_ip = htonl((unsigned long)(*tlv(4)));
+        if (tlv(3)) real_ip = htonl((unsigned long)(*tlv(3)));
+        if (tlv(4)) ip = htonl((unsigned long)(*tlv(4)));
         payload >> msg;
         if (*msg.c_str() || (msgType == ICQ_MSGxEXT)){
             if (payload.readPos() < payload.writePos())
@@ -451,12 +451,25 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
                     m->Received = true;
                     ICQUser *u = getUser(m->getUin());
                     if (u){
-                        if (real_ip && (u->RealIP() != real_ip))
+                        bool bChanged = false;
+                        if (real_ip && (u->RealIP() != real_ip)){
                             u->RealIP = real_ip;
-                        if (ip && (u->IP() != ip))
+                            u->RealHostName = "";
+                            bChanged = true;
+                        }
+                        if (ip && (u->IP() != ip)){
                             u->IP = ip;
-                        if (port && (u->Port() != port))
+                            u->HostName = "";
+                            bChanged = true;
+                        }
+                        if (port && (u->Port() != port)){
                             u->Port = port;
+                            bChanged = true;
+                        }
+                        if (bChanged){
+                            ICQEvent e(EVENT_STATUS_CHANGED, u->Uin());
+                            process_event(&e);
+                        }
                     }
                     messageReceived(m);
                 }else{

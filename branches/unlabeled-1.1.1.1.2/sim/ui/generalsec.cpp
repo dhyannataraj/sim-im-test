@@ -29,15 +29,27 @@ GeneralSecurity::GeneralSecurity(QWidget *p)
         : GeneralSecurityBase(p)
 {
     lblPict->setPixmap(Pict("security"));
-    chkAuth->setChecked(pClient->Authorize);
-    chkWebAware->setChecked(pClient->WebAware);
-    chkHiddenIP->setChecked(pClient->HideIp);
+    chkAuth->setChecked(pClient->Authorize());
+    chkWebAware->setChecked(pClient->WebAware());
+    chkHiddenIP->setChecked(pClient->HideIp());
+    chkRejectMsg->setChecked(pClient->RejectMessage());
+    chkRejectURL->setChecked(pClient->RejectURL());
+    chkRejectWeb->setChecked(pClient->RejectWeb());
+    chkRejectEmail->setChecked(pClient->RejectEmail());
+    chkRejectOther->setChecked(pClient->RejectOther());
 }
 
 void GeneralSecurity::apply(ICQUser*)
 {
     pClient->setSecurityInfo(chkAuth->isChecked(), chkWebAware->isChecked());
     pClient->HideIp = chkHiddenIP->isChecked();
+    pClient->RejectMessage = chkRejectMsg->isChecked();
+    pClient->RejectURL = chkRejectURL->isChecked();
+    pClient->RejectWeb = chkRejectWeb->isChecked();
+    pClient->RejectEmail = chkRejectEmail->isChecked();
+    pClient->RejectOther = chkRejectOther->isChecked();
+    if (pClient->m_state == ICQClient::Logged)
+        pClient->setStatus(pClient->uStatus);
 }
 
 #ifndef _WINDOWS

@@ -64,7 +64,7 @@ protected:
     QColor baseBG;
     QColor baseFG;
     QColor curFG;
-#if USE_SPELL
+#ifdef USE_SPELL
     int  nPara;
     int  nIndex;
     KSpell *pSpell;

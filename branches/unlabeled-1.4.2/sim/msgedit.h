@@ -128,7 +128,7 @@ protected:
     CPushButton *btnItalic;
     CPushButton *btnUnder;
     CPushButton *btnFont;
-#if USE_SPELL
+#ifdef USE_SPELL
     CPushButton *btnSpell;
 #endif
     PictPushButton *btnNext;

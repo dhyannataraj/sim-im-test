@@ -482,7 +482,7 @@ QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
     QDateTime time;
     time.setTime_t(msg->Time);
     s += "<font size=-1>";
-#if USE_KDE
+#ifdef USE_KDE
     s += KGlobal::locale()->formatDateTime(time);
 #else
     s += time.toString();

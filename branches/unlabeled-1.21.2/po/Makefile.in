@@ -117,7 +117,6 @@ LIBCOMPAT = @LIBCOMPAT@
 LIBCRYPT = @LIBCRYPT@
 LIBDL = @LIBDL@
 LIBGEN = @LIBGEN@
-LIBICONV = @LIBICONV@
 LIBJPEG = @LIBJPEG@
 LIBMICO = @LIBMICO@
 LIBOBJS = @LIBOBJS@
@@ -229,8 +228,8 @@ x_libraries = @x_libraries@
 
 #>- POFILES = AUTO
 #>+ 2
-POFILES = de.po ru.po
-GMOFILES = de.gmo ru.gmo
+POFILES = de.po zh_TW.po ru.po
+GMOFILES = de.gmo zh_TW.gmo ru.gmo
 subdir = po
 mkinstalldirs = $(SHELL) $(top_srcdir)/admin/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
@@ -269,7 +268,7 @@ TAGS:
 
 #>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 #>+ 4
-KDE_DIST=ru.gmo sim.pot de.gmo ru.po de.po 
+KDE_DIST=sim.pot ru.po de.gmo de.po ru.gmo zh_TW.po 
 
 #>- DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
 #>+ 1
@@ -383,30 +382,34 @@ uninstall-am: uninstall-info-am
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
 
-#>+ 7
+#>+ 10
 de.gmo: de.po
 	rm -f de.gmo; $(GMSGFMT) -o de.gmo $(srcdir)/de.po
 	test ! -f de.gmo || touch de.gmo
+zh_TW.gmo: zh_TW.po
+	rm -f zh_TW.gmo; $(GMSGFMT) -o zh_TW.gmo $(srcdir)/zh_TW.po
+	test ! -f zh_TW.gmo || touch zh_TW.gmo
 ru.gmo: ru.po
 	rm -f ru.gmo; $(GMSGFMT) -o ru.gmo $(srcdir)/ru.po
 	test ! -f ru.gmo || touch ru.gmo
 
 #>+ 3
 clean-nls:
-	-rm -f  de.gmo ru.gmo
+	-rm -f  de.gmo zh_TW.gmo ru.gmo
 
 #>+ 8
 install-nls:
-	@for base in de ru ; do \
+	@for base in de zh_TW ru ; do \
 	  echo $(INSTALL_DATA) $$base.gmo $(DESTDIR)$(kde_locale)/$$base/LC_MESSAGES/$(PACKAGE).mo ;\
 	  $(mkinstalldirs) $(DESTDIR)$(kde_locale)/$$base/LC_MESSAGES ; \
 	  test ! -f $$base.gmo || $(INSTALL_DATA) $$base.gmo $(DESTDIR)$(kde_locale)/$$base/LC_MESSAGES/$(PACKAGE).mo ;\
 	done
 
 
-#>+ 4
+#>+ 5
 uninstall-nls:
 	rm -f $(DESTDIR)$(kde_locale)/de/LC_MESSAGES/$(PACKAGE).mo
+	rm -f $(DESTDIR)$(kde_locale)/zh_TW/LC_MESSAGES/$(PACKAGE).mo
 	rm -f $(DESTDIR)$(kde_locale)/ru/LC_MESSAGES/$(PACKAGE).mo
 
 #>+ 2

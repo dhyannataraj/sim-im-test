@@ -22,7 +22,7 @@
 
 class MainWindow;
 
-#if USE_KDE
+#ifdef USE_KDE
 #include <kuniqueapp.h>
 
 class SimApp : public KUniqueApplication

@@ -45,7 +45,7 @@
 #include <qwidgetlist.h>
 #include <qprogressbar.h>
 
-#if USE_KDE
+#ifdef USE_KDE
 #include <kwin.h>
 #endif
 
@@ -184,7 +184,7 @@ UserBox::UserBox(unsigned long grpId)
 
 void UserBox::wmChanged()
 {
-#if USE_KDE
+#ifdef USE_KDE
     if (pMain->UserWindowInTaskManager()){
         KWin::clearState(winId(), NET::SkipTaskbar);
     }else{
@@ -896,11 +896,11 @@ void UserBox::setShow()
 {
     show();
     showNormal();
-#if USE_KDE
+#ifdef USE_KDE
     KWin::setOnDesktop(winId(), KWin::currentDesktop());
 #endif
     raise();
-#if USE_KDE
+#ifdef USE_KDE
     KWin::setActiveWindow(winId());
 #endif
 }
@@ -908,7 +908,7 @@ void UserBox::setShow()
 bool UserBox::isShow()
 {
     if (!isVisible()) return false;
-#if USE_KDE
+#ifdef USE_KDE
     return (KWin::info(winId()).desktop == KWin::currentDesktop())
            || KWin::info(winId()).onAllDesktops;
 #else

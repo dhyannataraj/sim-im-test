@@ -245,7 +245,7 @@ MainWindow::MainWindow(const char *name)
     translator = NULL;
     mAboutApp = NULL;
 
-#if HAVE_UMASK
+#ifdef HAVE_UMASK
     umask(0077);
 #endif
 
@@ -899,7 +899,7 @@ void MainWindow::saveState()
         ToolbarDock = "Top";
     }
     OnTop = testWFlags(WStyle_StaysOnTop);
-#if USE_KDE
+#ifdef USE_KDE
     OnTop = KWin::info(winId()).state & NET::StaysOnTop;
 #endif
     UseStyle = themes->getTheme().local8Bit();
@@ -1041,12 +1041,12 @@ void MainWindow::setShow(bool bShow)
     }
     show();
     showNormal();
-#if USE_KDE
+#ifdef USE_KDE
     KWin::setOnDesktop(winId(), KWin::currentDesktop());
 #endif
     setActiveWindow();
     raise();
-#if USE_KDE
+#ifdef USE_KDE
     KWin::setActiveWindow(winId());
 #endif
 }
@@ -1054,7 +1054,7 @@ void MainWindow::setShow(bool bShow)
 bool MainWindow::isShow()
 {
     if (!isVisible()) return false;
-#if USE_KDE
+#ifdef USE_KDE
     return (KWin::info(winId()).desktop == KWin::currentDesktop())
            || KWin::info(winId()).onAllDesktops;
 #else
@@ -1081,11 +1081,11 @@ void MainWindow::setup()
         setupDlg = new SetupDialog(this, 0);
     emit setupInit();
     setupDlg->show();
-#if USE_KDE
+#ifdef USE_KDE
     KWin::setOnDesktop(setupDlg->winId(), KWin::currentDesktop());
 #endif
     setupDlg->raise();
-#if USE_KDE
+#ifdef USE_KDE
     KWin::setActiveWindow(setupDlg->winId());
 #endif
 
@@ -1096,11 +1096,11 @@ void MainWindow::phonebook()
     if (setupDlg == NULL)
         setupDlg = new SetupDialog(this, 108);
     setupDlg->show();
-#if USE_KDE
+#ifdef USE_KDE
     KWin::setOnDesktop(setupDlg->winId(), KWin::currentDesktop());
 #endif
     setupDlg->raise();
-#if USE_KDE
+#ifdef USE_KDE
     KWin::setActiveWindow(setupDlg->winId());
 #endif
 
@@ -1301,7 +1301,7 @@ void MainWindow::ownerChanged()
     setStatusItem(ICQ_STATUS_OFFLINE);
     CUser owner(pClient);
     setCaption(owner.name());
-#if USE_KDE
+#ifdef USE_KDE
     menuFunction->changeTitle(1, owner.name());
 #endif
 }
@@ -1336,7 +1336,7 @@ void MainWindow::showUserPopup(unsigned long uin, QPoint p, QPopupMenu *popup, c
     if (u == NULL) return;
     adjustGroupMenu(menuGroup, uin);
     menuUser->clear();
-#if USE_KDE
+#ifdef USE_KDE
     CUser user(u);
     menuUser->insertTitle(user.name());
 #endif
@@ -1370,7 +1370,7 @@ void MainWindow::addMessageType(QPopupMenu *menuUser, int type, int id, bool bAd
 {
     if (bAdd){
         int pos = 0;
-#if USE_KDE
+#ifdef USE_KDE
         if (bHaveTitle) pos = 1;
 #endif
         if (menuUser->findItem(id)){
@@ -1431,7 +1431,7 @@ void MainWindow::userFunction(unsigned long uin, int function, unsigned long par
                 }
                 floating.push_back(uFloat);
                 uFloat->show();
-#if USE_KDE
+#ifdef USE_KDE
                 KWin::setOnAllDesktops(uFloat->winId(), true);
                 KWin::setState(uFloat->winId(),
                                NET::SkipTaskbar | NET::StaysOnTop | NET::Sticky);
@@ -1464,12 +1464,12 @@ void MainWindow::userFunction(unsigned long uin, int function, unsigned long par
             if (chat){
                 chat->show();
                 chat->showNormal();
-#if USE_KDE
+#ifdef USE_KDE
                 KWin::setOnDesktop(chat->winId(), KWin::currentDesktop());
 #endif
                 chat->setActiveWindow();
                 chat->raise();
-#if USE_KDE
+#ifdef USE_KDE
                 KWin::setActiveWindow(chat->winId());
 #endif
                 return;
@@ -1670,7 +1670,7 @@ void MainWindow::playSound(const char *wav)
 #ifdef WIN32
     sndPlaySoundA(wav, SND_ASYNC | SND_NODEFAULT);
 #else
-#if USE_KDE
+#ifdef USE_KDE
     KAudioPlayer::play(wav);
 #else
     if (*(SoundPlayer.c_str()) == 0) return;
@@ -1792,7 +1792,7 @@ void MainWindow::loadMenu()
     menuGroups->insertItem(Pict("grp_collapse"), i18n("Collapse all"), mnuGrpCollapseAll);
 
     menuFunction->clear();
-#if USE_KDE
+#ifdef USE_KDE
     menuFunction->insertTitle(i18n("ICQ"), 1);
 #endif
     menuFunction->setCheckable(true);

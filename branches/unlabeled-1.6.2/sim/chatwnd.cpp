@@ -35,7 +35,7 @@
 #include <qregexp.h>
 #include <qfile.h>
 
-#if USE_KDE
+#ifdef USE_KDE
 #include <kcolordialog.h>
 #include <kfiledialog.h>
 #define QFileDialog	KFileDialog
