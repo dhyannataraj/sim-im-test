@@ -120,7 +120,7 @@ protected:
 };
 
 WharfIcon::WharfIcon(DockWnd *parent)
-        : QWidget(parent, "WharfIcon", WType_TopLevel | WStyle_Customize | WStyle_Tool | WStyle_NoBorder | WX11BypassWM)
+        : QWidget(parent, "WharfIcon", WType_TopLevel | WStyle_Customize | WStyle_Tool | WStyle_NoBorder | WStyle_StaysOnTop)
 {
     dock = parent;
     setMouseTracking(true);
@@ -274,20 +274,20 @@ DockWnd::DockWnd(QWidget *main, bool _bWM)
         const QPixmap &pict = Pict(pClient->getStatusIcon());
         setIcon(pict);
 #ifdef USE_KDE
-        resize(pict.width(), pict.height());
-        bReparent = false;
-	log(L_DEBUG, ">> sys tray");
+        resize(24, 24);
         KWin::setSystemTrayWindowFor( winId(), main->topLevelWidget()->winId());
-	log(L_DEBUG, "?? %u", bReparent);
-//        if (bReparent){
-            bWharf = false;
-//        }else{
-	    show();
-//	}
+	show();
 #endif
     }
-    log(L_DEBUG, "Create WHarf %u", bWharf);
-    if (bWharf){
+    if (bWharf) showWharf();
+#endif
+    reset();
+}
+
+#ifndef WIN32
+void DockWnd::showWharf()
+{
+	if (wharfIcon) return;
         wharfIcon = new WharfIcon(this);
         if (bWM){
             Display *dsp = x11Display();
@@ -313,10 +313,8 @@ DockWnd::DockWnd(QWidget *main, bool _bWM)
             hide();
         }
         wharfIcon->show();
-    }
-#endif
-    reset();
 }
+#endif
 
 DockWnd::~DockWnd()
 {
@@ -335,6 +333,11 @@ DockWnd::~DockWnd()
 
 void DockWnd::paintEvent( QPaintEvent* )
 {
+    if ((width() != 24) || (height() != 24)){
+	hide();
+	showWharf();
+	return;
+    }
     QPainter p(this);
     p.drawPixmap((width() - drawIcon.width())/2, (height() - drawIcon.height())/2, drawIcon);
 }
@@ -513,18 +516,6 @@ void DockWnd::mouseDoubleClickEvent( QMouseEvent*)
     needToggle = false;
     emit doubleClicked();
 }
-
-#ifndef WIN32
-
-bool DockWnd::x11Event(XEvent *e)
-{
-    log(L_DEBUG, "X11 %u", e->type);
-    if (e->type == ReparentNotify)
-        bReparent = true;
-    return QWidget::x11Event(e);
-}
-
-#endif
 
 #ifndef _WINDOWS
 #include "dock.moc"

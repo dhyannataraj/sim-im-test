@@ -55,8 +55,7 @@ protected slots:
     void toggle();
 protected:
 #ifndef WIN32
-    bool bReparent;
-    bool x11Event(XEvent*);
+    void showWharf();
 #endif
     enum ShowIcon
     {
