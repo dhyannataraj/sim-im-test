@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2004-06-03 03:53+0400\n"
-"PO-Revision-Date: 2004-06-03 21:31+0100\n"
+"PO-Revision-Date: 2004-06-04 11:38+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -8191,369 +8191,277 @@ msgstr "Sonntag"
 msgid ""
 "_: weather\n"
 "Overcast"
-msgstr ""
-"Wetter\n"
-"bewölkt"
+msgstr "bewölkt"
 
 #: plugins/weather/weather.cpp:462
 msgid ""
 "_: weather\n"
 "Fog"
-msgstr ""
-"Wetter\n"
-"Nebel"
+msgstr "Nebel"
 
 #: plugins/weather/weather.cpp:463
 msgid ""
 "_: weather\n"
 "Haze"
-msgstr ""
-"Wetter\n"
-"Dunstschwaden"
+msgstr "Dunstschwaden"
 
 #: plugins/weather/weather.cpp:464
 msgid ""
 "_: weather\n"
 "Storm"
-msgstr ""
-"Wetter\n"
-"Sturm"
+msgstr "Sturm"
 
 #: plugins/weather/weather.cpp:465
 msgid ""
 "_: weather\n"
 "Rain"
-msgstr ""
-"Wetter\n"
-"Regen"
+msgstr "Regen"
 
 #: plugins/weather/weather.cpp:466
 msgid ""
 "_: weather\n"
 "Snow"
-msgstr ""
-"Wetter\n"
-"Schnee"
+msgstr "Schnee"
 
 #: plugins/weather/weather.cpp:467
 msgid ""
 "_: weather\n"
 "Light Rain"
-msgstr ""
-"Wetter\n"
-"Leichter Regen"
+msgstr "Leichter Regen"
 
 #: plugins/weather/weather.cpp:468
 msgid ""
 "_: weather\n"
 "Light Snow"
-msgstr ""
-"Wetter\n"
-"Leichter Schneefall"
+msgstr "Leichter Schneefall"
 
 #: plugins/weather/weather.cpp:469
 msgid ""
 "_: weather\n"
 "Few Snow"
-msgstr ""
-"Wetter\n"
-"Wenig Schneefall"
+msgstr "Wenig Schneefall"
 
 #: plugins/weather/weather.cpp:470
 msgid ""
 "_: weather\n"
 "Scattered Snow"
-msgstr ""
-"Wetter\n"
-"Vereinzelt Schneefall"
+msgstr "Vereinzelt Schneefall"
 
 #: plugins/weather/weather.cpp:471
 msgid ""
 "_: weather\n"
 "Clear"
-msgstr ""
-"Wetter\n"
-"Klar"
+msgstr "Klar"
 
 #: plugins/weather/weather.cpp:472
 msgid ""
 "_: weather\n"
 "Showers"
-msgstr ""
-"Wetter\n"
-"Schauer"
+msgstr "Schauer"
 
 #: plugins/weather/weather.cpp:473
 msgid ""
 "_: weather\n"
 "Mostly Clear"
-msgstr ""
-"Wetter\n"
-"Hauptsächlich klar"
+msgstr "Hauptsächlich klar"
 
 #: plugins/weather/weather.cpp:474
 msgid ""
 "_: weather\n"
 "Sunny"
-msgstr ""
-"Wetter\n"
-"Sonnig"
+msgstr "Sonnig"
 
 #: plugins/weather/weather.cpp:475
 msgid ""
 "_: weather\n"
 "Fair"
-msgstr ""
-"Wetter\n"
-"Heiter"
+msgstr "Heiter"
 
 #: plugins/weather/weather.cpp:476
 msgid ""
 "_: weather\n"
 "Cloudy"
-msgstr ""
-"Wetter\n"
-"Wolkig"
+msgstr "Wolkig"
 
 #: plugins/weather/weather.cpp:477
 msgid ""
 "_: weather\n"
 "Mostly Cloudy"
-msgstr ""
-"Wetter\n"
-"Hauptsächlich bewölkt "
+msgstr "Hauptsächlich bewölkt "
 
 #: plugins/weather/weather.cpp:478
 msgid ""
 "_: weather\n"
 "Partly Cloudy"
-msgstr ""
-"Wetter\n"
-"Teilweise bewölkt "
+msgstr "Teilweise bewölkt "
 
 #: plugins/weather/weather.cpp:479
 msgid ""
 "_: weather\n"
 "Wind"
-msgstr ""
-"Wetter\n"
-"Wind "
+msgstr "Wind "
 
 #: plugins/weather/weather.cpp:480
 msgid ""
 "_: weather\n"
 "Windy"
-msgstr ""
-"Wetter\n"
-"Windig"
+msgstr "Windig"
 
 #: plugins/weather/weather.cpp:481
 msgid ""
 "_: weather\n"
 "Drizzle"
-msgstr ""
-"Wetter\n"
-"Sprühregen"
+msgstr "Sprühregen"
 
 #: plugins/weather/weather.cpp:482
 msgid ""
 "_: weather\n"
 "Light Drizzle"
-msgstr ""
-"Wetter\n"
-"leichter Sprühregen"
+msgstr "leichter Sprühregen"
 
 #: plugins/weather/weather.cpp:483
 msgid ""
 "_: weather\n"
 "Drifting Snow"
-msgstr ""
-"Wetter\n"
-"Schneetreiben"
+msgstr "Schneetreiben"
 
 #: plugins/weather/weather.cpp:484
 msgid ""
 "_: weather\n"
 "Scattered"
-msgstr ""
-"Wetter\n"
-"Vereinzelte Niederschläge"
+msgstr "Vereinzelte Niederschläge"
 
 #: plugins/weather/weather.cpp:485
 msgid ""
 "_: weather\n"
 "Smoke"
-msgstr ""
-"Wetter\n"
-"Rauch"
+msgstr "Rauch"
 
 #: plugins/weather/weather.cpp:486
 msgid ""
 "_: weather\n"
 "steady"
-msgstr ""
-"Wetter\n"
-"beständig"
+msgstr "beständig"
 
 #: plugins/weather/weather.cpp:487
 msgid ""
 "_: weather\n"
 "rising"
-msgstr ""
-"Wetter\n"
-"Steigend"
+msgstr "steigend"
 
 #: plugins/weather/weather.cpp:488
 msgid ""
 "_: weather\n"
 "falling"
-msgstr ""
-"Wetter\n"
-"Fallend"
+msgstr "fallend"
 
 #: plugins/weather/weather.cpp:489
 msgid ""
 "_: weather\n"
 "Unlimited"
-msgstr ""
-"Wetter\n"
-"Unbegrenzt"
+msgstr "Unbegrenzt"
 
 #: plugins/weather/weather.cpp:490
 msgid ""
 "_: weather\n"
 "N"
-msgstr ""
-"Wetter\n"
-"N"
+msgstr "N"
 
 #: plugins/weather/weather.cpp:491
 msgid ""
 "_: weather\n"
 "NNW"
-msgstr ""
-"Wetter\n"
-"NNW"
+msgstr "NNW"
 
 #: plugins/weather/weather.cpp:492
 msgid ""
 "_: weather\n"
 "NW"
-msgstr ""
-"Wetter\n"
-"NW"
+msgstr "NW"
 
 #: plugins/weather/weather.cpp:493
 msgid ""
 "_: weather\n"
 "WNW"
-msgstr ""
-"Wetter\n"
-"WNW"
+msgstr "WNW"
 
 #: plugins/weather/weather.cpp:494
 msgid ""
 "_: weather\n"
 "W"
-msgstr ""
-"Wetter\n"
-"W"
+msgstr "W"
 
 #: plugins/weather/weather.cpp:495
 msgid ""
 "_: weather\n"
 "WSW"
-msgstr ""
-"Wetter\n"
-"WSW"
+msgstr "WSW"
 
 #: plugins/weather/weather.cpp:496
 msgid ""
 "_: weather\n"
 "SW"
-msgstr ""
-"Wetter\n"
-"SW"
+msgstr "SW"
 
 #: plugins/weather/weather.cpp:497
 msgid ""
 "_: weather\n"
 "SSW"
-msgstr ""
-"Wetter\n"
-"SSW"
+msgstr "SSW"
 
 #: plugins/weather/weather.cpp:498
 msgid ""
 "_: weather\n"
 "S"
-msgstr ""
-"Wetter\n"
-"S"
+msgstr "S"
 
 #: plugins/weather/weather.cpp:499
 msgid ""
 "_: weather\n"
 "SSE"
-msgstr ""
-"Wetter\n"
-"SSE"
+msgstr "SSE"
 
 #: plugins/weather/weather.cpp:500
 msgid ""
 "_: weather\n"
 "SE"
-msgstr ""
-"Wetter\n"
-"SE"
+msgstr "SE"
 
 #: plugins/weather/weather.cpp:501
 msgid ""
 "_: weather\n"
 "ESE"
-msgstr ""
-"Wetter\n"
-"OSO"
+msgstr "OSO"
 
 #: plugins/weather/weather.cpp:502
 msgid ""
 "_: weather\n"
 "E"
-msgstr ""
-"Wetter\n"
-"O"
+msgstr "O"
 
 #: plugins/weather/weather.cpp:503
 msgid ""
 "_: weather\n"
 "ENE"
-msgstr ""
-"Wetter\n"
-"ONO"
+msgstr "ONO"
 
 #: plugins/weather/weather.cpp:504
 msgid ""
 "_: weather\n"
 "NE"
-msgstr ""
-"Wetter\n"
-"NO"
+msgstr "NO"
 
 #: plugins/weather/weather.cpp:505
 msgid ""
 "_: weather\n"
 "NNE"
-msgstr ""
-"Wetter\n"
-"NNO"
+msgstr "NNO"
 
 #: plugins/weather/weather.cpp:506
 msgid ""
 "_: weather\n"
 "VAR"
-msgstr ""
-"Wetter\n"
-"verschiedene Windrichtungen"
+msgstr "verschiedene Windrichtungen"
 
 #: plugins/weather/weather.cpp:507
 msgid "km"
@@ -8571,17 +8479,13 @@ msgstr "und"
 msgid ""
 "_: weather\n"
 "Early"
-msgstr ""
-"Wetter\n"
-"Früh"
+msgstr "Früh"
 
 #: plugins/weather/weather.cpp:526
 msgid ""
 "_: weather\n"
 "Late"
-msgstr ""
-"Wetter\n"
-"Spät"
+msgstr "Spät"
 
 #: plugins/weather/weather.cpp:541
 #: plugins/weather/weather.cpp:543
