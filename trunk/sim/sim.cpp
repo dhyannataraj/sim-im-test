@@ -279,7 +279,7 @@ int main(int argc, char *argv[])
         {
             { "b <dir>", i18n("Directory for files"), 0 },
             { "d <loglevel>", i18n("Loglevel"), 0 },
-            { "w <showdock>", i18n("Use WM dock"), -1 },
+            { "w <showdock>", i18n("Use WM dock"), 0 },
             { 0, 0, 0 }
         };
     KCmdLineArgs::addCmdLineOptions( options );
