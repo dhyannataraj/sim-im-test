@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2004-06-17 18:26+0200\n"
-"PO-Revision-Date: 2004-06-30 18:48+0100\n"
+"PO-Revision-Date: 2004-06-30 19:55+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: Deutsch\n"
 "MIME-Version: 1.0\n"
@@ -3417,7 +3417,8 @@ msgstr "&ICQ"
 #: plugins/icq/aimconfigbase.cc:150
 #: plugins/icq/icqconfigbase.cc:267
 #: plugins/yahoo/yahoocfgbase.cpp:181
-msgid "&Automatically use HTTP pooling if proxy required"
+#: plugins/msn/msnconfigbase.cpp:177
+msgid "&Automatically use HTTP polling if proxy required"
 msgstr "&Automatische HTTP Anfragen benutzen, wenn ein Proxy benötigt wird"
 
 #: plugins/icq/aimconfigbase.cc:149
@@ -3473,7 +3474,7 @@ msgstr "-"
 #: plugins/jabber/jabberconfigbase.cpp:308
 #: plugins/msn/msnconfigbase.cpp:178
 #: plugins/yahoo/yahoocfgbase.cpp:180
-msgid "Note: For HTTP-pooling using proxy settings for HTTP"
+msgid "Note: For HTTP-polling using proxy settings for HTTP"
 msgstr "Anmerkung: Wiederkehrende HTTP-Anfragen können nur in Verbindung mit einem HTTP-Proxy verwendet werden."
 
 #: plugins/icq/aimconfigbase.cc:152
@@ -4539,10 +4540,6 @@ msgstr "Login:"
 #: plugins/msn/msnconfigbase.cpp:171
 msgid "&MSN"
 msgstr "&MSN"
-
-#: plugins/msn/msnconfigbase.cpp:177
-msgid "&Automatically use HTTP pooling if proxy required"
-msgstr "&Automatisch vereinte HTTP Anfragen benutzen, wenn ein Proxy benötigt wird"
 
 #: plugins/msn/msnconfigbase.cpp:179
 msgid "&Automatically add contacts in accept list"
