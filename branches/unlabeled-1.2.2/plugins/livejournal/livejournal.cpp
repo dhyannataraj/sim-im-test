@@ -1238,7 +1238,8 @@ void CheckFriendsRequest::result(const char *key, const char *value)
         return;
     }
     if (!strcmp(key, "new")){
-        m_bChanged = true;
+		if (atol(value))
+			m_bChanged = true;
         return;
     }
     if (!strcmp(key, "interval")){

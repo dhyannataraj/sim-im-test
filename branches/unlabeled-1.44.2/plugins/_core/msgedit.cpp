@@ -157,7 +157,7 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd)
     m_edit->setForeground(QColor(CorePlugin::m_plugin->getEditForeground() & 0xFFFFFF), true);
     m_edit->setFont(CorePlugin::m_plugin->editFont);
     m_edit->setCtrlMode(!CorePlugin::m_plugin->getSendOnEnter());
-    setFocusProxy(m_edit);
+	setFocusProxy(m_edit);
 
     QStyleSheet *style = new QStyleSheet(m_edit);
     QStyleSheetItem *style_p = style->item("p");
@@ -1012,6 +1012,8 @@ void MsgEdit::modeChanged()
 void *MsgEdit::processEvent(Event *e)
 {
     if ((e->type() == EventContactChanged) && !m_bReceived){
+		if (((Contact*)(e->param()))->id() != (m_userWnd->m_id))
+			return NULL;
         Command cmd;
         cmd->id = m_type;
         cmd->menu_id = MenuMessage;

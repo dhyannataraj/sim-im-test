@@ -103,6 +103,7 @@ Source: "..\Release\sounds\contacts.wav"; DestDir: "{app}\sounds"; Flags: ignore
 Source: "..\Release\sounds\web.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
 Source: "..\Release\sounds\mailpager.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
 Source: "..\Release\sounds\error.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
+Source: "..\Release\sounds\phone.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
 Source: "..\Release\pict\splash.png"; DestDir: "{app}\pict"; Flags: ignoreversion
 Source: "..\Release\pict\connect.gif"; DestDir: "{app}\pict"; Flags: ignoreversion
 Source: "..\Release\styles\SIM.xsl"; DestDir: "{app}\styles"; Flags: ignoreversion

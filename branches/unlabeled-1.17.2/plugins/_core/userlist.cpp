@@ -440,8 +440,8 @@ void UserListBase::drawUpdates()
                         Group *grp = getContacts()->group(0);
                         if (grp)
                             grpItem = new GroupItem(this, grp, true);
+	                    grpItem = findGroupItem(0);
                     }
-                    grpItem = findGroupItem(0);
                 }
                 if (grpItem){
                     if (contactItem){
