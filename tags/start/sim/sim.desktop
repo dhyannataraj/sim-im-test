@@ -1,0 +1,12 @@
+# KDE Config File  
+[Desktop Entry]
+Type=Application
+Exec=sim -caption "%c" %i %m  
+Icon=sim.png
+MiniIcon=sim.png
+DocPath=sim/index.html
+Comment=
+Comment[de]=
+Terminal=0
+Name=Sim
+Name[de]=Sim

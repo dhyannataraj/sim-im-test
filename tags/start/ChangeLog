@@ -1,0 +1,28 @@
+Version 0.6
+Proxy support added (SOCKS4, SOCKS5, HTTP)
+Germany translation added
+Add miranda icon themes support (see README for details)
+Add save flag "Close on send"
+Fix bug with KCmdLineArgs, SIM may crash on start
+Fix bug on update timezone - SIM may crash after logon
+Fix compile on gcc 3.1
+
+Version 0.5 (25.06.2002)
+
+The chat support added.
+List of attributes for search of the user is extended
+And some others fixes:
+- The processing of network mistakes is corrected, resulted in that that on the 
+  broken off connection could work very long, thus loading strongly enough 
+  processor (the very unpleasant mistake was - on windows could result in 
+  crash of system)
+- The effect "strange sound" is corrected, that is it was really started to 
+  play twice
+- Are corrected acinclude - now normally is going on KDE 2 and does not require 
+  of a key - disable-kde if KDE is not present 
+
+Version 0.4 (11.06.2002)
+
+Configure with iconv bug fixed (const keyword missed)
+Owner info dialog bug fixed 
+
