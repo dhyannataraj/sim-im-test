@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
-"POT-Creation-Date: 2004-02-06 13:35+0300\n"
+"POT-Creation-Date: 2004-02-08 14:59+0300\n"
 "PO-Revision-Date: 2003-01-14 20:31+0200\n"
 "Last-Translator: ismail donmez <voidcartman@yahoo.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
@@ -2009,15 +2009,15 @@ msgstr "UIN'niz başka bi yerden kullanıldı"
 
 #: plugins/msn/msnclient.cpp:610 plugins/_core/logindlg.cpp:462
 #: plugins/jabber/jabberclient.cpp:1113
-#: plugins/livejournal/livejournal.cpp:916 plugins/yahoo/yahooclient.cpp:242
-#: plugins/yahoo/yahooclient.cpp:253
+#: plugins/livejournal/livejournal.cpp:916 plugins/yahoo/yahooclient.cpp:281
+#: plugins/yahoo/yahooclient.cpp:292
 #, fuzzy
 msgid "Login failed"
 msgstr "Gelen dosya transferi:"
 
 #: plugins/msn/msnclient.cpp:711 plugins/icq/icqclient.cpp:2105
 #: plugins/icq/icqclient.cpp:2184 plugins/jabber/jabberclient.cpp:1740
-#: plugins/yahoo/yahooclient.cpp:971
+#: plugins/yahoo/yahooclient.cpp:1248
 #, fuzzy
 msgid "Network"
 msgstr "&Yeni"
@@ -2025,7 +2025,7 @@ msgstr "&Yeni"
 #: plugins/msn/msnclient.cpp:1551 plugins/msn/msninfo.cpp:88
 #: plugins/icq/icqclient.cpp:1511 plugins/icq/icqinfo.cpp:229
 #: plugins/icq/aiminfo.cpp:166 plugins/jabber/jabberinfo.cpp:104
-#: plugins/jabber/jabberclient.cpp:1418 plugins/yahoo/yahooclient.cpp:894
+#: plugins/jabber/jabberclient.cpp:1418 plugins/yahoo/yahooclient.cpp:1137
 #: plugins/yahoo/yahooinfo.cpp:104
 msgid "Last online"
 msgstr "En son bağlantı"
@@ -2036,7 +2036,7 @@ msgstr "En son bağlantı"
 #: plugins/icq/icqclient.cpp:1518 plugins/sms/sms.cpp:229
 #: plugins/jabber/services.cpp:235 plugins/jabber/jabberclient.cpp:1425
 #: plugins/jabber/jabber.cpp:87 plugins/livejournal/livejournal.cpp:317
-#: plugins/yahoo/yahoo.cpp:97 plugins/yahoo/yahooclient.cpp:901
+#: plugins/yahoo/yahoo.cpp:97 plugins/yahoo/yahooclient.cpp:1144
 msgid "Online"
 msgstr "Bağlı"
 
@@ -2094,7 +2094,7 @@ msgstr "Okunmamış mesajı aç"
 msgid "MSN search results"
 msgstr ""
 
-#: plugins/msn/msnsearch.cpp:126
+#: plugins/msn/msnsearch.cpp:126 plugins/yahoo/yahoosearch.cpp:131
 #, fuzzy
 msgid "Contact %1 allready in list"
 msgstr "Kontak listesi gönderildi"
@@ -2113,7 +2113,7 @@ msgstr "Kontak listesi gönderildi"
 #: plugins/gpg/gpgcfgbase.cpp:101 plugins/gpg/gpgadvbase.cpp:124
 #: plugins/gpg/gpguserbase.cpp:67 plugins/icons/smilecfgbase.cpp:62
 #: plugins/icons/iconcfgbase.cpp:76 plugins/logger/logconfigbase.cpp:67
-#: plugins/icq/icqconfigbase.cc:186 plugins/icq/homeinfobase.cc:143
+#: plugins/icq/homeinfobase.cc:143 plugins/icq/icqconfigbase.cc:186
 #: plugins/icq/pastinfobase.cc:138 plugins/icq/icqsecurebase.cc:153
 #: plugins/icq/icqpicturebase.cc:74 plugins/icq/aiminfobase.cc:255
 #: plugins/icq/aimconfigbase.cc:117 plugins/icq/aimsearchbase.cc:239
@@ -2125,14 +2125,15 @@ msgstr "Kontak listesi gönderildi"
 #: plugins/transparent/transparentcfgbase.cpp:70
 #: plugins/jabber/jabberconfigbase.cpp:248
 #: plugins/jabber/jabberworkinfobase.cpp:88
-#: plugins/jabber/addresultbase.cpp:57 plugins/jabber/jabberpicturebase.cpp:74
-#: plugins/jabber/servicesbase.cpp:107 plugins/jabber/infoproxybase.cpp:55
-#: plugins/jabber/jabberinfobase.cpp:182 plugins/jabber/jabberaddbase.cpp:92
+#: plugins/jabber/jabberaddbase.cpp:92 plugins/jabber/jabberpicturebase.cpp:74
+#: plugins/jabber/addresultbase.cpp:57 plugins/jabber/servicesbase.cpp:107
+#: plugins/jabber/infoproxybase.cpp:55 plugins/jabber/jabberinfobase.cpp:182
 #: plugins/livejournal/msgjournalbase.cpp:78
 #: plugins/livejournal/journalsearchbase.cpp:69
 #: plugins/livejournal/livejournalcfgbase.cpp:148
 #: plugins/action/actioncfgbase.cpp:61 plugins/action/menucfgbase.cpp:67
-#: plugins/navigate/navcfgbase.cc:64 plugins/yahoo/yahooinfobase.cpp:147
+#: plugins/navigate/navcfgbase.cc:64 plugins/yahoo/yahoosearchbase.cpp:78
+#: plugins/yahoo/yahooinfobase.cpp:147
 msgid "Form1"
 msgstr "Form1"
 
@@ -2178,7 +2179,7 @@ msgstr "&Bağlantı"
 #: plugins/icq/workinfobase.cc:178 plugins/icq/searchresultbase.cc:56
 #: plugins/osd/osdifacebase.cpp:128 plugins/jabber/jabberhomeinfobase.cpp:104
 #: plugins/livejournal/journalresultbase.cpp:54
-#: plugins/yahoo/yahoocfgbase.cpp:117
+#: plugins/yahoo/yahoocfgbase.cpp:117 plugins/yahoo/yahooresultbase.cpp:54
 msgid "Form2"
 msgstr "Form 2"
 
@@ -2211,11 +2212,11 @@ msgstr "N/A"
 msgid "Busy"
 msgstr "Meşgul"
 
-#: plugins/msn/msn.cpp:146
+#: plugins/msn/msn.cpp:146 plugins/yahoo/yahooclient.cpp:1156
 msgid "Be right back"
 msgstr ""
 
-#: plugins/msn/msn.cpp:161
+#: plugins/msn/msn.cpp:161 plugins/yahoo/yahooclient.cpp:1168
 msgid "On the phone"
 msgstr ""
 
@@ -2298,12 +2299,13 @@ msgstr "&EMail"
 
 #: plugins/msn/msnsearchbase.cpp:80 plugins/icq/icqsearchbase.cc:315
 #: plugins/icq/aimsearchbase.cc:241 plugins/icq/aimsearchbase.cc:244
-#: plugins/jabber/jabberaddbase.cpp:93
+#: plugins/jabber/jabberaddbase.cpp:93 plugins/yahoo/yahoosearchbase.cpp:80
 #, fuzzy
 msgid "Add to group:"
 msgstr "Gruba ekle"
 
 #: plugins/msn/msnsearchbase.cpp:81 plugins/icq/icqsearchbase.cc:311
+#: plugins/yahoo/yahoosearchbase.cpp:81
 #, fuzzy
 msgid "&Add contact"
 msgstr "Icq dışından kontak ekle"
@@ -2798,7 +2800,7 @@ msgstr "Yeni"
 msgid "Not available"
 msgstr "Ulaşılabilir"
 
-#: plugins/_core/core.cpp:2345 plugins/dock/dockwnd.cpp:1180
+#: plugins/_core/core.cpp:2345 plugins/dock/dockwnd.cpp:1185
 #: plugins/osd/osd.cpp:329
 msgid "%1 from %2"
 msgstr "%2 den %1 alındı"
@@ -5857,6 +5859,36 @@ msgstr "İç IP:"
 msgid "Client:"
 msgstr "ICQ Programı:"
 
+#: plugins/icq/homeinfobase.cc:144 plugins/icq/workinfobase.cc:181
+#: plugins/icq/icqsearchbase.cc:298 plugins/icq/aiminfobase.cc:263
+#: plugins/icq/aimsearchbase.cc:253 plugins/jabber/jabberhomeinfobase.cpp:108
+msgid "State:"
+msgstr "Bölge:"
+
+#: plugins/icq/homeinfobase.cc:145 plugins/icq/workinfobase.cc:179
+#: plugins/jabber/jabberhomeinfobase.cpp:109
+msgid "Address:"
+msgstr "Adres:"
+
+#: plugins/icq/homeinfobase.cc:147 plugins/icq/workinfobase.cc:180
+#: plugins/icq/icqsearchbase.cc:297 plugins/icq/aiminfobase.cc:262
+#: plugins/icq/aimsearchbase.cc:252 plugins/jabber/jabberhomeinfobase.cpp:105
+msgid "City:"
+msgstr "Şehir:"
+
+#: plugins/icq/homeinfobase.cc:148 plugins/icq/workinfobase.cc:182
+#: plugins/jabber/jabberhomeinfobase.cpp:106
+msgid "Zip code:"
+msgstr "Posta kodu:"
+
+#: plugins/icq/homeinfobase.cc:149
+msgid "Time zone:"
+msgstr "Zaman Dilimi:"
+
+#: plugins/icq/homeinfobase.cc:150
+msgid "&Home info"
+msgstr "&Ev bilgisi"
+
 #: plugins/icq/icqconfigbase.cc:188
 #, fuzzy
 msgid "&Register new UIN"
@@ -5943,36 +5975,6 @@ msgstr "Kullanıcı hakkında ek bilgiler:"
 msgid "A&bout"
 msgstr "&Hakkında"
 
-#: plugins/icq/homeinfobase.cc:144 plugins/icq/workinfobase.cc:181
-#: plugins/icq/icqsearchbase.cc:298 plugins/icq/aiminfobase.cc:263
-#: plugins/icq/aimsearchbase.cc:253 plugins/jabber/jabberhomeinfobase.cpp:108
-msgid "State:"
-msgstr "Bölge:"
-
-#: plugins/icq/homeinfobase.cc:145 plugins/icq/workinfobase.cc:179
-#: plugins/jabber/jabberhomeinfobase.cpp:109
-msgid "Address:"
-msgstr "Adres:"
-
-#: plugins/icq/homeinfobase.cc:147 plugins/icq/workinfobase.cc:180
-#: plugins/icq/icqsearchbase.cc:297 plugins/icq/aiminfobase.cc:262
-#: plugins/icq/aimsearchbase.cc:252 plugins/jabber/jabberhomeinfobase.cpp:105
-msgid "City:"
-msgstr "Şehir:"
-
-#: plugins/icq/homeinfobase.cc:148 plugins/icq/workinfobase.cc:182
-#: plugins/jabber/jabberhomeinfobase.cpp:106
-msgid "Zip code:"
-msgstr "Posta kodu:"
-
-#: plugins/icq/homeinfobase.cc:149
-msgid "Time zone:"
-msgstr "Zaman Dilimi:"
-
-#: plugins/icq/homeinfobase.cc:150
-msgid "&Home info"
-msgstr "&Ev bilgisi"
-
 #: plugins/icq/moreinfobase.cc:153 plugins/icq/icqsearchbase.cc:293
 msgid "Age:"
 msgstr "Yaş:"
@@ -6003,6 +6005,22 @@ msgstr "Bildiği Diller:"
 msgid "&Languages"
 msgstr "&Diller"
 
+#: plugins/icq/pastinfobase.cc:139
+msgid "Organization, Affiliation, Group:"
+msgstr "Organizasyon,Grup :"
+
+#: plugins/icq/pastinfobase.cc:140
+msgid "A&ffilation"
+msgstr "&Bağlantılar"
+
+#: plugins/icq/pastinfobase.cc:141
+msgid "Past background:"
+msgstr "Geçmiş Background:"
+
+#: plugins/icq/pastinfobase.cc:142
+msgid "&Background"
+msgstr "&Arkaplan"
+
 #: plugins/icq/workinfobase.cc:186
 msgid "Web site:"
 msgstr "Web Sitesi:"
@@ -6026,22 +6044,6 @@ msgstr "Pozisyon:"
 #: plugins/icq/workinfobase.cc:191
 msgid "&Occupation"
 msgstr "İ&ş"
-
-#: plugins/icq/pastinfobase.cc:139
-msgid "Organization, Affiliation, Group:"
-msgstr "Organizasyon,Grup :"
-
-#: plugins/icq/pastinfobase.cc:140
-msgid "A&ffilation"
-msgstr "&Bağlantılar"
-
-#: plugins/icq/pastinfobase.cc:141
-msgid "Past background:"
-msgstr "Geçmiş Background:"
-
-#: plugins/icq/pastinfobase.cc:142
-msgid "&Background"
-msgstr "&Arkaplan"
 
 #: plugins/icq/icqsecurebase.cc:154
 msgid "My &authorization is required before users add me to Contact List"
@@ -7062,6 +7064,19 @@ msgstr ""
 msgid "Role:"
 msgstr "Servis Sağlayıcı:"
 
+#: plugins/jabber/jabberaddbase.cpp:94
+msgid "Jabber ID:"
+msgstr ""
+
+#: plugins/jabber/jabberaddbase.cpp:95
+msgid "Jabber ID"
+msgstr ""
+
+#: plugins/jabber/jabberaddbase.cpp:96
+#, fuzzy
+msgid "Service:"
+msgstr "Server"
+
 #: plugins/jabber/jabberaboutinfobase.cpp:57
 #, fuzzy
 msgid "Additional information:"
@@ -7155,19 +7170,6 @@ msgstr "Telefon:"
 #: plugins/jabber/jabberinfobase.cpp:183
 msgid "ID:"
 msgstr ""
-
-#: plugins/jabber/jabberaddbase.cpp:94
-msgid "Jabber ID:"
-msgstr ""
-
-#: plugins/jabber/jabberaddbase.cpp:95
-msgid "Jabber ID"
-msgstr ""
-
-#: plugins/jabber/jabberaddbase.cpp:96
-#, fuzzy
-msgid "Service:"
-msgstr "Server"
 
 #: plugins/jabber/jabberbrowser.cpp:45 plugins/jabber/jabberbrowser.cpp:244
 #, fuzzy
@@ -8151,23 +8153,64 @@ msgstr ""
 msgid "Get a Yahoo! ID"
 msgstr ""
 
-#: plugins/yahoo/yahooclient.cpp:223
+#: plugins/yahoo/yahooclient.cpp:262
 msgid "Yahoo! login lock"
 msgstr ""
 
-#: plugins/yahoo/yahooclient.cpp:246
+#: plugins/yahoo/yahooclient.cpp:285
 msgid "Your account has been locked"
 msgstr ""
 
-#: plugins/yahoo/yahooclient.cpp:250 plugins/yahoo/yahooclient.cpp:263
+#: plugins/yahoo/yahooclient.cpp:289 plugins/yahoo/yahooclient.cpp:302
 #, fuzzy
 msgid "Your account is being used from another location"
 msgstr "UIN'niz başka bi yerden kullanıldı"
+
+#: plugins/yahoo/yahooclient.cpp:1159
+#, fuzzy
+msgid "Not at home"
+msgstr "Kontaklar ortala"
+
+#: plugins/yahoo/yahooclient.cpp:1162
+msgid "Not at my desk"
+msgstr ""
+
+#: plugins/yahoo/yahooclient.cpp:1165
+msgid "Not in the office"
+msgstr ""
+
+#: plugins/yahoo/yahooclient.cpp:1171
+#, fuzzy
+msgid "On vacation"
+msgstr "İş:"
+
+#: plugins/yahoo/yahooclient.cpp:1174
+msgid "Out to lunch"
+msgstr ""
+
+#: plugins/yahoo/yahooclient.cpp:1177
+#, fuzzy
+msgid "Stepped out"
+msgstr "Çı&kartma"
 
 #: plugins/yahoo/yahoocfgbase.cpp:120
 #, fuzzy
 msgid "&Yahoo!"
 msgstr "&Telefon defteri"
+
+#: plugins/yahoo/yahoosearchbase.cpp:79
+#, fuzzy
+msgid "Yahoo ID:"
+msgstr "&Telefon defteri"
+
+#: plugins/yahoo/yahoosearch.cpp:56
+msgid "Yahoo! search results"
+msgstr ""
+
+#: plugins/yahoo/yahoosearch.cpp:129
+#, fuzzy
+msgid "Contact %1 added in group %2"
+msgstr "Kontaklar ortala"
 
 #, fuzzy
 #~ msgid ""

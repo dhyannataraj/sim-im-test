@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.1\n"
-"POT-Creation-Date: 2004-02-06 13:35+0300\n"
+"POT-Creation-Date: 2004-02-08 14:59+0300\n"
 "PO-Revision-Date: 2003-03-01 10:24+0100\n"
 "Last-Translator: Roméo VIU-BERGES <apostledemencia@free.fr>\n"
 "Language-Team: Français <fr@li.org>\n"
@@ -2487,8 +2487,8 @@ msgstr "Votre UIN est utilisé depuis un autre endroit"
 # msgedit.cpp:586
 #: plugins/msn/msnclient.cpp:610 plugins/_core/logindlg.cpp:462
 #: plugins/jabber/jabberclient.cpp:1113
-#: plugins/livejournal/livejournal.cpp:916 plugins/yahoo/yahooclient.cpp:242
-#: plugins/yahoo/yahooclient.cpp:253
+#: plugins/livejournal/livejournal.cpp:916 plugins/yahoo/yahooclient.cpp:281
+#: plugins/yahoo/yahooclient.cpp:292
 #, fuzzy
 msgid "Login failed"
 msgstr "Echec de l'envoi"
@@ -2498,7 +2498,7 @@ msgstr "Echec de l'envoi"
 # monitor.cpp:59
 #: plugins/msn/msnclient.cpp:711 plugins/icq/icqclient.cpp:2105
 #: plugins/icq/icqclient.cpp:2184 plugins/jabber/jabberclient.cpp:1740
-#: plugins/yahoo/yahooclient.cpp:971
+#: plugins/yahoo/yahooclient.cpp:1248
 #, fuzzy
 msgid "Network"
 msgstr "Moniteur réseau"
@@ -2508,7 +2508,7 @@ msgstr "Moniteur réseau"
 #: plugins/msn/msnclient.cpp:1551 plugins/msn/msninfo.cpp:88
 #: plugins/icq/icqclient.cpp:1511 plugins/icq/icqinfo.cpp:229
 #: plugins/icq/aiminfo.cpp:166 plugins/jabber/jabberinfo.cpp:104
-#: plugins/jabber/jabberclient.cpp:1418 plugins/yahoo/yahooclient.cpp:894
+#: plugins/jabber/jabberclient.cpp:1418 plugins/yahoo/yahooclient.cpp:1137
 #: plugins/yahoo/yahooinfo.cpp:104
 msgid "Last online"
 msgstr "Dernier connecté"
@@ -2522,7 +2522,7 @@ msgstr "Dernier connecté"
 #: plugins/icq/icqclient.cpp:1518 plugins/sms/sms.cpp:229
 #: plugins/jabber/services.cpp:235 plugins/jabber/jabberclient.cpp:1425
 #: plugins/jabber/jabber.cpp:87 plugins/livejournal/livejournal.cpp:317
-#: plugins/yahoo/yahoo.cpp:97 plugins/yahoo/yahooclient.cpp:901
+#: plugins/yahoo/yahoo.cpp:97 plugins/yahoo/yahooclient.cpp:1144
 msgid "Online"
 msgstr "Connecté"
 
@@ -2586,7 +2586,7 @@ msgstr "Ouvrir message lu"
 msgid "MSN search results"
 msgstr ""
 
-#: plugins/msn/msnsearch.cpp:126
+#: plugins/msn/msnsearch.cpp:126 plugins/yahoo/yahoosearch.cpp:131
 msgid "Contact %1 allready in list"
 msgstr ""
 
@@ -2622,7 +2622,7 @@ msgstr ""
 #: plugins/gpg/gpgcfgbase.cpp:101 plugins/gpg/gpgadvbase.cpp:124
 #: plugins/gpg/gpguserbase.cpp:67 plugins/icons/smilecfgbase.cpp:62
 #: plugins/icons/iconcfgbase.cpp:76 plugins/logger/logconfigbase.cpp:67
-#: plugins/icq/icqconfigbase.cc:186 plugins/icq/homeinfobase.cc:143
+#: plugins/icq/homeinfobase.cc:143 plugins/icq/icqconfigbase.cc:186
 #: plugins/icq/pastinfobase.cc:138 plugins/icq/icqsecurebase.cc:153
 #: plugins/icq/icqpicturebase.cc:74 plugins/icq/aiminfobase.cc:255
 #: plugins/icq/aimconfigbase.cc:117 plugins/icq/aimsearchbase.cc:239
@@ -2634,14 +2634,15 @@ msgstr ""
 #: plugins/transparent/transparentcfgbase.cpp:70
 #: plugins/jabber/jabberconfigbase.cpp:248
 #: plugins/jabber/jabberworkinfobase.cpp:88
-#: plugins/jabber/addresultbase.cpp:57 plugins/jabber/jabberpicturebase.cpp:74
-#: plugins/jabber/servicesbase.cpp:107 plugins/jabber/infoproxybase.cpp:55
-#: plugins/jabber/jabberinfobase.cpp:182 plugins/jabber/jabberaddbase.cpp:92
+#: plugins/jabber/jabberaddbase.cpp:92 plugins/jabber/jabberpicturebase.cpp:74
+#: plugins/jabber/addresultbase.cpp:57 plugins/jabber/servicesbase.cpp:107
+#: plugins/jabber/infoproxybase.cpp:55 plugins/jabber/jabberinfobase.cpp:182
 #: plugins/livejournal/msgjournalbase.cpp:78
 #: plugins/livejournal/journalsearchbase.cpp:69
 #: plugins/livejournal/livejournalcfgbase.cpp:148
 #: plugins/action/actioncfgbase.cpp:61 plugins/action/menucfgbase.cpp:67
-#: plugins/navigate/navcfgbase.cc:64 plugins/yahoo/yahooinfobase.cpp:147
+#: plugins/navigate/navcfgbase.cc:64 plugins/yahoo/yahoosearchbase.cpp:78
+#: plugins/yahoo/yahooinfobase.cpp:147
 msgid "Form1"
 msgstr "Forme1"
 
@@ -2697,7 +2698,7 @@ msgstr "Etat"
 #: plugins/icq/workinfobase.cc:178 plugins/icq/searchresultbase.cc:56
 #: plugins/osd/osdifacebase.cpp:128 plugins/jabber/jabberhomeinfobase.cpp:104
 #: plugins/livejournal/journalresultbase.cpp:54
-#: plugins/yahoo/yahoocfgbase.cpp:117
+#: plugins/yahoo/yahoocfgbase.cpp:117 plugins/yahoo/yahooresultbase.cpp:54
 msgid "Form2"
 msgstr "Forme2"
 
@@ -2734,11 +2735,11 @@ msgstr "(Non communiqué)"
 msgid "Busy"
 msgstr "Occupé"
 
-#: plugins/msn/msn.cpp:146
+#: plugins/msn/msn.cpp:146 plugins/yahoo/yahooclient.cpp:1156
 msgid "Be right back"
 msgstr ""
 
-#: plugins/msn/msn.cpp:161
+#: plugins/msn/msn.cpp:161 plugins/yahoo/yahooclient.cpp:1168
 msgid "On the phone"
 msgstr ""
 
@@ -2835,7 +2836,7 @@ msgstr "Email :"
 # usertbl.cpp:411
 #: plugins/msn/msnsearchbase.cpp:80 plugins/icq/icqsearchbase.cc:315
 #: plugins/icq/aimsearchbase.cc:241 plugins/icq/aimsearchbase.cc:244
-#: plugins/jabber/jabberaddbase.cpp:93
+#: plugins/jabber/jabberaddbase.cpp:93 plugins/yahoo/yahoosearchbase.cpp:80
 #, fuzzy
 msgid "Add to group:"
 msgstr "Ajouter au groupe"
@@ -2843,6 +2844,7 @@ msgstr "Ajouter au groupe"
 # mainwin.cpp:617
 # mainwin.cpp:2717
 #: plugins/msn/msnsearchbase.cpp:81 plugins/icq/icqsearchbase.cc:311
+#: plugins/yahoo/yahoosearchbase.cpp:81
 #, fuzzy
 msgid "&Add contact"
 msgstr "Ajouter Contact non-IM"
@@ -3442,7 +3444,7 @@ msgstr "Disponible"
 
 # dock.cpp:942
 # mainwin.cpp:871
-#: plugins/_core/core.cpp:2345 plugins/dock/dockwnd.cpp:1180
+#: plugins/_core/core.cpp:2345 plugins/dock/dockwnd.cpp:1185
 #: plugins/osd/osd.cpp:329
 msgid "%1 from %2"
 msgstr "%1 sur %2"
@@ -7181,6 +7183,48 @@ msgstr "IP interne :"
 msgid "Client:"
 msgstr "Client :"
 
+# ui/homeinfobase.cpp:81
+# ui/searchbase.cpp:133
+# ui/workinfobase.cpp:67
+#: plugins/icq/homeinfobase.cc:144 plugins/icq/workinfobase.cc:181
+#: plugins/icq/icqsearchbase.cc:298 plugins/icq/aiminfobase.cc:263
+#: plugins/icq/aimsearchbase.cc:253 plugins/jabber/jabberhomeinfobase.cpp:108
+msgid "State:"
+msgstr "Etat :"
+
+# ui/homeinfobase.cpp:87
+# ui/workinfobase.cpp:47
+#: plugins/icq/homeinfobase.cc:145 plugins/icq/workinfobase.cc:179
+#: plugins/jabber/jabberhomeinfobase.cpp:109
+msgid "Address:"
+msgstr "Adresse :"
+
+# ui/homeinfobase.cpp:114
+# ui/searchbase.cpp:123
+# ui/workinfobase.cpp:57
+#: plugins/icq/homeinfobase.cc:147 plugins/icq/workinfobase.cc:180
+#: plugins/icq/icqsearchbase.cc:297 plugins/icq/aiminfobase.cc:262
+#: plugins/icq/aimsearchbase.cc:252 plugins/jabber/jabberhomeinfobase.cpp:105
+msgid "City:"
+msgstr "Ville :"
+
+# ui/homeinfobase.cpp:124
+# ui/workinfobase.cpp:77
+#: plugins/icq/homeinfobase.cc:148 plugins/icq/workinfobase.cc:182
+#: plugins/jabber/jabberhomeinfobase.cpp:106
+msgid "Zip code:"
+msgstr "Code postal :"
+
+# ui/homeinfobase.cpp:138
+#: plugins/icq/homeinfobase.cc:149
+msgid "Time zone:"
+msgstr "Fuseau horaire :"
+
+# ui/homeinfobase.cpp:147
+#: plugins/icq/homeinfobase.cc:150
+msgid "&Home info"
+msgstr "Infos Lieu"
+
 # ui/enable.cpp:123
 #: plugins/icq/icqconfigbase.cc:188
 #, fuzzy
@@ -7283,48 +7327,6 @@ msgstr "Infos supllémentaires sur l'utilisateur :"
 msgid "A&bout"
 msgstr "A propos"
 
-# ui/homeinfobase.cpp:81
-# ui/searchbase.cpp:133
-# ui/workinfobase.cpp:67
-#: plugins/icq/homeinfobase.cc:144 plugins/icq/workinfobase.cc:181
-#: plugins/icq/icqsearchbase.cc:298 plugins/icq/aiminfobase.cc:263
-#: plugins/icq/aimsearchbase.cc:253 plugins/jabber/jabberhomeinfobase.cpp:108
-msgid "State:"
-msgstr "Etat :"
-
-# ui/homeinfobase.cpp:87
-# ui/workinfobase.cpp:47
-#: plugins/icq/homeinfobase.cc:145 plugins/icq/workinfobase.cc:179
-#: plugins/jabber/jabberhomeinfobase.cpp:109
-msgid "Address:"
-msgstr "Adresse :"
-
-# ui/homeinfobase.cpp:114
-# ui/searchbase.cpp:123
-# ui/workinfobase.cpp:57
-#: plugins/icq/homeinfobase.cc:147 plugins/icq/workinfobase.cc:180
-#: plugins/icq/icqsearchbase.cc:297 plugins/icq/aiminfobase.cc:262
-#: plugins/icq/aimsearchbase.cc:252 plugins/jabber/jabberhomeinfobase.cpp:105
-msgid "City:"
-msgstr "Ville :"
-
-# ui/homeinfobase.cpp:124
-# ui/workinfobase.cpp:77
-#: plugins/icq/homeinfobase.cc:148 plugins/icq/workinfobase.cc:182
-#: plugins/jabber/jabberhomeinfobase.cpp:106
-msgid "Zip code:"
-msgstr "Code postal :"
-
-# ui/homeinfobase.cpp:138
-#: plugins/icq/homeinfobase.cc:149
-msgid "Time zone:"
-msgstr "Fuseau horaire :"
-
-# ui/homeinfobase.cpp:147
-#: plugins/icq/homeinfobase.cc:150
-msgid "&Home info"
-msgstr "Infos Lieu"
-
 # ui/moreinfobase.cpp:107
 # ui/searchbase.cpp:95
 #: plugins/icq/moreinfobase.cc:153 plugins/icq/icqsearchbase.cc:293
@@ -7364,6 +7366,26 @@ msgstr "Langues parlées :"
 msgid "&Languages"
 msgstr "&Langues"
 
+# ui/pastinfobase.cpp:73
+#: plugins/icq/pastinfobase.cc:139
+msgid "Organization, Affiliation, Group:"
+msgstr "Organisation, groupe, affiliation :"
+
+# ui/pastinfobase.cpp:102
+#: plugins/icq/pastinfobase.cc:140
+msgid "A&ffilation"
+msgstr "A&ffiliation"
+
+# ui/pastinfobase.cpp:108
+#: plugins/icq/pastinfobase.cc:141
+msgid "Past background:"
+msgstr "Ancien arrière-plan :"
+
+# ui/pastinfobase.cpp:137
+#: plugins/icq/pastinfobase.cc:142
+msgid "&Background"
+msgstr "Arrière-plan"
+
 # ui/workinfobase.cpp:116
 #: plugins/icq/workinfobase.cc:186
 msgid "Web site:"
@@ -7393,26 +7415,6 @@ msgstr "Position :"
 #: plugins/icq/workinfobase.cc:191
 msgid "&Occupation"
 msgstr "&Occupation :"
-
-# ui/pastinfobase.cpp:73
-#: plugins/icq/pastinfobase.cc:139
-msgid "Organization, Affiliation, Group:"
-msgstr "Organisation, groupe, affiliation :"
-
-# ui/pastinfobase.cpp:102
-#: plugins/icq/pastinfobase.cc:140
-msgid "A&ffilation"
-msgstr "A&ffiliation"
-
-# ui/pastinfobase.cpp:108
-#: plugins/icq/pastinfobase.cc:141
-msgid "Past background:"
-msgstr "Ancien arrière-plan :"
-
-# ui/pastinfobase.cpp:137
-#: plugins/icq/pastinfobase.cc:142
-msgid "&Background"
-msgstr "Arrière-plan"
 
 # ui/generalsecbase.cpp:77
 #: plugins/icq/icqsecurebase.cc:154
@@ -8608,6 +8610,20 @@ msgstr ""
 msgid "Role:"
 msgstr ""
 
+#: plugins/jabber/jabberaddbase.cpp:94
+msgid "Jabber ID:"
+msgstr ""
+
+#: plugins/jabber/jabberaddbase.cpp:95
+msgid "Jabber ID"
+msgstr ""
+
+# ui/proxydlgbase.cpp:132
+#: plugins/jabber/jabberaddbase.cpp:96
+#, fuzzy
+msgid "Service:"
+msgstr "Serveur"
+
 # ui/aboutinfobase.cpp:72
 #: plugins/jabber/jabberaboutinfobase.cpp:57
 #, fuzzy
@@ -8712,20 +8728,6 @@ msgstr "Téléphone :"
 #: plugins/jabber/jabberinfobase.cpp:183
 msgid "ID:"
 msgstr ""
-
-#: plugins/jabber/jabberaddbase.cpp:94
-msgid "Jabber ID:"
-msgstr ""
-
-#: plugins/jabber/jabberaddbase.cpp:95
-msgid "Jabber ID"
-msgstr ""
-
-# ui/proxydlgbase.cpp:132
-#: plugins/jabber/jabberaddbase.cpp:96
-#, fuzzy
-msgid "Service:"
-msgstr "Serveur"
 
 # libicq/country.cpp:432
 #: plugins/jabber/jabberbrowser.cpp:45 plugins/jabber/jabberbrowser.cpp:244
@@ -9853,25 +9855,69 @@ msgstr ""
 msgid "Get a Yahoo! ID"
 msgstr ""
 
-#: plugins/yahoo/yahooclient.cpp:223
+#: plugins/yahoo/yahooclient.cpp:262
 msgid "Yahoo! login lock"
 msgstr ""
 
-#: plugins/yahoo/yahooclient.cpp:246
+#: plugins/yahoo/yahooclient.cpp:285
 msgid "Your account has been locked"
 msgstr ""
 
 # mainwin.cpp:1282
-#: plugins/yahoo/yahooclient.cpp:250 plugins/yahoo/yahooclient.cpp:263
+#: plugins/yahoo/yahooclient.cpp:289 plugins/yahoo/yahooclient.cpp:302
 #, fuzzy
 msgid "Your account is being used from another location"
 msgstr "Votre UIN est utilisé depuis un autre endroit"
+
+# ui/themesetup.cpp:137
+#: plugins/yahoo/yahooclient.cpp:1159
+#, fuzzy
+msgid "Not at home"
+msgstr "Contact - Scale"
+
+#: plugins/yahoo/yahooclient.cpp:1162
+msgid "Not at my desk"
+msgstr ""
+
+#: plugins/yahoo/yahooclient.cpp:1165
+msgid "Not in the office"
+msgstr ""
+
+# ui/workinfobase.cpp:126
+#: plugins/yahoo/yahooclient.cpp:1171
+#, fuzzy
+msgid "On vacation"
+msgstr "Occupation :"
+
+#: plugins/yahoo/yahooclient.cpp:1174
+msgid "Out to lunch"
+msgstr ""
+
+#: plugins/yahoo/yahooclient.cpp:1177
+#, fuzzy
+msgid "Stepped out"
+msgstr "Barrer"
 
 # ui/phonebookbase.cpp:114
 #: plugins/yahoo/yahoocfgbase.cpp:120
 #, fuzzy
 msgid "&Yahoo!"
 msgstr "Ré&pertoire"
+
+# ui/phonebookbase.cpp:114
+#: plugins/yahoo/yahoosearchbase.cpp:79
+#, fuzzy
+msgid "Yahoo ID:"
+msgstr "Ré&pertoire"
+
+#: plugins/yahoo/yahoosearch.cpp:56
+msgid "Yahoo! search results"
+msgstr ""
+
+#: plugins/yahoo/yahoosearch.cpp:129
+#, fuzzy
+msgid "Contact %1 added in group %2"
+msgstr "Connecté à l'hôte"
 
 # client.cpp:1010
 # msgview.cpp:200

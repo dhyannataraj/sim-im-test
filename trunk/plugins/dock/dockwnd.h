@@ -47,6 +47,7 @@ signals:
 protected slots:
     void toggle();
     void blink();
+    void dbl_click();
     void showPopup();
 protected:
     virtual void *processEvent(Event *e);
@@ -75,7 +76,7 @@ protected:
     bool bInit;
 #endif
 #else
-    void *hShell;
+void *hShell;
 #endif
     DockPlugin *m_plugin;
 };

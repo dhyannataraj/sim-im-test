@@ -8,8 +8,12 @@ yahoo_la_SOURCES = \
  yahoocfgbase.ui \
  yahooinfo.cpp \
  yahooinfobase.ui \
+ yahoosearch.cpp \
+ yahoosearchbase.ui \
+ yahooresult.cpp \
+ yahooresultbase.ui \
  crypt.c \
- yahootransformtables.c
+ yahootransformtables.c 
 
 INCLUDES=-I../../sim/api -I../../sim/ui -I../_core $(all_includes)
 

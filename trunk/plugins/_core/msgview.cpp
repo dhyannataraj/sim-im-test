@@ -1023,13 +1023,13 @@ ViewParser::ViewParser(bool bIgnoreColors, bool bUseSmiles)
                 str += *p;
             }
 #else
-if (*(s->exp)){
-            Smile ss;
-            ss.nSmile = i;
-            ss.re = QRegExp(s->exp);
-            if (ss.re.isValid())
-                m_smiles.push_back(ss);
-        }
+            if (*(s->exp)){
+                Smile ss;
+                ss.nSmile = i;
+                ss.re = QRegExp(s->exp);
+                if (ss.re.isValid())
+                    m_smiles.push_back(ss);
+            }
 #endif
         }
     }

@@ -40,10 +40,18 @@
 #include "yahooclient.h"
 #include "yahoocfg.h"
 #include "yahooinfo.h"
+#include "yahoosearch.h"
+
+#include "html.h"
+#include "core.h"
 
 #include <time.h>
 
+#include <qtimer.h>
+
 static char YAHOO_PACKET_SIGN[] = "YMSG";
+
+const unsigned PING_TIMEOUT = 60;
 
 const unsigned	YAHOO_LOGIN_OK		= 0;
 const unsigned	YAHOO_LOGIN_PASSWD	= 13;
@@ -105,13 +113,45 @@ string YahooClient::getConfig()
     return res;
 }
 
-bool YahooClient::send(Message*, void*)
+bool YahooClient::send(Message *msg, void *_data)
 {
+    if ((getState() != Connected) || (_data == NULL))
+        return false;
+    YahooUserData *data = (YahooUserData*)_data;
+    switch (msg->type()){
+    case MessageTypingStart:
+        sendTyping(data, true);
+        return true;
+    case MessageTypingStop:
+        sendTyping(data, false);
+        return true;
+    case MessageGeneric:
+        sendMessage(msg->getRichText(), msg, data);
+        return true;
+    case MessageUrl:{
+            QString msgText = static_cast<UrlMessage*>(msg)->getUrl();
+            if (!msg->getPlainText().isEmpty()){
+                msgText += "<br>";
+                msgText += msg->getRichText();
+            }
+            sendMessage(msgText, msg, data);
+            return true;
+        }
+    }
     return false;
 }
 
-bool YahooClient::canSend(unsigned, void*)
+bool YahooClient::canSend(unsigned type, void *_data)
 {
+    if ((_data == NULL) || (((clientData*)_data)->Sign.value != YAHOO_SIGN))
+        return false;
+    if (getState() != Connected)
+        return false;
+    switch (type){
+    case MessageGeneric:
+    case MessageUrl:
+        return true;
+    }
     return false;
 }
 
@@ -128,7 +168,6 @@ void YahooClient::packet_ready()
         m_socket->readBuffer >> m_data_size >> m_service;
         unsigned long session_id;
         m_socket->readBuffer >> m_pkt_status >> session_id;
-        log(L_DEBUG, "Status: %X Session: %X Data size: %X Service: %X", m_pkt_status, session_id, m_data_size, m_service);
         if (m_data_size){
             m_socket->readBuffer.add(m_data_size);
             m_bHeader = false;
@@ -323,23 +362,128 @@ class TextParser
 public:
     TextParser(bool bUtf);
     QString parse(const char *msg);
+
+    class Tag
+    {
+    public:
+        Tag(const QString &str);
+        bool operator == (const Tag &t) const;
+        QString open_tag() const;
+        QString close_tag() const;
+    protected:
+        QString	m_tag;
+    };
+
+class FaceSizeParser : public HTMLParser
+    {
+    public:
+        FaceSizeParser(const QString&);
+        QString face;
+        QString size;
+    protected:
+        virtual void text(const QString &text);
+        virtual void tag_start(const QString &tag, const list<QString> &options);
+        virtual void tag_end(const QString &tag);
+    };
+
 protected:
     void addText(const char *str, unsigned size);
     unsigned m_state;
-    stack<string> m_tags;
+    QString color;
+    QString face;
+    QString size;
+    bool m_bChanged;
+    stack<Tag> m_tags;
     void setState(unsigned code, bool bSet);
     void clearState(unsigned code);
-    void push_tag(const char *tag);
-    void pop_tag(const char *tag);
+    void put_color(unsigned color);
+    void put_style();
+    void push_tag(const QString &tag);
+    void pop_tag(const QString &tag);
     bool m_bUtf;
     QString m_text;
 };
 
+TextParser::FaceSizeParser::FaceSizeParser(const QString &str)
+{
+    parse(str);
+}
+
+void TextParser::FaceSizeParser::text(const QString&)
+{
+}
+
+void TextParser::FaceSizeParser::tag_start(const QString &tag, const list<QString> &options)
+{
+    if (tag != "font")
+        return;
+    for (list<QString>::const_iterator it = options.begin(); it != options.end(); ++it){
+        QString key = *it;
+        ++it;
+        if (key == "face")
+            face = QString("font-family:") + *it;
+        if (key == "size")
+            size = QString("font-size:") + *it + "pt";
+    }
+}
+
+void TextParser::FaceSizeParser::tag_end(const QString&)
+{
+}
+
+TextParser::Tag::Tag(const QString &tag)
+{
+    m_tag	= tag;
+}
+
+bool TextParser::Tag::operator == (const Tag &t) const
+{
+    return close_tag() == t.close_tag();
+}
+
+QString TextParser::Tag::open_tag() const
+{
+    QString res;
+    res += "<";
+    res += m_tag;
+    res += ">";
+    return res;
+}
+
+QString TextParser::Tag::close_tag() const
+{
+    int n = m_tag.find(" ");
+    QString res;
+    res += "</";
+    if (n >= 0){
+        res += m_tag.left(n);
+    }else{
+        res += m_tag;
+    }
+    res += ">";
+    return res;
+}
+
 TextParser::TextParser(bool bUtf)
 {
-    m_bUtf  = bUtf;
-    m_state = 0;
+    m_bUtf     = bUtf;
+    m_bChanged = false;
+    m_state    = 0;
 }
+
+static unsigned esc_colors[] =
+    {
+        0x000000,
+        0x0000FF,
+        0x008080,
+        0x808080,
+        0x008000,
+        0xFF0080,
+        0x800080,
+        0xFF8000,
+        0xFF0000,
+        0x808000
+    };
 
 QString TextParser::parse(const char *msg)
 {
@@ -364,29 +508,32 @@ QString TextParser::parse(const char *msg)
                 setState(code, false);
                 break;
             }
-        }else{
-            unsigned code = atol(part.c_str());
-            if (code == 39){
-                b.scan(">", part);
-                part += ">";
-                continue;
-            }
-            switch (code){
-            case 1:
-            case 2:
-            case 4:
-                setState(code, true);
-                break;
-            }
+            continue;
+        }
+        if (part[0] == '#'){
+            put_color(strtoul(part.c_str() + 1, NULL, 16));
+            continue;
+        }
+        unsigned code = atol(part.c_str());
+        switch (code){
+        case 1:
+        case 2:
+        case 4:
+            setState(code, true);
+            break;
+        default:
+            if ((code >= 30) && (code < 40))
+                put_color(esc_colors[code - 30]);
         }
     }
     addText(b.data(b.readPos()), b.writePos() - b.readPos());
     while (!m_tags.empty()){
-        m_text += "</";
-        m_text += m_tags.top().c_str();
-        m_text += ">";
+        m_text += m_tags.top().close_tag();
         m_tags.pop();
     }
+    string s;
+    if (!m_text.isEmpty())
+        s = m_text.local8Bit();
     return m_text;
 }
 
@@ -401,7 +548,7 @@ void TextParser::setState(unsigned code, bool bSet)
             return;
         m_state &= ~code;
     }
-    string tag;
+    QString tag;
     switch (code){
     case 1:
         tag = "b";
@@ -416,50 +563,121 @@ void TextParser::setState(unsigned code, bool bSet)
         return;
     }
     if (bSet){
-        push_tag(tag.c_str());
+        push_tag(tag);
     }else{
-        pop_tag(tag.c_str());
+        pop_tag(tag);
     }
 }
 
-void TextParser::push_tag(const char *tag)
+void TextParser::put_color(unsigned _color)
 {
-    m_tags.push(tag);
-    m_text += "<";
-    m_text += tag;
-    m_text += ">";
+    color.sprintf("color:#%06X", _color & 0xFFFFFF);
+    m_bChanged = true;
 }
 
-void TextParser::pop_tag(const char *tag)
+void TextParser::put_style()
 {
-    stack<string> tags;
+    if (!m_bChanged)
+        return;
+    m_bChanged = false;
+    QString style;
+    if (!color.isEmpty())
+        style = color;
+    if (!face.isEmpty()){
+        if (!style.isEmpty())
+            style += ";";
+        style += face;
+    }
+    if (!size.isEmpty()){
+        if (!style.isEmpty())
+            style += ";";
+        style += size;
+    }
+    QString tag("span style=\"");
+    tag += style;
+    tag += "\"";
+    pop_tag(tag);
+    push_tag(tag);
+}
+
+void TextParser::push_tag(const QString &tag)
+{
+    Tag t(tag);
+    m_tags.push(t);
+    m_text += t.open_tag();
+}
+
+void TextParser::pop_tag(const QString &tag)
+{
+    Tag t(tag);
+    stack<Tag> tags;
+    bool bFound = false;
+    QString text;
     while (!m_tags.empty()){
-        string top = m_tags.top();
+        Tag top = m_tags.top();
         m_tags.pop();
-        if (top == tag)
+        text += top.close_tag();
+        if (top == t){
+            bFound = true;
             break;
-        m_text += "</";
-        m_text += top.c_str();
-        m_text += ">";
+        }
         tags.push(top);
     }
+    if (bFound)
+        m_text += text;
     while (!tags.empty()){
-        string top = tags.top();
+        Tag top = tags.top();
         tags.pop();
-        m_text += "<";
-        m_text += top.c_str();
-        m_text += ">";
+        if (bFound)
+            m_text += top.open_tag();
+        m_tags.push(top);
     }
 }
 
-void TextParser::addText(const char *str, unsigned size)
+void TextParser::addText(const char *str, unsigned s)
 {
-    if (size == 0)
+    if (s == 0)
         return;
+    QString text;
     if (m_bUtf){
-        m_text += quoteString(QString::fromUtf8(str, size));
+        text = QString::fromUtf8(str, s);
     }else{
-        m_text += quoteString(QString::fromLocal8Bit(str, size));
+        text = QString::fromLocal8Bit(str, s);
+    }
+    while (!text.isEmpty()){
+        bool bFace = false;
+        int n1 = text.find("<font size=\"");
+        int n2 = text.find("<font face=\"");
+        int n = -1;
+        if (n1 >= 0)
+            n = n1;
+        if ((n2 >= 0) && ((n == -1) || (n2 < n1))){
+            n = n2;
+            bFace = true;
+        }
+        if (n < 0){
+            if (!text.isEmpty())
+                put_style();
+            m_text += quoteString(text);
+            break;
+        }
+        if (n)
+            put_style();
+        m_text += quoteString(text.left(n));
+        text = text.mid(n);
+        n = text.find(">");
+        if (n < 0)
+            break;
+        FaceSizeParser p(text.left(n + 1));
+        text = text.mid(n + 1);
+        if (!p.face.isEmpty()){
+            face = p.face;
+            m_bChanged = true;
+        }
+        if (!p.size.isEmpty()){
+            size = p.size;
+            m_bChanged = true;
+        }
     }
 }
 
@@ -617,7 +835,27 @@ void YahooClient::setStatus(unsigned status)
         }
         return;
     }
-    m_status = status;
+    unsigned yahoo_status = YAHOO_STATUS_OFFLINE;
+    switch (status){
+    case STATUS_ONLINE:
+        yahoo_status = YAHOO_STATUS_AVAILABLE;
+        break;
+    case STATUS_DND:
+        yahoo_status = YAHOO_STATUS_BUSY;
+        break;
+    }
+    if (yahoo_status != YAHOO_STATUS_OFFLINE){
+        m_status = status;
+        sendStatus(yahoo_status);
+        return;
+    }
+    ARRequest ar;
+    ar.contact  = NULL;
+    ar.status   = status;
+    ar.receiver = this;
+    ar.param	= (void*)status;
+    Event eAR(EventARRequest, &ar);
+    eAR.process();
 }
 
 void YahooClient::disconnected()
@@ -669,6 +907,7 @@ void YahooClient::authOk()
     setState(Connected);
     setPreviousPassword(NULL);
     setStatus(m_logonStatus);
+    QTimer::singleShot(PING_TIMEOUT * 1000, this, SLOT(ping()));
 }
 
 void YahooClient::loadList(const char *str)
@@ -677,9 +916,9 @@ void YahooClient::loadList(const char *str)
     ContactList::ContactIterator it;
     while ((contact = ++it) != NULL){
         YahooUserData *data;
-        ClientDataIterator itd(contact->clientData);
+        ClientDataIterator itd(contact->clientData, this);
         while ((data = (YahooUserData*)(++itd)) != NULL){
-            data->bChecked.bValue = false;
+            data->bChecked.bValue = (contact->getGroup() == 0);
         }
     }
     if (str){
@@ -694,7 +933,7 @@ void YahooClient::loadList(const char *str)
             while (!line.empty()){
                 string id = getToken(line, ',');
                 Contact *contact;
-                YahooUserData *data = findContact(id.c_str(), grp.c_str(), contact);
+                YahooUserData *data = findContact(id.c_str(), grp.c_str(), contact, false);
                 data->bChecked.bValue = true;
             }
         }
@@ -727,7 +966,7 @@ void YahooClient::loadList(const char *str)
         delete *itr;
 }
 
-YahooUserData *YahooClient::findContact(const char *id, const char *grpname, Contact *&contact)
+YahooUserData *YahooClient::findContact(const char *id, const char *grpname, Contact *&contact, bool bSend)
 {
     ContactList::ContactIterator it;
     while ((contact = ++it) != NULL){
@@ -749,8 +988,10 @@ YahooUserData *YahooClient::findContact(const char *id, const char *grpname, Con
             return data;
         }
     }
+    if (grpname == NULL)
+        return NULL;
     Group *grp = NULL;
-    if (grpname && *grpname){
+    if (*grpname){
         ContactList::GroupIterator it;
         while ((grp = ++it) != NULL)
             if (grp->getName() == QString::fromLocal8Bit(grpname))
@@ -771,6 +1012,8 @@ YahooUserData *YahooClient::findContact(const char *id, const char *grpname, Con
     contact->setGroup(grp->id());
     Event e(EventContactChanged, contact);
     e.process();
+    if (bSend)
+        addBuddy(data);
     return data;
 }
 
@@ -888,7 +1131,7 @@ QString YahooClient::contactTip(void *_data)
     res += "<br>";
     res += QString::fromUtf8(data->Login.ptr);
     res += "</b>";
-    if (data->Status.value == STATUS_OFFLINE){
+    if (data->Status.value == YAHOO_STATUS_OFFLINE){
         if (data->StatusTime.value){
             res += "<br><font size=-1>";
             res += i18n("Last online");
@@ -902,11 +1145,45 @@ QString YahooClient::contactTip(void *_data)
             res += ": </font>";
             res += formatDateTime(data->OnlineTime.value);
         }
-        if (data->Status.value != STATUS_ONLINE){
+        if (data->Status.value != YAHOO_STATUS_AVAILABLE){
             res += "<br><font size=-1>";
             res += statusText;
             res += ": </font>";
             res += formatDateTime(data->StatusTime.value);
+            QString msg;
+            switch (data->Status.value){
+            case YAHOO_STATUS_BRB:
+                msg = i18n("Be right back");
+                break;
+            case YAHOO_STATUS_NOTATHOME:
+                msg = i18n("Not at home");
+                break;
+            case YAHOO_STATUS_NOTATDESK:
+                msg = i18n("Not at my desk");
+                break;
+            case YAHOO_STATUS_NOTINOFFICE:
+                msg = i18n("Not in the office");
+                break;
+            case YAHOO_STATUS_ONPHONE:
+                msg = i18n("On the phone");
+                break;
+            case YAHOO_STATUS_ONVACATION:
+                msg = i18n("On vacation");
+                break;
+            case YAHOO_STATUS_OUTTOLUNCH:
+                msg = i18n("Out to lunch");
+                break;
+            case YAHOO_STATUS_STEPPEDOUT:
+                msg = i18n("Stepped out");
+                break;
+            case YAHOO_STATUS_CUSTOM:
+                if (data->AwayMessage.ptr)
+                    msg = QString::fromUtf8(data->AwayMessage.ptr);
+            }
+            if (!msg.isEmpty()){
+                res += "<br>";
+                res += quoteString(msg);
+            }
         }
     }
     return res;
@@ -1036,6 +1313,369 @@ QWidget *YahooClient::configWindow(QWidget *parent, unsigned id)
         return new YahooConfig(parent, this, true);
     }
     return NULL;
+}
+
+void YahooClient::ping()
+{
+    if (getState() != Connected)
+        return;
+    sendPacket(YAHOO_SERVICE_PING);
+    QTimer::singleShot(PING_TIMEOUT * 1000, this, SLOT(ping()));
+}
+
+class YahooParser : public HTMLParser
+{
+public:
+    YahooParser(const QString&);
+    string res;
+    bool bUtf;
+protected:
+    typedef struct style
+    {
+        QString		tag;
+        QString		face;
+        unsigned	size;
+        unsigned	color;
+        unsigned	state;
+    } style;
+    virtual void text(const QString &text);
+    virtual void tag_start(const QString &tag, const list<QString> &options);
+    virtual void tag_end(const QString &tag);
+    void set_style(const style &s);
+    void set_state(unsigned oldState, unsigned newState, unsigned st);
+    void escape(const char *str);
+    bool	m_bFirst;
+    string   esc;
+    stack<style>	tags;
+    style	curStyle;
+};
+
+YahooParser::YahooParser(const QString &str)
+{
+    bUtf  = false;
+    m_bFirst = true;
+    curStyle.face  = "Arial";
+    curStyle.size  = 10;
+    curStyle.color = 0;
+    curStyle.state = 0;
+    parse(str);
+}
+
+void YahooParser::text(const QString &str)
+{
+    if (str.isEmpty())
+        return;
+    if (!bUtf){
+        for (int i = 0; i < (int)str.length(); i++){
+            if (str[i].unicode() > 0x7F){
+                bUtf = true;
+                break;
+            }
+        }
+    }
+    res += esc;
+    esc = "";
+    res += str.utf8();
+}
+
+void YahooParser::tag_start(const QString &tag, const list<QString> &options)
+{
+    if (tag == "img"){
+        QString src;
+        for (list<QString>::const_iterator it = options.begin(); it != options.end(); ++it){
+            QString name = (*it);
+            ++it;
+            QString value = (*it);
+            if (name == "src"){
+                src = value;
+                break;
+            }
+        }
+        if (src.left(10) != "icon:smile")
+            return;
+        bool bOK;
+        unsigned nSmile = src.mid(10).toUInt(&bOK, 16);
+        if (!bOK)
+            return;
+        const smile *p = smiles(nSmile);
+        if (p)
+            text(p->paste);
+        return;
+    }
+    if (tag == "br"){
+        res += "\n";
+        return;
+    }
+    style s = curStyle;
+    s.tag = tag;
+    tags.push(s);
+    if (tag == "p"){
+        if (!m_bFirst)
+            res += "\n";
+        m_bFirst = false;
+    }
+    if (tag == "font"){
+        for (list<QString>::const_iterator it = options.begin(); it != options.end(); ++it){
+            QString name = *it;
+            ++it;
+            if (name == "color"){
+                QColor c;
+                c.setNamedColor(*it);
+                s.color = c.rgb() & 0xFFFFFF;
+            }
+        }
+    }
+    if (tag == "b"){
+        s.state |= 1;
+        return;
+    }
+    if (tag == "i"){
+        s.state |= 2;
+        return;
+    }
+    if (tag == "u"){
+        s.state |= 4;
+        return;
+    }
+    for (list<QString>::const_iterator it = options.begin(); it != options.end(); ++it){
+        QString name = *it;
+        ++it;
+        if (name != "style")
+            continue;
+        list<QString> styles = parseStyle(*it);
+        for (list<QString>::iterator its = styles.begin(); its != styles.end(); ++its){
+            QString name = *its;
+            ++its;
+            if (name == "color"){
+                QColor c;
+                c.setNamedColor(*its);
+                s.color = c.rgb() & 0xFFFFFF;
+            }
+            if (name == "font-size"){
+                unsigned size = atol((*its).latin1());
+                if (size)
+                    s.size = size;
+            }
+            if (name == "font-family")
+                s.face = (*its);
+            if (name == "font-weight")
+                s.state &= ~1;
+            if (atol((*its).latin1()) >= 600)
+                s.state |= 1;
+            if ((name == "font-style") && ((*its) == "italic"))
+                s.state |= 2;
+            if ((name == "text-decoration") && ((*its) == "underline"))
+                s.state |= 4;
+        }
+    }
+    set_style(s);
+}
+
+void YahooParser::tag_end(const QString &tag)
+{
+    style saveStyle =curStyle;
+    while (!tags.empty()){
+        saveStyle = tags.top();
+        tags.pop();
+        if (saveStyle.tag == tag)
+            break;
+    }
+    set_style(saveStyle);
+}
+
+void YahooParser::set_state(unsigned oldState, unsigned newState, unsigned st)
+{
+    string part;
+    if ((oldState & st) == (newState & st))
+        return;
+    if ((newState & st) == 0)
+        part = "x";
+    part += number(st);
+    escape(part.c_str());
+}
+
+void YahooParser::set_style(const style &s)
+{
+    set_state(curStyle.state, s.state, 1);
+    set_state(curStyle.state, s.state, 2);
+    set_state(curStyle.state, s.state, 4);
+    curStyle.state = s.state;
+    if (curStyle.color != s.color){
+        curStyle.color = s.color;
+        unsigned i;
+        for (i = 0; i < 10; i++){
+            if (esc_colors[i] == s.color){
+                escape(number(30 + i).c_str());
+                break;
+            }
+        }
+        if (i >= 10){
+            char b[10];
+            sprintf(b, "#%06X", s.color & 0xFFFFFF);
+            escape(b);
+        }
+    }
+    QString fontAttr;
+    if (curStyle.size != s.size){
+        curStyle.size = s.size;
+        fontAttr = QString(" size=\"%1\"") .arg(s.size);
+    }
+    if (curStyle.face != s.face){
+        curStyle.face = s.face;
+        fontAttr += QString(" face=\"%1\"") .arg(s.face);
+    }
+    if (!fontAttr.isEmpty()){
+        esc += "<font";
+        esc += fontAttr.utf8();
+        esc += ">";
+    }
+}
+
+void YahooParser::escape(const char *str)
+{
+    esc += "\x1B\x5B";
+    esc += str;
+    esc += "m";
+}
+
+void YahooClient::sendMessage(const QString &msgText, Message *msg, YahooUserData *data)
+{
+    YahooParser p(msgText);
+    addParam(0, getLogin().utf8());
+    addParam(1, getLogin().utf8());
+    addParam(5, data->Login.ptr);
+    addParam(14, p.res.c_str());
+    if(p.bUtf)
+        addParam(97, "1");
+    addParam(63, ";0");
+    addParam(64, "0");
+    sendPacket(YAHOO_SERVICE_MESSAGE, 0x5A55AA56);
+    if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
+        msg->setClient(dataName(data).c_str());
+        Event e(EventSent, msg);
+        e.process();
+    }
+    Event e(EventMessageSent, msg);
+    e.process();
+    delete msg;
+}
+
+void YahooClient::sendTyping(YahooUserData *data, bool bState)
+{
+    addParam(5, data->Login.ptr);
+    addParam(4, getLogin().utf8());
+    addParam(14, " ");
+    addParam(13, bState ? "1" : "0");
+    addParam(49, "TYPING");
+    sendPacket(YAHOO_SERVICE_NOTIFY, 0x16);
+}
+
+void YahooClient::addBuddy(YahooUserData *data)
+{
+    if ((getState() != Connected) || (data->Group.ptr == NULL))
+        return;
+    addParam(1, getLogin().utf8());
+    addParam(7, data->Login.ptr);
+    addParam(65, data->Group.ptr ? data->Group.ptr : "");
+    sendPacket(YAHOO_SERVICE_ADDBUDDY);
+}
+
+void YahooClient::removeBuddy(YahooUserData *data)
+{
+    if ((getState() != Connected) || (data->Group.ptr == NULL))
+        return;
+    addParam(1, getLogin().utf8());
+    addParam(7, data->Login.ptr);
+    addParam(65, data->Group.ptr ? data->Group.ptr : "");
+    sendPacket(YAHOO_SERVICE_REMBUDDY);
+    set_str(&data->Group.ptr, NULL);
+}
+
+void YahooClient::moveBuddy(YahooUserData *data, const char *grp)
+{
+    if (getState() != Connected)
+        return;
+    if (data->Group.ptr == NULL){
+        if ((grp == NULL) || (*grp == 0))
+            return;
+        set_str(&data->Group.ptr, grp);
+        addBuddy(data);
+        return;
+    }
+    if ((grp == NULL) || (*grp == 0)){
+        removeBuddy(data);
+        return;
+    }
+    if (!strcmp(data->Group.ptr, grp))
+        return;
+    addParam(1, getLogin().utf8());
+    addParam(7, data->Login.ptr);
+    addParam(65, grp);
+    sendPacket(YAHOO_SERVICE_ADDBUDDY);
+    addParam(1, getLogin().utf8());
+    addParam(7, data->Login.ptr);
+    addParam(65, data->Group.ptr ? data->Group.ptr : "");
+    sendPacket(YAHOO_SERVICE_REMBUDDY);
+    set_str(&data->Group.ptr, grp);
+}
+
+void *YahooClient::processEvent(Event *e)
+{
+    if (e->type() == EventContactChanged){
+        Contact *contact = (Contact*)(e->param());
+        string grpName;
+        string name;
+        name = contact->getName().utf8();
+        Group *grp = NULL;
+        if (contact->getGroup())
+            grp = getContacts()->group(contact->getGroup());
+        if (grp)
+            grpName = grp->getName().utf8();
+        ClientDataIterator it(contact->clientData, this);
+        YahooUserData *data;
+        while ((data = (YahooUserData*)(++it)) != NULL){
+            moveBuddy(data, grpName.c_str());
+        }
+    }
+    if (e->type() == EventContactDeleted){
+        Contact *contact = (Contact*)(e->param());
+        ClientDataIterator it(contact->clientData, this);
+        YahooUserData *data;
+        while ((data = (YahooUserData*)(++it)) != NULL){
+            removeBuddy(data);
+        }
+    }
+    if (e->type() == EventTemplateExpanded){
+        TemplateExpand *t = (TemplateExpand*)(e->param());
+        sendStatus(YAHOO_STATUS_CUSTOM, t->tmpl.local8Bit());
+    }
+    return NULL;
+}
+
+QWidget *YahooClient::searchWindow()
+{
+    return new YahooSearch(this);
+}
+
+void YahooClient::sendStatus(unsigned long status, const char *msg)
+{
+    unsigned long service = YAHOO_SERVICE_ISAWAY;
+    if (msg)
+        status = YAHOO_STATUS_CUSTOM;
+    if (data.owner.Status.value == YAHOO_STATUS_AVAILABLE)
+        service = YAHOO_SERVICE_ISBACK;
+    addParam(10, number(status).c_str());
+    if ((status == YAHOO_STATUS_CUSTOM) && msg) {
+        addParam(19, msg);
+        addParam(47, "1");
+    }
+    sendPacket(service);
+    if (data.owner.Status.value != status){
+        time_t now;
+        time(&now);
+        data.owner.StatusTime.value = now;
+    }
+    data.owner.Status.value = status;
 }
 
 #ifndef WIN32

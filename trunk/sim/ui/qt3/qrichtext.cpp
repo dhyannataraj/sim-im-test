@@ -1,5 +1,5 @@
 #/****************************************************************************
-** $Id: qrichtext.cpp,v 1.11 2004-01-15 11:30:25 shutoff Exp $
+** $Id: qrichtext.cpp,v 1.12 2004-02-08 12:03:05 shutoff Exp $
 **
 ** Implementation of the internal Qt classes dealing with rich text
 **
@@ -109,13 +109,13 @@ static inline bool is_printer( QPainter *p )
 #if defined(Q_WS_X11)
             value = value * metrics.logicalDpiY() / QPaintDevice::x11AppDpiY();
 #elif defined (Q_WS_WIN)
-int gdc = GetDeviceCaps( GetDC( 0 ), LOGPIXELSY );
+            int gdc = GetDeviceCaps( GetDC( 0 ), LOGPIXELSY );
             if ( gdc )
                 value = value * metrics.logicalDpiY() / gdc;
 #elif defined (Q_WS_MAC)
-value = value * metrics.logicalDpiY() / 75; // ##### FIXME
+            value = value * metrics.logicalDpiY() / 75; // ##### FIXME
 #elif defined (Q_WS_QWS)
-value = value * metrics.logicalDpiY() / 75;
+            value = value * metrics.logicalDpiY() / 75;
 #endif
         }
         return value;
@@ -6042,9 +6042,9 @@ formatAgain:
                 }
             } else {
                 if(match) {
+                    begin += sep_len;
                     if(!--start)
                         break;
-                    begin += sep_len;
                 } else {
                     if(start == 1 && begin == uc + n)
                         break;
@@ -6098,9 +6098,9 @@ formatAgain:
                     }
                 } else {
                     if(match) {
-                        last += sep_len;
                         if(!--end)
                             break;
+                        last += sep_len;
                     } else {
                         last++;
                     }

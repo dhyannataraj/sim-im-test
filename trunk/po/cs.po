@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
-"POT-Creation-Date: 2004-02-06 13:35+0300\n"
+"POT-Creation-Date: 2004-02-08 14:59+0300\n"
 "PO-Revision-Date: 2004-02-07 23:17+0100\n"
 "Last-Translator: Pavel Rousar <p.rousar@sh.cvut.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -1980,14 +1980,14 @@ msgstr "Vaše UIN se používá z jiného místa"
 
 #: plugins/msn/msnclient.cpp:610 plugins/_core/logindlg.cpp:462
 #: plugins/jabber/jabberclient.cpp:1113
-#: plugins/livejournal/livejournal.cpp:916 plugins/yahoo/yahooclient.cpp:242
-#: plugins/yahoo/yahooclient.cpp:253
+#: plugins/livejournal/livejournal.cpp:916 plugins/yahoo/yahooclient.cpp:281
+#: plugins/yahoo/yahooclient.cpp:292
 msgid "Login failed"
 msgstr "Chyba při přihlašování"
 
 #: plugins/msn/msnclient.cpp:711 plugins/icq/icqclient.cpp:2105
 #: plugins/icq/icqclient.cpp:2184 plugins/jabber/jabberclient.cpp:1740
-#: plugins/yahoo/yahooclient.cpp:971
+#: plugins/yahoo/yahooclient.cpp:1248
 #, fuzzy
 msgid "Network"
 msgstr "Síť"
@@ -1995,7 +1995,7 @@ msgstr "Síť"
 #: plugins/msn/msnclient.cpp:1551 plugins/msn/msninfo.cpp:88
 #: plugins/icq/icqclient.cpp:1511 plugins/icq/icqinfo.cpp:229
 #: plugins/icq/aiminfo.cpp:166 plugins/jabber/jabberinfo.cpp:104
-#: plugins/jabber/jabberclient.cpp:1418 plugins/yahoo/yahooclient.cpp:894
+#: plugins/jabber/jabberclient.cpp:1418 plugins/yahoo/yahooclient.cpp:1137
 #: plugins/yahoo/yahooinfo.cpp:104
 msgid "Last online"
 msgstr "Naposledy online"
@@ -2006,7 +2006,7 @@ msgstr "Naposledy online"
 #: plugins/icq/icqclient.cpp:1518 plugins/sms/sms.cpp:229
 #: plugins/jabber/services.cpp:235 plugins/jabber/jabberclient.cpp:1425
 #: plugins/jabber/jabber.cpp:87 plugins/livejournal/livejournal.cpp:317
-#: plugins/yahoo/yahoo.cpp:97 plugins/yahoo/yahooclient.cpp:901
+#: plugins/yahoo/yahoo.cpp:97 plugins/yahoo/yahooclient.cpp:1144
 msgid "Online"
 msgstr "Online"
 
@@ -2055,7 +2055,7 @@ msgstr "Chybná adresa: %1"
 msgid "MSN search results"
 msgstr "Výsledky hledání v MSN"
 
-#: plugins/msn/msnsearch.cpp:126
+#: plugins/msn/msnsearch.cpp:126 plugins/yahoo/yahoosearch.cpp:131
 msgid "Contact %1 allready in list"
 msgstr "Kontakt %1 už v kontaktlistu je"
 
@@ -2073,7 +2073,7 @@ msgstr "Kontakt %1 už v kontaktlistu je"
 #: plugins/gpg/gpgcfgbase.cpp:101 plugins/gpg/gpgadvbase.cpp:124
 #: plugins/gpg/gpguserbase.cpp:67 plugins/icons/smilecfgbase.cpp:62
 #: plugins/icons/iconcfgbase.cpp:76 plugins/logger/logconfigbase.cpp:67
-#: plugins/icq/icqconfigbase.cc:186 plugins/icq/homeinfobase.cc:143
+#: plugins/icq/homeinfobase.cc:143 plugins/icq/icqconfigbase.cc:186
 #: plugins/icq/pastinfobase.cc:138 plugins/icq/icqsecurebase.cc:153
 #: plugins/icq/icqpicturebase.cc:74 plugins/icq/aiminfobase.cc:255
 #: plugins/icq/aimconfigbase.cc:117 plugins/icq/aimsearchbase.cc:239
@@ -2085,14 +2085,15 @@ msgstr "Kontakt %1 už v kontaktlistu je"
 #: plugins/transparent/transparentcfgbase.cpp:70
 #: plugins/jabber/jabberconfigbase.cpp:248
 #: plugins/jabber/jabberworkinfobase.cpp:88
-#: plugins/jabber/addresultbase.cpp:57 plugins/jabber/jabberpicturebase.cpp:74
-#: plugins/jabber/servicesbase.cpp:107 plugins/jabber/infoproxybase.cpp:55
-#: plugins/jabber/jabberinfobase.cpp:182 plugins/jabber/jabberaddbase.cpp:92
+#: plugins/jabber/jabberaddbase.cpp:92 plugins/jabber/jabberpicturebase.cpp:74
+#: plugins/jabber/addresultbase.cpp:57 plugins/jabber/servicesbase.cpp:107
+#: plugins/jabber/infoproxybase.cpp:55 plugins/jabber/jabberinfobase.cpp:182
 #: plugins/livejournal/msgjournalbase.cpp:78
 #: plugins/livejournal/journalsearchbase.cpp:69
 #: plugins/livejournal/livejournalcfgbase.cpp:148
 #: plugins/action/actioncfgbase.cpp:61 plugins/action/menucfgbase.cpp:67
-#: plugins/navigate/navcfgbase.cc:64 plugins/yahoo/yahooinfobase.cpp:147
+#: plugins/navigate/navcfgbase.cc:64 plugins/yahoo/yahoosearchbase.cpp:78
+#: plugins/yahoo/yahooinfobase.cpp:147
 msgid "Form1"
 msgstr "Form1"
 
@@ -2137,7 +2138,7 @@ msgstr "&Stav"
 #: plugins/icq/workinfobase.cc:178 plugins/icq/searchresultbase.cc:56
 #: plugins/osd/osdifacebase.cpp:128 plugins/jabber/jabberhomeinfobase.cpp:104
 #: plugins/livejournal/journalresultbase.cpp:54
-#: plugins/yahoo/yahoocfgbase.cpp:117
+#: plugins/yahoo/yahoocfgbase.cpp:117 plugins/yahoo/yahooresultbase.cpp:54
 msgid "Form2"
 msgstr "Form 2"
 
@@ -2171,11 +2172,11 @@ msgstr "Nedostupný (N/A)"
 msgid "Busy"
 msgstr "Obsazeno"
 
-#: plugins/msn/msn.cpp:146
+#: plugins/msn/msn.cpp:146 plugins/yahoo/yahooclient.cpp:1156
 msgid "Be right back"
 msgstr "Jsem hned zpátky"
 
-#: plugins/msn/msn.cpp:161
+#: plugins/msn/msn.cpp:161 plugins/yahoo/yahooclient.cpp:1168
 msgid "On the phone"
 msgstr "Na telefonu"
 
@@ -2252,11 +2253,12 @@ msgstr "Email:"
 
 #: plugins/msn/msnsearchbase.cpp:80 plugins/icq/icqsearchbase.cc:315
 #: plugins/icq/aimsearchbase.cc:241 plugins/icq/aimsearchbase.cc:244
-#: plugins/jabber/jabberaddbase.cpp:93
+#: plugins/jabber/jabberaddbase.cpp:93 plugins/yahoo/yahoosearchbase.cpp:80
 msgid "Add to group:"
 msgstr "Přidat do skupiny:"
 
 #: plugins/msn/msnsearchbase.cpp:81 plugins/icq/icqsearchbase.cc:311
+#: plugins/yahoo/yahoosearchbase.cpp:81
 msgid "&Add contact"
 msgstr "Přidat kont&akt"
 
@@ -2712,7 +2714,7 @@ msgstr "&Nový"
 msgid "Not available"
 msgstr "Nedostupný"
 
-#: plugins/_core/core.cpp:2345 plugins/dock/dockwnd.cpp:1180
+#: plugins/_core/core.cpp:2345 plugins/dock/dockwnd.cpp:1185
 #: plugins/osd/osd.cpp:329
 msgid "%1 from %2"
 msgstr "%1 (%2)"
@@ -3822,8 +3824,10 @@ msgstr "Nastavit \"N/A\" status po"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:109
 #: plugins/sound/soundconfigbase.cpp:107
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
-msgstr "Zakázat online výstrahu pro \"Away\", \"N/A\", \"DND\" a \"Occupied\" seznam"
+msgid ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgstr ""
+"Zakázat online výstrahu pro \"Away\", \"N/A\", \"DND\" a \"Occupied\" seznam"
 
 #: plugins/autoaway/autoaway.cpp:66
 msgid "AutoAway"
@@ -3975,7 +3979,8 @@ msgstr "Příjmat zp&rávy pouze od lidí uvedených v kontaktlistu"
 
 #: plugins/filter/filtercfgbase.cpp:67
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr "Odmítnout zprávy od neznámých uživatelů obsahující tato slova nebo výrazy:"
+msgstr ""
+"Odmítnout zprávy od neznámých uživatelů obsahující tato slova nebo výrazy:"
 
 #: plugins/filter/filtercfgbase.cpp:68
 #, fuzzy
@@ -4228,7 +4233,8 @@ msgstr "Ikony pro protokol:"
 
 #: plugins/windock/windock.cpp:44
 msgid "Plugin provides dock main window to left or right side of screen"
-msgstr "Plugin poskytuje možnost dokovat hlavní okno doleva nebo doprava na obrazovce"
+msgstr ""
+"Plugin poskytuje možnost dokovat hlavní okno doleva nebo doprava na obrazovce"
 
 #: plugins/windock/windock.cpp:180
 msgid ""
@@ -5589,6 +5595,36 @@ msgstr "Interní IP:"
 msgid "Client:"
 msgstr "Klient:"
 
+#: plugins/icq/homeinfobase.cc:144 plugins/icq/workinfobase.cc:181
+#: plugins/icq/icqsearchbase.cc:298 plugins/icq/aiminfobase.cc:263
+#: plugins/icq/aimsearchbase.cc:253 plugins/jabber/jabberhomeinfobase.cpp:108
+msgid "State:"
+msgstr "Stav:"
+
+#: plugins/icq/homeinfobase.cc:145 plugins/icq/workinfobase.cc:179
+#: plugins/jabber/jabberhomeinfobase.cpp:109
+msgid "Address:"
+msgstr "Adresa:"
+
+#: plugins/icq/homeinfobase.cc:147 plugins/icq/workinfobase.cc:180
+#: plugins/icq/icqsearchbase.cc:297 plugins/icq/aiminfobase.cc:262
+#: plugins/icq/aimsearchbase.cc:252 plugins/jabber/jabberhomeinfobase.cpp:105
+msgid "City:"
+msgstr "Město:"
+
+#: plugins/icq/homeinfobase.cc:148 plugins/icq/workinfobase.cc:182
+#: plugins/jabber/jabberhomeinfobase.cpp:106
+msgid "Zip code:"
+msgstr "PSČ:"
+
+#: plugins/icq/homeinfobase.cc:149
+msgid "Time zone:"
+msgstr "Časová zóna:"
+
+#: plugins/icq/homeinfobase.cc:150
+msgid "&Home info"
+msgstr "&Domov"
+
 #: plugins/icq/icqconfigbase.cc:188
 msgid "&Register new UIN"
 msgstr "&Registrace nového UIN"
@@ -5672,36 +5708,6 @@ msgstr "Doplňující informace o uživateli:"
 msgid "A&bout"
 msgstr "&O ..."
 
-#: plugins/icq/homeinfobase.cc:144 plugins/icq/workinfobase.cc:181
-#: plugins/icq/icqsearchbase.cc:298 plugins/icq/aiminfobase.cc:263
-#: plugins/icq/aimsearchbase.cc:253 plugins/jabber/jabberhomeinfobase.cpp:108
-msgid "State:"
-msgstr "Stav:"
-
-#: plugins/icq/homeinfobase.cc:145 plugins/icq/workinfobase.cc:179
-#: plugins/jabber/jabberhomeinfobase.cpp:109
-msgid "Address:"
-msgstr "Adresa:"
-
-#: plugins/icq/homeinfobase.cc:147 plugins/icq/workinfobase.cc:180
-#: plugins/icq/icqsearchbase.cc:297 plugins/icq/aiminfobase.cc:262
-#: plugins/icq/aimsearchbase.cc:252 plugins/jabber/jabberhomeinfobase.cpp:105
-msgid "City:"
-msgstr "Město:"
-
-#: plugins/icq/homeinfobase.cc:148 plugins/icq/workinfobase.cc:182
-#: plugins/jabber/jabberhomeinfobase.cpp:106
-msgid "Zip code:"
-msgstr "PSČ:"
-
-#: plugins/icq/homeinfobase.cc:149
-msgid "Time zone:"
-msgstr "Časová zóna:"
-
-#: plugins/icq/homeinfobase.cc:150
-msgid "&Home info"
-msgstr "&Domov"
-
 #: plugins/icq/moreinfobase.cc:153 plugins/icq/icqsearchbase.cc:293
 msgid "Age:"
 msgstr "Stáří:"
@@ -5732,6 +5738,22 @@ msgstr "Jazyky:"
 msgid "&Languages"
 msgstr "&Jazyk:"
 
+#: plugins/icq/pastinfobase.cc:139
+msgid "Organization, Affiliation, Group:"
+msgstr "Organizace, Spolky, Skupiny:"
+
+#: plugins/icq/pastinfobase.cc:140
+msgid "A&ffilation"
+msgstr "&Spolky"
+
+#: plugins/icq/pastinfobase.cc:141
+msgid "Past background:"
+msgstr "V minulosti"
+
+#: plugins/icq/pastinfobase.cc:142
+msgid "&Background"
+msgstr "&Minulost"
+
 #: plugins/icq/workinfobase.cc:186
 msgid "Web site:"
 msgstr "Web:"
@@ -5755,22 +5777,6 @@ msgstr "Pozice:"
 #: plugins/icq/workinfobase.cc:191
 msgid "&Occupation"
 msgstr "P&ovolání:"
-
-#: plugins/icq/pastinfobase.cc:139
-msgid "Organization, Affiliation, Group:"
-msgstr "Organizace, Spolky, Skupiny:"
-
-#: plugins/icq/pastinfobase.cc:140
-msgid "A&ffilation"
-msgstr "&Spolky"
-
-#: plugins/icq/pastinfobase.cc:141
-msgid "Past background:"
-msgstr "V minulosti"
-
-#: plugins/icq/pastinfobase.cc:142
-msgid "&Background"
-msgstr "&Minulost"
 
 #: plugins/icq/icqsecurebase.cc:154
 msgid "My &authorization is required before users add me to Contact List"
@@ -6084,7 +6090,8 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:48
-msgid "Plugin provides on screen notification about messages and contacts status"
+msgid ""
+"Plugin provides on screen notification about messages and contacts status"
 msgstr "Plugin poskytuje možnost oznamovat stav kontaktů na obrazovce"
 
 #: plugins/osd/osd.cpp:115
@@ -6724,6 +6731,18 @@ msgstr "Požadavky na podpis &akceptovat automaticky"
 msgid "Role:"
 msgstr "Postavení:"
 
+#: plugins/jabber/jabberaddbase.cpp:94
+msgid "Jabber ID:"
+msgstr "Jabber ID:"
+
+#: plugins/jabber/jabberaddbase.cpp:95
+msgid "Jabber ID"
+msgstr "Jabber ID"
+
+#: plugins/jabber/jabberaddbase.cpp:96
+msgid "Service:"
+msgstr "Služba:"
+
 #: plugins/jabber/jabberaboutinfobase.cpp:57
 msgid "Additional information:"
 msgstr "Doplňující informace:"
@@ -6804,18 +6823,6 @@ msgstr "Telefon:"
 #: plugins/jabber/jabberinfobase.cpp:183
 msgid "ID:"
 msgstr "ID:"
-
-#: plugins/jabber/jabberaddbase.cpp:94
-msgid "Jabber ID:"
-msgstr "Jabber ID:"
-
-#: plugins/jabber/jabberaddbase.cpp:95
-msgid "Jabber ID"
-msgstr "Jabber ID"
-
-#: plugins/jabber/jabberaddbase.cpp:96
-msgid "Service:"
-msgstr "Služba:"
 
 #: plugins/jabber/jabberbrowser.cpp:45 plugins/jabber/jabberbrowser.cpp:244
 msgid "Process"
@@ -7708,7 +7715,8 @@ msgstr "Akce"
 
 #: plugins/action/action.cpp:34
 msgid "Plugin execute external programs on event or from contact menu"
-msgstr "Plugin umožňuje při události nebo z menu kontaktů spouštět externí programy"
+msgstr ""
+"Plugin umožňuje při události nebo z menu kontaktů spouštět externí programy"
 
 #: plugins/action/action.cpp:84
 msgid "&Action"
@@ -7731,7 +7739,8 @@ msgid "Navigate"
 msgstr "Navigace"
 
 #: plugins/navigate/navigate.cpp:199
-msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid ""
+"Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Plugin poskytuje navigaci v hyperlincích, spouští externí prohlížeč a "
 "poštovního klienta"
@@ -7762,22 +7771,65 @@ msgstr ""
 msgid "Get a Yahoo! ID"
 msgstr "Získat Yahoo! ID"
 
-#: plugins/yahoo/yahooclient.cpp:223
+#: plugins/yahoo/yahooclient.cpp:262
 msgid "Yahoo! login lock"
 msgstr "zámek logování do Yahoo!"
 
-#: plugins/yahoo/yahooclient.cpp:246
+#: plugins/yahoo/yahooclient.cpp:285
 msgid "Your account has been locked"
 msgstr "Váš účet byl zablokován"
 
-#: plugins/yahoo/yahooclient.cpp:250 plugins/yahoo/yahooclient.cpp:263
+#: plugins/yahoo/yahooclient.cpp:289 plugins/yahoo/yahooclient.cpp:302
 #, fuzzy
 msgid "Your account is being used from another location"
 msgstr "Vaše UIN se používá z jiného místa"
 
+#: plugins/yahoo/yahooclient.cpp:1159
+#, fuzzy
+msgid "Not at home"
+msgstr "Nenalezeno"
+
+#: plugins/yahoo/yahooclient.cpp:1162
+msgid "Not at my desk"
+msgstr ""
+
+#: plugins/yahoo/yahooclient.cpp:1165
+msgid "Not in the office"
+msgstr ""
+
+#: plugins/yahoo/yahooclient.cpp:1171
+#, fuzzy
+msgid "On vacation"
+msgstr "Povolání:"
+
+#: plugins/yahoo/yahooclient.cpp:1174
+#, fuzzy
+msgid "Out to lunch"
+msgstr "Na obědě"
+
+#: plugins/yahoo/yahooclient.cpp:1177
+#, fuzzy
+msgid "Stepped out"
+msgstr "Timeout při odesílání"
+
 #: plugins/yahoo/yahoocfgbase.cpp:120
 msgid "&Yahoo!"
 msgstr "&Yahoo!"
+
+#: plugins/yahoo/yahoosearchbase.cpp:79
+#, fuzzy
+msgid "Yahoo ID:"
+msgstr "Yahoo!"
+
+#: plugins/yahoo/yahoosearch.cpp:56
+#, fuzzy
+msgid "Yahoo! search results"
+msgstr "Výsledky hledání v MSN"
+
+#: plugins/yahoo/yahoosearch.cpp:129
+#, fuzzy
+msgid "Contact %1 added in group %2"
+msgstr "Kontakt %1 přidán do kontaktlistu"
 
 #~ msgid ""
 #~ "_n: %n file\n"
@@ -9014,4 +9066,3 @@ msgstr "&Yahoo!"
 
 #~ msgid "Transfer completed"
 #~ msgstr "Übertragung abgeschlossen"
-

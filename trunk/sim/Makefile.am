@@ -1,22 +1,12 @@
 bin_PROGRAMS = sim 
 
-SUBDIRS=api ui
+SUBDIRS=api ui png
 
 sim_SOURCES = sim.cpp 
 sim_LDADD   = $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(EXTRA_LIBS) api/libsimapi.la
 
 EXTRA_DIST = \
  sim.desktop \
- lo16-app-sim.png \
- lo22-app-sim.png \
- lo32-app-sim.png \
- lo48-app-sim.png \
- lo64-app-sim.png \
- hi16-app-sim.png \
- hi22-app-sim.png \
- hi32-app-sim.png \
- hi48-app-sim.png \
- hi64-app-sim.png \
  sim.cpp \
  sim.h
 
@@ -25,39 +15,9 @@ install-data-local:
 	$(INSTALL_DATA) $(srcdir)/sim-kde.menu $(libdir)/menu
 	$(mkinstalldirs) $(kde_appsdir)/Internet/
 	$(INSTALL_DATA) $(srcdir)/sim.desktop $(kde_appsdir)/Internet/sim.desktop
-	$(mkinstalldirs) $(kde_icondir)/locolor/16x16/apps/
-	$(INSTALL_DATA) $(srcdir)/png/lo16-app-sim.png $(kde_icondir)/locolor/16x16/apps/sim.png
-	$(mkinstalldirs) $(kde_icondir)/locolor/22x22/apps/
-	$(INSTALL_DATA) $(srcdir)/png/lo22-app-sim.png $(kde_icondir)/locolor/22x22/apps/sim.png
-	$(mkinstalldirs) $(kde_icondir)/locolor/32x32/apps/
-	$(INSTALL_DATA) $(srcdir)/png/lo32-app-sim.png $(kde_icondir)/locolor/32x32/apps/sim.png
-	$(mkinstalldirs) $(kde_icondir)/locolor/48x48/apps/
-	$(INSTALL_DATA) $(srcdir)/png/lo48-app-sim.png $(kde_icondir)/locolor/48x48/apps/sim.png
-	$(mkinstalldirs) $(kde_icondir)/locolor/64x64/apps/
-	$(INSTALL_DATA) $(srcdir)/png/lo64-app-sim.png $(kde_icondir)/locolor/64x64/apps/sim.png
-	$(mkinstalldirs) $(kde_icondir)/hicolor/16x16/apps/
-	$(INSTALL_DATA) $(srcdir)/png/hi16-app-sim.png $(kde_icondir)/hicolor/16x16/apps/sim.png
-	$(mkinstalldirs) $(kde_icondir)/hicolor/22x22/apps/
-	$(INSTALL_DATA) $(srcdir)/png/hi22-app-sim.png $(kde_icondir)/hicolor/22x22/apps/sim.png
-	$(mkinstalldirs) $(kde_icondir)/hicolor/32x32/apps/
-	$(INSTALL_DATA) $(srcdir)/png/hi32-app-sim.png $(kde_icondir)/hicolor/32x32/apps/sim.png
-	$(mkinstalldirs) $(kde_icondir)/hicolor/48x48/apps/
-	$(INSTALL_DATA) $(srcdir)/png/hi48-app-sim.png $(kde_icondir)/hicolor/48x48/apps/sim.png
-	$(mkinstalldirs) $(kde_icondir)/hicolor/64x64/apps/
-	$(INSTALL_DATA) $(srcdir)/png/hi64-app-sim.png $(kde_icondir)/hicolor/64x64/apps/sim.png
 
 uninstall-local:
 	-rm -f $(kde_appsdir)/Internet/sim.desktop
-	-rm -f $(kde_icondir)/locolor/16x16/apps/sim.png
-	-rm -f $(kde_icondir)/locolor/22x22/apps/sim.png
-	-rm -f $(kde_icondir)/locolor/32x32/apps/sim.png
-	-rm -f $(kde_icondir)/locolor/48x48/apps/sim.png
-	-rm -f $(kde_icondir)/locolor/64x64/apps/sim.png
-	-rm -f $(kde_icondir)/hicolor/16x16/apps/sim.png
-	-rm -f $(kde_icondir)/hicolor/22x22/apps/sim.png
-	-rm -f $(kde_icondir)/hicolor/32x32/apps/sim.png
-	-rm -f $(kde_icondir)/hicolor/48x48/apps/sim.png
-	-rm -f $(kde_icondir)/hicolor/64x64/apps/sim.png
 
 # set the include path for X, qt and KDE
 INCLUDES=-Iapi $(all_includes) 

@@ -28,7 +28,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
-"POT-Creation-Date: 2004-02-06 13:35+0300\n"
+"POT-Creation-Date: 2004-02-08 14:59+0300\n"
 "PO-Revision-Date: 2003-11-28 17:01+0200\n"
 "Last-Translator: \n"
 "Language-Team:  <en@li.org>\n"
@@ -2024,15 +2024,15 @@ msgstr "Το UIN χρησημοποιείται από άλλη τοποθεσί
 
 #: plugins/msn/msnclient.cpp:610 plugins/_core/logindlg.cpp:462
 #: plugins/jabber/jabberclient.cpp:1113
-#: plugins/livejournal/livejournal.cpp:916 plugins/yahoo/yahooclient.cpp:242
-#: plugins/yahoo/yahooclient.cpp:253
+#: plugins/livejournal/livejournal.cpp:916 plugins/yahoo/yahooclient.cpp:281
+#: plugins/yahoo/yahooclient.cpp:292
 #, fuzzy
 msgid "Login failed"
 msgstr "Η αποστολή απέτυχε"
 
 #: plugins/msn/msnclient.cpp:711 plugins/icq/icqclient.cpp:2105
 #: plugins/icq/icqclient.cpp:2184 plugins/jabber/jabberclient.cpp:1740
-#: plugins/yahoo/yahooclient.cpp:971
+#: plugins/yahoo/yahooclient.cpp:1248
 #, fuzzy
 msgid "Network"
 msgstr "Monitor Δυκτίου"
@@ -2040,7 +2040,7 @@ msgstr "Monitor Δυκτίου"
 #: plugins/msn/msnclient.cpp:1551 plugins/msn/msninfo.cpp:88
 #: plugins/icq/icqclient.cpp:1511 plugins/icq/icqinfo.cpp:229
 #: plugins/icq/aiminfo.cpp:166 plugins/jabber/jabberinfo.cpp:104
-#: plugins/jabber/jabberclient.cpp:1418 plugins/yahoo/yahooclient.cpp:894
+#: plugins/jabber/jabberclient.cpp:1418 plugins/yahoo/yahooclient.cpp:1137
 #: plugins/yahoo/yahooinfo.cpp:104
 msgid "Last online"
 msgstr "ΤελευταίοςOnline"
@@ -2051,7 +2051,7 @@ msgstr "ΤελευταίοςOnline"
 #: plugins/icq/icqclient.cpp:1518 plugins/sms/sms.cpp:229
 #: plugins/jabber/services.cpp:235 plugins/jabber/jabberclient.cpp:1425
 #: plugins/jabber/jabber.cpp:87 plugins/livejournal/livejournal.cpp:317
-#: plugins/yahoo/yahoo.cpp:97 plugins/yahoo/yahooclient.cpp:901
+#: plugins/yahoo/yahoo.cpp:97 plugins/yahoo/yahooclient.cpp:1144
 msgid "Online"
 msgstr ""
 
@@ -2107,7 +2107,7 @@ msgstr "Λάθος κωδικός"
 msgid "MSN search results"
 msgstr ""
 
-#: plugins/msn/msnsearch.cpp:126
+#: plugins/msn/msnsearch.cpp:126 plugins/yahoo/yahoosearch.cpp:131
 msgid "Contact %1 allready in list"
 msgstr ""
 
@@ -2125,7 +2125,7 @@ msgstr ""
 #: plugins/gpg/gpgcfgbase.cpp:101 plugins/gpg/gpgadvbase.cpp:124
 #: plugins/gpg/gpguserbase.cpp:67 plugins/icons/smilecfgbase.cpp:62
 #: plugins/icons/iconcfgbase.cpp:76 plugins/logger/logconfigbase.cpp:67
-#: plugins/icq/icqconfigbase.cc:186 plugins/icq/homeinfobase.cc:143
+#: plugins/icq/homeinfobase.cc:143 plugins/icq/icqconfigbase.cc:186
 #: plugins/icq/pastinfobase.cc:138 plugins/icq/icqsecurebase.cc:153
 #: plugins/icq/icqpicturebase.cc:74 plugins/icq/aiminfobase.cc:255
 #: plugins/icq/aimconfigbase.cc:117 plugins/icq/aimsearchbase.cc:239
@@ -2137,14 +2137,15 @@ msgstr ""
 #: plugins/transparent/transparentcfgbase.cpp:70
 #: plugins/jabber/jabberconfigbase.cpp:248
 #: plugins/jabber/jabberworkinfobase.cpp:88
-#: plugins/jabber/addresultbase.cpp:57 plugins/jabber/jabberpicturebase.cpp:74
-#: plugins/jabber/servicesbase.cpp:107 plugins/jabber/infoproxybase.cpp:55
-#: plugins/jabber/jabberinfobase.cpp:182 plugins/jabber/jabberaddbase.cpp:92
+#: plugins/jabber/jabberaddbase.cpp:92 plugins/jabber/jabberpicturebase.cpp:74
+#: plugins/jabber/addresultbase.cpp:57 plugins/jabber/servicesbase.cpp:107
+#: plugins/jabber/infoproxybase.cpp:55 plugins/jabber/jabberinfobase.cpp:182
 #: plugins/livejournal/msgjournalbase.cpp:78
 #: plugins/livejournal/journalsearchbase.cpp:69
 #: plugins/livejournal/livejournalcfgbase.cpp:148
 #: plugins/action/actioncfgbase.cpp:61 plugins/action/menucfgbase.cpp:67
-#: plugins/navigate/navcfgbase.cc:64 plugins/yahoo/yahooinfobase.cpp:147
+#: plugins/navigate/navcfgbase.cc:64 plugins/yahoo/yahoosearchbase.cpp:78
+#: plugins/yahoo/yahooinfobase.cpp:147
 msgid "Form1"
 msgstr ""
 
@@ -2190,7 +2191,7 @@ msgstr ""
 #: plugins/icq/workinfobase.cc:178 plugins/icq/searchresultbase.cc:56
 #: plugins/osd/osdifacebase.cpp:128 plugins/jabber/jabberhomeinfobase.cpp:104
 #: plugins/livejournal/journalresultbase.cpp:54
-#: plugins/yahoo/yahoocfgbase.cpp:117
+#: plugins/yahoo/yahoocfgbase.cpp:117 plugins/yahoo/yahooresultbase.cpp:54
 msgid "Form2"
 msgstr ""
 
@@ -2223,11 +2224,11 @@ msgstr ""
 msgid "Busy"
 msgstr "Απασχολημένος"
 
-#: plugins/msn/msn.cpp:146
+#: plugins/msn/msn.cpp:146 plugins/yahoo/yahooclient.cpp:1156
 msgid "Be right back"
 msgstr ""
 
-#: plugins/msn/msn.cpp:161
+#: plugins/msn/msn.cpp:161 plugins/yahoo/yahooclient.cpp:1168
 msgid "On the phone"
 msgstr ""
 
@@ -2308,12 +2309,13 @@ msgstr "Email:"
 
 #: plugins/msn/msnsearchbase.cpp:80 plugins/icq/icqsearchbase.cc:315
 #: plugins/icq/aimsearchbase.cc:241 plugins/icq/aimsearchbase.cc:244
-#: plugins/jabber/jabberaddbase.cpp:93
+#: plugins/jabber/jabberaddbase.cpp:93 plugins/yahoo/yahoosearchbase.cpp:80
 #, fuzzy
 msgid "Add to group:"
 msgstr "Προσθήκη στο γκρούπ"
 
 #: plugins/msn/msnsearchbase.cpp:81 plugins/icq/icqsearchbase.cc:311
+#: plugins/yahoo/yahoosearchbase.cpp:81
 #, fuzzy
 msgid "&Add contact"
 msgstr "Προσθήκη Μη-ΙΜ επαφής"
@@ -2803,7 +2805,7 @@ msgstr "&Νέο"
 msgid "Not available"
 msgstr "Διαθέσιμος"
 
-#: plugins/_core/core.cpp:2345 plugins/dock/dockwnd.cpp:1180
+#: plugins/_core/core.cpp:2345 plugins/dock/dockwnd.cpp:1185
 #: plugins/osd/osd.cpp:329
 msgid "%1 from %2"
 msgstr "%1 από %2"
@@ -5816,6 +5818,36 @@ msgstr ""
 msgid "Client:"
 msgstr ""
 
+#: plugins/icq/homeinfobase.cc:144 plugins/icq/workinfobase.cc:181
+#: plugins/icq/icqsearchbase.cc:298 plugins/icq/aiminfobase.cc:263
+#: plugins/icq/aimsearchbase.cc:253 plugins/jabber/jabberhomeinfobase.cpp:108
+msgid "State:"
+msgstr "Πολιτεία:"
+
+#: plugins/icq/homeinfobase.cc:145 plugins/icq/workinfobase.cc:179
+#: plugins/jabber/jabberhomeinfobase.cpp:109
+msgid "Address:"
+msgstr ""
+
+#: plugins/icq/homeinfobase.cc:147 plugins/icq/workinfobase.cc:180
+#: plugins/icq/icqsearchbase.cc:297 plugins/icq/aiminfobase.cc:262
+#: plugins/icq/aimsearchbase.cc:252 plugins/jabber/jabberhomeinfobase.cpp:105
+msgid "City:"
+msgstr "Χώρα:"
+
+#: plugins/icq/homeinfobase.cc:148 plugins/icq/workinfobase.cc:182
+#: plugins/jabber/jabberhomeinfobase.cpp:106
+msgid "Zip code:"
+msgstr ""
+
+#: plugins/icq/homeinfobase.cc:149
+msgid "Time zone:"
+msgstr ""
+
+#: plugins/icq/homeinfobase.cc:150
+msgid "&Home info"
+msgstr ""
+
 #: plugins/icq/icqconfigbase.cc:188
 #, fuzzy
 msgid "&Register new UIN"
@@ -5900,36 +5932,6 @@ msgstr ""
 msgid "A&bout"
 msgstr ""
 
-#: plugins/icq/homeinfobase.cc:144 plugins/icq/workinfobase.cc:181
-#: plugins/icq/icqsearchbase.cc:298 plugins/icq/aiminfobase.cc:263
-#: plugins/icq/aimsearchbase.cc:253 plugins/jabber/jabberhomeinfobase.cpp:108
-msgid "State:"
-msgstr "Πολιτεία:"
-
-#: plugins/icq/homeinfobase.cc:145 plugins/icq/workinfobase.cc:179
-#: plugins/jabber/jabberhomeinfobase.cpp:109
-msgid "Address:"
-msgstr ""
-
-#: plugins/icq/homeinfobase.cc:147 plugins/icq/workinfobase.cc:180
-#: plugins/icq/icqsearchbase.cc:297 plugins/icq/aiminfobase.cc:262
-#: plugins/icq/aimsearchbase.cc:252 plugins/jabber/jabberhomeinfobase.cpp:105
-msgid "City:"
-msgstr "Χώρα:"
-
-#: plugins/icq/homeinfobase.cc:148 plugins/icq/workinfobase.cc:182
-#: plugins/jabber/jabberhomeinfobase.cpp:106
-msgid "Zip code:"
-msgstr ""
-
-#: plugins/icq/homeinfobase.cc:149
-msgid "Time zone:"
-msgstr ""
-
-#: plugins/icq/homeinfobase.cc:150
-msgid "&Home info"
-msgstr ""
-
 #: plugins/icq/moreinfobase.cc:153 plugins/icq/icqsearchbase.cc:293
 msgid "Age:"
 msgstr "Ηλικία:"
@@ -5960,6 +5962,22 @@ msgstr ""
 msgid "&Languages"
 msgstr ""
 
+#: plugins/icq/pastinfobase.cc:139
+msgid "Organization, Affiliation, Group:"
+msgstr "Οργανισμός, Σχέση, Γκρούπ:"
+
+#: plugins/icq/pastinfobase.cc:140
+msgid "A&ffilation"
+msgstr "&Σχέση"
+
+#: plugins/icq/pastinfobase.cc:141
+msgid "Past background:"
+msgstr "Παρελθόν:"
+
+#: plugins/icq/pastinfobase.cc:142
+msgid "&Background"
+msgstr "&Φόντο"
+
 #: plugins/icq/workinfobase.cc:186
 msgid "Web site:"
 msgstr ""
@@ -5983,22 +6001,6 @@ msgstr ""
 #: plugins/icq/workinfobase.cc:191
 msgid "&Occupation"
 msgstr ""
-
-#: plugins/icq/pastinfobase.cc:139
-msgid "Organization, Affiliation, Group:"
-msgstr "Οργανισμός, Σχέση, Γκρούπ:"
-
-#: plugins/icq/pastinfobase.cc:140
-msgid "A&ffilation"
-msgstr "&Σχέση"
-
-#: plugins/icq/pastinfobase.cc:141
-msgid "Past background:"
-msgstr "Παρελθόν:"
-
-#: plugins/icq/pastinfobase.cc:142
-msgid "&Background"
-msgstr "&Φόντο"
 
 #: plugins/icq/icqsecurebase.cc:154
 msgid "My &authorization is required before users add me to Contact List"
@@ -6988,6 +6990,18 @@ msgstr ""
 msgid "Role:"
 msgstr ""
 
+#: plugins/jabber/jabberaddbase.cpp:94
+msgid "Jabber ID:"
+msgstr ""
+
+#: plugins/jabber/jabberaddbase.cpp:95
+msgid "Jabber ID"
+msgstr ""
+
+#: plugins/jabber/jabberaddbase.cpp:96
+msgid "Service:"
+msgstr ""
+
 #: plugins/jabber/jabberaboutinfobase.cpp:57
 #, fuzzy
 msgid "Additional information:"
@@ -7077,18 +7091,6 @@ msgstr "Τηλέφωνο:"
 
 #: plugins/jabber/jabberinfobase.cpp:183
 msgid "ID:"
-msgstr ""
-
-#: plugins/jabber/jabberaddbase.cpp:94
-msgid "Jabber ID:"
-msgstr ""
-
-#: plugins/jabber/jabberaddbase.cpp:95
-msgid "Jabber ID"
-msgstr ""
-
-#: plugins/jabber/jabberaddbase.cpp:96
-msgid "Service:"
 msgstr ""
 
 #: plugins/jabber/jabberbrowser.cpp:45 plugins/jabber/jabberbrowser.cpp:244
@@ -8040,23 +8042,63 @@ msgstr ""
 msgid "Get a Yahoo! ID"
 msgstr ""
 
-#: plugins/yahoo/yahooclient.cpp:223
+#: plugins/yahoo/yahooclient.cpp:262
 msgid "Yahoo! login lock"
 msgstr ""
 
-#: plugins/yahoo/yahooclient.cpp:246
+#: plugins/yahoo/yahooclient.cpp:285
 msgid "Your account has been locked"
 msgstr ""
 
-#: plugins/yahoo/yahooclient.cpp:250 plugins/yahoo/yahooclient.cpp:263
+#: plugins/yahoo/yahooclient.cpp:289 plugins/yahoo/yahooclient.cpp:302
 #, fuzzy
 msgid "Your account is being used from another location"
 msgstr "Το UIN χρησημοποιείται από άλλη τοποθεσία"
+
+#: plugins/yahoo/yahooclient.cpp:1159
+#, fuzzy
+msgid "Not at home"
+msgstr "Επαφή - κλίμακα"
+
+#: plugins/yahoo/yahooclient.cpp:1162
+msgid "Not at my desk"
+msgstr ""
+
+#: plugins/yahoo/yahooclient.cpp:1165
+msgid "Not in the office"
+msgstr ""
+
+#: plugins/yahoo/yahooclient.cpp:1171
+msgid "On vacation"
+msgstr ""
+
+#: plugins/yahoo/yahooclient.cpp:1174
+msgid "Out to lunch"
+msgstr ""
+
+#: plugins/yahoo/yahooclient.cpp:1177
+#, fuzzy
+msgid "Stepped out"
+msgstr "Διακριτή &Διαγραφή"
 
 #: plugins/yahoo/yahoocfgbase.cpp:120
 #, fuzzy
 msgid "&Yahoo!"
 msgstr "&Τέλος"
+
+#: plugins/yahoo/yahoosearchbase.cpp:79
+#, fuzzy
+msgid "Yahoo ID:"
+msgstr "&Τέλος"
+
+#: plugins/yahoo/yahoosearch.cpp:56
+msgid "Yahoo! search results"
+msgstr ""
+
+#: plugins/yahoo/yahoosearch.cpp:129
+#, fuzzy
+msgid "Contact %1 added in group %2"
+msgstr "Συνδέθηκε στο host"
 
 #, fuzzy
 #~ msgid ""

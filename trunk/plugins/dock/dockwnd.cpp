@@ -75,7 +75,7 @@ void DockWnd::callProc(unsigned long param)
         return;
     case WM_LBUTTONDBLCLK:
         bNoToggle = true;
-        emit doubleClicked();
+        QTimer::singleShot(0, this, SLOT(dbl_click()));
         return;
     case WM_LBUTTONDOWN:
         if (!bNoToggle)
@@ -814,6 +814,11 @@ void DockWnd::quit()
         Shell_NotifyIconA(NIM_DELETE, &notifyIconData);
     }
 #endif
+}
+
+void DockWnd::dbl_click()
+{
+    emit doubleClicked();
 }
 
 void *DockWnd::processEvent(Event *e)

@@ -1108,8 +1108,10 @@ void Client::freeData()
         if ((*it) != this)
             continue;
         p->clients.erase(it);
-        Event e(EventClientsChanged);
-        e.process();
+        if (!getContacts()->p->bNoRemove){
+            Event e(EventClientsChanged);
+            e.process();
+        }
         break;
     }
     free_data(_clientData, &data);

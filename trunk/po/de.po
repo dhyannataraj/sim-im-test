@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
-"POT-Creation-Date: 2004-02-06 13:35+0300\n"
+"POT-Creation-Date: 2004-02-08 14:59+0300\n"
 "PO-Revision-Date: 2004-02-06 19:10GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -1175,11 +1175,13 @@ msgstr "SSL-Fehler bei der SSL- Initialisierung"
 
 #: sim/api/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
-msgstr "Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
+msgstr ""
+"Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
 
 #: sim/api/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
+msgstr ""
+"Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
 
 #: sim/api/message.cpp:465
 msgid "%1 Mbytes"
@@ -1965,21 +1967,21 @@ msgstr "Ihre UIN wird gerade von einem anderen Ort aus benutzt"
 
 #: plugins/msn/msnclient.cpp:610 plugins/_core/logindlg.cpp:462
 #: plugins/jabber/jabberclient.cpp:1113
-#: plugins/livejournal/livejournal.cpp:916 plugins/yahoo/yahooclient.cpp:242
-#: plugins/yahoo/yahooclient.cpp:253
+#: plugins/livejournal/livejournal.cpp:916 plugins/yahoo/yahooclient.cpp:281
+#: plugins/yahoo/yahooclient.cpp:292
 msgid "Login failed"
 msgstr "Anmeldung fehlgeschlagen"
 
 #: plugins/msn/msnclient.cpp:711 plugins/icq/icqclient.cpp:2105
 #: plugins/icq/icqclient.cpp:2184 plugins/jabber/jabberclient.cpp:1740
-#: plugins/yahoo/yahooclient.cpp:971
+#: plugins/yahoo/yahooclient.cpp:1248
 msgid "Network"
 msgstr "Netzwerk"
 
 #: plugins/msn/msnclient.cpp:1551 plugins/msn/msninfo.cpp:88
 #: plugins/icq/icqclient.cpp:1511 plugins/icq/icqinfo.cpp:229
 #: plugins/icq/aiminfo.cpp:166 plugins/jabber/jabberinfo.cpp:104
-#: plugins/jabber/jabberclient.cpp:1418 plugins/yahoo/yahooclient.cpp:894
+#: plugins/jabber/jabberclient.cpp:1418 plugins/yahoo/yahooclient.cpp:1137
 #: plugins/yahoo/yahooinfo.cpp:104
 msgid "Last online"
 msgstr "Zuletzt online"
@@ -1990,7 +1992,7 @@ msgstr "Zuletzt online"
 #: plugins/icq/icqclient.cpp:1518 plugins/sms/sms.cpp:229
 #: plugins/jabber/services.cpp:235 plugins/jabber/jabberclient.cpp:1425
 #: plugins/jabber/jabber.cpp:87 plugins/livejournal/livejournal.cpp:317
-#: plugins/yahoo/yahoo.cpp:97 plugins/yahoo/yahooclient.cpp:901
+#: plugins/yahoo/yahoo.cpp:97 plugins/yahoo/yahooclient.cpp:1144
 msgid "Online"
 msgstr "Online"
 
@@ -2039,7 +2041,7 @@ msgstr "Ungültige Adresse: %1"
 msgid "MSN search results"
 msgstr "MSN-Suchergebnisse"
 
-#: plugins/msn/msnsearch.cpp:126
+#: plugins/msn/msnsearch.cpp:126 plugins/yahoo/yahoosearch.cpp:131
 msgid "Contact %1 allready in list"
 msgstr "Der Kontakt %1 ist bereits in der Liste vorhanden"
 
@@ -2057,7 +2059,7 @@ msgstr "Der Kontakt %1 ist bereits in der Liste vorhanden"
 #: plugins/gpg/gpgcfgbase.cpp:101 plugins/gpg/gpgadvbase.cpp:124
 #: plugins/gpg/gpguserbase.cpp:67 plugins/icons/smilecfgbase.cpp:62
 #: plugins/icons/iconcfgbase.cpp:76 plugins/logger/logconfigbase.cpp:67
-#: plugins/icq/icqconfigbase.cc:186 plugins/icq/homeinfobase.cc:143
+#: plugins/icq/homeinfobase.cc:143 plugins/icq/icqconfigbase.cc:186
 #: plugins/icq/pastinfobase.cc:138 plugins/icq/icqsecurebase.cc:153
 #: plugins/icq/icqpicturebase.cc:74 plugins/icq/aiminfobase.cc:255
 #: plugins/icq/aimconfigbase.cc:117 plugins/icq/aimsearchbase.cc:239
@@ -2069,14 +2071,15 @@ msgstr "Der Kontakt %1 ist bereits in der Liste vorhanden"
 #: plugins/transparent/transparentcfgbase.cpp:70
 #: plugins/jabber/jabberconfigbase.cpp:248
 #: plugins/jabber/jabberworkinfobase.cpp:88
-#: plugins/jabber/addresultbase.cpp:57 plugins/jabber/jabberpicturebase.cpp:74
-#: plugins/jabber/servicesbase.cpp:107 plugins/jabber/infoproxybase.cpp:55
-#: plugins/jabber/jabberinfobase.cpp:182 plugins/jabber/jabberaddbase.cpp:92
+#: plugins/jabber/jabberaddbase.cpp:92 plugins/jabber/jabberpicturebase.cpp:74
+#: plugins/jabber/addresultbase.cpp:57 plugins/jabber/servicesbase.cpp:107
+#: plugins/jabber/infoproxybase.cpp:55 plugins/jabber/jabberinfobase.cpp:182
 #: plugins/livejournal/msgjournalbase.cpp:78
 #: plugins/livejournal/journalsearchbase.cpp:69
 #: plugins/livejournal/livejournalcfgbase.cpp:148
 #: plugins/action/actioncfgbase.cpp:61 plugins/action/menucfgbase.cpp:67
-#: plugins/navigate/navcfgbase.cc:64 plugins/yahoo/yahooinfobase.cpp:147
+#: plugins/navigate/navcfgbase.cc:64 plugins/yahoo/yahoosearchbase.cpp:78
+#: plugins/yahoo/yahooinfobase.cpp:147
 msgid "Form1"
 msgstr "Form1"
 
@@ -2121,7 +2124,7 @@ msgstr "&Status"
 #: plugins/icq/workinfobase.cc:178 plugins/icq/searchresultbase.cc:56
 #: plugins/osd/osdifacebase.cpp:128 plugins/jabber/jabberhomeinfobase.cpp:104
 #: plugins/livejournal/journalresultbase.cpp:54
-#: plugins/yahoo/yahoocfgbase.cpp:117
+#: plugins/yahoo/yahoocfgbase.cpp:117 plugins/yahoo/yahooresultbase.cpp:54
 msgid "Form2"
 msgstr "Form 2"
 
@@ -2155,11 +2158,11 @@ msgstr "N/A"
 msgid "Busy"
 msgstr "Beschäftigt"
 
-#: plugins/msn/msn.cpp:146
+#: plugins/msn/msn.cpp:146 plugins/yahoo/yahooclient.cpp:1156
 msgid "Be right back"
 msgstr "Bin gleich wieder da"
 
-#: plugins/msn/msn.cpp:161
+#: plugins/msn/msn.cpp:161 plugins/yahoo/yahooclient.cpp:1168
 msgid "On the phone"
 msgstr "Bin am Telefonieren"
 
@@ -2236,11 +2239,12 @@ msgstr "E-Mail:"
 
 #: plugins/msn/msnsearchbase.cpp:80 plugins/icq/icqsearchbase.cc:315
 #: plugins/icq/aimsearchbase.cc:241 plugins/icq/aimsearchbase.cc:244
-#: plugins/jabber/jabberaddbase.cpp:93
+#: plugins/jabber/jabberaddbase.cpp:93 plugins/yahoo/yahoosearchbase.cpp:80
 msgid "Add to group:"
 msgstr "Zu Gruppe hinzufügen:"
 
 #: plugins/msn/msnsearchbase.cpp:81 plugins/icq/icqsearchbase.cc:311
+#: plugins/yahoo/yahoosearchbase.cpp:81
 msgid "&Add contact"
 msgstr "Kontakt &hinzufügen"
 
@@ -2697,7 +2701,7 @@ msgstr "&Neu"
 msgid "Not available"
 msgstr "Nicht verfügbar"
 
-#: plugins/_core/core.cpp:2345 plugins/dock/dockwnd.cpp:1180
+#: plugins/_core/core.cpp:2345 plugins/dock/dockwnd.cpp:1185
 #: plugins/osd/osd.cpp:329
 msgid "%1 from %2"
 msgstr "%1 von %2"
@@ -3791,7 +3795,8 @@ msgstr "\"Offline\"-Status setzen nach"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:109
 #: plugins/sound/soundconfigbase.cpp:107
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -3948,7 +3953,8 @@ msgstr "Nachrichten nur von &Benutzern der Kontaktliste empfangen"
 
 #: plugins/filter/filtercfgbase.cpp:67
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr ""
+"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: plugins/filter/filtercfgbase.cpp:68
 msgid ""
@@ -3970,7 +3976,8 @@ msgstr "Floatings"
 
 #: plugins/floaty/floaty.cpp:44
 msgid "Plugin provides floating windows for contacts"
-msgstr "Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
+msgstr ""
+"Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
 
 #: plugins/floaty/floaty.cpp:88 plugins/floaty/floaty.cpp:162
 msgid "Floating on"
@@ -3982,7 +3989,8 @@ msgstr "Floating aus"
 
 #: plugins/forward/forwardcfgbase.cpp:71
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
+msgstr ""
+"Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
 
 #: plugins/forward/forwardcfgbase.cpp:72
 msgid ""
@@ -4795,7 +4803,9 @@ msgstr "UIN wurde ausgesetzt"
 
 #: plugins/icq/icqlogin.cpp:250
 msgid "Can't login to ICQ network - Please try again later"
-msgstr "Es kann nicht ins ICQ-Netzwerk eingeloggt werden - Bitte später erneut versuchen"
+msgstr ""
+"Es kann nicht ins ICQ-Netzwerk eingeloggt werden - Bitte später erneut "
+"versuchen"
 
 #: plugins/icq/icqlogin.cpp:271
 msgid "Youur UIN is being used from another location"
@@ -5565,6 +5575,36 @@ msgstr "Interne IP:"
 msgid "Client:"
 msgstr "Client:"
 
+#: plugins/icq/homeinfobase.cc:144 plugins/icq/workinfobase.cc:181
+#: plugins/icq/icqsearchbase.cc:298 plugins/icq/aiminfobase.cc:263
+#: plugins/icq/aimsearchbase.cc:253 plugins/jabber/jabberhomeinfobase.cpp:108
+msgid "State:"
+msgstr "Status:"
+
+#: plugins/icq/homeinfobase.cc:145 plugins/icq/workinfobase.cc:179
+#: plugins/jabber/jabberhomeinfobase.cpp:109
+msgid "Address:"
+msgstr "Adresse:"
+
+#: plugins/icq/homeinfobase.cc:147 plugins/icq/workinfobase.cc:180
+#: plugins/icq/icqsearchbase.cc:297 plugins/icq/aiminfobase.cc:262
+#: plugins/icq/aimsearchbase.cc:252 plugins/jabber/jabberhomeinfobase.cpp:105
+msgid "City:"
+msgstr "Stadt:"
+
+#: plugins/icq/homeinfobase.cc:148 plugins/icq/workinfobase.cc:182
+#: plugins/jabber/jabberhomeinfobase.cpp:106
+msgid "Zip code:"
+msgstr "Postleitzahl:"
+
+#: plugins/icq/homeinfobase.cc:149
+msgid "Time zone:"
+msgstr "Zeitzone:"
+
+#: plugins/icq/homeinfobase.cc:150
+msgid "&Home info"
+msgstr "&Wohnort-Info"
+
 #: plugins/icq/icqconfigbase.cc:188
 msgid "&Register new UIN"
 msgstr "Neue UIN &registrieren"
@@ -5648,36 +5688,6 @@ msgstr "Zusätzliche Information über den Benutzer:"
 msgid "A&bout"
 msgstr "Ü&ber"
 
-#: plugins/icq/homeinfobase.cc:144 plugins/icq/workinfobase.cc:181
-#: plugins/icq/icqsearchbase.cc:298 plugins/icq/aiminfobase.cc:263
-#: plugins/icq/aimsearchbase.cc:253 plugins/jabber/jabberhomeinfobase.cpp:108
-msgid "State:"
-msgstr "Status:"
-
-#: plugins/icq/homeinfobase.cc:145 plugins/icq/workinfobase.cc:179
-#: plugins/jabber/jabberhomeinfobase.cpp:109
-msgid "Address:"
-msgstr "Adresse:"
-
-#: plugins/icq/homeinfobase.cc:147 plugins/icq/workinfobase.cc:180
-#: plugins/icq/icqsearchbase.cc:297 plugins/icq/aiminfobase.cc:262
-#: plugins/icq/aimsearchbase.cc:252 plugins/jabber/jabberhomeinfobase.cpp:105
-msgid "City:"
-msgstr "Stadt:"
-
-#: plugins/icq/homeinfobase.cc:148 plugins/icq/workinfobase.cc:182
-#: plugins/jabber/jabberhomeinfobase.cpp:106
-msgid "Zip code:"
-msgstr "Postleitzahl:"
-
-#: plugins/icq/homeinfobase.cc:149
-msgid "Time zone:"
-msgstr "Zeitzone:"
-
-#: plugins/icq/homeinfobase.cc:150
-msgid "&Home info"
-msgstr "&Wohnort-Info"
-
 #: plugins/icq/moreinfobase.cc:153 plugins/icq/icqsearchbase.cc:293
 msgid "Age:"
 msgstr "Alter:"
@@ -5708,6 +5718,22 @@ msgstr "Gesprochene Sprachen:"
 msgid "&Languages"
 msgstr "&Sprachen"
 
+#: plugins/icq/pastinfobase.cc:139
+msgid "Organization, Affiliation, Group:"
+msgstr "Organisation, Zugehörigkeit, Gruppe:"
+
+#: plugins/icq/pastinfobase.cc:140
+msgid "A&ffilation"
+msgstr "&Zugehörigkeit"
+
+#: plugins/icq/pastinfobase.cc:141
+msgid "Past background:"
+msgstr "Geschichtlicher Hintergrund:"
+
+#: plugins/icq/pastinfobase.cc:142
+msgid "&Background"
+msgstr "&Hintergrund"
+
 #: plugins/icq/workinfobase.cc:186
 msgid "Web site:"
 msgstr "Webseite:"
@@ -5731,22 +5757,6 @@ msgstr "Position:"
 #: plugins/icq/workinfobase.cc:191
 msgid "&Occupation"
 msgstr "&Beschäftigung"
-
-#: plugins/icq/pastinfobase.cc:139
-msgid "Organization, Affiliation, Group:"
-msgstr "Organisation, Zugehörigkeit, Gruppe:"
-
-#: plugins/icq/pastinfobase.cc:140
-msgid "A&ffilation"
-msgstr "&Zugehörigkeit"
-
-#: plugins/icq/pastinfobase.cc:141
-msgid "Past background:"
-msgstr "Geschichtlicher Hintergrund:"
-
-#: plugins/icq/pastinfobase.cc:142
-msgid "&Background"
-msgstr "&Hintergrund"
 
 #: plugins/icq/icqsecurebase.cc:154
 msgid "My &authorization is required before users add me to Contact List"
@@ -6059,7 +6069,8 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:48
-msgid "Plugin provides on screen notification about messages and contacts status"
+msgid ""
+"Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Plugin stellt Bildschirmbenachrichtigungen über Nachrichten und "
 "Kontaktstatus bereit"
@@ -6082,7 +6093,8 @@ msgstr "Bei Nachrichteneingang informieren (per OSD)"
 
 #: plugins/osd/osdconfigbase.cpp:62
 msgid "Enable &status notification"
-msgstr "Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
+msgstr ""
+"Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
 
 #: plugins/osd/osdconfigbase.cpp:63 plugins/jabber/jabberconfigbase.cpp:266
 msgid "Enable &typing notification"
@@ -6122,7 +6134,8 @@ msgstr "&Proxy"
 
 #: plugins/proxy/proxycfg.cpp:140
 msgid "<b>Note !</b><br>HTTP-proxy support only ICQ-protocol"
-msgstr "<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
+msgstr ""
+"<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
 
 #: plugins/proxy/proxycfg.cpp:209
 msgid "Default"
@@ -6166,7 +6179,8 @@ msgstr "Proxy"
 
 #: plugins/proxy/proxy.cpp:1539
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS and HTTP)"
-msgstr "Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
+msgstr ""
+"Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
 
 #: plugins/proxy/proxyerrorbase.cpp:78
 msgid "Proxy error"
@@ -6332,7 +6346,8 @@ msgstr "Aktualisieren"
 
 #: plugins/update/update.cpp:40
 msgid "Plugin provides notifications about update SIM software"
-msgstr "Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
+msgstr ""
+"Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
 
 #: plugins/update/update.cpp:153
 msgid "Show details"
@@ -6693,6 +6708,18 @@ msgstr "Automatisch Abonnierenanfragen &akzeptieren"
 msgid "Role:"
 msgstr "Funktion:"
 
+#: plugins/jabber/jabberaddbase.cpp:94
+msgid "Jabber ID:"
+msgstr "Jabber-ID:"
+
+#: plugins/jabber/jabberaddbase.cpp:95
+msgid "Jabber ID"
+msgstr "Jabber-ID"
+
+#: plugins/jabber/jabberaddbase.cpp:96
+msgid "Service:"
+msgstr "Dienst:"
+
 #: plugins/jabber/jabberaboutinfobase.cpp:57
 msgid "Additional information:"
 msgstr "Zusätzliche Information:"
@@ -6772,18 +6799,6 @@ msgstr "Telefon:"
 #: plugins/jabber/jabberinfobase.cpp:183
 msgid "ID:"
 msgstr "ID:"
-
-#: plugins/jabber/jabberaddbase.cpp:94
-msgid "Jabber ID:"
-msgstr "Jabber-ID:"
-
-#: plugins/jabber/jabberaddbase.cpp:95
-msgid "Jabber ID"
-msgstr "Jabber-ID"
-
-#: plugins/jabber/jabberaddbase.cpp:96
-msgid "Service:"
-msgstr "Dienst:"
 
 #: plugins/jabber/jabberbrowser.cpp:45 plugins/jabber/jabberbrowser.cpp:244
 msgid "Process"
@@ -7617,7 +7632,8 @@ msgstr "Aktion"
 
 #: plugins/action/action.cpp:34
 msgid "Plugin execute external programs on event or from contact menu"
-msgstr "Plugin führt externe Programme bei einem Ereignis oder von Kontaktmenü aus"
+msgstr ""
+"Plugin führt externe Programme bei einem Ereignis oder von Kontaktmenü aus"
 
 #: plugins/action/action.cpp:84
 msgid "&Action"
@@ -7640,7 +7656,8 @@ msgid "Navigate"
 msgstr "Navigation"
 
 #: plugins/navigate/navigate.cpp:199
-msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid ""
+"Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Plugin stellt Navigation von Hyperlinks bereit und ruft externe Browser- "
 "oder Mailprogramme auf"
@@ -7673,21 +7690,64 @@ msgstr ""
 msgid "Get a Yahoo! ID"
 msgstr "Eine Yahoo!-ID bekommen"
 
-#: plugins/yahoo/yahooclient.cpp:223
+#: plugins/yahoo/yahooclient.cpp:262
 msgid "Yahoo! login lock"
 msgstr "Yahoo! Loginsperre"
 
-#: plugins/yahoo/yahooclient.cpp:246
+#: plugins/yahoo/yahooclient.cpp:285
 msgid "Your account has been locked"
 msgstr "Der Zugang ist gesperrt"
 
-#: plugins/yahoo/yahooclient.cpp:250 plugins/yahoo/yahooclient.cpp:263
+#: plugins/yahoo/yahooclient.cpp:289 plugins/yahoo/yahooclient.cpp:302
 msgid "Your account is being used from another location"
 msgstr "Ihr Zugang wird gerade von einem anderen Ort aus benutzt"
+
+#: plugins/yahoo/yahooclient.cpp:1159
+#, fuzzy
+msgid "Not at home"
+msgstr "Keine Übereinstimmung"
+
+#: plugins/yahoo/yahooclient.cpp:1162
+msgid "Not at my desk"
+msgstr ""
+
+#: plugins/yahoo/yahooclient.cpp:1165
+msgid "Not in the office"
+msgstr ""
+
+#: plugins/yahoo/yahooclient.cpp:1171
+#, fuzzy
+msgid "On vacation"
+msgstr "Beschäftigung:"
+
+#: plugins/yahoo/yahooclient.cpp:1174
+#, fuzzy
+msgid "Out to lunch"
+msgstr "Zum Mittag"
+
+#: plugins/yahoo/yahooclient.cpp:1177
+#, fuzzy
+msgid "Stepped out"
+msgstr "Zeitüberschreitung während des Sendens"
 
 #: plugins/yahoo/yahoocfgbase.cpp:120
 msgid "&Yahoo!"
 msgstr "&Yahoo!"
+
+#: plugins/yahoo/yahoosearchbase.cpp:79
+#, fuzzy
+msgid "Yahoo ID:"
+msgstr "Yahoo!"
+
+#: plugins/yahoo/yahoosearch.cpp:56
+#, fuzzy
+msgid "Yahoo! search results"
+msgstr "MSN-Suchergebnisse"
+
+#: plugins/yahoo/yahoosearch.cpp:129
+#, fuzzy
+msgid "Contact %1 added in group %2"
+msgstr "Der Kontakt %1 wurde zur Liste hinzugefügt."
 
 #~ msgid ""
 #~ "_n: %n file\n"
@@ -9024,4 +9084,3 @@ msgstr "&Yahoo!"
 
 #~ msgid "Transfer completed"
 #~ msgstr "Übertragung abgeschlossen"
-
