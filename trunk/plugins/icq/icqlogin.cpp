@@ -246,7 +246,7 @@ void ICQClient::chn_close()
             break;
         default:
             errString = "Unknown error ";
-            errString += number(err
+            errString += number(err);
         }
         if (err){
             log(L_ERROR, "%s", errString.c_str());

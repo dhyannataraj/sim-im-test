@@ -367,8 +367,11 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
     switch (nSubtype){
     case ICQ_SRVxGENERAL_INFO:{
             unsigned short n;
-            char hideEmail;
             char TimeZone;
+            char authFlag;	/* ??? */
+            char webAware;
+			char allowDC;
+            char hideEmail;
             b
             >> &data->Nick.ptr
             >> &data->FirstName.ptr
@@ -385,8 +388,13 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
             data->Country.value = n;
             b
             >> TimeZone
+            >> authFlag
+            >> webAware
+            >> allowDC
             >> hideEmail;
             data->TimeZone.value    = TimeZone;
+            data->WebAware.value    = webAware;
+            data->bNoDirect.value   = (bool)!allowDC;
             data->HiddenEMail.value = hideEmail;
             break;
         }
