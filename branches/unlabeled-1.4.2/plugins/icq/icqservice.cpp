@@ -100,16 +100,16 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
         log(L_DEBUG, "Server ready");
         snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_IMxICQ);
         m_socket->writeBuffer
-        << 0x00010003L
-        << 0x00130002L
-        << 0x00020001L
-        << 0x00030001L
-        << 0x00150001L
-        << 0x00040001L
-        << 0x00060001L
-        << 0x00090001L
-        << 0x000a0001L
-        << 0x000b0001L;
+		<< 0x00010004L
+		<< 0x00130004L
+		<< 0x00020001L
+		<< 0x00030001L
+		<< 0x00150001L
+		<< 0x00040001L
+		<< 0x00060001L
+		<< 0x00090001L
+		<< 0x000A0001L
+		<< 0x000B0001L;
         sendPacket();
         break;
     case ICQ_SNACxSRV_ERROR:

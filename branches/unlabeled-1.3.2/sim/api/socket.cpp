@@ -292,7 +292,6 @@ void TCPClient::reconnect()
 
 void TCPClient::setStatus(unsigned status, bool bCommon)
 {
-    log(L_DEBUG, "Set status %u %u", status, bCommon);
     setClientStatus(status);
     Client::setStatus(status, bCommon);
 }

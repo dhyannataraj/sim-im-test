@@ -84,7 +84,7 @@ void LoginDialog::apply()
         CorePlugin::m_plugin->setSavePasswd(chkSave->isChecked());
         CorePlugin::m_plugin->setNoShow(chkNoShow->isChecked());
         CorePlugin::m_plugin->setProfile(NULL);
-        CorePlugin::m_plugin->destroy();
+        CorePlugin::m_plugin->changeProfile();
         return;
     }
     CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->m_profiles[n].c_str());
