@@ -44,7 +44,6 @@ signals:
     void dragStart();
     void dragEnter(QMimeSource*);
     void drop(QMimeSource*);
-    void destroyed();
 public slots:
     void adjustColumn();
     virtual void startDrag();

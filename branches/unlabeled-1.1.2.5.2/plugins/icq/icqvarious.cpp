@@ -197,7 +197,8 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
                     sendTM.tm_min  = min;
                     sendTM.tm_isdst = -1;
                     time_t send_time = mktime(&sendTM);
-                    Message *m = parseMessage(type, uin, message, msg, 0, 0, 0, 0);
+					MessageId id;
+                    Message *m = parseMessage(type, uin, message, msg, 0, 0, id);
                     if (m){
                         m->setTime(send_time);
                         messageReceived(m, uin);

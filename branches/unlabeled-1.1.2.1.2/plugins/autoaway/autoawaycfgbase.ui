@@ -145,6 +145,13 @@
         <property type="String">text</property>
     </customwidget>
 </customwidgets>
+<tabstops>
+    <tabstop>chkAway</tabstop>
+    <tabstop>spnAway</tabstop>
+    <tabstop>chkNA</tabstop>
+    <tabstop>spnNA</tabstop>
+    <tabstop>chkAlert</tabstop>
+</tabstops>
 <images>
     <image>
         <name>image0</name>

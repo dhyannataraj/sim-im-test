@@ -184,23 +184,36 @@ int main(int argc, char *argv[])
     char **_argv = new char*[argc + 1];
     _argv[_argc++] = argv[0];
     char **to = argv + 1;
+    // check all parameters and sort them
+    // _argc/v: parameter for KUnqiueApplication
+    //  argc/v: plugin parameter
     for (char **p = argv + 1; *p; ++p){
         char *arg = *p;
-        if ((arg[0] != '-') && (arg[1] != '-'))
+        // check if "-" or "--"
+        if ((arg[0] != '-') && (arg[1] != '-')) {
+            // wrong parameter :(
+            argc--;
             continue;
+        }
         arg += 2;
+        // if they are parameters with variable params we need
+        // to skip the next param
         bool bSkip = false;
         const char **q;
+        // check for qt or kde - parameters
         for (q = qt_args; *q; ++q){
             unsigned len = strlen(*q);
             bSkip = false;
+            // variable parameter?
             if ((*q)[len-1] == ':'){
                 len--;
                 bSkip = true;
             }
+            // copy them for KUnqiueApplication-args
             if ((strlen(arg) == len) && !memcmp(arg, *q, len))
                 break;
         }
+        // dunno know what to do here
         if (*q){
             _argv[_argc++] = *p;
             argc--;

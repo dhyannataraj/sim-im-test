@@ -32,7 +32,9 @@ static PluginInfo info =
     {
         I18N_NOOP("Logger"),
         I18N_NOOP("Plugin provides log output\n"
-                  "You can set debug level from command line with -d <loglevel>"),
+                  "You can set debug level from command line with -d<loglevel>\n"
+                  "To log errors, set loglevel to 1, for warnings to 2 and for debug-messages to 4\n"
+                  "If you want to log more than one you may add the levels"),
         VERSION,
         createLoggerPlugin,
 #ifdef WIN32

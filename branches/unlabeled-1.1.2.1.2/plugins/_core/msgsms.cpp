@@ -266,9 +266,7 @@ SMSPanel::SMSPanel(QWidget *parent)
 }
 
 SMSPanel::~SMSPanel()
-{
-    emit destroyed();
-}
+{}
 
 #ifndef WIN32
 #include "msgsms.moc"

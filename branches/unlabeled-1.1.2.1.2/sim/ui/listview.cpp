@@ -51,9 +51,7 @@ ListView::ListView(QWidget *parent, const char *name)
     verticalScrollBar()->installEventFilter(this);
 }
 ListView::~ListView()
-{
-    emit destroyed();
-}
+{}
 
 ProcessMenuParam *ListView::getMenu(QListViewItem *item)
 {

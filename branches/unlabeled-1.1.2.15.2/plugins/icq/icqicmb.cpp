@@ -112,18 +112,20 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
             log(L_DEBUG, "ICMB error %u (%s)", error, err_str);
             if (m_send.msg){
                 if (m_send.msg->type() == MessageCheckInvisible){
-                    bool bInvisible = (error == 0x000E);
-                    Contact *contact;
-                    ICQUserData *data = findContact(m_send.uin, NULL, false, contact);
-                    if (data && ((bool)(data->bInvisible) != bInvisible)){
-                        data->bInvisible = bInvisible;
-                        Event e(EventContactStatus, contact);
-                        e.process();
+                    if (error == 0x0004) {
+                        Contact *contact;
+                        ICQUserData *data = findContact(m_send.uin, NULL, false, contact);
+                        if (data && (bool)(data->bInvisible)) {
+                            data->bInvisible = false;
+                            Event e(EventContactStatus, contact);
+                            e.process();
+                        }
                     }
+                } else {
+                    m_send.msg->setError(err_str);
+                    Event e(EventMessageSent, m_send.msg);
+                    e.process();
                 }
-                m_send.msg->setError(err_str);
-                Event e(EventMessageSent, m_send.msg);
-                e.process();
                 delete m_send.msg;
             }
             m_send.msg = NULL;
@@ -169,7 +171,24 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
             if ((m_send.uin != uin) || !(m_send.id == id))
                 log(L_WARN, "Bad ack sequence");
             if (m_send.msg){
-                ackMessage();
+					switch (m_send.msg->type()){
+					case MessageCheckInvisible:{
+                    Contact *contact;
+                    ICQUserData *data = findContact(m_send.uin, NULL, false, contact);
+                    if (data && !(bool)(data->bInvisible)) {
+                        data->bInvisible = true;
+                        Event e(EventContactStatus, contact);
+                        e.process();
+                    }
+                    delete m_send.msg;
+					break;
+					}
+					case MessageFile:
+		                replyQueue.push_back(m_send);
+						break;
+					default:
+						ackMessage();
+					}
             }else{
                 replyQueue.push_back(m_send);
             }
@@ -204,7 +223,20 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
                 break;
 
             unsigned plugin_type = (*it).flags;
+			Message *m = (*it).msg;
             replyQueue.erase(it);
+
+			if (m){
+                string answer;
+                m_socket->readBuffer >> answer;
+				if (*answer.c_str() == 0)
+					answer = I18N_NOOP("Message declined");
+				m->setError(answer.c_str());
+				Event e(EventMessageSent, m);
+				e.process();
+				delete m;
+				break;
+			}
 
             Contact *contact;
             ICQUserData *data = findContact(uin, NULL, false, contact);
@@ -247,8 +279,8 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
             break;
         }
     case ICQ_SNACxMSG_SERVERxMESSAGE:{
-            unsigned long timestamp1, timestamp2;
-            m_socket->readBuffer >> timestamp1 >> timestamp2;
+            MessageId id;
+            m_socket->readBuffer >> id.id_l >> id.id_h;
             unsigned short mFormat;
             m_socket->readBuffer >> mFormat;
             unsigned long uin = m_socket->readBuffer.unpackUin();
@@ -303,7 +335,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
                     msg >> type;
                     switch (type){
                     case 0:
-                        parseAdvancedMessage(uin, msg, tlv(3) != NULL, timestamp1, timestamp2);
+                        parseAdvancedMessage(uin, msg, tlv(3) != NULL, id);
                         break;
                     case 1:
                         log(L_DEBUG, "Cancel");
@@ -326,7 +358,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
                     unsigned long msg_uin;
                     msg >> msg_uin;
                     if (msg_uin == 0){
-                        parseAdvancedMessage(uin, msg, tlv(6) != NULL, timestamp1, timestamp2);
+                        parseAdvancedMessage(uin, msg, tlv(6) != NULL, id);
                         return;
                     }
                     char type, flags;
@@ -334,7 +366,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
                     msg >> flags;
                     string msg_str;
                     msg >> msg_str;
-                    Message *m = parseMessage(type, uin, msg_str, msg, 0, 0, timestamp1, timestamp2);
+                    Message *m = parseMessage(type, uin, msg_str, msg, 0, 0, id);
                     if (m)
                         messageReceived(m, uin);
                     break;
@@ -377,7 +409,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
     SendMsg s;
     switch (msg->type()){
     case MessageGeneric:
-        if ((data->Status != ICQ_STATUS_OFFLINE) &&
+        if ((data->Status != ICQ_STATUS_OFFLINE) && (getSendFormat() == 0) && 
                 hasCap(data, CAP_RTF) && (msg->getFlags() & MESSAGE_RICHTEXT) &&
                 !data->bBadClient){
             s.flags  = SEND_RTF;
@@ -389,6 +421,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
             return true;
         }
         if ((data->Status != ICQ_STATUS_OFFLINE) &&
+				(getSendFormat() <= 1) && 
                 hasCap(data, CAP_UTF) &&
                 (data->Version >= 8) && !data->bBadClient){
             s.flags  = SEND_UTF;
@@ -408,6 +441,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
         return true;
     case MessageURL:
     case MessageContact:
+	case MessageFile:
     case MessageCheckInvisible:
         s.flags = SEND_RAW;
         s.msg   = msg;
@@ -419,7 +453,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
     return false;
 }
 
-void ICQClient::sendThroughServer(unsigned long uin, unsigned short channel, Buffer &b, unsigned long id_l, unsigned long id_h)
+void ICQClient::sendThroughServer(unsigned long uin, unsigned short channel, Buffer &b, unsigned long id_l, unsigned long id_h, bool bOffline)
 {
     // we need informations about channel 2 tlvs !
     int tlv_type = 5;
@@ -430,9 +464,9 @@ void ICQClient::sendThroughServer(unsigned long uin, unsigned short channel, Buf
     if (channel == 1)
         tlv_type = 2;
     m_socket->writeBuffer.tlv(tlv_type,b);
-
-    m_socket->writeBuffer.tlv(3);	// req. ack from server
-    m_socket->writeBuffer.tlv(6);	// store if user is offline
+    m_socket->writeBuffer.tlv(3);		// req. ack from server
+	if (bOffline)
+		m_socket->writeBuffer.tlv(6);	// store if user is offline
     sendPacket();
 }
 
@@ -499,11 +533,12 @@ void ICQClient::ackMessage()
         sendQueue.push_front(m_send);
     }
     m_send.msg = NULL;
-    m_send.uin = 0;
+// when uin is set to 0, we get an 'Bad ack sequence'
+//    m_send.uin = 0;
     send(true);
 }
 
-void ICQClient::sendAdvMessage(unsigned long uin, Buffer &msgText, unsigned plugin_index, const MessageId &id, bool bPeek)
+void ICQClient::sendAdvMessage(unsigned long uin, Buffer &msgText, unsigned plugin_index, const MessageId &id, bool bOffline, bool bPeek, bool bDirect)
 {
     Buffer msgBuf;
     m_advCounter--;
@@ -519,21 +554,34 @@ void ICQClient::sendAdvMessage(unsigned long uin, Buffer &msgText, unsigned plug
     msgBuf.pack(0x00000000L);
     msgBuf.pack(0x00000000L);
     msgBuf.pack(msgText.data(0), msgText.size());
+	sendType2(uin, msgBuf, id, CAP_SRV_RELAY, bOffline, bPeek, bDirect);
+}
+
+void ICQClient::sendType2(unsigned long uin, Buffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, bool bPeek, bool bDirect)
+{
     Buffer b;
     b << (unsigned short)0;
     b << id.id_l << id.id_h;
-    b.pack((char*)capabilities[CAP_SRV_RELAY], sizeof(capability));
+    b.pack((char*)capabilities[cap], sizeof(capability));
     b.tlv(0x0A, (unsigned short)0x01);
+	if (bDirect){
+		b.tlv(0x03, (unsigned long)htonl(get_ip(data.owner.RealIP)));
+		b.tlv(0x05, (unsigned short)data.owner.Port);
+	}
     b.tlv(0x0F);
     b.tlv(0x2711, msgBuf);
     if (bPeek)
         b.tlv(0x03);
-    sendThroughServer(uin, 2, b, id.id_l, id.id_h);
+    sendThroughServer(uin, 2, b, id.id_l, id.id_h, bOffline);
 }
 
 void ICQClient::clearMsgQueue()
 {
     for (list<SendMsg>::iterator it = sendQueue.begin(); it != sendQueue.end(); ++it){
+		if ((*it).socket == NULL){
+			(*it).socket->acceptReverse(NULL);
+			continue;
+		}
         if ((*it).msg == NULL)
             continue;
         (*it).msg->setError(I18N_NOOP("Client go offline"));
@@ -552,7 +600,7 @@ void ICQClient::clearMsgQueue()
     m_send.uin = 0;
 }
 
-void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAck, unsigned long timestamp1, unsigned long timestamp2)
+void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAck, MessageId id)
 {
     msg.incReadPos(8);
     capability cap;
@@ -668,7 +716,7 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
         }
         Buffer info;
         pluginAnswer(plugin_type, uin, info);
-        sendAutoReply(uin, timestamp1, timestamp2, plugins[plugin_index],
+        sendAutoReply(uin, id, plugins[plugin_index],
                       cookie1, cookie2, 0, 0, 0x0200, NULL, 1, info);
         return;
     }
@@ -709,8 +757,7 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
             ar_request req;
             req.uin  = uin;
             req.type = msgType;
-            req.timestamp1 = timestamp1;
-            req.timestamp2 = timestamp2;
+            req.id   = id;
             req.id1     = cookie1;
             req.id2     = cookie2;
             req.bDirect = false;
@@ -741,30 +788,72 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
         if (tlv(3)) real_ip = htonl((unsigned long)(*tlv(3)));
         if (tlv(4)) ip = htonl((unsigned long)(*tlv(4)));
         log(L_DEBUG, "IP: %X %X", ip, real_ip);
+		if (real_ip || ip){
+			Contact *contact;
+			ICQUserData *data = findContact(uin, NULL, false, contact);
+			if (data){
+				if (real_ip && (get_ip(data->RealIP) == 0))
+					set_ip(&data->RealIP, real_ip);
+				if (ip && (get_ip(data->IP) == 0))
+					set_ip(&data->IP, ip);
+			}
+		}
         adv >> msg;
         if (*msg.c_str() || (msgType == ICQ_MSGxEXT)){
             if (adv.readPos() < adv.writePos())
                 copy.pack(adv.data(adv.readPos()), adv.writePos() - adv.readPos());
             log(L_DEBUG, "Msg size=%u type=%u", msg.size(), msgType);
             if (msg.size() || (msgType == ICQ_MSGxEXT)){
-                Message *m = parseMessage(msgType, uin, msg, adv, cookie1, cookie2, timestamp1, timestamp2);
-                if (m)
-                    messageReceived(m, uin);
+                Message *m = parseMessage(msgType, uin, msg, adv, cookie1, cookie2, id);
+                if (m){
+		            list<SendMsg>::iterator it;
+				    for (it = replyQueue.begin(); it != replyQueue.end(); ++it){
+						SendMsg &s = *it;
+						if ((s.id == id) && (s.uin == uin))
+							break;
+					}
+					if (it == replyQueue.end()){
+	                    messageReceived(m, uin);
+					}else{					
+						Message *msg = (*it).msg;
+						replyQueue.erase(it);
+						if (msg->type() == MessageFile){
+							Contact *contact;
+							ICQUserData *data = findContact(uin, NULL, false, contact);
+							if ((m->type() != MessageICQFile) || (data == NULL)){
+								log(L_WARN, "Bad answer type");
+								msg->setError(I18N_NOOP("Send fail"));
+								Event e(EventMessageSent, msg);
+								e.process();
+								delete msg;
+								return;
+							}
+		                    ICQFileTransfer *ft = new ICQFileTransfer(static_cast<FileMessage*>(msg), data, this);
+							Event e(EventMessageAcked, msg);
+							e.process();
+							m_processMsg.push_back(msg);
+							ft->connect(static_cast<ICQFileMessage*>(m)->getPort());
+						}else{
+							log(L_WARN, "Unknown message type for ACK");
+							delete msg;
+						}
+					}
+				}
             }
         }
     }
     if (!needAck) return;
-    sendAutoReply(uin, timestamp1, timestamp2, p, cookie1, cookie2,
+    sendAutoReply(uin, id, p, cookie1, cookie2,
                   msgType, 0, 0, NULL, 0, copy);
 }
 
-void ICQClient::sendAutoReply(unsigned long uin, unsigned long timestamp1, unsigned long timestamp2,
+void ICQClient::sendAutoReply(unsigned long uin, MessageId id,
                               const plugin p, unsigned short cookie1, unsigned short cookie2,
                               unsigned char msgType, unsigned char msgFlags, unsigned long msgState,
                               const char *response, unsigned short response_type, Buffer &copy)
 {
     snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_AUTOREPLY);
-    m_socket->writeBuffer << timestamp1 << timestamp2 << 0x0002;
+    m_socket->writeBuffer << id.id_l << id.id_h << 0x0002;
     m_socket->writeBuffer.packUin(uin);
     m_socket->writeBuffer << 0x0003 << 0x1B00 << 0x0800;
     m_socket->writeBuffer.pack((char*)p, sizeof(plugin));
@@ -842,31 +931,30 @@ void ICQClient::processSendQueue()
         }
 
         if (m_send.msg){
+            unsigned short type;
+			Buffer b;
             switch (m_send.msg->type()){
             case MessageURL:
-            case MessageContact:{
-                    unsigned short type;
-                    string message = packMessage(m_send.msg, data, type);
-                    Buffer b;
-                    b.pack(this->data.owner.Uin);
-                    b << (char)type << (char)0;
-                    b << message;
-                    sendThroughServer(data->Uin, 4, b);
+            case MessageContact:
+                    packMessage(b, m_send.msg, data, type, 0);
+                    sendThroughServer(data->Uin, 4, b, 0, 0, true);
                     if (data->Status != ICQ_STATUS_OFFLINE)
                         ackMessage();
                     return;
-                }
-            case MessageCheckInvisible:{
-                    Buffer msg;
-                    msg.pack(ICQ_MSGxAR_AWAY);
-                    msg.pack((unsigned short)(fullStatus(m_status) & 0xFFFF));
-                    msg << 0x0100 << 0x0100 << (char)0;
-
+			case MessageFile:
+					packMessage(b, m_send.msg, data, type, 0);
                     m_send.id.id_l = rand();
                     m_send.id.id_h = rand();
-                    sendAdvMessage(data->Uin, msg, PLUGIN_NULL, m_send.id, true);
+                    sendAdvMessage(data->Uin, b, PLUGIN_NULL, m_send.id, false, false, true);
                     return;
-                }
+            case MessageCheckInvisible:
+                    b.pack(ICQ_MSGxAR_AWAY);
+                    b.pack((unsigned short)(fullStatus(m_status) & 0xFFFF));
+                    b << 0x0100 << 0x0100 << (char)0;
+                    m_send.id.id_l = rand();
+                    m_send.id.id_h = rand();
+                    sendAdvMessage(data->Uin, b, PLUGIN_NULL, m_send.id, false, true, false);
+                    return;
             }
             string text;
             string encoding;
@@ -905,7 +993,7 @@ void ICQClient::processSendQueue()
                 Buffer b;
                 b.tlv(0x0501, "\x01", 1);
                 b.tlv(0x0101, msgBuf);
-                sendThroughServer(m_send.uin, 1, b);
+                sendThroughServer(m_send.uin, 1, b, 0, 0, true);
                 if (data->Status != ICQ_STATUS_OFFLINE)
                     ackMessage();
                 return;
@@ -927,9 +1015,24 @@ void ICQClient::processSendQueue()
             packCap(msgBuf, capabilities[((m_send.flags & SEND_MASK) == SEND_RTF) ? CAP_RTF : CAP_UTF]);
             m_send.id.id_l = rand();
             m_send.id.id_h = rand();
-            sendAdvMessage(m_send.uin, msgBuf, PLUGIN_NULL, m_send.id);
+            sendAdvMessage(m_send.uin, msgBuf, PLUGIN_NULL, m_send.id, true, false, false);
             return;
         }
+		if (m_send.socket){
+			Buffer msgBuf;
+            m_send.id.id_l = rand();
+            m_send.id.id_h = rand();
+			msgBuf.pack(this->data.owner.Uin);
+			msgBuf.pack(get_ip(this->data.owner.RealIP));
+			msgBuf.pack((unsigned long)(m_send.socket->localPort()));
+			msgBuf.pack((char)MODE_DIRECT);
+			msgBuf.pack((unsigned long)(m_send.socket->remotePort()));
+			msgBuf.pack((unsigned long)(m_send.socket->localPort()));
+			msgBuf.pack((unsigned short)8);
+			msgBuf.pack((unsigned long)m_nMsgSequence);
+			sendType2(m_send.uin, msgBuf, m_send.id, CAP_DIRECT, false, false, false);
+			return;
+		}
         if (m_send.flags == PLUGIN_AR){
             log(L_DEBUG, "Request auto response %lu", m_send.uin);
 
@@ -955,14 +1058,14 @@ void ICQClient::processSendQueue()
 
             m_send.id.id_l = rand();
             m_send.id.id_h = rand();
-            sendAdvMessage(data->Uin, msg, PLUGIN_NULL, m_send.id);
+            sendAdvMessage(data->Uin, msg, PLUGIN_NULL, m_send.id, false, false, false);
             return;
         }else if (m_send.flags == PLUGIN_RANDOMxCHAT){
             m_send.id.id_l = rand();
             m_send.id.id_h = rand();
             Buffer b;
             b << (char)1 << 0x00000000L << 0x00010000L;
-            sendAdvMessage(m_send.uin, b, PLUGIN_RANDOMxCHAT, m_send.id);
+            sendAdvMessage(m_send.uin, b, PLUGIN_RANDOMxCHAT, m_send.id, false, false, false);
         }else{
             unsigned plugin_index = m_send.flags;
             log(L_DEBUG, "Plugin info request %lu (%u)", m_send.uin, plugin_index);
@@ -986,55 +1089,20 @@ void ICQClient::processSendQueue()
 
             m_send.id.id_l = rand();
             m_send.id.id_h = rand();
-            sendAdvMessage(m_send.uin, b, type ? PLUGIN_INFOxMANAGER : PLUGIN_STATUSxMANAGER, m_send.id);
+            sendAdvMessage(m_send.uin, b, type ? PLUGIN_INFOxMANAGER : PLUGIN_STATUSxMANAGER, m_send.id, false, false, false);
             return;
         }
     }
 }
 
-string ICQClient::packMessage(Message *msg, ICQUserData *data, unsigned short &type)
+void ICQClient::requestReverseConnection(unsigned long uin, DirectSocket *socket)
 {
-    string res;
-    switch (msg->type()){
-    case MessageURL:
-        res = fromUnicode(msg->getPlainText(), data);
-        res += (char)0xFE;
-        res += fromUnicode(static_cast<URLMessage*>(msg)->getUrl(), data);
-        type = ICQ_MSGxURL;
-        break;
-    case MessageContact:{
-            unsigned nContacts = 0;
-            QString contacts = static_cast<ContactMessage*>(msg)->getContacts();
-            while (!contacts.isEmpty()){
-                QString contact = getToken(contacts, ';');
-                nContacts++;
-            }
-            res = number(nContacts);
-            contacts = static_cast<ContactMessage*>(msg)->getContacts();
-            while (!contacts.isEmpty()){
-                QString contact = getToken(contacts, ';');
-                QString uin = getToken(contact, ',');
-                res += (char)0xFE;
-                res += uin.latin1();
-                res += (char)0xFE;
-                res += fromUnicode(contact, data);
-            }
-            res += (char)0xFE;
-            type = ICQ_MSGxCONTACTxLIST;
-            break;
-        }
-    case MessageFile:
-        res = fromUnicode(msg->getPlainText(), data);
-        type = ICQ_MSGxFILE;
-        break;
-    case MessageOpenSecure:
-        type = ICQ_MSGxSECURExOPEN;
-        break;
-    case MessageCloseSecure:
-        type = ICQ_MSGxSECURExCLOSE;
-        break;
-    }
-    return res;
+	SendMsg s;
+	s.flags  = PLUGIN_REVERSE;
+	s.socket = socket;
+	s.uin    = uin;
+	sendQueue.push_front(s);
+	send(false);
 }
 
 void ICQClient::send(bool bTimer)
@@ -1099,7 +1167,15 @@ static const plugin arrPlugins[] =
         // PLUGIN_NULL
         { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
           0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-          0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }
+          0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },
+		// PLUGIN_FILE
+        { 0xF0, 0x2D, 0x12, 0xD9, 0x30, 0x91, 
+		  0xD3, 0x11, 0x8D, 0xD7, 0x00, 0x10, 
+		  0x4B, 0x06, 0x46, 0x2E, 0x00, 0x00 },
+		// PLUGIN_CHAT
+        { 0xBF, 0xF7, 0x20, 0xB2, 0x37, 0x8E, 
+		  0xD4, 0x11, 0xBD, 0x28, 0x00, 0x04, 
+		  0xAC, 0x96, 0xD9, 0x05, 0x00, 0x00 }
     };
 
 plugin const *ICQClient::plugins = arrPlugins;

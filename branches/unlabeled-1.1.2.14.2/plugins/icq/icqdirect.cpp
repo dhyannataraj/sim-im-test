@@ -53,6 +53,13 @@ const unsigned short ICQ_TCPxACK_OCCUPIEDxCAR      = 0x000B;
 const unsigned short ICQ_TCPxACK_NA                = 0x000E;
 const unsigned short ICQ_TCPxACK_DNDxCAR           = 0x000F;
 
+const char FT_INIT		= 0;
+const char FT_INIT_ACK	= 1;
+const char FT_FILEINFO	= 2;
+const char FT_START		= 3;
+const char FT_SPEED		= 5;
+const char FT_DATA		= 6;
+
 ICQListener::ICQListener(ICQClient *client)
 {
     m_socket = getSocketFactory()->createServerSocket();
@@ -112,8 +119,8 @@ DirectSocket::~DirectSocket()
 {
     if (m_socket)
         delete m_socket;
-    if (m_listener)
-        delete m_listener;
+//    if (m_listener)
+//        delete m_listener;
     removeFromClient();
 }
 
@@ -129,7 +136,7 @@ void DirectSocket::removeFromClient()
 
 void DirectSocket::init()
 {
-    m_listener = NULL;
+//    m_listener = NULL;
     if (!m_socket->created())
         m_socket->error_state("Connect error");
     m_nSequence = 0xFFFF;
@@ -137,6 +144,25 @@ void DirectSocket::init()
     m_socket->readBuffer.init(2);
     m_socket->readBuffer.packetStart();
     m_bHeader = true;
+}
+
+unsigned long DirectSocket::Uin()
+{
+	if (m_data)
+		return m_data->Uin;
+	return 0;
+}
+
+unsigned short DirectSocket::localPort()
+{
+//	if (m_listener)
+//		return m_listener->port();
+	return m_client->data.owner.Port;
+}
+
+unsigned short DirectSocket::remotePort()
+{
+	return m_port;
 }
 
 bool DirectSocket::error_state(const char *error, unsigned)
@@ -160,7 +186,21 @@ void DirectSocket::connect()
         m_socket->error_state(I18N_NOOP("Connect to unknown port"));
         return;
     }
-    if (m_state == NotConnected){
+	if (m_state == NotConnected){
+		m_state = WaitReverse;
+/*
+		if (m_data->Caps & (1 << CAP_DIRECT)){
+//			m_listener = new DirectListener(this);
+//			if (m_listener->created()){
+				m_client->requestReverseConnection(m_data->Uin, this);
+				return;
+//			}
+//			delete m_listener;
+//			m_listener = NULL;
+		}
+*/
+	}
+    if (m_state == WaitReverse){
         m_state = ConnectIP1;
         unsigned long ip = get_ip(m_data->RealIP);
         if (get_ip(m_data->IP) != get_ip(m_client->data.owner.IP))
@@ -201,6 +241,23 @@ void DirectSocket::reverseConnect(unsigned long ip, unsigned short port)
     m_socket->connect(inet_ntoa(addr), port, NULL);
 }
 
+void DirectSocket::acceptReverse(Socket *s)
+{
+	if (m_state != WaitReverse){
+		log(L_WARN, "Accept reverse in bad state");
+		if (s)
+			delete s;
+		return;
+	}
+	if (s == NULL){
+		m_socket->error_state("Reverse fail");
+		return;
+	}
+	delete m_socket->socket();
+	m_socket->setSocket(s);
+	m_state    = WaitInit;
+}
+
 void DirectSocket::packet_ready()
 {
     if (m_bHeader){
@@ -214,7 +271,7 @@ void DirectSocket::packet_ready()
     }
     if (m_state != Logged){
         ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-        log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket);
+        log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, number((unsigned)this).c_str());
     }
     switch (m_state){
     case Logged:{
@@ -300,6 +357,10 @@ void DirectSocket::packet_ready()
         m_socket->error_state("Bad session ID");
         return;
     }
+	if (m_socket == NULL){
+		delete this;
+		return;
+	}
     m_socket->readBuffer.init(2);
     m_socket->readBuffer.packetStart();
     m_bHeader = true;
@@ -334,7 +395,7 @@ void DirectSocket::sendInit()
     if (m_version >= 7)
         m_socket->writeBuffer.pack(0x00000000L);
     ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket);
+    log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, number((unsigned)this).c_str());
     m_socket->write();
 }
 
@@ -345,7 +406,7 @@ void DirectSocket::sendInitAck()
     m_socket->writeBuffer.pack((unsigned short)0x0001);
     m_socket->writeBuffer.pack((unsigned short)0x0000);
     ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket);
+    log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, number((unsigned)this).c_str());
     m_socket->write();
 }
 
@@ -362,6 +423,36 @@ void DirectSocket::connect_ready()
         m_bHeader = true;
     }
 }
+
+/*
+DirectListener::DirectListener(DirectSocket *dsock)
+{
+    m_socket = getSocketFactory()->createServerSocket();
+    m_socket->setNotify(this);
+    m_dsock  = dsock;
+}
+
+DirectListener::~DirectListener()
+{
+    if (m_socket)
+        delete m_socket;
+}
+
+void DirectListener::accept(Socket *s, unsigned long ip)
+{
+    struct in_addr addr;
+    addr.s_addr = ip;
+    log(L_DEBUG, "Accept reverse connection %s", inet_ntoa(addr));
+	m_dsock->acceptReverse(s);
+}
+
+unsigned short DirectListener::port()
+{
+    if (m_socket)
+        return m_socket->port();
+    return 0;
+}
+*/
 
 // ___________________________________________________________________________________________
 
@@ -436,8 +527,52 @@ void DirectClient::processPacket()
         return;
     case WaitInit2:
         if (m_bIncoming){
+			bool bFileTransfer = false;
+			unsigned pos = m_socket->readBuffer.readPos();
+			unsigned packetSize = m_socket->readBuffer.size() - m_socket->readBuffer.packetStartPos();
+			if (packetSize == 7){
+				char cmd;
+				m_socket->readBuffer >> cmd;
+				if (cmd == FT_SPEED)
+					bFileTransfer = true;
+			}
+			if (packetSize == 23){
+				char cmd;
+				m_socket->readBuffer >> cmd;
+				if (cmd == FT_INIT)
+					bFileTransfer = true;
+			}
+			m_socket->readBuffer.setReadPos(pos);
+			if (bFileTransfer){
+				ICQFileTransfer *transfer = NULL;
+				for (list<Message*>::iterator it = m_client->m_processMsg.begin(); it != m_client->m_processMsg.end(); ++it){
+					if ((*it)->type() != MessageFile)
+						continue;
+					FileMessage *msg = static_cast<FileMessage*>(*it);
+					transfer = static_cast<ICQFileTransfer*>(msg->m_transfer);
+					if (transfer->Uin() == m_data->Uin)
+						break;
+					transfer = NULL;
+				}
+				if (transfer){
+					transfer->setSocket(m_socket);
+					m_socket = NULL;
+					return;
+				}
+				m_socket->error_state("File transfer not found");
+				return;
+			}
+			if (m_version < 8){
+				if (m_data->Direct){
+					m_socket->error_state("Direct connection already established");
+					return;
+				}
+				m_state = Logged;
+				processMsgQueue();
+				break;
+			}
             ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-            log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket);
+            log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, number((unsigned)this).c_str());
             m_socket->readBuffer.incReadPos(13);
             char p[16];
             m_socket->readBuffer.unpack(p, 16);
@@ -449,21 +584,36 @@ void DirectClient::processPacket()
             switch (m_channel){
             case PLUGIN_INFOxMANAGER:
                 if (m_data->DirectPluginInfo){
-                    m_socket->error_state("Plugin info connection already established");
+					if (m_data->DirectPluginInfo->copyQueue(this)){
+						delete m_data->DirectPluginInfo;
+						m_data->DirectPluginInfo = this;
+					}else{
+						m_socket->error_state("Plugin info connection already established");
+					}
                 }else{
                     m_data->DirectPluginInfo = this;
                 }
                 break;
             case PLUGIN_STATUSxMANAGER:
                 if (m_data->DirectPluginStatus){
-                    m_socket->error_state("Plugin status connection already established");
+					if (m_data->DirectPluginStatus->copyQueue(this)){
+						delete m_data->DirectPluginStatus;
+						m_data->DirectPluginStatus = this;
+					}else{
+	                    m_socket->error_state("Plugin status connection already established");
+					}
                 }else{
                     m_data->DirectPluginStatus = this;
                 }
                 break;
             case PLUGIN_NULL:
                 if (m_data->Direct){
-                    m_socket->error_state("Direct connection already established");
+					if (m_data->Direct->copyQueue(this)){
+						delete m_data->Direct;
+						m_data->Direct = this;
+					}else{
+	                    m_socket->error_state("Direct connection already established");
+					}
                 }else{
                     m_data->Direct = this;
                 }
@@ -587,8 +737,7 @@ void DirectClient::processPacket()
                 ar_request req;
                 req.uin  = m_data->Uin;
                 req.type = type;
-                req.timestamp1 = seq;
-                req.timestamp2 = 0;
+                req.id.id_l = seq;
                 req.id1     = 0;
                 req.id2     = 0;
                 req.bDirect = true;
@@ -622,7 +771,9 @@ void DirectClient::processPacket()
             return;
         }
         if (m_channel == PLUGIN_NULL){
-            m = m_client->parseMessage(type, m_data->Uin, msg_str, m_socket->readBuffer, 0, 0, seq, 0);
+			MessageId id;
+			id.id_l = seq;
+            m = m_client->parseMessage(type, m_data->Uin, msg_str, m_socket->readBuffer, 0, 0, id);
             if (m == NULL){
                 m_socket->error_state("Start without message");
                 return;
@@ -698,11 +849,9 @@ void DirectClient::processPacket()
                 delete msg;
                 break;
             }
-            Message *m = m_client->parseMessage(type, m_data->Uin, msg_str, m_socket->readBuffer, 0, 0, seq, 0);
-            if (m == NULL){
-                m_socket->error_state("Ack without message");
-                return;
-            }
+			MessageId id;
+			id.id_l = seq;
+            Message *m = m_client->parseMessage(type, m_data->Uin, msg_str, m_socket->readBuffer, 0, 0, id);
             switch (msg->type()){
 #ifdef USE_OPENSSL
             case MessageCloseSecure:
@@ -717,6 +866,10 @@ void DirectClient::processPacket()
                 return;
 #endif
             case MessageFile:
+				if (m == NULL){
+			        m_socket->error_state("Ack without message");
+		            return;
+	            }
                 if (ackFlags){
                     if (msg_str.empty()){
                         msg->setError(I18N_NOOP("Send message fail"));
@@ -781,6 +934,16 @@ void DirectClient::processPacket()
     }
 }
 
+bool DirectClient::copyQueue(DirectClient *to)
+{
+	if (m_state == Logged)
+		return false;
+	for (list<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it)
+		to->m_queue.push_back(*it);
+	m_queue.clear();
+	return true;
+}
+
 void DirectClient::connect_ready()
 {
     if (m_state == None){
@@ -833,21 +996,11 @@ void DirectClient::connect_ready()
             m_socket->error_state("Connection from unknown user");
             return;
         }
-        if (m_version >= 7){
-            m_state = WaitInit2;
-        }else{
-            if (m_data->Direct){
-                m_socket->error_state("Connect already established");
-                return;
-            }
-            m_data->Direct = this;
-            m_state = Logged;
-            processMsgQueue();
-        }
+        m_state = WaitInit2;
     }else{
         if (m_version >= 7){
-            sendInit2();
-            m_state = WaitInit2;
+			sendInit2();
+			m_state = WaitInit2;
         }else{
             m_state = Logged;
             processMsgQueue();
@@ -1033,10 +1186,13 @@ void DirectClient::processMsgQueue()
                 mb.pack((unsigned short)ICQ_MSGxMSG);
                 mb.pack((unsigned short)(m_client->fullStatus(m_client->getStatus()) & 0xFF));
                 mb.pack((unsigned short)1);
-                if ((sm.msg->getFlags() & MESSAGE_RICHTEXT) && (m_client->hasCap(m_data, CAP_RTF))){
+                if ((sm.msg->getFlags() & MESSAGE_RICHTEXT) && 
+					(m_client->getSendFormat() == 0) &&
+					(m_client->hasCap(m_data, CAP_RTF))){
                     message = m_client->createRTF(sm.msg->getRichText().utf8(), sm.msg->getForeground(), m_data->Encoding);
                     sm.type = CAP_RTF;
-                }else if (m_client->hasCap(m_data, CAP_UTF)){
+                }else if (m_client->hasCap(m_data, CAP_UTF) &&
+					(m_client->getSendFormat() <= 1)){
                     message = sm.msg->getPlainText().utf8();
                     sm.type = CAP_UTF;
                 }else{
@@ -1062,21 +1218,7 @@ void DirectClient::processMsgQueue()
             case MessageOpenSecure:
             case MessageCloseSecure:
                 startPacket(TCP_START, 0);
-                message = m_client->packMessage(sm.msg, m_data, sm.icq_type);
-                mb.pack((unsigned short)sm.icq_type);
-                mb.pack((unsigned short)(m_client->fullStatus(m_client->getStatus()) & 0xFF));
-                mb.pack((unsigned short)1);
-                mb << message;
-                switch (sm.msg->type()){
-                case MessageFile:
-                    mb << m_nSequence
-                    << (unsigned short)0
-                    << m_client->fromUnicode(static_cast<FileMessage*>(sm.msg)->getDescription(), m_data);
-                    mb.pack((unsigned long)(static_cast<FileMessage*>(sm.msg)->getSize()));
-                    mb.pack(m_nSequence);
-                    mb << (unsigned short)0;
-                    break;
-                }
+                m_client->packMessage(mb, sm.msg, m_data, sm.icq_type, m_nSequence);
                 sendPacket();
                 sm.seq = m_nSequence;
                 break;
@@ -1308,15 +1450,10 @@ const char *DirectClient::name()
         m_name = "Unknown.";
     }
     m_name += number(m_data->Uin);
+	m_name += ".";
+	m_name += number((unsigned)this);
     return m_name.c_str();
 }
-
-const char FT_INIT		= 0;
-const char FT_INIT_ACK	= 1;
-const char FT_FILEINFO	= 2;
-const char FT_START		= 3;
-const char FT_SPEED		= 5;
-const char FT_DATA		= 6;
 
 ICQFileTransfer::ICQFileTransfer(FileMessage *msg, ICQUserData *data, ICQClient *client)
         : FileTransfer(msg), DirectSocket(data, client)
@@ -1348,7 +1485,7 @@ void ICQFileTransfer::connect(unsigned short port)
 void ICQFileTransfer::processPacket()
 {
     ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket);
+    log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, "File transfer");
     char cmd;
     m_socket->readBuffer >> cmd;
     if (cmd == FT_SPEED){
@@ -1440,6 +1577,15 @@ void ICQFileTransfer::connect_ready()
         m_state = WaitInit;
     }else{
         m_state = InitSend;
+        startPacket(FT_SPEED);
+        m_socket->writeBuffer.pack((unsigned long)m_speed);
+        sendPacket(true);
+		sendInit();
+    }
+}
+
+void ICQFileTransfer::sendInit()
+{
         startPacket(FT_INIT);
         m_socket->writeBuffer.pack((unsigned long)0);
         m_socket->writeBuffer.pack((unsigned long)m_files);			// nFiles
@@ -1449,7 +1595,6 @@ void ICQFileTransfer::connect_ready()
         sendPacket();
         if ((m_files == 0) || (m_totalSize == 0))
             m_socket->error_state(I18N_NOOP("No files for transfer"));
-    }
 }
 
 void ICQFileTransfer::startPacket(char cmd)
@@ -1582,6 +1727,20 @@ void ICQFileTransfer::sendFileInfo()
     m_socket->writeBuffer.pack((unsigned long)0);
     m_socket->writeBuffer.pack((unsigned long)m_speed);
     sendPacket();
+}
+
+void ICQFileTransfer::setSocket(ClientSocket *socket)
+{
+	if (m_socket)
+		delete m_socket;
+	m_socket = socket;
+	m_socket->setNotify(this);
+	m_state  = WaitInit;
+	processPacket();
+	if ((m_msg->getFlags() & MESSAGE_RECEIVED) == 0){
+        m_state = InitSend;
+		sendInit();
+	}
 }
 
 

@@ -1,5 +1,5 @@
 /***************************************************************************
-                          icqstatus.cpp  -  description
+                          icqclient.cpp  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -241,6 +241,8 @@ static DataDef icqClientData[] =
         { "Picture", DATA_UTF, 1, 0 },
         { "RandomChatGroup", DATA_ULONG, 1, 0 },
         { "", DATA_ULONG, 1, 0 },			// RandomChatGroupCurrent
+		{ "SendFormat", DATA_ULONG, 1, 0 },
+		{ "AutoUpdate", DATA_BOOL, 1, 1 },
         { "", DATA_STRUCT, sizeof(ICQUserData) / sizeof(unsigned), (unsigned)_icqUserData },
         { NULL, 0, 0, 0 }
     };
@@ -1840,6 +1842,7 @@ void ICQClient::updateInfo(Contact *contact, void *_data)
     addFullInfoRequest(data->Uin, false);
     addPluginInfoRequest(data->Uin, PLUGIN_QUERYxINFO);
     addPluginInfoRequest(data->Uin, PLUGIN_QUERYxSTATUS);
+    addPluginInfoRequest(data->Uin, PLUGIN_AR);
 }
 
 void *ICQClient::processEvent(Event *e)
@@ -1857,12 +1860,12 @@ void *ICQClient::processEvent(Event *e)
             Contact *contact;
             ICQUserData *data = findContact(ar.uin, NULL, false, contact);
             if (data && data->Direct)
-                data->Direct->sendAutoResponse(ar.timestamp1, ar.type, fromUnicode(t->tmpl, data).c_str());
+                data->Direct->sendAutoResponse(ar.id.id_l, ar.type, fromUnicode(t->tmpl, data).c_str());
         }else{
             Buffer copy;
             string response;
             response = t->tmpl.utf8();
-            sendAutoReply(ar.uin, ar.timestamp1, ar.timestamp2, plugins[PLUGIN_NULL],
+            sendAutoReply(ar.uin, ar.id, plugins[PLUGIN_NULL],
                           ar.id1, ar.id2, ar.type, 3, 256, response.c_str(), 0, copy);
         }
         arRequests.erase(it);
@@ -2569,6 +2572,32 @@ QString ICQClient::contactName(void *clientData)
     return res;
 }
 
+static bool isSupportPlugins(ICQUserData *data)
+{
+	if (data->Version < 7)
+		return false;
+	switch (data->InfoUpdateTime){
+	case 0xFFFFFF42:
+    case 0xFFFFFFFF:
+    case 0xFFFFFF7F:
+	case 0xFFFFFFBE:
+	case 0x3B75AC09:
+	case 0x3AA773EE:
+	case 0x3BC1252C:
+	case 0x3B176B57:
+	case 0x3BA76E2E:
+	case 0x3C7D8CBC:
+	case 0x3CFE0688:
+	case 0x3BFF8C98:
+		return false;
+	}
+	if ((data->InfoUpdateTime & 0xFF7F0000L) == 0x7D000000L)
+		return false;
+	if ((data->Caps & (1 << CAP_TRIL_CRYPT)) || (data->Caps & (1 << CAP_TRILLIAN)))
+		return false;
+	return true;
+}
+
 void ICQClient::addPluginInfoRequest(unsigned long uin, unsigned plugin_index)
 {
     Contact *contact;
@@ -2579,31 +2608,44 @@ void ICQClient::addPluginInfoRequest(unsigned long uin, unsigned plugin_index)
              (!getInvisible() && (data->InvisibleId == 0)))){
         switch (plugin_index){
         case PLUGIN_AR:
-            if (data->Direct == NULL){
+            if ((data->Direct == NULL) && !getHideIP()){
                 data->Direct = new DirectClient(data, this, PLUGIN_NULL);
                 data->Direct->connect();
             }
-            data->Direct->addPluginInfoRequest(plugin_index);
-            return;
+			if (data->Direct){
+				data->Direct->addPluginInfoRequest(plugin_index);
+				return;
+			}
+			break;
         case PLUGIN_QUERYxINFO:
         case PLUGIN_PHONEBOOK:
         case PLUGIN_PICTURE:
-            if (data->DirectPluginInfo == NULL){
+			if (!isSupportPlugins(data))
+				return;
+            if ((data->DirectPluginInfo == NULL) && !getHideIP()){
                 data->DirectPluginInfo = new DirectClient(data, this, PLUGIN_INFOxMANAGER);
                 data->DirectPluginInfo->connect();
             }
-            data->DirectPluginInfo->addPluginInfoRequest(plugin_index);
-            return;
+			if (data->DirectPluginInfo){
+				data->DirectPluginInfo->addPluginInfoRequest(plugin_index);
+				return;
+			}
+			break;
         case PLUGIN_QUERYxSTATUS:
         case PLUGIN_FILESERVER:
         case PLUGIN_FOLLOWME:
         case PLUGIN_ICQPHONE:
-            if (data->DirectPluginStatus == NULL){
+			if (!isSupportPlugins(data))
+				return;
+            if ((data->DirectPluginStatus == NULL) && !getHideIP()){
                 data->DirectPluginStatus = new DirectClient(data, this, PLUGIN_STATUSxMANAGER);
                 data->DirectPluginStatus->connect();
             }
-            data->DirectPluginStatus->addPluginInfoRequest(plugin_index);
-            return;
+			if (data->DirectPluginStatus){
+				data->DirectPluginStatus->addPluginInfoRequest(plugin_index);
+				return;
+			}
+			break;
         }
     }
     list<SendMsg>::iterator it;

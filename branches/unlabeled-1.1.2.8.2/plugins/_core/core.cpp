@@ -1364,8 +1364,8 @@ void *CorePlugin::processEvent(Event *e)
                     if (contact){
                         CoreUserData *data = (CoreUserData*)(contact->getUserData(user_data_id));
                         if (data->OpenOnReceive){
-                            Event e(EventOpenMessage, msg);
-                            e.process();
+					            Event e(EventOpenMessage, msg);
+						        e.process();
                         }
                     }
                 }

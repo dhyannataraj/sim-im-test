@@ -25,6 +25,7 @@
 #include <qspinbox.h>
 #include <qvalidator.h>
 #include <qtabwidget.h>
+#include <qcombobox.h>
 
 ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig)
         : ICQConfigBase(parent)
@@ -51,6 +52,11 @@ ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig)
     edtPort->setValue(m_client->getPort());
     connect(edtServer, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(edtPort, SIGNAL(valueChanged(const QString&)), this, SLOT(changed(const QString&)));
+	cmbFormat->insertItem(i18n("RTF"));
+	cmbFormat->insertItem(i18n("UTF"));
+	cmbFormat->insertItem(i18n("Plain text"));
+	cmbFormat->setCurrentItem(client->getSendFormat());
+	chkUpdate->setChecked(client->getAutoUpdate());
 }
 
 void ICQConfig::apply(Client*, void*)
@@ -65,6 +71,8 @@ void ICQConfig::apply()
     }
     m_client->setServer(edtServer->text().local8Bit());
     m_client->setPort(atol(edtPort->text()));
+	m_client->setSendFormat(cmbFormat->currentItem());
+	m_client->setAutoUpdate(chkUpdate->isChecked());
 }
 
 void ICQConfig::changed(const QString&)

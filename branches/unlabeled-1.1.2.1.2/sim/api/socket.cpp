@@ -53,9 +53,9 @@ ServerSocket::ServerSocket()
     notify = NULL;
 }
 
-ClientSocket::ClientSocket(ClientSocketNotify *n)
+ClientSocket::ClientSocket(ClientSocketNotify *notify)
 {
-    notify = n;
+    m_notify = notify;
     bRawMode = false;
     bClosed  = false;
     m_sock = getSocketFactory()->createSocket();
@@ -110,7 +110,7 @@ bool ClientSocket::created()
 
 void ClientSocket::connect_ready()
 {
-    notify->connect_ready();
+    m_notify->connect_ready();
     bClosed = false;
 }
 
@@ -131,7 +131,8 @@ void ClientSocket::read_ready()
             readBuffer.setWritePos(readBuffer.writePos() + readn);
             memcpy(readBuffer.data(pos), b, readn);
         }
-        if (notify) notify->packet_ready();
+        if (m_notify) 
+			m_notify->packet_ready();
         return;
     }
     for (;;){
@@ -145,14 +146,15 @@ void ClientSocket::read_ready()
         if (readn == 0) break;
         readBuffer.setWritePos(readBuffer.writePos() + readn);
         if (readBuffer.writePos() < readBuffer.size()) break;
-        if (notify) notify->packet_ready();
+        if (m_notify) 
+			m_notify->packet_ready();
     }
 }
 
 void ClientSocket::write_ready()
 {
-    if (notify)
-        notify->write_ready();
+    if (m_notify)
+        m_notify->write_ready();
 }
 
 unsigned long ClientSocket::localHost()
@@ -169,6 +171,11 @@ void ClientSocket::setSocket(Socket *s)
 {
     m_sock = s;
     s->setNotify(this);
+}
+
+void ClientSocket::setNotify(ClientSocketNotify *notify)
+{
+	m_notify = notify;
 }
 
 void ClientSocket::error_state(const char *err, unsigned code)
@@ -225,7 +232,7 @@ void SocketFactory::idle()
 {
     for (list<ClientSocket*>::iterator it = p->errSockets.begin(); it != p->errSockets.end();){
         ClientSocket *s = *it;
-        ClientSocketNotify *n = s->notify;
+        ClientSocketNotify *n = s->m_notify;
         p->errSockets.remove(s);
         it = p->errSockets.begin();
         if (n){

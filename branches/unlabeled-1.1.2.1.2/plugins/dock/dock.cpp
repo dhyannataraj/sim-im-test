@@ -108,18 +108,18 @@ DockPlugin::DockPlugin(unsigned base, const char *config)
     cmd->icon        = "licq";
     cmd->menu_id     = DockMenu;
     cmd->menu_grp    = 0x1000;
-    cmd->flags		= COMMAND_TITLE;
+    cmd->flags       = COMMAND_TITLE;
 
     Event eCmd(EventCommandCreate, cmd);
     eCmd.process();
 
     cmd->id          = CmdCustomize;
     cmd->text        = I18N_NOOP("Customize menu");
-    cmd->icon		 = "configure";
+    cmd->icon        = "configure";
     cmd->menu_id     = DockMenu;
     cmd->menu_grp    = 0x10000;
-    cmd->accel		= 0;
-    cmd->flags		= COMMAND_DEFAULT;
+    cmd->accel       = 0;
+    cmd->flags       = COMMAND_DEFAULT;
 
     eCmd.process();
 
@@ -306,7 +306,7 @@ void DockPlugin::toggleWin()
     cmd->id          = CmdToggle;
     cmd->menu_id     = DockMenu;
     cmd->menu_grp    = 0x1000;
-    cmd->flags		= COMMAND_CHECK_STATE;
+    cmd->flags       = COMMAND_CHECK_STATE;
 
     Event e(EventCommandExec, cmd);
     e.process();
@@ -321,7 +321,7 @@ void DockPlugin::doubleClicked()
     cmd->id          = CmdToggle;
     cmd->menu_id     = DockMenu;
     cmd->menu_grp    = 0x1000;
-    cmd->flags		= COMMAND_CHECK_STATE;
+    cmd->flags       = COMMAND_CHECK_STATE;
 
     if (core->unread.size())
         cmd->id = CmdUnread;
@@ -353,7 +353,9 @@ QWidget *DockPlugin::createConfigWindow(QWidget *parent)
 
 void DockPlugin::timer()
 {
-    if (!getAutoHide() || (inactiveTime == 0))
+    if (!isMainShow())  // already hidden
+        return;
+    if (!getAutoHide() || (inactiveTime == 0))  // no autohide
         return;
     unsigned now;
     time((time_t*)&now);
