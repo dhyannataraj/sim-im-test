@@ -3051,7 +3051,9 @@ bool ICQClient::send(Message *msg, void *_data)
     case MessageFile:
         if (data && ((data->Status.value & 0xFFFF) != ICQ_STATUS_OFFLINE)){
             if (data->Uin.value){
-                if (data->Direct.ptr == NULL){
+                if ((data->Direct.ptr == NULL)){
+					if (data->bNoDirect.bValue)
+						return sendThruServer(msg, data);
                     data->Direct.ptr = (char*)(new DirectClient(data, this, PLUGIN_NULL));
                     ((DirectClient*)(data->Direct.ptr))->connect();
                 }

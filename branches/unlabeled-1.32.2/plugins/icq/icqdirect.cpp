@@ -131,8 +131,11 @@ DirectSocket::~DirectSocket()
 
 void DirectSocket::timeout()
 {
-    if ((m_state != Logged) && m_socket)
+    if ((m_state != Logged) && m_socket){
         m_socket->error_state("Timeout direct connection");
+		if (m_data)
+			m_data->bNoDirect.bValue = true;
+	}
 }
 
 void DirectSocket::removeFromClient()

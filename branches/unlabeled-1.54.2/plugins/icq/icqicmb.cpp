@@ -210,7 +210,8 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                     bAck = true;
             }
             if (bAck){
-                if (m_send.msg){
+			   log(L_DEBUG, "Ack: %u %u (%s)", m_send.id.id_h, m_send.id.id_l, m_send.screen.c_str());
+               if (m_send.msg){
                     if (m_send.msg->type() == MessageCheckInvisible){
                         Contact *contact;
                         ICQUserData *data = findContact(m_send.screen.c_str(), NULL, false, contact);
@@ -223,7 +224,8 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                     }else{
                         Contact *contact;
                         ICQUserData *data = findContact(screen.c_str(), NULL, false, contact);
-                        if ((data == NULL) || (data->Status.value == ICQ_STATUS_OFFLINE) || (getAckMode() == 1)){
+                        if (((data == NULL) || (data->Status.value == ICQ_STATUS_OFFLINE) || (getAckMode() == 1)) &&
+							(m_send.msg->type() != MessageFile)){
                             ackMessage(m_send);
                         }else{
                             replyQueue.push_back(m_send);
@@ -1143,9 +1145,17 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
         if (msg.size() || (msgType == ICQ_MSGxEXT)){
             Message *m = parseMessage(msgType, screen, msg, adv, id, cookie1 | (cookie2 << 16));
             if (m){
+				if ((m_send.id == id) && (m_send.screen == screen)){
+					replyQueue.push_back(m_send);
+		            m_send.msg    = NULL;
+				    m_send.screen = "";
+					m_sendTimer->stop();
+					send(true);
+				}
                 list<SendMsg>::iterator it;
                 for (it = replyQueue.begin(); it != replyQueue.end(); ++it){
                     SendMsg &s = *it;
+					log(L_DEBUG, "%u %u (%s) - %u %u (%s)", s.id.id_h, s.id.id_l, s.screen.c_str(), id.id_h, id.id_l, screen);
                     if ((s.id == id) && (s.screen == screen))
                         break;
                 }
@@ -1218,6 +1228,13 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
                             delete msg;
                             return;
                         }
+						if (m_state == 1){
+                            msg->setError(I18N_NOOP("Message declined"));
+                            Event e(EventMessageSent, msg);
+                            e.process();
+                            delete msg;
+							return;
+						}
                         ICQFileTransfer *ft = new ICQFileTransfer(static_cast<FileMessage*>(msg), data, this);
                         Event e(EventMessageAcked, msg);
                         e.process();
