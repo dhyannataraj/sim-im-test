@@ -30,23 +30,15 @@ public:
     const QIconSet *get(unsigned id);
 };
 
-class IconDLLBase
+class IconDLL
 {
 public:
-    IconDLLBase();
-    ~IconDLLBase();
+    IconDLL();
+    ~IconDLL();
     bool load(const char *file);
+	const QIconSet *get(unsigned id);
     string name;
     IconsMap  *icon_map;
-};
-
-class IconDLL : public IconDLLBase, public EventReceiver
-{
-public:
-    IconDLL(const char *prefix);
-protected:
-    virtual void *processEvent(Event*);
-    string m_prefix;
 };
 
 #endif

@@ -20,6 +20,11 @@
 #include "iconcfg.h"
 #include "simapi.h"
 
+bool my_string::operator < (const my_string &a) const
+{
+    return strcmp(c_str(), a.c_str()) < 0;
+}
+
 Plugin *createIconsPlugin(unsigned base, bool, const char *config)
 {
     Plugin *plugin = new IconsPlugin(base, config);
@@ -29,7 +34,7 @@ Plugin *createIconsPlugin(unsigned base, bool, const char *config)
 static PluginInfo info =
     {
         I18N_NOOP("Icons"),
-        I18N_NOOP("Plugin provides Miranda icons themes"),
+        I18N_NOOP("Plugin provides Miranda icons themes and emoticons"),
         VERSION,
         createIconsPlugin,
         PLUGIN_NOLOAD_DEFAULT
@@ -49,6 +54,7 @@ typedef struct IconsData
 static DataDef iconsData[] =
     {
         { "IconDLLs", DATA_STRLIST, 1, 0 },
+		{ "Smiles", DATA_UTF, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -61,9 +67,8 @@ IconsPlugin::IconsPlugin(unsigned base, const char *config)
 
 IconsPlugin::~IconsPlugin()
 {
-    for (list<IconDLL*>::iterator it = dlls.begin(); it != dlls.end(); ++it){
-        delete *it;
-    }
+    for (ICONS_MAP::iterator it = dlls.begin(); it != dlls.end(); ++it)
+        delete (*it).second;
     dlls.clear();
     Event e(EventIconChanged);
     e.process();
@@ -72,9 +77,8 @@ IconsPlugin::~IconsPlugin()
 
 void IconsPlugin::setIcons()
 {
-    for (list<IconDLL*>::iterator it = dlls.begin(); it != dlls.end(); ++it){
-        delete *it;
-    }
+    for (ICONS_MAP::iterator it = dlls.begin(); it != dlls.end(); ++it)
+        delete (*it).second;
     dlls.clear();
     for (unsigned n = 1; ; n++){
         const char *cfg = getIconDLLs(n);
@@ -84,10 +88,10 @@ void IconsPlugin::setIcons()
         string name = getToken(v, ',');
         if (v.length() == 0)
             continue;
-        IconDLL *dll = new IconDLL(name.c_str());
+        IconDLL *dll = new IconDLL;
         if (!dll->load(v.c_str()))
             continue;
-        dlls.push_back(dll);
+        dlls.insert(ICONS_MAP::value_type(name.c_str(), dll));
     }
     Event e(EventIconChanged);
     e.process();
@@ -101,6 +105,56 @@ string IconsPlugin::getConfig()
 QWidget *IconsPlugin::createConfigWindow(QWidget *parent)
 {
     return new IconCfg(parent, this);
+}
+
+typedef struct IconID
+{
+    const char *name;
+    unsigned   id;
+} IconID;
+
+
+static IconID icons_def[] =
+    {
+        { "licq", 102 },
+        { "message", 136 },
+        { "url", 135 },
+        { "sms", 103 },
+        { "file", 207 },
+        { "online", 104 },
+        { "offline", 105 },
+        { "away", 128 },
+        { "na", 131 },
+        { "dnd", 158 },
+        { "occupied", 159 },
+        { "ffc", 129 },
+        { "invisible", 130 },
+        { "info", 160 },
+        { "history", 174 },
+        { "mail_generic", 193 },
+        { "find", 161 },
+        { NULL, 0 }
+    };
+
+void *IconsPlugin::processEvent(Event *e)
+{
+    if (e->type() == EventGetIcon){
+        const char *name = (const char*)(e->param());
+		const char *p = strchr(name, '_');
+		if (p == NULL)
+			return NULL;
+		string s;
+		s.append(name, (unsigned)(p - name));
+		ICONS_MAP::iterator it = dlls.find(s.c_str());
+		if (it == dlls.end())
+			return NULL;
+		s = p + 1;
+        for (const IconID *d = icons_def; d->name; d++){
+             if (s == d->name)
+                    return (void*)((*it).second->get(d->id));
+        }
+    }
+    return NULL;
 }
 
 #ifdef WIN32

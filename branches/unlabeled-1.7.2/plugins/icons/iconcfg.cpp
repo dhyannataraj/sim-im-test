@@ -22,11 +22,13 @@
 #include "preview.h"
 #include "linklabel.h"
 #include "core.h"
+#include "smilecfg.h"
 
 #include <qframe.h>
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qcombobox.h>
+#include <qtabwidget.h>
 
 class IconPreview : public FilePreview
 {
@@ -37,7 +39,7 @@ protected:
     QLabel  *labels[20];
     void showPreview(const char*);
     void setIcons();
-    IconDLLBase *icons;
+    IconDLL *icons;
 };
 
 IconPreview::IconPreview(QWidget *parent)
@@ -73,7 +75,7 @@ void IconPreview::showPreview(const char *file)
         }
         return;
     }
-    icons = new IconDLLBase;
+    icons = new IconDLL;
     if (!icons->load(file)){
         delete icons;
         icons = NULL;
@@ -169,6 +171,15 @@ IconCfg::IconCfg(QWidget *parent, IconsPlugin *plugin)
 #endif
     lblMore->setText(i18n("Get more icons themes"));
     connect(edtIcon, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
+    for (QObject *p = parent; p != NULL; p = p->parent()){
+        if (!p->inherits("QTabWidget"))
+            continue;
+        QTabWidget *tab = static_cast<QTabWidget*>(p);
+        m_smiles = new SmileCfg(tab, plugin);
+        tab->addTab(m_smiles, i18n("Smiles"));
+        tab->adjustSize();
+        break;
+    }
 }
 
 void IconCfg::protocolChanged(int n)

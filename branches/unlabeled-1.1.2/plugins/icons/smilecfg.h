@@ -1,5 +1,5 @@
 /***************************************************************************
-                          icon.h  -  description
+                          smilecfg.h  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,46 +15,24 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _ICON_H
-#define _ICON_H
+#ifndef _SMILECFG_H
+#define _SMILECFG_H
 
 #include "simapi.h"
+#include "smilecfgbase.h"
 
-#include <map>
-using namespace std;
+class IconsPlugin;
 
-typedef struct IconsData
+class SmileCfg : public SmileCfgBase
 {
-    void	*IconDLLs;
-	char	*Smiles;
-} IconsData;
-
-class IconDLL;
-
-class my_string : public string
-{
+    Q_OBJECT
 public:
-    my_string(const char *str) : string(str) {}
-    bool operator < (const my_string &str) const;
-};
-
-typedef map<my_string, IconDLL*> ICONS_MAP;
-
-class IconsPlugin : public Plugin, public EventReceiver
-{
-public:
-    IconsPlugin(unsigned, const char*);
-    virtual ~IconsPlugin();
-    PROP_STRLIST(IconDLLs);
-	PROP_UTF8(Smiles);
+    SmileCfg(QWidget *parent, IconsPlugin *plugin);
+public slots:
+    void apply();
+    void goSmiles();
 protected:
-    virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual string getConfig();
-	void *processEvent(Event*);
-    void setIcons();
-    ICONS_MAP dlls;
-    IconsData data;
-    friend class IconCfg;
+    IconsPlugin *m_plugin;
 };
 
 #endif
