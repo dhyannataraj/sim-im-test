@@ -1051,7 +1051,7 @@ msgstr "Anbieter:"
 
 #: plugins/_core/pagerbase.cc:120
 msgid "Email gateway:"
-msgstr "Email Gataway:"
+msgstr "E-Mail Gateway:"
 
 #: plugins/_core/arcfgbase.cc:100 plugins/_core/prefcfgbase.cc:97
 msgid "&Override global settings"
@@ -1254,11 +1254,11 @@ msgstr "Bemerku&ngen"
 
 #: plugins/_core/editmailbase.cc:94
 msgid "EditMail"
-msgstr "Email bearbeiten"
+msgstr "E-Mail bearbeiten"
 
 #: plugins/_core/editmailbase.cc:95
 msgid "Enter Email address:"
-msgstr "Email-Adressen eingeben:"
+msgstr "E-Mail-Adressen eingeben:"
 
 #: plugins/_core/editmailbase.cc:96 plugins/_core/editphonebase.cc:142
 msgid "&Publish"
@@ -1900,8 +1900,8 @@ msgid ""
 "_n: Email pager message\n"
 "%n Email pager messages"
 msgstr ""
-"Email-Pager-Nachricht\n"
-"%n Email-Pager-Nachrichten"
+"E-Mail-Pager-Nachricht\n"
+"%n E-Mail-Pager-Nachrichten"
 
 #: plugins/icq/icqmessage.cpp:806
 #, c-format
@@ -3119,7 +3119,7 @@ msgstr "Interessen:"
 
 #: plugins/icq/icqsearchbase.cc:309
 msgid "Email/Info"
-msgstr "Email/Info"
+msgstr "E-Mail/Info"
 
 #: plugins/icq/icqsearchbase.cc:312
 msgid "Nickname:"
@@ -3389,7 +3389,7 @@ msgstr ""
 
 #: plugins/navigate/navigate.cpp:87
 msgid "Send mail"
-msgstr "Email senden"
+msgstr "E-Mail senden"
 
 #: plugins/navigate/navcfgbase.cc:96
 msgid "Browser:"
@@ -5446,7 +5446,7 @@ msgstr "Unterstrichen"
 #~ msgstr "WWW-Feld Nachricht"
 
 #~ msgid "Email pager message"
-#~ msgstr "Email Pager-Nachricht"
+#~ msgstr "E-Mail Pager-Nachricht"
 
 #~ msgid "Request secure channel"
 #~ msgstr "Sicheren Kanal anfordern"
@@ -5505,8 +5505,8 @@ msgstr "Unterstrichen"
 #~ "_n: Email\n"
 #~ "%n emails"
 #~ msgstr ""
-#~ "Email\n"
-#~ "%n Emails"
+#~ "E-Mail\n"
+#~ "%n E-Mails"
 
 #~ msgid ""
 #~ "_n: Unknown message\n"
@@ -6109,7 +6109,7 @@ msgstr "Unterstrichen"
 #~ msgstr "&Farben"
 
 #~ msgid "Don't publish my Email address"
-#~ msgstr "Meine Email-Adresse nicht veröffentlichen"
+#~ msgstr "Meine E-Mail-Adresse nicht veröffentlichen"
 
 #~ msgid "Close after ...."
 #~ msgstr "Schließen nach..."
@@ -6165,7 +6165,7 @@ msgstr "Unterstrichen"
 #~ msgstr "Browserprogramm:"
 
 #~ msgid "Email client:"
-#~ msgstr "Emailprogramm:"
+#~ msgstr "E-Mailprogramm:"
 
 #~ msgid "&Miscellaneous"
 #~ msgstr "&Verschiedenes"
@@ -6276,7 +6276,7 @@ msgstr "Unterstrichen"
 #~ msgstr "&Weltweite Pager-Nachrichten ablehnen"
 
 #~ msgid "Reject &EmailExpress messages"
-#~ msgstr "&Emailexpress-Nachrichten ablehnen"
+#~ msgstr "&E-Mailexpress-Nachrichten ablehnen"
 
 #~ msgid "Reject &other messages"
 #~ msgstr "&Andere Nachrichten ablehnen"
