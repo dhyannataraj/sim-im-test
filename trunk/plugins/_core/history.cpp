@@ -841,6 +841,7 @@ bool History::save(unsigned id, const char *file_name, bool bAppend)
         mode |= IO_Append;
     if (f.open(mode)){
         QTextStream stream(&f);
+		stream.setEncoding(QTextStream::UnicodeUTF8);
         HistoryIterator it(id);
         it.begin();
         const QString owner = getContacts()->owner()->getName(),
