@@ -171,6 +171,8 @@ string HomeDirPlugin::defaultPath()
         QFile f(lockTest);
         if (!f.open(IO_ReadWrite | IO_Truncate))
             defPath = "";
+		f.close();
+		QFile::remove(lockTest);
     }
     if (!defPath.isEmpty()){
         s = QFile::encodeName(defPath);

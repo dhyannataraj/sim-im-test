@@ -354,15 +354,14 @@ void SIMServerSocket::close()
 void SIMServerSocket::bind(unsigned short minPort, unsigned short maxPort, TCPClient *client)
 {
     unsigned short startPort = (unsigned short)(minPort + get_random() % (maxPort - minPort + 1));
-    unsigned short port;
     bool bOK = false;
-    for (port = startPort;;){
-        if (sock->bind(QHostAddress(), port)){
+    for (m_nPort = startPort;;){
+        if (sock->bind(QHostAddress(), m_nPort)){
             bOK = true;
             break;
         }
-        if (++port > port)
-            port = minPort;
+        if (++m_nPort > maxPort)
+            m_nPort = minPort;
         if (m_nPort == startPort)
             break;
     }

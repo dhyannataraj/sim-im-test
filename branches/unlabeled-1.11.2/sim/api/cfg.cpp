@@ -76,12 +76,36 @@ void save_state()
 
 #ifdef WIN32
 
+static bool isWindowsNT()
+{
+    OSVERSIONINFO ovi;
+
+    ZeroMemory(&ovi, sizeof(ovi));
+    ovi.dwOSVersionInfoSize=sizeof(OSVERSIONINFO);
+    GetVersionEx(&ovi);
+
+    return (ovi.dwPlatformId==VER_PLATFORM_WIN32_NT);
+}
+
 EXPORT bool makedir(char *p)
 {
     char *r = strrchr(p, '\\');
     if (r == NULL) return true;
     *r = 0;
-    CreateDirectoryA(p, NULL);
+    SECURITY_ATTRIBUTES sa;
+    SECURITY_DESCRIPTOR sd;
+    ZeroMemory(&sa, sizeof(sa));
+    sa.nLength = sizeof(sa);
+    sa.lpSecurityDescriptor = NULL;
+    if(isWindowsNT()){
+        InitializeSecurityDescriptor(&sd, SECURITY_DESCRIPTOR_REVISION);
+        SetSecurityDescriptorDacl(&sd, TRUE, NULL, FALSE);
+        sa.lpSecurityDescriptor = &sd;
+    }
+    CreateDirectoryA(p, &sa);
+	DWORD dwAttr = GetFileAttributesA(p);
+	if (dwAttr & FILE_ATTRIBUTE_READONLY)
+		SetFileAttributesA(p, dwAttr & ~FILE_ATTRIBUTE_READONLY);
     *r = '\\';
     return true;
 }
