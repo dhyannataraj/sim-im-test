@@ -1139,6 +1139,7 @@ public:
     static bool toUTF(string &s, const char *encoding);
 
 protected:
+    Buffer cookie;
     list<DirectSocket*> removedSockets;
 
     void close();

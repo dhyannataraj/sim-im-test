@@ -43,6 +43,7 @@ ClientSocket::ClientSocket(ClientSocketNotify *n, SocketFactory *f)
     m_sock = f->createSocket();
     m_sock->setNotify(this);
     m_proxy = NULL;
+    bInProcess = false;
 }
 
 ClientSocket::~ClientSocket()
@@ -135,6 +136,16 @@ void ClientSocket::setRaw(bool mode)
     if (mode) readBuffer.init(0);
 }
 
+void ClientSocket::processPacket()
+{
+    bInProcess = true;
+    err = ErrorNone;
+    notify->packet_ready();
+    if (err != ErrorNone)
+        notify->error_state(err);
+    bInProcess = false;
+}
+
 void ClientSocket::read_ready()
 {
     if (bRawMode){
@@ -145,7 +156,7 @@ void ClientSocket::read_ready()
             readBuffer.setWritePos(readBuffer.writePos() + readn);
             if (readn < sizeof(b)) break;
         }
-        notify->packet_ready();
+        processPacket();
         return;
     }
     for (;;){
@@ -158,7 +169,7 @@ void ClientSocket::read_ready()
         if (readn == 0) break;
         readBuffer.setWritePos(readBuffer.writePos() + readn);
         if (readBuffer.writePos() < readBuffer.size()) break;
-        notify->packet_ready();
+        processPacket();
     }
 }
 
@@ -167,9 +178,15 @@ void ClientSocket::write_ready()
     notify->write_ready();
 }
 
-void ClientSocket::error_state(SocketError err)
+void ClientSocket::error_state(SocketError _err)
 {
-    notify->error_state(err);
+    if (bInProcess){
+        err = _err;
+        return;
+    }
+    bInProcess = true;
+    notify->error_state(_err);
+    bInProcess = false;
 }
 
 void ClientSocket::remove()

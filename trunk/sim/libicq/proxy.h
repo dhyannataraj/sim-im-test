@@ -41,7 +41,6 @@ protected:
     Socket *sock;
     Buffer bOut;
     Buffer bIn;
-    Buffer writeBuffer;
 };
 
 class SOCKS4_Proxy : public Proxy

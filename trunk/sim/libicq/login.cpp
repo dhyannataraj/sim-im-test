@@ -184,9 +184,6 @@ void ICQClient::chn_close()
     sock->close();
     sock->setProxy(getProxy());
     sock->connect(host, atol(port));
-
-    flap(ICQ_CHNxNEW);
-    sock->writeBuffer << 0x00000001L;
-    sock->writeBuffer.tlv(6, *tlv_cookie, tlv_cookie->Size());
-    sendPacket();
+    cookie.init(0);
+    cookie.pack(*tlv_cookie, tlv_cookie->Size());
 }

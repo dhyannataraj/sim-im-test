@@ -41,6 +41,7 @@
 
 enum SocketError
 {
+    ErrorNone,
     ErrorSocket,
     ErrorConnect,
     ErrorRead,
@@ -148,6 +149,8 @@ public:
     void setProxyConnected();
 
 protected:
+    void processPacket();
+
     virtual void connect_ready();
     virtual void write_ready();
     virtual void error_state(SocketError);
@@ -158,6 +161,8 @@ protected:
     ClientSocketNotify *notify;
     SocketFactory *factory;
     bool bRawMode;
+    bool bInProcess;
+    SocketError err;
 };
 
 #endif

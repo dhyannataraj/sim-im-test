@@ -273,6 +273,7 @@ void ICQClient::setStatus(unsigned short status)
         return;
     }
     if (sock == NULL){
+        cookie.init(0);
         create_socket();
         if (sock == NULL) return;
         m_bRosters = false;
@@ -466,6 +467,13 @@ void ICQClient::connect_ready()
     sock->setProxyConnected();
     sock->readBuffer.init(6);
     m_bHeader = true;
+    if (cookie.size()){
+        flap(ICQ_CHNxNEW);
+        sock->writeBuffer << 0x00000001L;
+        sock->writeBuffer.tlv(6, cookie.Data(0), cookie.size());
+        cookie.init(0);
+        sendPacket();
+    }
 }
 
 void ICQClient::addInfoRequest(unsigned long uin, bool bPriority)

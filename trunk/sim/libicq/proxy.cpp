@@ -54,7 +54,8 @@ int Proxy::read(char*, unsigned int)
 
 void Proxy::write(const char *b, unsigned int size)
 {
-    writeBuffer.pack(b, size);
+    log(L_WARN, "Proxy can't write");
+    if (notify) notify->error_state(ErrorSocket);
 }
 
 void Proxy::close()
@@ -78,7 +79,7 @@ void Proxy::write_ready()
 
 void Proxy::error_state(SocketError)
 {
-    notify->error_state(ErrorProxyConnect);
+    if (notify) notify->error_state(ErrorProxyConnect);
 }
 
 void Proxy::read(unsigned size, unsigned minsize)
@@ -86,7 +87,7 @@ void Proxy::read(unsigned size, unsigned minsize)
     bIn.init(size);
     int readn = sock->read(bIn.Data(0), size);
     if ((readn != (int)size) || (minsize && (readn < (int)minsize))){
-        notify->error_state(ErrorProxyConnect);
+        if (notify) notify->error_state(ErrorProxyConnect);
         return;
     }
     dumpPacket(bIn, 0, "Proxy read");
@@ -101,9 +102,7 @@ void Proxy::write()
 
 void Proxy::proxy_connect_ready()
 {
-    if (writeBuffer.size())
-        sock->write(writeBuffer.Data(0), writeBuffer.size());
-    notify->connect_ready();
+    if (notify) notify->connect_ready();
 }
 
 SOCKS4_Proxy::SOCKS4_Proxy(const char *host, unsigned short port)
@@ -117,7 +116,7 @@ void SOCKS4_Proxy::connect(const char *host, int port)
 {
     if (state != None){
         log(L_WARN, "Proxy::connect in bad state");
-        notify->error_state(ErrorProxyConnect);
+        if (notify) notify->error_state(ErrorProxyConnect);
         return;
     }
     m_connectHost = host;
@@ -131,7 +130,7 @@ void SOCKS4_Proxy::connect_ready()
 {
     if (state != Connect){
         log(L_WARN, "Proxy::connect_ready in bad state");
-        notify->error_state(ErrorProxyConnect);
+        if (notify) notify->error_state(ErrorProxyConnect);
         return;
     }
     unsigned long addr = inet_addr(m_connectHost.c_str());
@@ -154,7 +153,7 @@ void SOCKS4_Proxy::read_ready()
     char b1, b2;
     bIn >> b1 >> b2;
     if (b2 != 90){
-        notify->error_state(ErrorProxyConnect);
+        if (notify) notify->error_state(ErrorProxyConnect);
         return;
     }
     proxy_connect_ready();
@@ -173,7 +172,7 @@ void SOCKS5_Proxy::connect(const char *host, int port)
 {
     if (state != None){
         log(L_WARN, "Proxy::connect in bad state");
-        notify->error_state(ErrorProxyConnect);
+        if (notify) notify->error_state(ErrorProxyConnect);
         return;
     }
     m_connectHost = host;
@@ -187,7 +186,7 @@ void SOCKS5_Proxy::connect_ready()
 {
     if (state != Connect){
         log(L_WARN, "Proxy::connect_ready in bad state");
-        notify->error_state(ErrorProxyConnect);
+        if (notify) notify->error_state(ErrorProxyConnect);
         return;
     }
     bOut << (char)0x05;
@@ -211,7 +210,7 @@ void SOCKS5_Proxy::read_ready()
         read(2);
         bIn >> b1 >> b2;
         if ((b1 != 0x05) || (b2 == (char)0xFF)) {
-            notify->error_state(ErrorProxyConnect);
+            if (notify) notify->error_state(ErrorProxyConnect);
             return;
         }
         if (b2 == 0x02) {
@@ -230,7 +229,7 @@ void SOCKS5_Proxy::read_ready()
         read(2);
         bIn >> b1 >> b2;
         if ((b1 != 0x01) || (b2 != 0x00)) {
-            notify->error_state(ErrorProxyAuth);
+            if (notify) notify->error_state(ErrorProxyAuth);
             return;
         }
         send_connect();
@@ -239,7 +238,7 @@ void SOCKS5_Proxy::read_ready()
         read(10);
         bIn >> b1 >> b2;
         if ((b1 != 0x05) || (b2 != 0x00)) {
-            notify->error_state(ErrorConnect);
+            if (notify) notify->error_state(ErrorConnect);
             return;
         }
         proxy_connect_ready();
@@ -281,7 +280,7 @@ void HTTP_Proxy::connect(const char *host, int port)
 {
     if (state != None){
         log(L_WARN, "Proxy::connect in bad state");
-        notify->error_state(ErrorProxyConnect);
+        if (notify) notify->error_state(ErrorProxyConnect);
         return;
     }
     m_connectHost = host;
@@ -341,7 +340,7 @@ void HTTP_Proxy::connect_ready()
 {
     if (state != Connect){
         log(L_WARN, "Proxy::connect_ready in bad state");
-        notify->error_state(ErrorProxyConnect);
+        if (notify) notify->error_state(ErrorProxyConnect);
         return;
     }
     char b[13];
@@ -377,22 +376,22 @@ void HTTP_Proxy::read_ready()
         string s;
         if (!readLine(s)) return;
         if (s.length() < strlen(HTTP)){
-            notify->error_state(ErrorProxyConnect);
+            if (notify) notify->error_state(ErrorProxyConnect);
             return;
         }
         const char *r = strchr(s.c_str(), ' ');
         if (r == NULL){
-            notify->error_state(ErrorProxyConnect);
+            if (notify) notify->error_state(ErrorProxyConnect);
             return;
         }
         r++;
         int code = atoi(r);
         if (code == 401){
-            notify->error_state(ErrorProxyAuth);
+            if (notify) notify->error_state(ErrorProxyAuth);
             return;
         }
         if (code != 200){
-            notify->error_state(ErrorProxyConnect);
+            if (notify) notify->error_state(ErrorProxyConnect);
             return;
         }
         state = WaitEmpty;
@@ -413,7 +412,7 @@ bool HTTP_Proxy::readLine(string &s)
         char c;
         int n = sock->read(&c, 1);
         if (n < 0){
-            notify->error_state(ErrorProxyConnect);
+            if (notify) notify->error_state(ErrorProxyConnect);
             return false;
         }
         if (n == 0) return false;
@@ -440,7 +439,7 @@ void HTTPS_Proxy::connect_ready()
         if (!ssl->initHTTPS()){
             delete ssl;
             ssl = NULL;
-            notify->error_state(ErrorProxyConnect);
+            if (notify) notify->error_state(ErrorProxyConnect);
             return;
         }
         setSocket(ssl);
@@ -454,8 +453,12 @@ void HTTPS_Proxy::connect_ready()
 
 void HTTPS_Proxy::proxy_connect_ready()
 {
-    SSLClient *ssl = static_cast<SSLClient*>(sock);
-    setSocket(ssl->socket());
-    delete ssl;
+    /*
+    	stay in ssl mode after connect ? (mod_ssl + mod_proxy - no)
+
+        SSLClient *ssl = static_cast<SSLClient*>(sock);
+        setSocket(ssl->socket());
+        delete ssl;
+    */
     HTTP_Proxy::proxy_connect_ready();
 }
