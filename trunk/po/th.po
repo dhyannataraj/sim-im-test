@@ -1,21 +1,19 @@
-# translation of th-latest2.po to Thai
-# translation of th.po to Thai
-# translation of newww.po to Thai
-# translation of sim.po to Thai
+# translation of sim.pot to Thai
 # Copyright (C) 2004 Free Software Foundation, Inc.
-# Narachai Sakorn <arm2001@hunsa.com>, 2004.
+# Tobias Franz <noragen@gmx.net>, 2004.
 # Narachai Sakorn <narachai@opentle.org>, 2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: th\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-06 21:37+0200\n"
-"PO-Revision-Date: 2004-07-07 22:34+0100\n"
-"Last-Translator: Tobias Franz <noragen@gmx.net>\n"
+"PO-Revision-Date: 2004-07-10 08:21+0700\n"
+"Last-Translator: Narachai Sakorn <narachai@opentle.org>\n"
 "Language-Team: Thai <th@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: plugins/__homedir/homedir.cpp:48
 msgid "Home directory"
@@ -67,7 +65,7 @@ msgstr "ข้อความตอบกลับอัตโนมัติ"
 msgid ""
 "_n: Close after %n second\n"
 "Close after %n seconds"
-msgstr ""
+msgstr "ปิดหลังจาก %n วินาที"
 
 #: plugins/_core/cfgdlg.cpp:274
 #: plugins/_core/usercfg.cpp:195
@@ -989,7 +987,7 @@ msgstr "แฟกซ์ที่ทำงาน"
 
 #: plugins/_core/maininfo.cpp:51
 msgid "Private Cellular"
-msgstr ""
+msgstr "โทรศัพท์เคลื่อนที่"
 
 #: plugins/_core/maininfo.cpp:52
 msgid "Wireless Pager"
@@ -1737,9 +1735,8 @@ msgid "Icons"
 msgstr "ไอคอน"
 
 #: plugins/icons/icon.cpp:31
-#, fuzzy
 msgid "Plugin provides JISP icons themes and emoticons"
-msgstr "ปลั๊กอินนี้จะรวบรวบไอคอนแสดงอารมณ์และรูปลักษณะของ Miranda"
+msgstr "ปลั๊กอินนี้จะรวบรวบไอคอนแสดงอารมณ์และรูปลักษณะของ JISP"
 
 #: plugins/icons/iconcfg.cpp:91
 msgid "*.jisp|Icon set"
@@ -1750,9 +1747,8 @@ msgid "Icon set(*.jisp)"
 msgstr ""
 
 #: plugins/icons/iconcfg.cpp:95
-#, fuzzy
 msgid "Select icon set"
-msgstr "เลือกไอคอน DLL"
+msgstr "เลือกชุดไอคอน"
 
 #: plugins/icq/aimconfig.cpp:43
 msgid "Register new ScreenName"
@@ -2124,7 +2120,6 @@ msgstr ""
 
 #: plugins/icq/icqicmb.cpp:1286
 #: plugins/icq/warndlg.cpp:66
-#, fuzzy
 msgid "Send failed"
 msgstr "การส่งล้มเหลว"
 
@@ -2240,7 +2235,7 @@ msgstr ""
 
 #: plugins/icq/icqlogin.cpp:230
 msgid "Too young!"
-msgstr ""
+msgstr "ยังเด็ก"
 
 #: plugins/icq/icqlogin.cpp:234
 msgid "UIN was suspended"
@@ -2432,7 +2427,7 @@ msgstr "การเปลี่ยนรหัสผ่านล้มเหล
 
 #: plugins/icq/icqvarious.cpp:1491
 msgid "The Cellular network is currently unable to send your message to the recipient. Please try again later."
-msgstr ""
+msgstr "ขณะนี้เครือข่ายโทรศัพท์ไม่สามารถใช้ส่งข้อความของคุณได้ กรุณาลองใหม่ภายหลัง"
 
 #: plugins/icq/icqvarious.cpp:1492
 msgid "INVALID NUMBER"
@@ -2712,7 +2707,7 @@ msgstr ""
 
 #: plugins/icq/moreinfo.cpp:90
 msgid "Burmese"
-msgstr ""
+msgstr "ชาวพม่า"
 
 #: plugins/icq/moreinfo.cpp:91
 msgid "Cantonese"
@@ -2720,7 +2715,7 @@ msgstr "ชาวจีนกวางตุ้ง"
 
 #: plugins/icq/moreinfo.cpp:94
 msgid "Croatian"
-msgstr ""
+msgstr "ชาวโครเอเชีย"
 
 #: plugins/icq/moreinfo.cpp:96
 msgid "Danish"
@@ -2729,7 +2724,7 @@ msgstr "ชาวเดนมาร์ก"
 #: plugins/icq/moreinfo.cpp:99
 #: sim/contacts.cpp:2010
 msgid "Esperanto"
-msgstr ""
+msgstr "ชาวเอสเปรันต์"
 
 #: plugins/icq/moreinfo.cpp:100
 msgid "Estonian"
@@ -2741,103 +2736,103 @@ msgstr ""
 
 #: plugins/icq/moreinfo.cpp:102
 msgid "Finnish"
-msgstr ""
+msgstr "ชาวฟินแลนด์"
 
 #: plugins/icq/moreinfo.cpp:104
 msgid "Gaelic"
-msgstr ""
+msgstr "ชาวเกล"
 
 #: plugins/icq/moreinfo.cpp:108
 msgid "Hindi"
-msgstr ""
+msgstr "ชาวฮินดี"
 
 #: plugins/icq/moreinfo.cpp:110
 msgid "Icelandic"
-msgstr ""
+msgstr "ชาวไอซ์แลนดิก"
 
 #: plugins/icq/moreinfo.cpp:111
 msgid "Indonesian"
-msgstr ""
+msgstr "ชาวอินโดนีเซีย"
 
 #: plugins/icq/moreinfo.cpp:113
 #: sim/contacts.cpp:2028
 #: sim/contacts.cpp:2029
 #: sim/contacts.cpp:2030
 msgid "Japanese"
-msgstr "ภาษาญี่ปุ่น"
+msgstr "ชาวญี่ปุ่น"
 
 #: plugins/icq/moreinfo.cpp:114
 msgid "Khmer"
-msgstr ""
+msgstr "ชาวขอม"
 
 #: plugins/icq/moreinfo.cpp:115
 #: sim/contacts.cpp:2032
 msgid "Korean"
-msgstr "ภาษาเกาหลี"
+msgstr "ชาวเกาหลี"
 
 #: plugins/icq/moreinfo.cpp:116
 msgid "Lao"
-msgstr ""
+msgstr "ชาวลาว"
 
 #: plugins/icq/moreinfo.cpp:117
 msgid "Latvian"
-msgstr ""
+msgstr "ชาวแลตเวีย"
 
 #: plugins/icq/moreinfo.cpp:118
 msgid "Lithuanian"
-msgstr ""
+msgstr "ชาวลิธัวเนีย"
 
 #: plugins/icq/moreinfo.cpp:119
 msgid "Malay"
-msgstr ""
+msgstr "ชาวมลายู"
 
 #: plugins/icq/moreinfo.cpp:120
 msgid "Norwegian"
-msgstr ""
+msgstr "ชาวนอร์เวย์"
 
 #: plugins/icq/moreinfo.cpp:123
 msgid "Romanian"
-msgstr ""
+msgstr "ชาวโรมาเนีย"
 
 #: plugins/icq/moreinfo.cpp:125
 msgid "Serbian"
-msgstr ""
+msgstr "ชาวเซิร์บ"
 
 #: plugins/icq/moreinfo.cpp:127
 msgid "Slovenian"
-msgstr ""
+msgstr "ชาวสโลเวเนีย"
 
 #: plugins/icq/moreinfo.cpp:128
 msgid "Somali"
-msgstr ""
+msgstr "ชาวโซมาลี"
 
 #: plugins/icq/moreinfo.cpp:130
 msgid "Swahili"
-msgstr ""
+msgstr "ชาวซวาฮีลี"
 
 #: plugins/icq/moreinfo.cpp:131
 msgid "Swedish"
-msgstr ""
+msgstr "ชาวสวีเดน"
 
 #: plugins/icq/moreinfo.cpp:132
 msgid "Tagalog"
-msgstr ""
+msgstr "ชาวตากาล็อก"
 
 #: plugins/icq/moreinfo.cpp:133
 msgid "Tatar"
-msgstr ""
+msgstr "ชาวทาร์ทาร์"
 
 #: plugins/icq/moreinfo.cpp:137
 msgid "Urdu"
-msgstr ""
+msgstr "ชาวอูรดู"
 
 #: plugins/icq/moreinfo.cpp:138
 msgid "Vietnamese"
-msgstr "ภาษาเวียดนาม"
+msgstr "ชาวเวียดนาม"
 
 #: plugins/icq/moreinfo.cpp:139
 msgid "Yiddish"
-msgstr ""
+msgstr "ชาวยิดดิช"
 
 #: plugins/icq/moreinfo.cpp:140
 msgid "Yoruba"
@@ -2845,23 +2840,23 @@ msgstr ""
 
 #: plugins/icq/moreinfo.cpp:141
 msgid "Taiwanese"
-msgstr ""
+msgstr "ชาวไต้หวัน"
 
 #: plugins/icq/moreinfo.cpp:142
 msgid "Afrikaans"
-msgstr ""
+msgstr "ชาวอาฟริกัน"
 
 #: plugins/icq/moreinfo.cpp:143
 msgid "Persian"
-msgstr ""
+msgstr "ชาวเปอร์เซีย"
 
 #: plugins/icq/moreinfo.cpp:144
 msgid "Albanian"
-msgstr ""
+msgstr "ชาวอัลบาเนีย"
 
 #: plugins/icq/moreinfo.cpp:145
 msgid "Armenian"
-msgstr ""
+msgstr "ชาวอาร์เมเนีย"
 
 #: plugins/icq/pastinfo.cpp:76
 msgid "Elementary School"
@@ -2890,7 +2885,7 @@ msgstr ""
 
 #: plugins/icq/pastinfo.cpp:82
 msgid "Past Organization"
-msgstr ""
+msgstr "องค์กรที่เคยทำงาน"
 
 #: plugins/icq/pastinfo.cpp:83
 #: plugins/icq/pastinfo.cpp:110
@@ -3059,7 +3054,7 @@ msgstr "วิจัยวิทยาศาสตร์"
 
 #: plugins/icq/workinfo.cpp:98
 msgid "Technical"
-msgstr ""
+msgstr "ทางเทคนิค"
 
 #: plugins/icq/workinfo.cpp:99
 msgid "University student"
@@ -3087,7 +3082,7 @@ msgstr "เ&วลา"
 
 #: plugins/jabber/discoinfo.cpp:168
 msgid "&Stat"
-msgstr ""
+msgstr "&สถิติ"
 
 #: plugins/jabber/discoinfo.cpp:251
 #, c-format
@@ -4099,7 +4094,7 @@ msgstr "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 msgid ""
 "_n: You have %n unread message\n"
 "You have %n unread messages"
-msgstr ""
+msgstr "คุณมี %n ข้อความที่ยังไม่ได้อ่าน"
 
 #: plugins/msn/msnpacket.cpp:488
 msgid "You have new mail"
@@ -4426,7 +4421,7 @@ msgstr ""
 msgid ""
 "_n: Phone call\n"
 "%n phone calls"
-msgstr ""
+msgstr "%n สายที่โทรเข้า"
 
 #: plugins/sms/sms.cpp:95
 msgid "Phone call"
@@ -4442,7 +4437,7 @@ msgstr ""
 
 #: plugins/sms/smssetup.cpp:58
 msgid "Battery:"
-msgstr ""
+msgstr "แบตเตอรี่:"
 
 #: plugins/sound/sound.cpp:43
 #: plugins/sound/sounduser.cpp:37
@@ -4598,39 +4593,34 @@ msgid ""
 msgstr ""
 
 #: plugins/weather/weather.cpp:376
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Fog"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:377
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Haze"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:378
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Storm"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:379
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Rain"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:380
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Snow"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:381
 msgid ""
@@ -4657,11 +4647,10 @@ msgid ""
 msgstr ""
 
 #: plugins/weather/weather.cpp:385
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Clear"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:386
 msgid ""
@@ -4676,18 +4665,16 @@ msgid ""
 msgstr ""
 
 #: plugins/weather/weather.cpp:388
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Sunny"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:389
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Fair"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:390
 msgid ""
@@ -4708,18 +4695,16 @@ msgid ""
 msgstr ""
 
 #: plugins/weather/weather.cpp:393
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Wind"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:394
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Windy"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:395
 msgid ""
@@ -4746,11 +4731,10 @@ msgid ""
 msgstr ""
 
 #: plugins/weather/weather.cpp:399
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Smoke"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:400
 msgid ""
@@ -4759,11 +4743,10 @@ msgid ""
 msgstr ""
 
 #: plugins/weather/weather.cpp:401
-#, fuzzy
 msgid ""
 "_: weather\n"
 "rising"
-msgstr "%1 กำลังพิมพ์"
+msgstr ""
 
 #: plugins/weather/weather.cpp:402
 msgid ""
@@ -4778,123 +4761,106 @@ msgid ""
 msgstr ""
 
 #: plugins/weather/weather.cpp:404
-#, fuzzy
 msgid ""
 "_: weather\n"
 "N"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:405
-#, fuzzy
 msgid ""
 "_: weather\n"
 "NNW"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:406
-#, fuzzy
 msgid ""
 "_: weather\n"
 "NW"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:407
-#, fuzzy
 msgid ""
 "_: weather\n"
 "WNW"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:408
-#, fuzzy
 msgid ""
 "_: weather\n"
 "W"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:409
-#, fuzzy
 msgid ""
 "_: weather\n"
 "WSW"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:410
-#, fuzzy
 msgid ""
 "_: weather\n"
 "SW"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:411
-#, fuzzy
 msgid ""
 "_: weather\n"
 "SSW"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:412
-#, fuzzy
 msgid ""
 "_: weather\n"
 "S"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:413
-#, fuzzy
 msgid ""
 "_: weather\n"
 "SSE"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:414
-#, fuzzy
 msgid ""
 "_: weather\n"
 "SE"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:415
-#, fuzzy
 msgid ""
 "_: weather\n"
 "ESE"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:416
-#, fuzzy
 msgid ""
 "_: weather\n"
 "E"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:417
-#, fuzzy
 msgid ""
 "_: weather\n"
 "ENE"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:418
-#, fuzzy
 msgid ""
 "_: weather\n"
 "NE"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:419
-#, fuzzy
 msgid ""
 "_: weather\n"
 "NNE"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:420
-#, fuzzy
 msgid ""
 "_: weather\n"
 "VAR"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:421
 msgid "km"
@@ -4909,23 +4875,21 @@ msgid "and"
 msgstr "และ"
 
 #: plugins/weather/weather.cpp:437
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Early"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:440
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Late"
-msgstr "สภาพภูมิอากาศ"
+msgstr ""
 
 #: plugins/weather/weather.cpp:479
 #: plugins/weather/weather.cpp:481
 msgid "m/s"
-msgstr ""
+msgstr "เมตร/วินาที"
 
 #: plugins/weather/weather.cpp:480
 #: plugins/weather/weather.cpp:481
@@ -4979,7 +4943,7 @@ msgstr "ความรู้สึก"
 
 #: plugins/weather/wifacecfg.cpp:31
 msgid "Humidity"
-msgstr ""
+msgstr "ความชื้น"
 
 #: plugins/weather/wifacecfg.cpp:33
 msgid "Wind direction"
@@ -5020,7 +4984,7 @@ msgstr ""
 #: plugins/weather/wifacecfg.cpp:51
 #: plugins/yahoo/yahoosearch.cpp:134
 msgid "Location"
-msgstr ""
+msgstr "สถานที่"
 
 #: plugins/weather/wifacecfg.cpp:53
 msgid "Updated"
@@ -5127,7 +5091,7 @@ msgid "Zodiak"
 msgstr ""
 
 #: plugins/zodiak/zodiak.cpp:51
-msgid "Plugin provides show zodiak pictures for date edit"
+msgid "Plugin provides show zodiak puctures for date edit"
 msgstr ""
 
 #: plugins/zodiak/zodiak.cpp:158
@@ -6536,9 +6500,8 @@ msgid "Hu&e:"
 msgstr ""
 
 #: sim/qt3/i18n.cpp:3
-#, fuzzy
 msgid "&Sat:"
-msgstr "เสาร์"
+msgstr ""
 
 #: sim/qt3/i18n.cpp:5
 msgid "&Val:"
@@ -7025,9 +6988,8 @@ msgid "Minimize"
 msgstr "ย่อหน้าต่าง"
 
 #: sim/qt3/i18n.cpp:293
-#, fuzzy
 msgid "Restore Down"
-msgstr "เรีย&กคืน"
+msgstr ""
 
 #: sim/qt3/i18n.cpp:295
 msgid "Maximize"
@@ -7038,9 +7000,8 @@ msgid "Roll up"
 msgstr "ม้วนขึ้น"
 
 #: sim/qt3/i18n.cpp:299
-#, fuzzy
 msgid "Restore Up"
-msgstr "เรีย&กคืน"
+msgstr ""
 
 #: sim/qt3/i18n.cpp:301
 msgid "Roll down"
