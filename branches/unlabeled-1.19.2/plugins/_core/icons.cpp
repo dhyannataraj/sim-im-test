@@ -139,25 +139,14 @@ public:
     MyMimeSourceFactory();
     ~MyMimeSourceFactory();
     virtual const QMimeSource* data(const QString &abs_name) const;
-protected:
-    void setDrag(QImageDrag*);
-    QImageDrag	*drag;
 };
 
 MyMimeSourceFactory::MyMimeSourceFactory()
 {
-    drag = NULL;
 }
 
 MyMimeSourceFactory::~MyMimeSourceFactory()
 {
-}
-
-void MyMimeSourceFactory::setDrag(QImageDrag *_drag)
-{
-    if (drag)
-        delete drag;
-    drag = _drag;
 }
 
 const QMimeSource *MyMimeSourceFactory::data(const QString &abs_name) const
@@ -168,8 +157,7 @@ const QMimeSource *MyMimeSourceFactory::data(const QString &abs_name) const
         const QIconSet *icons = Icon(name.latin1());
         if (icons){
             QImage img = icons->pixmap(QIconSet::Small, QIconSet::Normal).convertToImage();
-            ((MyMimeSourceFactory*)this)->setDrag(new QImageDrag(img));
-            return drag;
+            ((QMimeSourceFactory*)this)->setImage(abs_name, img);
         }
     }
     return QMimeSourceFactory::data(abs_name);

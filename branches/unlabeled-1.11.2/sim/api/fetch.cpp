@@ -426,8 +426,10 @@ FetchClient::~FetchClient()
 #ifdef WIN32
 	if (!m_err.empty())
 		log(L_DEBUG, "Fetch error %s: %u", m_err.c_str(), m_errCode);
-	if (m_thread)
+	if (m_thread){
+		m_thread->wait();
 		delete m_thread;
+	}
 #endif
     if (m_socket)
         delete m_socket;
