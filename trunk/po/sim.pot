@@ -14,6 +14,14 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: ENCODING\n"
 
+#: plugins/__homedir/homedirconfigbase.cpp:37
+msgid "Use &default path"
+msgstr ""
+
+#: plugins/__homedir/homedirconfigbase.cpp:41
+msgid "Path for config files:"
+msgstr ""
+
 #: plugins/__homedir/homedir.cpp:47
 msgid "Home directory"
 msgstr ""
