@@ -2,7 +2,7 @@ Version 0.9.2
 Add styles plugin
 Add customizable history styles
 ICQ: Fix receive messages from icq2003b
-Jabber: Add disco request fro search agents
+Jabber: Add disco request for search agents
 Add history size config
 Add remote control plugin
 Add spell checking
@@ -11,6 +11,7 @@ Fix bind socket for direct connection
 Fix save history on win32
 Add option "Ignore this phrase" in context menu
 Jabber: Fix send multiline message
+Jabber: Add configure to jabber browser
 
 Version 0.9.1
 ICQ: Fix login

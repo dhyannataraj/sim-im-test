@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
-"POT-Creation-Date: 2003-12-05 12:21+0300\n"
+"POT-Creation-Date: 2003-12-06 13:47+0300\n"
 "PO-Revision-Date: 2003-11-25 10:55+0100\n"
 "Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
@@ -1308,7 +1308,7 @@ msgid "&Apply"
 msgstr "&Použiť"
 
 # ui/enable.cpp:134
-#: plugins/jabber/jabber.cpp:463 plugins/jabber/servicesbase.cpp:174
+#: plugins/jabber/jabber.cpp:470 plugins/jabber/servicesbase.cpp:174
 #: sim/api/simapi.cpp:425
 msgid "&Register"
 msgstr "&Registrácia"
@@ -1609,7 +1609,7 @@ msgstr "Všetky súbory (*)"
 # usertbl.cpp:115
 #: plugins/filter/ignorelist.cpp:27 plugins/icq/icqsecure.cpp:126
 #: plugins/icq/searchresult.cpp:128 plugins/jabber/discoinfo.cpp:49
-#: plugins/jabber/jabberbrowser.cpp:114 sim/ui/qt3/i18n.cpp:39
+#: plugins/jabber/jabberbrowser.cpp:123 sim/ui/qt3/i18n.cpp:39
 msgid "Name"
 msgstr "Meno"
 
@@ -2427,7 +2427,7 @@ msgstr "ICQ"
 #: plugins/_core/userlist.cpp:572 plugins/icq/icq.cpp:110
 #: plugins/icq/icq.cpp:280 plugins/icq/icqclient.cpp:1481
 #: plugins/icq/icqclient.cpp:1515 plugins/jabber/jabber.cpp:115
-#: plugins/jabber/jabberclient.cpp:1319 plugins/jabber/services.cpp:234
+#: plugins/jabber/jabberclient.cpp:1319 plugins/jabber/services.cpp:233
 #: plugins/msn/msn.cpp:89 plugins/msn/msnclient.cpp:1516
 msgid "Online"
 msgstr "Pripojený"
@@ -2465,7 +2465,7 @@ msgstr "Chcem chatovať (FFC)"
 #: plugins/_core/userlist.cpp:575 plugins/_core/userviewcfgbase.cpp:287
 #: plugins/icq/icq.cpp:200 plugins/icq/icq.cpp:310
 #: plugins/icq/icqclient.cpp:1478 plugins/jabber/jabber.cpp:190
-#: plugins/jabber/services.cpp:231 plugins/msn/msn.cpp:194
+#: plugins/jabber/services.cpp:230 plugins/msn/msn.cpp:194
 msgid "Offline"
 msgstr "Nepripojený"
 
@@ -2498,18 +2498,18 @@ msgstr "Zm&eniť kódovanie"
 
 # ui/acceptbase.cpp:176
 #: plugins/_core/msgedit.cpp:1535 plugins/icq/icq.cpp:552
-#: plugins/jabber/jabber.cpp:388
+#: plugins/jabber/jabber.cpp:389
 msgid "&Message"
 msgstr "&Správa"
 
 # userbox.cpp:112
 #: plugins/_core/core.cpp:552 plugins/_core/core.cpp:1099
-#: plugins/icq/icq.cpp:562 plugins/jabber/jabber.cpp:397
+#: plugins/icq/icq.cpp:562 plugins/jabber/jabber.cpp:398
 msgid "User &info"
 msgstr "&Informácie o užívateľovi"
 
 # usertbl.cpp:411
-#: plugins/icq/icq.cpp:568 plugins/jabber/jabber.cpp:403
+#: plugins/icq/icq.cpp:568 plugins/jabber/jabber.cpp:404
 msgid "&Add to group"
 msgstr "Prid&ať do skupiny"
 
@@ -2931,7 +2931,7 @@ msgid "We are to evil :("
 msgstr "My sme zlí :("
 
 # ui/soundsetupbase.cpp:236
-#: plugins/icq/icqicmb.cpp:650 plugins/jabber/jabber_rosters.cpp:1853
+#: plugins/icq/icqicmb.cpp:650 plugins/jabber/jabber_rosters.cpp:1878
 msgid "File transfer declined"
 msgstr "Prenos súboru upadol"
 
@@ -3305,13 +3305,13 @@ msgstr "UIN"
 
 # ui/maininfobase.cpp:317
 #: plugins/icq/icqsecure.cpp:125 plugins/jabber/addresult.cpp:30
-#: plugins/jabber/jabbersearch.cpp:93
+#: plugins/jabber/jabbersearch.cpp:100
 msgid "Nick"
 msgstr "Prezývka (Nick)"
 
 # ui/maininfobase.cpp:327
 #: plugins/_core/maininfo.cpp:69 plugins/filter/ignorelist.cpp:28
-#: plugins/icq/icqsecure.cpp:127 plugins/jabber/jabbersearch.cpp:94
+#: plugins/icq/icqsecure.cpp:127 plugins/jabber/jabbersearch.cpp:101
 #: plugins/msn/msninfobase.cpp:161
 msgid "EMail"
 msgstr "Email"
@@ -3601,12 +3601,12 @@ msgid "Home automation"
 msgstr "Automatizácia v domácnosti"
 
 # libicq/country.cpp:458
-#: plugins/icq/moreinfo.cpp:85 plugins/jabber/jabbersearch.cpp:149
+#: plugins/icq/moreinfo.cpp:85 plugins/jabber/jabbersearch.cpp:188
 msgid "Female"
 msgstr "Žena"
 
 # libicq/country.cpp:206
-#: plugins/icq/moreinfo.cpp:86 plugins/jabber/jabbersearch.cpp:148
+#: plugins/icq/moreinfo.cpp:86 plugins/jabber/jabbersearch.cpp:187
 msgid "Male"
 msgstr "Muž"
 
@@ -4830,7 +4830,7 @@ msgid "AIM user"
 msgstr "AIM užívateľ"
 
 # ui/searchbase.cpp:278
-#: plugins/icq/icqsearchbase.cc:348 plugins/jabber/jabbersearch.cpp:143
+#: plugins/icq/icqsearchbase.cc:348 plugins/jabber/jabbersearch.cpp:182
 msgid "Online only"
 msgstr "Len pripojení"
 
@@ -5122,7 +5122,7 @@ msgid "Setup"
 msgstr "Nastavenie"
 
 # sim.cpp:527
-#: plugins/_core/cfgdlg.cpp:534
+#: plugins/_core/cfgdlg.cpp:534 plugins/jabber/jabber.cpp:484
 msgid "Configure"
 msgstr "Konfigurácia"
 
@@ -5310,7 +5310,7 @@ msgstr " &Telefónne číslo"
 
 # msgedit.cpp:133
 #: plugins/_core/core.cpp:699 plugins/_core/msgedit.cpp:1412
-#: plugins/jabber/jabber.cpp:443
+#: plugins/jabber/jabber.cpp:444
 msgid "&Next"
 msgstr "&Ďalší"
 
@@ -7895,20 +7895,20 @@ msgstr "Bola vydaná nová verzia programu SIM"
 
 # ui/maininfobase.cpp:319
 # ui/searchbase.cpp:294
-#: plugins/jabber/addresult.cpp:31 plugins/jabber/jabbersearch.cpp:95
-#: plugins/jabber/jabbersearch.cpp:225
+#: plugins/jabber/addresult.cpp:31 plugins/jabber/jabbersearch.cpp:102
+#: plugins/jabber/jabbersearch.cpp:272
 msgid "First name"
 msgstr "Meno"
 
 # ui/maininfobase.cpp:315
 # ui/searchbase.cpp:293
-#: plugins/jabber/addresult.cpp:32 plugins/jabber/jabbersearch.cpp:96
-#: plugins/jabber/jabbersearch.cpp:226
+#: plugins/jabber/addresult.cpp:32 plugins/jabber/jabbersearch.cpp:103
+#: plugins/jabber/jabbersearch.cpp:273
 msgid "Last name"
 msgstr "Priezvisko"
 
 # usertbl.cpp:116
-#: plugins/jabber/addresult.cpp:33 plugins/jabber/jabbersearch.cpp:219
+#: plugins/jabber/addresult.cpp:33 plugins/jabber/jabbersearch.cpp:266
 msgid "Email"
 msgstr "Email"
 
@@ -7920,46 +7920,56 @@ msgstr "ID"
 msgid "Jabber"
 msgstr "Jabber"
 
-#: plugins/jabber/jabber.cpp:416 plugins/jabber/jabber.cpp:425
+#: plugins/jabber/jabber.cpp:417 plugins/jabber/jabber.cpp:426
 #, fuzzy
 msgid "Jabber browser"
 msgstr "Jabber ID"
 
 # qt3/i18n.cpp:55
-#: plugins/jabber/jabber.cpp:434
+#: plugins/jabber/jabber.cpp:435
 #, fuzzy
 msgid "&Back"
 msgstr "Späť"
 
-#: plugins/jabber/jabber.cpp:449 plugins/jabber/jabberbrowser.cpp:113
-#: plugins/jabber/jabberbrowser.cpp:393 plugins/jabber/services.cpp:45
+#: plugins/jabber/jabber.cpp:450 plugins/jabber/jabberbrowser.cpp:122
+#: plugins/jabber/jabberbrowser.cpp:504 plugins/jabber/services.cpp:45
 msgid "JID"
 msgstr "Jabber ID"
+
+# msgedit.cpp:184
+#: plugins/jabber/jabber.cpp:457 plugins/jabber/jabberbrowser.cpp:124
+#, fuzzy
+msgid "Node"
+msgstr "nič"
 
 # msgview.cpp:853
 # ui/searchbase.cpp:277
 # ui/searchbase.cpp:279
-#: plugins/jabber/jabber.cpp:456
+#: plugins/jabber/jabber.cpp:463
 #, fuzzy
 msgid "&Search"
 msgstr "Vyhľadávanie"
 
-#: plugins/jabber/jabber.cpp:470
+#: plugins/jabber/jabber.cpp:477
 #, fuzzy
 msgid "Info"
 msgstr "&Info"
 
 # ui/generalsec.cpp:83
-#: plugins/jabber/jabber_rosters.cpp:1732
+#: plugins/jabber/jabber_rosters.cpp:1747
 msgid "Password does not match"
 msgstr "Heslo nezodpovedá"
 
 # mainwin.cpp:632
 # mainwin.cpp:2744
 # monitor.cpp:59
-#: plugins/jabber/jabber_rosters.cpp:1733
+#: plugins/jabber/jabber_rosters.cpp:1748
 msgid "Low level network error"
 msgstr "Nízkoúrovňová sieťová chyba"
+
+#: plugins/jabber/jabber_rosters.cpp:2370
+msgid "Please translate this to short language name (ru, de)"
+msgstr ""
 
 # mainwin.cpp:628
 # mainwin.cpp:2727
@@ -8033,24 +8043,24 @@ msgid "&Logo"
 msgstr "&Logo"
 
 # userview.cpp:1827
-#: plugins/jabber/jabbersearch.cpp:92 plugins/jabber/jabbersearch.cpp:229
+#: plugins/jabber/jabbersearch.cpp:99 plugins/jabber/jabbersearch.cpp:276
 msgid "Username"
 msgstr "Užívateľské meno"
 
 # libicq/country.cpp:79
-#: plugins/jabber/jabbersearch.cpp:97
+#: plugins/jabber/jabbersearch.cpp:104
 #, fuzzy
 msgid "Age min"
 msgstr "Argentína"
 
-#: plugins/jabber/jabbersearch.cpp:98
+#: plugins/jabber/jabbersearch.cpp:105
 msgid "Age max"
 msgstr ""
 
 # ui/homeinfobase.cpp:167
 # ui/searchbase.cpp:287
 # ui/workinfobase.cpp:209
-#: plugins/jabber/jabbersearch.cpp:99
+#: plugins/jabber/jabbersearch.cpp:106
 #, fuzzy
 msgid "City"
 msgstr "Mesto:"
@@ -8059,26 +8069,26 @@ msgstr "Mesto:"
 # ui/randomchatbase.cpp:280
 # ui/randomchatbase.cpp:299
 # ui/searchbase.cpp:285
-#: plugins/jabber/jabbersearch.cpp:150
+#: plugins/jabber/jabbersearch.cpp:189
 #, fuzzy
 msgid "Gender"
 msgstr "Pohlavie:"
 
-#: plugins/jabber/jabbersearch.cpp:216
+#: plugins/jabber/jabbersearch.cpp:263
 msgid "First (Given)"
 msgstr "Meno"
 
 # ui/maininfobase.cpp:315
 # ui/searchbase.cpp:293
-#: plugins/jabber/jabbersearch.cpp:217
+#: plugins/jabber/jabbersearch.cpp:264
 msgid "Last (Family)"
 msgstr "Priezvisko"
 
-#: plugins/jabber/jabbersearch.cpp:218
+#: plugins/jabber/jabbersearch.cpp:265
 msgid "Nick (Alias)"
 msgstr "Prezývka (Alias)"
 
-#: plugins/jabber/jabbersearch.cpp:220
+#: plugins/jabber/jabbersearch.cpp:267
 msgid ""
 "Select the speed of the search.  \"Fast\" matches your string to the "
 "beginning of the field only (ie. \"b\" would yield Bob,Bill,etc...)  "
@@ -8091,39 +8101,39 @@ msgstr ""
 "reťazec \"b\" sa zhoduje s Bill,Bob,Robo,Rebarbora).)"
 
 # mainwin.cpp:2737
-#: plugins/jabber/jabbersearch.cpp:221
+#: plugins/jabber/jabbersearch.cpp:268
 msgid "Search Speed"
 msgstr "Rýchlosť hľadania"
 
-#: plugins/jabber/jabbersearch.cpp:222
+#: plugins/jabber/jabbersearch.cpp:269
 msgid "Fast / Less accurate"
 msgstr "Rýchle/Menej presné"
 
-#: plugins/jabber/jabbersearch.cpp:223
+#: plugins/jabber/jabbersearch.cpp:270
 msgid "Slower / More extensive"
 msgstr "Pomalšie/Viac presné"
 
 # qt3/i18n.cpp:51
-#: plugins/jabber/jabbersearch.cpp:224
+#: plugins/jabber/jabbersearch.cpp:271
 msgid "Full name"
 msgstr "Celé meno"
 
 # ui/searchbase.cpp:295
-#: plugins/jabber/jabbersearch.cpp:227
+#: plugins/jabber/jabbersearch.cpp:274
 msgid "Nickname"
 msgstr "Prezývka"
 
 # usertbl.cpp:116
-#: plugins/jabber/jabbersearch.cpp:228
+#: plugins/jabber/jabbersearch.cpp:275
 msgid "E-mail"
 msgstr "Email"
 
 # ui/logindlgbase.cpp:129
-#: plugins/jabber/jabbersearch.cpp:230
+#: plugins/jabber/jabbersearch.cpp:277
 msgid "Password"
 msgstr "Heslo"
 
-#: plugins/jabber/jabbersearch.cpp:231
+#: plugins/jabber/jabbersearch.cpp:278
 msgid ""
 "Enter your MSN Messenger account and password. Example: user@hotmail.com.  "
 "Nickname is optional."
@@ -8131,27 +8141,27 @@ msgstr ""
 "Vložte váš účet pre MSN Messenger a heslo. Napríklad: "
 "janko@hotmail.com. Prezývka je nepovinná."
 
-#: plugins/jabber/jabbersearch.cpp:232
+#: plugins/jabber/jabbersearch.cpp:279
 msgid "Enter your AIM screenname or ICQ UIN and the password for that account"
 msgstr "Vložte váš účet pre AIM alebo ICQ UIN a heslo."
 
-#: plugins/jabber/jabbersearch.cpp:233
+#: plugins/jabber/jabbersearch.cpp:280
 msgid "Enter your YAHOO! Messenger Username and Password."
 msgstr "Vložte váš účet pre YAHOO! a heslo."
 
-#: plugins/jabber/jabbersearch.cpp:234
+#: plugins/jabber/jabbersearch.cpp:281
 msgid "Please enter your UIN and password"
 msgstr "Prosím vložte Vaše UIN a heslo"
 
-#: plugins/jabber/jabbersearch.cpp:235
+#: plugins/jabber/jabbersearch.cpp:282
 msgid "You need a x:data capable client to register."
 msgstr "Musíte registrovať x:data kompatibilného klienta."
 
-#: plugins/jabber/jabbersearch.cpp:236
+#: plugins/jabber/jabbersearch.cpp:283
 msgid "Enter nick you want to register."
 msgstr "Vložte vašu prezývku, ktorú chcete registrovať."
 
-#: plugins/jabber/jabbersearch.cpp:237
+#: plugins/jabber/jabbersearch.cpp:284
 msgid ""
 "Complete the form to submit your searchable attributes in the Jabber User "
 "Directory"
@@ -8159,12 +8169,12 @@ msgstr ""
 "Vyplniť formulár s atribútmi pre vyhľadávanie v užívateľskom "
 "adresáry Jabber."
 
-#: plugins/jabber/jabbersearch.cpp:238
+#: plugins/jabber/jabbersearch.cpp:285
 msgid "Fill in all of the fields to add yourself to the JUD."
 msgstr ""
 "Vyplňte všetky polia pre pridanie do uživateľského adresára Jabber."
 
-#: plugins/jabber/jabbersearch.cpp:239
+#: plugins/jabber/jabbersearch.cpp:286
 msgid ""
 "Fill in a field to search for any matching Jabber User (POSIX regular "
 "expressions allowed)"
@@ -8172,11 +8182,11 @@ msgstr ""
 "Vyplniť v poli pre hľadanie vyhovujúceho Jabber užívateľa (POSIX "
 "regulárne expresie sú povolené)"
 
-#: plugins/jabber/jabbersearch.cpp:240
+#: plugins/jabber/jabbersearch.cpp:287
 msgid "Fill in a field to search for any matching Jabber users."
 msgstr "Vyplniť v poli pre vyhľadanie vyhovujúcich Jabber užívateľov."
 
-#: plugins/jabber/jabbersearch.cpp:241
+#: plugins/jabber/jabbersearch.cpp:288
 msgid ""
 "To register, please fill out the following form.  Be as accurate as possible "
 "to make it easier for people to search for you."
@@ -8184,10 +8194,16 @@ msgstr ""
 "Pre registráciu vyplňte nasledujúci formulár. Buďte tak presný ako je "
 "len možné, ušetríte tým prácu ľuďom, ktorý Vás hľadajú."
 
-# ui/soundsetupbase.cpp:235
+# mainwin.cpp:446
+# monitor.cpp:133
+# qt3/i18n.cpp:141
+#: plugins/jabber/jabberbrowser.cpp:86 plugins/jabber/jabberbrowser.cpp:259
+#: plugins/jabber/jabberbrowser.cpp:287 plugins/jabber/jabberbrowser.cpp:315
+#: plugins/jabber/jabberbrowser.cpp:426 plugins/jabber/jabberbrowser.cpp:446
 #: plugins/jabber/services.cpp:104
-msgid "Registration failed"
-msgstr "Registrácia zlyhala"
+#, fuzzy, c-format
+msgid "Error %1"
+msgstr "Chyba"
 
 #: plugins/jabber/jabberinfobase.cpp:208
 msgid "ID:"
@@ -8296,32 +8312,20 @@ msgid "&Agents"
 msgstr "&Agenti"
 
 # libicq/country.cpp:432
-#: plugins/jabber/jabberbrowser.cpp:44 plugins/jabber/jabberbrowser.cpp:212
+#: plugins/jabber/jabberbrowser.cpp:44 plugins/jabber/jabberbrowser.cpp:237
 #, fuzzy
 msgid "Process"
 msgstr "Profesionál"
 
-# ui/enable.cpp:134
-#: plugins/jabber/jabberbrowser.cpp:82
+# userview.cpp:1837
+#: plugins/jabber/jabberbrowser.cpp:89
 #, fuzzy
-msgid "Register success"
-msgstr "Registrovaný agenti:"
-
-# ui/soundsetupbase.cpp:235
-#: plugins/jabber/jabberbrowser.cpp:88
-#, fuzzy
-msgid "Register failed"
-msgstr "Registrácia zlyhala"
-
-# msgedit.cpp:184
-#: plugins/jabber/jabberbrowser.cpp:115
-#, fuzzy
-msgid "Node"
-msgstr "nič"
+msgid "Done"
+msgstr "Dole"
 
 # ui/networkbase.cpp:234
 # ui/proxydlgbase.cpp:178
-#: plugins/jabber/jabberbrowser.cpp:156
+#: plugins/jabber/jabberbrowser.cpp:166
 #, fuzzy, c-format
 msgid "Browser: %1"
 msgstr "Prehliadač:"
@@ -8329,12 +8333,12 @@ msgstr "Prehliadač:"
 # mainwin.cpp:630
 # mainwin.cpp:2733
 # ui/setupdlg.cpp:100
-#: plugins/jabber/jabberbrowser.cpp:205
+#: plugins/jabber/jabberbrowser.cpp:220
 #, fuzzy
 msgid "Stop"
 msgstr "Nastavenie"
 
-#: plugins/jabber/jabberbrowser.cpp:214
+#: plugins/jabber/jabberbrowser.cpp:239
 #, fuzzy
 msgid "Client offline"
 msgstr "Klient sa odpojil"
@@ -8342,26 +8346,24 @@ msgstr "Klient sa odpojil"
 # msgview.cpp:853
 # ui/searchbase.cpp:277
 # ui/searchbase.cpp:279
-#: plugins/jabber/jabberbrowser.cpp:253
+#: plugins/jabber/jabberbrowser.cpp:344
 #, fuzzy
 msgid "%1 Search"
 msgstr "Vyhľadávanie"
 
 # ui/enable.cpp:134
-#: plugins/jabber/jabberbrowser.cpp:260
+#: plugins/jabber/jabberbrowser.cpp:351
 #, fuzzy
 msgid "%1 Register"
 msgstr "&Registrácia"
 
-# mainwin.cpp:446
-# monitor.cpp:133
-# qt3/i18n.cpp:141
-#: plugins/jabber/jabberbrowser.cpp:315 plugins/jabber/jabberbrowser.cpp:335
-#, fuzzy, c-format
-msgid "Error %1"
-msgstr "Chyba"
+# sim.cpp:527
+#: plugins/jabber/jabberbrowser.cpp:358
+#, fuzzy
+msgid "%1 Configure"
+msgstr "Konfigurácia"
 
-#: plugins/jabber/jabberbrowser.cpp:486
+#: plugins/jabber/jabberbrowser.cpp:613
 msgid "Choose a user and password to register with the server"
 msgstr ""
 
@@ -8376,20 +8378,20 @@ msgid "Value"
 msgstr "Muž"
 
 # libicq/country.cpp:63
-#: plugins/jabber/discoinfo.cpp:93 plugins/jabber/discoinfobase.cpp:229
+#: plugins/jabber/discoinfo.cpp:96 plugins/jabber/discoinfobase.cpp:229
 #, fuzzy
 msgid "&Version"
 msgstr "Perština"
 
 # ui/homeinfobase.cpp:169
-#: plugins/jabber/discoinfo.cpp:106 plugins/jabber/discoinfobase.cpp:232
+#: plugins/jabber/discoinfo.cpp:109 plugins/jabber/discoinfobase.cpp:232
 #, fuzzy
 msgid "&Time"
 msgstr "Čas:"
 
 # ui/maininfobase.cpp:334
 # ui/statussetupbase.cpp:148
-#: plugins/jabber/discoinfo.cpp:131
+#: plugins/jabber/discoinfo.cpp:134
 #, fuzzy
 msgid "&Stat"
 msgstr "&Stav"
@@ -8397,7 +8399,7 @@ msgstr "&Stav"
 # client.cpp:1138
 # msgview.cpp:205
 # msgview.cpp:1245
-#: plugins/jabber/discoinfo.cpp:177
+#: plugins/jabber/discoinfo.cpp:180
 #, fuzzy, c-format
 msgid ""
 "_n: %n day\n"
@@ -8483,6 +8485,20 @@ msgstr "Zoznam ignorovaných"
 #: plugins/spell/spellcfgbase.cpp:143
 msgid "Path:"
 msgstr ""
+
+# ui/soundsetupbase.cpp:235
+#~ msgid "Registration failed"
+#~ msgstr "Registrácia zlyhala"
+
+# ui/enable.cpp:134
+#, fuzzy
+#~ msgid "Register success"
+#~ msgstr "Registrovaný agenti:"
+
+# ui/soundsetupbase.cpp:235
+#, fuzzy
+#~ msgid "Register failed"
+#~ msgstr "Registrácia zlyhala"
 
 # ui/fontsetupbase.cpp:238
 #~ msgid "Sending messages color"

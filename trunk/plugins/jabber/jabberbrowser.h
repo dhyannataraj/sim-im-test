@@ -37,9 +37,10 @@ class JabberWizard : public QWizard, public EventReceiver
 {
     Q_OBJECT
 public:
-    JabberWizard(QWidget *parent, const char *title, const char *icon, JabberClient *client, const char *jid, const char *type);
+    JabberWizard(QWidget *parent, const char *title, const char *icon, JabberClient *client, const char *jid, const char *node, const char *type);
     JabberSearch *m_search;
     AddResult	 *m_result;
+    void initTitle();
 protected slots:
     void setNext();
     void search();
@@ -57,7 +58,7 @@ class JabberBrowser : public QMainWindow, public EventReceiver
 public:
     JabberBrowser(JabberClient *client);
     ~JabberBrowser();
-    void goUrl(const QString &url);
+    void goUrl(const QString &url, const QString &node);
     void save();
     DiscoInfo *m_info;
 protected slots:
@@ -65,12 +66,13 @@ protected slots:
     void dragStart();
     void showSearch();
     void showReg();
+    void showConfig();
 protected:
     void *processEvent(Event*);
     void setTitle();
     void setNavigation();
     void stop(const QString &err);
-    void go(const QString &url);
+    void go(const QString &url, const QString &node);
     void addHistory(const QString &str);
     bool haveFeature(const char*);
     string		  m_id1;
@@ -80,6 +82,7 @@ protected:
     QStatusBar	 *m_status;
     CToolBar	 *m_bar;
     vector<string>	m_history;
+    vector<string>	m_nodes;
     QString		 m_historyStr;
     int			 m_historyPos;
     QString		 m_category;
@@ -88,8 +91,10 @@ protected:
     QString		 m_features;
     JabberWizard	*m_search;
     JabberWizard	*m_reg;
+    JabberWizard	*m_config;
     string		 m_search_id;
     string		 m_reg_id;
+    string		 m_config_id;
     friend class DiscoInfo;
 };
 

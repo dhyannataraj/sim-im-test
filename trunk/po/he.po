@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
-"POT-Creation-Date: 2003-12-05 12:21+0300\n"
+"POT-Creation-Date: 2003-12-06 13:47+0300\n"
 "PO-Revision-Date: 2003-02-04 03:03+0200\n"
 "Last-Translator: Amir Tal <tal@whatsup.org.il>\n"
 "Language-Team: Hebrew <kde-il@yahoogroups.com>\n"
@@ -1053,7 +1053,7 @@ msgstr "&כן"
 msgid "&Apply"
 msgstr "&החל"
 
-#: plugins/jabber/jabber.cpp:463 plugins/jabber/servicesbase.cpp:174
+#: plugins/jabber/jabber.cpp:470 plugins/jabber/servicesbase.cpp:174
 #: sim/api/simapi.cpp:425
 msgid "&Register"
 msgstr "&הירשם"
@@ -1300,7 +1300,7 @@ msgstr "כל הקבצים (*)"
 
 #: plugins/filter/ignorelist.cpp:27 plugins/icq/icqsecure.cpp:126
 #: plugins/icq/searchresult.cpp:128 plugins/jabber/discoinfo.cpp:49
-#: plugins/jabber/jabberbrowser.cpp:114 sim/ui/qt3/i18n.cpp:39
+#: plugins/jabber/jabberbrowser.cpp:123 sim/ui/qt3/i18n.cpp:39
 msgid "Name"
 msgstr "שם"
 
@@ -1952,7 +1952,7 @@ msgstr "ICQ"
 #: plugins/_core/userlist.cpp:572 plugins/icq/icq.cpp:110
 #: plugins/icq/icq.cpp:280 plugins/icq/icqclient.cpp:1481
 #: plugins/icq/icqclient.cpp:1515 plugins/jabber/jabber.cpp:115
-#: plugins/jabber/jabberclient.cpp:1319 plugins/jabber/services.cpp:234
+#: plugins/jabber/jabberclient.cpp:1319 plugins/jabber/services.cpp:233
 #: plugins/msn/msn.cpp:89 plugins/msn/msnclient.cpp:1516
 msgid "Online"
 msgstr "מקוון"
@@ -1984,7 +1984,7 @@ msgstr "פנוי לצ'אט"
 #: plugins/_core/userlist.cpp:575 plugins/_core/userviewcfgbase.cpp:287
 #: plugins/icq/icq.cpp:200 plugins/icq/icq.cpp:310
 #: plugins/icq/icqclient.cpp:1478 plugins/jabber/jabber.cpp:190
-#: plugins/jabber/services.cpp:231 plugins/msn/msn.cpp:194
+#: plugins/jabber/services.cpp:230 plugins/msn/msn.cpp:194
 msgid "Offline"
 msgstr "לא מקוון"
 
@@ -2012,16 +2012,16 @@ msgid "Change &encoding"
 msgstr "&קידוד"
 
 #: plugins/_core/msgedit.cpp:1535 plugins/icq/icq.cpp:552
-#: plugins/jabber/jabber.cpp:388
+#: plugins/jabber/jabber.cpp:389
 msgid "&Message"
 msgstr "&הודעה"
 
 #: plugins/_core/core.cpp:552 plugins/_core/core.cpp:1099
-#: plugins/icq/icq.cpp:562 plugins/jabber/jabber.cpp:397
+#: plugins/icq/icq.cpp:562 plugins/jabber/jabber.cpp:398
 msgid "User &info"
 msgstr "מידע &משתמש"
 
-#: plugins/icq/icq.cpp:568 plugins/jabber/jabber.cpp:403
+#: plugins/icq/icq.cpp:568 plugins/jabber/jabber.cpp:404
 #, fuzzy
 msgid "&Add to group"
 msgstr "הוסף לקבוצה "
@@ -2378,7 +2378,7 @@ msgstr ""
 msgid "We are to evil :("
 msgstr ""
 
-#: plugins/icq/icqicmb.cpp:650 plugins/jabber/jabber_rosters.cpp:1853
+#: plugins/icq/icqicmb.cpp:650 plugins/jabber/jabber_rosters.cpp:1878
 #, fuzzy
 msgid "File transfer declined"
 msgstr "העברת קבצים הסתיימה:"
@@ -2710,13 +2710,13 @@ msgid "UIN"
 msgstr "UIN"
 
 #: plugins/icq/icqsecure.cpp:125 plugins/jabber/addresult.cpp:30
-#: plugins/jabber/jabbersearch.cpp:93
+#: plugins/jabber/jabbersearch.cpp:100
 #, fuzzy
 msgid "Nick"
 msgstr "כינוי:"
 
 #: plugins/_core/maininfo.cpp:69 plugins/filter/ignorelist.cpp:28
-#: plugins/icq/icqsecure.cpp:127 plugins/jabber/jabbersearch.cpp:94
+#: plugins/icq/icqsecure.cpp:127 plugins/jabber/jabbersearch.cpp:101
 #: plugins/msn/msninfobase.cpp:161
 #, fuzzy
 msgid "EMail"
@@ -2951,11 +2951,11 @@ msgstr "הוצאה לאור"
 msgid "Home automation"
 msgstr "אוטומציה ביתית"
 
-#: plugins/icq/moreinfo.cpp:85 plugins/jabber/jabbersearch.cpp:149
+#: plugins/icq/moreinfo.cpp:85 plugins/jabber/jabbersearch.cpp:188
 msgid "Female"
 msgstr "נקבה"
 
-#: plugins/icq/moreinfo.cpp:86 plugins/jabber/jabbersearch.cpp:148
+#: plugins/icq/moreinfo.cpp:86 plugins/jabber/jabbersearch.cpp:187
 #, fuzzy
 msgid "Male"
 msgstr "מלי"
@@ -3912,7 +3912,7 @@ msgstr "הוסף לקבוצה "
 msgid "AIM user"
 msgstr "כל המשתמשים"
 
-#: plugins/icq/icqsearchbase.cc:348 plugins/jabber/jabbersearch.cpp:143
+#: plugins/icq/icqsearchbase.cc:348 plugins/jabber/jabbersearch.cpp:182
 msgid "Online only"
 msgstr "רק מקוון"
 
@@ -4170,7 +4170,7 @@ msgstr "פולנית"
 msgid "Setup"
 msgstr "הגדרות"
 
-#: plugins/_core/cfgdlg.cpp:534
+#: plugins/_core/cfgdlg.cpp:534 plugins/jabber/jabber.cpp:484
 #, fuzzy
 msgid "Configure"
 msgstr "לקוח ICQ"
@@ -4336,7 +4336,7 @@ msgid "&Phone number"
 msgstr "הוסף מספר טלפון"
 
 #: plugins/_core/core.cpp:699 plugins/_core/msgedit.cpp:1412
-#: plugins/jabber/jabber.cpp:443
+#: plugins/jabber/jabber.cpp:444
 msgid "&Next"
 msgstr "&הבא"
 
@@ -6644,19 +6644,19 @@ msgstr ""
 msgid "New version SIM is released"
 msgstr ""
 
-#: plugins/jabber/addresult.cpp:31 plugins/jabber/jabbersearch.cpp:95
-#: plugins/jabber/jabbersearch.cpp:225
+#: plugins/jabber/addresult.cpp:31 plugins/jabber/jabbersearch.cpp:102
+#: plugins/jabber/jabbersearch.cpp:272
 #, fuzzy
 msgid "First name"
 msgstr "שם פרטי:"
 
-#: plugins/jabber/addresult.cpp:32 plugins/jabber/jabbersearch.cpp:96
-#: plugins/jabber/jabbersearch.cpp:226
+#: plugins/jabber/addresult.cpp:32 plugins/jabber/jabbersearch.cpp:103
+#: plugins/jabber/jabbersearch.cpp:273
 #, fuzzy
 msgid "Last name"
 msgstr "שם משפחה:"
 
-#: plugins/jabber/addresult.cpp:33 plugins/jabber/jabbersearch.cpp:219
+#: plugins/jabber/addresult.cpp:33 plugins/jabber/jabbersearch.cpp:266
 msgid "Email"
 msgstr "דוא\"ל"
 
@@ -6668,38 +6668,47 @@ msgstr ""
 msgid "Jabber"
 msgstr ""
 
-#: plugins/jabber/jabber.cpp:416 plugins/jabber/jabber.cpp:425
+#: plugins/jabber/jabber.cpp:417 plugins/jabber/jabber.cpp:426
 msgid "Jabber browser"
 msgstr ""
 
-#: plugins/jabber/jabber.cpp:434
+#: plugins/jabber/jabber.cpp:435
 #, fuzzy
 msgid "&Back"
 msgstr "אחורה"
 
-#: plugins/jabber/jabber.cpp:449 plugins/jabber/jabberbrowser.cpp:113
-#: plugins/jabber/jabberbrowser.cpp:393 plugins/jabber/services.cpp:45
+#: plugins/jabber/jabber.cpp:450 plugins/jabber/jabberbrowser.cpp:122
+#: plugins/jabber/jabberbrowser.cpp:504 plugins/jabber/services.cpp:45
 msgid "JID"
 msgstr ""
 
-#: plugins/jabber/jabber.cpp:456
+#: plugins/jabber/jabber.cpp:457 plugins/jabber/jabberbrowser.cpp:124
+#, fuzzy
+msgid "Node"
+msgstr "טלפון"
+
+#: plugins/jabber/jabber.cpp:463
 msgid "&Search"
 msgstr "&חפש"
 
-#: plugins/jabber/jabber.cpp:470
+#: plugins/jabber/jabber.cpp:477
 #, fuzzy
 msgid "Info"
 msgstr "בטל"
 
-#: plugins/jabber/jabber_rosters.cpp:1732
+#: plugins/jabber/jabber_rosters.cpp:1747
 #, fuzzy
 msgid "Password does not match"
 msgstr "הסיסמא לאישור אינה תואמת"
 
-#: plugins/jabber/jabber_rosters.cpp:1733
+#: plugins/jabber/jabber_rosters.cpp:1748
 #, fuzzy
 msgid "Low level network error"
 msgstr "צג רשת"
+
+#: plugins/jabber/jabber_rosters.cpp:2370
+msgid "Please translate this to short language name (ru, de)"
+msgstr ""
 
 #: plugins/jabber/jabberadd.cpp:163
 #, fuzzy
@@ -6770,44 +6779,44 @@ msgstr "&ספר טלפונים"
 msgid "&Logo"
 msgstr "&רישום"
 
-#: plugins/jabber/jabbersearch.cpp:92 plugins/jabber/jabbersearch.cpp:229
+#: plugins/jabber/jabbersearch.cpp:99 plugins/jabber/jabbersearch.cpp:276
 #, fuzzy
 msgid "Username"
 msgstr "שינוי שם"
 
-#: plugins/jabber/jabbersearch.cpp:97
+#: plugins/jabber/jabbersearch.cpp:104
 #, fuzzy
 msgid "Age min"
 msgstr "ארגנטינה"
 
-#: plugins/jabber/jabbersearch.cpp:98
+#: plugins/jabber/jabbersearch.cpp:105
 msgid "Age max"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:99
+#: plugins/jabber/jabbersearch.cpp:106
 #, fuzzy
 msgid "City"
 msgstr "יישוב:"
 
-#: plugins/jabber/jabbersearch.cpp:150
+#: plugins/jabber/jabbersearch.cpp:189
 #, fuzzy
 msgid "Gender"
 msgstr "מין:"
 
-#: plugins/jabber/jabbersearch.cpp:216
+#: plugins/jabber/jabbersearch.cpp:263
 msgid "First (Given)"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:217
+#: plugins/jabber/jabbersearch.cpp:264
 #, fuzzy
 msgid "Last (Family)"
 msgstr "שם משפחה:"
 
-#: plugins/jabber/jabbersearch.cpp:218
+#: plugins/jabber/jabbersearch.cpp:265
 msgid "Nick (Alias)"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:220
+#: plugins/jabber/jabbersearch.cpp:267
 msgid ""
 "Select the speed of the search.  \"Fast\" matches your string to the "
 "beginning of the field only (ie. \"b\" would yield Bob,Bill,etc...)  "
@@ -6815,95 +6824,98 @@ msgid ""
 "Bob, Bill, Caleb, Robbie, etc...)"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:221
+#: plugins/jabber/jabbersearch.cpp:268
 #, fuzzy
 msgid "Search Speed"
 msgstr "קבצים משותפים"
 
-#: plugins/jabber/jabbersearch.cpp:222
+#: plugins/jabber/jabbersearch.cpp:269
 msgid "Fast / Less accurate"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:223
+#: plugins/jabber/jabbersearch.cpp:270
 msgid "Slower / More extensive"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:224
+#: plugins/jabber/jabbersearch.cpp:271
 #, fuzzy
 msgid "Full name"
 msgstr "שם &הקובץ:"
 
-#: plugins/jabber/jabbersearch.cpp:227
+#: plugins/jabber/jabbersearch.cpp:274
 #, fuzzy
 msgid "Nickname"
 msgstr "כינוי:"
 
-#: plugins/jabber/jabbersearch.cpp:228
+#: plugins/jabber/jabbersearch.cpp:275
 #, fuzzy
 msgid "E-mail"
 msgstr "דוא\"ל"
 
-#: plugins/jabber/jabbersearch.cpp:230
+#: plugins/jabber/jabbersearch.cpp:277
 #, fuzzy
 msgid "Password"
 msgstr "סיסמה:"
 
-#: plugins/jabber/jabbersearch.cpp:231
+#: plugins/jabber/jabbersearch.cpp:278
 msgid ""
 "Enter your MSN Messenger account and password. Example: user@hotmail.com.  "
 "Nickname is optional."
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:232
+#: plugins/jabber/jabbersearch.cpp:279
 msgid "Enter your AIM screenname or ICQ UIN and the password for that account"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:233
+#: plugins/jabber/jabbersearch.cpp:280
 msgid "Enter your YAHOO! Messenger Username and Password."
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:234
+#: plugins/jabber/jabbersearch.cpp:281
 msgid "Please enter your UIN and password"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:235
+#: plugins/jabber/jabbersearch.cpp:282
 msgid "You need a x:data capable client to register."
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:236
+#: plugins/jabber/jabbersearch.cpp:283
 msgid "Enter nick you want to register."
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:237
+#: plugins/jabber/jabbersearch.cpp:284
 msgid ""
 "Complete the form to submit your searchable attributes in the Jabber User "
 "Directory"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:238
+#: plugins/jabber/jabbersearch.cpp:285
 msgid "Fill in all of the fields to add yourself to the JUD."
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:239
+#: plugins/jabber/jabbersearch.cpp:286
 msgid ""
 "Fill in a field to search for any matching Jabber User (POSIX regular "
 "expressions allowed)"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:240
+#: plugins/jabber/jabbersearch.cpp:287
 msgid "Fill in a field to search for any matching Jabber users."
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:241
+#: plugins/jabber/jabbersearch.cpp:288
 msgid ""
 "To register, please fill out the following form.  Be as accurate as possible "
 "to make it easier for people to search for you."
 msgstr ""
 
+#: plugins/jabber/jabberbrowser.cpp:86 plugins/jabber/jabberbrowser.cpp:259
+#: plugins/jabber/jabberbrowser.cpp:287 plugins/jabber/jabberbrowser.cpp:315
+#: plugins/jabber/jabberbrowser.cpp:426 plugins/jabber/jabberbrowser.cpp:446
 #: plugins/jabber/services.cpp:104
-#, fuzzy
-msgid "Registration failed"
-msgstr "קובץ נכנס:"
+#, fuzzy, c-format
+msgid "Error %1"
+msgstr "שגיאה"
 
 #: plugins/jabber/jabberinfobase.cpp:208
 msgid "ID:"
@@ -7008,57 +7020,47 @@ msgstr "&הירשם"
 msgid "&Agents"
 msgstr "אפקטים"
 
-#: plugins/jabber/jabberbrowser.cpp:44 plugins/jabber/jabberbrowser.cpp:212
+#: plugins/jabber/jabberbrowser.cpp:44 plugins/jabber/jabberbrowser.cpp:237
 #, fuzzy
 msgid "Process"
 msgstr "מקצועי"
 
-#: plugins/jabber/jabberbrowser.cpp:82
+#: plugins/jabber/jabberbrowser.cpp:89
 #, fuzzy
-msgid "Register success"
-msgstr "&הירשם"
+msgid "Done"
+msgstr "למטה"
 
-#: plugins/jabber/jabberbrowser.cpp:88
-#, fuzzy
-msgid "Register failed"
-msgstr "קובץ נכנס:"
-
-#: plugins/jabber/jabberbrowser.cpp:115
-#, fuzzy
-msgid "Node"
-msgstr "טלפון"
-
-#: plugins/jabber/jabberbrowser.cpp:156
+#: plugins/jabber/jabberbrowser.cpp:166
 #, fuzzy, c-format
 msgid "Browser: %1"
 msgstr "משתמש פרוקסי:"
 
-#: plugins/jabber/jabberbrowser.cpp:205
+#: plugins/jabber/jabberbrowser.cpp:220
 #, fuzzy
 msgid "Stop"
 msgstr "הגדרות"
 
-#: plugins/jabber/jabberbrowser.cpp:214
+#: plugins/jabber/jabberbrowser.cpp:239
 #, fuzzy
 msgid "Client offline"
 msgstr "Contact - left"
 
-#: plugins/jabber/jabberbrowser.cpp:253
+#: plugins/jabber/jabberbrowser.cpp:344
 #, fuzzy
 msgid "%1 Search"
 msgstr "חפש"
 
-#: plugins/jabber/jabberbrowser.cpp:260
+#: plugins/jabber/jabberbrowser.cpp:351
 #, fuzzy
 msgid "%1 Register"
 msgstr "&הירשם"
 
-#: plugins/jabber/jabberbrowser.cpp:315 plugins/jabber/jabberbrowser.cpp:335
-#, fuzzy, c-format
-msgid "Error %1"
-msgstr "שגיאה"
+#: plugins/jabber/jabberbrowser.cpp:358
+#, fuzzy
+msgid "%1 Configure"
+msgstr "לקוח ICQ"
 
-#: plugins/jabber/jabberbrowser.cpp:486
+#: plugins/jabber/jabberbrowser.cpp:613
 msgid "Choose a user and password to register with the server"
 msgstr ""
 
@@ -7071,22 +7073,22 @@ msgstr ""
 msgid "Value"
 msgstr "מלי"
 
-#: plugins/jabber/discoinfo.cpp:93 plugins/jabber/discoinfobase.cpp:229
+#: plugins/jabber/discoinfo.cpp:96 plugins/jabber/discoinfobase.cpp:229
 #, fuzzy
 msgid "&Version"
 msgstr "פרסית"
 
-#: plugins/jabber/discoinfo.cpp:106 plugins/jabber/discoinfobase.cpp:232
+#: plugins/jabber/discoinfo.cpp:109 plugins/jabber/discoinfobase.cpp:232
 #, fuzzy
 msgid "&Time"
 msgstr "איזור זמן:"
 
-#: plugins/jabber/discoinfo.cpp:131
+#: plugins/jabber/discoinfo.cpp:134
 #, fuzzy
 msgid "&Stat"
 msgstr "&מצב"
 
-#: plugins/jabber/discoinfo.cpp:177
+#: plugins/jabber/discoinfo.cpp:180
 #, fuzzy, c-format
 msgid ""
 "_n: %n day\n"
@@ -7160,6 +7162,18 @@ msgstr "רשימת התעלמות"
 #: plugins/spell/spellcfgbase.cpp:143
 msgid "Path:"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Registration failed"
+#~ msgstr "קובץ נכנס:"
+
+#, fuzzy
+#~ msgid "Register success"
+#~ msgstr "&הירשם"
+
+#, fuzzy
+#~ msgid "Register failed"
+#~ msgstr "קובץ נכנס:"
 
 #~ msgid "Sending messages color"
 #~ msgstr "צבע שליחת הודעה"

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
-"POT-Creation-Date: 2003-12-05 12:21+0300\n"
+"POT-Creation-Date: 2003-12-06 13:47+0300\n"
 "PO-Revision-Date: 2003-11-03 14:12-0200\n"
 "Last-Translator: Carlos Tadeu Panato Jr. <ctpj@terra.com.br>\n"
 "Language-Team: Brazilian Portuguese\n"
@@ -1321,7 +1321,7 @@ msgid "&Apply"
 msgstr "&Aplicar"
 
 # plugins/jabber/servicesbase.cpp:174 sim/api/simapi.cpp:425
-#: plugins/jabber/jabber.cpp:463 plugins/jabber/servicesbase.cpp:174
+#: plugins/jabber/jabber.cpp:470 plugins/jabber/servicesbase.cpp:174
 #: sim/api/simapi.cpp:425
 msgid "&Register"
 msgstr "&Registrar"
@@ -1619,7 +1619,7 @@ msgstr "Todos los ficheros (*)"
 # plugins/icq/searchresult.cpp:128 sim/ui/qt3/i18n.cpp:39
 #: plugins/filter/ignorelist.cpp:27 plugins/icq/icqsecure.cpp:126
 #: plugins/icq/searchresult.cpp:128 plugins/jabber/discoinfo.cpp:49
-#: plugins/jabber/jabberbrowser.cpp:114 sim/ui/qt3/i18n.cpp:39
+#: plugins/jabber/jabberbrowser.cpp:123 sim/ui/qt3/i18n.cpp:39
 msgid "Name"
 msgstr "Nome"
 
@@ -2422,7 +2422,7 @@ msgstr "ICQ"
 #: plugins/_core/userlist.cpp:572 plugins/icq/icq.cpp:110
 #: plugins/icq/icq.cpp:280 plugins/icq/icqclient.cpp:1481
 #: plugins/icq/icqclient.cpp:1515 plugins/jabber/jabber.cpp:115
-#: plugins/jabber/jabberclient.cpp:1319 plugins/jabber/services.cpp:234
+#: plugins/jabber/jabberclient.cpp:1319 plugins/jabber/services.cpp:233
 #: plugins/msn/msn.cpp:89 plugins/msn/msnclient.cpp:1516
 msgid "Online"
 msgstr "Online"
@@ -2468,7 +2468,7 @@ msgstr "Livre para o bate-papo"
 #: plugins/_core/userlist.cpp:575 plugins/_core/userviewcfgbase.cpp:287
 #: plugins/icq/icq.cpp:200 plugins/icq/icq.cpp:310
 #: plugins/icq/icqclient.cpp:1478 plugins/jabber/jabber.cpp:190
-#: plugins/jabber/services.cpp:231 plugins/msn/msn.cpp:194
+#: plugins/jabber/services.cpp:230 plugins/msn/msn.cpp:194
 msgid "Offline"
 msgstr "Offline"
 
@@ -2500,19 +2500,19 @@ msgstr "Alterar a co&dificação"
 # plugins/_core/msgedit.cpp:1572 plugins/icq/icq.cpp:552
 # plugins/jabber/jabber.cpp:346
 #: plugins/_core/msgedit.cpp:1535 plugins/icq/icq.cpp:552
-#: plugins/jabber/jabber.cpp:388
+#: plugins/jabber/jabber.cpp:389
 msgid "&Message"
 msgstr "&Mensagem"
 
 # plugins/_core/core.cpp:502 plugins/_core/core.cpp:1060
 # plugins/icq/icq.cpp:562 plugins/jabber/jabber.cpp:355
 #: plugins/_core/core.cpp:552 plugins/_core/core.cpp:1099
-#: plugins/icq/icq.cpp:562 plugins/jabber/jabber.cpp:397
+#: plugins/icq/icq.cpp:562 plugins/jabber/jabber.cpp:398
 msgid "User &info"
 msgstr "In&formação do usuário"
 
 # plugins/icq/icq.cpp:568 plugins/jabber/jabber.cpp:361
-#: plugins/icq/icq.cpp:568 plugins/jabber/jabber.cpp:403
+#: plugins/icq/icq.cpp:568 plugins/jabber/jabber.cpp:404
 msgid "&Add to group"
 msgstr "&Adicionar ao grupo"
 
@@ -2941,7 +2941,7 @@ msgid "We are to evil :("
 msgstr "Vocę é um demônio :("
 
 # plugins/icq/icqicmb.cpp:632 plugins/jabber/jabber_rosters.cpp:1733
-#: plugins/icq/icqicmb.cpp:650 plugins/jabber/jabber_rosters.cpp:1853
+#: plugins/icq/icqicmb.cpp:650 plugins/jabber/jabber_rosters.cpp:1878
 #, fuzzy
 msgid "File transfer declined"
 msgstr "Transferência de arquivo concluída"
@@ -3330,14 +3330,14 @@ msgstr "UIN"
 
 # plugins/icq/icqsecure.cpp:125 plugins/jabber/addresult.cpp:30
 #: plugins/icq/icqsecure.cpp:125 plugins/jabber/addresult.cpp:30
-#: plugins/jabber/jabbersearch.cpp:93
+#: plugins/jabber/jabbersearch.cpp:100
 msgid "Nick"
 msgstr "Apelido"
 
 # plugins/_core/maininfo.cpp:69 plugins/filter/ignorelist.cpp:28
 # plugins/icq/icqsecure.cpp:127 plugins/msn/msninfobase.cpp:161
 #: plugins/_core/maininfo.cpp:69 plugins/filter/ignorelist.cpp:28
-#: plugins/icq/icqsecure.cpp:127 plugins/jabber/jabbersearch.cpp:94
+#: plugins/icq/icqsecure.cpp:127 plugins/jabber/jabbersearch.cpp:101
 #: plugins/msn/msninfobase.cpp:161
 msgid "EMail"
 msgstr "Email"
@@ -3628,12 +3628,12 @@ msgid "Home automation"
 msgstr "Automação residencial"
 
 # plugins/icq/moreinfo.cpp:85
-#: plugins/icq/moreinfo.cpp:85 plugins/jabber/jabbersearch.cpp:149
+#: plugins/icq/moreinfo.cpp:85 plugins/jabber/jabbersearch.cpp:188
 msgid "Female"
 msgstr "Feminino"
 
 # plugins/icq/moreinfo.cpp:86
-#: plugins/icq/moreinfo.cpp:86 plugins/jabber/jabbersearch.cpp:148
+#: plugins/icq/moreinfo.cpp:86 plugins/jabber/jabbersearch.cpp:187
 msgid "Male"
 msgstr "Masculino"
 
@@ -4851,7 +4851,7 @@ msgid "AIM user"
 msgstr "Usuário AIM"
 
 # plugins/icq/icqsearchbase.cc:348
-#: plugins/icq/icqsearchbase.cc:348 plugins/jabber/jabbersearch.cpp:143
+#: plugins/icq/icqsearchbase.cc:348 plugins/jabber/jabbersearch.cpp:182
 msgid "Online only"
 msgstr "Apenas os \"Online\""
 
@@ -5157,7 +5157,7 @@ msgid "Setup"
 msgstr "Configurar"
 
 # plugins/_core/cfgdlg.cpp:532
-#: plugins/_core/cfgdlg.cpp:534
+#: plugins/_core/cfgdlg.cpp:534 plugins/jabber/jabber.cpp:484
 msgid "Configure"
 msgstr "Configurar"
 
@@ -5340,7 +5340,7 @@ msgstr "&Número de telefone"
 
 # plugins/_core/core.cpp:649 plugins/_core/msgedit.cpp:1441
 #: plugins/_core/core.cpp:699 plugins/_core/msgedit.cpp:1412
-#: plugins/jabber/jabber.cpp:443
+#: plugins/jabber/jabber.cpp:444
 msgid "&Next"
 msgstr "Segui&nte"
 
@@ -7973,19 +7973,19 @@ msgid "New version SIM is released"
 msgstr "Nova versão do SIM foi liberada"
 
 # plugins/jabber/addresult.cpp:31 plugins/jabber/jabbersearch.cpp:181
-#: plugins/jabber/addresult.cpp:31 plugins/jabber/jabbersearch.cpp:95
-#: plugins/jabber/jabbersearch.cpp:225
+#: plugins/jabber/addresult.cpp:31 plugins/jabber/jabbersearch.cpp:102
+#: plugins/jabber/jabbersearch.cpp:272
 msgid "First name"
 msgstr "Nome"
 
 # plugins/jabber/addresult.cpp:32 plugins/jabber/jabbersearch.cpp:182
-#: plugins/jabber/addresult.cpp:32 plugins/jabber/jabbersearch.cpp:96
-#: plugins/jabber/jabbersearch.cpp:226
+#: plugins/jabber/addresult.cpp:32 plugins/jabber/jabbersearch.cpp:103
+#: plugins/jabber/jabbersearch.cpp:273
 msgid "Last name"
 msgstr "Sobrenome"
 
 # plugins/jabber/addresult.cpp:33 plugins/jabber/jabbersearch.cpp:175
-#: plugins/jabber/addresult.cpp:33 plugins/jabber/jabbersearch.cpp:219
+#: plugins/jabber/addresult.cpp:33 plugins/jabber/jabbersearch.cpp:266
 msgid "Email"
 msgstr "Email"
 
@@ -7999,42 +7999,52 @@ msgstr "ID"
 msgid "Jabber"
 msgstr ""
 
-#: plugins/jabber/jabber.cpp:416 plugins/jabber/jabber.cpp:425
+#: plugins/jabber/jabber.cpp:417 plugins/jabber/jabber.cpp:426
 msgid "Jabber browser"
 msgstr ""
 
 # sim/ui/qt3/i18n.cpp:55
-#: plugins/jabber/jabber.cpp:434
+#: plugins/jabber/jabber.cpp:435
 #, fuzzy
 msgid "&Back"
 msgstr "Voltar"
 
 # plugins/jabber/services.cpp:45
-#: plugins/jabber/jabber.cpp:449 plugins/jabber/jabberbrowser.cpp:113
-#: plugins/jabber/jabberbrowser.cpp:393 plugins/jabber/services.cpp:45
+#: plugins/jabber/jabber.cpp:450 plugins/jabber/jabberbrowser.cpp:122
+#: plugins/jabber/jabberbrowser.cpp:504 plugins/jabber/services.cpp:45
 msgid "JID"
 msgstr ""
 
-#: plugins/jabber/jabber.cpp:456
+# plugins/proxy/proxycfg.cpp:36
+#: plugins/jabber/jabber.cpp:457 plugins/jabber/jabberbrowser.cpp:124
+#, fuzzy
+msgid "Node"
+msgstr "Nenhuma"
+
+#: plugins/jabber/jabber.cpp:463
 msgid "&Search"
 msgstr "&Busca"
 
 # plugins/_core/maininfobase.cc:233 plugins/_core/maininfobase.cpp:233
 # plugins/icq/aimsearchbase.cc:290
-#: plugins/jabber/jabber.cpp:470
+#: plugins/jabber/jabber.cpp:477
 #, fuzzy
 msgid "Info"
 msgstr "&Informação"
 
 # plugins/jabber/jabber_rosters.cpp:1612
-#: plugins/jabber/jabber_rosters.cpp:1732
+#: plugins/jabber/jabber_rosters.cpp:1747
 msgid "Password does not match"
 msgstr "A senha está incorreta"
 
 # plugins/jabber/jabber_rosters.cpp:1613
-#: plugins/jabber/jabber_rosters.cpp:1733
+#: plugins/jabber/jabber_rosters.cpp:1748
 msgid "Low level network error"
 msgstr "Nível baixo de erro da rede "
+
+#: plugins/jabber/jabber_rosters.cpp:2370
+msgid "Please translate this to short language name (ru, de)"
+msgstr ""
 
 # plugins/jabber/jabberadd.cpp:163
 #: plugins/jabber/jabberadd.cpp:163
@@ -8116,51 +8126,51 @@ msgid "&Logo"
 msgstr "&Log"
 
 # plugins/jabber/jabbersearch.cpp:185
-#: plugins/jabber/jabbersearch.cpp:92 plugins/jabber/jabbersearch.cpp:229
+#: plugins/jabber/jabbersearch.cpp:99 plugins/jabber/jabbersearch.cpp:276
 msgid "Username"
 msgstr "Usuário"
 
 # sim/api/country.cpp:33
-#: plugins/jabber/jabbersearch.cpp:97
+#: plugins/jabber/jabbersearch.cpp:104
 #, fuzzy
 msgid "Age min"
 msgstr "Argentina"
 
-#: plugins/jabber/jabbersearch.cpp:98
+#: plugins/jabber/jabbersearch.cpp:105
 msgid "Age max"
 msgstr ""
 
 # plugins/icq/aiminfobase.cc:293 plugins/icq/aimsearchbase.cc:283
 # plugins/icq/homeinfobase.cc:178 plugins/icq/icqsearchbase.cc:328
 # plugins/icq/workinfobase.cc:211 plugins/jabber/jabberhomeinfobase.cpp:152
-#: plugins/jabber/jabbersearch.cpp:99
+#: plugins/jabber/jabbersearch.cpp:106
 #, fuzzy
 msgid "City"
 msgstr "Cidade:"
 
 # plugins/icq/icqsearchbase.cc:326 plugins/icq/moreinfobase.cc:204
-#: plugins/jabber/jabbersearch.cpp:150
+#: plugins/jabber/jabbersearch.cpp:189
 #, fuzzy
 msgid "Gender"
 msgstr "Sexo:"
 
 # plugins/jabber/jabbersearch.cpp:172
-#: plugins/jabber/jabbersearch.cpp:216
+#: plugins/jabber/jabbersearch.cpp:263
 msgid "First (Given)"
 msgstr "Primeiro (fornecido)"
 
 # plugins/jabber/jabbersearch.cpp:173
-#: plugins/jabber/jabbersearch.cpp:217
+#: plugins/jabber/jabbersearch.cpp:264
 msgid "Last (Family)"
 msgstr "Sobrenome"
 
 # plugins/jabber/jabbersearch.cpp:174
-#: plugins/jabber/jabbersearch.cpp:218
+#: plugins/jabber/jabbersearch.cpp:265
 msgid "Nick (Alias)"
 msgstr "Apelido"
 
 # plugins/jabber/jabbersearch.cpp:176
-#: plugins/jabber/jabbersearch.cpp:220
+#: plugins/jabber/jabbersearch.cpp:267
 msgid ""
 "Select the speed of the search.  \"Fast\" matches your string to the "
 "beginning of the field only (ie. \"b\" would yield Bob,Bill,etc...)  "
@@ -8169,42 +8179,42 @@ msgid ""
 msgstr ""
 
 # plugins/jabber/jabbersearch.cpp:177
-#: plugins/jabber/jabbersearch.cpp:221
+#: plugins/jabber/jabbersearch.cpp:268
 msgid "Search Speed"
 msgstr "Pesquisar velocidade"
 
 # plugins/jabber/jabbersearch.cpp:178
-#: plugins/jabber/jabbersearch.cpp:222
+#: plugins/jabber/jabbersearch.cpp:269
 msgid "Fast / Less accurate"
 msgstr "Rápido / pouca precisão"
 
 # plugins/jabber/jabbersearch.cpp:179
-#: plugins/jabber/jabbersearch.cpp:223
+#: plugins/jabber/jabbersearch.cpp:270
 msgid "Slower / More extensive"
 msgstr "Lento / mais extensivo"
 
 # plugins/jabber/jabbersearch.cpp:180
-#: plugins/jabber/jabbersearch.cpp:224
+#: plugins/jabber/jabbersearch.cpp:271
 msgid "Full name"
 msgstr "Nome completo"
 
 # plugins/jabber/jabbersearch.cpp:183
-#: plugins/jabber/jabbersearch.cpp:227
+#: plugins/jabber/jabbersearch.cpp:274
 msgid "Nickname"
 msgstr "Apelido"
 
 # plugins/jabber/jabbersearch.cpp:184
-#: plugins/jabber/jabbersearch.cpp:228
+#: plugins/jabber/jabbersearch.cpp:275
 msgid "E-mail"
 msgstr "E-mail"
 
 # plugins/jabber/jabbersearch.cpp:186
-#: plugins/jabber/jabbersearch.cpp:230
+#: plugins/jabber/jabbersearch.cpp:277
 msgid "Password"
 msgstr "Senha"
 
 # plugins/jabber/jabbersearch.cpp:187
-#: plugins/jabber/jabbersearch.cpp:231
+#: plugins/jabber/jabbersearch.cpp:278
 msgid ""
 "Enter your MSN Messenger account and password. Example: user@hotmail.com.  "
 "Nickname is optional."
@@ -8213,65 +8223,72 @@ msgstr ""
 "Apelido é opcional."
 
 # plugins/jabber/jabbersearch.cpp:188
-#: plugins/jabber/jabbersearch.cpp:232
+#: plugins/jabber/jabbersearch.cpp:279
 msgid "Enter your AIM screenname or ICQ UIN and the password for that account"
 msgstr "Entre com seu usuário AIM ou ICQ UIN e sua senha para a conta"
 
 # plugins/jabber/jabbersearch.cpp:189
-#: plugins/jabber/jabbersearch.cpp:233
+#: plugins/jabber/jabbersearch.cpp:280
 msgid "Enter your YAHOO! Messenger Username and Password."
 msgstr "Entre com o seu Username e senha do YAHOO! Messenger"
 
 # plugins/jabber/jabbersearch.cpp:190
-#: plugins/jabber/jabbersearch.cpp:234
+#: plugins/jabber/jabbersearch.cpp:281
 msgid "Please enter your UIN and password"
 msgstr "Por favor entre com seu UIN e senha"
 
 # plugins/jabber/jabbersearch.cpp:191
-#: plugins/jabber/jabbersearch.cpp:235
+#: plugins/jabber/jabbersearch.cpp:282
 msgid "You need a x:data capable client to register."
 msgstr ""
 
 # plugins/jabber/jabbersearch.cpp:192
-#: plugins/jabber/jabbersearch.cpp:236
+#: plugins/jabber/jabbersearch.cpp:283
 msgid "Enter nick you want to register."
 msgstr "Entre com seu apelido se você quer se registar"
 
 # plugins/jabber/jabbersearch.cpp:193
-#: plugins/jabber/jabbersearch.cpp:237
+#: plugins/jabber/jabbersearch.cpp:284
 msgid ""
 "Complete the form to submit your searchable attributes in the Jabber User "
 "Directory"
 msgstr ""
 
 # plugins/jabber/jabbersearch.cpp:194
-#: plugins/jabber/jabbersearch.cpp:238
+#: plugins/jabber/jabbersearch.cpp:285
 msgid "Fill in all of the fields to add yourself to the JUD."
 msgstr ""
 
 # plugins/jabber/jabbersearch.cpp:195
-#: plugins/jabber/jabbersearch.cpp:239
+#: plugins/jabber/jabbersearch.cpp:286
 msgid ""
 "Fill in a field to search for any matching Jabber User (POSIX regular "
 "expressions allowed)"
 msgstr ""
 
 # plugins/jabber/jabbersearch.cpp:196
-#: plugins/jabber/jabbersearch.cpp:240
+#: plugins/jabber/jabbersearch.cpp:287
 msgid "Fill in a field to search for any matching Jabber users."
 msgstr ""
 
 # plugins/jabber/jabbersearch.cpp:197
-#: plugins/jabber/jabbersearch.cpp:241
+#: plugins/jabber/jabbersearch.cpp:288
 msgid ""
 "To register, please fill out the following form.  Be as accurate as possible "
 "to make it easier for people to search for you."
 msgstr ""
 
-# plugins/jabber/services.cpp:104
+# plugins/_core/status.cpp:137 plugins/_core/statuswnd.cpp:76
+# plugins/jabber/jabbermessage.cpp:109 plugins/jabber/jabbermessage.cpp:228
+# plugins/logger/logconfig.cpp:78 plugins/netmonitor/monitor.cpp:89
+# plugins/windock/windock.cpp:179 sim/ui/qt3/i18n.cpp:141
+#: plugins/jabber/jabberbrowser.cpp:86 plugins/jabber/jabberbrowser.cpp:259
+#: plugins/jabber/jabberbrowser.cpp:287 plugins/jabber/jabberbrowser.cpp:315
+#: plugins/jabber/jabberbrowser.cpp:426 plugins/jabber/jabberbrowser.cpp:446
 #: plugins/jabber/services.cpp:104
-msgid "Registration failed"
-msgstr "Falha no registro"
+#, fuzzy, c-format
+msgid "Error %1"
+msgstr "Error"
 
 # plugins/jabber/jabberinfobase.cpp:208
 #: plugins/jabber/jabberinfobase.cpp:208
@@ -8389,31 +8406,19 @@ msgid "&Agents"
 msgstr "&Agentes"
 
 # plugins/icq/workinfo.cpp:92
-#: plugins/jabber/jabberbrowser.cpp:44 plugins/jabber/jabberbrowser.cpp:212
+#: plugins/jabber/jabberbrowser.cpp:44 plugins/jabber/jabberbrowser.cpp:237
 #, fuzzy
 msgid "Process"
 msgstr "Profissional"
 
-# plugins/jabber/servicesbase.cpp:168
-#: plugins/jabber/jabberbrowser.cpp:82
+# plugins/_core/core.cpp:978
+#: plugins/jabber/jabberbrowser.cpp:89
 #, fuzzy
-msgid "Register success"
-msgstr "Agentes registrados:"
-
-# plugins/jabber/services.cpp:104
-#: plugins/jabber/jabberbrowser.cpp:88
-#, fuzzy
-msgid "Register failed"
-msgstr "Falha no registro"
-
-# plugins/proxy/proxycfg.cpp:36
-#: plugins/jabber/jabberbrowser.cpp:115
-#, fuzzy
-msgid "Node"
-msgstr "Nenhuma"
+msgid "Done"
+msgstr "Para baixo"
 
 # plugins/navigate/navcfgbase.cc:96
-#: plugins/jabber/jabberbrowser.cpp:156
+#: plugins/jabber/jabberbrowser.cpp:166
 #, fuzzy, c-format
 msgid "Browser: %1"
 msgstr "Navegador:"
@@ -8421,41 +8426,38 @@ msgstr "Navegador:"
 # plugins/_core/cfgdlg.cpp:487 plugins/_core/cfgdlgbase.cc:122
 # plugins/_core/cfgdlgbase.cpp:122 plugins/_core/core.cpp:411
 # plugins/_core/core.cpp:993 plugins/_core/core.cpp:1075
-#: plugins/jabber/jabberbrowser.cpp:205
+#: plugins/jabber/jabberbrowser.cpp:220
 #, fuzzy
 msgid "Stop"
 msgstr "Configurar"
 
 # plugins/icq/icqicmb.cpp:772 plugins/icq/icqicmb.cpp:780
 # plugins/icq/icqvarious.cpp:1616 plugins/jabber/jabberclient.cpp:615
-#: plugins/jabber/jabberbrowser.cpp:214
+#: plugins/jabber/jabberbrowser.cpp:239
 #, fuzzy
 msgid "Client offline"
 msgstr "Cliente está offline"
 
 # plugins/icq/icqsearchbase.cc:322 plugins/icq/searchresult.cpp:173
 # plugins/jabber/addresult.cpp:148 plugins/jabber/addresult.cpp:188
-#: plugins/jabber/jabberbrowser.cpp:253
+#: plugins/jabber/jabberbrowser.cpp:344
 #, fuzzy
 msgid "%1 Search"
 msgstr "Busca"
 
 # plugins/jabber/servicesbase.cpp:174 sim/api/simapi.cpp:425
-#: plugins/jabber/jabberbrowser.cpp:260
+#: plugins/jabber/jabberbrowser.cpp:351
 #, fuzzy
 msgid "%1 Register"
 msgstr "&Registrar"
 
-# plugins/_core/status.cpp:137 plugins/_core/statuswnd.cpp:76
-# plugins/jabber/jabbermessage.cpp:109 plugins/jabber/jabbermessage.cpp:228
-# plugins/logger/logconfig.cpp:78 plugins/netmonitor/monitor.cpp:89
-# plugins/windock/windock.cpp:179 sim/ui/qt3/i18n.cpp:141
-#: plugins/jabber/jabberbrowser.cpp:315 plugins/jabber/jabberbrowser.cpp:335
-#, fuzzy, c-format
-msgid "Error %1"
-msgstr "Error"
+# plugins/_core/cfgdlg.cpp:532
+#: plugins/jabber/jabberbrowser.cpp:358
+#, fuzzy
+msgid "%1 Configure"
+msgstr "Configurar"
 
-#: plugins/jabber/jabberbrowser.cpp:486
+#: plugins/jabber/jabberbrowser.cpp:613
 msgid "Choose a user and password to register with the server"
 msgstr ""
 
@@ -8470,14 +8472,14 @@ msgid "Value"
 msgstr "Masculino"
 
 # plugins/icq/moreinfo.cpp:150
-#: plugins/jabber/discoinfo.cpp:93 plugins/jabber/discoinfobase.cpp:229
+#: plugins/jabber/discoinfo.cpp:96 plugins/jabber/discoinfobase.cpp:229
 #, fuzzy
 msgid "&Version"
 msgstr "Persa"
 
 # plugins/_core/filetransferbase.cc:132
 # plugins/_core/filetransferbase.cpp:133
-#: plugins/jabber/discoinfo.cpp:106 plugins/jabber/discoinfobase.cpp:232
+#: plugins/jabber/discoinfo.cpp:109 plugins/jabber/discoinfobase.cpp:232
 #, fuzzy
 msgid "&Time"
 msgstr "Horário:"
@@ -8485,13 +8487,13 @@ msgstr "Horário:"
 # plugins/_core/core.cpp:1115 plugins/icq/aiminfobase.cc:305
 # plugins/icq/icqinfobase.cc:319 plugins/jabber/jabberinfobase.cpp:219
 # plugins/msn/msninfobase.cpp:167
-#: plugins/jabber/discoinfo.cpp:131
+#: plugins/jabber/discoinfo.cpp:134
 #, fuzzy
 msgid "&Stat"
 msgstr "&Status"
 
 # plugins/icq/icqicmb.cpp:922 plugins/icq/icqicmb.cpp:928
-#: plugins/jabber/discoinfo.cpp:177
+#: plugins/jabber/discoinfo.cpp:180
 #, fuzzy, c-format
 msgid ""
 "_n: %n day\n"
@@ -8576,6 +8578,20 @@ msgstr "Lista de ignorado"
 #: plugins/spell/spellcfgbase.cpp:143
 msgid "Path:"
 msgstr ""
+
+# plugins/jabber/services.cpp:104
+#~ msgid "Registration failed"
+#~ msgstr "Falha no registro"
+
+# plugins/jabber/servicesbase.cpp:168
+#, fuzzy
+#~ msgid "Register success"
+#~ msgstr "Agentes registrados:"
+
+# plugins/jabber/services.cpp:104
+#, fuzzy
+#~ msgid "Register failed"
+#~ msgstr "Falha no registro"
 
 # plugins/_core/historycfgbase.cc:174 plugins/_core/historycfgbase.cpp:174
 #~ msgid "Sending messages color"

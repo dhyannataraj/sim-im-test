@@ -255,6 +255,7 @@ JabberPlugin::JabberPlugin(unsigned base)
     CmdInfo			 = registerType();
     CmdRegister		 = registerType();
     CmdSearch		 = registerType();
+    CmdNode			 = registerType();
 
     IconDef icon;
     icon.name = "Jabber_online";
@@ -452,6 +453,12 @@ JabberPlugin::JabberPlugin(unsigned base)
     cmd->flags		 = BTN_COMBO_CHECK;
     eCmd.process();
 
+    cmd->id			 = CmdNode;
+    cmd->text		 = I18N_NOOP("Node");
+    cmd->bar_grp	 = 0x2001;
+    cmd->flags		 = BTN_COMBO | BTN_NO_BUTTON;
+    eCmd.process();
+
     cmd->id			 = CmdSearch;
     cmd->text		 = I18N_NOOP("&Search");
     cmd->icon		 = "find";
@@ -470,6 +477,13 @@ JabberPlugin::JabberPlugin(unsigned base)
     cmd->text		 = I18N_NOOP("Info");
     cmd->icon		 = "info";
     cmd->bar_grp	 = 0x3010;
+    cmd->flags		 = COMMAND_CHECK_STATE;
+    eCmd.process();
+
+    cmd->id			 = CmdConfigure;
+    cmd->text		 = I18N_NOOP("Configure");
+    cmd->icon		 = "configure";
+    cmd->bar_grp	 = 0x3020;
     cmd->flags		 = COMMAND_CHECK_STATE;
     eCmd.process();
 

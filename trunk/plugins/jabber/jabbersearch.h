@@ -30,13 +30,15 @@ class JabberSearch : public QChildWidget
 {
     Q_OBJECT
 public:
-    JabberSearch(QWidget *receiver, JabberClient *client, const char *jid, const QString &name);
+    JabberSearch(QWidget *receiver, JabberClient *client, const char *jid, const char *node, const QString &name);
     bool canSearch();
     QString condition();
     const char *id() { return m_jid.c_str(); }
     void addWidget(struct JabberAgentInfo *data);
     JabberClient	*m_client;
     string			m_jid;
+    string			m_node;
+    QString			m_title;
 protected slots:
     void setSize();
 protected:
@@ -46,6 +48,8 @@ protected:
     QWidget			*m_receiver;
     string			m_key;
     unsigned		m_nPos;
+    unsigned		m_nCol;
+    unsigned		m_nPosStart;
     bool			m_bDirty;
     bool			m_bXData;
     list<QWidget*>	m_required;

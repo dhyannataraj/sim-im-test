@@ -471,6 +471,14 @@ void CToolCombo::slotTextChanged(const QString &str)
 void CToolCombo::setState()
 {
     CToolItem::setState();
+    if (m_def.text && *m_def.text){
+        QString t = i18n(m_def.text);
+        int pos;
+        while ((pos = t.find('&')) >= 0)
+            t = t.left(pos) + "<u>" + t.mid(pos+1, 1) + "</u>" + t.mid(pos+2);
+        QToolTip::remove(this);
+        QToolTip::add(this, t);
+    }
     if (m_btn){
         *m_btn->def() = m_def;
         m_btn->setState();
