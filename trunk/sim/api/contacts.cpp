@@ -282,7 +282,7 @@ static QString addStrings (const QString & old_value, const QString & values,
     for (PROTO_LIST::iterator itp = proto.begin (); itp != proto.end (); ++itp) {
       if (proto_str.length ())
         proto_str += ",";
-      proto_str += quoteChars ((*itp).c_str (), ",;/");
+      proto_str += QString(quoteChars ((*itp).c_str (), ",;/").c_str());
     }
     res += proto_str;
   }
