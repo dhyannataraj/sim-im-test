@@ -312,7 +312,7 @@ bool DockWnd::x11Event(XEvent *e)
 
         if (!inTray){
             bInit = true;
-	    setFocusPolicy(NoFocus);
+            setFocusPolicy(NoFocus);
             move(pMain->DockX, pMain->DockY);
             reset();
         }
@@ -554,10 +554,10 @@ void DockWnd::mouseReleaseEvent( QMouseEvent *e)
     if (!inTray || wharfIcon){
         releaseMouse();
         move(x() + e->pos().x() - mousePos.x(), y() + e->pos().y() - mousePos.y());
-	mousePos = QPoint(0, 0);
-	QPoint p(pMain->DockX - x(), pMain->DockY - y());
-	pMain->DockX = x();
-	pMain->DockY = y(); 
+        mousePos = QPoint(0, 0);
+        QPoint p(pMain->DockX - x(), pMain->DockY - y());
+        pMain->DockX = x();
+        pMain->DockY = y();
         if (p.manhattanLength() > 6)
             return;
     }

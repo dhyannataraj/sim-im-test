@@ -385,7 +385,7 @@ void SIMClient::save(QFile &s)
     for (list<ICQUser*>::iterator it = contacts.users.begin(); it != contacts.users.end(); it++){
         if ((*it)->bIsTemp) continue;
         writeStr(s, "[User]\n");
-        ::save(*it, ICQUser_Params, s);
+        ::save(*it, SIMUser_Params, s);
     }
 }
 
@@ -1558,7 +1558,7 @@ MsgFilter::MsgFilter(SIMClient *p, ICQMsg *_msg, const char *prog)
 
 bool SIMUser::notEnoughInfo(void)
 {
-	return (Nick.empty()&&FirstName.empty()&&LastName.empty());
+    return (Nick.empty()&&FirstName.empty()&&LastName.empty());
 }
 
 #ifndef _WINDOWS

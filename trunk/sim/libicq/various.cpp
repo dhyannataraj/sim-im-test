@@ -918,6 +918,8 @@ bool ICQClientPrivate::setWorkInfo(ICQUser *u)
     << s_WorkDepartment
     << s_WorkPosition;
     sock->writeBuffer.pack(u->Occupation);
+    sock->writeBuffer
+    << s_WorkHomepage;
     sendServerRequest();
     SetWorkInfo *e = new SetWorkInfo(m_nMsgSequence, u);
     varEvents.push_back(e);

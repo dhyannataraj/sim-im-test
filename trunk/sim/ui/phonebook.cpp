@@ -93,6 +93,7 @@ PhoneBookDlg::PhoneBookDlg(QWidget *p, bool bReadOnly)
         disableWidget(cmbPhone);
     }else{
         load(pClient->owner);
+        lblNote->hide();
     }
 }
 

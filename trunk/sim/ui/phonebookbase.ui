@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>367</width>
-            <height>385</height>
+            <width>351</width>
+            <height>346</height>
         </rect>
     </property>
     <property>
@@ -196,6 +196,29 @@
                                 </property>
                             </widget>
                         </hbox>
+                    </widget>
+                    <widget>
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>lblNote</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Note:
+You can change only those numbers which have entered.
+It is impossible to change numbers which were received from the user.</string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>WordBreak|AlignTop|AlignLeft</set>
+                        </property>
+                        <property>
+                            <name>vAlign</name>
+                        </property>
+                        <property>
+                            <name>wordwrap</name>
+                        </property>
                     </widget>
                 </vbox>
             </widget>

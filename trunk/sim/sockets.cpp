@@ -67,8 +67,8 @@ ICQClientSocket::ICQClientSocket(QSocket *s)
         sock = new KExtendedSocket;
     sock->setSocketFlags(KExtendedSocket::outputBufferedSocket );
 #else
-        bConnected = false;
-    sock = new QSocket(this);
+        sock = new QSocket(this);
+    bConnected = false;
 #endif
 #ifdef HAVE_KEXTSOCK_H
     QObject::connect(sock, SIGNAL(connectionSuccess()), this, SLOT(slotConnected()));
