@@ -191,7 +191,7 @@ msgid ""
 "See you tomorrow!\n"
 msgstr ""
 "Ich bin nicht da.\n"
-"wir sehen uns morgen!\n"
+"Wir sehen uns morgen!\n"
 
 #: plugins/_core/core.cpp:331
 msgid "Please do not disturb me now. Disturb me later.\n"
@@ -1898,7 +1898,7 @@ msgstr "Mehr Smilies herunterladen"
 
 #: plugins/icons/smilecfgbase.cpp:122
 msgid "Smiles:"
-msgstr "Smiles:"
+msgstr "Smilies:"
 
 #: plugins/icq/icqclient.cpp:554 plugins/icq/icqicmb.cpp:81
 #: plugins/icq/icqicmb.cpp:174
@@ -2384,7 +2384,7 @@ msgid ""
 "%n times check invisible"
 msgstr ""
 "Einmal unsichtbar prüfen\n"
-"%n mal unsichbar prüfen"
+"%n Mal unsichbar prüfen"
 
 #: plugins/icq/icqmessage.cpp:961
 #, c-format
@@ -2554,7 +2554,7 @@ msgstr "Ungültiges Passwort"
 
 #: plugins/icq/icqsecure.cpp:125 plugins/jabber/addresult.cpp:30
 msgid "Nick"
-msgstr "Spitzname"
+msgstr "Nickname"
 
 #: plugins/icq/icqservice.cpp:137
 msgid "anonymous"
@@ -3549,7 +3549,7 @@ msgstr "Gruppe:"
 
 #: plugins/icq/icqsearchbase.cc:342 plugins/msn/msnsearchbase.cpp:112
 msgid "&Add contact"
-msgstr "Kontakten &hinzufügen"
+msgstr "Kontakt &hinzufügen"
 
 #: plugins/icq/icqsearchbase.cc:343
 msgid "Send &message"
@@ -3764,6 +3764,10 @@ msgstr ""
 msgid "Fill in a field to search for any matching Jabber users."
 msgstr "Ein Feld zum Suchen nach passenden Jabber-Benutzern ausfüllen"
 
+#: plugins/jabber/servicesbase.cpp:167 plugins/jabber/servicesbase.cpp:173
+msgid "Jabber agents are available online after login"
+msgstr "Jabber-Agenten sind nach Login verfügbar"
+
 #: plugins/jabber/jabbersearch.cpp:197
 msgid ""
 "To register, please fill out the following form.  Be as accurate as possible "
@@ -3771,10 +3775,6 @@ msgid ""
 msgstr ""
 "Um sich zu registrieren, biite das folgende Formular ausfüllen. Dabei bitte "
 "gewissenhaft sein, dies erleichtert die Suche von anderen Leuten nach Ihnen."
-
-#: plugins/jabber/servicesbase.cpp:167 plugins/jabber/servicesbase.cpp:173
-msgid "Jabber agents are available online after login"
-msgstr "Jabber-Agenten sind nach Login verfügbar"
 
 #: plugins/jabber/servicesbase.cpp:168
 msgid "Registered agents:"
@@ -3824,7 +3824,7 @@ msgstr "Registrierung fehlgeschlagen"
 #: plugins/jabber/jabberaddbase.cpp:125
 #: plugins/jabber/jabberconfigbase.cpp:217
 msgid "Jabber ID:"
-msgstr "Jabber ID:"
+msgstr "Jabber-ID:"
 
 #: plugins/jabber/jabberconfigbase.cpp:218
 msgid "&Register new account"
@@ -3856,7 +3856,7 @@ msgstr "&Arbeit-Info"
 
 #: plugins/jabber/jabberaddbase.cpp:126
 msgid "Jabber ID"
-msgstr "Jabber ID"
+msgstr "Jabber-ID"
 
 #: plugins/jabber/jabberaddbase.cpp:127
 msgid "Service:"
@@ -3864,7 +3864,7 @@ msgstr "Dienst:"
 
 #: plugins/logger/logger.cpp:33
 msgid "Logger"
-msgstr "Debug Logger"
+msgstr "Debug-Logger"
 
 #: plugins/logger/logger.cpp:34
 msgid ""
@@ -4325,13 +4325,13 @@ msgstr "Klang beim SIM-Start:"
 msgid "&Disable all sounds"
 msgstr "Alle Klänge &deaktivieren"
 
-#: plugins/sound/sounduserbase.cpp:133
-msgid "No sound if windows has &focus"
-msgstr "Keine Klänge, wenn Fenster den &Fokus hat"
-
 #: plugins/sound/sounduserbase.cpp:134
 msgid "On line alert:"
 msgstr "Onlinealarm:"
+
+#: plugins/sound/sounduserbase.cpp:133
+msgid "No sound if windows has &focus"
+msgstr "Keine Klänge, wenn Fenster den &Fokus hat"
 
 #: plugins/splash/splash.cpp:34
 msgid "Splash"
@@ -4350,8 +4350,8 @@ msgid ""
 "Plugin provides windows transparency\n"
 "This plugin works only on Windows 2000 or Windows XP"
 msgstr ""
-"Plugin stellt die Transparenz von Fenstern in Windows\n"
-"Es funktioniert nur in Windows 2000 oder in Windows XP bereit"
+"Plugin stellt die Transparenz von Fenstern in Windows bereit\n"
+"Es funktioniert nur in Windows 2000 oder in Windows XP"
 
 #: plugins/transparent/transparent.cpp:69
 msgid "Plugin provides windows transparency"
@@ -5901,29 +5901,21 @@ msgid ""
 "%1\n"
 "to\n"
 "%2"
-msgstr ""
-"Konnte nicht umbenennen\n"
-"%1\n"
-"nach\n"
-"%2"
+msgstr "Konnte \"%1\" nicht nach \"%2\" umbenennen"
 
 #: sim/ui/qt3/i18n.cpp:216
 #, c-format
 msgid ""
 "Could not open\n"
 "%1"
-msgstr ""
-"Konnte nicht öffnen\n"
-"%1"
+msgstr "Konnte \"%1\" nicht öffnen"
 
 #: sim/ui/qt3/i18n.cpp:220
 #, c-format
 msgid ""
 "Could not write\n"
 "%1"
-msgstr ""
-"Konnte nicht schreiben\n"
-"%1"
+msgstr "Konnte \"%1\" nicht schreiben"
 
 #: sim/ui/qt3/i18n.cpp:223
 msgid "Operation stopped by the user"
