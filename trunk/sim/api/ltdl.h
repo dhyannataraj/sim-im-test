@@ -251,14 +251,11 @@ typedef lt_ptr			lt_user_data;
 typedef lt_ptr			lt_module;
 
 /* Function pointer types for creating user defined module loaders. */
-typedef lt_module   lt_module_open	LT_PARAMS((lt_user_data loader_data,
-        const char *filename));
-typedef int	    lt_module_close	LT_PARAMS((lt_user_data loader_data,
-        lt_module handle));
-typedef lt_ptr	    lt_find_sym		LT_PARAMS((lt_user_data loader_data,
-        lt_module handle,
+typedef lt_module   lt_module_open	LT_PARAMS((const char *filename));
+typedef int	    lt_module_close	LT_PARAMS((lt_module handle));
+typedef lt_ptr	    lt_find_sym		LT_PARAMS((lt_module handle,
         const char *symbol));
-typedef int	    lt_dlloader_exit	LT_PARAMS((lt_user_data loader_data));
+typedef int	    lt_dlloader_exit	LT_PARAMS((void));
 
 struct lt_user_dlloader {
     const char	       *sym_prefix;

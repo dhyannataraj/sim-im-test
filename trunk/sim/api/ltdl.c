@@ -606,8 +606,7 @@ sys_dl_not_found_entry( const char* tmp );
 #endif /* _AIX */
 
 static lt_module
-sys_dl_open (loader_data, filename)
-lt_user_data loader_data;
+sys_dl_open (filename)
 const char *filename;
 {
     lt_module module;
@@ -628,8 +627,7 @@ const char *filename;
 }
 
 static int
-sys_dl_close (loader_data, module)
-lt_user_data loader_data;
+sys_dl_close (module)
 lt_module module;
 {
     int errors = 0;
@@ -644,8 +642,7 @@ lt_module module;
 }
 
 static lt_ptr
-sys_dl_sym (loader_data, module, symbol)
-lt_user_data loader_data;
+sys_dl_sym (module, symbol)
 lt_module module;
 const char *symbol;
 {
@@ -725,8 +722,7 @@ int lt_dlopen_flag = 0;
 #define	LT_BIND_FLAGS	(BIND_IMMEDIATE | BIND_NONFATAL | DYNAMIC_PATH)
 
 static lt_module
-sys_shl_open (loader_data, filename)
-lt_user_data loader_data;
+sys_shl_open (filename)
 const char *filename;
 {
     /* A NULL handle is used to get symbols from self and everything
@@ -747,8 +743,7 @@ const char *filename;
 }
 
 static int
-sys_shl_close (loader_data, module)
-lt_user_data loader_data;
+sys_shl_close (module)
 lt_module module;
 {
     int errors = 0;
@@ -763,8 +758,7 @@ lt_module module;
 }
 
 static lt_ptr
-sys_shl_sym (loader_data, module, symbol)
-lt_user_data loader_data;
+sys_shl_sym (module, symbol)
 lt_module module;
 const char *symbol;
 {
@@ -810,8 +804,7 @@ static struct lt_user_dlloader sys_shl = {
 static lt_dlhandle handles;
 
 static lt_module
-sys_wll_open (loader_data, filename)
-lt_user_data loader_data;
+sys_wll_open (filename)
 const char *filename;
 {
     lt_dlhandle	cur;
@@ -900,8 +893,7 @@ const char *filename;
 }
 
 static int
-sys_wll_close (loader_data, module)
-lt_user_data loader_data;
+sys_wll_close (module)
 lt_module module;
 {
     int	      errors   = 0;
@@ -916,8 +908,7 @@ lt_module module;
 }
 
 static lt_ptr
-sys_wll_sym (loader_data, module, symbol)
-lt_user_data loader_data;
+sys_wll_sym (module, symbol)
 lt_module module;
 const char *symbol;
 {
@@ -950,8 +941,7 @@ static struct lt_user_dlloader sys_wll = {
 #include <kernel/image.h>
 
 static lt_module
-sys_bedl_open (loader_data, filename)
-lt_user_data loader_data;
+sys_bedl_open (filename)
 const char *filename;
 {
     image_id image = 0;
@@ -978,8 +968,7 @@ const char *filename;
 }
 
 static int
-sys_bedl_close (loader_data, module)
-lt_user_data loader_data;
+sys_bedl_close (module)
 lt_module module;
 {
     int errors = 0;
@@ -994,8 +983,7 @@ lt_module module;
 }
 
 static lt_ptr
-sys_bedl_sym (loader_data, module, symbol)
-lt_user_data loader_data;
+sys_bedl_sym (module, symbol)
 lt_module module;
 const char *symbol;
 {
@@ -1032,8 +1020,7 @@ static struct lt_user_dlloader sys_bedl = {
 #endif
 
 static lt_module
-sys_dld_open (loader_data, filename)
-lt_user_data loader_data;
+sys_dld_open (filename)
 const char *filename;
 {
     lt_module module = strdup (filename);
@@ -1054,8 +1041,7 @@ const char *filename;
 }
 
 static int
-sys_dld_close (loader_data, module)
-lt_user_data loader_data;
+sys_dld_close (module)
 lt_module module;
 {
     int errors = 0;
@@ -1074,8 +1060,7 @@ lt_module module;
 }
 
 static lt_ptr
-sys_dld_sym (loader_data, module, symbol)
-lt_user_data loader_data;
+sys_dld_sym (module, symbol)
 lt_module module;
 const char *symbol;
 {
@@ -1113,8 +1098,7 @@ static	const lt_dlsymlist     *default_preloaded_symbols	= 0;
 static	lt_dlsymlists_t	       *preloaded_symbols		= 0;
 
 static int
-presym_init (loader_data)
-lt_user_data loader_data;
+presym_init ()
 {
     int errors = 0;
 
@@ -1154,8 +1138,7 @@ presym_free_symlists ()
 }
 
 static int
-presym_exit (loader_data)
-lt_user_data loader_data;
+presym_exit ()
 {
     presym_free_symlists ();
     return 0;
@@ -1200,8 +1183,7 @@ done:
 }
 
 static lt_module
-presym_open (loader_data, filename)
-lt_user_data loader_data;
+presym_open (filename)
 const char *filename;
 {
     lt_dlsymlists_t *lists;
@@ -1246,8 +1228,7 @@ done:
 }
 
 static int
-presym_close (loader_data, module)
-lt_user_data loader_data;
+presym_close (module)
 lt_module module;
 {
     /* Just to silence gcc -Wall */
@@ -1256,8 +1237,7 @@ lt_module module;
 }
 
 static lt_ptr
-presym_sym (loader_data, module, symbol)
-lt_user_data loader_data;
+presym_sym (module, symbol)
 lt_module module;
 const char *symbol;
 {
@@ -1358,8 +1338,6 @@ const lt_dlsymlist *preloaded;
     }
     else
     {
-        const char *errormsg = 0;
-
         presym_free_symlists();
 
         MUTEX_LOCK ();
@@ -1388,7 +1366,6 @@ lt_dlexit ()
 {
     /* shut down libltdl */
     lt_dlloader *loader;
-    const char  *errormsg;
     int	       errors   = 0;
 
     MUTEX_LOCK ();
