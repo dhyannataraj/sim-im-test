@@ -96,7 +96,7 @@ UserView::UserView()
     edtContact = new IntLineEdit(viewport());
     edtGroup->hide();
     edtContact->hide();
-    QFont font(font());
+    QFont font;
     int size = font.pixelSize();
     if (size <= 0){
         size = font.pointSize();
