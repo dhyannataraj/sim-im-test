@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2002-12-08 06:49+0300\n"
-"PO-Revision-Date: 2002-12-07 20:15GMT\n"
+"PO-Revision-Date: 2002-12-08 14:22GMT\n"
 "Last-Translator: Crissi <crissi99@gmx.de>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2496,12 +2496,10 @@ msgid "Directory for incoming files"
 msgstr "Verzeichnis für ankommende Dateien"
 
 #: ui/editfile.cpp:123
-#, fuzzy
 msgid "*.wav|Sounds"
-msgstr "*.wav (Klänge)"
+msgstr "*.wav|Klänge"
 
 #: ui/editfile.cpp:125
-#, fuzzy
 msgid "Sounds(*.wav)"
 msgstr "Klänge (*.wav)"
 
@@ -2770,12 +2768,10 @@ msgid "System"
 msgstr "System"
 
 #: ui/themesetup.cpp:129
-#, fuzzy
 msgid "%1|Graphics"
-msgstr "Grafiken (%1)"
+msgstr "%1|Grafiken"
 
 #: ui/themesetup.cpp:131
-#, fuzzy
 msgid "Graphics(%1)"
 msgstr "Grafiken (%1)"
 
@@ -2957,8 +2953,7 @@ msgstr "&Signatur"
 
 #: ui/forwardsetupbase.cpp:89 ui/smssetupbase.cpp:131
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
-"Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
+msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
 
 #: ui/forwardsetupbase.cpp:97 ui/smssetupbase.cpp:132
 msgid ""
@@ -3690,8 +3685,7 @@ msgid "Hide main window after"
 msgstr "Hauptfenster anzeigen/verstecken nach"
 
 #: ui/statussetupbase.cpp:141
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -3890,8 +3884,7 @@ msgstr "&Ablehnen"
 
 #: ui/generalsecbase.cpp:201
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: ui/generalsecbase.cpp:202
 msgid ""
@@ -4025,8 +4018,7 @@ msgstr ";-)"
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
 
 #: editspell.cpp:319
 msgid "Spell check"
@@ -4649,3 +4641,4 @@ msgstr "? Unbekannter Status %1"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
