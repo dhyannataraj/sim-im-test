@@ -64,7 +64,7 @@ WeatherCfg::~WeatherCfg()
 
 void WeatherCfg::textChanged(const QString &text)
 {
-    btnSearch->setEnabled(!text.isEmpty() && !isDone());
+    btnSearch->setEnabled(!text.isEmpty() && isDone());
 }
 
 void WeatherCfg::search()

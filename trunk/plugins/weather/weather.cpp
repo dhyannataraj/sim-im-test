@@ -461,12 +461,11 @@ i18n("weather", "Fog")
 i18n("weather", "Haze")
 i18n("weather", "Storm")
 i18n("weather", "Rain")
-i18n("weather", "Snow Showers")
+i18n("weather", "Snow")
 i18n("weather", "Light Rain")
 i18n("weather", "Light Snow")
-i18n("weather", "Few Snow Showers")
-i18n("weather", "Scattered Snow Showers")
-i18n("weather", "Snow Shower")
+i18n("weather", "Few Snow")
+i18n("weather", "Scattered Snow")
 i18n("weather", "Clear")
 i18n("weather", "Showers")
 i18n("weather", "Mostly Clear")
@@ -476,6 +475,7 @@ i18n("weather", "Cloudy")
 i18n("weather", "Mostly Cloudy")
 i18n("weather", "Partly Cloudy")
 i18n("weather", "Wind")
+i18n("weather", "Drizzle")
 i18n("weather", "steady")
 i18n("weather", "rising")
 i18n("weather", "falling")
@@ -505,13 +505,19 @@ static QString i18n_conditions(const QString &str)
     int n = str.find(" / ");
     if (n >= 0)
         return i18n_conditions(str.left(n)) + " / " + i18n_conditions(str.mid(n + 3));
+    n = str.find(" and ");
+    if (n >= 0)
+        return i18n_conditions(str.left(n)) + " " + i18n("and") + " " + i18n_conditions(str.mid(n + 5));
     n = str.find(" Early");
     if (n >= 0)
         return i18n_conditions(str.left(n)) + " " + i18n("weather", "Early");
     n = str.find(" Late");
     if (n >= 0)
         return i18n_conditions(str.left(n)) + " " + i18n("weather", "Late");
-    return i18n("weather", str);
+    QString s = str;
+    s = s.replace(QRegExp(" Showers"), "");
+    s = s.replace(QRegExp(" Shower"), "");
+    return i18n("weather", s);
 }
 
 QString WeatherPlugin::replace(const QString &text)
@@ -522,9 +528,9 @@ QString WeatherPlugin::replace(const QString &text)
     res = res.replace(QRegExp("\\%d"), number(getDewPoint()) + QChar((unsigned short)176) + getUT());
     res = res.replace(QRegExp("\\%h"), number(getHumidity()) + "%");
     res = res.replace(QRegExp("\\%w"), number(getWind_speed()) + " " + getUS());
-    res = res.replace(QRegExp("\\%x"), number(getWind_speed() * 10 / 36) + " m/s");
+    res = res.replace(QRegExp("\\%x"), QString::number(getWind_speed() * 10 / 36) + " " + i18n("m/s"));
     res = res.replace(QRegExp("\\%g"), getWindGust() ? QString("(") + i18n("gust ") + number(getWindGust()) + getUS() + ")" : "");
-    res = res.replace(QRegExp("\\%y"), getWindGust() ? QString("(") + i18n("gust ") + number(getWindGust() * 10 / 36) + " m/s)" : "");
+    res = res.replace(QRegExp("\\%y"), getWindGust() ? QString("(") + i18n("gust ") + number(getWindGust() * 10 / 36) + " " + i18n("m/s") + ")" : "");
     res = res.replace(QRegExp("\\%p"), number(getPressure()) + " " + getUP());
     res = res.replace(QRegExp("\\%a"), number(getPressure() * 75 / 100));
     res = res.replace(QRegExp("\\%q"), i18n("weather", getPressureD()));

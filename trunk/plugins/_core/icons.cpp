@@ -170,11 +170,14 @@ Icons::Icons()
        I had a similar idea with setting the old defaultFactory in
        the destructor but this won't work :(
        Christian */
+#if COMPAT_QT_VERSION >= 0x030000
     QMimeSourceFactory* oldDefaultFactory = QMimeSourceFactory::takeDefaultFactory();
-    QMimeSourceFactory::setDefaultFactory( new MyMimeSourceFactory() );
-    if ( oldDefaultFactory ) {
+#endif
+    QMimeSourceFactory::setDefaultFactory(new MyMimeSourceFactory());
+#if COMPAT_QT_VERSION >= 0x030000
+    if (oldDefaultFactory)
         QMimeSourceFactory::addFactory( oldDefaultFactory );
-    }
+#endif
 #ifdef USE_KDE
     connect(kapp, SIGNAL(iconChanged(int)), this, SLOT(iconChanged(int)));
     kapp->addKipcEventMask(KIPC::IconChanged);

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sim\n"
-"POT-Creation-Date: 2004-03-15 09:17+0300\n"
+"POT-Creation-Date: 2004-03-15 11:35+0300\n"
 "PO-Revision-Date: 2004-03-12 16:34+0100\n"
 "Last-Translator: Lapo Luchini <lapo@lapo.it>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -8199,10 +8199,11 @@ msgid ""
 msgstr "Pioggia"
 
 #: plugins/weather/weather.cpp:464
+#, fuzzy
 msgid ""
 "_: weather\n"
-"Snow Showers"
-msgstr ""
+"Snow"
+msgstr "Tempesta"
 
 #: plugins/weather/weather.cpp:465
 msgid ""
@@ -8218,76 +8219,79 @@ msgid ""
 msgstr "Pioggia"
 
 #: plugins/weather/weather.cpp:467
+#, fuzzy
 msgid ""
 "_: weather\n"
-"Few Snow Showers"
-msgstr ""
+"Few Snow"
+msgstr "Pioggia"
 
 #: plugins/weather/weather.cpp:468
+#, fuzzy
 msgid ""
 "_: weather\n"
-"Scattered Snow Showers"
-msgstr ""
+"Scattered Snow"
+msgstr "Pioggia"
 
 #: plugins/weather/weather.cpp:469
-msgid ""
-"_: weather\n"
-"Snow Shower"
-msgstr ""
-
-#: plugins/weather/weather.cpp:470
 msgid ""
 "_: weather\n"
 "Clear"
 msgstr ""
 
-#: plugins/weather/weather.cpp:471
+#: plugins/weather/weather.cpp:470
 msgid ""
 "_: weather\n"
 "Showers"
 msgstr ""
 
-#: plugins/weather/weather.cpp:472
+#: plugins/weather/weather.cpp:471
 msgid ""
 "_: weather\n"
 "Mostly Clear"
 msgstr ""
 
-#: plugins/weather/weather.cpp:473
+#: plugins/weather/weather.cpp:472
 msgid ""
 "_: weather\n"
 "Sunny"
 msgstr ""
 
-#: plugins/weather/weather.cpp:474
+#: plugins/weather/weather.cpp:473
 msgid ""
 "_: weather\n"
 "Fair"
 msgstr ""
 
-#: plugins/weather/weather.cpp:475
+#: plugins/weather/weather.cpp:474
 msgid ""
 "_: weather\n"
 "Cloudy"
 msgstr ""
 
-#: plugins/weather/weather.cpp:476
+#: plugins/weather/weather.cpp:475
 msgid ""
 "_: weather\n"
 "Mostly Cloudy"
 msgstr ""
 
-#: plugins/weather/weather.cpp:477
+#: plugins/weather/weather.cpp:476
 msgid ""
 "_: weather\n"
 "Partly Cloudy"
 msgstr ""
 
-#: plugins/weather/weather.cpp:478
+#: plugins/weather/weather.cpp:477
 msgid ""
 "_: weather\n"
 "Wind"
 msgstr "Vento"
+
+#: plugins/weather/weather.cpp:478
+#, fuzzy
+msgid ""
+"_: weather\n"
+"Drizzle"
+msgstr "Presto"
 
 #: plugins/weather/weather.cpp:479
 msgid ""
@@ -8427,27 +8431,37 @@ msgid ""
 msgstr "Presto"
 
 #: plugins/weather/weather.cpp:510
+#, fuzzy
+msgid "and"
+msgstr "Canada"
+
+#: plugins/weather/weather.cpp:513
 msgid ""
 "_: weather\n"
 "Early"
 msgstr "Presto"
 
-#: plugins/weather/weather.cpp:513
+#: plugins/weather/weather.cpp:516
 msgid ""
 "_: weather\n"
 "Late"
 msgstr "Tardi"
 
-#: plugins/weather/weather.cpp:526 plugins/weather/weather.cpp:527
+#: plugins/weather/weather.cpp:531 plugins/weather/weather.cpp:533
+#, fuzzy
+msgid "m/s"
+msgstr "b/s"
+
+#: plugins/weather/weather.cpp:532 plugins/weather/weather.cpp:533
 msgid "gust "
 msgstr ""
 
-#: plugins/weather/weather.cpp:589
+#: plugins/weather/weather.cpp:595
 #, fuzzy
 msgid "%t | %c"
 msgstr "%t %c"
 
-#: plugins/weather/weather.cpp:598
+#: plugins/weather/weather.cpp:604
 msgid ""
 "%l<br><br>\n"
 "<img src=\"icon:weather\"> %c<br>\n"
@@ -8463,7 +8477,7 @@ msgid ""
 "Updated: %u<br>\n"
 msgstr ""
 
-#: plugins/weather/weather.cpp:617
+#: plugins/weather/weather.cpp:623
 msgid ""
 "<br>\n"
 "<nobr><b>%d %w</b></nobr><br>\n"
