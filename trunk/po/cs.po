@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "POT-Creation-Date: 2002-12-02 00:16+0300\n"
-"PO-Revision-Date: 2002-11-29 20:26+0100\n"
+"PO-Revision-Date: 2002-12-03 01:29+0100\n"
 "Last-Translator: Pavel Rousar <rousarp@fel.cvut.cz>\n"
 "Language-Team: Čeština <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1626,11 +1626,11 @@ msgstr "Minulá společnost"
 
 #: libicq/country.cpp:458
 msgid "Female"
-msgstr "Ženské"
+msgstr "Žena"
 
 #: libicq/country.cpp:459
 msgid "Male"
-msgstr "Mužské"
+msgstr "Muž"
 
 #: chatwnd.cpp:75 ui/userinfobase.cpp:153
 msgid "Save"
@@ -1675,7 +1675,7 @@ msgstr "Online"
 
 #: dock.cpp:450 mainwin.cpp:795
 msgid "%1 from %2"
-msgstr "%1 z %2"
+msgstr "%1 (%2)"
 
 #: dock.cpp:463 mainwin.cpp:1952
 msgid "Connecting"
@@ -1690,6 +1690,8 @@ msgid ""
 "There is already an auto hidden window on this edge.\n"
 "Only one auto hidden window is allowed on each edge."
 msgstr ""
+"Toto je právě automaticky schovávané okno tohoto rohu.\n"
+"Pouze jedno takové okno může být v každém rohu."
 
 #: mainwin.cpp:552
 msgid "Show &offline"
@@ -1741,7 +1743,7 @@ msgstr "Telefonní seznam"
 
 #: mainwin.cpp:808
 msgid "AutoHide"
-msgstr ""
+msgstr "Automaticky skrýt"
 
 #: mainwin.cpp:1219
 msgid "%1 from %2 received"
@@ -2213,7 +2215,7 @@ msgid ""
 "%n files"
 msgstr ""
 "Soubor\n"
-"%n soubory\n"
+"%n souboů\n"
 "."
 
 #: msgview.cpp:209
@@ -2513,9 +2515,8 @@ msgid ""
 "_n: Receive file from %1\n"
 "Receive %n files from %1"
 msgstr ""
-"Přijímání souboru z %1\n"
-"%n Přijímání souborů z %1\n"
-"."
+"Přijímání souboru (%1) "
+"Přijímání souborů (%1) "
 
 #: ui/filetransfer.cpp:74
 msgid ""
@@ -2523,8 +2524,7 @@ msgid ""
 "Send %n files to %1"
 msgstr ""
 "Poslat soubor pro %1\n"
-"%n Poslat soubory pro %1\n"
-"."
+"%n Poslat soubory pro %1"
 
 #: ui/filetransfer.cpp:136
 msgid "[done]"
@@ -2760,11 +2760,11 @@ msgstr "Obecné"
 
 #: ui/themesetup.cpp:47
 msgid "System"
-msgstr ""
+msgstr "Systém"
 
 #: ui/themesetup.cpp:147
 msgid "Need restart SIM for change language"
-msgstr ""
+msgstr "Pro změnu jazyka je třeba restartovat SIM"
 
 #: ui/themesetup.cpp:157
 msgid "Default icons"
@@ -2896,8 +2896,8 @@ msgid ""
 "\n"
 "This only works with other SIM and Licq clients"
 msgstr ""
-"Zabezpečený kanál použije SSL s Diffie-Hellman výměnou klíče TLS "
-"verze 1 protokol.\n"
+"Zabezpečený kanál použije SSL s Diffie-Hellman výměnou klíče a TLS "
+" protokol verze 1.\n"
 "\n"
 "Funguje pouze s ostatními SIM a Licq klienty"
 
@@ -3488,7 +3488,6 @@ msgid "UseArts"
 msgstr "Použít Arts"
 
 #: ui/soundsetupbase.cpp:242
-#, fuzzy
 msgid "&Programm"
 msgstr "&Program"
 
@@ -3629,8 +3628,7 @@ msgid "Hide main window after"
 msgstr "Schovat hlavní okno po"
 
 #: ui/statussetupbase.cpp:141
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Zakázat online výstrahu pro \"Away\", \"N/A\", \"DND\" a \"Occupied\" "
 "seznam"
@@ -3773,8 +3771,7 @@ msgstr "&Domov"
 
 #: ui/generalsecbase.cpp:186
 msgid "My &authorization is required before users add me to Contact List"
-msgstr ""
-"Má &autorizace je vyžadována před přidáním uživatele do kontaktlistu"
+msgstr "Má &autorizace je vyžadována před přidáním uživatele do kontaktlistu"
 
 #: ui/generalsecbase.cpp:187
 msgid "Don't show my &IP-address"
@@ -4139,7 +4136,7 @@ msgid ""
 "%n contact lists"
 msgstr ""
 "Kontaktlist\n"
-"%n kontaktlist\n"
+"%n kontaktlistů\n"
 "."
 
 #: client.cpp:1003
@@ -4219,8 +4216,7 @@ msgid ""
 "%n unknown messages"
 msgstr ""
 "Neznámá zpráva\n"
-"%n neznámých zpráv\n"
-"."
+"%n neznámých zpráv"
 
 #: client.cpp:1026
 msgid ""
@@ -4375,7 +4371,7 @@ msgstr "? Neznámý příkaz %1"
 #: control.cpp:301
 #, c-format
 msgid "? Bad arguments number. Try help %1"
-msgstr "? Chyba v počtu argumentů: Zkus help %1"
+msgstr "? Chyba v počtu argumentů: Zkuste help %1"
 
 #: control.cpp:316
 #, c-format
@@ -4527,3 +4523,4 @@ msgstr "? Neznámý stav %1"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
