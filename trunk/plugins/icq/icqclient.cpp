@@ -229,7 +229,7 @@ typedef struct ICQClientData
 static DataDef icqClientData[] =
     {
         { "Server", DATA_STRING, 1, (unsigned)"login.icq.com" },
-        { "Port", DATA_ULONG, 1, 5190 },
+        { "ServerPort", DATA_ULONG, 1, 5190 },
         { "ContactTime", DATA_ULONG, 1, 0 },
         { "ContactLength", DATA_ULONG, 1, 0 },
         { "ContactInvisible", DATA_ULONG, 1, 0 },
