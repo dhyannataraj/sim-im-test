@@ -156,11 +156,11 @@ SetupDialog::SetupDialog(QWidget*, int nWin)
     itemMain = new QListViewItem(lstBars, i18n("Auto reply"), QString::number(SETUP_AUTOREPLY));
     itemMain->setOpen(true);
 
-    addPage(p_MsgDialog, SETUP_AR_AWAY, Client::getStatusText(ICQ_STATUS_AWAY), "away", ICQ_STATUS_AWAY);
-    addPage(p_MsgDialog, SETUP_AR_NA, Client::getStatusText(ICQ_STATUS_NA), "na", ICQ_STATUS_NA);
-    addPage(p_MsgDialog, SETUP_AR_OCCUPIED, Client::getStatusText(ICQ_STATUS_OCCUPIED), "occupied", ICQ_STATUS_OCCUPIED);
-    addPage(p_MsgDialog, SETUP_AR_DND, Client::getStatusText(ICQ_STATUS_DND), "dnd", ICQ_STATUS_DND);
-    addPage(p_MsgDialog, SETUP_AR_FREEFORCHAT, Client::getStatusText(ICQ_STATUS_FREEFORCHAT), "ffc", ICQ_STATUS_FREEFORCHAT);
+    addPage(p_MsgDialog, SETUP_AR_AWAY, SIMClient::getStatusText(ICQ_STATUS_AWAY), "away", ICQ_STATUS_AWAY);
+    addPage(p_MsgDialog, SETUP_AR_NA, SIMClient::getStatusText(ICQ_STATUS_NA), "na", ICQ_STATUS_NA);
+    addPage(p_MsgDialog, SETUP_AR_OCCUPIED, SIMClient::getStatusText(ICQ_STATUS_OCCUPIED), "occupied", ICQ_STATUS_OCCUPIED);
+    addPage(p_MsgDialog, SETUP_AR_DND, SIMClient::getStatusText(ICQ_STATUS_DND), "dnd", ICQ_STATUS_DND);
+    addPage(p_MsgDialog, SETUP_AR_FREEFORCHAT, SIMClient::getStatusText(ICQ_STATUS_FREEFORCHAT), "ffc", ICQ_STATUS_FREEFORCHAT);
 
     itemMain = new QListViewItem(lstBars, i18n("Security"), QString::number(SETUP_SECURITY));
     itemMain->setOpen(true);

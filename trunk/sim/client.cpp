@@ -323,7 +323,7 @@ cfgParam Client_Params[] =
         { "", offsetof(ICQClient, owner), 0, (unsigned)ClientOwner_Params }
     };
 
-void Client::save(ostream &s)
+void SIMClient::save(ostream &s)
 {
     ::save(static_cast<ICQClient*>(this), Client_Params, s);
     s << "[ContactList]\n";
@@ -339,7 +339,7 @@ void Client::save(ostream &s)
     }
 }
 
-bool Client::load(istream &s, string &nextPart)
+bool SIMClient::load(istream &s, string &nextPart)
 {
     if (!::load(static_cast<ICQClient*>(this), Client_Params, s, nextPart))
         return false;
@@ -399,7 +399,7 @@ bool Client::load(istream &s, string &nextPart)
     return true;
 }
 
-Client::Client(QObject *parent, const char *name)
+SIMClient::SIMClient(QObject *parent, const char *name)
         : QObject(parent, name)
 {
     QTimer *timer = new QTimer(this);
@@ -419,7 +419,7 @@ Client::Client(QObject *parent, const char *name)
     ::init(static_cast<ICQClient*>(this), Client_Params);
 }
 
-Client::~Client()
+SIMClient::~SIMClient()
 {
     for (list<SMSmessage*>::iterator it = smsQueue.begin(); it != smsQueue.end(); ++it){
         delete (*it);
@@ -429,22 +429,22 @@ Client::~Client()
     delete resolver;
 }
 
-void Client::timer()
+void SIMClient::timer()
 {
     idle();
 }
 
-Socket *Client::createSocket()
+Socket *SIMClient::createSocket()
 {
     return new ICQClientSocket;
 }
 
-ServerSocket *Client::createServerSocket()
+ServerSocket *SIMClient::createServerSocket()
 {
     return new ICQServerSocket(MinTCPPort, MaxTCPPort);
 }
 
-void Client::markAsRead(ICQMessage *msg)
+void SIMClient::markAsRead(ICQMessage *msg)
 {
     ICQUser *u = getUser(msg->getUin());
     if (u == NULL) return;
@@ -457,7 +457,7 @@ void Client::markAsRead(ICQMessage *msg)
     }
 }
 
-void Client::process_event(ICQEvent *e)
+void SIMClient::process_event(ICQEvent *e)
 {
     switch (e->type()){
     case EVENT_DONE:{
@@ -682,7 +682,7 @@ void Client::process_event(ICQEvent *e)
     emit event(e);
 }
 
-void Client::sendSMS(SMSmessage *sms)
+void SIMClient::sendSMS(SMSmessage *sms)
 {
     if (sms->msg){
         delete sms->msg;
@@ -760,7 +760,7 @@ QString SMSmessage::trim(const QString &s)
     return res;
 }
 
-void Client::resolve_ready()
+void SIMClient::resolve_ready()
 {
     if (resolveQueue.empty()) return;
     resolveAddr &a = *resolveQueue.begin();
@@ -778,7 +778,7 @@ void Client::resolve_ready()
     start_resolve();
 }
 
-void Client::start_resolve()
+void SIMClient::start_resolve()
 {
     if (resolver->isWorking()) return;
     for (; !resolveQueue.empty();){
@@ -803,12 +803,12 @@ void Client::start_resolve()
     }
 }
 
-QString Client::getName(bool bUseUin)
+QString SIMClient::getName(bool bUseUin)
 {
     return QString::fromLocal8Bit(owner->name(bUseUin).c_str());
 }
 
-const char *Client::getMessageIcon(int type)
+const char *SIMClient::getMessageIcon(int type)
 {
     switch (type){
     case ICQ_MSGxMSG:
@@ -848,7 +848,7 @@ const char *Client::getMessageIcon(int type)
     return "message";
 }
 
-QString Client::getMessageText(int type, int n)
+QString SIMClient::getMessageText(int type, int n)
 {
     switch (type){
     case ICQ_MSGxMSG:
@@ -893,7 +893,7 @@ QString Client::getMessageText(int type, int n)
     return i18n("Unknown message", "%n unknown messages", n);
 }
 
-const char *Client::getUserIcon(ICQUser *u)
+const char *SIMClient::getUserIcon(ICQUser *u)
 {
     switch (u->Type){
     case USER_TYPE_EXT:
@@ -902,7 +902,7 @@ const char *Client::getUserIcon(ICQUser *u)
     return getStatusIcon(u->uStatus);
 }
 
-const char *Client::getStatusIcon(unsigned long status)
+const char *SIMClient::getStatusIcon(unsigned long status)
 {
     if ((status & 0xFFFF) == ICQ_STATUS_OFFLINE) return "offline";
     if (status & ICQ_STATUS_DND) return "dnd";
@@ -913,7 +913,7 @@ const char *Client::getStatusIcon(unsigned long status)
     return "online";
 }
 
-QString Client::getStatusText(unsigned long status)
+QString SIMClient::getStatusText(unsigned long status)
 {
     if ((status & 0xFFFF) == ICQ_STATUS_OFFLINE) return i18n("Offline");
     if (status & ICQ_STATUS_DND) return i18n("Do not disturb");;
@@ -924,21 +924,21 @@ QString Client::getStatusText(unsigned long status)
     return i18n("Online");
 }
 
-const char *Client::getStatusIcon()
+const char *SIMClient::getStatusIcon()
 {
     if (((owner->uStatus && 0xFF) == ICQ_STATUS_ONLINE) && owner->inInvisible)
         return "invisible";
     return getStatusIcon(owner->uStatus);
 }
 
-QString Client::getStatusText()
+QString SIMClient::getStatusText()
 {
     if (((owner->uStatus && 0xFF) == ICQ_STATUS_ONLINE) && owner->inInvisible)
         return i18n("Invisible");
     return getStatusText(owner->uStatus);
 }
 
-unsigned long Client::getFileSize(QString name, QString base, vector<fileName> &files)
+unsigned long SIMClient::getFileSize(QString name, QString base, vector<fileName> &files)
 {
 #ifdef WIN32
     QString fName = base + "\\" + name;
@@ -982,7 +982,7 @@ unsigned long Client::getFileSize(QString name, QString base, vector<fileName> &
     return res;
 }
 
-unsigned long Client::getFileSize(QString fName, vector<fileName> &files)
+unsigned long SIMClient::getFileSize(QString fName, vector<fileName> &files)
 {
     if (fName.isEmpty()) return 0;
     for (int i = fName.length() - 1; i >= 0; i--){
@@ -996,7 +996,7 @@ unsigned long Client::getFileSize(QString fName, vector<fileName> &files)
     return 0;
 }
 
-unsigned long Client::getFileSize(const char *name, int *nSrcFiles, vector<fileName> &files)
+unsigned long SIMClient::getFileSize(const char *name, int *nSrcFiles, vector<fileName> &files)
 {
     *nSrcFiles = 0;
     unsigned long res = 0;
@@ -1034,7 +1034,7 @@ unsigned long Client::getFileSize(const char *name, int *nSrcFiles, vector<fileN
 
 bool makedir(char *p);
 
-bool Client::createFile(ICQFile *f, int mode)
+bool SIMClient::createFile(ICQFile *f, int mode)
 {
     bool bTruncate = false;
     int size = 0;
@@ -1119,7 +1119,7 @@ bool Client::createFile(ICQFile *f, int mode)
     return true;
 }
 
-bool Client::openFile(ICQFile *f)
+bool SIMClient::openFile(ICQFile *f)
 {
     QFile *file = new QFile(QString::fromLocal8Bit(f->files[f->ft->curFile()].localName.c_str()));
     if (!file->open(IO_ReadOnly)){
@@ -1130,13 +1130,13 @@ bool Client::openFile(ICQFile *f)
     return true;
 }
 
-bool Client::seekFile(ICQFile *f, unsigned long pos)
+bool SIMClient::seekFile(ICQFile *f, unsigned long pos)
 {
     emit fileProcess(f);
     return ((QFile*)(f->p))->at(pos);
 }
 
-bool Client::readFile(ICQFile *f, Buffer &b, unsigned short size)
+bool SIMClient::readFile(ICQFile *f, Buffer &b, unsigned short size)
 {
     b.allocate(b.writePos() + size, 1024);
     char *p = b.Data(b.writePos());
@@ -1147,7 +1147,7 @@ bool Client::readFile(ICQFile *f, Buffer &b, unsigned short size)
     return true;
 }
 
-bool Client::writeFile(ICQFile *f, Buffer &b)
+bool SIMClient::writeFile(ICQFile *f, Buffer &b)
 {
     if (f->p == 0) return false;
     unsigned size = b.size() - b.readPos();
@@ -1157,13 +1157,13 @@ bool Client::writeFile(ICQFile *f, Buffer &b)
     return res;
 }
 
-void Client::closeFile(ICQFile *f)
+void SIMClient::closeFile(ICQFile *f)
 {
     if (f->p) delete (QFile*)(f->p);
     f->p = 0;
 }
 
-QTextCodec *Client::codecForUser(unsigned long uin)
+QTextCodec *SIMClient::codecForUser(unsigned long uin)
 {
     ICQUser *u = getUser(uin);
     if (u){
@@ -1183,17 +1183,17 @@ QTextCodec *Client::codecForUser(unsigned long uin)
     return QTextCodec::codecForLocale();
 }
 
-string Client::to8Bit(unsigned long uin, const QString &str)
+string SIMClient::to8Bit(unsigned long uin, const QString &str)
 {
     return to8Bit(codecForUser(uin), str);
 }
 
-QString Client::from8Bit(unsigned long uin, const string &str, const char *strCharset)
+QString SIMClient::from8Bit(unsigned long uin, const string &str, const char *strCharset)
 {
     return from8Bit(codecForUser(uin), str, strCharset);
 }
 
-string Client::to8Bit(QTextCodec *codec, const QString &str)
+string SIMClient::to8Bit(QTextCodec *codec, const QString &str)
 {
     int lenOut = str.length();
     string res;
@@ -1202,7 +1202,7 @@ string Client::to8Bit(QTextCodec *codec, const QString &str)
     return res;
 }
 
-QString Client::from8Bit(QTextCodec *codec, const string &str, const char *strCharset)
+QString SIMClient::from8Bit(QTextCodec *codec, const string &str, const char *strCharset)
 {
     if (!strcmp(codec->name(), serverCharset(codec->name())))
         return codec->makeDecoder()->toUnicode(str.c_str(), str.size());
@@ -1214,7 +1214,7 @@ QString Client::from8Bit(QTextCodec *codec, const string &str, const char *strCh
     return codec->makeDecoder()->toUnicode(s.c_str(), s.size());
 }
 
-void Client::setUserEncoding(unsigned long uin, int i)
+void SIMClient::setUserEncoding(unsigned long uin, int i)
 {
     if (userEncoding(uin) == i) return;
     ICQUser *u = NULL;
@@ -1240,7 +1240,7 @@ void Client::setUserEncoding(unsigned long uin, int i)
         emit encodingChanged(0);
 }
 
-int Client::userEncoding(unsigned long uin)
+int SIMClient::userEncoding(unsigned long uin)
 {
     QTextCodec *codec = codecForUser(uin);
     int n = 1;
@@ -1256,7 +1256,7 @@ int Client::userEncoding(unsigned long uin)
     return 0;
 }
 
-Client *pClient = NULL;
+SIMClient *pClient = NULL;
 
 #ifdef HAVE_KEXTSOCK_H
 ICQClientSocket::ICQClientSocket(KExtendedSocket *s)

@@ -27,7 +27,7 @@
 AlertMsgDlg::AlertMsgDlg(QWidget *p, unsigned long uin)
         : AlertMsgBase(p)
 {
-    setIcon(Pict(Client::getStatusIcon(ICQ_STATUS_OFFLINE)));
+    setIcon(Pict(SIMClient::getStatusIcon(ICQ_STATUS_OFFLINE)));
     setWFlags(WDestructiveClose);
     connect(btnOK, SIGNAL(clicked()), this, SLOT(close()));
     timeLeft = 15;

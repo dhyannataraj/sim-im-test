@@ -401,7 +401,7 @@ void UserTbl::viewportContextMenuEvent(QContextMenuEvent *e)
     }
     if (actionItem){
         if (sender) menuTable->insertSeparator();
-        menuTable->insertItem(Icon(Client::getMessageIcon(ICQ_MSGxMSG)), Client::getMessageText(ICQ_MSGxMSG, 1), mnuMessage);
+        menuTable->insertItem(Icon(SIMClient::getMessageIcon(ICQ_MSGxMSG)), SIMClient::getMessageText(ICQ_MSGxMSG, 1), mnuMessage);
         menuTable->insertItem(Icon("info"), i18n("User info"), mnuInfo);
         unsigned long uin = static_cast<UserTblItem*>(currentItem())->mUin;
         ICQUser *u = pClient->getUser(uin);

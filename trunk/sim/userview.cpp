@@ -328,7 +328,7 @@ void UserViewItem::update(ICQUser *u, bool bFirst)
     }
     QString name = user.name();
     setText(0, name);
-    setText(2, msgType ? Client::getMessageIcon(msgType) : Client::getUserIcon(u));
+    setText(2, msgType ? SIMClient::getMessageIcon(msgType) : SIMClient::getUserIcon(u));
     m_status = u->uStatus;
     m_uin = u->Uin;
     nBlink = 0;

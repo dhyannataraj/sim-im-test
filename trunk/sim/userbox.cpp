@@ -289,8 +289,8 @@ void UserBox::iconChanged()
     if (u){
         pMain->adjustUserMenu(menuType, u, true, true);
         btnType->setPopup(menuType);
-        btnUser->setState(Client::getUserIcon(u), curWnd->userName());
-        setIcon(Pict(Client::getUserIcon(u)));
+        btnUser->setState(SIMClient::getUserIcon(u), curWnd->userName());
+        setIcon(Pict(SIMClient::getUserIcon(u)));
     }
     adjustUserMenu(true);
 }
@@ -357,8 +357,8 @@ void UserBox::saveInfo(ICQUser *u)
     processEvent(&e);
     pMain->adjustUserMenu(menuType, u, false, true);
     btnType->setPopup(menuType);
-    btnUser->setState(Client::getUserIcon(u), curWnd->userName());
-    setIcon(Pict(Client::getUserIcon(u)));
+    btnUser->setState(SIMClient::getUserIcon(u), curWnd->userName());
+    setIcon(Pict(SIMClient::getUserIcon(u)));
     setGroupButtons();
 }
 
@@ -841,8 +841,8 @@ void UserBox::statusChanged(unsigned long uin)
     if (wnd->Uin != uin) return;
     ICQUser *u = pClient->getUser(curWnd->Uin);
     if (u){
-        btnUser->setState(Client::getUserIcon(u), curWnd->userName());
-        setIcon(Pict(Client::getUserIcon(u)));
+        btnUser->setState(SIMClient::getUserIcon(u), curWnd->userName());
+        setIcon(Pict(SIMClient::getUserIcon(u)));
         pMain->adjustUserMenu(menuType, u, false, true);
         btnType->setPopup(menuType);
     }
@@ -899,8 +899,8 @@ void UserBox::selectedUser(int id)
     if (u){
         pMain->adjustUserMenu(menuType, u, false, true);
         btnType->setPopup(menuType);
-        btnUser->setState(Client::getUserIcon(u), curWnd->userName());
-        setIcon(Pict(Client::getUserIcon(u)));
+        btnUser->setState(SIMClient::getUserIcon(u), curWnd->userName());
+        setIcon(Pict(SIMClient::getUserIcon(u)));
     }
     showUsers(curWnd->bMultiply, curWnd->Uin);
     setGroupButtons();

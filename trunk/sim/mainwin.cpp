@@ -114,6 +114,13 @@ static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
 #include <X11/extensions/scrnsaver.h>
 #endif
 
+#ifndef WIN32
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+#include <X11/Xatom.h>
+#define XA_WIN_SUPPORTING_WM_CHECK      "_WIN_SUPPORTING_WM_CHECK"
+#endif
+
 static char ICQ_CONF[] = "icq.conf";
 static char SIM_CONF[] = "sim.conf";
 
@@ -352,7 +359,7 @@ MainWindow::MainWindow(const char *name)
     resolver.setRecordType(QDns::A);
     resolver.setLabel("localhost");
 
-    pClient = new Client(this);
+    pClient = new SIMClient(this);
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     connect(pClient, SIGNAL(messageReceived(ICQMessage*)), this, SLOT(messageReceived(ICQMessage*)));
     connect(pClient, SIGNAL(messageRead(ICQMessage*)), this, SLOT(messageRead(ICQMessage*)));
@@ -517,9 +524,9 @@ void MainWindow::adjustFucntionMenu()
     for (list<msgInfo>::iterator it = menuMsgs.begin(); it != menuMsgs.end(); ++it){
         CUser u((*it).uin);
         (*it).menuId = ++id;
-        menuFunction->insertItem(Icon(Client::getMessageIcon((*it).type)),
+        menuFunction->insertItem(Icon(SIMClient::getMessageIcon((*it).type)),
                                  i18n("%1 from %2")
-                                 .arg(Client::getMessageText((*it).type, (*it).count))
+                                 .arg(SIMClient::getMessageText((*it).type, (*it).count))
                                  .arg(u.name()),
                                  id, ++index);
     }
@@ -592,7 +599,7 @@ void MainWindow::showPopup(QPoint p)
 
 void MainWindow::addStatusItem(int status)
 {
-    menuStatus->insertItem(Icon(Client::getStatusIcon(status)), Client::getStatusText(status), status & 0xFF);
+    menuStatus->insertItem(Icon(SIMClient::getStatusIcon(status)), SIMClient::getStatusText(status), status & 0xFF);
     setStatusItem(status);
 }
 
@@ -1558,8 +1565,8 @@ void MainWindow::setIcons()
         btnStatus->setState(pClient->getStatusIcon(), pClient->getStatusText());
         break;
     default:
-        btnStatus->setState(Client::getStatusIcon(bBlinkState ? ICQ_STATUS_OFFLINE : ICQ_STATUS_ONLINE), i18n("Connecting"));
-        icon = Pict(Client::getStatusIcon(bBlinkState ? ICQ_STATUS_OFFLINE : ICQ_STATUS_ONLINE));
+        btnStatus->setState(SIMClient::getStatusIcon(bBlinkState ? ICQ_STATUS_OFFLINE : ICQ_STATUS_ONLINE), i18n("Connecting"));
+        icon = Pict(SIMClient::getStatusIcon(bBlinkState ? ICQ_STATUS_OFFLINE : ICQ_STATUS_ONLINE));
     }
     setIcon(icon);
 }
@@ -1647,8 +1654,8 @@ void MainWindow::showUserPopup(unsigned long uin, QPoint p, QPopupMenu *popup, c
 void MainWindow::addMessageType(QPopupMenu *menuUser, int type, int id,
                                 bool bAdd, bool bHaveTitle)
 {
-    addMenuItem(menuUser, Client::getMessageIcon(type),
-                Client::getMessageText(type, 1),
+    addMenuItem(menuUser, SIMClient::getMessageIcon(type),
+                SIMClient::getMessageText(type, 1),
                 id, bAdd, bHaveTitle);
 }
 
@@ -1910,8 +1917,8 @@ void MainWindow::adjustUserMenu(QPopupMenu *menu, ICQUser *u, bool haveTitle, bo
             break;
         }
     }
-    addMenuItem(menu, Client::getStatusIcon(u->uStatus),
-                i18n("Read %1 message") .arg(Client::getStatusText(u->uStatus)),
+    addMenuItem(menu, SIMClient::getStatusIcon(u->uStatus),
+                i18n("Read %1 message") .arg(SIMClient::getStatusText(u->uStatus)),
                 mnuAutoResponse,
                 (u->uStatus != ICQ_STATUS_OFFLINE) && ((u->uStatus & 0xFF) != ICQ_STATUS_ONLINE), haveTitle);
     addMessageType(menu, ICQ_MSGxMAIL, mnuMail, haveEmail, haveTitle);

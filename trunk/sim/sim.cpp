@@ -300,8 +300,6 @@ int main(int argc, char *argv[])
         pMain->homeDir = strdup(args->getOption("b"));
     if (args->isSet("d"))
         log_level = atoi(args->getOption("d"));
-    if (args->isSet("w"))
-        pMain->useWM = atoi(args->getOption("w"));
 #else
     for (int i = 0; i < argc; i++){
         if (!strcmp(argv[i], "-b") && argv[i+1])

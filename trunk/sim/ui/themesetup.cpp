@@ -93,7 +93,7 @@ ThemeSetup::ThemeSetup(QWidget *parent)
 #ifdef USE_KDE
     chkDock->hide();
 #endif
-    if (!pMain->canWM()) chkWM->hide();
+    if (!pMain->canWM) chkWM->hide();
 #endif
     setupInit();
 }

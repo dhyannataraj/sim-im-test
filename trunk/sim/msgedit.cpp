@@ -407,7 +407,7 @@ void MsgEdit::setState()
     unsigned short msgType = 0;
     if (message()){
         msgType = message()->Type();
-        emit setMessageType(Client::getMessageIcon(msgType), Client::getMessageText(msgType, 1));
+        emit setMessageType(SIMClient::getMessageIcon(msgType), SIMClient::getMessageText(msgType, 1));
     }
     if (sendEvent){
         btnSend->setState("cancel", i18n("&Cancel"));
@@ -589,10 +589,10 @@ void MsgEdit::processEvent(ICQEvent *e)
                     ICQMsg *m = static_cast<ICQMsg*>(message());
                     QTextCodec *codec = pClient->codecForUser(Uin);
                     string msg_text = m->Message;
-                    Client::fromUTF(msg_text, codec->name());
-                    Client::toUTF(msg_text, codec->name());
+                    SIMClient::fromUTF(msg_text, codec->name());
+                    SIMClient::toUTF(msg_text, codec->name());
                     if (msg_text == m->Message){
-                        Client::fromUTF(m->Message, codec->name());
+                        SIMClient::fromUTF(m->Message, codec->name());
                         m->Charset = codec->name();
                     }
                 }
@@ -944,7 +944,7 @@ void MsgEdit::setupNext()
     if (nUnread){
         QString s;
         if (nUnread > 1) s.sprintf(" [%u]", nUnread);
-        btnNext->setState(Client::getMessageIcon(msgType), i18n("Next") + s);
+        btnNext->setState(SIMClient::getMessageIcon(msgType), i18n("Next") + s);
         return;
     }
     btnNext->setState("message", i18n("New"));

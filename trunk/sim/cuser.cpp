@@ -334,7 +334,7 @@ QString CUser::toolTip()
         }
         if (u->uStatus & (ICQ_STATUS_AWAY | ICQ_STATUS_NA)){
             r += "<br><font size=-1>";
-            r += Client::getStatusText(u->uStatus);
+            r += SIMClient::getStatusText(u->uStatus);
             r += ": </font>";
             r += statusTime();
         }

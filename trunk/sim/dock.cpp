@@ -130,7 +130,7 @@ WharfIcon::WharfIcon(DockWnd *parent)
     setBackgroundMode(X11ParentRelative);
     vis = NULL;
     vish = NULL;
-    if (!dock->useWM)
+    if (!dock->bWM)
         move(pMain->DockX, pMain->DockY);
     show();
 }
@@ -182,7 +182,7 @@ void WharfIcon::set(const char *icon, const char *msg)
 
 void WharfIcon::mousePressEvent( QMouseEvent *e)
 {
-    if (!dock->useWM){
+    if (!dock->bWM){
         mousePos = e->pos();
         grabMouse();
     }
@@ -190,7 +190,7 @@ void WharfIcon::mousePressEvent( QMouseEvent *e)
 
 void WharfIcon::mouseReleaseEvent( QMouseEvent *e)
 {
-    if (!dock->useWM){
+    if (!dock->bWM){
         mousePos = QPoint(0,0);
         pMain->DockX = x();
         pMain->DockY = y();
@@ -201,7 +201,7 @@ void WharfIcon::mouseReleaseEvent( QMouseEvent *e)
 
 void WharfIcon::mouseMoveEvent( QMouseEvent *e)
 {
-    if (!dock->useWM && !mousePos.isNull())
+    if (!dock->bWM && !mousePos.isNull())
         move(e->globalPos() - mousePos);
 }
 
@@ -233,8 +233,6 @@ void WharfIcon::leaveEvent( QEvent *)
 }
 
 #endif
-
-#define XA_WIN_SUPPORTING_WM_CHECK      "_WIN_SUPPORTING_WM_CHECK"
 
 DockWnd::DockWnd(QWidget *main, bool _bWM)
         : QWidget(NULL, "dock")
@@ -285,7 +283,7 @@ DockWnd::DockWnd(QWidget *main, bool _bWM)
     }
     if (bWharf){
         wharfIcon = new WharfIcon(this);
-        if *bWM){
+        if (bWM){
         Display *dsp = x11Display();
             WId win = winId();
             XWMHints *hints;
@@ -414,10 +412,10 @@ void DockWnd::timer()
         setIcon(Pict(pClient->getStatusIcon()));
         break;
     case Message:
-        setIcon(Pict(Client::getMessageIcon(msgType)));
+        setIcon(Pict(SIMClient::getMessageIcon(msgType)));
         break;
     case Blinked:
-        setIcon(Pict(Client::getStatusIcon(ICQ_STATUS_ONLINE)));
+        setIcon(Pict(SIMClient::getStatusIcon(ICQ_STATUS_ONLINE)));
         break;
     default:
         break;
@@ -425,10 +423,10 @@ void DockWnd::timer()
 #ifndef WIN32
     if (wharfIcon == NULL) return;
     const char *msg = NULL;
-    if (msgType) msg = Client::getMessageIcon(msgType);
+    if (msgType) msg = SIMClient::getMessageIcon(msgType);
     if (bBlinked){
         if (m_state & 1){
-            wharfIcon->set(Client::getStatusIcon(ICQ_STATUS_ONLINE), NULL);
+            wharfIcon->set(SIMClient::getStatusIcon(ICQ_STATUS_ONLINE), NULL);
         }else{
             wharfIcon->set(pClient->getStatusIcon(), msg);
         }
@@ -461,7 +459,7 @@ void DockWnd::reset()
         for (list<msgInfo>::iterator it_msg = msgs.begin(); it_msg != msgs.end(); ++it_msg){
             CUser u((*it_msg).uin);
             str.append(i18n("%1 from %2")
-                       .arg(Client::getMessageText((*it_msg).type, (*it_msg).count))
+                       .arg(SIMClient::getMessageText((*it_msg).type, (*it_msg).count))
                        .arg(u.name(true)));
         }
 #ifdef WIN32

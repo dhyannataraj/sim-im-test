@@ -89,19 +89,19 @@ UserInfo::UserInfo(QWidget *parent, unsigned long uin, int page)
         addWidget(p_AcceptDialog, SETUP_ACCEPT, i18n("Accept file"), "file");
         addWidget(p_SoundSetup, SETUP_SOUND, i18n("Sound"), "sound");
         addWidget(p_MsgDialog, SETUP_AR_AWAY,
-                  Client::getStatusText(ICQ_STATUS_AWAY), Client::getStatusIcon(ICQ_STATUS_AWAY),
+                  SIMClient::getStatusText(ICQ_STATUS_AWAY), SIMClient::getStatusIcon(ICQ_STATUS_AWAY),
                   ICQ_STATUS_AWAY);
         addWidget(p_MsgDialog, SETUP_AR_NA,
-                  Client::getStatusText(ICQ_STATUS_NA), Client::getStatusIcon(ICQ_STATUS_NA),
+                  SIMClient::getStatusText(ICQ_STATUS_NA), SIMClient::getStatusIcon(ICQ_STATUS_NA),
                   ICQ_STATUS_NA);
         addWidget(p_MsgDialog, SETUP_AR_OCCUPIED,
-                  Client::getStatusText(ICQ_STATUS_OCCUPIED), Client::getStatusIcon(ICQ_STATUS_OCCUPIED),
+                  SIMClient::getStatusText(ICQ_STATUS_OCCUPIED), SIMClient::getStatusIcon(ICQ_STATUS_OCCUPIED),
                   ICQ_STATUS_OCCUPIED);
         addWidget(p_MsgDialog, SETUP_AR_DND,
-                  Client::getStatusText(ICQ_STATUS_DND), Client::getStatusIcon(ICQ_STATUS_DND),
+                  SIMClient::getStatusText(ICQ_STATUS_DND), SIMClient::getStatusIcon(ICQ_STATUS_DND),
                   ICQ_STATUS_DND);
         addWidget(p_MsgDialog, SETUP_AR_FREEFORCHAT,
-                  Client::getStatusText(ICQ_STATUS_FREEFORCHAT), Client::getStatusIcon(ICQ_STATUS_FREEFORCHAT),
+                  SIMClient::getStatusText(ICQ_STATUS_FREEFORCHAT), SIMClient::getStatusIcon(ICQ_STATUS_FREEFORCHAT),
                   ICQ_STATUS_FREEFORCHAT);
     }
     raiseWidget(page ? page : SETUP_MAININFO);

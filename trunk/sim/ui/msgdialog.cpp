@@ -34,8 +34,8 @@ static void set(QMultiLineEdit *edit, const string &s, ICQUser *u)
 MsgDialog::MsgDialog(QWidget *p, unsigned long _status, bool bReadOnly)
         : MsgDialogBase(p), status(_status)
 {
-    lblPict->setPixmap(Pict(Client::getStatusIcon(status)));
-    lblHeader->setText(i18n("Autoreply message for status \"%1\"") .arg(Client::getStatusText(status)));
+    lblPict->setPixmap(Pict(SIMClient::getStatusIcon(status)));
+    lblHeader->setText(i18n("Autoreply message for status \"%1\"") .arg(SIMClient::getStatusText(status)));
     if (bReadOnly){
         chkNoShow->hide();
     }else{

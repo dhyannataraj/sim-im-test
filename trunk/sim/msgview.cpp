@@ -134,7 +134,7 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
     switch (msg->Type()){
     case ICQ_MSGxMSG:
         msg_text = (static_cast<ICQMsg*>(msg))->Message.c_str();
-        Client::toUTF(msg_text, encoding);
+        SIMClient::toUTF(msg_text, encoding);
         s += MainWindow::ParseText(msg_text, bIgnore);
         break;
     case ICQ_MSGxURL:{
@@ -146,7 +146,7 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
             s += "</a>";
             if (*url->Message.c_str()){
                 msg_text = url->Message.c_str();
-                Client::toUTF(msg_text, encoding);
+                SIMClient::toUTF(msg_text, encoding);
                 s += "<br>";
                 s += MainWindow::ParseText(msg_text, true);
             }
@@ -157,7 +157,7 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
             s += i18n("Authorization request");
             if (*req->Message.c_str()){
                 msg_text = req->Message.c_str();
-                Client::toUTF(msg_text, encoding);
+                SIMClient::toUTF(msg_text, encoding);
                 s += "<br>";
                 s += MainWindow::ParseText(msg_text, true);
             }
@@ -168,7 +168,7 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
             s += i18n("Authorization refused");
             if (*req->Message.c_str()){
                 msg_text = req->Message.c_str();
-                Client::toUTF(msg_text, encoding);
+                SIMClient::toUTF(msg_text, encoding);
                 s += "<br>";
                 s += MainWindow::ParseText(msg_text, true);
             }
@@ -185,7 +185,7 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
             s += i18n("Contact request");
             if (*req->Message.c_str()){
                 msg_text = req->Message.c_str();
-                Client::toUTF(msg_text, encoding);
+                SIMClient::toUTF(msg_text, encoding);
                 s += "<br>";
                 s += MainWindow::ParseText(msg_text, true);
             }
@@ -208,14 +208,14 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
             s += ")";
             s += "<br>";
             msg_text = file->Description.c_str();
-            Client::toUTF(msg_text, encoding);
+            SIMClient::toUTF(msg_text, encoding);
             s += MainWindow::ParseText(msg_text, true);
             break;
         }
     case ICQ_MSGxCHAT:{
             ICQChat *chat = static_cast<ICQChat*>(msg);
             msg_text = chat->Reason.c_str();
-            Client::toUTF(msg_text, encoding);
+            SIMClient::toUTF(msg_text, encoding);
             s += MainWindow::ParseText(msg_text, true);
             break;
         }
@@ -236,7 +236,7 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
     case ICQ_MSGxSMS:{
             ICQSMS *sms = static_cast<ICQSMS*>(msg);
             msg_text = sms->Message.c_str();
-            Client::toUTF(msg_text, encoding);
+            SIMClient::toUTF(msg_text, encoding);
             s += MainWindow::ParseText(msg_text, true);
             if (*sms->Phone.c_str()){
                 s += "<br>";
@@ -249,14 +249,14 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
     case ICQ_MSGxWEBxPANEL:{
             ICQWebPanel *m = static_cast<ICQWebPanel*>(msg);
             msg_text = m->Message.c_str();
-            Client::toUTF(msg_text, encoding);
+            SIMClient::toUTF(msg_text, encoding);
             s += MainWindow::ParseText(msg_text, true);
             break;
         }
     case ICQ_MSGxEMAILxPAGER:{
             ICQEmailPager *m = static_cast<ICQEmailPager*>(msg);
             msg_text = m->Message.c_str();
-            Client::toUTF(msg_text, encoding);
+            SIMClient::toUTF(msg_text, encoding);
             s += MainWindow::ParseText(msg_text, true);
             break;
         }
@@ -270,7 +270,7 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
 QString TextShow::quoteText(const char *text, const char *charset)
 {
     string msg = ICQClient::quoteText(text);
-    QString s = Client::from8Bit(codec, msg, charset);
+    QString s = SIMClient::from8Bit(codec, msg, charset);
     return s;
 }
 
@@ -278,9 +278,9 @@ void TextShow::encodingChanged(unsigned long _uin)
 {
     if (_uin && (m_nUin != _uin)) return;
     QTextCodec *newCodec = pClient->codecForUser(m_nUin);
-    string s = Client::to8Bit(codec, text());
+    string s = SIMClient::to8Bit(codec, text());
     codec = newCodec;
-    setText(Client::from8Bit(codec, s));
+    setText(SIMClient::from8Bit(codec, s));
     scrollToBottom();
 }
 
@@ -527,9 +527,9 @@ QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
     const char *icon;
     if (msg->Type() == ICQ_MSGxSTATUS){
         ICQStatus *m = static_cast<ICQStatus*>(msg);
-        icon = Client::getStatusIcon(m->status);
+        icon = SIMClient::getStatusIcon(m->status);
     }else{
-        icon = Client::getMessageIcon(msg->Type());
+        icon = SIMClient::getMessageIcon(msg->Type());
     }
     QString s;
     s.sprintf("<p><nobr><a name=\"%lu.%lu\"></a>"
@@ -549,7 +549,7 @@ QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
     s += "</font>&nbsp;&nbsp;";
     if (msg->Type() == ICQ_MSGxSTATUS){
         ICQStatus *m = static_cast<ICQStatus*>(msg);
-        s += Client::getStatusText(m->status);
+        s += SIMClient::getStatusText(m->status);
         s += "&nbsp;&nbsp;";
     }
     QDateTime time;

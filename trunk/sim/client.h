@@ -120,12 +120,12 @@ public:
     QString trim(const QString &s);
 };
 
-class Client : public QObject, public ICQClient
+class SIMClient : public QObject, public ICQClient
 {
     Q_OBJECT
 public:
-    Client(QObject *parent = NULL, const char *name = NULL);
-    ~Client();
+    SIMClient(QObject *parent = NULL, const char *name = NULL);
+    ~SIMClient();
     void save(ostream &s);
     bool load(istream &s, string &nextPart);
     QString getName(bool bUserUIN=true);
@@ -181,7 +181,7 @@ protected:
     unsigned long getFileSize(QString name, vector<fileName> &file);
 };
 
-extern Client *pClient;
+extern SIMClient *pClient;
 
 #endif
 

@@ -30,7 +30,7 @@
 AutoReplyDlg::AutoReplyDlg(QWidget *p, unsigned long _status)
         : AutoreplyBase(p, "autoreply", false, WDestructiveClose), status(_status)
 {
-    setIcon(Pict(Client::getStatusIcon(status)));
+    setIcon(Pict(SIMClient::getStatusIcon(status)));
     setWFlags(WDestructiveClose);
     connect(btnOK, SIGNAL(clicked()), this, SLOT(apply()));
     timeLeft = 15;
