@@ -26,16 +26,13 @@
 #include "sim.h"
 #include "ui/logindlg.h"
 
-#ifdef _MSC_VER
-#include <crtdbg.h>
-#endif
-
 #ifndef WIN32
 #include <stdio.h>
 #include <pwd.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #else
+#include <crtdbg.h>
 #include <windows.h>
 #include <shellapi.h>
 #include <shlobj.h>
