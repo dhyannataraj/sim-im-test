@@ -53,6 +53,8 @@ public slots:
     void textChanged();
     void sync();
     void toggled(bool);
+	void toggledDays(bool);
+	void toggledSize(bool);
 protected:
     void fillPreview();
     bool eventFilter(QObject *o, QEvent *e);
