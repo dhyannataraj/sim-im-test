@@ -213,13 +213,14 @@ ChgPacket::ChgPacket(MSNClient *client)
 SynPacket::SynPacket(MSNClient *client)
         : MSNPacket(client, "SYN")
 {
+    bDone = false;
     client->data.ListVer = 0;
     addArg(number(client->data.ListVer).c_str());
 }
 
 SynPacket::~SynPacket()
 {
-    if (m_client->getListVer() != m_ver){
+    if ((m_client->getListVer() != m_ver) && bDone){
         m_client->setListVer(m_ver);
         ContactList::GroupIterator itg;
         Group *grp;
@@ -393,6 +394,7 @@ bool SynPacket::answer(const char *_cmd, vector<string> &args)
         }
         return true;
     }
+    bDone = true;
     return false;
 }
 

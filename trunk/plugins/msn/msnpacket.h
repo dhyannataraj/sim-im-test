@@ -85,6 +85,7 @@ public:
     ~SynPacket();
 protected:
     bool answer(const char *cmd, vector<string> &args);
+    bool bDone;
     unsigned m_ver;
 };
 

@@ -18,6 +18,7 @@
 #include "services.h"
 #include "jabber.h"
 #include "jabbersearch.h"
+#include "jabbermessage.h"
 #include "listview.h"
 #include "ballonmsg.h"
 
@@ -119,7 +120,7 @@ void *Services::processEvent(Event *e)
             while ((data = ((JabberUserData*)(++it))) != NULL){
                 if (!m_client->isAgent(data->ID))
                     continue;
-		QListViewItem *item;
+                QListViewItem *item;
                 for (item = lstAgents->firstChild(); item; item = item->nextSibling())
                     if ((item->text(COL_JID) + "/registered") == QString::fromUtf8(data->ID))
                         break;
@@ -128,14 +129,19 @@ void *Services::processEvent(Event *e)
             }
             break;
         }
-    case EventContactStatus:{
-            Contact *contact = (Contact*)(e->param());
+    case EventMessageReceived:{
+            Message *msg = (Message*)(e->param());
+            if (msg->type() != MessageStatus)
+                break;
+            Contact *contact = getContacts()->contact(msg->contact());
+            if (contact == NULL)
+                break;
             ClientDataIterator it(contact->clientData, m_client);
             JabberUserData *data;
             while ((data = ((JabberUserData*)(++it))) != NULL){
                 if (!m_client->isAgent(data->ID))
                     continue;
-		QListViewItem *item;
+                QListViewItem *item;
                 for (item = lstAgents->firstChild(); item; item = item->nextSibling())
                     if ((item->text(COL_JID) + "/registered") == QString::fromUtf8(data->ID))
                         break;
@@ -263,14 +269,58 @@ void Services::regAgent()
 
 void Services::unregAgent()
 {
+    QListViewItem *item = lstAgents->currentItem();
+    if (item == NULL)
+        return;
+    string jid;
+    jid = item->text(COL_JID).latin1();
+    jid += "/registered";
+    Contact *contact;
+    JabberUserData *data = m_client->findContact(jid.c_str(), NULL, false, contact);
+    if (data == NULL)
+        return;
+    m_client->listRequest(data, NULL, NULL, true);
+    contact->clientData.freeData(data);
+    ClientDataIterator it(contact->clientData);
+    if (++it == NULL){
+        delete contact;
+    }else{
+        delete item;
+    }
 }
 
 void Services::logon()
 {
+    QListViewItem *item = lstAgents->currentItem();
+    if (item == NULL)
+        return;
+    string jid;
+    jid = item->text(COL_JID).latin1();
+    jid += "/registered";
+    Contact *contact;
+    JabberUserData *data = m_client->findContact(jid.c_str(), NULL, false, contact);
+    if (data == NULL)
+        return;
+    Message *msg = new Message(MessageJabberOnline);
+    if (!m_client->send(msg, data))
+        delete msg;
 }
 
 void Services::logoff()
 {
+    QListViewItem *item = lstAgents->currentItem();
+    if (item == NULL)
+        return;
+    string jid;
+    jid = item->text(COL_JID).latin1();
+    jid += "/registered";
+    Contact *contact;
+    JabberUserData *data = m_client->findContact(jid.c_str(), NULL, false, contact);
+    if (data == NULL)
+        return;
+    Message *msg = new Message(MessageJabberOffline);
+    if (!m_client->send(msg, data))
+        delete msg;
 }
 
 void Services::apply(Client*, void*)

@@ -844,7 +844,7 @@ static Message *createOpenSecure(const char *cfg)
 static MessageDef defOpenSecure =
     {
         NULL,
-        MESSAGE_HIDDEN,
+        MESSAGE_SILENT,
         0,
         "Request secure channel",
         "%n requests secure channel",
@@ -866,7 +866,7 @@ static Message *createCloseSecure(const char *cfg)
 static MessageDef defCloseSecure =
     {
         NULL,
-        MESSAGE_HIDDEN,
+        MESSAGE_SILENT,
         0,
         "Close secure channel",
         "%n times close secure channel",
@@ -888,7 +888,7 @@ static Message *createCheckInvisible(const char *cfg)
 static MessageDef defCheckInvisible =
     {
         NULL,
-        MESSAGE_HIDDEN,
+        MESSAGE_SILENT,
         0,
         "Check invisible",
         "%n times checkInvisible",

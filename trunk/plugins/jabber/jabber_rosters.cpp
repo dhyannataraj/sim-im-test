@@ -266,7 +266,7 @@ InfoRequest::~InfoRequest()
             data = &m_client->data.owner;
         }else{
             string jid = m_jid;
-            if (jid.find('@') < 0){
+            if (strchr(jid.c_str(), '@') == NULL){
                 jid += "@";
                 jid += m_host;
             }
@@ -664,7 +664,7 @@ JabberClient::PresenceRequest::~PresenceRequest()
         }else if (m_show == "online"){
             status = STATUS_ONLINE;
         }else if (m_show.empty()){
-            status = STATUS_UNKNOWN;
+            status = STATUS_ONLINE;
             if (m_status == "Online"){
                 status = STATUS_ONLINE;
             }else if (m_status == "Disconnected"){
@@ -708,7 +708,7 @@ JabberClient::PresenceRequest::~PresenceRequest()
                 Event e(EventMessageReceived, &m);
                 e.process();
             }
-            if (bOnLine && !contact->getIgnore()){
+            if (bOnLine && !contact->getIgnore() && !m_client->isAgent(data->ID)){
                 Event e(EventContactOnline, contact);
                 e.process();
             }
@@ -1219,7 +1219,7 @@ void RegisterRequest::element_start(const char *el, const char **attr)
     }
 }
 
-void RegisterRequest::element_end(const char *el)
+void RegisterRequest::element_end(const char*)
 {
     m_data = NULL;
 }
