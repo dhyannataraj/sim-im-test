@@ -934,7 +934,7 @@ JabberUserData *JabberClient::findContact(const char *_jid, const char *name, bo
     string resource;
     string jid = _jid;
     int n = jid.find('/');
-    if (n >= 0){
+    if ((n >= 0) && (jid.substr(n + 1) != "registered")){
         resource = jid.substr(n + 1);
         jid = jid.substr(0, n);
     }

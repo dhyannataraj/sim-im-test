@@ -86,6 +86,7 @@ Source: "..\Release\po\he.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\it.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\nl.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\pl.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\pt_BR.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\ru.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\sk.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\sw.qm"; DestDir: "{app}\po"; Flags: ignoreversion

@@ -759,6 +759,7 @@ bool QTextEdit::event( QEvent *e )
 {
     if ( e->type() == QEvent::AccelOverride && !isReadOnly() ) {
         QKeyEvent* ke = (QKeyEvent*) e;
+		log(L_DEBUG, "Key %04X", ke->key());
         if ( ke->state() == NoButton ) {
             if ( ke->key() < Key_Escape ) {
                 ke->accept();
@@ -942,7 +943,8 @@ void QTextEdit::keyPressEvent( QKeyEvent *e )
                     setParagType( QStyleSheetItem::DisplayListItem, QStyleSheetItem::ListDisc );
                 } else {
 #ifdef WIN32
-					if (wndMessage() == WM_KEYDOWN){
+					if ((wndMessage() == WM_KEYDOWN) && 
+						!(GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT))){
 						translate();
 						break;
 					}

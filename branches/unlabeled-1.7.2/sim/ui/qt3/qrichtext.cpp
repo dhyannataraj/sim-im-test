@@ -1,5 +1,5 @@
 #/****************************************************************************
-** $Id: qrichtext.cpp,v 1.7 2003-10-20 08:39:29 shutoff Exp $
+** $Id: qrichtext.cpp,v 1.7.2.1 2003-10-31 15:44:48 shutoff Exp $
 **
 ** Implementation of the internal Qt classes dealing with rich text
 **
@@ -2880,7 +2880,7 @@ int direction : 5;
     QTextParag *QTextDocument::draw( QPainter *p, int cx, int cy, int cw, int ch, const QColorGroup &cg,
                                      bool onlyChanged, bool drawCursor, QTextCursor *cursor, bool resetChanged )
     {
-        if ( withoutDoubleBuffer || par && par->withoutDoubleBuffer ) {
+         if ( withoutDoubleBuffer || par && par->withoutDoubleBuffer ) {
             withoutDoubleBuffer = TRUE;
             QRect r;
             draw( p, r, cg );

@@ -122,6 +122,11 @@ void JabberPicture::clearPicture()
 
 void JabberPicture::pictSelected(const QString &file)
 {
+	if (file.isEmpty()){
+		QImage img;
+		setPict(img);
+		return;
+	}
     QFile f(file);
     QImage img(file);
     setPict(img);
