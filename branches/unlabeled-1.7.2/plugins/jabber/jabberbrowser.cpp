@@ -125,6 +125,7 @@ JabberBrowser::JabberBrowser(JabberClient *client)
     m_list->addColumn(i18n("Name"));
     m_list->addColumn(i18n("Node"));
     m_list->setExpandingColumn(1);
+	m_list->setMenu(0);
     connect(m_list, SIGNAL(clickItem(QListViewItem*)), this, SLOT(clickItem(QListViewItem*)));
     connect(m_list, SIGNAL(dragStart()), this, SLOT(dragStart()));
 

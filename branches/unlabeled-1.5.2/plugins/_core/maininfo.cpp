@@ -19,6 +19,7 @@
 #include "editmail.h"
 #include "editphone.h"
 #include "listview.h"
+#include "core.h"
 
 #include <qlineedit.h>
 #include <qcombobox.h>
@@ -69,6 +70,8 @@ MainInfo::MainInfo(QWidget *parent, Contact *contact)
     lstMails->addColumn(i18n("EMail"));
     lstPhones->addColumn(i18n("Type"));
     lstPhones->addColumn(i18n("Phone"));
+	lstMails->setMenu(MenuMailList);
+	lstPhones->setMenu(MenuPhoneList);
     if (m_contact == NULL){
         lstMails->addColumn(i18n("Publish"));
         lstPhones->addColumn(i18n("Publish"));
@@ -120,6 +123,68 @@ void *MainInfo::processEvent(Event *e)
         if (contact == m_contact)
             fill();
     }
+	if (e->type() == EventCheckState){
+		CommandDef *cmd = (CommandDef*)(e->param());
+		if (cmd->menu_id == MenuMailList){
+			if ((cmd->id != CmdEditList) && (cmd->id != CmdRemoveList))
+				return NULL;
+			QListViewItem *item = (QListViewItem*)(cmd->param);
+			if (item->listView() != lstMails)
+				return NULL;
+			cmd->flags &= ~(COMMAND_CHECKED | COMMAND_DISABLED);
+		    bool bEnable = ((item != NULL) && (item->text(MAIL_PROTO).isEmpty() || (item->text(MAIL_PROTO) == "-")));
+			if (!bEnable)
+				cmd->flags |= COMMAND_DISABLED;
+			return e->param();
+		}
+		if (cmd->menu_id == MenuPhoneList){
+			if ((cmd->id != CmdEditList) && (cmd->id != CmdRemoveList))
+				return NULL;
+			QListViewItem *item = (QListViewItem*)(cmd->param);
+			if (item->listView() != lstPhones)
+				return NULL;
+			cmd->flags &= ~(COMMAND_CHECKED | COMMAND_DISABLED);
+		    bool bEnable = ((item != NULL) && (item->text(PHONE_PROTO).isEmpty() || (item->text(PHONE_PROTO) == "-")));
+			if (!bEnable)
+				cmd->flags |= COMMAND_DISABLED;
+			return e->param();
+		}
+	}
+	if (e->type() == EventCommandExec){
+		CommandDef *cmd = (CommandDef*)(e->param());
+		if (cmd->menu_id == MenuMailList){
+			QListViewItem *item = (QListViewItem*)(cmd->param);
+			if (item->listView() != lstMails)
+				return NULL;
+		    bool bEnable = ((item != NULL) && (item->text(MAIL_PROTO).isEmpty() || (item->text(MAIL_PROTO) == "-")));
+			if (!bEnable)
+				return NULL;
+			if (cmd->id == CmdEditList){
+				editMail(item);
+				return e->param();
+			}
+			if (cmd->id == CmdRemoveList){
+				deleteMail(item);
+				return e->param();
+			}
+		}
+		if (cmd->menu_id == MenuPhoneList){
+			QListViewItem *item = (QListViewItem*)(cmd->param);
+			if (item->listView() != lstPhones)
+				return NULL;
+		    bool bEnable = ((item != NULL) && (item->text(PHONE_PROTO).isEmpty() || (item->text(PHONE_PROTO) == "-")));
+			if (!bEnable)
+				return NULL;
+			if (cmd->id == CmdEditList){
+				editPhone(item);
+				return e->param();
+			}
+			if (cmd->id == CmdRemoveList){
+				deletePhone(item);
+				return e->param();
+			}
+		}
+	}
     return NULL;
 }
 
@@ -291,6 +356,11 @@ void MainInfo::addMail()
 void MainInfo::editMail()
 {
     QListViewItem *item = lstMails->currentItem();
+	editMail(item);
+}
+
+void MainInfo::editMail(QListViewItem *item)
+{
     if ((item == NULL) || (!item->text(MAIL_PROTO).isEmpty() && (item->text(MAIL_PROTO) != "-")))
         return;
     EditMail dlg(this, item->text(MAIL_ADDRESS), item->text(MAIL_PROTO).isEmpty(), m_contact == NULL);
@@ -334,6 +404,11 @@ void MainInfo::addPhone()
 void MainInfo::editPhone()
 {
     QListViewItem *item = lstPhones->currentItem();
+	editPhone(item);
+}
+
+void MainInfo::editPhone(QListViewItem *item)
+{
     if (item == NULL)
         return;
     QString proto = item->text(PHONE_PROTO);

@@ -101,7 +101,6 @@ DWORD __stdcall ReadPipeThread(LPVOID lpParameter)
     }
     CloseHandle(p->pipe);
     *(p->hThread) = NULL;
-    log(L_DEBUG, "Stop: %X", GetCurrentThreadId());
     return 0;
 }
 
@@ -226,14 +225,12 @@ DWORD __stdcall ExecProcThread(LPVOID lpParameter)
     pOut.b       = &exec->bOut;
     pOut.hThread = &exec->hOutThread;
     exec->hOutThread = CreateThread(NULL, 0, ReadPipeThread, &pOut, 0, &threadId);
-    log(L_DEBUG, "Out %X %X", exec->hOutThread, threadId);
 
     PIPE_READ pErr;
     pErr.pipe	 = errPipe[READ];
     pErr.b		 = &exec->bErr;
     pErr.hThread = &exec->hErrThread;
     exec->hErrThread = CreateThread(NULL, 0, ReadPipeThread, &pErr, 0, &threadId);
-    log(L_DEBUG, "Err %X %X", exec->hOutThread, threadId);
 
     DWORD exitCode = 0;
     unsigned long wrtn;
@@ -261,15 +258,8 @@ DWORD __stdcall ExecProcThread(LPVOID lpParameter)
         h[n++] = exec->hErrThread;
     if (!success)
         h[n++] = pi.hProcess;
-    log(L_DEBUG, "Wait %u", n);
-    if (n){
-        DWORD res = WaitForMultipleObjects(n, h, TRUE, INFINITE);
-        DWORD err = 0;
-        if (res == WAIT_FAILED)
-            err = GetLastError();
-        log(L_DEBUG, "Res: %X %X", res, err);
-    }
-
+    if (n)
+        WaitForMultipleObjects(n, h, TRUE, INFINITE);
     if (!success)
         GetExitCodeProcess(pi.hProcess, &exitCode);
 

@@ -122,6 +122,7 @@ protected:
     list<OpInfo>	m_queue;
 	Phonebook		m_books[2];
 	Phonebook		*m_book;
+	bool			m_bPing;
 	unsigned		m_bookType;
     QTimer			*m_timer;
     SerialPort		*m_port;

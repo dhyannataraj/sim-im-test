@@ -152,12 +152,14 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
     if (base->type() == GRP_ITEM){
         GroupItem *item = static_cast<GroupItem*>(base);
         QFont f(font());
-        int size = f.pixelSize();
-        if (size <= 0){
-            size = f.pointSize();
-            f.setPointSize(size * 3 / 4);
-        }else{
-            f.setPixelSize(size * 3 / 4);
+		if (CorePlugin::m_plugin->getSmallGroupFont()){
+			int size = f.pixelSize();
+			if (size <= 0){
+				size = f.pointSize();
+				f.setPointSize(size * 3 / 4);
+			}else{
+				f.setPixelSize(size * 3 / 4);
+			}
         }
         f.setBold(true);
         p->setFont(f);

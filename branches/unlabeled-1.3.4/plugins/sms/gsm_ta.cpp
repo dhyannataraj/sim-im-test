@@ -28,12 +28,14 @@
 const unsigned	PING_TIMEOUT	= 20000;
 const unsigned	UNKNOWN			= (unsigned)(-1);
 
-const unsigned	OP_PHONEBOOK	= 0;
+const unsigned	OP_PHONEBOOK		= 0;
+const unsigned	OP_PHONEBOOK_ENTRY	= 1;
 
 GsmTA::GsmTA(QObject *parent)
         : QObject(parent)
 {
     m_state = None;
+	m_bPing = false;
     m_port  = new SerialPort(this);
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(ping()));
@@ -76,6 +78,7 @@ void GsmTA::read_ready()
         b.pack(line.c_str(), line.length());
         log_packet(b, false, SMSPlugin::SerialPacket);
     }
+	OpInfo	 opInfo;
     unsigned value1;
     unsigned value2;
     switch (m_state){
@@ -198,8 +201,22 @@ void GsmTA::read_ready()
             return;
         break;
     case Ping:
-        if (!isOK(line.c_str()))
-            return;
+		if (m_bPing){
+	        if (!isChatResponse(line.c_str(), "+CBC:", false))
+		        return;
+			value1 = atol(normalize(getToken(m_response, ',').c_str()).c_str());
+			value2 = atol(normalize(m_response.c_str()).c_str());
+			emit charge(value1 != 0, value2);
+			m_bPing = false;
+		}else{
+	        if (!isChatResponse(line.c_str(), "+CSQ:", false))
+		        return;
+			value1 = atol(normalize(m_response.c_str()).c_str());
+			if (value1 == 99)
+				value1 = 0;
+			emit quality(value1);
+			m_bPing = true;
+		}
         m_port->setTimeout((unsigned)(-1));
         m_state = Connected;
         processQueue();
@@ -230,15 +247,28 @@ void GsmTA::read_ready()
         m_book->m_size = 0;
         m_book->m_numberSize = atol(getToken(m_response, ',').c_str());
         m_book->m_nameSize   = atol(m_response.c_str());
-        m_state = PhoneBook3;
-        getNextEntry();
+		if (m_queue.empty()){
+			getNextEntry();
+			break;
+		}
+		opInfo.oper = OP_PHONEBOOK_ENTRY;
+		m_queue.push_back(opInfo);
+		m_state = Connected;
+		processQueue();
         break;
-    case PhoneBook3:		// FALLTHROUGH
+    case PhoneBook3:
         if (!isChatResponse(line.c_str(), "+CPBR:"))
             return;
         parseEntry(m_response.c_str());
-        getNextEntry();
-        break;
+		if (m_queue.empty()){
+			getNextEntry();
+			break;
+		}
+		opInfo.oper = OP_PHONEBOOK_ENTRY;
+		m_queue.push_back(opInfo);
+		m_state = Connected;
+		processQueue();
+		break;
     default:
         break;
     }
@@ -250,7 +280,11 @@ void GsmTA::ping()
         return;
     m_timer->stop();
     m_state = Ping;
-    at("+CBC");
+	if (m_bPing){
+		at("+CBC");
+	}else{
+		at("+CSQ");
+	}
 }
 
 void GsmTA::port_error()
@@ -433,6 +467,9 @@ void GsmTA::processQueue()
     case OP_PHONEBOOK:
         getPhoneBook();
         break;
+	case OP_PHONEBOOK_ENTRY:
+		getNextEntry();
+		break;
     default:
         log(L_DEBUG, "Unknown oper");
         break;
@@ -444,6 +481,7 @@ void GsmTA::getNextEntry()
     for (; m_book->m_size < m_book->m_entries.size(); m_book->m_size++){
         if (!m_book->m_entries[m_book->m_size])
             continue;
+		m_state = PhoneBook3;
         string cmd = "+CPBR=";
         cmd += number(m_book->m_size);
         at(cmd.c_str(), 20000);

@@ -295,6 +295,10 @@ SOURCE=.\xpm\cell_on.xpm
 
 SOURCE=.\xpm\nocell.xpm
 # End Source File
+# Begin Source File
+
+SOURCE=.\xpm\simcard.xpm
+# End Source File
 # End Group
 # Begin Group "Interfaces"
 

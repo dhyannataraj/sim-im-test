@@ -97,6 +97,7 @@ typedef struct CoreData
     unsigned	AuthStyle;
     unsigned	VisibleStyle;
     unsigned	InvisibleStyle;
+	unsigned	SmallGroupFont;
 } CoreData;
 
 const unsigned CONTAINER_SIMPLE	= 0;
@@ -250,6 +251,8 @@ const unsigned	CmdTranslit				= (CmdBase + 88);
 const unsigned  CmdUrlInput				= (CmdBase + 89);
 const unsigned	CmdCutHistory			= (CmdBase + 90);
 const unsigned	CmdDeleteMessage		= (CmdBase + 91);
+const unsigned	CmdEditList				= (CmdBase + 92);
+const unsigned	CmdRemoveList			= (CmdBase + 93);
 
 const unsigned	CmdContactGroup			= (CmdBase + 0x100);
 const unsigned	CmdUnread				= (CmdBase + 0x200);
@@ -269,6 +272,8 @@ const unsigned	MenuPhones				= (CmdBase + 8);
 const unsigned	MenuLocation			= (CmdBase + 9);
 const unsigned	MenuPhoneState			= (CmdBase + 10);
 const unsigned	MenuFileDecline			= (CmdBase + 11);
+const unsigned	MenuMailList			= (CmdBase + 12);
+const unsigned	MenuPhoneList			= (CmdBase + 13);
 
 const unsigned	EventCreateMessageType	= (CmdBase + 1);
 const unsigned	EventRemoveMessageType	= (CmdBase + 2);
@@ -423,6 +428,7 @@ public:
     PROP_ULONG(AuthStyle);
     PROP_ULONG(VisibleStyle);
     PROP_ULONG(InvisibleStyle);
+	PROP_BOOL(SmallGroupFont);
 
     unsigned user_data_id;
     unsigned sms_data_id;
