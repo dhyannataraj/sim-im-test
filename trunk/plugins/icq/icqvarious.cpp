@@ -236,7 +236,7 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
                 #else
                     time_t now = time (NULL);
                     sendTM = *localtime (&now);
-                    sendTM.tm_sec  = -sendTM.tm_gmtoff;
+                    sendTM.tm_sec  = sendTM.tm_gmtoff - (sendTM.tm_isdst == 1 ? 3600 : 0);
                 #endif
                     sendTM.tm_year = year-1900;
                     sendTM.tm_mon  = month-1;
