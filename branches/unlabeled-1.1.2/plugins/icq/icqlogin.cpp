@@ -22,7 +22,7 @@
 
 #include <stdio.h>
 
-#ifndef USE_MD5_LOGIN
+#ifdef USE_MD5_LOGIN
 #ifdef USE_OPENSSL
 #include <openssl/md5.h>
 #else
