@@ -20,6 +20,7 @@
 
 #include <qbuttongroup.h>
 #include <qradiobutton.h>
+#include <qcheckbox.h>
 #include <qlineedit.h>
 #include <qspinbox.h> 
 #include <qfile.h>
@@ -33,11 +34,20 @@ RemoteConfig::RemoteConfig(QWidget *parent, RemotePlugin *plugin)
     const char *path = m_plugin->getPath();
     edtPort->setValue(3000);
 #ifdef WIN32
-    edtPort->setValue(atol(path + strlen(TCP)));
+    if ((strlen(path) > strlen(TCP)) && !memcmp(path, TCP, strlen(TCP))){
+        edtPort->setValue(atol(path + strlen(TCP)));
+        chkTCP->setChecked(true);
+    }else{
+        edtPort->setValue(3000);
+        chkTCP->setChecked(false);
+    }
     btnUNIX->hide();
     btnTCP->hide();
     edtPath->hide();
+    connect(chkTCP, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
+    toggled(chkTCP->isChecked());
 #else
+    chkTCP->hide();
     edtPath->setText("/tmp/sim.%user%");
     if ((strlen(path) > strlen(TCP)) && !memcmp(path, TCP, strlen(TCP))){
         grpRemote->setButton(2);
@@ -55,12 +65,17 @@ RemoteConfig::RemoteConfig(QWidget *parent, RemotePlugin *plugin)
 void RemoteConfig::apply()
 {
     string path;
-#ifndef WIN32
-    if (grpRemote->id(grpRemote->selected()) == 2){
-#endif
+#ifdef WIN32
+    if (chkTCP->isChecked()){
         path  = TCP;
         path += edtPort->text().latin1();
-#ifndef WIN32
+    }else{
+        path  = "auto:";
+    }
+#else
+    if (grpRemote->id(grpRemote->selected()) == 2){
+        path  = TCP;
+        path += edtPort->text().latin1();
     }else{
         path  = QFile::encodeName(edtPath->text());
     }
@@ -83,6 +98,11 @@ void RemoteConfig::selected(int id)
         edtPort->setEnabled(true);
         break;
     }
+}
+
+void RemoteConfig::toggled(bool state)
+{
+    edtPort->setEnabled(state);
 }
 
 #ifndef WIN32

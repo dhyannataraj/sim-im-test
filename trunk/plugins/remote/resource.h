@@ -3,12 +3,12 @@
 // Used by simremote.rc
 //
 
-#define LANG_NEUTRAL					0
-#define SUBLANG_NEUTRAL					0
+#include <winnt.h>
 
 #define IDS_PROJNAME                    100
 #define IDR_SIMCTRL                     101
 #define IDR_SIMCONTROL                  102
+#define IDR_SIM_EXT						103
 
 // Next default values for new objects
 //

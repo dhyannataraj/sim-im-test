@@ -1,5 +1,5 @@
 /***************************************************************************
-                          remotecfg.h  -  description
+                          simipc.cpp  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,26 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _REMOTECFG_H
-#define _REMOTECFG_H
+#include <atlbase.h>
 
-#include "simapi.h"
-#include "remotecfgbase.h"
+extern "C" bool ProcessStr(BSTR in_str, BSTR *out_str);
 
-class RemotePlugin;
-
-class RemoteConfig : public RemoteConfigBase
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR cmdLine, int)
 {
-    Q_OBJECT
-public:
-    RemoteConfig(QWidget *parent, RemotePlugin*);
-public slots:
-    void apply();
-    void selected(int);
-    void toggled(bool);
-protected:
-    RemotePlugin *m_plugin;
-};
-
-#endif
-
+    CComBSTR in("FILE ");
+    in.Append(cmdLine);
+    CComBSTR out;
+    ProcessStr(in, &out);
+    return 0;
+}

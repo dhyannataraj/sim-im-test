@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>381</width>
+            <width>377</width>
             <height>187</height>
         </rect>
     </property>
@@ -73,69 +73,7 @@
                         <cstring>edtPath</cstring>
                     </property>
                 </widget>
-                <widget row="2"  column="0"  rowspan="1"  colspan="3" >
-                    <class>QRadioButton</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>btnTCP</cstring>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>Use &amp;TCP socket</string>
-                    </property>
-                    <property>
-                        <name>buttonGroupId</name>
-                        <number>2</number>
-                    </property>
-                </widget>
-                <widget row="3"  column="0" >
-                    <class>QLabel</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>lblPort</cstring>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>Port:</string>
-                    </property>
-                </widget>
-                <widget row="3"  column="1" >
-                    <class>QSpinBox</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>edtPort</cstring>
-                    </property>
-                    <property>
-                        <name>maxValue</name>
-                        <number>65535</number>
-                    </property>
-                    <property>
-                        <name>minValue</name>
-                        <number>1</number>
-                    </property>
-                </widget>
-                <spacer row="3"  column="2" >
-                    <property>
-                        <name>name</name>
-                        <cstring>Spacer2</cstring>
-                    </property>
-                    <property>
-                        <name>orientation</name>
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property>
-                        <name>sizeType</name>
-                        <enum>Expanding</enum>
-                    </property>
-                    <property>
-                        <name>sizeHint</name>
-                        <size>
-                            <width>20</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-                <spacer row="4"  column="1" >
+                <spacer row="5"  column="1" >
                     <property>
                         <name>name</name>
                         <cstring>Spacer4</cstring>
@@ -156,6 +94,79 @@
                         </size>
                     </property>
                 </spacer>
+                <widget row="4"  column="0" >
+                    <class>QLabel</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>lblPort</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Port:</string>
+                    </property>
+                </widget>
+                <widget row="4"  column="1" >
+                    <class>QSpinBox</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>edtPort</cstring>
+                    </property>
+                    <property>
+                        <name>maxValue</name>
+                        <number>65535</number>
+                    </property>
+                    <property>
+                        <name>minValue</name>
+                        <number>1</number>
+                    </property>
+                </widget>
+                <spacer row="4"  column="2" >
+                    <property>
+                        <name>name</name>
+                        <cstring>Spacer2</cstring>
+                    </property>
+                    <property>
+                        <name>orientation</name>
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property>
+                        <name>sizeType</name>
+                        <enum>Expanding</enum>
+                    </property>
+                    <property>
+                        <name>sizeHint</name>
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget row="3"  column="0"  rowspan="1"  colspan="3" >
+                    <class>QRadioButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>btnTCP</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Use &amp;TCP socket</string>
+                    </property>
+                    <property>
+                        <name>buttonGroupId</name>
+                        <number>2</number>
+                    </property>
+                </widget>
+                <widget row="2"  column="0"  rowspan="1"  colspan="3" >
+                    <class>QCheckBox</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>chkTCP</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Use &amp;TCP socket</string>
+                    </property>
+                </widget>
             </grid>
         </widget>
     </vbox>
@@ -183,6 +194,4 @@
         <data format="XPM.GZ" length="646">789c6dd2c10ac2300c00d07bbf2234b7229d1be245fc04c5a3201e4615f430059d0711ff5ddb2e6bb236ec90eed134cb5a19d8ef36602af5ecdbfeeac05dda0798d3abebde87e3faa374d3807fa0d633a52d38d8de6f679fe33fc776e196f53cd010188256a3600a292882096246517815ca99884606e18044a3a40d91824820924265a7923a2e8bcd05f33db1173e002913175f2a6be6d3294871a2d95fa00e8a94ee017b69d339d90df1e77c57ea072ede6758</data>
     </image>
 </images>
-<tabstops>
-</tabstops>
 </UI>

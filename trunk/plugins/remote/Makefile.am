@@ -7,12 +7,19 @@ remote_la_SOURCES = \
  remote.cpp
 
 simctrl_SOURCES = \
- simctrl.c
+ simctrl.cpp
 
 INCLUDES=-I../../sim/api -I../_core $(all_includes)
 
+mime_DATA = x-icq.desktop
+mimedir = $(kde_mimedir)/application
+service_DATA = simctrl.desktop
+servicedir = $(kde_servicesdir)
+
+EXTRA_DIST = $(mime_DATA) $(service_DATA)
+
 remote_la_METASOURCES = AUTO
-remote_la_LIBADD = ../../sim/api/libsimapi.la $(LIB_QT) $(EXTRA_LIBS) $(XSS_LIBS)
+remote_la_LIBADD = ../../sim/api/libsimapi.la $(LIB_QT) $(EXTRA_LIBS) 
 remote_la_LDFLAGS = -module -no-undefined -avoid-version $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 install-data-hook:
