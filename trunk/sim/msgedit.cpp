@@ -152,6 +152,12 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     connect(btnFont, SIGNAL(clicked()), this, SLOT(setFont()));
     btnFont->hide();
 
+    btnSmile = new CToolButton(t);
+    btnSmile->setTextLabel(i18n("Insert smile"));
+    btnSmile->setIconSet(Icon("smile0"));
+    connect(btnSmile, SIGNAL(clicked()), this, SLOT(insertSmile()));
+    btnSmile->hide();
+
     btnGrant = new PictButton(t);
     btnGrant->hide();
     btnGrant->setState("apply", i18n("&Grant"));
@@ -310,6 +316,83 @@ void MsgEdit::save(std::ostream &s)
 void MsgEdit::closeToggle(bool state)
 {
     pMain->CloseAfterSend = state;
+}
+
+SmileLabel::SmileLabel(int _id, QWidget *parent)
+        : QLabel(parent)
+{
+    id = _id;
+    char b[20];
+    snprintf(b, sizeof(b), "smile%X", id);
+    setPixmap(Pict(b));
+}
+
+void SmileLabel::mouseReleaseEvent(QMouseEvent*)
+{
+    emit clicked(id);
+}
+
+SmilePopup::SmilePopup(QWidget *popup)
+        : QFrame(popup, "smile", WType_Popup | WStyle_Customize | WStyle_Tool | WDestructiveClose)
+{
+    setFrameShape(PopupPanel);
+    setFrameShadow(Sunken);
+    QGridLayout *lay = new QGridLayout(this, 4, 4);
+    lay->setMargin(4);
+    lay->setSpacing(2);
+    for (unsigned i = 0; i < 4; i++){
+        for (unsigned j = 0; j < 4; j++){
+            QWidget *w = new SmileLabel(i*4+j, this);
+            connect(w, SIGNAL(clicked(int)), this, SLOT(labelClicked(int)));
+            lay->addWidget(w, i, j);
+        }
+    }
+}
+
+static char smiles[] =
+    ":-)\x00"
+    ":-O\x00"
+    ":-|\x00"
+    ":-/\x00"
+    ":-(\x00"
+    ":-{}\x00"
+    ":*)\x00"
+    ":'-(\x00"
+    ";-)\x00"
+    ":-@\x00"
+    ":-\")\x00"
+    ":-X\x00"
+    ":-P\x00"
+    "8-)\x00"
+    "O-)\x00"
+    ":-D\x00"
+    "\x00";
+
+void SmilePopup::labelClicked(int id)
+{
+    QString str;
+    for (char *p = smiles; id > 0; id--){
+        if (*p == 0) break;
+        p += strlen(p) + 1;
+    }
+    str = p;
+    insert(p, false, true, true);
+    close();
+}
+
+void MsgEdit::insertSmile()
+{
+    SmilePopup *smile = new SmilePopup(this);
+    connect(smile, SIGNAL(insert(const QString&, bool, bool, bool)), edit, SLOT(insert(const QString&, bool, bool, bool)));
+    QPoint p = btnSmile->mapToGlobal(btnSmile->rect().topLeft());
+    QPoint pos = QPoint(p.x(), p.y() + btnSmile->height());
+    QWidget *desktop = qApp->desktop();
+    if (pos.x() + smile->width() > desktop->width())
+        pos.setX(desktop->width() - smile->width());
+    if (pos.y() + smile->height() > desktop->height())
+        pos.setY(p.y() - smile->height());
+    smile->move(pos);
+    smile->show();
 }
 
 History *MsgEdit::history()
@@ -1037,6 +1120,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
         btnItalic->hide();
         btnUnder->hide();
         btnFont->hide();
+        btnSmile->hide();
 #ifdef USE_SPELL
         btnSpell->hide();
 #endif
@@ -1073,6 +1157,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
         btnItalic->hide();
         btnUnder->hide();
         btnFont->hide();
+        btnSmile->hide();
 #ifdef USE_SPELL
         btnSpell->hide();
 #endif
@@ -1241,6 +1326,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 btnItalic->show();
                 btnUnder->show();
                 btnFont->show();
+                btnSmile->show();
                 btnMultiply->show();
 #ifdef USE_SPELL
                 btnSpell->show();
@@ -1276,6 +1362,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 btnItalic->hide();
                 btnUnder->hide();
                 btnFont->hide();
+                btnSmile->hide();
                 btnMultiply->show();
 #ifdef USE_SPELL
                 btnSpell->show();
@@ -1305,6 +1392,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 btnItalic->hide();
                 btnUnder->hide();
                 btnFont->hide();
+                btnSmile->hide();
                 btnMultiply->hide();
 #ifdef USE_SPELL
                 btnSpell->show();
@@ -1336,6 +1424,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 btnItalic->hide();
                 btnUnder->hide();
                 btnFont->hide();
+                btnSmile->hide();
                 btnMultiply->hide();
 #ifdef USE_SPELL
                 btnSpell->show();
@@ -1361,6 +1450,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 btnItalic->hide();
                 btnUnder->hide();
                 btnFont->hide();
+                btnSmile->hide();
                 btnMultiply->hide();
 #ifdef USE_SPELL
                 btnSpell->show();
@@ -1398,6 +1488,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 btnItalic->hide();
                 btnUnder->hide();
                 btnFont->hide();
+                btnSmile->hide();
                 btnMultiply->show();
 #ifdef USE_SPELL
                 btnSpell->hide();
@@ -1427,6 +1518,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 btnItalic->hide();
                 btnUnder->hide();
                 btnFont->hide();
+                btnSmile->hide();
                 btnMultiply->hide();
 #ifdef USE_SPELL
                 btnSpell->hide();
@@ -1452,6 +1544,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 btnItalic->hide();
                 btnUnder->hide();
                 btnFont->hide();
+                btnSmile->hide();
                 btnMultiply->hide();
 #ifdef USE_SPELL
                 btnSpell->hide();
@@ -1476,6 +1569,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 btnItalic->hide();
                 btnUnder->hide();
                 btnFont->hide();
+                btnSmile->hide();
                 btnMultiply->hide();
 #ifdef USE_SPELL
                 btnSpell->hide();

@@ -1967,7 +1967,7 @@ string MainWindow::homeDir;
 
 void MainWindow::playSound(const char *wav)
 {
-    if ((wav == NULL) || (*wav == 0)) return;
+    if ((wav == NULL) || (*wav == 0) || pSplash->SoundDisable) return;
     wav = sound(wav);
 #ifdef WIN32
     sndPlaySoundA(wav, SND_ASYNC | SND_NODEFAULT);

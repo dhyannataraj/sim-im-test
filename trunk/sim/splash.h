@@ -35,6 +35,7 @@ public:
     bool			UseArts;
     string			SoundPlayer;
     string			StartupSound;
+    bool			SoundDisable;
 protected:
     QWidget	*wnd;
 };

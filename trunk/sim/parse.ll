@@ -22,13 +22,13 @@
 
 #define TXT			1
 #define URL			2
-#define SMILE		3
-#define BR			4
-#define TAG			5
-#define TAG_END		6
-#define MAIL		7
-#define TAB			8
-#define LONGSPACE	9
+#define BR			3
+#define TAG			4
+#define TAG_END		5
+#define MAIL		6
+#define TAB			7
+#define LONGSPACE	8
+#define SMILE		0x100
 
 #define YY_STACK_USED   0
 #define YY_NEVER_INTERACTIVE    1

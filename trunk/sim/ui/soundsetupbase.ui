@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>556</width>
+            <width>552</width>
             <height>600</height>
         </rect>
     </property>
@@ -113,6 +113,17 @@
             <property>
                 <name>text</name>
                 <string>&amp;Override sounds</string>
+            </property>
+        </widget>
+        <widget>
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkDisable</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>&amp;Disable all sounds</string>
             </property>
         </widget>
         <widget>

@@ -513,6 +513,7 @@ static void addMyEMails(EMailList &mails, const EMailList &add, bool bOwn)
     for (EMailList::const_iterator it = add.begin(); it != add.end(); ++it){
         EMailInfo *info = static_cast<EMailInfo*>(*it);
         if (!bOwn && !info->MyInfo) continue;
+        if (bOwn) info->MyInfo = true;
         addEMail(mails, info);
     }
 }

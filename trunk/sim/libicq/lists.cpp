@@ -356,6 +356,7 @@ bool operator == (const list_req &r1, const list_req &r2)
 
 bool ICQSetListEvent::process(ICQClient *icq, unsigned short result)
 {
+    if (result == 2) result = 0;
     if (result != 0){
         log(L_DEBUG, "ICQSetListEvent failed %04X", result);
         icq->listQueue.remove(*icq->listQueue.begin());
@@ -405,10 +406,17 @@ void ICQClient::processListQueue()
             continue;
         }
         unsigned short userId = contacts.getUserId(u);
+        string alias = u->Alias;
+        if (*alias.c_str() == 0) alias = u->FirstName;
+        if (*alias.c_str() == 0){
+            char b[13];
+            snprintf(b, sizeof(b), "%ul", u->Uin);
+            alias = b;
+        }
         ICQSetListEvent *e = new ICQSetListEvent(u->Uin, lr.list_type, lr.bSet);
         sendRoster(e,
                    lr.bSet ? ICQ_SNACxLISTS_CREATE : ICQ_SNACxLISTS_DELETE,
-                   u->Uin, 0, userId, lr.list_type);
+                   u->Uin, 0, userId, lr.list_type, alias.c_str());
         return;
     }
 }

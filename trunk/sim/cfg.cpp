@@ -94,6 +94,7 @@ void save(void *_obj, const cfgParam *params, ostream &out)
                 pp = (const cfgParam*)(pp->defValue);
             }
             if (pp != p) continue;
+            bool writeEmpty = false;
             string value;
             switch (p->type){
             case PARAM_ULONG:
@@ -122,7 +123,10 @@ void save(void *_obj, const cfgParam *params, ostream &out)
                 v = "";
                 if (p->defValue)
                     v = (const char*)(p->defValue);
-                if (*s != v) value = *s;
+                if (*s != v){
+                    value = *s;
+                    writeEmpty = true;
+                }
                 break;
             case PARAM_BOOL:
                 if (*((bool*)(obj + p->offs)) != (bool)(p->defValue))
@@ -162,7 +166,7 @@ void save(void *_obj, const cfgParam *params, ostream &out)
                 if (l->size())
                     out << "[]\n";
             }
-            if (value.size() == 0) continue;
+            if ((value.size() == 0) && !writeEmpty) continue;
             string quoted;
             for (unsigned i = 0; i < value.size(); i++){
                 switch (value[i]){

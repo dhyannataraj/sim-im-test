@@ -22,6 +22,7 @@
 #include "cfg.h"
 
 #include <qsplitter.h>
+#include <qlabel.h>
 
 class QCheckBox;
 class QVGroupBox;
@@ -47,6 +48,29 @@ class MsgView;
 class WndCancel;
 class CToolButton;
 class PictButton;
+
+class SmileLabel : public QLabel
+{
+    Q_OBJECT
+public:
+    SmileLabel(int id, QWidget *parent);
+signals:
+    void clicked(int id);
+protected:
+    void mouseReleaseEvent(QMouseEvent*);
+    int id;
+};
+
+class SmilePopup : public QFrame
+{
+    Q_OBJECT
+public:
+    SmilePopup(QWidget *parent);
+signals:
+    void insert(const QString &text, bool indent, bool checkNewLine, bool removeSelected);
+protected slots:
+    void labelClicked(int id);
+};
 
 class MsgEdit : public QSplitter
 {
@@ -112,6 +136,7 @@ protected slots:
     void chatChanged();
     void ftChanged();
     void modeChanged(bool);
+    void insertSmile();
 protected:
     MsgView *msgView;
     QFrame  *frmEdit;
@@ -137,6 +162,7 @@ protected:
     CToolButton	*btnItalic;
     CToolButton	*btnUnder;
     CToolButton	*btnFont;
+    CToolButton *btnSmile;
 #ifdef USE_SPELL
     CToolButton	*btnSpell;
 #endif

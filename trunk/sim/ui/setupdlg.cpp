@@ -60,6 +60,7 @@
 #include <qwidgetstack.h>
 #include <qpushbutton.h>
 #include <qheader.h>
+#include <qlayout.h>
 
 #define PAGE(A)	  static QWidget *p_##A(QWidget *p, unsigned) { return new A(p); }
 
@@ -242,6 +243,8 @@ void SetupDialog::selectionChanged()
         QWidget *page = p(tabBars, item->text(4).toUInt());
         tabBars->addWidget(page, id);
         connect(this, SIGNAL(applyChanges(ICQUser*)), page, SLOT(apply(ICQUser*)));
+        QLayout *lay = layout();
+        if (lay) lay->invalidate();
     }
     tabBars->raiseWidget(id);
 }

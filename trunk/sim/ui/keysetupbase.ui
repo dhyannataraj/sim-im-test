@@ -6,25 +6,25 @@
         <name>name</name>
         <cstring>KeySetup</cstring>
     </property>
-    <property stdset="1">
+    <property>
         <name>geometry</name>
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>392</width>
+            <width>388</width>
             <height>408</height>
         </rect>
     </property>
-    <property stdset="1">
+    <property>
         <name>caption</name>
         <string>Form1</string>
     </property>
     <vbox>
-        <property stdset="1">
+        <property>
             <name>margin</name>
             <number>11</number>
         </property>
-        <property stdset="1">
+        <property>
             <name>spacing</name>
             <number>6</number>
         </property>
@@ -35,11 +35,11 @@
                 <cstring>Layout3</cstring>
             </property>
             <hbox>
-                <property stdset="1">
+                <property>
                     <name>margin</name>
                     <number>0</number>
                 </property>
-                <property stdset="1">
+                <property>
                     <name>spacing</name>
                     <number>6</number>
                 </property>
@@ -49,7 +49,7 @@
                         <name>name</name>
                         <cstring>lblPict</cstring>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>text</name>
                         <string></string>
                     </property>
@@ -60,21 +60,21 @@
                         <name>name</name>
                         <cstring>lblHead</cstring>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>sizePolicy</name>
                         <sizepolicy>
                             <hsizetype>7</hsizetype>
                             <vsizetype>1</vsizetype>
                         </sizepolicy>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>font</name>
                         <font>
                             <pointsize>9</pointsize>
                             <bold>1</bold>
                         </font>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>text</name>
                         <string>Keyboard shortcuts</string>
                     </property>
@@ -91,7 +91,7 @@
                 <name>frameShape</name>
                 <enum>HLine</enum>
             </property>
-            <property stdset="1">
+            <property>
                 <name>frameShadow</name>
                 <enum>Sunken</enum>
             </property>
@@ -110,9 +110,9 @@
                 <name>name</name>
                 <cstring>chkSendEnter</cstring>
             </property>
-            <property stdset="1">
+            <property>
                 <name>text</name>
-                <string>Send messages on Emter</string>
+                <string>Send messages on "Enter"</string>
             </property>
         </widget>
         <widget>
@@ -121,7 +121,7 @@
                 <name>name</name>
                 <cstring>TextLabel3</cstring>
             </property>
-            <property stdset="1">
+            <property>
                 <name>text</name>
                 <string>Actions:</string>
             </property>
@@ -164,11 +164,11 @@
                 <cstring>Layout5</cstring>
             </property>
             <hbox>
-                <property stdset="1">
+                <property>
                     <name>margin</name>
                     <number>0</number>
                 </property>
-                <property stdset="1">
+                <property>
                     <name>spacing</name>
                     <number>6</number>
                 </property>
@@ -178,7 +178,7 @@
                         <name>name</name>
                         <cstring>chkEnable</cstring>
                     </property>
-                    <property stdset="1">
+                    <property>
                         <name>text</name>
                         <string>&amp;Enable</string>
                     </property>

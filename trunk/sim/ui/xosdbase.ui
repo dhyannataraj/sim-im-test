@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>410</width>
+            <width>406</width>
             <height>374</height>
         </rect>
     </property>
@@ -319,7 +319,7 @@
                     </property>
                     <property>
                         <name>text</name>
-                        <string>Position:</string>
+                        <string>Place:</string>
                     </property>
                     <property>
                         <name>alignment</name>
