@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2004-04-26 11:31+0400\n"
-"PO-Revision-Date: 2004-05-02 13:36+0100\n"
+"PO-Revision-Date: 2004-05-02 13:58+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2421,8 +2421,8 @@ msgid "Note: For HTTP-pooling using proxy setings for HTTP"
 msgstr "Bemerkung: Für HTTP-Polling, das Proxy-Einstellungen für HTTP benutzt"
 
 #: plugins/msn/msnconfigbase.cpp:179
-msgid "&Automaticaly add contacts in accept list"
-msgstr "Kontakte &automatisch in Akzeptierenliste hinzufügen"
+msgid "&Automatically add contacts in accept list"
+msgstr "Kontakte &automatisch der Akzeptanzliste hinzufügen"
 
 #: plugins/icq/aimconfigbase.cc:153
 #: plugins/icq/icqconfigbase.cc:275

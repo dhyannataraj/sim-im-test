@@ -2259,7 +2259,7 @@ msgid "Note: For HTTP-pooling using proxy setings for HTTP"
 msgstr ""
 
 #: plugins/msn/msnconfigbase.cpp:179
-msgid "&Automaticaly add contacts in accept list"
+msgid "&Automatically add contacts in accept list"
 msgstr ""
 
 #: plugins/icq/aimconfigbase.cc:153 plugins/icq/icqconfigbase.cc:275
@@ -3231,7 +3231,6 @@ msgid "Not in list"
 msgstr ""
 
 #: plugins/_core/search.cpp:631
-#, c-format
 msgid ""
 "_n: %n contact found\n"
 "%n contacts found"
