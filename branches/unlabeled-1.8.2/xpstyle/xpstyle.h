@@ -18,6 +18,15 @@
 #ifndef _XPSTYLE_H
 #define _XPSTYLE_H
 
+#if defined(_MSC_VER) && defined(_DEBUG) && !defined(NO_CHECK_NEW)
+#ifndef _CRTDBG_MAP_ALLOC
+#define _CRTDBG_MAP_ALLOC
+#endif
+#include <stdlib.h>
+#include <crtdbg.h>
+#define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#endif
+
 #include <qwindowsstyle.h>
 
 class QWindowsXPStylePrivate;

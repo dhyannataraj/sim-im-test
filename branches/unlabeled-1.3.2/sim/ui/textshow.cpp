@@ -261,7 +261,7 @@ QString TextShow::unquoteString(const QString &s, int from, int to)
 {
     unsigned startPos = textPosition(s, from);
     unsigned endPos = textPosition(s, to);
-    return SIM::unquoteString(s.mid(startPos, endPos - startPos));
+    return SIM::unquoteText(s.mid(startPos, endPos - startPos));
 }
 
 unsigned TextShow::textPosition(const QString &text, unsigned pos)

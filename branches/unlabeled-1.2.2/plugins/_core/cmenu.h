@@ -43,6 +43,7 @@ public:
     void setParam(void *param);
 protected slots:
     void showMenu();
+    void hideMenu();
     void menuActivated(int);
 protected:
     void processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned base_id);

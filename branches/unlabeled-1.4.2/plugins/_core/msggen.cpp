@@ -140,7 +140,7 @@ void MsgGen::textChanged()
         return;
     // we need to unqoute this text...
     QString text = m_edit->m_edit->text();
-    text = m_edit->m_edit->unquoteString(text,0,text.length());
+    text = unquoteText(text);
     bool bEnable = !text.isEmpty();
     if (bEnable && m_edit->m_userWnd->m_list && m_edit->m_userWnd->m_list->selected.empty())
         bEnable = false;

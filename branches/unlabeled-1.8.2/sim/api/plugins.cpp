@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "simapi.h"
+#include "sockfactory.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -203,16 +204,12 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
     }
 }
 
-void deleteContacts();
-
 PluginManagerPrivate::~PluginManagerPrivate()
 {
-    save_state();
-    Event e(EventQuit);
-    e.process();
-	getContacts()->clearClients();
-	deleteContacts();
 	release_all(NULL);
+    for (vector<pluginInfo>::iterator itp = plugins.begin(); itp != plugins.end(); ++itp){
+        free((*itp).name);
+    }
 }
 
 void *PluginManagerPrivate::processEvent(Event *e)
@@ -276,9 +273,9 @@ void PluginManagerPrivate::release_all(Plugin *to)
 {
     for (int n = plugins.size() - 1; n >= 0; n--){
         pluginInfo &info = plugins[n];
-        if (info.plugin == to)
+        if (to && (info.plugin == to))
             break;
-        if (info.info && (info.info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT)))
+        if (to && info.info && (info.info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT)))
             continue;
         release(info);
         info.bDisabled = false;
@@ -723,17 +720,30 @@ void PluginManagerPrivate::execute(const char *prg, const char *arg)
 
 PluginManager::PluginManager(int argc, char **argv)
 {
+	EventReceiver::initList();
+	factory = new SIMSockets;
+	contacts = new ContactList;
     p = new PluginManagerPrivate(argc, argv);
 }
 
 PluginManager::~PluginManager()
 {
+    save_state();
+    Event e(EventQuit);
+    e.process();
+	contacts->clearClients();
     delete p;
+	delete contacts;
+	delete factory;
+	EventReceiver::destroyList();
 }
 
 bool PluginManager::isLoaded()
 {
     return !p->m_bAbort;
 }
+
+ContactList *PluginManager::contacts = NULL;
+SocketFactory *PluginManager::factory = NULL;
 
 };

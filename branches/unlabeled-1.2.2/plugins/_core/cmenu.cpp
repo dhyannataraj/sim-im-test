@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "cmenu.h"
+#include "commands.h"
 
 #include <qaccel.h>
 
@@ -26,6 +27,7 @@ CMenu::CMenu(CommandsDef *def)
     m_param = NULL;
     setCheckable(true);
     connect(this, SIGNAL(aboutToShow()), this, SLOT(showMenu()));
+    connect(this, SIGNAL(aboutToHide()), this, SLOT(hideMenu()));
     connect(this, SIGNAL(activated(int)), this, SLOT(menuActivated(int)));
 }
 
@@ -144,6 +146,11 @@ void CMenu::showMenu()
     while ((s = ++list) != NULL){
         processItem(s, bSeparator, bFirst, 0);
     }
+}
+
+void CMenu::hideMenu()
+{
+    clear();
 }
 
 void CMenu::menuActivated(int n)

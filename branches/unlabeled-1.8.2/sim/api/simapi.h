@@ -138,6 +138,8 @@ namespace SIM
 /* PluginManager - base class for main application */
 
 class PluginManagerPrivate;
+class ContactList;
+class SocketFactory;
 
 class EXPORT PluginManager
 {
@@ -145,6 +147,8 @@ public:
     PluginManager(int argc, char **argv);
     ~PluginManager();
     bool isLoaded();
+	static ContactList			*contacts;
+	static SocketFactory		*factory;
 private:
     PluginManagerPrivate *p;
 };
@@ -249,6 +253,8 @@ public:
     virtual ~EventReceiver();
     virtual void *processEvent(Event*) { return NULL; }
     unsigned priority() { return m_priority; }
+	static void initList();
+	static void destroyList();
 protected:
     unsigned m_priority;
 };
@@ -1400,8 +1406,10 @@ EXPORT ContactList *getContacts();
 // ____________________________________________________________________________________
 // Url procs
 
-EXPORT QString	unquoteString(const QString &text);
+EXPORT QString	unquoteText(const QString &text);
+
 EXPORT QString  quoteString(const QString &str);
+EXPORT QString	unquoteString(const QString &str);
 
 // ____________________________________________________________________________________
 // Log procs
@@ -1468,7 +1476,9 @@ EXPORT bool isLatin(const QString&);
 EXPORT QString getPart(QString&, unsigned size);
 EXPORT QString getRichTextPart(QString&, unsigned size);
 
-EXPORT const char **smiles();
+EXPORT const char *smiles(unsigned n);
+EXPORT const char *defaultSmiles(unsigned n);
+EXPORT void setSmiles(const char *smiles);
 
 EXPORT unsigned screens();
 EXPORT QRect screenGeometry(unsigned nScreen);

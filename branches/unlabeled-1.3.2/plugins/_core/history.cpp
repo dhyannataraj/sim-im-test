@@ -257,7 +257,7 @@ void HistoryFileIterator::createMessage(unsigned id, const char *type, const cha
     Message *msg = CorePlugin::m_plugin->createMessage(type, cfg);
     if (msg){
         if (!m_filter.isEmpty()){
-            QString p = unquoteString(msg->presentation()).lower();
+            QString p = unquoteText(msg->presentation()).lower();
             if (p.find(m_filter) < 0){
                 delete msg;
                 return;

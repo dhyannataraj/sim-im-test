@@ -172,14 +172,15 @@ void MainInfo::fill()
     while (phones.length()){
         QString number;
         QString type;
-        unsigned icon;
+        unsigned icon = 0;
         QString proto;
         QString phone = getToken(phones, ';', false);
         QString phoneItem = getToken(phone, '/', false);
         proto = phone;
         number = getToken(phoneItem, ',');
         type = getToken(phoneItem, ',');
-        icon = atol(getToken(phoneItem, ',').latin1());
+		if (!phoneItem.isEmpty())
+			icon = atol(getToken(phoneItem, ',').latin1());
         QListViewItem *item = new QListViewItem(lstPhones);
         fillPhoneItem(item, number, type, icon, proto);
         cmbCurrent->insertItem(number);

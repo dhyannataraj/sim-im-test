@@ -226,14 +226,23 @@ bool DockPlugin::isMainShow()
 
 void *DockPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventInit)
+	CommandDef *def;
+    switch (e->type()){
+	case EventInit:
         init();
-    if (e->type() == EventRaiseWindow){
+		break;
+	case EventQuit:
+		if (dock){
+		    delete dock;
+			dock = NULL;
+		}
+		break;
+    case EventRaiseWindow:
         if ((e->param() == getMainWindow()) && !getShowMain())
             return e->param();
-    }
-    if (e->type() == EventCommandCreate){
-        CommandDef *def = (CommandDef*)(e->param());
+		break;
+    case EventCommandCreate:
+        def = (CommandDef*)(e->param());
         if (def->menu_id == MenuMain){
             CommandDef d = *def;
             if (def->flags & COMMAND_IMPORTANT){
@@ -247,9 +256,9 @@ void *DockPlugin::processEvent(Event *e)
             Event e(EventCommandCreate, &d);
             e.process();
         }
-    }
-    if (e->type() == EventCheckState){
-        CommandDef *def = (CommandDef*)(e->param());
+		break;
+    case EventCheckState:
+        def = (CommandDef*)(e->param());
         if (def->id == CmdToggle){
             def->flags &= ~COMMAND_CHECKED;
             def->text = isMainShow() ?
@@ -257,8 +266,8 @@ void *DockPlugin::processEvent(Event *e)
                         I18N_NOOP("Show main window");
             return e->param();
         }
-    }
-    if (e->type() == EventCommandExec){
+		break;
+    case EventCommandExec:
         CommandDef *def = (CommandDef*)(e->param());
         if (def->id == CmdToggle){
             QWidget *main = getMainWindow();
@@ -278,6 +287,7 @@ void *DockPlugin::processEvent(Event *e)
         }
         if (def->id == CmdQuit)
             bQuit = true;
+		break;
     }
     return NULL;
 }

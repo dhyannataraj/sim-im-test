@@ -266,9 +266,13 @@ int main(int argc, char *argv[])
 #ifdef WIN32
     CloseHandle(hMutex);
 #endif
+
 	}
+
 #if defined(_MSC_VER) && defined(_DEBUG) && !defined(NO_CHECK_NEW)
+
 	_CrtDumpMemoryLeaks();
+
 #endif
     return res;
 };

@@ -258,13 +258,11 @@ static list<EventReceiver*> *receivers = NULL;
 EventReceiver::EventReceiver(unsigned priority)
 {
     m_priority = priority;
-    if (receivers == NULL)
-        receivers = new list<EventReceiver*>;
     list<EventReceiver*>::iterator it;
     for (it = receivers->begin(); it != receivers->end(); ++it)
         if ((*it)->priority() >= priority)
             break;
-    receivers->insert(it, this);
+		receivers->insert(it, this);
 }
 
 EventReceiver::~EventReceiver()
@@ -272,7 +270,7 @@ EventReceiver::~EventReceiver()
     list<EventReceiver*>::iterator it;
     for (it = receivers->begin(); it != receivers->end(); ++it){
         if ((*it) == this){
-            receivers->erase(it);
+			receivers->erase(it);
             break;
         }
     }
@@ -298,6 +296,16 @@ void *Event::process(EventReceiver *from)
             return res;
     }
     return NULL;
+}
+
+void EventReceiver::initList()
+{
+	receivers = new list<EventReceiver*>;
+}
+
+void EventReceiver::destroyList()
+{
+	delete receivers;
 }
 
 #ifdef WIN32
@@ -577,29 +585,93 @@ EXPORT QString getRichTextPart(QString &str, unsigned)
     return res;
 }
 
-static const char *_smiles[16] =
+#define DIV	"\x00"
+
+static const char *_smiles =
     {
-        ":-)",
-        ":-O",
-        ":-|",
-        ":-/",
-        ":-(",
-        ":-{}",
-        ":*)",
-        ":'-(",
-        ";-)",
-        ":-@",
-        ":-\")",
-        ":-X",
-        ":-P",
-        "8-)",
-        "O-)",
-        ":-D"
+        ":-)" DIV ":)" DIV DIV
+		":-O" DIV ":-0" DIV DIV
+        ":-|" DIV ":-!" DIV DIV
+        ":-/" DIV DIV
+        ":-(" DIV ":(" DIV DIV
+        ":-{}" DIV ":{}" DIV DIV
+        ":*)" DIV DIV
+        ":'-(" DIV ":'(" DIV DIV
+        ";-)" DIV ";)" DIV DIV
+        ":-@" DIV DIV
+        ":-\")" DIV DIV
+        ":-X" DIV DIV
+        ":-P" DIV DIV
+        "8-)" DIV DIV
+        "O-)" DIV "0-)" DIV DIV
+        ":-D" DIV DIV
+		DIV DIV
     };
 
-EXPORT const char **smiles()
+static vector<string> pSmiles;
+static vector<string> pDefaultSmiles;
+
+static const char *getSmiles(unsigned n, vector<string> &pSmiles)
 {
-    return _smiles;
+	if (n < pSmiles.size())
+		return pSmiles[n].c_str();
+	return NULL;
+}
+
+EXPORT const char *smiles(unsigned n)
+{
+	if (pSmiles.size() == 0)
+		setSmiles(NULL);
+	return getSmiles(n, pSmiles);
+}
+
+EXPORT const char *defaultSmiles(unsigned n)
+{
+	if (pDefaultSmiles.size() == 0){
+		for (const char *p = _smiles; *p; ){
+			string s;
+			for (; *p; ){
+				s += p;
+				s += '\x00';
+				p += strlen(p) + 1;
+			}
+			s += '\x00';
+			pDefaultSmiles.push_back(s);
+		}
+	}
+	return getSmiles(n, pDefaultSmiles);
+}
+
+EXPORT void setSmiles(const char *p)
+{
+	if (p == NULL)
+		p = _smiles;
+	pSmiles.clear();
+	for (unsigned i = 0; i < 16; i++)
+		pSmiles.push_back("");
+	for (; *p; ){
+		string s;
+		unsigned index;
+		for (index = 0; index < 16; index++){
+			const char *dp = defaultSmiles(index);
+			for (; *dp; dp += strlen(dp) + 1)
+				if (strcmp(p, dp) == 0)
+					break;
+			if (*dp)
+				break;
+		}
+		for (; *p; ){
+			s += p;
+			s += '\x00';
+			p += strlen(p) + 1;
+		}
+		s += '\x00';
+		if (index < 16){
+			pSmiles[index] = s;
+		}else{
+			pSmiles.push_back(s);
+		}
+	}
 }
 
 #ifdef WIN32

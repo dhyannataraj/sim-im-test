@@ -102,25 +102,29 @@ bool CommandsDefPrivate::delCommand(unsigned id)
 
 void *CommandsDefPrivate::processEvent(Event *e)
 {
-    if (e->type() == EventCommandCreate){
-        CommandDef *def = (CommandDef*)(e->param());
+	CommandDef *def;
+	list<CommandDef>::iterator it;
+    switch (e->type()){
+	case EventCommandCreate:
+        def = (CommandDef*)(e->param());
         if (((m_bMenu ? def->menu_id : def->bar_id) == m_id) && (m_bMenu || def->icon)){
             if (addCommand(def))
                 cfg.clear();
         }
-    }
-    if (e->type() == EventCommandChange){
-        CommandDef *def = (CommandDef*)(e->param());
-        for (list<CommandDef>::iterator it = buttons.begin(); it != buttons.end(); ++it){
+		break;
+    case EventCommandChange:
+        def = (CommandDef*)(e->param());
+        for (it = buttons.begin(); it != buttons.end(); ++it){
             if ((*it).id == def->id){
                 *it = *def;
                 break;
             }
         }
-    }
-    if (e->type() == EventCommandRemove){
+		break;
+    case EventCommandRemove:
         if (delCommand((unsigned)(e->param())))
             cfg.clear();
+		break;
     }
     return NULL;
 }

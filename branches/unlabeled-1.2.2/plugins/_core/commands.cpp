@@ -40,9 +40,10 @@ Commands::~Commands()
     }
     MENU_MAP::iterator itm;
     for (itm = menues.begin(); itm != menues.end(); ++itm){
-        if ((*itm).second.menu)
-            delete (*itm).second.menu;
-        delete (*itm).second.def;
+		MenuDef &def = (*itm).second;
+        if (def.menu)
+            delete def.menu;
+        delete def.def;
     }
 }
 

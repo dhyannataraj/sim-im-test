@@ -61,7 +61,7 @@ QString Message::getPlainText()
 {
     if (!(getFlags() & MESSAGE_RICHTEXT))
         return getText();
-    return unquoteString(getText());
+    return unquoteText(getText());
 }
 
 QString Message::getRichText()

@@ -1056,7 +1056,7 @@ void MsgEdit::editLostFocus()
 void MsgEdit::insertSmile(int id)
 {
     if (m_edit->textFormat() == QTextEdit::PlainText){
-        m_edit->insert(smiles()[id], false, true, true);
+        m_edit->insert(smiles(id), false, true, true);
         return;
     }
     QString id_str  = QString("%1").arg(id,0,16);
