@@ -2607,7 +2607,7 @@ msgstr "Namen"
 
 #: plugins/icq/aiminfobase.cc:258 plugins/icq/aimsearchbase.cc:165
 msgid "Middle:"
-msgstr "2. Vornamen:"
+msgstr "2. Vorname:"
 
 #: plugins/icq/aiminfobase.cc:259 plugins/icq/aimsearchbase.cc:166
 msgid "Maiden:"
@@ -3216,10 +3216,10 @@ msgstr "-"
 #: plugins/icq/aimconfigbase.cc:151 plugins/icq/icqconfigbase.cc:273
 #: plugins/jabber/jabberconfigbase.cpp:308 plugins/msn/msnconfigbase.cpp:178
 #: plugins/yahoo/yahoocfgbase.cpp:180
-msgid "Note: For HTTP-pooling using proxy setings for HTTP"
+msgid "Note: For HTTP-pooling using proxy settings for HTTP"
 msgstr ""
 "Anmerkung: Wiederkehrende HTTP-Anfragen können nur in Verbindung mit "
-"einemHTTP-Proxy verwendet werden."
+"einem HTTP-Proxy verwendet werden."
 
 #: plugins/icq/aimconfigbase.cc:152 plugins/icq/icqconfigbase.cc:274
 msgid "&Keep-alive connection"
@@ -4235,7 +4235,7 @@ msgstr "Schlüsselwörter"
 
 #: plugins/icq/advsearchbase.cc:263
 msgid "Search &online users only"
-msgstr "Nur nach Buntzern suchen, die online sind"
+msgstr "Nur nach Benutzern suchen, die online sind"
 
 #: plugins/msn/msnconfigbase.cpp:169 plugins/yahoo/yahoocfgbase.cpp:175
 #: plugins/yahoo/yahooinfobase.cpp:154
@@ -8290,7 +8290,7 @@ msgstr "Druck"
 
 #: plugins/weather/wifacecfg.cpp:45
 msgid "Pressure state"
-msgstr "Druckstatus"
+msgstr "Druck Tendenz"
 
 #: plugins/weather/wifacecfg.cpp:47
 msgid "Visibility"
@@ -8464,19 +8464,19 @@ msgstr "Wolkig"
 msgid ""
 "_: weather\n"
 "Mostly Cloudy"
-msgstr "Hauptsächlich bewölkt "
+msgstr "Hauptsächlich bewölkt"
 
 #: plugins/weather/weather.cpp:392
 msgid ""
 "_: weather\n"
 "Partly Cloudy"
-msgstr "Teilweise bewölkt "
+msgstr "Teilweise bewölkt"
 
 #: plugins/weather/weather.cpp:393
 msgid ""
 "_: weather\n"
 "Wind"
-msgstr "Wind "
+msgstr "Wind"
 
 #: plugins/weather/weather.cpp:394
 msgid ""
@@ -8596,13 +8596,13 @@ msgstr "S"
 msgid ""
 "_: weather\n"
 "SSE"
-msgstr "SSE"
+msgstr "SSO"
 
 #: plugins/weather/weather.cpp:414
 msgid ""
 "_: weather\n"
 "SE"
-msgstr "SE"
+msgstr "SO"
 
 #: plugins/weather/weather.cpp:415
 msgid ""
@@ -8670,7 +8670,7 @@ msgstr "m/s"
 
 #: plugins/weather/weather.cpp:480 plugins/weather/weather.cpp:481
 msgid "gust "
-msgstr "Böig"
+msgstr "Böig "
 
 #: plugins/weather/weather.cpp:547
 msgid "%t | %c"
@@ -8692,7 +8692,7 @@ msgid ""
 "Updated: %u<br>\n"
 msgstr ""
 "%l<br><br>\n"
-"<img src=\"icon:weather\"> %c<br>\n"
+"<img src=\"icon:weather%i\"> %c<br>\n"
 "Temperatur: <b>%t</b> (gefühlt wie <b>%f</b>)<br>\n"
 "Feuchtigkeit: <b>%h</b><br>\n"
 "Druck: <b>%p</b> (%q)<br>\n"
@@ -8738,11 +8738,11 @@ msgstr "Sie können eine ID als Teil-URL für Ihren Ort bei Weather.com eingeben
 
 #: plugins/weather/weathercfgbase.cpp:114
 msgid "Metric"
-msgstr "Metrik"
+msgstr "metrisch"
 
 #: plugins/weather/weathercfgbase.cpp:115
 msgid "Standart"
-msgstr "Standard"
+msgstr "amerikanisch"
 
 #: plugins/weather/weathercfgbase.cpp:116
 msgid "Forecast days:"
