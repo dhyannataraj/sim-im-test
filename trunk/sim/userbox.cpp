@@ -1011,19 +1011,19 @@ void UserBox::slotMessageReceived(ICQMessage *msg)
         if (haveUser(msg->getUin()))
             messageReceived(msg);
 #ifdef WIN32
-    if (!initFlash){
-        HINSTANCE hLib = GetModuleHandleA("user32");
-        if (hLib != NULL)
-            (DWORD&)FlashWindowEx = (DWORD)GetProcAddress(hLib,"FlashWindowEx");
-        initFlash = true;
-    }
-    if (FlashWindowEx == NULL) return;
-    FLASHWINFO fInfo;
-    fInfo.cbSize = sizeof(fInfo);
-    fInfo.dwFlags = 0x0E;
-    fInfo.hwnd = winId();
-    fInfo.uCount = 0;
-    FlashWindowEx(&fInfo);
+        if (!initFlash){
+            HINSTANCE hLib = GetModuleHandleA("user32");
+            if (hLib != NULL)
+                (DWORD&)FlashWindowEx = (DWORD)GetProcAddress(hLib,"FlashWindowEx");
+            initFlash = true;
+        }
+        if (FlashWindowEx == NULL) return;
+        FLASHWINFO fInfo;
+        fInfo.cbSize = sizeof(fInfo);
+        fInfo.dwFlags = 0x0E;
+        fInfo.hwnd = winId();
+        fInfo.uCount = 0;
+        FlashWindowEx(&fInfo);
 #endif
         return;
     }

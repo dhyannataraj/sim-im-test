@@ -43,17 +43,17 @@ EditSpell::EditSpell(QWidget *parent) : QTextEdit(parent)
     baseFG = colorGroup().color(QColorGroup::Text);
     curFG = baseFG;
     QAccel *a = new QAccel(this);
-	if (pMain->SendEnter){
-		a->connectItem(a->insertItem(Key_Enter),
-                   this, SIGNAL(ctrlEnterPressed()));
-		a->connectItem(a->insertItem(Key_Return),
-                   this, SIGNAL(ctrlEnterPressed()));
-	}else{
-		a->connectItem(a->insertItem(Key_Enter + CTRL),
-                   this, SIGNAL(ctrlEnterPressed()));
-		a->connectItem(a->insertItem(Key_Return + CTRL),
-                   this, SIGNAL(ctrlEnterPressed()));
-	}
+    if (pMain->SendEnter){
+        a->connectItem(a->insertItem(Key_Enter),
+                       this, SIGNAL(ctrlEnterPressed()));
+        a->connectItem(a->insertItem(Key_Return),
+                       this, SIGNAL(ctrlEnterPressed()));
+    }else{
+        a->connectItem(a->insertItem(Key_Enter + CTRL),
+                       this, SIGNAL(ctrlEnterPressed()));
+        a->connectItem(a->insertItem(Key_Return + CTRL),
+                       this, SIGNAL(ctrlEnterPressed()));
+    }
 }
 
 void EditSpell::focusOutEvent(QFocusEvent *e)

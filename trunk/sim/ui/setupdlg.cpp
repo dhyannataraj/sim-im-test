@@ -256,7 +256,7 @@ void SetupDialog::apply()
     ICQUser u;
     emit applyChanges(&u);
     pClient->setInfo(&u);
-	pMain->saveState();
+    pMain->saveState();
 }
 
 void SetupDialog::ok()

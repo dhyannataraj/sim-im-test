@@ -436,14 +436,14 @@ static string strip_number(const char *s)
 bool PhoneInfo::isEqual(const char *number)
 {
     string my_number = getNumber();
-	return isEqual(my_number.c_str(), number);
+    return isEqual(my_number.c_str(), number);
 }
 
 bool PhoneInfo::isEqual(const char *number1, const char *number)
 {
     string n1 = strip_number(number1);
     string n2 = strip_number(number);
-	if (!strcmp(n1.c_str(), n2.c_str())) return true;
+    if (!strcmp(n1.c_str(), n2.c_str())) return true;
     int s1 = n1.length();
     int s2 = n2.length();
     int s = s1;

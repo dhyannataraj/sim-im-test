@@ -504,7 +504,7 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
                             return NULL;
                         }
                         ICQSMS *m = new ICQSMS;
-						m->Charset = "utf-8";
+                        m->Charset = "utf-8";
                         m->Message = text->getValue();
                         XmlLeaf *sender = sms_message->getLeaf("sender");
                         if (sender != NULL) m->Phone = sender->getValue();
@@ -734,7 +734,7 @@ ICQEvent *ICQClient::sendMessage(ICQMessage *msg)
         ICQFile *f = static_cast<ICQFile*>(msg);
         if (f->Size == 0){
             f->localName = f->Name;
-			int nSrcFiles = 0;
+            int nSrcFiles = 0;
             f->Size = getFileSize(f->Name.c_str(), &nSrcFiles, f->files);
             if (nSrcFiles == 0){
                 f->DeclineReason = "No files for transfer";

@@ -211,7 +211,7 @@ public:
     string getNumber();
     void setNumber(const string &number, unsigned long type);
     bool isEqual(const char *number);
-	static bool isEqual(const char *n1, const char *n2);
+    static bool isEqual(const char *n1, const char *n2);
 };
 
 class PhoneBook : public list<PhoneInfo*>

@@ -110,12 +110,12 @@ void FileTransferDlg::speedChanged(int value)
 void FileTransferDlg::processed(ICQFile *f)
 {
     if (f != file) return;
-	if (file && file->ft && (file->ft->curFile() != nCurFile)){
-		nCurFile = file->ft->curFile();
-		setProgress();
-	}else{
-		bDirty = true;
-	}
+    if (file && file->ft && (file->ft->curFile() != nCurFile)){
+        nCurFile = file->ft->curFile();
+        setProgress();
+    }else{
+        bDirty = true;
+    }
 }
 
 void FileTransferDlg::timeout()
@@ -136,7 +136,7 @@ void FileTransferDlg::processEvent(ICQEvent *e)
         file->state = file->Size;
         c = title + " " + i18n("[done]");
         pMain->playSound(pClient->FileDone.c_str());
-	    setProgress();
+        setProgress();
     }else if (e->state == ICQEvent::Fail){
         c = title + " " + i18n("[fail]");
     }else{

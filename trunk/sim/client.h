@@ -112,12 +112,12 @@ protected:
 class SMSmessage
 {
 public:
-	QString		str;
-	ICQSMS		*msg;
-	QString chunk(const QString &s, int len);
-	bool isLatin1(const QString &s);
-	string smsChunk();
-	QString trim(const QString &s);
+    QString		str;
+    ICQSMS		*msg;
+    QString chunk(const QString &s, int len);
+    bool isLatin1(const QString &s);
+    string smsChunk();
+    QString trim(const QString &s);
 };
 
 class Client : public QObject, public ICQClient
@@ -148,8 +148,8 @@ public:
     static string to8Bit(QTextCodec*, const QString&);
     static QString from8Bit(QTextCodec*, const string&, const char *srcCharset=NULL);
 protected:
-	void sendSMS(SMSmessage *sms);
-	list<SMSmessage*> smsQueue;
+    void sendSMS(SMSmessage *sms);
+    list<SMSmessage*> smsQueue;
     list<resolveAddr> resolveQueue;
     QDns *resolver;
 signals:

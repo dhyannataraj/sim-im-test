@@ -426,8 +426,8 @@ void ICQClient::processMsgQueueSMS()
                 destination += *p;
         }
         string text = msg->Message.c_str();
-		translate("utf8", msg->Charset.c_str(), text);
-		text = clearHTML(text);
+        translate("utf8", msg->Charset.c_str(), text);
+        text = clearHTML(text);
         string sender = owner->name(true);
         char uin[13];
         snprintf(uin, sizeof(uin), "%lu", owner->Uin);
