@@ -584,12 +584,13 @@ SOURCE=.\parse.ll
 
 !IF  "$(CFG)" == "_core - Win32 Release"
 
-# Begin Custom Build - Flex $(InputPath)
+# Begin Custom Build
 InputDir=.
 InputPath=.\parse.ll
+InputName=parse
 
-"$(InputDir)\parse.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	flex -o$(InputDir)\parse.cpp $(InputPath)
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	flex -o$(InputDir)\$(InputName).cpp $(InputPath)
 
 # End Custom Build
 
@@ -598,9 +599,10 @@ InputPath=.\parse.ll
 # Begin Custom Build - Flex $(InputPath)
 InputDir=.
 InputPath=.\parse.ll
+InputName=parse
 
-"$(InputDir)\parse.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	flex -o$(InputDir)\parse.cpp $(InputPath)
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	flex -o$(InputDir)\$(InputName).cpp $(InputPath)
 
 # End Custom Build
 
@@ -706,7 +708,7 @@ SOURCE=.\arcfg.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\arcfg.h
 InputName=arcfg
@@ -735,6 +737,33 @@ InputName=arcfg
 # Begin Source File
 
 SOURCE=.\arcfgbase.h
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\arcfgbase.h
+InputName=arcfgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\arcfgbase.h
+InputName=arcfgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -743,7 +772,7 @@ SOURCE=.\autoreply.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\autoreply.h
 InputName=autoreply
@@ -772,6 +801,33 @@ InputName=autoreply
 # Begin Source File
 
 SOURCE=.\autoreplybase.h
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\autoreplybase.h
+InputName=autoreplybase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\autoreplybase.h
+InputName=autoreplybase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -780,7 +836,7 @@ SOURCE=.\cfgdlg.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\cfgdlg.h
 InputName=cfgdlg
@@ -809,6 +865,33 @@ InputName=cfgdlg
 # Begin Source File
 
 SOURCE=.\cfgdlgbase.h
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\cfgdlgbase.h
+InputName=cfgdlgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\cfgdlgbase.h
+InputName=cfgdlgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -817,7 +900,7 @@ SOURCE=.\cmenu.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\cmenu.h
 InputName=cmenu
@@ -850,7 +933,7 @@ SOURCE=.\commands.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\commands.h
 InputName=commands
@@ -883,7 +966,7 @@ SOURCE=.\connectionsettings.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\connectionsettings.h
 InputName=connectionsettings
@@ -912,6 +995,33 @@ InputName=connectionsettings
 # Begin Source File
 
 SOURCE=.\connectionsettingsbase.h
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\connectionsettingsbase.h
+InputName=connectionsettingsbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\connectionsettingsbase.h
+InputName=connectionsettingsbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -920,7 +1030,7 @@ SOURCE=.\connectwnd.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\connectwnd.h
 InputName=connectwnd
@@ -949,6 +1059,33 @@ InputName=connectwnd
 # Begin Source File
 
 SOURCE=.\connectwndbase.h
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\connectwndbase.h
+InputName=connectwndbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\connectwndbase.h
+InputName=connectwndbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -957,7 +1094,7 @@ SOURCE=.\container.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\container.h
 InputName=container
@@ -990,7 +1127,7 @@ SOURCE=.\core.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\core.h
 InputName=core
@@ -1023,7 +1160,7 @@ SOURCE=.\editmail.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\editmail.h
 InputName=editmail
@@ -1052,6 +1189,33 @@ InputName=editmail
 # Begin Source File
 
 SOURCE=.\editmailbase.h
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\editmailbase.h
+InputName=editmailbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\editmailbase.h
+InputName=editmailbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -1060,7 +1224,7 @@ SOURCE=.\editphone.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\editphone.h
 InputName=editphone
@@ -1089,6 +1253,33 @@ InputName=editphone
 # Begin Source File
 
 SOURCE=.\editphonebase.h
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\editphonebase.h
+InputName=editphonebase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\editphonebase.h
+InputName=editphonebase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -1097,7 +1288,7 @@ SOURCE=.\exec.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\exec.h
 InputName=exec
@@ -1171,7 +1362,7 @@ SOURCE=.\historycfg.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\historycfg.h
 InputName=historycfg
@@ -1200,6 +1391,33 @@ InputName=historycfg
 # Begin Source File
 
 SOURCE=.\historycfgbase.h
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\historycfgbase.h
+InputName=historycfgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\historycfgbase.h
+InputName=historycfgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -1208,7 +1426,7 @@ SOURCE=.\historywnd.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\historywnd.h
 InputName=historywnd
@@ -1241,7 +1459,7 @@ SOURCE=.\icons.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\icons.h
 InputName=icons
@@ -1274,7 +1492,7 @@ SOURCE=.\intedit.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\intedit.h
 InputName=intedit
@@ -1307,7 +1525,7 @@ SOURCE=.\interfacecfg.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\interfacecfg.h
 InputName=interfacecfg
@@ -1336,6 +1554,33 @@ InputName=interfacecfg
 # Begin Source File
 
 SOURCE=.\interfacecfgbase.h
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\interfacecfgbase.h
+InputName=interfacecfgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\interfacecfgbase.h
+InputName=interfacecfgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -1344,7 +1589,7 @@ SOURCE=.\kpopup.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\kpopup.h
 InputName=kpopup
@@ -1377,7 +1622,7 @@ SOURCE=.\logindlg.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\logindlg.h
 InputName=logindlg
@@ -1406,6 +1651,33 @@ InputName=logindlg
 # Begin Source File
 
 SOURCE=.\logindlgbase.h
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\logindlgbase.h
+InputName=logindlgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\logindlgbase.h
+InputName=logindlgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -1414,7 +1686,7 @@ SOURCE=.\maininfo.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\maininfo.h
 InputName=maininfo
@@ -1443,6 +1715,33 @@ InputName=maininfo
 # Begin Source File
 
 SOURCE=.\maininfobase.h
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\maininfobase.h
+InputName=maininfobase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\maininfobase.h
+InputName=maininfobase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -1451,7 +1750,7 @@ SOURCE=.\mainwin.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\mainwin.h
 InputName=mainwin
@@ -1484,7 +1783,7 @@ SOURCE=.\manager.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\manager.h
 InputName=manager
@@ -1513,6 +1812,33 @@ InputName=manager
 # Begin Source File
 
 SOURCE=.\managerbase.h
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\managerbase.h
+InputName=managerbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\managerbase.h
+InputName=managerbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -1521,7 +1847,7 @@ SOURCE=.\msgauth.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\msgauth.h
 InputName=msgauth
@@ -1554,7 +1880,7 @@ SOURCE=.\msgcfg.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\msgcfg.h
 InputName=msgcfg
@@ -1583,6 +1909,33 @@ InputName=msgcfg
 # Begin Source File
 
 SOURCE=.\msgcfgbase.h
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\msgcfgbase.h
+InputName=msgcfgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\msgcfgbase.h
+InputName=msgcfgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -1591,7 +1944,7 @@ SOURCE=.\msgedit.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\msgedit.h
 InputName=msgedit
@@ -1624,7 +1977,7 @@ SOURCE=.\msgfile.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\msgfile.h
 InputName=msgfile
@@ -1657,7 +2010,7 @@ SOURCE=.\msggen.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\msggen.h
 InputName=msggen
@@ -1690,7 +2043,7 @@ SOURCE=.\msgrecv.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\msgrecv.h
 InputName=msgrecv
@@ -1723,7 +2076,7 @@ SOURCE=.\msgsms.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\msgsms.h
 InputName=msgsms
@@ -1756,7 +2109,7 @@ SOURCE=.\msgview.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\msgview.h
 InputName=msgview
@@ -1789,7 +2142,7 @@ SOURCE=.\newprotocol.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\newprotocol.h
 InputName=newprotocol
@@ -1818,10 +2171,64 @@ InputName=newprotocol
 # Begin Source File
 
 SOURCE=.\newprotocolbase.h
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\newprotocolbase.h
+InputName=newprotocolbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\newprotocolbase.h
+InputName=newprotocolbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
 SOURCE=.\pagerbase.h
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\pagerbase.h
+InputName=pagerbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\pagerbase.h
+InputName=pagerbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -1830,7 +2237,7 @@ SOURCE=.\pagerdetails.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\pagerdetails.h
 InputName=pagerdetails
@@ -1859,12 +2266,52 @@ InputName=pagerdetails
 # Begin Source File
 
 SOURCE=.\phonebase.h
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\phonebase.h
+InputName=phonebase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\phonebase.h
+InputName=phonebase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
 SOURCE=.\phonedetails.h
 
 !IF  "$(CFG)" == "_core - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\phonedetails.h
+InputName=phonedetails
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
 
 # PROP Ignore_Default_Tool 1
 # Begin Custom Build - Moc'ing $(InputName).h ...
@@ -1900,7 +2347,7 @@ SOURCE=.\plugincfg.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\plugincfg.h
 InputName=plugincfg
@@ -1929,6 +2376,33 @@ InputName=plugincfg
 # Begin Source File
 
 SOURCE=.\plugincfgbase.h
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\plugincfgbase.h
+InputName=plugincfgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\plugincfgbase.h
+InputName=plugincfgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -1937,7 +2411,7 @@ SOURCE=.\prefcfg.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\prefcfg.h
 InputName=prefcfg
@@ -1966,6 +2440,33 @@ InputName=prefcfg
 # Begin Source File
 
 SOURCE=.\prefcfgbase.h
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\prefcfgbase.h
+InputName=prefcfgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\prefcfgbase.h
+InputName=prefcfgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -1974,7 +2475,7 @@ SOURCE=.\qchildwidget.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\qchildwidget.h
 InputName=qchildwidget
@@ -2007,7 +2508,7 @@ SOURCE=.\search.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\search.h
 InputName=search
@@ -2036,6 +2537,33 @@ InputName=search
 # Begin Source File
 
 SOURCE=.\searchbase.h
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\searchbase.h
+InputName=searchbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\searchbase.h
+InputName=searchbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -2044,7 +2572,7 @@ SOURCE=.\smscfg.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\smscfg.h
 InputName=smscfg
@@ -2073,6 +2601,33 @@ InputName=smscfg
 # Begin Source File
 
 SOURCE=.\smscfgbase.h
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\smscfgbase.h
+InputName=smscfgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\smscfgbase.h
+InputName=smscfgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -2081,7 +2636,7 @@ SOURCE=.\status.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\status.h
 InputName=status
@@ -2114,7 +2669,7 @@ SOURCE=.\statuswnd.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\statuswnd.h
 InputName=statuswnd
@@ -2147,7 +2702,7 @@ SOURCE=.\tmpl.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\tmpl.h
 InputName=tmpl
@@ -2180,7 +2735,7 @@ SOURCE=.\toolsetup.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\toolsetup.h
 InputName=toolsetup
@@ -2209,6 +2764,33 @@ InputName=toolsetup
 # Begin Source File
 
 SOURCE=.\toolsetupbase.h
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\toolsetupbase.h
+InputName=toolsetupbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\toolsetupbase.h
+InputName=toolsetupbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -2217,7 +2799,7 @@ SOURCE=.\usercfg.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\usercfg.h
 InputName=usercfg
@@ -2250,7 +2832,7 @@ SOURCE=.\userlist.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\userlist.h
 InputName=userlist
@@ -2283,7 +2865,7 @@ SOURCE=.\userview.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\userview.h
 InputName=userview
@@ -2316,7 +2898,7 @@ SOURCE=.\userviewcfg.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\userviewcfg.h
 InputName=userviewcfg
@@ -2345,6 +2927,33 @@ InputName=userviewcfg
 # Begin Source File
 
 SOURCE=.\userviewcfgbase.h
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\userviewcfgbase.h
+InputName=userviewcfgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\userviewcfgbase.h
+InputName=userviewcfgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -2353,7 +2962,7 @@ SOURCE=.\userwnd.h
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\userwnd.h
 InputName=userwnd
@@ -2394,7 +3003,7 @@ SOURCE=.\arcfgbase.ui
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\arcfgbase.ui
 InputName=arcfgbase
@@ -2402,16 +3011,12 @@ InputName=arcfgbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -2426,16 +3031,12 @@ InputName=arcfgbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -2449,7 +3050,7 @@ SOURCE=.\autoreplybase.ui
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\autoreplybase.ui
 InputName=autoreplybase
@@ -2457,16 +3058,12 @@ InputName=autoreplybase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -2481,16 +3078,12 @@ InputName=autoreplybase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -2504,7 +3097,7 @@ SOURCE=.\cfgdlgbase.ui
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\cfgdlgbase.ui
 InputName=cfgdlgbase
@@ -2512,16 +3105,12 @@ InputName=cfgdlgbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -2536,16 +3125,12 @@ InputName=cfgdlgbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -2559,7 +3144,7 @@ SOURCE=.\connectionsettingsbase.ui
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\connectionsettingsbase.ui
 InputName=connectionsettingsbase
@@ -2567,16 +3152,12 @@ InputName=connectionsettingsbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -2591,16 +3172,12 @@ InputName=connectionsettingsbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -2614,7 +3191,7 @@ SOURCE=.\connectwndbase.ui
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\connectwndbase.ui
 InputName=connectwndbase
@@ -2622,16 +3199,12 @@ InputName=connectwndbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -2646,16 +3219,12 @@ InputName=connectwndbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -2669,7 +3238,7 @@ SOURCE=.\editmailbase.ui
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\editmailbase.ui
 InputName=editmailbase
@@ -2677,16 +3246,12 @@ InputName=editmailbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -2701,16 +3266,12 @@ InputName=editmailbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -2724,7 +3285,7 @@ SOURCE=.\editphonebase.ui
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\editphonebase.ui
 InputName=editphonebase
@@ -2732,16 +3293,12 @@ InputName=editphonebase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -2756,16 +3313,12 @@ InputName=editphonebase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -2834,7 +3387,7 @@ SOURCE=.\historycfgbase.ui
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\historycfgbase.ui
 InputName=historycfgbase
@@ -2842,16 +3395,12 @@ InputName=historycfgbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -2866,16 +3415,12 @@ InputName=historycfgbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -2889,7 +3434,7 @@ SOURCE=.\interfacecfgbase.ui
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\interfacecfgbase.ui
 InputName=interfacecfgbase
@@ -2897,16 +3442,12 @@ InputName=interfacecfgbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -2921,16 +3462,12 @@ InputName=interfacecfgbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -2944,7 +3481,7 @@ SOURCE=.\logindlgbase.ui
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\logindlgbase.ui
 InputName=logindlgbase
@@ -2952,16 +3489,12 @@ InputName=logindlgbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -2976,16 +3509,12 @@ InputName=logindlgbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -2999,7 +3528,7 @@ SOURCE=.\maininfobase.ui
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\maininfobase.ui
 InputName=maininfobase
@@ -3007,16 +3536,12 @@ InputName=maininfobase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -3031,16 +3556,12 @@ InputName=maininfobase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -3054,7 +3575,7 @@ SOURCE=.\managerbase.ui
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\managerbase.ui
 InputName=managerbase
@@ -3062,16 +3583,12 @@ InputName=managerbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -3086,16 +3603,12 @@ InputName=managerbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -3109,7 +3622,7 @@ SOURCE=.\msgcfgbase.ui
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\msgcfgbase.ui
 InputName=msgcfgbase
@@ -3117,16 +3630,12 @@ InputName=msgcfgbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -3141,16 +3650,12 @@ InputName=msgcfgbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -3164,7 +3669,7 @@ SOURCE=.\newprotocolbase.ui
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\newprotocolbase.ui
 InputName=newprotocolbase
@@ -3172,16 +3677,12 @@ InputName=newprotocolbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -3196,16 +3697,12 @@ InputName=newprotocolbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -3219,7 +3716,7 @@ SOURCE=.\pagerbase.ui
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\pagerbase.ui
 InputName=pagerbase
@@ -3227,16 +3724,12 @@ InputName=pagerbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -3251,16 +3744,12 @@ InputName=pagerbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -3274,7 +3763,7 @@ SOURCE=.\phonebase.ui
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\phonebase.ui
 InputName=phonebase
@@ -3282,16 +3771,12 @@ InputName=phonebase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -3306,16 +3791,12 @@ InputName=phonebase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -3329,7 +3810,7 @@ SOURCE=.\plugincfgbase.ui
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\plugincfgbase.ui
 InputName=plugincfgbase
@@ -3337,16 +3818,12 @@ InputName=plugincfgbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -3361,16 +3838,12 @@ InputName=plugincfgbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -3384,7 +3857,7 @@ SOURCE=.\prefcfgbase.ui
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\prefcfgbase.ui
 InputName=prefcfgbase
@@ -3392,16 +3865,12 @@ InputName=prefcfgbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -3416,16 +3885,12 @@ InputName=prefcfgbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -3439,7 +3904,7 @@ SOURCE=.\searchbase.ui
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\searchbase.ui
 InputName=searchbase
@@ -3447,16 +3912,12 @@ InputName=searchbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -3471,16 +3932,12 @@ InputName=searchbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -3494,7 +3951,7 @@ SOURCE=.\smscfgbase.ui
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\smscfgbase.ui
 InputName=smscfgbase
@@ -3502,16 +3959,12 @@ InputName=smscfgbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -3526,16 +3979,12 @@ InputName=smscfgbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -3549,7 +3998,7 @@ SOURCE=.\toolsetupbase.ui
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\toolsetupbase.ui
 InputName=toolsetupbase
@@ -3557,16 +4006,12 @@ InputName=toolsetupbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -3581,16 +4026,12 @@ InputName=toolsetupbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -3604,7 +4045,7 @@ SOURCE=.\userviewcfgbase.ui
 !IF  "$(CFG)" == "_core - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\userviewcfgbase.ui
 InputName=userviewcfgbase
@@ -3612,16 +4053,12 @@ InputName=userviewcfgbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -3636,16 +4073,12 @@ InputName=userviewcfgbase
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
 	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -3703,6 +4136,10 @@ SOURCE=.\xpm\editcut.xpm
 # Begin Source File
 
 SOURCE=.\xpm\editpaste.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\encrypted.xpm
 # End Source File
 # Begin Source File
 
@@ -3906,31 +4343,20 @@ SOURCE=..\..\po\bg.po
 
 !IF  "$(CFG)" == "_core - Win32 Release"
 
-# Begin Custom Build - msg2qm on $(InputPath)
+# Begin Custom Build
 OutDir=.\..\..\Release
 InputPath=..\..\po\bg.po
+InputName=bg
 
-"$(OutDir)\po\bg.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	echo "" > tr.qm 
 	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\bg.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-# Begin Custom Build - msg2qm on $(InputPath)
-OutDir=.\..\..\Debug
-InputPath=..\..\po\bg.po
-
-"$(OutDir)\po\bg.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	echo "" > tr.qm 
-	del tr.qm 
-	$(QTDIR)\bin\msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\bg.qm 
-	
-# End Custom Build
 
 !ENDIF 
 
@@ -3941,31 +4367,20 @@ SOURCE=..\..\po\cs.po
 
 !IF  "$(CFG)" == "_core - Win32 Release"
 
-# Begin Custom Build - msg2qm on $(InputPath)
+# Begin Custom Build
 OutDir=.\..\..\Release
 InputPath=..\..\po\cs.po
+InputName=cs
 
-"$(OutDir)\po\cs.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	echo "" > tr.qm 
 	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\cs.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-# Begin Custom Build - msg2qm on $(InputPath)
-OutDir=.\..\..\Debug
-InputPath=..\..\po\cs.po
-
-"$(OutDir)\po\cs.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	echo "" > tr.qm 
-	del tr.qm 
-	$(QTDIR)\bin\msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\cs.qm 
-	
-# End Custom Build
 
 !ENDIF 
 
@@ -3976,31 +4391,20 @@ SOURCE=..\..\po\de.po
 
 !IF  "$(CFG)" == "_core - Win32 Release"
 
-# Begin Custom Build - msg2qm on $(InputPath)
+# Begin Custom Build
 OutDir=.\..\..\Release
 InputPath=..\..\po\de.po
+InputName=de
 
-"$(OutDir)\po\de.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	echo "" > tr.qm 
 	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\de.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-# Begin Custom Build - msg2qm on $(InputPath)
-OutDir=.\..\..\Debug
-InputPath=..\..\po\de.po
-
-"$(OutDir)\po\de.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	echo "" > tr.qm 
-	del tr.qm 
-	$(QTDIR)\bin\msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\de.qm 
-	
-# End Custom Build
 
 !ENDIF 
 
@@ -4011,31 +4415,20 @@ SOURCE=..\..\po\es.po
 
 !IF  "$(CFG)" == "_core - Win32 Release"
 
-# Begin Custom Build - msg2qm on $(InputPath)
+# Begin Custom Build
 OutDir=.\..\..\Release
 InputPath=..\..\po\es.po
+InputName=es
 
-"$(OutDir)\po\es.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	echo "" > tr.qm 
 	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\es.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-# Begin Custom Build - msg2qm on $(InputPath)
-OutDir=.\..\..\Debug
-InputPath=..\..\po\es.po
-
-"$(OutDir)\po\es.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	echo "" > tr.qm 
-	del tr.qm 
-	$(QTDIR)\bin\msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\es.qm 
-	
-# End Custom Build
 
 !ENDIF 
 
@@ -4046,31 +4439,20 @@ SOURCE=..\..\po\fr.po
 
 !IF  "$(CFG)" == "_core - Win32 Release"
 
-# Begin Custom Build - msg2qm on $(InputPath)
+# Begin Custom Build
 OutDir=.\..\..\Release
 InputPath=..\..\po\fr.po
+InputName=fr
 
-"$(OutDir)\po\fr.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	echo "" > tr.qm 
 	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\fr.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-# Begin Custom Build - msg2qm on $(InputPath)
-OutDir=.\..\..\Debug
-InputPath=..\..\po\fr.po
-
-"$(OutDir)\po\fr.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	echo "" > tr.qm 
-	del tr.qm 
-	$(QTDIR)\bin\msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\fr.qm 
-	
-# End Custom Build
 
 !ENDIF 
 
@@ -4081,31 +4463,20 @@ SOURCE=..\..\po\he.po
 
 !IF  "$(CFG)" == "_core - Win32 Release"
 
-# Begin Custom Build - msg2qm on $(InputPath)
+# Begin Custom Build
 OutDir=.\..\..\Release
 InputPath=..\..\po\he.po
+InputName=he
 
-"$(OutDir)\po\he.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	echo "" > tr.qm 
 	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\he.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-# Begin Custom Build - msg2qm on $(InputPath)
-OutDir=.\..\..\Debug
-InputPath=..\..\po\he.po
-
-"$(OutDir)\po\he.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	echo "" > tr.qm 
-	del tr.qm 
-	$(QTDIR)\bin\msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\he.qm 
-	
-# End Custom Build
 
 !ENDIF 
 
@@ -4116,31 +4487,20 @@ SOURCE=..\..\po\it.po
 
 !IF  "$(CFG)" == "_core - Win32 Release"
 
-# Begin Custom Build - msg2qm on $(InputPath)
+# Begin Custom Build
 OutDir=.\..\..\Release
 InputPath=..\..\po\it.po
+InputName=it
 
-"$(OutDir)\po\it.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	echo "" > tr.qm 
 	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\it.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-# Begin Custom Build - msg2qm on $(InputPath)
-OutDir=.\..\..\Debug
-InputPath=..\..\po\it.po
-
-"$(OutDir)\po\it.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	echo "" > tr.qm 
-	del tr.qm 
-	$(QTDIR)\bin\msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\it.qm 
-	
-# End Custom Build
 
 !ENDIF 
 
@@ -4151,31 +4511,20 @@ SOURCE=..\..\po\nl.po
 
 !IF  "$(CFG)" == "_core - Win32 Release"
 
-# Begin Custom Build - msg2qm on $(InputPath)
+# Begin Custom Build
 OutDir=.\..\..\Release
 InputPath=..\..\po\nl.po
+InputName=nl
 
-"$(OutDir)\po\nl.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	echo "" > tr.qm 
 	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\nl.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-# Begin Custom Build - msg2qm on $(InputPath)
-OutDir=.\..\..\Debug
-InputPath=..\..\po\nl.po
-
-"$(OutDir)\po\nl.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	echo "" > tr.qm 
-	del tr.qm 
-	$(QTDIR)\bin\msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\nl.qm 
-	
-# End Custom Build
 
 !ENDIF 
 
@@ -4186,31 +4535,20 @@ SOURCE=..\..\po\pl.po
 
 !IF  "$(CFG)" == "_core - Win32 Release"
 
-# Begin Custom Build - msg2qm on $(InputPath)
+# Begin Custom Build
 OutDir=.\..\..\Release
 InputPath=..\..\po\pl.po
+InputName=pl
 
-"$(OutDir)\po\pl.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	echo "" > tr.qm 
 	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\pl.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-# Begin Custom Build - msg2qm on $(InputPath)
-OutDir=.\..\..\Debug
-InputPath=..\..\po\pl.po
-
-"$(OutDir)\po\pl.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	echo "" > tr.qm 
-	del tr.qm 
-	$(QTDIR)\bin\msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\pl.qm 
-	
-# End Custom Build
 
 !ENDIF 
 
@@ -4221,31 +4559,20 @@ SOURCE=..\..\po\ru.po
 
 !IF  "$(CFG)" == "_core - Win32 Release"
 
-# Begin Custom Build - msg2qm on $(InputPath)
+# Begin Custom Build
 OutDir=.\..\..\Release
 InputPath=..\..\po\ru.po
+InputName=ru
 
-"$(OutDir)\po\ru.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	echo "" > tr.qm 
 	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\ru.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-# Begin Custom Build - msg2qm on $(InputPath)
-OutDir=.\..\..\Debug
-InputPath=..\..\po\ru.po
-
-"$(OutDir)\po\ru.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	echo "" > tr.qm 
-	del tr.qm 
-	$(QTDIR)\bin\msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\ru.qm 
-	
-# End Custom Build
 
 !ENDIF 
 
@@ -4256,31 +4583,20 @@ SOURCE=..\..\po\sk.po
 
 !IF  "$(CFG)" == "_core - Win32 Release"
 
-# Begin Custom Build - msg2qm on $(InputPath)
+# Begin Custom Build
 OutDir=.\..\..\Release
 InputPath=..\..\po\sk.po
+InputName=sk
 
-"$(OutDir)\po\sk.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	echo "" > tr.qm 
 	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\sk.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-# Begin Custom Build - msg2qm on $(InputPath)
-OutDir=.\..\..\Debug
-InputPath=..\..\po\sk.po
-
-"$(OutDir)\po\sk.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	echo "" > tr.qm 
-	del tr.qm 
-	$(QTDIR)\bin\msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\sk.qm 
-	
-# End Custom Build
 
 !ENDIF 
 
@@ -4291,31 +4607,20 @@ SOURCE=..\..\po\tr.po
 
 !IF  "$(CFG)" == "_core - Win32 Release"
 
-# Begin Custom Build - msg2qm on $(InputPath)
+# Begin Custom Build
 OutDir=.\..\..\Release
 InputPath=..\..\po\tr.po
+InputName=tr
 
-"$(OutDir)\po\tr.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	echo "" > tr.qm 
 	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\tr.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-# Begin Custom Build - msg2qm on $(InputPath)
-OutDir=.\..\..\Debug
-InputPath=..\..\po\tr.po
-
-"$(OutDir)\po\tr.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	echo "" > tr.qm 
-	del tr.qm 
-	$(QTDIR)\bin\msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\tr.qm 
-	
-# End Custom Build
 
 !ENDIF 
 
@@ -4326,31 +4631,20 @@ SOURCE=..\..\po\uk.po
 
 !IF  "$(CFG)" == "_core - Win32 Release"
 
-# Begin Custom Build - msg2qm on $(InputPath)
+# Begin Custom Build
 OutDir=.\..\..\Release
 InputPath=..\..\po\uk.po
+InputName=uk
 
-"$(OutDir)\po\uk.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	echo "" > tr.qm 
 	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\uk.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-# Begin Custom Build - msg2qm on $(InputPath)
-OutDir=.\..\..\Debug
-InputPath=..\..\po\uk.po
-
-"$(OutDir)\po\uk.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	echo "" > tr.qm 
-	del tr.qm 
-	$(QTDIR)\bin\msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\uk.qm 
-	
-# End Custom Build
 
 !ENDIF 
 
@@ -4361,31 +4655,20 @@ SOURCE=..\..\po\zh_TW.po
 
 !IF  "$(CFG)" == "_core - Win32 Release"
 
-# Begin Custom Build - msg2qm on $(InputPath)
+# Begin Custom Build
 OutDir=.\..\..\Release
 InputPath=..\..\po\zh_TW.po
+InputName=zh_TW
 
-"$(OutDir)\po\zh_TW.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	echo "" > tr.qm 
 	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\zh_TW.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-# Begin Custom Build - msg2qm on $(InputPath)
-OutDir=.\..\..\Debug
-InputPath=..\..\po\zh_TW.po
-
-"$(OutDir)\po\zh_TW.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	echo "" > tr.qm 
-	del tr.qm 
-	$(QTDIR)\bin\msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\zh_TW.qm 
-	
-# End Custom Build
 
 !ENDIF 
 
@@ -4397,31 +4680,6 @@ InputPath=..\..\po\zh_TW.po
 # Begin Source File
 
 SOURCE=.\pict\connect.gif
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Copy $(InputPath)
-OutDir=.\..\..\Release
-InputPath=.\pict\connect.gif
-
-"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /Y $(InputPath) $(OutDir)\$(InputPath)
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-# Begin Custom Build - Copy $(InputPath)
-OutDir=.\..\..\Debug
-InputPath=.\pict\connect.gif
-
-"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /Y $(InputPath) $(OutDir)\$(InputPath)
-
-# End Custom Build
-
-!ENDIF 
-
 # End Source File
 # End Group
 # End Target
