@@ -421,8 +421,7 @@ void ICQClient::processMsgQueueSMS()
             if ((*p >= '0') && (*p <= '9'))
                 destination += *p;
         }
-        string text = clearHTML(msg->Message.c_str());
-        toUTF(text);
+        UTFstring text = clearHTML(msg->Message.c_str());
         string sender = name(true);
         char uin[13];
         snprintf(uin, sizeof(uin), "%lu", Uin());

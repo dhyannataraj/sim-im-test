@@ -739,9 +739,9 @@ bool MainWindow::init()
         bNeedSetup = (dlg.exec() != 0);
         bInLogin = false;
         ManualStatus = ICQ_STATUS_ONLINE;
-	Show = true;
-	ShowOffline = true;
-	GroupMode = true;
+        Show = true;
+        ShowOffline = true;
+        GroupMode = true;
     }
     if (pClient->Uin == 0)
         return false;

@@ -101,7 +101,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                         Tlv *tlv_name = NULL;
                         if (inf) tlv_name = (*inf)(0x0131);
                         string alias = tlv_name ? (char*)(*tlv_name) : "";
-                        fromUTF(alias);
+                        fromUTF(alias, Encoding.c_str());
                         bool needAuth = false;
                         if (inf && (*inf)(0x0066)) needAuth = true;
                         ICQUser *user = getUser(uin, true);
@@ -113,7 +113,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                     }
                 case ICQ_GROUPS:{
                         if (str.size() == 0) break;
-                        fromUTF(str);
+                        fromUTF(str, Encoding.c_str());
                         ICQGroup *grp = getGroup(grp_id, true);
                         if (grp == NULL){
                             grp = new ICQGroup();
@@ -556,7 +556,7 @@ void ICQClient::sendRosterGrp(const char *name, unsigned short grpId, unsigned s
 {
     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_RENAME, true);
     string sName = name;
-    toUTF(sName);
+    toUTF(sName, Encoding.c_str());
     writeBuffer.pack(sName);
     writeBuffer
     << grpId
@@ -812,7 +812,7 @@ void ICQClient::sendRoster(ICQEvent *e,
     snac(ICQ_SNACxFAM_LISTS, cmd, true);
     string sName;
     if (name) sName = name;
-    toUTF(sName);
+    toUTF(sName, Encoding.c_str());
     writeBuffer.pack(sName);
     writeBuffer
     << grp_id
@@ -820,7 +820,7 @@ void ICQClient::sendRoster(ICQEvent *e,
     << subCmd;
     if (alias){
         string sAlias = alias;
-        toUTF(sAlias);
+        toUTF(sAlias, Encoding.c_str());
         unsigned short size = sAlias.length() + 4 + (waitAuth ? 4 : 0);
         writeBuffer
         << size

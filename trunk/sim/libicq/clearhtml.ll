@@ -29,14 +29,15 @@ using namespace std;
 #endif
 
 
-#define TXT		1
-#define SYMBOL	2
-#define BR		3
+#define TXT			1
+#define SYMBOL		2
+#define BR			3
+#define WIDECHAR	4
 
-#define YY_STACK_USED   0
+#define YY_STACK_USED			0
 #define YY_NEVER_INTERACTIVE    1
 #define YY_ALWAYS_INTERACTIVE   0
-#define YY_MAIN         0
+#define YY_MAIN					0
 
 %}
 
@@ -46,6 +47,11 @@ using namespace std;
 %x tag
 %x symbol
 %%
+[\xC0-\xDF][\x80-\xBF]		{ return WIDECHAR; }
+[\xE0-\xEF][\x00-\xFF]{2}	{ return WIDECHAR; }
+[\xF0-\xF7][\x00-\xFF]{3}	{ return WIDECHAR; }
+[\xF8-\xFB][\x00-\xFF]{4}	{ return WIDECHAR; }
+[\xFC-\xFD][\x00-\xFF]{5}	{ return WIDECHAR; }
 "<br"\/?">"					{ return BR; }
 "</p>"						{ return BR; }
 "<"							{ BEGIN(tag); }
@@ -79,12 +85,10 @@ static tagDef tags[] = {
     { "", 0 }
 };
 
-string ICQClient::clearHTML(const char *text)
+UTFstring ICQClient::clearHTML(const UTFstring &text)
 {
-    yy_current_buffer = yy_scan_string(text);
-    const char *ptr;
-    string res;
-    ptr = text;
+    yy_current_buffer = yy_scan_string(text.c_str());
+    UTFstring res;
     for (;;){
         int r = yylex();
         if (!r) break;
@@ -92,6 +96,9 @@ string ICQClient::clearHTML(const char *text)
         case TXT:
             res += yytext;
             break;
+		case WIDECHAR:
+			res += yytext;
+			break;
         case BR:
             res += "\n";
             break;

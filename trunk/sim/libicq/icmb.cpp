@@ -895,10 +895,8 @@ void ICQClient::processMsgQueueThruServer()
                 string message;
                 for (ConfigULongs::iterator itUin = msg->Uin.begin(); itUin != msg->Uin.end(); ++itUin){
                     ICQUser *u = getUser(*itUin);
+                    message = makeMessageText(msg, u);
                     if (u && u->GetRTF && (u->uStatus != ICQ_STATUS_OFFLINE)){
-                        string msg_text = msg->Message;
-                        toServer(msg_text, u);
-                        message = createRTF(msg_text.c_str(), msg->ForeColor);
                         advCounter--;
                         msgBuf
                         << (unsigned short)0x1B00
@@ -932,8 +930,6 @@ void ICQClient::processMsgQueueThruServer()
                         b.tlv(0x2711, msgBuf);
                         sendThroughServer(*itUin, 2, b, &id);
                     }else{
-                        message = clearHTML(msg->Message.c_str());
-                        toServer(message, u);
                         msgBuf << 0x0000L;
                         msgBuf << message.c_str();
                         Buffer b;

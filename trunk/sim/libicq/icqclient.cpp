@@ -620,3 +620,13 @@ void ICQClient::closeFile(ICQFile*)
 {
 }
 
+UTFstring::UTFstring()
+{
+}
+
+UTFstring::UTFstring(const char *p)
+{
+    if (p) *this = p;
+}
+
+

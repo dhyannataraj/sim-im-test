@@ -1153,14 +1153,7 @@ unsigned short DirectClient::sendMessage(ICQMessage *msg)
         }
     case ICQ_MSGxMSG:{
             ICQMsg *m = static_cast<ICQMsg*>(msg);
-            if (u->GetRTF){
-                string msg_text = m->Message;
-                client->toServer(msg_text, u);
-                message = client->createRTF(msg_text.c_str(), m->ForeColor);
-                bConvert = false;
-            }else{
-                message = client->clearHTML(m->Message.c_str());
-            }
+            message = client->makeMessageText(m, u);
             break;
         }
     case ICQ_MSGxURL:{

@@ -130,6 +130,13 @@ const unsigned long  UIN_SPECIAL    = 0xF0000000L;
 const unsigned short USER_TYPE_ICQ	= 0;
 const unsigned short USER_TYPE_EXT  = 1;
 
+class UTFstring : public string
+{
+public:
+    UTFstring();
+    UTFstring(const char*);
+};
+
 class ICQGroup : public ConfigArray
 {
 public:
@@ -1115,9 +1122,9 @@ public:
     bool updatePhoneBook();
     bool updatePhoneStatus();
 
-    string parseRTF(const char *packet, ICQUser *u);
-    string createRTF(const char *html, unsigned long foreColor);
-    string clearHTML(const char *html);
+    UTFstring parseRTF(const char *packet, ICQUser *u);
+    string createRTF(const UTFstring &html, unsigned long foreColor, const char *encoding);
+    UTFstring clearHTML(const UTFstring &html);
 
     enum LoginState{
         Logoff,
@@ -1288,8 +1295,10 @@ protected:
 
     static const char *serverCharset(const char *l=NULL);
 
-    static void fromUTF(string &s);
-    static void toUTF(string &s);
+    static bool fromUTF(string &s, const char *encoding);
+    static bool toUTF(string &s, const char *encoding);
+
+    string makeMessageText(ICQMsg *msg, ICQUser *u);
 
     void close();
     unsigned short advCounter;

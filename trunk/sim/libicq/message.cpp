@@ -536,11 +536,11 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
                         }
                         ICQSMS *m = new ICQSMS;
                         m->Message = text->getValue();
-                        fromUTF(m->Message);
+                        fromUTF(m->Message, NULL);
 
                         XmlLeaf *sender = sms_message->getLeaf("sender");
                         if (sender != NULL) m->Phone = sender->getValue();
-                        fromUTF(m->Phone);
+                        fromUTF(m->Phone, NULL);
 
                         XmlLeaf *senders_network = sms_message->getLeaf("senders_network");
                         if (senders_network != NULL) m->Network = senders_network->getValue();
@@ -986,4 +986,21 @@ Contact::Contact()
 {
 }
 
-
+string ICQClient::makeMessageText(ICQMsg *msg, ICQUser *u)
+{
+    const char *encoding = localCharset(u);
+    UTFstring msg_text;
+    if (strcasecmp(msg->Charset.c_str(), "utf-8")){
+        log(L_WARN, "No UTF encoding for send message");
+        msg_text = msg->Message.c_str();
+        toUTF(msg_text, msg->Charset.c_str());
+    }else{
+        msg_text = msg->Message.c_str();
+    }
+    if (u->GetRTF)
+        return createRTF(msg_text, msg->ForeColor, encoding);
+    string message = clearHTML(msg_text);
+    fromUTF(message, encoding);
+    toServer(message, encoding);
+    return message;
+}

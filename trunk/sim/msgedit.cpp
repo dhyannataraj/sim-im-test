@@ -844,7 +844,9 @@ void MsgEdit::forwardClick()
             msgText = view->text();
         }
     }
-    msgText = pClient->from8Bit(Uin(), pClient->clearHTML(msgText.local8Bit()), msg->Charset.c_str());
+    UTFstring text = msgText.utf8();
+    text = pClient->clearHTML(text);
+    msgText = QString::fromUtf8(text.c_str());
     QStringList l = QStringList::split('\n', msgText);
     CUser u(msg->getUin());
     msgText = i18n("%1 (ICQ# %2) wrote:<br>\n")
@@ -908,7 +910,9 @@ void MsgEdit::quoteClick()
             msgText = view->text();
         }
     }
-    msgText = QString::fromUtf8(pClient->clearHTML(msgText.utf8()).c_str());
+    UTFstring text = msgText.utf8();
+    text = pClient->clearHTML(text);
+    msgText = QString::fromUtf8(text.c_str());
     QStringList l = QStringList::split('\n', msgText, true);
     QStringList::Iterator it;
     for (it = l.begin(); it != l.end(); it++){
@@ -1481,7 +1485,9 @@ void MsgEdit::makeMessage()
     case ICQ_MSGxSMS:{
             ICQSMS *m = static_cast<ICQSMS*>(msg);
             QString s = edit->text();
-            s = QString::fromUtf8(pClient->clearHTML(s.utf8()).c_str());
+            UTFstring text = s.utf8();
+            text = pClient->clearHTML(text);
+            s = QString::fromUtf8(text.c_str());
             msgTail = trim(s);
             m->Message = smsChunk();
             m->Phone = phoneEdit->lineEdit()->text().local8Bit();

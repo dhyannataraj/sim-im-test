@@ -92,14 +92,14 @@ bool ICQClient::translate(const char *to, const char *from, string &str)
     return true;
 }
 
-void ICQClient::fromUTF(string &str)
+bool ICQClient::fromUTF(string &str, const char *encoding)
 {
-    translate(localCharset(), "UTF-8", str);
+    return translate(encoding, "UTF-8", str);
 }
 
-void ICQClient::toUTF(string &str)
+bool ICQClient::toUTF(string &str, const char *encoding)
 {
-    translate("UTF-8", localCharset(), str);
+    return translate("UTF-8", encoding, str);
 }
 
 char const *ICQClient::localCharset(ICQUser *u)
