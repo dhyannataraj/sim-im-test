@@ -99,6 +99,7 @@ static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
 
 #ifdef USE_KDE
 #include <kwin.h>
+#include <kwinmodule.h>
 #include <kpopupmenu.h>
 #include <kaudioplayer.h>
 #include <kglobal.h>

@@ -47,6 +47,10 @@
 #include <qstringlist.h>
 #include <qaccel.h>
 
+#ifdef USE_KDE
+#include <kwin.h>
+#endif
+
 #define ALL_ENCODINGS	0x10000
 
 class Splitter : public QSplitter

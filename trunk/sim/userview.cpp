@@ -47,6 +47,7 @@
 #include <stdio.h>
 
 #ifdef USE_KDE
+#include <kwin.h>
 #include <kpopupmenu.h>
 #else
 #include "ui/kpopup.h"
@@ -1792,6 +1793,10 @@ UserFloat::UserFloat()
     setVScrollBarMode(AlwaysOff);
     bMoveMode = false;
     setSelectionMode(NoSelection);
+#ifdef USE_KDE
+    KWin::setState(winId(), NET::SkipTaskbar | NET::SkipPager);
+    KWin::setOnAllDesktops(winId(), true);
+#endif
 }
 
 UserFloat::~UserFloat()

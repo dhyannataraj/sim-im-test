@@ -334,7 +334,7 @@ cfgParam ClientUserSettings_Params[] =
         { "AutoResponseFFC" ,OFFSET_OF(UserSettings, AutoResponseFFC), PARAM_I18N, (unsigned)I18N_NOOP(
               "We'd love to hear what you have to say. Join our chat.\n"
           ) },
-        { "", 0, 0, }
+        { "", 0, 0, 0 }
     };
 
 void *clientSettings(void *p)
