@@ -546,7 +546,7 @@ bool MainWindow::init()
     fl.l_len    = 1;
     fl.l_start  = 0;
     fl.l_pid    = getpid();
-    if (fcntl(lockFile, F_SETLK, &fl) == -1){
+    if ((fcntl(lockFile, F_SETLK, &fl) == -1) && (errno != ENOLCK)){
         log(L_ERROR, "Can't lock %s: %s", file.c_str(), strerror(errno));
         return false;
     }
