@@ -49,6 +49,7 @@ class ICQEvent;
 class ICQMessage;
 class ICQUser;
 class TransparentTop;
+class UserView;
 
 class UserTab : public QTab
 {
@@ -94,6 +95,7 @@ public:
     bool haveUser(unsigned long uin);
     QString containerName();
     unsigned count();
+    UserView	*users;
 public slots:
     void quit();
     void typeChanged(int);
@@ -105,6 +107,7 @@ public slots:
     void messageRead(ICQMessage*);
     void messageReceived(ICQMessage *msg);
     void setGroupButtons();
+    void showUsers(bool, unsigned long);
 protected slots:
     void showMessage(unsigned long uin, unsigned long id);
     void processEvent(ICQEvent*);
@@ -128,6 +131,7 @@ protected:
     PictButton  *btnUser;
     QToolButton	*btnIgnore;
     CToolButton	*btnGroup;
+    QSplitter	*vSplitter;
     QSplitter   *splitter;
     MsgView     *msgView;
     QSplitter  *tabSplitter;

@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qcomplextext.cpp,v 1.1.1.1 2002-07-06 23:58:57 shutoff Exp $
+** $Id: qcomplextext.cpp,v 1.2 2002-07-07 15:32:07 shutoff Exp $
 **
 ** Implementation of some internal classes
 **

@@ -921,7 +921,7 @@ void ChatSocket::putText(string &s)
 {
     if (s.size() == 0) return;
     client->fromServer(s);
-    ICQEvent e(EVENT_CHAT, chat->Uin(), CHAT_TEXT, chat);
+    ICQEvent e(EVENT_CHAT, chat->getUin(), CHAT_TEXT, chat);
     e.text = s;
     client->process_event(&e);
     s = "";
@@ -977,19 +977,19 @@ void ChatSocket::read_ready()
                     b.unpack(fontFace);
                     break;
                 }
-                ICQEvent e(EVENT_CHAT, chat->Uin(), c, chat);
+                ICQEvent e(EVENT_CHAT, chat->getUin(), c, chat);
                 client->process_event(&e);
                 break;
             }
         case CHAT_BACKSPACE:{
                 putText(chatText);
-                ICQEvent e(EVENT_CHAT, chat->Uin(), CHAT_BACKSPACE, chat);
+                ICQEvent e(EVENT_CHAT, chat->getUin(), CHAT_BACKSPACE, chat);
                 client->process_event(&e);
                 break;
             }
         case CHAT_NEWLINE:{
                 putText(chatText);
-                ICQEvent e(EVENT_CHAT, chat->Uin(), CHAT_NEWLINE, chat);
+                ICQEvent e(EVENT_CHAT, chat->getUin(), CHAT_NEWLINE, chat);
                 client->process_event(&e);
                 break;
             }
@@ -1040,7 +1040,7 @@ void ChatSocket::processPacket()
             readBuffer.unpack(fontFace);
             readBuffer.unpack(fontFamily);
             state = Connected;
-            ICQEvent e(EVENT_CHAT, chat->Uin(), CHAT_CONNECT, chat);
+            ICQEvent e(EVENT_CHAT, chat->getUin(), CHAT_CONNECT, chat);
             client->process_event(&e);
             break;
         }
@@ -1115,7 +1115,7 @@ void ChatSocket::processPacket()
             writeBuffer.pack((unsigned short)1);
             sendPacket();
             state = Connected;
-            ICQEvent e(EVENT_CHAT, chat->Uin(), CHAT_CONNECT, chat);
+            ICQEvent e(EVENT_CHAT, chat->getUin(), CHAT_CONNECT, chat);
             client->process_event(&e);
             break;
         }
@@ -1165,7 +1165,7 @@ void ChatSocket::sendPacket()
 void ChatSocket::error_state()
 {
     DirectSocket::error_state();
-    ICQEvent e(EVENT_CHAT, chat->Uin(), CHAT_CONNECT, chat);
+    ICQEvent e(EVENT_CHAT, chat->getUin(), CHAT_CONNECT, chat);
     e.state = ICQEvent::Fail;
     client->process_event(&e);
 }

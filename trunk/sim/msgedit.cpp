@@ -28,6 +28,7 @@
 #include "userbox.h"
 #include "cuser.h"
 #include "xml.h"
+#include "userview.h"
 #include "ui/editfile.h"
 #include "ui/ballonmsg.h"
 
@@ -81,6 +82,7 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     tab = NULL;
     sendEvent = NULL;
     mHistory = NULL;
+    bMultiply = false;
     setWFlags(WDestructiveClose);
     QVBoxLayout *lay = new QVBoxLayout(this);
     boxSend = new QVGroupBox(this);
@@ -138,6 +140,10 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     hLay->addSpacing(2);
     btnBold->hide();
     hLay->addWidget(btnBold);
+    btnForward = new QPushButton(i18n("&Forward"), frmHead);
+    connect(btnForward, SIGNAL(clicked()), this, SLOT(forwardClick()));
+    btnForward->hide();
+    hLay->addWidget(btnForward);
     btnItalic = new CPushButton(frmHead);
     btnItalic->setTip(i18n("Italic"));
     btnItalic->setPixmap(Pict("text_italic"));
@@ -209,6 +215,12 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     fileEdit = new EditFile(file);
     hlay->addWidget(fileEdit);
     connect(fileEdit, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
+    btnMultiply = new CPushButton(frmHead);
+    btnMultiply->setTip(i18n("Multiply send"));
+    btnMultiply->setPixmap(Pict("1rightarrow"));
+    connect(btnMultiply, SIGNAL(clicked()), this, SLOT(toggleMultiply()));
+    hLay->addSpacing(2);
+    hLay->addWidget(btnMultiply);
     lblUsers = new QLabel(i18n("Drag users here"), boxSend);
     edit  = new EditSpell(this);
     edit->hide();
@@ -333,31 +345,31 @@ void MsgEdit::action(int type)
     switch (type){
     case mnuMessage:
         editMsg = new ICQMsg;
-        editMsg->Uin = Uin;
+        editMsg->Uin.push_back(Uin);
         break;
     case mnuURL:
         editMsg = new ICQUrl;
-        editMsg->Uin = Uin;
+        editMsg->Uin.push_back(Uin);
         break;
     case mnuSMS:
         editMsg = new ICQSMS;
-        editMsg->Uin = Uin;
+        editMsg->Uin.push_back(Uin);
         break;
     case mnuAuth:
         editMsg = new ICQAuthRequest;
-        editMsg->Uin = Uin;
+        editMsg->Uin.push_back(Uin);
         break;
     case mnuContacts:
         editMsg = new ICQContacts;
-        editMsg->Uin = Uin;
+        editMsg->Uin.push_back(Uin);
         break;
     case mnuFile:
         editMsg = new ICQFile;
-        editMsg->Uin = Uin;
+        editMsg->Uin.push_back(Uin);
         break;
     case mnuChat:
         editMsg = new ICQChat;
-        editMsg->Uin = Uin;
+        editMsg->Uin.push_back(Uin);
         break;
     default:
         log(L_WARN, "Unknown message type: %u", type);
@@ -500,7 +512,7 @@ void MsgEdit::markAsRead()
 
 void MsgEdit::messageReceived(ICQMessage *m)
 {
-    if (m->Uin() != Uin()) return;
+    if (m->getUin() != Uin()) return;
     setupNext();
     if (msg && msg->Received && (static_cast<UserBox*>(topLevelWidget())->currentUser() == Uin)) return;
     if (canSend()) return;
@@ -520,6 +532,12 @@ bool MsgEdit::canSpell()
 bool MsgEdit::canSend()
 {
     if (msg){
+        if (bMultiply){
+            UserBox *box = static_cast<UserBox*>(topLevelWidget());
+            if (box->users == NULL) return false;
+            UserView *users = box->users;
+            if (!users->hasChecked()) return false;
+        }
         switch (msg->Type()){
         case ICQ_MSGxMSG:
             return (edit->text().length());
@@ -709,8 +727,61 @@ void MsgEdit::nextClick()
 void MsgEdit::replyClick()
 {
     ICQMsg *msg = new ICQMsg;
-    msg->Uin = Uin;
+    msg->Uin.push_back(Uin);
     setMessage(msg, false);
+}
+
+void MsgEdit::forwardClick()
+{
+    if (msg == NULL) return;
+    QString msgText;
+    if (view->hasSelectedText()){
+        msgText = view->selectedText();
+    }else{
+        msgText = view->text();
+    }
+    msgText = QString::fromLocal8Bit(pClient->clearHTML(msgText.local8Bit()).c_str());
+    QStringList l = QStringList::split('\n', msgText);
+    CUser u(msg->getUin());
+    msgText = i18n("%1 (ICQ# %2) wrote:<br>\n")
+              .arg(u.name(true)) .arg(msg->getUin());
+    msgText += l.join("<br>\n");
+    msgText += "\n";
+    ICQMessage *newMsg = NULL;
+    switch (msg->Type()){
+    case ICQ_MSGxURL:{
+            ICQUrl *nMsg = new ICQUrl;
+            nMsg->Uin.push_back(Uin);
+            nMsg->Message = msgText.local8Bit();
+            nMsg->URL = static_cast<ICQUrl*>(msg)->URL;
+            newMsg = nMsg;
+            break;
+        }
+    case ICQ_MSGxCONTACTxLIST:{
+            ICQContacts *nMsg = new ICQContacts;
+            nMsg->Uin.push_back(Uin);
+            nMsg->Contacts = static_cast<ICQContacts*>(msg)->Contacts;
+            newMsg = nMsg;
+            break;
+        }
+    default:
+        ICQMsg *nMsg = new ICQMsg;
+        nMsg->Uin.push_back(Uin);
+        nMsg->Message = msgText.local8Bit();
+        newMsg = nMsg;
+    }
+    setMessage(newMsg, false);
+    bMultiply = true;
+    btnMultiply->setPixmap(Pict("1leftarrow"));
+    emit showUsers(true, 0);
+    textChanged();
+}
+
+void MsgEdit::toggleMultiply()
+{
+    bMultiply = !bMultiply;
+    btnMultiply->setPixmap(Pict(bMultiply ? "1leftarrow" : "1rightarrow"));
+    emit showUsers(bMultiply, Uin);
 }
 
 void MsgEdit::quoteClick()
@@ -730,7 +801,7 @@ void MsgEdit::quoteClick()
     msgText = l.join("<br>\n");
     msgText += "\n";
     ICQMsg *msg = new ICQMsg;
-    msg->Uin = Uin;
+    msg->Uin.push_back(Uin);
     msg->Message = msgText.local8Bit();
     setMessage(msg, false);
 }
@@ -738,7 +809,7 @@ void MsgEdit::quoteClick()
 void MsgEdit::grantClick()
 {
     ICQMessage *msg = new ICQAuthGranted;
-    msg->Uin = Uin;
+    msg->Uin.push_back(Uin);
     setMessage(msg, false);
     bCloseSend = false;
     send();
@@ -747,7 +818,7 @@ void MsgEdit::grantClick()
 void MsgEdit::refuseClick()
 {
     ICQMessage *msg = new ICQAuthRefused;
-    msg->Uin = Uin;
+    msg->Uin.push_back(Uin);
     setMessage(msg, false);
 }
 
@@ -758,6 +829,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark)
         if (msg && (msg->Id < MSG_PROCESS_ID)) delete msg;
         msg = _msg;
     }
+    if (bMultiply) toggleMultiply();
     if (msg == NULL){
         edit->setText("");
         edit->resetColors();
@@ -785,6 +857,8 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark)
         btnQuote->hide();
         btnGrant->hide();
         btnRefuse->hide();
+        btnMultiply->hide();
+        btnForward->hide();
         users->hide();
         view->hide();
         setupNext();
@@ -814,6 +888,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark)
         btnAccept->hide();
         btnDecline->hide();
         btnNext->show();
+        btnMultiply->hide();
         setupNext();
         if (msg->Type() == ICQ_MSGxCONTACTxLIST){
             btnReply->hide();
@@ -822,6 +897,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark)
             btnRefuse->hide();
             users->show();
             view->hide();
+            btnForward->show();
             ICQContacts *m = static_cast<ICQContacts*>(msg);
             for (ContactList::iterator it = m->Contacts.begin(); it != m->Contacts.end(); it++){
                 Contact *contact = static_cast<Contact*>(*it);
@@ -840,7 +916,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark)
                         btnAccept->show();
                         btnDecline->show();
                         file->show();
-                        ICQUser *u = pClient->getUser(f->Uin());
+                        ICQUser *u = pClient->getUser(f->getUin());
                         if ((u == NULL) || !u->AcceptFileOverride()) u = pClient;
                         string path = u->AcceptFilePath.c_str();
                         if (*path.c_str() == 0)
@@ -870,14 +946,17 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark)
                 btnRefuse->show();
                 btnAccept->hide();
                 btnDecline->hide();
+                btnForward->hide();
                 break;
             case ICQ_MSGxMSG:
+            case ICQ_MSGxURL:
                 btnReply->show();
                 btnQuote->show();
                 btnGrant->hide();
                 btnRefuse->hide();
                 btnAccept->hide();
                 btnDecline->hide();
+                btnForward->show();
                 break;
             case ICQ_MSGxCHAT:
                 btnReply->hide();
@@ -886,6 +965,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark)
                 btnRefuse->hide();
                 btnAccept->hide();
                 btnDecline->hide();
+                btnForward->hide();
                 if (msg->Id >= MSG_PROCESS_ID){
                     btnAccept->show();
                     btnDecline->show();
@@ -898,6 +978,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark)
                 btnRefuse->hide();
                 btnAccept->hide();
                 btnDecline->hide();
+                btnForward->hide();
             }
             users->hide();
             view->show();
@@ -916,6 +997,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark)
         }
     }else{
         btnReply->hide();
+        btnForward->hide();
         btnQuote->hide();
         btnGrant->hide();
         btnRefuse->hide();
@@ -940,6 +1022,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark)
                 btnItalic->show();
                 btnUnder->show();
                 btnFont->show();
+                btnMultiply->show();
 #ifdef USE_SPELL
                 btnSpell->show();
 #endif
@@ -969,6 +1052,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark)
                 btnItalic->hide();
                 btnUnder->hide();
                 btnFont->hide();
+                btnMultiply->show();
 #ifdef USE_SPELL
                 btnSpell->show();
 #endif
@@ -994,6 +1078,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark)
                 btnItalic->hide();
                 btnUnder->hide();
                 btnFont->hide();
+                btnMultiply->hide();
 #ifdef USE_SPELL
                 btnSpell->show();
 #endif
@@ -1020,6 +1105,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark)
                 btnItalic->hide();
                 btnUnder->hide();
                 btnFont->hide();
+                btnMultiply->hide();
 #ifdef USE_SPELL
                 btnSpell->show();
 #endif
@@ -1043,6 +1129,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark)
                 btnItalic->hide();
                 btnUnder->hide();
                 btnFont->hide();
+                btnMultiply->hide();
 #ifdef USE_SPELL
                 btnSpell->show();
 #endif
@@ -1068,6 +1155,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark)
                 btnItalic->hide();
                 btnUnder->hide();
                 btnFont->hide();
+                btnMultiply->show();
 #ifdef USE_SPELL
                 btnSpell->hide();
 #endif
@@ -1094,6 +1182,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark)
                 btnItalic->hide();
                 btnUnder->hide();
                 btnFont->hide();
+                btnMultiply->hide();
 #ifdef USE_SPELL
                 btnSpell->hide();
 #endif
@@ -1118,6 +1207,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark)
                 btnItalic->hide();
                 btnUnder->hide();
                 btnFont->hide();
+                btnMultiply->hide();
 #ifdef USE_SPELL
                 btnSpell->hide();
 #endif
@@ -1141,6 +1231,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark)
                 btnItalic->hide();
                 btnUnder->hide();
                 btnFont->hide();
+                btnMultiply->hide();
 #ifdef USE_SPELL
                 btnSpell->hide();
 #endif
@@ -1229,6 +1320,14 @@ void MsgEdit::makeMessage()
     default:
         log(L_WARN, "Bad message type %u", msg->Type());
         return;
+    }
+    if (bMultiply){
+        msg->Uin.clear();
+        UserBox *box = static_cast<UserBox*>(topLevelWidget());
+        if (box->users){
+            UserView *users = box->users;
+            if (users) users->fillChecked(msg);
+        }
     }
     realSend();
 }

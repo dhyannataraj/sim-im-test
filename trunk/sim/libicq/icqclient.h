@@ -685,7 +685,7 @@ public:
     unsigned short Type() { return m_nType; }
     ConfigULong Time;
     ConfigBool Received;
-    ConfigULong Uin;
+    ConfigULongs Uin;
     ConfigBool Direct;
     unsigned long Id;
     unsigned long	state;
@@ -698,6 +698,7 @@ public:
     string			DeclineReason;
     bool			isExt;
     bool			bDelete;
+    unsigned long	getUin();
 protected:
     unsigned short m_nType;
 };

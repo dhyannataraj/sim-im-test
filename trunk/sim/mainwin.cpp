@@ -194,7 +194,6 @@ MainWindow::MainWindow(const char *name)
         ChatHeight(this, "Chatheight"),
         CloseAfterSend(this, "CloseAfterSend"),
         UserWindowInTaskManager(this, "UserWindowInTaskManager", true),
-        NotInListExpand(this, "NotInListExpand", true),
         Icons(this, "Icons"),
         XOSD_on(this, "XOSD_on"),
         XOSD_pos(this, "XOSD_pos"),
@@ -691,6 +690,7 @@ void MainWindow::processEvent(ICQEvent *e)
         }
         return;
     case EVENT_ANOTHER_LOCATION:
+        setShow(true);
         BalloonMsg::message(i18n("Your UIN used from another location"), btnStatus);
         break;
     case EVENT_INFO_CHANGED:
@@ -749,6 +749,7 @@ void MainWindow::processEvent(ICQEvent *e)
 
 void MainWindow::saveState()
 {
+    log(L_DEBUG, "Save state");
     if (m_bAutoAway || m_bAutoNA) ManualStatus = (unsigned long)m_autoStatus;
     ShowOffline = btnShowOffline->isOn();
     GroupMode = btnGroupMode->isOn();
@@ -788,7 +789,7 @@ void MainWindow::saveState()
 #if USE_KDE
     OnTop = KWin::info(winId()).state & NET::StaysOnTop;
 #endif
-    UseStyle = themes->getTheme();
+    UseStyle = themes->getTheme().local8Bit();
     string file;
     buildFileName(file, SIM_CONF);
     std::ofstream ofs(file.data());
@@ -963,6 +964,7 @@ void MainWindow::phonebook()
 void MainWindow::quit()
 {
     bQuit = true;
+    saveState();
     close();
 }
 

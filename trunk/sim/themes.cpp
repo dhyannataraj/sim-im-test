@@ -18,6 +18,8 @@
 #include "defs.h"
 
 #include "themes.h"
+#include "log.h"
+#include "cfg.h"
 
 #if USE_KDE
 #include <kapplication.h>
@@ -83,7 +85,7 @@ Themes::Themes(QWidget *parent)
 void Themes::fillList(QListBox *box)
 {
 #if USE_KDE
-    box->insertItem(i18n("Default"));
+    box->insertItem(i18n("Default style"));
 #endif
     box->insertStringList(QStyleFactory::keys());
 }
@@ -97,15 +99,21 @@ void Themes::setTheme(const QString &styleName)
 {
     if (current == styleName) return;
 #ifdef USE_KDE
-    if (styleName == i18n("Default")){
+    if (styleName == i18n("Default style")){
+	current = "";
         kApp->disableStyles();
         kApp->enableStyles();
         return;
     }
 #endif
+    string name(styleName.local8Bit());
+    log(L_DEBUG, "Create style %s", name.c_str());
     QStyle *style = QStyleFactory::create(styleName);
+    log(L_DEBUG, "Style create %u", (unsigned)style);
     if (style == NULL) return;
+    log(L_DEBUG, "Set style");
     qApp->setStyle(style);
+    log(L_DEBUG, "Style OK");
     //    qApp->setFont(*appFont, TRUE);
     current = styleName;
 }

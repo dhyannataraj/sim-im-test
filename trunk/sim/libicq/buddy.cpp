@@ -188,12 +188,18 @@ void ICQClient::buddyRequest()
 
 void ICQClient::sendContactList()
 {
-    snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_ADDxTOxLIST);
+    int nBuddies = 0;
     list<ICQUser*>::iterator it;
     for (it = contacts.users.begin(); it != contacts.users.end(); it++){
-        if (((*it)->Uin() < UIN_SPECIAL) && !(*it)->inIgnore()){
+        if (((*it)->Uin() < UIN_SPECIAL) && !(*it)->inIgnore() &&
+                ((*it)->WaitAuth() || ((*it)->GrpId() == 0))) nBuddies++;
+    }
+    if (nBuddies == 0) return;
+    snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_ADDxTOxLIST);
+    for (it = contacts.users.begin(); it != contacts.users.end(); it++){
+        if (((*it)->Uin() < UIN_SPECIAL) && !(*it)->inIgnore() &&
+                ((*it)->WaitAuth() || ((*it)->GrpId() == 0)))
             writeBuffer.packUin((*it)->Uin());
-        }
     }
     sendPacket();
 }

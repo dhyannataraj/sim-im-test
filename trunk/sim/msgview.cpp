@@ -273,15 +273,15 @@ void MsgView::colorsChanged()
     c.sprintf(FONT_FORMAT, pMain->ColorReceive());
     t.replace(QRegExp(FONT_RECEIVE), c);
     setText(t);
-    scrollToAnchor(curAnchor);
     viewport()->setUpdatesEnabled(true);
+    scrollToAnchor(curAnchor);
     viewport()->repaint();
 }
 
 void MsgView::messageRead(ICQMessage *msg)
 {
     QString pat;
-    pat.sprintf("<p><a name=\"%lu.%lu\"></a></p>", msg->Uin(), msg->Id);
+    pat.sprintf("<p><a name=\"%lu.%lu\"></a></p>", msg->getUin(), msg->Id);
     QString res;
     QString t = text();
     int pos = t.find(pat);
@@ -299,10 +299,10 @@ void MsgView::messageRead(ICQMessage *msg)
     pos = t.find("<p><a name=");
     if (pos >= 0) res += t.mid(pos);
     setText(res);
-    curAnchor = QString::number(msg->Uin()) + "." + QString::number(msg->Id);
-    scrollToAnchor(curAnchor);
+    curAnchor = QString::number(msg->getUin()) + "." + QString::number(msg->Id);
     if (!isUpdates) return;
     viewport()->setUpdatesEnabled(true);
+    scrollToAnchor(curAnchor);
     viewport()->repaint();
 }
 
@@ -345,13 +345,13 @@ QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
     s.sprintf("<p><a name=\"%lu.%lu\"></a></p>"
               "<table width=100%%><tr>"
               "<td><a href=\"msg://%lu.%lu\"><img src=\"icon:%s\"></a>&nbsp;",
-              msg->Uin(), msg->Id, msg->Uin(), msg->Id, Client::getMessageIcon(msg->Type()));
+              msg->getUin(), msg->Id, msg->getUin(), msg->Id, Client::getMessageIcon(msg->Type()));
     if (bUnread) s += "<b>";
     QString color;
     color.sprintf(FONT_FORMAT, msg->Received ? pMain->ColorReceive() : pMain->ColorSend());
     s += color;
     if (msg->Received){
-        CUser u(msg->Uin);
+        CUser u(msg->getUin());
         s += u.name(true);
     }else{
         CUser u(pClient);
@@ -406,9 +406,9 @@ void MsgView::addMessage(ICQMessage *msg, bool bUnread)
     }else{
         setText(text() + s);
     }
-    scrollToAnchor(curAnchor);
     if (!bUpdates) return;
     viewport()->setUpdatesEnabled(true);
+    scrollToAnchor(curAnchor);
     viewport()->repaint();
 }
 
@@ -454,7 +454,7 @@ void HistoryView::processEvent(ICQEvent *e)
 
 void HistoryView::messageReceived(ICQMessage *msg)
 {
-    if (msg->Uin != m_nUin) return;
+    if (msg->getUin() != m_nUin) return;
     if (msg->Id >= MSG_PROCESS_ID) return;
     int x = contentsX();
     int y = contentsY();
@@ -478,8 +478,8 @@ void HistoryView::messageReceived(ICQMessage *msg)
     }else{
         addMessage(msg, bUnread);
     }
-    setContentsPos(x, y);
     viewport()->setUpdatesEnabled(true);
+    setContentsPos(x, y);
     viewport()->repaint();
 }
 

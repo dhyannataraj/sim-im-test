@@ -215,11 +215,13 @@ Socket::Socket(int fd, const char *host, unsigned short port)
     intData = NULL;
     m_szResolveHost = NULL;
     m_resolving = None;
+    m_connecting = NoConnect;
     m_bConnecting = false;
     if (host) m_szHost = strdup(host);
     if (pSockets){
         pSockets->addSocket(this);
         if (fd >= 0) pSockets->createSocket(this);
+        m_connecting = Connected;
     }
 }
 

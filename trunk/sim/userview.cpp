@@ -34,6 +34,7 @@
 #include <qapplication.h>
 #include <qlineedit.h>
 #include <qregexp.h>
+#include <qbutton.h>
 
 #include <stdio.h>
 
@@ -43,6 +44,16 @@
 #if HAVE_KROOTPIXMAP_H
 #include <krootpixmap.h>
 #endif
+#endif
+
+#if QT_VERSION < 300
+#define CHECK_OFF	QButton::Off
+#define CHECK_ON	QButton::On
+#define CHECK_NOCHANGE	QButton::NoChange
+#else
+#define CHECK_OFF	QStyle::Style_Off
+#define CHECK_ON	QStyle::Style_On
+#define CHECK_NOCHANGE	QStyle::Style_NoChange
 #endif
 
 UserViewItemBase::UserViewItemBase(UserView *parent)
@@ -95,11 +106,28 @@ void UserViewItemBase::paint(QPainter *p, const QString s, const QColorGroup &c,
     listView()->setStaticBackground(pix &&
                                     (listView()->contentsHeight() >= listView()->viewport()->height()));
     int x = 2;
-    QString pict = text(2);
-    if (pict.length()){
-        const QPixmap &icon = Pict(pict);
-        p->drawPixmap(2, (height() - icon.height()) / 2, icon);
-        x += icon.width() + 5;
+    if (userView->bList){
+#if QT_VERSION < 300
+        QSize s = listView()->style().indicatorSize();
+        if (!bSeparator) x += s.width() / 2;
+        listView()->style().drawIndicator(p, x, (height() - s.height()) / 2,
+                                          s.width(), s.height(),
+                                          cg, text(3).toInt());
+        x += s.width() + 5;
+#else
+        int w = listView()->style().pixelMetric(QStyle::PM_IndicatorWidth);
+        int h = listView()->style().pixelMetric(QStyle::PM_IndicatorHeight);
+        QRect rc(x, (height() - h) / 2, w, h);
+        listView()->style().drawPrimitive(QStyle::PE_Indicator, p, rc, cg, text(3).toInt());
+        x += w + 5;
+#endif
+    }else{
+        QString pict = text(2);
+        if (pict.length()){
+            const QPixmap &icon = Pict(pict);
+            p->drawPixmap(2, (height() - icon.height()) / 2, icon);
+            x += icon.width() + 5;
+        }
     }
     QRect br;
     p->drawText(x, 0, width - x, height(), AlignLeft | AlignVCenter, s, -1, &br);
@@ -121,8 +149,10 @@ UserViewItem::UserViewItem(ICQUser *u, UserView *parent)
         : UserViewItemBase(parent)
 {
     update(u, true);
-#if QT_VERSION >= 300
-    setDragEnabled(true);
+    UserView *users = static_cast<UserView*>(listView());
+    if (users->bList) setText(3, QString::number(CHECK_OFF));
+#if QT_VERSION >= 300    
+    setDragEnabled(!users->bList);
 #endif
 }
 
@@ -130,8 +160,10 @@ UserViewItem::UserViewItem(ICQUser *u, UserViewItemBase *parent)
         : UserViewItemBase(parent)
 {
     update(u, true);
+    UserView *users = static_cast<UserView*>(listView());
+    if (users->bList) setText(3, QString::number(CHECK_OFF));
 #if QT_VERSION >= 300
-    setDragEnabled(true);
+    setDragEnabled(!users->bList);
 #endif
 }
 
@@ -166,6 +198,8 @@ void UserViewItem::paintCell(QPainter *p, const QColorGroup &cg, int, int, int)
     int bNormal = (status == ICQ_STATUS_ONLINE) || (status == ICQ_STATUS_FREEFORCHAT);
     if (nBlink) bNormal = ((nBlink & 1) != 0);
     paint(p, text(0), cg, false, bNormal, &w, &width);
+    UserView *userView = static_cast<UserView*>(listView());
+    if (userView->bList) return;
     const QPixmap &pCell = Pict("cell");
     const QPixmap &pPhone = Pict("phone");
     const QPixmap &pPhoneBusy = Pict("nophone");
@@ -319,13 +353,15 @@ GroupViewItem::GroupViewItem(ICQGroup *g, unsigned n, UserView *parent)
     if (g == NULL){
         m_id = 0;
         setText(0, i18n("Not in list"));
-        setOpen(pMain->NotInListExpand());
+        setOpen(pClient->contacts.Expand());
         return;
     }
     m_id = g->Id();
     CGroup grp(g);
     setText(0, grp.name());
     setOpen(g->Expand());
+    UserView *users = static_cast<UserView*>(listView());
+    if (users->bList) setText(3, QString::number(CHECK_OFF));
 }
 
 int GroupViewItem::type()
@@ -335,17 +371,18 @@ int GroupViewItem::type()
 
 void GroupViewItem::setOpen(bool bState)
 {
-    UserViewItemBase::setOpen(bState);
     UserView *users = static_cast<UserView*>(listView());
     if (users){
+        if (users->bList) bState = true;
         setText(2, bState ? "expanded" : "collapsed");
         users->setGroupExpand(m_id, bState);
     }
+    UserViewItemBase::setOpen(bState);
     if (m_id){
         ICQGroup *g = pClient->getGroup(m_id);
         g->Expand = bState;
     }else{
-        pMain->NotInListExpand = bState;
+        pClient->contacts.Expand = bState;
     }
 }
 
@@ -399,9 +436,10 @@ void DivItem::paintCell(QPainter *p, const QColorGroup &cg, int, int, int)
     paint(p, text(0), cg, true);
 }
 
-UserView::UserView (QWidget *parent, bool bFill, WFlags f)
+UserView::UserView (QWidget *parent, bool _bList, bool bFill, WFlags f)
         : QListView(parent, NULL, f), QToolTip(viewport())
 {
+    bList = _bList;
     setBackgroundMode(QListView::NoBackground);
     viewport()->setBackgroundMode(QListView::NoBackground);
     viewport()->setAcceptDrops(true);
@@ -409,6 +447,10 @@ UserView::UserView (QWidget *parent, bool bFill, WFlags f)
     mousePressPos = QPoint(0, 0);
     m_bShowOffline = false;
     m_bGroupMode = false;
+    if (bList){
+        m_bShowOffline = true;
+        m_bGroupMode = true;
+    }
     header()->hide();
     addColumn("", -1);
     setSorting(0);
@@ -562,11 +604,11 @@ void UserView::grpFunction(int id)
 
 void UserView::doubleClick(QListViewItem *item)
 {
+    if (bList) return;
     UserViewItemBase *item_base = static_cast<UserViewItemBase*>(item);
     if (item_base->type() != 1) return;
     UserViewItem *ui = static_cast<UserViewItem*>(item);
     pMain->userFunction(ui->m_uin, mnuAction);
-    return;
 }
 
 void UserView::paintEmptyArea(QPainter *p, const QRect &r)
@@ -621,10 +663,10 @@ void UserView::fill()
             new GroupViewItem(*grp_it, n, this);
             n++;
         }
-        GroupViewItem *grpItem = new GroupViewItem(NULL, 0x10000, this);
-        grpItem->setOpen(contacts.Expand);
+        new GroupViewItem(NULL, 0x10000, this);
     }
     for (it = contacts.users.begin(); it != contacts.users.end(); it++){
+        if (bList && ((*it)->Type() != USER_TYPE_ICQ)) continue;
         addUserItem(*it);
     }
 }
@@ -752,7 +794,7 @@ void UserView::updateUser(unsigned long uin, bool bFull)
 
 void UserView::messageRead(ICQMessage *msg)
 {
-    updateUser(msg->Uin, false);
+    updateUser(msg->getUin(), false);
 }
 
 void UserView::processEvent(ICQEvent *e)
@@ -760,8 +802,10 @@ void UserView::processEvent(ICQEvent *e)
     switch (e->type()){
     case EVENT_GROUP_CREATED:
         refresh();
-        grp_id = e->Uin();
-        grpFunction(mnuGrpRename);
+        if (!bList){
+            grp_id = e->Uin();
+            grpFunction(mnuGrpRename);
+        }
         return;
     case EVENT_GROUP_CHANGED:
         refresh();
@@ -771,6 +815,10 @@ void UserView::processEvent(ICQEvent *e)
     case EVENT_USERGROUP_CHANGED:
     case EVENT_STATUS_CHANGED:
     case EVENT_INFO_CHANGED:
+        if (bList){
+            ICQUser *u = pClient->getUser(e->Uin());
+            if ((u == NULL) || (u->Type() != USER_TYPE_ICQ)) break;
+        }
         updateUser(e->Uin(), e->type() == EVENT_USERGROUP_CHANGED);
         break;
     }
@@ -829,6 +877,7 @@ ICQUser *UserView::findUser(QPoint p)
 
 void UserView::dragStart()
 {
+    if (bList) return;
     startDrag();
 }
 
@@ -866,6 +915,10 @@ void UserView::callUserFunction(unsigned long uin, const QString &url)
 
 void UserView::dragEvent(QDropEvent *e, bool isDrop)
 {
+    if (bList){
+        e->ignore();
+        return;
+    }
     QListViewItem *list_item = itemAt(e->pos());
     if (list_item == NULL){
         e->ignore();
@@ -919,8 +972,47 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
     e->ignore();
 }
 
+void UserView::itemClicked(QListViewItem *list_item)
+{
+    if (!bList) return;
+    if (list_item == NULL) return;
+    UserViewItemBase *item = static_cast<UserViewItemBase*>(list_item);
+    int state;
+    switch (item->type() ){
+    case 1:
+        if (item->text(3).toInt() == CHECK_ON){
+            item->setText(3, QString::number(CHECK_OFF));
+        }else{
+            item->setText(3, QString::number(CHECK_ON));
+        }
+        item->repaint();
+        setCurrentItem(item);
+        setGrpCheck(item);
+        emit checked();
+        break;
+    case 2:
+        state = CHECK_ON;
+        if (item->text(3).toInt() == CHECK_ON) state = CHECK_OFF;
+        item->setText(3, QString::number(state));
+        item->repaint();
+        setCurrentItem(item);
+        for (list_item = item->firstChild(); list_item; list_item = list_item->nextSibling()){
+            if (list_item->text(3).toInt() == state) continue;
+            list_item->setText(3, QString::number(state));
+            list_item->repaint();
+        }
+        emit checked();
+        break;
+    }
+}
+
 void UserView::contentsMouseReleaseEvent(QMouseEvent *e)
 {
+    if (bList){
+        QListViewItem *list_item = itemAt(contentsToViewport(e->pos()));
+        if (list_item) itemClicked(list_item);
+        QListView::contentsMouseReleaseEvent(e);
+    }
 #if QT_VERSION < 300
     if (e->button() == QObject::RightButton){
         QContextMenuEvent contextEvent(e->globalPos());
@@ -934,10 +1026,13 @@ void UserView::contentsMouseReleaseEvent(QMouseEvent *e)
 
 void UserView::contentsMousePressEvent(QMouseEvent *e)
 {
+    log(L_DEBUG, "MousePress");
 #if QT_VERSION < 300
-    if ((e->button() == QObject::LeftButton) && !bFloaty){
-        mousePressPos = e->pos();
-        QTimer::singleShot(QApplication::startDragTime(), this, SLOT(dragStart()));
+    if (!bList){
+        if ((e->button() == QObject::LeftButton) && !bFloaty){
+            mousePressPos = e->pos();
+            QTimer::singleShot(QApplication::startDragTime(), this, SLOT(dragStart()));
+        }
     }
 #endif
     QListView::contentsMousePressEvent(e);
@@ -947,13 +1042,76 @@ void UserView::contentsMouseMoveEvent(QMouseEvent *e)
 {
 #if QT_VERSION < 300
     if (e->state() & QObject::LeftButton){
-        if (!bFloaty && !mousePressPos.isNull() && currentItem() &&
+        if (!bFloaty && !bList && !mousePressPos.isNull() && currentItem() &&
                 (QPoint(e->pos() - mousePressPos).manhattanLength() > QApplication::startDragDistance())){
             startDrag();
         }
     }
 #endif
     QListView::contentsMouseMoveEvent(e);
+}
+
+void UserView::check(unsigned long uin)
+{
+    UserViewItem *item = findUserItem(uin);
+    if (item == NULL) return;
+    item->setText(3, QString::number(CHECK_ON));
+    item->repaint();
+    setGrpCheck(item);
+}
+
+void UserView::setGrpCheck(QListViewItem *item)
+{
+    QListViewItem *grp_item = item->parent();
+    if (grp_item == NULL) return;
+    item = grp_item->firstChild();
+    int state = CHECK_NOCHANGE;
+    if (item){
+        state = item->text(3).toInt();
+        for (; item; item = item->nextSibling()){
+            if (state != item->text(3).toInt()){
+                state = CHECK_NOCHANGE;
+                break;
+            }
+        }
+    }
+    if (state == grp_item->text(3).toInt()) return;
+    grp_item->setText(3, QString::number(state));
+    grp_item->repaint();
+}
+
+bool UserView::hasChecked()
+{
+    for (QListViewItem *item = firstChild(); item; item = item->nextSibling())
+        if (hasChecked(item)) return true;
+    return false;
+}
+
+bool UserView::hasChecked(QListViewItem *item)
+{
+    if (item->text(3).toInt() == CHECK_ON) return true;
+    for (item = item->firstChild(); item; item = item->nextSibling())
+        if (hasChecked(item)) return true;
+    return false;
+}
+
+void UserView::fillChecked(ICQMessage *msg)
+{
+    for (QListViewItem *item = firstChild(); item; item = item->nextSibling())
+        fillChecked(item, msg);
+}
+
+void UserView::fillChecked(QListViewItem *item, ICQMessage *msg)
+{
+    if (item->text(3).toInt() == CHECK_ON){
+        UserViewItemBase *base_item = static_cast<UserViewItemBase*>(item);
+        if (base_item->type() == 1){
+            UserViewItem *ui = static_cast<UserViewItem*>(item);
+            msg->Uin.push_back(ui->m_uin);
+        }
+    }
+    for (item = item->firstChild(); item; item = item->nextSibling())
+        fillChecked(item, msg);
 }
 
 void UserView::startDrag()
@@ -982,6 +1140,7 @@ QDragObject *UserView::dragObject()
 
 void UserView::viewportContextMenuEvent( QContextMenuEvent *e)
 {
+    if (bList) return;
     QRect rc;
     QPoint pRect;
     QPoint p = e->globalPos();
@@ -1029,7 +1188,7 @@ void UserView::maybeTip ( const QPoint &p )
 }
 
 UserFloat::UserFloat()
-        : UserView(NULL, false,
+        : UserView(NULL, false, false,
                    QObject::WType_TopLevel | QObject::WStyle_Customize | QObject::WStyle_NoBorder |
                    QObject::WStyle_Tool | QObject::WStyle_StaysOnTop | QObject::WX11BypassWM),
         Uin(this, "Uin", 0),

@@ -61,6 +61,7 @@ public:
     UserTab *tab;
     ConfigULong  Uin;
     bool load(std::istream &s, string &part);
+    bool bMultiply;
 public slots:
     void realSend();
     void send();
@@ -81,6 +82,7 @@ signals:
     void setStatus(const QString&, int);
     void setMessageType(const QString &icon, const QString &text);
     void destroyChild(int id);
+    void showUsers(bool, unsigned long);
 protected slots:
     void setMsgBackgroundColor();
     void setMsgForegroundColor();
@@ -93,6 +95,7 @@ protected slots:
     void nextClick();
     void replyClick();
     void quoteClick();
+    void forwardClick();
     void grantClick();
     void refuseClick();
     void messageReceived(ICQMessage*);
@@ -100,6 +103,7 @@ protected slots:
     void acceptMessage();
     void declineMessage(int);
     void closeToggle(bool);
+    void toggleMultiply();
 protected:
     virtual void closeEvent(QCloseEvent *e);
     void fillPhones();
@@ -121,11 +125,13 @@ protected:
 #endif
     PictPushButton *btnNext;
     QPushButton *btnReply;
+    QPushButton *btnForward;
     QPushButton *btnQuote;
     QPushButton *btnGrant;
     QPushButton *btnRefuse;
     QPushButton *btnAccept;
     QPushButton *btnDecline;
+    CPushButton *btnMultiply;
     TextShow   *view;
     QFrame     *phone;
     QFrame     *url;

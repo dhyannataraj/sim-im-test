@@ -105,7 +105,7 @@ Client::~Client()
 
 void Client::markAsRead(ICQMessage *msg)
 {
-    ICQUser *u = getUser(msg->Uin());
+    ICQUser *u = getUser(msg->getUin());
     if (u == NULL) return;
     for (list<unsigned long>::iterator it = u->unreadMsgs.begin(); it != u->unreadMsgs.end(); it++){
         if (*it == msg->Id){
@@ -122,10 +122,12 @@ void Client::process_event(ICQEvent *e)
     case EVENT_DONE:{
             ICQMessage *msg = e->message();
             if (msg){
-                ICQUser *u = getUser(msg->Uin());
-                if (u){
-                    History h(msg->Uin());
-                    msg->Id = h.addMessage(msg);
+                for (ConfigULongs::iterator it = msg->Uin.begin(); it != msg->Uin.end(); ++it){
+                    ICQUser *u = getUser(*it);
+                    if (u == NULL) continue;
+                    History h(*it);
+                    unsigned long id = h.addMessage(msg);
+                    if (msg->Id == 0) msg->Id = id;
                 }
             }
             break;
@@ -169,7 +171,7 @@ void Client::process_event(ICQEvent *e)
                 log(L_WARN, "Message event without message");
                 return;
             }
-            unsigned long uin = msg->Uin;
+            unsigned long uin = msg->getUin();
             if (uin == Uin) uin = 0;
             if (e->state == ICQEvent::Fail){
                 ICQUser *u = getUser(e->Uin());
@@ -504,7 +506,7 @@ bool Client::createFile(ICQFile *f, int mode)
                 size = 0;
             }
         }else if (f->autoAccept){
-            ICQUser *u = getUser(f->Uin());
+            ICQUser *u = getUser(f->getUin());
             if ((u == NULL) || !u->AcceptFileOverride()) u = this;
             if (u->AcceptFileOverwrite() || (info.size() > f->Size())){
                 bTruncate = true;

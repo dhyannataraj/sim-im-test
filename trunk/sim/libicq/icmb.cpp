@@ -70,7 +70,7 @@ void ICQClient::snac_message(unsigned short type, unsigned short)
                         if (e->type() != EVENT_MESSAGE_SEND) continue;
                         ICQMessage *msg = e->message();
                         if (msg == NULL) continue;
-                        if ((msg->Uin == uin) && (msg->timestamp1 == timestamp1) && (msg->timestamp2 == timestamp2)){
+                        if ((msg->getUin() == uin) && (msg->timestamp1 == timestamp1) && (msg->timestamp2 == timestamp2)){
                             msg->DeclineReason = answer;
                             cancelMessage(msg, false);
                             break;
@@ -193,7 +193,7 @@ void ICQClient::snac_message(unsigned short type, unsigned short)
                     m->Name = l[0];
                     m->Email = l[3];
                     parseMessageText(l[5].c_str(), m->Message);
-                    m->Uin = contacts.findByEmail(m->Name, m->Email);
+                    m->Uin.push_back(contacts.findByEmail(m->Name, m->Email));
                     messageReceived(m);
                 }else{
                     ICQEmailPager *m = new ICQEmailPager;
@@ -202,7 +202,7 @@ void ICQClient::snac_message(unsigned short type, unsigned short)
                     m->Name = l[0];
                     m->Email = l[3];
                     parseMessageText(l[5].c_str(), m->Message);
-                    m->Uin = contacts.findByEmail(m->Name, m->Email);
+                    m->Uin.push_back(contacts.findByEmail(m->Name, m->Email));
                     messageReceived(m);
                 }
                 break;
@@ -225,7 +225,7 @@ void ICQClient::snac_message(unsigned short type, unsigned short)
                         break;
                     }
                     ICQMsg *m = new ICQMsg();
-                    m->Uin = uin;
+                    m->Uin.push_back(uin);
                     m->Received = true;
                     parseMessageText((const char*)(*tlv_msg(0x101)) + 4, m->Message);
                     messageReceived(m);
@@ -252,7 +252,7 @@ void ICQClient::snac_message(unsigned short type, unsigned short)
                                 if ((e->type() != EVENT_MESSAGE_RECEIVED) || (e->message() == NULL))
                                     continue;
                                 ICQMessage *m = e->message();
-                                if ((m->Uin() == uin) && (m->timestamp1 == timestamp1) && (m->timestamp2 == timestamp2)){
+                                if ((m->getUin() == uin) && (m->timestamp1 == timestamp1) && (m->timestamp2 == timestamp2)){
                                     cancelMessage(m, false);
                                     break;
                                 }
@@ -401,9 +401,9 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
                             b << (unsigned short)2;
                             b << m->timestamp1 << m->timestamp2
                             << 0x09461349L << 0x4C7F11D1L << 0x82224445L << 0x53540000L;
-                            sendThroughServer(m->Uin, 2, b, &id, false);
+                            sendThroughServer(m->getUin(), 2, b, &id, false);
 
-                            ICQUser *u = getUser(m->Uin);
+                            ICQUser *u = getUser(m->getUin());
                             if (u == NULL){
                                 log(L_WARN, "User not found");
                                 cancelMessage(m, false);
@@ -429,7 +429,7 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
                                 cancelMessage(msg, false);
                                 return;
                             }
-                            ICQEvent e(EVENT_ACKED, m->Uin());
+                            ICQEvent e(EVENT_ACKED, m->getUin());
                             e.msg = msg;
                             process_event(&e);
                             break;
@@ -554,13 +554,13 @@ void ICQClient::declineMessage(ICQMessage *m, const char *reason)
 {
     m->state = ICQ_DECLINED;
     if (m->Direct()){
-        ICQUser *u = getUser(m->Uin());
+        ICQUser *u = getUser(m->getUin());
         if (u && u->direct)
             u->direct->declineMessage(m, reason);
     }else{
         snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_AUTOREPLY);
         writeBuffer << m->timestamp1 << m->timestamp2 << 0x0002;
-        writeBuffer.packUin(m->Uin);
+        writeBuffer.packUin(m->getUin());
         writeBuffer << (unsigned short)0x03;
         packMessage(writeBuffer, m, reason, 1, 0, 0);
         sendPacket();
@@ -594,7 +594,7 @@ void ICQClient::acceptMessage(ICQMessage *m)
     }
 
     if (m->Direct()){
-        ICQUser *u = getUser(m->Uin());
+        ICQUser *u = getUser(m->getUin());
         if (u && u->direct){
             u->direct->acceptMessage(m);
         }else{
@@ -622,9 +622,9 @@ void ICQClient::acceptMessage(ICQMessage *m)
         b.tlv(0x03, (unsigned long)htonl(inet_addr(host)));
         b.tlv(0x05, (unsigned short)listener->port());
         b.tlv(0x2711, msgBuf);
-        sendThroughServer(m->Uin, 2, b, &id);
+        sendThroughServer(m->getUin(), 2, b, &id);
     }
-    ICQEvent e(EVENT_ACKED, m->Uin());
+    ICQEvent e(EVENT_ACKED, m->getUin());
     e.msg = m;
     process_event(&e);
 }
@@ -790,53 +790,55 @@ void ICQClient::processMsgQueueThruServer()
                 ICQMsg *msg = static_cast<ICQMsg*>(e->message());
                 Buffer msgBuf;
                 string message;
-                ICQUser *u = getUser(msg->Uin);
-                if (u && u->GetRTF && (u->uStatus != ICQ_STATUS_OFFLINE)){
-                    string msg_text = msg->Message;
-                    toServer(msg_text);
-                    message = createRTF(msg_text.c_str(), msg->ForeColor);
-                    log(L_DEBUG, "RTF %s", message.c_str());
-                    advCounter--;
-                    msgBuf
-                    << (unsigned short)0x1B00
-                    << (char)0x08
-                    << 0x00000000L << 0x00000000L << 0x00000000L << 0x00000000L << 0x00000003L << 0x00000000L
-                    << advCounter
-                    << (unsigned short)0x0E00
-                    << advCounter
-                    << 0x00000000L << 0x00000000L << 0x00000000L
-                    << (char)0x01
-                    << (char)0
-                    << (unsigned short)0
-                    << (unsigned short)0x0100
-                    << (unsigned short)htons(message.size() + 1);
-                    msgBuf.pack(message.c_str(), message.size() + 1);
-                    if (msg->BackColor == msg->ForeColor){
-                        msgBuf << 0x00000000L << 0xFFFFFF00L;
+                for (ConfigULongs::iterator itUin = msg->Uin.begin(); itUin != msg->Uin.end(); ++itUin){
+                    ICQUser *u = getUser(*itUin);
+                    if (u && u->GetRTF && (u->uStatus != ICQ_STATUS_OFFLINE)){
+                        string msg_text = msg->Message;
+                        toServer(msg_text);
+                        message = createRTF(msg_text.c_str(), msg->ForeColor);
+                        log(L_DEBUG, "RTF %s", message.c_str());
+                        advCounter--;
+                        msgBuf
+                        << (unsigned short)0x1B00
+                        << (char)0x08
+                        << 0x00000000L << 0x00000000L << 0x00000000L << 0x00000000L << 0x00000003L << 0x00000000L
+                        << advCounter
+                        << (unsigned short)0x0E00
+                        << advCounter
+                        << 0x00000000L << 0x00000000L << 0x00000000L
+                        << (char)0x01
+                        << (char)0
+                        << (unsigned short)0
+                        << (unsigned short)0x0100
+                        << (unsigned short)htons(message.size() + 1);
+                        msgBuf.pack(message.c_str(), message.size() + 1);
+                        if (msg->BackColor == msg->ForeColor){
+                            msgBuf << 0x00000000L << 0xFFFFFF00L;
+                        }else{
+                            msgBuf << (msg->ForeColor() << 8) << (msg->BackColor() << 8);
+                        }
+                        msgBuf.packStr32("{97B12751-243C-4334-AD22-D6ABF73F1492}");
+                        Buffer b;
+                        msg_id id;
+                        id.h = rand();
+                        id.l = rand();
+                        b << (unsigned short)0;
+                        b << id.l << id.h;
+                        b << 0x09461349L << 0x4C7F11D1L << 0x82224445L << 0x53540000L;
+                        b.tlv(0x0A, (unsigned short)0x01);
+                        b.tlv(0x0F);
+                        b.tlv(0x2711, msgBuf);
+                        sendThroughServer(*itUin, 2, b, &id);
                     }else{
-                        msgBuf << (msg->ForeColor() << 8) << (msg->BackColor() << 8);
+                        message = clearHTML(msg->Message.c_str());
+                        toServer(message);
+                        msgBuf << 0x0000L;
+                        msgBuf << message.c_str();
+                        Buffer b;
+                        b.tlv(0x0501, "\x01", 1);
+                        b.tlv(0x0101, msgBuf);
+                        sendThroughServer(*itUin, 1, b);
                     }
-                    msgBuf.packStr32("{97B12751-243C-4334-AD22-D6ABF73F1492}");
-                    Buffer b;
-                    msg_id id;
-                    id.h = rand();
-                    id.l = rand();
-                    b << (unsigned short)0;
-                    b << id.l << id.h;
-                    b << 0x09461349L << 0x4C7F11D1L << 0x82224445L << 0x53540000L;
-                    b.tlv(0x0A, (unsigned short)0x01);
-                    b.tlv(0x0F);
-                    b.tlv(0x2711, msgBuf);
-                    sendThroughServer(msg->Uin, 2, b, &id);
-                }else{
-                    message = clearHTML(msg->Message.c_str());
-                    toServer(message);
-                    msgBuf << 0x0000L;
-                    msgBuf << message.c_str();
-                    Buffer b;
-                    b.tlv(0x0501, "\x01", 1);
-                    b.tlv(0x0101, msgBuf);
-                    sendThroughServer(msg->Uin, 1, b);
                 }
                 (*it)->state = ICQEvent::Success;
                 break;
@@ -863,7 +865,7 @@ void ICQClient::processMsgQueueThruServer()
                 b.tlv(0x03, (unsigned long)htonl(IP()));
                 b.tlv(0x05, (unsigned short)Port());
                 b.tlv(0x2711, mb);
-                sendThroughServer(file->Uin, 2, b, &id);
+                sendThroughServer(file->getUin(), 2, b, &id);
                 msgQueue.remove(e);
                 processQueue.push_back(e);
                 it = msgQueue.begin();
@@ -892,7 +894,7 @@ void ICQClient::processMsgQueueThruServer()
                 b.tlv(0x03, (unsigned long)htonl(IP()));
                 b.tlv(0x05, (unsigned short)Port());
                 b.tlv(0x2711, mb);
-                sendThroughServer(chat->Uin, 2, b, &id);
+                sendThroughServer(chat->getUin(), 2, b, &id);
                 msgQueue.remove(e);
                 processQueue.push_back(e);
                 it = msgQueue.begin();
@@ -901,18 +903,20 @@ void ICQClient::processMsgQueueThruServer()
             }
         case ICQ_MSGxURL:{
                 ICQUrl *msg = static_cast<ICQUrl*>(e->message());
-                Buffer msgBuffer;
-                string message = msg->Message;
-                string url = msg->URL;
-                toServer(message);
-                toServer(url);
-                msgBuffer << message.c_str();
-                msgBuffer << (char)0xFE;
-                msgBuffer << url.c_str();
-                Buffer b;
-                b << (unsigned long)htonl(Uin()) << (char)msg->Type() << (char)0;
-                b << msgBuffer;
-                sendThroughServer(msg->Uin, 4, b);
+                for (ConfigULongs::iterator itUin = msg->Uin.begin(); itUin != msg->Uin.end(); ++itUin){
+                    Buffer msgBuffer;
+                    string message = msg->Message;
+                    string url = msg->URL;
+                    toServer(message);
+                    toServer(url);
+                    msgBuffer << message.c_str();
+                    msgBuffer << (char)0xFE;
+                    msgBuffer << url.c_str();
+                    Buffer b;
+                    b << (unsigned long)htonl(Uin()) << (char)msg->Type() << (char)0;
+                    b << msgBuffer;
+                    sendThroughServer(*itUin, 4, b);
+                }
                 string s;
                 quoteText(msg->Message, s);
                 msg->Message = s;
@@ -925,22 +929,24 @@ void ICQClient::processMsgQueueThruServer()
                 unsigned nContacts = msg->Contacts.size();
                 char u[13];
                 snprintf(u, sizeof(u), "%u", nContacts);
-                msgBuffer << u;
-                for (ContactList::iterator it_msg = msg->Contacts.begin(); it_msg != msg->Contacts.end(); it_msg++){
-                    Contact *contact = static_cast<Contact*>(*it_msg);
-                    msgBuffer << (char)0xFE;
-                    snprintf(u, sizeof(u), "%lu", contact->Uin());
+                for (ConfigULongs::iterator itUin = msg->Uin.begin(); itUin != msg->Uin.end(); ++it){
                     msgBuffer << u;
+                    for (ContactList::iterator it_msg = msg->Contacts.begin(); it_msg != msg->Contacts.end(); it_msg++){
+                        Contact *contact = static_cast<Contact*>(*it_msg);
+                        msgBuffer << (char)0xFE;
+                        snprintf(u, sizeof(u), "%lu", contact->Uin());
+                        msgBuffer << u;
+                        msgBuffer << (char)0xFE;
+                        string alias = contact->Alias;
+                        toServer(alias);
+                        msgBuffer << alias.c_str();
+                    }
                     msgBuffer << (char)0xFE;
-                    string alias = contact->Alias;
-                    toServer(alias);
-                    msgBuffer << alias.c_str();
+                    Buffer b;
+                    b << (unsigned long)htonl(Uin()) << (char)msg->Type() << (char)0;
+                    b << msgBuffer;
+                    sendThroughServer(*itUin, 4, b);
                 }
-                msgBuffer << (char)0xFE;
-                Buffer b;
-                b << (unsigned long)htonl(Uin()) << (char)msg->Type() << (char)0;
-                b << msgBuffer;
-                sendThroughServer(msg->Uin, 4, b);
                 (*it)->state = ICQEvent::Success;
                 break;
             }
@@ -1009,5 +1015,5 @@ void ICQClient::cancelSendFile(ICQFile *file)
     << id.l << id.h
     << 0x09461349L << 0x4C7F11D1L << 0x82224445L << 0x53540000L
     << 0x000B0002L << (unsigned short)0x0001;
-    sendThroughServer(file->Uin(), 2, b, &id);
+    sendThroughServer(file->getUin(), 2, b, &id);
 }

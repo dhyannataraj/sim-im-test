@@ -122,6 +122,7 @@ using namespace std;
 #include "xpm/1downarrow.xpm"
 #include "xpm/1uparrow.xpm"
 #include "xpm/1rightarrow.xpm"
+#include "xpm/1leftarrow.xpm"
 #include "xpm/fileopen.xpm"
 #include "xpm/sound.xpm"
 #include "xpm/misc.xpm"
@@ -641,6 +642,7 @@ void Icons::init(const char *name)
     KICON(1uparrow, 10060)
     KICON(1downarrow, 10061)
     KICON(1rightarrow, 10062)
+    KICON(1leftarrow, 10077)
     KICON(fileopen, 10063)
     ICON(sound, 10064)
     ICON(misc, 10065)

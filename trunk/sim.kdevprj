@@ -35,7 +35,7 @@ project_type=normal_kde2
 sub_dir=sim/
 version=0.1
 version_control=CVS
-workspace=698696720
+workspace=64
 
 [INSTALL]
 dist=true
@@ -694,7 +694,7 @@ type=HEADER
 
 [sim/ui/Makefile.am]
 dist=true
-files=sim/ui/aboutinfo.cpp,sim/ui/aboutinfo.h,sim/ui/aboutinfobase.ui,sim/ui/changepasswdbase.ui,sim/ui/generalsecbase.ui,sim/ui/homeinfobase.ui,sim/ui/listsecbase.ui,sim/ui/maininfobase.ui,sim/ui/Makefile.am,sim/ui/moreinfobase.ui,sim/ui/searchbase.ui,sim/ui/statussetupbase.ui,sim/ui/themesetupbase.ui,sim/ui/workinfobase.ui,sim/ui/changepasswd.cpp,sim/ui/changepasswd.h,sim/ui/generalsec.cpp,sim/ui/generalsec.h,sim/ui/homeinfo.cpp,sim/ui/homeinfo.h,sim/ui/listsec.cpp,sim/ui/listsec.h,sim/ui/maininfo.cpp,sim/ui/maininfo.h,sim/ui/moreinfo.cpp,sim/ui/moreinfo.h,sim/ui/searchbase.cpp,sim/ui/searchbase.h,sim/ui/statussetup.cpp,sim/ui/statussetup.h,sim/ui/themesetup.cpp,sim/ui/themesetup.h,sim/ui/workinfo.cpp,sim/ui/workinfo.h,sim/ui/enable.cpp,sim/ui/enable.h,sim/ui/searchdlg.cpp,sim/ui/searchdlg.h,sim/ui/setupdlg.cpp,sim/ui/setupdlg.h,sim/ui/setupdlgbase.ui,sim/ui/userinfo.cpp,sim/ui/userinfo.h,sim/ui/userinfobase.ui,sim/ui/spellsetup.cpp,sim/ui/spellsetup.h,sim/ui/spellsetupbase.ui,sim/ui/phonebook.cpp,sim/ui/phonebook.h,sim/ui/phonebookbase.ui,sim/ui/editfile.cpp,sim/ui/editfile.h,sim/ui/soundsetup.cpp,sim/ui/soundsetup.h,sim/ui/soundsetupbase.ui,sim/ui/miscsetup.cpp,sim/ui/miscsetup.h,sim/ui/miscsetupbase.ui,sim/ui/addphone.cpp,sim/ui/addphone.h,sim/ui/addphonebase.ui,sim/ui/pagerbase.ui,sim/ui/pagerdetails.cpp,sim/ui/pagerdetails.h,sim/ui/phonebase.ui,sim/ui/phonedetails.cpp,sim/ui/phonedetails.h,sim/ui/alertdialog.cpp,sim/ui/alertdialog.h,sim/ui/alertdialogbase.ui,sim/ui/msgdialog.cpp,sim/ui/msgdialog.h,sim/ui/msgdialogbase.ui,sim/ui/interestsinfo.cpp,sim/ui/interestsinfo.h,sim/ui/interestsinfobase.ui,sim/ui/alertmsg.cpp,sim/ui/alertmsg.h,sim/ui/alertmsgbase.ui,sim/ui/autoreply.cpp,sim/ui/autoreply.h,sim/ui/autoreplybase.ui,sim/ui/pastinfobase.ui,sim/ui/pastinfo.h,sim/ui/pastinfo.cpp,sim/ui/emailedit.cpp,sim/ui/emailedit.h,sim/ui/emaileditbase.ui,sim/ui/fontsetup.cpp,sim/ui/fontsetup.h,sim/ui/fontsetupbase.ui,sim/ui/qcolorbutton.cpp,sim/ui/qcolorbutton.h,sim/ui/ballonmsg.cpp,sim/ui/ballonmsg.h,sim/ui/acceptbase.ui,sim/ui/accept.h,sim/ui/accept.cpp,sim/ui/filetransfer.cpp,sim/ui/filetransfer.h,sim/ui/filetransferbase.ui,sim/ui/network.cpp,sim/ui/network.h,sim/ui/networkbase.ui
+files=sim/ui/aboutinfo.cpp,sim/ui/aboutinfo.h,sim/ui/aboutinfobase.ui,sim/ui/changepasswdbase.ui,sim/ui/generalsecbase.ui,sim/ui/homeinfobase.ui,sim/ui/listsecbase.ui,sim/ui/maininfobase.ui,sim/ui/Makefile.am,sim/ui/moreinfobase.ui,sim/ui/searchbase.ui,sim/ui/statussetupbase.ui,sim/ui/themesetupbase.ui,sim/ui/workinfobase.ui,sim/ui/changepasswd.cpp,sim/ui/changepasswd.h,sim/ui/generalsec.cpp,sim/ui/generalsec.h,sim/ui/homeinfo.cpp,sim/ui/homeinfo.h,sim/ui/listsec.cpp,sim/ui/listsec.h,sim/ui/maininfo.cpp,sim/ui/maininfo.h,sim/ui/moreinfo.cpp,sim/ui/moreinfo.h,sim/ui/searchbase.cpp,sim/ui/searchbase.h,sim/ui/statussetup.cpp,sim/ui/statussetup.h,sim/ui/themesetup.cpp,sim/ui/themesetup.h,sim/ui/workinfo.cpp,sim/ui/workinfo.h,sim/ui/enable.cpp,sim/ui/enable.h,sim/ui/searchdlg.cpp,sim/ui/searchdlg.h,sim/ui/setupdlg.cpp,sim/ui/setupdlg.h,sim/ui/setupdlgbase.ui,sim/ui/userinfo.cpp,sim/ui/userinfo.h,sim/ui/userinfobase.ui,sim/ui/spellsetup.cpp,sim/ui/spellsetup.h,sim/ui/spellsetupbase.ui,sim/ui/phonebook.cpp,sim/ui/phonebook.h,sim/ui/phonebookbase.ui,sim/ui/editfile.cpp,sim/ui/editfile.h,sim/ui/soundsetup.cpp,sim/ui/soundsetup.h,sim/ui/soundsetupbase.ui,sim/ui/miscsetup.cpp,sim/ui/miscsetup.h,sim/ui/miscsetupbase.ui,sim/ui/addphone.cpp,sim/ui/addphone.h,sim/ui/addphonebase.ui,sim/ui/pagerbase.ui,sim/ui/pagerdetails.cpp,sim/ui/pagerdetails.h,sim/ui/phonebase.ui,sim/ui/phonedetails.cpp,sim/ui/phonedetails.h,sim/ui/alertdialog.cpp,sim/ui/alertdialog.h,sim/ui/alertdialogbase.ui,sim/ui/msgdialog.cpp,sim/ui/msgdialog.h,sim/ui/msgdialogbase.ui,sim/ui/interestsinfo.cpp,sim/ui/interestsinfo.h,sim/ui/interestsinfobase.ui,sim/ui/alertmsg.cpp,sim/ui/alertmsg.h,sim/ui/alertmsgbase.ui,sim/ui/autoreply.cpp,sim/ui/autoreply.h,sim/ui/autoreplybase.ui,sim/ui/pastinfobase.ui,sim/ui/pastinfo.h,sim/ui/pastinfo.cpp,sim/ui/emailedit.cpp,sim/ui/emailedit.h,sim/ui/emaileditbase.ui,sim/ui/fontsetup.cpp,sim/ui/fontsetup.h,sim/ui/fontsetupbase.ui,sim/ui/qcolorbutton.cpp,sim/ui/qcolorbutton.h,sim/ui/ballonmsg.cpp,sim/ui/ballonmsg.h,sim/ui/acceptbase.ui,sim/ui/accept.h,sim/ui/accept.cpp,sim/ui/filetransfer.cpp,sim/ui/filetransfer.h,sim/ui/filetransferbase.ui,sim/ui/network.cpp,sim/ui/network.h,sim/ui/networkbase.ui,sim/ui/effect.cpp,sim/ui/effect.h
 install=false
 install_location=
 sharedlib_LDFLAGS=-version-info 0:0:1
@@ -847,6 +847,18 @@ install_location=
 type=SOURCE
 
 [sim/ui/editfile.h]
+dist=true
+install=false
+install_location=
+type=HEADER
+
+[sim/ui/effect.cpp]
+dist=true
+install=false
+install_location=
+type=SOURCE
+
+[sim/ui/effect.h]
 dist=true
 install=false
 install_location=
@@ -1362,6 +1374,12 @@ install=false
 install_location=
 type=DATA
 
+[sim/xpm/1leftarrow.xpm]
+dist=true
+install=false
+install_location=
+type=DATA
+
 [sim/xpm/1rightarrow.xpm]
 dist=true
 install=false
@@ -1375,7 +1393,7 @@ install_location=
 type=DATA
 
 [sim/xpm/Makefile.am]
-files=sim/xpm/auth.xpm,sim/xpm/away.xpm,sim/xpm/bgcolor.xpm,sim/xpm/birthday.xpm,sim/xpm/cell.xpm,sim/xpm/collapsed.xpm,sim/xpm/configure.xpm,sim/xpm/contacts.xpm,sim/xpm/dnd.xpm,sim/xpm/downarrow.xpm,sim/xpm/editclear.xpm,sim/xpm/editdelete.xpm,sim/xpm/empty.xpm,sim/xpm/exit.xpm,sim/xpm/expanded.xpm,sim/xpm/ffc.xpm,sim/xpm/fgcolor.xpm,sim/xpm/file.xpm,sim/xpm/find.xpm,sim/xpm/floating.xpm,sim/xpm/grp_collapse.xpm,sim/xpm/grp_create.xpm,sim/xpm/grp_expand.xpm,sim/xpm/grp_off.xpm,sim/xpm/grp_on.xpm,sim/xpm/history.xpm,sim/xpm/home.xpm,sim/xpm/ignorelist.xpm,sim/xpm/info.xpm,sim/xpm/invisible.xpm,sim/xpm/invisiblelist.xpm,sim/xpm/mail_generic.xpm,sim/xpm/mail_reply.xpm,sim/xpm/main.xpm,sim/xpm/message.xpm,sim/xpm/more.xpm,sim/xpm/na.xpm,sim/xpm/occupied.xpm,sim/xpm/offline.xpm,sim/xpm/online.xpm,sim/xpm/online_off.xpm,sim/xpm/online_on.xpm,sim/xpm/password.xpm,sim/xpm/phone.xpm,sim/xpm/security.xpm,sim/xpm/smile0.xpm,sim/xpm/smile1.xpm,sim/xpm/smile2.xpm,sim/xpm/smile3.xpm,sim/xpm/smile4.xpm,sim/xpm/smile5.xpm,sim/xpm/smile6.xpm,sim/xpm/smile7.xpm,sim/xpm/smile8.xpm,sim/xpm/smile9.xpm,sim/xpm/smileA.xpm,sim/xpm/smileB.xpm,sim/xpm/smileC.xpm,sim/xpm/smileD.xpm,sim/xpm/smileE.xpm,sim/xpm/smileF.xpm,sim/xpm/sms.xpm,sim/xpm/spellcheck.xpm,sim/xpm/status.xpm,sim/xpm/style.xpm,sim/xpm/url.xpm,sim/xpm/useroffline.xpm,sim/xpm/useronline.xpm,sim/xpm/userunknown.xpm,sim/xpm/visiblelist.xpm,sim/xpm/webaware.xpm,sim/xpm/work.xpm,sim/xpm/1downarrow.xpm,sim/xpm/1uparrow.xpm,sim/xpm/grp_rename.xpm,sim/xpm/added.xpm,sim/xpm/pager.xpm,sim/xpm/web.xpm,sim/xpm/fax.xpm,sim/xpm/wpager.xpm,sim/xpm/1rightarrow.xpm,sim/xpm/fileopen.xpm,sim/xpm/sound.xpm,sim/xpm/editcopy.xpm,sim/xpm/misc.xpm,sim/xpm/nophone.xpm,sim/xpm/text_bold.xpm,sim/xpm/text_italic.xpm,sim/xpm/text_under.xpm,sim/xpm/text.xpm,sim/xpm/alert.xpm,sim/xpm/interest.xpm,sim/xpm/past.xpm,sim/xpm/licq.xpm,sim/xpm/licq_big.xpm,sim/xpm/nonim.xpm,sim/xpm/remove.xpm,sim/xpm/network.xpm,sim/xpm/chat.xpm,sim/xpm/save_all.xpm,sim/xpm/about_kde.xpm
+files=sim/xpm/auth.xpm,sim/xpm/away.xpm,sim/xpm/bgcolor.xpm,sim/xpm/birthday.xpm,sim/xpm/cell.xpm,sim/xpm/collapsed.xpm,sim/xpm/configure.xpm,sim/xpm/contacts.xpm,sim/xpm/dnd.xpm,sim/xpm/downarrow.xpm,sim/xpm/editclear.xpm,sim/xpm/editdelete.xpm,sim/xpm/empty.xpm,sim/xpm/exit.xpm,sim/xpm/expanded.xpm,sim/xpm/ffc.xpm,sim/xpm/fgcolor.xpm,sim/xpm/file.xpm,sim/xpm/find.xpm,sim/xpm/floating.xpm,sim/xpm/grp_collapse.xpm,sim/xpm/grp_create.xpm,sim/xpm/grp_expand.xpm,sim/xpm/grp_off.xpm,sim/xpm/grp_on.xpm,sim/xpm/history.xpm,sim/xpm/home.xpm,sim/xpm/ignorelist.xpm,sim/xpm/info.xpm,sim/xpm/invisible.xpm,sim/xpm/invisiblelist.xpm,sim/xpm/mail_generic.xpm,sim/xpm/mail_reply.xpm,sim/xpm/main.xpm,sim/xpm/message.xpm,sim/xpm/more.xpm,sim/xpm/na.xpm,sim/xpm/occupied.xpm,sim/xpm/offline.xpm,sim/xpm/online.xpm,sim/xpm/online_off.xpm,sim/xpm/online_on.xpm,sim/xpm/password.xpm,sim/xpm/phone.xpm,sim/xpm/security.xpm,sim/xpm/smile0.xpm,sim/xpm/smile1.xpm,sim/xpm/smile2.xpm,sim/xpm/smile3.xpm,sim/xpm/smile4.xpm,sim/xpm/smile5.xpm,sim/xpm/smile6.xpm,sim/xpm/smile7.xpm,sim/xpm/smile8.xpm,sim/xpm/smile9.xpm,sim/xpm/smileA.xpm,sim/xpm/smileB.xpm,sim/xpm/smileC.xpm,sim/xpm/smileD.xpm,sim/xpm/smileE.xpm,sim/xpm/smileF.xpm,sim/xpm/sms.xpm,sim/xpm/spellcheck.xpm,sim/xpm/status.xpm,sim/xpm/style.xpm,sim/xpm/url.xpm,sim/xpm/useroffline.xpm,sim/xpm/useronline.xpm,sim/xpm/userunknown.xpm,sim/xpm/visiblelist.xpm,sim/xpm/webaware.xpm,sim/xpm/work.xpm,sim/xpm/1downarrow.xpm,sim/xpm/1uparrow.xpm,sim/xpm/grp_rename.xpm,sim/xpm/added.xpm,sim/xpm/pager.xpm,sim/xpm/web.xpm,sim/xpm/fax.xpm,sim/xpm/wpager.xpm,sim/xpm/1rightarrow.xpm,sim/xpm/fileopen.xpm,sim/xpm/sound.xpm,sim/xpm/editcopy.xpm,sim/xpm/misc.xpm,sim/xpm/nophone.xpm,sim/xpm/text_bold.xpm,sim/xpm/text_italic.xpm,sim/xpm/text_under.xpm,sim/xpm/text.xpm,sim/xpm/alert.xpm,sim/xpm/interest.xpm,sim/xpm/past.xpm,sim/xpm/licq.xpm,sim/xpm/licq_big.xpm,sim/xpm/nonim.xpm,sim/xpm/remove.xpm,sim/xpm/network.xpm,sim/xpm/chat.xpm,sim/xpm/save_all.xpm,sim/xpm/about_kde.xpm,sim/xpm/1leftarrow.xpm
 sub_dirs=
 type=normal
 

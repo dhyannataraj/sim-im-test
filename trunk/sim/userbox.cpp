@@ -25,6 +25,7 @@
 #include "toolbtn.h"
 #include "transparent.h"
 #include "icons.h"
+#include "userview.h"
 
 #include "ui/userinfo.h"
 
@@ -87,6 +88,7 @@ UserBox::UserBox(unsigned long grpId)
         ToolbarOffset(this, "ToolbarOffset"),
         ToolbarY(this, "ToolbarY")
 {
+    users = NULL;
     GrpId = grpId;
     setWFlags(WDestructiveClose);
     infoWnd = NULL;
@@ -99,13 +101,15 @@ UserBox::UserBox(unsigned long grpId)
     frm = new QFrame(this);
     setCentralWidget(frm);
     lay = new QVBoxLayout(frm);
-    splitter = new QSplitter(Vertical, frm);
+    vSplitter = new QSplitter(Horizontal, frm);
+    vSplitter->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+    lay->addWidget(vSplitter);
+    splitter = new QSplitter(Vertical, vSplitter);
     msgView = new MsgView(splitter);
     connect(msgView, SIGNAL(goMessage(unsigned long, unsigned long)), this, SLOT(showMessage(unsigned long, unsigned long)));
     frmUser = new QFrame(splitter);
     layUser = new QVBoxLayout(frmUser);
     splitter->setResizeMode(msgView, QSplitter::KeepSize);
-    lay->addWidget(splitter);
     tabSplitter = new Splitter(frm);
     tabs = new UserTabBar(tabSplitter);
     status = new QStatusBar(tabSplitter);
@@ -169,6 +173,27 @@ void UserBox::wmChanged()
         KWin::clearState(winId(), NET::SkipTaskbar);
     }
 #endif
+}
+
+void UserBox::showUsers(bool bShow, unsigned long uin)
+{
+    if (bShow){
+        if (users == NULL){
+	    QWidget *fw = qApp->focusWidget();
+	    if (fw) fw->releaseMouse();
+            users = new UserView(vSplitter, true, false);
+            vSplitter->setResizeMode(users, QSplitter::KeepSize);
+            users->show();
+	    users->fill();
+	    if (uin) users->check(uin);
+	    users->setFocus();
+        }
+        connect(users, SIGNAL(checked()), curWnd, SLOT(textChanged()));
+    }else{
+        if (users == NULL) return;
+        delete users;
+        users = NULL;
+    }
 }
 
 void UserBox::iconChanged()
@@ -484,10 +509,10 @@ bool UserBox::load(std::istream &s, string &part)
 
 void UserBox::messageRead(ICQMessage *msg)
 {
-    ICQUser *u = pClient->getUser(msg->Uin);
+    ICQUser *u = pClient->getUser(msg->getUin());
     if (u == NULL) return;
     if (u->unreadMsgs.size()) return;
-    MsgEdit *wnd = getChild(msg->Uin, false);
+    MsgEdit *wnd = getChild(msg->getUin(), false);
     if (wnd == NULL) return;
     UserTab *tab = wnd->tab;
     if (tab == NULL) return;
@@ -507,9 +532,9 @@ void UserBox::toIgnore()
 
 void UserBox::messageReceived(ICQMessage *msg)
 {
-    if (getChild(msg->Uin, false) == NULL) return;
+    if (getChild(msg->getUin(), false) == NULL) return;
     bool bUnread = false;
-    ICQUser *u = pClient->getUser(msg->Uin);
+    ICQUser *u = pClient->getUser(msg->getUin());
     if (u){
         for (list<unsigned long>::iterator it = u->unreadMsgs.begin(); it != u->unreadMsgs.end(); it++){
             if ((*it) == msg->Id){
@@ -528,11 +553,11 @@ void UserBox::processEvent(ICQEvent *e)
             if (e->state == ICQEvent::Fail) break;
             ICQMessage *msg = e->message();
             if (msg == NULL) break;
-            MsgEdit *wnd = getChild(msg->Uin(), false);
+            MsgEdit *wnd = getChild(msg->getUin(), false);
             if (wnd == NULL) break;
             UserTab *tab = wnd->tab;
             if (tab == NULL) break;
-            ICQUser *u = pClient->getUser(msg->Uin);
+            ICQUser *u = pClient->getUser(msg->getUin());
             if (u == NULL) break;
             list<unsigned long>::iterator it;
             for (it = u->unreadMsgs.begin(); it != u->unreadMsgs.end(); it++)
@@ -647,6 +672,7 @@ void UserBox::selectedUser(int id)
         disconnect(curWnd, SIGNAL(setMessageType(const QString&, const QString&)), btnType, SLOT(setState(const QString&, const QString&)));
         disconnect(curWnd, SIGNAL(showMessage(unsigned long, unsigned long)), msgView, SLOT(setMessage(unsigned long, unsigned long)));
         disconnect(curWnd, SIGNAL(addMessage(ICQMessage*, bool)), msgView, SLOT(addMessage(ICQMessage*, bool)));
+        showUsers(false, 0);
     }
     status->message("");
     curWnd = wnd;
@@ -658,6 +684,7 @@ void UserBox::selectedUser(int id)
     connect(curWnd, SIGNAL(setMessageType(const QString&, const QString&)), btnType, SLOT(setState(const QString&, const QString&)));
     connect(curWnd, SIGNAL(showMessage(unsigned long, unsigned long)), msgView, SLOT(setMessage(unsigned long, unsigned long)));
     connect(curWnd, SIGNAL(addMessage(ICQMessage*, bool)), msgView, SLOT(addMessage(ICQMessage*, bool)));
+    connect(curWnd, SIGNAL(showUsers(bool, unsigned long)), this, SLOT(showUsers(bool, unsigned long)));
     curWnd->markAsRead();
     curWnd->show();
     curWnd->setState();
@@ -669,6 +696,7 @@ void UserBox::selectedUser(int id)
         btnUser->setState(Client::getUserIcon(u), curWnd->userName());
         setIcon(Pict(Client::getUserIcon(u)));
     }
+    showUsers(curWnd->bMultiply, curWnd->Uin);
     setGroupButtons();
     adjustUserMenu(false);
 }

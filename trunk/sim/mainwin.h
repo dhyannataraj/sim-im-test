@@ -161,8 +161,6 @@ public:
     ConfigBool	 CloseAfterSend;
     ConfigBool	 UserWindowInTaskManager;
 
-    ConfigBool	 NotInListExpand;
-
     ConfigString Icons;
 
     ConfigBool   XOSD_on;

@@ -98,7 +98,7 @@ ChatWindow::ChatWindow(ICQChat *_chat)
     pClient->cancelMessage(chat, false);
     bInit = true;
 
-    CUser u(chat->Uin());
+    CUser u(chat->getUin());
     setCaption(u.name());
     setIcon(Pict("chat"));
 
@@ -161,7 +161,7 @@ void ChatWindow::sendLine()
         txtChat->removeParagraph(n-1);
         br = "<br>";
         int pos = clientString.find("&gt;");
-        clientString = chatHeader(chat->Uin()) + clientString.mid(pos+4);
+        clientString = chatHeader(chat->getUin()) + clientString.mid(pos+4);
     }
     QString line = chatHeader(0) + ParseText(sLineSend) + "<br>\n";
     txtChat->insertParagraph(br + line, -1);
@@ -255,7 +255,7 @@ void ChatWindow::processEvent(ICQEvent *e)
             }
             txtChat->insertParagraph("<br>", -1);
             txtChat->moveCursor(QTextEdit::MoveEnd, false);
-            QString line = chatHeader(chat->Uin()) + ParseText(clientString.local8Bit()) + "<br>\n";
+            QString line = chatHeader(chat->getUin()) + ParseText(clientString.local8Bit()) + "<br>\n";
             txtChat->append(line);
             txtChat->scrollToBottom();
             txtChat->moveCursor(QTextEdit::MoveEnd, false);
@@ -328,7 +328,7 @@ void ChatWindow::openLog()
         clientString = txtChat->text(n-1);
         txtChat->removeParagraph(n-1);
         int pos = clientString.find("&gt;");
-        clientString = chatHeader(chat->Uin()) + clientString.mid(pos+4);
+        clientString = chatHeader(chat->getUin()) + clientString.mid(pos+4);
     }
     QString t = txtChat->text();
     QCString s = t.local8Bit();

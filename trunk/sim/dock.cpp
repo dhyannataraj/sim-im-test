@@ -49,9 +49,9 @@
 
 unread_msg::unread_msg(ICQMessage *m)
 {
-    m_id = m->Id;
+    m_id   = m->Id;
     m_type = m->Type();
-    m_uin = m->Uin();
+    m_uin  = m->getUin();
 }
 
 #ifdef WIN32
@@ -468,7 +468,7 @@ void DockWnd::messageRead(ICQMessage *msg)
 void DockWnd::messageReceived(ICQMessage *msg)
 {
     unread_msg m(msg);
-    ICQUser *u = pClient->getUser(msg->Uin);
+    ICQUser *u = pClient->getUser(msg->getUin());
     if (u == NULL) return;
     list<unsigned long>::iterator it;
     for (it = u->unreadMsgs.begin(); it != u->unreadMsgs.end(); it++)

@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qtextbrowser.h,v 1.1.1.1 2002-07-06 23:59:01 shutoff Exp $
+** $Id: qtextbrowser.h,v 1.2 2002-07-07 15:32:07 shutoff Exp $
 **
 ** Definition of the QTextBrowser class
 **

@@ -93,11 +93,18 @@ class UserView : public QListView, public QToolTip
 {
     Q_OBJECT
 public:
-    UserView(QWidget *parent, bool bFill=true, WFlags flags = 0);
+    UserView(QWidget *parent, bool bList=false, bool bFill=true, WFlags flags = 0);
     bool bFloaty;
+    bool bList;
+    bool hasChecked();
+    void check(unsigned long uin);
+    void fillChecked(ICQMessage*);
+    void fill();
 public slots:
     void setShowOffline(bool);
     void setGroupMode(bool);
+signals:
+    void checked();
 protected slots:
     void processEvent(ICQEvent*);
     void refresh();
@@ -109,7 +116,12 @@ protected slots:
     void dragStart();
     void blink();
     void iconChanged();
+    void itemClicked(QListViewItem*);
 protected:
+    bool hasChecked(QListViewItem*);
+    void fillChecked(QListViewItem*, ICQMessage*);
+    void setGrpCheck(QListViewItem*);
+
     void blink(QListViewItem*);
     virtual void userChanged() {}
 
@@ -148,7 +160,6 @@ protected:
     void setOpen(bool bOpen);
 
     void clear();
-    void fill();
 
     void addUserItem(ICQUser*);
 
