@@ -8,9 +8,12 @@ ICQ: Fix send large messages
 Redesign search window
 Remove support miranda icons and smiles
 Add JISP icons and smiles
-Yahoo: Support new authorzation
+Yahoo: Support new authorisation
 Win32: Fix support icons with alpha channel
 Add history exporting to text files
+Add UV-Intesity, Moonphases to Weather Plugin
+Fix to big value for temperature in Weather Plugin
+Fix Loading History
 
 Version 0.9.3
 Add LiveJournal plugin
