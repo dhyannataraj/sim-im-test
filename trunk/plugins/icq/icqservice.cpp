@@ -126,7 +126,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
             }
             unsigned short port = getPort();
             string addr;
-            addr = *tlv_addr;
+            addr = (const char*)(*tlv_addr);
             char *p = (char*)strchr(addr.c_str(), ':');
             if (p){
                 *p = 0;
