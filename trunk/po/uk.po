@@ -1,3 +1,4 @@
+# translation of uk.po to 
 # translation of uk.po to Ukrainian
 # translation of uk.po to Український
 # Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
@@ -7,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2004-07-25 11:36+0200\n"
-"PO-Revision-Date: 2004-06-17 21:24+0300\n"
+"PO-Revision-Date: 2004-07-25 17:09+0300\n"
 "Last-Translator: Ivan Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team:  <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3687,9 +3688,8 @@ msgid "Disable answer on phonebook and &picture requests"
 msgstr "Вимкнути відповіді на запити &картинок і телефонної книги"
 
 #: plugins/icq/icqconfigbase.cc:318
-#, fuzzy
 msgid "Disable automatically &request autoreply on change status"
-msgstr "Заборонити запитувати &автовідповідь при зміні статусу"
+msgstr "Заборонити автоматично запитувати &автовідповідь при зміні статусу"
 
 #: plugins/icq/icqconfigbase.cc:319
 msgid "Disable automatically &update user info"
@@ -4395,12 +4395,10 @@ msgid "Use protocol &icons for agents contacts"
 msgstr "Використовувати &іконки контактних агентів"
 
 #: plugins/jabber/jabberconfigbase.cpp:374
-#, fuzzy
 msgid "Automatically send &subscribe request"
 msgstr "Автоматично відправляти &запити авторизації"
 
 #: plugins/jabber/jabberconfigbase.cpp:375
-#, fuzzy
 msgid "Automatically &accept subscribe requests"
 msgstr "Автоматично &приймати запити авторизації"
 
@@ -5615,7 +5613,6 @@ msgid "Use &TCP socket"
 msgstr "Використовувати &TCP сокет"
 
 #: plugins/remote/remotecfgbase.cpp:140
-#, fuzzy
 msgid "Enable IE context menu extension"
 msgstr "Дозволити розміщення в меню IE"
 
@@ -6543,9 +6540,8 @@ msgid "Zodiak"
 msgstr "Зодіак"
 
 #: plugins/zodiak/zodiak.cpp:51
-#, fuzzy
 msgid "Plugin provides show zodiak pictures for date edit"
-msgstr "Модуль забезпечує фон списку контактів"
+msgstr "Модуль забезпечує перегляд картинки зодіаку"
 
 #: plugins/zodiak/zodiak.cpp:158
 msgid "View horoscope"
@@ -8540,3 +8536,4 @@ msgstr "Стиль Windows XP"
 
 #~ msgid "%1 wrote:"
 #~ msgstr "%1 написав:"
+
