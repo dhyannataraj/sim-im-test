@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the SIM package.
 # Copyright (C) 2004
 #
-# $Id: es.po,v 1.166 2004-08-05 15:13:45 noragen Exp $
+# $Id: es.po,v 1.167 2004-08-09 13:01:17 jorgelt Exp $
 # Jorge Lopez Trescastro <jorge@acm.asoc.fi.upm.es>, 2002, 2003, 2004.
 #
 msgid ""
@@ -11,13 +11,13 @@ msgstr ""
 "Project-Id-Version: sim-es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-05 15:33+0200\n"
-"PO-Revision-Date: 2004-08-03 04:27+0200\n"
-"Last-Translator: Jorge Lopez Trescastro <jorge@acm.asoc.fi.upm.es>\n"
-"Language-Team: Spanish\n"
+"PO-Revision-Date: 2004-08-08 21:34+0200\n"
+"Last-Translator: Jorge López Trescastro <jorge@acm.asoc.fi.upm.es>\n"
+"Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.3.1\n"
+"X-Generator: KBabel 1.9\n"
 
 #: plugins/__homedir/homedir.cpp:48
 msgid "Home directory"
@@ -6234,25 +6234,22 @@ msgid "km/h"
 msgstr "km/h"
 
 #: plugins/weather/weather.cpp:423
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Low"
-msgstr "Nieve"
+msgstr "Baja"
 
 #: plugins/weather/weather.cpp:424
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Moderate"
-msgstr "tarde"
+msgstr "Moderada"
 
 #: plugins/weather/weather.cpp:425
-#, fuzzy
 msgid ""
 "_: weather\n"
 "High"
-msgstr "Niebla"
+msgstr "Alta"
 
 #: plugins/weather/weather.cpp:437
 msgid "and"
@@ -6283,7 +6280,6 @@ msgid "%t | %c"
 msgstr "%t | %c"
 
 #: plugins/weather/weather.cpp:562
-#, fuzzy
 msgid ""
 "%l<br><br>\n"
 "<img src=\"icon:weather%i\"> %c<br>\n"
@@ -6309,8 +6305,9 @@ msgstr ""
 "Punto de condensación: <b>%d</b><br>\n"
 "Amanece: %r<br>\n"
 "Anochece: %s<br>\n"
+"Intensidad-UV es <b>%ut</b> con valor <b>%ui</b> (de 11)<br>\n"
 "<br>\n"
-"Actualizado %u<br>\n"
+"Actualizado: %u<br>\n"
 
 #: plugins/weather/weather.cpp:582
 msgid ""
@@ -6517,12 +6514,10 @@ msgid "&Yahoo!"
 msgstr "&Yahoo!"
 
 #: plugins/yahoo/yahooinfobase.cpp:155
-#, fuzzy
 msgid "First name:"
 msgstr "Nombre:"
 
 #: plugins/yahoo/yahooinfobase.cpp:156
-#, fuzzy
 msgid "Last name:"
 msgstr "Apellido:"
 
@@ -8277,9 +8272,8 @@ msgid "Usage: %1 "
 msgstr "Usar: %1"
 
 #: sim/sim.cpp:200
-#, fuzzy
 msgid "Multiprotocol Instant Messenger"
-msgstr "Multiprotcol instant messenger"
+msgstr "Mensajería instantanea multiprotocolo"
 
 #: sim/sim.cpp:206
 msgid "Maintainer"
@@ -8414,3 +8408,4 @@ msgstr "Personalizar"
 #: xpstyle/xpstyle.cpp:63
 msgid "Windows XP style"
 msgstr "Estilo Windows XP"
+
