@@ -29,6 +29,7 @@
 #include "log.h"
 
 #include <stdio.h>
+#include <qfileinfo.h>
 
 #ifdef WIN32
 #if _MSC_VER > 1020
@@ -63,7 +64,7 @@ void History::remove()
     unlink(fname.c_str());
 }
 
-bool History::open(bool bWrite, std::fstream &f)
+bool History::open(bool bWrite, std::fstream &f, unsigned long *f_size)
 {
     char buffer[64];
     snprintf(buffer, sizeof(buffer), "history%c%lu.history",
@@ -75,6 +76,11 @@ bool History::open(bool bWrite, std::fstream &f)
              m_nUin);
     string fname;
     pMain->buildFileName(fname, buffer);
+    if (f_size){
+        *f_size = 0;
+        QFileInfo f(fname.c_str());
+        if (f.exists()) *f_size = f.size();
+    }
     f.OPEN(fname.c_str(), bWrite ? ios::out | ios::app : ios::in);
     if (!f.is_open()){
         log(L_WARN, "File %s not open", fname.c_str());
@@ -224,7 +230,7 @@ bool History::iterator::operator ++()
     }
     for (;;){
         if (!f.is_open()){
-            if (!h.open(false, f))
+            if (!h.open(false, f, &f_size))
                 return false;
             for (;;){
                 getline(f, type);
@@ -240,8 +246,17 @@ bool History::iterator::operator ++()
 #endif
         msg = h.loadMessage(f, type, msgId);
         if (msg) break;
-	getline(f, type);
-	if (f.eof()) return false;
+        getline(f, type);
+        if (f.eof()) return false;
     }
     return true;
+}
+
+int History::iterator::progress()
+{
+    if (!f.is_open()) return 0;
+    if (f.eof() || (f_size == 0)) return 100;
+    int res = f.tellg() * 100 / f_size;
+    if (res > 100) return 100;
+    return res;
 }

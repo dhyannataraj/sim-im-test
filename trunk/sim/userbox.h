@@ -37,6 +37,7 @@ class QPopupMenu;
 class QSplitter;
 class QStatusBar;
 class QFrame;
+class QProgressBar;
 
 class CToolButton;
 class UserBox;
@@ -109,6 +110,7 @@ public slots:
     void messageReceived(ICQMessage *msg);
     void setGroupButtons();
     void showUsers(bool, unsigned long);
+    void showProgress(int n);
 protected slots:
     void toolBarChanged(QToolBar *toolbar);
     void showMessage(unsigned long uin, unsigned long id);
@@ -150,6 +152,7 @@ protected:
     QFrame		*frmUser;
     QVBoxLayout *layUser;
     QPopupMenu	*menuGroup;
+    QProgressBar *progress;
     void removeChilds();
     MsgEdit *getWnd(int id);
     MsgEdit *getChild(unsigned long uin, bool bCreate=true);

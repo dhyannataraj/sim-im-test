@@ -197,6 +197,7 @@ public:
     ConfigULong	 MessageBgColor;
     ConfigULong	 MessageFgColor;
     ConfigBool	 SimpleMode;
+    ConfigBool	 UseOwnColors;
 
     bool 	     init();
 
@@ -233,6 +234,7 @@ public:
 
     void setFonts();
     void changeColors();
+    void changeOwnColors(bool bUse);
     void changeWm();
     void changeMode(bool bSample);
 
@@ -240,10 +242,14 @@ public:
     QWidget *ftWindow(unsigned long uin, const string &fileName);
 
     virtual void setBackgroundPixmap(const QPixmap&);
+
+    static QString ParseText(const char *t, bool bIgnoreColors);
+
 signals:
     void modeChanged(bool);
     void transparentChanged();
     void colorsChanged();
+    void ownColorsChanged();
     void setupInit();
     void iconChanged();
     void wmChanged();

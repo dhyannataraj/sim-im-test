@@ -44,8 +44,6 @@
 #include <qfiledialog.h>
 #endif
 
-QString ParseText(const char *text);
-
 class ChatUserItem : public QListBoxText
 {
 public:
@@ -157,7 +155,7 @@ ChatWindow::~ChatWindow()
 
 void ChatWindow::setBackgroundPixmap(const QPixmap &pm)
 {
-    transparent->updateBackground(pm);    
+    transparent->updateBackground(pm);
 }
 
 void ChatWindow::sendLine()
@@ -178,7 +176,7 @@ void ChatWindow::sendLine()
         int pos = clientString.find("&gt;");
         clientString = chatHeader(chat->getUin()) + clientString.mid(pos+4);
     }
-    QString line = chatHeader(0) + ParseText(sLineSend) + "<br>\n";
+    QString line = chatHeader(0) + MainWindow::ParseText(sLineSend, false) + "<br>\n";
     txtChat->insertParagraph(br + line, -1);
     if (bClientMode)
         txtChat->insertParagraph(clientString, -1);
@@ -276,7 +274,7 @@ void ChatWindow::processEvent(ICQEvent *e)
             }
             txtChat->insertParagraph("<br>", -1);
             txtChat->moveCursor(QTextEdit::MoveEnd, false);
-            QString line = chatHeader(chat->getUin()) + ParseText(clientString.local8Bit()) + "<br>\n";
+            QString line = chatHeader(chat->getUin()) + MainWindow::ParseText(clientString.local8Bit(), false) + "<br>\n";
             txtChat->append(line);
             txtChat->scrollToBottom();
             txtChat->moveCursor(QTextEdit::MoveEnd, false);

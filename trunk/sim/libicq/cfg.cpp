@@ -359,7 +359,7 @@ bool ConfigArray::load(std::istream &sin, string &s)
             s = "";
             return true;
         }
-	string line;
+        string line;
         getline(sin, line);
         for (;line[0] == '[';){
             string name = line.c_str() + 1;
@@ -380,7 +380,7 @@ bool ConfigArray::load(std::istream &sin, string &s)
                             s = "";
                             return true;
                         }
-			getline(sin, line);
+                        getline(sin, line);
                     }
                     continue;
                 }

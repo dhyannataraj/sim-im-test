@@ -44,14 +44,13 @@
 #include <qregexp.h>
 #include <qobjectlist.h>
 #include <qvaluelist.h>
+#include <qtimer.h>
 
 #ifdef WIN32
 #if _MSC_VER > 1020
 #pragma warning(disable:4786)
 #endif
 #endif
-
-QString ParseText(const char *text);
 
 TextShow::TextShow(QWidget *p, const char *name)
         : QTextBrowser(p, name)
@@ -117,19 +116,19 @@ void TextShow::setSource(const QString &href)
     return;
 }
 
-QString TextShow::makeMessageText(ICQMessage *msg)
+QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
 {
     QString s;
     switch (msg->Type()){
     case ICQ_MSGxMSG:
-        s += ParseText((static_cast<ICQMsg*>(msg))->Message);
+        s += MainWindow::ParseText((static_cast<ICQMsg*>(msg))->Message, bIgnore);
         break;
     case ICQ_MSGxURL:{
             ICQUrl *url = static_cast<ICQUrl*>(msg);
             s += quoteText(url->URL);
             if (*url->Message.c_str()){
                 s += "<br>";
-                s += ParseText(url->Message);
+                s += MainWindow::ParseText(url->Message, true);
             }
             break;
         }
@@ -138,7 +137,7 @@ QString TextShow::makeMessageText(ICQMessage *msg)
             s += i18n("Authorization request");
             if (*req->Message.c_str()){
                 s += "<br>";
-                s += ParseText(req->Message);
+                s += MainWindow::ParseText(req->Message, true);
             }
             break;
         }
@@ -147,7 +146,7 @@ QString TextShow::makeMessageText(ICQMessage *msg)
             s += i18n("Authorization refused");
             if (*req->Message.c_str()){
                 s += "<br>";
-                s += ParseText(req->Message);
+                s += MainWindow::ParseText(req->Message, true);
             }
             break;
         }
@@ -162,7 +161,7 @@ QString TextShow::makeMessageText(ICQMessage *msg)
             s += i18n("Contact request");
             if (*req->Message.c_str()){
                 s += "<br>";
-                s += ParseText(req->Message);
+                s += MainWindow::ParseText(req->Message, true);
             }
             break;
         }
@@ -176,12 +175,12 @@ QString TextShow::makeMessageText(ICQMessage *msg)
             s += i18n("bytes");
             s += ")";
             s += "<br>";
-            s += ParseText(file->Description);
+            s += MainWindow::ParseText(file->Description, true);
             break;
         }
     case ICQ_MSGxCHAT:{
             ICQChat *chat = static_cast<ICQChat*>(msg);
-            s += ParseText(chat->Reason);
+            s += MainWindow::ParseText(chat->Reason, true);
             break;
         }
     case ICQ_MSGxCONTACTxLIST:{
@@ -200,7 +199,7 @@ QString TextShow::makeMessageText(ICQMessage *msg)
         }
     case ICQ_MSGxSMS:{
             ICQSMS *sms = static_cast<ICQSMS*>(msg);
-            s += ParseText(sms->Message);
+            s += MainWindow::ParseText(sms->Message, true);
             if (*sms->Phone.c_str()){
                 s += "<br>";
                 s += quoteText(sms->Phone);
@@ -211,12 +210,12 @@ QString TextShow::makeMessageText(ICQMessage *msg)
         }
     case ICQ_MSGxWEBxPANEL:{
             ICQWebPanel *m = static_cast<ICQWebPanel*>(msg);
-            s += ParseText(m->Message);
+            s += MainWindow::ParseText(m->Message, true);
             break;
         }
     case ICQ_MSGxEMAILxPAGER:{
             ICQEmailPager *m = static_cast<ICQEmailPager*>(msg);
-            s += ParseText(m->Message);
+            s += MainWindow::ParseText(m->Message, true);
             break;
         }
     default:
@@ -227,11 +226,6 @@ QString TextShow::makeMessageText(ICQMessage *msg)
     string txt;
     txt = s.local8Bit();
     return s;
-}
-
-void TextShow::addMessageText(ICQMessage *msg)
-{
-    setText(text() + makeMessageText(msg));
 }
 
 QString TextShow::quoteText(const char *text)
@@ -248,6 +242,7 @@ MsgView::MsgView(QWidget *p)
     bBack = false;
     connect(pClient, SIGNAL(messageRead(ICQMessage*)), this, SLOT(messageRead(ICQMessage*)));
     connect(pMain, SIGNAL(colorsChanged()), this, SLOT(colorsChanged()));
+    connect(pMain, SIGNAL(ownColorsChanged()), this, SLOT(ownColorsChanged()));
     oldSendColor = pMain->ColorSend();
     oldReceiveColor = pMain->ColorReceive();
 }
@@ -497,7 +492,7 @@ QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
     s += "</nobr></p>";
     unsigned long foreColor = 0;
     unsigned long backColor = 0;
-    if (msg->Type() == ICQ_MSGxMSG){
+    if (!pMain->UseOwnColors() && (msg->Type() == ICQ_MSGxMSG)){
         ICQMsg *m = static_cast<ICQMsg*>(msg);
         foreColor = m->ForeColor();
         backColor = m->BackColor();
@@ -508,7 +503,7 @@ QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
         fg.sprintf("<font color=#%06lX>", foreColor);
         s += fg;
     }
-    s += makeMessageText(msg);
+    s += makeMessageText(msg, pMain->UseOwnColors());
     if (foreColor != backColor) s += "</font></p>";
     return s;
 }
@@ -522,7 +517,7 @@ void MsgView::addMessage(ICQMessage *msg, bool bUnread, bool bSet)
     if (bSet) curAnchor = QString::number(msg->getUin()) + "." + QString::number(msg->Id);
     unsigned long foreColor = 0;
     unsigned long backColor = 0;
-    if (msg->Type() == ICQ_MSGxMSG){
+    if (!pMain->UseOwnColors() && (msg->Type() == ICQ_MSGxMSG)){
         ICQMsg *m = static_cast<ICQMsg*>(msg);
         foreColor = m->ForeColor();
         backColor = m->BackColor();
@@ -573,49 +568,25 @@ void MsgView::addUnread(unsigned long uin)
     }
 }
 
-typedef struct MsgBgColor
+void MsgView::ownColorsChanged()
 {
-    unsigned long id;
-    unsigned long rgb;
-} MsgBgColor;
+    setText("");
+}
 
 HistoryView::HistoryView(QWidget *p, unsigned long uin)
         : MsgView(p), m_nUin(uin)
 {
+    bFill = false;
     bBack = true;
-    ICQUser *u = pClient->getUser(uin);
-    if (u == NULL) return;
-    History h(uin);
-    History::iterator &it = h.messages();
-    list<unsigned long>::iterator unreadIt;
-    QValueList<MsgBgColor> colors;
-    QString t;
-    for (++it; *it; ++it){
-        for (unreadIt = u->unreadMsgs.begin(); unreadIt != u->unreadMsgs.end(); unreadIt++)
-            if ((*unreadIt) == (*it)->Id) break;
-        t = makeMessage(*it, unreadIt != u->unreadMsgs.end()) + t;
-        unsigned long foreColor = 0;
-        unsigned long backColor = 0;
-        if ((*it)->Type() == ICQ_MSGxMSG){
-            ICQMsg *m = static_cast<ICQMsg*>(*it);
-            foreColor = m->ForeColor();
-            backColor = m->BackColor();
-        }
-        if (foreColor != backColor){
-            MsgBgColor pc;
-            pc.id = (*it)->Id;
-            pc.rgb = backColor;
-            colors.prepend(pc);
-        }
-    }
-    setText(t);
-    int n = 0;
-    for (QValueList<MsgBgColor>::Iterator itCol = colors.begin(); itCol != colors.end(); ++itCol){
-        MsgBgColor pc = *itCol;
-        n = setMsgBgColor(uin, pc.id, pc.rgb, n);
-    }
+    h = NULL;
     connect(pClient, SIGNAL(messageReceived(ICQMessage*)), this, SLOT(messageReceived(ICQMessage*)));
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
+    QTimer::singleShot(100, this, SLOT(fill()));
+}
+
+HistoryView::~HistoryView()
+{
+    if (h) delete h;
 }
 
 void HistoryView::processEvent(ICQEvent *e)
@@ -652,6 +623,68 @@ void HistoryView::messageReceived(ICQMessage *msg)
         addMessage(msg, bUnread, false);
     }
     setContentsPos(x, y);
+}
+
+void HistoryView::fill()
+{
+    if (!bFill){
+        bFill = true;
+        u = pClient->getUser(m_nUin);
+        if (u == NULL) return;
+        h = new History(m_nUin);
+        colors.clear();
+        t = "";
+        showProgress(0);
+    }
+    if ((u == NULL) || (h == NULL)) return;
+    History::iterator &it = h->messages();
+    list<unsigned long>::iterator unreadIt;
+    ++it;
+    if (*it){
+        showProgress(it.progress());
+        for (unreadIt = u->unreadMsgs.begin(); unreadIt != u->unreadMsgs.end(); unreadIt++)
+            if ((*unreadIt) == (*it)->Id) break;
+        t = makeMessage(*it, unreadIt != u->unreadMsgs.end()) + t;
+        unsigned long foreColor = 0;
+        unsigned long backColor = 0;
+        if (!pMain->UseOwnColors() && ((*it)->Type() == ICQ_MSGxMSG)){
+            ICQMsg *m = static_cast<ICQMsg*>(*it);
+            foreColor = m->ForeColor();
+            backColor = m->BackColor();
+        }
+        if (foreColor != backColor){
+            MsgBgColor pc;
+            pc.id = (*it)->Id;
+            pc.rgb = backColor;
+            colors.prepend(pc);
+        }
+        QTimer::singleShot(0, this, SLOT(fill()));
+        return;
+    }
+
+    setText(t);
+    t = "";
+    int n = 0;
+    for (QValueList<MsgBgColor>::Iterator itCol = colors.begin(); itCol != colors.end(); ++itCol){
+        MsgBgColor pc = *itCol;
+        n = setMsgBgColor(m_nUin, pc.id, pc.rgb, n);
+    }
+    colors.clear();
+    delete h;
+    h = NULL;
+    u = NULL;
+    showProgress(101);
+}
+
+void HistoryView::ownColorsChanged()
+{
+    MsgView::ownColorsChanged();
+    bFill = false;
+    if (h){
+        delete h;
+        h = NULL;
+    }
+    QTimer::singleShot(100, this, SLOT(fill()));
 }
 
 #ifndef _WINDOWS

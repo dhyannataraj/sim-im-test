@@ -43,6 +43,7 @@
 #include <qapplication.h>
 #include <qstyle.h>
 #include <qwidgetlist.h>
+#include <qprogressbar.h>
 
 #if USE_KDE
 #include <kwin.h>
@@ -95,6 +96,7 @@ UserBox::UserBox(unsigned long grpId)
     users = NULL;
     GrpId = grpId;
     msgView = NULL;
+    progress = NULL;
     setWFlags(WDestructiveClose);
     infoWnd = NULL;
     historyWnd = NULL;
@@ -349,12 +351,14 @@ void UserBox::toggleHistory(bool bShow)
         if (historyWnd == NULL){
             historyWnd = new HistoryView(frm, curWnd->Uin);
             connect(historyWnd, SIGNAL(goMessage(unsigned long, unsigned long)), this, SLOT(showMessage(unsigned long, unsigned long)));
+            connect(historyWnd, SIGNAL(showProgress(int)), this, SLOT(showProgress(int)));
             historyWnd->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
             lay->insertWidget(0, historyWnd);
             historyWnd->show();
-	    vSplitter->hide();
+            vSplitter->hide();
         }
     }else if (historyWnd){
+        showProgress(101);
         setUpdatesEnabled(false);
         delete historyWnd;
         historyWnd = NULL;
@@ -959,6 +963,24 @@ void UserBox::modeChanged(bool bSimple)
     if (splitter->isVisible())
         msgView->show();
     splitter->setResizeMode(msgView, QSplitter::KeepSize);
+}
+
+void UserBox::showProgress(int n)
+{
+    if (n > 100){
+        if (progress){
+            status->removeWidget(progress);
+            delete progress;
+            progress = NULL;
+        }
+        return;
+    }
+    if (progress == NULL){
+        progress = new QProgressBar(100, status);
+        status->addWidget(progress, 50, true);
+        progress->show();
+    }
+    progress->setProgress(n);
 }
 
 UserTabBar::UserTabBar(QWidget *parent) : QTabBar(parent)

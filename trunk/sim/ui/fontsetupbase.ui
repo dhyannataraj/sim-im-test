@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>478</width>
+            <width>474</width>
             <height>416</height>
         </rect>
     </property>
@@ -218,6 +218,17 @@
             <property stdset="1">
                 <name>name</name>
                 <cstring>edtFontMenu</cstring>
+            </property>
+        </widget>
+        <widget>
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkOwnColors</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Use &amp;own colors in history</string>
             </property>
         </widget>
         <widget>
