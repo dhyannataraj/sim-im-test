@@ -167,6 +167,7 @@ protected:
     HistoryView *historyWnd;
     friend class UserTabBar;
     TransparentTop *transparent;
+    int infoPage;
 };
 
 #endif

@@ -71,58 +71,57 @@ SetupDialog::SetupDialog(QWidget*, int nWin)
     lstBars->setSorting(1);
     connect(lstBars, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
 
-    itemMain = new QListViewItem(lstBars, i18n("My details"), "100");
+    itemMain = new QListViewItem(lstBars, i18n("My details"), QString::number(SETUP_DETAILS));
     itemMain->setOpen(true);
 
-    addPage(new MainInfo(tabBars), 101, i18n("Main info"), "main");
-    addPage(new HomeInfo(tabBars), 102, i18n("Home info"), "home");
-    addPage(new WorkInfo(tabBars), 103, i18n("Work info"), "work");
-    addPage(new MoreInfo(tabBars), 104, i18n("More info"), "more");
-    addPage(new AboutInfo(tabBars), 105, i18n("About info"), "info");
-    addPage(new InterestsInfo(tabBars), 106, i18n("Interests"), "interest");
-    addPage(new PastInfo(tabBars), 107, i18n("Group/Past"), "past");
-    addPage(new PhoneBookDlg(tabBars), 108, i18n("Phone book"), "phone");
+    addPage(new MainInfo(tabBars), SETUP_MAININFO, i18n("Main info"), "main");
+    addPage(new HomeInfo(tabBars), SETUP_HOMEINFO, i18n("Home info"), "home");
+    addPage(new WorkInfo(tabBars), SETUP_WORKINFO, i18n("Work info"), "work");
+    addPage(new MoreInfo(tabBars), SETUP_MOREINFO, i18n("More info"), "more");
+    addPage(new AboutInfo(tabBars), SETUP_ABOUT, i18n("About info"), "info");
+    addPage(new InterestsInfo(tabBars), SETUP_INTERESTS, i18n("Interests"), "interest");
+    addPage(new PastInfo(tabBars), SETUP_PAST, i18n("Group/Past"), "past");
+    addPage(new PhoneBookDlg(tabBars), SETUP_PHONE, i18n("Phone book"), "phone");
 
-    itemMain = new QListViewItem(lstBars, i18n("Preferences"), "200");
+    itemMain = new QListViewItem(lstBars, i18n("Preferences"), QString::number(SETUP_PREFERENCES));
     itemMain->setOpen(true);
 
-    addPage(new StatusSetup(tabBars), 201, i18n("Status mode"), "status");
-    addPage(new NetworkSetup(tabBars), 202, i18n("Connection"), "network");
-    addPage(new ThemeSetup(tabBars), 203, i18n("Style"), "style");
-    addPage(new FontSetup(tabBars), 204, i18n("Interface"), "text");
-    addPage(new SoundSetup(tabBars), 205, i18n("Sound"), "sound");
-    addPage(new XOSDSetup(tabBars), 206, i18n("On Screen notification"), "screen");
-
-    addPage(new AlertDialog(tabBars), 207, i18n("Alert"), "alert");
-    addPage(new AcceptDialog(tabBars), 208, i18n("Accept file"), "file");
+    addPage(new StatusSetup(tabBars), SETUP_STATUS, i18n("Status mode"), "status");
+    addPage(new NetworkSetup(tabBars), SETUP_CONNECTION, i18n("Connection"), "network");
+    addPage(new ThemeSetup(tabBars), SETUP_STYLE, i18n("Style"), "style");
+    addPage(new FontSetup(tabBars), SETUP_INTERFACE, i18n("Interface"), "text");
+    addPage(new SoundSetup(tabBars), SETUP_STYLE, i18n("Sound"), "sound");
+    addPage(new XOSDSetup(tabBars), SETUP_XOSD, i18n("On Screen notification"), "screen");
+    addPage(new AlertDialog(tabBars), SETUP_ALERT, i18n("Alert"), "alert");
+    addPage(new AcceptDialog(tabBars), SETUP_ACCEPT, i18n("Accept file"), "file");
 
 #ifndef WIN32
-    addPage(new MiscSetup(tabBars), 209, i18n("Miscellaneous"), "misc");
+    addPage(new MiscSetup(tabBars), SETUP_MISC, i18n("Miscellaneous"), "misc");
 #endif
 
 #ifdef USE_SPELL
-    addPage(new SpellSetup(tabBars), 210, i18n("Spell check"), "spellcheck");
+    addPage(new SpellSetup(tabBars), SETUP_SPELL, i18n("Spell check"), "spellcheck");
 #endif
 
-    itemMain = new QListViewItem(lstBars, i18n("Auto reply"), "300");
+    itemMain = new QListViewItem(lstBars, i18n("Auto reply"), QString::number(SETUP_AUTOREPLY));
     itemMain->setOpen(true);
 
-    addPage(new MsgDialog(tabBars, ICQ_STATUS_AWAY), 301, Client::getStatusText(ICQ_STATUS_AWAY), "away");
-    addPage(new MsgDialog(tabBars, ICQ_STATUS_NA), 302, Client::getStatusText(ICQ_STATUS_NA), "na");
-    addPage(new MsgDialog(tabBars, ICQ_STATUS_OCCUPIED), 303, Client::getStatusText(ICQ_STATUS_OCCUPIED), "occupied");
-    addPage(new MsgDialog(tabBars, ICQ_STATUS_DND), 304, Client::getStatusText(ICQ_STATUS_DND), "dnd");
-    addPage(new MsgDialog(tabBars, ICQ_STATUS_FREEFORCHAT), 305, Client::getStatusText(ICQ_STATUS_FREEFORCHAT), "ffc");
+    addPage(new MsgDialog(tabBars, ICQ_STATUS_AWAY), SETUP_AR_AWAY, Client::getStatusText(ICQ_STATUS_AWAY), "away");
+    addPage(new MsgDialog(tabBars, ICQ_STATUS_NA), SETUP_AR_NA, Client::getStatusText(ICQ_STATUS_NA), "na");
+    addPage(new MsgDialog(tabBars, ICQ_STATUS_OCCUPIED), SETUP_AR_OCCUPIED, Client::getStatusText(ICQ_STATUS_OCCUPIED), "occupied");
+    addPage(new MsgDialog(tabBars, ICQ_STATUS_DND), SETUP_AR_DND, Client::getStatusText(ICQ_STATUS_DND), "dnd");
+    addPage(new MsgDialog(tabBars, ICQ_STATUS_FREEFORCHAT), SETUP_AR_FREEFORCHAT, Client::getStatusText(ICQ_STATUS_FREEFORCHAT), "ffc");
 
-    itemMain = new QListViewItem(lstBars, i18n("Security"), "400");
+    itemMain = new QListViewItem(lstBars, i18n("Security"), QString::number(SETUP_SECURITY));
     itemMain->setOpen(true);
 
-    addPage(new GeneralSecurity(tabBars), 401, i18n("General"), "webaware");
-    addPage(new ChangePasswd(tabBars), 402, i18n("Password"), "password");
-    addPage(new IgnoreListSetup(tabBars), 403, i18n("Ignore list"), "ignorelist");
-    addPage(new InvisibleListSetup(tabBars), 404, i18n("Invisible list"), "invisiblelist");
-    addPage(new VisibleListSetup(tabBars), 405, i18n("Visible list"), "visiblelist");
+    addPage(new GeneralSecurity(tabBars), SETUP_GENERAL_SEC, i18n("General"), "webaware");
+    addPage(new ChangePasswd(tabBars), SETUP_PASSWD, i18n("Password"), "password");
+    addPage(new IgnoreListSetup(tabBars), SETUP_IGNORE_LIST, i18n("Ignore list"), "ignorelist");
+    addPage(new InvisibleListSetup(tabBars), SETUP_INVISIBLE_LIST, i18n("Invisible list"), "invisiblelist");
+    addPage(new VisibleListSetup(tabBars), SETUP_VISIBLE_LIST, i18n("Visible list"), "visiblelist");
 
-    tabBars->raiseWidget(nWin ? nWin : 101);
+    tabBars->raiseWidget(nWin ? nWin : SETUP_MAININFO);
     connect(pMain, SIGNAL(iconChanged()), this, SLOT(iconChanged()));
 
     transparent = new TransparentTop(this, pMain->UseTransparentContainer, pMain->TransparentContainer);

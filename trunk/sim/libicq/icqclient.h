@@ -660,6 +660,15 @@ public:
 
     ConfigULong  ClientType;
 
+    ConfigBool	 SoundOverride;
+    ConfigString IncomingMessage;
+    ConfigString IncomingURL;
+    ConfigString IncomingSMS;
+    ConfigString IncomingAuth;
+    ConfigString IncomingFile;
+    ConfigString IncomingChat;
+    ConfigString OnlineAlert;
+
     void adjustPhones();
     void adjustEMails(const ConfigPtrList &mails);
 
@@ -945,6 +954,9 @@ public:
     ConfigString	ProxyPasswd;
 
     ConfigUShort	DirectMode;
+
+    ConfigString BirthdayReminder;
+    ConfigString FileDone;
 
     void fromServer(string &s);
     void toServer(string &s);

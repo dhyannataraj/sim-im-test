@@ -131,15 +131,24 @@ const char *app_file(const char *f)
     return app_file_name.c_str();
 }
 
-static const char *sound(const char *vaw)
+const char *MainWindow::sound(const char *wav)
 {
+    if (*wav == 0) return wav;
+#ifdef WIN32
+    if ((strlen(wav) > 3) &&
+            (((wav[1] == ':') && (wav[2] == '\\')) ||
+             ((wav[0] == '\\') && (wav[1] == '\\'))))
+        return wav;
+#else
+    if (*wav == '/') return vaw;
+#endif
     string s = "sounds";
 #ifdef WIN32
     s += "\\";
 #else
     s += "/";
 #endif
-    s += vaw;
+    s += wav;
     return app_file(s.c_str());
 }
 
@@ -162,15 +171,6 @@ MainWindow::MainWindow(const char *name)
         ToolbarDock(this, "ToolbarDock", "Top"),
         ToolbarOffset(this, "ToolbarOffset"),
         ToolbarY(this, "ToolbarY"),
-        IncomingMessage(this, "IncomingMessage", sound("message.wav")),
-        IncomingURL(this, "IncomingURL", sound("url.wav")),
-        IncomingSMS(this, "IncomingSMS", sound("sms.wav")),
-        IncomingAuth(this, "IncomingAuth", sound("auth.wav")),
-        IncomingFile(this, "IncomingFile", sound("file.wav")),
-        IncomingChat(this, "IncomingChat", sound("chat.wav")),
-        FileDone(this, "FileDone", sound("filedone.wav")),
-        OnlineAlert(this, "OnlineAlert", sound("alert.wav")),
-        BirthdayReminder(this, "BirthdayReminder", sound("birthday.wav")),
         UrlViewer(this, "URLViewer",
 #ifdef USE_KDE
                   "konqueror"
@@ -220,6 +220,7 @@ MainWindow::MainWindow(const char *name)
         UserBoxFontWeight(this, "UserBoxFontWeight"),
         UserBoxFontItalic(this, "UserBoxFontItalic"),
         CloseAfterSend(this, "CloseAfterSend"),
+        CloseAfterFileTransfer(this, "CloseAfterFileTransfer"),
         MainWindowInTaskManager(this, "MainWindowInTaskManager"),
         UserWindowInTaskManager(this, "UserWindowInTaskManager", true),
         Icons(this, "Icons"),
@@ -773,28 +774,31 @@ void MainWindow::processEvent(ICQEvent *e)
             if (e->state == ICQEvent::Fail) return;
             ICQMessage *msg = e->message();
             if (msg == NULL) return;
+            ICQUser *u = pClient->getUser(msg->getUin());
+            if ((u == NULL) || !u->SoundOverride())
+                u = pClient;
             const char *wav;
             switch (msg->Type()){
             case ICQ_MSGxURL:
-                wav = IncomingURL.c_str();
+                wav = u->IncomingURL.c_str();
                 break;
             case ICQ_MSGxSMS:
-                wav = IncomingSMS.c_str();
+                wav = u->IncomingSMS.c_str();
                 break;
             case ICQ_MSGxFILE:
-                wav = IncomingFile.c_str();
+                wav = u->IncomingFile.c_str();
                 break;
             case ICQ_MSGxCHAT:
-                wav = IncomingChat.c_str();
+                wav = u->IncomingChat.c_str();
                 break;
             case ICQ_MSGxAUTHxREQUEST:
             case ICQ_MSGxAUTHxREFUSED:
             case ICQ_MSGxAUTHxGRANTED:
             case ICQ_MSGxADDEDxTOxLIST:
-                wav = IncomingAuth.c_str();
+                wav = u->IncomingAuth.c_str();
                 break;
             default:
-                wav = IncomingMessage.c_str();
+                wav = u->IncomingMessage.c_str();
             }
             if (((pClient->uStatus & 0xFF) != ICQ_STATUS_AWAY) && ((pClient->uStatus & 0xFF) != ICQ_STATUS_NA))
                 playSound(wav);
@@ -855,7 +859,11 @@ void MainWindow::processEvent(ICQEvent *e)
                     ((u->prevStatus == ICQ_STATUS_OFFLINE) || pClient->AlertAway()) &&
                     ((u->OnlineTime() > pClient->OnlineTime()) || (u->prevStatus  != ICQ_STATUS_OFFLINE))){
                 if (!u->AlertOverride()) u = pClient;
-                if (u->AlertSound()) playSound(OnlineAlert.c_str());
+                if (u->AlertSound()){
+                    ICQUser *u = pClient->getUser(e->Uin());
+                    if ((u == NULL) || !u->SoundOverride()) u= pClient;
+                    playSound(u->OnlineAlert.c_str());
+                }
                 if (u->AlertOnScreen()){
                     CUser user(e->Uin());
                     xosd->setMessage(i18n("User %1 is online") .arg(user.name()), e->Uin());
@@ -1106,7 +1114,7 @@ void MainWindow::setup()
 void MainWindow::phonebook()
 {
     if (setupDlg == NULL)
-        setupDlg = new SetupDialog(this, 108);
+        setupDlg = new SetupDialog(this, SETUP_PHONE);
     setupDlg->show();
 #ifdef USE_KDE
     KWin::setOnDesktop(setupDlg->winId(), KWin::currentDesktop());
@@ -1366,6 +1374,10 @@ void MainWindow::showUserPopup(unsigned long uin, QPoint p, QPopupMenu *popup, c
     menuUser->insertItem(Icon("info"), i18n("User info"), mnuInfo);
     menuUser->insertItem(Icon("history"), i18n("History"), mnuHistory);
     menuUser->insertSeparator();
+    menuUser->insertItem(Icon("alert"), i18n("Alert"), mnuAlert);
+    menuUser->insertItem(Icon("file"), i18n("Accept mode"), mnuAccept);
+    menuUser->insertItem(Icon("sound"), i18n("Sound"), mnuSound);
+    menuUser->insertSeparator();
     menuUser->insertItem(Icon("floating"),
                          findFloating(uin) ? i18n("Floating off") : i18n("Floating on"), mnuFloating);
     if (popup){
@@ -1504,6 +1516,15 @@ void MainWindow::userFunction(unsigned long uin, int function, unsigned long par
     case mnuInfo:
         showUser(uin, function, param);
         return;
+    case mnuAlert:
+        showUser(uin, mnuInfo, SETUP_ALERT);
+        return;
+    case mnuAccept:
+        showUser(uin, mnuInfo, SETUP_ACCEPT);
+        return;
+    case mnuSound:
+        showUser(uin, mnuInfo, SETUP_SOUND);
+        return;
     case mnuDelete:
         {
             ICQUser *u = pClient->getUser(uin);
@@ -1611,6 +1632,9 @@ void MainWindow::adjustUserMenu(QPopupMenu *menu, ICQUser *u, bool haveTitle)
     addMessageType(menu, ICQ_MSGxSMS, mnuSMS, havePhone, haveTitle);
     addMessageType(menu, ICQ_MSGxURL, mnuURL, u->Type() == USER_TYPE_ICQ, haveTitle);
     addMessageType(menu, ICQ_MSGxMSG, mnuMessage, u->Type() == USER_TYPE_ICQ, haveTitle);
+    menu->setItemEnabled(mnuAlert, u->Type() == USER_TYPE_ICQ);
+    menu->setItemEnabled(mnuAccept, u->Type() == USER_TYPE_ICQ);
+    menu->setItemEnabled(mnuSound, u->Type() == USER_TYPE_ICQ);
 }
 
 void MainWindow::goURL(const char *url)
@@ -1684,6 +1708,7 @@ void MainWindow::exec(const char *prg, const char *arg)
 
 void MainWindow::playSound(const char *wav)
 {
+    wav = sound(wav);
 #ifdef WIN32
     sndPlaySoundA(wav, SND_ASYNC | SND_NODEFAULT);
 #else

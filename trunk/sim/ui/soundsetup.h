@@ -21,15 +21,25 @@
 #include "defs.h"
 #include "soundsetupbase.h"
 
+#include <string>
+using namespace std;
+
 class ICQUser;
+class EditSound;
 
 class SoundSetup : public SoundSetupBase
 {
     Q_OBJECT
 public:
-    SoundSetup(QWidget *p);
+    SoundSetup(QWidget *p, bool bUser=false);
 public slots:
+    void load(ICQUser*);
+    void save(ICQUser*);
     void apply(ICQUser*);
+protected slots:
+    void overrideToggled(bool);
+protected:
+    string sound(EditSound *edt);
 };
 
 #endif

@@ -18,6 +18,7 @@
 #include "userinfo.h"
 #include "icons.h"
 #include "client.h"
+#include "setupdlg.h"
 
 #include "ui/maininfo.h"
 #include "ui/homeinfo.h"
@@ -30,13 +31,14 @@
 #include "ui/alertdialog.h"
 #include "ui/msgdialog.h"
 #include "ui/accept.h"
+#include "ui/soundsetup.h"
 
 #include <qlistview.h>
 #include <qheader.h>
 #include <qpushbutton.h>
 #include <qwidgetstack.h>
 
-UserInfo::UserInfo(QWidget *parent, unsigned long uin)
+UserInfo::UserInfo(QWidget *parent, unsigned long uin, int page)
         : UserInfoBase(parent)
 {
     inSave = false;
@@ -50,38 +52,39 @@ UserInfo::UserInfo(QWidget *parent, unsigned long uin)
     lstBars->setSorting(1);
     connect(lstBars, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
 
-    itemMain = new QListViewItem(lstBars, i18n("User info"), "10");
+    itemMain = new QListViewItem(lstBars, i18n("User info"), QString::number(SETUP_DETAILS));
     itemMain->setOpen(true);
 
-    addWidget(new MainInfo(tabBars, true), 11, i18n("Main info"), "main");
+    addWidget(new MainInfo(tabBars, true), SETUP_MAININFO, i18n("Main info"), "main");
     if (u && (u->Type == USER_TYPE_ICQ)){
-        addWidget(new HomeInfo(tabBars, true), 12, i18n("Home info"), "home");
-        addWidget(new WorkInfo(tabBars, true), 13, i18n("Work info"), "work");
-        addWidget(new MoreInfo(tabBars, true), 14, i18n("More info"), "more");
-        addWidget(new AboutInfo(tabBars, true), 15, i18n("About info"), "info");
-        addWidget(new InterestsInfo(tabBars, true), 16, i18n("Interests"), "interest");
-        addWidget(new PastInfo(tabBars, true), 17, i18n("Group/Past"), "past");
+        addWidget(new HomeInfo(tabBars, true), SETUP_HOMEINFO, i18n("Home info"), "home");
+        addWidget(new WorkInfo(tabBars, true), SETUP_WORKINFO, i18n("Work info"), "work");
+        addWidget(new MoreInfo(tabBars, true), SETUP_MOREINFO, i18n("More info"), "more");
+        addWidget(new AboutInfo(tabBars, true), SETUP_ABOUT, i18n("About info"), "info");
+        addWidget(new InterestsInfo(tabBars, true), SETUP_INTERESTS, i18n("Interests"), "interest");
+        addWidget(new PastInfo(tabBars, true), SETUP_PAST, i18n("Group/Past"), "past");
     }
-    addWidget(new PhoneBookDlg(tabBars, true), 18, i18n("Phone book"), "phone");
-
-    tabBars->raiseWidget(11);
+    addWidget(new PhoneBookDlg(tabBars, true), SETUP_PHONE, i18n("Phone book"), "phone");
 
     if (u && (u->Type == USER_TYPE_ICQ)){
-        itemMain = new QListViewItem(lstBars, i18n("Preferences"), "20");
+        itemMain = new QListViewItem(lstBars, i18n("Preferences"), QString::number(SETUP_PREFERENCES));
         itemMain->setOpen(true);
-        addWidget(new AlertDialog(tabBars, true), 21, i18n("Alert"), "alert");
-        addWidget(new AcceptDialog(tabBars, true), 22, "Accept file", "file");
-        addWidget(new MsgDialog(tabBars, ICQ_STATUS_AWAY, true), 23,
+        addWidget(new AlertDialog(tabBars, true), SETUP_ALERT, i18n("Alert"), "alert");
+        addWidget(new AcceptDialog(tabBars, true), SETUP_ACCEPT, i18n("Accept file"), "file");
+        addWidget(new SoundSetup(tabBars, true), SETUP_SOUND, i18n("Sound"), "sound");
+        addWidget(new MsgDialog(tabBars, ICQ_STATUS_AWAY, true), SETUP_AR_AWAY,
                   Client::getStatusText(ICQ_STATUS_AWAY), Client::getStatusIcon(ICQ_STATUS_AWAY));
-        addWidget(new MsgDialog(tabBars, ICQ_STATUS_NA, true), 24,
+        addWidget(new MsgDialog(tabBars, ICQ_STATUS_NA, true), SETUP_AR_NA,
                   Client::getStatusText(ICQ_STATUS_NA), Client::getStatusIcon(ICQ_STATUS_NA));
-        addWidget(new MsgDialog(tabBars, ICQ_STATUS_OCCUPIED, true), 25,
+        addWidget(new MsgDialog(tabBars, ICQ_STATUS_OCCUPIED, true), SETUP_AR_OCCUPIED,
                   Client::getStatusText(ICQ_STATUS_OCCUPIED), Client::getStatusIcon(ICQ_STATUS_OCCUPIED));
-        addWidget(new MsgDialog(tabBars, ICQ_STATUS_DND, true), 26,
+        addWidget(new MsgDialog(tabBars, ICQ_STATUS_DND, true), SETUP_AR_DND,
                   Client::getStatusText(ICQ_STATUS_DND), Client::getStatusIcon(ICQ_STATUS_DND));
-        addWidget(new MsgDialog(tabBars, ICQ_STATUS_FREEFORCHAT, true), 27,
+        addWidget(new MsgDialog(tabBars, ICQ_STATUS_FREEFORCHAT, true), SETUP_AR_FREEFORCHAT,
                   Client::getStatusText(ICQ_STATUS_FREEFORCHAT), Client::getStatusIcon(ICQ_STATUS_FREEFORCHAT));
     }
+    tabBars->raiseWidget(page ? page : SETUP_MAININFO);
+
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     connect(btnSave, SIGNAL(clicked()), this, SLOT(saveInfo()));
     connect(btnUpdate, SIGNAL(clicked()), this, SLOT(update()));

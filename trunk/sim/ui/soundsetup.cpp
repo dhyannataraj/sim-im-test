@@ -18,41 +18,94 @@
 #include "soundsetup.h"
 #include "icons.h"
 #include "mainwin.h"
+#include "client.h"
 #include "editfile.h"
 
 #include <qlabel.h>
 #include <qpixmap.h>
+#include <qcheckbox.h>
 
-SoundSetup::SoundSetup(QWidget *p)
+SoundSetup::SoundSetup(QWidget *p, bool bUser)
         : SoundSetupBase(p)
 {
     lblPict->setPixmap(Pict("sound"));
-    edtMessage->setText(QString::fromLocal8Bit(pMain->IncomingMessage.c_str()));
-    edtURL->setText(QString::fromLocal8Bit(pMain->IncomingURL.c_str()));
-    edtSMS->setText(QString::fromLocal8Bit(pMain->IncomingSMS.c_str()));
-    edtAuth->setText(QString::fromLocal8Bit(pMain->IncomingAuth.c_str()));
-    edtAlert->setText(QString::fromLocal8Bit(pMain->OnlineAlert.c_str()));
-    edtFile->setText(QString::fromLocal8Bit(pMain->IncomingFile.c_str()));
-    edtChat->setText(QString::fromLocal8Bit(pMain->IncomingChat.c_str()));
-    edtFileDone->setText(QString::fromLocal8Bit(pMain->FileDone.c_str()));
-    edtProgram->setText(QString::fromLocal8Bit(pMain->SoundPlayer.c_str()));
+    if (bUser){
+        edtProgram->hide();
+        lblProgram->hide();
+        edtFileDone->hide();
+        lblFileDone->hide();
+        connect(chkOverride, SIGNAL(toggled(bool)), this, SLOT(overrideToggled(bool)));
+    }else{
+        chkOverride->hide();
 #if defined(WIN32) || defined(USE_KDE)
-    edtProgram->hide();
-    lblProgram->hide();
+        edtProgram->hide();
+        lblProgram->hide();
 #endif
+        load(pClient);
+    }
 }
 
-void SoundSetup::apply(ICQUser*)
+void SoundSetup::load(ICQUser *u)
 {
-    pMain->IncomingMessage = edtMessage->text().local8Bit();
-    pMain->IncomingURL = edtURL->text().local8Bit();
-    pMain->IncomingSMS = edtSMS->text().local8Bit();
-    pMain->IncomingAuth = edtAuth->text().local8Bit();
-    pMain->IncomingFile = edtFile->text().local8Bit();
-    pMain->IncomingChat = edtChat->text().local8Bit();
-    pMain->FileDone = edtFileDone->text().local8Bit();
-    pMain->OnlineAlert = edtAlert->text().local8Bit();
+    chkOverride->setChecked(u->SoundOverride());
+    edtMessage->setText(QString::fromLocal8Bit(pMain->sound(u->IncomingMessage.c_str())));
+    edtURL->setText(QString::fromLocal8Bit(pMain->sound(u->IncomingURL.c_str())));
+    edtSMS->setText(QString::fromLocal8Bit(pMain->sound(u->IncomingSMS.c_str())));
+    edtAuth->setText(QString::fromLocal8Bit(pMain->sound(u->IncomingAuth.c_str())));
+    edtAlert->setText(QString::fromLocal8Bit(pMain->sound(u->OnlineAlert.c_str())));
+    edtFile->setText(QString::fromLocal8Bit(pMain->sound(u->IncomingFile.c_str())));
+    edtChat->setText(QString::fromLocal8Bit(pMain->sound(u->IncomingChat.c_str())));
+    edtFileDone->setText(QString::fromLocal8Bit(pMain->sound(pClient->FileDone.c_str())));
+    edtProgram->setText(QString::fromLocal8Bit(pMain->SoundPlayer.c_str()));
+    overrideToggled((u == pClient) ? true : chkOverride->isChecked());
+}
+
+void SoundSetup::overrideToggled(bool bOn)
+{
+    edtMessage->setEnabled(bOn);
+    edtURL->setEnabled(bOn);
+    edtSMS->setEnabled(bOn);
+    edtAuth->setEnabled(bOn);
+    edtAlert->setEnabled(bOn);
+    edtFile->setEnabled(bOn);
+    edtChat->setEnabled(bOn);
+    lblMessage->setEnabled(bOn);
+    lblURL->setEnabled(bOn);
+    lblSMS->setEnabled(bOn);
+    lblAuth->setEnabled(bOn);
+    lblAlert->setEnabled(bOn);
+    lblFile->setEnabled(bOn);
+    lblChat->setEnabled(bOn);
+}
+
+string SoundSetup::sound(EditSound *edt)
+{
+    string res;
+    if (!edt->text().isEmpty()) res = edt->text().local8Bit();
+    const char *prefix = pMain->sound(".");
+    if ((res.length() < strlen(prefix)) ||
+            memcmp(res.c_str(), prefix, strlen(prefix)-1))
+        return res;
+    return string(res.c_str() + strlen(prefix) - 1);
+}
+
+void SoundSetup::save(ICQUser *u)
+{
+    u->SoundOverride = chkOverride->isChecked();
+    u->IncomingMessage = sound(edtMessage);
+    u->IncomingURL = sound(edtURL);
+    u->IncomingSMS = sound(edtSMS);
+    u->IncomingAuth = sound(edtAuth);
+    u->IncomingFile = sound(edtFile);
+    u->IncomingChat = sound(edtChat);
+    pClient->FileDone = sound(edtFileDone);
+    u->OnlineAlert = sound(edtAlert);
     pMain->SoundPlayer = edtProgram->text().local8Bit();
+}
+
+void SoundSetup::apply(ICQUser *u)
+{
+    save(u);
 }
 
 #ifndef _WINDOWS

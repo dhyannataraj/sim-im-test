@@ -58,7 +58,7 @@ FileTransferDlg::FileTransferDlg(QWidget *p, ICQFile *_file)
         edtFile1->setText(QString::fromLocal8Bit(file->Name.c_str()));
         edtFile2->setText(QString::fromLocal8Bit(file->shortName().c_str()));
     }
-    chkClose->setChecked(file->autoAccept);
+    chkClose->setChecked(file->autoAccept || pMain->CloseAfterFileTransfer());
     connect(btnCancel, SIGNAL(clicked()), this, SLOT(close()));
     connect(pClient, SIGNAL(fileExist(ICQFile*,bool)), this, SLOT(fileExist(ICQFile*, bool)));
     connect(pClient, SIGNAL(fileProcess(ICQFile*)), this, SLOT(processed(ICQFile*)));
@@ -69,6 +69,7 @@ FileTransferDlg::FileTransferDlg(QWidget *p, ICQFile *_file)
     sldSpeed->setMaxValue(100);
     sldSpeed->setValue(file->ft ? file->ft->speed() : 100);
     connect(sldSpeed, SIGNAL(valueChanged(int)), this, SLOT(speedChanged(int)));
+    connect(chkClose, SIGNAL(toggled(bool)), this, SLOT(closeToggled(bool)));
     setProgress();
     bSending = true;
     bDirty = false;
@@ -112,7 +113,7 @@ void FileTransferDlg::processEvent(ICQEvent *e)
         file->state = file->Size();
         setProgress();
         setCaption(caption() + " " + i18n("[done]"));
-        pMain->playSound(pMain->FileDone.c_str());
+        pMain->playSound(pClient->FileDone.c_str());
     }else if (e->state == ICQEvent::Fail){
         setCaption(caption() + " " + i18n("[fail]"));
     }else{
@@ -183,6 +184,11 @@ void FileTransferDlg::fileExist(ICQFile *f, bool _bCanResume)
                                      rc, btns, this);
     connect(msg, SIGNAL(action(int)), this, SLOT(action(int)));
     msg->show();
+}
+
+void FileTransferDlg::closeToggled(bool bState)
+{
+    pMain->CloseAfterFileTransfer = bState;
 }
 
 void FileTransferDlg::action(int n)

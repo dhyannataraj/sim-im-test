@@ -25,6 +25,42 @@ class QListViewItem;
 class TransparentTop;
 class ICQUser;
 
+const unsigned SETUP_DETAILS		= 100;
+const unsigned SETUP_MAININFO		= 101;
+const unsigned SETUP_HOMEINFO		= 102;
+const unsigned SETUP_WORKINFO		= 103;
+const unsigned SETUP_MOREINFO		= 104;
+const unsigned SETUP_ABOUT			= 105;
+const unsigned SETUP_INTERESTS		= 106;
+const unsigned SETUP_PAST			= 107;
+const unsigned SETUP_PHONE			= 108;
+
+const unsigned SETUP_PREFERENCES	= 200;
+const unsigned SETUP_STATUS			= 201;
+const unsigned SETUP_CONNECTION		= 202;
+const unsigned SETUP_STYLE			= 203;
+const unsigned SETUP_INTERFACE		= 204;
+const unsigned SETUP_SOUND			= 205;
+const unsigned SETUP_XOSD			= 206;
+const unsigned SETUP_ALERT			= 207;
+const unsigned SETUP_ACCEPT			= 208;
+const unsigned SETUP_MISC			= 209;
+const unsigned SETUP_SPELL			= 210;
+
+const unsigned SETUP_AUTOREPLY		= 300;
+const unsigned SETUP_AR_AWAY		= 301;
+const unsigned SETUP_AR_NA			= 302;
+const unsigned SETUP_AR_OCCUPIED	= 303;
+const unsigned SETUP_AR_DND			= 304;
+const unsigned SETUP_AR_FREEFORCHAT	= 305;
+
+const unsigned SETUP_SECURITY		= 400;
+const unsigned SETUP_GENERAL_SEC	= 401;
+const unsigned SETUP_PASSWD			= 402;
+const unsigned SETUP_IGNORE_LIST	= 403;
+const unsigned SETUP_INVISIBLE_LIST	= 404;
+const unsigned SETUP_VISIBLE_LIST	= 405;
+
 class SetupDialog : public SetupDialogBase
 {
     Q_OBJECT

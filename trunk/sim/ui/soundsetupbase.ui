@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>572</width>
+            <width>564</width>
             <height>600</height>
         </rect>
     </property>
@@ -105,10 +105,21 @@
             </property>
         </widget>
         <widget>
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkOverride</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>&amp;Override sounds</string>
+            </property>
+        </widget>
+        <widget>
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>TextLabel3</cstring>
+                <cstring>lblMessage</cstring>
             </property>
             <property>
                 <name>text</name>
@@ -126,7 +137,7 @@
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>TextLabel1</cstring>
+                <cstring>lblURL</cstring>
             </property>
             <property>
                 <name>text</name>
@@ -144,7 +155,7 @@
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>TextLabel2_3</cstring>
+                <cstring>lblSMS</cstring>
             </property>
             <property>
                 <name>text</name>
@@ -162,7 +173,7 @@
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>TextLabel2_2</cstring>
+                <cstring>lblAuth</cstring>
             </property>
             <property>
                 <name>text</name>
@@ -180,7 +191,7 @@
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>TextLabel3_2</cstring>
+                <cstring>lblAlert</cstring>
             </property>
             <property>
                 <name>text</name>
@@ -198,7 +209,7 @@
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>TextLabel1_2</cstring>
+                <cstring>lblFile</cstring>
             </property>
             <property>
                 <name>text</name>
@@ -216,7 +227,7 @@
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>lblFileTransfer</cstring>
+                <cstring>lblFileDone</cstring>
             </property>
             <property>
                 <name>text</name>
@@ -234,7 +245,7 @@
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>TextLabel1_3</cstring>
+                <cstring>lblChat</cstring>
             </property>
             <property>
                 <name>text</name>

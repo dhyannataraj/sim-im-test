@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>474</width>
-            <height>416</height>
+            <width>345</width>
+            <height>419</height>
         </rect>
     </property>
     <property>
@@ -105,15 +105,47 @@
             </property>
         </widget>
         <widget>
-            <class>QCheckBox</class>
+            <class>QButtonGroup</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>chkSimple</cstring>
+                <cstring>grpWndMode</cstring>
             </property>
             <property>
-                <name>text</name>
-                <string>&amp;Simple mode</string>
+                <name>title</name>
+                <string>User window mode</string>
             </property>
+            <vbox>
+                <property>
+                    <name>margin</name>
+                    <number>11</number>
+                </property>
+                <property>
+                    <name>spacing</name>
+                    <number>6</number>
+                </property>
+                <widget>
+                    <class>QRadioButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>btnModeSplit</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Split mode (&amp;Chat style)</string>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QRadioButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>btnModePlain</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Simple mode (&amp;Plain style)</string>
+                    </property>
+                </widget>
+            </vbox>
         </widget>
         <widget>
             <class>QButtonGroup</class>
@@ -174,147 +206,178 @@
             </vbox>
         </widget>
         <widget>
-            <class>QCheckBox</class>
+            <class>QGroupBox</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>chkSystem</cstring>
+                <cstring>GroupBox1</cstring>
             </property>
             <property>
-                <name>text</name>
-                <string>&amp;Use systems fonts</string>
+                <name>title</name>
+                <string>Fonts</string>
             </property>
-        </widget>
-        <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>TextLabel3</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>Base font</string>
-            </property>
-        </widget>
-        <widget>
-            <class>FontEdit</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>edtFont</cstring>
-            </property>
-        </widget>
-        <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>TextLabel4</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>Menu font</string>
-            </property>
-        </widget>
-        <widget>
-            <class>FontEdit</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>edtFontMenu</cstring>
-            </property>
-        </widget>
-        <widget>
-            <class>QCheckBox</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>chkOwnColors</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>Use &amp;own colors in history</string>
-            </property>
-        </widget>
-        <widget>
-            <class>Line</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>Line2_2</cstring>
-            </property>
-            <property>
-                <name>orientation</name>
-                <enum>Horizontal</enum>
-            </property>
-        </widget>
-        <widget>
-            <class>QLayoutWidget</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>Layout2</cstring>
-            </property>
-            <grid>
+            <vbox>
                 <property>
                     <name>margin</name>
-                    <number>0</number>
+                    <number>11</number>
                 </property>
                 <property>
                     <name>spacing</name>
                     <number>6</number>
                 </property>
-                <widget row="0"  column="1" >
-                    <class>QColorButton</class>
+                <widget>
+                    <class>QCheckBox</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>btnSend</cstring>
-                    </property>
-                </widget>
-                <widget row="1"  column="0" >
-                    <class>QLabel</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>TextLabel2</cstring>
+                        <cstring>chkSystem</cstring>
                     </property>
                     <property>
                         <name>text</name>
-                        <string>Received messages color</string>
-                    </property>
-                    <property>
-                        <name>alignment</name>
-                        <set>AlignVCenter|AlignRight</set>
-                    </property>
-                    <property>
-                        <name>hAlign</name>
+                        <string>&amp;Use systems fonts</string>
                     </property>
                 </widget>
-                <widget row="1"  column="1" >
-                    <class>QColorButton</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>btnReceive</cstring>
-                    </property>
-                </widget>
-                <widget row="0"  column="0" >
+                <widget>
                     <class>QLabel</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>TextLabel1</cstring>
-                    </property>
-                    <property>
-                        <name>sizePolicy</name>
-                        <sizepolicy>
-                            <hsizetype>7</hsizetype>
-                            <vsizetype>1</vsizetype>
-                        </sizepolicy>
+                        <cstring>TextLabel3</cstring>
                     </property>
                     <property>
                         <name>text</name>
-                        <string>Sending messages color</string>
-                    </property>
-                    <property>
-                        <name>alignment</name>
-                        <set>AlignVCenter|AlignRight</set>
-                    </property>
-                    <property>
-                        <name>hAlign</name>
+                        <string>Base font</string>
                     </property>
                 </widget>
-            </grid>
+                <widget>
+                    <class>FontEdit</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>edtFont</cstring>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QLabel</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>TextLabel4</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Menu font</string>
+                    </property>
+                </widget>
+                <widget>
+                    <class>FontEdit</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>edtFontMenu</cstring>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+        <widget>
+            <class>QGroupBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>GroupBox2</cstring>
+            </property>
+            <property>
+                <name>title</name>
+                <string>Colors</string>
+            </property>
+            <vbox>
+                <property>
+                    <name>margin</name>
+                    <number>11</number>
+                </property>
+                <property>
+                    <name>spacing</name>
+                    <number>6</number>
+                </property>
+                <widget>
+                    <class>QCheckBox</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>chkOwnColors</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Use &amp;own colors in history</string>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QLayoutWidget</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>Layout2</cstring>
+                    </property>
+                    <grid>
+                        <property>
+                            <name>margin</name>
+                            <number>0</number>
+                        </property>
+                        <property>
+                            <name>spacing</name>
+                            <number>6</number>
+                        </property>
+                        <widget row="0"  column="1" >
+                            <class>QColorButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>btnSend</cstring>
+                            </property>
+                        </widget>
+                        <widget row="1"  column="0" >
+                            <class>QLabel</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>TextLabel2</cstring>
+                            </property>
+                            <property>
+                                <name>text</name>
+                                <string>Received messages color</string>
+                            </property>
+                            <property>
+                                <name>alignment</name>
+                                <set>AlignVCenter|AlignRight</set>
+                            </property>
+                            <property>
+                                <name>hAlign</name>
+                            </property>
+                        </widget>
+                        <widget row="1"  column="1" >
+                            <class>QColorButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>btnReceive</cstring>
+                            </property>
+                        </widget>
+                        <widget row="0"  column="0" >
+                            <class>QLabel</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>TextLabel1</cstring>
+                            </property>
+                            <property>
+                                <name>sizePolicy</name>
+                                <sizepolicy>
+                                    <hsizetype>7</hsizetype>
+                                    <vsizetype>1</vsizetype>
+                                </sizepolicy>
+                            </property>
+                            <property>
+                                <name>text</name>
+                                <string>Sending messages color</string>
+                            </property>
+                            <property>
+                                <name>alignment</name>
+                                <set>AlignVCenter|AlignRight</set>
+                            </property>
+                            <property>
+                                <name>hAlign</name>
+                            </property>
+                        </widget>
+                    </grid>
+                </widget>
+            </vbox>
         </widget>
         <spacer>
             <property>

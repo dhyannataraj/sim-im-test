@@ -29,7 +29,7 @@ class UserInfo : public UserInfoBase
 {
     Q_OBJECT
 public:
-    UserInfo(QWidget *parent, unsigned long uin);
+    UserInfo(QWidget *parent, unsigned long uin, int page);
     unsigned long Uin() { return m_nUin; }
 signals:
     void saveInfo(ICQUser*);

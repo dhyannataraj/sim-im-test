@@ -231,7 +231,15 @@ ICQUser::ICQUser()
         AcceptFileOverwrite(this, "AcceptFileOverwrite"),
         AcceptFilePath(this, "AcceptFilePath"),
         DeclineFileMessage(this, "DeclineFileMessage"),
-        ClientType(this, "ClientType")
+        ClientType(this, "ClientType"),
+        SoundOverride(this, "SoundOverride"),
+        IncomingMessage(this, "IncomingMessage", "message.wav"),
+        IncomingURL(this, "IncomingURL", "url.wav"),
+        IncomingSMS(this, "IncomingSMS", "sms.wav"),
+        IncomingAuth(this, "IncomingAuth", "auth.wav"),
+        IncomingFile(this, "IncomingFile", "file.wav"),
+        IncomingChat(this, "IncomingChat", "chat.wav"),
+        OnlineAlert(this, "OnlineAlert", "alert.wav")
 {
     direct = 0;
     GetRTF = false;

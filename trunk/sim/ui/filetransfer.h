@@ -38,6 +38,7 @@ protected slots:
     void action(int);
     void speedChanged(int);
     void timeout();
+    void closeToggled(bool);
 protected:
     void closeEvent(QCloseEvent*);
     void setProgress();

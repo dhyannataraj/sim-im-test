@@ -74,6 +74,9 @@ const int mnuGrpDown = 27;
 const int mnuAbout = 30;
 const int mnuAboutKDE = 31;
 const int mnuBugSend = 32;
+const int mnuAlert = 33;
+const int mnuAccept = 34;
+const int mnuSound = 35;
 const int mnuGrpTitle = 0x10000;
 
 const unsigned long mnuGroupVisible = 0x10001;
@@ -124,16 +127,6 @@ public:
     ConfigShort	 ToolbarOffset;
     ConfigShort  ToolbarY;
 
-    ConfigString IncomingMessage;
-    ConfigString IncomingURL;
-    ConfigString IncomingSMS;
-    ConfigString IncomingAuth;
-    ConfigString IncomingFile;
-    ConfigString IncomingChat;
-    ConfigString FileDone;
-    ConfigString OnlineAlert;
-    ConfigString BirthdayReminder;
-
     ConfigString UrlViewer;
     ConfigString MailClient;
     ConfigString SoundPlayer;
@@ -181,6 +174,7 @@ public:
     ConfigBool   UserBoxFontItalic;
 
     ConfigBool	 CloseAfterSend;
+    ConfigBool	 CloseAfterFileTransfer;
     ConfigBool	 MainWindowInTaskManager;
     ConfigBool	 UserWindowInTaskManager;
 
@@ -251,6 +245,7 @@ public:
 
     static QString ParseText(const char *t, bool bIgnoreColors);
 
+    const char *sound(const char *wav);
 signals:
     void modeChanged(bool);
     void transparentChanged();

@@ -97,6 +97,7 @@ UserBox::UserBox(unsigned long grpId)
     GrpId = grpId;
     msgView = NULL;
     progress = NULL;
+    infoPage = 0;
     setWFlags(WDestructiveClose);
     infoWnd = NULL;
     historyWnd = NULL;
@@ -312,7 +313,8 @@ void UserBox::toggleInfo(bool bShow)
         disconnect(curWnd, SIGNAL(setMessageType(const QString&, const QString&)), btnType, SLOT(setState(const QString&, const QString&)));
         btnType->setState("info", i18n("User info"));
         if (infoWnd == NULL){
-            infoWnd = new UserInfo(frm, curWnd->Uin);
+            infoWnd = new UserInfo(frm, curWnd->Uin, infoPage);
+            infoPage = 0;
             connect(infoWnd, SIGNAL(saveInfo(ICQUser*)), this, SLOT(saveInfo(ICQUser*)));
             vSplitter->hide();
             lay->insertWidget(0, infoWnd);
@@ -880,6 +882,7 @@ void UserBox::showUser(unsigned long uin, int function, unsigned long param)
     lay->invalidate();
     switch (function){
     case mnuInfo:
+        infoPage = param;
         btnInfo->setOn(true);
         break;
     case mnuHistory:
