@@ -1060,7 +1060,7 @@ void MsgEdit::insertSmile(int id)
     // RTF doesn't like '<' and '>'
     QString txt = m_edit->text();
     QString img_src = QString("<img src=icon:smile%1>").arg(id,0,16);
-    txt.replace('\255',img_src);
+    txt.replace(QRegExp("\255"),img_src);
     m_edit->setText(txt);
     m_edit->setCursorPosition(para,index+1);
 #endif
