@@ -27,7 +27,6 @@
 MiscSetup::MiscSetup(QWidget *p)
         : MiscSetupBase(p)
 {
-    lblPict->setPixmap(Pict("misc"));
     edtBrowser->setText(QString::fromLocal8Bit(pMain->UrlViewer.c_str()));
     edtMail->setText(QString::fromLocal8Bit(pMain->MailClient.c_str()));
 }

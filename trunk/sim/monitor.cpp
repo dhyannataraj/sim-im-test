@@ -204,3 +204,4 @@ void MonitorWindow::add(const char *s)
 #ifndef _WINDOWS
 #include "monitor.moc"
 #endif
+

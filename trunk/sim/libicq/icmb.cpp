@@ -273,7 +273,7 @@ void ICQClientPrivate::snac_message(unsigned short type, unsigned short)
                     if (m_data[1] == 2){
                         // UTF-8 message from icq2go
                         m_data += 4;
-                        for (unsigned n = 4; n < m_tlv->Size() - 1; n += 2, m_data += 2){
+                        for (unsigned n = 4; (int)n < m_tlv->Size() - 1; n += 2, m_data += 2){
                             utf16to8((m_data[0] << 8) + m_data[1], m->Message);
                         }
                         m->Charset = "utf-8";

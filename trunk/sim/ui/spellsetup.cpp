@@ -30,7 +30,6 @@
 SpellSetup::SpellSetup(QWidget *p)
         : SpellSetupBase(p)
 {
-    lblPict->setPixmap(Pict("spellcheck"));
 #ifdef USE_SPELL
     QVBoxLayout *lay = new QVBoxLayout(widget);
     KSpellConfig *spell = new KSpellConfig(widget);
