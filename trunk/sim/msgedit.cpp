@@ -1237,7 +1237,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
             }
             users->hide();
             view->show();
-            view->setText(view->makeMessageText(msg, false));
+            view->setText(view->makeMessageText(msg, pMain->UseOwnColors));
             if ((msg->Type() == ICQ_MSGxMSG) && !pMain->UseOwnColors){
                 ICQMsg *m = static_cast<ICQMsg*>(msg);
                 if (m->BackColor != m->ForeColor){
