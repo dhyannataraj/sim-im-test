@@ -119,15 +119,6 @@ SOURCE=.\aiminfobase.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\aimsearch.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\aimsearchbase.cpp
-# ADD CPP /W3
-# End Source File
-# Begin Source File
-
 SOURCE=.\aimservices.cpp
 # End Source File
 # Begin Source File
@@ -286,16 +277,6 @@ SOURCE=.\moc_aiminfobase.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc_aimsearch.cpp
-# ADD CPP /W3
-# End Source File
-# Begin Source File
-
-SOURCE=.\moc_aimsearchbase.cpp
-# ADD CPP /W3
-# End Source File
-# Begin Source File
-
 SOURCE=.\moc_encodingdlg.cpp
 # ADD CPP /W3
 # End Source File
@@ -405,16 +386,6 @@ SOURCE=.\moc_polling.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc_searchresult.cpp
-# ADD CPP /W3
-# End Source File
-# Begin Source File
-
-SOURCE=.\moc_searchresultbase.cpp
-# ADD CPP /W3
-# End Source File
-# Begin Source File
-
 SOURCE=.\moc_securedlg.cpp
 # ADD CPP /W3
 # End Source File
@@ -504,15 +475,6 @@ InputName=rtf
 # Begin Source File
 
 SOURCE=.\rtfgen.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\searchresult.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\searchresultbase.cpp
-# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -686,43 +648,6 @@ InputName=aiminfo
 # Begin Source File
 
 SOURCE=.\aiminfobase.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\aimsearch.h
-
-!IF  "$(CFG)" == "icq - Win32 Release"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.
-InputPath=.\aimsearch.h
-InputName=aimsearch
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "icq - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.
-InputPath=.\aimsearch.h
-InputName=aimsearch
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\aimsearchbase.h
 # End Source File
 # Begin Source File
 
@@ -1414,70 +1339,6 @@ InputName=polling
 # End Source File
 # Begin Source File
 
-SOURCE=.\searchresult.h
-
-!IF  "$(CFG)" == "icq - Win32 Release"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build
-InputDir=.
-InputPath=.\searchresult.h
-InputName=searchresult
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "icq - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.
-InputPath=.\searchresult.h
-InputName=searchresult
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\searchresultbase.h
-
-!IF  "$(CFG)" == "icq - Win32 Release"
-
-# Begin Custom Build
-InputDir=.
-InputPath=.\searchresultbase.h
-InputName=searchresultbase
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "icq - Win32 Debug"
-
-# Begin Custom Build
-InputDir=.
-InputPath=.\searchresultbase.h
-InputName=searchresultbase
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
 SOURCE=.\securedlg.h
 
 !IF  "$(CFG)" == "icq - Win32 Release"
@@ -1902,61 +1763,6 @@ BuildCmds= \
 InputDir=.
 InputPath=.\aiminfobase.ui
 InputName=aiminfobase
-
-BuildCmds= \
-	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
-	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
-	
-
-"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\aimsearchbase.ui
-
-!IF  "$(CFG)" == "icq - Win32 Release"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
-InputDir=.
-InputPath=.\aimsearchbase.ui
-InputName=aimsearchbase
-
-BuildCmds= \
-	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
-	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
-	
-
-"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "icq - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
-InputDir=.
-InputPath=.\aimsearchbase.ui
-InputName=aimsearchbase
 
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
@@ -2439,53 +2245,6 @@ BuildCmds= \
 InputDir=.
 InputPath=.\pastinfobase.ui
 InputName=pastinfobase
-
-BuildCmds= \
-	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
-	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	
-
-"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\searchresultbase.ui
-
-!IF  "$(CFG)" == "icq - Win32 Release"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build
-InputDir=.
-InputPath=.\searchresultbase.ui
-InputName=searchresultbase
-
-BuildCmds= \
-	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
-	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	
-
-"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "icq - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
-InputDir=.
-InputPath=.\searchresultbase.ui
-InputName=searchresultbase
 
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \

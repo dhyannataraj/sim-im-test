@@ -523,11 +523,6 @@ QWidget *Client::configWindow(QWidget*, unsigned)
     return NULL;
 }
 
-QWidget *Client::searchWindow()
-{
-    return NULL;
-}
-
 void Client::contactInfo(void*, unsigned long&, unsigned&, const char*&, string*)
 {
 }

@@ -117,6 +117,7 @@ protected:
     virtual CommandDef *configWindows();
     virtual QWidget *configWindow(QWidget *parent, unsigned id);
     virtual QWidget	*setupWnd();
+	virtual QWidget *searchWindow(QWidget*);
     QString			m_callNumber;
     QTimer			*m_callTimer;
     Message			*m_call;

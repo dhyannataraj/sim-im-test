@@ -654,6 +654,11 @@ void SMSClient::callTimeout()
     m_callNumber = "";
 }
 
+QWidget *SMSClient::searchWindow(QWidget*)
+{
+	return NULL;
+}
+
 #ifdef WIN32
 #include <windows.h>
 

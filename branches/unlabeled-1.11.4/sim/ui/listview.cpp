@@ -52,6 +52,8 @@ ListView::ListView(QWidget *parent, const char *name)
     m_expandingColumn = -1;
     verticalScrollBar()->installEventFilter(this);
     connect(header(), SIGNAL(sizeChange(int,int,int)), this, SLOT(sizeChange(int,int,int)));
+	m_resizeTimer = new QTimer(this);
+	connect(m_resizeTimer, SIGNAL(timeout()), this, SLOT(adjustColumn()));
 }
 
 ListView::~ListView()
@@ -230,8 +232,12 @@ void ListView::resizeEvent(QResizeEvent *e)
 
 void ListView::adjustColumn()
 {
-    if (firstChild() == NULL)
-        return;
+	if (inResize()){
+		if (!m_resizeTimer->isActive())
+			m_resizeTimer->start(500);
+		return;
+	}
+	m_resizeTimer->stop();
     if (m_expandingColumn >= 0){
         int w = width();
         QScrollBar *vBar = verticalScrollBar();

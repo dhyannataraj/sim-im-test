@@ -17,7 +17,6 @@
 
 #include "aimconfig.h"
 #include "icq.h"
-#include "icqsearch.h"
 #include "linklabel.h"
 
 #include <qtimer.h>
@@ -38,9 +37,7 @@ AIMConfig::AIMConfig(QWidget *parent, ICQClient *client, bool bConfig)
         QTimer::singleShot(0, this, SLOT(changed()));
         if (m_client->data.owner.Screen.ptr)
             edtScreen->setText(m_client->data.owner.Screen.ptr);
-        edtScreen->setValidator(new AIMValidator(edtScreen));
         edtPasswd->setText(m_client->getPassword());
-        edtScreen->setValidator(new AIMValidator(edtScreen));
         connect(edtScreen, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
         connect(edtPasswd, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
         lnkReg->setText(i18n("Register new ScreenName"));

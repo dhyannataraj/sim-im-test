@@ -1225,9 +1225,9 @@ string JabberClient::buildId(JabberUserData *data)
     return res;
 }
 
-QWidget *JabberClient::searchWindow()
+QWidget *JabberClient::searchWindow(QWidget *parent)
 {
-    return new JabberAdd(this);
+    return new JabberAdd(this, parent);
 }
 
 void JabberClient::ping()

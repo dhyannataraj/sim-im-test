@@ -40,6 +40,7 @@ SearchDialog::SearchDialog()
     setCaption(caption());
 	m_current = NULL;
 	m_bAdd = true;
+	m_id   = 0;
 	setAdd(false);
 	btnOptions->setIconSet(*Icon("1downarrow"));
 	btnAdd->setIconSet(*Icon("add"));
@@ -108,16 +109,79 @@ void SearchDialog::setAdd(bool bAdd)
 
 void SearchDialog::fillClients()
 {
+	vector<ClientWidget> widgets = m_widgets;
+	m_widgets.clear();
 	cmbClients->clear();
-	cmbClients->insertItem(Pict("find"), i18n("All networks"));
-	wndCondition->addWidget(new SearchAll(wndCondition), cmbClients->count());
+	unsigned nClients = 0;
+	for (unsigned i = 0; i < getContacts()->nClients(); i++){
+		Client *client = getContacts()->getClient(i);
+		QWidget *search = client->searchWindow(wndCondition);
+		if (search == NULL)
+			continue;
+		unsigned n;
+		for (n = 0; n < widgets.size(); n++){
+			if (widgets[n].client != client)
+				continue;
+			delete search;
+			search = widgets[n].widget;
+			widgets[n].widget = NULL;
+			break;
+		}
+		if (n >= widgets.size())
+			wndCondition->addWidget(search, ++m_id);
+		cmbClients->insertItem(Pict(client->protocol()->description()->icon), CorePlugin::m_plugin->clientName(client));
+		ClientWidget cw;
+		cw.client = client;
+		cw.widget = search;
+		m_widgets.push_back(cw);
+		nClients++;
+	}
+	if (nClients > 1){
+		unsigned n;
+		QWidget *search = NULL;
+		for (n = 0; n < widgets.size(); n++){
+			if (widgets[n].client == (Client*)(-1)){
+				search = widgets[n].widget;
+				widgets[n].widget = NULL;
+				break;
+			}
+		}
+		if (search == NULL)
+			wndCondition->addWidget(new SearchAll(wndCondition), ++m_id);
+		cmbClients->insertItem(Pict("find"), i18n("All networks"));
+		ClientWidget cw;
+		cw.client = (Client*)(-1);
+		cw.widget = search;
+		m_widgets.push_back(cw);
+	}
+	unsigned n;
+	QWidget *search = NULL;
+	for (n = 0; n < widgets.size(); n++){
+		if (widgets[n].client == NULL){
+			search = widgets[n].widget;
+			widgets[n].widget = NULL;
+			break;
+		}
+	}
+	if (search == NULL)
+		wndCondition->addWidget(new NonIM(wndCondition), ++m_id);
 	cmbClients->insertItem(Pict("nonim"), i18n("Non-IM contact"));
-	wndCondition->addWidget(new NonIM(wndCondition), cmbClients->count());
+	ClientWidget cw;
+	cw.client = NULL;
+	cw.widget = search;
+	m_widgets.push_back(cw);
+
+	for (n = 0; n < widgets.size(); n++){
+		if (widgets[n].widget)
+			delete widgets[n].widget;
+	}
 }
 
 void SearchDialog::clientActivated(int n)
 {
-	wndCondition->raiseWidget(n + 1);
+	if ((unsigned)n >= m_widgets.size())
+		return;
+	wndCondition->raiseWidget(m_widgets[n].widget);
 }
 
 void SearchDialog::toggled(bool)

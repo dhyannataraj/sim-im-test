@@ -1970,9 +1970,9 @@ void *YahooClient::processEvent(Event *e)
     return NULL;
 }
 
-QWidget *YahooClient::searchWindow()
+QWidget *YahooClient::searchWindow(QWidget *parent)
 {
-    return new YahooSearch(this);
+    return new YahooSearch(this, parent);
 }
 
 void YahooClient::setInvisible(bool bState)

@@ -26,6 +26,12 @@
 class CorePlugin;
 class ListView;
 
+typedef struct ClientWidget
+{
+	Client		*client;
+	QWidget		*widget;
+} ClientWidget;
+
 class SearchDialog : public SearchBase, public EventReceiver
 {
     Q_OBJECT
@@ -41,14 +47,16 @@ public slots:
 signals:
     void finished();
 protected:
+	vector<ClientWidget>	m_widgets;
 	ListView	*m_result;
 	QWidget		*m_current;
-	void *processEvent(Event*);
-	void resizeEvent(QResizeEvent*);
-	void moveEvent(QMoveEvent*);
-	void closeEvent(QCloseEvent*);
-	void fillClients();
-	bool m_bAdd;
+	void		*processEvent(Event*);
+	void		resizeEvent(QResizeEvent*);
+	void		moveEvent(QMoveEvent*);
+	void		closeEvent(QCloseEvent*);
+	void		fillClients();
+	bool		m_bAdd;
+	unsigned	m_id;
 };
 
 #endif

@@ -20,37 +20,16 @@
 
 #include "simapi.h"
 #include "jabberaddbase.h"
-#include "jabberclient.h"
 
-class JabberSearch;
-class QWizard;
-class QValidator;
-class AddResult;
+class JabberClient;
 
-class JabberAdd : public JabberAddBase, public EventReceiver
+class JabberAdd : public JabberAddBase
 {
     Q_OBJECT
 public:
-    JabberAdd(JabberClient *client);
-    ~JabberAdd();
-signals:
-    void goNext();
-protected slots:
-    void currentChanged(QWidget*);
-    void textChanged(const QString&);
-    void clientActivated(int);
-    void search();
-    void startSearch();
-    void addResultFinished();
+    JabberAdd(JabberClient *client, QWidget *parent);
 protected:
-    virtual void *processEvent(Event*);
-    void showEvent(QShowEvent *e);
-    void fillGroup();
-    JabberClient *findClient(const char *host);
-    AddResult	 *m_result;
-    QWizard		 *m_wizard;
-    QValidator	 *m_idValidator;
-    JabberClient *m_client;
+	JabberClient *m_client;
 };
 
 #endif

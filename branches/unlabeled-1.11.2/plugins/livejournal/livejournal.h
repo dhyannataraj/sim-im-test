@@ -175,7 +175,7 @@ protected:
     virtual void packet_ready();
     virtual void *processEvent(Event*);
     virtual void contactInfo(void*, unsigned long &curStatus, unsigned&, const char *&statusIcon, string *icons);
-    QWidget *searchWindow();
+    QWidget *searchWindow(QWidget *parent);
     CommandDef *configWindows();
     QWidget *configWindow(QWidget *parent, unsigned id);
     void statusChanged();

@@ -572,7 +572,7 @@ protected:
     virtual QWidget *infoWindow(QWidget *parent, Contact *contact, void *_data, unsigned id);
     virtual CommandDef *configWindows();
     virtual QWidget *configWindow(QWidget *parent, unsigned id);
-    virtual QWidget *searchWindow();
+    virtual QWidget *searchWindow(QWidget *parent);
     virtual void updateInfo(Contact *contact, void *_data);
     virtual void setClientInfo(void *data);
     virtual Socket  *createSocket();

@@ -1866,9 +1866,9 @@ QString MSNClient::contactTip(void *_data)
     return res;
 }
 
-QWidget *MSNClient::searchWindow()
+QWidget *MSNClient::searchWindow(QWidget *parent)
 {
-    return new MSNSearch(this);
+    return new MSNSearch(this, parent);
 }
 
 SBSocket::SBSocket(MSNClient *client, Contact *contact, MSNUserData *data)

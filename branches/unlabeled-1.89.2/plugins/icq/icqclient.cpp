@@ -28,7 +28,6 @@
 #include "icqpicture.h"
 #include "aiminfo.h"
 #include "icqsearch.h"
-#include "aimsearch.h"
 #include "icqsecure.h"
 #include "icqmessage.h"
 #include "securedlg.h"
@@ -2284,11 +2283,9 @@ QWidget *ICQClient::configWindow(QWidget *parent, unsigned id)
     return NULL;
 }
 
-QWidget *ICQClient::searchWindow()
+QWidget *ICQClient::searchWindow(QWidget *parent)
 {
-    if (m_bAIM)
-        return new AIMSearch(this);
-    return new ICQSearch(this);
+    return new ICQSearch(this, parent);
 }
 
 void ICQClient::updateInfo(Contact *contact, void *_data)

@@ -4,15 +4,15 @@
     <class>QWidget</class>
     <property stdset="1">
         <name>name</name>
-        <cstring>JournalSearch</cstring>
+        <cstring>Form1</cstring>
     </property>
     <property>
         <name>geometry</name>
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>394</width>
-            <height>268</height>
+            <width>216</width>
+            <height>355</height>
         </rect>
     </property>
     <property>
@@ -22,86 +22,61 @@
     <vbox>
         <property>
             <name>margin</name>
-            <number>11</number>
+            <number>0</number>
         </property>
         <property>
             <name>spacing</name>
             <number>6</number>
         </property>
         <widget>
-            <class>QTabWidget</class>
+            <class>QGroupBox</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>tabSearch</cstring>
+                <cstring>grpCommunity</cstring>
             </property>
-            <widget>
-                <class>QWidget</class>
-                <property stdset="1">
-                    <name>name</name>
-                    <cstring>tab</cstring>
+            <property>
+                <name>title</name>
+                <string></string>
+            </property>
+            <vbox>
+                <property>
+                    <name>margin</name>
+                    <number>11</number>
                 </property>
-                <attribute>
-                    <name>title</name>
-                    <string>&amp;Add community</string>
-                </attribute>
-                <grid>
-                    <property>
-                        <name>margin</name>
-                        <number>11</number>
+                <property>
+                    <name>spacing</name>
+                    <number>6</number>
+                </property>
+                <widget>
+                    <class>QLineEdit</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>edtCommunity</cstring>
                     </property>
-                    <property>
-                        <name>spacing</name>
-                        <number>6</number>
-                    </property>
-                    <spacer row="1"  column="1" >
-                        <property>
-                            <name>name</name>
-                            <cstring>Spacer2</cstring>
-                        </property>
-                        <property>
-                            <name>orientation</name>
-                            <enum>Vertical</enum>
-                        </property>
-                        <property>
-                            <name>sizeType</name>
-                            <enum>Expanding</enum>
-                        </property>
-                        <property>
-                            <name>sizeHint</name>
-                            <size>
-                                <width>20</width>
-                                <height>20</height>
-                            </size>
-                        </property>
-                    </spacer>
-                    <widget row="0"  column="1" >
-                        <class>QLineEdit</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>edtCommunity</cstring>
-                        </property>
-                    </widget>
-                    <widget row="0"  column="0" >
-                        <class>QLabel</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>lblMail</cstring>
-                        </property>
-                        <property>
-                            <name>text</name>
-                            <string>Community:</string>
-                        </property>
-                        <property>
-                            <name>alignment</name>
-                            <set>AlignVCenter|AlignRight</set>
-                        </property>
-                        <property>
-                            <name>hAlign</name>
-                        </property>
-                    </widget>
-                </grid>
-            </widget>
+                </widget>
+            </vbox>
         </widget>
+        <spacer>
+            <property>
+                <name>name</name>
+                <cstring>Spacer3</cstring>
+            </property>
+            <property>
+                <name>orientation</name>
+                <enum>Vertical</enum>
+            </property>
+            <property>
+                <name>sizeType</name>
+                <enum>Expanding</enum>
+            </property>
+            <property>
+                <name>sizeHint</name>
+                <size>
+                    <width>20</width>
+                    <height>20</height>
+                </size>
+            </property>
+        </spacer>
     </vbox>
 </widget>
 <customwidgets>
