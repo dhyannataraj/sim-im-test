@@ -68,6 +68,7 @@ static DataDef journalMessageData[] =
         { "ItemID", DATA_ULONG, 1, 0 },
         { "", DATA_ULONG, 1, 0 },		// oldID
         { "Mood", DATA_ULONG, 1, 0 },
+        { "Comments", DATA_ULONG, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -577,6 +578,11 @@ MessageRequest::MessageRequest(LiveJournalClient *client, JournalMessage *msg, c
         addParam("prop_current_moodid", number(msg->getMood()).c_str());
     if (journal)
         addParam("usejournal", journal);
+    if (msg->getComments() == COMMENT_NO_MAIL){
+        addParam("prop%5Fopt%5Fnoemail", "1");
+    }else if (msg->getComments() == COMMENT_DISABLE){
+        addParam("prop%5Fopt%5Fnocomments", "1");
+    }
 }
 
 MessageRequest::~MessageRequest()
@@ -1035,10 +1041,10 @@ QWidget *LiveJournalClient::searchWindow()
 void *LiveJournalClient::processEvent(Event *e)
 {
     if (e->type() == EventOpenMessage){
-        Message *msg = (Message*)(e->param());
-        if (msg->type() != MessageUpdated)
+        Message **msg = (Message**)(e->param());
+        if ((*msg)->type() != MessageUpdated)
             return NULL;
-        if (dataName(&data.owner) != msg->client())
+        if (dataName(&data.owner) != (*msg)->client())
             return NULL;
         Event eDel(EventMessageDeleted, msg);
         eDel.process();

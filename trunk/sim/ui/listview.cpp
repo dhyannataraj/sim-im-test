@@ -50,7 +50,7 @@ ListView::ListView(QWidget *parent, const char *name)
     m_pressedItem = NULL;
     m_expandingColumn = -1;
     verticalScrollBar()->installEventFilter(this);
-	connect(header(), SIGNAL(sizeChange(int,int,int)), this, SLOT(sizeChange(int,int,int)));
+    connect(header(), SIGNAL(sizeChange(int,int,int)), this, SLOT(sizeChange(int,int,int)));
 }
 
 ListView::~ListView()
@@ -59,7 +59,7 @@ ListView::~ListView()
 
 void ListView::sizeChange(int,int,int)
 {
-	QTimer::singleShot(0, this, SLOT(adjustColumn()));
+    QTimer::singleShot(0, this, SLOT(adjustColumn()));
 }
 
 ProcessMenuParam *ListView::getMenu(QListViewItem *item)

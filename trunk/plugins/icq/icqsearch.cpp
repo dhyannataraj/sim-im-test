@@ -449,10 +449,11 @@ void ICQSearch::sendMessage()
         data = m_client->findContact(number(m_randomUin).c_str(), m_name.utf8(), true, contact);
         contact->setTemporary(CONTACT_TEMP);
     }
-    Message msg(MessageGeneric);
-    msg.setContact(contact->id());
+    Message *msg = new Message(MessageGeneric);
+    msg->setContact(contact->id());
     Event e(EventOpenMessage, &msg);
     e.process();
+    delete msg;
 }
 
 #ifndef WIN32

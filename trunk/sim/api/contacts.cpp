@@ -1071,6 +1071,17 @@ Client::~Client()
 
 void Client::freeData()
 {
+    ContactListPrivate *p = getContacts()->p;
+    for (vector<Client*>::iterator it = p->clients.begin(); it != p->clients.end(); ++it){
+        if ((*it) != this)
+            continue;
+        p->clients.erase(it);
+        if (!getContacts()->p->bNoRemove){
+            Event e(EventClientsChanged);
+            e.process();
+        }
+        break;
+    }
     Group *grp;
     ContactList::GroupIterator itg;
     while ((grp = ++itg) != NULL){
@@ -1102,17 +1113,6 @@ void Client::freeData()
     for (itr = forRemove.begin(); itr != forRemove.end(); ++itr){
         Contact *contact = *itr;
         delete contact;
-    }
-    ContactListPrivate *p = getContacts()->p;
-    for (vector<Client*>::iterator it = p->clients.begin(); it != p->clients.end(); ++it){
-        if ((*it) != this)
-            continue;
-        p->clients.erase(it);
-        if (!getContacts()->p->bNoRemove){
-            Event e(EventClientsChanged);
-            e.process();
-        }
-        break;
     }
     free_data(_clientData, &data);
 }
@@ -1949,7 +1949,7 @@ EXPORT ContactList *getContacts()
 
 };
 
-EXPORT QString i18n(const char *text, Contact *contact)
+EXPORT QString g_i18n(const char *text, Contact *contact)
 {
     QString male = i18n("male", text);
     if (contact == NULL)

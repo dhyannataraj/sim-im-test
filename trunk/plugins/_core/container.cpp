@@ -134,7 +134,7 @@ Container::Container(unsigned id, const char *cfg)
 
     SET_WNDPROC("container")
     setWFlags(WDestructiveClose);
-    QFrame *frm = new QFrame(this);
+    QFrame *frm = new QFrame(this, "container");
     setCentralWidget(frm);
 
     connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
@@ -605,12 +605,12 @@ void *Container::processEvent(Event *e)
 #else
 #if defined(USE_KDE)
 #if KDE_IS_VERSION(3,2,0)
-            if (!isActiveWindow()){
-                msg = (Message*)(e->param());
-                userWnd = wnd(msg->contact());
-                if (userWnd)
-                    KWin::demandAttention(winId(), true);
-            }
+if (!isActiveWindow()){
+            msg = (Message*)(e->param());
+            userWnd = wnd(msg->contact());
+            if (userWnd)
+                KWin::demandAttention(winId(), true);
+        }
 #endif	/* KDE_IS_VERSION(3,2,0) */
 #endif	/* USE_KDE */
 #endif	/* ndef WIN32 */
@@ -674,7 +674,7 @@ void *Container::processEvent(Event *e)
             if (userWnd->m_bTyping != bTyping){
                 userWnd->m_bTyping = bTyping;
                 if (bTyping){
-                    userWnd->setStatus(i18n("%1 typed", contact) .arg(contact->getName()));
+                    userWnd->setStatus(g_i18n("%1 typed", contact) .arg(contact->getName()));
                 }else{
                     userWnd->setStatus("");
                 }

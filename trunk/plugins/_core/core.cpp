@@ -47,6 +47,7 @@
 #include "declinedlg.h"
 #include "xsl.h"
 #include "userhistorycfg.h"
+#include "ballonmsg.h"
 
 #include <qtimer.h>
 #include <qapplication.h>
@@ -328,6 +329,7 @@ static DataDef coreData[] =
         { "ShowAllEncodings", DATA_BOOL, 1, 0 },
         { "DefaultEncoding", DATA_STRING, 1, 0 },
         { "ShowEmptyGroup", DATA_BOOL, 1, DATA(1) },
+        { "NoJoinAlert", DATA_BOOL, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -461,6 +463,7 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     m_plugin = this;
     historyXSL = NULL;
     m_bIgnoreEvents = false;
+    m_alert = NULL;
     encodings = _encodingTbl;
 
     load_data(coreData, &data, config);
@@ -1551,6 +1554,25 @@ void CorePlugin::getWays(vector<clientContact> &ways, Contact *contact)
 void *CorePlugin::processEvent(Event *e)
 {
     switch (e->type()){
+    case EventJoinAlert:
+        if (!getNoJoinAlert() && (m_alert == NULL)){
+            Command cmd;
+            cmd->id = CmdStatusBar;
+            Event eWidget(EventCommandWidget, cmd);
+            QWidget *widget = (QWidget*)(eWidget.process());
+            if (widget == NULL)
+                return e->param();
+            raiseWindow(widget->topLevelWidget());
+            QStringList l;
+            l.append(i18n("OK"));
+            m_alert = new BalloonMsg(NULL,
+                                     i18n("At loading contact list contacts with identical names were automatically joined.\n"
+                                          "If it is wrong, you can separate them. "
+                                          "For this purpose in contact menu choose the necessary name and choose a command \"Separate\"."),
+                                     l, widget, NULL, false, true, 150, i18n("Don't show this message in next time"));
+            connect(m_alert, SIGNAL(finished()), this, SLOT(alertFinished()));
+        }
+        return e->param();
     case EventGroupChanged:
         if (m_bIgnoreEvents)
             return e->param();
@@ -1909,7 +1931,7 @@ void *CorePlugin::processEvent(Event *e)
                         if (data->OpenNewMessage.value){
                             if (data->OpenNewMessage.value == NEW_MSG_MINIMIZE)
                                 msg->setFlags(msg->getFlags() | MESSAGE_NORAISE);
-                            Event e(EventOpenMessage, msg);
+                            Event e(EventOpenMessage, &msg);
                             e.process();
                         }
                     }
@@ -1951,13 +1973,13 @@ void *CorePlugin::processEvent(Event *e)
             return msg;
         }
     case EventOpenMessage:{
-            Message *msg = (Message*)(e->param());
-            if (msg->getFlags() & MESSAGE_NOVIEW)
+            Message **msg = (Message**)(e->param());
+            if ((*msg)->getFlags() & MESSAGE_NOVIEW)
                 return NULL;
-            Contact *contact = getContacts()->contact(msg->contact());
+            Contact *contact = getContacts()->contact((*msg)->contact());
             m_focus = qApp->focusWidget();
             if (m_focus)
-                m_focus->installEventFilter(this);
+                connect(m_focus, SIGNAL(destroyed()), this, SLOT(focusDestroyed()));
             if (contact == NULL)
                 return NULL;
             UserWnd		*userWnd	= NULL;
@@ -1970,7 +1992,7 @@ void *CorePlugin::processEvent(Event *e)
                 if (w->inherits("Container")){
                     container =  static_cast<Container*>(w);
                     if (getContainerMode() == 0){
-                        if (container->isReceived() != ((msg->getFlags() & MESSAGE_RECEIVED) != 0)){
+                        if (container->isReceived() != (((*msg)->getFlags() & MESSAGE_RECEIVED) != 0)){
                             container = NULL;
                             ++itw;
                             continue;
@@ -1985,7 +2007,7 @@ void *CorePlugin::processEvent(Event *e)
             }
             delete list;
             if (userWnd == NULL){
-                userWnd = new UserWnd(contact->id(), NULL, msg->getFlags() & MESSAGE_RECEIVED);
+                userWnd = new UserWnd(contact->id(), NULL, (*msg)->getFlags() & MESSAGE_RECEIVED);
                 if (getContainerMode() == 3){
                     QWidgetList  *list = QApplication::topLevelWidgets();
                     QWidgetListIt it(*list);
@@ -2040,16 +2062,16 @@ void *CorePlugin::processEvent(Event *e)
                     container = new Container(max_id + 1);
                     bNew = true;
                     if (getContainerMode() == 0)
-                        container->setReceived(msg->getFlags() & MESSAGE_RECEIVED);
+                        container->setReceived((*msg)->getFlags() & MESSAGE_RECEIVED);
                 }
-                container->addUserWnd(userWnd, (msg->getFlags() & MESSAGE_NORAISE) == 0);
+                container->addUserWnd(userWnd, ((*msg)->getFlags() & MESSAGE_NORAISE) == 0);
             }else{
-                if ((msg->getFlags() & MESSAGE_NORAISE) == 0)
+                if (((*msg)->getFlags() & MESSAGE_NORAISE) == 0)
                     container->raiseUserWnd(userWnd);
             }
             container->setNoSwitch();
             userWnd->setMessage(msg);
-            if (msg->getFlags() & MESSAGE_NORAISE){
+            if ((*msg)->getFlags() & MESSAGE_NORAISE){
                 if (bNew)
                     container->showMinimized();
                 if (m_focus)
@@ -2059,7 +2081,7 @@ void *CorePlugin::processEvent(Event *e)
                 raiseWindow(container);
             }
             if (m_focus)
-                m_focus->removeEventFilter(this);
+                disconnect(m_focus, SIGNAL(destroyed()), this, SLOT(focusDestroyed()));
             m_focus = NULL;
             return e->param();
         }
@@ -2068,7 +2090,8 @@ void *CorePlugin::processEvent(Event *e)
             if (contact){
                 CoreUserData *data = (CoreUserData*)(contact->getUserData(user_data_id));
                 if (data->OpenOnOnline.bValue){
-                    Message msg(MessageGeneric);
+                    Message *msg = new Message(MessageGeneric);
+                    msg->setContact(contact->id());
                     Event e(EventOpenMessage, &msg);
                     e.process();
                 }
@@ -2520,7 +2543,7 @@ void *CorePlugin::processEvent(Event *e)
                     }
                     return e->param();
                 }
-                Event eOpen(EventOpenMessage, msg);
+                Event eOpen(EventOpenMessage, &msg);
                 eOpen.process();
                 delete msg;
                 return e->param();
@@ -2559,7 +2582,7 @@ void *CorePlugin::processEvent(Event *e)
                         m->setFlags(MESSAGE_INSERT);
                     }
                     m->setText(p);
-                    Event eOpen(EventOpenMessage, m);
+                    Event eOpen(EventOpenMessage, &m);
                     eOpen.process();
                     delete m;
                     return e->param();
@@ -2597,7 +2620,7 @@ void *CorePlugin::processEvent(Event *e)
                 Message *msg = new AuthMessage(MessageAuthRefused);
                 msg->setContact(from->contact());
                 msg->setClient(from->client());
-                Event eOpen(EventOpenMessage, msg);
+                Event eOpen(EventOpenMessage, &msg);
                 eOpen.process();
                 delete msg;
                 return e->param();
@@ -2897,7 +2920,7 @@ void *CorePlugin::processEvent(Event *e)
                     if (n-- == 0){
                         Message *msg = History::load((*it).id, (*it).client.c_str(), (*it).contact);
                         if (msg){
-                            Event e(EventOpenMessage, msg);
+                            Event e(EventOpenMessage, &msg);
                             e.process();
                             delete msg;
                             break;
@@ -2933,7 +2956,7 @@ void *CorePlugin::processEvent(Event *e)
                         Message *msg = mdef->create(NULL);
                         msg->setContact((unsigned)(cmd->param));
                         msg->setClient(cc.client->dataName(data).c_str());
-                        Event eOpen(EventOpenMessage, msg);
+                        Event eOpen(EventOpenMessage, &msg);
                         eOpen.process();
                         delete msg;
                         return e->param();
@@ -3807,12 +3830,16 @@ void CorePlugin::setManualStatus(unsigned long status)
     data.ManualStatus.value = status;
 }
 
-bool CorePlugin::eventFilter (QObject *watched, QEvent *e)
+void CorePlugin::alertFinished()
 {
-    if ((watched == m_focus) &&
-            ((e->type() == QEvent::Destroy) || (e->type() == QEvent::ChildRemoved)))
-        m_focus = NULL;
-    return QObject::eventFilter(watched, e);
+    if (m_alert)
+        setNoJoinAlert(m_alert->isChecked());
+    m_alert = NULL;
+}
+
+void CorePlugin::focusDestroyed()
+{
+    m_focus = NULL;
 }
 
 #ifdef WIN32

@@ -615,13 +615,13 @@ Package=<4>
     Project_Dep_Name livejournal
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name sms
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name yahoo
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name replace
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name sms
     End Project Dependency
 }}}
 

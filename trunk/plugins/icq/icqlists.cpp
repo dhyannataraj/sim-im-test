@@ -124,25 +124,25 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
         log(L_DEBUG, "List rights");
         break;
     case ICQ_SNACxLISTS_EDIT: {
-        log(L_DEBUG, "Server begins SSI transaction");
-        break;
-    }
+            log(L_DEBUG, "Server begins SSI transaction");
+            break;
+        }
     case ICQ_SNACxLISTS_SAVE: {
-        log(L_DEBUG, "Server ends SSI transaction");
-        break;
-    }
+            log(L_DEBUG, "Server ends SSI transaction");
+            break;
+        }
     case ICQ_SNACxLISTS_CREATE: {
-        log(L_DEBUG, "Server adds new item - currently not implemented");
-        break;
-    }
+            log(L_DEBUG, "Server adds new item - currently not implemented");
+            break;
+        }
     case ICQ_SNACxLISTS_RENAME: {
-        log(L_DEBUG, "Server modifies item - currently not implemented");
-        break;
-    }
+            log(L_DEBUG, "Server modifies item - currently not implemented");
+            break;
+        }
     case ICQ_SNACxLISTS_DELETE: {
-        log(L_DEBUG, "Server deletes item - currently not implemented");
-        break;
-    }
+            log(L_DEBUG, "Server deletes item - currently not implemented");
+            break;
+        }
     case ICQ_SNACxLISTS_ROSTER:{
             char c;
             unsigned short list_len;

@@ -2879,16 +2879,16 @@ void *ICQClient::processEvent(Event *e)
         }
     }
     if (e->type() == EventOpenMessage){
-        Message *msg = (Message*)(e->param());
-        if ((msg->type() != MessageOpenSecure) &&
-                (msg->type() != MessageCloseSecure) &&
-                (msg->type() != MessageCheckInvisible) &&
-                (msg->type() != MessageWarning))
+        Message **msg = (Message**)(e->param());
+        if (((*msg)->type() != MessageOpenSecure) &&
+                ((*msg)->type() != MessageCloseSecure) &&
+                ((*msg)->type() != MessageCheckInvisible) &&
+                ((*msg)->type() != MessageWarning))
             return NULL;
-        const char *client = msg->client();
+        const char *client = (*msg)->client();
         if (client && (*client == 0))
             client = NULL;
-        Contact *contact = getContacts()->contact(msg->contact());
+        Contact *contact = getContacts()->contact((*msg)->contact());
         if (contact == NULL)
             return NULL;
         ICQUserData *data = NULL;
@@ -2904,17 +2904,17 @@ void *ICQClient::processEvent(Event *e)
         }
         if (data == NULL)
             return NULL;
-        if (msg->type() == MessageCheckInvisible){
+        if ((*msg)->type() == MessageCheckInvisible){
             Message *m = new Message(MessageCheckInvisible);
-            m->setContact(msg->contact());
-            m->setClient(msg->client());
+            m->setContact((*msg)->contact());
+            m->setClient((*msg)->client());
             if (!send(m, data)){
                 delete m;
                 return NULL;
             }
             return e->param();
         }
-        if (msg->type() == MessageOpenSecure){
+        if ((*msg)->type() == MessageOpenSecure){
             SecureDlg *dlg = NULL;
             QWidgetList  *list = QApplication::topLevelWidgets();
             QWidgetListIt it(*list);
@@ -2936,7 +2936,7 @@ void *ICQClient::processEvent(Event *e)
             raiseWindow(dlg);
             return e->param();
         }
-        if (msg->type() == MessageWarning){
+        if ((*msg)->type() == MessageWarning){
             if (data && (m_bAIM || (data->Uin.value == 0))){
                 WarnDlg *dlg = new WarnDlg(NULL, data, this);
                 raiseWindow(dlg);
@@ -2946,8 +2946,8 @@ void *ICQClient::processEvent(Event *e)
         }
         if (data->Direct.ptr && ((DirectClient*)(data->Direct.ptr))->isSecure()){
             Message *m = new Message(MessageCloseSecure);
-            m->setContact(msg->contact());
-            m->setClient(msg->client());
+            m->setContact((*msg)->contact());
+            m->setClient((*msg)->client());
             m->setFlags(MESSAGE_NOHISTORY);
             if (!((DirectClient*)(data->Direct.ptr))->sendMessage(m))
                 delete m;

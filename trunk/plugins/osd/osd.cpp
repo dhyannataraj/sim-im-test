@@ -312,11 +312,11 @@ void OSDPlugin::processQueue()
         switch (m_request.type){
         case OSD_ALERT:
             if (data->EnableAlert.bValue && contact)
-                text = i18n("%1 is online", contact) .arg(contact->getName());
+                text = g_i18n("%1 is online", contact) .arg(contact->getName());
             break;
         case OSD_TYPING:
             if (data->EnableTyping.bValue && contact)
-                text = i18n("%1 typed", contact) .arg(contact->getName());
+                text = g_i18n("%1 typed", contact) .arg(contact->getName());
             break;
         default:
             if (data->EnableMessage.bValue && core){
@@ -371,7 +371,7 @@ void OSDPlugin::dblClick()
         Event e(EventLoadMessage, &m);
         msg = (Message*)(e.process());
         if (msg){
-            Event e(EventOpenMessage, msg);
+            Event e(EventOpenMessage, &msg);
             e.process();
             delete msg;
         }

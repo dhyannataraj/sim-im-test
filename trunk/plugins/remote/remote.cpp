@@ -434,11 +434,12 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
     unsigned n;
     switch (nCmd){
     case CMD_SENDFILE:{
-            FileMessage msg;
-            msg.setContact(args[1].toUInt());
-            msg.setFile(args[0]);
+            FileMessage *msg = new FileMessage;
+            msg->setContact(args[1].toUInt());
+            msg->setFile(args[0]);
             Event e(EventOpenMessage, &msg);
             e.process();
+            delete msg;
             return true;
         }
     case CMD_CONTACTS:{
@@ -499,10 +500,11 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                 return false;
             }
             if (bOpen){
-                Message m(MessageGeneric);
-                m.setContact(contact->id());
+                Message *m = new Message(MessageGeneric);
+                m->setContact(contact->id());
                 Event e(EventOpenMessage, &m);
                 e.process();
+                delete m;
             }
             return true;
         }
@@ -669,10 +671,11 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                     e.process();
                 }
                 if (nCmd == CMD_OPEN){
-                    Message m;
-                    m.setContact(contact->id());
+                    Message *m = new Message(MessageGeneric);
+                    m->setContact(contact->id());
                     Event e(EventOpenMessage, &m);
                     e.process();
+                    delete m;
                 }
                 return true;
             }

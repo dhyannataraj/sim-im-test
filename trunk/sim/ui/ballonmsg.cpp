@@ -27,6 +27,7 @@
 #include <qlayout.h>
 #include <qimage.h>
 #include <qframe.h>
+#include <qcheckbox.h>
 
 #define BALLOON_R			10
 #define BALLOON_TAIL		20
@@ -94,7 +95,8 @@ UI_EXPORT QPixmap& intensity(QPixmap &pict, float percent)
     return pict;
 }
 
-BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWidget *parent, const QRect *rcParent, bool bModal, bool bAutoHide, unsigned bwidth)
+BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWidget *parent, const QRect *rcParent,
+                       bool bModal, bool bAutoHide, unsigned bwidth, const QString &box_msg)
         : QDialog(parent, "ballon", bModal,
                   (bAutoHide ? WType_Popup : WType_TopLevel | WStyle_StaysOnTop)
                   | WStyle_Customize | WStyle_NoBorderEx | WStyle_Tool | WDestructiveClose | WX11BypassWM)
@@ -107,10 +109,16 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
     bool bTailDown = true;
     setPalette(QToolTip::palette());
     text = _text;
-    int hButton = 0;
     QFrame *frm = new QFrame(this);
     frm->setPalette(palette());
-    QHBoxLayout *lay = new QHBoxLayout(frm);
+    QVBoxLayout *vlay = new QVBoxLayout(frm);
+    vlay->setMargin(0);
+    m_check = NULL;
+    if (!box_msg.isEmpty()){
+        m_check = new QCheckBox(box_msg, frm);
+        vlay->addWidget(m_check);
+    }
+    QHBoxLayout *lay = new QHBoxLayout(vlay);
     lay->setSpacing(5);
     lay->addStretch();
     unsigned id = 0;
@@ -123,11 +131,11 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
             b->setDefault(true);
             bFirst = false;
         }
-        hButton = b->height();
     }
     setButtonsPict(this);
     lay->addStretch();
     int wndWidth = frm->minimumSizeHint().width();
+    int hButton  = frm->minimumSizeHint().height();
 
     int txtWidth = bwidth;
     QRect rc;
@@ -176,7 +184,7 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
     QColor bg(255, 255, 255);
     QColor fg(0, 0, 0);
 #else
-QColor bg(0, 0, 0);
+    QColor bg(0, 0, 0);
     QColor fg(255, 255, 255);
 #endif
     p.fillRect(0, 0, width(), height(), bg);
@@ -250,6 +258,13 @@ BalloonMsg::~BalloonMsg()
     if (!m_bYes)
         emit no_action(m_param);
     emit finished();
+}
+
+bool BalloonMsg::isChecked()
+{
+    if (m_check)
+        return m_check->isChecked();
+    return false;
 }
 
 bool BalloonMsg::eventFilter(QObject *o, QEvent *e)

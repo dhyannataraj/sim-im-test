@@ -326,7 +326,7 @@ void FloatyWnd::dragEvent(QDropEvent *e, bool isDrop)
         e->accept();
         if (isDrop){
             msg->setContact(m_id);
-            Event e(EventOpenMessage, msg);
+            Event e(EventOpenMessage, &msg);
             e.process();
         }
         delete msg;
@@ -340,7 +340,7 @@ void FloatyWnd::dragEvent(QDropEvent *e, bool isDrop)
                 Message *msg = new Message(MessageGeneric);
                 msg->setText(str);
                 msg->setContact(m_id);
-                Event e(EventOpenMessage, msg);
+                Event e(EventOpenMessage, &msg);
                 e.process();
                 delete msg;
             }

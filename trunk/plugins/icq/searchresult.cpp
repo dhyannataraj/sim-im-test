@@ -208,10 +208,11 @@ void *ICQSearchResult::processEvent(Event *e)
             if (cmd->id == CmdIcqSendMessage){
                 contact = createContact(CONTACT_TEMP);
                 if (!contact) return NULL;
-                Message msg(MessageGeneric);
-                msg.setContact(contact->id());
+                Message *msg = new Message(MessageGeneric);
+                msg->setContact(contact->id());
                 Event e(EventOpenMessage, &msg);
                 e.process();
+                delete msg;
             }
             if (cmd->id == CmdInfo){
                 contact = createContact(CONTACT_TEMP);

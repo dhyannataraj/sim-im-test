@@ -67,6 +67,7 @@ MsgJournal::MsgJournal(MsgEdit *parent, Message *msg)
             }
         }
     }
+    m_wnd->cmbComment->setCurrentItem(m->getComments());
     m_edit->m_edit->setTextFormat(RichText);
     QString text = msg->getRichText();
     if (!text.isEmpty()){
@@ -138,7 +139,9 @@ void *MsgJournal::processEvent(Event *e)
                 QString msgText = m_edit->m_edit->text();
                 if (!msgText.isEmpty())
                     send(msgText);
-            }else if (cmd->id == CmdDeleteJournalMessage + CmdReceived){
+                return e->param();
+            }
+            if (cmd->id == CmdDeleteJournalMessage + CmdReceived){
                 QWidget *w = m_edit->m_bar;
                 Command cmd;
                 cmd->id		= CmdDeleteJournalMessage + CmdReceived;
@@ -148,8 +151,9 @@ void *MsgJournal::processEvent(Event *e)
                 if (btnRemove)
                     w = btnRemove;
                 BalloonMsg::ask(NULL, i18n("Remove record from journal?"), w, SLOT(removeRecord(void*)), NULL, NULL, this);
+                return e->param();
             }
-            return e->param();
+            return NULL;
         }
     }
     return NULL;
@@ -176,6 +180,7 @@ void MsgJournal::send(const QString& msgText)
     msg->setSubject(m_wnd->edtSubj->text());
     msg->setPrivate(m_wnd->cmbSecurity->currentItem());
     msg->setMood(m_wnd->cmbMood->currentItem());
+    msg->setComments(m_wnd->cmbComment->currentItem());
     MsgSend ms;
     ms.edit = m_edit;
     ms.msg  = msg;

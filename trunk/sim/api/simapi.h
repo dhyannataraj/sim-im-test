@@ -1807,6 +1807,6 @@ public:
 
 using namespace SIM;
 
-EXPORT QString i18n(const char *text, Contact *contact);
+EXPORT QString g_i18n(const char *text, Contact *contact);
 
 #endif

@@ -1154,8 +1154,10 @@ void UserView::hideTip()
 {
     tipTimer->stop();
     mTipItem = NULL;
-    if (m_tip)
-        m_tip->hide();
+    if (m_tip){
+        delete m_tip;
+        m_tip = NULL;
+    }
 }
 
 void UserView::showTip()
@@ -1320,7 +1322,7 @@ UserViewContactDragObject::UserViewContactDragObject(UserView *view, Contact *co
     DWORD threadId;
     CreateThread(NULL, 0, DragScrollThread, NULL, 0, &threadId);
 #else
-QTimer *dragTimer = new QTimer(this);
+    QTimer *dragTimer = new QTimer(this);
     connect(dragTimer, SIGNAL(timeout()), view, SLOT(dragScroll()));
     dragTimer->start(200);
 #endif
@@ -1422,7 +1424,7 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
             if (msg){
                 if (isDrop){
                     msg->setContact(static_cast<ContactItem*>(item)->id());
-                    Event e(EventOpenMessage, msg);
+                    Event e(EventOpenMessage, &msg);
                     e.process();
                 }
                 delete msg;
@@ -1436,7 +1438,7 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
                         Message *msg = new Message(MessageGeneric);
                         msg->setText(str);
                         msg->setContact(static_cast<ContactItem*>(item)->id());
-                        Event e(EventOpenMessage, msg);
+                        Event e(EventOpenMessage, &msg);
                         e.process();
                         delete msg;
                     }

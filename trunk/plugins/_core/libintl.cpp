@@ -48,6 +48,7 @@ not, write to the Free Software Foundation, Inc., 675 Mass Ave,
 Cambridge, MA 02139, USA.  */
 
 #include "config.h"
+#include "simapi.h"
 #include "qglobal.h"
 
 #if !defined(USE_KDE) && (COMPAT_QT_VERSION >= 0x030000)

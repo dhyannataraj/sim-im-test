@@ -345,7 +345,7 @@ void MsgViewBase::setSource(const QString &url)
         client = QString::number(m_id);
     Message *msg = History::load(msg_id, client.utf8(), m_id);
     if (msg){
-        Event e(EventOpenMessage, msg);
+        Event e(EventOpenMessage, &msg);
         e.process();
         delete msg;
     }
@@ -841,7 +841,7 @@ void *MsgViewBase::processEvent(Event *e)
             msg = currentMessage();
             if (msg){
                 msg->setFlags(msg->getFlags() | MESSAGE_OPEN);
-                Event eOpen(EventOpenMessage, msg);
+                Event eOpen(EventOpenMessage, &msg);
                 eOpen.process();
                 delete msg;
                 return e->param();

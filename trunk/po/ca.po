@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2004-02-20 08:57+0300\n"
+"POT-Creation-Date: 2004-02-22 16:39+0300\n"
 "PO-Revision-Date: 2003-09-17 18:18+0100\n"
 "Last-Translator: Pau Bosch i Crespo <paubcrespo@hotmail.com>\n"
 "Language-Team: LANGUAGE <paubcrespo@hotmail.com>\n"
@@ -990,7 +990,7 @@ msgstr "Mala opció"
 msgid "Usage: %1 "
 msgstr "Sintaxi: %1"
 
-#: sim/api/simapi.cpp:96
+#: sim/api/simapi.cpp:106
 msgid ""
 "_: Dear translator, please do not translate this string in any form, but "
 "pick the _right_ value out of NoPlural/TwoForms/French... If not sure what "
@@ -1006,23 +1006,23 @@ msgstr ""
 #: plugins/_core/toolsetupbase.cpp:135 plugins/action/additembase.cpp:94
 #: plugins/gpg/gpggenbase.cpp:114 plugins/icq/encodingdlgbase.cc:86
 #: plugins/icq/warndlgbase.cc:88 plugins/jabber/discoinfobase.cpp:289
-#: plugins/proxy/proxyerrorbase.cpp:80 sim/api/simapi.cpp:446
+#: plugins/proxy/proxyerrorbase.cpp:80 sim/api/simapi.cpp:456
 #: sim/ui/qt3/i18n.cpp:174
 msgid "&OK"
 msgstr "&D'acord"
 
-#: sim/api/simapi.cpp:446 sim/ui/ballonmsg.cpp:304 sim/ui/qt3/i18n.cpp:125
+#: sim/api/simapi.cpp:456 sim/ui/ballonmsg.cpp:319 sim/ui/qt3/i18n.cpp:125
 msgid "&Yes"
 msgstr "&Sí"
 
 #: plugins/_core/cfgdlg.cpp:488 plugins/_core/cfgdlgbase.cpp:94
 #: plugins/_core/toolsetupbase.cpp:134 plugins/jabber/discoinfobase.cpp:288
-#: sim/api/simapi.cpp:447
+#: sim/api/simapi.cpp:457
 msgid "&Apply"
 msgstr "&Aplica"
 
 #: plugins/jabber/jabber.cpp:336 plugins/jabber/servicesbase.cpp:115
-#: sim/api/simapi.cpp:447
+#: sim/api/simapi.cpp:457
 msgid "&Register"
 msgstr "&Registre"
 
@@ -1034,90 +1034,90 @@ msgstr "&Registre"
 #: plugins/gpg/gpggenbase.cpp:115 plugins/icq/encodingdlgbase.cc:87
 #: plugins/icq/icqclient.cpp:2353 plugins/icq/securedlgbase.cc:78
 #: plugins/icq/warndlgbase.cc:89 plugins/proxy/proxyerrorbase.cpp:81
-#: sim/api/simapi.cpp:449 sim/ui/qt3/i18n.cpp:35
+#: sim/api/simapi.cpp:459 sim/ui/qt3/i18n.cpp:35
 msgid "&Cancel"
 msgstr "&Anul·la"
 
-#: plugins/_core/core.cpp:632 plugins/_core/filetransfer.cpp:310
+#: plugins/_core/core.cpp:635 plugins/_core/filetransfer.cpp:310
 #: plugins/_core/managerbase.cpp:110 plugins/_core/toolsetupbase.cpp:136
 #: plugins/about/aboutdlgbase.cpp:125 plugins/icq/securedlg.cpp:92
-#: plugins/jabber/discoinfobase.cpp:290 sim/api/simapi.cpp:449
+#: plugins/jabber/discoinfobase.cpp:290 sim/api/simapi.cpp:459
 #: sim/ui/qt3/i18n.cpp:287
 msgid "&Close"
 msgstr "&Tanca"
 
-#: sim/api/simapi.cpp:450 sim/ui/ballonmsg.cpp:305 sim/ui/qt3/i18n.cpp:127
+#: sim/api/simapi.cpp:460 sim/ui/ballonmsg.cpp:320 sim/ui/qt3/i18n.cpp:127
 msgid "&No"
 msgstr "%No"
 
 #: plugins/_core/arcfgbase.cpp:80 plugins/_core/autoreplybase.cpp:89
 #: plugins/action/actioncfgbase.cpp:62 plugins/action/additembase.cpp:93
-#: sim/api/simapi.cpp:452
+#: sim/api/simapi.cpp:462
 #, fuzzy
 msgid "&Help"
 msgstr "Ajuda"
 
-#: sim/api/simapi.cpp:649
+#: sim/api/simapi.cpp:659
 msgid "Smile"
 msgstr "Ganyota"
 
-#: sim/api/simapi.cpp:650
+#: sim/api/simapi.cpp:660
 msgid "Surprised"
 msgstr "Sorprès"
 
-#: sim/api/simapi.cpp:651
+#: sim/api/simapi.cpp:661
 msgid "Indifferent"
 msgstr "Indiferent"
 
-#: sim/api/simapi.cpp:652
+#: sim/api/simapi.cpp:662
 msgid "Skeptical"
 msgstr "Escèptic"
 
-#: sim/api/simapi.cpp:653
+#: sim/api/simapi.cpp:663
 msgid "Sad"
 msgstr "Trist"
 
-#: sim/api/simapi.cpp:654
+#: sim/api/simapi.cpp:664
 msgid "Kiss"
 msgstr "Petó"
 
-#: sim/api/simapi.cpp:655
+#: sim/api/simapi.cpp:665
 msgid "Annoyed"
 msgstr "Empipat"
 
-#: sim/api/simapi.cpp:656
+#: sim/api/simapi.cpp:666
 msgid "Crying"
 msgstr "Ploramiques"
 
-#: sim/api/simapi.cpp:657
+#: sim/api/simapi.cpp:667
 msgid "Wink"
 msgstr "Picada d'ullet"
 
-#: sim/api/simapi.cpp:658
+#: sim/api/simapi.cpp:668
 msgid "Angry"
 msgstr "Enfadat"
 
-#: sim/api/simapi.cpp:659
+#: sim/api/simapi.cpp:669
 msgid "Embarrassed"
 msgstr "Avergonyit"
 
-#: sim/api/simapi.cpp:660
+#: sim/api/simapi.cpp:670
 msgid "Uptight"
 msgstr "Nerviòs"
 
-#: sim/api/simapi.cpp:661
+#: sim/api/simapi.cpp:671
 msgid "Teaser"
 msgstr "Bromista"
 
-#: sim/api/simapi.cpp:662
+#: sim/api/simapi.cpp:672
 msgid "Cool"
 msgstr "Fred"
 
-#: sim/api/simapi.cpp:663
+#: sim/api/simapi.cpp:673
 msgid "Angel"
 msgstr "Àngel"
 
-#: sim/api/simapi.cpp:664
+#: sim/api/simapi.cpp:674
 msgid "Grin"
 msgstr "Ganyotes"
 
@@ -1247,11 +1247,11 @@ msgstr "&Colors actuals"
 msgid "&Define Custom Colors >>"
 msgstr "&Defineix els colors actuals >>"
 
-#: sim/ui/qt3/i18n.cpp:21
+#: plugins/_core/core.cpp:1567 sim/ui/qt3/i18n.cpp:21
 msgid "OK"
 msgstr "D'acord"
 
-#: plugins/_core/msgedit.cpp:908 sim/ui/qt3/i18n.cpp:23
+#: plugins/_core/msgedit.cpp:909 sim/ui/qt3/i18n.cpp:23
 msgid "Cancel"
 msgstr "Anul·la"
 
@@ -1400,13 +1400,13 @@ msgstr "&Obre"
 msgid "&Save"
 msgstr "&Desa"
 
-#: plugins/_core/core.cpp:1158 plugins/_core/historycfgbase.cpp:175
+#: plugins/_core/core.cpp:1161 plugins/_core/historycfgbase.cpp:175
 #: sim/ui/qt3/i18n.cpp:97
 msgid "&Rename"
 msgstr "&Reanomena"
 
-#: plugins/_core/core.cpp:1167 plugins/_core/core.cpp:1314
-#: plugins/_core/core.cpp:1327 plugins/_core/historycfgbase.cpp:176
+#: plugins/_core/core.cpp:1170 plugins/_core/core.cpp:1317
+#: plugins/_core/core.cpp:1330 plugins/_core/historycfgbase.cpp:176
 #: plugins/_core/logindlgbase.cpp:129 plugins/_core/maininfobase.cpp:178
 #: plugins/_core/maininfobase.cpp:188 plugins/action/menucfgbase.cpp:70
 #: sim/ui/listview.cpp:38 sim/ui/qt3/i18n.cpp:99
@@ -1528,7 +1528,7 @@ msgstr "Efectes"
 msgid "Stri&keout"
 msgstr ""
 
-#: plugins/_core/core.cpp:735 plugins/_core/core.cpp:832
+#: plugins/_core/core.cpp:738 plugins/_core/core.cpp:835
 #: sim/ui/qt3/i18n.cpp:160
 msgid "&Underline"
 msgstr "&Subratllat"
@@ -1717,12 +1717,12 @@ msgstr "Copia"
 msgid "Paste"
 msgstr "Enganxa"
 
-#: plugins/_core/core.cpp:984 sim/ui/qt3/i18n.cpp:255
+#: plugins/_core/core.cpp:987 sim/ui/qt3/i18n.cpp:255
 #: sim/ui/qt3/qtextedit.cpp:4217
 msgid "Clear"
 msgstr "Neteja"
 
-#: plugins/_core/core.cpp:992 sim/ui/qt3/i18n.cpp:257
+#: plugins/_core/core.cpp:995 sim/ui/qt3/i18n.cpp:257
 #: sim/ui/qt3/qtextedit.cpp:4221 sim/ui/qt3/qtextedit.cpp:4223
 msgid "Select All"
 msgstr "Selecciona-ho tot"
@@ -1811,25 +1811,25 @@ msgstr "Restaura amunt"
 msgid "Roll down"
 msgstr "Llisca cap abaix"
 
-#: plugins/_core/core.cpp:941 sim/ui/qt3/qtextedit.cpp:4205
+#: plugins/_core/core.cpp:944 sim/ui/qt3/qtextedit.cpp:4205
 msgid "&Undo"
 msgstr "&Desfés"
 
-#: plugins/_core/core.cpp:952 sim/ui/qt3/qtextedit.cpp:4206
+#: plugins/_core/core.cpp:955 sim/ui/qt3/qtextedit.cpp:4206
 msgid "&Redo"
 msgstr "&Refés"
 
-#: plugins/_core/core.cpp:960 sim/ui/qt3/qtextedit.cpp:4211
+#: plugins/_core/core.cpp:963 sim/ui/qt3/qtextedit.cpp:4211
 msgid "Cu&t"
 msgstr "&Talla"
 
-#: plugins/_core/core.cpp:877 plugins/_core/core.cpp:968
+#: plugins/_core/core.cpp:880 plugins/_core/core.cpp:971
 #: plugins/_core/historycfgbase.cpp:174 plugins/netmonitor/monitor.cpp:67
 #: sim/ui/qt3/qtextedit.cpp:4212
 msgid "&Copy"
 msgstr "&Copia"
 
-#: plugins/_core/core.cpp:976 sim/ui/qt3/qtextedit.cpp:4214
+#: plugins/_core/core.cpp:979 sim/ui/qt3/qtextedit.cpp:4214
 msgid "&Paste"
 msgstr "&Enganxa"
 
@@ -1946,7 +1946,7 @@ msgstr "&Dis:"
 msgid "Sun"
 msgstr "Sudan"
 
-#: sim/ui/ballonmsg.cpp:292
+#: sim/ui/ballonmsg.cpp:307
 msgid "&Ok"
 msgstr "&D'acord"
 
@@ -1978,7 +1978,7 @@ msgstr "Mantenidor"
 msgid "Developer"
 msgstr ""
 
-#: xpstyle/xpstyle.cpp:53
+#: xpstyle/xpstyle.cpp:62
 #, fuzzy
 msgid "Windows XP style"
 msgstr "Finestra - escala"
@@ -1993,7 +1993,7 @@ msgid "Youur account is being used from another location"
 msgstr "La vostra UIN s'està utilizant des d'una altra banda"
 
 #: plugins/_core/logindlg.cpp:462 plugins/jabber/jabberclient.cpp:1113
-#: plugins/livejournal/livejournal.cpp:916 plugins/msn/msnclient.cpp:610
+#: plugins/livejournal/livejournal.cpp:922 plugins/msn/msnclient.cpp:610
 #: plugins/yahoo/yahooclient.cpp:285 plugins/yahoo/yahooclient.cpp:296
 msgid "Login failed"
 msgstr "Rellistre fallit"
@@ -2016,7 +2016,7 @@ msgstr "Últim en línia"
 #: plugins/icq/icq.cpp:269 plugins/icq/icqclient.cpp:1434
 #: plugins/icq/icqclient.cpp:1468 plugins/jabber/jabber.cpp:87
 #: plugins/jabber/jabberclient.cpp:1425 plugins/jabber/services.cpp:235
-#: plugins/livejournal/livejournal.cpp:317 plugins/msn/msn.cpp:86
+#: plugins/livejournal/livejournal.cpp:318 plugins/msn/msn.cpp:86
 #: plugins/msn/msnclient.cpp:1557 plugins/sms/sms.cpp:229
 #: plugins/yahoo/yahoo.cpp:97 plugins/yahoo/yahooclient.cpp:1182
 msgid "Online"
@@ -2074,81 +2074,6 @@ msgstr "Resultats de recerca MSN"
 msgid "Contact %1 allready in list"
 msgstr "El contacte %1 ja és al llistat"
 
-#: plugins/__homedir/homedircfgbase.cpp:62 plugins/_core/arcfgbase.cpp:78
-#: plugins/_core/filecfgbase.cpp:86 plugins/_core/historycfgbase.cpp:165
-#: plugins/_core/interfacecfgbase.cpp:117 plugins/_core/maininfobase.cpp:170
-#: plugins/_core/msgcfgbase.cpp:83 plugins/_core/phonebase.cpp:113
-#: plugins/_core/plugincfgbase.cpp:70 plugins/_core/prefcfgbase.cpp:65
-#: plugins/_core/smscfgbase.cpp:64 plugins/_core/userhistorycfgbase.cpp:91
-#: plugins/action/actioncfgbase.cpp:61 plugins/action/menucfgbase.cpp:67
-#: plugins/autoaway/autoawaycfgbase.cpp:102
-#: plugins/background/bkgndcfgbase.cpp:97 plugins/dock/dockcfgbase.cpp:91
-#: plugins/filter/filtercfgbase.cpp:65 plugins/forward/forwardcfgbase.cpp:70
-#: plugins/gpg/gpgadvbase.cpp:124 plugins/gpg/gpgcfgbase.cpp:101
-#: plugins/gpg/gpguserbase.cpp:67 plugins/icons/iconcfgbase.cpp:76
-#: plugins/icons/smilecfgbase.cpp:62 plugins/icq/aimconfigbase.cc:117
-#: plugins/icq/aiminfobase.cc:255 plugins/icq/aimsearchbase.cc:239
-#: plugins/icq/homeinfobase.cc:143 plugins/icq/icqconfigbase.cc:200
-#: plugins/icq/icqpicturebase.cc:74 plugins/icq/icqsecurebase.cc:153
-#: plugins/icq/pastinfobase.cc:138 plugins/jabber/addresultbase.cpp:57
-#: plugins/jabber/infoproxybase.cpp:55 plugins/jabber/jabberaddbase.cpp:92
-#: plugins/jabber/jabberconfigbase.cpp:248
-#: plugins/jabber/jabberinfobase.cpp:182
-#: plugins/jabber/jabberpicturebase.cpp:74
-#: plugins/jabber/jabberworkinfobase.cpp:88
-#: plugins/jabber/servicesbase.cpp:107
-#: plugins/livejournal/journalsearchbase.cpp:69
-#: plugins/livejournal/livejournalcfgbase.cpp:148
-#: plugins/livejournal/msgjournalbase.cpp:78
-#: plugins/logger/logconfigbase.cpp:67 plugins/msn/msninfobase.cpp:129
-#: plugins/msn/msnsearchbase.cpp:78 plugins/navigate/navcfgbase.cc:64
-#: plugins/ontop/ontopcfgbase.cpp:57 plugins/osd/osdconfigbase.cpp:60
-#: plugins/proxy/proxycfgbase.cpp:136 plugins/remote/remotecfgbase.cpp:95
-#: plugins/replace/replacecfgbase.cpp:52 plugins/shortcuts/mousecfgbase.cpp:77
-#: plugins/shortcuts/shortcutcfgbase.cpp:79
-#: plugins/sound/soundconfigbase.cpp:100 plugins/sound/sounduserbase.cpp:62
-#: plugins/spell/spellcfgbase.cpp:83 plugins/styles/fontconfigbase.cpp:99
-#: plugins/styles/stylescfgbase.cpp:52
-#: plugins/transparent/transparentcfgbase.cpp:70
-#: plugins/yahoo/yahooinfobase.cpp:147 plugins/yahoo/yahoosearchbase.cpp:78
-msgid "Form1"
-msgstr "Form1"
-
-#: plugins/_core/maininfo.cpp:70 plugins/filter/ignorelist.cpp:28
-#: plugins/icq/icqsecure.cpp:127 plugins/jabber/jabbersearch.cpp:100
-#: plugins/msn/msninfobase.cpp:130
-msgid "EMail"
-msgstr "C-el"
-
-#: plugins/icq/aiminfobase.cc:260 plugins/icq/icqinfobase.cc:277
-#: plugins/jabber/discoinfobase.cpp:280 plugins/jabber/jabberinfobase.cpp:185
-#: plugins/msn/msninfobase.cpp:131 plugins/yahoo/yahooinfobase.cpp:148
-msgid "Nick:"
-msgstr "Malnom:"
-
-#: plugins/icq/icqinfobase.cc:281 plugins/jabber/jabberinfobase.cpp:189
-#: plugins/msn/msninfobase.cpp:132 plugins/yahoo/yahooinfobase.cpp:152
-msgid "&Names"
-msgstr "&Noms"
-
-#: plugins/icq/aiminfobase.cc:271 plugins/icq/icqinfobase.cc:282
-#: plugins/jabber/jabberinfobase.cpp:190 plugins/msn/msninfobase.cpp:133
-#: plugins/yahoo/yahooinfobase.cpp:153
-msgid "Status:"
-msgstr "Estat:"
-
-#: plugins/_core/userviewcfgbase.cpp:267 plugins/icq/aiminfobase.cc:268
-#: plugins/icq/icqinfobase.cc:283 plugins/jabber/jabberinfobase.cpp:191
-#: plugins/msn/msninfobase.cpp:134 plugins/yahoo/yahooinfobase.cpp:154
-msgid "Online:"
-msgstr "En línia:"
-
-#: plugins/_core/core.cpp:1238 plugins/icq/aiminfobase.cc:274
-#: plugins/icq/icqinfobase.cc:288 plugins/jabber/jabberinfobase.cpp:194
-#: plugins/msn/msninfobase.cpp:136 plugins/yahoo/yahooinfobase.cpp:156
-msgid "&Status"
-msgstr "&Estat"
-
 #: plugins/_core/pagerbase.cpp:87 plugins/_core/userviewcfgbase.cpp:247
 #: plugins/filter/ignorelistbase.cpp:54 plugins/icq/interestsinfobase.cc:108
 #: plugins/icq/searchresultbase.cc:56 plugins/icq/workinfobase.cc:178
@@ -2159,54 +2084,6 @@ msgstr "&Estat"
 #: plugins/yahoo/yahooresultbase.cpp:54
 msgid "Form2"
 msgstr "Form2"
-
-#: plugins/msn/msn.cpp:63
-msgid "MSN"
-msgstr "MSN"
-
-#: plugins/msn/msn.cpp:66
-msgid ""
-"http://help.microsoft.com/!data/en_us/data/messengerv47_xp.its51/$content$/xp"
-"troublesignin.htm"
-msgstr ""
-
-#: plugins/_core/userviewcfgbase.cpp:268 plugins/icq/icq.cpp:114
-#: plugins/icq/icq.cpp:284 plugins/icq/icqclient.cpp:1437
-#: plugins/jabber/jabber.cpp:102 plugins/msn/msn.cpp:101
-#: plugins/yahoo/yahoo.cpp:112
-msgid "Away"
-msgstr "Absent"
-
-#: plugins/_core/userviewcfgbase.cpp:269 plugins/icq/icq.cpp:129
-#: plugins/jabber/jabber.cpp:117 plugins/msn/msn.cpp:116
-#: plugins/yahoo/yahoo.cpp:127
-msgid "N/A"
-msgstr "N/A"
-
-#: plugins/_core/maininfo.cpp:81 plugins/msn/msn.cpp:131
-#: plugins/yahoo/yahoo.cpp:142
-msgid "Busy"
-msgstr "Emfeinat"
-
-#: plugins/msn/msn.cpp:146 plugins/yahoo/yahooclient.cpp:1194
-msgid "Be right back"
-msgstr ""
-
-#: plugins/msn/msn.cpp:161 plugins/yahoo/yahooclient.cpp:1206
-msgid "On the phone"
-msgstr "Al telèfon"
-
-#: plugins/msn/msn.cpp:176
-msgid "On the lunch"
-msgstr "Hora de dinar"
-
-#: plugins/_core/userlist.cpp:598 plugins/_core/userviewcfgbase.cpp:266
-#: plugins/icq/icq.cpp:189 plugins/icq/icq.cpp:299
-#: plugins/icq/icqclient.cpp:1431 plugins/jabber/jabber.cpp:162
-#: plugins/jabber/services.cpp:232 plugins/livejournal/livejournal.cpp:332
-#: plugins/msn/msn.cpp:191 plugins/sms/sms.cpp:244 plugins/yahoo/yahoo.cpp:157
-msgid "Offline"
-msgstr "Fora de línia"
 
 #: plugins/msn/msnconfigbase.cpp:141 plugins/yahoo/yahoocfgbase.cpp:142
 #: plugins/yahoo/yahooinfobase.cpp:149
@@ -2261,6 +2138,129 @@ msgstr "-"
 #: plugins/msn/msnconfigbase.cpp:148 plugins/yahoo/yahoocfgbase.cpp:149
 msgid "&Network"
 msgstr "&Treball en xarxa"
+
+#: plugins/__homedir/homedircfgbase.cpp:62 plugins/_core/arcfgbase.cpp:78
+#: plugins/_core/filecfgbase.cpp:86 plugins/_core/historycfgbase.cpp:165
+#: plugins/_core/interfacecfgbase.cpp:117 plugins/_core/maininfobase.cpp:170
+#: plugins/_core/msgcfgbase.cpp:83 plugins/_core/phonebase.cpp:113
+#: plugins/_core/plugincfgbase.cpp:70 plugins/_core/prefcfgbase.cpp:65
+#: plugins/_core/smscfgbase.cpp:64 plugins/_core/userhistorycfgbase.cpp:91
+#: plugins/action/actioncfgbase.cpp:61 plugins/action/menucfgbase.cpp:67
+#: plugins/autoaway/autoawaycfgbase.cpp:102
+#: plugins/background/bkgndcfgbase.cpp:97 plugins/dock/dockcfgbase.cpp:91
+#: plugins/filter/filtercfgbase.cpp:65 plugins/forward/forwardcfgbase.cpp:70
+#: plugins/gpg/gpgadvbase.cpp:124 plugins/gpg/gpgcfgbase.cpp:101
+#: plugins/gpg/gpguserbase.cpp:67 plugins/icons/iconcfgbase.cpp:76
+#: plugins/icons/smilecfgbase.cpp:62 plugins/icq/aimconfigbase.cc:117
+#: plugins/icq/aiminfobase.cc:255 plugins/icq/aimsearchbase.cc:239
+#: plugins/icq/homeinfobase.cc:143 plugins/icq/icqconfigbase.cc:200
+#: plugins/icq/icqpicturebase.cc:74 plugins/icq/icqsecurebase.cc:153
+#: plugins/icq/pastinfobase.cc:138 plugins/jabber/addresultbase.cpp:57
+#: plugins/jabber/infoproxybase.cpp:55 plugins/jabber/jabberaddbase.cpp:92
+#: plugins/jabber/jabberconfigbase.cpp:248
+#: plugins/jabber/jabberinfobase.cpp:182
+#: plugins/jabber/jabberpicturebase.cpp:74
+#: plugins/jabber/jabberworkinfobase.cpp:88
+#: plugins/jabber/servicesbase.cpp:107
+#: plugins/livejournal/journalsearchbase.cpp:69
+#: plugins/livejournal/livejournalcfgbase.cpp:148
+#: plugins/livejournal/msgjournalbase.cpp:81
+#: plugins/logger/logconfigbase.cpp:67 plugins/msn/msninfobase.cpp:129
+#: plugins/msn/msnsearchbase.cpp:78 plugins/navigate/navcfgbase.cc:64
+#: plugins/ontop/ontopcfgbase.cpp:57 plugins/osd/osdconfigbase.cpp:60
+#: plugins/proxy/proxycfgbase.cpp:136 plugins/remote/remotecfgbase.cpp:95
+#: plugins/replace/replacecfgbase.cpp:52 plugins/shortcuts/mousecfgbase.cpp:77
+#: plugins/shortcuts/shortcutcfgbase.cpp:79
+#: plugins/sound/soundconfigbase.cpp:100 plugins/sound/sounduserbase.cpp:62
+#: plugins/spell/spellcfgbase.cpp:83 plugins/styles/fontconfigbase.cpp:99
+#: plugins/styles/stylescfgbase.cpp:52
+#: plugins/transparent/transparentcfgbase.cpp:70
+#: plugins/yahoo/yahooinfobase.cpp:147 plugins/yahoo/yahoosearchbase.cpp:78
+msgid "Form1"
+msgstr "Form1"
+
+#: plugins/_core/maininfo.cpp:70 plugins/filter/ignorelist.cpp:28
+#: plugins/icq/icqsecure.cpp:127 plugins/jabber/jabbersearch.cpp:100
+#: plugins/msn/msninfobase.cpp:130
+msgid "EMail"
+msgstr "C-el"
+
+#: plugins/icq/aiminfobase.cc:260 plugins/icq/icqinfobase.cc:277
+#: plugins/jabber/discoinfobase.cpp:280 plugins/jabber/jabberinfobase.cpp:185
+#: plugins/msn/msninfobase.cpp:131 plugins/yahoo/yahooinfobase.cpp:148
+msgid "Nick:"
+msgstr "Malnom:"
+
+#: plugins/icq/icqinfobase.cc:281 plugins/jabber/jabberinfobase.cpp:189
+#: plugins/msn/msninfobase.cpp:132 plugins/yahoo/yahooinfobase.cpp:152
+msgid "&Names"
+msgstr "&Noms"
+
+#: plugins/icq/aiminfobase.cc:271 plugins/icq/icqinfobase.cc:282
+#: plugins/jabber/jabberinfobase.cpp:190 plugins/msn/msninfobase.cpp:133
+#: plugins/yahoo/yahooinfobase.cpp:153
+msgid "Status:"
+msgstr "Estat:"
+
+#: plugins/_core/userviewcfgbase.cpp:267 plugins/icq/aiminfobase.cc:268
+#: plugins/icq/icqinfobase.cc:283 plugins/jabber/jabberinfobase.cpp:191
+#: plugins/msn/msninfobase.cpp:134 plugins/yahoo/yahooinfobase.cpp:154
+msgid "Online:"
+msgstr "En línia:"
+
+#: plugins/_core/core.cpp:1241 plugins/icq/aiminfobase.cc:274
+#: plugins/icq/icqinfobase.cc:288 plugins/jabber/jabberinfobase.cpp:194
+#: plugins/msn/msninfobase.cpp:136 plugins/yahoo/yahooinfobase.cpp:156
+msgid "&Status"
+msgstr "&Estat"
+
+#: plugins/msn/msn.cpp:63
+msgid "MSN"
+msgstr "MSN"
+
+#: plugins/msn/msn.cpp:66
+msgid ""
+"http://help.microsoft.com/!data/en_us/data/messengerv47_xp.its51/$content$/xp"
+"troublesignin.htm"
+msgstr ""
+
+#: plugins/_core/userviewcfgbase.cpp:268 plugins/icq/icq.cpp:114
+#: plugins/icq/icq.cpp:284 plugins/icq/icqclient.cpp:1437
+#: plugins/jabber/jabber.cpp:102 plugins/msn/msn.cpp:101
+#: plugins/yahoo/yahoo.cpp:112
+msgid "Away"
+msgstr "Absent"
+
+#: plugins/_core/userviewcfgbase.cpp:269 plugins/icq/icq.cpp:129
+#: plugins/jabber/jabber.cpp:117 plugins/msn/msn.cpp:116
+#: plugins/yahoo/yahoo.cpp:127
+msgid "N/A"
+msgstr "N/A"
+
+#: plugins/_core/maininfo.cpp:81 plugins/msn/msn.cpp:131
+#: plugins/yahoo/yahoo.cpp:142
+msgid "Busy"
+msgstr "Emfeinat"
+
+#: plugins/msn/msn.cpp:146 plugins/yahoo/yahooclient.cpp:1194
+msgid "Be right back"
+msgstr ""
+
+#: plugins/msn/msn.cpp:161 plugins/yahoo/yahooclient.cpp:1206
+msgid "On the phone"
+msgstr "Al telèfon"
+
+#: plugins/msn/msn.cpp:176
+msgid "On the lunch"
+msgstr "Hora de dinar"
+
+#: plugins/_core/userlist.cpp:598 plugins/_core/userviewcfgbase.cpp:266
+#: plugins/icq/icq.cpp:189 plugins/icq/icq.cpp:299
+#: plugins/icq/icqclient.cpp:1431 plugins/jabber/jabber.cpp:162
+#: plugins/jabber/services.cpp:232 plugins/livejournal/livejournal.cpp:333
+#: plugins/msn/msn.cpp:191 plugins/sms/sms.cpp:244 plugins/yahoo/yahoo.cpp:157
+msgid "Offline"
+msgstr "Fora de línia"
 
 #: plugins/gpg/gpggenbase.cpp:116 plugins/jabber/discoinfobase.cpp:285
 #: plugins/msn/msnsearchbase.cpp:79
@@ -2409,8 +2409,8 @@ msgid "Plugins"
 msgstr "Pedaços"
 
 #: plugins/_core/cfgdlg.cpp:491 plugins/_core/cfgdlgbase.cpp:91
-#: plugins/_core/core.cpp:527 plugins/_core/core.cpp:1116
-#: plugins/_core/core.cpp:1198
+#: plugins/_core/core.cpp:530 plugins/_core/core.cpp:1119
+#: plugins/_core/core.cpp:1201
 msgid "Setup"
 msgstr "Configuració"
 
@@ -2453,95 +2453,95 @@ msgid ""
 "%1 typed"
 msgstr "%1 teclejat"
 
-#: plugins/_core/core.cpp:75
+#: plugins/_core/core.cpp:76
 msgid "Interface"
 msgstr "Interfície"
 
-#: plugins/_core/core.cpp:76
+#: plugins/_core/core.cpp:77
 msgid "System interface"
 msgstr "Interfície de sistema"
 
-#: plugins/_core/core.cpp:172
+#: plugins/_core/core.cpp:173
 msgid "Unicode"
 msgstr "Unicode"
 
-#: plugins/_core/core.cpp:174 plugins/_core/core.cpp:175
+#: plugins/_core/core.cpp:175 plugins/_core/core.cpp:176
 #: plugins/icq/moreinfo.cpp:87
 msgid "Arabic"
 msgstr "Àrab"
 
-#: plugins/_core/core.cpp:177 plugins/_core/core.cpp:178
+#: plugins/_core/core.cpp:178 plugins/_core/core.cpp:179
 msgid "Baltic"
 msgstr "Bàltic"
 
-#: plugins/_core/core.cpp:180 plugins/_core/core.cpp:182
+#: plugins/_core/core.cpp:181 plugins/_core/core.cpp:183
 msgid "Central European"
 msgstr "Central europeu"
 
-#: plugins/_core/core.cpp:181 plugins/icq/moreinfo.cpp:99
+#: plugins/_core/core.cpp:182 plugins/icq/moreinfo.cpp:99
 msgid "Esperanto"
 msgstr "Esperanto"
 
-#: plugins/_core/core.cpp:184
+#: plugins/_core/core.cpp:185
 msgid "Chinese "
 msgstr "Xinès"
 
-#: plugins/_core/core.cpp:185
+#: plugins/_core/core.cpp:186
 msgid "Chinese Simplified"
 msgstr "Xinès simplificat"
 
-#: plugins/_core/core.cpp:186
+#: plugins/_core/core.cpp:187
 msgid "Chinese Traditional"
 msgstr "Xinès tradicional"
 
-#: plugins/_core/core.cpp:188 plugins/_core/core.cpp:189
-#: plugins/_core/core.cpp:191
+#: plugins/_core/core.cpp:189 plugins/_core/core.cpp:190
+#: plugins/_core/core.cpp:192
 msgid "Cyrillic"
 msgstr "Cirílic"
 
-#: plugins/_core/core.cpp:190 plugins/_core/interfacecfg.cpp:63
+#: plugins/_core/core.cpp:191 plugins/_core/interfacecfg.cpp:63
 #: plugins/icq/moreinfo.cpp:136
 msgid "Ukrainian"
 msgstr "Ucrainià"
 
-#: plugins/_core/core.cpp:193 plugins/_core/core.cpp:194
+#: plugins/_core/core.cpp:194 plugins/_core/core.cpp:195
 #: plugins/_core/interfacecfg.cpp:50 plugins/icq/moreinfo.cpp:106
 msgid "Greek"
 msgstr "Grec"
 
-#: plugins/_core/core.cpp:196 plugins/_core/core.cpp:197
+#: plugins/_core/core.cpp:197 plugins/_core/core.cpp:198
 #: plugins/_core/interfacecfg.cpp:53 plugins/icq/moreinfo.cpp:107
 msgid "Hebrew"
 msgstr "Hebreu"
 
-#: plugins/_core/core.cpp:199 plugins/_core/core.cpp:200
-#: plugins/_core/core.cpp:201 plugins/icq/moreinfo.cpp:113
+#: plugins/_core/core.cpp:200 plugins/_core/core.cpp:201
+#: plugins/_core/core.cpp:202 plugins/icq/moreinfo.cpp:113
 msgid "Japanese"
 msgstr "Japonès"
 
-#: plugins/_core/core.cpp:203 plugins/icq/moreinfo.cpp:115
+#: plugins/_core/core.cpp:204 plugins/icq/moreinfo.cpp:115
 msgid "Korean"
 msgstr "Coreà"
 
-#: plugins/_core/core.cpp:205 plugins/_core/core.cpp:206
-#: plugins/_core/core.cpp:207
+#: plugins/_core/core.cpp:206 plugins/_core/core.cpp:207
+#: plugins/_core/core.cpp:208
 msgid "Western European"
 msgstr "Europeu oriental"
 
-#: plugins/_core/core.cpp:209
+#: plugins/_core/core.cpp:210
 msgid "Tamil"
 msgstr "Tamil"
 
-#: plugins/_core/core.cpp:211 plugins/icq/moreinfo.cpp:134
+#: plugins/_core/core.cpp:212 plugins/icq/moreinfo.cpp:134
 msgid "Thai"
 msgstr "Tailandès"
 
-#: plugins/_core/core.cpp:213 plugins/_core/core.cpp:214
+#: plugins/_core/core.cpp:214 plugins/_core/core.cpp:215
 #: plugins/_core/interfacecfg.cpp:62 plugins/icq/moreinfo.cpp:135
 msgid "Turkish"
 msgstr "Turc"
 
-#: plugins/_core/core.cpp:442
+#: plugins/_core/core.cpp:444
 msgid ""
 "I am currently away from ICQ.\n"
 "Please leave your message and I will get back to you as soon as I return!\n"
@@ -2549,7 +2549,7 @@ msgstr ""
 "Actualment estic fora de l'ICQ.\n"
 "Deixeu-me el vostre missatge i respondré tan aviat qcom torni!\n"
 
-#: plugins/_core/core.cpp:446
+#: plugins/_core/core.cpp:448
 msgid ""
 "I am out'a here.\n"
 "See you tomorrow!\n"
@@ -2557,263 +2557,276 @@ msgstr ""
 "Me n'he anat. \n"
 "Ja us veuré demà!\n"
 
-#: plugins/_core/core.cpp:450
+#: plugins/_core/core.cpp:452
 msgid "Please do not disturb me now. Disturb me later.\n"
 msgstr "No em molesteu ara, sis us plau. Molesteu-me més tard.\n"
 
-#: plugins/_core/core.cpp:453
+#: plugins/_core/core.cpp:455
 msgid "We'd love to hear what you have to say. Join our chat.\n"
 msgstr ""
 "Ens encantaria saber què hi teniu a dir. Participeu en el nostre xat..\n"
 
-#: plugins/_core/core.cpp:537
+#: plugins/_core/core.cpp:540
 msgid "Unread messages"
 msgstr "Missatges no llegits"
 
-#: plugins/_core/core.cpp:545
+#: plugins/_core/core.cpp:548
 msgid "Quit"
 msgstr "Surt"
 
-#: plugins/_core/core.cpp:554
+#: plugins/_core/core.cpp:557
 msgid "&Menu"
 msgstr "&Menú"
 
-#: plugins/_core/core.cpp:564 plugins/_core/searchbase.cpp:73
+#: plugins/_core/core.cpp:567 plugins/_core/searchbase.cpp:73
 msgid "Search / Add contact"
 msgstr "Recerca / Més contactes"
 
-#: plugins/_core/core.cpp:575
+#: plugins/_core/core.cpp:578
 msgid "&Send SMS"
 msgstr "&Evia SMS"
 
-#: plugins/_core/core.cpp:582
+#: plugins/_core/core.cpp:585
 msgid "&Phone service"
 msgstr "Servei &telefònic"
 
-#: plugins/_core/core.cpp:592
+#: plugins/_core/core.cpp:595
 msgid "Message"
 msgstr "Missatge"
 
-#: plugins/_core/core.cpp:603 plugins/filter/ignorelist.cpp:26
+#: plugins/_core/core.cpp:606 plugins/filter/ignorelist.cpp:26
 msgid "Contact"
 msgstr "Contacte"
 
-#: plugins/_core/core.cpp:610 plugins/_core/core.cpp:1150
+#: plugins/_core/core.cpp:613 plugins/_core/core.cpp:1153
 msgid "Group"
 msgstr "Grup"
 
-#: plugins/_core/core.cpp:618 plugins/_core/core.cpp:1183
+#: plugins/_core/core.cpp:621 plugins/_core/core.cpp:1186
 #: plugins/icq/icq.cpp:496 plugins/jabber/jabber.cpp:264
 msgid "User &info"
 msgstr "Informació d'usuari"
 
-#: plugins/_core/core.cpp:625 plugins/_core/core.cpp:1016
-#: plugins/_core/core.cpp:1191
+#: plugins/_core/core.cpp:628 plugins/_core/core.cpp:1019
+#: plugins/_core/core.cpp:1194
 msgid "&History"
 msgstr "&Historial"
 
-#: plugins/_core/core.cpp:666 plugins/_core/msgedit.cpp:999
+#: plugins/_core/core.cpp:669 plugins/_core/msgedit.cpp:1000
 msgid "&Send"
 msgstr "&Envia"
 
-#: plugins/_core/core.cpp:676
+#: plugins/_core/core.cpp:679
 msgid "&Insert smile"
 msgstr "&IInsereix ganyota"
 
-#: plugins/_core/core.cpp:683 plugins/forward/forwardcfgbase.cpp:75
+#: plugins/_core/core.cpp:686 plugins/forward/forwardcfgbase.cpp:75
 msgid "Send in &translit"
 msgstr ""
 
-#: plugins/_core/core.cpp:691 plugins/_core/msgedit.cpp:248
+#: plugins/_core/core.cpp:694 plugins/_core/msgedit.cpp:249
 msgid "C&lose after send"
 msgstr "&Tanca després d'enviar"
 
-#: plugins/_core/core.cpp:699 plugins/_core/msgedit.cpp:988
+#: plugins/_core/core.cpp:702 plugins/_core/msgedit.cpp:989
 msgid "&Multiply send"
 msgstr "&Enviament múltiple"
 
-#: plugins/_core/core.cpp:707 plugins/_core/core.cpp:803
+#: plugins/_core/core.cpp:710 plugins/_core/core.cpp:806
 #, fuzzy
 msgid "Back&ground color"
 msgstr "&Color de fons"
 
-#: plugins/_core/core.cpp:715 plugins/_core/core.cpp:812
+#: plugins/_core/core.cpp:718 plugins/_core/core.cpp:815
 #, fuzzy
 msgid "&Foreground color"
 msgstr "&Color de fons"
 
-#: plugins/_core/core.cpp:721 plugins/_core/core.cpp:818
+#: plugins/_core/core.cpp:724 plugins/_core/core.cpp:821
 msgid "&Bold"
 msgstr "&Negreta"
 
-#: plugins/_core/core.cpp:728 plugins/_core/core.cpp:825
+#: plugins/_core/core.cpp:731 plugins/_core/core.cpp:828
 msgid "&Italic"
 msgstr "&Cursiva"
 
-#: plugins/_core/core.cpp:742 plugins/_core/core.cpp:839
+#: plugins/_core/core.cpp:745 plugins/_core/core.cpp:842
 #, fuzzy
 msgid "Select &font"
 msgstr "Seleccioneu font"
 
-#: plugins/_core/core.cpp:749
+#: plugins/_core/core.cpp:752
 #, fuzzy
 msgid "Select &file"
 msgstr "Selecciona fitxer"
 
-#: plugins/_core/core.cpp:757
+#: plugins/_core/core.cpp:760
 #, fuzzy
 msgid "&Phone number"
 msgstr "Afegeix el número de telèfon"
 
-#: plugins/_core/core.cpp:765 plugins/_core/msgedit.cpp:1496
+#: plugins/_core/core.cpp:768 plugins/_core/msgedit.cpp:1498
 #: plugins/jabber/jabber.cpp:310
 msgid "&Next"
 msgstr "&Següent"
 
-#: plugins/_core/core.cpp:772
+#: plugins/_core/core.cpp:775
 msgid "&Direction"
 msgstr "&Direcció"
 
-#: plugins/_core/core.cpp:781 plugins/filter/filter.cpp:129
+#: plugins/_core/core.cpp:784 plugins/filter/filter.cpp:129
 msgid "&Filter"
 msgstr "&Filtre"
 
-#: plugins/_core/core.cpp:789
+#: plugins/_core/core.cpp:792
 msgid "&Previous page"
 msgstr "&Pàgina anterior"
 
-#: plugins/_core/core.cpp:797
+#: plugins/_core/core.cpp:800
 msgid "&Next page"
 msgstr "&Pàgina següent"
 
-#: plugins/_core/core.cpp:861
+#: plugins/_core/core.cpp:864
 msgid "&Open message"
 msgstr "&Obre missatge"
 
-#: plugins/_core/core.cpp:883
+#: plugins/_core/core.cpp:886
 #, fuzzy
 msgid "&Delete message"
 msgstr "&Obre missatge"
 
-#: plugins/_core/core.cpp:889
+#: plugins/_core/core.cpp:892
 #, fuzzy
 msgid "&Cut history"
 msgstr "&Historial"
 
-#: plugins/_core/core.cpp:894
+#: plugins/_core/core.cpp:897
 msgid "&Quote"
 msgstr "&Cita"
 
-#: plugins/_core/core.cpp:911 plugins/forward/forward.cpp:65
+#: plugins/_core/core.cpp:914 plugins/forward/forward.cpp:65
 msgid "&Forward"
 msgstr "&Endavant"
 
-#: plugins/_core/core.cpp:926
+#: plugins/_core/core.cpp:929
 msgid "&Answer"
 msgstr "&Resposta"
 
-#: plugins/_core/core.cpp:999
+#: plugins/_core/core.cpp:1002
 msgid "&Messages"
 msgstr "&Missatges"
 
-#: plugins/_core/core.cpp:1008 plugins/_core/msgedit.cpp:1647
+#: plugins/_core/core.cpp:1011 plugins/_core/msgedit.cpp:1649
 #: plugins/sms/smssetupbase.cpp:153
 msgid "&SMS"
 msgstr "&SMS"
 
-#: plugins/_core/core.cpp:1024 plugins/_core/core.cpp:1055
+#: plugins/_core/core.cpp:1027 plugins/_core/core.cpp:1058
 msgid "Show &offline"
 msgstr "Mostra f%ora de línia"
 
-#: plugins/_core/core.cpp:1036
+#: plugins/_core/core.cpp:1039
 msgid "&No show groups"
 msgstr "&No mostris els grups"
 
-#: plugins/_core/core.cpp:1046
+#: plugins/_core/core.cpp:1049
 msgid "Group mode 1"
 msgstr "Mode de grup 1"
 
-#: plugins/_core/core.cpp:1051
+#: plugins/_core/core.cpp:1054
 msgid "Group mode 2"
 msgstr "Mode de grup 2"
 
-#: plugins/_core/core.cpp:1062
+#: plugins/_core/core.cpp:1065
 #, fuzzy
 msgid "Show &empty groups"
 msgstr "&No mostris els grups"
 
-#: plugins/_core/core.cpp:1069
+#: plugins/_core/core.cpp:1072
 msgid "&Create group"
 msgstr "&Crea grup"
 
-#: plugins/_core/core.cpp:1080
+#: plugins/_core/core.cpp:1083
 msgid "&Rename group"
 msgstr "&Reanomena grup"
 
-#: plugins/_core/core.cpp:1087
+#: plugins/_core/core.cpp:1090
 msgid "&Delete group"
 msgstr "&Elimina grup"
 
-#: plugins/_core/core.cpp:1094
+#: plugins/_core/core.cpp:1097
 msgid "Up"
 msgstr "Amunt"
 
-#: plugins/_core/core.cpp:1101
+#: plugins/_core/core.cpp:1104
 msgid "Down"
 msgstr "Avall"
 
-#: plugins/_core/core.cpp:1175
+#: plugins/_core/core.cpp:1178
 #, fuzzy
 msgid "Show &always"
 msgstr "Mostr&a sempre"
 
-#: plugins/_core/core.cpp:1205
+#: plugins/_core/core.cpp:1208
 msgid "To container"
 msgstr "Al contenidor"
 
-#: plugins/_core/core.cpp:1230
+#: plugins/_core/core.cpp:1233
 msgid "&Location"
 msgstr "&Localització"
 
-#: plugins/_core/core.cpp:1245
+#: plugins/_core/core.cpp:1248
 msgid "&Phone book"
 msgstr "&Llistat telefònic"
 
-#: plugins/_core/core.cpp:1252
+#: plugins/_core/core.cpp:1255
 msgid "&No show"
 msgstr "&No mostris"
 
-#: plugins/_core/core.cpp:1259
+#: plugins/_core/core.cpp:1262
 msgid "&Available"
 msgstr "&Disponible"
 
-#: plugins/_core/core.cpp:1267
+#: plugins/_core/core.cpp:1270
 msgid "&Busy"
 msgstr "&Emfeinat"
 
-#: plugins/_core/core.cpp:1283
+#: plugins/_core/core.cpp:1286
 msgid "Decline file without reason"
 msgstr ""
 
-#: plugins/_core/core.cpp:1291 plugins/_core/core.cpp:2858
+#: plugins/_core/core.cpp:1294 plugins/_core/core.cpp:2881
 msgid "Sorry, I'm busy right now, and can not respond to your request"
 msgstr ""
 
-#: plugins/_core/core.cpp:1296 plugins/_core/core.cpp:2867
+#: plugins/_core/core.cpp:1299 plugins/_core/core.cpp:2890
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
 msgstr ""
 
-#: plugins/_core/core.cpp:1301
+#: plugins/_core/core.cpp:1304
 msgid "Enter a decline reason"
 msgstr ""
 
-#: plugins/_core/core.cpp:1306 plugins/_core/core.cpp:1320
+#: plugins/_core/core.cpp:1309 plugins/_core/core.cpp:1323
 #: plugins/_core/maininfobase.cpp:177 plugins/_core/maininfobase.cpp:187
 #: plugins/action/menucfgbase.cpp:69 plugins/netmonitor/monitor.cpp:69
 msgid "&Edit"
 msgstr "&Edita"
 
-#: plugins/_core/core.cpp:1570
+#: plugins/_core/core.cpp:1569
+msgid ""
+"At loading contact list contacts with identical names were automatically "
+"joined.\n"
+"If it is wrong, you can separate them. For this purpose in contact menu "
+"choose the necessary name and choose a command \"Separate\"."
+msgstr ""
+
+#: plugins/_core/core.cpp:1572
+#, fuzzy
+msgid "Don't show this message in next time"
+msgstr "No mostris aquest diàleg"
+
+#: plugins/_core/core.cpp:1592
 msgid ""
 "&IP; - ip-address\n"
 "&Mail; - e-mail\n"
@@ -2827,62 +2840,62 @@ msgid ""
 "`<command>` - call <command> and substitute command output\n"
 msgstr ""
 
-#: plugins/_core/core.cpp:2123
+#: plugins/_core/core.cpp:2146
 msgid "&Separate"
 msgstr "&Separa"
 
-#: plugins/_core/core.cpp:2161 plugins/_core/userwnd.cpp:130
+#: plugins/_core/core.cpp:2184 plugins/_core/userwnd.cpp:130
 #, fuzzy, c-format
 msgid "from %1"
 msgstr "%1 des de %2"
 
-#: plugins/_core/core.cpp:2245
+#: plugins/_core/core.cpp:2268
 msgid "&New"
 msgstr "&Nou"
 
-#: plugins/_core/core.cpp:2319
+#: plugins/_core/core.cpp:2342
 msgid "Not available"
 msgstr "No disponible"
 
-#: plugins/_core/core.cpp:2419 plugins/dock/dockwnd.cpp:1185
+#: plugins/_core/core.cpp:2442 plugins/dock/dockwnd.cpp:1185
 #: plugins/osd/osd.cpp:336
 msgid "%1 from %2"
 msgstr "%1 des de %2"
 
-#: plugins/_core/core.cpp:2556
+#: plugins/_core/core.cpp:2579
 msgid "%1 wrote:"
 msgstr "%1 ha escrit:"
 
-#: plugins/_core/core.cpp:2644
+#: plugins/_core/core.cpp:2667
 msgid "Send SMS"
 msgstr "Evia SMS"
 
-#: plugins/_core/core.cpp:3623 plugins/_core/core.cpp:3645
+#: plugins/_core/core.cpp:3646 plugins/_core/core.cpp:3668
 #: plugins/_core/managerbase.cpp:103
 msgid "Connection manager"
 msgstr "Gestor de connexió"
 
-#: plugins/_core/core.cpp:3631
+#: plugins/_core/core.cpp:3654
 msgid "Show status panel"
 msgstr "Mostra el plafó d'estat"
 
-#: plugins/_core/core.cpp:3638
+#: plugins/_core/core.cpp:3661
 msgid "Connections"
 msgstr "Connexions"
 
-#: plugins/_core/core.cpp:3653
+#: plugins/_core/core.cpp:3676
 msgid "Change profile"
 msgstr "Canvia perfil"
 
-#: plugins/_core/core.cpp:3682
+#: plugins/_core/core.cpp:3705
 msgid "Common status"
 msgstr "Estat comú"
 
-#: plugins/_core/core.cpp:3688
+#: plugins/_core/core.cpp:3711
 msgid "Configure client"
 msgstr "Configura client"
 
-#: plugins/_core/core.cpp:3712 plugins/_core/status.cpp:151
+#: plugins/_core/core.cpp:3735 plugins/_core/status.cpp:151
 #: plugins/_core/status.cpp:219
 msgid "&Invisible"
 msgstr "&Invisible"
@@ -3081,11 +3094,26 @@ msgstr "L'usuari es troba actualment disponible a:"
 msgid "Yes"
 msgstr "Sí"
 
-#: plugins/_core/plugincfgbase.cpp:71
-msgid "Plugin &enabled"
-msgstr "Pedaç &habilitat"
+#: plugins/_core/connectwndbase.cpp:94 plugins/icq/moreinfobase.cc:152
+msgid "Form3"
+msgstr "Form3"
 
-#: plugins/_core/msgedit.cpp:426 plugins/update/update.cpp:105
+#: plugins/_core/connectwndbase.cpp:95 plugins/_core/status.cpp:97
+#: plugins/_core/statuswnd.cpp:54
+msgid "Connecting"
+msgstr "S'està connectant"
+
+#: plugins/_core/connectwndbase.cpp:97
+msgid "Complete"
+msgstr "Complet"
+
+#: plugins/_core/connectwndbase.cpp:98
+msgid ""
+"If you want to add connection press button \" Next\".\n"
+"You can add connection later using connection manager"
+msgstr ""
+
+#: plugins/_core/msgedit.cpp:427 plugins/update/update.cpp:105
 #, c-format
 msgid ""
 "_n: Message\n"
@@ -3094,7 +3122,7 @@ msgstr ""
 "_n: Missatge\n"
 "%n missatges"
 
-#: plugins/_core/msgedit.cpp:452
+#: plugins/_core/msgedit.cpp:453
 #, c-format
 msgid ""
 "_n: SMS\n"
@@ -3103,7 +3131,7 @@ msgstr ""
 "_n: SMS\n"
 "%n SMS"
 
-#: plugins/_core/msgedit.cpp:468
+#: plugins/_core/msgedit.cpp:469
 #, c-format
 msgid ""
 "_n: URL\n"
@@ -3112,7 +3140,7 @@ msgstr ""
 "_n: URL\n"
 "%n URLs"
 
-#: plugins/_core/msgedit.cpp:531
+#: plugins/_core/msgedit.cpp:532
 #, c-format
 msgid ""
 "_n: Contact list\n"
@@ -3121,7 +3149,7 @@ msgstr ""
 "_n:Llistat de contactes\n"
 "%n llistats de contactes"
 
-#: plugins/_core/msgedit.cpp:578
+#: plugins/_core/msgedit.cpp:579
 #, c-format
 msgid ""
 "_n: File\n"
@@ -3130,17 +3158,17 @@ msgstr ""
 "_n: Fitxer\n"
 "%n fitxers"
 
-#: plugins/_core/msgedit.cpp:585
+#: plugins/_core/msgedit.cpp:586
 #, fuzzy
 msgid "&Accept"
 msgstr "Mode d'acceptació"
 
-#: plugins/_core/msgedit.cpp:600
+#: plugins/_core/msgedit.cpp:601
 #, fuzzy
 msgid "&Decline"
 msgstr "&Direcció"
 
-#: plugins/_core/msgedit.cpp:653
+#: plugins/_core/msgedit.cpp:654
 #, c-format
 msgid ""
 "_n: Authorize request\n"
@@ -3149,15 +3177,15 @@ msgstr ""
 "_n: Sol·licitud d'autorització\n"
 "%n sol·licituds d'autorització"
 
-#: plugins/_core/msgedit.cpp:660
+#: plugins/_core/msgedit.cpp:661
 msgid "&Grant"
 msgstr "&Concesió"
 
-#: plugins/_core/msgedit.cpp:675
+#: plugins/_core/msgedit.cpp:676
 msgid "&Refuse"
 msgstr "&Refusa"
 
-#: plugins/_core/msgedit.cpp:723
+#: plugins/_core/msgedit.cpp:724
 #, c-format
 msgid ""
 "_n: Authorization granted\n"
@@ -3166,7 +3194,7 @@ msgstr ""
 "_n: Autorizació concedida\n"
 "%n autorizació concedida"
 
-#: plugins/_core/msgedit.cpp:744
+#: plugins/_core/msgedit.cpp:745
 #, c-format
 msgid ""
 "_n: Authorization refused\n"
@@ -3175,7 +3203,7 @@ msgstr ""
 "_n: Autorizació rebutjada\n"
 "%n autorizació rebutjada"
 
-#: plugins/_core/msgedit.cpp:765
+#: plugins/_core/msgedit.cpp:766
 #, c-format
 msgid ""
 "_n: Add to contacts\n"
@@ -3184,7 +3212,7 @@ msgstr ""
 "_n: Afegit al llistat de contactes\n"
 "%n afegits al llistat de contactes"
 
-#: plugins/_core/msgedit.cpp:786
+#: plugins/_core/msgedit.cpp:787
 #, c-format
 msgid ""
 "_n: Removed from contacts\n"
@@ -3193,7 +3221,7 @@ msgstr ""
 "_n: Extreu del llistat de contactes\n"
 "%n s'ha extret del llistat de contactes"
 
-#: plugins/_core/msgedit.cpp:807
+#: plugins/_core/msgedit.cpp:808
 #, c-format
 msgid ""
 "_n: Status changed\n"
@@ -3202,36 +3230,36 @@ msgstr ""
 "_n: Estat canviat\n"
 "%n cops que ha canviat l'estat"
 
-#: plugins/_core/msgedit.cpp:976
+#: plugins/_core/msgedit.cpp:977
 msgid "No such client for send message"
 msgstr "Sense client per enviar-li el missatge"
 
-#: plugins/_core/msgedit.cpp:1619 plugins/icq/icq.cpp:486
+#: plugins/_core/msgedit.cpp:1621 plugins/icq/icq.cpp:486
 #: plugins/jabber/jabber.cpp:255
 msgid "&Message"
 msgstr "&Missatge"
 
-#: plugins/_core/msgedit.cpp:1629 plugins/netmonitor/monitor.cpp:64
+#: plugins/_core/msgedit.cpp:1631 plugins/netmonitor/monitor.cpp:64
 msgid "&File"
 msgstr "&Fitxer"
 
-#: plugins/_core/msgedit.cpp:1638 plugins/icq/icqmessage.cpp:1043
+#: plugins/_core/msgedit.cpp:1640 plugins/icq/icqmessage.cpp:1043
 msgid "&URL"
 msgstr "&URL"
 
-#: plugins/_core/msgedit.cpp:1656
+#: plugins/_core/msgedit.cpp:1658
 msgid "&Contact list"
 msgstr "&Llistat de contacte"
 
-#: plugins/_core/msgedit.cpp:1664
+#: plugins/_core/msgedit.cpp:1666
 msgid "&Authorization request"
 msgstr "Sol·licitud d'&autorització"
 
-#: plugins/_core/msgedit.cpp:1673
+#: plugins/_core/msgedit.cpp:1675
 msgid "&Grant autorization"
 msgstr "&Concedeix autorització"
 
-#: plugins/_core/msgedit.cpp:1682
+#: plugins/_core/msgedit.cpp:1684
 msgid "&Refuse autorization"
 msgstr "&Refusa autorització"
 
@@ -3255,11 +3283,6 @@ msgstr "Contacte no IM"
 #, c-format
 msgid "Search %1"
 msgstr "Recerca de %1"
-
-#: plugins/_core/connectwndbase.cpp:95 plugins/_core/status.cpp:97
-#: plugins/_core/statuswnd.cpp:54
-msgid "Connecting"
-msgstr "S'està connectant"
 
 #: plugins/_core/tmpl.cpp:220
 msgid "yes"
@@ -3292,7 +3315,7 @@ msgstr "Contacte nou"
 #: plugins/_core/usercfg.cpp:288 plugins/_core/userlist.cpp:993
 #: plugins/_core/userview.cpp:176 plugins/_core/userview.cpp:678
 #: plugins/_core/userview.cpp:716 plugins/icq/icqsearch.cpp:143
-#: plugins/icq/searchresult.cpp:256 plugins/jabber/addresult.cpp:143
+#: plugins/icq/searchresult.cpp:257 plugins/jabber/addresult.cpp:144
 #: plugins/jabber/jabberadd.cpp:117
 msgid "Not in list"
 msgstr "No és al llistat"
@@ -3326,7 +3349,7 @@ msgstr "&Grups"
 msgid "Search: %1"
 msgstr "Recerca de %1"
 
-#: plugins/_core/userview.cpp:1481
+#: plugins/_core/userview.cpp:1483
 msgid "Join \"%1\" and \"%2\"?"
 msgstr "Desitgeu unir \"%1\" i \"%2\"?"
 
@@ -3386,9 +3409,9 @@ msgstr "&Obre tots els contactes en un contenidor"
 msgid "Use \"&Enter\" for send message"
 msgstr "Utilitza l'\"Enter\" per enviar un missatge"
 
-#: plugins/_core/cfgdlgbase.cpp:93
-msgid "&Update"
-msgstr "&Actualitza"
+#: plugins/_core/plugincfgbase.cpp:71
+msgid "Plugin &enabled"
+msgstr "Pedaç &habilitat"
 
 #: plugins/_core/autoreplybase.cpp:87
 #: plugins/_core/connectionsettingsbase.cpp:74
@@ -3455,45 +3478,6 @@ msgstr ""
 #: plugins/_core/userviewcfgbase.cpp:274
 msgid "Show group &separator"
 msgstr "Mostra el &separador de grups"
-
-#: plugins/_core/historycfgbase.cpp:166
-msgid "Use &own colors and fonts settings"
-msgstr "Utilitza els colors i paràmetres propis"
-
-#: plugins/_core/historycfgbase.cpp:167
-msgid "Use emotional &icons"
-msgstr "Utilitza &icones emcocionals"
-
-#: plugins/_core/historycfgbase.cpp:168
-#: plugins/_core/userhistorycfgbase.cpp:94
-msgid "Max history file size"
-msgstr ""
-
-#: plugins/_core/historycfgbase.cpp:170
-#: plugins/_core/userhistorycfgbase.cpp:92
-#, fuzzy
-msgid "Mb"
-msgstr "Mo/s"
-
-#: plugins/_core/historycfgbase.cpp:172
-#: plugins/_core/userhistorycfgbase.cpp:96
-msgid "Keep history "
-msgstr ""
-
-#: plugins/_core/historycfgbase.cpp:173
-#: plugins/_core/userhistorycfgbase.cpp:95
-msgid "days"
-msgstr ""
-
-#: plugins/_core/historycfgbase.cpp:179
-#, fuzzy
-msgid "&Preview"
-msgstr "&Pàgina anterior"
-
-#: plugins/_core/historycfgbase.cpp:180
-#, fuzzy
-msgid "&Source"
-msgstr "&Ordena"
 
 #: plugins/_core/maininfobase.cpp:171 plugins/icq/aiminfobase.cc:256
 #: plugins/icq/aimsearchbase.cc:256 plugins/icq/icqinfobase.cc:278
@@ -3622,6 +3606,18 @@ msgstr "&Amunt"
 msgid "&Down"
 msgstr "&Avall"
 
+#: plugins/_core/pagerbase.cpp:88
+msgid "Provider:"
+msgstr "Proveïdor:"
+
+#: plugins/_core/pagerbase.cpp:89
+msgid "Email gateway:"
+msgstr "Porta de sortida del correu"
+
+#: plugins/_core/pagerbase.cpp:90 plugins/_core/phonebase.cpp:117
+msgid "Number:"
+msgstr "Número:"
+
 #: plugins/_core/phonebase.cpp:114
 msgid "Area code:"
 msgstr "Codi d'àrea:"
@@ -3629,10 +3625,6 @@ msgstr "Codi d'àrea:"
 #: plugins/_core/phonebase.cpp:115
 msgid "Extension:"
 msgstr "Extensió:"
-
-#: plugins/_core/pagerbase.cpp:90 plugins/_core/phonebase.cpp:117
-msgid "Number:"
-msgstr "Número:"
 
 #: plugins/_core/phonebase.cpp:119 plugins/icq/aiminfobase.cc:265
 #: plugins/icq/aimsearchbase.cc:255 plugins/icq/homeinfobase.cc:146
@@ -3653,13 +3645,25 @@ msgstr "Tipus de contacte:"
 msgid "Choose contact type"
 msgstr "Trieu el tipus de contacte"
 
-#: plugins/_core/pagerbase.cpp:88
-msgid "Provider:"
-msgstr "Proveïdor:"
+#: plugins/_core/logindlgbase.cpp:124
+msgid "Login"
+msgstr "Registre"
 
-#: plugins/_core/pagerbase.cpp:89
-msgid "Email gateway:"
-msgstr "Porta de sortida del correu"
+#: plugins/_core/logindlgbase.cpp:126
+msgid "Passwords:"
+msgstr "Contrassenyes:"
+
+#: plugins/_core/logindlgbase.cpp:128
+msgid "Profile:"
+msgstr "Perfil:"
+
+#: plugins/_core/logindlgbase.cpp:130
+msgid "&Save password"
+msgstr "De&sa la contrassenya"
+
+#: plugins/_core/logindlgbase.cpp:131
+msgid "&Do not show this window on startup"
+msgstr "&No mostris aquesta finestra en iniciar"
 
 #: plugins/_core/newprotocolbase.cpp:67
 msgid "New connection"
@@ -3694,38 +3698,6 @@ msgstr ""
 msgid "Open and &raise"
 msgstr ""
 
-#: plugins/_core/filecfgbase.cpp:87
-msgid "Path for incoming files:"
-msgstr "Ruta per als fitxers d'entrada"
-
-#: plugins/_core/filecfgbase.cpp:88
-msgid "Accept mode"
-msgstr "Mode d'acceptació"
-
-#: plugins/_core/filecfgbase.cpp:89
-msgid "Show response"
-msgstr "Mostra resposta"
-
-#: plugins/_core/filecfgbase.cpp:90
-msgid "Auto accept"
-msgstr "Accepta automàticament"
-
-#: plugins/_core/filecfgbase.cpp:91
-msgid "Overwrite files"
-msgstr "Sobreescriu fitxers"
-
-#: plugins/_core/filecfgbase.cpp:92
-msgid "Auto decline"
-msgstr "Declina automàticament"
-
-#: plugins/_core/smscfgbase.cpp:65
-msgid "Text before cursor:"
-msgstr "Text aans del cursor:"
-
-#: plugins/_core/smscfgbase.cpp:66
-msgid "Text after cursor:"
-msgstr "Text després del cursor:"
-
 #: plugins/_core/filetransferbase.cpp:131
 msgid "File transfer"
 msgstr "Transferència de fitxer"
@@ -3750,25 +3722,29 @@ msgstr ""
 msgid "Close after &transfer"
 msgstr "Tanca després de la &transferència"
 
-#: plugins/_core/logindlgbase.cpp:124
-msgid "Login"
-msgstr "Registre"
+#: plugins/_core/filecfgbase.cpp:87
+msgid "Path for incoming files:"
+msgstr "Ruta per als fitxers d'entrada"
 
-#: plugins/_core/logindlgbase.cpp:126
-msgid "Passwords:"
-msgstr "Contrassenyes:"
+#: plugins/_core/filecfgbase.cpp:88
+msgid "Accept mode"
+msgstr "Mode d'acceptació"
 
-#: plugins/_core/logindlgbase.cpp:128
-msgid "Profile:"
-msgstr "Perfil:"
+#: plugins/_core/filecfgbase.cpp:89
+msgid "Show response"
+msgstr "Mostra resposta"
 
-#: plugins/_core/logindlgbase.cpp:130
-msgid "&Save password"
-msgstr "De&sa la contrassenya"
+#: plugins/_core/filecfgbase.cpp:90
+msgid "Auto accept"
+msgstr "Accepta automàticament"
 
-#: plugins/_core/logindlgbase.cpp:131
-msgid "&Do not show this window on startup"
-msgstr "&No mostris aquesta finestra en iniciar"
+#: plugins/_core/filecfgbase.cpp:91
+msgid "Overwrite files"
+msgstr "Sobreescriu fitxers"
+
+#: plugins/_core/filecfgbase.cpp:92
+msgid "Auto decline"
+msgstr "Declina automàticament"
 
 #: plugins/_core/interfacecfg.cpp:45 plugins/icq/moreinfo.cpp:98
 msgid "English"
@@ -3871,21 +3847,13 @@ msgstr ""
 msgid "Enter decline reason:"
 msgstr ""
 
-#: plugins/_core/managerbase.cpp:46 plugins/_core/managerbase.cpp:106
-msgid "Connection"
-msgstr "Connexió"
+#: plugins/_core/smscfgbase.cpp:65
+msgid "Text before cursor:"
+msgstr "Text aans del cursor:"
 
-#: plugins/_core/managerbase.cpp:104
-msgid "&Configure"
-msgstr "&Configura"
-
-#: plugins/_core/managerbase.cpp:108
-msgid "&Remove"
-msgstr "Ext&reu"
-
-#: plugins/_core/managerbase.cpp:109
-msgid "&New connection"
-msgstr "Connexió &nova"
+#: plugins/_core/smscfgbase.cpp:66
+msgid "Text after cursor:"
+msgstr "Text després del cursor:"
 
 #: plugins/_core/arcfgbase.cpp:79 plugins/_core/prefcfgbase.cpp:66
 msgid "&Override global settings"
@@ -3894,6 +3862,45 @@ msgstr "S&obreescriu els paràmetres globals"
 #: plugins/_core/arcfgbase.cpp:81
 msgid "Don't show autoreply dialog"
 msgstr "No mostris el missatge d'autorèplica"
+
+#: plugins/_core/historycfgbase.cpp:166
+msgid "Use &own colors and fonts settings"
+msgstr "Utilitza els colors i paràmetres propis"
+
+#: plugins/_core/historycfgbase.cpp:167
+msgid "Use emotional &icons"
+msgstr "Utilitza &icones emcocionals"
+
+#: plugins/_core/historycfgbase.cpp:168
+#: plugins/_core/userhistorycfgbase.cpp:94
+msgid "Max history file size"
+msgstr ""
+
+#: plugins/_core/historycfgbase.cpp:170
+#: plugins/_core/userhistorycfgbase.cpp:92
+#, fuzzy
+msgid "Mb"
+msgstr "Mo/s"
+
+#: plugins/_core/historycfgbase.cpp:172
+#: plugins/_core/userhistorycfgbase.cpp:96
+msgid "Keep history "
+msgstr ""
+
+#: plugins/_core/historycfgbase.cpp:173
+#: plugins/_core/userhistorycfgbase.cpp:95
+msgid "days"
+msgstr ""
+
+#: plugins/_core/historycfgbase.cpp:179
+#, fuzzy
+msgid "&Preview"
+msgstr "&Pàgina anterior"
+
+#: plugins/_core/historycfgbase.cpp:180
+#, fuzzy
+msgid "&Source"
+msgstr "&Ordena"
 
 #: plugins/_core/status.cpp:70 plugins/dock/dock.cpp:183
 msgid "Inactive"
@@ -3912,19 +3919,25 @@ msgstr ""
 "_n: Tanca després de %n segons\n"
 "Tanca després de %n segons"
 
-#: plugins/_core/connectwndbase.cpp:94 plugins/icq/moreinfobase.cc:152
-msgid "Form3"
-msgstr "Form3"
+#: plugins/_core/managerbase.cpp:46 plugins/_core/managerbase.cpp:106
+msgid "Connection"
+msgstr "Connexió"
 
-#: plugins/_core/connectwndbase.cpp:97
-msgid "Complete"
-msgstr "Complet"
+#: plugins/_core/managerbase.cpp:104
+msgid "&Configure"
+msgstr "&Configura"
 
-#: plugins/_core/connectwndbase.cpp:98
-msgid ""
-"If you want to add connection press button \" Next\".\n"
-"You can add connection later using connection manager"
-msgstr ""
+#: plugins/_core/managerbase.cpp:108
+msgid "&Remove"
+msgstr "Ext&reu"
+
+#: plugins/_core/managerbase.cpp:109
+msgid "&New connection"
+msgstr "Connexió &nova"
+
+#: plugins/_core/cfgdlgbase.cpp:93
+msgid "&Update"
+msgstr "&Actualitza"
 
 #: plugins/about/aboutdlg.cpp:43
 msgid "%1 Version: %2"
@@ -5185,7 +5198,7 @@ msgstr "Contrassenya invàlida"
 msgid "UIN"
 msgstr "UIN"
 
-#: plugins/icq/icqsecure.cpp:125 plugins/jabber/addresult.cpp:212
+#: plugins/icq/icqsecure.cpp:125 plugins/jabber/addresult.cpp:213
 #: plugins/jabber/jabbersearch.cpp:99
 msgid "Nick"
 msgstr "Sobrenom:"
@@ -5679,13 +5692,13 @@ msgstr "Org. de voluteriat"
 msgid "Alias"
 msgstr "Àlies"
 
-#: plugins/icq/searchresult.cpp:171 plugins/jabber/addresult.cpp:186
+#: plugins/icq/searchresult.cpp:171 plugins/jabber/addresult.cpp:187
 msgid "Search done"
 msgstr "Recerca feta"
 
 #: plugins/icq/icqsearchbase.cc:291 plugins/icq/searchresult.cpp:173
-#: plugins/jabber/addresult.cpp:158 plugins/jabber/addresult.cpp:170
-#: plugins/jabber/addresult.cpp:223
+#: plugins/jabber/addresult.cpp:159 plugins/jabber/addresult.cpp:171
+#: plugins/jabber/addresult.cpp:224
 msgid "Search"
 msgstr "Recerca"
 
@@ -5943,6 +5956,68 @@ msgid ""
 "Anonymous warinings are less severe."
 msgstr ""
 
+#: plugins/icq/aimsearchbase.cc:246 plugins/icq/icqsearchbase.cc:292
+msgid "Email:"
+msgstr "Correu:"
+
+#: plugins/icq/icqsearchbase.cc:293 plugins/icq/moreinfobase.cc:153
+msgid "Age:"
+msgstr "Edat:"
+
+#: plugins/icq/icqsearchbase.cc:295 plugins/icq/moreinfobase.cc:156
+msgid "Gender:"
+msgstr "Gènere:"
+
+#: plugins/icq/icqsearchbase.cc:299 plugins/jabber/jabberworkinfobase.cpp:89
+msgid "Department:"
+msgstr "Departament:"
+
+#: plugins/icq/icqsearchbase.cc:300 plugins/jabber/jabberworkinfobase.cpp:90
+msgid "Company:"
+msgstr "Copmanyia:"
+
+#: plugins/icq/icqsearchbase.cc:301
+msgid "Interests:"
+msgstr "Interesos:"
+
+#: plugins/icq/icqsearchbase.cc:302
+msgid "Email/Info"
+msgstr "C-el/Info"
+
+#: plugins/icq/aimsearchbase.cc:250 plugins/icq/icqsearchbase.cc:305
+msgid "Nickname:"
+msgstr "Sobrenom:"
+
+#: plugins/icq/icqsearchbase.cc:306
+msgid "Names"
+msgstr "Noms"
+
+#: plugins/icq/icqsearchbase.cc:309
+msgid "Group:"
+msgstr "Grup:"
+
+#: plugins/icq/icqsearchbase.cc:312
+msgid "Send &message"
+msgstr "Envia &missatge"
+
+#: plugins/icq/icqsearchbase.cc:313
+msgid "Random chat"
+msgstr "Xat aleatori"
+
+#: plugins/icq/aimconfigbase.cc:118 plugins/icq/aiminfobase.cc:266
+#: plugins/icq/aimsearchbase.cc:240 plugins/icq/icqsearchbase.cc:314
+#, fuzzy
+msgid "ScreenName:"
+msgstr "Nom de la pantalla:"
+
+#: plugins/icq/icqsearchbase.cc:316
+msgid "AIM user"
+msgstr "Usuari AIM"
+
+#: plugins/icq/icqsearchbase.cc:317 plugins/jabber/jabbersearch.cpp:193
+msgid "Online only"
+msgstr "Només en línia"
+
 #: plugins/icq/aboutinfobase.cc:65 plugins/jabber/jabberaboutinfobase.cpp:56
 msgid "Form4"
 msgstr "Form4"
@@ -5955,18 +6030,10 @@ msgstr "&Informació adicional sobre l'usuari"
 msgid "A&bout"
 msgstr "&Quant a"
 
-#: plugins/icq/icqsearchbase.cc:293 plugins/icq/moreinfobase.cc:153
-msgid "Age:"
-msgstr "Edat:"
-
 #: plugins/icq/moreinfobase.cc:154 plugins/jabber/discoinfobase.cpp:281
 #: plugins/jabber/jabberinfobase.cpp:187
 msgid "Homepage:"
 msgstr "Pàgina principal:"
-
-#: plugins/icq/icqsearchbase.cc:295 plugins/icq/moreinfobase.cc:156
-msgid "Gender:"
-msgstr "Gènere:"
 
 #: plugins/icq/moreinfobase.cc:157 plugins/jabber/discoinfobase.cpp:282
 #: plugins/jabber/jabberinfobase.cpp:186
@@ -6000,6 +6067,11 @@ msgstr "Últim rerefons:"
 #: plugins/icq/pastinfobase.cc:142
 msgid "&Background"
 msgstr "&Rerefons"
+
+#: plugins/icq/aimconfig.cpp:46
+#, fuzzy
+msgid "Register new ScreenName"
+msgstr "&Registra un nou UIN"
 
 #: plugins/icq/workinfobase.cc:186
 msgid "Web site:"
@@ -6089,60 +6161,6 @@ msgstr "Llistat &visible"
 msgid "&Invisible list"
 msgstr "Llistat &invisible"
 
-#: plugins/icq/aimsearchbase.cc:246 plugins/icq/icqsearchbase.cc:292
-msgid "Email:"
-msgstr "Correu:"
-
-#: plugins/icq/icqsearchbase.cc:299 plugins/jabber/jabberworkinfobase.cpp:89
-msgid "Department:"
-msgstr "Departament:"
-
-#: plugins/icq/icqsearchbase.cc:300 plugins/jabber/jabberworkinfobase.cpp:90
-msgid "Company:"
-msgstr "Copmanyia:"
-
-#: plugins/icq/icqsearchbase.cc:301
-msgid "Interests:"
-msgstr "Interesos:"
-
-#: plugins/icq/icqsearchbase.cc:302
-msgid "Email/Info"
-msgstr "C-el/Info"
-
-#: plugins/icq/aimsearchbase.cc:250 plugins/icq/icqsearchbase.cc:305
-msgid "Nickname:"
-msgstr "Sobrenom:"
-
-#: plugins/icq/icqsearchbase.cc:306
-msgid "Names"
-msgstr "Noms"
-
-#: plugins/icq/icqsearchbase.cc:309
-msgid "Group:"
-msgstr "Grup:"
-
-#: plugins/icq/icqsearchbase.cc:312
-msgid "Send &message"
-msgstr "Envia &missatge"
-
-#: plugins/icq/icqsearchbase.cc:313
-msgid "Random chat"
-msgstr "Xat aleatori"
-
-#: plugins/icq/aimconfigbase.cc:118 plugins/icq/aiminfobase.cc:266
-#: plugins/icq/aimsearchbase.cc:240 plugins/icq/icqsearchbase.cc:314
-#, fuzzy
-msgid "ScreenName:"
-msgstr "Nom de la pantalla:"
-
-#: plugins/icq/icqsearchbase.cc:316
-msgid "AIM user"
-msgstr "Usuari AIM"
-
-#: plugins/icq/icqsearchbase.cc:317 plugins/jabber/jabbersearch.cpp:193
-msgid "Online only"
-msgstr "Només en línia"
-
 #: plugins/icq/icqpicturebase.cc:76 plugins/jabber/jabberpicturebase.cpp:76
 #: plugins/shortcuts/shortcutcfgbase.cpp:84
 msgid "&Clear"
@@ -6151,6 +6169,26 @@ msgstr "&Neteja"
 #: plugins/icq/icqpicturebase.cc:77
 msgid "&Picture"
 msgstr "&Imatge"
+
+#: plugins/icq/securedlgbase.cc:73
+msgid "Secure chanel request"
+msgstr "Sol·licitud de canal segur"
+
+#: plugins/icq/securedlgbase.cc:74
+msgid ""
+"Secure channel is established using SSL with Diffie-Hellman key exchange and "
+" the TLS version 1 protocol.\n"
+"\n"
+"This only works with other SIM and Licq clients"
+msgstr ""
+"Canal segur establert utilitzant SSL amb clau d'intercanvi Diffie-Hellman i "
+"el protocol TLS v1.\n"
+"\n"
+"Només funciona amb altres clients SIM i Licq"
+
+#: plugins/icq/aimconfigbase.cc:120 plugins/icq/aimsearchbase.cc:242
+msgid "&AIM"
+msgstr ""
 
 #: plugins/icq/aiminfobase.cc:258 plugins/icq/aimsearchbase.cc:257
 #, fuzzy
@@ -6177,26 +6215,6 @@ msgstr "Codi zip:"
 msgid "&Profile"
 msgstr "Perfil:"
 
-#: plugins/icq/securedlgbase.cc:73
-msgid "Secure chanel request"
-msgstr "Sol·licitud de canal segur"
-
-#: plugins/icq/securedlgbase.cc:74
-msgid ""
-"Secure channel is established using SSL with Diffie-Hellman key exchange and "
-" the TLS version 1 protocol.\n"
-"\n"
-"This only works with other SIM and Licq clients"
-msgstr ""
-"Canal segur establert utilitzant SSL amb clau d'intercanvi Diffie-Hellman i "
-"el protocol TLS v1.\n"
-"\n"
-"Només funciona amb altres clients SIM i Licq"
-
-#: plugins/icq/aimconfigbase.cc:120 plugins/icq/aimsearchbase.cc:242
-msgid "&AIM"
-msgstr ""
-
 #: plugins/icq/aimsearchbase.cc:247
 #, fuzzy
 msgid "&Email"
@@ -6222,11 +6240,6 @@ msgstr ""
 #: plugins/icq/encodingdlgbase.cc:85
 msgid "You will choose the coding by default which want to use:"
 msgstr ""
-
-#: plugins/icq/aimconfig.cpp:46
-#, fuzzy
-msgid "Register new ScreenName"
-msgstr "&Registra un nou UIN"
 
 #: plugins/netmonitor/monitor.cpp:51 plugins/netmonitor/netmonitor.cpp:35
 #: plugins/netmonitor/netmonitor.cpp:91
@@ -6779,7 +6792,7 @@ msgstr "Jabber"
 msgid "List of public servers"
 msgstr ""
 
-#: plugins/jabber/jabbermessage.cpp:53 plugins/livejournal/livejournal.cpp:102
+#: plugins/jabber/jabbermessage.cpp:53 plugins/livejournal/livejournal.cpp:103
 msgid "<p>Subject: %1</p>"
 msgstr "<p>Assumpte: %1</p>"
 
@@ -6819,12 +6832,12 @@ msgstr "&Registre"
 msgid "Username"
 msgstr "Nom d'usuari"
 
-#: plugins/jabber/addresult.cpp:213 plugins/jabber/jabbersearch.cpp:101
+#: plugins/jabber/addresult.cpp:214 plugins/jabber/jabbersearch.cpp:101
 #: plugins/jabber/jabbersearch.cpp:312
 msgid "First name"
 msgstr "Nom"
 
-#: plugins/jabber/addresult.cpp:214 plugins/jabber/jabbersearch.cpp:102
+#: plugins/jabber/addresult.cpp:215 plugins/jabber/jabbersearch.cpp:102
 #: plugins/jabber/jabbersearch.cpp:313
 msgid "Last name"
 msgstr "Primer cognom"
@@ -6860,7 +6873,7 @@ msgstr "Primer cognom"
 msgid "Nick (Alias)"
 msgstr "Sobrenom"
 
-#: plugins/jabber/addresult.cpp:215 plugins/jabber/jabbersearch.cpp:306
+#: plugins/jabber/addresult.cpp:216 plugins/jabber/jabbersearch.cpp:306
 msgid "Email"
 msgstr "Correu electrònic"
 
@@ -7050,34 +7063,6 @@ msgstr "Servei:"
 msgid "Additional information:"
 msgstr "&Informació adicional sobre l'usuari"
 
-#: plugins/jabber/servicesbase.cpp:108 plugins/jabber/servicesbase.cpp:114
-msgid "Jabber agents are available online after login"
-msgstr "Els agentes Jabber es troben disponibles després de connectar-se"
-
-#: plugins/jabber/servicesbase.cpp:109
-msgid "Registered agents:"
-msgstr "Agents registrats:"
-
-#: plugins/jabber/servicesbase.cpp:110
-msgid "Log &On"
-msgstr "&Entrada"
-
-#: plugins/jabber/servicesbase.cpp:111
-msgid "Log O&ff"
-msgstr "&Desconecta"
-
-#: plugins/jabber/servicesbase.cpp:112
-msgid "&Unregister"
-msgstr "&No registrat"
-
-#: plugins/jabber/servicesbase.cpp:113
-msgid "&Registered agents"
-msgstr "&Agents registrats"
-
-#: plugins/jabber/servicesbase.cpp:116
-msgid "&Agents"
-msgstr "&Agents"
-
 #: plugins/jabber/discoinfobase.cpp:265
 msgid "DiscoInfo"
 msgstr ""
@@ -7128,10 +7113,6 @@ msgstr "&Estat"
 #: plugins/jabber/discoinfobase.cpp:286
 msgid "Phone:"
 msgstr "Telèfon:"
-
-#: plugins/jabber/jabberinfobase.cpp:183
-msgid "ID:"
-msgstr "ID:"
 
 #: plugins/jabber/jabberbrowser.cpp:45 plugins/jabber/jabberbrowser.cpp:244
 #, fuzzy
@@ -7227,6 +7208,38 @@ msgstr "Transferència fallida"
 msgid "ID"
 msgstr "ID"
 
+#: plugins/jabber/servicesbase.cpp:108 plugins/jabber/servicesbase.cpp:114
+msgid "Jabber agents are available online after login"
+msgstr "Els agentes Jabber es troben disponibles després de connectar-se"
+
+#: plugins/jabber/servicesbase.cpp:109
+msgid "Registered agents:"
+msgstr "Agents registrats:"
+
+#: plugins/jabber/servicesbase.cpp:110
+msgid "Log &On"
+msgstr "&Entrada"
+
+#: plugins/jabber/servicesbase.cpp:111
+msgid "Log O&ff"
+msgstr "&Desconecta"
+
+#: plugins/jabber/servicesbase.cpp:112
+msgid "&Unregister"
+msgstr "&No registrat"
+
+#: plugins/jabber/servicesbase.cpp:113
+msgid "&Registered agents"
+msgstr "&Agents registrats"
+
+#: plugins/jabber/servicesbase.cpp:116
+msgid "&Agents"
+msgstr "&Agents"
+
+#: plugins/jabber/jabberinfobase.cpp:183
+msgid "ID:"
+msgstr "ID:"
+
 #: plugins/jabber/jabber.cpp:64
 msgid "Jabber"
 msgstr "Jabber"
@@ -7256,33 +7269,46 @@ msgstr "&Informació"
 msgid "Register new user"
 msgstr "&Registra un nou UIN"
 
-#: plugins/livejournal/msgjournal.cpp:150
+#: plugins/livejournal/msgjournal.cpp:153
 msgid "Remove record from journal?"
 msgstr ""
 
-#: plugins/livejournal/msgjournalbase.cpp:79
+#: plugins/livejournal/msgjournalbase.cpp:82
 #, fuzzy
 msgid "Subject:"
 msgstr "<p>Assumpte: %1</p>"
 
-#: plugins/livejournal/msgjournalbase.cpp:80
+#: plugins/livejournal/msgjournalbase.cpp:83
 #, fuzzy
 msgid "Security:"
 msgstr "Seguretat"
 
-#: plugins/livejournal/msgjournalbase.cpp:82
+#: plugins/livejournal/msgjournalbase.cpp:85
 #, fuzzy
 msgid "Public"
 msgstr "Publica"
 
-#: plugins/livejournal/msgjournalbase.cpp:83
+#: plugins/livejournal/msgjournalbase.cpp:86
 #, fuzzy
 msgid "Private"
 msgstr "Enganxa"
 
-#: plugins/livejournal/msgjournalbase.cpp:84
+#: plugins/livejournal/msgjournalbase.cpp:87
 msgid "Mood:"
 msgstr ""
+
+#: plugins/livejournal/msgjournalbase.cpp:91
+msgid "Enable comments"
+msgstr ""
+
+#: plugins/livejournal/msgjournalbase.cpp:92
+msgid "No email comments"
+msgstr ""
+
+#: plugins/livejournal/msgjournalbase.cpp:93
+#, fuzzy
+msgid "Disable comments"
+msgstr "&Inhabilita tots els sons"
 
 #: plugins/livejournal/journalsearchbase.cpp:70
 #, fuzzy
@@ -7308,669 +7334,669 @@ msgstr "S'ha afegit el contacte %1 al llistat"
 msgid "Community %1 already in list"
 msgstr "El contacte %1 ja és al llistat"
 
-#: plugins/livejournal/livejournal.cpp:108
+#: plugins/livejournal/livejournal.cpp:109
 #, c-format
 msgid ""
 "_n: LiveJournal post\n"
 "%n LiveJournal posts"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:109
+#: plugins/livejournal/livejournal.cpp:110
 #, c-format
 msgid ""
 "_n: Friends updated\n"
 "Friends updated %n"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:126
+#: plugins/livejournal/livejournal.cpp:127
 msgid "&Remove from journal"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:230
+#: plugins/livejournal/livejournal.cpp:231
 msgid "LiveJournal &post"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:240
+#: plugins/livejournal/livejournal.cpp:241
 msgid "LiveJournal &WWW"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:250
+#: plugins/livejournal/livejournal.cpp:251
 #, fuzzy
 msgid "Friends updated"
 msgstr "Mostra llistat"
 
-#: plugins/livejournal/livejournal.cpp:294
+#: plugins/livejournal/livejournal.cpp:295
 msgid "LiveJournal"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:603
+#: plugins/livejournal/livejournal.cpp:609
 #, fuzzy
 msgid "Posting failed"
 msgstr "Rellistre fallit"
 
-#: plugins/livejournal/livejournal.cpp:1349
+#: plugins/livejournal/livejournal.cpp:1355
 #, fuzzy
 msgid "Invalid username"
 msgstr "Missatge invàlid"
 
-#: plugins/livejournal/livejournal.cpp:1351
-msgid "aggravated"
-msgstr ""
-
-#: plugins/livejournal/livejournal.cpp:1352
-#, fuzzy
-msgid "angry"
-msgstr "Enfadat"
-
-#: plugins/livejournal/livejournal.cpp:1353
-#, fuzzy
-msgid "annoyed"
-msgstr "Empipat"
-
-#: plugins/livejournal/livejournal.cpp:1354
-#, fuzzy
-msgid "anxious"
-msgstr "Danès"
-
-#: plugins/livejournal/livejournal.cpp:1355
-#, fuzzy
-msgid "bored"
-msgstr "negreta"
-
-#: plugins/livejournal/livejournal.cpp:1356
-#, fuzzy
-msgid "confused"
-msgstr "Icones"
-
 #: plugins/livejournal/livejournal.cpp:1357
-msgid "crappy"
+msgid "aggravated"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1358
 #, fuzzy
-msgid "cranky"
-msgstr "Alemanya"
+msgid "angry"
+msgstr "Enfadat"
 
 #: plugins/livejournal/livejournal.cpp:1359
-msgid "depressed"
-msgstr ""
+#, fuzzy
+msgid "annoyed"
+msgstr "Empipat"
 
 #: plugins/livejournal/livejournal.cpp:1360
 #, fuzzy
-msgid "discontent"
-msgstr "Àudio"
+msgid "anxious"
+msgstr "Danès"
 
 #: plugins/livejournal/livejournal.cpp:1361
-msgid "energetic"
-msgstr ""
+#, fuzzy
+msgid "bored"
+msgstr "negreta"
 
 #: plugins/livejournal/livejournal.cpp:1362
-msgid "enraged"
-msgstr ""
+#, fuzzy
+msgid "confused"
+msgstr "Icones"
 
 #: plugins/livejournal/livejournal.cpp:1363
-#, fuzzy
-msgid "enthralled"
-msgstr "encallat"
-
-#: plugins/livejournal/livejournal.cpp:1364
-msgid "exhausted"
+msgid "crappy"
 msgstr ""
 
+#: plugins/livejournal/livejournal.cpp:1364
+#, fuzzy
+msgid "cranky"
+msgstr "Alemanya"
+
 #: plugins/livejournal/livejournal.cpp:1365
-msgid "happy"
+msgid "depressed"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1366
 #, fuzzy
-msgid "high"
-msgstr "il·luminació"
+msgid "discontent"
+msgstr "Àudio"
 
 #: plugins/livejournal/livejournal.cpp:1367
-msgid "horny"
+msgid "energetic"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1368
+msgid "enraged"
+msgstr ""
+
+#: plugins/livejournal/livejournal.cpp:1369
+#, fuzzy
+msgid "enthralled"
+msgstr "encallat"
+
+#: plugins/livejournal/livejournal.cpp:1370
+msgid "exhausted"
+msgstr ""
+
+#: plugins/livejournal/livejournal.cpp:1371
+msgid "happy"
+msgstr ""
+
+#: plugins/livejournal/livejournal.cpp:1372
+#, fuzzy
+msgid "high"
+msgstr "il·luminació"
+
+#: plugins/livejournal/livejournal.cpp:1373
+msgid "horny"
+msgstr ""
+
+#: plugins/livejournal/livejournal.cpp:1374
 #, fuzzy
 msgid "hungry"
 msgstr "Hongria"
 
-#: plugins/livejournal/livejournal.cpp:1369
+#: plugins/livejournal/livejournal.cpp:1375
 msgid "infuriated"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1370
+#: plugins/livejournal/livejournal.cpp:1376
 #, fuzzy
 msgid "irate"
 msgstr "Emigra"
 
-#: plugins/livejournal/livejournal.cpp:1371
+#: plugins/livejournal/livejournal.cpp:1377
 msgid "jubilant"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1372
+#: plugins/livejournal/livejournal.cpp:1378
 msgid "lonely"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1373
+#: plugins/livejournal/livejournal.cpp:1379
 msgid "moody"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1374
-msgid "pissed off"
-msgstr ""
-
-#: plugins/livejournal/livejournal.cpp:1375
-#, fuzzy
-msgid "sad"
-msgstr "Trist"
-
-#: plugins/livejournal/livejournal.cpp:1376
-msgid "satisfied"
-msgstr ""
-
-#: plugins/livejournal/livejournal.cpp:1377
-#, fuzzy
-msgid "sore"
-msgstr "&Restaura"
-
-#: plugins/livejournal/livejournal.cpp:1378
-msgid "stressed"
-msgstr ""
-
-#: plugins/livejournal/livejournal.cpp:1379
-msgid "thirsty"
-msgstr ""
-
 #: plugins/livejournal/livejournal.cpp:1380
-msgid "thoughtful"
+msgid "pissed off"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1381
 #, fuzzy
-msgid "tired"
-msgstr "Juvilat"
+msgid "sad"
+msgstr "Trist"
 
 #: plugins/livejournal/livejournal.cpp:1382
-msgid "touched"
+msgid "satisfied"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1383
 #, fuzzy
-msgid "lazy"
-msgstr "Malai"
+msgid "sore"
+msgstr "&Restaura"
 
 #: plugins/livejournal/livejournal.cpp:1384
-msgid "drunk"
+msgid "stressed"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1385
-#, fuzzy
-msgid "ditzy"
-msgstr "Ciutat:"
+msgid "thirsty"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1386
-msgid "mischievous"
+msgid "thoughtful"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1387
 #, fuzzy
-msgid "morose"
-msgstr "Comores"
+msgid "tired"
+msgstr "Juvilat"
 
 #: plugins/livejournal/livejournal.cpp:1388
-msgid "gloomy"
+msgid "touched"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1389
+#, fuzzy
+msgid "lazy"
+msgstr "Malai"
+
+#: plugins/livejournal/livejournal.cpp:1390
+msgid "drunk"
+msgstr ""
+
+#: plugins/livejournal/livejournal.cpp:1391
+#, fuzzy
+msgid "ditzy"
+msgstr "Ciutat:"
+
+#: plugins/livejournal/livejournal.cpp:1392
+msgid "mischievous"
+msgstr ""
+
+#: plugins/livejournal/livejournal.cpp:1393
+#, fuzzy
+msgid "morose"
+msgstr "Comores"
+
+#: plugins/livejournal/livejournal.cpp:1394
+msgid "gloomy"
+msgstr ""
+
+#: plugins/livejournal/livejournal.cpp:1395
 msgid "melancholy"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1390
+#: plugins/livejournal/livejournal.cpp:1396
 #, fuzzy
 msgid "drained"
 msgstr "Ucraïna"
 
-#: plugins/livejournal/livejournal.cpp:1391
+#: plugins/livejournal/livejournal.cpp:1397
 msgid "excited"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1392
+#: plugins/livejournal/livejournal.cpp:1398
 msgid "relieved"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1393
+#: plugins/livejournal/livejournal.cpp:1399
 msgid "hopeful"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1394
+#: plugins/livejournal/livejournal.cpp:1400
 #, fuzzy
 msgid "amused"
 msgstr "&Pausa"
 
-#: plugins/livejournal/livejournal.cpp:1395
+#: plugins/livejournal/livejournal.cpp:1401
 #, fuzzy
 msgid "determined"
 msgstr "subratllat"
 
-#: plugins/livejournal/livejournal.cpp:1396
+#: plugins/livejournal/livejournal.cpp:1402
 msgid "scared"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1397
+#: plugins/livejournal/livejournal.cpp:1403
 msgid "frustrated"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1398
+#: plugins/livejournal/livejournal.cpp:1404
 msgid "indescribable"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1399
+#: plugins/livejournal/livejournal.cpp:1405
 msgid "sleepy"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1400
-msgid "groggy"
-msgstr ""
-
-#: plugins/livejournal/livejournal.cpp:1401
-#, fuzzy
-msgid "hyper"
-msgstr "Tipus:"
-
-#: plugins/livejournal/livejournal.cpp:1402
-#, fuzzy
-msgid "relaxed"
-msgstr "Irlanda"
-
-#: plugins/livejournal/livejournal.cpp:1403
-msgid "restless"
-msgstr ""
-
-#: plugins/livejournal/livejournal.cpp:1404
-msgid "disappointed"
-msgstr ""
-
-#: plugins/livejournal/livejournal.cpp:1405
-#, fuzzy
-msgid "curious"
-msgstr "Mauritània"
-
 #: plugins/livejournal/livejournal.cpp:1406
-msgid "mellow"
+msgid "groggy"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1407
 #, fuzzy
+msgid "hyper"
+msgstr "Tipus:"
+
+#: plugins/livejournal/livejournal.cpp:1408
+#, fuzzy
+msgid "relaxed"
+msgstr "Irlanda"
+
+#: plugins/livejournal/livejournal.cpp:1409
+msgid "restless"
+msgstr ""
+
+#: plugins/livejournal/livejournal.cpp:1410
+msgid "disappointed"
+msgstr ""
+
+#: plugins/livejournal/livejournal.cpp:1411
+#, fuzzy
+msgid "curious"
+msgstr "Mauritània"
+
+#: plugins/livejournal/livejournal.cpp:1412
+msgid "mellow"
+msgstr ""
+
+#: plugins/livejournal/livejournal.cpp:1413
+#, fuzzy
 msgid "peaceful"
 msgstr "Espai"
 
-#: plugins/livejournal/livejournal.cpp:1408
+#: plugins/livejournal/livejournal.cpp:1414
 msgid "bouncy"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1409
+#: plugins/livejournal/livejournal.cpp:1415
 #, fuzzy
 msgid "nostalgic"
 msgstr "cursiva"
 
-#: plugins/livejournal/livejournal.cpp:1410
+#: plugins/livejournal/livejournal.cpp:1416
 msgid "okay"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1411
-msgid "rejuvenated"
-msgstr ""
-
-#: plugins/livejournal/livejournal.cpp:1412
-#, fuzzy
-msgid "complacent"
-msgstr "Complet"
-
-#: plugins/livejournal/livejournal.cpp:1413
-#, fuzzy
-msgid "content"
-msgstr "Internet"
-
-#: plugins/livejournal/livejournal.cpp:1414
-#, fuzzy
-msgid "indifferent"
-msgstr "Indiferent"
-
-#: plugins/livejournal/livejournal.cpp:1415
-msgid "silly"
-msgstr ""
-
-#: plugins/livejournal/livejournal.cpp:1416
-msgid "flirty"
-msgstr ""
-
 #: plugins/livejournal/livejournal.cpp:1417
-msgid "calm"
+msgid "rejuvenated"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1418
 #, fuzzy
-msgid "refreshed"
-msgstr "&Refusa"
+msgid "complacent"
+msgstr "Complet"
 
 #: plugins/livejournal/livejournal.cpp:1419
-msgid "optimistic"
-msgstr ""
+#, fuzzy
+msgid "content"
+msgstr "Internet"
 
 #: plugins/livejournal/livejournal.cpp:1420
-msgid "pessimistic"
-msgstr ""
+#, fuzzy
+msgid "indifferent"
+msgstr "Indiferent"
 
 #: plugins/livejournal/livejournal.cpp:1421
-msgid "giggly"
+msgid "silly"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1422
-msgid "pensive"
+msgid "flirty"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1423
-msgid "uncomfortable"
+msgid "calm"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1424
-msgid "lethargic"
-msgstr ""
+#, fuzzy
+msgid "refreshed"
+msgstr "&Refusa"
 
 #: plugins/livejournal/livejournal.cpp:1425
-#, fuzzy
-msgid "listless"
-msgstr "Fitness"
+msgid "optimistic"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1426
-msgid "recumbent"
+msgid "pessimistic"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1427
-msgid "exanimate"
+msgid "giggly"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1428
-#, fuzzy
-msgid "embarrassed"
-msgstr "Avergonyit"
+msgid "pensive"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1429
-msgid "envious"
+msgid "uncomfortable"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1430
-msgid "sympathetic"
+msgid "lethargic"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1431
 #, fuzzy
-msgid "sick"
-msgstr "Sobrenom:"
+msgid "listless"
+msgstr "Fitness"
 
 #: plugins/livejournal/livejournal.cpp:1432
-#, fuzzy
-msgid "hot"
-msgstr "&Telèfons:"
+msgid "recumbent"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1433
-#, fuzzy
-msgid "cold"
-msgstr "negreta"
+msgid "exanimate"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1434
 #, fuzzy
-msgid "worried"
-msgstr "Sorprès"
+msgid "embarrassed"
+msgstr "Avergonyit"
 
 #: plugins/livejournal/livejournal.cpp:1435
-#, fuzzy
-msgid "loved"
-msgstr "Eslovènia"
+msgid "envious"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1436
-msgid "awake"
+msgid "sympathetic"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1437
 #, fuzzy
+msgid "sick"
+msgstr "Sobrenom:"
+
+#: plugins/livejournal/livejournal.cpp:1438
+#, fuzzy
+msgid "hot"
+msgstr "&Telèfons:"
+
+#: plugins/livejournal/livejournal.cpp:1439
+#, fuzzy
+msgid "cold"
+msgstr "negreta"
+
+#: plugins/livejournal/livejournal.cpp:1440
+#, fuzzy
+msgid "worried"
+msgstr "Sorprès"
+
+#: plugins/livejournal/livejournal.cpp:1441
+#, fuzzy
+msgid "loved"
+msgstr "Eslovènia"
+
+#: plugins/livejournal/livejournal.cpp:1442
+msgid "awake"
+msgstr ""
+
+#: plugins/livejournal/livejournal.cpp:1443
+#, fuzzy
 msgid "working"
 msgstr "Ordena"
 
-#: plugins/livejournal/livejournal.cpp:1438
+#: plugins/livejournal/livejournal.cpp:1444
 msgid "productive"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1439
+#: plugins/livejournal/livejournal.cpp:1445
 msgid "accomplished"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1440
+#: plugins/livejournal/livejournal.cpp:1446
 #, fuzzy
 msgid "busy"
 msgstr "Emfeinat"
 
-#: plugins/livejournal/livejournal.cpp:1441
+#: plugins/livejournal/livejournal.cpp:1447
 #, fuzzy
 msgid "blah"
 msgstr "negre"
 
-#: plugins/livejournal/livejournal.cpp:1442
+#: plugins/livejournal/livejournal.cpp:1448
 msgid "full"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1443
+#: plugins/livejournal/livejournal.cpp:1449
 msgid "grumpy"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1444
+#: plugins/livejournal/livejournal.cpp:1450
 #, fuzzy
 msgid "weird"
 msgstr "Juvilat"
 
-#: plugins/livejournal/livejournal.cpp:1445
+#: plugins/livejournal/livejournal.cpp:1451
 msgid "nauseated"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1446
+#: plugins/livejournal/livejournal.cpp:1452
 msgid "ecstatic"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1447
+#: plugins/livejournal/livejournal.cpp:1453
 msgid "chipper"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1448
+#: plugins/livejournal/livejournal.cpp:1454
 msgid "rushed"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1449
+#: plugins/livejournal/livejournal.cpp:1455
 msgid "contemplative"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1450
+#: plugins/livejournal/livejournal.cpp:1456
 msgid "nerdy"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1451
+#: plugins/livejournal/livejournal.cpp:1457
 msgid "geeky"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1452
+#: plugins/livejournal/livejournal.cpp:1458
 #, fuzzy
 msgid "cynical"
 msgstr "Tècnic"
 
-#: plugins/livejournal/livejournal.cpp:1453
+#: plugins/livejournal/livejournal.cpp:1459
 msgid "quixotic"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1454
+#: plugins/livejournal/livejournal.cpp:1460
 msgid "crazy"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1455
+#: plugins/livejournal/livejournal.cpp:1461
 #, fuzzy
 msgid "creative"
 msgstr "Rep"
 
-#: plugins/livejournal/livejournal.cpp:1456
+#: plugins/livejournal/livejournal.cpp:1462
 #, fuzzy
 msgid "artistic"
 msgstr "&Estat"
 
-#: plugins/livejournal/livejournal.cpp:1457
+#: plugins/livejournal/livejournal.cpp:1463
 #, fuzzy
 msgid "pleased"
 msgstr "Bromista"
 
-#: plugins/livejournal/livejournal.cpp:1458
+#: plugins/livejournal/livejournal.cpp:1464
 msgid "bitchy"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1459
-msgid "guilty"
-msgstr ""
-
-#: plugins/livejournal/livejournal.cpp:1460
-#, fuzzy
-msgid "irritated"
-msgstr "Emigra"
-
-#: plugins/livejournal/livejournal.cpp:1461
-#, fuzzy
-msgid "blank"
-msgstr "negre"
-
-#: plugins/livejournal/livejournal.cpp:1462
-msgid "apathetic"
-msgstr ""
-
-#: plugins/livejournal/livejournal.cpp:1463
-msgid "dorky"
-msgstr ""
-
-#: plugins/livejournal/livejournal.cpp:1464
-msgid "impressed"
-msgstr ""
-
 #: plugins/livejournal/livejournal.cpp:1465
-msgid "naughty"
+msgid "guilty"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1466
 #, fuzzy
+msgid "irritated"
+msgstr "Emigra"
+
+#: plugins/livejournal/livejournal.cpp:1467
+#, fuzzy
+msgid "blank"
+msgstr "negre"
+
+#: plugins/livejournal/livejournal.cpp:1468
+msgid "apathetic"
+msgstr ""
+
+#: plugins/livejournal/livejournal.cpp:1469
+msgid "dorky"
+msgstr ""
+
+#: plugins/livejournal/livejournal.cpp:1470
+msgid "impressed"
+msgstr ""
+
+#: plugins/livejournal/livejournal.cpp:1471
+msgid "naughty"
+msgstr ""
+
+#: plugins/livejournal/livejournal.cpp:1472
+#, fuzzy
 msgid "predatory"
 msgstr "Directoris"
 
-#: plugins/livejournal/livejournal.cpp:1467
+#: plugins/livejournal/livejournal.cpp:1473
 #, fuzzy
 msgid "dirty"
 msgstr "Ciutat:"
 
-#: plugins/livejournal/livejournal.cpp:1468
+#: plugins/livejournal/livejournal.cpp:1474
 msgid "giddy"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1469
+#: plugins/livejournal/livejournal.cpp:1475
 #, fuzzy
 msgid "surprised"
 msgstr "Sorprès"
 
-#: plugins/livejournal/livejournal.cpp:1470
+#: plugins/livejournal/livejournal.cpp:1476
 msgid "shocked"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1471
+#: plugins/livejournal/livejournal.cpp:1477
 #, fuzzy
 msgid "rejected"
 msgstr "Grècia"
 
-#: plugins/livejournal/livejournal.cpp:1472
+#: plugins/livejournal/livejournal.cpp:1478
 msgid "numb"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1473
+#: plugins/livejournal/livejournal.cpp:1479
 msgid "cheerful"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1474
+#: plugins/livejournal/livejournal.cpp:1480
 msgid "good"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1475
-msgid "distressed"
-msgstr ""
-
-#: plugins/livejournal/livejournal.cpp:1476
-#, fuzzy
-msgid "intimidated"
-msgstr "Minimitza"
-
-#: plugins/livejournal/livejournal.cpp:1477
-msgid "crushed"
-msgstr ""
-
-#: plugins/livejournal/livejournal.cpp:1478
-msgid "devious"
-msgstr ""
-
-#: plugins/livejournal/livejournal.cpp:1479
-msgid "thankful"
-msgstr ""
-
-#: plugins/livejournal/livejournal.cpp:1480
-#, fuzzy
-msgid "grateful"
-msgstr "Emigra"
-
 #: plugins/livejournal/livejournal.cpp:1481
-msgid "jealous"
+msgid "distressed"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1482
 #, fuzzy
-msgid "nervous"
-msgstr "Grups"
+msgid "intimidated"
+msgstr "Minimitza"
+
+#: plugins/livejournal/livejournal.cpp:1483
+msgid "crushed"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1484
-msgid "Recent Entries"
+msgid "devious"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1485
-msgid "Calendar View"
+msgid "thankful"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1486
 #, fuzzy
+msgid "grateful"
+msgstr "Emigra"
+
+#: plugins/livejournal/livejournal.cpp:1487
+msgid "jealous"
+msgstr ""
+
+#: plugins/livejournal/livejournal.cpp:1488
+#, fuzzy
+msgid "nervous"
+msgstr "Grups"
+
+#: plugins/livejournal/livejournal.cpp:1490
+msgid "Recent Entries"
+msgstr ""
+
+#: plugins/livejournal/livejournal.cpp:1491
+msgid "Calendar View"
+msgstr ""
+
+#: plugins/livejournal/livejournal.cpp:1492
+#, fuzzy
 msgid "Friends View"
 msgstr "Mostra llistat"
 
-#: plugins/livejournal/livejournal.cpp:1487
+#: plugins/livejournal/livejournal.cpp:1493
 #, fuzzy
 msgid "Your Profile"
 msgstr "Perfil:"
 
-#: plugins/livejournal/livejournal.cpp:1488
+#: plugins/livejournal/livejournal.cpp:1494
 msgid "Your To-Do List"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1489
+#: plugins/livejournal/livejournal.cpp:1495
 #, fuzzy
 msgid "Change Settings"
 msgstr "&Canvia la codificació"
 
-#: plugins/livejournal/livejournal.cpp:1490
+#: plugins/livejournal/livejournal.cpp:1496
 #, fuzzy
 msgid "Support"
 msgstr "Esports"
 
-#: plugins/livejournal/livejournal.cpp:1491
+#: plugins/livejournal/livejournal.cpp:1497
 msgid "Personal Info"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1492
+#: plugins/livejournal/livejournal.cpp:1498
 #, fuzzy
 msgid "Journal Settings"
 msgstr "Paràmetres"
@@ -8067,20 +8093,6 @@ msgid ""
 "Thus it is possible to organize additional messages filters.\n"
 msgstr ""
 
-#: plugins/action/action.cpp:33
-#, fuzzy
-msgid "Action"
-msgstr "Educació"
-
-#: plugins/action/action.cpp:34
-msgid "Plugin execute external programs on event or from contact menu"
-msgstr ""
-
-#: plugins/action/action.cpp:84
-#, fuzzy
-msgid "&Action"
-msgstr "&Localització"
-
 #: plugins/action/additembase.cpp:90
 #, fuzzy
 msgid "Add Item"
@@ -8095,6 +8107,20 @@ msgstr "Nou element"
 #, fuzzy
 msgid "Program:"
 msgstr "Port:"
+
+#: plugins/action/action.cpp:33
+#, fuzzy
+msgid "Action"
+msgstr "Educació"
+
+#: plugins/action/action.cpp:34
+msgid "Plugin execute external programs on event or from contact menu"
+msgstr ""
+
+#: plugins/action/action.cpp:84
+#, fuzzy
+msgid "&Action"
+msgstr "&Localització"
 
 #: plugins/navigate/navigate.cpp:198
 msgid "Navigate"
