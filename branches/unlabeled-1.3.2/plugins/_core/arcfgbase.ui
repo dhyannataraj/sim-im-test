@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>433</width>
+            <width>429</width>
             <height>314</height>
         </rect>
     </property>
@@ -53,7 +53,7 @@
                         <name>spacing</name>
                         <number>6</number>
                     </property>
-                    <widget row="0"  column="0"  rowspan="1"  colspan="2" >
+                    <widget row="0"  column="0"  rowspan="1"  colspan="3" >
                         <class>QCheckBox</class>
                         <property stdset="1">
                             <name>name</name>
@@ -64,11 +64,22 @@
                             <string>&amp;Override global settings</string>
                         </property>
                     </widget>
-                    <widget row="1"  column="0"  rowspan="1"  colspan="2" >
+                    <widget row="1"  column="0"  rowspan="1"  colspan="3" >
                         <class>QMultiLineEdit</class>
                         <property stdset="1">
                             <name>name</name>
                             <cstring>edtAutoReply</cstring>
+                        </property>
+                    </widget>
+                    <widget row="2"  column="0" >
+                        <class>QPushButton</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>btnHelp</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>&amp;Help</string>
                         </property>
                     </widget>
                     <widget row="2"  column="1" >
@@ -89,17 +100,27 @@
                             <string>Don't show autoreply dialog</string>
                         </property>
                     </widget>
-                    <widget row="2"  column="0" >
-                        <class>QPushButton</class>
-                        <property stdset="1">
+                    <spacer row="2"  column="2" >
+                        <property>
                             <name>name</name>
-                            <cstring>btnHelp</cstring>
+                            <cstring>Spacer1</cstring>
                         </property>
                         <property>
-                            <name>text</name>
-                            <string>&amp;Help</string>
+                            <name>orientation</name>
+                            <enum>Horizontal</enum>
                         </property>
-                    </widget>
+                        <property>
+                            <name>sizeType</name>
+                            <enum>Expanding</enum>
+                        </property>
+                        <property>
+                            <name>sizeHint</name>
+                            <size>
+                                <width>20</width>
+                                <height>20</height>
+                            </size>
+                        </property>
+                    </spacer>
                 </grid>
             </widget>
         </widget>
