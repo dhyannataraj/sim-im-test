@@ -1217,6 +1217,7 @@ QTextCodec *ICQClient::_getCodec(const char *encoding)
             if (!strcmp(codec->name(), e->codec))
                 break;
         }
+		log(L_DEBUG, "C: %s", codec->name());
         if (e->language && !e->bMain){
             for (e++; e->language; e++){
                 if (e->bMain){
