@@ -188,7 +188,7 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
             if (def){
                 const QPixmap &pict = Pict(def->icon);
                 if (m_bUnreadBlink)
-                    p->drawPixmap(x, (height() - pict.height()) / 2, pict);
+                    p->drawPixmap(x, (item->height() - pict.height()) / 2, pict);
                 x += pict.width() + 2;
             }
         }
@@ -989,7 +989,10 @@ static void resetUnread(QListViewItem *item, list<QListViewItem*> &grp)
             if ((*it) == item)
                 break;
         if (it == grp.end()){
+			string s;
+			s = item->text(0).local8Bit();
             GroupItem *group = static_cast<GroupItem*>(item);
+			log(L_DEBUG, ">> %s %u", s.c_str(), group->m_unread);
             if (group->m_unread){
                 group->m_unread = 0;
                 if (!group->isOpen())
@@ -1016,11 +1019,10 @@ void UserView::unreadBlink()
             continue;
         blinks.push_back((*it).contact);
     }
+    list<QListViewItem*> grps;
     if (blinks.empty()){
         unreadTimer->stop();
-        return;
-    }
-    list<QListViewItem*> grps;
+    }else{
     for (itb = blinks.begin(); itb != blinks.end(); ++itb){
         ContactItem *contact = findContactItem((*itb), NULL);
         if (contact == NULL)
@@ -1033,6 +1035,7 @@ void UserView::unreadBlink()
             grps.push_back(group);
         }
     }
+	}
     if (CorePlugin::m_plugin->getGroupMode()){
         for (QListViewItem *item = firstChild(); item; item = item->nextSibling()){
             resetUnread(item, grps);
