@@ -386,7 +386,11 @@ void setWndClass(QWidget *w, const char *name)
 #endif
 #endif
 
+#ifdef USE_KDE
 bool raiseWindow(QWidget *w, unsigned desk)
+#else
+bool raiseWindow(QWidget *w, unsigned)
+#endif
 {
     Event e(EventRaiseWindow, w);
     if (e.process())
