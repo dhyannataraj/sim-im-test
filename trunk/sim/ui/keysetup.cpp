@@ -32,9 +32,16 @@ KeySetup::KeySetup(QWidget *parent)
     lstActions->removeColumn(0);
     lstActions->addColumn(i18n("Action"));
     lstActions->addColumn(i18n("Keys"));
-    QListViewItem *first = new QListViewItem(lstActions, i18n("Show/Hide main window"), pMain->KeyWindow.c_str(), QString::number(0));
-    new QListViewItem(lstActions, i18n("Double click on dock"), pMain->KeyDblClick.c_str(), QString::number(1));
-    new QListViewItem(lstActions, i18n("Show search window"), pMain->KeySearch.c_str(), QString::number(2));
+    QListViewItem *first = new QListViewItem(lstActions,
+                           i18n("Show/Hide main window"),
+                           pMain->KeyWindow.c_str(), QString::number(0));
+    new QListViewItem(lstActions,
+                      i18n("Double click on dock"),
+                      pMain->KeyDblClick.c_str(), QString::number(1));
+    new QListViewItem(lstActions,
+                      i18n("Show search window"),
+                      pMain->KeySearch.c_str(), QString::number(2));
+    lstActions->setCurrentItem(first);
     connect(lstActions, SIGNAL(selectionChanged(QListViewItem*)), this, SLOT(selectionChanged(QListViewItem*)));
     connect(chkEnable, SIGNAL(toggled(bool)), this, SLOT(enableToggled(bool)));
     connect(btnKey, SIGNAL(changed()), this, SLOT(keyChanged()));

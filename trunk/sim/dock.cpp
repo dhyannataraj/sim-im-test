@@ -27,6 +27,7 @@
 #include <qtooltip.h>
 #include <qtimer.h>
 #include <qapplication.h>
+#include <qvaluelist.h>
 
 #ifdef WIN32
 #include <windowsx.h>
@@ -491,6 +492,13 @@ void DockWnd::messageReceived(ICQMessage *msg)
     messages.push_back(m);
     reset();
 }
+
+typedef struct msgInfo
+{
+	unsigned long uin;
+	unsigned short type;
+	unsigned count;
+} msgInfo;
 
 void DockWnd::reset()
 {

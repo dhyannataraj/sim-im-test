@@ -58,7 +58,7 @@ public:
     static const char *getStatusIcon(unsigned long);
     static QString getStatusText(unsigned long);
     static const char *getMessageIcon(int type);
-    static QString getMessageText(int type);
+    static QString getMessageText(int type, int n);
     void markAsRead(ICQMessage *msg);
     virtual void process_event(ICQEvent *e);
     virtual void createSocket(Socket*);

@@ -243,6 +243,7 @@ MainWindow::MainWindow(const char *name)
         MessageBgColor(this, "MessageBgColor"),
         MessageFgColor(this, "MessageFgColor"),
         SimpleMode(this, "SimpleMode"),
+	ContainerUserMsg(this, "ContainerUserMsg", true),
         UseOwnColors(this, "UseOwnColors"),
         KeyWindow(this, "KeyWindow", "CTRL-SHIFT-A"),
         KeyDblClick(this, "KeyDblClick", "CTRL-SHIFT-I"),
@@ -763,7 +764,7 @@ void MainWindow::messageReceived(ICQMessage *msg)
     if (u == NULL) return;
     CUser user(u);
     xosd->setMessage(i18n("%1 from %2 received")
-                     .arg(pClient->getMessageText(msg->Type()))
+                     .arg(pClient->getMessageText(msg->Type(), 1))
                      .arg(user.name()), u->Uin());
 }
 
@@ -1400,7 +1401,7 @@ void MainWindow::showUserPopup(unsigned long uin, QPoint p, QPopupMenu *popup, c
         menuUser->insertItem(i18n("Users"), popup);
         menuUser->insertItem(Icon("exit"), i18n("Close"), mnuClose);
     }
-    adjustUserMenu(menuUser, u, true);
+    adjustUserMenu(menuUser, u, true, false);
     menuUser->popup(p);
 }
 
@@ -1421,7 +1422,7 @@ void MainWindow::addMessageType(QPopupMenu *menuUser, int type, int id, bool bAd
             if (menuUser->indexOf(id) == pos) return;
             menuUser->removeItem(id);
         }
-        menuUser->insertItem(Icon(Client::getMessageIcon(type)), Client::getMessageText(type), id, pos);
+        menuUser->insertItem(Icon(Client::getMessageIcon(type)), Client::getMessageText(type, 1), id, pos);
         return;
     }
     if (menuUser->findItem(id) == NULL) return;
@@ -1606,7 +1607,7 @@ void MainWindow::toContainer(int containerId)
     box->showUser(uinMenu, mnuAction, 0);
 }
 
-void MainWindow::adjustUserMenu(QPopupMenu *menu, ICQUser *u, bool haveTitle)
+void MainWindow::adjustUserMenu(QPopupMenu *menu, ICQUser *u, bool haveTitle, bool bShort)
 {
     if (haveTitle){
         uinMenu = u->Uin();
@@ -1631,10 +1632,10 @@ void MainWindow::adjustUserMenu(QPopupMenu *menu, ICQUser *u, bool haveTitle)
         if (menu->findItem(mnuContainers) == NULL)
             menu->insertItem(i18n("To container"), menuContainers, mnuContainers);
     }
-    addMessageType(menu, ICQ_MSGxSECURExOPEN,  mnuSecureOn,
+    addMessageType(menu, ICQ_MSGxSECURExOPEN,  mnuSecureOn, !bShort &&
                    (u->Type() == USER_TYPE_ICQ) && (u->uStatus != ICQ_STATUS_OFFLINE) &&
                    ((u->direct == NULL) || !u->direct->isSecure()), haveTitle);
-    addMessageType(menu, ICQ_MSGxSECURExCLOSE, mnuSecureOff,
+    addMessageType(menu, ICQ_MSGxSECURExCLOSE, mnuSecureOff, !bShort &&
                    u->direct && u->direct->isSecure(), haveTitle);
     bool haveEmail = false;
     for (EMailList::iterator it = u->EMails.begin(); it != u->EMails.end(); ++it){

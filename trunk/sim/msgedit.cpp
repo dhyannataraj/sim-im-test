@@ -290,7 +290,7 @@ void MsgEdit::setState()
     unsigned short msgType = 0;
     if (message()){
         msgType = message()->Type();
-        emit setMessageType(Client::getMessageIcon(msgType), Client::getMessageText(msgType));
+        emit setMessageType(Client::getMessageIcon(msgType), Client::getMessageText(msgType, 1));
     }
     btnSend->setText(sendEvent ? i18n("&Cancel") : i18n("&Send"));
     chkClose->setEnabled(sendEvent == NULL);

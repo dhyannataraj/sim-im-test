@@ -234,7 +234,7 @@ void UserBox::iconChanged()
 {
     ICQUser *u = pClient->getUser(curWnd->Uin);
     if (u){
-        pMain->adjustUserMenu(menuType, u, true);
+        pMain->adjustUserMenu(menuType, u, true, true);
         btnType->setPopup(menuType);
         btnUser->setState(Client::getUserIcon(u), curWnd->userName());
         setIcon(Pict(Client::getUserIcon(u)));
@@ -302,7 +302,7 @@ void UserBox::saveInfo(ICQUser *u)
     curWnd->setUin(u->Uin());
     ICQEvent e(EVENT_INFO_CHANGED, u->Uin());
     processEvent(&e);
-    pMain->adjustUserMenu(menuType, u, false);
+    pMain->adjustUserMenu(menuType, u, false, true);
     btnType->setPopup(menuType);
     btnUser->setState(Client::getUserIcon(u), curWnd->userName());
     setIcon(Pict(Client::getUserIcon(u)));
@@ -789,7 +789,7 @@ void UserBox::statusChanged(unsigned long uin)
     if (u){
         btnUser->setState(Client::getUserIcon(u), curWnd->userName());
         setIcon(Pict(Client::getUserIcon(u)));
-        pMain->adjustUserMenu(menuType, u, false);
+        pMain->adjustUserMenu(menuType, u, false, true);
         btnType->setPopup(menuType);
     }
 }
@@ -850,7 +850,7 @@ void UserBox::selectedUser(int id)
     lay->invalidate();
     ICQUser *u = pClient->getUser(curWnd->Uin);
     if (u){
-        pMain->adjustUserMenu(menuType, u, false);
+        pMain->adjustUserMenu(menuType, u, false, true);
         btnType->setPopup(menuType);
         btnUser->setState(Client::getUserIcon(u), curWnd->userName());
         setIcon(Pict(Client::getUserIcon(u)));

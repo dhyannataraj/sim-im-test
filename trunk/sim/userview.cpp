@@ -872,7 +872,7 @@ void UserView::processEvent(ICQEvent *e)
     case EVENT_GROUP_CHANGED:
         refresh();
         return;
-    case EVENT_MESSAGE_RECEIVED:
+    case EVENT_MESSAGE_SEND:
         if (e->message() &&
                 (e->message()->Type() == ICQ_MSGxSECURExOPEN) &&
                 (e->state == ICQEvent::Fail)){
@@ -889,6 +889,8 @@ void UserView::processEvent(ICQEvent *e)
                 msg->show();
             }
         }
+	return;
+    case EVENT_MESSAGE_RECEIVED:
     case EVENT_USER_DELETED:
     case EVENT_USERGROUP_CHANGED:
     case EVENT_STATUS_CHANGED:

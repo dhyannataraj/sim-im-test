@@ -200,6 +200,7 @@ public:
     ConfigULong	 MessageBgColor;
     ConfigULong	 MessageFgColor;
     ConfigBool	 SimpleMode;
+    ConfigBool	 ContainerUserMsg;
     ConfigBool	 UseOwnColors;
 
     ConfigString KeyWindow;
@@ -235,7 +236,7 @@ public:
 
     static string homeDir;
 
-    void adjustUserMenu(QPopupMenu *menu, ICQUser *u, bool bHaveTitle);
+    void adjustUserMenu(QPopupMenu *menu, ICQUser *u, bool bHaveTitle, bool bShort);
     void adjustGroupMenu(QPopupMenu *menu, unsigned long uin);
     void destroyBox(UserBox*);
     unsigned long m_uin;

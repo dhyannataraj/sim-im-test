@@ -387,49 +387,49 @@ const char *Client::getMessageIcon(int type)
     return "message";
 }
 
-QString Client::getMessageText(int type)
+QString Client::getMessageText(int type, int n)
 {
     switch (type){
     case ICQ_MSGxMSG:
-        return i18n("Message");
+        return i18n("Message", "%n messages", n);
     case ICQ_MSGxCHAT:
-        return i18n("Chat request");
+        return i18n("Chat request", "%n chat requests", n);
     case ICQ_MSGxFILE:
-        return i18n("File");
+        return i18n("File", "%n files", n);
     case ICQ_MSGxURL:
-        return i18n("URL");
+        return i18n("URL", "%n URL", n);
     case ICQ_MSGxAUTHxREQUEST:
-        return i18n("Authorization request");
+        return i18n("Authorization request", "%n authorization requests", n);
     case ICQ_MSGxAUTHxREFUSED:
-        return i18n("Authorization refused");
+        return i18n("Authorization refused", "%n authorizations refused", n);
     case ICQ_MSGxAUTHxGRANTED:
-        return i18n("Authorization granted");
+        return i18n("Authorization granted", "%n authorizations granted", n);
     case ICQ_MSGxADDEDxTOxLIST:
-        return i18n("Added to contact list");
+        return i18n("Added to contact list", "%n times added to contact list", n);
     case ICQ_MSGxWEBxPANEL:
-        return i18n("WWW-panel message");
+        return i18n("WWW-panel message", "%n WWW-panel messages", n);
     case ICQ_MSGxEMAILxPAGER:
-        return i18n("Email pager message");
+        return i18n("Email pager message", "%n Email pager messages", n);
     case ICQ_MSGxCONTACTxLIST:
-        return i18n("Contact list");
+        return i18n("Contact list", "%n contact lists", n);
     case ICQ_MSGxCONTACTxREQUEST:
-        return i18n("Contacts request");
+        return i18n("Contacts request", "%n contacts requests", n);
     case ICQ_MSGxEXT:
-        return i18n("External unknown message");
+        return i18n("External unknown message", "%n unknown messages", n);
     case ICQ_MSGxSMS:
-        return i18n("SMS");
+        return i18n("SMS", "%n SMS", n);
     case ICQ_MSGxSMSxRECEIPT:
-        return i18n("SMS receipt");
+        return i18n("SMS receipt", "%n SMS receipts", n);
     case ICQ_MSGxMAIL:
-        return i18n("Email");
+        return i18n("Email", "%n emails", n);
     case ICQ_MSGxSECURExOPEN:
-        return i18n("Request secure channel");
+        return i18n("Request secure channel", "%n requests sequre channel", n);
     case ICQ_MSGxSECURExCLOSE:
-        return i18n("Close secure channel");
+        return i18n("Close secure channel", "%n times close sequre channel", n);
     default:
         log(L_WARN, "Unknown message type %u", type);
     }
-    return "Unknown message";
+    return i18n("Unknown message", "%n unknown messages", n);
 }
 
 const char *Client::getUserIcon(ICQUser *u)
