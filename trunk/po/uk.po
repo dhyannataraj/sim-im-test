@@ -11,6 +11,7 @@
 # translation of uk.po to
 # translation of uk.po to
 # translation of uk.po to
+# translation of uk.po to
 # translation of uk2.po to
 # translation of uk.po to
 # translation of uk.po to Ukrainian
@@ -22,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2003-10-10 11:13+0400\n"
-"PO-Revision-Date: 2003-10-10 12:29+0300\n"
+"PO-Revision-Date: 2003-10-10 17:20+0300\n"
 "Last-Translator: Ivan Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team:  <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -757,7 +758,7 @@ msgstr "Робочий факс"
 
 #: plugins/_core/maininfo.cpp:50
 msgid "Private Cellular"
-msgstr "Стільковий"
+msgstr "Привітний стільниковий"
 
 #: plugins/_core/maininfo.cpp:51
 msgid "Wireless Pager"
@@ -816,8 +817,8 @@ msgid ""
 "_n: Message\n"
 "%n messages"
 msgstr ""
-"%n повідомлення\n"
-"%n повідомлення\n"
+"%n повідомлення"
+"%n повідомлення"
 "%n повідомлень"
 
 #: plugins/_core/msgedit.cpp:461
@@ -826,8 +827,8 @@ msgid ""
 "_n: SMS\n"
 "%n SMSs"
 msgstr ""
-"%n SMS\n"
-"%n SMS\n"
+"%n SMS"
+"%n SMS"
 "%n SMS"
 
 #: plugins/_core/msgedit.cpp:509
@@ -836,8 +837,8 @@ msgid ""
 "_n: File\n"
 "%n files"
 msgstr ""
-"%n файл\n"
-"%n файла\n"
+"%n файл"
+"%n файла"
 "%n файлів"
 
 #: plugins/_core/msgedit.cpp:516
@@ -854,8 +855,8 @@ msgid ""
 "_n: Authorize request\n"
 "%n authorize requests"
 msgstr ""
-"%n запит авторизації\n"
-"%n запита авторизації\n"
+"%n запит авторизації"
+"%n запита авторизації"
 "%n запитів авторизації"
 
 #: plugins/_core/msgedit.cpp:592
@@ -872,8 +873,8 @@ msgid ""
 "_n: Authorization granted\n"
 "%n authorization granted"
 msgstr ""
-"Авторизація прийнята %n раз\n"
-"Авторизація прийнята %n рази\n"
+"Авторизація прийнята %n раз"
+"Авторизація прийнята %n рази"
 "Авторизація прийнята %n раз"
 
 #: plugins/_core/msgedit.cpp:688
@@ -882,8 +883,8 @@ msgid ""
 "_n: Authorization refused\n"
 "%n authorization refused"
 msgstr ""
-"Авторизація відхилена %n раз\n"
-"Авторизація відхилена %n рази\n"
+"Авторизація відхилена %n раз"
+"Авторизація відхилена %n рази"
 "Авторизація відхилена %n раз"
 
 #: plugins/_core/msgedit.cpp:710
@@ -892,8 +893,8 @@ msgid ""
 "_n: Add to contacts\n"
 "%n add to contacts"
 msgstr ""
-"Додав в список контактів %n раз\n"
-"Додав в список контактів %n рази\n"
+"Додав в список контактів %n раз"
+"Додав в список контактів %n рази"
 "Додав в список контактів %n раз"
 
 #: plugins/_core/msgedit.cpp:732
@@ -902,8 +903,8 @@ msgid ""
 "_n: Removed from contacts\n"
 "%n removed from contacts"
 msgstr ""
-"Вилучив з контактів %n раз\n"
-"Вилучив з контактів %n рази\n"
+"Вилучив з контактів %n раз"
+"Вилучив з контактів %n рази"
 "Вилучив контактів %n раз"
 
 #: plugins/_core/msgedit.cpp:754
@@ -912,8 +913,8 @@ msgid ""
 "_n: Status changed\n"
 "%n times status changed"
 msgstr ""
-"Статус змінено %n раз\n"
-"Статус змінено %n рази\n"
+"Статус змінено %n раз"
+"Статус змінено %n рази"
 "Статус змінено %n раз"
 
 #: plugins/_core/msgedit.cpp:850 sim/ui/qt3/i18n.cpp:23
@@ -2276,8 +2277,8 @@ msgid ""
 "_n: WWW-panel message\n"
 "%n WWW-panel messages"
 msgstr ""
-"%n WWW повідомлення\n"
-"%n WWW повідомлення\n"
+"%n WWW повідомлення"
+"%n WWW повідомлення"
 "%n WWW повідомлень"
 
 #: plugins/icq/icqmessage.cpp:833
@@ -2286,8 +2287,8 @@ msgid ""
 "_n: Email pager message\n"
 "%n Email pager messages"
 msgstr ""
-"%n Email повідомлення\n"
-"%n Email повідомлення\n"
+"%n Email повідомлення"
+"%n Email повідомлення"
 "%n Email повідомлень"
 
 #: plugins/icq/icqmessage.cpp:855
@@ -2296,8 +2297,8 @@ msgid ""
 "_n: Request secure channel\n"
 "%n requests secure channel"
 msgstr ""
-"%n запит захищеного з'єднання\n"
-"%n запити захищеного з'єднання\n"
+"%n запит захищеного з'єднання"
+"%n запити захищеного з'єднання"
 "%n запитів захищеного з'єднання"
 
 #: plugins/icq/icqmessage.cpp:877
@@ -2306,8 +2307,8 @@ msgid ""
 "_n: Close secure channel\n"
 "%n times close secure channel"
 msgstr ""
-"%n закриття захищеного з'єднання\n"
-"%n закриття захищеного з'єднання\n"
+"%n закриття захищеного з'єднання"
+"%n закриття захищеного з'єднання"
 "%n закритів захищеного з'єднання"
 
 #: plugins/icq/icqmessage.cpp:899
@@ -2316,8 +2317,8 @@ msgid ""
 "_n: Check invisible\n"
 "%n times check invisible"
 msgstr ""
-"%n перевірка невидимості \n"
-"%n раза перевірка невидимості\n"
+"%n перевірка невидимості"
+"%n раза перевірка невидимості"
 "%n раз перевірка невидимості"
 
 #: plugins/icq/icqmessage.cpp:921
@@ -2326,8 +2327,8 @@ msgid ""
 "_n: Warning\n"
 "%n warnings"
 msgstr ""
-"%n попередження\n"
-"%n попередження\n"
+"%n попередження"
+"%n попередження"
 "%n попереджень"
 
 #: plugins/icq/icqmessage.cpp:1031
@@ -2336,8 +2337,8 @@ msgid ""
 "_n: Contact request\n"
 "%n contact requests"
 msgstr ""
-"%n запит контактів\n"
-"%n запити контактів\n"
+"%n запит контактів"
+"%n запити контактів"
 "%n запитів контактів"
 
 #: plugins/icq/icqmessage.cpp:1073
@@ -2346,8 +2347,8 @@ msgid ""
 "_n: URL\n"
 "%n URLs"
 msgstr ""
-"%n URL\n"
-"%n URL\n"
+"%n URL"
+"%n URL"
 "%n URL-ки"
 
 #: plugins/icq/icqmessage.cpp:1121
@@ -2356,8 +2357,8 @@ msgid ""
 "_n: Contact list\n"
 "%n contact lists"
 msgstr ""
-"%n список контактів\n"
-"%n списки контактів\n"
+"%n список контактів"
+"%n списки контактів"
 "%n списків контактів"
 
 #: plugins/icq/icqmessage.cpp:1153
@@ -3095,8 +3096,8 @@ msgid ""
 "_n: Found 1 contact\n"
 "Found %n contacts"
 msgstr ""
-"Знайдено %n контакт\n"
-"Знайдено %n контакта\n"
+"Знайдено %n контакт"
+"Знайдено %n контакта"
 "Знайдено %n контактів"
 
 #: plugins/icq/securedlg.cpp:59
