@@ -230,7 +230,7 @@ public:
     ConfigArray *create() { return new PhoneInfo; }
     void add(const char *number, const char *name, unsigned long type, bool bMyInfo);
     void add(const PhonePtrList &l);
-bool operator == (const PhoneBook &b) const { return ConfigList::operator == (b); }
+    bool operator == (const PhoneBook &b) const { return ConfigList::operator == (b); }
     bool operator != (const PhoneBook &b) const { return ConfigList::operator != (b); }
 };
 
@@ -930,6 +930,8 @@ public:
     ConfigString	ProxyUser;
     ConfigString	ProxyPasswd;
 
+    ConfigUShort	DirectMode;
+
     void fromServer(string &s);
     void toServer(string &s);
     bool translate(const char *to, const char *from, string &s);
@@ -1083,6 +1085,7 @@ protected:
     void sendICMB();
     void sendClientReady();
 
+    void fillDirectInfo(Buffer &b, unsigned long c1, unsigned long c2, unsigned long c3);
     void sendUpdate(Buffer &b, unsigned long c1, unsigned long c2, unsigned long c3);
     bool needPhonebookUpdate;
     bool needPhoneStatusUpdate;

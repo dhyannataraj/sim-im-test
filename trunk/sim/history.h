@@ -44,12 +44,12 @@ public:
 
     class iterator
     {
-    public:
+public:
         ICQMessage *operator*() { return msg; }
         bool operator++();
         int progress();
         ~iterator() { if (msg) delete msg; f.close(); }
-    protected:
+protected:
         History &h;
     iterator(History &_h) : h(_h), f_size(0) { msg = NULL; }
         std::fstream f;
@@ -58,7 +58,7 @@ public:
         ICQMessage *msg;
 
         friend class History;
-    private:
+private:
         iterator(iterator&);
     };
 

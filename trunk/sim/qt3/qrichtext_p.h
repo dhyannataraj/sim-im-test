@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qrichtext_p.h,v 1.5 2002-07-31 21:05:34 shutoff Exp $
+** $Id: qrichtext_p.h,v 1.6 2002-07-31 23:32:42 shutoff Exp $
 **
 ** Definition of internal rich text classes
 **
@@ -198,7 +198,7 @@ public:
 
     void setFormat( int index, QTextFormat *f, bool useCollection );
 
-void setTextChanged( bool b ) { textChanged = b; }
+    void setTextChanged( bool b ) { textChanged = b; }
     void setBidi( bool b ) { bidi = b; }
     bool isTextChanged() const { return textChanged; }
     bool isBidi() const;
@@ -293,10 +293,10 @@ public:
 
     void checkIndex();
 
-int offsetX() const { return ox; }
+    int offsetX() const { return ox; }
     int offsetY() const { return oy; }
 
-QTextParag *topParag() const { return parags.isEmpty() ? string : parags.first(); }
+    QTextParag *topParag() const { return parags.isEmpty() ? string : parags.first(); }
     int totalOffsetX() const;
     int totalOffsetY() const;
 
@@ -1188,7 +1188,7 @@ public:
     void registerFloatingItem( QTextCustomItem *i );
     void unregisterFloatingItem( QTextCustomItem *i );
 
-void setFullWidth( bool b ) { fullWidth = b; }
+    void setFullWidth( bool b ) { fullWidth = b; }
     bool isFullWidth() const { return fullWidth; }
 
     QTextTableCell *tableCell() const { return tc; }
@@ -1510,7 +1510,7 @@ public:
     virtual QTextFormat *format( QTextFormat *of, QTextFormat *nf, int flags );
     virtual QTextFormat *format( const QFont &f, const QColor &c );
     virtual void remove( QTextFormat *f );
-virtual QTextFormat *createFormat( const QTextFormat &f ) { return new QTextFormat( f ); }
+    virtual QTextFormat *createFormat( const QTextFormat &f ) { return new QTextFormat( f ); }
     virtual QTextFormat *createFormat( const QFont &f, const QColor &c ) { return new QTextFormat( f, c, this ); }
     void debug();
 

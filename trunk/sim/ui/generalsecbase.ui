@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>568</width>
+            <width>556</width>
             <height>594</height>
         </rect>
     </property>
@@ -147,6 +147,60 @@
                 <name>text</name>
                 <string>Don't show my &amp;IP-address</string>
             </property>
+        </widget>
+        <widget>
+            <class>QButtonGroup</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>grpDirect</cstring>
+            </property>
+            <property>
+                <name>title</name>
+                <string>Direct connection</string>
+            </property>
+            <vbox>
+                <property>
+                    <name>margin</name>
+                    <number>11</number>
+                </property>
+                <property>
+                    <name>spacing</name>
+                    <number>6</number>
+                </property>
+                <widget>
+                    <class>QRadioButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>btnDAll</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Allow &amp;direct connection from any user</string>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QRadioButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>btnDContact</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Allow direct connection from user listed in &amp;contact list</string>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QRadioButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>btnDAuth</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Allow direct connection from user &amp;upon authorization</string>
+                    </property>
+                </widget>
+            </vbox>
         </widget>
         <widget>
             <class>QGroupBox</class>

@@ -122,23 +122,21 @@ void Buffer::unpack(string &s)
 {
     unsigned short size;
     unpack(size);
-    s = "";
+    s.erase();
     if (size == 0) return;
     if (size > m_size - m_posRead) size = m_size - m_posRead;
-    string tmp;
-    tmp.assign(size + 1, '\x00');
-    unpack((char*)tmp.c_str(), size);
-    s = tmp.c_str();
+    s.append(size, '\x00');
+    unpack((char*)s.c_str(), size);
 }
 
 void Buffer::unpackStr(string &s)
 {
     unsigned short size;
     *this >> size;
-    s = "";
+    s.erase();
     if (size == 0) return;
     if (size > m_size - m_posRead) size = m_size - m_posRead;
-    s.assign(size + 1, '\x00');
+    s.append(size, '\x00');
     unpack((char*)s.c_str(), size);
 }
 
@@ -147,10 +145,10 @@ void Buffer::unpackStr32(string &s)
     unsigned long size;
     *this >> size;
     size = htonl(size);
-    s = "";
+    s.erase();
     if (size == 0) return;
     if (size > m_size - m_posRead) size = m_size - m_posRead;
-    s.assign(size + 1, '\x00');
+    s.append(size, '\x00');
     unpack((char*)s.c_str(), size);
 }
 
@@ -160,8 +158,8 @@ Buffer &Buffer::operator >> (string &s)
     *this >> size;
     size = htons(size);
     s.erase();
-    if (size){
-        s.assign(size + 1, '\x00');
+    if (size == 0){
+        s.append(size, '\x00');
         unpack((char*)s.c_str(), size);
     }
     return *this;

@@ -397,7 +397,8 @@ void UserBox::quit()
     btnInfo->setOn(false);
     btnHistory->setOn(false);
     MsgEdit *wnd = getWnd(tabs->currentTab());
-    closeUser(wnd->Uin());
+    if (wnd)
+        closeUser(wnd->Uin());
 }
 
 void UserBox::removeChilds()
@@ -490,7 +491,7 @@ void UserBox::getToolbarPosition()
     ToolbarOffset = (short)extraOffset;
     switch (tDock){
     case Minimized:
-            ToolbarDock = "Minimized";
+        ToolbarDock = "Minimized";
         break;
     case Bottom:
         ToolbarDock = "Bottom";

@@ -131,21 +131,7 @@ void ICQClient::sendLogonStatus()
     time((time_t*)&now);
 
     Buffer directInfo(25);
-    directInfo
-    << (unsigned long)0
-    << (unsigned long)0
-
-    << (char)0x01	// Mode
-    << (char)0x00
-    << (char)ICQ_TCP_VERSION
-
-    << DCcookie
-    << 0x00000050L
-    << 0x00000003L
-    << PhoneBookTime()
-    << PhoneStatusTime()
-    << PhoneBookTime()
-    << (unsigned short) 0x0000;
+    fillDirectInfo(directInfo, PhoneBookTime(), PhoneStatusTime(), PhoneBookTime());
 
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
     writeBuffer.tlv(0x0006, fullStatus(m_nLogonStatus));
@@ -211,12 +197,12 @@ void ICQClient::sendClientReady()
     sendPacket();
 }
 
-void ICQClient::sendUpdate(Buffer &b, unsigned long t1, unsigned long t2, unsigned long t3)
+void ICQClient::fillDirectInfo(Buffer &directInfo, unsigned long t1, unsigned long t2, unsigned long t3)
 {
-    Buffer directInfo(25);
     directInfo
-    << (unsigned long)0
-    << (unsigned long)0
+    << (unsigned long)RealIP()
+    << (unsigned short)0
+    << (unsigned short)listener->port()
 
     << (char)0x01	// Mode
     << (char)0x00
@@ -230,6 +216,12 @@ void ICQClient::sendUpdate(Buffer &b, unsigned long t1, unsigned long t2, unsign
     << t2
     << t3
     << (unsigned short) 0x0000;
+}
+
+void ICQClient::sendUpdate(Buffer &b, unsigned long t1, unsigned long t2, unsigned long t3)
+{
+    Buffer directInfo(25);
+    fillDirectInfo(directInfo, t1, t2, t3);
 
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
     writeBuffer.tlv(0x0006, fullStatus(uStatus));

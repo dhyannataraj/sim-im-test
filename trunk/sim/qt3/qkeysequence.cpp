@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qkeysequence.cpp,v 1.5 2002-07-31 21:05:34 shutoff Exp $
+** $Id: qkeysequence.cpp,v 1.6 2002-07-31 23:32:41 shutoff Exp $
 **
 ** Implementation of QKeySequence class
 **
@@ -78,31 +78,31 @@ static struct {
     int key;
     const char* name;
 } keyname[] = {
-                  { Qt::Key_Space,	QT_TRANSLATE_NOOP( "QAccel", "Space" ) },
-                  { Qt::Key_Escape,	QT_TRANSLATE_NOOP( "QAccel", "Esc" ) },
-                  { Qt::Key_Tab,	QT_TRANSLATE_NOOP( "QAccel", "Tab" ) },
-                  { Qt::Key_Backtab,	QT_TRANSLATE_NOOP( "QAccel", "Backtab" ) },
-                  { Qt::Key_Backspace,	QT_TRANSLATE_NOOP( "QAccel", "Backspace" ) },
-                  { Qt::Key_Return,	QT_TRANSLATE_NOOP( "QAccel", "Return" ) },
-                  { Qt::Key_Enter,	QT_TRANSLATE_NOOP( "QAccel", "Enter" ) },
-                  { Qt::Key_Insert,	QT_TRANSLATE_NOOP( "QAccel", "Ins" ) },
-                  { Qt::Key_Delete,	QT_TRANSLATE_NOOP( "QAccel", "Del" ) },
-                  { Qt::Key_Pause,	QT_TRANSLATE_NOOP( "QAccel", "Pause" ) },
-                  { Qt::Key_Print,	QT_TRANSLATE_NOOP( "QAccel", "Print" ) },
-                  { Qt::Key_SysReq,	QT_TRANSLATE_NOOP( "QAccel", "SysReq" ) },
-                  { Qt::Key_Home,	QT_TRANSLATE_NOOP( "QAccel", "Home" ) },
-                  { Qt::Key_End,	QT_TRANSLATE_NOOP( "QAccel", "End" ) },
-                  { Qt::Key_Left,	QT_TRANSLATE_NOOP( "QAccel", "Left" ) },
-                  { Qt::Key_Up,		QT_TRANSLATE_NOOP( "QAccel", "Up" ) },
-                  { Qt::Key_Right,	QT_TRANSLATE_NOOP( "QAccel", "Right" ) },
-                  { Qt::Key_Down,	QT_TRANSLATE_NOOP( "QAccel", "Down" ) },
-                  { Qt::Key_Prior,	QT_TRANSLATE_NOOP( "QAccel", "PgUp" ) },
-                  { Qt::Key_Next,	QT_TRANSLATE_NOOP( "QAccel", "PgDown" ) },
-                  { Qt::Key_CapsLock,	QT_TRANSLATE_NOOP( "QAccel", "CapsLock" ) },
-                  { Qt::Key_NumLock,	QT_TRANSLATE_NOOP( "QAccel", "NumLock" ) },
-                  { Qt::Key_ScrollLock,	QT_TRANSLATE_NOOP( "QAccel", "ScrollLock" ) },
-                  { 0, 0 }
-              };
+    { Qt::Key_Space,	QT_TRANSLATE_NOOP( "QAccel", "Space" ) },
+    { Qt::Key_Escape,	QT_TRANSLATE_NOOP( "QAccel", "Esc" ) },
+    { Qt::Key_Tab,	QT_TRANSLATE_NOOP( "QAccel", "Tab" ) },
+    { Qt::Key_Backtab,	QT_TRANSLATE_NOOP( "QAccel", "Backtab" ) },
+    { Qt::Key_Backspace,	QT_TRANSLATE_NOOP( "QAccel", "Backspace" ) },
+    { Qt::Key_Return,	QT_TRANSLATE_NOOP( "QAccel", "Return" ) },
+    { Qt::Key_Enter,	QT_TRANSLATE_NOOP( "QAccel", "Enter" ) },
+    { Qt::Key_Insert,	QT_TRANSLATE_NOOP( "QAccel", "Ins" ) },
+    { Qt::Key_Delete,	QT_TRANSLATE_NOOP( "QAccel", "Del" ) },
+    { Qt::Key_Pause,	QT_TRANSLATE_NOOP( "QAccel", "Pause" ) },
+    { Qt::Key_Print,	QT_TRANSLATE_NOOP( "QAccel", "Print" ) },
+    { Qt::Key_SysReq,	QT_TRANSLATE_NOOP( "QAccel", "SysReq" ) },
+    { Qt::Key_Home,	QT_TRANSLATE_NOOP( "QAccel", "Home" ) },
+    { Qt::Key_End,	QT_TRANSLATE_NOOP( "QAccel", "End" ) },
+    { Qt::Key_Left,	QT_TRANSLATE_NOOP( "QAccel", "Left" ) },
+    { Qt::Key_Up,		QT_TRANSLATE_NOOP( "QAccel", "Up" ) },
+    { Qt::Key_Right,	QT_TRANSLATE_NOOP( "QAccel", "Right" ) },
+    { Qt::Key_Down,	QT_TRANSLATE_NOOP( "QAccel", "Down" ) },
+    { Qt::Key_Prior,	QT_TRANSLATE_NOOP( "QAccel", "PgUp" ) },
+    { Qt::Key_Next,	QT_TRANSLATE_NOOP( "QAccel", "PgDown" ) },
+    { Qt::Key_CapsLock,	QT_TRANSLATE_NOOP( "QAccel", "CapsLock" ) },
+    { Qt::Key_NumLock,	QT_TRANSLATE_NOOP( "QAccel", "NumLock" ) },
+    { Qt::Key_ScrollLock,	QT_TRANSLATE_NOOP( "QAccel", "ScrollLock" ) },
+    { 0, 0 }
+};
 
 class QKeySequencePrivate : public QShared
 {

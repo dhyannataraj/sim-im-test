@@ -37,6 +37,7 @@ GeneralSecurity::GeneralSecurity(QWidget *p)
     chkRejectWeb->setChecked(pClient->RejectWeb());
     chkRejectEmail->setChecked(pClient->RejectEmail());
     chkRejectOther->setChecked(pClient->RejectOther());
+    grpDirect->setButton(pClient->DirectMode());
 }
 
 void GeneralSecurity::apply(ICQUser*)
@@ -48,6 +49,8 @@ void GeneralSecurity::apply(ICQUser*)
     pClient->RejectWeb = chkRejectWeb->isChecked();
     pClient->RejectEmail = chkRejectEmail->isChecked();
     pClient->RejectOther = chkRejectOther->isChecked();
+    if (grpDirect->selected())
+        pClient->DirectMode = grpDirect->id(grpDirect->selected());
     if (pClient->m_state == ICQClient::Logged)
         pClient->setStatus(pClient->uStatus);
 }
