@@ -305,8 +305,10 @@ const unsigned CMD_FILE			= 10;
 const unsigned CMD_CONTACTS		= 11;
 const unsigned CMD_SENDFILE		= 12;
 const unsigned CMD_GROUP		= 13;
+const unsigned CMD_SHOW			= 14;
+const unsigned CMD_SMS			= 15;
 #ifdef WIN32
-const unsigned CMD_ICON			= 14;
+const unsigned CMD_ICON			= 16;
 #endif
 
 typedef struct cmdDef
@@ -334,6 +336,8 @@ static cmdDef cmds[] =
         { "CONTACTS", "print contact list", "CONTACTS [<message_type>]", 0, 1 },
         { "SENDFILE", "send file", "SENDFILE <file> <contact>", 2, 2 },
         { "GROUP", "get group name", "GROUP id", 1, 1 },
+        { "SHOW", "open unread message", "SHOW", 0, 0 },
+        { "SMS", "send SMS", "SMS <phone> <message>", 2, 2 },
 #ifdef WIN32
         { "ICON", "get used icon", "ICON name", 1, 1 },
 #endif
@@ -346,7 +350,6 @@ static cmdDef cmds[] =
 { "DOCK", "show/hide dock", "DOCK [on|off]", 0, 1 },
 { "NOTIFY", "set notify mode", "NOTIFY [on|off]", 0, 1 },
 { "ICON", "get icon in xpm format", "ICON nIcon", 1, 1 },
-{ "OPEN", "open unread message", "OPEN", 0, 0 },
 { "POPUP", "show popup", "POPUP x y", 2, 2 },
 #endif
 
@@ -906,6 +909,27 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             out = "Contact ";
             out += args[0];
             out += " not found";
+            return false;
+        }
+    case CMD_SHOW:{
+            Command cmd;
+            if (core->unread.size())
+            cmd->id = CmdUnread;
+            else return false;
+            Event e(EventCommandExec, cmd);
+            e.process();
+            return true;
+        }
+    case CMD_SMS:{
+            SMSMessage *m = new SMSMessage;
+            m->setPhone(args[0]);
+            m->setText(args[1]);
+            unsigned i;
+            for (i = 0; i < getContacts()->nClients(); i++){
+                Client *client = getContacts()->getClient(i);
+                if (client->send(m, NULL))
+                    return true;
+            }
             return false;
         }
     case CMD_HELP:
