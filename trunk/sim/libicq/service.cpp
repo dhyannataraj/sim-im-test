@@ -262,7 +262,7 @@ bool ICQClient::updatePhoneBook()
 void ICQClientPrivate::sendInfoUpdate()
 {
     time_t now;
-    time((time_t*)&now);
+    time(now);
     Buffer b;
     b << (char)1;
     b.pack((unsigned long)now);
@@ -302,7 +302,7 @@ void ICQClient::setShare(bool bState)
     time(&now);
     Buffer b;
     b << (char)3;
-    b.pack(now);
+    b.pack((unsigned long)now);
     b.pack((unsigned short)0);
     b.pack((unsigned short)1);
     b.pack((unsigned short)1);
