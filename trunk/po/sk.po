@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
 "POT-Creation-Date: 2003-11-10 12:06+0300\n"
-"PO-Revision-Date: 2003-11-06 12:12+0100\n"
+"PO-Revision-Date: 2003-11-10 14:45+0100\n"
 "Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -21,8 +21,7 @@ msgstr "Domovský adresár"
 
 #: plugins/__homedir/homedir.cpp:48
 msgid "Plugin provides select directory for store config files"
-msgstr ""
-"Zásuvny modul umožňuje vybrať miesto uloženia konfiguračných súuborov"
+msgstr "Zásuvny modul umožňuje vybrať miesto uloženia konfiguračných súuborov"
 
 # qt3/i18n.cpp:117
 #: plugins/__homedir/homedir.cpp:91
@@ -36,8 +35,7 @@ msgstr "Migrovať"
 
 #: plugins/__migrate/migrate.cpp:36
 msgid "Plugin provides convert configuration and history from SIM 0.8"
-msgstr ""
-"Zásuvny modul umožňuje konverziu konfigurácie a histórie z SIM v0.8"
+msgstr "Zásuvny modul umožňuje konverziu konfigurácie a histórie z SIM v0.8"
 
 #: plugins/__migrate/migratedlg.cpp:77
 msgid "Cancel convert?"
@@ -603,8 +601,7 @@ msgstr ""
 
 #: plugins/_core/core.cpp:1153 plugins/_core/core.cpp:2571
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
-msgstr ""
-"Prepáčte, momentálne som zaneprázdnený ale môžem odpovedať neskôr"
+msgstr "Prepáčte, momentálne som zaneprázdnený ale môžem odpovedať neskôr"
 
 #: plugins/_core/core.cpp:1158
 msgid "Enter a decline reason"
@@ -2193,8 +2190,7 @@ msgstr "Nastaviť \"N/A\" status po"
 # ui/statussetupbase.cpp:142
 #: plugins/autoaway/autoawaycfgbase.cpp:96
 #: plugins/sound/soundconfigbase.cpp:142
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Zakázať online výstrahu pre \"Away\", \"N/A\", \"DND\" a \"Occupied\" "
 "zoznam"
@@ -2206,8 +2202,7 @@ msgstr "Pozadie"
 
 #: plugins/background/background.cpp:35
 msgid "Plugin provides background pictures for user list"
-msgstr ""
-"Zásuvny modul umožňuje nastaviť obrázky pozadia pre zoznam užívateľov"
+msgstr "Zásuvny modul umožňuje nastaviť obrázky pozadia pre zoznam užívateľov"
 
 #: plugins/background/bkgndcfg.cpp:45
 msgid "Select background picture"
@@ -2282,8 +2277,7 @@ msgstr "Systray"
 
 #: plugins/dock/dock.cpp:45
 msgid "Plugin provides dock main window in system tray"
-msgstr ""
-"Zásuvny modul umožňuje umiestniť (dokovať) hlavné okno v systrayi"
+msgstr "Zásuvny modul umožňuje umiestniť (dokovať) hlavné okno v systrayi"
 
 #: plugins/dock/dock.cpp:47 plugins/windock/windock.cpp:43
 msgid "Dock"
@@ -4447,8 +4441,7 @@ msgstr "&Minulosť"
 # ui/generalsecbase.cpp:212
 #: plugins/icq/icqsecurebase.cc:105
 msgid "My &authorization is required before users add me to Contact List"
-msgstr ""
-"Je vyžadovaná moja &autorizácia pred pridaním mňa do zoznamu kontaktov"
+msgstr "Je vyžadovaná moja &autorizácia pred pridaním mňa do zoznamu kontaktov"
 
 # ui/generalsecbase.cpp:213
 #: plugins/icq/icqsecurebase.cc:109
@@ -4478,8 +4471,7 @@ msgstr "Povoliť &priame pripojenie pre všetkých užívateľov"
 # ui/generalsecbase.cpp:218
 #: plugins/icq/icqsecurebase.cc:134
 msgid "Allow direct connection from user listed in &contact list"
-msgstr ""
-"Povoliť priame pripojenie pre užívateľov z mojho zoznamu &kontaktov"
+msgstr "Povoliť priame pripojenie pre užívateľov z mojho zoznamu &kontaktov"
 
 # ui/generalsecbase.cpp:219
 #: plugins/icq/icqsecurebase.cc:138
@@ -4944,8 +4936,7 @@ msgstr ""
 
 #: plugins/jabber/jabbersearch.cpp:194
 msgid "Fill in all of the fields to add yourself to the JUD."
-msgstr ""
-"Vyplňte všetky polia pre pridanie do uživateľského adresára Jabber."
+msgstr "Vyplňte všetky polia pre pridanie do uživateľského adresára Jabber."
 
 #: plugins/jabber/jabbersearch.cpp:195
 msgid ""
@@ -5238,8 +5229,7 @@ msgid "Navigate"
 msgstr "Navigácia"
 
 #: plugins/navigate/navigate.cpp:199
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Zásuvny modul umožňuje navigáciu po odkazoch, spúšťať externý "
 "prehliadač a poštový klient"
@@ -5366,8 +5356,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:48
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Zásuvny modul umožňuje zobrazovať notifikácie o správach a stave "
 "kontaktov na obrazovke (OSD)"
@@ -5496,8 +5485,7 @@ msgstr "Proxy"
 
 #: plugins/proxy/proxy.cpp:1244
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS and HTTP)"
-msgstr ""
-"Zásuvný modul umožňuje podporu proxy (SOCKS4, SOCKS5, HTTPS a HTTP)"
+msgstr "Zásuvný modul umožňuje podporu proxy (SOCKS4, SOCKS5, HTTPS a HTTP)"
 
 # msgedit.cpp:184
 #: plugins/gpg/gpgcfg.cpp:141 plugins/gpg/gpguser.cpp:83
@@ -5711,8 +5699,7 @@ msgstr "Úvodná obrazovka"
 
 #: plugins/splash/splash.cpp:35
 msgid "Plugin provides splash screen"
-msgstr ""
-"Zásuvný modul umožňuje zobraziť úvodnú obrazovku (splash screen)"
+msgstr "Zásuvný modul umožňuje zobraziť úvodnú obrazovku (splash screen)"
 
 # ui/themesetupbase.cpp:307
 # ui/themesetupbase.cpp:309
@@ -5785,61 +5772,59 @@ msgstr "Automaticky skryť"
 
 #: plugins/gpg/gpg.cpp:52
 msgid "GPG"
-msgstr ""
+msgstr "GPG"
 
 #: plugins/gpg/gpg.cpp:53
 msgid "Plugin adds GnuPG encryption/decryption support for messages"
-msgstr ""
+msgstr "Zásuvný modul pridáva podporu GnuPG šifrovania a dešifrovania správ"
 
 #: plugins/gpg/gpg.cpp:77
 msgid ""
 "Plugin adds GnuPG encryption/decryption support for messages\n"
 "GPG not found in PATH"
-msgstr ""
+msgstr " p"
 
 # msgedit.cpp:513
 #: plugins/gpg/gpg.cpp:396 plugins/gpg/gpg.cpp:401
-#, fuzzy
 msgid "Encrypt failed"
-msgstr "Prenos skončil s chybou"
+msgstr "Enkrypcia skončila s chybou"
 
 # client.cpp:1138
 # msgview.cpp:205
 # msgview.cpp:1245
 #: plugins/gpg/gpg.cpp:558
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: %n GPG key\n"
 "%n GPG keys"
 msgstr ""
-"Súbor\n"
-"%n súborov"
+"GPG kľúč\n"
+"%n GPG kľúčov"
 
 #: plugins/gpg/gpg.cpp:605
 msgid "GPG key"
-msgstr ""
+msgstr "GPG kľúč"
 
 #: plugins/gpg/gpg.cpp:613
 msgid "Use GPG encryption"
-msgstr ""
+msgstr "Použiť GPG šifrovanie"
 
 #: plugins/gpg/gpg.cpp:620
 msgid "&GPG key"
-msgstr ""
+msgstr "&GPG kľúč"
 
 #: plugins/gpg/gpgcfg.cpp:43
 msgid "GPG(gpg.exe)"
-msgstr ""
+msgstr "GPG(gpg.exe)"
 
 # qt3/i18n.cpp:117
 #: plugins/gpg/gpgcfg.cpp:51
-#, fuzzy
 msgid "Select home directory"
-msgstr "Nastaviť domovský adresár"
+msgstr "Vybrať domovský adresár"
 
 #: plugins/gpg/gpgcfg.cpp:53
 msgid "Download GPG"
-msgstr ""
+msgstr "Stiahnuť GPG"
 
 # msgedit.cpp:356
 # qt3/i18n.cpp:35
@@ -5851,121 +5836,109 @@ msgstr ""
 # ui/randomchat.cpp:170
 # ui/securedlgbase.cpp:70
 #: plugins/gpg/gpgcfg.cpp:62
-#, fuzzy
 msgid "&Advanced"
-msgstr "&Zrušiť"
+msgstr "&Rozšírené"
 
 # mainwin.cpp:2461
 #: plugins/gpg/gpgcfg.cpp:169
-#, fuzzy
 msgid "New"
-msgstr "&Nový"
+msgstr "Nový"
 
 #: plugins/gpg/gpggen.cpp:103
 msgid "Move mouse for generate random key"
-msgstr ""
+msgstr "Pohýbte myšov pre generovanie náhodných čísel"
 
 # ui/randomchatbase.cpp:287
 #: plugins/gpg/gpggen.cpp:169
-#, fuzzy
 msgid "Generate key failed"
-msgstr "Nastala chyba pri odosielaní správy"
+msgstr "Nastala chyba pri generovaní kľúča"
 
 #: plugins/gpg/gpgcfgbase.cpp:96
 msgid "Executable:"
-msgstr ""
+msgstr "Spúšťateľný súbor:"
 
 # qt3/i18n.cpp:117
 #: plugins/gpg/gpgcfgbase.cpp:107
-#, fuzzy
 msgid "Home directory:"
-msgstr "Domovský adresár"
+msgstr "Domovský adresár:"
 
 # libicq/country.cpp:142
 #: plugins/gpg/gpgcfgbase.cpp:124
-#, fuzzy
 msgid "&Find"
-msgstr "Fínsko"
+msgstr "&Nájsť"
 
 # libicq/country.cpp:290
 #: plugins/gpg/gpgcfgbase.cpp:134
-#, fuzzy
 msgid "Your key:"
-msgstr "Turecko"
+msgstr "Tvoj kľúč:"
 
 # msgedit.cpp:121
 #: plugins/gpg/gpgcfgbase.cpp:143 plugins/gpg/gpguserbase.cpp:77
-#, fuzzy
 msgid "&Refresh"
-msgstr "Za&mietnuť"
+msgstr "O&bnoviť"
 
 #: plugins/gpg/gpgadvbase.cpp:66
 msgid "Command arguments"
-msgstr ""
+msgstr "Argumenty príkazu"
 
 #: plugins/gpg/gpgadvbase.cpp:74
 msgid "Generate key:"
-msgstr ""
+msgstr "Generovať kľúč:"
 
 #: plugins/gpg/gpgadvbase.cpp:80
-#, fuzzy
 msgid "List public keys:"
-msgstr "Zoznam verejných serverov"
+msgstr "Zoznam verejných kľučov:"
 
 #: plugins/gpg/gpgadvbase.cpp:86
 msgid "List secret keys:"
-msgstr ""
+msgstr "Zoznam súkromných kľúčov:"
 
 #: plugins/gpg/gpgadvbase.cpp:104
 msgid "Import public:"
-msgstr ""
+msgstr "Importovať verejný:"
 
 #: plugins/gpg/gpgadvbase.cpp:114
 msgid "Export public:"
-msgstr ""
+msgstr "Exportovať verejný:"
 
 # libicq/country.cpp:133
 #: plugins/gpg/gpgadvbase.cpp:124
-#, fuzzy
 msgid "Encrypt:"
-msgstr "Egypt"
+msgstr "Šifrovať:"
 
 #: plugins/gpg/gpgadvbase.cpp:134
 msgid "Decrypt:"
-msgstr ""
+msgstr "Dešifrovať:"
 
 #: plugins/gpg/gpggenbase.cpp:34
 msgid "Generate key"
-msgstr ""
+msgstr "Generovať kľúč"
 
 # ui/maininfobase.cpp:333
 #: plugins/gpg/gpggenbase.cpp:62
-#, fuzzy
 msgid "Comment:"
-msgstr "Klient:"
+msgstr "Komentár:"
 
 # ui/keysetup.cpp:34
 #: plugins/gpg/gpguserbase.cpp:66
-#, fuzzy
 msgid "Key:"
-msgstr "Klávesa"
+msgstr "Kľúč:"
 
 #: plugins/remote/remote.cpp:30
 msgid "Remote control"
-msgstr ""
+msgstr "Vzdialené ovládanie"
 
 #: plugins/remote/remote.cpp:31
-#, fuzzy
 msgid "Plugin provides remote control"
-msgstr "Zásuvny modul umožňuje umiestniť (dokovať) ikonu"
+msgstr "Zásuvny modul umožňuje vzdialenú kontrolu"
 
 #: plugins/remote/remotecfgbase.cpp:77
 msgid "Use &UNIX socket"
-msgstr ""
+msgstr "Použiť &UNIX-ový socket"
 
 #: plugins/remote/remotecfgbase.cpp:87
 msgid "Use &TCP socket"
-msgstr ""
+msgstr "Použiť &TCP socket"
 
 # about.cpp:280
 #: sim/api/aboutdata.cpp:287
@@ -8198,3 +8171,4 @@ msgstr "Vlastné"
 # ui/searchbase.cpp:294
 #~ msgid "Screen name:"
 #~ msgstr "Zobrazované meno:"
+
