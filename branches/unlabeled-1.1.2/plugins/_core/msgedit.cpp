@@ -839,7 +839,7 @@ void *MsgEdit::processEvent(Event *e)
         }
     }
     if ((e->type() == EventRealSendMessage) ||
-		(e->type() == EventMessageAcked)){
+            (e->type() == EventMessageAcked)){
         MsgSend *s = (MsgSend*)(e->param());
         if (s->edit == this){
             sendMessage(s->msg);

@@ -359,14 +359,14 @@ ICQClient::~ICQClient()
     free_data(icqClientData, &data);
     if (m_socket)
         delete m_socket;
-	for (list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it){
-		Message *msg = *it;
-		msg->setError(I18N_NOOP("Process message failed"));
-		Event e(EventRealSendMessage, msg);
-		e.process();
-		delete msg;
-	}
-	m_processMsg.clear();
+    for (list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it){
+        Message *msg = *it;
+        msg->setError(I18N_NOOP("Process message failed"));
+        Event e(EventRealSendMessage, msg);
+        e.process();
+        delete msg;
+    }
+    m_processMsg.clear();
 }
 
 const DataDef *ICQProtocol::userDataDef()
@@ -686,20 +686,22 @@ unsigned long ICQClient::fullStatus(unsigned s)
     }
     if (data.owner.WebAware)
         status |= ICQ_STATUS_FxWEBxPRESENCE;
-    if (getHideIP())
-        status |= ICQ_STATUS_FxHIDExIP;
+    if (getHideIP()){
+        status |= ICQ_STATUS_FxHIDExIP | ICQ_STATUS_FxDIRECTxAUTH;
+    }else{
+        switch (getDirectMode()){
+        case 1:
+            status |= ICQ_STATUS_FxDIRECTxLISTED;
+            break;
+        case 2:
+            status |= ICQ_STATUS_FxDIRECTxAUTH;
+            break;
+        }
+    }
     if (m_bBirthday)
         status |= ICQ_STATUS_FxBIRTHDAY;
     if (getInvisible())
         status |= ICQ_STATUS_FxPRIVATE;
-    switch (getDirectMode()){
-    case 1:
-        status |= ICQ_STATUS_FxDIRECTxLISTED;
-        break;
-    case 2:
-        status |= ICQ_STATUS_FxDIRECTxAUTH;
-        break;
-    }
     return status;
 }
 

@@ -50,13 +50,13 @@ public:
     virtual void pause(unsigned) = 0;
     void error(const char *err_text, unsigned code=0);
     void setNotify(SocketNotify *n) { notify = n; }
-	enum Mode
-	{
-		Direct,
-		Indirect,
-		Web
-	};
-	virtual Mode mode() { return Direct; }
+    enum Mode
+    {
+        Direct,
+        Indirect,
+        Web
+    };
+    virtual Mode mode() { return Direct; }
     SocketNotify *notify;
 };
 

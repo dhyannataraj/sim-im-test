@@ -65,11 +65,11 @@ QString i18n(const char *text)
 QString i18n(const char *text, const char *comment)
 {
     if (text == NULL)
-		return QString::null;
-	QString res = QObject::tr(text, comment);
-	if (res != QString::fromLatin1(text))
-		return res;
-	return QString::fromUtf8(text);
+        return QString::null;
+    QString res = QObject::tr(text, comment);
+    if (res != QString::fromLatin1(text))
+        return res;
+    return QString::fromUtf8(text);
 }
 
 #endif

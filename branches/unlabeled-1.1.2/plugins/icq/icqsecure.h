@@ -34,6 +34,7 @@ signals:
 public slots:
     void apply();
     void apply(Client*, void*);
+    void hideIpToggled(bool);
 protected:
     virtual void *processEvent(Event*);
     void fill();

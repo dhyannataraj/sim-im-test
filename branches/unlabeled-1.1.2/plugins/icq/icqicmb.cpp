@@ -555,13 +555,13 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
     capability cap;
     msg.unpack((char*)cap, sizeof(cap));
     if (!memcmp(cap, capabilities[CAP_DIRECT], sizeof(cap))){
-		unsigned long uin;
-		unsigned long localIP;
-		unsigned long localPort;
-		unsigned long remotePort;
-		unsigned long localPort1;
-		char mode;
-		msg >> uin >> localIP >> localPort >> mode >> remotePort >> localPort1;
+        unsigned long uin;
+        unsigned long localIP;
+        unsigned long localPort;
+        unsigned long remotePort;
+        unsigned long localPort1;
+        char mode;
+        msg >> uin >> localIP >> localPort >> mode >> remotePort >> localPort1;
         log(L_DEBUG, "Direct packet %u %X %X %X %X %u", uin, localIP, localPort, remotePort, localPort1, mode);
         return;
     }

@@ -261,7 +261,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                         addPluginInfoRequest(data->Uin, PLUGIN_QUERYxINFO);
                 }
                 if ((data->PluginInfoTime != data->PluginInfoFetchTime) ||
-					(data->PluginStatusTime != data->PluginStatusFetchTime)){
+                        (data->PluginStatusTime != data->PluginStatusFetchTime)){
                     if (data->SharedFiles != 0){
                         data->SharedFiles = 0;
                         bChanged = true;

@@ -2522,7 +2522,7 @@ string CorePlugin::getConfig()
     setUnread(unread_str.c_str());
 
     unsigned editBgColor = getEditBackground();
-    unsigned editFgColor = getEditBackground();
+    unsigned editFgColor = getEditForeground();
 
     QPalette pal = QApplication::palette();
     QColorGroup cg = pal.normal();
@@ -2617,8 +2617,8 @@ string CorePlugin::getConfig()
         }
     }
 #ifndef WIN32
-	string dir = user_file("");
-	chmod(dir.c_str(),S_IRUSR | S_IWUSR | S_IXUSR);
+    string dir = user_file("");
+    chmod(dir.c_str(),S_IRUSR | S_IWUSR | S_IXUSR);
 #endif
     string res = save_data(coreData, &data);
     setEditBackground(editBgColor);

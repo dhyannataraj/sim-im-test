@@ -20,348 +20,399 @@
 #include <time.h>
 #include <qfile.h>
 #include <qfileinfo.h>
+<<<<<<< message.cpp
 #include <qdir.h>
 #include <qstringlist.h>
+=======
+#include <qdir.h>
+#include <qstringlist.h>
+    >>>>>>> 1.1.2.3.2.2
 
 #include <list>
 
-namespace SIM
-{
-
-using namespace std;
-
-static DataDef	messageData[] =
+    namespace SIM
     {
-        { "Text", DATA_UTF, 1, 0 },
-        { "Flags", DATA_ULONG, 1, 0 },
-        { "Background", DATA_ULONG, 1, 0 },
-        { "Foreground", DATA_ULONG, 1, 0 },
-        { "Time", DATA_ULONG, 1, 0 },
-        { "Font", DATA_STRING, 1, 0 },
-        { "", DATA_STRING, 1, 0 },			// Error
-        { NULL, 0, 0, 0 }
-    };
 
-Message::Message(unsigned type, const char *cfg)
-{
-    m_type = type;
-    m_id = 0;
-    m_contact = 0;
-    load_data(messageData, &data, cfg);
-}
+    using namespace std;
 
-Message::~Message()
-{
-    free_data(messageData, &data);
-}
+    static DataDef	messageData[] =
+        {
+            { "Text", DATA_UTF, 1, 0 },
+            { "Flags", DATA_ULONG, 1, 0 },
+            { "Background", DATA_ULONG, 1, 0 },
+            { "Foreground", DATA_ULONG, 1, 0 },
+            { "Time", DATA_ULONG, 1, 0 },
+            { "Font", DATA_STRING, 1, 0 },
+            { "", DATA_STRING, 1, 0 },			// Error
+            { NULL, 0, 0, 0 }
+        };
 
-QString Message::getPlainText()
-{
-    if (!(getFlags() & MESSAGE_RICHTEXT))
-        return getText();
-    string text;
-    text = getText().utf8();
-    Event e(EventDecodeText, &text);
-    e.process();
-    return QString::fromUtf8(SIM::unquoteText(text.c_str()).c_str());
-}
-
-QString Message::getRichText()
-{
-    if (getFlags() & MESSAGE_RICHTEXT)
-        return getText();
-    return quoteString(getText());
-}
-
-QString Message::presentation()
-{
-    QString res = getRichText();
-    if (getBackground() != getForeground()){
-        QString font;
-        font.sprintf("<font color=\"#%06lX\">", getForeground() & 0xFFFFFF);
-        res = font + res + "</font>";
-    }
-    return res;
-}
-
-void Message::setClient(const char *client)
-{
-    if (client == NULL)
-        client = "";
-    m_client = client;
-}
-
-string Message::save()
-{
-    if (getTime() == 0){
-        time_t now;
-        time(&now);
-        setTime(now);
-    }
-    unsigned saveFlags = getFlags();
-    setFlags(getFlags() & MESSAGE_SAVEMASK);
-    string res = save_data(messageData, &data);
-    setFlags(saveFlags);
-    return res;
-}
-
-static DataDef messageSMSData[] =
+    Message::Message(unsigned type, const char *cfg)
     {
-        { "Phone", DATA_UTF, 1, 0 },
-        { "Network", DATA_UTF, 1, 0 },
-        { NULL, 0, 0, 0 }
-    };
-
-SMSMessage::SMSMessage(const char *cfg)
-        : Message(MessageSMS, cfg)
-{
-    load_data(messageSMSData, &data, cfg);
-}
-
-SMSMessage::~SMSMessage()
-{
-    free_data(messageSMSData, &data);
-}
-
-string SMSMessage::save()
-{
-    string s = Message::save();
-    string s1 = save_data(messageSMSData, &data);
-    if (!s1.empty()){
-        if (!s.empty())
-            s += '\n';
-        s += s1;
+        m_type = type;
+        m_id = 0;
+        m_contact = 0;
+        load_data(messageData, &data, cfg);
     }
-    return s;
-}
 
-QString SMSMessage::presentation()
-{
-    QString phone = quoteString(getPhone());
-    QString net   = quoteString(getNetwork());
-    if (!net.isEmpty())
-        net = QString(" (") + net + ")";
-    QString res = QString("<p><a href=\"sms:%1\"><img src=\"icon:cell\">%2%3</a></p>")
-                  .arg(phone)
-                  .arg(phone)
-                  .arg(net);
-    res += getRichText();
-    return res;
-}
-
-class FileMessageIteratorPrivate : public list<string>
-{
-public:
-    FileMessageIteratorPrivate(const FileMessage &msg);
-    list<string>::iterator it;
-    void add(const QString&);
-};
-
-FileMessageIteratorPrivate::FileMessageIteratorPrivate(const FileMessage &msg)
-{
-    QString files = ((FileMessage&)msg).getFile();
-    while (!files.isEmpty()){
-        add(getToken(files, ';'));
-    }
-    it = begin();
-}
-
-void FileMessageIteratorPrivate::add(const QString &str)
-{
-    QFileInfo f(str);
-    if (!f.exists())
-        return;
-    if (!f.isDir()){
-        push_back(string(str.local8Bit()));
-        return;
-    }
-    QDir d(str);
-    QStringList l = d.entryList();
-    for (QStringList::Iterator it = l.begin(); it != l.end(); ++it){
-        QString p = str;
-#ifdef WIN32
-        p += "\\";
-#else
-        p += "/";
-#endif
-        p += *it;
-        add(p);
-    }
-}
-
-FileMessage::Iterator::Iterator(const FileMessage &m)
-{
-    p = new FileMessageIteratorPrivate(m);
-}
-
-FileMessage::Iterator::~Iterator()
-{
-    delete p;
-}
-
-const char *FileMessage::Iterator::operator++()
-{
-    if (p->it == p->end())
-        return NULL;
-    const char *res = (*(p->it)).c_str();
-    ++(p->it);
-    return res;
-}
-
-void FileMessage::Iterator::reset()
-{
-    p->it = p->begin();
-}
-
-unsigned FileMessage::Iterator::count()
-{
-    return p->size();
-}
-
-static DataDef messageFileData[] =
+    Message::~Message()
     {
-        { "File", DATA_UTF, 1, 0 },
-        { "Size", DATA_ULONG, 1, 0 },
-        { NULL, 0, 0, 0 }
-    };
-
-FileMessage::FileMessage(const char *cfg)
-        : Message(MessageFile, cfg)
-{
-    load_data(messageFileData, &data, cfg);
-    m_transfer = NULL;
-}
-
-FileMessage::~FileMessage()
-{
-    free_data(messageFileData, &data);
-    if (m_transfer)
-        delete m_transfer;
-}
-
-void FileMessage::setTransfer(FileTransfer *transfer)
-{
-    if (m_transfer)
-        delete m_transfer;
-    m_transfer = transfer;
-}
-
-unsigned FileMessage::getSize()
-{
-    if (data.Size)
-        return data.Size;
-    Iterator it(*this);
-    const char *name;
-    while ((name = ++it) != NULL){
-        QFile f(QString::fromLocal8Bit(name));
-        if (!f.exists())
-            continue;
-        data.Size += f.size();
+        free_data(messageData, &data);
     }
-    return data.Size;
-}
 
-void FileMessage::setSize(unsigned size)
-{
-    data.Size = size;
-}
+    QString Message::getPlainText()
+    {
+        if (!(getFlags() & MESSAGE_RICHTEXT))
+            return getText();
+        string text;
+        text = getText().utf8();
+        Event e(EventDecodeText, &text);
+        e.process();
+        return QString::fromUtf8(SIM::unquoteText(text.c_str()).c_str());
+    }
 
-QString FileMessage::description()
-{
-    Iterator it(*this);
-    if (it.count() <= 1){
-        const char *name = ++it;
-        if (name == NULL)
-            return NULL;
-        const char *short_name;
-#ifdef WIN32
-        short_name = strrchr(name, '\\');
-#else
-        short_name = strchr(name, '/');
-#endif
-        if (short_name){
-            short_name++;
-        }else{
-            short_name = name;
+    QString Message::getRichText()
+    {
+        if (getFlags() & MESSAGE_RICHTEXT)
+            return getText();
+        return quoteString(getText());
+    }
+
+    QString Message::presentation()
+    {
+        QString res = getRichText();
+        if (getBackground() != getForeground()){
+            QString font;
+            font.sprintf("<font color=\"#%06lX\">", getForeground() & 0xFFFFFF);
+            res = font + res + "</font>";
         }
-        return QString::fromLocal8Bit(short_name);
+        return res;
     }
-    return QString("%1 files") .arg(it.count());
-}
 
-string FileMessage::save()
-{
-    string s = Message::save();
-    string s1 = save_data(messageFileData, &data);
-    if (!s1.empty()){
-        if (!s.empty())
-            s += '\n';
-        s += s1;
-    }
-    return s;
-}
-
-QString FileMessage::presentation()
-{
-    return "";
-}
-
-FileTransfer::FileTransfer(FileMessage *msg)
-{
-    m_msg		= msg;
-    m_notify	= NULL;
-    m_file		= NO_FILE;
-    m_files		= 0;
-    m_bytes		= 0;
-    m_fileSize	= 0;
-    m_totalSize	= 0;
-}
-
-FileTransfer::~FileTransfer()
-{
-    setNotify(NULL);
-}
-
-void FileTransfer::setNotify(FileTransferNotify *notify)
-{
-    if (m_notify)
-        delete m_notify;
-    m_notify = NULL;
-}
-
-QString AuthMessage::presentation()
-{
-    return "";
-}
-
-static DataDef messageStatusData[] =
+    void Message::setClient(const char *client)
     {
-        { "Status", DATA_ULONG, 1, STATUS_UNKNOWN },
-        { NULL, 0, 0, 0 }
+        if (client == NULL)
+            client = "";
+        m_client = client;
+    }
+
+    string Message::save()
+    {
+        if (getTime() == 0){
+            time_t now;
+            time(&now);
+            setTime(now);
+        }
+        unsigned saveFlags = getFlags();
+        setFlags(getFlags() & MESSAGE_SAVEMASK);
+        string res = save_data(messageData, &data);
+        setFlags(saveFlags);
+        return res;
+    }
+
+    static DataDef messageSMSData[] =
+        {
+            { "Phone", DATA_UTF, 1, 0 },
+            { "Network", DATA_UTF, 1, 0 },
+            { NULL, 0, 0, 0 }
+        };
+
+    SMSMessage::SMSMessage(const char *cfg)
+            : Message(MessageSMS, cfg)
+    {
+        load_data(messageSMSData, &data, cfg);
+    }
+
+    SMSMessage::~SMSMessage()
+    {
+        free_data(messageSMSData, &data);
+    }
+
+    string SMSMessage::save()
+    {
+        string s = Message::save();
+        string s1 = save_data(messageSMSData, &data);
+        if (!s1.empty()){
+            if (!s.empty())
+                s += '\n';
+            s += s1;
+        }
+        return s;
+    }
+
+    QString SMSMessage::presentation()
+    {
+        QString phone = quoteString(getPhone());
+        QString net   = quoteString(getNetwork());
+        if (!net.isEmpty())
+            net = QString(" (") + net + ")";
+        QString res = QString("<p><a href=\"sms:%1\"><img src=\"icon:cell\">%2%3</a></p>")
+                      .arg(phone)
+                      .arg(phone)
+                      .arg(net);
+        res += getRichText();
+        return res;
+    }
+
+    class FileMessageIteratorPrivate : public list<string>
+    {
+    public:
+        FileMessageIteratorPrivate(const FileMessage &msg);
+        list<string>::iterator it;
+        void add(const QString&);
     };
 
-StatusMessage::StatusMessage(const char *cfg)
-        : Message(MessageStatus, cfg)
-{
-    load_data(messageStatusData, &data, cfg);
-}
-
-string StatusMessage::save()
-{
-    string s = Message::save();
-    string s1 = save_data(messageStatusData, &data);
-    if (!s1.empty()){
-        if (!s.empty())
-            s += '\n';
-        s += s1;
+    FileMessageIteratorPrivate::FileMessageIteratorPrivate(const FileMessage &msg)
+    {
+        QString files = ((FileMessage&)msg).getFile();
+        while (!files.isEmpty()){
+            add(getToken(files, ';'));
+        }
+        <<<<<<< message.cpp
+        it = begin();
+        =======
+            it = begin();
+        >>>>>>> 1.1.2.3.2.2
     }
-    return s;
-}
 
-QString StatusMessage::presentation()
-{
-    return "";
-}
+    void FileMessageIteratorPrivate::add(const QString &str)
+    {
+        QFileInfo f(str);
+        if (!f.exists())
+            return;
+        if (!f.isDir()){
+            push_back(string(str.local8Bit()));
+            return;
+        }
+        QDir d(str);
+        QStringList l = d.entryList();
+        for (QStringList::Iterator it = l.begin(); it != l.end(); ++it){
+            QString p = str;
+#ifdef WIN32
+            p += "\\";
+#else
+            p += "/";
+#endif
+            p += *it;
+            add(p);
+        }
+    }
 
-};
+    FileMessage::Iterator::Iterator(const FileMessage &m)
+    {
+        p = new FileMessageIteratorPrivate(m);
+    }
+
+    FileMessage::Iterator::~Iterator()
+    {
+        delete p;
+    }
+
+    const char *FileMessage::Iterator::operator++()
+    {
+        if (p->it == p->end())
+            return NULL;
+        const char *res = (*(p->it)).c_str();
+        ++(p->it);
+        return res;
+    }
+
+    void FileMessage::Iterator::reset()
+    {
+        p->it = p->begin();
+    }
+
+    unsigned FileMessage::Iterator::count()
+    {
+        return p->size();
+    }
+
+    static DataDef messageFileData[] =
+        {
+            { "File", DATA_UTF, 1, 0 },
+            { "Size", DATA_ULONG, 1, 0 },
+            { NULL, 0, 0, 0 }
+        };
+
+    FileMessage::FileMessage(const char *cfg)
+            : Message(MessageFile, cfg)
+    {
+        load_data(messageFileData, &data, cfg);
+        <<<<<<< message.cpp
+        m_transfer = NULL;
+        =======
+            m_transfer = NULL;
+        >>>>>>> 1.1.2.3.2.2
+    }
+
+    FileMessage::~FileMessage()
+    {
+        free_data(messageFileData, &data);
+        <<<<<<< message.cpp
+        if (m_transfer)
+            delete m_transfer;
+    }
+
+    void FileMessage::setTransfer(FileTransfer *transfer)
+    {
+        if (m_transfer)
+            delete m_transfer;
+        m_transfer = transfer;
+        =======
+            if (m_transfer)
+                delete m_transfer;
+    }
+
+    void FileMessage::setTransfer(FileTransfer *transfer)
+    {
+        if (m_transfer)
+            delete m_transfer;
+        m_transfer = transfer;
+        >>>>>>> 1.1.2.3.2.2
+    }
+
+    unsigned FileMessage::getSize()
+    {
+        if (data.Size)
+            return data.Size;
+        Iterator it(*this);
+        const char *name;
+        while ((name = ++it) != NULL){
+            QFile f(QString::fromLocal8Bit(name));
+            if (!f.exists())
+                continue;
+            data.Size += f.size();
+        }
+        return data.Size;
+    }
+
+    void FileMessage::setSize(unsigned size)
+    {
+        data.Size = size;
+    }
+
+    QString FileMessage::description()
+    {
+        Iterator it(*this);
+        if (it.count() <= 1){
+            const char *name = ++it;
+            if (name == NULL)
+                return NULL;
+            const char *short_name;
+#ifdef WIN32
+            short_name = strrchr(name, '\\');
+#else
+            short_name = strchr(name, '/');
+#endif
+            if (short_name){
+                short_name++;
+            }else{
+                short_name = name;
+            }
+            return QString::fromLocal8Bit(short_name);
+        }
+        return QString("%1 files") .arg(it.count());
+    }
+
+    string FileMessage::save()
+    {
+        string s = Message::save();
+        string s1 = save_data(messageFileData, &data);
+        if (!s1.empty()){
+            if (!s.empty())
+                s += '\n';
+            s += s1;
+        }
+        return s;
+    }
+
+    QString FileMessage::presentation()
+    {
+        return "";
+    }
+
+    <<<<<<< message.cpp
+    FileTransfer::FileTransfer(FileMessage *msg)
+    {
+        m_msg		= msg;
+        m_notify	= NULL;
+        m_file		= NO_FILE;
+        m_files		= 0;
+        m_bytes		= 0;
+        m_fileSize	= 0;
+        m_totalSize	= 0;
+    }
+
+    FileTransfer::~FileTransfer()
+    {
+        setNotify(NULL);
+    }
+
+    void FileTransfer::setNotify(FileTransferNotify *notify)
+    {
+        if (m_notify)
+            delete m_notify;
+        m_notify = NULL;
+    }
+
+    =======
+        FileTransfer::FileTransfer(FileMessage *msg)
+        {
+            m_msg		= msg;
+            m_notify	= NULL;
+            m_file		= NO_FILE;
+            m_files		= 0;
+            m_bytes		= 0;
+            m_fileSize	= 0;
+            m_totalSize	= 0;
+        }
+
+        FileTransfer::~FileTransfer()
+        {
+            setNotify(NULL);
+        }
+
+        void FileTransfer::setNotify(FileTransferNotify *notify)
+        {
+            if (m_notify)
+                delete m_notify;
+            m_notify = NULL;
+        }
+
+        >>>>>>> 1.1.2.3.2.2
+        QString AuthMessage::presentation()
+        {
+            return "";
+        }
+
+        static DataDef messageStatusData[] =
+            {
+                { "Status", DATA_ULONG, 1, STATUS_UNKNOWN },
+                { NULL, 0, 0, 0 }
+            };
+
+    StatusMessage::StatusMessage(const char *cfg)
+            : Message(MessageStatus, cfg)
+    {
+        load_data(messageStatusData, &data, cfg);
+    }
+
+    string StatusMessage::save()
+    {
+        string s = Message::save();
+        string s1 = save_data(messageStatusData, &data);
+        if (!s1.empty()){
+            if (!s.empty())
+                s += '\n';
+            s += s1;
+        }
+        return s;
+    }
+
+    QString StatusMessage::presentation()
+    {
+        return "";
+    }
+
+    };
 
