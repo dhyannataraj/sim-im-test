@@ -664,8 +664,8 @@ void UserView::paintEmptyArea(QPainter *p, const QRect &r)
 
 void UserView::clear()
 {
-    memset(m_counts, 0, sizeof(m_counts));
     QListView::clear();
+    memset(m_counts, 0, sizeof(m_counts));
 }
 
 void UserView::refresh()
