@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: 0.8.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-05 15:33+0200\n"
-"PO-Revision-Date: 2004-10-01 23:30+0100\n"
+"PO-Revision-Date: 2004-10-02 18:03+0100\n"
 "Last-Translator: \n"
 "Language-Team: Français <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -15,18 +15,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: plugins/__homedir/homedir.cpp:48
-#, fuzzy
 msgid "Home directory"
-msgstr "le répertoire"
+msgstr "Répertoire de données"
 
 #: plugins/__homedir/homedir.cpp:49
 msgid "Plugin provides select directory for store config files"
 msgstr "Ce plugin permet la sélection du répertoire stockant les fichiers de configuration."
 
 #: plugins/__homedir/homedir.cpp:92
-#, fuzzy
 msgid "Set home directory"
-msgstr "le répertoire"
+msgstr "Définir le répertoire de données"
 
 #: plugins/__homedir/homedircfgbase.cpp:62
 #: plugins/_core/arcfgbase.cpp:78
@@ -100,9 +98,8 @@ msgstr "Utiliser le chemin par &défaut"
 
 # ui/acceptbase.cpp:130
 #: plugins/__homedir/homedircfgbase.cpp:64
-#, fuzzy
 msgid "Path for config files:"
-msgstr "Chemin des fichiers entrants :"
+msgstr "Chemin des fichiers de configuration :"
 
 #: plugins/__migrate/migrate.cpp:35
 msgid "Migrate"
@@ -171,7 +168,7 @@ msgstr "Dans le texte, vous pouvez utiliser :"
 # ui/autoreplybase.cpp:34
 #: plugins/_core/autoreply.cpp:48
 msgid "Autoreply message"
-msgstr "Message d'auto-réponse"
+msgstr "Message de réponse automatique"
 
 # ui/filetransferbase.cpp:111
 #: plugins/_core/autoreply.cpp:51
@@ -188,7 +185,7 @@ msgstr "Fermer après l'envoi"
 #: plugins/_core/cfgdlg.cpp:275
 #: plugins/_core/usercfg.cpp:195
 msgid "User info"
-msgstr "Info utilisateur"
+msgstr "Infos utilisateur"
 
 # ui/setupdlg.cpp:137
 #: plugins/_core/cfgdlg.cpp:365
@@ -291,7 +288,7 @@ msgstr "Préférences"
 #: plugins/_core/cfgdlg.cpp:549
 #: plugins/jabber/jabber.cpp:304
 msgid "Configure"
-msgstr "Configurer"
+msgstr "Préférences"
 
 # ui/userinfobase.cpp:59
 #: plugins/_core/cfgdlg.cpp:552
@@ -308,13 +305,12 @@ msgstr "Davantage..."
 #: plugins/_core/commands.cpp:234
 #: plugins/_core/toolbarcfg.cpp:40
 msgid "Customize toolbar..."
-msgstr "Personnaliser barre d'outils"
+msgstr "Personnaliser la barre d'outils"
 
 # sim.cpp:521
 #: plugins/_core/connectionsettings.cpp:32
-#, fuzzy
 msgid "Configure %1 client"
-msgstr "Client ICQ"
+msgstr "Configurer le client %1"
 
 # ui/networkbase.cpp:177
 # ui/proxydlgbase.cpp:95
@@ -381,7 +377,7 @@ msgstr ""
 # client.cpp:302
 #: plugins/_core/core.cpp:440
 msgid "Please do not disturb me now. Disturb me later.\n"
-msgstr "Ne pas déranger. Dérangez-moi plus tard.\n"
+msgstr "Merci de ne pas déranger. Vous pourrez me déranger plus tard.\n"
 
 # client.cpp:309
 #: plugins/_core/core.cpp:443
@@ -486,7 +482,7 @@ msgstr "&Historique"
 #: sim/qt3/i18n.cpp:287
 #: sim/simapi.cpp:482
 msgid "&Close"
-msgstr "&Clore"
+msgstr "(&c) Fermer"
 
 # msgedit.cpp:132
 # msgedit.cpp:359
@@ -593,12 +589,12 @@ msgstr "&Filtre"
 # msgview.cpp:832
 #: plugins/_core/core.cpp:806
 msgid "&Previous page"
-msgstr "Page &Précédente"
+msgstr "Page &précédente"
 
 # msgview.cpp:833
 #: plugins/_core/core.cpp:814
 msgid "&Next page"
-msgstr "Page Suiva&nte"
+msgstr "Page suiva&nte"
 
 #: core.cpp:820
 msgid "&Save as text"
@@ -703,7 +699,7 @@ msgstr "Vérif. Orthographe"
 #: plugins/_core/core.cpp:1019
 #: plugins/spell/spell.cpp:61
 msgid "Spell check"
-msgstr "Vérif. Orthographe"
+msgstr "Vérifier l'orthographe"
 
 # ui/acceptbase.cpp:120
 #: plugins/_core/core.cpp:1027
@@ -723,7 +719,7 @@ msgstr "SMS"
 #: plugins/_core/core.cpp:1052
 #: plugins/_core/core.cpp:1083
 msgid "Show &offline"
-msgstr "Montrer Déc&onnecté"
+msgstr "Afficher les contacts déc&onnectés"
 
 # userview.cpp:888
 # userview.cpp:904
@@ -802,11 +798,11 @@ msgstr "&Renommer"
 #: sim/listview.cpp:38
 #: sim/qt3/i18n.cpp:99
 msgid "&Delete"
-msgstr "Effecer"
+msgstr "Supprimer"
 
 #: plugins/_core/core.cpp:1203
 msgid "Show &always"
-msgstr "Garder en premier plan"
+msgstr "Garder &au premier plan"
 
 # mainwin.cpp:2465
 #: plugins/_core/core.cpp:1233
@@ -828,7 +824,7 @@ msgstr "&Occupation :"
 #: plugins/msn/msninfobase.cpp:136
 #: plugins/yahoo/yahooinfobase.cpp:161
 msgid "&Status"
-msgstr "Etat"
+msgstr "(&s) Etat"
 
 # ui/setupdlg.cpp:118
 # ui/userinfo.cpp:85
@@ -859,7 +855,7 @@ msgstr "Occupé"
 # msgedit.cpp:78
 #: plugins/_core/core.cpp:1311
 msgid "Decline file without reason"
-msgstr "Refuser le fichier sans raison"
+msgstr "Refuser le fichier sans donner de raison"
 
 # msgedit.cpp:80
 #: plugins/_core/core.cpp:1319
@@ -919,7 +915,7 @@ msgstr "&Infos"
 # control.cpp:220
 #: plugins/_core/core.cpp:1428
 msgid "Send &message"
-msgstr "Envoyer &message"
+msgstr "Envoyer le &message"
 
 # ui/homeinfobase.cpp:87
 # ui/workinfobase.cpp:47
@@ -1005,6 +1001,7 @@ msgid "Don't show this message in next time"
 msgstr "Ne pas montrer la boîte de message"
 
 #: plugins/_core/core.cpp:1747
+#, fuzzy
 msgid "`<command>` - call <command> and substitute command output\n"
 msgstr "`<command>` - call <command> and substitute command output\n"
 
@@ -1012,7 +1009,7 @@ msgstr "`<command>` - call <command> and substitute command output\n"
 #: plugins/_core/core.cpp:2299
 #: plugins/_core/interfacecfg.cpp:101
 msgid "System"
-msgstr "Système"
+msgstr "Barre de notification"
 
 # ui/toolsetup.cpp:63
 # ui/toolsetup.cpp:132
@@ -1056,7 +1053,7 @@ msgstr "%1 sur %2"
 # mainwin.cpp:2718
 #: plugins/_core/core.cpp:3139
 msgid "Send SMS"
-msgstr "Envoyer SMS"
+msgstr "Envoyer un SMS"
 
 # dock.cpp:955
 # mainwin.cpp:1974
@@ -1093,9 +1090,8 @@ msgstr "Etat Téléphone"
 
 # sim.cpp:521
 #: plugins/_core/core.cpp:4255
-#, fuzzy
 msgid "Configure client"
-msgstr "Client ICQ"
+msgstr "Configurer le compte"
 
 # client.cpp:1113
 # mainwin.cpp:2698
@@ -1164,7 +1160,7 @@ msgstr "R&eprendre"
 # ui/filetransfer.cpp:269
 #: plugins/_core/filetransfer.cpp:147
 msgid "File %1 exists"
-msgstr "Le fichier %1 existe déjà"
+msgstr "Le fichier %1 existe déjà."
 
 # ui/maininfobase.cpp:237
 #: plugins/_core/filetransfer.cpp:210
@@ -1521,17 +1517,17 @@ msgstr "Fax"
 # ui/addphone.cpp:37
 #: plugins/_core/maininfo.cpp:49
 msgid "Work Phone"
-msgstr "Téléphone Travail"
+msgstr "Téléphone travail"
 
 # ui/addphone.cpp:38
 #: plugins/_core/maininfo.cpp:50
 msgid "Work Fax"
-msgstr "Fax Travail"
+msgstr "Fax travail"
 
 # ui/addphone.cpp:36
 #: plugins/_core/maininfo.cpp:51
 msgid "Private Cellular"
-msgstr "Tél. mobile"
+msgstr "Téléphone mobile"
 
 # ui/addphone.cpp:39
 #: plugins/_core/maininfo.cpp:52
@@ -1662,7 +1658,7 @@ msgid ""
 "_n: File\n"
 "%n files"
 msgstr ""
-"_n : Fichier\n"
+"_n : Fichiers\n"
 "%n fichiers"
 
 # msgedit.cpp:122
@@ -1832,7 +1828,7 @@ msgstr "Taille : %1 / Taille max. : %2"
 # msgedit.cpp:1563
 #: plugins/_core/msgsms.cpp:170
 msgid "Message will be split"
-msgstr "Le message sera scindé"
+msgstr "Le message sera scindé."
 
 # msgview.cpp:183
 #: plugins/_core/msgsms.cpp:301
@@ -1872,7 +1868,7 @@ msgstr "&Ajouter"
 #: plugins/weather/weathercfg.cpp:91
 #: plugins/weather/weathercfgbase.cpp:111
 msgid "&Search"
-msgstr "Rechercher"
+msgstr "(&s) Rechercher"
 
 # mainwin.cpp:620
 # mainwin.cpp:2733
@@ -1982,7 +1978,7 @@ msgstr "Personnaliser barre d'outils"
 # ui/toolsetup.cpp:159
 #: plugins/_core/toolsetup.cpp:115
 msgid "Separator"
-msgstr "Séparation"
+msgstr "Séparateur"
 
 # ui/userinfo.cpp:73
 # userbox.cpp:407
@@ -2121,7 +2117,7 @@ msgstr "Mise à jo&ur"
 
 #: plugins/_core/plugincfgbase.cpp:71
 msgid "Plugin &enabled"
-msgstr "Plugin activé"
+msgstr "(&e) Plugin activé"
 
 # ui/acceptbase.cpp:109
 # ui/acceptbase.cpp:126
@@ -2134,7 +2130,7 @@ msgstr "Ignorer les paramètres généraux"
 # ui/toolsetupbase.cpp:34
 #: plugins/_core/toolsetupbase.cpp:123
 msgid "Toolbar setup"
-msgstr "Réglages barre d'outils"
+msgstr "Réglage de la barre d'outils"
 
 # ui/toolsetupbase.cpp:42
 #: plugins/_core/toolsetupbase.cpp:124
@@ -2174,14 +2170,14 @@ msgstr "Actif :"
 #: plugins/_core/toolsetupbase.cpp:132
 #: plugins/icons/iconcfgbase.cpp:74
 msgid "&Up"
-msgstr "Ha&ut"
+msgstr "Plus ha&ut"
 
 # ui/toolsetupbase.cpp:85
 #: plugins/_core/managerbase.cpp:107
 #: plugins/_core/toolsetupbase.cpp:133
 #: plugins/icons/iconcfgbase.cpp:75
 msgid "&Down"
-msgstr "Bas"
+msgstr "(&d) Plus bas"
 
 # ui/searchbase.cpp:105
 # ui/themesetupbase.cpp:289
@@ -2238,7 +2234,7 @@ msgstr "Tous les utilis&ateurs dans un seul bloc"
 
 #: plugins/_core/interfacecfgbase.cpp:132
 msgid "Use \"&Enter\" for send message"
-msgstr "Utiliser \"&Entrée\" pour envoyer un message"
+msgstr "Utiliser la touche \"&Entrée\" pour envoyer un message"
 
 #: plugins/_core/interfacecfgbase.cpp:135
 msgid "Start SIM on every &windows startup"
@@ -2303,7 +2299,7 @@ msgstr "Absent"
 #: plugins/osd/osdconfigbase.cpp:113
 #: plugins/yahoo/yahoo.cpp:134
 msgid "N/A"
-msgstr "(Non communiqué)"
+msgstr "Non disponible"
 
 # ui/alertdialogbase.cpp:186
 #: plugins/_core/userviewcfgbase.cpp:259
@@ -2392,7 +2388,7 @@ msgstr "Utiliser vos pr&opres couleurs et polices"
 # ui/themesetupbase.cpp:273
 #: plugins/_core/historycfgbase.cpp:168
 msgid "Use emotional &icons"
-msgstr "utiliser les emoticons"
+msgstr "Utiliser les émoticons"
 
 #: plugins/_core/historycfgbase.cpp:169
 #: plugins/_core/userhistorycfgbase.cpp:94
@@ -2464,7 +2460,7 @@ msgstr "Prénom"
 #: plugins/icq/aiminfobase.cc:257
 #: plugins/icq/icqinfobase.cc:309
 msgid "Last Name:"
-msgstr "Nom"
+msgstr "Nom :"
 
 # ui/maininfobase.cpp:188
 #: plugins/_core/maininfobase.cpp:189
@@ -2479,7 +2475,7 @@ msgstr "Encodage :"
 # ui/maininfobase.cpp:218
 #: plugins/_core/maininfobase.cpp:192
 msgid "Email addresses:"
-msgstr "Adresses Email :"
+msgstr "Adresses email :"
 
 # ui/phonebookbase.cpp:109
 #: plugins/_core/maininfobase.cpp:196
@@ -2519,8 +2515,8 @@ msgid ""
 "It is impossible to change numbers which were received from the user."
 msgstr ""
 "Note :\n"
-"Vous ne pouvez changer que ces chiffres entrès au préalable.\n"
-"il est impossible de changer les chiffres reçus d'un utilisateur."
+"Vous ne pouvez changer que ces chiffres, parce qu'ils ont été saisis au préalable.\n"
+"Il est impossible de changer les chiffres reçus d'un utilisateur."
 
 # msgedit.cpp:177
 #: plugins/_core/maininfobase.cpp:209
@@ -2537,7 +2533,7 @@ msgstr "&Notes"
 #: plugins/_core/nonimbase.cpp:97
 #: plugins/jabber/jabberaddbase.cpp:99
 msgid "Nickname:"
-msgstr "Pseudo"
+msgstr "Pseudo :"
 
 # ui/maininfobase.cpp:218
 #: plugins/_core/nonimbase.cpp:98
@@ -2560,7 +2556,7 @@ msgstr "Editer Email"
 # ui/emaileditbase.cpp:40
 #: plugins/_core/editmailbase.cpp:95
 msgid "Enter Email address:"
-msgstr "Entere l'adresse Email"
+msgstr "Entrer l'adresse email :"
 
 # ui/phonebook.cpp:81
 #: plugins/_core/editmailbase.cpp:96
@@ -2589,7 +2585,7 @@ msgstr "Type :"
 # ui/phonebase.cpp:71
 #: plugins/_core/phonebase.cpp:114
 msgid "Area code:"
-msgstr "Code de zone :"
+msgstr "Indicatif :"
 
 # ui/phonebase.cpp:81
 #: plugins/_core/phonebase.cpp:115
@@ -2638,7 +2634,7 @@ msgstr "Fournisseur :"
 # ui/pagerbase.cpp:82
 #: plugins/_core/pagerbase.cpp:89
 msgid "Email gateway:"
-msgstr "Serveur d'Emails :"
+msgstr "Serveur d'emails :"
 
 #: plugins/_core/searchbase.cpp:96
 #, fuzzy
@@ -2760,7 +2756,7 @@ msgstr "Fournisseur :"
 # ui/logindlgbase.cpp:61
 #: plugins/_core/logindlgbase.cpp:130
 msgid "&Save password"
-msgstr "Enregistrer mot de pa&sse"
+msgstr "Enregi&strer le mot de passe"
 
 # ui/logindlgbase.cpp:40
 #: plugins/_core/logindlgbase.cpp:131
@@ -2776,9 +2772,8 @@ msgstr "Connexion"
 
 # sim.cpp:521
 #: plugins/_core/managerbase.cpp:104
-#, fuzzy
 msgid "&Configure"
-msgstr "Client ICQ"
+msgstr "Préféren&ces"
 
 # ui/maininfobase.cpp:237
 #: plugins/_core/managerbase.cpp:108
@@ -2812,7 +2807,7 @@ msgstr "Sélectionner la couleur"
 # ui/autoreplybase.cpp:45
 #: plugins/_core/autoreplybase.cpp:88
 msgid "Don't show this dialog"
-msgstr "Ne pas montrer cett boîte"
+msgstr "Ne pas afficher cette boîte de dialogue"
 
 #: plugins/_core/arcfgbase.cpp:80
 #: plugins/_core/autoreplybase.cpp:89
@@ -2863,7 +2858,7 @@ msgstr "Accepter le mode"
 # ui/acceptbase.cpp:145
 #: plugins/_core/filecfgbase.cpp:89
 msgid "Show response"
-msgstr "Montrer la réponse"
+msgstr "Afficher la réponse"
 
 # ui/acceptbase.cpp:149
 #: plugins/_core/filecfgbase.cpp:90
@@ -2920,7 +2915,7 @@ msgstr "Vitesse :"
 
 #: plugins/_core/filetransferbase.cpp:136
 msgid "&Go to dir"
-msgstr "Ouvrir le répertoire"
+msgstr "(&g) Ouvrir le répertoire"
 
 # msgedit.cpp:130
 #: plugins/_core/filetransferbase.cpp:137
@@ -2931,7 +2926,7 @@ msgstr "Fermer après &l'envoi"
 # msgedit.cpp:1738
 #: plugins/_core/declinedlgbase.cpp:80
 msgid "Decline reason"
-msgstr "Raison"
+msgstr "Raison du refus"
 
 # msgedit.cpp:84
 #: plugins/_core/declinedlgbase.cpp:81
@@ -2943,16 +2938,16 @@ msgstr "Entrer une raison de refus"
 #: plugins/about/about.cpp:38
 #: plugins/about/aboutdlgbase.cpp:118
 msgid "About"
-msgstr "A propose"
+msgstr "A propos"
 
 #: plugins/about/about.cpp:39
 msgid "Plugin provides about information"
-msgstr "Ce plugin permet d'avoir l'item \"A propos\" dans le menu général."
+msgstr "Ce plugin permet d'avoir l'élément \"A propos\" dans le menu général."
 
 # mainwin.cpp:2734
 #: plugins/about/about.cpp:61
 msgid "&Bug report"
-msgstr "Rapport de &Bogue"
+msgstr "Rapport de &bogue"
 
 # mainwin.cpp:2735
 #: plugins/about/about.cpp:71
@@ -2967,6 +2962,7 @@ msgstr "A propos de &KDE"
 # _translatorinfo.cpp:1
 # mainwin.cpp:2957
 #: plugins/about/about.cpp:111
+#, fuzzy
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
@@ -2977,6 +2973,7 @@ msgstr ""
 # _translatorinfo.cpp:3
 # mainwin.cpp:2958
 #: plugins/about/about.cpp:112
+#, fuzzy
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
@@ -2987,7 +2984,7 @@ msgstr ""
 # ui/aboutdlg.cpp:41
 #: plugins/about/aboutdlg.cpp:44
 msgid "%1 Version: %2"
-msgstr "%1 Version : %2"
+msgstr "Version de %1 : %2"
 
 # ui/aboutdlg.cpp:44
 #: plugins/about/aboutdlg.cpp:51
@@ -3021,7 +3018,7 @@ msgstr "Licence"
 # ui/keysetup.cpp:33
 #: plugins/action/action.cpp:33
 msgid "Action"
-msgstr "Action"
+msgstr "Actions"
 
 #: plugins/action/action.cpp:34
 msgid "Plugin execute external programs on event or from contact menu"
@@ -3133,7 +3130,7 @@ msgstr "Absent"
 
 #: plugins/autoaway/autoaway.cpp:67
 msgid "Plugin provides set away and N/A status after some idle time"
-msgstr "Ce plugin permet le réglage automatique de l'état \"Away\" et \"Not Available\" après une durée d'inactivité."
+msgstr "Ce plugin permet le réglage automatique de l'état \"Absent\" et \"Non disponible\" après une durée d'inactivité."
 
 # ui/statussetupbase.cpp:62
 #: plugins/autoaway/autoawaycfgbase.cpp:103
@@ -3159,7 +3156,7 @@ msgstr "minutes en mode \"Absent\""
 # ui/statussetupbase.cpp:90
 #: plugins/autoaway/autoawaycfgbase.cpp:107
 msgid "Set \"N/A\" status after"
-msgstr "Passer en mode \"NC\" après"
+msgstr "Passer en mode \"Non disponible\" après"
 
 # ui/statussetupbase.cpp:90
 #: plugins/autoaway/autoawaycfgbase.cpp:108
@@ -3170,7 +3167,7 @@ msgstr "Passer en mode \"NC\" après"
 # ui/statussetupbase.cpp:57
 #: plugins/autoaway/autoawaycfgbase.cpp:109
 msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
-msgstr "Désactiver l'alerte de connexion dans les listes \"Absent\", \"NC\", \"ne pas déranger\" et \"Occupé\""
+msgstr "Désactiver l'alerte de connexion dans les listes \"Absent\", \"Non disponible\", \"Ne pas déranger\" et \"Occupé\""
 
 # ui/alertdialogbase.cpp:211
 #: plugins/background/background.cpp:34
@@ -3223,7 +3220,7 @@ msgstr "Fenêtre - en bas à gauche"
 # ui/themesetup.cpp:140
 #: plugins/background/bkgndcfg.cpp:69
 msgid "Window - left center"
-msgstr "Fenêtre - centrée à gauche"
+msgstr "Fenêtre - au milieu à gauche"
 
 # ui/themesetup.cpp:141
 #: plugins/background/bkgndcfg.cpp:70
@@ -3250,7 +3247,7 @@ msgstr "Marge d'icône :"
 # ui/themesetupbase.cpp:143
 #: plugins/background/bkgndcfgbase.cpp:116
 msgid "Main window background:"
-msgstr "Arrière-plan fenêtre principale :"
+msgstr "Arrière-plan de la fenêtre principale :"
 
 # ui/alertdialogbase.cpp:156
 # ui/themesetupbase.cpp:159
@@ -3261,13 +3258,12 @@ msgstr "Endroit :"
 
 # ui/themesetup.cpp:53
 #: plugins/dock/dock.cpp:49
-#, fuzzy
 msgid "System tray"
-msgstr "Système"
+msgstr "Barre de notification"
 
 #: plugins/dock/dock.cpp:50
 msgid "Plugin provides dock main window in system tray"
-msgstr "Ce plugin permet d'accrocher la fenêtre principale dans la barre à côté de l'horloge."
+msgstr "Ce plugin permet d'accrocher la fenêtre principale dans la barre de notification (à côté de l'horloge)."
 
 #: plugins/dock/dock.cpp:52
 #: plugins/windock/windock.cpp:43
@@ -3381,7 +3377,7 @@ msgstr ""
 # ui/generalsecbase.cpp:146
 #: plugins/filter/filtercfgbase.cpp:67
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr "Rejeter les messages contenant ces mots ou phrases :"
+msgstr "Rejeter les messages venant d'utilisateurs inconnus contenant ces mots ou ces phrases :"
 
 # ui/generalsecbase.cpp:153
 #: plugins/filter/filtercfgbase.cpp:68
@@ -3432,7 +3428,7 @@ msgstr ""
 # ui/smssetupbase.cpp:68
 #: plugins/forward/forwardcfgbase.cpp:71
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr "Envoyer tous les messages avec le statut \"Absent\" et \"NC\" dans la cellule :"
+msgstr "Envoyer sur le téléphone portable tous les messages reçus dans le mode \"Absent\" ou \"Non disponible\""
 
 # ui/smssetupbase.cpp:76
 #: plugins/forward/forwardcfgbase.cpp:72
@@ -3440,8 +3436,8 @@ msgid ""
 "For the answer or sending of the new message you can answer on SMS having specified in the beginning of the message a line:\n"
 "<UIN>:"
 msgstr ""
-"Pour la réponse ou l'envoi du nouveau message, vous pouvez répondre sur SMS avoir sépcifié au début du message une ligne :\n"
-"<UIN> :"
+"Pour la réponse ou l'envoi d'un nouveau message, vous pouvez répondre sur SMS après avoir spécifié au début du message la ligne :\n"
+"\"<UIN> :\"."
 
 #: plugins/forward/forwardcfgbase.cpp:74
 msgid "Send only &one message (don't split)"
@@ -3712,7 +3708,7 @@ msgstr "Insc&ription"
 #: plugins/yahoo/yahooclient.cpp:1386
 #: plugins/yahoo/yahooinfo.cpp:109
 msgid "Last online"
-msgstr "Dernier connecté"
+msgstr "Dernière connexion"
 
 # mainwin.cpp:2714
 #: plugins/icq/icq.cpp:59
@@ -3738,7 +3734,7 @@ msgstr "Occupé"
 #: plugins/jabber/jabber.cpp:142
 #: plugins/osd/osdconfigbase.cpp:116
 msgid "Free for chat"
-msgstr "Disponible"
+msgstr "Libre pour chatter"
 
 # sim.cpp:519
 #: plugins/icq/icq.cpp:229
@@ -3947,7 +3943,7 @@ msgstr "&Warnings"
 #: plugins/jabber/jabberclient.cpp:1665
 #: plugins/jabber/jabberclient.cpp:1684
 msgid "Home info"
-msgstr "Infos Lieu"
+msgstr "Infos maison"
 
 # ui/setupdlg.cpp:113
 # ui/userinfo.cpp:79
@@ -3958,7 +3954,7 @@ msgstr "Infos Lieu"
 #: plugins/jabber/jabberclient.cpp:1667
 #: plugins/jabber/jabberclient.cpp:1686
 msgid "Work info"
-msgstr "Infos Travail"
+msgstr "Infos travail"
 
 # ui/setupdlg.cpp:114
 # ui/userinfo.cpp:80
@@ -3979,7 +3975,7 @@ msgstr "Plus d'infos"
 #: plugins/jabber/jabberclient.cpp:1669
 #: plugins/jabber/jabberclient.cpp:1688
 msgid "About info"
-msgstr "Infos A propos"
+msgstr "A propos"
 
 # ui/setupdlg.cpp:116
 # ui/userinfo.cpp:82
@@ -3987,7 +3983,7 @@ msgstr "Infos A propos"
 #: plugins/icq/icqclient.cpp:1879
 #: plugins/icq/icqclient.cpp:2067
 msgid "Interests"
-msgstr "Intérêts"
+msgstr "Centres d'intérêt"
 
 # ui/setupdlg.cpp:117
 # ui/userinfo.cpp:83
@@ -4166,7 +4162,7 @@ msgstr "Ajouter Contact non-IM"
 # ui/setupdlg.cpp:149
 #: plugins/icq/icqinfo.cpp:34
 msgid "General chat"
-msgstr "Discussion Générale"
+msgstr "Discussion générale"
 
 # libicq/country.cpp:250
 #: plugins/icq/icqinfo.cpp:35
@@ -4202,23 +4198,23 @@ msgstr "50 et plus"
 
 #: plugins/icq/icqinfo.cpp:42
 msgid "Seeking Women"
-msgstr "Rechercher des Femmes"
+msgstr "Rechercher des femmes"
 
 #: plugins/icq/icqinfo.cpp:43
 msgid "Seeking Men"
-msgstr "Rechercher des Hommes"
+msgstr "Rechercher des hommes"
 
 # ui/generalsec.cpp:79
 #: plugins/icq/icqinfo.cpp:85
 #: plugins/jabber/jabberinfo.cpp:66
 msgid "Input current password"
-msgstr "Entrez le mot de passe actuel"
+msgstr "Entrer le mot de passe actuel"
 
 # ui/generalsec.cpp:83
 #: plugins/icq/icqinfo.cpp:88
 #: plugins/jabber/jabberinfo.cpp:69
 msgid "Confirm password does not match"
-msgstr "Les mots de passe ne correspondent pas"
+msgstr "Les mots de passe ne correspondent pas."
 
 # ui/generalsec.cpp:88
 # ui/logindlg.cpp:227
@@ -4322,8 +4318,8 @@ msgid ""
 "_n: Email pager message\n"
 "%n Email pager messages"
 msgstr ""
-"_n : Message Pager email\n"
-"%n messages Pager email"
+"_n : Message pager email\n"
+"%n messages pager email"
 
 # client.cpp:1038
 #: plugins/icq/icqmessage.cpp:594
@@ -4666,12 +4662,12 @@ msgstr "Ordinateurs"
 # libicq/country.cpp:336
 #: plugins/icq/interestsinfo.cpp:96
 msgid "Culture & Literature"
-msgstr "Culture et Littérature"
+msgstr "Culture et littérature"
 
 # libicq/country.cpp:337
 #: plugins/icq/interestsinfo.cpp:97
 msgid "Fitness"
-msgstr "Forme"
+msgstr "Forme, santé"
 
 # libicq/country.cpp:339
 #: plugins/icq/interestsinfo.cpp:99
@@ -4746,17 +4742,17 @@ msgstr "Sports"
 # libicq/country.cpp:352
 #: plugins/icq/interestsinfo.cpp:112
 msgid "Web Design"
-msgstr "Web Design"
+msgstr "Design web"
 
 # libicq/country.cpp:353
 #: plugins/icq/interestsinfo.cpp:113
 msgid "Nature and Environment"
-msgstr "Nature et Environnement"
+msgstr "Nature et environnement"
 
 # libicq/country.cpp:354
 #: plugins/icq/interestsinfo.cpp:114
 msgid "News & Media"
-msgstr "Infos et Médias"
+msgstr "Infos et médias"
 
 # libicq/country.cpp:355
 # libicq/country.cpp:421
@@ -4768,7 +4764,7 @@ msgstr "Gouvernement"
 # libicq/country.cpp:356
 #: plugins/icq/interestsinfo.cpp:116
 msgid "Business & Economy"
-msgstr "Business et Economie"
+msgstr "Business et économie"
 
 # libicq/country.cpp:357
 #: plugins/icq/interestsinfo.cpp:117
@@ -4863,7 +4859,7 @@ msgstr "Médias"
 # libicq/country.cpp:375
 #: plugins/icq/interestsinfo.cpp:135
 msgid "Household products"
-msgstr "Produits Ménagers"
+msgstr "Produits ménagers"
 
 # libicq/country.cpp:376
 #: plugins/icq/interestsinfo.cpp:136
@@ -4936,7 +4932,7 @@ msgstr "Danois"
 #: plugins/icq/moreinfo.cpp:99
 #: sim/contacts.cpp:2010
 msgid "Esperanto"
-msgstr "Esperanto"
+msgstr "Espéranto"
 
 # libicq/country.cpp:20
 #: plugins/icq/moreinfo.cpp:100
@@ -5129,7 +5125,7 @@ msgstr "Lycée"
 # libicq/country.cpp:448
 #: plugins/icq/pastinfo.cpp:79
 msgid "University"
-msgstr "Université"
+msgstr "Université/Post bac"
 
 # libicq/country.cpp:429
 # libicq/country.cpp:449
@@ -5146,7 +5142,7 @@ msgstr "Ancien lieu de travail"
 # libicq/country.cpp:451
 #: plugins/icq/pastinfo.cpp:82
 msgid "Past Organization"
-msgstr "Entreprise"
+msgstr "Ancienne entreprise"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
@@ -5158,12 +5154,12 @@ msgstr "Autres"
 # libicq/country.cpp:387
 #: plugins/icq/pastinfo.cpp:91
 msgid "Alumni Org."
-msgstr "Alumni Org."
+msgstr "Associations d'anciens élèves"
 
 # libicq/country.cpp:388
 #: plugins/icq/pastinfo.cpp:92
 msgid "Charity Org."
-msgstr "Charité"
+msgstr "Associations charitatives"
 
 # libicq/country.cpp:389
 #: plugins/icq/pastinfo.cpp:93
@@ -5178,7 +5174,7 @@ msgstr "Communautés"
 # libicq/country.cpp:391
 #: plugins/icq/pastinfo.cpp:95
 msgid "Cultural Org."
-msgstr "Organisations culturelles"
+msgstr "Associations culturelles"
 
 # libicq/country.cpp:392
 #: plugins/icq/pastinfo.cpp:96
@@ -5198,57 +5194,57 @@ msgstr "Clubs de loisirs"
 # libicq/country.cpp:395
 #: plugins/icq/pastinfo.cpp:99
 msgid "International Org."
-msgstr "Org. internationales"
+msgstr "Organisations internationales"
 
 # libicq/country.cpp:396
 #: plugins/icq/pastinfo.cpp:100
 msgid "Nature and Environment Org."
-msgstr "Org. écologistes"
+msgstr "Associations écologistes"
 
 # libicq/country.cpp:397
 #: plugins/icq/pastinfo.cpp:101
 msgid "Professional Org."
-msgstr "Org. professionnelles"
+msgstr "Associations professionnelles"
 
 # libicq/country.cpp:398
 #: plugins/icq/pastinfo.cpp:102
 msgid "Scientific/Technical Org."
-msgstr "Org. scientifiques/Techniques"
+msgstr "Associations scientifiques et techniques"
 
 # libicq/country.cpp:399
 #: plugins/icq/pastinfo.cpp:103
 msgid "Self Improvement Group"
-msgstr "Groupes d'Amélioration Personnelle"
+msgstr "Groupes d'amélioration personnelle"
 
 # libicq/country.cpp:400
 #: plugins/icq/pastinfo.cpp:104
 msgid "Spiritual/Religious Org."
-msgstr "Org. Reigieuses/Spirituelles"
+msgstr "Associations religieuses et spirituelles"
 
 # libicq/country.cpp:401
 #: plugins/icq/pastinfo.cpp:105
 msgid "Sports Org."
-msgstr "Org. sportives"
+msgstr "Associations sportives"
 
 # libicq/country.cpp:402
 #: plugins/icq/pastinfo.cpp:106
 msgid "Support Org."
-msgstr "Org. de support"
+msgstr "Associations d'entraide"
 
 # libicq/country.cpp:403
 #: plugins/icq/pastinfo.cpp:107
 msgid "Trade and Business Org."
-msgstr "Org. commerciales et d'Affaires"
+msgstr "Associations commerciales et d'affaires"
 
 # libicq/country.cpp:404
 #: plugins/icq/pastinfo.cpp:108
 msgid "Union"
-msgstr "Union"
+msgstr "Syndicats"
 
 # libicq/country.cpp:405
 #: plugins/icq/pastinfo.cpp:109
 msgid "Volunteer Org."
-msgstr "Org. bénévoles"
+msgstr "Organisations bénévoles"
 
 # ui/userinfo.cpp:73
 # userbox.cpp:407
@@ -5276,12 +5272,12 @@ msgstr "Art/Divertissement"
 # libicq/country.cpp:415
 #: plugins/icq/workinfo.cpp:76
 msgid "College Student"
-msgstr "Etudiants"
+msgstr "Lycéens"
 
 # libicq/country.cpp:417
 #: plugins/icq/workinfo.cpp:78
 msgid "Community & Social"
-msgstr "Société/communauté"
+msgstr "Social/Communautaire"
 
 # libicq/country.cpp:418
 #: plugins/icq/workinfo.cpp:79
@@ -5301,12 +5297,12 @@ msgstr "Services Financiers"
 # libicq/country.cpp:422
 #: plugins/icq/workinfo.cpp:83
 msgid "High School Student"
-msgstr "Etudiants universitaires"
+msgstr "Collégiens"
 
 # libicq/country.cpp:423
 #: plugins/icq/workinfo.cpp:84
 msgid "Home"
-msgstr "Foyer"
+msgstr "Maison"
 
 # libicq/country.cpp:425
 #: plugins/icq/workinfo.cpp:86
@@ -5336,12 +5332,12 @@ msgstr "ONG"
 # libicq/country.cpp:431
 #: plugins/icq/workinfo.cpp:92
 msgid "Other services"
-msgstr "Autres Services"
+msgstr "Autres services"
 
 # libicq/country.cpp:432
 #: plugins/icq/workinfo.cpp:93
 msgid "Professional"
-msgstr "Porfessionnel"
+msgstr "Professionnel"
 
 # libicq/country.cpp:433
 #: plugins/icq/workinfo.cpp:94
@@ -5351,27 +5347,27 @@ msgstr "Commerce"
 # libicq/country.cpp:434
 #: plugins/icq/workinfo.cpp:95
 msgid "Retired"
-msgstr "Retraité(e)s"
+msgstr "Retraités"
 
 # libicq/country.cpp:435
 #: plugins/icq/workinfo.cpp:96
 msgid "Science & Research"
-msgstr "Science et Recherche"
+msgstr "Science et recherche"
 
 # libicq/country.cpp:437
 #: plugins/icq/workinfo.cpp:98
 msgid "Technical"
-msgstr "technique"
+msgstr "Technique"
 
 # libicq/country.cpp:438
 #: plugins/icq/workinfo.cpp:99
 msgid "University student"
-msgstr "Etudiant/Univ."
+msgstr "Etudiants"
 
 # libicq/country.cpp:439
 #: plugins/icq/workinfo.cpp:100
 msgid "Web building"
-msgstr "Web"
+msgstr "Développement web"
 
 # ui/enable.cpp:123
 #: plugins/icq/icqconfigbase.cc:264
@@ -5648,7 +5644,7 @@ msgstr "Mot de &passe"
 #: plugins/icq/workinfobase.cc:181
 #: plugins/jabber/jabberhomeinfobase.cpp:108
 msgid "State:"
-msgstr "Etat :"
+msgstr "Pays :"
 
 # ui/homeinfobase.cpp:87
 # ui/workinfobase.cpp:47
@@ -5686,7 +5682,7 @@ msgstr "Fuseau horaire :"
 # ui/homeinfobase.cpp:147
 #: plugins/icq/homeinfobase.cc:150
 msgid "&Home info"
-msgstr "Infos Lieu"
+msgstr "(&h) Infos maison"
 
 # ui/moreinfobase.cpp:107
 # ui/searchbase.cpp:95
@@ -5701,7 +5697,7 @@ msgstr "Age :"
 #: plugins/jabber/discoinfobase.cpp:281
 #: plugins/jabber/jabberinfobase.cpp:243
 msgid "Homepage:"
-msgstr "Page d'accueil :"
+msgstr "Page perso :"
 
 # ui/moreinfobase.cpp:94
 # ui/searchbase.cpp:111
@@ -5721,7 +5717,7 @@ msgstr "Date de naissance :"
 # ui/moreinfobase.cpp:156
 #: plugins/icq/moreinfobase.cc:158
 msgid "&More info"
-msgstr "Plus d'infos"
+msgstr "(&m) Plus d'infos"
 
 # ui/moreinfobase.cpp:162
 #: plugins/icq/moreinfobase.cc:159
@@ -5736,23 +5732,23 @@ msgstr "&Langues"
 # ui/workinfobase.cpp:116
 #: plugins/icq/workinfobase.cc:186
 msgid "Web site:"
-msgstr "Site Web :"
+msgstr "Site web :"
 
 # ui/workinfobase.cpp:120
 #: plugins/icq/workinfobase.cc:187
 msgid "&Company"
-msgstr "Entreprise :"
+msgstr "(&c) Entreprise :"
 
 # ui/workinfobase.cpp:126
 #: plugins/icq/advsearchbase.cc:254
 #: plugins/icq/workinfobase.cc:188
 msgid "Occupation:"
-msgstr "Occupation :"
+msgstr "Loisirs :"
 
 # ui/workinfobase.cpp:132
 #: plugins/icq/workinfobase.cc:189
 msgid "Div / dept:"
-msgstr "dept/secteur :"
+msgstr "Département/Secteur d'emploi :"
 
 # ui/workinfobase.cpp:146
 #: plugins/icq/advsearchbase.cc:257
@@ -5764,27 +5760,27 @@ msgstr "Position :"
 # ui/workinfobase.cpp:156
 #: plugins/icq/workinfobase.cc:191
 msgid "&Occupation"
-msgstr "&Occupation :"
+msgstr "L&oisirs :"
 
 # ui/aboutinfobase.cpp:72
 #: plugins/icq/aboutinfobase.cc:66
 msgid "Additional information about user:"
-msgstr "Infos supllémentaires sur l'utilisateur :"
+msgstr "Infos suplémentaires sur l'utilisateur :"
 
 # ui/aboutinfobase.cpp:77
 #: plugins/icq/aboutinfobase.cc:67
 msgid "A&bout"
-msgstr "A propos"
+msgstr "(&b) A propos"
 
 # ui/interestsinfobase.cpp:110
 #: plugins/icq/interestsinfobase.cc:109
 msgid "&Interests"
-msgstr "&Intérêts"
+msgstr "Centres d'&intérêt"
 
 # ui/pastinfobase.cpp:73
 #: plugins/icq/pastinfobase.cc:139
 msgid "Organization, Affiliation, Group:"
-msgstr "Organisation, groupe, affiliation :"
+msgstr "Association, groupe, affiliation :"
 
 # ui/pastinfobase.cpp:102
 #: plugins/icq/pastinfobase.cc:140
@@ -5794,12 +5790,12 @@ msgstr "A&ffiliation"
 # ui/pastinfobase.cpp:108
 #: plugins/icq/pastinfobase.cc:141
 msgid "Past background:"
-msgstr "Ancien arrière-plan :"
+msgstr "Anciennes expériences :"
 
 # ui/pastinfobase.cpp:137
 #: plugins/icq/pastinfobase.cc:142
 msgid "&Background"
-msgstr "Arrière-plan"
+msgstr "(&b) Anciennes expériences"
 
 # ui/generalsecbase.cpp:77
 #: plugins/icq/icqsecurebase.cc:107
@@ -5814,12 +5810,12 @@ msgstr "Ne pas montrer mon adresse IP"
 # ui/generalsecbase.cpp:85
 #: plugins/icq/icqsecurebase.cc:110
 msgid "Allow other to view my &status from the Web"
-msgstr "Autoriser les autres à voir mon état de connexions depuis le Web"
+msgstr "Autori&ser les autres à voir mon état de connexion depuis le web"
 
 # ui/generalsecbase.cpp:89
 #: plugins/icq/icqsecurebase.cc:111
 msgid "I&gnore user authorization"
-msgstr "I&gnorer les autorisations utilisateurs"
+msgstr "I&gnorer les autorisations d'utilisateurs"
 
 # ui/generalsecbase.cpp:93
 #: plugins/icq/icqsecurebase.cc:112
@@ -5840,7 +5836,7 @@ msgstr "Permettre la connexion directe avec ceux de ma liste de &contacts"
 # ui/generalsecbase.cpp:109
 #: plugins/icq/icqsecurebase.cc:115
 msgid "Allow direct connection from user &upon authorization"
-msgstr "Permettre la connexion directe après autorisation"
+msgstr "Permettre la connexion directe après a&utorisation"
 
 # ui/generalsecbase.cpp:114
 #: plugins/icq/icqsecurebase.cc:116
@@ -6230,9 +6226,8 @@ msgstr "Insc&ription"
 
 # sim.cpp:521
 #: plugins/jabber/jabberbrowser.cpp:489
-#, fuzzy
 msgid "%1 Configure"
-msgstr "Client ICQ"
+msgstr "Préférences %1"
 
 #: plugins/jabber/jabberbrowser.cpp:987
 msgid "Choose a user and password to register with the server"
@@ -7693,12 +7688,12 @@ msgstr "(&x) Quitter"
 # monitor.cpp:74
 #: plugins/netmonitor/monitor.cpp:68
 msgid "&Erase"
-msgstr "&effacer"
+msgstr "&Effacer"
 
 # monitor.cpp:83
 #: plugins/netmonitor/monitor.cpp:74
 msgid "&Log"
-msgstr "&Log"
+msgstr "&Logguer"
 
 # monitor.cpp:133
 #: plugins/netmonitor/monitor.cpp:89
@@ -7720,7 +7715,7 @@ msgstr "&Déboguer"
 # monitor.cpp:81
 #: plugins/netmonitor/monitor.cpp:158
 msgid "&Warnings"
-msgstr "&Warnings"
+msgstr "(&w) Avertissements"
 
 # monitor.cpp:82
 #: plugins/netmonitor/monitor.cpp:159
@@ -7933,7 +7928,7 @@ msgstr "Centré en haut"
 # ui/alertdialog.cpp:60
 #: plugins/osd/osdiface.cpp:39
 msgid "Center"
-msgstr "Centrer"
+msgstr "Centré"
 
 # ui/alertdialogbase.cpp:130
 #: plugins/osd/osdconfigbase.cpp:109
@@ -7970,12 +7965,12 @@ msgstr "Alt"
 # ui/alertdialogbase.cpp:166
 #: plugins/osd/osdifacebase.cpp:129
 msgid "Offset:"
-msgstr "Offset :"
+msgstr "Décalage :"
 
 # ui/alertdialogbase.cpp:176
 #: plugins/osd/osdifacebase.cpp:130
 msgid "Show time:"
-msgstr "Montrer l'heure :"
+msgstr "Afficher l'heure :"
 
 # ui/alertdialogbase.cpp:186
 #: plugins/osd/osdifacebase.cpp:131
@@ -8003,7 +7998,7 @@ msgstr "Arrière-plan"
 #: plugins/osd/osdifacebase.cpp:135
 #: plugins/styles/fontconfigbase.cpp:102
 msgid "Background color:"
-msgstr "Couleur d'arrière-plan"
+msgstr "Couleur d'arrière-plan :"
 
 # ui/acceptbase.cpp:145
 #: plugins/osd/osdifacebase.cpp:137
@@ -8231,7 +8226,7 @@ msgstr "Ctrl"
 #: plugins/shortcuts/mousecfgbase.cpp:83
 #: sim/qt3/i18n.cpp:199
 msgid "Shift"
-msgstr "Maj."
+msgstr "Maj./Shift"
 
 #: plugins/sms/sms.cpp:84
 #, c-format
@@ -9305,13 +9300,13 @@ msgid ""
 "There is already an auto hidden window on this edge.\n"
 "Only one auto hidden window is allowed on each edge."
 msgstr ""
-"Il y a déjà une fenêtre cachée ici.\n"
-"Seule 1 fenêtre cachée automatiquement est autorisée."
+"Il y a déjà une fenêtre cachée automatiquement ici.\n"
+"Seule une fenêtre cachée automatiquement est autorisée sur chaque côté de l'écran."
 
 # mainwin.cpp:884
 #: plugins/windock/windock.cpp:358
 msgid "AutoHide"
-msgstr "Cacher Auto."
+msgstr "Cacher automatiquement la fenêtre."
 
 #: plugins/yahoo/yahoo.cpp:81
 msgid "Yahoo!"
@@ -9502,7 +9497,7 @@ msgstr "Hu&e :"
 # ui/workinfobase.cpp:67
 #: sim/qt3/i18n.cpp:3
 msgid "&Sat:"
-msgstr "&Sat :"
+msgstr "&Saturation :"
 
 #: sim/qt3/i18n.cpp:5
 #, fuzzy
@@ -9542,7 +9537,7 @@ msgstr "&Couleurs personnalisées"
 
 #: sim/qt3/i18n.cpp:19
 msgid "&Define Custom Colors >>"
-msgstr "&Définir couleurs personnalisées >>"
+msgstr "&Définir les couleurs personnalisées >>"
 
 #: sim/qt3/i18n.cpp:25
 msgid "&Add To Custom Colors"
@@ -9612,16 +9607,16 @@ msgstr "Nouveau répertoire"
 # ui/maininfo.cpp:136
 #: sim/qt3/i18n.cpp:61
 msgid "List View"
-msgstr "Affichage Liste"
+msgstr "Affichage \"Liste\""
 
 # libicq/country.cpp:433
 #: sim/qt3/i18n.cpp:63
 msgid "Detail View"
-msgstr "Affichage Détails"
+msgstr "Affichage \"Détails\""
 
 #: sim/qt3/i18n.cpp:65
 msgid "Preview File Info"
-msgstr "Voir les infos du fichier"
+msgstr "Voir les informations du fichier"
 
 #: sim/qt3/i18n.cpp:67
 msgid "Preview File Contents"
@@ -9689,19 +9684,19 @@ msgstr "R&echarger"
 
 #: sim/qt3/i18n.cpp:103
 msgid "Sort by &Name"
-msgstr "Trier par &Nom"
+msgstr "Trier par &nom"
 
 #: sim/qt3/i18n.cpp:105
 msgid "Sort by &Size"
-msgstr "Trier par Taille"
+msgstr "(s) Trier par taille"
 
 #: sim/qt3/i18n.cpp:107
 msgid "Sort by &Date"
-msgstr "Trier par &Date"
+msgstr "Trier par &date"
 
 #: sim/qt3/i18n.cpp:109
 msgid "&Unsorted"
-msgstr "Non trié"
+msgstr "(&u) Sans classement"
 
 # libicq/country.cpp:351
 # libicq/country.cpp:436
@@ -9712,18 +9707,21 @@ msgstr "Trier"
 # mainwin.cpp:2726
 #: sim/qt3/i18n.cpp:113
 msgid "Show &hidden files"
-msgstr "Montrer les fichiers cac&hés"
+msgstr "Afficher les fichiers cac&hés"
 
 # mainwin.cpp:2726
 #: sim/qt3/i18n.cpp:115
+#, fuzzy
 msgid "the file"
 msgstr "le fichier"
 
 #: sim/qt3/i18n.cpp:117
+#, fuzzy
 msgid "the directory"
 msgstr "le répertoire"
 
 #: sim/qt3/i18n.cpp:119
+#, fuzzy
 msgid "the symlink"
 msgstr "le lien symbolique"
 
@@ -9731,11 +9729,11 @@ msgstr "le lien symbolique"
 #: sim/qt3/i18n.cpp:121
 #, c-format
 msgid "Delete %1"
-msgstr "Suppression %1"
+msgstr "Supprimer %1"
 
 #: sim/qt3/i18n.cpp:123
 msgid "<qt>Do you really want to delete %1 \"%2\"?</qt>"
-msgstr "<qt>Etes-vous sûr de vouloir effacer %1\"%2\" ?</qt>"
+msgstr "<qt>Etes-vous sûr de vouloir supprimer %1\"%2\" ?</qt>"
 
 # mainwin.cpp:1950
 # mainwin.cpp:2281
@@ -9764,7 +9762,7 @@ msgstr "Nouveau répertoire 1"
 # ui/searchbase.cpp:55
 #: sim/qt3/i18n.cpp:131
 msgid "New Folder"
-msgstr "Nouveau Dossier"
+msgstr "Nouveau répertoire"
 
 #: sim/qt3/i18n.cpp:133
 #, c-format
@@ -9775,7 +9773,7 @@ msgstr "Nouveau répertoire %1"
 # mainwin.cpp:2716
 #: sim/qt3/i18n.cpp:135
 msgid "Find Directory"
-msgstr "Trouver répertoire"
+msgstr "Trouver un répertoire"
 
 # sim.cpp:535
 #: sim/qt3/i18n.cpp:137
@@ -9857,11 +9855,11 @@ msgstr "Fermer"
 # ui/themesetupbase.cpp:110
 #: sim/qt3/i18n.cpp:172
 msgid "Select Font"
-msgstr "Sélection Police"
+msgstr "Sélectionner la police"
 
 #: sim/qt3/i18n.cpp:177
 msgid "<h3>About Qt</h3><p>This program uses Qt version %1, a multiplatform C++ GUI toolkit from Trolltech. Qt provides single-source portability across Windows 95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of Unix with X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more information.</p>"
-msgstr "<h3>A propos de Qt</h3><p>Ce programme utilise Qt version %1, une collection d'outils multiplate-formes écrit en C++ provenant de Trolltech. Qt fournit la portabilité du code source original sur Windows95/98/NT/2000, Linux, Solaris, HP-UX et de nombreuses autres versions d'Unix incluant X11/</p><p>Consultez le site <tt>http://www.trolltech.com/qt/</tt> pour plus d'informations.</p>"
+msgstr "<h3>A propos de Qt</h3><p>Ce programme utilise Qt version %1, une collection d'outils multi-plateformes écrit en C++ provenant de Trolltech. Qt fournit la portabilité du code source original sur Windows95/98/NT/2000, Linux, Solaris, HP-UX et de nombreuses autres versions d'Unix incluant X11.</p><p>Consultez le site <tt>http://www.trolltech.com/qt/</tt> pour plus d'informations.</p>"
 
 #: sim/qt3/i18n.cpp:183
 msgid "Help"
@@ -9870,7 +9868,7 @@ msgstr "Aide"
 # ui/maininfo.cpp:46
 #: sim/qt3/i18n.cpp:185
 msgid "Defaults"
-msgstr "Par défaut"
+msgstr "Réglages par défaut"
 
 #: sim/qt3/i18n.cpp:187
 msgid "< &Back"
@@ -9884,7 +9882,7 @@ msgstr "Suivant >"
 # libicq/country.cpp:22
 #: sim/qt3/i18n.cpp:191
 msgid "&Finish"
-msgstr "Finnois"
+msgstr "Terminer"
 
 #: sim/qt3/i18n.cpp:195
 msgid "+"
@@ -9897,16 +9895,16 @@ msgstr "F%1"
 
 #: sim/qt3/i18n.cpp:203
 msgid "ctrl"
-msgstr "ctrl"
+msgstr "Ctrl"
 
 #: sim/qt3/i18n.cpp:205
 msgid "shift"
-msgstr "maj."
+msgstr "Majuscule/Shift"
 
 # libicq/country.cpp:207
 #: sim/qt3/i18n.cpp:207
 msgid "alt"
-msgstr "alt"
+msgstr "Alt"
 
 #: sim/qt3/i18n.cpp:210
 msgid ""
@@ -10117,13 +10115,14 @@ msgstr "Dérouler"
 
 # about.cpp:280
 #: sim/aboutdata.cpp:287
+#, fuzzy
 msgid "replace this with information about your translation team"
 msgstr "remplacez ceci avec vos infos sur l'équipe de traduction"
 
 # about.cpp:296
 #: sim/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr "ce programme est distribué selon les termes de la GPL version 2."
+msgstr "Ce programme est distribué selon les termes de la GPL version 2."
 
 # ui/addphonebase.cpp:112
 # ui/alertmsgbase.cpp:52
@@ -10137,7 +10136,7 @@ msgstr "ce programme est distribué selon les termes de la GPL version 2."
 # ui/toolsetupbase.cpp:102
 #: sim/ballonmsg.cpp:344
 msgid "&Ok"
-msgstr "&OK"
+msgstr "&Ok"
 
 # client.cpp:55
 #: sim/contacts.cpp:2001
@@ -10199,7 +10198,7 @@ msgstr "Tamil"
 # libicq/country.cpp:71
 #: sim/country.cpp:25
 msgid "Afghanistan"
-msgstr "Afghan"
+msgstr "Afghanistan"
 
 # libicq/country.cpp:72
 #: sim/country.cpp:26
@@ -10265,7 +10264,7 @@ msgstr "Australie"
 # libicq/country.cpp:84
 #: sim/country.cpp:38
 msgid "Australian Antarctic Territory"
-msgstr "Territoire Antarctique d'Australie"
+msgstr "Territoire antarctique d'Australie"
 
 # libicq/country.cpp:85
 #: sim/country.cpp:39
@@ -10385,7 +10384,7 @@ msgstr "Burundi"
 # libicq/country.cpp:107
 #: sim/country.cpp:61
 msgid "Cambodia"
-msgstr "Canbodge"
+msgstr "Cambodge"
 
 # libicq/country.cpp:108
 #: sim/country.cpp:62
@@ -10415,7 +10414,7 @@ msgstr "République Centrafrique"
 # libicq/country.cpp:113
 #: sim/country.cpp:67
 msgid "Chad"
-msgstr "Chad"
+msgstr "Tchad"
 
 # libicq/country.cpp:114
 #: sim/country.cpp:68
@@ -10529,7 +10528,7 @@ msgstr "Salvador"
 # libicq/country.cpp:135
 #: sim/country.cpp:89
 msgid "Equatorial Guinea"
-msgstr "Guinée Equatoriale"
+msgstr "Guinée équatoriale"
 
 # libicq/country.cpp:136
 #: sim/country.cpp:90
@@ -10555,7 +10554,7 @@ msgstr "Faeroe Islands"
 # libicq/country.cpp:140
 #: sim/country.cpp:94
 msgid "Falkland Islands"
-msgstr "Falkland Islands"
+msgstr "Iles Falkland"
 
 # libicq/country.cpp:141
 #: sim/country.cpp:95
@@ -10769,7 +10768,7 @@ msgstr "Italie"
 # libicq/country.cpp:181
 #: sim/country.cpp:135
 msgid "Ivory Coast"
-msgstr "Côte d'Ivoire"
+msgstr "Côte d'ivoire"
 
 # libicq/country.cpp:182
 #: sim/country.cpp:136
@@ -10811,7 +10810,7 @@ msgstr "Corée du Nord"
 # libicq/country.cpp:189
 #: sim/country.cpp:143
 msgid "Korea (Republic of)"
-msgstr "Corée"
+msgstr "Corée du Sud"
 
 # libicq/country.cpp:190
 #: sim/country.cpp:144
@@ -10832,7 +10831,7 @@ msgstr "Laos"
 # libicq/country.cpp:193
 #: sim/country.cpp:147
 msgid "Latvia"
-msgstr "Latvia"
+msgstr "Lettonie"
 
 # libicq/country.cpp:194
 #: sim/country.cpp:148
@@ -10888,7 +10887,7 @@ msgstr "Malawi"
 # libicq/country.cpp:204
 #: sim/country.cpp:158
 msgid "Malaysia"
-msgstr "Malaysie"
+msgstr "Malaisie"
 
 # libicq/country.cpp:205
 #: sim/country.cpp:159
@@ -10934,12 +10933,12 @@ msgstr "Mayotte"
 # libicq/country.cpp:213
 #: sim/country.cpp:167
 msgid "Mexico"
-msgstr "Méxique"
+msgstr "Mexique"
 
 # libicq/country.cpp:214
 #: sim/country.cpp:168
 msgid "Micronesia, Federated States of"
-msgstr "Micronésie, Etats Fédéraux de"
+msgstr "Micronésie, états fédéraux de"
 
 # libicq/country.cpp:215
 #: sim/country.cpp:169
@@ -10995,7 +10994,7 @@ msgstr "Népal"
 # libicq/country.cpp:225
 #: sim/country.cpp:179
 msgid "Netherlands Antilles"
-msgstr "Antilles (ays-Bas)"
+msgstr "Antilles (Pays-Bas)"
 
 # libicq/country.cpp:226
 #: sim/country.cpp:180
@@ -11042,7 +11041,7 @@ msgstr "Niue"
 # libicq/country.cpp:234
 #: sim/country.cpp:188
 msgid "Norfolk Island"
-msgstr "Norfolk Island"
+msgstr "Ile Norfolk"
 
 # libicq/country.cpp:235
 #: sim/country.cpp:189
@@ -11073,7 +11072,7 @@ msgstr "Panama"
 # libicq/country.cpp:240
 #: sim/country.cpp:194
 msgid "Papua New Guinea"
-msgstr "Papouasie Nouvelle Guinée"
+msgstr "Papouasie - Nouvelle Guinée"
 
 # libicq/country.cpp:241
 #: sim/country.cpp:195
@@ -11088,7 +11087,7 @@ msgstr "Pérou"
 # libicq/country.cpp:243
 #: sim/country.cpp:197
 msgid "Philippines"
-msgstr "philppines"
+msgstr "Philippines"
 
 # libicq/country.cpp:244
 #: sim/country.cpp:198
@@ -11103,12 +11102,12 @@ msgstr "Portugal"
 # libicq/country.cpp:246
 #: sim/country.cpp:200
 msgid "Puerto Rico"
-msgstr "Puerto Rico"
+msgstr "Porto Rico"
 
 # libicq/country.cpp:247
 #: sim/country.cpp:201
 msgid "Qatar"
-msgstr "Qatat"
+msgstr "Quatar"
 
 # libicq/country.cpp:248
 #: sim/country.cpp:202
@@ -11239,7 +11238,7 @@ msgstr "St. Kitts"
 # libicq/country.cpp:272
 #: sim/country.cpp:226
 msgid "St. Pierre and Miquelon"
-msgstr "St. Pierre and Miquelon"
+msgstr "Saint Pierre et Miquelon"
 
 # libicq/country.cpp:273
 #: sim/country.cpp:227
@@ -11322,7 +11321,7 @@ msgstr "Tonga"
 # libicq/country.cpp:288
 #: sim/country.cpp:242
 msgid "Trinidad and Tobago"
-msgstr "Trinidad and Tobago"
+msgstr "Trinidad et Tobago"
 
 # libicq/country.cpp:289
 #: sim/country.cpp:243
@@ -11354,7 +11353,7 @@ msgstr "Tuvalu"
 # libicq/country.cpp:294
 #: sim/country.cpp:248
 msgid "USA"
-msgstr "Etats-Unis"
+msgstr "Etats-Unis d'Amérique"
 
 # libicq/country.cpp:295
 #: sim/country.cpp:249
@@ -11374,12 +11373,12 @@ msgstr "Emirats Arabes Unis"
 # libicq/country.cpp:298
 #: sim/country.cpp:252
 msgid "United Kingdom"
-msgstr "Royaume Uni"
+msgstr "Royaume-Uni"
 
 # libicq/country.cpp:299
 #: sim/country.cpp:253
 msgid "United States Virgin Islands"
-msgstr "Iles Vierges des Etats-unis"
+msgstr "Iles vierges des Etats-Unis"
 
 # libicq/country.cpp:300
 #: sim/country.cpp:254
@@ -11400,7 +11399,7 @@ msgstr "Vanucatu"
 # libicq/country.cpp:303
 #: sim/country.cpp:257
 msgid "Vatican City"
-msgstr "Le Vatican"
+msgstr "Vatican"
 
 # libicq/country.cpp:304
 #: sim/country.cpp:258
