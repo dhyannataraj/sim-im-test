@@ -1209,7 +1209,15 @@ fi
 
 if test "$kde_qtver" = "3"; then
   if test "$kde_qtsubver" -gt "0"; then
-    kde_qt_verstring="QT_VERSION >= 0x03@VER@00"
+    
+    #old
+      #kde_qt_verstring="QT_VERSION >= 0x03@VER@00"
+    #/old
+    
+    #fix compile KDE 3.4
+      kde_qt_verstring="QT_VERSION >= 0x030000"
+    #/fix compile KDE 3.4
+    
     qtsubver=`echo "00$kde_qtsubver" | sed -e 's,.*\(..\)$,\1,'`
     kde_qt_verstring=`echo $kde_qt_verstring | sed -e "s,@VER@,$qtsubver,"`
   else
