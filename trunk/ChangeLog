@@ -2,7 +2,7 @@ Version 0.9
 Rewrite code, make plugin-based structure
 Add MSN & Jabber protocols
 Add metacontact support
-ICQ: Add typing notofocation
+ICQ: Add typing notification
 ICQ: Add support users picture
 ICQ: Add check invisible
 Add Miranda emoticons support
