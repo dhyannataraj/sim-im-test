@@ -23,6 +23,7 @@
 #include <qstringlist.h>
 #include <qtimer.h>
 #include <qdir.h>
+#include <qsocketnotifier.h>
 
 #ifdef WIN32
 
@@ -186,6 +187,10 @@ SerialPort::~SerialPort()
 void SerialPort::close()
 {
     d->close();
+}
+
+void SerialPort::readReady(int)
+{
 }
 
 bool SerialPort::open(const char *device, int baudrate, bool bXonXoff, int DTRtime)
@@ -365,6 +370,10 @@ bool SerialPort::event(QEvent *e)
     return true;
 }
 
+void SerialPort::readTimeout()
+{
+}
+
 QStringList SerialPort::devices()
 {
     QStringList res;
@@ -384,18 +393,38 @@ QStringList SerialPort::devices()
 
 #else
 
+enum PortState
+{
+	None,
+	Setup
+};
+
 class SerialPortPrivate
 {
 public:
-    SerialPortPrivate();
+    SerialPortPrivate(SerialPort*);
     ~SerialPortPrivate();
     void close();
+	QTimer			*m_timer;
+	QTimer			*m_readTimer;
+	QSocketNotifier	*m_notify;
     int fd;
+	int m_time;
+	int m_timeout;
+	int m_baudrate;
+	bool m_bXonXoff;
+	Buffer m_buf;
+	PortState m_state;
 };
 
-SerialPortPrivate::SerialPortPrivate()
+SerialPortPrivate::SerialPortPrivate(SerialPort *port)
 {
     fd = -1;
+	m_timer     = new QTimer(port);
+	m_readTimer = new QTimer(port);
+	m_timeout   = 0;
+	m_notify = NULL;
+	m_state  = None;
 }
 
 SerialPortPrivate::~SerialPortPrivate()
@@ -405,6 +434,10 @@ SerialPortPrivate::~SerialPortPrivate()
 
 void SerialPortPrivate::close()
 {
+	if (m_notify){
+		delete m_notify;
+		m_notify = NULL;
+	}
     if (fd == -1)
         return;
     ::close(fd);
@@ -415,6 +448,8 @@ SerialPort::SerialPort(QObject *parent)
         : QObject(parent)
 {
     d = new SerialPortPrivate;
+	connect(d->m_timer, SIGNAL(timeout()), this, SLOT(timeout()));
+	connect(d->m_readTimer, SIGNAL(timeout()), this, SLOT(readTimeout()));
 }
 
 SerialPort::~SerialPort()
@@ -424,28 +459,147 @@ SerialPort::~SerialPort()
 
 bool SerialPort::open(const char *device, int baudrate, bool bXonXoff, int DTRtime)
 {
-    return false;
+	close();
+	string fname = "/dev/";
+	fname += device;
+	d->m_time = DTRtime;
+	d->m_baudrate = baudrate;
+	d->m_bXonXoff = bXonXoff;
+	d->fd = ::open(fname.c_str(), O_RDWR | O_NOCTTY | O_NONBLOCK);
+	if (d->fd == -1){
+		log(L_WARN, "Can't open %s: %s", fname.c_str(), strerror(errno));
+		return false;
+	}
+	int fdFlags;
+	if ((fdFlags = fcntl(d->fd, F_GETFL)) == -1){
+		log(L_WARN, "Can't get flags %s: %s", fname.c_str(), strerror(errno));
+		close();
+		return false;
+	}
+	fdFlags &= ~O_NONBLOCK;
+	if (fcntl(d->fd, F_SETFL, fdFlags) == -1){
+		log(L_WARN, "Can't set flags %s: %s", fname.c_str(), strerror(errno));
+		close();
+		return false;
+	}
+    int mctl = TIOCM_DTR;
+    if (ioctl(d->fd, TIOCMBIC, &mctl) < 0){
+		log(L_WARN, "Clear бей failed %s: %s", fname.c_str(), strerror(errno));
+		close();
+		return false;
+	}
+    d->m_timer->start(d->m_time, true);
+    return true;
+}
+
+void SerialPort::readReady(int)
+{
+	d->m_readTimer->stop();	
+	char c;
+	int res = read(d->fd, &c, 1);
+	if (res <= 0){
+		log(L_DEBUG, "Read serial error: %s", strerror(errno));
+		close();
+		emit error();
+		return;
+	}
+	d->m_readTimer->start(d->m_timeout, true);
+	d->m_buff.pack(&c, 1);
+    if (c == '\n')
+                        emit read_ready();
 }
 
 void SerialPort::close()
 {
+	d->close();
 }
 
 void SerialPort::writeLine(const char *data, unsigned timeRead)
 {
+	d->m_readTimer->stop();	
+	int res = write(d->fd, data, strlen(data));
+	if (res < 0){
+		log(L_DEBUG, "Write serial error: %s", strerror(errno));
+		close();
+		emit error();
+		return;
+	}
+	d->m_timeout = timeRead;
+	d->m_readTimer->start(d->m_timeout, true);
 }
 
 void SerialPort::setTimeout(unsigned timeRead)
 {
+	d->m_readTimer->stop();	
+	d->m_timeout = timeRead;
+	d->m_readTimer->start(d->m_timeout, true);
 }
 
 string SerialPort::readLine()
 {
-    return "";
+    string res;
+    if (d->fd == -1)
+        return res;
+    if (d->m_buff.scan("\n", res)){
+        if (d->m_buff.readPos() == d->m_buff.writePos())
+            d->m_buff.init(0);
+    }
+    return res;
+}
+
+void SerialPort::readTimeout()
+{
+	close();
+	emit error();
 }
 
 void SerialPort::timeout()
 {
+    if (d->m_state == Setup){
+	    tcflush(d->fd, TCIFLUSH);
+        d->m_state = None;
+		d->m_notify = new QSocketNotifier(d->fd, QSocketNotifier::Read, this);
+		connect(d->m_notify, SIGNAL(activated(int)), this, SLOT(readReady(int)));
+        emit write_ready();
+        return;
+    }
+    if (ioctl(d->fd, TIOCMBIS, &mctl) < 0){
+		log(L_WARN, "setting DTR failed: %s", strerror(errno));
+		close();
+		return;
+	}
+  
+	struct termios t;
+    if (tcgetattr(d->fd, &t) < 0){
+		log(L_WARN, "Getattr failed: %s", strerror(errno));
+		close();
+		return;
+	}
+    cfsetispeed(&t, d->m_baudrate);
+    cfsetospeed(&t, d->m_baudrate);
+
+    t.c_iflag |= IGNPAR | (d->m_bXonXoff ? IXON | IXOFF : 0);
+    t.c_iflag &= ~(INPCK | ISTRIP | IMAXBEL |
+                   (d->m_bXonXoff ? 0 : IXON |  IXOFF)
+                   | IXANY | IGNCR | ICRNL | IMAXBEL | INLCR | IGNBRK);
+    t.c_oflag &= ~(OPOST);
+    t.c_cflag &= ~(CSIZE | CSTOPB | PARENB | PARODD |
+                  (d->m_bXonXoff ? CRTSCTS : 0 ));
+    t.c_cflag |= CS8 | CREAD | HUPCL | (d->m_bXonXoff ? 0 : CRTSCTS) | CLOCAL;
+    t.c_lflag &= ~(ECHO | ECHOE | ECHOPRT | ECHOK | ECHOKE | ECHONL |
+                   ECHOCTL | ISIG | IEXTEN | TOSTOP | FLUSHO | ICANON);
+    t.c_lflag |= NOFLSH;
+    t.c_cc[VMIN] = 1;
+    t.c_cc[VTIME] = 0;
+    t.c_cc[VSUSP] = 0;
+
+    if(tcsetattr (_fd, TCSANOW, &t) < 0){
+		log(L_WARN, "Setattr failed: %s", strerror(errno));
+		close();
+		return;
+	}
+	d->m_state = Setup;
+    d->m_timer->start(d->m_time, true);
 }
 
 bool SerialPort::event(QEvent *e)

@@ -50,6 +50,7 @@ Name: "fr"; MessagesFile: "French.isl"
 Name: "po"; MessagesFile: "Polish.isl"
 Name: "sk"; MessagesFile: "Slovak.isl"
 Name: "uk"; MessagesFile: "Ukrainian.isl"
+Name: "el"; MessagesFile: "Greek.isl"
 
 [Files]
 Source: "..\Release\sim.exe"; DestDir: "{app}"; Flags: ignoreversion
@@ -123,6 +124,7 @@ Source: "..\Release\po\bg.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\ca.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\cs.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\de.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\el.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\es.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\fr.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\he.qm"; DestDir: "{app}\po"; Flags: ignoreversion
