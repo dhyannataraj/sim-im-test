@@ -20,6 +20,7 @@
 #include "themes.h"
 #include "icons.h"
 #include "transparent.h"
+#include "log.h"
 
 #include <qlistbox.h>
 #include <qlabel.h>
@@ -147,6 +148,12 @@ void ThemeSetup::apply(ICQUser*)
         }
         pMain->changeIcons(0);
     }
+    if ((chkDock->isChecked() != pMain->UseDock) || (chkWM->isChecked() != pMain->WMDock)){
+        pMain->UseDock = chkDock->isChecked();
+        pMain->WMDock = chkWM->isChecked();
+        pMain->setDock();
+    }
+
     if (!TransparentTop::bCanTransparent) return;
 #ifdef WIN32
     pMain->TransparentIfInactive = chkInactive->isChecked();
@@ -168,11 +175,6 @@ void ThemeSetup::apply(ICQUser*)
     }
     if (bChange) pMain->changeWm();
 #endif
-    if ((chkDock->isChecked() != pMain->UseDock) || (chkWM->isChecked() != pMain->WMDock)){
-        pMain->UseDock = chkDock->isChecked();
-        pMain->WMDock = chkWM->isChecked();
-        pMain->setDock();
-    }
 }
 
 

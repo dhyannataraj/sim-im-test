@@ -63,11 +63,6 @@ QString EditFile::text()
 
 void EditFile::showFiles()
 {
-    QTimer::singleShot(10, this, SLOT(realShowFiles()));
-}
-
-void EditFile::realShowFiles()
-{
     QString s = edtFile->text();
 #ifdef WIN32
     s.replace(QRegExp("\\\\"), "/");

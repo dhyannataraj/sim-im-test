@@ -47,12 +47,12 @@ static const char SPLASH_CONF[] = "splash.conf";
 
 cfgParam Splash_Params[] =
     {
-        { "Show", offsetof(Splash, Show), PARAM_BOOL, (unsigned)true },
-        { "Picture", offsetof(Splash, Picture), PARAM_STRING, (unsigned)"pict/splash.png" },
-        { "UseArts", offsetof(Splash, UseArts), PARAM_BOOL, (unsigned)true },
-        { "SoundPlayer", offsetof(Splash, SoundPlayer), PARAM_STRING, 0 },
-        { "StartupSound", offsetof(Splash, StartupSound), PARAM_STRING, (unsigned)"startup.wav" },
-        { "SoundDisable", offsetof(Splash, SoundDisable), PARAM_BOOL, 0 },
+        { "Show", OFFSET_OF(Splash, Show), PARAM_BOOL, (unsigned)true },
+        { "Picture", OFFSET_OF(Splash, Picture), PARAM_STRING, (unsigned)"pict/splash.png" },
+        { "UseArts", OFFSET_OF(Splash, UseArts), PARAM_BOOL, (unsigned)true },
+        { "SoundPlayer", OFFSET_OF(Splash, SoundPlayer), PARAM_STRING, 0 },
+        { "StartupSound", OFFSET_OF(Splash, StartupSound), PARAM_STRING, (unsigned)"startup.wav" },
+        { "SoundDisable", OFFSET_OF(Splash, SoundDisable), PARAM_BOOL, 0 },
         { "", 0, 0, 0 }
     };
 

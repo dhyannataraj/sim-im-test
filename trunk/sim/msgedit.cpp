@@ -295,7 +295,7 @@ MsgEdit::~MsgEdit()
 
 cfgParam MsgEdit_Params[] =
     {
-        { "Uin", offsetof(MsgEdit, Uin), PARAM_ULONG, 0 },
+        { "Uin", OFFSET_OF(MsgEdit, Uin), PARAM_ULONG, 0 },
         { "", 0, 0, 0 }
     };
 
@@ -605,7 +605,7 @@ void MsgEdit::processEvent(ICQEvent *e)
                     h.addMessage(message());
                 }
                 if (!msgTail.isEmpty()){
-                    if (msgView){
+                    if (msgView && message()->Id){
                         msgView->addMessage(message(), false, true);
                         msgView->setMessage(Uin, message()->Id);
                     }
@@ -625,7 +625,7 @@ void MsgEdit::processEvent(ICQEvent *e)
                     close();
                     return;
                 }
-                if (msgView){
+                if (msgView && message()->Id){
                     msgView->addMessage(message(), false, true);
                     msgView->setMessage(Uin, message()->Id);
                 }
@@ -1143,7 +1143,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
         repaint();
         return;
     }
-    if (msgView)
+    if (msgView && msg->Id)
         msgView->setMessage(Uin, msg->Id);
     if (msg->Received){
         if (bMark) pClient->markAsRead(msg);

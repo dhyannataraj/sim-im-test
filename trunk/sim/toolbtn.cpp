@@ -87,7 +87,6 @@ void CToolButton::btnClicked()
 {
     if (popup == NULL) return;
     QPoint pos = popupPos(popup);
-    popup->resize(popup->sizeHint());
     popup->popup(pos);
 }
 
@@ -102,10 +101,11 @@ QPoint CToolButton::popupPos(QWidget *p)
     }
     pos = mapToGlobal(pos);
     QWidget *desktop = qApp->desktop();
-    if (pos.x() + p->width() > desktop->width())
-        pos.setX(desktop->width() - p->width());
-    if (pos.y() + p->height() > desktop->height())
-        pos.setY(pos.y() - height() - p->height());
+    QSize s = p->sizeHint();
+    if (pos.x() + s.width() > desktop->width())
+        pos.setX(desktop->width() - s.width());
+    if (pos.y() + s.height() > desktop->height())
+        pos.setY(pos.y() - height() - s.height());
     return pos;
 }
 

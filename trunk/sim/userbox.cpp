@@ -76,15 +76,15 @@ UserTab::UserTab(MsgEdit *wnd, QTabBar *bar, int index)
 
 static cfgParam UserBox_Params[] =
     {
-        { "Group", offsetof(UserBox, GrpId), PARAM_ULONG, 0 },
-        { "CurrentUser", offsetof(UserBox, CurrentUser), PARAM_ULONG, 0 },
-        { "Left", offsetof(UserBox, mLeft), PARAM_SHORT, 0 },
-        { "Top", offsetof(UserBox, mTop), PARAM_SHORT, 0 },
-        { "Width", offsetof(UserBox, mWidth), PARAM_SHORT, 0 },
-        { "Height", offsetof(UserBox, mHeight), PARAM_SHORT, 0 },
-        { "ToolbarDock", offsetof(UserBox, ToolbarDock), PARAM_STRING, (unsigned)("Top") },
-        { "ToolbarOffset", offsetof(UserBox, ToolbarOffset), PARAM_SHORT, 0 },
-        { "ToolbarY", offsetof(UserBox, ToolbarY), PARAM_SHORT, 0 },
+        { "Group", OFFSET_OF(UserBox, GrpId), PARAM_ULONG, 0 },
+        { "CurrentUser", OFFSET_OF(UserBox, CurrentUser), PARAM_ULONG, 0 },
+        { "Left", OFFSET_OF(UserBox, mLeft), PARAM_SHORT, 0 },
+        { "Top", OFFSET_OF(UserBox, mTop), PARAM_SHORT, 0 },
+        { "Width", OFFSET_OF(UserBox, mWidth), PARAM_SHORT, 0 },
+        { "Height", OFFSET_OF(UserBox, mHeight), PARAM_SHORT, 0 },
+        { "ToolbarDock", OFFSET_OF(UserBox, ToolbarDock), PARAM_STRING, (unsigned)("Top") },
+        { "ToolbarOffset", OFFSET_OF(UserBox, ToolbarOffset), PARAM_SHORT, 0 },
+        { "ToolbarY", OFFSET_OF(UserBox, ToolbarY), PARAM_SHORT, 0 },
         { "", 0, 0, 0 }
     };
 

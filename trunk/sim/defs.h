@@ -86,3 +86,9 @@ protected:
 
 #endif
 #endif
+
+#define OFFSET_OF(type,field)                                                 \
+            (reinterpret_cast <size_t>                                        \
+                (reinterpret_cast <char *>                                    \
+                    (&(reinterpret_cast <type *> (0))->field)))
+

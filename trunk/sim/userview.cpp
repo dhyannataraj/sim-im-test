@@ -1342,9 +1342,9 @@ void UserView::maybeTip ( const QPoint &p )
 
 cfgParam UserFloat_Params[] =
     {
-        { "Uin", offsetof(UserFloat, Uin), PARAM_ULONG, 0 },
-        { "Left", offsetof(UserFloat, Left), PARAM_SHORT, 0 },
-        { "Top", offsetof(UserFloat, Top), PARAM_SHORT, 0 },
+        { "Uin", OFFSET_OF(UserFloat, Uin), PARAM_ULONG, 0 },
+        { "Left", OFFSET_OF(UserFloat, Left), PARAM_SHORT, 0 },
+        { "Top", OFFSET_OF(UserFloat, Top), PARAM_SHORT, 0 },
         { "", 0, 0, 0 }
     };
 
