@@ -31,7 +31,6 @@
 
 #include <stdio.h>
 #include <qtimer.h>
-#include <openssl/md5.h>
 
 MSNPacket::MSNPacket(MSNClient *client, const char *cmd)
 {
@@ -286,13 +285,10 @@ QryPacket::QryPacket(MSNClient *client, const char *qry)
     addArg("32");
     m_line += "\r\n";
     char qry_add[] = "VT6PX?UQTM4WM%YR";
-    MD5_CTX c;
-    unsigned char md[MD5_DIGEST_LENGTH];
-    MD5_Init(&c);
-    MD5_Update(&c, qry, (unsigned long)strlen(qry));
-    MD5_Update(&c, qry_add, (unsigned long)strlen(qry_add));
-    MD5_Final(md, &c);
-    for (unsigned i = 0; i < MD5_DIGEST_LENGTH; i++){
+    string md = qry;
+    md += qry_add;
+    md = md5(md.c_str());
+    for (unsigned i = 0; i < md.length(); i++){
         char b[3];
         sprintf(b, "%02x",md[i]);
         m_line += b;

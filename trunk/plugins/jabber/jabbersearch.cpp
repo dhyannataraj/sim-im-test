@@ -420,14 +420,10 @@ QString JabberSearch::condition(QWidget *w)
     QObjectListIt it2( *l );
     while ((obj = it2.current()) != 0 ){
         QCheckBox *box = static_cast<QCheckBox*>(obj);
-        if (!box->isChecked()){
-            ++it2;
-            continue;
-        }
         if (!res.isEmpty())
             res += ";";
         res += box->name();
-        res += "=1";
+        res += box->isChecked() ? "=1" : "=0";
         ++it2;
     }
     delete l;

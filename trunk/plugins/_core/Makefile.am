@@ -81,16 +81,14 @@ _core_la_SOURCES = \
  filetransfer.cpp \
  filetransferbase.ui \
  declinedlg.cpp \
- declinedlgbase.ui \
- xsl.cpp \
- xsl.h
+ declinedlgbase.ui 
 
 SUBDIRS=pict styles jisp smiles icqlite
 
-INCLUDES=-I../../sim/api -I../../sim/ui $(all_includes)
+INCLUDES=-I../../sim $(all_includes)
 
 _core_la_METASOURCES = AUTO
-_core_la_LIBADD = ../../sim/api/libsimapi.la $(LIBUI) $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(EXTRA_LIBS) $(LIB_XSLT) 
+_core_la_LIBADD = ../../sim/libsim.la  $(LIBUI) $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(EXTRA_LIBS)  
 _core_la_LDFLAGS = -module -no-undefined -avoid-version $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 install-data-hook:

@@ -58,10 +58,10 @@ icq_la_SOURCES = \
 
 SUBDIRS = sounds
 
-INCLUDES=-I../../sim/api -I../../sim/ui -I../_core $(all_includes)
+INCLUDES=-I../../sim -I../_core $(all_includes)
 
 icq_la_METASOURCES = AUTO
-icq_la_LIBADD = ../../sim/api/libsimapi.la $(LIBUI) $(LIB_QT) $(LIB_KDECORE) $(LIBSSL) $(EXTRA_LIBS)
+icq_la_LIBADD = ../../sim/libsim.la  $(LIBUI) $(LIB_QT) $(LIB_KDECORE) $(LIBSSL) $(EXTRA_LIBS)
 icq_la_LDFLAGS = -module -no-undefined -avoid-version $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 install-data-hook:

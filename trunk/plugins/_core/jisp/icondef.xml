@@ -312,7 +312,7 @@
   <icon name="Jabber">
 	<object mime="image/png">jabber.png</object>
   </icon>
-  <icon name="register">
+  <icon name="reg">
 	<object mime="image/png">register.png</object>
   </icon>
   <icon name="connect" kicon="connect_established">

@@ -88,6 +88,8 @@ protected slots:
     void showConfig();
     void search();
     void textChanged(const QString&);
+    void configFinished();
+    void regFinished();
 protected:
     void *processEvent(Event*);
     void setNavigation();

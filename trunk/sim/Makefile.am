@@ -1,9 +1,51 @@
 bin_PROGRAMS = sim 
+lib_LTLIBRARIES = libsim.la
 
-SUBDIRS=api ui png
+SUBDIRS=png qt3
 
-sim_SOURCES = sim.cpp 
-sim_LDADD   = $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(EXTRA_LIBS) api/libsimapi.la
+sim_SOURCES = sim.cpp
+
+libsim_la_SOURCES = \
+ aboutdata.cpp \
+ ballonmsg.cpp \
+ buffer.cpp \
+ cfg.cpp \
+ cmddef.cpp \
+ contacts.cpp \
+ country.cpp \
+ datepicker.cpp \
+ editfile.cpp \
+ exec.cpp \
+ fetch.cpp \
+ fontedit.cpp \
+ icons.cpp \
+ intedit.cpp \
+ linklabel.cpp \
+ listview.cpp \
+ log.cpp \
+ message.cpp \
+ plugins.cpp \
+ preview.cpp \
+ qchildwidget.cpp \
+ qcolorbutton.cpp \
+ qkeybutton.cpp \
+ qzip.cpp \
+ sax.cpp \
+ simapi.cpp \
+ socket.cpp \
+ sockfactory.cpp \
+ sslclient.cpp \
+ textshow.cpp \
+ toolbtn.cpp \
+ translit.cpp \
+ unquot.cpp \
+ xsl.cpp \
+ ltdl.c \
+ unzip.c \
+ html.ll
+
+sim_LDADD = libsim.la
+libsim_la_LIBADD   = $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(EXTRA_LIBS) $(LIB_XML2) $(LIB_XSLT) $(LIBSSL)
 
 EXTRA_DIST = \
  sim.desktop \
@@ -25,5 +67,5 @@ INCLUDES=-Iapi $(all_includes)
 METASOURCES = AUTO
 
 # the library search path. 
-sim_LDFLAGS = $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
+sim_LDFLAGS = $(QT_LDFLAGS) $(KDE_RPATH) $(SSL_LDFLAGS) $(all_libraries)
 

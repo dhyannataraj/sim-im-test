@@ -181,7 +181,7 @@ class RTF2HTML
     friend class Level;
 
 public:
-    RTF2HTML() : rtf_ptr(NULL), bExplicitParagraph(false), cur_level(this) {}
+    RTF2HTML();
     QString Parse(const char *rtf, const char *encoding);
 
 // Paragraph-specific functions:
@@ -240,6 +240,13 @@ protected:
     Level cur_level;
     stack<Level> levels;
 };
+
+RTF2HTML::RTF2HTML()
+    : cur_level(this)
+{
+    rtf_ptr = NULL;
+    bExplicitParagraph = false;
+}
 
 OutTag* RTF2HTML::getTopOutTag(TagEnum tagType)
 {

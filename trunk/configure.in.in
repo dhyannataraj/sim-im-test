@@ -16,11 +16,11 @@ fi
 AM_PROG_LEX
 AM_CONDITIONAL(QT2, test "$kde_qtver" = "2")
 if test "$kde_qtver" = "2" ; then
- LIBUIQT="../../sim/ui/qt3/libsimuiqt.la"
- LIBUI="../../sim/ui/libsimui.la ../../sim/ui/qt3/libsimuiqt.la"
+ LIBUIQT="../../sim/qt3/libsimuiqt.la"
+ LIBUI="../../sim/qt3/libsimuiqt.la"
 else
  LIBUIQT=""
- LIBUI="../../sim/ui/libsimui.la"
+ LIBUI=""
 fi
 AC_SUBST(LIBUIQT)
 AC_SUBST(LIBUI)

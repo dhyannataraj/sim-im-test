@@ -9,10 +9,10 @@ action_la_SOURCES = \
  additem.cpp \
  additembase.ui
 
-INCLUDES=-I../../sim/api -I../../sim/ui -I../_core $(all_includes)
+INCLUDES=-I../../sim -I../_core $(all_includes)
 
 action_la_METASOURCES = AUTO
-action_la_LIBADD = ../../sim/api/libsimapi.la $(LIBUI) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(LIB_QT) $(EXTRA_LIBS)
+action_la_LIBADD = ../../sim/libsim.la  $(LIBUI) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(LIB_QT) $(EXTRA_LIBS)
 action_la_LDFLAGS = -module -no-undefined -avoid-version $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 install-data-hook:

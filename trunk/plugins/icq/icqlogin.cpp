@@ -22,12 +22,6 @@
 
 #include <stdio.h>
 
-#ifdef USE_OPENSSL
-#include <openssl/md5.h>
-#else
-#include "md5.h"
-#endif
-
 const unsigned short ICQ_SNACxLOGIN_ERROR				= 0x0001;
 const unsigned short ICQ_SNACxLOGIN_MD5xLOGIN			= 0x0002;
 const unsigned short ICQ_SNACxLOGIN_LOGINxREPLY			= 0x0003;
@@ -87,17 +81,11 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
             m_socket->readBuffer.unpackStr(md5_key);
             snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_MD5xLOGIN, false, false);
             m_socket->writeBuffer.tlv(0x0001, data.owner.Screen.ptr);
-            MD5_CTX c;
-            MD5_Init(&c);
-            unsigned char md[MD5_DIGEST_LENGTH];
-            MD5_Update(&c, md5_key.c_str(), md5_key.length());
-            string pswd = getContacts()->fromUnicode(NULL, getPassword());
-            MD5_Update(&c, pswd.c_str(), pswd.length());
-            pswd = "AOL Instant Messenger (SM)";
-            MD5_Update(&c, pswd.c_str(), pswd.length());
-            MD5_Final(md, &c);
-
-            m_socket->writeBuffer.tlv(0x0025, (char*)&md, sizeof(md));
+            string md = md5_key;
+            md += getContacts()->fromUnicode(NULL, getPassword());
+            md += "AOL Instant Messenger (SM)";
+            md = md5(md.c_str());
+            m_socket->writeBuffer.tlv(0x0025, md.c_str(), md.length());
             m_socket->writeBuffer.tlv(0x0003, "AOL Instant Messenger, version 5.1.3036/WIN32");
             m_socket->writeBuffer.tlv(0x0016, (unsigned short)0x0109);
             m_socket->writeBuffer.tlv(0x0017, (unsigned short)0x0005);

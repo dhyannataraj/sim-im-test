@@ -54,17 +54,17 @@ NewProtocol::NewProtocol(QWidget *parent)
         if (info == NULL)
             break;
         if (info->info == NULL){
-            Event e(EventLoadPlugin, info->name);
+            Event e(EventLoadPlugin, (char*)info->name.c_str());
             e.process();
             if (info->info && !(info->info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT))){
-                Event e(EventUnloadPlugin, info->name);
+                Event e(EventUnloadPlugin, (char*)info->name.c_str());
                 e.process();
             }
         }
         if ((info->info == NULL) || !(info->info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT)))
             continue;
         info->bDisabled = false;
-        Event eApply(EventApplyPlugin, info->name);
+        Event eApply(EventApplyPlugin, (char*)info->name.c_str());
         eApply.process();
     }
     Protocol *protocol;
@@ -111,9 +111,9 @@ NewProtocol::~NewProtocol()
         if (i < getContacts()->nClients())
             continue;
         info->bDisabled = true;
-        Event eApply(EventApplyPlugin, info->name);
+        Event eApply(EventApplyPlugin, (char*)info->name.c_str());
         eApply.process();
-        Event eUnload(EventUnloadPlugin, info->name);
+        Event eUnload(EventUnloadPlugin, (char*)info->name.c_str());
         eUnload.process();
     }
 }

@@ -19,7 +19,6 @@
 
 #ifdef USE_OPENSSL
 
-#include <openssl/ssl.h>
 #include "jabber_ssl.h"
 
 JabberSSL::JabberSSL(Socket *s)
@@ -29,13 +28,7 @@ JabberSSL::JabberSSL(Socket *s)
 
 bool JabberSSL::initSSL()
 {
-    mpCTX = SSL_CTX_new(TLSv1_method());
-    if (mpCTX == NULL)
-        return false;
-    mpSSL = SSL_new(pCTX);
-    if(!mpSSL)
-        return false;
-    return true;
+    return initTLS1(false);
 }
 
 #endif

@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMAPI_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MD /W4 /O1 /I "$(QTDIR)\include" /I "$(LIBXML_DIR)\include" /I "$(OPENSSL_DIR)\include" /I "sim" /I "sim\api\win32" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMAPI_EXPORTS" /D "QT_DLL" /D "UNICODE" /D "USE_OPENSSL" /D LTDL_SHLIB_EXT=\".dll\" /D LTDL_OBJDIR=\"\" /D "HAVE_STDIO_H" /D "HAVE_STRING_H" /D "HAVE_MALLOC_H" /D VERSION=\"0.9.4\" /D PACKAGE=\"SIM\" /YX /FD /c
+# ADD CPP /nologo /MD /W4 /O1 /I "$(QTDIR)\include" /I "sim" /I "sim" /I "sim\api\win32" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMAPI_EXPORTS" /D "QT_DLL" /D "UNICODE" /D "USE_OPENSSL" /D LTDL_SHLIB_EXT=\".dll\" /D LTDL_OBJDIR=\"\" /D "HAVE_STDIO_H" /D "HAVE_STRING_H" /D "HAVE_MALLOC_H" /D VERSION=\"0.9.4\" /D PACKAGE=\"SIM\" /YX /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "NDEBUG"
@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 $(QTDIR)\lib\qtmain.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib $(QTDIR)\lib\qt-mt230nc.lib $(OPENSSL_DIR)\lib\libeay32.lib $(OPENSSL_DIR)\lib\ssleay32.lib sim\api\win32\libz.a $(LIBXML_DIR)\lib\libxml2.lib /nologo /dll /machine:I386
+# ADD LINK32 $(QTDIR)\lib\qtmain.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib $(QTDIR)\lib\qt-mt230nc.lib  $(OPENSSL_DIR)\lib\ssleay32.lib sim\win32\libz.a sim\api\win32\libxml.lib sim\api\win32\libjpeg.lib sim\api\win32\libxslt.lib /nologo /dll /machine:I386
 
 !ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
 
@@ -69,7 +69,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMAPI_EXPORTS" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W4 /WX /Gm /ZI /Od /I "$(QTDIR)\include" /I "$(LIBXML_DIR)\include" /I "$(OPENSSL_DIR)\include" /I "sim" /I "sim\api\win32" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMAPI_EXPORTS" /D "QT_DLL" /D "UNICODE" /D "USE_OPENSSL" /D LTDL_SHLIB_EXT=\".dll\" /D LTDL_OBJDIR=\"\" /D "HAVE_STDIO_H" /D "HAVE_STRING_H" /D "HAVE_MALLOC_H" /D VERSION=\"0.9.4\" /D PACKAGE=\"SIM\" /FR /Fp"..\Debug/simapi.pch" /YX /Fo"..\Debug/" /Fd"..\Debug/" /FD /GZ /c
+# ADD CPP /nologo /MDd /W4 /WX /Gm /ZI /Od /I "$(QTDIR)\include" /I "sim" /I "sim" /I "sim\api\win32" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMAPI_EXPORTS" /D "QT_DLL" /D "UNICODE" /D "USE_OPENSSL" /D LTDL_SHLIB_EXT=\".dll\" /D LTDL_OBJDIR=\"\" /D "HAVE_STDIO_H" /D "HAVE_STRING_H" /D "HAVE_MALLOC_H" /D VERSION=\"0.9.4\" /D PACKAGE=\"SIM\" /FR /Fp"..\Debug/simapi.pch" /YX /Fo"..\Debug/" /Fd"..\Debug/" /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "_DEBUG"
@@ -79,7 +79,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib $(QTDIR)\lib\qt-mt230nc.lib $(OPENSSL_DIR)\lib\libeay32.lib $(OPENSSL_DIR)\lib\ssleay32.lib sim\api\win32\libz.a $(LIBXML_DIR)\lib\libxml2.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib $(QTDIR)\lib\qt-mt230nc.lib  $(OPENSSL_DIR)\lib\ssleay32.lib sim\win32\libz.a sim\api\win32\libjpeg.lib sim\api\win32\libxml.lib sim\api\win32\libxslt.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
 
 !ENDIF 
 
@@ -92,39 +92,55 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=.\sim\api\aboutdata.cpp
+SOURCE=.\sim\aboutdata.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\buffer.cpp
+SOURCE=.\sim\ballonmsg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\cfg.cpp
+SOURCE=.\sim\buffer.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\cmddef.cpp
+SOURCE=.\sim\cfg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\contacts.cpp
+SOURCE=.\sim\cmddef.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\country.cpp
+SOURCE=.\sim\contacts.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\exec.cpp
+SOURCE=.\sim\country.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\fetch.cpp
+SOURCE=.\sim\datepicker.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\html.cpp
+SOURCE=.\sim\editfile.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\exec.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\fetch.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\fontedit.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\html.cpp
 
 !IF  "$(CFG)" == "simapi - Win32 Release"
 
@@ -139,13 +155,13 @@ SOURCE=.\sim\api\html.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\html.ll
+SOURCE=.\sim\html.ll
 
 !IF  "$(CFG)" == "simapi - Win32 Release"
 
 # Begin Custom Build - Flex $(InputPath)
-InputDir=.\sim\api
-InputPath=.\sim\api\html.ll
+InputDir=.\sim
+InputPath=.\sim\html.ll
 InputName=html
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -156,8 +172,8 @@ InputName=html
 !ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
 
 # Begin Custom Build - Flex $(InputPath)
-InputDir=.\sim\api
-InputPath=.\sim\api\html.ll
+InputDir=.\sim
+InputPath=.\sim\html.ll
 InputName=html
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -170,29 +186,53 @@ InputName=html
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\icons.cpp
+SOURCE=.\sim\icons.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\log.cpp
+SOURCE=.\sim\intedit.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\ltdl.c
+SOURCE=.\sim\linklabel.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\listview.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\log.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ltdl.c
 # ADD CPP /W3
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\message.cpp
+SOURCE=.\sim\message.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\miniunz.c
+SOURCE=.\sim\miniunz.c
 # ADD CPP /W3
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\moc_exec.cpp
+SOURCE=.\sim\moc_ballonmsg.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\moc_datepicker.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\moc_editfile.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\moc_exec.cpp
 
 !IF  "$(CFG)" == "simapi - Win32 Release"
 
@@ -207,15 +247,55 @@ SOURCE=.\sim\api\moc_exec.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\moc_fetch.cpp
+SOURCE=.\sim\moc_fetch.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\moc_icons.cpp
+SOURCE=.\sim\moc_fontedit.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\moc_socket.cpp
+SOURCE=.\sim\moc_icons.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\moc_intedit.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\moc_linklabel.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\moc_listview.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\moc_qchildwidget.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\moc_qcolorbutton.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\moc_qkeybutton.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qt3\moc_qrichtext_p.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qt3\moc_qstylesheet.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qt3\moc_qtextedit.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\moc_socket.cpp
 
 !IF  "$(CFG)" == "simapi - Win32 Release"
 
@@ -228,7 +308,7 @@ SOURCE=.\sim\api\moc_socket.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\moc_sockfactory.cpp
+SOURCE=.\sim\moc_sockfactory.cpp
 
 !IF  "$(CFG)" == "simapi - Win32 Release"
 
@@ -243,19 +323,102 @@ SOURCE=.\sim\api\moc_sockfactory.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\plugins.cpp
+SOURCE=.\sim\moc_textshow.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\qzip.cpp
+SOURCE=.\sim\moc_toolbtn.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\sax.cpp
+SOURCE=.\sim\plugins.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\simapi.cpp
+SOURCE=.\sim\preview.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qchildwidget.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qcolorbutton.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qt3\qcomplextext.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qjpegio.cpp
+# ADD CPP /W1
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qkeybutton.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qt3\qkeysequence.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qt3\qregexp.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qt3\qrichtext.cpp
+
+!IF  "$(CFG)" == "simapi - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
+
+# ADD CPP /W3
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qt3\qrichtext_p.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qt3\qsimplerichtext.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qt3\qstylesheet.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qt3\qsyntaxhighlighter.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qt3\qtextedit.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qzip.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\sax.cpp
+
+!IF  "$(CFG)" == "simapi - Win32 Release"
+
+# ADD CPP /W3
+
+!ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\simapi.cpp
 
 !IF  "$(CFG)" == "simapi - Win32 Release"
 
@@ -268,27 +431,35 @@ SOURCE=.\sim\api\simapi.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\socket.cpp
+SOURCE=.\sim\socket.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\sockfactory.cpp
+SOURCE=.\sim\sockfactory.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\sslclient.cpp
+SOURCE=.\sim\sslclient.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\translit.cpp
+SOURCE=.\sim\textshow.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\unquot.cpp
+SOURCE=.\sim\toolbtn.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\unzip.c
+SOURCE=.\sim\translit.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\unquot.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\unzip.c
 
 !IF  "$(CFG)" == "simapi - Win32 Release"
 
@@ -299,32 +470,135 @@ SOURCE=.\sim\api\unzip.c
 !ENDIF 
 
 # End Source File
+# Begin Source File
+
+SOURCE=.\sim\xsl.cpp
+# End Source File
 # End Group
 # Begin Group "Header Files"
 
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=.\sim\api\aboutdata.h
+SOURCE=.\sim\aboutdata.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\buffer.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\api\cjk_variants.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\api\exec.h
+SOURCE=.\sim\ballonmsg.h
 
 !IF  "$(CFG)" == "simapi - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
 # Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\sim\api
-InputPath=.\sim\api\exec.h
+InputDir=.\sim
+InputPath=.\sim\ballonmsg.h
+InputName=ballonmsg
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim
+InputPath=.\sim\ballonmsg.h
+InputName=ballonmsg
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\buffer.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\cjk_variants.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\datepicker.h
+
+!IF  "$(CFG)" == "simapi - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim
+InputPath=.\sim\datepicker.h
+InputName=datepicker
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim
+InputPath=.\sim\datepicker.h
+InputName=datepicker
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\editfile.h
+
+!IF  "$(CFG)" == "simapi - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim
+InputPath=.\sim\editfile.h
+InputName=editfile
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim
+InputPath=.\sim\editfile.h
+InputName=editfile
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\exec.h
+
+!IF  "$(CFG)" == "simapi - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim
+InputPath=.\sim\exec.h
 InputName=exec
 
 "$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -336,8 +610,8 @@ InputName=exec
 
 # PROP Ignore_Default_Tool 1
 # Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\sim\api
-InputPath=.\sim\api\exec.h
+InputDir=.\sim
+InputPath=.\sim\exec.h
 InputName=exec
 
 "$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -350,14 +624,14 @@ InputName=exec
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\fetch.h
+SOURCE=.\sim\fetch.h
 
 !IF  "$(CFG)" == "simapi - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
 # Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\sim\api
-InputPath=.\sim\api\fetch.h
+InputDir=.\sim
+InputPath=.\sim\fetch.h
 InputName=fetch
 
 "$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -369,8 +643,8 @@ InputName=fetch
 
 # PROP Ignore_Default_Tool 1
 # Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\sim\api
-InputPath=.\sim\api\fetch.h
+InputDir=.\sim
+InputPath=.\sim\fetch.h
 InputName=fetch
 
 "$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -383,18 +657,51 @@ InputName=fetch
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\html.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\api\icons.h
+SOURCE=.\sim\fontedit.h
 
 !IF  "$(CFG)" == "simapi - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
 # Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\sim\api
-InputPath=.\sim\api\icons.h
+InputDir=.\sim
+InputPath=.\sim\fontedit.h
+InputName=fontedit
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim
+InputPath=.\sim\fontedit.h
+InputName=fontedit
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\html.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\icons.h
+
+!IF  "$(CFG)" == "simapi - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim
+InputPath=.\sim\icons.h
 InputName=icons
 
 "$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -406,8 +713,8 @@ InputName=icons
 
 # PROP Ignore_Default_Tool 1
 # Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\sim\api
-InputPath=.\sim\api\icons.h
+InputDir=.\sim
+InputPath=.\sim\icons.h
 InputName=icons
 
 "$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -420,34 +727,367 @@ InputName=icons
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\johab_hangul.h
+SOURCE=.\sim\intedit.h
+
+!IF  "$(CFG)" == "simapi - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim
+InputPath=.\sim\intedit.h
+InputName=intedit
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim
+InputPath=.\sim\intedit.h
+InputName=intedit
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\ltdl.h
+SOURCE=.\sim\johab_hangul.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\qzip.h
+SOURCE=.\sim\linklabel.h
+
+!IF  "$(CFG)" == "simapi - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim
+InputPath=.\sim\linklabel.h
+InputName=linklabel
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim
+InputPath=.\sim\linklabel.h
+InputName=linklabel
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\sax.h
+SOURCE=.\sim\listview.h
+
+!IF  "$(CFG)" == "simapi - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim
+InputPath=.\sim\listview.h
+InputName=listview
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim
+InputPath=.\sim\listview.h
+InputName=listview
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\simapi.h
+SOURCE=.\sim\ltdl.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\socket.h
+SOURCE=.\sim\preview.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qchildwidget.h
+
+!IF  "$(CFG)" == "simapi - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim
+InputPath=.\sim\qchildwidget.h
+InputName=qchildwidget
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim
+InputPath=.\sim\qchildwidget.h
+InputName=qchildwidget
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qt3\qcleanuphandler.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qcolorbutton.h
+
+!IF  "$(CFG)" == "simapi - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim
+InputPath=.\sim\qcolorbutton.h
+InputName=qcolorbutton
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim
+InputPath=.\sim\qcolorbutton.h
+InputName=qcolorbutton
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qt3\qcomplextext_p.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qjpegio.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qkeybutton.h
+
+!IF  "$(CFG)" == "simapi - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim
+InputPath=.\sim\qkeybutton.h
+InputName=qkeybutton
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim
+InputPath=.\sim\qkeybutton.h
+InputName=qkeybutton
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qt3\qkeysequence.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qt3\qregexp.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qt3\qrichtext_p.h
+
+!IF  "$(CFG)" == "simapi - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\qt3
+InputPath=.\sim\qt3\qrichtext_p.h
+InputName=qrichtext_p
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\qt3
+InputPath=.\sim\qt3\qrichtext_p.h
+InputName=qrichtext_p
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qt3\qsimplerichtext.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qt3\qstylesheet.h
+
+!IF  "$(CFG)" == "simapi - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\qt3
+InputPath=.\sim\qt3\qstylesheet.h
+InputName=qstylesheet
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\qt3
+InputPath=.\sim\qt3\qstylesheet.h
+InputName=qstylesheet
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qt3\qsyntaxhighlighter.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qt3\qt3stuff.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qt3\qtextedit.h
+
+!IF  "$(CFG)" == "simapi - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\qt3
+InputPath=.\sim\qt3\qtextedit.h
+InputName=qtextedit
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\qt3
+InputPath=.\sim\qt3\qtextedit.h
+InputName=qtextedit
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\qzip.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\sax.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\simapi.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\socket.h
 
 !IF  "$(CFG)" == "simapi - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
 # Begin Custom Build
-InputDir=.\sim\api
-InputPath=.\sim\api\socket.h
+InputDir=.\sim
+InputPath=.\sim\socket.h
 InputName=socket
 
 "$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -459,8 +1099,8 @@ InputName=socket
 
 # PROP Ignore_Default_Tool 1
 # Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\sim\api
-InputPath=.\sim\api\socket.h
+InputDir=.\sim
+InputPath=.\sim\socket.h
 InputName=socket
 
 "$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -473,14 +1113,14 @@ InputName=socket
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\sockfactory.h
+SOURCE=.\sim\sockfactory.h
 
 !IF  "$(CFG)" == "simapi - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
 # Begin Custom Build
-InputDir=.\sim\api
-InputPath=.\sim\api\sockfactory.h
+InputDir=.\sim
+InputPath=.\sim\sockfactory.h
 InputName=sockfactory
 
 "$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -492,8 +1132,8 @@ InputName=sockfactory
 
 # PROP Ignore_Default_Tool 1
 # Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\sim\api
-InputPath=.\sim\api\sockfactory.h
+InputDir=.\sim
+InputPath=.\sim\sockfactory.h
 InputName=sockfactory
 
 "$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -506,11 +1146,81 @@ InputName=sockfactory
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\stl.h
+SOURCE=.\sim\stl.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\api\translit.h
+SOURCE=.\sim\textshow.h
+
+!IF  "$(CFG)" == "simapi - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim
+InputPath=.\sim\textshow.h
+InputName=textshow
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim
+InputPath=.\sim\textshow.h
+InputName=textshow
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\toolbtn.h
+
+!IF  "$(CFG)" == "simapi - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim
+InputPath=.\sim\toolbtn.h
+InputName=toolbtn
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim
+InputPath=.\sim\toolbtn.h
+InputName=toolbtn
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\translit.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\xsl.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"

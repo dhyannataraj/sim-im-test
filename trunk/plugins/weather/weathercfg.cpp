@@ -86,7 +86,7 @@ bool WeatherCfg::done(unsigned, Buffer &data, const char*)
     m_id = "";
     m_data = "";
     reset();
-    if (!parse(data.data(), data.size()))
+    if (!parse(data.data(), data.size(), false))
         log(L_WARN, "XML parse error");
     btnSearch->setText(i18n("&Search"));
     QString oldText = cmbLocation->lineEdit()->text();

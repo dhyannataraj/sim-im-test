@@ -6,10 +6,10 @@ navigate_la_SOURCES = \
  navcfgbase.ui \
  parseurl.ll
 
-INCLUDES=-I../../sim/api -I../_core $(all_includes)
+INCLUDES=-I../../sim -I../_core $(all_includes)
 
 navigate_la_METASOURCES = AUTO
-navigate_la_LIBADD = ../../sim/api/libsimapi.la $(LIB_QT) $(LIB_KDECORE) $(EXTRA_LIBS)
+navigate_la_LIBADD = ../../sim/libsim.la  $(LIB_QT) $(LIB_KDECORE) $(EXTRA_LIBS)
 navigate_la_LDFLAGS = -module -no-undefined -avoid-version $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 install-data-hook:

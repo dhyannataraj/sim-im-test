@@ -23,12 +23,6 @@
 #include "html.h"
 #include "core.h"
 
-#ifdef USE_OPENSSL
-#include <openssl/md5.h>
-#else
-#include "md5.h"
-#endif
-
 #ifdef TM_IN_SYS_TIME
 #include <sys/time.h>
 #else
@@ -1296,15 +1290,11 @@ LiveJournalRequest::LiveJournalRequest(LiveJournalClient *client, const char *mo
     addParam("mode", mode);
     if (client->data.owner.User.ptr)
         addParam("user", client->data.owner.User.ptr);
-    MD5_CTX md5;
-    MD5_Init(&md5);
-    MD5_Update(&md5, client->getPassword().utf8(), strlen(client->getPassword().utf8()));
-    unsigned char pass[MD5_DIGEST_LENGTH];
-    MD5_Final(pass, &md5);
+    string pass = md5(client->getPassword().utf8());
     string hpass;
-    for (unsigned i = 0; i < MD5_DIGEST_LENGTH; i++){
+    for (unsigned i = 0; i < pass.length(); i++){
         char b[5];
-        sprintf(b, "%02x", pass[i]);
+        sprintf(b, "%02x", pass[i] & 0xFF);
         hpass += b;
     }
     addParam("hpassword", hpass.c_str());

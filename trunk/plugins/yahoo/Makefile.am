@@ -10,14 +10,14 @@ yahoo_la_SOURCES = \
  yahooinfobase.ui \
  yahoosearch.cpp \
  yahoosearchbase.ui \
- crypt.c \
+ crypt.cpp \
  yahootransformtables.c \
  yahoohttp.cpp
 
-INCLUDES=-I../../sim/api -I../../sim/ui -I../_core $(all_includes)
+INCLUDES=-I../../sim -I../_core $(all_includes)
 
 yahoo_la_METASOURCES = AUTO
-yahoo_la_LIBADD = ../../sim/api/libsimapi.la $(LIBUI) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(LIB_QT) $(LIBSSL) $(EXTRA_LIBS)
+yahoo_la_LIBADD = ../../sim/libsim.la  $(LIBUI) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(LIB_QT) $(EXTRA_LIBS)
 
 yahoo_la_LDFLAGS = -module -no-undefined -avoid-version $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 

@@ -192,7 +192,7 @@ bool WeatherPlugin::done(unsigned code, Buffer &data, const char*)
     m_bUv	= false;
     m_bCC	= false;
     reset();
-    if (!parse(data.data(), data.size())){
+    if (!parse(data.data(), data.size(), false)){
         log(L_WARN, "XML parse error");
         return false;
     }
@@ -236,7 +236,7 @@ bool WeatherPlugin::parseDateTime(const char *str, QDateTime &dt)
 {
     int h, m, D, M, Y;
     string daytime;
-    
+
     string s = str;
     /* MM/DD/YY/ hh:mm */
     M = atol(getToken(s, '/').c_str());
@@ -244,7 +244,7 @@ bool WeatherPlugin::parseDateTime(const char *str, QDateTime &dt)
     Y = atol(getToken(s, ' ').c_str());
     h = atol(getToken(s, ':').c_str());
     m = atol(getToken(s, ' ').c_str());
-    
+
     if (getToken(s, ' ') == "PM")
         h += 12;
     /* 12:20 PM is 00:20 and 12:30 AM is 12:20

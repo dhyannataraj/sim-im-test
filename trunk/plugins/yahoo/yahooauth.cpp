@@ -42,17 +42,16 @@
  ***************************************************************************/
 
 #include "yahooclient.h"
-
-#include <openssl/md5.h>
-#include <openssl/sha.h>
+#include "socket.h"
 
 #include <ctype.h>
 
 extern "C"
 {
-    char *yahoo_crypt(const char *key, const char *salt);
     int yahoo_Dispatch(int Salt, int Parameter);
 }
+
+char *yahoo_crypt(const char *key, const char *salt);
 
 /* This is the y64 alphabet... it's like base64, but has a . and a _ */
 char base64digits[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789._";
@@ -97,12 +96,6 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
     }
     string password = getPassword().ascii();
 
-    unsigned char      result[16];
-    MD5_CTX	           ctx;
-
-    SHA_CTX            ctx1;
-    SHA_CTX            ctx2;
-
     const char *alphabet1 = "FBZDWAGHrJTLMNOPpRSKUVEXYChImkwQ";
     const char *alphabet2 = "F0E1D2C3B4A59687abcdefghijklmnop";
 
@@ -112,7 +105,6 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
 
     char password_hash[25];
     char crypt_hash[25];
-    char *crypt_result = NULL;
     char pass_hash_xor1[64];
     char pass_hash_xor2[64];
     char crypt_hash_xor1[64];
@@ -120,8 +112,6 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
     char resp_6[100];
     char resp_96[100];
 
-    unsigned char digest1[20];
-    unsigned char digest2[20];
     unsigned char magic_key_char[4];
     const unsigned char *magic_ptr;
 
@@ -144,8 +134,6 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
     memset(&pass_hash_xor2, 0, 64);
     memset(&crypt_hash_xor1, 0, 64);
     memset(&crypt_hash_xor2, 0, 64);
-    memset(&digest1, 0, 20);
-    memset(&digest2, 0, 20);
     memset(&magic, 0, 64);
     memset(&resp_6, 0, 100);
     memset(&resp_96, 0, 100);
@@ -287,12 +275,8 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
         for(j = 0; j <= 5; j++)
         {
             md5test[6] = j;
-
-            MD5_Init(&ctx);
-            MD5_Update(&ctx, md5test, 7);
-            MD5_Final(result, &ctx);
-
-            if(!memcmp(&result, comparison_src+4, 16))
+            string result = md5((char*)md5test, 7);
+            if(!memcmp(result.c_str(), comparison_src+4, 16))
             {
                 magic_iterations = i;
                 magic_method = j;
@@ -312,16 +296,11 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
     }
 
     /* Get password and crypt hashes as per usual. */
-    MD5_Init(&ctx);
-    MD5_Update(&ctx, (unsigned char*)password.c_str(), password.length());
-    MD5_Final(result, &ctx);
-    to_y64((unsigned char*)password_hash, result, 16);
+    string result = md5(password.c_str());
+    to_y64((unsigned char*)password_hash, (unsigned char*)result.c_str(), 16);
 
-    MD5_Init(&ctx);
-    crypt_result = yahoo_crypt(password.c_str(), "$1$_2S43d5f$");
-    MD5_Update(&ctx, (unsigned char*)crypt_result, strlen(crypt_result));
-    MD5_Final(result, &ctx);
-    to_y64((unsigned char*)crypt_hash, result, 16);
+    result = md5(yahoo_crypt(password.c_str(), "$1$_2S43d5f$"));
+    to_y64((unsigned char*)crypt_hash, (unsigned char*)result.c_str(), 16);
 
     /* Our first authentication response is based off
      * of the password hash. */
@@ -340,25 +319,24 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
     if (cnt < 64)
         memset(&(pass_hash_xor2[cnt]), 0x5c, 64-cnt);
 
-    SHA1_Init(&ctx1);
-    SHA1_Init(&ctx2);
-
     /* The first context gets the password hash XORed
      * with 0x36 plus a magic value
      * which we previously extrapolated from our 
      * challenge. */
 
-    SHA1_Update(&ctx1, (unsigned char*)pass_hash_xor1, 64);
-    SHA1_Update(&ctx1, magic_key_char, 4);
-    SHA1_Final(digest1, &ctx1);
+    string ct1;
+    ct1.append(pass_hash_xor1, 64);
+    ct1.append((char*)magic_key_char, 4);
+    ct1 = sha1(ct1.c_str(), ct1.length());
 
     /* The second context gets the password hash XORed
      * with 0x5c plus the SHA-1 digest
      * of the first context. */
 
-    SHA1_Update(&ctx2, (unsigned char*)pass_hash_xor2, 64);
-    SHA1_Update(&ctx2, digest1, 20);
-    SHA1_Final(digest2, &ctx2);
+    string ct2;
+    ct2.append(pass_hash_xor2, 64);
+    ct2 += ct1;
+    ct2 = sha1(ct2.c_str(), ct2.length());
 
     /* Now that we have digest2, use it to fetch
      * characters from an alphabet to construct
@@ -375,9 +353,9 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
          *  together.
          */
 
-        val = digest2[x];
+        val = ct2[x];
         val <<= 8;
-        val += digest2[x+1];
+        val += ct2[x+1];
 
         lookup = (val >> 0x0b);
         lookup &= 0x1f;
@@ -412,8 +390,6 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
      * of the crypto hash. */
 
     cnt = 0;
-    memset(&digest1, 0, 20);
-    memset(&digest2, 0, 20);
 
     for (x = 0; x < (int)strlen(crypt_hash); x++)
         crypt_hash_xor1[cnt++] = crypt_hash[x] ^ 0x36;
@@ -429,25 +405,24 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
     if (cnt < 64)
         memset(&(crypt_hash_xor2[cnt]), 0x5c, 64-cnt);
 
-    SHA1_Init(&ctx1);
-    SHA1_Init(&ctx2);
-
     /* The first context gets the password hash XORed
      * with 0x36 plus a magic value
      * which we previously extrapolated from our 
      * challenge. */
 
-    SHA1_Update(&ctx1, (unsigned char*)crypt_hash_xor1, 64);
-    SHA1_Update(&ctx1, magic_key_char, 4);
-    SHA1_Final(digest1, &ctx1);
+    ct1 = "";
+    ct1.append(crypt_hash_xor1, 64);
+    ct1.append((char*)magic_key_char, 4);
+    ct1 = sha1(ct1.c_str(), ct1.length());
 
     /* The second context gets the password hash XORed
      * with 0x5c plus the SHA-1 digest
      * of the first context. */
 
-    SHA1_Update(&ctx2, (unsigned char*)crypt_hash_xor2, 64);
-    SHA1_Update(&ctx2, digest1, 20);
-    SHA1_Final(digest2, &ctx2);
+    ct2 = "";
+    ct2.append(crypt_hash_xor2, 64);
+    ct2 += ct1;
+    ct2 = sha1(ct2.c_str(), ct2.length());
 
     /* Now that we have digest2, use it to fetch
      * characters from an alphabet to construct
@@ -464,9 +439,9 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
         /* First two bytes of digest stuffed
          *  together. */
 
-        val = digest2[x];
+        val = ct2[x];
         val <<= 8;
-        val += digest2[x+1];
+        val += ct2[x+1];
 
         lookup = (val >> 0x0b);
         lookup &= 0x1f;
