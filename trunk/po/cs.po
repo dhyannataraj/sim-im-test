@@ -2,21 +2,21 @@
 # translation of cs.po to Čeština
 # translation of cs.po to czech
 # Copyright (C) 2002,2003 Free Software Foundation, Inc.
-# Pavel Rousar <rousarp@fel.cvut.cz>, 2002
-# Pavel Roušar <rousarp@fel.cvut.cz>, 2002
-# Pavel Rousar <p.rousar@sh.cvut.cz>, 2003
+# Pavel Rousar <rousarp@fel.cvut.cz>, 2002.
+# Pavel Roušar <rousarp@fel.cvut.cz>, 2002.
+# Pavel Rousar <p.rousar@sh.cvut.cz>, 2003.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "POT-Creation-Date: 2003-11-23 16:25+0300\n"
-"PO-Revision-Date: 2003-11-10 21:40+0100\n"
+"PO-Revision-Date: 2003-11-23 16:18+0100\n"
 "Last-Translator: Pavel Rousar <p.rousar@sh.cvut.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.1\n"
+"X-Generator: KBabel 1.2\n"
 
 #: sim/api/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
@@ -1892,9 +1892,8 @@ msgid "Developer"
 msgstr "Vývojář"
 
 #: xpstyle/xpstyle.cpp:53
-#, fuzzy
 msgid "Windows XP style"
-msgstr "Okno - přizpůsobit"
+msgstr "Styl Windows XP"
 
 #: plugins/icq/aimconfig.cpp:45
 msgid "Register new ScreenName"
@@ -1937,7 +1936,6 @@ msgid "N/A"
 msgstr "Nedostupný (N/A)"
 
 #: plugins/icq/icq.cpp:155 plugins/jabber/jabber.cpp:153
-#, fuzzy
 msgid "Do not Disturb"
 msgstr "Nevyrušovat (DND)"
 
@@ -2100,14 +2098,12 @@ msgid "Invalid SNAC header"
 msgstr "Chybná SNAC hlavička"
 
 #: plugins/icq/icqclient.cpp:693
-#, fuzzy
 msgid "Server rate limit exceeded"
-msgstr "Čítač zprávy byl přeplněn"
+msgstr "Limit serveru překročen"
 
 #: plugins/icq/icqclient.cpp:694
-#, fuzzy
 msgid "Client rate limit exceeded"
-msgstr "Čítač zprávy byl přeplněn"
+msgstr "Limit klienta byl překročen"
 
 #: plugins/icq/icqclient.cpp:695
 msgid "Recipient is not logged in"
@@ -3664,8 +3660,7 @@ msgstr "&Minulost"
 
 #: plugins/icq/icqsecurebase.cc:213
 msgid "My &authorization is required before users add me to Contact List"
-msgstr ""
-"Má &autorizace je vyžadována před přidáním uživatele do kontaktlistu"
+msgstr "Má &autorizace je vyžadována před přidáním uživatele do kontaktlistu"
 
 #: plugins/icq/icqsecurebase.cc:214
 msgid "Don't show my &IP-address"
@@ -3911,32 +3906,27 @@ msgstr "Domovský adresář"
 
 #: plugins/__homedir/homedir.cpp:48
 msgid "Plugin provides select directory for store config files"
-msgstr ""
-"Plugin umožňuje vybrat adresář pro uložení konfiguračních souborů"
+msgstr "Plugin umožňuje vybrat adresář pro uložení konfiguračních souborů"
 
 #: plugins/__homedir/homedir.cpp:91
 msgid "Set home directory"
 msgstr "Nastavit domovský adresář"
 
 #: plugins/styles/metal/metal.cpp:514
-#, fuzzy
 msgid "Metal style"
-msgstr "Standardní styl"
+msgstr "Metal styl"
 
 #: plugins/styles/wood/wood.cpp:1269
-#, fuzzy
 msgid "Norwegian Wood"
-msgstr "Norsky"
+msgstr "Norský les"
 
 #: plugins/styles/stylescfg.cpp:57
-#, fuzzy
 msgid "Fonts and colors"
-msgstr "Barva &popředí"
+msgstr "Fonty a barvy"
 
 #: plugins/_core/fontconfigbase.cpp:129 plugins/styles/fontconfigbase.cpp:159
-#, fuzzy
 msgid "Use &system fonts"
-msgstr "Po&užít systémová písma"
+msgstr "Po&užít systémové fonty"
 
 #: plugins/_core/fontconfigbase.cpp:130 plugins/styles/fontconfigbase.cpp:160
 msgid "Base font:"
@@ -3952,23 +3942,20 @@ msgid "Use system &colors"
 msgstr "Použít &systémové barvy"
 
 #: plugins/styles/fontconfigbase.cpp:163
-#, fuzzy
 msgid "Button color:"
-msgstr "Barva pozadí:"
+msgstr "Barva tlačitka:"
 
 #: plugins/osd/osdifacebase.cpp:194 plugins/styles/fontconfigbase.cpp:164
 msgid "Background color:"
 msgstr "Barva pozadí:"
 
 #: plugins/styles/styles.cpp:51
-#, fuzzy
 msgid "Styles"
-msgstr "&Styl"
+msgstr "Styly"
 
 #: plugins/styles/styles.cpp:52
-#, fuzzy
 msgid "Plugin provides styles"
-msgstr "Plugin poskytuje úvodní obrazovku"
+msgstr "Plugin poskytuje styly"
 
 #: plugins/__migrate/migrate.cpp:35
 msgid "Migrate"
@@ -4473,26 +4460,27 @@ msgstr "Zobrazit %1 zpráv na stránku"
 
 #: plugins/_core/historycfg.cpp:387
 msgid "Remove style '%1'?"
-msgstr ""
+msgstr "Odebrat styl '%1'?"
 
 #: plugins/_core/historycfg.cpp:559
 msgid "Hi! ;)"
-msgstr ""
+msgstr "Ahoj! ;)"
 
 #: plugins/_core/historycfg.cpp:565
 msgid "Hi!"
-msgstr ""
+msgstr "Ahoj!"
 
 #: plugins/_core/historycfg.cpp:571
 msgid ""
 "<b><font color=\"#FF0000\">C</font><font color=\"#FFFF00\">olored</font></b> "
 "message"
 msgstr ""
+"<b><font color=\"#FF0000\">B</font><font color=\"#FFFF00\">arevná</font></b> "
+"zpráva"
 
 #: plugins/_core/historycfg.cpp:580
-#, fuzzy
 msgid "New message"
-msgstr "&Nová zpráva"
+msgstr "Nová zpráva"
 
 #: plugins/_core/historywnd.cpp:49
 msgid "Loading"
@@ -5091,14 +5079,12 @@ msgid "Use emotional &icons"
 msgstr "Použít emocionální &ikony (smajlíky)"
 
 #: plugins/_core/historycfgbase.cpp:175
-#, fuzzy
 msgid "&Preview"
-msgstr "&Předchozí stránka"
+msgstr "&Předchozí"
 
 #: plugins/_core/historycfgbase.cpp:176
-#, fuzzy
 msgid "&Source"
-msgstr "&Seřadit"
+msgstr "&Zdroj"
 
 #: plugins/_core/phonebase.cpp:145
 msgid "Area code:"
@@ -5280,8 +5266,7 @@ msgstr "Automatické pryč (AutoAway)"
 
 #: plugins/autoaway/autoaway.cpp:55
 msgid "Plugin provides set away and N/A status after some idle time"
-msgstr ""
-"Plugin poskytuje nastavení Away a N/A stavů po uplynutí určitého času"
+msgstr "Plugin poskytuje nastavení Away a N/A stavů po uplynutí určitého času"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:121
 msgid "Set \"Away\" status after"
@@ -5301,8 +5286,7 @@ msgstr "Nastavit \"N/A\" status po"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:125
 #: plugins/sound/soundconfigbase.cpp:166
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Zakázat online výstrahu pro \"Away\", \"N/A\", \"DND\" a \"Occupied\" "
 "seznam"
@@ -5704,9 +5688,8 @@ msgid "Debug"
 msgstr "Ladění (debug)"
 
 #: plugins/logger/logconfig.cpp:81
-#, fuzzy
 msgid "Packets"
-msgstr "&Paketů"
+msgstr "Paketů"
 
 #: plugins/logger/logger.cpp:34
 msgid "Logger"
@@ -5827,8 +5810,7 @@ msgid "Navigate"
 msgstr "Navigace"
 
 #: plugins/navigate/navigate.cpp:199
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Plugin poskytuje navigaci v hyperlincích, spouští externí prohlížeč a "
 "poštovního klienta"
@@ -5973,8 +5955,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:48
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr "Plugin poskytuje možnost oznamovat stav kontaktů na obrazovce"
 
 #: plugins/osd/osd.cpp:116
@@ -6077,22 +6058,19 @@ msgstr "Nezobrazovat chybové hlášení (automaticky připojit znovu)"
 
 #: plugins/remote/remote.cpp:30
 msgid "Remote control"
-msgstr ""
+msgstr "Dálkové ovládání"
 
 #: plugins/remote/remote.cpp:31
-#, fuzzy
 msgid "Plugin provides remote control"
-msgstr "Plugin poskytuje dokovací ikonu"
+msgstr "Plugin poskytuje dálkové ovládání"
 
 #: plugins/remote/remotecfgbase.cpp:125
-#, fuzzy
 msgid "Use &UNIX socket"
-msgstr "Použít &dokování"
+msgstr "Použít &UNIX soket"
 
 #: plugins/remote/remotecfgbase.cpp:126
-#, fuzzy
 msgid "Use &TCP socket"
-msgstr "Použít &dokování"
+msgstr "Použít &TCP soket"
 
 #: plugins/shortcuts/mousecfg.cpp:39
 msgid "Left click"
@@ -6136,8 +6114,7 @@ msgstr "Klávesové zkratky"
 
 #: plugins/shortcuts/shortcuts.cpp:51
 msgid "Plugin provides keyboards shortcuts and global mouse functions"
-msgstr ""
-"Plugin poskytuje použití klávesových zkratek a různých funkcí myši"
+msgstr "Plugin poskytuje použití klávesových zkratek a různých funkcí myši"
 
 #: plugins/shortcuts/mousecfgbase.cpp:67
 #: plugins/shortcuts/mousecfgbase.cpp:109
@@ -6284,9 +6261,8 @@ msgid "Password does not match"
 msgstr "Heslo neodpovídá"
 
 #: plugins/jabber/jabber_rosters.cpp:1613
-#, fuzzy
 msgid "Low level network error"
-msgstr "Zobrazit síťový monitor"
+msgstr "Nízkoúrovňová chyba síťového subsystému"
 
 #: plugins/jabber/jabberadd.cpp:163
 msgid "Add Jabber contact"
@@ -7722,3 +7698,4 @@ msgstr "&Agenti"
 
 #~ msgid "Transfer completed"
 #~ msgstr "Übertragung abgeschlossen"
+
