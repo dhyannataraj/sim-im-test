@@ -65,11 +65,17 @@ void KabcSync::close(void)
 
 void KabcSync::addPhone(QString phone,int type,Addressee& pers)
 {
+#if KDE_VERSION >= 310
 	PhoneNumber::List li=pers.phoneNumbers(type);
+#else
+	PhoneNumber::List li=pers.phoneNumbers();
+#endif
 	PhoneNumber::List::Iterator it=li.begin();
 	
 	while (it!=li.end())
 	{
+		if ((*it).type() != type)
+			continue;
 		if ((*it).number()==phone)
 			return;
 		it++;
