@@ -1538,18 +1538,18 @@ static const char *w_days[] =
 
 static const char *months[] =
     {
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec"
+        I18N_NOOP("Jan"),
+        I18N_NOOP("Feb"),
+        I18N_NOOP("Mar"),
+        I18N_NOOP("Apr"),
+        I18N_NOOP("May"),
+        I18N_NOOP("Jun"),
+        I18N_NOOP("Jul"),
+        I18N_NOOP("Aug"),
+        I18N_NOOP("Sep"),
+        I18N_NOOP("Oct"),
+        I18N_NOOP("Nov"),
+        I18N_NOOP("Dec")
     };
 
 void ICQClient::processSMSQueue()

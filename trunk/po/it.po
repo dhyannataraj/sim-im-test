@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sim\n"
-"POT-Creation-Date: 2004-03-07 15:26+0300\n"
+"POT-Creation-Date: 2004-03-08 03:40+0300\n"
 "PO-Revision-Date: 2004-03-03 13:18+0100\n"
 "Last-Translator: Lapo Luchini <lapo@lapo.it>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -982,12 +982,12 @@ msgstr "Zambia"
 msgid "Zimbabwe"
 msgstr "Zimbabwe"
 
-#: sim/api/plugins.cpp:670
+#: sim/api/plugins.cpp:674
 #, c-format
 msgid "Bad option %1"
 msgstr "Opzione sbagliata %1"
 
-#: sim/api/plugins.cpp:671
+#: sim/api/plugins.cpp:675
 msgid "Usage: %1 "
 msgstr "Uso: %1 "
 
@@ -1067,7 +1067,7 @@ msgstr "&Registra"
 #: plugins/gpg/gpggenbase.cpp:115 plugins/icq/encodingdlgbase.cc:87
 #: plugins/icq/icqclient.cpp:2354 plugins/icq/securedlgbase.cc:78
 #: plugins/icq/warndlgbase.cc:89 plugins/proxy/proxyerrorbase.cpp:81
-#: plugins/weather/weathercfg.cpp:110 sim/api/simapi.cpp:459
+#: plugins/weather/weathercfg.cpp:136 sim/api/simapi.cpp:459
 #: sim/ui/qt3/i18n.cpp:35
 msgid "&Cancel"
 msgstr "&Annulla"
@@ -1086,7 +1086,7 @@ msgstr "&No"
 
 #: plugins/_core/arcfgbase.cpp:80 plugins/_core/autoreplybase.cpp:89
 #: plugins/action/actioncfgbase.cpp:62 plugins/action/additembase.cpp:94
-#: plugins/weather/weathercfgbase.cpp:115 sim/api/simapi.cpp:462
+#: plugins/weather/weathercfgbase.cpp:131 sim/api/simapi.cpp:462
 msgid "&Help"
 msgstr "&Aiuto"
 
@@ -1297,7 +1297,7 @@ msgstr "Dimensione"
 msgid "Type"
 msgstr "Tipo"
 
-#: sim/ui/qt3/i18n.cpp:45
+#: plugins/weather/weathercfg.cpp:73 sim/ui/qt3/i18n.cpp:45
 msgid "Date"
 msgstr "Data"
 
@@ -1879,7 +1879,7 @@ msgstr "Marzo"
 msgid "April"
 msgstr "Aprile"
 
-#: sim/ui/datepicker.cpp:226
+#: plugins/icq/icqvarious.cpp:1545 sim/ui/datepicker.cpp:226
 msgid "May"
 msgstr "Maggio"
 
@@ -2167,7 +2167,7 @@ msgstr "&Rete"
 #: plugins/spell/spellcfgbase.cpp:83 plugins/styles/fontconfigbase.cpp:99
 #: plugins/styles/stylescfgbase.cpp:52
 #: plugins/transparent/transparentcfgbase.cpp:70
-#: plugins/weather/weathercfgbase.cpp:106 plugins/yahoo/yahooinfobase.cpp:147
+#: plugins/weather/weathercfgbase.cpp:120 plugins/yahoo/yahooinfobase.cpp:147
 #: plugins/yahoo/yahoosearchbase.cpp:78
 msgid "Form1"
 msgstr "Form1"
@@ -3714,7 +3714,7 @@ msgid "Close after &transfer"
 msgstr "Chiudi dopo il &trasferimento"
 
 #: plugins/_core/arcfg.cpp:96 plugins/_core/autoreply.cpp:109
-#: plugins/weather/weathercfg.cpp:89
+#: plugins/weather/weathercfg.cpp:115
 msgid "In text you can use:"
 msgstr "In testo puoi usare:"
 
@@ -5133,6 +5133,58 @@ msgstr "LIMITE DI VELOCITÀ"
 #: plugins/icq/icqvarious.cpp:1457 plugins/icq/icqvarious.cpp:1516
 msgid "SMS send fail"
 msgstr "Invio SMS fallito"
+
+#: plugins/icq/icqvarious.cpp:1541
+#, fuzzy
+msgid "Jan"
+msgstr "Giappone"
+
+#: plugins/icq/icqvarious.cpp:1542
+msgid "Feb"
+msgstr ""
+
+#: plugins/icq/icqvarious.cpp:1543
+#, fuzzy
+msgid "Mar"
+msgstr "Marzo"
+
+#: plugins/icq/icqvarious.cpp:1544
+#, fuzzy
+msgid "Apr"
+msgstr "Aprile"
+
+#: plugins/icq/icqvarious.cpp:1546
+#, fuzzy
+msgid "Jun"
+msgstr "Giugno"
+
+#: plugins/icq/icqvarious.cpp:1547
+#, fuzzy
+msgid "Jul"
+msgstr "Luglio"
+
+#: plugins/icq/icqvarious.cpp:1548
+#, fuzzy
+msgid "Aug"
+msgstr "Agosto"
+
+#: plugins/icq/icqvarious.cpp:1549
+#, fuzzy
+msgid "Sep"
+msgstr "Configurazione"
+
+#: plugins/icq/icqvarious.cpp:1550
+msgid "Oct"
+msgstr ""
+
+#: plugins/icq/icqvarious.cpp:1551
+#, fuzzy
+msgid "Nov"
+msgstr "&No"
+
+#: plugins/icq/icqvarious.cpp:1552
+msgid "Dec"
+msgstr ""
 
 #: plugins/icq/icqicmb.cpp:787 plugins/icq/icqicmb.cpp:795
 #: plugins/icq/icqvarious.cpp:1622 plugins/jabber/jabberclient.cpp:800
@@ -7170,8 +7222,8 @@ msgstr "Navigazione di Jabber"
 msgid "&Back"
 msgstr "&Indietro"
 
-#: plugins/jabber/jabber.cpp:329 plugins/weather/weathercfg.cpp:104
-#: plugins/weather/weathercfg.cpp:134 plugins/weather/weathercfgbase.cpp:108
+#: plugins/jabber/jabber.cpp:329 plugins/weather/weathercfg.cpp:130
+#: plugins/weather/weathercfg.cpp:160 plugins/weather/weathercfgbase.cpp:122
 msgid "&Search"
 msgstr "&Cerca"
 
@@ -8066,220 +8118,351 @@ msgstr "Scrivi"
 msgid "You send"
 msgstr "Manda"
 
-#: plugins/weather/weather.cpp:95
+#: plugins/weather/weather.cpp:96
 msgid "Weather"
 msgstr "Previsioni"
 
-#: plugins/weather/weather.cpp:96
+#: plugins/weather/weather.cpp:97
 msgid "Plugin provides show weather"
 msgstr "Il plugin permette la visualizzazione delle previsioni del tempo"
 
-#: plugins/weather/weather.cpp:152
+#: plugins/weather/weather.cpp:167
 msgid "Not connected"
 msgstr "Non connesso"
 
-#: plugins/weather/weather.cpp:401
+#: plugins/weather/weather.cpp:452
+#, fuzzy
+msgid "Monday"
+msgstr "Monaco"
+
+#: plugins/weather/weather.cpp:453
+#, fuzzy
+msgid "Tuesday"
+msgstr "Turchia"
+
+#: plugins/weather/weather.cpp:454
+msgid "Wednesday"
+msgstr ""
+
+#: plugins/weather/weather.cpp:455
+msgid "Thursday"
+msgstr ""
+
+#: plugins/weather/weather.cpp:456
+#, fuzzy
+msgid "Friday"
+msgstr "Ven"
+
+#: plugins/weather/weather.cpp:457
+#, fuzzy
+msgid "Saturday"
+msgstr "Sudan"
+
+#: plugins/weather/weather.cpp:458
+#, fuzzy
+msgid "Sunday"
+msgstr "Sudan"
+
+#: plugins/weather/weather.cpp:460
 msgid ""
 "_: weather\n"
 "Overcast"
 msgstr ""
 
-#: plugins/weather/weather.cpp:402
+#: plugins/weather/weather.cpp:461
 msgid ""
 "_: weather\n"
 "Fog"
 msgstr ""
 
-#: plugins/weather/weather.cpp:403
+#: plugins/weather/weather.cpp:462
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Storm"
 msgstr "Il plugin permette la visualizzazione delle previsioni del tempo"
 
-#: plugins/weather/weather.cpp:404
+#: plugins/weather/weather.cpp:463
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Rain"
 msgstr "Il plugin permette la visualizzazione delle previsioni del tempo"
 
-#: plugins/weather/weather.cpp:405
+#: plugins/weather/weather.cpp:464
+#, fuzzy
+msgid ""
+"_: weather\n"
+"Snow Showers"
+msgstr "Il plugin permette la visualizzazione delle previsioni del tempo"
+
+#: plugins/weather/weather.cpp:465
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Light Rain"
 msgstr "Il plugin permette la visualizzazione delle previsioni del tempo"
 
-#: plugins/weather/weather.cpp:406
+#: plugins/weather/weather.cpp:466
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Few Snow Showers"
 msgstr "Il plugin permette la visualizzazione delle previsioni del tempo"
 
-#: plugins/weather/weather.cpp:407
+#: plugins/weather/weather.cpp:467
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Scattered Snow Showers"
 msgstr "Il plugin permette la visualizzazione delle previsioni del tempo"
 
-#: plugins/weather/weather.cpp:408
+#: plugins/weather/weather.cpp:468
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Snow Shower"
 msgstr "Il plugin permette la visualizzazione delle previsioni del tempo"
 
-#: plugins/weather/weather.cpp:409
+#: plugins/weather/weather.cpp:469
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Clear"
 msgstr "Il plugin permette la visualizzazione delle previsioni del tempo"
 
-#: plugins/weather/weather.cpp:410
+#: plugins/weather/weather.cpp:470
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Showers"
 msgstr "Il plugin permette la visualizzazione delle previsioni del tempo"
 
-#: plugins/weather/weather.cpp:411
+#: plugins/weather/weather.cpp:471
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Mostly Clear"
 msgstr "Il plugin permette la visualizzazione delle previsioni del tempo"
 
-#: plugins/weather/weather.cpp:412
+#: plugins/weather/weather.cpp:472
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Sunny"
 msgstr "Il plugin permette la visualizzazione delle previsioni del tempo"
 
-#: plugins/weather/weather.cpp:413
+#: plugins/weather/weather.cpp:473
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Fair"
 msgstr "Il plugin permette la visualizzazione delle previsioni del tempo"
 
-#: plugins/weather/weather.cpp:414
+#: plugins/weather/weather.cpp:474
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Cloudy"
 msgstr "Il plugin permette la visualizzazione delle previsioni del tempo"
 
-#: plugins/weather/weather.cpp:415
+#: plugins/weather/weather.cpp:475
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Mostly Cloudy"
 msgstr "Il plugin permette la visualizzazione delle previsioni del tempo"
 
-#: plugins/weather/weather.cpp:416
+#: plugins/weather/weather.cpp:476
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Partly Cloudy"
 msgstr "Il plugin permette la visualizzazione delle previsioni del tempo"
 
-#: plugins/weather/weather.cpp:439
+#: plugins/weather/weather.cpp:477
+#, fuzzy
+msgid ""
+"_: weather\n"
+"Wind"
+msgstr "Il plugin permette la visualizzazione delle previsioni del tempo"
+
+#: plugins/weather/weather.cpp:478
+#, fuzzy
+msgid ""
+"_: weather\n"
+"steady"
+msgstr "Il plugin permette la visualizzazione delle previsioni del tempo"
+
+#: plugins/weather/weather.cpp:479
+#, fuzzy
+msgid ""
+"_: weather\n"
+"falling"
+msgstr "Il plugin permette la visualizzazione delle previsioni del tempo"
+
+#: plugins/weather/weather.cpp:480
+#, fuzzy
+msgid ""
+"_: weather\n"
+"Unlimited"
+msgstr "Il plugin permette la visualizzazione delle previsioni del tempo"
+
+#: plugins/weather/weather.cpp:492
+#, fuzzy
+msgid ""
+"_: weather\n"
+"Early"
+msgstr "Il plugin permette la visualizzazione delle previsioni del tempo"
+
+#: plugins/weather/weather.cpp:495
+#, fuzzy
+msgid ""
+"_: weather\n"
+"Later"
+msgstr "Il plugin permette la visualizzazione delle previsioni del tempo"
+
+#: plugins/weather/weather.cpp:507
+#, fuzzy
+msgid "gust "
+msgstr "Agosto"
+
+#: plugins/weather/weather.cpp:568
 msgid "%t %c"
 msgstr ""
 
-#: plugins/weather/weather.cpp:448
+#: plugins/weather/weather.cpp:577
 msgid ""
 "%l<br><br>\n"
 "<img src=\"icon:weather\"> %c<br>\n"
-"Temperature: <b>%t</b><br>\n"
+"Temperature: <b>%t</b> (feels like: <b>%f</b>)<br>\n"
 "Humidity: <b>%h</b><br>\n"
-"Pressure: <b>%i</b><br>\n"
-"Wind: <b>%r</b> <b>%w</b><br>\n"
-"Sunrise: %p<br>\n"
-"Sunset: %q<br>\n"
+"Pressure: <b>%p</b><br>\n"
+"Wind: <b>%b</b> <b>%w %g</b><br>\n"
+"Visibility: <b>%v</b><br>\n"
+"Dew Point: <b>%d</b><br>\n"
+"Sunrise: %r<br>\n"
+"Sunset: %s<br>\n"
 "<br>\n"
 "Updated: %u<br>\n"
-"Weather data provided by weather.com"
 msgstr ""
 
-#: plugins/weather/weathercfg.cpp:33
+#: plugins/weather/weather.cpp:596
+msgid ""
+"<br>\n"
+"<b>%d %w</b><br>\n"
+"<img src=\"icon:weather%n\"> %c<br>\n"
+"Temperature: <b>%t</b><br>\n"
+msgstr ""
+
+#: plugins/weather/weathercfg.cpp:34 plugins/weather/weathercfg.cpp:67
 #, fuzzy
 msgid "Temperature"
 msgstr "Temperatura &deg;F"
 
-#: plugins/weather/weathercfg.cpp:35
+#: plugins/weather/weathercfg.cpp:36
+msgid "Feels like"
+msgstr ""
+
+#: plugins/weather/weathercfg.cpp:38
 msgid "Humidity"
 msgstr "Umidità"
 
-#: plugins/weather/weathercfg.cpp:37
+#: plugins/weather/weathercfg.cpp:40
 msgid "Wind direction"
 msgstr "Direzione del vento"
 
-#: plugins/weather/weathercfg.cpp:39
+#: plugins/weather/weathercfg.cpp:42
 #, fuzzy
 msgid "Wind speed"
 msgstr "Velocità del vento miglia/h"
 
-#: plugins/weather/weathercfg.cpp:41
+#: plugins/weather/weathercfg.cpp:44
+#, fuzzy
+msgid "Wind gust"
+msgstr "Velocità del vento miglia/h"
+
+#: plugins/weather/weathercfg.cpp:46
 #, fuzzy
 msgid "Pressure"
 msgstr "Pressione a"
 
-#: plugins/weather/weathercfg.cpp:43
+#: plugins/weather/weathercfg.cpp:48
+#, fuzzy
+msgid "Visibility"
+msgstr "Lista Visibili"
+
+#: plugins/weather/weathercfg.cpp:50
+msgid "Dew Point"
+msgstr ""
+
+#: plugins/weather/weathercfg.cpp:52
 msgid "Location"
 msgstr "Luogo"
 
-#: plugins/weather/weathercfg.cpp:45
+#: plugins/weather/weathercfg.cpp:54
 msgid "Updated"
 msgstr "Aggiornato"
 
-#: plugins/weather/weathercfg.cpp:47
+#: plugins/weather/weathercfg.cpp:56
 msgid "Sunraise"
 msgstr "Alba"
 
-#: plugins/weather/weathercfg.cpp:49
+#: plugins/weather/weathercfg.cpp:58
 msgid "Sunset"
 msgstr "Tramonto"
 
-#: plugins/weather/weathercfg.cpp:51
+#: plugins/weather/weathercfg.cpp:60 plugins/weather/weathercfg.cpp:75
 msgid "Conditions"
 msgstr "Condizioni"
 
-#: plugins/weather/weathercfg.cpp:139
+#: plugins/weather/weathercfg.cpp:69
+#, fuzzy
+msgid "Number"
+msgstr "Numero:"
+
+#: plugins/weather/weathercfg.cpp:71
+msgid "Day of week"
+msgstr ""
+
+#: plugins/weather/weathercfg.cpp:165
 #, fuzzy
 msgid "Location %1 not found"
 msgstr "Host %1 trovato"
 
-#: plugins/weather/weathercfgbase.cpp:107
+#: plugins/weather/weathercfgbase.cpp:121
 msgid "Location:"
 msgstr "Luogo:"
 
-#: plugins/weather/weathercfgbase.cpp:109
+#: plugins/weather/weathercfgbase.cpp:123
 #, fuzzy
 msgid "Units:"
 msgstr "Unità"
 
-#: plugins/weather/weathercfgbase.cpp:111
+#: plugins/weather/weathercfgbase.cpp:125
 #, fuzzy
 msgid "Metric"
 msgstr "Messico"
 
-#: plugins/weather/weathercfgbase.cpp:112
+#: plugins/weather/weathercfgbase.cpp:126
 msgid "Standart"
 msgstr ""
 
-#: plugins/weather/weathercfgbase.cpp:113
+#: plugins/weather/weathercfgbase.cpp:127
+msgid "Forecast days:"
+msgstr ""
+
+#: plugins/weather/weathercfgbase.cpp:128
 msgid "Button text:"
 msgstr "Testo bottone:"
 
-#: plugins/weather/weathercfgbase.cpp:114
+#: plugins/weather/weathercfgbase.cpp:129
 msgid "Button tip:"
 msgstr "Suggerimento bottone:"
+
+#: plugins/weather/weathercfgbase.cpp:130
+msgid "Forecast tip:"
+msgstr ""
 
 #~ msgid "%f &deg;F/ %s &deg;C"
 #~ msgstr "%f &deg;F/ %s &deg;C"

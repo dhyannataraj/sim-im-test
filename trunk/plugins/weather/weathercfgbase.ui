@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>444</width>
+            <width>440</width>
             <height>301</height>
         </rect>
     </property>
@@ -151,6 +151,28 @@
                         <cstring>cmbUnits</cstring>
                     </property>
                 </widget>
+                <widget>
+                    <class>QLabel</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>TextLabel1_3</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Forecast days:</string>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QSpinBox</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>edtDays</cstring>
+                    </property>
+                    <property>
+                        <name>maxValue</name>
+                        <number>10</number>
+                    </property>
+                </widget>
                 <spacer>
                     <property>
                         <name>name</name>
@@ -225,6 +247,24 @@
             <property stdset="1">
                 <name>name</name>
                 <cstring>edtTip</cstring>
+            </property>
+        </widget>
+        <widget>
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>TextLabel3_2</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Forecast tip:</string>
+            </property>
+        </widget>
+        <widget>
+            <class>MultiLineEdit</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>edtForecastTip</cstring>
             </property>
         </widget>
         <widget>

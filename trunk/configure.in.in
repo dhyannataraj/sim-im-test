@@ -82,8 +82,9 @@ KDE_CHECK_HEADER(qsyntaxhighlighter.h,[AC_DEFINE(HAVE_QSYNTAXHIGHLIGHTER_H,1,[Ha
 AC_DEFINE_UNQUOTED(PREFIX, "$prefix", [Install prefix])
 AC_DEFINE(USE_QT,1,[Use QT - need for libicq])
 AC_SUBST(EXTRA_LIBS)
-sim_plugindir="${kde_datadir}/sim/plugins"
+sim_plugindir="${kde_libdir}/sim/plugins"
 AC_SUBST(sim_plugindir)
+AC_DEFINE_UNQUOTED(PLUGIN_PATH,"$sim_plugindir",[Plugins path])
 
 LIB_XML2=""
 AC_PATH_PROG(XML2_CONFIG, xml2-config, no)

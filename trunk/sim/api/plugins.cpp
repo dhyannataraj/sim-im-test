@@ -160,7 +160,11 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
     lt_dlinit();
 
     QStringList pluginsList;
+#ifdef WIN32
     QDir pluginDir(app_file("plugins").c_str());
+#else
+    QDir pluginDir(PLUGIN_PATH);
+#endif
     /* do some test so we can blame when sim couldn't access / find
        the plugins */
     pluginsList = pluginDir.entryList("*" LTDL_SHLIB_EXT);
