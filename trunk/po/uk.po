@@ -7,13 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2002-11-09 04:37+0300\n"
-"PO-Revision-Date: 2002-11-02 11:05GMT+3\n"
-"Last-Translator: Ivan Krutyholova <ivan@city.gov.te.ua>\n"
-"Language-Team: Ukainian <uk@li.org>\n"
+"PO-Revision-Date: 2002-11-09 19:37+0200\n"
+"Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
+"Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0\n"
+"X-Generator: KBabel 0.9.6\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 :n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
 
@@ -1716,8 +1716,7 @@ msgstr "%1 від %2"
 
 #: mainwin.cpp:969 ui/logindlg.cpp:138
 msgid "Can't connect to proxy server"
-msgstr ""
-"Неможливо з'єднатися з проксі-сервером"
+msgstr "Неможливо з'єднатися з проксі-сервером"
 
 #: mainwin.cpp:975 ui/logindlg.cpp:145
 msgid "Proxy server require authorization"
@@ -1749,8 +1748,7 @@ msgstr "&Ні"
 
 #: mainwin.cpp:1608
 msgid "Add %1 to ignore list ?"
-msgstr ""
-"Додати \"%1\" в список тих що ігноруються?"
+msgstr "Додати \"%1\" в список тих що ігноруються?"
 
 #: mainwin.cpp:1672
 msgid "In visible list"
@@ -2165,8 +2163,7 @@ msgstr "Розмір: %1 / Максимальний: %2"
 
 #: msgedit.cpp:1615
 msgid "Message will be split"
-msgstr ""
-"Повідомлення буде розділено на частини"
+msgstr "Повідомлення буде розділено на частини"
 
 #: msgedit.cpp:1788
 msgid "Decline reason"
@@ -2290,7 +2287,7 @@ msgstr "Рівень відладки"
 
 #: sim.cpp:288
 msgid "Control socket"
-msgstr ""
+msgstr "Сокет керування"
 
 #: themes.cpp:123 themes.cpp:132
 msgid "Default style"
@@ -3156,13 +3153,12 @@ msgid "Simple mode (&Plain style)"
 msgstr "&Простий"
 
 #: ui/fontsetupbase.cpp:142
-#, fuzzy
 msgid "Copy"
-msgstr "&Копіювати"
+msgstr "Копіювати"
 
 #: ui/fontsetupbase.cpp:149
 msgid "last messages from history to conversation"
-msgstr ""
+msgstr "останніх повідомлень із історії"
 
 #: ui/fontsetupbase.cpp:157
 msgid "Open user window"
@@ -3201,10 +3197,8 @@ msgid "Colors"
 msgstr "Кольори"
 
 #: ui/fontsetupbase.cpp:214
-#, fuzzy
 msgid "Use &own colors and fonts settings"
-msgstr ""
-"Використовувати &власний колір в історії"
+msgstr "Використовувати &свої кольори і шрифти в історії"
 
 #: ui/fontsetupbase.cpp:224
 msgid "Received messages color"
@@ -3545,8 +3539,7 @@ msgstr "Прозорі вікна тільки якщо неактивні"
 
 #: ui/themesetupbase.cpp:154
 msgid "Show main window in task manager"
-msgstr ""
-"Показувати основне вікно в панелі задач"
+msgstr "Показувати основне вікно в панелі задач"
 
 #: ui/themesetupbase.cpp:158
 msgid "Show user window in task manager"
@@ -3565,8 +3558,7 @@ msgid "Hide main window after"
 msgstr "Сховати головне вікно"
 
 #: ui/statussetupbase.cpp:107
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Заборонити попередження в стані "
 "\"Відійшов\", \"Не активний\", \"Зайнятий\""
@@ -3717,8 +3709,7 @@ msgstr ""
 
 #: ui/generalsecbase.cpp:173
 msgid "Reject &URL from unknown users"
-msgstr ""
-"Відкидати &URL від невідомих користувачів"
+msgstr "Відкидати &URL від невідомих користувачів"
 
 #: ui/generalsecbase.cpp:177
 msgid "Reject &World Wide pager messages"
@@ -3776,11 +3767,10 @@ msgstr ""
 "Це з'єднання працює тільки з клієнтами SIM "
 "і Licq"
 
-# #, fuzzy
+# #
 #: ui/msgbase.cpp:94
 msgid "Automaitcaly open window"
-msgstr ""
-"Автоматично відкривати вікно повідомлень"
+msgstr "Автоматично відкривати вікно повідомлень"
 
 #: ui/msgbase.cpp:98
 msgid "Run external program"
@@ -3792,8 +3782,7 @@ msgstr "..."
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Ця програма поширюється під ліцензією GPL v2"
+msgstr "Ця програма поширюється під ліцензією GPL v2"
 
 #: client.cpp:53
 msgid "Unicode"
@@ -4061,39 +4050,34 @@ msgid ""
 msgstr "Ctrl+M"
 
 #: client.cpp:934
-#, fuzzy
 msgid ""
 "_: Ctrl+H\n"
 "Chat"
-msgstr "Ctrl+C"
+msgstr "Ctrl+H"
 
 #: client.cpp:936
-#, fuzzy
 msgid ""
 "_: Ctrl+F\n"
 "File"
-msgstr "Ctrl+L"
+msgstr "Ctrl+F"
 
 #: client.cpp:938
-#, fuzzy
 msgid ""
 "_: Ctrl+L\n"
 "URL"
-msgstr "Ctrl+U"
+msgstr "Ctrl+L"
 
 #: client.cpp:940
-#, fuzzy
 msgid ""
 "_: Ctrl+R\n"
 "AuthRequest"
-msgstr "Ctrl+A"
+msgstr "Ctrl+R"
 
 #: client.cpp:942
-#, fuzzy
 msgid ""
 "_: Ctrl+T\n"
 "Contacts"
-msgstr "Ctrl+C"
+msgstr "Ctrl+T"
 
 #: client.cpp:944
 #, fuzzy
@@ -4178,19 +4162,16 @@ msgid "Can't create file %1"
 msgstr "Не можу створити файл %1"
 
 #: control.cpp:188
-#, fuzzy
 msgid "set status"
-msgstr "Телефон"
+msgstr "встановити статус"
 
 #: control.cpp:189
-#, fuzzy
 msgid "set invisible mode"
-msgstr "В списку невидимих"
+msgstr "встановити невидимий режим"
 
 #: control.cpp:190
-#, fuzzy
 msgid "send message"
-msgstr "&Нове повідомлення"
+msgstr "Відправити повідомлення"
 
 #: control.cpp:191
 #, fuzzy
@@ -4198,47 +4179,43 @@ msgid "send SMS"
 msgstr "Відправити SMS"
 
 #: control.cpp:192
-#, fuzzy
 msgid "show/hide main window"
 msgstr "Показати/сховати головне вікно"
 
 #: control.cpp:193
-#, fuzzy
 msgid "show/hide search window"
-msgstr "Показати вікно пошуку"
+msgstr "Показати/сховати вікно пошуку"
 
 #: control.cpp:194
-#, fuzzy
 msgid "show/hide dock"
 msgstr "Використовувати док"
 
 #: control.cpp:195
-#, fuzzy
 msgid "quit SIM"
-msgstr "Про додаток SIM"
+msgstr "Закрити SIM"
 
 #: control.cpp:196
 msgid "close session"
-msgstr ""
+msgstr "Закрити сеанс"
 
 #: control.cpp:197
 msgid "command help information"
-msgstr ""
+msgstr "Інформація про команду"
 
 #: control.cpp:258
 #, c-format
 msgid "? Unknown command %1"
-msgstr ""
+msgstr "? Невідома команда %1"
 
 #: control.cpp:266
 #, c-format
 msgid "? Bad arguments number. Try help %1"
-msgstr ""
+msgstr "? Невірна кількість аргументів. Спробуйте help %1"
 
 #: control.cpp:281
 #, c-format
 msgid "? Unknown status %1"
-msgstr ""
+msgstr "? Невідомий статус %1"
 
 #~ msgid "User &info<br>with CTRL open in new window"
 #~ msgstr ""
@@ -4422,3 +4399,4 @@ msgstr ""
 
 #~ msgid "Spell"
 #~ msgstr "Проверка орфографии"
+
