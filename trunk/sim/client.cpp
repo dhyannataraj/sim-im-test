@@ -900,8 +900,6 @@ void QClientSocket::connect(const char *host, int port)
 {
     log(L_DEBUG, "Connect to %s:%u", host, port);
 #ifdef HAVE_KEXTSOCK_H
-    sock->reset();
-    sock->enableRead(false);
     sock->setAddress(host, port);
     sock->startAsyncConnect();
 #else
