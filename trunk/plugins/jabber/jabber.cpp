@@ -216,20 +216,21 @@ JabberPlugin::JabberPlugin(unsigned base)
     EventVCard		= registerType();
 
     MenuSearchResult = registerType();
-    MenuGroups		 = registerType();
-    CmdSendMessage	 = registerType();
-    CmdGroups		 = registerType();
-    CmdBrowser		 = registerType();
-    BarBrowser		 = registerType();
-    CmdBack			 = registerType();
-    CmdForward		 = registerType();
-    CmdUrl			 = registerType();
-    EventDiscoItem	 = registerType();
-    CmdInfo			 = registerType();
-    CmdRegister		 = registerType();
-    CmdSearch		 = registerType();
-    CmdNode			 = registerType();
-    MenuClients		 = registerType();
+    MenuGroups       = registerType();
+    CmdSendMessage   = registerType();
+    CmdGroups        = registerType();
+    CmdBrowser       = registerType();
+    BarBrowser       = registerType();
+    CmdBack          = registerType();
+    CmdForward       = registerType();
+    CmdUrl           = registerType();
+    EventDiscoItem   = registerType();
+    CmdInfo          = registerType();
+    CmdRegister      = registerType();
+    CmdSearch        = registerType();
+    CmdNode          = registerType();
+    CmdConfigure     = registerType();
+    MenuClients      = registerType();
 
     IconDef icon;
     icon.name = "Jabber";
