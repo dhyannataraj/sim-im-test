@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2002-07-31 04:01+0400\n"
-"PO-Revision-Date: 2002-07-31 02:24GMT\n"
+"PO-Revision-Date: 2002-08-01 14:31GMT\n"
 "Last-Translator: Crissi <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -162,7 +162,7 @@ msgstr "Nicht stören"
 
 #: client.cpp:468
 msgid "Occupied"
-msgstr "Besetzt"
+msgstr "Beschäftigt"
 
 #: client.cpp:470
 msgid "Free for chat"
