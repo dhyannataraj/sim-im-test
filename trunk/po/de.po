@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2004-07-06 21:37+0200\n"
-"PO-Revision-Date: 2004-07-07 00:56+0100\n"
+"PO-Revision-Date: 2004-07-11 23:11+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: Deutsch\n"
 "MIME-Version: 1.0\n"
@@ -102,7 +102,7 @@ msgstr "&OK"
 #: sim/qt3/i18n.cpp:35
 #: sim/simapi.cpp:470
 msgid "&Cancel"
-msgstr "A&bbrechen"
+msgstr "&Abbrechen"
 
 #: plugins/_core/cfgdlg.cpp:502
 #: plugins/_core/core.cpp:533
