@@ -182,6 +182,7 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd)
     connect(m_edit, SIGNAL(ctrlEnterPressed()), this, SLOT(editEnterPressed()));
     connect(m_edit, SIGNAL(colorsChanged()), this, SLOT(colorsChanged()));
     connect(m_edit, SIGNAL(finished()), this, SLOT(editFinished()));
+    connect(m_edit, SIGNAL(fontSelected(const QFont&)), this, SLOT(editFontChanged(const QFont&)));
 
     QFontMetrics fm(m_edit->font());
     m_edit->setMinimumSize(QSize(fm.maxWidth(), fm.height() + 10));
@@ -263,6 +264,13 @@ void MsgEdit::resizeEvent(QResizeEvent *e)
 {
     QMainWindow::resizeEvent(e);
     emit heightChanged(height());
+}
+
+void MsgEdit::editFontChanged(const QFont &f)
+{
+	CorePlugin::m_plugin->editFont = f;
+	Event e(EventHistoryFont);
+	e.process();
 }
 
 bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
@@ -907,6 +915,7 @@ bool MsgEdit::send()
 		Event e(EventMessageSend, m_msg);
 		e.process();
         if (client_str.empty()){
+			m_type = m_msg->type();
             Client *c = client(data, true, false, m_msg->contact(), (m_msg->getFlags() & MESSAGE_MULTIPLY) == 0);
             if (c){
                 m_msg->setClient(c->dataName(data).c_str());

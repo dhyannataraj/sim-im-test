@@ -88,12 +88,14 @@ public:
     void setForeground(const QColor&);
     void changeText();
     void setParam(void*);
+	void setFont(const QFont&);
     bool isEmpty();
 signals:
     void ctrlEnterPressed();
     void lostFocus();
     void emptyChanged(bool);
     void colorsChanged();
+	void fontSelected(const QFont &font);
 protected slots:
     void slotTextChanged();
     void slotColorChanged(const QColor &c);
@@ -111,6 +113,7 @@ protected:
     QColor curFG;
     bool m_bCtrlMode;
     bool m_bEmpty;
+	bool m_bSelected;
 };
 
 class QToolBar;

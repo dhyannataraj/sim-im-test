@@ -624,7 +624,7 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     cmd->id			= CmdFont;
     cmd->text		= I18N_NOOP("Select &font");
     cmd->icon		= "text";
-    cmd->icon_on	= "text";
+    cmd->icon_on	= NULL;
     cmd->bar_grp	= 0x1005;
     eCmd.process();
 

@@ -40,6 +40,7 @@ MsgViewBase::MsgViewBase(QWidget *parent, unsigned id)
     setStyleSheet(style);
 
     setColors();
+    setFont(CorePlugin::m_plugin->editFont);
 }
 
 MsgViewBase::~MsgViewBase()
@@ -438,6 +439,9 @@ void *MsgViewBase::processEvent(Event *e)
     }
     if (e->type() == EventHistoryColors){
         setColors();
+    }
+    if (e->type() == EventHistoryFont){
+        setFont(CorePlugin::m_plugin->editFont);
     }
     if (e->type() == EventCheckState){
         CommandDef *cmd = (CommandDef*)(e->param());

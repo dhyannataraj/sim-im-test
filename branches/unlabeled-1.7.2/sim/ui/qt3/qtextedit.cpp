@@ -891,22 +891,17 @@ void QTextEdit::keyPressEvent( QKeyEvent *e )
             removeSelectedText();
             break;
         }
-
         doKeyboardAction( ActionDelete );
         clearUndoRedoInfo = FALSE;
-
         break;
     case Key_Backspace:
-        log(L_DEBUG, "Back");
         if ( doc->hasSelection( QTextDocument::Standard, TRUE ) ) {
             removeSelectedText();
             break;
         }
-
         if ( !cursor->parag()->prev() &&
                 cursor->atParagStart() )
             break;
-
         doKeyboardAction( ActionBackspace );
         clearUndoRedoInfo = FALSE;
 
@@ -942,8 +937,7 @@ void QTextEdit::keyPressEvent( QKeyEvent *e )
                     setParagType( QStyleSheetItem::DisplayListItem, QStyleSheetItem::ListDisc );
                 } else {
 #ifdef WIN32
-                    if ((wndMessage() == WM_KEYDOWN) &&
-                            !(GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT))){
+                    if ((wndMessage() == WM_KEYDOWN) && (e->state() & Keypad)){
                         translate();
                         break;
                     }

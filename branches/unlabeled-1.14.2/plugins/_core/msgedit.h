@@ -73,6 +73,7 @@ public slots:
     void colorsChanged();
     void execCommand();
     void editFinished();
+	void editFontChanged(const QFont&);
 protected:
     QObject  *m_processor;
     QObject	 *m_recvProcessor;
