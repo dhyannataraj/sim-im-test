@@ -28,6 +28,68 @@ dnl
 dnl Single-module modifications are best placed in configure.in for kdelibs
 dnl and kdebase or configure.in.in if present.
 
+AC_DEFUN(AC_CHECK_OPENSSL,
+[
+  AC_MSG_CHECKING(if OpenSSL support is desired)
+
+  AC_ARG_ENABLE(
+    openssl,
+    [  --disable-openssl       disable OpenSSL support],
+    WITH_OPENSSL="$enableval", WITH_OPENSSL="yes")
+
+  AC_ARG_WITH(
+    openssl-inc,
+    [  --with-openssl-inc=PATH  include path for OpenSSL headers],
+    openssl_incdir="$withval", openssl_incdir="no")
+
+  AC_ARG_WITH(
+    openssl-lib,
+    [  --with-openssl-lib=PATH  library path for OpenSSL libraries],
+    openssl_libdir="$withval", openssl_libdir="no")
+
+  if test "$WITH_OPENSSL" = "no"; then
+    AC_MSG_RESULT(no)
+  else
+    AC_MSG_RESULT(yes)
+    dnl AC_MSG_CHECKING(for the OpenSSL headers)
+    temp=$CPPFLAGS
+    if test "$openssl_incdir" != "no"; then
+      CPPFLAGS="$CPPFLAGS -I$openssl_incdir"
+    fi
+    AC_CHECK_HEADER(openssl/ssl.h, WITH_OPENSSL="yes", WITH_OPENSSL="no")
+    if test "$WITH_OPENSSL" = "no"; then
+      CPPFLAGS="$temp"
+    fi
+
+    if test "$WITH_OPENSSL" = "yes"; then
+      dnl AC_MSG_CHECKING(for the OpenSSL library)
+      temp="$LIBS"
+      if test "$openssl_libdir" != "no"; then
+        LIBS="$LIBS -L$openssl_libdir"
+      fi
+      AC_CHECK_LIB(crypto, DH_free)
+      if test "$ac_cv_lib_crypto_DH_free" = "yes"; then
+        AC_CHECK_LIB(ssl, SSL_new, WITH_OPENSSL="yes", WITH_OPENSSL="no")
+      else
+        WITH_OPENSSL="no"
+      fi
+      if test "$WITH_OPENSSL" = "no"; then
+        LIBS="$temp"
+      else
+        LIBS="-lssl -lcrypto $LIBS"
+      fi
+    fi
+
+    AC_MSG_CHECKING(if OpenSSL support can be enabled)
+    if test "$WITH_OPENSSL" = "yes"; then
+      AC_DEFINE(USE_OPENSSL, 1, [Use OpenSSL])
+      AC_MSG_RESULT(yes)
+    else
+      AC_MSG_RESULT(no)
+    fi
+  fi
+])
+
 dnl
 dnl Checks to see if struct tm has the BSD tm_gmtoff member
 dnl

@@ -21,6 +21,9 @@
 /* Have ktextedit.h */
 #undef HAVE_KTEXTEDIT_H
 
+/* Define if you have the `crypto' library (-lcrypto). */
+#undef HAVE_LIBCRYPTO
+
 /* Define if you have libjpeg */
 #undef HAVE_LIBJPEG
 
@@ -98,6 +101,9 @@
 
 /* Use KDE */
 #undef USE_KDE
+
+/* Use OpenSSL */
+#undef USE_OPENSSL
 
 /* Use screensaver */
 #undef USE_SCRNSAVER
