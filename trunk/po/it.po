@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sim\n"
 "POT-Creation-Date: 2004-03-01 03:37+0300\n"
-"PO-Revision-Date: 2004-03-01 03:27+0100\n"
+"PO-Revision-Date: 2004-03-03 13:18+0100\n"
 "Last-Translator: Lapo Luchini <lapo@lapo.it>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2451,7 +2451,7 @@ msgstr "Imposta cartella home"
 
 #: plugins/__homedir/homedircfgbase.cpp:63
 msgid "Use &default path"
-msgstr ""
+msgstr "Usa percorso di &default"
 
 #: plugins/__homedir/homedircfgbase.cpp:64
 msgid "Path for config files:"
@@ -2576,7 +2576,7 @@ msgstr "Aggiorna info"
 
 #: plugins/_core/cmenu.cpp:78
 msgid "More..."
-msgstr ""
+msgstr "Altri..."
 
 #: plugins/_core/commands.cpp:234
 #: plugins/_core/toolbarcfg.cpp:40
@@ -3942,7 +3942,7 @@ msgstr "Apri e &minimizza"
 
 #: plugins/_core/msgcfgbase.cpp:89
 msgid "Open and &raise"
-msgstr ""
+msgstr "Apri e porta in &primo piano"
 
 #: plugins/_core/filetransferbase.cpp:131
 msgid "File transfer"
@@ -6168,7 +6168,7 @@ msgstr "Aspetta l'ack del server"
 
 #: plugins/icq/icqconfigbase.cc:247
 msgid "Wait ack from client"
-msgstr ""
+msgstr "Aspetta l'ack dal client"
 
 #: plugins/icq/icqconfigbase.cc:248
 #: plugins/jabber/jabberconfigbase.cpp:271
@@ -6715,7 +6715,7 @@ msgstr "Default"
 
 #: plugins/proxy/proxycfg.cpp:223
 msgid "HTTP requests"
-msgstr ""
+msgstr "Richiesta HTTP"
 
 #: plugins/proxy/proxycfgbase.cpp:131
 msgid "Host:"
@@ -8307,7 +8307,7 @@ msgstr ""
 
 #: plugins/yahoo/yahooclient.cpp:289
 msgid "Your account has been locked"
-msgstr ""
+msgstr "ul tuo account è stato bloccato"
 
 #: plugins/yahoo/yahooclient.cpp:293
 #: plugins/yahoo/yahooclient.cpp:322
@@ -8324,7 +8324,7 @@ msgstr ""
 
 #: plugins/yahoo/yahooclient.cpp:1203
 msgid "Not in the office"
-msgstr ""
+msgstr "Fuori ufficio"
 
 #: plugins/yahoo/yahooclient.cpp:1209
 msgid "On vacation"
@@ -8352,7 +8352,7 @@ msgstr ""
 
 #: plugins/yahoo/yahoosearchbase.cpp:79
 msgid "Yahoo ID:"
-msgstr ""
+msgstr "Yahoo ID:"
 
 #: plugins/yahoo/yahoosearch.cpp:56
 msgid "Yahoo! search results"
@@ -8372,11 +8372,11 @@ msgstr "Questo plugin permette la sostituzione del testo nella finestra messaggi
 
 #: plugins/replace/replacecfg.cpp:31
 msgid "You type"
-msgstr ""
+msgstr "Scrivi"
 
 #: plugins/replace/replacecfg.cpp:32
 msgid "You send"
-msgstr ""
+msgstr "Manda"
 
 #: plugins/weather/weather.cpp:57
 msgid "Weather"
@@ -8403,45 +8403,51 @@ msgid ""
 msgstr ""
 
 #: plugins/weather/weather.cpp:469
+#, fuzzy
 msgid ""
 "_: weather\n"
 "Storm"
-msgstr ""
+msgstr "Il plugin permette la visualizzazione delle previsioni del tempo"
 
 #: plugins/weather/weather.cpp:470
+#, fuzzy
 msgid ""
 "_: weather\n"
 "Rain"
-msgstr ""
+msgstr "Il plugin permette la visualizzazione delle previsioni del tempo"
 
 #: plugins/weather/weather.cpp:471
+#, fuzzy
 msgid ""
 "_: weather\n"
 "Snow"
-msgstr ""
+msgstr "Il plugin permette la visualizzazione delle previsioni del tempo"
 
 #: plugins/weather/weather.cpp:472
+#, fuzzy
 msgid ""
 "_: weather\n"
 "Clear"
-msgstr ""
+msgstr "Il plugin permette la visualizzazione delle previsioni del tempo"
 
 #: plugins/weather/weather.cpp:473
+#, fuzzy
 msgid ""
 "_: weather\n"
 "Cloudy"
-msgstr ""
+msgstr "Il plugin permette la visualizzazione delle previsioni del tempo"
 
 #: plugins/weather/weather.cpp:474
+#, fuzzy
 msgid ""
 "_: weather\n"
 "Partial cloudy"
-msgstr ""
+msgstr "Il plugin permette la visualizzazione delle previsioni del tempo"
 
 #: plugins/weather/weather.cpp:500
 #, c-format
 msgid "%f &deg;F/ %s &deg;C"
-msgstr ""
+msgstr "%f &deg;F/ %s &deg;C"
 
 #: plugins/weather/weather.cpp:509
 msgid ""
