@@ -261,9 +261,12 @@ static DataDef icqClientData[] =
         { "RandomChatGroup", DATA_ULONG, 1, 0 },
         { "", DATA_ULONG, 1, 0 },			// RandomChatGroupCurrent
         { "SendFormat", DATA_ULONG, 1, 0 },
-        { "AutoUpdate", DATA_BOOL, 1, DATA(1) },
-        { "AutoReplyUpdate", DATA_BOOL, 1, DATA(1) },
-        { "TypingNotification", DATA_BOOL, 1, DATA(1) },
+		{ "DisablePlugins", DATA_ULONG, 1, 0 },
+        { "DisableAutoUpdate", DATA_BOOL, 1, 0 },
+        { "DisableAutoReplyUpdate", DATA_BOOL, 1, 0 },
+        { "DisableTypingNotification", DATA_BOOL, 1, 0 },
+		{ "AutoCheckInvisible", DATA_BOOL, 1, 0 },
+		{ "CheckInvisibleInterval", DATA_ULONG, 1, DATA(15) },
         { "AcceptInDND", DATA_BOOL, 1, 0 },
         { "AcceptInOccupied", DATA_BOOL, 1, 0 },
         { "MinPort", DATA_ULONG, 1, DATA(1024) },
@@ -2924,7 +2927,7 @@ bool ICQClient::send(Message *msg, void *_data)
         }
         return false;
     case MessageTypingStart:
-        if ((data == NULL) || !getTypingNotification())
+        if ((data == NULL) || getDisableTypingNotification())
             return false;
         if (getInvisible()){
             if (data->VisibleId.value == 0)

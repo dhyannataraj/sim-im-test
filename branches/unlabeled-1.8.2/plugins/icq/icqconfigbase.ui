@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>456</width>
-            <height>285</height>
+            <width>461</width>
+            <height>345</height>
         </rect>
     </property>
     <property>
@@ -452,6 +452,17 @@
                         <name>spacing</name>
                         <number>6</number>
                     </property>
+                    <widget row="4"  column="0"  rowspan="1"  colspan="2" >
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkInvisible</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Automatically check &amp;invisible</string>
+                        </property>
+                    </widget>
                     <widget row="0"  column="0" >
                         <class>QLabel</class>
                         <property stdset="1">
@@ -477,83 +488,7 @@
                             </sizepolicy>
                         </property>
                     </widget>
-                    <widget row="5"  column="0"  rowspan="1"  colspan="2" >
-                        <class>QCheckBox</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>chkOccupied</cstring>
-                        </property>
-                        <property>
-                            <name>text</name>
-                            <string>Accept in &amp;occupied mode</string>
-                        </property>
-                    </widget>
-                    <widget row="4"  column="0"  rowspan="1"  colspan="2" >
-                        <class>QCheckBox</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>chkDND</cstring>
-                        </property>
-                        <property>
-                            <name>text</name>
-                            <string>Accept in &amp;DND mode</string>
-                        </property>
-                    </widget>
-                    <widget row="3"  column="0"  rowspan="1"  colspan="2" >
-                        <class>QCheckBox</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>chkTyping</cstring>
-                        </property>
-                        <property>
-                            <name>text</name>
-                            <string>Support &amp;typing notification</string>
-                        </property>
-                    </widget>
-                    <widget row="2"  column="0"  rowspan="1"  colspan="2" >
-                        <class>QCheckBox</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>chkUpdate</cstring>
-                        </property>
-                        <property>
-                            <name>text</name>
-                            <string>Automatically &amp;update user info</string>
-                        </property>
-                    </widget>
                     <widget row="1"  column="0"  rowspan="1"  colspan="2" >
-                        <class>QCheckBox</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>chkAutoReply</cstring>
-                        </property>
-                        <property>
-                            <name>text</name>
-                            <string>Automaticaly &amp;request autoreply on change status</string>
-                        </property>
-                    </widget>
-                    <spacer row="7"  column="0" >
-                        <property>
-                            <name>name</name>
-                            <cstring>Spacer4_2</cstring>
-                        </property>
-                        <property>
-                            <name>orientation</name>
-                            <enum>Vertical</enum>
-                        </property>
-                        <property>
-                            <name>sizeType</name>
-                            <enum>Expanding</enum>
-                        </property>
-                        <property>
-                            <name>sizeHint</name>
-                            <size>
-                                <width>20</width>
-                                <height>20</height>
-                            </size>
-                        </property>
-                    </spacer>
-                    <widget row="6"  column="0"  rowspan="1"  colspan="2" >
                         <class>QLayoutWidget</class>
                         <property stdset="1">
                             <name>name</name>
@@ -613,6 +548,179 @@
                             </widget>
                         </hbox>
                     </widget>
+                    <widget row="3"  column="0"  rowspan="1"  colspan="2" >
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkOccupied</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Accept in &amp;occupied mode</string>
+                        </property>
+                    </widget>
+                    <widget row="2"  column="0"  rowspan="1"  colspan="2" >
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkDND</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Accept in &amp;DND mode</string>
+                        </property>
+                    </widget>
+                    <spacer row="11"  column="0" >
+                        <property>
+                            <name>name</name>
+                            <cstring>Spacer4_2</cstring>
+                        </property>
+                        <property>
+                            <name>orientation</name>
+                            <enum>Vertical</enum>
+                        </property>
+                        <property>
+                            <name>sizeType</name>
+                            <enum>Expanding</enum>
+                        </property>
+                        <property>
+                            <name>sizeHint</name>
+                            <size>
+                                <width>20</width>
+                                <height>20</height>
+                            </size>
+                        </property>
+                    </spacer>
+                    <widget row="6"  column="0"  rowspan="1"  colspan="2" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>TextLabel1_5</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>For decrease traffic you can:</string>
+                        </property>
+                    </widget>
+                    <widget row="7"  column="0"  rowspan="1"  colspan="2" >
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkPlugins</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Disable answer on phonebook and &amp;picture requests</string>
+                        </property>
+                    </widget>
+                    <widget row="8"  column="0"  rowspan="1"  colspan="2" >
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkAutoReply</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Disable automaticaly &amp;request autoreply on change status</string>
+                        </property>
+                    </widget>
+                    <widget row="9"  column="0"  rowspan="1"  colspan="2" >
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkUpdate</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Disable automatically &amp;update user info</string>
+                        </property>
+                    </widget>
+                    <widget row="10"  column="0"  rowspan="1"  colspan="2" >
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkTyping</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Disable &amp;typing notification</string>
+                        </property>
+                    </widget>
+                    <widget row="5"  column="0"  rowspan="1"  colspan="2" >
+                        <class>QLayoutWidget</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>Layout3</cstring>
+                        </property>
+                        <hbox>
+                            <property>
+                                <name>margin</name>
+                                <number>0</number>
+                            </property>
+                            <property>
+                                <name>spacing</name>
+                                <number>6</number>
+                            </property>
+                            <widget>
+                                <class>QLabel</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>lblInvisible</cstring>
+                                </property>
+                                <property>
+                                    <name>text</name>
+                                    <string>Check invisible every</string>
+                                </property>
+                            </widget>
+                            <widget>
+                                <class>QSpinBox</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>edtInvisible</cstring>
+                                </property>
+                                <property>
+                                    <name>maxValue</name>
+                                    <number>999</number>
+                                </property>
+                                <property>
+                                    <name>minValue</name>
+                                    <number>5</number>
+                                </property>
+                            </widget>
+                            <widget>
+                                <class>QLabel</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>lblInvisible2</cstring>
+                                </property>
+                                <property>
+                                    <name>text</name>
+                                    <string>minutes</string>
+                                </property>
+                            </widget>
+                            <spacer>
+                                <property>
+                                    <name>name</name>
+                                    <cstring>Spacer6</cstring>
+                                </property>
+                                <property>
+                                    <name>orientation</name>
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property>
+                                    <name>sizeType</name>
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property>
+                                    <name>sizeHint</name>
+                                    <size>
+                                        <width>20</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                        </hbox>
+                    </widget>
                 </grid>
             </widget>
         </widget>
@@ -650,14 +758,18 @@
     <tabstop>edtPort</tabstop>
     <tabstop>chkHTTP</tabstop>
     <tabstop>chkAuto</tabstop>
+    <tabstop>chkKeepAlive</tabstop>
     <tabstop>edtMinPort</tabstop>
     <tabstop>edtMaxPort</tabstop>
     <tabstop>cmbFormat</tabstop>
+    <tabstop>cmbAck</tabstop>
+    <tabstop>chkDND</tabstop>
+    <tabstop>chkOccupied</tabstop>
+    <tabstop>chkInvisible</tabstop>
+    <tabstop>edtInvisible</tabstop>
+    <tabstop>chkPlugins</tabstop>
     <tabstop>chkAutoReply</tabstop>
     <tabstop>chkUpdate</tabstop>
     <tabstop>chkTyping</tabstop>
-    <tabstop>chkDND</tabstop>
-    <tabstop>chkOccupied</tabstop>
-    <tabstop>cmbAck</tabstop>
 </tabstops>
 </UI>

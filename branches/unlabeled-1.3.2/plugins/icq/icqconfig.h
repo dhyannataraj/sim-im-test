@@ -37,6 +37,7 @@ protected slots:
     void changed(const QString&);
     void newToggled(bool);
     void autoToggled(bool);
+	void invisibleToggled(bool);
 protected:
     bool m_bConfig;
     ICQClient *m_client;

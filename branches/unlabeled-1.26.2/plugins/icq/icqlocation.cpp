@@ -395,7 +395,7 @@ void ICQClient::sendCapability(const char *away_msg)
         if (getSendFormat() == 0)
             cap.pack((char*)capabilities[CAP_RTF], sizeof(capability));
     }
-    if (getTypingNotification())
+    if (!getDisableTypingNotification())
         cap.pack((char*)capabilities[CAP_TYPING], sizeof(capability));
     cap.pack((char*)capabilities[CAP_AIM_SUPPORT], sizeof(capability));
     cap.pack((char*)c, sizeof(c));

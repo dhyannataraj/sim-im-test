@@ -440,6 +440,12 @@ static autoReply autoReplies[] =
         { STATUS_FFC, I18N_NOOP(
               "We'd love to hear what you have to say. Join our chat.\n"
           ) },
+        { STATUS_ONLINE, I18N_NOOP(
+              "I'm here.\n"
+          ) },
+        { STATUS_OFFLINE, I18N_NOOP(
+              "I'm offline.\n"
+          ) },
         { 0, NULL }
     };
 
@@ -3267,7 +3273,8 @@ if (fname[0] != '/')
                 }
                 if (curStatus == NULL)
                     return NULL;
-                if ((cmd->id != STATUS_ONLINE) && (cmd->id != STATUS_OFFLINE) &&
+                if ((((cmd->id != STATUS_ONLINE) && (cmd->id != STATUS_OFFLINE)) || 
+					(client->protocol()->description()->flags & PROTOCOL_AR_OFFLINE))&&
                         (client->protocol()->description()->flags & (PROTOCOL_AR | PROTOCOL_AR_USER))){
                     const char *noShow = CorePlugin::m_plugin->getNoShowAutoReply(cmd->id);
                     if ((noShow == NULL) || (*noShow == 0)){

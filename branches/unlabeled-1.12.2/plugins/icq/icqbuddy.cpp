@@ -278,7 +278,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 data->InfoUpdateTime.value   = infoUpdateTime;
                 data->PluginInfoTime.value   = pluginInfoTime;
                 data->PluginStatusTime.value = pluginStatusTime;
-                if (getAutoUpdate() &&
+                if (!getDisableAutoUpdate() &&
                         ((getInvisible() && data->VisibleId.value) ||
                          (!getInvisible() && (data->InvisibleId.value == 0)))){
                     if (infoUpdateTime == 0)
@@ -350,7 +350,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                     Event e(EventContactOnline, contact);
                     e.process();
                 }
-                if (getAutoReplyUpdate() && ((data->Status.value & 0xFF) != ICQ_STATUS_ONLINE)){
+                if (!getDisableAutoReplyUpdate() && ((data->Status.value & 0xFF) != ICQ_STATUS_ONLINE)){
                     if ((getInvisible() && data->VisibleId.value) ||
                             (!getInvisible() && (data->InvisibleId.value == 0)))
                         addPluginInfoRequest(data->Uin.value, PLUGIN_AR);

@@ -539,20 +539,12 @@ void *JabberClient::processEvent(Event *e)
 
 void JabberClient::setStatus(unsigned status)
 {
-    if (status == STATUS_OFFLINE){
-        setStatus(status, NULL);
-        return;
-    }
-    if (getInvisible()){
+    if (getInvisible() && (status != STATUS_OFFLINE)){
         if (m_status != status){
             m_status = status;
             Event e(EventClientChanged, static_cast<Client*>(this));
             e.process();
         }
-        return;
-    }
-    if (status == STATUS_ONLINE){
-        setStatus(status, NULL);
         return;
     }
     ARRequest ar;
@@ -1009,7 +1001,7 @@ JabberUserData *JabberClient::findContact(const char *_jid, const char *name, bo
     resource = "";
     string jid = _jid;
     int n = jid.find('/');
-    if ((n >= 0) && (jid.substr(n + 1) != "registered")){
+    if (n >= 0){
         resource = jid.substr(n + 1);
         jid = jid.substr(0, n);
     }

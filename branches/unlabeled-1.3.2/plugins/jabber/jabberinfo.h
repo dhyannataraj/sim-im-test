@@ -28,6 +28,8 @@ class JabberInfo : public JabberInfoBase, public EventReceiver
     Q_OBJECT
 public:
     JabberInfo(QWidget *parent, struct JabberUserData *data, JabberClient *client);
+signals:
+    void raise(QWidget*);
 public slots:
     void apply();
     void apply(Client*, void*);

@@ -58,21 +58,33 @@ ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig)
     cmbFormat->insertItem(i18n("UTF"));
     cmbFormat->insertItem(i18n("Plain text"));
     cmbFormat->setCurrentItem(client->getSendFormat());
-    chkUpdate->setChecked(client->getAutoUpdate());
-    chkAutoReply->setChecked(client->getAutoReplyUpdate());
-    chkTyping->setChecked(client->getTypingNotification());
+	chkPlugins->setChecked(client->getDisablePlugins());
+    chkUpdate->setChecked(client->getDisableAutoUpdate());
+    chkAutoReply->setChecked(client->getDisableAutoReplyUpdate());
+    chkTyping->setChecked(client->getDisableTypingNotification());
+	chkInvisible->setChecked(client->getAutoCheckInvisible());
+	edtInvisible->setValue(client->getCheckInvisibleInterval());
     chkDND->setChecked(client->getAcceptInDND());
     chkOccupied->setChecked(client->getAcceptInOccupied());
     chkHTTP->setChecked(client->getUseHTTP());
     connect(chkAuto, SIGNAL(toggled(bool)), this, SLOT(autoToggled(bool)));
+	connect(chkInvisible, SIGNAL(toggled(bool)), this, SLOT(invisibleToggled(bool)));
     chkAuto->setChecked(client->getAutoHTTP());
     chkKeepAlive->setChecked(client->getKeepAlive());
     cmbAck->setCurrentItem(client->getAckMode());
+	invisibleToggled(client->getAutoCheckInvisible());
 }
 
 void ICQConfig::autoToggled(bool bState)
 {
     chkHTTP->setEnabled(!bState);
+}
+
+void ICQConfig::invisibleToggled(bool bState)
+{
+	lblInvisible->setEnabled(bState);
+	lblInvisible2->setEnabled(bState);
+	edtInvisible->setEnabled(bState);
 }
 
 void ICQConfig::apply(Client*, void*)
@@ -90,9 +102,12 @@ void ICQConfig::apply()
     m_client->setMinPort((unsigned short)atol(edtMinPort->text()));
     m_client->setMaxPort((unsigned short)atol(edtMaxPort->text()));
     m_client->setSendFormat(cmbFormat->currentItem());
-    m_client->setAutoUpdate(chkUpdate->isChecked());
-    m_client->setAutoReplyUpdate(chkAutoReply->isChecked());
-    m_client->setTypingNotification(chkTyping->isChecked());
+    m_client->setDisablePlugins(chkPlugins->isChecked());
+    m_client->setDisableAutoUpdate(chkUpdate->isChecked());
+    m_client->setDisableAutoReplyUpdate(chkAutoReply->isChecked());
+    m_client->setDisableTypingNotification(chkTyping->isChecked());
+	m_client->setAutoCheckInvisible(chkInvisible->isChecked());
+	m_client->setCheckInvisibleInterval(atol(edtInvisible->text().latin1()));
     m_client->setAcceptInDND(chkDND->isChecked());
     m_client->setAcceptInOccupied(chkOccupied->isChecked());
     m_client->setUseHTTP(chkHTTP->isChecked());

@@ -1341,7 +1341,7 @@ void ICQClient::sendAutoReply(const char *screen, MessageId id,
 
 void ICQClient::sendMTN(const char *screen, unsigned short type)
 {
-    if (!getTypingNotification())
+    if (getDisableTypingNotification())
         return;
     snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_MTN);
     m_socket->writeBuffer << 0x00000000L << 0x00000000L << (unsigned short)0x0001;

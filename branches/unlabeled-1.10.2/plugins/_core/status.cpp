@@ -423,7 +423,19 @@ void *CommonStatus::processEvent(Event *e)
                 }
                 if (curStatus == NULL)
                     return 0;
-                if ((def->id != STATUS_ONLINE) && (def->id != STATUS_OFFLINE)){
+				unsigned i;
+				bool bOfflineStatus = false;
+                for (i = 0; i < getContacts()->nClients(); i++){
+                    Client *client = getContacts()->getClient(i);
+                    if (client->getCommonStatus() && 
+						(client->protocol()->description()->flags & PROTOCOL_AR_OFFLINE)){
+						bOfflineStatus = true;
+						break;
+					}
+                }
+
+                if (bOfflineStatus || 
+					((def->id != STATUS_ONLINE) && (def->id != STATUS_OFFLINE))){
                     const char *noShow = CorePlugin::m_plugin->getNoShowAutoReply(def->id);
                     if ((noShow == NULL) || (*noShow == 0)){
                         AutoReplyDialog dlg(def->id);
@@ -432,7 +444,7 @@ void *CommonStatus::processEvent(Event *e)
                     }
                 }
                 CorePlugin::m_plugin->setManualStatus(def->id);
-                for (unsigned i = 0; i < getContacts()->nClients(); i++){
+                for (i = 0; i < getContacts()->nClients(); i++){
                     Client *client = getContacts()->getClient(i);
                     if (client->getCommonStatus())
                         client->setStatus(def->id, true);

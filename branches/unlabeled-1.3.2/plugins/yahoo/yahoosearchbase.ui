@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>190</width>
+            <width>186</width>
             <height>403</height>
         </rect>
     </property>
@@ -52,34 +52,6 @@
                     <property stdset="1">
                         <name>name</name>
                         <cstring>edtID</cstring>
-                    </property>
-                </widget>
-            </vbox>
-        </widget>
-        <widget>
-            <class>RadioGroup</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>grpMail</cstring>
-            </property>
-            <property>
-                <name>title</name>
-                <string>&amp;E-Mail</string>
-            </property>
-            <vbox>
-                <property>
-                    <name>margin</name>
-                    <number>11</number>
-                </property>
-                <property>
-                    <name>spacing</name>
-                    <number>6</number>
-                </property>
-                <widget>
-                    <class>QLineEdit</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>edtMail</cstring>
                     </property>
                 </widget>
             </vbox>

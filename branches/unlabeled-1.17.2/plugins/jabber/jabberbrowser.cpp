@@ -928,17 +928,7 @@ void JabberBrowser::setItemPict(QListViewItem *item)
     const char *name = "Jabber";
     QString category = item->text(COL_CATEGORY);
     QString type     = item->text(COL_TYPE);
-    if (category == "gateway"){
-        if (type == "icq"){
-            name = "ICQ";
-        }else if (type == "aim"){
-            name = "AIM";
-        }else if (type == "msn"){
-            name = "MSN";
-        }else if (type == "yahoo"){
-            name = "Yahoo!";
-        }
-    }else if (category == "headline"){
+	if (category == "headline"){
         name = "info";
     }else if (category == "directory"){
         name = "find";
@@ -946,11 +936,19 @@ void JabberBrowser::setItemPict(QListViewItem *item)
         name = "chat";
     }else if (category == "proxy"){
         name = "connect";
+    }else if (type == "icq"){
+            name = "ICQ";
+        }else if (type == "aim"){
+            name = "AIM";
+        }else if (type == "msn"){
+            name = "MSN";
+        }else if (type == "yahoo"){
+            name = "Yahoo!";
     }else if (type == "jud"){
         name = "find";
     }else if (type == "sms"){
         name = "sms";
-    }else if (type == "rss"){
+    }else if ((type == "rss") || (type == "weather")){
         name = "info";
     }
     item->setPixmap(COL_NAME, Pict(name));

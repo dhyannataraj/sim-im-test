@@ -28,6 +28,8 @@ class ICQInfo : public ICQInfoBase, public EventReceiver
     Q_OBJECT
 public:
     ICQInfo(QWidget *parent, struct ICQUserData*, unsigned contact, ICQClient *client);
+signals:
+    void raise(QWidget*);
 public slots:
     void apply();
     void apply(Client*, void*);

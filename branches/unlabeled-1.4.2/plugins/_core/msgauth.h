@@ -29,7 +29,6 @@ public:
     MsgAuth(MsgEdit *parent, Message *msg);
 protected slots:
     void init();
-    void emptyChanged(bool bEmpty);
 protected:
     void *processEvent(Event*);
     string m_client;
