@@ -370,7 +370,7 @@ static unsigned char client_check_data[] =
 
 #ifdef USE_OPENSSL
 
-SSLClient::SSLClient(Socket *_sock, ClientSocketNotify *notify)
+SSLClient::SSLClient(Socket *_sock)
         : Socket(NULL)
 {
     sock = _sock;
@@ -624,7 +624,7 @@ void SSLClient::write()
     }
 }
 
-void SSLClient::connect(const char *host, int port)
+void SSLClient::connect(const char*, int)
 {
 }
 
@@ -702,7 +702,7 @@ void DirectClient::secureConnect()
 {
 #ifdef USE_OPENSSL
     if (ssl != NULL) return;
-    ssl = new SSLClient(sock->socket(), this);
+    ssl = new SSLClient(sock->socket());
     if (!ssl->init()){
         delete ssl;
         ssl = NULL;
@@ -722,7 +722,7 @@ void DirectClient::secureListen()
         log(L_DEBUG, "secureListen - already secure");
         return;
     }
-    ssl = new SSLClient(sock->socket(), this);
+    ssl = new SSLClient(sock->socket());
     if (!ssl->init()){
         delete ssl;
         ssl = NULL;

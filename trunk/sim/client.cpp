@@ -864,7 +864,7 @@ void QClientSocket::write(const char *buf, unsigned int size)
     bInWrite = true;
     int res = sock->writeBlock(buf, size);
     bInWrite = false;
-    if (res != size){
+    if (res != (int)size){
         log(L_WARN, "Write error");
         notify->error_state();
         return;

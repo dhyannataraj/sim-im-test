@@ -385,7 +385,7 @@ protected:
 class SSLClient : public SocketNotify, public Socket
 {
 public:
-    SSLClient(Socket*, ClientSocketNotify*);
+    SSLClient(Socket*);
     ~SSLClient();
     virtual int read(char *buf, unsigned int size);
     virtual void write(const char *buf, unsigned int size);
@@ -451,7 +451,7 @@ protected:
         WaitLogin,
         WaitInit2,
         Logged,
-        SSLconnect,
+        SSLconnect
     };
     State state;
     void processPacket();
