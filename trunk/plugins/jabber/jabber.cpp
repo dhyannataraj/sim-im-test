@@ -288,15 +288,6 @@ JabberPlugin::JabberPlugin(unsigned base)
     cmd->flags		 = COMMAND_CHECK_STATE;
     eCmd.process();
 
-    cmd->id			 = CmdBrowser;
-    cmd->text		 = I18N_NOOP("Jabber browser");
-    cmd->icon		 = "Jabber_online";
-    cmd->menu_grp	 = 0x20F0;
-    cmd->menu_id	 = MenuContact;
-    cmd->popup_id	 = 0;
-    cmd->flags		 = COMMAND_CHECK_STATE;
-    eCmd.process();
-
     cmd->id			 = CmdBack;
     cmd->text		 = I18N_NOOP("&Back");
     cmd->icon		 = "1leftarrow";
