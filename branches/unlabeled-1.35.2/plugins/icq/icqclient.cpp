@@ -408,7 +408,7 @@ bool ICQClient::compareData(void *d1, void *d2)
         return data1->Uin == data2->Uin;
     if (data2->Uin)
         return false;
-    return strcmp(data1->Screen, data2->Screen);
+    return strcmp(data1->Screen, data2->Screen) == 0;
 }
 
 string ICQClient::getConfig()

@@ -1361,7 +1361,7 @@ bool MSNClient::add(const char *mail, const char *name, unsigned grp)
 
 bool MSNClient::compareData(void *d1, void *d2)
 {
-    return strcmp(((MSNUserData*)d1)->EMail, ((MSNUserData*)d2)->EMail);
+    return strcmp(((MSNUserData*)d1)->EMail, ((MSNUserData*)d2)->EMail) == 0;
 }
 
 static void addIcon(string *s, const char *icon)
