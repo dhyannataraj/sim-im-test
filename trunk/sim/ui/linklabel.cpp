@@ -15,10 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qsimplerichtext.h>
-
 #include "linklabel.h"
 #include "stl.h"
+
+#if COMPAT_QT_VERSION < 0x030000
+#include "qt3/qsimplerichtext.h"
+#include "qt3/qstylesheet.h"
+#else
+#include <qsimplerichtext.h>
+#endif
 
 #include <qcursor.h>
 #include <qapplication.h>
@@ -28,6 +33,11 @@
 
 #ifdef WIN32
 #include <windows.h>
+#endif
+
+#if COMPAT_QT_VERSION < 0x030000
+#define QSimpleRichText Qt3::QSimpleRichText
+#define QStyleSheet		Qt3::QStyleSheet
 #endif
 
 LinkLabel::LinkLabel(QWidget *parent, const char *name)
@@ -168,11 +178,7 @@ void TipLabel::drawContents(QPainter *p)
 {
     QSimpleRichText richText(m_text, font(), "", QStyleSheet::defaultSheet(), QMimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
     richText.adjustSize();
-#if COMPAT_QT_VERSION < 0x030000
-    richText.draw(p, 4, 4, QRegion(0, 0, width(), height()), QToolTip::palette());
-#else
-richText.draw(p, 4, 4, QRect(0, 0, width(), height()), QToolTip::palette().active());
-#endif
+    richText.draw(p, 4, 4, QRect(0, 0, width(), height()), QToolTip::palette().active());
 }
 
 #ifndef WIN32

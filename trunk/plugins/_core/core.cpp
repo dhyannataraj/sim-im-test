@@ -2107,8 +2107,11 @@ void *CorePlugin::processEvent(Event *e)
             container->setNoSwitch();
             userWnd->setMessage(msg);
             if ((*msg)->getFlags() & MESSAGE_NORAISE){
-                if (bNew)
+                if (bNew){
+                    container->m_bNoRead = true;
                     container->showMinimized();
+                    container->m_bNoRead = false;
+                }
                 if (m_focus)
                     m_focus->setFocus();
             }else{

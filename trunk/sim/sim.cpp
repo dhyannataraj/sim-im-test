@@ -259,6 +259,13 @@ int main(int argc, char *argv[])
     old_errhandler = XSetErrorHandler(x_errhandler);
 #endif
 #else
+    for (int i = 0; i < argc; i++){
+        string arg = argv[i];
+        if ((arg[0] == '/') || (arg[0] == '-'))
+            arg = arg.substr(1);
+        if ((arg == "reinstall") || (arg == "showicons") || (arg == "hideicons"))
+            return 0;
+    }
     SimApp app(argc, argv);
     StyleInfo*  (*getStyleInfo)() = NULL;
     HINSTANCE hLib = LoadLibraryA("UxTheme.dll");

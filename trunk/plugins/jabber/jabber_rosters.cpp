@@ -1108,11 +1108,10 @@ void JabberBgParser::tag_start(const QString &tag, const list<QString> &attrs)
                 QString name = *it;
                 ++it;
                 QString value = *it;
-                log(L_DEBUG, "?? [%s] [%s]", name.latin1(), "background-color");
                 if (name == "background-color"){
-                    log(L_DEBUG, "OK");
-                    QColor c(value);
-                    bgColor = c.rgb();
+                    QColor c;
+                    c.setNamedColor(value);
+                    bgColor = c.rgb() & 0xFFFFFF;
                 }
             }
         }

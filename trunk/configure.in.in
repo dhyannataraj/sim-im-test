@@ -2,13 +2,14 @@
 
 AC_LANG_CPLUSPLUS
 AM_INIT_AUTOMAKE(sim,0.9.3)
+AC_PROG_LIBTOOL
 AC_STDC_HEADERS
 AC_C_BIGENDIAN
 LEX=""
 AC_PATH_PROG(LEX, flex, no)
-if test "x$LEX" == "xno" ; then
+if test "x$LEX" = "xno" ; then
    AC_PATH_PROG(LEX, lex, no)
-   if text "x$FLEX" == "xno" ; then
+   if text "x$LEX" = "xno" ; then
       AC_MSG_ERROR([lex or flex not found!])
    fi
 fi
@@ -86,7 +87,7 @@ AC_SUBST(sim_plugindir)
 
 LIB_XML2=""
 AC_PATH_PROG(XML2_CONFIG, xml2-config, no)
-if test "x$XML2_CONFIG" == "xno" ; then
+if test "x$XML2_CONFIG" = "xno" ; then
    AC_MSG_ERROR([Executable xml2-config not found!
 Seems you have no libxml2 devel files installed.
 You can download it from http://xmlsoft.org/download.html
@@ -98,7 +99,7 @@ CPPFLAGS="$CPPFLAGS `$XML2_CONFIG --cflags`"
 
 LIB_XSLT=""
 AC_PATH_PROG(XSLT_CONFIG, xslt-config, no)
-if test "x$XSLT_CONFIG" == "xno" ; then
+if test "x$XSLT_CONFIG" = "xno" ; then
    AC_MSG_ERROR([Executable xslt-config not found!
 Seems you have no libxslt devel files installed.
 You can download it from http://xmlsoft.org/download.html

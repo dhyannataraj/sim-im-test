@@ -82,7 +82,7 @@ static string current_tag;
 <s_attr>.					{ return SKIP; }
 <s_value>"\""				{ BEGIN(s_string); return SKIP; }
 <s_value>"\'"				{ BEGIN(s_string1); return SKIP; }
-<s_value>[^\ \">]+			{ BEGIN(s_tag); return VALUE; }
+<s_value>[^\ \'\">]+		{ BEGIN(s_tag); return VALUE; }
 <s_value>.					{ return SKIP; }
 <s_string>"\""				{ BEGIN(s_tag); return SKIP; }
 <s_string>[^\"]+			{ return VALUE; }
@@ -153,8 +153,9 @@ void HTMLParser::parse(const QString &str)
 {
 	p->init();
 	QCString cstr = str.utf8();
-    YY_BUFFER_STATE yy_current_buffer = yy_scan_string(cstr);
+    	YY_BUFFER_STATE yy_current_buffer = yy_scan_string(cstr);
 	parse();
+	yy_delete_buffer(yy_current_buffer);
 }
 
 void HTMLParser::parse(Buffer &buf)
@@ -163,6 +164,7 @@ void HTMLParser::parse(Buffer &buf)
 	buf << (char)YY_END_OF_BUFFER_CHAR << (char)YY_END_OF_BUFFER_CHAR;
     YY_BUFFER_STATE yy_current_buffer = yy_scan_buffer(buf.data(), buf.writePos());
 	parse();
+	yy_delete_buffer(yy_current_buffer);
 }
 
 typedef struct Symbol
@@ -258,7 +260,6 @@ void HTMLParser::parse()
 		}
 	}
 	p->flushText();
-    yy_delete_buffer(yy_current_buffer);
 }
 
 list<QString> HTMLParser::parseStyle(const QString &str)

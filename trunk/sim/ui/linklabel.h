@@ -19,6 +19,7 @@
 #define _LINKLABEL_H
 
 #include "simapi.h"
+
 #include <qlabel.h>
 
 class UI_EXPORT LinkLabel : public QLabel

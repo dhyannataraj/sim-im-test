@@ -217,56 +217,6 @@ bool OSDWidget::isScreenSaverActive()
         if (pvParam)
             return true;
     }
-#else
-#ifndef QT_MACOSX_VERSION
-    Display *dsp = x11Display();
-    Atom XA_SCREENSAVER_VERSION = XInternAtom(dsp, "_SCREENSAVER_VERSION", false);
-    Window root = RootWindowOfScreen(DefaultScreenOfDisplay(dsp));
-    Window root2, parent, *kids;
-    unsigned int nkids;
-    if (!XQueryTree(dsp, root, &root2, &parent, &kids, &nkids))
-        return false;
-    if (root != root2)
-        return false;
-    if (parent)
-        return false;
-    if (!(kids && nkids))
-        return false;
-    for (unsigned i = 0; i < nkids; i++){
-        Atom type;
-        int format;
-        unsigned long nitems, bytesafter;
-        char *v;
-        int status;
-
-        XSync (dsp, False);
-        if (old_handler)
-            break;
-        got_badwindow = False;
-        old_handler = XSetErrorHandler (BadWindow_ehandler);
-        status = XGetWindowProperty (dsp, kids[i],
-                                     XA_SCREENSAVER_VERSION,
-                                     0, 200, False, XA_STRING,
-                                     &type, &format, &nitems, &bytesafter,
-                                     (unsigned char **) &v);
-        XSync(dsp, False);
-        XSetErrorHandler (old_handler);
-        old_handler = 0;
-
-        if (got_badwindow)
-        {
-            status = BadWindow;
-            got_badwindow = False;
-        }
-
-        if (status == Success && type != None){
-            XFree (kids);
-            return true;
-        }
-    }
-    if (kids)
-        XFree(kids);
-#endif
 #endif
     return false;
 }

@@ -4313,7 +4313,7 @@ AC_DEFUN(KDE_CHECK_HEADER,
    kde_safe_cppflags=$CPPFLAGS
    CPPFLAGS="$CPPFLAGS $all_includes"
    AC_LANG_CPLUSPLUS
-   AC_CHECK_HEADER($1, $2, $3)
+   AC_CHECK_HEADER($1, $2, $3, [-])
    CPPFLAGS=$kde_safe_cppflags
    AC_LANG_RESTORE
 ])

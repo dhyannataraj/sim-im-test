@@ -271,6 +271,8 @@ static void setStr(const char *str, Data &d)
 
 void *WeatherPlugin::processEvent(Event *e)
 {
+    if (e->type() == EventLanguageChanged)
+        updateButton();
     if (e->type() == EventInit)
         showBar();
     if (e->type() == EventCommandExec){
@@ -502,7 +504,7 @@ QString WeatherPlugin::getButtonText()
 
 QString WeatherPlugin::getTipText()
 {
-    QString str = getText();
+    QString str = getTip();
     if (str.isEmpty())
         str = i18n("%l<br><br>\n"
                    "<img src=\"icon:weather\"> %c<br>\n"

@@ -96,6 +96,7 @@ Source: "..\Release\plugins\spell.dll"; DestDir: "{app}\plugins"; Flags: ignorev
 Source: "..\Release\plugins\styles.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\transparent.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\update.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
+Source: "..\Release\plugins\weather.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\windock.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\yahoo.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\zodiak.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
@@ -177,6 +178,12 @@ Root: HKCR; Subkey: "sim"; ValueType: string; ValueName: ""; ValueData: "SIM Fil
 Root: HKCR; Subkey: "sim\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\sim.exe,0"; Flags: uninsdeletevalue
 Root: HKCR; Subkey: "sim\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\simipc.exe"" ""%1"""; Flags: uninsdeletevalue
 Root: HKCR; Subkey: "sim"; ValueType: binary; ValueName: "EditFlags"; ValueData: "00 00 01 00"; Flags: uninsdeletekey
+Root: HKLM; Subkey: "SOFTWARE\Clients\IM\SIM"; ValueType: string; ValueName: "LocalizedString"; ValueData: "@{app}\sim.exe,-1"; Flags: uninsdeletevalue
+Root: HKLM; Subkey: "SOFTWARE\Clients\IM\SIM\InstallInfo"; ValueType: string; ValueName: "HideIconsCommand"; ValueData: """{app}\sim.exe"" /hideicons"; Flags: uninsdeletevalue
+Root: HKLM; Subkey: "SOFTWARE\Clients\IM\SIM\InstallInfo"; ValueType: dword; ValueName: "IconsVisible"; ValueData: "1"; Flags: uninsdeletevalue
+Root: HKLM; Subkey: "SOFTWARE\Clients\IM\SIM\InstallInfo"; ValueType: string; ValueName: "ReinstallCommand"; ValueData: """{app}\sim.exe"" /reinstall"; Flags: uninsdeletevalue
+Root: HKLM; Subkey: "SOFTWARE\Clients\IM\SIM\InstallInfo"; ValueType: string; ValueName: "ShowIconsCommand"; ValueData: """{app}\sim.exe"" /showicons"; Flags: uninsdeletevalue
+
 
 
 
