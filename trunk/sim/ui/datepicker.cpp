@@ -187,7 +187,7 @@ void DatePicker::setDate(int day, int month, int year)
     if (day && month && year)
         d.setYMD(year, month, day);
     if (!d.isNull())
-        text.sprintf("%u/%02u/%04u", day, month, year);
+        text.sprintf("%02u/%02u/%04u", day, month, year);
     m_edit->setText(text);
     emit changed();
 }
