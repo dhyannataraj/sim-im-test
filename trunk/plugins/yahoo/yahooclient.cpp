@@ -228,7 +228,7 @@ void YahooClient::packet_ready()
         }
     }
     log_packet(m_socket->readBuffer, false, YahooPlugin::YahooPacket);
-    process_packet();
+    scan_packet();
     m_socket->readBuffer.init(20);
     m_socket->readBuffer.packetStart();
     m_bHeader = true;
@@ -289,13 +289,6 @@ void YahooClient::connect_ready()
     }
 }
 
-class Params : public list<PARAM>
-{
-public:
-    Params() {}
-    const char *operator[](unsigned id);
-};
-
 const char *Params::operator [](unsigned id)
 {
     for (iterator it = begin(); it != end(); ++it){
@@ -305,19 +298,40 @@ const char *Params::operator [](unsigned id)
     return NULL;
 }
 
-void YahooClient::process_packet()
+void YahooClient::scan_packet()
 {
     Params params;
     Params::iterator it;
+    int param7_cnt = 0;
+    
     for (;;){
         string key;
         string value;
-        if (!m_socket->readBuffer.scan("\xC0\x80", key) || !m_socket->readBuffer.scan("\xC0\x80", value))
+        if (!(m_socket->readBuffer.scan("\xC0\x80", key) &&
+              m_socket->readBuffer.scan("\xC0\x80", value)))
             break;
         unsigned key_id = atol(key.c_str());
-        params.push_back(PARAM(key_id, value));
         log(L_DEBUG, "Param: %u %s", key_id, value.c_str());
+        /* There can be multiple buddies in an YAHOO_SERVICE_IDDEACT and
+           YAHOO_SERVICE_LOGON paket ... */
+        if ((key_id == 7) && ((m_service == YAHOO_SERVICE_IDDEACT) ||
+                              (m_service == YAHOO_SERVICE_LOGON))) {
+            if (param7_cnt) {
+                /* process the last buddie */
+                process_packet(params);
+                params.clear();
+                param7_cnt = 0;
+            } else {
+                param7_cnt = 1;
+            }
+        }
+        params.push_back(PARAM(key_id, value));
     }
+    process_packet(params);
+}
+
+void YahooClient::process_packet(Params &params)
+{
     switch (m_service){
     case YAHOO_SERVICE_VERIFY:
         if (m_pkt_status != 1){

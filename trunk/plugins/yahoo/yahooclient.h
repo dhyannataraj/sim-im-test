@@ -134,6 +134,13 @@ typedef struct YahooClientData
 
 typedef pair<unsigned, string> PARAM;
 
+class Params : public list<PARAM>
+{
+public:
+    Params() {}
+    const char *operator[](unsigned id);
+};
+
 class QTextCodec;
 
 typedef struct Message_ID
@@ -199,7 +206,8 @@ protected:
     virtual QString contactTip(void *_data);
     virtual void connect_ready();
     virtual void packet_ready();
-    void process_packet();
+    void scan_packet();
+    void process_packet(Params &params);
     void process_auth(const char *method, const char *seed, const char *sn);
     void process_auth_0x0b(const char *seed, const char *sn);
     void sendPacket(unsigned short service, unsigned long status=YAHOO_STATUS_AVAILABLE);
