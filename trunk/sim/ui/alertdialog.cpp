@@ -43,14 +43,14 @@ AlertDialog::AlertDialog(QWidget *p, bool bReadOnly)
     }
     chkOverride->hide();
     load(pClient->owner);
-    chkOn->setChecked(pMain->XOSD_on);
+    chkOn->setChecked(pMain->isXOSD_on());
     spnOffs->setMinValue(0);
     spnOffs->setMaxValue(500);
-    spnOffs->setValue(pMain->XOSD_offset);
+    spnOffs->setValue(pMain->getXOSD_offset());
     spnTimeout->setMinValue(1);
     spnTimeout->setMaxValue(60);
-    spnTimeout->setValue(pMain->XOSD_timeout);
-    btnColor->setColor(pMain->XOSD_color);
+    spnTimeout->setValue(pMain->getXOSD_timeout());
+    btnColor->setColor(pMain->getXOSD_color());
     edtFont->setWinFont(pMain->xosd->font());
     cmbPos->insertItem(i18n("Left-bottom"));
     cmbPos->insertItem(i18n("Left-top"));
@@ -58,10 +58,10 @@ AlertDialog::AlertDialog(QWidget *p, bool bReadOnly)
     cmbPos->insertItem(i18n("Right-top"));
     cmbPos->insertItem(i18n("Center-bottom"));
     cmbPos->insertItem(i18n("Center-top"));
-    cmbPos->setCurrentItem(pMain->XOSD_pos);
-    chkShadow->setChecked(pMain->XOSD_Shadow);
-    chkBackground->setChecked(pMain->XOSD_Background);
-    btnBgColor->setColor(pMain->XOSD_BgColor);
+    cmbPos->setCurrentItem(pMain->getXOSD_pos());
+    chkShadow->setChecked(pMain->isXOSD_Shadow());
+    chkBackground->setChecked(pMain->isXOSD_Background());
+    btnBgColor->setColor(pMain->getXOSD_BgColor());
     connect(chkOn, SIGNAL(toggled(bool)), this, SLOT(toggledOn(bool)));
     connect(chkBackground, SIGNAL(toggled(bool)), this, SLOT(toggledOn(bool)));
     toggledOn(chkOn->isChecked());
@@ -113,15 +113,15 @@ void AlertDialog::save(ICQUser *_u)
 void AlertDialog::apply(ICQUser*)
 {
     save(pClient->owner);
-    pMain->XOSD_on = chkOn->isChecked();
-    pMain->XOSD_offset = atol(spnOffs->text().latin1());
-    pMain->XOSD_timeout = atol(spnTimeout->text().latin1());
-    pMain->XOSD_color = btnColor->color().rgb() & 0xFFFFFF;
-    pMain->XOSD_pos = cmbPos->currentItem();
-    pMain->XOSD_Shadow = chkShadow->isChecked();
-    pMain->XOSD_Background = chkBackground->isChecked();
-    pMain->XOSD_BgColor = btnBgColor->color().rgb() & 0xFFFFFF;
-    pMain->XOSD_Font = pMain->font2str(edtFont->winFont(), false).local8Bit();
+    pMain->setXOSD_on(chkOn->isChecked());
+    pMain->setXOSD_offset(atol(spnOffs->text().latin1()));
+    pMain->setXOSD_timeout(atol(spnTimeout->text().latin1()));
+    pMain->setXOSD_color(btnColor->color().rgb() & 0xFFFFFF);
+    pMain->setXOSD_pos(cmbPos->currentItem());
+    pMain->setXOSD_Shadow(chkShadow->isChecked());
+    pMain->setXOSD_Background(chkBackground->isChecked());
+    pMain->setXOSD_BgColor(btnBgColor->color().rgb() & 0xFFFFFF);
+    pMain->setXOSD_Font(pMain->font2str(edtFont->winFont(), false).local8Bit());
     pMain->xosd->init();
 }
 

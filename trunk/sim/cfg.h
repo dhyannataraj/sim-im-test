@@ -76,6 +76,7 @@ const unsigned PARAM_CHAR	 = 8;
 const unsigned PARAM_OFFS	 = 9;
 const unsigned PARAM_PROC	 = 10;
 const unsigned PARAM_STRING	 = 11;
+const unsigned PARAM_LIST	 = 12;
 
 class QFile;
 
@@ -93,11 +94,13 @@ void set_str(char **a, const char *r);
 
 #define PROP_BOOL(A)								\
 	bool is##A() { return data.A; }					\
-	void set##A(bool r) { data.A = r; }
+	void set##A(bool r) { data.A = r; }				\
+	bool *_##A() { return &data.A; }
 
 #define PROP_ULONG(A)                                                           \
 	unsigned long get##A() { return data.A; }                               \
-	void set##A(unsigned long r) { data.A = r; }
+	void set##A(unsigned long r) { data.A = r; }							\
+	unsigned long *_##A() { return &data.A; }
 
 #define PROP_USHORT(A)                                                           \
 	unsigned short get##A() { return data.A; }                               \
@@ -111,6 +114,9 @@ void set_str(char **a, const char *r);
 	const char *get##A() { return data.A ? data.A : empty_str; }            \
 	void set##A(const char *r) { ::set_str(&data.A, r); }			\
 	char **_##A() { return &data.A; }
+
+#define PROP_LIST(A)												\
+	unsigned long**_##A() { return &data.A; }
 
 #endif
 

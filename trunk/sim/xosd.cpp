@@ -49,7 +49,7 @@ void XOSD::init()
         f.setPixelSize(size * 2);
     }
     f.setBold(true);
-    setFont(pMain->str2font(pMain->XOSD_Font.c_str(), f));
+    setFont(pMain->str2font(pMain->getXOSD_Font(), f));
 }
 
 #define SHADOW_OFFS	2
@@ -63,41 +63,41 @@ void XOSD::set(const QString &str, unsigned long _uin)
     p.setFont(font());
     QWidget *d = qApp->desktop();
     QRect rc(0, 0,
-             d->width() - SHADOW_OFFS - XOSD_MARGIN * 2 - pMain->XOSD_offset,
-             d->height() - SHADOW_OFFS - XOSD_MARGIN * 2 - pMain->XOSD_offset);
+             d->width() - SHADOW_OFFS - XOSD_MARGIN * 2 - pMain->getXOSD_offset(),
+             d->height() - SHADOW_OFFS - XOSD_MARGIN * 2 - pMain->getXOSD_offset());
     rc = p.boundingRect(rc, AlignLeft | AlignTop | WordBreak, str);
     p.end();
     int w = rc.width();
     int h = rc.height();
-    if (pMain->XOSD_Shadow){
+    if (pMain->isXOSD_Shadow()){
         w += SHADOW_OFFS;
         h += SHADOW_OFFS;
     }
-    if (pMain->XOSD_Background){
+    if (pMain->isXOSD_Background()){
         w += XOSD_MARGIN * 2;
         h += XOSD_MARGIN * 2;
     }
     resize(QSize(w, h));
-    switch (pMain->XOSD_pos){
+    switch (pMain->getXOSD_pos()){
     case 1:
-        move(pMain->XOSD_offset, pMain->XOSD_offset);
+        move(pMain->getXOSD_offset(), pMain->getXOSD_offset());
         break;
     case 2:
-        move(d->width() - pMain->XOSD_offset - w, d->height() - pMain->XOSD_offset - h);
+        move(d->width() - pMain->getXOSD_offset() - w, d->height() - pMain->getXOSD_offset() - h);
         break;
     case 3:
-        move(d->width() - pMain->XOSD_offset - w, pMain->XOSD_offset);
+        move(d->width() - pMain->getXOSD_offset() - w, pMain->getXOSD_offset());
         break;
     case 4:
-        move((d->width() - w) / 2, d->height() - pMain->XOSD_offset - h);
+        move((d->width() - w) / 2, d->height() - pMain->getXOSD_offset() - h);
         break;
     case 5:
-        move((d->width() - w) / 2, pMain->XOSD_offset);
+        move((d->width() - w) / 2, pMain->getXOSD_offset());
         break;
     default:
-        move(pMain->XOSD_offset, d->height() - pMain->XOSD_offset - h);
+        move(pMain->getXOSD_offset(), d->height() - pMain->getXOSD_offset() - h);
     }
-    if (!pMain->XOSD_Background || pMain->XOSD_Shadow){
+    if (!pMain->isXOSD_Background() || pMain->isXOSD_Shadow()){
         QBitmap mask(w, h);
         p.begin(&mask);
 #ifdef WIN32
@@ -108,13 +108,13 @@ void XOSD::set(const QString &str, unsigned long _uin)
         QColor fg(255, 255, 255);
 #endif
         p.fillRect(0, 0, w, h, bg);
-        if (pMain->XOSD_Background){
+        if (pMain->isXOSD_Background()){
             p.fillRect(0, 0, w - SHADOW_OFFS, h - SHADOW_OFFS, fg);
             p.fillRect(SHADOW_OFFS, SHADOW_OFFS, w - SHADOW_OFFS, h - SHADOW_OFFS, fg);
         }else{
             p.setPen(fg);
             p.setFont(font());
-            if (pMain->XOSD_Shadow){
+            if (pMain->isXOSD_Shadow()){
                 rc = QRect(SHADOW_OFFS, SHADOW_OFFS, w - SHADOW_OFFS, h - SHADOW_OFFS);
                 p.drawText(rc, AlignLeft | AlignTop | WordBreak, str);
             }
@@ -129,13 +129,13 @@ void XOSD::set(const QString &str, unsigned long _uin)
     intensity(pict, -0.50f);
     p.begin(&pict);
     rc = QRect(0, 0, w, h);
-    if (pMain->XOSD_Background){
-        if (pMain->XOSD_Shadow){
+    if (pMain->isXOSD_Background()){
+        if (pMain->isXOSD_Shadow()){
             w -= SHADOW_OFFS;
             h -= SHADOW_OFFS;
             rc = QRect(0, 0, w, h);
         }
-        QBrush bg(pMain->XOSD_BgColor);
+        QBrush bg(pMain->getXOSD_BgColor());
         p.fillRect(rc, bg);
 #if QT_VERSION < 300
         style().drawPopupPanel(&p, 0, 0, w, h, colorGroup(), 2, &bg);
@@ -145,14 +145,14 @@ void XOSD::set(const QString &str, unsigned long _uin)
         rc = QRect(XOSD_MARGIN, XOSD_MARGIN, w - XOSD_MARGIN * 2, h - XOSD_MARGIN * 2);
     }
     p.setFont(font());
-    p.setPen(QColor(pMain->XOSD_color));
+    p.setPen(QColor(pMain->getXOSD_color()));
     p.drawText(rc, AlignLeft | AlignTop | WordBreak, str);
     p.end();
     bgPict = pict;
     setFocusPolicy(NoFocus);
     show();
     raise();
-    QTimer::singleShot(pMain->XOSD_timeout * 1000, this, SLOT(timeout()));
+    QTimer::singleShot(pMain->getXOSD_timeout() * 1000, this, SLOT(timeout()));
 }
 
 void XOSD::paintEvent(QPaintEvent*)
@@ -172,7 +172,7 @@ void XOSD::mouseDoubleClickEvent(QMouseEvent*)
 
 void XOSD::setMessage(const QString &str, unsigned long uin)
 {
-    if (!pMain->XOSD_on) return;
+    if (!pMain->isXOSD_on()) return;
     if ((msg.count() == 0) && !isVisible()){
         set(str, uin);
         return;

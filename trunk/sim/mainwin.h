@@ -19,6 +19,7 @@
 #define _MAINWIN_H
 
 #include "defs.h"
+#include "cfg.h"
 
 #include <list>
 #include <string>
@@ -146,25 +147,20 @@ typedef struct msgInfo
 
 struct ToolBarDef;
 
-class MainWindow : public QMainWindow
+typedef struct MainWindow_Data
 {
-    Q_OBJECT
-public:
-    MainWindow(const char *name = NULL);
-    ~MainWindow();
-
-    bool			Show;
+    bool			ShowState;
     bool			OnTop;
 
     bool			ShowOffline;
     bool			GroupMode;
 
-    short			mLeft;
-    short			mTop;
-    short			mWidth;
-    short			mHeight;
+    short			Left;
+    short			Top;
+    short			Width;
+    short			Height;
 
-    string			UseStyle;
+    char*			UseStyle;
 
     unsigned long	AutoAwayTime;
     unsigned long	AutoNATime;
@@ -176,13 +172,13 @@ public:
 
     bool			SpellOnSend;
 
-    string			ToolbarDock;
+    char*			ToolbarDock;
     short			ToolbarOffset;
     short			ToolbarY;
 
-    string			UrlViewer;
-    string			MailClient;
-    bool	AutoSync;
+    char*			UrlViewer;
+    char*			MailClient;
+    bool			AutoSync;
 
     bool			UseTransparent;
     unsigned long	Transparent;
@@ -198,8 +194,8 @@ public:
 
     bool			UseSystemFonts;
 
-    string			Font;
-    string			FontMenu;
+    char*			Font;
+    char*			FontMenu;
 
     unsigned long	ColorSend;
     unsigned long	ColorReceive;
@@ -211,25 +207,25 @@ public:
     short			UserBoxY;
     unsigned short	UserBoxWidth;
     unsigned short	UserBoxHeight;
-    string			UserBoxToolbarDock;
+    char*			UserBoxToolbarDock;
     short			UserBoxToolbarOffset;
     short			UserBoxToolbarY;
     unsigned short	UserBoxEditHeight;
 
-    string			UserBoxFont;
+    char*			UserBoxFont;
 
     bool			CloseAfterSend;
     bool			CloseAfterFileTransfer;
     bool			MainWindowInTaskManager;
     bool			UserWindowInTaskManager;
 
-    string			Icons;
+    char*			Icons;
 
     bool			XOSD_on;
     short			XOSD_pos;
     short			XOSD_offset;
     unsigned long	XOSD_color;
-    string			XOSD_Font;
+    char*			XOSD_Font;
     unsigned short	XOSD_timeout;
     bool			XOSD_Shadow;
     bool			XOSD_Background;
@@ -242,17 +238,17 @@ public:
     bool			UseOwnColors;
     bool			UserWndOnTop;
 
-    string			KeyWindow;
-    string			KeyDblClick;
-    string			KeySearch;
+    char*			KeyWindow;
+    char*			KeyDblClick;
+    char*			KeySearch;
 
     bool			UseEmotional;
     unsigned long	AutoHideTime;
 
-    string			SMSSignTop;
-    string			SMSSignBottom;
+    char*			SMSSignTop;
+    char*			SMSSignBottom;
 
-    string			ForwardPhone;
+    char*			ForwardPhone;
     bool			SendEnter;
     bool			AlphabetSort;
     bool			UseDoubleClick;
@@ -271,22 +267,168 @@ public:
 
     bool			AllEncodings;
     bool			HistoryDirection;
+    bool			FileTransferDetails;
 
-    string			BackgroundFile;
+    char*			BackgroundFile;
     unsigned short	BackgroundMode;
     unsigned short	IconMargin;
     bool			UseSystemColors;
     unsigned long	OnlineColor;
     unsigned long	OfflineColor;
 
-    list<unsigned long>	ToolBarMain;
-    list<unsigned long> ToolBarMsg;
-    list<unsigned long> ToolBarHistory;
-    list<unsigned long> ToolBarUserBox;
+    unsigned long*	ToolBarMain;
+    unsigned long*  ToolBarMsg;
+    unsigned long*  ToolBarHistory;
+    unsigned long*  ToolBarUserBox;
 
 #ifdef WIN32
     unsigned short	BarState;
     bool			BarAutoHide;
+#endif
+
+} MainWindow_Data;
+
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
+public:
+    MainWindow(const char *name = NULL);
+    ~MainWindow();
+
+    PROP_BOOL(ShowState)
+    PROP_BOOL(OnTop)
+    PROP_BOOL(ShowOffline)
+    PROP_BOOL(GroupMode)
+
+    PROP_SHORT(Left)
+    PROP_SHORT(Top)
+    PROP_SHORT(Width)
+    PROP_SHORT(Height)
+
+    PROP_STR(UseStyle)
+
+    PROP_ULONG(AutoAwayTime)
+    PROP_ULONG(AutoNATime)
+
+    PROP_BOOL(NoAlertAway)
+
+    PROP_ULONG(ManualStatus)
+    PROP_SHORT(DivPos)
+
+    PROP_BOOL(SpellOnSend)
+
+    PROP_STR(ToolbarDock)
+    PROP_SHORT(ToolbarOffset)
+    PROP_SHORT(ToolbarY)
+
+    PROP_STR(UrlViewer)
+    PROP_STR(MailClient)
+    PROP_BOOL(AutoSync)
+
+    PROP_BOOL(UseTransparent)
+    PROP_ULONG(Transparent)
+    PROP_BOOL(UseTransparentContainer)
+    PROP_ULONG(TransparentContainer)
+    PROP_BOOL(TransparentIfInactive)
+
+    PROP_BOOL(NoShowAway)
+    PROP_BOOL(NoShowNA)
+    PROP_BOOL(NoShowOccupied)
+    PROP_BOOL(NoShowDND)
+    PROP_BOOL(NoShowFFC)
+
+    PROP_BOOL(UseSystemFonts)
+
+    PROP_STR(Font)
+    PROP_STR(FontMenu)
+
+    PROP_ULONG(ColorSend)
+    PROP_ULONG(ColorReceive)
+
+    PROP_USHORT(ChatWidth)
+    PROP_USHORT(ChatHeight)
+
+    PROP_SHORT(UserBoxX)
+    PROP_SHORT(UserBoxY)
+    PROP_USHORT(UserBoxWidth)
+    PROP_USHORT(UserBoxHeight)
+    PROP_STR(UserBoxToolbarDock)
+    PROP_SHORT(UserBoxToolbarOffset)
+    PROP_SHORT(UserBoxToolbarY)
+    PROP_USHORT(UserBoxEditHeight)
+
+    PROP_STR(UserBoxFont)
+
+    PROP_BOOL(CloseAfterSend)
+    PROP_BOOL(CloseAfterFileTransfer)
+    PROP_BOOL(MainWindowInTaskManager)
+    PROP_BOOL(UserWindowInTaskManager)
+
+    PROP_STR(Icons)
+
+    PROP_BOOL(XOSD_on)
+    PROP_SHORT(XOSD_pos)
+    PROP_SHORT(XOSD_offset)
+    PROP_ULONG(XOSD_color)
+    PROP_STR(XOSD_Font)
+    PROP_USHORT(XOSD_timeout)
+    PROP_BOOL(XOSD_Shadow)
+    PROP_BOOL(XOSD_Background)
+    PROP_ULONG(XOSD_BgColor)
+
+    PROP_USHORT(ContainerMode)
+    PROP_ULONG(MessageBgColor)
+    PROP_ULONG(MessageFgColor)
+    PROP_BOOL(SimpleMode)
+    PROP_BOOL(UseOwnColors)
+    PROP_BOOL(UserWndOnTop)
+
+    PROP_STR(KeyWindow)
+    PROP_STR(KeyDblClick)
+    PROP_STR(KeySearch)
+
+    PROP_BOOL(UseEmotional)
+    PROP_ULONG(AutoHideTime)
+
+    PROP_STR(SMSSignTop)
+    PROP_STR(SMSSignBottom)
+
+    PROP_STR(ForwardPhone)
+    PROP_BOOL(SendEnter)
+    PROP_BOOL(AlphabetSort)
+    PROP_BOOL(UseDoubleClick)
+
+    PROP_BOOL(UseDock)
+    PROP_SHORT(DockX)
+    PROP_SHORT(DockY)
+
+    PROP_SHORT(MonitorX)
+    PROP_SHORT(MonitorY)
+    PROP_USHORT(MonitorWidth)
+    PROP_USHORT(MonitorHeight)
+    PROP_USHORT(MonitorLevel)
+
+    PROP_USHORT(CopyMessages)
+
+    PROP_BOOL(AllEncodings)
+    PROP_BOOL(HistoryDirection)
+    PROP_BOOL(FileTransferDetails)
+
+    PROP_STR(BackgroundFile)
+    PROP_USHORT(BackgroundMode)
+    PROP_USHORT(IconMargin)
+    PROP_BOOL(UseSystemColors)
+    PROP_ULONG(OnlineColor)
+    PROP_ULONG(OfflineColor)
+
+    PROP_LIST(ToolBarMain)
+    PROP_LIST(ToolBarMsg)
+    PROP_LIST(ToolBarHistory)
+    PROP_LIST(ToolBarUserBox)
+
+#ifdef WIN32
+    PROP_USHORT(BarState)
+    PROP_BOOL(BarAutoHide)
 #endif
 
     bool 	     init(bool bNoApply = false);
@@ -381,8 +523,8 @@ public slots:
     void saveState();
     void toggleGroupMode();
     void toggleShowOffline();
-    void setGroupMode(bool);
-    void setShowOffline(bool);
+    void setupGroupMode(bool);
+    void setupShowOffline(bool);
     void setStatus(int);
     void showUserPopup(unsigned long uin, QPoint, QPopupMenu*, const QRect&);
     void userFunction(int);
@@ -437,6 +579,8 @@ protected slots:
     void autoHide();
     void changeUIN();
 protected:
+    MainWindow_Data data;
+
     bool eventFilter(QObject *o, QEvent *e);
     void moveEvent(QMoveEvent*);
 

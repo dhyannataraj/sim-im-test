@@ -145,7 +145,7 @@ class CToolBar : public QToolBar
 {
     Q_OBJECT
 public:
-    CToolBar(const ToolBarDef *def, list<unsigned long> *active, QMainWindow *parent, QWidget *receiver);
+    CToolBar(const ToolBarDef *def, unsigned long **active, QMainWindow *parent, QWidget *receiver);
     ~CToolBar();
     void setState(int id, const char *icon, const QString &text);
     void setPopup(int id, QPopupMenu *popup);
@@ -160,7 +160,6 @@ public:
     void setOn(int id, bool bOn);
     QWidget *getWidget(int id);
     QPoint popupPos(int id, QWidget *popup);
-    static void save(const ToolBarDef *def, list<unsigned long> *active);
     void enableAccel(bool bState);
 public slots:
     void popupActivated(int);
@@ -174,7 +173,7 @@ protected:
     bool isCombo(int id);
     QWidget *m_receiver;
     const ToolBarDef *m_def;
-    list<unsigned long> *m_active;
+    unsigned long **m_active;
 };
 
 #endif

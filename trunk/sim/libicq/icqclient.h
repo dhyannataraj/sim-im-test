@@ -236,6 +236,7 @@ const int EVENT_DONE			    = 16;
 const int EVENT_CHAT				= 17;
 const int EVENT_PROXY_ERROR			= 18;
 const int EVENT_PROXY_BAD_AUTH		= 19;
+const int EVENT_FILETRANSFER		= 20;
 
 const int EVENT_SUBTYPE_FULLINFO	= 1;
 const int EVENT_SUBTYPE_AUTOREPLY	= 2;
@@ -426,6 +427,7 @@ public:
 
     DirectClient *direct;
 
+    bool bCanDirect;
     bool bIsTemp;
     bool isOnline();
     bool bPhoneChanged;
@@ -608,6 +610,13 @@ typedef struct fileName
 class FileTransferListener;
 class FileTransfer;
 
+const unsigned FT_UNKNOWN			= 0;
+const unsigned FT_LISTEN			= 1;
+const unsigned FT_DIRECT_CONNECT	= 2;
+const unsigned FT_SEND_SRV			= 3;
+const unsigned FT_SEND_DIRECT		= 4;
+const unsigned FT_NEGOTIATE			= 5;
+
 class ICQFile : public ICQMessage
 {
 public:
@@ -628,6 +637,8 @@ public:
 
     void resume(int mode);
     vector<fileName> files;
+
+    unsigned ftState;
 
     bool wait;
     bool autoAccept;

@@ -44,14 +44,14 @@ FontSetup::FontSetup(QWidget *p)
 #else
     chkSystem->hide();
 #endif
-    chkOwnColors->setChecked(pMain->UseOwnColors);
-    grpContainer->setButton(pMain->ContainerMode);
-    btnSend->setColor(QColor(pMain->ColorSend));
-    btnReceive->setColor(QColor(pMain->ColorReceive));
-    grpWndMode->setButton(pMain->SimpleMode ? 1 : 0);
+    chkOwnColors->setChecked(pMain->isUseOwnColors());
+    grpContainer->setButton(pMain->getContainerMode());
+    btnSend->setColor(QColor(pMain->getColorSend()));
+    btnReceive->setColor(QColor(pMain->getColorReceive()));
+    grpWndMode->setButton(pMain->isSimpleMode() ? 1 : 0);
     spnCopy->setMinValue(0);
     spnCopy->setMaxValue(9);
-    spnCopy->setValue(pMain->CopyMessages);
+    spnCopy->setValue(pMain->getCopyMessages());
     connect(btnModeSplit, SIGNAL(toggled(bool)), this, SLOT(modeChanged(bool)));
     connect(btnModePlain, SIGNAL(toggled(bool)), this, SLOT(modeChanged(bool)));
     modeChanged(false);
@@ -75,17 +75,17 @@ void FontSetup::apply(ICQUser*)
 {
     unsigned long colorSend = btnSend->color().rgb() & 0xFFFFFF;
     unsigned long colorReceive = btnReceive->color().rgb() & 0xFFFFFF;
-    if ((pMain->ColorSend != colorSend) || (pMain->ColorReceive != colorReceive)){
-        pMain->ColorSend = colorSend;
-        pMain->ColorReceive = colorReceive;
+    if ((pMain->getColorSend() != colorSend) || (pMain->getColorReceive() != colorReceive)){
+        pMain->setColorSend(colorSend);
+        pMain->setColorReceive(colorReceive);
         pMain->changeColors();
     }
 #ifdef USE_KDE
-    pMain->UseSystemFonts = chkSystem->isChecked();
-    if (!pMain->UseSystemFonts){
+    pMain->setUseSystemFonts(chkSystem->isChecked());
+    if (!pMain->isUseSystemFonts()){
 #endif
-        pMain->Font = pMain->font2str(edtFont->winFont(), false).local8Bit();
-        pMain->FontMenu = pMain->font2str(edtFontMenu->winFont(), false).local8Bit();
+        pMain->setFont(pMain->font2str(edtFont->winFont(), false).local8Bit());
+        pMain->setFontMenu(pMain->font2str(edtFontMenu->winFont(), false).local8Bit());
 #ifdef USE_KDE
     }
 #endif
@@ -93,13 +93,13 @@ void FontSetup::apply(ICQUser*)
     pMain->setFonts();
     QWidget *w = grpContainer->selected();
     if (w == rbtUser)
-        pMain->ContainerMode = ContainerModeUser;
+        pMain->setContainerMode(ContainerModeUser);
     if (w == rbtGroup)
-        pMain->ContainerMode = ContainerModeGroup;
+        pMain->setContainerMode(ContainerModeGroup);
     if (w == rbtAll)
-        pMain->ContainerMode = ContainerModeAll;
+        pMain->setContainerMode(ContainerModeAll);
     pMain->changeMode(grpWndMode->selected() == btnModePlain);
-    pMain->CopyMessages = atol(spnCopy->text().latin1());
+    pMain->setCopyMessages(atol(spnCopy->text().latin1()));
 }
 
 #ifndef _WINDOWS

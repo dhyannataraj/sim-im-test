@@ -66,7 +66,7 @@ ChatWindow::ChatWindow(ICQChat *_chat)
 
     setWFlags(WDestructiveClose);
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
-    transparent = new TransparentTop(this, pMain->UseTransparentContainer, pMain->TransparentContainer);
+    transparent = new TransparentTop(this, pMain->_UseTransparentContainer(), pMain->_TransparentContainer());
 
     QToolBar *toolbar = new QToolBar(this);
 
@@ -142,8 +142,8 @@ ChatWindow::ChatWindow(ICQChat *_chat)
     CUser owner(pClient->owner);
     new ChatUserItem(lstUsers, owner.name(), 0);
 
-    if (pMain->ChatWidth && pMain->ChatHeight)
-        resize(pMain->ChatWidth, pMain->ChatHeight);
+    if (pMain->getChatWidth() && pMain->getChatHeight())
+        resize(pMain->getChatWidth(), pMain->getChatHeight());
     baseColor = txtChat->color();
     bClientMode = false;
 }
@@ -216,7 +216,7 @@ QString ChatWindow::chatHeader(unsigned long uin)
         alias = u.name(true);
     }
     QString color;
-    color.sprintf("%06lX", uin ? pMain->ColorReceive : pMain->ColorSend);
+    color.sprintf("%06lX", uin ? pMain->getColorReceive() : pMain->getColorSend());
     return QString("<font color=\"#%1\">&lt;%2&gt;</font> ")
            .arg(color) .arg(alias);
 }
@@ -323,8 +323,8 @@ void ChatWindow::toggleUnderline(bool bOn)
 void ChatWindow::resizeEvent(QResizeEvent *e)
 {
     QMainWindow::resizeEvent(e);
-    pMain->ChatWidth = width();
-    pMain->ChatHeight = height();
+    pMain->setChatWidth(width());
+    pMain->setChatHeight(height());
 }
 
 void ChatWindow::openLog()

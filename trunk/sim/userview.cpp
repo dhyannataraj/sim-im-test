@@ -98,13 +98,13 @@ void UserViewItemBase::paint(QPainter *p, const QString s, const QColorGroup &c,
     const QPixmap *pix = userView->transparent->background(cg.base());
     bool bSelected = isSelected() && !userView->bFloaty;
     if (bEnabled){
-        p->setPen(pMain->UseSystemColors ?
+        p->setPen(pMain->isUseSystemColors() ?
                   cg.color(QColorGroup::Text) :
-                  QColor(pMain->OnlineColor));
+                  QColor(pMain->getOnlineColor()));
     }else{
-        p->setPen(pMain->UseSystemColors ?
+        p->setPen(pMain->isUseSystemColors() ?
                   cg.color(QColorGroup::Dark) :
-                  QColor(pMain->OfflineColor));
+                  QColor(pMain->getOfflineColor()));
     }
 
     const QImage &bgPict = userView->bgPict;
@@ -117,7 +117,7 @@ void UserViewItemBase::paint(QPainter *p, const QString s, const QColorGroup &c,
     QPoint pos = listView()->itemRect(this).topLeft();
     pos = listView()->viewport()->mapToParent(pos);
     if (!bgPict.isNull()){
-        switch (pMain->BackgroundMode){
+        switch (pMain->getBackgroundMode()){
         case bgModeContactLeft:
             w = bgPict.width();
             break;
@@ -200,7 +200,7 @@ void UserViewItemBase::paint(QPainter *p, const QString s, const QColorGroup &c,
     }
     listView()->setStaticBackground(userView->bStaticBg || bStaticBg ||
                                     (pix && (listView()->contentsHeight() >= listView()->viewport()->height())));
-    int x = pMain->IconMargin;
+    int x = pMain->getIconMargin();
     if (userView->bList){
 #if QT_VERSION < 300
         QSize s = listView()->style().indicatorSize();
@@ -228,19 +228,19 @@ void UserViewItemBase::paint(QPainter *p, const QString s, const QColorGroup &c,
         x += w + 5;
 #endif
         if (bEnabled){
-            p->setPen(pMain->UseSystemColors ?
+            p->setPen(pMain->isUseSystemColors() ?
                       cg.color(QColorGroup::Text) :
-                      QColor(pMain->OnlineColor));
+                      QColor(pMain->getOnlineColor()));
         }else{
-            p->setPen(pMain->UseSystemColors ?
+            p->setPen(pMain->isUseSystemColors() ?
                       cg.color(QColorGroup::Dark) :
-                      QColor(pMain->OfflineColor));
+                      QColor(pMain->getOfflineColor()));
         }
     }else{
         QString pict = text(2);
         if (pict.length()){
             const QPixmap &icon = Pict(pict);
-            p->drawPixmap(pMain->IconMargin + xp, (height() - icon.height()) + yp / 2, icon);
+            p->drawPixmap(pMain->getIconMargin() + xp, (height() - icon.height()) + yp / 2, icon);
             x += icon.width() + 5;
         }
     }
@@ -487,7 +487,7 @@ void UserViewItem::update(ICQUser *u, bool bFirst)
             st = 5;
         }
     }
-    if (pMain->AlphabetSort){
+    if (pMain->isAlphabetSort()){
         QString s;
         if (!users->m_bGroupMode) s = QString::number(m_itemState) + "1";
         s += name;
@@ -832,8 +832,8 @@ void UserView::drawImage(QPainter *p, int x, int y, int w, int h, int imgX, int 
 void UserView::bgChanged()
 {
     bgPictScale = QImage();
-    if (*pMain->BackgroundFile.c_str()){
-        bgPict = QImage(QString::fromLocal8Bit(pMain->BackgroundFile.c_str()));
+    if (*pMain->getBackgroundFile()){
+        bgPict = QImage(QString::fromLocal8Bit(pMain->getBackgroundFile()));
     }else{
         bgPict = QImage();
     }
@@ -888,7 +888,7 @@ void UserView::grpFunction(int id)
         pClient->createGroup(i18n("New group"));
         return;
     case mnuToolBar:
-        ToolBarSetup::show(pToolBarMain, &pMain->ToolBarMain);
+        ToolBarSetup::show(pToolBarMain, pMain->_ToolBarMain());
         return;
     case mnuGrpRename:{
             if (grp_id == 0) return;
@@ -981,7 +981,7 @@ void UserView::paintEmptyArea(QPainter *p, const QRect &r)
     if (item) h = item->height();
     int ch = h;
     if (!bgPict.isNull()){
-        switch (pMain->BackgroundMode){
+        switch (pMain->getBackgroundMode()){
         case bgModeContactLeft:
             w = bgPict.width();
             break;
@@ -1478,7 +1478,7 @@ void UserView::itemClicked(QListViewItem *list_item)
 
 void UserView::contentsMouseDoubleClickEvent(QMouseEvent *e)
 {
-    if (!pMain->UseDoubleClick) return;
+    if (!pMain->isUseDoubleClick()) return;
     QListViewItem *list_item = itemAt(contentsToViewport(e->pos()));
     if (list_item) doubleClick(list_item);
 }
@@ -1500,7 +1500,7 @@ void UserView::contentsMouseReleaseEvent(QMouseEvent *e)
 #endif
     if (!bList){
         clearSelection();
-        if (!pMain->UseDoubleClick && pressedItem && (pressedItem == itemAt(contentsToViewport(e->pos()))))
+        if (!pMain->isUseDoubleClick() && pressedItem && (pressedItem == itemAt(contentsToViewport(e->pos()))))
             doubleClick(pressedItem);
         pressedItem = NULL;
     }
@@ -1732,7 +1732,7 @@ UserFloat::UserFloat()
 {
     ::init(&data, UserFloat_Params);
     bFloaty = true;
-    transparent = new TransparentTop(this, pMain->UseTransparent, pMain->Transparent);
+    transparent = new TransparentTop(this, pMain->_UseTransparent(), pMain->_Transparent());
     m_bShowOffline = true;
     setVScrollBarMode(AlwaysOff);
     bMoveMode = false;
@@ -1785,7 +1785,7 @@ void UserFloat::userChanged()
     if (!it.current()) return;
     QSize s;
     s.setWidth(it.current()->width(QFontMetrics(QFont()), this, 0) + 10);
-    s.setHeight(it.current()->totalHeight() + 2);
+    s.setHeight(it.current()->height() + 2);
     resize(s);
 }
 

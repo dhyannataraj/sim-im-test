@@ -703,7 +703,7 @@ void SIMClient::process_event(ICQEvent *e)
                 if (msg->Id == MSG_NEW){
                     if (msg->Type() == ICQ_MSGxSMS){
                         ICQSMS *sms = static_cast<ICQSMS*>(msg);
-                        if (*pMain->ForwardPhone.c_str() && PhoneInfo::isEqual(sms->Phone.c_str(), pMain->ForwardPhone.c_str())){
+                        if (*pMain->getForwardPhone() && PhoneInfo::isEqual(sms->Phone.c_str(), pMain->getForwardPhone())){
                             unsigned long uin = atol(sms->Message.c_str());
                             if (uin > 10000){
                                 QString msgText = pClient->from8Bit(owner->Uin, sms->Message, msg->Charset.c_str());
@@ -723,7 +723,7 @@ void SIMClient::process_event(ICQEvent *e)
                     if (msg->Type() == ICQ_MSGxMSG){
                         ICQMsg *m = static_cast<ICQMsg*>(msg);
                         if (((owner->uStatus & ICQ_STATUS_NA) || (owner->uStatus & ICQ_STATUS_AWAY)) &&
-                                *pMain->ForwardPhone.c_str()){
+                                *pMain->getForwardPhone()){
                             QString str = pClient->from8Bit(msg->getUin(), m->Message, msg->Charset.c_str());
                             if (!str.isEmpty()){
                                 string text(str.utf8());
@@ -845,7 +845,7 @@ void SIMClient::sendSMS(SMSmessage *sms)
     m->Uin.push_back(owner->Uin);
     m->Message = sms->smsChunk();
     if (m->Message.length()){
-        m->Phone = pClient->to8Bit(owner->Uin, QString::fromLocal8Bit(pMain->ForwardPhone.c_str()));
+        m->Phone = pClient->to8Bit(owner->Uin, QString::fromLocal8Bit(pMain->getForwardPhone()));
         m->Charset = pClient->userEncoding(owner->Uin);
         sms->msg = m;
         pClient->sendMessage(sms->msg);

@@ -51,7 +51,7 @@ FileTransferDlg::FileTransferDlg(QWidget *p, ICQFile *_file)
     file = _file;
     setIcon(Pict("file"));
     edtFile1->setReadOnly(true);
-    chkClose->setChecked(file->autoAccept || pMain->CloseAfterFileTransfer);
+    chkClose->setChecked(file->autoAccept || pMain->isCloseAfterFileTransfer());
     connect(btnCancel, SIGNAL(clicked()), this, SLOT(close()));
     connect(pClient, SIGNAL(fileExist(ICQFile*, const QString&,bool)), this, SLOT(fileExist(ICQFile*, const QString&, bool)));
     connect(pClient, SIGNAL(fileNoCreate(ICQFile*, const QString&)), this, SLOT(fileNoCreate(ICQFile*, const QString&)));
@@ -273,7 +273,7 @@ void FileTransferDlg::fileExist(ICQFile *f, const QString &name, bool _bCanResum
 
 void FileTransferDlg::closeToggled(bool bState)
 {
-    pMain->CloseAfterFileTransfer = bState;
+    pMain->setCloseAfterFileTransfer(bState);
 }
 
 void FileTransferDlg::action()

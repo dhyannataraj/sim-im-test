@@ -164,7 +164,7 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
 
     frmEdit = new QFrame(wndEdit);
     wndEdit->setCentralWidget(frmEdit);
-    toolbar = new CToolBar(msgEditToolBar, &pMain->ToolBarMsg, wndEdit, this);
+    toolbar = new CToolBar(msgEditToolBar, pMain->_ToolBarMsg(), wndEdit, this);
     toolbar->installEventFilter(this);
     QVBoxLayout *lay = new QVBoxLayout(frmEdit);
     tmpl = new Tmpl(this);
@@ -176,7 +176,7 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     declineMenu->insertItem(reason_string(DECLINE_REASON_LATER), DECLINE_REASON_LATER);
     declineMenu->insertItem(reason_string(DECLINE_REASON_INPUT), DECLINE_REASON_INPUT);
     toolbar->setPopup(btnDecline, declineMenu);
-    toolbar->setOn(btnCloseSend, pMain->CloseAfterSend);
+    toolbar->setOn(btnCloseSend, pMain->isCloseAfterSend());
 
     phone = new QHGroupBox(frmEdit);
     phone->hide();
@@ -227,7 +227,7 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     setState();
     setUIN(uin);
     connect(pMain, SIGNAL(modeChanged(bool)), this, SLOT(modeChanged(bool)));
-    modeChanged(pMain->SimpleMode);
+    modeChanged(pMain->isSimpleMode());
     wndCancel = new WndCancel(this);
 }
 
@@ -263,7 +263,7 @@ void MsgEdit::save(QFile &s)
 
 void MsgEdit::closeToggle(bool state)
 {
-    pMain->CloseAfterSend = state;
+    pMain->setCloseAfterSend(state);
 }
 
 bool MsgEdit::isMultiply()
@@ -643,13 +643,13 @@ void MsgEdit::sendClick()
         pClient->cancelMessage(sendEvent->message());
         return;
     }
-    bCloseSend = pMain->SimpleMode || toolbar->isOn(btnCloseSend);
+    bCloseSend = pMain->isSimpleMode() || toolbar->isOn(btnCloseSend);
     send();
 }
 
 void MsgEdit::markAsRead()
 {
-    if (pMain->SimpleMode){
+    if (pMain->isSimpleMode()){
         if (msg == NULL) return;
         if (!msg->Received) return;
         if (pClient->markAsRead(msg))
@@ -1041,7 +1041,7 @@ void MsgEdit::topReady(Tmpl*, const QString &res)
     edit->moveCursor(QTextEdit::MoveEnd, false);
     disconnect(tmpl, SIGNAL(ready(Tmpl*, const QString&)), this, SLOT(topReady(Tmpl*, const QString&)));
     connect(tmpl, SIGNAL(ready(Tmpl*, const QString&)), this, SLOT(bottomReady(Tmpl*, const QString&)));
-    tmpl->expand(QString::fromLocal8Bit(pMain->SMSSignBottom.c_str()), getUin());
+    tmpl->expand(QString::fromLocal8Bit(pMain->getSMSSignBottom()), getUin());
 }
 
 void MsgEdit::bottomReady(Tmpl*, const QString &res)
@@ -1192,7 +1192,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 break;
             case ICQ_MSGxMSG:
             case ICQ_MSGxURL:
-                if ((bInTop || !bChanged) && !pMain->SimpleMode){
+                if ((bInTop || !bChanged) && !pMain->isSimpleMode()){
                     toolbar->hide(btnReply);
                     toolbar->show(btnQuote);
                     toolbar->show(btnForward);
@@ -1245,8 +1245,8 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
             }
             users->hide();
             view->show();
-            view->setText(view->makeMessageText(msg, pMain->UseOwnColors));
-            if ((msg->Type() == ICQ_MSGxMSG) && !pMain->UseOwnColors){
+            view->setText(view->makeMessageText(msg, pMain->isUseOwnColors()));
+            if ((msg->Type() == ICQ_MSGxMSG) && !pMain->isUseOwnColors()){
                 ICQMsg *m = static_cast<ICQMsg*>(msg);
                 if (m->BackColor != m->ForeColor){
                     view->setForeground(QColor(m->ForeColor));
@@ -1266,7 +1266,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
         toolbar->hide(btnRefuse);
         toolbar->hide(btnAccept);
         toolbar->hide(btnDecline);
-        if (pMain->SimpleMode){
+        if (pMain->isSimpleMode()){
             toolbar->hide(btnCloseSend);
         }else{
             toolbar->show(btnCloseSend);
@@ -1423,7 +1423,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                         edit->setText(pClient->from8Bit(getUin(), pClient->clearHTML(m->Message.c_str())), m->Charset.c_str());
                     }else{
                         connect(tmpl, SIGNAL(ready(Tmpl*, const QString&)), this, SLOT(topReady(Tmpl*, const QString&)));
-                        tmpl->expand(QString::fromLocal8Bit(pMain->SMSSignTop.c_str()), getUin());
+                        tmpl->expand(QString::fromLocal8Bit(pMain->getSMSSignTop()), getUin());
                     }
                     if (*m->Phone.c_str())
                         phoneEdit->lineEdit()->setText(pClient->from8Bit(getUin(), m->Phone, NULL));
@@ -1598,10 +1598,10 @@ void MsgEdit::makeMessage()
             m->BackColor = (edit->background().rgb() & 0xFFFFFF);
             m->ForeColor = (edit->foreground().rgb() & 0xFFFFFF);
 
-            pMain->MessageBgColor = m->BackColor;
-            pMain->MessageFgColor = m->ForeColor;
+            pMain->setMessageBgColor(m->BackColor);
+            pMain->setMessageFgColor(m->ForeColor);
             if (edit->fontChanged())
-                pMain->UserBoxFont = pMain->font2str(edit->currentFont(), false).local8Bit();
+                pMain->setUserBoxFont(pMain->font2str(edit->currentFont(), false).local8Bit());
             break;
         }
     case ICQ_MSGxURL:{
@@ -1699,7 +1699,7 @@ void MsgEdit::send()
             }
         }
     }
-    if (pMain->SpellOnSend){
+    if (pMain->isSpellOnSend()){
         switch (msg->Type()){
         case ICQ_MSGxSMS:
         case ICQ_MSGxMSG:
@@ -1725,7 +1725,7 @@ void MsgEdit::acceptMessage()
             f->localName = (const char*)(fileEdit->text().local8Bit());
     }
     pClient->acceptMessage(msg);
-    if (pMain->SimpleMode)
+    if (pMain->isSimpleMode())
         QTimer::singleShot(50, this, SLOT(close()));
 }
 
@@ -1747,7 +1747,7 @@ void MsgEdit::declineMessage(int action)
     }
     string declineStr = pClient->to8Bit(getUin(), reason);
     pClient->declineMessage(msg, declineStr.c_str());
-    if (pMain->SimpleMode)
+    if (pMain->isSimpleMode())
         QTimer::singleShot(50, this, SLOT(close()));
 }
 
@@ -1846,7 +1846,7 @@ void MsgEdit::modeChanged(bool bSimple)
 void MsgEdit::adjustSplitter()
 {
     if (getEditHeight() == 0)
-        setEditHeight(pMain->UserBoxEditHeight);
+        setEditHeight(pMain->getUserBoxEditHeight());
     if (getEditHeight() == 0){
         QSize s = wndEdit->sizeHint();
         setEditHeight(s.height());
@@ -1860,9 +1860,9 @@ void MsgEdit::adjustSplitter()
 
 void MsgEdit::heightChanged(int h)
 {
-    if (pMain->SimpleMode) return;
+    if (pMain->isSimpleMode()) return;
     setEditHeight(h);
-    pMain->UserBoxEditHeight = h;
+    pMain->setUserBoxEditHeight(h);
 }
 
 void MsgEdit::showEvent(QShowEvent *e)

@@ -91,7 +91,11 @@ SetupDialog::SetupDialog(QWidget*, int nWin)
 
     setButtonsPict(this);
 
-    new TransparentTop(this, pMain->UseTransparentContainer, pMain->TransparentContainer);
+#ifndef WIN32
+    transparent = new TransparentTop(this, pMain->_UseTransparentContainer(), pMain->_TransparentContainer());
+#else
+    transparent = NULL;
+#endif
 
     setIcon(Pict("configure"));
     setCaption(i18n("Setup"));
@@ -153,8 +157,6 @@ SetupDialog::SetupDialog(QWidget*, int nWin)
 
     raiseWidget(nWin ? nWin : SETUP_MAININFO);
     connect(pMain, SIGNAL(iconChanged()), this, SLOT(iconChanged()));
-
-    transparent = new TransparentTop(this, pMain->UseTransparentContainer, pMain->TransparentContainer);
 };
 
 SetupDialog::~SetupDialog()

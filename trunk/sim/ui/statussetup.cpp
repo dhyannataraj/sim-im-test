@@ -27,32 +27,32 @@
 StatusSetup::StatusSetup(QWidget *p)
         : StatusSetupBase(p)
 {
-    if (pMain->AutoAwayTime){
+    if (pMain->getAutoAwayTime()){
         chkAway->setChecked(true);
-        spnAway->setValue(pMain->AutoAwayTime / 60);
+        spnAway->setValue(pMain->getAutoAwayTime() / 60);
     }else{
         spnAway->setValue(5);
         spnAway->setEnabled(false);
     }
     connect(chkAway, SIGNAL(toggled(bool)), this, SLOT(changed(bool)));
-    if (pMain->AutoNATime){
+    if (pMain->getAutoNATime()){
         chkNA->setChecked(true);
-        spnNA->setValue(pMain->AutoNATime / 60);
+        spnNA->setValue(pMain->getAutoNATime() / 60);
     }else{
         spnNA->setValue(10);
         spnNA->setEnabled(false);
     }
     connect(chkNA, SIGNAL(toggled(bool)), this, SLOT(changed(bool)));
-    if (pMain->AutoHideTime){
+    if (pMain->getAutoHideTime()){
         chkAutoHide->setChecked(true);
-        spnAutoHide->setValue(pMain->AutoHideTime);
+        spnAutoHide->setValue(pMain->getAutoHideTime());
     }else{
         spnAutoHide->setValue(60);
         spnAutoHide->setEnabled(false);
     }
     connect(chkAutoHide, SIGNAL(toggled(bool)), this, SLOT(changed(bool)));
     chkAutoHide->setEnabled(pMain->isDock());
-    chkAlert->setChecked(pMain->NoAlertAway);
+    chkAlert->setChecked(pMain->isNoAlertAway());
 }
 
 void StatusSetup::changed(bool)
@@ -64,11 +64,10 @@ void StatusSetup::changed(bool)
 
 void StatusSetup::apply(ICQUser*)
 {
-    pMain->AutoAwayTime = chkAway->isChecked() ? atol(spnAway->text().latin1()) * 60 : 0;
-    pMain->AutoNATime = chkNA->isChecked() ? atol(spnNA->text().latin1()) * 60 : 0;
-    pMain->AutoHideTime = chkAutoHide->isChecked() ? atol(spnAutoHide->text().latin1()) : 0;
-
-    pMain->NoAlertAway = chkAlert->isChecked();
+    pMain->setAutoAwayTime(chkAway->isChecked() ? atol(spnAway->text().latin1()) * 60 : 0);
+    pMain->setAutoNATime(chkNA->isChecked() ? atol(spnNA->text().latin1()) * 60 : 0);
+    pMain->setAutoHideTime(chkAutoHide->isChecked() ? atol(spnAutoHide->text().latin1()) : 0);
+    pMain->setNoAlertAway(chkAlert->isChecked());
 }
 
 #ifndef _WINDOWS

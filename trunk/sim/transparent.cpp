@@ -122,8 +122,8 @@ void TransparentBg::backgroundUpdated()
 }
 
 TransparentTop::TransparentTop(QWidget *parent,
-                               bool &_useTransparent,
-                               unsigned long &_transparent)
+                               bool *_useTransparent,
+                               unsigned long *_transparent)
         : QObject(parent, _TRANSPARENT),
         useTransparent(_useTransparent),
         transparent(_transparent)
@@ -179,11 +179,11 @@ void TransparentTop::transparentChanged()
 #ifdef WIN32
     QWidget *p = static_cast<QWidget*>(parent());
     bool bTransparent = true;
-    if (pMain->TransparentIfInactive) bTransparent = !p->isActiveWindow();
-    setTransparent(p, useTransparent && bTransparent, transparent);
+    if (pMain->isTransparentIfInactive()) bTransparent = !p->isActiveWindow();
+    setTransparent(p, *useTransparent && bTransparent, *transparent);
 #endif
 #if defined(USE_KDE) && defined(HAVE_KROOTPIXMAP_H)
-    if (useTransparent){
+    if (*useTransparent){
         rootpixmap->start();
     }else{
         rootpixmap->stop();
@@ -269,13 +269,13 @@ const QPixmap *TransparentTop::background(QColor)
 #endif
 {
 #if defined(USE_KDE) && defined(HAVE_KROOTPIXMAP_H)
-    if (useTransparent && !saveBG.isNull()){
-        if ((c.rgb() == genColor.rgb()) && (transparent == genFade))
+    if (*useTransparent && !saveBG.isNull()){
+        if ((c.rgb() == genColor.rgb()) && (*transparent == *genFade))
             return &genBG;
         QImage img = saveBG.convertToImage();
-        fade(img, transparent / 100., c);
+        fade(img, *transparent / 100., c);
         genBG.convertFromImage(img);
-        genFade = transparent;
+        genFade = *transparent;
         genColor = c;
         return &genBG;
     }

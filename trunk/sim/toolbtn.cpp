@@ -393,7 +393,7 @@ QSizePolicy CToolCombo::sizePolicy() const
     return p;
 }
 
-CToolBar::CToolBar(const ToolBarDef *def, list<unsigned long> *active, QMainWindow *parent, QWidget *receiver)
+CToolBar::CToolBar(const ToolBarDef *def, unsigned long **active, QMainWindow *parent, QWidget *receiver)
         : QToolBar(parent)
 {
     m_def = def;
@@ -455,8 +455,8 @@ void CToolBar::toolBarChanged(const ToolBarDef *def)
 {
     if (def != m_def) return;
     clear();
-    int i;
-    for (i = 0; i < (int)(states->size()); i++){
+    unsigned i;
+    for (i = 0; i < (unsigned)(states->size()); i++){
         if ((*states)[i].button == NULL) continue;
         ToolBarState &s = (*states)[i];
         QWidget *w = s.button;
@@ -466,16 +466,26 @@ void CToolBar::toolBarChanged(const ToolBarDef *def)
         }
         s.button = NULL;
     }
-    if (m_active->size() == 0){
-        for (; def->id != BTN_END_DEF; def++)
-            m_active->push_back(def->id);
+    unsigned long *active = *m_active;
+    if (active == NULL){
+        unsigned i = 0;
+        const ToolBarDef *d;
+        for (d = def; d->id != BTN_END_DEF; d++)
+            i++;
+        active = (unsigned long*)malloc((i + 1) * sizeof(unsigned long));
+        unsigned long *p = active;
+        *p++ = i;
+        for (d = def; d->id != BTN_END_DEF; d++)
+            *p++ = d->id;
     }
 
-    for (list<unsigned long>::iterator it = m_active->begin(); it != m_active->end(); ){
-        unsigned long id = *it;
+    unsigned long *p = active;
+    unsigned n = *p++;
+
+    for (i = 0; i < n; i++, p++){
+        unsigned long id = *p;
         if (id == BTN_SEPARATOR){
             addSeparator();
-            ++it;
             continue;
         }
         const ToolBarDef *def;
@@ -485,9 +495,12 @@ void CToolBar::toolBarChanged(const ToolBarDef *def)
             for (def++; def->id != BTN_END_DEF; def++)
                 if (def->id == id) break;
             if (def->id == BTN_END_DEF){
-                m_active->remove(id);
-                clear();
-                it = m_active->begin();
+                (*active)--;
+                n--;
+                if (i < n)
+                    memmove(p, p + 1, sizeof(unsigned long) * (n - i));
+                i--;
+                p--;
                 continue;
             }
         }
@@ -540,8 +553,8 @@ void CToolBar::toolBarChanged(const ToolBarDef *def)
         }else{
             connect(w, SIGNAL(showPopup(QPoint)), this, SLOT(showPopup(QPoint)));
         }
-        ++it;
     }
+    if (*m_active == NULL) free(active);
 }
 
 bool CToolBar::isButton(int id)
@@ -696,16 +709,6 @@ void CToolBar::popupActivated(int id)
         ToolBarSetup::show(m_def, m_active);
         return;
     }
-}
-
-void CToolBar::save(const ToolBarDef *def, list<unsigned long> *active)
-{
-    list<unsigned long>::iterator it;
-    for (it = active->begin(); it != active->end(); ++it, def++){
-        if ((*it) != def->id) break;
-    }
-    if ((it == active->end()) && def->id == BTN_END_DEF)
-        active->clear();
 }
 
 void CToolBar::enableAccel(bool bState)

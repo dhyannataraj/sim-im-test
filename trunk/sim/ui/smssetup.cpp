@@ -32,9 +32,9 @@ SMSSetup::SMSSetup(QWidget *p)
         : SMSSetupBase(p)
 {
     QString s;
-    set(s, pMain->SMSSignTop.c_str());
+    set(s, pMain->getSMSSignTop());
     edtBefore->setText(s);
-    set(s, pMain->SMSSignBottom.c_str());
+    set(s, pMain->getSMSSignBottom());
     edtAfter->setText(s);
     cmbPhone->setEditable(true);
     for (PhoneBook::iterator it = pClient->owner->Phones.begin(); it != pClient->owner->Phones.end(); ++it){
@@ -42,14 +42,14 @@ SMSSetup::SMSSetup(QWidget *p)
         string number = (*it)->getNumber();
         cmbPhone->insertItem(QString::fromLocal8Bit(number.c_str()));
     }
-    cmbPhone->lineEdit()->setText(pMain->ForwardPhone.c_str());
+    cmbPhone->lineEdit()->setText(pMain->getForwardPhone());
 }
 
 void SMSSetup::apply(ICQUser*)
 {
-    set(pMain->SMSSignTop, edtBefore->text());
-    set(pMain->SMSSignBottom, edtAfter->text());
-    set(pMain->ForwardPhone, cmbPhone->lineEdit()->text());
+    set(pMain->_SMSSignTop(), edtBefore->text());
+    set(pMain->_SMSSignBottom(), edtAfter->text());
+    set(pMain->_ForwardPhone(), cmbPhone->lineEdit()->text());
 }
 
 #ifndef _WINDOWS

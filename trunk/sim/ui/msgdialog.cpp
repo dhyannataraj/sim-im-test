@@ -46,23 +46,23 @@ MsgDialog::MsgDialog(QWidget *p, unsigned long _status, bool bReadOnly)
     switch (status){
     case ICQ_STATUS_AWAY:
         set(edtMessage, pClient->owner->AutoResponseAway, pClient->owner);
-        chkNoShow->setChecked(pMain->NoShowAway);
+        chkNoShow->setChecked(pMain->isNoShowAway());
         break;
     case ICQ_STATUS_NA:
         set(edtMessage, pClient->owner->AutoResponseNA, pClient->owner);
-        chkNoShow->setChecked(pMain->NoShowNA);
+        chkNoShow->setChecked(pMain->isNoShowNA());
         break;
     case ICQ_STATUS_DND:
         set(edtMessage, pClient->owner->AutoResponseDND, pClient->owner);
-        chkNoShow->setChecked(pMain->NoShowDND);
+        chkNoShow->setChecked(pMain->isNoShowDND());
         break;
     case ICQ_STATUS_OCCUPIED:
         set(edtMessage, pClient->owner->AutoResponseOccupied, pClient->owner);
-        chkNoShow->setChecked(pMain->NoShowOccupied);
+        chkNoShow->setChecked(pMain->isNoShowOccupied());
         break;
     case ICQ_STATUS_FREEFORCHAT:
         set(edtMessage, pClient->owner->AutoResponseFFC, pClient->owner);
-        chkNoShow->setChecked(pMain->NoShowFFC);
+        chkNoShow->setChecked(pMain->isNoShowFFC());
         break;
     }
     connect(chkOverride, SIGNAL(toggled(bool)), this, SLOT(overrideChanged(bool)));
@@ -140,23 +140,23 @@ void MsgDialog::apply(ICQUser*)
     switch (status){
     case ICQ_STATUS_AWAY:
         set(pClient->owner->AutoResponseAway, edtMessage->text());
-        pMain->NoShowAway = chkNoShow->isChecked();
+        pMain->setNoShowAway(chkNoShow->isChecked());
         break;
     case ICQ_STATUS_NA:
         set(pClient->owner->AutoResponseNA, edtMessage->text());
-        pMain->NoShowNA = chkNoShow->isChecked();
+        pMain->setNoShowNA(chkNoShow->isChecked());
         break;
     case ICQ_STATUS_DND:
         set(pClient->owner->AutoResponseDND, edtMessage->text());
-        pMain->NoShowDND = chkNoShow->isChecked();
+        pMain->setNoShowDND(chkNoShow->isChecked());
         break;
     case ICQ_STATUS_OCCUPIED:
         set(pClient->owner->AutoResponseOccupied, edtMessage->text());
-        pMain->NoShowOccupied = chkNoShow->isChecked();
+        pMain->setNoShowOccupied(chkNoShow->isChecked());
         break;
     case ICQ_STATUS_FREEFORCHAT:
         set(pClient->owner->AutoResponseFFC, edtMessage->text());
-        pMain->NoShowFFC = chkNoShow->isChecked();
+        pMain->setNoShowFFC(chkNoShow->isChecked());
         break;
     }
 }

@@ -52,7 +52,7 @@ EditSpell::EditSpell(QWidget *parent) : QTextEdit(parent)
 QSize EditSpell::sizeHint()
 {
     QSize s = QTextEdit::sizeHint();
-    if (pMain->SimpleMode || !pMain->SendEnter)
+    if (pMain->isSimpleMode() || !pMain->isSendEnter())
         return s;
     QFontMetrics fm(font());
     s.setHeight(fm.height() + 4);
@@ -62,7 +62,7 @@ QSize EditSpell::sizeHint()
 QSize EditSpell::minimumSizeHint()
 {
     QSize s = QTextEdit::minimumSizeHint();
-    if (pMain->SimpleMode || !pMain->SendEnter)
+    if (pMain->isSimpleMode() || !pMain->isSendEnter())
         return QTextEdit::minimumSizeHint();
     QFontMetrics fm(font());
     s.setHeight(fm.height() + 4);
@@ -72,7 +72,7 @@ QSize EditSpell::minimumSizeHint()
 void EditSpell::keyPressEvent(QKeyEvent *e)
 {
     if (((e->key() == Key_Enter) || (e->key() == Key_Return))){
-        if (pMain->SendEnter || (e->state() == ControlButton)){
+        if (pMain->isSendEnter() || (e->state() == ControlButton)){
             emit ctrlEnterPressed();
             return;
         }
@@ -154,15 +154,15 @@ void EditSpell::resetColors(bool bCanRich)
     curFG = baseFG;
     if (bCanRich){
         bFontChanged = false;
-        if (pMain->MessageBgColor != pMain->MessageFgColor){
-            setBackground(pMain->MessageBgColor);
-            setForeground(pMain->MessageFgColor);
-            curFG = pMain->MessageFgColor;
+        if (pMain->getMessageBgColor() != pMain->getMessageFgColor()){
+            setBackground(pMain->getMessageBgColor());
+            setForeground(pMain->getMessageFgColor());
+            curFG = pMain->getMessageFgColor();
         }else{
             setBackground(baseBG);
             setForeground(baseFG);
         }
-        setCurrentFont(pMain->str2font(pMain->UserBoxFont.c_str(), font()));
+        setCurrentFont(pMain->str2font(pMain->getUserBoxFont(), font()));
     }else{
         setBackground(baseBG);
         setForeground(baseFG);

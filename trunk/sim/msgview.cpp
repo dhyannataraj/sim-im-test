@@ -399,8 +399,8 @@ MsgView::MsgView(QWidget *p)
     connect(pClient, SIGNAL(messageRead(ICQMessage*)), this, SLOT(messageRead(ICQMessage*)));
     connect(pMain, SIGNAL(colorsChanged()), this, SLOT(colorsChanged()));
     connect(pMain, SIGNAL(ownColorsChanged()), this, SLOT(ownColorsChanged()));
-    oldSendColor = pMain->ColorSend;
-    oldReceiveColor = pMain->ColorReceive;
+    oldSendColor = pMain->getColorSend();
+    oldReceiveColor = pMain->getColorReceive();
 }
 
 void MsgView::setUin(unsigned long uin)
@@ -424,9 +424,9 @@ void MsgView::colorsChanged()
     t.replace(QRegExp(c), FONT_SEND);
     c.sprintf(FONT_FORMAT, oldReceiveColor);
     t.replace(QRegExp(c), FONT_RECEIVE);
-    c.sprintf(FONT_FORMAT, pMain->ColorSend);
+    c.sprintf(FONT_FORMAT, pMain->getColorSend());
     t.replace(QRegExp(FONT_SEND), c);
-    c.sprintf(FONT_FORMAT, pMain->ColorReceive);
+    c.sprintf(FONT_FORMAT, pMain->getColorReceive());
     t.replace(QRegExp(FONT_RECEIVE), c);
     setText(t);
     setContentsPos(x, y);
@@ -504,7 +504,7 @@ QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
               msg->getUin(), msg->Id, msg->getUin(), msg->Id, icon);
     if (bUnread) s += "<b>";
     QString color;
-    color.sprintf(FONT_FORMAT, msg->Received ? pMain->ColorReceive : pMain->ColorSend);
+    color.sprintf(FONT_FORMAT, msg->Received ? pMain->getColorReceive() : pMain->getColorSend());
     s += color;
     if (msg->Received){
         CUser u(msg->getUin());
@@ -532,7 +532,7 @@ QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
     s += "</nobr></p>";
     unsigned long foreColor = 0;
     unsigned long backColor = 0;
-    if (!pMain->UseOwnColors && (msg->Type() == ICQ_MSGxMSG)){
+    if (!pMain->isUseOwnColors() && (msg->Type() == ICQ_MSGxMSG)){
         ICQMsg *m = static_cast<ICQMsg*>(msg);
         foreColor = m->ForeColor;
         backColor = m->BackColor;
@@ -544,7 +544,7 @@ QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
             fg.sprintf("<font color=#%06lX>", foreColor);
             s += fg;
         }
-        s += makeMessageText(msg, pMain->UseOwnColors);
+        s += makeMessageText(msg, pMain->isUseOwnColors());
         if (foreColor != backColor) s += "</font>";
         s += "</p>";
     }
@@ -565,7 +565,7 @@ void MsgView::addMessage(ICQMessage *msg, bool bUnread, bool bSet)
     if (bSet) curAnchor = QString::number(msg->getUin()) + "." + QString::number(msg->Id);
     unsigned long foreColor = 0;
     unsigned long backColor = 0;
-    if (!pMain->UseOwnColors && (msg->Type() == ICQ_MSGxMSG)){
+    if (!pMain->isUseOwnColors() && (msg->Type() == ICQ_MSGxMSG)){
         ICQMsg *m = static_cast<ICQMsg*>(msg);
         foreColor = m->ForeColor;
         backColor = m->BackColor;
@@ -679,7 +679,7 @@ void MsgViewConv::setUin(unsigned long uin)
 {
     TextShow::setUin(uin);
     setText("");
-    if (pMain->CopyMessages){
+    if (pMain->getCopyMessages()){
         ICQUser *u = pClient->getUser(m_nUin);
         if (u == NULL) return;
         unsigned long unreadId = 0xFFFFFFFF;
@@ -694,7 +694,7 @@ void MsgViewConv::setUin(unsigned long uin)
         History::iterator &it = h.messages();
         for (unsigned n = 0; ++it; n++){
             unsigned long id = (*it)->Id;
-            if ((n >= pMain->CopyMessages) && (id < unreadId))
+            if ((n >= pMain->getCopyMessages()) && (id < unreadId))
                 break;
             unreadMsg.push_front(id);
         }
@@ -851,8 +851,8 @@ HistoryView::HistoryView(QWidget *p, unsigned long uin)
     connect(view, SIGNAL(fillDone(unsigned long)), this, SLOT(fillDone(unsigned long)));
     connect(view, SIGNAL(findDone(unsigned long)), this, SLOT(findDone(unsigned long)));
     setCentralWidget(view);
-    toolbar = new CToolBar(historyToolBar, &pMain->ToolBarHistory, this, this);
-    toolbar->setOn(btnDirection, pMain->HistoryDirection);
+    toolbar = new CToolBar(historyToolBar, pMain->_ToolBarHistory(), this, this);
+    toolbar->setOn(btnDirection, pMain->isHistoryDirection());
     searchTextChanged("");
     setDockEnabled(toolbar, Left, false);
     setDockEnabled(toolbar, Right, false);
@@ -992,7 +992,7 @@ void HistoryView::slotSearch()
 
 void HistoryView::slotDirection(bool dir)
 {
-    pMain->HistoryDirection = dir;
+    pMain->setHistoryDirection(dir);
     fill();
 }
 

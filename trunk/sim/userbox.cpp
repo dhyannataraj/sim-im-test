@@ -127,14 +127,14 @@ UserBox::UserBox(unsigned long grpId)
         : QMainWindow(NULL, NULL,
                       (WType_TopLevel | WStyle_Customize | WStyle_NormalBorder |
                        WStyle_Title | WStyle_SysMenu | WStyle_Minimize |
-                       (pMain->UserWndOnTop ? WStyle_StaysOnTop : 0))
+                       (pMain->isUserWndOnTop() ? WStyle_StaysOnTop : 0))
                      )
 {
     SET_WNDPROC("userbox")
     ::init(&data, UserBox_Params);
-    setToolbarDock(pMain->UserBoxToolbarDock.c_str());
-    setToolbarOffset(pMain->UserBoxToolbarOffset);
-    setToolbarY(pMain->UserBoxToolbarY);
+    setToolbarDock(pMain->getUserBoxToolbarDock());
+    setToolbarOffset(pMain->getUserBoxToolbarOffset());
+    setToolbarY(pMain->getUserBoxToolbarY());
     users = NULL;
     setGrpId(grpId);
     progress = NULL;
@@ -142,7 +142,7 @@ UserBox::UserBox(unsigned long grpId)
     setWFlags(WDestructiveClose);
     infoWnd = NULL;
     historyWnd = NULL;
-    transparent = new TransparentTop(this, pMain->UseTransparentContainer, pMain->TransparentContainer);
+    transparent = new TransparentTop(this, pMain->_UseTransparentContainer(), pMain->_TransparentContainer());
     menuUser = new QPopupMenu(this);
     menuUser->setCheckable(true);
     connect(menuUser, SIGNAL(activated(int)), this, SLOT(selectedUser(int)));
@@ -171,7 +171,7 @@ UserBox::UserBox(unsigned long grpId)
     setIcon(Pict(pClient->getStatusIcon()));
     connect(tabs, SIGNAL(selected(int)), this, SLOT(selectedUser(int)));
     connect(tabs, SIGNAL(showUserPopup(int, QPoint)), this, SLOT(showUserPopup(int, QPoint)));
-    toolbar = new CToolBar(userBoxToolBar, &pMain->ToolBarUserBox, this, this);
+    toolbar = new CToolBar(userBoxToolBar, pMain->_ToolBarUserBox(), this, this);
     menuType = new QPopupMenu(this);
     connect(menuType, SIGNAL(activated(int)), this, SLOT(typeChanged(int)));
     menuGroup = new QPopupMenu(this);
@@ -218,7 +218,7 @@ void UserBox::hideToolbar()
 void UserBox::wmChanged()
 {
 #ifdef USE_KDE
-    if (pMain->UserWindowInTaskManager){
+    if (pMain->isUserWindowInTaskManager()){
         KWin::clearState(winId(), NET::SkipTaskbar);
     }else{
         KWin::setState(winId(), NET::SkipTaskbar);
@@ -227,7 +227,7 @@ void UserBox::wmChanged()
 #ifdef WIN32
     bool bShow = isVisible();
     hide();
-    if (pMain->UserWindowInTaskManager){
+    if (pMain->isUserWindowInTaskManager()){
         SetWindowLongW(winId(), GWL_EXSTYLE, (GetWindowLongW(winId(), GWL_EXSTYLE) | WS_EX_APPWINDOW) & (~WS_EX_TOOLWINDOW));
     }else{
         SetWindowLongW(winId(), GWL_EXSTYLE, (GetWindowLongW(winId(), GWL_EXSTYLE) & ~(WS_EX_APPWINDOW)) | WS_EX_TOOLWINDOW);
@@ -240,7 +240,7 @@ void UserBox::showEncodingPopup()
 {
     menuEncoding->clear();
     pClient->fillEncodings(menuEncoding, true);
-    if (pMain->AllEncodings){
+    if (pMain->isAllEncodings()){
         menuEncoding->insertSeparator();
         pClient->fillEncodings(menuEncoding, false);
     }
@@ -251,13 +251,13 @@ void UserBox::showEncodingPopup()
     }
     menuEncoding->insertSeparator();
     menuEncoding->insertItem(i18n("All encodings"), ALL_ENCODINGS);
-    menuEncoding->setItemChecked(ALL_ENCODINGS, pMain->AllEncodings);
+    menuEncoding->setItemChecked(ALL_ENCODINGS, pMain->isAllEncodings());
 }
 
 void UserBox::setUserEncoding(int n)
 {
     if (n == ALL_ENCODINGS){
-        pMain->AllEncodings = !pMain->AllEncodings;
+        pMain->setAllEncodings(!pMain->isAllEncodings());
         QTimer::singleShot(0, toolbar->getWidget(btnEncoding), SLOT(animateClick()));
         return;
     }
@@ -327,8 +327,8 @@ void UserBox::resizeEvent(QResizeEvent *e)
 {
     QMainWindow::resizeEvent(e);
     if (!isHistory() && !isUserInfo()){
-        pMain->UserBoxWidth = size().width();
-        pMain->UserBoxHeight = size().height();
+        pMain->setUserBoxWidth(size().width());
+        pMain->setUserBoxHeight(size().height());
     }
 }
 
@@ -336,8 +336,8 @@ void UserBox::moveEvent(QMoveEvent *e)
 {
     QMainWindow::moveEvent(e);
     if (!isHistory() && !isUserInfo()){
-        pMain->UserBoxX = pos().x();
-        pMain->UserBoxY = pos().y();
+        pMain->setUserBoxX(pos().x());
+        pMain->setUserBoxY(pos().y());
     }
 }
 
@@ -640,10 +640,10 @@ void UserBox::getToolbarPosition()
 void UserBox::toolBarChanged(QToolBar*)
 {
     getToolbarPosition();
-    pMain->UserBoxToolbarDock = getToolbarDock();
+    pMain->setUserBoxToolbarDock(getToolbarDock());
     if (!strcmp(getToolbarDock(), "TornOff")){
-        pMain->UserBoxToolbarOffset = getToolbarOffset();
-        pMain->UserBoxToolbarY = getToolbarY();
+        pMain->setUserBoxToolbarOffset(getToolbarOffset());
+        pMain->setUserBoxToolbarY(getToolbarY());
     }
 }
 
@@ -701,18 +701,18 @@ void UserBox::adjustPos()
 {
     bool bReposition = false;
     if ((getLeft() == 0) && (getTop() == 0)){
-        if ((pMain->UserBoxX == 0) && (pMain->UserBoxY == 0)){
+        if ((pMain->getUserBoxX() == 0) && (pMain->getUserBoxY() == 0)){
             setLeft(pos().x());
             setTop(pos().y());
         }else{
-            setLeft(pMain->UserBoxX);
-            setTop(pMain->UserBoxY);
+            setLeft(pMain->getUserBoxX());
+            setTop(pMain->getUserBoxY());
             bReposition = true;
         }
     }
     if ((getWidth() == 0) || (getHeight() == 0)){
-        setWidth((short)pMain->UserBoxWidth);
-        setHeight((short)pMain->UserBoxHeight);
+        setWidth((short)pMain->getUserBoxWidth());
+        setHeight((short)pMain->getUserBoxHeight());
     }
     if (getLeft() < 5) setLeft(5);
     if (getTop() < 5) setTop(5);
@@ -754,18 +754,18 @@ void UserBox::adjustPos()
         }
     }
     if (getLeft() && getTop()){
-        short saveX = pMain->UserBoxX;
-        short saveY = pMain->UserBoxY;
+        short saveX = pMain->getUserBoxX();
+        short saveY = pMain->getUserBoxY();
         move(getLeft(), getTop());
-        pMain->UserBoxX = saveX;
-        pMain->UserBoxY = saveY;
+        pMain->setUserBoxX(saveX);
+        pMain->setUserBoxY(saveY);
     }
     if (getWidth() && getHeight()){
-        unsigned short saveWidth = pMain->UserBoxWidth;
-        unsigned short saveHeight = pMain->UserBoxHeight;
+        unsigned short saveWidth = pMain->getUserBoxWidth();
+        unsigned short saveHeight = pMain->getUserBoxHeight();
         resize(getWidth(), getHeight());
-        pMain->UserBoxWidth  = saveWidth;
-        pMain->UserBoxHeight = saveHeight;
+        pMain->setUserBoxWidth(saveWidth);
+        pMain->setUserBoxHeight(saveHeight);
     }
 }
 
@@ -1153,7 +1153,7 @@ void UserBox::slotMessageReceived(ICQMessage *msg)
         return;
     }
     if (curWnd && (msg->getUin() == curWnd->getUin()) &&
-            !pMain->SimpleMode &&
+            !pMain->isSimpleMode() &&
             ((msg->Type() == ICQ_MSGxMSG) || (msg->Type() == ICQ_MSGxURL) ||
              (msg->Type() == ICQ_MSGxSMS))){
         pClient->markAsRead(msg);
@@ -1187,18 +1187,18 @@ void UserBox::modeChanged(bool bSimple)
 
 void UserBox::setOnTop()
 {
-    if (pMain->UserWndOnTop){
+    if (pMain->isUserWndOnTop()){
         setWFlags(WStyle_StaysOnTop);
     }else{
         clearWFlags(WStyle_StaysOnTop);
     }
 #ifdef WIN32
     HWND hState = HWND_NOTOPMOST;
-    if (pMain->UserWndOnTop) hState = HWND_TOPMOST;
+    if (pMain->isUserWndOnTop()) hState = HWND_TOPMOST;
     SetWindowPos(winId(), hState, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 #else
 #ifdef USE_KDE
-    if (pMain->UserWndOnTop){
+    if (pMain->isUserWndOnTop()){
         KWin::setState(winId(), NET::StaysOnTop);
     }else{
         KWin::clearState(winId(), NET::StaysOnTop);

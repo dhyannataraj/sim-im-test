@@ -228,7 +228,7 @@
                case SKIP:
                break;
                default:
-               if (pMain->UseEmotional){
+               if (pMain->isUseEmotional()){
                res += "<img src=\"icon:smile";
                r -= SMILE;
                if (r < 10){

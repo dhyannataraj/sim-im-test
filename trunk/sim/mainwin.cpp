@@ -123,8 +123,6 @@ static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
 const unsigned short ABE_FLOAT   = (unsigned short)(-1);
 #endif
 
-#define OFFSET_OF(A, B)		offsetof(A, B)
-
 const char *MainWindow::sound(const char *wav)
 {
     if (*wav == 0) return wav;
@@ -148,122 +146,123 @@ const char *MainWindow::sound(const char *wav)
 
 cfgParam MainWindow_Params[] =
     {
-        { "Show", OFFSET_OF(MainWindow, Show), PARAM_BOOL, (unsigned)true },
-        { "OnTop", OFFSET_OF(MainWindow, OnTop), PARAM_BOOL, (unsigned)true },
-        { "ShowOffline", OFFSET_OF(MainWindow, ShowOffline), PARAM_BOOL, (unsigned)true },
-        { "GroupMode", OFFSET_OF(MainWindow, GroupMode), PARAM_BOOL, (unsigned)true },
-        { "Left", OFFSET_OF(MainWindow, mLeft), PARAM_SHORT, 0 },
-        { "Top", OFFSET_OF(MainWindow, mTop), PARAM_SHORT, 0 },
-        { "Width", OFFSET_OF(MainWindow, mWidth), PARAM_USHORT, 0 },
-        { "Height", OFFSET_OF(MainWindow, mHeight), PARAM_USHORT, 0 },
-        { "Style", OFFSET_OF(MainWindow, UseStyle), PARAM_STRING, 0 },
-        { "AutoAwayTime", OFFSET_OF(MainWindow, AutoAwayTime), PARAM_ULONG, 300 },
-        { "AutoNATime", OFFSET_OF(MainWindow, AutoNATime), PARAM_ULONG, 900 },
-        { "AlertAway", OFFSET_OF(MainWindow, NoAlertAway), PARAM_BOOL, (unsigned)true },
-        { "ManualStatus", OFFSET_OF(MainWindow, ManualStatus), PARAM_ULONG, ICQ_STATUS_OFFLINE },
-        { "DivPos", OFFSET_OF(MainWindow, DivPos), PARAM_SHORT, 0 },
-        { "SpellOnSend", OFFSET_OF(MainWindow, SpellOnSend), PARAM_BOOL, 0 },
-        { "ToolbarDock", OFFSET_OF(MainWindow, ToolbarDock), PARAM_STRING, (unsigned)"Top" },
-        { "ToolbarOffset", OFFSET_OF(MainWindow, ToolbarOffset), PARAM_SHORT, 0 },
-        { "ToolbarY", OFFSET_OF(MainWindow, ToolbarY), PARAM_SHORT, 0 },
-        { "URLViewer", OFFSET_OF(MainWindow, UrlViewer), PARAM_STRING, (unsigned)
+        { "Show", offsetof(MainWindow_Data, ShowState), PARAM_BOOL, (unsigned)true },
+        { "OnTop", offsetof(MainWindow_Data, OnTop), PARAM_BOOL, (unsigned)true },
+        { "ShowOffline", offsetof(MainWindow_Data, ShowOffline), PARAM_BOOL, (unsigned)true },
+        { "GroupMode", offsetof(MainWindow_Data, GroupMode), PARAM_BOOL, (unsigned)true },
+        { "Left", offsetof(MainWindow_Data, Left), PARAM_SHORT, 0 },
+        { "Top", offsetof(MainWindow_Data, Top), PARAM_SHORT, 0 },
+        { "Width", offsetof(MainWindow_Data, Width), PARAM_USHORT, 0 },
+        { "Height", offsetof(MainWindow_Data, Height), PARAM_USHORT, 0 },
+        { "Style", offsetof(MainWindow_Data, UseStyle), PARAM_CHARS, 0 },
+        { "AutoAwayTime", offsetof(MainWindow_Data, AutoAwayTime), PARAM_ULONG, 300 },
+        { "AutoNATime", offsetof(MainWindow_Data, AutoNATime), PARAM_ULONG, 900 },
+        { "AlertAway", offsetof(MainWindow_Data, NoAlertAway), PARAM_BOOL, (unsigned)true },
+        { "ManualStatus", offsetof(MainWindow_Data, ManualStatus), PARAM_ULONG, ICQ_STATUS_OFFLINE },
+        { "DivPos", offsetof(MainWindow_Data, DivPos), PARAM_SHORT, 0 },
+        { "SpellOnSend", offsetof(MainWindow_Data, SpellOnSend), PARAM_BOOL, 0 },
+        { "ToolbarDock", offsetof(MainWindow_Data, ToolbarDock), PARAM_CHARS, (unsigned)"Top" },
+        { "ToolbarOffset", offsetof(MainWindow_Data, ToolbarOffset), PARAM_SHORT, 0 },
+        { "ToolbarY", offsetof(MainWindow_Data, ToolbarY), PARAM_SHORT, 0 },
+        { "URLViewer", offsetof(MainWindow_Data, UrlViewer), PARAM_CHARS, (unsigned)
 #ifdef USE_KDE
           "konqueror"
 #else
           "netscape"
 #endif
         },
-        { "MailClient", OFFSET_OF(MainWindow, MailClient), PARAM_STRING, (unsigned)
+        { "MailClient", offsetof(MainWindow_Data, MailClient), PARAM_CHARS, (unsigned)
 #ifdef USE_KDE
           "kmail"
 #else
           "netscape mailto:%s"
 #endif
         },
-        { "TransparentMain", OFFSET_OF(MainWindow, UseTransparent), PARAM_BOOL, 0 },
-        { "TransparencyMain", OFFSET_OF(MainWindow, Transparent), PARAM_ULONG, 80 },
-        { "TransparentContainer", OFFSET_OF(MainWindow, UseTransparentContainer), PARAM_BOOL, 0 },
-        { "TransparencyContainer", OFFSET_OF(MainWindow, TransparentContainer), PARAM_ULONG, 80 },
-        { "TransparentIfInactive", OFFSET_OF(MainWindow, TransparentIfInactive), PARAM_BOOL, (unsigned)true },
-        { "NoShowAway", OFFSET_OF(MainWindow, NoShowAway), PARAM_BOOL, 0 },
-        { "NoShowNA", OFFSET_OF(MainWindow, NoShowNA), PARAM_BOOL, 0 },
-        { "NoShowOccupied", OFFSET_OF(MainWindow, NoShowOccupied), PARAM_BOOL, 0 },
-        { "NoShowDND", OFFSET_OF(MainWindow, NoShowDND), PARAM_BOOL, 0 },
-        { "NoShowFFC", OFFSET_OF(MainWindow, NoShowFFC), PARAM_BOOL, 0 },
-        { "UseSystemFonts", OFFSET_OF(MainWindow, UseSystemFonts), PARAM_BOOL, 0 },
-        { "Font", OFFSET_OF(MainWindow, Font), PARAM_STRING, 0 },
-        { "FontMenu", OFFSET_OF(MainWindow, FontMenu), PARAM_STRING, 0 },
-        { "ColorSend", OFFSET_OF(MainWindow, ColorSend), PARAM_ULONG, 0x0000B0 },
-        { "ColorReceive", OFFSET_OF(MainWindow, ColorReceive), PARAM_ULONG, 0xB00000 },
-        { "ChatWidth", OFFSET_OF(MainWindow, ChatWidth), PARAM_USHORT, 0 },
-        { "ChatHeight", OFFSET_OF(MainWindow, ChatHeight), PARAM_USHORT, 0 },
-        { "UserBoxX", OFFSET_OF(MainWindow, UserBoxX), PARAM_USHORT, 0 },
-        { "UserBoxY", OFFSET_OF(MainWindow, UserBoxY), PARAM_USHORT, 0 },
-        { "UserBoxWidth", OFFSET_OF(MainWindow, UserBoxWidth), PARAM_SHORT, 0 },
-        { "UserBoxHeight", OFFSET_OF(MainWindow, UserBoxHeight), PARAM_SHORT, 0 },
-        { "UserBoxToolbarDock", OFFSET_OF(MainWindow, UserBoxToolbarDock), PARAM_STRING, (unsigned)"Top" },
-        { "UserBoxToolbarOffset", OFFSET_OF(MainWindow, UserBoxToolbarOffset), PARAM_SHORT, 0 },
-        { "UserBoxToolbarY", OFFSET_OF(MainWindow, UserBoxToolbarY), PARAM_SHORT, 0 },
-        { "UserBoxFont", OFFSET_OF(MainWindow, UserBoxFont), PARAM_STRING, 0 },
-        { "UserBoxEditHeight", OFFSET_OF(MainWindow, UserBoxEditHeight), PARAM_USHORT, 0 },
-        { "CloaseAfterSend", OFFSET_OF(MainWindow, CloseAfterSend), PARAM_BOOL, 0 },
-        { "CloaseAfterFileTransfer", OFFSET_OF(MainWindow, CloseAfterFileTransfer), PARAM_BOOL, 0 },
-        { "MainWindowInTaskManager", OFFSET_OF(MainWindow, MainWindowInTaskManager), PARAM_BOOL, 0 },
-        { "UserWindowInTaskManager", OFFSET_OF(MainWindow, UserWindowInTaskManager), PARAM_BOOL, (unsigned)true },
-        { "Icons", OFFSET_OF(MainWindow, Icons), PARAM_STRING, 0 },
-        { "XOSD_on", OFFSET_OF(MainWindow, XOSD_on), PARAM_BOOL, (unsigned)true },
-        { "XOSD_pos", OFFSET_OF(MainWindow, XOSD_pos), PARAM_SHORT, 0 },
-        { "XOSD_offset", OFFSET_OF(MainWindow, XOSD_offset), PARAM_SHORT, 30 },
-        { "XOSD_color", OFFSET_OF(MainWindow, XOSD_color), PARAM_ULONG, 0x00E000 },
-        { "XOSD_Font", OFFSET_OF(MainWindow, XOSD_Font), PARAM_STRING, 0 },
-        { "XOSD_timeout", OFFSET_OF(MainWindow, XOSD_timeout), PARAM_USHORT, 7 },
-        { "XOSD_Shadow", OFFSET_OF(MainWindow, XOSD_Shadow), PARAM_BOOL, (unsigned)true },
-        { "XOSD_Background", OFFSET_OF(MainWindow, XOSD_Background), PARAM_BOOL, 0 },
-        { "XOSD_Bgcolor", OFFSET_OF(MainWindow, XOSD_BgColor), PARAM_ULONG, (unsigned)(-1) },
-        { "ContainerMode", OFFSET_OF(MainWindow, ContainerMode), PARAM_SHORT, ContainerModeGroup },
-        { "MessageBgColor", OFFSET_OF(MainWindow, MessageBgColor), PARAM_ULONG, 0 },
-        { "MessageFgColor", OFFSET_OF(MainWindow, MessageFgColor), PARAM_ULONG, 0 },
-        { "SimpleMode", OFFSET_OF(MainWindow, SimpleMode), PARAM_BOOL, 0 },
-        { "UseOwnColors", OFFSET_OF(MainWindow, UseOwnColors), PARAM_BOOL, 0 },
-        { "UserWndOnTop", OFFSET_OF(MainWindow, UserWndOnTop), PARAM_BOOL, 0 },
-        { "KeyWindow", OFFSET_OF(MainWindow, KeyWindow), PARAM_STRING, (unsigned)"CTRL-SHIFT-A" },
-        { "KeyDblClick", OFFSET_OF(MainWindow, KeyDblClick), PARAM_STRING, (unsigned)"CTRL-SHIFT-I" },
-        { "KeySearch", OFFSET_OF(MainWindow, KeySearch), PARAM_STRING, (unsigned)"CTRL-SHIFT-S" },
-        { "UseEmotional", OFFSET_OF(MainWindow, UseEmotional), PARAM_BOOL, (unsigned)true },
-        { "AutoHideTime", OFFSET_OF(MainWindow, AutoHideTime), PARAM_ULONG, 60 },
-        { "SMSSignTop", OFFSET_OF(MainWindow, SMSSignTop), PARAM_STRING, 0 },
-        { "SMSSignBottom", OFFSET_OF(MainWindow, SMSSignBottom), PARAM_STRING, (unsigned)"\n&MyAlias; (ICQ# &MyUin;)" },
-        { "ForwardPhone", OFFSET_OF(MainWindow, ForwardPhone), PARAM_STRING, 0 },
-        { "SendEnter", OFFSET_OF(MainWindow, SendEnter), PARAM_BOOL, 0 },
-        { "AlphabetSort", OFFSET_OF(MainWindow, AlphabetSort), PARAM_BOOL, 0 },
-        { "UseDoubleClick", OFFSET_OF(MainWindow, UseDoubleClick), PARAM_BOOL, 0 },
-        { "UseDock", OFFSET_OF(MainWindow, UseDock), PARAM_BOOL, 1 },
-        { "DockX", OFFSET_OF(MainWindow, DockX), PARAM_SHORT, 0 },
-        { "DockY", OFFSET_OF(MainWindow, DockY), PARAM_SHORT, 0 },
-        { "MonitorX", OFFSET_OF(MainWindow, MonitorX), PARAM_SHORT, 0 },
-        { "MonitorY", OFFSET_OF(MainWindow, MonitorY), PARAM_SHORT, 0 },
-        { "MonitorWidth", OFFSET_OF(MainWindow, MonitorWidth), PARAM_USHORT, 0 },
-        { "MonitorHeight", OFFSET_OF(MainWindow, MonitorHeight), PARAM_USHORT, 0 },
-        { "MonitorLevel", OFFSET_OF(MainWindow, MonitorLevel), PARAM_USHORT, L_PACKET | L_DEBUG | L_WARN | L_ERROR },
-        { "CopyMessages", OFFSET_OF(MainWindow, CopyMessages), PARAM_USHORT, 3 },
-        { "AllEncodings", OFFSET_OF(MainWindow, AllEncodings), PARAM_BOOL, 0 },
-        { "HistoryDirection", OFFSET_OF(MainWindow, HistoryDirection), PARAM_BOOL, 1 },
-        { "ToolBarMain", OFFSET_OF(MainWindow, ToolBarMain), PARAM_ULONGS, 0 },
-        { "ToolBarMsg", OFFSET_OF(MainWindow, ToolBarMsg), PARAM_ULONGS, 0 },
-        { "ToolBarHistory", OFFSET_OF(MainWindow, ToolBarHistory), PARAM_ULONGS, 0 },
-        { "ToolBarUserBox", OFFSET_OF(MainWindow, ToolBarUserBox), PARAM_ULONGS, 0 },
-        { "BackgroundFile", OFFSET_OF(MainWindow, BackgroundFile), PARAM_STRING, 0 },
-        { "BackgroundMode", OFFSET_OF(MainWindow, BackgroundMode), PARAM_USHORT, 0 },
-        { "IconMargin", OFFSET_OF(MainWindow, IconMargin), PARAM_USHORT, 2 },
-        { "UseSystemColors", OFFSET_OF(MainWindow, UseSystemColors), PARAM_BOOL, 1 },
-        { "OnlineColor", OFFSET_OF(MainWindow, OnlineColor), PARAM_ULONG, 0 },
-        { "OfflineColor", OFFSET_OF(MainWindow, OfflineColor), PARAM_ULONG, 0 },
+        { "TransparentMain", offsetof(MainWindow_Data, UseTransparent), PARAM_BOOL, 0 },
+        { "TransparencyMain", offsetof(MainWindow_Data, Transparent), PARAM_ULONG, 80 },
+        { "TransparentContainer", offsetof(MainWindow_Data, UseTransparentContainer), PARAM_BOOL, 0 },
+        { "TransparencyContainer", offsetof(MainWindow_Data, TransparentContainer), PARAM_ULONG, 80 },
+        { "TransparentIfInactive", offsetof(MainWindow_Data, TransparentIfInactive), PARAM_BOOL, (unsigned)true },
+        { "NoShowAway", offsetof(MainWindow_Data, NoShowAway), PARAM_BOOL, 0 },
+        { "NoShowNA", offsetof(MainWindow_Data, NoShowNA), PARAM_BOOL, 0 },
+        { "NoShowOccupied", offsetof(MainWindow_Data, NoShowOccupied), PARAM_BOOL, 0 },
+        { "NoShowDND", offsetof(MainWindow_Data, NoShowDND), PARAM_BOOL, 0 },
+        { "NoShowFFC", offsetof(MainWindow_Data, NoShowFFC), PARAM_BOOL, 0 },
+        { "UseSystemFonts", offsetof(MainWindow_Data, UseSystemFonts), PARAM_BOOL, 0 },
+        { "Font", offsetof(MainWindow_Data, Font), PARAM_CHARS, 0 },
+        { "FontMenu", offsetof(MainWindow_Data, FontMenu), PARAM_CHARS, 0 },
+        { "ColorSend", offsetof(MainWindow_Data, ColorSend), PARAM_ULONG, 0x0000B0 },
+        { "ColorReceive", offsetof(MainWindow_Data, ColorReceive), PARAM_ULONG, 0xB00000 },
+        { "ChatWidth", offsetof(MainWindow_Data, ChatWidth), PARAM_USHORT, 0 },
+        { "ChatHeight", offsetof(MainWindow_Data, ChatHeight), PARAM_USHORT, 0 },
+        { "UserBoxX", offsetof(MainWindow_Data, UserBoxX), PARAM_USHORT, 0 },
+        { "UserBoxY", offsetof(MainWindow_Data, UserBoxY), PARAM_USHORT, 0 },
+        { "UserBoxWidth", offsetof(MainWindow_Data, UserBoxWidth), PARAM_SHORT, 0 },
+        { "UserBoxHeight", offsetof(MainWindow_Data, UserBoxHeight), PARAM_SHORT, 0 },
+        { "UserBoxToolbarDock", offsetof(MainWindow_Data, UserBoxToolbarDock), PARAM_CHARS, (unsigned)"Top" },
+        { "UserBoxToolbarOffset", offsetof(MainWindow_Data, UserBoxToolbarOffset), PARAM_SHORT, 0 },
+        { "UserBoxToolbarY", offsetof(MainWindow_Data, UserBoxToolbarY), PARAM_SHORT, 0 },
+        { "UserBoxFont", offsetof(MainWindow_Data, UserBoxFont), PARAM_CHARS, 0 },
+        { "UserBoxEditHeight", offsetof(MainWindow_Data, UserBoxEditHeight), PARAM_USHORT, 0 },
+        { "CloaseAfterSend", offsetof(MainWindow_Data, CloseAfterSend), PARAM_BOOL, 0 },
+        { "CloaseAfterFileTransfer", offsetof(MainWindow_Data, CloseAfterFileTransfer), PARAM_BOOL, 0 },
+        { "MainWindowInTaskManager", offsetof(MainWindow_Data, MainWindowInTaskManager), PARAM_BOOL, 0 },
+        { "UserWindowInTaskManager", offsetof(MainWindow_Data, UserWindowInTaskManager), PARAM_BOOL, (unsigned)true },
+        { "Icons", offsetof(MainWindow_Data, Icons), PARAM_CHARS, 0 },
+        { "XOSD_on", offsetof(MainWindow_Data, XOSD_on), PARAM_BOOL, (unsigned)true },
+        { "XOSD_pos", offsetof(MainWindow_Data, XOSD_pos), PARAM_SHORT, 0 },
+        { "XOSD_offset", offsetof(MainWindow_Data, XOSD_offset), PARAM_SHORT, 30 },
+        { "XOSD_color", offsetof(MainWindow_Data, XOSD_color), PARAM_ULONG, 0x00E000 },
+        { "XOSD_Font", offsetof(MainWindow_Data, XOSD_Font), PARAM_CHARS, 0 },
+        { "XOSD_timeout", offsetof(MainWindow_Data, XOSD_timeout), PARAM_USHORT, 7 },
+        { "XOSD_Shadow", offsetof(MainWindow_Data, XOSD_Shadow), PARAM_BOOL, (unsigned)true },
+        { "XOSD_Background", offsetof(MainWindow_Data, XOSD_Background), PARAM_BOOL, 0 },
+        { "XOSD_Bgcolor", offsetof(MainWindow_Data, XOSD_BgColor), PARAM_ULONG, (unsigned)(-1) },
+        { "ContainerMode", offsetof(MainWindow_Data, ContainerMode), PARAM_SHORT, ContainerModeGroup },
+        { "MessageBgColor", offsetof(MainWindow_Data, MessageBgColor), PARAM_ULONG, 0 },
+        { "MessageFgColor", offsetof(MainWindow_Data, MessageFgColor), PARAM_ULONG, 0 },
+        { "SimpleMode", offsetof(MainWindow_Data, SimpleMode), PARAM_BOOL, 0 },
+        { "UseOwnColors", offsetof(MainWindow_Data, UseOwnColors), PARAM_BOOL, 0 },
+        { "UserWndOnTop", offsetof(MainWindow_Data, UserWndOnTop), PARAM_BOOL, 0 },
+        { "KeyWindow", offsetof(MainWindow_Data, KeyWindow), PARAM_CHARS, (unsigned)"CTRL-SHIFT-A" },
+        { "KeyDblClick", offsetof(MainWindow_Data, KeyDblClick), PARAM_CHARS, (unsigned)"CTRL-SHIFT-I" },
+        { "KeySearch", offsetof(MainWindow_Data, KeySearch), PARAM_CHARS, (unsigned)"CTRL-SHIFT-S" },
+        { "UseEmotional", offsetof(MainWindow_Data, UseEmotional), PARAM_BOOL, (unsigned)true },
+        { "AutoHideTime", offsetof(MainWindow_Data, AutoHideTime), PARAM_ULONG, 60 },
+        { "SMSSignTop", offsetof(MainWindow_Data, SMSSignTop), PARAM_CHARS, 0 },
+        { "SMSSignBottom", offsetof(MainWindow_Data, SMSSignBottom), PARAM_CHARS, (unsigned)"\n&MyAlias; (ICQ# &MyUin;)" },
+        { "ForwardPhone", offsetof(MainWindow_Data, ForwardPhone), PARAM_CHARS, 0 },
+        { "SendEnter", offsetof(MainWindow_Data, SendEnter), PARAM_BOOL, 0 },
+        { "AlphabetSort", offsetof(MainWindow_Data, AlphabetSort), PARAM_BOOL, 0 },
+        { "UseDoubleClick", offsetof(MainWindow_Data, UseDoubleClick), PARAM_BOOL, 0 },
+        { "UseDock", offsetof(MainWindow_Data, UseDock), PARAM_BOOL, 1 },
+        { "DockX", offsetof(MainWindow_Data, DockX), PARAM_SHORT, 0 },
+        { "DockY", offsetof(MainWindow_Data, DockY), PARAM_SHORT, 0 },
+        { "MonitorX", offsetof(MainWindow_Data, MonitorX), PARAM_SHORT, 0 },
+        { "MonitorY", offsetof(MainWindow_Data, MonitorY), PARAM_SHORT, 0 },
+        { "MonitorWidth", offsetof(MainWindow_Data, MonitorWidth), PARAM_USHORT, 0 },
+        { "MonitorHeight", offsetof(MainWindow_Data, MonitorHeight), PARAM_USHORT, 0 },
+        { "MonitorLevel", offsetof(MainWindow_Data, MonitorLevel), PARAM_USHORT, L_PACKET | L_DEBUG | L_WARN | L_ERROR },
+        { "CopyMessages", offsetof(MainWindow_Data, CopyMessages), PARAM_USHORT, 3 },
+        { "AllEncodings", offsetof(MainWindow_Data, AllEncodings), PARAM_BOOL, 0 },
+        { "HistoryDirection", offsetof(MainWindow_Data, HistoryDirection), PARAM_BOOL, 1 },
+        { "FileTransferDetails", offsetof(MainWindow_Data, FileTransferDetails), PARAM_BOOL, 0 },
+        { "ToolBarMain", offsetof(MainWindow_Data, ToolBarMain), PARAM_LIST, 0 },
+        { "ToolBarMsg", offsetof(MainWindow_Data, ToolBarMsg), PARAM_LIST, 0 },
+        { "ToolBarHistory", offsetof(MainWindow_Data, ToolBarHistory), PARAM_LIST, 0 },
+        { "ToolBarUserBox", offsetof(MainWindow_Data, ToolBarUserBox), PARAM_LIST, 0 },
+        { "BackgroundFile", offsetof(MainWindow_Data, BackgroundFile), PARAM_CHARS, 0 },
+        { "BackgroundMode", offsetof(MainWindow_Data, BackgroundMode), PARAM_USHORT, 0 },
+        { "IconMargin", offsetof(MainWindow_Data, IconMargin), PARAM_USHORT, 2 },
+        { "UseSystemColors", offsetof(MainWindow_Data, UseSystemColors), PARAM_BOOL, 1 },
+        { "OnlineColor", offsetof(MainWindow_Data, OnlineColor), PARAM_ULONG, 0 },
+        { "OfflineColor", offsetof(MainWindow_Data, OfflineColor), PARAM_ULONG, 0 },
 #ifdef WIN32
-        { "BarState", OFFSET_OF(MainWindow, BarState), PARAM_USHORT, ABE_FLOAT },
-        { "BarAutoHide", OFFSET_OF(MainWindow, BarAutoHide), PARAM_BOOL, 0 },
+        { "BarState", offsetof(MainWindow_Data, BarState), PARAM_USHORT, ABE_FLOAT },
+        { "BarAutoHide", offsetof(MainWindow_Data, BarAutoHide), PARAM_BOOL, 0 },
 #endif
 #ifdef USE_KDE
-        { "AutoSync", OFFSET_OF(MainWindow, AutoSync), PARAM_BOOL, 0 },
+        { "AutoSync", offsetof(MainWindow_Data, AutoSync), PARAM_BOOL, 0 },
 #endif
         { "", 0, 0, 0 }
     };
@@ -334,7 +333,7 @@ void getBarRect(UINT state, QRect &rc, RECT *rcWnd = NULL)
     if (rcWnd){
         w = rcWnd->right - rcWnd->left;
     }else{
-        w = pMain->mWidth + GetSystemMetrics(SM_CXBORDER) * 2;
+        w = pMain->getWidth() + GetSystemMetrics(SM_CXBORDER) * 2;
     }
     switch (state){
     case ABE_LEFT:
@@ -349,9 +348,9 @@ void getBarRect(UINT state, QRect &rc, RECT *rcWnd = NULL)
 void getNeedBarRect(UINT state, QRect &rc)
 {
     getBarRect(state, rc);
-    if (pMain->BarAutoHide && !bAutoHideVisible){
+    if (pMain->isBarAutoHide() && !bAutoHideVisible){
         int w = 4 * GetSystemMetrics(SM_CXBORDER);
-        if (pMain->BarState == ABE_LEFT){
+        if (pMain->getBarState() == ABE_LEFT){
             rc.setRight(rc.left() + w);
         }else{
             rc.setLeft(rc.right() - w);
@@ -426,7 +425,7 @@ void slideWindow (const QRect &rcEnd, bool bAnimate)
             UpdateWindow(pMain->winId());
         }
     }
-    setInBar(pMain->MainWindowInTaskManager && (pMain->BarState == ABE_FLOAT));
+    setInBar(pMain->isMainWindowInTaskManager() && (pMain->getBarState() == ABE_FLOAT));
     SetWindowPos(pMain->winId(), NULL,
                  rcEnd.left(), rcEnd.top(), rcEnd.width(), rcEnd.height(),
                  SWP_NOZORDER | SWP_NOACTIVATE | SWP_DRAWFRAME);
@@ -436,37 +435,37 @@ void slideWindow (const QRect &rcEnd, bool bAnimate)
 
 void setBarState(bool bAnimate = false)
 {
-    if ((pMain->BarState == ABE_FLOAT) || !pMain->Show){
-        appBarMessage(ABM_SETPOS, pMain->BarState, FALSE);
+    if ((pMain->getBarState() == ABE_FLOAT) || !pMain->isShowState()){
+        appBarMessage(ABM_SETPOS, pMain->getBarState(), FALSE);
     }else{
-        if (pMain->BarAutoHide && !appBarMessage(ABM_SETAUTOHIDEBAR, pMain->BarState, TRUE, NULL)){
-            pMain->BarAutoHide = false;
+        if (pMain->isBarAutoHide() && !appBarMessage(ABM_SETAUTOHIDEBAR, pMain->getBarState(), TRUE, NULL)){
+            pMain->setBarAutoHide(false);
             QMessageBox::warning(NULL, i18n("Error"),
                                  i18n("There is already an auto hidden window on this edge.\nOnly one auto hidden window is allowed on each edge."),
                                  QMessageBox::Ok, 0);
         }
         QRect rc;
-        getBarRect(pMain->BarState, rc);
-        if (pMain->BarAutoHide){
+        getBarRect(pMain->getBarState(), rc);
+        if (pMain->isBarAutoHide()){
             QRect rcAutoHide = rc;
             int w = 4 * GetSystemMetrics(SM_CXBORDER);
-            if (pMain->BarState == ABE_LEFT){
+            if (pMain->getBarState() == ABE_LEFT){
                 rcAutoHide.setRight(rcAutoHide.left() + w);
             }else{
                 rcAutoHide.setLeft(rcAutoHide.right() - w);
             }
-            appBarMessage(ABM_SETPOS, pMain->BarState, FALSE, &rcAutoHide);
+            appBarMessage(ABM_SETPOS, pMain->getBarState(), FALSE, &rcAutoHide);
             if (!bAutoHideVisible)
                 rc = rcAutoHide;
         }else{
-            appBarMessage(ABM_SETPOS, pMain->BarState, FALSE, &rc);
+            appBarMessage(ABM_SETPOS, pMain->getBarState(), FALSE, &rc);
         }
         slideWindow(rc, bAnimate);
     }
-    if ((bOnTop != pMain->OnTop) || bFullScreen){
-        bOnTop = pMain->OnTop;
+    if ((bOnTop != pMain->isOnTop()) || bFullScreen){
+        bOnTop = pMain->isOnTop();
         HWND hState = HWND_NOTOPMOST;
-        if (pMain->OnTop) hState = HWND_TOPMOST;
+        if (pMain->isOnTop()) hState = HWND_TOPMOST;
         if (bFullScreen) hState = HWND_BOTTOM;
         SetWindowPos(pMain->winId(), hState, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
     }
@@ -493,7 +492,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             setBarState();
             break;
         case ABN_POSCHANGED:
-            if (pMain->BarState != ABE_FLOAT)
+            if (pMain->getBarState() != ABE_FLOAT)
                 setBarState();
             break;
         }
@@ -501,7 +500,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     }
     switch (msg){
     case WM_ACTIVATE:
-        if ((wParam == WA_INACTIVE) && pMain->BarAutoHide && bAutoHideVisible){
+        if ((wParam == WA_INACTIVE) && pMain->isBarAutoHide() && bAutoHideVisible){
             bAutoHideVisible = false;
             setBarState();
         }
@@ -509,26 +508,26 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         break;
     case WM_ENTERSIZEMOVE:
         bInMoving = true;
-        pMain->mWidth = pMain->size().width();
+        pMain->setWidth(pMain->size().width());
         bSizing = true;
-        if (pMain->BarState != ABE_FLOAT) break;
+        if (pMain->getBarState() != ABE_FLOAT) break;
         bSizing = false;
-        pMain->mLeft = pMain->pos().x();
-        pMain->mTop = pMain->pos().y();
-        pMain->mHeight = pMain->size().height();
+        pMain->setLeft(pMain->pos().x());
+        pMain->setTop(pMain->pos().y());
+        pMain->setHeight(pMain->size().height());
         return DefWindowProc(hWnd, msg, wParam, lParam);
     case WM_EXITSIZEMOVE:
         sLastHeight = lastHeight;
         res = DefWindowProc(hWnd, msg, wParam, lParam);
         bInMoving = false;
         GetWindowRect(pMain->winId(), &rcWnd);
-        pMain->mWidth = rcWnd.right - rcWnd.left - GetSystemMetrics(SM_CXBORDER) * 2;
-        pMain->BarState = getEdge();
+        pMain->setWidth(rcWnd.right - rcWnd.left - GetSystemMetrics(SM_CXBORDER) * 2);
+        pMain->setBarState(getEdge());
         setBarState(true);
         lastHeight = sLastHeight;
         return res;
     case WM_NCMOUSEMOVE:
-        if ((pMain->BarState != ABE_FLOAT) && pMain->BarAutoHide && !bAutoHideVisible){
+        if ((pMain->getBarState() != ABE_FLOAT) && pMain->isBarAutoHide() && !bAutoHideVisible){
             bAutoHideVisible = true;
             setBarState(true);
         }
@@ -536,9 +535,9 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     case WM_WINDOWPOSCHANGING:
         wPos = (WINDOWPOS*)lParam;
         if (bInMoving || ((wPos->flags & SWP_NOMOVE) && (wPos->flags & SWP_NOSIZE))) break;
-        switch (pMain->BarState){
+        switch (pMain->getBarState()){
         case ABE_LEFT:
-            getNeedBarRect(pMain->BarState, rc);
+            getNeedBarRect(pMain->getBarState(), rc);
             if (rc.left() != wPos->x){
                 wPos->x = rc.left();
                 wPos->y = rc.top();
@@ -548,7 +547,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             }
             break;
         case ABE_RIGHT:
-            getNeedBarRect(pMain->BarState, rc);
+            getNeedBarRect(pMain->getBarState(), rc);
             if (rc.right() != wPos->x + wPos->cx + GetSystemMetrics(SM_CXBORDER)){
                 wPos->x = rc.left();
                 wPos->y = rc.top();
@@ -577,7 +576,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         type = getEdge(prc);
         if (type == ABE_FLOAT){
             if (bSizing){
-                prc->bottom = prc->top + pMain->mHeight;
+                prc->bottom = prc->top + pMain->getHeight();
                 bSizing = false;
             }
         }else{
@@ -629,7 +628,7 @@ MainWindow::MainWindow(const char *name)
         : QMainWindow(NULL, name, WType_TopLevel | WStyle_Customize | WStyle_Title | WStyle_NormalBorder| WStyle_SysMenu)
 {
     SET_WNDPROC("mainwnd")
-    ::init(this, MainWindow_Params);
+    ::init(&data, MainWindow_Params);
 
     bLocked = false;
     pMain = this;
@@ -723,7 +722,7 @@ MainWindow::MainWindow(const char *name)
     menuContainers = new QPopupMenu(this);
     connect(menuContainers, SIGNAL(activated(int)), this, SLOT(toContainer(int)));
 
-    toolbar = new CToolBar(mainWndToolBar, &ToolBarMain, this, this);
+    toolbar = new CToolBar(mainWndToolBar, _ToolBarMain(), this, this);
     toolbar->setState(btnStatus, pClient->getStatusIcon(), pClient->getStatusText());
     toolbar->setPopup(btnStatus, menuStatus);
     toolbar->setPopup(btnSetup, menuFunction);
@@ -766,7 +765,7 @@ MainWindow::MainWindow(const char *name)
     connect(kapp, SIGNAL(iconChanged(int)), this, SLOT(changeIcons(int)));
     kapp->addKipcEventMask(KIPC::IconChanged);
 #endif
-    transparent = new TransparentTop(this, UseTransparent, Transparent);
+    transparent = new TransparentTop(this, _UseTransparent(), _Transparent());
     setOnTop();
     loadMenu();
     keys = new HotKeys(this);
@@ -795,24 +794,24 @@ void MainWindow::moveEvent(QMoveEvent *e)
 
 void MainWindow::changeMode(bool bSimple)
 {
-    if (SimpleMode == bSimple) return;
-    SimpleMode = bSimple;
+    if (isSimpleMode() == bSimple) return;
+    setSimpleMode(bSimple);
     emit modeChanged(bSimple);
 }
 
 void MainWindow::setOnTop()
 {
-    if (OnTop){
+    if (isOnTop()){
         setWFlags(WStyle_StaysOnTop);
     }else{
         clearWFlags(WStyle_StaysOnTop);
     }
 #ifdef WIN32
-    menuFunction->setItemChecked(mnuOnTop, OnTop);
-    setBarState();
+    menuFunction->setItemChecked(mnuOnTop, isOnTop());
+    ::setBarState();
 #else
 #ifdef USE_KDE
-    if (OnTop){
+    if (isOnTop()){
         KWin::setState(winId(), NET::StaysOnTop);
     }else{
         KWin::clearState(winId(), NET::StaysOnTop);
@@ -836,24 +835,24 @@ void MainWindow::changeColors()
 
 void MainWindow::changeOwnColors(bool bUse)
 {
-    if (bUse == UseOwnColors) return;
-    UseOwnColors = bUse;
+    if (bUse == isUseOwnColors()) return;
+    setUseOwnColors(bUse);
     emit ownColorsChanged();
 }
 
 void MainWindow::toggleOnTop()
 {
-    OnTop = !OnTop;
+    setOnTop(!isOnTop());
     setOnTop();
 }
 
 void MainWindow::toggleAutoHide()
 {
 #ifdef WIN32
-    BarAutoHide = !BarAutoHide;
+    setBarAutoHide(!isBarAutoHide());
     setShow(true);
     bAutoHideVisible = true;
-    setBarState();
+    ::setBarState();
 #endif
 }
 
@@ -878,22 +877,22 @@ void MainWindow::adjustFucntionMenu()
 #ifdef WIN32
     index = menuFunction->indexOf(mnuOnTop);
     id = menuFunction->idAt(index + 1);
-    if (BarState == ABE_FLOAT){
+    if (getBarState() == ABE_FLOAT){
         if (id == mnuAutoHide)
             menuFunction->removeItem(mnuAutoHide);
     }else{
         if (id != mnuAutoHide)
             menuFunction->insertItem(i18n("AutoHide"), this, SLOT(toggleAutoHide()), 0, mnuAutoHide, index+1);
-        menuFunction->setItemChecked(mnuAutoHide, BarAutoHide);
+        menuFunction->setItemChecked(mnuAutoHide, isBarAutoHide());
     }
 #endif
 }
 
 void MainWindow::adjustGroupsMenu()
 {
-    menuGroups->setItemEnabled(mnuGrpCreate, GroupMode && pClient->isLogged());
-    menuGroups->setItemEnabled(mnuGrpCollapseAll, GroupMode);
-    menuGroups->setItemEnabled(mnuGrpExpandAll, GroupMode);
+    menuGroups->setItemEnabled(mnuGrpCreate, isGroupMode() && pClient->isLogged());
+    menuGroups->setItemEnabled(mnuGrpCollapseAll, isGroupMode());
+    menuGroups->setItemEnabled(mnuGrpExpandAll, isGroupMode());
 }
 
 void MainWindow::showGroupPopup(QPoint p)
@@ -941,6 +940,7 @@ void MainWindow::deleteChilds()
     }
 #endif
     bLocked = false;
+    ::free(&data, MainWindow_Params);
 }
 
 MainWindow::~MainWindow()
@@ -997,21 +997,21 @@ void MainWindow::setStatusItem(int status)
 
 void MainWindow::toggleGroupMode()
 {
-    setGroupMode(toolbar->isOn(btnGroupMode));
+    setupGroupMode(toolbar->isOn(btnGroupMode));
 }
 
 void MainWindow::toggleShowOffline()
 {
-    setShowOffline(toolbar->isOn(btnShowOffline));
+    setupShowOffline(toolbar->isOn(btnShowOffline));
 }
 
-void MainWindow::setGroupMode(bool bState)
+void MainWindow::setupGroupMode(bool bState)
 {
     toolbar->setOn(btnGroupMode, bState);
     users->setGroupMode(bState);
 }
 
-void MainWindow::setShowOffline(bool bState)
+void MainWindow::setupShowOffline(bool bState)
 {
     toolbar->setOn(btnShowOffline, bState);
     users->setShowOffline(bState);
@@ -1057,34 +1057,42 @@ bool MainWindow::init(bool bNoApply)
     file = getFullPath(SIM_CONF);
     QFile fs(QString::fromLocal8Bit(file.c_str()));
     if (fs.open(IO_ReadOnly)){
-        ::load(this, MainWindow_Params, fs, part);
+        ::load(&data, MainWindow_Params, fs, part);
     }
 
     if (bNoApply) return true;
 
-    if (ToolBarMain.size()) emit toolBarChanged(mainWndToolBar);
-    if (ToolBarMsg.size()) emit toolBarChanged(pMsgEditToolBar);
-    if (ToolBarHistory.size()) emit toolBarChanged(pHistoryToolBar);
-    if (ToolBarUserBox.size()) emit toolBarChanged(pUserBoxToolBar);
+    if (*_ToolBarMain()) emit toolBarChanged(mainWndToolBar);
+    if (*_ToolBarMsg()) emit toolBarChanged(pMsgEditToolBar);
+    if (*_ToolBarHistory()) emit toolBarChanged(pHistoryToolBar);
+    if (*_ToolBarUserBox()) emit toolBarChanged(pUserBoxToolBar);
 
-    if ((mWidth == 0) || (mHeight == 0)){
-        mHeight = QApplication::desktop()->height() * 3 / 2;
-        mWidth = mHeight / 3;
-        if ((mLeft == 0) && (mTop == 0)){
-            mLeft = QApplication::desktop()->width() - 5 - mWidth;
-            mTop = 5;
+    if ((getWidth() == 0) || (getHeight() == 0)){
+        setHeight(QApplication::desktop()->height() * 3 / 2);
+        setWidth(getHeight() / 3);
+        if ((getLeft() == 0) && (getTop() == 0)){
+            setLeft(QApplication::desktop()->width() - 5 - getWidth());
+            setTop(5);
         }
     }
-    if (mLeft < 5) mLeft = 5;
-    if (mTop < 5) mTop = 5;
-    if (mLeft > QApplication::desktop()->width() - 5) mLeft = QApplication::desktop()->width() - 5;
-    if (mTop > QApplication::desktop()->height() - 5) mTop = QApplication::desktop()->height() - 5;
-    if (mWidth > QApplication::desktop()->width() - 5) mWidth = QApplication::desktop()->width() - 5;
-    if (mHeight > QApplication::desktop()->height() - 5) mHeight = QApplication::desktop()->height() - 5;
-    move(mLeft, mTop);
-    if (mWidth && mHeight) resize(mWidth, mHeight);
-    if (*Icons.c_str()) changeIcons(0);
-    themes->setTheme(QString::fromLocal8Bit(UseStyle.c_str()));
+    if (getLeft() < 5)
+        setLeft(5);
+    if (getTop() < 5)
+        setTop(5);
+    if (getLeft() > QApplication::desktop()->width() - 5)
+        setLeft(QApplication::desktop()->width() - 5);
+    if (getTop() > QApplication::desktop()->height() - 5)
+        setTop(QApplication::desktop()->height() - 5);
+    if (getWidth() > QApplication::desktop()->width() - 5)
+        setWidth(QApplication::desktop()->width() - 5);
+    if (getHeight() > QApplication::desktop()->height() - 5)
+        setHeight(QApplication::desktop()->height() - 5);
+    move(getLeft(), getTop());
+    if (getWidth() && getHeight())
+        resize(getWidth(), getHeight());
+    if (*getIcons())
+        changeIcons(0);
+    themes->setTheme(QString::fromLocal8Bit(getUseStyle()));
     setFonts();
     for (;;){
         if (part.size() == 0) break;
@@ -1121,34 +1129,34 @@ bool MainWindow::init(bool bNoApply)
         return false;
 
     ToolBarDock tDock = Top;
-    if (ToolbarDock == "Minimized"){
+    if (!strcmp(getToolbarDock(), "Minimized")){
         tDock = Minimized;
-    }else if (ToolbarDock == "Bottom"){
+    }else if (!strcmp(getToolbarDock(), "Bottom")){
         tDock = Bottom;
-    }else if (ToolbarDock == "Left"){
+    }else if (!strcmp(getToolbarDock(), "Left")){
         tDock = Left;
-    }else if (ToolbarDock == "Right"){
+    }else if (!strcmp(getToolbarDock(), "Right")){
         tDock = Right;
-    }else if (ToolbarDock == "TornOff"){
+    }else if (!strcmp(getToolbarDock(), "TornOff")){
         tDock = TornOff;
     }
-    moveToolBar(toolbar, tDock, false, 0, ToolbarOffset);
+    moveToolBar(toolbar, tDock, false, 0, getToolbarOffset());
     if (tDock == TornOff){
-        toolbar->move(ToolbarOffset, ToolbarY);
+        toolbar->move(getToolbarOffset(), getToolbarY());
         toolbar->show();
     }
 
     loadUnread();
     xosd->init();
     transparentChanged();
-    setShow(Show);
+    setShow(isShowState());
     setDock();
     setOnTop();
     setUserBoxOnTop();
     ownerChanged();
 
-    setShowOffline(ShowOffline);
-    setGroupMode(GroupMode);
+    setupShowOffline(isShowOffline());
+    setupGroupMode(isGroupMode());
 
     keys->unregKeys();
     keys->regKeys();
@@ -1162,12 +1170,12 @@ bool MainWindow::init(bool bNoApply)
 
 void MainWindow::setKeys(const char *kWindow, const char *kDblClick, const char *kSearch)
 {
-    if (!strcmp(kWindow, KeyWindow.c_str()) &&
-            !strcmp(kDblClick, KeyDblClick.c_str()) &&
-            !strcmp(kSearch, KeySearch.c_str())) return;
-    KeyWindow = kWindow;
-    KeyDblClick = kDblClick;
-    KeySearch = kSearch;
+    if (!strcmp(kWindow, getKeyWindow()) &&
+            !strcmp(kDblClick, getKeyDblClick()) &&
+            !strcmp(kSearch, getKeySearch())) return;
+    setKeyWindow(kWindow);
+    setKeyDblClick(kDblClick);
+    setKeySearch(kSearch);
     keys->unregKeys();
     keys->regKeys();
 }
@@ -1260,14 +1268,14 @@ void MainWindow::processEvent(ICQEvent *e)
         }
     case EVENT_PROXY_ERROR:{
             log(L_DEBUG, "Set manual to offline (proxy error)");
-            ManualStatus = ICQ_STATUS_OFFLINE;
+            setManualStatus(ICQ_STATUS_OFFLINE);
             ProxyDialog d(this, i18n("Can't connect to proxy server"));
             d.exec();
             return;
         }
     case EVENT_PROXY_BAD_AUTH:{
             log(L_DEBUG, "Set manual to offline (proxy bad auth)");
-            ManualStatus = ICQ_STATUS_OFFLINE;
+            setManualStatus(ICQ_STATUS_OFFLINE);
             ProxyDialog d(this, pClient->factory()->ProxyAuth ?
                           i18n("Proxy server require authorization") :
                           i18n("Invalid password for proxy"));
@@ -1280,7 +1288,7 @@ void MainWindow::processEvent(ICQEvent *e)
         QTimer::singleShot(50, this, SLOT(shangeUIN()));
         return;
     case EVENT_ANOTHER_LOCATION:
-        ManualStatus = ICQ_STATUS_OFFLINE;
+        setManualStatus(ICQ_STATUS_OFFLINE);
         log(L_DEBUG, "Set manual to offline (another location)");
         pClient->setStatus(ICQ_STATUS_OFFLINE);
         setShow(true);
@@ -1322,7 +1330,7 @@ void MainWindow::processEvent(ICQEvent *e)
             SIMUser *u = static_cast<SIMUser*>(_u);
             SIMUser *o = static_cast<SIMUser*>(pClient->owner);
             if ((u->IgnoreId == 0) &&
-                    ((NoAlertAway == 0) ||
+                    (!isNoAlertAway() ||
                      ((u->uStatus & 0xFF) == ICQ_STATUS_ONLINE) ||
                      ((u->uStatus & 0xFF) == ICQ_STATUS_FREEFORCHAT)) &&
                     ((u->prevStatus & 0xFF) != ICQ_STATUS_ONLINE) &&
@@ -1374,7 +1382,7 @@ void MainWindow::reset()
     saveState();
     hide();
     deleteChilds();
-    ::init(this, MainWindow_Params);
+    ::init(&data, MainWindow_Params);
     pClient->init();
 }
 
@@ -1383,18 +1391,18 @@ void MainWindow::saveState()
     if ((pClient->owner->Uin == 0) || !bLocked) return;
     if (m_bAutoAway || m_bAutoNA){
         log(L_DEBUG, "Set manual to %X (saveState)", m_autoStatus);
-        ManualStatus = (unsigned long)m_autoStatus;
+        setManualStatus((unsigned long)m_autoStatus);
     }
-    ShowOffline = toolbar->isOn(btnShowOffline);
-    GroupMode = toolbar->isOn(btnGroupMode);
-    Show = isShow();
+    setShowOffline(toolbar->isOn(btnShowOffline));
+    setGroupMode(toolbar->isOn(btnGroupMode));
+    setShowState(isShow());
 #ifdef WIN32
-    if (BarState == ABE_FLOAT){
+    if (getBarState() == ABE_FLOAT){
 #endif
-        mLeft = pos().x();
-        mTop = pos().y();
-        mWidth = size().width();
-        mHeight = size().height();
+        setLeft(pos().x());
+        setTop(pos().y());
+        setWidth(size().width());
+        setHeight(size().height());
 #ifdef WIN32
     }
 #endif
@@ -1403,39 +1411,34 @@ void MainWindow::saveState()
     bool nl;
     int extraOffset;
     getLocation(toolbar, tDock, index, nl, extraOffset);
-    ToolbarOffset = (short)extraOffset;
+    setToolbarOffset((short)extraOffset);
     switch (tDock){
     case Minimized:
-        ToolbarDock = "Minimized";
+        setToolbarDock("Minimized");
         break;
     case Bottom:
-        ToolbarDock = "Bottom";
+        setToolbarDock("Bottom");
         break;
     case Left:
-        ToolbarDock = "Left";
+        setToolbarDock("Left");
         break;
     case Right:
-        ToolbarDock = "Right";
+        setToolbarDock("Right");
         break;
     case TornOff:
-        ToolbarDock = "TornOff";
-        ToolbarOffset = toolbar->geometry().left();
-        ToolbarY = toolbar->geometry().top();
+        setToolbarDock("TornOff");
+        setToolbarOffset(toolbar->geometry().left());
+        setToolbarY(toolbar->geometry().top());
         break;
     default:
-        ToolbarDock = "Top";
+        setToolbarDock("Top");
     }
-    CToolBar::save(mainWndToolBar, &ToolBarMain);
-    CToolBar::save(pMsgEditToolBar, &ToolBarMsg);
-    CToolBar::save(pHistoryToolBar, &ToolBarHistory);
-    CToolBar::save(pUserBoxToolBar, &ToolBarUserBox);
-
-    OnTop = testWFlags(WStyle_StaysOnTop);
+    setOnTop(testWFlags(WStyle_StaysOnTop));
 #ifdef USE_KDE
     OnTop = KWin::info(winId()).state & NET::StaysOnTop;
 #endif
-    UseStyle = "";
-    if (themes->getTheme().length()) UseStyle = themes->getTheme().local8Bit();
+    setUseStyle("");
+    if (themes->getTheme().length()) setUseStyle(themes->getTheme().local8Bit());
     string file = getFullPath(SIM_CONF);
 #ifndef WIN32
     struct stat st;
@@ -1444,7 +1447,7 @@ void MainWindow::saveState()
 #endif
     QFile fs(file.c_str());
     if (fs.open(IO_WriteOnly | IO_Truncate)){
-        ::save(this, MainWindow_Params, fs);
+        ::save(&data, MainWindow_Params, fs);
         for (list<UserFloat*>::iterator itFloat = floating.begin(); itFloat != floating.end(); itFloat++){
             writeStr(fs, "[Floaty]\n");
             (*itFloat)->save(fs);
@@ -1477,7 +1480,7 @@ bool MainWindow::isDock()
 
 void MainWindow::setDock()
 {
-    if (UseDock){
+    if (isUseDock()){
         if (dock) return;
         dock = new DockWnd(this);
         return;
@@ -1527,7 +1530,7 @@ void MainWindow::showUser(unsigned long uin, int function, unsigned long param)
     ICQUser *u = pClient->getUser(uin);
     if (uin && (u == NULL)) return;
     list<UserBox*>::iterator it;
-    if (SimpleMode){
+    if (isSimpleMode()){
         for (it = containers.begin(); it != containers.end(); ++it){
             if ((*it)->isHistory() || (*it)->isUserInfo()) continue;
             if (!(*it)->haveUser(uin)) continue;
@@ -1590,7 +1593,7 @@ void MainWindow::showUser(unsigned long uin, int function, unsigned long param)
     }
     UserBox *box;
     unsigned long grpId = u ? u->GrpId : 0;
-    switch (ContainerMode){
+    switch (getContainerMode()){
     case ContainerModeAll:
         for (it = containers.begin(); it != containers.end(); ++it){
             if ((*it)->isHistory() || (*it)->isUserInfo()) continue;
@@ -1631,12 +1634,12 @@ void MainWindow::showUser(unsigned long uin, int function, unsigned long param)
 
 void MainWindow::setShow(bool bShow)
 {
-    Show = bShow;
+    setShowState(bShow);
 #ifdef WIN32
-    if (BarState != ABE_FLOAT){
-        if (BarAutoHide) bShow = true;
+    if (getBarState() != ABE_FLOAT){
+        if (isBarAutoHide()) bShow = true;
         if (bShow){
-            setBarState();
+            ::setBarState();
         }else{
             appBarMessage(ABM_SETPOS, ABE_FLOAT, FALSE);
         }
@@ -1685,9 +1688,9 @@ void MainWindow::toggleShow()
     if (menuFunction && menuFunction->isVisible()) return;
     if (noToggle) return;
 #ifdef WIN32
-    if ((BarState != ABE_FLOAT) && BarAutoHide){
+    if ((getBarState() != ABE_FLOAT) && isBarAutoHide()){
         bAutoHideVisible = !bAutoHideVisible;
-        setBarState();
+        ::setBarState();
         if (!bAutoHideVisible) setShow(true);
         noToggle = true;
         QTimer::singleShot(1000, this, SLOT(setToggle()));
@@ -1821,10 +1824,10 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
 void MainWindow::autoAway()
 {
-    if (isDock() && !isActiveWindow() && AutoHideTime){
+    if (isDock() && !isActiveWindow() && getAutoHideTime()){
         time_t now;
         time(&now);
-        if (now >= (time_t)(inactiveTime + AutoHideTime))
+        if (now >= (time_t)(inactiveTime + getAutoHideTime()))
             setShow(false);
     }
 #ifdef WIN32
@@ -1869,38 +1872,38 @@ void MainWindow::autoAway()
     unsigned long idle_time = (mit_info->idle / 1000);
 #endif
 #if defined(USE_SCRNSAVER) || defined(WIN32)
-    if ((m_bAutoAway && (idle_time < AutoAwayTime)) ||
-            (m_bAutoNA && (idle_time < AutoNATime))){
+    if ((m_bAutoAway && (idle_time < getAutoAwayTime())) ||
+            (m_bAutoNA && (idle_time < getAutoNATime()))){
         m_bAutoAway = m_bAutoNA = false;
-        if (((ManualStatus & 0xFF) == ICQ_STATUS_NA) ||
-                ((ManualStatus & 0xFF) == ICQ_STATUS_AWAY)){
-            ManualStatus = (unsigned long)m_autoStatus;
-            log(L_DEBUG, "Set manual to %X (from auto away)", ManualStatus);
+        if (((getManualStatus() & 0xFF) == ICQ_STATUS_NA) ||
+                ((getManualStatus() & 0xFF) == ICQ_STATUS_AWAY)){
+            setManualStatus((unsigned long)m_autoStatus);
+            log(L_DEBUG, "Set manual to %X (from auto away)", getManualStatus());
             realSetStatus();
         }
         return;
     }
-    if (!m_bAutoNA && AutoNATime && (idle_time > AutoNATime)){
+    if (!m_bAutoNA && getAutoNATime() && (idle_time > getAutoNATime())){
         m_bAutoNA = true;
-        if ((ManualStatus == ICQ_STATUS_OFFLINE) ||
-                ((ManualStatus & 0xFF) == ICQ_STATUS_NA)) return;
+        if ((getManualStatus() == ICQ_STATUS_OFFLINE) ||
+                ((getManualStatus() & 0xFF) == ICQ_STATUS_NA)) return;
         if (!m_bAutoAway){
-            m_autoStatus = ManualStatus;
+            m_autoStatus = getManualStatus();
             m_bAutoNA = true;
         }
-        log(L_DEBUG, "Set manual to %X (auto na)", ManualStatus);
-        ManualStatus = ICQ_STATUS_NA;
+        log(L_DEBUG, "Set manual to %X (auto na)", getManualStatus());
+        setManualStatus(ICQ_STATUS_NA);
         realSetStatus();
         return;
     }
-    if (!m_bAutoAway && AutoAwayTime && (idle_time > AutoAwayTime)){
+    if (!m_bAutoNA && !m_bAutoAway && getAutoAwayTime() && (idle_time > getAutoAwayTime())){
         m_bAutoAway = true;
-        if ((ManualStatus == ICQ_STATUS_OFFLINE) ||
-                ((ManualStatus & 0xFF) == ICQ_STATUS_NA) ||
-                ((ManualStatus & 0xFF) == ICQ_STATUS_AWAY)) return;
-        m_autoStatus = ManualStatus;
-        log(L_DEBUG, "Set manual to %X (auto away)", ManualStatus);
-        ManualStatus = ICQ_STATUS_AWAY;
+        if ((getManualStatus() == ICQ_STATUS_OFFLINE) ||
+                ((getManualStatus() & 0xFF) == ICQ_STATUS_NA) ||
+                ((getManualStatus() & 0xFF) == ICQ_STATUS_AWAY)) return;
+        m_autoStatus = getManualStatus();
+        log(L_DEBUG, "Set manual to %X (auto away)", getManualStatus());
+        setManualStatus(ICQ_STATUS_AWAY);
         realSetStatus();
         return;
     }
@@ -1917,23 +1920,23 @@ void MainWindow::setStatus(int status)
     AutoReplyDlg *autoDlg = NULL;
     switch (status & 0xFF){
     case ICQ_STATUS_AWAY:
-        if (NoShowAway) break;
+        if (isNoShowAway()) break;
         autoDlg = new AutoReplyDlg(this, ICQ_STATUS_AWAY);
         break;
     case ICQ_STATUS_NA:
-        if (NoShowNA) break;
+        if (isNoShowNA()) break;
         autoDlg = new AutoReplyDlg(this, ICQ_STATUS_NA);
         break;
     case ICQ_STATUS_OCCUPIED:
-        if (NoShowOccupied) break;
+        if (isNoShowOccupied()) break;
         autoDlg = new AutoReplyDlg(this, ICQ_STATUS_OCCUPIED);
         break;
     case ICQ_STATUS_DND:
-        if (NoShowDND) break;
+        if (isNoShowDND()) break;
         autoDlg = new AutoReplyDlg(this, ICQ_STATUS_DND);
         break;
     case ICQ_STATUS_FREEFORCHAT:
-        if (NoShowFFC) break;
+        if (isNoShowFFC()) break;
         autoDlg = new AutoReplyDlg(this, ICQ_STATUS_FREEFORCHAT);
         break;
     }
@@ -1942,14 +1945,14 @@ void MainWindow::setStatus(int status)
         autoDlg->raise();
     }
     if (status == (ICQ_STATUS_OFFLINE & 0xFF)) status = ICQ_STATUS_OFFLINE;
-    ManualStatus = (unsigned long)status;
+    setManualStatus((unsigned long)status);
     QTimer::singleShot(800, this, SLOT(realSetStatus()));
 }
 
 void MainWindow::realSetStatus()
 {
-    log(L_DEBUG, "Real set status %X", ManualStatus);
-    pClient->setStatus(ManualStatus);
+    log(L_DEBUG, "Real set status %X", getManualStatus());
+    pClient->setStatus(getManualStatus());
 }
 
 void MainWindow::moveUser(int grp)
@@ -2085,7 +2088,7 @@ void MainWindow::showUserPopup(unsigned long uin, QPoint p, QPopupMenu *popup, c
     }else{
         menuUser->insertItem(i18n("Alphabetically sort"), mnuSort);
         menuUser->setAccel(QAccel::stringToKey(i18n("Ctrl+B", "Alphabetically sort")), mnuSort);
-        menuUser->setItemChecked(mnuSort, AlphabetSort);
+        menuUser->setItemChecked(mnuSort, isAlphabetSort());
     }
     adjustUserMenu(menuUser, u, true, false);
     menuUser->installEventFilter(this);
@@ -2357,7 +2360,7 @@ void MainWindow::userFunction(unsigned long uin, int function, unsigned long par
             return;
         }
     case mnuSort:
-        AlphabetSort = !AlphabetSort;
+        setAlphabetSort(!isAlphabetSort());
         users->refresh();
         return;
     case mnuAlert:
@@ -2622,8 +2625,8 @@ void MainWindow::setFonts()
     if (UseSystemFonts) return;
 #endif
     QPopupMenu p;
-    qApp->setFont(str2font(Font.c_str(), font()), true);
-    qApp->setFont(str2font(FontMenu.c_str(), p.font()), true, "QPopupMenu");
+    qApp->setFont(str2font(getFont(), font()), true);
+    qApp->setFont(str2font(getFontMenu(), p.font()), true, "QPopupMenu");
 }
 
 extern KAboutData *appAboutData;
@@ -2700,7 +2703,7 @@ void MainWindow::timerExpired()
 
 void MainWindow::changeIcons(int)
 {
-    initIcons(Icons.c_str());
+    initIcons(getIcons());
     loadMenu();
     setIcons();
     emit iconChanged();
@@ -2766,14 +2769,14 @@ void MainWindow::loadMenu()
 void MainWindow::changeWm()
 {
 #ifdef USE_KDE
-    if (MainWindowInTaskManager){
+    if (isMainWindowInTaskManager()){
         KWin::clearState(winId(), NET::SkipTaskbar);
     }else{
         KWin::setState(winId(), NET::SkipTaskbar);
     }
 #endif
 #ifdef WIN32
-    setInBar(MainWindowInTaskManager && (BarState == ABE_FLOAT));
+    setInBar(isMainWindowInTaskManager() && (getBarState() == ABE_FLOAT));
 #endif
     emit wmChanged();
 }
@@ -3132,7 +3135,7 @@ void MainWindow::autoHide()
     rc.left -= GetSystemMetrics(SM_CXDOUBLECLK) * 2;
     rc.right += GetSystemMetrics(SM_CXDOUBLECLK) * 2;
     if ((x >= rc.left) && (x <= rc.right) && (y >= rc.top) && (y <= rc.bottom)) return;
-    if ((BarState != ABE_FLOAT) && BarAutoHide && bAutoHideVisible && !noToggle){
+    if ((getBarState() != ABE_FLOAT) && isBarAutoHide() && bAutoHideVisible && !noToggle){
         bAutoHideVisible = false;
         setBarState(true);
     }

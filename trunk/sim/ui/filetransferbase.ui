@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>305</width>
-            <height>224</height>
+            <width>321</width>
+            <height>330</height>
         </rect>
     </property>
     <property>
@@ -289,7 +289,7 @@
             <class>QLayoutWidget</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>Layout4</cstring>
+                <cstring>Layout6</cstring>
             </property>
             <hbox>
                 <property>
@@ -343,7 +343,25 @@
                         <string>&amp;Cancel</string>
                     </property>
                 </widget>
+                <widget>
+                    <class>QPushButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>btnDetails</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>&amp;Details</string>
+                    </property>
+                </widget>
             </hbox>
+        </widget>
+        <widget>
+            <class>QMultiLineEdit</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>edtLog</cstring>
+            </property>
         </widget>
     </vbox>
 </widget>

@@ -86,6 +86,9 @@ void init(void *_obj, const cfgParam *params)
             *((char**)(obj + p->offs)) = NULL;
             set_str((char**)(obj + p->offs), (const char*)(p->defValue));
             break;
+        case PARAM_LIST:
+            *((unsigned long**)(obj + p->offs)) = NULL;
+            break;
         case PARAM_BOOL:
             *((bool*)(obj + p->offs)) = (bool)p->defValue;
             break;
@@ -109,6 +112,7 @@ void init(void *_obj, const cfgParam *params)
 void free(void *_obj, const cfgParam *params)
 {
     const cfgParam *p;
+    unsigned long **pp;
     paramProc *proc;
     char *obj = (char*)_obj;
     for (p = params; p->type; p++){
@@ -122,6 +126,13 @@ void free(void *_obj, const cfgParam *params)
             break;
         case PARAM_CHARS:
             set_str((char**)(obj + p->offs), NULL);
+            break;
+        case PARAM_LIST:
+            pp = (unsigned long**)(obj + p->offs);
+            if (*pp){
+                free(*pp);
+                *pp = NULL;
+            }
             break;
         }
     }
@@ -155,6 +166,7 @@ void save(void *_obj, const cfgParam *params, QFile &out, DICT &dict)
     char *obj = (char*)(_obj);
     char **p_str;
     const cfgParam *p;
+    unsigned long *pp;
     paramProc *proc;
     for (p = params; p->type; p++){
         switch (p->type){
@@ -245,6 +257,19 @@ void save(void *_obj, const cfgParam *params, QFile &out, DICT &dict)
                         for (it = l->begin(); it != l->end(); ++it){
                             char b[15];
                             snprintf(b, sizeof(b), "%lu", *it);
+                            if (value.length()) value += ",";
+                            value += b;
+                        }
+                    }
+                    break;
+                }
+            case PARAM_LIST:{
+                    pp = *((unsigned long**)(obj + p->offs));
+                    if (pp){
+                        unsigned n = *(pp++);
+                        for (unsigned i = 0; i < n; i++, pp++){
+                            char b[15];
+                            snprintf(b, sizeof(b), "%lu", *pp);
                             if (value.length()) value += ",";
                             value += b;
                         }
@@ -375,6 +400,29 @@ bool loadParam(void *_obj, const cfgParam *params, const char *name, const char 
                             pp++;
                         }
                         return true;
+                    case PARAM_LIST:{
+                            unsigned long **pl = (unsigned long**)(obj + p->offs);
+                            if (*pl){
+                                free(*pl);
+                                *pl = NULL;
+                            }
+                            list<unsigned long> l;
+                            for (pp = value; *pp; ){
+                                l.push_back(atol(pp));
+                                pp = strchr(pp, ',');
+                                if (pp == NULL) break;
+                                pp++;
+                            }
+                            if (l.size()){
+                                *pl = (unsigned long*)malloc((l.size() + 1) * sizeof(unsigned long));
+                                unsigned long *p = *pl;
+                                *(p++) = l.size();
+                                for (list<unsigned long>::iterator it = l.begin(); it != l.end(); ++it){
+                                    *(p++) = *it;
+                                }
+                            }
+                            return true;
+                        }
                     case PARAM_CHAR:
                         obj[p->offs] = atoi(value);
                         return true;

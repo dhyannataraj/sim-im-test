@@ -85,21 +85,21 @@ ThemeSetup::ThemeSetup(QWidget *parent)
     connect(lstIcons, SIGNAL(doubleClicked(QListBoxItem*)), this, SLOT(apply(QListBoxItem*)));
     connect(chkSystemColors, SIGNAL(toggled(bool)), this, SLOT(sysColorsToggled(bool)));
     if (TransparentTop::bCanTransparent){
-        chkTransparent->setChecked(pMain->UseTransparent);
+        chkTransparent->setChecked(pMain->isUseTransparent());
         sldTransparent->setMinValue(0);
         sldTransparent->setMaxValue(100);
-        sldTransparent->setValue(pMain->Transparent);
+        sldTransparent->setValue(pMain->getTransparent());
         sldTransparent->setTickmarks(QSlider::Below);
         sldTransparent->setTickInterval(5);
         connect(chkTransparent, SIGNAL(toggled(bool)), this, SLOT(checkedTransparent(bool)));
-        chkTransparentContainer->setChecked(pMain->UseTransparentContainer);
+        chkTransparentContainer->setChecked(pMain->isUseTransparentContainer());
         sldTransparentContainer->setMinValue(0);
         sldTransparentContainer->setMaxValue(100);
-        sldTransparentContainer->setValue(pMain->TransparentContainer);
+        sldTransparentContainer->setValue(pMain->getTransparentContainer());
         sldTransparentContainer->setTickmarks(QSlider::Below);
         sldTransparentContainer->setTickInterval(5);
         connect(chkTransparentContainer, SIGNAL(toggled(bool)), this, SLOT(checkedTransparent(bool)));
-        checkedTransparent(pMain->UseTransparent);
+        checkedTransparent(pMain->isUseTransparent());
     }else{
         tabWnd->setCurrentPage(3);
         tabWnd->removePage(tabWnd->currentPage());
@@ -132,7 +132,7 @@ ThemeSetup::ThemeSetup(QWidget *parent)
     edtBg->setFilter(i18n("Graphics(%1)") .arg(format));
 #endif
     edtBg->setStartDir(app_file("pict"));
-    edtBg->setText(QString::fromLocal8Bit(pMain->BackgroundFile.c_str()));
+    edtBg->setText(QString::fromLocal8Bit(pMain->getBackgroundFile()));
     cmbPos->clear();
     cmbPos->insertItem(i18n("Contact - left"));
     cmbPos->insertItem(i18n("Contact - scale"));
@@ -140,22 +140,22 @@ ThemeSetup::ThemeSetup(QWidget *parent)
     cmbPos->insertItem(i18n("Window - left bottom"));
     cmbPos->insertItem(i18n("Window - left center"));
     cmbPos->insertItem(i18n("Window - scale"));
-    cmbPos->setCurrentItem(pMain->BackgroundMode);
+    cmbPos->setCurrentItem(pMain->getBackgroundMode());
     spnMargin->setMaxValue(20);
-    spnMargin->setValue(pMain->IconMargin);
+    spnMargin->setValue(pMain->getIconMargin());
     int h = lstThemes->itemHeight();
     lstThemes->setMinimumSize(QSize(0, h * 3));
     lstIcons->setMinimumSize(QSize(0, h * 3));
     connect(pMain, SIGNAL(setupInit()), this, SLOT(setupInit()));
 #if defined(USE_KDE) || defined(WIN32)
-    chkUserWnd->setChecked(pMain->UserWindowInTaskManager);
-    chkMainWnd->setChecked(pMain->MainWindowInTaskManager);
+    chkUserWnd->setChecked(pMain->isUserWindowInTaskManager());
+    chkMainWnd->setChecked(pMain->isMainWindowInTaskManager());
 #else
     chkUserWnd->hide();
     chkMainWnd->hide();
 #endif
 #ifdef WIN32
-    chkInactive->setChecked(pMain->TransparentIfInactive);
+    chkInactive->setChecked(pMain->isTransparentIfInactive());
 #else
     chkInactive->hide();
 #endif
@@ -172,19 +172,19 @@ ThemeSetup::ThemeSetup(QWidget *parent)
     lblLang->hide();
     cmbLang->hide();
 #endif
-    chkDblClick->setChecked(pMain->UseDoubleClick);
-    chkDock->setChecked(pMain->UseDock);
+    chkDblClick->setChecked(pMain->isUseDoubleClick());
+    chkDock->setChecked(pMain->isUseDock());
     chkSplash->setChecked(pSplash->isShow());
-    chkEmotional->setChecked(pMain->UseEmotional);
-    chkUserWndOnTop->setChecked(pMain->UserWndOnTop);
-    chkSystemColors->setChecked(pMain->UseSystemColors);
-    sysColorsToggled(pMain->UseSystemColors);
-    if (pMain->UseSystemColors){
+    chkEmotional->setChecked(pMain->isUseEmotional());
+    chkUserWndOnTop->setChecked(pMain->isUserWndOnTop());
+    chkSystemColors->setChecked(pMain->isUseSystemColors());
+    sysColorsToggled(pMain->isUseSystemColors());
+    if (pMain->isUseSystemColors()){
         btnOnlineColor->setColor(colorGroup().text());
         btnOfflineColor->setColor(colorGroup().dark());
     }else{
-        btnOnlineColor->setColor(pMain->OnlineColor);
-        btnOfflineColor->setColor(pMain->OfflineColor);
+        btnOnlineColor->setColor(pMain->getOnlineColor());
+        btnOfflineColor->setColor(pMain->getOfflineColor());
     }
     setupInit();
 }
@@ -218,7 +218,7 @@ void ThemeSetup::setupInit()
         QString s = *it;
         s.replace(QRegExp(".dll$"), "");
         lstIcons->insertItem(s);
-        if (s == QString::fromLocal8Bit(pMain->Icons.c_str()))
+        if (s == QString::fromLocal8Bit(pMain->getIcons()))
             lstIcons->setCurrentItem(i);
     }
 };
@@ -245,69 +245,69 @@ void ThemeSetup::apply(ICQUser*)
 {
     pMain->themes->setTheme(lstThemes->currentText());
     QString iconsName = lstIcons->currentItem() ? lstIcons->currentText() : QString("");
-    if (QString::fromLocal8Bit(pMain->Icons.c_str()) != iconsName){
+    if (QString::fromLocal8Bit(pMain->getIcons()) != iconsName){
         if (iconsName.isEmpty()){
-            pMain->Icons = "";
+            pMain->setIcons("");
         }else{
-            pMain->Icons = iconsName.local8Bit();
+            pMain->setIcons(iconsName.local8Bit());
         }
         pMain->changeIcons(0);
     }
     bool bColorChanged = false;
     if (chkSystemColors->isChecked()){
-        if (!pMain->UseSystemColors) bColorChanged = true;
-        pMain->UseSystemColors = true;
+        if (!pMain->isUseSystemColors()) bColorChanged = true;
+        pMain->setUseSystemColors(true);
     }else{
-        if (pMain->UseSystemColors) bColorChanged = true;
-        pMain->UseSystemColors = false;
-        if (pMain->OnlineColor != btnOnlineColor->color().rgb()){
+        if (pMain->isUseSystemColors()) bColorChanged = true;
+        pMain->setUseSystemColors(false);
+        if (pMain->getOnlineColor() != btnOnlineColor->color().rgb()){
             bColorChanged = true;
-            pMain->OnlineColor = btnOnlineColor->color().rgb();
+            pMain->setOnlineColor(btnOnlineColor->color().rgb());
         }
-        if (pMain->OfflineColor != btnOfflineColor->color().rgb()){
+        if (pMain->getOfflineColor() != btnOfflineColor->color().rgb()){
             bColorChanged = true;
-            pMain->OfflineColor = btnOfflineColor->color().rgb();
+            pMain->setOfflineColor(btnOfflineColor->color().rgb());
         }
     }
-    if ((edtBg->text() != QString::fromLocal8Bit(pMain->BackgroundFile.c_str())) ||
-            (cmbPos->currentItem() != pMain->BackgroundMode) ||
-            (atol(spnMargin->text().latin1()) != pMain->IconMargin) || bColorChanged){
-        pMain->BackgroundMode = cmbPos->currentItem();
-        set(pMain->BackgroundFile, edtBg->text());
-        pMain->IconMargin = atol(spnMargin->text().latin1());
+    if ((edtBg->text() != QString::fromLocal8Bit(pMain->getBackgroundFile())) ||
+            (cmbPos->currentItem() != pMain->getBackgroundMode()) ||
+            (atol(spnMargin->text().latin1()) != pMain->getIconMargin()) || bColorChanged){
+        pMain->setBackgroundMode(cmbPos->currentItem());
+        set(pMain->_BackgroundFile(), edtBg->text());
+        pMain->setIconMargin(atol(spnMargin->text().latin1()));
         pMain->changeBackground();
     }
     if (TransparentTop::bCanTransparent){
 #ifdef WIN32
-        pMain->TransparentIfInactive = chkInactive->isChecked();
+        pMain->setTransparentIfInactive(chkInactive->isChecked());
 #endif
-        pMain->UseTransparent = chkTransparent->isChecked();
-        pMain->Transparent = sldTransparent->value();
-        pMain->UseTransparentContainer = chkTransparentContainer->isChecked();
-        pMain->TransparentContainer = sldTransparentContainer->value();
+        pMain->setUseTransparent(chkTransparent->isChecked());
+        pMain->setTransparent(sldTransparent->value());
+        pMain->setUseTransparentContainer(chkTransparentContainer->isChecked());
+        pMain->setTransparentContainer(sldTransparentContainer->value());
         pMain->changeTransparent();
     }
     pSplash->setShow(chkSplash->isChecked());
-    pMain->UseEmotional = chkEmotional->isChecked();
-    if (chkUserWndOnTop->isChecked() != pMain->UserWndOnTop){
-        pMain->UserWndOnTop = chkUserWndOnTop->isChecked();
+    pMain->setUseEmotional(chkEmotional->isChecked());
+    if (chkUserWndOnTop->isChecked() != pMain->isUserWndOnTop()){
+        pMain->setUserWndOnTop(chkUserWndOnTop->isChecked());
         pMain->setUserBoxOnTop();
     }
 #if defined(USE_KDE) || defined(WIN32)
     bool bChange = false;
-    if (pMain->UserWindowInTaskManager != chkUserWnd->isChecked()){
-        pMain->UserWindowInTaskManager = chkUserWnd->isChecked();
+    if (pMain->isUserWindowInTaskManager() != chkUserWnd->isChecked()){
+        pMain->setUserWindowInTaskManager(chkUserWnd->isChecked());
         bChange = true;
     }
-    if (pMain->MainWindowInTaskManager != chkMainWnd->isChecked()){
-        pMain->MainWindowInTaskManager = chkMainWnd->isChecked();
+    if (pMain->isMainWindowInTaskManager() != chkMainWnd->isChecked()){
+        pMain->setMainWindowInTaskManager(chkMainWnd->isChecked());
         bChange = true;
     }
     if (bChange) pMain->changeWm();
 #endif
-    pMain->UseDoubleClick = chkDblClick->isChecked();
-    if (pMain->UseDock != chkDock->isChecked()){
-        pMain->UseDock = chkDock->isChecked();
+    pMain->setUseDoubleClick(chkDblClick->isChecked());
+    if (pMain->isUseDock() != chkDock->isChecked()){
+        pMain->setUseDock(chkDock->isChecked());
         pMain->setDock();
     }
 #ifdef WIN32

@@ -434,17 +434,17 @@ void HotKeys::regKeys()
 {
 #ifdef WIN32
     int mod, key;
-    getKey(pMain->KeyWindow.c_str(), mod, key);
+    getKey(pMain->getKeyWindow(), mod, key);
     if (key){
         keyWindow	= GlobalAddAtomA("sim_window");
         RegisterHotKey(wnd->winId(), keyWindow, mod, key);
     }
-    getKey(pMain->KeyDblClick.c_str(), mod, key);
+    getKey(pMain->getKeyDblClick(), mod, key);
     if (key){
         keyDblClick	= GlobalAddAtomA("sim_dblclick");
         RegisterHotKey(wnd->winId(), keyDblClick, mod, key);
     }
-    getKey(pMain->KeySearch.c_str(), mod, key);
+    getKey(pMain->getKeySearch(), mod, key);
     if (key){
         keySearch	= GlobalAddAtomA("sim_search");
         RegisterHotKey(wnd->winId(), keySearch, mod, key);
@@ -454,19 +454,19 @@ void HotKeys::regKeys()
     accel = new KGlobalAccel(this);
 #if QT_VERSION >= 300
     int keys;
-    keys = str2key(pMain->KeyWindow.c_str());
+    keys = str2key(pMain->getKeyWindow());
     if (keys)
         accel->insert("sim_window",
                       "Show/hide main window",
                       "Show/hide main window",
                       keys, keys, this, SLOT(slotToggleWindow()));
-    keys = str2key(pMain->KeyDblClick.c_str());
+    keys = str2key(pMain->getKeyDblClick());
     if (keys)
         accel->insert("sim_dblclick",
                       "Double click on dock",
                       "Double click on dock",
                       keys, keys, this, SLOT(slotDblClick()));
-    keys = str2key(pMain->KeySearch.c_str());
+    keys = str2key(pMain->getKeySearch());
     if (keys)
         accel->insert("sim_search",
                       "Show search window",
@@ -474,22 +474,22 @@ void HotKeys::regKeys()
                       keys, keys, this, SLOT(slotShowSearch()));
     accel->updateConnections();
 #else
-    if (*pMain->KeyWindow.c_str()){
-        QString k = pMain->KeyWindow.c_str();
+    if (*pMain->getKeyWindow()){
+        QString k = pMain->getKeyWindow();
         k.replace(QRegExp("\\-"), "+");
         char name[] = "Show/hide main window";
         accel->insertItem(name, name, k);
         accel->connectItem(name, this, SLOT(slotToggleWindow()));
     }
-    if (*pMain->KeyDblClick.c_str()){
-        QString k = pMain->KeyDblClick.c_str();
+    if (*pMain->getKeyDblClick()){
+        QString k = pMain->getKeyDblClick();
         k.replace(QRegExp("\\-"), "+");
         char name[] = "Double click on dock";
         accel->insertItem(name, name, k);
         accel->connectItem(name, this, SLOT(slotDblClick()));
     }
-    if (*pMain->KeySearch.c_str()){
-        QString k = pMain->KeySearch.c_str();
+    if (*pMain->getKeySearch()){
+        QString k = pMain->getKeySearch();
         k.replace(QRegExp("\\-"), "+");
         char name[] = "Show search window";
         accel->insertItem(name, name, k);
@@ -510,16 +510,16 @@ void HotKeys::regKeys()
         delete grabSearch;
         grabSearch = NULL;
     }
-    if (*pMain->KeyWindow.c_str()){
-        grabWindow = new KeyGrab(pMain->KeyWindow.c_str());
+    if (*pMain->getKeyWindow()){
+        grabWindow = new KeyGrab(pMain->getKeyWindow());
         connect(grabWindow, SIGNAL(activated()), this, SLOT(slotToggleWindow()));
     }
-    if (*pMain->KeyDblClick.c_str()){
-        grabDblClick = new KeyGrab(pMain->KeyDblClick.c_str());
+    if (*pMain->getKeyDblClick()){
+        grabDblClick = new KeyGrab(pMain->getKeyDblClick());
         connect(grabDblClick, SIGNAL(activated()), this, SLOT(slotDblClick()));
     }
-    if (*pMain->KeySearch.c_str()){
-        grabSearch = new KeyGrab(pMain->KeySearch.c_str());
+    if (*pMain->getKeySearch()){
+        grabSearch = new KeyGrab(pMain->getKeySearch());
         connect(grabSearch, SIGNAL(activated()), this, SLOT(slotShowSearch()));
     }
 #endif

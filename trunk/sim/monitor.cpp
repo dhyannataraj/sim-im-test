@@ -81,11 +81,11 @@ MonitorWindow::MonitorWindow()
     menuLog->insertItem(i18n("&Warnings"), this, SLOT(warning()), 0, mnuWarning);
     menuLog->insertItem(i18n("&Error"), this, SLOT(error()), 0, mnuError);
     menu->insertItem(i18n("&Log"), menuLog);
-    logLevel = pMain->MonitorLevel;
-    if (pMain->MonitorX || pMain->MonitorY)
-        move(pMain->MonitorX, pMain->MonitorY);
-    if (pMain->MonitorWidth && pMain->MonitorHeight)
-        resize(pMain->MonitorWidth, pMain->MonitorHeight);
+    logLevel = pMain->getMonitorLevel();
+    if (pMain->getMonitorX() || pMain->getMonitorY())
+        move(pMain->getMonitorX(), pMain->getMonitorY());
+    if (pMain->getMonitorWidth() && pMain->getMonitorHeight())
+        resize(pMain->getMonitorWidth(), pMain->getMonitorHeight());
     monitor = this;
     setLogProc(&logMonitor);
     QFont font("Courier");
@@ -117,10 +117,10 @@ MonitorWindow::~MonitorWindow()
 {
     setLogProc(NULL);
     monitor = NULL;
-    pMain->MonitorX = x();
-    pMain->MonitorY = y();
-    pMain->MonitorWidth = width();
-    pMain->MonitorHeight = height();
+    pMain->setMonitorX(x());
+    pMain->setMonitorY(y());
+    pMain->setMonitorWidth(width());
+    pMain->setMonitorHeight(height());
     emit finished();
 }
 
@@ -166,25 +166,25 @@ void MonitorWindow::adjustEdit()
 void MonitorWindow::packets()
 {
     logLevel ^= L_PACKET;
-    pMain->MonitorLevel = logLevel;
+    pMain->setMonitorLevel(logLevel);
 }
 
 void MonitorWindow::debug()
 {
     logLevel ^= L_DEBUG;
-    pMain->MonitorLevel = logLevel;
+    pMain->setMonitorLevel(logLevel);
 }
 
 void MonitorWindow::warning()
 {
     logLevel ^= L_WARN;
-    pMain->MonitorLevel = logLevel;
+    pMain->setMonitorLevel(logLevel);
 }
 
 void MonitorWindow::error()
 {
     logLevel ^= L_ERROR;
-    pMain->MonitorLevel = logLevel;
+    pMain->setMonitorLevel(logLevel);
 }
 
 void MonitorWindow::adjustLog()

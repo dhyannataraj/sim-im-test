@@ -93,23 +93,23 @@ void AutoReplyDlg::apply()
     switch (status){
     case ICQ_STATUS_AWAY:
         set(pClient->owner->AutoResponseAway, edtMessage->text());
-        pMain->NoShowAway = chkNoShow->isChecked();
+        pMain->setNoShowAway(chkNoShow->isChecked());
         break;
     case ICQ_STATUS_NA:
         set(pClient->owner->AutoResponseNA, edtMessage->text());
-        pMain->NoShowNA = chkNoShow->isChecked();
+        pMain->setNoShowNA(chkNoShow->isChecked());
         break;
     case ICQ_STATUS_DND:
         set(pClient->owner->AutoResponseDND, edtMessage->text());
-        pMain->NoShowDND = chkNoShow->isChecked();
+        pMain->setNoShowDND(chkNoShow->isChecked());
         break;
     case ICQ_STATUS_OCCUPIED:
         set(pClient->owner->AutoResponseOccupied, edtMessage->text());
-        pMain->NoShowOccupied = chkNoShow->isChecked();
+        pMain->setNoShowOccupied(chkNoShow->isChecked());
         break;
     case ICQ_STATUS_FREEFORCHAT:
         set(pClient->owner->AutoResponseFFC, edtMessage->text());
-        pMain->NoShowFFC = chkNoShow->isChecked();
+        pMain->setNoShowFFC(chkNoShow->isChecked());
         break;
     }
     close();

@@ -33,13 +33,31 @@
 #include <vector>
 using namespace std;
 
-ToolBarSetup::ToolBarSetup(const ToolBarDef *_def, list<unsigned long> *_active)
+ToolBarSetup::ToolBarSetup(const ToolBarDef *_def, unsigned long **_active)
         : ToolBarSetupBase(NULL, "toolbar_setup", false, WDestructiveClose)
 {
     setButtonsPict(this);
     def = _def;
     m_active = _active;
-    active = *_active;
+    const ToolBarDef *d;
+    unsigned i, n;
+    unsigned long *p;
+
+    if (*m_active){
+        n = **m_active;
+        active = (unsigned long*)malloc((n + 1) * sizeof(unsigned long));
+        memmove(active, *m_active, (n + 1) * sizeof(unsigned long));
+    }else{
+        n = 0;
+        for (d = def; d->id != BTN_END_DEF; d++)
+            n++;
+        active = (unsigned long*)malloc((n + 1) * sizeof(unsigned long));
+        p = active;
+        *(p++) = n;
+        for (d = def; d->id != BTN_END_DEF; d++)
+            *(p++) = d->id;
+    }
+
     setIcon(Pict("setup"));
     connect(btnClose, SIGNAL(clicked()), this, SLOT(close()));
     connect(lstButtons, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
@@ -52,18 +70,16 @@ ToolBarSetup::ToolBarSetup(const ToolBarDef *_def, list<unsigned long> *_active)
     connect(btnApply, SIGNAL(clicked()), this, SLOT(applyClick()));
     setButtons();
     lstActive->clear();
-    list<unsigned long>::iterator it;
-    if (active.size() == 0){
-        for (const ToolBarDef *d = def; d->id != BTN_END_DEF; d++)
-            active.push_back(d->id);
-    }
-    for (it = active.begin(); it != active.end(); ++it){
-        unsigned long id = *it;
+
+    p = active;
+    n = *(p++);
+
+    for (i = 0; i < n; i++, p++){
+        unsigned long id = *p;
         if (id == BTN_SEPARATOR){
             lstActive->insertItem(Pict("separator"), i18n("Separator"));
             continue;
         }
-        const ToolBarDef *d;
         for (d = def; d->id != BTN_END_DEF; d++)
             if (d->id == id) break;
         if (d->id == BTN_END_DEF){
@@ -77,6 +93,11 @@ ToolBarSetup::ToolBarSetup(const ToolBarDef *_def, list<unsigned long> *_active)
     bDirty = false;
 }
 
+ToolBarSetup::~ToolBarSetup()
+{
+    if (active) free(active);
+}
+
 void ToolBarSetup::okClick()
 {
     applyClick();
@@ -86,8 +107,29 @@ void ToolBarSetup::okClick()
 void ToolBarSetup::applyClick()
 {
     if (bDirty){
-        *m_active = active;
+        const ToolBarDef *d;
+        unsigned long n = *active;
+        unsigned long *n_active = (unsigned long*)malloc((n + 1) * sizeof(unsigned long));
+        memcpy(n_active, active, (n + 1) * sizeof(unsigned long));
+        n = 0;
+        for (d = def; d->id != BTN_END_DEF; d++)
+            n++;
+        if (n == *active){
+            unsigned long *d_active = (unsigned long*)malloc((n + 1) * sizeof(unsigned long));
+            unsigned long *p = d_active;
+            *(p++) = n;
+            for (d = def; d->id != BTN_END_DEF; d++)
+                *(p++) = d->id;
+            if (!memcpy(d_active, n_active, (n + 1) * sizeof(unsigned long))){
+                free(n_active);
+                n_active = NULL;
+            }
+            free(d_active);
+        }
+        if (*m_active) free(*m_active);
+        *m_active = n_active;
         pMain->changeToolBar(def);
+        bDirty = false;
     }
 }
 
@@ -111,7 +153,6 @@ void ToolBarSetup::selectionChanged()
 void ToolBarSetup::setButtons()
 {
     lstButtons->clear();
-    list<unsigned long>::iterator it;
     const ToolBarDef *d;
     bool bFirst = true;
     for (d = def;; d++){
@@ -124,9 +165,12 @@ void ToolBarSetup::setButtons()
             continue;
         }
         if (d->id == BTN_SEPARATOR) continue;
-        for (it = active.begin(); it != active.end(); ++it)
-            if ((*it) == d->id) break;
-        if (it != active.end()) continue;
+        unsigned long *p = active;
+        unsigned n = *(p++);
+        unsigned i;
+        for (i = 0; i < n; i++, p++)
+            if (*p == d->id) break;
+        if (i < n) continue;
         addButton(lstButtons, d);
     }
     lstButtons->insertItem(Pict("separator"), i18n("Separator"));
@@ -136,7 +180,6 @@ void ToolBarSetup::addClick()
 {
     int i = lstButtons->currentItem();
     if (i < 0) return;
-    list<unsigned long>::iterator it;
     const ToolBarDef *d;
     bool bFirst = true;
     for (d = def;; d++){
@@ -149,16 +192,27 @@ void ToolBarSetup::addClick()
             continue;
         }
         if (d->id == BTN_SEPARATOR) continue;
-        for (it = active.begin(); it != active.end(); ++it)
-            if ((*it) == d->id) break;
-        if (it != active.end()) continue;
+        unsigned long *p = active;
+        unsigned long n = *(p++);
+        unsigned long j;
+        for (j = 0; j < n; j++, p++)
+            if (*p == d->id) break;
+        if (j < n) continue;
         if (i-- == 0) break;
     }
+    unsigned long n = *active;
+    n++;
+    unsigned long *n_active = (unsigned long*)malloc((n + 1) * sizeof(unsigned long));
+    memcpy(n_active, active, n * sizeof(unsigned long));
+    *n_active = n;
+    free(active);
+    active = n_active;
+
     if (d->id == BTN_END_DEF){
-        active.push_back(BTN_SEPARATOR);
+        active[n] = BTN_SEPARATOR;
         lstActive->insertItem(Pict("separator"), i18n("Separator"));
     }else{
-        active.push_back(d->id);
+        active[n] = d->id;
         addButton(lstActive, d);
         setButtons();
     }
@@ -169,16 +223,11 @@ void ToolBarSetup::removeClick()
 {
     int i = lstActive->currentItem();
     if (i < 0) return;
-    vector<unsigned long> b;
-    list<unsigned long>::iterator it;
-    for (it = active.begin(); it != active.end(); ++it)
-        b.push_back(*it);
-    active.clear();
-    int n;
-    for (n = 0; n < i; n++)
-        active.push_back(b[n]);
-    for (n++; n < (int)b.size(); n++)
-        active.push_back(b[n]);
+    (*active)--;
+    unsigned n = *active;
+    unsigned long *p = active + (i + 1);
+    if (i < n)
+        memmove(p, p + 1, (n - i) * sizeof(unsigned long));
     lstActive->removeItem(i);
     setButtons();
     bDirty = true;
@@ -188,16 +237,12 @@ void ToolBarSetup::upClick()
 {
     int i = lstActive->currentItem();
     if (i <= 0) return;
-    vector<unsigned long> b;
-    list<unsigned long>::iterator it;
-    for (it = active.begin(); it != active.end(); ++it)
-        b.push_back(*it);
-    unsigned long r = b[i];
-    b[i] = b[i-1];
-    b[i-1] = r;
-    active.clear();
-    for (int n = 0; n < (int)(b.size()); n++)
-        active.push_back(b[n]);
+
+    unsigned long *pp = active + (i + 1);
+    unsigned long r = *pp;
+    *pp = pp[-1];
+    pp[-1] = r;
+
     QString s = lstActive->text(i);
     QPixmap p;
     if (lstActive->pixmap(i)) p = *lstActive->pixmap(i);
@@ -211,16 +256,12 @@ void ToolBarSetup::downClick()
 {
     int i = lstActive->currentItem();
     if ((i < 0) || (i >= (int)(lstActive->count() - 1))) return;
-    vector<unsigned long> b;
-    list<unsigned long>::iterator it;
-    for (it = active.begin(); it != active.end(); ++it)
-        b.push_back(*it);
-    unsigned long r = b[i];
-    b[i] = b[i+1];
-    b[i+1] = r;
-    active.clear();
-    for (int n = 0; n < (int)(b.size()); n++)
-        active.push_back(b[n]);
+
+    unsigned long *pp = active + (i + 1);
+    unsigned long r = *pp;
+    *pp = pp[1];
+    pp[1] = r;
+
     QString s = lstActive->text(i);
     QPixmap p;
     if (lstActive->pixmap(i)) p = *lstActive->pixmap(i);
@@ -230,7 +271,7 @@ void ToolBarSetup::downClick()
     bDirty = true;
 }
 
-void ToolBarSetup::show(const ToolBarDef *def, list<unsigned long> *active)
+void ToolBarSetup::show(const ToolBarDef *def, unsigned long **active)
 {
     QWidgetList  *list = QApplication::topLevelWidgets();
     QWidgetListIt it( *list );

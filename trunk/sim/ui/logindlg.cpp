@@ -161,7 +161,7 @@ void LoginDialog::login()
     pClient->DecryptedPassword = edtPasswd->text().local8Bit();
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     pMain->init(true);
-    pClient->setStatus((pMain->ManualStatus == ICQ_STATUS_OFFLINE) ? ICQ_STATUS_ONLINE : pMain->ManualStatus);
+    pClient->setStatus((pMain->getManualStatus() == ICQ_STATUS_OFFLINE) ? ICQ_STATUS_ONLINE : pMain->getManualStatus());
 }
 
 void LoginDialog::closeEvent(QCloseEvent *e)
@@ -211,8 +211,8 @@ void LoginDialog::processEvent(ICQEvent *e)
                 stopLogin();
                 return;
             }
-            if (pMain->ManualStatus == ICQ_STATUS_OFFLINE)
-                pMain->ManualStatus = ICQ_STATUS_ONLINE;
+            if (pMain->getManualStatus() == ICQ_STATUS_OFFLINE)
+                pMain->setManualStatus(ICQ_STATUS_ONLINE);
             bCloseMain = false;
             close();
         }

@@ -27,10 +27,11 @@ class ToolBarSetup : public ToolBarSetupBase
 {
     Q_OBJECT
 public:
-    ToolBarSetup(const ToolBarDef *def, list<unsigned long> *active);
+    ToolBarSetup(const ToolBarDef *def, unsigned long **active);
+    ~ToolBarSetup();
     const ToolBarDef *def;
-    list<unsigned long> *m_active;
-    static void show(const ToolBarDef *def, list<unsigned long> *active);
+    unsigned long **m_active;
+    static void show(const ToolBarDef *def, unsigned long **active);
 protected slots:
     void selectionChanged();
     void addClick();
@@ -40,7 +41,7 @@ protected slots:
     void applyClick();
     void okClick();
 protected:
-    list<unsigned long> active;
+    unsigned long *active;
     bool bDirty;
     void addButton(QListBox *lst, const ToolBarDef *d);
     void setButtons();

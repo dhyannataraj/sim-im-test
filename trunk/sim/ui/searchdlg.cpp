@@ -42,7 +42,7 @@ SearchDialog::SearchDialog(QWidget*)
     SET_WNDPROC("search")
 
     setCaption(caption());
-    transparent = new TransparentTop(this, pMain->UseTransparentContainer, pMain->TransparentContainer);
+    transparent = new TransparentTop(this, pMain->_UseTransparentContainer(), pMain->_TransparentContainer());
     setIcon(Pict("find"));
     connect(btnClose, SIGNAL(clicked()), this, SLOT(close()));
     event = NULL;
