@@ -102,6 +102,8 @@ HomeDirPlugin::HomeDirPlugin(unsigned base)
     d = d.replace(QRegExp("/"), "\\");
     if (d.length() && (d[(int)(d.length() - 1)] == '\\'))
         d = d.left(d.length() - 1);
+	if (d.length() && d[(int)(d.length() - 1)] == ':')
+		d += "\\";
 #else
     if (d.length() && (d[(int)(d.length() - 1)] == '/'))
         d = d.left(d.length() - 1);

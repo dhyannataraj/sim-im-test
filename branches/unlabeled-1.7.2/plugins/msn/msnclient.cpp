@@ -223,15 +223,15 @@ void MSNClient::disconnected()
                 }
                 bChanged = true;
             }
-        }
-        if (bChanged){
-            StatusMessage m;
-            m.setContact(contact->id());
-            m.setClient(dataName(data).c_str());
-            m.setFlags(MESSAGE_RECEIVED);
-            m.setStatus(STATUS_OFFLINE);
-            Event e(EventMessageReceived, &m);
-            e.process();
+	        if (bChanged){
+		        StatusMessage m;
+			    m.setContact(contact->id());
+				m.setClient(dataName(data).c_str());
+				m.setFlags(MESSAGE_RECEIVED);
+				m.setStatus(STATUS_OFFLINE);
+				Event e(EventMessageReceived, &m);
+				e.process();
+			}
         }
     }
     m_packetId = 0;

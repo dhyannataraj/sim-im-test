@@ -109,6 +109,8 @@ UserView::UserView()
 
 UserView::~UserView()
 {
+	if (m_tip)
+		delete m_tip;
 }
 
 void UserView::paintEmptyArea(QPainter *p, const QRect &r)

@@ -22,6 +22,7 @@
 #include "preview.h"
 #include "linklabel.h"
 #include "core.h"
+#include "smiles.h"
 
 #include <qframe.h>
 #include <qlayout.h>
@@ -35,14 +36,14 @@ public:
 protected:
     QLabel  *labels[20];
     void showPreview(const char*);
-    void setIcons();
-    IconDLL *icons;
+    void setSmiles();
+    Smiles *smiles;
 };
 
 SmilePreview::SmilePreview(QWidget *parent)
         : FilePreview(parent)
 {
-    icons = NULL;
+    smiles = NULL;
     QGridLayout *lay = new QGridLayout(this, 4, 4);
     lay->setMargin(4);
     lay->setSpacing(4);
@@ -58,36 +59,39 @@ SmilePreview::SmilePreview(QWidget *parent)
 
 SmilePreview::~SmilePreview()
 {
-    if (icons)
-        delete icons;
+    if (smiles)
+        delete smiles;
 }
 
 void SmilePreview::showPreview(const char *file)
 {
     if (file == NULL){
-        if (icons){
-            delete icons;
-            icons = NULL;
-            setIcons();
+        if (smiles){
+            delete smiles;
+            smiles = NULL;
+            setSmiles();
         }
         return;
     }
-    icons = new IconDLL;
-    if (!icons->load(file)){
-        delete icons;
-        icons = NULL;
+    smiles = new Smiles;
+    if (!smiles->load(file)){
+        delete smiles;
+        smiles = NULL;
     }
-    setIcons();
+    setSmiles();
 }
 
-void SmilePreview::setIcons()
+void SmilePreview::setSmiles()
 {
     unsigned i = 0;
-    if (icons){
-        IconsMap::iterator it;
-        for (it = icons->icon_map->begin(); (it != icons->icon_map->end()) && (i < 20); ++it){
-            QIconSet &icon = (*it).second;
-            labels[i++]->setPixmap(icon.pixmap(QIconSet::Automatic, QIconSet::Normal));
+    if (smiles){
+        for (unsigned i = 0; (i < smiles->count()) && (i < 20); ){
+            const QIconSet *icon = smiles->get(i);
+			if (icon == NULL)
+				break;
+			QPixmap p = icon->pixmap(QIconSet::Automatic, QIconSet::Normal);
+			log(L_DEBUG, "S %u %u %u", i, p.width(), p.height());
+            labels[i++]->setPixmap(p);
         }
     }
     for (; i < 20; i++)

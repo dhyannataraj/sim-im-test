@@ -130,6 +130,7 @@ class IPResolver : public QObject
     Q_OBJECT
 public:
     IPResolver();
+	~IPResolver();
     list<IP*> queue;
     void start_resolve();
 protected slots:

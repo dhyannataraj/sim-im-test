@@ -156,6 +156,7 @@ void EditFile::showFiles()
             if (dlg->exec() == QDialog::Accepted){
                 s = dlg->selectedFile();
             }
+			delete preview;
             delete dlg;
         }else{
 #ifdef USE_KDE

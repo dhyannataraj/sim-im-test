@@ -130,6 +130,10 @@ SOURCE=.\smilecfg.cpp
 
 SOURCE=.\smilecfgbase.cpp
 # End Source File
+# Begin Source File
+
+SOURCE=.\smiles.cpp
+# End Source File
 # End Group
 # Begin Group "Header Files"
 
@@ -242,6 +246,10 @@ InputName=smilecfg
 # Begin Source File
 
 SOURCE=.\smilecfgbase.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\smiles.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"

@@ -729,6 +729,7 @@ PluginManager::PluginManager(int argc, char **argv)
 }
 
 void destroySmiles();
+void deleteResolver();
 
 PluginManager::~PluginManager()
 {
@@ -741,6 +742,7 @@ PluginManager::~PluginManager()
     delete factory;
     EventReceiver::destroyList();
     destroySmiles();
+	deleteResolver();
 }
 
 bool PluginManager::isLoaded()
