@@ -1813,7 +1813,7 @@ string MainWindow::homeDir;
 
 void MainWindow::playSound(const char *wav)
 {
-    if ((wav == NULL) || (*wav == NULL)) return;
+    if ((wav == NULL) || (*wav == 0)) return;
     wav = sound(wav);
 #ifdef WIN32
     sndPlaySoundA(wav, SND_ASYNC | SND_NODEFAULT);

@@ -90,6 +90,7 @@ public:
     QString makeMessage(ICQMessage *msg, bool bUnread);
     void addUnread(unsigned long uin);
     void deleteUser(unsigned long uin);
+    void setUin(unsigned long uin);
 public slots:
     void addMessage(ICQMessage *msg, bool bUnread, bool bSet);
     void setMessage(unsigned long uin, unsigned long msgId);

@@ -69,8 +69,9 @@ TextShow::TextShow(QWidget *p, const char *name)
 
 void TextShow::setUin(unsigned long uin)
 {
-    m_nUin = uin;
     codec = pClient->codecForUser(uin);
+    if (m_nUin == 0) addUnread(uin);
+    m_nUin = uin;
 }
 
 void TextShow::resizeEvent(QResizeEvent *e)
@@ -269,6 +270,13 @@ MsgView::MsgView(QWidget *p)
     connect(pMain, SIGNAL(ownColorsChanged()), this, SLOT(ownColorsChanged()));
     oldSendColor = pMain->ColorSend();
     oldReceiveColor = pMain->ColorReceive();
+}
+
+void MsgView::setUin(unsigned long uin)
+{
+    bool bAdd = (m_nUin == 0);
+    TextShow::setUin(uin);
+    if (bAdd) addUnread(uin);
 }
 
 QPopupMenu *TextShow::createPopupMenu(const QPoint &p)
