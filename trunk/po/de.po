@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-08-24 04:41+0400\n"
+"POT-Creation-Date: 2002-08-24 14:50+0400\n"
 "PO-Revision-Date: 2002-08-24 03:19GMT\n"
 "Last-Translator: Crissi  <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -1943,7 +1943,7 @@ msgstr "Frei für Chat"
 msgid "N/A"
 msgstr "N/A"
 
-#: client.cpp:577 mainwin.cpp:2028
+#: client.cpp:577 mainwin.cpp:2029
 msgid "Invisible"
 msgstr "Unsichtbar"
 
@@ -1955,7 +1955,7 @@ msgstr "Zuletzt online"
 msgid "%1 from %2"
 msgstr "%1 von %2"
 
-#: dock.cpp:475 mainwin.cpp:1449
+#: dock.cpp:475 mainwin.cpp:1450
 msgid "Connecting"
 msgstr "Verbindungsaufbau"
 
@@ -2011,182 +2011,182 @@ msgstr "Menü"
 msgid "%1 from %2 received"
 msgstr "%1 von %2 empfangen"
 
-#: mainwin.cpp:888
+#: mainwin.cpp:889
 msgid "Your UIN used from another location"
 msgstr "Ihre UIN wird von einem anderem Ort benutzt"
 
-#: mainwin.cpp:937
+#: mainwin.cpp:938
 msgid "User %1 is online"
 msgstr "Benutzer %1 ist online"
 
-#: mainwin.cpp:1422 mainwin.cpp:1687 msgview.cpp:331
+#: mainwin.cpp:1423 mainwin.cpp:1688 msgview.cpp:331
 msgid "&Yes"
 msgstr "&Ja"
 
-#: mainwin.cpp:1423 mainwin.cpp:1688 msgview.cpp:332
+#: mainwin.cpp:1424 mainwin.cpp:1689 msgview.cpp:332
 msgid "&No"
 msgstr "&Nein"
 
-#: mainwin.cpp:1424
+#: mainwin.cpp:1425
 msgid "Add user %1 to ignore list ?"
 msgstr "Benutzer %1 zur Ignorierenliste hinzufügen?"
 
-#: mainwin.cpp:1492
+#: mainwin.cpp:1493
 msgid "In visible list"
 msgstr "In Sichtbar-Liste"
 
-#: mainwin.cpp:1494
+#: mainwin.cpp:1495
 msgid "In invisible list"
 msgstr "In Unsichtbar-Liste"
 
-#: mainwin.cpp:1497
+#: mainwin.cpp:1498
 msgid "In ignore list"
 msgstr "In Ignorieren-Liste"
 
-#: mainwin.cpp:1515 mainwin.cpp:2053
+#: mainwin.cpp:1516 mainwin.cpp:2054
 msgid "Groups"
 msgstr "Gruppen"
 
-#: mainwin.cpp:1516 usertbl.cpp:391 userview.cpp:503
+#: mainwin.cpp:1517 usertbl.cpp:391 userview.cpp:503
 msgid "Delete"
 msgstr "Löschen"
 
-#: mainwin.cpp:1520 ui/userinfo.cpp:55 userbox.cpp:163 userbox.cpp:354
+#: mainwin.cpp:1521 ui/userinfo.cpp:55 userbox.cpp:163 userbox.cpp:354
 #: usertbl.cpp:405
 msgid "User info"
 msgstr "Benutzerinformation"
 
-#: mainwin.cpp:1521 userbox.cpp:168 userbox.cpp:400
+#: mainwin.cpp:1522 userbox.cpp:168 userbox.cpp:400
 msgid "History"
 msgstr "Verlauf"
 
-#: mainwin.cpp:1523 ui/alertdialogbase.cpp:79 ui/setupdlg.cpp:97
+#: mainwin.cpp:1524 ui/alertdialogbase.cpp:79 ui/setupdlg.cpp:97
 #: ui/userinfo.cpp:72
 msgid "Alert"
 msgstr "Warnung"
 
-#: mainwin.cpp:1524 ui/acceptbase.cpp:137
+#: mainwin.cpp:1525 ui/acceptbase.cpp:137
 msgid "Accept mode"
 msgstr "Akzeptieren-Modus"
 
-#: mainwin.cpp:1525 ui/setupdlg.cpp:95 ui/soundsetupbase.cpp:106
+#: mainwin.cpp:1526 ui/setupdlg.cpp:95 ui/soundsetupbase.cpp:106
 #: ui/userinfo.cpp:74
 msgid "Sound"
 msgstr "Persönliche Einstellungen"
 
-#: mainwin.cpp:1528
+#: mainwin.cpp:1529
 msgid "Floating off"
 msgstr "Floating aus"
 
-#: mainwin.cpp:1528
+#: mainwin.cpp:1529
 msgid "Floating on"
 msgstr "Floating an"
 
-#: mainwin.cpp:1531
+#: mainwin.cpp:1532
 msgid "Users"
 msgstr "Benutzer"
 
-#: mainwin.cpp:1532 passwddlg.cpp:44 passwddlg.cpp:89 ui/logindlg.cpp:100
+#: mainwin.cpp:1533 passwddlg.cpp:44 passwddlg.cpp:89 ui/logindlg.cpp:100
 #: ui/searchbase.cpp:90 ui/searchdlg.cpp:106 ui/setupdlgbase.cpp:95
 #: userbox.cpp:185
 msgid "Close"
 msgstr "Abbrechen"
 
-#: mainwin.cpp:1689
+#: mainwin.cpp:1690
 msgid "Delete user %1?"
 msgstr "Benutzer %1 löschen?"
 
-#: mainwin.cpp:1790 msgedit.cpp:812
+#: mainwin.cpp:1791 msgedit.cpp:812
 msgid "New"
 msgstr "Neu"
 
-#: mainwin.cpp:1793
+#: mainwin.cpp:1794
 msgid "To container"
 msgstr "In Container"
 
-#: mainwin.cpp:1809
+#: mainwin.cpp:1810
 msgid "Read %1 message"
 msgstr "Nachricht %1 lesen"
 
-#: mainwin.cpp:2031
+#: mainwin.cpp:2032
 msgid "Don't show"
 msgstr "Nicht anzeigen"
 
-#: mainwin.cpp:2032
+#: mainwin.cpp:2033
 msgid "Available"
 msgstr "Verfügbar"
 
-#: mainwin.cpp:2033
+#: mainwin.cpp:2034
 msgid "Busy"
 msgstr "Beschäftigt"
 
-#: mainwin.cpp:2036 userview.cpp:504
+#: mainwin.cpp:2037 userview.cpp:504
 msgid "Create group"
 msgstr "Gruppe erstellen"
 
-#: mainwin.cpp:2038 userview.cpp:509
+#: mainwin.cpp:2039 userview.cpp:509
 msgid "Expand all"
 msgstr "Alle aufklappen"
 
-#: mainwin.cpp:2039 userview.cpp:510
+#: mainwin.cpp:2040 userview.cpp:510
 msgid "Collapse all"
 msgstr "Alle zusammenklappen"
 
-#: mainwin.cpp:2043
+#: mainwin.cpp:2044
 msgid "ICQ"
 msgstr "ICQ"
 
-#: mainwin.cpp:2046
+#: mainwin.cpp:2047
 msgid "Find User"
 msgstr "Benutzer suchen"
 
-#: mainwin.cpp:2047
+#: mainwin.cpp:2048
 msgid "Add Non-IM contact"
 msgstr "Nicht-ICQ-Kontakt hinzufügen"
 
-#: mainwin.cpp:2048
+#: mainwin.cpp:2049
 msgid "Send SMS"
 msgstr "SMS senden"
 
-#: mainwin.cpp:2050 ui/statussetupbase.cpp:79 usertbl.cpp:113
+#: mainwin.cpp:2051 ui/statussetupbase.cpp:79 usertbl.cpp:113
 msgid "Status"
 msgstr "Status"
 
-#: mainwin.cpp:2052 ui/setupdlg.cpp:65
+#: mainwin.cpp:2053 ui/setupdlg.cpp:65
 msgid "Setup"
 msgstr "Einrichten"
 
-#: mainwin.cpp:2054
+#: mainwin.cpp:2055
 msgid "Phone \"Follow Me\""
 msgstr "Telefonweiterleitungen"
 
-#: mainwin.cpp:2057
+#: mainwin.cpp:2058
 msgid "Always on top"
 msgstr "Immer oben"
 
-#: mainwin.cpp:2060
+#: mainwin.cpp:2061
 msgid "&Bug report"
 msgstr "Be&richten Sie Probleme oder Wünsche"
 
-#: mainwin.cpp:2061
+#: mainwin.cpp:2062
 msgid "&About SIM"
 msgstr "&Über SIM"
 
-#: mainwin.cpp:2063
+#: mainwin.cpp:2064
 msgid "About &KDE"
 msgstr "Über &KDE"
 
-#: mainwin.cpp:2066
+#: mainwin.cpp:2067
 msgid "Quit"
 msgstr "Beenden"
 
-#: _translatorinfo.cpp:1 mainwin.cpp:2248
+#: _translatorinfo.cpp:1 mainwin.cpp:2249
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
 msgstr "Crissi"
 
-#: _translatorinfo.cpp:3 mainwin.cpp:2249
+#: _translatorinfo.cpp:3 mainwin.cpp:2250
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
@@ -3461,7 +3461,8 @@ msgid "Hide main window after"
 msgstr "Hauptfenster anzeigen/verstecken nach"
 
 #: ui/statussetupbase.cpp:107
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -3557,48 +3558,54 @@ msgid "Allow other to view my &status from the Web"
 msgstr "Erlaube anderen meinem &Status im Web anzusehen"
 
 #: ui/generalsecbase.cpp:136
+#, fuzzy
+msgid "I&gnore user authorization"
+msgstr "Benutzerauthentisierung bei Proxy-Server"
+
+#: ui/generalsecbase.cpp:140
 msgid "Direct connection"
 msgstr "Direktverbindung"
 
-#: ui/generalsecbase.cpp:144
+#: ui/generalsecbase.cpp:148
 msgid "Allow &direct connection from any user"
 msgstr "&Direkte Verbindung von jedem Benutzer erlauben"
 
-#: ui/generalsecbase.cpp:148
+#: ui/generalsecbase.cpp:152
 msgid "Allow direct connection from user listed in &contact list"
 msgstr "Direkte Verbindung von Benutzer aus &Kontaktliste erlauben"
 
-#: ui/generalsecbase.cpp:152
+#: ui/generalsecbase.cpp:156
 msgid "Allow direct connection from user &upon authorization"
 msgstr "Direkte Verbindung von Benutzer nach &Authorisierung erlauben"
 
-#: ui/generalsecbase.cpp:157
+#: ui/generalsecbase.cpp:161
 msgid "Reject messages"
 msgstr "Nachrichten ablehnen"
 
-#: ui/generalsecbase.cpp:165
+#: ui/generalsecbase.cpp:169
 msgid "Reject &messages from unknown users"
 msgstr "&Nachrichten von unbekannten Benutzern ablehnen"
 
-#: ui/generalsecbase.cpp:169
+#: ui/generalsecbase.cpp:173
 msgid "Reject &URL from unknown users"
 msgstr "&URL`s von unbekannten Benutzern ablehnen"
 
-#: ui/generalsecbase.cpp:173
+#: ui/generalsecbase.cpp:177
 msgid "Reject &World Wide pager messages"
 msgstr "&Weltweite Pager-Nachrichten ablehnen"
 
-#: ui/generalsecbase.cpp:177
+#: ui/generalsecbase.cpp:181
 msgid "Reject &EmailExpress messages"
 msgstr "&Emailexpress-Nachrichten ablehnen"
 
-#: ui/generalsecbase.cpp:181
+#: ui/generalsecbase.cpp:185
 msgid "Reject &other messages"
 msgstr "&Andere Nachrichten ablehnen"
 
-#: ui/generalsecbase.cpp:185
+#: ui/generalsecbase.cpp:189
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr ""
+"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: ui/aboutinfobase.cpp:62
 msgid "Form4"
@@ -3742,7 +3749,8 @@ msgstr ";-)"
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
+msgstr ""
+"Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
 
 #~ msgid "File: "
 #~ msgstr "Datei:"
@@ -3796,4 +3804,3 @@ msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet.
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
-
