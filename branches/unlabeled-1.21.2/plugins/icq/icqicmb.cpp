@@ -1061,12 +1061,15 @@ void ICQClient::processSendQueue()
 
         Contact *contact;
         ICQUserData *data = findContact(m_send.screen.c_str(), NULL, false, contact);
-        if ((data == NULL) && (m_send.flags != PLUGIN_RANDOMxCHAT) && m_send.msg){
-            m_send.msg->setError(I18N_NOOP("No contact"));
-            Event e(EventMessageSent, m_send.msg);
-            e.process();
-            delete m_send.msg;
-            m_send.msg = NULL;
+        if ((data == NULL) && (m_send.flags != PLUGIN_RANDOMxCHAT)){
+            if (m_send.msg != NULL)
+            {
+                m_send.msg->setError(I18N_NOOP("No contact"));
+                Event e(EventMessageSent, m_send.msg);
+                e.process();
+                delete m_send.msg;
+                m_send.msg = NULL;
+            }
             m_send.screen = "";
             continue;
         }

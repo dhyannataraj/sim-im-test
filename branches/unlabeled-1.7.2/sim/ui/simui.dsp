@@ -152,10 +152,6 @@ SOURCE=.\qt3\moc_qstylesheet.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\qt3\moc_qtextbrowser.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\qt3\moc_qtextedit.cpp
 # End Source File
 # Begin Source File
@@ -205,10 +201,6 @@ SOURCE=.\qt3\qsimplerichtext.cpp
 # Begin Source File
 
 SOURCE=.\qt3\qstylesheet.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qtextbrowser.cpp
 # End Source File
 # Begin Source File
 
@@ -579,39 +571,6 @@ InputName=qstylesheet
 # Begin Source File
 
 SOURCE=.\qt3\qt3stuff.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qtextbrowser.h
-
-!IF  "$(CFG)" == "simui - Win32 Release"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build
-InputDir=.\qt3
-InputPath=.\qt3\qtextbrowser.h
-InputName=qtextbrowser
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "simui - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\qt3
-InputPath=.\qt3\qtextbrowser.h
-InputName=qtextbrowser
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 

@@ -203,6 +203,91 @@ void HTMLParser::parse(const QString &str)
     yy_delete_buffer(yy_current_buffer);
 }
 
+list<QString> HTMLParser::parseStyle(const QString &str)
+{
+	list<QString> res;
+	int i = 0;
+	int end = str.length();
+	while (i < end){
+		QString name;
+		QString value;
+		for (; i < end; i++)
+			if ((str[i] != ' ') && (str[i] != '\t'))
+				break;
+		for (; i < end; i++){
+			if ((str[i] == ' ') || (str[i] == ':'))
+				break;
+			name += str[i];
+		}
+		for (; i < end; i++)
+			if (str[i] == ':')
+				break;
+		if (i >= end)
+			break;
+		for (i++; i < end; i++)
+			if (str[i] != ' ')
+				break;
+		if (str[i] == '\''){
+			for (i++; i < end; i++){
+				if (str[i] == '\'')
+					break;
+				value += str[i];
+			}
+		}else if (str[i] == '\"'){
+			for (i++; i < end; i++){
+				if (str[i] == '\"')
+					break;
+				value += str[i];
+			}
+		}else{
+			for (; i < end; i++){
+				if (str[i] == ';')
+					break;
+				value += str[i];
+			}
+			int n;
+			for (n = value.length() - 1; n >= 0; n--)
+				if ((value[n] != ' ') && (value[n] != '\t'))
+					break;
+			value = value.left(n + 1);
+		}
+		for (; i < end; i++)
+			if (str[i] == ';')
+				break;
+		i++;
+		res.push_back(name.lower());
+		res.push_back(value);
+	}
+	return res;
+}
+
+QString HTMLParser::makeStyle(const list<QString> &opt)
+{
+	QString res;
+	for (list<QString>::const_iterator it = opt.begin(); it != opt.end(); ++it){
+		QString name = (*it);
+		it++;
+		if (it == opt.end())
+			break;
+		QString value = (*it);
+		if (!res.isEmpty())
+			res += "; ";
+		res += name;
+		res += ": ";
+		int n;
+		int end = value.length();
+		for (n = 0; n < end; n++)
+			if (value[n] == ' ')
+				break;
+		if (n < end)
+			res += "\"";
+		res += value;
+		if (n < end)
+			res += "\"";
+	}
+	return res;
+}
+
 };
 
 int yywrap() { return 1; }

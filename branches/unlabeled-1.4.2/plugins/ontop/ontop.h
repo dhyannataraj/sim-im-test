@@ -20,6 +20,10 @@
 
 #include "simapi.h"
 
+#ifdef WIN32
+#include <windows.h>
+#endif
+
 const unsigned EventInTaskManager = 0x00030000;
 const unsigned EventOnTop		  = 0x00030001;
 
@@ -49,6 +53,9 @@ protected:
     PROP_BOOL(InTask);
     PROP_BOOL(ContainerOnTop);
     OnTopData data;
+#ifdef WIN32
+	HWND m_state;
+#endif
     friend class OnTopCfg;
 };
 

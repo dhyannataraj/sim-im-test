@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qstylesheet.h,v 1.2 2003-08-02 19:22:05 shutoff Exp $
+** $Id: qstylesheet.h,v 1.2.2.1 2003-10-04 23:40:47 shutoff Exp $
 **
 ** Definition of the QStyleSheet class
 **
@@ -49,6 +49,8 @@
 
 #if QT_VERSION < 300
 
+#include "simapi.h"
+
 #ifndef QT_NO_RICHTEXT
 
 namespace Qt3
@@ -58,7 +60,7 @@ class QStyleSheet;
 class QTextDocument;
 class QStyleSheetItemData;
 
-class QStyleSheetItem : public Qt
+class UI_EXPORT QStyleSheetItem : public Qt
 {
 public:
     QStyleSheetItem( QStyleSheet* parent, const QString& name );
@@ -173,7 +175,7 @@ private:
 
 class QTextCustomItem;
 
-class QStyleSheet : public QObject
+class UI_EXPORT QStyleSheet : public QObject
 {
     Q_OBJECT
 public:
@@ -205,7 +207,7 @@ public:
 
 private:
     void init();
-    QDict<QStyleSheetItem> styles;
+    QDict<QStyleSheetItem> *pStyles;
     QStyleSheetItem* nullstyle;
 };
 

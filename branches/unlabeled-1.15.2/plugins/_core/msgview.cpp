@@ -29,6 +29,15 @@ MsgViewBase::MsgViewBase(QWidget *parent, unsigned id)
     m_id = id;
     m_nSelection = 0;
     m_popupPos = QPoint(0, 0);
+
+    QStyleSheet *style = new QStyleSheet(this);
+    QStyleSheetItem *style_p = style->item("p");
+    // Disable top and bottom margins for P tags. This will make sure
+    // paragraphs have no more spacing than regular lines, thus matching
+    // RTF's defaut look for paragraphs.
+    style_p->setMargin(QStyleSheetItem::MarginTop, 0);
+    style_p->setMargin(QStyleSheetItem::MarginBottom, 0);
+    setStyleSheet(style);
 }
 
 MsgViewBase::~MsgViewBase()
@@ -130,8 +139,8 @@ QString MsgViewBase::messageText(Message *msg)
 
     QString s = QString("<p><nobr>"
                         "<a href=\"msg://%1\"><img src=\"icon:%2\"></a>%3"
-                        "&nbsp;%4<font color=\"#%5\">%6</font> &nbsp;"
-                        "<font size=-1>%7</font>%8"
+                        "&nbsp;%4<span style=\"color:#%5\">%6</span> &nbsp;"
+                        "<span style=\"font-size:10pt\">%7</span>%8"
                         "</nobr></p>")
                 .arg(id)
                 .arg(icon)
@@ -174,11 +183,7 @@ QString MsgViewBase::messageText(Message *msg)
                 break;
             }
             QString text = msg->getRichText();
-            if (!text.isEmpty()){
-                msgText += "<p>";
-                msgText += text;
-                msgText += "</p>";
-            }
+            msgText += text;
         }
         Event e(EventEncodeText, &msgText);
         e.process();
@@ -678,6 +683,7 @@ protected:
     bool m_bIgnoreColors;
     bool m_bUseSmiles;
     bool m_bInLink;
+    bool m_bInHead;
     list<Smile> m_smiles;
     virtual void text(const QString &text);
     virtual void tag_start(const QString &tag, const list<QString> &options);
@@ -689,6 +695,7 @@ ViewParser::ViewParser(bool bIgnoreColors, bool bUseSmiles)
     m_bIgnoreColors = bIgnoreColors;
     m_bUseSmiles    = bUseSmiles;
     m_bInLink       = false;
+    m_bInHead       = false;
     if (m_bUseSmiles){
         for (unsigned i = 0; ;i++){
             const smile *s = smiles(i);
@@ -796,26 +803,24 @@ void ViewParser::text(const QString &text)
     s = res.local8Bit();
 }
 
-static const char *formatTags[] =
-    {
-        "b",
-        "i",
-        "u",
-        "br",
-        "p",
-        NULL
-    };
-
-void ViewParser::tag_start(const QString &tag, const list<QString> &options)
+void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
 {
+    // the tag that will be actually written out
+    QString oTag = tag;
+
+    if (m_bInHead)
+        return;
+
+    QString style;
+
     if (tag == "img"){
         QString src;
-        for (list<QString>::const_iterator it = options.begin(); it != options.end(); ++it){
-            QString opt = *it;
+        for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
+            QString name = (*it).lower();
             ++it;
-            QString val = *it;
-            if (opt == "src"){
-                src = val;
+            QString value = *it;
+            if (name == "src"){
+                src = value;
                 break;
             }
         }
@@ -832,50 +837,92 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &options)
                 }
             }
         }
-    }
-    if (tag == "a"){
+    }else if (tag == "a"){
         m_bInLink = true;
-    }else if (m_bIgnoreColors){
-        const char **p;
-        for (p = formatTags; *p; p++)
-            if (tag == *p)
-                break;
-        if (*p == NULL)
-            return;
+    }else if (tag == "html"){ // we display as a part of a larger document
+        return;
+    }else if (tag == "head"){
+        m_bInHead = 1;
+        return;
+    }else if (tag == "body"){ // we display as a part of a larger document
+        oTag = "span";
     }
-    res += "<";
-    res += tag;
-    if (!m_bIgnoreColors){
-        for (list<QString>::const_iterator it = options.begin(); it != options.end(); ++it){
-            QString opt = *it;
-            ++it;
-            QString val = *it;
-            res += " ";
-            res += opt;
-            if (!val.isEmpty()){
-                res += "=\"";
-                res += quoteString(val);
-                res += "\"";
+    QString tagText;
+    tagText += "<";
+    tagText += oTag;
+    for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
+        QString name = (*it).lower();
+        ++it;
+        QString value = *it;
+
+        // Handling for attributes of specific tags.
+        if (tag == "body"){
+            if (name == "bgcolor"){
+                style += "background-color:" + value + ";";
+                continue;
             }
+        }else if (tag == "font"){
+            if (name == "color" && m_bIgnoreColors)
+                continue;
+        }
+
+        // Handle for generic attributes.
+        if (name == "style"){
+            style += value;
+            continue;
+        }
+
+        tagText += " ";
+        tagText += name;
+        if (!value.isEmpty()){
+            tagText += "=\"";
+            tagText += quoteString(value);
+            tagText += "\"";
         }
     }
-    res += ">";
+
+    // Quite crude but working CSS to remove color styling.
+    // It won't filter out colors as part of 'background', but life's tough.
+    // (If it's any comfort, Qt probably won't display it either.)
+    if (!style.isEmpty()){
+        list<QString> opt = parseStyle(style);
+        list<QString> new_opt;
+        for (list<QString>::iterator it = opt.begin(); it != opt.end(); ++it){
+            QString name = *it;
+            it++;
+            if (it == opt.end())
+                break;
+            QString value = *it;
+            if ((name == "color") || (name == "background-color"))
+                continue;
+            new_opt.push_back(name);
+            new_opt.push_back(value);
+        }
+        style = makeStyle(new_opt);
+        if (!style.isEmpty())
+            tagText += " style=\"" + quoteString(style) + "\"";
+    }
+    tagText += ">";
+    res += tagText;
 }
 
 void ViewParser::tag_end(const QString &tag)
 {
+    QString oTag = tag;
     if (tag == "a"){
         m_bInLink = false;
-    }else if (m_bIgnoreColors){
-        const char **p;
-        for (p = formatTags; *p; p++)
-            if (tag == *p)
-                break;
-        if (*p == NULL)
-            return;
+    }else if (tag == "head"){
+        m_bInHead = false;
+        return;
+    }else if (tag == "html"){
+        return;
+    }else if (tag == "body"){
+        oTag = "span";
     }
+    if (m_bInHead)
+        return;
     res += "</";
-    res += tag;
+    res += oTag;
     res += ">";
 }
 

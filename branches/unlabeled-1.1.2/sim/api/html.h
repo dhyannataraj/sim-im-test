@@ -35,6 +35,8 @@ public:
     HTMLParser();
     virtual ~HTMLParser();
     void parse(const QString &str);
+	static list<QString> parseStyle(const QString &str);
+	static QString makeStyle(const list<QString> &opt);
 protected:
     virtual void text(const QString &text) = 0;
     virtual void tag_start(const QString &tag, const list<QString> &options) = 0;

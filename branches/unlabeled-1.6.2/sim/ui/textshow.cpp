@@ -183,7 +183,7 @@ void TextEdit::setTextFormat(QTextEdit::TextFormat format)
 }
 
 TextShow::TextShow(QWidget *p, const char *name)
-        : QTextBrowser(p, name)
+        : QTextEdit(p, name)
 {
     setTextFormat(RichText);
     setReadOnly(true);
@@ -193,11 +193,43 @@ TextShow::~TextShow()
 {
 }
 
-void TextShow::setSource(const QString &href)
+void TextShow::emitLinkClicked(const QString &name)
 {
-    QCString s = href.local8Bit();
-    Event e(EventGoURL, (void*)(const char*)s);
+	setSource(name);
+}
+
+void TextShow::setSource(const QString &name)
+{
+#ifndef QT_NO_CURSOR
+    if ( isVisible() )
+        qApp->setOverrideCursor( waitCursor );
+#endif
+    QString source = name;
+    QString mark;
+    int hash = name.find('#');
+    if ( hash != -1) {
+        source = name.left( hash );
+        mark = name.mid( hash+1 );
+    }
+    if ( source.left(5) == "file:" )
+        source = source.mid(6);
+
+    QString url = mimeSourceFactory()->makeAbsolute( source, context() );
+    QString txt;
+
+    if (!mark.isEmpty()) {
+        url += "#";
+        url += mark;
+    }
+
+    QCString s = url.local8Bit();
+    Event e(EventGoURL, (void*)(const char*)url);
     e.process();
+
+#ifndef QT_NO_CURSOR
+    if ( isVisible() )
+        qApp->restoreOverrideCursor();
+#endif
 }
 
 void TextShow::resizeEvent(QResizeEvent *e)
@@ -225,7 +257,7 @@ void TextShow::keyPressEvent(QKeyEvent *e)
         copy();
         return;
     }
-    QTextBrowser::keyPressEvent(e);
+    QTextEdit::keyPressEvent(e);
 }
 
 void TextShow::copy()
@@ -324,7 +356,7 @@ QString TextShow::quoteText(const char *t, const char *charset)
 
 void TextShow::setText(const QString &text)
 {
-    QTextBrowser::setText(text, "");
+    QTextEdit::setText(text, "");
 }
 
 class BgColorParser : public HTMLParser

@@ -76,8 +76,8 @@ QString Message::presentation()
     QString res = getRichText();
     if (getBackground() != getForeground()){
         QString font;
-        font.sprintf("<font color=\"#%06lX\">", getForeground() & 0xFFFFFF);
-        res = font + res + "</font>";
+        font.sprintf("<span style=\"color:#%06lX\">", getForeground() & 0xFFFFFF);
+        res = font + res + "</span>";
     }
     return res;
 }
