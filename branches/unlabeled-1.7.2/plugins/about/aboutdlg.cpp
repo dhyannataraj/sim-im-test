@@ -27,6 +27,7 @@
 #include <qregexp.h>
 #include <qtabwidget.h>
 #include <qfile.h>
+#include <qlineedit.h>
 
 KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *parent, const char *name, bool modal)
         : AboutDlgBase(parent, name, modal)
@@ -40,7 +41,11 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
     const QIconSet *icon = Icon("ICQ");
     if (icon)
         lblIcon->setPixmap(icon->pixmap(QIconSet::Large, QIconSet::Normal));
-    lblVersion->setText(i18n("%1 Version: %2") .arg(aboutData->appName()) .arg(aboutData->version()));
+    edtVersion->setText(i18n("%1 Version: %2") .arg(aboutData->appName()) .arg(aboutData->version()));
+	edtVersion->setReadOnly(true);
+	QPalette p = palette();
+	p.setColor(QColorGroup::Base, colorGroup().background());
+	edtVersion->setPalette(p);
     txtAbout->setText((QString("<center><br>%1<br><br>%2<br><br>") +
                        "<a href=\"%3\">%4</a><br><br>" +
                        i18n("Bug report") + ": <a href=\"mailto:%5\">%6</a><br>" +

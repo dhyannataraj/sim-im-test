@@ -992,7 +992,8 @@ void ControlSocket::packet_ready()
     if (!bRes)
         write("? ");
     string s;
-    s = out.local8Bit();
+	if (!out.isEmpty())
+		s = out.local8Bit();
     string res;
     for (const char *p = s.c_str(); *p; p++){
         if (*p == '\r')

@@ -219,9 +219,15 @@ SynPacket::SynPacket(MSNClient *client)
 
 void SynPacket::answer(vector<string> &args)
 {
-    unsigned m_ver = atol(args[0].c_str());
-    m_client->m_nBuddies = atol(args[1].c_str());
-    m_client->m_nGroups  = atol(args[2].c_str());
+    unsigned m_ver = 0;
+	if (!args[0].empty())
+		m_ver = atol(args[0].c_str());
+    m_client->m_nBuddies = 0;
+    m_client->m_nGroups  = 0;
+	if (!args[1].empty())
+		m_client->m_nBuddies = atol(args[1].c_str());
+	if (!args[2].empty())
+	    m_client->m_nGroups  = atol(args[2].c_str());
     m_client->setListVer(m_ver);
     ContactList::GroupIterator itg;
     Group *grp;

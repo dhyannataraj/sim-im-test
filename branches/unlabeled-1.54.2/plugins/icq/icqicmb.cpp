@@ -351,8 +351,10 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         log(L_WARN, "generic message tlv 0101 not found");
                         break;
                     }
-                    if (m_tlv->Size() <= 4)
+                    if (m_tlv->Size() <= 4){
+						log(L_WARN, "Bad tlv 0101 size");
                         break;
+					}
                     char *m_data = (*m_tlv);
                     unsigned short encoding = (unsigned short)((m_data[0] << 8) + m_data[1]);
                     m_data += 4;

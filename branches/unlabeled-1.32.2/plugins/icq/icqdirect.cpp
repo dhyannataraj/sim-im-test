@@ -1781,9 +1781,7 @@ bool ICQFileTransfer::error_state(const char *err, unsigned code)
 {
     if (DirectSocket::m_state == DirectSocket::ConnectFail){
         if (m_data->Caps.value & (1 << CAP_DIRECT)){
-            DirectSocket::m_state = DirectSocket::WaitReverse;
-            m_state = WaitReverse;
-            bind(m_client->getMinPort(), m_client->getMaxPort(), m_client);
+			login_timeout();
             return false;
         }
     }

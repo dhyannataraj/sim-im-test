@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>357</width>
+            <width>349</width>
             <height>295</height>
         </rect>
     </property>
@@ -19,7 +19,7 @@
         <name>caption</name>
         <string>About SIM</string>
     </property>
-    <vbox>
+    <grid>
         <property>
             <name>margin</name>
             <number>11</number>
@@ -28,73 +28,7 @@
             <name>spacing</name>
             <number>6</number>
         </property>
-        <widget>
-            <class>QLayoutWidget</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>Layout4</cstring>
-            </property>
-            <hbox>
-                <property>
-                    <name>margin</name>
-                    <number>0</number>
-                </property>
-                <property>
-                    <name>spacing</name>
-                    <number>6</number>
-                </property>
-                <widget>
-                    <class>QLabel</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>lblIcon</cstring>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string></string>
-                    </property>
-                    <property>
-                        <name>alignment</name>
-                        <set>AlignCenter</set>
-                    </property>
-                    <property>
-                        <name>hAlign</name>
-                    </property>
-                </widget>
-                <widget>
-                    <class>QLabel</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>lblVersion</cstring>
-                    </property>
-                    <property>
-                        <name>sizePolicy</name>
-                        <sizepolicy>
-                            <hsizetype>7</hsizetype>
-                            <vsizetype>1</vsizetype>
-                        </sizepolicy>
-                    </property>
-                    <property>
-                        <name>font</name>
-                        <font>
-                            <bold>1</bold>
-                        </font>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string></string>
-                    </property>
-                    <property>
-                        <name>alignment</name>
-                        <set>AlignCenter</set>
-                    </property>
-                    <property>
-                        <name>hAlign</name>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
-        <widget>
+        <widget row="1"  column="0"  rowspan="1"  colspan="2" >
             <class>QTabWidget</class>
             <property stdset="1">
                 <name>name</name>
@@ -220,7 +154,7 @@
                 </vbox>
             </widget>
         </widget>
-        <widget>
+        <widget row="2"  column="0"  rowspan="1"  colspan="2" >
             <class>Line</class>
             <property stdset="1">
                 <name>name</name>
@@ -243,7 +177,7 @@
                 <enum>HLine</enum>
             </property>
         </widget>
-        <widget>
+        <widget row="3"  column="0"  rowspan="1"  colspan="2" >
             <class>QLayoutWidget</class>
             <property stdset="1">
                 <name>name</name>
@@ -292,7 +226,36 @@
                 </widget>
             </hbox>
         </widget>
-    </vbox>
+        <widget row="0"  column="0" >
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>lblIcon</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string></string>
+            </property>
+            <property>
+                <name>alignment</name>
+                <set>AlignCenter</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+        <widget row="0"  column="1" >
+            <class>QLineEdit</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>edtVersion</cstring>
+            </property>
+            <property>
+                <name>frame</name>
+                <bool>false</bool>
+            </property>
+        </widget>
+    </grid>
 </widget>
 <customwidgets>
     <customwidget>

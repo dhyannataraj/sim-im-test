@@ -136,11 +136,14 @@ begin
 end;
 
 function InitializeSetup: Boolean;
+var
+  sFileName: String;
 begin
   isxdl_SetOption('title','Downloading lots of files...');
   isxdl_SetOption('noftpsize','false');
   isxdl_SetOption('aborttimeout','15');
-
+  DeleteFile(ExpandConstant('{userstartup}\SIM.lnk'));
+  DeleteFile(ExpandConstant('{commonstartup}\SIM.lnk'));
   Result := true;
 end;
 

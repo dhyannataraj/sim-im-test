@@ -1957,7 +1957,7 @@ void *CorePlugin::processEvent(Event *e)
                     m.id = msg->id();
                     m.contact = msg->contact();
                     m.client = msg->client();
-                    m.type = msg->type();
+                    m.type = msg->baseType();
                     unread.push_back(m);
                     if (msg->getFlags() & MESSAGE_NOVIEW)
                         return NULL;
