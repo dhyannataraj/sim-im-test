@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2004-02-18 09:48+0300\n"
-"PO-Revision-Date: 2004-02-19 01:03+0100\n"
+"PO-Revision-Date: 2004-02-19 01:57+0100\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
-"PO-Revision-Date: 2004-02-19 01:03+0100\n"
+"PO-Revision-Date: 2004-02-19 01:57+0100\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2578,8 +2578,8 @@ msgid ""
 "_: %1 typed\n"
 "male"
 msgstr ""
-"%1 schrieb\n"
-"männlich"
+"%1 schreibt gerade\n"
+" "
 
 #: plugins/_core/container.cpp:558
 #: plugins/osd/osd.cpp:295
@@ -2587,12 +2587,12 @@ msgid ""
 "_: %1 typed\n"
 "female"
 msgstr ""
-"%1 schrieb\n"
-"weiblich"
+"%1 schreibt gerade\n"
+" "
 
 #: plugins/_core/core.cpp:75
 msgid "Interface"
-msgstr "Nachrichtenfenster"
+msgstr "Schnittstelle"
 
 #: plugins/_core/core.cpp:76
 msgid "System interface"
