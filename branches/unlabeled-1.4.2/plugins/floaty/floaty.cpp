@@ -205,6 +205,7 @@ void *FloatyPlugin::processEvent(Event *e)
             }
             break;
         }
+	case EventContactClient:
     case EventContactStatus:
     case EventContactChanged:{
             Contact *contact = (Contact*)(e->param());

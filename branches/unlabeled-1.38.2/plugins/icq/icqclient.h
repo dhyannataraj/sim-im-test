@@ -853,6 +853,7 @@ protected:
         Receive,
         Wait,
         WaitReverse,
+		WaitReverseLogin,
         Listen
     };
     State m_state;
@@ -870,6 +871,8 @@ protected:
     void startPacket(char cmd);
     void sendPacket(bool dump=true);
     void sendFileInfo();
+
+	friend class ICQClient;
 };
 
 #endif
