@@ -1219,6 +1219,10 @@ void Client::setState(State state, const char *text, unsigned code)
     }
 }
 
+void Client::contactsLoaded()
+{
+}
+
 bool ContactList::moveClient(Client *client, bool bUp)
 {
     unsigned i;
@@ -1818,6 +1822,11 @@ void ContactList::load()
         p->flush(c, g, s.c_str(), &cfg);
     }
     p->flush(c, g);
+    // Notify the clients about the newly loaded contact list
+    for (unsigned i = 0; i < nClients(); i++){
+        Client *client = getClient(i);
+        client->contactsLoaded();
+    }
 }
 
 void ContactListPrivate::flush(Contact *c, Group *g)

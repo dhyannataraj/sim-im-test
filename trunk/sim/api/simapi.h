@@ -1566,6 +1566,7 @@ public:
     void    setState(State, const char *text = NULL, unsigned code = 0);
     State   getState() { return m_state; }
     virtual unsigned getStatus();
+    virtual void contactsLoaded();
     PROP_ULONG(ManualStatus)
     PROP_BOOL(CommonStatus)
     PROP_UTF8(Password)

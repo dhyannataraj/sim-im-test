@@ -3672,6 +3672,9 @@ bool CorePlugin::init(bool bInit)
         getContacts()->load();
     for (unsigned i = 0; i < getContacts()->nClients(); i++){
         Client *client = getContacts()->getClient(i);
+        // "Emulate" contactsLoaded() when we're dealing with a new contact list
+        if (bNew)
+            client->contactsLoaded();
         if (client->getCommonStatus())
             client->setManualStatus(getManualStatus());
         client->setStatus(client->getManualStatus(), client->getCommonStatus());

@@ -479,6 +479,7 @@ public:
     virtual QWidget    *setupWnd();
     virtual string getConfig();
     virtual unsigned getStatus();
+    virtual void contactsLoaded();
     void setUin(unsigned long);
     void setScreen(const char*);
     unsigned long getUin();

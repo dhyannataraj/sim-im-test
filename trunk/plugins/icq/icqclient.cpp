@@ -292,17 +292,6 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
     if (data.owner.Screen.ptr && *data.owner.Screen.ptr)
         m_bAIM = true;
 
-    QTextCodec *codec = getContacts()->getCodec(NULL);
-    if (codec && (QString(codec->name()).lower().find("utf") >= 0)){
-        const char *_def_enc = I18N_NOOP("Dear translator! type this default encdoing for your language");
-        QString def_enc = i18n(_def_enc);
-        if (def_enc == _def_enc){
-            EncodingDlg dlg(NULL, this);
-            dlg.exec();
-        }else{
-            getContacts()->owner()->setEncoding(def_enc.latin1());
-        }
-    }
     m_bRosters = false;
     m_bJoin    = false;
     m_listRequest = NULL;
@@ -355,6 +344,21 @@ ICQClient::~ICQClient()
     m_processMsg.clear();
 
     freeData();
+}
+
+void ICQClient::contactsLoaded()
+{
+    QTextCodec *codec = getContacts()->getCodec(NULL);
+    if (codec && (QString(codec->name()).lower().find("utf") >= 0)){
+        const char *_def_enc = I18N_NOOP("Dear translator! type this default encdoing for your language");
+        QString def_enc = i18n(_def_enc);
+        if (def_enc == _def_enc){
+            EncodingDlg dlg(NULL, this);
+            dlg.exec();
+        }else{
+            getContacts()->owner()->setEncoding(def_enc.latin1());
+        }
+    }
 }
 
 const DataDef *ICQProtocol::userDataDef()
