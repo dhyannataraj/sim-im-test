@@ -162,8 +162,8 @@ void RTF2HTML::FlushOut()
                 color &c = colors[t.param];
                 PrintUnquoted("<font color=\"#%02X%02X%02X\">", c.red, c.green, c.blue);
             }else{
-		t.tag = 100;
-	    }
+				t.tag = 100;
+			}
             break;
         case 2:
             PrintUnquoted("<font size=%u>", t.param);
