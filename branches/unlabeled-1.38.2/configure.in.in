@@ -88,14 +88,18 @@ See: http://sf.net/projects/expat
 ])
 fi
 LIB_SABLOT=""
-if test "x$PKG_CONFIG" != "xno" ; then
-  if $PKG_CONFIG sablot >/dev/null 2>&1; then
-    LIB_SABLOT=`$PKG_CONFIG --libs sablot 2>/dev/null`
-    if test "x$LIBS_SSL" != "x" ; then
-       CPPFLAGS="$CPPFLAGS `$PKG_CONFIG --cflags sablot`"
-    fi
-  fi
+SABLOT_CONFIG=sablot-config
+if ! which $SABLOT_CONFIG; then
+   AC_MSG_ERROR([Executable sablot-config not found!
+Seems you have no sablotron devel files installed.
+])
 fi
+
+LIB_SABLOT=`$SABLOT_CONFIG --libs 2>/dev/null`
+if test "x$LIBS_SSL" != "x" ; then
+    CPPFLAGS="$CPPFLAGS `$SABLOT_CONFIG --cflags`"
+fi
+
 if test "x$LIB_SABLOT" = "x"; then
   AC_CHECK_HEADER(sablot.h, [sablot="yes"])
   if test "x$sablot" = "xyes"; then
