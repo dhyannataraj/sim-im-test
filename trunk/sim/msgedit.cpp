@@ -909,13 +909,12 @@ void MsgEdit::quoteClick()
         }
     }
     msgText = QString::fromUtf8(pClient->clearHTML(msgText.utf8()).c_str());
-    QStringList l = QStringList::split('\n', msgText);
+    QStringList l = QStringList::split('\n', msgText, true);
     QStringList::Iterator it;
     for (it = l.begin(); it != l.end(); it++){
-        *it = QString(">") + *it;
+        *it = QString("<p>&gt;") + *it + "</p>\n";
     }
-    msgText = l.join("<br>\n");
-    msgText += "<br>\n";
+    msgText = l.join("");
     ICQMsg *msg = new ICQMsg;
     msg->Uin.push_back(Uin);
     msg->Message = pClient->to8Bit(Uin, msgText);
