@@ -21,6 +21,7 @@
 #include "arcfg.h"
 #include "stl.h"
 #include "buffer.h"
+#include "core.h"
 
 #include <qpixmap.h>
 #include <qlistview.h>
@@ -225,7 +226,7 @@ void ClientItem::init()
         setText(0, i18n(m_cmd->text));
     }
     if (m_cmd->icon)
-        setPixmap(0, Pict(m_cmd->icon));
+        setPixmap(0, Pict(m_cmd->icon, listView()->colorGroup().base()));
 }
 
 QWidget *ClientItem::getWidget(ConfigureDialog *dlg)
@@ -251,7 +252,7 @@ ARItem::ARItem(QListViewItem *item, const CommandDef *d)
 {
     m_status = d->id;
     setText(0, i18n(d->text));
-    setPixmap(0, Pict(d->icon));
+    setPixmap(0, Pict(d->icon, listView()->colorGroup().base()));
 }
 
 QWidget *ARItem::getWidget(ConfigureDialog *dlg)
@@ -272,7 +273,7 @@ MainInfoItem::MainInfoItem(QListView *view, unsigned id)
         : ConfigItem(view, id)
 {
     setText(0, i18n("User info"));
-    setPixmap(0, Pict("info"));
+    setPixmap(0, Pict("info", listView()->colorGroup().base()));
 }
 
 QWidget *MainInfoItem::getWidget(ConfigureDialog *dlg)
@@ -318,6 +319,7 @@ ConfigureDialog::~ConfigureDialog()
             eUnload.process();
         }
     }
+    saveGeometry(this, CorePlugin::m_plugin->data.cfgGeo);
 }
 
 static unsigned itemWidth(QListViewItem *item, QFontMetrics &fm)
@@ -380,7 +382,7 @@ void ConfigureDialog::fill(unsigned id)
 
     parentItem = new ConfigItem(lstBox, 0);
     parentItem->setText(0, i18n("Plugins"));
-    parentItem->setPixmap(0, Pict("run"));
+    parentItem->setPixmap(0, Pict("run", lstBox->colorGroup().base()));
     parentItem->setOpen(true);
 
     for ( n = 0;; n++){

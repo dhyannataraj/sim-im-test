@@ -120,7 +120,7 @@ PrefItem::PrefItem(QListViewItem *parent, CommandDef *cmd)
     QString title = i18n(cmd->text);
     title = title.replace(QRegExp("&"), "");
     setText(0, title);
-    setPixmap(0, Pict(cmd->icon));
+    setPixmap(0, Pict(cmd->icon, listView()->colorGroup().base()));
 }
 
 QWidget *PrefItem::getWidget(UserConfig *dlg)
@@ -169,7 +169,7 @@ void ClientItem::init(CommandDef *cmd)
         setText(0, i18n(cmd->text));
     }
     if (cmd->icon)
-        setPixmap(0, Pict(cmd->icon));
+        setPixmap(0, Pict(cmd->icon, listView()->colorGroup().base()));
 }
 
 QWidget *ClientItem::getWidget(UserConfig *dlg)
@@ -193,7 +193,7 @@ MainInfoItem::MainInfoItem(QListView *view, unsigned id)
         : ConfigItem(view, id)
 {
     setText(0, i18n("User info"));
-    setPixmap(0, Pict("info"));
+    setPixmap(0, Pict("info", listView()->colorGroup().base()));
 }
 
 QWidget *MainInfoItem::getWidget(UserConfig *dlg)
@@ -215,7 +215,7 @@ ARItem::ARItem(QListViewItem *item, const CommandDef *def)
 {
     m_status = def->id;
     setText(0, i18n(def->text));
-    setPixmap(0, Pict(def->icon));
+    setPixmap(0, Pict(def->icon, listView()->colorGroup().base()));
 }
 
 QWidget *ARItem::getWidget(UserConfig *dlg)
@@ -357,7 +357,7 @@ void UserConfig::fill()
 
     parentItem = new ConfigItem(lstBox, 0);
     parentItem->setText(0, i18n("Settings"));
-    parentItem->setPixmap(0, Pict("configure"));
+    parentItem->setPixmap(0, Pict("configure", lstBox->colorGroup().base()));
     parentItem->setOpen(true);
     CommandDef *cmd;
     CommandsMapIterator itc(CorePlugin::m_plugin->preferences);
@@ -524,6 +524,15 @@ void UserConfig::accept()
 {
     apply();
     ConfigureDialogBase::accept();
+}
+
+void UserConfig::resizeEvent(QResizeEvent *e)
+{
+    ConfigureDialogBase::resizeEvent(e);
+    if (isVisible()){
+        CorePlugin::m_plugin->data.cfgGeo[WIDTH].value = width();
+        CorePlugin::m_plugin->data.cfgGeo[HEIGHT].value = height();
+	}
 }
 
 #ifndef WIN32

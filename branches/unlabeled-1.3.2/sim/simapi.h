@@ -1769,6 +1769,9 @@ EXPORT void setButtonsPict(QWidget *w);
 
 EXPORT QIconSet Icon(const char *name);
 EXPORT QPixmap Pict(const char *name);
+#ifdef WIN32
+EXPORT QPixmap Pict(const char *name, const QColor &bgColor);
+#endif
 EXPORT const QImage *Image(const char *name);
 
 EXPORT void setAboutData(KAboutData*);

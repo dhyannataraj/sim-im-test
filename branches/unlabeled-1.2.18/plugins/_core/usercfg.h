@@ -44,6 +44,7 @@ protected slots:
 protected:
     virtual void accept();
     virtual void *processEvent(Event *e);
+	void resizeEvent(QResizeEvent*);
     void setTitle();
     void fill();
     unsigned m_nUpdates;

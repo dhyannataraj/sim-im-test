@@ -78,7 +78,7 @@ NewProtocol::NewProtocol(QWidget *parent)
     sort(m_protocols.begin(), m_protocols.end(), cmp_protocol);
     for (unsigned i = 0; i < m_protocols.size(); i++){
         const CommandDef *cmd = m_protocols[i]->description();
-        cmbProtocol->insertItem(Pict(cmd->icon), i18n(cmd->text));
+        cmbProtocol->insertItem(Pict(cmd->icon, cmbProtocol->colorGroup().base()), i18n(cmd->text));
     }
     connect(cmbProtocol, SIGNAL(activated(int)), this, SLOT(protocolChanged(int)));
     cmbProtocol->setCurrentItem(0);
