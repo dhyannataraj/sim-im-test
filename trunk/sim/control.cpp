@@ -239,7 +239,7 @@ static cmdDef cmds[] =
         { "NOTIFY", I18N_NOOP("set notify mode"), "NOTIFY [on|off]", 0, 1 },
         { "ICON", I18N_NOOP("get icon in xpm fomrat"), "ICON nIcon", 1, 1 },
         { "OPEN", I18N_NOOP("open upread message"), "OPEN", 0, 0 },
-	{ "POPUP", I18N_NOOP("show popup"), "POPUP x y", 2, 2 },
+        { "POPUP", I18N_NOOP("show popup"), "POPUP x y", 2, 2 },
         { "QUIT", I18N_NOOP("quit SIM"), "QUIT", 0, 0 },
         { "CLOSE", I18N_NOOP("close session"), "CLOSE", 0, 0 },
         { "HELP", I18N_NOOP("command help information"), "HELP [<cmd>]", 0, 1 }
@@ -412,9 +412,9 @@ void ControlSocket::read_ready(int)
             pMain->dockDblClicked();
         break;
     case CMD_POPUP:
-	if (pMain)
-	    pMain->showPopup(QPoint(args[1].toInt(), args[2].toInt()));
-	break;
+        if (pMain)
+            pMain->showPopup(QPoint(args[1].toInt(), args[2].toInt()));
+        break;
     case CMD_DOCK:
         if (pMain){
             if (nArgs){

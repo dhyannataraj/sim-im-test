@@ -954,9 +954,9 @@ void SIMClient::start_resolve()
             continue;
         }
 #if QT_VERSION >= 300
-	delete resolver;
-	resolver = new QDns(QHostAddress(htonl(ip)), QDns::Ptr);
-	connect(resolver, SLOT(resultsReady()), this, SLOT(resolve_ready()));
+        delete resolver;
+        resolver = new QDns(QHostAddress(htonl(ip)), QDns::Ptr);
+        connect(resolver, SLOT(resultsReady()), this, SLOT(resolve_ready()));
 #else
         resolver->setLabel(QHostAddress(htonl(ip)));
 #endif

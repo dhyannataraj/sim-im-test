@@ -583,6 +583,7 @@ int main(int argc, char *argv[])
     ControlListener *cl = new ControlListener(pMain);
     if (!cl->bind(ctrlSock.c_str())){
         delete cl;
+        cl = NULL;
         if (ctrlSock.length())
             return 1;
     }
@@ -621,7 +622,8 @@ int main(int argc, char *argv[])
     }
     pSplash->hide();
     int res = app.exec();
-    delete cl;
+    if (cl)
+        delete cl;
     return res;
 }
 
