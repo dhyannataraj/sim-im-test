@@ -352,7 +352,7 @@ void UserListBase::drawUpdates()
         unsigned unread = getUnread(contact->id());
         bool bShow = false;
         ListUserData *data = (ListUserData*)(contact->getUserData(CorePlugin::m_plugin->list_data_id));
-        if (data && data->ShowAllways)
+        if (data && data->ShowAlways)
             bShow = true;
         switch (m_groupMode){
         case 0:
@@ -630,7 +630,7 @@ void UserListBase::fill()
             unsigned unread = getUnread(contact->id());
             bool bShow = false;
             ListUserData *data = (ListUserData*)contact->getUserData(CorePlugin::m_plugin->list_data_id);
-            if (data && data->ShowAllways)
+            if (data && data->ShowAlways)
                 bShow = true;
             if ((unread == 0) && !bShow && (status == STATUS_OFFLINE) && m_bShowOnline)
                 continue;
@@ -668,7 +668,7 @@ void UserListBase::fill()
             unsigned unread = getUnread(contact->id());
             bool bShow = false;
             ListUserData *data = (ListUserData*)contact->getUserData(CorePlugin::m_plugin->list_data_id);
-            if (data && data->ShowAllways)
+            if (data && data->ShowAlways)
                 bShow = true;
             if ((status == STATUS_OFFLINE) && !bShow && (unread == 0) && m_bShowOnline)
                 continue;
@@ -718,7 +718,7 @@ void UserListBase::fill()
             unsigned unread = getUnread(contact->id());
             bool bShow = false;
             ListUserData *data = (ListUserData*)contact->getUserData(CorePlugin::m_plugin->list_data_id);
-            if (data && data->ShowAllways)
+            if (data && data->ShowAlways)
                 bShow = true;
             if ((unread == 0) && !bShow && (status == STATUS_OFFLINE) && m_bShowOnline)
                 continue;

@@ -358,14 +358,14 @@ void *UserView::processEvent(Event *e)
                         }
                         return e->param();
                     }
-                    if (cmd->id == CmdShowAllways){
+                    if (cmd->id == CmdShowAlways){
                         ListUserData *data = (ListUserData*)(contact->getUserData(CorePlugin::m_plugin->list_data_id, true));
                         if (data){
                             bool bShow = false;
                             if (cmd->flags & COMMAND_CHECKED)
                                 bShow = true;
-                            if ((data->ShowAllways != 0) != bShow){
-                                data->ShowAllways = bShow;
+                            if ((data->ShowAlways != 0) != bShow){
+                                data->ShowAlways = bShow;
                                 Event e(EventContactChanged, contact);
                                 e.process();
                             }
@@ -550,12 +550,12 @@ void *UserView::processEvent(Event *e)
                         return e->param();
                     }
                 }
-                if (cmd->id == CmdShowAllways){
+                if (cmd->id == CmdShowAlways){
                     Contact *contact = getContacts()->contact((unsigned)(cmd->param));
                     if (contact){
                         ListUserData *data = (ListUserData*)(contact->getUserData(CorePlugin::m_plugin->list_data_id, true));
                         cmd->flags &= ~COMMAND_CHECKED;
-                        if (data && data->ShowAllways)
+                        if (data && data->ShowAlways)
                             cmd->flags |= COMMAND_CHECKED;
                         return e->param();
                     }

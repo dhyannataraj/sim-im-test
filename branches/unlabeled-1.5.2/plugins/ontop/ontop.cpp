@@ -41,7 +41,7 @@ Plugin *createOnTopPlugin(unsigned base, bool, const char *config)
 static PluginInfo info =
     {
         I18N_NOOP("On Top"),
-        I18N_NOOP("Plugin provides main window and containers allways on top"),
+        I18N_NOOP("Plugin provides main window and containers always on top"),
         VERSION,
         createOnTopPlugin,
         PLUGIN_DEFAULT

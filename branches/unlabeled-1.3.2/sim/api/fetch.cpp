@@ -233,7 +233,7 @@ bool FetchClient::error_state(const char *err, unsigned)
 void FetchClient::connect_ready()
 {
 #ifdef USE_OPENSSL
-    if (m_state == None){
+    if ((m_state == None) & m_bHTTPS){
         m_socket->setRaw(true);
         m_socket->readBuffer.init(0);
         HTTPSClient *https = new HTTPSClient(m_socket->socket());

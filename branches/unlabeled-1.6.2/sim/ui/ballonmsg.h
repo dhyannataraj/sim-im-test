@@ -38,6 +38,7 @@ signals:
     void action(int, void*);
     void yes_action(void*);
     void no_action(void*);
+	void destroyed();
 protected slots:
     void action(int);
 protected:
