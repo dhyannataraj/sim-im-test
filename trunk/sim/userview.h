@@ -114,7 +114,7 @@ public slots:
     void setShowOffline(bool);
     void setGroupMode(bool);
     void refresh();
-	void selectionClear();
+    void selectionClear();
 signals:
     void checked();
 protected slots:
@@ -156,7 +156,7 @@ protected:
     virtual QDragObject *dragObject();
     virtual void startDrag();
 
-	bool isUserShow(ICQUser*);
+    bool isUserShow(ICQUser*);
 
     void dragEvent(QDropEvent *e, bool isDrop);
     void callUserFunction(unsigned long uin, const QString &url, bool bUrl);

@@ -1137,18 +1137,18 @@ void UserView::setOpen(bool bOpen)
 
 bool UserView::isUserShow(ICQUser *u)
 {
-	if (u == NULL) return false;
+    if (u == NULL) return false;
     if (u->inIgnore || u->bIsTemp) return false;
     if (u->Uin == pClient->owner->Uin) return false;
     if (m_bShowOffline) return true;
-	if (u->Type != USER_TYPE_ICQ) return true;
-	if (u->unreadMsgs.size()) return true;
-	return (u->uStatus != ICQ_STATUS_OFFLINE);
+    if (u->Type != USER_TYPE_ICQ) return true;
+    if (u->unreadMsgs.size()) return true;
+    return (u->uStatus != ICQ_STATUS_OFFLINE);
 }
 
 void UserView::addUserItem(ICQUser *u)
 {
-	if (!isUserShow(u)) return;
+    if (!isUserShow(u)) return;
     if (!m_bGroupMode){
         new UserViewItem(u, this);
         return;
@@ -1399,7 +1399,7 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
             }
             callUserFunction(ui->m_uin, urls.join(" "), true);
         }
-		e->acceptAction(true);
+        e->acceptAction(true);
         return;
     }
     if (QTextDrag::decode(e, text)){
@@ -1416,7 +1416,7 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
             }else if (isDrop){
                 callUserFunction(uin, text, false);
             }
-			e->acceptAction(true);
+            e->acceptAction(true);
             return;
         }
         if ((item->type() == 2) && uin){
@@ -1428,7 +1428,7 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
                 return;
             }
             if (isDrop) pClient->moveUser(u, g);
-			e->acceptAction(true);
+            e->acceptAction(true);
             return;
         }
     }
@@ -1602,26 +1602,26 @@ void UserView::startDrag()
 class MyTextDrag : public QTextDrag
 {
 public:
-	MyTextDrag(QListView *view, const QString &str);
-	~MyTextDrag();
+    MyTextDrag(QListView *view, const QString &str);
+    ~MyTextDrag();
 protected:
-	QListView *mView;
+    QListView *mView;
 };
 
 MyTextDrag::MyTextDrag(QListView *view, const QString &str)
-: QTextDrag(str, view)
+        : QTextDrag(str, view)
 {
-	mView = view;
+    mView = view;
 }
 
 MyTextDrag::~MyTextDrag()
 {
-	QTimer::singleShot(0, mView, SLOT(selectionClear()));
+    QTimer::singleShot(0, mView, SLOT(selectionClear()));
 }
 
 void UserView::selectionClear()
 {
-	clearSelection();
+    clearSelection();
 }
 
 QDragObject *UserView::dragObject()

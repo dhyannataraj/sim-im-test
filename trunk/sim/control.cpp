@@ -188,15 +188,15 @@ ControlSocket::ControlSocket(int s, QObject *parent)
     connect(this, SIGNAL(connectionClosed()), this, SLOT(error_state()));
     connect(this, SIGNAL(error(int)), this, SLOT(error_state(int)));
     connect(this, SIGNAL(readyRead()), this, SLOT(read_ready()));
-	connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
+    connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     write("SIM ready\n>");
-	sendEvent = NULL;
+    sendEvent = NULL;
 }
 
 ControlSocket::~ControlSocket()
 {
-	if (sendEvent)
-		pClient->cancelMessage(sendEvent->message());
+    if (sendEvent)
+        pClient->cancelMessage(sendEvent->message());
 }
 
 void ControlSocket::error_state()
@@ -262,7 +262,7 @@ void ControlSocket::read_ready()
 {
     if (!canReadLine()) return;
     QString line = readLine();
-	line = QString::fromLocal8Bit(line.latin1());
+    line = QString::fromLocal8Bit(line.latin1());
     QStringList args;
     QString arg;
     unsigned n;
@@ -315,32 +315,32 @@ void ControlSocket::read_ready()
     }
     QString msg;
     switch (n){
-	case CMD_MESSAGE:{
-		if (sendEvent)
-			pClient->cancelMessage(sendEvent->message());
-		unsigned long uin = atol((const char*)(args[1].local8Bit()));
-		if (uin){
-			ICQMsg *msg = new ICQMsg;
-			msg->Uin.push_back(uin);
-			msg->Message = args[2].local8Bit();
-			sendEvent = pClient->sendMessage(msg);
-			if (sendEvent) return;
-			break;
-		}
-		write("> ?Bad UIN");
-		break;
-	}
-	case CMD_SMS:{
-		if (sendEvent)
-			pClient->cancelMessage(sendEvent->message());
-		ICQSMS *sms = new ICQSMS;
-		sms->Uin.push_back(pClient->owner->Uin);
-		sms->Phone = args[1].local8Bit();
-		sms->Message = args[2].local8Bit();
-	    sendEvent = pClient->sendMessage(sms);
-		if (sendEvent) return;
-		break;
-	}
+    case CMD_MESSAGE:{
+            if (sendEvent)
+                pClient->cancelMessage(sendEvent->message());
+            unsigned long uin = atol((const char*)(args[1].local8Bit()));
+            if (uin){
+                ICQMsg *msg = new ICQMsg;
+                msg->Uin.push_back(uin);
+                msg->Message = args[2].local8Bit();
+                sendEvent = pClient->sendMessage(msg);
+                if (sendEvent) return;
+                break;
+            }
+            write("> ?Bad UIN");
+            break;
+        }
+    case CMD_SMS:{
+            if (sendEvent)
+                pClient->cancelMessage(sendEvent->message());
+            ICQSMS *sms = new ICQSMS;
+            sms->Uin.push_back(pClient->owner->Uin);
+            sms->Phone = args[1].local8Bit();
+            sms->Message = args[2].local8Bit();
+            sendEvent = pClient->sendMessage(sms);
+            if (sendEvent) return;
+            break;
+        }
     case CMD_STATUS:
         if (pClient){
             unsigned long prevStatus = pClient->owner->uStatus;
@@ -446,14 +446,14 @@ void ControlSocket::processEvent(ICQEvent *e)
 {
     if (e != sendEvent) return;
     if (e->state != ICQEvent::Success){
-		pClient->cancelMessage(e->message());
-		write("\n? send failed\n>");
-		return;
-	}
-	ICQMessage *msg = e->message();
-	History h(msg->getUin());
+        pClient->cancelMessage(e->message());
+        write("\n? send failed\n>");
+        return;
+    }
+    ICQMessage *msg = e->message();
+    History h(msg->getUin());
     h.addMessage(msg);
-	write("\n>");
+    write("\n>");
 }
 
 #ifndef _WINDOWS

@@ -51,7 +51,7 @@ class ControlSocket : public QSocket
     Q_OBJECT
 public:
     ControlSocket(int s, QObject *parent);
-	~ControlSocket();
+    ~ControlSocket();
 signals:
     void finished(ControlSocket*);
 protected slots:
@@ -61,7 +61,7 @@ protected slots:
     void processEvent(ICQEvent*);
 protected:
     void write(const char*);
-	ICQEvent *sendEvent;
+    ICQEvent *sendEvent;
 };
 
 #endif

@@ -73,9 +73,9 @@ void EditSpell::keyPressEvent(QKeyEvent *e)
 {
     if (((e->key() == Key_Enter) || (e->key() == Key_Return))){
         if (pMain->SendEnter || (e->state() == ControlButton)){
-			emit ctrlEnterPressed();
+            emit ctrlEnterPressed();
             return;
-		}
+        }
     }
     if (e->state() == ControlButton){
         switch (e->key()){
@@ -189,7 +189,7 @@ void EditSpell::setForeground(const QColor& c)
     QPalette pal = palette();
     pal.setColor(QPalette::Active, QColorGroup::Text, c);
     setPalette(pal);
-	setColor(c);
+    setColor(c);
 }
 
 const QColor &EditSpell::background() const
