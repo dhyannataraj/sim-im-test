@@ -336,7 +336,19 @@ void *JabberClient::processEvent(Event *e)
 
 void JabberClient::setStatus(unsigned status)
 {
-    if ((status == STATUS_ONLINE) || (status == STATUS_OFFLINE)){
+    if (status == STATUS_OFFLINE){
+        setStatus(status, NULL);
+        return;
+    }
+    if (getInvisible()){
+        if (m_status != status){
+            m_status = status;
+            Event e(EventClientChanged, static_cast<Client*>(this));
+            e.process();
+        }
+        return;
+    }
+    if (status == STATUS_ONLINE){
         setStatus(status, NULL);
         return;
     }
@@ -362,34 +374,36 @@ void JabberClient::setStatus(unsigned status, const char *ar)
         const char *priority = "5";
         const char *show = NULL;
         const char *type = NULL;
-        switch (status){
-        case STATUS_AWAY:
-            show = "away";
-            break;
-        case STATUS_NA:
-            show = "xa";
-            break;
-        case STATUS_DND:
-            show = "dnd";
-            break;
-        case STATUS_FFC:
-            show = "chat";
-            break;
-        case STATUS_OFFLINE:
-            priority = NULL;
-            type = "unavailable";
-            break;
+        if (getInvisible()){
+            type = "invisible";
+        }else{
+            switch (status){
+            case STATUS_AWAY:
+                show = "away";
+                break;
+            case STATUS_NA:
+                show = "xa";
+                break;
+            case STATUS_DND:
+                show = "dnd";
+                break;
+            case STATUS_FFC:
+                show = "chat";
+                break;
+            case STATUS_OFFLINE:
+                priority = NULL;
+                type = "unavailable";
+                break;
+            }
         }
         m_socket->writeBuffer << "<presence";
         if (type)
-            m_socket->writeBuffer << "type=\"" << type << "\"";
+            m_socket->writeBuffer << " type=\"" << type << "\"";
         m_socket->writeBuffer << ">\n";
-        if (show)
+        if (show && *show)
             m_socket->writeBuffer << "<show>" << show << "</show>\n";
         if (ar && *ar){
             m_socket->writeBuffer << "<status>" << ar << "</status>\n";
-        }else{
-            m_socket->writeBuffer << "<status></status>\n";
         }
         if (priority)
             m_socket->writeBuffer << "<priority>" << priority << "</priority>\n";
@@ -1418,6 +1432,22 @@ void JabberClient::auth_request(const char *jid, unsigned type, const char *text
         msg.setText(QString::fromUtf8(unquoteText(text).c_str()));
     Event e(EventMessageReceived, &msg);
     e.process();
+}
+
+void JabberClient::setInvisible(bool bState)
+{
+    if (getInvisible() == bState)
+        return;
+    TCPClient::setInvisible(bState);
+    if (getStatus() == STATUS_OFFLINE)
+        return;
+    unsigned status = getStatus();
+    m_status = STATUS_OFFLINE;
+    if (getInvisible()){
+        setStatus(status, NULL);
+        return;
+    }
+    setStatus(status);
 }
 
 #ifndef WIN32

@@ -237,6 +237,7 @@ protected:
     virtual void disconnected();
     virtual void connect_ready();
     virtual void packet_ready();
+    virtual void setInvisible(bool bState);
 
     virtual bool compareData(void*, void*);
     virtual bool send(Message*, void*);

@@ -339,10 +339,21 @@ void MigrateDialog::flush()
                     0xf3, 0x26, 0x81, 0xc4, 0x39, 0x86, 0xdb, 0x92,
                     0x71, 0xa3, 0xb9, 0xe6, 0x53, 0x7a, 0x95, 0x7c
                 };
-            for (unsigned i = 0; i < m_passwd.length(); i++)
+            unsigned i;
+            for (i = 0; i < m_passwd.length(); i++)
                 m_passwd[i] = m_passwd[i] ^ xor_table[i];
+            string new_passwd;
+            unsigned short temp = 0x4345;
+            for (i = 0; i < m_passwd.length(); i++) {
+                temp ^= m_passwd[i];
+                if (!new_passwd.empty())
+                    new_passwd += ';';
+                char buff[8];
+                sprintf(buff, "%x", temp);
+                new_passwd += buff;
+            }
             output += "Password=\"";
-            output += m_passwd;
+            output += new_passwd;
             output += "\"\n";
         }
         clientsConf.writeBlock(output.c_str(), output.length());

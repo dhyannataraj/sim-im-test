@@ -308,6 +308,9 @@ static autoReply autoReplies[] =
         { STATUS_DND, I18N_NOOP(
               "Please do not disturb me now. Disturb me later.\n"
           ) },
+	{ STATUS_FFC, I18N_NOOP(
+	      "We'd love to hear what you have to say. Join our chat.\n"
+	  ) },
         { 0, NULL }
     };
 

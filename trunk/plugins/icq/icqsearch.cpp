@@ -58,13 +58,13 @@ AIMValidator::AIMValidator(QWidget *parent)
 {
 }
 
-QValidator::State AIMValidator::validate(QString &input, int &pos) const
+QValidator::State AIMValidator::validate(QString &input, int&) const
 {
     if (input.length() == 0)
         return Intermediate;
     char c = input[0].latin1();
     if (((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z'))){
-        for (int i = 1; i < input.length(); i++){
+        for (int i = 1; i < (int)(input.length()); i++){
             char c = input[i].latin1();
             if (((c >= 'a') && (c <= 'z')) ||
                     ((c >= 'A') && (c <= 'Z')) ||

@@ -21,6 +21,8 @@
 #include <openssl/sha.h>
 #endif
 
+#include <qtimer.h>
+
 class AuthRequest : public JabberClient::ServerRequest
 {
 public:
