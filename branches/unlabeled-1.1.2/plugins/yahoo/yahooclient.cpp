@@ -326,9 +326,11 @@ public:
 protected:
     void addText(const char *str, unsigned size);
     unsigned m_state;
+	bool     m_bColor;
     stack<string> m_tags;
     void setState(unsigned code, bool bSet);
     void clearState(unsigned code);
+	void put_color(unsigned color);
     void push_tag(const char *tag);
     void pop_tag(const char *tag);
     bool m_bUtf;
@@ -337,8 +339,45 @@ protected:
 
 TextParser::TextParser(bool bUtf)
 {
-    m_bUtf  = bUtf;
-    m_state = 0;
+    m_bUtf   = bUtf;
+    m_state  = 0;
+	m_bColor = false;
+}
+
+static unsigned esc_colors[] = 
+{
+	0x000000,
+	0x0000FF,
+	0x008080,
+	0x808080,
+	0x00FF00,
+	0xFF0080,
+	0x800080,
+	0xFF8000,
+	0xFF0000,
+	0x808000
+};
+
+static string word_first(const char *tag)
+{
+	string t = tag;
+	int pos = t.find(' ');
+	if (pos < 0)
+		return t;
+	return t.substr(0, pos);
+}
+
+static bool cmp_tag(const char *tag1, const char *tag2)
+{
+	return word_first(tag1) == word_first(tag2);
+}
+
+void TextParser::push_tag(const char *tag)
+{
+    m_tags.push(tag);
+    m_text += "<";
+    m_text += tag;
+    m_text += ">";
 }
 
 QString TextParser::parse(const char *msg)
@@ -364,26 +403,28 @@ QString TextParser::parse(const char *msg)
                 setState(code, false);
                 break;
             }
-        }else{
+			continue;
+		}
+		if (part[0] == '#'){
+			put_color(strtoul(part.c_str() + 1, NULL, 16));
+			continue;
+		}
             unsigned code = atol(part.c_str());
-            if (code == 39){
-                b.scan(">", part);
-                part += ">";
-                continue;
-            }
             switch (code){
             case 1:
             case 2:
             case 4:
                 setState(code, true);
                 break;
+			default:
+				if ((code >= 30) && (code < 40))
+					put_color(esc_colors[code - 30]);
             }
-        }
     }
     addText(b.data(b.readPos()), b.writePos() - b.readPos());
     while (!m_tags.empty()){
         m_text += "</";
-        m_text += m_tags.top().c_str();
+        m_text += word_first(m_tags.top().c_str()).c_str();
         m_text += ">";
         m_tags.pop();
     }
@@ -422,12 +463,14 @@ void TextParser::setState(unsigned code, bool bSet)
     }
 }
 
-void TextParser::push_tag(const char *tag)
+void TextParser::put_color(unsigned color)
 {
-    m_tags.push(tag);
-    m_text += "<";
-    m_text += tag;
-    m_text += ">";
+	if (m_bColor)
+		pop_tag("font");
+	m_bColor = true;
+	char b[24];
+	sprintf(b, "font color=\"#%06X\"", color & 0xFFFFFF);
+	push_tag(b);
 }
 
 void TextParser::pop_tag(const char *tag)
@@ -436,10 +479,10 @@ void TextParser::pop_tag(const char *tag)
     while (!m_tags.empty()){
         string top = m_tags.top();
         m_tags.pop();
-        if (top == tag)
+        if (cmp_tag(top.c_str(), tag))
             break;
         m_text += "</";
-        m_text += top.c_str();
+        m_text += word_first(top.c_str()).c_str();
         m_text += ">";
         tags.push(top);
     }

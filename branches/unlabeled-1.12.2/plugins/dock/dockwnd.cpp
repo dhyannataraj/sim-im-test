@@ -75,7 +75,7 @@ void DockWnd::callProc(unsigned long param)
         return;
     case WM_LBUTTONDBLCLK:
         bNoToggle = true;
-        emit doubleClicked();
+        QTimer::singleShot(0, this, SLOT(dbl_click()));        
         return;
     case WM_LBUTTONDOWN:
         if (!bNoToggle)
@@ -89,6 +89,11 @@ void DockWnd::showPopup()
     POINT pos;
     GetCursorPos(&pos);
     emit showPopup(QPoint(pos.x, pos.y));
+}
+
+void DockWnd::dbl_click()
+{
+	emit doubleClicked();
 }
 
 #else

@@ -17,7 +17,6 @@
 <xsl:if test="@list='1'">
 <img src="icon:listmsg"/>
 </xsl:if>
-<xsl:text> </xsl:text>
 </a>
 <xsl:text> </xsl:text>
 <xsl:choose>

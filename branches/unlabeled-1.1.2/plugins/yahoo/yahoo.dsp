@@ -104,6 +104,10 @@ SOURCE=.\moc_yahoocfgbase.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\moc_yahooclient.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\moc_yahooinfo.cpp
 # End Source File
 # Begin Source File
@@ -195,6 +199,35 @@ SOURCE=.\yahoocfgbase.h
 # Begin Source File
 
 SOURCE=.\yahooclient.h
+
+!IF  "$(CFG)" == "yahoo - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\yahooclient.h
+InputName=yahooclient
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "yahoo - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\yahooclient.h
+InputName=yahooclient
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
