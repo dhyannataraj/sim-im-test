@@ -25,6 +25,7 @@
 
 #ifndef WIN32
 #include <stdio.h>
+#include <windows.h>
 #endif
 
 #ifdef USE_KDE
@@ -263,6 +264,10 @@ int main(int argc, char *argv[])
 {
     _argc = argc;
     _argv = argv;
+
+#ifdef WIN32
+    CreateMutexA(NULL, FALSE, "SIM_Mutex");
+#endif
 
     QApplication::setColorSpec( QApplication::ManyColor );
 

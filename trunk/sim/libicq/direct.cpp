@@ -60,6 +60,7 @@ DirectSocket::DirectSocket(Socket *s, ICQClientPrivate *_client)
     m_bIncoming = true;
     client = _client;
     state = WaitInit;
+    version = 0;
     ip = 0;
     real_ip = 0;
     port = 0;
@@ -79,7 +80,7 @@ DirectSocket::DirectSocket(unsigned long _ip, unsigned long _real_ip, unsigned s
     uin = u->Uin;
     version = u->Version;
     DCcookie = u->DCcookie;
-    if (version > 8) version = 8;
+    if ((version > 8) || (version == 0)) version = 8;
     client = _client;
     state = NotConnected;
     init();
@@ -1007,6 +1008,10 @@ void FileTransfer::init()
     m_sendSize = 0;
     m_fileSize = 0;
     m_totalSize = 0;
+    m_curSize = 0;
+    m_fileSize = 0;
+    m_curFile = 0;
+    m_nFiles = 0;
 }
 
 void FileTransfer::write_ready()
@@ -1052,7 +1057,7 @@ void FileTransfer::write_ready()
         m_sendTime = now;
         m_sendSize = 0;
     }
-    if (m_sendSize > m_nSpeed * 2048){
+    if (m_sendSize > (m_nSpeed << 2)){
         sock->pause(1);
         return;
     }
@@ -1190,13 +1195,14 @@ void FileTransfer::processPacket()
                     return;
                 }
                 file->ft->curName = file->files[curFile - 1].localName;
-
                 if (!client->client->openFile(file) || !client->client->seekFile(file, pos)){
                     log(L_WARN, "Can't open file");
                     sock->error_state(ErrorProtocol);
                     return;
                 }
                 state = Send;
+                m_curFile = curFile;
+                m_curSize = pos;
                 write_ready();
             }
             break;

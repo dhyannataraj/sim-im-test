@@ -607,6 +607,7 @@ void MainWindow::setPhoneStatus(int status)
 
 void MainWindow::showPopup(QPoint p)
 {
+    if (menuFunction->isVisible()) return;
     menuFunction->popup(p);
 }
 
