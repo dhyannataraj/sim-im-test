@@ -200,13 +200,14 @@ void GpgPlugin::decryptReady(Exec *exec, int res, const char*)
                     res = -1;
                 }
             }
-            Event e(EventMessageReceived, (*it).msg);
-            if (!e.process(this))
-                delete (*it).msg;
+			Message *msg = (*it).msg;
             (*it).msg = NULL;
             QFile::remove((*it).infile);
             QFile::remove((*it).outfile);
             QTimer::singleShot(0, this, SLOT(clear()));
+            Event e(EventMessageReceived, msg);
+			if (!processEvent(&e) && !e.process(this))
+                delete msg;
             return;
         }
     }

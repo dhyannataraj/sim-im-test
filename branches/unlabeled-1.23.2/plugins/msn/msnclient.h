@@ -257,6 +257,7 @@ protected:
     string		 m_authChallenge;
     bool		 m_bFirstTry;
     bool		 m_bHTTP;
+	bool		 m_bFirst;
     unsigned	 m_nBuddies;
     unsigned	 m_nGroups;
     friend class MSNPacket;

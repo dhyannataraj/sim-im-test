@@ -299,7 +299,8 @@ void SIMClientSocket::slotConnectionClosed()
 {
     log(L_WARN, "Connection closed");
     timerStop();
-    if (notify) notify->error_state(I18N_NOOP("Connection closed"));
+    if (notify)
+		notify->error_state(I18N_NOOP("Connection closed"));
 #ifdef WIN32
     bool bState;
     if (get_connection_state(bState) && !bState)
@@ -314,7 +315,8 @@ void SIMClientSocket::timeout()
 
 void SIMClientSocket::slotReadReady()
 {
-    if (notify) notify->read_ready();
+    if (notify)
+		notify->read_ready();
 }
 
 void SIMClientSocket::slotBytesWritten(int)
@@ -324,8 +326,9 @@ void SIMClientSocket::slotBytesWritten(int)
 
 void SIMClientSocket::slotBytesWritten()
 {
-    if (bInWrite) return;
-    if (sock->bytesToWrite() == 0) notify->write_ready();
+    if (bInWrite || (sock == NULL)) return;
+    if ((sock->bytesToWrite() == 0) && notify)
+		notify->write_ready();
 }
 
 #ifdef WIN32

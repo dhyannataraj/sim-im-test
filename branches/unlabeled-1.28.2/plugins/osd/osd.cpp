@@ -140,6 +140,9 @@ OSDPlugin::OSDPlugin(unsigned base)
     Event e(EventAddPreferences, cmd);
     e.process();
 
+	m_request.contact = 0;
+	m_request.type    = OSD_NONE;
+
     m_osd   = NULL;
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(timeout()));
@@ -361,52 +364,107 @@ i18n("male", "%1 typed")
 i18n("female", "%1 typed")
 #endif
 
+typedef map<unsigned, unsigned> TYPE_MAP;
+
 void OSDPlugin::processQueue()
 {
     if (m_timer->isActive())
         return;
     while (queue.size()){
         m_request = queue.front();
-        QString text;
+        queue.erase(queue.begin());
         Contact *contact = getContacts()->contact(m_request.contact);
+		if ((contact == NULL) || contact->getIgnore()){
+			continue;
+		}
+        QString text;
         OSDUserData *data = NULL;
-        if (contact){
-            data = (OSDUserData*)contact->getUserData(user_data_id);
-        }else{
-            data = (OSDUserData*)getContacts()->getUserData(user_data_id);
-        }
+        data = (OSDUserData*)contact->getUserData(user_data_id);
         switch (m_request.type){
         case OSD_ALERT:
-            if (data->EnableAlert.bValue && contact)
-                text = g_i18n("%1 is online", contact) .arg(contact->getName());
+            if (data->EnableAlert.bValue){
+	            unsigned style = 0;
+			    const char *statusIcon = NULL;
+				if (contact->contactInfo(style, statusIcon) >= STATUS_ONLINE)
+		            text = g_i18n("%1 is online", contact) .arg(contact->getName());
+			}
             break;
         case OSD_TYPING:
-            if (data->EnableTyping.bValue && contact)
-                text = g_i18n("%1 typed", contact) .arg(contact->getName());
+            if (data->EnableTyping.bValue){
+	            unsigned style = 0;
+		        string wrkIcons;
+			    const char *statusIcon = NULL;
+				contact->contactInfo(style, statusIcon, &wrkIcons);
+				bool bTyping = false;
+				while (!wrkIcons.empty()){
+					if (getToken(wrkIcons, ',') == "typing"){
+						bTyping = true;
+						break;
+					}
+				}
+				if (bTyping)
+					text = g_i18n("%1 typing", contact) .arg(contact->getName());
+			}
             break;
-        default:
+        case OSD_MESSAGE:
             if (data->EnableMessage.bValue && core){
-                unsigned type = m_request.type;
-                CommandDef *cmd = core->messageTypes.find(type);
-                if (cmd){
-                    MessageDef *def = (MessageDef*)(cmd->param);
-                    text = i18n(def->singular, def->plural, 1);
-                    int pos = text.find("1 ");
-                    if (pos > 0){
-                        text = text.left(pos);
-                    }else if (pos == 0){
-                        text = text.mid(2);
-                    }
-                    text = text.left(1).upper() + text.mid(1);
-                    if (contact)
-                        text = i18n("%1 from %2")
-                               .arg(text)
-                               .arg(contact->getName());
-                    if ( data->EnableMessageShowContent.bValue &&
-                            !(m_request.plaintext.isNull() || m_request.plaintext.isEmpty()) ){
-                        text += QString(":\n") + m_request.plaintext.stripWhiteSpace();
-                    }
-                }
+				list<msg_id>::iterator it;
+				TYPE_MAP types;
+				TYPE_MAP::iterator itc;
+				QString msg_text;
+				for (it = core->unread.begin(); it != core->unread.end(); ++it){
+					if ((*it).contact != m_request.contact)
+						continue;
+					unsigned type = (*it).type;
+					itc = types.find(type);
+					if (itc == types.end()){
+						types.insert(TYPE_MAP::value_type(type, 1));
+					}else{
+						(*itc).second++;
+					}
+                    if (!data->EnableMessageShowContent.bValue)
+						continue;
+					MessageID id;
+					id.id      = (*it).id;
+					id.contact = (*it).contact;
+					id.client  = (*it).client.c_str();
+					Event e(EventLoadMessage, &id);
+                    Message *msg = (Message*)(e.process());
+					if (msg == NULL)
+						continue;
+					QString msgText = msg->getPlainText().stripWhiteSpace();
+					if (msgText.isEmpty())
+						continue;
+					if (!msg_text.isEmpty())
+						msg_text += "\n";
+					msg_text += msgText;
+				}
+				if (types.empty())
+					break;
+				for (itc = types.begin(); itc != types.end(); ++itc){
+		            CommandDef *def = core->messageTypes.find((*itc).first);
+				    if (def == NULL)
+						continue;
+					MessageDef *mdef = (MessageDef*)(def->param);
+					QString msg = i18n(mdef->singular, mdef->plural, (*itc).second);
+					if ((*itc).second == 1){
+	                    int pos = msg.find("1 ");
+						if (pos > 0){
+							msg = msg.left(pos);
+						}else if (pos == 0){
+							msg = msg.mid(2);
+						}
+						msg = msg.left(1).upper() + msg.mid(1);
+					}
+					if (!text.isEmpty())
+						text += ", ";
+					text += msg;
+				}
+				text = i18n("%1 from %2") .arg(text) .arg(contact->getName());
+				if (msg_text.isEmpty())
+					break;
+				text += ":\n";
+				text += msg_text;
             }
         }
         if (!text.isEmpty()){
@@ -416,36 +474,20 @@ void OSDPlugin::processQueue()
             }
             static_cast<OSDWidget*>(m_osd)->showOSD(text, data);
             m_timer->start(data->Timeout.value * 1000);
-            queue.erase(queue.begin());
-            break;
+            return;
         }
-        queue.erase(queue.begin());
     }
+	m_timer->stop();
+	m_request.contact = 0;
+	m_request.type = OSD_NONE;
 }
 
 void OSDPlugin::dblClick()
 {
-    Message *msg = NULL;
-    switch (m_request.type){
-    case OSD_ALERT:
-    case OSD_TYPING:{
-            Event e(EventDefaultAction, (void*)(m_request.contact));
-            e.process();
-            break;
-        }
-    default:
-        MessageID m;
-        m.id      = m_request.msg_id;
-        m.contact = m_request.contact;
-        m.client  = m_request.client.c_str();
-        Event e(EventLoadMessage, &m);
-        msg = (Message*)(e.process());
-        if (msg){
-            Event e(EventOpenMessage, &msg);
-            e.process();
-            delete msg;
-        }
-    }
+    Event e(EventDefaultAction, (void*)(m_request.contact));
+    e.process();
+	m_timer->stop();
+	m_timer->start(100);
 }
 
 void *OSDPlugin::processEvent(Event *e)
@@ -463,6 +505,8 @@ void *OSDPlugin::processEvent(Event *e)
         queue.push_back(osd);
         processQueue();
         break;
+    case EventMessageDeleted:
+    case EventMessageRead:
     case EventMessageReceived:
         msg = (Message*)(e->param());
         if (msg->type() == MessageStatus)
@@ -473,31 +517,33 @@ void *OSDPlugin::processEvent(Event *e)
         data = (OSDUserData*)(contact->getUserData(user_data_id));
         if (data == NULL)
             break;
-        osd.contact = msg->contact();
-        osd.type    = msg->baseType();
-        osd.msg_id	= msg->id();
-        osd.client	= msg->client();
-        if (data->EnableMessageShowContent.bValue)
-            osd.plaintext   = msg->getPlainText();
-        queue.push_back(osd);
-        processQueue();
+        osd.type    = OSD_MESSAGE;
+		osd.contact = msg->contact();
+		if ((m_request.type == OSD_MESSAGE) && (m_request.contact == msg->contact())){
+			queue.push_front(osd);
+			m_timer->stop();
+			m_timer->start(100);
+		}else{
+			queue.push_back(osd);
+			processQueue();
+		}
         break;
     case EventContactStatus:
         contact = (Contact*)(e->param());
         if (contact->getIgnore()) break;
         data = (OSDUserData*)(contact->getUserData(user_data_id));
         if (data){
-            unsigned style = 0;
-            string wrkIcons;
-            const char *statusIcon = NULL;
-            contact->contactInfo(style, statusIcon, &wrkIcons);
-            bool bTyping = false;
-            while (!wrkIcons.empty()){
-                if (getToken(wrkIcons, ',') == "typing"){
-                    bTyping = true;
-                    break;
-                }
-            }
+	            unsigned style = 0;
+		        string wrkIcons;
+			    const char *statusIcon = NULL;
+				contact->contactInfo(style, statusIcon, &wrkIcons);
+				bool bTyping = false;
+				while (!wrkIcons.empty()){
+					if (getToken(wrkIcons, ',') == "typing"){
+						bTyping = true;
+						break;
+					}
+				}
             if (bTyping){
                 list<unsigned>::iterator it;
                 for (it = typing.begin(); it != typing.end(); ++it)
@@ -517,6 +563,10 @@ void *OSDPlugin::processEvent(Event *e)
                         break;
                 if (it != typing.end())
                     typing.erase(it);
+				if ((m_request.type == OSD_TYPING) && (m_request.contact == contact->id())){
+					m_timer->stop();
+					m_timer->start(100);
+				}
             }
         }
         break;

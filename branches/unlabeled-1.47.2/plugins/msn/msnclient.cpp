@@ -125,6 +125,7 @@ MSNClient::MSNClient(Protocol *protocol, const char *cfg)
     load_data(msnClientData, &data, cfg);
     m_packetId  = 1;
     m_msg       = NULL;
+	m_bFirst    = (cfg == NULL);
     QString s = getListRequests();
     while (!s.isEmpty()){
         QString item = getToken(s, ';');
@@ -460,7 +461,7 @@ void MSNClient::checkEndSync()
             if (data->sFlags.value & MSN_CHECKED){
                 if ((data->sFlags.value & MSN_REVERSE) && ((data->Flags.value & MSN_REVERSE) == 0))
                     auth_message(contact, MessageRemoved, data);
-                if (((data->sFlags.value & MSN_REVERSE) == 0) && (data->Flags.value & MSN_REVERSE)){
+                if (!m_bFirst && ((data->sFlags.value & MSN_REVERSE) == 0) && (data->Flags.value & MSN_REVERSE)){
                     if ((data->Flags.value & MSN_ACCEPT) || getAutoAuth()){
                         auth_message(contact, MessageAdded, data);
                     }else{
@@ -489,6 +490,7 @@ void MSNClient::checkEndSync()
         Event e(EventJoinAlert, this);
         e.process();
     }
+	m_bFirst = false;
     connected();
 }
 
@@ -506,7 +508,7 @@ void MSNClient::getLine(const char *line)
     QCString ll = l.local8Bit();
     log(L_DEBUG, "Get: %s", (const char*)ll);
     QString cmd = getToken(l, ' ');
-    if (cmd == "715")
+    if ((cmd == "715") || (cmd == "228"))
         return;
     if (cmd == "XFR"){
         QString id   = getToken(l, ' ');	// ID

@@ -69,8 +69,8 @@ HRESULT CSIM_ext::QueryContextMenu(HMENU hmenu,
                                    UINT idCmdLast,
                                    UINT uFlags)
 {
-    if (lpData == NULL)
-        return 0;
+    if ((lpData == NULL) || (uFlags & CMF_DEFAULTONLY))
+        return MAKE_HRESULT(SEVERITY_SUCCESS, FACILITY_NULL, 0);
     if (((uFlags & 0x0000000F) == CMF_NORMAL) || (uFlags & CMF_EXPLORE)){
         CComBSTR in("CONTACTS 3");
         CComBSTR out;
@@ -146,7 +146,7 @@ HRESULT CSIM_ext::QueryContextMenu(HMENU hmenu,
                 InsertMenu(hmenu, indexMenu++, MF_POPUP|MF_BYPOSITION,
                            (UINT)hMain, "Send to SIM contact");
         }
-        return MAKE_HRESULT(SEVERITY_SUCCESS, 0, cmd_id - idCmdFirst);
+        return MAKE_HRESULT(SEVERITY_SUCCESS, FACILITY_NULL, cmd_id - idCmdFirst);
     }
     return 0;
 }

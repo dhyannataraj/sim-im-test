@@ -54,6 +54,7 @@ protected:
     void addWidget(QWidget*, bool bDown);
     void addStatus(QWidget *w, bool);
     list<QWidget*> statusWidgets;
+	string		m_icon;
     friend class CorePlugin;
 #ifdef WIN32
     QPoint p;

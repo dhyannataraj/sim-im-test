@@ -78,8 +78,9 @@ MainWindow::MainWindow()
     h_lay	 = NULL;
     m_bNoResize = false;
 
-    SET_WNDPROC("mainwnd")
-    setIcon(Pict("ICQ"));
+    SET_WNDPROC("mainwnd");
+	m_icon = "ICQ";
+    setIcon(Pict(m_icon.c_str()));
     setTitle();
 
 #ifdef WIN32
@@ -188,7 +189,8 @@ void *MainWindow::processEvent(Event *e)
     WindowDef  *wnd;
     switch(e->type()){
     case EventSetMainIcon:
-        setIcon(Pict((const char*)(e->param())));
+		m_icon = (const char*)(e->param());
+        setIcon(Pict(m_icon.c_str()));
         break;
     case EventInit:{
             setTitle();
@@ -215,7 +217,7 @@ void *MainWindow::processEvent(Event *e)
         addStatus(wnd->widget, wnd->bDown);
         return e->param();
     case EventIconChanged:
-        setIcon(Pict("ICQ"));
+        setIcon(Pict(m_icon.c_str()));
         break;
     case EventContactChanged:{
             Contact *contact = (Contact*)(e->param());

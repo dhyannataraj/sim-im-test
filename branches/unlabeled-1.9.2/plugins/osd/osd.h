@@ -41,16 +41,18 @@ typedef struct OSDUserData
     Data	Screen;
 } OSDUserData;
 
-const unsigned OSD_ALERT	= (unsigned)(-1);
-const unsigned OSD_TYPING	= (unsigned)(-2);
+enum OSDType
+{
+	OSD_NONE,
+	OSD_ALERT,
+	OSD_TYPING,
+	OSD_MESSAGE
+};
 
 typedef struct OSDRequest
 {
     unsigned long	contact;
-    unsigned long	msg_id;
-    string			client;
-    unsigned		type;
-    QString             plaintext;
+    OSDType			type;
 } OSDRequest;
 
 class QTimer;
@@ -86,7 +88,7 @@ protected:
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual void *processEvent(Event*);
     void processQueue();
-    OSDRequest	m_request;
+    OSDRequest			m_request;
     list<OSDRequest>	queue;
     list<unsigned>		typing;
     CorePlugin	*core;
